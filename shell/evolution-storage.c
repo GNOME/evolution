@@ -45,7 +45,7 @@
 
 
 #define PARENT_TYPE BONOBO_OBJECT_TYPE
-static BonoboXObjectClass *parent_class = NULL;
+static BonoboObjectClass *parent_class = NULL;
 
 struct _FolderPropertyItem {
 	char *label;
@@ -677,7 +677,7 @@ impl_finalize (GObject *object)
 
 
 static void
-class_init (EvolutionStorageClass *klass)
+evolution_storage_class_init (EvolutionStorageClass *klass)
 {
 	POA_GNOME_Evolution_Storage__epv *epv;
 	GObjectClass *object_class;
@@ -814,7 +814,7 @@ class_init (EvolutionStorageClass *klass)
 }
 
 static void
-init (EvolutionStorage *storage)
+evolution_storage_init (EvolutionStorage *storage)
 {
 	EvolutionStoragePrivate *priv;
 
@@ -1340,7 +1340,7 @@ evolution_storage_add_property_item  (EvolutionStorage *evolution_storage,
 }
 
 
-E_MAKE_X_TYPE (evolution_storage, "EvolutionStorage", EvolutionStorage,
-	       class_init, init, PARENT_TYPE,
-	       POA_GNOME_Evolution_Storage__init,
-	       G_STRUCT_OFFSET (EvolutionStorageClass, epv))
+BONOBO_TYPE_FUNC_FULL (EvolutionStorage,
+		       GNOME_Evolution_Storage,
+		       PARENT_TYPE,
+		       evolution_storage)

@@ -29,7 +29,7 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-#include <bonobo/bonobo-xobject.h>
+#include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-control.h>
 
 #ifdef cplusplus
@@ -134,13 +134,13 @@ struct _EvolutionShellComponentFolderType {
 typedef struct _EvolutionShellComponentFolderType EvolutionShellComponentFolderType;
 
 struct _EvolutionShellComponent {
-	BonoboXObject parent;
+	BonoboObject parent;
 
 	EvolutionShellComponentPrivate *priv;
 };
 
 struct _EvolutionShellComponentClass {
-	BonoboXObjectClass parent_class;
+	BonoboObjectClass parent_class;
 
 	POA_GNOME_Evolution_ShellComponent__epv epv;
 

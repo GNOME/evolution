@@ -43,9 +43,9 @@
 #define PING_DELAY 10000
 
 
-#define PARENT_TYPE BONOBO_X_OBJECT_TYPE
+#define PARENT_TYPE BONOBO_OBJECT_TYPE
 
-static BonoboXObjectClass *parent_class = NULL;
+static BonoboObjectClass *parent_class = NULL;
 
 struct _UserCreatableItemType {
 	char *id;
@@ -858,7 +858,7 @@ impl_owner_died (EvolutionShellComponent *shell_component)
 /* Initialization.  */
 
 static void
-class_init (EvolutionShellComponentClass *klass)
+evolution_shell_component_class_init (EvolutionShellComponentClass *klass)
 {
 	EvolutionShellComponentClass *shell_component_class;
 	GObjectClass *object_class;
@@ -973,7 +973,7 @@ class_init (EvolutionShellComponentClass *klass)
 }
 
 static void
-init (EvolutionShellComponent *shell_component)
+evolution_shell_component_init (EvolutionShellComponent *shell_component)
 {
 	EvolutionShellComponentPrivate *priv;
 
@@ -1191,7 +1191,7 @@ evolution_shell_component_result_to_string (EvolutionShellComponentResult result
 }
 
 
-E_MAKE_X_TYPE (evolution_shell_component, "EvolutionShellComponent", EvolutionShellComponent,
-	       class_init, init, PARENT_TYPE,
-	       POA_GNOME_Evolution_ShellComponent__init,
-	       G_STRUCT_OFFSET (EvolutionShellComponentClass, epv))
+BONOBO_TYPE_FUNC_FULL (EvolutionShellComponent,
+		       GNOME_Evolution_ShellComponent,
+		       PARENT_TYPE,
+		       evolution_shell_component)

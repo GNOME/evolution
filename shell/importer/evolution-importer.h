@@ -24,7 +24,7 @@
 #define EVOLUTION_IMPORTER_H
 
 #include <glib.h>
-#include <bonobo/bonobo-xobject.h>
+#include <bonobo/bonobo-object.h>
 #include <importer/GNOME_Evolution_Importer.h>
 
 #ifdef __cplusplus
@@ -69,13 +69,13 @@ typedef enum {
 } EvolutionImporterResult;
 
 struct _EvolutionImporter {
-	BonoboXObject parent;
+	BonoboObject parent;
 	
 	EvolutionImporterPrivate *priv;
 };
 
 struct _EvolutionImporterClass {
-	BonoboXObjectClass parent_class;
+	BonoboObjectClass parent_class;
 	
 	POA_GNOME_Evolution_Importer__epv epv;
 };

@@ -24,7 +24,7 @@
 #define __EVOLUTION_SHELL_VIEW_H__
 
 #include <glib.h>
-#include <bonobo/bonobo-xobject.h>
+#include <bonobo/bonobo-object.h>
 
 #include "Evolution.h"
 
@@ -45,13 +45,13 @@ typedef struct _EvolutionShellViewPrivate EvolutionShellViewPrivate;
 typedef struct _EvolutionShellViewClass   EvolutionShellViewClass;
 
 struct _EvolutionShellView {
-	BonoboXObject parent;
+	BonoboObject parent;
 
 	EvolutionShellViewPrivate *priv;
 };
 
 struct _EvolutionShellViewClass {
-	BonoboXObjectClass parent_class;
+	BonoboObjectClass parent_class;
 
 	/* Signals.  */
 

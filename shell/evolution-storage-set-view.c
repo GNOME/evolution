@@ -404,7 +404,7 @@ impl_finalize (GObject *object)
 
 
 static void
-class_init (EvolutionStorageSetViewClass *klass)
+evolution_storage_set_view_class_init (EvolutionStorageSetViewClass *klass)
 {
 	POA_GNOME_Evolution_StorageSetView__epv *epv;
 	GObjectClass *object_class;
@@ -427,7 +427,7 @@ class_init (EvolutionStorageSetViewClass *klass)
 }
 
 static void
-init (EvolutionStorageSetView *storage_set_view)
+evolution_storage_set_view_init (EvolutionStorageSetView *storage_set_view)
 {
 	EvolutionStorageSetViewPrivate *priv;
 
@@ -475,7 +475,7 @@ evolution_storage_set_view_new (EStorageSetView *storage_set_view_widget)
 }
 
 
-E_MAKE_X_TYPE (evolution_storage_set_view, "EvolutionStorageSetView", EvolutionStorageSetView,
-	       class_init, init, PARENT_TYPE,
-	       POA_GNOME_Evolution_StorageSetView__init,
-	       G_STRUCT_OFFSET (EvolutionStorageSetViewClass, epv))
+BONOBO_TYPE_FUNC_FULL (EvolutionStorageSetView,
+		       GNOME_Evolution_StorageSetView,
+		       PARENT_TYPE,
+		       evolution_storage_set_view)

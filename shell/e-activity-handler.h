@@ -27,7 +27,7 @@
 
 #include "e-task-bar.h"
 
-#include <bonobo/bonobo-xobject.h>
+#include <bonobo/bonobo-object.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -46,13 +46,13 @@ typedef struct _EActivityHandlerPrivate EActivityHandlerPrivate;
 typedef struct _EActivityHandlerClass   EActivityHandlerClass;
 
 struct _EActivityHandler {
-	BonoboXObject parent;
+	BonoboObject parent;
 
 	EActivityHandlerPrivate *priv;
 };
 
 struct _EActivityHandlerClass {
-	BonoboXObjectClass parent_class;
+	BonoboObjectClass parent_class;
 
 	POA_GNOME_Evolution_Activity__epv epv;
 };

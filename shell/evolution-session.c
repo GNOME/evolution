@@ -34,8 +34,8 @@
 #include "e-shell-marshal.h"
 
 
-#define PARENT_TYPE bonobo_x_object_get_type ()
-static BonoboXObjectClass *parent_class = NULL;
+#define PARENT_TYPE bonobo_object_get_type ()
+static BonoboObjectClass *parent_class = NULL;
 
 struct _EvolutionSessionPrivate {
 	int dummy;
@@ -113,7 +113,7 @@ corba_class_init (EvolutionSessionClass *klass)
 }
 
 static void
-class_init (EvolutionSessionClass *klass)
+evolution_session_class_init (EvolutionSessionClass *klass)
 {
 	GObjectClass *object_class;
 
@@ -146,7 +146,7 @@ class_init (EvolutionSessionClass *klass)
 }
 
 static void
-init (EvolutionSession *session)
+evolution_session_init (EvolutionSession *session)
 {
 	EvolutionSessionPrivate *priv;
 
@@ -163,7 +163,7 @@ evolution_session_new (void)
 }
 
 
-E_MAKE_X_TYPE (evolution_session, "EvolutionSession", EvolutionSession,
-	       class_init, init, PARENT_TYPE,
-	       POA_GNOME_Evolution_Session__init,
-	       G_STRUCT_OFFSET (EvolutionSessionClass, epv))
+BONOBO_TYPE_FUNC_FULL (EvolutionSession,
+		       GNOME_Evolution_Session,
+		       PARENT_TYPE,
+		       evolution_session)

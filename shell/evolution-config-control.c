@@ -36,8 +36,8 @@
 #include <bonobo/bonobo-event-source.h>
 
 
-#define PARENT_TYPE BONOBO_X_OBJECT_TYPE
-static BonoboXObjectClass *parent_class = NULL;
+#define PARENT_TYPE BONOBO_OBJECT_TYPE
+static BonoboObjectClass *parent_class = NULL;
 
 struct _EvolutionConfigControlPrivate {
 	gboolean changed;
@@ -140,7 +140,7 @@ impl__get_eventSource (PortableServer_Servant servant,
 
 
 static void
-class_init (EvolutionConfigControlClass *class)
+evolution_config_control_class_init (EvolutionConfigControlClass *class)
 {
 	POA_GNOME_Evolution_ConfigControl__epv *epv;
 	GObjectClass *object_class;
@@ -166,7 +166,7 @@ class_init (EvolutionConfigControlClass *class)
 }
 
 static void
-init (EvolutionConfigControl *config_control)
+evolution_config_control_init (EvolutionConfigControl *config_control)
 {
 	EvolutionConfigControlPrivate *priv;
 
@@ -235,7 +235,7 @@ evolution_config_control_changed (EvolutionConfigControl *config_control)
 }
 
 
-E_MAKE_X_TYPE (evolution_config_control, "EvolutionConfigControl", EvolutionConfigControl,
-	       class_init, init, PARENT_TYPE,
-	       POA_GNOME_Evolution_ConfigControl__init,
-	       G_STRUCT_OFFSET (EvolutionConfigControlClass, epv))
+BONOBO_TYPE_FUNC_FULL (EvolutionConfigControl,
+		       GNOME_Evolution_ConfigControl,
+		       PARENT_TYPE,
+		       evolution_config_control)

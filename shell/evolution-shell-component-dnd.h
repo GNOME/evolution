@@ -23,7 +23,7 @@
 #ifndef EVOLUTION_SHELL_COMPONENT_DND_H
 #define EVOLUTION_SHELL_COMPONENT_DND_H
 
-#include <bonobo/bonobo-xobject.h>
+#include <bonobo/bonobo-object.h>
 #include <gtk/gtktypeutils.h>
 
 #include "Evolution.h"
@@ -65,12 +65,12 @@ typedef void (*DndSourceFolderEndDragFn)(EvolutionShellComponentDndSourceFolder 
 					 gpointer closure);
 
 struct _EvolutionShellComponentDndSourceFolder {
-	BonoboXObject object;
+	BonoboObject object;
 	DndSourceFolderPrivate *priv;
 };
 
 struct _EvolutionShellComponentDndSourceFolderClass {
-	BonoboXObjectClass parent_class;
+	BonoboObjectClass parent_class;
 
 	POA_GNOME_Evolution_ShellComponentDnd_SourceFolder__epv epv;
 };
@@ -112,12 +112,12 @@ typedef CORBA_boolean (*DndDestinationFolderHandleDropFn)(EvolutionShellComponen
 							  gpointer closure);
 
 struct _EvolutionShellComponentDndDestinationFolder {
-	BonoboXObject object;
+	BonoboObject object;
 	DndDestinationFolderPrivate *priv;
 };
 
 struct _EvolutionShellComponentDndDestinationFolderClass {
-	BonoboXObjectClass parent_class;
+	BonoboObjectClass parent_class;
 
 	POA_GNOME_Evolution_ShellComponentDnd_DestinationFolder__epv epv;
 };

@@ -27,9 +27,9 @@
 
 #include <gtk/gtkobject.h>
 
-#define PARENT_TYPE (bonobo_x_object_get_type ())
+#define PARENT_TYPE (bonobo_object_get_type ())
 
-static BonoboXObjectClass *parent_class;
+static BonoboObjectClass *parent_class;
 
 /* Source Folder stuff */
 
@@ -149,14 +149,10 @@ evolution_shell_component_dnd_source_folder_init (EvolutionShellComponentDndSour
 	folder->priv = priv;
 }
 
-E_MAKE_X_TYPE (evolution_shell_component_dnd_source_folder,
-	       "EvolutionShellComponentDndSourceFolder",
-	       EvolutionShellComponentDndSourceFolder,
-	       evolution_shell_component_dnd_source_folder_class_init,
-	       evolution_shell_component_dnd_source_folder_init,
-	       PARENT_TYPE,
-	       POA_GNOME_Evolution_ShellComponentDnd_SourceFolder__init,
-	       G_STRUCT_OFFSET (EvolutionShellComponentDndSourceFolderClass, epv))
+BONOBO_TYPE_FUNC_FULL (EvolutionShellComponentDndSourceFolder,
+		       GNOME_Evolution_ShellComponentDnd_SourceFolder,
+		       PARENT_TYPE,
+		       evolution_shell_component_dnd_source_folder)
 
 EvolutionShellComponentDndSourceFolder*
 evolution_shell_component_dnd_source_folder_new (DndSourceFolderBeginDragFn begin_drag,
@@ -272,15 +268,10 @@ evolution_shell_component_dnd_destination_folder_init (EvolutionShellComponentDn
 	folder->priv = priv;
 }
 
-
-E_MAKE_X_TYPE (evolution_shell_component_dnd_destination_folder,
-	       "EvolutionShellComponentDndDestinationFolder",
-	       EvolutionShellComponentDndDestinationFolder,
-	       evolution_shell_component_dnd_destination_folder_class_init,
-	       evolution_shell_component_dnd_destination_folder_init,
-	       PARENT_TYPE,
-	       POA_GNOME_Evolution_ShellComponentDnd_DestinationFolder__init,
-	       G_STRUCT_OFFSET (EvolutionShellComponentDndDestinationFolderClass, epv))
+BONOBO_TYPE_FUNC_FULL (EvolutionShellComponentDndDestinationFolder,
+		       GNOME_Evolution_ShellComponentDnd_DestinationFolder,
+		       PARENT_TYPE,
+		       evolution_shell_component_dnd_destination_folder)
 
 EvolutionShellComponentDndDestinationFolder *
 evolution_shell_component_dnd_destination_folder_new (DndDestinationFolderHandleMotionFn handle_motion,

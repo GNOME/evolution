@@ -33,8 +33,8 @@
 #include "e-shell-marshal.h"
 
 
-#define PARENT_TYPE bonobo_x_object_get_type ()
-static BonoboXObjectClass *parent_class = NULL;
+#define PARENT_TYPE bonobo_object_get_type ()
+static BonoboObjectClass *parent_class = NULL;
 
 struct _EvolutionShellViewPrivate {
 	int dummy;
@@ -146,7 +146,7 @@ impl_finalize (GObject *object)
 
 
 static void
-class_init (EvolutionShellViewClass *klass)
+evolution_shell_view_class_init (EvolutionShellViewClass *klass)
 {
 	POA_GNOME_Evolution_ShellView__epv *epv;
 	GObjectClass *object_class;
@@ -222,11 +222,11 @@ class_init (EvolutionShellViewClass *klass)
 				  e_shell_marshal_NONE__NONE,
 				  G_TYPE_NONE, 0);
 
-	parent_class = g_type_class_ref(bonobo_x_object_get_type ());
+	parent_class = g_type_class_ref(bonobo_object_get_type ());
 }
 
 static void
-init (EvolutionShellView *shell_view)
+evolution_shell_view_init (EvolutionShellView *shell_view)
 {
 	EvolutionShellViewPrivate *priv;
 
@@ -252,7 +252,7 @@ evolution_shell_view_new (void)
 }
 
 
-E_MAKE_X_TYPE (evolution_shell_view, "EvolutionShellView", EvolutionShellView,
-	       class_init, init, PARENT_TYPE,
-	       POA_GNOME_Evolution_ShellView__init,
-	       G_STRUCT_OFFSET (EvolutionShellViewClass, epv))
+BONOBO_TYPE_FUNC_FULL (EvolutionShellView,
+		       GNOME_Evolution_ShellView,
+		       PARENT_TYPE,
+		       evolution_shell_view)

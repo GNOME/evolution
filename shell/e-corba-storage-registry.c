@@ -37,8 +37,8 @@
 #include <string.h>
 
 
-#define PARENT_TYPE BONOBO_X_OBJECT_TYPE
-static BonoboXObjectClass *parent_class = NULL;
+#define PARENT_TYPE BONOBO_OBJECT_TYPE
+static BonoboObjectClass *parent_class = NULL;
 
 struct _ECorbaStorageRegistryPrivate {
 	EStorageSet *storage_set;
@@ -424,7 +424,7 @@ impl_finalize (GObject *object)
 /* Initialization.  */
 
 static void
-class_init (ECorbaStorageRegistryClass *klass)
+e_corba_storage_registry_class_init (ECorbaStorageRegistryClass *klass)
 {
 	GObjectClass *object_class;
 	POA_GNOME_Evolution_StorageRegistry__epv *epv;
@@ -446,7 +446,7 @@ class_init (ECorbaStorageRegistryClass *klass)
 }
 
 static void
-init (ECorbaStorageRegistry *corba_storage_registry)
+e_corba_storage_registry_init (ECorbaStorageRegistry *corba_storage_registry)
 {
 	ECorbaStorageRegistryPrivate *priv;
 
@@ -488,7 +488,7 @@ e_corba_storage_registry_new (EStorageSet *storage_set)
 }
 
 
-E_MAKE_X_TYPE (e_corba_storage_registry, "ECorbaStorageRegistry", ECorbaStorageRegistry,
-	       class_init, init, PARENT_TYPE,
-	       POA_GNOME_Evolution_StorageRegistry__init,
-	       G_STRUCT_OFFSET (ECorbaStorageRegistryClass, epv))
+BONOBO_TYPE_FUNC_FULL (ECorbaStorageRegistry,
+		       GNOME_Evolution_StorageRegistry,
+		       PARENT_TYPE,
+		       e_corba_storage_registry)

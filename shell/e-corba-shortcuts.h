@@ -25,7 +25,7 @@
 
 #include "e-shortcuts.h"
 
-#include <bonobo/bonobo-xobject.h>
+#include <bonobo/bonobo-object.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -44,13 +44,13 @@ typedef struct _ECorbaShortcutsPrivate ECorbaShortcutsPrivate;
 typedef struct _ECorbaShortcutsClass   ECorbaShortcutsClass;
 
 struct _ECorbaShortcuts {
-	BonoboXObject parent;
+	BonoboObject parent;
 
 	ECorbaShortcutsPrivate *priv;
 };
 
 struct _ECorbaShortcutsClass {
-	BonoboXObjectClass parent_class;
+	BonoboObjectClass parent_class;
 
 	POA_GNOME_Evolution_Shortcuts__epv epv;
 };

@@ -56,7 +56,7 @@ enum {
 	LAST_SIGNAL
 };
 
-#define PARENT_TYPE BONOBO_X_OBJECT_TYPE
+#define PARENT_TYPE BONOBO_OBJECT_TYPE
 
 static GtkObjectClass *parent_class;
 static guint32 signals[LAST_SIGNAL] = { 0 };
@@ -258,8 +258,8 @@ evolution_wizard_init (EvolutionWizard *wizard)
 	wizard->priv = g_new0 (EvolutionWizardPrivate, 1);
 }
 
-BONOBO_X_TYPE_FUNC_FULL (EvolutionWizard, GNOME_Evolution_Wizard, 
-			 PARENT_TYPE, evolution_wizard);
+BONOBO_TYPE_FUNC_FULL (EvolutionWizard, GNOME_Evolution_Wizard, 
+		       PARENT_TYPE, evolution_wizard);
 
 EvolutionWizard *
 evolution_wizard_construct (EvolutionWizard *wizard,

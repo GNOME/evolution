@@ -23,7 +23,7 @@
 #ifndef _EVOLUTION_STORAGE_SET_VIEW_H_
 #define _EVOLUTION_STORAGE_SET_VIEW_H_
 
-#include <bonobo/bonobo-xobject.h>
+#include <bonobo/bonobo-object.h>
 
 #include "e-storage-set-view.h"
 
@@ -46,13 +46,13 @@ typedef struct _EvolutionStorageSetViewPrivate EvolutionStorageSetViewPrivate;
 typedef struct _EvolutionStorageSetViewClass   EvolutionStorageSetViewClass;
 
 struct _EvolutionStorageSetView {
-	BonoboXObject parent;
+	BonoboObject parent;
 
 	EvolutionStorageSetViewPrivate *priv;
 };
 
 struct _EvolutionStorageSetViewClass {
-	BonoboXObjectClass parent_class;
+	BonoboObjectClass parent_class;
 
 	POA_GNOME_Evolution_StorageSetView__epv epv;
 };

@@ -9,7 +9,7 @@
 #ifndef __EVOLUTION_WIZARD_H__
 #define __EVOLUTION_WIZARD_H__
 
-#include <bonobo/bonobo-xobject.h>
+#include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-event-source.h>
 
@@ -33,13 +33,13 @@ typedef BonoboControl *(* EvolutionWizardGetControlFn) (EvolutionWizard *wizard,
 							void *closure);
 
 struct _EvolutionWizard {
-	BonoboXObject object;
+	BonoboObject object;
 
 	EvolutionWizardPrivate *priv;
 };
 
 typedef struct {
-	BonoboXObjectClass parent_class;
+	BonoboObjectClass parent_class;
 
 	POA_GNOME_Evolution_Wizard__epv epv;
 

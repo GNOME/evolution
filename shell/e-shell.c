@@ -81,8 +81,8 @@
 #include "Evolution.h"
 
 
-#define PARENT_TYPE bonobo_x_object_get_type ()
-static BonoboXObjectClass *parent_class = NULL;
+#define PARENT_TYPE bonobo_object_get_type ()
+static BonoboObjectClass *parent_class = NULL;
 
 struct _EShellPrivate {
 	/* IID for registering the object on OAF.  */
@@ -1161,7 +1161,7 @@ impl_finalize (GObject *object)
 /* Initialization.  */
 
 static void
-class_init (EShellClass *klass)
+e_shell_class_init (EShellClass *klass)
 {
 	GObjectClass *object_class;
 	POA_GNOME_Evolution_Shell__epv *epv;
@@ -1214,7 +1214,7 @@ class_init (EShellClass *klass)
 }
 
 static void
-init (EShell *shell)
+e_shell_init (EShell *shell)
 {
 	EShellPrivate *priv;
 
@@ -2266,7 +2266,7 @@ e_shell_parse_uri (EShell *shell,
 }
 
 
-E_MAKE_X_TYPE (e_shell, "EShell", EShell,
-	       class_init, init, PARENT_TYPE,
-	       POA_GNOME_Evolution_Shell__init,
-	       G_STRUCT_OFFSET (EShellClass, epv));
+BONOBO_TYPE_FUNC_FULL (EShell,
+		       GNOME_Evolution_Shell,
+		       PARENT_TYPE,
+		       e_shell)

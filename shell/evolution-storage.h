@@ -30,7 +30,7 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-#include <bonobo/bonobo-xobject.h>
+#include <bonobo/bonobo-object.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -76,13 +76,13 @@ enum _EvolutionStorageResult {
 typedef enum _EvolutionStorageResult EvolutionStorageResult;
 
 struct _EvolutionStorage {
-	BonoboXObject parent;
+	BonoboObject parent;
 
 	EvolutionStoragePrivate *priv;
 };
 
 struct _EvolutionStorageClass {
-	BonoboXObjectClass parent_class;
+	BonoboObjectClass parent_class;
 
 	/* signals */
 	void (*create_folder) (EvolutionStorage *storage,

@@ -24,7 +24,7 @@
 #define _E_SHELL_H_
 
 #include <bonobo-activation/bonobo-activation.h>
-#include <bonobo/bonobo-xobject.h>
+#include <bonobo/bonobo-object.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -66,13 +66,13 @@ enum _EShellStartupLineMode {
 typedef enum _EShellStartupLineMode EShellStartupLineMode;
 
 struct _EShell {
-	BonoboXObject parent;
+	BonoboObject parent;
 
 	EShellPrivate *priv;
 };
 
 struct _EShellClass {
-	BonoboXObjectClass parent_class;
+	BonoboObjectClass parent_class;
 
 	POA_GNOME_Evolution_Shell__epv epv;
 

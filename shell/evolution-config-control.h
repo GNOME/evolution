@@ -25,7 +25,7 @@
 
 #include "Evolution.h"
 
-#include <bonobo/bonobo-xobject.h>
+#include <bonobo/bonobo-object.h>
 #include <gtk/gtkwidget.h>
 
 #ifdef cplusplus
@@ -44,13 +44,13 @@ typedef struct _EvolutionConfigControlPrivate EvolutionConfigControlPrivate;
 typedef struct _EvolutionConfigControlClass   EvolutionConfigControlClass;
 
 struct _EvolutionConfigControl {
-	BonoboXObject parent;
+	BonoboObject parent;
 
 	EvolutionConfigControlPrivate *priv;
 };
 
 struct _EvolutionConfigControlClass {
-	BonoboXObjectClass parent_class;
+	BonoboObjectClass parent_class;
 
 	POA_GNOME_Evolution_ConfigControl__epv epv;
 

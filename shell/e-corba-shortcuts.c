@@ -33,8 +33,8 @@
 #include <gal/util/e-util.h>
 
 
-#define PARENT_TYPE bonobo_x_object_get_type ()
-static BonoboXObjectClass *parent_class = NULL;
+#define PARENT_TYPE bonobo_object_get_type ()
+static BonoboObjectClass *parent_class = NULL;
 
 struct _ECorbaShortcutsPrivate {
 	EShortcuts *shortcuts;
@@ -292,7 +292,7 @@ impl__get_groups (PortableServer_Servant servant,
 
 
 static void
-class_init (GObjectClass *object_class)
+e_corba_shortcuts_class_init (GObjectClass *object_class)
 {
 	ECorbaShortcutsClass *corba_shortcuts_class;
 	POA_GNOME_Evolution_Shortcuts__epv *epv;
@@ -315,7 +315,7 @@ class_init (GObjectClass *object_class)
 }
 
 static void
-init (ECorbaShortcuts *corba_shortcuts)
+e_corba_shortcuts_init (ECorbaShortcuts *corba_shortcuts)
 {
 	ECorbaShortcutsPrivate *priv;
 
@@ -343,7 +343,7 @@ e_corba_shortcuts_new (EShortcuts *shortcuts)
 }
 
 
-E_MAKE_X_TYPE (e_corba_shortcuts, "ECorbaShortcuts", ECorbaShortcuts,
-	       class_init, init, PARENT_TYPE,
-	       POA_GNOME_Evolution_Shortcuts__init,
-	       G_STRUCT_OFFSET (ECorbaShortcutsClass, epv))
+BONOBO_TYPE_FUNC_FULL (ECorbaShortcuts,
+		       GNOME_Evolution_Shortcuts,
+		       PARENT_TYPE,
+		       e_corba_shortcuts)

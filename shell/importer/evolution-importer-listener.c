@@ -30,7 +30,7 @@
 #include <gal/util/e-util.h>
 
 #include "GNOME_Evolution_Importer.h"
-#define PARENT_TYPE BONOBO_X_OBJECT_TYPE
+#define PARENT_TYPE BONOBO_OBJECT_TYPE
 
 static BonoboObjectClass *parent_class = NULL;
 
@@ -219,6 +219,6 @@ evolution_importer_listener_new (EvolutionImporterListenerCallback callback,
 	return listener;
 }
 
-BONOBO_X_TYPE_FUNC_FULL (EvolutionImporterListener,
-			 GNOME_Evolution_ImporterListener,
-			 PARENT_TYPE, evolution_importer_listener);
+BONOBO_TYPE_FUNC_FULL (EvolutionImporterListener,
+		       GNOME_Evolution_ImporterListener,
+		       PARENT_TYPE, evolution_importer_listener);

@@ -24,7 +24,7 @@
 #define EVOLUTION_IMPORTER_LISTENER_H
 
 #include <glib.h>
-#include <bonobo/bonobo-xobject.h>
+#include <bonobo/bonobo-object.h>
 #include <importer/GNOME_Evolution_Importer.h>
 #include "evolution-importer.h"
 
@@ -48,13 +48,13 @@ typedef void (* EvolutionImporterListenerCallback) (EvolutionImporterListener *l
 						    gboolean more_items,
 						    void *closure);
 struct _EvolutionImporterListener {
-	BonoboXObject parent;
+	BonoboObject parent;
 	
 	EvolutionImporterListenerPrivate *priv;
 };
 
 struct _EvolutionImporterListenerClass {
-	BonoboXObjectClass parent_class;
+	BonoboObjectClass parent_class;
 
 	POA_GNOME_Evolution_ImporterListener__epv epv;
 };

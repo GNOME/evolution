@@ -40,8 +40,8 @@
 #include <bonobo/bonobo-exception.h>
 
 
-#define PARENT_TYPE bonobo_x_object_get_type ()
-static BonoboXObjectClass *parent_class = NULL;
+#define PARENT_TYPE bonobo_object_get_type ()
+static BonoboObjectClass *parent_class = NULL;
 
 
 #define ICON_SIZE 16
@@ -510,7 +510,7 @@ impl_requestDialog (PortableServer_Servant servant,
 /* GTK+ type stuff.  */
 
 static void
-class_init (GObjectClass *object_class)
+e_activity_handler_class_init (GObjectClass *object_class)
 {
 	EActivityHandlerClass *handler_class;
 
@@ -527,7 +527,7 @@ class_init (GObjectClass *object_class)
 }
 
 static void
-init (EActivityHandler *activity_handler)
+e_activity_handler_init (EActivityHandler *activity_handler)
 {
 	EActivityHandlerPrivate *priv;
 
@@ -582,6 +582,7 @@ e_activity_handler_attach_task_bar (EActivityHandler *activity_handler,
 }
 
 
-E_MAKE_X_TYPE (e_activity_handler, "EActivityHandler", EActivityHandler, class_init, init, PARENT_TYPE,
-	       POA_GNOME_Evolution_Activity__init,
-	       G_STRUCT_OFFSET (EActivityHandlerClass, epv))
+BONOBO_TYPE_FUNC_FULL (EActivityHandler,
+		       GNOME_Evolution_Activity,
+		       PARENT_TYPE,
+		       e_activity_handler)
