@@ -31,7 +31,12 @@
 #include <stdlib.h>
 
 #define io(x)
-#define d(x) (x)
+
+#if 0
+#  define d(x) (x)
+#else
+#  define d(x)
+#endif
 
 #define CAMEL_MBOX_SUMMARY_VERSION (0x1000)
 

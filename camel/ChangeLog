@@ -1,3 +1,8 @@
+2000-07-05  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* providers/mbox/camel-mbox-summary.c (d): Define to empty so that
+	we get rid of a ton of debugging messages.
+
 2000-07-05  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* camel-mime-utils.h: Added prototype for uudecode_step
