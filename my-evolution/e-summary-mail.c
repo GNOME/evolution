@@ -532,6 +532,13 @@ e_summary_mail_free (ESummary *summary)
 
 	g_free (mail->html);
 
+	gtk_signal_disconnect_by_func (GTK_OBJECT (mail->storage_listener),
+				       GTK_SIGNAL_FUNC (new_folder_cb), summary);
+	gtk_signal_disconnect_by_func (GTK_OBJECT (mail->storage_listener),
+				       GTK_SIGNAL_FUNC (remove_folder_cb), summary);
+	gtk_signal_disconnect_by_func (GTK_OBJECT (mail->storage_listener),
+				       GTK_SIGNAL_FUNC (update_folder_cb), summary);
+
 	g_free (mail);
 	summary->mail = NULL;
 }
