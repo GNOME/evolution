@@ -33,12 +33,15 @@ calendar/gui/calendar-model.c
 calendar/gui/control-factory.c
 calendar/gui/dialogs/alarm-notify-dialog.c
 calendar/gui/dialogs/alarm-notify.glade.h
+calendar/gui/dialogs/cal-prefs-dialog.glade.h
 calendar/gui/dialogs/task-editor.c
 calendar/gui/dialogs/task-editor-dialog.glade.h
 calendar/gui/e-calendar-table.c
 calendar/gui/e-day-view-time-item.c
+calendar/gui/e-day-view-top-item.c
 calendar/gui/e-day-view.c
 calendar/gui/e-week-view.c
+calendar/gui/e-week-view-main-item.c
 calendar/gui/event-editor.c
 calendar/gui/event-editor-dialog.glade.h
 calendar/gui/getdate.y
@@ -88,6 +91,7 @@ mail/mail-vfolder.c
 mail/mail-view.c
 #mail/main.c
 mail/message-list.c
+mail/subscribe-dialog.c
 #notes/component-factory.c	: not in Makefile.am
 #notes/main.c			: not in Makefile.am
 shell/e-setup.c
@@ -111,6 +115,7 @@ ui/evolution-mail.h
 ui/evolution-subscribe.h
 ui/evolution.h
 widgets/meeting-time-sel/e-meeting-time-sel.c
+widgets/meeting-time-sel/e-meeting-time-sel-item.c
 widgets/misc/e-calendar.c
 widgets/misc/e-calendar-item.c
 widgets/misc/e-clipped-label.c

@@ -1,3 +1,8 @@
+2000-10-15  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* POTFILES.in: Updated for the upcoming release.
+	* no.po: Same here.
+	
 2000-10-14  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* nn.po: Added Norwegian (nynorsk) translation.
