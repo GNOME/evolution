@@ -1114,7 +1114,10 @@ e_cert_db_login_to_slot (ECertDB *cert_db,
 		if (PK11_NeedUserInit (slot)) {
 			printf ("initializing slot password\n");
 			/* the user needs to specify the initial password */
-			PK11_InitPin (slot, "", "farcl.");
+			/* XXX toshok - this should use a signal to
+			   pop up a password dialog ala the
+			   pk11_passwd prompt.  for now we do it
+			   here. */
 		}
 
 		if (PK11_Authenticate (slot, PR_TRUE, NULL) != SECSuccess) {

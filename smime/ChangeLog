@@ -1,5 +1,8 @@
 2004-01-05  Chris Toshok  <toshok@ximian.com>
 
+	* lib/e-cert-db.c (e_cert_db_login_to_slot): oops, remove
+	hardcoded test passwd :)
+
 	* gui/component.c (smime_pk11_passwd): new function, implement the
 	password dialog for PK11 slot authentication.
 	(smime_component_init): new function, initialize any gui related
