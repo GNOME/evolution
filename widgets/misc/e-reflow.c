@@ -1102,11 +1102,12 @@ e_reflow_reflow( GnomeCanvasItem *item, int flags )
 			next_column ++;
 		}
 
-		if (reflow->items[unsorted])
+		if (unsorted >= 0 && reflow->items[unsorted]) {
 			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(reflow->items[unsorted]),
 						    (double) running_width,
 						    (double) running_height);
-		running_height += reflow->heights[unsorted] + E_REFLOW_BORDER_WIDTH;
+			running_height += reflow->heights[unsorted] + E_REFLOW_BORDER_WIDTH;
+		}
 	}
 	reflow->width = running_width + reflow->column_width + E_REFLOW_BORDER_WIDTH;
 	if ( reflow->width < reflow->minimum_width )
