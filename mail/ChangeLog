@@ -1,3 +1,21 @@
+2001-09-27  Dan Winship  <danw@ximian.com>
+
+	* mail-offline-handler.c (service_is_relevant): A service needs to
+	be disconnected if it's remote, not already offline, and either
+	connected OR connecting.
+	(storage_go_offline): Don't put non-relevant stores offline. (Eg,
+	don't force an IMAP store which you hadn't already connected to to
+	connect and sync.)
+	(storage_go_online): Likewise, don't "reconnect" stores that
+	weren't connected before.
+
+	* mail-ops.c (set_offline_desc): Fix the message to say
+	"reconnecting" instead of "disconnecting" when appropriate.
+	(mail_store_set_offline): If offline is TRUE, call
+	camel_service_cancel_connect on the store. (We do this here
+	because we don't want the cancel_connect request to get queued up
+	behind a hanging connection attempt.)
+
 2001-09-26  Anna Marie Dirks  <anna@ximian.com>
 
 	* mail-config.glade: Added a "Description:" label and moved 

@@ -2061,7 +2061,8 @@ static char *set_offline_desc(struct _mail_msg *mm, int done)
 	char *service_name = camel_service_get_name (CAMEL_SERVICE (m->store), TRUE);
 	char *msg;
 
-	msg = g_strdup_printf (_("Disconnecting from %s"), service_name);
+	msg = g_strdup_printf (m->offline ? _("Disconnecting from %s") :
+			       _("Reconnecting to %s"), service_name);
 	g_free (service_name);
 	return msg;
 }
@@ -2070,34 +2071,35 @@ static void set_offline_do(struct _mail_msg *mm)
 {
 	struct _set_offline_msg *m = (struct _set_offline_msg *)mm;
 
-	if (CAMEL_IS_DISCO_STORE (m->store) &&
-	    camel_disco_store_can_work_offline (CAMEL_DISCO_STORE (m->store))) {
-		if (m->offline) {
-			CamelFolder *inbox;
-
-			/* FIXME. Something more generic here... */
-			inbox = camel_store_get_inbox (m->store, NULL);
-			if (inbox) {
-				camel_disco_folder_prepare_for_offline (
-					CAMEL_DISCO_FOLDER (inbox),
-					"(match-all (not (system-flag \"Seen\")))",
-					&mm->ex);
-				camel_folder_sync (inbox, FALSE, NULL);
-				camel_object_unref (CAMEL_OBJECT (inbox));
-				if (camel_exception_is_set (&mm->ex))
-					return;
-			}
-		}
-
-		camel_disco_store_set_status (CAMEL_DISCO_STORE (m->store),
-					      m->offline ? CAMEL_DISCO_STORE_OFFLINE :
-					      CAMEL_DISCO_STORE_ONLINE, &mm->ex);
-	} else {
+	if (!CAMEL_IS_DISCO_STORE (m->store) ||
+	    !camel_disco_store_can_work_offline (CAMEL_DISCO_STORE (m->store))) {
 		if (m->offline) {
 			camel_service_disconnect (CAMEL_SERVICE (m->store),
 						  TRUE, &mm->ex);
 		}
+		return;
 	}
+
+	if (m->offline && camel_disco_store_status (CAMEL_DISCO_STORE (m->store)) == CAMEL_DISCO_STORE_ONLINE) {
+		CamelFolder *inbox;
+
+		/* FIXME. Something more generic here... (bug 10755) */
+		inbox = camel_store_get_inbox (m->store, NULL);
+		if (inbox) {
+			camel_disco_folder_prepare_for_offline (
+				CAMEL_DISCO_FOLDER (inbox),
+				"(match-all (not (system-flag \"Seen\")))",
+				&mm->ex);
+			camel_folder_sync (inbox, FALSE, NULL);
+			camel_object_unref (CAMEL_OBJECT (inbox));
+			if (camel_exception_is_set (&mm->ex))
+				return;
+		}
+	}
+
+	camel_disco_store_set_status (CAMEL_DISCO_STORE (m->store),
+				      m->offline ? CAMEL_DISCO_STORE_OFFLINE :
+				      CAMEL_DISCO_STORE_ONLINE, &mm->ex);
 }
 
 static void set_offline_done(struct _mail_msg *mm)
@@ -2128,6 +2130,12 @@ mail_store_set_offline (CamelStore *store, gboolean offline,
 			void *data)
 {
 	struct _set_offline_msg *m;
+
+	/* Cancel any pending connect first so the set_offline_op
+	 * thread won't get queued behind a hung connect op.
+	 */
+	if (offline)
+		camel_service_cancel_connect (CAMEL_SERVICE (store));
 
 	m = mail_msg_new(&set_offline_op, NULL, sizeof(*m));
 	m->store = store;

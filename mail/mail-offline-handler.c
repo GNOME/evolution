@@ -42,18 +42,26 @@ struct _MailOfflineHandlerPrivate {
 	GNOME_Evolution_OfflineProgressListener listener_interface;
 };
 
+static gboolean
+service_is_relevant (CamelService *service, gboolean going_offline)
+{
+	if (!(service->provider->flags & CAMEL_PROVIDER_IS_REMOTE))
+		return FALSE;
+
+	if (CAMEL_IS_DISCO_STORE (service) && going_offline &&
+	    camel_disco_store_status (CAMEL_DISCO_STORE (service)) == CAMEL_DISCO_STORE_OFFLINE)
+			return FALSE;
+
+	return service->status != CAMEL_SERVICE_DISCONNECTED;
+}
+
 static void
 add_connection (gpointer key, gpointer data, gpointer user_data)
 {
 	CamelService *service = key;
 	GNOME_Evolution_ConnectionList *list = user_data;
 
-	if (!(service->provider->flags & CAMEL_PROVIDER_IS_REMOTE) ||
-	    !service->connected)
-		return;
-
-	if (CAMEL_IS_DISCO_STORE (service) &&
-	    camel_disco_store_status (CAMEL_DISCO_STORE (service)) == CAMEL_DISCO_STORE_OFFLINE)
+	if (!service_is_relevant (service, TRUE))
 		return;
 
 	list->_buffer[list->_length].hostName = CORBA_string_dup (service->url->host);
@@ -128,7 +136,8 @@ storage_go_offline (gpointer key, gpointer value, gpointer data)
 	CamelStore *store = key;
 	MailOfflineHandler *offline_handler = data;
 
-	mail_store_set_offline (store, TRUE, went_offline, offline_handler);
+	if (service_is_relevant (CAMEL_SERVICE (store), TRUE))
+		mail_store_set_offline (store, TRUE, went_offline, offline_handler);
 }
 
 static void
@@ -157,7 +166,8 @@ storage_go_online (gpointer key, gpointer value, gpointer data)
 {
 	CamelStore *store = key;
 
-	mail_store_set_offline (store, FALSE, NULL, NULL);
+	if (service_is_relevant (CAMEL_SERVICE (store), FALSE))
+		mail_store_set_offline (store, FALSE, NULL, NULL);
 }
 
 static void
