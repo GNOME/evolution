@@ -3435,6 +3435,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 {
 	EText *text = E_TEXT(data);
 	int sel_start, sel_end;
+	gboolean scroll = TRUE;
 
 	switch (command->action) {
 	case E_TEP_MOVE:
@@ -3491,6 +3492,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		if (text->timer) {
 			g_timer_reset(text->timer);
 		}
+		scroll = FALSE;
 		break;
 	case E_TEP_PASTE:
 		e_text_get_selection (text, clipboard_atom, command->time);
@@ -3515,15 +3517,18 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 					GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK,
 					text->i_cursor,
 					command->time);
+		scroll = FALSE;
 		break;
 	case E_TEP_UNGRAB:
 		gnome_canvas_item_ungrab (GNOME_CANVAS_ITEM(text), command->time);
+		scroll = FALSE;
 		break;
 	case E_TEP_NOP:
+		scroll = FALSE;
 		break;
 	}
 
-	if (!text->button_down) {
+	if (scroll && !text->button_down) {
 		int x;
 		int i;
 		struct line *lines = text->lines;
