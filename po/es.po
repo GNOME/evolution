@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-29 20:17+0100\n"
-"PO-Revision-Date: 2005-01-29 20:23+0100\n"
+"POT-Creation-Date: 2005-02-01 00:30+0100\n"
+"PO-Revision-Date: 2005-02-01 00:31+0100\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -75,7 +75,7 @@ msgstr "Cita nueva"
 msgid "New All Day Event"
 msgstr "Acontecimiento nuevo para todo el día"
 
-#: ../a11y/calendar/ea-cal-view.c:308 ../calendar/gui/e-calendar-view.c:1366
+#: ../a11y/calendar/ea-cal-view.c:308 ../calendar/gui/e-calendar-view.c:1372
 msgid "New Meeting"
 msgstr "Reunión nueva"
 
@@ -130,16 +130,16 @@ msgid ", %d events"
 msgstr "%d acontecimientos"
 
 #: ../a11y/calendar/ea-day-view.c:150
-msgid "work week view :"
+msgid "work week view:"
 msgstr "vista de la semana laboral:"
 
 #: ../a11y/calendar/ea-day-view.c:154
-msgid "day view :"
+msgid "day view:"
 msgstr "vista diaria:"
 
 #: ../a11y/calendar/ea-day-view.c:181
 msgid "calendar view for a work week"
-msgstr "Vista de calendario para una semana laboral"
+msgstr "vista de calendario para una semana laboral"
 
 #: ../a11y/calendar/ea-day-view.c:183
 msgid "calendar view for one or more days"
@@ -223,11 +223,11 @@ msgid "Click here, you can find more events."
 msgstr "Pulse aquí para buscar más eventos."
 
 #: ../a11y/calendar/ea-week-view.c:153
-msgid "month view :"
+msgid "month view:"
 msgstr "vista mensual:"
 
 #: ../a11y/calendar/ea-week-view.c:158
-msgid "week view :"
+msgid "week view:"
 msgstr "vista semanal:"
 
 #: ../a11y/calendar/ea-week-view.c:185
@@ -821,7 +821,6 @@ msgstr "Gestione sus certificados S/MIME aquí"
 #: ../calendar/gui/dialogs/meeting-page.glade.h:1
 #: ../calendar/gui/dialogs/new-calendar.glade.h:1
 #: ../calendar/gui/dialogs/new-task-list.glade.h:1
-#: ../calendar/gui/dialogs/task-page.glade.h:1
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:1
 #: ../composer/e-msg-composer-attachment.glade.h:1
 #: ../mail/mail-dialogs.glade.h:6 ../mail/message-tags.glade.h:1
@@ -1093,7 +1092,7 @@ msgstr "tarjetas"
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:12
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:27
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:14
-#: ../filter/filter.glade.h:16 ../mail/em-account-editor.c:1821
+#: ../filter/filter.glade.h:16 ../mail/em-account-editor.c:1825
 #: ../plugins/calendar-http/calendar-http.c:263
 #: ../plugins/calendar-weather/calendar-weather.c:564
 msgid "minutes"
@@ -3222,7 +3221,7 @@ msgid "Car Phone"
 msgstr "Teléfono del coche"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:8
-#: ../calendar/gui/dialogs/task-page.glade.h:7
+#: ../calendar/gui/dialogs/task-page.glade.h:6
 #: ../calendar/gui/e-calendar-table.etspec.h:3
 #: ../calendar/gui/e-cal-list-view.etspec.h:1
 msgid "Categories"
@@ -5423,15 +5422,17 @@ msgid "15 minutes before appointment"
 msgstr "15 minutos antes de la cita"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:5
+#: ../calendar/gui/dialogs/task-page.glade.h:1
 msgid "<b>Basics</b>"
 msgstr "<b>Básico</b>"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:6
+#: ../calendar/gui/dialogs/task-page.glade.h:2
 msgid "<b>Date and Time</b>"
 msgstr "<b>Fecha y hora</b>"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:7
-#: ../calendar/gui/dialogs/task-page.glade.h:2
+#: ../calendar/gui/dialogs/task-page.glade.h:3
 msgid "<b>Send Options</b>"
 msgstr "<b>Opciones de envío</b>"
 
@@ -5448,7 +5449,7 @@ msgid "C_ustomize..."
 msgstr "_Personalizar..."
 
 #: ../calendar/gui/dialogs/event-page.glade.h:11
-#: ../calendar/gui/dialogs/task-page.glade.h:6
+#: ../calendar/gui/dialogs/task-page.glade.h:5
 msgid "Ca_tegories..."
 msgstr "Ca_tegorías..."
 
@@ -5457,12 +5458,12 @@ msgid "Cale_ndar:"
 msgstr "Cale_ndario:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:13
-#: ../calendar/gui/dialogs/task-page.glade.h:8
+#: ../calendar/gui/dialogs/task-page.glade.h:7
 msgid "Classi_fication:"
 msgstr "Clasi_ficación:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:14
-#: ../calendar/gui/dialogs/task-page.glade.h:9
+#: ../calendar/gui/dialogs/task-page.glade.h:8
 #: ../calendar/gui/e-calendar-table.c:362
 #: ../calendar/gui/e-cal-list-view.c:255 ../calendar/gui/e-cal-model.c:305
 msgid "Confidential"
@@ -5477,14 +5478,14 @@ msgid "Locat_ion:"
 msgstr "_Lugar:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:17
-#: ../calendar/gui/dialogs/task-page.glade.h:11
+#: ../calendar/gui/dialogs/task-page.glade.h:10
 #: ../calendar/gui/e-calendar-table.c:361
 #: ../calendar/gui/e-cal-list-view.c:254 ../calendar/gui/e-cal-model.c:303
 msgid "Private"
 msgstr "Privado"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:18
-#: ../calendar/gui/dialogs/task-page.glade.h:12
+#: ../calendar/gui/dialogs/task-page.glade.h:11
 #: ../calendar/gui/e-calendar-table.c:360
 #: ../calendar/gui/e-cal-list-view.c:253 ../calendar/gui/e-cal-model.c:294
 #: ../calendar/gui/e-cal-model.c:301
@@ -5496,7 +5497,7 @@ msgid "Show time as _busy"
 msgstr "Mostrar hora como _ocupada"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:20
-#: ../calendar/gui/dialogs/task-page.glade.h:14
+#: ../calendar/gui/dialogs/task-page.glade.h:13
 msgid "Su_mmary:"
 msgstr "Resu_men:"
 
@@ -5532,7 +5533,7 @@ msgstr "Hora de _inicio:"
 #: ../calendar/gui/e-cal-model-tasks.c:652
 #: ../calendar/gui/e-itip-control.c:1104 ../composer/e-msg-composer.c:2122
 #: ../filter/filter-rule.c:878 ../mail/em-account-editor.c:675
-#: ../mail/em-account-editor.c:1269 ../mail/em-account-prefs.c:421
+#: ../mail/em-account-editor.c:1273 ../mail/em-account-prefs.c:421
 #: ../mail/em-folder-view.c:965
 #: ../plugins/calendar-weather/calendar-weather.c:371
 #: ../plugins/calendar-weather/calendar-weather.c:425
@@ -5903,35 +5904,27 @@ msgstr "La fecha de vencimiento es errónea"
 msgid "Unable to open tasks in '%s'."
 msgstr "No es posible abrir las tareas en «%s»."
 
-#: ../calendar/gui/dialogs/task-page.glade.h:3
-msgid "<span weight=\"bold\">Basics</span>"
-msgstr "<span weight=\"bold\">Básicos</span>"
-
 #: ../calendar/gui/dialogs/task-page.glade.h:4
-msgid "<span weight=\"bold\">Date and Time</span>"
-msgstr "<span weight=\"bold\">Hora y fecha</span>"
-
-#: ../calendar/gui/dialogs/task-page.glade.h:5
 msgid "Ad_vanced send options"
 msgstr "Opciones de envío a_vanzadas"
 
-#: ../calendar/gui/dialogs/task-page.glade.h:10
+#: ../calendar/gui/dialogs/task-page.glade.h:9
 msgid "D_escription:"
 msgstr "_Descripción:"
 
-#: ../calendar/gui/dialogs/task-page.glade.h:13
+#: ../calendar/gui/dialogs/task-page.glade.h:12
 msgid "Sta_rt date:"
 msgstr "Fecha de ini_cio:"
 
-#: ../calendar/gui/dialogs/task-page.glade.h:15
+#: ../calendar/gui/dialogs/task-page.glade.h:14
 msgid "Task Description"
 msgstr "Descripción de la tarea"
 
-#: ../calendar/gui/dialogs/task-page.glade.h:16
+#: ../calendar/gui/dialogs/task-page.glade.h:15
 msgid "_Due date:"
 msgstr "Fecha de _vencimiento:"
 
-#: ../calendar/gui/dialogs/task-page.glade.h:17
+#: ../calendar/gui/dialogs/task-page.glade.h:16
 msgid "_Group:"
 msgstr "_Grupo:"
 
@@ -6169,7 +6162,7 @@ msgid "Save as..."
 msgstr "Guardar como..."
 
 #: ../calendar/gui/e-calendar-table.c:1156
-#: ../calendar/gui/e-calendar-view.c:1389 ../mail/em-folder-view.c:931
+#: ../calendar/gui/e-calendar-view.c:1395 ../mail/em-folder-view.c:931
 #: ../ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "_Abrir"
@@ -6179,27 +6172,27 @@ msgid "Open _Web Page"
 msgstr "Abrir página _web"
 
 #: ../calendar/gui/e-calendar-table.c:1158
-#: ../calendar/gui/e-calendar-view.c:1390 ../mail/em-folder-view.c:933
+#: ../calendar/gui/e-calendar-view.c:1396 ../mail/em-folder-view.c:933
 #: ../mail/em-popup.c:493 ../ui/evolution-mail-message.xml.h:128
 msgid "_Save As..."
 msgstr "Guardar _como..."
 
 #: ../calendar/gui/e-calendar-table.c:1159
-#: ../calendar/gui/e-calendar-view.c:1370
-#: ../calendar/gui/e-calendar-view.c:1391 ../ui/evolution-addressbook.xml.h:40
+#: ../calendar/gui/e-calendar-view.c:1376
+#: ../calendar/gui/e-calendar-view.c:1397 ../ui/evolution-addressbook.xml.h:40
 #: ../ui/evolution-calendar.xml.h:44 ../ui/evolution-mail-message.xml.h:125
 #: ../ui/evolution-tasks.xml.h:25
 msgid "_Print..."
 msgstr "Im_primir..."
 
 #: ../calendar/gui/e-calendar-table.c:1163
-#: ../calendar/gui/e-calendar-view.c:1395 ../ui/evolution-addressbook.xml.h:1
+#: ../calendar/gui/e-calendar-view.c:1401 ../ui/evolution-addressbook.xml.h:1
 #: ../ui/evolution-calendar.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "C_ortar"
 
 #: ../calendar/gui/e-calendar-table.c:1164
-#: ../calendar/gui/e-calendar-view.c:1396 ../composer/e-msg-composer.c:2901
+#: ../calendar/gui/e-calendar-view.c:1402 ../composer/e-msg-composer.c:2901
 #: ../mail/em-folder-tree.c:1036 ../mail/message-list.c:1712
 #: ../ui/evolution-addressbook.xml.h:31 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:7
@@ -6208,8 +6201,8 @@ msgid "_Copy"
 msgstr "_Copiar"
 
 #: ../calendar/gui/e-calendar-table.c:1165
-#: ../calendar/gui/e-calendar-view.c:1373
-#: ../calendar/gui/e-calendar-view.c:1397 ../ui/evolution-addressbook.xml.h:38
+#: ../calendar/gui/e-calendar-view.c:1379
+#: ../calendar/gui/e-calendar-view.c:1403 ../ui/evolution-addressbook.xml.h:38
 #: ../ui/evolution-calendar.xml.h:43 ../ui/evolution-composer-entries.xml.h:9
 #: ../ui/evolution-mail-message.xml.h:123 ../ui/evolution-tasks.xml.h:24
 msgid "_Paste"
@@ -6233,7 +6226,7 @@ msgstr "_Marcar tareas seleccionadas como terminadas"
 
 #. FIXME: need to disable for undeletable folders
 #: ../calendar/gui/e-calendar-table.c:1176
-#: ../calendar/gui/e-calendar-view.c:1408 ../mail/em-folder-tree.c:2766
+#: ../calendar/gui/e-calendar-view.c:1414 ../mail/em-folder-tree.c:2766
 #: ../mail/em-folder-view.c:956 ../ui/evolution-addressbook.xml.h:33
 #: ../ui/evolution-calendar.xml.h:40 ../ui/evolution-mail-message.xml.h:112
 #: ../ui/evolution-tasks.xml.h:21
@@ -6283,69 +6276,69 @@ msgstr "Resumen"
 msgid "Task sort"
 msgstr "Ordenar tareas"
 
-#: ../calendar/gui/e-calendar-view.c:1179
+#: ../calendar/gui/e-calendar-view.c:1185
 msgid "Moving items"
 msgstr "Moviendo elementos"
 
-#: ../calendar/gui/e-calendar-view.c:1181
+#: ../calendar/gui/e-calendar-view.c:1187
 msgid "Copying items"
 msgstr "Copiando elementos"
 
-#: ../calendar/gui/e-calendar-view.c:1364
+#: ../calendar/gui/e-calendar-view.c:1370
 msgid "New _Appointment..."
 msgstr "Cit_a nueva..."
 
-#: ../calendar/gui/e-calendar-view.c:1365
+#: ../calendar/gui/e-calendar-view.c:1371
 msgid "New All Day _Event"
 msgstr "Acont_ecimiento nuevo para todo el día"
 
-#: ../calendar/gui/e-calendar-view.c:1367
+#: ../calendar/gui/e-calendar-view.c:1373
 msgid "New Task"
 msgstr "Tarea nueva"
 
 #. FIXME: hook in this somehow
-#: ../calendar/gui/e-calendar-view.c:1377
+#: ../calendar/gui/e-calendar-view.c:1383
 msgid "Current View"
 msgstr "Vista actual"
 
-#: ../calendar/gui/e-calendar-view.c:1379 ../ui/evolution-calendar.xml.h:26
+#: ../calendar/gui/e-calendar-view.c:1385 ../ui/evolution-calendar.xml.h:26
 msgid "Select _Today"
 msgstr "Seleccionar _hoy"
 
-#: ../calendar/gui/e-calendar-view.c:1380
+#: ../calendar/gui/e-calendar-view.c:1386
 msgid "_Select Date..."
 msgstr "_Seleccionar fecha..."
 
 #. TODO: Why is this in a context menu when it applies globally?
-#: ../calendar/gui/e-calendar-view.c:1385 ../ui/evolution-calendar.xml.h:45
+#: ../calendar/gui/e-calendar-view.c:1391 ../ui/evolution-calendar.xml.h:45
 msgid "_Publish Free/Busy Information"
 msgstr "_Publicar la información de disponibilidad"
 
-#: ../calendar/gui/e-calendar-view.c:1401
+#: ../calendar/gui/e-calendar-view.c:1407
 msgid "Cop_y to Calendar..."
 msgstr "Cop_ia al calendario..."
 
-#: ../calendar/gui/e-calendar-view.c:1402
+#: ../calendar/gui/e-calendar-view.c:1408
 msgid "Mo_ve to Calendar..."
 msgstr "Mo_ver al calendario..."
 
-#: ../calendar/gui/e-calendar-view.c:1403
+#: ../calendar/gui/e-calendar-view.c:1409
 msgid "_Schedule Meeting..."
 msgstr "Concertar una _reunión..."
 
-#: ../calendar/gui/e-calendar-view.c:1404
+#: ../calendar/gui/e-calendar-view.c:1410
 msgid "_Forward as iCalendar..."
 msgstr "Reenviar como i_Calendar..."
 
-#: ../calendar/gui/e-calendar-view.c:1409
+#: ../calendar/gui/e-calendar-view.c:1415
 msgid "Make this Occurrence _Movable"
 msgstr "Hacer esta repetición _movible"
 
-#: ../calendar/gui/e-calendar-view.c:1410
+#: ../calendar/gui/e-calendar-view.c:1416
 msgid "Delete this _Occurrence"
 msgstr "Borrar esta _repetición"
 
-#: ../calendar/gui/e-calendar-view.c:1411
+#: ../calendar/gui/e-calendar-view.c:1417
 msgid "Delete _All Occurrences"
 msgstr "Borrar tod_as las repeticiones"
 
@@ -10109,24 +10102,24 @@ msgstr ""
 msgid "Select Folder"
 msgstr "Seleccionar carpeta"
 
-#: ../mail/em-account-editor.c:1813
+#: ../mail/em-account-editor.c:1817
 msgid "Automatically check for _new mail every"
 msgstr "_Comprobar si hay correo nuevo automáticamente cada"
 
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:2082 ../mail/em-account-editor.c:2160
+#: ../mail/em-account-editor.c:2086 ../mail/em-account-editor.c:2164
 msgid "Receiving Options"
 msgstr "Opciones de recepción"
 
-#: ../mail/em-account-editor.c:2083 ../mail/em-account-editor.c:2161
+#: ../mail/em-account-editor.c:2087 ../mail/em-account-editor.c:2165
 msgid "Checking for New Mail"
 msgstr "Comprobación de correo nuevo"
 
-#: ../mail/em-account-editor.c:2505 ../mail/mail-config.glade.h:33
+#: ../mail/em-account-editor.c:2509 ../mail/mail-config.glade.h:33
 msgid "Account Editor"
 msgstr "Editor de cuentas"
 
-#: ../mail/em-account-editor.c:2505 ../mail/mail-config.glade.h:79
+#: ../mail/em-account-editor.c:2509 ../mail/mail-config.glade.h:79
 msgid "Evolution Account Assistant"
 msgstr "Asistente de cuentas de Evolution"
 
@@ -11598,11 +11591,11 @@ msgid "UID string of the default account."
 msgstr "Cadena UID para la cuenta predeterminada."
 
 #: ../mail/evolution-mail.schemas.in.in.h:91
-msgid "Use Spamasssassin daemon and client"
+msgid "Use Spamassassin daemon and client"
 msgstr "Usar el demonio y cliente de Spamassassin"
 
 #: ../mail/evolution-mail.schemas.in.in.h:92
-msgid "Use Spamasssassin daemon and client (spamc/spamd)"
+msgid "Use Spamassassin daemon and client (spamc/spamd)"
 msgstr "Usar el demonio y cliente de Spamassassin (spamc/spamd)"
 
 #: ../mail/evolution-mail.schemas.in.in.h:93
@@ -11943,12 +11936,12 @@ msgstr "Asunto es %s"
 msgid "Mail from %s"
 msgstr "Correo de %s"
 
-#: ../mail/mail-autofilter.c:271
+#: ../mail/mail-autofilter.c:273
 #, c-format
 msgid "%s mailing list"
 msgstr "lista de correo %s"
 
-#: ../mail/mail-autofilter.c:326
+#: ../mail/mail-autofilter.c:328
 msgid "Add Filter Rule"
 msgstr "Añadir regla de filtrado"
 
@@ -13228,8 +13221,8 @@ msgstr "No se puede editar la carpeta virtual «{0}» porque no existe."
 #. mail:vfolder-notexist secondary
 #: ../mail/mail-errors.xml.h:193
 msgid ""
-"This folder may have been added implictly, go to the virtual folder editor "
-"to add it explictly, if required."
+"This folder may have been added implicitly, go to the virtual folder editor "
+"to add it explicitly, if required."
 msgstr ""
 "Esta carpeta puede haber sido añadida implícitamente, vaya al editor de "
 "carpetas virtuales para añadirla explícitamente, si lo desea."
@@ -13755,7 +13748,7 @@ msgstr "%d %b %Y"
 msgid "Message List"
 msgstr "Lista de mensajes"
 
-#: ../mail/message-list.c:3381
+#: ../mail/message-list.c:3384
 msgid "Generating message list"
 msgstr "Generando la lista de mensajes"
 
@@ -14691,7 +14684,8 @@ msgid ""
 "\tYou have to specify a user name whom you want to add to the list \n"
 msgstr ""
 "\n"
-"\tTiene que especificar un nombre de usuario para quien quiera añadir a la lista\n"
+"\tTiene que especificar un nombre de usuario para quien quiera añadir a la "
+"lista\n"
 
 #: ../plugins/shared-folder/properties.glade.h:2
 msgid "<b>Users :</b>"
@@ -17884,6 +17878,12 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% completado)"
+
+#~ msgid "<span weight=\"bold\">Basics</span>"
+#~ msgstr "<span weight=\"bold\">Básicos</span>"
+
+#~ msgid "<span weight=\"bold\">Date and Time</span>"
+#~ msgstr "<span weight=\"bold\">Hora y fecha</span>"
 
 #~ msgid "have "
 #~ msgstr "tiene"
