@@ -1,3 +1,16 @@
+2001-06-28  Dan Winship  <danw@ximian.com>
+
+	* mail-tools.c (mail_tool_uri_to_folder): After finding a folder,
+	attach to its "folder_changed" and "message_changed" signals.
+	(update_unread_count, update_unread_count_main): Moved here from
+	folder-browser but basically unchanged. Doing this here lets us
+	get folder tree updates for folders that have had messages
+	moved/copied/filtered into them, but which don't yet have a view
+	associated with them.
+
+	* folder-browser.c (update_unread_count, update_unread_count_main,
+	etc): Moved to mail-tools.c
+
 2001-06-28  Radek Doulik  <rodo@ximian.com>
 
 	* mail-config.c: use new fields everywhere
