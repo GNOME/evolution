@@ -194,6 +194,17 @@ static void hide_send_info(void *key, struct _send_info *info, void *data)
 	info->stop = NULL;
 	info->bar = NULL;
 	info->status = NULL;
+
+	if (info->timeout_id != 0) {
+		gtk_timeout_remove (info->timeout_id);
+		info->timeout_id = 0;
+	}
+}
+
+static void
+bar_destroyed (GtkProgressBar *bar, struct _send_info *info)
+{
+	hide_send_info (NULL, info, NULL);
 }
 
 static void
@@ -211,6 +222,7 @@ dialogue_clicked(GnomeDialog *gd, int button, struct _send_data *data)
 	case -1:		/* dialogue vanished, so make out its just hidden */
 		d(printf("hiding dialogue\n"));
 		g_hash_table_foreach(data->active, (GHFunc)hide_send_info, NULL);
+		data->gd = NULL;
 		break;
 	}
 }
@@ -268,8 +280,7 @@ build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
 	while (sources) {
 		MailConfigService *source = sources->data;
 		
-		if (!source->url
-		    || !source->enabled) {
+		if (!source->url || !source->enabled) {
 			sources = sources->next;
 			continue;
 		}
@@ -308,6 +319,8 @@ build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
 		
 		bar = (GtkProgressBar *)gtk_progress_bar_new ();
 		gtk_progress_set_show_text (GTK_PROGRESS (bar), FALSE);
+		gtk_signal_connect (GTK_OBJECT (bar), "destroy", bar_destroyed, info);
+		
 		stop = (GtkButton *)gnome_stock_button (GNOME_STOCK_BUTTON_CANCEL);
 		status_label = (GtkLabel *)gtk_label_new ((info->type == SEND_UPDATE) ? _("Updating...") :
 							  _("Waiting..."));

@@ -1,5 +1,11 @@
 2001-09-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-send-recv.c (build_dialogue): Attach to the destroy event
+	for each progressbar using bar_destroyed as the callback.
+	(bar_destroyed): New callback to unregister the timeout and set
+	the send-info's bar member to NULL so we don't try to update a
+	destroyed progressbar.
+
 	* mail-callbacks.c (mail_generate_reply): Pass along the right
 	string, this fixes bug #9518.
 
