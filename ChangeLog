@@ -1,3 +1,10 @@
+2003-02-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* configure.in (ENABLE_IPv6): AC_DEFINE() ENABLE_IPv6 if it should
+	be enabled.
+
+	* acconfig.h: Added #undef ENABLE_IPv6
+
 2003-02-04  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: Bump version number to 1.2.2.99.
