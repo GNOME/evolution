@@ -61,6 +61,9 @@ static int                  cipher_encrypt (CamelCipherContext *context, gboolea
 static int                  cipher_decrypt (CamelCipherContext *context, CamelStream *istream,
 					    CamelStream *ostream, CamelException *ex);
 
+static const char *cipher_hash_to_id(CamelCipherContext *context, CamelCipherHash hash);
+static CamelCipherHash cipher_id_to_hash(CamelCipherContext *context, const char *id);
+
 static CamelObjectClass *parent_class;
 
 static void
@@ -96,6 +99,8 @@ camel_cipher_context_class_init (CamelCipherContextClass *camel_cipher_context_c
 	camel_cipher_context_class->verify = cipher_verify;
 	camel_cipher_context_class->encrypt = cipher_encrypt;
 	camel_cipher_context_class->decrypt = cipher_decrypt;
+	camel_cipher_context_class->hash_to_id = cipher_hash_to_id;
+	camel_cipher_context_class->id_to_hash = cipher_id_to_hash;
 }
 
 CamelType
@@ -364,6 +369,34 @@ camel_cipher_decrypt (CamelCipherContext *context, CamelStream *istream,
 	return retval;
 }
 
+static CamelCipherHash
+cipher_id_to_hash(CamelCipherContext *context, const char *id)
+{
+	return CAMEL_CIPHER_HASH_DEFAULT;
+}
+
+/* a couple of util functions */
+CamelCipherHash
+camel_cipher_id_to_hash(CamelCipherContext *context, const char *id)
+{
+	g_return_val_if_fail (CAMEL_IS_CIPHER_CONTEXT (context), CAMEL_CIPHER_HASH_DEFAULT);
+
+	return ((CamelCipherContextClass *)((CamelObject *)context)->klass)->id_to_hash(context, id);
+}
+
+static const char *
+cipher_hash_to_id(CamelCipherContext *context, CamelCipherHash hash)
+{
+	return NULL;
+}
+
+const char *
+camel_cipher_hash_to_id(CamelCipherContext *context, CamelCipherHash hash)
+{
+	g_return_val_if_fail (CAMEL_IS_CIPHER_CONTEXT (context), NULL);
+
+	return ((CamelCipherContextClass *)((CamelObject *)context)->klass)->hash_to_id(context, hash);
+}
 
 /* Cipher Validity stuff */
 struct _CamelCipherValidity {

@@ -50,6 +50,7 @@ libcamel_la_SOURCES = 				\
 	camel-mime-filter-basic.c		\
 	camel-mime-filter-charset.c		\
 	camel-mime-filter-chomp.c		\
+	camel-mime-filter-canon.c		\
 	camel-mime-filter-crlf.c		\
 	camel-mime-filter-from.c		\
 	camel-mime-filter-html.c		\
@@ -65,6 +66,7 @@ libcamel_la_SOURCES = 				\
 	camel-mime-utils.c			\
 	camel-movemail.c			\
 	camel-multipart.c			\
+	camel-multipart-signed.c		\
 	camel-object.c				\
 	camel-operation.c			\
 	camel-partition-table.c			\
@@ -146,6 +148,7 @@ libcamelinclude_HEADERS =			\
 	camel-mime-filter-basic.h		\
 	camel-mime-filter-charset.h		\
 	camel-mime-filter-chomp.h		\
+	camel-mime-filter-canon.h		\
 	camel-mime-filter-crlf.h		\
 	camel-mime-filter-from.h		\
 	camel-mime-filter-html.h		\
@@ -161,6 +164,7 @@ libcamelinclude_HEADERS =			\
 	camel-mime-utils.h			\
 	camel-movemail.h			\
 	camel-multipart.h			\
+	camel-multipart-signed.h		\
 	camel-object.h				\
 	camel-operation.h			\
 	camel-partition-table.h			\

@@ -93,7 +93,7 @@ camel_seekable_substream_get_type (void)
 }
 
 /**
- * camel_seekable_substream_new_with_seekable_stream_and_bounds:
+ * camel_seekable_substream_new:
  * @parent_stream: a seekable parent stream
  * @inf_bound: a lower bound
  * @sup_bound: an upper bound
@@ -110,8 +110,7 @@ camel_seekable_substream_get_type (void)
  * Return value: the substream
  **/
 CamelStream *
-camel_seekable_substream_new_with_seekable_stream_and_bounds (CamelSeekableStream *parent_stream,
-							      off_t start, off_t end)
+camel_seekable_substream_new(CamelSeekableStream *parent_stream, off_t start, off_t end)
 {
 	CamelSeekableSubstream *seekable_substream;
 

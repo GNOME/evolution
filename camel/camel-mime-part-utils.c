@@ -38,6 +38,7 @@
 #include "camel-mime-part-utils.h"
 #include "camel-mime-message.h"
 #include "camel-multipart.h"
+#include "camel-multipart-signed.h"
 #include "camel-seekable-substream.h"
 #include "camel-stream-fs.h"
 #include "camel-stream-filter.h"
@@ -336,47 +337,30 @@ void
 camel_mime_part_construct_content_from_parser (CamelMimePart *dw, CamelMimeParser *mp)
 {
 	CamelDataWrapper *content = NULL;
-	char *buf;
-	int len;
 	
 	switch (camel_mime_parser_state (mp)) {
 	case HSCAN_HEADER:
 		d(printf("Creating body part\n"));
-		content = camel_data_wrapper_new ();
-		simple_data_wrapper_construct_from_parser (content, mp);
+		/* multipart/signed is some fucked up type that we must treat as binary data, fun huh, idiots. */
+		if (header_content_type_is(camel_mime_parser_content_type(mp), "multipart", "signed")) {
+			content = (CamelDataWrapper *)camel_multipart_signed_new();
+			camel_multipart_construct_from_parser((CamelMultipart *)content, mp);
+		} else {
+			content = camel_data_wrapper_new ();
+			simple_data_wrapper_construct_from_parser (content, mp);
+		}
 		break;
 	case HSCAN_MESSAGE:
 		d(printf("Creating message part\n"));
 		content = (CamelDataWrapper *) camel_mime_message_new ();
 		camel_mime_part_construct_from_parser ((CamelMimePart *)content, mp);
 		break;
-	case HSCAN_MULTIPART: {
-		struct _header_content_type *content_type;
-		CamelDataWrapper *bodypart;
-		
-		/* FIXME: we should use a came-mime-mutlipart, not jsut a camel-multipart, but who cares */
+	case HSCAN_MULTIPART:
 		d(printf("Creating multi-part\n"));
-		
-		content = (CamelDataWrapper *)camel_multipart_new ();
-		
-		content_type = camel_mime_parser_content_type (mp);
-		camel_multipart_set_boundary ((CamelMultipart *)content,
-					      header_content_type_param (content_type, "boundary"));
-		
-		while (camel_mime_parser_step (mp, &buf, &len) != HSCAN_MULTIPART_END) {
-			camel_mime_parser_unstep (mp);
-			bodypart = (CamelDataWrapper *)camel_mime_part_new ();
-			camel_mime_part_construct_from_parser ((CamelMimePart *)bodypart, mp);
-			camel_multipart_add_part ((CamelMultipart *)content, (CamelMimePart *)bodypart);
-			camel_object_unref ((CamelObject *)bodypart);
-		}
-		
-		/* these are only return valid data in the MULTIPART_END state */
-		camel_multipart_set_preface ((CamelMultipart *)content, camel_mime_parser_preface (mp));
-		camel_multipart_set_postface ((CamelMultipart *)content, camel_mime_parser_postface (mp));
-		
+		content = (CamelDataWrapper *)camel_multipart_new();
+		camel_multipart_construct_from_parser((CamelMultipart *)content, mp);
 		d(printf("Created multi-part\n"));
-		break; }
+		break;
 	default:
 		g_warning("Invalid state encountered???: %d", camel_mime_parser_state (mp));
 	}

@@ -40,20 +40,16 @@ extern "C" {
 #define CAMEL_MULTIPART_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_MULTIPART_TYPE, CamelMultipartClass))
 #define CAMEL_IS_MULTIPART(o)    (CAMEL_CHECK_TYPE((o), CAMEL_MULTIPART_TYPE))
 
+struct _CamelMimeParser;
 
 struct _CamelMultipart
 {
 	CamelDataWrapper parent_object;
 
-	CamelMimePart *parent;
 	GList *parts;
-	gchar *boundary;
 	gchar *preface;
 	gchar *postface;
-
 };
-
-
 
 typedef struct {
 	CamelDataWrapperClass parent_class;
@@ -68,8 +64,10 @@ typedef struct {
 	void (*set_boundary) (CamelMultipart *multipart, const char *boundary);
 	const gchar * (*get_boundary) (CamelMultipart *multipart);
 
-} CamelMultipartClass;
+	int (*construct_from_parser)(CamelMultipart *, struct _CamelMimeParser *);
+	/*int (*construct_from_stream)(CamelMultipart *, CamelStream *);*/
 
+} CamelMultipartClass;
 
 /* Standard Camel function */
 CamelType camel_multipart_get_type (void);
@@ -95,6 +93,8 @@ const gchar *       camel_multipart_get_boundary   (CamelMultipart *multipart);
 
 void		    camel_multipart_set_preface	   (CamelMultipart *multipart, const char *preface);
 void		    camel_multipart_set_postface   (CamelMultipart *multipart, const char *postface);
+
+int		    camel_multipart_construct_from_parser(CamelMultipart *multipart, struct _CamelMimeParser *mp);
 
 #ifdef __cplusplus
 }

@@ -1,9 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* camel-multipart.c : Abstract class for a multipart */
 
-#ifndef NO_WARNINGS
-#warning This should be a mostly abstract class, but it is not!
-#endif
 
 /*
  *
@@ -34,6 +31,7 @@
 #include <string.h> /* strlen() */
 #include <unistd.h> /* for getpid */
 #include <time.h>   /* for time */
+#include <errno.h>
 
 #include "camel-stream-mem.h"
 #include "camel-multipart.h"
@@ -63,6 +61,8 @@ static int                   write_to_stream   (CamelDataWrapper *data_wrapper,
 						CamelStream *stream);
 static void                  unref_part        (gpointer data, gpointer user_data);
 
+static int construct_from_parser(CamelMultipart *multipart, struct _CamelMimeParser *mp);
+
 static CamelDataWrapperClass *parent_class = NULL;
 
 
@@ -91,6 +91,7 @@ camel_multipart_class_init (CamelMultipartClass *camel_multipart_class)
 	camel_multipart_class->get_number = get_number;
 	camel_multipart_class->set_boundary = set_boundary;
 	camel_multipart_class->get_boundary = get_boundary;
+	camel_multipart_class->construct_from_parser = construct_from_parser;
 
 	/* virtual method overload */
 	camel_data_wrapper_class->write_to_stream = write_to_stream;
@@ -115,8 +116,8 @@ camel_multipart_finalize (CamelObject *object)
 
 	g_list_foreach (multipart->parts, unref_part, NULL);
 
-	if (multipart->boundary)
-		g_free (multipart->boundary);
+	/*if (multipart->boundary)
+	  g_free (multipart->boundary);*/
 	if (multipart->preface)
 		g_free (multipart->preface);
 	if (multipart->postface)
@@ -538,4 +539,50 @@ camel_multipart_set_postface(CamelMultipart *multipart, const char *postface)
 		else
 			multipart->postface = NULL;
 	}
+}
+
+static int
+construct_from_parser(CamelMultipart *multipart, struct _CamelMimeParser *mp)
+{
+	int err;
+	struct _header_content_type *content_type;
+	CamelMimePart *bodypart;
+	char *buf;
+	unsigned int len;
+
+	g_assert(camel_mime_parser_state(mp) == HSCAN_MULTIPART);
+		
+	/* FIXME: we should use a came-mime-mutlipart, not jsut a camel-multipart, but who cares */
+	d(printf("Creating multi-part\n"));
+		
+	content_type = camel_mime_parser_content_type(mp);
+	camel_multipart_set_boundary(multipart,
+				     header_content_type_param(content_type, "boundary"));
+	
+	while (camel_mime_parser_step(mp, &buf, &len) != HSCAN_MULTIPART_END) {
+		camel_mime_parser_unstep(mp);
+		bodypart = camel_mime_part_new();
+		camel_mime_part_construct_from_parser(bodypart, mp);
+		camel_multipart_add_part(multipart, bodypart);
+		camel_object_unref((CamelObject *)bodypart);
+	}
+	
+	/* these are only return valid data in the MULTIPART_END state */
+	camel_multipart_set_preface(multipart, camel_mime_parser_preface (mp));
+	camel_multipart_set_postface(multipart, camel_mime_parser_postface (mp));
+	
+	err = camel_mime_parser_errno(mp);
+	if (err != 0) {
+		errno = err;
+		return -1;
+	} else
+		return 0;
+}
+
+int
+camel_multipart_construct_from_parser(CamelMultipart *multipart, struct _CamelMimeParser *mp)
+{
+	g_return_val_if_fail(CAMEL_IS_MULTIPART(multipart), -1);
+
+	return CMP_CLASS(multipart)->construct_from_parser(multipart, mp);
 }

@@ -51,6 +51,8 @@ typedef struct _CamelCipherContext {
 	CamelObject parent_object;
 	
 	struct _CamelCipherContextPrivate *priv;
+
+	const char *protocol;		/* this MUST be set by implementors */
 	
 	CamelSession *session;
 	
@@ -75,6 +77,9 @@ typedef struct _CamelCipherContextClass {
 	
 	int                   (*decrypt)   (CamelCipherContext *context, CamelStream *istream, CamelStream *ostream,
 					    CamelException *ex);
+	
+	CamelCipherHash	      (*id_to_hash)(CamelCipherContext *context, const char *id);
+	const char *	      (*hash_to_id)(CamelCipherContext *context, CamelCipherHash hash);
 	
 } CamelCipherContextClass;
 
@@ -101,6 +106,10 @@ int                  camel_cipher_encrypt (CamelCipherContext *context, gboolean
 
 int                  camel_cipher_decrypt (CamelCipherContext *context, CamelStream *istream, CamelStream *ostream,
 					   CamelException *ex);
+
+/* cipher context util routines */
+CamelCipherHash	     camel_cipher_id_to_hash(CamelCipherContext *context, const char *id);
+const char *	     camel_cipher_hash_to_id(CamelCipherContext *context, CamelCipherHash hash);
 
 /* CamelCipherValidity utility functions */
 CamelCipherValidity *camel_cipher_validity_new (void);

@@ -1681,8 +1681,8 @@ tail_recurse:
 		if ( (content = header_raw_find(&h->headers, "Content-Type", NULL))
 		     && (ct = header_content_type_decode(content))) {
 			if (!strcasecmp(ct->type, "multipart")) {
-				bound = header_content_type_param(ct, "boundary");
-				if (bound) {
+				if (!header_content_type_is(ct, "multipart", "signed")
+				    && (bound = header_content_type_param(ct, "boundary"))) {
 					d(printf("multipart, boundary = %s\n", bound));
 					h->boundarylen = strlen(bound)+2;
 					h->boundarylenfinal = h->boundarylen+2;
@@ -1690,11 +1690,11 @@ tail_recurse:
 					sprintf(h->boundary, "--%s--", bound);
 					type = HSCAN_MULTIPART;
 				} else {
-					header_content_type_unref(ct);
-					ct = header_content_type_decode("text/plain");
+					/*header_content_type_unref(ct);
+					  ct = header_content_type_decode("text/plain");*/
 /* We can't quite do this, as it will mess up all the offsets ... */
 /*					header_raw_replace(&h->headers, "Content-Type", "text/plain", offset);*/
-					g_warning("Multipart with no boundary, treating as text/plain");
+					/*g_warning("Multipart with no boundary, treating as text/plain");*/
 				}
 			} else if (!strcasecmp(ct->type, "message")) {
 				if (!strcasecmp(ct->subtype, "rfc822")

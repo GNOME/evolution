@@ -59,8 +59,7 @@ CamelType camel_seekable_substream_get_type (void);
 
 /* obtain a new seekable substream */
 CamelStream *
-camel_seekable_substream_new_with_seekable_stream_and_bounds (CamelSeekableStream    *parent_stream,
-							      off_t start, off_t end);
+camel_seekable_substream_new(CamelSeekableStream *parent_stream, off_t start, off_t end);
 
 #ifdef __cplusplus
 }

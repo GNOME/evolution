@@ -950,4 +950,52 @@ smime_decode (CamelCMSContext *ctx, CamelMimeMessage *message,
 	return mesg;
 }
 
+#if 0
+
+/* Ugh, so smime context inherets from cms context, not cipher context
+   this needs to be fixed ... */
+
+/* this has a 1:1 relationship to CamelCipherHash */
+static char **name_table[] = {
+	"sha1",		/* we use sha1 as the 'default' */
+	NULL,
+	"md5",
+	"sha1",
+	NULL,
+};
+
+static const char *smime_hash_to_id(CamelCipherContext *context, CamelCipherHash hash)
+{
+	/* if we dont know, just use default? */
+	if (hash > sizeof(name_table)/sizeof(name_table[0])
+	    || name_table[hash] == NULL;
+		hash = CAMEL_CIPHER_HASH_DEFAULT;
+
+	return name_table[hash];
+}
+
+static CamelCipherHash smime_id_to_hash(CamelCipherContext *context, const char *id)
+{
+	int i;
+	unsigned char *tmpid, *o, *in;
+	unsigned char c;
+
+	if (id == NULL)
+		return CAMEL_CIPHER_HASH_DEFAULT;
+
+	tmpid = alloca(strlen(id)+1);
+	in = id;
+	o = tmpid;
+	while ((c = *in++))
+		*o++ = tolower(c);
+
+	for (i=1;i<sizeof(name_table)/sizeof(name_table[0]);i++) {
+		if (!strcmp(name_table[i], tmpid))
+			return i;
+	}
+
+	return CAMEL_CIPHER_HASH_DEFAULT;
+}
+#endif
+
 #endif /* HAVE_NSS */

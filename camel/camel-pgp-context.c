@@ -43,6 +43,8 @@
 #include <sys/types.h>
 #include <dirent.h>
 
+#include <ctype.h>
+
 #include <signal.h>
 #include <sys/ioctl.h>
 #include <sys/time.h>
@@ -50,6 +52,8 @@
 #include <sys/wait.h>
 #include <termios.h>
 #include <unistd.h>
+
+#include <ctype.h>
 
 #include <iconv.h>
 #include <gal/unicode/gunicode.h>
@@ -76,12 +80,19 @@ static int                  pgp_encrypt (CamelCipherContext *context, gboolean s
 static int                  pgp_decrypt (CamelCipherContext *context, CamelStream *istream,
 					 CamelStream *ostream, CamelException *ex);
 
+static const char *pgp_hash_to_id(CamelCipherContext *context, CamelCipherHash hash);
+static CamelCipherHash pgp_id_to_hash(CamelCipherContext *context, const char *id);
+
 static CamelCipherContextClass *parent_class;
 
 static void
 camel_pgp_context_init (CamelPgpContext *context)
 {
+	CamelCipherContext *ciph = (CamelCipherContext *)context;
+
 	context->priv = g_new0 (struct _CamelPgpContextPrivate, 1);
+
+	ciph->protocol = "application/pgp-encrypted";
 }
 
 static void
@@ -107,6 +118,8 @@ camel_pgp_context_class_init (CamelPgpContextClass *camel_pgp_context_class)
 	camel_cipher_context_class->verify = pgp_verify;
 	camel_cipher_context_class->encrypt = pgp_encrypt;
 	camel_cipher_context_class->decrypt = pgp_decrypt;
+	camel_cipher_context_class->hash_to_id = pgp_hash_to_id;
+	camel_cipher_context_class->id_to_hash = pgp_id_to_hash;
 }
 
 CamelType
@@ -1475,4 +1488,46 @@ pgp_decrypt (CamelCipherContext *ctx, CamelStream *istream,
 	}
 	
 	return -1;
+}
+
+/* this has a 1:1 relationship to CamelCipherHash */
+static char *name_table[] = {
+	"pgp-sha1",		/* we use sha1 as the 'default' */
+	"pgp-md2",
+	"pgp-md5",
+	"pgp-sha1",
+	"pgp-ripemd160",
+};
+
+static const char *pgp_hash_to_id(CamelCipherContext *context, CamelCipherHash hash)
+{
+	/* if we dont know, just use default? */
+	if (hash > sizeof(name_table)/sizeof(name_table[0]))
+		hash = CAMEL_CIPHER_HASH_DEFAULT;
+
+	return name_table[hash];
+}
+
+static CamelCipherHash pgp_id_to_hash(CamelCipherContext *context, const char *id)
+{
+	int i;
+	unsigned char *tmpid, *o;
+	const char *in;
+	unsigned char c;
+
+	if (id == NULL)
+		return CAMEL_CIPHER_HASH_DEFAULT;
+
+	tmpid = alloca(strlen(id)+1);
+	in = id;
+	o = tmpid;
+	while ((c = (unsigned char)*in++))
+		*o++ = tolower(c);
+
+	for (i=1;i<sizeof(name_table)/sizeof(name_table[0]);i++) {
+		if (!strcmp(name_table[i], tmpid))
+			return i;
+	}
+
+	return CAMEL_CIPHER_HASH_DEFAULT;
 }

@@ -1,3 +1,58 @@
+2002-05-30  Not Zed  <NotZed@Ximian.com>
+
+	* camel-cipher-context.h: Added a protocol field for users to use.
+
+	* camel-stream-filter.c (do_read): Sigh, the pre-size is READ_PAD
+	not READ_SIZE.  Big difference.
+	(READ_PAD): Bumped upto 128 from 64, so we can fit a typical line
+	in full.
+
+	* providers/imap/camel-imap-folder.c (get_content): Changed to
+	load multipart/signed as an opaque block into the right kind of
+	object.
+
+	* camel-multipart.h (struct _CamelMultipart): Removed the boundary
+	field.  It wans't actually used anywhere.
+
+	* camel-seekable-substream.c
+	(camel_seekable_substream_new_with_seekable_stream_and_bounds):
+	Shortened this stupidly long name to just :new(), its the only way
+	its ever used.  Fixed all callers.
+
+	* camel-multipart-signed.[ch]: new wrapper for multipart/signed
+	types.  We need to treat the entire content as a blob of data for
+	transport purposes.  This also cleans up a lot of the sign/verify
+	handling.
+
+	* camel-mime-part-utils.c
+	(camel_mime_part_construct_content_from_parser): Just call
+	camel_multipart_construct_from_parser for multipart parts, also
+	use a multipart_signed for multipart/signed types.
+
+	* camel-multipart.c (camel_multipart_construct_from_parser): New
+	virtual function for multiparts to buld themselves.
+	(construct_from_parser): Implement for normal multiparts.
+	(toplevel): Got rid of a warning, it'll never be an abstract
+	class.
+
+	* camel-pgp-context.c (pgp_hash_to_id): 
+	(pgp_id_to_hash): Implement.
+	(camel_pgp_context_init): Init the pgp protocol specifier.
+
+	* camel-cipher-context.c (camel_cipher_id_to_hash): 
+	(camel_cipher_hash_to_id): Util virtual methods to handle the
+	cipher id string.
+
+	* camel-mime-filter-canon.[ch]: A new filter, end/start of line
+	canonicalisation filter.  Can escape "From " and strip trailing
+	whitespace, and canonicalise the end of line to crlf or to lf.
+
+2002-05-29  Not Zed  <NotZed@Ximian.com>
+
+	* camel-multipart.h (struct _CamelMultipart): Removed the
+	'parent', nothing used it, anywhere.  Cleaned up some formatting
+	slightly.
+
 2002-05-30  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-store.c (camel_imap_store_readline):

@@ -25,6 +25,10 @@
 #define d(x)
 /*#include <stdio.h>*/
 
+/* use my malloc debugger? */
+/*extern void g_check(void *mp);*/
+#define g_check(x)
+
 struct _filter {
 	struct _filter *next;
 	int id;
@@ -44,7 +48,7 @@ struct _CamelStreamFilterPrivate {
 	int last_was_read;	/* was the last op read or write? */
 };
 
-#define READ_PAD (64)		/* bytes padded before buffer */
+#define READ_PAD (128)		/* bytes padded before buffer */
 #define READ_SIZE (4096)
 
 #define _PRIVATE(o) (((CamelStreamFilter *)(o))->priv)
@@ -211,8 +215,10 @@ do_read (CamelStream *stream, char *buffer, size_t n)
 
 	p->last_was_read = TRUE;
 
+	g_check(p->realbuffer);
+
 	if (p->filteredlen<=0) {
-		int presize = READ_SIZE;
+		int presize = READ_PAD;
 
 		size = camel_stream_read(filter->source, p->buffer, READ_SIZE);
 		if (size <= 0) {
@@ -224,6 +230,7 @@ do_read (CamelStream *stream, char *buffer, size_t n)
 				while (f) {
 					camel_mime_filter_complete(f->filter, p->filtered, p->filteredlen,
 								   presize, &p->filtered, &p->filteredlen, &presize);
+					g_check(p->realbuffer);
 					f = f->next;
 				}
 				size = p->filteredlen;
@@ -242,6 +249,7 @@ do_read (CamelStream *stream, char *buffer, size_t n)
 			while (f) {
 				camel_mime_filter_filter(f->filter, p->filtered, p->filteredlen, presize,
 							 &p->filtered, &p->filteredlen, &presize);
+				g_check(p->realbuffer);
 
 				d(printf ("Filtered content (%s): '",
 					  camel_type_to_name(((CamelObject *)f->filter)->s.type)));
@@ -257,6 +265,8 @@ do_read (CamelStream *stream, char *buffer, size_t n)
 	memcpy(buffer, p->filtered, size);
 	p->filteredlen -= size;
 	p->filtered += size;
+
+	g_check(p->realbuffer);
 
 	return size;
 }
@@ -280,10 +290,14 @@ do_write (CamelStream *stream, const char *buf, size_t n)
 	d(fwrite(buffer, sizeof(char), len, stdout));
 	d(printf("'\n"));
 
+	g_check(p->realbuffer);
+
 	f = p->filters;
 	presize = 0;
 	while (f) {
 		camel_mime_filter_filter(f->filter, buffer, len, presize, &buffer, &len, &presize);
+
+		g_check(p->realbuffer);
 
 		d(printf ("Filtered content (%s): '",
 			  camel_type_to_name(((CamelObject *)f->filter)->s.type)));
@@ -295,6 +309,8 @@ do_write (CamelStream *stream, const char *buf, size_t n)
 
 	if (camel_stream_write(filter->source, buffer, len) != len)
 		return -1;
+
+	g_check(p->realbuffer);
 
 	return n;
 }

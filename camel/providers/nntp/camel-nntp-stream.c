@@ -457,6 +457,6 @@ int camel_nntp_stream_getd(CamelNNTPStream *is, unsigned char **start, unsigned 
 	*start = s;
 
 	dd(printf("NNTP_STREAM_GETD(%s,%d): '%.*s'\n", "more", *len, (int)*len, *start));
-
 	return 1;
 }
+

@@ -51,7 +51,7 @@ struct _CamelMessageContentInfo {
 	struct _header_content_type *type;
 	char *id;
 	char *description;
-	char *encoding;
+	char *encoding;		/* this should be an enum?? */
 	guint32 size;
 };
 

@@ -50,13 +50,13 @@ int main(int argc, char **argv)
 		check(ss != NULL);
 		for (i=0;i<ARRAY_LEN(ranges);i++) {
 			push("stream subrange %d-%d", ranges[i].lower, ranges[i].upper);
-			sus = (CamelSeekableSubstream *)camel_seekable_substream_new_with_seekable_stream_and_bounds(ss, ranges[i].lower, ranges[i].upper);
+			sus = (CamelSeekableSubstream *)camel_seekable_substream_new(ss, ranges[i].lower, ranges[i].upper);
 			check(sus != NULL);
 			
 			test_seekable_substream_writepart((CamelStream *)sus, j);
 			test_seekable_substream_readpart((CamelStream *)sus);
 			
-			sus2 = (CamelSeekableSubstream *)camel_seekable_substream_new_with_seekable_stream_and_bounds(ss, ranges[i].lower, ranges[i].upper);
+			sus2 = (CamelSeekableSubstream *)camel_seekable_substream_new(ss, ranges[i].lower, ranges[i].upper);
 			check(sus2 != NULL);
 			test_seekable_substream_readpart((CamelStream *)sus2);
 			
@@ -79,13 +79,13 @@ int main(int argc, char **argv)
 		check(ss != NULL);
 		for (i=0;i<ARRAY_LEN(ranges);i++) {
 			push("stream subrange %d-%d", ranges[i].lower, ranges[i].upper);
-			sus = (CamelSeekableSubstream *)camel_seekable_substream_new_with_seekable_stream_and_bounds(ss, ranges[i].lower, ranges[i].upper);
+			sus = (CamelSeekableSubstream *)camel_seekable_substream_new(ss, ranges[i].lower, ranges[i].upper);
 			check(sus != NULL);
 
 			test_seekable_substream_writepart((CamelStream *)sus, j);
 			test_seekable_substream_readpart((CamelStream *)sus);
 
-			sus2 = (CamelSeekableSubstream *)camel_seekable_substream_new_with_seekable_stream_and_bounds(ss, ranges[i].lower, ranges[i].upper);
+			sus2 = (CamelSeekableSubstream *)camel_seekable_substream_new(ss, ranges[i].lower, ranges[i].upper);
 			check(sus2 != NULL);
 			test_seekable_substream_readpart((CamelStream *)sus2);
 			
