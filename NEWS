@@ -26,6 +26,11 @@ Mailer:
 
   - Fixed the update-IMAP-unread-counts bug.  (Jeff)
 
+  - Show messages in the user's preferred charset if the message
+    itself doesn't contain charset information or if the message
+    charset is wrong (ie the system can't convert the text to utf-8).
+    (Jeff)
+
   - Many backend fixes that users won't notice.  (Michael, Jeff, Dan)
 
 Version 0.14 (Beta 4), 2001-09-21
