@@ -1,3 +1,10 @@
+2003-12-22  Rodney Dawes  <dobey@ximian.com>
+
+	Fix for bug #46349
+	
+	* e-combo-button.c: Use the appropriate style painting for a
+	button widget, since we are a button
+
 2003-12-18  Harry Lu  <harry.lu@sun.com>
 
 	* e-cell-date-edit.c: (e_cell_date_edit_do_popup): call

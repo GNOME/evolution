@@ -137,51 +137,83 @@ paint (EComboButton *combo_button,
        GdkRectangle *area)
 {
 	EComboButtonPrivate *priv = combo_button->priv;
+	GtkWidget *widget = GTK_WIDGET (combo_button);
 	GtkShadowType shadow_type;
+	gboolean interior_focus;
 	int separator_x;
+	int focus_width, focus_pad;
+	int x, y, width, height;
+	int border_width;
 
-	gdk_window_set_back_pixmap (GTK_WIDGET (combo_button)->window, NULL, TRUE);
-	gdk_window_clear_area (GTK_WIDGET (combo_button)->window,
-			       area->x, area->y,
-			       area->width, area->height);
+	if (GTK_WIDGET_STATE (widget) == GTK_STATE_ACTIVE)
+		shadow_type = GTK_SHADOW_IN;
+	else if (GTK_BUTTON (widget)->relief == GTK_RELIEF_NONE
+		 && GTK_WIDGET_STATE (widget) != GTK_STATE_PRELIGHT)
+		shadow_type = GTK_SHADOW_NONE;
+	else
+		shadow_type = GTK_SHADOW_OUT;
 
-	/* Only paint the outline if we are in prelight state.  */
-	if (GTK_WIDGET_STATE (combo_button) != GTK_STATE_PRELIGHT
-	    && GTK_WIDGET_STATE (combo_button) != GTK_STATE_ACTIVE)
-		return;
+	border_width = GTK_CONTAINER (widget)->border_width;
+
+	x = widget->allocation.x + border_width;
+	y = widget->allocation.y + border_width;
+	width = widget->allocation.width - border_width * 2;
+	height = widget->allocation.height - border_width * 2;
 
 	separator_x = (priv->label->allocation.width
 		       + priv->label->allocation.x
 		       + priv->arrow_pixmap->allocation.x) / 2;
 
-	if (GTK_WIDGET_STATE (combo_button) == GTK_STATE_ACTIVE)
-		shadow_type = GTK_SHADOW_IN;
-	else
-		shadow_type = GTK_SHADOW_OUT;
+	gtk_widget_style_get (GTK_WIDGET (widget),
+			      "focus-line-width", &focus_width,
+			      "focus-padding", &focus_pad,
+			      "interior-focus", &interior_focus,
+			      NULL); 
 
-	gtk_paint_box (GTK_WIDGET (combo_button)->style,
-		       GTK_WIDGET (combo_button)->window,
-		       GTK_STATE_PRELIGHT,
-		       shadow_type,
-		       area,
-		       GTK_WIDGET (combo_button),
-		       "button",
-		       0,
-		       0,
-		       separator_x,
-		       GTK_WIDGET (combo_button)->allocation.height);
+	if (GTK_WIDGET_HAS_DEFAULT (widget)
+	    && GTK_BUTTON (widget)->relief == GTK_RELIEF_NORMAL)
+		gtk_paint_box (widget->style, widget->window,
+			       GTK_STATE_NORMAL, GTK_SHADOW_IN,
+			       area, widget, "buttondefault",
+			       x, y, width, height);
 
-	gtk_paint_box (GTK_WIDGET (combo_button)->style,
-		       GTK_WIDGET (combo_button)->window,
-		       GTK_STATE_PRELIGHT,
-		       shadow_type,
-		       area,
-		       GTK_WIDGET (combo_button),
-		       "button",
-		       separator_x,
-		       0,
-		       GTK_WIDGET (combo_button)->allocation.width - separator_x,
-		       GTK_WIDGET (combo_button)->allocation.height);
+	if (!interior_focus && GTK_WIDGET_HAS_FOCUS (widget)) {
+		x += focus_width + focus_pad;
+		y += focus_width + focus_pad;
+		width -= 2 * (focus_width + focus_pad);
+		height -= 2 * (focus_width + focus_pad);
+	}
+
+	if (GTK_WIDGET_STATE (widget) != GTK_STATE_ACTIVE
+	    || GTK_BUTTON (widget)->depressed) {
+		gtk_paint_box (widget->style, widget->window,
+			       GTK_WIDGET_STATE (widget), shadow_type,
+			       area, widget, "button",
+			       x, y, separator_x, height);
+		gtk_paint_box (widget->style, widget->window,
+			       GTK_WIDGET_STATE (widget), shadow_type,
+			       area, widget, "button",
+			       separator_x, y, width - separator_x, height);
+	}
+
+	if (GTK_WIDGET_HAS_FOCUS (widget)) {
+		if (interior_focus) {
+			x += widget->style->xthickness + focus_pad;
+			y += widget->style->ythickness + focus_pad;
+			width -= 2 * (widget->style->xthickness + focus_pad);
+			height -=  2 * (widget->style->xthickness + focus_pad);
+		} else {
+			x -= focus_width + focus_pad;
+			y -= focus_width + focus_pad;
+			width += 2 * (focus_width + focus_pad);
+			height += 2 * (focus_width + focus_pad);
+		}
+
+		gtk_paint_focus (widget->style, widget->window,
+				 GTK_WIDGET_STATE (widget),
+				 area, widget, "button",
+				 x, y, width, height);
+	}
 }
 
 
