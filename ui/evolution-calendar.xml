@@ -3,6 +3,7 @@
     <cmd name="CalendarNewAppointment" _tip="Create a new appointment"
 	 accel="*Control*n"/>
     <cmd name="CalendarNewEvent" _tip="Create an event for the whole day"/>
+    <cmd name="CalendarNewTask" _tip="Create a new task"/>
 
     <cmd name="CalendarPrint" _tip="Print this calendar" pixtype="pixbuf" 
 	 accel="*Control*p"/>
@@ -15,7 +16,7 @@
     <cmd name="CalendarGoto" _tip="Go to a specific date"/>
 
     <cmd name="ShowDayView" _tip="Show one day" pixtype="pixbuf"/>
-    <cmd name="ShowWorkWeekView" _tip="Show work week" pixtype="pixbuf"/>
+    <cmd name="ShowWorkWeekView" _tip="Show the working week" pixtype="pixbuf"/>
     <cmd name="ShowWeekView" _tip="Show one week" pixtype="pixbuf"/>
     <cmd name="ShowMonthView" _tip="Show one month" pixtype="pixbuf"/>
 
