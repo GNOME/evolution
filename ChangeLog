@@ -1,5 +1,11 @@
 2003-12-29  JP Rosevear <jpr@ximian.com>
 
+	* configure.in: default_user is gone
+
+	* Makefile.am: ditto
+
+2003-12-29  JP Rosevear <jpr@ximian.com>
+
 	* configure.in: bump version and gal, e-d-s and gtkhtml
 	requirements
 

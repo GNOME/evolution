@@ -45,7 +45,6 @@ SUBDIRS = 			\
 	composer		\
 	mail			\
 	ui			\
-        default_user            \
 	views			\
 	tools			\
 	help			\
