@@ -330,8 +330,6 @@ cal_prefs_dialog_use_24_hour_toggled	(GtkWidget	*button,
 
 	priv = prefs->priv;
 
-	g_print ("In cal_prefs_dialog_use_24_hour_toggled\n");
-
 	use_24_hour = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->use_24_hour));
 
 	e_date_edit_set_use_24_hour_format (E_DATE_EDIT (priv->start_of_day),

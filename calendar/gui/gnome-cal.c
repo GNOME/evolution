@@ -24,6 +24,7 @@
 #include "e-week-view.h"
 #include "event-editor.h"
 #include "gnome-cal.h"
+#include "component-factory.h"
 #include "calendar-commands.h"
 #include "calendar-config.h"
 
@@ -197,6 +198,7 @@ setup_widgets (GnomeCalendar *gcal)
 {
 	GnomeCalendarPrivate *priv;
 	GtkWidget *w;
+	gchar *filename;
 
 	priv = gcal->priv;
 
@@ -244,6 +246,10 @@ setup_widgets (GnomeCalendar *gcal)
 	priv->todo = e_calendar_table_new ();
 	e_paned_pack2 (E_PANED (priv->vpane), priv->todo, TRUE, TRUE);
 	gtk_widget_show (priv->todo);
+
+	filename = g_strdup_printf ("%s/config/TaskPad", evolution_dir);
+	e_calendar_table_load_state (E_CALENDAR_TABLE (priv->todo), filename);
+	g_free (filename);
 
 	/* The Day View. */
 	priv->day_view = e_day_view_new ();
@@ -337,12 +343,18 @@ gnome_calendar_destroy (GtkObject *object)
 {
 	GnomeCalendar *gcal;
 	GnomeCalendarPrivate *priv;
+	gchar *filename;
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (object));
 
 	gcal = GNOME_CALENDAR (object);
 	priv = gcal->priv;
+
+	/* Save the TaskPad layout. */
+	filename = g_strdup_printf ("%s/config/TaskPad", evolution_dir);
+	e_calendar_table_save_state (E_CALENDAR_TABLE (priv->todo), filename);
+	g_free (filename);
 
 	priv->load_state = LOAD_STATE_NOT_LOADED;
 
@@ -603,6 +615,8 @@ gnome_calendar_set_view_internal	(GnomeCalendar	*gcal,
 
 	priv->current_view_type = view;
 	priv->range_selected = range_selected;
+
+	calendar_config_set_default_view (view);
 
 	gtk_notebook_set_page (GTK_NOTEBOOK (priv->notebook), view);
 
@@ -1280,6 +1294,8 @@ GtkWidget *
 gnome_calendar_construct (GnomeCalendar *gcal)
 {
 	GnomeCalendarPrivate *priv;
+	gint view;
+	gchar *page;
 
 	g_return_val_if_fail (gcal != NULL, NULL);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
@@ -1304,7 +1320,23 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 	e_week_view_set_cal_client (E_WEEK_VIEW (priv->week_view), priv->client);
 	e_week_view_set_cal_client (E_WEEK_VIEW (priv->month_view), priv->client);
 
-	gnome_calendar_set_view (gcal, "dayview", FALSE, FALSE);
+	view = calendar_config_get_default_view ();
+	switch (view) {
+	case 1:
+		page = "workweekview";
+		break;
+	case 2:
+		page = "weekview";
+		break;
+	case 3:
+		page = "monthview";
+		break;
+	default:
+		page = "dayview";
+		break;
+	}
+
+	gnome_calendar_set_view (gcal, page, FALSE, FALSE);
 
 	return GTK_WIDGET (gcal);
 }

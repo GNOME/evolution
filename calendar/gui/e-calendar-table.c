@@ -28,6 +28,8 @@
  */
 
 #include <config.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #include <gnome.h>
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/e-table/e-cell-checkbox.h>
@@ -220,7 +222,9 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 	/* Create the table */
 
-	table = e_table_scrolled_new (model, extras, E_CALENDAR_TABLE_SPEC, NULL);
+	table = e_table_scrolled_new (model, extras, E_CALENDAR_TABLE_SPEC,
+				      NULL);
+	cal_table->etable = table;
 	gtk_table_attach (GTK_TABLE (cal_table), table, 0, 1, 0, 1,
 			  GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
 	gtk_widget_show (table);
@@ -272,8 +276,6 @@ void
 e_calendar_table_set_cal_client (ECalendarTable *cal_table,
 				 CalClient	*client)
 {
-	g_print ("In e_calendar_table_set_cal_client\n");
-
 	calendar_model_set_cal_client (cal_table->model, client,
 				       CALOBJ_TYPE_TODO);
 }
@@ -284,8 +286,6 @@ e_calendar_table_on_double_click (ETable *table,
 				  gint row,
 				  ECalendarTable *cal_table)
 {
-	g_print ("In e_calendar_table_on_double_click row:%i\n", row);
-
 	e_calendar_table_open_task (cal_table, row);
 }
 
@@ -375,11 +375,7 @@ e_calendar_table_on_key_press (ETable *table,
 			       GdkEventKey *event,
 			       ECalendarTable *cal_table)
 {
-	g_print ("In e_calendar_table_on_key_press\n");
-
 	if (event->keyval == GDK_Delete) {
-		g_print ("  delete key!!!\n");
-
 		calendar_model_delete_task (cal_table->model, row);
 	}
 
@@ -402,3 +398,30 @@ e_calendar_table_open_task (ECalendarTable *cal_table,
 }
 
 
+/* Loads the state of the table (headers shown etc.) from the given file. */
+void
+e_calendar_table_load_state	(ECalendarTable *cal_table,
+				 gchar		*filename)
+{
+	struct stat st;
+
+	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
+
+	if (stat (filename, &st) == 0 && st.st_size > 0
+	    && S_ISREG (st.st_mode)) {
+		e_table_scrolled_load_state (E_TABLE_SCROLLED (cal_table->etable), filename);
+	}
+}
+
+
+/* Saves the state of the table (headers shown etc.) to the given file. */
+void
+e_calendar_table_save_state (ECalendarTable	*cal_table,
+			     gchar		*filename)
+{
+
+	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
+
+	e_table_scrolled_save_state (E_TABLE_SCROLLED (cal_table->etable),
+				     filename);
+}

@@ -43,6 +43,7 @@ typedef struct
 	gint		day_end_minute;
 	gint		time_divisions;
 	gboolean	dnav_show_week_no;
+	gint		view;
 	gfloat		hpane_pos;
 	gfloat		vpane_pos;
 	gfloat		month_hpane_pos;
@@ -93,6 +94,7 @@ config_read				(void)
 	config->day_end_hour = gnome_config_get_int ("DayEndHour=17");
 	config->day_end_minute = gnome_config_get_int ("DayEndMinute=0");
 	config->time_divisions = gnome_config_get_int ("TimeDivisions=30");
+	config->view = gnome_config_get_int ("View=0");
 	config->hpane_pos = gnome_config_get_float ("HPanePosition=1");
 	config->vpane_pos = gnome_config_get_float ("VPanePosition=1");
 	config->month_hpane_pos = gnome_config_get_float ("MonthHPanePosition=0");
@@ -168,6 +170,7 @@ calendar_config_write_on_exit		(void)
 	gnome_config_push_prefix (prefix);
 	g_free (prefix);
 
+	gnome_config_set_int ("View", config->view);
 	gnome_config_set_int ("TimeDivisions", config->time_divisions);
 	gnome_config_set_float ("HPanePosition", config->hpane_pos);
 	gnome_config_set_float ("VPanePosition", config->vpane_pos);
@@ -299,6 +302,21 @@ void
 calendar_config_set_dnav_show_week_no	(gboolean     show_week_no)
 {
 	config->dnav_show_week_no = show_week_no;
+}
+
+
+/* The view to show on start-up, 0 = Day, 1 = WorkWeek, 2 = Week, 3 = Month. */
+gint
+calendar_config_get_default_view	(void)
+{
+	return config->view;
+}
+
+
+void
+calendar_config_set_default_view	(gint	      view)
+{
+	config->view = view;
 }
 
 

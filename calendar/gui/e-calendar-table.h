@@ -59,6 +59,7 @@ struct _ECalendarTable
 
 	CalendarModel *model;
 	
+	GtkWidget *etable;
 	
 	/* Colors for drawing. */
 	GdkColor colors[E_CALENDAR_TABLE_COLOR_LAST];
@@ -77,6 +78,12 @@ GtkWidget* e_calendar_table_new			(void);
 void	   e_calendar_table_set_cal_client	(ECalendarTable *cal_table,
 						 CalClient	*client);
 
+/* These load and save the state of the table (headers shown etc.) to/from
+   the given file. */
+void	   e_calendar_table_load_state		(ECalendarTable *cal_table,
+						 gchar		*filename);
+void	   e_calendar_table_save_state		(ECalendarTable *cal_table,
+						 gchar		*filename);
 
 #ifdef __cplusplus
 }

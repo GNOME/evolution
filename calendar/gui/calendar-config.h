@@ -96,6 +96,10 @@ void	  calendar_config_set_compress_weekend	(gboolean     compress);
 gboolean  calendar_config_get_dnav_show_week_no	(void);
 void	  calendar_config_set_dnav_show_week_no	(gboolean     show_week_no);
 
+/* The view to show on start-up, 0 = Day, 1 = WorkWeek, 2 = Week, 3 = Month. */
+gint	  calendar_config_get_default_view	(void);
+void	  calendar_config_set_default_view	(gint	      view);
+
 /* The positions of the panes in the normal and month views. */
 gfloat    calendar_config_get_hpane_pos		(void);
 void	  calendar_config_set_hpane_pos		(gfloat	      hpane_pos);

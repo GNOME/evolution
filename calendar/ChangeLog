@@ -1,3 +1,22 @@
+2000-10-21  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/dialogs/cal-prefs-dialog.c (cal_prefs_dialog_use_24_hour_toggled): removed debug message.
+
+	* gui/e-calendar-table.c (e_calendar_table_save_state): new function
+	to save the state of the table to a given file.
+
+	* gui/e-calendar-table.h (struct _ECalendarTable): added etable field
+	so we can access it to save the state.
+
+	* gui/gnome-cal.c (gnome_calendar_destroy): call
+	e_calendar_table_save_state() to save the state of the TaskPad.
+	(setup_widgets): load the state of the TaskPad.
+
+	* gui/calendar-config.c: added support for the default view.
+
+	* gui/gnome-cal.c (gnome_calendar_construct): 
+	(gnome_calendar_set_view_internal): use/set the default view setting.
+
 2000-10-20  Jesse Pavel <jpavel@helixcode.com>
 
 	* gui/e-meeting-editor.c: added more (working) integration with the
