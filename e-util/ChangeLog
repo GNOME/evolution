@@ -1,3 +1,7 @@
+2002-04-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-sexp.c (parse_value): Handle parsing negative integers.
+
 2002-03-29  JP Rosevear  <jpr@ximian.com>
 
 	* e-dialog-utils.c (e_file_dialog_save): open a file selection
