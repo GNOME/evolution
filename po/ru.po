@@ -1,3 +1,4 @@
+# translation of ru.po to
 # translation of ru.po to Russian
 # Copyright (C) 2000,2002,2003, 2004 Free Software Foundation, Inc.
 # Valek Filippov <frob@df.ru>, 2000.
@@ -9,16 +10,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "POT-Creation-Date: 2004-08-02 15:35-0400\n"
-"PO-Revision-Date: 2004-07-13 16:22+0300\n"
+"PO-Revision-Date: 2004-08-10 19:50+0300\n"
 "Last-Translator: Leonid Kanter <leon@asplinux.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.3.1\n"
-"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: a11y/addressbook/ea-addressbook-view.c:94
 #: a11y/addressbook/ea-addressbook-view.c:103
@@ -56,9 +55,8 @@ msgstr "миникарточка evolution"
 
 #. addressbook:ldap-init primary
 #: addressbook/addressbook-errors.xml.h:2
-#, fuzzy
 msgid "This addressbook could not be opened."
-msgstr "Элемент не может быть послан!\n"
+msgstr "Эта  адресная книга не может быть открыта."
 
 #. addressbook:ldap-init secondary
 #: addressbook/addressbook-errors.xml.h:4
@@ -69,12 +67,8 @@ msgstr ""
 
 #. addressbook:ldap-auth primary
 #: addressbook/addressbook-errors.xml.h:6
-#, fuzzy
 msgid "Failed to authenticate with LDAP server."
-msgstr ""
-"Сбой аутентификации на сервере IMAP.\n"
-"%s\n"
-"\n"
+msgstr "Сбой аутентификации на сервере LDAP."
 
 #. addressbook:ldap-auth secondary
 #: addressbook/addressbook-errors.xml.h:8
@@ -99,9 +93,8 @@ msgstr ""
 
 #. addressbook:ldap-v3-schema primary
 #: addressbook/addressbook-errors.xml.h:14
-#, fuzzy
 msgid "This server does not support LDAPv3 schema information."
-msgstr "Этот сервер не поддерживает информацию LDAPv3 schema"
+msgstr "Этот сервер не поддерживает информацию LDAPv3 schema."
 
 #. addressbook:ldap-get-schema primary
 #: addressbook/addressbook-errors.xml.h:16
@@ -117,9 +110,8 @@ msgstr "Ответ сервера IMAP не содержит информаци�
 
 #. addressbook:remove-addressbook primary
 #: addressbook/addressbook-errors.xml.h:20
-#, fuzzy
 msgid "Could not remove addressbook."
-msgstr "Не удается загрузить адресную книгу"
+msgstr "Не удается удалить адресную книгу."
 
 #. addressbook:remove-addressbook secondary
 #: addressbook/addressbook-errors.xml.h:22
@@ -135,46 +127,41 @@ msgstr "{0}"
 
 #. addressbook:edit-categories primary
 #: addressbook/addressbook-errors.xml.h:24
-#, fuzzy
 msgid "Category editor not available."
-msgstr "Описание не доступно."
+msgstr "Редактор категорий недоступен."
 
 #. addressbook:generic-error secondary
 #: addressbook/addressbook-errors.xml.h:28
 #: composer/mail-composer-errors.xml.h:4 mail/mail-errors.xml.h:92
 msgid "{1}"
-msgstr ""
+msgstr "{1}"
 
 #. addressbook:load-error title
 #: addressbook/addressbook-errors.xml.h:30
-#, fuzzy
 msgid "Unable to open addressbook"
-msgstr "Сохранить в адресной книге"
+msgstr "Не удается открыть адресную книгу"
 
 #. addressbook:load-error primary
 #: addressbook/addressbook-errors.xml.h:32
-#, fuzzy
 msgid "Error loading addressbook."
-msgstr "Ошибка при загрузке адресной книги по умолчанию."
+msgstr "Ошибка загрузки адресной книги."
 
 #. addressbook:search-error primary
 #: addressbook/addressbook-errors.xml.h:36
-#, fuzzy
 msgid "Unable to perform search."
-msgstr "Не удается обработать папку спула"
+msgstr "Не удается произвести поиск."
 
 #. addressbook:prompt-save primary
 #: addressbook/addressbook-errors.xml.h:40
-#, fuzzy
 msgid "Would you like to save your changes?"
-msgstr "Хотите сохранить изменения?"
+msgstr "Сохранить изменения?"
 
 #. addressbook:prompt-save secondary
 #: addressbook/addressbook-errors.xml.h:42
 msgid ""
 "You have made modifications to this contact. Do you want to save these "
 "changes?"
-msgstr ""
+msgstr "Этот контакт содержит несохраненные изменения. Сохранить изменения?"
 
 #: addressbook/addressbook-errors.xml.h:43
 #: addressbook/gui/contact-editor/e-contact-editor.c:2803
@@ -184,46 +171,35 @@ msgstr "_Отклонить"
 
 #. addressbook:prompt-move primary
 #: addressbook/addressbook-errors.xml.h:45
-#, fuzzy
 msgid "Cannot move contact."
-msgstr "и %d другой контакт."
+msgstr "Не удается переместить контакт."
 
 #. addressbook:prompt-move secondary
 #: addressbook/addressbook-errors.xml.h:47
-#, fuzzy
 msgid ""
 "You are attempting to move a contact from one addressbook to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
-msgstr ""
-"Вы перемещаете контакт из одной адресной книги в другую, но он не может быть "
-"удален из источника. Сохранить копию контакта?"
+msgstr "Вы пытаетесь переместить контакт из одной адресной книги в другую, но он не может быть удален из источника. Сохранить копию контакта?"
 
 #. addressbook:save-error primary
 #: addressbook/addressbook-errors.xml.h:49
-#, fuzzy
 msgid "Unable to save contact(s)."
-msgstr "Не удается разобрать содержимое сообщения"
+msgstr "Не удается сохранить контакт(ы)."
 
 #. addressbook:save-error secondary
 #: addressbook/addressbook-errors.xml.h:51
-#, fuzzy
 msgid "Error saving contacts to {0}: {1}"
-msgstr "Ошибка добавления контакта"
+msgstr "Ошибка добавления контактов в {0}: {1}"
 
 #. addressbook:backend-died primary
 #: addressbook/addressbook-errors.xml.h:53
-#, fuzzy
 msgid "The Evolution addressbook has quit unexpectedly."
-msgstr "Evolution Addressbook address viewer"
+msgstr "Работа компонента адресной книги Evolution неожиданно завершилась."
 
 #. addressbook:backend-died secondary
 #: addressbook/addressbook-errors.xml.h:55
-#, fuzzy
-msgid ""
-"Your contacts for {0} will not be available until Evolution is restarted."
-msgstr ""
-"Если вы выйдете, эти сообщения не будут отправлены до повторного запуска "
-"Evolution."
+msgid "Your contacts for {0} will not be available until Evolution is restarted."
+msgstr "Ваши контакты для {0} не будут доступны до перезапуска Evolution."
 
 #: addressbook/conduit/address-conduit.c:298
 msgid "Default Sync Address:"
@@ -328,14 +304,12 @@ msgid "New Address Book"
 msgstr "Новая адресная книга"
 
 #: addressbook/gui/component/addressbook-component.c:110
-#, fuzzy
 msgid "Address _Book"
-msgstr "Адресная _книга:"
+msgstr "Адресная _книга"
 
 #: addressbook/gui/component/addressbook-component.c:111
-#, fuzzy
 msgid "Create a new address book"
-msgstr "Создать новую задачу"
+msgstr "Создать новую адресную книгу"
 
 #: addressbook/gui/component/addressbook-component.c:184
 msgid "Failed upgrading Addressbook settings or folders."
@@ -367,7 +341,7 @@ msgstr "На этом компьютере"
 #: filter/filter-label.c:123 mail/em-migrate.c:1013 mail/mail-config.c:78
 #: mail/mail-config.glade.h:109
 msgid "Personal"
-msgstr "Личный"
+msgstr "Личная"
 
 #. Create the LDAP source group
 #: addressbook/gui/component/addressbook-migrate.c:509
@@ -547,9 +521,8 @@ msgid "<b>Type:</b>"
 msgstr "<b>Тип:</b>"
 
 #: addressbook/gui/component/ldap-config.glade.h:13
-#, fuzzy
 msgid "Add Address Book"
-msgstr "Адресная книга"
+msgstr "Добавить адресную книгу"
 
 #: addressbook/gui/component/ldap-config.glade.h:14
 msgid "Address Book Properties"
@@ -582,8 +555,7 @@ msgid "Email address"
 msgstr "Электронная почта"
 
 #: addressbook/gui/component/ldap-config.glade.h:21
-msgid ""
-"Evolution will use this email address to authenticate you with the server."
+msgid "Evolution will use this email address to authenticate you with the server."
 msgstr "Этот адрес будет использоваться для идентификации вас на сервере."
 
 #: addressbook/gui/component/ldap-config.glade.h:22
@@ -597,9 +569,8 @@ msgid "General"
 msgstr "Общие"
 
 #: addressbook/gui/component/ldap-config.glade.h:24
-#, fuzzy
 msgid "Lo_gin:"
-msgstr "Регистрация"
+msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:25 mail/mail-account-gui.c:81
 #: mail/mail-config.glade.h:102
@@ -730,18 +701,16 @@ msgid "Whenever Possible"
 msgstr "Когда это возможно"
 
 #: addressbook/gui/component/ldap-config.glade.h:43
-#, fuzzy
 msgid "_Add Address Book"
-msgstr "_Добавить в адресную книгу"
+msgstr "_Добавить адресную книгу"
 
 #: addressbook/gui/component/ldap-config.glade.h:44
 msgid "_Download limit:"
 msgstr "Ограничение загрузки:"
 
 #: addressbook/gui/component/ldap-config.glade.h:45
-#, fuzzy
 msgid "_Find Possible Search Bases"
-msgstr "Поддерживаемые базы поиска"
+msgstr "_Найти поддерживаемые базы поиска"
 
 #: addressbook/gui/component/ldap-config.glade.h:46
 msgid "_Log in method:"
@@ -757,9 +726,8 @@ msgid "_Port:"
 msgstr "_Порт:"
 
 #: addressbook/gui/component/ldap-config.glade.h:49
-#, fuzzy
 msgid "_Search scope:"
-msgstr "_Диапазон поиска: "
+msgstr "_Диапазон поиска:"
 
 #: addressbook/gui/component/ldap-config.glade.h:50
 msgid "_Server:"
@@ -858,18 +826,16 @@ msgid "_Find"
 msgstr "_Найти"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:8
-#, fuzzy
 msgid "_Search:"
-msgstr "П_оиск"
+msgstr "_Искать:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:2
 msgid "<b>Email</b>"
 msgstr "<b>Электронная почта</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:3
-#, fuzzy
 msgid "<b>Home</b>"
-msgstr "<b>К:</b> "
+msgstr "<b>Домашний</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:4
 msgid "<b>Instant Messaging</b>"
@@ -885,7 +851,7 @@ msgstr "<b>Разное</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:7
 msgid "<b>Other</b>"
-msgstr "<b>Прочее</b> "
+msgstr "<b>Другой</b> "
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:8
 msgid "<b>Telephone</b>"
@@ -893,11 +859,11 @@ msgstr "<b>Телефон</b> "
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:9
 msgid "<b>Web Addresses</b>"
-msgstr ""
+msgstr "<b>Веб-адреса</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:10
 msgid "<b>Work</b>"
-msgstr "<b>Работа</b> "
+msgstr "<b>Рабочий</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:11
 #: addressbook/gui/contact-editor/e-contact-editor.c:184
@@ -1029,9 +995,8 @@ msgid "Wants to receive HTML mail"
 msgstr "Согласен получать почту в формате HTML"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:42
-#, fuzzy
 msgid "Web Log:"
-msgstr "_Веб-страница:"
+msgstr "Веб-журнал:"
 
 #. red
 #: addressbook/gui/contact-editor/contact-editor.glade.h:43
@@ -1051,15 +1016,13 @@ msgid "_Categories"
 msgstr "_Категории"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:46
-#, fuzzy
 msgid "_File under:"
-msgstr "Имя файла:"
+msgstr "_Подшить как:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:47
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:12
-#, fuzzy
 msgid "_Where:"
-msgstr "С_ервер:"
+msgstr "_Где:"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:96
 #: addressbook/gui/widgets/eab-contact-display.c:352
@@ -2325,27 +2288,24 @@ msgstr "\n"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 msgid "Add an email to the List"
-msgstr ""
+msgstr "Добавить адрес эл. почты в список"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
-#, fuzzy
 msgid "Insert email adresses from Adress Book"
-msgstr "Выбор контактов из адресной книги"
+msgstr "Вставить адрес эл. почты из адресной книги"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:704
 msgid "Members"
-msgstr "Члены"
+msgstr "Участники"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
-#, fuzzy
 msgid "Remove an email address from the List"
-msgstr "Удалить выбранные элементы из списка вложений"
+msgstr "Удалить адреса эл. почты из списка"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:8
-#, fuzzy
 msgid "Select"
-msgstr "Выбрано"
+msgstr "Выделить"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:9
 msgid "_Hide addresses when sending mail to this list"
@@ -2908,9 +2868,8 @@ msgstr "Адресная книга не существует"
 
 #. E_BOOK_ERROR_NO_SELF_CONTACT
 #: addressbook/gui/widgets/eab-gui-util.c:54
-#, fuzzy
 msgid "No Self Contact defined"
-msgstr "Создать список контактов"
+msgstr "Свой контакт не определен"
 
 #. E_BOOK_ERROR_URI_NOT_LOADED
 #. E_BOOK_ERROR_URI_ALREADY_LOADED
@@ -3040,13 +2999,11 @@ msgstr ""
 
 #: addressbook/gui/widgets/eab-gui-util.c:142
 msgid "The backend for this addressbook was unable to parse this query."
-msgstr ""
-"База данных для этой адресной книги не смогла обработать текущий запрос."
+msgstr "База данных для этой адресной книги не смогла обработать текущий запрос."
 
 #: addressbook/gui/widgets/eab-gui-util.c:145
 msgid "The backend for this addressbook refused to perform this query."
-msgstr ""
-"База данных для этой адресной книги отказалась обрабатывать текущий запрос."
+msgstr "База данных для этой адресной книги отказалась обрабатывать текущий запрос."
 
 #: addressbook/gui/widgets/eab-gui-util.c:148
 msgid "This query did not complete successfully."
@@ -3229,18 +3186,16 @@ msgid "LDAP Data Interchange Format (.ldif)"
 msgstr "Формат обмена данными LDAP"
 
 #: addressbook/importers/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in.h:1
-#, fuzzy
 msgid "Evolution VCard Importer"
-msgstr "Evolution iCalendar importer"
+msgstr "Evolution VCard Importer"
 
 #: addressbook/importers/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in.h:2
-#, fuzzy
 msgid "Evolution VCard importer"
-msgstr "Evolution vCalendar importer"
+msgstr "Evolution VCard importer"
 
 #: addressbook/importers/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in.h:3
 msgid "VCard (.vcf, .gcrd)"
-msgstr ""
+msgstr "VCard (.vcf, .gcrd)"
 
 #: addressbook/printing/e-contact-print-envelope.c:212
 #: addressbook/printing/e-contact-print-envelope.c:233
@@ -3447,14 +3402,12 @@ msgid "Can not open file"
 msgstr "Не удается открыть файл"
 
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:43
-#, fuzzy
 msgid "Couldn't get list of addressbooks"
-msgstr "Не удается загрузить адресную книгу"
+msgstr "Не удается получить список адресных книг"
 
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:71
-#, fuzzy
 msgid "failed to open book"
-msgstr "Не удается открыть адресную книгу"
+msgstr "не удается открыть книгу"
 
 #: addressbook/tools/evolution-addressbook-export.c:56
 msgid "Specify the output file instead of standard output"
@@ -3481,8 +3434,7 @@ msgid "Export in asynchronous mode "
 msgstr "Экспорт в асинхронном режиме "
 
 #: addressbook/tools/evolution-addressbook-export.c:63
-msgid ""
-"The number of cards in one output file in asychronous mode,default size 100."
+msgid "The number of cards in one output file in asychronous mode,default size 100."
 msgstr ""
 "Количество карточек в одном файле вывода в асинхронном режиме, по умолчанию "
 "100"
@@ -3492,8 +3444,7 @@ msgid "NUMBER"
 msgstr "NUMBER"
 
 #: addressbook/tools/evolution-addressbook-export.c:91
-msgid ""
-"Command line arguments error, please use --help option to see the usage."
+msgid "Command line arguments error, please use --help option to see the usage."
 msgstr ""
 "Ошибка аргументов командной строки, используйте параметр --help, чтобы "
 "просмотреть доступные аргументы."
@@ -3533,61 +3484,54 @@ msgstr "Безымянный список"
 #. calendar:prompt-cancel-meeting primary
 #: calendar/calendar-errors.xml.h:2 calendar/calendar-errors.xml.h:12
 msgid "Would you like to send all the participants a cancellation notice?"
-msgstr ""
+msgstr "Разослать всем участникам уведомление об отмене?"
 
 #. calendar:prompt-cancel-meeting secondary
 #: calendar/calendar-errors.xml.h:4
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the meeting is canceled."
-msgstr ""
+msgstr "Если уведомление не будет разослано, остальные участники могут не знать, что собрание отменено."
 
 #: calendar/calendar-errors.xml.h:5 calendar/calendar-errors.xml.h:15
 #: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:79
 #: calendar/calendar-errors.xml.h:85 calendar/calendar-errors.xml.h:91
 #: calendar/calendar-errors.xml.h:97
-#, fuzzy
 msgid "Don't Send"
-msgstr "Не удалять"
+msgstr "Не отправлять"
 
 #: calendar/calendar-errors.xml.h:6 calendar/calendar-errors.xml.h:16
 #: calendar/calendar-errors.xml.h:26
-#, fuzzy
 msgid "Send Notice"
-msgstr "Отправить:"
+msgstr "Отправить уведомление"
 
 #. calendar:prompt-delete-meeting primary
 #: calendar/calendar-errors.xml.h:8
-#, fuzzy
 msgid "Are you sure you want to delete this meeting?"
-msgstr "Вы действительно хотите удалить эту учётную запись?"
+msgstr "Вы действительно хотите удалить это собрание?"
 
 #. calendar:prompt-delete-meeting secondary
 #: calendar/calendar-errors.xml.h:10
-msgid ""
-"All information on this meeting will be deleted and can not be restored."
-msgstr ""
+msgid "All information on this meeting will be deleted and can not be restored."
+msgstr "Все сведения об этом собрании будут безвозвратно удалены."
 
 #. calendar:prompt-cancel-task secondary
 #: calendar/calendar-errors.xml.h:14
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the task has been deleted."
-msgstr ""
+msgstr "Если вы не отправите уведомление об отмене, другие участники могут не узнать, что задача была удалена."
 
 #. calendar:prompt-delete-task primary
 #: calendar/calendar-errors.xml.h:18 calendar/calendar-errors.xml.h:44
-#, fuzzy
 msgid "Are you sure you want to delete this task?"
-msgstr ""
-"Вы действительно хотите\n"
-"удалить этот контакт?"
+msgstr "Вы действительно хотите удалить эту задачу?"
 
 #. calendar:prompt-delete-task secondary
 #: calendar/calendar-errors.xml.h:20 calendar/calendar-errors.xml.h:42
 #: calendar/calendar-errors.xml.h:46
 msgid "All information on this task will be deleted and can not be restored."
-msgstr ""
+msgstr "Все сведения об этой задаче будут безвозвратно удалены."
 
 #. calendar:prompt-cancel-journal primary
 #: calendar/calendar-errors.xml.h:22
@@ -3603,9 +3547,8 @@ msgstr ""
 
 #. calendar:prompt-delete-journal primary
 #: calendar/calendar-errors.xml.h:28 calendar/calendar-errors.xml.h:52
-#, fuzzy
 msgid "Are you sure you want to delete this journal entry?"
-msgstr "Вы действительно хотите удалить эту учётную запись?"
+msgstr "Вы действительно хотите удалить эту запись журнала?"
 
 #. calendar:prompt-delete-journal secondary
 #: calendar/calendar-errors.xml.h:30
@@ -3616,69 +3559,55 @@ msgstr ""
 
 #. calendar:prompt-delete-titled-appointment primary
 #: calendar/calendar-errors.xml.h:32
-#, fuzzy
 msgid "Are you sure you want to delete the appointment titled '{0}'?"
-msgstr "Вы действительно хотите удалить эту учётную запись?"
+msgstr "Вы действительно хотите удалить встречу с заголовком '{0}'?"
 
 #. calendar:prompt-delete-titled-appointment secondary
 #: calendar/calendar-errors.xml.h:34 calendar/calendar-errors.xml.h:38
-msgid ""
-"All information on this appointment will be deleted and can not be restored."
-msgstr ""
+msgid "All information on this appointment will be deleted and can not be restored."
+msgstr "Все сведения об этой встрече будут безвозвратно удалены."
 
 #. calendar:prompt-delete-appointment primary
 #: calendar/calendar-errors.xml.h:36
-#, fuzzy
 msgid "Are you sure you want to delete this appointment?"
-msgstr "Вы действительно хотите удалить эту учётную запись?"
+msgstr "Вы действительно хотите удалить эту встречу?"
 
 #. calendar:prompt-delete-named-task primary
 #: calendar/calendar-errors.xml.h:40
-#, fuzzy
 msgid "Are you sure you want to delete the '{0}' task?"
-msgstr ""
-"Вы действительно хотите\n"
-"удалить эти контакты?"
+msgstr "Вы действительно хотите удалить задачу '{0}'?"
 
 #. calendar:prompt-delete-named-journal primary
 #: calendar/calendar-errors.xml.h:48
-#, fuzzy
 msgid "Are you sure you want to delete the journal entry '{0}'?"
-msgstr "Вы действительно хотите удалить эту учётную запись?"
+msgstr ""
 
 #. calendar:prompt-delete-named-journal secondary
 #: calendar/calendar-errors.xml.h:50 calendar/calendar-errors.xml.h:54
-msgid ""
-"All information in this journal will be deleted and can not be restored."
+msgid "All information in this journal will be deleted and can not be restored."
 msgstr ""
 
 #. calendar:prompt-delete-appointments primary
 #: calendar/calendar-errors.xml.h:56
-#, fuzzy
 msgid "Are you sure you want to delete these {0} appointments?"
-msgstr ""
-"Вы действительно хотите\n"
-"удалить эти контакты?"
+msgstr "Вы действительно хотите удалить встречи {0}?"
 
 #. calendar:prompt-delete-appointments secondary
 #: calendar/calendar-errors.xml.h:58
 msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
-msgstr ""
+msgstr "Все сведения об этих встречах будут безвозвратно удалены."
 
 #. calendar:prompt-delete-tasks primary
 #: calendar/calendar-errors.xml.h:60
-#, fuzzy
 msgid "Are you sure you want to delete these {0} tasks?"
-msgstr ""
-"Вы действительно хотите\n"
-"удалить эти контакты?"
+msgstr "Вы действительно хотите удалить эти {0} задачи?"
 
 #. calendar:prompt-delete-tasks secondary
 #: calendar/calendar-errors.xml.h:62
 msgid "All information on these tasks will be deleted and can not be restored."
-msgstr ""
+msgstr "Вся информация о этих задачах будет безвозвратно удалена."
 
 #. calendar:prompt-delete-journals primary
 #: calendar/calendar-errors.xml.h:64
@@ -3697,41 +3626,35 @@ msgstr ""
 
 #. calendar:prompt-save-appointment title
 #: calendar/calendar-errors.xml.h:68
-#, fuzzy
 msgid "Save Appointment"
-msgstr "Встреча"
+msgstr "Сохранить встречу"
 
 #. calendar:prompt-save-appointment primary
 #: calendar/calendar-errors.xml.h:70
-#, fuzzy
 msgid "Would you like to save your changes to this appointment?"
-msgstr "Хотите сохранить изменения?"
+msgstr "Сохранить изменения этой встречи?"
 
 #. calendar:prompt-save-appointment secondary
 #: calendar/calendar-errors.xml.h:72
-#, fuzzy
 msgid "You have made changes to this appointment, but not yet saved them."
-msgstr "%s Вы сделали изменения. Отменить их?"
+msgstr "Вы сделали изменения этой встречи, но не сохранили их."
 
 #: calendar/calendar-errors.xml.h:73 composer/mail-composer-errors.xml.h:33
-#, fuzzy
 msgid "Discard Changes"
-msgstr "_Отклонить изменения"
+msgstr "Отклонить изменения"
 
 #: calendar/calendar-errors.xml.h:74
-#, fuzzy
 msgid "Save Changes"
-msgstr "Сохранить сообщение ..."
+msgstr "Сохранить изменения"
 
 #. calendar:prompt-meeting-invite primary
 #: calendar/calendar-errors.xml.h:76
 msgid "Would you like to send meeting invitations to participants?"
-msgstr ""
+msgstr "Разослать приглашения на собрание участникам?"
 
 #. calendar:prompt-meeting-invite secondary
 #: calendar/calendar-errors.xml.h:78
-msgid ""
-"Email invitations will be sent to all participants and allow them to RSVP."
+msgid "Email invitations will be sent to all participants and allow them to RSVP."
 msgstr ""
 
 #: calendar/calendar-errors.xml.h:80 calendar/calendar-errors.xml.h:86
@@ -3743,31 +3666,31 @@ msgstr "Отправить"
 #. calendar:prompt-send-updated-meeting-info primary
 #: calendar/calendar-errors.xml.h:82
 msgid "Would you like to send updated meeting information to participants?"
-msgstr ""
+msgstr "Разослать обновленную информацию о собрании участникам?"
 
 #. calendar:prompt-send-updated-meeting-info secondary
 #: calendar/calendar-errors.xml.h:84
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
-msgstr ""
+msgstr "Рассылка обновленной информации позволит другим участникам поддерживать свои календари в текущем состоянии."
 
 #. calendar:prompt-send-task primary
 #: calendar/calendar-errors.xml.h:88
 msgid "Would you like to send this task to participants?"
-msgstr ""
+msgstr "Разослать эту задачу участникам?"
 
 #. calendar:prompt-send-task secondary
 #: calendar/calendar-errors.xml.h:90
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
-msgstr ""
+msgstr "Приглашения будут разосланы по эл. почте всем участникам, чтобы они смогли принять эту задачу."
 
 #. calendar:prompt-send-updated-task-info primary
 #: calendar/calendar-errors.xml.h:94
 msgid "Would you like to send updated task information to participants?"
-msgstr ""
+msgstr "Разослать обновленные сведения о задаче участникам?"
 
 #. calendar:prompt-send-updated-task-info secondary
 #: calendar/calendar-errors.xml.h:96
@@ -3779,34 +3702,27 @@ msgstr ""
 #. calendar:tasks-crashed primary
 #: calendar/calendar-errors.xml.h:100
 msgid "The Evolution tasks have quit unexpectedly."
-msgstr ""
+msgstr "Работа компонента задач Evolution неожиданно завершилась."
 
 #. calendar:tasks-crashed secondary
 #: calendar/calendar-errors.xml.h:102
-#, fuzzy
 msgid "Your tasks will not be available until Evolution is restarted."
-msgstr ""
-"Если вы выйдете, эти сообщения не будут отправлены до повторного запуска "
-"Evolution."
+msgstr "Ваши задачи будут недоступны до перезапуска Evolution."
 
 #. calendar:calendar-crashed primary
 #: calendar/calendar-errors.xml.h:104
-#, fuzzy
 msgid "The Evolution calendar has quit unexpectedly."
-msgstr "Evolution vCalendar importer"
+msgstr "Работа компонента календаря Evolution неожиданно завершилась."
 
 #. calendar:calendar-crashed secondary
 #: calendar/calendar-errors.xml.h:106
-#, fuzzy
 msgid "Your calendars will not be available until Evolution is restarted."
-msgstr ""
-"Если вы выйдете, эти сообщения не будут отправлены до повторного запуска "
-"Evolution."
+msgstr "Ваши календари будут недоступны до перезапуска Evolution."
 
 #: calendar/common/authentication.c:48 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
 msgid "Enter password"
-msgstr "Ввод пароля"
+msgstr "Введите пароль"
 
 #: calendar/conduits/calendar/calendar-conduit.c:246
 msgid "Split Multi-Day Events:"
@@ -3816,9 +3732,8 @@ msgstr "Разделить многодневные события:"
 #: calendar/conduits/calendar/calendar-conduit.c:1357
 #: calendar/conduits/todo/todo-conduit.c:879
 #: calendar/conduits/todo/todo-conduit.c:880
-#, fuzzy
 msgid "Could not start evolution-data-server"
-msgstr "Не удается запустить сервер wombat"
+msgstr "Не удается запустить evolution-data-server"
 
 #: calendar/conduits/calendar/calendar-conduit.c:1465
 #: calendar/conduits/calendar/calendar-conduit.c:1468
@@ -3836,11 +3751,11 @@ msgstr "Не удается прочитать блок приложения з�
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
 msgid "*Control*F3"
-msgstr ""
+msgstr "*Control*F3"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
 msgid "*Control*F4"
-msgstr ""
+msgstr "*Control*F4"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:3
 msgid "Calendar and Tasks"
@@ -3918,18 +3833,16 @@ msgid "Alarm on %s"
 msgstr "Сигнал в %s"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:1
-#, fuzzy
 msgid "Snooze _time (minutes):"
-msgstr "Напомнить через (минут)"
+msgstr "Напомнить через (минут):"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:2
 msgid "_Edit appointment"
 msgstr "_Изменить встречу"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:3
-#, fuzzy
 msgid "_Snooze"
-msgstr "Напомнить позже"
+msgstr "Напомнить по_зже"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:881
 #: ui/evolution-message-composer.xml.h:10
@@ -3937,14 +3850,12 @@ msgid "Open"
 msgstr "Открыть"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:883
-#, fuzzy
 msgid "Dismiss"
-msgstr "_Закрыть"
+msgstr "Закрыть"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:885
-#, fuzzy
 msgid "Dismiss All"
-msgstr "Закрыть _все"
+msgstr "Закрыть все"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:949
 msgid "No description available."
@@ -4015,7 +3926,7 @@ msgstr "неправильное время"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:1
 msgid "Allocate less space to weekend appointments"
-msgstr ""
+msgstr "Распределять меньше места для встреч на выходных"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:2
 #, fuzzy
@@ -4027,9 +3938,8 @@ msgid "Color of tasks that are due today"
 msgstr "Цвет для задач на сегодня"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:4
-#, fuzzy
 msgid "Color of tasks that are overdue"
-msgstr "Цвет для задач на сегодня"
+msgstr "Цвет для просроченных задач"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:5
 msgid "Days that are work days"
@@ -4156,9 +4066,8 @@ msgid "Comment contains"
 msgstr "Комментарий содержит"
 
 #: calendar/gui/cal-search-bar.c:53
-#, fuzzy
 msgid "Location contains"
-msgstr "Описание содержит"
+msgstr "Адрес содержит"
 
 #: calendar/gui/cal-search-bar.c:362 camel/camel-vee-store.c:327
 msgid "Unmatched"
@@ -4173,20 +4082,15 @@ msgid "Calendar"
 msgstr "Календарь"
 
 #: calendar/gui/calendar-commands.c:352
-#, fuzzy
 msgid ""
 "This operation will permanently erase all events older than the selected "
 "amount of time. If you continue, you will not be able to recover these "
 "events."
-msgstr ""
-"Эта операция уничтожит все задания, помеченные как \"выполненные\". Если вы "
-"продолжите, то потом не сможете восстановить эти задания.\n"
-"\n"
-"Действительно уничтожить эти задания?"
+msgstr "Это действие безвозвратно уничтожит все события старше указанного промежутка времени. Если вы продолжите, вы не сможете восстановить эти события."
 
 #: calendar/gui/calendar-commands.c:358
 msgid "Purge events older than"
-msgstr ""
+msgstr "Очистить элементы старше чем"
 
 #: calendar/gui/calendar-commands.c:363
 #: calendar/gui/dialogs/alarm-dialog.glade.h:21
@@ -4254,9 +4158,8 @@ msgid "%d %b"
 msgstr "%d %b"
 
 #: calendar/gui/calendar-component.c:635
-#, fuzzy
 msgid "Failed upgrading calendars."
-msgstr "Загрузка календаря..."
+msgstr "Ошибка обновления календарей."
 
 #: calendar/gui/calendar-component.c:929
 #, c-format
@@ -4296,9 +4199,8 @@ msgid "New all day appointment"
 msgstr "Новая встреча на весь день"
 
 #: calendar/gui/calendar-component.c:1255
-#, fuzzy
 msgid "All Day A_ppointment"
-msgstr "Еже_дневная встреча"
+msgstr "_Ежедневная встреча"
 
 #: calendar/gui/calendar-component.c:1256
 msgid "Create a new all-day appointment"
@@ -4309,9 +4211,8 @@ msgid "New calendar"
 msgstr "Новый календарь"
 
 #: calendar/gui/calendar-component.c:1263
-#, fuzzy
 msgid "Cale_ndar"
-msgstr "Календарь"
+msgstr "Кале_ндарь"
 
 #: calendar/gui/calendar-component.c:1264
 msgid "Create a new calendar"
@@ -4361,38 +4262,32 @@ msgid "open_client(): %s"
 msgstr "open_client(): %s"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:2
-#, fuzzy
 msgid "<b>Alarm</b>\t"
-msgstr "<b>Сигналы</b> "
+msgstr "<b>Сигнал</b>\t"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:3
-#, fuzzy
 msgid "<b>Options</b>"
-msgstr "<b>Параметры списка задач</b>"
+msgstr "<b>Параметры</b>"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:4
-#, fuzzy
 msgid "<b>Repeat</b>"
-msgstr "<b>Общие</b> "
+msgstr "<b>Повтор</b>"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:5
-#, fuzzy
 msgid "Add Alarm"
-msgstr "Добавление нового календаря"
+msgstr "Добавить сигнал"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:6
-#, fuzzy
 msgid "Custom _message"
-msgstr "Новое сообщение"
+msgstr "Другое _сообщение"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:7
 msgid "Custom alarm sound"
-msgstr ""
+msgstr "Другой звук сигнала"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:8
-#, fuzzy
 msgid "Mes_sage:"
-msgstr "_Сообщения"
+msgstr "_Сообщение:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:9 calendar/gui/e-alarm-list.c:444
 msgid "Play a sound"
@@ -4406,7 +4301,7 @@ msgstr ""
 #: calendar/gui/dialogs/alarm-dialog.glade.h:11
 #: calendar/gui/e-alarm-list.c:456
 msgid "Run a program"
-msgstr "Запустить программу"
+msgstr "Выполнить программу"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:12
 msgid "Send To:"
@@ -4418,24 +4313,20 @@ msgid "Send an email"
 msgstr "Отправить почту"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:14
-#, fuzzy
 msgid "_Arguments:"
-msgstr "_Учетная запись:"
+msgstr "_Аргументы:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:15
-#, fuzzy
 msgid "_Program:"
-msgstr "Запустить программу:"
+msgstr "_Программа:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:16
-#, fuzzy
 msgid "_Repeat the alarm"
-msgstr "Повторить сигнал"
+msgstr "_Повторить сигнал"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:17
-#, fuzzy
 msgid "_Sound:"
-msgstr "_Отправить"
+msgstr "_Звук:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:18
 msgid "after"
@@ -4484,9 +4375,8 @@ msgid "A_dd"
 msgstr "_Добавить"
 
 #: calendar/gui/dialogs/alarm-list-dialog.glade.h:2
-#, fuzzy
 msgid "Alarms"
-msgstr "Сигнал в %s"
+msgstr "Сигналы"
 
 #. FIXME: This routine should just be a "toggled" event handler on the checkbox cell renderer which
 #. has "activatable" set.
@@ -4591,9 +4481,8 @@ msgid "E_nable"
 msgstr "_Включить"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
-#, fuzzy
 msgid "Free/Busy Publishing"
-msgstr "Запрос информации о занятости"
+msgstr "Публикация информации о занятости"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 #: calendar/gui/dialogs/recurrence-page.c:1038
@@ -4780,51 +4669,43 @@ msgstr "Источник с именем '%s' уже существует в в�
 msgid ""
 "The group '%s' is remote. You must specify a location to get the calendar "
 "from"
-msgstr ""
+msgstr "Группа '%s' является удаленной группой. Вы должны указать адрес для получения календаря"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:2
-#, fuzzy
 msgid "Add Calendar"
-msgstr "Добавление нового календаря"
+msgstr "Добавить календарь"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:3
-#, fuzzy
 msgid "Add Task List"
-msgstr "Добавить новый список задач"
+msgstr "Добавить список задач"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:4
-#, fuzzy
 msgid "C_olor:"
-msgstr "_Цвета"
+msgstr "_Цвет:"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:5 mail/mail-config.glade.h:110
 msgid "Pick a color"
 msgstr "Выбрать цвет"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:6
-#, fuzzy
 msgid "_Add Calendar"
-msgstr "Добавление нового календаря"
+msgstr "_Добавить календарь"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:7
-#, fuzzy
 msgid "_Add Group"
-msgstr "_Добавить группу..."
+msgstr "_Добавить группу"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:9
-#, fuzzy
 msgid "_Refresh:"
-msgstr "Обновить"
+msgstr "_Обновить:"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:10
-#, fuzzy
 msgid "_Type:"
-msgstr "Тип:"
+msgstr "_Тип:"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:11
-#, fuzzy
 msgid "_URL:"
-msgstr "URL:"
+msgstr "_URL:"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:15 filter/filter.glade.h:20
 msgid "weeks"
@@ -4885,11 +4766,11 @@ msgstr " к "
 
 #: calendar/gui/dialogs/comp-editor-util.c:191 calendar/gui/print.c:2262
 msgid " (Completed "
-msgstr " (Выполнено "
+msgstr " (Завершено "
 
 #: calendar/gui/dialogs/comp-editor-util.c:193 calendar/gui/print.c:2264
 msgid "Completed "
-msgstr "Выполнено "
+msgstr "Завершено "
 
 #: calendar/gui/dialogs/comp-editor-util.c:198 calendar/gui/print.c:2269
 msgid " (Due "
@@ -4944,18 +4825,16 @@ msgid "Unable to use current version!"
 msgstr "Не удается использовать текущую версию!"
 
 #: calendar/gui/dialogs/copy-source-dialog.c:61
-#, fuzzy
 msgid "Could not open source"
-msgstr "Не удается открыть \"%s\": %s"
+msgstr "Не удается открыть источник"
 
 #: calendar/gui/dialogs/copy-source-dialog.c:69
-#, fuzzy
 msgid "Could not open destination"
-msgstr "Назначение:"
+msgstr "Не удается открыть назначение"
 
 #: calendar/gui/dialogs/copy-source-dialog.c:78
 msgid "Destination is read only"
-msgstr ""
+msgstr "Назначение доступно только для чтения"
 
 #: calendar/gui/dialogs/delete-error.c:54
 msgid "The event could not be deleted due to a corba error"
@@ -5006,9 +4885,8 @@ msgid "The item could not be deleted due to an error"
 msgstr "Этот элемент не может быть удален из-за ошибки"
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:1
-#, fuzzy
 msgid "Contacts..."
-msgstr "Контакты"
+msgstr "Контакты..."
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:2
 msgid "Delegate To:"
@@ -5035,18 +4913,16 @@ msgstr "Планировка"
 #: calendar/gui/dialogs/event-editor.c:176
 #: calendar/gui/dialogs/event-editor.c:242
 #: calendar/gui/dialogs/event-editor.c:384
-#, fuzzy
 msgid "Invitations"
-msgstr "Ориентация"
+msgstr "Приглашения"
 
 #: calendar/gui/dialogs/event-page.c:692
-#, fuzzy
 msgid "Event with no start date"
-msgstr "Дата завершения рашьше даты окончания!"
+msgstr "Событие без даты начала"
 
 #: calendar/gui/dialogs/event-page.c:695
 msgid "Event with no end date"
-msgstr ""
+msgstr "Событие без даты завершения"
 
 #: calendar/gui/dialogs/event-page.c:855 calendar/gui/dialogs/task-page.c:523
 msgid "Start date is wrong"
@@ -5070,62 +4946,56 @@ msgid "Unable to open the calendar '%s'."
 msgstr "Не удаётся открыть календарь '%s'."
 
 #: calendar/gui/dialogs/event-page.c:1799
-#, fuzzy, c-format
+#, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
-msgstr[0] "перед каждой встречей"
-msgstr[1] "перед каждой встречей"
-msgstr[2] "перед каждой встречей"
+msgstr[0] "%d день до встречи"
+msgstr[1] "%d дня до встречи"
+msgstr[2] "%d дней до встречи"
 
 #: calendar/gui/dialogs/event-page.c:1807
-#, fuzzy, c-format
+#, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
-msgstr[0] "завершение встречи"
-msgstr[1] "завершение встречи"
-msgstr[2] "завершение встречи"
+msgstr[0] "%d час до встречи"
+msgstr[1] "%d часа до встречи"
+msgstr[2] "%d часов до встречи"
 
 #: calendar/gui/dialogs/event-page.c:1815
-#, fuzzy, c-format
+#, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
-msgstr[0] "перед каждой встречей"
-msgstr[1] "перед каждой встречей"
-msgstr[2] "перед каждой встречей"
+msgstr[0] "%d минута до встречи"
+msgstr[1] "%d минуты до встречи"
+msgstr[2] "%d минут до встречи"
 
 #: calendar/gui/dialogs/event-page.glade.h:2
-#, fuzzy
 msgid "1 day before appointment"
-msgstr "перед каждой встречей"
+msgstr "1 день до встречи"
 
 #: calendar/gui/dialogs/event-page.glade.h:3
-#, fuzzy
 msgid "1 hour before appointment"
-msgstr "перед каждой встречей"
+msgstr "1 час до встречи"
 
 #: calendar/gui/dialogs/event-page.glade.h:4
-#, fuzzy
 msgid "15 minutes before appointment"
-msgstr "перед каждой встречей"
+msgstr "15 минут до встречи"
 
 #: calendar/gui/dialogs/event-page.glade.h:5
-#, fuzzy
 msgid "<b>Basics</b>"
-msgstr "<b>Список задач</b>"
+msgstr "<b>Основные</b>"
 
 #: calendar/gui/dialogs/event-page.glade.h:6
-#, fuzzy
 msgid "<b>Date and Time</b>"
-msgstr "<b>Время</b> "
+msgstr "<b>Дата и время</b> "
 
 #: calendar/gui/dialogs/event-page.glade.h:7
 msgid "A_ll day event"
 msgstr "Событие на _весь день"
 
 #: calendar/gui/dialogs/event-page.glade.h:8
-#, fuzzy
 msgid "C_ustomize..."
-msgstr "Сохранить вид пользователя..."
+msgstr "Н_астроить..."
 
 #: calendar/gui/dialogs/event-page.glade.h:9
 #: calendar/gui/dialogs/task-page.glade.h:4
@@ -5133,15 +5003,13 @@ msgid "Ca_tegories..."
 msgstr "Ка_тегории..."
 
 #: calendar/gui/dialogs/event-page.glade.h:10
-#, fuzzy
 msgid "Cale_ndar:"
-msgstr "Календарь:"
+msgstr "Кале_ндарь:"
 
 #: calendar/gui/dialogs/event-page.glade.h:11
 #: calendar/gui/dialogs/task-page.glade.h:5
-#, fuzzy
 msgid "Classi_fication:"
-msgstr "Классификация"
+msgstr "Класси_фикация:"
 
 #: calendar/gui/dialogs/event-page.glade.h:12
 #: calendar/gui/dialogs/task-page.glade.h:6 calendar/gui/e-cal-list-view.c:259
@@ -5150,9 +5018,8 @@ msgid "Confidential"
 msgstr "Конфиденциальное"
 
 #: calendar/gui/dialogs/event-page.glade.h:13
-#, fuzzy
 msgid "Locat_ion:"
-msgstr "Расположение:"
+msgstr "Располо_жение:"
 
 #: calendar/gui/dialogs/event-page.glade.h:14
 #: calendar/gui/dialogs/task-page.glade.h:8 calendar/gui/e-cal-list-view.c:258
@@ -5168,9 +5035,8 @@ msgid "Public"
 msgstr "Общее"
 
 #: calendar/gui/dialogs/event-page.glade.h:16
-#, fuzzy
 msgid "Show time as _busy"
-msgstr "Показать время как"
+msgstr "Показать время как _занят"
 
 #: calendar/gui/dialogs/event-page.glade.h:17
 #: calendar/gui/dialogs/task-page.glade.h:11
@@ -5179,17 +5045,15 @@ msgstr "Коротко:"
 
 #: calendar/gui/dialogs/event-page.glade.h:18
 msgid "This appointment has customized alarms"
-msgstr ""
+msgstr "Эта встреча имеет свои сигналы"
 
 #: calendar/gui/dialogs/event-page.glade.h:19
-#, fuzzy
 msgid "_Alarm"
-msgstr "О_чистить"
+msgstr "_Сигнал"
 
 #: calendar/gui/dialogs/event-page.glade.h:20
-#, fuzzy
 msgid "_Description:"
-msgstr "Описание:"
+msgstr "_Описание:"
 
 #: calendar/gui/dialogs/event-page.glade.h:21
 #: calendar/gui/e-meeting-time-sel.c:613
@@ -5288,25 +5152,21 @@ msgid "Status"
 msgstr "Состояние"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:2
-#, fuzzy
 msgid "<b>Att_endees</b>"
-msgstr "<b>Сигналы</b> "
+msgstr "<b>Пос_етители</b> "
 
 #: calendar/gui/dialogs/meeting-page.glade.h:3
-#, fuzzy
 msgid "C_hange Organizer"
-msgstr "Изменить организатора"
+msgstr "И_зменить организатора"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:4
 #: calendar/gui/e-meeting-time-sel.c:415
-#, fuzzy
 msgid "Con_tacts..."
-msgstr "Контакты"
+msgstr "Кон_такты..."
 
 #: calendar/gui/dialogs/meeting-page.glade.h:6
-#, fuzzy
 msgid "Or_ganizer:"
-msgstr "Организатор:"
+msgstr "Ор_ганизатор:"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:7
 #: calendar/gui/e-itip-control.glade.h:9
@@ -5358,10 +5218,8 @@ msgid "You are modifying a recurring task, what would you like to modify?"
 msgstr "Вы изменяете повторяющуюся задачу, что именно вы хотите изменить?"
 
 #: calendar/gui/dialogs/recur-comp.c:59
-msgid ""
-"You are modifying a recurring journal entry, what would you like to modify?"
-msgstr ""
-"Вы изменяете повторяющуюся запись в журнале, что именно вы хотите изменить?"
+msgid "You are modifying a recurring journal entry, what would you like to modify?"
+msgstr "Вы изменяете повторяющуюся запись в журнале, что именно вы хотите изменить?"
 
 #: calendar/gui/dialogs/recur-comp.c:85
 msgid "This Instance Only"
@@ -5432,27 +5290,24 @@ msgid "Date/Time"
 msgstr "Дата/Время"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:1
-#, fuzzy
 msgid "<b>Exceptions</b>"
-msgstr "Исключения"
+msgstr "<b>Исключения</b>"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:2 mail/mail-config.glade.h:4
 msgid "<b>Preview</b>"
 msgstr "<b>Предварительный просмотр</b>"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:3
-#, fuzzy
 msgid "<b>Recurrence</b>"
-msgstr "Повторение"
+msgstr "<b>Повторение</b>"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:4
 msgid "Every"
 msgstr "Каждый"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:5
-#, fuzzy
 msgid "This appointment rec_urs"
-msgstr "_Изменить встречу"
+msgstr "Эта встреча повтор_яется"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
 msgid "for"
@@ -5479,14 +5334,12 @@ msgid "year(s)"
 msgstr "год(лет)"
 
 #: calendar/gui/dialogs/select-source-dialog.c:88
-#, fuzzy
 msgid "Select destination"
-msgstr "Назначение:"
+msgstr "Выберите назначение"
 
 #: calendar/gui/dialogs/select-source-dialog.c:110
-#, fuzzy
 msgid "_Destination"
-msgstr "Папка _черновиков:"
+msgstr "_Назначение"
 
 #: calendar/gui/dialogs/select-source-dialog.c:112
 msgid "Task List"
@@ -5497,14 +5350,12 @@ msgid "Completed date is wrong"
 msgstr "Дата выполнения некорректна"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:1
-#, fuzzy
 msgid "<span weight=\"bold\">Miscellaneous\t</span>"
-msgstr "<span weight=\"bold\">Шрифты сообщений</span>"
+msgstr "<span weight=\"bold\">Разное</span>"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:2
-#, fuzzy
 msgid "<span weight=\"bold\">Status</span>"
-msgstr "<span weight=\"bold\">Сигналы</span>"
+msgstr "<span weight=\"bold\">Состояние</span>"
 
 #. Pass TRUE as is_utc, so it gets converted to the current
 #. timezone.
@@ -5515,7 +5366,7 @@ msgstr "<span weight=\"bold\">Сигналы</span>"
 #: calendar/gui/e-meeting-store.c:187 calendar/gui/e-meeting-store.c:210
 #: calendar/gui/print.c:2346
 msgid "Completed"
-msgstr "Выполнено"
+msgstr "Завершена"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:5
 #: calendar/gui/e-cal-component-preview.c:249
@@ -5529,7 +5380,7 @@ msgstr "Высокий"
 #: calendar/gui/e-cal-model-tasks.c:726 calendar/gui/e-calendar-table.c:471
 #: calendar/gui/print.c:2343
 msgid "In Progress"
-msgstr "В процессе"
+msgstr "Выполняется"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:7
 #: calendar/gui/e-cal-component-preview.c:253
@@ -5548,26 +5399,24 @@ msgstr "Нормальный"
 #: calendar/gui/e-cal-model-tasks.c:346 calendar/gui/e-cal-model-tasks.c:649
 #: calendar/gui/e-calendar-table.c:470 calendar/gui/print.c:2340
 msgid "Not Started"
-msgstr "Не начато"
+msgstr "Не началась"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:10
-#, fuzzy
 msgid "P_ercent complete:"
-msgstr "Завершено процентов: %i"
+msgstr "Выполн_ено (%):"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:11
 #: calendar/gui/e-calendar-table.c:400
 msgid "Undefined"
-msgstr "Неопределено"
+msgstr "Не определен"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:12
-#, fuzzy
 msgid "_Date completed:"
-msgstr "Дата выполнения:"
+msgstr "_Дата выполнения:"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:13
 msgid "_Priority:"
-msgstr "Приоритет:"
+msgstr "_Приоритет:"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:14
 msgid "_Status:"
@@ -5597,123 +5446,107 @@ msgid "Unable to open tasks in '%s'."
 msgstr "Не удается открыть задачи в '%s'."
 
 #: calendar/gui/dialogs/task-page.glade.h:2
-#, fuzzy
 msgid "<span weight=\"bold\">Basics</span>"
-msgstr "<span weight=\"bold\">Параметры</span>"
+msgstr "<span weight=\"bold\">Общие</span>"
 
 #: calendar/gui/dialogs/task-page.glade.h:3
-#, fuzzy
 msgid "<span weight=\"bold\">Date and Time</span>"
-msgstr "<span weight=\"bold\">Удаление почты</span>"
+msgstr "<span weight=\"bold\">Дата и время</span>"
 
 #: calendar/gui/dialogs/task-page.glade.h:7
-#, fuzzy
 msgid "D_escription:"
-msgstr "Описание:"
+msgstr "_Описание:"
 
 #: calendar/gui/dialogs/task-page.glade.h:10
-#, fuzzy
 msgid "Sta_rt date:"
-msgstr "Дата начала:"
+msgstr "Да_та начала:"
 
 #: calendar/gui/dialogs/task-page.glade.h:12
-#, fuzzy
 msgid "_Due date:"
-msgstr "Дата выполнения:"
+msgstr "Дата _выполнения:"
 
 #: calendar/gui/dialogs/task-page.glade.h:13
-#, fuzzy
 msgid "_Group:"
-msgstr "Группа"
+msgstr "_Группа:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:3
-#, fuzzy
 msgid "<b>Free/Busy C_alendars</b>"
-msgstr "<b>Параметры календаря</b>"
+msgstr "<b>К_алендари занятости</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:4
-#, fuzzy
 msgid "<b>Publishing Frequency</b>"
-msgstr "Частота публикации"
+msgstr "<b>Частота публикации</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:5
-#, fuzzy
 msgid "<b>Publishing _Location</b>"
-msgstr "Адрес для публикации занятости"
+msgstr "<b>_Адрес для публикации</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:6
-#, fuzzy
 msgid "Free/Busy Editor"
-msgstr "Информация о занятости"
+msgstr "Редактор занятости"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:7
-#, fuzzy
 msgid "_Daily"
-msgstr "День"
+msgstr "_Ежедневно"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:8
-#, fuzzy
 msgid "_Manual"
-msgstr "_Почта"
+msgstr "_Вручную"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:9
-#, fuzzy
 msgid "_Password:"
-msgstr "Пароль:"
+msgstr "_Пароль:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:10
-#, fuzzy
 msgid "_Remember password"
-msgstr "Запомнить пароль"
+msgstr "_Запомнить пароль"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:11
-#, fuzzy
 msgid "_Username:"
 msgstr "_Имя пользователя:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:12
-#, fuzzy
 msgid "_Weekly"
-msgstr "Еженедельно"
+msgstr "Еже_недельно"
 
 #: calendar/gui/e-alarm-list.c:395
-#, fuzzy, c-format
+#, c-format
 msgid "%d day"
 msgid_plural "%d days"
-msgstr[0] "%d дней"
-msgstr[1] "%d дней"
+msgstr[0] "%d день"
+msgstr[1] "%d дня"
 msgstr[2] "%d дней"
 
 #: calendar/gui/e-alarm-list.c:400
-#, fuzzy, c-format
+#, c-format
 msgid "%d week"
 msgid_plural "%d weeks"
-msgstr[0] "%d недель"
-msgstr[1] "%d недель"
+msgstr[0] "%d неделя"
+msgstr[1] "%d недели"
 msgstr[2] "%d недель"
 
 #: calendar/gui/e-alarm-list.c:405
-#, fuzzy, c-format
+#, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
-msgstr[0] "%d часов"
-msgstr[1] "%d часов"
+msgstr[0] "%d час"
+msgstr[1] "%d часа"
 msgstr[2] "%d часов"
 
 #: calendar/gui/e-alarm-list.c:410
-#, fuzzy, c-format
+#, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
-msgstr[0] "%d минут"
-msgstr[1] "%d минут"
+msgstr[0] "%d минута"
+msgstr[1] "%d минуты"
 msgstr[2] "%d минут"
 
 #: calendar/gui/e-alarm-list.c:415
-#, fuzzy, c-format
+#, c-format
 msgid "%d second"
 msgid_plural "%d seconds"
-msgstr[0] "%d секунд"
-msgstr[1] "%d секунд"
+msgstr[0] "%d секунда"
+msgstr[1] "%d секунды"
 msgstr[2] "%d секунд"
 
 #: calendar/gui/e-alarm-list.c:462
@@ -5800,14 +5633,12 @@ msgid "Description:"
 msgstr "Описание:"
 
 #: calendar/gui/e-cal-component-preview.c:300
-#, fuzzy
 msgid "Web Page:"
-msgstr "_Веб-страница:"
+msgstr "Веб-страница:"
 
 #: calendar/gui/e-cal-list-view.etspec.h:2
-#, fuzzy
 msgid "End Date"
-msgstr "Дата"
+msgstr "Дата завершения"
 
 #: calendar/gui/e-cal-list-view.etspec.h:4
 msgid "Start Date"
@@ -6038,20 +5869,18 @@ msgstr "Щёлкните здесь, чтобы добавить задачу"
 #: calendar/gui/e-calendar-table.etspec.h:2
 #, no-c-format
 msgid "% Complete"
-msgstr "% Выполнено"
+msgstr "% Завершено"
 
 #: calendar/gui/e-calendar-table.etspec.h:5 camel/camel-filter-driver.c:1178
 #: camel/camel-filter-driver.c:1270 mail/mail-send-recv.c:615
 msgid "Complete"
-msgstr "Выполнено"
+msgstr "Завершена"
 
 #: calendar/gui/e-calendar-table.etspec.h:6
-#, fuzzy
 msgid "Completion date"
 msgstr "Дата выполнения"
 
 #: calendar/gui/e-calendar-table.etspec.h:7
-#, fuzzy
 msgid "Due date"
 msgstr "Срок выполнения"
 
@@ -6060,7 +5889,6 @@ msgid "Priority"
 msgstr "Приоритет"
 
 #: calendar/gui/e-calendar-table.etspec.h:9
-#, fuzzy
 msgid "Start date"
 msgstr "Дата начала"
 
@@ -6069,14 +5897,12 @@ msgid "Task sort"
 msgstr "Сортировка задач"
 
 #: calendar/gui/e-calendar-view.c:1176
-#, fuzzy
 msgid "Moving items"
-msgstr "Перемещение сообщений"
+msgstr "Перемещение элементов"
 
 #: calendar/gui/e-calendar-view.c:1178
-#, fuzzy
 msgid "Copying items"
-msgstr "Копирование сообщений"
+msgstr "Копирование элементов"
 
 #: calendar/gui/e-calendar-view.c:1332 calendar/gui/e-calendar-view.c:1420
 msgid "New _Appointment..."
@@ -6095,28 +5921,24 @@ msgid "New Task"
 msgstr "Новая задача"
 
 #: calendar/gui/e-calendar-view.c:1349 ui/evolution-calendar.xml.h:26
-#, fuzzy
 msgid "Select _Today"
-msgstr "Выделить подшивку"
+msgstr "Выделить _сегодняшний день"
 
 #: calendar/gui/e-calendar-view.c:1350
-#, fuzzy
 msgid "_Select Date..."
-msgstr "_Выбрать..."
+msgstr "_Выделить дату..."
 
 #: calendar/gui/e-calendar-view.c:1354 ui/evolution-calendar.xml.h:45
 msgid "_Publish Free/Busy Information"
 msgstr "Опубликовать информацию о занятости"
 
 #: calendar/gui/e-calendar-view.c:1373
-#, fuzzy
 msgid "Cop_y to Calendar..."
-msgstr "Копировать в папку..."
+msgstr "Коп_ировать в календарь..."
 
 #: calendar/gui/e-calendar-view.c:1374
-#, fuzzy
 msgid "Mo_ve to Calendar..."
-msgstr "Переместить в папку..."
+msgstr "Пере_местить в Календарь..."
 
 #: calendar/gui/e-calendar-view.c:1375
 msgid "_Schedule Meeting..."
@@ -6198,28 +6020,28 @@ msgid "Yes. (Complex Recurrence)"
 msgstr "Да. (Сложное повторение)"
 
 #: calendar/gui/e-itip-control.c:596
-#, fuzzy, c-format
+#, c-format
 msgid "Every day"
 msgid_plural "Every %d days"
-msgstr[0] "Каждый день"
-msgstr[1] "Каждый день"
-msgstr[2] "Каждый день"
+msgstr[0] "Каждый %d день"
+msgstr[1] "Каждые %d дня"
+msgstr[2] "Каждые %d дней"
 
 #: calendar/gui/e-itip-control.c:601
-#, fuzzy, c-format
+#, c-format
 msgid "Every week"
 msgid_plural "Every %d weeks"
-msgstr[0] "Каждую неделю"
-msgstr[1] "Каждую неделю"
-msgstr[2] "Каждую неделю"
+msgstr[0] "Каждую %d неделю"
+msgstr[1] "Каждые %d недели"
+msgstr[2] "Каждые %d недель"
 
 #: calendar/gui/e-itip-control.c:603
-#, fuzzy, c-format
+#, c-format
 msgid "Every week on "
 msgid_plural "Every %d weeks on "
-msgstr[0] "Каждую неделю в "
-msgstr[1] "Каждую неделю в "
-msgstr[2] "Каждую неделю в "
+msgstr[0] "Каждую %d неделю в "
+msgstr[1] "Каждые %d недели в "
+msgstr[2] "Каждые %d недель в "
 
 #: calendar/gui/e-itip-control.c:611
 msgid " and "
@@ -6236,27 +6058,27 @@ msgid "The %s %s of "
 msgstr "%s %s "
 
 #: calendar/gui/e-itip-control.c:638
-#, fuzzy, c-format
+#, c-format
 msgid "every month"
 msgid_plural "every %d months"
-msgstr[0] "каждый месяц"
-msgstr[1] "каждый месяц"
-msgstr[2] "каждый месяц"
+msgstr[0] "каждый %d месяц"
+msgstr[1] "каждые %d месяца"
+msgstr[2] "каждые %d месяцев"
 
 #: calendar/gui/e-itip-control.c:642
-#, fuzzy, c-format
+#, c-format
 msgid "Every year"
 msgid_plural "Every %d years"
-msgstr[0] "Каждый год"
-msgstr[1] "Каждый год"
-msgstr[2] "Каждый год"
+msgstr[0] "Каждый %d год"
+msgstr[1] "Каждые %d года"
+msgstr[2] "Каждые %d лет"
 
 #: calendar/gui/e-itip-control.c:653
-#, fuzzy, c-format
+#, c-format
 msgid "a total of %d time"
 msgid_plural " a total of %d times"
 msgstr[0] " всего %d раз"
-msgstr[1] " всего %d раз"
+msgstr[1] " всего %d раза"
 msgstr[2] " всего %d раз"
 
 #: calendar/gui/e-itip-control.c:662
@@ -6264,18 +6086,16 @@ msgid ", ending on "
 msgstr ", заканчивается на"
 
 #: calendar/gui/e-itip-control.c:686
-#, fuzzy
 msgid "Starts"
-msgstr "Состояние"
+msgstr "Начинается"
 
 #: calendar/gui/e-itip-control.c:699
 msgid "Ends"
-msgstr ""
+msgstr "Заканчивается"
 
 #: calendar/gui/e-itip-control.c:733
-#, fuzzy
 msgid "Due"
-msgstr "К дате"
+msgstr "Срок завершения"
 
 #: calendar/gui/e-itip-control.c:773 calendar/gui/e-itip-control.c:830
 msgid "iCalendar Information"
@@ -6365,12 +6185,11 @@ msgstr "Отправить последнюю информацию"
 msgid ""
 "The meeting has been cancelled, however it could not be found in your "
 "calendars"
-msgstr ""
+msgstr "Собрание было отменено, но оно не может быть найдено в ваших календарях"
 
 #: calendar/gui/e-itip-control.c:1121
-msgid ""
-"The task has been cancelled, however it could not be found in your task lists"
-msgstr ""
+msgid "The task has been cancelled, however it could not be found in your task lists"
+msgstr "Задача была отменена, но она не может быть найдена в ваших списках задач"
 
 #: calendar/gui/e-itip-control.c:1134 calendar/gui/itip-utils.c:442
 #: mail/mail-send-recv.c:410 mail/mail-send-recv.c:464
@@ -6567,13 +6386,11 @@ msgstr "Объект некорректен и не может быть обно
 
 #: calendar/gui/e-itip-control.c:1855
 msgid "This response is not from a current attendee.  Add as an attendee?"
-msgstr ""
-"Этот ответ пришел не от текущего участника.  Добавить его, как участника?"
+msgstr "Этот ответ пришел не от текущего участника.  Добавить его, как участника?"
 
 #: calendar/gui/e-itip-control.c:1867
 msgid "Attendee status could not be updated because of an invalid status!\n"
-msgstr ""
-"Статус участника не может быть обновлён из-за неверного текущего статуса!\n"
+msgstr "Статус участника не может быть обновлён из-за неверного текущего статуса!\n"
 
 #: calendar/gui/e-itip-control.c:1884
 msgid "Attendee status updated\n"
@@ -6736,24 +6553,20 @@ msgid "No Information"
 msgstr "Нет информации"
 
 #: calendar/gui/e-meeting-time-sel.c:432
-#, fuzzy
 msgid "O_ptions"
-msgstr "Параметры"
+msgstr "_Параметры"
 
 #: calendar/gui/e-meeting-time-sel.c:449
-#, fuzzy
 msgid "Show _only working hours"
-msgstr "Показывать только рабочие часы"
+msgstr "Показывать _только рабочие часы"
 
 #: calendar/gui/e-meeting-time-sel.c:459
-#, fuzzy
 msgid "Show _zoomed out"
-msgstr "Показывать уменьшенные"
+msgstr "Показывать уменьшенный"
 
 #: calendar/gui/e-meeting-time-sel.c:474
-#, fuzzy
 msgid "_Update free/busy"
-msgstr "Обновить информацию о занятости"
+msgstr "_Обновить информацию о занятости"
 
 #: calendar/gui/e-meeting-time-sel.c:489
 msgid "_<<"
@@ -6768,24 +6581,20 @@ msgid ">_>"
 msgstr ">_>"
 
 #: calendar/gui/e-meeting-time-sel.c:539
-#, fuzzy
 msgid "_All people and resources"
-msgstr "Все люди и ресурсы"
+msgstr "_Все люди и ресурсы"
 
 #: calendar/gui/e-meeting-time-sel.c:548
-#, fuzzy
 msgid "All _people and one resource"
-msgstr "Все люди и один ресурс"
+msgstr "Все _люди и один ресурс"
 
 #: calendar/gui/e-meeting-time-sel.c:557
-#, fuzzy
 msgid "_Required people"
-msgstr "Требуемые люди"
+msgstr "_Требуемые люди"
 
 #: calendar/gui/e-meeting-time-sel.c:566
-#, fuzzy
 msgid "Required people and _one resource"
-msgstr "Требуемые люди и один ресурс"
+msgstr "Требуемые люди и _один ресурс"
 
 #: calendar/gui/e-pub-utils.c:300
 #, c-format
@@ -6823,9 +6632,8 @@ msgid "Expunging"
 msgstr "Очистка папки"
 
 #: calendar/gui/gnome-cal.c:705
-#, fuzzy
 msgid "Updating query"
-msgstr "Обновление объектов"
+msgstr "Обновляется очередь"
 
 #: calendar/gui/gnome-cal.c:2038
 #, fuzzy, c-format
@@ -6843,9 +6651,8 @@ msgid "Opening %s"
 msgstr "Открывается %s"
 
 #: calendar/gui/gnome-cal.c:3111
-#, fuzzy
 msgid "Purging"
-msgstr "Турин"
+msgstr "Очистка"
 
 #: calendar/gui/goto-dialog.glade.h:1
 msgid "April"
@@ -6892,18 +6699,16 @@ msgid "October"
 msgstr "Октябрь"
 
 #: calendar/gui/goto-dialog.glade.h:12
-#, fuzzy
 msgid "Select Date"
-msgstr "Выделить весь текст"
+msgstr "Выделить дату"
 
 #: calendar/gui/goto-dialog.glade.h:13
 msgid "September"
 msgstr "Сентябрь"
 
 #: calendar/gui/goto-dialog.glade.h:14
-#, fuzzy
 msgid "_Select Today"
-msgstr "Выбрать папку"
+msgstr "_Выделить сегодняшний день"
 
 #: calendar/gui/itip-utils.c:271 calendar/gui/itip-utils.c:319
 #: calendar/gui/itip-utils.c:351
@@ -7246,25 +7051,24 @@ msgid "New Task List"
 msgstr "Новый список задач"
 
 #: calendar/gui/tasks-component.c:415
-#, fuzzy, c-format
+#, c-format
 msgid "%d task"
 msgid_plural "%d tasks"
-msgstr[0] "%d контактов"
-msgstr[1] "%d контактов"
-msgstr[2] "%d контактов"
+msgstr[0] "%d задача"
+msgstr[1] "%d задачи"
+msgstr[2] "%d задач"
 
 #: calendar/gui/tasks-component.c:417 mail/mail-component.c:498
-#, fuzzy, c-format
+#, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
-msgstr[0] "Удалённое"
-msgstr[1] "Удалённое"
-msgstr[2] "Удалённое"
+msgstr[0] ", выделено %d"
+msgstr[1] ", выделено %d"
+msgstr[2] ", выделено %d"
 
 #: calendar/gui/tasks-component.c:464
-#, fuzzy
 msgid "Failed upgrading tasks."
-msgstr "Загрузка задач"
+msgstr "Не удалось обновить задачи."
 
 #: calendar/gui/tasks-component.c:756
 #, c-format
@@ -7273,7 +7077,7 @@ msgstr "Не удается открыть список задач '%s' для �
 
 #: calendar/gui/tasks-component.c:768
 msgid "There is no calendar available for creating tasks"
-msgstr ""
+msgstr "Нет календаря, доступного для создания задач"
 
 #: calendar/gui/tasks-component.c:1042
 msgid "New task"
@@ -7293,29 +7097,24 @@ msgid "New assigned task"
 msgstr "Назначить задачу"
 
 #: calendar/gui/tasks-component.c:1051
-#, fuzzy
 msgid "Assigne_d Task"
-msgstr "Назначить задачу"
+msgstr "Назначенная за_дача"
 
 #: calendar/gui/tasks-component.c:1052
-#, fuzzy
 msgid "Create a new assigned task"
-msgstr "Создать новую задачу"
+msgstr "Создать новую назначенную задачу"
 
 #: calendar/gui/tasks-component.c:1058
-#, fuzzy
 msgid "New task list"
 msgstr "Новый список задач"
 
 #: calendar/gui/tasks-component.c:1059
-#, fuzzy
 msgid "Task l_ist"
-msgstr "Список задач"
+msgstr "Сп_исок задач"
 
 #: calendar/gui/tasks-component.c:1060
-#, fuzzy
 msgid "Create a new task list"
-msgstr "Создать новую задачу"
+msgstr "Создать новый список задач"
 
 #: calendar/gui/tasks-control.c:367
 msgid ""
@@ -7362,9 +7161,8 @@ msgid "vCalendar files (.vcf)"
 msgstr "Файлы vCalendar (.vcf)"
 
 #: calendar/importers/icalendar-importer.c:82
-#, fuzzy
 msgid "Appointments and Meetings"
-msgstr "Очистить старые встречи и собрания"
+msgstr "Встречи и собрания"
 
 #: calendar/importers/icalendar-importer.c:494
 msgid "Reminder!!"
@@ -8920,36 +8718,32 @@ msgid "Signing is not supported by this cipher"
 msgstr "Подпись не поддерживается этим шифром"
 
 #: camel/camel-cipher-context.c:128
-#, fuzzy
 msgid "Signing message"
-msgstr "Отправка сообщения"
+msgstr "Сообщение подписывается"
 
 #: camel/camel-cipher-context.c:145
 msgid "Verifying is not supported by this cipher"
 msgstr "Проверка не поддерживается этим шифром"
 
 #: camel/camel-cipher-context.c:171
-#, fuzzy
 msgid "Verifying message"
-msgstr "Отправка сообщения"
+msgstr "Сообщение проверяется"
 
 #: camel/camel-cipher-context.c:189
 msgid "Encryption is not supported by this cipher"
 msgstr "Шифрование не поддерживается этим шифром"
 
 #: camel/camel-cipher-context.c:215
-#, fuzzy
 msgid "Encrypting message"
-msgstr "Отправка сообщения"
+msgstr "Сообщение шифруется"
 
 #: camel/camel-cipher-context.c:232
 msgid "Decryption is not supported by this cipher"
 msgstr "Расшифровка не поддерживается этим шифром"
 
 #: camel/camel-cipher-context.c:254
-#, fuzzy
 msgid "Decrypting message"
-msgstr "Отправка сообщения"
+msgstr "Сообщение расшифровывается"
 
 #: camel/camel-cipher-context.c:271
 msgid "You may not import keys with this cipher"
@@ -9018,7 +8812,7 @@ msgid "Failed to create pipe to '%s': %s"
 msgstr "Сбой при создании канала к \"%s\": %s"
 
 #: camel/camel-filter-driver.c:713 camel/camel-process.c:90
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create child process '%s': %s"
 msgstr "Сбой при создании дочернего процесса '%s': %s"
 
@@ -9135,9 +8929,8 @@ msgid "(match-threads) expects an array result"
 msgstr "(совпадает все) требует единственного логического результата"
 
 #: camel/camel-folder-search.c:790
-#, fuzzy
 msgid "(match-threads) requires the folder set"
-msgstr "(совпадает все) требует единственного логического результата"
+msgstr "(match-threads) требует набор папок"
 
 #: camel/camel-folder-search.c:879
 #, c-format
@@ -9157,8 +8950,7 @@ msgstr "Неподдерживаемая операция: поиск выраж
 #: camel/camel-folder.c:1302
 #, c-format
 msgid "Unsupported operation: search by uids: for %s"
-msgstr ""
-"Неподдерживаемая операция: поиск по идентификатору пользователя: для %s"
+msgstr "Неподдерживаемая операция: поиск по идентификатору пользователя: для %s"
 
 #: camel/camel-folder.c:1416
 msgid "Moving messages"
@@ -9169,18 +8961,16 @@ msgid "Copying messages"
 msgstr "Копирование сообщений"
 
 #: camel/camel-folder.c:1665
-#, fuzzy
 msgid "Learning junk"
-msgstr "Изменение статуса спама"
+msgstr ""
 
 #: camel/camel-folder.c:1682
 msgid "Learning non-junk"
 msgstr ""
 
 #: camel/camel-folder.c:1701
-#, fuzzy
 msgid "Filtering new message(s)"
-msgstr "Получение %d сообщений"
+msgstr "Фильтрация новых сообщений"
 
 #: camel/camel-gpg-context.c:735
 #, c-format
@@ -9231,8 +9021,7 @@ msgstr "Неожиданный ответ от GnuPG: %s"
 
 #: camel/camel-gpg-context.c:880
 msgid "Failed to encrypt: No valid recipients specified."
-msgstr ""
-"Не удается зашифровать это сообщение: Не определены корректные получатели"
+msgstr "Не удается зашифровать это сообщение: Не определены корректные получатели"
 
 #: camel/camel-gpg-context.c:1157
 #, c-format
@@ -9251,9 +9040,9 @@ msgid "Failed to GPG %s: %s\n"
 msgstr "Сбой при кодировании GPG %s: %s\n"
 
 #: camel/camel-gpg-context.c:1275 camel/camel-smime-context.c:419
-#, fuzzy, c-format
+#, c-format
 msgid "Could not generate signing data: %s"
-msgstr "Не удается записать данные: %s"
+msgstr "Не удается сгенерировать данные подписи: %s"
 
 #: camel/camel-gpg-context.c:1307 camel/camel-gpg-context.c:1762
 #: camel/camel-gpg-context.c:1813
@@ -9281,18 +9070,16 @@ msgstr "Не удается проверить подпись сообщения
 #: camel/camel-gpg-context.c:1477
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
-msgstr ""
-"Не удается проверить подпись сообщения: не удается создать временный файл: %s"
+msgstr "Не удается проверить подпись сообщения: не удается создать временный файл: %s"
 
 #: camel/camel-gpg-context.c:1565
-#, fuzzy, c-format
+#, c-format
 msgid "Could not generate encrypting data: %s"
-msgstr "Не удается записать данные: %s"
+msgstr "Не удается сгенерировать данные шифрования: %s"
 
 #: camel/camel-gpg-context.c:1623
-#, fuzzy
 msgid "This is a digitally encrypted message part"
-msgstr "Эта часть сообщения подписана цифровой подписью"
+msgstr "Это зашифрованная часть сообщения"
 
 #: camel/camel-gpg-context.c:1721 camel/camel-smime-context.c:995
 msgid "Encrypted content"
@@ -9421,8 +9208,7 @@ msgstr "Для чтения почты по запросу к другому н�
 #: camel/camel-provider.c:172
 #, c-format
 msgid "Could not load %s: Module loading not supported on this system."
-msgstr ""
-"Не удается загрузить %s: Загрузка модулей не поддерживается в этой системе."
+msgstr "Не удается загрузить %s: Загрузка модулей не поддерживается в этой системе."
 
 #: camel/camel-provider.c:181
 #, c-format
@@ -9743,14 +9529,13 @@ msgid "Enter security pass-phrase for `%s'"
 msgstr "Введите секретную фразу для '%s'"
 
 #: camel/camel-smime-context.c:261
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot find certificate for '%s'"
-msgstr "Не удается создать папку: %s: %s"
+msgstr "Не удается найти сертификат для '%s'"
 
 #: camel/camel-smime-context.c:267
-#, fuzzy
 msgid "Cannot create CMS message"
-msgstr "Не удается открыть сообщение"
+msgstr "Не удается создать сообщение CMS"
 
 #: camel/camel-smime-context.c:272
 msgid "Cannot create CMS signedData"
@@ -9779,9 +9564,9 @@ msgid "Cannot add CMS SigningTime"
 msgstr ""
 
 #: camel/camel-smime-context.c:325 camel/camel-smime-context.c:337
-#, fuzzy, c-format
+#, c-format
 msgid "Encryption cert for '%s' does not exist"
-msgstr "Папка \"%s\" не существует."
+msgstr "Сертификат шифрования для '%s' не существует"
 
 #: camel/camel-smime-context.c:344
 msgid "Cannot add SMIMEEncKeyPrefs attribute"
@@ -9792,9 +9577,8 @@ msgid "Cannot add MS SMIMEEncKeyPrefs attribute"
 msgstr ""
 
 #: camel/camel-smime-context.c:354
-#, fuzzy
 msgid "Cannot add encryption certificate"
-msgstr "ID _сертификата:"
+msgstr "Не удается добавить сертификат шифрования"
 
 #: camel/camel-smime-context.c:360
 msgid "Cannot add CMS SignerInfo"
@@ -9811,33 +9595,28 @@ msgid "Failed to add data to CMS encoder"
 msgstr "Ошибка сохранения в локальной папке \"Отправленные\": %s"
 
 #: camel/camel-smime-context.c:441 camel/camel-smime-context.c:894
-#, fuzzy
 msgid "Failed to encode data"
-msgstr "Ошибка проверки подлинности.\n"
+msgstr "Ошибка кодирования данных"
 
 #: camel/camel-smime-context.c:514
-#, fuzzy
 msgid "Unverified"
-msgstr "Неопределено"
+msgstr "Непроверено"
 
 #: camel/camel-smime-context.c:516
-#, fuzzy
 msgid "Good signature"
-msgstr "Редактирование подписи"
+msgstr "Подпись верна"
 
 #: camel/camel-smime-context.c:518
-#, fuzzy
 msgid "Bad signature"
-msgstr "Редактирование подписи"
+msgstr "Подпись неверна"
 
 #: camel/camel-smime-context.c:520
 msgid "Content tampered with or altered in transit"
-msgstr ""
+msgstr "Сообщение было подделано или изменено на пути"
 
 #: camel/camel-smime-context.c:522
-#, fuzzy
 msgid "Signing certificate not found"
-msgstr "Самоподписанный сертификат в цепочке"
+msgstr "Сертификат подписи не найден"
 
 #: camel/camel-smime-context.c:524
 #, fuzzy
@@ -9849,14 +9628,12 @@ msgid "Signature algorithm unknown"
 msgstr "Неизвестный алгоритм подписи"
 
 #: camel/camel-smime-context.c:528
-#, fuzzy
 msgid "Signature algorithm unsupported"
-msgstr "Алгоритм подписи не поддерживается"
+msgstr "Неподдерживаемый алгоритм подписи"
 
 #: camel/camel-smime-context.c:530
-#, fuzzy
 msgid "Malformed signature"
-msgstr "Сохранить подпись"
+msgstr "Неверно сформированная подпись"
 
 #: camel/camel-smime-context.c:532
 msgid "Processing error"
@@ -9882,9 +9659,8 @@ msgid "Cannot set message digests"
 msgstr "Не удается получить сообщение %s: %s"
 
 #: camel/camel-smime-context.c:614 camel/camel-smime-context.c:619
-#, fuzzy
 msgid "Certificate import failed"
-msgstr "Ошибка в подписи сертификата"
+msgstr "Сбой импорта сертификата"
 
 #: camel/camel-smime-context.c:628
 msgid "Certificate only message, cannot verify certificates"
@@ -9905,14 +9681,13 @@ msgid "Signer: %s <%s>: %s\n"
 msgstr "Подписано: %s <%s>: %s\n"
 
 #: camel/camel-smime-context.c:752
-#, fuzzy
 msgid "Decoder failed"
-msgstr "Сбой команды IMAP: %s"
+msgstr "Сбой декодера"
 
 #: camel/camel-smime-context.c:804
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot find certificate for `%s'"
-msgstr "Не удается создать папку: %s: %s"
+msgstr "Не удается найти сертификат для `%s'"
 
 #: camel/camel-smime-context.c:811
 msgid "Cannot find common bulk encryption algorithm"
@@ -9924,9 +9699,8 @@ msgid "Cannot allocate slot for encryption bulk key"
 msgstr ""
 
 #: camel/camel-smime-context.c:831
-#, fuzzy
 msgid "Cannot create CMS Message"
-msgstr "Не удается открыть сообщение"
+msgstr "Не удается создать сообщение CMS"
 
 #: camel/camel-smime-context.c:837
 #, fuzzy
@@ -9960,11 +9734,11 @@ msgstr "Сбой передачи имени пользователя на се�
 #: camel/camel-smime-context.c:975
 #, c-format
 msgid "Decoder failed, error %d"
-msgstr ""
+msgstr "Сбой декодера, ошибка %d"
 
 #: camel/camel-smime-context.c:982
 msgid "S/MIME Decrypt: No encrypted content found"
-msgstr ""
+msgstr "S/MIME Decrypt: Не найдено зашифрованного содержимого"
 
 #: camel/camel-smime-context.c:1009
 #, fuzzy
@@ -9980,18 +9754,18 @@ msgid "Cannot get folder: Invalid operation on this store"
 msgstr "Не удается получить папку: недопустимая операция в этом хранилище"
 
 #: camel/camel-store.c:243
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create folder `%s': folder exists"
-msgstr "Не удается создать папку: %s: %s"
+msgstr "Не удается создать папку `%s': папка существует"
 
 #: camel/camel-store.c:297
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "Не удается создать папку: недопустимая операция в этом хранилище"
 
 #: camel/camel-store.c:325
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create folder: %s: folder exists"
-msgstr "Не удается создать папку: %s: %s"
+msgstr "Не удается создать папку: %s: папка существует"
 
 #: camel/camel-store.c:389 camel/camel-vee-store.c:351
 #, c-format
@@ -10250,14 +10024,12 @@ msgid "Cannot rename folder: %s: No such folder"
 msgstr "Не удается переименовать папку: %s: нет такой папки"
 
 #: camel/camel-vtrash-folder.c:44
-#, fuzzy
 msgid "Cannot copy messages to the Trash folder"
-msgstr "Вы не можете копировать сообщения из папки NNTP!"
+msgstr "Не удается переместить сообщения в корзину"
 
 #: camel/camel-vtrash-folder.c:46
-#, fuzzy
 msgid "Cannot copy messages to the Junk folder"
-msgstr "Вы не можете копировать сообщения из папки NNTP!"
+msgstr "Не удается переместить сообщения в папку \"Спам\""
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:53
 #: camel/providers/imap4/camel-imap4-provider.c:35
@@ -10272,8 +10044,7 @@ msgstr "Проверять новую почту во всех папках"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:59
 msgid "Apply filters to new messages in Inbox on this server"
-msgstr ""
-"Применить фильтры к новым сообщениям в папке \"Входящие\" на этом сервере"
+msgstr "Применить фильтры к новым сообщениям в папке \"Входящие\" на этом сервере"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:61
 #: camel/providers/imap/camel-imap-provider.c:66
@@ -10283,8 +10054,7 @@ msgstr "Проверять, являются ли новые сообщения 
 #: camel/providers/groupwise/camel-groupwise-provider.c:63
 #: camel/providers/imap/camel-imap-provider.c:68
 msgid "Only check for Junk messages in the INBOX folder"
-msgstr ""
-"Проверять, являются ли новые сообщения спамом, только в папке \"Входящие\""
+msgstr "Проверять, являются ли новые сообщения спамом, только в папке \"Входящие\""
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:65
 #: camel/providers/imap/camel-imap-provider.c:70
@@ -10292,9 +10062,8 @@ msgid "Automatically synchronize remote mail locally"
 msgstr "Автоматически синхронизировать удаленную почту локально"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:69
-#, fuzzy
 msgid "Address Book And Calendar"
-msgstr "Адресная книга"
+msgstr "Адресная книга и календарь"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:72
 msgid "Post Office Agent:"
@@ -10306,14 +10075,13 @@ msgstr ""
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:78
 msgid "Use ssl"
-msgstr ""
+msgstr "Использовать ssl"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:92
 msgid "Novell GroupWise"
 msgstr "Novell GroupWise"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:94
-#, fuzzy
 msgid "For accessing Novell Groupwise servers"
 msgstr "Для доступа к серверам Novell Groupwise"
 
@@ -10450,18 +10218,17 @@ msgstr "Получение краткой информации по новым �
 #: camel/providers/imap/camel-imap-folder.c:2461
 #, c-format
 msgid "Incomplete server response: no information provided for message %d"
-msgstr ""
+msgstr "Неполный ответ сервера: не предоставлена информация о сообщении %d"
 
 #: camel/providers/imap/camel-imap-folder.c:2469
 #, c-format
 msgid "Incomplete server response: no UID provided for message %d"
-msgstr ""
+msgstr "Неполный ответ сервера: отсутствует UID для сообщения %d"
 
 #: camel/providers/imap/camel-imap-folder.c:2482
 #, c-format
-msgid ""
-"Unexpected server response: Identical UIDs provided for messages %d and %d"
-msgstr ""
+msgid "Unexpected server response: Identical UIDs provided for messages %d and %d"
+msgstr "Неожиданный ответ сервера: одинаковые UID для сообщений %d и %d"
 
 #: camel/providers/imap/camel-imap-folder.c:2658
 msgid "Could not find message body in FETCH response."
@@ -10486,7 +10253,6 @@ msgid "Failed to cache %s: %s"
 msgstr "Сбой при кэшировании %s: %s"
 
 #: camel/providers/imap/camel-imap-provider.c:43
-#, fuzzy
 msgid "Checking for New Mail"
 msgstr "Проверка новой почты"
 
@@ -10525,8 +10291,7 @@ msgstr "Пространство имен"
 
 #: camel/providers/imap/camel-imap-provider.c:64
 msgid "Apply filters to new messages in INBOX on this server"
-msgstr ""
-"Применить фильтры к новым сообщениям в папке \"Входящие\" на этом сервере"
+msgstr "Применить фильтры к новым сообщениям в папке \"Входящие\" на этом сервере"
 
 #: camel/providers/imap/camel-imap-provider.c:76
 msgid "IMAP"
@@ -10641,9 +10406,8 @@ msgstr "Нет такой папки %s"
 #: camel/providers/imap/camel-imap-store.c:1881
 #: camel/providers/imap/camel-imap-store.c:2259
 #: camel/providers/imap4/camel-imap4-store.c:763
-#, fuzzy, c-format
-msgid ""
-"The folder name \"%s\" is invalid because it contains the character \"%c\""
+#, c-format
+msgid "The folder name \"%s\" is invalid because it contains the character \"%c\""
 msgstr "Имя папки \"%s\" некорректно, так как содержит символ \"%c\""
 
 #: camel/providers/imap/camel-imap-store.c:1939
@@ -10655,9 +10419,9 @@ msgstr "Эта папка не может содержать подпапки"
 #: camel/providers/local/camel-maildir-store.c:139
 #: camel/providers/local/camel-mbox-store.c:212
 #: camel/providers/local/camel-mh-store.c:236
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create folder `%s': folder exists."
-msgstr "Не удается создать папку: %s: %s"
+msgstr "Не удается создать папку `%s': папка существует."
 
 #: camel/providers/imap/camel-imap-store.c:2270
 #, c-format
@@ -10666,37 +10430,37 @@ msgstr "Неизвестная родительская папка: %s"
 
 #: camel/providers/imap4/camel-imap4-command.c:550
 #: camel/providers/imap4/camel-imap4-command.c:557
-#, fuzzy, c-format
+#, c-format
 msgid "Failed sending command to IMAP server %s: %s"
-msgstr "Сбой идентификации на сервере POP %s: %s"
+msgstr "Ошибка отправки команды на сервер IMAP %s: %s"
 
 #: camel/providers/imap4/camel-imap4-command.c:656
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected response from IMAP4 server %s: %s"
-msgstr "Неожиданный ответ от сервера IMAP: %s"
+msgstr "Неожиданный ответ от сервера IMAP4 %s: %s"
 
 #: camel/providers/imap4/camel-imap4-engine.c:229
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected greeting from IMAP server %s."
-msgstr "Неожиданный ответ от сервера IMAP: %s"
+msgstr "Неожиданное приветствие от сервера IMAP %s."
 
 #: camel/providers/imap4/camel-imap4-engine.c:413
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot select folder `%s': Invalid mailbox name"
-msgstr "Не удается удалить папку: %s: недопустимая операция"
+msgstr "Не удается выделить папку '%s': Неверное имя почтового ящика"
 
 #: camel/providers/imap4/camel-imap4-engine.c:419
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot select folder `%s': Bad command"
-msgstr "Не удается получить папку: %s: %s"
+msgstr "Не удается выделить папку `%s': Неверная команда"
 
 #: camel/providers/imap4/camel-imap4-engine.c:1381
 #: camel/providers/imap4/camel-imap4-engine.c:1411
 #: camel/providers/imap4/camel-imap4-engine.c:1443
 #: camel/providers/imap4/camel-imap4-engine.c:1485
-#, fuzzy, c-format
+#, c-format
 msgid "IMAP4 server %s unexpectedly disconnected: %s"
-msgstr "Сервер неожиданно отключился: %s"
+msgstr "Сервер IMAP4 %s неожиданно отключился: %s"
 
 #: camel/providers/imap4/camel-imap4-folder.c:359
 #, fuzzy, c-format
@@ -10738,75 +10502,62 @@ msgid "Cannot append message to folder `%s': Unknown error"
 msgstr "Не удается добавить сообщение к папке mh: %s: %s"
 
 #: camel/providers/imap4/camel-imap4-folder.c:856
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot append message to folder `%s': Bad command"
-msgstr "Не удается добавить сообщение к папке mh: %s: %s"
+msgstr "Не удается добавить сообщение в папку `%s': неверная команда"
 
 #: camel/providers/imap4/camel-imap4-folder.c:935
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot move messages from folder `%s' to folder `%s': Unknown"
-msgstr ""
-"Не удается получить сообщение: %s из папки %s\n"
-"  %s"
+msgstr "Не удается получить переместить сообщения из папки `%s' в папку `%s': неизвестная ошибка"
 
 #: camel/providers/imap4/camel-imap4-folder.c:939
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot copy messages from folder `%s' to folder `%s': Unknown"
-msgstr ""
-"Не удается получить сообщение: %s из папки %s\n"
-"  %s"
+msgstr "Не удается получить сообщение: %s из папки %s: Неизвестная ошибка"
 
 #: camel/providers/imap4/camel-imap4-folder.c:947
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot move messages from folder `%s' to folder `%s': Bad command"
-msgstr ""
-"Не удается получить сообщение: %s из папки %s\n"
-"  %s"
+msgstr "Не удается переместить сообщения из папки `%s' в папку `%s': неверная команда"
 
 #: camel/providers/imap4/camel-imap4-folder.c:951
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot copy messages from folder `%s' to folder `%s': Bad command"
-msgstr ""
-"Не удается получить сообщение: %s из папки %s\n"
-"  %s"
+msgstr "Не удается скопировать сообщения из папки `%s' в папку `%s': неверная команда"
 
 #: camel/providers/imap4/camel-imap4-provider.c:53
-#, fuzzy
 msgid "IMAPv4rev1"
-msgstr "IMAPv4 "
+msgstr "IMAPv4rev1"
 
 #: camel/providers/imap4/camel-imap4-provider.c:55
-#, fuzzy
 msgid "For reading and storing mail on IMAPv4rev1 servers. EXPERIMENTAL !!"
-msgstr "Для чтения и хранения почты на серверах IMAP."
+msgstr "Для чтения и хранения почты на серверах IMAPv4rev1. ЭКСПЕРИМЕНТАЛЬНО !!"
 
 #: camel/providers/imap4/camel-imap4-provider.c:72
-#, fuzzy
-msgid ""
-"This option will connect to the IMAPv4rev1 server using a plaintext password."
+msgid "This option will connect to the IMAPv4rev1 server using a plaintext password."
 msgstr ""
 "Подключение к серверу IMAP будет производиться с использованием "
 "незашифрованного пароля."
 
 #: camel/providers/imap4/camel-imap4-store.c:256
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Failed to connect to IMAP server %s in secure mode: Server does not support "
 "STARTTLS"
-msgstr "Не удается подключиться к серверу IMAP %s в защищенном режиме:%s"
+msgstr "Не удается подключиться к серверу IMAP %s в защищенном режиме: сервер не поддерживает STARTTLS"
 
 #: camel/providers/imap4/camel-imap4-store.c:362
 #, fuzzy, c-format
-msgid ""
-"Cannot authenticate to IMAP server %s using the %s authentication mechanism"
+msgid "Cannot authenticate to IMAP server %s using the %s authentication mechanism"
 msgstr ""
 "Не удается подключиться к серверу POP %s: Не поддерживается затребованный "
 "механизм идентификации."
 
 #: camel/providers/imap4/camel-imap4-store.c:407
-#, fuzzy, c-format
+#, c-format
 msgid "%sPlease enter the IMAP password for %s on host %s"
-msgstr "%sВведите пароль SMTP для %s@%s"
+msgstr "%sВведите пароль SMTP для %s на узле %s"
 
 #: camel/providers/imap4/camel-imap4-store.c:477
 #, fuzzy, c-format
@@ -10824,39 +10575,39 @@ msgid "Cannot create folder `%s': Invalid mailbox name"
 msgstr "Не удается переименовать папку: %s: недопустимая операция"
 
 #: camel/providers/imap4/camel-imap4-store.c:820
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create folder `%s': Bad command"
-msgstr "Не удается создать папку: %s: %s"
+msgstr "Не удается создать папку `%s': неверная команда"
 
 #: camel/providers/imap4/camel-imap4-store.c:851
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot delete folder `%s': Special folder"
-msgstr "Не удается удалить папку: %s: нет такой папки"
+msgstr "Не удается удалить папку `%s': Специальная папка"
 
 #: camel/providers/imap4/camel-imap4-store.c:910
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot delete folder `%s': Invalid mailbox name"
-msgstr "Не удается удалить папку: %s: недопустимая операция"
+msgstr "Не удается удалить папку `%s': Неверное имя почтового ящика"
 
 #: camel/providers/imap4/camel-imap4-store.c:915
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot delete folder `%s': Bad command"
-msgstr "Не удается удалить папку: %s: недопустимая операция"
+msgstr "Не удается удалить папку: `%s': Неверная команда"
 
 #: camel/providers/imap4/camel-imap4-store.c:935
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot rename folder `%s' to `%s': Special folder"
-msgstr "Не удается удалить папку: %s: нет такой папки"
+msgstr "Не удается переименовать папку `%s' в `%s': Специальная папка"
 
 #: camel/providers/imap4/camel-imap4-store.c:967
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot rename folder `%s' to `%s': Invalid mailbox name"
-msgstr "Не удается переименовать папку: %s: недопустимая операция"
+msgstr "Не удается переименовать папку `%s' в `%s': Неверное имя почтового ящика"
 
 #: camel/providers/imap4/camel-imap4-store.c:972
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot rename folder `%s' to `%s': Bad command"
-msgstr "Не удается создать папку: %s: %s"
+msgstr "Не удается переименовать папку `%s' в `%s': Неверная команда"
 
 #: camel/providers/imap4/camel-imap4-store.c:1220
 #, c-format
@@ -10864,19 +10615,18 @@ msgid "Cannot get %s information for pattern `%s' on IMAP server %s: %s"
 msgstr ""
 
 #: camel/providers/imap4/camel-imap4-store.c:1222
-#, fuzzy
 msgid "Bad command"
-msgstr "Команда:"
+msgstr "Неверная команда"
 
 #: camel/providers/imap4/camel-imap4-store.c:1298
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot subscribe to folder `%s': Invalid mailbox name"
-msgstr "Не удается удалить папку: %s: недопустимая операция"
+msgstr "Не удается подписаться на папку `%s': Неверное имя почтового ящика"
 
 #: camel/providers/imap4/camel-imap4-store.c:1303
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot subscribe to folder `%s': Bad command"
-msgstr "Не удается создать папку: %s: %s"
+msgstr "Не удается подписаться на папку `%s': Неверная команда"
 
 #: camel/providers/imap4/camel-imap4-store.c:1363
 #, fuzzy, c-format
@@ -11531,8 +11281,7 @@ msgstr ""
 " %s"
 
 #: camel/providers/nntp/camel-nntp-provider.c:43
-msgid ""
-"Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
+msgid "Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
 msgstr ""
 
 #: camel/providers/nntp/camel-nntp-provider.c:45
@@ -11545,8 +11294,7 @@ msgstr "Новости USENET"
 
 #: camel/providers/nntp/camel-nntp-provider.c:54
 msgid "This is a provider for reading from and posting toUSENET newsgroups."
-msgstr ""
-"Это провайдер для чтения и отправки сообщений в группы новостей USENET."
+msgstr "Это провайдер для чтения и отправки сообщений в группы новостей USENET."
 
 #: camel/providers/nntp/camel-nntp-provider.c:73
 msgid ""
@@ -11817,8 +11565,7 @@ msgstr "Sendmail"
 msgid ""
 "For delivering mail by passing it to the \"sendmail\" program on the local "
 "system."
-msgstr ""
-"Для доставки почты путем запуска программы \"sendmail\" на локальной системе."
+msgstr "Для доставки почты путем запуска программы \"sendmail\" на локальной системе."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:113
 msgid "Could not parse recipient list"
@@ -11914,8 +11661,7 @@ msgstr "Запрошенное почтовое действие выполне�
 
 #: camel/providers/smtp/camel-smtp-transport.c:194
 msgid "User not local; will forward to <forward-path>"
-msgstr ""
-"Не локальный пользователь; будет отправлено в соответствии с <forward-path>"
+msgstr "Не локальный пользователь; будет отправлено в соответствии с <forward-path>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:196
 msgid "Requested mail action not taken: mailbox unavailable"
@@ -11935,8 +11681,7 @@ msgstr "Пользователь не локальный; установите <
 
 #: camel/providers/smtp/camel-smtp-transport.c:204
 msgid "Requested action not taken: insufficient system storage"
-msgstr ""
-"Запрошенное действие не выполнено: недостаточно места в системном хранилище"
+msgstr "Запрошенное действие не выполнено: недостаточно места в системном хранилище"
 
 #: camel/providers/smtp/camel-smtp-transport.c:206
 msgid "Requested mail action aborted: exceeded storage allocation"
@@ -12288,8 +12033,7 @@ msgstr "Вложить файл(ы)"
 
 #: composer/e-msg-composer.c:704
 #, fuzzy
-msgid ""
-"Cannot sign outgoing message: No signing certificate set for this account"
+msgid "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr "Всегда подписывать сообщения, когда используется эта учётная запись"
 
 #: composer/e-msg-composer.c:711
@@ -13052,8 +12796,7 @@ msgid "Composer Preferences"
 msgstr "Настройка редактора"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:3
-msgid ""
-"Configure mail preferences, including security and message display, here"
+msgid "Configure mail preferences, including security and message display, here"
 msgstr ""
 "Тут настраиваются параметры почты, включая безопасность и отображение "
 "сообщений"
@@ -13188,9 +12931,8 @@ msgid "Attachments"
 msgstr "Вложение"
 
 #: mail/em-filter-i18n.h:6
-#, fuzzy
 msgid "Beep"
-msgstr "Белиз"
+msgstr "Сигнал"
 
 #: mail/em-filter-i18n.h:7
 #, fuzzy
@@ -13631,9 +13373,8 @@ msgid "_Rename..."
 msgstr "Пе_реименовать"
 
 #: mail/em-folder-tree.c:2619 ui/evolution-mail-list.xml.h:27
-#, fuzzy
 msgid "_Properties"
-msgstr "Свойства"
+msgstr "_Свойства"
 
 #. { EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },
 #: mail/em-folder-view.c:900 mail/em-popup.c:690
@@ -13670,7 +13411,7 @@ msgstr "К _исполнению..."
 
 #: mail/em-folder-view.c:912
 msgid "Fla_g Completed"
-msgstr "_Флаг \"Выполнено\""
+msgstr "_Флаг \"Завершена\""
 
 #: mail/em-folder-view.c:913
 msgid "Cl_ear Flag"
@@ -13795,8 +13536,7 @@ msgstr "Не подписано"
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
-msgstr ""
-"Это сообщение не подписано. Отправитель не может быть аутентифицирован."
+msgstr "Это сообщение не подписано. Отправитель не может быть аутентифицирован."
 
 #: mail/em-format-html-display.c:642 mail/em-format-html.c:583
 msgid "Valid signature"
@@ -14043,23 +13783,20 @@ msgid "Spamassassin (built-in)"
 msgstr ""
 
 #: mail/em-mailer-prefs.c:100
-#, fuzzy
 msgid "Every time"
-msgstr "Каждый год"
+msgstr "Каждый раз"
 
 #: mail/em-mailer-prefs.c:101
 msgid "Once per day"
-msgstr ""
+msgstr "Один раз в день"
 
 #: mail/em-mailer-prefs.c:102
-#, fuzzy
 msgid "Once per week"
-msgstr "Каждую неделю"
+msgstr "Один раз в неделю"
 
 #: mail/em-mailer-prefs.c:103
-#, fuzzy
 msgid "Once per month"
-msgstr "каждый месяц"
+msgstr "Один раз в месяц"
 
 #: mail/em-migrate.c:1168
 msgid ""
@@ -14070,16 +13807,14 @@ msgid ""
 msgstr ""
 
 #: mail/em-migrate.c:1602
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to create new folder `%s': %s"
-msgstr "Не удается создать папку: %s: %s"
+msgstr "Не удается создать папку `%s': %s"
 
 #: mail/em-migrate.c:1628
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to copy folder `%s' to `%s': %s"
-msgstr ""
-"Не удается скопировать дескриптор файла: %s\n"
-"%s"
+msgstr "Не удается скопировать дескриптор файла: `%s' в `%s': %s"
 
 #: mail/em-migrate.c:1813
 #, fuzzy, c-format
@@ -14230,12 +13965,10 @@ msgid "Check incoming mail being junk"
 msgstr "Проверять, являются ли входящие сообщения спамом"
 
 #: mail/evolution-mail.schemas.in.in.h:4
-#, fuzzy
 msgid "Citation highlight color"
 msgstr "Цвет подсветки цитирования"
 
 #: mail/evolution-mail.schemas.in.in.h:5
-#, fuzzy
 msgid "Citation highlight color."
 msgstr "Цвет подсветки цитирования."
 
@@ -14460,8 +14193,7 @@ msgstr ""
 "папке."
 
 #: mail/evolution-mail.schemas.in.in.h:56
-msgid ""
-"Prompt the user when he or she tries to send a message without a Subject."
+msgid "Prompt the user when he or she tries to send a message without a Subject."
 msgstr ""
 "Предупреждать, если пользователь пытается отправить сообщение с пустым полем "
 "Subject."
@@ -14478,18 +14210,15 @@ msgstr "Предупреждать, если пользователь запол
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
-msgstr ""
-"Предупреждать при отправке сообщений в формате HTML тем, кто не желает этого."
+msgstr "Предупреждать при отправке сообщений в формате HTML тем, кто не желает этого."
 
 #: mail/evolution-mail.schemas.in.in.h:60
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
-msgstr ""
-"Предупреждать при попытке отправить сообщение с пустыми полями To и Cc."
+msgstr "Предупреждать при попытке отправить сообщение с пустыми полями To и Cc."
 
 #: mail/evolution-mail.schemas.in.in.h:61
 msgid "Prompt when user tries to send unwanted HTML"
-msgstr ""
-"Предупреждать, когда пользователь пытается отправить нежелательный HTML"
+msgstr "Предупреждать, когда пользователь пытается отправить нежелательный HTML"
 
 #: mail/evolution-mail.schemas.in.in.h:62
 msgid "Recognize links in text and replace them."
@@ -15012,9 +14741,8 @@ msgid "New Mail Folder"
 msgstr "Новая виртуальная папка"
 
 #: mail/mail-component.c:668
-#, fuzzy
 msgid "Mail _Folder"
-msgstr "Почтовые фильтры"
+msgstr "По_чтовая папка"
 
 #: mail/mail-component.c:669
 msgid "Create a new mail folder"
@@ -15120,7 +14848,7 @@ msgstr "<small>Это сделает фильтр более надежным, �
 
 #: mail/mail-config.glade.h:9
 msgid "<span weight=\"bold\">Account Information</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Описание учетной записи</span>"
 
 #: mail/mail-config.glade.h:10
 msgid "<span weight=\"bold\">Alerts</span>"
@@ -15252,9 +14980,8 @@ msgid "Always _blind carbon-copy (bcc) to:"
 msgstr "Всегда отправлять невидимую копию (Bcc) на:"
 
 #: mail/mail-config.glade.h:44
-#, fuzzy
 msgid "Always _sign outgoing messages when using this account"
-msgstr "Всегда подписывать сообщения, когда используется эта учетная запись"
+msgstr "В_сегда подписывать сообщения, когда используется эта учетная запись"
 
 #: mail/mail-config.glade.h:45
 msgid "Always _trust keys in my keyring when encrypting"
@@ -15269,9 +14996,8 @@ msgid "Attachment"
 msgstr "Вложение"
 
 #: mail/mail-config.glade.h:48
-#, fuzzy
 msgid "Automatically _insert smiley images"
-msgstr "_Автоматически вставлять изображение эмоций"
+msgstr "Автоматически вставлять _изображения эмоций"
 
 #: mail/mail-config.glade.h:49
 msgid "Automatically check for _new mail every"
@@ -15286,7 +15012,6 @@ msgid "Baltic (ISO-8859-4)"
 msgstr "Baltic (ISO-8859-4)"
 
 #: mail/mail-config.glade.h:52
-#, fuzzy
 msgid "Beep w_hen new mail arrives"
 msgstr "_Звуковой сигнал при приходе новой почты"
 
@@ -15375,9 +15100,8 @@ msgid "Email _Address:"
 msgstr "_Электронная почта:"
 
 #: mail/mail-config.glade.h:79
-#, fuzzy
 msgid "Empty trash folders on e_xit"
-msgstr "_Очищать корзину при выходе"
+msgstr "Очищать корзину при вы_ходе"
 
 #: mail/mail-config.glade.h:80
 msgid "Encry_ption certificate:"
@@ -15414,7 +15138,7 @@ msgstr "Заголовки"
 
 #: mail/mail-config.glade.h:89
 msgid "Highlight _quotations with"
-msgstr ""
+msgstr "Выделять _цитирование цветом:"
 
 #: mail/mail-config.glade.h:90
 msgid "IMAPv4 "
@@ -15547,9 +15271,8 @@ msgid "Server _Type: "
 msgstr "_Тип сервера: "
 
 #: mail/mail-config.glade.h:136
-#, fuzzy
 msgid "Si_gning certificate:"
-msgstr "ID _сертификата:"
+msgstr "Се_ртификат подписи:"
 
 #: mail/mail-config.glade.h:137
 msgid "Signat_ure:"
@@ -15667,8 +15390,7 @@ msgstr "_Никогда не загружать изображения из Ин
 
 #: mail/mail-config.glade.h:174
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
-msgstr ""
-"_Предупреждать при отправке сообщений в формате HTML тем, кто не желает этого"
+msgstr "П_редупреждать при отправке сообщений в формате HTML тем, кто не желает этого"
 
 #: mail/mail-config.glade.h:175
 msgid "_Prompt when sending messages with an empty subject line"
@@ -15696,7 +15418,7 @@ msgstr "_Использовать такие же шрифты, как и про
 
 #: mail/mail-config.glade.h:181
 msgid "color"
-msgstr "цвет"
+msgstr ""
 
 #: mail/mail-config.glade.h:182
 msgid "description"
@@ -15879,8 +15601,7 @@ msgstr ""
 #: mail/mail-errors.xml.h:22 mail/mail-errors.xml.h:29
 #, fuzzy
 msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr ""
-"Предупреждать при попытке отправить сообщение с пустыми полями To и Cc."
+msgstr "Предупреждать при попытке отправить сообщение с пустыми полями To и Cc."
 
 #. mail:ask-send-only-bcc-contact secondary
 #: mail/mail-errors.xml.h:24
@@ -15904,10 +15625,8 @@ msgstr ""
 
 #. mail:send-no-recipients primary
 #: mail/mail-errors.xml.h:34
-msgid ""
-"This message cannot be sent because you have not specified any Recipients"
-msgstr ""
-"Сообщение не может быть отправлено, поскольку не указан ни один получатель"
+msgid "This message cannot be sent because you have not specified any Recipients"
+msgstr "Сообщение не может быть отправлено, поскольку не указан ни один получатель"
 
 #. mail:send-no-recipients secondary
 #: mail/mail-errors.xml.h:36
@@ -16172,8 +15891,7 @@ msgstr "Вы действительно хотите удалить эту уч�
 #. mail:ask-delete-account secondary
 #: mail/mail-errors.xml.h:168
 msgid "If you proceed, the account information will be deleted permanently."
-msgstr ""
-"Если вы продолжите, сведения о учетной записи будут окончательно удалены."
+msgstr "Если вы продолжите, сведения о учетной записи будут окончательно удалены."
 
 #: mail/mail-errors.xml.h:169
 msgid "Don't delete"
@@ -16853,8 +16571,7 @@ msgstr ""
 msgid ""
 "If set to true, Evolution will start up in offline mode instead of online "
 "mode."
-msgstr ""
-"Если этот ключ установлен, Evolution будет запускаться в автономном режиме."
+msgstr "Если этот ключ установлен, Evolution будет запускаться в автономном режиме."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:8
 msgid ""
@@ -16868,8 +16585,7 @@ msgid "Last upgraded Evolution configuration version"
 msgstr "Версия конфигурации Evolution"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:10
-msgid ""
-"List of paths for the folders to be synchronized to disk for offline usage"
+msgid "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:11
@@ -17181,9 +16897,9 @@ msgid ""
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
-"Добро пожаловать в Evolution. Следующие несколько экранов\n"
-"позволят настроить подключение к вашим учетным записям\n"
-"эл. почты и импортировать файлы из других приложений. \n"
+"Добро пожаловать в Evolution. Следующие несколько экранов "
+"позволят настроить подключение к вашим учетным записям "
+"эл. почты и импортировать файлы из других приложений. "
 "\n"
 "Нажмите \"Далее\" для продолжения. "
 
@@ -17213,8 +16929,7 @@ msgstr "Создать новый тестовый элемент"
 
 #: shell/importer/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
-msgstr ""
-"Нажмите \"Импортировать\" для начала импортирования файлов в Evolution."
+msgstr "Нажмите \"Импортировать\" для начала импортирования файлов в Evolution."
 
 #: shell/importer/import.glade.h:2
 msgid "Evolution Import Assistant"
@@ -17688,11 +17403,10 @@ msgstr "Просмотр"
 
 #: smime/gui/smime-ui.glade.h:42
 msgid "You have certificates from these organizations that identify you:"
-msgstr ""
+msgstr "У вас есть идентифицирующие вас сертификаты от следующих организаций:"
 
 #: smime/gui/smime-ui.glade.h:43
-msgid ""
-"You have certificates on file that identify these certificate authorities:"
+msgid "You have certificates on file that identify these certificate authorities:"
 msgstr ""
 
 #: smime/gui/smime-ui.glade.h:44
@@ -17943,8 +17657,7 @@ msgstr "Описание вложения."
 
 #: tools/evolution-launch-composer.c:328
 msgid "Mark attachment to be shown inline by default."
-msgstr ""
-"Пометить вложение, чтобы оно отображалось в теле сообщения по умолчанию."
+msgstr "Пометить вложение, чтобы оно отображалось в теле сообщения по умолчанию."
 
 #: tools/evolution-launch-composer.c:329
 msgid "Default subject for the message."
@@ -18463,8 +18176,7 @@ msgid "Hide _Read Messages"
 msgstr "Скрыть п_рочитанные сообщения"
 
 #: ui/evolution-mail-list.xml.h:8
-msgid ""
-"Hide deleted messages rather than displaying them with a line through them"
+msgid "Hide deleted messages rather than displaying them with a line through them"
 msgstr "Скрывать сообщения, помеченные как удаленные, вместо их перечеркивания"
 
 #: ui/evolution-mail-list.xml.h:9
@@ -19396,14 +19108,12 @@ msgid "_Messages"
 msgstr "_Сообщения"
 
 #: views/tasks/galview.xml.h:1
-#, fuzzy
 msgid "With _Due Date"
-msgstr "Дата выполнения:"
+msgstr "С _датой выполнения"
 
 #: views/tasks/galview.xml.h:2
-#, fuzzy
 msgid "With _Status"
-msgstr "Установить состояние"
+msgstr "С _состоянием"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:197
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:635
@@ -19581,8 +19291,7 @@ msgstr "Запрос Evolution"
 #. setup a dummy error
 #: widgets/misc/e-error.c:421
 #, fuzzy, c-format
-msgid ""
-"<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
+msgid "<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
 msgstr "Отправленные сообщения и черновики"
 
 #: widgets/misc/e-expander.c:181
@@ -19643,9 +19352,8 @@ msgid "Spacing around expander arrow"
 msgstr ""
 
 #: widgets/misc/e-filter-bar.c:195
-#, fuzzy
 msgid "_Searches"
-msgstr "П_оиск"
+msgstr "_Поиски"
 
 #: widgets/misc/e-filter-bar.c:197
 msgid "Search Editor"
@@ -19673,9 +19381,8 @@ msgid "Choose Image"
 msgstr "Выберите изображение"
 
 #: widgets/misc/e-pilot-settings.c:103
-#, fuzzy
 msgid "Sync with:"
-msgstr "Имя начинается с"
+msgstr "Синхронизировать с:"
 
 #: widgets/misc/e-pilot-settings.c:111
 msgid "Sync Private Records:"
@@ -19743,299 +19450,3 @@ msgstr "%s (...)"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% выполнено)"
 
-#~ msgid "New Contacts Group"
-#~ msgstr "Создать группу контактов"
-
-#, fuzzy
-#~ msgid "Contacts Grou_p"
-#~ msgstr "_Группа контактов"
-
-#~ msgid "Create a new contacts group"
-#~ msgstr "Создать новую группу контактов"
-
-#~ msgid "Add Contacts Group"
-#~ msgstr "Добавить группу контактов"
-
-#~ msgid "Download limit:"
-#~ msgstr "Ограничение загрузки:"
-
-#~ msgid "Search base only"
-#~ msgstr "Только база поиска"
-
-#~ msgid "Search base:"
-#~ msgstr "База поиска:"
-
-#~ msgid "Search scope:"
-#~ msgstr "Диапазон поиска:"
-
-#~ msgid "Timeout:"
-#~ msgstr "Задержка:"
-
-#~ msgid "_Add Contacts Group"
-#~ msgstr "_Добавить группу контактов"
-
-#~ msgid "_Email address:"
-#~ msgstr "_Электронная почта:"
-
-#, fuzzy
-#~ msgid "_Log in:"
-#~ msgstr "Регистрация"
-
-#, fuzzy
-#~ msgid "Add Tasks Group"
-#~ msgstr "Группа списка задач"
-
-#~ msgid "L_ocation:"
-#~ msgstr "Мес_то:"
-
-#, fuzzy
-#~ msgid "<b>Organizer</b>"
-#~ msgstr "<b>Прочее</b> "
-
-#, fuzzy
-#~ msgid "_Organizer:"
-#~ msgstr "Организатор:"
-
-#, fuzzy
-#~ msgid "New tasks group"
-#~ msgstr "Новая задача"
-
-#, fuzzy
-#~ msgid "Tasks Gro_up"
-#~ msgstr "Группа списка задач"
-
-#, fuzzy
-#~ msgid "Create a new tasks group"
-#~ msgstr "Создать новую задачу"
-
-#~ msgid "contact-list-editor"
-#~ msgstr "Редактор списка контактов"
-
-#~ msgid "Save List as VCard"
-#~ msgstr "Сохранить список как VCard"
-
-#~ msgid "Groupwise"
-#~ msgstr "Groupwise"
-
-#~ msgid "C_alendar"
-#~ msgstr "К_алендарь"
-
-#~ msgid "Audio Alarm Options"
-#~ msgstr "Параметры звукового сигнала"
-
-#~ msgid "Message Alarm Options"
-#~ msgstr "Параметры сигнала-сообщения"
-
-#~ msgid "Email Alarm Options"
-#~ msgstr "Параметры сигнала по почте"
-
-#~ msgid "Program Alarm Options"
-#~ msgstr "Параметры программы-сигнала"
-
-#~ msgid "Unknown Alarm Options"
-#~ msgstr "Параметры сигнала неизвестного типа"
-
-#~ msgid "Alarm Repeat"
-#~ msgstr "Повторение сигнала"
-
-#~ msgid "Message to Display:"
-#~ msgstr "Сообщение для отображения:"
-
-#~ msgid "With these arguments:"
-#~ msgstr "С аргументами:"
-
-#~ msgid "Basics"
-#~ msgstr "Основы"
-
-#~ msgid "Date/Time:"
-#~ msgstr "Дата/Время:"
-
-#~ msgid "Reminders"
-#~ msgstr "Напоминания"
-
-#~ msgid "_Options..."
-#~ msgstr "_Параметры..."
-
-#~ msgid "Addressbook..."
-#~ msgstr "Адресная книга..."
-
-#~ msgid "Reminder"
-#~ msgstr "Напоминание"
-
-#~ msgid "B_usy"
-#~ msgstr "Занят"
-
-#~ msgid "Co_nfidential"
-#~ msgstr "Ко_нфиденциальное"
-
-#~ msgid "Date & Time"
-#~ msgstr "Дата и время"
-
-#~ msgid "F_ree"
-#~ msgstr "Свободен"
-
-#~ msgid "Pri_vate"
-#~ msgstr "Личное"
-
-#~ msgid "Pu_blic"
-#~ msgstr "Общее"
-
-#, fuzzy
-#~ msgid "Add A_ttendee"
-#~ msgstr "Участник"
-
-#, fuzzy
-#~ msgid "Add attendees from addressbook."
-#~ msgstr "Добавить отправителя в _адресную книгу"
-
-#~ msgid "Preview"
-#~ msgstr "Предварительный просмотр"
-
-#~ msgid "Recurrence Rule"
-#~ msgstr "Правило повторения"
-
-#~ msgid "_Custom recurrence"
-#~ msgstr "Другое повторение"
-
-#~ msgid "_Modify"
-#~ msgstr "Изменить"
-
-#~ msgid "_No recurrence"
-#~ msgstr "Без повторения"
-
-#~ msgid "_Simple recurrence"
-#~ msgstr "Простое повторение"
-
-#~ msgid "% _Complete"
-#~ msgstr "% _Выполнено"
-
-#~ msgid "Progress"
-#~ msgstr "Продвижение"
-
-#~ msgid "Con_fidential"
-#~ msgstr "Кон_фиденциально"
-
-#~ msgid "Folder:"
-#~ msgstr "Папка:"
-
-#, fuzzy
-#~ msgid "Authentication Credentials for HTTP Server"
-#~ msgstr "Неверный ответ от сервера при идентификации."
-
-#~ msgid "Calendars selected for publishing"
-#~ msgstr "Календари, выбранные для публикации"
-
-#~ msgid "Login name:"
-#~ msgstr "Учетное имя:"
-
-#~ msgid "URL:"
-#~ msgstr "URL:"
-
-#~ msgid "<b>Starts:</b> "
-#~ msgstr "<b>Начинается:</b> "
-
-#~ msgid "<b>Ends:</b> "
-#~ msgstr "<b>Заканчивается:</b>"
-
-#~ msgid "<b>Completed:</b> "
-#~ msgstr "<b>Выполнено:</b>"
-
-#~ msgid "<b>Due:</b> "
-#~ msgstr "<b>К:</b> "
-
-#~ msgid "<i>None</i>"
-#~ msgstr "<i>Нет</i>"
-
-#~ msgid "There was an error on the CORBA system\n"
-#~ msgstr "В системе CORBA произошла ошибка\n"
-
-#~ msgid "Object could not be found\n"
-#~ msgstr "Объект не может быть найден!\n"
-
-#~ msgid "You don't have the right permissions to update the calendar\n"
-#~ msgstr "У вас нет соответствующих прав для обновления календаря\n"
-
-#~ msgid "Attendee status could not be updated!\n"
-#~ msgstr "Статус участника не может быть обновлён!\n"
-
-#, fuzzy
-#~ msgid "Add attendees from addressbook"
-#~ msgstr "Добавить отправителя в _адресную книгу"
-
-#~ msgid "_Options"
-#~ msgstr "Параметры"
-
-#~ msgid "Meeting _start time:"
-#~ msgstr "Время _начала собрания:"
-
-#~ msgid "Meeting _end time:"
-#~ msgstr "Время _завершения собрания:"
-
-#~ msgid ""
-#~ "Error opening %s:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Ошибка открытия %s:\n"
-#~ "%s"
-
-#, fuzzy
-#~ msgid "Can't find certificate for `%s'"
-#~ msgstr "Не удается создать папку: %s: %s"
-
-#, fuzzy
-#~ msgid "Can't create CMS Message"
-#~ msgstr "Созда_ть правило из сообщения"
-
-#, fuzzy
-#~ msgid "Can't create encoder context"
-#~ msgstr "Не удается заблокировать папку %s: %s"
-
-#~ msgid ""
-#~ "Could not create composer window:\n"
-#~ "Unable to activate HTML editor component."
-#~ msgstr ""
-#~ "Не удается создать окно редактора:\n"
-#~ "Не удается активировать компонент редактора HTML."
-
-#, fuzzy
-#~ msgid "_Score Rules"
-#~ msgstr "Правила назначения весов"
-
-#~ msgid "On %a, %Y-%m-%d at %H:%M %%+05d, %%s wrote:"
-#~ msgstr "В сообщении от %d.%m.%Y %H:%M %%+05d, %%s пишет:"
-
-#~ msgid "Folder Name"
-#~ msgstr "Имя папки"
-
-#~ msgid "_Properties..."
-#~ msgstr "_Свойства..."
-
-#~ msgid "mail"
-#~ msgstr "почта"
-
-#~ msgid "Checkbox"
-#~ msgstr "Флажок"
-
-#~ msgid "C_alendar:"
-#~ msgstr "К_алендарь:"
-
-#~ msgid "_Contacts:"
-#~ msgstr "_Контакты:"
-
-#~ msgid "_Mail:"
-#~ msgstr "_Почта:"
-
-#~ msgid "_Tasks:"
-#~ msgstr "_Задачи:"
-
-#~ msgid "Folder _type:"
-#~ msgstr "_Тип папки:"
-
-#~ msgid "Open Other User's Folder"
-#~ msgstr "Открыть папку другого пользователя"
-
-#~ msgid "_Folder Name:"
-#~ msgstr "Имя _папки:"
-
-#~ msgid "_User:"
-#~ msgstr "_Пользователь:"
