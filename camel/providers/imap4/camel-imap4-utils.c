@@ -75,6 +75,58 @@ camel_imap4_merge_flags (guint32 original, guint32 local, guint32 server)
 }
 
 
+char
+camel_imap4_get_path_delim (CamelIMAP4Engine *engine, const char *full_name)
+{
+	CamelIMAP4Namespace *namespace;
+	const char *slash;
+	size_t len;
+	char *top;
+	
+	if ((slash = strchr (full_name, '/')))
+		len = (slash - full_name);
+	else
+		len = strlen (full_name);
+	
+	top = g_alloca (len + 1);
+	memcpy (top, full_name, len);
+	top[len] = '\0';
+	
+	if (!g_ascii_strcasecmp (top, "INBOX"))
+		top = "INBOX";
+	
+ retry:
+	namespace = engine->namespaces.personal;
+	while (namespace != NULL) {
+		if (!strcmp (namespace->path, top))
+			return namespace->sep;
+		namespace = namespace->next;
+	}
+	
+	namespace = engine->namespaces.other;
+	while (namespace != NULL) {
+		if (!strcmp (namespace->path, top))
+			return namespace->sep;
+		namespace = namespace->next;
+	}
+	
+	namespace = engine->namespaces.shared;
+	while (namespace != NULL) {
+		if (!strcmp (namespace->path, top))
+			return namespace->sep;
+		namespace = namespace->next;
+	}
+	
+	if (top[0] != '\0') {
+		/* look for a default namespace? */
+		top[0] = '\0';
+		goto retry;
+	}
+	
+	return '/';
+}
+
+
 struct _uidset_range {
 	struct _uidset_range *next;
 	guint32 first, last;

@@ -42,6 +42,8 @@ struct _CamelIMAP4Engine;
 struct _CamelIMAP4Command;
 struct _camel_imap4_token_t;
 
+char camel_imap4_get_path_delim (struct _CamelIMAP4Engine *engine, const char *full_name);
+
 int camel_imap4_get_uid_set (struct _CamelIMAP4Engine *engine, struct _CamelFolderSummary *summary, GPtrArray *infos, int cur, size_t linelen, char **set);
 
 void camel_imap4_utils_set_unexpected_token_error (CamelException *ex, struct _CamelIMAP4Engine *engine, struct _camel_imap4_token_t *token);

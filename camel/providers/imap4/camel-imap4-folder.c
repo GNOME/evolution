@@ -196,56 +196,6 @@ imap_store_build_filename (void *store, const char *full_name)
 	return path;
 }
 
-static char
-imap4_get_path_delim (CamelIMAP4Engine *engine, const char *full_name)
-{
-	CamelIMAP4Namespace *namespace;
-	const char *slash;
-	size_t len;
-	char *top;
-	
-	if ((slash = strchr (full_name, '/')))
-		len = (slash - full_name);
-	else
-		len = strlen (full_name);
-	
-	top = g_alloca (len + 1);
-	memcpy (top, full_name, len);
-	top[len] = '\0';
-	
-	if (!g_ascii_strcasecmp (top, "INBOX"))
-		top = "INBOX";
-	
- retry:
-	namespace = engine->namespaces.personal;
-	while (namespace != NULL) {
-		if (!strcmp (namespace->path, top))
-			return namespace->sep;
-		namespace = namespace->next;
-	}
-	
-	namespace = engine->namespaces.other;
-	while (namespace != NULL) {
-		if (!strcmp (namespace->path, top))
-			return namespace->sep;
-		namespace = namespace->next;
-	}
-	
-	namespace = engine->namespaces.shared;
-	while (namespace != NULL) {
-		if (!strcmp (namespace->path, top))
-			return namespace->sep;
-		namespace = namespace->next;
-	}
-	
-	if (top[0] != '\0') {
-		/* look for a default namespace? */
-		top[0] = '\0';
-		goto retry;
-	}
-	
-	return '/';
-}
 
 CamelFolder *
 camel_imap4_folder_new (CamelStore *store, const char *full_name, CamelException *ex)
@@ -267,7 +217,7 @@ camel_imap4_folder_new (CamelStore *store, const char *full_name, CamelException
 	utf7_name = g_alloca (strlen (full_name) + 1);
 	strcpy (utf7_name, full_name);
 	
-	sep = imap4_get_path_delim (((CamelIMAP4Store *) store)->engine, full_name);
+	sep = camel_imap4_get_path_delim (((CamelIMAP4Store *) store)->engine, full_name);
 	if (sep != '/') {
 		p = utf7_name;
 		while (*p != '\0') {
@@ -445,6 +395,7 @@ static void
 imap4_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 {
 	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) folder->parent_store)->engine;
+	CamelSession *session = ((CamelService *) folder->parent_store)->session;
 	CamelIMAP4MessageInfo *iinfo;
 	CamelMessageInfo *info;
 	CamelIMAP4Command *ic;
@@ -452,6 +403,9 @@ imap4_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 	GPtrArray *sync;
 	int id, max, i;
 	int retval;
+	
+	if (!camel_session_is_online (!session))
+		return;
 	
 	CAMEL_SERVICE_LOCK (folder->parent_store, connect_lock);
 	
@@ -532,9 +486,13 @@ static void
 imap4_refresh_info (CamelFolder *folder, CamelException *ex)
 {
 	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) folder->parent_store)->engine;
+	CamelSession *session = ((CamelService *) folder->parent_store)->session;
 	CamelFolder *selected = (CamelFolder *) engine->folder;
 	CamelIMAP4Command *ic;
 	int id;
+	
+	if (!camel_session_is_online (session))
+		return;
 	
 	CAMEL_SERVICE_LOCK (folder->parent_store, connect_lock);
 	
@@ -672,6 +630,10 @@ imap4_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 	
 	CAMEL_SERVICE_LOCK (folder->parent_store, connect_lock);
 	
+	/* FIXME: try to pull the message from the cache first. if
+	 * that fails and we are offline, we're done. else do the
+	 * following code */
+	
 	ic = camel_imap4_engine_queue (engine, folder, "UID FETCH %s BODY.PEEK[]\r\n", uid);
 	camel_imap4_command_register_untagged (ic, "FETCH", untagged_fetch);
 	ic->user_data = stream = camel_stream_mem_new ();
@@ -723,9 +685,10 @@ static char *tm_months[] = {
 
 static void
 imap4_append_message (CamelFolder *folder, CamelMimeMessage *message,
-		     const CamelMessageInfo *info, char **appended_uid, CamelException *ex)
+		      const CamelMessageInfo *info, char **appended_uid, CamelException *ex)
 {
 	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) folder->parent_store)->engine;
+	CamelSession *session = ((CamelService *) folder->parent_store)->session;
 	CamelIMAP4Summary *summary = (CamelIMAP4Summary *) folder->summary;
 	CamelIMAP4RespCode *resp;
 	CamelIMAP4Command *ic;
@@ -735,6 +698,11 @@ imap4_append_message (CamelFolder *folder, CamelMimeMessage *message,
 	char date[50];
 	struct tm tm;
 	int id, i;
+	
+	if (!camel_session_is_online (session)) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot append messages to IMAP folders in offline mode."));
+		return;
+	}
 	
 	CAMEL_SERVICE_LOCK (folder->parent_store, connect_lock);
 	
@@ -884,14 +852,26 @@ info_uid_sort (const CamelMessageInfo **info0, const CamelMessageInfo **info1)
 
 static void
 imap4_transfer_messages_to (CamelFolder *src, GPtrArray *uids, CamelFolder *dest,
-			   GPtrArray **transferred_uids, gboolean move, CamelException *ex)
+			    GPtrArray **transferred_uids, gboolean move, CamelException *ex)
 {
 	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) src->parent_store)->engine;
+	CamelSession *session = ((CamelService *) folder->parent_store)->session;
 	int i, j, n, id, dest_namelen;
 	CamelMessageInfo *info;
 	CamelIMAP4Command *ic;
 	GPtrArray *infos;
 	char *set;
+	
+	if (!camel_session_is_online (session)) {
+		if (move)
+			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+					     _("Cannot move messages to or from IMAP folders in offline mode."));
+		else
+			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+					     _("Cannot copy messages to or from IMAP folders in offline mode."));
+		
+		return;
+	}
 	
 	infos = g_ptr_array_new ();
 	for (i = 0; i < uids->len; i++) {

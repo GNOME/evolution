@@ -4,11 +4,23 @@
 	Removed an already-fixed FIXME comment.
 	(imap4_summary_fetch_flags): Same.
 
-2004-10-18  Jeffrey Stedfast  <fejj@novell.com>
+	* providers/imap4/camel-imap4-folder.c (imap4_get_path_delim):
+	Removed. Use camel_imap4_get_path_delim() instead.
+	(camel_imap4_folder_new): Updated.
+	(imap4_sync): If we aren't online, we're done. nothing to do.
+	(imap4_refresh_info): Same.
+	(imap4_append_message): Same but set an exception.
+	(imap4_transfer_messages_to): Same.
+
+	* providers/imap4/camel-imap4-utils.c
+	(camel_imap4_get_path_delim): Moved here from camel-imap4-store.c
 
 	* providers/imap4/camel-imap4-store.c (imap4_try_authenticate):
 	Change the service string for the sasl mechanism to"imap" rather
 	than "imap4".
+	(imap4_get_path_delim): Removed.
+	(imap4_create_folder): Updated.
+	(imap4_folder_utf7_name): Same.
 
 2004-10-13  Not Zed  <NotZed@Ximian.com>
 
@@ -106,12 +118,6 @@
 	* providers/imap4/camel-imap4-provider.c: include camel-i18n.h
 
 2004-10-01  Jeffrey Stedfast  <fejj@novell.com>
-
-	* providers/imap4/camel-imap4-folder.c (imap4_sync): If we aren't
-	online, we're done. nothing to do.
-	(imap4_refresh_info): Same.
-	(imap4_append_message): Same but set an exception.
-	(imap4_transfer_messages_to): Same.
 
 	* camel-service.c (camel_getaddrinfo): Avoid assigning a value to
 	the member of a const struct (which newer gcc's apparently break

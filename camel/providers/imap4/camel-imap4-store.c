@@ -544,59 +544,6 @@ imap4_query_auth_types (CamelService *service, CamelException *ex)
 	return g_list_prepend (sasl_types, &camel_imap4_password_authtype);
 }
 
-
-static char
-imap4_get_path_delim (CamelIMAP4Engine *engine, const char *full_name)
-{
-	/* FIXME: move this to utils so imap4-folder.c can share */
-	CamelIMAP4Namespace *namespace;
-	const char *slash;
-	size_t len;
-	char *top;
-	
-	if ((slash = strchr (full_name, '/')))
-		len = (slash - full_name);
-	else
-		len = strlen (full_name);
-	
-	top = g_alloca (len + 1);
-	memcpy (top, full_name, len);
-	top[len] = '\0';
-	
-	if (!g_ascii_strcasecmp (top, "INBOX"))
-		top = "INBOX";
-	
- retry:
-	namespace = engine->namespaces.personal;
-	while (namespace != NULL) {
-		if (!strcmp (namespace->path, top))
-			return namespace->sep;
-		namespace = namespace->next;
-	}
-	
-	namespace = engine->namespaces.other;
-	while (namespace != NULL) {
-		if (!strcmp (namespace->path, top))
-			return namespace->sep;
-		namespace = namespace->next;
-	}
-	
-	namespace = engine->namespaces.shared;
-	while (namespace != NULL) {
-		if (!strcmp (namespace->path, top))
-			return namespace->sep;
-		namespace = namespace->next;
-	}
-	
-	if (top[0] != '\0') {
-		/* look for a default namespace? */
-		top[0] = '\0';
-		goto retry;
-	}
-	
-	return '/';
-}
-
 static char *
 imap4_folder_utf7_name (CamelStore *store, const char *folder_name, char wildcard)
 {
@@ -604,7 +551,7 @@ imap4_folder_utf7_name (CamelStore *store, const char *folder_name, char wildcar
 	char sep;
 	int len;
 	
-	sep = imap4_get_path_delim (((CamelIMAP4Store *) store)->engine, folder_name);
+	sep = camel_imap4_get_path_delim (((CamelIMAP4Store *) store)->engine, folder_name);
 	
 	if (sep != '/') {
 		p = real_name = g_alloca (strlen (folder_name) + 1);
@@ -738,7 +685,7 @@ imap4_create_folder (CamelStore *store, const char *parent_name, const char *fol
 	char sep;
 	int id;
 	
-	sep = imap4_get_path_delim (engine, parent_name);
+	sep = camel_imap4_get_path_delim (engine, parent_name);
 	
 	c = folder_name;
 	while (*c != '\0') {
