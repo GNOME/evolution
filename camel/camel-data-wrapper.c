@@ -66,6 +66,11 @@ camel_data_wrapper_class_init (CamelDataWrapperClass *camel_data_wrapper_class)
 	camel_data_wrapper_class->set_mime_type_field = _set_mime_type_field;
 	camel_data_wrapper_class->get_stream = _get_stream;
 
+	camel_data_wrapper_class->set_input_stream = _set_input_stream;
+	camel_data_wrapper_class->get_input_stream = _get_input_stream;
+	camel_data_wrapper_class->set_output_stream = _set_output_stream;
+	camel_data_wrapper_class->get_output_stream = _get_output_stream;
+
 	/* virtual method overload */
 	gtk_object_class->finalize = _finalize;
 }
@@ -138,12 +143,32 @@ _set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 }
 
 
+void 
+camel_data_wrapper_set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
+{
+	g_assert (data_wrapper);
+	CDW_CLASS(data_wrapper)->set_input_stream (data_wrapper, stream);
+}
+
+
+
+
+
 static CamelStream * 
 _get_input_stream (CamelDataWrapper *data_wrapper)
 {
 	g_assert (data_wrapper);
 	return (data_wrapper->input_stream);
 }
+
+CamelStream * 
+camel_data_wrapper_get_input_stream (CamelDataWrapper *data_wrapper)
+{
+	g_assert (data_wrapper);
+	return CDW_CLASS(data_wrapper)->get_input_stream (data_wrapper);
+}
+
+
 
 
 static void 
@@ -153,6 +178,15 @@ _set_output_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	data_wrapper->output_stream = stream;
 }
 
+void 
+camel_data_wrapper_set_output_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
+{
+	g_assert (data_wrapper);
+	CDW_CLASS(data_wrapper)->set_output_stream (data_wrapper, stream);
+}
+
+
+
 
 static CamelStream * 
 _get_output_stream (CamelDataWrapper *data_wrapper)
@@ -161,7 +195,12 @@ _get_output_stream (CamelDataWrapper *data_wrapper)
 	return (data_wrapper->output_stream);
 }
 
-
+CamelStream * 
+camel_data_wrapper_get_output_stream (CamelDataWrapper *data_wrapper)
+{
+	g_assert (data_wrapper);
+	return CDW_CLASS(data_wrapper)->get_output_stream (data_wrapper);
+}
 
 
 

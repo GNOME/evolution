@@ -487,7 +487,7 @@ _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 		body_part = camel_mime_body_part_new ();
 		
 		end_of_multipart = _read_part ( new_part_stream, stream, real_boundary_line, end_boundary_line);
-		camel_stream_seek (new_part_stream, 0, CAMEL_STREAM_SET);
+		camel_seekable_stream_seek (new_part_stream, 0, CAMEL_STREAM_SET);
 		camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (body_part), new_part_stream);
 		camel_multipart_add_part (multipart, body_part);
 		gtk_object_destroy (GTK_OBJECT (new_part_stream));

@@ -25,11 +25,14 @@ main (int argc, char**argv)
 	
 	input_stream = camel_stream_fs_new_with_name ("mail.test", CAMEL_STREAM_FS_READ);
 	if (!input_stream) {
-		perror ("could not open input file");
-		printf ("You must create the file mail.test before running this test");
+		perror ("could not open input file\n");
+		printf ("You must create the file mail.test before running this test\n");
 		exit(2);
 	}
 	
+	camel_data_wrapper_set_input_stream ( CAMEL_DATA_WRAPPER (message), input_stream);
+
+#if 0
 	camel_data_wrapper_construct_from_stream ( CAMEL_DATA_WRAPPER (message), input_stream);
 
 	camel_debug_level = CAMEL_LOG_LEVEL_FULL_DEBUG;
@@ -43,7 +46,7 @@ main (int argc, char**argv)
 	gtk_object_unref (GTK_OBJECT (output_stream));
 	
 	//gtk_object_unref (GTK_OBJECT (message));
-
+#endif 
 	return 0;
 
 }

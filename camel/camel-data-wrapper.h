@@ -64,21 +64,27 @@ typedef struct {
 	GtkObjectClass parent_class;
 	
 	/* Virtual methods */	
-	void                (*set_input_stream)       (CamelDataWrapper *data_wrapper, CamelStream *stream);
+	void                (*set_input_stream)       (CamelDataWrapper *data_wrapper, 
+						       CamelStream *stream);
 	CamelStream *       (*get_input_stream)       (CamelDataWrapper *data_wrapper);
-	void                (*set_output_stream)      (CamelDataWrapper *data_wrapper, CamelStream *stream);
+	void                (*set_output_stream)      (CamelDataWrapper *data_wrapper, 
+						       CamelStream *stream);
 	CamelStream *       (*get_output_stream)      (CamelDataWrapper *data_wrapper);
 
-	void                (*set_mime_type)          (CamelDataWrapper *data_wrapper, const gchar * mime_type);
+	void                (*set_mime_type)          (CamelDataWrapper *data_wrapper, 
+						       const gchar * mime_type);
 	gchar *             (*get_mime_type)          (CamelDataWrapper *data_wrapper);
 	GMimeContentField * (*get_mime_type_field)    (CamelDataWrapper *data_wrapper);
-	void                (*set_mime_type_field)    (CamelDataWrapper *data_wrapper, GMimeContentField *mime_type_field);
+	void                (*set_mime_type_field)    (CamelDataWrapper *data_wrapper, 
+						       GMimeContentField *mime_type_field);
 
 
 	/* deprecated method */
 	CamelStream *       (*get_stream)             (CamelDataWrapper *data_wrapper);
-	void                (*write_to_stream)        (CamelDataWrapper *data_wrapper, CamelStream *stream);
-	void                (*construct_from_stream)  (CamelDataWrapper *data_wrapper, CamelStream *stream);
+	void                (*write_to_stream)        (CamelDataWrapper *data_wrapper, 
+						       CamelStream *stream);
+	void                (*construct_from_stream)  (CamelDataWrapper *data_wrapper, 
+						       CamelStream *stream);
 
 } CamelDataWrapperClass;
 
@@ -90,17 +96,28 @@ GtkType camel_data_wrapper_get_type (void);
 
 /* public methods */
 
+void                camel_data_wrapper_write_to_stream          (CamelDataWrapper *data_wrapper, 
+								 CamelStream *stream);
+void                camel_data_wrapper_set_mime_type            (CamelDataWrapper *data_wrapper, 
+								 const gchar *mime_type);
+gchar *             camel_data_wrapper_get_mime_type            (CamelDataWrapper *data_wrapper);
+GMimeContentField * camel_data_wrapper_get_mime_type_field      (CamelDataWrapper *data_wrapper);
+void                camel_data_wrapper_set_mime_type_field      (CamelDataWrapper *data_wrapper, 
+								 GMimeContentField *mime_type);
+
+void                camel_data_wrapper_set_input_stream         (CamelDataWrapper *data_wrapper, 
+								 CamelStream *stream);
+CamelStream *       camel_data_wrapper_get_input_stream         (CamelDataWrapper *data_wrapper);
+void                camel_data_wrapper_set_output_stream        (CamelDataWrapper *data_wrapper, 
+								 CamelStream *stream);
+CamelStream *       camel_data_wrapper_get_output_stream        (CamelDataWrapper *data_wrapper);
 
 
-void camel_data_wrapper_write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
-void camel_data_wrapper_set_mime_type (CamelDataWrapper *data_wrapper, const gchar *mime_type);
-gchar *camel_data_wrapper_get_mime_type (CamelDataWrapper *data_wrapper);
-GMimeContentField *camel_data_wrapper_get_mime_type_field (CamelDataWrapper *data_wrapper);
-void camel_data_wrapper_set_mime_type_field (CamelDataWrapper *data_wrapper, GMimeContentField *mime_type);
 
 /* deprecated methods. Left until the new parser scheme is ok */
-CamelStream *camel_data_wrapper_get_stream (CamelDataWrapper *data_wrapper);
-void camel_data_wrapper_construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
+CamelStream *       camel_data_wrapper_get_stream               (CamelDataWrapper *data_wrapper);
+void                camel_data_wrapper_construct_from_stream    (CamelDataWrapper *data_wrapper, 
+								 CamelStream *stream);
 
 #ifdef __cplusplus
 }

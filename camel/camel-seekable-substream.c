@@ -56,7 +56,7 @@ static	void	       _destroy			      (GtkObject *object);
 static	void	       _init_with_seekable_stream_and_bounds	 (CamelSeekableSubstream *seekable_substream, 
 								  CamelSeekableStream *parent_stream,
 								  guint32 inf_bound, 
-								  guint32 sup_bound);
+								  gint64  sup_bound);
 
 
 
@@ -154,7 +154,7 @@ _finalize (GtkObject *object)
 
 
 static void 
-_set_bounds (CamelSeekableSubstream *seekable_substream, guint32 inf_bound, guint32 sup_bound)
+_set_bounds (CamelSeekableSubstream *seekable_substream, guint32 inf_bound, gint64 sup_bound)
 {
 	CAMEL_LOG_FULL_DEBUG ("CamelSeekableSubstream::_set_bounds entering\n");
 
@@ -185,7 +185,7 @@ static void
 _init_with_seekable_stream_and_bounds	 (CamelSeekableSubstream *seekable_substream, 
 					  CamelSeekableStream    *parent_stream,
 					  guint32                 inf_bound, 
-					  guint32                  sup_bound)
+					  gint64                  sup_bound)
 {
 	/* sanity checks */
 	g_assert (seekable_substream);
@@ -200,18 +200,23 @@ _init_with_seekable_stream_and_bounds	 (CamelSeekableSubstream *seekable_substre
 }
 
 
-void
-camel_seekable_substream_init_with_seekable_stream_and_bounds (CamelSeekableSubstream *seekable_substream, 
-							       CamelSeekableStream    *parent_stream,
-							       guint32                 inf_bound, 
-							       guint32                  sup_bound)
+
+CamelSeekableSubstream *
+camel_seekable_substream_new_with_seekable_stream_and_bounds (CamelSeekableStream    *parent_stream,
+							      guint32                 inf_bound, 
+							      gint64                  sup_bound)
 {
-	
+	CamelSeekableSubstream *seekable_substream;
+
+	/* create the seekable substream */
+	seekable_substream = gtk_type_new (camel_seekable_substream_get_type ());
+
+	/* initialize it */
 	CSS_CLASS (seekable_substream)->init_with_seekable_stream_and_bounds (seekable_substream,
 									      parent_stream,
 									      inf_bound,
 									      sup_bound);
-	
+	return seekable_substream;
 }
 
 
@@ -264,15 +269,19 @@ _read (CamelStream *stream, gchar *buffer, gint n)
 		seekable_stream->cur_pos + seekable_substream->inf_bound;
 		
 	/* go to our position in the parent stream */
-	camel_seekable_stream_seek (seekable_substream->parent_stream, 
-				    position_in_parent,
-				    CAMEL_STREAM_SET);
+	if (parent_stream_current_position != position_in_parent)
+		camel_seekable_stream_seek (seekable_substream->parent_stream, 
+					    position_in_parent,
+					    CAMEL_STREAM_SET);
 
 
 
 	/* compute how much byte should be read */
-	nb_to_read = 
-		MIN (seekable_substream->sup_bound - position_in_parent, n);
+	if (seekable_substream->sup_bound != -1)
+		nb_to_read = 
+			MIN (seekable_substream->sup_bound - position_in_parent, n);
+	else
+		nb_to_read = n;
 
 	
 	/* Read the data */
@@ -291,12 +300,14 @@ _read (CamelStream *stream, gchar *buffer, gint n)
 		seekable_stream->cur_pos += v;
 
 
+#if 0
 	/* restore the parent position */
 	camel_seekable_stream_seek (seekable_substream->parent_stream, 
 				    parent_stream_current_position,
 				    CAMEL_STREAM_SET);
 
 	
+#endif
 	/* return the number of bytes read */
 	return v;
 }
@@ -370,14 +381,19 @@ _eos (CamelStream *stream)
 	CamelSeekableSubstream *seekable_substream = CAMEL_SEEKABLE_SUBSTREAM (stream);
 	CamelSeekableStream *seekable_stream = CAMEL_SEEKABLE_STREAM (stream);
 	guint32 substream_len;
-
-
+	gboolean eos;
+	
 	g_assert (stream);
 	g_assert (seekable_substream->open);
 	
-	substream_len = seekable_substream->sup_bound - seekable_substream->inf_bound;
+	if (seekable_substream->sup_bound != -1) {
+		substream_len = seekable_substream->sup_bound - seekable_substream->inf_bound;		
+		eos = ( seekable_stream->cur_pos > substream_len);
+	} else {
+		eos = camel_stream_eos (CAMEL_STREAM (seekable_substream->parent_stream));
+	}
 	
-	return ( seekable_stream->cur_pos > substream_len);
+	return eos;
 }
 
 
@@ -402,12 +418,13 @@ _seek (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy)
 {
 	CamelSeekableSubstream *seekable_substream = CAMEL_SEEKABLE_SUBSTREAM (stream);
 	CamelSeekableStream *seekable_stream = CAMEL_SEEKABLE_STREAM (stream);
-	gint64 real_offset; 
+	gint64 real_offset = 0; 
 	guint32 substream_len;
-
+	guint32 parent_pos;
+	gboolean seek_done = FALSE;
 
 	substream_len = seekable_substream->sup_bound - seekable_substream->inf_bound;
-
+	
 	switch  (policy) {
 
 	case CAMEL_STREAM_SET:
@@ -421,19 +438,27 @@ _seek (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy)
 		break;
 
 	case CAMEL_STREAM_END:
-		real_offset = substream_len - offset;
+		if (seekable_substream->sup_bound != -1)
+			real_offset = substream_len - offset;
+		else {
+			parent_pos = camel_seekable_stream_seek (seekable_substream->parent_stream, 
+								 offset, 
+								 CAMEL_STREAM_END);
+			seekable_stream->cur_pos = parent_pos - seekable_substream->inf_bound;
+			seek_done = TRUE;
+		}
 
 		break;
 
 	default:
 		return -1;
 	}
-		
-	if (real_offset > 0) {
-		seekable_stream->cur_pos = MIN (real_offset, substream_len);
-	} else 
-		seekable_stream->cur_pos = 0;
-	
+	if (!seek_done) {
+		if (real_offset > 0) {
+			seekable_stream->cur_pos = MIN (real_offset, substream_len);
+		} else 
+			seekable_stream->cur_pos = 0;
+	}
 	
 
 	return seekable_stream->cur_pos;

@@ -56,7 +56,7 @@ typedef struct
 	CamelSeekableStream *parent_stream;   /* the stream this substream uses */ 
 	guint32 cur_pos;                      /* current postion in the stream */
 	guint32 inf_bound;                    /* first valid position */
-	guint32 sup_bound;                    /* first invalid position */
+	gint64  sup_bound;                    /* first invalid position */
 	gboolean open;
 	
 } CamelSeekableSubstream;
@@ -70,7 +70,7 @@ typedef struct {
 	void (*init_with_seekable_stream_and_bounds) (CamelSeekableSubstream *seekable_substream, 
 						      CamelSeekableStream    *parent_stream,
 						      guint32 inf_bound, 
-						      guint32 sup_bound);
+						      gint64  sup_bound);
 
 } CamelSeekableSubstreamClass;
 
@@ -81,11 +81,12 @@ GtkType camel_seekable_substream_get_type (void);
 
 
 /* public methods */
-void
-camel_seekable_substream_init_with_seekable_stream_and_bounds (CamelSeekableSubstream *seekable_substream, 
-							       CamelSeekableStream    *parent_stream,
-							       guint32                 inf_bound, 
-							       guint32                  sup_bound);
+
+/* obtain a new seekable substream */
+CamelSeekableSubstream *
+camel_seekable_substream_new_with_seekable_stream_and_bounds (CamelSeekableStream    *parent_stream,
+							      guint32                 inf_bound, 
+							      gint64                  sup_bound);
 
 #ifdef __cplusplus
 }

@@ -261,7 +261,7 @@ _init_with_name_and_bounds (CamelStreamFs *stream_fs, const gchar *name, CamelSt
 			      "setting inf bound to %u, "
 			      "sup bound to %ld, current postion to %u\n", 
 			      stream_fs->inf_bound, stream_fs->sup_bound,
-			      CAMEL_SEEKABLE_STREAM (stream)->cur_pos);
+			      CAMEL_SEEKABLE_STREAM (stream_fs)->cur_pos);
 }
 
 

@@ -74,6 +74,7 @@ typedef struct
 	
 	GByteArray *temp_message_buffer;
 	GMimeContentField *content_type;
+	CamelStream *content_input_stream;
 	
 } CamelMimePart;
 

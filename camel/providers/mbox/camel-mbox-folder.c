@@ -167,7 +167,7 @@ camel_mbox_folder_get_type (void)
 
 
 
-
+ 
 
 
 static void 
