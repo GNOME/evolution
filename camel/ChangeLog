@@ -1,5 +1,10 @@
 2003-08-29  Not Zed  <NotZed@Ximian.com>
 
+	* camel-object.c (camel_object_state_write): 
+	(cobject_getv):
+	(cobject_setv, cobject_state_read, cobject_state_read) 
+	(cobject_state_write): removed debug printfs.
+
 	* providers/local/camel-local-folder.c (local_getv): Need to copy
 	the local properties list before passing it out, since it's freed.
 

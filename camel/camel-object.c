@@ -242,9 +242,7 @@ cobject_getv(CamelObject *o, CamelException *ex, CamelArgGetV *args)
 		case CAMEL_OBJECT_ARG_STATE_FILE: {
 			CamelHookPair *pair = co_metadata_pair(o, FALSE);
 
-			printf("getting state file\n");
 			if (pair) {
-				printf(" -> '%s'\n", pair->func.filename);
 				*arg->ca_str = g_strdup(pair->func.filename);
 				camel_object_unget_hooks(o);
 			}
@@ -270,8 +268,6 @@ cobject_setv(CamelObject *o, CamelException *ex, CamelArgV *args)
 		switch (tag & CAMEL_ARG_TAG) {
 		case CAMEL_OBJECT_ARG_STATE_FILE: {
 			CamelHookPair *pair;
-
-			printf("setting state file to '%s'\n", arg->ca_str);
 
 			/* We store the filename on the meta-data hook-pair */
 			pair = co_metadata_pair(o, TRUE);
@@ -406,8 +402,6 @@ cobject_state_read(CamelObject *obj, FILE *fp)
 	    || camel_file_util_decode_uint32(fp, &count) == -1)
 		return -1;
 
-	printf("loading persistent meta-data\n");
-
 	for (i=0;i<count;i++) {
 		char *name = NULL, *value = NULL;
 			
@@ -426,8 +420,6 @@ cobject_state_read(CamelObject *obj, FILE *fp)
 
 	if (version > 0) {
 		CamelArgV *argv;
-
-		printf("loading persistent properties\n");
 
 		if (camel_file_util_decode_uint32(fp, &count) == -1
 			|| count == 0) {
@@ -512,8 +504,6 @@ cobject_state_write(CamelObject *obj, FILE *fp)
 	   we also need an argv to store the results - bit messy */
 
 	count = g_slist_length(props);
-
-	printf("saving persistent properties, count = %d\n", count);
 
 	arggetv = g_malloc0(sizeof(*arggetv) + (count - CAMEL_ARGV_MAX) * sizeof(arggetv->argv[0]));
 	argv = g_malloc0(sizeof(*argv) + (count - CAMEL_ARGV_MAX) * sizeof(argv->argv[0]));
@@ -1501,8 +1491,6 @@ int camel_object_state_write(void *vo)
 	camel_object_get(vo, NULL, CAMEL_OBJECT_STATE_FILE, &file, NULL);
 	if (file == NULL)
 		return 0;
-
-	printf("camel_object_state_write -> '%s'\n", file);
 
 	savename = camel_file_util_savename(file);
 	fp = fopen(savename, "w");
