@@ -673,12 +673,13 @@ e_date_edit_get_date		(EDateEdit	*dedit,
 	/* Try to parse any new value now. */
 	e_date_edit_check_date_changed (dedit);
 
-	if (priv->date_set_to_none)
-		return FALSE;
-
 	*year = priv->year + 1900;
 	*month = priv->month + 1;
 	*day = priv->day;
+
+	if (priv->date_set_to_none
+	    && e_date_edit_get_allow_no_date_set (dedit))
+		return FALSE;
 
 	return TRUE;
 }
