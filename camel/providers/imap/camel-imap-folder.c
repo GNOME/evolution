@@ -1481,11 +1481,9 @@ imap_transfer_online (CamelFolder *source, GPtrArray *uids,
 		return;
 
 	/* Make the destination notice its new messages */
-	CAMEL_SERVICE_LOCK (store, connect_lock);
 	if (store->current_folder != dest ||
 	    camel_folder_summary_count (dest->summary) == count)
 		camel_folder_refresh_info (dest, ex);
-	CAMEL_SERVICE_UNLOCK (store, connect_lock);
 	
 	if (delete_originals) {
 		for (i = 0; i < uids->len; i++)

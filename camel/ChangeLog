@@ -1,3 +1,9 @@
+2004-07-15  Jeffrey Stedfast  <fejj@novell.com>
+
+	* providers/imap/camel-imap-folder.c (imap_transfer_online): Don't
+	grab the connect_lock before calling refresh_info so that we avoid
+	the deadlock in bug #61551.
+
 2004-07-14  Jeffrey Stedfast  <fejj@novell.com>
 
 	Fix for bug #61538
