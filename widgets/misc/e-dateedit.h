@@ -119,6 +119,13 @@ void       e_date_edit_set_time_of_day		(EDateEdit	*dedit,
 						 gint		 hour,
 						 gint		 minute);
 
+void e_date_edit_set_date_and_time_of_day       (EDateEdit      *dedit,
+						 gint		 year,
+						 gint		 month,
+						 gint		 day,
+						 gint		 hour,
+						 gint		 minute);
+
 /* Whether we show the date field. */
 gboolean   e_date_edit_get_show_date		(EDateEdit	*dedit);
 void       e_date_edit_set_show_date		(EDateEdit	*dedit,

@@ -1,3 +1,11 @@
+2001-11-05  JP Rosevear  <jpr@ximian.com>
+
+	* e-dateedit.c (e_date_edit_set_date_and_time_of_day): set both
+	the date and the time of day in one call, creating only a single
+	changed signal
+
+	* e-dateedit.h: add proto
+
 2001-11-05  Christopher James Lahey  <clahey@ximian.com>
 
 Based on a patch by Damon Chaplin <damon@ximian.com>
