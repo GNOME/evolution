@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: E-volution\n"
-"POT-Creation-Date: 2000-06-13 12:03+0000\n"
-"PO-Revision-Date: 2000-06-13 12:08+00:00\n"
+"POT-Creation-Date: 2000-06-17 19:06+0000\n"
+"PO-Revision-Date: 2000-06-17 19:09+00:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -451,7 +451,7 @@ msgid "Mobile"
 msgstr "Мобильный"
 
 #: addressbook/contact-editor/e-contact-editor.c:1225
-#: addressbook/contact-editor/e-contact-editor.c:1320 mail/mail-config.c:2026
+#: addressbook/contact-editor/e-contact-editor.c:1320 mail/mail-config.c:2027
 msgid "Other"
 msgstr "Другой"
 
@@ -491,11 +491,11 @@ msgstr "Эл.адрес 2"
 msgid "Email 3"
 msgstr "Эл.адрес 3"
 
-#: addressbook/gui/component/addressbook.c:417 mail/message-list.c:577
+#: addressbook/gui/component/addressbook.c:417 mail/message-list.c:628
 msgid "To"
 msgstr "Кому"
 
-#: addressbook/gui/component/addressbook.c:418 mail/message-list.c:549
+#: addressbook/gui/component/addressbook.c:418 mail/message-list.c:600
 msgid "From"
 msgstr "От"
 
@@ -533,8 +533,8 @@ msgstr "Напечатать контакт"
 
 #. Delete
 #: addressbook/gui/component/addressbook.c:430 calendar/gui/gncal-todo.c:494
-#: mail/folder-browser-factory.c:50 mail/mail-config.c:1856
-#: mail/mail-config.c:1952
+#: mail/folder-browser-factory.c:50 mail/mail-config.c:1857
+#: mail/mail-config.c:1953
 msgid "Delete"
 msgstr "Удалить"
 
@@ -644,15 +644,15 @@ msgstr "Число текущего дня:"
 
 #: calendar/gui/calendar-commands.c:63
 msgid "To-Do item that is not yet due:"
-msgstr ""
+msgstr "Задания, для которых срок выполнения не настал:"
 
 #: calendar/gui/calendar-commands.c:64
 msgid "To-Do item that is due today:"
-msgstr ""
+msgstr "Задания, которые должны быть выполнены сегодня:"
 
 #: calendar/gui/calendar-commands.c:65
 msgid "To-Do item that is overdue:"
-msgstr ""
+msgstr "Просроченные задания:"
 
 #: calendar/gui/calendar-commands.c:175
 msgid "Gnome Calendar"
@@ -715,11 +715,11 @@ msgstr "Год"
 msgid "Show 1 year"
 msgstr "Показать 1 год"
 
-#: calendar/gui/calendar-commands.c:544 calendar/gui/calendar-commands.c:687
+#: calendar/gui/calendar-commands.c:544 calendar/gui/calendar-commands.c:690
 msgid "Create a new appointment"
 msgstr "Создать новую встречу"
 
-#: calendar/gui/calendar-commands.c:548 calendar/gui/calendar-commands.c:671
+#: calendar/gui/calendar-commands.c:548 calendar/gui/calendar-commands.c:674
 msgid "Print this calendar"
 msgstr "Напечатать этот календарь"
 
@@ -756,67 +756,67 @@ msgid "Go to a specific date"
 msgstr "Перейти к указанной дате"
 
 #. file menu
-#: calendar/gui/calendar-commands.c:656
+#: calendar/gui/calendar-commands.c:659
 msgid "New Ca_lendar"
 msgstr "Новый календарь"
 
-#: calendar/gui/calendar-commands.c:657
+#: calendar/gui/calendar-commands.c:660
 msgid "Create a new calendar"
 msgstr "Создать новый календарь"
 
-#: calendar/gui/calendar-commands.c:660
+#: calendar/gui/calendar-commands.c:663
 msgid "Open Ca_lendar"
 msgstr "Открыть календарь"
 
-#: calendar/gui/calendar-commands.c:661
+#: calendar/gui/calendar-commands.c:664
 msgid "Open a calendar"
 msgstr "Открыть календарь"
 
-#: calendar/gui/calendar-commands.c:665 calendar/gui/calendar-commands.c:666
+#: calendar/gui/calendar-commands.c:668 calendar/gui/calendar-commands.c:669
 msgid "Save Calendar As"
 msgstr "Сохранить календарь как"
 
-#: calendar/gui/calendar-commands.c:670
+#: calendar/gui/calendar-commands.c:673
 msgid "Print..."
 msgstr "Печать..."
 
-#: calendar/gui/calendar-commands.c:676
+#: calendar/gui/calendar-commands.c:679
 msgid "_Close Calendar"
 msgstr "Закрыть календарь"
 
-#: calendar/gui/calendar-commands.c:677
+#: calendar/gui/calendar-commands.c:680
 msgid "Close current calendar"
 msgstr "Закрыть текущий календарь"
 
-#: calendar/gui/calendar-commands.c:687
+#: calendar/gui/calendar-commands.c:690
 msgid "_New appointment..."
 msgstr "Новая встреча..."
 
-#: calendar/gui/calendar-commands.c:692
+#: calendar/gui/calendar-commands.c:695
 msgid "New appointment for _today..."
 msgstr "Новая встреча сегодня..."
 
-#: calendar/gui/calendar-commands.c:693
+#: calendar/gui/calendar-commands.c:696
 msgid "Create a new appointment for today"
 msgstr "Создать новую встречу сегодня"
 
-#: calendar/gui/calendar-commands.c:701 calendar/gui/prop.c:712
+#: calendar/gui/calendar-commands.c:704 calendar/gui/prop.c:712
 msgid "Preferences"
 msgstr "Настройки"
 
-#: calendar/gui/calendar-commands.c:708 calendar/gui/calendar-commands.c:709
+#: calendar/gui/calendar-commands.c:711 calendar/gui/calendar-commands.c:712
 msgid "About Calendar"
 msgstr "О программе \"Календарь\""
 
 #. i18n: This "%s%s" indicates possession. Languages where the order is
 #. * the inverse should translate it to "%2$s%1$s".
 #.
-#: calendar/gui/calendar-commands.c:751
+#: calendar/gui/calendar-commands.c:754
 #, c-format
 msgid "%s%s"
 msgstr "%s%s"
 
-#: calendar/gui/calendar-commands.c:751
+#: calendar/gui/calendar-commands.c:754
 msgid "'s calendar"
 msgstr "' календарь"
 
@@ -934,7 +934,7 @@ msgstr "ПОРТ"
 
 #: calendar/gui/calendar-pilot-sync.c:62
 msgid "If you want to debug the attributes on records"
-msgstr ""
+msgstr "Если вы хотите отлаживать аттрибуты на записях"
 
 #: calendar/gui/calendar-pilot-sync.c:64
 msgid "Only syncs from desktop to pilot"
@@ -1145,7 +1145,7 @@ msgstr "Cб"
 
 #: calendar/gui/print.c:868
 msgid "TODO Items"
-msgstr ""
+msgstr "Задания"
 
 #. Day
 #: calendar/gui/print.c:980
@@ -1201,29 +1201,29 @@ msgid "%02i minute divisions"
 msgstr ""
 
 #: calendar/gui/e-day-view.c:2248 calendar/gui/e-day-view.c:2255
-#: calendar/gui/e-day-view.c:2264 calendar/gui/e-week-view.c:2550
-#: calendar/gui/e-week-view.c:2557 calendar/gui/e-week-view.c:2566
+#: calendar/gui/e-day-view.c:2264 calendar/gui/e-week-view.c:2628
+#: calendar/gui/e-week-view.c:2635 calendar/gui/e-week-view.c:2644
 msgid "New appointment..."
 msgstr "Новая встреча..."
 
 #: calendar/gui/e-day-view.c:2252 calendar/gui/e-day-view.c:2259
-#: calendar/gui/e-week-view.c:2554 calendar/gui/e-week-view.c:2561
+#: calendar/gui/e-week-view.c:2632 calendar/gui/e-week-view.c:2639
 msgid "Edit this appointment..."
 msgstr "Правка этой встречи..."
 
-#: calendar/gui/e-day-view.c:2253 calendar/gui/e-week-view.c:2555
+#: calendar/gui/e-day-view.c:2253 calendar/gui/e-week-view.c:2633
 msgid "Delete this appointment"
 msgstr "Удалить эту встречу"
 
-#: calendar/gui/e-day-view.c:2260 calendar/gui/e-week-view.c:2562
+#: calendar/gui/e-day-view.c:2260 calendar/gui/e-week-view.c:2640
 msgid "Make this appointment movable"
 msgstr "Сделать эту встречу перемещаемой"
 
-#: calendar/gui/e-day-view.c:2261 calendar/gui/e-week-view.c:2563
+#: calendar/gui/e-day-view.c:2261 calendar/gui/e-week-view.c:2641
 msgid "Delete this occurrence"
 msgstr "Удалить этот случай"
 
-#: calendar/gui/e-day-view.c:2262 calendar/gui/e-week-view.c:2564
+#: calendar/gui/e-day-view.c:2262 calendar/gui/e-week-view.c:2642
 msgid "Delete all occurrences"
 msgstr "Удалить все случаи"
 
@@ -1257,11 +1257,11 @@ msgstr "URI, который будет показывать календарь"
 
 #: calendar/gui/gncal-todo.c:135
 msgid "Create to-do item"
-msgstr ""
+msgstr "Создать задание"
 
 #: calendar/gui/gncal-todo.c:135
 msgid "Edit to-do item"
-msgstr ""
+msgstr "Правка задания"
 
 #: calendar/gui/gncal-todo.c:169
 msgid "Summary:"
@@ -1281,7 +1281,7 @@ msgstr "Комментарии элемента:"
 
 #: calendar/gui/gncal-todo.c:320
 msgid "Add to-do item..."
-msgstr "Добавить элемент \"Исполнить\"..."
+msgstr "Добавить задание..."
 
 #: calendar/gui/gncal-todo.c:321
 msgid "Edit this item..."
@@ -1296,7 +1296,7 @@ msgid "Due Date"
 msgstr "Условленная дата"
 
 #: calendar/gui/gncal-todo.c:422 calendar/gui/prop.c:605
-#: mail/message-list.c:535
+#: mail/message-list.c:586
 msgid "Priority"
 msgstr "Приоритет"
 
@@ -1307,7 +1307,7 @@ msgstr "Оставшееся время"
 #. Label
 #: calendar/gui/gncal-todo.c:435
 msgid "To-do list"
-msgstr "Список \"Исполнить\""
+msgstr "Список заданий"
 
 #. Add
 #: calendar/gui/gncal-todo.c:474
@@ -1459,7 +1459,7 @@ msgstr "Цвета"
 
 #: calendar/gui/prop.c:599
 msgid "Show on TODO List:"
-msgstr "Показать в списке \"Исполнить\":"
+msgstr "Показать в списке заданий:"
 
 #: calendar/gui/prop.c:606
 msgid "Time Until Due"
@@ -1632,7 +1632,7 @@ msgstr "не удалось.\n"
 msgid "success.\n"
 msgstr "успешно.\n"
 
-#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:656
+#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:690
 msgid "Cut"
 msgstr "Вырезать"
 
@@ -1640,7 +1640,7 @@ msgstr "Вырезать"
 msgid "Cut selected item into clipboard"
 msgstr "Вырезает выделенный элемент в буфер обмена"
 
-#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:657
+#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:691
 msgid "Copy"
 msgstr "Скопировать"
 
@@ -1649,7 +1649,7 @@ msgid "Copy selected item into clipboard"
 msgstr "Копирует выделенный элемент в буфер обмена"
 
 #: composer/e-msg-composer-address-dialog.c:191
-#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:658
+#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:692
 msgid "Paste"
 msgstr "Вставить"
 
@@ -1686,23 +1686,23 @@ msgstr "%.1fM"
 msgid "%.1fG"
 msgstr "%.1fG"
 
-#: composer/e-msg-composer-attachment-bar.c:297
+#: composer/e-msg-composer-attachment-bar.c:299
 msgid "Add attachment"
 msgstr "Добавить вложение"
 
-#: composer/e-msg-composer-attachment-bar.c:354 shell/e-shortcuts-view.c:332
+#: composer/e-msg-composer-attachment-bar.c:362 shell/e-shortcuts-view.c:332
 msgid "Remove"
 msgstr "Удалить"
 
-#: composer/e-msg-composer-attachment-bar.c:355
+#: composer/e-msg-composer-attachment-bar.c:363
 msgid "Remove selected items from the attachment list"
 msgstr "Удалить выбранные элементы из списка вложений"
 
-#: composer/e-msg-composer-attachment-bar.c:386
+#: composer/e-msg-composer-attachment-bar.c:394
 msgid "Add attachment..."
 msgstr "Добавить вложение..."
 
-#: composer/e-msg-composer-attachment-bar.c:387
+#: composer/e-msg-composer-attachment-bar.c:395
 msgid "Attach a file to the message"
 msgstr "Присоединить файл к сообщению"
 
@@ -1746,66 +1746,79 @@ msgstr "Тема:"
 msgid "Enter the subject of the mail"
 msgstr "Введите тему письма"
 
-#: composer/e-msg-composer.c:508
+#: composer/e-msg-composer.c:492
+msgid "Open file"
+msgstr "Открыть файл"
+
+#: composer/e-msg-composer.c:502
+#, c-format
+msgid "Error loading file: %s"
+msgstr "Ошибка при загрузке файла: %s"
+
+#: composer/e-msg-composer.c:543
 msgid "Discard this message?"
 msgstr "Отменить это сообщение"
 
-#: composer/e-msg-composer.c:614
+#: composer/e-msg-composer.c:648
 msgid "Save in _folder..."
 msgstr "Сохранить в папке..."
 
-#: composer/e-msg-composer.c:614
+#: composer/e-msg-composer.c:648
 msgid "Save the message in a specified folder"
 msgstr "Сохранить сообщение в указанной папке"
 
-#: composer/e-msg-composer.c:617 composer/e-msg-composer.c:654
+#: composer/e-msg-composer.c:651 composer/e-msg-composer.c:688
 #: mail/folder-browser-factory.c:36
 msgid "Send"
 msgstr "Отправить"
 
-#: composer/e-msg-composer.c:617
+#: composer/e-msg-composer.c:651
 msgid "Send the message"
 msgstr "Отправить сообщение"
 
-#: composer/e-msg-composer.c:625
+#: composer/e-msg-composer.c:659
 msgid "View _attachments"
 msgstr "Просмотреть вложения"
 
-#: composer/e-msg-composer.c:625
+#: composer/e-msg-composer.c:659
 msgid "View/hide attachments"
 msgstr "Показать/скрыть вложения"
 
-#: composer/e-msg-composer.c:654
+#: composer/e-msg-composer.c:688
 msgid "Send this message"
 msgstr "Отправить это сообщение"
 
-#: composer/e-msg-composer.c:656
+#: composer/e-msg-composer.c:690
 msgid "Cut selected region into the clipboard"
 msgstr "Вырезать выделенную область в буфер обмена"
 
-#: composer/e-msg-composer.c:657
+#: composer/e-msg-composer.c:691
 msgid "Copy selected region into the clipboard"
 msgstr "Скопировать выделенную область в буфер обмена"
 
-#: composer/e-msg-composer.c:658
+#: composer/e-msg-composer.c:692
 msgid "Paste selected region into the clipboard"
 msgstr "Вставить выделенную область в буфер обмена"
 
-#: composer/e-msg-composer.c:659
+#: composer/e-msg-composer.c:693
 msgid "Undo"
 msgstr "Откат"
 
-#: composer/e-msg-composer.c:659
+#: composer/e-msg-composer.c:693
 msgid "Undo last operation"
 msgstr "Отменить последнюю операцию"
 
-#: composer/e-msg-composer.c:661
+#: composer/e-msg-composer.c:695
 msgid "Attach"
 msgstr "Присоединить"
 
-#: composer/e-msg-composer.c:661
+#: composer/e-msg-composer.c:695
 msgid "Attach a file"
 msgstr "Присоединить файл"
+
+#: composer/e-msg-composer.c:857
+msgid "Compose a message"
+msgstr "Создать сообщение"
 
 #: mail/folder-browser-factory.c:35
 msgid "Get mail"
@@ -1953,7 +1966,7 @@ msgid "Mail Configuration"
 msgstr "Настройка почты"
 
 #. Identity page
-#: mail/mail-config.c:1137 mail/mail-config.c:1865
+#: mail/mail-config.c:1137 mail/mail-config.c:1866
 msgid "Identity"
 msgstr "Именование"
 
@@ -1975,59 +1988,59 @@ msgstr "Правка именования"
 msgid "Add Identity"
 msgstr "Добавить именование"
 
-#: mail/mail-config.c:1443
+#: mail/mail-config.c:1444
 msgid "Edit Source"
 msgstr "Правка источника"
 
-#: mail/mail-config.c:1445
+#: mail/mail-config.c:1446
 msgid "Add Source"
 msgstr "Добавить источник"
 
-#: mail/mail-config.c:1707
+#: mail/mail-config.c:1708
 msgid "Name"
 msgstr "Имя"
 
-#: mail/mail-config.c:1707
+#: mail/mail-config.c:1708
 msgid "Address"
 msgstr "Адрес"
 
-#: mail/mail-config.c:1707
+#: mail/mail-config.c:1708
 msgid "Organization"
 msgstr "Ориентация"
 
-#: mail/mail-config.c:1707
+#: mail/mail-config.c:1708
 msgid "Signature file"
 msgstr "Файл подписи"
 
-#: mail/mail-config.c:1733
+#: mail/mail-config.c:1734
 msgid "Camel Providers Configuration"
 msgstr "Настройка провайдеров Camel"
 
-#: mail/mail-config.c:1822
+#: mail/mail-config.c:1823
 msgid "Identities"
 msgstr "Именования"
 
-#: mail/mail-config.c:1838 mail/mail-config.c:1934
+#: mail/mail-config.c:1839 mail/mail-config.c:1935
 msgid "Add"
 msgstr "Добавить"
 
-#: mail/mail-config.c:1847 mail/mail-config.c:1943
+#: mail/mail-config.c:1848 mail/mail-config.c:1944
 msgid "Edit"
 msgstr "Правка"
 
-#: mail/mail-config.c:1918
+#: mail/mail-config.c:1919
 msgid "Mail sources"
 msgstr "Источники почты"
 
-#: mail/mail-config.c:1961
+#: mail/mail-config.c:1962
 msgid "Sources"
 msgstr "Источники"
 
-#: mail/mail-config.c:1996
+#: mail/mail-config.c:1997
 msgid "Transports"
 msgstr "Способы доставки"
 
-#: mail/mail-config.c:2017
+#: mail/mail-config.c:2018
 msgid "Send messages in HTML format"
 msgstr "Отправлять сообщения в формате HTML"
 
@@ -2035,27 +2048,27 @@ msgstr "Отправлять сообщения в формате HTML"
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "Почтовый компонент: не удалось инициализировать Bonobo"
 
-#: mail/message-list.c:521
+#: mail/message-list.c:572
 msgid "Online Status"
 msgstr "Подключенное состояние"
 
-#: mail/message-list.c:556
+#: mail/message-list.c:607
 msgid "Subject"
 msgstr "Тема"
 
-#: mail/message-list.c:563
+#: mail/message-list.c:614
 msgid "Date"
 msgstr "Дата"
 
-#: mail/message-list.c:570
+#: mail/message-list.c:621
 msgid "Receive"
 msgstr "Получено"
 
-#: mail/message-list.c:584
+#: mail/message-list.c:635
 msgid "Size"
 msgstr "Размер"
 
-#: mail/component-factory.c:177
+#: mail/component-factory.c:176
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Невозможно инициализировать почтовый компонент \"Эволюции\"."
 
@@ -2389,79 +2402,79 @@ msgstr "\"Эволюции\" не удалось создать ее локальные папки"
 msgid "Error saving shortcuts."
 msgstr "Ошибка сохранения закладок."
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:374
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:385
 msgid "Tentative"
 msgstr "Экспериментальный"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:375
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:386
 msgid "Busy"
 msgstr "Занят"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:376
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:387
 msgid "Out of Office"
 msgstr "Вне офиса"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:377
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:388
 msgid "No Information"
 msgstr "Нет информации"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:393
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:404
 msgid "_Invite Others..."
 msgstr "Пригласить других..."
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:413
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:424
 msgid "_Options"
 msgstr "Параметры"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:430
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:441
 msgid "Show _Only Working Hours"
 msgstr "Показывать только рабочие часы"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:443
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:454
 msgid "Show _Zoomed Out"
 msgstr ""
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:461
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:472
 msgid "_Update Free/Busy"
 msgstr "Обновить Свободен/Занят"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:479
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:490
 msgid "_<<"
 msgstr "<<"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:496
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:507
 msgid "_Autopick"
 msgstr "Автовыбор"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:510
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:521
 msgid ">_>"
 msgstr ">>"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:527
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:538
 msgid "_All People and Resources"
 msgstr "Все люди и ресурсы"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:540
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:551
 msgid "All _People and One Resource"
 msgstr "Все люди и один ресурс"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:553
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:564
 msgid "_Required People"
 msgstr "Требуемые люди"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:566
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:577
 msgid "Required People and _One Resource"
 msgstr "Требуемые люди и один ресурс"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:589
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:600
 msgid "Meeting _start time:"
 msgstr "Время начала собрания:"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:613
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:624
 msgid "Meeting _end time:"
 msgstr "Время завершения собрания:"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:725
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:737
 msgid "All Attendees"
 msgstr "Все сопровождение"
 
