@@ -24,3 +24,6 @@ Spell-skels.c
 Spell-stubs.c
 Spell.h
 evolution-mail-upgrade
+evolution-mbox-upgrade
+em-marshal.c
+em-marshal.h
