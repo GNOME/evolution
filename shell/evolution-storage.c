@@ -317,12 +317,14 @@ get_folder_list_foreach (EFolderTree *tree,
 		return;
 
 	new_corba_folder = folder_list->_buffer + folder_list->_length;
-	new_corba_folder->displayName  = CORBA_string_dup (corba_folder->displayName);
-	new_corba_folder->description  = CORBA_string_dup (corba_folder->description);
-	new_corba_folder->type         = CORBA_string_dup (corba_folder->type);
-	new_corba_folder->physicalUri  = CORBA_string_dup (corba_folder->physicalUri);
-	new_corba_folder->evolutionUri = CORBA_string_dup (corba_folder->evolutionUri);
-	new_corba_folder->unreadCount  = corba_folder->unreadCount;
+	new_corba_folder->displayName  	  = CORBA_string_dup (corba_folder->displayName);
+	new_corba_folder->description  	  = CORBA_string_dup (corba_folder->description);
+	new_corba_folder->type         	  = CORBA_string_dup (corba_folder->type);
+	new_corba_folder->physicalUri  	  = CORBA_string_dup (corba_folder->physicalUri);
+	new_corba_folder->evolutionUri 	  = CORBA_string_dup (corba_folder->evolutionUri);
+	new_corba_folder->unreadCount  	  = corba_folder->unreadCount;
+	new_corba_folder->sortingPriority = corba_folder->sortingPriority;
+	new_corba_folder->customIconName  = CORBA_string_dup (corba_folder->customIconName);
 	
 	folder_list->_length++;
 }

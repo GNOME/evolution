@@ -1,5 +1,11 @@
 2002-07-11  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-storage.c (get_folder_list_foreach): Copy
+	customIconName and sortingPriority in the new_corba_folder.
+	[#27670]
+
+2002-07-11  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-folder-title-bar.c: Remove some `#if 0'ed broken code.
 	New members title_icon and title_button_icon in struct
 	EShellFolderTitleBarPrivate.  Remove member icon_widget.  New
