@@ -98,7 +98,7 @@ set_prop (BonoboPropertyBag *bag,
 
 	case PROPERTY_CALENDAR_URI_IDX:
 		printf ("set_prop: '%s'\n", BONOBO_ARG_GET_STRING (arg));
-		filename = g_strdup_printf ("%s/calendar.vcf",
+		filename = g_strdup_printf ("%s/calendar.ics",
 					    BONOBO_ARG_GET_STRING (arg));
 		calendar_set_uri (gcal, filename);
 		g_free (filename);

@@ -1,3 +1,20 @@
+2000-09-08  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/gnome-cal.c (cal_loaded_cb): New function with the
+	loading/creation state machine.  It is carefully modelled after
+	the state machine that started the Universe, so bow before it.
+	(gnome_calendar_construct): Do not connect to cal_loaded here.
+	(connect_load): The closure for the cal_loaded callback is a bit
+	tricky, so provide a function to create it and connect to the
+	signal.
+	(disconnect_load): Disconnect from the signal and free the
+	closure.
+	(gnome_calendar_load_cb): Removed obsolete buggy function.
+	(gnome_calendar_open): Use the new mechanism.
+
+	* gui/control-factory.c (set_prop): The default filename is now
+	calendar.ics.
+
 2000-09-08  JP Rosevear  <jpr@helixcode.com>
 
 	* conduits/calendar/calendar-conduit.c (transmit): Use

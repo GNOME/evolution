@@ -44,8 +44,8 @@ struct _GnomeCalendarClass {
 
 
 typedef enum {
-  CALENDAR_OPEN,
-  CALENDAR_OPEN_OR_CREATE
+	CALENDAR_OPEN,
+	CALENDAR_OPEN_OR_CREATE
 } GnomeCalendarOpenMode;
 
 GtkType    gnome_calendar_get_type         	(void);
@@ -55,7 +55,7 @@ GtkWidget *gnome_calendar_new			(void);
 
 CalClient *gnome_calendar_get_cal_client	(GnomeCalendar *gcal);
 
-int        gnome_calendar_open                  (GnomeCalendar *gcal,
+gboolean   gnome_calendar_open                  (GnomeCalendar *gcal,
 						 char *file,
 						 GnomeCalendarOpenMode gcom);
 /*
