@@ -393,12 +393,13 @@ task_details_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 {
 	TaskDetailsPage *tdpage;
 	TaskDetailsPagePrivate *priv;
-	struct icaltimetype icaltime;
+	struct icaltimetype icalcomplete, icaltoday;
 	icalproperty_status status;
 	TaskEditorPriority priority;
 	int priority_value, percent;
 	char *url;
 	gboolean date_set;
+	icaltimezone *zone = calendar_config_get_icaltimezone ();
 	
 	tdpage = TASK_DETAILS_PAGE (page);
 	priv = tdpage->priv;
@@ -416,10 +417,10 @@ task_details_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 	priority_value = priority_index_to_value (priority);
 	e_cal_component_set_priority (comp, &priority_value);
 
-	icaltime = icaltime_null_time ();
+	icalcomplete = icaltime_null_time ();
 
 	/* COMPLETED must be in UTC. */
-	icaltime.is_utc = 1;
+	icalcomplete.is_utc = 1;
 
 	/* Completed Date. */
 	if (!e_date_edit_date_is_valid (E_DATE_EDIT (priv->completed_date)) ||
@@ -429,12 +430,24 @@ task_details_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 	}
 
 	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->completed_date),
-					 &icaltime.year,
-					 &icaltime.month,
-					 &icaltime.day);
+					 &icalcomplete.year,
+					 &icalcomplete.month,
+					 &icalcomplete.day);
+
 	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->completed_date),
-				     &icaltime.hour,
-				     &icaltime.minute);
+				     &icalcomplete.hour,
+				     &icalcomplete.minute);
+
+	/* COMPLETED today or before */
+	icaltoday = icaltime_current_time_with_zone (zone);
+	icaltimezone_convert_time (&icaltoday, zone,
+				    icaltimezone_get_utc_timezone());
+
+	if (icaltime_compare_date_only (icalcomplete, icaltoday) > 0) { 
+		comp_editor_page_display_validation_error (page, _("Completed date is wrong"), priv->completed_date);
+		return FALSE;
+	}
+
 	if (date_set) {
 		/* COMPLETED must be in UTC, so we assume that the date in the
 		   dialog is in the current timezone, and we now convert it
@@ -442,10 +455,9 @@ task_details_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 		   entire time the dialog is shown. Otherwise if the user
 		   changes the timezone, the COMPLETED date may get changed
 		   as well. */
-		icaltimezone *zone = calendar_config_get_icaltimezone ();
-		icaltimezone_convert_time (&icaltime, zone,
+		icaltimezone_convert_time (&icalcomplete, zone,
 					   icaltimezone_get_utc_timezone ());
-		e_cal_component_set_completed (comp, &icaltime);
+		e_cal_component_set_completed (comp, &icalcomplete);
 	} else {
 		e_cal_component_set_completed (comp, NULL);
 	}

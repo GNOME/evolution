@@ -1,3 +1,10 @@
+2004-10-02  Iván Frade <frade@asturlinux.org>
+
+	Fixes #48116
+
+	* gui/dialogs/task-details.page.c (task_details_page_fill_component):
+	Validation: completed date is not a future date.
+	
 2004-10-01  Not Zed  <NotZed@Ximian.com>
 
 	* gui/tasks-component.c (create_component_view): cast warning
