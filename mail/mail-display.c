@@ -29,6 +29,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gdk-pixbuf-loader.h>
 #include <gal/util/e-util.h>
+#include <gal/util/e-unicode-i18n.h>
 #include <gal/widgets/e-popup-menu.h>
 #include <gal/widgets/e-unicode.h>
 #include <gtk/gtkinvisible.h>
@@ -1509,6 +1510,11 @@ mail_display_render (MailDisplay *md, GtkHTML *html, gboolean reset_scroll)
 	mail_html_write (html, stream, "<body marginwidth=0 marginheight=0>\n");
 	
 	if (md->followup) {
+		const char *overdue;
+		char due_date[100];
+		struct tm due;
+		time_t now;
+		
 		/* my favorite thing to do... muck around with colors so we respect people's stupid themes. */
 		style = gtk_widget_get_style (GTK_WIDGET (html));
 		if (style && !md->printing) {
@@ -1520,13 +1526,13 @@ mail_display_render (MailDisplay *md, GtkHTML *html, gboolean reset_scroll)
 			b = style->base[state].blue / 256;
 			
 			if (COLOR_IS_LIGHT (r, g, b)) {
-				r *= 0.92;
-				g *= 0.92;
-				b *= 0.92;
+				r *= 1.0;
+				g *= 0.97;
+				b *= 0.75;
 			} else {
-				r = 255 - (0.92 * (255 - r));
-				g = 255 - (0.92 * (255 - g));
-				b = 255 - (0.92 * (255 - b));
+				r = 255 - (1.0 * (255 - r));
+				g = 255 - (0.97 * (255 - g));
+				b = 255 - (0.75 * (255 - b));
 			}
 			
 			sprintf (bgcolor, "%.2X%.2X%.2X", r, g, b);
@@ -1541,17 +1547,25 @@ mail_display_render (MailDisplay *md, GtkHTML *html, gboolean reset_scroll)
 			strcpy (fontcolor, "000000");
 		}
 		
+		now = time (NULL);
+		if (now >= md->followup->target_date)
+			overdue = U_("<b>Overdue:</b>&nbsp;");
+		else
+			overdue = "";
+		
+		/* copy the due date into 'now' because localtime_r destroys the time_t value */
+		now = md->followup->target_date;
+		localtime_r (&now, &due);
+		
+		e_strftime (due_date, 100, "%B %d, %Y, %l:%M %P", &due);
+		
 		gtk_html_stream_printf (stream, "<font color=\"#%s\">"
-					"<table width=\"100%%\" cellspacing=0 cellpading=0><tr><td width=\"100%%\">"
-					"<table bgcolor=\"#000000\" width=\"100%%\" cellspacing=0 cellpadding=1>"
-					"<tr><td><table bgcolor=\"#%s\" width=\"100%%\" cellpadding=0 cellspacing=0>"
-					"<tr>\n", fontcolor, bgcolor);
-		
-		gtk_html_stream_printf (stream, "<td><img src=\"%s\"></td><td halign=left><b>%s</b></td>\n",
+					"<table cellspacing=1 cellpadding=1 bgcolor=\"#000000\"><tr><td>"
+					"<table cellspacing=0 bgcolor=\"#%s\" cellpadding=2 cellspacing=2>"
+					"<tr><td align=\"left\" width=20><img src=\"%s\" align=\"middle\"></td>"
+					"<td>%s%s by %s</td></table></td></tr></table></font>", fontcolor, bgcolor,
 					mail_display_get_url_for_icon (md, EVOLUTION_IMAGES "/flag-for-followup-16.png"),
-					message_tag_followup_i18n_name (md->followup->type));
-		
-		mail_html_write (html, stream, "</tr></table></tr></table></td></tr></table></font>");
+					overdue, message_tag_followup_i18n_name (md->followup->type), due_date);
 	}
 	
 	if (md->current_message) {
