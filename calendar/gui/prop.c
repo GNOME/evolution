@@ -848,7 +848,9 @@ create_alarm_page (void)
 	gtk_table_set_col_spacings (GTK_TABLE (default_table), 4);
 	gtk_container_add (GTK_CONTAINER (default_frame), default_table);
 
+#ifndef NO_WARNINGS
 #warning "FIX ME"
+#endif
 	/*
 	ee_create_ae (GTK_TABLE (default_table), _("Display"), 
 		      &alarm_defaults [ALARM_DISPLAY], ALARM_DISPLAY, 1, 

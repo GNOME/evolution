@@ -432,6 +432,7 @@ gnome_calendar_set_view (GnomeCalendar *gcal, char *page_name)
 	gnome_calendar_update_gtk_calendar (gcal);
 }
 
+#ifndef NO_WARNINGS
 /* Sends a mail notification of an alarm trigger */
 static void
 mail_notification (char *mail_address, char *text, time_t app_time)
@@ -524,6 +525,7 @@ program_notification (char *command, int close_standard)
 	sigaction (SIGINT,  &save_intr, NULL);
 	sigaction (SIGQUIT, &save_quit, NULL);
 }
+#endif
 
 /* Queues a snooze alarm */
 static void
@@ -1039,6 +1041,7 @@ gnome_calendar_open (GnomeCalendar *gcal,
 	return 1;
 }
 
+#ifndef NO_WARNINGS
 static void
 stop_beeping (GtkObject* object, gpointer data)
 {
@@ -1070,6 +1073,7 @@ timeout_beep (gpointer data)
 	stop_beeping (data, NULL);
 	return FALSE;
 }
+#endif
 
 #if 0
 

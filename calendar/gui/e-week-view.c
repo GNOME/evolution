@@ -164,9 +164,11 @@ static void e_week_view_on_delete_appointment (GtkWidget *widget,
 static void e_week_view_on_unrecur_appointment (GtkWidget *widget,
 						gpointer data);
 
+#ifndef NO_WARNINGS
 static gboolean e_week_view_update_event_cb (EWeekView *week_view,
 					     gint event_num,
 					     gpointer data);
+#endif
 static gboolean e_week_view_remove_event_cb (EWeekView *week_view,
 					     gint event_num,
 					     gpointer data);
@@ -997,7 +999,6 @@ void
 e_week_view_update_event		(EWeekView	*week_view,
 					 const gchar	*uid)
 {
-	EWeekViewEvent *event;
 	gint event_num, num_days;
 	CalComponent *comp;
 	CalClientGetStatus status;
@@ -1038,7 +1039,9 @@ e_week_view_update_event		(EWeekView	*week_view,
 	   update the event fairly easily without changing the events arrays
 	   or computing a new layout. */
 	if (e_week_view_find_event_from_uid (week_view, uid, &event_num)) {
+#ifndef NO_WARNINGS
 #warning "FIX ME"
+#endif
 		/* Do this the long way every time for now */
 #if 0
 		event = &g_array_index (week_view->events, EWeekViewEvent,
@@ -1075,6 +1078,7 @@ e_week_view_update_event		(EWeekView	*week_view,
 }
 
 
+#ifndef NO_WARNINGS
 static gboolean
 e_week_view_update_event_cb (EWeekView *week_view,
 			     gint event_num,
@@ -1121,6 +1125,7 @@ e_week_view_update_event_cb (EWeekView *week_view,
 
 	return TRUE;
 }
+#endif
 
 
 /* This calls a given function for each event instance that matches the given

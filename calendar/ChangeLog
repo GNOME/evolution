@@ -1,3 +1,9 @@
+2000-08-24  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/calendar-commands.c, gui/e-day-view.c, gui/e-week-view.c,
+	gui/event-editor.c, gui/gncal-todo.c, gui/gnome-cal.c, gui/prop.c:
+	Fixed some warnings.
+
 2000-08-24  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/e-week-view.c (e_week_view_on_new_appointment): Do not alloc

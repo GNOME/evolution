@@ -780,7 +780,9 @@ fill_widgets (EventEditor *ee)
 	}
 	
 	/* Recurrences */
+#ifndef NO_WARNINGS
 #warning "FIX ME"
+#endif
 	/* Need to handle recurrence dates as well as recurrence rules */
 	/* Need to handle more than one rrule */
 	if (cal_component_has_rrules (priv->comp)) {
@@ -894,7 +896,9 @@ fill_widgets (EventEditor *ee)
 	}
 
 	/* Exceptions list */
+#ifndef NO_WARNINGS
 #warning "FIX ME"
+#endif
 	/* Need to handle exception rules as well as dates */
 	cal_component_get_exdate_list (priv->comp, &list);
 	for (l = list; l; l = l->next) {

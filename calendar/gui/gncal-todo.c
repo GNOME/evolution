@@ -249,7 +249,9 @@ gncal_todo_edit (CalClient *client, CalComponent *comp)
 	gtk_text_set_editable (GTK_TEXT (comment_text), TRUE);
 	gtk_text_set_word_wrap( GTK_TEXT(comment_text), TRUE);
 	gtk_text_freeze(GTK_TEXT(comment_text));
+#ifndef NO_WARNINGS
 #warning "FIX ME"
+#endif
 	/* Need to handle multiple comments */
 	cal_component_get_comment_list (comp, &l);
 	if (l) {
@@ -929,7 +931,9 @@ gncal_todo_update (GncalTodo *todo, CalComponent *comp, int flags)
 			insert_in_clist (todo, comp);
 			gtk_object_unref (GTK_OBJECT (comp));
 		}
+#ifndef NO_WARNINGS
 #warning "FIX ME"
+#endif
 		/* else? */
 		g_free (uid);
 	}

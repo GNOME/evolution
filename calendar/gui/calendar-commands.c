@@ -407,7 +407,9 @@ open_ok (GtkWidget *widget, GtkFileSelection *fs)
 		ret = gnome_dialog_run (GNOME_DIALOG (error_dialog));
 	} else {
 		/* FIXME: find out who owns this calendar and use that name */
+#ifndef NO_WARNINGS
 #warning "FIXME: find out who owns this calendar and use that name"
+#endif
 		/*
 		new_calendar ("Somebody", gtk_file_selection_get_filename (fs), NULL, NULL, FALSE);
 		*/
