@@ -687,3 +687,38 @@ imap_parse_astring (char **str_p, int *len)
 	*str_p += *len;
 	return p;
 }
+
+/**
+ * imap_quote_string:
+ * @str: the string to quote, which must not contain CR or LF
+ *
+ * Return value: an IMAP "quoted" corresponding to the string, which
+ * the caller must free.
+ **/
+char *
+imap_quote_string (const char *str)
+{
+	const char *p;
+	char *quoted, *q;
+	int len;
+
+	len = strlen (str);
+	p = str;
+	while ((p = strpbrk (p, "\"\\"))) {
+		len++;
+		p++;
+	}
+
+	quoted = q = g_malloc (len + 3);
+	*q++ = '"';
+	while ((p = strpbrk (str, "\"\\"))) {
+		memcpy (q, str, p - str);
+		q += p - str;
+		*q++ = '\\';
+		*q++ = *p++;
+		str = p;
+	}
+	sprintf (q, "%s\"", str);
+
+	return quoted;
+}

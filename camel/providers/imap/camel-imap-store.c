@@ -352,7 +352,7 @@ imap_connect (CamelService *service, CamelException *ex)
 		}
 
 		response = camel_imap_command (store, NULL, ex,
-					       "LOGIN \"%s\" \"%s\"",
+					       "LOGIN %S %S",
 					       service->url->user,
 					       service->url->passwd);
 		if (!response) {
@@ -385,7 +385,7 @@ imap_connect (CamelService *service, CamelException *ex)
 		 * for the given path, even if that path doesn't exist.
 		 */
 		response = camel_imap_command (store, NULL, ex,
-					       "LIST \"%s\" \"\"",
+					       "LIST %S \"\"",
 					       namespace);
 	} else {
 		/* Plain IMAP4 doesn't have that idiom, so we fall back
@@ -393,7 +393,7 @@ imap_connect (CamelService *service, CamelException *ex)
 		 * the folder doesn't exist (eg, if namespace is "").
 		 */
 		response = camel_imap_command (store, NULL, ex,
-					       "LIST \"\" \"%s\"",
+					       "LIST \"\" %S",
 					       namespace);
 	}
         if (!response)
@@ -457,7 +457,7 @@ imap_folder_exists (CamelImapStore *store, const char *folder_name,
 		return TRUE;
 	}
 
-	response = camel_imap_command (store, NULL, ex, "LIST \"\" \"%s\"",
+	response = camel_imap_command (store, NULL, ex, "LIST \"\" %S",
 				       folder_name);
 	if (!response)
 		return FALSE;
@@ -487,7 +487,7 @@ imap_create (CamelImapStore *store, const char *folder_name,
 {
 	CamelImapResponse *response;
 
-	response = camel_imap_command (store, NULL, ex, "CREATE \"%s\"",
+	response = camel_imap_command (store, NULL, ex, "CREATE %S",
 				       folder_name);
 	camel_imap_response_free (response);
 
@@ -622,7 +622,7 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 			name = "";
 	}
 	response = camel_imap_command (imap_store, NULL, ex,
-				       "LIST \"\" \"%s\"", name);
+				       "LIST \"\" %S", name);
 	if (!response)
 		return FALSE;
 	list = camel_imap_response_extract (response, "LIST", ex);
@@ -637,15 +637,17 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 	}
 
 	if (!top && subscribed_only)
-		pattern = g_strdup ("");
+		pattern = g_strdup (recursive ? "*" : "%");
  	else if (*name)
-		pattern = g_strdup_printf ("%s%c", name, imap_store->dir_sep);
+		pattern = g_strdup_printf ("%s%c%c", name, imap_store->dir_sep,
+					   recursive ? '*' : '%');
 	else
-		pattern = g_strdup (name);
+		pattern = g_strdup_printf ("%s%c", name,
+					   recursive ? '*' : '%');
 	response = camel_imap_command (imap_store, NULL, ex,
-				       "%s \"\" \"%s%c\"",
+				       "%s \"\" %S",
 				       subscribed_only ? "LSUB" : "LIST",
-				       pattern, recursive ? '*' : '%');
+				       pattern);
 	g_free (pattern);
 	if (!response)
 		return NULL;
@@ -696,7 +698,7 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 
 			response = camel_imap_command (
 				imap_store, NULL, NULL,
-				"STATUS \"%s\" (MESSAGES UNSEEN)",
+				"STATUS %S (MESSAGES UNSEEN)",
 				fi->full_name);
 			if (!response)
 				continue;
@@ -749,7 +751,7 @@ subscribe_folder (CamelStore *store, const char *folder_name,
 	CamelImapResponse *response;
 
 	response = camel_imap_command (imap_store, NULL, ex,
-				       "SUBSCRIBE \"%s\"", folder_name);
+				       "SUBSCRIBE %S", folder_name);
 	if (response) {
 		g_hash_table_insert (imap_store->subscribed_folders,
 				     g_strdup (folder_name),
@@ -767,7 +769,7 @@ unsubscribe_folder (CamelStore *store, const char *folder_name,
 	gpointer key, value;
 
 	response = camel_imap_command (imap_store, NULL, ex,
-				       "UNSUBSCRIBE \"%s\"", folder_name);
+				       "UNSUBSCRIBE %S", folder_name);
 	if (response) {
 		g_hash_table_lookup_extended (imap_store->subscribed_folders,
 					      folder_name, &key, &value);

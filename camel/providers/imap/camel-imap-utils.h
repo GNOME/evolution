@@ -46,6 +46,8 @@ guint32 imap_parse_flag_list (const char *flag_list);
 char *imap_parse_nstring (char **str_p, int *len);
 char *imap_parse_astring (char **str_p, int *len);
 
+char *imap_quote_string (const char *str);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

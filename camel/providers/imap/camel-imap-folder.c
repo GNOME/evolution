@@ -469,7 +469,7 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message,
 	camel_object_unref (CAMEL_OBJECT (crlf_filter));
 	camel_object_unref (CAMEL_OBJECT (memstream));
 
-	response = camel_imap_command (store, NULL, ex, "APPEND %s%s%s {%d}",
+	response = camel_imap_command (store, NULL, ex, "APPEND %S%s%s {%d}",
 				       folder->full_name, flagstr ? " " : "",
 				       flagstr ? flagstr : "", ba->len);
 	g_free (flagstr);
@@ -501,7 +501,7 @@ imap_copy_message_to (CamelFolder *source, const char *uid,
 	CamelImapStore *store = CAMEL_IMAP_STORE (source->parent_store);
 	CamelImapResponse *response;
 	
-	response = camel_imap_command (store, source, ex, "UID COPY %s \"%s\"",
+	response = camel_imap_command (store, source, ex, "UID COPY %s %S",
 				       uid, destination->full_name);
 	camel_imap_response_free (response);
 
@@ -521,7 +521,7 @@ imap_move_message_to (CamelFolder *source, const char *uid,
 	CamelImapStore *store = CAMEL_IMAP_STORE (source->parent_store);
 	CamelImapResponse *response;
 
-	response = camel_imap_command (store, source, ex, "UID COPY %s \"%s\"",
+	response = camel_imap_command (store, source, ex, "UID COPY %s %S",
 				       uid, destination->full_name);
 	camel_imap_response_free (response);
 

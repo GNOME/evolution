@@ -27,6 +27,7 @@
 
 #include <config.h>
 
+#include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -39,6 +40,8 @@ static char *imap_read_untagged (CamelImapStore *store, char *line,
 				 CamelException *ex);
 static CamelImapResponse *imap_read_response (CamelImapStore *store,
 					      CamelException *ex);
+static char *imap_command_strdup_vprintf (CamelImapStore *store,
+					  const char *fmt, va_list ap);
 
 /**
  * camel_imap_command: Send a command to a IMAP server and get a response
@@ -46,7 +49,7 @@ static CamelImapResponse *imap_read_response (CamelImapStore *store,
  * @folder: The folder to perform the operation in (or %NULL if not
  * relevant).
  * @ex: a CamelException
- * @fmt: a printf-style format string, followed by arguments
+ * @fmt: an sort of printf-style format string, followed by arguments
  *
  * This function makes sure that @folder (if non-%NULL) is the
  * currently-selected folder on @store and then sends the IMAP command
@@ -56,6 +59,14 @@ static CamelImapResponse *imap_read_response (CamelImapStore *store,
  * As a special case, if @fmt is %NULL, it will just select @folder
  * and return the response from doing so.
  * 
+ * @fmt can include the following %-escapes ONLY:
+ *	%s, %d, %%: as with printf
+ *	%S: an IMAP "string" (quoted string or literal)
+ *
+ * %S strings will be passed as literals if the server supports LITERAL+
+ * and quoted strings otherwise. (%S does not support strings that
+ * contain newlines.)
+ *
  * Return value: %NULL if an error occurred (in which case @ex will
  * be set). Otherwise, a CamelImapResponse describing the server's
  * response, which the caller must free with camel_imap_response_free().
@@ -72,8 +83,7 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder,
 		CamelImapResponse *response;
 
 		store->current_folder = NULL;
-		response = camel_imap_command (store, NULL, ex,
-					       "SELECT \"%s\"",
+		response = camel_imap_command (store, NULL, ex, "SELECT %S",
 					       folder->full_name);
 		if (!response)
 			return NULL;
@@ -87,7 +97,7 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder,
 
 	/* Send the command */
 	va_start (ap, fmt);
-	cmdbuf = g_strdup_vprintf (fmt, ap);
+	cmdbuf = imap_command_strdup_vprintf (store, fmt, ap);
 	va_end (ap);
 
 	camel_remote_store_send_string (CAMEL_REMOTE_STORE (store), ex,
@@ -444,4 +454,109 @@ camel_imap_response_extract_continuation (CamelImapResponse *response,
 			      response->status);
 	camel_imap_response_free (response);
 	return NULL;
+}
+
+
+static char *
+imap_command_strdup_vprintf (CamelImapStore *store, const char *fmt,
+			     va_list ap)
+{
+	GPtrArray *args;
+	const char *p, *start;
+	char *out, *op, *string;
+	int num, len, i;
+
+	args = g_ptr_array_new ();
+
+	/* Determine the length of the data */
+	len = strlen (fmt);
+	p = start = fmt;
+	while (*p) {
+		p = strchr (start, '%');
+		if (!p)
+			break;
+
+		switch (*++p) {
+		case 'd':
+			num = va_arg (ap, int);
+			g_ptr_array_add (args, GINT_TO_POINTER (num));
+			start = p + 1;
+			len += 10;
+			break;
+
+		case 's':
+			string = va_arg (ap, char *);
+			g_ptr_array_add (args, string);
+			start = p + 1;
+			len += strlen (string);
+			break;
+
+		case 'S':
+			string = va_arg (ap, char *);
+			g_ptr_array_add (args, string);
+			if (store->capabilities & IMAP_CAPABILITY_LITERALPLUS)
+				len += strlen (string) + 15;
+			else
+				len += strlen (string) * 2;
+			start = p + 1;
+			break;
+
+		case '%':
+			start = p;
+			break;
+
+		default:
+			g_warning ("camel-imap-command is not printf. I don't "
+				   "know what '%%%c' means.", *p);
+			start = *p ? p + 1 : p;
+			break;
+		}
+	}
+
+	/* Now write out the string */
+	op = out = g_malloc (len);
+	p = start = fmt;
+	i = 0;
+	while (*p) {
+		p = strchr (start, '%');
+		if (!p) {
+			strcpy (op, start);
+			break;
+		} else {
+			strncpy (op, start, p - start);
+			op += p - start;
+		}
+
+		switch (*++p) {
+		case 'd':
+			num = GPOINTER_TO_INT (args->pdata[i++]);
+			op += sprintf (op, "%d", num);
+			break;
+
+		case 's':
+			string = args->pdata[i++];
+			op += sprintf (op, "%s", string);
+			break;
+
+		case 'S':
+			string = args->pdata[i++];
+			if (store->capabilities & IMAP_CAPABILITY_LITERALPLUS) {
+				op += sprintf (op, "{%d+}\r\n%s",
+					       strlen (string), string);
+			} else {
+				char *quoted = imap_quote_string (string);
+				op += sprintf (op, "%s", quoted);
+				g_free (quoted);
+			}
+			break;
+
+		default:
+			*op++ = '%';
+			*op++ = *p;
+		}
+
+		start = *p ? p + 1 : p;
+	}
+
+	return out;
 }
