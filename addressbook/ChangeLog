@@ -1,5 +1,15 @@
 2003-07-23  Chris Toshok  <toshok@ximian.com>
 
+	* printing/e-contact-print.c (e_contact_print_response): deal with
+	"uses_list".  Fixes #30839.
+	(e_contact_print_dialog_new): use GINT_TO_POINTER instead of
+	casting to void*, and set "uses_list" to FALSE.
+	(e_contact_print_card_dialog_new): same.
+	(e_contact_print_card_list_dialog_new): same, but set "uses_list"
+	to TRUE.
+
+2003-07-23  Chris Toshok  <toshok@ximian.com>
+
 	* backend/ebook/e-book.c (e_book_dispose): fix a typo.
 
 2003-07-22  Akira TAGOH  <tagoh@redhat.com>
