@@ -62,15 +62,6 @@ enum _camel_cipher_validity_sign_t {
 	CAMEL_CIPHER_VALIDITY_SIGN_UNKNOWN,
 };
 
-enum _camel_cipher_validity_trust_t {
-	CAMEL_CIPHER_VALIDITY_TRUST_NONE,
-	CAMEL_CIPHER_VALIDITY_TRUST_NEVER,
-	CAMEL_CIPHER_VALIDITY_TRUST_UNDEFINED,
-	CAMEL_CIPHER_VALIDITY_TRUST_MARGINAL,
-	CAMEL_CIPHER_VALIDITY_TRUST_FULLY,
-	CAMEL_CIPHER_VALIDITY_TRUST_ULTIMATE
-};
-
 enum _camel_cipher_validity_encrypt_t {
 	CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE,
 	CAMEL_CIPHER_VALIDITY_ENCRYPT_WEAK,
@@ -98,7 +89,6 @@ struct _CamelCipherValidity {
 
 	struct {
 		enum _camel_cipher_validity_sign_t status;
-		enum _camel_cipher_validity_trust_t trust;
 		char *description;
 		EDList signers;	/* CamelCipherCertInfo's */
 	} sign;

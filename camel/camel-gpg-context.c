@@ -1441,9 +1441,14 @@ gpg_verify (CamelCipherContext *context, CamelMimePart *ipart, CamelException *e
 	valid = gpg_ctx_op_wait (gpg) == 0;
 	validity = camel_cipher_validity_new ();
 	diagnostics = gpg_ctx_get_diagnostics (gpg);
-	camel_cipher_validity_set_valid (validity, valid);
 	camel_cipher_validity_set_description (validity, diagnostics);
-	validity->sign.trust = gpg->trust;
+	if (valid && gpg->trust > GPG_TRUST_NEVER) {
+		if (gpg->trust == GPG_TRUST_UNDEFINED)
+			validity->sign.status = CAMEL_CIPHER_VALIDITY_SIGN_UNKNOWN;
+		else
+			validity->sign.status = CAMEL_CIPHER_VALIDITY_SIGN_GOOD;
+	} else
+		validity->sign.status = CAMEL_CIPHER_VALIDITY_SIGN_BAD;
 	gpg_ctx_free (gpg);
 	
 	if (sigfile) {

@@ -1,3 +1,11 @@
+2004-02-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-gpg-context.c (gpg_verify): Use the trust to decide the
+	validity signature status. (Better way of solving yesterday's
+	problem)
+
+	* camel-cipher-context.h: Revert change from yesterday.
+
 2004-02-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-gpg-context.c (gpg_verify): Set the trust.
