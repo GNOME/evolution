@@ -1,5 +1,9 @@
 2001-09-05  Iain Holmes  <iain@ximian.com>
 
+	* Locations: Added some Caracas fixes from Mayly Sanchez.
+
+2001-09-05  Iain Holmes  <iain@ximian.com>
+
 	* e-summary.c (e_summary_draw): Hack to stop the display jumping to the
 	top when it is redrawn.
 

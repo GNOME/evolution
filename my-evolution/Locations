@@ -2816,7 +2816,7 @@ loc1=Barcelona SVBC ------ ---
 loc2=Barinas SVBI ------ ---
 loc3=Barquisimeto SVBM ------ ---
 loc4=Calabozo SVCL ------ ---
-loc5=Caracas SVMI ------ ---
+loc5=Caracas\\ Maiquetia SVMI ------ ---
 loc6=Ciudad\\ Bolivar SVCB ------ ---
 loc7=Coro SVCR ------ ---
 loc8=Cumana SVCU ------ ---
@@ -2829,6 +2829,7 @@ loc14=Merida SVMD ------ ---
 loc15=San\\ Antonio\\ Del\\ Tachira SVSA ------ ---
 loc16=San\\ Fernando\\ De\\ Apure SVSR ------ ---
 loc17=Valera* SVVL ------ ---
+loc18=Caracas\\ La\\ Carlota SVFM ----- ---
 
 [M__MX]
 name=Mexico
