@@ -20,6 +20,7 @@ CLEANFILES = $(IDL_GENERATED)
 
 IDLS = \
 	Evolution.idl			\
+	Evolution-LocalStorage.idl	\
 	Evolution-Session.idl		\
 	Evolution-Shell.idl		\
 	Evolution-ShellComponent.idl	\
@@ -45,6 +46,8 @@ noinst_LIBRARIES =	\
 
 libeshell_a_SOURCES = 				\
 	$(IDL_GENERATED)			\
+	evolution-local-storage.c		\
+	evolution-local-storage.h		\
 	evolution-session.c			\
 	evolution-session.h			\
 	evolution-shell-client.c		\
@@ -55,6 +58,8 @@ libeshell_a_SOURCES = 				\
 	evolution-shell-component-client.h	\
 	evolution-shell-view.c			\
 	evolution-shell-view.h			\
+	evolution-storage-listener.c		\
+	evolution-storage-listener.h		\
 	evolution-storage.c			\
 	evolution-storage.h
 

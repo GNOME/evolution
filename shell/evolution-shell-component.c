@@ -327,6 +327,8 @@ destroy (GtkObject *object)
 	g_list_free (priv->folder_types);
 
 	g_free (priv);
+
+	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 

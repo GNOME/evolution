@@ -145,6 +145,8 @@ class_init (EvolutionSessionClass *klass)
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_STRING);
 
+	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
+
 	corba_class_init ();
 }
 

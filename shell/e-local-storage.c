@@ -44,8 +44,12 @@
 
 #include <gnome.h>
 
+#include <bonobo.h>
+
 #include "e-util/e-util.h"
 #include "e-local-folder.h"
+
+#include "evolution-local-storage.h"
 
 #include "e-local-storage.h"
 
@@ -59,6 +63,7 @@ static EStorageClass *parent_class = NULL;
 struct _ELocalStoragePrivate {
 	EFolderTypeRegistry *folder_type_registry;
 	char *base_path;
+	EvolutionLocalStorage *bonobo_interface;
 };
 
 
@@ -362,16 +367,24 @@ impl_destroy (GtkObject *object)
 {
 	ELocalStorage *local_storage;
 	ELocalStoragePrivate *priv;
+	CORBA_Environment ev;
 
 	local_storage = E_LOCAL_STORAGE (object);
 	priv = local_storage->priv;
+
+	CORBA_exception_init (&ev);
 
 	g_free (priv->base_path);
 
 	if (priv->folder_type_registry != NULL)
 		gtk_object_unref (GTK_OBJECT (priv->folder_type_registry));
-	
+
+	if (priv->bonobo_interface != NULL)
+		bonobo_object_unref (BONOBO_OBJECT (priv->bonobo_interface));
+
 	g_free (priv);
+
+	CORBA_exception_free (&ev);
 
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
@@ -382,8 +395,7 @@ impl_destroy (GtkObject *object)
 static const char *
 impl_get_name (EStorage *storage)
 {
-	/* FIXME this sucks.  */
-	return "local";
+	return E_LOCAL_STORAGE_NAME;
 }
 
 static void
@@ -521,8 +533,9 @@ init (ELocalStorage *local_storage)
 
 	priv = g_new (ELocalStoragePrivate, 1);
 
-	priv->base_path          = NULL;
+	priv->base_path            = NULL;
 	priv->folder_type_registry = NULL;
+	priv->bonobo_interface     = NULL;
 
 	local_storage->priv = priv;
 }
@@ -552,6 +565,9 @@ construct (ELocalStorage *local_storage,
 
 	g_assert (priv->base_path == NULL);
 	priv->base_path = g_strndup (base_path, base_path_len);
+
+	g_assert (priv->bonobo_interface == NULL);
+	priv->bonobo_interface = evolution_local_storage_new (E_LOCAL_STORAGE_NAME);
 
 	return load_all_folders (local_storage);
 }
@@ -583,6 +599,22 @@ e_local_storage_get_base_path (ELocalStorage *local_storage)
 	g_return_val_if_fail (E_IS_LOCAL_STORAGE (local_storage), NULL);
 
 	return local_storage->priv->base_path;
+}
+
+
+const Evolution_LocalStorage
+e_local_storage_get_corba_interface (ELocalStorage *local_storage)
+{
+	ELocalStoragePrivate *priv;
+	Evolution_LocalStorage corba_interface;
+
+	g_return_val_if_fail (local_storage != NULL, NULL);
+	g_return_val_if_fail (E_IS_LOCAL_STORAGE (local_storage), NULL);
+
+	priv = local_storage->priv;
+	corba_interface = bonobo_object_corba_objref (BONOBO_OBJECT (priv->bonobo_interface));
+
+	return corba_interface;
 }
 
 

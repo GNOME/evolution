@@ -1,3 +1,47 @@
+2000-09-08  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* evolution-shell-view.c (destroy): Chain to the parent's
+	destroy method.
+
+	* evolution-shell-component.c (destroy): Chain to the parent's
+	destroy method.
+
+	* evolution-storage.c: `corba_storage_listener' in
+	`EvolutionStoragePrivate' replaced with a list of listeners,
+	`corba_storage_listeners'.
+	(init): Init to NULL.
+	(add_listener): New utility function.
+	(destroy): Destroy all the listeners.
+	(evolution_storage_new_folder): Notify all the listeners.
+	(evolution_storage_removed_folder): Likewise.
+
+	* e-local-storage.c: New member `bonobo_interface' in
+	`ELocalStoragePrivate'.
+	(init): Init to NULL.
+	(e_local_storage_get_corba_interface): New.
+
+	* e-shell.c: New member `local_storage' in `EShellPrivate'.
+	(init): Init to NULL.
+	(setup_local_storage): Make it point to the newly created local
+	storage.
+	(destroy): Unref if not NULL.
+	(impl_Shell_get_local_storage): New, implementation for
+	`Evolution::Shell::get_local_storage'.
+	(corba_class_init): Set it up.
+
+	* evolution-local-storage-client.c: New.
+	* evolution-local-storage-client.h: New.
+	* evolution-local-storage.c: New.
+	* evolution-local-storage.h: New.
+	* evolution-storage-listener.c: New.
+	* evolution-storage-listener.h: New.
+
+	* Evolution-Storage.idl: New method `Storage::add_listener'.
+
+	* Evolution-Shell.idl: New method `Shell::get_local_storage'.
+
+	* Evolution-LocalStorage.idl: New.
+
 2000-09-02  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* e-shell-folder-creation-dialog.c: Use e_utf8 wrappers

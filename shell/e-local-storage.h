@@ -57,10 +57,16 @@ struct _ELocalStorageClass {
 };
 
 
-GtkType     e_local_storage_get_type       (void);
-EStorage   *e_local_storage_open           (EFolderTypeRegistry *folder_type_registry,
-					    const char          *base_path);
-const char *e_local_storage_get_base_path  (ELocalStorage       *storage);
+#define E_LOCAL_STORAGE_NAME "local"
+
+
+GtkType                       e_local_storage_get_type             (void);
+
+EStorage                     *e_local_storage_open                 (EFolderTypeRegistry *folder_type_registry,
+								    const char          *base_path);
+const char                   *e_local_storage_get_base_path        (ELocalStorage       *storage);
+
+const Evolution_LocalStorage  e_local_storage_get_corba_interface  (ELocalStorage       *storage);
 
 #ifdef __cplusplus
 }

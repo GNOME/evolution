@@ -23,6 +23,10 @@ module Evolution {
 
 	interface Storage : Bonobo::Unknown {
 		attribute string name;
+
+		void add_listener (in StorageListener listener);
+
+		/* FIXME remove_listener? */
 	};
 
 	interface StorageListener {
@@ -30,6 +34,8 @@ module Evolution {
 		exception NotFound {};
 
 		void destroyed ();
+
+		/* FIXME exceptions don't make much sense here...  */
 
 		void new_folder (in string path, in Folder folder)
 			raises (Exists);

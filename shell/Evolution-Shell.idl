@@ -51,6 +51,18 @@ module Evolution {
 					 in string default_folder,
 					 in FolderTypeList possible_types)
 			raises (Busy);
+
+		/**
+		 * get_local_storage:
+		 *
+		 * Get the interface to the local storage.
+		 *
+		 * FIXME: Probably we just want to be able to request this to
+		 * the StorageRegistry.  This is an ugly kludge.
+		 *
+		 * Return value: the `Evolution::LocalStorage' interface for
+		 * the local storage.  */
+		LocalStorage get_local_storage ();
 	};
 
 	interface FolderSelectionListener {

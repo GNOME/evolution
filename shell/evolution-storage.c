@@ -40,8 +40,37 @@ static BonoboObjectClass *parent_class = NULL;
 struct _EvolutionStoragePrivate {
 	char *name;
 
-	Evolution_StorageListener corba_storage_listener;
+	GList *corba_storage_listeners;
 };
+
+
+/* Utility functions.  */
+
+static void
+add_listener (EvolutionStorage *storage,
+	      const Evolution_StorageListener listener)
+{
+	EvolutionStoragePrivate *priv;
+	Evolution_StorageListener listener_copy;
+	CORBA_Environment ev;
+
+	priv = storage->priv;
+
+	CORBA_exception_init (&ev);
+
+	listener_copy = CORBA_Object_duplicate (listener, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		/* Panic.  */
+		g_warning ("EvolutionStorage -- Cannot duplicate listener.");
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	priv->corba_storage_listeners = g_list_prepend (priv->corba_storage_listeners,
+							listener_copy);
+
+	CORBA_exception_free (&ev);
+}
 
 
 /* CORBA interface implementation.  */
@@ -95,6 +124,7 @@ destroy (GtkObject *object)
 	EvolutionStorage *storage;
 	EvolutionStoragePrivate *priv;
 	CORBA_Environment ev;
+	GList *p;
 
 	storage = EVOLUTION_STORAGE (object);
 	priv = storage->priv;
@@ -103,16 +133,24 @@ destroy (GtkObject *object)
 
 	CORBA_exception_init (&ev);
 
-	if (priv->corba_storage_listener != CORBA_OBJECT_NIL) {
-		Evolution_StorageListener_destroyed (priv->corba_storage_listener, &ev);
+	for (p = priv->corba_storage_listeners; p != NULL; p = p->next) {
+		Evolution_StorageListener listener;
+
+		listener = p->data;
+
+		Evolution_StorageListener_destroyed (listener, &ev);
 
 		/* (This is not a Bonobo object, so no unref.)  */
-		CORBA_Object_release (priv->corba_storage_listener, &ev);
+		CORBA_Object_release (listener, &ev);
 	}
+
+	g_list_free (priv->corba_storage_listeners);
 
 	CORBA_exception_free (&ev);
 
 	g_free (priv);
+
+	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 
@@ -128,12 +166,9 @@ corba_class_init (void)
 	base_epv->finalize    = NULL;
 	base_epv->default_POA = NULL;
 
-	epv = g_new0 (POA_Evolution_Storage__epv, 1);
-	epv->_get_name = impl_Storage__get_name;
-
 	vepv = &Storage_vepv;
 	vepv->Bonobo_Unknown_epv = bonobo_object_get_epv ();
-	vepv->Evolution_Storage_epv = epv;
+	vepv->Evolution_Storage_epv = evolution_storage_get_epv ();
 }
 
 static void
@@ -155,13 +190,24 @@ init (EvolutionStorage *storage)
 	EvolutionStoragePrivate *priv;
 
 	priv = g_new (EvolutionStoragePrivate, 1);
-	priv->name                   = NULL;
-	priv->corba_storage_listener = NULL;
+	priv->name                    = NULL;
+	priv->corba_storage_listeners = NULL;
 
 	storage->priv = priv;
 }
 
 
+POA_Evolution_Storage__epv *
+evolution_storage_get_epv (void)
+{
+	POA_Evolution_Storage__epv *epv;
+
+	epv = g_new0 (POA_Evolution_Storage__epv, 1);
+	epv->_get_name = impl_Storage__get_name;
+
+	return epv;
+}
+
 void
 evolution_storage_construct (EvolutionStorage *storage,
 			     Evolution_Storage corba_object,
@@ -222,7 +268,7 @@ evolution_storage_register (EvolutionStorage *evolution_storage,
 
 	priv = evolution_storage->priv;
 
-	if (priv->corba_storage_listener != CORBA_OBJECT_NIL)
+	if (priv->corba_storage_listeners != NULL)
 		return EVOLUTION_STORAGE_ERROR_ALREADYREGISTERED;
 
 	CORBA_exception_init (&ev);
@@ -233,7 +279,7 @@ evolution_storage_register (EvolutionStorage *evolution_storage,
 									     priv->name, &ev);
 
 	if (ev._major == CORBA_NO_EXCEPTION) {
-		priv->corba_storage_listener = corba_storage_listener;
+		add_listener (evolution_storage, corba_storage_listener);
 		result = EVOLUTION_STORAGE_OK;
 	} else {
 		if (ev._major != CORBA_USER_EXCEPTION)
@@ -296,6 +342,7 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 	EvolutionStoragePrivate *priv;
 	Evolution_Folder corba_folder;
 	CORBA_Environment ev;
+	GList *p;
 	const char *path_basename;
 
 	g_return_val_if_fail (evolution_storage != NULL,
@@ -320,10 +367,12 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 
 	CORBA_exception_init (&ev);
 
-	Evolution_StorageListener_new_folder (priv->corba_storage_listener,
-					      path,
-					      &corba_folder,
-					      &ev);
+	for (p = priv->corba_storage_listeners; p != NULL; p = p->next) {
+		Evolution_StorageListener listener;
+
+		listener = p->data;
+		Evolution_StorageListener_new_folder (listener, path, &corba_folder, &ev);
+	}
 
 	if (ev._major == CORBA_NO_EXCEPTION)
 		result = EVOLUTION_STORAGE_OK;
@@ -346,6 +395,7 @@ evolution_storage_removed_folder (EvolutionStorage *evolution_storage,
 	EvolutionStorageResult result;
 	EvolutionStoragePrivate *priv;
 	CORBA_Environment ev;
+	GList *p;
 
 	g_return_val_if_fail (evolution_storage != NULL,
 			      EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
@@ -356,12 +406,17 @@ evolution_storage_removed_folder (EvolutionStorage *evolution_storage,
 
 	priv = evolution_storage->priv;
 
-	if (priv->corba_storage_listener == CORBA_OBJECT_NIL)
+	if (priv->corba_storage_listeners == NULL)
 		return EVOLUTION_STORAGE_ERROR_NOTREGISTERED;
 
 	CORBA_exception_init (&ev);
 
-	Evolution_StorageListener_removed_folder (priv->corba_storage_listener, path, &ev);
+	for (p = priv->corba_storage_listeners; p != NULL; p = p->next) {
+		Evolution_StorageListener listener;
+
+		listener = p->data;
+		Evolution_StorageListener_removed_folder (listener, path, &ev);
+	}
 
 	if (ev._major == CORBA_NO_EXCEPTION)
 		result = EVOLUTION_STORAGE_OK;

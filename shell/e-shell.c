@@ -55,6 +55,8 @@ struct _EShellPrivate {
 	GList *views;
 
 	EStorageSet *storage_set;
+	ELocalStorage *local_storage;
+
 	EShortcuts *shortcuts;
 	EFolderTypeRegistry *folder_type_registry;
 
@@ -245,6 +247,28 @@ impl_Shell_user_select_folder (PortableServer_Servant servant,
 	gtk_widget_show (folder_selection_dialog);
 }
 
+static Evolution_LocalStorage
+impl_Shell_get_local_storage (PortableServer_Servant servant,
+			      CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	Evolution_LocalStorage local_storage_interface;
+	Evolution_LocalStorage copy_of_local_storage_interface;
+	EShell *shell;
+	EShellPrivate *priv;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	shell = E_SHELL (bonobo_object);
+	priv = shell->priv;
+
+	local_storage_interface = e_local_storage_get_corba_interface (priv->local_storage);
+
+	copy_of_local_storage_interface = CORBA_Object_duplicate (local_storage_interface, ev);
+	Bonobo_Unknown_ref (copy_of_local_storage_interface, ev);
+
+	return copy_of_local_storage_interface;
+}
+
 
 /* Initialization of the storages.  */
 
@@ -282,10 +306,11 @@ setup_local_storage (EShell *shell)
 
 	priv = shell->priv;
 
-	local_storage_path = g_concat_dir_and_file (priv->local_directory,
-						    LOCAL_STORAGE_DIRECTORY);
-	local_storage = e_local_storage_open (priv->folder_type_registry,
-					      local_storage_path);
+	g_assert (priv->folder_type_registry != NULL);
+	g_assert (priv->local_storage == NULL);
+
+	local_storage_path = g_concat_dir_and_file (priv->local_directory, LOCAL_STORAGE_DIRECTORY);
+	local_storage = e_local_storage_open (priv->folder_type_registry, local_storage_path);
 	if (local_storage == NULL) {
 		g_warning (_("Cannot set up local storage -- %s"), local_storage_path);
 		g_free (local_storage_path);
@@ -293,11 +318,8 @@ setup_local_storage (EShell *shell)
 	}
 	g_free (local_storage_path);
 
-	g_assert (shell->priv->folder_type_registry);
-
 	e_storage_set_add_storage (priv->storage_set, local_storage);
-
-	gtk_object_unref (GTK_OBJECT (local_storage));
+	priv->local_storage = E_LOCAL_STORAGE (local_storage);
 
 	return TRUE;
 }
@@ -382,6 +404,9 @@ destroy (GtkObject *object)
 	if (priv->storage_set != NULL)
 		gtk_object_unref (GTK_OBJECT (priv->storage_set));
 
+	if (priv->local_storage != NULL)
+		gtk_object_unref (GTK_OBJECT (priv->local_storage));
+
 	if (priv->shortcuts != NULL)
 		gtk_object_unref (GTK_OBJECT (priv->shortcuts));
 
@@ -429,6 +454,7 @@ corba_class_init (void)
 	epv = g_new0 (POA_Evolution_Shell__epv, 1);
 	epv->get_component_for_type = impl_Shell_get_component_for_type;
 	epv->user_select_folder     = impl_Shell_user_select_folder;
+	epv->get_local_storage      = impl_Shell_get_local_storage;
 
 	vepv = &shell_vepv;
 	vepv->Bonobo_Unknown_epv = bonobo_object_get_epv ();
@@ -469,6 +495,7 @@ init (EShell *shell)
 
 	priv->local_directory        = NULL;
 	priv->storage_set            = NULL;
+	priv->local_storage          = NULL;
 	priv->shortcuts              = NULL;
 	priv->component_registry     = NULL;
 	priv->folder_type_registry   = NULL;

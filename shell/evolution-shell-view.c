@@ -108,6 +108,8 @@ destroy (GtkObject *object)
 	priv = shell_view->priv;
 
 	g_free (priv);
+
+	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 

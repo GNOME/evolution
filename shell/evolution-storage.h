@@ -72,25 +72,26 @@ struct _EvolutionStorageClass {
 };
 
 
-GtkType           evolution_storage_get_type   (void);
-void              evolution_storage_construct  (EvolutionStorage  *storage,
-						Evolution_Storage  corba_object,
-						const char        *name);
-EvolutionStorage *evolution_storage_new        (const char        *name);
+POA_Evolution_Storage__epv *evolution_storage_get_epv            (void);
 
-EvolutionStorageResult  evolution_storage_register           (EvolutionStorage          *storage,
-							      Evolution_StorageRegistry  corba_registry);
-EvolutionStorageResult  evolution_storage_register_on_shell  (EvolutionStorage          *evolution_storage,
-							      Evolution_Shell            corba_shell);
+GtkType                     evolution_storage_get_type           (void);
+void                        evolution_storage_construct          (EvolutionStorage          *storage,
+								  Evolution_Storage          corba_object,
+								  const char                *name);
+EvolutionStorage           *evolution_storage_new                (const char                *name);
 
-EvolutionStorageResult  evolution_storage_new_folder      (EvolutionStorage *evolution_storage,
-							   const char       *path,
-							   const char       *display_name,
-							   const char       *type,
-							   const char       *physical_uri,
-							   const char       *description);
-EvolutionStorageResult  evolution_storage_removed_folder  (EvolutionStorage *evolution_storage,
-							   const char       *path);
+EvolutionStorageResult      evolution_storage_register           (EvolutionStorage          *storage,
+								  Evolution_StorageRegistry  corba_registry);
+EvolutionStorageResult      evolution_storage_register_on_shell  (EvolutionStorage          *evolution_storage,
+								  Evolution_Shell            corba_shell);
+EvolutionStorageResult      evolution_storage_new_folder         (EvolutionStorage          *evolution_storage,
+								  const char                *path,
+								  const char                *display_name,
+								  const char                *type,
+								  const char                *physical_uri,
+								  const char                *description);
+EvolutionStorageResult      evolution_storage_removed_folder     (EvolutionStorage          *evolution_storage,
+								  const char                *path);
 
 #ifdef __cplusplus
 }
