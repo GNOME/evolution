@@ -1,3 +1,8 @@
+2002-06-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* component-factory.c (storage_remove_folder): Recursively delete
+	any subfolders.
+
 2002-06-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (config_read): Don't allow the pgp type to be

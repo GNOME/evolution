@@ -1073,9 +1073,9 @@ storage_create_folder (EvolutionStorage *storage,
 	char *name;
 	CamelURL *url;
 	CamelException ex;
-
+	
 	/* We could just use 'path' always here? */
-
+	
 	if (strcmp (type, "mail") != 0) {
 		notify_listener (listener, GNOME_Evolution_Storage_UNSUPPORTED_TYPE);
 		return;
@@ -1112,10 +1112,33 @@ storage_create_folder (EvolutionStorage *storage,
 		for (fi = root; fi; fi = fi->child)
 			camel_store_subscribe_folder (store, fi->full_name, NULL);
 	}
-
+	
 	camel_store_free_folder_info (store, root);
 	
 	notify_listener (listener, GNOME_Evolution_Storage_OK);
+}
+
+static void
+storage_remove_folder_recursive (EvolutionStorage *storage, CamelStore *store, CamelFolderInfo *root, CamelException *ex)
+{
+	CamelFolderInfo *fi;
+	
+	/* delete all children */
+	fi = root->child;
+	while (fi && !camel_exception_is_set (ex)) {
+		storage_remove_folder_recursive (storage, store, fi, ex);
+		fi = fi->sibling;
+	}
+	
+	if (!camel_exception_is_set (ex)) {
+		if (camel_store_supports_subscriptions (store))
+			camel_store_unsubscribe_folder (store, root->full_name, NULL);
+		
+		camel_store_delete_folder (store, root->full_name, ex);
+		
+		if (!camel_exception_is_set (ex))
+			evolution_storage_removed_folder (storage, root->path);
+	}
 }
 
 static void
@@ -1126,9 +1149,10 @@ storage_remove_folder (EvolutionStorage *storage,
 		       gpointer user_data)
 {
 	CamelStore *store = user_data;
+	CamelFolderInfo *root, *fi;
 	CamelURL *url = NULL;
-	char *name;
 	CamelException ex;
+	char *name;
 	
 	g_warning ("storage_remove_folder: path=\"%s\"; uri=\"%s\"", path, physical_uri);
 	
@@ -1143,8 +1167,6 @@ storage_remove_folder (EvolutionStorage *storage,
 		return;
 	}
 	
-	camel_exception_init (&ex);
-	
 	if (url->fragment)
 		name = url->fragment;
 	else if (url->path && url->path[0])
@@ -1152,16 +1174,22 @@ storage_remove_folder (EvolutionStorage *storage,
 	else
 		name = "";
 	
-	if (camel_store_supports_subscriptions (store))
-		camel_store_unsubscribe_folder (store, name, NULL);
+	camel_exception_init (&ex);
 	
-	camel_store_delete_folder (store, name, &ex);
-	
+	root = camel_store_get_folder_info (store, name, CAMEL_STORE_FOLDER_INFO_FAST |
+					    CAMEL_STORE_FOLDER_INFO_RECURSIVE, &ex);
 	camel_url_free (url);
-	if (camel_exception_is_set (&ex))
+	if (!root || camel_exception_is_set (&ex))
 		goto exception;
 	
-	evolution_storage_removed_folder (storage, path);
+	fi = root;
+	while (fi && !camel_exception_is_set (&ex)) {
+		storage_remove_folder_recursive (storage, store, fi, &ex);
+		if (camel_exception_is_set (&ex))
+			goto exception;
+		fi = fi->sibling;
+	}
+	camel_store_free_folder_info (store, root);
 	
 	notify_listener (listener, GNOME_Evolution_Storage_OK);
 	return;
@@ -1169,6 +1197,7 @@ storage_remove_folder (EvolutionStorage *storage,
  exception:
 	/* FIXME: do better than this... */
 	camel_exception_clear (&ex);
+	camel_store_free_folder_info (store, root);
 	notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
 }
 
