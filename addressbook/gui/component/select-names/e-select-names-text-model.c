@@ -426,10 +426,12 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 
 			if (new_str) {
 
-				EDestination *dest = e_destination_new ();
+				EDestination *dest;
+				dest = index >= 0 ? e_destination_copy (e_select_names_model_get_destination (source, index)) : e_destination_new ();
 				e_destination_set_raw (dest, new_str);
-				
 				e_select_names_model_replace (source, index, dest);
+				
+				/* e_select_names_model_replace (source, index, dest); */
 
 				if (this_length > 0) {
 					repos.model = model;
@@ -616,7 +618,7 @@ e_select_names_text_model_delete (ETextModel *model, gint pos, gint length)
 			EReposDeleteShift repos;
 			EDestination *dest;
 
-			dest = e_destination_new ();
+			dest = index >= 0 ? e_destination_copy (e_select_names_model_get_destination (source, index)) : e_destination_new ();
 			e_destination_set_raw (dest, new_str);
 			e_select_names_model_replace (source, index, dest);
 			

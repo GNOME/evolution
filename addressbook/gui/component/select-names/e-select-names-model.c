@@ -58,6 +58,9 @@ struct _ESelectNamesModelPrivate {
 	gchar *addr_text;
 
 	gint limit;
+
+	gint freeze_count;
+	gboolean pending_changed;
 };
 
 
@@ -216,7 +219,12 @@ e_select_names_model_changed (ESelectNamesModel *model)
 	g_free (model->priv->addr_text);
 	model->priv->addr_text = NULL;
 
-	gtk_signal_emit (GTK_OBJECT(model), e_select_names_model_signals[E_SELECT_NAMES_MODEL_CHANGED]);
+	if (model->priv->freeze_count > 0) {
+		model->priv->pending_changed = TRUE;
+	} else {
+		gtk_signal_emit (GTK_OBJECT(model), e_select_names_model_signals[E_SELECT_NAMES_MODEL_CHANGED]);
+		model->priv->pending_changed = FALSE;
+	}
 }
 
 static void
@@ -580,14 +588,17 @@ void
 e_select_names_model_delete (ESelectNamesModel *model, gint index)
 {
 	GList *node;
+	EDestination *dest;
 
 	g_return_if_fail (model != NULL);
 	g_return_if_fail (E_IS_SELECT_NAMES_MODEL (model));
 	g_return_if_fail (0 <= index && index < g_list_length (model->priv->data));
 	
 	node = g_list_nth (model->priv->data, index);
-	disconnect_destination (model, E_DESTINATION (node->data));
-	gtk_object_unref (GTK_OBJECT (node->data));
+	dest = E_DESTINATION (node->data);
+
+	disconnect_destination (model, dest);
+	gtk_object_unref (GTK_OBJECT (dest));
 
 	model->priv->data = g_list_remove_link (model->priv->data, node);
 	g_list_free_1 (node);
@@ -788,6 +799,31 @@ e_select_names_model_cardify (ESelectNamesModel *model, EBook *book, gint index,
 	}
 }
 
+gboolean
+e_select_names_model_uncardify (ESelectNamesModel *model, gint index)
+{
+	EDestination *dest;
+	gboolean rv = FALSE;
+
+	g_return_val_if_fail (E_IS_SELECT_NAMES_MODEL (model), FALSE);
+	g_return_val_if_fail (0 <= index && index < g_list_length (model->priv->data), FALSE);
+
+	dest = E_DESTINATION (g_list_nth_data (model->priv->data, index));
+
+	if (!e_destination_is_empty (dest)) {
+		EDestination *cpy_dest = e_destination_copy (dest);
+
+		rv = e_destination_uncardify (cpy_dest);
+
+		if (rv) {
+			e_select_names_model_replace (model, index, cpy_dest);
+		}
+		
+	}
+
+	return rv;
+}
+
 void
 e_select_names_model_cancel_cardify (ESelectNamesModel *model, gint index)
 {
@@ -834,3 +870,21 @@ e_select_names_model_cancel_cardify_all (ESelectNamesModel *model)
 	}
 }
 
+void
+e_select_names_model_freeze (ESelectNamesModel *model)
+{
+	g_return_if_fail (E_IS_SELECT_NAMES_MODEL (model));
+	
+	++model->priv->freeze_count;
+}
+
+void
+e_select_names_model_thaw (ESelectNamesModel *model)
+{
+	g_return_if_fail (E_IS_SELECT_NAMES_MODEL (model));
+	g_return_if_fail (model->priv->freeze_count > 0);
+
+	--model->priv->freeze_count;
+	if (model->priv->pending_changed)
+		e_select_names_model_changed (model);
+}

@@ -821,6 +821,8 @@ clean_query_text (const gchar *s)
 	}
 	*t = '\0';
 
+	g_strstrip (q);
+
 	return q;
 }
 

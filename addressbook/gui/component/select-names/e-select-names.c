@@ -146,10 +146,45 @@ addressbook_model_set_uri(EAddressbookModel *model, char *uri)
 static void *
 card_key (ECard *card)
 {
-	EBook *book = e_card_get_book (card);
-	const gchar *book_uri = book ? e_book_get_uri (book) : "NoBook";
+	EBook *book;
+	const gchar *book_uri;
 	
+	if (card == NULL)
+		return NULL;
+
+	g_assert (E_IS_CARD (card));
+
+	book = e_card_get_book (card);
+	book_uri = book ? e_book_get_uri (book) : "NoBook";
 	return g_strdup_printf ("%s|%s", book_uri ? book_uri : "NoURI", e_card_get_id (card));
+}
+
+static void
+sync_one_model (gpointer k, gpointer val, gpointer closure)
+{
+	ETableWithout *etw = E_TABLE_WITHOUT (closure);
+	ESelectNamesChild *child = val;
+	ESelectNamesModel *model = child->source;
+	gint i, count;
+	ECard *card;
+	void *key;
+	
+	count = e_select_names_model_count (model);
+	for (i = 0; i < count; ++i) {
+		card = e_select_names_model_get_card (model, i);
+		if (card) {
+			key = card_key (card);
+			e_table_without_hide (etw, key);
+			g_free (key);
+		}
+	}
+}
+
+static void
+sync_table_and_models (ESelectNamesModel *triggering_model, ESelectNames *esl)
+{
+	e_table_without_show_all (E_TABLE_WITHOUT (esl->without));
+	g_hash_table_foreach (esl->children, sync_one_model, esl->without);
 }
 
 static void
@@ -160,14 +195,11 @@ real_add_address_cb (int model_row, gpointer closure)
 	ECard *card;
 	EDestination *dest = e_destination_new ();
 	gint mapped_row;
-	void *key;
 
 	mapped_row = e_table_subset_view_to_model_row (E_TABLE_SUBSET (names->without), model_row);
 
 	card = e_addressbook_model_get_card(E_ADDRESSBOOK_MODEL(names->model), mapped_row);
-	key = card_key (card);
-	e_table_without_hide (E_TABLE_WITHOUT (names->without), key);
-	g_free (key);
+
 
 	e_destination_set_card (dest, card, 0);
 
@@ -180,8 +212,10 @@ real_add_address_cb (int model_row, gpointer closure)
 static void
 real_add_address(ESelectNames *names, ESelectNamesChild *child)
 {
+	e_select_names_model_freeze (child->source);
 	e_table_selected_row_foreach(e_table_scrolled_get_table(names->table),
 				     real_add_address_cb, child);
+	e_select_names_model_thaw (child->source);
 }
 
 static void
@@ -597,6 +631,7 @@ e_select_names_init (ESelectNames *e_select_names)
 
 static void e_select_names_child_free(char *key, ESelectNamesChild *child, ESelectNames *e_select_names)
 {
+	gtk_signal_disconnect_by_func (GTK_OBJECT (child->source), GTK_SIGNAL_FUNC (sync_table_and_models), e_select_names);
 	g_free(child->title);
 	gtk_object_unref(GTK_OBJECT(child->model));
 	gtk_object_unref(GTK_OBJECT(child->source));
@@ -607,7 +642,7 @@ static void
 e_select_names_destroy (GtkObject *object)
 {
 	ESelectNames *e_select_names = E_SELECT_NAMES(object);
-	
+
 	gtk_signal_disconnect_by_data(GTK_OBJECT(e_select_names->local_listener), e_select_names);
 	gtk_object_unref(GTK_OBJECT(e_select_names->local_listener));
 	gtk_signal_disconnect_by_data(GTK_OBJECT(e_select_names->other_contacts_listener), e_select_names);
@@ -663,16 +698,7 @@ button_clicked(GtkWidget *button, ESelectNamesChild *child)
 static void
 remove_address(ETable *table, int row, int col, GdkEvent *event, ESelectNamesChild *child)
 {
-	const EDestination *dest;
-	ECard *card;
-	void *key;
-	dest = e_select_names_model_get_destination (child->source, row);
-	card = e_destination_get_card (dest);
-	key = card_key (card);
-
 	e_select_names_model_delete (child->source, row);
-	e_table_without_show (E_TABLE_WITHOUT (child->names->without), key);
-	g_free (key);
 }
 
 struct _RightClickData {
@@ -698,7 +724,7 @@ selected_rows_foreach_cb (void *row, void *data)
 {
 	ESelectNamesChild *child = data;
 
-	e_select_names_model_delete (child->source, GPOINTER_TO_INT (row));
+	remove_address (NULL, GPOINTER_TO_INT (row), 0, NULL, child);
 }
 
 static void
@@ -798,6 +824,11 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 	child->source = source;
 	gtk_object_ref(GTK_OBJECT(child->model));
 	gtk_object_ref(GTK_OBJECT(child->source));
+
+	gtk_signal_connect (GTK_OBJECT (child->source),
+			    "changed",
+			    GTK_SIGNAL_FUNC (sync_table_and_models),
+			    e_select_names);
 	
 	gtk_widget_show(etable);
 	
@@ -809,6 +840,8 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 			 0, 0);
 
 	g_hash_table_insert(e_select_names->children, g_strdup(id), child);
+
+	sync_table_and_models (child->source, e_select_names);
 }
 
 static void *

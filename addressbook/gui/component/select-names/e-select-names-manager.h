@@ -54,12 +54,6 @@ GtkWidget           *e_select_names_manager_create_entry           (ESelectNames
 void                 e_select_names_manager_activate_dialog        (ESelectNamesManager *manager,
 							            const char *id);
 
-#if 0
-/* Of type ECard */
-EList               *e_select_names_manager_get_cards              (ESelectNamesManager *manager,
-							            const char *id);
-#endif
-
 /* Standard Gtk function */			      
 GtkType              e_select_names_manager_get_type               (void);
 

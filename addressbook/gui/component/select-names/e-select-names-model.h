@@ -77,9 +77,15 @@ void          e_select_names_model_name_pos (ESelectNamesModel *model, gint inde
 void          e_select_names_model_text_pos (ESelectNamesModel *model, gint pos, gint *index, gint *start_pos, gint *length);
 
 void          e_select_names_model_cardify            (ESelectNamesModel *model, EBook *book, gint index, gint delay);
+gboolean      e_select_names_model_uncardify          (ESelectNamesModel *model, gint index);
 void          e_select_names_model_cancel_cardify     (ESelectNamesModel *model, gint index);
 void          e_select_names_model_cardify_all        (ESelectNamesModel *model, EBook *book, gint delay);
 void          e_select_names_model_cancel_cardify_all (ESelectNamesModel *model);
+
+/* This is a mildly annoying freeze/thaw pair, in that it only applies to the 'changed'
+   signal and not to 'resized'.  This could cause unexpected results in some cases. */
+void          e_select_names_model_freeze (ESelectNamesModel *model);
+void          e_select_names_model_thaw   (ESelectNamesModel *model);
 
 
 #endif /* ! __E_SELECT_NAMES_MODEL_H__ */

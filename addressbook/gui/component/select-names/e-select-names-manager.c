@@ -40,6 +40,7 @@ typedef struct {
 	char *id;
 	char *title;
 	ESelectNamesModel *model;
+	ESelectNamesModel *original_model;
 	ESelectNamesManager *manager;
 	guint changed_handler;
 } ESelectNamesManagerSection;
@@ -188,6 +189,7 @@ section_copy(const void *sec, void *data)
 	newsec->id = g_strdup(section->id);
 	newsec->title = g_strdup(section->title);
 	newsec->model = section->model;
+	newsec->original_model = section->original_model;
 	newsec->manager = section->manager;
 	newsec->changed_handler = gtk_signal_connect (GTK_OBJECT (newsec->model),
 						      "changed",
@@ -196,6 +198,9 @@ section_copy(const void *sec, void *data)
 
 	if (newsec->model)
 		gtk_object_ref(GTK_OBJECT(newsec->model));
+	if (newsec->original_model)
+		gtk_object_ref(GTK_OBJECT(newsec->original_model));
+	
 	return newsec;
 }
 
@@ -209,7 +214,10 @@ section_free(void *sec, void *data)
 	g_free(section->id);
 	g_free(section->title);
 	if (section->model)
-		gtk_object_unref(GTK_OBJECT(section->model));
+		gtk_object_unref (GTK_OBJECT(section->model));
+	if (section->original_model)
+		gtk_object_unref (GTK_OBJECT (section->original_model));
+
 	g_free(section);
 }
 
@@ -289,6 +297,8 @@ e_select_names_manager_add_section_with_limit (ESelectNamesManager *manager,
 
 	section->model = e_select_names_model_new();
 	e_select_names_model_set_limit (section->model, limit);
+
+	section->original_model = NULL;
 
 	section->manager = manager;
 
@@ -420,7 +430,7 @@ e_select_names_manager_create_entry (ESelectNamesManager *manager, const char *i
 					    "popup",
 					    GTK_SIGNAL_FUNC (popup_cb),
 					    section->model);
-
+			
 			gtk_signal_connect (GTK_OBJECT (eentry->canvas),
 					    "focus_in_event",
 					    GTK_SIGNAL_FUNC (focus_in_cb),
@@ -465,42 +475,26 @@ e_select_names_manager_create_entry (ESelectNamesManager *manager, const char *i
 static void
 e_select_names_clicked(ESelectNames *dialog, gint button, ESelectNamesManager *manager)
 {
+	gnome_dialog_close(GNOME_DIALOG(dialog));
+
 	switch(button) {
-	case 0: {
+	case 0:
+		/* We don't need to do anything if they click on OK */
+		break;
+
+	case 1: {
 		EList *list = manager->sections;
 		EIterator *iterator = e_list_get_iterator(list);
+
 		for (e_iterator_reset(iterator); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
 			ESelectNamesManagerSection *section = (void *) e_iterator_get(iterator);
-			ESelectNamesModel *source = e_select_names_get_source(dialog, section->id);
-			e_select_names_model_merge (section->model, source);
-			gtk_object_unref (GTK_OBJECT (source));
-			
+			e_select_names_model_overwrite_copy (section->model, section->original_model);
 		}
+		
 		gtk_object_unref(GTK_OBJECT(iterator));
-
-#if 0
-		list = manager->entries;
-		iterator = e_list_get_iterator(list);
-		for (e_iterator_reset(iterator); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
-			ESelectNamesManagerEntry *entry = (void *) e_iterator_get(iterator);
-			ESelectNamesModel *source = e_select_names_get_source(dialog, entry->id);
-			if (source) {
-				ETextModel *model = e_select_names_text_model_new(source);
-				if (model) {
-					gtk_object_set(GTK_OBJECT(entry->entry),
-						       "model", model,
-						       NULL);
-					gtk_object_unref(GTK_OBJECT(source));
-				}
-				gtk_object_unref(GTK_OBJECT(model));
-			}
-		}
-		gtk_object_unref(GTK_OBJECT(iterator));
-#endif
 		break;
 	}
 	}
-	gnome_dialog_close(GNOME_DIALOG(dialog));
 }
 
 void
@@ -519,14 +513,15 @@ e_select_names_manager_activate_dialog (ESelectNamesManager *manager,
 
 		iterator = e_list_get_iterator(manager->sections);
 		for (e_iterator_reset(iterator); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
-			const ESelectNamesManagerSection *section = e_iterator_get(iterator);
-			ESelectNamesModel *newmodel = e_select_names_model_duplicate(section->model);
-			e_select_names_add_section(manager->names, section->id, section->title, newmodel);
-			gtk_signal_connect (GTK_OBJECT (newmodel),
+			ESelectNamesManagerSection *section = (ESelectNamesManagerSection *) e_iterator_get(iterator);
+			if (section->original_model != NULL)
+				gtk_object_unref (GTK_OBJECT (section->original_model));
+			section->original_model = e_select_names_model_duplicate (section->model);
+			e_select_names_add_section (manager->names, section->id, section->title, section->model);
+			gtk_signal_connect (GTK_OBJECT (section->model),
 					    "changed",
 					    GTK_SIGNAL_FUNC (section_model_working_copy_changed_cb),
 					    (gpointer)section); /* casting out const to avoid compiler warning */
-			gtk_object_unref(GTK_OBJECT(newmodel));
 		}
 		e_select_names_set_default(manager->names, id);
 		gtk_signal_connect(GTK_OBJECT(manager->names), "clicked",
@@ -538,20 +533,3 @@ e_select_names_manager_activate_dialog (ESelectNamesManager *manager,
 	}
 }
 
-#if 0
-/* Of type ECard */
-EList *
-e_select_names_manager_get_cards (ESelectNamesManager *manager,
-				  const char *id)
-{
-	EIterator *iterator;
-	iterator = e_list_get_iterator(manager->sections);
-	for (e_iterator_reset(iterator); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
-		const ESelectNamesManagerSection *section = e_iterator_get(iterator);
-		if (!strcmp(section->id, id)) {
-			return e_select_names_model_get_cards(section->model);
-		}
-	}
-	return NULL;
-}
-#endif
