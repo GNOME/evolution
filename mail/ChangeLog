@@ -1,3 +1,8 @@
+2002-07-29  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-session.c (request_password): Add an accelerator for the
+	"Remember this password" checkbox.
+
 2002-07-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-ops.c (mail_execute_shell_command): No real need for this

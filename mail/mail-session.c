@@ -247,10 +247,11 @@ request_password(struct _pass_msg *m)
 {
 	const MailConfigAccount *mca = NULL;
 	GtkWidget *dialogue;
-	GtkWidget *check, *entry;
+	GtkWidget *check, *check_label, *entry;
 	GList *children, *iter;
 	gboolean show;
 	char *title;
+	unsigned int accel_key;
 
 	/* If we already have a password_dialogue up, save this request till later */
 	if (!m->ismain && password_dialogue) {
@@ -267,8 +268,18 @@ request_password(struct _pass_msg *m)
 	password_destroy_id = gtk_signal_connect((GtkObject *)dialogue, "destroy", request_password_deleted, m);
 
 	/* Remember the password? */
-	check = gtk_check_button_new_with_label (m->service_url ? _("Remember this password") :
-						 _("Remember this password for the remainder of this session"));
+
+	check = gtk_check_button_new ();
+	check_label = gtk_label_new ("");
+	accel_key = gtk_label_parse_uline (GTK_LABEL (check_label),
+					   m->service_url ? _("_Remember this password") :
+					   _("_Remember this password for the remainder of this session"));
+	gtk_widget_add_accelerator (check, "clicked",
+				    GNOME_DIALOG (password_dialogue)->accelerators,
+				    accel_key,
+				    GDK_MOD1_MASK, 0);
+	gtk_container_add (GTK_CONTAINER (check), check_label);
+
 	show = TRUE;
 	
 	if (m->service_url) {
@@ -287,8 +298,8 @@ request_password(struct _pass_msg *m)
 	}
 	
 	if (show)
-		gtk_widget_show (check);
-	
+		gtk_widget_show_all (check);
+
 	/* do some dirty stuff to put the checkbutton after the entry */
 	entry = NULL;
 	children = gtk_container_children (GTK_CONTAINER (GNOME_DIALOG (dialogue)->vbox));
