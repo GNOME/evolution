@@ -9,10 +9,12 @@ static GtkObject *sa, *ea;
 void
 start_changed (GtkAdjustment *sa, GtkAdjustment *ea)
 {
-	if (sa->value == ea->value){
-		sa->value -= 1.0;
+	if (sa->value > 23.0){
+		sa->value = 23.0;
+		ea->value = 24.0;
 		gtk_signal_emit_by_name (GTK_OBJECT (sa), "value_changed");
-	} else if (sa->value > ea->value){
+		gtk_signal_emit_by_name (GTK_OBJECT (ea), "value_changed");
+	} else if (sa->value >= ea->value){
 		ea->value = sa->value + 1.0;
 		gtk_signal_emit_by_name (GTK_OBJECT (ea), "value_changed");
 	}
@@ -21,9 +23,11 @@ start_changed (GtkAdjustment *sa, GtkAdjustment *ea)
 void
 end_changed (GtkAdjustment *ea, GtkAdjustment *sa)
 {
-	if (ea->value == sa->value){
-		ea->value += 1.0;
+	if (ea->value < 1.0){
+		ea->value = 1.0;
+		sa->value = 0.0;
 		gtk_signal_emit_by_name (GTK_OBJECT (ea), "value_changed");
+		gtk_signal_emit_by_name (GTK_OBJECT (sa), "value_changed");
 	} else if (ea->value < sa->value){
 		sa->value = ea->value - 1.0;
 		gtk_signal_emit_by_name (GTK_OBJECT (sa), "value_changed");

@@ -166,7 +166,7 @@ day_range_changed (void)
 	for (l = all_calendars; l; l = l->next){
 		GnomeCalendar *cal = GNOME_CALENDAR (l->data);
 
-		gtk_widget_queue_draw (cal->notebook);
+		gtk_widget_queue_resize (cal->notebook);
 	}
 }
 
