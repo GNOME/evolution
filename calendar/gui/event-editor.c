@@ -640,8 +640,175 @@ init_widgets (EventEditor *ee)
 		append_exception (ee, *((time_t *) list->data));
 }
 
+/* Menu bar */
+
+static GnomeUIInfo file_new_menu[] = {
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Appointment"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Meeting Re_quest"), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Mail Message"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Contact"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Task"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Task _Request"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Journal Entry"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Note"), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Ch_oose Form..."), NULL, NULL),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo file_page_setup_menu[] = {
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Memo Style"), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Define Print _Styles..."), NULL, NULL),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo file_menu[] = {
+	GNOMEUIINFO_MENU_NEW_SUBTREE (file_new_menu),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: S_end"), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_MENU_SAVE_ITEM (NULL, NULL),
+	GNOMEUIINFO_MENU_SAVE_AS_ITEM (NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Save Attac_hments..."), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Delete"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Move to Folder..."), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Cop_y to Folder..."), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_SUBTREE (N_("Page Set_up"), file_page_setup_menu),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Print Pre_view"), NULL, NULL),
+	GNOMEUIINFO_MENU_PRINT_ITEM (NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_MENU_PROPERTIES_ITEM (NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_MENU_CLOSE_ITEM (NULL, NULL),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo edit_object_menu[] = {
+	GNOMEUIINFO_ITEM_NONE ("FIXME: what goes here?", NULL, NULL),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo edit_menu[] = {
+	GNOMEUIINFO_MENU_UNDO_ITEM (NULL, NULL),
+	GNOMEUIINFO_MENU_REDO_ITEM (NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_MENU_CUT_ITEM (NULL, NULL),
+	GNOMEUIINFO_MENU_COPY_ITEM (NULL, NULL),
+	GNOMEUIINFO_MENU_PASTE_ITEM (NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Paste _Special..."), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_MENU_CLEAR_ITEM (NULL, NULL),
+	GNOMEUIINFO_MENU_SELECT_ALL_ITEM (NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Mark as U_nread"), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_MENU_FIND_ITEM (NULL, NULL),
+	GNOMEUIINFO_MENU_FIND_AGAIN_ITEM (NULL, NULL),
+	GNOMEUIINFO_SUBTREE (N_("_Object"), edit_object_menu),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo view_previous_menu[] = {
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Item"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Unread Item"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Fi_rst Item in Folder"), NULL, NULL),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo view_next_menu[] = {
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Item"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Unread Item"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Last Item in Folder"), NULL, NULL),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo view_toolbars_menu[] = {
+	{ GNOME_APP_UI_TOGGLEITEM, N_("FIXME: _Standard"), NULL, NULL, NULL, NULL,
+	  GNOME_APP_PIXMAP_NONE, NULL, 0, 0, NULL },
+	{ GNOME_APP_UI_TOGGLEITEM, N_("FIXME: __Formatting"), NULL, NULL, NULL, NULL,
+	  GNOME_APP_PIXMAP_NONE, NULL, 0, 0, NULL },
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Customize..."), NULL, NULL),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo view_menu[] = {
+	GNOMEUIINFO_SUBTREE (N_("Pre_vious"), view_previous_menu),
+	GNOMEUIINFO_SUBTREE (N_("Ne_xt"), view_next_menu),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Ca_lendar..."), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_SUBTREE (N_("_Toolbars"), view_toolbars_menu),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo insert_menu[] = {
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _File..."), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: It_em..."), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Object..."), NULL, NULL),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo format_menu[] = {
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Font..."), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Paragraph..."), NULL, NULL),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo tools_forms_menu[] = {
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Ch_oose Form..."), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Desi_gn This Form"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: D_esign a Form..."), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Publish _Form..."), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Pu_blish Form As..."), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Script _Debugger"), NULL, NULL),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo tools_menu[] = {
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Spelling..."), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Chec_k Names"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Address _Book..."), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_SUBTREE (N_("_Forms"), tools_forms_menu),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo actions_menu[] = {
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _New Appointment"), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Rec_urrence..."), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Intive _Attendees..."), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: C_ancel Invitation..."), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Forward as v_Calendar"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: For_ward"), NULL, NULL),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo help_menu[] = {
+	GNOMEUIINFO_ITEM_NONE ("FIXME: fix Bonobo so it supports help items!", NULL, NULL),
+	GNOMEUIINFO_END
+};
+
 static GnomeUIInfo main_menu[] = {
-	/* FIXME */
+	GNOMEUIINFO_MENU_FILE_TREE (file_menu),
+	GNOMEUIINFO_MENU_EDIT_TREE (edit_menu),
+	GNOMEUIINFO_MENU_VIEW_TREE (view_menu),
+	GNOMEUIINFO_SUBTREE (N_("_Insert"), insert_menu),
+	GNOMEUIINFO_SUBTREE (N_("F_ormat"), format_menu),
+	GNOMEUIINFO_SUBTREE (N_("_Tools"), tools_menu),
+	GNOMEUIINFO_SUBTREE (N_("Actio_ns"), actions_menu),
+	GNOMEUIINFO_MENU_HELP_TREE (help_menu),
 	GNOMEUIINFO_END
 };
 
@@ -660,8 +827,23 @@ create_menu (EventEditor *ee)
 	bonobo_ui_handler_menu_add_list (priv->uih, "/", list);
 }
 
+/* Toolbar */
+
 static GnomeUIInfo toolbar[] = {
-	/* FIXME */
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Save and Close"), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Print..."), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Insert File..."), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Recurrence..."), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Invite Attendees..."), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Delete"), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Previous"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Next"), NULL, NULL),
+	GNOMEUIINFO_ITEM_STOCK (N_("FIXME: Help"), NULL, NULL, GNOME_STOCK_PIXMAP_HELP),
 	GNOMEUIINFO_END
 };
 
@@ -671,6 +853,8 @@ create_toolbar (EventEditor *ee)
 {
 	EventEditorPrivate *priv;
 	BonoboUIHandlerToolbarItem *list;
+	GnomeDockItem *dock_item;
+	GtkWidget *child;
 
 	priv = ee->priv;
 
@@ -678,6 +862,16 @@ create_toolbar (EventEditor *ee)
 
 	list = bonobo_ui_handler_toolbar_parse_uiinfo_list_with_data (toolbar, ee);
 	bonobo_ui_handler_toolbar_add_list (priv->uih, "/Toolbar", list);
+
+	/* Turn off labels as GtkToolbar sucks */
+
+	dock_item = gnome_app_get_dock_item_by_name (GNOME_APP (ee), GNOME_APP_TOOLBAR_NAME);
+	g_assert (dock_item != NULL);
+
+	child = gnome_dock_item_get_child (dock_item);
+	g_assert (child != NULL && GTK_IS_TOOLBAR (child));
+
+	gtk_toolbar_set_style (GTK_TOOLBAR (child), GTK_TOOLBAR_ICONS);
 }
 
 GtkWidget *
@@ -696,16 +890,6 @@ event_editor_construct (EventEditor *ee, GnomeCalendar *gcal, iCalObject *ico)
 	g_return_val_if_fail (ico->uid != NULL, NULL);
 
 	priv = ee->priv;
-
-	/* Create the UI handler */
-
-	priv->uih = bonobo_ui_handler_new ();
-	if (!priv->uih) {
-		g_message ("event_editor_construct(): Could not create the UI handler");
-		goto error;
-	}
-
-	bonobo_ui_handler_set_app (priv->uih, GNOME_APP (ee));
 
 	/* Load the content widgets */
 
@@ -742,8 +926,20 @@ event_editor_construct (EventEditor *ee, GnomeCalendar *gcal, iCalObject *ico)
 	gnome_app_construct (GNOME_APP (ee), "event-editor", title);
 	g_free (title);
 
+	/* Create the UI handler */
+
+	priv->uih = bonobo_ui_handler_new ();
+	if (!priv->uih) {
+		g_message ("event_editor_construct(): Could not create the UI handler");
+		goto error;
+	}
+
+	bonobo_ui_handler_set_app (priv->uih, GNOME_APP (ee));
+
 	create_menu (ee);
 	create_toolbar (ee);
+
+	/* Set the contents */
 
 	gnome_app_set_contents (GNOME_APP (ee), contents);
 	gtk_widget_show (contents);

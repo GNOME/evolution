@@ -1,3 +1,13 @@
+2000-05-30  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/event-editor.c (event_editor_construct): Create the UI
+	handler after we have constructed the parent GnomeApp.
+	(main_menu): Menu template is now in place.
+	(toolbar): Tollbar template is now in place.
+	(create_toolbar): Turn off labels in the toolbar since it sucks;
+	it should support non-homogeneous buttons with horizontal icons
+	and text.
+
 2000-05-29  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/gnome-cal.c (gnome_calendar_object_changed): Removed the
