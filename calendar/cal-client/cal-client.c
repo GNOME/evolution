@@ -29,6 +29,7 @@
 #include <bonobo-conf/bonobo-config-database.h>
 #include <libgnome/gnome-util.h>
 
+#include "e-util/e-component-listener.h"
 #include "cal-client-types.h"
 #include "cal-client.h"
 #include "cal-listener.h"
@@ -69,6 +70,9 @@ struct _CalClientPrivate {
 	/* The default timezone to use to resolve DATE and floating DATE-TIME
 	   values. */
 	icaltimezone *default_zone;
+
+	/* The component listener to keep track of the lifetime of backends */
+	EComponentListener *comp_listener;
 };
 
 
@@ -81,6 +85,7 @@ enum {
 	OBJ_REMOVED,
 	CATEGORIES_CHANGED,
 	FORGET_PASSWORD,
+	BACKEND_DIED,
 	LAST_SIGNAL
 };
 
@@ -196,6 +201,13 @@ cal_client_class_init (CalClientClass *class)
                                 gtk_marshal_NONE__STRING,
                                 GTK_TYPE_NONE, 1,
                                 GTK_TYPE_STRING);
+	cal_client_signals[BACKEND_DIED] =
+		gtk_signal_new ("backend_died",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (CalClientClass, backend_died),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
 
 	gtk_object_class_add_signals (object_class, cal_client_signals, LAST_SIGNAL);
 
@@ -204,6 +216,7 @@ cal_client_class_init (CalClientClass *class)
 	class->obj_removed = NULL;
 	class->categories_changed = NULL;
 	class->forget_password = NULL;
+	class->backend_died = NULL;
 
 	object_class->destroy = cal_client_destroy;
 }
@@ -223,6 +236,7 @@ cal_client_init (CalClient *client)
 	priv->timezones = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->w_client = NULL;
 	priv->default_zone = icaltimezone_get_utc_timezone ();
+	priv->comp_listener = NULL;
 }
 
 /* Gets rid of the factories that a client knows about */
@@ -332,6 +346,12 @@ cal_client_destroy (GtkObject *object)
 		priv->listener = NULL;
 	}
 
+	if (priv->comp_listener) {
+		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->comp_listener), client);
+		gtk_object_unref (GTK_OBJECT (priv->comp_listener));
+		priv->comp_listener = NULL;
+	}
+
 	priv->w_client = NULL;
 	destroy_factories (client);
 	destroy_cal (client);
@@ -355,6 +375,19 @@ cal_client_destroy (GtkObject *object)
 }
 
 
+
+static void
+backend_died_cb (EComponentListener *cl, gpointer user_data)
+{
+	CalClientPrivate *priv;
+	CalClient *client = (CalClient *) user_data;
+
+	g_return_if_fail (IS_CAL_CLIENT (client));
+
+	priv = client->priv;
+	priv->load_state = CAL_CLIENT_LOAD_NOT_LOADED;
+	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[BACKEND_DIED]);
+}
 
 /* Signal handlers for the listener's signals */
 /* Handle the cal_opened notification from the listener */
@@ -394,6 +427,11 @@ cal_opened_cb (CalListener *listener,
 		priv->load_state = CAL_CLIENT_LOAD_LOADED;
 
 		client_status = CAL_CLIENT_OPEN_SUCCESS;
+
+		/* setup component listener */
+		priv->comp_listener = e_component_listener_new (priv->cal, 0);
+		gtk_signal_connect (GTK_OBJECT (priv->comp_listener), "component_died",
+				    GTK_SIGNAL_FUNC (backend_died_cb), client);
 		goto out;
 
 	case GNOME_Evolution_Calendar_Listener_ERROR:

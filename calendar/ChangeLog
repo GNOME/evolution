@@ -1,3 +1,19 @@
+2002-08-16  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-client/cal-client.[ch]: added internal EComponentListener
+	object, to listen for the activated Cal.
+	(cal_client_class_init): added "backend_died" signal.
+	(cal_client_destroy): clean up component listener.
+	(backend_died_cb): new callback for getting signals from the
+	EComponentListener.
+	(cal_opened_cb): setup component listener.
+	
+	* cal-client/Makefile.am: added libetuil to needed LIBS.
+
+	* gui/gnome-cal.c (backend_died_cb): new callback.
+	(gnome_calendar_construct): connect to "backend_died" signal
+	on all CalClient's we create.
+	
 2002-08-14  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/cal-prefs-dialog.c (init_widgets): listen for the

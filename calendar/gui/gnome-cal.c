@@ -1717,6 +1717,34 @@ client_categories_changed_cb (CalClient *client, GPtrArray *categories, gpointer
 	free_categories (merged);
 }
 
+/* Callback when the backend dies */
+static void
+backend_died_cb (CalClient *client, gpointer data)
+{
+	GnomeCalendar *gcal;
+	GnomeCalendarPrivate *priv;
+	char *message;
+
+	gcal = GNOME_CALENDAR (data);
+	priv = gcal->priv;
+
+	if (client == priv->client) {
+		message = g_strdup_printf (_("The calendar backend for\n%s\n has crashed. "
+					     "You will have to restart Evolution in order "
+					     "to use it again"),
+					   cal_client_get_uri (priv->client));
+	} else if (client == priv->task_pad_client) {
+		message = g_strdup_printf (_("The task backend for\n%s\n has crashed. "
+					     "You will have to restart Evolution in order "
+					     "to use it again"),
+					   cal_client_get_uri (priv->task_pad_client));
+	} else
+		g_assert_not_reached ();
+
+	gnome_error_dialog_parented (message, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))));
+	g_free (message);
+}
+
 GtkWidget *
 gnome_calendar_construct (GnomeCalendar *gcal)
 {
@@ -1740,6 +1768,8 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 			    GTK_SIGNAL_FUNC (client_cal_opened_cb), gcal);
 	gtk_signal_connect (GTK_OBJECT (priv->client), "categories_changed",
 			    GTK_SIGNAL_FUNC (client_categories_changed_cb), gcal);
+	gtk_signal_connect (GTK_OBJECT (priv->client), "backend_died",
+			    GTK_SIGNAL_FUNC (backend_died_cb), gcal);
 
 	e_day_view_set_cal_client (E_DAY_VIEW (priv->day_view),
 				   priv->client);
@@ -1761,6 +1791,8 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 			    GTK_SIGNAL_FUNC (client_cal_opened_cb), gcal);
 	gtk_signal_connect (GTK_OBJECT (priv->task_pad_client), "categories_changed",
 			    GTK_SIGNAL_FUNC (client_categories_changed_cb), gcal);
+	gtk_signal_connect (GTK_OBJECT (priv->task_pad_client), "backend_died",
+			    GTK_SIGNAL_FUNC (backend_died_cb), gcal);
 
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo));
 	g_assert (model != NULL);

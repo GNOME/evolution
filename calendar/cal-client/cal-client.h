@@ -110,6 +110,8 @@ struct _CalClientClass {
 	void (* categories_changed) (CalClient *client, GPtrArray *categories);
 
 	void (* forget_password) (CalClient *client, const char *key);
+
+	void (* backend_died) (CalClient *client);
 };
 
 typedef gchar * (* CalClientAuthFunc) (CalClient *client,

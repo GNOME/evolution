@@ -77,6 +77,7 @@ client_test_INCLUDES =			\
 
 client_test_LDADD =							\
 	$(EVOLUTION_CALENDAR_LIBS)					\
+	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/calendar/cal-util/libcal-util.la		\
 	$(top_builddir)/libversit/libversit.a				\
 	$(top_builddir)/libical/src/libical/libical-evolution.la	\
