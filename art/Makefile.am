@@ -1,16 +1,19 @@
 imagesdir = $(datadir)/images/evolution
 images_DATA = \
 	configure_16_addressbook.xpm	\
-	configure_16_addressbook.xpm	\
+	configure_16_calendar.xpm	\
 	configure_16_folder.xpm		\
 	configure_16_mail.xpm		\
 	copy_16_message.xpm		\
 	edit.xpm			\
 	encrypt.xpm			\
+	exec-16-summary.xpm		\
+	folder.xpm			\
 	forward.xpm			\
+	import.xpm			\
 	move_message.xpm		\
 	print.xpm			\
-	print.xpm			\
+	print-preview.xpm		\
 	reply.xpm			\
 	reply_to_all.xpm		\
 	save.xpm			\
@@ -40,7 +43,10 @@ images_DATA = \
 	hide_selected_messages.xpm	\
 	house.png           		\
 	malehead.png			\
+	new_appointment.xpm		\
 	new_contact.xpm			\
+	new-message.xpm			\
+	send-receive.xpm		\
 	service-close.png		\
 	service-configure.png		\
 	service-down.png		\
@@ -53,7 +59,8 @@ images_DATA = \
 	service-up-disabled.png		\
 	show_all_messages.xpm		\
 	splash.png			\
-	undelete_message.xpm
+	undelete_message.xpm		\
+	work_offline.xpm
 
 buttonsdir = $(datadir)/images/evolution/buttons
 buttons_DATA = 				\
@@ -68,6 +75,7 @@ buttons_DATA = 				\
 	new_appointment.png		\
 	reply.png			\
 	reply-to-all.png		\
+	send-24-receive.png		\
 	weekview.xpm  			\
 	workweekview.xpm		\
 	yearview.xpm	

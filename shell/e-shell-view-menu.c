@@ -47,6 +47,8 @@
 #include "e-shell-view-menu.h"
 #include "importer/importer.h"
 
+#include "e-util/e-gui-utils.h"
+
 
 const char *authors[] = {
 	"Seth Alves",
@@ -479,6 +481,14 @@ BonoboUIVerb help_verbs [] = {
 	BONOBO_UI_VERB_END
 };
 
+static EPixmap pixmaps [] = {
+	E_PIXMAP ("/menu/File/New/Folder",	"folder.xpm"),
+	E_PIXMAP ("/menu/File/Folder/Folder",	"folder.xpm"),
+	E_PIXMAP ("/menu/File/FileImporter",	"import.xpm"),
+	E_PIXMAP ("/menu/File/WorkOffLine",	"work_offline.xpm"),
+	E_PIXMAP_END
+};
+
 static void
 menu_do_misc (BonoboUIComponent *component,
 	      EShellView        *shell_view)
@@ -524,6 +534,8 @@ e_shell_view_menu_setup (EShellView *shell_view)
 		uic, help_verbs);
 
 	menu_do_misc (uic, shell_view);
+
+	e_pixmaps_update (uic, pixmaps);
 
 	gtk_signal_connect (GTK_OBJECT (shell_view), "shortcut_bar_mode_changed",
 			    GTK_SIGNAL_FUNC (shortcut_bar_mode_changed_cb),

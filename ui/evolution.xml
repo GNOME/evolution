@@ -39,7 +39,8 @@
 
 				<menuitem name="Folder" verb="NewFolder"
 				_label="_Folder"
-				accel="*Control**Shift*e"/>
+				accel="*Control**Shift*e"
+				pixtype="pixbuf"/>
 
 				<menuitem name="Shortcut" verb="NewBarShortcut"
 				_label="Evolution bar _shortcut"
@@ -73,7 +74,8 @@
 	                <submenu name="Folder" _label="_Folder">
 				<menuitem name="Folder" verb="NewFolder"
 				_label="_New Folder"
-				accel="*Control**Shift*e"/>
+				accel="*Control**Shift*e"
+				pixtype="pixbuf"/>
 	                </submenu>
 	  
 			<menuitem name="FileGoToFolder" verb=""
@@ -84,14 +86,16 @@
 	
 			<menuitem name="FileImporter" verb=""
 			_label="_Import file..."
-			_tip="Import an external file format" accel="*Control*i"/>
+			_tip="Import an external file format" accel="*Control*i"
+			pixtype="pixbuf"/>
 
 			<placeholder name="Print" delimit="top"/>
 
 			<separator/>
 
 	                <menuitem name="WorkOffLine" verb=""
-	                _label="Work Offline"/>
+	                _label="Work Offline"
+			pixtype="pixbuf"/>
 	      
 			<menuitem name="FileClose" verb=""
 			_label="_Close"/>
@@ -165,15 +169,3 @@
 		<control name="Progress"/>
 	</status>
 </Root>
-
-
-
-
-
-
-
-
-
-
-
-

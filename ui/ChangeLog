@@ -1,3 +1,9 @@
+2001-04-01  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* evolution-addressbook.xml, evolution-calendar.xml, evolution-mail.xml,
+	evolution-tasks.xml, evolution.xml: as Jacub suggested, added some icons,
+	replaced stock Print with ours, etc.
+
 2001-03-29  Not Zed  <NotZed@Ximian.com>
 
 	* evolution-mail.xml: Move the 'hide deleted' to the option list

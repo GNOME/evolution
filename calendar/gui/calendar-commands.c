@@ -32,11 +32,17 @@
 #include <string.h>
 #include <ctype.h>
 #include <errno.h>
-#include <glib.h>
+
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gtk/gtkfilesel.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtksignal.h>
+
+#include <libgnomeui/gnome-dialog-util.h>
+#include <libgnomeui/gnome-messagebox.h>
+#include <libgnomeui/gnome-stock.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-messagebox.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <cal-util/timeutil.h>
 #include "calendar-commands.h"
@@ -44,7 +50,7 @@
 #include "goto.h"
 #include "print.h"
 #include "dialogs/cal-prefs-dialog.h"
-
+#include "e-util/e-gui-utils.h"
 
 /* A list of all of the calendars started */
 static GList *all_calendars = NULL;
@@ -372,40 +378,22 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB_END
 };
 
-static void
-set_pixmap (BonoboUIComponent *uic,
-	    const char        *xml_path,
-	    const char        *icon)
+static EPixmap pixmaps [] =
 {
-	char *path;
-	GdkPixbuf *pixbuf;
+	E_PIXMAP ("/menu/File/New/NewFirstItem/CalendarNew",	"new_appointment.xpm"),
+	E_PIXMAP ("/menu/File/Print/Print",			"print.xpm"),
+	E_PIXMAP ("/menu/File/Print/Print Preview",		"print-preview.xpm"),
+	E_PIXMAP ("/menu/Actions/Component/CalendarNew",	"new_appointment.xpm"),
+	E_PIXMAP ("/menu/Tools/Component/CalendarPreferences",	"configure_16_calendar.xpm"),
+	E_PIXMAP ("/Toolbar/New",		"buttons/new_appointment.png"),
 
-	path = g_concat_dir_and_file (EVOLUTION_DATADIR "/images/evolution", icon);
+	E_PIXMAP ("/Toolbar/DayView",		"buttons/dayview.xpm"),
+	E_PIXMAP ("/Toolbar/WorkWeekView",	"buttons/workweekview.xpm"),
+	E_PIXMAP ("/Toolbar/WeekView",		"buttons/weekview.xpm"),
+	E_PIXMAP ("/Toolbar/MonthView",		"buttons/monthview.xpm"),
 
-	pixbuf = gdk_pixbuf_new_from_file (path);
-	if (pixbuf == NULL) {
-		g_warning ("Cannot load image -- %s", path);
-		g_free (path);
-		return;
-	}
-
-	bonobo_ui_util_set_pixbuf (uic, xml_path, pixbuf);
-
-	gdk_pixbuf_unref (pixbuf);
-
-	g_free (path);
-}
-
-static void
-update_pixmaps (BonoboUIComponent *uic)
-{
-	set_pixmap (uic, "/Toolbar/New",	  "buttons/new_appointment.png");
-
-	set_pixmap (uic, "/Toolbar/DayView",	  "buttons/dayview.xpm");
-	set_pixmap (uic, "/Toolbar/WorkWeekView", "buttons/workweekview.xpm");
-	set_pixmap (uic, "/Toolbar/WeekView",	  "buttons/weekview.xpm");
-	set_pixmap (uic, "/Toolbar/MonthView",	  "buttons/monthview.xpm");
-}
+	E_PIXMAP_END
+};
 
 void
 calendar_control_activate (BonoboControl *control,
@@ -446,7 +434,7 @@ calendar_control_activate (BonoboControl *control,
 			       "evolution-calendar.xml",
 			       "evolution-calendar");
 
-	update_pixmaps (uic);
+	e_pixmaps_update (uic, pixmaps);
 
 	bonobo_ui_component_thaw (uic, NULL);
 }

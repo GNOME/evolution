@@ -1,3 +1,11 @@
+2001-04-01  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* e-gui-utils.h: new type EPixmap, which is used to cache pixmaps for
+	bonobo components. use e_pixmaps_update to load icons into ui
+	component.
+	* e-gui-utils.c: implementation of EPixmap cache, moved here from
+	mail/folder-browser-factory.c.
+
 2001-03-31  Jon Trowbridge  <trow@ximian.com>
 
 	* e-url.c (e_url_shroud): Check that first_colon < last_at,

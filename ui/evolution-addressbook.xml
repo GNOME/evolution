@@ -8,7 +8,7 @@
 	                        	<menuitem name="New"
 	                        	 _label="_Contact"
 	                                 verb="ContactNew"
-					 pixtype="stock" pixname="New"
+					 pixtype="pixbuf"
 					 accel="*Control*n"/>
 	                                <separator/>
 	                        </placeholder>

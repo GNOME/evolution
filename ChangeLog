@@ -1,3 +1,7 @@
+2001-04-01  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* art/Makefile.am: added missing (new) files.
+
 2001-03-30  Dan Winship  <danw@ximian.com>
 
 	* configure.in (EVOLUTION_MICRO_VERSION): Bump this to 10. (We

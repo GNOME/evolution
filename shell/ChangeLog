@@ -2,6 +2,11 @@
 
 	* evolution-storage-set-view.c: Include <gal/util/e-util.h> here.
 
+2001-04-01  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* e-shell-view-menu.c: set up menu icons for new folder, import and work
+	offline.
+
 2001-03-30  Iain Holmes  <iain@ximian.com>
 
 	* importer/importer.c (start_import): If the importer can't be started, then

@@ -1,3 +1,10 @@
+2001-04-01  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* contact-editor/contact-editor.glade: changed icon to
+	evolution-contacts-plain.png.
+	* gui/component/addressbook.c: use new pixmap cache. Added icon for new
+	contact, print, print preview, changed filenames of renamed icons.
+
 2001-03-31  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names.c

@@ -282,7 +282,7 @@ debug_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 static const EvolutionShellComponentFolderType folder_types[] = {
 	{ "mail", "evolution-inbox.png" },
 	{ "mailstorage", "evolution-inbox.png" },
-	{ "vtrash", "evolution-inbox.png" },
+	{ "vtrash", "delete_message.xpm" },
 	{ NULL, NULL }
 };
 
