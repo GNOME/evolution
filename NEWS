@@ -1,3 +1,12 @@
+Development
+-----------
+
+  * Mail
+    #35123 -- The new/post button chooses a different default account
+     35289    to the new message menu. (Leon Zhang)
+    #33267 -- Filters on source account always match all messages when
+              applied to a local folder. (Michael)
+
 Evolution 1.2.2, 2002-02-04
 ---------------------------
 
