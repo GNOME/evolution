@@ -536,6 +536,12 @@ e_table_selection_model_do_something (ETableSelectionModel *selection,
 {
 	gint shift_p = state & GDK_SHIFT_MASK;
 	gint ctrl_p = state & GDK_CONTROL_MASK;
+
+	if (row == -1 && col != -1)
+		row = 0;
+	if (col == -1 && row != -1)
+		col = 0;
+
 	if (selection->row_count < 0) {
 		if (selection->model) {
 			selection->row_count = e_table_model_row_count(selection->model);
