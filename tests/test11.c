@@ -6,10 +6,6 @@
 
 
 #include "camel.h"
-#include "camel-mbox-folder.h"
-#include "camel-mbox-parser.h"
-#include "camel-mbox-utils.h"
-#include "camel-mbox-summary.h"
 #include "camel-log.h"
 #include "camel-exception.h"
 #include "camel-folder-summary.h"
@@ -31,6 +27,45 @@ auth_callback(char *prompt, gboolean secret,
 	return NULL;
 }
 
+struct search_data {
+	CamelFolder *folder;
+	CamelFolder *outbox;
+	CamelException *ex;
+};
+
+static void
+search_cb(CamelFolder *folder, int id, gboolean complete, GList *matches, struct search_data *sd)
+{
+	GList *n;
+	printf("search found matches:\n");
+	n = matches;
+	while (n) {
+		CamelMimeMessage *m;
+		
+		printf("uid: %s\n", (char *) n->data);
+		m = camel_folder_get_message_by_uid(sd->folder, n->data, sd->ex);
+		
+		if (camel_exception_get_id (sd->ex)) {
+			printf ("Cannot get message\n"
+				"Full description : %s\n", camel_exception_get_description (sd->ex));
+		}
+		
+		camel_folder_append_message(sd->outbox, m, sd->ex);
+		
+		if (camel_exception_get_id (sd->ex)) {
+			printf ("Cannot save message\n"
+				"Full description : %s\n", camel_exception_get_description (sd->ex));
+		}
+		
+		n = g_list_next(n);
+	}
+
+	if (complete) {
+		camel_folder_close (sd->folder, FALSE, sd->ex);
+		gtk_exit(0);
+	}
+}
+
 int
 main (int argc, char**argv)
 {
@@ -43,12 +78,16 @@ main (int argc, char**argv)
 	GList *uid_list;
 	int camel_debug_level = 10;
 	GList *matches;
+	struct search_data *sd;
 
 	gtk_init (&argc, &argv);
 	camel_init ();		
 	ex = camel_exception_new ();
 	camel_provider_register_as_module ("../camel/providers/mbox/.libs/libcamelmbox.so.0");
-	
+
+	sd = g_malloc0(sizeof(*sd));
+	sd->ex = ex;
+
 	session = camel_session_new (auth_callback);
 	store = camel_session_get_store (session, store_url, ex);
 	if (camel_exception_get_id (ex)) {
@@ -83,45 +122,18 @@ main (int argc, char**argv)
 	
 	camel_folder_open (outbox, FOLDER_OPEN_WRITE, ex);
 
+	sd->folder = folder;
+	sd->outbox = outbox;
+
 	printf("Search for messages\n");
 
-#warning "track api change here"
-	matches = camel_folder_search_by_expression  (folder,
-			"(match-all (header-contains \"subject\" \"gnome\"))",
-						      /* func */ NULL,
-						      /* data */ NULL,
-						      ex);
+	camel_folder_search_by_expression  (folder,
+					    "(match-all (header-contains \"subject\" \"gnome\"))",
+					    search_cb,
+					    sd,
+					    ex);
 
-	if (matches) {
-		GList *n;
-		printf("search found matches:\n");
-		n = matches;
-		while (n) {
-			CamelMimeMessage *m;
-
-			printf("uid: %s\n", (char *) n->data);
-			m = camel_folder_get_message_by_uid(folder, n->data, ex);
-
-			if (camel_exception_get_id (ex)) {
-				printf ("Cannot get message\n"
-					"Full description : %s\n", camel_exception_get_description (ex));
-			}
-
-			camel_folder_append_message(outbox, m, ex);
-
-			if (camel_exception_get_id (ex)) {
-				printf ("Cannot save message\n"
-					"Full description : %s\n", camel_exception_get_description (ex));
-			}
-
-			n = g_list_next(n);
-		}
-		
-	} else {
-		printf("no matches?\n");
-	}
-
-	camel_folder_close (folder, FALSE, ex);	
+	gtk_main();
 
 	return 0;
 }

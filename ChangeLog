@@ -1,5 +1,10 @@
-2000-03-27  Tuomas Kuosmanen  <tigert@gimp.org>
+2000-03-27  NotZed  <NotZed@HelixCode.com>
 
+	* tests/test9.c (main): This test is basically now invalid.
+	* tests/test11.c (main): Fix for async search api.  Probably works.
+	Removed camel-mbox-*.h headers, should be private.
+
+2000-03-27  Tuomas Kuosmanen  <tigert@gimp.org>
 	* art/attachment.xpm art/mail-new.xpm art/mail-read.xpm
 	art/mail-replied.xpm art/mark.xpm art/meeting.xpm
 	art/priority-high.xpm art/priority-low.xpm
@@ -64,6 +69,14 @@
 	* addressbook/backend/ebook/e-book.c: Set the card id properly
 	when retrieving a card.
 
+2000-03-22  NotZed  <NotZed@HelixCode.com>
+
+	* e-util/e-sexp.h: Formatting cleanup.
+
+2000-03-07  NotZed  <NotZed@HelixCode.com>
+
+	* e-util/Makefile.am (libeutil_la_SOURCES): s-sexp.h -> e-sexp.h.
+
 	* addressbook/backend/ebook/e-card.c,
 	addressbook/backend/ebook/e-card.h: Added the ability to set the
 	card's id (and made getting it work correctly also.)
@@ -108,7 +121,6 @@
 	addressbook/backend/ebook/test-card.c: Added parsing and testing
 	for name, full name, birthday, telephone, email, and street
 	address properties.
-
 
 2000-03-22  Christopher James Lahey  <clahey@helixcode.com>
 

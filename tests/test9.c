@@ -47,7 +47,11 @@ main (int argc, char**argv)
 						    ex); 
 	
 	close (test_file_fd);
+#warning This test is no longer valid.
+#if 0
+	/* needs a folder to work with (indexing) */
 	camel_mbox_write_xev (argv[1], message_info_array, &mbox_file_size, 1, ex);
+#endif
 	if (camel_exception_get_id (ex)) { 
 		printf ("Exception caught in camel_mbox_write_xev : %s\n", camel_exception_get_description (ex));
 	}
