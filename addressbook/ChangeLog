@@ -1,3 +1,10 @@
+2003-12-09  JP Rosevear <jpr@ximian.com>
+
+	* gui/contact-list-editor/e-contact-list-editor.c (extract_info):
+	free the list, not unref it, and free the elements
+
+	Fixes #51976
+	
 2003-12-06  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/select-names/e-select-names-manager.c

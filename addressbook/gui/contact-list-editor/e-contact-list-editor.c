@@ -1208,7 +1208,8 @@ extract_info(EContactListEditor *editor)
 
 		e_contact_set (contact, E_CONTACT_EMAIL, email_list);
 
-		/* XXX free email_list? */
+		g_list_foreach (email_list, (GFunc) g_free, NULL);
+		g_list_free (email_list);
 
 		if (editor->image_buf) {
 			EContactPhoto photo;
@@ -1218,7 +1219,6 @@ extract_info(EContactListEditor *editor)
 
 			e_contact_set (contact, E_CONTACT_LOGO, &photo);
 		}
-		g_object_unref (email_list);
 	}
 }
 
