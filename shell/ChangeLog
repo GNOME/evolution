@@ -1,3 +1,15 @@
+2000-10-18  Iain Holmes  <iain@helixcode.com>
+
+	* e-shell-view.c (start_progress_bar): If the widget is not realized
+	don't do anything, to prevent BadGC's at shut down.
+	(stop_progress_bar): Don't draw anything if the widget is not realized.
+	Same reason.
+
+	* e-shell-folder-selection-dialog.c (dbl_click_cb): Emit the
+	folder-selected signal.
+	(e_shell_folder_selection_dialog_construct): Connect to the e-table's
+	double-click signal.
+
 2000-10-17  Iain Holmes  <iain@helixcode.com>
 	
 	* e-shell.c (view_deleted_cb): Save the settings before the

@@ -121,6 +121,23 @@ impl_destroy (GtkObject *object)
 }
 
 
+/* ETable callback */
+static void
+dbl_click_cb (EStorageSetView *essv,
+	      int row,
+	      EShellFolderSelectionDialog *folder_selection_dialog)
+{
+	EShellFolderSelectionDialogPrivate *priv;
+
+	priv = folder_selection_dialog->priv;
+	if (check_folder_type (folder_selection_dialog)) {
+		gtk_signal_emit (GTK_OBJECT (folder_selection_dialog),
+				 signals[FOLDER_SELECTED],
+				 e_shell_folder_selection_dialog_get_selected_path (folder_selection_dialog));
+	}
+}
+
+
 /* GnomeDialog methods.  */
 
 static void
@@ -288,6 +305,9 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 
 	priv->storage_set_view = e_storage_set_new_view (priv->storage_set);
 	GTK_WIDGET_SET_FLAGS (priv->storage_set_view, GTK_CAN_FOCUS);
+	gtk_signal_connect (GTK_OBJECT (priv->storage_set_view),
+			    "double_click", GTK_SIGNAL_FUNC (dbl_click_cb),
+			    folder_selection_dialog);
 
 	g_assert (priv->allowed_types == NULL);
 	if (allowed_types != NULL) {
