@@ -193,14 +193,14 @@ sort_cb (GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer user_data
 	gtk_tree_model_get (model, b, COL_STRING_DISPLAY_NAME, &bname, COL_UINT_FLAGS, &bflags, -1);
 	
 	if (is_store) {
-		/* On This Computer is always first and VFolders is always last */
+		/* On This Computer is always first and vFolders is always last */
 		if (!strcmp (aname, _("On This Computer")))
 			rv = -1;
 		else if (!strcmp (bname, _("On This Computer")))
 			rv = 1;
-		else if (!strcmp (aname, _("VFolders")))
+		else if (!strcmp (aname, _("vFolders")))
 			rv = 1;
-		else if (!strcmp (bname, _("VFolders")))
+		else if (!strcmp (bname, _("vFolders")))
 			rv = -1;
 	} else if (store == vfolder_store) {
 		/* UNMATCHED is always last */
@@ -331,7 +331,7 @@ em_folder_tree_model_load_state (EMFolderTreeModel *model, const char *filename)
 	if (stat (filename, &st) == 0 && (model->state = xmlParseFile (filename)))
 		return;
 	
-	/* setup some defaults - expand "Local Folders" and "VFolders" */
+	/* setup some defaults - expand "Local Folders" and "vFolders" */
 	model->state = xmlNewDoc ("1.0");
 	root = xmlNewDocNode (model->state, NULL, "tree-state", NULL);
 	xmlDocSetRootElement (model->state, root);

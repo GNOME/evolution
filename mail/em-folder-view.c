@@ -1007,10 +1007,10 @@ static EPopupItem emfv_popup_items[] = {
 
 	{ E_POPUP_BAR, "90.filter", NULL, NULL, NULL, NULL, EM_POPUP_SELECT_ONE },
 	{ E_POPUP_SUBMENU, "90.filter.00", N_("Crea_te Rule From Message"), NULL, NULL, NULL, EM_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "90.filter.00/00.00", N_("VFolder on _Subject"), emfv_popup_vfolder_subject, NULL, NULL, EM_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "90.filter.00/00.01", N_("VFolder on Se_nder"), emfv_popup_vfolder_sender, NULL, NULL, EM_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "90.filter.00/00.02", N_("VFolder on _Recipients"), emfv_popup_vfolder_recipients, NULL, NULL, EM_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "90.filter.00/00.03", N_("VFolder on Mailing _List"),
+	{ E_POPUP_ITEM, "90.filter.00/00.00", N_("vFolder on _Subject"), emfv_popup_vfolder_subject, NULL, NULL, EM_POPUP_SELECT_ONE },
+	{ E_POPUP_ITEM, "90.filter.00/00.01", N_("vFolder on Se_nder"), emfv_popup_vfolder_sender, NULL, NULL, EM_POPUP_SELECT_ONE },
+	{ E_POPUP_ITEM, "90.filter.00/00.02", N_("vFolder on _Recipients"), emfv_popup_vfolder_recipients, NULL, NULL, EM_POPUP_SELECT_ONE },
+	{ E_POPUP_ITEM, "90.filter.00/00.03", N_("vFolder on Mailing _List"),
 	  emfv_popup_vfolder_mlist, NULL, NULL, EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST },
 	
 	{ E_POPUP_BAR, "90.filter.00/10", NULL, NULL, NULL, NULL, EM_POPUP_SELECT_ONE },

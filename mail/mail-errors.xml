@@ -263,7 +263,7 @@ The message is stored in the Outbox folder.  Check the message for errors and re
 
  <error id="vfolder-notexist" type="error">
   <primary>Cannot edit vFolder &quot;{0}&quot; as it does not exist.</primary>
-  <secondary>This folder may have been added implicitly, go to the virtual folder editor to add it explicitly, if required.</secondary>
+  <secondary>This folder may have been added implicitly, go to the vFolder editor to add it explicitly, if required.</secondary>
  </error>
 
  <error id="vfolder-notunique" type="error">

@@ -130,7 +130,7 @@ static ESearchBarItem emfb_search_items[] = {
 	E_FILTERBAR_SAVE,
 	E_FILTERBAR_EDIT,
 	{ NULL, 0, NULL },
-	{ N_("Create _Virtual Folder From Search..."), ESB_SAVE, NULL  },
+	{ N_("Create _vFolder From Search..."), ESB_SAVE, NULL  },
 	{ NULL, -1, NULL }
 };
 

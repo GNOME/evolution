@@ -1,3 +1,32 @@
+2005-02-01  Rodney Dawes  <dobey@novell.com>
+
+	* em-folder-browser.c: Replace "_Virtual Folder" with "_vFolder" for
+	the search menu to create a vfolder from a search
+
+	* em-folder-tree-model.c (sort_cb): s/VFolders/vFolders/ for sorting
+	in the folder tree
+	(em_folder_tree_model_load_state): s/VFolders/vFolders/ in a comment
+
+	* em-folder-view.c: s/VFolder/vFolder/ for the popup menu
+
+	* em-vfolder-editor.c (em_vfolder_editor_new): Replace the string
+	"Virtual _Folders" with "v_Folders" for the label
+
+	* em-vfolder-rule.c (em_vfolder_editor_sourcelist_new): Repalce the
+	string "VFolder source" with "vFolder source"
+
+	* mail-errors.xml:
+	* mail-errors.xml.h: Replace "virtual folder" with "vFolder" in an
+	error string
+
+	* mail-vfolder.c (vfolder_setup_desc): s/vfolder/vFolder/
+	(vfolder_setup_do): s/vfolder/vFolder/
+	(vfolder_load_storage): s/VFolders/vFolders/
+	(vfolder_edit_rule): s/VFolder/vFolder/
+	(vfolder_gui_add_rule): s/VFolder/vFolder/
+
+	Fixes #68137
+		
 2005-02-01  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #65329.
