@@ -396,7 +396,7 @@ command_new_mail_message (BonoboUIComponent *uih,
 	
 	CORBA_exception_init (&ev);
 	object = bonobo_get_object (
-		"OAFIID:GNOME_Evolution_Mail_Composer!window!visible=1",
+		"OAFIID:GNOME_Evolution_Mail_Composer!visible=1",
 		"Bonobo/Unknown", &ev);
 
 	CORBA_exception_free (&ev);
