@@ -1,3 +1,9 @@
+2000-04-10  Chris Toshok  <toshok@helixcode.com>
+
+	* addressbook/backend/pas/pas-backend-file.c
+	(pas_backend_file_process_get_book_view): use view != NULL instead
+	of checking db_error when we call pas_book_respond_get_book_view)
+
 2000-04-10  Dan Winship  <danw@helixcode.com>
 
 	* configure.in: check for mkstemp

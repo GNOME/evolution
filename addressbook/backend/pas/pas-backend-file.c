@@ -414,7 +414,7 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 			   GTK_SIGNAL_FUNC(view_destroy), book);
 
 	pas_book_respond_get_book_view (book,
-		   (db_error == 0 
+		   (view != NULL
 		    ? Evolution_BookListener_Success 
 		    : Evolution_BookListener_CardNotFound /* XXX */),
 		   book_view);
