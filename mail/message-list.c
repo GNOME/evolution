@@ -103,6 +103,9 @@ get_message_info(MessageList *message_list, gint row)
 		node = e_tree_model_node_at_row (model, row);
 		row = GPOINTER_TO_INT (e_tree_model_node_get_data (model, node));
 
+		if (row == -1)
+			return NULL;
+
 		info = message_list->summary_table->pdata[row];
 	}
 
