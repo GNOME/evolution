@@ -16,6 +16,6 @@ LDADD = \
 check_PROGRAMS =  	\
 	pgp		\
 	pgp-mime	\
-	pkcs7		\
+	pkcs7
 
 TESTS = pgp pgp-mime pkcs7

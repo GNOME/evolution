@@ -1,5 +1,9 @@
 2001-05-15  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* Makefile.am: Don't use EXTRA_GNOME_*, use the new CAMEL_*
+	variables so we don't link in tons of extra cruft that we don't
+	need.
+
 	* tests/smime/pkcs7.c: Added t the test suite - tests the S/MIME
 	pkcs7 functions.
 
