@@ -1,3 +1,8 @@
+2001-04-20  Dan Winship  <danw@ximian.com>
+
+	* mail-format.c (handle_text_plain): Fix a dumb thinko in my 04-11
+	patch.
+
 2001-04-20  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* mail-ops.c: (send_mail_desc): Convert subject from utf8

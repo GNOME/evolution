@@ -891,7 +891,7 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 	 * has decided to call text/plain because it starts with English
 	 * text...)
 	 */
-	check_specials = g_strcasecmp (mime_type, "text/plain") != 0;
+	check_specials = (g_strcasecmp (mime_type, "text/plain") == 0);
 
 	p = text;
 	while (p && check_specials) {
