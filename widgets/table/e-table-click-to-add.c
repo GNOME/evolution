@@ -229,6 +229,7 @@ etcta_realize (GnomeCanvasItem *item)
 					    "text", etcta->message ? etcta->message : "",
 					    "anchor", GTK_ANCHOR_NW,
 					    "width", etcta->width - 4,
+					    "draw_background", FALSE,
 					    NULL);
 	e_canvas_item_move_absolute (etcta->text, 2, 2);
 	etcta->rect = gnome_canvas_item_new(GNOME_CANVAS_GROUP(item),
@@ -487,6 +488,7 @@ e_table_click_to_add_commit (ETableClickToAdd *etcta)
 						    "text", etcta->message ? etcta->message : "",
 						    "anchor", GTK_ANCHOR_NW,
 						    "width", etcta->width - 4,
+						    "draw_background", FALSE,
 						    NULL);
 		e_canvas_item_move_absolute (etcta->text, 2, 2);
 	}

@@ -1442,6 +1442,7 @@ ect_show_tooltip (ECellView *ecell_view,
 					      "clip", TRUE,
 					      "line_wrap", FALSE,
   					      "justification", E_CELL_TEXT (text_view->cell_view.ecell)->justify,
+					      "draw_background", FALSE,
 					      NULL);
 
 	tooltip_width = max_width;
