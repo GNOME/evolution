@@ -245,8 +245,6 @@ edit_existing (OpenClient *oc, const char *uid)
 	icalcomponent *icalcomp;
 	CompEditor *editor;
 	ECalComponentVType vtype;
-	/* Presence of attendees indicates that component is a meeting */
-	GSList *attendees = NULL;
 
 	g_assert (oc->open);
 
@@ -271,8 +269,7 @@ edit_existing (OpenClient *oc, const char *uid)
 
 	switch (vtype) {
 	case E_CAL_COMPONENT_EVENT:
-		e_cal_component_get_attendee_list (comp, &attendees);
-		editor = COMP_EDITOR (event_editor_new (oc->client, attendees ? TRUE: FALSE));
+		editor = COMP_EDITOR (event_editor_new (oc->client, e_cal_component_has_attendees (comp)));
 		break;
 
 	case E_CAL_COMPONENT_TODO:

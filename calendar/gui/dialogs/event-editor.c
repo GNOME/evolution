@@ -120,6 +120,7 @@ event_editor_init (EventEditor *ee)
 	priv->model = E_MEETING_STORE (e_meeting_store_new ());
 	priv->meeting_shown = TRUE;
 	priv->updating = FALSE;	
+	priv->is_meeting = FALSE;
 }
 
 EventEditor *
@@ -145,20 +146,21 @@ event_editor_construct (EventEditor *ee, ECal *client)
 				 COMP_EDITOR_PAGE (priv->recur_page),
 				 _("Recurrence"));
 	
-	priv->sched_page = schedule_page_new (priv->model);
-	g_object_ref (priv->sched_page);
-	gtk_object_sink (GTK_OBJECT (priv->sched_page));
-	comp_editor_append_page (COMP_EDITOR (ee),
-				 COMP_EDITOR_PAGE (priv->sched_page),
-				 _("Scheduling"));
-
-	priv->meet_page = meeting_page_new (priv->model, client);
-	g_object_ref (priv->meet_page);
-	gtk_object_sink (GTK_OBJECT (priv->meet_page));
-	comp_editor_append_page (COMP_EDITOR (ee),
-				 COMP_EDITOR_PAGE (priv->meet_page),
-				 _("Invitations"));
-
+	if (priv->is_meeting) {
+		priv->sched_page = schedule_page_new (priv->model);
+		g_object_ref (priv->sched_page);
+		gtk_object_sink (GTK_OBJECT (priv->sched_page));
+		comp_editor_append_page (COMP_EDITOR (ee),
+					 COMP_EDITOR_PAGE (priv->sched_page),
+					 _("Scheduling"));
+		
+		priv->meet_page = meeting_page_new (priv->model, client);
+		g_object_ref (priv->meet_page);
+		gtk_object_sink (GTK_OBJECT (priv->meet_page));
+		comp_editor_append_page (COMP_EDITOR (ee),
+					 COMP_EDITOR_PAGE (priv->meet_page),
+					 _("Invitations"));
+	}
 	comp_editor_set_e_cal (COMP_EDITOR (ee), client);
 
 	init_widgets (ee);

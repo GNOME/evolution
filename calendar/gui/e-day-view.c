@@ -3246,6 +3246,7 @@ e_day_view_on_event_double_click (EDayView *day_view,
 				  gint event_num)
 {
 	EDayViewEvent *event;
+	icalproperty *attendee_prop = NULL;
 
 	if (day == -1)
 		event = &g_array_index (day_view->long_events, EDayViewEvent,
@@ -3256,9 +3257,11 @@ e_day_view_on_event_double_click (EDayView *day_view,
 
 	e_day_view_stop_editing_event (day_view);
 
+    
+	attendee_prop = icalcomponent_get_first_property (event->comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY);
 	e_calendar_view_edit_appointment (E_CALENDAR_VIEW (day_view),
 				     event->comp_data->client, 
-				     event->comp_data->icalcomp, FALSE);
+				     event->comp_data->icalcomp, attendee_prop ? TRUE:FALSE);
 }
 
 static void

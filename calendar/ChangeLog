@@ -1,3 +1,14 @@
+2004-10-19  Harish Krishnaswamy  <kharish@novell.com>
+
+	* gui/comp-editor-factory.c: (edit_existing):
+	Use e_cal_component_has_attendees to test if it is a meeting.
+	* gui/dialogs/event-editor.c: (event_editor_init):
+	By default, the event is not a meeting.
+	(event_editor_construct): Do not add the invitation, scheduling pages
+	to the editor if it is not a meeting. 
+	* gui/e-day-view.c: (e_day_view_on_event_double_click):
+	check the icalproperty to test if the event is a meeting.
+	
 2004-10-19  JP Rosevear  <jpr@novell.com>
 
 	* gui/gnome-cal.c (connect_list_view_focus): listen to the canvas
