@@ -67,11 +67,13 @@ char *mail_identify_mime_part (CamelMimePart *part, MailDisplay *md);
 GtkWidget *mail_view_create (CamelFolder *source, const char *uid, CamelMimeMessage *msg);
 
 /* component factory for lack of a better place */
+void mail_load_storage_by_uri (GNOME_Evolution_Shell shell, const char *uri, const char *name);
 /*takes a GSList of MailConfigServices */
 void mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources, gboolean is_account_data);
 
 void mail_hash_storage (CamelService *store, EvolutionStorage *storage);
 EvolutionStorage *mail_lookup_storage (CamelStore *store);
+void mail_remove_storage_by_uri (const char *uri);
 void mail_remove_storage (CamelStore *store);
 void mail_storages_foreach (GHFunc func, gpointer data);
 int  mail_storages_count (void);

@@ -1,3 +1,26 @@
+2001-08-08  Peter Williams  <peterw@ximian.com>
+
+	* component-factory.c (mail_load_storages): Don't load the storage
+	if it isn't enabled.
+	(mail_remove_storage_by_uri): New function. Goes through the
+	gymnastics of getting a CamelStore from the URI and calling 
+	mail_remove_storage. Copied from mail_delete().
+	(mail_load_storage_by_uri): Break out the storage-loading part of
+	mail_load_storages into a single function.
+	(mail_load_storages): Just call mail_load_storage_by_uri several
+	times.
+
+	* mail.h: Prototype our new _by_uri functions.
+
+	* mail-accounts.c (news_add_destroyed): Instead of hacking around
+	mail_load_storages, call mail_load_storage_by_uri.
+	(mail_delete): Move this chunk of code into 
+	mail_remove_storage_by_uri.
+	(mail_able): Add or remove the storage as necessary, with our
+	new _by_uri functions.
+
+	* mail-config-druid.c (druid_finish): See news_add_destroyed above.
+
 2001-08-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (mail_config_get_show_preview): Free dbkey if we

@@ -174,7 +174,6 @@ druid_finish (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 {
 	MailConfigDruid *druid = user_data;
 	MailAccountGui *gui = druid->gui;
-	GSList *mini;
 
 	/* Add the account to our list (do it first because future
            steps might want to access config->accounts) */
@@ -189,9 +188,7 @@ druid_finish (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 	mail_config_write ();
 
 	/* Load up this new account */
-	mini = g_slist_prepend (NULL, gui->account);
-	mail_load_storages (druid->shell, mini, TRUE);
-	g_slist_free (mini);
+	mail_load_storages (druid->shell, gui->account->source->url, gui->account->name);
 	
 	gtk_widget_destroy (GTK_WIDGET (druid));
 }

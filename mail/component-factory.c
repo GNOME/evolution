@@ -896,6 +896,70 @@ add_storage (const char *name, const char *uri, CamelService *store,
 	}
 }
 
+void
+mail_load_storage_by_uri (GNOME_Evolution_Shell shell, const char *uri, const char *name)
+{
+	CamelException ex;
+	CamelService *store;
+	CamelProvider *prov;
+	
+	camel_exception_init (&ex);
+	
+	/* Load the service (don't connect!). Check its provider and
+	 * see if this belongs in the shell's folder list. If so, add
+	 * it.
+	 */
+		
+	prov = camel_session_get_provider (session, uri, &ex);
+	if (prov == NULL) {
+		/* FIXME: real error dialog */
+		g_warning ("couldn't get service %s: %s\n", uri,
+			   camel_exception_get_description (&ex));
+		camel_exception_clear (&ex);
+		return;
+	}
+		
+	/* FIXME: this case is ambiguous for things like the
+	 * mbox provider, which can really be a spool
+	 * (/var/spool/mail/user) or a storage (~/mail/, eg).
+	 * That issue can't be resolved on the provider level
+	 * -- it's a per-URL problem.
+	 *  MPZ Added a hack to let spool protocol through temporarily ...
+	 */
+	if ((!(prov->flags & CAMEL_PROVIDER_IS_STORAGE) ||
+	     !(prov->flags & CAMEL_PROVIDER_IS_REMOTE))
+	    && !((strcmp(prov->protocol, "spool") == 0)
+		 || strcmp(prov->protocol, "maildir") == 0))
+		return;
+		
+	store = camel_session_get_service (session, uri,
+					   CAMEL_PROVIDER_STORE, &ex);
+	if (store == NULL) {
+		/* FIXME: real error dialog */
+		g_warning ("couldn't get service %s: %s\n", uri,
+			   camel_exception_get_description (&ex));
+		camel_exception_clear (&ex);
+		return;
+	}
+
+	if (name == NULL) {
+		char *service_name;
+
+		service_name = camel_service_get_name (store, TRUE);
+		add_storage (service_name, uri, store, shell, &ex);
+		g_free (service_name);
+	} else
+		add_storage (name, uri, store, shell, &ex);
+
+	if (camel_exception_is_set (&ex)) {
+		/* FIXME: real error dialog */
+		g_warning ("Cannot load storage: %s",
+			   camel_exception_get_description (&ex));
+		camel_exception_clear (&ex);
+	}
+		
+	camel_object_unref (CAMEL_OBJECT (store));
+}
 
 /* FIXME: 'is_account_data' is an ugly hack, if we remove support for NNTP we can take it out -- fejj */
 void
@@ -914,68 +978,21 @@ mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources, gboolean
 	for (iter = sources; iter; iter = iter->next) {
 		const MailConfigAccount *account = NULL;
 		const MailConfigService *service = NULL;
-		CamelService *store;
-		CamelProvider *prov;
 		char *name;
 		
 		if (is_account_data) {
 			account = iter->data;
 			service = account->source;
+			name = account->name;
 		} else {
 			service = iter->data;
+			name = NULL;
 		}
 		
-		if (service->url == NULL || service->url[0] == '\0')
+		if (service->url == NULL || service->url[0] == '\0' || !service->enabled)
 			continue;
 		
-		prov = camel_session_get_provider (session, service->url, &ex);
-		if (prov == NULL) {
-			/* FIXME: real error dialog */
-			g_warning ("couldn't get service %s: %s\n", service->url,
-				   camel_exception_get_description (&ex));
-			camel_exception_clear (&ex);
-			continue;
-		}
-		
-		/* FIXME: this case is ambiguous for things like the
-		 * mbox provider, which can really be a spool
-		 * (/var/spool/mail/user) or a storage (~/mail/, eg).
-		 * That issue can't be resolved on the provider level
-		 * -- it's a per-URL problem.
-		 *  MPZ Added a hack to let spool protocol through temporarily ...
-		 */
-		if ((!(prov->flags & CAMEL_PROVIDER_IS_STORAGE) ||
-		     !(prov->flags & CAMEL_PROVIDER_IS_REMOTE))
-		    && !((strcmp(prov->protocol, "spool") == 0)
-			 || strcmp(prov->protocol, "maildir") == 0))
-			continue;
-		
-		store = camel_session_get_service (session, service->url,
-						   CAMEL_PROVIDER_STORE, &ex);
-		if (store == NULL) {
-			/* FIXME: real error dialog */
-			g_warning ("couldn't get service %s: %s\n", service->url,
-				   camel_exception_get_description (&ex));
-			camel_exception_clear (&ex);
-			continue;
-		}
-		
-		if (is_account_data)
-			name = g_strdup (account->name);
-		else
-			name = camel_service_get_name (store, TRUE);
-		
-		add_storage (name, service->url, store, shell, &ex);
-		g_free (name);
-		
-		if (camel_exception_is_set (&ex)) {
-			/* FIXME: real error dialog */
-			g_warning ("Cannot load storage: %s",
-				   camel_exception_get_description (&ex));
-			camel_exception_clear (&ex);
-		}
-		
-		camel_object_unref (CAMEL_OBJECT (store));
+		mail_load_storage_by_uri (shell, service->url, name);
 	}
 }
 
@@ -1027,6 +1044,30 @@ mail_remove_storage (CamelStore *store)
 	
 	camel_service_disconnect (CAMEL_SERVICE (store), TRUE, NULL);
 	camel_object_unref (CAMEL_OBJECT (store));
+}
+
+void
+mail_remove_storage_by_uri (const char *uri)
+{
+	CamelProvider *prov;
+	CamelException ex;
+			
+	camel_exception_init (&ex);
+	prov = camel_session_get_provider (session, uri, &ex);
+	if (prov != NULL && prov->flags & CAMEL_PROVIDER_IS_STORAGE &&
+	    prov->flags & CAMEL_PROVIDER_IS_REMOTE) {
+		CamelService *store;
+				
+		store = camel_session_get_service (session, uri,
+						   CAMEL_PROVIDER_STORE, &ex);
+		if (store != NULL) {
+			g_warning ("removing storage: %s", uri);
+			mail_remove_storage (CAMEL_STORE (store));
+			camel_object_unref (CAMEL_OBJECT (store));
+		}
+	} else
+		g_warning ("%s is not a remote storage.", uri);
+	camel_exception_clear (&ex);
 }
 
 int

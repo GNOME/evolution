@@ -280,28 +280,8 @@ mail_delete (GtkButton *button, gpointer data)
 		account = gtk_clist_get_row_data (dialog->mail_accounts, sel);
 		
 		/* remove it from the folder-tree in the shell */
-		if (account->source && account->source->url) {
-			MailConfigService *service = account->source;
-			CamelProvider *prov;
-			CamelException ex;
-			
-			camel_exception_init (&ex);
-			prov = camel_session_get_provider (session, service->url, &ex);
-			if (prov != NULL && prov->flags & CAMEL_PROVIDER_IS_STORAGE &&
-			    prov->flags & CAMEL_PROVIDER_IS_REMOTE) {
-				CamelService *store;
-				
-				store = camel_session_get_service (session, service->url,
-								   CAMEL_PROVIDER_STORE, &ex);
-				if (store != NULL) {
-					g_warning ("removing storage: %s", service->url);
-					mail_remove_storage (CAMEL_STORE (store));
-					camel_object_unref (CAMEL_OBJECT (store));
-				}
-			} else
-				g_warning ("%s is not a remote storage.", service->url);
-			camel_exception_clear (&ex);
-		}
+		if (account->source && account->source->url)
+			mail_remove_storage_by_uri (account->source->url);
 		
 		/* remove it from the config file */
 		dialog->accounts = mail_config_remove_account (account);
@@ -355,6 +335,12 @@ mail_able (GtkButton *button, gpointer data)
 		row = dialog->accounts_row;
 		account = gtk_clist_get_row_data (dialog->mail_accounts, row);
 		account->source->enabled = !account->source->enabled;
+
+		if (account->source->enabled)
+			mail_load_storage_by_uri (dialog->shell, account->source->url, account->name);
+		else
+			mail_remove_storage_by_uri (account->source->url);
+
 		mail_autoreceive_setup ();
 		mail_config_write ();
 		load_accounts (dialog);
@@ -457,7 +443,6 @@ news_add_destroyed (GtkWidget *widget, gpointer data)
 	gpointer *send = data;
 	MailAccountsDialog *dialog;
 	MailConfigService *service;
-	GSList *mini;
 
 	service = send[0];
 	dialog = send[1];
@@ -466,9 +451,7 @@ news_add_destroyed (GtkWidget *widget, gpointer data)
 	dialog->news = mail_config_get_news ();
 	load_news (dialog);
 
-	mini = g_slist_prepend(NULL, service);
-	mail_load_storages(dialog->shell, mini, FALSE);
-	g_slist_free(mini);
+	mail_load_storage_by_uri(dialog->shell, account->source->url, account->name);
 	
 	dialog->news = mail_config_get_news ();
 	load_news (dialog);
