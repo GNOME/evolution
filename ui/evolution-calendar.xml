@@ -65,14 +65,7 @@
 	<separator/>
       </placeholder>
 
-      <placeholder name="ViewAfterControl">
-	<separator/>
-	<menuitem name="DayView" verb="ShowDayView" _label="_Day"/>
-	<menuitem name="WorkWeekView" verb="ShowWorkWeekView" _label="W_ork Week"/>
-	<menuitem name="WeekView" verb="ShowWeekView" _label="_Week"/>
-	<menuitem name="MonthView" verb="ShowMonthView" _label="_Month"/>
-      </placeholder>
-    </submenu>
+     </submenu>
 
     <placeholder name="ComponentToolsPlaceholder">
       <submenu name="Tools" _label="_Tools">
