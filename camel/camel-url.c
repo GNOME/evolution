@@ -157,10 +157,10 @@ camel_url_new_with_base (CamelURL *base, const char *url_string)
 				eq = memchr (cur, '=', p - cur);
 				if (eq) {
 					name = g_strndup (cur, eq - cur);
-					value = g_strndup (eq + 1, end - (eq + 1));
+					value = g_strndup (eq + 1, p - (eq + 1));
 					camel_url_decode (value);
 				} else {
-					name = g_strndup (cur, end - cur);
+					name = g_strndup (cur, p - cur);
 					value = g_strdup ("");
 				}
 				camel_url_decode (name);
@@ -369,6 +369,11 @@ output_param (GQuark key_id, gpointer data, gpointer user_data)
 	enc = camel_url_encode (g_quark_to_string (key_id), FALSE, "?#");
 	g_string_sprintfa (str, ";%s", enc);
 	g_free (enc);
+	if (*(char *)data) {
+		enc = camel_url_encode (data, FALSE, "?#");
+		g_string_sprintfa (str, "=%s", enc);
+		g_free (enc);
+	}
 }
 
 /**
