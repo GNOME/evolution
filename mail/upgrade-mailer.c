@@ -597,22 +597,24 @@ mailer_upgrade_xml_file (GHashTable *imap_sources, const char *filename)
 static char *
 shortcuts_upgrade_uri (GHashTable *accounts, GHashTable *imap_sources, const char *account, const char *folder)
 {
+	char *url, *decoded, *new = NULL;
 	struct _storeinfo *si;
-	char *url, *new, *decoded;
 	int type;
+	
+	decoded = hex_decode (folder, strlen (folder));
 	
 	type = GPOINTER_TO_INT ((si = g_hash_table_lookup (accounts, account)));
 	if (type == 1) {
 		/* exchange */
-		decoded = hex_decode (folder, strlen (folder));
 		new = g_strdup_printf ("personal/%s", decoded);
 		g_free (decoded);
-
+		
 		return new;
 	} else {
 		/* imap */
-		url = g_strdup_printf ("%s/%s", si->base_url, folder);
+		url = g_strdup_printf ("%s/%s", si->base_url, decoded);
 		new = imap_url_upgrade (imap_sources, url);
+		g_free (decoded);
 		g_free (url);
 		
 		if (new) {
@@ -623,13 +625,15 @@ shortcuts_upgrade_uri (GHashTable *accounts, GHashTable *imap_sources, const cha
 		}
 	}
 	
+	g_free (decoded);
+	
 	return NULL;
 }
 
 static int
 shortcuts_upgrade_xml_file (GHashTable *accounts, GHashTable *imap_sources, const char *filename)
 {
-	unsigned char *buffer, *inptr, *start, *folder, *new, *account = NULL;
+	unsigned char *buffer, *inptr, *start, *folder, *new, *p, *account = NULL;
 	ssize_t nread = 0, nwritten, n;
 	gboolean url_need_upgrade;
 	struct stat st;
@@ -681,12 +685,11 @@ shortcuts_upgrade_xml_file (GHashTable *accounts, GHashTable *imap_sources, cons
 		inptr = strstr (inptr, ">evolution:/");
 		if (inptr) {
 			inptr += 12;
-			account = inptr;
-			while (*inptr && *inptr != '/')
-				inptr++;
+			p = account = inptr;
+			while (*p && *p != '/')
+				p++;
 			
-			account = g_strndup (account, inptr - account);
-			inptr++;
+			account = g_strndup (account, p - account);
 			
 			url_need_upgrade = GPOINTER_TO_INT (g_hash_table_lookup (accounts, account));
 		}
@@ -732,9 +735,11 @@ shortcuts_upgrade_xml_file (GHashTable *accounts, GHashTable *imap_sources, cons
 		if (nwritten < len)
 			goto exception;
 		
-		start = inptr;
-		while (*start && *start != '"')
-			start++;
+		if (!(start = strstr (inptr, "</item>"))) {
+			start = inptr;
+			while (*start && *start != '<')
+				start++;
+		}
 		
 		folder = g_strndup (inptr, start - inptr);
 		new = shortcuts_upgrade_uri (accounts, imap_sources, account, folder);
@@ -765,12 +770,11 @@ shortcuts_upgrade_xml_file (GHashTable *accounts, GHashTable *imap_sources, cons
 			inptr = strstr (inptr, ">evolution:/");
 			if (inptr) {
 				inptr += 12;
-				account = inptr;
-				while (*inptr && *inptr != '/')
-					inptr++;
+				p = account = inptr;
+				while (*p && *p != '/')
+					p++;
 				
-				account = g_strndup (account, inptr - account);
-				inptr++;
+				account = g_strndup (account, p - account);
 				
 				url_need_upgrade = GPOINTER_TO_INT (g_hash_table_lookup (accounts, account));
 			}
