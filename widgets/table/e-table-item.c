@@ -31,6 +31,8 @@
 
 #define FOCUSED_BORDER 2
 
+#define d(x)
+
 /* FIXME: Do an analysis of which cell functions are needed before
    realize and make sure that all of them are doable by all the cells
    and that all of the others are only done after realization. */
@@ -1717,7 +1719,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				return_val = eti_e_cell_event (eti, ecell_view, (GdkEvent *) &button, button.time, 
 							       view_to_model_col(eti, col), col, row, E_CELL_EDITING);
 			}
-			g_print("Single click\n");
+			d(g_print("Single click\n"));
 
 			break;
 		case 3:
@@ -1779,7 +1781,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				return_val = eti_e_cell_event (eti, ecell_view, e, e->button.time,
 							       view_to_model_col(eti, col), col, row, E_CELL_EDITING);
 			}
-			g_print ("Release\n");
+			d(g_print ("Release\n"));
 			break;
 		case 3:
 		case 4:
@@ -1818,7 +1820,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 
 		gtk_signal_emit (GTK_OBJECT (eti), eti_signals [DOUBLE_CLICK],
 				 row, col, &button);
-		g_print("Double click\n");
+		d(g_print("Double click\n"));
 		break;
 	}
 	case GDK_MOTION_NOTIFY: {
