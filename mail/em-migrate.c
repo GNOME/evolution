@@ -45,8 +45,6 @@
 
 #include <gal/util/e-xml-utils.h>
 
-#include "mail-component.h"
-
 #include "em-migrate.h"
 
 
@@ -530,7 +528,7 @@ em_migrate_uri (const char *uri)
 	}
 }
 
-int
+static int
 em_migrate_filter_file (const char *evolution_dir, const char *filename, CamelException *ex)
 {
 	char *path, *uri, *new;

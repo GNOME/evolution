@@ -24,6 +24,8 @@
 #ifndef __EM_MIGRATE_H__
 #define __EM_MIGRATE_H__
 
+#include "mail-component.h"
+
 #include <camel/camel-exception.h>
 
 #ifdef __cplusplus
@@ -31,7 +33,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-int em_migrate (struct _MailComponent *component, CamelException *ex);
+int em_migrate (MailComponent *component, CamelException *ex);
 
 #ifdef __cplusplus
 }
