@@ -349,6 +349,35 @@ search_activate(GtkEntry *entry, FolderBrowser *fb)
 	search_set(fb);
 }
 
+static int
+etable_key (ETable *table, int row, int col, GdkEvent *ev, FolderBrowser *fb)
+{
+	if (ev->key.state != 0)
+		return FALSE;
+
+	if (ev->key.keyval == GDK_space || ev->key.keyval == GDK_BackSpace) {
+		GtkAdjustment *vadj;
+
+		vadj = e_scroll_frame_get_vadjustment (fb->mail_display->scroll);
+		if (ev->key.keyval == GDK_BackSpace) {
+			if (vadj->value > vadj->lower + vadj->page_size)
+				vadj->value -= vadj->page_size;
+			else
+				vadj->value = vadj->lower;
+		} else {
+			if (vadj->value < vadj->upper - 2 * vadj->page_size)
+				vadj->value += vadj->page_size;
+			else
+				vadj->value = vadj->upper - vadj->page_size;
+		}
+
+		gtk_adjustment_value_changed (vadj);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 static void
 folder_browser_gui_init (FolderBrowser *fb)
 {
@@ -420,6 +449,9 @@ my_folder_browser_init (GtkObject *object)
 	 */
 	fb->message_list = MESSAGE_LIST (message_list_new (fb));
 	fb->mail_display = MAIL_DISPLAY (mail_display_new (fb));
+
+	gtk_signal_connect (GTK_OBJECT (fb->message_list->etable),
+			    "key_press", GTK_SIGNAL_FUNC (etable_key), fb);
 
 	folder_browser_properties_init (fb);
 	folder_browser_gui_init (fb);
