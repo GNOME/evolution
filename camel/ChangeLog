@@ -1,5 +1,9 @@
 2000-06-12  Dan Winship  <danw@helixcode.com>
 
+	* providers/*/Makefile.am: don't pass a second (incorrect) -rpath
+	in addition to the (correct) one automatically provided by
+	automake.
+
 	* camel-mime-filter-crlf.c: New filter to do CRLF<->LF conversion.
 	(Currently only tested in the LF->CRLF direction.)
 

@@ -26,6 +26,6 @@ libcamelnntpinclude_HEADERS =			\
 	camel-nntp-store.h
 
 
-libcamelnntp_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir) 
+libcamelnntp_la_LDFLAGS = -version-info 0:0:0
 
 EXTRA_DIST = libcamelnntp.urls

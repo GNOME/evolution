@@ -19,6 +19,6 @@ libcamelmaildirinclude_HEADERS = \
 	camel-maildir-folder.h \
 	camel-maildir-store.h
 
-libcamelmaildir_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir)
+libcamelmaildir_la_LDFLAGS = -version-info 0:0:0
 
 EXTRA_DIST = 

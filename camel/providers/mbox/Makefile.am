@@ -32,7 +32,7 @@ libcamelmboxinclude_HEADERS =			\
 	camel-mbox-store.h			\
 	camel-mbox-summary.h
 
-libcamelmbox_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir) 
+libcamelmbox_la_LDFLAGS = -version-info 0:0:0
 
 libcamelmbox_la_LIBADD = $(top_builddir)/e-util/libeutil.la $(top_builddir)/libibex/libibex.la $(UNICODE_LIBS)
 #libcamelmbox_la_LIBADD = $(top_builddir)/libibex/libibex.la $(UNICODE_LIBS)

@@ -27,6 +27,6 @@ libcamelsmtpinclude_HEADERS =			\
 	camel-smtp-transport.h
 
 
-libcamelsmtp_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir) 
+libcamelsmtp_la_LDFLAGS = -version-info 0:0:0
 
 EXTRA_DIST = libcamelsmtp.urls

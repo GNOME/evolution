@@ -26,6 +26,6 @@ libcamelsendmail_la_SOURCES = 			\
 libcamelsendmailinclude_HEADERS =		\
 	camel-sendmail-transport.h
 
-libcamelsendmail_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir) 
+libcamelsendmail_la_LDFLAGS = -version-info 0:0:0
 
 EXTRA_DIST = libcamelsendmail.urls

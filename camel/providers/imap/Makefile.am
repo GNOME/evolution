@@ -34,7 +34,7 @@ libcamelimapinclude_HEADERS =			\
 	camel-imap-stream.h			\
 	camel-imap-summary.h
 
-libcamelimap_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir) 
+libcamelimap_la_LDFLAGS = -version-info 0:0:0
 
 libcamelimap_la_LIBADD = $(top_builddir)/e-util/libeutil.la $(top_builddir)/libibex/libibex.la $(UNICODE_LIBS)
 #libcamelimap_la_LIBADD = $(top_builddir)/libibex/libibex.la $(UNICODE_LIBS)

@@ -30,6 +30,6 @@ libcamelpop3include_HEADERS =			\
 	camel-pop3-store.h
 
 
-libcamelpop3_la_LDFLAGS = $(KRB4_LDFLAGS) -version-info 0:0:0 -rpath $(libdir) 
+libcamelpop3_la_LDFLAGS = $(KRB4_LDFLAGS) -version-info 0:0:0
 
 EXTRA_DIST = libcamelpop3.urls
