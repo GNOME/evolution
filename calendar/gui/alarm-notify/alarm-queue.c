@@ -65,6 +65,9 @@ static time_t saved_notification_time;
 /* Clients we are monitoring for alarms */
 static GHashTable *client_alarms_hash = NULL;
 
+/* List of tray icons being displayed */
+static GList *tray_icons_list = NULL;
+
 /* Structure that stores a client we are monitoring */
 typedef struct {
 	/* Monitored client */
@@ -796,6 +799,8 @@ tray_icon_destroyed_cb (GtkWidget *tray, gpointer user_data)
 
 	g_object_unref (tray_data->comp);
 	g_object_unref (tray_data->client);
+
+	tray_icons_list = g_list_remove (tray_icons_list, tray_data);
 	g_free (tray_data);
 
 	return TRUE;
@@ -858,11 +863,19 @@ open_alarm_dialog (TrayIconData *tray_data)
 static void
 popup_dismiss_cb (GtkWidget *widget, TrayIconData *tray_data)
 {
+	gtk_widget_destroy (tray_data->tray_icon);
 }
 
 static void
 popup_dismiss_all_cb (GtkWidget *widget, TrayIconData *tray_data)
 {
+	while (tray_icons_list != NULL) {
+		TrayIconData *tray_data = tray_icons_list->data;
+
+		gtk_widget_destroy (tray_data->tray_icon);
+
+		tray_icons_list = g_list_remove (tray_icons_list, tray_icons_list);
+	}
 }
 
 static void
@@ -998,6 +1011,8 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	tray_data->blink_state = FALSE;
 	g_object_ref (tray_data->client);
 	tray_data->tray_icon = tray_icon;
+
+	tray_icons_list = g_list_prepend (tray_icons_list, tray_data);
 
 	g_signal_connect (G_OBJECT (tray_icon), "destroy",
 			  G_CALLBACK (tray_icon_destroyed_cb), tray_data);

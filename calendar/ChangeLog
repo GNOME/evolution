@@ -1,3 +1,11 @@
+2004-01-10  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/alarm-notify/alarm-queue.c (display_notification): keep
+	all the tray icons we create in a list.
+	(tray_icon_destroyed_cb): remove the tray icon data from the list.
+	(popup_dismiss_cb, popup_dismiss_all_cb): implemented missing
+	popup menu items.
+
 2004-01-09  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/calendar-component.c (new_calendar_cb): calendar_config ->
@@ -57,7 +65,7 @@
 	corba values
 
 	* gui/calendar-component.c (impl_upgradeFromVersion): ditto
-	
+
 2004-01-09  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/calendar-component.c (impl_upgradeFromVersion): only migrate

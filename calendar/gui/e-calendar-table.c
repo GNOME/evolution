@@ -1377,7 +1377,7 @@ e_calendar_table_set_status_message (ECalendarTable *cal_table, const gchar *mes
 	EActivityHandler *activity_handler = calendar_component_peek_activity_handler (calendar_component_peek ());
 
         g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
-                                                                                
+
         if (!message || !*message) {
 		if (cal_table->activity_id != 0) {
 			e_activity_handler_operation_finished (activity_handler, cal_table->activity_id);
