@@ -1,5 +1,7 @@
 2004-05-17  JP Rosevear  <jpr@novell.com>
 
+	Fixes #58460
+	
 	* e-task-widget.c (e_task_widget_construct): bitmap_unref the
 	mask, don't object_unref it
 
