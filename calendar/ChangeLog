@@ -1,3 +1,16 @@
+2000-05-08  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/e-week-view.c (e_week_view_remove_event_cb): 
+	* gui/e-day-view.c (e_day_view_remove_event_cb): don't set the ico->uid
+	to NULL or we won't find any other occurrences of the event. Set the
+	editing_event_day/num to -1 instead.
+
+	* gui/e-week-view-event-item.c (e_week_view_event_item_draw): fixed the
+	positioning of the icons for long events.
+
+	* cal-util/calobj.c (ical_object_normalize_summary): forgot to
+	terminate the string.
+
 2000-05-07  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/e-day-view.c (e_day_view_on_main_canvas_drag_data_received): 

@@ -1136,11 +1136,11 @@ e_week_view_remove_event_cb (EWeekView *week_view,
 
 	event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
 
-	/* We set the event's uid to NULL so we don't try to update it in
-	   on_editing_stopped(). */
-	g_free (event->ico->uid);
-	event->ico->uid = NULL;
-
+	/* If we were editing this event, set editing_event_num to -1 so
+	   on_editing_stopped doesn't try to update the event. */
+	if (week_view->editing_event_num == event_num)
+		week_view->editing_event_num = -1;
+		
 	/* We leave the span elements in the array, but set the canvas item
 	   pointers to NULL. */
 	for (span_num = 0; span_num < event->num_spans; span_num++) {

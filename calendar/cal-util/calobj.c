@@ -1793,4 +1793,5 @@ ical_object_normalize_summary (iCalObject *ico)
 			just_output_space = FALSE;
 		}
 	}
+	*dest = '\0';
 }

@@ -467,7 +467,7 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 
 		/* Draw the icons. */
 		if (span->text_item) {
-			icon_x = span->text_item->x1;
+			icon_x = span->text_item->x1 - x;
 			e_week_view_event_item_draw_icons (wveitem, drawable,
 							   icon_x, icon_y,
 							   x2, TRUE);

@@ -1298,10 +1298,11 @@ e_day_view_remove_event_cb (EDayView *day_view,
 		event = &g_array_index (day_view->events[day],
 					EDayViewEvent, event_num);
 
-	/* We set the event's uid to NULL so we don't try to update it in
-	   on_editing_stopped(). */
-	g_free (event->ico->uid);
-	event->ico->uid = NULL;
+	/* If we were editing this event, set editing_event_num to -1 so
+	   on_editing_stopped doesn't try to update the event. */
+	if (day_view->editing_event_day == day
+	    && day_view->editing_event_num == event_num)
+		day_view->editing_event_day = -1;
 
 	if (event->canvas_item)
 		gtk_object_destroy (GTK_OBJECT (event->canvas_item));
