@@ -1,3 +1,17 @@
+2000-08-28  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-table.c (et_destroy): Don't try to destroy the `header_canvas'
+	if NULL.
+
+	* e-table-group-leaf.c (etgl_set_cursor_row): If the item is NULL,
+	don't try to set the cursor row for it.
+
+	* e-table.c (set_scroll_adjustments): Don't set the adjustment for
+	the `header_canvas' unless the `header_canvas' is not NULL.
+
+	* e-tree-model.c (e_tree_model_row_of_node): If the node is the
+	root, just return -1 without emitting a warning.
+
 2000-08-25  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table-col.c, e-table-config.c, e-table-header.c,

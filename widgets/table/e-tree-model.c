@@ -446,6 +446,9 @@ e_tree_model_row_of_node (ETreeModel *etree, ETreePath *node)
 {
 	int i;
 
+	if (etree->root == node)
+		return -1;
+
 	for (i = 0; i < etree->row_array->len; i ++)
 		if (g_array_index (etree->row_array, GNode*, i) == node)
 			return i;

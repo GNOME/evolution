@@ -146,7 +146,10 @@ et_destroy (GtkObject *object)
 	gtk_object_unref (GTK_OBJECT (et->header));
 	gtk_object_unref (GTK_OBJECT (et->sort_info));
 	gtk_object_unref (GTK_OBJECT (et->sorter));
-	gtk_widget_destroy (GTK_WIDGET (et->header_canvas));
+
+	if (et->header_canvas != NULL)
+		gtk_widget_destroy (GTK_WIDGET (et->header_canvas));
+
 	gtk_widget_destroy (GTK_WIDGET (et->table_canvas));
 
 	if (et->rebuild_idle_id) {
@@ -997,8 +1000,10 @@ set_scroll_adjustments   (ETable *table,
 				    hadjustment);
 	gtk_layout_set_vadjustment (GTK_LAYOUT(table->table_canvas),
 				    vadjustment);
-	gtk_layout_set_hadjustment (GTK_LAYOUT(table->header_canvas),
-				    hadjustment);
+
+	if (table->header_canvas != NULL)
+		gtk_layout_set_hadjustment (GTK_LAYOUT(table->header_canvas),
+					    hadjustment);
 }
 
 gint 

@@ -227,9 +227,11 @@ static void
 etgl_set_cursor_row (ETableGroup *etg, gint row)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
-	gnome_canvas_item_set(GNOME_CANVAS_ITEM(etgl->item),
-			      "cursor_row", row,
-			      NULL);
+
+	if (etgl->item != NULL)
+		gnome_canvas_item_set(GNOME_CANVAS_ITEM(etgl->item),
+				      "cursor_row", row,
+				      NULL);
 }
 
 static int
