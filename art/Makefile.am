@@ -120,10 +120,12 @@ images_DATA = \
 	service-up-disabled.png		\
 	show_all_messages.xpm		\
 	splash.png			\
+	timezone.png			\
 	talking-heads.png		\
 	task.xpm			\
 	thankyou.png			\
-   timezone-48.png \
+	timezone-16.xpm			\
+   	timezone-48.png 		\
 	undelete_message-16.png		\
 	wax-seal.png			\
 	wax-seal-broken.png		\
