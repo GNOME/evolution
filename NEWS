@@ -1,3 +1,10 @@
+Evolution 1.1.2
+---------------
+
+
+Other fixes:
+
+
 Evolution 1.1.2, 2002-10-07
 ---------------------------
 
@@ -104,12 +111,47 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     - #31752 -- No EHLO to re-check AUTH capabilities after a STARTTLS
                 has been issued. (Jeff)
 
+  * Calendar
+
+    #15892 -- Running out of disk space can cause loss of calender
+		entries and tasks.
+    #19159 -- Application "evolution-alarm-notify" has crashed.
+    #30057 -- calendar gui does not allow for read-only folders
+    #15710 -- Automatically-created reminder always says "Untitled
+		Appointment"
+    #30290 -- Importer Not Ready when importing .ics Ical file
+    #24210 -- Slow calendar.
+    #27961 -- vcalendar LAST-MODIFIED field not updated on change
+    #28310 -- Calendar re-runs alarms
+    #14111 -- Gives 'are you sure you want to' prompt when no such
+		action has occurred
+    #30381 -- calendar recurrences "off-by-one"
+    #18162 -- double-click on calendar week/month view shouldn't do
+		all-day event
+    #29983 -- new appts using 25 hour day
+
+  * Conduits
+
+    #21631 -- Palm calendar event with no time should appear as "All
+		day event"
+    #23763 -- Problem with appointments that cross a day boundary and
+		pilot sync
+
 Other fixes:
 
   * Shell
 
     - Some strings that were not translated properly before now are.
       (Kjartan Maraas)
+
+  * Calendar
+    - Don't allow empty attendee addresses for meetings
+    - Better alarm daemon activation
+    - Notification of calendar query errors
+    - Status messages for all operations
+
+  * Conduits
+    - Fixing linking issues
 
   * Misc
 
@@ -138,6 +180,7 @@ Updated translations:
 
 Evolution 1.1.1, 2002-09-09
 ---------------------------
+>>>>>>> 1.134
 
 New features:
 
