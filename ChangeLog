@@ -1,3 +1,7 @@
+2001-07-18  JP Rosevear  <jpr@ximian.com>
+
+	* configure.in: bump to 0.11
+
 2001-07-17  Dan Winship  <danw@ximian.com>
 
 	* configure.in: Fix up the "exactly version N" case of EVO_CHECK_LIB
