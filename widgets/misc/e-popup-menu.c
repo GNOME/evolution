@@ -115,7 +115,7 @@ e_popup_menu_create (EPopupMenu *menu_list, guint32 disable_mask, guint32 hide_m
 			
 			item = make_item (menu, seperator ? "" : L_(menu_list[i].name), menu_list[i].pixname);
 			gtk_menu_append (menu, item);
-			
+
 			if (!menu_list[i].submenu) {
 				if (menu_list[i].fn)
 					gtk_signal_connect (GTK_OBJECT (item), "activate",
@@ -124,21 +124,21 @@ e_popup_menu_create (EPopupMenu *menu_list, guint32 disable_mask, guint32 hide_m
 			} else {
 				/* submenu */
 				GtkMenu *submenu;
-				
+
 				submenu = e_popup_menu_create (menu_list[i].submenu, disable_mask, hide_mask, closure);
-				
+
 				gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), GTK_WIDGET (submenu));
 			}
-			
+
 			if (menu_list[i].disable_mask & disable_mask)
 				gtk_widget_set_sensitive (item, FALSE);
-			
+
 			gtk_widget_show (item);
+
+			last_item_seperator = seperator;
 		}
-		
-		last_item_seperator = seperator;
 	}
-	
+
 	return menu;
 }
 
