@@ -52,7 +52,7 @@ evolutiondir = $(datadir)/evolution
 
 evolution_DATA = arrow.png
 
-iconsdir = $(datadir)/images/evolution
+iconsdir = $(datadir)/evolution/images
 
 gladedir   = $(datadir)/evolution/glade
 

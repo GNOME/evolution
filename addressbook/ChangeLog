@@ -1,3 +1,11 @@
+2003-01-08  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/Makefile.am: $(datadir)/evolution/images instead
+	of $(datadir)/images/evolution.
+	* gui/contact-editor/Makefile.am: Likewise.
+	* gui/contact-list-editor/Makefile.am (iconsdir): Likewise.
+	* gui/widgets/Makefile.am: Likewise.
+
 2002-01-08  Dan Winship  <danw@ximian.com>
 
 	Move PASBook request handling into PASBackend itself since all

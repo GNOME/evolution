@@ -23,7 +23,7 @@ INCLUDES =							\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"			\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
 	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"		\
-	-DEVOLUTION_IMAGESDIR=\""$(datadir)"/images/evolution\" \
+	-DEVOLUTION_IMAGESDIR=\""$(datadir)"/evolution/images\" \
 	$(LDAP_CFLAGS)						\
 	-DG_DISABLE_DEPRECATED					\
 	-DGTK_DISABLE_DEPRECATED				\
@@ -98,7 +98,7 @@ $(server_in_files:.server.in.in=.server.in): $(server_in_files)
 gladedir   = $(datadir)/evolution/glade
 glade_DATA = ldap-config.glade
 
-iconsdir = $(datadir)/images/evolution
+iconsdir = $(datadir)/evolution/images
 
 etspecdir = $(datadir)/evolution/etspec
 etspec_DATA = addressbook-config.etspec
