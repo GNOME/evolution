@@ -1,3 +1,7 @@
+2000-07-12  Christopher James Lahey  <clahey@helixcode.com>
+
+	* main.c: Fixed to match gconf API change.
+
 2000-07-10  Dan Winship  <danw@helixcode.com>
 
 	* main.c (development_warning): Update the message.
