@@ -812,14 +812,14 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 		       "draw_button", TRUE,
 		       "editable", FALSE,
 		       "text", "",
-		       "use_ellipsis", TRUE,
+		       "use_ellipsis", FALSE,
 		       "justification", GTK_JUSTIFY_CENTER,
 		       NULL);
-	gtk_widget_set_usize (label, 40, 0);
 
 	label_text = g_strconcat (child->title, " ->", NULL);
 	gtk_object_set (GTK_OBJECT (label),
 			"text", label_text,
+			"emulate_label_resize", TRUE,
 			NULL);
 	g_free (label_text);
 	gtk_container_add (GTK_CONTAINER (button), label);
