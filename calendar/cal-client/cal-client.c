@@ -664,7 +664,6 @@ cal_client_construct (CalClient *client)
 	CORBA_Environment ev;
 	int i;
 
-	CORBA_exception_init (&ev);
 	g_return_val_if_fail (client != NULL, NULL);
 	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
 

@@ -1,3 +1,8 @@
+2002-11-26  Richard Li <Richard.Li@Sun.COM>
+
+	* cal-client/cal-client.c (cal_client_construct): removed extra call
+	to CORBA_exception_init.
+
 2002-11-22  Not Zed  <NotZed@Ximian.com>
 
 	* gui/dialogs/delete-comp.c (delete_component_dialog): Changed
