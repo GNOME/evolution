@@ -273,13 +273,18 @@ const char *e_iconv_charset_name(const char *charset)
 #else
 		ret = g_strdup_printf("ISO%s", tmp);
 #endif
-	} else if ((strncmp(name, "windows-", 8) == 0)
-		   || strncmp(name, "microsoft-", 10) == 0) {
+	} else if (strncmp(name, "windows-", 8) == 0) {
 		/* Convert windows-nnnnn or windows-cpnnnnn to cpnnnn */
 		tmp = name+8;
 		if (strncmp(tmp, "cp", 2))
 			tmp+=2;
 		ret = g_strdup_printf("CP%s", tmp);
+	} else if (strncmp(name, "microsoft-", 10) == 0) {
+		/* Convert microsoft-nnnnn or microsoft-cpnnnnn to cpnnnn */
+		tmp = name+10;
+		if (strncmp(tmp, "cp", 2))
+			tmp+=2;
+		ret = g_strdup_printf("CP%s", tmp);	
 	} else {
 		/* Just assume its ok enough as is, case and all */
 		ret = g_strdup(charset);
