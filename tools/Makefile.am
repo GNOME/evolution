@@ -10,7 +10,6 @@ INCLUDES =						\
 	-DSYSCONFDIR=\""$(sysconfdir)"\"		\
 	-DDATADIR=\""$(datadir)"\"			\
 	-DLIBDIR=\""$(libdir)"\"			\
-	-DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED	\
 	$(GNOME_FULL_CFLAGS)
 
 EXTRA_DIST = verify-evolution-install.sh
