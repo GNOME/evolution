@@ -1,3 +1,8 @@
+2000-03-21  Dan Winship  <danw@helixcode.com>
+
+	* providers/pop3: some initial bits of the POP3 provider, to
+	make Matt happy. Incomplete, untested, etc.
+
 2000-03-21  bertrand  <bertrand@helixcode.com>
 
 	* providers/mbox/camel-mbox-summary.c 
