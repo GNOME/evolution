@@ -1079,7 +1079,9 @@ eti_realize (GnomeCanvasItem *item)
 	ETableItem *eti = E_TABLE_ITEM (item);
 	GtkWidget *canvas_widget = GTK_WIDGET (item->canvas);
 	GdkWindow *window;
+#if 0
 	GdkEventMask mask;
+#endif
 	
 	if (GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->realize)
                 (*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->realize)(item);
