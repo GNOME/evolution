@@ -1063,6 +1063,8 @@ em_utils_selection_get_urilist(GtkSelectionData *data, CamelFolder *folder)
 	g_free(tmp);
 	for (i=0;res == 0 && uris[i];i++) {
 		g_strstrip(uris[i]);
+		if (uris[i][0] == '#')
+			continue;
 
 		url = camel_url_new(uris[i], NULL);
 		if (url == NULL)

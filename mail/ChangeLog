@@ -1,3 +1,16 @@
+2004-06-17  Not Zed  <NotZed@Ximian.com>
+
+	** See #59885.
+
+	* em-format-html-quote.[ch]: remove and remove from build, not
+	used.
+
+	* Makefile.am (libevolution_mail_la_LIBADD): add libeabutil and
+	evolutionsmime.
+
+	* mail-component-factory.c (factory): there is no mail_config
+	anymore.
+
 2004-06-16  Rodney Dawes  <dobey@novell.com>
 
 	* em-folder-properties.c: Include gtk[hv]box.h so we can use them
@@ -19,6 +32,9 @@
 	it, so NULL is handled properly
 
 2004-06-16  Not Zed  <NotZed@Ximian.com>
+
+	* em-utils.c (em_utils_selection_get_urilist): handle comments in
+	the urilist.  Can't remember the rfc for it.
 
 	** See #56479.
 

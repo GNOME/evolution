@@ -107,7 +107,7 @@ static struct {
 enum {
 	DND_X_UID_LIST,		/* x-uid-list */
 	DND_MESSAGE_RFC822,	/* message/rfc822 */
-	DND_TEXT_URI_LIST	/* text/uri-list */
+	DND_TEXT_URI_LIST,	/* text/uri-list */
 };
 
 /* What we send */

@@ -90,8 +90,6 @@ libevolution_mail_la_SOURCES =			\
 	em-format-html-display.h		\
 	em-format-html-print.c			\
 	em-format-html-print.h			\
-	em-format-html-quote.c			\
-	em-format-html-quote.h			\
 	em-stripsig-filter.c			\
 	em-stripsig-filter.h			\
 	em-format-quote.c			\
@@ -161,6 +159,10 @@ libevolution_mail_la_SOURCES =			\
 	message-tag-followup.c			\
 	message-tag-followup.h
 
+if ENABLE_SMIME
+SMIME_LIB=$(top_builddir)/smime/gui/libevolution-smime.la
+endif
+
 libevolution_mail_la_LIBADD =					\
 	$(top_builddir)/shell/importer/libevolution-importer.la	\
 	$(top_builddir)/mail/importers/libevolution-mail-importers.la\
@@ -172,6 +174,8 @@ libevolution_mail_la_LIBADD =					\
 	$(top_builddir)/widgets/misc/libefilterbar.la		\
 	$(top_builddir)/filter/libfilter.la			\
 	$(top_builddir)/widgets/menus/libmenus.la		\
+	$(top_builddir)/addressbook/util/libeabutil.la		\
+	$(SMIME_LIB)						\
 	$(EVOLUTION_MAIL_LIBS)
 
 libevolution_mail_la_LDFLAGS =				\
