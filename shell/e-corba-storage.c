@@ -35,8 +35,11 @@
 
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-exception.h>
+#include <bonobo/bonobo-listener.h>
 
 #include <gdk/gdkx.h>
+
+#include <string.h>
 
 
 #define PARENT_TYPE E_TYPE_STORAGE
@@ -285,8 +288,10 @@ struct async_folder_closure {
 };
 
 static void
-async_folder_cb (BonoboListener *listener, char *event_name, 
-		 CORBA_any *any, CORBA_Environment *ev,
+async_folder_cb (BonoboListener *listener,
+		 const char *event_name, 
+		 const CORBA_any *any,
+		 CORBA_Environment *ev,
 		 gpointer user_data)
 {
 	struct async_folder_closure *closure = user_data;
@@ -506,8 +511,10 @@ supports_shared_folders (EStorage *storage)
 }
 
 static void
-async_folder_discovery_cb (BonoboListener *listener, char *event_name, 
-			   CORBA_any *any, CORBA_Environment *ev,
+async_folder_discovery_cb (BonoboListener *listener,
+			   const char *event_name, 
+			   const CORBA_any *any,
+			   CORBA_Environment *ev,
 			   gpointer user_data)
 {
 	struct async_folder_closure *closure = user_data;
@@ -582,7 +589,7 @@ cancel_discover_shared_folder (EStorage *storage,
 	GNOME_Evolution_Storage_cancelDiscoverSharedFolder (priv->storage_interface,
 							    owner, folder_name, &ev);
 	if (BONOBO_EX (&ev))
-		g_warning ("Error invoking cancelDiscoverSharedFolder -- %s", BONOBO_EX_ID (&ev));
+		g_warning ("Error invoking cancelDiscoverSharedFolder -- %s", BONOBO_EX_REPOID (&ev));
 	CORBA_exception_free (&ev);
 }
 
@@ -829,7 +836,7 @@ e_corba_storage_show_folder_properties (ECorbaStorage *corba_storage,
 						      GDK_WINDOW_XWINDOW (parent_window),
 						      &ev);
 	if (BONOBO_EX (&ev))
-		g_warning ("Error in Storage::showFolderProperties -- %s", BONOBO_EX_ID (&ev));
+		g_warning ("Error in Storage::showFolderProperties -- %s", BONOBO_EX_REPOID (&ev));
 
 	CORBA_exception_free (&ev);
 }

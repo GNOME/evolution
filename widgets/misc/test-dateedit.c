@@ -34,8 +34,8 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkwindow.h>
+#include <libgnomeui/gnome-ui-init.h>
 #include <libgnomeui/gnome-app.h>
-#include <libgnomeui/gnome-init.h>
 #include "e-dateedit.h"
 
 static void delete_event_cb		(GtkWidget	*widget,
@@ -61,7 +61,9 @@ main (int argc, char **argv)
 	EDateEdit *dedit;
 	GtkWidget *table, *button;
 
-	gnome_init ("test-dateedit", "0.0", argc, argv);
+	gnome_program_init ("test-dateedit", "0.0", LIBGNOMEUI_MODULE, argc, argv, NULL);
+
+	puts ("here");
 
 	app = gnome_app_new ("Test", "Test");
 	gtk_window_set_default_size (GTK_WINDOW (app), 300, 200);

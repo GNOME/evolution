@@ -33,6 +33,8 @@
 #include "e-shell-constants.h"
 #include "e-shell-corba-icon-utils.h"
 
+#include "e-shell-marshal.h"
+
 #include <gal/util/e-util.h>
 
 #include <gtk/gtksignal.h>
@@ -43,7 +45,7 @@
 
 
 #define PARENT_TYPE BONOBO_OBJECT_TYPE
-static BonoboObjectClass *parent_class = NULL;
+static BonoboXObjectClass *parent_class = NULL;
 
 struct _FolderPropertyItem {
 	char *label;
@@ -230,31 +232,6 @@ folder_destroy_notify (EFolderTree *tree,
 
 
 /* CORBA interface implementation.  */
-
-static POA_GNOME_Evolution_Storage__vepv Storage_vepv;
-
-static POA_GNOME_Evolution_Storage *
-create_servant (void)
-{
-	POA_GNOME_Evolution_Storage *servant;
-	CORBA_Environment ev;
-
-	servant = (POA_GNOME_Evolution_Storage *) g_new0 (BonoboObjectServant, 1);
-	servant->vepv = &Storage_vepv;
-
-	CORBA_exception_init (&ev);
-
-	POA_GNOME_Evolution_Storage__init ((PortableServer_Servant) servant, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_free (servant);
-		CORBA_exception_free (&ev);
-		return NULL;
-	}
-
-	CORBA_exception_free (&ev);
-
-	return servant;
-}
 
 static CORBA_char *
 impl_Storage__get_name (PortableServer_Servant servant,
@@ -686,82 +663,40 @@ destroy (GtkObject *object)
 
 
 static void
-corba_class_init (void)
-{
-	POA_GNOME_Evolution_Storage__vepv *vepv;
-
-	PortableServer_ServantBase__epv *base_epv;
-
-	base_epv = g_new0 (PortableServer_ServantBase__epv, 1);
-	base_epv->_private    = NULL;
-	base_epv->finalize    = NULL;
-	base_epv->default_POA = NULL;
-
-	vepv = &Storage_vepv;
-	vepv->_base_epv = base_epv;
-	vepv->Bonobo_Unknown_epv = bonobo_object_get_epv ();
-	vepv->GNOME_Evolution_Storage_epv = evolution_storage_get_epv ();
-}
-
-/* The worst signal marshaller in Scotland */
-typedef void (*GtkSignal_NONE__POINTER_POINTER_POINTER_POINTER_POINTER) (GtkObject *,
-									 gpointer, gpointer, gpointer, gpointer, gpointer,
-									 gpointer user_data);
-
-static void
-e_marshal_NONE__POINTER_POINTER_POINTER_POINTER_POINTER (GtkObject *object,
-							 GtkSignalFunc func,
-							 gpointer func_data,
-							 GtkArg *args)
-{
-	GtkSignal_NONE__POINTER_POINTER_POINTER_POINTER_POINTER rfunc;
-
-	rfunc = (GtkSignal_NONE__POINTER_POINTER_POINTER_POINTER_POINTER) func;
-	(*rfunc) (object,
-		  GTK_VALUE_POINTER (args[0]),
-		  GTK_VALUE_POINTER (args[1]),
-		  GTK_VALUE_POINTER (args[2]),
-		  GTK_VALUE_POINTER (args[3]),
-		  GTK_VALUE_POINTER (args[4]),
-		  func_data);
-}
-
-typedef void (*GtkSignal_NONE__POINTER_POINTER_POINTER) (GtkObject *,
-							 gpointer, gpointer, gpointer,
-							 gpointer user_data);
-
-static void
-e_marshal_NONE__POINTER_POINTER_POINTER (GtkObject *object,
-					 GtkSignalFunc func,
-					 gpointer func_data,
-					 GtkArg *args)
-{
-	GtkSignal_NONE__POINTER_POINTER_POINTER rfunc;
-
-	rfunc = (GtkSignal_NONE__POINTER_POINTER_POINTER) func;
-	(*rfunc) (object,
-		  GTK_VALUE_POINTER (args[0]),
-		  GTK_VALUE_POINTER (args[1]),
-		  GTK_VALUE_POINTER (args[2]),
-		  func_data);
-}
-
-static void
 class_init (EvolutionStorageClass *klass)
 {
+	POA_GNOME_Evolution_Storage__epv *epv;
 	GtkObjectClass *object_class;
 
 	object_class = GTK_OBJECT_CLASS (klass);
 	object_class->destroy = destroy;
 
-	parent_class = gtk_type_class (bonobo_object_get_type ());
+	epv = & klass->epv;
+	epv->_get_name                  = impl_Storage__get_name;
+	epv->_get_hasSharedFolders      = impl_Storage__get_hasSharedFolders;
+	epv->getFolderAtPath            = impl_Storage_getFolderAtPath;
+	epv->_get_folderList            = impl_Storage__get_folderList;
+	epv->asyncCreateFolder          = impl_Storage_asyncCreateFolder;
+	epv->asyncRemoveFolder          = impl_Storage_asyncRemoveFolder;
+	epv->asyncXferFolder            = impl_Storage_asyncXferFolder;
+	epv->asyncOpenFolder            = impl_Storage_asyncOpenFolder;
+	epv->updateFolder               = impl_Storage_updateFolder;
+	epv->asyncDiscoverSharedFolder  = impl_Storage_asyncDiscoverSharedFolder;
+	epv->cancelDiscoverSharedFolder = impl_Storage_cancelDiscoverSharedFolder;
+	epv->asyncRemoveSharedFolder    = impl_Storage_asyncRemoveSharedFolder;
+	epv->addListener                = impl_Storage_addListener;
+	epv->removeListener             = impl_Storage_removeListener;
+	epv->showFolderProperties       = impl_Storage_showFolderProperties;
+	epv->_get_folderPropertyItems   = impl_Storage__get_folderPropertyItems;
+
+	parent_class = gtk_type_class (PARENT_TYPE);
 
 	signals[CREATE_FOLDER] = gtk_signal_new ("create_folder",
 						 GTK_RUN_LAST,
-						 object_class->type,
+						 GTK_CLASS_TYPE (object_class),
 						 GTK_SIGNAL_OFFSET (EvolutionStorageClass,
 								    create_folder),
-						 e_marshal_NONE__POINTER_POINTER_POINTER_POINTER_POINTER,
+						 e_shell_marshal_NONE__POINTER_POINTER_POINTER_POINTER_POINTER,
 						 GTK_TYPE_NONE, 5,
 						 GTK_TYPE_POINTER,
 						 GTK_TYPE_STRING,
@@ -771,10 +706,10 @@ class_init (EvolutionStorageClass *klass)
 
 	signals[REMOVE_FOLDER] = gtk_signal_new ("remove_folder",
 						 GTK_RUN_LAST,
-						 object_class->type,
+						 GTK_CLASS_TYPE (object_class),
 						 GTK_SIGNAL_OFFSET (EvolutionStorageClass,
 								    remove_folder),
-						 e_marshal_NONE__POINTER_POINTER_POINTER,
+						 e_shell_marshal_NONE__POINTER_POINTER_POINTER,
 						 GTK_TYPE_NONE, 3,
 						 GTK_TYPE_POINTER,
 						 GTK_TYPE_STRING,
@@ -782,10 +717,10 @@ class_init (EvolutionStorageClass *klass)
 
 	signals[XFER_FOLDER] = gtk_signal_new ("xfer_folder",
 					       GTK_RUN_LAST,
-					       object_class->type,
+					       GTK_CLASS_TYPE (object_class),
 					       GTK_SIGNAL_OFFSET (EvolutionStorageClass,
 								  xfer_folder),
-					       e_marshal_NONE__POINTER_POINTER_POINTER_BOOL,
+					       e_shell_marshal_NONE__POINTER_POINTER_POINTER_BOOL,
 					       GTK_TYPE_NONE, 4,
 					       GTK_TYPE_POINTER,
 					       GTK_TYPE_STRING,
@@ -794,29 +729,29 @@ class_init (EvolutionStorageClass *klass)
 	
 	signals[UPDATE_FOLDER] = gtk_signal_new ("update_folder",
 						 GTK_RUN_FIRST,
-						 object_class->type,
+						 GTK_CLASS_TYPE (object_class),
 						 GTK_SIGNAL_OFFSET (EvolutionStorageClass,
 								    update_folder),
-						 gtk_marshal_NONE__POINTER_INT,
+						 e_shell_marshal_NONE__POINTER_INT,
 						 GTK_TYPE_NONE, 2,
 						 GTK_TYPE_STRING,
 						 GTK_TYPE_INT);
 
 	signals[OPEN_FOLDER] = gtk_signal_new ("open_folder",
 					       GTK_RUN_LAST,
-					       object_class->type,
+					       GTK_CLASS_TYPE (object_class),
 					       GTK_SIGNAL_OFFSET (EvolutionStorageClass,
 								  open_folder),
-					       gtk_marshal_NONE__POINTER,
+					       e_shell_marshal_NONE__POINTER,
 					       GTK_TYPE_NONE, 1,
 					       GTK_TYPE_STRING);
 
 	signals[DISCOVER_SHARED_FOLDER] = gtk_signal_new ("discover_shared_folder",
 							  GTK_RUN_LAST,
-							  object_class->type,
+							  GTK_CLASS_TYPE (object_class),
 							  GTK_SIGNAL_OFFSET (EvolutionStorageClass,
 									     discover_shared_folder),
-							  e_marshal_NONE__POINTER_POINTER_POINTER,
+							  e_shell_marshal_NONE__POINTER_POINTER_POINTER,
 							  GTK_TYPE_NONE, 3,
 							  GTK_TYPE_POINTER,
 							  GTK_TYPE_STRING,
@@ -824,38 +759,34 @@ class_init (EvolutionStorageClass *klass)
 
 	signals[CANCEL_DISCOVER_SHARED_FOLDER] = gtk_signal_new ("cancel_discover_shared_folder",
 								 GTK_RUN_LAST,
-								 object_class->type,
+								 GTK_CLASS_TYPE (object_class),
 								 GTK_SIGNAL_OFFSET (EvolutionStorageClass,
 										    cancel_discover_shared_folder),
-								 gtk_marshal_NONE__POINTER_POINTER,
+								 e_shell_marshal_NONE__POINTER_POINTER,
 								 GTK_TYPE_NONE, 2,
 								 GTK_TYPE_STRING,
 								 GTK_TYPE_STRING);
 
 	signals[REMOVE_SHARED_FOLDER] = gtk_signal_new ("remove_shared_folder",
 							GTK_RUN_LAST,
-							object_class->type,
+							GTK_CLASS_TYPE (object_class),
 							GTK_SIGNAL_OFFSET (EvolutionStorageClass,
 									   remove_shared_folder),
-							gtk_marshal_NONE__POINTER_POINTER,
+							e_shell_marshal_NONE__POINTER_POINTER,
 							GTK_TYPE_NONE, 2,
 							GTK_TYPE_STRING,
 							GTK_TYPE_POINTER);
 
 	signals[SHOW_FOLDER_PROPERTIES] = gtk_signal_new ("show_folder_properties",
 							  GTK_RUN_LAST,
-							  object_class->type,
+							  GTK_CLASS_TYPE (object_class),
 							  GTK_SIGNAL_OFFSET (EvolutionStorageClass,
 									     show_folder_properties),
-							  gtk_marshal_NONE__POINTER_INT_INT,
+							  e_shell_marshal_NONE__POINTER_INT_INT,
 							  GTK_TYPE_NONE, 3,
 							  GTK_TYPE_STRING,
 							  GTK_TYPE_INT,
 							  GTK_TYPE_INT);
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
-
-	corba_class_init ();
 }
 
 static void
@@ -875,56 +806,20 @@ init (EvolutionStorage *storage)
 }
 
 
-POA_GNOME_Evolution_Storage__epv *
-evolution_storage_get_epv (void)
-{
-	POA_GNOME_Evolution_Storage__epv *epv;
-
-	epv = g_new0 (POA_GNOME_Evolution_Storage__epv, 1);
-	epv->_get_name                  = impl_Storage__get_name;
-	epv->_get_hasSharedFolders      = impl_Storage__get_hasSharedFolders;
-	epv->getFolderAtPath            = impl_Storage_getFolderAtPath;
-	epv->_get_folderList            = impl_Storage__get_folderList;
-	epv->asyncCreateFolder          = impl_Storage_asyncCreateFolder;
-	epv->asyncRemoveFolder          = impl_Storage_asyncRemoveFolder;
-	epv->asyncXferFolder            = impl_Storage_asyncXferFolder;
-	epv->asyncOpenFolder            = impl_Storage_asyncOpenFolder;
-	epv->updateFolder               = impl_Storage_updateFolder;
-	epv->asyncDiscoverSharedFolder  = impl_Storage_asyncDiscoverSharedFolder;
-	epv->cancelDiscoverSharedFolder = impl_Storage_cancelDiscoverSharedFolder;
-	epv->asyncRemoveSharedFolder    = impl_Storage_asyncRemoveSharedFolder;
-	epv->addListener                = impl_Storage_addListener;
-	epv->removeListener             = impl_Storage_removeListener;
-	epv->showFolderProperties       = impl_Storage_showFolderProperties;
-	epv->_get_folderPropertyItems   = impl_Storage__get_folderPropertyItems;
-
-	return epv;
-}
-
 void
 evolution_storage_construct (EvolutionStorage *storage,
-			     GNOME_Evolution_Storage corba_object,
 			     const char *name,
 			     gboolean has_shared_folders)
 {
 	EvolutionStoragePrivate *priv;
-	CORBA_Environment ev;
 
-	g_return_if_fail (storage != NULL);
 	g_return_if_fail (EVOLUTION_IS_STORAGE (storage));
-	g_return_if_fail (corba_object != CORBA_OBJECT_NIL);
 	g_return_if_fail (name != NULL);
 	g_return_if_fail (name[0] != '\0');
-
-	CORBA_exception_init (&ev);
-
-	bonobo_object_construct (BONOBO_OBJECT (storage), corba_object);
 
 	priv = storage->priv;
 	priv->name               = g_strdup (name);
 	priv->has_shared_folders = !! has_shared_folders;
-
-	CORBA_exception_free (&ev);
 }
 
 EvolutionStorage *
@@ -932,20 +827,13 @@ evolution_storage_new (const char *name,
 		       gboolean has_shared_folders)
 {
 	EvolutionStorage *new;
-	POA_GNOME_Evolution_Storage *servant;
-	GNOME_Evolution_Storage corba_object;
 
 	g_return_val_if_fail (name != NULL, NULL);
 	g_return_val_if_fail (name[0] != '\0', NULL);
 
-	servant = create_servant ();
-	if (servant == NULL)
-		return NULL;
-
 	new = gtk_type_new (evolution_storage_get_type ());
 
-	corba_object = bonobo_object_activate_servant (BONOBO_OBJECT (new), servant);
-	evolution_storage_construct (new, corba_object, name, has_shared_folders);
+	evolution_storage_construct (new, name, has_shared_folders);
 
 	return new;
 }
@@ -1428,4 +1316,7 @@ evolution_storage_add_property_item  (EvolutionStorage *evolution_storage,
 }
 
 
-E_MAKE_TYPE (evolution_storage, "EvolutionStorage", EvolutionStorage, class_init, init, PARENT_TYPE)
+E_MAKE_X_TYPE (evolution_storage, "EvolutionStorage", EvolutionStorage,
+	       class_init, init, PARENT_TYPE,
+	       POA_GNOME_Evolution_Storage__init,
+	       GTK_STRUCT_OFFSET (EvolutionStorageClass, epv))

@@ -1,3 +1,18 @@
+2002-11-01  Ettore Perazzoli  <ettore@ximian.com>
+
+	* menus/gal-view-menus.c (build_stuff): Add some casts.
+
+2002-10-30  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-timezone-dialog/e-timezone-dialog.c
+	(e_timezone_dialog_construct): Pass NULL as the domain arg to
+	glade_xml_new().
+	(e_timezone_dialog_get_timezone): Make arg display_name const.
+	(find_selected_point): Constify local variable timezone.
+
+	* e-timezone-dialog/e-timezone-dialog.h: Do not #include
+	<libgnome/gnome-defs.h>.
+
 2002-08-15  Mike Kestner  <mkestner@ximian.com>
 
 	* menus/gal-view-menus.c (build_stuff): ref/unref the gvm

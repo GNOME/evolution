@@ -25,13 +25,12 @@
 
 #include "evolution-shell-component-utils.h"
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <bonobo/bonobo-moniker-util.h>
 #include <bonobo/bonobo-exception.h>
-#include <liboaf/oaf.h>
+#include <bonobo-activation/bonobo-activation.h>
 #include <gal/widgets/e-gui-utils.h>
 
 static void free_pixmaps (void);
@@ -58,7 +57,7 @@ void e_pixmaps_update (BonoboUIComponent *uic, EPixmap *pixcache)
 			path = g_concat_dir_and_file (EVOLUTION_IMAGES,
 						      pixcache [i].fname);
 
-			pixbuf = gdk_pixbuf_new_from_file (path);
+			pixbuf = gdk_pixbuf_new_from_file (path, NULL);
 			if (pixbuf == NULL) {
 				g_warning ("Cannot load image -- %s", path);
 			} else {
@@ -122,14 +121,14 @@ e_activation_failure_dialog (GtkWindow *parent, const char *msg,
 			CORBA_Object_release (object, &ev);
 		}
 		errmsg = g_strdup_printf (_("%s\n\nUnknown error."), msg);
-	} else if (strcmp (CORBA_exception_id (&ev), ex_OAF_GeneralError) != 0) {
+	} else if (strcmp (CORBA_exception_id (&ev), ex_Bonobo_GeneralError) != 0) {
 		char *bonobo_err = bonobo_exception_get_text (&ev);
 		errmsg = g_strdup_printf (_("%s\n\nThe error from the "
 					    "component system is:\n%s"),
 					  msg, bonobo_err);
 		g_free (bonobo_err);
 	} else {
-		OAF_GeneralError *errval = CORBA_exception_value (&ev);
+		Bonobo_GeneralError *errval = CORBA_exception_value (&ev);
 
 		errmsg = g_strdup_printf (_("%s\n\nThe error from the "
 					    "activation system is:\n%s"),
@@ -158,10 +157,10 @@ e_get_activation_failure_msg (CORBA_Environment *ev)
 	if (CORBA_exception_id (ev) == NULL)
 		return NULL;
 
-	if (strcmp (CORBA_exception_id (ev), ex_OAF_GeneralError) != 0) {
+	if (strcmp (CORBA_exception_id (ev), ex_Bonobo_GeneralError) != 0) {
 		return bonobo_exception_get_text (ev); 
 	} else {
-		const OAF_GeneralError *oaf_general_error;
+		const Bonobo_GeneralError *oaf_general_error;
 
 		oaf_general_error = CORBA_exception_value (ev);
 		return g_strdup (oaf_general_error->description);

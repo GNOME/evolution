@@ -1,6 +1,8 @@
-SUBDIRS = glade importer
+SUBDIRS = glade
 
-INCLUDES = -O							\
+# FIXME importer
+
+INCLUDES =							\
 	-I$(top_srcdir)/widgets					\
 	-I$(top_srcdir)/widgets/misc				\
 	-I$(top_srcdir)/libical/src/libical			\
@@ -42,8 +44,7 @@ IDL_GENERATED = \
 Evolution-impl.o: Evolution.h
 
 $(IDL_GENERATED): $(IDLS)
-	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`	\
-		$(srcdir)/Evolution.idl
+	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(srcdir)/Evolution.idl
 
 # SelectNames CORBA stuff
 
@@ -57,8 +58,7 @@ SELECT_NAMES_IDL_GENERATED = 			   \
 	Evolution-Addressbook-SelectNames-stubs.c
 
 $(SELECT_NAMES_IDL_GENERATED): $(SELECT_NAMES_IDL)
-	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`	\
-		$(SELECT_NAMES_IDL)
+	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(SELECT_NAMES_IDL)
 
 # IDL install
 
@@ -114,6 +114,7 @@ libeshell_la_SOURCES = 				\
 	evolution-storage-set-view-listener.c	\
 	evolution-storage.c			\
 	evolution-wizard.c			\
+	e-shell-marshal.c			\
 	$(eshellinclude_HEADERS)
 
 # Evolution executable
@@ -265,6 +266,23 @@ icons = 			\
 	check-filled.xpm	\
 	check-missing.xpm
 
+
+# GLib marshalling cruft
+
+e-shell-marshal.h: e-shell-marshal.list
+	( @GLIB_GENMARSHAL@ --prefix=e_shell_marshal e-shell-marshal.list --header > e-shell-marshal.tmp \
+	&& mv e-shell-marshal.tmp e-shell-marshal.h ) \
+	|| ( rm -f e-shell-marshal.tmp && exit 1 )
+
+e-shell-marshal.c: e-shell-marshal.h
+	( @GLIB_GENMARSHAL@ --prefix=e_shell_marshal e-shell-marshal.list --body > e-shell-marshal.tmp \
+	&& mv e-shell-marshal.tmp e-shell-marshal.c ) \
+	|| ( rm -f e-shell-marshal.tmp && exit 1 )
+
+MARSHAL_GENERATED = e-shell-marshal.c e-shell-marshal.h
+
+# Extra dist stuff
+
 EXTRA_DIST = 					\
 	$(IDLS)					\
 	$(oaf_in_files)				\
@@ -289,7 +307,7 @@ evolution.pure: evolution
 endif
 
 CLEANFILES = $(IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED)
-BUILT_SOURCES = $(IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED)
+BUILT_SOURCES = $(IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED) $(MARSHAL_GENERATED)
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)

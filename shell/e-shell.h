@@ -23,9 +23,10 @@
 #ifndef _E_SHELL_H_
 #define _E_SHELL_H_
 
-#include <liboaf/liboaf.h>	/* For the registration stuff.  */
+#include "e-util/e-config-listener.h"
+
+#include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-xobject.h>
-#include <bonobo-conf/bonobo-config-database.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -135,7 +136,6 @@ gboolean             e_shell_restore_from_settings     (EShell          *shell,
 void                 e_shell_destroy_all_views         (EShell          *shell);
 
 void                 e_shell_unregister_all            (EShell          *shell);
-void                 e_shell_disconnect_db             (EShell          *shell);
 
 void                 e_shell_component_maybe_crashed   (EShell          *shell,
 							const char      *uri,
@@ -156,7 +156,7 @@ void e_shell_show_settings (EShell     *shell,
 			    const char *type,
 			    EShellView *shell_view);
 
-Bonobo_ConfigDatabase            e_shell_get_config_db                     (EShell *shell);
+EConfigListener                 *e_shell_get_config_listener               (EShell *shell);
 EComponentRegistry              *e_shell_get_component_registry            (EShell *shell);
 EShellUserCreatableItemsHandler *e_shell_get_user_creatable_items_handler  (EShell *shell);
 

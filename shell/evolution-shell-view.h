@@ -24,7 +24,8 @@
 #define __EVOLUTION_SHELL_VIEW_H__
 
 #include <glib.h>
-#include <bonobo/bonobo-object.h> 
+#include <bonobo/bonobo-xobject.h>
+
 #include "Evolution.h"
 
 #ifdef __cplusplus
@@ -44,13 +45,13 @@ typedef struct _EvolutionShellViewPrivate EvolutionShellViewPrivate;
 typedef struct _EvolutionShellViewClass   EvolutionShellViewClass;
 
 struct _EvolutionShellView {
-	BonoboObject parent;
+	BonoboXObject parent;
 
 	EvolutionShellViewPrivate *priv;
 };
 
 struct _EvolutionShellViewClass {
-	BonoboObjectClass parent_class;
+	BonoboXObjectClass parent_class;
 
 	/* Signals.  */
 
@@ -60,12 +61,12 @@ struct _EvolutionShellViewClass {
 	void  (* set_title)     (EvolutionShellView *shell_view, const char *message);
 	void  (* set_folder_bar_label) (EvolutionShellView *shell_view, const char *text);
 	void  (* show_settings) (EvolutionShellView *shell_view);
+
+	POA_GNOME_Evolution_ShellView__epv epv;
 };
 
 
 GtkType             evolution_shell_view_get_type   (void);
-void                evolution_shell_view_construct  (EvolutionShellView       *shell_view,
-						     GNOME_Evolution_ShellView corba_object);
 EvolutionShellView *evolution_shell_view_new        (void);
 
 #ifdef __cplusplus

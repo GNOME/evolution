@@ -29,7 +29,6 @@
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtklabel.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-triggers.h>
 #include <libgnome/gnome-util.h>
@@ -47,8 +46,8 @@ struct _EMessageBoxPrivate {
 
 static void e_message_box_class_init (EMessageBoxClass *klass);
 static void e_message_box_init       (EMessageBox *messagebox);
+static void e_message_box_finalize   (GObject *object);
 static void e_message_box_destroy    (GtkObject *object);
-static void e_message_box_finalize   (GtkObject *object);
 
 static GnomeDialogClass *parent_class;
 
@@ -77,13 +76,16 @@ e_message_box_get_type (void)
 static void
 e_message_box_class_init (EMessageBoxClass *klass)
 {
+	GObjectClass *gobject_class;
 	GtkObjectClass *object_class;
 	
-	object_class = (GtkObjectClass *)klass;
+	gobject_class = (GObjectClass *) klass;
+	object_class = (GtkObjectClass *) klass;
 	parent_class = gtk_type_class (gnome_dialog_get_type ());
 	
+	gobject_class->finalize = e_message_box_finalize;
+
 	object_class->destroy = e_message_box_destroy;
-	object_class->finalize = e_message_box_finalize;
 }
 
 static void
@@ -93,23 +95,23 @@ e_message_box_init (EMessageBox *message_box)
 }
 
 static void
-e_message_box_destroy (GtkObject *object)
-{
-	/* remember, destroy can be run multiple times! */
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
-}
-
-static void
-e_message_box_finalize (GtkObject *object)
+e_message_box_finalize (GObject *object)
 {
 	EMessageBox *mbox = E_MESSAGE_BOX (object);
 	
 	g_free (mbox->_priv);
 	mbox->_priv = NULL;
 	
-	if (GTK_OBJECT_CLASS (parent_class)->finalize)
-		(* GTK_OBJECT_CLASS (parent_class)->finalize) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+}
+
+static void
+e_message_box_destroy (GtkObject *object)
+{
+	/* remember, destroy can be run multiple times! */
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 /**
@@ -189,7 +191,7 @@ e_message_box_construct (EMessageBox *messagebox,
 			    hbox, TRUE, TRUE, 10);
 	gtk_widget_show (hbox);
 	
-	if ((pixmap == NULL) || (GNOME_PIXMAP (pixmap)->pixmap == NULL)) {
+	if (pixmap == NULL) {
         	if (pixmap)
 			gtk_widget_destroy (pixmap);
 		s = gnome_unconditional_pixmap_file ("gnome-default.png");

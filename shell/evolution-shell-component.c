@@ -29,6 +29,7 @@
 #include "e-shell-corba-icon-utils.h"
 
 #include <fcntl.h>
+#include <unistd.h>
 
 #include <glib.h>
 #include <gtk/gtksignal.h>
@@ -224,7 +225,7 @@ owner_ping_callback (void *data)
 	CORBA_exception_init (&ev);
 	owner_objref = CORBA_Object_duplicate (owner_objref, &ev);
 
-	alive = bonobo_unknown_ping (owner_objref);
+	alive = bonobo_unknown_ping (owner_objref, NULL);
 
 	CORBA_Object_release (owner_objref, &ev);
 	CORBA_exception_free (&ev);
@@ -658,7 +659,7 @@ impl_populateFolderContextMenu (PortableServer_Servant servant,
 	}
 
 	priv->uic = bonobo_ui_component_new_default ();
-	bonobo_ui_component_set_container (priv->uic, corba_uih);
+	bonobo_ui_component_set_container (priv->uic, corba_uih, NULL);
 	bonobo_object_release_unref (corba_uih, NULL);
 
 	(* priv->populate_folder_context_menu_fn) (shell_component, priv->uic, physical_uri, type, priv->closure);
@@ -868,7 +869,7 @@ class_init (EvolutionShellComponentClass *klass)
 	signals[OWNER_SET]
 		= gtk_signal_new ("owner_set",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EvolutionShellComponentClass, owner_set),
 				  gtk_marshal_NONE__POINTER_POINTER,
 				  GTK_TYPE_NONE, 2,
@@ -877,7 +878,7 @@ class_init (EvolutionShellComponentClass *klass)
 	signals[OWNER_DIED]
 		= gtk_signal_new ("owner_died",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EvolutionShellComponentClass, owner_died),
 				  gtk_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
@@ -885,7 +886,7 @@ class_init (EvolutionShellComponentClass *klass)
 	signals[OWNER_UNSET]
 		= gtk_signal_new ("owner_unset",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EvolutionShellComponentClass, owner_unset),
 				  gtk_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
@@ -893,7 +894,7 @@ class_init (EvolutionShellComponentClass *klass)
 	signals[DEBUG]
 		= gtk_signal_new ("debug",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EvolutionShellComponentClass, debug),
 				  gtk_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
@@ -901,7 +902,7 @@ class_init (EvolutionShellComponentClass *klass)
 	signals[INTERACTIVE]
 		= gtk_signal_new ("interactive",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EvolutionShellComponentClass, interactive),
 				  gtk_marshal_NONE__BOOL,
 				  GTK_TYPE_NONE, 1,
@@ -910,7 +911,7 @@ class_init (EvolutionShellComponentClass *klass)
 	signals[HANDLE_EXTERNAL_URI]
 		= gtk_signal_new ("handle_external_uri",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EvolutionShellComponentClass, handle_external_uri),
 				  gtk_marshal_NONE__STRING,
 				  GTK_TYPE_NONE, 1,
@@ -919,7 +920,7 @@ class_init (EvolutionShellComponentClass *klass)
 	signals[USER_CREATE_NEW_ITEM]
 		= gtk_signal_new ("user_create_new_item",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EvolutionShellComponentClass, user_create_new_item),
 				  gtk_marshal_NONE__POINTER_POINTER_POINTER,
 				  GTK_TYPE_NONE, 3,
@@ -930,13 +931,11 @@ class_init (EvolutionShellComponentClass *klass)
 	signals[SEND_RECEIVE]
 		= gtk_signal_new ("send_receive",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EvolutionShellComponentClass, send_receive),
 				  gtk_marshal_NONE__BOOL,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_BOOL);
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 

@@ -136,12 +136,10 @@ class_init (EvolutionConfigControlClass *class)
 	epv->_get_eventSource = impl__get_eventSource;
 
 	signals[APPLY] = gtk_signal_new ("apply", GTK_RUN_FIRST,
-					 object_class->type,
+					 GTK_CLASS_TYPE (object_class),
 					 GTK_SIGNAL_OFFSET (EvolutionConfigControlClass, apply),
 					 gtk_marshal_NONE__NONE,
 					 GTK_TYPE_NONE, 0);
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 }

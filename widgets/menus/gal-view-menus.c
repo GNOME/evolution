@@ -433,7 +433,7 @@ build_stuff (GalViewMenus      *gvm,
 {
 	char *xml;
 
-	gtk_object_ref (gvm);
+	gtk_object_ref (GTK_OBJECT (gvm));
 
 	gal_view_menus_unmerge (gvm, ev);
 
@@ -447,7 +447,7 @@ build_stuff (GalViewMenus      *gvm,
 
 	set_radio (gvm, ev);
 
-	gtk_object_unref (gvm);
+	gtk_object_unref (GTK_OBJECT (gvm));
 }
 
 void

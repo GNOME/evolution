@@ -1,3 +1,15 @@
+2002-11-01  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Update to use Autoconf 2.53.  Remove checks for
+	scrollkeeper.  Remove intl/Makefile and macros/Makefile from
+	AC_OUTPUT list.  Set up GETTEXT_PACKAGE.  Removed
+	AM_ACLOCAL_INCLUDE(macros).  Added AM_PATH_ORBIT2.
+	(EVO_SET_COMPILE_FLAGS): Use PKG_CHECK_MODULES.
+	(IDL_INCLUDES): New, -I params to pass to $(ORBIT_IDL) when
+	compiling IDL files into stubs.
+
+	* autogen.sh: Changed to use gnome-autogen.sh.
+
 2002-10-30  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: 1.1.90.99.

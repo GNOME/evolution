@@ -23,34 +23,17 @@ EXTRA_DIST =			\
 	$(confexec_DATA:.sh=.sh.in)
 
 SUBDIRS =			\
-        intl                    \
-        macros                  \
         data                    \
-        po			\
         e-util                  \
 	libical			\
         widgets                 \
-        shell                   \
-        camel                   \
-        filter                  \
-        libversit               \
-	libwombat		\
-	addressbook             \
-        composer                \
-        mail                    \
-        calendar                \
-        wombat                  \
-	importers		\
-	my-evolution		\
         art                     \
-	sounds			\
 	ui			\
         default_user            \
 	views			\
-        tools                   \
-	doc			\
-	help			\
-	omf-install
+        tools
+
+#	omf-install
 
 %Conf.sh: %Conf.sh.in Makefile
 	sed -e 's?\@EVOLUTION_LIBDIR\@?$(EVOLUTION_LIBDIR)?g' \

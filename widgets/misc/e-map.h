@@ -23,7 +23,6 @@
 #ifndef E_MAP_H
 #define E_MAP_H
 
-#include <libgnome/gnome-defs.h>
 #include <gtk/gtkwidget.h>
 
 #define TYPE_E_MAP            (e_map_get_type ())

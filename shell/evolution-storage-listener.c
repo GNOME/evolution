@@ -259,14 +259,14 @@ class_init (EvolutionStorageListenerClass *klass)
 
 	signals[DESTROYED]      = gtk_signal_new ("destroyed",
 						  GTK_RUN_FIRST,
-						  object_class->type,
+						  GTK_CLASS_TYPE (object_class),
 						  GTK_SIGNAL_OFFSET (EvolutionStorageListenerClass, destroyed),
 						  gtk_marshal_NONE__NONE,
 						  GTK_TYPE_NONE, 0);
 
 	signals[NEW_FOLDER]     = gtk_signal_new ("new_folder",
 						  GTK_RUN_FIRST,
-						  object_class->type,
+						  GTK_CLASS_TYPE (object_class),
 						  GTK_SIGNAL_OFFSET (EvolutionStorageListenerClass, new_folder),
 						  gtk_marshal_NONE__POINTER_POINTER,
 						  GTK_TYPE_NONE, 2,
@@ -275,7 +275,7 @@ class_init (EvolutionStorageListenerClass *klass)
 
 	signals[UPDATE_FOLDER]  = gtk_signal_new ("update_folder",
 						  GTK_RUN_FIRST,
-						  object_class->type,
+						  GTK_CLASS_TYPE (object_class),
 						  GTK_SIGNAL_OFFSET (EvolutionStorageListenerClass, update_folder),
 						  gtk_marshal_NONE__POINTER_INT,
 						  GTK_TYPE_NONE, 2,
@@ -284,7 +284,7 @@ class_init (EvolutionStorageListenerClass *klass)
 
 	signals[REMOVED_FOLDER] = gtk_signal_new ("removed_folder",
 						  GTK_RUN_FIRST,
-						  object_class->type,
+						  GTK_CLASS_TYPE (object_class),
 						  GTK_SIGNAL_OFFSET (EvolutionStorageListenerClass, removed_folder),
 						  gtk_marshal_NONE__POINTER,
 						  GTK_TYPE_NONE, 1,
@@ -292,14 +292,12 @@ class_init (EvolutionStorageListenerClass *klass)
 
 	signals[HAS_SUBFOLDERS] = gtk_signal_new ("has_subfolders",
 						  GTK_RUN_FIRST,
-						  object_class->type,
+						  GTK_CLASS_TYPE (object_class),
 						  GTK_SIGNAL_OFFSET (EvolutionStorageListenerClass, has_subfolders),
 						  gtk_marshal_NONE__POINTER_POINTER,
 						  GTK_TYPE_NONE, 2,
 						  GTK_TYPE_STRING,
 						  GTK_TYPE_STRING);
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 
 	corba_class_init ();
 }

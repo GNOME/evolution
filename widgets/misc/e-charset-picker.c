@@ -24,18 +24,18 @@
 
 #include "e-charset-picker.h"
 #include <gal/widgets/e-gui-utils.h>
-#include <gal/unicode/gunicode.h>
 
 #include <iconv.h>
 
+#include <gtk/gtkvbox.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkmenuitem.h>
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtksignal.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
+
 #include <libgnomeui/gnome-dialog-util.h>
-#include <libgnomeui/gnome-stock.h>
+#include <libgnome/gnome-i18n.h>
+
 #include <bonobo/bonobo-ui-node.h>
 #include <bonobo/bonobo-ui-util.h>
 
@@ -240,7 +240,7 @@ e_charset_picker_new (const char *default_charset)
 {
 	GtkWidget *menu, *item;
 	int def, i;
-	char *locale_charset;
+	const char *locale_charset;
 
 	g_get_charset (&locale_charset);
 	if (!g_strcasecmp (locale_charset, "US-ASCII"))
@@ -382,7 +382,8 @@ e_charset_picker_bonobo_ui_populate (BonoboUIComponent *uic, const char *path,
 				     const char *default_charset,
 				     BonoboUIListenerFn cb, gpointer user_data)
 {
-	char *locale_charset, *encoded_label, *label;
+	char *encoded_label, *label;
+	const char *locale_charset;
 	GString *menuitems;
 	int def, i;
 	

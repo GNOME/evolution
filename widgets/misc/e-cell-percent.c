@@ -32,9 +32,9 @@
 
 #include <sys/time.h>
 #include <unistd.h>
+#include <stdio.h>
 #include <gal/util/e-util.h>
 #include <libgnomeui/gnome-messagebox.h>
-#include <libgnomeui/gnome-stock.h>
 #include <libgnome/gnome-i18n.h>
 
 #include "e-cell-percent.h"

@@ -38,15 +38,17 @@
 #include <sys/param.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <unistd.h>
 #include <dirent.h>
 
 #include <gtk/gtksignal.h>
-#include <libgnome/gnome-defs.h>
+
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
+
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
-#include <gal/util/e-unicode-i18n.h>
+
 #include "e-util/e-path.h"
 #include "e-local-folder.h"
 #include "e-shell-constants.h"
@@ -173,14 +175,14 @@ setup_folder_as_stock (ELocalStorage *local_storage,
 static void
 setup_stock_folders (ELocalStorage *local_storage)
 {
-	setup_folder_as_stock (local_storage, "/Calendar", U_("Calendar"), NULL);
-	setup_folder_as_stock (local_storage, "/Contacts", U_("Contacts"), NULL);
-	setup_folder_as_stock (local_storage, "/Drafts", U_("Drafts"), NULL);
-	setup_folder_as_stock (local_storage, "/Inbox", U_("Inbox"), "inbox");
-	setup_folder_as_stock (local_storage, "/Outbox", U_("Outbox"), "outbox");
-	setup_folder_as_stock (local_storage, "/Sent", U_("Sent"), NULL);
-	setup_folder_as_stock (local_storage, "/Tasks", U_("Tasks"), NULL);
-	setup_folder_as_stock (local_storage, "/Trash", U_("Trash"), NULL);
+	setup_folder_as_stock (local_storage, "/Calendar", _("Calendar"), NULL);
+	setup_folder_as_stock (local_storage, "/Contacts", _("Contacts"), NULL);
+	setup_folder_as_stock (local_storage, "/Drafts", _("Drafts"), NULL);
+	setup_folder_as_stock (local_storage, "/Inbox", _("Inbox"), "inbox");
+	setup_folder_as_stock (local_storage, "/Outbox", _("Outbox"), "outbox");
+	setup_folder_as_stock (local_storage, "/Sent", _("Sent"), NULL);
+	setup_folder_as_stock (local_storage, "/Tasks", _("Tasks"), NULL);
+	setup_folder_as_stock (local_storage, "/Trash", _("Trash"), NULL);
 }
 
 static gboolean
@@ -1099,7 +1101,7 @@ construct (ELocalStorage *local_storage,
 	EFolder *root_folder;
 	int base_path_len;
 
-	root_folder = e_folder_new (U_("Local Folders"), "noselect", "");
+	root_folder = e_folder_new (_("Local Folders"), "noselect", "");
 	e_storage_construct (E_STORAGE (local_storage),
 			     E_LOCAL_STORAGE_NAME,
 			     root_folder);

@@ -20,15 +20,16 @@
  * Author: Chris Toshok
  */
 
-#include <gal/util/e-util.h>
-
 #include "Evolution.h"
 #include "evolution-shell-component-dnd.h"
 
+#include <gal/util/e-util.h>
 
-#define PARENT_TYPE (bonobo_object_get_type ())
+#include <gtk/gtkobject.h>
 
-static BonoboObjectClass *parent_class;
+#define PARENT_TYPE (bonobo_x_object_get_type ())
+
+static BonoboXObjectClass *parent_class;
 
 /* Source Folder stuff */
 
@@ -54,7 +55,7 @@ dnd_source_destroy (GtkObject *object)
 
 	g_free (priv);
 	
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 static void
@@ -122,54 +123,6 @@ impl_GNOME_Evolution_ShellComponentDnd_SourceFolder_endDrag (PortableServer_Serv
 	priv->end_drag (folder, source_context, priv->user_data);
 }
 
-static POA_GNOME_Evolution_ShellComponentDnd_SourceFolder__vepv SourceFolder_vepv;
-
-static POA_GNOME_Evolution_ShellComponentDnd_SourceFolder *
-create_dnd_source_servant (void)
-{
-	POA_GNOME_Evolution_ShellComponentDnd_SourceFolder *servant;
-	CORBA_Environment ev;
-
-	servant = (POA_GNOME_Evolution_ShellComponentDnd_SourceFolder *)g_new0 (BonoboObjectServant, 1);
-	servant->vepv = &SourceFolder_vepv;
-
-	CORBA_exception_init (&ev);
-	POA_GNOME_Evolution_ShellComponentDnd_SourceFolder__init ((PortableServer_Servant) servant, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_free (servant);
-		CORBA_exception_free (&ev);
-		return NULL;
-	}
-
-	CORBA_exception_free (&ev);
-
-	return servant;
-}
-
-static void
-source_corba_class_init (void)
-{
-	POA_GNOME_Evolution_ShellComponentDnd_SourceFolder__vepv *vepv;
-	POA_GNOME_Evolution_ShellComponentDnd_SourceFolder__epv *epv;
-	PortableServer_ServantBase__epv *base_epv;
-
-	base_epv = g_new0 (PortableServer_ServantBase__epv, 1);
-	base_epv->_private = NULL;
-	base_epv->finalize = NULL;
-	base_epv->default_POA = NULL;
-
-	epv = g_new0 (POA_GNOME_Evolution_ShellComponentDnd_SourceFolder__epv, 1);
-	epv->beginDrag = impl_GNOME_Evolution_ShellComponentDnd_SourceFolder_beginDrag;
-	epv->getData = impl_GNOME_Evolution_ShellComponentDnd_SourceFolder_getData;
-	epv->deleteData = impl_GNOME_Evolution_ShellComponentDnd_SourceFolder_deleteData;
-	epv->endDrag = impl_GNOME_Evolution_ShellComponentDnd_SourceFolder_endDrag;
-
-	vepv = &SourceFolder_vepv;
-	vepv->_base_epv = base_epv;
-	vepv->Bonobo_Unknown_epv = bonobo_object_get_epv ();
-	vepv->GNOME_Evolution_ShellComponentDnd_SourceFolder_epv = epv;
-}
-
 static void
 evolution_shell_component_dnd_source_folder_class_init (EvolutionShellComponentDndSourceFolderClass *klass)
 {
@@ -178,9 +131,12 @@ evolution_shell_component_dnd_source_folder_class_init (EvolutionShellComponentD
 	object_class = GTK_OBJECT_CLASS (klass);
 	object_class->destroy = dnd_source_destroy;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	klass->epv.beginDrag  = impl_GNOME_Evolution_ShellComponentDnd_SourceFolder_beginDrag;
+	klass->epv.getData    = impl_GNOME_Evolution_ShellComponentDnd_SourceFolder_getData;
+	klass->epv.deleteData = impl_GNOME_Evolution_ShellComponentDnd_SourceFolder_deleteData;
+	klass->epv.endDrag    = impl_GNOME_Evolution_ShellComponentDnd_SourceFolder_endDrag;
 
-	source_corba_class_init ();
+	parent_class = gtk_type_class (PARENT_TYPE);
 }
 
 static void
@@ -193,36 +149,14 @@ evolution_shell_component_dnd_source_folder_init (EvolutionShellComponentDndSour
 	folder->priv = priv;
 }
 
-
-E_MAKE_TYPE (evolution_shell_component_dnd_source_folder, "EvolutionShellComponentDndSourceFolder",
-	     EvolutionShellComponentDndSourceFolder, evolution_shell_component_dnd_source_folder_class_init,
-	     evolution_shell_component_dnd_source_folder_init, PARENT_TYPE);
-
-static void
-evolution_shell_component_dnd_source_folder_construct (EvolutionShellComponentDndSourceFolder *dnd_source,
-						       DndSourceFolderBeginDragFn begin_drag,
-						       DndSourceFolderGetDataFn get_data,
-						       DndSourceFolderDeleteDataFn delete_data,
-						       DndSourceFolderEndDragFn end_drag,
-						       gpointer user_data,
-						       GNOME_Evolution_ShellComponentDnd_SourceFolder corba_object)
-{
-	DndSourceFolderPrivate *priv;
-
-	g_return_if_fail (dnd_source != NULL);
-	g_return_if_fail (IS_EVOLUTION_SHELL_COMPONENT_DND_SOURCE_FOLDER (dnd_source));
-	g_return_if_fail (corba_object != CORBA_OBJECT_NIL);
-
-	priv = dnd_source->priv;
-
-	priv->begin_drag = begin_drag;
-	priv->get_data = get_data;
-	priv->delete_data = delete_data;
-	priv->end_drag = end_drag;
-	priv->user_data = user_data;
-
-	bonobo_object_construct (BONOBO_OBJECT (dnd_source), corba_object);
-}
+E_MAKE_X_TYPE (evolution_shell_component_dnd_source_folder,
+	       "EvolutionShellComponentDndSourceFolder",
+	       EvolutionShellComponentDndSourceFolder,
+	       evolution_shell_component_dnd_source_folder_class_init,
+	       evolution_shell_component_dnd_source_folder_init,
+	       PARENT_TYPE,
+	       POA_GNOME_Evolution_ShellComponentDnd_SourceFolder__init,
+	       GTK_STRUCT_OFFSET (EvolutionShellComponentDndSourceFolderClass, epv))
 
 EvolutionShellComponentDndSourceFolder*
 evolution_shell_component_dnd_source_folder_new (DndSourceFolderBeginDragFn begin_drag,
@@ -232,27 +166,20 @@ evolution_shell_component_dnd_source_folder_new (DndSourceFolderBeginDragFn begi
 						 gpointer user_data)
 {
 	EvolutionShellComponentDndSourceFolder *dnd_source;
-	POA_GNOME_Evolution_ShellComponentDnd_SourceFolder *servant;
-	GNOME_Evolution_ShellComponentDnd_SourceFolder corba_object;
 
 	g_return_val_if_fail (begin_drag != NULL, NULL);
 	g_return_val_if_fail (get_data != NULL, NULL);
 	g_return_val_if_fail (delete_data != NULL, NULL);
 	g_return_val_if_fail (end_drag != NULL, NULL);
 
-	servant = create_dnd_source_servant();
-	if (servant == NULL)
-		return NULL;
-
 	dnd_source = gtk_type_new (evolution_shell_component_dnd_source_folder_get_type ());
-	corba_object = bonobo_object_activate_servant (BONOBO_OBJECT (dnd_source),
-						       servant);
 
-	evolution_shell_component_dnd_source_folder_construct (dnd_source,
-							       begin_drag, get_data,
-							       delete_data, end_drag,
-							       user_data,
-							       corba_object);
+	dnd_source->priv->begin_drag  = begin_drag;
+	dnd_source->priv->get_data    = get_data;
+	dnd_source->priv->delete_data = delete_data;
+	dnd_source->priv->end_drag    = end_drag;
+	dnd_source->priv->user_data   = user_data;
+
 	return dnd_source;
 }
 
@@ -321,52 +248,6 @@ impl_GNOME_Evolution_ShellComponentDnd_DestinationFolder_handleDrop (PortableSer
 	return priv->handle_drop (folder, physical_uri, folder_type, destination_context, action, data, priv->user_data);
 }
 
-static POA_GNOME_Evolution_ShellComponentDnd_DestinationFolder__vepv DestinationFolder_vepv;
-
-static POA_GNOME_Evolution_ShellComponentDnd_DestinationFolder *
-create_dnd_destination_servant (void)
-{
-	POA_GNOME_Evolution_ShellComponentDnd_DestinationFolder *servant;
-	CORBA_Environment ev;
-
-	servant = (POA_GNOME_Evolution_ShellComponentDnd_DestinationFolder *)g_new0 (BonoboObjectServant, 1);
-	servant->vepv = &DestinationFolder_vepv;
-
-	CORBA_exception_init (&ev);
-	POA_GNOME_Evolution_ShellComponentDnd_DestinationFolder__init ((PortableServer_Servant) servant, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_free (servant);
-		CORBA_exception_free (&ev);
-		return NULL;
-	}
-
-	CORBA_exception_free (&ev);
-
-	return servant;
-}
-
-static void
-destination_corba_class_init (void)
-{
-	POA_GNOME_Evolution_ShellComponentDnd_DestinationFolder__vepv *vepv;
-	POA_GNOME_Evolution_ShellComponentDnd_DestinationFolder__epv *epv;
-	PortableServer_ServantBase__epv *base_epv;
-
-	base_epv = g_new0 (PortableServer_ServantBase__epv, 1);
-	base_epv->_private = NULL;
-	base_epv->finalize = NULL;
-	base_epv->default_POA = NULL;
-
-	epv = g_new0 (POA_GNOME_Evolution_ShellComponentDnd_DestinationFolder__epv, 1);
-	epv->handleMotion = impl_GNOME_Evolution_ShellComponentDnd_DestinationFolder_handleMotion;
-	epv->handleDrop = impl_GNOME_Evolution_ShellComponentDnd_DestinationFolder_handleDrop;
-
-	vepv = &DestinationFolder_vepv;
-	vepv->_base_epv = base_epv;
-	vepv->Bonobo_Unknown_epv = bonobo_object_get_epv ();
-	vepv->GNOME_Evolution_ShellComponentDnd_DestinationFolder_epv = epv;
-}
-
 static void
 evolution_shell_component_dnd_destination_folder_class_init (EvolutionShellComponentDndDestinationFolderClass *klass)
 {
@@ -375,9 +256,10 @@ evolution_shell_component_dnd_destination_folder_class_init (EvolutionShellCompo
 	object_class = GTK_OBJECT_CLASS (klass);
 	object_class->destroy = dnd_destination_destroy;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	klass->epv.handleMotion = impl_GNOME_Evolution_ShellComponentDnd_DestinationFolder_handleMotion;
+	klass->epv.handleDrop = impl_GNOME_Evolution_ShellComponentDnd_DestinationFolder_handleDrop;
 
-	destination_corba_class_init ();
+	parent_class = gtk_type_class (PARENT_TYPE);
 }
 
 static void
@@ -391,56 +273,31 @@ evolution_shell_component_dnd_destination_folder_init (EvolutionShellComponentDn
 }
 
 
-E_MAKE_TYPE (evolution_shell_component_dnd_destination_folder, "EvolutionShellComponentDndDestinationFolder",
-	     EvolutionShellComponentDndDestinationFolder, evolution_shell_component_dnd_destination_folder_class_init,
-	     evolution_shell_component_dnd_destination_folder_init, PARENT_TYPE);
+E_MAKE_X_TYPE (evolution_shell_component_dnd_destination_folder,
+	       "EvolutionShellComponentDndDestinationFolder",
+	       EvolutionShellComponentDndDestinationFolder,
+	       evolution_shell_component_dnd_destination_folder_class_init,
+	       evolution_shell_component_dnd_destination_folder_init,
+	       PARENT_TYPE,
+	       POA_GNOME_Evolution_ShellComponentDnd_DestinationFolder__init,
+	       GTK_STRUCT_OFFSET (EvolutionShellComponentDndDestinationFolderClass, epv))
 
-static void
-evolution_shell_component_dnd_destination_folder_construct (EvolutionShellComponentDndDestinationFolder *dnd_destination,
-							    DndDestinationFolderHandleMotionFn handle_motion,
-							    DndDestinationFolderHandleDropFn handle_drop,
-							    gpointer user_data,
-							    GNOME_Evolution_ShellComponentDnd_DestinationFolder corba_object)
-{
-	DndDestinationFolderPrivate *priv;
-
-	g_return_if_fail (dnd_destination != NULL);
-	g_return_if_fail (IS_EVOLUTION_SHELL_COMPONENT_DND_DESTINATION_FOLDER (dnd_destination));
-	g_return_if_fail (corba_object != CORBA_OBJECT_NIL);
-
-	priv = dnd_destination->priv;
-
-	priv->handle_motion = handle_motion;
-	priv->handle_drop = handle_drop;
-	priv->user_data = user_data;
-
-	bonobo_object_construct (BONOBO_OBJECT (dnd_destination), corba_object);
-}
-
-EvolutionShellComponentDndDestinationFolder*
+EvolutionShellComponentDndDestinationFolder *
 evolution_shell_component_dnd_destination_folder_new (DndDestinationFolderHandleMotionFn handle_motion,
 						      DndDestinationFolderHandleDropFn handle_drop,
 						      gpointer user_data)
 {
 	EvolutionShellComponentDndDestinationFolder *dnd_destination;
-	POA_GNOME_Evolution_ShellComponentDnd_DestinationFolder *servant;
-	GNOME_Evolution_ShellComponentDnd_DestinationFolder corba_object;
 
 	g_return_val_if_fail (handle_motion != NULL, NULL);
 	g_return_val_if_fail (handle_drop != NULL, NULL);
 
-	servant = create_dnd_destination_servant();
-	if (servant == NULL)
-		return NULL;
-
 	dnd_destination = gtk_type_new (evolution_shell_component_dnd_destination_folder_get_type ());
-	corba_object = bonobo_object_activate_servant (BONOBO_OBJECT (dnd_destination),
-						       servant);
 
-	evolution_shell_component_dnd_destination_folder_construct (dnd_destination,
-								    handle_motion, handle_drop,
-								    user_data,
-								    corba_object);
+	dnd_destination->priv->handle_motion = handle_motion;
+	dnd_destination->priv->handle_drop   = handle_drop;
+	dnd_destination->priv->user_data     = user_data;
+
 	return dnd_destination;
 }
 

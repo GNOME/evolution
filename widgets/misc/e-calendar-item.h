@@ -23,7 +23,7 @@
 #ifndef _E_CALENDAR_ITEM_H_
 #define _E_CALENDAR_ITEM_H_
 
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 
 #ifdef __cplusplus
 extern "C" {

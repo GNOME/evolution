@@ -25,6 +25,9 @@
 #define __E_FOLDER_LIST_H__
 
 #include <gal/e-table/e-table-scrolled.h>
+
+#include <gtk/gtkvbox.h>
+
 #include "evolution-shell-client.h"
 
 #ifdef __cplusplus

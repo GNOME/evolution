@@ -246,6 +246,7 @@ static void
 menu_position_func (GtkMenu *menu,
 		    gint *x_return,
 		    gint *y_return,
+		    gboolean *push_in,
 		    void *data)
 {
 	EComboButton *combo_button;
@@ -343,26 +344,6 @@ impl_leave_notify_event (GtkWidget *widget,
 	return FALSE;
 }
 
-static void
-impl_draw (GtkWidget    *widget,
-	   GdkRectangle *area)
-{
-	GdkRectangle child_area;
-	GdkRectangle tmp_area;
-
-	if (! GTK_WIDGET_DRAWABLE (widget))
-		return;
-
-	tmp_area = *area;
-	tmp_area.x -= GTK_CONTAINER (widget)->border_width;
-	tmp_area.y -= GTK_CONTAINER (widget)->border_width;
-
-	paint (E_COMBO_BUTTON (widget), &tmp_area);
-
-	if (GTK_BIN (widget)->child && gtk_widget_intersect (GTK_BIN (widget)->child, &tmp_area, &child_area))
-		gtk_widget_draw (GTK_BIN (widget)->child, &child_area);
-}
-
 static int
 impl_expose_event (GtkWidget *widget,
 		   GdkEventExpose *event)
@@ -439,7 +420,6 @@ class_init (GtkObjectClass *object_class)
 	widget_class = GTK_WIDGET_CLASS (object_class);
 	widget_class->button_press_event = impl_button_press_event;
 	widget_class->leave_notify_event = impl_leave_notify_event;
-	widget_class->draw               = impl_draw;
 	widget_class->expose_event       = impl_expose_event;
 
 	button_class = GTK_BUTTON_CLASS (object_class);
@@ -447,12 +427,10 @@ class_init (GtkObjectClass *object_class)
 
 	signals[ACTIVATE_DEFAULT] = gtk_signal_new ("activate_default",
 						    GTK_RUN_FIRST,
-						    object_class->type,
+						    GTK_CLASS_TYPE (object_class),
 						    GTK_SIGNAL_OFFSET (EComboButtonClass, activate_default),
 						    gtk_marshal_NONE__NONE,
 						    GTK_TYPE_NONE, 0);
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void
@@ -473,12 +451,12 @@ init (EComboButton *combo_button)
 
 	priv->label = gtk_label_new ("");
 	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->label, TRUE, TRUE,
-			    2 * GTK_WIDGET (combo_button)->style->klass->xthickness);
+			    2 * GTK_WIDGET (combo_button)->style->xthickness);
 	gtk_widget_show (priv->label);
 
 	priv->arrow_pixmap = create_arrow_pixmap_widget ();
 	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->arrow_pixmap, TRUE, TRUE,
-			    GTK_WIDGET (combo_button)->style->klass->xthickness);
+			    GTK_WIDGET (combo_button)->style->xthickness);
 	gtk_widget_show (priv->arrow_pixmap);
 
 	priv->icon           = NULL;

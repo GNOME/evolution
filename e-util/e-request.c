@@ -27,11 +27,11 @@
 #include "e-request.h"
 
 #include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-stock.h>
 #include <gal/widgets/e-unicode.h>
 
 #include <gtk/gtklabel.h>
 #include <gtk/gtkentry.h>
+#include <gtk/gtkbox.h>
 
 
 /**

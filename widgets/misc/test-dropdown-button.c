@@ -31,10 +31,13 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtkmenu.h>
 #include <gtk/gtkwindow.h>
+#include <gtk/gtkstock.h>
+
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-app-helper.h>
-#include <libgnomeui/gnome-init.h>
-#include <libgnomeui/gnome-stock.h>
+#include <libgnomeui/gnome-ui-init.h>
+#include <libgnomeui/gnome-stock-icons.h>
+
 #include "e-dropdown-button.h"
 
 

@@ -15,10 +15,9 @@
 #include <glib.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkalignment.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-util.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gdk-pixbuf/gnome-canvas-pixbuf.h>
+#include <libgnomecanvas/gnome-canvas-pixbuf.h>
 
 GtkWidget *e_create_image_widget(gchar *name,
 				 gchar *string1, gchar *string2,
@@ -33,7 +32,7 @@ GtkWidget *e_create_image_widget(gchar *name,
 			filename = g_strdup(string1);
 		else
 			filename = g_concat_dir_and_file(EVOLUTION_IMAGES, string1);
-		pixbuf = gdk_pixbuf_new_from_file(filename);
+		pixbuf = gdk_pixbuf_new_from_file(filename, NULL);
 		width = gdk_pixbuf_get_width(pixbuf);
 		height = gdk_pixbuf_get_height(pixbuf);
 

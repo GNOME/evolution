@@ -19,3 +19,4 @@ evolution-nognome
 evolution-test-component
 evolution.pure
 libeshell.la
+e-shell-marshal.*

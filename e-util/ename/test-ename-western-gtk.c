@@ -1,7 +1,7 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtktable.h>
 #include <libgnomeui/gnome-app.h>
-#include <libgnomeui/gnome-init.h>
+#include <libgnomeui/gnome-ui-init.h>
 #include <gal/widgets/e-unicode.h>
 #include "e-name-western.h"
 
@@ -141,13 +141,13 @@ create_window (void)
 	name = e_name_western_parse ("The Honorable Doctor van Jacobsen, Albert Roderick \"The Clenched Fist\" Jr, MD, PhD, Esquire");
 	fill_entries ();
 
-	gtk_signal_connect (GTK_OBJECT (full), "changed", full_changed_cb, NULL);
+	gtk_signal_connect (GTK_OBJECT (full), "changed", GTK_SIGNAL_FUNC (full_changed_cb), NULL);
 }
 
 int
 main (int argc, char **argv)
 {
-	gnome_init ("Test EName", "Test EName", argc, argv);
+	gnome_program_init ("Test EName", "Test EName", LIBGNOMEUI_MODULE, argc, argv, NULL);
 
 	create_window ();
 

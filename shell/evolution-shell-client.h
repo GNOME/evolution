@@ -23,9 +23,10 @@
 #ifndef __EVOLUTION_SHELL_CLIENT_H__
 #define __EVOLUTION_SHELL_CLIENT_H__
 
-#include <bonobo/bonobo-object-client.h>
 #include <gtk/gtkwindow.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
+
+#include <glib-object.h>
 
 #include "Evolution.h"
 
@@ -46,13 +47,13 @@ typedef struct _EvolutionShellClientPrivate EvolutionShellClientPrivate;
 typedef struct _EvolutionShellClientClass   EvolutionShellClientClass;
 
 struct _EvolutionShellClient {
-	BonoboObjectClient parent;
+	GObject base;
 
 	EvolutionShellClientPrivate *priv;
 };
 
 struct _EvolutionShellClientClass {
-	BonoboObjectClientClass parent_class;
+	GObjectClass parent_class;
 };
 
 
@@ -60,6 +61,8 @@ GtkType                 evolution_shell_client_get_type            (void);
 void                    evolution_shell_client_construct           (EvolutionShellClient  *shell_client,
 								    GNOME_Evolution_Shell        corba_shell);
 EvolutionShellClient   *evolution_shell_client_new                 (GNOME_Evolution_Shell        shell);
+
+GNOME_Evolution_Shell evolution_shell_client_corba_objref (EvolutionShellClient *shell_client);
 
 void                    evolution_shell_client_user_select_folder  (EvolutionShellClient    *shell_client,
 								    GtkWindow               *parent,

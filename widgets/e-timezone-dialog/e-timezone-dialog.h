@@ -22,7 +22,6 @@
 #ifndef __E_TIMEZONE_DIALOG_H__
 #define __E_TIMEZONE_DIALOG_H__
 
-#include <libgnome/gnome-defs.h>
 #include <gtk/gtkwidget.h>
 #include <ical.h>
 
@@ -64,7 +63,7 @@ ETimezoneDialog* e_timezone_dialog_new			(void);
    so you need to convert it back to English before trying to load it. 
    It will be in the GTK+ encoding, i.e. not UTF-8. */
 char*		 e_timezone_dialog_get_timezone		(ETimezoneDialog  *etd,
-							 char		 **display_name);
+							 const char	 **display_name);
 
 /* Sets the TZID and displayed name of the timezone. The TZID may be NULL for
    a 'local time' (i.e. display_name is NULL or "") or if it is a builtin

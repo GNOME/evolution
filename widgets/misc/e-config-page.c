@@ -74,19 +74,17 @@ class_init (EConfigPageClass *class)
 
 	signals[APPLY] = gtk_signal_new ("apply",
 					 GTK_RUN_LAST,
-					 object_class->type,
+					 GTK_CLASS_TYPE (object_class),
 					 GTK_SIGNAL_OFFSET (EConfigPageClass, apply),
 					 gtk_marshal_NONE__NONE,
 					 GTK_TYPE_NONE, 0);
 
 	signals[CHANGED] = gtk_signal_new ("changed",
 					   GTK_RUN_FIRST,
-					   object_class->type,
+					   GTK_CLASS_TYPE (object_class),
 					   GTK_SIGNAL_OFFSET (EConfigPageClass, changed),
 					   gtk_marshal_NONE__NONE,
 					   GTK_TYPE_NONE, 0);
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void

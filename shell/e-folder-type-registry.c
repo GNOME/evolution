@@ -106,13 +106,13 @@ folder_type_new (const char *name,
 	if (icon_path == NULL)
 		new->icon_pixbuf = NULL;
 	else
-		new->icon_pixbuf = gdk_pixbuf_new_from_file (icon_path);
+		new->icon_pixbuf = gdk_pixbuf_new_from_file (icon_path, NULL);
 
 	g_free (icon_path);
 
 	icon_path = e_shell_get_icon_path (icon_name, TRUE);
 	if (icon_path != NULL) {
-		new->mini_icon_pixbuf = gdk_pixbuf_new_from_file (icon_path);
+		new->mini_icon_pixbuf = gdk_pixbuf_new_from_file (icon_path, NULL);
 	} else {
 		if (new->icon_pixbuf != NULL)
 			new->mini_icon_pixbuf = gdk_pixbuf_ref (new->icon_pixbuf);
@@ -317,10 +317,8 @@ e_folder_type_registry_set_handler_for_type  (EFolderTypeRegistry *folder_type_r
 					      const char *type_name,
 					      EvolutionShellComponentClient *handler)
 {
-	g_return_val_if_fail (folder_type_registry != NULL, FALSE);
 	g_return_val_if_fail (E_IS_FOLDER_TYPE_REGISTRY (folder_type_registry), FALSE);
-	g_return_val_if_fail (handler != NULL, FALSE);
-	g_return_val_if_fail (BONOBO_IS_OBJECT_CLIENT (handler), FALSE);
+	g_return_val_if_fail (EVOLUTION_IS_SHELL_COMPONENT_CLIENT (handler), FALSE);
 
 	return set_handler (folder_type_registry, type_name, handler);
 }

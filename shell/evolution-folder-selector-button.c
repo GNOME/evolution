@@ -23,12 +23,17 @@
 #endif
 
 #include "evolution-folder-selector-button.h"
-#include <bonobo/bonobo-ui-toolbar-icon.h>
+
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
+
 #include <gtk/gtkhbox.h>
+#include <gtk/gtkimage.h>
 #include <gtk/gtklabel.h>
+
 #include <libgnome/gnome-i18n.h>
+
+#include <string.h>
 
 
 struct _EvolutionFolderSelectorButtonPrivate {
@@ -89,14 +94,15 @@ set_folder (EvolutionFolderSelectorButton *folder_selector_button,
 	priv->selected_folder = folder;
 
 	if (!folder) {
-		bonobo_ui_toolbar_icon_clear (BONOBO_UI_TOOLBAR_ICON (priv->icon));
+		/* FIXME: Will this work?  */
+		gtk_image_set_from_pixbuf (GTK_IMAGE (priv->icon), NULL);
 		gtk_label_set_text (GTK_LABEL (priv->label),
 				    _("<click here to select a folder>"));
 		return;
 	}
 
 	pixbuf = evolution_shell_client_get_pixbuf_for_type (priv->shell_client, folder->type, TRUE);
-	bonobo_ui_toolbar_icon_set_pixbuf (BONOBO_UI_TOOLBAR_ICON (priv->icon), pixbuf);
+	gtk_image_set_from_pixbuf (GTK_IMAGE (priv->icon), pixbuf);
 	gdk_pixbuf_unref (pixbuf);
 
 	folder_lname = e_utf8_to_gtk_string (w, folder->displayName);
@@ -163,6 +169,7 @@ clicked (GtkButton *button)
 						   (const char **)priv->possible_types,
 						   &return_folder);
 
+#if 0				/* FIXME */
 	/* If the parent gets destroyed despite our best efforts (eg,
 	 * because its own parent got destroyed), then the folder
 	 * selector button will have been destroyed too and we need
@@ -172,6 +179,7 @@ clicked (GtkButton *button)
 		gtk_object_unref (GTK_OBJECT (parent_window));
 		return;
 	}
+#endif
 
 	gtk_widget_set_sensitive (GTK_WIDGET (parent_window), TRUE);
 	gtk_object_unref (GTK_OBJECT (parent_window));
@@ -201,7 +209,7 @@ destroy (GtkObject *object)
 	folder_selector_button = EVOLUTION_FOLDER_SELECTOR_BUTTON (object);
 	priv = folder_selector_button->priv;
 
-	bonobo_object_unref (BONOBO_OBJECT (priv->shell_client));
+	g_object_unref (priv->shell_client);
 	g_free (priv->title);
 	for (i = 0; priv->possible_types[i]; i++)
 		g_free (priv->possible_types[i]);
@@ -232,24 +240,23 @@ class_init (EvolutionFolderSelectorButtonClass *klass)
 
 	signals[POPPED_UP] = gtk_signal_new ("popped_up",
 					    GTK_RUN_FIRST,
-					    object_class->type,
+					    GTK_CLASS_TYPE (object_class),
 					    GTK_SIGNAL_OFFSET (EvolutionFolderSelectorButtonClass, popped_up),
 					    gtk_marshal_NONE__NONE,
 					    GTK_TYPE_NONE, 0);
 	signals[SELECTED] = gtk_signal_new ("selected",
 					    GTK_RUN_FIRST,
-					    object_class->type,
+					    GTK_CLASS_TYPE (object_class),
 					    GTK_SIGNAL_OFFSET (EvolutionFolderSelectorButtonClass, selected),
 					    gtk_marshal_NONE__POINTER,
 					    GTK_TYPE_NONE, 1,
 					    GTK_TYPE_POINTER);
 	signals[CANCELED] = gtk_signal_new ("canceled",
 					    GTK_RUN_FIRST,
-					    object_class->type,
+					    GTK_CLASS_TYPE (object_class),
 					    GTK_SIGNAL_OFFSET (EvolutionFolderSelectorButtonClass, canceled),
 					    gtk_marshal_NONE__NONE,
 					    GTK_TYPE_NONE, 0);
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void
@@ -260,7 +267,7 @@ init (EvolutionFolderSelectorButton *folder_selector_button)
 
 	priv = g_new0 (EvolutionFolderSelectorButtonPrivate, 1);
 
-	priv->icon = bonobo_ui_toolbar_icon_new ();
+	priv->icon = gtk_image_new ();
 	priv->label = gtk_label_new ("");
 	gtk_label_set_justify (GTK_LABEL (priv->label), GTK_JUSTIFY_LEFT);
 	gtk_misc_set_alignment (GTK_MISC (priv->label), 0.0, 0.0);
@@ -304,7 +311,7 @@ evolution_folder_selector_button_construct (EvolutionFolderSelectorButton *folde
 	priv = folder_selector_button->priv;
 
 	priv->shell_client = shell_client;
-	bonobo_object_ref (BONOBO_OBJECT (shell_client));
+	g_object_ref (shell_client);
 	priv->corba_storage_registry = evolution_shell_client_get_storage_registry_interface (shell_client);
 
 	priv->title = g_strdup (title);

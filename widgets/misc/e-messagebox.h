@@ -27,8 +27,6 @@
 #include <gtk/gtkwidget.h>
 #include <libgnomeui/gnome-dialog.h>
 
-BEGIN_GNOME_DECLS
-
 #define E_TYPE_MESSAGE_BOX            (e_message_box_get_type ())
 #define E_MESSAGE_BOX(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_MESSAGE_BOX, EMessageBox))
 #define E_MESSAGE_BOX_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), E_TYPE_MESSAGE_BOX, EMessageBoxClass))
@@ -62,7 +60,7 @@ struct _EMessageBoxClass
 };
 
 
-guint      e_message_box_get_type   (void) G_GNUC_CONST;
+GtkType    e_message_box_get_type   (void) G_GNUC_CONST;
 GtkWidget* e_message_box_new        (const gchar *message,
 				     const gchar *messagebox_type,
 				     ...);
@@ -79,7 +77,5 @@ void       e_message_box_construct  (EMessageBox *messagebox,
 GtkWidget *e_message_box_get_label  (EMessageBox *messagebox);
 
 GtkWidget *e_message_box_get_checkbox  (EMessageBox *messagebox);
-
-END_GNOME_DECLS
 
 #endif /* __E_MESSAGE_BOX_H__ */

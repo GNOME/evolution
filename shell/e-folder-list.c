@@ -22,17 +22,26 @@
  */
 
 #include <config.h>
-#include <libgnomeui/gnome-canvas-rect-ellipse.h>
-#include "e-folder-list.h"
+
+#include <string.h>
+
+#include <gtk/gtkframe.h>
+
+#include <libgnome/gnome-i18n.h>
+
+#include <gnome-xml/parser.h>
+#include <gnome-xml/xmlmemory.h>
+
+#include <glade/glade.h>
+
 #include <gal/e-table/e-table-memory-store.h>
+#include <gal/util/e-xml-utils.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-option-menu.h>
-#include <libgnome/gnome-i18n.h>
-#include <gnome-xml/parser.h>
-#include <gnome-xml/xmlmemory.h>
-#include <gal/util/e-xml-utils.h>
-#include <glade/glade.h>
+
+#include "e-folder-list.h"
+
 #include "Evolution.h"
 
 static GtkVBoxClass *parent_class = NULL;
@@ -130,12 +139,14 @@ e_folder_list_changed (EFolderList *efl)
 static void
 e_folder_list_destroy (GtkObject *object)
 {
-	EFolderList *efl = E_FOLDER_LIST(object);
+	EFolderList *efl = E_FOLDER_LIST (object);
 
 	if (efl->priv->gui)
-		gtk_object_unref(GTK_OBJECT(efl->priv->gui));
+		gtk_object_unref (GTK_OBJECT (efl->priv->gui));
+
 	if (efl->priv->client)
-		bonobo_object_client_unref(BONOBO_OBJECT_CLIENT(efl->priv->client), NULL);
+		g_object_unref (efl->priv->client);
+
 	g_free (efl->priv);
 	efl->priv = NULL;
 
@@ -400,7 +411,7 @@ e_folder_list_init (EFolderList *efl)
 
 	efl->priv = g_new (EFolderListPrivate, 1);
 
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/e-folder-list.glade", NULL);
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/e-folder-list.glade", NULL, NULL);
 	efl->priv->gui = gui;
 
 	efl->priv->title = NULL;
@@ -555,8 +566,9 @@ e_folder_list_new (EvolutionShellClient *client, char *xml)
 GtkWidget*
 e_folder_list_construct (EFolderList *efl, EvolutionShellClient *client, char *xml)
 {
+	g_object_ref (client);
 	efl->priv->client = client;
-	bonobo_object_ref (BONOBO_OBJECT (efl->priv->client));
+
 	efl->priv->corba_storage_registry = evolution_shell_client_get_storage_registry_interface (client);
 	e_folder_list_set_xml (efl, xml);
 	return GTK_WIDGET (efl);

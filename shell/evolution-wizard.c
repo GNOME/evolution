@@ -171,37 +171,35 @@ evolution_wizard_class_init (EvolutionWizardClass *klass)
 	object_class->destroy = evolution_wizard_destroy;
 
 	signals[NEXT] = gtk_signal_new ("next", GTK_RUN_FIRST,
-					object_class->type,
+					GTK_CLASS_TYPE (object_class),
 					GTK_SIGNAL_OFFSET (EvolutionWizardClass, next),
 					gtk_marshal_NONE__INT, GTK_TYPE_NONE, 
 					1, GTK_TYPE_INT);
 	signals[PREPARE] = gtk_signal_new ("prepare", GTK_RUN_FIRST,
-					   object_class->type,
+					   GTK_CLASS_TYPE (object_class),
 					   GTK_SIGNAL_OFFSET (EvolutionWizardClass, prepare),
 					   gtk_marshal_NONE__INT, GTK_TYPE_NONE,
 					   1, GTK_TYPE_INT);
 	signals[BACK] = gtk_signal_new ("back", GTK_RUN_FIRST,
-					object_class->type,
+					GTK_CLASS_TYPE (object_class),
 					GTK_SIGNAL_OFFSET (EvolutionWizardClass, back),
 					gtk_marshal_NONE__INT, GTK_TYPE_NONE,
 					1, GTK_TYPE_INT);
 	signals[FINISH] = gtk_signal_new ("finish", GTK_RUN_FIRST,
-					  object_class->type,
+					  GTK_CLASS_TYPE (object_class),
 					  GTK_SIGNAL_OFFSET (EvolutionWizardClass, finish),
 					  gtk_marshal_NONE__INT, GTK_TYPE_NONE,
 					  1, GTK_TYPE_INT);
 	signals[CANCEL] = gtk_signal_new ("cancel", GTK_RUN_FIRST,
-					  object_class->type,
+					  GTK_CLASS_TYPE (object_class),
 					  GTK_SIGNAL_OFFSET (EvolutionWizardClass, cancel),
 					  gtk_marshal_NONE__INT, GTK_TYPE_NONE,
 					  1, GTK_TYPE_INT);
 	signals[HELP] = gtk_signal_new ("help", GTK_RUN_FIRST,
-					object_class->type,
+					GTK_CLASS_TYPE (object_class),
 					GTK_SIGNAL_OFFSET (EvolutionWizardClass, help),
 					gtk_marshal_NONE__INT, GTK_TYPE_NONE,
 					1, GTK_TYPE_INT);
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 
@@ -296,7 +294,7 @@ evolution_wizard_set_buttons_sensitive (EvolutionWizard *wizard,
 	}
 
 	s = back_sensitive << 2 | next_sensitive << 1 | cancel_sensitive;
-	any._type = (CORBA_TypeCode) TC_short;
+	any._type = (CORBA_TypeCode) TC_CORBA_short;
 	any._value = &s;
 
 	bonobo_event_source_notify_listeners (priv->event_source,
@@ -331,7 +329,7 @@ evolution_wizard_set_show_finish (EvolutionWizard *wizard,
 	}
 
 	b = show_finish;
-	any._type = (CORBA_TypeCode) TC_boolean;
+	any._type = (CORBA_TypeCode) TC_CORBA_boolean;
 	any._value = &b;
 
 	bonobo_event_source_notify_listeners (priv->event_source,
@@ -369,7 +367,7 @@ evolution_wizard_set_page (EvolutionWizard *wizard,
 	}
 
 	s = page_number;
-	any._type = (CORBA_TypeCode) TC_short;
+	any._type = (CORBA_TypeCode) TC_CORBA_short;
 	any._value = &s;
 
 	bonobo_event_source_notify_listeners (priv->event_source,

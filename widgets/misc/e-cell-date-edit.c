@@ -33,13 +33,17 @@
 #include <string.h>
 #include <time.h>
 #include <glib.h>
+
 #include <gdk/gdkkeysyms.h>
+#include <gtk/gtk.h>
+
 #include <gal/util/e-util.h>
 #include <gal/e-table/e-table-item.h>
 #include <gal/e-table/e-cell-text.h>
+
 #include <libgnomeui/gnome-messagebox.h>
-#include <libgnomeui/gnome-stock.h>
 #include <libgnome/gnome-i18n.h>
+
 #include "e-util/e-time-utils.h"
 /* This depends on ECalendar which is why I didn't put it in gal. */
 #include "e-calendar.h"
@@ -740,7 +744,8 @@ e_cell_date_edit_on_ok_clicked		(GtkWidget	*button,
 	GDate start_date, end_date;
 	gboolean day_selected;
 	struct tm date_tm;
-	char buffer[64], *text;
+	char buffer[64];
+	const char *text;
 	ETimeParseStatus status;
 	gboolean is_date = FALSE;
 

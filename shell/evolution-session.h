@@ -23,7 +23,7 @@
 #ifndef __EVOLUTION_SESSION_H__
 #define __EVOLUTION_SESSION_H__
 
-#include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-xobject.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -42,13 +42,15 @@ typedef struct _EvolutionSessionPrivate EvolutionSessionPrivate;
 typedef struct _EvolutionSessionClass   EvolutionSessionClass;
 
 struct _EvolutionSession {
-	BonoboObject parent;
+	BonoboXObject parent;
 
 	EvolutionSessionPrivate *priv;
 };
 
 struct _EvolutionSessionClass {
-	BonoboObjectClass parent_class;
+	BonoboXObjectClass parent_class;
+
+	POA_GNOME_Evolution_Session__epv epv;
 
 	void (* save_configuration) (EvolutionSession *session, const char *prefix);
 	void (* load_configuration) (EvolutionSession *session, const char *prefix);
@@ -56,8 +58,6 @@ struct _EvolutionSessionClass {
 
 
 GtkType           evolution_session_get_type   (void);
-void              evolution_session_construct  (EvolutionSession *session,
-						CORBA_Object      corba_session);
 EvolutionSession *evolution_session_new        (void);
 
 #ifdef __cplusplus

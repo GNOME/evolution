@@ -26,10 +26,11 @@
 
 #include <gtk/gtkbox.h>
 #include <gtk/gtkmain.h>
-#include <gtk/gtktext.h>
 #include <gtk/gtkvbox.h>
+#include <gtk/gtklabel.h>
+
 #include <libgnomeui/gnome-app.h>
-#include <libgnomeui/gnome-init.h>
+#include <libgnomeui/gnome-ui-init.h>
 #include "e-title-bar.h"
 
 static void
@@ -45,7 +46,7 @@ main (int argc, char **argv)
 {
 	GtkWidget *app;
 	GtkWidget *title_bar;
-	GtkWidget *text;
+	GtkWidget *label;
 	GtkWidget *vbox;
 
 	gnome_init ("test-title-bar", "0.0", argc, argv);
@@ -59,12 +60,12 @@ main (int argc, char **argv)
 	title_bar = e_title_bar_new ("This is a very annoyingly long title bar");
 	gtk_widget_show (title_bar);
 
-	text = gtk_text_new (NULL, NULL);
-	gtk_widget_show (text);
+	label = gtk_label_new ("boo");
+	gtk_widget_show (label);
 
 	vbox = gtk_vbox_new (FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), title_bar, FALSE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), text, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), label, TRUE, TRUE, 0);
 	gtk_widget_show (vbox);
 
 	gnome_app_set_contents (GNOME_APP (app), vbox);

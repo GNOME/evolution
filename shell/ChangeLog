@@ -1,3 +1,231 @@
+2002-11-02  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-config-autocompletion.c: No bonobo-conf; removed member
+	db in struct EvolutionAutocompletionConfig and replaced with a
+	config_listener arg.
+	(e_shell_config_autocompletion_create_widget): Init it here.
+	(config_control_destroy_callback): Unref it here.
+	(config_control_apply_callback): Updated to use the
+	config_listener.
+
+	* e-shell-config.c (e_shell_config_factory_register): Use
+	bonobo_generic_factory_new() instead of
+	bonobo_generic_factory_new_multi().
+
+	* e-shell-about-box.c (impl_realize): Pass NULL as the error arg
+	to gdk_pixbuf_new_from_file().
+	(timeout_callback): Use gtk_style_get_font() to retrieve the
+	style's font instead of style->font.
+	(impl_draw): Removed.
+	(impl_expose_event): Do the drawing of the pixmap here.
+
+	* e-setup.c (e_setup_check_db): Removed.
+	(e_setup_check_config): New, version using EConfigListener instead
+	of bonobo-conf.
+
+	* e-setup.h: #include "e-util/e-config-listener.h" instead of
+	<bonobo-conf/bonobo-config-database.h>.
+
+	* e-local-storage.c (construct): Use _() instead of U_().
+	(setup_stock_folders): Likewise.
+
+	* e-icon-factory.c (load_icon): Pass NULL as the error arg to
+	gdk_pixbuf_new_from_file().
+
+	* e-folder-type-registry.c (folder_type_new): Pass NULL as the
+	error arg to gdk_pixbuf_new_from_file().
+
+	* e-folder-dnd-bridge.c (find_matching_target_for_drag_context):
+	GdkAtom is not an integer anymore; update accordingly.
+
+	* e-corba-storage.c (async_folder_cb): Constified args
+	appropriately to match BonoboListenerCallbackFn.
+	(async_folder_discovery_cb): Likewise.
+	(cancel_discover_shared_folder): BONOBO_EX_ID() ->
+	BONOBO_EX_REPOID().
+	(e_corba_storage_show_folder_properties): Likewise.
+
+	* e-corba-storage-registry.h, e-corba-storage-registry.c:
+	BonoboXObjectified.
+
+	* e-corba-config-page.c: Removed member listener_id in struct
+	ECorbaConfigPagePrivate.
+	(init): Don't init.
+	(setup_listener): Bonobo_EventSource_addListener doesn't return an
+	ID anymore.
+	(impl_destroy): Just pass the listener to
+	Bonobo_EventSource_removeListener.
+	(setup_listener): BONOBO_EX_REPOID() instead of BONOBO_EX_ID().
+	(impl_apply): Likewise.
+	(listener_event_callback): Constified args appropriately to match
+	BonoboListenerCallbackFn.
+	(e_corba_config_page_construct): Likewise.
+
+	* e-component-registry.c (wait_for_corba_object_to_die): Pass NULL
+	for the exception arg to bonobo_unknown_ping().
+
+	* e-shell-view.h: <bonobo/bonobo-window.h>, not
+	<bonobo/bonobo-win.h>.
+
+	* e-shell.c: Replace member db in EShellPrivate with an
+	EConfigListener config_listener.
+	(destroy): Do not call e_shell_disconnect_db().  Unref
+	EConfigListener.  Destroy settings_dialog if not NULL.  Pass
+	config_listener to e_setup_check_db().
+	(e_shell_get_config_db): Removed.
+	(e_shell_get_config_listener): New.
+	(e_shell_construct): Set up the config_listener, instead of the
+	Bonobo_ConfigDatabase.
+
+	* e-shell.h: #include <bonobo-activation/bonobo-activation.h>
+	instead of <liboaf/oaf.h>.  No
+	<bonobo-conf/bonobo-config-database.h>.
+
+	* e-component-registry.c: #include
+	<bonobo-activation/bonobo-activation.h> instead of <liboaf/oaf.h>.
+
+	* e-activity-handler.c (task_widget_button_press_event_callback):
+	Use BONOBO_EX() and BONOBO_EX_REPOID().
+	(impl_operationStarted): Don't use GTK_OBJECT_DESTROYED() [needs
+	to be fixed later].
+	(impl_operationProgressing): Likewise.
+	(impl_operationFinished): Likewise.
+	(impl_requestDialog): Likewise.
+
+	* evolution-wizard.c (evolution_wizard_class_init): GLIB2-ified.
+
+	* evolution-wizard.h: Remove BEGIN_GNOME_DECLS/END_GNOME_DECLS.
+
+	* evolution-storage.c: Chagned to use generated marshallers
+	instead of custom ones or GAL's.
+
+	* eshell-marshal.list: New.
+	* Makefile.am: Added rule to build eshell-marshal.[ch] and link
+	them in.
+
+	* evolution-storage.h, evolution-storage.c: BonoboXObjectified.
+
+	* evolution-storage-set-view-listener.c (class_init): GLIB2-ified.
+
+	* evolution-storage-listener.c (class_init): GLIB2-ified.
+
+	* evolution-shell-view.h, evolution-shell-view.c:
+	BonoboXObjectified.
+
+	* evolution-shell-component-utils.c: #include
+	<bonobo-activation/bonobo-activation.h>.
+	(e_pixmaps_update): Pass NULL as the error arg to
+	gdk_pixbuf_new_from_file().
+	(e_activation_failure_dialog): Bonobo_GeneralError instead of
+	OAF_GeneralError.
+	(e_get_activation_failure_msg): Likewise.
+
+	* evolution-shell-component-dnd.h, evolution-shell-component-dnd.c:
+	BonoboXObjectified.
+
+	* evolution-shell-component.c: #include <unistd.h>.
+	(owner_ping_callback): Pass NULL for the opt_ev arg to
+	bonobo_unknown_ping().
+	(impl_populateFolderContextMenu): Pass NULL for the opt_ev arg to
+	bonobo_ui_component_set_container().
+	(class_init): GLIB2-ified.
+
+	* e-component-registry.c (component_free): Use g_object_unref() on
+	the EvolutionShellComponentClient instead of
+	bonobo_object_unref().
+	(register_component): Likewise.
+	(component_new): Likewise, use g_object_ref() instead of
+	bonobo_object_ref().
+
+	* evolution-shell-component-client.c: New member corba_objref in
+	EvolutionShellComponentClientPrivate.
+	(init): Init to CORBA_OBJECT_NIL.
+	(impl_destroy): Unref.  Also CORBA_OBJECT_NILify all the pointers
+	to unreffed objects.
+	(corba_exception_to_result): Use BONOBO_EX_REPOID(ev) instead of
+	ev->_repo_id.
+	(evolution_shell_component_client_construct): Set the corba_objref
+	pointer, do not call bonobo_object_client_construct().
+	(evolution_shell_component_client_new): Use
+	bonobo_activation_activate_from_id() here instead of
+	oaf_activate_from_id().
+
+	* evolution-shell-component-client.h,
+	evolution-shell-component-client.c: Derive from GObject instead of
+	BonoboObjectClient.
+
+	* evolution-shell-client.c
+	(evolution_shell_client_create_storage_set_view): Use
+	BONOBO_EX_REPOID() instead of BONOBO_EX_ID().
+
+	* evolution-folder-selector-button.c (destroy): g_object_unref the
+	EvolutionShellClient instead of bonobo_object_unref().
+	(evolution_folder_selector_button_construct): Likewise.
+
+	* e-folder-list.c (e_folder_list_destroy): g_object_unref the
+	EvolutionShellClient instead of bonobo_object_unref().
+	(e_folder_list_construct): g_object_ref the EvolutionShellClient
+	instead of bonobo_object_ref().
+
+	* evolution-shell-client.c: New member corba_objref in
+	EvolutionShellClientPrivate.
+	(init): Init to CORBA_OBJECT_NIL.
+	(destroy): Unref/release.
+	(query_shell_interface): Use BONOBO_EX() and BONOBO_EX_REPOID()
+	instead of ._major and ._repo_id.
+	(destroy): Likewise.
+	(evolution_shell_client_get_local_storage): Likewise.
+
+	* evolution-shell-client.h: Derive from GObject instead of
+	BonoboObjectClient.
+
+	* evolution-session.c (corba_class_init): Get klass arg.
+	(class_init): Pass klass arg.  GLIB2-ified.
+	(evolution_session_construct): Removed.
+	(evolution_session_new): Just return what gtk_type_new() returns.
+
+	* evolution-session.h, evolution-session.c: Derive from
+	BonoboXObject.
+
+	* evolution-folder-selector-button.c (init): Make icon a GtkImage
+	instead of a BonoboUIToolbarIcon.
+	(set_folder, class_init): GLIB2-ified.
+
+	* evolution-config-control.c (class_init): GLIB2-ified.
+
+	* evolution-activity-client.c (corba_update_progress): Use
+	BONOBO_EX_REPOID() instead of ._major and ._repo_id.
+	(evolution_activity_client_request_dialog): Likewise.
+	(impl_destroy): Likewise.
+	(class_init): GLIB2-ified.
+
+	* e-folder-list.c: #include <gtk/gtframe.h> and #include
+	<string.h>.
+	(e_folder_list_destroy): bonobo_object_unref(), not
+	bonobo_object_client_unref().
+	(e_folder_list_init): Pass NULL as the domain to glade_xml_new().
+
+	* e-folder-list.h: #include <gtk/gtkvbox.h>.
+
+	* e-folder.c (impl_remove): Renamed from remove().
+	(impl_get_physical_uri): Renamed from get_physical_uri().
+	(impl_load_info): Renamed from load_info().
+	(impl_save_info): Renamed from save_info().
+	(class_init): GLIB2-ified.
+
+	* Evolution-Session.idl: #include <Bonobo.idl>, not <Bonobo.h>.
+	* Evolution-Offline.idl: Likewise.
+	* Evolution-ShellComponent.idl: Likewise.
+	* Evolution-ShellComponentDnd.idl: Likewise.
+	* Evolution-Storage.idl: Likewise.
+
+	* Makefile.am: Do not compile the importer directory for now.
+
+	* evolution-wizard.c (evolution_wizard_set_buttons_sensitive):
+	ORBit2-ize type names.
+	(evolution_wizard_set_show_finish): Likewise.
+	(evolution_wizard_set_page): Likewise.
+
 2002-10-28  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-settings-dialog.c (set_dialog_size): Increase the width

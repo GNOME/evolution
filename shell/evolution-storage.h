@@ -23,12 +23,14 @@
 #ifndef __EVOLUTION_STORAGE_H__
 #define __EVOLUTION_STORAGE_H__
 
-#include <glib.h>
-#include <bonobo/bonobo-object.h>
-
 #include "Evolution.h"
 
+#include <glib.h>
+
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gtk/gtktypeutils.h>
+
+#include <bonobo/bonobo-xobject.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -74,13 +76,13 @@ enum _EvolutionStorageResult {
 typedef enum _EvolutionStorageResult EvolutionStorageResult;
 
 struct _EvolutionStorage {
-	BonoboObject parent;
+	BonoboXObject parent;
 
 	EvolutionStoragePrivate *priv;
 };
 
 struct _EvolutionStorageClass {
-	BonoboObjectClass parent_class;
+	BonoboXObjectClass parent_class;
 
 	/* signals */
 	void (*create_folder) (EvolutionStorage *storage,
@@ -125,14 +127,13 @@ struct _EvolutionStorageClass {
 					const char *path,
 					unsigned int itemNumber,
 					unsigned long parentWindowId);
+
+	POA_GNOME_Evolution_Storage__epv epv;
 };
 
 
-POA_GNOME_Evolution_Storage__epv *evolution_storage_get_epv            (void);
-
 GtkType                 evolution_storage_get_type             (void);
 void                    evolution_storage_construct            (EvolutionStorage                *storage,
-								GNOME_Evolution_Storage          corba_object,
 								const char                      *name,
 								gboolean                         has_shared_folders);
 EvolutionStorage       *evolution_storage_new                  (const char                      *name,

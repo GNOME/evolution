@@ -37,6 +37,8 @@
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-popup-menu.h>
 
+#include <bonobo/bonobo-exception.h>
+
 
 #define PARENT_TYPE bonobo_x_object_get_type ()
 static BonoboXObjectClass *parent_class = NULL;
@@ -207,9 +209,9 @@ task_widget_button_press_event_callback (GtkWidget *widget,
 	null_value->_type = TC_null;
 
 	Bonobo_Listener_event (activity_info->event_listener, "Clicked", null_value, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION)
+	if (BONOBO_EX (&ev) != CORBA_NO_EXCEPTION)
 		g_warning ("EActivityHandler: Cannot report `Clicked' event -- %s",
-			   ev._repo_id);
+			   BONOBO_EX_REPOID (&ev));
 
 	CORBA_free (null_value);
  
@@ -369,7 +371,8 @@ impl_operationStarted (PortableServer_Servant servant,
 
 	activity_handler = E_ACTIVITY_HANDLER (bonobo_object_from_servant (servant));
 
-	if (GTK_OBJECT_DESTROYED (activity_handler) || activity_handler->priv == NULL)
+	/* FIXME */
+	if (/* GTK_OBJECT_DESTROYED (activity_handler) || */ activity_handler->priv == NULL)
 		return;
 
 	priv = activity_handler->priv;
@@ -419,7 +422,8 @@ impl_operationProgressing (PortableServer_Servant servant,
 
 	activity_handler = E_ACTIVITY_HANDLER (bonobo_object_from_servant (servant));
 
-	if (GTK_OBJECT_DESTROYED (activity_handler) || activity_handler->priv == NULL)
+	/* FIXME */
+	if (/* GTK_OBJECT_DESTROYED (activity_handler) || */ activity_handler->priv == NULL)
 		return;
 
 	priv = activity_handler->priv;
@@ -462,7 +466,8 @@ impl_operationFinished (PortableServer_Servant servant,
 
 	activity_handler = E_ACTIVITY_HANDLER (bonobo_object_from_servant (servant));
 
-	if (GTK_OBJECT_DESTROYED (activity_handler) || activity_handler->priv == NULL)
+	/* FIXME */
+	if (/* GTK_OBJECT_DESTROYED (activity_handler) || */ activity_handler->priv == NULL)
 		return;
 
 	priv = activity_handler->priv;
@@ -490,7 +495,8 @@ impl_requestDialog (PortableServer_Servant servant,
 
 	activity_handler = E_ACTIVITY_HANDLER (bonobo_object_from_servant (servant));
 
-	if (GTK_OBJECT_DESTROYED (activity_handler) || activity_handler->priv == NULL)
+	/* FIXME */
+	if (/* GTK_OBJECT_DESTROYED (activity_handler) || */ activity_handler->priv == NULL)
 		return GNOME_Evolution_Activity_DIALOG_ACTION_ERROR;
 
 	/* FIXME implement.  */

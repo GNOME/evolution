@@ -23,7 +23,8 @@
 #ifndef EVOLUTION_SHELL_COMPONENT_CLIENT_H
 #define EVOLUTION_SHELL_COMPONENT_CLIENT_H
 
-#include <bonobo/bonobo-object-client.h>
+#include <glib-object.h>
+
 #include <bonobo/bonobo-ui-container.h>
 #include <bonobo/bonobo-ui-component.h>
 
@@ -46,13 +47,13 @@ typedef struct _EvolutionShellComponentClientPrivate EvolutionShellComponentClie
 typedef struct _EvolutionShellComponentClientClass   EvolutionShellComponentClientClass;
 
 struct _EvolutionShellComponentClient {
-	BonoboObjectClient parent;
+	GObject parent;
 
 	EvolutionShellComponentClientPrivate *priv;
 };
 
 struct _EvolutionShellComponentClientClass {
-	BonoboObjectClientClass parent_class;
+	GObjectClass parent_class;
 };
 
 typedef void (* EvolutionShellComponentClientCallback) (EvolutionShellComponentClient *shell_component_client,

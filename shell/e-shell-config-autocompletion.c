@@ -32,11 +32,11 @@
 
 #include "Evolution.h"
 
-#include <bonobo-conf/Bonobo_Config.h>
 #include <bonobo/bonobo-exception.h>
 
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtkwidget.h>
+#include <gtk/gtksignal.h>
 
 
 typedef struct {
@@ -44,7 +44,7 @@ typedef struct {
 
 	GtkWidget *control_widget;
 
-	Bonobo_ConfigDatabase db;
+	EConfigListener *config_listener;
 	EvolutionShellClient *shell_client;
 } EvolutionAutocompletionConfig;
 
@@ -60,6 +60,9 @@ config_control_destroy_callback (EvolutionConfigControl *config_control,
 				 EvolutionAutocompletionConfig *ac)
 {
 	bonobo_object_unref (BONOBO_OBJECT (ac->shell_client));
+
+	g_object_unref (ac->config_listener);
+
 	g_free (ac);
 }
 
@@ -69,15 +72,10 @@ config_control_apply_callback (EvolutionConfigControl *config_control,
 			       EvolutionAutocompletionConfig *ac)
 {
 	char *xml;
-	CORBA_Environment ev;
-
-	CORBA_exception_init (&ev);
 
 	xml = e_folder_list_get_xml (E_FOLDER_LIST (ac->control_widget));
-	bonobo_config_set_string (ac->db, "/Addressbook/Completion/uris", xml, &ev);
+	e_config_listener_set_string (ac->config_listener, "/Addressbook/Completion/uris", xml);
 	g_free (xml);
-
-	CORBA_exception_free (&ev);
 }
 
 GtkWidget *
@@ -90,14 +88,16 @@ e_shell_config_autocompletion_create_widget (EShell *shell, EvolutionConfigContr
 	static const char *possible_types[] = { "contacts/*", NULL };
 
 	ac = g_new0 (EvolutionAutocompletionConfig, 1);
-	ac->db = e_shell_get_config_db (shell);
+	ac->config_listener = e_config_listener_new ();
 
 	CORBA_exception_init (&ev);
 
 	shell_dup = CORBA_Object_duplicate (bonobo_object_corba_objref (BONOBO_OBJECT (shell)), &ev);
 	ac->shell_client = evolution_shell_client_new (shell_dup);
 
-	xml = bonobo_config_get_string (ac->db, "/Addressbook/Completion/uris", &ev);
+	xml = e_config_listener_get_string_with_default (ac->config_listener,
+							 "/Addressbook/Completion/uris",
+							 NULL, NULL);
 
 	ac->control_widget = e_folder_list_new (ac->shell_client, xml);
 	g_free (xml);

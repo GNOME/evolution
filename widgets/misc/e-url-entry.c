@@ -160,6 +160,6 @@ button_clicked_cb (GtkWidget *widget, gpointer data)
 	priv = url_entry->priv;
 	
 	url = gtk_editable_get_chars (GTK_EDITABLE (priv->entry), 0, -1);
-	gnome_url_show (url);
+	gnome_url_show (url, NULL);
 	g_free (url);
 }

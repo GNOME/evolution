@@ -294,7 +294,7 @@ e_memchunk_clean(MemChunk *m)
 
 	/* now, scan all free nodes, and count them in their tree node */
 	while (f) {
-		ci = g_tree_search(tree, (GSearchFunc)tree_search, f);
+		ci = g_tree_search(tree, (GCompareFunc) tree_search, f);
 		if (ci) {
 			ci->count += f->atoms;
 		} else {

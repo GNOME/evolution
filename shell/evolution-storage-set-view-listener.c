@@ -201,19 +201,17 @@ class_init (EvolutionStorageSetViewListenerClass *klass)
 
 	signals[FOLDER_SELECTED] = gtk_signal_new ("folder_selected",
 						   GTK_RUN_FIRST,
-						   object_class->type,
+						   GTK_CLASS_TYPE (object_class),
 						   GTK_SIGNAL_OFFSET (EvolutionStorageSetViewListenerClass, folder_selected),
 						   gtk_marshal_NONE__STRING,
 						   GTK_TYPE_NONE, 1,
 						   GTK_TYPE_STRING);
 	signals[FOLDER_TOGGLED] = gtk_signal_new ("folder_toggled",
 						  GTK_RUN_FIRST,
-						  object_class->type,
+						  GTK_CLASS_TYPE (object_class),
 						  GTK_SIGNAL_OFFSET (EvolutionStorageSetViewListenerClass, folder_toggled),
 						  gtk_marshal_NONE__NONE,
 						  GTK_TYPE_NONE, 0);
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 
 	corba_class_init ();
 }

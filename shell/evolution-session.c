@@ -32,8 +32,8 @@
 #include "evolution-session.h"
 
 
-#define PARENT_TYPE bonobo_object_get_type ()
-static BonoboObjectClass *parent_class = NULL;
+#define PARENT_TYPE bonobo_x_object_get_type ()
+static BonoboXObjectClass *parent_class = NULL;
 
 struct _EvolutionSessionPrivate {
 	int dummy;
@@ -92,28 +92,14 @@ impl_GNOME_Evolution_Session_loadConfiguration (PortableServer_Servant servant,
 
 /* Initialization.  */
 
-static POA_GNOME_Evolution_Session__vepv GNOME_Evolution_Session_vepv;
-
 static void
-corba_class_init (void)
+corba_class_init (EvolutionSessionClass *klass)
 {
-	POA_GNOME_Evolution_Session__vepv *vepv;
-	POA_GNOME_Evolution_Session__epv *epv;
-	PortableServer_ServantBase__epv *base_epv;
-
-	base_epv = g_new0 (PortableServer_ServantBase__epv, 1);
-	base_epv->_private    = NULL;
-	base_epv->finalize    = NULL;
-	base_epv->default_POA = NULL;
+	POA_GNOME_Evolution_Session__epv *epv = & (EVOLUTION_SESSION_CLASS (klass)->epv);
 
 	epv = g_new0 (POA_GNOME_Evolution_Session__epv, 1);
 	epv->saveConfiguration = impl_GNOME_Evolution_Session_saveConfiguration;
 	epv->loadConfiguration = impl_GNOME_Evolution_Session_loadConfiguration;
-
-	vepv = &GNOME_Evolution_Session_vepv;
-	vepv->_base_epv             = base_epv;
-	vepv->Bonobo_Unknown_epv    = bonobo_object_get_epv ();
-	vepv->GNOME_Evolution_Session_epv = epv;
 }
 
 static void
@@ -122,14 +108,14 @@ class_init (EvolutionSessionClass *klass)
 	GtkObjectClass *object_class;
 
 	object_class = GTK_OBJECT_CLASS (klass);
-	parent_class = gtk_type_class (bonobo_object_get_type ());
+	parent_class = gtk_type_class (PARENT_TYPE);
 
 	object_class->destroy = impl_destroy;
 
 	signals[LOAD_CONFIGURATION]
 		= gtk_signal_new ("load_configuration",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EvolutionSessionClass, load_configuration),
 				  gtk_marshal_NONE__STRING,
 				  GTK_TYPE_NONE, 1,
@@ -137,15 +123,13 @@ class_init (EvolutionSessionClass *klass)
 	signals[SAVE_CONFIGURATION]
 		= gtk_signal_new ("save_configuration",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EvolutionSessionClass, save_configuration),
 				  gtk_marshal_NONE__STRING,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_STRING);
 
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
-
-	corba_class_init ();
+	corba_class_init (klass);
 }
 
 static void
@@ -159,55 +143,14 @@ init (EvolutionSession *session)
 }
 
 
-static GNOME_Evolution_Session
-create_corba_session (BonoboObject *object)
-{
-	POA_GNOME_Evolution_Session *servant;
-	CORBA_Environment ev;
-
-	servant = (POA_GNOME_Evolution_Session *) g_new0 (BonoboObjectServant, 1);
-	servant->vepv = &GNOME_Evolution_Session_vepv;
-
-	CORBA_exception_init (&ev);
-
-	POA_GNOME_Evolution_Session__init ((PortableServer_Servant) servant, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_free (servant);
-		CORBA_exception_free (&ev);
-		return CORBA_OBJECT_NIL;
-	}
-
-	CORBA_exception_free (&ev);
-	return (GNOME_Evolution_Session) bonobo_object_activate_servant (object, servant);
-}
-
-void
-evolution_session_construct (EvolutionSession *session,
-			     CORBA_Object corba_session)
-{
-	g_return_if_fail (session != NULL);
-	g_return_if_fail (corba_session != CORBA_OBJECT_NIL);
-
-	bonobo_object_construct (BONOBO_OBJECT (session), corba_session);
-}
-
 EvolutionSession *
 evolution_session_new (void)
 {
-	EvolutionSession *session;
-	GNOME_Evolution_Session corba_session;
-
-	session = gtk_type_new (evolution_session_get_type ());
-
-	corba_session = create_corba_session (BONOBO_OBJECT (session));
-	if (corba_session == CORBA_OBJECT_NIL) {
-		bonobo_object_unref (BONOBO_OBJECT (session));
-		return NULL;
-	}
-
-	evolution_session_construct (session, corba_session);
-	return session;
+	return gtk_type_new (evolution_session_get_type ());
 }
 
 
-E_MAKE_TYPE (evolution_session, "EvolutionSession", EvolutionSession, class_init, init, PARENT_TYPE)
+E_MAKE_X_TYPE (evolution_session, "EvolutionSession", EvolutionSession,
+	       class_init, init, PARENT_TYPE,
+	       POA_GNOME_Evolution_Session__init,
+	       GTK_STRUCT_OFFSET (EvolutionSessionClass, epv))

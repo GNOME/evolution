@@ -52,6 +52,7 @@ static void
 menu_position_cb (GtkMenu *menu,
 		  int *x,
 		  int *y,
+		  gboolean *push_in,
 		  void *data)
 {
 	EDropdownButton *dropdown_button;

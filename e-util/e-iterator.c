@@ -12,7 +12,7 @@
 #include <gtk/gtksignal.h>
 #include "e-iterator.h"
 
-#define ECI_CLASS(object) (E_ITERATOR_CLASS(GTK_OBJECT((object))->klass))
+#define ECI_CLASS(object) (E_ITERATOR_CLASS(GTK_CLASS_TYPE (object)))
 
 static void e_iterator_init (EIterator *card);
 static void e_iterator_class_init (EIteratorClass *klass);
@@ -72,12 +72,10 @@ e_iterator_class_init (EIteratorClass *klass)
 	e_iterator_signals [INVALIDATE] =
 		gtk_signal_new ("invalidate",
 				GTK_RUN_LAST,
-				object_class->type,
+				GTK_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EIteratorClass, invalidate),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
-
-	gtk_object_class_add_signals (object_class, e_iterator_signals, LAST_SIGNAL);
 
 	klass->invalidate = NULL;
 	klass->get        = NULL;

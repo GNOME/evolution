@@ -6,7 +6,6 @@ INCLUDES =						\
 	-I. 						\
 	-I.. 						\
 	-I$(top_builddir)				\
-        -I$(includedir)                                 \
 	$(E_NAME_CFLAGS)
 
 ename_libs = 						\

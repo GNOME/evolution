@@ -28,7 +28,7 @@
 
 #include "e-bonobo-widget.h"
 
-#include <gal/util/e-util.h>
+#include <bonobo/bonobo-control.h>
 
 #include <gdk/gdkprivate.h>
 #include <gdk/gdkx.h>

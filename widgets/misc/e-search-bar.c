@@ -36,12 +36,12 @@
 #include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-gui-utils.h>
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 
 #include <bonobo/bonobo-ui-util.h>
 
 #include <stdlib.h>
+#include <string.h>
 
 #include "e-search-bar.h"
 
@@ -823,7 +823,7 @@ class_init (ESearchBarClass *klass)
 	esb_signals [QUERY_CHANGED] =
 		gtk_signal_new ("query_changed",
 				GTK_RUN_LAST,
-				object_class->type,
+				GTK_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ESearchBarClass, query_changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
@@ -831,7 +831,7 @@ class_init (ESearchBarClass *klass)
 	esb_signals [MENU_ACTIVATED] =
 		gtk_signal_new ("menu_activated",
 				GTK_RUN_LAST,
-				object_class->type,
+				GTK_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ESearchBarClass, menu_activated),
 				gtk_marshal_NONE__INT,
 				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
@@ -839,12 +839,10 @@ class_init (ESearchBarClass *klass)
 	esb_signals [SEARCH_ACTIVATED] =
 		gtk_signal_new ("search_activated",
 				GTK_RUN_LAST,
-				object_class->type,
+				GTK_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ESearchBarClass, search_activated),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
-	
-	gtk_object_class_add_signals (object_class, esb_signals, LAST_SIGNAL);
 }
 
 static void
@@ -926,7 +924,7 @@ e_search_bar_set_menu (ESearchBar *search_bar, ESearchBarItem *menu_items)
 	g_return_if_fail (search_bar != NULL);
 	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
 	
-	((ESearchBarClass *)((GtkObject *)search_bar)->klass)->set_menu (search_bar, menu_items);
+	((ESearchBarClass *) GTK_OBJECT_GET_CLASS (search_bar))->set_menu (search_bar, menu_items);
 }
 
 void
@@ -945,7 +943,7 @@ e_search_bar_set_option (ESearchBar *search_bar, ESearchBarItem *option_items)
 	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
 	g_return_if_fail (option_items != NULL);
 	
-	((ESearchBarClass *)((GtkObject *)search_bar)->klass)->set_option (search_bar, option_items);
+	((ESearchBarClass *) GTK_OBJECT_GET_CLASS (search_bar))->set_option (search_bar, option_items);
 }
 
 /**

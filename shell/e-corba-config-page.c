@@ -43,7 +43,6 @@ struct _ECorbaConfigPagePrivate {
 	GNOME_Evolution_ConfigControl config_control_interface;
 
 	BonoboListener *listener;
-	Bonobo_EventSource_ListenerId listener_id;
 
 	Bonobo_EventSource event_source;
 };
@@ -53,8 +52,8 @@ struct _ECorbaConfigPagePrivate {
 
 static void
 listener_event_callback (BonoboListener *listener,
-			 char *event_name, 
-			 CORBA_any *any,
+			 const char *event_name, 
+			 const CORBA_any *any,
 			 CORBA_Environment *ev,
 			 void *data)
 {
@@ -80,18 +79,18 @@ setup_listener (ECorbaConfigPage *corba_config_page,
 
 	event_source = GNOME_Evolution_ConfigControl__get_eventSource (config_control_interface, &ev);
 	if (BONOBO_EX (&ev)) {
-		g_warning ("Cannot get eventSource interface for ConfigPage -- %s", BONOBO_EX_ID (&ev));
+		g_warning ("Cannot get eventSource interface for ConfigPage -- %s", BONOBO_EX_REPOID (&ev));
 	} else {
 		priv->listener = bonobo_listener_new (listener_event_callback, corba_config_page);
-		priv->listener_id = Bonobo_EventSource_addListener (event_source,
-								    bonobo_object_corba_objref (BONOBO_OBJECT (priv->listener)),
-								    &ev);
+		Bonobo_EventSource_addListener (event_source,
+						bonobo_object_corba_objref (BONOBO_OBJECT (priv->listener)),
+						&ev);
 
 		if (! BONOBO_EX (&ev)) {
 			priv->config_control_interface = config_control_interface;
 			priv->event_source = event_source;
 		} else {
-			g_warning ("Cannot add listener for ConfigPage -- %s", BONOBO_EX_ID (&ev));
+			g_warning ("Cannot add listener for ConfigPage -- %s", BONOBO_EX_REPOID (&ev));
 
 			bonobo_object_unref (BONOBO_OBJECT (priv->listener));
 			priv->listener = NULL;
@@ -122,7 +121,9 @@ impl_destroy (GtkObject *object)
 			bonobo_object_release_unref (priv->config_control_interface, &ev);
 
 		if (priv->listener != NULL) {
-			Bonobo_EventSource_removeListener (priv->event_source, priv->listener_id, &ev);
+			Bonobo_EventSource_removeListener (priv->event_source,
+							   bonobo_object_corba_objref (BONOBO_OBJECT (priv->listener)),
+							   &ev);
 			bonobo_object_unref (BONOBO_OBJECT (priv->listener));
 
 			bonobo_object_release_unref (priv->event_source, &ev);
@@ -155,7 +156,7 @@ impl_apply (EConfigPage *config_page)
 	GNOME_Evolution_ConfigControl_apply (priv->config_control_interface, &ev);
 
 	if (BONOBO_EX (&ev))
-		g_warning ("Cannot apply settings -- %s", BONOBO_EX_ID (&ev));
+		g_warning ("Cannot apply settings -- %s", BONOBO_EX_REPOID (&ev));
 
 	CORBA_exception_free (&ev);
 }
@@ -186,7 +187,6 @@ init (ECorbaConfigPage *corba_config_page)
 	priv = g_new (ECorbaConfigPagePrivate, 1);
 	priv->config_control_interface = CORBA_OBJECT_NIL;
 	priv->listener                 = NULL;
-	priv->listener_id              = (Bonobo_EventSource_ListenerId) 0;
 	priv->event_source             = CORBA_OBJECT_NIL;
 
 	corba_config_page->priv = priv;
@@ -208,7 +208,7 @@ e_corba_config_page_construct (ECorbaConfigPage *corba_config_page,
 
 	control = GNOME_Evolution_ConfigControl__get_control (corba_object, &ev);
 	if (BONOBO_EX (&ev)) {
-		g_warning ("Can't get control from ::ConfigControl -- %s", BONOBO_EX_ID (&ev));
+		g_warning ("Can't get control from ::ConfigControl -- %s", BONOBO_EX_REPOID (&ev));
 		CORBA_exception_init (&ev);
 		return FALSE;
 	}

@@ -44,11 +44,7 @@
 #include <glib.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtkwidget.h>
-#include <libgnome/gnome-defs.h>
  
-BEGIN_GNOME_DECLS
-
-
 #define E_TYPE_DATE_EDIT            (e_date_edit_get_type ())
 #define E_DATE_EDIT(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_DATE_EDIT, EDateEdit))
 #define E_DATE_EDIT_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), E_TYPE_DATE_EDIT, EDateEditClass))
@@ -178,7 +174,5 @@ void	   e_date_edit_set_get_time_callback	(EDateEdit	*dedit,
 						 EDateEditGetTimeCallback cb,
 						 gpointer	 data,
 						 GtkDestroyNotify destroy);
-
-END_GNOME_DECLS
 
 #endif

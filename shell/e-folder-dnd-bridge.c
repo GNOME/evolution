@@ -36,6 +36,8 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 
+#include <string.h>
+
 
 /* Callbacks for folder operations.  */
 
@@ -157,12 +159,12 @@ find_matching_target_for_drag_context (EStorageSet *storage_set,
 	for (p = drag_context->targets; p != NULL; p = p->next) {
 		char *possible_type;
 
-		possible_type = gdk_atom_name (GPOINTER_TO_INT (p->data));
+		possible_type = gdk_atom_name (*((GdkAtom *) p->data));
 		if (strcmp (possible_type, E_FOLDER_DND_PATH_TARGET_TYPE) == 0) {
 			g_free (possible_type);
 
 			if (atom_return != NULL)
-				*atom_return = GPOINTER_TO_INT (p->data);
+				*atom_return = *((GdkAtom *) p->data);
 
 			return E_FOLDER_DND_PATH_TARGET_TYPE;
 		}
@@ -175,7 +177,7 @@ find_matching_target_for_drag_context (EStorageSet *storage_set,
 				g_free (possible_type);
 
 				if (atom_return != NULL)
-					*atom_return = GPOINTER_TO_INT (p->data);
+					*atom_return = *((GdkAtom *) p->data);
 
 				return accepted_type;
 			}
@@ -416,7 +418,7 @@ handle_data_received_non_path (GdkDragContext *context,
 	corba_context.suggestedAction = convert_gdk_drag_action_to_corba (context->suggested_action);
 
 	corba_data.format = selection_data->format;
-	corba_data.target = selection_data->target;
+	corba_data.target = 0; /* selection_data->target FIXME */
 
 	corba_data.bytes._release = FALSE;
 

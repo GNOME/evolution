@@ -34,9 +34,11 @@
 #include <bonobo/bonobo-exception.h>
 #include <gal/util/e-util.h>
 
+#include <string.h>
+
 
-#define PARENT_TYPE BONOBO_OBJECT_TYPE
-static BonoboObjectClass *parent_class = NULL;
+#define PARENT_TYPE BONOBO_X_OBJECT_TYPE
+static BonoboXObjectClass *parent_class = NULL;
 
 struct _ECorbaStorageRegistryPrivate {
 	EStorageSet *storage_set;
@@ -46,31 +48,6 @@ struct _ECorbaStorageRegistryPrivate {
 
 
 /* CORBA interface implementation.  */
-
-static POA_GNOME_Evolution_StorageRegistry__vepv storage_registry_vepv;
-
-static POA_GNOME_Evolution_StorageRegistry *
-create_servant (void)
-{
-	POA_GNOME_Evolution_StorageRegistry *servant;
-	CORBA_Environment ev;
-
-	servant = (POA_GNOME_Evolution_StorageRegistry *) g_new0 (BonoboObjectServant, 1);
-	servant->vepv = &storage_registry_vepv;
-
-	CORBA_exception_init (&ev);
-
-	POA_GNOME_Evolution_StorageRegistry__init ((PortableServer_Servant) servant, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_free (servant);
-		CORBA_exception_free (&ev);
-		return NULL;
-	}
-
-	CORBA_exception_free (&ev);
-
-	return servant;
-}
 
 static void
 listener_notify (Bonobo_Listener listener,
@@ -432,18 +409,15 @@ destroy (GtkObject *object)
 /* Initialization.  */
 
 static void
-corba_class_init (void)
+class_init (ECorbaStorageRegistryClass *klass)
 {
-	POA_GNOME_Evolution_StorageRegistry__vepv *vepv;
+	GtkObjectClass *object_class;
 	POA_GNOME_Evolution_StorageRegistry__epv *epv;
-	PortableServer_ServantBase__epv *base_epv;
 
-	base_epv = g_new0 (PortableServer_ServantBase__epv, 1);
-	base_epv->_private    = NULL;
-	base_epv->finalize    = NULL;
-	base_epv->default_POA = NULL;
+	object_class = GTK_OBJECT_CLASS (klass);
+	object_class->destroy = destroy;
 
-	epv = g_new0 (POA_GNOME_Evolution_StorageRegistry__epv, 1);
+	epv = & klass->epv;
 	epv->addStorage          = impl_StorageRegistry_addStorage;
 	epv->getStorageList      = impl_StorageRegistry_getStorageList;
 	epv->getStorageByName    = impl_StorageRegistry_getStorageByName;
@@ -452,23 +426,7 @@ corba_class_init (void)
 	epv->removeListener      = impl_StorageRegistry_removeListener;
 	epv->getFolderByUri      = impl_StorageRegistry_getFolderByUri;
 
-	vepv = &storage_registry_vepv;
-	vepv->_base_epv                     = base_epv;
-	vepv->Bonobo_Unknown_epv            = bonobo_object_get_epv ();
-	vepv->GNOME_Evolution_StorageRegistry_epv = epv;
-}
-
-static void
-class_init (ECorbaStorageRegistryClass *klass)
-{
-	GtkObjectClass *object_class;
-
-	object_class = GTK_OBJECT_CLASS (klass);
-	object_class->destroy = destroy;
-
 	parent_class = gtk_type_class (PARENT_TYPE);
-
-	corba_class_init ();
 }
 
 static void
@@ -486,16 +444,11 @@ init (ECorbaStorageRegistry *corba_storage_registry)
 
 void
 e_corba_storage_registry_construct (ECorbaStorageRegistry *corba_storage_registry,
-				    GNOME_Evolution_StorageRegistry corba_object,
 				    EStorageSet *storage_set)
 {
 	ECorbaStorageRegistryPrivate *priv;
 
-	g_return_if_fail (corba_storage_registry != NULL);
 	g_return_if_fail (E_IS_CORBA_STORAGE_REGISTRY (corba_storage_registry));
-	g_return_if_fail (corba_object != CORBA_OBJECT_NIL);
-
-	bonobo_object_construct (BONOBO_OBJECT (corba_storage_registry), corba_object);
 
 	priv = corba_storage_registry->priv;
 
@@ -507,25 +460,19 @@ ECorbaStorageRegistry *
 e_corba_storage_registry_new (EStorageSet *storage_set)
 {
 	ECorbaStorageRegistry *corba_storage_registry;
-	POA_GNOME_Evolution_StorageRegistry *servant;
-	GNOME_Evolution_StorageRegistry corba_object;
 
 	g_return_val_if_fail (storage_set != NULL, NULL);
 	g_return_val_if_fail (E_IS_STORAGE_SET (storage_set), NULL);
 
-	servant = create_servant ();
-	if (servant == NULL)
-		return NULL;
-
 	corba_storage_registry = gtk_type_new (e_corba_storage_registry_get_type ());
 
-	corba_object = bonobo_object_activate_servant (BONOBO_OBJECT (corba_storage_registry),
-						       servant);
-
-	e_corba_storage_registry_construct (corba_storage_registry, corba_object, storage_set);
+	e_corba_storage_registry_construct (corba_storage_registry, storage_set);
 
 	return corba_storage_registry;
 }
 
 
-E_MAKE_TYPE (e_corba_storage_registry, "ECorbaStorageRegistry", ECorbaStorageRegistry, class_init, init, PARENT_TYPE)
+E_MAKE_X_TYPE (e_corba_storage_registry, "ECorbaStorageRegistry", ECorbaStorageRegistry,
+	       class_init, init, PARENT_TYPE,
+	       POA_GNOME_Evolution_StorageRegistry__init,
+	       GTK_STRUCT_OFFSET (ECorbaStorageRegistryClass, epv))

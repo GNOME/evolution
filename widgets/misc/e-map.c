@@ -80,28 +80,17 @@ typedef struct
 EMapPrivate;
 
 
-/* Signal IDs */
-
-enum
-{
-	LAST_SIGNAL
-};
-
-static guint e_map_signals[LAST_SIGNAL];
-
-
 /* Internal prototypes */
 
 static void e_map_class_init (EMapClass *class);
 static void e_map_init (EMap *view);
+static void e_map_finalize (GObject *object);
 static void e_map_destroy (GtkObject *object);
-static void e_map_finalize (GtkObject *object);
 static void e_map_unmap (GtkWidget *widget);
 static void e_map_realize (GtkWidget *widget);
 static void e_map_unrealize (GtkWidget *widget);
 static void e_map_size_request (GtkWidget *widget, GtkRequisition *requisition);
 static void e_map_size_allocate (GtkWidget *widget, GtkAllocation *allocation);
-static void e_map_draw (GtkWidget *widget, GdkRectangle *area);
 static gint e_map_button_press (GtkWidget *widget, GdkEventButton *event);
 static gint e_map_button_release (GtkWidget *widget, GdkEventButton *event);
 static gint e_map_motion (GtkWidget *widget, GdkEventMotion *event);
@@ -170,28 +159,35 @@ e_map_get_type (void)
 static void
 e_map_class_init (EMapClass *class)
 {
+	GObjectClass *gobject_class;
 	GtkObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
+	gobject_class = (GObjectClass *) class;
 	object_class = (GtkObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
 
 	parent_class = gtk_type_class (GTK_TYPE_WIDGET);
 
+	gobject_class->finalize = e_map_finalize;
+
 	object_class->destroy = e_map_destroy;
-	object_class->finalize = e_map_finalize;
 
 	class->set_scroll_adjustments = e_map_set_scroll_adjustments;
-	widget_class->set_scroll_adjustments_signal = gtk_signal_new ("set_scroll_adjustments", GTK_RUN_LAST, object_class->type, GTK_SIGNAL_OFFSET (EMapClass, set_scroll_adjustments), gtk_marshal_NONE__POINTER_POINTER, GTK_TYPE_NONE, 2, GTK_TYPE_ADJUSTMENT, GTK_TYPE_ADJUSTMENT);
-
-	gtk_object_class_add_signals (object_class, e_map_signals, LAST_SIGNAL);
+	widget_class->set_scroll_adjustments_signal = gtk_signal_new ("set_scroll_adjustments",
+								      GTK_RUN_LAST,
+								      GTK_CLASS_TYPE (object_class),
+								      GTK_SIGNAL_OFFSET (EMapClass, set_scroll_adjustments),
+								      gtk_marshal_NONE__POINTER_POINTER,
+								      GTK_TYPE_NONE, 2,
+								      GTK_TYPE_ADJUSTMENT,
+								      GTK_TYPE_ADJUSTMENT);
 
 	widget_class->unmap = e_map_unmap;
 	widget_class->realize = e_map_realize;
 	widget_class->unrealize = e_map_unrealize;
 	widget_class->size_request = e_map_size_request;
 	widget_class->size_allocate = e_map_size_allocate;
-	widget_class->draw = e_map_draw;
 	widget_class->button_press_event = e_map_button_press;
 	widget_class->button_release_event = e_map_button_release;
 	widget_class->motion_notify_event = e_map_motion;
@@ -246,7 +242,7 @@ e_map_destroy (GtkObject *object)
 /* Finalize handler for the map view */
 
 static void
-e_map_finalize (GtkObject *object)
+e_map_finalize (GObject *object)
 {
 	EMap *view;
 	EMapPrivate *priv;
@@ -278,8 +274,8 @@ e_map_finalize (GtkObject *object)
 	g_free (priv);
 	view->priv = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->finalize)
-		(*GTK_OBJECT_CLASS (parent_class)->finalize) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(*G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -404,23 +400,6 @@ e_map_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 	}
 
 	update_render_pixbuf (view, GDK_INTERP_BILINEAR, TRUE);
-}
-
-
-/* Draw handler for the map view */
-
-static void
-e_map_draw (GtkWidget *widget, GdkRectangle *area)
-{
-	EMap *view;
-
-	g_return_if_fail (widget != NULL);
-	g_return_if_fail (IS_E_MAP (widget));
-	g_return_if_fail (area != NULL);
-
-	view = E_MAP (widget);
-
-	request_paint_area (view, area);
 }
 
 
@@ -991,15 +970,15 @@ load_map_background (EMap *view, gchar *name)
 
 	priv = view->priv;
 
-	pb0 = gdk_pixbuf_new_from_file (name);
-/*	pb0 = tool_load_image (name);*/
-	if (!pb0) return (FALSE);
+	pb0 = gdk_pixbuf_new_from_file (name, NULL);
+	if (!pb0)
+		return FALSE;
 
 	if (priv->map_pixbuf) gdk_pixbuf_unref (priv->map_pixbuf);
 	priv->map_pixbuf = pb0;
 	update_render_pixbuf (view, GDK_INTERP_BILINEAR, TRUE);
 
-	return (TRUE);
+	return TRUE;
 }
 
 

@@ -78,7 +78,7 @@ static guint signals[LAST_SIGNAL] = { 0 };
 /* EFolder methods.  */
 
 static gboolean
-save_info (EFolder *folder)
+impl_save_info (EFolder *folder)
 {
 	g_warning ("`%s' does not implement `EFolder::save_info()'",
 		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
@@ -86,7 +86,7 @@ save_info (EFolder *folder)
 }
 
 static gboolean
-load_info (EFolder *folder)
+impl_load_info (EFolder *folder)
 {
 	g_warning ("`%s' does not implement `EFolder::load_info()'",
 		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
@@ -94,7 +94,7 @@ load_info (EFolder *folder)
 }
 
 static gboolean
-remove (EFolder *folder)
+impl_remove (EFolder *folder)
 {
 	g_warning ("`%s' does not implement `EFolder::remove()'",
 		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
@@ -102,7 +102,7 @@ remove (EFolder *folder)
 }
 
 static const char *
-get_physical_uri (EFolder *folder)
+impl_get_physical_uri (EFolder *folder)
 {
 	return folder->priv->physical_uri;
 }
@@ -144,24 +144,22 @@ class_init (EFolderClass *klass)
 
 	signals[CHANGED] = gtk_signal_new ("changed",
 					   GTK_RUN_FIRST,
-					   object_class->type,
+					   GTK_CLASS_TYPE (object_class),
 					   GTK_SIGNAL_OFFSET (EFolderClass, changed),
 					   gtk_marshal_NONE__NONE,
 					   GTK_TYPE_NONE, 0);
 
 	signals[NAME_CHANGED] = gtk_signal_new ("name_changed",
 						GTK_RUN_FIRST,
-						object_class->type,
+						GTK_CLASS_TYPE (object_class),
 						GTK_SIGNAL_OFFSET (EFolderClass, name_changed),
 						gtk_marshal_NONE__NONE,
 						GTK_TYPE_NONE, 0);
 
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
-
-	klass->save_info 	= save_info;
-	klass->load_info 	= load_info;
-	klass->remove    	= remove;
-	klass->get_physical_uri = get_physical_uri;
+	klass->save_info 	= impl_save_info;
+	klass->load_info 	= impl_load_info;
+	klass->remove    	= impl_remove;
+	klass->get_physical_uri = impl_get_physical_uri;
 }
 
 static void

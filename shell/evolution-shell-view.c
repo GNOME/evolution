@@ -31,8 +31,8 @@
 #include "evolution-shell-view.h"
 
 
-#define PARENT_TYPE bonobo_object_get_type ()
-static BonoboObjectClass *parent_class = NULL;
+#define PARENT_TYPE bonobo_x_object_get_type ()
+static BonoboXObjectClass *parent_class = NULL;
 
 struct _EvolutionShellViewPrivate {
 	int dummy;
@@ -51,30 +51,6 @@ static int signals[LAST_SIGNAL] = { 0 };
 
 
 /* CORBA interface implementation.  */
-
-static POA_GNOME_Evolution_ShellView__vepv ShellView_vepv;
-
-static POA_GNOME_Evolution_ShellView *
-create_servant (void)
-{
-	POA_GNOME_Evolution_ShellView *servant;
-	CORBA_Environment ev;
-
-	servant = (POA_GNOME_Evolution_ShellView *) g_new0 (BonoboObjectServant, 1);
-	servant->vepv = &ShellView_vepv;
-	CORBA_exception_init (&ev);
-
-	POA_GNOME_Evolution_ShellView__init ((PortableServer_Servant) servant, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_free (servant);
-		CORBA_exception_free (&ev);
-		return NULL;
-	}
-
-	CORBA_exception_free (&ev);
-
-	return servant;
-}
 
 static void
 impl_ShellView_set_message (PortableServer_Servant servant,
@@ -162,18 +138,15 @@ destroy (GtkObject *object)
 
 
 static void
-corba_class_init (void)
+class_init (EvolutionShellViewClass *klass)
 {
-	POA_GNOME_Evolution_ShellView__vepv *vepv;
 	POA_GNOME_Evolution_ShellView__epv *epv;
-	PortableServer_ServantBase__epv *base_epv;
+	GtkObjectClass *object_class;
 
-	base_epv = g_new0 (PortableServer_ServantBase__epv, 1);
-	base_epv->_private    = NULL;
-	base_epv->finalize    = NULL;
-	base_epv->default_POA = NULL;
+	object_class = GTK_OBJECT_CLASS (klass);
+	object_class->destroy = destroy;
 
-	epv = g_new0 (POA_GNOME_Evolution_ShellView__epv, 1);
+	epv = &klass->epv;
 	epv->setMessage        = impl_ShellView_set_message;
 	epv->unsetMessage      = impl_ShellView_unset_message;
 	epv->changeCurrentView = impl_ShellView_change_current_view;
@@ -181,24 +154,10 @@ corba_class_init (void)
 	epv->setFolderBarLabel = impl_ShellView_set_folder_bar_label;
 	epv->showSettings      = impl_ShellView_show_settings;
 
-	vepv = &ShellView_vepv;
-	vepv->_base_epv               = base_epv;
-	vepv->Bonobo_Unknown_epv      = bonobo_object_get_epv ();
-	vepv->GNOME_Evolution_ShellView_epv = epv;
-}
-
-static void
-class_init (EvolutionShellViewClass *klass)
-{
-	GtkObjectClass *object_class;
-
-	object_class = GTK_OBJECT_CLASS (klass);
-	object_class->destroy = destroy;
-
 	signals[SET_MESSAGE]
 		= gtk_signal_new ("set_message",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EvolutionShellViewClass, set_message),
 				  gtk_marshal_NONE__POINTER_INT,
 				  GTK_TYPE_NONE, 2,
@@ -208,7 +167,7 @@ class_init (EvolutionShellViewClass *klass)
 	signals[UNSET_MESSAGE]
 		= gtk_signal_new ("unset_message",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EvolutionShellViewClass, unset_message),
 				  gtk_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
@@ -216,7 +175,7 @@ class_init (EvolutionShellViewClass *klass)
 	signals[CHANGE_VIEW]
 		= gtk_signal_new ("change_current_view",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EvolutionShellViewClass, change_current_view),
 				  gtk_marshal_NONE__POINTER,
 				  GTK_TYPE_NONE, 1,
@@ -225,7 +184,7 @@ class_init (EvolutionShellViewClass *klass)
 	signals[SET_TITLE]
 		= gtk_signal_new ("set_title",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EvolutionShellViewClass, set_title),
 				  gtk_marshal_NONE__POINTER,
 				  GTK_TYPE_NONE, 1,
@@ -234,7 +193,7 @@ class_init (EvolutionShellViewClass *klass)
 	signals[SET_FOLDER_BAR_LABEL]
 		= gtk_signal_new ("set_folder_bar_label",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EvolutionShellViewClass, set_folder_bar_label),
 				  gtk_marshal_NONE__POINTER,
 				  GTK_TYPE_NONE, 1,
@@ -243,16 +202,12 @@ class_init (EvolutionShellViewClass *klass)
 	signals[SHOW_SETTINGS]
 		= gtk_signal_new ("show_settings",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EvolutionShellViewClass, show_settings),
 				  gtk_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
 
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
-
-	parent_class = gtk_type_class (bonobo_object_get_type ());
-
-	corba_class_init ();
+	parent_class = gtk_type_class (bonobo_x_object_get_type ());
 }
 
 static void
@@ -267,22 +222,6 @@ init (EvolutionShellView *shell_view)
 }
 
 
-/**
- * evolution_shell_view_construct:
- * @shell_view: 
- * @corba_object: 
- * 
- * Construct @shell_view with the specified @corba_object.
- **/
-void
-evolution_shell_view_construct (EvolutionShellView *shell_view,
-				GNOME_Evolution_ShellView corba_object)
-{
-	g_return_if_fail (shell_view != NULL);
-	g_return_if_fail (EVOLUTION_IS_SHELL_VIEW (shell_view));
-
-	bonobo_object_construct (BONOBO_OBJECT (shell_view), corba_object);
-}
 
 /**
  * evolution_shell_view_new:
@@ -294,22 +233,11 @@ evolution_shell_view_construct (EvolutionShellView *shell_view,
 EvolutionShellView *
 evolution_shell_view_new (void)
 {
-	POA_GNOME_Evolution_ShellView *servant;
-	GNOME_Evolution_ShellView corba_object;
-	EvolutionShellView *new;
-
-	servant = create_servant ();
-	if (servant == NULL)
-		return NULL;
-
-	new = gtk_type_new (evolution_shell_view_get_type ());
-
-	corba_object = bonobo_object_activate_servant (BONOBO_OBJECT (new), servant);
-
-	evolution_shell_view_construct (new, corba_object);
-
-	return new;
+	return gtk_type_new (evolution_shell_view_get_type ());
 }
 
 
-E_MAKE_TYPE (evolution_shell_view, "EvolutionShellView", EvolutionShellView, class_init, init, PARENT_TYPE)
+E_MAKE_X_TYPE (evolution_shell_view, "EvolutionShellView", EvolutionShellView,
+	       class_init, init, PARENT_TYPE,
+	       POA_GNOME_Evolution_ShellView__init,
+	       GTK_STRUCT_OFFSET (EvolutionShellViewClass, epv))

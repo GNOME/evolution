@@ -16,7 +16,7 @@
 #include <parser.h>
 #include <gal/util/e-i18n.h>
 #include <gal/util/e-xml-utils.h>
-#include <bonobo-conf/bonobo-config-database.h>
+
 #include <bonobo/bonobo-moniker-util.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-listener.h>

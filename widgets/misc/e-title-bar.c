@@ -261,21 +261,19 @@ class_init (ETitleBarClass *klass)
 	signals[LABEL_BUTTON_PRESS_EVENT] = 
 		gtk_signal_new ("label_button_press_event",
 				GTK_RUN_FIRST,
-				object_class->type,
+				GTK_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETitleBarClass, label_button_press_event),
 				gtk_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1,
-				GTK_TYPE_GDK_EVENT);
+				GTK_TYPE_POINTER);
 
 	signals[BUTTON_CLICKED] = 
 		gtk_signal_new ("button_clicked",
 				GTK_RUN_FIRST,
-				object_class->type,
+				GTK_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETitleBarClass, button_clicked),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void

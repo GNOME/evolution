@@ -31,6 +31,8 @@
 
 #include <gal/util/e-util.h>
 
+#include <bonobo-activation/bonobo-activation.h>
+
 #include "Evolution.h"
 
 #include "e-shell-utils.h"
@@ -93,7 +95,7 @@ wait_for_corba_object_to_die (Bonobo_Unknown corba_objref,
 
 	count = 1;
 	while (1) {
-		alive = bonobo_unknown_ping (corba_objref);
+		alive = bonobo_unknown_ping (corba_objref, NULL);
 		if (! alive)
 			break;
 
@@ -112,7 +114,7 @@ component_new (const char *id,
 {
 	Component *new;
 
-	bonobo_object_ref (BONOBO_OBJECT (client));
+	g_object_ref (client);
 
 	new = g_new (Component, 1);
 	new->id                = g_strdup (id);
@@ -141,7 +143,7 @@ component_free (Component *component)
 		retval = FALSE;
 	CORBA_exception_free (&ev);
 
-	bonobo_object_unref (BONOBO_OBJECT (component->client));
+	g_object_unref (component->client);
 
 	wait_for_corba_object_to_die ((Bonobo_Unknown) corba_shell_component, component->id);
 	CORBA_Object_release (corba_shell_component, &ev);
@@ -236,7 +238,7 @@ register_component (EComponentRegistry *component_registry,
 
 	supported_types = GNOME_Evolution_ShellComponent__get_supportedTypes (component_corba_interface, &my_ev);
 	if (my_ev._major != CORBA_NO_EXCEPTION || supported_types->_length == 0) {
-		bonobo_object_unref (BONOBO_OBJECT (client));
+		g_object_unref (client);
 		CORBA_exception_free (&my_ev);
 		return FALSE;
 	}
@@ -245,7 +247,7 @@ register_component (EComponentRegistry *component_registry,
 
 	component = component_new (id, client);
 	g_hash_table_insert (priv->component_id_to_component, component->id, component);
-	bonobo_object_unref (BONOBO_OBJECT (client));
+	g_object_unref (client);
 
 	for (i = 0; i < supported_types->_length; i++) {
 		const GNOME_Evolution_FolderType *type;

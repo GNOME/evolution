@@ -94,11 +94,11 @@ load_icon (const char *icon_name)
 	char *path;
 
 	path = g_strconcat (EVOLUTION_IMAGES, "/", icon_name, "-mini.png", NULL);
-	small_pixbuf = gdk_pixbuf_new_from_file (path);
+	small_pixbuf = gdk_pixbuf_new_from_file (path, NULL);
 	g_free (path);
 
 	path = g_strconcat (EVOLUTION_IMAGES, "/", icon_name, ".png", NULL);
-	large_pixbuf = gdk_pixbuf_new_from_file (path);
+	large_pixbuf = gdk_pixbuf_new_from_file (path, NULL);
 	g_free (path);
 
 	if (large_pixbuf == NULL || small_pixbuf == NULL)

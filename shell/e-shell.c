@@ -125,7 +125,7 @@ struct _EShellPrivate {
 	GtkWidget *settings_dialog;
 	
 	/* Configuration Database */
-	Bonobo_ConfigDatabase db;
+	EConfigListener *config_listener;
 
 	/* Whether the shell is succesfully initialized.  This is needed during
 	   the start-up sequence, to avoid CORBA calls to do make wrong things
@@ -1037,8 +1037,6 @@ destroy (GtkObject *object)
 
 	priv->is_initialized = FALSE;
 
-	e_shell_disconnect_db (shell);
-
 	if (priv->iid != NULL)
 		oaf_active_server_unregister (priv->iid, bonobo_object_corba_objref (BONOBO_OBJECT (shell)));
 
@@ -1097,6 +1095,16 @@ destroy (GtkObject *object)
 		gtk_object_unref (GTK_OBJECT (priv->offline_handler));
 
 	e_free_string_list (priv->crash_type_names);
+
+	if (priv->settings_dialog != NULL) {
+		gtk_object_destroy (priv->settings_dialog);
+		priv->settings_dialog = NULL;
+	}
+
+	if (priv->config_listener != NULL) {
+		g_object_unref (priv->config_listener);
+		priv->config_listener = NULL;
+	}
 
 	g_free (priv);
 
@@ -1254,25 +1262,9 @@ e_shell_construct (EShell *shell,
            cannot register their own storages.  */
 	if (! setup_corba_storages (shell))
 		return FALSE;
-	
-	CORBA_exception_init (&ev);
-	
-	priv->db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
-	if (BONOBO_EX (&ev) || priv->db == CORBA_OBJECT_NIL) {
-		g_warning ("Cannot access Bonobo/ConfigDatabase on wombat: (%s)", ev._repo_id);
-		
-		/* Make sure the DB object is NIL so we don't mess up
-		   (`bonobo_get_object()' might return an undefined value in
-		   the case of an exception).  */
-		priv->db = CORBA_OBJECT_NIL;
-		
-		CORBA_exception_free (&ev);
-		return E_SHELL_CONSTRUCT_RESULT_NOCONFIGDB;
- 	}
-	e_setup_check_db (priv->db, local_directory);
-	
-	CORBA_exception_free (&ev);
 
+	e_setup_check_db (priv->config_listener, local_directory);
+	
 	/* Now we can register into OAF.  Notice that we shouldn't be
 	   registering into OAF until we are sure we can complete.  */
 	
@@ -2106,11 +2098,11 @@ e_shell_show_settings (EShell *shell, const char *type, EShellView *shell_view)
 
 
 Bonobo_ConfigDatabase 
-e_shell_get_config_db (EShell *shell)
+e_shell_get_config_listener (EShell *shell)
 {
 	g_return_val_if_fail (E_IS_SHELL (shell), CORBA_OBJECT_NIL);
 
-	return shell->priv->db;
+	return shell->priv->config_listener;
 }
 
 EComponentRegistry *

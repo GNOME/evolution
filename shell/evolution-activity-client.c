@@ -37,6 +37,7 @@
 #include <gtk/gtkmain.h>
 
 #include <bonobo/bonobo-listener.h>
+#include <bonobo/bonobo-exception.h>
 
 #include <gal/util/e-util.h>
 
@@ -99,11 +100,11 @@ corba_update_progress (EvolutionActivityClient *activity_client,
 						       progress,
 						       &ev);
 
-	if (ev._major == CORBA_NO_EXCEPTION) {
+	if (! BONOBO_EX (&ev)) {
 		retval = TRUE;
 	} else {
 		g_warning ("EvolutionActivityClient: Error updating progress -- %s",
-			   ev._repo_id);
+			   BONOBO_EX_REPOID (&ev));
 		retval = FALSE;
 	}
 
@@ -136,8 +137,8 @@ update_timeout_callback (void *data)
 
 static void
 listener_callback (BonoboListener *listener,
-		   char *event_name, 
-		   CORBA_any *any,
+		   const char *event_name, 
+		   const CORBA_any *any,
 		   CORBA_Environment *ev,
 		   void *data)
 {
@@ -175,9 +176,9 @@ impl_destroy (GtkObject *object)
 		GNOME_Evolution_Activity_operationFinished (priv->activity_interface,
 							    priv->activity_id,
 							    &ev);
-		if (ev._major != CORBA_NO_EXCEPTION)
+		if (BONOBO_EX (&ev))
 			g_warning ("EvolutionActivityClient: Error reporting completion of operation -- %s",
-				   ev._repo_id);
+				   BONOBO_EX_REPOID (&ev));
 
 		CORBA_Object_release (priv->activity_interface, &ev);
 	}
@@ -208,7 +209,7 @@ class_init (EvolutionActivityClientClass *klass)
 	signals[SHOW_DETAILS] 
 		= gtk_signal_new ("show_details",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EvolutionActivityClientClass, show_details),
 				  gtk_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
@@ -216,12 +217,10 @@ class_init (EvolutionActivityClientClass *klass)
 	signals[CANCEL] 
 		= gtk_signal_new ("cancel",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EvolutionActivityClientClass, cancel),
 				  gtk_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 
@@ -411,8 +410,8 @@ evolution_activity_client_request_dialog (EvolutionActivityClient *activity_clie
 							 priv->activity_id,
 							 dialog_type,
 							 &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("EvolutionActivityClient: Error requesting a dialog -- %s", ev._repo_id);
+	if (BONOBO_EX (&ev) != CORBA_NO_EXCEPTION) {
+		g_warning ("EvolutionActivityClient: Error requesting a dialog -- %s", BONOBO_EX_REPOID (&ev));
 		retval = GNOME_Evolution_Activity_DIALOG_ACTION_ERROR;
 	}
 

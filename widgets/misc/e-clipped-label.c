@@ -40,7 +40,6 @@
 
 #include <glib.h>
 #include <gdk/gdki18n.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 
 
@@ -156,7 +155,7 @@ e_clipped_label_size_request (GtkWidget      *widget,
 	g_return_if_fail (requisition != NULL);
   
 	label = E_CLIPPED_LABEL (widget);
-	font = widget->style->font;
+	font = gtk_style_get_font (widget->style);
 
 	requisition->width = 0;
 	requisition->height = font->ascent + font->descent
@@ -194,7 +193,7 @@ e_clipped_label_expose (GtkWidget      *widget,
   
 	label = E_CLIPPED_LABEL (widget);
 	misc = GTK_MISC (widget);
-	font = widget->style->font;
+	font = gtk_style_get_font (widget->style);
 
 	/* If the label isn't visible or has no text, just return. */
 	if (!GTK_WIDGET_VISIBLE (widget) || !GTK_WIDGET_MAPPED (widget)
@@ -339,7 +338,7 @@ e_clipped_label_recalc_chars_displayed (EClippedLabel *label)
 	GdkFont *font;
 	gint max_width, width, ch, last_width;
 
-	font = GTK_WIDGET (label)->style->font;
+	font = gtk_style_get_font (GTK_WIDGET (label)->style);
 
 	max_width = GTK_WIDGET (label)->allocation.width
 		- 2 * GTK_MISC (label)->xpad;

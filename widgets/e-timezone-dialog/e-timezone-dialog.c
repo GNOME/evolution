@@ -246,8 +246,7 @@ e_timezone_dialog_construct (ETimezoneDialog *etd)
 
 	/* Load the content widgets */
 
-	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR "/e-timezone-dialog.glade",
-				   NULL);
+	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR "/e-timezone-dialog.glade", NULL, NULL);
 	if (!priv->xml) {
 		g_message ("e_timezone_dialog_construct(): Could not load the Glade XML file!");
 		goto error;
@@ -546,7 +545,7 @@ get_zone_from_point (ETimezoneDialog *etd,
    It will be in the GTK+ encoding, i.e. not UTF-8. */
 char*
 e_timezone_dialog_get_timezone		(ETimezoneDialog  *etd,
-					 char		 **display_name)
+					 const char **display_name)
 {
 	ETimezoneDialogPrivate *priv;
 
@@ -612,7 +611,7 @@ find_selected_point (ETimezoneDialog *etd)
 {
 	ETimezoneDialogPrivate *priv;
 	icalarray *zones;
-	char *current_zone;
+	const char *current_zone;
 	EMapPoint *point = NULL;
 	int i;
 

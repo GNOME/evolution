@@ -10,7 +10,6 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-util.h>
 
 #if DB_VERSION_MAJOR != 3 || \

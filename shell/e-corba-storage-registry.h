@@ -23,7 +23,7 @@
 #ifndef __E_CORBA_STORAGE_REGISTRY_H__
 #define __E_CORBA_STORAGE_REGISTRY_H__
 
-#include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-xobject.h>
 
 #include "Evolution.h"
 #include "e-storage-set.h"
@@ -45,19 +45,20 @@ typedef struct _ECorbaStorageRegistryPrivate ECorbaStorageRegistryPrivate;
 typedef struct _ECorbaStorageRegistryClass   ECorbaStorageRegistryClass;
 
 struct _ECorbaStorageRegistry {
-	BonoboObject parent;
+	BonoboXObject parent;
 
 	ECorbaStorageRegistryPrivate *priv;
 };
 
 struct _ECorbaStorageRegistryClass {
-	BonoboObjectClass parent_class;
+	BonoboXObjectClass parent_class;
+
+	POA_GNOME_Evolution_StorageRegistry__epv epv;
 };
 
 
 GtkType                e_corba_storage_registry_get_type   (void);
 void                   e_corba_storage_registry_construct  (ECorbaStorageRegistry     *corba_storage_registry,
-							    GNOME_Evolution_StorageRegistry  corba_object,
 							    EStorageSet               *storage_set);
 ECorbaStorageRegistry *e_corba_storage_registry_new        (EStorageSet               *storage_set);
 

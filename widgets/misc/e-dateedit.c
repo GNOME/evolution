@@ -54,7 +54,6 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkvbox.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include "e-util/e-time-utils.h"
 #include "e-calendar.h"
@@ -168,12 +167,12 @@ static void on_date_popup_date_selected		(ECalendarItem	*calitem,
 						 EDateEdit	*dedit);
 static void hide_date_popup			(EDateEdit	*dedit);
 static void rebuild_time_popup			(EDateEdit	*dedit);
-static gboolean field_set_to_none		(char		*text);
+static gboolean field_set_to_none		(const char	*text);
 static gboolean e_date_edit_parse_date		(EDateEdit	*dedit,
-						 char		*date_text,
+						 const char	*date_text,
 						 struct tm	*date_tm);
 static gboolean e_date_edit_parse_time		(EDateEdit	*dedit,
-						 gchar		*time_text,
+						 const gchar	*time_text,
 						 struct tm	*time_tm);
 static void on_date_edit_time_selected		(GtkList	*list,
 						 EDateEdit	*dedit);
@@ -247,20 +246,17 @@ e_date_edit_class_init		(EDateEditClass	*class)
 
 	date_edit_signals [CHANGED] =
 		gtk_signal_new ("changed",
-				GTK_RUN_FIRST, object_class->type,
-				GTK_SIGNAL_OFFSET (EDateEditClass,
-						   changed),
+				GTK_RUN_FIRST, GTK_CLASS_TYPE (object_class),
+				GTK_SIGNAL_OFFSET (EDateEditClass, changed),
 				gtk_signal_default_marshaller,
 				GTK_TYPE_NONE, 0);
 	
-	gtk_object_class_add_signals (object_class, date_edit_signals,
-				      LAST_SIGNAL);
 
-	object_class->destroy		= e_date_edit_destroy;
+	object_class->destroy = e_date_edit_destroy;
 
-	widget_class->grab_focus	= e_date_edit_grab_focus;
+	widget_class->grab_focus = e_date_edit_grab_focus;
 
-	container_class->forall		= e_date_edit_forall;
+	container_class->forall = e_date_edit_forall;
 
 	class->changed = NULL;
 }
@@ -1167,7 +1163,7 @@ e_date_edit_show_date_popup	(EDateEdit	*dedit)
 	EDateEditPrivate *priv;
 	ECalendar *calendar;
 	struct tm mtm;
-	gchar *date_text;
+	const gchar *date_text;
 	GDate selected_day;
 	gboolean clear_selection = FALSE;
 
@@ -1431,7 +1427,7 @@ rebuild_time_popup			(EDateEdit	*dedit)
 
 static gboolean
 e_date_edit_parse_date (EDateEdit *dedit,
-			gchar	  *date_text,
+			const gchar *date_text,
 			struct tm *date_tm)
 {
 	if (e_time_parse_date (date_text, date_tm) != E_TIME_PARSE_OK)
@@ -1443,7 +1439,7 @@ e_date_edit_parse_date (EDateEdit *dedit,
 
 static gboolean
 e_date_edit_parse_time	(EDateEdit	*dedit,
-			 gchar		*time_text,
+			 const gchar	*time_text,
 			 struct tm	*time_tm)
 {
 	if (field_set_to_none (time_text)) {
@@ -1462,9 +1458,10 @@ e_date_edit_parse_time	(EDateEdit	*dedit,
 /* Returns TRUE if the string is empty or is "None" in the current locale.
    It ignores whitespace. */
 static gboolean
-field_set_to_none		(char		*text)
+field_set_to_none (const char *text)
 {
-	char *pos, *none_string;
+	const char *pos;
+	const char *none_string;
 
 	pos = text;
 	while (isspace (*pos))
@@ -1644,7 +1641,7 @@ e_date_edit_update_time_combo_state	(EDateEdit	*dedit)
 	EDateEditPrivate *priv;
 	gboolean show = TRUE, show_now_button = TRUE;
 	gboolean clear_entry = FALSE, sensitive = TRUE;
-	gchar *text;
+	const gchar *text;
 
 	priv = dedit->priv;
 
@@ -1699,7 +1696,7 @@ static void
 e_date_edit_check_date_changed		(EDateEdit	*dedit)
 {
 	EDateEditPrivate *priv;
-	gchar *date_text;
+	const gchar *date_text;
 	struct tm tmp_tm;
 	gboolean none = FALSE, valid = TRUE, date_changed = FALSE;
 
@@ -1737,7 +1734,7 @@ static void
 e_date_edit_check_time_changed		(EDateEdit	*dedit)
 {
 	EDateEditPrivate *priv;
-	gchar *time_text;
+	const gchar *time_text;
 	struct tm tmp_tm;
 	gboolean none = FALSE, valid = TRUE, time_changed;
 

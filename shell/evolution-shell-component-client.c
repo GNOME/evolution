@@ -28,8 +28,9 @@
 #include <gtk/gtksignal.h>
 #include <gtk/gtktypeutils.h>
 
-#include <liboaf/liboaf.h>
+#include <bonobo-activation/bonobo-activation.h>
 
+#include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-widget.h>
 
@@ -40,10 +41,12 @@
 
 char *evolution_debug_log;
 
-#define PARENT_TYPE BONOBO_OBJECT_CLIENT_TYPE
-static BonoboObjectClass *parent_class = NULL;
+#define PARENT_TYPE G_TYPE_OBJECT
+static GObjectClass *parent_class = NULL;
 
 struct _EvolutionShellComponentClientPrivate {
+	GNOME_Evolution_ShellComponent corba_objref;
+
 	char *id;
 
 	EvolutionShellComponentClientCallback callback;
@@ -71,21 +74,21 @@ corba_exception_to_result (const CORBA_Environment *ev)
 		return EVOLUTION_SHELL_COMPONENT_OK;
 
 	if (ev->_major == CORBA_USER_EXCEPTION) {
-		if (strcmp (ev->_repo_id, ex_GNOME_Evolution_ShellComponent_AlreadyOwned) == 0)
+		if (strcmp (BONOBO_EX_REPOID (ev), ex_GNOME_Evolution_ShellComponent_AlreadyOwned) == 0)
 			return EVOLUTION_SHELL_COMPONENT_ALREADYOWNED;
-		if (strcmp (ev->_repo_id, ex_GNOME_Evolution_ShellComponent_OldOwnerHasDied) == 0)
+		if (strcmp (BONOBO_EX_REPOID (ev), ex_GNOME_Evolution_ShellComponent_OldOwnerHasDied) == 0)
 			return EVOLUTION_SHELL_COMPONENT_OLDOWNERHASDIED;
-		if (strcmp (ev->_repo_id, ex_GNOME_Evolution_ShellComponent_NotOwned) == 0)
+		if (strcmp (BONOBO_EX_REPOID (ev), ex_GNOME_Evolution_ShellComponent_NotOwned) == 0)
 			return EVOLUTION_SHELL_COMPONENT_NOTOWNED;
-		if (strcmp (ev->_repo_id, ex_GNOME_Evolution_ShellComponent_NotFound) == 0)
+		if (strcmp (BONOBO_EX_REPOID (ev), ex_GNOME_Evolution_ShellComponent_NotFound) == 0)
 			return EVOLUTION_SHELL_COMPONENT_NOTFOUND;
-		if (strcmp (ev->_repo_id, ex_GNOME_Evolution_ShellComponent_UnsupportedType) == 0)
+		if (strcmp (BONOBO_EX_REPOID (ev), ex_GNOME_Evolution_ShellComponent_UnsupportedType) == 0)
 			return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE;
-		if (strcmp (ev->_repo_id, ex_GNOME_Evolution_ShellComponent_InternalError) == 0)
+		if (strcmp (BONOBO_EX_REPOID (ev), ex_GNOME_Evolution_ShellComponent_InternalError) == 0)
 			return EVOLUTION_SHELL_COMPONENT_INTERNALERROR;
-		if (strcmp (ev->_repo_id, ex_GNOME_Evolution_ShellComponent_Busy) == 0)
+		if (strcmp (BONOBO_EX_REPOID (ev), ex_GNOME_Evolution_ShellComponent_Busy) == 0)
 			return EVOLUTION_SHELL_COMPONENT_BUSY;
-		if (strcmp (ev->_repo_id, ex_GNOME_Evolution_ShellComponent_UnsupportedSchema) == 0)
+		if (strcmp (BONOBO_EX_REPOID (ev), ex_GNOME_Evolution_ShellComponent_UnsupportedSchema) == 0)
 			return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDSCHEMA;
 
 		return EVOLUTION_SHELL_COMPONENT_UNKNOWNERROR;
@@ -302,34 +305,52 @@ impl_destroy (GtkObject *object)
 	shell_component_client = EVOLUTION_SHELL_COMPONENT_CLIENT (object);
 	priv = shell_component_client->priv;
 
-	g_free (priv->id);
+	if (priv == NULL)
+		return;
 
-	if (priv->callback != NULL)
+	g_free (priv->id);
+	priv->id = NULL;
+
+	if (priv->callback != NULL) {
 		dispatch_callback (shell_component_client, EVOLUTION_SHELL_COMPONENT_INTERRUPTED);
+		priv->callback = NULL;
+	}
 
 	CORBA_exception_init (&ev);
+
+	if (priv->corba_objref != CORBA_OBJECT_NIL) {
+		Bonobo_Unknown_unref (priv->corba_objref, &ev);
+		CORBA_Object_release (priv->corba_objref, &ev);
+		priv->corba_objref = CORBA_OBJECT_NIL;
+	}
 
 	if (priv->dnd_source_folder_interface != CORBA_OBJECT_NIL) {
 		Bonobo_Unknown_unref (priv->dnd_source_folder_interface, &ev);
 		CORBA_Object_release (priv->dnd_source_folder_interface, &ev);
+		priv->dnd_source_folder_interface = CORBA_OBJECT_NIL;
 	}
 
 	if (priv->dnd_destination_folder_interface != CORBA_OBJECT_NIL) {
 		Bonobo_Unknown_unref (priv->dnd_destination_folder_interface, &ev);
 		CORBA_Object_release (priv->dnd_destination_folder_interface, &ev);
+		priv->dnd_destination_folder_interface = CORBA_OBJECT_NIL;
 	}
 
 	if (priv->offline_interface != CORBA_OBJECT_NIL) {
 		Bonobo_Unknown_unref (priv->offline_interface, &ev);
 		CORBA_Object_release (priv->offline_interface, &ev);
+		priv->offline_interface = CORBA_OBJECT_NIL;
 	}
 
-	if (priv->listener_interface != CORBA_OBJECT_NIL)
+	if (priv->listener_interface != CORBA_OBJECT_NIL) {
 		destroy_listener_interface (shell_component_client);
+		priv->listener_interface = CORBA_OBJECT_NIL;
+	}
 
 	CORBA_exception_free (&ev);
 
 	g_free (priv);
+	shell_component_client->priv = NULL;
 
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
@@ -352,6 +373,8 @@ init (EvolutionShellComponentClient *shell_component_client)
 	EvolutionShellComponentClientPrivate *priv;
 
 	priv = g_new (EvolutionShellComponentClientPrivate, 1);
+
+	priv->corba_objref                     = CORBA_OBJECT_NIL;
 
 	priv->id                               = NULL;
 
@@ -383,10 +406,8 @@ evolution_shell_component_client_construct (EvolutionShellComponentClient *shell
 	g_return_if_fail (corba_object != CORBA_OBJECT_NIL);
 
 	priv = shell_component_client->priv;
+	priv->corba_objref = corba_object;
 	priv->id = g_strdup (id);
-
-	bonobo_object_client_construct (BONOBO_OBJECT_CLIENT (shell_component_client),
-					corba_object);
 }
 
 EvolutionShellComponentClient *
@@ -407,7 +428,7 @@ evolution_shell_component_client_new (const char *id,
 	else
 		local_ev = ev;
 
-	corba_object = oaf_activate_from_id ((char *) id, 0, NULL, ev);
+	corba_object = bonobo_activation_activate_from_id ((char *) id, 0, NULL, ev);
 	if (ev->_major != CORBA_NO_EXCEPTION || corba_object == NULL) {
 		CORBA_exception_free (&static_ev);
 		return NULL;

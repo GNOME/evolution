@@ -14,7 +14,6 @@
 #include <glib.h>
 #include <gdk/gdk.h>
 #include <gtk/gtkentry.h>
-#include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS
 

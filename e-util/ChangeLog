@@ -1,3 +1,36 @@
+2002-11-02  Ettore Perazzoli  <ettore@ximian.com>
+
+	* ename/Makefile.am (INCLUDES): Removed -I$(includedir).
+
+	* ename/test-ename-western-gtk.c: #include
+	<libgnomeui/gnome-ui-init.h> instead of <libgnomeui/gnome-init.h>.
+	(create_window): Added GTK_SIGNAL_FUNC() cast.
+	(main): Use gnome_program_init().
+
+	* e-db3-utils.c: Do not #include <libgnome/gnome-defs.h>.
+
+	* e-request.c: Do not #include <libgnomeui/gnome-stock.h>.
+
+	* e-memory.c (e_memchunk_clean): Replace GSearchFunc with
+	GCompareFunc.
+
+	* e-iterator.c (e_iterator_class_init): GTK2-ified.
+	(ECI_CLASS): Likewise.
+
+	* e-html-utils.c: Do not #include <gal/unicode/gunicode.h>.
+
+	* e-gui-utils.c: Don't #include <libgnome/gnome-defs.h>.
+	(e_create_image_widget): Pass NULL to gdk_pixbuf_new_from_file()
+	for the error arg.
+
+	* e-corba-utils.h: #include <orbit/orbit.h> instead of
+	<orb/orbit.h>.
+
+	* Makefile.am: Removed bonobo-factory-util.c,
+	bonobo-factory-util.h, e-categories-master-list-wombat.h,
+	e-categories-master-list-wombat.c, e-dialog-utils.c,
+	e-dialog-utils.h, e-proxy.c e-proxy.h for now.
+
 2002-11-02  Rodrigo Moya <rodrigo@ximian.com>
 
 	* e-config-listener.[ch]: ported to GConf and GObject.

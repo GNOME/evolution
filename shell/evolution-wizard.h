@@ -9,12 +9,11 @@
 #ifndef __EVOLUTION_WIZARD_H__
 #define __EVOLUTION_WIZARD_H__
 
+#include <bonobo/bonobo-xobject.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-event-source.h>
 
-#include <Evolution.h>
-
-BEGIN_GNOME_DECLS
+#include "Evolution.h"
 
 typedef struct _EvolutionWizard EvolutionWizard;
 typedef struct _EvolutionWizardPrivate EvolutionWizardPrivate;
@@ -80,7 +79,5 @@ void evolution_wizard_set_page (EvolutionWizard *wizard,
 				CORBA_Environment *opt_ev);
 
 BonoboEventSource * evolution_wizard_get_event_source (EvolutionWizard *wizard);
-
-END_GNOME_DECLS
 
 #endif /* __EVOLUTION_WIZARD_H__ */

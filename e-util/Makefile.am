@@ -19,13 +19,7 @@ privlib_LTLIBRARIES = libeutil.la libedb3util.la libeconduit.la
 noinst_LTLIBRARIES = libeutil-static.la libeconduit-static.la
 
 eutilinclude_HEADERS = 				\
-	e-bonobo-factory-util.h			\
-	e-categories-master-list-wombat.h	\
-	e-categories-config.h			\
-	e-component-listener.h			\
-	e-config-listener.h			\
 	e-corba-utils.h				\
-	e-dialog-utils.h			\
 	e-dialog-widgets.h			\
 	e-gtk-utils.h				\
 	e-gui-utils.h				\
@@ -38,9 +32,7 @@ eutilinclude_HEADERS = 				\
 	e-memory.h				\
 	e-mktemp.h				\
 	e-msgport.h				\
-	e-passwords.h				\
 	e-path.h				\
-	e-proxy.h				\
 	e-request.h				\
 	e-sexp.h				\
 	e-time-utils.h				\
@@ -49,13 +41,7 @@ eutilinclude_HEADERS = 				\
 
 libeutil_la_SOURCES =				\
 	$(eutilinclude_HEADERS)			\
-	e-bonobo-factory-util.c			\
-	e-categories-master-list-wombat.c	\
-	e-categories-config.c			\
-	e-component-listener.c			\
-	e-config-listener.c			\
 	e-corba-utils.c				\
-	e-dialog-utils.c			\
 	e-dialog-widgets.c			\
 	e-gtk-utils.c				\
 	e-gui-utils.c				\
@@ -68,14 +54,22 @@ libeutil_la_SOURCES =				\
 	e-memory.c				\
 	e-mktemp.c				\
 	e-msgport.c				\
-	e-passwords.c				\
 	e-path.c				\
-	e-proxy.c				\
 	e-request.c				\
 	e-sexp.c				\
 	e-time-utils.c				\
 	e-url.c					\
 	md5-utils.c
+
+# FIXME TODO
+#	e-categories-config.c
+#	e-categories-master-list-wombat.[ch]
+#	e-component-listener.c
+#	e-config-listener.c
+#	e-dialog-utils.c
+#	e-passwords.c
+#	e-proxy.c
+#       bonobo-factory-util.[ch]
 
 libeutil_la_LIBADD = $(E_UTIL_LIBS)
 
