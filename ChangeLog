@@ -1,5 +1,7 @@
 2001-08-16  Kjartan Maraas  <kmaraas@gnome.org>
 
+	* README: Some info on adding --localstatedir to the configure
+	options.
 	* Makefile.am: Added omf-install to the build.
 	* configure.in: Adjust for the move of the user docs.
 	

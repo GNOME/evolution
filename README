@@ -69,8 +69,11 @@ type:
 and remember the answers, and pass them to "configure" or "autogen.sh"
 when building the other packages you need. Eg:
 
-	./configure --prefix=/usr --sysconfdir=/etc
+	./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var/lib
 
+    --localstatedir is needed to make the docs integrate with scrollkeeper
+    and needs to point to the directory containing the scrollkeeper indices
+    which are in: gnome-config --localstatedir
 
 If you build in another prefix instead, you will need to set the
 GNOME_PATH environment variable (and ACLOCAL_FLAGS as well if building
