@@ -1,19 +1,19 @@
 <chapter id="usage-print">
-<title>Printing with Evolution</title>
-<para>
-  Like most GNOME applications, <application>Evolution</application> uses
-  the gnome-print system, so if you've used any other GNOME
-  application to print, you should be able to print from
-  <application>Evolution</application> immediately.
-</para>
-<para>
-  Whether you're printing a message, a calendar page, or a selection
-  of address cards, you can choose to print directly to a printer, or
-  save the print output to a postscript file.  You can also use the
-  preview feature to see how your printed output will look.
-</para>
-
-
+  <title>Printing with Evolution</title>
+  <para>
+    Like most GNOME applications, <application>Evolution</application> uses
+    the gnome-print system, so if you've used any other GNOME
+    application to print, you should be able to print from
+    <application>Evolution</application> immediately.
+  </para>
+  <para>
+    Whether you're printing a message, a calendar page, or a selection
+    of address cards, you can choose to print directly to a printer, or
+    save the print output to a postscript file.  You can also use the
+    preview feature to see how your printed output will look.
+  </para>
+  
+  
   <sect1 id="printpreview">
     <title>Print Preview</title>
     <para>
@@ -31,8 +31,8 @@
       or match the width of the page and the window (the
       <guibutton>Fit Width</guibutton> button).  None of these buttons
       changes the way the page will be printed, but they do let you
-      get a better look.  If you're satisfied with the way the things
-      look, click <guibutton>Print</guibutton> to send your document
+      get a better look.  If you're satisfied with the way the your paper
+      looks, click <guibutton>Print</guibutton> to send your document
       on its way.  If you'd like to change it, just close the
       <guilabel>Print Preview</guilabel> window and make the changes
       you want from your mail, calendar, or addressbook.

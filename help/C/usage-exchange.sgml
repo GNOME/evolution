@@ -44,8 +44,9 @@
 	<listitem>
 	  <para>
             Outlook Web Access is a web interface for Exchange
-            servers, but works best in Microsoft Internet Explorer, is
-            not integrated with the rest of the host operating system,
+            servers, but works best in Microsoft Internet Explorer.
+            Outlook Web Access also is
+            not integrated with the rest of the host operating system
             and offers only limited groupware functionality.
           </para>
 	</listitem>
@@ -61,7 +62,7 @@
   <warning id="licensing">
     <title>Exchange Client Licenses</title>
     <para>
-      Each user will need a valid Microsoft Exchange 2000 server
+      Each user will need a valid Microsoft <application>Exchange</application>2000 server
       account and license.
   </para>
   </warning>
@@ -78,7 +79,7 @@
 	  </para>
 	  <variablelist>
 	    <varlistentry>
-	      <term>Remote Exchagne Information Store</term>
+	      <term>Remote <application>Exchange</application>Information Store</term>
 	      <listitem>
 		<para>
 		  Allows you to access mail, address 
@@ -104,7 +105,7 @@
 	  </para>
 	  <variablelist>
 	    <varlistentry>
-	      <term>Viewing Mail in Exchange Folder</term>
+	      <term>Viewing Mail in <application>Exchange</application>Folder</term>
 	      <listitem>
 		<para></para>
 	      </listitem>
@@ -171,7 +172,7 @@
 		<para>
 		  If you receive a vCard attachment and click
 		  <guibutton>Save in Address Book</guibutton>, it will
-		  be saved to your Exchange address book.
+		  be saved to your <application>Exchange</application>address book.
 		</para>
 	      </listitem>
 	    </varlistentry>
@@ -236,11 +237,13 @@
   <sect1 id="install">
     <title>Installing the Connector</title>
     <para>
+<!-- Is this seriously how we do this?  Because I've never seen it in
+       the XG channel -->
        To install the Ximian Connector, run Ximian Red Carpet by
        selecting <menuchoice><guimenu>System</guimenu><guimenuitem>Get
        Software</guimenuitem></menuchoice>.  Subscribe to the Ximian
        GNOME channel, select the Ximian Connector for Microsoft
-       Exchange 2000, and click the <guibutton>Install</guibutton>
+       <application>Exchange</application>2000, and click the <guibutton>Install</guibutton>
        button.  You can also install the Connector by downloading the
        individual packages from ftp.ximian.com if you wish.
    </para>
@@ -256,7 +259,7 @@
        license, the store will mail you the license file with
        instructions for installation. Once installed, the license file
        unlocks the Ximian Connector functionality and you may connect
-       to an Exchange server.
+       to an <application>Exchange</application>server.
     </para>
  </sect1>
 
@@ -264,7 +267,7 @@
     <title>Configuration</title>
     <para>
       Once you have installed the Connector, you need to set up access
-      for your Exchange account on both the Exchange server and within
+      for your <application>Exchange</application>account on both the <application>Exchange</application>server and within
       Evolution.
     </para>
 
@@ -272,123 +275,124 @@
        <title>Exchange Server Configuration</title>
         <para>
 	  Check with your system administrator to ensure that:
-         <itemizedlist>
-	 <listitem>
-	 <para> 
-	 You have a valid account on the Exchange server.
-         </para>
-	 </listitem>
-	 <listitem>
-	 <para> 
-           You are permitted to access the account with
-           WebDAV. This is the default setting for the Exchange server,
-           so unless your system administrator has specifically turned
-           it off, no changes should be necessary.
-         </para>
-		    </listitem>
-		  </itemizedlist>
-		</para>
-		<para>
-		  The Ximian website knowledge base, at <ulink type="http"
-							       url="http://support.ximian.com">support.ximian.com</ulink>, has additional information about checking to make sure that your Exchange server will accept connections from Ximian Evolution.
-		</para>
-	      </sect2>
-	      
-	      <sect2 id="config-client">
-<title>Evolution Settings for Connecting to an Exchange Server</title>
-<para>
-
-  Once you know that your server is ready for you to connect, start
- Ximian Evolution and select
-       <menuchoice>
-	<guimenu>Tools</guimenu>
-	<guimenuitem>Mail Settings</guimenuitem>
-      </menuchoice>
-      from any mail view.  If you have an existing account, and want
-      to convert it to use for Exchange, do the following:
-      <orderedlist>
-	<listitem>
-	  <para>
-             Select the account you want to convert and click the
-             <guibutton>Edit</guibutton> button.
-          </para>
-	</listitem>
-
-	<listitem>
-	  <para>
-            Under the <guilabel>Receiving Mail</guilabel> tab, select
-            <guilabel>Microsoft Exchange</guilabel> as your server
-            type. Enter your name of your server next to
-            <guilabel>Host</guilabel>, and the user name for your
-            account next to <guilabel>Username</guilabel>.  If your
-            server uses a Secure Socket Layer connection, click the
-            <guilabel>Use Secure Connection (SSL)</guilabel> checkbox.
-          </para>
-	</listitem>
-
-	<listitem>
-	  <para>
-            Under the <guilabel>Sending Mail</guilabel> tab, select
-            <guilabel>Microsoft Exchange</guilabel> as your server
-            type, and enter the server name as the
-            <guilabel>Host</guilabel>. You do not need to use the
-            Exchange server to send mail if you prefer to use another
-            server or server type.
-          </para>
-	</listitem>
-
-	<listitem>
-	  <para>
-            Click the <guibutton>OK</guibutton> button.
-          </para>
-	</listitem>
-
-	<listitem>
-	  <para>
-            Make sure the account is active. It should have a check
-            mark in the <guilabel>Enabled</guilabel> column of your
-            accounts list. If it doesn't, select the account and
-            click the <guibutton>Enable</guibutton> button.
-          </para>
-	</listitem>
-      </orderedlist>
-    </para>
-
-    <para>
-       If you would like to create a new account for your Exchange
-       server, click the <guibutton>Add</guibutton> button in the
-       accounts list. The account creation assistant will guide you
-       through the process, which is described in <xref
-       linkend="usage-mainwindow-starting">. </para>
-       </sect2>
+	<itemizedlist>
+	  <listitem>
+	    <para> 
+	      You have a valid account on the <application>Exchange</application>server.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para> 
+	      You are permitted to access the account with
+	      WebDAV. This is the default setting for the <application>Exchange</application>server,
+	      so unless your system administrator has specifically turned
+	      it off, no changes should be necessary.
+	    </para>
+	  </listitem>
+	</itemizedlist>
+      </para>
+      <para>
+	The Ximian website knowledge base, at <ulink type="http"
+						     url="http://support.ximian.com">support.ximian.com</ulink>, has additional information about checking to make sure that your <application>Exchange</application>server will accept connections from Ximian Evolution.
+      </para>
+    </sect2>
+    
+    <sect2 id="config-client">
+      <title>Evolution Settings for Connecting to an <application>Exchange</application>Server</title>
+      <para>
+	
+	Once you know that your server is ready for you to connect, start
+	Ximian Evolution and select
+	<menuchoice>
+	  <guimenu>Tools</guimenu>
+	  <guimenuitem>Mail Settings</guimenuitem>
+	</menuchoice>
+	from any mail view.  If you have an existing account, and want
+	to convert it to use for Exchange, do the following:
+	<orderedlist>
+	  <listitem>
+	    <para>
+	      Select the account you want to convert and click the
+	      <guibutton>Edit</guibutton> button.
+	    </para>
+	  </listitem>
+	  
+	  <listitem>
+	    <para>
+	      Under the <guilabel>Receiving Mail</guilabel> tab, select
+	      <guilabel>Microsoft Exchange</guilabel> as your server
+	      type. Enter your name of your server next to
+	      <guilabel>Host</guilabel>, and the user name for your
+	      account next to <guilabel>Username</guilabel>.  If your
+	      server uses a Secure Socket Layer connection, click the
+	      <guilabel>Use Secure Connection (SSL)</guilabel> checkbox.
+	    </para>
+	  </listitem>
+	  
+	  <listitem>
+	    <para>
+	      Under the <guilabel>Sending Mail</guilabel> tab, select
+	      <guilabel>Microsoft Exchange</guilabel> as your server
+	      type, and enter the server name as the
+	      <guilabel>Host</guilabel>. You do not need to use the
+	      <application>Exchange</application>server to send mail if you prefer to use another
+	      server or server type.
+	    </para>
+	  </listitem>
+	  
+	  <listitem>
+	    <para>
+	      Click the <guibutton>OK</guibutton> button.
+	    </para>
+	  </listitem>
+	  
+	  <listitem>
+	    <para>
+	      Make sure the account is active. It should have a check
+	      mark in the <guilabel>Enabled</guilabel> column of your
+	      accounts list. If it doesn't, select the account and
+	      click the <guibutton>Enable</guibutton> button.
+	    </para>
+	  </listitem>
+	</orderedlist>
+      </para>
+      
+      <para>
+	If you would like to create a new account for your Exchange
+	server, click the <guibutton>Add</guibutton> button in the
+	accounts list. The account creation assistant will guide you
+	through the process, which is described in <xref
+							 linkend="usage-mainwindow-starting">. 
+      </para>
+    </sect2>
   </sect1>
-
+  
   <sect1 id="access">
-    <title>Accessing the Exchange Server</title>
+    <title>Accessing the <application>Exchange</application>Server</title>
     <para>
-       Like IMAP and LDAP data, information for Exchange accounts is
-       stored on the server, not on your desktop computer.  This means
-       that you can access it from multiple locations. It also means
-       that your Microsoft Exchange account information is in a
-       seperate folder tree from the <guilabel>Local</guilabel> tree
-       in your folder bar. You'll see it below the local tree, with
-       the name you gave the account. If you have multiple accounts,
-       you will have multiple folder trees.
+      Like IMAP and LDAP data, information for <application>Exchange</application>accounts is
+      stored on the server, not on your desktop computer.  This means
+      that you can access it from multiple locations. It also means
+      that your Microsoft <application>Exchange</application>account information is in a
+      seperate folder tree from the <guilabel>Local</guilabel> tree
+      in your folder bar. You'll see it below the local tree, with
+      the name you gave the account. If you have multiple accounts,
+      you will have multiple folder trees.
     </para>
     <para>
-       Click on any of the folder tree items to visit them; you may
-       have to enter your server password.  You can now create contact
-       cards, send and receive email as you would normally. If there
-       are items in your local calendar or addressbook that you'd like
-       to add to your Exchange stores, you can copy and paste them
-       over, or just drag items from one folder to another as you
-       would with two local stores.
+      Click on any of the folder tree items to visit them; you may
+      have to enter your server password.  You can now create contact
+      cards, send and receive email as you would normally. If there
+      are items in your local calendar or addressbook that you'd like
+      to add to your <application>Exchange</application>stores, you can copy and paste them
+      over, or just drag items from one folder to another as you
+      would with two local stores.
     </para>
     <para>
-       In addition, when you schedule a meeting with your calendar on
-       the Exchange server, you can check when other local Exchange
-       users are busy according to their Exchange calendars. To do so: 
-       <orderedlist numeration="arabic">
+      In addition, when you schedule a meeting with your calendar on
+      the <application>Exchange</application>server, you can check when other local Exchange
+      users are busy according to their <application>Exchange</application>calendars. To do so: 
+      <orderedlist numeration="arabic">
 	<listitem>
 	  <para>
             Open a new appointment in the calendar.
@@ -421,3 +425,7 @@
     </para>
   </sect1>
 </chapter>
+
+
+
+
