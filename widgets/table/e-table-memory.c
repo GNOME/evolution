@@ -12,6 +12,8 @@
  */
 #include <config.h>
 
+#include "e-table-memory.h"
+
 #include <stdio.h>
 #include <errno.h>
 #include <stdlib.h>
@@ -24,7 +26,7 @@
 
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
-#include "e-table-memory.h"
+#include <string.h>
 
 #define PARENT_TYPE E_TABLE_MODEL_TYPE
 

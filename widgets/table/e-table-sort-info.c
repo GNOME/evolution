@@ -9,10 +9,13 @@
  * (C) 1999, 2000, 2001 Ximian, Inc.
  */
 #include <config.h>
-#include <gtk/gtksignal.h>
+
 #include "e-table-sort-info.h"
+
+#include <gtk/gtksignal.h>
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
+#include <string.h>
 
 #define ETM_CLASS(e) ((ETableSortInfoClass *)((GtkObject *)e)->klass)
 

@@ -13,16 +13,19 @@
  *
  */
 #include <config.h>
+
+#include "e-table-item.h"
+
 #include <math.h>
 #include <stdio.h>
 #include <gtk/gtksignal.h>
 #include <gdk/gdkkeysyms.h>
-#include "e-table-item.h"
 #include "e-table-subset.h"
 #include "e-cell.h"
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-canvas-utils.h"
 #include "gal/util/e-util.h"
+#include <string.h>
 
 #define PARENT_OBJECT_TYPE gnome_canvas_item_get_type ()
 

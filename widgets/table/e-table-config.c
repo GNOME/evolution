@@ -14,6 +14,9 @@
  */
 
 #include <config.h>
+
+#include "e-table-config.h"
+
 #include <stdlib.h>
 #include <string.h>
 #include <gtk/gtkentry.h>
@@ -24,7 +27,6 @@
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-propertybox.h>
 #include <glade/glade.h>
-#include "e-table-config.h"
 #include "gal/util/e-util.h"
 #include "gal/util/e-i18n.h"
 
@@ -111,7 +113,7 @@ find_model_column_by_name (ETableSpecification *spec, const char *s)
 
 	for (column = spec->columns; *column; column++){
 
-		if (strcasecmp ((*column)->title, s) == 0)
+		if (g_strcasecmp ((*column)->title, s) == 0)
 			return (*column)->model_col;
 	}
 	return -1;

@@ -9,13 +9,15 @@
  * (C) 2000, 2001 Ximian, Inc.
  */
 #include <config.h>
+
+#include "e-table-specification.h"
+
 #include <stdlib.h>
 #include <gtk/gtksignal.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
-#include "e-table-specification.h"
 
 #define PARENT_TYPE (gtk_object_get_type ())
 
@@ -173,20 +175,20 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 
 	specification->selection_mode = GTK_SELECTION_MULTIPLE;
 	temp = e_xml_get_string_prop_by_name (node, "selection-mode");
-	if (temp && !strcasecmp (temp, "single")) {
+	if (temp && !g_strcasecmp (temp, "single")) {
 		specification->selection_mode = GTK_SELECTION_SINGLE;
-	} else if (temp && !strcasecmp (temp, "browse")) {
+	} else if (temp && !g_strcasecmp (temp, "browse")) {
 		specification->selection_mode = GTK_SELECTION_BROWSE;
-	} else if (temp && !strcasecmp (temp, "extended")) {
+	} else if (temp && !g_strcasecmp (temp, "extended")) {
 		specification->selection_mode = GTK_SELECTION_EXTENDED;
 	}
 	g_free (temp);
 
 	specification->cursor_mode = E_CURSOR_SIMPLE;
 	temp = e_xml_get_string_prop_by_name (node, "cursor-mode");
-	if (temp && !strcasecmp (temp, "line")) {
+	if (temp && !g_strcasecmp (temp, "line")) {
 		specification->cursor_mode = E_CURSOR_LINE;
-	} else 	if (temp && !strcasecmp (temp, "spreadsheet")) {
+	} else 	if (temp && !g_strcasecmp (temp, "spreadsheet")) {
 		specification->cursor_mode = E_CURSOR_SPREADSHEET;
 	}
 	g_free (temp);

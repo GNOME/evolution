@@ -16,11 +16,14 @@
 
 #include <config.h>
 
+#include "e-tree-sorted.h"
+
 #include <stdio.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <string.h>
 
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
@@ -28,7 +31,6 @@
 #include <gtk/gtksignal.h>
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
-#include "e-tree-sorted.h"
 #include "e-table-sorting-utils.h"
 
 #define PARENT_TYPE E_TREE_MODEL_TYPE
