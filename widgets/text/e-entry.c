@@ -54,7 +54,7 @@ static GtkObjectClass *parent_class;
 enum {
 	E_ENTRY_CHANGED,
 	E_ENTRY_ACTIVATE,
-	E_ENTRY_POPUP,
+	E_ENTRY_POPULATE_POPUP,
 	E_ENTRY_COMPLETION_POPUP,
 	E_ENTRY_LAST_SIGNAL
 };
@@ -98,7 +98,7 @@ struct _EEntryPrivate {
 
 	guint changed_proxy_tag;
 	guint activate_proxy_tag;
-	guint popup_proxy_tag;
+	guint populate_popup_proxy_tag;
 	/* Data related to completions */
 	ECompletion *completion;
 	EEntryCompletionHandler handler;
@@ -270,7 +270,7 @@ changed_since_keypress_timeout_fn (gpointer user_data)
 }
 
 static void
-e_entry_proxy_changed (EText *text, EEntry *entry)
+proxy_changed (EText *text, EEntry *entry)
 {
 	if (entry->priv->changed_since_keypress_tag)
 		gtk_timeout_remove (entry->priv->changed_since_keypress_tag);
@@ -281,15 +281,15 @@ e_entry_proxy_changed (EText *text, EEntry *entry)
 }
 
 static void
-e_entry_proxy_activate (EText *text, EEntry *entry)
+proxy_activate (EText *text, EEntry *entry)
 {
 	g_signal_emit (entry, e_entry_signals [E_ENTRY_ACTIVATE], 0);
 }
 
 static void
-e_entry_proxy_popup (EText *text, GdkEventButton *ev, gint pos, EEntry *entry)
+proxy_populate_popup (EText *text, GdkEventButton *ev, gint pos, GtkWidget *menu, EEntry *entry)
 {
-	g_signal_emit (entry, e_entry_signals [E_ENTRY_POPUP], 0, ev, pos);
+	g_signal_emit (entry, e_entry_signals [E_ENTRY_POPULATE_POPUP], 0, ev, pos, menu);
 }
 
 static void
@@ -334,6 +334,7 @@ e_entry_init (GtkObject *object)
 		"max_lines", 1,
 		"editable", TRUE,
 		"allow_newlines", FALSE,
+		"im_context", E_CANVAS (entry->canvas)->im_context,
 		NULL));
 
 	g_signal_connect (entry->item,
@@ -355,16 +356,16 @@ e_entry_init (GtkObject *object)
 	 */
 	entry->priv->changed_proxy_tag = g_signal_connect (entry->item,
 							   "changed",
-							   G_CALLBACK (e_entry_proxy_changed),
+							   G_CALLBACK (proxy_changed),
 							   entry);
 	entry->priv->activate_proxy_tag = g_signal_connect (entry->item,
 							    "activate",
-							    G_CALLBACK (e_entry_proxy_activate),
+							    G_CALLBACK (proxy_activate),
 							    entry);
-	entry->priv->popup_proxy_tag = g_signal_connect (entry->item,
-							 "popup",
-							 G_CALLBACK (e_entry_proxy_popup),
-							 entry);
+	entry->priv->populate_popup_proxy_tag = g_signal_connect (entry->item,
+								  "populate_popup",
+								  G_CALLBACK (proxy_populate_popup),
+								  entry);
 
 	entry->priv->completion_delay = 1;
 }
@@ -1214,14 +1215,14 @@ e_entry_class_init (GObjectClass *object_class)
 			      e_marshal_NONE__NONE,
 			      G_TYPE_NONE, 0);
 
-	e_entry_signals[E_ENTRY_POPUP] =
-		g_signal_new ("popup",
+	e_entry_signals[E_ENTRY_POPULATE_POPUP] =
+		g_signal_new ("populate_popup",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EEntryClass, popup),
+			      G_STRUCT_OFFSET (EEntryClass, populate_popup),
 			      NULL, NULL,
-			      e_marshal_NONE__POINTER_INT,
-			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_INT);
+			      e_marshal_NONE__POINTER_INT_OBJECT,
+			      G_TYPE_NONE, 3, G_TYPE_POINTER, G_TYPE_INT, GTK_TYPE_MENU);
 
 	e_entry_signals[E_ENTRY_COMPLETION_POPUP] =
 		g_signal_new ("completion_popup",

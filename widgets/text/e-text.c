@@ -43,11 +43,17 @@
 #include <string.h>
 #include <glib-object.h>
 #include <gdk/gdkx.h> /* for BlackPixel */
-#include <gtk/gtkinvisible.h>
+#include <gtk/gtkclipboard.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkselection.h>
+#include <gtk/gtkstock.h>
 #include <gtk/gtkwindow.h>
 #include <gtk/gtktypebuiltins.h>
+#include <gtk/gtkmenu.h>
+#include <gtk/gtkimagemenuitem.h>
+#include <gtk/gtkimmulticontext.h>
+#include <gtk/gtkmenuitem.h>
+#include <gtk/gtkseparatormenuitem.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <libgnome/gnome-i18n.h>
 #include "gal/util/e-util.h"
@@ -69,7 +75,7 @@ enum {
 	E_TEXT_CHANGED,
 	E_TEXT_ACTIVATE,
 	E_TEXT_KEYPRESS,
-	E_TEXT_POPUP,
+	E_TEXT_POPULATE_POPUP,
 	E_TEXT_STYLE_SET,
 	E_TEXT_LAST_SIGNAL
 };
@@ -110,51 +116,59 @@ enum {
 	PROP_ALLOW_NEWLINES,
 	PROP_DRAW_BACKGROUND,
 	PROP_DRAW_BUTTON,
-	PROP_CURSOR_POS
+	PROP_CURSOR_POS,
+	PROP_IM_CONTEXT
 };
-
-
-enum {
-	E_SELECTION_PRIMARY,
-	E_SELECTION_CLIPBOARD
-};
-enum _TargetInfo {  
-	TARGET_UTF8_STRING,
-	TARGET_UTF8,
-	TARGET_COMPOUND_TEXT,
-	TARGET_STRING,
-	TARGET_TEXT
-};
-
 
 static void e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gpointer data);
-
-static void e_text_get_selection(EText *text, GdkAtom selection, guint32 time);
-static void e_text_supply_selection (EText *text, guint time, GdkAtom selection, guchar *data, gint length);
 
 static void e_text_text_model_changed(ETextModel *model, EText *text);
 static void e_text_text_model_reposition (ETextModel *model, ETextModelReposFn fn, gpointer repos_data, gpointer data);
 
 static void _get_tep(EText *text);
 
-static GtkWidget *e_text_get_invisible(EText *text);
-static void _selection_clear_event (GtkInvisible *invisible,
-				    GdkEventSelection *event,
-				    EText *text);
-static void _selection_get (GtkInvisible *invisible,
-			    GtkSelectionData *selection_data,
-			    guint info,
-			    guint time_stamp,
-			    EText *text);
-static void _selection_received (GtkInvisible *invisible,
-				 GtkSelectionData *selection_data,
-				 guint time,
-				 EText *text);
-
 static void calc_height (EText *text);
 
 static gboolean show_pango_rectangle (EText *text, PangoRectangle rect);
 
+static void e_text_do_popup (EText *text, GdkEventButton *button, int position);
+
+static void e_text_update_primary_selection (EText *text);
+static void e_text_delete_selection(EText *text);
+static void e_text_paste (EText *text, GdkAtom selection);
+static void e_text_insert(EText *text, const char *string, int value);
+
+/* GtkEditable Methods */
+static void e_text_editable_do_insert_text (GtkEditable    *editable,
+					    const gchar    *text,
+					    gint            length,
+					    gint           *position);
+static void e_text_editable_do_delete_text (GtkEditable    *editable,
+					    gint            start_pos,
+					    gint            end_pos);
+static gchar* e_text_editable_get_chars (GtkEditable    *editable,
+					 gint            start_pos,
+					 gint            end_pos);
+static void e_text_editable_set_selection_bounds (GtkEditable    *editable,
+						  gint            start_pos,
+						  gint            end_pos);
+static gboolean e_text_editable_get_selection_bounds (GtkEditable    *editable,
+						      gint           *start_pos,
+						      gint           *end_pos);
+static void e_text_editable_set_position (GtkEditable    *editable,
+					  gint            position);
+static gint e_text_editable_get_position (GtkEditable    *editable);
+				   
+/* IM Context Callbacks */
+static void     e_text_commit_cb               (GtkIMContext *context,
+						const gchar  *str,
+						EText        *text);
+static gboolean e_text_retrieve_surrounding_cb (GtkIMContext *context,
+						EText        *text);
+static gboolean e_text_delete_surrounding_cb   (GtkIMContext *context,
+						gint          offset,
+						gint          n_chars,
+						EText        *text);
 
 static GnomeCanvasItemClass *parent_class;
 static GdkAtom clipboard_atom = GDK_NONE;
@@ -212,16 +226,6 @@ e_text_dispose (GObject *object)
 		g_object_unref (text->tep);
 	text->tep = NULL;
 
-	if (text->invisible)
-		gtk_widget_destroy (text->invisible);
-	text->invisible = NULL;
-
-	g_free (text->primary_selection);
-	text->primary_selection = NULL;
-
-	g_free (text->clipboard_selection);
-	text->clipboard_selection = NULL;
-
 	g_free (text->revert);
 	text->revert = NULL;
 
@@ -258,6 +262,23 @@ e_text_dispose (GObject *object)
 	if (text->layout) {
 		g_object_unref (text->layout);
 		text->layout = NULL;
+	}
+
+	if (text->im_context) {
+		g_signal_handlers_disconnect_matched (text->im_context,
+						      G_SIGNAL_MATCH_FUNC | G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL,
+						      e_text_commit_cb, text);
+		g_signal_handlers_disconnect_matched (text->im_context,
+						      G_SIGNAL_MATCH_FUNC | G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL,
+						      e_text_retrieve_surrounding_cb, text);
+		g_signal_handlers_disconnect_matched (text->im_context,
+						      G_SIGNAL_MATCH_FUNC | G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL,
+						      e_text_delete_surrounding_cb, text);
+		g_object_unref (text->im_context);
+		text->im_context = NULL;
 	}
 
 	if (G_OBJECT_CLASS (parent_class)->dispose)
@@ -874,6 +895,17 @@ e_text_set_property (GObject *object,
 		e_text_command (text->tep, &command, text);
 		break;
 	}
+
+	case PROP_IM_CONTEXT:
+		if (text->im_context)
+			g_object_unref (text->im_context);
+
+		text->im_context = g_value_get_object (value);
+		if (text->im_context)
+			g_object_ref (text->im_context);
+
+		text->need_im_reset = FALSE;
+		break;
 		
 	default:
 		return;
@@ -1033,6 +1065,10 @@ e_text_get_property (GObject *object,
 
 	case PROP_CURSOR_POS:
 		g_value_set_int (value, text->selection_start);
+		break;
+
+	case PROP_IM_CONTEXT:
+		g_value_set_object (value, text->im_context);
 		break;
 		
 	default:
@@ -2061,9 +2097,31 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			GdkEventFocus *focus_event;
 			focus_event = (GdkEventFocus *) event;
 			if (focus_event->in) {
+				if (text->im_context) {
+					g_signal_connect (text->im_context, "commit",
+							  G_CALLBACK (e_text_commit_cb), text);
+					g_signal_connect (text->im_context, "retrieve_surrounding",
+							  G_CALLBACK (e_text_retrieve_surrounding_cb), text);
+					g_signal_connect (text->im_context, "delete_surrounding",
+							  G_CALLBACK (e_text_delete_surrounding_cb), text);
+				}
 				start_editing (text);
 				text->show_cursor = FALSE; /* so we'll redraw and the cursor will be shown */
 			} else {
+				if (text->im_context) {
+					g_signal_handlers_disconnect_matched (text->im_context,
+									      G_SIGNAL_MATCH_FUNC | G_SIGNAL_MATCH_DATA,
+									      0, 0, NULL,
+									      e_text_commit_cb, text);
+					g_signal_handlers_disconnect_matched (text->im_context,
+									      G_SIGNAL_MATCH_FUNC | G_SIGNAL_MATCH_DATA,
+									      0, 0, NULL,
+									      e_text_retrieve_surrounding_cb, text);
+					g_signal_handlers_disconnect_matched (text->im_context,
+									      G_SIGNAL_MATCH_FUNC | G_SIGNAL_MATCH_DATA,
+									      0, 0, NULL,
+									      e_text_delete_surrounding_cb, text);
+				}
 				e_text_stop_editing (text);
 				if (text->timeout_id) {
 					g_source_remove(text->timeout_id);
@@ -2084,9 +2142,15 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_KEY_PRESS: /* Fall Through */
 	case GDK_KEY_RELEASE:
 		if (text->editing) {
-			GdkEventKey key = event->key;
+			GdkEventKey key;
 			gint ret;
 
+			if (text->im_context && gtk_im_context_filter_keypress (text->im_context, (GdkEventKey*)event)) {
+				text->need_im_reset = TRUE;
+				return 1;
+			}
+
+			key = event->key;
 			e_tep_event.key.time = key.time;
 			e_tep_event.key.state = key.state;
 			e_tep_event.key.keyval = key.keyval;
@@ -2156,12 +2220,9 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 
 		/* We follow convention and emit popup events on right-clicks. */
 		if (event->type == GDK_BUTTON_PRESS && event->button.button == 3) {
-			g_signal_emit (text,
-				       e_text_signals[E_TEXT_POPUP], 0,
-				       &(event->button),
-				       get_position_from_xy (text, event->button.x, event->button.y));
-
-			break;
+			e_text_do_popup (text, &(event->button),
+					 get_position_from_xy (text, event->button.x, event->button.y));
+			return TRUE;
 		}
 
 		/* Create our own double and triple click events, 
@@ -2260,6 +2321,268 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		return GNOME_CANVAS_ITEM_CLASS(parent_class)->event(item, event);
 	else
 		return 0;
+}
+
+void
+e_text_copy_clipboard (EText *text)
+{
+	gint selection_start_pos; 
+	gint selection_end_pos;
+	char *str;
+
+	selection_start_pos = MIN (text->selection_start, text->selection_end);
+	selection_end_pos = MAX (text->selection_start, text->selection_end);
+
+	str = g_strndup (text->text + selection_start_pos,
+			 selection_end_pos - selection_start_pos);
+
+	gtk_clipboard_set_text (gtk_widget_get_clipboard (GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas),
+							  GDK_SELECTION_CLIPBOARD),
+				str, -1);
+	g_free (str);
+}
+
+void
+e_text_delete_selection(EText *text)
+{
+	int sel_start, sel_end;
+
+	sel_start = MIN(text->selection_start, text->selection_end);
+	sel_end   = MAX(text->selection_start, text->selection_end);
+
+	if (sel_start != sel_end)
+		e_text_model_delete(text->model, sel_start, sel_end - sel_start);
+}
+
+void
+e_text_cut_clipboard (EText *text)
+{
+	e_text_copy_clipboard (text);
+	e_text_delete_selection (text);
+}
+
+void
+e_text_paste_clipboard (EText *text)
+{
+	ETextEventProcessorCommand command;
+
+	command.action = E_TEP_PASTE;
+	command.position = E_TEP_SELECTION;
+	command.string = "";
+	command.value = 0;
+	e_text_command(text->tep, &command, text);
+}
+
+void
+e_text_select_all (EText *text)
+{
+	ETextEventProcessorCommand command;
+
+	command.action = E_TEP_SELECT;
+	command.position = E_TEP_SELECT_ALL;
+	command.string = "";
+	command.value = 0;
+	e_text_command(text->tep, &command, text);
+}
+
+
+static void
+primary_get_cb (GtkClipboard     *clipboard,
+		GtkSelectionData *selection_data,
+		guint             info,
+		gpointer          data)
+{
+	EText *text = E_TEXT (data);
+	int sel_start, sel_end;
+
+	sel_start = MIN(text->selection_start, text->selection_end);
+	sel_end   = MAX(text->selection_start, text->selection_end);
+
+	if (sel_start != sel_end) {
+		gchar *str = g_strndup (text->text + sel_start,
+					sel_end - sel_start);
+		gtk_selection_data_set_text (selection_data, str, -1);
+		g_free (str);
+	}
+}
+
+static void
+primary_clear_cb (GtkClipboard *clipboard,
+		  gpointer      data)
+{
+	EText *text = E_TEXT (data);
+
+#if notyet
+	/* XXX */
+	gtk_editable_select_region (GTK_EDITABLE (entry), entry->current_pos, entry->current_pos);
+#endif
+}
+
+static void
+e_text_update_primary_selection (EText *text)
+{
+	static const GtkTargetEntry targets[] = {
+		{ "UTF8_STRING", 0, 0 },
+		{ "UTF-8", 0, 0 },
+		{ "STRING", 0, 0 },
+		{ "TEXT",   0, 0 }, 
+		{ "COMPOUND_TEXT", 0, 0 }
+	};
+	GtkClipboard *clipboard;
+
+	clipboard = gtk_widget_get_clipboard (GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas), GDK_SELECTION_PRIMARY);
+  
+	if (text->selection_start != text->selection_end) {
+		if (!gtk_clipboard_set_with_owner (clipboard, targets, G_N_ELEMENTS (targets),
+						   primary_get_cb, primary_clear_cb, G_OBJECT (text)))
+			primary_clear_cb (clipboard, text);
+	}
+	else {
+		if (gtk_clipboard_get_owner (clipboard) == G_OBJECT (text))
+			gtk_clipboard_clear (clipboard);
+	}
+}
+
+static void
+paste_received (GtkClipboard *clipboard,
+		const gchar  *text,
+		gpointer      data)
+{
+	EText *etext = E_TEXT (data);
+      
+	if (text) {
+		if (etext->selection_end != etext->selection_start)
+			e_text_delete_selection (etext);
+
+		e_text_insert (etext, text, strlen (text)); 
+	}
+
+	g_object_unref (etext);
+}
+
+static void
+e_text_paste (EText *text, GdkAtom selection)
+{
+	g_object_ref (text);
+	gtk_clipboard_request_text (gtk_widget_get_clipboard (GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas),
+							      selection),
+				    paste_received, text);
+}
+
+typedef struct {
+	EText *text;
+	GdkEventButton *button;
+	int position;
+} PopupClosure;
+
+static void
+popup_menu_detach (GtkWidget *attach_widget,
+		   GtkMenu   *menu)
+{
+}
+
+static void
+popup_targets_received (GtkClipboard     *clipboard,
+			GtkSelectionData *data,
+			gpointer          user_data)
+{
+	PopupClosure *closure = user_data;
+	EText *text = closure->text;
+	GdkEventButton *button = closure->button;
+	int position = closure->position;
+	GtkWidget *popup_menu = gtk_menu_new ();
+	GtkWidget *menuitem, *submenu;
+
+	g_free (closure);
+
+	gtk_menu_attach_to_widget (GTK_MENU (popup_menu),
+				   GTK_WIDGET(GNOME_CANVAS_ITEM (text)->canvas),
+				   popup_menu_detach);
+
+	/* cut menu item */
+	menuitem = gtk_image_menu_item_new_from_stock (GTK_STOCK_CUT, NULL);
+	gtk_widget_show (menuitem);
+	gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), menuitem);
+	g_signal_connect_swapped (menuitem, "activate",
+				  G_CALLBACK (e_text_cut_clipboard), text);
+	gtk_widget_set_sensitive (menuitem, text->selection_start != text->selection_end);
+
+	/* copy menu item */
+	menuitem = gtk_image_menu_item_new_from_stock (GTK_STOCK_COPY, NULL);
+	gtk_widget_show (menuitem);
+	gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), menuitem);
+	g_signal_connect_swapped (menuitem, "activate",
+				  G_CALLBACK (e_text_copy_clipboard), text);
+	gtk_widget_set_sensitive (menuitem, text->selection_start != text->selection_end);
+
+	/* paste menu item */
+	menuitem = gtk_image_menu_item_new_from_stock (GTK_STOCK_PASTE, NULL);
+	gtk_widget_show (menuitem);
+	gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), menuitem);
+	g_signal_connect_swapped (menuitem, "activate",
+				  G_CALLBACK (e_text_paste_clipboard), text);
+	gtk_widget_set_sensitive (menuitem, gtk_selection_data_targets_include_text (data));
+
+	menuitem = gtk_menu_item_new_with_label (_("Select All"));
+	gtk_widget_show (menuitem);
+	gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), menuitem);
+	g_signal_connect_swapped (menuitem, "activate",
+				  G_CALLBACK (e_text_select_all), text);
+	gtk_widget_set_sensitive (menuitem, strlen (text->text) > 0);
+
+	menuitem = gtk_separator_menu_item_new ();
+	gtk_widget_show (menuitem);
+	gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), menuitem);
+
+	if (text->im_context && GTK_IS_IM_MULTICONTEXT (text->im_context)) {
+		menuitem = gtk_menu_item_new_with_label (_("Input Methods"));
+		gtk_widget_show (menuitem);
+		submenu = gtk_menu_new ();
+		gtk_menu_item_set_submenu (GTK_MENU_ITEM (menuitem), submenu);
+      
+		gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), menuitem);
+
+		gtk_im_multicontext_append_menuitems (GTK_IM_MULTICONTEXT (text->im_context),
+						      GTK_MENU_SHELL (submenu));
+	}
+
+      g_signal_emit (text,
+		     e_text_signals[E_TEXT_POPULATE_POPUP],
+		     0,
+		     button, position,
+		     popup_menu);
+
+      gtk_menu_popup (GTK_MENU (popup_menu), NULL, NULL,
+		      NULL, NULL,
+		      button->button, GDK_CURRENT_TIME);
+
+      g_object_unref (text);
+}
+
+static void
+e_text_do_popup (EText *text, GdkEventButton *button, int position)
+{
+	PopupClosure *closure = g_new (PopupClosure, 1);
+
+	closure->text = text;
+	g_object_ref (closure->text);
+	closure->button = button;
+	closure->position = position;
+
+	gtk_clipboard_request_contents (gtk_widget_get_clipboard (GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas),
+								  GDK_SELECTION_CLIPBOARD),
+					gdk_atom_intern ("TARGETS", FALSE),
+					popup_targets_received,
+					closure);
+}
+
+static void
+e_text_reset_im_context (EText *text)
+{
+	if (text->need_im_reset) {
+		text->need_im_reset = 0;
+		gtk_im_context_reset (text->im_context);
+	}
 }
 
 /* fixme: */
@@ -2532,27 +2855,11 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 }
 
 static void
-_delete_selection(EText *text)
-{
-	if ( text->selection_start < text->selection_end ) {
-		e_text_model_delete(text->model, text->selection_start, text->selection_end - text->selection_start);
-#if 0
-		text->selection_end = text->selection_start;
-#endif
-	} else {
-		e_text_model_delete(text->model, text->selection_end, text->selection_start - text->selection_end);
-#if 0
-		text->selection_start = text->selection_end;
-#endif
-	}
-}
-
-static void
-_insert(EText *text, char *string, int value)
+e_text_insert(EText *text, const char *string, int value)
 {
 	if (value > 0) {
 		if (!text->allow_newlines) {
-			char *i;
+			const char *i;
 			for (i = string; *i; i++) {
 				if (*i == '\n') {
 					char *new_string = g_malloc (strlen (string) + 1);
@@ -2643,17 +2950,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		text->selection_start = e_text_model_validate_position (text->model, text->selection_start); /* paranoia */
 		text->selection_end = _get_position(text, command);
 		
-		sel_start = MIN(text->selection_start, text->selection_end);
-		sel_end   = MAX(text->selection_start, text->selection_end);
-
-		sel_start = e_text_model_validate_position (text->model, sel_start);
-		
-		if (sel_start != sel_end) {
-			e_text_supply_selection (text, command->time, GDK_SELECTION_PRIMARY,
-						 (guchar *) text->text + sel_start, sel_end - sel_start);
-		} else if (text->timer) {
-			g_timer_reset(text->timer);
-		}
+		e_text_update_primary_selection (text);
 
 		use_start = FALSE;
 
@@ -2662,7 +2959,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		if (text->selection_end == text->selection_start) {
 			text->selection_end = _get_position(text, command);
 		}
-		_delete_selection(text);
+		e_text_delete_selection(text);
 		if (text->timer) {
 			g_timer_reset(text->timer);
 		}
@@ -2673,33 +2970,29 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 
 	case E_TEP_INSERT:
 		if (text->selection_end != text->selection_start) {
-			_delete_selection(text);
+			e_text_delete_selection(text);
 		}
-		_insert(text, command->string, command->value);
+		e_text_insert(text, command->string, command->value);
 		if (text->timer) {
 			g_timer_reset(text->timer);
 		}
 		break;
 	case E_TEP_COPY:
-		sel_start = MIN(text->selection_start, text->selection_end);
-		sel_end = MAX(text->selection_start, text->selection_end);
-		if (sel_start != sel_end) {
-			e_text_supply_selection (text, command->time, clipboard_atom,
-						 (guchar *) text->text + sel_start, sel_end - sel_start);
-		}
+		e_text_copy_clipboard (text);
+
 		if (text->timer) {
 			g_timer_reset(text->timer);
 		}
 		scroll = FALSE;
 		break;
 	case E_TEP_PASTE:
-		e_text_get_selection (text, clipboard_atom, command->time);
+		e_text_paste (text, GDK_NONE);
 		if (text->timer) {
 			g_timer_reset(text->timer);
 		}
 		break;
 	case E_TEP_GET_SELECTION:
-		e_text_get_selection (text, GDK_SELECTION_PRIMARY, command->time);
+		e_text_paste (text, GDK_SELECTION_PRIMARY);
 		break;
 	case E_TEP_ACTIVATE:
 		g_signal_emit (text, e_text_signals[E_TEXT_ACTIVATE], 0);
@@ -2791,336 +3084,6 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(text));
 }
 
-static void 
-_invisible_destroy (gpointer data, GObject *where_object_was)
-{
-	EText *text = E_TEXT (data);
-	text->invisible = NULL;
-}
-
-static GtkWidget *
-e_text_get_invisible(EText *text)
-{	
-	GtkWidget *invisible;
-	if (text->invisible) {
-		invisible = text->invisible;
-	} else {
-		static const GtkTargetEntry targets[] = {
-			{ "UTF8_STRING", 0, TARGET_UTF8_STRING },
-			{ "UTF-8", 0, TARGET_UTF8 },
-			{ "COMPOUND_TEXT", 0, TARGET_COMPOUND_TEXT },
-			{ "STRING", 0, TARGET_STRING },
-			{ "TEXT",   0, TARGET_TEXT }
-		};
-		static const gint n_targets = sizeof(targets) / sizeof(targets[0]);
-
-		invisible = gtk_invisible_new();
-		text->invisible = invisible;
-		
-		gtk_selection_add_targets (invisible,
-					   GDK_SELECTION_PRIMARY,
-					   targets, n_targets);
-		gtk_selection_add_targets (invisible,
-					   clipboard_atom,
-					   targets, n_targets);
-
-		g_signal_connect (invisible, "selection_get",
-				  G_CALLBACK (_selection_get), 
-				  text);
-		g_signal_connect (invisible, "selection_clear_event",
-				  G_CALLBACK (_selection_clear_event),
-				  text);
-		g_signal_connect (invisible, "selection_received",
-				  G_CALLBACK (_selection_received),
-				  text);
-
-		g_object_weak_ref (G_OBJECT (invisible),
-				   _invisible_destroy, text);
-	}
-	return invisible;
-}
-
-static void
-_selection_clear_event (GtkInvisible *invisible,
-			GdkEventSelection *event,
-			EText *text)
-{
-	if (event->selection == GDK_SELECTION_PRIMARY) {
-		g_free (text->primary_selection);
-		text->primary_selection = NULL;
-		text->primary_length = 0;
-
-		text->has_selection = FALSE;
-		text->needs_redraw = 1;
-		gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(text));
-
-	} else if (event->selection == clipboard_atom) {
-		g_free (text->clipboard_selection);
-		text->clipboard_selection = NULL;
-		text->clipboard_length = 0;
-	}
-}
-
-static void
-_selection_get (GtkInvisible *invisible,
-		GtkSelectionData *selection_data,
-		guint info,
-		guint time_stamp,
-		EText *text)
-{
-	char *selection_string;
-	int selection_length;
-	if (selection_data->selection == GDK_SELECTION_PRIMARY) {
-		selection_string = text->primary_selection;
-		selection_length = text->primary_length;
-	} else /* CLIPBOARD */ {
-		selection_string = text->clipboard_selection;
-		selection_length = text->clipboard_length;
-	}
-
-	if (selection_string != NULL) {
-		if (info == TARGET_UTF8_STRING) {
-			gtk_selection_data_set (selection_data,
-						gdk_atom_intern ("UTF8_STRING", FALSE), 8,
-						(const guchar *) selection_string,
-						selection_length);
-		} else if (info == TARGET_UTF8) {
-			gtk_selection_data_set (selection_data,
-						gdk_atom_intern ("UTF-8", FALSE), 8,
-						(const guchar *) selection_string,
-						selection_length);
-		} else if (info == TARGET_STRING || info == TARGET_TEXT || info == TARGET_COMPOUND_TEXT) {
-			gchar *localized_string;
-
-			localized_string = e_utf8_to_gtk_string (GTK_WIDGET (GNOME_CANVAS_ITEM(text)->canvas),
-								 selection_string);
-
-			if (info == TARGET_STRING) {
-				gtk_selection_data_set (selection_data,
-							GDK_SELECTION_TYPE_STRING, 8,
-							(const guchar *) localized_string, 
-							strlen (localized_string));
-			} else {
-				guchar *text;
-				GdkAtom encoding;
-				gint format;
-				gint new_length;
-
-				gdk_string_to_compound_text (localized_string, 
-							     &encoding, &format,
-							     &text, &new_length);
-
-				gtk_selection_data_set (selection_data,
-							encoding, format,
-							text, new_length);
-				gdk_free_compound_text (text);
-			}
-			g_free (localized_string);
-		}
-	}
-}
-
-typedef struct {
-	guint32 time;
-	GdkAtom selection;
-} SelectionAndTime;
-
-static const char *formats[] = {"UTF8_STRING", "UTF-8", "STRING"};
-#define E_STRING_ATOM 2
-static const int format_count = sizeof (formats) / sizeof (formats[0]);
-static GdkAtom atoms[sizeof (formats) / sizeof (formats[0])];
-static int initialized = FALSE;
-
-static inline void
-init_atoms (void)
-{
-	int type;
-	if (!initialized) {
-		for (type = 0; type < format_count; type++) 
-			atoms[type] = gdk_atom_intern (formats[type], FALSE);
-		initialized = TRUE;
-	}
-}
-
-static void
-e_text_request_paste (EText *text)
-{
-	GdkAtom format_atom;
-	GtkWidget *invisible;
-	int type = text->last_type_request;
-
-	init_atoms ();
-
-	format_atom = GDK_NONE;
-
-	while (format_atom == GDK_NONE) {
-		type ++;
-
-		if (type >= format_count) {
-			if (text->queued_requests) {
-				guint32 *new_time = text->queued_requests->data;
-				text->queued_requests = g_list_remove_link (text->queued_requests, text->queued_requests); 
-				text->last_time_request = *new_time;
-				g_free (new_time);
-
-				type = -1;
-				continue;
-			} else {
-				text->last_type_request = -1;
-				d(g_print ("Setting last_type_request to %d at line %d\n", text->last_type_request, __LINE__));
-				text->last_time_request = 0;
-				return;
-			}
-		}
-
-		format_atom = atoms [type];
-	}
-
-	/* This must come before the gtk_selection_convert because sometimes _selection_received is called reentrantly. */
-
-	text->last_type_request = type;
-	d(g_print ("Setting last_type_request to %d at line %d\n", text->last_type_request, __LINE__));
-
-	/* And request the format target for the required selection */
-	invisible = e_text_get_invisible(text);
-	gtk_selection_convert(invisible,
-			      text->last_selection_request,
-			      format_atom,
-			      text->last_time_request);
-
-	return;
-}
-
-static void
-_selection_received (GtkInvisible *invisible,
-		     GtkSelectionData *selection_data,
-		     guint time,
-		     EText *text)
-{
-	init_atoms ();
-	if (selection_data->length < 0) {
-		d(g_print ("Calling e_text_request_paste at line %d\n", __LINE__));
-		e_text_request_paste (text);
-		return;
-	} else if (selection_data->type == atoms[E_STRING_ATOM]) {
-		ETextEventProcessorCommand command;
-		char *string;
-
-		string = e_utf8_from_gtk_string_sized (GTK_WIDGET (GNOME_CANVAS_ITEM(text)->canvas),
-						       selection_data->data,
-						       selection_data->length);
-		command.action = E_TEP_INSERT;
-		command.position = E_TEP_SELECTION;
-		command.string = string;
-		command.value = strlen (string);
-		command.time = time;
-		e_text_command(text->tep, &command, text);
-		g_free (string);
-	} else {
-		ETextEventProcessorCommand command;
-		command.action = E_TEP_INSERT;
-		command.position = E_TEP_SELECTION;
-		command.string = selection_data->data;
-		command.value = selection_data->length;
-		command.time = time;
-		e_text_command(text->tep, &command, text);
-	}
-
-	text->last_type_request = -1;
-	d(g_print ("Setting last_type_request to %d at line %d\n", text->last_type_request, __LINE__));
-	if (text->queued_requests) {
-		SelectionAndTime *new_request = text->queued_requests->data;
-		text->queued_requests = g_list_remove_link (text->queued_requests, text->queued_requests);
-		text->last_time_request = new_request->time;
-		text->last_selection_request = new_request->selection;
-		g_free (new_request);
-		d(g_print ("Calling e_text_request_paste at line %d\n", __LINE__));
-		e_text_request_paste (text);
-	}
-}
-
-static void
-e_text_get_selection(EText *text, GdkAtom selection, guint32 time)
-{
-	if (text->last_type_request == -1) {
-		text->last_time_request = time;
-		text->last_selection_request = selection;
-		d(g_print ("Calling e_text_request_paste at line %d\n", __LINE__));
-		e_text_request_paste (text);
-	} else {
-		SelectionAndTime *new_request = g_new (SelectionAndTime, 1);
-		new_request->time = time;
-		new_request->selection = selection;
-		/* FIXME: Queue the selection request type as well. */
-		text->queued_requests = g_list_append (text->queued_requests, new_request);
-	}
-}
-
-static void 
-e_text_supply_selection (EText *text, guint time, GdkAtom selection, guchar *data, gint length)
-{
-	gboolean successful;
-	GtkWidget *invisible;
-
-	invisible = e_text_get_invisible(text);
-
-	if (selection == GDK_SELECTION_PRIMARY ) {
-		g_free (text->primary_selection);
-		text->primary_selection = g_strndup(data, length);
-		text->primary_length = length;
-	} else if (selection == clipboard_atom) {
-		g_free (text->clipboard_selection);
-		text->clipboard_selection = g_strndup(data, length);
-		text->clipboard_length = length;
-	}
-
-	successful = gtk_selection_owner_set (invisible,
-					      selection,
-					      time);
-	
-	if (selection == GDK_SELECTION_PRIMARY)
-		text->has_selection = successful;
-}
-
-#if 0
-static void
-e_text_real_copy_clipboard (EText *text)
-{
-  guint32 time;
-  gint selection_start_pos; 
-  gint selection_end_pos;
-
-  g_return_if_fail (text != NULL);
-  g_return_if_fail (E_IS_TEXT (text));
-  
-  time = gtk_text_get_event_time (text);
-  selection_start_pos = MIN (text->selection_start, text->selection_end);
-  selection_end_pos = MAX (text->selection_start, text->selection_end);
- 
-  if (selection_start_pos != selection_end_pos)
-    {
-      if (gtk_selection_owner_set (GTK_WIDGET (text->canvas),
-				   clipboard_atom,
-				   time))
-	      text->clipboard_text = "";
-    }
-}
-
-static void
-e_text_real_paste_clipboard (EText *text)
-{
-  guint32 time;
-
-  g_return_if_fail (text != NULL);
-  g_return_if_fail (E_IS_TEXT (text));
-  
-  time = e_text_get_event_time (text);
-  if (text->editable)
-	  gtk_selection_convert (GTK_WIDGET(text->widget),
-				 clipboard_atom,
-				 gdk_atom_intern ("COMPOUND_TEXT", FALSE), time);
-}
-#endif
 
 /* Class initialization function for the text item */
 static void
@@ -3176,14 +3139,14 @@ e_text_class_init (ETextClass *klass)
 			      e_marshal_NONE__INT_INT,
 			      G_TYPE_NONE, 2, G_TYPE_UINT, G_TYPE_UINT);
 
-	e_text_signals[E_TEXT_POPUP] =
-		g_signal_new ("popup",
+	e_text_signals[E_TEXT_POPULATE_POPUP] =
+		g_signal_new ("populate_popup",
 			      G_OBJECT_CLASS_TYPE (gobject_class),
 			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETextClass, popup),
+			      G_STRUCT_OFFSET (ETextClass, populate_popup),
 			      NULL, NULL,
-			      e_marshal_NONE__POINTER_INT,
-			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_INT);
+			      e_marshal_NONE__POINTER_INT_OBJECT,
+			      G_TYPE_NONE, 3, G_TYPE_POINTER, G_TYPE_INT, GTK_TYPE_MENU);
 
 	g_object_class_install_property (gobject_class, PROP_MODEL,
 					 g_param_spec_object ("model",
@@ -3413,6 +3376,13 @@ e_text_class_init (ETextClass *klass)
 							   0, G_MAXINT, 0,
 							   G_PARAM_READWRITE));
 
+	g_object_class_install_property (gobject_class, PROP_IM_CONTEXT,
+					 g_param_spec_object ("im_context",
+							      _( "IM Context" ),
+							      _( "IM Context" ),
+							      GTK_TYPE_IM_CONTEXT,
+							      G_PARAM_READWRITE));
+
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
 }
@@ -3474,12 +3444,6 @@ e_text_init (EText *text)
 
 	text->has_selection           = FALSE;
 
-	text->invisible               = NULL;
-	text->primary_selection       = NULL;
-	text->primary_length          = 0;
-	text->clipboard_selection     = NULL;
-	text->clipboard_length        = 0;
-
 	text->pointer_in              = FALSE;
 	text->default_cursor_shown    = TRUE;
 	text->line_wrap               = FALSE;
@@ -3505,6 +3469,9 @@ e_text_init (EText *text)
 	text->last_time_request       = 0;
 	text->queued_requests         = NULL;
 
+	text->im_context              = NULL;
+	text->need_im_reset           = FALSE;
+
 	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(text), e_text_reflow);
 }
 
@@ -3523,3 +3490,44 @@ E_MAKE_TYPE (e_text,
 	     e_text_class_init,
 	     e_text_init,
 	     PARENT_TYPE)
+
+
+/* IM Context Callbacks */
+static void
+e_text_commit_cb (GtkIMContext *context,
+		  const gchar  *str,
+		  EText        *text)
+{
+	if (text->selection_end != text->selection_start)
+		e_text_delete_selection (text);
+	e_text_insert (text, str, strlen (str));
+}
+
+static gboolean
+e_text_retrieve_surrounding_cb (GtkIMContext *context,
+				EText        *text)
+{
+	printf ("e_text_retrieve_surrounding_cb\n");
+	gtk_im_context_set_surrounding (context,
+					text->text,
+					strlen (text->text),
+					g_utf8_offset_to_pointer (text->text, text->selection_start) - text->text);
+	
+	return TRUE;
+}
+
+static gboolean
+e_text_delete_surrounding_cb   (GtkIMContext *context,
+				gint          offset,
+				gint          n_chars,
+				EText        *text)
+{
+	printf ("e_text_delete_surrounding_cb\n");
+#if 0
+	gtk_editable_delete_text (GTK_EDITABLE (entry),
+				  entry->current_pos + offset,
+				  entry->current_pos + offset + n_chars);
+#endif
+
+	return TRUE;
+}

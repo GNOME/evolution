@@ -59,7 +59,7 @@ struct _EEntryClass {
 
 	void (* changed)  (EEntry *entry);
 	void (* activate) (EEntry *entry);
-	void (* popup)    (EEntry *entry, GdkEventButton *ev, gint pos);
+	void (* populate_popup)   (EEntry *entry, GdkEventButton *ev, gint pos, GtkMenu *menu);
 	void (* completion_popup) (EEntry *entry, gint visible);
 };
 

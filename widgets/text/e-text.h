@@ -37,7 +37,7 @@
 #ifndef E_TEXT_H
 #define E_TEXT_H
 
-#include <gtk/gtkobject.h>
+#include <gtk/gtkmenu.h>
 
 #include <gal/widgets/e-font.h>
 #include <gal/util/e-text-event-processor.h>
@@ -162,12 +162,7 @@ struct _EText {
 	ETextEventProcessor *tep;       /* Text Event Processor */
 	gint tep_command_id;
 
-	GtkWidget *invisible;           /* For selection handling */
 	gboolean has_selection;         /* TRUE if we have the selection */
-	gchar *primary_selection;       /* Primary selection text */
-	gint primary_length;            /* Primary selection text length */
-	gchar *clipboard_selection;     /* Clipboard selection text */
-	gint clipboard_length;          /* Clipboard selection text length*/
 
 	guint clip : 1;			/* Use clip rectangle? */
 	guint fill_clip_rectangle : 1;  /* Fill the clipping rectangle. */
@@ -216,16 +211,19 @@ struct _EText {
 	guint32  last_time_request;       /* The time of the last selection request. */
 	GdkAtom  last_selection_request;  /* The time of the last selection request. */
 	GList   *queued_requests;         /* Queued selection requests. */
+	
+	GtkIMContext *im_context;
+	gboolean      need_im_reset;
 };
 
 struct _ETextClass {
 	GnomeCanvasItemClass parent_class;
 
-	void (* changed)    (EText *text);
-	void (* activate)   (EText *text);
-	void (* keypress)   (EText *text, guint keyval, guint state);
-	void (* popup)      (EText *text, GdkEventButton *ev, gint pos);
-	void (* style_set)  (EText *text, GtkStyle *previous_style);
+	void (* changed)         (EText *text);
+	void (* activate)        (EText *text);
+	void (* keypress)        (EText *text, guint keyval, guint state);
+	void (* populate_popup)  (EText *text, GdkEventButton *ev, gint pos, GtkMenu *menu);
+	void (* style_set)       (EText *text, GtkStyle *previous_style);
 };
 
 
@@ -233,6 +231,11 @@ struct _ETextClass {
 GtkType  e_text_get_type        (void);
 void     e_text_cancel_editing  (EText *text);
 void     e_text_stop_editing    (EText *text);
+
+void     e_text_delete_selection (EText *text);
+void     e_text_cut_clipboard    (EText *text);
+void     e_text_paste_clipboard  (EText *text);
+void     e_text_select_all       (EText *text);
 
 G_END_DECLS
 
