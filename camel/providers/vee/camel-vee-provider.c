@@ -30,6 +30,8 @@ static CamelProvider vee_provider = {
 
 	"For reading mail as a query of another set of folders",
 
+	"vfolder",
+
 	0,
 
 	{ 0, 0 }

@@ -34,6 +34,8 @@ static CamelProvider news_provider = {
 
 	"This is a read-only provider for USENET newsgroups.",
 
+	"news",
+
 	CAMEL_PROVIDER_IS_REMOTE,
 
 	{ 0, 0 }
@@ -45,6 +47,8 @@ static CamelProvider nntp_provider = {
 
 	"This is a provider for reading from and posting to"
 	"USENET newsgroups.",
+
+	"news",
 
 	CAMEL_PROVIDER_IS_REMOTE,
 

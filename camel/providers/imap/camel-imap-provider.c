@@ -30,10 +30,11 @@
 
 static CamelProvider imap_provider = {
 	"imap",
-	"IMAPv4 mail store",
+	"IMAPv4",
 
-	"For reading mail on remote systems and "
-	"storing mail on remote servers.",
+	"For reading and storing mail on IMAP servers.",
+
+	"mail",
 
 	0,
 

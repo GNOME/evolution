@@ -35,6 +35,8 @@ static CamelProvider sendmail_provider = {
 	"For delivering mail by passing it to the \"sendmail\" program "
 	"on the local system.",
 
+	"mail",
+
 	0,
 
 	{ 0, 0 }

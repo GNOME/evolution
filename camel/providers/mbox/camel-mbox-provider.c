@@ -35,6 +35,8 @@ static CamelProvider mbox_provider = {
 	"For reading mail delivered by the local system, and for "
 	"storing mail on local disk.",
 
+	"mail",
+
 	0,
 
 	{ 0, 0 }

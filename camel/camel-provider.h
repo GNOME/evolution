@@ -64,6 +64,12 @@ typedef struct {
 	 */
 	char *description;
 
+	/* The category of message that this provider works with.
+	 * (evolution-mail will only list a provider in the store/transport
+	 * config dialogs if its domain is "mail".)
+	 */
+	char *domain;
+
 	int flags;
 
 	GtkType object_types [CAMEL_NUM_PROVIDER_TYPES];

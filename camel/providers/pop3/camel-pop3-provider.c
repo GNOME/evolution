@@ -36,6 +36,8 @@ static CamelProvider pop3_provider = {
 	"to retrieve mail from certain web mail providers and proprietary "
 	"email systems.",
 
+	"mail",
+
 	CAMEL_PROVIDER_IS_REMOTE,
 
 	{ 0, 0 }

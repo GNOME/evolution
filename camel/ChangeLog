@@ -1,5 +1,20 @@
 2000-05-28  Dan Winship  <danw@helixcode.com>
 
+	* camel-provider.h: Add a domain field to CamelProvider, to say
+	what kind of data it provides.
+
+	* providers/imap/camel-imap-provider.c: 
+	* providers/mbox/camel-mbox-provider.c: 
+	* providers/pop3/camel-pop3-provider.c: 
+	* providers/sendmail/camel-sendmail-provider.c: 
+	* providers/smtp/camel-smtp-provider.c: Set domain to "mail".
+
+	* providers/nntp/camel-nntp-provider.c: Set domain to "news".
+
+	* providers/vee/camel-vee-provider.c: Set domain to "vfolder". (So
+	it doesn't end up being listed as a potential mail source in the
+	mail config wizard.)
+
 	* providers/pop3/camel-pop3-store.c: Split apart password and APOP
 	auth, since some servers seem to do both, but don't really.
 	(connect_to_server): Renamed from try_connect. Now actually does
