@@ -1,3 +1,95 @@
+Evolution 2.0.1, 2004-09-24
+----------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+ * Addressbook
+
+   #61070 - Fix improper grammar (hannah rebekah & fazlu huq)
+   #59725 - Conduit syncing to wrong desktop record (JP)
+   #63191 - Fix contact list editor title (JP)
+   #64080 - addressbook gui component needs to be linked with libcamel (Michael)
+   #64024 - Lower pane doesn't go away when you uncheck "Preview Pane" in Contacts (Siva)
+   #64011 - Remove C99-ism (Vicent Noel)
+   #62856 - in --offline mode, still get prompted for gw addressbook password, work around (Michael)
+
+ * Calendar
+
+   #66344 - Evolution crashes added start time column to tasks (JP)
+   #63513 - G/W appointment acceptance fails ('invalid object') (Chen)
+   #60904 - Show all appointments when work week longer than 5 days (JP)
+   #66158 - Completion status is not displayed immediately (JP)
+   #59194 - Crash editing location field in event list (JP)
+   #65682 - get error deleting appointments (Chen)
+   #55172 - sync montly recurrences properly (JP)
+   #62374 - alarms no function if run over night (Rodrigo)
+   #62728 - week day heading in month view does not update after changing week start day in settings (JP)
+   #62392 - Crash on close alarm notification (Rodrigo)
+
+ * Mail
+
+   #65329 - translate standar folder names (Michael)
+   #65058 - Specific mails don't display picture but picture data (Michael)
+   #64972 - signature auto-selection in composer with Maildir account is broken (Michael)
+   #65448 - Opening a mail does not mark it read (Jeff)
+   #64974 - Allow selecting of file or folder for maildir and mh accounts (Jeff)
+   #65703 - Display reply to all icon (JP)
+   #59717 - crash checking supported authentication types (Michael)
+   #47821 - try all host names available when connecting (Michael)
+   #66199 - Image loading fails with authenticated proxy (Michael)
+   #64023 - Forget NNTP password if it was wrong (Michael)
+   #64092 - Ambiguity in nomenclature of GW Tasks in Evolution (Siva)
+
+ * Shell
+
+   #61285 - use better query for config pages (Michael)
+   #66216 - don't show translator-credits directly in about box (Malcolm Treddinnick)
+
+Other bugs
+
+  * Addressbook
+
+    - point to correct documentation file (Rodney)
+    - check for LABEL supported (Siva)
+
+  * Calendar
+
+    - Don't allow deletion of system calendar or tasks (JP)
+    - Don't allow a task to be changed to an assigned task if the backend doesn't support it (Chen)
+
+  * Mail
+
+    - Fix typo setting the root node in folder tree (Dave Malcolm)
+    - Handle 0 length token read for summary (Michael)
+    - Make SSL connections async and cancellable (Michael)
+
+Updated translations:
+  - fr (Christophe Merlet, Craig Jeffares)
+  - pl (Artur Flinta)
+  - sq (Laurent Dhima)
+  - cs (Miloslav Trmac)
+  - es (Francisco Javier F. Serrador)
+  - nl (Vincent van Adrighem)
+  - zh_CN (Funda Wang)
+  - en_CA (Adam Weinberger)
+  - it (Craig Jeffares)
+  - zh_TW (Craig Jeffares)
+  - en_GB (Gareth Owen)
+  - fa (Roozbeh Pournader)
+  - el (Nikos Charonitakis)
+  - ja (Takeshi AIHANA)
+  - pt_BR (Raphael Higino)
+  - da (Martin Willemoes Hansen)
+  - ko (Changwoo Ryu)
+  - nn (Åsmund Skjæveland)
+  - sr (Danilo Segan)
+  - hu (Laszlo Dvornik)
+  - bs Danilo Segan
+  - id (Mohammad DAMT)
+  - nb (Sigurd Gartmann)
+  - no (Sigurd Gartmann)
+  - ar (Arafat Medini))
+
 Evolution 2.0.0, 2004-09-13
 ----------------------------
 
