@@ -110,9 +110,9 @@ save_data (const char *cid, CamelMimeMessage *message)
 
 		p = strrchr (filename, '/');
 		if (p)
-			filename = g_strdup_printf ("%s%s", evolution_dir, p);
+			filename = g_strdup_printf ("%s%s", g_get_home_dir(), p);
 		else {
-			filename = g_strdup_printf ("%s/%s", evolution_dir,
+			filename = g_strdup_printf ("%s/%s", g_get_home_dir(),
 						    filename);
 		}
 
@@ -122,7 +122,7 @@ save_data (const char *cid, CamelMimeMessage *message)
 				*p = '_';
 		}
 	} else
-		filename = g_strdup_printf ("%s/attachment", evolution_dir);
+		filename = g_strdup_printf ("%s/attachment", g_get_home_dir());
 
 	file_select = GTK_FILE_SELECTION (gtk_file_selection_new ("Save Attachment"));
 	gtk_file_selection_set_filename (file_select, filename);
