@@ -1,3 +1,18 @@
+2001-01-03  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/calendar-commands.c (new_calendar): Handle the case where
+	the calendar view cannot be created; present a warning dialog box.
+	(new_calendar): Do not show the widget here, since we already show
+	it in control-factory.c.
+
+	* gui/control-factory.c (control_factory_new_control): Handle the
+	case where the calendar view cannot be created.
+
+	* gui/component-factory.c (create_view): Ditto.
+
+	* gui/calendar-summary.h: Added prototype for
+	calendar_summary_factory_init().
+
 2001-01-02  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/alarm-notify.c (add_component_alarms): If the component has

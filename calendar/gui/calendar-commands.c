@@ -428,10 +428,14 @@ new_calendar (void)
 	GtkWidget *gcal;
 
 	gcal = gnome_calendar_new ();
+	if (!gcal) {
+		gnome_warning_dialog (_("Could not create the calendar view.  Please check your "
+					"ORBit and OAF setup."));
+		return NULL;
+	}
 
 	all_calendars = g_list_prepend (all_calendars, gcal);
 
-	gtk_widget_show (gcal);
 	return GNOME_CALENDAR (gcal);
 }
 
