@@ -41,7 +41,9 @@
 #include <gal/widgets/e-gui-utils.h>
 #include "mail-local-storage.h"
 
+#include <executive-summary/evolution-services/executive-summary-component.h>
 #include "component-factory.h"
+#include "mail-summary.h"
 
 CamelFolder *drafts_folder = NULL;
 CamelFolder *outbox_folder = NULL;
@@ -51,8 +53,10 @@ char *evolution_dir;
 static void create_vfolder_storage (EvolutionShellComponent *shell_component);
 
 #define COMPONENT_FACTORY_ID "OAFIID:evolution-shell-component-factory:evolution-mail:0ea887d5-622b-4b8c-b525-18aa1cbe18a6"
+#define SUMMARY_FACTORY_ID "OAFIID:evolution-executive-summary-component-factory:evolution-mail:be210cba-0eee-4def-84fa-643d50321217"
 
 static BonoboGenericFactory *factory = NULL;
+static BonoboGenericFactory *summary_factory = NULL;
 static gint running_objects = 0;
 
 static const EvolutionShellComponentFolderType folder_types[] = {
@@ -162,6 +166,17 @@ factory_destroy (BonoboEmbeddable *embeddable,
 }
 
 static BonoboObject *
+summary_fn (BonoboGenericFactory *factory, void *closure)
+{
+	ExecutiveSummaryComponent *summary_component;
+
+	summary_component = executive_summary_component_new (NULL,
+							     create_summary_view, 
+							     NULL, NULL);
+	return BONOBO_OBJECT (summary_component);
+}
+
+static BonoboObject *
 factory_fn (BonoboGenericFactory *factory, void *closure)
 {
 	EvolutionShellComponent *shell_component;
@@ -188,15 +203,21 @@ factory_fn (BonoboGenericFactory *factory, void *closure)
 void
 component_factory_init (void)
 {
-	if (factory != NULL)
+	if (factory != NULL && summary_factory != NULL)
 		return;
 
 	factory = bonobo_generic_factory_new (COMPONENT_FACTORY_ID, factory_fn, NULL);
+	summary_factory = bonobo_generic_factory_new (SUMMARY_FACTORY_ID, summary_fn, NULL);
 
 	if (factory == NULL) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  _("Cannot initialize Evolution's mail component."));
 		exit (1);
+	}
+
+	if (summary_factory == NULL) {
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			  _("Cannot initialize Evolution's mail summary component."));
 	}
 }
 

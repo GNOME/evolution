@@ -1,3 +1,18 @@
+2000-10-05  Iain Holmes  <iain@helixcode.com>
+
+	* component-factory.c (component_factory_init): Setup the summary
+	factory as well.
+	(summary_fn): New function to create the ExecutiveSummaryComponent.
+
+	* mail-summary.c: Create the view, and update it when something 
+	changes.
+
+2000-10-04  Iain Holmes  <iain@helixcode.com>
+
+	* mail-display.c (on_object_requested): Removed the pixbuf cache
+	as it would return the pixbufs in the reverse order every so often
+	and generally get all confused.
+
 2000-10-04  Dan Winship  <danw@helixcode.com>
 
 	* folder-browser-factory.c (control_deactivate): Add back the

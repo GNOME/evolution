@@ -430,9 +430,7 @@ pixbuf_gen_idle (struct _PixbufLoader *pbl)
 				   because Imlib is not threadsafe, and
 				   it was causing all sorts of problems */
 		bonobo_ui_toolbar_icon_set_pixbuf (BONOBO_UI_TOOLBAR_ICON (pbl->pixmap), mini);
-
-		/* Add to cache for later */
-		g_hash_table_insert (pbl->cache, pbl->cid, mini);
+		gtk_widget_set_usize (pbl->pixmap, width, height);
 	}
 	
 	camel_object_unref (CAMEL_OBJECT (pbl->mstream));
@@ -449,7 +447,6 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 {
 	MailDisplay *md = data;
 	GHashTable *urls;
-	GHashTable *pb_cache;
 	CamelMedium *medium;
 	CamelDataWrapper *wrapper;
 	OAF_ServerInfo *component;
@@ -471,9 +468,6 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 	urls = g_datalist_get_data (md->data, "urls");
 	g_return_val_if_fail (urls != NULL, FALSE);
 
-	pb_cache = md->pb_cache;
-	g_return_val_if_fail (pb_cache != NULL, FALSE);
-
 	medium = g_hash_table_lookup (urls, cid);
 	g_return_val_if_fail (CAMEL_IS_MEDIUM (medium), FALSE);
 
@@ -484,27 +478,20 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 
 		if (strncmp (eb->type, "image", 5) == 0) {
 			struct _PixbufLoader *pbl;
-			GdkPixbuf *pb;
 			
-				/* Check the cache */
-			pb = g_hash_table_lookup (pb_cache, cid);
-			if (pb) {
-				pixmap = bonobo_ui_toolbar_icon_new_from_pixbuf (pb);
-			} else {
-				pbl = g_new (struct _PixbufLoader, 1);
-				pbl->wrapper = camel_medium_get_content_object (medium);
-				pbl->loader = NULL;
-				pbl->mstream = NULL;
-				pbl->cache = pb_cache;
-				pbl->cid = g_strdup (cid);
-				pbl->type = g_strdup (eb->type);
-				pixmap = bonobo_ui_toolbar_icon_new ();
-				gtk_widget_set_usize (pixmap, 24, 24);
-				pbl->pixmap = pixmap;
-				
-				g_idle_add_full (G_PRIORITY_LOW, pixbuf_gen_idle, 
-						 pbl, NULL);
-			}
+			pbl = g_new (struct _PixbufLoader, 1);
+			pbl->wrapper = camel_medium_get_content_object (medium);
+			pbl->loader = NULL;
+			pbl->mstream = NULL;
+
+			pbl->type = g_strdup (eb->type);
+			pixmap = bonobo_ui_toolbar_icon_new ();
+
+			gtk_widget_set_usize (pixmap, 24, 24);
+			pbl->pixmap = pixmap;
+			
+			g_idle_add_full (G_PRIORITY_LOW, pixbuf_gen_idle, 
+					 pbl, NULL);
 		} else {
 			icon = gnome_vfs_mime_get_value (eb->type, "icon-filename");
 			if (icon) {
@@ -699,22 +686,6 @@ clear_data (CamelObject *object, gpointer event_data, gpointer user_data)
 }
 
 static void
-free_pb (gpointer key, 
-	 gpointer pb,
-	 gpointer data)
-{
-	g_free (key);
-	gdk_pixbuf_unref ((GdkPixbuf *)pb);
-}
-
-static void
-free_cache (gpointer cache)
-{
-	g_hash_table_foreach (cache, free_pb, NULL);
-	g_hash_table_destroy (cache);
-}
-
-static void
 redisplay (MailDisplay *md, gboolean unscroll)
 {
 	GtkAdjustment *adj;
@@ -804,7 +775,6 @@ mail_display_destroy (GtkObject *object)
 	g_datalist_clear (mail_display->data);
 	g_free (mail_display->data);
 
-	free_cache (mail_display->pb_cache);
 	mail_display_parent_class->destroy (object);
 }
 
@@ -851,7 +821,6 @@ mail_display_new (void)
 	mail_display->data = g_new0 (GData *, 1);
 	g_datalist_init (mail_display->data);
 
-	mail_display->pb_cache = g_hash_table_new (g_str_hash, g_str_equal);
 	return GTK_WIDGET (mail_display);
 }
 
