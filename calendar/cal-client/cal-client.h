@@ -98,7 +98,8 @@ void cal_client_update_pilot_id (CalClient *client, char *uid,
 
 GList *cal_client_get_uids (CalClient *client, CalObjType type);
 
-GList *cal_client_get_events_in_range (CalClient *client, time_t start, time_t end);
+GList *cal_client_get_objects_in_range (CalClient *client, CalObjType type,
+					time_t start, time_t end);
 
 GList *cal_client_get_alarms_in_range (CalClient *client, time_t start, time_t end);
 

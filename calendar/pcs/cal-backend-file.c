@@ -71,7 +71,8 @@ static void cal_backend_file_create (CalBackend *backend, GnomeVFSURI *uri);
 static int cal_backend_file_get_n_objects (CalBackend *backend, CalObjType type);
 static char *cal_backend_file_get_object (CalBackend *backend, const char *uid);
 static GList *cal_backend_file_get_uids (CalBackend *backend, CalObjType type);
-static GList *cal_backend_file_get_events_in_range (CalBackend *backend, time_t start, time_t end);
+static GList *cal_backend_file_get_objects_in_range (CalBackend *backend, CalObjType type,
+						     time_t start, time_t end);
 static GList *cal_backend_file_get_alarms_in_range (CalBackend *backend, time_t start, time_t end);
 static gboolean cal_backend_file_get_alarms_for_object (CalBackend *backend, const char *uid,
 							time_t start, time_t end,
@@ -143,7 +144,7 @@ cal_backend_file_class_init (CalBackendFileClass *class)
 	backend_class->get_n_objects = cal_backend_file_get_n_objects;
 	backend_class->get_object = cal_backend_file_get_object;
 	backend_class->get_uids = cal_backend_file_get_uids;
-	backend_class->get_events_in_range = cal_backend_file_get_events_in_range;
+	backend_class->get_objects_in_range = cal_backend_file_get_objects_in_range;
 	backend_class->get_alarms_in_range = cal_backend_file_get_alarms_in_range;
 	backend_class->get_alarms_for_object = cal_backend_file_get_alarms_for_object;
 	backend_class->update_object = cal_backend_file_update_object;
@@ -740,64 +741,74 @@ cal_backend_file_get_uids (CalBackend *backend, CalObjType type)
 	return list;
 }
 
-/* Allocates and fills in a new CalComponentInstance structure */
-static CalObjInstance *
-build_cal_obj_instance (CalComponent *comp, time_t start, time_t end)
+/* Callback used from cal_recur_generate_instances(); adds the component's UID
+ * to our hash table.
+ */
+static gboolean
+add_instance (CalComponent *comp, time_t start, time_t end, gpointer data)
 {
-	CalObjInstance *icoi;
+	GHashTable *uid_hash;
 	const char *uid;
+	const char *old_uid;
+
+	uid_hash = data;
+
+	/* We only care that the component's UID is listed in the hash table;
+	 * that's why we only allow generation of one instance (i.e. return
+	 * FALSE every time).
+	 */
 
 	cal_component_get_uid (comp, &uid);
 
-	icoi = g_new (CalObjInstance, 1);
-	icoi->uid = g_strdup (uid);
-	icoi->start = start;
-	icoi->end = end;
+	old_uid = g_hash_table_lookup (uid_hash, uid);
+	if (old_uid)
+		return FALSE;
 
-	return icoi;
+	g_hash_table_insert (uid_hash, (char *) uid, NULL);
+	return FALSE;
 }
 
-/* Builds a list of event component instances.  Used as a callback from
- * cal_recur_generate_instances().
+/* Populates a hash table with the UIDs of the components that occur or recur
+ * within a specific time range.
  */
-static gboolean
-build_event_list (CalComponent *comp, time_t start, time_t end, gpointer data)
+static void
+get_instances_in_range (GHashTable *uid_hash, GList *components, time_t start, time_t end)
 {
-	CalObjInstance *icoi;
-	GList **l;
+	GList *l;
 
-	l = data;
+	for (l = components; l; l = l->next) {
+		CalComponent *comp;
 
-	icoi = build_cal_obj_instance (comp, start, end);
-	*l = g_list_prepend (*l, icoi);
-
-	return TRUE;
+		comp = CAL_COMPONENT (l->data);
+		cal_recur_generate_instances (comp, start, end, add_instance, uid_hash);
+	}
 }
 
-/* Compares two CalObjInstance structures by their start times.  Called from
- * g_list_sort().
- */
-static gint
-compare_instance_func (gconstpointer a, gconstpointer b)
+/* Used from g_hash_table_foreach(), adds a UID from the hash table to our list */
+static void
+add_uid_to_list (gpointer key, gpointer value, gpointer data)
 {
-	const CalObjInstance *ca, *cb;
-	time_t diff;
+	GList **list;
+	const char *uid;
+	char *uid_copy;
 
-	ca = a;
-	cb = b;
+	list = data;
 
-	diff = ca->start - cb->start;
-	return (diff < 0) ? -1 : (diff > 0) ? 1 : 0;
+	uid = key;
+	uid_copy = g_strdup (uid);
+
+	*list = g_list_prepend (*list, uid_copy);
 }
 
-/* Get_events_in_range handler for the file backend */
+/* Get_objects_in_range handler for the file backend */
 static GList *
-cal_backend_file_get_events_in_range (CalBackend *backend, time_t start, time_t end)
+cal_backend_file_get_objects_in_range (CalBackend *backend, CalObjType type,
+				       time_t start, time_t end)
 {
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;
-	GList *l;
 	GList *event_list;
+	GHashTable *uid_hash;
 
 	cbfile = CAL_BACKEND_FILE (backend);
 	priv = cbfile->priv;
@@ -807,16 +818,21 @@ cal_backend_file_get_events_in_range (CalBackend *backend, time_t start, time_t 
 	g_return_val_if_fail (start != -1 && end != -1, NULL);
 	g_return_val_if_fail (start <= end, NULL);
 
+	uid_hash = g_hash_table_new (g_str_hash, g_str_equal);
+
+	if (type & CALOBJ_TYPE_EVENT)
+		get_instances_in_range (uid_hash, priv->events, start, end);
+
+	if (type & CALOBJ_TYPE_TODO)
+		get_instances_in_range (uid_hash, priv->todos, start, end);
+
+	if (type & CALOBJ_TYPE_JOURNAL)
+		get_instances_in_range (uid_hash, priv->journals, start, end);
+
 	event_list = NULL;
+	g_hash_table_foreach (uid_hash, add_uid_to_list, &event_list);
+	g_hash_table_destroy (uid_hash);
 
-	for (l = priv->events; l; l = l->next) {
-		CalComponent *comp;
-
-		comp = l->data;
-		cal_recur_generate_instances (comp, start, end, build_event_list, &event_list);
-	}
-
-	event_list = g_list_sort (event_list, compare_instance_func);
 	return event_list;
 }
 

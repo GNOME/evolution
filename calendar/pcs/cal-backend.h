@@ -69,7 +69,8 @@ struct _CalBackendClass {
 	int (* get_n_objects) (CalBackend *backend, CalObjType type);
 	char *(* get_object) (CalBackend *backend, const char *uid);
 	GList *(* get_uids) (CalBackend *backend, CalObjType type);
-	GList *(* get_events_in_range) (CalBackend *backend, time_t start, time_t end);
+	GList *(* get_objects_in_range) (CalBackend *backend, CalObjType type,
+					 time_t start, time_t end);
 	GList *(* get_alarms_in_range) (CalBackend *backend, time_t start, time_t end);
 	gboolean (* get_alarms_for_object) (CalBackend *backend, const char *uid,
 					    time_t start, time_t end,
@@ -77,7 +78,8 @@ struct _CalBackendClass {
 	gboolean (* update_object) (CalBackend *backend, const char *uid, const char *calobj);
 	gboolean (* remove_object) (CalBackend *backend, const char *uid);
 	char *(* get_uid_by_pilot_id) (CalBackend *backend, unsigned long int pilot_id);
-	void (* update_pilot_id) (CalBackend *backend, const char *uid, unsigned long int pilot_id, unsigned long int pilot_status);
+	void (* update_pilot_id) (CalBackend *backend, const char *uid,
+				  unsigned long int pilot_id, unsigned long int pilot_status);
 };
 
 GtkType cal_backend_get_type (void);
@@ -96,7 +98,8 @@ char *cal_backend_get_object (CalBackend *backend, const char *uid);
 
 GList *cal_backend_get_uids (CalBackend *backend, CalObjType type);
 
-GList *cal_backend_get_events_in_range (CalBackend *backend, time_t start, time_t end);
+GList *cal_backend_get_objects_in_range (CalBackend *backend, CalObjType type,
+					 time_t start, time_t end);
 
 GList *cal_backend_get_alarms_in_range (CalBackend *backend, time_t start, time_t end);
 

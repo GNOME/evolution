@@ -226,7 +226,8 @@ cal_backend_get_object (CalBackend *backend, const char *uid)
  * Builds a list of unique identifiers corresponding to calendar objects whose
  * type matches one of the types specified in the @type flags.
  *
- * Return value: A list of strings that are the sought UIDs.
+ * Return value: A list of strings that are the sought UIDs.  The list should be
+ * freed using the cal_obj_uid_list_free() function.
  **/
 GList *
 cal_backend_get_uids (CalBackend *backend, CalObjType type)
@@ -239,28 +240,29 @@ cal_backend_get_uids (CalBackend *backend, CalObjType type)
 }
 
 /**
- * cal_backend_get_events_in_range:
+ * cal_backend_get_objects_in_range:
  * @backend: A calendar backend.
+ * @type: Bitmask with types of objects to return.
  * @start: Start time for query.
  * @end: End time for query.
- *
- * Builds a sorted list of calendar event object instances that occur or recur
- * within the specified time range.  Each object instance contains the object
- * itself and the start/end times at which it occurs or recurs.
- *
- * Return value: A list of calendar event object instances, sorted by their
- * start times.
+ * 
+ * Builds a list of unique identifiers corresponding to calendar objects of the
+ * specified type that occur or recur within the specified time range.
+ * 
+ * Return value: A list of UID strings.  The list should be freed using the
+ * cal_obj_uid_list_free() function.
  **/
 GList *
-cal_backend_get_events_in_range (CalBackend *backend, time_t start, time_t end)
+cal_backend_get_objects_in_range (CalBackend *backend, CalObjType type,
+				  time_t start, time_t end)
 {
 	g_return_val_if_fail (backend != NULL, NULL);
 	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
 	g_return_val_if_fail (start != -1 && end != -1, NULL);
 	g_return_val_if_fail (start <= end, NULL);
 
-	g_assert (CLASS (backend)->get_events_in_range != NULL);
-	return (* CLASS (backend)->get_events_in_range) (backend, start, end);
+	g_assert (CLASS (backend)->get_objects_in_range != NULL);
+	return (* CLASS (backend)->get_objects_in_range) (backend, type, start, end);
 }
 
 /**

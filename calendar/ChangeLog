@@ -1,3 +1,33 @@
+2000-08-08  Federico Mena Quintero  <federico@helixcode.com>
+
+	* idl/evolution-calendar.idl (Cal): Added a get_objects_in_range()
+	method.  Takes in a time range and the type of component we are
+	interested in; returns a list of UIDs.  The idea is that
+	ocurrences get computed in the client; we can have multiple
+	recurrences in iCalendar and we cannot identify them trivially
+	across the wire.
+	(Cal): Removed the get_events_in_range() method.
+
+	* pcs/cal-backend.c (cal_backend_free_uid_list): New function.
+	(cal_backend_get_objects_in_range): New function.
+	(cal_backend_get_events_in_range): Removed.
+
+	* pcs/cal-backend-file.c (cal_backend_file_get_objects_in_range):
+	Implemented new method.
+	(cal_backend_file_get_events_in_range): Removed.
+
+	* pcs/cal.c (Cal_get_events_in_range): Removed.
+	(uncorba_obj_type): New function.
+	(Cal_get_uids): Use uncorba_obj_type().
+	(Cal_get_n_objects): Likewise.
+	(Cal_get_objects_in_range): Implemented new method.
+
+	* cal-client/cal-client.c (cal_client_get_events_in_range): Removed.
+	(cal_client_get_objects_in_range): Implemented.
+	(corba_obj_type): New function.
+	(cal_client_get_n_objects): Use corba_obj_type().
+	(cal_client_get_uids): Likewise.
+
 2000-08-07  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-util/cal-component.c (cal_component_clone): New function.

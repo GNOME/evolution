@@ -168,6 +168,17 @@ Cal_get_uri (PortableServer_Servant servant,
 	return str_uri_copy;
 }
 
+/* Converts a calendar object type from its CORBA representation to our own
+ * representation.
+ */
+static CalObjType
+uncorba_obj_type (Evolution_Calendar_CalObjType type)
+{
+	return (((type & Evolution_Calendar_TYPE_EVENT) ? CALOBJ_TYPE_EVENT : 0)
+		| ((type & Evolution_Calendar_TYPE_TODO) ? CALOBJ_TYPE_TODO : 0)
+		| ((type & Evolution_Calendar_TYPE_JOURNAL) ? CALOBJ_TYPE_JOURNAL : 0));
+}
+
 /* Cal::get_n_objects method */
 static CORBA_long
 Cal_get_n_objects (PortableServer_Servant servant,
@@ -182,16 +193,7 @@ Cal_get_n_objects (PortableServer_Servant servant,
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
 
-	/* Translate the CORBA flags to our own flags */
-
-	t = (((type & Evolution_Calendar_TYPE_EVENT) ? CALOBJ_TYPE_EVENT : 0)
-	     | ((type & Evolution_Calendar_TYPE_TODO) ? CALOBJ_TYPE_TODO : 0)
-	     | ((type & Evolution_Calendar_TYPE_JOURNAL) ? CALOBJ_TYPE_JOURNAL : 0)
-	     /*
-	     | ((type & Evolution_Calendar_TYPE_ANY) ? CALOBJ_TYPE_ANY : 0)
-	     */
-	     );
-
+	t = uncorba_obj_type (type);
 	n = cal_backend_get_n_objects (priv->backend, t);
 	return n;
 }
@@ -225,33 +227,13 @@ Cal_get_object (PortableServer_Servant servant,
 	}
 }
 
-/* Cal::get_uids method */
 static Evolution_Calendar_CalObjUIDSeq *
-Cal_get_uids (PortableServer_Servant servant,
-	      Evolution_Calendar_CalObjType type,
-	      CORBA_Environment *ev)
+build_uid_seq (GList *uids)
 {
-	Cal *cal;
-	CalPrivate *priv;
-	GList *uids, *l;
 	Evolution_Calendar_CalObjUIDSeq *seq;
-	int t;
+	GList *l;
 	int n, i;
 
-	cal = CAL (bonobo_object_from_servant (servant));
-	priv = cal->priv;
-
-	/* Translate the CORBA flags to our own flags */
-
-	t = (((type & Evolution_Calendar_TYPE_EVENT) ? CALOBJ_TYPE_EVENT : 0)
-	     | ((type & Evolution_Calendar_TYPE_TODO) ? CALOBJ_TYPE_TODO : 0)
-	     | ((type & Evolution_Calendar_TYPE_JOURNAL) ? CALOBJ_TYPE_JOURNAL : 0)
-	     /*
-	     | ((type & Evolution_Calendar_TYPE_ANY) ? CALOBJ_TYPE_ANY : 0)
-	     */
-	     );
-
-	uids = cal_backend_get_uids (priv->backend, t);
 	n = g_list_length (uids);
 
 	seq = Evolution_Calendar_CalObjUIDSeq__alloc ();
@@ -265,67 +247,56 @@ Cal_get_uids (PortableServer_Servant servant,
 		char *uid;
 
 		uid = l->data;
-
 		seq->_buffer[i] = CORBA_string_dup (uid);
 	}
 
-	/* Done */
+	return seq;
+}
+
+/* Cal::get_uids method */
+static Evolution_Calendar_CalObjUIDSeq *
+Cal_get_uids (PortableServer_Servant servant,
+	      Evolution_Calendar_CalObjType type,
+	      CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
+	GList *uids;
+	Evolution_Calendar_CalObjUIDSeq *seq;
+	int t;
+
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+
+	t = uncorba_obj_type (type);
+
+	uids = cal_backend_get_uids (priv->backend, t);
+	seq = build_uid_seq (uids);
 
 	cal_obj_uid_list_free (uids);
 
 	return seq;
 }
 
-/* Builds a CORBA sequence of calendar object instances from a CalObjInstance
- * list.
- */
-static Evolution_Calendar_CalObjInstanceSeq *
-build_object_instance_seq (GList *list)
-{
-	GList *l;
-	int n, i;
-	Evolution_Calendar_CalObjInstanceSeq *seq;
-
-	n = g_list_length (list);
-
-	seq = Evolution_Calendar_CalObjInstanceSeq__alloc ();
-	CORBA_sequence_set_release (seq, TRUE);
-	seq->_length = n;
-	seq->_buffer = CORBA_sequence_Evolution_Calendar_CalObjInstance_allocbuf (n);
-
-	/* Fill the sequence */
-
-	for (i = 0, l = list; l; i++, l = l->next) {
-		CalObjInstance *icoi;
-		Evolution_Calendar_CalObjInstance *corba_icoi;
-
-		icoi = l->data;
-		corba_icoi = &seq->_buffer[i];
-
-		corba_icoi->uid = CORBA_string_dup (icoi->uid);
-		corba_icoi->start = icoi->start;
-		corba_icoi->end = icoi->end;
-	}
-
-	return seq;
-}
-
-/* Cal::get_events_in_range method */
-static Evolution_Calendar_CalObjInstanceSeq *
-Cal_get_events_in_range (PortableServer_Servant servant,
-			 Evolution_Calendar_Time_t start,
-			 Evolution_Calendar_Time_t end,
-			 CORBA_Environment *ev)
+/* Cal::get_objects_in_range method */
+static Evolution_Calendar_CalObjUIDSeq *
+Cal_get_objects_in_range (PortableServer_Servant servant,
+			  Evolution_Calendar_CalObjType type,
+			  Evolution_Calendar_Time_t start,
+			  Evolution_Calendar_Time_t end,
+			  CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
+	int t;
 	time_t t_start, t_end;
-	Evolution_Calendar_CalObjInstanceSeq *seq;
-	GList *elist;
+	Evolution_Calendar_CalObjUIDSeq *seq;
+	GList *uids;
 
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
 
+	t = uncorba_obj_type (type);
 	t_start = (time_t) start;
 	t_end = (time_t) end;
 
@@ -336,11 +307,10 @@ Cal_get_events_in_range (PortableServer_Servant servant,
 		return NULL;
 	}
 
-	/* Figure out the list and allocate the sequence */
+	uids = cal_backend_get_objects_in_range (priv->backend, t, t_start, t_end);
+	seq = build_uid_seq (uids);
 
-	elist = cal_backend_get_events_in_range (priv->backend, t_start, t_end);
-	seq = build_object_instance_seq (elist);
-	cal_obj_instance_list_free (elist);
+	cal_obj_uid_list_free (uids);
 
 	return seq;
 }
@@ -588,7 +558,7 @@ cal_get_epv (void)
 	epv->get_n_objects = Cal_get_n_objects;
 	epv->get_object = Cal_get_object;
 	epv->get_uids = Cal_get_uids;
-	epv->get_events_in_range = Cal_get_events_in_range;
+	epv->get_objects_in_range = Cal_get_objects_in_range;
 	epv->get_alarms_in_range = Cal_get_alarms_in_range;
 	epv->get_alarms_for_object = Cal_get_alarms_for_object;
 	epv->update_object = Cal_update_object;

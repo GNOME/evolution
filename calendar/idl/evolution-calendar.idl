@@ -92,8 +92,9 @@ module Calendar {
 		/* Gets a list of UIDs based on object type */
 		CalObjUIDSeq get_uids (in CalObjType type);
 
-		/* Gets the events that occur or recur in the specified time range */
-		CalObjInstanceSeq get_events_in_range (in Time_t start, in Time_t end)
+		/* Gets a list of objects that occur or recur in the specified time range */
+		CalObjUIDSeq get_objects_in_range (in CalObjType type, 
+						   in Time_t start, in Time_t end)
 			raises (InvalidRange);
 
 		/* Gets the objects whose alarms trigger in the specified time

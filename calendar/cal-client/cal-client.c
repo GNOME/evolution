@@ -548,6 +548,15 @@ cal_client_create_calendar (CalClient *client, const char *str_uri)
 	return load_or_create (client, str_uri, FALSE);
 }
 
+/* Converts our representation of a calendar component type into its CORBA representation */
+static Evolution_Calendar_CalObjType
+corba_obj_type (CalObjType type)
+{
+	return (((type & CALOBJ_TYPE_EVENT) ? Evolution_Calendar_TYPE_EVENT : 0)
+		| ((type & CALOBJ_TYPE_TODO) ? Evolution_Calendar_TYPE_TODO : 0)
+		| ((type & CALOBJ_TYPE_JOURNAL) ? Evolution_Calendar_TYPE_JOURNAL : 0));
+}
+
 /**
  * cal_client_get_n_objects:
  * @client: A calendar client.
@@ -572,13 +581,7 @@ cal_client_get_n_objects (CalClient *client, CalObjType type)
 	priv = client->priv;
 	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, -1);
 
-	t = (((type & CALOBJ_TYPE_EVENT) ? Evolution_Calendar_TYPE_EVENT : 0)
-	     | ((type & CALOBJ_TYPE_TODO) ? Evolution_Calendar_TYPE_TODO : 0)
-	     | ((type & CALOBJ_TYPE_JOURNAL) ? Evolution_Calendar_TYPE_JOURNAL : 0)
-	     /*
-	     | ((type & CALOBJ_TYPE_ANY) ? Evolution_Calendar_TYPE_ANY : 0)
-	     */
-	     );
+	t = corba_obj_type (type);
 
 	CORBA_exception_init (&ev);
 	n = Evolution_Calendar_Cal_get_n_objects (priv->cal, t, &ev);
@@ -730,7 +733,20 @@ void cal_client_update_pilot_id (CalClient *client, char *uid,
 	CORBA_exception_free (&ev);
 }
 
+/* Builds an UID list out of a CORBA UID sequence */
+static GList *
+build_uid_list (Evolution_Calendar_CalObjUIDSeq *seq)
+{
+	GList *uids;
+	int i;
 
+	uids = NULL;
+
+	for (i = 0; i < seq->_length; i++)
+		uids = g_list_prepend (uids, g_strdup (seq->_buffer[i]));
+
+	return uids;
+}
 
 /**
  * cal_client_get_uids:
@@ -750,23 +766,14 @@ cal_client_get_uids (CalClient *client, CalObjType type)
 	Evolution_Calendar_CalObjUIDSeq *seq;
 	int t;
 	GList *uids;
-	int i;
 
 	g_return_val_if_fail (client != NULL, NULL);
 	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
 
 	priv = client->priv;
-	/*g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, NULL);*/
-	if (priv->load_state != LOAD_STATE_LOADED)
-		return NULL;
+	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, NULL);
 
-	t = (((type & CALOBJ_TYPE_EVENT) ? Evolution_Calendar_TYPE_EVENT : 0)
-	     | ((type & CALOBJ_TYPE_TODO) ? Evolution_Calendar_TYPE_TODO : 0)
-	     | ((type & CALOBJ_TYPE_JOURNAL) ? Evolution_Calendar_TYPE_JOURNAL : 0)
-	     /*
-	     | ((type & CALOBJ_TYPE_ANY) ? Evolution_Calendar_TYPE_ANY : 0)
-	     */
-	     );
+	t = corba_obj_type (type);
 
 	CORBA_exception_init (&ev);
 
@@ -779,13 +786,7 @@ cal_client_get_uids (CalClient *client, CalObjType type)
 
 	CORBA_exception_free (&ev);
 
-	/* Create the list */
-
-	uids = NULL;
-
-	for (i = 0; i < seq->_length; i++)
-		uids = g_list_prepend (uids, g_strdup (seq->_buffer[i]));
-
+	uids = build_uid_list (seq);
 	CORBA_free (seq);
 
 	return uids;
@@ -820,23 +821,26 @@ build_object_instance_list (Evolution_Calendar_CalObjInstanceSeq *seq)
 }
 
 /**
- * cal_client_get_events_in_range:
+ * cal_client_get_objects_in_range:
  * @client: A calendar client.
+ * @type: Bitmask with types of objects to return.
  * @start: Start time for query.
  * @end: End time for query.
  *
- * Queries a calendar for the events that occur or recur in the specified range
+ * Queries a calendar for the objects that occur or recur in the specified range
  * of time.
  *
- * Return value: A list of #CalObjInstance structures.
+ * Return value: A list of UID strings.  This should be freed using the
+ * cal_obj_uid_list_free() function.
  **/
 GList *
-cal_client_get_events_in_range (CalClient *client, time_t start, time_t end)
+cal_client_get_objects_in_range (CalClient *client, CalObjType type, time_t start, time_t end)
 {
 	CalClientPrivate *priv;
 	CORBA_Environment ev;
-	Evolution_Calendar_CalObjInstanceSeq *seq;
-	GList *events;
+	Evolution_Calendar_CalObjUIDSeq *seq;
+	GList *uids;
+	int t;
 
 	g_return_val_if_fail (client != NULL, NULL);
 	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
@@ -850,18 +854,20 @@ cal_client_get_events_in_range (CalClient *client, time_t start, time_t end)
 
 	CORBA_exception_init (&ev);
 
-	seq = Evolution_Calendar_Cal_get_events_in_range (priv->cal, start, end, &ev);
+	t = corba_obj_type (type);
+
+	seq = Evolution_Calendar_Cal_get_objects_in_range (priv->cal, t, start, end, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_message ("cal_client_get_events_in_range(): could not get the event range");
+		g_message ("cal_client_get_objects_in_range(): could not get the objects");
 		CORBA_exception_free (&ev);
 		return NULL;
 	}
 	CORBA_exception_free (&ev);
 
-	events = build_object_instance_list (seq);
+	uids = build_uid_list (seq);
 	CORBA_free (seq);
 
-	return events;
+	return uids;
 }
 
 #if 0
@@ -1103,7 +1109,7 @@ cal_client_remove_object (CalClient *client, const char *uid)
 	    strcmp (CORBA_exception_id (&ev), ex_Evolution_Calendar_Cal_NotFound) == 0)
 		goto out;
 	else if (ev._major != CORBA_NO_EXCEPTION) {
-		/*g_message ("cal_client_remove_object(): could not remove the object");*/
+		g_message ("cal_client_remove_object(): could not remove the object");
 		goto out;
 	}
 
