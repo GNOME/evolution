@@ -292,11 +292,22 @@ load_file_fn (EvolutionImporter *importer,
 
 		icalcomp = icalparser_parse_string (contents);
 		if (icalcomp) {
-			if (cal_client_open_calendar (ici->client, physical_uri, TRUE)
+			char *real_uri;
+
+			if (!g_strncasecmp (physical_uri, "file", 4) &&
+			    g_strcasecmp (physical_uri + (strlen (physical_uri) - strlen ("calendar.ics")),
+					  "calendar.ics")) {
+				real_uri = g_concat_dir_and_file (physical_uri, "calendar.ics");
+			} else
+				real_uri = g_strdup (physical_uri);
+
+			if (cal_client_open_calendar (ici->client, real_uri, TRUE)
 			    && cal_client_open_default_tasks (ici->tasks_client, FALSE)) {
 				ici->icalcomp = icalcomp;
 				ret = TRUE;
 			}
+
+			g_free (real_uri);
 		}
 	}
 
@@ -413,11 +424,22 @@ vcal_load_file_fn (EvolutionImporter *importer,
 
 	icalcomp = load_vcalendar_file (filename);
 	if (icalcomp) {
-		if (cal_client_open_calendar (ici->client, physical_uri, TRUE)
+		char *real_uri;
+
+		if (!g_strncasecmp (physical_uri, "file", 4) &&
+		    g_strcasecmp (physical_uri + (strlen (physical_uri) - strlen ("calendar.ics")),
+				  "calendar.ics")) {
+			real_uri = g_concat_dir_and_file (physical_uri, "calendar.ics");
+		} else
+			real_uri = g_strdup (physical_uri);
+
+		if (cal_client_open_calendar (ici->client, real_uri, TRUE)
 		    && cal_client_open_default_tasks (ici->tasks_client, FALSE)) {
 			ici->icalcomp = icalcomp;
 			ret = TRUE;
 		}
+
+		g_free (real_uri);
 	}
 
 	return ret;

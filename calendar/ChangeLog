@@ -1,3 +1,9 @@
+2003-04-01  Rodrigo Moya <rodrigo@ximian.com>
+
+	* importers/icalendar-importer.c (load_file_fn, vcal_load_file_fn):
+	added filename (tasks.ics/calendar.ics) to the URI if it does not
+	contain it.
+
 2003-03-31  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #39961
