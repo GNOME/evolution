@@ -1,3 +1,5 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /* Evolution calendar - Recurrence page of the calendar component dialogs
  *
  * Copyright (C) 2001 Ximian, Inc.
@@ -30,6 +32,8 @@
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkspinbutton.h>
+#include <gtk/gtkliststore.h>
+#include <gtk/gtktreeview.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gal/widgets/e-unicode.h>
@@ -41,6 +45,7 @@
 #include "../tag-calendar.h"
 #include "../weekday-picker.h"
 #include "comp-editor-util.h"
+#include "../e-date-time-list.h"
 #include "recurrence-page.h"
 
 
@@ -166,7 +171,6 @@ struct _RecurrencePagePrivate {
 	GladeXML *xml;
 
 	/* Widgets from the Glade file */
-
 	GtkWidget *main;
 
 	GtkWidget *summary;
@@ -207,14 +211,16 @@ struct _RecurrencePagePrivate {
 	int ending_count;
 
 	/* More widgets from the Glade file */
-
 	GtkWidget *exception_date;
-	GtkWidget *exception_list;
+	GtkWidget *exception_list;  /* This is a GtkTreeView now */
 	GtkWidget *exception_add;
 	GtkWidget *exception_modify;
 	GtkWidget *exception_delete;
 
 	GtkWidget *preview_bin;
+
+	/* Store for exception_list */
+	EDateTimeList *exception_list_store;
 
 	/* For the recurrence preview, the actual widget */
 	GtkWidget *preview_calendar;
@@ -347,6 +353,11 @@ recurrence_page_finalize (GObject *object)
 		priv->comp = NULL;
 	}
 
+	if (priv->exception_list_store) {
+		g_object_unref (priv->exception_list_store);
+		priv->exception_list_store = NULL;
+	}
+
 	g_free (priv);
 	rpage->priv = NULL;
 
@@ -436,7 +447,7 @@ clear_widgets (RecurrencePage *rpage)
 	g_signal_handlers_unblock_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 
 	/* Exceptions list */
-	gtk_clist_clear (GTK_CLIST (priv->exception_list));
+	e_date_time_list_clear (priv->exception_list_store);
 }
 
 /* Builds a static string out of an exception date */
@@ -468,39 +479,15 @@ static void
 append_exception (RecurrencePage *rpage, CalComponentDateTime *datetime)
 {
 	RecurrencePagePrivate *priv;
-	CalComponentDateTime *dt;
-	char *c[1];
-	int i;
-	GtkCList *clist;
+	GtkTreeView *view;
+	GtkTreeIter  iter;
 	struct icaltimetype *tt;
 
 	priv = rpage->priv;
+	view = GTK_TREE_VIEW (priv->exception_list);
 
-	dt = g_new (CalComponentDateTime, 1);
-	dt->value = g_new (struct icaltimetype, 1);
-	*dt->value = *datetime->value;
-	dt->tzid = g_strdup (datetime->tzid);
-
-	clist = GTK_CLIST (priv->exception_list);
-
-	g_signal_handlers_block_matched (clist, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
-
-	c[0] = get_exception_string (dt);
-	i = gtk_clist_append (clist, c);
-
-	gtk_clist_set_row_data_full (clist, i, dt, (GtkDestroyNotify) free_exception_date_time);
-
-	gtk_clist_select_row (clist, i, 0);
-	g_signal_handlers_unblock_matched (clist, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
-
-	tt = dt->value;
-	e_date_edit_set_date (E_DATE_EDIT (priv->exception_date), 
-			      tt->year, tt->month, tt->day);
-	e_date_edit_set_time_of_day (E_DATE_EDIT (priv->exception_date), 
-				     tt->hour, tt->minute);
-
-	gtk_widget_set_sensitive (priv->exception_modify, TRUE);
-	gtk_widget_set_sensitive (priv->exception_delete, TRUE);
+	e_date_time_list_append (priv->exception_list_store, &iter, datetime);
+	gtk_tree_selection_select_iter (gtk_tree_view_get_selection (view), &iter);
 }
 
 /* Fills in the exception widgets with the data from the calendar component */
@@ -833,11 +820,15 @@ fill_component (RecurrencePage *rpage, CalComponent *comp)
 {
 	RecurrencePagePrivate *priv;
 	enum recur_type recur_type;
-	GtkCList *exception_list;
+	GtkTreeView *exception_list;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gboolean valid_iter;
 	GSList *list;
 	int i;
 
 	priv = rpage->priv;
+	model = GTK_TREE_MODEL (priv->exception_list_store);
 
 	recur_type = e_dialog_radio_get (priv->none, type_map);
 
@@ -865,28 +856,27 @@ fill_component (RecurrencePage *rpage, CalComponent *comp)
 	/* Set exceptions */
 
 	list = NULL;
-	exception_list = GTK_CLIST (priv->exception_list);
-	for (i = 0; i < exception_list->rows; i++) {
-		CalComponentDateTime *cdt, *dt;
+
+	for (valid_iter = gtk_tree_model_get_iter_first (model, &iter); valid_iter;
+	     valid_iter = gtk_tree_model_iter_next (model, &iter)) {
+		const CalComponentDateTime *dt;
+		CalComponentDateTime *cdt;
 
 		cdt = g_new (CalComponentDateTime, 1);
 		cdt->value = g_new (struct icaltimetype, 1);
 
-		dt = gtk_clist_get_row_data (exception_list, i);
+		dt = e_date_time_list_get_date_time (E_DATE_TIME_LIST (model), &iter);
 		g_assert (dt != NULL);
+
 		if (!icaltime_is_valid_time (*dt->value)) {
 			comp_editor_page_display_validation_error (COMP_EDITOR_PAGE (rpage),
 								   _("Recurrent date is wrong"),
-								   exception_list);
+								   priv->exception_list);
 			return FALSE;
 		}
 
 		*cdt->value = *dt->value;
 		cdt->tzid = g_strdup (dt->tzid);
-
-#if 0
-		g_print ("Adding exception is_date: %i\n", cdt->value->is_date);
-#endif
 
 		list = g_slist_prepend (list, cdt);
 	}
@@ -2198,24 +2188,24 @@ exception_modify_cb (GtkWidget *widget, gpointer data)
 {
 	RecurrencePage *rpage;
 	RecurrencePagePrivate *priv;
-	GtkCList *clist;
-	CalComponentDateTime *dt;
+	GtkTreeSelection *selection;
+	CalComponentDateTime dt;
+	struct icaltimetype icaltime = icaltime_null_time ();
 	struct icaltimetype *tt;
-	int sel;
+	GtkTreeIter iter;
 
 	rpage = RECURRENCE_PAGE (data);
 	priv = rpage->priv;
 
-	clist = GTK_CLIST (priv->exception_list);
-	if (!clist->selection)
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->exception_list));
+	if (!gtk_tree_selection_get_selected (selection, NULL, &iter)) {
+		g_warning ("Could not get a selection to modify.");
 		return;
-
+	}
 	field_changed (rpage);
 
-	sel = GPOINTER_TO_INT (clist->selection->data);
-
-	dt = gtk_clist_get_row_data (clist, sel);
-	tt = dt->value;
+	dt.value = &icaltime;
+	tt = dt.value;
 	e_date_edit_get_date (E_DATE_EDIT (priv->exception_date), 
 			      &tt->year, &tt->month, &tt->day);
 	tt->hour = 0;
@@ -2223,12 +2213,10 @@ exception_modify_cb (GtkWidget *widget, gpointer data)
 	tt->second = 0;
 	tt->is_date = 1;
 
-	/* We get rid of any old TZID, since we are using a DATE value now. */
-	g_free ((char*)dt->tzid);
-	dt->tzid = NULL;
+	/* No TZID, since we are using a DATE value now. */
+	dt.tzid = NULL;
 
-	gtk_clist_set_text (clist, sel, 0, get_exception_string (dt));
-
+	e_date_time_list_set_date_time (priv->exception_list_store, &iter, &dt);
 	preview_recur (rpage);
 }
 
@@ -2238,31 +2226,37 @@ exception_delete_cb (GtkWidget *widget, gpointer data)
 {
 	RecurrencePage *rpage;
 	RecurrencePagePrivate *priv;
-	GtkCList *clist;
+	GtkTreeSelection *selection;
+	GtkTreeIter iter;
+	GtkTreePath *path;
+	gboolean valid_iter;
 	int sel;
 
 	rpage = RECURRENCE_PAGE (data);
 	priv = rpage->priv;
 
-	clist = GTK_CLIST (priv->exception_list);
-	if (!clist->selection)
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->exception_list));
+	if (!gtk_tree_selection_get_selected (selection, NULL, &iter)) {
+		g_warning ("Could not get a selection to delete.");
 		return;
+	}
 
 	field_changed (rpage);
 
-	sel = GPOINTER_TO_INT (clist->selection->data);
+	path = gtk_tree_model_get_path (GTK_TREE_MODEL (priv->exception_list_store), &iter);
+	e_date_time_list_remove (priv->exception_list_store, &iter);
 
-	gtk_clist_remove (clist, sel);
-	if (sel >= clist->rows)
-		sel--;
-
-	if (clist->rows > 0)
-		gtk_clist_select_row (clist, sel, 0);
-	else {
-		gtk_widget_set_sensitive (priv->exception_modify, FALSE);
-		gtk_widget_set_sensitive (priv->exception_delete, FALSE);
+	/* Select closest item after removal */
+	valid_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->exception_list_store), &iter, path);
+	if (!valid_iter) {
+		gtk_tree_path_prev (path);
+		valid_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->exception_list_store), &iter, path);
 	}
 
+	if (valid_iter)
+		gtk_tree_selection_select_iter (selection, &iter);
+
+	gtk_tree_path_free (path);
 	preview_recur (rpage);
 }
 
@@ -2271,24 +2265,27 @@ exception_delete_cb (GtkWidget *widget, gpointer data)
  * exception's value.
  */
 static void
-exception_select_row_cb (GtkCList *clist, gint row, gint col,
-			 GdkEvent *event, gpointer data)
+exception_selection_changed_cb (GtkTreeSelection *selection, gpointer data)
 {
 	RecurrencePage *rpage;
 	RecurrencePagePrivate *priv;
-	CalComponentDateTime *dt;
+	const CalComponentDateTime *dt;
 	struct icaltimetype *t;
+	GtkTreeIter iter;
 
 	rpage = RECURRENCE_PAGE (data);
 	priv = rpage->priv;
 
-	/* Sometimes GtkCList emits a 'row-selected' signal for row 0 when
-	   there are 0 rows in the list (after you delete the last row).
-	   So we check that the row is valid here. */
-	if (row >= clist->rows)
+	if (!gtk_tree_selection_get_selected (selection, NULL, &iter)) {
+		gtk_widget_set_sensitive (priv->exception_modify, FALSE);
+		gtk_widget_set_sensitive (priv->exception_delete, FALSE);
 		return;
+	}
 
-	dt = gtk_clist_get_row_data (clist, row);
+	gtk_widget_set_sensitive (priv->exception_modify, TRUE);
+	gtk_widget_set_sensitive (priv->exception_delete, TRUE);
+
+	dt = e_date_time_list_get_date_time (priv->exception_list_store, &iter);
 	g_assert (dt != NULL);
 
 	t = dt->value;
@@ -2319,6 +2316,8 @@ init_widgets (RecurrencePage *rpage)
 	ECalendar *ecal;
 	GtkAdjustment *adj;
 	GtkWidget *menu;
+	GtkTreeViewColumn *column;
+	GtkCellRenderer *cell_renderer;
 
 	priv = rpage->priv;
 
@@ -2383,10 +2382,26 @@ init_widgets (RecurrencePage *rpage)
 	g_signal_connect((priv->exception_delete), "clicked",
 			    G_CALLBACK (exception_delete_cb), rpage);
 
-	/* Selections in the exceptions list */
+	gtk_widget_set_sensitive (priv->exception_modify, FALSE);
+	gtk_widget_set_sensitive (priv->exception_delete, FALSE);
 
-	g_signal_connect((priv->exception_list), "select_row",
-			    G_CALLBACK (exception_select_row_cb), rpage);
+	/* Exception list */
+
+	/* Model */
+	priv->exception_list_store = e_date_time_list_new ();
+	gtk_tree_view_set_model (GTK_TREE_VIEW (priv->exception_list),
+				 GTK_TREE_MODEL (priv->exception_list_store));
+
+	/* View */
+	column = gtk_tree_view_column_new ();
+	gtk_tree_view_column_set_title (column, "Date/Time");
+	cell_renderer = GTK_CELL_RENDERER (gtk_cell_renderer_text_new ());
+	gtk_tree_view_column_pack_start (column, cell_renderer, TRUE);
+	gtk_tree_view_column_add_attribute (column, cell_renderer, "text", E_DATE_TIME_LIST_COLUMN_DESCRIPTION);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (priv->exception_list), column);
+
+	g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->exception_list)), "changed",
+			  G_CALLBACK (exception_selection_changed_cb), rpage);
 }
 
 

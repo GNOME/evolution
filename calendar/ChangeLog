@@ -1,3 +1,16 @@
+2003-01-15  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct):
+	Create accel groups for popup menus. Fixes crash.
+
+	* gui/e-date-time-list.[ch]: Implement EDateTimeList as
+	CalComponentDateTime list with a GtkTreeModel interface.
+
+	* gui/Makefile.am: Add e-date-time-list.[ch]. 
+
+	* gui/dialogs/recurrence-page.c: Use GtkTreeView with the new
+	EDateTimeList as model for the exception list.
+
 2003-01-15  Rodney Dawes  <dobey@ximian.com>
 
 	* gui/Makefile.am: Added libevolution_calendar_la_LDFLAGS, and

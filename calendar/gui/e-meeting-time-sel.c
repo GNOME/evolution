@@ -458,15 +458,16 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	mts->options_menu = gtk_menu_new ();
 	gtk_menu_attach_to_widget (GTK_MENU (mts->options_menu), mts->options_button,
 				   e_meeting_time_selector_options_menu_detacher);
-#if 0
-	menu_accel_group = gtk_menu_ensure_uline_accel_group (GTK_MENU (mts->options_menu));
-#endif
+
+	menu_accel_group = gtk_accel_group_new ();
+	gtk_menu_set_accel_group (GTK_MENU (mts->options_menu), menu_accel_group);
 
 	menuitem = gtk_check_menu_item_new_with_label ("");
 	accel_key = gtk_label_parse_uline (GTK_LABEL (GTK_BIN (menuitem)->child), _("Show _Only Working Hours"));
 	gtk_menu_append (GTK_MENU (mts->options_menu), menuitem);
 	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menuitem),
 					mts->working_hours_only);
+
 	gtk_widget_add_accelerator (menuitem, "activate", menu_accel_group,
 				    accel_key, 0, 0);
 	gtk_widget_add_accelerator (menuitem, "activate", menu_accel_group,
@@ -555,9 +556,9 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	mts->autopick_menu = gtk_menu_new ();
 	gtk_menu_attach_to_widget (GTK_MENU (mts->autopick_menu), mts->autopick_button,
 				   e_meeting_time_selector_autopick_menu_detacher);
-#if 0
-	menu_accel_group = gtk_menu_ensure_uline_accel_group (GTK_MENU (mts->autopick_menu));
-#endif
+
+	menu_accel_group = gtk_accel_group_new ();
+	gtk_menu_set_accel_group (GTK_MENU (mts->autopick_menu), menu_accel_group);
 
 	menuitem = gtk_radio_menu_item_new_with_label (NULL, "");
 	mts->autopick_all_item = menuitem;
