@@ -37,6 +37,8 @@ enum {
 	LAST_SIGNAL
 };
 
+#define COLS (E_CARD_SIMPLE_FIELD_LAST - 5)
+
 static guint e_addressbook_model_signals [LAST_SIGNAL] = {0, };
 
 static void
@@ -90,7 +92,7 @@ addressbook_destroy(GtkObject *object)
 static int
 addressbook_col_count (ETableModel *etc)
 {
-	return E_CARD_SIMPLE_FIELD_LAST - 4;
+	return COLS;
 }
 
 /* This function returns the number of rows in our ETableModel. */
@@ -107,7 +109,7 @@ addressbook_value_at (ETableModel *etc, int col, int row)
 {
 	EAddressbookModel *addressbook = E_ADDRESSBOOK_MODEL(etc);
 	const char *value;
-	if ( col >= E_CARD_SIMPLE_FIELD_LAST || row >= addressbook->data_count )
+	if ( col >= COLS || row >= addressbook->data_count )
 		return NULL;
 
 	value = e_card_simple_get_const(addressbook->data[row], 
@@ -122,7 +124,7 @@ addressbook_set_value_at (ETableModel *etc, int col, int row, const void *val)
 	EAddressbookModel *addressbook = E_ADDRESSBOOK_MODEL(etc);
 	ECard *card;
 	if (addressbook->editable) {
-		if ( col >= E_CARD_SIMPLE_FIELD_LAST|| row >= addressbook->data_count )
+		if ( col >= COLS|| row >= addressbook->data_count )
 			return;
 		e_card_simple_set(addressbook->data[row],
 				  col,
@@ -154,10 +156,10 @@ addressbook_append_row (ETableModel *etm, ETableModel *source, gint row)
 	card = e_card_new("");
 	simple = e_card_simple_new(card);
 
-	for (col = 0; col < E_CARD_SIMPLE_FIELD_LAST - 1; col++) {
+	for (col = 0; col < COLS; col++) {
 		const void *val = e_table_model_value_at(source, col, row);
 		e_card_simple_set(simple,
-				  col + 1,
+				  col,
 				  val);
 	}
 	e_card_simple_sync_card(simple);
