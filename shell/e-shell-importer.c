@@ -176,8 +176,8 @@ create_html (const char *name)
 	if (!style)
 		style = gtk_widget_get_style (html);
 	if (style) {
-		gtk_html_set_default_background_color (GTK_HTML (html),
-						       &style->bg[0]);
+		gtk_widget_modify_base (html, &style->bg[GTK_STATE_NORMAL]);
+		gtk_widget_modify_text (html, &style->fg[GTK_STATE_NORMAL]);
 	}
 	gtk_widget_show (html);
 
