@@ -292,9 +292,8 @@ imap_rescan (CamelFolder *folder, int exists, CamelException *ex)
 		iinfo = (CamelImapMessageInfo *)info;
 
 		if (strcmp (camel_message_info_uid (info), new[i].uid) != 0) {
-			seq = i + 1 - removed->len;
+			seq = i + 1;
 			g_array_append_val (removed, seq);
-			g_free (new[i].uid);
 			i--;
 			summary_len--;
 			continue;
