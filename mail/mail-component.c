@@ -458,9 +458,9 @@ view_changed_cb(EMFolderView *emfv, EInfoLabel *el)
 
 		if (CAMEL_IS_VTRASH_FOLDER(emfv->folder)) {
 			if (((CamelVTrashFolder *)emfv->folder)->type == CAMEL_VTRASH_FOLDER_TRASH)
-				g_string_append_printf(tmp, _("%d deleted"), deleted);
+				g_string_append_printf(tmp, ngettext ("%d deleted", "%d deleted", deleted), deleted);
 			else
-				g_string_append_printf(tmp, _("%d junk"), junked);
+				g_string_append_printf(tmp, ngettext ("%d junk", "%d junk", junked), junked);
 		} else {
 			int bits = 0;
 			GPtrArray *selected;
@@ -483,21 +483,21 @@ view_changed_cb(EMFolderView *emfv, EInfoLabel *el)
 				bits |= 8;
 
 			if (bits == 1)
-				g_string_append_printf(tmp, _("%d drafts"), visible);
+				g_string_append_printf(tmp, ngettext ("%d draft", "%d drafts", visible), visible);
 			else if (bits == 2)
-				g_string_append_printf(tmp, _("%d sent"), visible);
+				g_string_append_printf(tmp, ngettext ("%d sent", "%d send", visible), visible);
 			else if (bits == 4)
-				g_string_append_printf(tmp, _("%d unsent"), visible);
+				g_string_append_printf(tmp, ngettext ("%d unsent", "%d unsent", visible), visible);
 			else {
 				if (!emfv->hide_deleted)
 					visible += deleted;
-				g_string_append_printf(tmp, _("%d total"), visible);
+				g_string_append_printf(tmp, ngettext ("%d total", "%d total", visible), visible);
 				if (unread && selected->len <=1)
-					g_string_append_printf(tmp, _(", %d unread"), unread);
+					g_string_append_printf(tmp, ngettext (", %d unread", ", %d unread", unread), unread);
 			}
 
 			if (selected->len > 1)
-				g_string_append_printf(tmp, _(", %d selected"), selected->len);
+				g_string_append_printf(tmp, ngettext (", %d selected", ", %d selected", selected->len), selected->len);
 			message_list_free_uids(emfv->list, selected);
 		}
 
