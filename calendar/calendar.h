@@ -48,14 +48,16 @@ gint      calendar_compare_by_dtstart   (gpointer a, gpointer b);
 void      calendar_iterate_on_objects   (GList *objects, time_t start, time_t end, calendarfn cb, void *closure);
 void      calendar_iterate              (Calendar *cal, time_t start, time_t end, calendarfn cb, void *closure);
 
-/* Note this routine returns a GList with CalendarObjects */
-GList    *calendar_get_events_in_range  (Calendar *cal, time_t start, time_t end);
+/* Returns a list of CalendarObject structures.  These represent the events in the calendar that are
+ * in the specified range.
+ */
+GList *calendar_get_events_in_range (Calendar *cal, time_t start, time_t end);
+
+/* Destroy list returned by calendar_get_events_in_range() with this function */
+void calendar_destroy_event_list (GList *l);
 
 /* Informs the calendar that obj information has changed */
 void      calendar_object_changed       (Calendar *cal, iCalObject *obj, int flags);
-
-/* Destroy the above list with this method */
-void      calendar_destroy_event_list (GList *l);
 
 void      calendar_notify (time_t, void *data);
 END_GNOME_DECLS

@@ -407,7 +407,7 @@ day_in_week (int day, int month, int year)
  * returned in the start and end arguments.
  */
 static void
-build_month (int month, int year, int *days, int *start, int *end)
+build_month (int month, int year, int start_on_monday, int *days, int *start, int *end)
 {
 	int i;
 	int d_month, d_week;
@@ -432,6 +432,9 @@ build_month (int month, int year, int *days, int *start, int *end)
 	d_month = days_in_month[is_leap_year (year)][month];
 	d_week = day_in_week (1, month, year);
 
+	if (start_on_monday)
+		d_week = (d_week + 6) % 7;
+
 	for (i = 0; i < d_month; i++)
 		days[d_week + i] = i + 1;
 
@@ -446,20 +449,15 @@ build_month (int month, int year, int *days, int *start, int *end)
 static void
 set_days (GnomeMonthItem *mitem)
 {
-	int i, ofs;
+	int i;
 	int start, end;
 	char buf[100];
 
-	build_month (mitem->month, mitem->year, mitem->day_numbers, &start, &end);
-
-	if (mitem->start_on_monday)
-		ofs = (start + 6) % 7;
-	else
-		ofs = start;
+	build_month (mitem->month, mitem->year, mitem->start_on_monday, mitem->day_numbers, &start, &end);
 
 	/* Clear days before start of month */
 
-	for (i = 0; i < ofs; i++)
+	for (i = 0; i < start; i++)
 		gnome_canvas_item_set (mitem->items[GNOME_MONTH_ITEM_DAY_LABEL + i],
 				       "text", NULL,
 				       NULL);

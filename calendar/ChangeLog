@@ -1,3 +1,31 @@
+1998-08-27  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* gnome-month-item.c (build_month): Now does the correct thing
+	when the user wants weeks to start on Monday.  Now all the Monday
+	special casing, as far as day numbering is concerned, is only in
+	this function.
+
+	* year-view.c (mark_days): This function marks the days that have
+	events in them.  It also fixes a memory leak in the old
+	implementation (it was leaking the whole list).
+	(unmark_days): New function used to unmark all the days in the
+	year view.
+	(mark_event): New function that marks all the days that are
+	spanned by a time range.  It also fixes the bug in the old
+	implementation where it could possibly mark days past the ends of
+	the year (if the event crosses year boundaries, for example).
+
+	* timeutil.c (time_year_begin): Take the year parameter since year
+	1, not 1900.
+	(time_year_end): Likewise.
+
+	* year-view.c (year_view_size_allocate): Now changing the size of
+	the calendars is done in the idle loop.
+	(idle_handler): This function actually does the resizing of the items.
+
+	* year-view.h (struct _YearView): Added idle_id and need_resize
+	fields.
+
 1998-08-26  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* year-view.c: Beginning of the new year view.  Sizing and event

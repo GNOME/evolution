@@ -32,9 +32,15 @@ struct _YearView {
 
 	GnomeCalendar *calendar;	/* The calendar we are associated to */
 
+	int year;			/* The year we are displaying */
+
 	GnomeCanvasItem *heading;	/* Big heading with year */
 	GnomeCanvasItem *titles[12];	/* Titles for months */
 	GnomeCanvasItem *mitems[12];	/* Month items */
+
+	guint idle_id;			/* ID of idle handler for resize */
+
+	int need_resize : 1;		/* Specifies whether we need to resize the canvas items or not */
 };
 
 struct _YearViewClass {

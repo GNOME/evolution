@@ -10,6 +10,7 @@
 #include <libgnomeui/gnome-canvas-text.h>
 #include "year-view.h"
 #include "main.h"
+#include "timeutil.h"
 
 
 #define HEAD_SPACING 4		/* Spacing between year heading and months */
@@ -19,6 +20,7 @@
 
 static void year_view_class_init    (YearViewClass  *class);
 static void year_view_init          (YearView       *yv);
+static void year_view_destroy       (GtkObject      *object);
 static void year_view_size_request  (GtkWidget      *widget,
 				     GtkRequisition *requisition);
 static void year_view_size_allocate (GtkWidget      *widget,
@@ -54,14 +56,101 @@ year_view_get_type (void)
 static void
 year_view_class_init (YearViewClass *class)
 {
+	GtkObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
+	object_class = (GtkObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
 
 	parent_class = gtk_type_class (gnome_canvas_get_type ());
 
+	object_class->destroy = year_view_destroy;
+
 	widget_class->size_request = year_view_size_request;
 	widget_class->size_allocate = year_view_size_allocate;
+}
+
+/* Resizes the year view's child items.  This is done in the idle loop for performance (we avoid
+ * resizing on every size allocation).
+ */
+static gint
+idle_handler (gpointer data)
+{
+	YearView *yv;
+	double width, height;
+	double mwidth, mheight;
+	double h_yofs, m_yofs;
+	double x, y;
+	GtkArg arg;
+	GdkFont *head_font, *title_font;
+	int i;
+
+	yv = data;
+
+	/* Get the fonts to get their size later */
+
+	arg.name = "font_gdk";
+	gtk_object_getv (GTK_OBJECT (yv->heading), 1, &arg);
+	head_font = GTK_VALUE_BOXED (arg);
+
+	arg.name = "font_gdk";
+	gtk_object_getv (GTK_OBJECT (yv->titles[0]), 1, &arg);
+	title_font = GTK_VALUE_BOXED (arg);
+
+	/* Adjust heading */
+
+	gnome_canvas_item_set (yv->heading,
+			       "x", (double) yv->canvas.width / 2.0,
+			       "y", (double) HEAD_SPACING,
+			       NULL);
+
+	/* Adjust months */
+
+	h_yofs = 2 * HEAD_SPACING + head_font->ascent + head_font->descent;
+	m_yofs = SPACING + title_font->ascent + title_font->descent;
+
+	width = (yv->canvas.width + SPACING) / 3.0;
+	height = (yv->canvas.height - h_yofs + SPACING) / 4.0;
+
+	mwidth = (yv->canvas.width - 2 * SPACING) / 3.0;
+	mheight = (yv->canvas.height - h_yofs - 3 * SPACING - 4 * m_yofs) / 4.0;
+
+	for (i = 0; i < 12; i++) {
+		x = (i % 3) * width;
+		y = (i / 3) * height + h_yofs;
+
+		/* Title */
+
+		gnome_canvas_item_set (yv->titles[i],
+				       "x", x + width / 2.0,
+				       "y", y,
+				       NULL);
+
+		/* Month item */
+
+		gnome_canvas_item_set (yv->mitems[i],
+				       "x", x,
+				       "y", y + m_yofs,
+				       "width", mwidth,
+				       "height", mheight,
+				       NULL);
+	}
+
+	/* Done */
+
+	yv->need_resize = FALSE;
+	return FALSE;
+}
+
+/* Marks the year view as needing a resize, which will be performed during the idle loop */
+static void
+need_resize (YearView *yv)
+{
+	if (yv->need_resize)
+		return;
+
+	yv->need_resize = TRUE;
+	yv->idle_id = gtk_idle_add (idle_handler, yv);
 }
 
 static void
@@ -107,6 +196,30 @@ year_view_init (YearView *yv)
 				       "heading_color", "white",
 				       NULL);
 	}
+
+	/* We will need to resize the items when we paint for the first time */
+
+	yv->idle_id = -1;
+	need_resize (yv);
+}
+
+static void
+year_view_destroy (GtkObject *object)
+{
+	YearView *yv;
+
+	g_return_if_fail (object != NULL);
+	g_return_if_fail (IS_YEAR_VIEW (object));
+
+	yv = YEAR_VIEW (object);
+
+	if (yv->need_resize) {
+		yv->need_resize = FALSE;
+		gtk_idle_remove (yv->idle_id);
+	}
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 GtkWidget *
@@ -146,14 +259,6 @@ static void
 year_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 {
 	YearView *yv;
-	double width, height;
-	double mwidth, mheight;
-	double h_yofs;
-	double m_yofs;
-	double x, y;
-	int i;
-	GtkArg arg;
-	GdkFont *head_font, *title_font;
 
 	g_return_if_fail (widget != NULL);
 	g_return_if_fail (IS_YEAR_VIEW (widget));
@@ -165,53 +270,7 @@ year_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 		(* GTK_WIDGET_CLASS (parent_class)->size_allocate) (widget, allocation);
 
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (yv), 0, 0, allocation->width, allocation->height);
-
-	arg.name = "font_gdk";
-	gtk_object_getv (GTK_OBJECT (yv->heading), 1, &arg);
-	head_font = GTK_VALUE_BOXED (arg);
-
-	arg.name = "font_gdk";
-	gtk_object_getv (GTK_OBJECT (yv->titles[0]), 1, &arg);
-	title_font = GTK_VALUE_BOXED (arg);
-
-	/* Adjust heading */
-
-	gnome_canvas_item_set (yv->heading,
-			       "x", (double) allocation->width / 2.0,
-			       "y", (double) HEAD_SPACING,
-			       NULL);
-
-	/* Adjust months */
-
-	h_yofs = 2 * HEAD_SPACING + head_font->ascent + head_font->descent;
-	m_yofs = SPACING + title_font->ascent + title_font->descent;
-
-	width = (allocation->width + SPACING) / 3.0;
-	height = (allocation->height - h_yofs + SPACING) / 4.0;
-
-	mwidth = (allocation->width - 2 * SPACING) / 3.0;
-	mheight = (allocation->height - h_yofs - 3 * SPACING - 4 * m_yofs) / 4.0;
-
-	for (i = 0; i < 12; i++) {
-		x = (i % 3) * width;
-		y = (i / 3) * height + h_yofs;
-
-		/* Title */
-
-		gnome_canvas_item_set (yv->titles[i],
-				       "x", x + width / 2.0,
-				       "y", y,
-				       NULL);
-
-		/* Month item */
-
-		gnome_canvas_item_set (yv->mitems[i],
-				       "x", x,
-				       "y", y + m_yofs,
-				       "width", mwidth,
-				       "height", mheight,
-				       NULL);
-	}
+	need_resize (yv);
 }
 
 void
@@ -220,24 +279,130 @@ year_view_update (YearView *yv, iCalObject *object, int flags)
 	g_return_if_fail (yv != NULL);
 	g_return_if_fail (IS_YEAR_VIEW (yv));
 
-	/* FIXME */
+	/* If only the summary changed, we don't care */
+
+	if (object && ((flags & CHANGE_SUMMARY) == flags))
+		return;
+
+	year_view_set (yv, time_year_begin (yv->year));
+}
+
+/* Unmarks all the days in the year view by setting their boxes and labels to the default colors */
+static void
+unmark_days (YearView *yv)
+{
+	GnomeCanvasItem *item;
+	int i, j;
+
+	for (i = 0; i < 12; i++)
+		for (j = 0; j < 42; j++) {
+			/* Box */
+
+			item = gnome_month_item_num2child (GNOME_MONTH_ITEM (yv->mitems[i]),
+							   GNOME_MONTH_ITEM_DAY_BOX + j);
+			gnome_canvas_item_set (item,
+					       "fill_color", "#d6d6d6d6d6d6",
+					       NULL);
+
+			/* Label */
+
+			item = gnome_month_item_num2child (GNOME_MONTH_ITEM (yv->mitems[i]),
+							   GNOME_MONTH_ITEM_DAY_LABEL + j);
+			gnome_canvas_item_set (item,
+					       "fill_color", "black",
+					       NULL);
+		}
+}
+
+/* Marks all the days that fall into the specified time span */
+static void
+mark_event (YearView *yv, time_t start, time_t end)
+{
+	time_t t;
+	struct tm tm;
+	int day_index;
+	GnomeCanvasItem *mitem, *item;
+
+	tm = *localtime (&start);
+	end = time_end_of_day (end);
+
+	for (t = start; t < end; t += 60 * 60 * 24) {
+		mktime (&tm); /* normalize the time */
+
+		/* We need this comparison because an event may span more than one year (!).
+		 * Yes, this is not the most efficient way of doing this (we could just clip
+		 * the event to the current year), but it will do for now.
+		 */
+
+		if ((tm.tm_year + 1900) == yv->year) {
+			/* Figure out the month item and day index that correspond to this time */
+
+			mitem = yv->mitems[tm.tm_mon];
+			day_index = gnome_month_item_day2index (GNOME_MONTH_ITEM (mitem), tm.tm_mday);
+			g_assert (day_index != -1);
+
+			/* Mark the day box */
+
+			item = gnome_month_item_num2child (GNOME_MONTH_ITEM (mitem),
+							   GNOME_MONTH_ITEM_DAY_BOX + day_index);
+			gnome_canvas_item_set (item,
+					       "fill_color", "tan",
+					       NULL);
+
+			/* Mark the day label */
+
+			item = gnome_month_item_num2child (GNOME_MONTH_ITEM (mitem),
+							   GNOME_MONTH_ITEM_DAY_LABEL + day_index);
+			gnome_canvas_item_set (item,
+					       "fill_color", "black",
+					       NULL);
+		}
+
+		/* Next day */
+
+		tm.tm_mday++;
+	}
+}
+
+/* Queries the calendar for all the events in the current year and marks the days that have at least
+ * one event in them.
+ */
+static void
+mark_days (YearView *yv)
+{
+	time_t year_begin, year_end;
+	GList *list, *l;
+	CalendarObject *co;
+
+	year_begin = time_year_begin (yv->year);
+	year_end = time_year_end (yv->year);
+
+	list = calendar_get_events_in_range (yv->calendar->cal, year_begin, year_end);
+
+	for (l = list; l; l = l->next) {
+		co = l->data;
+		mark_event (yv, co->ev_start, co->ev_end);
+	}
+
+	calendar_destroy_event_list (list);
 }
 
 void
 year_view_set (YearView *yv, time_t year)
 {
-	struct tm tm;
-	int i;
+	struct tm *tm;
 	char buf[100];
+	int i;
 
 	g_return_if_fail (yv != NULL);
 	g_return_if_fail (IS_YEAR_VIEW (yv));
 
-	tm = *localtime (&year);
+	tm = localtime (&year);
+	yv->year = tm->tm_year + 1900;
 
 	/* Heading */
 
-	sprintf (buf, "%d", tm.tm_year + 1900);
+	sprintf (buf, "%d", yv->year);
 	gnome_canvas_item_set (yv->heading,
 			       "text", buf,
 			       NULL);
@@ -246,11 +411,12 @@ year_view_set (YearView *yv, time_t year)
 
 	for (i = 0; i < 12; i++)
 		gnome_canvas_item_set (yv->mitems[i],
-				       "year", tm.tm_year + 1900,
+				       "year", yv->year,
 				       "month", i,
 				       NULL);
 
-	/* FIXME: update events */
+	unmark_days (yv);
+	mark_days (yv);
 }
 
 void
@@ -266,258 +432,5 @@ year_view_time_format_changed (YearView *yv)
 				       "start_on_monday", week_starts_on_monday,
 				       NULL);
 
-	/* FIXME: update events */
+	year_view_set (yv, time_year_begin (yv->year));
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#if 0
-
-#include "gncal-year-view.h"
-#include "calendar.h"
-#include "timeutil.h"
-
-static void gncal_year_view_init (GncalYearView *yview);
-
-static void
-double_click(GtkCalendar *gc, GncalYearView *yview)
-{
-	struct tm tm;
-	time_t t;
-
-	tm.tm_mday = gc->selected_day;
-	tm.tm_mon  = gc->month;
-	tm.tm_year = gc->year - 1900;
-	tm.tm_hour = 0;
-	tm.tm_min  = 0;
-	tm.tm_sec  = 0;
-	tm.tm_isdst  = -1;
-	t = mktime (&tm);
-
-	gnome_calendar_dayjump (yview->gcal, t);
-}
-	
-static void
-do_nothing(GtkCalendarClass *c)
-{
-}
-
-static void
-select_day(GtkWidget *widget, gpointer data)
-{
-	int i;
-	
-	GncalYearView *yview;
-	
-	yview = GNCAL_YEAR_VIEW(data);
-	
-	for (i = 0; i < 12; i++)
-	  gtk_signal_handler_block(GTK_OBJECT(yview->calendar[i]),
-				   yview->handler[i]);
-	
-	for (i = 0; i < 12; i++)
-	  if (GTK_CALENDAR(yview->calendar[i]) != GTK_CALENDAR(widget))
-	    gtk_calendar_select_day(GTK_CALENDAR(yview->calendar[i]), 0);
-					      
-	for (i = 0; i < 12; i++)
-	  gtk_signal_handler_unblock(GTK_OBJECT(yview->calendar[i]),
-				   yview->handler[i]);
-}
-
-guint
-gncal_year_view_get_type (void)
-{
-        static guint year_view_type = 0;
-
-	if (!year_view_type) {
-		GtkTypeInfo year_view_info = {
-			"GncalYearView",
-			sizeof (GncalYearView),
-			sizeof (GncalYearViewClass),
-			(GtkClassInitFunc) NULL,
-			(GtkObjectInitFunc) gncal_year_view_init,
-			(GtkArgSetFunc) NULL,
-			(GtkArgGetFunc) NULL
-		};
-
-		year_view_type = gtk_type_unique (gtk_table_get_type (), 
-						  &year_view_info);
-	}
-
-	return year_view_type;
-}
-
-static void
-gncal_year_view_init (GncalYearView *yview)
-{
-	int i;
-	
-	for (i = 0; i < 12; i++) {
-		yview->calendar[i] = NULL;
-		yview->handler [i] = 0;
-	}
-	
-	yview->gcal = NULL;
-	yview->year_label = NULL;
-	yview->year = 0;
-}
-
-GtkWidget *
-gncal_year_view_new (GnomeCalendar *calendar, time_t date)
-{
-	struct tm my_tm = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-	char monthbuff[40];
-	GncalYearView *yview;
-	GtkWidget *frame, *vbox, *label;
-	struct tm *tmptm;
-	int i, x, y;
-
-	yview = gtk_type_new (gncal_year_view_get_type ());
-
-	tmptm = localtime(&date);
-	yview->year = tmptm->tm_year;
-	yview->gcal = calendar;
-	my_tm.tm_year = tmptm->tm_year;
-	yview->year_label = gtk_label_new("");
-	gtk_table_attach (GTK_TABLE (yview), 
-			  GTK_WIDGET (yview->year_label),
-			  1, 2,
-			  0, 1,
-			  0, 0, 0, 5);
-	gtk_widget_show(GTK_WIDGET(yview->year_label));
-	
-	for (x = 0; x < 3; x++)
-	  for (y = 0; y < 4; y++) {
-		  
-		  i = y * 3 + x;
-		  
-		  yview->calendar[i] = gtk_calendar_new();
-		  gtk_calendar_display_options(GTK_CALENDAR(yview->calendar[i]), 
-					       GTK_CALENDAR_SHOW_DAY_NAMES |
-					       GTK_CALENDAR_NO_MONTH_CHANGE);
-		  frame = gtk_frame_new(NULL);
-		  vbox = gtk_vbox_new(0,0);
-		
-		  yview->handler[i] = 
-		    gtk_signal_connect(GTK_OBJECT(yview->calendar[i]), "day_selected", 
-				       GTK_SIGNAL_FUNC(select_day), (gpointer *) yview);
-		  
-		  gtk_signal_connect(GTK_OBJECT(yview->calendar[i]), "day_selected_double_click",
-				     GTK_SIGNAL_FUNC(double_click), (gpointer *) yview);
-
-		  my_tm.tm_mon = i;
-		  strftime(monthbuff, 40, "%B", &my_tm);
-		  label = gtk_label_new(monthbuff);
-		
-		  gtk_container_add(GTK_CONTAINER(frame), vbox);
-		  gtk_box_pack_start(GTK_BOX(vbox), label, 0, 0, 0);
-		  gtk_box_pack_start(GTK_BOX(vbox), yview->calendar[i], 0, 0, 0);
-		  
-		  gtk_table_attach (GTK_TABLE (yview), 
-				    GTK_WIDGET (frame),
-				    x, x + 1,
-				    y + 1, y + 2,
-				    0, 0, 0, 0);
-
-		  gtk_widget_show (frame);
-		  gtk_widget_show (vbox);
-		  gtk_widget_show (GTK_WIDGET (yview->calendar[i]));
-	  }
-
-	gncal_year_view_set (yview, date);
-	
-	return GTK_WIDGET (yview);
-}
-
-static void
-year_view_mark_day (iCalObject *ical, time_t start, time_t end, void *closure)
-{
-	GncalYearView *yview = (GncalYearView *) closure;
-	struct tm tm_s;
-	time_t t, day_end;
-
-	tm_s = *localtime (&start);
-	day_end = time_end_of_day (end);
-
-	for (t = start; t <= day_end; t+= 60*60*24){
-		time_t new = mktime (&tm_s);
-		struct tm tm_day;
-		
-		tm_day = *localtime (&new);
-		gtk_calendar_mark_day (GTK_CALENDAR (yview->calendar [tm_day.tm_mon]),
-				       tm_day.tm_mday);
-		tm_s.tm_mday++;
-	}
-}
-
-static void
-gncal_year_view_set_year (GncalYearView *yview, int year)
-{
-	time_t year_begin, year_end;
-	char buff[20];
-	GList  *l;
-	int i;
-
-	if (!yview->gcal->cal)
-		return;
-	
-	snprintf(buff, 20, "%d", yview->year + 1900);
-	gtk_label_set(GTK_LABEL(yview->year_label), buff);
-
-	for (i = 0; i < 12; i++) {
-		gtk_calendar_freeze (GTK_CALENDAR (yview->calendar [i]));
-		gtk_calendar_select_month (GTK_CALENDAR(yview->calendar[i]), i, yview->year + 1900);
-		gtk_calendar_clear_marks (GTK_CALENDAR (yview->calendar[i]));
-	}
-	
-	year_begin = time_year_begin (yview->year);
-	year_end   = time_year_end   (yview->year);
-
-	l = calendar_get_events_in_range (yview->gcal->cal, year_begin, year_end);
-	for (; l; l = l->next){
-		CalendarObject *co = l->data;
-
-		year_view_mark_day (co->ico, co->ev_start, co->ev_end, yview);
-	}
-	for (i = 0; i < 12; i++) 
-		gtk_calendar_thaw (GTK_CALENDAR (yview->calendar [i]));
-
-	calendar_destroy_event_list (l);
-}
-
-void
-gncal_year_view_set (GncalYearView *yview, time_t date)
-{
-	struct tm *tmptm;
-
-	tmptm = localtime(&date);
-	yview->year = tmptm->tm_year;
-
-	gncal_year_view_set_year (yview, yview->year);
-}
-
-void
-gncal_year_view_update (GncalYearView *yview, iCalObject *ico, int flags)
-{
-	g_return_if_fail (yview != NULL);
-	g_return_if_fail (GNCAL_IS_YEAR_VIEW (yview));
-
-	/* If only the summary changed, we dont care */
-	if (flags && (flags & CHANGE_SUMMARY) == flags)
-		return;
-
-	gncal_year_view_set_year (yview, yview->year);
-}
-
-#endif

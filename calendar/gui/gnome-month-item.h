@@ -106,7 +106,7 @@ struct _GnomeMonthItem {
 	GtkAnchorType day_anchor;	/* Anchor side for the day number labels */
 
 	GnomeCanvasItem **items;	/* All the items that make up the calendar */
-	int day_numbers[42];		/* The numbers of the days */
+	int day_numbers[42];		/* The numbers of the days, as they are shown in the display */
 
 	GdkFont *head_font;		/* Font for the headings */
 	GdkFont *day_font;		/* Font for the day numbers */
