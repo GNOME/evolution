@@ -1801,8 +1801,6 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 			child_spec[speclen++] = '.';
 		g_free (part_spec);
 		
-		fprintf (stderr, "here we are, trying to fetch a multipart/*: ci->childs = %p; ci->next = %p\n", ci->childs, ci->next);
-		
 		ci = ci->childs;
 		num = 1;
 		while (ci) {
@@ -1990,58 +1988,59 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 		/* If the message is small, fetch it in one piece. */
 		if (mi->size < IMAP_SMALL_BODY_SIZE) {
 			msg = get_message_simple (imap_folder, uid, NULL, ex);
-		} else if (content_info_incomplete (mi->content)) {
-
-			/* For larger messages, fetch the structure and build a message
-			 * with offline parts. (We check mi->content->type rather than
-			 * mi->content because camel_folder_summary_info_new always creates
-			 * an empty content struct.)
-			 */
-			CamelImapResponse *response;
-			GData *fetch_data = NULL;
-			char *body, *found_uid;
-			int i;
-		
-			if (camel_disco_store_status (CAMEL_DISCO_STORE (store)) == CAMEL_DISCO_STORE_OFFLINE) {
-				camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-						     _("This message is not currently available"));
-				goto fail;
-			}
-		
-			response = camel_imap_command (store, folder, ex, "UID FETCH %s BODY", uid);
-			if (response) {
-				for (i = 0, body = NULL; i < response->untagged->len; i++) {
-					fetch_data = parse_fetch_response (imap_folder, response->untagged->pdata[i]);
-					if (fetch_data) {
-						found_uid = g_datalist_get_data (&fetch_data, "UID");
-						body = g_datalist_get_data (&fetch_data, "BODY");
-						if (found_uid && body && !strcmp (found_uid, uid))
-							break;
-						g_datalist_clear (&fetch_data);
-						fetch_data = NULL;
-						body = NULL;
-					}
-				}
-		
-				if (body)
-					imap_parse_body ((const char **) &body, folder, mi->content);
-		
-				if (fetch_data)
-					g_datalist_clear (&fetch_data);
-		
-				camel_imap_response_free (store, response);
-		
-				/* FETCH returned OK, but we didn't parse a BODY
-				 * response. Courier will return invalid BODY
-				 * responses for invalidly MIMEd messages, so
-				 * fall back to fetching the entire thing and
-				 * let the mailer's "bad MIME" code handle it.
+		} else {
+			if (content_info_incomplete (mi->content)) {
+				/* For larger messages, fetch the structure and build a message
+				 * with offline parts. (We check mi->content->type rather than
+				 * mi->content because camel_folder_summary_info_new always creates
+				 * an empty content struct.)
 				 */
-				if (content_info_incomplete (mi->content))
-					msg = get_message_simple (imap_folder, uid, NULL, ex);
-				else
-					msg = get_message (imap_folder, uid, "", mi->content, ex);
+				CamelImapResponse *response;
+				GData *fetch_data = NULL;
+				char *body, *found_uid;
+				int i;
+				
+				if (camel_disco_store_status (CAMEL_DISCO_STORE (store)) == CAMEL_DISCO_STORE_OFFLINE) {
+					camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+							     _("This message is not currently available"));
+					goto fail;
+				}
+				
+				response = camel_imap_command (store, folder, ex, "UID FETCH %s BODY", uid);
+				if (response) {
+					for (i = 0, body = NULL; i < response->untagged->len; i++) {
+						fetch_data = parse_fetch_response (imap_folder, response->untagged->pdata[i]);
+						if (fetch_data) {
+							found_uid = g_datalist_get_data (&fetch_data, "UID");
+							body = g_datalist_get_data (&fetch_data, "BODY");
+							if (found_uid && body && !strcmp (found_uid, uid))
+								break;
+							g_datalist_clear (&fetch_data);
+							fetch_data = NULL;
+							body = NULL;
+						}
+					}
+					
+					if (body)
+						imap_parse_body ((const char **) &body, folder, mi->content);
+					
+					if (fetch_data)
+						g_datalist_clear (&fetch_data);
+					
+					camel_imap_response_free (store, response);
+				}
 			}
+			
+			/* FETCH returned OK, but we didn't parse a BODY
+			 * response. Courier will return invalid BODY
+			 * responses for invalidly MIMEd messages, so
+			 * fall back to fetching the entire thing and
+			 * let the mailer's "bad MIME" code handle it.
+			 */
+			if (content_info_incomplete (mi->content))
+				msg = get_message_simple (imap_folder, uid, NULL, ex);
+			else
+				msg = get_message (imap_folder, uid, "", mi->content, ex);
 		}
 	} while (msg == NULL
 		 && retry < 2
