@@ -1037,11 +1037,6 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 
 	e_table->header = et_state_to_header (e_table, e_table->full_header, state);
 	e_table->horizontal_scrolling = specification->horizontal_scrolling;
-	if (specification->horizontal_scrolling) {
-		gtk_object_set(GTK_OBJECT(e_table->header),
-			       "horizontal_scrolling", TRUE,
-			       NULL);
-	}
 
 	e_table->sort_info = state->sort_info;
 
