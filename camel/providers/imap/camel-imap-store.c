@@ -1798,8 +1798,7 @@ get_folder_online (CamelStore *store, const char *folder_name, guint32 flags, Ca
 		if (*c != '\0') {
 			CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
 			camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID_PATH,
-					      _("The folder name \"%s\" is invalid because "
-						"it containes the character \"%c\""),
+					      _("The folder name \"%s\" is invalid because it contains the character \"%c\""),
 					      folder_name, *c);
 			return NULL;
 		}
@@ -2087,8 +2086,7 @@ create_folder (CamelStore *store, const char *parent_name,
 	
 	if (*c != '\0') {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID_PATH,
-				      _("The folder name \"%s\" is invalid because "
-					"it containes the character \"%c\""),
+				      _("The folder name \"%s\" is invalid because it contains the character \"%c\""),
 				      folder_name, *c);
 		return NULL;
 	}
@@ -2589,6 +2587,7 @@ get_folders_add_folders(GSList *p, int recurse, GHashTable *infos, GPtrArray *fo
 			g_hash_table_insert(infos, fi->full_name, fi);
 			if (recurse)
 				p = g_slist_prepend(p, fi);
+			g_ptr_array_add(folders_out, fi);
 		} else {
 			d(printf(" old folder '%s', old flags %08x  new flags %08x\n", fi->full_name, oldfi->flags, fi->flags));
 
@@ -2696,7 +2695,6 @@ get_folders(CamelStore *store, const char *top, guint32 flags, CamelException *e
 			fi = q->data;
 
 			q = g_slist_remove_link(q, q);
-			g_ptr_array_add(folders_out, fi);
 
 			d(printf("Checking parent folder '%s'\n", fi->full_name));
 

@@ -1021,14 +1021,10 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 				g_hash_table_insert (hash, pname, pfi);
 				g_ptr_array_add (folders, pfi);
 			}
-			tail = pfi->child;
-			if (tail == NULL) {
-				pfi->child = fi;
-			} else {
-				while (tail->next)
-					tail = tail->next;
-				tail->next = fi;
-			}
+			tail = (CamelFolderInfo *)&pfi->child;
+			while (tail->next)
+				tail = tail->next;
+			tail->next = fi;
 			fi->parent = pfi;
 		} else if (!top)
 			top = fi;

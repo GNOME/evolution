@@ -1,3 +1,17 @@
+2004-04-05  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-store.c (get_folders): dont add
+	folders to folders_out here, only in get_folders_add_folders.
+
+	* camel-store.c (camel_folder_info_build): simplify 'list append'
+	since we have next pointer at the head of the struct.
+
+	* providers/imap/camel-imap-store.c (create_folder): fixed
+	"containes" spelling count.
+	(get_folder_online): "
+	(get_folders_add_folders): duh, add the folder info to the
+	folders_out array.
+
 2004-04-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-folder.c (camel_folder_get_deleted_message_count): New
