@@ -72,12 +72,14 @@ ensure_inited (void)
 		return;
 	}
 
-	location = bonobo_config_get_string (db, "/Calendar/Display/Timezone", NULL);
-	if (location) {
+	location = bonobo_config_get_string_with_default (db,
+		"/Calendar/Display/Timezone", "UTC", NULL);
+	if (location && location[0]) {
 		local_timezone = icaltimezone_get_builtin_timezone (location);
-		g_free (location);
-	} else
+	} else {
 		local_timezone = icaltimezone_get_utc_timezone ();
+	}
+	g_free (location);
 
 	if (locale_supports_12_hour_format ()) {
 		/* Wasn't the whole point of a configuration engine *NOT* to

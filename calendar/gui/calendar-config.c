@@ -148,15 +148,13 @@ config_read				(void)
 
 	CORBA_exception_free (&ev);
 
-	CORBA_exception_init (&ev);
-	config->timezone =  bonobo_config_get_string (db,
-                "/Calendar/Display/Timezone", &ev);
-	if (BONOBO_USER_EX (&ev, ex_Bonobo_ConfigDatabase_NotFound))
-		config->timezone = NULL;
-	else if (BONOBO_EX (&ev))
-		g_message ("config_read(): Could not get the /Calendar/Display/Timezone");
-
-	CORBA_exception_free (&ev);
+	/* Default to UTC if the timezone is not set or is "". */
+	config->timezone =  bonobo_config_get_string_with_default (db,
+                "/Calendar/Display/Timezone", "UTC", NULL);
+	if (!config->timezone || !config->timezone[0]) {
+		g_free (config->timezone);
+		config->timezone = g_strdup ("UTC");
+	}
 
  	config->working_days = bonobo_config_get_long_with_default (db,
                 "/Calendar/Display/WorkingDays", CAL_MONDAY | CAL_TUESDAY |
@@ -465,9 +463,8 @@ calendar_config_get_timezone		(void)
 }
 
 
-/* Sets the timezone. You shouldn't really set it to the empty string or NULL,
-   as this means that Evolution will show the timezone-setting dialog to ask
-   the user for the timezone. It copies the string. */
+/* Sets the timezone. If set to NULL it defaults to UTC.
+   FIXME: Should check it is being set to a valid timezone. */
 void
 calendar_config_set_timezone		(gchar	     *timezone)
 {
@@ -476,7 +473,7 @@ calendar_config_set_timezone		(gchar	     *timezone)
 	if (timezone && timezone[0])
 		config->timezone = g_strdup (timezone);
 	else
-		config->timezone = NULL;
+		config->timezone = g_strdup ("UTC");
 }
 
 

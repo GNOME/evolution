@@ -1,3 +1,11 @@
+2001-11-13  Damon Chaplin  <damon@ximian.com>
+
+	* gui/alarm-notify/config-data.c (ensure_inited): 
+	* gui/calendar-config.c (config_read): 
+	* conduits/todo/todo-conduit.c (get_default_timezone): 
+	* conduits/calendar/calendar-conduit.c (get_default_timezone): 
+	make the timezone default to UTC. Fixes bug #14362.
+
 2001-11-13  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-week-view.c (selection_received): only change the day,
