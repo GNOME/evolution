@@ -1,5 +1,9 @@
 2003-10-23  Rodney Dawes  <dobey@ximian.com>
 
+	* POTFILES.in: s/smime-gui.glade/smime-ui.glade/
+
+2003-10-23  Rodney Dawes  <dobey@ximian.com>
+
 	* POTFILES.in: Add some missing files, and remove files
 	that have been removed from CVS
 	* POTFILES.skip: Add data/evolution.desktop.in

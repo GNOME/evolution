@@ -368,7 +368,7 @@ shell/importer/intelligent.c
 shell/main.c
 smime/lib/e-cert.c
 smime/gui/certificate-manager.c
-smime/gui/smime-gui.glade
+smime/gui/smime-ui.glade
 tools/evolution-launch-composer.c
 tools/killev.c
 ui/evolution-addressbook.xml
