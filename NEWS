@@ -82,7 +82,15 @@ Mail:
 
   Filters:
 
-  - FIXME
+  - Now supports filtering on system flags (ie Answered, Seen,
+    Unseen).  (Jeff)
+
+  - Regular expression searches are now moved to their own Option
+    menu.  (Jeff)
+
+  - Allows regex searching on the entire message header.  (Jeff)
+
+  - Now has soundex filters (x sounds like y).  (Jeff)
 
   IMAP:
 
