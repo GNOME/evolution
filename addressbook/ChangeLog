@@ -1,3 +1,9 @@
+2003-12-02  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/addressbook.c (set_status_message): Call
+	e_activity_handler_operation_finished() on the current activity ID
+	when done.
+
 2003-12-01  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook.c (struct AddressbookView): Replace

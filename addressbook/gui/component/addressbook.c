@@ -916,7 +916,10 @@ set_status_message (EABView *eav, const char *message, AddressbookView *view)
 	EActivityHandler *activity_handler = addressbook_component_peek_activity_handler (addressbook_component_peek ());
 
 	if (!message || !*message) {
-		view->activity_id = 0;
+		if (view->activity_id != 0) {
+			e_activity_handler_operation_finished (activity_handler, view->activity_id);
+			view->activity_id = 0;
+		}
 	} else if (view->activity_id == 0) {
 		char *clientid = g_strdup_printf ("%p", view);
 
