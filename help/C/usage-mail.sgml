@@ -5,7 +5,7 @@
 <chapter id="usage-mail"> 
   <title>Evolution Mail</title>
   <abstract>
-    <title> An Overview of the Evolution Mailer</title>
+    <title> A Guide to the Evolution Mailer</title>
     <para>
        <application>Evolution</application> email is like other email
        programs in all the ways you would hope:
@@ -45,7 +45,7 @@
       mail. There's also the <application>Evolution</application>
       <link linkend="usage-mail-organize-vFolders">Virtual
       Folder</link>, an advanced organizational feature not found in
-      other mail clients.  If you get a lot of mail, or if you keep
+      many other mail clients.  If you get a lot of mail, or if you keep
       every message you get in case you need to refer to it later,
       you'll find this feature especially useful.
     </para>
@@ -74,7 +74,10 @@
 	the <interface>view pane</interface> too small, you can resize
 	the pane, enlarge the whole window, or double-click on the
 	message in the <interface>message list</interface> to have it
-	open in a new window.  Just like with folders, you can
+	open in a new window.  To change the sizes of a pane, just click
+        and hold on the divider between the two panes.  Then you can drag
+        up and down to select the size of the panes.  Just like with 
+        folders, you can
 	right-click on messages in the message list and get a menu of
 	possible actions.
      </para>
@@ -291,9 +294,9 @@
 	   when you press <guibutton>Send</guibutton> in another
 	   message, or <guibutton>Get Mail</guibutton> in the main
 	   mail window, all your unsent messages will go out at once.
-	   I like to use "Send Later" because it gives me a chance to
-	   change my mind about a message before it goes out.  That
-	   way, I don't send anything I'll regret the next day.
+	   Many times, one might want to use "Send Later" becuase it gives
+	   you a chance to change your mind about a message before it
+	   is sent.  This way, you may not say something you may regret.
 	</para>
 	<para>
 	   To learn more about how you can specify message queue and
@@ -350,7 +353,14 @@
             When you send the message, a copy of the attached file
 	    will go with it.  Be aware that big attachments can take a
 	    long time to download.
-          </para>
+        </para>
+	<para>
+	    When recieving a message that has an attached image,
+	    <application>Evolution</application> gives you the choice
+	    whether to view it or not.  You can choose to have it
+	    always shown, load images only if the sender is in your
+	    addressbook, or never load images.
+	</para>
 	</sect4>
         <sect4 id="usage-mail-getnsend-send-to-types">
          <title>Types of Recipients</title>
@@ -385,17 +395,6 @@
 	    </example>
 	  </para>
 	  <para>
-	    If you have a large number of recipients, or if you want
-	    to send mail to several people without sharing the
-	    recipient list, you should use
-	    <guilabel>Bcc:</guilabel>. "Bcc" stands for "Blind Carbon
-	    Copy", and it sends messages discreetly.  In other words,
-	    the people in the <guilabel>Bcc:</guilabel> field get the
-	    message, but nobody sees that they got it.  Note that the
-	    contents of the <guilabel>To:</guilabel> and
-	    <guilabel>Cc:</guilabel> fields are visible to all
-	    recipients, even to people on the
-	    <guilabel>Bcc:</guilabel> list.
 
 	    <example id="ex-mail-bcc">
 	      <title>Using the Bcc: field</title>
@@ -409,7 +408,7 @@
 	         category into the <guilabel>To:</guilabel> or
 	         <guilabel>Cc:</guilabel> fields, he'll make the
 	         company's <emphasis>entire</emphasis> client list
-	         public. It seems like a small difference, but it can
+	         public. It seems insignificant, but it can
 	         make a huge difference in some situations.
 	     </para>
 	    </example>
@@ -421,7 +420,8 @@
 	<para>
 	  If you have created address cards in the contact manager,
 	  you can also enter nicknames or other portions of address
-	  data, and <application>Evolution</application> will complete
+	  data, and <application>Evolution</application> will transparently 
+          complete
 	  the address for you. <!-- (INSERT description of UI for this
 	  feature, once it is decided upon). --> If you enter a name
 	  or nickname that can go with more than one card, Evolution
@@ -729,7 +729,8 @@ with quoted materials and the relevant replies interspersed-->
 	  <note>
 	    <title>A Technical note on HTML Tags</title>
 	    <para>
-	      The composer is a WYSIWYG (What You See Is What You Get)
+	      The composer is a <acronym>WYSIWYG</acronym>
+	      (What You See Is What You Get)
 	      editor for HTML. That means that if you enter HTML
 	      directly into the composer&mdash; say, <markup
 	      role="html">&lt;B&gt;Bold Text&lt;/B&gt</markup>, the
@@ -887,15 +888,20 @@ possibly never will be due to security evil. -->
          Right-click on one of the column headers to get a list of
          options:
              <variablelist>
-
+                 
                <varlistentry>
-                  <term><guimenuitem>Sort Ascending</guimenuitem>,
-                  <guimenuitem>Sort Descending</guimenuitem>, and
-                  <guimenuitem>Unsort</guimenuitem></term>
-                  <listitem><para>Which should be pretty obvious. You
-                  can also set these sorts by just clicking on the
-                  column headers.</para></listitem>
+		  <term><guimenuitem>Sort Ascending</guimenuitem></term>
+		  <listitem><para>
+		     Sorts the messages top to bottom.
+		  </para></listitem>
                </varlistentry>
+
+	      <varlistentry>
+		  <term><guimenuitem>Sort Descending</guimenuitem></term>
+		  <listitem><para>
+		     Sorts the messages bottom to top.
+		  </para></listitem>
+	      </varlistentry>
 
               <varlistentry>
                   <term><guimenuitem>Group By this Field</guimenuitem></term>
@@ -1058,10 +1064,9 @@ possibly never will be due to security evil. -->
     <sect2 id="usage-mail-organize-filters">
       <title>Staying organized: Mail Filters in Evolution</title>
       <para>
-        I once worked in the mail room of a large company, where my
-        job was to bundle, sort, and distribute mail to the various
-        mail boxes and desks throughout the building.  Filters do that
-        same job with email, but they lose much less mail than I did.
+	Filters work very much like the mail room in a large company.
+	Their purpose is to bundle, sort, and distribute mail to the
+	various folders.  
         In addition, you can have multiple filters performing multiple
         actions that may effect the same message in several ways.  For
         example, your filters could put copies of one message into
@@ -1075,8 +1080,8 @@ possibly never will be due to security evil. -->
         <application>Evolution</application> put mail into different
         folders, but you can have it do almost anything you like.
         People who get lots of mail, or who often need to refer to old
-        messages, find filters especially helpful, but they're good
-        for anybody who gets more than a few messages a day.  To
+        messages, find filters especially helpful, but they can greatly benefit
+        anybody who gets more than a few messages a day.  To
         create a filter, open the <interface>filter
         assistant</interface> by selecting
 	<menuchoice>
@@ -1161,8 +1166,9 @@ possibly never will be due to security evil. -->
         any criteria are met</guilabel>.
      </para>
      <para>
-        For each filter criterion, you must first select what
-        part of the message you want the filter to examine:
+        For each filter criterion, you must first select 
+        which of the following parts of the message you want the filter to 
+	examine:
         <variablelist>
 	  <varlistentry>
 	    <term><guilabel>Sender</guilabel></term>
