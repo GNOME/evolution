@@ -695,6 +695,8 @@ init (EMeetingModel *im)
 	priv->refresh_data = g_hash_table_new (g_direct_hash, g_direct_equal);
 	priv->refresh_idle_id = -1;
 	
+	priv->corba_select_names = CORBA_OBJECT_NIL;
+	
 	start_addressbook_server (im);
 }
 
