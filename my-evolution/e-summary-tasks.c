@@ -151,7 +151,12 @@ sort_uids (gconstpointer a,
 	cal_component_get_dtstart (comp_a, &start_a);
 	cal_component_get_dtstart (comp_b, &start_b);
 
-	retval = icaltime_compare (*start_a.value, *start_b.value);
+	if (start_a.value == NULL || start_b.value == NULL) {
+		/* Try to do something reasonable if one or more of our .values is NULL */
+		retval = (start_a.value ? 1 : 0) - (start_b.value ? 1 : 0);
+	} else {
+		retval = icaltime_compare (*start_a.value, *start_b.value);
+	}
 
 	cal_component_free_datetime (&start_a);
 	cal_component_free_datetime (&start_b);

@@ -1,3 +1,10 @@
+2001-10-25  Jon Trowbridge  <trow@ximian.com>
+
+	* e-summary-tasks.c (sort_uids): It is possible for
+	start_foo.value to be NULL after a cal to
+	cal_component_get_dtstart, so we need to check for this before
+	dereferencing it. (Bug #13259)
+
 2001-10-24  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-mail.c (e_summary_mail_init): Don't free the mail part.
