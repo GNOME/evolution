@@ -1,3 +1,12 @@
+2000-07-11  Federico Mena Quintero  <federico@helixcode.com>
+
+	* pcs/cal-factory.c (queue_load_create_job): Removed unneeded
+	check for the URI.
+	(load_fn): Be more paranoid about the URI and notify the listener
+	if we got passed a bad URI.  Simplify the termination code a bit.
+	(create_fn): Likewise.
+	(queue_load_create_job): Be more paranoid about the URI.
+
 2000-07-10  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/Makefile.am: Remove pilot stuff for now.

@@ -215,8 +215,7 @@ queue_load_create_job (CalFactory *factory, const char *uri, Evolution_Calendar_
 	Evolution_Calendar_Listener listener_copy;
 	gboolean result;
 
-	if ((!uri) || (!*uri))
-	  return;
+	g_assert (uri != NULL);
 
 	CORBA_exception_init (&ev);
 	result = CORBA_Object_is_nil (listener, &ev);
@@ -493,8 +492,9 @@ load_fn (gpointer data)
 	CORBA_Environment ev;
 
 	jd = data;
+	g_assert (jd->uri != NULL);
 
-	/* Look up the calendar */
+	/* Check the URI */
 
 	uri = gnome_vfs_uri_new (jd->uri);
 	g_free (jd->uri);
@@ -503,6 +503,20 @@ load_fn (gpointer data)
 	listener = jd->listener;
 	g_free (jd);
 
+	if (!uri) {
+		CORBA_exception_init (&ev);
+		Evolution_Calendar_Listener_cal_loaded (listener,
+							Evolution_Calendar_Listener_ERROR,
+							CORBA_OBJECT_NIL,
+							&ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_message ("load_fn(): Could not notify the listener!");
+
+		CORBA_exception_free (&ev);
+		goto out;
+	}
+
 	/* Look up the backend and create it if needed */
 
 	backend = lookup_backend (factory, uri);
@@ -510,14 +524,12 @@ load_fn (gpointer data)
 	if (!backend)
 		backend = load_backend (factory, uri, listener);
 
-	if (!backend)
-		goto out;
+	gnome_vfs_uri_unref (uri);
 
-	add_calendar_client (factory, backend, listener);
+	if (backend)
+		add_calendar_client (factory, backend, listener);
 
  out:
-
-	gnome_vfs_uri_unref (uri);
 
 	CORBA_exception_init (&ev);
 	CORBA_Object_release (listener, &ev);
@@ -540,7 +552,9 @@ create_fn (gpointer data)
 	CORBA_Environment ev;
 
 	jd = data;
-	factory = jd->factory;
+	g_assert (jd->uri != NULL);
+
+	/* Check the URI */
 
 	uri = gnome_vfs_uri_new (jd->uri);
 	g_free (jd->uri);
@@ -548,6 +562,20 @@ create_fn (gpointer data)
 	factory = jd->factory;
 	listener = jd->listener;
 	g_free (jd);
+
+	if (!uri) {
+		CORBA_exception_init (&ev);
+		Evolution_Calendar_Listener_cal_loaded (listener,
+							Evolution_Calendar_Listener_ERROR,
+							CORBA_OBJECT_NIL,
+							&ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_message ("create_fn(): Could not notify the listener!");
+
+		CORBA_exception_free (&ev);
+		goto out;
+	}
 
 	/* Check that the backend is not in use */
 
@@ -571,14 +599,12 @@ create_fn (gpointer data)
 
 	backend = create_backend (factory, uri, listener);
 
-	if (!backend)
-		goto out;
-
-	add_calendar_client (factory, backend, listener);
-
- out:
+	if (backend)
+		add_calendar_client (factory, backend, listener);
 
 	gnome_vfs_uri_unref (uri);
+
+ out:
 
 	CORBA_exception_init (&ev);
 	CORBA_Object_release (listener, &ev);
