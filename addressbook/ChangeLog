@@ -1,5 +1,10 @@
 2003-01-09  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/select-names/e-select-names-popup.c: #include
+	gtklabel.h, fixes an unresolved symbol.
+
+2003-01-09  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/pas-backend-ldap.c (query_ldap_root_dse): build up
 	the list of supported auth_methods.
 	(pas_backend_ldap_process_get_supported_auth_methods): respond

@@ -31,6 +31,7 @@
 
 #include <glib.h>
 #include <gtk/gtkcheckmenuitem.h>
+#include <gtk/gtklabel.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-app-helper.h>
