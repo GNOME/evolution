@@ -2,6 +2,8 @@
 
 	* camel.c (camel_shutdown): Call camel_mime_utils_shutdown() and
 	camel_operation_shutdown().
+	(camel_init): Don't register camel_shutdown() as an atexit
+	handler.
 
 	* camel-operation.c (camel_operation_shutdown): New function.
 
