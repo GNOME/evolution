@@ -2201,7 +2201,6 @@ static EMPopupItem emft_popup_menu[] = {
 static gboolean
 emft_tree_button_press (GtkWidget *treeview, GdkEventButton *event, EMFolderTree *emft)
 {
-	/* FIXME: need to disable Rename/Move for Outbox and possibly other special folders */
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	GtkTreeSelection *selection;
 	CamelStore *local, *store;
