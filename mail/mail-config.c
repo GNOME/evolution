@@ -89,6 +89,7 @@ static MailConfig *config = NULL;
 
 /* Prototypes */
 static void config_read (void);
+static gint mail_config_get_default_account_num (void);
 
 /* Identity */
 MailConfigIdentity *
@@ -270,13 +271,15 @@ mail_config_clear (void)
 static void
 config_read (void)
 {
-	gint len, i;
-	gboolean have_default = FALSE;
-	
+	gint len, i, default_num;
+
 	mail_config_clear ();
 		
 	len = bonobo_config_get_long_with_default (config->db, 
 	        "/Mail/Accounts/num", 0, NULL);
+
+	default_num = bonobo_config_get_long_with_default (config->db,
+		"/Mail/Accounts/default_account", 0, NULL);
 
 	for (i = 0; i < len; i++) {
 		MailConfigAccount *account;
@@ -289,13 +292,11 @@ config_read (void)
 		path = g_strdup_printf ("/Mail/Accounts/account_name_%d", i);
 		account->name = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
-		path = g_strdup_printf ("/Mail/Accounts/account_is_default_%d", i);
-		account->default_account = bonobo_config_get_boolean 
-			(config->db, path, NULL) && !have_default;
-		
-		if (account->default_account)
-			have_default = TRUE;
-		g_free (path);
+
+		if (default_num == i)
+			account->default_account = TRUE;
+		else
+			account->default_account = FALSE;
 		
 		path = g_strdup_printf ("/Mail/Accounts/account_drafts_folder_name_%d", i);
 		val = bonobo_config_get_string (config->db, path, NULL);
@@ -548,7 +549,7 @@ void
 mail_config_write (void)
 {
 	CORBA_Environment ev;
-	gint len, i;
+	gint len, i, default_num;
 	
 	/* Accounts */
 
@@ -563,7 +564,13 @@ mail_config_write (void)
 	Bonobo_ConfigDatabase_sync (config->db, &ev);
 	
 	len = g_slist_length (config->accounts);
-	bonobo_config_set_long (config->db, "/Mail/Accounts/num", len, NULL);
+	bonobo_config_set_long (config->db,
+				"/Mail/Accounts/num", len, NULL);
+
+	default_num = mail_config_get_default_account_num ();
+	bonobo_config_set_long (config->db,
+				"/Mail/Accounts/default_account", default_num, NULL);
+
 	for (i = 0; i < len; i++) {
 		MailConfigAccount *account;
 		gchar *path;
@@ -573,11 +580,6 @@ mail_config_write (void)
 		/* account info */
 		path = g_strdup_printf ("/Mail/Accounts/account_name_%d", i);
 		bonobo_config_set_string (config->db, path, account->name, NULL);
-		g_free (path);
-
-		path = g_strdup_printf ("/Mail/Accounts/account_is_default_%d", i);
-		bonobo_config_set_boolean (config->db, path, 
-					   account->default_account, NULL);
 		g_free (path);
 
 		path = g_strdup_printf ("/Mail/Accounts/account_drafts_folder_name_%d", i);
@@ -1339,6 +1341,25 @@ mail_config_remove_account (MailConfigAccount *account)
 	account_destroy (account);
 	
 	return config->accounts;
+}
+
+static gint
+mail_config_get_default_account_num (void)
+{
+	int i = 0;
+	GSList *node = config->accounts;
+
+	while (node) {
+		MailConfigAccount *account = node->data;
+
+		if (account->default_account)
+			return i;
+
+		i++;
+		node = node->next;
+	}
+
+	return 0;
 }
 
 void

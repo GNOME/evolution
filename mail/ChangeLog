@@ -1,3 +1,15 @@
+2001-07-06  Jason Leach  <jleach@ximian.com>
+
+	[Fix bug #1100, default account is stored strangely]
+	
+	* mail-config.c (mail_config_get_default_account_num): New
+	function, returns the integer of the position of the default
+	account, used to save which account is the default to the config
+	db.
+	(mail_config_write): Save the default account number here in
+	"/Mail/Accounts/default_account".
+	(config_read): Load in which is the default here.
+
 2001-07-06  Larry Ewing  <lewing@ximian.com>
 
 	* mail-callbacks.c (composer_send_cb): add a NULL check since that
