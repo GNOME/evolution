@@ -1,3 +1,9 @@
+2001-12-10  Ettore Perazzoli  <ettore@ximian.com>
+
+	* NEWS: Added 1.0 changes, massaged a little bit.
+
+	* HACKING: Remove Dan Winship from the mailer core team listing.
+
 2001-12-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in: s/PREVIEW_RELEASE/VERSION_COMMENT

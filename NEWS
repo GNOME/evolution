@@ -1,13 +1,13 @@
-Evolution 1.0.1, xxxx-xx-xx
----------------------------
-
-Calendar:
-  #15941 -- Location missing for the calendar
-  #15456 -- typo in translatable string
+Evolution 1.0.1, ???
+--------------------
 
 Addressbook:
   #14074 -- Editing fields under the "Colaboration" LDAP contact
   #14876 -- modifying LDAP contacts destroys existing objectclass entries
+
+Calendar:
+  #15941 -- Location missing for the calendar
+  #15456 -- typo in translatable string
 
 Mailer:
   #14678 -- Timestamp on outgoing mail incorrect on FreeBSD
@@ -15,6 +15,21 @@ Mailer:
 	    stop updating
   #16924 -- Crash on a particular spam message
 
+Shell:
+  #7827 -- Switching desktops leaves the folder bar popped up
+  #16507 -- Right Click -> View does nothing
+
+
+Evolution 1.0, 2001-11-14
+-------------------------
+
+Misc:
+  Removed OpenSSL support.
+
+Mailer:
+  #14893 -- Mailer hanging if you specify an invalid password
+
+  
 Evolution 0.99.2 (Release Candidate 2), 2001-11-14
 --------------------------------------------------
 
