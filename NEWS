@@ -90,6 +90,14 @@ Addressbook:
 
 Calendar:
 
+  - Event creation fixes.  (Miguel)
+
+  - Calendar loading fixes and removal of old code.  (Federico)
+
+  - Made the iTIP control have better spacings.  (Anna)
+
+  - i18n fixes.  (Kjartan)
+
 Tasks:
 
   - Created a popup list item for ETable to select the Status,
