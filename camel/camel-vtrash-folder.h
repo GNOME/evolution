@@ -51,6 +51,7 @@ enum _camel_vtrash_folder_t {
 struct _CamelVTrashFolder {
 	CamelVeeFolder parent;
 
+	enum _camel_vtrash_folder_t type;
 	guint32 bit;
 };
 

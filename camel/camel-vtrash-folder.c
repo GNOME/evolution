@@ -38,9 +38,12 @@ static struct {
 	const char *expr;
 	guint32 bit;
 	guint32 flags;
+	const char *error_copy;
 } vdata[] = {
-	{ CAMEL_VTRASH_NAME, "(match-all (system-flag \"Deleted\"))", CAMEL_MESSAGE_DELETED, CAMEL_FOLDER_IS_TRASH },
-	{ CAMEL_VJUNK_NAME, "(match-all (system-flag \"Junk\"))", CAMEL_MESSAGE_JUNK, CAMEL_FOLDER_IS_JUNK },
+	{ CAMEL_VTRASH_NAME, "(match-all (system-flag \"Deleted\"))", CAMEL_MESSAGE_DELETED, CAMEL_FOLDER_IS_TRASH,
+	  N_("Cannot copy messages to the Trash folder") },
+	{ CAMEL_VJUNK_NAME, "(match-all (system-flag \"Junk\"))", CAMEL_MESSAGE_JUNK, CAMEL_FOLDER_IS_JUNK,
+	  N_("Cannot copy messages to the Junk folder") },
 };
 
 static CamelVeeFolderClass *camel_vtrash_folder_parent;
@@ -112,6 +115,7 @@ camel_vtrash_folder_new (CamelStore *parent_store, enum _camel_vtrash_folder_t t
 	((CamelFolder *)vtrash)->folder_flags |= vdata[type].flags;
 	camel_vee_folder_set_expression((CamelVeeFolder *)vtrash, vdata[type].expr);
 	vtrash->bit = vdata[type].bit;
+	vtrash->type = type;
 
 	return (CamelFolder *)vtrash;
 }
@@ -121,7 +125,8 @@ vtrash_append_message (CamelFolder *folder, CamelMimeMessage *message,
 		       const CamelMessageInfo *info, char **appended_uid,
 		       CamelException *ex)
 {
-	/* no-op */
+	camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, 
+			     _(vdata[((CamelVTrashFolder *)folder)->type].error_copy));
 }
 
 struct _transfer_data {
@@ -168,12 +173,15 @@ vtrash_transfer_messages_to (CamelFolder *source, GPtrArray *uids,
 
 	if (CAMEL_IS_VTRASH_FOLDER (dest)) {
 		/* Copy to trash is meaningless. */
-		if (!delete_originals)
+		if (!delete_originals) {
+			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, 
+					     _(vdata[((CamelVTrashFolder *)dest)->type].error_copy));
 			return;
+		}
 
 		/* Move to trash is the same as setting the message flag */
 		for (i = 0; i < uids->len; i++)
-			camel_folder_set_message_flags(source, uids->pdata[i], sbit, ~0);
+			camel_folder_set_message_flags(source, uids->pdata[i], ((CamelVTrashFolder *)dest)->bit, ~0);
 		return;
 	}
 
