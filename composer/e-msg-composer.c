@@ -1125,9 +1125,9 @@ autosave_is_owned (AutosaveManager *am, const char *file)
 static void
 autosave_query_cb (gint reply, gpointer data)
 {
-	int *ok = data;
+	int *yes = data;
 
-	*ok = !reply;
+	*yes = !reply;
 }
 
 static void
@@ -1138,7 +1138,7 @@ autosave_manager_query_load_orphans (AutosaveManager *am, EMsgComposer *composer
 	struct dirent *d;
 	GSList *match = NULL;
 	gint len = strlen (AUTOSAVE_SEED);
-	gint ok;
+	gint load = FALSE;
 	
 	dir = opendir (g_get_home_dir());
 	if (!dir) {
@@ -1158,30 +1158,32 @@ autosave_manager_query_load_orphans (AutosaveManager *am, EMsgComposer *composer
 			 */
 			if (stat (filename, &st) < 0 || st.st_size == 0) {
 				unlink (filename);
+				g_free (filename);
 				continue;
 			}
-
-			dialog = gnome_ok_cancel_dialog_parented (_("Evolution has detected an editor buffer from a previous session.\n"
-								    "Would you like to recover this buffer?"),
-								  autosave_query_cb, &ok, GTK_WINDOW (composer));
-
-			gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
-
-			if (ok) 
-				match = g_slist_prepend (match, filename);
-			else 
-				g_free (filename);
-
+			match = g_slist_prepend (match, filename);				
 		}
 	}
 	
+	if (match != NULL) {
+		dialog = gnome_question_dialog_parented (_("Evolution has found unsaved files from a previous sesiion.\n"
+							   "Would you like to attempt recovery?"),
+							 autosave_query_cb, &load, GTK_WINDOW (composer));
+		
+		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+	}
+
 	while (match != NULL) {
 		GSList *next = match->next;
 		char *filename = match->data;
 		EMsgComposer *composer;
 		
-		composer = autosave_load_draft (filename);
-				
+		if (load) { 
+			composer = autosave_load_draft (filename);
+		} else {
+			unlink (filename);
+		}
+			
 		g_free (filename);
 		g_slist_free_1 (match);
 		match = next;

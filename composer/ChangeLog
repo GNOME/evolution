@@ -1,3 +1,9 @@
+2001-07-09  Larry Ewing  <lewing@ximian.com>
+
+	* e-msg-composer.c (autosave_manager_query_load_orphans): Only ask
+	once about recovery, assume if they want to recover one file they
+	want to recover all of them.
+
 2001-07-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_new_with_message): Use
