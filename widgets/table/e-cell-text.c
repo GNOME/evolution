@@ -1862,6 +1862,29 @@ _blink_scroll_timeout (gpointer data)
 }
 
 static int
+next_word (CellEdit *edit, int start)
+{
+	CurrentCell *cell = CURRENT_CELL(edit);
+	char *p;
+	int length;
+
+	length = strlen (cell->text);
+	if (start >= length)
+		return length;
+
+	p = g_utf8_next_char (cell->text + start);
+
+	while (*p && g_unichar_validate (g_utf8_get_char (p))) {
+		gunichar unival = g_utf8_get_char (p);
+		if (g_unichar_isspace (unival))
+			return p - cell->text;
+		p = g_utf8_next_char (p);
+	}
+
+	return p - cell->text;
+}
+
+static int
 _get_position (ECellTextView *text_view, ETextEventProcessorCommand *command)
 {
 	int length;
@@ -1941,19 +1964,7 @@ _get_position (ECellTextView *text_view, ETextEventProcessorCommand *command)
 		return p - cell->text;
 
 	case E_TEP_FORWARD_WORD:
-
-		length = strlen (cell->text);
-		if (edit->selection_end >= length) return length;
-
-		p = g_utf8_next_char (cell->text + edit->selection_end);
-
-		while (*p && g_unichar_validate (g_utf8_get_char (p))) {
-			unival = g_utf8_get_char (p);
-			if (g_unichar_isspace (unival)) return p - cell->text;
-			p = g_utf8_next_char (p);
-		}
-
-		return p - cell->text;
+		return next_word (edit, edit->selection_end);
 
 	case E_TEP_BACKWARD_WORD:
 
@@ -2046,6 +2057,58 @@ _insert (ECellTextView *text_view, char *string, int value)
 
 	edit->selection_start += value;
 	edit->selection_end = edit->selection_start;
+}
+
+static void
+capitalize (CellEdit *edit, int start, int end, ETextEventProcessorCaps type)
+{
+	CurrentCell *cell = CURRENT_CELL(edit);
+	ECellTextView *text_view = cell->text_view;
+
+	gboolean first = TRUE;
+	int character_length = g_utf8_strlen (cell->text + start, start - end);
+	const char *p = cell->text + start;
+	const char *text_end = cell->text + end;
+	char *new_text = g_new0 (char, character_length * 6 + 1);
+	char *output = new_text;
+
+	while (p && *p && p < text_end && g_unichar_validate (g_utf8_get_char (p))) {
+		gunichar unival = g_utf8_get_char (p);
+		gunichar newval = unival;
+
+		switch (type) {
+		case E_TEP_CAPS_UPPER:
+			newval = g_unichar_toupper (unival);
+			break;
+		case E_TEP_CAPS_LOWER:
+			newval = g_unichar_tolower (unival);
+			break;
+		case E_TEP_CAPS_TITLE:
+			if (g_unichar_isalpha (unival)) {
+				if (first)
+					newval = g_unichar_totitle (unival);
+				else
+					newval = g_unichar_tolower (unival);
+				first = FALSE;
+			} else {
+				first = TRUE;
+			}
+			break;
+		}
+		g_unichar_to_utf8 (newval, output);
+		output = g_utf8_next_char (output);
+
+		p = g_utf8_next_char (p);
+	}
+	*output = 0;
+
+	edit->selection_end = end;
+	edit->selection_start = start;
+	_delete_selection (text_view);
+
+	_insert (text_view, new_text, output - new_text);
+
+	g_free (new_text);
 }
 
 static void
@@ -2153,7 +2216,18 @@ e_cell_text_view_command (ETextEventProcessor *tep, ETextEventProcessorCommand *
 		edit->actions = E_CELL_UNGRAB;
 		break;
 	case E_TEP_CAPS:
-		/* FIXME */
+		if (edit->selection_start == edit->selection_end) {
+			capitalize (edit, edit->selection_start, next_word (edit, edit->selection_start), command->value);
+		} else {
+			int selection_start = MIN (edit->selection_start, edit->selection_end);
+			int selection_end = edit->selection_start + edit->selection_end - selection_start; /* Slightly faster than MAX */
+			capitalize (edit, selection_start, selection_end, command->value);
+		}
+		if (edit->timer) {
+			g_timer_reset (edit->timer);
+		}
+		redraw = TRUE;
+		change = TRUE;
 		break;
 	case E_TEP_NOP:
 		break;
