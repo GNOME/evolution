@@ -1,3 +1,8 @@
+2001-07-19  Jakub Steiner <jimmac@ximian.com>
+
+	* insert-link-24.png, insert-table-24.png, insert-image-24.png:
+	  toolbar icons for message editor.
+
 2001-07-17  Rodrigo Moya <rodrigo@ximian.com>
 
 	* Makefile.am: install category icons
