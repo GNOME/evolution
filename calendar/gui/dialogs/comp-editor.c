@@ -721,6 +721,9 @@ save_comp (CompEditor *editor)
 	GList *l;
 	
 	priv = editor->priv;
+
+	if (!priv->changed)
+		return;
 	
 	for (l = priv->pages; l != NULL; l = l->next)
 		comp_editor_page_fill_component (l->data, priv->comp);
@@ -740,12 +743,15 @@ static void
 save_comp_with_send (CompEditor *editor) 
 {
 	CompEditorPrivate *priv;
-	
+	gboolean send;
+
 	priv = editor->priv;
 
+	send = priv->changed && priv->needs_send;
+	
 	save_comp (editor);
 	
-	if (priv->needs_send && send_component_dialog (priv->comp))
+	if (send && send_component_dialog (priv->comp))
 		comp_editor_send_comp (editor, CAL_COMPONENT_METHOD_REQUEST);
 }
 

@@ -1,3 +1,10 @@
+2001-08-15  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/comp-editor.c (save_comp): only fill the component
+	and save it if something has changed
+	(save_comp_with_send): only try to send if something has changed
+	and the editor needs a send
+
 2001-08-15  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/dialogs/cal-prefs-dialog.glade: OK, re-added the default
