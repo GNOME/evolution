@@ -65,6 +65,8 @@ static char *get_name (CamelService *service, gboolean brief);
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name, gboolean create,
 				CamelException *ex);
 static char *get_folder_name (CamelStore *store, const char *folder_name, CamelException *ex);
+static gboolean imap_noop (gpointer data);
+static gboolean stream_is_alive (CamelStream *istream);
 static int camel_imap_status (char *cmdid, char *respbuf);
 
 static void
@@ -105,6 +107,8 @@ camel_imap_store_init (gpointer object, gpointer klass)
 
 	store->folders = g_hash_table_new (g_str_hash, g_str_equal);
 	CAMEL_IMAP_STORE (store)->dir_sep = NULL;
+	CAMEL_IMAP_STORE (store)->current_folder = NULL;
+	CAMEL_IMAP_STORE (store)->timeout_id = 0;
 }
 
 GtkType
@@ -270,7 +274,12 @@ imap_connect (CamelService *service, CamelException *ex)
 	gchar *buf, *msg, *result, *errbuf = NULL;
 	gboolean authenticated = FALSE;
 
-
+	/* FIXME: do we really need this here? */
+	if (store->timeout_id) {
+		gtk_timeout_remove (store->timeout_id);
+		store->timeout_id = 0;
+	}
+	
 	h = camel_service_gethost (service, ex);
 	if (!h)
 		return FALSE;
@@ -412,6 +421,9 @@ imap_connect (CamelService *service, CamelException *ex)
 			}
 		}
 	}
+
+	/* Lets add a timeout so that we can hopefully prevent getting disconnected */
+	store->timeout_id = gtk_timeout_add (60000, imap_noop, store);
 	
 	return TRUE;
 }
@@ -450,6 +462,11 @@ imap_disconnect (CamelService *service, CamelException *ex)
 	store->dir_sep = NULL;
 
 	store->current_folder = NULL;
+
+	if (store->timeout_id) {
+		gtk_timeout_remove (store->timeout_id);
+		store->timeout_id = 0;
+	}
 	
 	return TRUE;
 }
@@ -615,6 +632,20 @@ static gchar *
 get_folder_name (CamelStore *store, const char *folder_name, CamelException *ex)
 {
 	return g_strdup (folder_name);
+}
+
+static gboolean
+imap_noop (gpointer data)
+{
+	CamelImapStore *store = CAMEL_IMAP_STORE (data);
+	char *result;
+	int status;
+
+	status = camel_imap_command_extended (store, store->current_folder, &result, "NOOP");
+
+	g_free (result);
+
+	return TRUE;
 }
 
 static gboolean
@@ -791,7 +822,8 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 	gchar *cmdid, *cmdbuf, *respbuf;
 	GPtrArray *data;
 	va_list app;
-	
+
+#if 0
 	/* First make sure we're connected... */
 	if (!service->connected || !stream_is_alive (store->istream)) {
 		CamelException *ex;
@@ -809,6 +841,7 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 		
 		camel_exception_free (ex);
 	}
+#endif
 	
 	if (folder && store->current_folder != folder && strncmp (fmt, "CREATE", 6)) {
 		/* We need to select the correct mailbox first */
@@ -864,7 +897,7 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 		if (!respbuf || !strncmp (respbuf, cmdid, strlen (cmdid))) {
 			/* IMAP's last response starts with our command id */
 			d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
-			
+#if 0			
 			if (!respbuf && strcmp (fmt, "LOGOUT")) {
 				/* we need to force a disconnect here? */
 				CamelException *ex;
@@ -873,6 +906,7 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 				imap_disconnect (service, ex);
 				camel_exception_free (ex);
 		        }
+#endif
 			break;
 		}
 		

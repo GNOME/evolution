@@ -1,3 +1,36 @@
+2000-07-24  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_new): 
+	Initialize the summary and subfolder listing.
+	(imap_summary_free): Now takes a GPtrArray arg rather than a 
+	CamelImapFolder as it increases it's usefullness for free()'ing
+	temporary summaries.
+	(imap_get_message_count_internal): A new convenience function for
+	getting the actual message count on a server to be used by 
+	imap_get_summary_internal)
+	(imap_get_message_count): Since the Camel API is on the move again, 
+	the future version of this function will not be able to make a
+	call to the store, it must only access previously fetched data (thus 
+	the creation of the _internal function)
+	(imap_get_subfolder_names_internal): Again, because the future version
+	of imap_get_subfolder_names will not take an exception, we must rename
+	this function which will be called by camel_imap_folder_new()
+	(imap_get_subfolder_names): We now return the previously collected
+	subfolder listing that the _internal function fetched previously
+	(imap_get_summary_internal): Again, same idea as the previous _internal
+	functions...
+	(imap_get_summary): Again... now returns a previously aquired summary
+
+	* providers/imap/camel-imap-store.c (imap_noop): This will hopefully
+	prevent the imap store from disconnecting.
+	(imap_connect): Modified to add a gtk timeout event that will call
+	imap_noop() every 10 minutes (we may want to change this time value)
+	(imap_disconnect): Modified to remove the NOOP timeout event from the
+	store.
+	(camel_imap_command_extended): Commented out the code that would try
+	and detect if the store was disconnected and then reconnect if it was
+	needed.
+
 2000-07-24  Dan Winship  <danw@helixcode.com>
 
 	* camel-folder.[ch]: Remove camel_folder_get_message_uid, which

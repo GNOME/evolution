@@ -47,7 +47,7 @@ typedef struct {
 
 	CamelFolderSearch *search; /* used to run searches */
 	GPtrArray *summary;
-	gint count;
+	GPtrArray *lsub;
 } CamelImapFolder;
 
 

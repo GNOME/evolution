@@ -52,6 +52,8 @@ typedef struct {
 	gboolean has_search_capability;
 
 	gchar *dir_sep;
+
+	guint timeout_id;
 } CamelImapStore;
 
 
