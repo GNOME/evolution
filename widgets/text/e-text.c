@@ -897,7 +897,7 @@ text_width_with_objects (ETextModel *model,
 			 EFont *font, EFontStyle style,
 			 const gchar *text, gint numbytes)
 {
-	return e_font_utf8_text_width (font, style, text, numbytes);
+	return text && *text ? e_font_utf8_text_width (font, style, text, numbytes) : 0;
 }
 
 static void
@@ -909,6 +909,9 @@ text_draw_with_objects (ETextModel *model,
 			const gchar *text, gint numbytes)
 {
 	const gchar *c;
+
+	if (text == NULL)
+		return;
 	
 	while (*text && numbytes > 0) {
 		gint obj_num = -1;
