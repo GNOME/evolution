@@ -1,5 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-/* e-shell-config.h
+/* e-shell-config-default-folders.h - Configuration page for specifying default
+ * folders.
  *
  * Copyright (C) 2002 Ximian, Inc.
  *
@@ -16,15 +17,17 @@
  * License along with this program; if not, write to the
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
+ *
+ * Author: Dan Winship <danw@ximian.com>
  */
 
-#ifndef E_SHELL_CONFIG_H
-#define E_SHELL_CONFIG_H
+#ifndef E_SHELL_CONFIG_DEFAULT_FOLDERS_H
+#define E_SHELL_CONFIG_DEFAULT_FOLDERS_H
 
 #include "e-shell.h"
 
-#include <glib.h>
+#include <bonobo/bonobo-object.h>
 
-gboolean e_shell_config_factory_register (EShell *shell);
+BonoboObject *e_shell_config_default_folders_create_control (EShell *shell);
 
-#endif
+#endif /* E_SHELL_CONFIG_DEFAULT_FOLDERS_H */
