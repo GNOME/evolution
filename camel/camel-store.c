@@ -227,7 +227,6 @@ camel_store_get_folder (CamelStore *store, const char *folder_name, guint32 flag
 				CAMEL_STORE_LOCK(store, cache_lock);
 				
 				g_hash_table_insert (store->folders, g_strdup (folder_name), folder);
-				camel_object_ref (CAMEL_OBJECT (folder));
 				
 				camel_object_hook_event (CAMEL_OBJECT (folder), "finalize", folder_finalize, store);
 				CAMEL_STORE_UNLOCK(store, cache_lock);

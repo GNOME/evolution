@@ -2,6 +2,7 @@
 
 	* camel-store.c (camel_store_get_folder): We need to be ref'ing
 	the folder if/when we add it to the hash. This may fix bug #6089?
+	(camel_store_get_folder): Nevermind, reverted the fix.
 
 2001-08-11  Ettore Perazzoli  <ettore@ximian.com>
 
