@@ -240,13 +240,15 @@ emfv_class_init(GObjectClass *klass)
 	
 	((GtkObjectClass *) klass)->destroy = emfv_destroy;
 	
+	((EMFolderViewClass *) klass)->update_message_style = TRUE;
+	
 	((EMFolderViewClass *)klass)->set_folder = emfv_set_folder;
 	((EMFolderViewClass *)klass)->set_folder_uri = emfv_set_folder_uri;
 	((EMFolderViewClass *)klass)->set_message = emfv_set_message;
 	((EMFolderViewClass *)klass)->activate = emfv_activate;
 
 	((EMFolderViewClass *)klass)->on_url = emfv_on_url;
-
+	
 	signals[EMFV_ON_URL] = g_signal_new ("on-url",
 					     G_OBJECT_CLASS_TYPE (klass),
 					     G_SIGNAL_RUN_LAST,
@@ -1546,7 +1548,7 @@ emfv_view_mode(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_Even
 		if (strcmp(emfv_display_styles[i]+strlen("/commands/"), path) == 0) {
 			em_format_set_mode((EMFormat *)emfv->preview, i);
 
-			if (TRUE /* set preferences but not for EMMessageBrowser? */) {
+			if (EM_FOLDER_VIEW_GET_CLASS (emfv)->update_message_style) {
 				GConfClient *gconf = mail_config_get_gconf_client ();
 				
 				gconf_client_set_int (gconf, "/apps/evolution/mail/display/message_style", i, NULL);
@@ -2046,13 +2048,15 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 	case EMFV_CARET_MODE:
 		em_format_html_display_set_caret_mode(emfv->preview, gconf_value_get_bool(gconf_entry_get_value(entry)));
 		break;
-	case EMFV_MESSAGE_STYLE: {
-		int style = gconf_value_get_int(gconf_entry_get_value(entry));
-		
-		if (style < EM_FORMAT_NORMAL || style > EM_FORMAT_SOURCE)
-			style = EM_FORMAT_NORMAL;
-		em_format_set_mode((EMFormat *)emfv->preview, style);
-		break; }
+	case EMFV_MESSAGE_STYLE:
+		if (EM_FOLDER_VIEW_GET_CLASS (emfv)->update_message_style) {
+			int style = gconf_value_get_int(gconf_entry_get_value(entry));
+			
+			if (style < EM_FORMAT_NORMAL || style > EM_FORMAT_SOURCE)
+				style = EM_FORMAT_NORMAL;
+			em_format_set_mode((EMFormat *)emfv->preview, style);
+		}
+		break;
 	case EMFV_MARK_SEEN:
 		emfv->mark_seen = gconf_value_get_bool(gconf_entry_get_value(entry));
 		break;

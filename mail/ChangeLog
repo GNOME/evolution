@@ -1,5 +1,18 @@
 2004-02-26  Jeffrey Stedfast  <fejj@ximian.com>
 
+	Fix for bug #54352
+
+	* em-message-browser.c (emmb_class_init): Set update_message_style
+	to FALSE.
+
+	* em-folder-view.c (emfv_setting_notify): Only update message
+	display style if our subclass wants us to.
+	(emfv_class_init): Set update_message_style to TRUE.
+	(emfv_view_mode): Don't save the gconf key unless our class allows
+	us to.
+
+2004-02-26  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* em-utils.c (em_utils_folder_name_from_uri): Make sure url->path
 	is non-NULL before setting folder_name to url->path + 1. Could
 	possibly fix bug #54853.

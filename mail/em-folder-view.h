@@ -37,6 +37,8 @@ struct _EMFormatHTMLDisplay;
 struct _CamelFolder;
 struct _CamelMedium;
 
+#define EM_FOLDER_VIEW_GET_CLASS(emfv)  ((EMFolderViewClass *) G_OBJECT_GET_CLASS (emfv))
+
 typedef struct _EMFolderView EMFolderView;
 typedef struct _EMFolderViewClass EMFolderViewClass;
 
@@ -86,7 +88,10 @@ struct _EMFolderView {
 
 struct _EMFolderViewClass {
 	GtkVBoxClass parent_class;
-
+	
+	/* behaviour definition */
+	int update_message_style:1;
+	
 	/* if used as a control, used to activate/deactivate custom menu's */
 	void (*activate)(EMFolderView *, struct _BonoboUIComponent *uic, int state);
 
@@ -102,10 +107,10 @@ GType em_folder_view_get_type(void);
 
 GtkWidget *em_folder_view_new(void);
 
-#define em_folder_view_activate(emfv, uic, state) ((EMFolderViewClass *)G_OBJECT_GET_CLASS(emfv))->activate((emfv), (uic), (state))
-#define em_folder_view_set_folder(emfv, folder, uri) ((EMFolderViewClass *)G_OBJECT_GET_CLASS(emfv))->set_folder((emfv), (folder), (uri))
-#define em_folder_view_set_folder_uri(emfv, uri) ((EMFolderViewClass *)G_OBJECT_GET_CLASS(emfv))->set_folder_uri((emfv), (uri))
-#define em_folder_view_set_message(emfv, uid) ((EMFolderViewClass *)G_OBJECT_GET_CLASS(emfv))->set_message((emfv), (uid))
+#define em_folder_view_activate(emfv, uic, state) EM_FOLDER_VIEW_GET_CLASS (emfv)->activate((emfv), (uic), (state))
+#define em_folder_view_set_folder(emfv, folder, uri) EM_FOLDER_VIEW_GET_CLASS (emfv)->set_folder((emfv), (folder), (uri))
+#define em_folder_view_set_folder_uri(emfv, uri) EM_FOLDER_VIEW_GET_CLASS (emfv)->set_folder_uri((emfv), (uri))
+#define em_folder_view_set_message(emfv, uid) EM_FOLDER_VIEW_GET_CLASS (emfv)->set_message((emfv), (uid))
 
 struct _EMPopupTarget *em_folder_view_get_popup_target(EMFolderView *emfv);
 

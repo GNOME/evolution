@@ -1347,7 +1347,7 @@ efhd_bonobo_object(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *
 		 */
 		const CamelInternetAddress *from;
 		char *from_address;
-				
+		
 		from = camel_mime_message_get_from((CamelMimeMessage *)((EMFormat *)efh)->message);
 		from_address = camel_address_encode((CamelAddress *)from);
 		bonobo_property_bag_client_set_value_string(prop_bag, "from_address", from_address, &ev);

@@ -111,7 +111,11 @@ static void
 emmb_class_init(GObjectClass *klass)
 {
 	klass->finalize = emmb_finalise;
+	
 	((GtkObjectClass *)klass)->destroy = emmb_destroy;
+	
+	((EMFolderViewClass *) klass)->update_message_style = FALSE;
+	
 	((EMFolderViewClass *)klass)->set_message = emmb_set_message;
 	((EMFolderViewClass *)klass)->activate = emmb_activate;
 }
