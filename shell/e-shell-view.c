@@ -156,14 +156,10 @@ bonobo_widget_is_dead (BonoboWidget *bonobo_widget)
 static void disconnect_popup_signals (EShellView *shell_view);
 
 static void
-storage_set_view_box_button_release_event_cb (GtkWidget *widget,
-					      GdkEventButton *button_event,
-					      void *data)
+popdown_transient_folder_bar (EShellView *shell_view)
 {
-	EShellView *shell_view;
 	EShellViewPrivate *priv;
 
-	shell_view = E_SHELL_VIEW (data);
 	priv = shell_view->priv;
 
 	gdk_pointer_ungrab (GDK_CURRENT_TIME);
@@ -174,6 +170,18 @@ storage_set_view_box_button_release_event_cb (GtkWidget *widget,
 	disconnect_popup_signals (shell_view);
 
 	e_shell_folder_title_bar_set_toggle_state (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar), FALSE);
+}
+
+static void
+storage_set_view_box_button_release_event_cb (GtkWidget *widget,
+					      GdkEventButton *button_event,
+					      void *data)
+{
+	EShellView *shell_view;
+
+	shell_view = E_SHELL_VIEW (data);
+
+	popdown_transient_folder_bar (shell_view);
 }
 
 static void
@@ -338,6 +346,9 @@ folder_selected_cb (EStorageSetView *storage_set_view,
 					       GTK_SIGNAL_FUNC (new_folder_cb),
 					       shell_view);
 	}
+
+	if (priv->folder_bar_mode == E_SHELL_VIEW_SUBWINDOW_TRANSIENT)
+		popdown_transient_folder_bar (shell_view);
 }
 
 /* Callback called when the close button on the tree's title bar is clicked.  */

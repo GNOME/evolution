@@ -1,3 +1,11 @@
+2000-09-13  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell-view.c (popdown_transient_folder_bar): New.
+	(storage_set_view_box_button_release_event_cb): Rewritten to use
+	it.
+	(folder_selected_cb): Pop down the transient folder bar if the
+	folder bar mode is `TRANSIENT'.
+
 2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* ($(IDL_GENERATED)): Stupid `orbit-idl' wants a space after the
