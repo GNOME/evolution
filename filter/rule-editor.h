@@ -44,7 +44,9 @@ typedef struct _RuleEditorUndo	RuleEditorUndo;
 struct _RuleEditor {
 	GtkDialog parent_object;
 	
-	GtkList *list;
+	GtkListStore *model;
+	GtkTreeView *list;
+	
 	RuleContext *context;
 	FilterRule *current;
 	FilterRule *edit;	/* for editing/adding rules, so we only do 1 at a time */

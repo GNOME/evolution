@@ -1,3 +1,9 @@
+2002-11-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* rule-editor.c: Updated to use GtkTreeView.
+
+	* vfolder-rule.c: Same.
+
 2002-11-13  Not Zed  <NotZed@Ximian.com>
 
 	* rule-context.c (load): Get the root node properly.

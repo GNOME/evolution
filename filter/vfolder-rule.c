@@ -254,9 +254,9 @@ vfolder_eq (FilterRule *fr, FilterRule *cm)
 static xmlNodePtr
 xml_encode (FilterRule *fr)
 {
+	VfolderRule *vr = (VfolderRule *) fr;
 	xmlNodePtr node, set, work;
 	GList *l;
-	VfolderRule *vr = (VfolderRule *)fr;
 	
         node = FILTER_RULE_CLASS (parent_class)->xml_encode (fr);
 	g_assert(node != NULL);
@@ -342,7 +342,8 @@ struct _source_data {
 	RuleContext *rc;
 	VfolderRule *vr;
 	const char *current;
-	GtkList *list;
+	GtkListStore *model;
+	GtkTreeView *list;
 	GtkButton *buttons[BUTTON_LAST];
 };
 
@@ -365,9 +366,18 @@ set_sensitive (struct _source_data *data)
 }
 
 static void
-select_source (GtkWidget *widget, GtkWidget *child, struct _source_data *data)
+select_source (GtkWidget *list, struct _source_data *data)
 {
-	data->current = g_object_get_data ((GObject *) child, "source");
+	GtkTreeViewColumn *column;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+	
+	gtk_tree_view_get_cursor (data->list, &path, &column);
+	gtk_tree_model_get_iter (GTK_TREE_MODEL (data->model), &iter, path);
+	gtk_tree_path_free (path);
+	
+	gtk_tree_model_get (GTK_TREE_MODEL (data->model), &iter, 0, &data->current, -1);
+	
 	set_sensitive (data);
 }
 
@@ -384,7 +394,8 @@ source_add (GtkWidget *widget, struct _source_data *data)
 {
 	static const char *allowed_types[] = { "mail/*", NULL };
 	GNOME_Evolution_Folder *folder;
-	GtkListItem *item;
+	GtkTreeSelection *selection;
+	GtkTreeIter iter;
 	char *def, *uri;
 	GList *l;
 	
@@ -408,13 +419,10 @@ source_add (GtkWidget *widget, struct _source_data *data)
 		uri = g_strdup (folder->physicalUri);
 		data->vr->sources = g_list_append (data->vr->sources, uri);
 		
-		l = NULL;
-		item = (GtkListItem *)gtk_list_item_new_with_label (uri);
-		g_object_set_data ((GObject *) item, "source", uri);
-		gtk_widget_show ((GtkWidget *) item);
-		l = g_list_append (NULL, item);
-		gtk_list_append_items (data->list, l);
-		gtk_list_select_child (data->list, (GtkWidget *) item);
+		gtk_list_store_append (data->model, &iter);
+		gtk_list_store_set (data->model, &iter, 0, uri, -1);
+		selection = gtk_tree_view_get_selection (data->list);
+		gtk_tree_selection_select_iter (selection, &iter);
 		data->current = uri;
 	}
 	
@@ -425,24 +433,44 @@ source_add (GtkWidget *widget, struct _source_data *data)
 static void
 source_remove (GtkWidget *widget, struct _source_data *data)
 {
+	GtkTreeSelection *selection;
 	const char *source;
+	GtkTreePath *path;
+	GtkTreeIter iter;
 	int index = 0;
 	GList *l;
-	GtkListItem *item;
+	int len;
 	
 	source = NULL;
 	while ((source = vfolder_rule_next_source (data->vr, source))) {
 		if (data->current == source) {
 			vfolder_rule_remove_source (data->vr, source);
-			item = g_list_nth_data (data->list->children, index);
-			l = g_list_append (NULL, item);
-			gtk_list_remove_items (data->list, l);
-			g_list_free (l);
+			
+			path = gtk_tree_path_new ();
+			gtk_tree_path_append_index (path, index);
+			gtk_tree_model_get_iter (GTK_TREE_MODEL (data->model), &iter, path);
+			gtk_list_store_remove (data->model, &iter);
+			gtk_tree_path_free (path);
+			
 			data->current = NULL;
+			
+			/* now select the next rule */
+			len = gtk_tree_model_iter_n_children (GTK_TREE_MODEL (data->model), NULL);
+			index = index >= len ? len - 1 : index;
+			
+			path = gtk_tree_path_new ();
+			gtk_tree_path_append_index (path, index);
+			gtk_tree_model_get_iter (GTK_TREE_MODEL (data->model), &iter, path);
+			gtk_tree_path_free (path);
+			
+			selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (data->list));
+			gtk_tree_selection_select_iter  (selection, &iter);
+			
 			break;
 		}
 		index++;
 	}
+	
 	set_sensitive (data);
 }
 
@@ -458,10 +486,12 @@ static GtkWidget *
 get_widget (FilterRule *fr, RuleContext *rc)
 {
 	VfolderRule *vr = (VfolderRule *) fr;
+	GtkTreeSelection *selection;
 	struct _source_data *data;
 	GtkWidget *widget, *frame;
 	GtkOptionMenu *omenu;
 	const char *source;
+	GtkTreeIter iter;
 	GladeXML *gui;
 	int i, row;
 	GList *l;
@@ -483,22 +513,19 @@ get_widget (FilterRule *fr, RuleContext *rc)
 		g_signal_connect (data->buttons[i], "clicked", edit_buttons[i].func, data);
 	}
 	
-        data->list = (GtkList *) glade_xml_get_widget (gui, "source_list");
+	data->model = gtk_list_store_new (1, G_TYPE_STRING);
+        data->list = (GtkTreeView *) glade_xml_get_widget (gui, "source_list");
+	gtk_tree_view_set_model (data->list, (GtkTreeModel *) data->model);
+	selection = gtk_tree_view_get_selection (data->list);
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
 	
-	l = NULL;
 	source = NULL;
 	while ((source = vfolder_rule_next_source (vr, source))) {
-		GtkListItem *item;
-		
-		item = (GtkListItem *) gtk_list_item_new_with_label (source);
-		g_object_set_data ((GObject *) item, "source", (void *) source);
-		gtk_widget_show (GTK_WIDGET (item));
-		l = g_list_append (l, item);
+		gtk_list_store_append (data->model, &iter);
+		gtk_list_store_set (data->model, &iter, 0, source, -1);
 	}
 	
-	gtk_list_append_items (data->list, l);
-	
-	g_signal_connect (data->list, "select_child", GTK_SIGNAL_FUNC (select_source), data);
+	g_signal_connect (data->list, "cursor-changed", GTK_SIGNAL_FUNC (select_source), data);
 	
 	omenu = (GtkOptionMenu *) glade_xml_get_widget (gui, "source_option");
 	l = GTK_MENU_SHELL (omenu->menu)->children;

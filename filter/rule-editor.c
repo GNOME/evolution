@@ -224,8 +224,9 @@ editor_destroy (RuleEditor *re, GObject *deadbeef)
 static void
 add_editor_response (GtkWidget *dialog, int button, RuleEditor *re)
 {
-	GtkWidget *item;
-	GList *l = NULL;
+	GtkTreeSelection *selection;
+	GtkTreePath *path;
+	GtkTreeIter iter;
 	
 	if (button == GTK_RESPONSE_ACCEPT) {
 		if (!filter_rule_validate (re->edit)) {
@@ -246,15 +247,11 @@ add_editor_response (GtkWidget *dialog, int button, RuleEditor *re)
 		}
 		
 		g_object_ref (re->edit);
-		item = gtk_list_item_new_with_label (re->edit->name);
 		
-		g_object_set_data ((GObject *) item, "rule", re->edit);
-		gtk_widget_show (item);
-		
-		l = g_list_append (l, GTK_LIST_ITEM (item));
-		
-		gtk_list_append_items (re->list, l);
-		gtk_list_select_child (re->list, item);
+		gtk_list_store_append (re->model, &iter);
+		gtk_list_store_set (re->model, &iter, 0, re->edit->name, 1, re->edit, -1);
+		selection = gtk_tree_view_get_selection (re->list);
+		gtk_tree_selection_select_iter (selection, &iter);
 		
 		re->current = re->edit;
 		rule_context_add_rule (re->context, re->current);
@@ -302,7 +299,8 @@ static void
 edit_editor_response (GtkWidget *dialog, int button, RuleEditor *re)
 {
 	FilterRule *rule;
-	GtkWidget *item;
+	GtkTreePath *path;
+	GtkTreeIter iter;
 	int pos;
 	
 	if (button == GTK_RESPONSE_ACCEPT) {
@@ -326,8 +324,12 @@ edit_editor_response (GtkWidget *dialog, int button, RuleEditor *re)
 		
 		pos = rule_context_get_rank_rule (re->context, re->current, re->source);
 		if (pos != -1) {
-			item = g_list_nth_data (GTK_LIST (re->list)->children, pos);
-			gtk_label_set_text (GTK_LABEL (GTK_BIN (item)->child), re->edit->name);
+			path = gtk_tree_path_new ();
+			gtk_tree_path_append_index (path, pos);
+			gtk_tree_model_get_iter (GTK_TREE_MODEL (re->model), &iter, path);
+			gtk_tree_path_free (path);
+			
+			gtk_list_store_set (re->model, &iter, 0, re->edit->name, -1);
 			
 			rule_editor_add_undo (re, RULE_EDITOR_LOG_EDIT, filter_rule_clone (re->current), pos, 0);
 			
@@ -373,23 +375,23 @@ rule_edit (GtkWidget *widget, RuleEditor *re)
 static void
 rule_delete (GtkWidget *widget, RuleEditor *re)
 {
-	int pos;
-	GList *l;
-	GtkListItem *item;
+	GtkTreeSelection *selection;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+	int pos, len;
 	
 	d(printf ("delete rule\n"));
 	pos = rule_context_get_rank_rule (re->context, re->current, re->source);
 	if (pos != -1) {
-		int len;
-		
 		rule_context_remove_rule (re->context, re->current);
 		
-		item = g_list_nth_data (GTK_LIST (re->list)->children, pos);
-		l = g_list_append (NULL, item);
-		gtk_list_remove_items (re->list, l);
-		g_list_free (l);
+		path = gtk_tree_path_new ();
+		gtk_tree_path_append_index (path, pos);
+		gtk_tree_model_get_iter (GTK_TREE_MODEL (re->model), &iter, path);
+		gtk_list_store_remove (re->model, &iter);
+		gtk_tree_path_free (path);
 		
-		rule_editor_add_undo( re, RULE_EDITOR_LOG_REMOVE, re->current,
+		rule_editor_add_undo (re, RULE_EDITOR_LOG_REMOVE, re->current,
 				      rule_context_get_rank_rule (re->context, re->current, re->current->source), 0);
 #if 0		
 		g_object_unref (re->current);
@@ -397,9 +399,16 @@ rule_delete (GtkWidget *widget, RuleEditor *re)
 		re->current = NULL;
 		
 		/* now select the next rule */
-		len = g_list_length (GTK_LIST (re->list)->children);
+		len = gtk_tree_model_iter_n_children (GTK_TREE_MODEL (re->model), NULL);
 		pos = pos >= len ? len - 1 : pos;
-		gtk_list_select_item (GTK_LIST (re->list), pos);
+		
+		path = gtk_tree_path_new ();
+		gtk_tree_path_append_index (path, pos);
+		gtk_tree_model_get_iter (GTK_TREE_MODEL (re->model), &iter, path);
+		gtk_tree_path_free (path);
+		
+		selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (re->list));
+		gtk_tree_selection_select_iter  (selection, &iter);
 	}
 	
 	rule_editor_set_sensitive (re);
@@ -408,8 +417,10 @@ rule_delete (GtkWidget *widget, RuleEditor *re)
 static void
 rule_move (RuleEditor *re, int from, int to)
 {
-	GList *l;
-	GtkListItem *item;
+	GtkTreeSelection *selection;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+	FilterRule *rule;
 	
 	g_object_ref (re->current);
 	rule_editor_add_undo (re, RULE_EDITOR_LOG_RANK, re->current,
@@ -418,11 +429,18 @@ rule_move (RuleEditor *re, int from, int to)
 	d(printf ("moving %d to %d\n", from, to));
 	rule_context_rank_rule (re->context, re->current, to);
 	
-	item = g_list_nth_data (re->list->children, from);
-	l = g_list_append (NULL, item);
-	gtk_list_remove_items_no_unref (re->list, l);
-	gtk_list_insert_items (re->list, l, to);			      
-	gtk_list_select_child (re->list, GTK_WIDGET (item));
+	path = gtk_tree_path_new ();
+	gtk_tree_path_append_index (path, from);
+	gtk_tree_model_get_iter (GTK_TREE_MODEL (re->model), &iter, path);
+	gtk_tree_path_free (path);
+	
+	gtk_tree_model_get (GTK_TREE_MODEL (re->model), &iter, 1, &rule, -1);
+	g_assert (rule != NULL);
+	
+	gtk_list_store_remove (re->model, &iter);
+	gtk_list_store_insert (re->model, &iter, to);
+	
+	gtk_list_store_set (re->model, &iter, 0, rule->name, 1, rule, -1);
 	
 	rule_editor_set_sensitive (re);
 }
@@ -484,9 +502,17 @@ set_sensitive (RuleEditor *re)
 
 
 static void
-select_rule (GtkWidget *w, GtkWidget *child, RuleEditor *re)
+cursor_changed (GtkWidget *list, RuleEditor *re)
 {
-	re->current = g_object_get_data ((GObject *) child, "rule");
+	GtkTreeViewColumn *column;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+	
+	gtk_tree_view_get_cursor (re->list, &path, &column);
+	gtk_tree_model_get_iter (GTK_TREE_MODEL (re->model), &iter, path);
+	gtk_tree_path_free (path);
+	
+	gtk_tree_model_get (GTK_TREE_MODEL (re->model), &iter, 1, &re->current, -1);
 	
 	g_assert (re->current);
 	
@@ -506,22 +532,16 @@ static void
 set_source (RuleEditor *re, const char *source)
 {
 	FilterRule *rule = NULL;
-	GList *newitems = NULL;
+	GtkTreeIter iter;
 	
-	gtk_list_clear_items (GTK_LIST (re->list), 0, -1);
+	gtk_list_store_clear (re->model);
 	
 	d(printf("Checking for rules that are of type %s\n", source?source:"<nil>"));
 	while ((rule = rule_context_next_rule (re->context, rule, source)) != NULL) {
-		GtkWidget *item;
-		
-		d(printf("   hit %s(%s)\n", rule->name, source ? source : "<nil>"));
-		item = gtk_list_item_new_with_label (rule->name);
-		g_object_set_data ((GObject *) item, "rule", rule);
-		gtk_widget_show (GTK_WIDGET (item));
-		newitems = g_list_append (newitems, item);
+		gtk_list_store_append (re->model, &iter);
+		gtk_list_store_set (re->model, &iter, 0, rule->name, 1, rule, -1);
 	}
 	
-	gtk_list_append_items (re->list, newitems);
 	g_free (re->source);
 	re->source = g_strdup (source);
 	re->current = NULL;
@@ -619,6 +639,7 @@ editor_clicked (GtkWidget *dialog, int button, RuleEditor *re)
 void
 rule_editor_construct (RuleEditor *re, RuleContext *context, GladeXML *gui, const char *source)
 {
+	GtkTreeSelection *selection;
 	GtkWidget *w;
 	int i;
 	
@@ -635,9 +656,14 @@ rule_editor_construct (RuleEditor *re, RuleContext *context, GladeXML *gui, cons
 		g_signal_connect (w, "clicked", edit_buttons[i].func, re);
 	}
 	
-        re->list = (GtkList *) w = glade_xml_get_widget (gui, "rule_list");
-	g_signal_connect (w, "select_child", GTK_SIGNAL_FUNC (select_rule), re);
-	g_signal_connect (w, "button_press_event", GTK_SIGNAL_FUNC (double_click), re);
+	re->model = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
+	re->list = (GtkTreeView *) glade_xml_get_widget (gui, "rule_list");
+	gtk_tree_view_set_model (re->list, (GtkTreeModel *) re->model);
+	selection = gtk_tree_view_get_selection (re->list);
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
+	
+	g_signal_connect (re->list, "cursor-changed", GTK_SIGNAL_FUNC (cursor_changed), re);
+	g_signal_connect (re->list, "button_press_event", GTK_SIGNAL_FUNC (double_click), re);
 	
 	g_signal_connect (re, "clicked", GTK_SIGNAL_FUNC (editor_clicked), re);
 	rule_editor_set_source (re, source);
