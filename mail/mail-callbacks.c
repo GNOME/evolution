@@ -1997,8 +1997,9 @@ void
 open_msg (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	extern CamelFolder *outbox_folder;
 	
-	if (folder_browser_is_drafts (fb))
+	if (folder_browser_is_drafts (fb) || fb->folder == outbox_folder)
 		edit_msg_internal (fb);
 	else
 		view_msg (NULL, user_data);

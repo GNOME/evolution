@@ -1,3 +1,11 @@
+2001-08-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (config_read): Change the default values for
+	"always-sign" to false.
+
+	* mail-callbacks.c (open_msg): if the folder is Outbox, let the
+	user edit the message(s) too I guess.
+
 2001-08-18  Ettore Perazzoli  <ettore@ximian.com>
 
 	* folder-browser-ui.c: Hook the new `delete-message.png' up.

@@ -344,7 +344,7 @@ config_read (void)
 		
 		path = g_strdup_printf ("/Mail/Accounts/account_pgp_always_sign_%d", i);
 		account->pgp_always_sign = bonobo_config_get_boolean_with_default (
-		        config->db, path, TRUE, NULL);
+		        config->db, path, FALSE, NULL);
 		g_free (path);
 		
 		path = g_strdup_printf ("/Mail/Accounts/account_pgp_encrypt_to_self_%d", i);
@@ -363,7 +363,7 @@ config_read (void)
 		
 		path = g_strdup_printf ("/Mail/Accounts/account_smime_always_sign_%d", i);
 		account->smime_always_sign = bonobo_config_get_boolean_with_default (
-		        config->db, path, TRUE, NULL);
+		        config->db, path, FALSE, NULL);
 		g_free (path);
 		
 		path = g_strdup_printf ("/Mail/Accounts/account_smime_encrypt_to_self_%d", i);
