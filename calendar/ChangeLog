@@ -1,3 +1,10 @@
+2001-01-06  Iain Holmes  <iain@helixcode.com>
+
+	* gui/calendar-summary.c (generate_html_summary): Neaten the HTML,
+	and fix the time printing stuff. Add stuff the get Tasks.
+	(alarm_fn): Set up an alarm for midnight everynight and regenerate
+	the HTML for the new day.
+
 2001-01-05  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/event-editor.c (get_widgets): get categories button

@@ -51,6 +51,8 @@ typedef struct {
 	char *icon;
 	
 	guint32 idle;
+
+	gpointer alarm;
 } CalSummary;
 
 enum {
@@ -79,11 +81,73 @@ generate_html_summary (CalSummary *summary)
 	datestr = g_new (char, 256);
 	timeptr = localtime (&t);
 	strftime (datestr, 255, _("%A, %e %B %Y"), timeptr);
-	ret_html = g_strdup_printf ("<b>%s</b><br> <ul>", datestr);
+	ret_html = g_strdup_printf ("<p align=\"center\">Appointments</p>"
+				    "<hr><b>%s</b><br><ul>", datestr);
 	g_free (datestr);
 
 	uids = cal_client_get_objects_in_range (summary->client, 
 						CALOBJ_TYPE_EVENT, day_begin,
+						day_end);
+	for (l = uids; l; l = l->next){
+		CalComponent *comp;
+		CalComponentText text;
+		CalClientGetStatus status;
+		CalComponentDateTime start, end;
+		struct icaltimetype *end_time;
+		time_t start_t, end_t;
+		struct tm *start_tm, *end_tm;
+		char *start_str, *end_str;
+		char *uid;
+		char *tmp2;
+		
+		uid = l->data;
+		status = cal_client_get_object (summary->client, uid, &comp);
+		if (status != CAL_CLIENT_GET_SUCCESS)
+			continue;
+		
+		cal_component_get_summary (comp, &text);
+		cal_component_get_dtstart (comp, &start);
+		cal_component_get_dtend (comp, &end);
+
+		g_print ("text.value: %s\n", text.value);
+		end_time = end.value;
+
+		start_t = icaltime_as_timet (*start.value);
+
+		start_str = g_new (char, 20);
+		start_tm = localtime (&start_t);
+		strftime (start_str, 19, _("%I:%M%p"), start_tm);
+
+		if (end_time) {
+			end_str = g_new (char, 20);
+			end_t = icaltime_as_timet (*end_time);
+			end_tm = localtime (&end_t);
+			strftime (end_str, 19, _("%I:%M%p"), end_tm);
+		} else {
+			end_str = g_strdup ("...");
+		}
+
+		tmp2 = g_strdup_printf ("<li>%s:%s -> %s</li>", text.value, start_str, end_str);
+		g_free (start_str);
+		g_free (end_str);
+
+		tmp = ret_html;
+		ret_html = g_strconcat (ret_html, tmp2, NULL);
+		g_free (tmp);
+		g_free (tmp2);
+	}
+	
+	cal_obj_uid_list_free (uids);
+	
+	tmp = ret_html;
+	ret_html = g_strconcat (ret_html, 
+				"</ul><p align=\"center\">Tasks<hr><ul>", 
+				NULL);
+	g_free (tmp);
+
+	/* Generate a list of tasks */
+	uids = cal_client_get_objects_in_range (summary->client, 
+						CALOBJ_TYPE_TODO, day_begin,
 						day_end);
 	for (l = uids; l; l = l->next){
 		CalComponent *comp;
@@ -101,21 +165,8 @@ generate_html_summary (CalSummary *summary)
 			continue;
 		
 		cal_component_get_summary (comp, &text);
-		cal_component_get_dtstart (comp, &start);
-		cal_component_get_dtend (comp, &end);
 
-		g_print ("text.value: %s\n", text.value);
-		start_time = start.value;
-		end_time = end.value;
-
-		start_str = g_strdup_printf ("%d.%d", start_time->hour, start_time->minute);
-		if (end_time) {
-			end_str = g_strdup_printf ("%d.%d", end_time->hour, end_time->minute);
-		} else {
-			end_str = g_strdup (" ");
-		}
-
-		tmp2 = g_strdup_printf ("<li>%s:%s -> %s</li>", text.value, start_str, end_str);
+		tmp2 = g_strdup_printf ("<li>%s</li>", text.value);
 		g_free (start_str);
 		g_free (end_str);
 
@@ -239,6 +290,23 @@ cal_loaded_cb (CalClient *client,
 		break;
 	}
 }
+static void
+alarm_fn (gpointer alarm_id,
+	  time_t old_t,
+	  CalSummary *summary)
+{
+	time_t t, day_end;
+
+	/* Remove the old alarm, and start a new one for the next midnight */
+	alarm_remove (alarm_id);
+
+	t = time (NULL);
+	day_end = time_day_end (t);
+	summary->alarm = alarm_add (day_end, alarm_fn, summary, NULL);
+
+	/* Now redraw the summary */
+	generate_html_summary (summary);
+}
 
 BonoboObject *
 create_summary_view (ExecutiveSummaryComponentFactory *_factory,
@@ -250,6 +318,7 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 	BonoboEventSource *event_source;
 	CalSummary *summary;
 	char *html, *file;
+	time_t t, day_end;
 
 	file = g_concat_dir_and_file (evolution_dir, "local/Calendar/calendar.ics");
 
@@ -263,6 +332,10 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 	summary->client = cal_client_new ();
 	summary->cal_loaded = FALSE;
 	summary->idle = 0;
+
+	t = time (NULL);
+	day_end = time_day_end (t);
+	summary->alarm = alarm_add (day_end, alarm_fn, summary, NULL);
 
 	/* Check for calendar files */
 	if (!g_file_exists (file)) {
