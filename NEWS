@@ -6,9 +6,10 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
   * Addressbook
     #16870 -- fix CRLF check for empty lines in ldif importre (Sean Gao)
     #25540 -- fix sensitivity issues in the contact editor (Toshok)
-    #28945 -- contact lists saved as invalid vcards (Toshok)
     #31763 -- Find button missing from Select Contacts from Addressbook
               dialog. (Toshok)
+    #32352 -- The LDAP backend should be much more robust in the face of more
+              restrictive ACL's. (Toshok)
     #33097 -- Fix crash when changing autocomplete folder list.  Also
               fixes #30323, #33930, and #33332. (Toshok)
     #34254 -- fix case sensitive nature of vcard importer (Sean Gao)
@@ -16,6 +17,7 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
   * Calendar
     #30993 -- Meeting request for recurring meeting should describe
               the recurrence.
+
 
 Other fixes:
 
@@ -26,8 +28,6 @@ Other fixes:
     - Fixed a possible (and very probable) crash involving the
       minicard view. (Toshok)
     - Fixed a crash in the file backend (Toshok)
-    - The LDAP backend should be much more robust in the face of more
-      restrictive ACL's. (Toshok)
 
 Evolution 1.2.0, 2002-11-06
 ---------------------------
