@@ -38,6 +38,10 @@
 	(comp_editor_notify_client_changed):Assign the updated client
 	to priv->client and unref the old one.	
 
+2005-03-07  JP Rosevear  <jpr@novell.com>
+
+	* gui/alarm-notify/alarm-queue.c: add remove_client_alarms prototype
+	
 2005-03-06  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/dialogs/recur-comp.c (recur_component_dialog): disable dialog for
