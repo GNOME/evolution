@@ -1,5 +1,22 @@
 2000-07-26  Chris Toshok  <toshok@helixcode.com>
 
+	* backend/pas/pas-backend-ldap.c (view_destroy): wait to free the
+	view until we've taken care of freeing its internals.  also, close
+	the ldap connection here.
+	(pas_backend_ldap_connect): rename p_b_l_ensure_connected to this,
+	since it's always called when we create a view.
+	(pas_backend_ldap_build_all_cards_list): open an ldap connection
+	in this function and close it at the end.
+	(poll_ldap): make sure to call ldap_unbind to close the view's
+	connection here.
+	(pas_backend_ldap_search): call pas_backend_ldap_connect here -
+	ldap_unbind will either be called from poll_ldap or from
+	view_destroy.
+	(pas_backend_ldap_get_vcard): the PASBackendLDAP no longer has an
+	LDAP*.
+
+2000-07-26  Chris Toshok  <toshok@helixcode.com>
+
 	* backend/pas/pas-backend-ldap.c
 	(pas_backend_ldap_build_all_cards_list): add support for user settable scope.
 	(pas_backend_ldap_search): same.
