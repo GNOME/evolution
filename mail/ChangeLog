@@ -1,3 +1,8 @@
+2001-01-11  Dan Winship  <danw@ximian.com>
+
+	* mail-format.c (write_field_to_stream): Translate the header name
+	to UTF8.
+
 2001-01-10  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-callbacks.c (configure_mail): New function that explains to

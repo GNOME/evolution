@@ -573,25 +573,22 @@ enum {
 static void
 write_field_to_stream(const char *description, const char *value, int flags, GtkHTML *html, GtkHTMLStream *stream)
 {
-	char *encoded_value;
+	char *encoded_desc, *encoded_value;
 	int bold = (flags&WRITE_BOLD) == WRITE_BOLD;
 
-	if (value) {
+	/* The description comes from gettext... */
+	encoded_desc = e_utf8_from_gtk_string (GTK_WIDGET (html), description);
+
+	if (value)
 		encoded_value = e_text_to_html (value, E_TEXT_TO_HTML_CONVERT_NL|E_TEXT_TO_HTML_CONVERT_URLS);
-#if 0				/* I dont think this needs to be here anymore ... e_text_to_html should handle that anyway */
-		char *p;
-		for (p = encoded_value; *p; p++) {
-			if (!isprint (*p))
-				*p = '?';
-		}
-#endif
-	} else
+	else
 		encoded_value = "";
 
 	mail_html_write(html, stream,
 			"<tr valign=top><%s align=right>%s</%s>"
 			"<td>%s</td></tr>", bold ? "th" : "td",
-			description, bold ? "th" : "td", encoded_value);
+			encoded_desc, bold ? "th" : "td", encoded_value);
+	g_free (encoded_desc);
 	if (value)
 		g_free(encoded_value);
 }
