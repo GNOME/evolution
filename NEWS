@@ -1,3 +1,28 @@
+Evolution 1.5.94, xxxx-xx-xx
+----------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+ * Calendar
+
+   #62869 - Crash: attempt to access GW tasks from evolution (Siva)
+   #62706 - Changing time-zone doesn't refresh calendar correctly (JP)
+   #62063 - Meeting description does not wrap (Jeff)
+   #58824 - Stray message or failing to open tasks? (Rodrigo)
+   #62911 - ITIP control blocks mailer opening calendar (JP)
+   #54101 - In itip control had "Birthdays & Anniversaries" as calendar (JP)
+
+Other bugs
+
+  * Calendar
+
+    - Fixed problems in alarm daemon (JP, Siva, Rodrigo)
+    - Clean up of stray status messages for tasks (Chen)
+    - Don't remove GtkDialog's separator if using GTK >= 2.4.0 (Frederic)
+    - Fix copy/move problems when pilot syncing (JP)
+    - Don't mark menu accels for translation (Christian)
+
+
 Evolution 1.4.1, 2003-06-25
 ---------------------------
 
