@@ -9,6 +9,7 @@
   <ETableColumn model_col= "16" _title="Priority" expansion="1.0" minimum_width="10" resizable="true" cell="priority" compare="priority-compare" priority="-3"/>
   <ETableColumn model_col="17" _title="Status" expansion="1.0" minimum_width="10" resizable="true" cell="calstatus" compare="string" priority="-1"/>
   <ETableColumn model_col="19" _title="Task sort" cell="task-sort" compare="task-sort" priority="-4"/>
+  <ETableColumn model_col="0" _title="Categories" cell="calstring" compare="string" expansion="1.0" minimum_width="10" resizable="true" priority="-2"/>
 
   <ETableState>
     <column source="1"/>
