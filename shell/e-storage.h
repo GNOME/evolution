@@ -25,7 +25,7 @@
 
 #include <gtk/gtkobject.h>
 
-#include "evolution-shell-component-client.h"
+#include <shell/evolution-shell-component-client.h>
 
 #ifdef __cplusplus
 extern "C" {

@@ -1,8 +1,6 @@
-SUBDIRS = glade
+SUBDIRS = glade importer
 
-# FIXME importer
-
-INCLUDES =							\
+INCLUDES = -O							\
 	-I$(top_srcdir)/widgets					\
 	-I$(top_srcdir)/widgets/misc				\
 	-I$(top_srcdir)/libical/src/libical			\
@@ -14,9 +12,6 @@ INCLUDES =							\
 	-DEVOLUTION_GLADEDIR=\"$(datadir)/evolution/glade\"	\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"		\
 	-DPREFIX=\"$(prefix)\"					\
-	-DSYSCONFDIR=\""$(sysconfdir)"\" 			\
-	-DDATADIR=\""$(datadir)"\"	 			\
-	-DLIBDIR=\""$(datadir)"\"	 			\
 	-DG_LOG_DOMAIN=\"evolution-shell\"			\
 	$(SHELL_CFLAGS)
 
@@ -47,7 +42,8 @@ IDL_GENERATED = \
 Evolution-impl.o: Evolution.h
 
 $(IDL_GENERATED): $(IDLS)
-	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(srcdir)/Evolution.idl
+	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`	\
+		$(srcdir)/Evolution.idl
 
 # SelectNames CORBA stuff
 
@@ -61,7 +57,8 @@ SELECT_NAMES_IDL_GENERATED = 			   \
 	Evolution-Addressbook-SelectNames-stubs.c
 
 $(SELECT_NAMES_IDL_GENERATED): $(SELECT_NAMES_IDL)
-	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(SELECT_NAMES_IDL)
+	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`	\
+		$(SELECT_NAMES_IDL)
 
 # IDL install
 
@@ -82,6 +79,7 @@ eshellinclude_HEADERS = 			\
 	e-folder-list.h				\
 	e-folder-tree.h				\
 	e-shell-corba-icon-utils.h		\
+	e-storage.h				\
 	evolution-activity-client.h		\
 	evolution-config-control.h		\
 	evolution-folder-selector-button.h	\
@@ -117,7 +115,6 @@ libeshell_la_SOURCES = 				\
 	evolution-storage-set-view-listener.c	\
 	evolution-storage.c			\
 	evolution-wizard.c			\
-	e-shell-marshal.c			\
 	$(eshellinclude_HEADERS)
 
 # Evolution executable
@@ -177,6 +174,8 @@ evolution_SOURCES =				\
 	e-shell-folder-selection-dialog.h	\
 	e-shell-folder-title-bar.c		\
 	e-shell-folder-title-bar.h		\
+	e-shell-importer.c			\
+	e-shell-importer.h			\
 	e-shell-offline-handler.c		\
 	e-shell-offline-handler.h		\
 	e-shell-offline-sync.c			\
@@ -210,7 +209,6 @@ evolution_SOURCES =				\
 	e-storage-set.c				\
 	e-storage-set.h				\
 	e-storage.c				\
-	e-storage.h				\
 	e-task-bar.c				\
 	e-task-bar.h				\
 	e-task-widget.c				\
@@ -225,14 +223,12 @@ evolution_SOURCES =				\
 
 evolution_LDADD =							\
 	libeshell.la							\
+	importer/libevolution-importer.la				\
 	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.a	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a			\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/libical/src/libical/libical-evolution.la	\
 	$(SHELL_LIBS)
-
-# FIXME
-# importer/libevolution-importer.la				\
 
 # Test component
 
@@ -249,50 +245,33 @@ evolution_test_component_LDADD = 	\
 install-test-component: evolution-test-component
 	$(mkinstalldirs) $(DESTDIR)$(bindir)
 	$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) evolution-test-component $(DESTDIR)$(bindir)/evolution-test-component
-	$(mkinstalldirs) $(DESTDIR)$(serverdir)
-	$(INSTALL_DATA) $(srcdir)/GNOME_Evolution_TestComponent.server $(DESTDIR)$(serverdir)/GNOME_Evolution_TestComponent.server
+	$(mkinstalldirs) $(DESTDIR)$(oafdir)
+	$(INSTALL_DATA) $(srcdir)/GNOME_Evolution_TestComponent.oaf $(DESTDIR)$(oafdir)/GNOME_Evolution_TestComponent.oaf
 
 # Misc stuff
 
-serverdir = $(libdir)/bonobo/servers
-server_in_files = GNOME_Evolution_Shell.server.in
-server_DATA = $(server_in_files:.server.in=.server)
+oafdir = $(datadir)/oaf
+oaf_in_files = GNOME_Evolution_Shell.oaf.in
+oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 
 etspecdir = $(datadir)/evolution/etspec/
 etspec_DATA = \
 	e-storage-set-view.etspec
 
-@INTLTOOL_SERVER_RULE@
+@XML_I18N_MERGE_OAF_RULE@
 
 icons = 			\
 	check-empty.xpm		\
 	check-filled.xpm	\
 	check-missing.xpm
 
-
-# GLib marshalling cruft
-
-e-shell-marshal.h: e-shell-marshal.list
-	( @GLIB_GENMARSHAL@ --prefix=e_shell_marshal e-shell-marshal.list --header > e-shell-marshal.tmp \
-	&& mv e-shell-marshal.tmp e-shell-marshal.h ) \
-	|| ( rm -f e-shell-marshal.tmp && exit 1 )
-
-e-shell-marshal.c: e-shell-marshal.h
-	( @GLIB_GENMARSHAL@ --prefix=e_shell_marshal e-shell-marshal.list --body > e-shell-marshal.tmp \
-	&& mv e-shell-marshal.tmp e-shell-marshal.c ) \
-	|| ( rm -f e-shell-marshal.tmp && exit 1 )
-
-MARSHAL_GENERATED = e-shell-marshal.c e-shell-marshal.h
-
-# Extra dist stuff
-
 EXTRA_DIST = 					\
 	$(IDLS)					\
-	$(server_in_files)			\
-	$(server_DATA)				\
+	$(oaf_in_files)				\
+	$(oaf_DATA)				\
 	$(etspec_DATA)				\
 	$(icons)				\
-	GNOME_Evolution_TestComponent.server	\
+	GNOME_Evolution_TestComponent.oaf	\
 	evolution-nognome.in
 
 # Purify support
@@ -310,7 +289,7 @@ evolution.pure: evolution
 endif
 
 CLEANFILES = $(IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED)
-BUILT_SOURCES = $(IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED) $(MARSHAL_GENERATED)
+BUILT_SOURCES = $(IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED)
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
@@ -321,7 +300,3 @@ if HAVE_DTAPPINTEGRATE
 bin_SCRIPTS = evolution-nognome
 
 endif
-
-# FIXME TODO:
-#	e-shell-importer.c
-#	e-shell-importer.h
