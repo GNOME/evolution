@@ -264,10 +264,12 @@ request_password (struct _pass_msg *m)
 	gtk_window_set_title (GTK_WINDOW (password_dialog), title);
 	g_free (title);
 	
+	gtk_container_set_border_width ((GtkContainer *) password_dialog, 6);
+	
 	m->entry = gtk_entry_new ();
 	gtk_entry_set_visibility ((GtkEntry *) m->entry, !m->secret);
 	g_signal_connect (m->entry, "activate", G_CALLBACK (pass_activate), password_dialog);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (password_dialog)->vbox), m->entry, TRUE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (password_dialog)->vbox), m->entry, TRUE, FALSE, 3);
 	gtk_widget_show (m->entry);
 	
 	if (m->reprompt && m->result) {
@@ -281,7 +283,7 @@ request_password (struct _pass_msg *m)
 							       _("_Remember this password for the remainder of this session"));
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (m->check),
 					      m->config_service ? m->config_service->save_passwd : FALSE);
-		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (password_dialog)->vbox), m->check, TRUE, FALSE, 0);
+		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (password_dialog)->vbox), m->check, TRUE, FALSE, 3);
 		gtk_widget_show (m->check);
 	}
 	
