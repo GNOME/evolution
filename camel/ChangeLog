@@ -1,5 +1,8 @@
 2001-10-19    <NotZed@Ximian.com>
 
+	* camel-session.c (register_provider): When registering provider,
+	translate all strings.
+
 	* camel-vee-folder.c (camel_vee_folder_remove_folder): Lock the
 	right lock for unmatched subfolder list stuff.  If the sub folder
 	is deleted & part of unmatched, or the last ref to the sub folder

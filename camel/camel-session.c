@@ -198,6 +198,29 @@ camel_session_construct (CamelSession *session, const char *storage_path)
 static void 
 register_provider (CamelSession *session, CamelProvider *provider)
 {
+	int i;
+	CamelProviderConfEntry *conf;
+	GList *l;
+
+	/* Translate all strings here */
+	provider->name = _(provider->name);
+	provider->description = _(provider->description);
+	conf = provider->extra_conf;
+	if (conf) {
+		for (i=0;conf[i].type != CAMEL_PROVIDER_CONF_END;i++) {
+			if (conf[i].text)
+				conf[i].text = _(conf[i].text);
+		}
+	}
+	l = provider->authtypes;
+	while (l) {
+		CamelServiceAuthType *auth = l->data;
+
+		auth->name = _(auth->name);
+		auth->description = _(auth->description);
+		l = l->next;
+	}
+
 	g_hash_table_insert (session->providers, provider->protocol, provider);
 }
 
