@@ -78,28 +78,28 @@ impl_Cal_is_read_only (PortableServer_Servant servant,
 	return cal_backend_is_read_only (priv->backend);
 }
 		       
-/* Cal::get_email_address method */
+/* Cal::get_cal_address method */
 static CORBA_char *
-impl_Cal_get_email_address (PortableServer_Servant servant,
+impl_Cal_get_cal_address (PortableServer_Servant servant,
 			    CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
-	const char *str_email_address;
-	CORBA_char *str_email_address_copy;
+	const char *str_cal_address;
+	CORBA_char *str_cal_address_copy;
 
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
 
-	str_email_address = cal_backend_get_email_address (priv->backend);
-	if (str_email_address == NULL) {
+	str_cal_address = cal_backend_get_cal_address (priv->backend);
+	if (str_cal_address == NULL) {
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_NotFound);
 		return CORBA_OBJECT_NIL;
 	}
 
-	str_email_address_copy = CORBA_string_dup (str_email_address);
+	str_cal_address_copy = CORBA_string_dup (str_cal_address);
 
-	return str_email_address_copy;
+	return str_cal_address_copy;
 }
 		       
 /* Cal::get_alarm_email_address method */
@@ -814,7 +814,7 @@ cal_class_init (CalClass *klass)
 	/* Epv methods */
 	epv->_get_uri = impl_Cal_get_uri;
 	epv->isReadOnly = impl_Cal_is_read_only;
-	epv->getEmailAddress = impl_Cal_get_email_address;
+	epv->getCalAddress = impl_Cal_get_cal_address;
 	epv->getAlarmEmailAddress = impl_Cal_get_alarm_email_address;
 	epv->getStaticCapabilities = impl_Cal_get_static_capabilities;
 	epv->setMode = impl_Cal_set_mode;

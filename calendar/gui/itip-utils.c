@@ -176,7 +176,7 @@ itip_organizer_is_user (CalComponent *comp, CalClient *client)
 		if (cal_client_get_static_capability (client, "organizer-not-email-address")) { 
 			const char *email;
 			
-			email = cal_client_get_email_address (client);
+			email = cal_client_get_cal_address (client);
 			if (email && !g_strcasecmp (email, strip))
 				return TRUE;
 

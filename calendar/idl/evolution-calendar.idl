@@ -150,9 +150,9 @@ module Calendar {
 		/* Information on the backend's capabilities */
 		string getStaticCapabilities ();
 
-		/* Return the email address associated with this calendar,
+		/* Return the cal address associated with this calendar,
 		   if any. */
-		string getEmailAddress ()
+		string getCalAddress ()
 			raises (NotFound);
 
 		string getAlarmEmailAddress ()
