@@ -704,9 +704,9 @@ vee_set_message_flags(CamelFolder *folder, const char *uid, guint32 flags, guint
 
 	mi = (CamelVeeMessageInfo *)camel_folder_summary_uid(folder->summary, uid);
 	if (mi) {
-		((CamelFolderClass *)camel_vee_folder_parent)->set_message_flags(folder, uid, flags, set);
 		camel_folder_set_message_flags(mi->folder, camel_message_info_uid(mi) + 8, flags, set);
 		camel_folder_summary_info_free(folder->summary, (CamelMessageInfo *)mi);
+		((CamelFolderClass *)camel_vee_folder_parent)->set_message_flags(folder, uid, flags, set);
 	}
 }
 
@@ -717,9 +717,9 @@ vee_set_message_user_flag(CamelFolder *folder, const char *uid, const char *name
 
 	mi = (CamelVeeMessageInfo *)camel_folder_summary_uid(folder->summary, uid);
 	if (mi) {
-		((CamelFolderClass *)camel_vee_folder_parent)->set_message_user_flag(folder, uid, name, value);
 		camel_folder_set_message_user_flag(mi->folder, camel_message_info_uid(mi) + 8, name, value);
 		camel_folder_summary_info_free(folder->summary, (CamelMessageInfo *)mi);
+		((CamelFolderClass *)camel_vee_folder_parent)->set_message_user_flag(folder, uid, name, value);
 	}
 }
 
@@ -1287,7 +1287,9 @@ folder_changed_change(CamelSession *session, CamelSessionThreadMsg *msg)
 	}
 	
 	/* Always add any new uid's, if they match */
-	dd(printf(" Searching for added matches '%s'\n", vf->expression));
+	if (changes->uid_added->len > 0)
+		dd(printf(" Searching for added matches '%s'\n", vf->expression));
+
 	if (changes->uid_added->len > 0
 	    && (matches = camel_folder_search_by_uids(sub, vf->expression, changes->uid_added, NULL))) {
 		for (i=0;i<matches->len;i++) {
@@ -1297,19 +1299,19 @@ folder_changed_change(CamelSession *session, CamelSessionThreadMsg *msg)
 		camel_folder_search_free(sub, matches);
 	}
 
-	if ((vf->flags & CAMEL_STORE_VEE_FOLDER_AUTO) == 0) {
-		/* If we are not auto-updating, just change changed uids */
-		dd(printf(" Not auto-update\n"));
-		for (i=0;i<changes->uid_changed->len;i++) {
-			dd(printf("  changed uid '%s'\n", (char *)changes->uid_changed->pdata[i]));
-			folder_changed_change_uid(sub, changes->uid_changed->pdata[i], hash, vf);
-		}
-	} else if ((matches = camel_folder_search_by_uids(sub, vf->expression, changes->uid_changed, NULL))) {
+	if (changes->uid_changed->len > 0)
+		dd(printf(" Searching for changed matches '%s'\n", vf->expression));
+
+	if (changes->uid_changed->len > 0
+	    && (matches = camel_folder_search_by_uids(sub, vf->expression, changes->uid_changed, NULL))) {
 		/* If we are auto-updating, then re-check changed uids still match */
-		dd(printf(" Vfolder auto-update\n"));
+		dd(printf(" Vfolder %supdate\nuids match:", (vf->flags & CAMEL_STORE_VEE_FOLDER_AUTO)?"auto-":""));
 		matches_hash = g_hash_table_new(g_str_hash, g_str_equal);
-		for (i=0;i<matches->len;i++)
+		for (i=0;i<matches->len;i++) {
+			dd(printf(" %s", matches->pdata[i]));
 			g_hash_table_insert(matches_hash, matches->pdata[i], matches->pdata[i]);
+		}
+		dd(printf("\n"));
 		for (i=0;i<changes->uid_changed->len;i++) {
 			uid = changes->uid_changed->pdata[i];
 			if (strlen(uid)+9 > vuidlen) {
@@ -1326,8 +1328,9 @@ folder_changed_change(CamelSession *session, CamelSessionThreadMsg *msg)
 					folder_changed_add_uid(sub, changes->uid_changed->pdata[i], hash, vf);
 				}
 			} else {
-				if (g_hash_table_lookup(matches_hash, changes->uid_changed->pdata[i])) {
-					/* still match, change event, (if it changed) */
+				if ((vf->flags & CAMEL_STORE_VEE_FOLDER_AUTO) == 0
+				    || g_hash_table_lookup(matches_hash, changes->uid_changed->pdata[i])) {
+					/* still match, or we're not auto-updating, change event, (if it changed) */
 					dd(printf("  changing uid '%s' [still matches]\n", (char *)changes->uid_changed->pdata[i]));
 					folder_changed_change_uid(sub, changes->uid_changed->pdata[i], hash, vf);
 				} else {

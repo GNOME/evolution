@@ -24,6 +24,11 @@
 	(folder_changed_change): Ok, so dont hold the subfolder lock for
 	the whole duration of the changed event, although we probably
 	should, requires a recursive mutex.
+	(folder_changed_change): Change logic, we always add changed stuff
+	if it now matches, but dont remove it unless its auto-remove, only
+	propagate changes for it.
+	(vee_set_message_flags): Call parent method after doing our work.
+	(vee_set_message_user_flag): Same here.
 
 2001-10-18  Jeffrey Stedfast  <fejj@ximian.com>
 
