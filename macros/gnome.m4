@@ -33,7 +33,6 @@ AC_DEFUN([GNOME_INIT],
 	CFLAGS="$CFLAGS -I$withval/include"
 	gnome_prefix=$withval/lib
 	])
-	
 
         AC_MSG_CHECKING(for gnomeConf.sh file in $gnome_prefix)
 	if test -f $gnome_prefix/gnomeConf.sh; then
