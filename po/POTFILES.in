@@ -1,6 +1,7 @@
 a11y/addressbook/ea-addressbook-view.c
 a11y/addressbook/ea-minicard.c
 a11y/addressbook/ea-minicard-view.c
+addressbook/addressbook-errors.xml.h
 addressbook/conduit/address-conduit.c
 addressbook/gui/component/addressbook.c
 addressbook/gui/component/addressbook-component.c
@@ -63,6 +64,7 @@ addressbook/tools/evolution-addressbook-export-list-cards.c
 addressbook/tools/evolution-addressbook-export-list-folders.c
 addressbook/tools/evolution-addressbook-import.c
 addressbook/util/e-destination.c
+calendar/calendar-errors.xml.h
 calendar/common/authentication.c
 calendar/conduits/calendar/calendar-conduit.c
 calendar/conduits/todo/todo-conduit.c
@@ -268,7 +270,6 @@ filter/filter-part.c
 filter/filter-rule.c
 filter/rule-context.c
 filter/rule-editor.c
-filter/filter-errors.xml.h
 # List of source files containing translatable strings.
 mail/em-account-prefs.c
 mail/em-composer-prefs.c
@@ -349,7 +350,7 @@ shell/GNOME_Evolution_Test.server.in.in
 shell/importer/import.glade
 shell/importer/intelligent.c
 shell/main.c
-shell/shell-errors.xml
+shell/shell-errors.xml.h
 smime/gui/certificate-manager.c
 smime/gui/certificate-viewer.c
 smime/gui/component.c

@@ -1,6 +1,6 @@
-2004-06-18  Jeffrey Stedfast  <fejj@ximian.com>
+2004-06-18  Jeffrey Stedfast  <fejj@novell.com>
 
-	* POTFILES.in: Added filter-errors.xml.h
+	* POTFILES.in: Added error.xml.h files
 
 2004-06-18  Not Zed  <NotZed@Ximian.com>
 
