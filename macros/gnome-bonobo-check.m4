@@ -64,7 +64,7 @@ dnl
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <bonobo.h>
+#include <bonobo/gnome-object.h>
 
 static char*
 my_strdup (char *str)
@@ -88,7 +88,7 @@ int main ()
   char *tmp_version;
 
   system ("touch conf.bonobotest");
-  bonobo_object_get_type ();
+  gnome_object_get_type ();
   return 0;
 }
 
