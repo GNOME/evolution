@@ -188,9 +188,10 @@ static GdkPixmap *online_pixmap = NULL;
 static GdkBitmap *online_mask = NULL;
 
 
-static void        update_for_current_uri         (EShellView *shell_view);
-static void        update_offline_toggle_status   (EShellView *shell_view);
-static const char *get_storage_set_path_from_uri  (const char *uri);
+static void        update_for_current_uri          (EShellView *shell_view);
+static void        update_offline_toggle_status    (EShellView *shell_view);
+static void        update_send_receive_sensitivity (EShellView *shell_view);
+static const char *get_storage_set_path_from_uri   (const char *uri);
 
 
 /* Boo.  */
@@ -1760,15 +1761,7 @@ shell_line_status_changed_cb (EShell *shell,
 
 	shell_view = E_SHELL_VIEW (data);
 	update_offline_toggle_status (shell_view);
-
-	if (new_status == E_SHELL_LINE_STATUS_OFFLINE)
-		bonobo_ui_component_set_prop (shell_view->priv->ui_component,
-					      "/commands/SendReceive",
-					      "sensitive", "0", NULL);
-	else
-		bonobo_ui_component_set_prop (shell_view->priv->ui_component,
-					      "/commands/SendReceive",
-					      "sensitive", "1", NULL);
+	update_send_receive_sensitivity (shell_view);
 }
 
 static int
@@ -1855,6 +1848,7 @@ e_shell_view_construct (EShellView *shell_view,
 
 	setup_defaults (view);
 	update_other_users_folder_items_sensitivity (view);
+	update_send_receive_sensitivity (view);
 
 	if (uri != NULL) {
 		uri_to_load = g_strdup (uri);
@@ -2110,6 +2104,20 @@ update_offline_toggle_status (EShellView *shell_view)
 	gtk_widget_set_sensitive (priv->offline_toggle, sensitive);
 	gtk_tooltips_set_tip (priv->tooltips, priv->offline_toggle, tooltip, NULL);
 }
+
+static void
+update_send_receive_sensitivity (EShellView *shell_view)
+{
+	if (e_shell_get_line_status (shell_view->priv->shell) == E_SHELL_LINE_STATUS_OFFLINE)
+		bonobo_ui_component_set_prop (shell_view->priv->ui_component,
+					      "/commands/SendReceive",
+					      "sensitive", "0", NULL);
+	else
+		bonobo_ui_component_set_prop (shell_view->priv->ui_component,
+					      "/commands/SendReceive",
+					      "sensitive", "1", NULL);
+}
+
 
 /* This displays the specified page, doing the appropriate Bonobo activation/deactivation
    magic to make sure things work nicely.  FIXME: Crappy way to solve the issue.  */

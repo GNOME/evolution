@@ -1,5 +1,15 @@
 2003-05-08  Ettore Perazzoli  <ettore@ximian.com>
 
+	[#42342]
+	* e-shell-view.c (update_send_receive_sensitivity): New function
+	to update the Send/Receive menu and toolbar items according to the
+	current line status.
+	(e_shell_view_construct): Call it here to set up the initial
+	state.
+	(shell_line_status_changed_cb): Use it here as well.
+
+2003-05-08  Ettore Perazzoli  <ettore@ximian.com>
+
 	[#36956]
 	* e-shell-view.c (update_for_current_uri): Remove the version
 	number from the window title.
