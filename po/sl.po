@@ -4523,7 +4523,7 @@ msgstr "Amerika/Angvila"
 
 #: calendar/zones.h:62
 msgid "America/Antigua"
-msgstr "Amerika/Antigva"
+msgstr "Amerika/Antigua"
 
 #: calendar/zones.h:63
 msgid "America/Araguaina"
@@ -4531,7 +4531,7 @@ msgstr ""
 
 #: calendar/zones.h:64
 msgid "America/Aruba"
-msgstr ""
+msgstr "Amerika/Aruba"
 
 #: calendar/zones.h:65
 msgid "America/Asuncion"
@@ -5207,7 +5207,7 @@ msgstr ""
 
 #: calendar/zones.h:233
 msgid "Asia/Nicosia"
-msgstr ""
+msgstr "Azija/Nikozija"
 
 #: calendar/zones.h:234
 msgid "Asia/Novosibirsk"
@@ -5451,7 +5451,7 @@ msgstr "Evropa/Chisinau"
 
 #: calendar/zones.h:294
 msgid "Europe/Copenhagen"
-msgstr "Evropa/Copenhagen"
+msgstr "Evropa/Kobenhavn"
 
 #: calendar/zones.h:295
 msgid "Europe/Dublin"
@@ -5475,7 +5475,7 @@ msgstr ""
 
 #: calendar/zones.h:300
 msgid "Europe/Kiev"
-msgstr "Evropa/Kije"
+msgstr "Evropa/Kijev"
 
 #: calendar/zones.h:301
 msgid "Europe/Lisbon"
@@ -5559,7 +5559,7 @@ msgstr "Evropa/Skopje"
 
 #: calendar/zones.h:321
 msgid "Europe/Sofia"
-msgstr ""
+msgstr "Evropa/Sofija"
 
 #: calendar/zones.h:322
 msgid "Europe/Stockholm"
@@ -5567,7 +5567,7 @@ msgstr "Evropa/Stockholm"
 
 #: calendar/zones.h:323
 msgid "Europe/Tallinn"
-msgstr ""
+msgstr "Evropa/Tallinn"
 
 #: calendar/zones.h:324
 msgid "Europe/Tirane"
@@ -5575,7 +5575,7 @@ msgstr "Evropa/Tirana"
 
 #: calendar/zones.h:325
 msgid "Europe/Uzhgorod"
-msgstr ""
+msgstr "Evropa/U¾gorod"
 
 #: calendar/zones.h:326
 msgid "Europe/Vaduz"
@@ -5591,7 +5591,7 @@ msgstr "Evropa/Dunaj"
 
 #: calendar/zones.h:329
 msgid "Europe/Vilnius"
-msgstr ""
+msgstr "Evropa/Vilnius"
 
 #: calendar/zones.h:330
 msgid "Europe/Warsaw"
@@ -5603,7 +5603,7 @@ msgstr "Evropa/Zagreb"
 
 #: calendar/zones.h:332
 msgid "Europe/Zaporozhye"
-msgstr ""
+msgstr "Evropa/Zaporo¾je"
 
 #: calendar/zones.h:333
 msgid "Europe/Zurich"
@@ -5639,15 +5639,15 @@ msgstr ""
 
 #: calendar/zones.h:341
 msgid "Indian/Maldives"
-msgstr ""
+msgstr "Indijski_ocean/Maldivi"
 
 #: calendar/zones.h:342
 msgid "Indian/Mauritius"
-msgstr "Tihi_ocean/Mauritius"
+msgstr "Indijski_ocean/Mauritius"
 
 #: calendar/zones.h:343
 msgid "Indian/Mayotte"
-msgstr "Tihi_ocean/Mayotte"
+msgstr "Indijski_ocean/Mayotte"
 
 #: calendar/zones.h:344
 msgid "Indian/Reunion"
@@ -11129,7 +11129,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:105
 msgid "Antigua"
-msgstr "Antigva"
+msgstr "Antigua"
 
 #: my-evolution/Locations.h:106
 msgid "Antigua and Barbuda"
