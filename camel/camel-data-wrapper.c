@@ -369,7 +369,7 @@ get_mime_type (CamelDataWrapper *data_wrapper)
 gchar *
 camel_data_wrapper_get_mime_type (CamelDataWrapper *data_wrapper)
 {
-	g_return_val_if_fail (CAMEL_IS_DATA_WRAPPER (data_wrapper));
+	g_return_val_if_fail (CAMEL_IS_DATA_WRAPPER (data_wrapper), NULL);
 
 	return CDW_CLASS (data_wrapper)->get_mime_type (data_wrapper);
 }
@@ -390,7 +390,7 @@ get_mime_type_field (CamelDataWrapper *data_wrapper)
 GMimeContentField *
 camel_data_wrapper_get_mime_type_field (CamelDataWrapper *data_wrapper)
 {
-	g_return_val_if_fail (CAMEL_IS_DATA_WRAPPER (data_wrapper));
+	g_return_val_if_fail (CAMEL_IS_DATA_WRAPPER (data_wrapper), NULL);
 
 	return CDW_CLASS (data_wrapper)->get_mime_type_field (data_wrapper);
 }
