@@ -196,7 +196,7 @@ emfs_create_name_changed (GtkEntry *entry, EMFolderSelector *emfs)
 		text = gtk_entry_get_text (emfs->name_entry);
 	
 	path = em_folder_tree_get_selected_path (emfs->emft);
-	
+
 	active = text && path && !strchr (text, '/');
 	
 	gtk_dialog_set_response_sensitive ((GtkDialog *) emfs, GTK_RESPONSE_OK, active);

@@ -1556,12 +1556,16 @@ char *em_uri_from_camel(const char *curi)
 	else
 		uid = account->uid;
 	path = (provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)?curl->fragment:curl->path;
-	if (path[0] == '/')
-		path++;
+	if (path) {
+		if (path[0] == '/')
+			path++;
 
-	tmp = camel_url_encode(path, ";?");
-	euri = g_strdup_printf("email://%s/%s", uid, tmp);
-	g_free(tmp);
+		tmp = camel_url_encode(path, ";?");
+		euri = g_strdup_printf("email://%s/%s", uid, tmp);
+		g_free(tmp);
+	} else {
+		euri = g_strdup_printf("email://%s/", uid);
+	}
 	
 	d(printf("em uri from camel '%s' -> '%s'\n", curi, euri));
 
