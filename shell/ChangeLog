@@ -1,3 +1,7 @@
+2002-05-06  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-nognome.in: No bin part in GNOME_PATH.
+
 2002-04-24  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-nognome.in: New script to run Evolution under a
