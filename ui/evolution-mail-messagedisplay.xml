@@ -47,7 +47,7 @@
             relief="none" 
             behavior="exclusive"
 	    _tip="Main toolbar" 
-            hlook="text" 
+            hlook="both_horiz" 
             vlook="icon">
     <placeholder name="MailMessageToolbar"/>
     <separator f="" name="emailmessage"/>

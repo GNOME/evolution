@@ -1,5 +1,16 @@
 2002-11-20  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-message-composer.xml: Change hlook value for "Toolbar"
+	to be "both_horiz".
+	* evolution-signature-editor.xml: Likewise.
+	* evolution-mail-messagedisplay.xml: Likewise.
+	* evolution-event-editor.xml: Likewise.
+	* evolution-contact-list-editor.xml: Likewise.
+	* evolution-contact-editor.xml: Likewise.
+	* evolution-comp-editor.xml: Likewise.
+
+2002-11-20  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution.xml: Change hlook value for Toolbar to be
 	"both_horiz".
 
