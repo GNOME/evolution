@@ -1,3 +1,8 @@
+2003-07-19  Abel Cheung  <maddog@linux.org.hk>
+
+	* bg.po, ga.po, gl.po, lt.po: Convert to UTF-8 and merge with newest
+	  template.
+
 2003-07-10  Pablo Gonzalo del Campo  <pablodc@bigfoot.com>
         
         * es.po: Updated Spanish translation by
