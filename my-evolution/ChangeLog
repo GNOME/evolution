@@ -1,3 +1,14 @@
+2003-07-23  Dan Winship  <danw@ximian.com>
+
+	* e-summary-factory.c (e_summary_factory_new_control): Fix a
+	warning.
+
+	* e-summary-rdf.c (tree_walk): Fix a warning
+
+	* e-summary-weather.c (e_summary_weather_get_html): Remove an
+	unused variable.
+	(weather_make_html): Likewise.
+
 2003-06-23  Dan Winship  <danw@ximian.com>
 
 	* e-summary-calendar.c (setup_gconf_client): Don't call

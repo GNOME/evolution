@@ -194,7 +194,7 @@ tree_walk (xmlNodePtr root,
 		charset = NULL;
 	} else {
 		/* bad/missing encoding, fallback to latin1 (locale?) */
-		charset = r->cache->encoding ? r->cache->encoding : "iso-8859-1";
+		charset = r->cache->encoding ? (char *)r->cache->encoding : "iso-8859-1";
 	}
 
 	/* FIXME: Need arrows */

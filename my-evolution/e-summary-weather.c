@@ -61,7 +61,6 @@ e_summary_weather_get_html (ESummary *summary)
 	GList *weathers;
 	GString *string;
 	char *html;
-	char *s;
 
 	if (summary->weather == NULL || summary->weather->weathers == NULL) {
 		return NULL;
@@ -100,7 +99,7 @@ weather_make_html (Weather *w)
 {
 	GString *string;
 	ESummaryWeatherLocation *location;
-	char *sky, *temp, *cond, *s;
+	char *sky, *temp, *cond;
 	const char *icon_name;
 
 	icon_name = icon_from_weather (w);

@@ -125,7 +125,7 @@ e_summary_factory_new_control (const char *uri,
 		return NULL;
 	}
 
-	e_summary_set_control (summary, control);
+	e_summary_set_control (E_SUMMARY (summary), control);
 	
 	g_signal_connect (control, "activate", G_CALLBACK (control_activate_cb), summary);
 	g_signal_connect (control, "destroy", G_CALLBACK (control_destroy_cb), summary);
