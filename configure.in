@@ -1329,7 +1329,6 @@ addressbook/backend/pas/Makefile
 addressbook/backend/idl/Makefile
 addressbook/conduit/Makefile
 addressbook/printing/Makefile
-addressbook/tools/Makefile
 addressbook/util/Makefile
 art/Makefile
 camel/Makefile
