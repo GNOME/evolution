@@ -58,7 +58,7 @@
 
       <child>
 	<widget class="GtkTable" id="table-checkaddress">
-	  <property name="border_width">8</property>
+	  <property name="border_width">6</property>
 	  <property name="visible">True</property>
 	  <property name="n_rows">4</property>
 	  <property name="n_columns">4</property>
@@ -94,7 +94,7 @@
 	  <child>
 	    <widget class="GtkLabel" id="label-city">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">_City:</property>
+	      <property name="label" translatable="yes">Ci_ty:</property>
 	      <property name="use_underline">True</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_CENTER</property>
