@@ -1,8 +1,0 @@
-<gnome-pilot-conduit version="1.0">
-<conduit id="todo_conduit" type="shlib" location="@prefix@/lib/gnome-pilot/conduits/libtodo_conduit.so"/>
-<name value="todo"/>
-<conduit-attribute name="description" value="Synchronizes with Evolution"/>
-<conduit-attribute name="default-synctype" value="synchronize"/>
-<conduit-attribute name="icon" value="@prefix@/share/pixmaps/gnome-calendar-conduit.png"/>
-<conduit-attribute name="settings" value="TRUE"/>
-</gnome-pilot-conduit>
