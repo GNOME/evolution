@@ -3,12 +3,51 @@ Version 0.4, "Alewife", 2000-08-14
 
 Shell:
 
-Addressbook:
+  - Added interfaces to display messages and a progress bar when the
+    component is busy.  (Ettore)
+
+  - Changed the shell BonoboUIHandler code to allow placing menu items
+    such as "Print" in the right places.  (Ettore)
+
+  - Added code to check if an existing `~/evolution' directory
+    actually has the content we expect and, if not, complain with the
+    user.  (Dan)
+
+  - Fixed some Bonobo-related refcounting problems.  (Michael Meeks)
+
+  - Removed the GConf dependency.  (JP)
+
+  - Improved the API for the folder selection dialog.  (Ettore)
+
+  - Memory leak fixes.  (Peter)
 
 Calendar:
 
   The calendar is in the middle of major rewrite. Evolution 0.4
   ships with essentially the same calendar component as 0.3 did.
+
+Addressbook:
+
+  - More work on the Palm Pilot conduits.  (Chris Toshok)
+
+  - Fixed some LDAP-related crashes.  (Chris Toshok)
+
+  - Added support for displaying embedded vCards through a Bonobo
+    component.  (Chris Lahey)
+
+  - Added support for generic fields.  (Chris Lahey)
+
+  - Fixed the navigation order for the Tab key in the contact editor
+    window.  (Chris Lahey)
+
+  - Fixed some Bonobo-related bugs and crashes.  (Chris Lahey, Michael
+    Meeks)
+
+  - Only display entries that have an email address in the address
+    selector dialog.  (Chris Lahey)
+
+  - Added an utility program to import vCards from Gnomecard.  (Chris
+    Lahey)
 
 Mailer:
 
@@ -16,22 +55,22 @@ Mailer:
 
   - Long mailer operations (such as fetching new mail) now run
     asynchronously rather than blocking the UI. This involved
-    a major rewrite of much of the Camel and mailer code. (Peter)
+    a major rewrite of much of the Camel and mailer code.  (Peter)
 
   - GPG/PGP message decryption support (Nathan Thompson-Amato, Dan)
 
   - Unfinished messages in the composer can be saved to the "Drafts"
-    folder and finished later. (Jeff)
+    folder and finished later.  (Jeff)
 
   - Double-clicking on a message in the message view now opens it in a
-    separate window. (Jeff)
+    separate window.  (Jeff)
 
   - vCards attached to messages now bring up a minicard view with a
     button to add the vCard to the addressbook (Chris Lahey, Dan)
 
   - Inline uuencoded/binhexed "attachment" support (Dan)
 
-  - "Mark All Messages Seen" command. (Cody Russell)
+  - "Mark All Messages Seen" command.  (Cody Russell)
 
  Filters / VFolders
 
@@ -40,42 +79,42 @@ Mailer:
 
   - Auto-filter/auto-vfolder code (right click on a message in the
     list and pick one of the options at the bottom of the menu to
-    create a filter/vfolder rule for similar messages). (Michael)
+    create a filter/vfolder rule for similar messages).  (Michael)
 
   - You can now set the color of messages in the message list, based
-    on filter rules. (Local stores can also now store arbitrary user
+    on filter rules.  (Local stores can also now store arbitrary user
     flags, although there is not yet UI code to set/view them.)
     (Michael)
 
   - Added "Save" button to the quicksearch bar to save a search as a
-    vfolder. (Michael)
+    vfolder.  (Michael)
 
  Configuration
 
   - Major mail config dialog rewrite (JP).
 
   - The mailer now remembers your threaded/unthreaded message view
-    setting between sessions. (Jeremy Wise).
+    setting between sessions.  (Jeremy Wise).
 
   - Support for multiple identities (JP, Jeff), sources (JP, Peter), and
     IMAP servers (JP, Dan)
 
  Providers
 
-  - You can now leave POP mail on the server. (Also fixed a bug that
+  - You can now leave POP mail on the server.  (Also fixed a bug that
     resulted in the last message being left behind on the POP server
     every time.) (Dan)
 
   - There is now an MH-like local store available, and code to convert
-    a folder from one type to the other. (Michael)
+    a folder from one type to the other.  (Michael)
 
   - The mbox provider now writes out "From " lines that are more
     compatible with other mailers (like Mutt) that are picky about
-    their exact format. (Michael)
+    their exact format.  (Michael)
 
   - The IMAP provider now supports searching (Jeff). Also various
-    other speed/efficiency/robustness improvements (Jeff), and
-    support for old IMAP4 servers as well as IMAP4rev1 (Jon K Hellan)
+    other speed/efficiency/robustness improvements (Jeff), and support
+    for old IMAP4 servers as well as IMAP4rev1 (Jon K Hellan).
 
 
 Version 0.3, "Jellyfish", 2000-07-21
