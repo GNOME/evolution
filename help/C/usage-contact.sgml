@@ -1,5 +1,6 @@
+<!--
 <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
-
+-->
 <chapter id="usage-contact">
   <title>Working with Your Contacts</title>
       <para>
@@ -441,13 +442,13 @@
 		  <guisubmenu>
                       New
                    </guisubmenu>
-		   <guimenuitem>
+		  <guimenuitem>
                      Contact List
                    </guimenuitem>
 		</menuchoice>.
                </para>
 	    </listitem>
-
+	    
 	    <listitem>
 	      <para>
                 Enter a name for the list.
@@ -470,8 +471,9 @@
                  <xref linkend="usage-mail-getnsend-send-to-types">.
               </para>
 	    </listitem>
-
+	    
 	  </orderedlist>
+        </para>
 	<para>
            When you are done, click <guibutton>OK</guibutton>. The
            list will appear as a contact card, which you can use as
@@ -484,8 +486,8 @@
            message to the entire list when you send it. You can also
            right-click on the list's address card in the Contact
            Manager and select <guimenuitem>Send Message to
-           List</guimenuitem>,
-        <para>
+           List</guimenuitem>.
+        </para>
       </sect3>
 
 
