@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution beta\n"
 "POT-Creation-Date: 2000-05-07 17:22+0200\n"
-"PO-Revision-Date: 2000-05-15 14:38+0200\n"
+"PO-Revision-Date: 2000-05-17 11:38+0200\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -782,7 +782,11 @@ msgstr "Slet denne meddelelse"
 msgid "_Expunge"
 msgstr "_Udslet"
 
-#: mail/folder-browser-factory.c:292
+#: mail/folder-browser-factory.c:176
+msgid "_Filter Druid"
+msgstr "_Filter Druid"
+
+#: mail/folder-browser-factory.c:299
 msgid "We are sorry, Evolution's Folder Browser can not be initialized."
 msgstr "Beklager, Evolutions mappebladrer kan ikke initialiseres."
 
