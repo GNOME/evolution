@@ -2188,7 +2188,7 @@ mail_config_uri_renamed(GCompareFunc uri_cmp, const char *old, const char *new)
 	if (g_hash_table_lookup_extended (config->threaded_hash, oldkey, &hashkey, &val)) {
 		/*printf ("changing key in threaded_hash\n");*/
 		g_hash_table_remove (config->threaded_hash, hashkey);
-		g_hash_table_insert (config->threaded_hash, newkey, val);
+		g_hash_table_insert (config->threaded_hash, g_strdup(newkey), val);
 		work = 2;
 	}
 
@@ -2197,13 +2197,12 @@ mail_config_uri_renamed(GCompareFunc uri_cmp, const char *old, const char *new)
 	if (g_hash_table_lookup_extended (config->preview_hash, oldkey, &hashkey, &val)) {
 		/*printf ("changing key in preview_hash\n");*/
 		g_hash_table_remove (config->preview_hash, hashkey);
-		g_hash_table_insert (config->preview_hash, newkey, val);
+		g_hash_table_insert (config->preview_hash, g_strdup(newkey), val);
 		work = 2;
 	}
 
 	g_free (oldkey);
-	if (work != 2)
-		g_free (newkey);
+	g_free (newkey);
 
 	/* ignore return values or if the files exist or
 	 * not, doesn't matter */

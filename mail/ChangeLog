@@ -1,3 +1,9 @@
+2002-10-25  Not Zed  <NotZed@Ximian.com>
+
+	* mail-config.c (mail_config_uri_renamed): Always strdup the new
+	key in the threaded/preview hash/always free the working copy.
+	For #32799.
+
 2002-10-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-display.c (write_data_to_file): Use the mode 0666 when
