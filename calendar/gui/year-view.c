@@ -72,7 +72,7 @@ gncal_year_view_init (GncalYearView *yview)
 }
 
 GtkWidget *
-gncal_year_view_new (time_t date)
+gncal_year_view_new (GnomeCalendar *calendar, time_t date)
 {
 	struct tm my_tm = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 	char monthbuff[40];
@@ -85,7 +85,8 @@ gncal_year_view_new (time_t date)
 
 	tmptm = localtime(&date);
 	yview->year = tmptm->tm_year;
-	my_tm.tm_mon = tmptm->tm_year;
+	yview->gcal = calendar;
+	my_tm.tm_year = tmptm->tm_year;
 	yview->year_label = gtk_label_new("");
 	gtk_table_attach (GTK_TABLE (yview), 
 			  GTK_WIDGET (yview->year_label),
@@ -151,11 +152,51 @@ void gncal_year_view_set (GncalYearView *yview, time_t date)
 	}
 }
 
-/*void
-gncal_week_view_update (GncalWeekView *wview, iCalObject *ico, int flags)
+static void
+year_view_mark_day (iCalObject *ical, time_t start, time_t end, void *closure)
 {
-	g_return_if_fail (wview != NULL);
-	g_return_if_fail (GNCAL_IS_YEAR_VIEW (wview));
+	GncalYearView *yview = (GncalYearView *) closure;
+	struct tm *tm_s;
+	int days, day;
+	
+	tm_s = localtime (&start);
+	days = difftime (end, start) / (60*60*24);
 
-	update (wview, TRUE, ico, flags);
-}*/
+	for (day = 0; day <= days; day++){
+		time_t new = mktime (tm_s);
+		struct tm *tm_day;
+		
+		tm_day = localtime (&new);
+		gtk_calendar_mark_day (GTK_CALENDAR (yview->calendar [tm_day->tm_mon]),
+				       tm_day->tm_mday);
+		tm_s->tm_mday++;
+	}
+}
+
+void
+gncal_year_view_update (GncalYearView *yview, iCalObject *ico, int flags)
+{
+	g_return_if_fail (yview != NULL);
+	g_return_if_fail (GNCAL_IS_YEAR_VIEW (yview));
+
+	/* If only the summary changed, we dont care */
+	if ((flags & CHANGE_SUMMARY) == flags)
+		return;
+
+	if (flags & CHANGE_NEW){
+		time_t year_begin, year_end;
+		GList  *l, *nl;
+		
+		year_begin = time_year_begin (yview->year);
+		year_end   = time_year_end   (yview->year);
+		
+		l = g_list_append (NULL, ico);
+		nl = calendar_get_objects_in_range (l, year_begin, year_end, NULL);
+		if (nl){
+			ical_foreach (nl, year_view_mark_day, yview);
+			g_list_free (nl);
+		}
+		g_list_free (l);
+	}
+}
+

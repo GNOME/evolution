@@ -83,7 +83,7 @@ setup_widgets (GnomeCalendar *gcal)
 	
 	gcal->notebook  = gtk_notebook_new ();
 	gcal->week_view = gncal_week_view_new (gcal, now);
-	gcal->year_view = gncal_year_view_new (now);
+	gcal->year_view = gncal_year_view_new (gcal, now);
 	gcal->task_view = tasks_create (gcal);
 
 	setup_day_view (gcal);
@@ -190,8 +190,9 @@ gnome_calendar_new (char *title)
 static void
 gnome_calendar_update_all (GnomeCalendar *cal, iCalObject *object, int flags)
 {
-	gncal_full_day_update (GNCAL_FULL_DAY (cal->day_view), object, flags);
+	gncal_full_day_update  (GNCAL_FULL_DAY  (cal->day_view),  object, flags);
 	gncal_week_view_update (GNCAL_WEEK_VIEW (cal->week_view), object, flags);
+	gncal_year_view_update (GNCAL_YEAR_VIEW (cal->year_view), object, flags);
 }
 
 void

@@ -153,11 +153,15 @@ typedef struct {
 	int new;
 } iCalObject;
 
-iCalObject *ical_new (char *comment, char *organizer, char *summary);
-iCalObject *ical_object_new (void);
-void        ical_object_destroy (iCalObject *ico);
+/* The callback for the recurrence generator */
+typedef void (*iCalObjectFn)(iCalObject *, time_t, time_t, void *);
+
+iCalObject *ical_new                        (char *comment, char *organizer, char *summary);
+iCalObject *ical_object_new                 (void);
+void        ical_object_destroy             (iCalObject *ico);
 iCalObject *ical_object_create_from_vobject (VObject *obj, const char *object_name);
-VObject    *ical_object_to_vobject (iCalObject *ical);
+VObject    *ical_object_to_vobject          (iCalObject *ical);
+void        ical_foreach                    (GList *events, iCalObjectFn fn, void *closure);
 
 END_GNOME_DECLS
 

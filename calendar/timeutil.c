@@ -165,3 +165,38 @@ time_end_of_day (time_t t)
 	return retval;
 }
 
+time_t
+time_year_begin (int year)
+{
+	struct tm tm;
+	time_t retval;
+	
+	tm.tm_hour = 0;
+	tm.tm_min  = 0;
+	tm.tm_sec  = 0;
+	tm.tm_year = year;
+	tm.tm_mon  = 0;
+	tm.tm_mday = 1;
+	tm.tm_isdst = -1;
+	
+	retval = mktime (&tm);
+	return retval;
+}
+
+time_t
+time_year_end (int year)
+{
+	struct tm tm;
+	time_t retval;
+	
+	tm.tm_hour = 23;
+	tm.tm_min  = 59;
+	tm.tm_sec  = 59;
+	tm.tm_year = year;
+	tm.tm_mon  = 11;
+	tm.tm_mday = 31;
+	tm.tm_isdst = -1;
+	
+	retval = mktime (&tm);
+	return retval;
+}

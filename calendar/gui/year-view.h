@@ -33,7 +33,8 @@ typedef struct _GncalYearViewClass GncalYearViewClass;
 struct _GncalYearView {
 	GtkTable table;
 
-	GtkWidget *calendar[12];	/* one calendar per month */
+	GnomeCalendar *gcal;        /* The calendar we are associated to */
+	GtkWidget *calendar[12];    /* one calendar per month */
         guint       handler[12];    /* for (un)blocking the calendars */
 	
 	GtkWidget *year_label;
@@ -46,9 +47,8 @@ struct _GncalYearViewClass {
 
 
 guint      gncal_year_view_get_type       (void);
-GtkWidget *gncal_year_view_new            (time_t date);
-
-void       gncal_year_view_set            (GncalYearView *yview, time_t date);
+GtkWidget *gncal_year_view_new            (GnomeCalendar *calendar, time_t date);
+void       gncal_year_view_set            (GncalYearView *yview,    time_t date);
 
 
 END_GNOME_DECLS

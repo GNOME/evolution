@@ -36,6 +36,8 @@ calendar_add_object (Calendar *cal, iCalObject *obj)
 	switch (obj->type){
 	case ICAL_EVENT:
 		cal->events = g_list_prepend (cal->events, obj);
+		if (obj->recur)
+			cal->recur = g_list_prepend (cal->recur, obj);
 		break;
 
 	case ICAL_TODO:
@@ -60,6 +62,8 @@ calendar_remove_object (Calendar *cal, iCalObject *obj)
 	switch (obj->type){
 	case ICAL_EVENT:
 		cal->events = g_list_remove (cal->events, obj);
+		if (obj->recur)
+			cal->recur = g_list_remove (cal->recur, obj);
 		break;
 
 	case ICAL_TODO:
@@ -107,7 +111,7 @@ ice (time_t t)
 	return buffer;
 }
 
-static GList *
+GList *
 calendar_get_objects_in_range (GList *objects, time_t start, time_t end, GCompareFunc sort_func)
 {
 	GList *new_events = 0;

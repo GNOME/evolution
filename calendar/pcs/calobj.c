@@ -99,7 +99,13 @@ ical_object_destroy (iCalObject *ico)
 	lfree_if_defined (ico->resources);
 	lfree_if_defined (ico->related);
 	lfree_if_defined (ico->attach);
-	
+
+	/* Alarms */
+	g_free (ico->dalarm.data);
+	g_free (ico->palarm.data);
+	g_free (ico->malarm.data);
+	g_free (ico->aalarm.data);
+
 	g_free (ico);
 }
 
@@ -669,4 +675,14 @@ ical_object_to_vobject (iCalObject *ical)
 
 	/* FIXME: alarms */
 	return o;
+}
+
+void
+ical_foreach (GList *events, iCalObjectFn fn, void *closure)
+{
+	for (; events; events = events->next){
+		iCalObject *ical = events->data;
+		
+		(*fn) (ical, ical->dtstart, ical->dtend, closure);
+	}
 }
