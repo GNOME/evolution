@@ -29,7 +29,6 @@ struct _ETableHeader {
 	int sort_info_group_change_id;
 
 	ETableCol **columns;
-	gboolean selectable;
 	
 	GSList *change_queue, *change_tail;
 	gint idle;
@@ -57,7 +56,6 @@ int         e_table_header_get_index_at  (ETableHeader *eth,
 					  int x_offset);
 ETableCol **e_table_header_get_columns   (ETableHeader *eth);
 
-gboolean    e_table_header_selection_ok  (ETableHeader *eth);
 int         e_table_header_get_selected  (ETableHeader *eth);
 int         e_table_header_total_width   (ETableHeader *eth);
 void        e_table_header_move          (ETableHeader *eth,

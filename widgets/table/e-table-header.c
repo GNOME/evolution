@@ -257,7 +257,6 @@ e_table_header_init (ETableHeader *eth)
 	eth->sort_info_group_change_id = 0;
 
 	eth->columns = NULL;
-	eth->selectable = FALSE;
 	
 	eth->change_queue = NULL;
 	eth->change_tail = NULL;
@@ -456,21 +455,6 @@ e_table_header_get_columns (ETableHeader *eth)
 	}
 
 	return ret;
-}
-
-/**
- * e_table_header_selection_ok:
- * eth: the ETableHeader to query.
- *
- * Seems deprecated.
- */
-gboolean
-e_table_header_selection_ok (ETableHeader *eth)
-{
-	g_return_val_if_fail (eth != NULL, FALSE);
-	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), FALSE);
-
-	return eth->selectable;
 }
 
 /**
