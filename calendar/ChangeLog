@@ -1,5 +1,10 @@
 2004-03-26  JP Rosevear <jpr@ximian.com>
 
+	* gui/migration.c (migrate_calendars): no need to explicitly add
+	the contacts group, the create function does this properly
+
+2004-03-26  JP Rosevear <jpr@ximian.com>
+
 	* gui/migration.c (migrate_calendars): make sure we always sync
 	the source list and just do it once; unref the sources we get
 	(migrate_tasks): make sure we always sync

@@ -598,13 +598,6 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 			dialog_close ();
 		}
 
-		if (minor == 5 && revision < 2) {
-			ESourceGroup *group;
-			
-			group = create_calendar_contact_source (calendar_component_peek_source_list (component));
-			g_object_unref (group);
-		}
-
 		if (minor == 5 && revision < 5) {
 			GConfClient *gconf;	
 			GConfValue *gconf_val;
