@@ -1,3 +1,8 @@
+2002-10-29  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/gnome-cal.c (backend_died_cb): cleaned up the status bar
+	messages for all widgets.
+
 2002-10-24  JP Rosevear  <jpr@ximian.com>
 	
 	* gui/e-itip-control.c (init): initialize new values
