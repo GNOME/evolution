@@ -616,7 +616,7 @@ malarm_widgets_to_alarm (Dialog *dialog, CalComponentAlarm *alarm)
 	
 	/* Attendees */
 	bonobo_widget_get_property (BONOBO_WIDGET (dialog->malarm_addresses), "destinations", 
-				    &str, NULL);
+				    TC_CORBA_string, &str, NULL);
 	destv = e_destination_importv (str);
 	g_free (str);
 	

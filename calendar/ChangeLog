@@ -1,3 +1,9 @@
+2003-03-26  Jack Jia <jack.jia@sun.com>
+
+	* calendar/gui/dialogs/alarm-options.c
+	(malarm_widgets_to_alarm): add a parameter(TC_CORBA_string) to
+	the bonobo_widget_get_property.
+	
 2003-03-25  Dan Winship  <danw@ximian.com>
 
 	* gui/itip-utils.c: Update for e_notice move
