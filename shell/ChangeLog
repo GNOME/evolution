@@ -1,4 +1,4 @@
-2002-06-25  Ettore Perazzoli  <ettore@ximian.com>
+2002-06-28  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #10681, Incorrect behavior when deleting a hierarchy of local
 	folders.]
