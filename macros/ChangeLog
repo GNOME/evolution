@@ -1,3 +1,8 @@
+Sat Feb 14 01:09:37 1998  Tom Tromey  <tromey@cygnus.com>
+
+	* gnome-x-checks.m4: Only check for -lSM if not already in
+	x_libs.
+
 1998-02-13  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* Makefile.am (EXTRA_DIST): Add `autogen.sh'.

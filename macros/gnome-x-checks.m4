@@ -29,12 +29,19 @@ AC_DEFUN([GNOME_X_CHECKS],
         LDFLAGS="$saved_ldflags $X_LDFLAGS $X_LIBS"
 
 	dnl Assume that if we have -lSM then we also have -lICE.
-	AC_CHECK_LIB(SM, SmcSaveYourselfDone,
+	case "$x_libs" in
+	 *-lSM*)
+	    # Already found it.
+	    ;;
+	 *)
+	    AC_CHECK_LIB(SM, SmcSaveYourselfDone,
 	        [AC_DEFINE(HAVE_LIBSM)
 	        x_libs="$x_libs -lSM -lICE"], ,
 		$x_libs -lICE)
 		AM_CONDITIONAL(ENABLE_GSM,
 			test "x$ac_cv_lib_SM_SmcSaveYourselfDone" = "xyes")
+	    ;;
+	esac
 
         AC_CHECK_LIB(gtk, gdk_pixmap_unref,
                 GTK_LIBS="-lgtk -lgdk -lglib -lm",
