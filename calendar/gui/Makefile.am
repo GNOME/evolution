@@ -87,8 +87,6 @@ evolution_calendar_SOURCES =			\
 	e-week-view.h				\
 	e-tasks.c				\
 	e-tasks.h				\
-	editor-page.c				\
-	editor-page.h				\
 	event-editor.c				\
 	event-editor.h				\
 	gnome-cal.c				\
