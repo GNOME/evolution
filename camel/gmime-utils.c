@@ -160,7 +160,11 @@ _store_header_pair_from_string (GArray *header_array, gchar *header_line)
 
 
 	
-		
+/* 
+   this is a blocking version of the 
+   header parsing. Need to change when 
+   fs streams are non blocking
+*/
 GArray *
 get_header_array_from_stream (CamelStream *stream)
 {
@@ -177,8 +181,6 @@ get_header_array_from_stream (CamelStream *stream)
 	gboolean end_of_file = FALSE;
 
 	GString *header_line=NULL;
-	gchar *str_header_line;
-
 	GArray *header_array;
 
 
@@ -215,23 +217,29 @@ get_header_array_from_stream (CamelStream *stream)
 				default:
 					if (!crlf) header_line = g_string_append_c (header_line, next_char);					
 					else end_of_header_line = TRUE;
+
 				}
 			} else {
-				end_of_file=TRUE;
-				end_of_header_line = TRUE;
+				
+				if (nb_char_read <0) {
+					end_of_file=TRUE;
+					end_of_header_line = TRUE;
+					
+				}
 			}
+			
 			/* if we have read a whole header line, we have also read
 			   the first character of the next line to be sure the 
 			   crlf was not followed by a space or a tab char */
 			if (!end_of_header_line) nb_char_read = camel_stream_read (stream, &next_char, 1);
-
+			
 		} while ( !end_of_header_line );
 		if ( strlen(header_line->str) ) {
 			/*  str_header_line = g_strdup (header_line->str); */
 			_store_header_pair_from_string (header_array, header_line->str);			
 		}
 		g_string_free (header_line, FALSE);
-
+		
 	} while ( (!end_of_headers) && (!end_of_file) );
 	
 	CAMEL_LOG_FULL_DEBUG ( "gmime-utils:: Leaving get_header_table_from_stream\n");
@@ -239,6 +247,7 @@ get_header_array_from_stream (CamelStream *stream)
 }
 		
 		
+
 gchar *
 gmime_read_line_from_stream (CamelStream *stream)
 {
@@ -252,7 +261,9 @@ gmime_read_line_from_stream (CamelStream *stream)
 	new_line = g_string_new ("");
 	do {
 		nb_char_read = camel_stream_read (stream, &next_char, 1);
+
 		if (nb_char_read>0) {
+			
 			switch (next_char) {
 			case '\n':				
 				end_of_line = TRUE;
@@ -260,13 +271,22 @@ gmime_read_line_from_stream (CamelStream *stream)
 				break;
 			default:
 				g_string_append_c (new_line, next_char);
+
 			}
-		} else end_of_stream = TRUE;
+		} else {
+
+			if (nb_char_read <0) 
+				end_of_stream = TRUE;
+
+		}
 	} while (!end_of_line && !end_of_stream);
+
 
 	if (!end_of_stream)
 		result = g_strdup (new_line->str);
 	else result=NULL;
+
 	g_string_free (new_line, TRUE);
+
 	return result;
 }

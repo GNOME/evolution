@@ -1,3 +1,31 @@
+2000-02-14  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/gmime-utils.c (get_header_array_from_stream): 
+	make a blocking version of the header parser. 
+	When the fs stream uses gnome-vfs, this should
+	be changed. 
+	(gmime_read_line_from_stream): ditto. 
+
+2000-02-11  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-stream-fs.c: 
+	everywhere, when using the cur_pos field, do it
+	on the CamelSeekableStream object.
+	(_seek): small fix. 
+
+	* camel/camel-seekable-stream.c (camel_seekable_stream_seek): 
+	s/camel_stream_seek/camel_seekable_stream_seek/g
+
+	* camel/camel-seekable-stream.h: 
+	(struct ): added a field to store the
+	current position.
+
+	* camel/camel-seekable-stream.c (camel_seekable_stream_get_current_position): 
+	New function. Allows to get the current position 
+	of a seekable stream.
+	
+
+
 2000-02-14  NotZed  <notzed@zedzone.helixcode.com>
 
 	* configure.in (EXTRA_GNOME_CFLAGS): Add libunicode to CFLAGS/LIBS.
@@ -59,6 +87,7 @@
 
 	* widgets/e-text/e-text.h: Removed some arguments from the .h that
 	will never be implemented.
+
 
 2000-02-10  bertrand  <Bertrand.Guiheneuf@aful.org>
 

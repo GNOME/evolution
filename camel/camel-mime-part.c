@@ -60,8 +60,10 @@ static CamelMediumClass *parent_class=NULL;
 static void _finalize (GtkObject *object);
 
 /* from CamelDataWrapper */
-static void _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
+static void _write_to_stream       (CamelDataWrapper *data_wrapper, CamelStream *stream);
 static void _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
+static void _set_input_stream      (CamelDataWrapper *data_wrapper, CamelStream *stream);
+
 
 /* from CamelMedia */ 
 static void _add_header (CamelMedium *medium, gchar *header_name, gchar *header_value);
@@ -788,6 +790,19 @@ _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	camel_mime_part_store_stream_in_buffer (mime_part, stream);
 	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::construct_from_stream leaving\n");
 
+}
+
+
+static void 
+_set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
+{
+	CamelMimePart *mime_part = CAMEL_MIME_PART (data_wrapper);
+	
+	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::construct_from_stream entering\n");
+	camel_mime_part_construct_headers_from_stream (mime_part, stream);
+
+	
+	
 }
 
 

@@ -168,13 +168,13 @@ _set_bounds (CamelStreamFs *stream_fs, guint32 inf_bound, guint32 sup_bound)
 	/* go to the first position */
 	lseek (stream_fs->fd, inf_bound, SEEK_SET);
 
-	stream_fs->cur_pos = inf_bound;
+	CAMEL_SEEKABLE_STREAM (stream_fs)->cur_pos = inf_bound;
 	
 	CAMEL_LOG_FULL_DEBUG ("In CamelStreamFs::_set_bounds, "
 			      "setting inf bound to %u, "
 			      "sup bound to %ld, current postion to %u from %u\n", 
 			      stream_fs->inf_bound, stream_fs->sup_bound,
-			      stream_fs->cur_pos, inf_bound);
+			      CAMEL_SEEKABLE_STREAM (stream_fs)->cur_pos, inf_bound);
 	
 }
 
@@ -187,7 +187,7 @@ _init_with_fd (CamelStreamFs *stream_fs, int fd)
 	stream_fs->fd = fd;
 	stream_fs->inf_bound = 0;
 	stream_fs->sup_bound = -1;
-	stream_fs->cur_pos = 0;
+	CAMEL_SEEKABLE_STREAM (stream_fs)->cur_pos = 0;
 }
 
 
@@ -219,12 +219,12 @@ _init_with_name (CamelStreamFs *stream_fs, const gchar *name, CamelStreamFsMode 
 	
 	if (mode & CAMEL_STREAM_FS_READ){
 		if (mode & CAMEL_STREAM_FS_WRITE)
-			flags = O_RDWR | O_CREAT;
+			flags = O_RDWR | O_CREAT | O_NONBLOCK;
 		else
-			flags = O_RDONLY;
+			flags = O_RDONLY | O_NONBLOCK;
 	} else {
 		if (mode & CAMEL_STREAM_FS_WRITE)
-			flags = O_WRONLY | O_CREAT;
+			flags = O_WRONLY | O_CREAT | O_NONBLOCK;
 		else
 			return;
 	}
@@ -245,7 +245,7 @@ _init_with_name (CamelStreamFs *stream_fs, const gchar *name, CamelStreamFsMode 
 	
 	stream_fs->name = g_strdup (name);
 	CSFS_CLASS (stream_fs)->init_with_fd (stream_fs, fd);
-		
+	
 }
 
 
@@ -260,7 +260,7 @@ _init_with_name_and_bounds (CamelStreamFs *stream_fs, const gchar *name, CamelSt
 			      "setting inf bound to %u, "
 			      "sup bound to %ld, current postion to %u\n", 
 			      stream_fs->inf_bound, stream_fs->sup_bound,
-			      stream_fs->cur_pos);
+			      CAMEL_SEEKABLE_STREAM (stream)->cur_pos);
 }
 
 
@@ -345,7 +345,7 @@ _read (CamelStream *stream, gchar *buffer, gint n)
 	gint nb_to_read;
 	
 	if (stream_fs->sup_bound != -1)
-		nb_to_read = MIN (stream_fs->sup_bound - stream_fs->cur_pos, n);
+		nb_to_read = MIN (stream_fs->sup_bound - CAMEL_SEEKABLE_STREAM (stream)->cur_pos, n);
 	else 
 		nb_to_read = n;
 	
@@ -355,7 +355,7 @@ _read (CamelStream *stream, gchar *buffer, gint n)
 	if (v<0)
 		CAMEL_LOG_FULL_DEBUG ("CamelStreamFs::read v=%d\n", v);
 	else 
-		stream_fs->cur_pos += v;
+		CAMEL_SEEKABLE_STREAM (stream)->cur_pos += v;
 
 	return v;
 }
@@ -384,7 +384,7 @@ _write (CamelStream *stream, const gchar *buffer, gint n)
 	CAMEL_LOG_FULL_DEBUG ( "CamelStreamFs:: entering write. n=%d\n", n);
 
 	if (stream_fs->sup_bound != -1)
-		nb_to_write =  MIN (stream_fs->sup_bound - stream_fs->cur_pos, n);
+		nb_to_write =  MIN (stream_fs->sup_bound - CAMEL_SEEKABLE_STREAM (stream)->cur_pos, n);
 	else 
 		nb_to_write = n;
 
@@ -400,7 +400,7 @@ _write (CamelStream *stream, const gchar *buffer, gint n)
 #endif
 
 	if (v>0)
-		stream_fs->cur_pos += v;
+		CAMEL_SEEKABLE_STREAM (stream)->cur_pos += v;
 
 	return v;
 
@@ -484,10 +484,10 @@ _seek (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy)
 		break;
 
 	case CAMEL_STREAM_CUR:
-		if ((stream_fs->sup_bound == -1) && ((stream_fs->cur_pos + offset) > stream_fs->sup_bound)) {
+		if ((stream_fs->sup_bound != -1) && ((CAMEL_SEEKABLE_STREAM (stream)->cur_pos + offset) > stream_fs->sup_bound)) {
 			real_offset = stream_fs->sup_bound;
 			whence = SEEK_SET;	
-		} else if ((stream_fs->cur_pos + offset) < stream_fs->inf_bound) {
+		} else if ((CAMEL_SEEKABLE_STREAM (stream)->cur_pos + offset) < stream_fs->inf_bound) {
 			real_offset = stream_fs->inf_bound;
 			whence = SEEK_SET;	
 		} else 
@@ -515,7 +515,7 @@ _seek (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy)
 	
 		
 	return_position =  lseek (stream_fs->fd, real_offset, whence) - stream_fs->inf_bound;
-	stream_fs->cur_pos = return_position;
+	CAMEL_SEEKABLE_STREAM (stream)->cur_pos = return_position;
 
 	return return_position;
 }

@@ -57,6 +57,8 @@ typedef struct
 {
 	CamelStream parent_object;
 	
+	guint32 cur_pos;     /* current postion in the stream */
+
 } CamelSeekableStream;
 
 
@@ -66,8 +68,8 @@ typedef struct {
 	
 	/* Virtual methods */	
 	gint (*seek)       (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy);
-
-
+	
+	
 } CamelSeekableStreamClass;
 
 
@@ -77,7 +79,10 @@ GtkType camel_seekable_stream_get_type (void);
 
 
 /* public methods */
-gint     camel_stream_seek      (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy);
+gint     camel_seekable_stream_seek                      (CamelSeekableStream *stream, 
+							  gint offset, 
+							  CamelStreamSeekPolicy policy);
+guint32  camel_seekable_stream_get_current_position      (CamelSeekableStream *stream);
 
 
 #ifdef __cplusplus

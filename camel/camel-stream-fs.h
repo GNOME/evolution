@@ -57,7 +57,6 @@ typedef struct
 
 	gchar *name;       /* name of the underlying file */
 	gint fd;           /* file descriptor on the underlying file */
-	guint32 cur_pos;     /* current postion in the stream */
 	guint32 inf_bound;   /* first valid position */
 	gint32 sup_bound;    /* last valid position, -1 means, no sup bound */
 	

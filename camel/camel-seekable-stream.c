@@ -78,14 +78,12 @@ camel_seekable_stream_get_type (void)
 
 
 static gint
-_seek (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy)
+_seek (CamelSeekableStream *stream, 
+       gint offset, 
+       CamelStreamSeekPolicy policy)
 {
 	return -1;
 }
-
-
-
-
 
 
 
@@ -100,10 +98,32 @@ _seek (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy)
  * Return value: new position, -1 if operation failed.
  **/
 gint
-camel_stream_seek (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy)
+camel_seekable_stream_seek (CamelSeekableStream *stream, 
+			    gint offset, 
+			    CamelStreamSeekPolicy policy)
 {
 	return CSS_CLASS (stream)->seek (stream, offset, policy);
 }
+
+
+
+
+/**
+ * camel_seekable_stream_get_current_position: get the position of a stream
+ * @stream: seekable stream object 
+ * 
+ * Get the current position of a seekable stream.
+ * 
+ * Return value: the position.
+ **/
+guint32  
+camel_seekable_stream_get_current_position  (CamelSeekableStream *stream)
+{
+	return stream->cur_pos;		
+}
+
+
+
 
 
 

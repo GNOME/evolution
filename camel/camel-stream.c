@@ -160,7 +160,7 @@ camel_stream_flush (CamelStream *stream)
  * 
  * Return value: the number of bytes available.
  **/
-gint 
+gboolean
 camel_stream_available (CamelStream *stream)
 {
 	return CS_CLASS (stream)->available (stream);

@@ -57,13 +57,16 @@ typedef struct {
 	
 	void  (*data_available) (CamelStream *stream); /* default "data_available" signal handler */
 
-	gint  (*read)      (CamelStream *stream, gchar *buffer, gint n);
-	gint  (*write)     (CamelStream *stream, const gchar *buffer, gint n);
-	void  (*flush)     (CamelStream *stream);
-	gint  (*available) (CamelStream *stream);
-	gboolean  (*eos)   (CamelStream *stream);
-	void  (*close)     (CamelStream *stream);
+	gint      (*read)       (CamelStream *stream, gchar *buffer, gint n);
+	gint      (*write)      (CamelStream *stream, const gchar *buffer, gint n);
+	void      (*flush)      (CamelStream *stream);
+	gint      (*available)  (CamelStream *stream);
+	gboolean  (*eos)        (CamelStream *stream);
+	void      (*close)      (CamelStream *stream);
 } CamelStreamClass;
+
+
+
 
 
 
@@ -71,21 +74,32 @@ typedef struct {
 GtkType camel_stream_get_type (void);
 
 
+
+
 /* public methods */
-gint     camel_stream_read      (CamelStream *stream, gchar *buffer, gint n);
-gint     camel_stream_write     (CamelStream *stream, const gchar *buffer, gint n);
-void     camel_stream_flush     (CamelStream *stream);
-gint     camel_stream_available (CamelStream *stream);
-gboolean camel_stream_eos       (CamelStream *stream);
-void     camel_stream_close     (CamelStream *stream);
+gint       camel_stream_read      (CamelStream *stream, gchar *buffer, gint n);
+gint       camel_stream_write     (CamelStream *stream, const gchar *buffer, gint n);
+void       camel_stream_flush     (CamelStream *stream);
+gboolean   camel_stream_available (CamelStream *stream);
+gboolean   camel_stream_eos       (CamelStream *stream);
+void       camel_stream_close     (CamelStream *stream);
+
+
+
 
 /* utility macros and funcs */
 #define camel_stream_write_string(stream, string) camel_stream_write ((stream), (string), strlen (string))
 
-void camel_stream_write_strings (CamelStream *stream, ... );
+void       camel_stream_write_strings (CamelStream *stream, ... );
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
 #endif /* CAMEL_STREAM_H */
+
+
+
+
+
+
