@@ -74,6 +74,7 @@ listener_notify (Bonobo_Listener listener,
 	}
 
 	CORBA_exception_free (&ev);
+        CORBA_free (nr.name);
 }
 
 static GNOME_Evolution_StorageListener
