@@ -1,3 +1,8 @@
+2001-05-18  Duncan Mak  <duncan@ximian.com>
+
+	* C/evolution-faq.sgml: Added two questions about importing Outlook (text from Iain).
+	Fixed some tags and cleaned up a bit here and there.
+
 2001-05-18  Ettore Perazzoli  <ettore@ximian.com>
 
 	* C/evolution-faq.sgml: Added a question about the permission
