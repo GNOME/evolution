@@ -1,5 +1,12 @@
 2002-07-29  Iain Holmes <iain@ximian.com>
 
+	* e-summary-tasks.c (get_task_colour): Get the colour for a task: Red
+	if overdue, blue if todays task, black otherwise.
+	(generate_html): Get the task colour, and shuffle the HTML around so
+	the colour gets preference over the link.
+
+2002-07-29  Iain Holmes <iain@ximian.com>
+
 	* Locations: Fixed typo according to bug #18963
 
 	* Locations.h: Updated.

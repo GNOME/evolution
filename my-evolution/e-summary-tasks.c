@@ -209,6 +209,7 @@ get_todays_uids (ESummary *summary,
 				today = g_list_append (today, g_strdup (uid));
 			}
 		}
+		
 		cal_component_free_datetime (&due);
 	}
 
@@ -218,6 +219,50 @@ get_todays_uids (ESummary *summary,
 
 	today = cal_list_sort (today, sort_uids, client);
 	return today;
+}
+
+static const char *
+get_task_colour (ESummary *summary,
+		 CalClient *client,
+		 const char *uid)
+{
+	CalComponent *comp;
+	CalClientGetStatus status;
+	CalComponentDateTime due;
+	icaltimezone *zone;
+	char *ret;
+	time_t end_t, t, todays_start, todays_end;
+
+	t = time (NULL);
+	todays_start = time_day_begin_with_zone (t, summary->tz);
+	todays_end = time_day_end_with_zone (t, summary->tz);
+
+	status = cal_client_get_object (client, uid, &comp);
+	if (status != CAL_CLIENT_GET_SUCCESS) {
+		return "black";
+	}
+
+	cal_component_get_due (comp, &due);
+
+	cal_client_get_timezone (client, due.tzid, &zone);
+	if (due.value != 0) {
+		icaltimezone_convert_time (due.value, zone, summary->tz);
+		end_t = icaltime_as_timet (*due.value);
+
+		if (end_t >= todays_start && end_t <= todays_end) {
+			ret = "blue";
+		} else if (end_t < t) {
+			ret = "red";
+		} else {
+			ret = "black";
+		}
+	} else {
+		ret = "black";
+	}
+
+	cal_component_free_datetime (&due);
+
+	return (const char *)ret;
 }
 
 static gboolean
@@ -278,7 +323,8 @@ generate_html (gpointer data)
 			CalComponentText text;
 			CalClientGetStatus status;
 			struct icaltimetype *completed;
-
+			const char *colour;
+			
 			uid = l->data;
 			status = cal_client_get_object (tasks->client, uid, &comp);
 			if (status != CAL_CLIENT_GET_SUCCESS) {
@@ -287,12 +333,14 @@ generate_html (gpointer data)
 
 			cal_component_get_summary (comp, &text);
 			cal_component_get_completed (comp, &completed);
-			
+
+			colour = get_task_colour (summary, tasks->client, uid);
+
 			if (completed == NULL) {
 				tmp = g_strdup_printf ("<img align=\"middle\" src=\"task.png\" "
 						       "alt=\"\" width=\"16\" height=\"16\">  &#160; "
-						       "<font size=\"-1\"><a href=\"tasks:/%s\">%s</a></font><br>", 
-						       uid, text.value ? text.value : _("(No Description)"));
+						       "<a href=\"tasks:/%s\"><font size=\"-1\" color=\"%s\">%s</font></a><br>", 
+						       uid, colour, text.value ? text.value : _("(No Description)"));
 			} else {
 #if 0
 				tmp = g_strdup_printf ("<img align=\"middle\" src=\"task.xpm\" "
