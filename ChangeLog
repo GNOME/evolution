@@ -1,7 +1,11 @@
 2003-03-28  Ettore Perazzoli  <ettore@ximian.com>
 
-	* data/Makefile.am (install-data-local): Fix installation of the
-	.desktop file.
+	* configure.in: Ported check for "killall" vs. "killp" back from
+	1.2.
+
+2003-03-28  Ettore Perazzoli  <ettore@ximian.com>
+
+	* data/Makefile.am: Fix installation of the .desktop file.
 
 2003-03-27  Ettore Perazzoli  <ettore@ximian.com>
 

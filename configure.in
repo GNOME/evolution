@@ -927,6 +927,26 @@ AC_MSG_RESULT([$DTAPPINTEGRATE])
 AC_SUBST(DTAPPINTEGRATE)
 AM_CONDITIONAL(HAVE_DTAPPINTEGRATE, test "x$DTAPPINTEGRATE" != "xno")
 
+dnl *****************
+dnl killall or pkill?
+dnl *****************
+
+AC_MSG_CHECKING(for command to kill processes)
+
+if test `uname -s` = "SunOS" ; then
+	KILL_PROCESS_CMD="pkill";
+else
+	KILL_PROCESS_CMD="killall";
+fi
+
+KILL_PROCESS_CMD=`which $KILL_PROCESS_CMD`
+if test -z "$KILL_PROCESS_CMD" ; then
+	AC_MSG_RESULT(none)
+else
+	AC_MSG_RESULT($KILL_PROCESS_CMD)
+	AC_DEFINE_UNQUOTED([KILL_PROCESS_CMD], "$KILL_PROCESS_CMD", [Command to kill processes by name])
+fi
+
 dnl ****************************************************
 dnl GNOME_PREFIX is is needed by shell/evolution-nognome
 dnl ****************************************************
@@ -1118,7 +1138,7 @@ AC_SUBST(EVOLUTION_MAIL_LIBS)
 
 dnl -- wombat flags
 
-EVO_SET_COMPILE_FLAGS(WOMBAT, libgnome-2.0, $LDAP_CFLAGS, $LDAP_LIBS)
+EVO_SET_COMPILE_FLAGS(WOMBAT, gal-2.0 libgnome-2.0, $LDAP_CFLAGS, $LDAP_LIBS)
 AC_SUBST(WOMBAT_CFLAGS)
 AC_SUBST(WOMBAT_LIBS)
 
