@@ -934,7 +934,7 @@ GPtrArray *summary_get_message_info (CamelFolder *folder, int first, int count)
 	CamelMboxFolder *mbox_folder = (CamelMboxFolder *)folder;
 
         maxcount = camel_mbox_summary_message_count(mbox_folder->summary);
-	maxcount = MAX(count, maxcount);
+	maxcount = MIN(count, maxcount);
 	for (i=first;i<maxcount;i++)
 		g_ptr_array_add(array, g_ptr_array_index(mbox_folder->summary->messages, i));
 

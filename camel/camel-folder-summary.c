@@ -1028,7 +1028,8 @@ summary_build_content_info(CamelFolderSummary *s, CamelMimeParser *mp)
 		} else {
 			g_error("Parsing failed: no content of a message?");
 		}
-		if (!(state == HSCAN_MESSAGE_END)) {
+		state = camel_mime_parser_step(mp, &buffer, &len);
+		if (state != HSCAN_MESSAGE_END) {
 			g_error("Bad parser state: Expecing MESSAGE_END or MESSAGE_EOF, got: %d", state);
 			camel_mime_parser_unstep(mp);
 		}
@@ -1039,3 +1040,66 @@ summary_build_content_info(CamelFolderSummary *s, CamelMimeParser *mp)
 
 	return info;
 }
+
+#if 1
+int main(int argc, char **argv)
+{
+	CamelMimeParser *mp;
+	int fd;
+	CamelFolderSummary *s;
+	char *buffer;
+	int len;
+	extern int strdup_count, malloc_count, free_count;
+
+	gtk_init(&argc, &argv);
+
+#if 0
+	{
+		int i;
+		char *s;
+		char buf[1024];
+
+		for (i=0;i<434712;i++) {
+			memcpy(buf, "                                                         ", 50);
+			buf[50] = 0;
+#if 0
+			s = g_strdup(buf);
+			g_free(s);
+#endif
+		}
+		return 0;
+	}
+#endif
+
+	if (argc < 2 ) {
+		printf("usage: %s mbox\n", argv[0]);
+		return 1;
+	}
+
+	fd = open(argv[1], O_RDONLY);
+
+	mp = camel_mime_parser_new();
+	camel_mime_parser_scan_from(mp, TRUE);
+/*	camel_mime_parser_set_header_regex(mp, "^(content-[^:]*|subject|from|to|date):");*/
+	camel_mime_parser_init_with_fd(mp, fd);
+
+	s = camel_folder_summary_new();
+	camel_folder_summary_set_build_content(s, TRUE);
+
+	while (camel_mime_parser_step(mp, &buffer, &len) == HSCAN_FROM) {
+		/*printf("Parsing message ...\n");*/
+		camel_folder_summary_add_from_parser(s, mp);
+		if (camel_mime_parser_step(mp, &buffer, &len) != HSCAN_FROM_END) {
+			g_warning("Uknown state encountered, excpecting %d, got %d\n", HSCAN_FROM_END, camel_mime_parser_state(mp));
+			break;
+		}
+	}
+	printf("summarised %d messages\n", camel_folder_summary_count(s));
+
+	printf("g_strdup count = %d\n", strdup_count);
+	printf("g_malloc count = %d\n", malloc_count);
+	printf("g_free count = %d\n", free_count);
+	return 0;
+}
+
+#endif

@@ -1,3 +1,26 @@
+2000-05-04  NotZed  <NotZed@HelixCode.com>
+
+	* providers/mbox/camel-mbox-folder.c (summary_get_message_info):
+	Maxcount is minimum of the max and the requested count, not the
+	maximum :)
+
+	* camel-mime-parser.c (folder_scan_content): Properly set midline,
+	so we dont falsely catch offset boundary markers (i.e. From inside
+	content).
+	(folder_read): Set a sentinal on the end of the read data (\n) so
+	we dont have to check the buffer boundary in the inner loop.
+	(mempool_*): New experimental memory management routines, speed
+	up simple structure parsing by about 25% ... not compiled in by
+	default.  Something similar may be needed for camel-mime-utils to
+	address performance issues with g_malloc and friends.
+
+	* camel-mime-utils.c: Added a macro w(x) used to wrap all warnings
+	about mime/rfc violations, so they can be turned off.
+
+	* camel-folder-summary.c (summary_build_content_info): Step after
+	the end of a message ...
+	Turn into a stand-alone program for testing and profiling.
+
 2000-05-04  Dan Winship  <danw@helixcode.com>
 
 	* providers/pop3/camel-pop3-store.c (pop3_connect): Don't fall

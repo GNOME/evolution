@@ -38,6 +38,17 @@
 
 #include "camel-mime-utils.h"
 
+int strdup_count = 0;
+int malloc_count = 0;
+int free_count = 0;
+
+#define g_strdup(x) (strdup_count++, g_strdup(x))
+#define g_malloc(x) (malloc_count++, g_malloc(x))
+#define g_free(x) (free_count++, g_free(x))
+
+/* for all warnings ... */
+#define w(x)
+
 #define d(x)
 #define d2(x)
 
@@ -720,7 +731,7 @@ rfc2047_decode_word(const char *in, int len)
 					decoded = g_strdup(outbase);
 				}
 			} else {
-				g_warning("Cannot decode charset, header display may be corrupt: %s: %s", encname, strerror(errno));
+				w(g_warning("Cannot decode charset, header display may be corrupt: %s: %s", encname, strerror(errno)));
 				/* TODO: Should this do this, or just leave the encoded strings? */
 				decword[inlen] = 0;
 				decoded = g_strdup(decword);
@@ -799,7 +810,7 @@ char *rfc2047_encode_word(const char *in, int len, char *type)
 	char *buffer, *out, *ascii;
 	size_t inlen, outlen, enclen;
 
-	printf("Converting '%.*s' to %s\n", len, in, type);
+	d(printf("Converting '%.*s' to %s\n", len, in, type));
 
 	/* convert utf8->encoding */
 	outlen = len*6;
@@ -815,7 +826,7 @@ char *rfc2047_encode_word(const char *in, int len, char *type)
 		type = "UTF-8";
 	} else {
 		if (unicode_iconv(ic, &in, &inlen, &out, &outlen) == -1) {
-			g_warning("Conversion problem: conversion truncated: %s", strerror(errno));
+			w(g_warning("Conversion problem: conversion truncated: %s", strerror(errno)));
 		}
 		unicode_iconv_close(ic);
 	}
@@ -829,7 +840,7 @@ char *rfc2047_encode_word(const char *in, int len, char *type)
 	out += quoted_encode(buffer, enclen, out);
 	sprintf(out, "?=");
 
-	printf("converted = %s\n", ascii);
+	d(printf("converted = %s\n", ascii));
 	return g_strdup(ascii);
 }
 
@@ -868,7 +879,7 @@ header_encode_string(const unsigned char *in)
 		const char *newinptr;
 		newinptr = unicode_get_utf8(inptr, &c);
 		if (newinptr == NULL) {
-			g_warning("Invalid UTF-8 sequence encountered (pos %d, char '%c'): %s", (inptr-in), inptr[0], in);
+			w(g_warning("Invalid UTF-8 sequence encountered (pos %d, char '%c'): %s", (inptr-in), inptr[0], in));
 			inptr++;
 			continue;
 		}
@@ -1221,14 +1232,14 @@ header_decode_domain(const char **in)
 				g_string_append(domain, " ]");
 				inptr++;
 			} else {
-				g_warning("closing ']' not found in domain: %s", *in);
+				w(g_warning("closing ']' not found in domain: %s", *in));
 			}
 		} else {
 			char *a = header_decode_atom(&inptr);
 			if (a) {
 				g_string_append(domain, a);
 			} else {
-				g_warning("missing atom from domain-ref");
+				w(g_warning("missing atom from domain-ref"));
 				break;
 			}
 		}
@@ -1270,7 +1281,7 @@ header_decode_addrspec(const char **in)
 				g_string_append(addr, word);
 				header_decode_lwsp(&inptr);
 			} else {
-				g_warning("Invalid address spec: %s", *in);
+				w(g_warning("Invalid address spec: %s", *in));
 			}
 		}
 		if (*inptr == '@') {
@@ -1280,13 +1291,13 @@ header_decode_addrspec(const char **in)
 			if (word) {
 				g_string_append(addr, word);
 			} else {
-				g_warning("Invalid address, missing domain: %s", *in);
+				w(g_warning("Invalid address, missing domain: %s", *in));
 			}
 		} else {
-			g_warning("Invalid addr-spec, missing @: %s", *in);
+			w(g_warning("Invalid addr-spec, missing @: %s", *in));
 		}
 	} else {
-		g_warning("invalid addr-spec, no local part");
+		w(g_warning("invalid addr-spec, no local part"));
 	}
 
 	/* FIXME: return null on error? */
@@ -1357,20 +1368,20 @@ header_decode_mailbox(const char **in)
 				if (*inptr == ':') {
 					inptr++;
 				} else {
-					g_warning("broken route-address, missing ':': %s", *in);
+					w(g_warning("broken route-address, missing ':': %s", *in));
 				}
 			}
 			pre = header_decode_word(&inptr);
 			header_decode_lwsp(&inptr);
 		} else {
-			g_warning("broken address? %s", *in);
+			w(g_warning("broken address? %s", *in));
 		}
 	}
 
 	if (pre) {
 		g_string_append(addr, pre);
 	} else {
-		g_warning("No local-part for email address: %s", *in);
+		w(g_warning("No local-part for email address: %s", *in));
 	}
 
 	/* should be at word '.' localpart */
@@ -1393,7 +1404,7 @@ header_decode_mailbox(const char **in)
 		dom = header_decode_domain(&inptr);
 		g_string_append(addr, dom);
 	} else {
-		g_warning("invalid address, no '@' domain part at %c: %s", *inptr, *in);
+		w(g_warning("invalid address, no '@' domain part at %c: %s", *inptr, *in));
 	}
 
 	if (closeme) {
@@ -1401,7 +1412,7 @@ header_decode_mailbox(const char **in)
 		if (*inptr == '>') {
 			inptr++;
 		} else {
-			g_warning("invalid route address, no closing '>': %s", *in);
+			w(g_warning("invalid route address, no closing '>': %s", *in));
 		} 
 	} else if (name == NULL) { /* check for comment after address */
 		char *text, *tmp;
@@ -1469,7 +1480,7 @@ header_decode_address(const char **in)
 			if (*inptr == ';') {
 				inptr++;
 			} else {
-				g_warning("Invalid group spec, missing closing ';': %s", *in);
+				w(g_warning("Invalid group spec, missing closing ';': %s", *in));
 			}
 		} else {
 			inptr++;
@@ -1505,18 +1516,15 @@ header_msgid_decode(const char *in)
 			if (*inptr == '>') {
 				inptr++;
 			} else {
-				g_warning("Missing closing '>' on message id: %s", in);
+				w(g_warning("Missing closing '>' on message id: %s", in));
 			}
 		} else {
-			g_warning("Cannot find message id in: %s", in);
+			w(g_warning("Cannot find message id in: %s", in));
 		}
 	} else {
-		g_warning("missing opening '<' on message id: %s", in);
+		w(g_warning("missing opening '<' on message id: %s", in));
 	}
 
-	if (msgid) {
-		d(printf("Got message id: %s\n", msgid));
-	}
 	return msgid;
 }
 
@@ -1555,11 +1563,11 @@ header_address_decode(const char *in)
 	} while (inptr != last);
 
 	if (*inptr) {
-		g_warning("Invalid input detected at %c (%d): %s\n or at: %s", *inptr, inptr-in, in, inptr);
+		w(g_warning("Invalid input detected at %c (%d): %s\n or at: %s", *inptr, inptr-in, in, inptr));
 	}
 
 	if (inptr == last) {
-		g_warning("detected invalid input loop at : %s", last);
+		w(g_warning("detected invalid input loop at : %s", last));
 	}
 
 	return list;
@@ -1661,11 +1669,11 @@ header_content_type_decode(const char *in)
 			subtype = decode_token(&inptr);
 		}
 		if (subtype == NULL && (!strcasecmp(type, "text"))) {
-			g_warning("text type with no subtype, resorting to text/plain: %s", in);
+			w(g_warning("text type with no subtype, resorting to text/plain: %s", in));
 			subtype = g_strdup("plain");
 		}
 		if (subtype == NULL) {
-			g_warning("MIME type with no subtype: %s", in);
+			w(g_warning("MIME type with no subtype: %s", in));
 		}
 
 		t = header_content_type_new(type, subtype);
@@ -1710,9 +1718,9 @@ header_content_type_format(struct _header_content_type *ct)
 	out = g_string_new("");
 	if (ct->type == NULL) {
 		g_string_sprintfa(out, "text/plain");
-		g_warning("Content-Type with no main type");
+		w(g_warning("Content-Type with no main type"));
 	} else if (ct->subtype == NULL) {
-		g_warning("Content-Type with no sub type: %s", ct->type);
+		w(g_warning("Content-Type with no sub type: %s", ct->type));
 		if (!strcasecmp(ct->type, "multipart"))
 			g_string_sprintfa(out, "%s/mixed", ct->type);
 		else
@@ -1747,7 +1755,7 @@ CamelMimeDisposition *header_disposition_decode(const char *in)
 	d->refcount = 1;
 	d->disposition = decode_token(&inptr);
 	if (d->disposition == NULL)
-		g_warning("Empty disposition type");
+		w(g_warning("Empty disposition type"));
 	d->params = header_param_list_decode(&inptr);
 	return d;
 }
@@ -1872,7 +1880,7 @@ header_decode_date(const char *in, int *saveoffset)
 			if (*inptr == ',')
 				inptr++;
 			else
-				g_warning("day not followed by ','");
+				w(g_warning("day not followed by ','"));
 		}
 	}
 	tm.tm_mday = header_decode_int(&inptr);
@@ -1975,7 +1983,7 @@ check_header(struct _header_raw *h)
 	p = h->value;
 	while (p && *p) {
 		if (!isascii(*p)) {
-			g_warning("Appending header violates rfc: %s: %s", h->name, h->value);
+			w(g_warning("Appending header violates rfc: %s: %s", h->name, h->value));
 			return;
 		}
 		p++;

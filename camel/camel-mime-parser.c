@@ -32,6 +32,8 @@
 
 #include <unicode.h>
 
+#include <regex.h>
+
 #include <glib.h>
 #include "camel-mime-parser.h"
 #include "camel-mime-utils.h"
@@ -43,6 +45,138 @@
 #define h(x)
 #define c(x)
 #define d(x)
+
+/*#define MEMPOOL*/
+
+#if 0
+extern int strdup_count;
+extern int malloc_count;
+extern int free_count;
+
+#define g_strdup(x) (strdup_count++, g_strdup(x))
+#define g_malloc(x) (malloc_count++, g_malloc(x))
+#define g_free(x) (free_count++, g_free(x))
+
+#endif
+
+
+#ifdef MEMPOOL
+typedef struct _MemPoolNode {
+	struct _MemPoolNode *next;
+
+	int free;
+	char data[1];
+} MemPoolNode;
+
+typedef struct _MemPoolThresholdNode {
+	struct _MemPoolThresholdNode *next;
+	char data[1];
+} MemPoolThresholdNode;
+
+typedef struct _MemPool {
+	int blocksize;
+	int threshold;
+	struct _MemPoolNode *blocks;
+	struct _MemPoolThresholdNode *threshold_blocks;
+} MemPool;
+
+MemPool *mempool_new(int blocksize, int threshold);
+void *mempool_alloc(MemPool *pool, int size);
+void mempool_flush(MemPool *pool, int freeall);
+void mempool_free(MemPool *pool);
+
+MemPool *mempool_new(int blocksize, int threshold)
+{
+	MemPool *pool;
+
+	pool = g_malloc(sizeof(*pool));
+	if (threshold >= blocksize)
+		threshold = blocksize * 2 / 3;
+	pool->blocksize = blocksize;
+	pool->threshold = threshold;
+	pool->blocks = NULL;
+	pool->threshold_blocks = NULL;
+	return pool;
+}
+
+void *mempool_alloc(MemPool *pool, int size)
+{
+	if (size>=pool->threshold) {
+		MemPoolThresholdNode *n;
+
+		n = g_malloc(sizeof(*n) - sizeof(char) + size);
+		n->next = pool->threshold_blocks;
+		pool->threshold_blocks = n;
+		return &n->data[0];
+	} else {
+		MemPoolNode *n;
+
+		n = pool->blocks;
+		while (n) {
+			if (n->free >= size) {
+				n->free -= size;
+				return &n->data[n->free];
+			}
+			n = n->next;
+		}
+
+		n = g_malloc(sizeof(*n) - sizeof(char) + pool->blocksize);
+		n->next = pool->blocks;
+		pool->blocks = n;
+		n->free = pool->blocksize - size;
+		return &n->data[n->free];
+	}
+}
+
+void mempool_flush(MemPool *pool, int freeall)
+{
+	MemPoolThresholdNode *tn, *tw;
+	MemPoolNode *pw, *pn;
+
+	tw = pool->threshold_blocks;
+	while (tw) {
+		tn = tw->next;
+		g_free(tw);
+		tw = tn;
+	}
+	pool->threshold_blocks = NULL;
+
+	if (freeall) {
+		pw = pool->blocks;
+		while (pw) {
+			pn = pw->next;
+			g_free(pw);
+			pw = pn;
+		}
+		pool->blocks = NULL;
+	} else {
+		pw = pool->blocks;
+		while (pw) {
+			pw->free = pool->blocksize;
+			pw = pw->next;
+		}
+	}
+}
+
+void mempool_free(MemPool *pool)
+{
+	if (pool) {
+		mempool_flush(pool, 1);
+		g_free(pool);
+	}
+}
+#endif
+
+
+
+
+
+
+
+
+
+
+
 
 #define SCAN_BUF 4096		/* size of read buffer */
 #define SCAN_HEAD 128		/* headroom guaranteed to be before each read buffer */
@@ -103,6 +237,9 @@ struct _header_scan_stack {
 
 	enum _header_state savestate; /* state at invocation of this part */
 
+#ifdef MEMPOOL
+	MemPool *pool;		/* memory pool to keep track of headers/etc at this level */
+#endif
 	struct _header_raw *headers;	/* headers for this part */
 
 	struct _header_content_type *content_type;
@@ -673,6 +810,8 @@ folder_read(struct _header_scan_state *s)
 		r(printf("content = %d '%.*s'\n",s->inend - s->inptr,  s->inend - s->inptr, s->inptr));
 	}
 	r(printf("content = %d '%.*s'\n", s->inend - s->inptr,  s->inend - s->inptr, s->inptr));
+	/* set a sentinal, for the inner loops to check against */
+	s->inend[0] = '\n';
 	return s->inend-s->inptr;
 }
 
@@ -737,7 +876,11 @@ folder_pull_part(struct _header_scan_state *s)
 	if (h) {
 		s->parts = h->parent;
 		g_free(h->boundary);
+#ifdef MEMPOOL
+		mempool_free(h->pool);
+#else
 		header_raw_clear(&h->headers);
+#endif
 		header_content_type_unref(h->content_type);
 		g_free(h);
 	} else {
@@ -809,6 +952,48 @@ folder_boundary_check(struct _header_scan_state *s, const char *boundary, int *l
 	return NULL;
 }
 
+#ifdef MEMPOOL
+static void
+header_append_mempool(struct _header_scan_state *s, struct _header_scan_stack *h, char *header, int offset)
+{
+	struct _header_raw *l, *n;
+	char *content;
+
+	d(printf("Header: %s: %s\n", name, value));
+
+	content = strchr(header, ':');
+	if (content) {
+		register int len;
+		n = mempool_alloc(h->pool, sizeof(*n));
+		n->next = NULL;
+
+		len = content-header;
+		n->name = mempool_alloc(h->pool, len+1);
+		memcpy(n->name, header, len);
+		n->name[len] = 0;
+
+		content++;
+
+		len = s->outptr - content;
+		n->value = mempool_alloc(h->pool, len+1);
+		memcpy(n->value, content, len);
+		n->value[len] = 0;
+
+		n->offset = offset;
+
+		l = (struct _header_raw *)&h->headers;
+		while (l->next) {
+			l = l->next;
+		}
+		l->next = n;
+	}
+
+}
+
+#define header_raw_append_parse(a, b, c) (header_append_mempool(s, h, b, c))
+
+#endif
+
 /* Copy the string start->inptr into the header buffer (s->outbuf),
    grow if necessary
    and track the start offset of the header */
@@ -835,15 +1020,18 @@ static struct _header_scan_stack *
 folder_scan_header(struct _header_scan_state *s, int *lastone)
 {
 	int atleast = s->atleast;
-	register char *inptr, *inend;
 	char *start;
 	int len;
 	struct _header_scan_stack *part, *overpart = s->parts;
 	struct _header_scan_stack *h;
+	register char *inptr, *inend;
 
 	h(printf("scanning first bit\n"));
 
 	h = g_malloc0(sizeof(*h));
+#ifdef MEMPOOL
+	h->pool = mempool_new(8192, 4096);
+#endif
 
 	/* FIXME: this info should be cached ? */
 	part = s->parts;
@@ -868,7 +1056,6 @@ retry:
 		start = inptr;
 
 		while (inptr<=inend) {
-			register int c=-1;
 			/*printf("  '%.20s'\n", inptr);*/
 
 			if (!s->midline
@@ -880,8 +1067,16 @@ retry:
 			}
 
 			/* goto next line */
-			while (inptr<=inend && (c = *inptr++)!='\n')
+			while ((*inptr++)!='\n')
 				;
+
+			/* check against the real buffer end, not our 'atleast limited' end */
+			if (inptr>= s->inend) {
+				inptr--;
+				s->midline = TRUE;
+			} else {
+				s->midline = FALSE;
+			}
 
 			header_append(s, start, inptr);
 
@@ -889,9 +1084,7 @@ retry:
 				 s->outbuf[0], isprint(s->outbuf[0])?s->outbuf[0]:'.',
 				 s->outbuf[1], isprint(s->outbuf[1])?s->outbuf[1]:'.'));
 
-			if (c!='\n') {
-				s->midline = TRUE;
-			} else {
+			if (!s->midline) {
 				if (!(inptr[0] == ' ' || inptr[0] == '\t')) {
 					if (s->outbuf[0] == '\n'
 					    || (s->outbuf[0] == '\r' && s->outbuf[1]=='\n')) {
@@ -906,6 +1099,7 @@ retry:
 					d(printf("header %.10s at %d\n", s->outbuf, s->header_start));
 
 					header_raw_append_parse(&h->headers, s->outbuf, s->header_start);
+
 					if (inptr[0]=='\n'
 					    || (inptr[0] == '\r' && inptr[1]=='\n')) {
 						inptr++;
@@ -914,7 +1108,6 @@ retry:
 					s->outptr = s->outbuf;
 					s->header_start = -1;
 				}
-				s->midline = FALSE;
 				start = inptr;
 			}
 		}
@@ -1018,11 +1211,17 @@ retry:
 				
 				goto normal_exit;
 			}
+
 			/* goto the next line */
-			while (inptr<=inend && (*inptr++)!='\n')
+			while ((*inptr++)!='\n')
 				;
-			
-			s->midline = FALSE;
+			/* check against the real buffer end, not our 'atleast limited' end */
+			if (inptr>= s->inend) {
+				inptr--;
+				s->midline = TRUE;
+			} else {
+				s->midline = FALSE;
+			}
 		}
 
 		/* *sigh* so much for the beautiful simplicity of the code so far - here we
@@ -1517,3 +1716,4 @@ int main(int argc, char **argv)
 }
 
 #endif /* STANDALONE */
+

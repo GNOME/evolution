@@ -86,6 +86,9 @@ int		camel_mime_parser_fd(CamelMimeParser *m);
 /* scan 'From' separators? */
 void camel_mime_parser_scan_from(CamelMimeParser *, int);
 
+/* what headers to save, MUST include ^Content-Type: */
+int camel_mime_parser_set_header_regex(CamelMimeParser *m, char *matchstr);
+
 /* normal interface */
 enum _header_state camel_mime_parser_step(CamelMimeParser *, char **, int *);
 void camel_mime_parser_unstep(CamelMimeParser *);
