@@ -470,10 +470,7 @@ e_contact_list_editor_get_window (EABEditor *editor)
 static void
 close_cb (GtkWidget *widget, EContactListEditor *cle)
 {
-	if (!eab_editor_prompt_to_save_changes (EAB_EDITOR (cle), GTK_WINDOW (cle->app)))
-		return;
-
-	eab_editor_close (EAB_EDITOR (cle));
+	eab_editor_prompt_to_save_changes (EAB_EDITOR (cle), GTK_WINDOW (cle->app));
 }
 
 static void
@@ -864,10 +861,7 @@ app_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
 	if (ce->in_async_call)
 		return TRUE;
 
-	if (!eab_editor_prompt_to_save_changes (EAB_EDITOR (ce), GTK_WINDOW (ce->app)))
-		return TRUE;
-
-	eab_editor_close (EAB_EDITOR (ce));
+	eab_editor_prompt_to_save_changes (EAB_EDITOR (ce), GTK_WINDOW (ce->app));
 	return TRUE;
 }
 
