@@ -1,5 +1,18 @@
 2001-12-14  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-filter-driver.c
+	(camel_filter_driver_reset_filtered_count): Reset the
+	filtered_count to zero.
+	(camel_filter_driver_get_filtered_count): Return the private
+	filtered_count value.
+	(camel_filter_driver_filter_message): Increment the
+	filtered_count.
+	(camel_filter_driver_set_shell_exec_func): New function to set the
+	shell-exec func.
+	(shell_exec): New ESExp filter action callback.
+
+2001-12-14  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-pgp-mime.c (camel_pgp_mime_part_verify): Removed
 	x-inline-pgp-hack kludge because it doesn't work.
 	(camel_pgp_mime_part_decrypt): Same.

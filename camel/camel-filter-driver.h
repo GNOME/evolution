@@ -55,34 +55,44 @@ enum camel_filter_status_t {
 	CAMEL_FILTER_STATUS_END,	/* end of message */
 };
 
-typedef CamelFolder * (*CamelFilterGetFolderFunc) (CamelFilterDriver *, const char *uri, void *data, CamelException *ex);
+typedef CamelFolder * (*CamelFilterGetFolderFunc) (CamelFilterDriver *driver, const char *uri,
+						   void *data, CamelException *ex);
 /* report status */
-typedef void (CamelFilterStatusFunc)(CamelFilterDriver *driver, enum camel_filter_status_t status, int pc, const char *desc, void *data);
+typedef void (CamelFilterStatusFunc) (CamelFilterDriver *driver, enum camel_filter_status_t status,
+				      int pc, const char *desc, void *data);
 
-guint         camel_filter_driver_get_type (void);
+typedef void (CamelFilterShellExecFunc) (CamelFilterDriver *driver, const char *command, void *data);
+
+CamelType          camel_filter_driver_get_type (void);
 CamelFilterDriver  *camel_filter_driver_new     (void);
 
 /* modifiers */
-void    camel_filter_driver_set_folder_func     (CamelFilterDriver *d, CamelFilterGetFolderFunc fetcher, void *data);
-void    camel_filter_driver_set_logfile         (CamelFilterDriver *d, FILE *logfile);
-void	camel_filter_driver_set_status_func     (CamelFilterDriver *d, CamelFilterStatusFunc *func,
-						 void *data);
-void	camel_filter_driver_set_default_folder  (CamelFilterDriver *d, CamelFolder *def);
-void 	camel_filter_driver_add_rule		(CamelFilterDriver *d, const char *name, const char *match,
-						 const char *action);
+void camel_filter_driver_reset_filtered_count (CamelFilterDriver *driver);
+int  camel_filter_driver_get_filtered_count   (CamelFilterDriver *driver);
+
+void camel_filter_driver_set_logfile          (CamelFilterDriver *d, FILE *logfile);
+
+void camel_filter_driver_set_status_func      (CamelFilterDriver *d, CamelFilterStatusFunc *func, void *data);
+void camel_filter_driver_set_shell_exec_func  (CamelFilterDriver *d, CamelFilterShellExecFunc *func, void *data);
+void camel_filter_driver_set_folder_func      (CamelFilterDriver *d, CamelFilterGetFolderFunc fetcher, void *data);
+
+void camel_filter_driver_set_default_folder   (CamelFilterDriver *d, CamelFolder *def);
+
+void camel_filter_driver_add_rule             (CamelFilterDriver *d, const char *name, const char *match,
+					       const char *action);
 
 /*void camel_filter_driver_set_global(CamelFilterDriver *, const char *name, const char *value);*/
 
-int      camel_filter_driver_filter_message      (CamelFilterDriver *driver, CamelMimeMessage *message,
-						  CamelMessageInfo *info, const char *uri,
-						  CamelFolder *source, const char *source_url,
-						  const char *original_source_url, CamelException *ex);
+int  camel_filter_driver_filter_message       (CamelFilterDriver *driver, CamelMimeMessage *message,
+					       CamelMessageInfo *info, const char *uri,
+					       CamelFolder *source, const char *source_url,
+					       const char *original_source_url, CamelException *ex);
 
-int      camel_filter_driver_filter_mbox         (CamelFilterDriver *driver, const char *mbox,
-						  const char *original_source_url, CamelException *ex);
+int  camel_filter_driver_filter_mbox          (CamelFilterDriver *driver, const char *mbox,
+					       const char *original_source_url, CamelException *ex);
 
-int      camel_filter_driver_filter_folder       (CamelFilterDriver *driver, CamelFolder *folder, CamelUIDCache *cache,
-						  GPtrArray *uids, gboolean remove, CamelException *ex);
+int  camel_filter_driver_filter_folder        (CamelFilterDriver *driver, CamelFolder *folder, CamelUIDCache *cache,
+					       GPtrArray *uids, gboolean remove, CamelException *ex);
 
 #if 0
 /* generate the search query/action string for a filter option */

@@ -67,11 +67,16 @@ struct _filter_rule {
 
 struct _CamelFilterDriverPrivate {
 	GHashTable *globals;       /* global variables */
-
-	CamelFolder *defaultfolder;	/* defualt folder */
 	
-	CamelFilterStatusFunc *statusfunc; 	/* status callback */
-	void *statusdata;		/* status callback data */
+	int filtered_count;        /* count of the number of messages filtered so far */
+	
+	CamelFolder *defaultfolder;        /* defualt folder */
+	
+	CamelFilterStatusFunc *statusfunc; /* status callback */
+	void *statusdata;                  /* status callback data */
+	
+	CamelFilterShellExecFunc *execfunc; /* execute shell command callback */
+	void *execdata;                     /* execute shell command data */
 	
 	/* for callback */
 	CamelFilterGetFolderFunc get_folder;
@@ -120,6 +125,7 @@ static ESExpResult *do_stop (struct _ESExp *f, int argc, struct _ESExpResult **a
 static ESExpResult *do_colour (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
 static ESExpResult *do_score (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
 static ESExpResult *do_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
+static ESExpResult *shell_exec (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
 
 /* these are our filter actions - each must have a callback */
 static struct {
@@ -135,24 +141,26 @@ static struct {
 	{ "stop",            (ESExpFunc *) do_stop,      0 },
 	{ "set-colour",      (ESExpFunc *) do_colour,    0 },
 	{ "set-score",       (ESExpFunc *) do_score,     0 },
-	{ "set-system-flag", (ESExpFunc *) do_flag,      0 }
+	{ "set-system-flag", (ESExpFunc *) do_flag,      0 },
+	{ "shell-exec",      (ESExpFunc *) shell_exec,   0 }
 };
 
 static CamelObjectClass *camel_filter_driver_parent;
 
-guint
+CamelType
 camel_filter_driver_get_type (void)
 {
 	static CamelType type = CAMEL_INVALID_TYPE;
 
 	if (type == CAMEL_INVALID_TYPE)	{
-		type = camel_type_register(CAMEL_OBJECT_TYPE, "CamelFilterDriver",
-					   sizeof(CamelFilterDriver),
-					   sizeof(CamelFilterDriverClass),
-					   (CamelObjectClassInitFunc)camel_filter_driver_class_init,
-					   NULL,
-					   (CamelObjectInitFunc)camel_filter_driver_init,
-					   (CamelObjectFinalizeFunc)camel_filter_driver_finalise);
+		type = camel_type_register (CAMEL_OBJECT_TYPE,
+					    "CamelFilterDriver",
+					    sizeof (CamelFilterDriver),
+					    sizeof (CamelFilterDriverClass),
+					    (CamelObjectClassInitFunc) camel_filter_driver_class_init,
+					    NULL,
+					    (CamelObjectInitFunc) camel_filter_driver_init,
+					    (CamelObjectFinalizeFunc) camel_filter_driver_finalise);
 	}
 	
 	return type;
@@ -241,6 +249,22 @@ camel_filter_driver_new (void)
 }
 
 void
+camel_filter_driver_reset_filtered_count (CamelFilterDriver *driver)
+{
+	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
+	
+	p->filtered_count = 0;
+}
+
+int
+camel_filter_driver_get_filtered_count (CamelFilterDriver *driver)
+{
+	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
+	
+	return p->filtered_count;
+}
+
+void
 camel_filter_driver_set_folder_func (CamelFilterDriver *d, CamelFilterGetFolderFunc get_folder, void *data)
 {
 	struct _CamelFilterDriverPrivate *p = _PRIVATE (d);
@@ -264,6 +288,15 @@ camel_filter_driver_set_status_func (CamelFilterDriver *d, CamelFilterStatusFunc
 	
 	p->statusfunc = func;
 	p->statusdata = data;
+}
+
+void
+camel_filter_driver_set_shell_exec_func (CamelFilterDriver *d, CamelFilterShellExecFunc *func, void *data)
+{
+	struct _CamelFilterDriverPrivate *p = _PRIVATE (d);
+	
+	p->execfunc = func;
+	p->execdata = data;
 }
 
 void
@@ -503,6 +536,22 @@ do_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriv
 		else
 			p->info->flags |= camel_system_flag (argv[0]->value.string)|CAMEL_MESSAGE_FOLDER_FLAGGED;
 		camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Set %s flag", argv[0]->value.string);
+	}
+	
+	return NULL;
+}
+
+static ESExpResult *
+shell_exec (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *driver)
+{
+	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
+	
+	d(fprintf (stderr, "executing shell command\n"));
+	
+	if (p->execfunc && argc == 1 && argv[0]->type == ESEXP_RES_STRING) {
+		p->execfunc (driver, argv[0]->value.string, p->execdata);
+		camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Executing shell command: [%s]",
+					 argv[0]->value.string);
 	}
 	
 	return NULL;
@@ -907,7 +956,7 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 		result = camel_filter_search_match (p->message, p->info, 
 						    original_source_url ? original_source_url : source_url,
 						    node->match, p->ex);
-
+		
 		switch (result) {
 		case CAMEL_SEARCH_ERROR:
 			goto error;
@@ -963,6 +1012,8 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 	
 	if (freeinfo)
 		camel_message_info_free (info);
+	
+	p->filtered_count++;
 	
 	return 0;
 	
