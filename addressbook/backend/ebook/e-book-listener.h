@@ -88,12 +88,15 @@ typedef struct {
 	char                   *id;
 } EBookListenerResponse;
 
-EBookListener         *e_book_listener_new            (void);
-int                    e_book_listener_check_pending  (EBookListener *listener);
-EBookListenerResponse *e_book_listener_pop_response   (EBookListener *listener);
-GtkType                e_book_listener_get_type       (void);
+EBookListener         *e_book_listener_new             (void);
+int                    e_book_listener_check_pending   (EBookListener         *listener);
+EBookListenerResponse *e_book_listener_pop_response    (EBookListener         *listener);
+void                   e_book_listener_unpop_response  (EBookListener         *listener,
+							EBookListenerResponse *response);
 
-POA_GNOME_Evolution_Addressbook_BookListener__epv *e_book_listener_get_epv (void);
+GtkType                e_book_listener_get_type        (void);
+
+POA_GNOME_Evolution_Addressbook_BookListener__epv *e_book_listener_get_epv  (void);
 
 #define E_BOOK_LISTENER_TYPE        (e_book_listener_get_type ())
 #define E_BOOK_LISTENER(o)          (GTK_CHECK_CAST ((o), E_BOOK_LISTENER_TYPE, EBookListener))

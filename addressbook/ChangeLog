@@ -1,5 +1,17 @@
 2001-06-11  Christopher James Lahey  <clahey@ximian.com>
 
+	* backend/ebook/e-book-listener.c, backend/ebook/e-book-listener.h
+	(e_book_listener_unpop_response): Added this function to put a
+	response back into the queue.
+
+	* backend/ebook/e-book.c (e_book_check_listener_queue,
+	e_book_queue_op): Handle the case where the op hasn't been queued
+	yet when we get the response.  In this case we unpop the response.
+	Also, when queueing an op, we check to see if there are any
+	responses waiting.
+
+2001-06-11  Christopher James Lahey  <clahey@ximian.com>
+
 	* backend/ebook/e-card-compare.c, backend/ebook/e-card-compare.h
 	(e_card_locate_match_full): Added this function to let you do
 	slightly more complicated searches.
