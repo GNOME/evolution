@@ -1,3 +1,8 @@
+Mon Jun 22 13:01:16 1998  Havoc Pennington  <hp@pobox.com>
+
+	* main.c (session_save_state): Use gnome_geometry_string to get 
+	the geometry string.
+
 1998-06-04  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* eventedit.c (ee_rp_init_rule): Do not subtract 1 from

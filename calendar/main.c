@@ -579,14 +579,9 @@ session_save_state (GnomeClient *client, gint phase, GnomeRestartStyle save_styl
 	argv [0] = client_data;
 	for (i = 1, l = all_calendars; l; l = l->next){
 		GnomeCalendar *gcal = GNOME_CALENDAR (l->data);
-		int x, y, w, h;
-		char *buffer = g_malloc (32);
+		char *geometry;
 
-		gdk_window_get_origin (GTK_WIDGET (gcal)->window, &x, &y);
-		gdk_window_get_size (GTK_WIDGET (gcal)->window, &w, &h);
-		printf ("X, Y = %d, %d\n", x, y);
-		printf ("w, h = %d, %d\n", w, h);
-		sprintf (buffer, "%dx%d+%d+%d", w, h, x, y);
+		geometry = gnome_geometry_string (GTK_WIDGET (gcal)->window);
 
 		if (strcmp (gcal->cal->filename, user_calendar_file) == 0)
 			argv [i++] = "--userfile";
@@ -595,8 +590,8 @@ session_save_state (GnomeClient *client, gint phase, GnomeRestartStyle save_styl
 			argv [i++] = gcal->cal->filename;
 		}
 		argv [i++] = "--geometry";
-		argv [i++] = buffer;
-		free_list = g_list_append (free_list, buffer);
+		argv [i++] = geometry;
+		free_list = g_list_append (free_list, geometry);
 		calendar_save (gcal->cal, gcal->cal->filename);
 	}
 	argv [i] = NULL;
