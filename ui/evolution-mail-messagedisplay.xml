@@ -2,10 +2,6 @@
   <commands>
     <cmd name="MessageBrowserClose" _label="Close" _tip="Close this window"
 	 pixtype="stock" pixname="Close" accel="*Control*w"/>
-
-    <cmd name="BonoboCustomize" _label="Customize"
-	 _tip="Customize toolbars"
-	 pixtype="stock" pixname="Preferences"/>
   </commands>
 
   <menu>
@@ -43,9 +39,6 @@
         <placeholder name="MailFilterTools"/>
         <placeholder name="MailVFolderTools"/>
       </placeholder>
-
-      <menuitem name="BonoboCustomize" verb=""
-		_label="Customi_ze Toolbars..." pos="bottom"/>
     </submenu>
 
   </menu>

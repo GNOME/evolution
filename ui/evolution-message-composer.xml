@@ -71,12 +71,6 @@
                 <cmd name="SecuritySMimeEncrypt" _label="S/MIME Encrypt" 
                 _tip="Encrypt this message with your S/MIME Encryption Cetificate"
 		type="toggle" state="0" hidden="1"/>
-
-		<!-- Builtin to Bonobo -->
-
-                <cmd name="BonoboCustomize" _label="Customize toolbars..."
-                _tip="Customize toolbars" pixtype="stock" pixname="Preferences"/>
-
 	</commands>
 	
         <keybindings>
