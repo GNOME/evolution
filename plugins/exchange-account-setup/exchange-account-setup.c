@@ -375,7 +375,13 @@ org_gnome_exchange_check_options(EPlugin *epl, EConfigHookPageCheckData *data)
 
 	/* We assume that if the host is set, then the setting is valid.
 	   The host gets set when the provider validate() call is made */
-	if (data->pageid == NULL || strcmp(data->pageid, "20.receive_options") == 0) {
+	/* We do this check for receive page also, so that user can
+	 * proceed with the account set up only after user is validated,
+	 * and host name is reset by validate() call
+	 */
+	if (data->pageid == NULL ||
+	    strcmp (data->pageid, "10.receive") == 0 ||
+	    strcmp (data->pageid, "20.receive_options") == 0) {
 		CamelURL *url;
 
 		url = camel_url_new(e_account_get_string(target->account,  E_ACCOUNT_SOURCE_URL), NULL);

@@ -1,3 +1,10 @@
+2005-02-26  Sushma Rai  <rtsushma@novell.com>
+
+        * exchange-account-setup.c (org_gnome_exchange_check_options):
+        Returning FALSE on NULL host name or set to "" for receive page, 
+	so that one can proceed with the account creation only after 
+	hostname is retrived and set by validate().
+
 2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
 
 	* org-gnome-exchange-account-setup.eplug.in: Added author and
