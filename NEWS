@@ -25,6 +25,7 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
               wreck processing.  (Michael)
     #22363 -- Problems resyncing IMAP folders when going Online.  (Jeff)
     #21716 -- Fixes to decoding illegally rfc2047 encoded words.  (Michael)
+    #22657 -- Fixes printing for some localizations (Radek)
     
 
 Other fixes:
