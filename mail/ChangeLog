@@ -1,3 +1,12 @@
+2004-07-07  Jeffrey Stedfast  <fejj@novell.com>
+
+	Fix for bug #61199.
+
+	* em-format-html.c (efh_format_address): Same.
+
+	* em-format-quote.c (emfq_format_address): Make sure 'real' isn't
+	NULL before using.
+
 2004-07-08  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* Makefile.am:
