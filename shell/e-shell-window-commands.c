@@ -189,8 +189,9 @@ command_quick_reference (BonoboUIComponent *uih,
 	char *quickref;
 	char *uri;
 	char *mimetype;
+	char *command;
+	GString *str;
 	GnomeVFSMimeApplication *app;
-	GList * uri_list;
 	const GList *lang_list = gnome_i18n_get_language_list ("LC_MESSAGES");
 
 	for (; lang_list != NULL; lang_list = lang_list->next) {
@@ -204,16 +205,33 @@ command_quick_reference (BonoboUIComponent *uih,
 
 		quickref = g_build_filename (EVOLUTION_HELPDIR, "quickref", lang, "quickref.pdf", NULL);
 		if (g_file_test (quickref, G_FILE_TEST_EXISTS)) {
-			uri = g_strconcat ("file://", quickref, NULL);
-			mimetype = gnome_vfs_get_mime_type (uri);
+			mimetype = gnome_vfs_get_mime_type (quickref);
 			app = gnome_vfs_mime_get_default_application (mimetype);
-			uri_list = g_list_append (NULL, uri);
-			gnome_vfs_mime_application_launch (app, uri_list);
-			g_list_free (uri_list);
+			str = g_string_new ("");
+			str = g_string_append (str, app->command);
+
+			switch (app->expects_uris) {
+			case GNOME_VFS_MIME_APPLICATION_ARGUMENT_TYPE_URIS:
+				uri = g_strconcat ("file://", quickref, NULL);
+				g_string_append_printf (str, " %s", uri);
+				g_free (uri);
+				break;
+			case GNOME_VFS_MIME_APPLICATION_ARGUMENT_TYPE_PATHS:
+			case GNOME_VFS_MIME_APPLICATION_ARGUMENT_TYPE_URIS_FOR_NON_FILES:
+				g_string_append_printf (str, " %s", quickref);
+				break;
+			}
+
+			command = g_string_free (str, FALSE);
+			if (command != NULL &&
+			    !g_spawn_command_line_async (command, NULL)) {
+				g_warning ("Could not launch %s", command);
+			}
+			g_free (command);
+
 			gnome_vfs_mime_application_free (app);
 			g_free (mimetype);
 			g_free (quickref);
-			g_free (uri);
 			return;
 		}
 		g_free (quickref);
