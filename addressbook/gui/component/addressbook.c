@@ -850,7 +850,7 @@ addressbook_menu_activated (ESearchBar *esb, int id, AddressbookView *view)
 }
 
 static void
-addressbook_query_changed (ESearchBar *esb, AddressbookView *view)
+addressbook_search_activated (ESearchBar *esb, AddressbookView *view)
 {
 	ECategoriesMasterList *master_list;
 	char *search_word, *search_query;
@@ -908,7 +908,22 @@ addressbook_query_changed (ESearchBar *esb, AddressbookView *view)
 					NULL);
 
 		g_free (search_query);
-		g_free (search_word);
+	}
+
+	g_free (search_word);
+}
+
+static void
+addressbook_query_changed (ESearchBar *esb, AddressbookView *view)
+{
+	int search_type;
+
+	gtk_object_get(GTK_OBJECT(esb),
+		       "item_id", &search_type,
+		       NULL);
+
+	if (search_type == ESB_ADVANCED) {
+		gtk_widget_show(e_addressbook_search_dialog_new(view->view));
 	}
 }
 
@@ -1103,6 +1118,8 @@ addressbook_factory_new_control (void)
 			    FALSE, FALSE, 0);
 	gtk_signal_connect (GTK_OBJECT (view->search), "query_changed",
 			    GTK_SIGNAL_FUNC (addressbook_query_changed), view);
+	gtk_signal_connect (GTK_OBJECT (view->search), "search_activated",
+			    GTK_SIGNAL_FUNC (addressbook_search_activated), view);
 	gtk_signal_connect (GTK_OBJECT (view->search), "menu_activated",
 			    GTK_SIGNAL_FUNC (addressbook_menu_activated), view);
 
