@@ -351,7 +351,7 @@ e_date_edit_destroy (GtkObject *object)
 	dedit = E_DATE_EDIT (object);
 
 	gtk_widget_destroy (dedit->_priv->cal_popup);
-	gtk_widget_unref (dedit->_priv->cal_popup);
+	dedit->_priv->cal_popup = NULL;
 
 	g_free(dedit->_priv);
 	dedit->_priv = NULL;

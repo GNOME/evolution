@@ -1,3 +1,8 @@
+2000-10-27  Federico Mena Quintero  <federico@helixcode.com>
+
+	* e-dateedit.c (e_date_edit_destroy): Do not unref the cal_popup
+	since we already destroyed it.
+
 2000-10-11  Damon Chaplin  <damon@helixcode.com>
 
 	* e-calendar-item.c (e_calendar_item_recalc_sizes): fixed to
