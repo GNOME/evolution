@@ -1,3 +1,8 @@
+2004-12-13  Harish Krishnaswamy <kharish@novell.com>
+
+	* gui/dialogs/calendar-setup.c : Correct some white space 
+	ugliness in the previous commit.
+
 2004-12-13  Vivek Jain <jvivek@novell.com>
 
 	* gui/dialogs/calendar-setup.c : Changed the window title based upon

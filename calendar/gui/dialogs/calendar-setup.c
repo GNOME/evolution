@@ -371,6 +371,7 @@ calendar_setup_edit_calendar (struct _GtkWindow *parent, ESource *source, ESourc
 	} else {
 		GConfClient *gconf;
 		GSList *l;
+
 		sdialog->source = e_source_new ("", "");
 		gconf = gconf_client_get_default ();
 		sdialog->source_list = e_source_list_new_for_gconf (gconf, "/apps/evolution/calendar/sources");
