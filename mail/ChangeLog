@@ -1,3 +1,8 @@
+2003-11-13  Radek Doulik  <rodo@ximian.com>
+
+	* mail-folder-cache.c (folder_changed): don't call
+	CAMEL_IS_VJUNK_FOLDER, it was added by mistake
+
 2003-11-13  Not Zed  <NotZed@Ximian.com>
 
 	* em-format-html.c (em_format_html_add_pobject): use malloc0 for

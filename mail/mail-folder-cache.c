@@ -469,7 +469,7 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 	if (mfi->folder != folder)
 		return;
 	
-	if (!CAMEL_IS_VTRASH_FOLDER (folder) && !CAMEL_IS_VJUNK_FOLDER (folder) && folder != outbox_folder && folder != sent_folder && changes && changes->uid_added)
+	if (!CAMEL_IS_VTRASH_FOLDER (folder) && folder != outbox_folder && folder != sent_folder && changes && changes->uid_added)
 		new = changes->uid_added->len;
 	
 	LOCK(info_lock);
