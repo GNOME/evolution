@@ -1,3 +1,10 @@
+2000-03-13  bertrand  <bertrand@helixcode.com>
+
+	* folder-browser-factory.c (folder_browser_set_shell): 
+	for testing and demonstration purpose, immediately 
+	register a fake service.
+	
+
 2000-03-12  bertrand  <bertrand@helixcode.com>
 
 	* folder-browser-factory.c (folder_browser_factory_init): 

@@ -33,16 +33,21 @@ folder_browser_set_shell (EvolutionServiceRepository *sr,
 			  void *closure)
 {
 	FolderBrowser *folder_browser;
+	CORBA_Environment ev;
 
 	g_return_if_fail (closure);
 	g_return_if_fail (IS_FOLDER_BROWSER (closure));
 	g_return_if_fail (shell != CORBA_OBJECT_NIL);
 
+	CORBA_exception_init (&ev);
+
 	folder_browser = FOLDER_BROWSER (closure);
 	printf ("I AM A FOLDER BROWSER AND I AM STORING THE SHELL\n");
 	/* FIXME : ref the shell here */
 	folder_browser->shell = shell;
-	
+
+	/* test the component->shell registration */
+	Evolution_Shell_register_service (shell, Evolution_Shell_MAIL_STORE, "a_service", &ev);
 }
 
 static void 

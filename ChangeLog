@@ -1,5 +1,9 @@
 2000-03-13  bertrand  <bertrand@helixcode.com>
 
+	* shell/e-shell.c (EShell_register_service): 
+	test implementation. Show the uri and the type 
+	of service that	has just been registered.
+	
 	* shell/e-shell-view.c (get_view): 
 	once we have the bonobo control widget, 
 	disable the autoactivation and activate

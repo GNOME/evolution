@@ -132,7 +132,21 @@ EShell_register_service (PortableServer_Servant servant,
 			 const CORBA_char *uri,
 			 CORBA_Environment *ev)
 {
-	printf ("toto\n");
+	char *service_type_desc = NULL;
+
+	switch (type) {
+
+	case Evolution_Shell_MAIL_STORE :
+		service_type_desc = "store";
+		break;
+	case Evolution_Shell_MAIL_TRANSPORT :
+		service_type_desc = "transport";
+		break;
+	default :
+		service_type_desc = "service of unknown type";
+	}
+					
+	printf ("A component has registered a %s with uri \"%s\"\n", service_type_desc, uri);
 
 }
 
