@@ -52,11 +52,11 @@ ETableModel *e_table_without_construct  (ETableWithout                 *etw,
 					 ETableWithoutFreeKeyFunc       free_gotten_key_func,
 					 ETableWithoutFreeKeyFunc       free_duplicated_key_func,
 					 void                          *closure);
-void         e_table_without_add        (ETableWithout                 *etw,
+void         e_table_without_hide       (ETableWithout                 *etw,
 					 void                          *key);
-void         e_table_without_add_adopt  (ETableWithout                 *etw,
+void         e_table_without_hide_adopt (ETableWithout                 *etw,
 					 void                          *key);
-void         e_table_without_remove     (ETableWithout                 *etw,
+void         e_table_without_show       (ETableWithout                 *etw,
 					 void                          *key);
 #ifdef __cplusplus
 }

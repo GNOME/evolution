@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * E-table-subset.c: Implements a table that contains a subset of another table.
+ * E-table-without.c: Implements a table that contains a subset of another table.
  *
  * Author:
  *   Miguel de Icaza (miguel@gnu.org)
@@ -69,7 +69,7 @@ check_with_key (ETableWithout *etw, void *key, int model_row)
 	else
 		ret_val = (key == key2);
 	if (etw->priv->free_gotten_key_func)
-		etw->priv->free_gotten_key_func (key, etw->priv->closure);
+		etw->priv->free_gotten_key_func (key2, etw->priv->closure);
 	return ret_val;
 }
 
@@ -275,7 +275,7 @@ e_table_without_new        (ETableModel                   *source,
 	return (ETableModel *) etw;
 }
 
-void         e_table_without_add        (ETableWithout *etw,
+void         e_table_without_hide       (ETableWithout *etw,
 					 void          *key)
 {
 	int i; /* View row */
@@ -294,7 +294,7 @@ void         e_table_without_add        (ETableWithout *etw,
 }
 
 /* An adopted key will later be freed using the free_duplicated_key function. */
-void         e_table_without_add_adopt  (ETableWithout *etw,
+void         e_table_without_hide_adopt (ETableWithout *etw,
 					 void          *key)
 {
 	int i; /* View row */
@@ -309,7 +309,7 @@ void         e_table_without_add_adopt  (ETableWithout *etw,
 	}
 }
 
-void         e_table_without_remove     (ETableWithout *etw,
+void         e_table_without_show       (ETableWithout *etw,
 					 void          *key)
 {
 	int i; /* Model row */
@@ -325,8 +325,10 @@ void         e_table_without_remove     (ETableWithout *etw,
 		}
 	}
 	if (g_hash_table_lookup_extended (etw->priv->hash, key, &old_key, NULL)) {
+#if 0
 		if (etw->priv->free_duplicated_key_func)
 			etw->priv->free_duplicated_key_func (key, etw->priv->closure);
+#endif
 		g_hash_table_remove (etw->priv->hash, key);
 	}
 }
