@@ -1364,7 +1364,7 @@ cp (const char *src, const char *dest, gboolean show_progress)
 }
 
 static int
-cp_r (const char *src, const char *dest)
+cp_r (const char *src, const char *dest, const char *pattern)
 {
 	GString *srcpath, *destpath;
 	struct dirent *dent;
@@ -1400,8 +1400,8 @@ cp_r (const char *src, const char *dest)
 			continue;
 		
 		if (S_ISDIR (st.st_mode)) {
-			cp_r (srcpath->str, destpath->str);
-		} else {
+			cp_r (srcpath->str, destpath->str, pattern);
+		} else if (!pattern || !strcmp (dent->d_name, pattern)) {
 			cp (srcpath->str, destpath->str, FALSE);
 		}
 	}
@@ -1970,7 +1970,7 @@ em_migrate_imap_caches_1_4 (const char *evolution_dir, CamelException *ex)
 	dest = g_build_filename (evolution_dir, "mail", "imap", NULL);
 	
 	/* we don't care if this fails, it's only a cache... */
-	rename (src, dest);
+	cp_r (src, dest, "summary");
 	
 	g_free (dest);
 	g_free (src);

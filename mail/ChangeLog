@@ -1,5 +1,9 @@
 2004-04-08  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-migrate.c (cp_r): Now takes a pattern argument to limit files
+	that get copied over (so we can limit imap cache to only the
+	summary files - makes it faster).
+
 	* mail-account-gui.c (mail_account_gui_build_extra_conf): Fixed up
 	a bit to look nicer and make it closer to HIG compliant.
 
