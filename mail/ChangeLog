@@ -1,18 +1,28 @@
+2002-07-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (composer_send_cb): Pass 'info' into
+	mail_append_mail(), seems I created the info but forgot to pass it
+	in.
+	(composer_send_queued_cb): If the message is successfully queued,
+	we destroy the composer, otherwise we unref it. Don't ever destroy
+	and then unref it.
+
 2002-07-15  Radek Doulik  <rodo@ximian.com>
 
 	* mail-callbacks.c: use new save_header_state flag
 
 2002-07-15  Peter Williams  <peterw@ximian.com>
 
-	* mail-offline-handler.c (service_is_relevant): Account for the case
-	that when a disco store is "online" but actually offline and we're
-	going online, we should actually connect it.
+	* mail-offline-handler.c (service_is_relevant): Account for the
+	case that when a disco store is "online" but actually offline and
+	we're going online, we should actually connect it.
 
-	* component-factory.c (mail_load_storages): Always set auto_connect
-	to FALSE, same reason as below.
+	* component-factory.c (mail_load_storages): Always set
+	auto_connect to FALSE, same reason as below.
 
-	* mail-session.c (mail_session_init): Initialize our session to not be online,
-	since the shell will tell us to go online if we need to.
+	* mail-session.c (mail_session_init): Initialize our session to
+	not be online, since the shell will tell us to go online if we
+	need to.
 
 2002-07-10  Peter Williams  <peterw@ximian.com>
 

@@ -363,11 +363,11 @@ composer_send_queued_cb (CamelFolder *folder, CamelMimeMessage *msg, CamelMessag
 	} else {
 		e_msg_composer_set_enable_autosave (send->composer, TRUE);
 		gtk_widget_show (GTK_WIDGET (send->composer));
+		gtk_object_unref (GTK_OBJECT (send->composer));
 	}
 	
 	camel_message_info_free (info);
 	
-	gtk_object_unref (GTK_OBJECT (send->composer));
 	g_free (send);
 }
 
@@ -381,14 +381,14 @@ composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 	int i;
 	int hidden = 0, shown = 0;
 	int num = 0, num_bcc = 0;
-
+	
 	/* We should do all of the validity checks based on the composer, and not on
 	   the created message, as extra interaction may occur when we get the message
 	   (e.g. to get a passphrase to sign a message) */
-
+	
 	/* get the message recipients */
 	recipients = e_msg_composer_get_recipients(composer);
-
+	
 	/* see which ones are visible/present, etc */
 	if (recipients) {
 		for (i=0; recipients[i] != NULL;i++) {
@@ -405,7 +405,7 @@ composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 			}
 		}
 	}
-
+	
 	recipients_bcc = e_msg_composer_get_bcc(composer);
 	if (recipients_bcc) {
 		for (i=0; recipients_bcc[i] != NULL;i++) {
@@ -416,7 +416,7 @@ composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 		}
 		e_destination_freev (recipients_bcc);
 	}
-
+	
 	/* I'm sensing a lack of love, er, I mean recipients. */
 	if (num == 0) {
 		GtkWidget *message_box;
@@ -457,15 +457,15 @@ composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 	}
 	
 	/* Check for no subject */
-	subject = e_msg_composer_get_subject(composer);
+	subject = e_msg_composer_get_subject (composer);
 	if (subject == NULL || subject[0] == '\0') {
 		if (!ask_confirm_for_empty_subject (composer)) {
-			g_free(subject);
+			g_free (subject);
 			goto finished;
 		}
 	}
-	g_free(subject);
-
+	g_free (subject);
+	
 	/* actually get the message now, this will sign/encrypt etc */
 	message = e_msg_composer_get_message (composer, save_html_object_data);
 	if (message == NULL)
@@ -516,7 +516,7 @@ composer_send_cb (EMsgComposer *composer, gpointer user_data)
 	
 	e_msg_composer_set_enable_autosave (composer, FALSE);
 	
-	mail_append_mail (outbox_folder, message, NULL, composer_send_queued_cb, send);
+	mail_append_mail (outbox_folder, message, info, composer_send_queued_cb, send);
 	camel_object_unref (message);
 }
 
