@@ -1,3 +1,11 @@
+2004-03-30  William Jon McCann  <mccann@jhu.edu>
+
+	* gui/dialogs/calendar-setup.glade:
+	* gui/dialogs/calendar-setup.c (new_task_list_finish)
+	(calendar_setup_new_task_list, calendar_setup_edit_task_list):
+	add remote calendar setup page to task list setup assistant and
+	edit dialog.  Remove separators from dialog.
+
 2004-03-29  Larry Ewing  <lewing@ximian.com>
 
 	* gui/calendar-component.c (selector_tree_drag_data_received):

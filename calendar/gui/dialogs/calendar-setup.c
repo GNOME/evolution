@@ -649,7 +649,8 @@ new_task_list_finish (SourceDialog *source_dialog)
 {
 	source_dialog->source =
 		create_new_source_with_group (GTK_WINDOW (source_dialog->window), source_dialog->source_group, 
-					      gtk_entry_get_text (GTK_ENTRY (source_dialog->name_entry)), NULL,
+					      gtk_entry_get_text (GTK_ENTRY (source_dialog->name_entry)),
+					      gtk_entry_get_text (GTK_ENTRY (source_dialog->uri_entry)),
 					      E_CAL_SOURCE_TYPE_TODO);
 	dialog_to_source (source_dialog);
 
@@ -685,6 +686,8 @@ calendar_setup_new_task_list (GtkWindow *parent)
 				  G_CALLBACK (general_page_modified), source_dialog);
 	g_signal_connect_after (page, "prepare",
 				G_CALLBACK (general_page_prepare), source_dialog);
+	g_signal_connect_after (page, "next",
+				G_CALLBACK (general_page_forward), source_dialog);
 
 	source_dialog->source_list = e_source_list_new_for_gconf_default ("/apps/evolution/tasks/sources");
 	source_dialog->group_optionmenu =
@@ -703,6 +706,17 @@ calendar_setup_new_task_list (GtkWindow *parent)
 	source_dialog->source_group = e_source_list_peek_groups (source_dialog->source_list)->data;
 	g_signal_connect_swapped (source_dialog->group_optionmenu, "changed",
 				  G_CALLBACK (source_group_changed), source_dialog);
+
+	/* Remote page */
+	page = glade_xml_get_widget (source_dialog->gui_xml, "remote-page");
+	source_dialog->uri_entry = glade_xml_get_widget (source_dialog->gui_xml, "uri-entry");
+	source_dialog->refresh_spin = glade_xml_get_widget (source_dialog->gui_xml, "refresh-spin");
+	g_signal_connect_swapped (source_dialog->uri_entry, "changed",
+				  G_CALLBACK (remote_page_modified), source_dialog);
+	g_signal_connect_swapped (source_dialog->refresh_spin, "changed",
+				  G_CALLBACK (remote_page_modified), source_dialog);
+	g_signal_connect_after (page, "prepare",
+				G_CALLBACK (remote_page_prepare), source_dialog);
 
 	/* Finish page */
 	page = glade_xml_get_widget (source_dialog->gui_xml, "finish-page");
@@ -763,6 +777,14 @@ calendar_setup_edit_task_list (GtkWindow *parent, ESource *source)
 	g_signal_connect_swapped (source_dialog->name_entry, "activate",
 				  G_CALLBACK (edit_calendar_finish), source_dialog);
 
+	/* Remote page */
+	source_dialog->uri_entry = glade_xml_get_widget (source_dialog->gui_xml, "uri-entry");
+	source_dialog->refresh_spin = glade_xml_get_widget (source_dialog->gui_xml, "refresh-spin");
+	g_signal_connect_swapped (source_dialog->uri_entry, "changed",
+				  G_CALLBACK (remote_page_modified), source_dialog);
+	g_signal_connect_swapped (source_dialog->refresh_spin, "changed",
+				  G_CALLBACK (remote_page_modified), source_dialog);
+
 	/* Finishing */
 	g_signal_connect_swapped (glade_xml_get_widget (source_dialog->gui_xml, "ok-button"), "clicked",
 				  G_CALLBACK (edit_task_list_finish), source_dialog);
@@ -778,6 +800,9 @@ calendar_setup_edit_task_list (GtkWindow *parent, ESource *source)
 	gtk_window_set_modal (GTK_WINDOW (source_dialog->window), TRUE);
 
 	gtk_widget_show_all (source_dialog->window);
+
+	if (!source_is_remote (source_dialog->source))
+		gtk_widget_hide (glade_xml_get_widget (source_dialog->gui_xml, "remote-page"));
 
 	return TRUE;
 }
