@@ -1,3 +1,39 @@
+2000-06-10  Chris Toshok  <toshok@helixcode.com>
+
+	* e-table-item.c (eti_event): change things so we focus the cell
+	and select the row, and also dispatch the event to that row/cell.
+	This fixes the problem with the tree where you had to click twice
+	to activate the tree controls.
+
+	* Makefile.am (libetable_a_SOURCES): remove e-tree-gnode.* and add
+	e-tree-simple.*
+	(icons): add tree-expanded.xpm and tree-unexpanded.xpm
+
+	* e-cell-tree.c (ect_enter_edit): defer to subcell's view.
+	(ect_leave_edit): defer to subcell's view.
+	(visible_depth_of_node): visual depth, taking into account that
+	the root node of the model might not be displayed.
+	(offset_of_node): return the offset used to shift the subcell
+	over.
+	(ect_draw): don't draw vertical lines if we're the leftmode node
+	(a visual root node).  also, don't shift x2 by the subcell offset,
+	so we get ellipses like we're supposed to.
+	(ect_event): remove GDK_BUTTON_RELEASE from the list of events
+	that we care about.
+
+	* e-tree-example-1.c: lots of changes, a more dynamic UI so we can
+	test tree model api stuff.
+
+	* e-tree-gnode.c, e-tree-gnode.c: removed files, since their guts
+	have been rolled into e-tree-model.c
+
+	* e-tree-model.c, e-tree-model.h: substantially changed.  too much
+	to really describe here.  this should really be considered the
+	first revision of these files :)
+
+	* e-tree-simple.c, e-tree-simple.h: analogous to e-table-simple, a
+	subclass that allows the use of function pointers.
+	
 2000-06-11  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table-model.c: Small syntactic changes.

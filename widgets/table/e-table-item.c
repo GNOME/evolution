@@ -1197,6 +1197,14 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
 				return TRUE;
 			
+			if (eti->cursor_row != row || eti->cursor_col != col){
+				/*
+				 * Focus the cell, and select the row
+				 */
+				e_table_item_leave_edit (eti);
+				e_table_item_focus (eti, col, row);
+			}
+
 			if (eti->cursor_row == row && eti->cursor_col == col){
 				
 				ecol = e_table_header_get_column (eti->header, col);
@@ -1209,12 +1217,6 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				e->button.y = y1;
 				
 				e_cell_event (ecell_view, e, ecol->col_idx, col, row);
-			} else {
-				/*
-				 * Focus the cell, and select the row
-				 */
-				e_table_item_leave_edit (eti);
-				e_table_item_focus (eti, col, row);
 			}
 			break;
 		case 3:

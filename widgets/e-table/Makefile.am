@@ -76,10 +76,10 @@ libetable_a_SOURCES = 				\
 	e-table-subset-variable.h		\
 	e-table-text-model.c			\
 	e-table-text-model.h			\
-	e-tree-gnode.c				\
-	e-tree-gnode.h				\
 	e-tree-model.c				\
-	e-tree-model.h
+	e-tree-model.h				\
+	e-tree-simple.c				\
+	e-tree-simple.h
 
 noinst_PROGRAMS =	\
 	table-test table-example-1 table-example-2 table-size-test tree-example-1
@@ -159,7 +159,9 @@ icons = 			\
 	add-col.xpm		\
 	check-empty.xpm		\
 	check-filled.xpm	\
-	remove-col.xpm
+	remove-col.xpm		\
+	tree-expanded.xpm	\
+	tree-unexpanded.xpm
 
 EXTRA_DIST =			\
 	sample.table		\

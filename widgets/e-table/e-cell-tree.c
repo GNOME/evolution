@@ -49,6 +49,21 @@ static ECellClass *parent_class;
 
 static GdkPixbuf   *tree_expanded_pixbuf, *tree_unexpanded_pixbuf;
 
+#define INDENT_AMOUNT 16
+
+static int
+visible_depth_of_node (ETreeModel *tree_model, ETreePath *path)
+{
+	return (e_tree_model_node_depth (tree_model, path) 
+		- (e_tree_model_root_node_is_visible (tree_model) ? 0 : 1));
+}
+
+static gint
+offset_of_node (ETreeModel *tree_model, ETreePath *path)
+{
+	return (visible_depth_of_node(tree_model, path) + 1) * INDENT_AMOUNT;
+}
+
 static ETreePath*
 e_cell_tree_get_node (ETreeModel *tree_model, int row)
 {
@@ -136,7 +151,6 @@ ect_unrealize (ECellView *ecv)
 		(* parent_class->unrealize) (ecv);
 }
 
-#define INDENT_AMOUNT 16
 /*
  * ECell::draw method
  */
@@ -167,7 +181,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		 */
 		node = e_cell_tree_get_node (tree_model, row);
 
-		offset = (e_tree_model_node_depth (tree_model, node) + 1) * INDENT_AMOUNT;
+		offset = offset_of_node (tree_model, node);
 		expandable = e_tree_model_node_is_expandable (tree_model, node);
 		expanded = e_tree_model_node_is_expanded (tree_model, node);
 		subcell_offset = offset;
@@ -196,15 +210,8 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 				    rect.x, rect.y, rect.width, rect.height);
 		gdk_gc_set_foreground (tree_view->gc, foreground);
 
+		/* draw our lines */
 		if (E_CELL_TREE(tree_view->cell_view.ecell)->draw_lines) {
-			/* draw our lines */
-			gdk_draw_line (drawable, tree_view->gc,
-				       rect.x + offset - INDENT_AMOUNT / 2,
-				       rect.y,
-				       rect.x + offset - INDENT_AMOUNT / 2,
-				       (e_tree_model_node_get_next (tree_model, node)
-					? rect.y + rect.height
-					: rect.y + rect.height / 2));
 
 			gdk_draw_line (drawable, tree_view->gc,
 				       rect.x + offset - INDENT_AMOUNT / 2 + 1,
@@ -212,12 +219,22 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 				       rect.x + offset,
 				       rect.y + rect.height / 2);
 
+			if (visible_depth_of_node (tree_model, node) != 0) {
+				gdk_draw_line (drawable, tree_view->gc,
+					       rect.x + offset - INDENT_AMOUNT / 2,
+					       rect.y,
+					       rect.x + offset - INDENT_AMOUNT / 2,
+					       (e_tree_model_node_get_next (tree_model, node)
+						? rect.y + rect.height
+						: rect.y + rect.height / 2));
+			}
+
 			/* now traverse back up to the root of the tree, checking at
 			   each level if the node has siblings, and drawing the
 			   correct vertical pipe for it's configuration. */
 			node = e_tree_model_node_get_parent (tree_model, node);
 			offset -= INDENT_AMOUNT;
-			while (node && ! e_tree_model_node_is_root (tree_model, node)) {
+			while (node && visible_depth_of_node (tree_model, node) != 0) {
 				if (e_tree_model_node_get_next(tree_model, node)) {
 					gdk_draw_line (drawable, tree_view->gc,
 						       rect.x + offset - INDENT_AMOUNT / 2,
@@ -255,7 +272,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	   subcell_offset pixels */
 	e_cell_draw (tree_view->subcell_view, drawable,
 		     model_col, view_col, row, selected,
-		     x1 + subcell_offset, y1, x2 + subcell_offset, y2);
+		     x1 + subcell_offset, y1, x2, y2);
 }
 
 /*
@@ -267,13 +284,12 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
 
 	switch (event->type) {
-	case GDK_BUTTON_PRESS:
-	case GDK_BUTTON_RELEASE: {
+	case GDK_BUTTON_PRESS: {
 		/* if the event happened in our area of control (and
                    we care about it), handle it. */
 		ETreeModel *tree_model = e_cell_tree_get_tree_model (ecell_view->e_table_model, row);
 		ETreePath *node = e_cell_tree_get_node (tree_model, row);
-		int offset = (e_tree_model_node_depth (tree_model, node) + 1) * INDENT_AMOUNT;
+		int offset = offset_of_node (tree_model, node);
 
 		/* only activate the tree control if the click/release happens in the icon's area. */
 		if (event->button.x > (offset - INDENT_AMOUNT) && event->button.x < offset) {
@@ -284,6 +300,8 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 			}
 			return TRUE;
 		}
+		else if (event->button.x < (offset - INDENT_AMOUNT))
+			return TRUE;
 	}
 	default:
 		/* otherwise, pass it off to our subcell_view */
@@ -309,7 +327,10 @@ ect_height (ECellView *ecell_view, int model_col, int view_col, int row)
 static void *
 ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 {
-	return NULL;
+	/* just defer to our subcell's view */
+	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
+
+	return e_cell_enter_edit (tree_view->subcell_view, model_col, view_col, row);
 }
 
 /*
@@ -318,6 +339,10 @@ ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 static void
 ect_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, void *edit_context)
 {
+	/* just defer to our subcell's view */
+	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
+
+	e_cell_leave_edit (tree_view->subcell_view, model_col, view_col, row, edit_context);
 }
 
 /*

@@ -4,7 +4,6 @@
 #include <string.h>
 #include <gnome.h>
 #include "e-util/e-cursors.h"
-#include "e-tree-gnode.h"
 #include "e-table-header.h"
 #include "e-table-header-item.h"
 #include "e-table-item.h"
@@ -12,6 +11,7 @@
 #include "e-cell-tree.h"
 #include "e-cell-checkbox.h"
 #include "e-table.h"
+#include "e-tree-simple.h"
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
@@ -56,6 +56,8 @@ char *headers [COLS] = {
   "Date"
 };
 
+GtkWidget *e_table;
+
 /*
  * ETableSimple callbacks
  * These are the callbacks that define the behavior of our custom model.
@@ -73,12 +75,12 @@ my_col_count (ETableModel *etc, void *data)
 	return COLS;
 }
 
-/* This function returns the value at a particular point in our ETableModel. */
+/* This function returns the value at a particular point in our ETreeModel. */
 static void *
-my_value_at (ETreeModel *etc, GNode *node, int col, void *data)
+my_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 {
 	switch (col) {
-	case 0: return "Re: Two things";
+	case 0: return e_tree_model_node_get_data (etm, path);
 	case 1: return "Chris Toshok";
 	case 2: return "toshok@helixcode.com";
 	case 3: return "Jun 07 2000";
@@ -86,66 +88,162 @@ my_value_at (ETreeModel *etc, GNode *node, int col, void *data)
 	}
 }
 
-/* This function sets the value at a particular point in our ETableModel. */
+/* This function sets the value at a particular point in our ETreeModel. */
 static void
-my_set_value_at (ETableModel *etc, GNode *node, int col, const void *val, void *data)
+my_set_value_at (ETreeModel *etm, ETreePath *path, int col, const void *val, void *model_data)
 {
+	if (col == 0) {
+		char *str = e_tree_model_node_get_data (etm, path);
+		g_free (str);
+		e_tree_model_node_set_data (etm, path, g_strdup(val));
+	}
 }
 
 /* This function returns whether a particular cell is editable. */
 static gboolean
-my_is_editable (ETableModel *etc, GNode *node, int col, void *data)
+my_is_editable (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 {
-	return FALSE;
+	if (col == 0)
+		return TRUE;
+	else
+		return FALSE;
 }
 
-/* This function duplicates the value passed to it. */
-static void *
-my_duplicate_value (ETableModel *etc, int col, const void *value, void *data)
-{
-	return g_strdup (value);
-}
-
-/* This function frees the value passed to it. */
 static void
-my_free_value (ETableModel *etc, int col, void *value, void *data)
+toggle_root (GtkButton *button, gpointer data)
 {
-	g_free (value);
+	ETreeModel *e_tree_model = (ETreeModel*)data;
+	e_tree_model_root_node_set_visible (e_tree_model, !e_tree_model_root_node_is_visible (e_tree_model));
 }
 
-/* This function is for when the model is unfrozen.  This can mostly
-   be ignored for simple models.  */
 static void
-my_thaw (ETableModel *etc, void *data)
+add_sibling (GtkButton *button, gpointer data)
 {
+	ETreeModel *e_tree_model = E_TREE_MODEL (data);
+	int selected_row;
+	ETreePath *selected_node;
+	ETreePath *parent_node;
+
+	selected_row = e_table_get_selected_view_row (E_TABLE (e_table));
+	if (selected_row == -1)
+		return;
+
+	selected_node = e_tree_model_node_at_row (e_tree_model, selected_row);
+	g_assert (selected_node);
+
+	parent_node = e_tree_model_node_get_parent (e_tree_model, selected_node);
+
+	e_tree_model_node_insert_before (e_tree_model, parent_node,
+					 selected_node, "User added sibling");
+
+}
+
+static void
+add_child (GtkButton *button, gpointer data)
+{
+	ETreeModel *e_tree_model = E_TREE_MODEL (data);
+	int selected_row;
+	ETreePath *selected_node;
+
+	selected_row = e_table_get_selected_view_row (E_TABLE (e_table));
+	if (selected_row == -1)
+		return;
+
+	selected_node = e_tree_model_node_at_row (e_tree_model, selected_row);
+	g_assert (selected_node);
+
+	e_tree_model_node_insert (e_tree_model, selected_node,
+				  0, "User added child");
+}
+
+static void
+remove_node (GtkButton *button, gpointer data)
+{
+	ETreeModel *e_tree_model = E_TREE_MODEL (data);
+	int selected_row;
+	char *str;
+	ETreePath *selected_node;
+
+	selected_row = e_table_get_selected_view_row (E_TABLE (e_table));
+	if (selected_row == -1)
+		return;
+
+	selected_node = e_tree_model_node_at_row (e_tree_model, selected_row);
+	g_assert (selected_node);
+
+	if (e_tree_model_node_get_children (e_tree_model, selected_node, NULL) > 0)
+		return;
+
+	str = (char*)e_tree_model_node_remove (e_tree_model, selected_node);
+	printf ("removed node %s\n", str);
+	g_free (str);
+}
+
+static void
+expand_all (GtkButton *button, gpointer data)
+{
+	ETreeModel *e_tree_model = E_TREE_MODEL (data);
+	int selected_row;
+	ETreePath *selected_node;
+
+	selected_row = e_table_get_selected_view_row (E_TABLE (e_table));
+	if (selected_row == -1)
+		return;
+
+	selected_node = e_tree_model_node_at_row (e_tree_model, selected_row);
+	g_assert (selected_node);
+
+	e_tree_model_node_set_expanded_recurse (e_tree_model, selected_node, TRUE);
+}
+
+static void
+collapse_all (GtkButton *button, gpointer data)
+{
+	ETreeModel *e_tree_model = E_TREE_MODEL (data);
+	int selected_row;
+	ETreePath *selected_node;
+
+	selected_row = e_table_get_selected_view_row (E_TABLE (e_table));
+	if (selected_row == -1)
+		return;
+
+	selected_node = e_tree_model_node_at_row (e_tree_model, selected_row);
+	g_assert (selected_node);
+
+	e_tree_model_node_set_expanded_recurse (e_tree_model, selected_node, FALSE);
 }
 
 /* We create a window containing our new tree. */
 static void
 create_tree (void)
 {
-	GtkWidget *e_table, *window, *frame;
+	GtkWidget *window, *frame, *button, *vbox;
 	ECell *cell_left_just;
 	ECell *cell_tree;
 	ETableHeader *e_table_header;
 	int i, j;
 	ETreeModel *e_tree_model = NULL;
-	GNode *root_node;
+	ETreePath *root_node;
+
+	/* here we create our model.  This uses the functions we defined
+	   earlier. */
+	e_tree_model = e_tree_simple_new (my_value_at,
+					  my_set_value_at,
+					  my_is_editable,
+					  NULL);
 
 	/* create a root node with 5 children */
-	root_node = g_node_new (NULL);
+	root_node = e_tree_model_node_insert (e_tree_model, NULL,
+					      0, g_strdup("Root Node"));
+
 	for (i = 0; i < 5; i++){
-		GNode *n = g_node_insert (root_node, 0, g_node_new(NULL));
+		ETreePath *n = e_tree_model_node_insert (e_tree_model,
+							 root_node, 0, g_strdup("First level of children"));
 		for (j = 0; j < 5; j ++) {
-			g_node_insert (n, 0, g_node_new(NULL));
+			e_tree_model_node_insert (e_tree_model,
+						  n, 0, g_strdup("Second level of children"));
 		}
 	}
-
-	/* Next we create our model.  This uses the functions we defined
-	   earlier. */
-	e_tree_model = e_tree_gnode_new (root_node,
-					 my_value_at,
-					 NULL);
 
 	/*
 	 * Next we create a header.  The ETableHeader is used in two
@@ -200,6 +298,7 @@ create_tree (void)
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 
 	/* This frame is simply to get a bevel around our table. */
+	vbox = gtk_vbox_new (FALSE, 0);
 	frame = gtk_frame_new (NULL);
 
 	/*
@@ -213,8 +312,34 @@ create_tree (void)
 
 	/* Build the gtk widget hierarchy. */
 	gtk_container_add (GTK_CONTAINER (frame), e_table);
-	gtk_container_add (GTK_CONTAINER (window), frame);
+	gtk_box_pack_start (GTK_BOX (vbox), frame, TRUE, TRUE, 0);
 
+	button = gtk_button_new_with_label ("Toggle Root Node");
+	gtk_signal_connect (GTK_OBJECT (button), "clicked", toggle_root, e_tree_model);
+	gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
+
+	button = gtk_button_new_with_label ("Add Sibling");
+	gtk_signal_connect (GTK_OBJECT (button), "clicked", add_sibling, e_tree_model);
+	gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
+
+	button = gtk_button_new_with_label ("Add Child");
+	gtk_signal_connect (GTK_OBJECT (button), "clicked", add_child, e_tree_model);
+	gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
+
+	button = gtk_button_new_with_label ("Remove Node");
+	gtk_signal_connect (GTK_OBJECT (button), "clicked", remove_node, e_tree_model);
+	gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
+
+	button = gtk_button_new_with_label ("Expand All Below");
+	gtk_signal_connect (GTK_OBJECT (button), "clicked", expand_all, e_tree_model);
+	gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
+
+	button = gtk_button_new_with_label ("Collapse All Below");
+	gtk_signal_connect (GTK_OBJECT (button), "clicked", collapse_all, e_tree_model);
+	gtk_box_pack_end (GTK_BOX (vbox), button, FALSE, FALSE, 0);
+
+	gtk_container_add (GTK_CONTAINER (window), vbox);
+	
 	/* Size the initial window. */
 	gtk_widget_set_usize (window, 200, 200);
 
