@@ -37,6 +37,7 @@ static void e_minicard_view_widget_size_allocate (GtkWidget *widget, GtkAllocati
 static void e_minicard_view_widget_realize       (GtkWidget *widget);
 
 static void selection_change                     (ESelectionModel *esm, EMinicardViewWidget *widget);
+static void column_width_changed                 (ESelectionModel *esm, double width, EMinicardViewWidget *widget);
 
 static ECanvasClass *parent_class = NULL;
 
@@ -45,11 +46,13 @@ enum {
 	ARG_0,
 	ARG_BOOK,
 	ARG_QUERY,
-	ARG_EDITABLE
+	ARG_EDITABLE,
+	ARG_COLUMN_WIDTH
 };
 
 enum {
 	SELECTION_CHANGE,
+	COLUMN_WIDTH_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -99,6 +102,8 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *klass)
 				 GTK_ARG_READWRITE, ARG_QUERY);
 	gtk_object_add_arg_type ("EMinicardViewWidget::editable", GTK_TYPE_BOOL,
 				 GTK_ARG_READWRITE, ARG_EDITABLE);
+	gtk_object_add_arg_type ("EMinicardViewWidget::column_width", GTK_TYPE_INT,
+				 GTK_ARG_READWRITE, ARG_COLUMN_WIDTH);
 
 	e_minicard_view_widget_signals [SELECTION_CHANGE] =
 		gtk_signal_new ("selection_change",
@@ -107,6 +112,14 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *klass)
 				GTK_SIGNAL_OFFSET (EMinicardViewWidgetClass, selection_change),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
+
+	e_minicard_view_widget_signals [COLUMN_WIDTH_CHANGED] =
+		gtk_signal_new ("column_width_changed",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EMinicardViewWidgetClass, column_width_changed),
+				e_marshal_NONE__DOUBLE,
+				GTK_TYPE_NONE, 1, GTK_TYPE_DOUBLE);
 
 	gtk_object_class_add_signals (object_class, e_minicard_view_widget_signals, LAST_SIGNAL);
 
@@ -118,6 +131,9 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *klass)
 	widget_class->size_allocate = e_minicard_view_widget_size_allocate;
 
 	canvas_class->reflow        = e_minicard_view_widget_reflow;
+
+	klass->selection_change     = NULL;
+	klass->column_width_changed = NULL;
 }
 
 static void
@@ -128,6 +144,7 @@ e_minicard_view_widget_init (EMinicardViewWidget *view)
 	view->book = NULL;
 	view->query = NULL;
 	view->editable = FALSE;
+	view->column_width = 150;
 }
 
 GtkWidget *
@@ -173,9 +190,17 @@ e_minicard_view_widget_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_EDITABLE:
 		emvw->editable = GTK_VALUE_BOOL(*arg);
 		if (emvw->emv)
-		gtk_object_set (GTK_OBJECT(emvw->emv),
-				"editable", emvw->editable,
-				NULL);
+			gtk_object_set (GTK_OBJECT(emvw->emv),
+					"editable", emvw->editable,
+					NULL);
+		break;
+	case ARG_COLUMN_WIDTH:
+		emvw->column_width = GTK_VALUE_INT (*arg);
+		if (emvw->emv) {
+			gtk_object_set (GTK_OBJECT(emvw->emv),
+					"column_width", (int) emvw->column_width,
+					NULL);
+		}
 		break;
 	}
 }
@@ -196,6 +221,9 @@ e_minicard_view_widget_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_EDITABLE:
 		GTK_VALUE_BOOL (*arg) = emvw->editable;
+		break;
+	case ARG_COLUMN_WIDTH:
+		GTK_VALUE_INT (*arg) = emvw->column_width;
 		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
@@ -232,15 +260,17 @@ e_minicard_view_widget_realize (GtkWidget *widget)
 		e_minicard_view_get_type(),
 		"height", (double) 100,
 		"minimum_width", (double) 100,
+		"adapter", view->adapter,
+		"column_width", (int) view->column_width,
+		"editable", view->editable,
 		NULL );
-
-	gtk_object_set(GTK_OBJECT(view->emv),
-		       "adapter", view->adapter,
-		       NULL);
 
 	gtk_signal_connect (GTK_OBJECT (E_REFLOW(view->emv)->selection),
 			    "selection_changed",
 			    selection_change, view);
+	gtk_signal_connect (GTK_OBJECT (view->emv),
+			    "column_width_changed",
+			    column_width_changed, view);
 
 	if (GTK_WIDGET_CLASS(parent_class)->realize)
 		GTK_WIDGET_CLASS(parent_class)->realize (widget);
@@ -290,7 +320,14 @@ static void
 selection_change (ESelectionModel *esm, EMinicardViewWidget *widget)
 {
 	gtk_signal_emit (GTK_OBJECT(widget),
-			 e_minicard_view_widget_signals [SELECTION_CHANGE], widget);
+			 e_minicard_view_widget_signals [SELECTION_CHANGE]);
+}
+
+static void
+column_width_changed (ESelectionModel *esm, double width, EMinicardViewWidget *widget)
+{
+	gtk_signal_emit (GTK_OBJECT(widget),
+			 e_minicard_view_widget_signals [COLUMN_WIDTH_CHANGED], width);
 }
 
 gint

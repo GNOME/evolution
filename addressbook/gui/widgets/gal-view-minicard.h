@@ -12,7 +12,7 @@
 
 #include <gtk/gtkobject.h>
 #include <gal/menus/gal-view.h>
-#include <e-minicard-view.h>
+#include <e-minicard-view-widget.h>
 
 #define GAL_VIEW_MINICARD_TYPE        (gal_view_minicard_get_type ())
 #define GAL_VIEW_MINICARD(o)          (GTK_CHECK_CAST ((o), GAL_VIEW_MINICARD_TYPE, GalViewMinicard))
@@ -21,13 +21,13 @@
 #define GAL_IS_VIEW_MINICARD_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), GAL_VIEW_MINICARD_TYPE))
 
 typedef struct {
-	GalView        base;
+	GalView              base;
 
-	char          *title;
-	double         column_width;
+	char                *title;
+	double               column_width;
 
-	EMinicardView *emv;
-	guint          emv_column_width_changed_id;
+	EMinicardViewWidget *emvw;
+	guint                emvw_column_width_changed_id;
 } GalViewMinicard;
 
 typedef struct {
@@ -36,11 +36,11 @@ typedef struct {
 
 /* Standard functions */
 GtkType  gal_view_minicard_get_type   (void);
-GalView *gal_view_minicard_new        (const gchar     *title);
-GalView *gal_view_minicard_construct  (GalViewMinicard *view,
-				       const gchar     *title);
-void     gal_view_minicard_attach     (GalViewMinicard *view,
-				       EMinicardView   *emv);
-void     gal_view_minicard_detach     (GalViewMinicard *view);
+GalView *gal_view_minicard_new        (const gchar         *title);
+GalView *gal_view_minicard_construct  (GalViewMinicard     *view,
+				       const gchar         *title);
+void     gal_view_minicard_attach     (GalViewMinicard     *view,
+				       EMinicardViewWidget *emvw);
+void     gal_view_minicard_detach     (GalViewMinicard     *view);
 
 #endif /* _GAL_VIEW_MINICARD_H_ */

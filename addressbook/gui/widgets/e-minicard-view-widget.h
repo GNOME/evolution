@@ -51,12 +51,15 @@ struct _EMinicardViewWidget
 	EBook *book;
 	char *query;
 	guint editable : 1;
+
+	double column_width;
 };
 
 struct _EMinicardViewWidgetClass
 {
 	ECanvasClass parent_class;
-	void         (*selection_change) (EMinicardViewWidget*);
+	void         (*selection_change)     (EMinicardViewWidget *emvw);
+	void         (*column_width_changed) (EMinicardViewWidget *emvw, double width);
 };
 
 GtkType    e_minicard_view_widget_get_type (void);
