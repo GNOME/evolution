@@ -7,7 +7,10 @@
  *
  * (C) 2000, 2001 Ximian, Inc.
  */
+
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include "gal-view-menus.h"
 
@@ -42,9 +45,6 @@ typedef struct {
 	int ref_count;
 } ListenerClosure;
 
-#define PARENT_TYPE G_TYPE_OBJECT
-
-static GObjectClass *gvm_parent_class;
 static void collection_changed (GalViewCollection *collection,
 				GalViewMenus *gvm);
 static void instance_changed (GalViewInstance *instance,
@@ -52,6 +52,8 @@ static void instance_changed (GalViewInstance *instance,
 
 #define d(x)
 #define CURRENT_VIEW_PATH "/menu/View/ViewBegin/CurrentView"
+
+G_DEFINE_TYPE(GalViewMenus, gal_view_menus, G_TYPE_OBJECT);
 
 static void
 closure_free (void *data, void *user_data)
@@ -142,7 +144,7 @@ clear_define_views_dialog (gpointer data,
 }
 
 static void
-gvm_finalize (GObject *object)
+gal_view_menus_finalize (GObject *object)
 {
 	GalViewMenus *gvm = GAL_VIEW_MENUS (object);
 
@@ -158,19 +160,19 @@ gvm_finalize (GObject *object)
 
 	g_free(gvm->priv);
 
-	(* G_OBJECT_CLASS (gvm_parent_class)->finalize) (object);
+	(* G_OBJECT_CLASS (gal_view_menus_parent_class)->finalize) (object);
 }
 
 static void
-gvm_class_init (GObjectClass *klass)
+gal_view_menus_class_init (GalViewMenusClass *gvm_class)
 {
-	gvm_parent_class = gtk_type_class (PARENT_TYPE);
-	
-	klass->finalize = gvm_finalize;
+	GObjectClass *object_class = G_OBJECT_CLASS (gvm_class);
+
+	object_class->finalize = gal_view_menus_finalize;
 }
 
 static void
-gvm_init (GalViewMenus *gvm)
+gal_view_menus_init (GalViewMenus *gvm)
 {
 	gvm->priv                        = g_new(GalViewMenusPrivate, 1);
 	gvm->priv->instance              = NULL;
@@ -181,8 +183,6 @@ gvm_init (GalViewMenus *gvm)
 	gvm->priv->define_views_dialog   = NULL;
 	gvm->priv->show_define_views     = TRUE;
 }
-
-E_MAKE_TYPE(gal_view_menus, "GalViewMenus", GalViewMenus, gvm_class_init, gvm_init, PARENT_TYPE);
 
 GalViewMenus *
 gal_view_menus_new (GalViewInstance *instance)

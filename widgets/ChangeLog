@@ -1,5 +1,9 @@
 2004-11-12  JP Rosevear  <jpr@novell.com>
 
+	* menus/gal-view-menus.c: Convert to G_DEFINE_TYPE
+
+2004-11-12  JP Rosevear  <jpr@novell.com>
+	
 	* e-timezone-dialog/e-timezone-dialog.c: convert to G_DEFINE_TYPE
 
 2004-10-28  Li Yuan  <li.yuan@sun.com>
