@@ -1,3 +1,9 @@
+1999-02-28  Martin Baulig  <martin@home-of-linux.org>
+
+	* gncal-full-day.c (recompute_motion): For DRAG_MOVE, DRAG_SIZE_TOP
+	and DRAG_SIZE_BOTTOM: call child_focus_out () if the child currently
+	has the focus.
+
 1999-02-27  Changwoo Ryu  <cwryu@adam.kaist.ac.kr>
 
 	* quick-view.c (QUICK_VIEW_FONTSET): Added Korean font to the

@@ -1759,6 +1759,9 @@ recompute_motion (GncalFullDay *fullday, int y)
 	case DRAG_MOVE:
 		has_focus = GTK_WIDGET_HAS_FOCUS (di->child->widget);
 
+		if (has_focus)
+			child_focus_out (di->child->widget, NULL, di->child);
+
 		row = get_row_from_y (fullday, y - di->child_click_y + (has_focus ? HANDLE_SIZE : 0), TRUE);
 
 		if (row > (f_rows - di->child_rows_used))
@@ -1769,6 +1772,11 @@ recompute_motion (GncalFullDay *fullday, int y)
 		break;
 
 	case DRAG_SIZE_TOP:
+		has_focus = GTK_WIDGET_HAS_FOCUS (di->child->widget);
+
+		if (has_focus)
+			child_focus_out (di->child->widget, NULL, di->child);
+
 		row = get_row_from_y (fullday, y + HANDLE_SIZE, TRUE);
 
 		if (row > (di->child_start_row + di->child_rows_used - 1))
@@ -1780,6 +1788,11 @@ recompute_motion (GncalFullDay *fullday, int y)
 		break;
 
 	case DRAG_SIZE_BOTTOM:
+		has_focus = GTK_WIDGET_HAS_FOCUS (di->child->widget);
+
+		if (has_focus)
+			child_focus_out (di->child->widget, NULL, di->child);
+
 		row = get_row_from_y (fullday, y - HANDLE_SIZE, TRUE);
 
 		if (row <= di->child_start_row)
