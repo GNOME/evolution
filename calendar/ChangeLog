@@ -1,6 +1,11 @@
 2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/GNOME_Evolution_Calendar.server.in.in: Add an
+	"evolution:button_icon" attribute.
+
+2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/GNOME_Evolution_Calendar.server.in.in: Add an
 	"evoution:button_sort_order" attribute.
 
 2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
