@@ -315,8 +315,15 @@ static const EMenuHookTargetMask emph_select_masks[] = {
 	{ 0 }
 };
 
+/* dummy widget target, probably wont have any useful masks.
+   this should probably be a more specific target type */
+static const EMenuHookTargetMask emph_widget_masks[] = {
+	{ 0 }
+};
+
 static const EMenuHookTargetMap emph_targets[] = {
 	{ "select", EM_MENU_TARGET_SELECT, emph_select_masks },
+	{ "widget", EM_MENU_TARGET_WIDGET, emph_widget_masks },
 	{ 0 }
 };
 

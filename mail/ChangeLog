@@ -1,5 +1,9 @@
 2005-01-05  Not Zed  <NotZed@Ximian.com>
 
+	* em-menu.c: (emph_targets[]): Add the widget target, missed this.
+
+2005-01-05  Not Zed  <NotZed@Ximian.com>
+
 	* em-menu.c (em_menu_target_new_widget): add a semi-dummy target
 	for widget target.
 
