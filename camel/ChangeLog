@@ -1,3 +1,8 @@
+2003-10-28  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* camel-mime-utils.c: (header_decode_date):
+	better detection of broken date to give to broken_date_parser.
+
 2003-10-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-text-index.c (text_index_name_add_buffer): If a word is

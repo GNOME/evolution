@@ -3457,6 +3457,7 @@ header_decode_date(const char *in, int *saveoffset)
 {
 	const char *inptr = in;
 	char *monthname;
+	gboolean foundmonth;
 	int year, offset = 0;
 	struct tm tm;
 	int i;
@@ -3494,16 +3495,28 @@ header_decode_date(const char *in, int *saveoffset)
 		}
 	}
 	tm.tm_mday = header_decode_int(&inptr);
+#ifndef CLEAN_DATE
+	if (tm.tm_mday == 0) {
+		return parse_broken_date (in, saveoffset);
+	}
+#endif /* ! CLEAN_DATE */
 	monthname = decode_token(&inptr);
+	foundmonth = FALSE;
 	if (monthname) {
 		for (i=0;i<sizeof(tz_months)/sizeof(tz_months[0]);i++) {
 			if (!strcasecmp(tz_months[i], monthname)) {
 				tm.tm_mon = i;
+				foundmonth = TRUE;
 				break;
 			}
 		}
 		g_free(monthname);
 	}
+#ifndef CLEAN_DATE
+	if (!foundmonth) {
+		return parse_broken_date (in, saveoffset);
+	}
+#endif /* ! CLEAN_DATE */
 	year = header_decode_int(&inptr);
 	if (year < 69) {
 		tm.tm_year = 100 + year;
