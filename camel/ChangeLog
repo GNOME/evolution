@@ -1,5 +1,8 @@
 2002-02-04  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-http-stream.[c,h]: Added. New stream for HTTP requests
+	(currently supported are GET and HEAD).
+
 	* camel-tcp-stream-ssl.c (stream_connect): Call set_errno
 	appropriately.
 
