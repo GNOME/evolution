@@ -25,7 +25,7 @@ INCLUDES =						\
 	-DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED	\
 	$(GNOME_FULL_CFLAGS)
 
-EXTRA_DIST = $(tools_SCRIPTS) verify-evolution-install.sh \
+EXTRA_DIST = $(privlibexec_SCRIPTS) verify-evolution-install.sh \
 	evolution-addressbook-clean.in
 
 CORBA_SOURCE =                          \
