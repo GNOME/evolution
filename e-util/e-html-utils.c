@@ -375,7 +375,8 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 		case ' ':
 			if (flags & E_TEXT_TO_HTML_CONVERT_SPACES) {
 				if (cur == (const unsigned char *)input ||
-				    *(cur + 1) == ' ' || *(cur + 1) == '\t') {
+				    *(cur + 1) == ' ' || *(cur + 1) == '\t' ||
+				    *(cur - 1) == '\n') {
 					strcpy (out, "&nbsp;");
 					out += 6;
 					col++;
