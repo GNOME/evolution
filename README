@@ -21,54 +21,96 @@ http://lists.helixcode.com/archives/public/evolution/
 There is also an #evolution IRC channel on irc.gnome.org.
 
 
-Evolution depends on the following non-core GNOME libraries, which
-are all in GNOME CVS under the given names. (If you build them in
-the order they are listed, then the dependencies will all work out
-correctly.)
+HOW TO BUILD EVOLUTION
+----------------------
 
-	gnome-xml - currently, only 1.8.7 works. Earlier versions have
-	a bug in code that Evolution needs, and the 2.0 branch is not
-	source or binary compatible. If you get this from GNOME CVS,
-	use the	tag "LIB_XML_1_X".
+	*** READ THIS BEFORE YOU START BUILDING ANYTHING! ***
 
-	gnome-print
+Evolution depends on a large number of unreleased and rapidly-changing
+libraries. Some of these libraries in turn depend on other unreleased
+and rapidly-changing libraries.
 
-	gdk-pixbuf - 0.7.0 (or later?)
-
-	ORBit - 0.5.1
-
-	bonobo - Evolution always tracks the latest CVS versions of
-	bonobo. Released versions will virtually always be too old.
-	*** Note that this must be installed with the same --prefix as
-	*** either gnome-libs or evolution for the Makefiles to work
-	*** properly.
-
-	gnome-vfs
-
-	gtkhtml - Evolution might work with the released versions of
-	this, but the CVS versions tend to be less buggy and more
-	featureful.
-
-	libglade
-
-	libunicode
-
-The Palm-synchronization code, when it is incorporated, will require
-the pilot-link package. There is most likely a package for this in
-your OS of choice (the name may be "pilot-link" or "libpisock"). If
-not, you can get the source at ftp://ryeham.ee.ryerson.ca/pub/PalmOS/.
-You will also need the "gnome-pilot" package from GNOME CVS.
+Building Evolution is HARD, and it's going to stay hard until all of
+the libraries it depends on stabilize, and there's nothing we can do
+to make it any easier until then.
 
 
-You will most likely want to include the option
-	--sysconfdir=`gnome-config --sysconfdir`
-when configuring, to make the .gnorba files get installed into the
-system gnorba directory. If you don't do that, you'll need to either
-	a) set GNOME_PATH to include the prefix you install into
-	   (eg, GNOME_PATH=/usr/local)     OR
-	b) set GNOME_GNORBA_PATH to the gnorba directory in the
-	   prefix you install into
-	   (eg, GNOME_GNORBA_PATH=/usr/local/etc/CORBA/servers)
+General Principles
+------------------
+
+There are two things you have to decide earlier on: whether or not to
+install Evolution in the same prefix as the rest of your GNOME
+install, and whether to use GOAD or OAF.
+
+ - Installing everything into the same prefix as the rest of your
+   GNOME install will it much easier to run programs, but may make it
+   harder to uninstall later.
+
+   If you want to install into the same prefix as the rest of GNOME,
+   type:
+
+	gnome-config --prefix
+	gnome-config --sysconfdir
+
+   and remember the answers, and pass them to "configure" and
+   "autogen" when building the other packages you need. Eg:
+
+	./configure --prefix=/usr --sysconfdir=/etc
+
+
+   If you do not do this, you will need to set GNOME_PATH to include
+   the prefix you install into. Eg:
+
+        GNOME_PATH=/usr/local
+
+
+ - There is absolutely no reason to build using OAF unless you are
+   also building Nautilus, in which case you should already have it
+   installed.
+
+
+Dependencies
+------------
+
+All of these libraries are available in GNOME CVS, under the given
+names. Most (but not all) of them are also available as tarballs on
+ftp.gnome.org. The (*)ed packages are available in Helix GNOME.
+(http://www.helixcode.com/desktop/)
+
+ - gnome-xml - currently, only 1.8.7 works. Earlier versions have a
+   bug in code that Evolution needs, and the 2.0 branch is not source
+   or binary compatible. If you get this from GNOME CVS, use the tag
+   "LIB_XML_1_X". (*)
+
+ - gnome-print (whatever version is currently needed by gtkhtml) (*)
+
+ - gdk-pixbuf - 0.7.0 or later (*)
+
+ - ORBit - 0.5.1 (*)
+
+ - bonobo - Evolution always tracks the latest CVS versions of bonobo.
+   Released versions will virtually always be too old (although as of
+   May 10, bonobo 0.11 is recent enough).
+
+   *** Note that bonobo must be installed with the same --prefix as
+   *** either gnome-libs or evolution for the Makefiles to work
+   *** properly.
+
+ - gnome-vfs (released versions are OK currently, but CVS versions are
+   better)
+
+ - libunicode
+
+ - gtkhtml - 0.2 or later
+
+ - libglade (*)
+
+ - pilot-link - only required if you want Pilot support. The pilot
+   support does not currently exist, so this is somewhat hypothetical.
+   (*)
+
+ - gnome-pilot - see pilot-link (*)
+
 
 
 
