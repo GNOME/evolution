@@ -1,5 +1,22 @@
 2002-06-14  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes bug #26130 ]
+	* gui/contact-editor/e-contact-editor.c (file_save_as_cb): pass
+	ce->app as parent_window.
+
+	* gui/contact-list-editor/e-contact-list-editor.c
+	(file_save_as_cb): same .
+
+	* gui/contact-editor/e-contact-save-as.c (e_contact_list_save_as):
+	if a parent_window is specified, the file selector should be
+	modal/transient for that window.
+	(e_contact_save_as): same.
+
+	* gui/contact-editor/e-contact-save-as.h: track prototype changes
+	(addition of GtkWindow *parent_window to both calls.)
+	
+2002-06-14  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/pas-backend-ldap.c (check_schema_support): free
 	values and resp.
 	(pas_backend_ldap_connect): use ldap_unbind_ext - ldap_unbind is

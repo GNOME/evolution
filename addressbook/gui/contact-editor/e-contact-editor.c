@@ -975,7 +975,7 @@ file_save_as_cb (GtkWidget *widget, gpointer data)
 	e_card_simple_sync_card (ce->simple);
 
 	card = ce->card;
-	e_contact_save_as(_("Save Contact as VCard"), card);
+	e_contact_save_as(_("Save Contact as VCard"), card, GTK_WINDOW (ce->app));
 }
 
 static void

@@ -425,7 +425,7 @@ file_save_as_cb (GtkWidget *widget, gpointer data)
 
 	extract_info (cle);
 
-	e_contact_save_as(_("Save List as VCard"), cle->card);
+	e_contact_save_as(_("Save List as VCard"), cle->card, GTK_WINDOW (cle->app));
 }
 
 static void
