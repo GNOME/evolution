@@ -256,7 +256,7 @@ realize (GtkWidget *widget)
 	priv = folder_title_bar->priv;
 
 	pixmap = make_icon_pixmap (folder_title_bar, priv->icon);
-	priv->icon_widget = gtk_pixmap_new (pixmap, NULL);
+	priv->icon_widget = gnome_pixmap_new (pixmap, NULL);
 	gdk_pixmap_unref (pixmap);
 	gtk_widget_show (priv->icon_widget);
 
@@ -418,7 +418,9 @@ e_shell_folder_title_bar_new (void)
 {
 	EShellFolderTitleBar *new;
 
+	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 	new = gtk_type_new (e_shell_folder_title_bar_get_type ());
+	gtk_widget_pop_colormap ();
 
 	e_shell_folder_title_bar_construct (new);
 

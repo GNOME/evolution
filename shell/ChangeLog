@@ -1,3 +1,8 @@
+2001-01-15  JP Rosevear  <jpr@ximian.com>
+
+	* e-shell-folder-title-bar.c (e_shell_folder_title_bar_new): push/pop
+	the color map
+
 2001-01-15  Iain Holmes  <iain@ximian.com>
 
 	* importer/importer.c (import_druid_cancel): Just destroy the wizard.
