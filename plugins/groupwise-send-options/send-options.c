@@ -97,7 +97,7 @@ org_gnome_compose_send_options (EPlugin *ep, EMMenuTargetWidget *t)
 			e_msg_composer_add_header (comp, X_REPLY_CONVENIENT ,"1" ) ;
 		else if (dialog->data->gopts->reply_within) {
 			time_t t;
-			t = add_day_to_time (time (NULL), dialog->data->gopts->reply_convenient);
+			t = add_day_to_time (time (NULL), dialog->data->gopts->reply_within);
 			strftime (value, 17, "%Y%m%dT%H%M%SZ", gmtime (&t));
 			e_msg_composer_add_header (comp, X_REPLY_WITHIN , value) ;
 		}
