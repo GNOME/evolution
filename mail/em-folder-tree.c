@@ -1857,7 +1857,6 @@ emft_popup_move (GtkWidget *item, EMFolderTree *emft)
 			  NULL, emft_popup_copy_folder_selected, cfd);
 }
 
-
 gboolean
 em_folder_tree_create_folder (EMFolderTree *emft, const char *path, const char *uri)
 {

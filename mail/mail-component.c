@@ -140,7 +140,7 @@ mc_add_store(MailComponent *component, CamelStore *store, const char *name, void
 static void
 mc_add_local_store_done(CamelStore *store, CamelFolderInfo *info, void *data)
 {
-	MailComponent *mc = data;
+	/*MailComponent *mc = data;*/
 	int i;
 
 	for (i=0;i<sizeof(mc_default_folders)/sizeof(mc_default_folders[0]);i++) {
@@ -536,7 +536,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant, CORBA_Environment 
 {
 	GNOME_Evolution_CreatableItemTypeList *list = GNOME_Evolution_CreatableItemTypeList__alloc ();
 
-	list->_length  = 1;
+	list->_length  = 2;
 	list->_maximum = list->_length;
 	list->_buffer  = GNOME_Evolution_CreatableItemTypeList_allocbuf (list->_length);
 
@@ -549,7 +549,31 @@ impl__get_userCreatableItems (PortableServer_Servant servant, CORBA_Environment 
 	list->_buffer[0].menuShortcut = 'm';
 	list->_buffer[0].iconName = "new-message.xpm";
 
+	list->_buffer[1].id = "folder";
+	list->_buffer[1].description = _("New Mail Folder");
+	list->_buffer[1].menuDescription = _("Mail _Folder");
+	list->_buffer[1].tooltip = _("Create a new mail folder");
+	list->_buffer[1].menuShortcut = 'f';
+	list->_buffer[1].iconName = "folder-mini.png";
+
 	return list;
+}
+
+static void
+emc_new_folder_response(EMFolderSelector *emfs, int response, MailComponent *mc)
+{
+	const char *uri, *path;
+	
+	if (response != GTK_RESPONSE_OK) {
+		gtk_widget_destroy((GtkWidget *)emfs);
+		return;
+	}
+	
+	uri = em_folder_selector_get_selected_uri(emfs);
+	path = em_folder_selector_get_selected_path(emfs);
+	
+	if (em_folder_tree_create_folder(emfs->emft, path, uri))
+		gtk_widget_destroy((GtkWidget *)emfs);
 }
 
 static void
@@ -557,16 +581,32 @@ impl_requestCreateItem (PortableServer_Servant servant,
 			const CORBA_char *item_type_name,
 			CORBA_Environment *ev)
 {
-	if (strcmp (item_type_name, "message") != 0) {
+	MailComponent *mc = MAIL_COMPONENT(bonobo_object_from_servant(servant));
+
+	if (strcmp(item_type_name, "message") == 0) {
+		if (!em_utils_check_user_can_send_mail(NULL))
+			return;
+	
+		em_utils_compose_new_message ();
+	} else if (strcmp(item_type_name, "folder") == 0) {
+		/* This api is fucked up, too tightly integrated with the tree view */
+		EMFolderTree *folder_tree;
+		GtkWidget *dialog;
+	
+		folder_tree = (EMFolderTree *) em_folder_tree_new_with_model(mc->priv->model);
+		dialog = em_folder_selector_create_new (folder_tree, 0, _("Create folder"), _("Specify where to create the folder:"));
+		/* We need to get this from the currently activated component?
+		  em_folder_selector_set_selected ((EMFolderSelector *) dialog, emft->priv->selected_uri);*/
+		g_signal_connect (dialog, "response", G_CALLBACK(emc_new_folder_response), mc);
+		gtk_widget_show(dialog);
+		/* FIXME: what is this crap, this should go in the folder selector */
+		gtk_widget_grab_focus((GtkWidget *)((EMFolderSelector *)dialog)->name_entry);
+	} else {
+
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_GNOME_Evolution_Component_UnknownType, NULL);
 		return;
 	}
-
-	if (!em_utils_check_user_can_send_mail(NULL))
-		return;
-	
-	em_utils_compose_new_message ();
 }
 
 static void

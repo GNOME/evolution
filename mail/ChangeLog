@@ -1,6 +1,14 @@
 2004-03-03  Not Zed  <NotZed@Ximian.com>
 
-	* em-inline-filter.c (emif_scan): 
+	** See bug #54121.
+
+	* mail-component.c (impl_requestCreateItem)
+	(emc_new_folder_response): Hack in a nastish implementation of
+	create folder for the new menu.
+	(impl__get_userCreatableItems): add 'new mail folder' to new
+	button.
+
+2004-03-03  Not Zed  <NotZed@Ximian.com>
 
 	* em-folder-tree-model.c (em_folder_tree_model_set_folder_info):
 	if we have the folder opened already, and its the outbox, then use
