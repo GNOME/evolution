@@ -69,9 +69,6 @@ void cal_notify_error (Cal *cal, const char *message);
 
 void cal_notify_categories_changed (Cal *cal, GNOME_Evolution_Calendar_StringSeq *categories);
 
-char *cal_get_password (Cal *cal, const char *prompt, const char *key);
-void  cal_forget_password (Cal *cal, const char *key);
-
 
 
 G_END_DECLS

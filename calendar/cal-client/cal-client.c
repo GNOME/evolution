@@ -33,7 +33,6 @@
 #include "cal-client-types.h"
 #include "cal-client.h"
 #include "cal-listener.h"
-#include "wombat-client.h"
 
 
 
@@ -68,9 +67,6 @@ struct _CalClientPrivate {
 	CalClientAuthFunc auth_func;
 	gpointer auth_user_data;
 
-	/* The WombatClient */
-	WombatClient *w_client;
-
 	/* A cache of timezones retrieved from the server, to avoid getting
 	   them repeatedly for each get_object() call. */
 	GHashTable *timezones;
@@ -102,13 +98,6 @@ static void cal_client_class_init (CalClientClass *klass);
 static void cal_client_init (CalClient *client, CalClientClass *klass);
 static void cal_client_finalize (GObject *object);
 
-static char *client_get_password_cb (WombatClient *w_client,
-				     const gchar *prompt,
-				     const gchar *key,
-				     gpointer user_data);
-static void  client_forget_password_cb (WombatClient *w_client,
-					const gchar *key,
-					gpointer user_data);
 static void cal_client_get_object_timezones_cb (icalparameter *param,
 						void *data);
 
@@ -319,7 +308,6 @@ cal_client_init (CalClient *client, CalClientClass *klass)
 	priv->capabilities = FALSE;
 	priv->factories = NULL;
 	priv->timezones = g_hash_table_new (g_str_hash, g_str_equal);
-	priv->w_client = NULL;
 	priv->default_zone = icaltimezone_get_utc_timezone ();
 	priv->comp_listener = NULL;
 }
@@ -440,8 +428,7 @@ cal_client_finalize (GObject *object)
 		priv->comp_listener = NULL;
 	}
 
-	priv->w_client = NULL;
-	/* destroy_factories (client); */
+	destroy_factories (client);
 	destroy_cal (client);
 
 	priv->load_state = CAL_CLIENT_LOAD_NOT_LOADED;
@@ -689,41 +676,6 @@ categories_changed_cb (CalListener *listener, const GNOME_Evolution_Calendar_Str
 	g_ptr_array_free (cats, TRUE);
 }
 
-
-/* Handle the get_password signal from the Wombatclient */
-static gchar *
-client_get_password_cb (WombatClient *w_client,
-                        const gchar *prompt,
-                        const gchar *key,
-                        gpointer user_data)
-{
-        CalClient *client;
-
-        client = CAL_CLIENT (user_data);
-        g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
-
-        if (client->priv->auth_func)
-                return client->priv->auth_func (client, prompt, key, client->priv->auth_user_data);
-
-        return NULL;
-}
-
-/* Handle the forget_password signal from the WombatClient */
-static void
-client_forget_password_cb (WombatClient *w_client,
-                           const gchar *key,
-                           gpointer user_data)
-{
-        CalClient *client;
-
-        client = CAL_CLIENT (user_data);
-        g_return_if_fail (IS_CAL_CLIENT (client));
-
-        g_signal_emit (G_OBJECT (client),
-		       cal_client_signals [FORGET_PASSWORD],
-		       0, key);
-}
-
 
 
 static GList *
@@ -874,14 +826,6 @@ real_open_calendar (CalClient *client, const char *str_uri, gboolean only_if_exi
 		g_message ("cal_client_open_calendar(): could not create the listener");
 		return FALSE;
 	}
-
-	/* create the WombatClient */
-	priv->w_client = wombat_client_new (
-		(WombatClientGetPasswordFn) client_get_password_cb,
-                (WombatClientForgetPasswordFn) client_forget_password_cb,
-                (gpointer) client);
-	bonobo_object_add_interface (BONOBO_OBJECT (priv->listener),
-				     BONOBO_OBJECT (priv->w_client));
 
 	corba_listener = (GNOME_Evolution_Calendar_Listener) (BONOBO_OBJREF (priv->listener));
 

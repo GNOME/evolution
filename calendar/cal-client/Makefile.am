@@ -30,8 +30,6 @@ INCLUDES =						\
 	-I$(top_builddir)				\
 	-I$(top_builddir)/libical/src/libical		\
 	-I$(top_srcdir)/libical/src/libical		\
-	-I$(top_builddir)/libwombat			\
-	-I$(top_srcdir)/libwombat			\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
 privlib_LTLIBRARIES = libcal-client.la
@@ -51,7 +49,6 @@ libcal_client_la_SOURCES =	\
 
 libcal_client_la_LIBADD =					\
 	$(top_builddir)/calendar/cal-util/libcal-util.la	\
-	$(top_builddir)/libwombat/libwombat.la			\
 	$(top_builddir)/e-util/libeutil.la
 
 libcal_clientinclude_HEADERS =		\

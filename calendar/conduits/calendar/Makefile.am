@@ -22,7 +22,6 @@ libecalendar_conduit_la_LIBADD = 					\
 	$(top_builddir)/calendar/cal-util/libcal-util-static.la		\
 	$(top_builddir)/libversit/libversit.la				\
 	$(top_builddir)/libical/src/libical/libical-static.la		\
-	$(top_builddir)/libwombat/libwombat-static.la		 	\
 	$(top_builddir)/e-util/libeconduit.la	 			\
 	$(EVOLUTION_CALENDAR_CONDUIT_LIBS)
 
