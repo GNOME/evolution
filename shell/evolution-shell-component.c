@@ -190,13 +190,9 @@ owner_ping_callback (void *data)
 	if (owner_objref == CORBA_OBJECT_NIL)
 		return FALSE;
 
-	g_print ("Pinging shell...\n");
-
 	alive = bonobo_unknown_ping (owner_objref);
-	if (alive) {
-		g_print ("\tSuccess\n");
+	if (alive)
 		return TRUE;
-	}
 
 	g_print ("\t*** Shell is dead\n");
 	gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_DIED]);

@@ -1,5 +1,10 @@
 2001-10-29  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-shell-component.c (owner_ping_callback): Remove
+	ping debugging messages.
+
+2001-10-29  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell.c (set_interactive): Remove debugging message.
 
 2001-10-29  Damon Chaplin  <damon@ximian.com>
