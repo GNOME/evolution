@@ -498,6 +498,7 @@ cal_backend_log_sync (CalBackend *backend)
 	GSList *l;
 	int ret;
 	time_t start_time = (time_t) - 1;
+	time_t end_time = (time_t) - 1;
 
 	g_return_val_if_fail (backend->uri != NULL, FALSE);
 	
@@ -552,10 +553,14 @@ cal_backend_log_sync (CalBackend *backend)
 		    || entry->time_stamp < start_time)
 			start_time = entry->time_stamp;
 
+		if (end_time == (time_t) - 1 
+		    || entry->time_stamp > end_time)
+			end_time = entry->time_stamp;
+
 		g_free (entry);
 	}
 	cal_backend_set_node_timet (tnode, "start", start_time);
-	cal_backend_set_node_timet (tnode, "end", time (NULL));
+	cal_backend_set_node_timet (tnode, "end", end_time);
 
 	g_slist_free (backend->entries);
 	backend->entries = NULL;

@@ -71,7 +71,8 @@ struct _EToDoConduitContext {
 	GHashTable *modified;
 	GHashTable *deleted;
 	
-	GHashTable *map;
+	GHashTable *uid_map;
+	GHashTable *pid_map;
 };
 
 #endif __TODO_CONDUIT_H__ 

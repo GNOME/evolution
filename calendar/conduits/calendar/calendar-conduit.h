@@ -71,7 +71,8 @@ struct _ECalConduitContext {
 	GHashTable *modified;
 	GHashTable *deleted;
 	
-	GHashTable *map;
+	GHashTable *uid_map;
+	GHashTable *pid_map;
 };
 
 #endif __CALENDAR_CONDUIT_H__ 
