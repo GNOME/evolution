@@ -14,8 +14,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.3.3\n"
-"POT-Creation-Date: 2003-04-16 15:23+0200\n"
-"PO-Revision-Date: 2003-04-16 15:23+0200\n"
+"POT-Creation-Date: 2003-04-16 20:30+0200\n"
+"PO-Revision-Date: 2003-04-16 20:30+0200\n"
 "Last-Translator: Christian Neumair <chris@gnome-de.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -693,7 +693,7 @@ msgid ""
 msgstr ""
 "Diese Version von Evolution hat keine eincompilierte LDAP-\n"
 "Unterstützung. Wenn Sie LDAP in Evolution verwenden wollen,\n"
-"müssen Sie das Programm aus dem CVS-Quellcode compilieren,\n"
+"müssen Sie das Programm aus dem CVS-Quelltext compilieren,\n"
 "nachdem Sie sich von der Adresse unten OpenLDAP besorgt\n"
 "haben.\n"
 
@@ -1018,7 +1018,7 @@ msgstr "Suchen"
 
 #: addressbook/gui/component/ldap-config.glade.h:36
 msgid "Selected:"
-msgstr "Ausgewählt:"
+msgstr "Gewählt:"
 
 #: addressbook/gui/component/ldap-config.glade.h:37
 msgid ""
@@ -1364,7 +1364,7 @@ msgstr "Namen wählen"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:4
 msgid "Selected Contacts:"
-msgstr "Ausgewählte Kontakte:"
+msgstr "Gewählte Kontakte:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:5
 msgid "Show Contacts"
@@ -3286,7 +3286,7 @@ msgstr "Adapter"
 
 #: addressbook/gui/widgets/e-minicard.c:169
 msgid "Selected"
-msgstr "Ausgewählt"
+msgstr "Gewählt"
 
 #: addressbook/gui/widgets/e-minicard.c:176
 msgid "Has Cursor"
@@ -4296,7 +4296,7 @@ msgstr "Eine Erinnerung a_nzeigen"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 msgid "Show week _numbers in date navigator"
-msgstr "_Wochennummern in Datumsnavigator zeigen"
+msgstr "_Wochennummern im Datumsnavigator anzeigen"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 #: calendar/gui/dialogs/recurrence-page.c:1042
@@ -4410,7 +4410,7 @@ msgstr "S_a"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
 msgid "_Show appointment end times in week and month views"
-msgstr "_Endzeiten von Aufgaben in Wochen- und Monatsansichten zeigen"
+msgstr "_Endzeiten von Aufgaben in Wochen- und Monatsansichten anzeigen"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
 msgid "_Time divisions:"
@@ -4522,7 +4522,7 @@ msgstr "Validierungsfehler: %s"
 
 #: calendar/gui/dialogs/comp-editor-util.c:187 calendar/gui/print.c:2226
 msgid " to "
-msgstr " an "
+msgstr " bis "
 
 #: calendar/gui/dialogs/comp-editor-util.c:191 calendar/gui/print.c:2230
 msgid " (Completed "
@@ -4722,22 +4722,22 @@ msgstr "_Frei"
 
 #: calendar/gui/dialogs/event-page.glade.h:9
 msgid "L_ocation:"
-msgstr "Ge_ographischer Ort: "
+msgstr "_Standort:"
 
 #: calendar/gui/dialogs/event-page.glade.h:10
 #: calendar/gui/dialogs/task-page.glade.h:6
 msgid "Pri_vate"
-msgstr "Privat"
+msgstr "_Privat"
 
 #: calendar/gui/dialogs/event-page.glade.h:11
 #: calendar/gui/dialogs/task-page.glade.h:7
 msgid "Pu_blic"
-msgstr "Öffentlich"
+msgstr "Ö_ffentlich"
 
 #: calendar/gui/dialogs/event-page.glade.h:12
 #: calendar/gui/e-calendar-table.etspec.h:13
 msgid "Show Time As"
-msgstr "Zeit zeigen als"
+msgstr "Zeit einstufen als"
 
 #: calendar/gui/dialogs/event-page.glade.h:13
 #: calendar/gui/dialogs/task-page.glade.h:9
@@ -4949,7 +4949,7 @@ msgstr "_Keine Wiederholung"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:13
 msgid "_Simple recurrence"
-msgstr "_Einfache Wiederholung"
+msgstr "Ein_fache Wiederholung"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:15
 msgid "for"
@@ -5195,7 +5195,7 @@ msgstr "100%"
 #: calendar/gui/e-calendar-table.c:715 calendar/gui/e-day-view.c:2836
 #: calendar/gui/e-week-view.c:1913
 msgid "Deleting selected objects"
-msgstr "Markierte Objekte werden gelöscht"
+msgstr "Gewählte Objekte werden gelöscht"
 
 #: calendar/gui/e-calendar-table.c:950 calendar/gui/e-day-view.c:3703
 #: calendar/gui/e-week-view.c:3565 mail/folder-browser.c:1756
@@ -5250,11 +5250,11 @@ msgstr "Als abgeschlossen _markieren"
 
 #: calendar/gui/e-calendar-table.c:965
 msgid "_Mark Selected Tasks as Complete"
-msgstr "Markierte Aufgaben als abgeschlossen _markieren"
+msgstr "Gewählte Aufgaben als abgeschlossen _markieren"
 
 #: calendar/gui/e-calendar-table.c:970
 msgid "_Delete Selected Tasks"
-msgstr "Markierte Aufgaben _löschen"
+msgstr "Gewählte Aufgaben _löschen"
 
 #: calendar/gui/e-calendar-table.c:1245 calendar/gui/e-day-view.c:7630
 #: calendar/gui/e-week-view.c:4273
@@ -5264,7 +5264,7 @@ msgstr "Objekte werden aktualisiert"
 #: calendar/gui/e-calendar-table.c:1328
 #: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Click to add a task"
-msgstr "Klicken, um eine Aufgabe hinzuzufügen"
+msgstr "Klicken Sie hier, um eine Aufgabe hinzuzufügen"
 
 #: calendar/gui/e-calendar-table.etspec.h:3
 msgid "Alarms"
@@ -5395,7 +5395,7 @@ msgstr "_Gehe zu Datum..."
 #: calendar/gui/e-day-view.c:3690 calendar/gui/e-week-view.c:3555
 #: ui/evolution-calendar.xml.h:31
 msgid "_Publish Free/Busy Information"
-msgstr "Verfügbarkeitsinformationen _veröffentlichen"
+msgstr "Ver_fügbarkeitsinformationen veröffentlichen"
 
 #: calendar/gui/e-day-view.c:3695 calendar/gui/e-week-view.c:3559
 #: ui/evolution.xml.h:60
@@ -6110,7 +6110,7 @@ msgstr "Aufgaben werden abgeschlossen..."
 
 #: calendar/gui/e-tasks.c:577
 msgid "Deleting selected objects..."
-msgstr "Markierte Objekte werden gelöscht..."
+msgstr "Gewählte Objekte werden gelöscht..."
 
 #: calendar/gui/e-tasks.c:672
 msgid "Expunging"
@@ -9948,7 +9948,7 @@ msgstr "Operation fehlgeschlagen: %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:246
 msgid "Retrieving POP summary"
-msgstr "Abrufen der POP-Zusammenfassung"
+msgstr "POP-Zusammenfassung wird abgerufen"
 
 #: camel/providers/pop3/camel-pop3-folder.c:262
 #: camel/providers/pop3/camel-pop3-folder.c:429
@@ -9976,7 +9976,7 @@ msgstr "Keine Nachricht mit UID %s"
 #: camel/providers/pop3/camel-pop3-folder.c:410
 #, c-format
 msgid "Retrieving POP message %d"
-msgstr "Abrufen der POP-Nachricht %d"
+msgstr "POP-Nachricht %d wird abgerufen"
 
 #: camel/providers/pop3/camel-pop3-folder.c:432
 #: camel/providers/pop3/camel-pop3-folder.c:493
@@ -10322,7 +10322,7 @@ msgstr ""
 
 #: camel/providers/smtp/camel-smtp-transport.c:691 mail/mail-ops.c:613
 msgid "Sending message"
-msgstr "Nachricht verschicken"
+msgstr "Nachricht wird verschickt"
 
 #: camel/providers/smtp/camel-smtp-transport.c:706
 msgid "Cannot send message: no recipients defined."
@@ -13139,7 +13139,7 @@ msgstr "_Verschicken von E-Mail"
 
 #: mail/mail-config.glade.h:172
 msgid "_Show animated images"
-msgstr "_Animierte Bilder zeigen"
+msgstr "_Animierte Bilder anzeigen"
 
 #: mail/mail-config.glade.h:173
 msgid "_Signatures"
@@ -13283,7 +13283,8 @@ msgstr "%s-Anlage"
 #: mail/mail-format.c:1528 mail/mail-format.c:1652 mail/mail-format.c:1677
 msgid "Could not parse MIME message. Displaying as source."
 msgstr ""
-"MIME-Nachricht konnte nicht verarbeitet werden. Wird als Quellcode angezeigt."
+"Die MIME-Nachricht konnte nicht verarbeitet werden und wird daher als "
+"Quellxt angezeigt."
 
 #: mail/mail-format.c:759 mail/message-list.etspec.h:2
 msgid "Date"
@@ -25776,23 +25777,23 @@ msgstr "Verknüpfungsgruppe umbenennen"
 
 #: shell/e-shortcuts-view.c:216
 msgid "Rename selected shortcut group to:"
-msgstr "Markierte Verknüpfungsgruppe umbenennen in:"
+msgstr "Wählen Sie einen Namen für die gewählte Verknüpfungsgruppe:"
 
 #: shell/e-shortcuts-view.c:248
 msgid "_Small Icons"
-msgstr "Kleine Icons"
+msgstr "_Kleine Symbole"
 
 #: shell/e-shortcuts-view.c:249
 msgid "Show the shortcuts as small icons"
-msgstr "Die Verknüpfungen als kleine Icons anzeigen"
+msgstr "Die Verknüpfungen als kleine Symbole anzeigen"
 
 #: shell/e-shortcuts-view.c:251
 msgid "_Large Icons"
-msgstr "Große Icons"
+msgstr "_Große Symbole"
 
 #: shell/e-shortcuts-view.c:252
 msgid "Show the shortcuts as large icons"
-msgstr "Die Verknüpfungen als große Icons zeigen"
+msgstr "Die Verknüpfungen als große Symbole anzeigen"
 
 #: shell/e-shortcuts-view.c:263
 msgid "_New Group..."
@@ -25820,7 +25821,7 @@ msgstr "Diese Verknüpfungsgruppe umbenennen"
 
 #: shell/e-shortcuts-view.c:275
 msgid "_Hide the Shortcut Bar"
-msgstr "Die Verknüpfungsleiste verbergen"
+msgstr "Die Verknüpfungsleiste _verbergen"
 
 #: shell/e-shortcuts-view.c:276
 msgid "Hide the shortcut bar"
@@ -25840,7 +25841,7 @@ msgstr "Verknüpfung umbenennen"
 
 #: shell/e-shortcuts-view.c:402
 msgid "Rename selected shortcut to:"
-msgstr "Markierte Verknüpfungsgruppe umbenennen in:"
+msgstr "Die gewählte Verknüpfungsgruppe umbenennen in:"
 
 #: shell/e-shortcuts-view.c:415
 msgid "Open the folder linked to this shortcut"
@@ -26381,7 +26382,7 @@ msgstr "Die Auswahl ausschneiden"
 
 #: ui/evolution-addressbook.xml.h:9
 msgid "Delete selected contacts"
-msgstr "Markierte Kontakte löschen"
+msgstr "Die gewählten Kontakte löschen"
 
 #: ui/evolution-addressbook.xml.h:11
 msgid "Move Contact(s) to Another Folder..."
@@ -26407,7 +26408,7 @@ msgstr "Druck_vorschau"
 
 #: ui/evolution-addressbook.xml.h:18
 msgid "Print selected contacts"
-msgstr "Markierte Kontakte drucken"
+msgstr "Die gewählten Kontakte drucken"
 
 #: ui/evolution-addressbook.xml.h:20
 msgid "Save selected contacts as a VCard."
@@ -26529,19 +26530,19 @@ msgstr "Verfügbarkeitsinformationen für diesen Kalender veröffentlichen"
 
 #: ui/evolution-calendar.xml.h:19
 msgid "Show one day"
-msgstr "Einen Tag zeigen"
+msgstr "Einen Tag anzeigen"
 
 #: ui/evolution-calendar.xml.h:20
 msgid "Show one month"
-msgstr "Einen Monat zeigen"
+msgstr "Einen Monat anzeigen"
 
 #: ui/evolution-calendar.xml.h:21
 msgid "Show one week"
-msgstr "Eine Woche zeigen"
+msgstr "Eine Woche anzeigen"
 
 #: ui/evolution-calendar.xml.h:22
 msgid "Show the working week"
-msgstr "Die Werkwoche zeigen"
+msgstr "Die Werkwoche anzeigen"
 
 #: ui/evolution-calendar.xml.h:23
 msgid "Week"
@@ -26765,7 +26766,7 @@ msgstr "Ordner _abonnieren..."
 
 #: ui/evolution-mail-global.xml.h:14
 msgid "Show message preview window"
-msgstr "Nachrichten-Vorschaufenster zeigen"
+msgstr "Nachrichten-Vorschaufenster anzeigen"
 
 #: ui/evolution-mail-global.xml.h:15
 msgid "Subscribe or unsubscribe to folders on remote servers"
@@ -26797,11 +26798,11 @@ msgstr "Die markierte(n) Nachricht(en) in die Zwischenablage verschieben"
 
 #: ui/evolution-mail-list.xml.h:5
 msgid "Hide S_elected Messages"
-msgstr "_Markierte Nachrichten verbergen"
+msgstr "_Gewählte Nachrichten verbergen"
 
 #: ui/evolution-mail-list.xml.h:6
 msgid "Hide _Deleted Messages"
-msgstr "_Gelöschte Nachrichten verbergen"
+msgstr "Gelö_schte Nachrichten verbergen"
 
 #: ui/evolution-mail-list.xml.h:7
 msgid "Hide _Read Messages"
@@ -26848,11 +26849,11 @@ msgstr "Alle sichtbaren Nachrichten wählen"
 
 #: ui/evolution-mail-list.xml.h:18
 msgid "Sh_ow Hidden Messages"
-msgstr "Verborgene Nachrichten _zeigen"
+msgstr "Verborgene Nachrichten an_zeigen"
 
 #: ui/evolution-mail-list.xml.h:19
 msgid "Show messages that have been temporarily hidden"
-msgstr "Nachrichten zeigen, die zeitweilig verborgen wurden"
+msgstr "Nachrichten anzeigen, die zeitweilig verborgen wurden"
 
 #: ui/evolution-mail-list.xml.h:20
 msgid "Temporarily hide all messages that have already been read"
@@ -26864,7 +26865,7 @@ msgstr "Die markierten Nachrichten zeitweilig verbergen"
 
 #: ui/evolution-mail-list.xml.h:22
 msgid "Threaded Message list"
-msgstr "Nachrichtenliste in Threads geordnet"
+msgstr "Nachrichtenliste in Threads ordnen"
 
 #: ui/evolution-mail-list.xml.h:26 ui/evolution-tasks.xml.h:18
 msgid "_Expunge"
@@ -26880,11 +26881,11 @@ msgstr "Auswahl _umkehren"
 
 #: ui/evolution-mail-list.xml.h:30
 msgid "_Properties..."
-msgstr "Eigenschaften..."
+msgstr "Ei_genschaften..."
 
 #: ui/evolution-mail-list.xml.h:31
 msgid "_Threaded Message List"
-msgstr "Nachrichtenliste in _Thread-Ordnung"
+msgstr "Nachrichtenliste nach _Threads ordnen"
 
 #: ui/evolution-mail-message.xml.h:1
 msgid "A_dd Sender to Addressbook"
@@ -27036,7 +27037,7 @@ msgstr "Die markierte Nachricht an jemanden als Anlage weiterleiten"
 
 #: ui/evolution-mail-message.xml.h:41
 msgid "Increase the text size"
-msgstr "Textgröße heraufsetzen"
+msgstr "Die Textgröße heraufsetzen"
 
 #: ui/evolution-mail-message.xml.h:42
 msgid "Load _Images"
@@ -27174,7 +27175,7 @@ msgstr "Die Seiteneinstellungen für Ihren aktuellen Drucker festlegen"
 
 #: ui/evolution-mail-message.xml.h:82
 msgid "Show Email _Source"
-msgstr "E-Mail-_Quellcode zeigen"
+msgstr "E-Mail-_Quelltext anzeigen"
 
 #: ui/evolution-mail-message.xml.h:83
 msgid "Show Full _Headers"
@@ -27182,19 +27183,19 @@ msgstr "Alle _Kopfzeilen anzeigen"
 
 #: ui/evolution-mail-message.xml.h:84
 msgid "Show message in the normal style"
-msgstr "Nachricht im normalen Stil zeigen"
+msgstr "Nachricht im normalen Stil anzeigen"
 
 #: ui/evolution-mail-message.xml.h:85
 msgid "Show message with all email headers"
-msgstr "Nachricht mit allen E-Mail-Kopfzeilen zeigen"
+msgstr "Nachricht mit allen E-Mail-Kopfzeilen anzeigen"
 
 #: ui/evolution-mail-message.xml.h:86
 msgid "Show the raw email source of the message"
-msgstr "Den rohen E-Mail-Quellcode dieser Nachricht anzeigen"
+msgstr "Den zugrunde liegenden E-Mail-Quelltext dieser Nachricht anzeigen"
 
 #: ui/evolution-mail-message.xml.h:87
 msgid "Text Si_ze"
-msgstr "Text_größe"
+msgstr "Te_xtgröße"
 
 #: ui/evolution-mail-message.xml.h:88
 msgid "Un-delete the selected messages"
@@ -27258,7 +27259,7 @@ msgstr "_Nächste Nachricht"
 
 #: ui/evolution-mail-message.xml.h:105
 msgid "_Normal Display"
-msgstr "_Normale Anzeige"
+msgstr "_Normal anzeigen"
 
 #: ui/evolution-mail-message.xml.h:106
 msgid "_Open Message"
@@ -27278,7 +27279,7 @@ msgstr "E_rneut verschicken..."
 
 #: ui/evolution-mail-message.xml.h:113 ui/evolution.xml.h:63
 msgid "_Tools"
-msgstr "Werkzeuge"
+msgstr "_Werkzeuge"
 
 #: ui/evolution-mail-message.xml.h:114
 msgid "_Undelete"
@@ -27538,19 +27539,19 @@ msgstr "Aufgabe _aktualisieren"
 
 #: ui/evolution-tasks.xml.h:3
 msgid "Copy selected task"
-msgstr "Markierte Aufgabe kopieren"
+msgstr "Die gewählte Aufgabe kopieren"
 
 #: ui/evolution-tasks.xml.h:5
 msgid "Cut selected task"
-msgstr "Markierte Aufgabe ausschneiden"
+msgstr "Die gewählte Aufgabe ausschneiden"
 
 #: ui/evolution-tasks.xml.h:6
 msgid "Delete completed tasks"
-msgstr "Abgeschlossene Aufgaben löschen"
+msgstr "Die abgeschlossenen Aufgaben löschen"
 
 #: ui/evolution-tasks.xml.h:7
 msgid "Delete selected tasks"
-msgstr "Markierte Aufgaben löschen"
+msgstr "Die gewählten Aufgaben löschen"
 
 #: ui/evolution-tasks.xml.h:8
 msgid "Mar_k as Complete"
@@ -27654,7 +27655,7 @@ msgstr "Diesen Ordner in einem anderen Fenster öffnen"
 
 #: ui/evolution.xml.h:26
 msgid "Pi_lot Settings..."
-msgstr "Pi_lot-Einstellungen..."
+msgstr "_Pilot-Einstellungen..."
 
 #: ui/evolution.xml.h:27
 msgid "Remove a folder added with \"Open Other User's Folder\""
@@ -27764,7 +27765,7 @@ msgstr "_Verschicken / Abrufen"
 
 #: ui/evolution.xml.h:61
 msgid "_Shortcut Bar"
-msgstr "Verknüpfungsleiste"
+msgstr "_Verknüpfungsleiste"
 
 #: ui/evolution.xml.h:62
 msgid "_Shortcut..."
@@ -27871,7 +27872,7 @@ msgstr ""
 
 #: widgets/menus/gal-view-menus.c:288
 msgid "_Current View"
-msgstr "Aktuelle Ansicht"
+msgstr "_Aktuelle Ansicht"
 
 #. bonobo displays this string so it must be in locale
 #: widgets/menus/gal-view-menus.c:350
@@ -27964,7 +27965,7 @@ msgstr "Traditionell"
 
 #: widgets/misc/e-charset-picker.c:89 widgets/misc/e-charset-picker.c:90
 msgid "Simplified"
-msgstr "Vereinfach"
+msgstr "Vereinfacht"
 
 #: widgets/misc/e-charset-picker.c:94
 msgid "Ukrainian"
