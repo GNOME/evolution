@@ -1050,7 +1050,7 @@ message_list_setup_etree(MessageList *message_list)
 		struct stat st;
 		
 		name = camel_service_get_name (CAMEL_SERVICE (message_list->folder->parent_store), TRUE);
-		printf ("folder name is '%s'\n", name);
+		d(printf ("folder name is '%s'\n", name));
 		path = mail_config_folder_to_cachename (message_list->folder, "et-header-");
 		
 		if (path && stat (path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
@@ -1249,7 +1249,7 @@ clear_tree (MessageList *ml)
 	struct timeval start, end;
 	unsigned long diff;
 
-	printf("Clearing tree\n");
+	d(printf("Clearing tree\n"));
 	gettimeofday(&start, NULL);
 #endif
 
@@ -1404,7 +1404,7 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 	struct timeval start, end;
 	unsigned long diff;
 
-	printf("Building tree\n");
+	d(printf("Building tree\n"));
 	gettimeofday(&start, NULL);
 #endif
 	expanded_nodes = load_tree_state(ml);
@@ -1529,8 +1529,8 @@ tree_equal(ETreeModel *etm, ETreePath ap, CamelFolderThreadNode *bp)
 		if (!node_equal(etm, ap, bp)) {
 			g_warning("Nodes in tree differ");
 			info = e_tree_memory_node_get_data(E_TREE_MEMORY(etm), ap);
-			printf("table uid = %s\n", camel_message_info_uid(info));
-			printf("camel uid = %s\n", camel_message_info_uid(bp->message));
+			t(printf("table uid = %s\n", camel_message_info_uid(info)));
+			t(printf("camel uid = %s\n", camel_message_info_uid(bp->message)));
 			return FALSE;
 		} else {
 			if (!tree_equal(etm, e_tree_model_node_get_first_child(etm, ap), bp->child))
@@ -1545,12 +1545,12 @@ tree_equal(ETreeModel *etm, ETreePath ap, CamelFolderThreadNode *bp)
 		if (ap) {
 			info = e_tree_memory_node_get_data(E_TREE_MEMORY(etm), ap);
 			if (info)
-				printf("table uid = %s\n", camel_message_info_uid(info));
+				t(printf("table uid = %s\n", camel_message_info_uid(info)));
 			else
-				printf("info is empty?\n");
+				t(printf("info is empty?\n"));
 		}
 		if (bp) {
-			printf("camel uid = %s\n", camel_message_info_uid(bp->message));
+			t(printf("camel uid = %s\n", camel_message_info_uid(bp->message)));
 			return FALSE;
 		}
 		return FALSE;
@@ -1739,7 +1739,7 @@ build_flat (MessageList *ml, GPtrArray *summary, CamelFolderChangeInfo *changes)
 	struct timeval start, end;
 	unsigned long diff;
 
-	printf("Building flat\n");
+	d(printf("Building flat\n"));
 	gettimeofday(&start, NULL);
 #endif
 
@@ -1813,7 +1813,7 @@ build_flat_diff(MessageList *ml, CamelFolderChangeInfo *changes)
 	gettimeofday(&start, NULL);
 #endif
 
-	printf("updating changes to display\n");
+	d(printf("updating changes to display\n"));
 
 	/* remove individual nodes? */
 	d(printf("Removing messages from view:\n"));
@@ -1865,10 +1865,10 @@ main_folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 	CamelFolder *folder = (CamelFolder *)o;
 	int i;
 
-	printf("folder changed event, changes = %p\n", changes);
+	d(printf("folder changed event, changes = %p\n", changes));
 	if (changes) {
-		printf("changed = %d added = %d removed = %d\n",
-		       changes->uid_changed->len, changes->uid_added->len, changes->uid_removed->len);
+		d(printf("changed = %d added = %d removed = %d\n",
+			 changes->uid_changed->len, changes->uid_added->len, changes->uid_removed->len));
 
 		/* check if the hidden state has changed, if so modify accordingly, then regenerate */
 		if (ml->hidedeleted) {
@@ -2010,7 +2010,7 @@ on_cursor_activated_idle (gpointer data)
 {
 	MessageList *message_list = data;
 
-	printf("emitting cursor changed signal, for uid %s\n", message_list->cursor_uid);
+	d(printf("emitting cursor changed signal, for uid %s\n", message_list->cursor_uid));
 	gtk_signal_emit(GTK_OBJECT (message_list), message_list_signals [MESSAGE_SELECTED], message_list->cursor_uid);
 
 	message_list->idle_id = 0;

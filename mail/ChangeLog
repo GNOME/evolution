@@ -1,3 +1,15 @@
+2001-04-06  Not Zed  <NotZed@Ximian.com>
+
+	* mail-local.c: Debout out extra printfs.
+
+	* message-list.c: Debug out all printfs.
+
+	* folder-browser.c (got_folder): Safeify %s parameters.
+	(folder_browser_search_query_changed): 
+	(do_message_selected): 
+	(on_message_selected): 
+	(d): Debug out some more stuff and turn off debugging.
+
 2001-04-03  Dan Winship  <danw@ximian.com>
 	
 	* folder-browser-factory.c (control_activate): Sync the folder on

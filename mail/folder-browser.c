@@ -40,7 +40,7 @@
 
 #include <camel/camel-vtrash-folder.h>
 
-#define d(x) x
+#define d(x)
 
 #define PARENT_TYPE (gtk_table_get_type ())
 
@@ -149,7 +149,7 @@ got_folder(char *uri, CamelFolder *folder, void *data)
 	FolderBrowser *fb = data;
 	EvolutionStorage *storage;
 
-	printf("got folder '%s' = %p\n", uri, folder);
+	d(printf("got folder '%s' = %p\n", uri?uri:"<unknown>", folder));
 
 	if (fb->folder == folder)
 		goto done;
@@ -228,11 +228,11 @@ folder_browser_search_menu_activated (ESearchBar *esb, int id, FolderBrowser *fb
 {
 	EFilterBar *efb = (EFilterBar *)esb;
 
-	printf("menyu activated\n");
+	d(printf("menyu activated\n"));
 
 	switch (id) {
 	case ESB_SAVE:
-		printf("Save vfolder\n");
+		d(printf("Save vfolder\n"));
 		if (efb->current_query) {
 			FilterRule *rule = vfolder_clone_rule(efb->current_query);			
 
@@ -269,7 +269,7 @@ static void folder_browser_config_search(EFilterBar *efb, FilterRule *rule, int 
 		
 		partl = partl->next;
 	}
-	printf("configuring search for search string '%s', rule is '%s'\n", query, rule->name);
+	d(printf("configuring search for search string '%s', rule is '%s'\n", query, rule->name));
 }
 
 static void
@@ -277,7 +277,7 @@ folder_browser_search_query_changed (ESearchBar *esb, FolderBrowser *fb)
 {
 	char *search_word;
 
-	printf("query changed\n");
+	d(printf("query changed\n"));
 
 	gtk_object_get (GTK_OBJECT (esb),
 			"query", &search_word,
@@ -285,7 +285,7 @@ folder_browser_search_query_changed (ESearchBar *esb, FolderBrowser *fb)
 
 	message_list_set_search (fb->message_list, search_word);
 
-	printf("query is %s\n", search_word);
+	d(printf("query is %s\n", search_word?search_word:"<null>"));
 	g_free(search_word);
 	return;
 }
@@ -935,7 +935,7 @@ static void done_message_selected(CamelFolder *folder, char *uid, CamelMimeMessa
 static gboolean
 do_message_selected(FolderBrowser *fb)
 {
-	d(printf ("selecting uid %s (delayed)\n", fb->new_uid));
+	d(printf ("selecting uid %s (delayed)\n", fb->new_uid?fb->new_uid:"<none>"));
 
 	/* keep polling if we are busy */
 	if (fb->reconfigure) {
@@ -968,7 +968,7 @@ do_message_selected(FolderBrowser *fb)
 static void
 on_message_selected (MessageList *ml, const char *uid, FolderBrowser *fb)
 {
-	d(printf ("selecting uid %s (direct)\n", uid));
+	d(printf ("selecting uid %s (direct)\n", uid?uid:"<null>"));
 
 	if (fb->loading_id != 0)
 		gtk_timeout_remove(fb->loading_id);
