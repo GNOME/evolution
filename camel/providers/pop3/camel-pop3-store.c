@@ -62,6 +62,7 @@ static gboolean pop3_connect (CamelService *service, CamelException *ex);
 static gboolean pop3_disconnect (CamelService *service, CamelException *ex);
 static GList *query_auth_types (CamelService *service, CamelException *ex);
 static void free_auth_types (CamelService *service, GList *authtypes);
+static char *get_name (CamelService *service, gboolean brief);
 
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name, 
 				gboolean create, CamelException *ex);
@@ -89,6 +90,7 @@ camel_pop3_store_class_init (CamelPop3StoreClass *camel_pop3_store_class)
 	camel_service_class->disconnect = pop3_disconnect;
 	camel_service_class->query_auth_types = query_auth_types;
 	camel_service_class->free_auth_types = free_auth_types;
+	camel_service_class->get_name = get_name;
 
 	camel_store_class->get_folder = get_folder;
 	camel_store_class->get_folder_name = get_folder_name;
@@ -367,6 +369,19 @@ free_auth_types (CamelService *service, GList *authtypes)
 {
 	g_list_free (authtypes);
 }
+
+static char *
+get_name (CamelService *service, gboolean brief)
+{
+	if (brief)
+		return g_strdup_printf ("POP server %s", service->url->host);
+	else {
+		return g_strdup_printf ("POP service for %s on %s",
+					service->url->user,
+					service->url->host);
+	}
+}
+
 
 /**
  * camel_pop3_store_expunge:

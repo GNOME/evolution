@@ -39,6 +39,8 @@
 #include "camel-stream-fs.h"
 #include "camel-exception.h"
 
+static char *get_name (CamelService *service, gboolean brief);
+
 static gboolean _can_send (CamelTransport *transport, CamelMedium *message);
 static gboolean _send (CamelTransport *transport, CamelMedium *message,
 		       CamelException *ex);
@@ -51,8 +53,12 @@ camel_sendmail_transport_class_init (CamelSendmailTransportClass *camel_sendmail
 {
 	CamelTransportClass *camel_transport_class =
 		CAMEL_TRANSPORT_CLASS (camel_sendmail_transport_class);
+	CamelServiceClass *camel_service_class =
+		CAMEL_SERVICE_CLASS (camel_sendmail_transport_class);
 
 	/* virtual method overload */
+	camel_service_class->get_name = get_name;
+
 	camel_transport_class->can_send = _can_send;
 	camel_transport_class->send = _send;
 	camel_transport_class->send_to = _send_to;
@@ -209,4 +215,13 @@ _send (CamelTransport *transport, CamelMedium *message,
 	char *argv[4] = { "sendmail", "-t", "-i", NULL };
 
 	return _send_internal (message, argv, ex);
+}
+
+static char *
+get_name (CamelService *service, gboolean brief)
+{
+	if (brief)
+		return g_strdup ("sendmail");
+	else
+		return g_strdup ("Mail delivery via the sendmail program");
 }

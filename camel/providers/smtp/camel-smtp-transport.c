@@ -61,6 +61,7 @@ static gboolean smtp_disconnect (CamelService *service, CamelException *ex);
 static GList *esmtp_get_authtypes(gchar *buffer);
 static GList *query_auth_types (CamelService *service, CamelException *ex);
 static void free_auth_types (CamelService *service, GList *authtypes);
+static char *get_name (CamelService *service, gboolean brief);
 static gchar *smtp_get_email_addr_from_text (gchar *text);
 static gboolean smtp_helo (CamelSmtpTransport *transport, CamelException *ex);
 static gboolean smtp_mail (CamelSmtpTransport *transport, gchar *sender, CamelException *ex);
@@ -87,6 +88,7 @@ camel_smtp_transport_class_init (CamelSmtpTransportClass *camel_smtp_transport_c
 	camel_service_class->disconnect = smtp_disconnect;
 	camel_service_class->query_auth_types = query_auth_types;
 	camel_service_class->free_auth_types = free_auth_types;
+	camel_service_class->get_name = get_name;
 
 	camel_transport_class->can_send = _can_send;
 	camel_transport_class->send = _send;
@@ -304,6 +306,17 @@ static void
 free_auth_types (CamelService *service, GList *authtypes)
 {
 	g_list_free (authtypes);
+}
+
+static char *
+get_name (CamelService *service, gboolean brief)
+{
+	if (brief)
+		return g_strdup_printf ("SMTP server %s", service->url->host);
+	else {
+		return g_strdup_printf ("SMTP mail delivery via %s",
+					service->url->host);
+	}
 }
 
 static gboolean

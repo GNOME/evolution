@@ -39,6 +39,7 @@
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT(so)->klass)
 #define CMBOXF_CLASS(so) CAMEL_MBOX_FOLDER_CLASS (GTK_OBJECT(so)->klass)
 
+static char *get_name (CamelService *service, gboolean brief);
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name,
 				gboolean create, CamelException *ex);
 static void delete_folder (CamelStore *store, const char *folder_name,
@@ -50,8 +51,11 @@ static void
 camel_mbox_store_class_init (CamelMboxStoreClass *camel_mbox_store_class)
 {
 	CamelStoreClass *camel_store_class = CAMEL_STORE_CLASS (camel_mbox_store_class);
+	CamelServiceClass *camel_service_class = CAMEL_SERVICE_CLASS (camel_mbox_store_class);
 	
 	/* virtual method overload */
+	camel_service_class->get_name = get_name;
+
 	camel_store_class->get_folder = get_folder;
 	camel_store_class->delete_folder = delete_folder;
 	camel_store_class->get_folder_name = get_folder_name;
@@ -228,4 +232,13 @@ get_folder_name (CamelStore *store, const char *folder_name, CamelException *ex)
 
 	return *folder_name == '/' ? g_strdup (folder_name) :
 		g_strdup_printf ("/%s", folder_name);
+}
+
+static char *
+get_name (CamelService *service, gboolean brief)
+{
+	if (brief)
+		return g_strdup (service->url->path);
+	else
+		return g_strdup_printf ("Local mail file %s", service->url->path);
 }

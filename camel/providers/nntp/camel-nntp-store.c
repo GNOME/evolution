@@ -58,7 +58,6 @@ static CamelServiceClass *service_class = NULL;
 static gboolean nntp_connect (CamelService *service, CamelException *ex);
 static gboolean nntp_disconnect (CamelService *service, CamelException *ex);
 
-
 static CamelFolder *
 nntp_store_get_folder (CamelStore *store, const gchar *folder_name,
 		       gboolean get_folder, CamelException *ex)
@@ -96,15 +95,25 @@ nntp_store_get_folder_name (CamelStore *store, const char *folder_name,
 	return g_strdup (folder_name);
 }
 
+static char *
+nntp_store_get_name (CamelService *service, gboolean brief)
+{
+	/* Same info for long and brief... */
+	return g_strdup_sprintf ("USENET news via %s", service->url->host);
+}
+
 
 static void
 camel_nntp_store_class_init (CamelNNTPStoreClass *camel_nntp_store_class)
 {
 	CamelStoreClass *camel_store_class = CAMEL_STORE_CLASS (camel_nntp_store_class);
+	CamelServiceClass *camel_store_class = CAMEL_SERVICE_CLASS (camel_nntp_store_class);
 
 	service_class = gtk_type_class (camel_service_get_type ());
 	
 	/* virtual method overload */
+	camel_service_class->get_name = nntp_store_get_name;
+
 	camel_store_class->get_folder = nntp_store_get_folder;
 	camel_store_class->get_folder_name = nntp_store_get_folder_name;
 }

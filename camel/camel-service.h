@@ -69,6 +69,9 @@ typedef struct {
 	void      (*free_auth_types)   (CamelService *service,
 					GList *authtypes);
 
+	char *    (*get_name)          (CamelService *service,
+					gboolean brief);
+
 } CamelServiceClass;
 
 
@@ -100,6 +103,8 @@ gboolean            camel_service_disconnect         (CamelService *service,
 gboolean            camel_service_is_connected       (CamelService *service);
 
 char *              camel_service_get_url            (CamelService *service);
+char *              camel_service_get_name           (CamelService *service,
+						      gboolean brief);
 CamelSession *      camel_service_get_session        (CamelService *service);
 
 GList *             camel_service_query_auth_types   (CamelService *service,

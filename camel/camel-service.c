@@ -41,6 +41,7 @@ static gboolean service_disconnect(CamelService *service, CamelException *ex);
 static gboolean is_connected (CamelService *service);
 static GList *  query_auth_types (CamelService *service, CamelException *ex);
 static void     free_auth_types (CamelService *service, GList *authtypes);
+static char *   get_name (CamelService *service, gboolean brief);
 static void     finalize (GtkObject *object);
 
 static gboolean check_url (CamelService *service, CamelException *ex);
@@ -60,6 +61,7 @@ camel_service_class_init (CamelServiceClass *camel_service_class)
 	camel_service_class->is_connected = is_connected;
 	camel_service_class->query_auth_types = query_auth_types;
 	camel_service_class->free_auth_types = free_auth_types;
+	camel_service_class->get_name = get_name;
 
 	/* virtual method overload */
 	gtk_object_class->finalize = finalize;
@@ -262,6 +264,36 @@ camel_service_get_url (CamelService *service)
 }
 
 
+static char *
+get_name (CamelService *service, gboolean brief)
+{
+	g_warning ("CamelService::get_name not implemented for `%s'",
+		   gtk_type_name (GTK_OBJECT_TYPE (service)));
+	return "???";
+}		
+
+/**
+ * camel_service_get_name:
+ * @service: the service
+ * @brief: whether or not to use a briefer form
+ *
+ * This gets the name of the service in a "friendly" (suitable for
+ * humans) form. If @brief is %TRUE, this should be a brief description
+ * such as for use in the folder tree. If @brief is %FALSE, it should
+ * be a more complete and mostly unambiguous description.
+ *
+ * Return value: the description, which the caller must free.
+ **/
+char *
+camel_service_get_name (CamelService *service, gboolean brief)
+{
+	g_return_val_if_fail (CAMEL_IS_SERVICE (service), NULL);
+	g_return_val_if_fail (service->url, NULL);
+
+	return CSERV_CLASS (service)->get_name (service, brief);
+}
+
+
 /**
  * camel_service_get_session:
  * @service: a service
@@ -327,7 +359,6 @@ camel_service_free_auth_types (CamelService *service, GList *authtypes)
 {
 	CSERV_CLASS (service)->free_auth_types (service, authtypes);
 }
-
 
 
 /* URL utility routines */

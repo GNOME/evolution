@@ -1,5 +1,16 @@
 2000-07-01  Dan Winship  <danw@helixcode.com>
 
+	* camel-service.c (camel_service_get_name): New method, to return
+	an end-user-friendly name corresponding to a service. (eg, "POP
+	service for danw on trna.helixcode.com").
+
+	* providers/imap/camel-imap-store.c,
+	providers/mbox/camel-mbox-store.c,
+	providers/nntp/camel-nntp-store.c,
+	providers/pop3/camel-pop3-store.c,
+	providers/sendmail/camel-sendmail-transport.c,
+	providers/smtp/camel-smtp-transport.c: Implement.
+
 	* providers/imap/Makefile.am: remove unneeded
 	libcamelimap_la_LDADD.
 

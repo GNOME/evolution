@@ -58,6 +58,7 @@ static gboolean imap_connect (CamelService *service, CamelException *ex);
 static gboolean imap_disconnect (CamelService *service, CamelException *ex);
 static GList *query_auth_types (CamelService *service, CamelException *ex);
 static void free_auth_types (CamelService *service, GList *authtypes);
+static char *get_name (CamelService *service, gboolean brief);
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name, gboolean create,
 				CamelException *ex);
 static char *get_folder_name (CamelStore *store, const char *folder_name, CamelException *ex);
@@ -83,6 +84,7 @@ camel_imap_store_class_init (CamelImapStoreClass *camel_imap_store_class)
 	camel_service_class->disconnect = imap_disconnect;
 	camel_service_class->query_auth_types = query_auth_types;
 	camel_service_class->free_auth_types = free_auth_types;
+	camel_service_class->get_name = get_name;
 
 	camel_store_class->get_folder = get_folder;
 	camel_store_class->get_folder_name = get_folder_name;
@@ -202,6 +204,18 @@ static void
 free_auth_types (CamelService *service, GList *authtypes)
 {
 	g_list_free (authtypes);
+}
+
+static char *
+get_name (CamelService *service, gboolean brief)
+{
+	if (brief)
+		return g_strdup_printf ("IMAP server %s", service->url->host);
+	else {
+		return g_strdup_printf ("IMAP service for %s on %s",
+					service->url->user,
+					service->url->host);
+	}
 }
 
 static gboolean
