@@ -25,6 +25,8 @@
 #include <config.h>
 #endif
 
+#include <string.h>
+
 #include "mail-composer-prefs.h"
 #include "composer/e-msg-composer.h"
 
@@ -125,7 +127,7 @@ attach_style_info (GtkWidget *item, gpointer user_data)
 {
 	int *style = user_data;
 	
-	g_object_set_data((item), "style", GINT_TO_POINTER (*style));
+	g_object_set_data((GObject *)(item), "style", GINT_TO_POINTER (*style));
 	
 	(*style)++;
 }
@@ -370,9 +372,8 @@ static void
 url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle)
 {
 	GtkHTMLStreamStatus status;
-	char buf[1 << 7];
+	char buf[128];
 	ssize_t size;
-	char *buf;
 	int fd;
 	
 	if (!strncmp (url, "file:", 5))
@@ -679,7 +680,7 @@ spell_language_button_press (GtkWidget *widget, GdkEventButton *event, MailCompo
 			GdkPixmap *pmap = NULL;
 			GdkBitmap *bmap;
 			
-			g_signal_emission_stop_by_name (widget, "button_press_event");
+			g_signal_stop_emission_by_name (widget, "button_press_event");
 			
 			gtk_clist_get_pixmap (GTK_CLIST (prefs->language), row, 0, &pmap, &bmap);
 			if (pmap)
@@ -731,20 +732,17 @@ spell_setup (MailComposerPrefs *prefs)
 static gboolean
 spell_setup_check_options (MailComposerPrefs *prefs)
 {
-	BonoboObjectClient *dictionary_client;
 	GNOME_Spell_Dictionary dict;
 	CORBA_Environment ev;
 	char *dictionary_id;
-	
+
 	dictionary_id = "OAFIID:GNOME_Spell_Dictionary:" SPELL_API_VERSION;
-	dictionary_client = bonobo_object_activate (dictionary_id, 0);
-	
-	if (!dictionary_client) {
+	dict = bonobo_activation_activate_from_id(dictionary_id, 0, NULL, NULL);
+	if (dict == CORBA_OBJECT_NIL) {
 		g_warning ("Cannot activate %s", dictionary_id);
 		
 		return FALSE;
 	}
-	dict = bonobo_object_corba_objref (BONOBO_OBJECT (dictionary_client));
 	
 	CORBA_exception_init (&ev);
 	prefs->language_seq = GNOME_Spell_Dictionary_getLanguages (dict, &ev);
@@ -779,7 +777,7 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "composer_tab", NULL);
 	prefs->gui = gui;
-	prefs->sig_script_gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "vbox_add_script_signature");
+	prefs->sig_script_gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "vbox_add_script_signature", NULL);
 	
 	/* get our toplevel widget */
 	toplevel = glade_xml_get_widget (gui, "toplevel");
@@ -795,36 +793,35 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	/* Default Behavior */
 	prefs->send_html = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkSendHTML"));
 	gtk_toggle_button_set_active (prefs->send_html, mail_config_get_send_html ());
-	g_signal_connect (prefs->send_html, "toggled",
-			  toggle_button_toggled, prefs);
+	g_signal_connect (prefs->send_html, "toggled", G_CALLBACK(toggle_button_toggled), prefs);
 	
 	prefs->auto_smileys = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkAutoSmileys"));
-	g_signal_connect (prefs->auto_smileys, "toggled",
-			  toggle_button_toggled, prefs);
+	g_signal_connect (prefs->auto_smileys, "toggled", G_CALLBACK(toggle_button_toggled), prefs);
 	
 	prefs->prompt_empty_subject = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptEmptySubject"));
 	gtk_toggle_button_set_active (prefs->prompt_empty_subject, mail_config_get_prompt_empty_subject ());
-	g_signal_connect (prefs->prompt_empty_subject, "toggled",
-			  toggle_button_toggled, prefs);
+	g_signal_connect (prefs->prompt_empty_subject, "toggled", G_CALLBACK(toggle_button_toggled), prefs);
 	
 	prefs->prompt_bcc_only = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptBccOnly"));
 	gtk_toggle_button_set_active (prefs->prompt_bcc_only, mail_config_get_prompt_only_bcc ());
-	g_signal_connect (prefs->prompt_bcc_only, "toggled",
-			  toggle_button_toggled, prefs);
+	g_signal_connect (prefs->prompt_bcc_only, "toggled", G_CALLBACK(toggle_button_toggled), prefs);
 	
 	prefs->charset = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuCharset"));
 	menu = e_charset_picker_new (mail_config_get_default_charset ());
 	gtk_option_menu_set_menu (prefs->charset, GTK_WIDGET (menu));
 	option_menu_connect (prefs->charset, prefs);
-	
+
+#warning "gtkhtml prop manager"
+#if 0	
 	/* Spell Checking: GtkHTML part */
 	prefs->pman = GTK_HTML_PROPMANAGER (gtk_html_propmanager_new (NULL));
-	g_signal_connect (prefs->pman, "changed", toggle_button_toggled, prefs);
+	g_signal_connect (prefs->pman, "changed", G_CALLBACK(toggle_button_toggled), prefs);
 	g_object_ref((prefs->pman));
 	
 	gtk_html_propmanager_set_names (prefs->pman, names);
 	gtk_html_propmanager_set_gui (prefs->pman, gui, NULL);
-	
+#endif
+
 	/* Spell Checking: GNOME Spell part */
 	prefs->colour = GNOME_COLOR_PICKER (glade_xml_get_widget (gui, "colorpickerSpellCheckColor"));
 	prefs->language = GTK_CLIST (glade_xml_get_widget (gui, "clistSpellCheckLanguage"));
@@ -832,7 +829,7 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	info_pixmap = glade_xml_get_widget (gui, "pixmapSpellInfo");
 	gtk_clist_set_column_justification (prefs->language, 0, GTK_JUSTIFY_RIGHT);
 	gtk_clist_set_column_auto_resize (prefs->language, 0, TRUE);
-	gnome_pixmap_load_file (GNOME_PIXMAP (info_pixmap), EVOLUTION_IMAGES "/info-bulb.png");
+	gtk_image_set_from_file(GTK_IMAGE (info_pixmap), EVOLUTION_IMAGES "/info-bulb.png");
 	
 	if (!spell_setup_check_options (prefs)) {
 		gtk_widget_hide (GTK_WIDGET (prefs->colour));
@@ -867,7 +864,7 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	prefs->sig_add = GTK_BUTTON (glade_xml_get_widget (gui, "cmdSignatureAdd"));
 	g_signal_connect (prefs->sig_add, "clicked", G_CALLBACK (sig_add), prefs);
 	
-	glade_xml_signal_connect_data (gui, "cmdSignatureAddScriptClicked", sig_add_script, prefs);
+	glade_xml_signal_connect_data (gui, "cmdSignatureAddScriptClicked", G_CALLBACK(sig_add_script), prefs);
 	
 	prefs->sig_edit = GTK_BUTTON (glade_xml_get_widget (gui, "cmdSignatureEdit"));
 	g_signal_connect (prefs->sig_edit, "clicked", G_CALLBACK (sig_edit), prefs);
@@ -932,18 +929,21 @@ mail_composer_prefs_apply (MailComposerPrefs *prefs)
 	}
 	
 	/* Spell Checking */
+#warning "gtkhtml propmanager"
+#if 0
 	gtk_html_propmanager_apply (prefs->pman);
+#endif
 	spell_apply (prefs);
 	
 	/* Forwards and Replies */
 	menu = gtk_option_menu_get_menu (prefs->forward_style);
 	item = gtk_menu_get_active (GTK_MENU (menu));
-	val = GPOINTER_TO_INT (g_object_get_data((item), "style"));
+	val = GPOINTER_TO_INT (g_object_get_data((GObject *)item, "style"));
 	mail_config_set_default_forward_style (val);
 	
 	menu = gtk_option_menu_get_menu (prefs->reply_style);
 	item = gtk_menu_get_active (GTK_MENU (menu));
-	val = GPOINTER_TO_INT (g_object_get_data((item), "style"));
+	val = GPOINTER_TO_INT (g_object_get_data((GObject *)item, "style"));
 	mail_config_set_default_reply_style (val);
 	
 	/* Keyboard Shortcuts */

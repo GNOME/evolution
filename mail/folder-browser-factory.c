@@ -65,7 +65,7 @@ fb_get_svi (BonoboControl *control)
 	GNOME_Evolution_ShellView shell_view_interface;
 	CORBA_Environment ev;
 	
-	control_frame = bonobo_control_get_control_frame (control);
+	control_frame = bonobo_control_get_control_frame (control, NULL);
 
 	if (control_frame == NULL)
 		return CORBA_OBJECT_NIL;
@@ -90,8 +90,8 @@ control_activate (BonoboControl     *control,
 	GtkWidget *folder_browser;
 	Bonobo_UIContainer container;
 
-	container = bonobo_control_get_remote_ui_container (control);
-	bonobo_ui_component_set_container (uic, container);
+	container = bonobo_control_get_remote_ui_container (control, NULL);
+	bonobo_ui_component_set_container (uic, container, NULL);
 	bonobo_object_release_unref (container, NULL);
 
 	g_assert (container == bonobo_ui_component_get_container (uic));
@@ -155,7 +155,7 @@ control_activate_cb (BonoboControl *control,
 static void
 control_destroy_cb (GtkObject *fb, GObject *deadbeef)
 {
-	gtk_object_destroy (folder_browser);
+	gtk_object_destroy (fb);
 }
 
 static void
@@ -191,11 +191,11 @@ folder_browser_factory_new_control (const char *uri,
 	if (!(fb = folder_browser_new (shell, uri)))
 		return NULL;
 	
-	FOLDER_BROWSER (folder_browser)->pref_master = TRUE; /* save UI settings changed in this FB */
+	FOLDER_BROWSER (fb)->pref_master = TRUE; /* save UI settings changed in this FB */
 	
-	gtk_widget_show (folder_browser);
+	gtk_widget_show (fb);
 	
-	control = bonobo_control_new (folder_browser);
+	control = bonobo_control_new (fb);
 	
 	if (control == NULL) {
 		g_object_unref (fb);
@@ -204,8 +204,8 @@ folder_browser_factory_new_control (const char *uri,
 	
 	g_signal_connect (control, "activate", GTK_SIGNAL_FUNC (control_activate_cb), fb);
 	
-	g_object_weak_ref (control, (GWeakNotify) control_destroy_cb, fb);
-	g_object_weak_ref (fb, (GWeakNotify) browser_destroy_cb, control);
+	g_object_weak_ref (G_OBJECT(control), (GWeakNotify) control_destroy_cb, fb);
+	g_object_weak_ref (G_OBJECT(fb), (GWeakNotify) browser_destroy_cb, control);
 	
 	if (!control_list)
 		control_list = e_list_new (NULL, NULL, NULL);

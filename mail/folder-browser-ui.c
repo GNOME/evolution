@@ -26,6 +26,8 @@
 #include <config.h>
 #endif
 
+#include <string.h>
+
 #include <libgnome/gnome-util.h> /* gnome_util_prepend_user_home */
 
 #include <bonobo/bonobo-exception.h>
@@ -305,7 +307,7 @@ ui_add (FolderBrowser *fb, const char *name, BonoboUIVerb verb[], EPixmap pixcac
 	/*bonobo_ui_component_freeze (uic, NULL);*/
 	
 	file = g_strconcat ("evolution-mail-", name, ".xml", NULL);
-	bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR, file, "evolution-mail");
+	bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR, file, "evolution-mail", NULL);
 	g_free (file);
 	
 	e_pixmaps_update (uic, pixcache);
@@ -472,12 +474,8 @@ folder_browser_setup_property_menu (FolderBrowser *fb, BonoboUIComponent *uic)
 	CamelURL *url;
 	
 	url = camel_url_new (fb->uri, NULL);
-	if (url) {
-		if (url->fragment)
-			base = basename (url->fragment);
-		else
-			base = basename (url->path);
-	}
+	if (url)
+		base = g_path_get_basename(url->fragment?url->fragment:url->path);
 	
 	if (base && base[0] != '\0')
 		name = g_strdup_printf (_("Properties for \"%s\""), base);
@@ -488,7 +486,8 @@ folder_browser_setup_property_menu (FolderBrowser *fb, BonoboUIComponent *uic)
 		uic, "/menu/File/Folder/ComponentPlaceholder/ChangeFolderProperties",
 		"label", name, NULL);
 	g_free (name);
-	
+	g_free(base);
+
 	if (url)
 		camel_url_free (url);
 	
@@ -629,7 +628,7 @@ folder_browser_ui_rm_all (FolderBrowser *fb)
 	BonoboUIComponent *uic = fb->uicomp;
 	
 	bonobo_ui_component_rm (uic, "/", NULL);
- 	bonobo_ui_component_unset_container (uic);
+ 	bonobo_ui_component_unset_container (uic, NULL);
 	
 	if (fb->sensitise_state) {
 		g_hash_table_destroy (fb->sensitise_state);

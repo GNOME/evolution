@@ -1,3 +1,64 @@
+2002-11-13  Not Zed  <NotZed@Ximian.com>
+
+	* GNOME_Evolution_Mail.server.in.in: Added to cvs.  Currently
+	contains no configurable stuff, but maybe it will one day.
+
+	* Makefile.am (server_DATA): change oaf stuff to server stuff for
+	bonobo activation.
+
+	* mail-preferences.c (mail_preferences_apply): handle const entry text.
+
+	* mail-composer-prefs.c (url_requested): Fixed typo.
+	(mail_composer_prefs_construct): gnomepixmap->gtkimage.
+
+	* mail-callbacks.c (configure_mail): destroy dialogue before dealing
+	with response.
+	(mail_generate_reply): Fix a typo.
+	(popup_listener_cb): fix prototype.
+	(tag_editor_response): Handle gtk dialog response.
+	(flag_for_followup): Change gnome dialog to gtk dialog stuff.
+	(tag_editor_destroy_cb): 
+	(tag_editor_cancel): 
+	(tag_editor_ok): Removed, handled in _response().
+	(filter_editor_response): renamed from _clicked, handle gtk
+	dialogue signal.
+	(filter_editor_destroy): Removed.
+	(footer_info_new): gnome font api changes.
+	(do_mail_print): port to gnome print 2.
+
+	* mail-autofilter.c (mail_filter_delete_uri): message_dialog uses
+	a specific button enum, not the stock ones.
+
+	* mail-accounts.c (mail_accounts_tab_get_type): gobjectify.
+	(account_delete_clicked): gdkdialogise.
+
+	* mail-account-gui.c (mail_account_gui_setup): Hack around font
+	metric determination code.
+
+	* mail-account-editor.c (mail_account_editor_get_type):
+	gobjectise.
+	(mail_account_editor_new): ""
+
+	* folder-info.c (evolution_folder_info_notify_ready): use pbclient
+	interface.
+
+	* folder-browser-factory.c (control_destroy_cb): fix a typo.
+	(folder_browser_factory_new_control): More typos.
+
+	* folder-browser.c (on_right_click): cast around const warning.
+	(context_menu_position_func): fix for api change.
+
+	* e-searching-tokenizer.c (e_searching_tokenizer_finalise):
+	Changed from destroy since it only frees memory.
+	(e_searching_tokenizer_get_type): glibify.
+
+	* component-factory.c (request_quit): gtkdialogise.
+	(send_receive_cb): "
+	(create_component): gdk_pixbuf api.
+	(component_factory_init): bonobo activation stuff.
+	(warning_response): renamed from warning_clicked.
+	(owner_set_cb): gtkdialogise.
+
 2002-11-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* Makefile.am: Added files I've ported.

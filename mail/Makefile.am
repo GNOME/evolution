@@ -1,8 +1,8 @@
 #SUBDIRS = importers
 
 bin_PROGRAMS = 				\
-	evolution-mail			\
-	evolution-mail-upgrade
+	evolution-mail
+#	evolution-mail-upgrade
 
 importerdir = $(privlibdir)/evolution-mail-importers
 
@@ -84,6 +84,10 @@ evolution_mail_SOURCES =		\
 	mail-config-druid.h		\
 	mail-crypto.c			\
 	mail-crypto.h			\
+	mail-config-factory.c		\
+	mail-config-factory.h		\
+	mail-preferences.c		\
+	mail-preferences.h		\
 	mail-display.c			\
 	mail-display.h			\
 	mail-folder-cache.c		\
@@ -130,38 +134,9 @@ evolution_mail_SOURCES =		\
 	subscribe-dialog.h		\
 	mail.h
 
-# 	component-factory.c		\
-# 	component-factory.h		\
-# 	e-searching-tokenizer.c		\
-# 	e-searching-tokenizer.h		\
-# 	folder-browser.c		\
-# 	folder-browser.h		\
-# 	folder-browser-factory.c	\
-# 	folder-browser-factory.h	\
-# 	folder-browser-ui.c		\
-# 	folder-browser-ui.h		\
-# 	folder-info.c			\
-# 	folder-info.h			\
-# 	mail-accounts.c			\
-# 	mail-accounts.h			\
-# 	mail-account-editor.c		\
-# 	mail-account-editor.h		\
-# 	mail-account-gui.c		\
-# 	mail-account-gui.h		\
-# 	mail-autofilter.c		\
-# 	mail-autofilter.h		\
-# 	mail-callbacks.c		\
-# 	mail-callbacks.h		\
-#	mail-composer-prefs.c		\
-#	mail-composer-prefs.h		\
+# needs gtkhtml prop manager ported
 #	mail-font-prefs.c		\
 #	mail-font-prefs.h		\
-
-#	mail-config-factory.c		\
-#	mail-config-factory.h		\
-
-#	mail-preferences.c		\
-#	mail-preferences.h		\
 
 evolution_mail_LDADD = 					\
 	$(top_builddir)/camel/libcamel.la		\
@@ -181,15 +156,15 @@ evolution_mail_LDADD = 					\
 evolution_mail_LDFLAGS =				\
 	-export-dynamic
 
-evolution_mail_upgrade_SOURCES = upgrade-mailer.c
-evolution_mail_upgrade_LDADD = 				\
-	$(top_builddir)/camel/libcamel.la 		\
-	$(top_builddir)/e-util/libeutil.la 		\
-	$(EVOLUTION_MAIL_LIBS)
+#evolution_mail_upgrade_SOURCES = upgrade-mailer.c
+#evolution_mail_upgrade_LDADD = 				\
+#	$(top_builddir)/camel/libcamel.la 		\
+#	$(top_builddir)/e-util/libeutil.la 		\
+#	$(EVOLUTION_MAIL_LIBS)
 
-oafdir = $(datadir)/oaf
-oaf_in_files = GNOME_Evolution_Mail.oaf.in
-oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
+serverdir = $(libdir)/bonobo/servers
+server_in_files = GNOME_Evolution_Mail.server.in
+server_DATA = $(server_in_files:.server.in=.server)
 
 @INTLTOOL_SERVER_RULE@
 
@@ -212,8 +187,8 @@ EXTRA_DIST = 				\
 	Mailer.idl 			\
 	$(SPELL_IDL)			\
 	$(glade_DATA)			\
-	$(oaf_in_files)			\
-	$(oaf_DATA)			\
+	$(server_in_files)			\
+	$(server_DATA)			\
 	$(etspec_DATA)
 
 if ENABLE_PURIFY

@@ -38,7 +38,7 @@
 
 static void mail_preferences_class_init (MailPreferencesClass *class);
 static void mail_preferences_init       (MailPreferences *dialog);
-static void mail_preferences_finalise   (GtkObject *obj);
+static void mail_preferences_finalise   (GObject *obj);
 
 static GtkVBoxClass *parent_class = NULL;
 
@@ -83,7 +83,7 @@ mail_preferences_init (MailPreferences *preferences)
 }
 
 static void
-mail_preferences_finalise (GtkObject *obj)
+mail_preferences_finalise (GObject *obj)
 {
 	MailPreferences *prefs = (MailPreferences *) obj;
 	
@@ -152,7 +152,7 @@ restore_labels_clicked (GtkWidget *widget, gpointer user_data)
 	int i;
 	
 	for (i = 0; i < 5; i++) {
-		gtk_entry_set_text(prefs->labels[i].name, U_(label_defaults[i].name));
+		gtk_entry_set_text(prefs->labels[i].name, _(label_defaults[i].name));
 		colorpicker_set_color (prefs->labels[i].color, label_defaults[i].color);
 	}
 }
@@ -177,7 +177,7 @@ option_menu_connect (GtkOptionMenu *omenu, gpointer user_data)
 	items = GTK_MENU_SHELL (menu)->children;
 	while (items) {
 		item = items->data;
-		g_signal_connect(item, "activate", menu_changed, user_data);
+		g_signal_connect(item, "activate", G_CALLBACK(menu_changed), user_data);
 		items = items->next;
 	}
 }
@@ -212,11 +212,11 @@ mail_preferences_construct (MailPreferences *prefs)
 	/* Message Display */
 	prefs->timeout_toggle = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkMarkTimeout"));
 	gtk_toggle_button_set_active (prefs->timeout_toggle, mail_config_get_do_seen_timeout ());
-	g_signal_connect(prefs->timeout_toggle, "toggled", toggle_button_toggled, prefs);
+	g_signal_connect(prefs->timeout_toggle, "toggled", G_CALLBACK(toggle_button_toggled), prefs);
 	
 	prefs->timeout = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "spinMarkTimeout"));
 	gtk_spin_button_set_value (prefs->timeout, (1.0 * mail_config_get_mark_as_seen_timeout ()) / 1000.0);
-	g_signal_connect(prefs->timeout, "changed", entry_changed, prefs);
+	g_signal_connect(prefs->timeout, "changed", G_CALLBACK(entry_changed), prefs);
 	
 	prefs->charset = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuCharset"));
 	menu = e_charset_picker_new (mail_config_get_default_charset ());
@@ -225,71 +225,72 @@ mail_preferences_construct (MailPreferences *prefs)
 	
 	prefs->citation_highlight = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkHighlightCitations"));
 	gtk_toggle_button_set_active (prefs->citation_highlight, mail_config_get_citation_highlight ());
-	g_signal_connect(prefs->citation_highlight, "toggled", toggle_button_toggled, prefs);
+	g_signal_connect(prefs->citation_highlight, "toggled", G_CALLBACK(toggle_button_toggled), prefs);
 	
 	prefs->citation_color = GNOME_COLOR_PICKER (glade_xml_get_widget (gui, "colorpickerHighlightCitations"));
 	colorpicker_set_color (prefs->citation_color, mail_config_get_citation_color ());
-	g_signal_connect(prefs->citation_color, "color-set", color_set, prefs);
+	g_signal_connect(prefs->citation_color, "color-set", G_CALLBACK(color_set), prefs);
 	
 	/* Deleting Mail */
 	prefs->empty_trash = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkEmptyTrashOnExit"));
 	gtk_toggle_button_set_active (prefs->empty_trash, mail_config_get_empty_trash_on_exit ());
-	g_signal_connect(prefs->empty_trash, "toggled", toggle_button_toggled, prefs);
+	g_signal_connect(prefs->empty_trash, "toggled", G_CALLBACK(toggle_button_toggled), prefs);
 	
 	prefs->confirm_expunge = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkConfirmExpunge"));
 	gtk_toggle_button_set_active (prefs->confirm_expunge, mail_config_get_confirm_expunge ());
-	g_signal_connect(prefs->confirm_expunge, "toggled", toggle_button_toggled, prefs);
+	g_signal_connect(prefs->confirm_expunge, "toggled", G_CALLBACK(toggle_button_toggled), prefs);
 	
 	/* New Mail Notification */
 	prefs->notify_not = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radNotifyNot"));
 	gtk_toggle_button_set_active (prefs->notify_not, mail_config_get_new_mail_notify () == MAIL_CONFIG_NOTIFY_NOT);
-	g_signal_connect(prefs->notify_not, "toggled", toggle_button_toggled, prefs);
+	g_signal_connect(prefs->notify_not, "toggled", G_CALLBACK(toggle_button_toggled), prefs);
 	
 	prefs->notify_beep = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radNotifyBeep"));
 	gtk_toggle_button_set_active (prefs->notify_beep, mail_config_get_new_mail_notify () == MAIL_CONFIG_NOTIFY_BEEP);
-	g_signal_connect(prefs->notify_beep, "toggled", toggle_button_toggled, prefs);
+	g_signal_connect(prefs->notify_beep, "toggled", G_CALLBACK(toggle_button_toggled), prefs);
 	
 	prefs->notify_play_sound = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radNotifyPlaySound"));
 	gtk_toggle_button_set_active (prefs->notify_play_sound,
 				      mail_config_get_new_mail_notify () == MAIL_CONFIG_NOTIFY_PLAY_SOUND);
-	g_signal_connect(prefs->notify_play_sound, "toggled", toggle_button_toggled, prefs);
+	g_signal_connect(prefs->notify_play_sound, "toggled", G_CALLBACK(toggle_button_toggled), prefs);
 	
 	prefs->notify_sound_file = GNOME_FILE_ENTRY (glade_xml_get_widget (gui, "fileNotifyPlaySound"));
 	text = mail_config_get_new_mail_notify_sound_file ();
-	gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (prefs->notify_sound_file)),
-			    text ? text : "");
-	g_signal_connect(gnome_file_entry_gtk_entry (prefs->notify_sound_file), "changed",
-			    entry_changed, prefs);
+	gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (prefs->notify_sound_file)), text ? text : "");
+	g_signal_connect(gnome_file_entry_gtk_entry (prefs->notify_sound_file), "changed", G_CALLBACK(entry_changed), prefs);
 	
 	/* HTML Mail tab */
 	
 	/* Loading Images */
 	prefs->images_never = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radImagesNever"));
 	gtk_toggle_button_set_active (prefs->images_never, mail_config_get_http_mode () == MAIL_CONFIG_HTTP_NEVER);
-	g_signal_connect(prefs->images_never, "toggled", toggle_button_toggled, prefs);
+	g_signal_connect(prefs->images_never, "toggled", G_CALLBACK(toggle_button_toggled), prefs);
 	
 	prefs->images_sometimes = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radImagesSometimes"));
 	gtk_toggle_button_set_active (prefs->images_sometimes, mail_config_get_http_mode () == MAIL_CONFIG_HTTP_SOMETIMES);
-	g_signal_connect(prefs->images_sometimes, "toggled", toggle_button_toggled, prefs);
+	g_signal_connect(prefs->images_sometimes, "toggled", G_CALLBACK(toggle_button_toggled), prefs);
 	
 	prefs->images_always = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radImagesAlways"));
 	gtk_toggle_button_set_active (prefs->images_always, mail_config_get_http_mode () == MAIL_CONFIG_HTTP_ALWAYS);
-	g_signal_connect(prefs->images_always, "toggled", toggle_button_toggled, prefs);
-	
+	g_signal_connect(prefs->images_always, "toggled", G_CALLBACK(toggle_button_toggled), prefs);
+
+#warning "gtkhtml prop manager"
+#if 0	
 	prefs->pman = GTK_HTML_PROPMANAGER (gtk_html_propmanager_new (prefs->gconf));
-	g_signal_connect(prefs->pman, "changed", toggle_button_toggled, prefs);
+	g_signal_connect(prefs->pman, "changed", G_CALLBACK(toggle_button_toggled), prefs);
 	g_object_ref(prefs->pman);
 	
 	gtk_html_propmanager_set_names (prefs->pman, names);
 	gtk_html_propmanager_set_gui (prefs->pman, gui, NULL);
 	for (i = 0; names[i][0] != NULL; i++) {
 		widget = glade_xml_get_widget (gui, names[i][1]);
-		g_signal_connect(widget, "toggled", toggle_button_toggled, prefs);
+		g_signal_connect(widget, "toggled", G_CALLBACK(toggle_button_toggled), prefs);
 	}
-	
+#endif
+
 	prefs->prompt_unwanted_html = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptWantHTML"));
 	gtk_toggle_button_set_active (prefs->prompt_unwanted_html, mail_config_get_confirm_unwanted_html ());
-	g_signal_connect(prefs->prompt_unwanted_html, "toggled", toggle_button_toggled, prefs);
+	g_signal_connect(prefs->prompt_unwanted_html, "toggled", G_CALLBACK(toggle_button_toggled), prefs);
 	
 	/* Labels and Colours tab */
 	for (i = 0; i < 5; i++) {
@@ -300,16 +301,16 @@ mail_preferences_construct (MailPreferences *prefs)
 		g_free (widget_name);
 		text = mail_config_get_label_name (i);
 		gtk_entry_set_text(prefs->labels[i].name, text ? text : "");
-		g_signal_connect(prefs->labels[i].name, "changed", entry_changed, prefs);
+		g_signal_connect(prefs->labels[i].name, "changed", G_CALLBACK(entry_changed), prefs);
 		
 		widget_name = g_strdup_printf ("colorLabel%d", i);
 		prefs->labels[i].color = GNOME_COLOR_PICKER (glade_xml_get_widget (gui, widget_name));
 		g_free (widget_name);
 		colorpicker_set_color (prefs->labels[i].color, mail_config_get_label_color (i));
-		g_signal_connect(prefs->labels[i].color, "color_set", color_set, prefs);
+		g_signal_connect(prefs->labels[i].color, "color_set", G_CALLBACK(color_set), prefs);
 	}
 	prefs->restore_labels = GTK_BUTTON (glade_xml_get_widget (gui, "cmdRestoreLabels"));
-	g_signal_connect(prefs->restore_labels, "clicked", restore_labels_clicked, prefs);
+	g_signal_connect(prefs->restore_labels, "clicked", G_CALLBACK(restore_labels_clicked), prefs);
 }
 
 
@@ -330,6 +331,7 @@ mail_preferences_apply (MailPreferences *prefs)
 {
 	GtkWidget *entry, *menu;
 	char *string;
+	const char *cstring;
 	guint32 rgb;
 	int i, val;
 	
@@ -367,8 +369,8 @@ mail_preferences_apply (MailPreferences *prefs)
 		mail_config_set_new_mail_notify (MAIL_CONFIG_NOTIFY_PLAY_SOUND);
 	
 	entry = gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (prefs->notify_sound_file));
-	string = gtk_entry_get_text (GTK_ENTRY (entry));
-	mail_config_set_new_mail_notify_sound_file (string);
+	cstring = gtk_entry_get_text (GTK_ENTRY (entry));
+	mail_config_set_new_mail_notify_sound_file (cstring);
 	
 	/* HTML Mail */
 	if (gtk_toggle_button_get_active (prefs->images_always))
@@ -377,17 +379,18 @@ mail_preferences_apply (MailPreferences *prefs)
 		mail_config_set_http_mode (MAIL_CONFIG_HTTP_SOMETIMES);
 	else
 		mail_config_set_http_mode (MAIL_CONFIG_HTTP_NEVER);
-	
+
+#warning "gtkhtml propmanager"
+#if 0	
 	gtk_html_propmanager_apply (prefs->pman);
-	
+#endif
 	mail_config_set_confirm_unwanted_html (gtk_toggle_button_get_active (prefs->prompt_unwanted_html));
 	
 	/* Labels and Colours */
 	for (i = 0; i < 5; i++) {
 		/* save the label... */
-		string = gtk_entry_get_text(prefs->labels[i].name);
-		mail_config_set_label_name (i, string);
-		g_free (string);
+		cstring = gtk_entry_get_text(prefs->labels[i].name);
+		mail_config_set_label_name (i, cstring);
 		
 		/* save the colour... */
 		rgb = colorpicker_get_color (prefs->labels[i].color);

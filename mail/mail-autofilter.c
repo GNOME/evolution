@@ -29,6 +29,7 @@
 #endif
 
 #include <ctype.h>
+#include <string.h>
 
 #include <glib.h>
 #include <libgnome/gnome-i18n.h>
@@ -377,7 +378,7 @@ mail_filter_delete_uri(CamelStore *store, const char *uri)
 		g_string_sprintfa (s, _("Used the removed folder:\n    '%s'\n"
 					"And have been updated."), uri);
 		
-		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_STOCK_CLOSE, "%s", s->str);
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, "%s", s->str);
 		g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
 		
 		g_string_free (s, TRUE);

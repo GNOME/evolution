@@ -28,7 +28,8 @@
 #include "mail-accounts.h"
 #include "mail-preferences.h"
 #include "mail-composer-prefs.h"
-#include "mail-font-prefs.h"
+#warning "mail-font-prefs"
+/*#include "mail-font-prefs.h"*/
 
 #include "mail-config-factory.h"
 
@@ -83,9 +84,13 @@ config_control_factory_cb (BonoboGenericFactory *factory, const char *component_
 	} else if (!strcmp (component_id, MAIL_COMPOSER_PREFS_CONTROL_ID)) {
 		prefs = mail_composer_prefs_new ();
 		data->apply = (ApplyFunc) mail_composer_prefs_apply;
+#warning "font prefs"
+/* & see below */
+#if 0
 	} else if (!strcmp (component_id, MAIL_FONT_PREFS_CONTROL_ID)) {
 		prefs = mail_font_prefs_new ();
 		data->apply = (ApplyFunc) mail_font_prefs_apply;
+#endif
 	} else {
 		g_assert_not_reached ();
 	}
@@ -103,8 +108,10 @@ config_control_factory_cb (BonoboGenericFactory *factory, const char *component_
 		MAIL_PREFERENCES (prefs)->control = control;
 	} else if (!strcmp (component_id, MAIL_COMPOSER_PREFS_CONTROL_ID)) {
 		MAIL_COMPOSER_PREFS (prefs)->control = control;
+#if 0
 	} else if (!strcmp (component_id, MAIL_FONT_PREFS_CONTROL_ID)) {
 		MAIL_FONT_PREFS (prefs)->control = control;
+#endif
 	} else {
 		g_assert_not_reached ();
 	}

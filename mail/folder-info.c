@@ -227,6 +227,7 @@ get_prop (BonoboPropertyBag *bag,
 
 static BonoboObject *
 evolution_folder_info_factory_fn (BonoboGenericFactory *factory,
+				  const char *id,
 				  void *closure)
 {
 	EvolutionFolderInfo *info;
@@ -279,13 +280,10 @@ evolution_folder_info_notify_ready (void)
 	ready = TRUE;
 	
 	for (p = folder_infos; p; p = p->next) {
-		BonoboArg arg;
-		CORBA_boolean b = ready;
 		EvolutionFolderInfo *info = p->data;
-		
-		arg._value = &b;
-		arg._type = (CORBA_TypeCode) TC_boolean;
-		bonobo_property_bag_set_value (BONOBO_PROPERTY_BAG (info->pb),
-					       "folder-info-ready", &arg, NULL);
+		Bonobo_PropertyBag bag;
+
+		bag = (Bonobo_PropertyBag)bonobo_object_corba_objref(BONOBO_OBJECT(info->pb));
+		bonobo_pbclient_set_boolean("folder-info-ready", ready, NULL);
 	}
 }

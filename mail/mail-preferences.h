@@ -33,7 +33,8 @@ extern "C" {
 #include <libgnomeui/gnome-color-picker.h>
 #include <libgnomeui/gnome-file-entry.h>
 #include <glade/glade.h>
-#include <gtkhtml/gtkhtml-propmanager.h>
+#warning "gtkhtml-propmanger"
+/*#include <gtkhtml/gtkhtml-propmanager.h>*/
 #include <gconf/gconf-client.h>
 
 #include "evolution-config-control.h"
@@ -90,7 +91,7 @@ struct _MailPreferences {
 	GtkToggleButton *prompt_unwanted_html;
 
 	/* GtkHTML Properties */
-	GtkHTMLPropmanager *pman;
+	struct _GtkHTMLPropmanager *pman;
 	
 	/* Labels and Colours tab */
 	struct {

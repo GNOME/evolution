@@ -963,9 +963,8 @@ struct _ESearchingTokenizerPrivate {
 
 /** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
 
-/* shoudlnt' this be finalise? */
 static void
-e_searching_tokenizer_destroy (GtkObject *obj)
+e_searching_tokenizer_finalise (GObject *obj)
 {
 	ESearchingTokenizer *st = E_SEARCHING_TOKENIZER (obj);
 	struct _ESearchingTokenizerPrivate *p = st->priv;
@@ -981,14 +980,14 @@ e_searching_tokenizer_destroy (GtkObject *obj)
 	
 	g_free (p);
 	
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		GTK_OBJECT_CLASS (parent_class)->destroy (obj);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		G_OBJECT_CLASS (parent_class)->finalize(obj);
 }
 
 static void
 e_searching_tokenizer_class_init (ESearchingTokenizerClass *klass)
 {
-	GtkObjectClass *obj_class = (GtkObjectClass *) klass;
+	GObjectClass *obj_class = (GObjectClass *) klass;
 	HTMLTokenizerClass *tok_class = HTML_TOKENIZER_CLASS (klass);
 	
 	parent_class = g_type_class_ref (HTML_TYPE_TOKENIZER);
@@ -1000,10 +999,10 @@ e_searching_tokenizer_class_init (ESearchingTokenizerClass *klass)
 			      G_STRUCT_OFFSET (ESearchingTokenizerClass, match),
 			      NULL,
 			      NULL,
-			      gtk_marshal_NONE__NONE,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 	
-	obj_class->destroy = e_searching_tokenizer_destroy;
+	obj_class->finalize = e_searching_tokenizer_finalise;
 	
 	tok_class->begin = e_searching_tokenizer_begin;
 	tok_class->end = e_searching_tokenizer_end;
@@ -1030,24 +1029,23 @@ e_searching_tokenizer_init (ESearchingTokenizer *st)
 	search_info_set_colour(p->secondary, "purple");
 }
 
-GtkType
+GType
 e_searching_tokenizer_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 	
 	if (!type) {
-		static const GtkTypeInfo info = {
-			"ESearchingTokenizer",
-			sizeof (ESearchingTokenizer),
+		static const GTypeInfo info = {
 			sizeof (ESearchingTokenizerClass),
-			(GtkClassInitFunc) e_searching_tokenizer_class_init,
-			(GtkObjectInitFunc) e_searching_tokenizer_init,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
+			NULL, NULL,
+			(GClassInitFunc) e_searching_tokenizer_class_init,
+			NULL, NULL,
+			sizeof (ESearchingTokenizer),
+			0,
+			(GInstanceInitFunc) e_searching_tokenizer_init,
 		};
 		
-		type = gtk_type_unique (HTML_TYPE_TOKENIZER, &info);
+		type = g_type_register_static (HTML_TYPE_TOKENIZER, "ESearchingTokenizer", &info, 0);
 	}
 	
 	return type;
@@ -1056,7 +1054,7 @@ e_searching_tokenizer_get_type (void)
 HTMLTokenizer *
 e_searching_tokenizer_new (void)
 {
-	return (HTMLTokenizer *) gtk_type_new (E_TYPE_SEARCHING_TOKENIZER);
+	return (HTMLTokenizer *) g_object_new (E_TYPE_SEARCHING_TOKENIZER, NULL);
 }
 
 /** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
@@ -1183,7 +1181,7 @@ e_searching_tokenizer_clone (HTMLTokenizer *tok)
 	new_st->priv->shared = orig_st->priv->shared;
 #endif
 	
-	g_signal_connect_swapped (new_st, "match", GTK_SIGNAL_FUNC (matched), orig_st);
+	g_signal_connect_swapped (new_st, "match", G_CALLBACK(matched), orig_st);
 	
 	return HTML_TOKENIZER (new_st);
 }

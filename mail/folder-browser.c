@@ -804,8 +804,10 @@ static gboolean
 update_status_bar_idle_cb(gpointer data)
 {
 	FolderBrowser *fb = data;
-	
+
+#if 0	
 	if (!GTK_OBJECT_DESTROYED (fb))
+#endif
 		update_status_bar (fb);
 	
 	fb->update_status_bar_idle_id = 0;
@@ -1826,7 +1828,7 @@ struct cmpf_data {
 
 static void
 context_menu_position_func (GtkMenu *menu, gint *x, gint *y,
-			    gpointer user_data)
+			    gboolean *push_in, gpointer user_data)
 {
 	int tx, ty, tw, th;
 	struct cmpf_data *closure = user_data;
@@ -2083,7 +2085,7 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 		
 		g_ptr_array_add (closures, closure);
 		
-		label_menu[i + 2].name = mail_config_get_label_name (i);
+		label_menu[i + 2].name = (char *)mail_config_get_label_name (i);
 		label_menu[i + 2].pixmap_widget = gtk_pixmap_new (pixmap, NULL);
 		label_menu[i + 2].closure = closure;
 	}
@@ -2096,12 +2098,10 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 	menu = e_popup_menu_create (context_menu, enable_mask, hide_mask, fb);
 	e_auto_kill_popup_menu_on_hide (menu);
 	
-	g_object_set_data_full (menu, "label_closures", closures,
-				(GtkDestroyNotify) label_closures_free);
+	g_object_set_data_full (G_OBJECT(menu), "label_closures", closures, (GtkDestroyNotify) label_closures_free);
 	
 	if (fdata)
-		g_object_set_data_full (menu, "filter_data", fdata,
-					(GtkDestroyNotify) filter_data_free);
+		g_object_set_data_full (G_OBJECT(menu), "filter_data", fdata, (GtkDestroyNotify) filter_data_free);
 	
 	if (event->type == GDK_KEY_PRESS) {
 		struct cmpf_data closure;
