@@ -56,6 +56,12 @@ main (void)
 
 	AC_MSG_RESULT($linux_table)
 
+	if test $linux_table = yes ; then
+	  AC_DEFINE(HAVE_LINUX_TABLE)
+	fi
+
+	AM_CONDITIONAL(LINUX_TABLE, test $linux_table = yes)
+
 	AC_MSG_CHECKING(for libgtop sysdeps directory)
 
 	case "$host_os" in
