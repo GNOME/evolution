@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-14 22:47+0300\n"
-"PO-Revision-Date: 2004-08-14 22:48+0300\n"
+"PO-Revision-Date: 2004-08-15 10:20+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -6164,8 +6164,8 @@ msgstr[1] "Joka %d:s vuosi"
 #, c-format
 msgid "a total of %d time"
 msgid_plural " a total of %d times"
-msgstr[0] " kaikkiaan %d kerran"
-msgstr[1] " kaikkiaan %d kertaa"
+msgstr[0] " %d kerran"
+msgstr[1] " %d kertaa"
 
 #: calendar/gui/e-itip-control.c:687
 msgid ", ending on "
@@ -13265,8 +13265,8 @@ msgstr "Kansion ominaisuudet"
 #: mail/em-folder-properties.c:161
 msgid "Total message:"
 msgid_plural "Total messages:"
-msgstr[0] "Viesti kaikkiaan:"
-msgstr[1] "Viestejä kaikkiaan:"
+msgstr[0] "Yksi viesti:"
+msgstr[1] "Viestejä:"
 
 #: mail/em-folder-properties.c:173
 msgid "Unread message:"
@@ -13441,7 +13441,7 @@ msgstr "_Välitä"
 
 #: mail/em-folder-view.c:911
 msgid "Follo_w Up..."
-msgstr "_Vastine...."
+msgstr "_Vastine..."
 
 #: mail/em-folder-view.c:912
 msgid "Fla_g Completed"
@@ -13505,15 +13505,15 @@ msgstr "_Luo viestistä sääntö"
 
 #: mail/em-folder-view.c:945
 msgid "VFolder on _Subject"
-msgstr "VKansio _aiheen perusteella"
+msgstr "vKansio _aiheen perusteella"
 
 #: mail/em-folder-view.c:946
 msgid "VFolder on Se_nder"
-msgstr "VKansio _lähettäjän perusteella"
+msgstr "vKansio _lähettäjän perusteella"
 
 #: mail/em-folder-view.c:947
 msgid "VFolder on _Recipients"
-msgstr "VKansio _vastaanottajien perusteella"
+msgstr "vKansio _vastaanottajien perusteella"
 
 #: mail/em-folder-view.c:948
 msgid "VFolder on Mailing _List"
@@ -14757,8 +14757,8 @@ msgstr[1] "%d lähettämätöntä"
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
-msgstr[0] "%d kaikkiaan"
-msgstr[1] "%d kaikkiaan"
+msgstr[0] "%d viesti"
+msgstr[1] "%d viestä"
 
 #: mail/mail-component.c:494
 #, c-format
@@ -17903,7 +17903,7 @@ msgstr "_Siirrä kansioon..."
 
 #: ui/evolution-addressbook.xml.h:39 ui/evolution-mail-global.xml.h:17
 msgid "_Preview Pane"
-msgstr "_Esikatseluruutu:"
+msgstr "_Esikatseluruutu"
 
 #: ui/evolution-addressbook.xml.h:41
 msgid "_Save as VCard..."
@@ -18385,7 +18385,7 @@ msgstr "Suodata valitut viestit suodatinsäännöillä"
 
 #: ui/evolution-mail-message.xml.h:5
 msgid "Caret _Mode"
-msgstr "Caret _Mode"
+msgstr "Kohdistin_tila"
 
 #: ui/evolution-mail-message.xml.h:6
 msgid "Compose a reply to all of the recipients of the selected message"
@@ -18405,7 +18405,7 @@ msgstr "Kopioi valitut viestit uuteen kansioon"
 
 #: ui/evolution-mail-message.xml.h:12
 msgid "Create _Virtual Folder From Message"
-msgstr "Luo _virtuaalikansio viestistä"
+msgstr "Luo viestistä _virtuaalikansio"
 
 #: ui/evolution-mail-message.xml.h:13
 msgid "Create a rule to filter messages from this sender"
