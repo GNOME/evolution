@@ -38,8 +38,7 @@ struct _AlarmNotifyPrivate {
 	/* Mapping from EUri's to LoadedClient structures */
 	GHashTable *uri_client_hash;
 
-	/* ID of GConf notification listener */
-	guint notification_id;
+	ESourceList *source_lists [E_CAL_SOURCE_TYPE_LAST];	
 };
 
 
@@ -70,79 +69,125 @@ alarm_notify_class_init (AlarmNotifyClass *klass)
 
 typedef struct {
 	AlarmNotify *an;
-	GPtrArray *cals;
+	ESourceList *source_list;
 } ProcessRemovalsData;
 
 static void
-process_removal_in_hash (gpointer key, gpointer value, gpointer user_data)
+process_removal_in_hash (gpointer key, gpointer value, gpointer data)
 {
-	int i;
 	char *uri = key;
-	ProcessRemovalsData *prd = user_data;
+	ProcessRemovalsData *prd = data;
+	GSList *groups, *sources, *p, *q;
+	gboolean found = FALSE;
 
 	/* search the list of selected calendars */
-	for (i = 0; i < prd->cals->len; i++) {
-		ESource *source;
-		char *source_uri;
-		gboolean found = FALSE;
+	groups = e_source_list_peek_groups (prd->source_list);
+	for (p = groups; p != NULL; p = p->next) {
+		ESourceGroup *group = E_SOURCE_GROUP (p->data);
+		
+		sources = e_source_group_peek_sources (group);
+		for (q = sources; q != NULL; q = q->next) {
+			ESource *source = E_SOURCE (q->data);
+			char *source_uri;
+			
+			source_uri = e_source_get_uri (source);
+			if (strcmp (source_uri, uri) == 0)
+				found = TRUE;
+			g_free (uri);
 
-		source = prd->cals->pdata[i];
-		source_uri = e_source_get_uri (source);
-		if (strcmp (source_uri, uri) == 0)
-			found = TRUE;
-
-		g_free (source_uri);
-		if (found)
-			return;
+			if (found)
+				return;
+		}
 	}
 
 	/* not found, so remove it */
+	g_message ("Removing %s", uri);
 	alarm_notify_remove_calendar (prd->an, uri);
 }
 
 static void
-conf_changed_cb (GConfClient *conf_client, guint cnxn_id, GConfEntry *entry, gpointer user_data)
+list_changed_cb (ESourceList *source_list, gpointer data)
 {
-	AlarmNotify *an;
+	AlarmNotify *an = data;
 	AlarmNotifyPrivate *priv;
-	GPtrArray *cals;
-	const char *key_name;
-	int i;
+	GSList *groups, *sources, *p, *q;
+	ECalSourceType source_type = E_CAL_SOURCE_TYPE_LAST;
 	ProcessRemovalsData prd;
-
-	an = ALARM_NOTIFY (user_data);
+	int i;
+	
 	priv = an->priv;
 
-	key_name = gconf_entry_get_key (entry);
-	if (!key_name ||
-	    (key_name && strcmp (key_name, "/apps/evolution/calendar/sources") != 0) ||
-	    (key_name && strcmp (key_name, "/apps/evolution/tasks/sources") != 0))
+	/* Figure out the source type */
+	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++) {
+		if (source_list == priv->source_lists[i]) {
+			source_type = i;
+			break;
+		}
+	}
+	if (source_type == E_CAL_SOURCE_TYPE_LAST)
 		return;
-
-	cals = config_data_get_calendars_to_load ();
-	if (!cals)
-		return;
-
+	
 	/* process the additions */
-	for (i = 0; i < cals->len; i++) {
-		ESource *source;
-		char *uri;
-
-		source = cals->pdata[i];
-
-		uri = e_source_get_uri (source);
-		if (!g_hash_table_lookup (priv->uri_client_hash, uri))
-			alarm_notify_add_calendar (an, uri, FALSE);
-
-		g_free (uri);
+	groups = e_source_list_peek_groups (source_list);
+	for (p = groups; p != NULL; p = p->next) {
+		ESourceGroup *group = E_SOURCE_GROUP (p->data);
+		
+		sources = e_source_group_peek_sources (group);
+		for (q = sources; q != NULL; q = q->next) {
+			ESource *source = E_SOURCE (q->data);
+			char *uri;
+			
+			uri = e_source_get_uri (source);
+			if (!g_hash_table_lookup (priv->uri_client_hash, uri)) {
+				g_message ("Adding %s", uri);
+				alarm_notify_add_calendar (an, source_type, uri, FALSE);
+			}
+			g_free (uri);
+		}
 	}
 
 	/* process the removals */
 	prd.an = an;
-	prd.cals = cals;
+	prd.source_list = priv->source_lists[source_type];
 	g_hash_table_foreach (priv->uri_client_hash, (GHFunc) process_removal_in_hash, &prd);
+}
 
-	g_ptr_array_free (cals, TRUE);
+/* Loads the calendars that the alarm daemon has been told to load in the past */
+static void
+load_calendars (AlarmNotify *an, ECalSourceType source_type)
+{
+	AlarmNotifyPrivate *priv;
+	ESourceList *source_list;
+	GSList *groups, *sources, *p, *q;
+
+	priv = an->priv;
+	
+	if (!e_cal_get_sources (&source_list, source_type, NULL)) {
+		g_message (G_STRLOC ": Could not get the list of sources to load");
+		priv->source_lists[source_type] = NULL;
+
+		return;
+	}
+
+	groups = e_source_list_peek_groups (source_list);
+	for (p = groups; p != NULL; p = p->next) {
+		ESourceGroup *group = E_SOURCE_GROUP (p->data);
+		
+		sources = e_source_group_peek_sources (group);
+		for (q = sources; q != NULL; q = q->next) {
+			ESource *source = E_SOURCE (q->data);
+			char *uri;
+			
+			uri = e_source_get_uri (source);
+			g_message ("Loading %s", uri);
+			alarm_notify_add_calendar (an, source_type, uri, FALSE);
+			g_free (uri);
+			
+		}
+	}
+
+	g_signal_connect_object (source_list, "changed", G_CALLBACK (list_changed_cb), an, 0);
+	priv->source_lists[source_type] = source_list;
 }
 
 /* Object initialization function for the alarm notify system */
@@ -150,19 +195,17 @@ static void
 alarm_notify_init (AlarmNotify *an, AlarmNotifyClass *klass)
 {
 	AlarmNotifyPrivate *priv;
-	GConfClient *conf_client;
+	int i;
 
 	priv = g_new0 (AlarmNotifyPrivate, 1);
 	an->priv = priv;
 
 	priv->uri_client_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 
-	/* setup listener for getting changes in selected calendars */
-	conf_client = config_data_get_conf_client ();
-	gconf_client_add_dir (conf_client, "/apps/evolution", GCONF_CLIENT_PRELOAD_NONE, NULL);
+	alarm_queue_init ();
 
-	priv->notification_id = gconf_client_notify_add (conf_client, "/apps/evolution",
-							 (GConfClientNotifyFunc) conf_changed_cb, an, NULL, NULL);
+	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++)
+		load_calendars (an, i);
 }
 
 static void
@@ -185,9 +228,6 @@ alarm_notify_finalize (GObject *object)
 
 	an = ALARM_NOTIFY (object);
 	priv = an->priv;
-
-	gconf_client_notify_remove (config_data_get_conf_client (), priv->notification_id);
-	priv->notification_id = -1;
 
 	g_hash_table_foreach (priv->uri_client_hash, dequeue_client, NULL);
 	g_hash_table_destroy (priv->uri_client_hash);
@@ -247,7 +287,7 @@ cal_opened_cb (ECal *client, ECalendarStatus status, gpointer user_data)
  * that it can be loaded in the future when the alarm daemon starts up.
  **/
 void
-alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_afterwards)
+alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type, const char *str_uri, gboolean load_afterwards)
 {
 	AlarmNotifyPrivate *priv;
 	ECal *client;
@@ -262,7 +302,7 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 	if (g_hash_table_lookup (priv->uri_client_hash, str_uri))
 		return;
 
-	client = auth_new_cal_from_uri (str_uri, E_CAL_SOURCE_TYPE_EVENT);
+	client = auth_new_cal_from_uri (str_uri, source_type);
 
 	if (client) {
 		g_hash_table_insert (priv->uri_client_hash, g_strdup (str_uri), client);

@@ -113,40 +113,15 @@ alarm_notify_factory_fn (BonoboGenericFactory *factory, const char *component_id
 	return BONOBO_OBJECT (alarm_notify_service);
 }
 
-/* Loads the calendars that the alarm daemon has been told to load in the past */
+/* Creates the alarm notifier */
 static gboolean
-load_calendars (gpointer user_data)
+init_alarm_service (gpointer user_data)
 {
-	GPtrArray *cals;
-	int i;
-
-	alarm_queue_init ();
-
-	/* create the alarm notification service */
 	if (!alarm_notify_service) {
 		alarm_notify_service = alarm_notify_new ();
 		g_assert (alarm_notify_service != NULL);
 	}
-
-	cals = config_data_get_calendars_to_load ();
-	if (!cals) {
-		g_message ("load_calendars(): Could not get the list of calendars to load");
-		return TRUE; /* should we continue retrying? */;
-	}
-
-	for (i = 0; i < cals->len; i++) {
-		ESource *source;
-		char *uri;
-
-		source = cals->pdata[i];
-
-		uri = e_source_get_uri (source);
-		alarm_notify_add_calendar (alarm_notify_service, uri, FALSE);
-		g_free (uri);
-	}
-
-	g_ptr_array_free (cals, TRUE);
-
+	
 	return FALSE;
 }
 
@@ -163,9 +138,6 @@ main (int argc, char **argv)
 			      CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
 		g_error (_("Could not initialize Bonobo"));
 
-	if (!gnome_vfs_init ())
-		g_error (_("Could not initialize gnome-vfs"));
-
 	glade_init ();
 
 	gnome_sound_init ("localhost");
@@ -179,7 +151,7 @@ main (int argc, char **argv)
 
 	init_session ();
 
-	g_idle_add ((GSourceFunc) load_calendars, NULL);
+	g_idle_add ((GSourceFunc) init_alarm_service, NULL);
 
 	bonobo_main ();
 
@@ -194,7 +166,6 @@ main (int argc, char **argv)
 
 	e_passwords_shutdown ();
 	gnome_sound_shutdown ();
-	gnome_vfs_shutdown ();
 
 	return 0;
 }

@@ -26,6 +26,7 @@
 #include <glib.h>
 #include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-exception.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkbox.h>
 #include <gtk/gtkdialog.h>
@@ -328,6 +329,7 @@ add_component_alarms (ClientAlarms *ca, ECalComponentAlarms *alarms)
 
 	/* No alarms? */
 	if (alarms == NULL || alarms->alarms == NULL) {
+		g_message ("No alarms to add");
 		if (alarms)
 			e_cal_component_alarms_free (alarms);
 		return;
@@ -347,6 +349,7 @@ add_component_alarms (ClientAlarms *ca, ECalComponentAlarms *alarms)
 
 		instance = l->data;
 
+		g_message ("Adding alarm at %lu (%lu)", instance->trigger, time (NULL));
 		alarm_id = alarm_add (instance->trigger, alarm_trigger_cb, cqa, NULL);
 		if (!alarm_id) {
 			g_message ("add_component_alarms(): Could not schedule a trigger for "
@@ -415,6 +418,7 @@ load_alarms_for_today (ClientAlarms *ca)
 
 	zone = config_data_get_timezone ();
 
+	g_message ("Loading alarms for today");
 	day_end = time_day_end_with_zone (now, zone);
 	load_alarms (ca, now, day_end);
 }
@@ -530,61 +534,64 @@ query_objects_changed_cb (ECal *client, GList *objects, gpointer data)
 	zone = config_data_get_timezone ();
 
 	day_end = time_day_end_with_zone (time (NULL), zone);
-
+	g_message ("Query response for alarms");
 	for (l = objects; l != NULL; l = l->next) {
 		const char *uid;
+		GSList *sl;
 
 		uid = icalcomponent_get_uid (l->data);
 		found = e_cal_get_alarms_for_object (ca->client, uid, from, day_end, &alarms);
 
 		if (!found) {
+			g_message ("No alarms found on object");
 			remove_comp (ca, uid);
 			continue;
 		}
 
 		cqa = lookup_comp_queued_alarms (ca, uid);
-		if (!cqa)
+		if (!cqa) {
+			g_message ("No currently queue alarms");
 			add_component_alarms (ca, alarms);
-		else {
-			GSList *sl;
-
-			/* if the alarms or the alarms list is empty, just remove it */
-			if (alarms == NULL || alarms->alarms == NULL) {
-				if (alarms)
-					e_cal_component_alarms_free (alarms);
-			}
-			else {
-				/* if already in the list, just update it */
-				remove_alarms (cqa, FALSE);
-				cqa->alarms = alarms;
-				cqa->queued_alarms = NULL;
-	
-				/* add the new alarms */
-				for (sl = cqa->alarms->alarms; sl; sl = sl->next) {
-					ECalComponentAlarmInstance *instance;
-					gpointer alarm_id;
-					QueuedAlarm *qa;
-	
-					instance = sl->data;
-	
-					alarm_id = alarm_add (instance->trigger, alarm_trigger_cb, cqa, NULL);
-					if (!alarm_id) {
-						g_message ("obj_updated_cb(): Could not schedule a trigger for "
-							   "%ld, discarding...", (long) instance->trigger);
-						continue;
-					}
-
-					qa = g_new (QueuedAlarm, 1);
-					qa->alarm_id = alarm_id;
-					qa->instance = instance;
-					qa->snooze = FALSE;
-
-					cqa->queued_alarms = g_slist_prepend (cqa->queued_alarms, qa);
-				}
-
-				cqa->queued_alarms = g_slist_reverse (cqa->queued_alarms);
-			}
+			continue;
 		}
+
+		g_message ("Already existing alarms");
+		/* if the alarms or the alarms list is empty, just remove it */
+		if (alarms == NULL || alarms->alarms == NULL) {
+			if (alarms)
+				e_cal_component_alarms_free (alarms);
+			continue;
+		}
+
+		/* if already in the list, just update it */
+		remove_alarms (cqa, FALSE);
+		cqa->alarms = alarms;
+		cqa->queued_alarms = NULL;
+		
+		/* add the new alarms */
+		for (sl = cqa->alarms->alarms; sl; sl = sl->next) {
+			ECalComponentAlarmInstance *instance;
+			gpointer alarm_id;
+			QueuedAlarm *qa;
+			
+			instance = sl->data;
+			
+			alarm_id = alarm_add (instance->trigger, alarm_trigger_cb, cqa, NULL);
+			if (!alarm_id) {
+				g_message (G_STRLOC ": Could not schedule a trigger for "
+					   "%ld, discarding...", (long) instance->trigger);
+				continue;
+			}
+			
+			qa = g_new (QueuedAlarm, 1);
+			qa->alarm_id = alarm_id;
+			qa->instance = instance;
+			qa->snooze = FALSE;
+			
+			cqa->queued_alarms = g_slist_prepend (cqa->queued_alarms, qa);
+		}
+		
+		cqa->queued_alarms = g_slist_reverse (cqa->queued_alarms);
 	}
 }
 
@@ -655,31 +662,22 @@ edit_component (ECal *client, ECalComponent *comp)
 	factory = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_CompEditorFactory:" BASE_VERSION,
 						      0, NULL, &ev);
 
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_message ("edit_component(): Could not activate the component editor factory");
+	if (BONOBO_EX (&ev)) {
+		g_message (G_STRLOC ": Could not activate the component editor factory");
 		CORBA_exception_free (&ev);
 		return;
 	}
-	CORBA_exception_free (&ev);
 
 	/* Edit the component */
-
-	CORBA_exception_init (&ev);
 	GNOME_Evolution_Calendar_CompEditorFactory_editExisting (factory, uri, (char *) uid, &ev);
 
-	if (ev._major != CORBA_NO_EXCEPTION)
-		g_message ("edit_component(): Exception while editing the component");
+	if (BONOBO_EX (&ev))
+		g_message (G_STRLOC ": Exception while editing the component");
 
 	CORBA_exception_free (&ev);
 
 	/* Get rid of the factory */
-
-	CORBA_exception_init (&ev);
-	bonobo_object_release_unref (factory, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION)
-		g_message ("edit_component(): Could not unref the calendar component factory");
-
-	CORBA_exception_free (&ev);
+	bonobo_object_release_unref (factory, NULL);
 }
 
 typedef struct {
@@ -909,7 +907,6 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 {
 	QueuedAlarm *qa;
 	ECalComponent *comp;
-	ECalComponentVType vtype;
 	const char *message;
 	ECalComponentAlarm *alarm;
 	GtkWidget *tray_icon, *image, *ebox;
@@ -924,9 +921,7 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	qa = lookup_queued_alarm (cqa, alarm_id);
 	if (!qa)
 		return;
-
-	vtype = e_cal_component_get_vtype (comp);
-
+	
 	/* get a sensible description for the event */
 	alarm = e_cal_component_get_alarm (comp, qa->instance->auid);
 	g_assert (alarm != NULL);
@@ -1000,7 +995,11 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 
 	tray_data->blink_id = g_timeout_add (500, tray_icon_blink_cb, tray_data);
 
-	gtk_widget_show (tray_icon);
+	if (!config_data_get_notify_with_tray ()) {
+		open_alarm_dialog (tray_data);
+	} else {
+		gtk_widget_show (tray_icon);
+	}	
 }
 
 /* Performs notification of an audio alarm */

@@ -45,7 +45,7 @@ typedef struct {
 	AlarmDestroyNotify destroy_notify_fn;
 } AlarmRecord;
 
-static void setup_timeout (time_t now);
+static void setup_timeout (void);
 
 
 
@@ -78,6 +78,7 @@ alarm_ready_cb (gpointer data)
 
 	now = time (NULL);
 
+	g_message ("Alarm callback!");
 	while (alarms) {
 		AlarmRecord *notify_id, *ar;
 		AlarmRecord ar_copy;
@@ -87,6 +88,7 @@ alarm_ready_cb (gpointer data)
 		if (ar->trigger > now)
 			break;
 
+		g_message ("Process alarm with trigger %lu", ar->trigger);
 		notify_id = ar;
 
 		ar_copy = *ar;
@@ -100,15 +102,12 @@ alarm_ready_cb (gpointer data)
 			(* ar->destroy_notify_fn) (notify_id, ar->data);
 	}
 
-	if (alarms) {
-		/* We need this check because one of the alarm_fn above may have
-		 * re-entered and added an alarm of its own, so the timer will
-		 * already be set up.
-		 */
-		if (timeout_id == 0)
-			setup_timeout (now);
-	} else
-		g_assert (timeout_id == 0);
+	/* We need this check because one of the alarm_fn above may have
+	 * re-entered and added an alarm of its own, so the timer will
+	 * already be set up.
+	 */
+	if (alarms)
+		setup_timeout ();
 
 	return FALSE;
 }
@@ -117,24 +116,30 @@ alarm_ready_cb (gpointer data)
  * timezones here, as this is just a periodic check on the alarm queue.
  */
 static void
-setup_timeout (time_t now)
+setup_timeout (void)
 {
-	time_t next, diff;
-	struct tm tm;
-
-	g_assert (timeout_id == 0);
+	const AlarmRecord *ar;
+	guint diff;
+	time_t now;
 	g_assert (alarms != NULL);
 
-	tm = *localtime (&now);
-	tm.tm_sec = 0;
-	tm.tm_min++; /* next minute */
+	ar = alarms->data;
 
-	next = mktime (&tm);
-	g_assert (next != -1);
+	/* Remove the existing time out */
+	if (timeout_id != 0) {
+		g_source_remove (timeout_id);
+		timeout_id = 0;
+	}
 
-	diff = next - now;
-
-	g_assert (diff >= 0);
+	/* Ensure that if the trigger managed to get behind the
+	 * current time we timeout immediately */
+	diff = MAX (0, ar->trigger - time (NULL));
+	now = time (NULL);
+	
+	/* Add the time out */
+	g_message ("Setting timeout for %d %lu %lu", diff, ar->trigger, now);
+	g_message (" %s", ctime (&ar->trigger));
+	g_message (" %s", ctime (&now));
 	timeout_id = g_timeout_add (diff * 1000, alarm_ready_cb, NULL);
 }
 
@@ -154,30 +159,20 @@ compare_alarm_by_time (gconstpointer a, gconstpointer b)
 static void
 queue_alarm (AlarmRecord *ar)
 {
-	time_t now;
-	AlarmRecord *old_head;
+	GList *old_head;
 
-	if (alarms) {
-		g_assert (timeout_id != 0);
+	/* Track the current head of the list in case there are changes */
+	old_head = alarms;
 
-		old_head = alarms->data;
-	} else {
-		g_assert (timeout_id == 0);
-
-		old_head = NULL;
-	}
-
+	/* Insert the new alarm in order */
 	alarms = g_list_insert_sorted (alarms, ar, compare_alarm_by_time);
 
-	if (old_head == alarms->data)
+	/* If there first item on the list didn't change, the time out is fine */
+	if (old_head == alarms)
 		return;
 
 	/* Set the timer for removal upon activation */
-
-	if (!old_head) {
-		now = time (NULL);
-		setup_timeout (now);
-	}
+	setup_timeout ();
 }
 
 
@@ -235,7 +230,7 @@ alarm_remove (gpointer alarm)
 
 	l = g_list_find (alarms, ar);
 	if (!l) {
-		g_message ("alarm_remove(): Requested removal of nonexistent alarm!");
+		g_message (G_STRLOC ": Requested removal of nonexistent alarm!");
 		return;
 	}
 

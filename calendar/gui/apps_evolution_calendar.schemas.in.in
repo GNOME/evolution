@@ -344,6 +344,17 @@
         <short>Programs that can run as part of alarms</short>
       </locale>
     </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/calendar/notify/notify_with_tray</key>
+      <applyto>/apps/evolution/calendar/notify/notify_with_tray</applyto>
+      <owner>evolution-calendar</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+        <short>Whether or not to use the notification tray for display alarms</short>
+      </locale>
+    </schema>
     
     <schema>
       <key>/schemas/apps/evolution/calendar/publish/uris</key>
