@@ -1,3 +1,7 @@
+2001-10-30  Radek Doulik  <rodo@ximian.com>
+
+	* listener.c (reply_indent): simplified, requires new gtkhtml
+
 2001-10-29  Larry Ewing  <lewing@ximian.com>
 
 	* e-msg-composer.h: add GList to hold the current images.
