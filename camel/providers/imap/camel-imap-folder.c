@@ -2538,8 +2538,9 @@ parse_fetch_response (CamelImapFolder *imap_folder, char *response)
 			CAMEL_IMAP_FOLDER_UNLOCK (imap_folder, cache_lock);
 		}
 		
-		g_datalist_set_data_full (&data, "BODY_PART_STREAM", stream,
-					  (GDestroyNotify) camel_object_unref);
+		if (stream)
+			g_datalist_set_data_full (&data, "BODY_PART_STREAM", stream,
+						  (GDestroyNotify) camel_object_unref);
 	}
 	
 	return data;
