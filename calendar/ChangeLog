@@ -1,3 +1,10 @@
+2004-05-17    <jpr@ximian.com>
+
+	Fixes #56373
+	
+	* gui/comp-editor-factory.c (open_client): guess its an event for
+	now
+
 2004-05-17  V Ravi Kumar Raju <vravikr@yahoo.co.uk>
 
 	*  gui/e-alarm-list.c (get_alarm_string):

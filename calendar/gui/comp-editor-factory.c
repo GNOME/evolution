@@ -451,8 +451,8 @@ open_client (CompEditorFactory *factory, const char *uristr)
 
 	priv = factory->priv;
 
-	/* FIXME get the type here */
-	client = auth_new_cal_from_uri (uristr, E_CAL_SOURCE_TYPE_LAST);
+	/* FIXME get the type here, breaks if its a task alarm */
+	client = auth_new_cal_from_uri (uristr, E_CAL_SOURCE_TYPE_EVENT);
 	if (!client)
 		return NULL;
 
