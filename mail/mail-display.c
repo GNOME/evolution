@@ -67,6 +67,8 @@ struct _PixbufLoader {
 };
 static GHashTable *thumbnail_cache = NULL;
 
+static gchar *save_pathname = NULL;  /* preserves last directory in save dialog */
+
 /*----------------------------------------------------------------------*
  *                        Callbacks
  *----------------------------------------------------------------------*/
@@ -147,12 +149,24 @@ save_data_cb (GtkWidget *widget, gpointer user_data)
 {
 	GtkFileSelection *file_select = (GtkFileSelection *)
 		gtk_widget_get_ancestor (widget, GTK_TYPE_FILE_SELECTION);
+	gchar *p;
 
 	/* uh, this doesn't really feel right, but i dont know what to do better */
 	gtk_widget_hide (GTK_WIDGET (file_select));
 	write_data_to_file (user_data,
 			    gtk_file_selection_get_filename (file_select),
 			    FALSE);
+
+	/* preserve the pathname */
+	g_free(save_pathname);
+	save_pathname = g_strdup(gtk_file_selection_get_filename(file_select));
+	if((p = strrchr(save_pathname, '/')) != NULL)
+		p[0] = 0;
+	else {
+		g_free(save_pathname);
+		save_pathname = NULL;
+	}
+
 	gtk_widget_destroy (GTK_WIDGET (file_select));
 }
 
@@ -197,7 +211,11 @@ save_part (CamelMimePart *part)
 	GtkFileSelection *file_select;
 	char *filename;
 
-	filename = make_safe_filename (g_get_home_dir (), part);
+	if(save_pathname == NULL)
+		save_pathname = g_get_home_dir();
+
+	filename = make_safe_filename (save_pathname, part);
+
 	file_select = GTK_FILE_SELECTION (
 		gtk_file_selection_new (_("Save Attachment")));
 	gtk_file_selection_set_filename (file_select, filename);

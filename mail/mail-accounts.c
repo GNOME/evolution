@@ -38,6 +38,9 @@
 #include "mail-config.h"
 #include "mail-config-druid.h"
 #include "mail-account-editor.h"
+#ifdef ENABLE_NNTP
+#include "mail-account-editor-news.h"
+#endif
 #include "mail-session.h"
 
 static void mail_accounts_dialog_class_init (MailAccountsDialogClass *class);
@@ -149,50 +152,6 @@ load_accounts (MailAccountsDialog *dialog)
 	mail_unselect (dialog->mail_accounts, 0, 0, NULL, dialog);
 }
 
-#ifdef ENABLE_NNTP
-static void
-load_news (MailAccountsDialog *dialog)
-{
-	const MailConfigAccount *account;
-	const GSList *node = dialog->accounts;
-	int i = 0;
-	
-	gtk_clist_freeze (dialog->news_accounts);
-	
-	gtk_clist_clear (dialog->news_accounts);
-	
-	while (node) {
-		CamelURL *url;
-		gchar *text[3];
-		
-		account = node->data;
-		
-		if (account->source && account->source->url)
-			url = camel_url_new (account->source->url, NULL);
-		else
-			url = NULL;
-
-		text[0] = (account->source && account->source->enabled) ? "+" : "";
-		text[1] = account->name;
-		text[2] = g_strdup_printf ("%s%s", url && url->protocol ? url->protocol : _("None"),
-					   account->default_account ? _(" (default)") : "");
-		
-		if (url)
-			camel_url_free (url);
-		
-		gtk_clist_append (dialog->news_accounts, text);
-		g_free (text[2]);
-		
-		/* set the account on the row */
-		gtk_clist_set_row_data (dialog->news_accounts, i, (gpointer) account);
-		
-		node = node->next;
-		i++;
-	}
-	
-	gtk_clist_thaw (dialog->news_accounts);
-}
-#endif
 
 /* mail callbacks */
 static void
@@ -396,6 +355,47 @@ mail_able (GtkButton *button, gpointer data)
 }
 
 #ifdef ENABLE_NNTP
+static void
+load_news (MailAccountsDialog *dialog)
+{
+	const MailConfigService *service;
+	const GSList *node = dialog->news;
+	int i = 0;
+
+	gtk_clist_freeze (dialog->news_accounts);
+	
+	gtk_clist_clear (dialog->news_accounts);
+	
+	while (node) {
+		CamelURL *url;
+		gchar *text[1];
+		
+	        service = node->data;
+		
+		if (service->url)
+			url = camel_url_new (service->url, NULL);
+		else
+			url = NULL;
+
+		text[0] = g_strdup_printf ("%s", url && url->host ? url->host : _("None"));
+
+		if (url)
+			camel_url_free (url);
+		
+		gtk_clist_append (dialog->news_accounts, text);
+		g_free (text[0]);
+		
+		/* set the account on the row */
+		gtk_clist_set_row_data (dialog->news_accounts, i, (gpointer) service);
+		
+		node = node->next;
+		i++;
+	}
+	
+	gtk_clist_thaw (dialog->news_accounts);
+}
+
+
 /* news callbacks */
 static void
 news_select (GtkCList *clist, gint row, gint column, GdkEventButton *event, gpointer data)
@@ -418,35 +418,75 @@ news_unselect (GtkCList *clist, gint row, gint column, GdkEventButton *event, gp
 }
 
 static void
-news_add_finished(GtkWidget *widget, gpointer data)
+news_editor_destroyed (GtkWidget *widget, gpointer data)
 {
-	/* Either Cancel or Finished was clicked in the druid so reload the accounts */
+	load_news (MAIL_ACCOUNTS_DIALOG (data));
+}
+
+
+static void
+news_edit (GtkButton *button, gpointer data)
+{
 	MailAccountsDialog *dialog = data;
 	
-	dialog->accounts = mail_config_get_accounts ();
-	load_accounts (dialog);
+	if (dialog->news_row >= 0) {
+		MailConfigService *service;
+		MailAccountEditorNews *editor;
+		
+		service = gtk_clist_get_row_data (dialog->news_accounts, dialog->news_row);
+		editor = mail_account_editor_news_new (service);
+		gtk_signal_connect (GTK_OBJECT (editor), "destroy",
+				    GTK_SIGNAL_FUNC (news_editor_destroyed),
+				    dialog);
+		gtk_widget_show (GTK_WIDGET (editor));
+	}
+}
+
+static void 
+news_add_destroyed (GtkWidget *widget, gpointer data)
+{
+
+	gpointer *send = data;
+	MailAccountsDialog *dialog;
+	MailConfigService *service;
+	GSList *mini;
+
+	service = send[0];
+	dialog = send[1];
+	g_free(send);
+
+	dialog->news = mail_config_get_news ();
+	load_news (dialog);
+
+	mini = g_slist_prepend(NULL, service);
+	mail_load_storages(dialog->shell, mini, FALSE);
+	g_slist_free(mini);
+	
+	dialog->news = mail_config_get_news ();
+	load_news (dialog);
+	
 }
 
 static void
 news_add (GtkButton *button, gpointer data)
 {
 	MailAccountsDialog *dialog = data;
-	MailConfigDruid *druid;
+	MailConfigService *service;
+	MailAccountEditorNews *editor;
+	gpointer *send;
 	
-	druid = mail_config_druid_new (dialog->shell);
-	gtk_signal_connect (GTK_OBJECT (druid), "destroy",
-			    GTK_SIGNAL_FUNC (news_add_finished), dialog);
-	
-	gtk_widget_show (GTK_WIDGET (druid));
-}
+        send = g_new(gpointer, 2);
 
-static void
-news_edit (GtkButton *button, gpointer data)
-{
-	MailAccountsDialog *dialog = data;
-	MailConfigService *server;
-	
-	/* FIXME: open the editor and stuff */
+	service = g_new0 (MailConfigService, 1);
+	service->url = NULL;
+
+	editor = mail_account_editor_news_new (service);
+	send[0] = service;
+	send[1] = dialog;
+	gtk_signal_connect (GTK_OBJECT (editor), "destroy",
+			    GTK_SIGNAL_FUNC (news_add_destroyed),
+			    send);
+	gtk_widget_show (GTK_WIDGET (editor));
 }
 
 static void
@@ -683,7 +723,7 @@ construct (MailAccountsDialog *dialog)
 			    GTK_SIGNAL_FUNC (mail_able), dialog);
 	
 #ifdef ENABLE_NNTP
-	dialog->news_accounts = GTK_CLIST (glade_xml_get_widget (gui, "clistAccounts"));
+	dialog->news_accounts = GTK_CLIST (glade_xml_get_widget (gui, "clistNews"));
 	gtk_signal_connect (GTK_OBJECT (dialog->news_accounts), "select-row",
 			    GTK_SIGNAL_FUNC (news_select), dialog);
 	gtk_signal_connect (GTK_OBJECT (dialog->news_accounts), "unselect-row",

@@ -762,12 +762,13 @@ build_tree (SubscribeDialog *sc, CamelStore *store)
 		return;
 	}
 
+	e_tree_memory_freeze(E_TREE_MEMORY(sc->folder_model));
 	e_tree_memory_node_remove (E_TREE_MEMORY(sc->folder_model), sc->folder_root);
 	sc->folder_root = e_tree_memory_node_insert (E_TREE_MEMORY(sc->folder_model), NULL,
 						    0, NULL);
 
-
 	build_etree_from_folder_info (sc, sc->folder_root, sc->folder_info);
+	e_tree_memory_thaw(E_TREE_MEMORY(sc->folder_model));
 
 	camel_exception_free (ex);
 }

@@ -138,6 +138,14 @@ message_browser_folder_loaded (FolderBrowser *fb, const char *uri, MessageBrowse
 			    message_browser_message_list_built, mb);
 }
 
+static void
+message_browser_size_allocate_cb (GtkWidget *widget,
+				  GtkAllocation *allocation)
+{
+	last_allocation = *allocation;
+
+}
+
 /* Construction */
 
 static void
@@ -225,6 +233,9 @@ message_browser_new (const GNOME_Evolution_Shell shell, const char *uri, const c
 	gtk_widget_reparent (GTK_WIDGET (fb->mail_display), vbox);
 	gtk_widget_show (GTK_WIDGET (fb->mail_display));
 	gtk_widget_show (vbox);
+
+	gtk_signal_connect(GTK_OBJECT(new), "size_allocate", 
+			   GTK_SIGNAL_FUNC(message_browser_size_allocate_cb), NULL);
 	
 	bonobo_window_set_contents (BONOBO_WINDOW (new), vbox);
 	gtk_widget_grab_focus (GTK_WIDGET (MAIL_DISPLAY (fb->mail_display)->html));

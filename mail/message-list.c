@@ -1007,9 +1007,17 @@ save_tree_state(MessageList *ml)
 	g_free(filename);
 }
 
+static void 
+sort_info_changed (GtkWidget *widget, MessageList *ml)
+{
+	save_tree_state(ml);
+}
+
 static void
 message_list_setup_etree(MessageList *message_list, gboolean outgoing)
 {
+	ETableState *etstate;
+	
 	/* build the spec based on the folder, and possibly from a saved file */
 	/* otherwise, leave default */
 	if (message_list->folder) {
@@ -1043,6 +1051,18 @@ message_list_setup_etree(MessageList *message_list, gboolean outgoing)
 		g_free (path);
 
 		g_free (name);
+
+		etstate = e_tree_get_state_object(message_list->tree);
+		gtk_signal_connect(GTK_OBJECT(etstate->sort_info), 
+				   "sort_info_changed",
+				   GTK_SIGNAL_FUNC(sort_info_changed),
+				   message_list);
+		gtk_signal_connect(GTK_OBJECT(etstate->sort_info), 
+				   "group_info_changed",
+				   GTK_SIGNAL_FUNC(sort_info_changed),
+				   message_list);
+
+		
 	}
 }
 

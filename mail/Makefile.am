@@ -35,8 +35,16 @@ EVOLUTION_MAIL_CORBA_GENERATED = \
 	Mail-skels.c		\
 	Mail-stubs.c
 
+if ENABLE_NNTP
+EVOLUTION_MAIL_NNTP  =                  \
+	mail-account-editor-news.c	\
+	mail-account-editor-news.h	
+endif
+
+
 evolution_mail_SOURCES =		\
 	$(EVOLUTION_MAIL_CORBA_GENERATED)	\
+	$(EVOLUTION_MAIL_NNTP)          \
 	component-factory.c		\
 	component-factory.h		\
 	e-searching-tokenizer.c		\

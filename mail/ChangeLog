@@ -1,3 +1,39 @@
+2001-07-02  Sam Creasey  <sammy@oh.verio.com>
+     	* mail-account-editor-news.c: Added an MailAccountEditorNews, for
+       	NNTP configuratuion.  Based on MailAccountEditor, but stripped.
+
+       	* Makefile.am: added mail-account-editor-news.c and
+       	mail-account-editor-news.h to SOURCES if ENABLE_NNTP is defined.
+	
+       	* mail-accounts.c (load_news): Moved this function, and fixed some
+       	slight brokenness.
+       	(news_edit): Added functional code using MailAccountEditorNews
+       	(news_add): Added functional code using news_edit after
+       	allocation.
+
+	* mail-config.glade: news_editor_window widget added.  Used by
+       	MailAccountEditorNews.
+
+        * mail-display.c (save_data_cb): Store the pathname used when
+        saving messages so that the next save box will default to the
+        previous path.
+
+        * message-browser.c (message_browser_new): add signal handler for
+        size_allocate on the message browser.  Thus new windows are size
+        as they were last allocated.
+        (message_browser_size_allocate_cb): handler to store allocations.
+ 
+        * message-list.c (message_list_setup_etree): connect to the
+        info_changed signals for the state of the message_list->tree.
+        Save the folder state to disk, so that when additional
+        message_lists are created, they are consistant.   e.g. the next
+        buttons do the same thing in the browser, and in the message
+        viewer after changing sorting options.
+
+        * subscribe-dialog.c (build_tree): freeze sc->folder model while
+        building the tree.  Not doing so takes a very long time over 40000
+        newsgroups.
+
 2001-07-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-accounts.c (construct): Setup the Empty Trash On Exit
