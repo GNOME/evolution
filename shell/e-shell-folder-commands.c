@@ -544,10 +544,7 @@ e_shell_command_rename_folder (EShell *shell,
 	folder = e_storage_set_get_folder (storage_set, folder_path);
 	g_return_if_fail (folder != NULL);
 
-	/* Note that we don't need to get the display name here, as the stock
-	   folders cannot be renamed anyway.  */
-	old_name = g_basename (folder_path);
-
+	old_name = e_folder_get_name (folder);
 	old_name_locale = e_utf8_to_locale_string (old_name);
 	prompt = g_strdup_printf (_("Rename the \"%s\" folder to:"), old_name_locale);
 	g_free (old_name_locale);
@@ -576,8 +573,8 @@ e_shell_command_rename_folder (EShell *shell,
 		return;
 	}
 
-	old_base_path = g_strndup (folder_path, old_name - folder_path);
-	new_path = g_strconcat (old_base_path, new_name, NULL);
+	old_base_path = g_dirname (folder_path);
+	new_path = g_concat_dir_and_file (old_base_path, new_name);
 
 	callback_data = rename_callback_data_new (shell_view, new_path);
 	e_storage_set_async_xfer_folder (storage_set, folder_path, new_path, TRUE, rename_cb, callback_data);
