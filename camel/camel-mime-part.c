@@ -386,6 +386,7 @@ void
 camel_mime_part_set_filename (CamelMimePart *mime_part, const gchar *filename)
 {
 	char *str;
+	
 	if (mime_part->disposition == NULL)
 		mime_part->disposition = header_disposition_decode("attachment");
 
@@ -395,6 +396,11 @@ camel_mime_part_set_filename (CamelMimePart *mime_part, const gchar *filename)
 	camel_medium_set_header (CAMEL_MEDIUM (mime_part),
 				 "Content-Disposition", str);
 	g_free(str);
+	
+	header_content_type_set_param (mime_part->content_type, "name", filename);
+	str = header_content_type_format (mime_part->content_type);
+	camel_medium_set_header (CAMEL_MEDIUM (mime_part), "Content-Type", str);
+	g_free (str);
 }
 
 const gchar *

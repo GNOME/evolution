@@ -1,3 +1,8 @@
+2002-02-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-part.c (camel_mime_part_set_filename): Set the 'name'
+	parameter on the Content-Type too. Fixes bug #20779.
+
 2002-02-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-pgp-context.c (pgp_sign): Pass --always-trust to gpg
