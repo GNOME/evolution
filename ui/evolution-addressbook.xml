@@ -78,7 +78,8 @@
 			      _label="Print Preview"
 			      pixtype="pixbuf"/>
 			    <menuitem name="ContactsPrint" verb=""
-			    _label="_Print..."/>
+			    _label="_Print..."
+			      pixtype="pixbuf"/>
 			</placeholder>
 
 		</submenu>
@@ -134,7 +135,7 @@
 		<separator/>
 
 		<toolitem name="ContactsPrint" verb=""
-		_label="Print"/>
+		_label="Print" pixtype="pixbuf"/>
 
 		<toolitem name="ContactDelete" verb=""
 		_label="Delete"/>

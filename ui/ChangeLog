@@ -1,5 +1,9 @@
 2001-08-17  Damon Chaplin  <damon@ximian.com>
 
+	* evolution-addressbook.xml: changed print icon types to pixbuf.
+
+2001-08-17  Damon Chaplin  <damon@ximian.com>
+
 	* evolution-addressbook.xml: changed 'Search for Contacts'.
 
 2001-08-17  Damon Chaplin  <damon@ximian.com>
