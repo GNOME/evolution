@@ -281,7 +281,7 @@ _send_to (CamelTransport *transport, CamelMedium *message,
 	sender = smtp_get_email_addr_from_text(s);
 	smtp_mail(smtp_transport, sender, ex);
 	g_free(sender);
-   g_free(s);
+	g_free(s);
 
 	if (!(len = g_list_length(recipients))) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -311,38 +311,40 @@ static gboolean
 _send (CamelTransport *transport, CamelMedium *message,
        CamelException *ex)
 {
-   const CamelInternetAddress *to, *cc, *bcc;
+	const CamelInternetAddress *to, *cc, *bcc;
 	GList *recipients = NULL;
-   struct _address *addr;
-   guint index, len;
+	guint index, len;
 
 	to = camel_mime_message_get_recipients ((CamelMimeMessage *) message, CAMEL_RECIPIENT_TYPE_TO);
 	cc = camel_mime_message_get_recipients ((CamelMimeMessage *) message, CAMEL_RECIPIENT_TYPE_CC);
 	bcc = camel_mime_message_get_recipients ((CamelMimeMessage *) message, CAMEL_RECIPIENT_TYPE_BCC);
 
-   /* get all of the To addresses into our recipient list */
-   len = ((CamelAddress *)to)->addresses->len;
-   for (index = 0; index < len; index++)
-   {
-      addr = g_ptr_array_index( ((CamelAddress *)to)->addresses, index);
-      recipients = g_list_append(recipients, g_strdup(addr->address));
-   }
+	/* get all of the To addresses into our recipient list */
+	len = ((CamelAddress *)to)->addresses->len;
+	for (index = 0; index < len; index++) {
+		const char *addr;
 
-   /* get all of the Cc addresses into our recipient list */
-   len = ((CamelAddress *)cc)->addresses->len;
-   for (index = 0; index < len; index++)
-   {
-      addr = g_ptr_array_index( ((CamelAddress *)cc)->addresses, index);
-      recipients = g_list_append(recipients, g_strdup(addr->address));
-   }
+		if (camel_internet_address_get(to, index, NULL, &addr))
+			recipients = g_list_append(recipients, g_strdup(addr));
+	}
 
-   /* get all of the Bcc addresses into our recipient list */
-   len = ((CamelAddress *)bcc)->addresses->len;
-   for (index = 0; index < len; index++)
-   {
-      addr = g_ptr_array_index( ((CamelAddress *)bcc)->addresses, index);
-      recipients = g_list_append(recipients, g_strdup(addr->address));
-   }
+	/* get all of the Cc addresses into our recipient list */
+	len = ((CamelAddress *)cc)->addresses->len;
+	for (index = 0; index < len; index++) {
+		const char *addr;
+
+		if (camel_internet_address_get(cc, index, NULL, &addr))
+			recipients = g_list_append(recipients, g_strdup(addr));
+	}
+
+	/* get all of the Bcc addresses into our recipient list */
+	len = ((CamelAddress *)bcc)->addresses->len;
+	for (index = 0; index < len; index++) {
+		const char *addr;
+
+		if (camel_internet_address_get(bcc, index, NULL, &addr))
+			recipients = g_list_append(recipients, g_strdup(addr));
+	}
 
 	return _send_to (transport, message, recipients, ex);
 }

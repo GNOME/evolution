@@ -39,11 +39,6 @@ struct _CamelInternetAddressClass {
 	CamelAddressClass parent_class;
 };
 
-struct _address {
-	char *name;
-	char *address;
-};
-
 guint			camel_internet_address_get_type	(void);
 CamelInternetAddress   *camel_internet_address_new	(void);
 

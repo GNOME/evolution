@@ -30,6 +30,11 @@ static void camel_internet_address_init       (CamelInternetAddress *obj);
 
 static CamelAddressClass *camel_internet_address_parent;
 
+struct _address {
+	char *name;
+	char *address;
+};
+
 enum SIGNALS {
 	LAST_SIGNAL
 };

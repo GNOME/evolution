@@ -1,4 +1,12 @@
 2000-05-09  Jeffrey Stedfast  <fejj@stampede.org>
+	* camel-internet-address.[c,h]: Undid my changes (moved
+	struct _address back into came-internet-address.c)
+	* providers/smtp/camel-smtp-transport.c: (_send): changed
+	from using it's own address manipulation (using struct _address)
+	to using camel_internet_address_get(). Also some format changes
+	to keep consistant with the rest of Camel
+
+2000-05-09  Jeffrey Stedfast  <fejj@stampede.org>
 
 	* camel-internet-address.[c,h]: Moved struct _address from
 	camel-internet-address.c to camel-internet-address.h
