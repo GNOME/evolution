@@ -558,7 +558,6 @@ mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...)
 		
 		/* create credits */
 		if (fmt) {
-			gchar *buf;
 			va_list ap;
 			
 			va_start (ap, fmt);
