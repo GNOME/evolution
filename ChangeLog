@@ -1,3 +1,7 @@
+2002-08-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* README: Update required gal and gtkhtml dependency information.
+
 2002-08-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in (THREADS_CFLAGS): Need to check for gal 0.19.99.18

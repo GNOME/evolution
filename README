@@ -106,7 +106,7 @@ and -devel packages for each library.
 
  - scrollkeeper - 0.1.4 or later (*)
 
- - gnome-xml - 1.8.10 or later in the 1.0 series, but not from the 2.0
+ - gnome-xml - 1.8.15 or later in the 1.0 series, but not from the 2.0
    series (If you get this from GNOME CVS, use the tag "LIB_XML_1_BRANCH".)
    (*)
 
@@ -139,9 +139,9 @@ and -devel packages for each library.
    *** either gnome-libs or evolution for the Makefiles to work
    *** properly.
 
- - gal (GNOME Application Library) - 0.18.1 or later
+ - gal (GNOME Application Library) - 0.19.99.18 or later
 
- - gtkhtml - later than 0.16.1
+ - gtkhtml - 1.1.1.1 or later
 
  - SOUP - 0.7.x
 
