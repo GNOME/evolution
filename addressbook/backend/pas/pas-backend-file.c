@@ -893,7 +893,8 @@ pas_backend_file_process_get_changes (PASBackend *backend,
 	ctx.mod_ids = NULL;
 	ctx.del_ids = NULL;
 	view.search = NULL;
-
+	view.card_sexp = NULL;
+	
 	e_list_append(bf->priv->book_views, &view);
 
 	iterator = e_list_get_iterator(bf->priv->book_views);
