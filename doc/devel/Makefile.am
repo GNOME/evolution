@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = calendar executive-summary
+SUBDIRS = calendar 
 
 # The name of the module, e.g. 'glib'.
 DOC_MODULE=evolution-devel-guide
