@@ -188,7 +188,7 @@ http_connect (CamelService *service, CamelURL *url)
 		return NULL;
 	}
 	
-	host = camel_get_host_byname (url->host, NULL);
+	host = camel_gethostbyname (url->host, NULL);
 	if (!host) {
 		errno = EHOSTUNREACH;
 		return NULL;

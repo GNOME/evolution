@@ -572,11 +572,11 @@ stream_get_local_address (CamelTcpStream *stream)
 {
 	struct sockaddr_in sin;
 	socklen_t len;
-
+	
 	if (getsockname (CAMEL_TCP_STREAM_RAW (stream)->sockfd,
-			 (struct sockaddr *)&sin, &len) == -1)
+			 (struct sockaddr *) &sin, &len) == -1)
 		return NULL;
-
+	
 	return camel_tcp_address_new (CAMEL_TCP_ADDRESS_IPV4, sin.sin_port,
 				      4, &sin.sin_addr);
 }
@@ -586,11 +586,11 @@ stream_get_remote_address (CamelTcpStream *stream)
 {
 	struct sockaddr_in sin;
 	socklen_t len;
-
+	
 	if (getpeername (CAMEL_TCP_STREAM_RAW (stream)->sockfd,
-			 (struct sockaddr *)&sin, &len) == -1)
+			 (struct sockaddr *) &sin, &len) == -1)
 		return NULL;
-
+	
 	return camel_tcp_address_new (CAMEL_TCP_ADDRESS_IPV4, sin.sin_port,
 				      4, &sin.sin_addr);
 }

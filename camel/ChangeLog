@@ -1,3 +1,18 @@
+2002-04-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-filter-driver.c (camel_filter_driver_filter_folder): Get
+	rid of an unused variable.
+
+	* providers/smtp/camel-smtp-transport.c (smtp_helo): Use
+	camel_gethostbyaddr since gethostbyaddr is not reentrant.
+
+	* camel-http-stream.c (http_connect): Updated after the rename of
+	camel_get_host_byname.
+
+	* camel-service.c (camel_gethostbyname): Renamed.
+	(camel_gethostbyaddr): New cancellable/reentrant version of
+	gethostbyaddr.
+
 2002-04-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/local/camel-spoold-store.c: Added #include

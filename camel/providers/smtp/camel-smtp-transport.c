@@ -831,24 +831,30 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 {
 	/* say hello to the server */
 	char *name, *cmdbuf, *respbuf = NULL;
-	const char *token;
 	struct hostent *host;
+	CamelException err;
+	const char *token;
 	
 	camel_operation_start_transient (NULL, _("SMTP Greeting"));
 	
 	/* get the local host name */
-	host = gethostbyaddr ((char *)&transport->localaddr->address,
-			      transport->localaddr->length, AF_INET);
-	if (host && host->h_name)
+	camel_exception_init (&err);
+	host = camel_gethostbyaddr ((char *) &transport->localaddr->address,
+				    transport->localaddr->length, AF_INET, &err);
+	camel_exception_clear (&err);
+	
+	if (host && host->h_name) {
 		name = g_strdup (host->h_name);
-	else {
+	} else {
 		name = g_strdup_printf ("[%d.%d.%d.%d]",
 					transport->localaddr->address[0],
 					transport->localaddr->address[1],
 					transport->localaddr->address[2],
 					transport->localaddr->address[3]);
 	}
-
+	
+	camel_free_host (host);
+	
 	/* hiya server! how are you today? */
 	if (transport->flags & CAMEL_SMTP_TRANSPORT_IS_ESMTP)
 		cmdbuf = g_strdup_printf ("EHLO %s\r\n", name);

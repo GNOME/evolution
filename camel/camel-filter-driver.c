@@ -983,7 +983,6 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 	char *source_url, *service_url;
 	const char *folder_name;
 	int status = 0;
-	int need_sep = 0;
 	CamelURL *url;
 	int i;
 	

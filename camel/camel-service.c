@@ -554,7 +554,7 @@ camel_service_gethost (CamelService *service, CamelException *ex)
 	else
 		hostname = "localhost";
 	
-	return camel_get_host_byname(hostname, ex);
+	return camel_gethostbyname (hostname, ex);
 }
 
 #ifdef offsetof
@@ -568,6 +568,8 @@ struct _lookup_msg {
 	EMsg msg;
 #endif
 	const char *name;
+	int len;
+	int type;
 	int result;
 	int herr;
 	struct hostent hostbuf;
@@ -576,7 +578,7 @@ struct _lookup_msg {
 };
 
 static void *
-get_host(void *data)
+get_hostbyname(void *data)
 {
 	struct _lookup_msg *info = data;
 
@@ -597,7 +599,8 @@ get_host(void *data)
 	return NULL;
 }
 
-struct hostent *camel_get_host_byname(const char *name, CamelException *ex)
+struct hostent *
+camel_gethostbyname(const char *name, CamelException *ex)
 {
 #ifdef ENABLE_THREADS
 	int fdmax, fd, cancel_fd;
@@ -622,7 +625,7 @@ struct hostent *camel_get_host_byname(const char *name, CamelException *ex)
 	cancel_fd = camel_operation_cancel_fd(NULL);
 	if (cancel_fd == -1) {
 #endif
-		get_host(msg);
+		get_hostbyname(msg);
 #ifdef ENABLE_THREADS
 	} else {
 		EMsgPort *reply_port;
@@ -631,7 +634,7 @@ struct hostent *camel_get_host_byname(const char *name, CamelException *ex)
 
 		reply_port = msg->msg.reply_port = e_msgport_new();
 		fd = e_msgport_fd(msg->msg.reply_port);
-		if (pthread_create(&id, NULL, get_host, msg) == 0) {
+		if (pthread_create(&id, NULL, get_hostbyname, msg) == 0) {
 			FD_ZERO(&rdset);
 			FD_SET(cancel_fd, &rdset);
 			FD_SET(fd, &rdset);
@@ -669,6 +672,118 @@ struct hostent *camel_get_host_byname(const char *name, CamelException *ex)
 		}
 		g_free(msg->hostbufmem);
 		g_free(msg);
+		return NULL;
+	} else {
+		return &msg->hostbuf;
+	}
+}
+
+
+static void *
+get_hostbyaddr (void *data)
+{
+	struct _lookup_msg *info = data;
+
+	while ((info->result = e_gethostbyaddr_r (info->name, info->len, info->type, &info->hostbuf,
+						  info->hostbufmem, info->hostbuflen, &info->herr)) == ERANGE) {
+		d(printf ("gethostbyaddr fialed?\n"));
+#ifdef ENABLE_THREADS
+		pthread_testcancel ();
+#endif
+                info->hostbuflen *= 2;
+                info->hostbufmem = g_realloc (info->hostbufmem, info->hostbuflen);
+	}
+	
+	d(printf ("gethostbyaddr ok?\n"));
+	
+#ifdef ENABLE_THREADS
+	e_msgport_reply ((EMsg *) info);
+#endif
+	return NULL;
+}
+
+
+struct hostent *
+camel_gethostbyaddr (const char *addr, int len, int type, CamelException *ex)
+{
+#ifdef ENABLE_THREADS
+	int fdmax, fd, cancel_fd;
+#endif
+	struct _lookup_msg *msg;
+	
+	g_return_val_if_fail (addr != NULL, NULL);
+	
+	if (camel_operation_cancel_check (NULL)) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled"));
+		return NULL;
+	}
+	
+	camel_operation_start_transient (NULL, _("Resolving address"));
+	
+	msg = g_malloc0 (sizeof (struct _lookup_msg));
+	msg->hostbuflen = 1024;
+	msg->hostbufmem = g_malloc (msg->hostbuflen);
+	msg->name = addr;
+	msg->len = len;
+	msg->type = type;
+	
+#ifdef ENABLE_THREADS
+	cancel_fd = camel_operation_cancel_fd (NULL);
+	if (cancel_fd == -1) {
+#endif
+		get_hostbyaddr (msg);
+#ifdef ENABLE_THREADS
+	} else {
+		EMsgPort *reply_port;
+		pthread_t id;
+		fd_set rdset;
+		
+		reply_port = msg->msg.reply_port = e_msgport_new ();
+		fd = e_msgport_fd (msg->msg.reply_port);
+		if (pthread_create (&id, NULL, get_hostbyaddr, msg) == 0) {
+			FD_ZERO(&rdset);
+			FD_SET(cancel_fd, &rdset);
+			FD_SET(fd, &rdset);
+			fdmax = MAX(fd, cancel_fd) + 1;
+			d(printf("waiting for name return/cancellation in main process\n"));
+			if (select (fdmax, &rdset, NULL, 0, NULL) == -1) {
+				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+						      _("Failure in name lookup: %s"), g_strerror (errno));
+				d(printf ("Cancelling lookup thread\n"));
+				pthread_cancel (id);
+			} else if (FD_ISSET(cancel_fd, &rdset)) {
+				d(printf ("Cancelling lookup thread\n"));
+				camel_exception_setv (ex, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled"));
+				pthread_cancel (id);
+			} else {
+				struct _lookup_msg *reply = (struct _lookup_msg *) e_msgport_get (reply_port);
+				
+				g_assert (reply == msg);
+			}
+			
+			d(printf ("waiting for child to exit\n"));
+			pthread_join (id, NULL);
+			d(printf ("child done\n"));
+		}
+		
+		e_msgport_destroy (reply_port);
+	}
+#endif
+	
+	camel_operation_end (NULL);
+	
+	if (msg->herr) {
+ 		if (!camel_exception_is_set (ex)) {
+			if (msg->herr == HOST_NOT_FOUND || msg->herr == NO_DATA)
+				camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+						     _("Host lookup failed: host not found"));
+			else
+				camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+						     _("Host lookup failed: unknown reason"));
+		}
+		
+		g_free (msg->hostbufmem);
+		g_free (msg);
 		return NULL;
 	} else {
 		return &msg->hostbuf;

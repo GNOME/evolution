@@ -126,7 +126,8 @@ struct hostent *    camel_service_gethost            (CamelService *service,
 						      CamelException *ex);
 
 /* cancellable dns lookup */
-struct hostent *    camel_get_host_byname	     (const char *name, CamelException *ex);
+struct hostent *    camel_gethostbyname              (const char *name, CamelException *ex);
+struct hostent *    camel_gethostbyaddr              (const char *addr, int len, int type, CamelException *ex);
 void		    camel_free_host	    	     (struct hostent *h);
 
 /* Standard Camel function */
