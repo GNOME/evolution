@@ -1,3 +1,8 @@
+2004-01-26  JP Rosevear <jpr@ximian.com>
+
+	* gui/migration.c (migrate_ical_folder): add the source to the
+	group so it actually shows up
+
 2004-01-27  JP Rosevear <jpr@ximian.com>
 
 	* gui/migration.c (migrate_calendars): get the source name with

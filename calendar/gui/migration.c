@@ -305,19 +305,21 @@ migrate_ical_folder (char *old_path, ESourceGroup *dest_group, char *source_name
 
 	new_source = e_source_new (source_name, source_name);
 	e_source_set_relative_uri (new_source, e_source_peek_uid (new_source));
-	e_source_set_group (new_source, dest_group);
+	e_source_group_add_source (dest_group, new_source, -1);
 
 	dialog_set_folder_name (source_name);
 
 	old_ecal = e_cal_new (old_source, type);
 	if (!e_cal_open (old_ecal, TRUE, &error)) {
-		g_warning ("failed to load source ecal for migration: `%s'", error->message);
+		g_warning ("failed to load source ecal for migration: '%s' (%s)", error->message,
+			   e_source_get_uri (old_source));
 		goto finish;
 	}
 
 	new_ecal = e_cal_new (new_source, type);
 	if (!e_cal_open (new_ecal, FALSE, &error)) {
-		g_warning ("failed to load destination ecal for migration: `%s'", error->message);
+		g_warning ("failed to load destination ecal for migration: '%s' (%s)", error->message,
+			   e_source_get_uri (new_source));
 		goto finish;
 	}
 
@@ -326,7 +328,8 @@ migrate_ical_folder (char *old_path, ESourceGroup *dest_group, char *source_name
  finish:
 	g_clear_error (&error);
 	g_object_unref (old_ecal);
-	g_object_unref (new_ecal);
+	if (new_ecal)
+		g_object_unref (new_ecal);
 	g_free (old_uri);
 
 	return retval;	
