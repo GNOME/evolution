@@ -225,11 +225,13 @@ view_your (GtkWidget *widget, CertificateManagerData *cfm)
 static void
 backup_your (GtkWidget *widget, CertificateManagerData *cfm)
 {
+	/* FIXME: implement */
 }
 
 static void
 backup_all_your (GtkWidget *widget, CertificateManagerData *cfm)
 {
+	/* FIXME: implement */
 }
 
 static void
@@ -238,7 +240,7 @@ yourcerts_selection_changed (GtkTreeSelection *selection, CertificateManagerData
 	handle_selection_changed (selection,
 				  4,
 				  cfm->view_your_button,
-				  cfm->backup_your_button, /* yes yes, not really "edit", it's a hack :) */
+				  NULL,
 				  cfm->delete_your_button);
 }
 
@@ -1005,6 +1007,10 @@ certificate_manager_config_control_new (void)
 	gtk_widget_ref (control_widget);
 
 	gtk_container_remove (GTK_CONTAINER (control_widget->parent), control_widget);
+
+	/* FIXME: remove when implemented */
+	gtk_widget_set_sensitive(cfm_data->backup_your_button, FALSE);
+	gtk_widget_set_sensitive(cfm_data->backup_all_your_button, FALSE);
 
 	return evolution_config_control_new (control_widget);
 }

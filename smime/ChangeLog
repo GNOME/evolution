@@ -1,3 +1,12 @@
+2005-02-21  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #68592
+	
+	* gui/certificate-manager.c (yourcerts_selection_changed): dont
+	pass backup to handle_selection_changed.
+	(certificate_manager_config_control_new): disable the backup
+	buttons always.
+
 2005-02-23  Hans Petter Jansson  <hpj@novell.com>
 
 	* gui/component.c:
