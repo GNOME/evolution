@@ -1029,6 +1029,8 @@ show_error_clicked (GtkObject * obj)
 {
 	gchar *old_message;
 
+	gtk_signal_disconnect_by_func (GTK_OBJECT (obj), show_error_clicked, NULL);
+
 	/* Restore the old message */
 	old_message = gtk_object_get_data (obj, "old_message");
 	gtk_label_set_text (GTK_LABEL (queue_window_message),
@@ -1112,6 +1114,8 @@ get_password_clicked (GnomeDialog * dialog, gint button, gpointer user_data)
 {
 	com_msg_t *msg = (com_msg_t *) user_data;
 	gchar *old_message;
+
+	gtk_signal_disconnect_by_func (GTK_OBJECT (dialog), get_password_deleted, user_data);
 
 	/* Restore the old message */
 	old_message = gtk_object_get_data (GTK_OBJECT (dialog), "old_message");

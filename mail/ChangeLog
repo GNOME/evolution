@@ -1,3 +1,9 @@
+2000-08-11  Peter Williams  <peterw@helixcode.com>
+
+	* mail-threads.c (get_password_clicked): Fix the case when the
+	user /doesn't/ use escape to cancel the dialog :-/
+	(show_error_clicked): Same.
+
 2000-08-11  Dan Winship  <danw@helixcode.com>
 
 	* mail-tools.c (mail_tool_get_folder_name): Add a function to
