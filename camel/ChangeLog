@@ -1,5 +1,10 @@
 2000-02-22  bertrand  <Bertrand.Guiheneuf@aful.org>
 
+	* camel-stream-b64.c (read_decode__static): 
+	don't read the char if we reached the length
+	of the output buffer. Hours lost on this
+	%$!@# bug : 3.5
+
 	* camel-folder.c (camel_folder_get_subfolder): 
 	(camel_folder_create): 
 	(camel_folder_delete): 

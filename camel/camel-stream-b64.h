@@ -54,8 +54,8 @@ typedef enum {
 /* private type */
 typedef struct {
 
-	gchar state;
-	gchar keep;
+	guchar state;
+	guchar keep;
  
 } CamelStream64DecodeStatus;
 
