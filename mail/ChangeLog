@@ -1,3 +1,8 @@
+2002-11-25  Radek Doulik  <rodo@ximian.com>
+
+	* mail-preferences.c (mail_preferences_construct): magic_check -->
+	magic_links_check
+
 2002-11-15  Harry Lu  <harry.lu@sun.com>
 
 	* mail-display.c (write_data_to_file): Show file name when prompt
