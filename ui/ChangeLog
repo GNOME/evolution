@@ -1,3 +1,8 @@
+2001-01-01  Michael Meeks  <michael@helixcode.com>
+
+	* Makefile.am: remove evolution-addressbook-ldap.xml so we
+	build again.
+
 2000-12-29  Chris Toshok  <toshok@helixcode.com>
 
 	* evolution-addressbook.xml: add "Settings/Addressbook
