@@ -34,6 +34,8 @@
 #include <string.h>
 #include <fcntl.h>
 
+#include <e-util/e-util.h>
+
 #include "camel-imap-folder.h"
 #include "camel-imap-store.h"
 #include "camel-imap-stream.h"
@@ -967,7 +969,7 @@ get_header_field (gchar *header, gchar *field)
 {
 	gchar *part, *index, *p, *q;
 
-	index = strstrcase (header, field);
+	index = e_strstrcase (header, field);
 	if (index == NULL)
 		return NULL;
 
