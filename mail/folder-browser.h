@@ -57,7 +57,7 @@ typedef struct {
 
 GtkType        folder_browser_get_type (void);
 GtkWidget     *folder_browser_new      (void);
-void           folder_browser_set_uri  (FolderBrowser *folder_browser,
+gboolean       folder_browser_set_uri  (FolderBrowser *folder_browser,
 					const char *uri);
 void           folder_browser_set_message_preview (FolderBrowser *folder_browser,
 						   gboolean show_message_preview);

@@ -163,7 +163,7 @@ control_destroy_cb (BonoboControl *control,
 }
 
 BonoboControl *
-folder_browser_factory_new_control (void)
+folder_browser_factory_new_control (const char *uri)
 {
 	BonoboControl *control;
 	GtkWidget *folder_browser;
@@ -172,7 +172,12 @@ folder_browser_factory_new_control (void)
 	if (folder_browser == NULL)
 		return NULL;
 
-	gtk_widget_show(folder_browser);
+	if (!folder_browser_set_uri (FOLDER_BROWSER (folder_browser), uri)) {
+		gtk_object_sink (GTK_OBJECT (folder_browser));
+		return NULL;
+	}
+
+	gtk_widget_show (folder_browser);
 	
 	control = bonobo_control_new (folder_browser);
 	
@@ -186,39 +191,6 @@ folder_browser_factory_new_control (void)
 
 	gtk_signal_connect (GTK_OBJECT (control), "destroy",
 			    control_destroy_cb, folder_browser);	
-	
-	bonobo_control_set_property_bag (control,
-					 FOLDER_BROWSER (folder_browser)->properties);
 
 	return control;
-}
-
-/*
- * Creates the Folder Browser, wraps it in a Bonobo Control, and
- * sets the Bonobo Control properties to point to the Folder Browser
- * Properties
- */
-static BonoboObject *
-folder_browser_factory (BonoboGenericFactory *factory, void *closure)
-{
-	return BONOBO_OBJECT (folder_browser_factory_new_control ());
-}
-
-void
-folder_browser_factory_init (void)
-{
-	static BonoboGenericFactory *bonobo_folder_browser_factory = NULL;
-	
-	if (bonobo_folder_browser_factory != NULL)
-		return;
-
-	bonobo_folder_browser_factory = bonobo_generic_factory_new (CONTROL_FACTORY_ID,
-								    folder_browser_factory,
-								    NULL);
-
-	if (bonobo_folder_browser_factory == NULL){
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-			  _("We are sorry, Evolution's Folder Browser can not be initialized.")); 
-		exit (1);
-	}
 }

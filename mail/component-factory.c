@@ -72,7 +72,9 @@ create_view (EvolutionShellComponent *shell_component,
 	if (g_strcasecmp (folder_type, "mail") != 0)
 		return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE;
 
-	control = folder_browser_factory_new_control ();
+	control = folder_browser_factory_new_control (physical_uri);
+	if (!control)
+		return EVOLUTION_SHELL_COMPONENT_NOTFOUND;
 
 	folder_browser_widget = bonobo_control_get_widget (control);
 
@@ -84,9 +86,6 @@ create_view (EvolutionShellComponent *shell_component,
 	/* dum de dum, hack to let the folder browser know the storage its in */
 	gtk_object_set_data((GtkObject *)folder_browser_widget, "e-storage",
 			    gtk_object_get_data((GtkObject *)shell_component, "e-storage"));
-
-	/* FIXME: This never fails.  :-/  */
-	folder_browser_set_uri (FOLDER_BROWSER (folder_browser_widget), physical_uri);
 
 	*control_return = control;
 

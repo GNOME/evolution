@@ -26,7 +26,7 @@
 
 /* folder-browser-factory */
 void           folder_browser_factory_init         (void);
-BonoboControl *folder_browser_factory_new_control  (void);
+BonoboControl *folder_browser_factory_new_control  (const char *uri);
 
 /* mail-config */
 void mail_config_druid (void);

@@ -74,7 +74,6 @@ main (int argc, char *argv [])
 	session_init ();
 	e_cursors_init ();
 
-	folder_browser_factory_init ();
 	component_factory_init ();
 
 	bonobo_main ();

@@ -1,5 +1,22 @@
 2000-06-12  Dan Winship  <danw@helixcode.com>
 
+	* folder-browser.c (folder_browser_set_uri): Return the result of
+	folder_browser_load_folder.
+	(get_prop, set_prop, folder_browser_properties_init): Remove. No
+	longer needed.
+
+	* folder-browser-factory.c (folder_browser_factory_new_control):
+	Add a "uri" argument, return NULL if setting it fails.
+	(folder_browser_factory_new_control): Remove property bag stuff.
+	(folder_browser_factory_init, folder_browser_factory): Remove
+	this, since we're using the component factory now.
+
+	* component-factory.c (create_view): Update for
+	folder_browser_factory_new_control change and return NOTFOUND as
+	appropriate.
+
+	* main.c (main): Don't call folder_browser_factory_init.
+
 	* mail-format.c (mail_generate_reply): Fix the subject generation
 	so we don't get "Re:  Re:". This is working around something that
 	may later be declared a misfeature in Camel.

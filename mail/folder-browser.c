@@ -21,14 +21,6 @@
 static GtkObjectClass *folder_browser_parent_class;
 
 
-#define PROPERTY_FOLDER_URI          "folder_uri"
-#define PROPERTY_MESSAGE_PREVIEW     "message_preview"
-
-#define PROPERTY_FOLDER_URI_IDX      1
-#define PROPERTY_MESSAGE_PREVIEW_IDX 2
-
-
-
 static void
 folder_browser_destroy (GtkObject *object)
 {
@@ -151,14 +143,14 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 
 #define EQUAL(a,b) (strcmp (a,b) == 0)
 
-void
+gboolean
 folder_browser_set_uri (FolderBrowser *folder_browser, const char *uri)
 {
 	if (folder_browser->uri)
 		g_free (folder_browser->uri);
 
 	folder_browser->uri = g_strdup (uri);
-	folder_browser_load_folder (folder_browser, folder_browser->uri);
+	return folder_browser_load_folder (folder_browser, folder_browser->uri);
 }
 
 void
@@ -168,70 +160,6 @@ folder_browser_set_message_preview (FolderBrowser *folder_browser, gboolean show
 		return;
 
 	g_warning ("FIXME: implement me");
-}
-
-static void
-get_prop (BonoboPropertyBag *bag,
-	  BonoboArg         *arg,
-	  guint              arg_id,
-	  gpointer           user_data)
-{
-	FolderBrowser *fb = user_data;
-
-	switch (arg_id) {
-
-	case PROPERTY_FOLDER_URI_IDX:
-		if (fb && fb->uri)
-			BONOBO_ARG_SET_STRING (arg, fb->uri);
-		else
-			BONOBO_ARG_SET_STRING (arg, "");
-		break;
-
-	case PROPERTY_MESSAGE_PREVIEW_IDX:
-		g_warning ("Implement me; no return value");
-		BONOBO_ARG_SET_BOOLEAN (arg, FALSE);
-		break;
-
-	default:
-		g_warning ("Unhandled arg %d\n", arg_id);
-	}
-}
-
-static void
-set_prop (BonoboPropertyBag *bag,
-	  const BonoboArg   *arg,
-	  guint              arg_id,
-	  gpointer           user_data)
-{
-	FolderBrowser *fb = user_data;
-
-	switch (arg_id) {
-
-	case PROPERTY_FOLDER_URI_IDX:
-		folder_browser_set_uri (fb, BONOBO_ARG_GET_STRING (arg));
-		break;
-
-	case PROPERTY_MESSAGE_PREVIEW_IDX:
-		folder_browser_set_message_preview (fb, BONOBO_ARG_GET_BOOLEAN (arg));
-		break;
-
-	default:
-		g_warning ("Unhandled arg %d\n", arg_id);
-		break;
-	}
-}
-
-static void
-folder_browser_properties_init (FolderBrowser *fb)
-{
-	fb->properties = bonobo_property_bag_new (get_prop, set_prop, fb);
-
-	bonobo_property_bag_add (
-		fb->properties, PROPERTY_FOLDER_URI, PROPERTY_FOLDER_URI_IDX,
-		BONOBO_ARG_STRING, NULL, _("The URI that the Folder Browser will display"), 0);
-	bonobo_property_bag_add (
-		fb->properties, PROPERTY_MESSAGE_PREVIEW, PROPERTY_MESSAGE_PREVIEW_IDX,
-		BONOBO_ARG_BOOLEAN, NULL, _("Whether a message preview should be shown"), 0);
 }
 
 static char * search_options[] = {
@@ -439,7 +367,6 @@ my_folder_browser_init (GtkObject *object)
 	gtk_signal_connect (GTK_OBJECT (fb->message_list->etable),
 			    "key_press", GTK_SIGNAL_FUNC (etable_key), fb);
 
-	folder_browser_properties_init (fb);
 	folder_browser_gui_init (fb);
 }
 
