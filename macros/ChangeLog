@@ -1,3 +1,7 @@
+1998-07-13  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* gnome-support.m4 (AC_REPLACE_FUNCS): Add check for `mkstemp'.
+
 Wed Jul  1 13:50:39 1998  Scott D. Heavner  <sdh@po.cwru.edu>
 
 	* curses.m4: add some docs and start using with tcd

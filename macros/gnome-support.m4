@@ -78,7 +78,7 @@ AC_DEFUN([GNOME_SUPPORT_CHECKS],[
       LIBOBJS="$LIBOBJS easy-vsnprintf.o",
       LIBOBJS="$LIBOBJS vsnprintf.o")])
 
-  AC_REPLACE_FUNCS(scandir strcasecmp strerror strndup strnlen)
+  AC_REPLACE_FUNCS(mkstemp scandir strcasecmp strerror strndup strnlen)
   AC_REPLACE_FUNCS(strtok_r vasprintf)
 
   if test "$LIBOBJS" != ""; then
