@@ -617,34 +617,6 @@ editor_set_buttons_sensitive (SourceDialog *source_dialog, gboolean sensitive)
 }
 
 static void
-general_page_modified (SourceDialog *source_dialog)
-{
-	if (source_dialog->druid) {
-		gnome_druid_set_buttons_sensitive (GNOME_DRUID (source_dialog->druid),
-						   TRUE,                                 /* Back */
-						   general_page_verify (source_dialog),  /* Next */
-						   TRUE,                                 /* Cancel */
-						   FALSE);                               /* Help */
-	} else {
-		editor_set_buttons_sensitive (source_dialog, source_dialog_is_valid (source_dialog));
-	}
-}
-
-static void
-remote_page_modified (SourceDialog *source_dialog)
-{
-	if (source_dialog->druid) {
-		gnome_druid_set_buttons_sensitive (GNOME_DRUID (source_dialog->druid),
-						   TRUE,                                /* Back */
-						   remote_page_verify (source_dialog),  /* Next */
-						   TRUE,                                /* Cancel */
-						   FALSE);                              /* Help */
-	} else {
-		editor_set_buttons_sensitive (source_dialog, source_dialog_is_valid (source_dialog));
-	}
-}
-
-static void
 source_group_changed_sensitive (SourceDialog *source_dialog)
 {
 	source_dialog->source_group =
@@ -768,12 +740,6 @@ static void
 edit_calendar_finish (SourceDialog *source_dialog)
 {
 	dialog_to_source (source_dialog);
-	gtk_widget_destroy (source_dialog->window);
-}
-
-static void
-edit_calendar_cancel (SourceDialog *source_dialog)
-{
 	gtk_widget_destroy (source_dialog->window);
 }
 
@@ -974,12 +940,6 @@ static void
 edit_task_list_finish (SourceDialog *source_dialog)
 {
 	dialog_to_source (source_dialog);
-	gtk_widget_destroy (source_dialog->window);
-}
-
-static void
-edit_task_list_cancel (SourceDialog *source_dialog)
-{
 	gtk_widget_destroy (source_dialog->window);
 }
 

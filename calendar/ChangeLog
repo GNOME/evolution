@@ -1,5 +1,7 @@
 2004-05-25  Larry Ewing  <lewing@ximian.com>
 
+	* gui/dialogs/calendar-setup.c: remove now unused functions.
+
 	* gui/dialogs/calendar-setup.c (calendar_setup_edit_task_list):
 	use the new dialog.
 	(calendar_setup_edit_calendar): use the new dialog.
