@@ -1,3 +1,9 @@
+2003-05-19  Chris Toshok  <toshok@ximian.com>
+
+	* gui/merging/e-card-merging.c (e_card_merging_book_commit_card):
+	add a g_object_ref(card), to match the one in
+	e_card_merging_book_add_card.  Fixes #43175.
+
 2003-05-19  Anna Marie Dirks  <anna@ximian.com>
 
 	* gui/contact-editor/e-contact-quick-add.c: Added HIG-appropriate

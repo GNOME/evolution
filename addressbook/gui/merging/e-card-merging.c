@@ -171,7 +171,7 @@ e_card_merging_book_commit_card (EBook                 *book,
 
 	lookup->op = E_CARD_MERGING_COMMIT;
 	lookup->book = g_object_ref (book);
-	lookup->card = card;
+	lookup->card = g_object_ref (card);
 	lookup->cb = cb;
 	lookup->closure = closure;
 
