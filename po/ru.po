@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: E-volution\n"
-"POT-Creation-Date: 2001-01-26 13:01+0300\n"
-"PO-Revision-Date: 2001-01-26 13:05+03:00\n"
+"POT-Creation-Date: 2001-01-29 12:43+0300\n"
+"PO-Revision-Date: 2001-01-29 12:50+03:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -176,21 +176,35 @@ msgstr "Действия"
 
 #: po/tmp/evolution-event-editor.xml.h:9
 #: po/tmp/evolution-task-editor-dialog.xml.h:9
+msgid "Address _Book... (FIXME)"
+msgstr "Адресная книга... (FIXME)"
+
+#: po/tmp/evolution-task-editor-dialog.xml.h:10
+msgid "Assig_n Task (FIXME)"
+msgstr "Назначить задание (FIXME)"
+
+#: po/tmp/evolution-event-editor.xml.h:10
+#: po/tmp/evolution-task-editor-dialog.xml.h:11
 msgid "C_lear"
 msgstr "Очистить"
 
-#: po/tmp/evolution-event-editor.xml.h:10
-#: po/tmp/evolution-task-editor-dialog.xml.h:10
+#: po/tmp/evolution-event-editor.xml.h:11
+#: po/tmp/evolution-task-editor-dialog.xml.h:12
 msgid "C_ut"
 msgstr "Вырезать"
 
-#: po/tmp/evolution-event-editor.xml.h:11
-#: po/tmp/evolution-task-editor-dialog.xml.h:11
+#: po/tmp/evolution-event-editor.xml.h:12
+#: po/tmp/evolution-task-editor-dialog.xml.h:13
+msgid "Chec_k Names (FIXME)"
+msgstr "Проверить имена (FIXME)"
+
+#: po/tmp/evolution-event-editor.xml.h:13
+#: po/tmp/evolution-task-editor-dialog.xml.h:14
 msgid "Clear"
 msgstr "Очистить"
 
-#: po/tmp/evolution-event-editor.xml.h:12
-#: po/tmp/evolution-task-editor-dialog.xml.h:12
+#: po/tmp/evolution-event-editor.xml.h:14
+#: po/tmp/evolution-task-editor-dialog.xml.h:15
 msgid "Clear the selection"
 msgstr "Очистить выделение"
 
@@ -199,608 +213,414 @@ msgstr "Очистить выделение"
 #. * DO NOT compile this file as part of your application.
 #.
 #: po/tmp/alarm-notify.glade.h:6 po/tmp/evolution-contact-editor.xml.h:6
-#: po/tmp/evolution-event-editor.xml.h:13
+#: po/tmp/evolution-event-editor.xml.h:15
 #: po/tmp/evolution-message-composer.xml.h:8
 #: po/tmp/evolution-subscribe.xml.h:7
-#: po/tmp/evolution-task-editor-dialog.xml.h:13 po/tmp/evolution.xml.h:7
+#: po/tmp/evolution-task-editor-dialog.xml.h:16 po/tmp/evolution.xml.h:7
 msgid "Close"
 msgstr "Закрыть"
 
 #: po/tmp/evolution-message-composer.xml.h:9
-#: po/tmp/evolution-task-editor-dialog.xml.h:14
+#: po/tmp/evolution-task-editor-dialog.xml.h:17
 msgid "Close the current file"
 msgstr "Закрыть текущий файл"
 
-#: po/tmp/evolution-event-editor.xml.h:15 po/tmp/evolution-mail.xml.h:8
-#: po/tmp/evolution-task-editor-dialog.xml.h:15
+#: po/tmp/evolution-event-editor.xml.h:17
+#: po/tmp/evolution-task-editor-dialog.xml.h:18
+msgid "Cop_y to Folder... (FIXME)"
+msgstr "Скопировать в папку... (FIXME)"
+
+#: po/tmp/evolution-event-editor.xml.h:18 po/tmp/evolution-mail.xml.h:8
+#: po/tmp/evolution-task-editor-dialog.xml.h:19
 msgid "Copy"
 msgstr "Скопировать"
 
-#: po/tmp/evolution-event-editor.xml.h:16
-#: po/tmp/evolution-task-editor-dialog.xml.h:16
+#: po/tmp/evolution-event-editor.xml.h:19
+#: po/tmp/evolution-task-editor-dialog.xml.h:20
 msgid "Copy the selection"
 msgstr "Скопировать выделение"
 
-#: po/tmp/evolution-event-editor.xml.h:17
-#: po/tmp/evolution-task-editor-dialog.xml.h:17
+#: po/tmp/evolution-event-editor.xml.h:20
+#: po/tmp/evolution-task-editor-dialog.xml.h:21
 msgid "Cut"
 msgstr "Вырезать"
 
-#: po/tmp/evolution-event-editor.xml.h:18
-#: po/tmp/evolution-task-editor-dialog.xml.h:18
+#: po/tmp/evolution-event-editor.xml.h:21
+#: po/tmp/evolution-task-editor-dialog.xml.h:22
 msgid "Cut the selection"
 msgstr "Вырезать выделение"
 
 #: calendar/gui/e-calendar-table.c:403 filter/libfilter-i18n.h:7
 #: mail/folder-browser.c:684 mail/mail-view.c:150
 #: po/tmp/addressbook-config.glade.h:8 po/tmp/event-editor-dialog.glade.h:13
-#: po/tmp/evolution-addressbook.xml.h:8 po/tmp/evolution-event-editor.xml.h:19
-#: po/tmp/evolution-mail.xml.h:11 po/tmp/evolution-task-editor-dialog.xml.h:19
+#: po/tmp/evolution-addressbook.xml.h:8 po/tmp/evolution-event-editor.xml.h:22
+#: po/tmp/evolution-mail.xml.h:11 po/tmp/evolution-task-editor-dialog.xml.h:23
 #: po/tmp/filter.glade.h:7 po/tmp/mail-config.glade.h:24
 msgid "Delete"
 msgstr "Удалить"
 
-#: po/tmp/evolution-task-editor-dialog.xml.h:20
+#: po/tmp/evolution-task-editor-dialog.xml.h:24
 msgid "Delete this task"
 msgstr "Удалить это задание"
 
-#: po/tmp/evolution-event-editor.xml.h:21
-#: po/tmp/evolution-task-editor-dialog.xml.h:21
+#: po/tmp/evolution-event-editor.xml.h:24
+#: po/tmp/evolution-task-editor-dialog.xml.h:25
 msgid "Dump XML"
 msgstr "Дамп XML"
 
-#: po/tmp/evolution-event-editor.xml.h:22
-#: po/tmp/evolution-task-editor-dialog.xml.h:22
+#: po/tmp/evolution-event-editor.xml.h:25
+#: po/tmp/evolution-task-editor-dialog.xml.h:26
 msgid "Dump the UI Xml description"
 msgstr "Дамп XML описания интерфейса"
 
-#: po/tmp/evolution-event-editor.xml.h:23
-#: po/tmp/evolution-task-editor-dialog.xml.h:23
-msgid "FIXME: Address _Book..."
-msgstr "FIXME: Адресная книга..."
-
-#: po/tmp/evolution-task-editor-dialog.xml.h:24
-msgid "FIXME: Assig_n Task"
-msgstr "FIXME: Связать задание"
-
-#: po/tmp/evolution-event-editor.xml.h:24
-#: po/tmp/evolution-task-editor-dialog.xml.h:25
-msgid "FIXME: Ch_oose Form..."
-msgstr "FIXME: Выбрать форму..."
-
-#: po/tmp/evolution-event-editor.xml.h:25
-#: po/tmp/evolution-task-editor-dialog.xml.h:26
-msgid "FIXME: Chec_k Names"
-msgstr "FIXME: Проверка имен"
-
 #: po/tmp/evolution-event-editor.xml.h:26
 #: po/tmp/evolution-task-editor-dialog.xml.h:27
-msgid "FIXME: Cop_y to Folder..."
-msgstr "FIXME: Скопировать в папку..."
-
-#: po/tmp/evolution-event-editor.xml.h:27
-#: po/tmp/evolution-task-editor-dialog.xml.h:28
-msgid "FIXME: D_esign a Form..."
-msgstr ""
-
-#: po/tmp/evolution-event-editor.xml.h:28
-#: po/tmp/evolution-task-editor-dialog.xml.h:29
-msgid "FIXME: Define Print _Styles"
-msgstr "FIXME: Определить стиль печати"
-
-#: po/tmp/evolution-event-editor.xml.h:29
-#: po/tmp/evolution-task-editor-dialog.xml.h:30
-msgid "FIXME: Desi_gn This Form"
-msgstr "FIXME: Конструкция этой формы"
-
-#: po/tmp/evolution-event-editor.xml.h:30
-#: po/tmp/evolution-task-editor-dialog.xml.h:31
-msgid "FIXME: Fi_rst Item in Folder"
-msgstr "FIXME: Первый элемент в папке"
-
-#: po/tmp/evolution-event-editor.xml.h:31
-#: po/tmp/evolution-task-editor-dialog.xml.h:32
-msgid "FIXME: For_ward"
-msgstr "FIXME: Переслать"
-
-#: po/tmp/evolution-event-editor.xml.h:33
-#: po/tmp/evolution-task-editor-dialog.xml.h:33
-msgid "FIXME: Help"
-msgstr "FIXME: Справка"
-
-#: po/tmp/evolution-event-editor.xml.h:34
-#: po/tmp/evolution-task-editor-dialog.xml.h:34
-msgid "FIXME: In_complete Task"
-msgstr "FIXME: Невыполненное задание"
-
-#: po/tmp/evolution-event-editor.xml.h:35
-#: po/tmp/evolution-task-editor-dialog.xml.h:35
-msgid "FIXME: Insert File"
-msgstr "FIXME: Вставить файл"
-
-#: po/tmp/evolution-event-editor.xml.h:36
-#: po/tmp/evolution-task-editor-dialog.xml.h:36
-msgid "FIXME: It_em..."
-msgstr "FIXME: Элемент..."
-
-#: po/tmp/evolution-task-editor-dialog.xml.h:37
-msgid "FIXME: Meeting Re_quest"
-msgstr "FIXME: Запрос встречи"
-
-#: po/tmp/evolution-event-editor.xml.h:37
-#: po/tmp/evolution-task-editor-dialog.xml.h:38
-msgid "FIXME: Paste _Special... "
-msgstr "FIXME: Специальная вставка..."
-
-#: po/tmp/evolution-event-editor.xml.h:38
-#: po/tmp/evolution-task-editor-dialog.xml.h:39
-msgid "FIXME: Print Pre_view"
-msgstr "FIXME: Просмотр печати"
-
-#: po/tmp/evolution-event-editor.xml.h:39
-#: po/tmp/evolution-task-editor-dialog.xml.h:40
-msgid "FIXME: Pu_blish Form As..."
-msgstr ""
-
-#: po/tmp/evolution-event-editor.xml.h:40
-#: po/tmp/evolution-task-editor-dialog.xml.h:41
-msgid "FIXME: Publish _Form..."
-msgstr ""
-
-#: po/tmp/evolution-event-editor.xml.h:41
-#: po/tmp/evolution-task-editor-dialog.xml.h:42
-msgid "FIXME: Rec_urrence..."
-msgstr "FIXME: Повторение..."
-
-#: po/tmp/evolution-task-editor-dialog.xml.h:43
-msgid "FIXME: Reply to A_ll"
-msgstr "FIXME: Ответить всем"
-
-#: po/tmp/evolution-event-editor.xml.h:42
-#: po/tmp/evolution-task-editor-dialog.xml.h:44
-msgid "FIXME: S_end"
-msgstr "FIXME: Послать"
-
-#: po/tmp/evolution-task-editor-dialog.xml.h:45
-msgid "FIXME: S_end Status Report"
-msgstr "FIXME: Послать отчет о состоянии"
-
-#: po/tmp/evolution-task-editor-dialog.xml.h:46
-msgid "FIXME: S_kip Occurrence"
-msgstr "FIXME: Пропустить повторы"
-
-#: po/tmp/evolution-event-editor.xml.h:43
-#: po/tmp/evolution-task-editor-dialog.xml.h:47
-msgid "FIXME: Save Attac_hments..."
-msgstr "FIXME: Сохранить вложение..."
-
-#: po/tmp/evolution-event-editor.xml.h:44
-#: po/tmp/evolution-task-editor-dialog.xml.h:48
-msgid "FIXME: Script _Debugger"
-msgstr "FIXME: Отладчик скрипта"
-
-#: po/tmp/evolution-event-editor.xml.h:45
-#: po/tmp/evolution-task-editor-dialog.xml.h:49
-msgid "FIXME: Task _Request"
-msgstr "FIXME: Запрос задачи"
-
-#: po/tmp/evolution-task-editor-dialog.xml.h:50
-msgid "FIXME: _Appointment"
-msgstr "FIXME: Встреча"
-
-#: po/tmp/evolution-event-editor.xml.h:46
-#: po/tmp/evolution-task-editor-dialog.xml.h:51
-msgid "FIXME: _Contact"
-msgstr "FIXME: Контакт"
-
-#: po/tmp/evolution-event-editor.xml.h:47
-#: po/tmp/evolution-task-editor-dialog.xml.h:52
-msgid "FIXME: _Customize..."
-msgstr "FIXME: Настройка..."
-
-#: po/tmp/evolution-event-editor.xml.h:48
-#: po/tmp/evolution-task-editor-dialog.xml.h:53
-msgid "FIXME: _File..."
-msgstr "FIXME: файл..."
-
-#: po/tmp/evolution-event-editor.xml.h:49
-#: po/tmp/evolution-task-editor-dialog.xml.h:54
-msgid "FIXME: _Font..."
-msgstr "FIXME: Шрифт..."
-
-#: po/tmp/evolution-event-editor.xml.h:50
-#: po/tmp/evolution-task-editor-dialog.xml.h:55
-msgid "FIXME: _Formatting"
-msgstr "FIXME: Форматирование"
-
-#: po/tmp/evolution-event-editor.xml.h:51
-#: po/tmp/evolution-task-editor-dialog.xml.h:56
-msgid "FIXME: _Item"
-msgstr "FIXME: Элемент"
-
-#: po/tmp/evolution-event-editor.xml.h:52
-#: po/tmp/evolution-task-editor-dialog.xml.h:57
-msgid "FIXME: _Journal Entry"
-msgstr "FIXME: Журнальная запись"
-
-#: po/tmp/evolution-event-editor.xml.h:53
-#: po/tmp/evolution-task-editor-dialog.xml.h:58
-msgid "FIXME: _Last Item in Folder"
-msgstr "FIXME: Последний элемент в папке"
-
-#: po/tmp/evolution-event-editor.xml.h:54
-#: po/tmp/evolution-task-editor-dialog.xml.h:59
-msgid "FIXME: _Mail Message"
-msgstr "FIXME: Правка сообщения"
-
-#: po/tmp/evolution-task-editor-dialog.xml.h:60
-msgid "FIXME: _Mark Complete"
-msgstr "FIXME: Пометить как выполненное"
-
-#: po/tmp/evolution-event-editor.xml.h:55
-#: po/tmp/evolution-task-editor-dialog.xml.h:61
-msgid "FIXME: _Memo Style"
-msgstr "FIXME: Стиль памятки"
-
-#: po/tmp/evolution-event-editor.xml.h:56
-#: po/tmp/evolution-task-editor-dialog.xml.h:62
-msgid "FIXME: _Move to Folder..."
-msgstr "FIXME: Переместить в папку..."
-
-#: po/tmp/evolution-task-editor-dialog.xml.h:63
-msgid "FIXME: _New Task"
-msgstr "FIXME: Новая задача"
-
-#: po/tmp/evolution-event-editor.xml.h:59
-#: po/tmp/evolution-task-editor-dialog.xml.h:64
-msgid "FIXME: _Object..."
-msgstr "FIXME: Объект..."
-
-#: po/tmp/evolution-event-editor.xml.h:60
-#: po/tmp/evolution-task-editor-dialog.xml.h:65
-msgid "FIXME: _Paragraph..."
-msgstr "FIXME: Абзац..."
-
-#: po/tmp/evolution-task-editor-dialog.xml.h:66
-msgid "FIXME: _Reply"
-msgstr "FIXME: Ответить"
-
-#: po/tmp/evolution-event-editor.xml.h:61
-#: po/tmp/evolution-task-editor-dialog.xml.h:67
-msgid "FIXME: _Spelling..."
-msgstr "FIXME: Правописание..."
-
-#: po/tmp/evolution-event-editor.xml.h:62
-#: po/tmp/evolution-task-editor-dialog.xml.h:68
-msgid "FIXME: _Standard"
-msgstr "FIXME: Стандартная"
-
-#: po/tmp/evolution-event-editor.xml.h:63
-#: po/tmp/evolution-task-editor-dialog.xml.h:69
-msgid "FIXME: _Task"
-msgstr "FIXME: Задача"
-
-#: po/tmp/evolution-event-editor.xml.h:64
-#: po/tmp/evolution-task-editor-dialog.xml.h:70
-msgid "FIXME: _Unread Item"
-msgstr "FIXME: Непрочитанный элемент"
-
-#: po/tmp/evolution-task-editor-dialog.xml.h:71
-msgid "FIXME: _note"
-msgstr "FIXME: запись"
-
-#: po/tmp/evolution-event-editor.xml.h:65
-#: po/tmp/evolution-task-editor-dialog.xml.h:72
-msgid "FIXME: what goes here?"
-msgstr ""
-
-#: po/tmp/evolution-event-editor.xml.h:66
-#: po/tmp/evolution-message-composer.xml.h:11
-#: po/tmp/evolution-task-editor-dialog.xml.h:73
-msgid "F_ormat"
-msgstr "Формат"
+msgid "Fi_rst Item in Folder (FIXME)"
+msgstr "Первый элемент в папке (FIXME)"
 
 #: po/tmp/evolution-addressbook.xml.h:10
-#: po/tmp/evolution-event-editor.xml.h:67
-#: po/tmp/evolution-task-editor-dialog.xml.h:74
+#: po/tmp/evolution-task-editor-dialog.xml.h:28
 msgid "Find"
 msgstr "Поиск"
 
-#: po/tmp/evolution-event-editor.xml.h:68
-#: po/tmp/evolution-task-editor-dialog.xml.h:75
+#: po/tmp/evolution-task-editor-dialog.xml.h:29
 msgid "Find Again"
 msgstr "Повторный поиск"
 
-#: po/tmp/evolution-event-editor.xml.h:69
-#: po/tmp/evolution-task-editor-dialog.xml.h:76
-msgid "Find _Again"
-msgstr "Повторный поиск"
+#: po/tmp/evolution-event-editor.xml.h:27
+#: po/tmp/evolution-task-editor-dialog.xml.h:30
+msgid "For_ward (FIXME)"
+msgstr "Переслать (FIXME)"
 
-#: po/tmp/evolution-event-editor.xml.h:70
-#: po/tmp/evolution-task-editor-dialog.xml.h:77
+#: po/tmp/evolution-event-editor.xml.h:29
+#: po/tmp/evolution-task-editor-dialog.xml.h:31
 msgid "Go to the next item"
 msgstr "Перейти к следующему элементу"
 
-#: po/tmp/evolution-event-editor.xml.h:71
-#: po/tmp/evolution-task-editor-dialog.xml.h:78
+#: po/tmp/evolution-event-editor.xml.h:30
+#: po/tmp/evolution-task-editor-dialog.xml.h:32
 msgid "Go to the previous item"
 msgstr "Перейти к предыдущему элементу"
 
-#: po/tmp/evolution-event-editor.xml.h:72
-#: po/tmp/evolution-task-editor-dialog.xml.h:79
+#: po/tmp/evolution-event-editor.xml.h:31
+#: po/tmp/evolution-task-editor-dialog.xml.h:33
+msgid "In_complete Task (FIXME)"
+msgstr "Незавершенное задание (FIXME)"
+
+#: po/tmp/evolution-task-editor-dialog.xml.h:34
+msgid "Meeting Re_quest (FIXME)"
+msgstr "Запрос встречи (FIXME)"
+
+#: po/tmp/evolution-event-editor.xml.h:32
+#: po/tmp/evolution-task-editor-dialog.xml.h:35
 msgid "Modify the file's properties"
 msgstr "Изменить свойства файла"
 
-#: po/tmp/evolution-event-editor.xml.h:73
-#: po/tmp/evolution-task-editor-dialog.xml.h:80
+#: po/tmp/evolution-event-editor.xml.h:33
+#: po/tmp/evolution-task-editor-dialog.xml.h:36
 msgid "N_ext"
 msgstr "След."
 
-#: po/tmp/evolution-calendar.xml.h:20 po/tmp/evolution-event-editor.xml.h:74
-#: po/tmp/evolution-task-editor-dialog.xml.h:81
+#: po/tmp/evolution-calendar.xml.h:20 po/tmp/evolution-event-editor.xml.h:34
+#: po/tmp/evolution-task-editor-dialog.xml.h:37
 msgid "Next"
 msgstr "След."
 
-#: po/tmp/evolution-event-editor.xml.h:75
-#: po/tmp/evolution-task-editor-dialog.xml.h:82
+#: po/tmp/evolution-event-editor.xml.h:35
+#: po/tmp/evolution-task-editor-dialog.xml.h:38
 msgid "Paste"
 msgstr "Вставить"
 
-#: po/tmp/evolution-event-editor.xml.h:76
-#: po/tmp/evolution-task-editor-dialog.xml.h:83
+#: po/tmp/evolution-event-editor.xml.h:36
+#: po/tmp/evolution-task-editor-dialog.xml.h:39
 msgid "Paste the clipboard"
 msgstr "Вставить выделение"
 
-#: po/tmp/evolution-event-editor.xml.h:77
-#: po/tmp/evolution-task-editor-dialog.xml.h:84
+#: po/tmp/evolution-event-editor.xml.h:37
+#: po/tmp/evolution-task-editor-dialog.xml.h:40
 msgid "Pre_vious"
 msgstr "Пред."
 
-#: po/tmp/evolution-event-editor.xml.h:78
-#: po/tmp/evolution-task-editor-dialog.xml.h:85
+#: po/tmp/evolution-event-editor.xml.h:38
+#: po/tmp/evolution-task-editor-dialog.xml.h:41
 msgid "Previous"
 msgstr "Пред."
 
-#: po/tmp/evolution-event-editor.xml.h:79
-#: po/tmp/evolution-task-editor-dialog.xml.h:86
+#: po/tmp/evolution-event-editor.xml.h:39
+#: po/tmp/evolution-task-editor-dialog.xml.h:42
+msgid "Print Pre_view"
+msgstr "Просмотр печати"
+
+#: po/tmp/evolution-event-editor.xml.h:40
+#: po/tmp/evolution-task-editor-dialog.xml.h:43
 msgid "Print S_etup..."
 msgstr "Настройка печати..."
 
-#: po/tmp/evolution-event-editor.xml.h:80
-#: po/tmp/evolution-task-editor-dialog.xml.h:87
+#: po/tmp/evolution-event-editor.xml.h:41
+#: po/tmp/evolution-task-editor-dialog.xml.h:44
 msgid "Print Setup"
 msgstr "Настройка страницы"
 
 #: po/tmp/evolution-contact-editor.xml.h:11
-#: po/tmp/evolution-event-editor.xml.h:81
-#: po/tmp/evolution-task-editor-dialog.xml.h:88
+#: po/tmp/evolution-event-editor.xml.h:42
+#: po/tmp/evolution-task-editor-dialog.xml.h:45
 msgid "Print this item"
 msgstr "Печать этого элемента"
 
 #: po/tmp/evolution-contact-editor.xml.h:12
-#: po/tmp/evolution-event-editor.xml.h:82
-#: po/tmp/evolution-task-editor-dialog.xml.h:89
+#: po/tmp/evolution-event-editor.xml.h:43
+#: po/tmp/evolution-task-editor-dialog.xml.h:46
 msgid "Print..."
 msgstr "Печать..."
 
-#: po/tmp/evolution-event-editor.xml.h:83
-#: po/tmp/evolution-task-editor-dialog.xml.h:90
+#: po/tmp/evolution-event-editor.xml.h:44
+#: po/tmp/evolution-task-editor-dialog.xml.h:47
 msgid "Properties"
 msgstr "Свойства"
 
-#: po/tmp/evolution-event-editor.xml.h:84
-#: po/tmp/evolution-task-editor-dialog.xml.h:91
+#: po/tmp/evolution-task-editor-dialog.xml.h:48
 msgid "Redo"
 msgstr "Возврат"
 
-#: po/tmp/evolution-event-editor.xml.h:85
-#: po/tmp/evolution-task-editor-dialog.xml.h:92
+#: po/tmp/evolution-task-editor-dialog.xml.h:49
 msgid "Redo the undone action"
 msgstr "Повторить отмененное действие"
 
-#: po/tmp/evolution-event-editor.xml.h:86
-#: po/tmp/evolution-task-editor-dialog.xml.h:93
+#: po/tmp/evolution-task-editor-dialog.xml.h:50
 msgid "Replace"
 msgstr "Заменить"
 
-#: po/tmp/evolution-event-editor.xml.h:87
-#: po/tmp/evolution-task-editor-dialog.xml.h:94
+#: po/tmp/evolution-task-editor-dialog.xml.h:51
 msgid "Replace a string"
 msgstr "Заменить строку"
 
-#: po/tmp/evolution-event-editor.xml.h:88
+#: po/tmp/evolution-task-editor-dialog.xml.h:52
+msgid "Reply to A_ll (FIXME)"
+msgstr "Ответить всем (FIXME)"
+
+#: po/tmp/evolution-task-editor-dialog.xml.h:53
+msgid "S_end Status Report (FIXME)"
+msgstr "Послать отчет о состоянии (FIXME)"
+
+#: po/tmp/evolution-task-editor-dialog.xml.h:54
+msgid "S_kip Occurrence (FIXME)"
+msgstr "Пропустить повторы (FIXME)"
+
+#: po/tmp/evolution-event-editor.xml.h:45
 #: po/tmp/evolution-message-composer.xml.h:19
-#: po/tmp/evolution-task-editor-dialog.xml.h:95
+#: po/tmp/evolution-task-editor-dialog.xml.h:55
 msgid "Save"
 msgstr "Сохранить"
 
 #: po/tmp/evolution-contact-editor.xml.h:13
-#: po/tmp/evolution-event-editor.xml.h:89
+#: po/tmp/evolution-event-editor.xml.h:46
 #: po/tmp/evolution-message-composer.xml.h:21
-#: po/tmp/evolution-task-editor-dialog.xml.h:96
+#: po/tmp/evolution-task-editor-dialog.xml.h:56
 msgid "Save _As..."
 msgstr "Сохранить как..."
 
 #: po/tmp/evolution-contact-editor.xml.h:14
-#: po/tmp/evolution-event-editor.xml.h:90
-#: po/tmp/evolution-task-editor-dialog.xml.h:97
+#: po/tmp/evolution-event-editor.xml.h:47
+#: po/tmp/evolution-task-editor-dialog.xml.h:57
 msgid "Save and Close"
 msgstr "Сохранить и закрыть"
 
-#: po/tmp/evolution-event-editor.xml.h:92
+#: po/tmp/evolution-event-editor.xml.h:49
 #: po/tmp/evolution-message-composer.xml.h:25
-#: po/tmp/evolution-task-editor-dialog.xml.h:98
+#: po/tmp/evolution-task-editor-dialog.xml.h:58
 msgid "Save the current file"
 msgstr "Сохранить текущий файл"
 
-#: po/tmp/evolution-task-editor-dialog.xml.h:99
+#: po/tmp/evolution-task-editor-dialog.xml.h:59
 msgid "Save the task and close the dialog box"
 msgstr "Сохранить задание и закрыть окно диалога"
 
-#: po/tmp/evolution-event-editor.xml.h:96
-#: po/tmp/evolution-task-editor-dialog.xml.h:100
+#: po/tmp/evolution-task-editor-dialog.xml.h:60
 msgid "Search again for the same string"
 msgstr "Искать ту же строку еще раз"
 
-#: po/tmp/evolution-event-editor.xml.h:97
-#: po/tmp/evolution-task-editor-dialog.xml.h:101
+#: po/tmp/evolution-task-editor-dialog.xml.h:61
 msgid "Search for a string"
 msgstr "Поиск строки"
 
-#: po/tmp/evolution-contact-editor.xml.h:17
-#: po/tmp/evolution-event-editor.xml.h:98
-#: po/tmp/evolution-task-editor-dialog.xml.h:102
-msgid "See online help"
-msgstr "Просмотр онлайновой справки"
-
-#: po/tmp/evolution-event-editor.xml.h:99
-#: po/tmp/evolution-task-editor-dialog.xml.h:103
+#: po/tmp/evolution-event-editor.xml.h:53
+#: po/tmp/evolution-task-editor-dialog.xml.h:62
 msgid "Select All"
 msgstr "Выбрать все"
 
-#: po/tmp/evolution-event-editor.xml.h:100
-#: po/tmp/evolution-task-editor-dialog.xml.h:104
+#: po/tmp/evolution-event-editor.xml.h:54
+#: po/tmp/evolution-task-editor-dialog.xml.h:63
 msgid "Select everything"
 msgstr "Выбрать все"
 
-#: po/tmp/evolution-event-editor.xml.h:101
-#: po/tmp/evolution-task-editor-dialog.xml.h:105
+#: po/tmp/evolution-event-editor.xml.h:55
+#: po/tmp/evolution-task-editor-dialog.xml.h:64
 msgid "Setup the page settings for your current printer"
 msgstr "Настройки страницы для вашего текущего принтера"
 
-#: po/tmp/evolution-event-editor.xml.h:102
-#: po/tmp/evolution-task-editor-dialog.xml.h:106
+#: po/tmp/evolution-event-editor.xml.h:56
+#: po/tmp/evolution-task-editor-dialog.xml.h:65
+msgid "Task _Request (FIXME)"
+msgstr "Запрос задания (FIXME)"
+
+#: po/tmp/evolution-task-editor-dialog.xml.h:66
 msgid "Undo"
 msgstr "Откат"
 
-#: po/tmp/evolution-event-editor.xml.h:103
-#: po/tmp/evolution-task-editor-dialog.xml.h:107
+#: po/tmp/evolution-task-editor-dialog.xml.h:67
 msgid "Undo the last action"
 msgstr "Отменить последнее действие"
 
-#: po/tmp/evolution-event-editor.xml.h:104
+#: po/tmp/evolution-event-editor.xml.h:57
 #: po/tmp/evolution-message-composer.xml.h:39
-#: po/tmp/evolution-task-editor-dialog.xml.h:108
+#: po/tmp/evolution-task-editor-dialog.xml.h:68
 msgid "_About..."
 msgstr "О программе..."
 
-#: po/tmp/evolution-event-editor.xml.h:105
+#: po/tmp/evolution-task-editor-dialog.xml.h:69 po/tmp/evolution.xml.h:32
+msgid "_Appointment (FIXME)"
+msgstr "Встреча (FIXME)"
+
+#: po/tmp/evolution-event-editor.xml.h:58
 #: po/tmp/evolution-message-composer.xml.h:40
-#: po/tmp/evolution-task-editor-dialog.xml.h:109 po/tmp/evolution.xml.h:33
+#: po/tmp/evolution-task-editor-dialog.xml.h:70 po/tmp/evolution.xml.h:33
 msgid "_Close"
 msgstr "Закрыть"
 
-#: po/tmp/evolution-event-editor.xml.h:106
-#: po/tmp/evolution-task-editor-dialog.xml.h:110
+#: po/tmp/evolution-event-editor.xml.h:59
+#: po/tmp/evolution-task-editor-dialog.xml.h:71 po/tmp/evolution.xml.h:34
+msgid "_Contact (FIXME)"
+msgstr "Контакт (FIXME)"
+
+#: po/tmp/evolution-event-editor.xml.h:60
+#: po/tmp/evolution-task-editor-dialog.xml.h:72
 msgid "_Copy"
 msgstr "Скопировать"
 
-#: po/tmp/evolution-event-editor.xml.h:107
+#: po/tmp/evolution-event-editor.xml.h:61
 #: po/tmp/evolution-message-composer.xml.h:41
-#: po/tmp/evolution-task-editor-dialog.xml.h:111
+#: po/tmp/evolution-task-editor-dialog.xml.h:73
 msgid "_Debug"
 msgstr "Отладка"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:8
-#: po/tmp/evolution-event-editor.xml.h:108 po/tmp/evolution-mail.xml.h:54
-#: po/tmp/evolution-task-editor-dialog.xml.h:112
+#: po/tmp/evolution-event-editor.xml.h:62 po/tmp/evolution-mail.xml.h:54
+#: po/tmp/evolution-task-editor-dialog.xml.h:74
 msgid "_Delete"
 msgstr "Удалить"
 
-#: po/tmp/evolution-event-editor.xml.h:109
+#: po/tmp/evolution-event-editor.xml.h:63
 #: po/tmp/evolution-message-composer.xml.h:42
 #: po/tmp/evolution-subscribe.xml.h:15
-#: po/tmp/evolution-task-editor-dialog.xml.h:113 po/tmp/evolution.xml.h:35
+#: po/tmp/evolution-task-editor-dialog.xml.h:75 po/tmp/evolution.xml.h:35
 msgid "_Edit"
 msgstr "Правка"
 
 #: po/tmp/evolution-contact-editor.xml.h:19
-#: po/tmp/evolution-event-editor.xml.h:110
+#: po/tmp/evolution-event-editor.xml.h:64
 #: po/tmp/evolution-message-composer.xml.h:43
 #: po/tmp/evolution-subscribe.xml.h:16
-#: po/tmp/evolution-task-editor-dialog.xml.h:114 po/tmp/evolution.xml.h:36
+#: po/tmp/evolution-task-editor-dialog.xml.h:76 po/tmp/evolution.xml.h:36
 msgid "_File"
 msgstr "Файл"
 
-#: po/tmp/evolution-event-editor.xml.h:111
-#: po/tmp/evolution-task-editor-dialog.xml.h:115
-msgid "_Find..."
-msgstr "Найти..."
-
-#: po/tmp/evolution-event-editor.xml.h:112
-#: po/tmp/evolution-task-editor-dialog.xml.h:116
-msgid "_Forms"
-msgstr "Формы"
-
-#: po/tmp/evolution-event-editor.xml.h:113
+#: po/tmp/evolution-event-editor.xml.h:65
 #: po/tmp/evolution-message-composer.xml.h:44
-#: po/tmp/evolution-task-editor-dialog.xml.h:117 po/tmp/evolution.xml.h:39
+#: po/tmp/evolution-task-editor-dialog.xml.h:77 po/tmp/evolution.xml.h:39
 msgid "_Help"
 msgstr "Справка"
 
-#: po/tmp/evolution-event-editor.xml.h:114
-#: po/tmp/evolution-task-editor-dialog.xml.h:118
-msgid "_Insert"
-msgstr "Вставить"
+#: po/tmp/evolution-event-editor.xml.h:66
+#: po/tmp/evolution-task-editor-dialog.xml.h:78
+msgid "_Item (FIXME)"
+msgstr "Элемент (FIXME)"
 
-#: po/tmp/evolution-event-editor.xml.h:115
-#: po/tmp/evolution-task-editor-dialog.xml.h:119
-msgid "_Object"
-msgstr "Объект"
+#: po/tmp/evolution-event-editor.xml.h:67
+#: po/tmp/evolution-task-editor-dialog.xml.h:79
+msgid "_Journal Entry (FIXME)"
+msgstr "Журнальная запись (FIXME)"
 
-#: po/tmp/evolution-event-editor.xml.h:116
-#: po/tmp/evolution-task-editor-dialog.xml.h:120
+#: po/tmp/evolution-event-editor.xml.h:68
+#: po/tmp/evolution-task-editor-dialog.xml.h:80
+msgid "_Last Item in Folder (FIXME)"
+msgstr "Последний элемент в папке (FIXME)"
+
+#: po/tmp/evolution-event-editor.xml.h:69
+#: po/tmp/evolution-task-editor-dialog.xml.h:81
+msgid "_Mail Message (FIXME)"
+msgstr "Почтовое сообщение (FIXME)"
+
+#: po/tmp/evolution-task-editor-dialog.xml.h:82
+msgid "_Mark Complete (FIXME)"
+msgstr "Пометить как выполненное (FIXME)"
+
+#: po/tmp/evolution-event-editor.xml.h:70
+#: po/tmp/evolution-task-editor-dialog.xml.h:83
+msgid "_Move to Folder... (FIXME)"
+msgstr "Переместить в папку... (FIXME)"
+
+#: po/tmp/evolution-calendar.xml.h:32 po/tmp/evolution-event-editor.xml.h:71
+#: po/tmp/evolution-task-editor-dialog.xml.h:84 po/tmp/evolution.xml.h:43
+msgid "_New"
+msgstr "Новый"
+
+#: po/tmp/evolution-event-editor.xml.h:72
+#: po/tmp/evolution-task-editor-dialog.xml.h:85
+msgid "_Note (FIXME)"
+msgstr "Заметка (FIXME)"
+
+#: po/tmp/evolution-event-editor.xml.h:73
+#: po/tmp/evolution-task-editor-dialog.xml.h:86
 msgid "_Paste"
 msgstr "Вставить"
 
-#: po/tmp/evolution-event-editor.xml.h:117
-#: po/tmp/evolution-task-editor-dialog.xml.h:121
+#: po/tmp/evolution-event-editor.xml.h:74
+#: po/tmp/evolution-task-editor-dialog.xml.h:87
 #: po/tmp/evolution-tasks.xml.h:12
 msgid "_Print"
 msgstr "Печать"
 
-#: po/tmp/evolution-event-editor.xml.h:118
-#: po/tmp/evolution-task-editor-dialog.xml.h:122
+#: po/tmp/evolution-event-editor.xml.h:75
+#: po/tmp/evolution-task-editor-dialog.xml.h:88
 msgid "_Properties..."
 msgstr "Свойства..."
 
-#: po/tmp/evolution-event-editor.xml.h:119
-#: po/tmp/evolution-task-editor-dialog.xml.h:123
-msgid "_Redo"
-msgstr "Возврат"
-
-#: po/tmp/evolution-event-editor.xml.h:120
-#: po/tmp/evolution-task-editor-dialog.xml.h:124
-msgid "_Replace..."
-msgstr "Заменить..."
+#: po/tmp/evolution-task-editor-dialog.xml.h:89
+msgid "_Reply (FIXME)"
+msgstr "Ответить (FIXME)"
 
 #: po/tmp/evolution-contact-editor.xml.h:21
-#: po/tmp/evolution-event-editor.xml.h:121
+#: po/tmp/evolution-event-editor.xml.h:76
 #: po/tmp/evolution-message-composer.xml.h:47
-#: po/tmp/evolution-task-editor-dialog.xml.h:125
+#: po/tmp/evolution-task-editor-dialog.xml.h:90
 msgid "_Save"
 msgstr "Сохранить"
 
-#: po/tmp/evolution-event-editor.xml.h:122
-#: po/tmp/evolution-task-editor-dialog.xml.h:126
-msgid "_Toolbars"
-msgstr "Панель инструментов"
+#: po/tmp/evolution-event-editor.xml.h:77
+#: po/tmp/evolution-task-editor-dialog.xml.h:91
+msgid "_Select All"
+msgstr "Выбрать все"
+
+#: po/tmp/evolution-event-editor.xml.h:78
+#: po/tmp/evolution-task-editor-dialog.xml.h:92 po/tmp/evolution.xml.h:45
+msgid "_Task (FIXME)"
+msgstr "Задание (FIXME)"
 
 #: po/tmp/evolution-addressbook.xml.h:22
-#: po/tmp/evolution-event-editor.xml.h:123
-#: po/tmp/evolution-task-editor-dialog.xml.h:127
+#: po/tmp/evolution-event-editor.xml.h:79
+#: po/tmp/evolution-task-editor-dialog.xml.h:93
 msgid "_Tools"
 msgstr "Инструменты"
 
-#: po/tmp/evolution-event-editor.xml.h:124
-#: po/tmp/evolution-task-editor-dialog.xml.h:128
-msgid "_Undo"
-msgstr "Откат"
+#: po/tmp/evolution-event-editor.xml.h:80
+#: po/tmp/evolution-task-editor-dialog.xml.h:94
+msgid "_Unread Item (FIXME)"
+msgstr "Непрочитанный элемент (FIXME)"
 
-#: po/tmp/evolution-event-editor.xml.h:125
+#: po/tmp/evolution-event-editor.xml.h:81
 #: po/tmp/evolution-message-composer.xml.h:49
-#: po/tmp/evolution-task-editor-dialog.xml.h:129 po/tmp/evolution.xml.h:46
-#: shell/e-storage-set-view.c:338
+#: po/tmp/evolution-task-editor-dialog.xml.h:95 po/tmp/evolution.xml.h:46
+#: shell/e-storage-set-view.c:345
 msgid "_View"
 msgstr "Просмотр"
 
@@ -1779,7 +1599,7 @@ msgid "Authentication:"
 msgstr "Идентификация:"
 
 #: addressbook/gui/component/addressbook-config.c:455
-#: mail/mail-config-druid.c:460 po/tmp/mail-config.glade.h:53
+#: mail/mail-config-druid.c:461 po/tmp/mail-config.glade.h:53
 msgid "Path:"
 msgstr "Путь:"
 
@@ -1851,7 +1671,6 @@ msgid "Select name from:"
 msgstr "Выбрать имена из:"
 
 #: addressbook/gui/search/e-addressbook-search-dialog.c:151
-#: mail/mail-search-dialogue.c:104
 msgid "Search"
 msgstr "Поиск"
 
@@ -2241,19 +2060,19 @@ msgstr "Средство настройки для кондуита заданий Evolution.\n"
 msgid "Could not read pilot's ToDo application block"
 msgstr "Невозможно прочесть блок приложения заданий Пилота"
 
-#: calendar/gui/calendar-commands.c:245
+#: calendar/gui/calendar-commands.c:248
 msgid "File not found"
 msgstr "Файл не найден"
 
-#: calendar/gui/calendar-commands.c:269
+#: calendar/gui/calendar-commands.c:272
 msgid "Open calendar"
 msgstr "Открыть календарь"
 
-#: calendar/gui/calendar-commands.c:311
+#: calendar/gui/calendar-commands.c:314
 msgid "Save calendar"
 msgstr "Сохранить календарь"
 
-#: calendar/gui/calendar-commands.c:448
+#: calendar/gui/calendar-commands.c:451
 msgid ""
 "Could not create the calendar view.  Please check your ORBit and OAF setup."
 msgstr ""
@@ -2261,7 +2080,7 @@ msgstr ""
 "и OAF."
 
 #. strftime format of a weekday and a date.
-#: calendar/gui/calendar-model.c:332
+#: calendar/gui/calendar-model.c:335
 #: widgets/meeting-time-sel/e-meeting-time-sel-item.c:467
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:2499
 msgid "%a %m/%d/%Y"
@@ -2269,58 +2088,58 @@ msgstr "%a %m/%d/%Y"
 
 #. strftime format of a weekday, a date and a time,
 #. in 24-hour format.
-#: calendar/gui/calendar-model.c:336 calendar/gui/calendar-model.c:766
+#: calendar/gui/calendar-model.c:339 calendar/gui/calendar-model.c:769
 msgid "%a %m/%d/%Y %H:%M:%S"
 msgstr "%a %m/%d/%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time,
 #. in 12-hour format.
-#: calendar/gui/calendar-model.c:340 calendar/gui/calendar-model.c:769
+#: calendar/gui/calendar-model.c:343 calendar/gui/calendar-model.c:772
 msgid "%a %m/%d/%Y %I:%M:%S %p"
 msgstr "%a %m/%d/%Y %I:%M:%S %p"
 
-#: calendar/gui/calendar-model.c:374 po/tmp/task-editor-dialog.glade.h:21
+#: calendar/gui/calendar-model.c:377 po/tmp/task-editor-dialog.glade.h:21
 msgid "Public"
 msgstr "Общее"
 
-#: calendar/gui/calendar-model.c:377 po/tmp/task-editor-dialog.glade.h:20
+#: calendar/gui/calendar-model.c:380 po/tmp/task-editor-dialog.glade.h:20
 msgid "Private"
 msgstr "Личное"
 
-#: calendar/gui/calendar-model.c:380 po/tmp/task-editor-dialog.glade.h:11
+#: calendar/gui/calendar-model.c:383 po/tmp/task-editor-dialog.glade.h:11
 msgid "Confidential"
 msgstr "Конфиденциальное"
 
-#: calendar/gui/calendar-model.c:383 calendar/gui/calendar-model.c:551
+#: calendar/gui/calendar-model.c:386 calendar/gui/calendar-model.c:554
 #: camel/providers/smtp/camel-smtp-transport.c:181
 msgid "Unknown"
 msgstr "Неизвестное"
 
-#: calendar/gui/calendar-model.c:471
+#: calendar/gui/calendar-model.c:474
 msgid "N"
 msgstr "С"
 
-#: calendar/gui/calendar-model.c:471
+#: calendar/gui/calendar-model.c:474
 msgid "S"
 msgstr "Ю"
 
-#: calendar/gui/calendar-model.c:473
+#: calendar/gui/calendar-model.c:476
 msgid "E"
 msgstr "В"
 
-#: calendar/gui/calendar-model.c:473
+#: calendar/gui/calendar-model.c:476
 msgid "W"
 msgstr "З"
 
-#: calendar/gui/calendar-model.c:545
+#: calendar/gui/calendar-model.c:548
 msgid "Transparent"
 msgstr "Прозрачный"
 
-#: calendar/gui/calendar-model.c:548
+#: calendar/gui/calendar-model.c:551
 msgid "Opaque"
 msgstr "Непрозрачный"
 
-#: calendar/gui/calendar-model.c:774
+#: calendar/gui/calendar-model.c:777
 #, c-format
 msgid ""
 "The date must be entered in the format: \n"
@@ -2332,7 +2151,7 @@ msgstr ""
 "%s"
 
 #. strptime format for a date.
-#: calendar/gui/calendar-model.c:875 calendar/gui/calendar-model.c:923
+#: calendar/gui/calendar-model.c:878 calendar/gui/calendar-model.c:926
 #: widgets/meeting-time-sel/e-meeting-time-sel-item.c:471
 #: widgets/misc/e-dateedit.c:1273 widgets/misc/e-dateedit.c:1454
 msgid "%m/%d/%Y"
@@ -2340,27 +2159,27 @@ msgstr "%m/%d/%Y"
 
 #. strptime format for a time of day, in 12-hour format.
 #. If it is is not appropriate in the locale set to an empty string.
-#: calendar/gui/calendar-model.c:893
+#: calendar/gui/calendar-model.c:896
 msgid "%I:%M:%S %p%n"
 msgstr "%I:%M:%S %p%n"
 
 #. strptime format for a time of day, in 24-hour format.
-#: calendar/gui/calendar-model.c:896
+#: calendar/gui/calendar-model.c:899
 msgid "%H:%M:%S%n"
 msgstr "%H:%M:%S%n"
 
 #. strptime format for time of day, without seconds, 12-hour format.
 #. If it is is not appropriate in the locale set to an empty string.
-#: calendar/gui/calendar-model.c:900
+#: calendar/gui/calendar-model.c:903
 msgid "%I:%M %p%n"
 msgstr "%I:%M %p%n"
 
 #. strptime format for time of day, without seconds 24-hour format.
-#: calendar/gui/calendar-model.c:903
+#: calendar/gui/calendar-model.c:906
 msgid "%H:%M%n"
 msgstr "%H:%M%n"
 
-#: calendar/gui/calendar-model.c:1023
+#: calendar/gui/calendar-model.c:1026
 msgid ""
 "The geographical position must be entered in the format: \n"
 "\n"
@@ -2370,11 +2189,11 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: calendar/gui/calendar-model.c:1063
+#: calendar/gui/calendar-model.c:1066
 msgid "The percent value must be between 0 and 100, inclusive"
 msgstr "Значение процента должно быть между 0 и 100, включительно"
 
-#: calendar/gui/calendar-model.c:1103
+#: calendar/gui/calendar-model.c:1106
 msgid "The priority must be between 1 and 9, inclusive"
 msgstr "Приоритет должен быть между 1 и 9, включительно"
 
@@ -2410,7 +2229,7 @@ msgstr "Показать задания"
 msgid "Loading Calendar"
 msgstr "Загрузка календаря"
 
-#: calendar/gui/control-factory.c:127
+#: calendar/gui/control-factory.c:126
 msgid "The URI that the calendar will display"
 msgstr "URI, который будет показывать календарь"
 
@@ -2674,34 +2493,34 @@ msgstr "минут до назначенного времени."
 msgid "seconds."
 msgstr "секунд."
 
-#: calendar/gui/dialogs/delete-comp.c:63
+#: calendar/gui/dialogs/delete-comp.c:68
 #, c-format
 msgid "Are you sure you want to delete the appointment `%s'?"
 msgstr "Вы уверены что вы хотите удалить встречу \"%s\"?"
 
-#: calendar/gui/dialogs/delete-comp.c:66
+#: calendar/gui/dialogs/delete-comp.c:71
 msgid "Are you sure you want to delete this untitled appointment?"
 msgstr "Вы уверены что хотите удалить эту неозаглавленную встречу?"
 
-#: calendar/gui/dialogs/delete-comp.c:72
+#: calendar/gui/dialogs/delete-comp.c:77
 #, c-format
 msgid "Are you sure you want to delete the task `%s'?"
 msgstr "Вы уверены что вы хотите удалить задание \"%s\"?"
 
-#: calendar/gui/dialogs/delete-comp.c:75
+#: calendar/gui/dialogs/delete-comp.c:80
 msgid "Are you sure you want to delete this untitled task?"
 msgstr "Вы уверены что хотите удалить это неозаглавленное задание?"
 
-#: calendar/gui/dialogs/delete-comp.c:81
+#: calendar/gui/dialogs/delete-comp.c:86
 #, c-format
 msgid "Are you sure you want to delete the journal entry `%s'?"
 msgstr "Вы уверены что вы хотите удалить журнальную запись \"%s\"?"
 
-#: calendar/gui/dialogs/delete-comp.c:84
+#: calendar/gui/dialogs/delete-comp.c:89
 msgid "Are you sure want to delete this untitled journal entry?"
 msgstr "Вы уверены что хотите удалить эту неозаглавленную журнальную запись?"
 
-#: calendar/gui/dialogs/save-comp.c:46
+#: calendar/gui/dialogs/save-comp.c:50
 msgid "Do you want to save changes?"
 msgstr "Хотите сохранить изменения?"
 
@@ -2742,10 +2561,10 @@ msgid "Low"
 msgstr "Низкий"
 
 #. add a "None" option to the stores menu
-#: mail/mail-account-editor.c:674 mail/mail-account-editor.c:676
-#: mail/mail-account-editor.c:725 mail/mail-accounts.c:114
-#: mail/mail-config-druid.c:872 po/tmp/mail-config.glade.h:47
-#: po/tmp/task-editor-dialog.glade.h:17 shell/e-shell-view.c:1116
+#: mail/mail-account-editor.c:675 mail/mail-account-editor.c:677
+#: mail/mail-account-editor.c:726 mail/mail-accounts.c:114
+#: mail/mail-config-druid.c:875 po/tmp/mail-config.glade.h:47
+#: po/tmp/task-editor-dialog.glade.h:17 shell/e-shell-view.c:1119
 #: widgets/misc/e-dateedit.c:421 widgets/misc/e-dateedit.c:1330
 #: widgets/misc/e-dateedit.c:1445
 msgid "None"
@@ -2799,25 +2618,25 @@ msgstr "Состояние:"
 msgid "task-editor-dialog"
 msgstr "диалог редактора заданий"
 
-#: calendar/gui/dialogs/task-editor.c:692
+#: calendar/gui/dialogs/task-editor.c:693
 msgid "Edit Task"
 msgstr "Правка задания"
 
-#: calendar/gui/dialogs/task-editor.c:698 calendar/gui/event-editor.c:338
+#: calendar/gui/dialogs/task-editor.c:699 calendar/gui/event-editor.c:338
 msgid "No summary"
 msgstr "Нет итога"
 
-#: calendar/gui/dialogs/task-editor.c:704 calendar/gui/event-editor.c:344
+#: calendar/gui/dialogs/task-editor.c:705 calendar/gui/event-editor.c:344
 #, c-format
 msgid "Appointment - %s"
 msgstr "Встреча - %s"
 
-#: calendar/gui/dialogs/task-editor.c:707 calendar/gui/event-editor.c:347
+#: calendar/gui/dialogs/task-editor.c:708 calendar/gui/event-editor.c:347
 #, c-format
 msgid "Task - %s"
 msgstr "Задание - %s"
 
-#: calendar/gui/dialogs/task-editor.c:710 calendar/gui/event-editor.c:350
+#: calendar/gui/dialogs/task-editor.c:711 calendar/gui/event-editor.c:350
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Журнальная запись - %s"
@@ -2936,7 +2755,7 @@ msgid "Edit this appointment..."
 msgstr "Правка этой встречи..."
 
 #: calendar/gui/e-day-view.c:3013 calendar/gui/e-week-view.c:3216
-#: po/tmp/evolution-event-editor.xml.h:20
+#: po/tmp/evolution-event-editor.xml.h:23
 msgid "Delete this appointment"
 msgstr "Удалить эту встречу"
 
@@ -4485,7 +4304,7 @@ msgid "%.1fG"
 msgstr "%.1fG"
 
 #. This is a filename. Translators take note.
-#: composer/e-msg-composer-attachment-bar.c:324 mail/mail-display.c:154
+#: composer/e-msg-composer-attachment-bar.c:324 mail/mail-display.c:113
 msgid "attachment"
 msgstr "вложение"
 
@@ -4515,7 +4334,7 @@ msgstr "Присоединить файл к сообщению"
 #. * Translatable strings file generated by extract-ui.
 #. * DO NOT compile this file as part of your application.
 #.
-#: mail/message-list.c:1109 po/tmp/e-msg-composer-attachment.glade.h:6
+#: mail/message-list.c:1115 po/tmp/e-msg-composer-attachment.glade.h:6
 msgid "Attachment"
 msgstr "Вложение"
 
@@ -4992,7 +4811,7 @@ msgid "Regex Match"
 msgstr "Совпадение рег.выражения"
 
 #: filter/libfilter-i18n.h:17 filter/score-rule.c:192 filter/score-rule.c:194
-#: mail/message-list.c:1109
+#: mail/message-list.c:1115
 msgid "Score"
 msgstr "Подсчет"
 
@@ -5012,7 +4831,7 @@ msgstr "Источник"
 msgid "Specific header"
 msgstr "Специфический заголовок"
 
-#: filter/libfilter-i18n.h:22 mail/message-list.c:1109
+#: filter/libfilter-i18n.h:22 mail/message-list.c:1115
 msgid "Status"
 msgstr "Состояние"
 
@@ -5020,7 +4839,7 @@ msgstr "Состояние"
 msgid "Stop Processing"
 msgstr "Остановить обработку"
 
-#: filter/libfilter-i18n.h:24 mail/message-list.c:1110
+#: filter/libfilter-i18n.h:24 mail/message-list.c:1116
 msgid "Subject"
 msgstr "Тема"
 
@@ -5120,11 +4939,11 @@ msgstr "Добавить правило вирт.папки"
 msgid "Edit VFolder Rule"
 msgstr "Правка правила вирт.папки"
 
-#: mail/component-factory.c:295
+#: mail/component-factory.c:294
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Невозможно инициализировать почтовый компонент \"Эволюции\"."
 
-#: mail/component-factory.c:330
+#: mail/component-factory.c:320
 msgid "Cannot register storage with shell"
 msgstr ""
 
@@ -5286,7 +5105,7 @@ msgstr "(Исх.значения)"
 msgid "Evolution Account Manager"
 msgstr "Диспетчер счетов Evolution"
 
-#: mail/mail-account-editor.c:265
+#: mail/mail-account-editor.c:266
 msgid ""
 "One or more of your servers are not configured correctly.\n"
 "Do you wish to save anyway?"
@@ -5295,7 +5114,7 @@ msgstr ""
 "Сохранить в любом случае?"
 
 #. give our dialog an OK button and title
-#: mail/mail-account-editor.c:625
+#: mail/mail-account-editor.c:626
 msgid "Evolution Account Editor"
 msgstr "Редактор счетов Evolution"
 
@@ -5387,11 +5206,11 @@ msgstr ""
 "Вы можете править только сообщения\n"
 "сохраненные в папке \"Черновики\"."
 
-#: mail/mail-callbacks.c:788 mail/mail-display.c:78
+#: mail/mail-callbacks.c:788 mail/mail-display.c:83
 msgid "Overwrite file?"
 msgstr "Переписать файл?"
 
-#: mail/mail-callbacks.c:792 mail/mail-display.c:82
+#: mail/mail-callbacks.c:792 mail/mail-display.c:87
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
@@ -5648,7 +5467,7 @@ msgstr "Имя пользователя:"
 msgid "Welcome to the Evolution Mail Configuration Druid.\n"
 msgstr "Добро пожаловать к помощнику по настройке почты в Evolution.\n"
 
-#: mail/mail-config-druid.c:363
+#: mail/mail-config-druid.c:364
 #, c-format
 msgid ""
 "Failed to verify the incoming mail configuration.\n"
@@ -5657,11 +5476,11 @@ msgstr ""
 "Сбой при проверке настроек входящей почты.\n"
 "У вас могут возникнуть проблемы с получением вашей почты с %s"
 
-#: mail/mail-config-druid.c:458
+#: mail/mail-config-druid.c:459
 msgid "Namespace:"
 msgstr "Пространство имен:"
 
-#: mail/mail-config-druid.c:643
+#: mail/mail-config-druid.c:644
 #, c-format
 msgid ""
 "Failed to verify the outgoing mail configuration.\n"
@@ -5671,56 +5490,42 @@ msgstr ""
 "У вас могут возникнуть проблемы с отправкой вашей почты через %s"
 
 #. set window title
-#: mail/mail-config-druid.c:992
+#: mail/mail-config-druid.c:995
 msgid "Evolution Account Wizard"
 msgstr "Помощник по счетам Evolution"
 
-#: mail/mail-display.c:97
-#, c-format
-msgid ""
-"Could not open file %s:\n"
-"%s"
-msgstr ""
-"Невозможно открыть файл %s:\n"
-"%s"
-
-#: mail/mail-display.c:130
-#, c-format
-msgid "Could not write data: %s"
-msgstr "Невозможно записать данные: %s"
-
-#: mail/mail-display.c:228
+#: mail/mail-display.c:189
 msgid "Save Attachment"
 msgstr "Сохранить вложение"
 
-#: mail/mail-display.c:268
+#: mail/mail-display.c:229
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Не удалось создать временный каталог: %s"
 
-#: mail/mail-display.c:310
+#: mail/mail-display.c:271
 msgid "Save to Disk..."
 msgstr "Сохранить на диске..."
 
-#: mail/mail-display.c:312
+#: mail/mail-display.c:273
 #, c-format
 msgid "Open in %s..."
 msgstr "Открыть в %s..."
 
-#: mail/mail-display.c:314
+#: mail/mail-display.c:275
 msgid "View Inline"
 msgstr "Встроенный просмотр"
 
-#: mail/mail-display.c:341
+#: mail/mail-display.c:302
 msgid "External Viewer"
 msgstr "Внешняя программа просмотра"
 
-#: mail/mail-display.c:364
+#: mail/mail-display.c:325
 #, c-format
 msgid "View Inline (via %s)"
 msgstr "Встроенный просмотр (через %s)"
 
-#: mail/mail-display.c:368
+#: mail/mail-display.c:329
 msgid "Hide"
 msgstr "Скрыть"
 
@@ -5923,7 +5728,7 @@ msgstr "%s сообщения %d из %d (uid \"%s\")"
 msgid "Scanning folders in \"%s\""
 msgstr "Считывание папок в \"%s\""
 
-#: mail/mail-ops.c:1035 mail/subscribe-dialog.c:356
+#: mail/mail-ops.c:1035 mail/subscribe-dialog.c:359
 msgid "(No description)"
 msgstr "(Нет описания)"
 
@@ -5995,13 +5800,27 @@ msgstr ""
 "Ошибка сохранения сообщений в: %s:\n"
 " %s"
 
-#: mail/mail-search-dialogue.c:104
-msgid "Ok"
-msgstr "Ок"
+#: mail/mail-ops.c:1944
+msgid "Saving attachment"
+msgstr "Сохранение вложения"
 
-#: mail/mail-search-dialogue.c:104
-msgid "Cancel"
-msgstr "Отмена"
+#: mail/mail-ops.c:1959
+#, c-format
+msgid ""
+"Cannot create output file: %s:\n"
+" %s"
+msgstr ""
+"Не удалось создать файл вывода: %s\n"
+" %s"
+
+#: mail/mail-ops.c:1987
+#, c-format
+msgid "Could not write data: %s"
+msgstr "Невозможно записать данные: %s"
+
+#: mail/mail-search-dialogue.c:107
+msgid "_Search"
+msgstr "Поиск"
 
 #: mail/mail-summary.c:111 mail/mail-threads.c:729
 msgid "Incomplete message written on pipe!"
@@ -6077,7 +5896,7 @@ msgstr ""
 msgid "VFolders"
 msgstr "Вирт.папки"
 
-#: mail/mail-vfolder.c:302
+#: mail/mail-vfolder.c:303
 msgid "New VFolder"
 msgstr "Новая вирт.папка"
 
@@ -6107,78 +5926,78 @@ msgstr "Распечатать выделенное сообщение"
 msgid "Delete this message"
 msgstr "Удалить это сообщение"
 
-#: mail/message-list.c:599
+#: mail/message-list.c:605
 msgid "Unseen"
 msgstr "Непрочитанное"
 
-#: mail/message-list.c:602
+#: mail/message-list.c:608
 msgid "Seen"
 msgstr "Прочитанное"
 
-#: mail/message-list.c:605
+#: mail/message-list.c:611
 msgid "Answered"
 msgstr "Отвечено"
 
-#: mail/message-list.c:890
+#: mail/message-list.c:896
 #, c-format
 msgid "[ %s ]"
 msgstr "[ %s ]"
 
 #. well, we could scan more children, build up a (more accurate) list, but this should do ok
-#: mail/message-list.c:902 mail/message-list.c:918
+#: mail/message-list.c:908 mail/message-list.c:924
 #, c-format
 msgid "%s, et al."
 msgstr "%s, и т.д."
 
-#: mail/message-list.c:905 mail/message-list.c:921
+#: mail/message-list.c:911 mail/message-list.c:927
 msgid "<unknown>"
 msgstr "<неизвестное>"
 
-#: mail/message-list.c:973
+#: mail/message-list.c:979
 msgid "?"
 msgstr "?"
 
-#: mail/message-list.c:980
+#: mail/message-list.c:986
 msgid "Today %l:%M %p"
 msgstr "Сегодня %I:%M %p"
 
-#: mail/message-list.c:989
+#: mail/message-list.c:995
 msgid "Yesterday %l:%M %p"
 msgstr "Вчера %l:%M %p"
 
-#: mail/message-list.c:1001
+#: mail/message-list.c:1007
 msgid "%a %l:%M %p"
 msgstr "%a %l:%M %p"
 
-#: mail/message-list.c:1009
+#: mail/message-list.c:1015
 msgid "%b %d %l:%M %p"
 msgstr "%b %d %l:%M %p"
 
-#: mail/message-list.c:1011
+#: mail/message-list.c:1017
 msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
-#: mail/message-list.c:1109
+#: mail/message-list.c:1115
 msgid "Flagged"
 msgstr "Отмеченное"
 
-#: mail/message-list.c:1110
+#: mail/message-list.c:1116
 msgid "From"
 msgstr "От"
 
-#: mail/message-list.c:1110
+#: mail/message-list.c:1116
 msgid "Date"
 msgstr "Дата"
 
-#: mail/message-list.c:1110
+#: mail/message-list.c:1116
 msgid "Received"
 msgstr "Получения"
 
-#: mail/message-list.c:1111
+#: mail/message-list.c:1117
 msgid "To"
 msgstr "Кому"
 
-#: mail/message-list.c:1111
+#: mail/message-list.c:1117
 msgid "Size"
 msgstr "Размер"
 
@@ -6239,22 +6058,22 @@ msgstr ""
 msgid "Get store for \"%s\""
 msgstr ""
 
-#: mail/subscribe-dialog.c:289
+#: mail/subscribe-dialog.c:292
 #, c-format
 msgid "Subscribing to folder \"%s\""
 msgstr "Подписывание на папку \"%s\""
 
-#: mail/subscribe-dialog.c:293
+#: mail/subscribe-dialog.c:296
 #, c-format
 msgid "Unsubscribing from folder \"%s\""
 msgstr "Отписывание от папки \"%s\""
 
-#: mail/subscribe-dialog.c:297
+#: mail/subscribe-dialog.c:300
 #, c-format
 msgid "Subscribe to folder \"%s\""
 msgstr "Подписать на папку \"%s\""
 
-#: mail/subscribe-dialog.c:300
+#: mail/subscribe-dialog.c:303
 #, c-format
 msgid "Unsubscribe from folder \"%s\""
 msgstr "Отписаться от папки \"%s\""
@@ -6399,16 +6218,16 @@ msgstr "Перейти к папке..."
 msgid "(No folder displayed)"
 msgstr "(Папки не показаны)"
 
-#: shell/e-shell-view.c:471
+#: shell/e-shell-view.c:474
 msgid "Folders"
 msgstr "Папки"
 
-#: shell/e-shell-view.c:1121
+#: shell/e-shell-view.c:1124
 #, c-format
 msgid "%s - Evolution %s"
 msgstr "%s - Evolution %s"
 
-#: shell/e-shell-view.c:1123
+#: shell/e-shell-view.c:1126
 #, c-format
 msgid "%s - Evolution %s [%s]"
 msgstr "%s - Evolution %s [%s]"
@@ -6504,7 +6323,7 @@ msgstr "Удалить эту закладку из строки закладок"
 msgid "Error saving shortcuts."
 msgstr "Ошибка сохранения закладок."
 
-#: shell/e-storage-set-view.c:338
+#: shell/e-storage-set-view.c:345
 msgid "View the selected folder"
 msgstr "Просмотр выбранной папки"
 
@@ -6762,10 +6581,6 @@ msgstr "Сегодня"
 msgid "Week"
 msgstr "Неделя"
 
-#: po/tmp/evolution-calendar.xml.h:32 po/tmp/evolution.xml.h:43
-msgid "_New"
-msgstr "Новый"
-
 #: po/tmp/evolution-calendar.xml.h:33
 msgid "_Open Calendar"
 msgstr "Открыть календарь"
@@ -6798,6 +6613,10 @@ msgstr "Сохранить задание и закрыть окно диалога"
 msgid "Se_nd contact to other..."
 msgstr "Послать контакт другому..."
 
+#: po/tmp/evolution-contact-editor.xml.h:17
+msgid "See online help"
+msgstr "Просмотр онлайновой справки"
+
 #: po/tmp/evolution-contact-editor.xml.h:18
 msgid "Send _message to contact..."
 msgstr "Послать сообщение к контакту..."
@@ -6806,35 +6625,27 @@ msgstr "Послать сообщение к контакту..."
 msgid "_Print..."
 msgstr "Печать..."
 
-#: po/tmp/evolution-event-editor.xml.h:14
+#: po/tmp/evolution-event-editor.xml.h:16
 msgid "Close this appointment"
 msgstr "Закрыть эту встречу"
 
-#: po/tmp/evolution-event-editor.xml.h:32
-msgid "FIXME: Forward as v_Calendar"
-msgstr "FIXME: Переслать как v_Calendar"
+#: po/tmp/evolution-event-editor.xml.h:28
+msgid "Forward as v_Calendar (FIXME)"
+msgstr "Переслать как v_Calendar (FIXME)"
 
-#: po/tmp/evolution-event-editor.xml.h:57
-msgid "FIXME: _New Appointment"
-msgstr "FIXME: Новая встреча"
-
-#: po/tmp/evolution-event-editor.xml.h:58
-msgid "FIXME: _Note"
-msgstr "FIXME: Запись"
-
-#: po/tmp/evolution-event-editor.xml.h:91
+#: po/tmp/evolution-event-editor.xml.h:48
 msgid "Save the appointment and close the dialog box"
 msgstr "Сохранить встречу и закрыть окно диалога"
 
-#: po/tmp/evolution-event-editor.xml.h:93
+#: po/tmp/evolution-event-editor.xml.h:50
 msgid "Schedule Meeting"
 msgstr "Вставить встречу в расписание"
 
-#: po/tmp/evolution-event-editor.xml.h:94
+#: po/tmp/evolution-event-editor.xml.h:51
 msgid "Schedule _Meeting"
 msgstr "Вставить встречу в расписание"
 
-#: po/tmp/evolution-event-editor.xml.h:95
+#: po/tmp/evolution-event-editor.xml.h:52
 msgid "Schedule some sort of a meeting"
 msgstr "Вставить в расписание встречу некоторого типа"
 
@@ -7053,6 +6864,10 @@ msgstr "Присоединить"
 #: po/tmp/evolution-message-composer.xml.h:10
 msgid "Encrypt this message with PGP"
 msgstr "Зашифровать это сообщение с помощью PGP"
+
+#: po/tmp/evolution-message-composer.xml.h:11
+msgid "F_ormat"
+msgstr "Формат"
 
 #: po/tmp/evolution-message-composer.xml.h:12
 msgid "HTML"
@@ -7290,14 +7105,6 @@ msgstr "Использование почты"
 msgid "_About Evolution..."
 msgstr "О программе..."
 
-#: po/tmp/evolution.xml.h:32
-msgid "_Appointment (FIXME)"
-msgstr "Встреча (FIXME)"
-
-#: po/tmp/evolution.xml.h:34
-msgid "_Contact (FIXME)"
-msgstr "Контакт (FIXME)"
-
 #: po/tmp/evolution.xml.h:37
 msgid "_Folder"
 msgstr "Папка"
@@ -7321,10 +7128,6 @@ msgstr "Почтовое сообщение"
 #: po/tmp/evolution.xml.h:44
 msgid "_Settings"
 msgstr "Установки"
-
-#: po/tmp/evolution.xml.h:45
-msgid "_Task (FIXME)"
-msgstr "Задание (FIXME)"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
@@ -7440,11 +7243,6 @@ msgstr "%H:%M"
 msgid "%I:%M %p"
 msgstr "%I:%M %p"
 
-#: widgets/misc/e-search-bar.c:176
+#: widgets/misc/e-search-bar.c:135
 msgid "Sear_ch"
 msgstr "Поиск"
-
-#: widgets/shortcut-bar/e-group-bar.c:632
-#, c-format
-msgid "Group %i"
-msgstr "Группа %i"
