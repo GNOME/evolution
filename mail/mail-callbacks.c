@@ -1533,11 +1533,13 @@ delete_msg (GtkWidget *button, gpointer user_data)
 
 	deleted = flag_messages (fb, CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN,
 				 CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN);
+
+	/* Select the next message if we are only deleting one message */
 	if (deleted == 1) {
 		row = e_tree_row_of_node (fb->message_list->tree,
 					  e_tree_get_cursor (fb->message_list->tree));
 		message_list_select (fb->message_list, row, MESSAGE_LIST_SELECT_NEXT,
-				     0, CAMEL_MESSAGE_DELETED);
+				     0, 0);
 	}
 }
 

@@ -959,7 +959,6 @@ message_list_create_extras (void)
 	/* date cell */
 	cell = e_cell_date_new (NULL, GTK_JUSTIFY_LEFT);
 	gtk_object_set (GTK_OBJECT (cell),
-			"strikeout_column", COL_DELETED,
 			"bold_column", COL_UNREAD,
 			"color_column", COL_COLOUR,
 			NULL);
@@ -968,7 +967,6 @@ message_list_create_extras (void)
 	/* text cell */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	gtk_object_set (GTK_OBJECT (cell),
-			"strikeout_column", COL_DELETED,
 			"bold_column", COL_UNREAD,
 			"color_column", COL_COLOUR,
 			NULL);
@@ -981,7 +979,6 @@ message_list_create_extras (void)
 	/* size cell */
 	cell = e_cell_size_new (NULL, GTK_JUSTIFY_RIGHT);
 	gtk_object_set (GTK_OBJECT (cell),
-			"strikeout_column", COL_DELETED,
 			"bold_column", COL_UNREAD,
 			"color_column", COL_COLOUR,
 			NULL);
@@ -1166,8 +1163,6 @@ message_list_class_init (GtkObjectClass *object_class)
 static void
 message_list_construct (MessageList *message_list)
 {
-	ETableExtras *extras;
-	
 	message_list->model =
 		e_tree_memory_callbacks_new (ml_tree_icon_at,
 					     
@@ -1198,17 +1193,15 @@ message_list_construct (MessageList *message_list)
 	/*
 	 * The etree
 	 */
-	extras = message_list_create_extras ();
+	message_list->extras = message_list_create_extras ();
 	e_tree_scrolled_construct_from_spec_file (E_TREE_SCROLLED (message_list),
 						  message_list->model,
-						  extras, 
+						  message_list->extras, 
 						  EVOLUTION_ETSPECDIR "/message-list.etspec",
 						  NULL);
 	
 	message_list->tree = e_tree_scrolled_get_tree(E_TREE_SCROLLED (message_list));
 	e_tree_root_node_set_visible (message_list->tree, FALSE);
-	
-	gtk_object_sink (GTK_OBJECT (extras));
 	
 	gtk_signal_connect (GTK_OBJECT (message_list->tree), "cursor_activated",
 			    GTK_SIGNAL_FUNC (on_cursor_activated_cmd),
@@ -1905,7 +1898,30 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder, g
 	}
 
 	if (camel_folder) {
-		/* build the etree suitable for this folder */
+		/* Setup the strikeout effect for non-vtrash folders */
+		if (!CAMEL_IS_VTRASH_FOLDER (camel_folder)) {
+			ECell *cell;
+
+			cell = e_table_extras_get_cell (message_list->extras, "render_date");
+			gtk_object_set (GTK_OBJECT (cell),
+					"strikeout_column", COL_DELETED,
+					NULL);
+
+			cell = e_table_extras_get_cell (message_list->extras, "render_text");
+			gtk_object_set (GTK_OBJECT (cell),
+					"strikeout_column", COL_DELETED,
+					NULL);
+
+			cell = e_table_extras_get_cell (message_list->extras, "render_size");
+			gtk_object_set (GTK_OBJECT (cell),
+					"strikeout_column", COL_DELETED,
+					NULL);
+		}
+
+		/* Now we're finally done with the extras */
+		gtk_object_sink (GTK_OBJECT (message_list->extras));
+
+		/* Build the etree suitable for this folder */
 		message_list_setup_etree (message_list, outgoing);
 		
 		camel_object_hook_event (CAMEL_OBJECT (camel_folder), "folder_changed",

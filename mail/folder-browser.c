@@ -1227,6 +1227,8 @@ static EPopupMenu context_menu[] = {
 	  GTK_SIGNAL_FUNC (mark_as_seen),     NULL,  CAN_MARK_READ },
 	{ N_("Mark as U_nread"),              NULL,
 	  GTK_SIGNAL_FUNC (mark_as_unseen),   NULL,  CAN_MARK_UNREAD },
+	{ N_("Mark as _Important"),            NULL,
+	  GTK_SIGNAL_FUNC (mark_as_important), NULL, 0 },
 	
 	SEPARATOR,
 	

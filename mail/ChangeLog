@@ -1,3 +1,16 @@
+2001-07-06  Jason Leach  <jleach@ximian.com>
+
+	* mail-callbacks.c (delete_msg): Select the very next message
+	after deleting, not the next undeleted (it can make things jump
+	around in annoying ways if you are deleting many messages), bug #4032.
+
+	* folder-browser.c: Forgot to commit the "Mark as Important" right
+	click menu item.
+
+	* message-list.c (message_list_set_folder): Setup the strikeout
+	column here (after we've gotten the folder) so we can disable
+	strikeouts for vtrash folders, part of bug #2224.
+
 2001-07-06  Dan Winship  <danw@ximian.com>
 
 	* mail-folder-cache.c (mail_folder_cache_set_folder_browser): Fix

@@ -50,6 +50,7 @@ struct _MessageList {
 	ETreeModel   *model;
 	ETree        *tree;
 	ETreePath     tree_root;
+	ETableExtras *extras;
 
 	/* The folder */
 	CamelFolder  *folder;
