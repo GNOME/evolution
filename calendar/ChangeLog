@@ -1,3 +1,10 @@
+1998-04-02  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* view-utils.c (view_utils_draw_events): Use better format
+	specifier for strftime().
+	(view_utils_draw_textured_frame): Ultra-nifty function to draw
+	textured "metal" frames, like Netscape's handles.
+
 1998-04-02  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* gncal-day-view.c (gncal_day_view_update): Day events are now

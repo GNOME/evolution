@@ -22,5 +22,7 @@ enum {
 void view_utils_draw_events (GtkWidget *widget, GdkWindow *window, GdkGC *gc, GdkRectangle *area,
 			     int flags, GList *events, time_t start, time_t end);
 
+void view_utils_draw_textured_frame (GtkWidget *widget, GdkWindow *window, GdkRectangle *rect, GtkShadowType shadow);
+
 
 #endif
