@@ -411,6 +411,8 @@ sub_queue_fill_level(EMSubscribe *sub, EMSubscribeNode *node)
 
 	sub_editor_busy(sub->editor, 1);
 
+	id = m->msg.seq;
+
 	e_thread_put (mail_thread_new, (EMsg *)m);
 	return id;
 }
