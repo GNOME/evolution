@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: E-volution\n"
-"POT-Creation-Date: 2000-05-28 21:25+0000\n"
-"PO-Revision-Date: 2000-05-28 21:27+00:00\n"
+"POT-Creation-Date: 2000-06-01 17:39+0000\n"
+"PO-Revision-Date: 2000-06-01 18:05+00:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -26,107 +26,107 @@ msgid "_Full Name..."
 msgstr "Полное имя..."
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:9
-msgid "Company:"
-msgstr "Компания:"
-
-#: addressbook/contact-editor/e-contact-editor-strings.h:10
 msgid "File As:"
 msgstr "Сохранить как:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:11
+#: addressbook/contact-editor/e-contact-editor-strings.h:10
 msgid "Web page address:"
 msgstr "Адрес Web-страницы:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:12
+#: addressbook/contact-editor/e-contact-editor-strings.h:11
 msgid "Wants to receive _HTML mail"
 msgstr "Принимает HTML-почту"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:13
+#: addressbook/contact-editor/e-contact-editor-strings.h:12
 msgid "Address:"
 msgstr "Адрес:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:14
+#: addressbook/contact-editor/e-contact-editor-strings.h:13
 msgid "_Business"
 msgstr "Рабочий"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:15
+#: addressbook/contact-editor/e-contact-editor-strings.h:14
 msgid "_Home"
 msgstr "Домашний"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:16
+#: addressbook/contact-editor/e-contact-editor-strings.h:15
 msgid "Business _Fax"
 msgstr "Рабочий факс"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:17
+#: addressbook/contact-editor/e-contact-editor-strings.h:16
 msgid "_Mobile"
 msgstr "Мобильный"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:18
+#: addressbook/contact-editor/e-contact-editor-strings.h:17
 msgid "Primary Email"
 msgstr "Первый эл.адрес"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:19
-msgid "Business"
+#: addressbook/contact-editor/e-contact-editor-strings.h:18
+msgid "B_usiness"
 msgstr "Рабочий"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:20
-msgid "This is the _mailing address"
+#: addressbook/contact-editor/e-contact-editor-strings.h:19
+msgid "_This is the mailing address"
 msgstr "Это адрес электронной почты"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:21
-msgid "_Contacts..."
+#: addressbook/contact-editor/e-contact-editor-strings.h:20
+msgid "C_ontacts..."
 msgstr "Контакты..."
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:22
+#: addressbook/contact-editor/e-contact-editor-strings.h:21
 msgid "Ca_tegories..."
 msgstr "Категории..."
 
+#: addressbook/contact-editor/e-contact-editor-strings.h:22
+msgid "_Job title:"
+msgstr "Должность:"
+
 #: addressbook/contact-editor/e-contact-editor-strings.h:23
-msgid "Job Title"
-msgstr "Должность"
+msgid "_Company:"
+msgstr "Компания:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:24
 msgid "General"
 msgstr "Общее"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:25
-msgid "Department:"
+msgid "_Department:"
 msgstr "Отдел:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:26
-msgid "Office:"
+msgid "_Office:"
 msgstr "Офис:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:27
-msgid "Profession:"
+msgid "_Profession:"
 msgstr "Профессия:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:28
-msgid "Nickname:"
+msgid "_Nickname:"
 msgstr "Псевдоним:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:29
-msgid "Spouse:"
+msgid "_Spouse:"
 msgstr "Супруг(а):"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:30
-msgid "Birthday:"
+msgid "_Birthday:"
 msgstr "День рожденья:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:31
-msgid "Assistant's name:"
+msgid "_Assistant's name:"
 msgstr "Имя помощника:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:32
-msgid "Manager's Name:"
+msgid "_Manager's Name:"
 msgstr "Имя менеджера:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:33
-msgid "Anniversary:"
+msgid "Anni_versary:"
 msgstr "Годовщина:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:34
-msgid "Notes:"
+msgid "No_tes:"
 msgstr "Заметки:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:35
@@ -134,13 +134,11 @@ msgid "Details"
 msgstr "Детали"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:36
-#: addressbook/contact-editor/e-contact-editor-strings.h:41
-msgid "Add"
+msgid "_Add"
 msgstr "Добавить"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:37
-#: mail/folder-browser-factory.c:50
-msgid "Delete"
+msgid "_Delete"
 msgstr "Удалить"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:38
@@ -148,9 +146,13 @@ msgid "Phone Types"
 msgstr "Тип телефона"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:39
-#: addressbook/contact-editor/e-contact-editor-strings.h:40
+#: addressbook/contact-editor/e-contact-editor-strings.h:41
 msgid "New phone type"
 msgstr "Новый тип телефона"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:40
+msgid "Add"
+msgstr "Добавить"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -414,7 +416,7 @@ msgstr "Обратное на четных страницах"
 msgid "Header/Footer"
 msgstr "Шапка/Сноска"
 
-#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:533
+#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:585
 msgid "Cut"
 msgstr "Вырезать"
 
@@ -422,7 +424,7 @@ msgstr "Вырезать"
 msgid "Cut selected item into clipboard"
 msgstr "Вырезает выделенный элемент в буфер обмена"
 
-#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:534
+#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:586
 msgid "Copy"
 msgstr "Скопировать"
 
@@ -431,7 +433,7 @@ msgid "Copy selected item into clipboard"
 msgstr "Копирует выделенный элемент в буфер обмена"
 
 #: composer/e-msg-composer-address-dialog.c:191
-#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:535
+#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:587
 msgid "Paste"
 msgstr "Вставить"
 
@@ -610,60 +612,60 @@ msgstr "Тема:"
 msgid "Enter the subject of the mail"
 msgstr "Введите тему письма"
 
-#: composer/e-msg-composer.c:491
+#: composer/e-msg-composer.c:543
 msgid "Save in _folder..."
 msgstr "Сохранить в папке..."
 
-#: composer/e-msg-composer.c:491
+#: composer/e-msg-composer.c:543
 msgid "Save the message in a specified folder"
 msgstr "Сохранить сообщение в указанной папке"
 
-#: composer/e-msg-composer.c:494 composer/e-msg-composer.c:531
+#: composer/e-msg-composer.c:546 composer/e-msg-composer.c:583
 #: mail/folder-browser-factory.c:36
 msgid "Send"
 msgstr "Отправить"
 
-#: composer/e-msg-composer.c:494
+#: composer/e-msg-composer.c:546
 msgid "Send the message"
 msgstr "Отправить сообщение"
 
-#: composer/e-msg-composer.c:502
+#: composer/e-msg-composer.c:554
 msgid "View _attachments"
 msgstr "Просмотреть вложения"
 
-#: composer/e-msg-composer.c:502
+#: composer/e-msg-composer.c:554
 msgid "View/hide attachments"
 msgstr "Показать/скрыть вложения"
 
-#: composer/e-msg-composer.c:531
+#: composer/e-msg-composer.c:583
 msgid "Send this message"
 msgstr "Отправить это сообщение"
 
-#: composer/e-msg-composer.c:533
+#: composer/e-msg-composer.c:585
 msgid "Cut selected region into the clipboard"
 msgstr "Вырезать выделенную область в буфер обмена"
 
-#: composer/e-msg-composer.c:534
+#: composer/e-msg-composer.c:586
 msgid "Copy selected region into the clipboard"
 msgstr "Скопировать выделенную область в буфер обмена"
 
-#: composer/e-msg-composer.c:535
+#: composer/e-msg-composer.c:587
 msgid "Paste selected region into the clipboard"
 msgstr "Вставить выделенную область в буфер обмена"
 
-#: composer/e-msg-composer.c:536
+#: composer/e-msg-composer.c:588
 msgid "Undo"
 msgstr "Откат"
 
-#: composer/e-msg-composer.c:536
+#: composer/e-msg-composer.c:588
 msgid "Undo last operation"
 msgstr "Отменить последнюю операцию"
 
-#: composer/e-msg-composer.c:538
+#: composer/e-msg-composer.c:590
 msgid "Attach"
 msgstr "Присоединить"
 
-#: composer/e-msg-composer.c:538
+#: composer/e-msg-composer.c:590
 msgid "Attach a file"
 msgstr "Присоединить файл"
 
@@ -720,6 +722,10 @@ msgid "Print the selected message"
 msgstr "Распечатать выделенное сообщение"
 
 #: mail/folder-browser-factory.c:50
+msgid "Delete"
+msgstr "Удалить"
+
+#: mail/folder-browser-factory.c:50
 msgid "Delete this message"
 msgstr "Удалить это сообщение"
 
@@ -735,17 +741,21 @@ msgstr "Помощник по фильтрам ..."
 msgid "_Vfolder Druid ..."
 msgstr "Помощник по V-папкам ..."
 
-#: mail/folder-browser-factory.c:193
+#: mail/folder-browser-factory.c:85
+msgid "_Configure Camel Providers ..."
+msgstr "Настройка провайдера Camel ..."
+
+#: mail/folder-browser-factory.c:207
 msgid "We are sorry, Evolution's Folder Browser can not be initialized."
 msgstr ""
 "Извините, программа просмотра папок \"Эволюции\" не может быть "
 "инициализирована."
 
-#: mail/folder-browser.c:232
+#: mail/folder-browser.c:249
 msgid "The URI that the Folder Browser will display"
 msgstr "URI, который будет показывать программа просмотра папок"
 
-#: mail/folder-browser.c:235
+#: mail/folder-browser.c:252
 msgid "Whether a message preview should be shown"
 msgstr "Будет ли показываться окно просмотра сообщения"
 
@@ -753,55 +763,59 @@ msgstr "Будет ли показываться окно просмотра сообщения"
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "Почтовый компонент: не удалось инициализировать Bonobo"
 
-#: mail/message-list.c:476
+#: mail/message-list.c:496
+msgid "Online Status"
+msgstr "Подключенное состояние"
+
+#: mail/message-list.c:510
 msgid "Priority"
 msgstr "Приоритет"
 
-#: mail/message-list.c:490
+#: mail/message-list.c:524
 msgid "From"
 msgstr "От"
 
-#: mail/message-list.c:497
+#: mail/message-list.c:531
 msgid "Subject"
 msgstr "Тема"
 
-#: mail/message-list.c:504
+#: mail/message-list.c:538
 msgid "Sent"
 msgstr "Отправлено"
 
-#: mail/message-list.c:511
+#: mail/message-list.c:545
 msgid "Receive"
 msgstr "Получено"
 
-#: mail/message-list.c:518
+#: mail/message-list.c:552
 msgid "To"
 msgstr "Кому"
 
-#: mail/message-list.c:525
+#: mail/message-list.c:559
 msgid "Size"
 msgstr "Размер"
 
 #. you might have to call gnome_dialog_run() on the
 #. * dialog returned here, I don't remember...
 #.
-#: shell/e-shell-view-menu.c:62
+#: shell/e-shell-view-menu.c:106
 msgid "Bug buddy was not found in your $PATH."
 msgstr "Bug-buddy не был найден в вашем $PATH."
 
 #. same as above
-#: shell/e-shell-view-menu.c:68
+#: shell/e-shell-view-menu.c:112
 msgid "Bug buddy could not be run."
 msgstr "Bug-buddy не может быть запущен."
 
-#: shell/e-shell-view-menu.c:111
+#: shell/e-shell-view-menu.c:155
 msgid "Evolution"
 msgstr "Эволюция"
 
-#: shell/e-shell-view-menu.c:113
+#: shell/e-shell-view-menu.c:157
 msgid "Copyright 1999, 2000 Helix Code, Inc."
 msgstr "Copyright 1999, 2000 Helix Code, Inc."
 
-#: shell/e-shell-view-menu.c:115
+#: shell/e-shell-view-menu.c:159
 msgid ""
 "Evolution is a suite of groupware applications\n"
 "for mail, calendaring, and contact management\n"
@@ -811,108 +825,108 @@ msgstr ""
 "ведения календарей и контактной информации для\n"
 "групповой работы в среде GNOME."
 
-#: shell/e-shell-view-menu.c:185 shell/e-shell-view-menu.c:251
+#: shell/e-shell-view-menu.c:244 shell/e-shell-view-menu.c:310
 msgid "_Folder"
 msgstr "Папка"
 
-#: shell/e-shell-view-menu.c:189
+#: shell/e-shell-view-menu.c:248
 msgid "Evolution _Bar Shortcut"
 msgstr "Строка ярлыков Evolution"
 
-#: shell/e-shell-view-menu.c:195
+#: shell/e-shell-view-menu.c:254
 msgid "_Mail message"
 msgstr "Почтовое сообщение"
 
-#: shell/e-shell-view-menu.c:196 shell/e-shell-view-menu.c:199
+#: shell/e-shell-view-menu.c:255 shell/e-shell-view-menu.c:258
 msgid "Composes a new mail message"
 msgstr "Создать новое сообщение"
 
-#: shell/e-shell-view-menu.c:198
+#: shell/e-shell-view-menu.c:257
 msgid "_Appointment"
 msgstr "Встреча"
 
-#: shell/e-shell-view-menu.c:201
+#: shell/e-shell-view-menu.c:260
 msgid "Meeting Re_quest"
 msgstr "Запрос встречи"
 
-#: shell/e-shell-view-menu.c:204
+#: shell/e-shell-view-menu.c:263
 msgid "_Contact"
 msgstr "Контакт"
 
-#: shell/e-shell-view-menu.c:207
+#: shell/e-shell-view-menu.c:266
 msgid "_Task"
 msgstr "Задание"
 
-#: shell/e-shell-view-menu.c:210
+#: shell/e-shell-view-menu.c:269
 msgid "Task _Request"
 msgstr "Запрос задания"
 
-#: shell/e-shell-view-menu.c:213
+#: shell/e-shell-view-menu.c:272
 msgid "_Journal Entry"
 msgstr "Журнальная строка"
 
-#: shell/e-shell-view-menu.c:216
+#: shell/e-shell-view-menu.c:275
 msgid "_Note"
 msgstr "Заметка"
 
-#: shell/e-shell-view-menu.c:226
+#: shell/e-shell-view-menu.c:285
 msgid "_Selected Items"
 msgstr "Выделенные элементы"
 
-#: shell/e-shell-view-menu.c:234
+#: shell/e-shell-view-menu.c:293
 msgid "_New Folder"
 msgstr "Новая папка"
 
-#: shell/e-shell-view-menu.c:242
+#: shell/e-shell-view-menu.c:301
 msgid "_New"
 msgstr "Новое"
 
-#: shell/e-shell-view-menu.c:243
+#: shell/e-shell-view-menu.c:302
 msgid "_Open"
 msgstr "Открыть"
 
-#: shell/e-shell-view-menu.c:244
+#: shell/e-shell-view-menu.c:303
 msgid "Clos_e All Items"
 msgstr "Закрыть все"
 
-#: shell/e-shell-view-menu.c:244
+#: shell/e-shell-view-menu.c:303
 msgid "Closes all the open items"
 msgstr "Закрыть все что открыто"
 
-#: shell/e-shell-view-menu.c:265
-msgid "Show _Shortcut Bar"
-msgstr "Показать строку ярлыков"
+#: shell/e-shell-view-menu.c:324
+msgid "Show _shortcut bar"
+msgstr "Показать строку закладок"
 
-#: shell/e-shell-view-menu.c:266
-msgid "Shows the shortcut bar"
-msgstr "Показать строку ярлыков"
+#: shell/e-shell-view-menu.c:325
+msgid "Show the shortcut bar"
+msgstr "Показать строку закладок"
 
-#: shell/e-shell-view-menu.c:268
-msgid "Show _Treeview"
-msgstr "Показать просмотр дерева"
+#: shell/e-shell-view-menu.c:327
+msgid "Show _folder bar"
+msgstr "Показать строку папок"
 
-#: shell/e-shell-view-menu.c:269
-msgid "Shows the tree view"
-msgstr "Показать просмотр дерева"
+#: shell/e-shell-view-menu.c:328
+msgid "Show the folder bar"
+msgstr "Показать строку папок"
 
-#: shell/e-shell-view-menu.c:284
+#: shell/e-shell-view-menu.c:343
 msgid "_Submit bug"
 msgstr "Отправить сообщение об ошибке"
 
-#: shell/e-shell-view-menu.c:285
+#: shell/e-shell-view-menu.c:344
 msgid "Submit bug-report via bug-buddy"
 msgstr "Оправить сообщение об ошибке через bug-buddy"
 
 #. FIXME: add Favorites here
-#: shell/e-shell-view-menu.c:300
+#: shell/e-shell-view-menu.c:359
 msgid "_Tools"
 msgstr "Инструменты"
 
-#: shell/e-shell-view-menu.c:301
+#: shell/e-shell-view-menu.c:360
 msgid "_Actions"
 msgstr "Действия"
 
-#: shell/e-shell.c:157
+#: shell/e-shell.c:176
 #, c-format
 msgid "Cannot set up local storage -- %s"
 msgstr "Невозможно установить локальное хранилище -- %s"
