@@ -99,6 +99,7 @@ enum {
 	ARG_ALLOW_NEWLINES,
 	ARG_DRAW_BORDERS,
 	ARG_DRAW_BACKGROUND,
+	ARG_DRAW_BUTTON,
 	ARG_CURSOR_POS
 };
 
@@ -289,6 +290,7 @@ e_entry_init (GtkObject *object)
 		"anchor", GTK_ANCHOR_NW,
 		"draw_borders", TRUE,
 		"draw_background", TRUE,
+		"draw_button", FALSE,
 		"max_lines", 1,
 		"editable", TRUE,
 		"allow_newlines", FALSE,
@@ -931,6 +933,12 @@ et_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 				NULL);
 		break;
 
+	case ARG_DRAW_BUTTON:
+		gtk_object_get (item,
+				"draw_button", &GTK_VALUE_BOOL (*arg),
+				NULL);
+		break;
+
 	case ARG_CURSOR_POS:
 		gtk_object_get (item,
 				"cursor_pos", &GTK_VALUE_INT (*arg),
@@ -1112,6 +1120,11 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		gtk_object_set (item, "draw_background",
 				GTK_VALUE_BOOL (*arg), NULL);
 		break;
+
+	case ARG_DRAW_BUTTON:
+		gtk_object_set (item, "draw_button",
+				GTK_VALUE_BOOL (*arg), NULL);
+		break;
 	}
 }
 
@@ -1231,6 +1244,8 @@ e_entry_class_init (GtkObjectClass *object_class)
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_DRAW_BORDERS);
 	gtk_object_add_arg_type ("EEntry::draw_background",
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_DRAW_BACKGROUND);
+	gtk_object_add_arg_type ("EEntry::draw_button",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_DRAW_BUTTON);
 	gtk_object_add_arg_type ("EEntry::cursor_pos",
 				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_CURSOR_POS);
 }

@@ -99,6 +99,7 @@ enum {
 	ARG_DRAW_BORDERS,
 	ARG_ALLOW_NEWLINES,
 	ARG_DRAW_BACKGROUND,
+	ARG_DRAW_BUTTON,
 	ARG_CURSOR_POS
 };
 
@@ -326,6 +327,8 @@ e_text_class_init (ETextClass *klass)
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_ALLOW_NEWLINES);
 	gtk_object_add_arg_type ("EText::draw_background",
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_DRAW_BACKGROUND);
+	gtk_object_add_arg_type ("EText::draw_button",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_DRAW_BUTTON);
 	gtk_object_add_arg_type ("EText::cursor_pos",
 				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_CURSOR_POS);
 
@@ -429,6 +432,7 @@ e_text_init (EText *text)
 	text->tpl_timeout             = 0;
 
 	text->draw_background         = FALSE;
+	text->draw_button             = FALSE;
 
 	text->bold                    = FALSE;
 	text->strikeout               = FALSE;
@@ -1491,6 +1495,13 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		}
 		break;
 
+	case ARG_DRAW_BUTTON:
+		if (text->draw_button != GTK_VALUE_BOOL (*arg)){
+			text->draw_button = GTK_VALUE_BOOL (*arg);
+			text->needs_redraw = 1;
+		}
+		break;
+
 	case ARG_ALLOW_NEWLINES:
 		text->allow_newlines = GTK_VALUE_BOOL (*arg);
 		_get_tep(text);
@@ -1660,6 +1671,10 @@ e_text_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	case ARG_DRAW_BACKGROUND:
 		GTK_VALUE_BOOL (*arg) = text->draw_background;
+		break;
+		
+	case ARG_DRAW_BUTTON:
+		GTK_VALUE_BOOL (*arg) = text->draw_button;
 		break;
 		
 	case ARG_ALLOW_NEWLINES:
@@ -2042,6 +2057,98 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 					    thisheight - widget->style->klass->ythickness * 2);
 		}
 	}
+	if (text->draw_button) {
+		GtkWidget *widget;
+		int xoff = item->x1 - x;
+		int yoff = item->y1 - y;
+
+		widget = GTK_WIDGET (item->canvas);
+
+		xoff -= widget->allocation.x;
+		yoff -= widget->allocation.y;
+
+		widget = widget->parent;
+
+		while (widget && !GTK_IS_BUTTON(widget)) {
+			if (!GTK_WIDGET_NO_WINDOW (widget)) {
+				widget = NULL;
+				break;
+			}
+			widget = widget->parent;
+		}
+		if (widget) {
+			GtkButton *button = GTK_BUTTON (widget);
+			GtkShadowType shadow_type;
+			int thisx, thisy, thisheight, thiswidth;
+			int default_spacing;
+			GdkRectangle area;
+			area.x = 0;
+			area.y = 0;
+			area.width = width;
+			area.height = height;
+
+#define DEFAULT_SPACING   7
+
+			default_spacing = gtk_style_get_prop_experimental (widget->style,
+									   "GtkButton::default_spacing",
+									   DEFAULT_SPACING);
+
+			thisx = 0;
+			thisy = 0;
+			thiswidth = widget->allocation.width - GTK_CONTAINER (widget)->border_width * 2;
+			thisheight = widget->allocation.height - GTK_CONTAINER (widget)->border_width * 2;
+
+			if (GTK_WIDGET_HAS_DEFAULT (widget) &&
+			    GTK_BUTTON (widget)->relief == GTK_RELIEF_NORMAL)
+				{
+					gtk_paint_box (widget->style, drawable,
+						       GTK_STATE_NORMAL, GTK_SHADOW_IN,
+						       &area, widget, "buttondefault",
+						       thisx + xoff, thisy + yoff, thiswidth, thisheight);
+				}
+
+			if (GTK_WIDGET_CAN_DEFAULT (widget)) {
+				thisx += widget->style->klass->xthickness;
+				thisy += widget->style->klass->ythickness;
+				thiswidth -= 2 * thisx + default_spacing;
+				thisheight -= 2 * thisy + default_spacing;
+				thisx += (1 + default_spacing) / 2;
+				thisy += (1 + default_spacing) / 2;
+			}
+
+			if (GTK_WIDGET_HAS_FOCUS (widget)) {
+				thisx += 1;
+				thisy += 1;
+				thiswidth -= 2;
+				thisheight -= 2;
+			}
+
+			if (GTK_WIDGET_STATE (widget) == GTK_STATE_ACTIVE)
+				shadow_type = GTK_SHADOW_IN;
+			else
+				shadow_type = GTK_SHADOW_OUT;
+
+			if ((button->relief != GTK_RELIEF_NONE) ||
+			    ((GTK_WIDGET_STATE(widget) != GTK_STATE_NORMAL) &&
+			     (GTK_WIDGET_STATE(widget) != GTK_STATE_INSENSITIVE)))
+			gtk_paint_box (widget->style, drawable,
+				       GTK_WIDGET_STATE (widget),
+				       shadow_type, &area, widget, "button",
+				       thisx + xoff, thisy + yoff, thiswidth, thisheight);
+
+			if (GTK_WIDGET_HAS_FOCUS (widget)) {
+				thisx -= 1;
+				thisy -= 1;
+				thiswidth += 2;
+				thisheight += 2;
+
+				gtk_paint_focus (widget->style, widget->window,
+						 &area, widget, "button",
+						 thisx + xoff, thisy + yoff, thiswidth - 1, thisheight - 1);
+			}
+		}
+	}
+
 
 	if (!text->text || !text->font)
 		return;
