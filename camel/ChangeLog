@@ -1,5 +1,16 @@
 2001-01-18  Dan Winship  <danw@ximian.com>
 
+	* camel-store.c (camel_folder_info_build): More tweaking... skip
+	separator characters after the namespace character. (Gets rid of
+	the shell folder registration warning some people have had with
+	IMAP)
+
+	* providers/imap/camel-imap-store.c (imap_connect): I'm sure there
+	was some clever reason I was storing the flags of the folder in
+	the hash table rather than just "1", but I don't remember what it
+	was now. Anyway, since we only ever test NULL/non-NULL, store 1,
+	since flags is sometimes 0.
+
 	* providers/imap/camel-imap-folder.c (imap_update_summary): Oops.
 	Somewhere in one of the reorgs, the code to add new messages to
 	the CamelFolderChangeInfo structure got removed. Fix that.

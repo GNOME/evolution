@@ -414,7 +414,7 @@ imap_connect (CamelService *service, CamelException *ex)
 			continue;
 		}
 		g_hash_table_insert (store->subscribed_folders, name,
-				     GINT_TO_POINTER (flags));
+				     GINT_TO_POINTER (1));
 	}
 	camel_imap_response_free (response);
 

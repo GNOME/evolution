@@ -625,9 +625,12 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 	for (i = 0; i < folders->len; i++) {
 		fi = folders->pdata[i];
 		if (!strncmp (namespace, fi->full_name, nlen))
-			g_hash_table_insert (hash, fi->full_name + nlen, fi);
+			name = fi->full_name + nlen;
 		else
-			g_hash_table_insert (hash, fi->full_name, fi);
+			name = fi->full_name;
+		if (*name == separator)
+			name++;
+		g_hash_table_insert (hash, name, fi);
 	}
 
 	/* Now find parents. */
@@ -637,6 +640,8 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 			name = fi->full_name + nlen;
 		else
 			name = fi->full_name;
+		if (*name == separator)
+			name++;
 		p = strrchr (name, separator);
 		if (p) {
 			pname = g_strndup (name, p - name);
