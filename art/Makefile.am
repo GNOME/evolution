@@ -54,6 +54,8 @@ images_DATA = \
 	folder-copy-16.png		\
 	folder-move-16.png		\
 	folder-settings.png		\
+	folder.png			\
+	folder-mini.png			\
 	folder.xpm			\
 	font.png			\
 	forward.xpm			\
@@ -116,6 +118,8 @@ images_DATA = \
 	print-preview.xpm		\
 	print.xpm			\
 	priority-high.xpm		\
+	public-folder.png		\
+	public-folder-mini.png		\
 	rdf.png				\
 	reply.xpm			\
 	reply_to_all.xpm		\

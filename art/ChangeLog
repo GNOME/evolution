@@ -1,3 +1,13 @@
+2002-07-09  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (images_DATA): add folder.png, folder-mini.png,
+	public-folder.png, and public-folder-mini.png
+
+	* folder-mini.png: Renamed from local-16.png
+
+	* folder.png, public-folder.png, public-folder-mini.png: New, from
+	Jakub.
+
 2002-07-09  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (images_DATA): inbox-mini.png instead of
