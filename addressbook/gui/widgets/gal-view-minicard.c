@@ -18,7 +18,7 @@
 static GalViewClass *gal_view_minicard_parent_class;
 
 static void
-gal_view_minicard_edit            (GalView *view)
+gal_view_minicard_edit            (GalView *view, GtkWindow *parent_window)
 {
 	/* GalViewMinicard *minicard_view = GAL_VIEW_MINICARD(view); */
 }
