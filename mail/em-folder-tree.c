@@ -512,8 +512,23 @@ em_folder_tree_new_with_model (EMFolderTreeModel *model)
 static void
 tree_drag_begin (GtkWidget *widget, GdkDragContext *context, EMFolderTree *emft)
 {
-	/* FIXME: set an icon? */
+	struct _EMFolderTreePrivate *priv = emft->priv;
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+	
 	printf ("::drag-begin called\n");
+	
+	selection = gtk_tree_view_get_selection ((GtkTreeView *) widget);
+	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
+		return;
+	
+	path = gtk_tree_model_get_path (model, &iter);
+	priv->drag_row = gtk_tree_row_reference_new (model, path);
+	gtk_tree_path_free (path);
+	
+	/* FIXME: set a drag icon? */
 }
 
 static void
@@ -590,7 +605,6 @@ tree_drag_drop (GtkWidget *widget, GdkDragContext *context, int x, int y, guint 
 	}
 	
 	gtk_tree_path_free (path);
-	widget = gtk_drag_get_source_widget (context);
 	gtk_drag_get_data (widget, context, target, time);
 	
 	return TRUE;

@@ -1,5 +1,10 @@
+2004-01-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-tree.c (tree_drag_begin): Set priv->drag_row.
+
 2004-01-26 Aaron Weber <aaron@ximian.com>
-        * mail/default/C/Inbox: edited default message	
+
+	* mail/default/C/Inbox: edited default message
 
 2004-01-26  Jeffrey Stedfast  <fejj@ximian.com>
 

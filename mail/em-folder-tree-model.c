@@ -87,6 +87,7 @@ static GtkTargetEntry drop_types[] = {
 	{ "text/uri-list",    0, DND_DROP_TYPE_TEXT_URI_LIST  },
 };
 
+static GdkAtom drag_atoms[NUM_DRAG_TYPES];
 static GdkAtom drop_atoms[NUM_DROP_TYPES];
 
 
@@ -172,6 +173,9 @@ em_folder_tree_model_class_init (EMFolderTreeModelClass *klass)
 			      G_TYPE_NONE, 2,
 			      G_TYPE_POINTER,
 			      G_TYPE_POINTER);
+	
+	for (i = 0; i < NUM_DRAG_TYPES; i++)
+		drag_atoms[i] = gdk_atom_intern (drag_types[i].target, FALSE);
 	
 	for (i = 0; i < NUM_DROP_TYPES; i++)
 		drop_atoms[i] = gdk_atom_intern (drop_types[i].target, FALSE);
@@ -1155,7 +1159,7 @@ em_folder_tree_model_drag_data_received (EMFolderTreeModel *model, GtkTreePath *
 			/* copy or move (aka rename) a folder */
 			drop_folder (folder, selection, move, &ex);
 			*moved = move;
-			d(printf ("\t* dropped a x-folder\n"));
+			d(printf ("\t* dropped a x-folder ('%s' into '%s')\n", selection->data, full_name));
 			break;
 		case DND_DROP_TYPE_MESSAGE_RFC822:
 			/* import a message/rfc822 stream */
@@ -1312,7 +1316,7 @@ drag_text_uri_list (CamelFolder *src, GtkSelectionData *selection, CamelExceptio
 		/* replace "mbox:" with "file:" */
 		memcpy (url->str, "file", 4);
 		g_string_append (url, "\r\n");
-		gtk_selection_data_set (selection, selection->target, 8, url->str, url->len);
+		gtk_selection_data_set (selection, drag_atoms[DND_DRAG_TYPE_TEXT_URI_LIST], 8, url->str, url->len);
 	}
 	
 	camel_folder_free_uids (src, uids);
@@ -1331,8 +1335,10 @@ em_folder_tree_model_drag_data_get (EMFolderTreeModel *model, GtkTreePath *src_p
 	GtkTreeIter iter;
 	char *path, *uri;
 	
-	if (!gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, src_path))
+	if (!gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, src_path)) {
+		printf ("model_drag_data_get failed to get iter\n");
 		return FALSE;
+	}
 	
 	gtk_tree_model_get ((GtkTreeModel *) model, &iter,
 			    COL_POINTER_CAMEL_STORE, &store,
@@ -1340,8 +1346,10 @@ em_folder_tree_model_drag_data_get (EMFolderTreeModel *model, GtkTreePath *src_p
 			    COL_STRING_URI, &uri, -1);
 	
 	/* make sure user isn't try to drag on a placeholder row */
-	if (path == NULL)
+	if (path == NULL) {
+		printf ("model_drag_data_get failed to get path\n");
 		return FALSE;
+	}
 	
 	full_name = path[0] == '/' ? path + 1 : path;
 	
@@ -1350,11 +1358,13 @@ em_folder_tree_model_drag_data_get (EMFolderTreeModel *model, GtkTreePath *src_p
 	switch (info) {
 	case DND_DRAG_TYPE_FOLDER:
 		/* dragging to a new location in the folder tree */
-		gtk_selection_data_set (selection, selection->target, 8, uri, strlen (uri) + 1);
+		gtk_selection_data_set (selection, drag_atoms[info], 8, uri, strlen (uri) + 1);
+		printf ("model_drag_data_get setting x-folder data\n");
 		break;
 	case DND_DRAG_TYPE_TEXT_URI_LIST:
 		/* dragging to nautilus or something, probably */
 		if ((folder = camel_store_get_folder (store, full_name, 0, &ex))) {
+			printf ("model_drag_data_get setting text/uri-list data\n");
 			drag_text_uri_list (folder, selection, &ex);
 			camel_object_unref (folder);
 		}
@@ -1364,6 +1374,7 @@ em_folder_tree_model_drag_data_get (EMFolderTreeModel *model, GtkTreePath *src_p
 	}
 	
 	if (camel_exception_is_set (&ex)) {
+		printf ("model_drag_data_get failed: %s\n", ex.desc);
 		camel_exception_clear (&ex);
 		return FALSE;
 	}
