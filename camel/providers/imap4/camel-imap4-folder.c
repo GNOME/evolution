@@ -605,6 +605,7 @@ imap4_refresh_info (CamelFolder *folder, CamelException *ex)
 			goto done;
 	}
 	
+	((CamelIMAP4Summary *) folder->summary)->update_flags = TRUE;
 	if (camel_imap4_summary_flush_updates (folder->summary, ex) == -1)
 		goto done;
 	
