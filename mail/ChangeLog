@@ -1,7 +1,13 @@
 2001-02-16  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* main.c:
-	* component-factory.c: Reverse the changes I made yesterday.
+	* mail-send-recv.c (receive_get_folder): Not sure it makes any
+	difference, but lets ref the folder while the hash table is locked
+	rather than after we unlock it.
+
+2001-02-16  Jeffrey Stedfast  <fejj@ximian.com>
+	
+	* main.c: * component-factory.c: Reverse the changes I made
+	yesterday.
 
 2001-02-15  Jeffrey Stedfast  <fejj@ximian.com>
 

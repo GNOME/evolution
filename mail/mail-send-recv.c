@@ -69,7 +69,7 @@ struct _send_data {
 	GnomeDialog *gd;
 	int cancelled;
 
-	CamelFolder *inbox;	/* since w'ere never asked to uypdate this one, do it ourselves */
+	CamelFolder *inbox;	/* since we're never asked to update this one, do it ourselves */
 	time_t inbox_update;
 
 	GMutex *lock;
@@ -320,7 +320,7 @@ static struct _send_data *build_dialogue(GSList *sources, CamelFolder *outbox, c
 		info->bar = bar;
 		info->stop = stop;
 		info->data = data;
-	
+		
 		gtk_signal_connect((GtkObject *)stop, "clicked", receive_cancel, info);
 		gtk_widget_show_all((GtkWidget *)table);
 	}
@@ -550,9 +550,11 @@ receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelExcep
 		oldinfo->uri = g_strdup(uri);
 		g_hash_table_insert(info->data->folders, oldinfo->uri, oldinfo);
 	}
+	
+	camel_object_ref (CAMEL_OBJECT (folder));
+	
 	g_mutex_unlock(info->data->lock);
-
-	camel_object_ref((CamelObject *)folder);
+	
 	return folder;
 }
 
