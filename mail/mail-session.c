@@ -76,6 +76,7 @@ typedef struct _MailSession {
 	/* spamassassin filter options */
 	gboolean sa_local_only;
 	gboolean sa_use_daemon;
+	int sa_daemon_port;
 } MailSession;
 
 typedef struct _MailSessionClass {
@@ -785,6 +786,18 @@ mail_session_set_sa_use_daemon (gboolean value)
 	MAIL_SESSION (session)->sa_use_daemon = value;
 }
 
+int
+mail_session_get_sa_daemon_port ()
+{
+	return MAIL_SESSION (session)->sa_daemon_port;
+}
+
+void
+mail_session_set_sa_daemon_port (int value)
+{
+	MAIL_SESSION (session)->sa_daemon_port = value;
+}
+
 static void
 mail_session_check_junk_notify (GConfClient *gconf, guint id, GConfEntry *entry, CamelSession *session)
 {
@@ -798,10 +811,15 @@ mail_session_check_junk_notify (GConfClient *gconf, guint id, GConfEntry *entry,
 		key ++;
 		if (!strcmp (key, "check_incoming"))
 			camel_session_set_check_junk (session, gconf_value_get_bool (gconf_entry_get_value (entry)));
+		else if (!strcmp (key, "check_incoming_imap"))
+			camel_session_set_check_junk_for_imap (session, gconf_value_get_bool (gconf_entry_get_value (entry)));
 		else if (!strcmp (key, "local_only"))
 			mail_session_set_sa_local_only (gconf_value_get_bool (gconf_entry_get_value (entry)));
 		else if (!strcmp (key, "use_daemon"))
 			mail_session_set_sa_use_daemon (gconf_value_get_bool (gconf_entry_get_value (entry)));
+		else if (!strcmp (key, "daemon_port"))
+			mail_session_set_sa_daemon_port (gconf_value_get_int (gconf_entry_get_value (entry)));
+
 	}
 }
 
@@ -822,6 +840,8 @@ mail_session_init (const char *base_directory)
 	gconf = mail_config_get_gconf_client ();
 	gconf_client_add_dir (gconf, "/apps/evolution/mail/junk", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 	camel_session_set_check_junk (session, gconf_client_get_bool (gconf, "/apps/evolution/mail/junk/check_incoming", NULL));
+	camel_session_set_check_junk_for_imap (session, gconf_client_get_bool (gconf, "/apps/evolution/mail/junk/check_incoming_imap", NULL));
+	mail_session_set_sa_daemon_port (gconf_client_get_int (gconf, "/apps/evolution/mail/junk/sa/daemon_port", NULL));
 	session_check_junk_notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/junk",
 								(GConfClientNotifyFunc) mail_session_check_junk_notify,
 								session, NULL, NULL);

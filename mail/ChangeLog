@@ -1,3 +1,20 @@
+2004-01-23  Radek Doulik  <rodo@ximian.com>
+
+	* em-junk-filter.c: use mail_session_get_sa_daemon_port
+
+	* em-mailer-prefs.c (em_mailer_prefs_construct): added
+	check_incoming_imap
+	(em_mailer_prefs_apply): ditto
+	(settings_changed): set check_incoming_imap sensitivity by
+	check_incoming state
+
+	* mail-session.c: add sa_daemon_port
+	(mail_session_init): init sa_daemon_port and check_junk_for_imap
+	(mail_session_check_junk_notify): watch for sa_daemon_port and
+	check_junk_for_imap
+	(mail_session_get_sa_daemon_port): new wrapper
+	(mail_session_set_sa_daemon_port): ditto
+
 2004-01-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-junk-filter.c (em_junk_sa_test_spamd): Oops, when calling

@@ -38,7 +38,7 @@ struct _EMJunkPlugin
 	   plugin has to call (*changed_cb) (); whenever configuration
 	   is changed to notify settings dialog about that change.
 	   if setup_widget is NULL, it means there is no UI configuration */
-
+	/* this is currently not used */
 	GtkWidget (*setup_widget) (void (*changed_cb) ());
 	void      (*apply)        ();
 };

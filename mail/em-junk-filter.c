@@ -182,12 +182,13 @@ em_junk_sa_test_spamd_running (int port)
 }
 
 #define SPAMD_PORT      7830
-#define MAX_SPAMD_PORT  SPAMD_PORT
+#define MAX_SPAMD_PORTS 1
 
 static void
 em_junk_sa_test_spamd (void)
 {
-	int port = SPAMD_PORT;
+	int port = mail_session_get_sa_daemon_port ();
+	int i;
 	char *argv[6] = {
 		"/bin/sh",
 		"-c",
@@ -208,7 +209,7 @@ em_junk_sa_test_spamd (void)
 		em_junk_sa_use_spamc = TRUE;
 		em_junk_sa_spamd_port = -1;
 	} else {
-		for ( ; port < MAX_SPAMD_PORT; port++) {
+		for (i = 0; i < MAX_SPAMD_PORTS; i ++, port ++) {
 			if (em_junk_sa_test_spamd_running (port)) {
 				em_junk_sa_use_spamc = TRUE;
 				em_junk_sa_spamd_port = port;
@@ -233,7 +234,7 @@ em_junk_sa_test_spamd (void)
 		argv[i++] = "--daemonize";
 		argv[i] = NULL;
 		
-		for ( ; port < MAX_SPAMD_PORT; port++) {
+		for (i = 0; i < MAX_SPAMD_PORTS; i++, port++) {
 			d(fprintf (stderr, "trying to run spamd at port %d\n", port));
 			
 			sprintf (port_buf, "%d", port);

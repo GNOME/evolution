@@ -638,6 +638,20 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/mail/junk/check_incoming_imap</key>
+      <applyto>/apps/evolution/mail/junk/check_incoming_imap</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+         <short>Check incoming mail being junk for IMAP accounts</short>
+         <long>
+          Run junk test on incoming mail for IMAP accounts (only valid if check_incoming is set to true)
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/junk/sa/local_only</key>
       <applyto>/apps/evolution/mail/junk/sa/local_only</applyto>
       <owner>evolution-mail</owner>
@@ -661,6 +675,20 @@
          <short>Use Spamasssassin daemon and client</short>
          <long>
           Use Spamasssassin daemon and client (spamc/spamd)
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/junk/sa/daemon_port</key>
+      <applyto>/apps/evolution/mail/junk/sa/daemon_port</applyto>
+      <owner>evolution-mail</owner>
+      <type>int</type>
+      <default>7830</default>
+      <locale name="C">
+         <short>spamd port</short>
+         <long>
+          port for starting user runned spamd
          </long>
       </locale>
     </schema>
