@@ -67,9 +67,12 @@ static char *accepted_dnd_types[] = {
 static const EvolutionShellComponentFolderType folder_types[] = {
 	{ "contacts", "evolution-contacts.png", N_("Contacts"), N_("Folder containing contact information"),
 	  TRUE, accepted_dnd_types, NULL },
+	{ "ldap-contacts", "ldap-16.png", N_("LDAP Server"), N_("LDAP server containing contact information"),
+	  TRUE, accepted_dnd_types, NULL },
 	{ NULL }
 };
 
+#define IS_CONTACT_TYPE(x)  (g_strcasecmp((x), "contacts") == 0 || g_strcasecmp ((x), "ldap-contacts") == 0)
 
 /* EvolutionShellComponent methods and signals.  */
 
@@ -82,7 +85,7 @@ create_view (EvolutionShellComponent *shell_component,
 {
 	BonoboControl *control;
 
-	if (g_strcasecmp (type, "contacts") != 0)
+	if (!IS_CONTACT_TYPE (type))
 		return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE;
 
 	control = addressbook_factory_new_control ();
@@ -103,7 +106,7 @@ create_folder (EvolutionShellComponent *shell_component,
 	CORBA_Environment ev;
 	GNOME_Evolution_ShellComponentListener_Result result;
 
-	if (g_strcasecmp (type, "contacts") != 0)
+	if (!IS_CONTACT_TYPE (type))
 		result = GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE;
 	else 
 		result = GNOME_Evolution_ShellComponentListener_OK;
@@ -127,7 +130,7 @@ remove_folder (EvolutionShellComponent *shell_component,
 
 	CORBA_exception_init(&ev);
 
-	if (strcmp (type, "contacts") != 0) {
+	if (!IS_CONTACT_TYPE (type)) {
 		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
 								     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE,
 								     &ev);
@@ -195,7 +198,7 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	char *source_path;
 	char *destination_path;
 	
-	if (strcmp (type, "contacts") != 0) {
+	if (!IS_CONTACT_TYPE (type)) {
 		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
 								     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE,
 								     &ev);

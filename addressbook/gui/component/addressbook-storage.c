@@ -102,30 +102,53 @@ addressbook_storage_setup (EvolutionShellComponent *shell_component,
 }
 
 #ifdef HAVE_LDAP
-static int
-remove_ldap_folder (EvolutionStorage *storage,
+static void
+notify_listener (const Bonobo_Listener listener, 
+		 GNOME_Evolution_Storage_Result corba_result)
+{
+	CORBA_any any;
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+
+	any._type = TC_GNOME_Evolution_Storage_Result;
+	any._value = &corba_result;
+
+	Bonobo_Listener_event (listener, "result", &any, &ev);
+
+	CORBA_exception_free (&ev);
+}
+
+static void
+remove_ldap_folder (EvolutionStorage *storage, const Bonobo_Listener listener,
 		    const CORBA_char *path, const CORBA_char *physical_uri,
 		    gpointer data)
 {
+	
 	addressbook_storage_remove_source (path + 1);
 	addressbook_storage_write_sources();
-	return GNOME_Evolution_Storage_OK;
+
+	notify_listener (listener, GNOME_Evolution_Storage_OK);
 }
-static int
-create_ldap_folder (EvolutionStorage *storage,
+
+static void
+create_ldap_folder (EvolutionStorage *storage, const Bonobo_Listener listener,
 		    const CORBA_char *path, const CORBA_char *type,
 		    const CORBA_char *description, const CORBA_char *parent_physical_uri,
-		    int *result, gpointer data)
+		    gpointer data)
 {
-	if (strcmp (type, "contacts"))
-		return GNOME_Evolution_Storage_UNSUPPORTED_TYPE;
+	if (strcmp (type, "ldap-contacts")) {
+		notify_listener (listener, GNOME_Evolution_Storage_UNSUPPORTED_TYPE);
+		return;
+	}
 
-	if (strcmp (parent_physical_uri, "")) /* ldap servers can't have subfolders */
-		return GNOME_Evolution_Storage_INVALID_URI;
-
+	if (strcmp (parent_physical_uri, "")) {/* ldap servers can't have subfolders */
+		notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
+		return;
+	}
 	addressbook_create_new_source (path + 1, NULL);
 
-	return GNOME_Evolution_Storage_OK;
+	notify_listener (listener, GNOME_Evolution_Storage_OK);
 }
 #endif
 
@@ -341,7 +364,7 @@ load_source_data (const char *file_path)
 
 		path = g_strdup_printf ("/%s", source->name);
 		evolution_storage_new_folder (storage, path, source->name,
-					      "contacts", source->uri,
+					      "ldap-contacts", source->uri,
 					      source->description, 0);
 
 		sources = g_list_append (sources, source);
@@ -443,7 +466,7 @@ addressbook_storage_add_source (AddressbookSource *source)
 	/* And then to the ui */
 	addressbook_get_other_contact_storage();
 	path = g_strdup_printf ("/%s", source->name);
-	evolution_storage_new_folder (storage, path, source->name, "contacts",
+	evolution_storage_new_folder (storage, path, source->name, "ldap-contacts",
 				      source->uri, source->description, 0);
 
 	g_free (path);

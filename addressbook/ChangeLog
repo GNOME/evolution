@@ -1,5 +1,25 @@
 2001-09-06  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/addressbook-storage.c (notify_listener): new
+	function, notify the bonobo listener.
+	(remove_ldap_folder): track change to EvolutionStorage signal.
+	(create_ldap_folder): same, and make sure the type is
+	"ldap-contacts".
+	(load_source_data): folders that we create should have
+	"ldap-contacts" as their type.
+	(addressbook_storage_add_source): same.
+
+	* gui/component/addressbook-component.c: (folder_types): add
+	"ldap-contacts", for display of ldap servers (they get their own
+	icon, and their own name in the Create New Folder dialog.
+	(create_view): use IS_CONTACT_TYPE since we support two folder
+	types now.
+	(create_folder): same.
+	(remove_folder): same.
+	(xfer_folder): same.
+
+2001-09-06  Chris Toshok  <toshok@ximian.com>
+
 	* gui/contact-editor/e-contact-editor.c: (pixmaps): change
 	/Toolbar/ContactEditorSave to /Toolbar/ContactEditorSaveClose.
 
