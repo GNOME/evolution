@@ -1,3 +1,13 @@
+2003-06-18  Not Zed  <NotZed@Ximian.com>
+
+	* camel-service.c (get_hostbyaddr, get_hostbyname): if we got
+	cancelled, the message is floating, so free it.
+	(struct _lookup_msg): Add a cancelled tag.
+	(camel_gethostbyname, camel_gethostbyaddr): if we get a
+	failure/cancel, cancel the lookup thread and detach, so we dont
+	have to wait for it to return.  cleanup changed to handle the case
+	where we didn't get a reply message.
+
 2003-06-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/pop3/camel-pop3-folder.c (pop3_finalize): Made static
@@ -19,6 +29,14 @@
 
 	* camel-folder-summary.c (camel_folder_summary_remove_index): new
 	function to drop a range of index entries in one hit.
+
+2003-06-16  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #31745
+
+	* providers/imap/camel-imap-store-summary.c
+	(camel_imap_store_summary_namespace_new): Workaround a shell bug -
+	if the namespace has '#' in it, then strip it.
 
 2003-06-16  Not Zed  <NotZed@Ximian.com>
 
