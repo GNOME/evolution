@@ -1,3 +1,8 @@
+2004-12-21  Andre Klapper <a9016009@gmx.de>
+       
+       * tools/evolution-addressbook-export.c:
+       Fixing bug 61068 (removing a white space in a string).
+
 2004-12-23  Sivaiah Nallagatla <snallagatla@novell.com>
 
 	Part of merge from offline branch 

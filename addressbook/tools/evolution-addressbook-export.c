@@ -58,7 +58,7 @@ main (int argc, char **argv)
 		{"list-addressbook-folders", 'l', POPT_ARG_NONE, &list_folders_mode, 0, N_("List local addressbook folders"),
 		 NULL},
 		{"format", '\0', POPT_ARG_STRING, &output_format, 0, N_("Show cards as vcard or csv file"), N_("[vcard|csv]")},
-		{"async", 'a', POPT_ARG_NONE, &async_mode, 0, N_("Export in asynchronous mode "), NULL},
+		{"async", 'a', POPT_ARG_NONE, &async_mode, 0, N_("Export in asynchronous mode"), NULL},
 		{"size", '\0', POPT_ARG_INT, &file_size, 0,
 		 N_("The number of cards in one output file in asychronous mode, default size 100."), N_("NUMBER")},
 		{NULL, '\0', 0, NULL, 0, NULL, NULL}
