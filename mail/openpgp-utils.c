@@ -431,12 +431,12 @@ crypto_exec_with_passwd (const char *path, char *argv[], const char *input, int 
  * openpgp_decrypt:
  * @ciphertext: ciphertext to decrypt
  * @cipherlen: ciphertext length
- * @outlen: output length of the decrypted data (to be set by #openpgp_decrypt)
+ * @outlen: output length of the decrypted data (to be set by @openpgp_decrypt)
  * @ex: exception
  *
  * Returns an allocated buffer containing the decrypted ciphertext. If
  * the cleartext is plain text then you may treat it like a normal
- * string as it will be NUL terminated, however #outlen is also set in
+ * string as it will be NUL terminated, however @outlen is also set in
  * the case that the cleartext is a binary stream.
  **/
 gchar *
@@ -539,7 +539,7 @@ openpgp_decrypt (const gchar *ciphertext, gint cipherlen, gint *outlen, CamelExc
  * @inlen: input length of input data
  * @recipients: An array of recipient ids
  * @sign: TRUE if you want to sign as well as encrypt
- * @userid: userid to use when signing (assuming #sign is TRUE)
+ * @userid: userid to use when signing (assuming @sign is TRUE)
  * @ex: exception
  *
  * Returns an allocated string containing the ciphertext.
@@ -610,7 +610,6 @@ openpgp_encrypt (const gchar *in, gint inlen, const GPtrArray *recipients,
 			recipient = recipients->pdata[r];
 			buf = g_strdup_printf ("-r %s", recipient);
 			g_ptr_array_add (recipient_list, buf);
-			g_free (recipient);
 		}
 		
 		g_ptr_array_add (argv, "gpg");
@@ -648,7 +647,6 @@ openpgp_encrypt (const gchar *in, gint inlen, const GPtrArray *recipients,
 			recipient = recipients->pdata[r];
 			buf = g_strdup_printf ("-r %s", recipient);
 			g_ptr_array_add (recipient_list, buf);
-			g_free (recipient);
 		}
 		
 		g_ptr_array_add (argv, "pgpe");
@@ -679,7 +677,6 @@ openpgp_encrypt (const gchar *in, gint inlen, const GPtrArray *recipients,
 			recipient = recipients->pdata[r];
 			buf = g_strdup (recipient);
 			g_ptr_array_add (recipient_list, buf);
-			g_free (recipient);
 		}
 		
 		g_ptr_array_add (argv, "pgp");
