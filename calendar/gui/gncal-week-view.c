@@ -224,19 +224,18 @@ gncal_week_view_set (GncalWeekView *wview, time_t start_of_week)
 
 	/* The label */
 	{
-		char buf [80];
-		int len;
-		struct tm *t;
+		char buf [3][100];
 		
 		week_end = time_add_day (week_start, 6);
-		t = localtime (&week_start);
-		
-		strftime (buf, sizeof (buf), _("%a %b %d %Y - "), t);
-		len = strlen (buf);
 
-	        t = localtime (&week_end);
-		strftime (buf + len, sizeof (buf) - len, _("%a %b %d %Y"), t);
-		gtk_label_set (GTK_LABEL (wview->label), buf);
+		strftime (buf[0], sizeof (buf[0]), _("%a %b %d %Y"), 
+			localtime(&week_start));
+
+		strftime (buf[1], sizeof (buf[1]), _("%a %b %d %Y"),
+			localtime(&week_end));
+
+		g_snprintf(buf[2], sizeof(buf[2]), "%s - %s", buf[0], buf[1]);
+		gtk_label_set (GTK_LABEL (wview->label), buf[2]);
 		
 	}
 }

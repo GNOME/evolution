@@ -1285,7 +1285,7 @@ get_exception_string (time_t t)
 {
 	static char buf[256];
 
-	strftime (buf, sizeof(buf), "%a %b %d %Y", localtime (&t)); /* FIXME: how to i18n this? */
+	strftime (buf, sizeof(buf), _("%a %b %d %Y"), localtime (&t));
 	return buf;
 }
 

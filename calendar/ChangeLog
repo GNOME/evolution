@@ -1,5 +1,10 @@
 1999-03-24  Tomas Ogren  <stric@ing.umu.se>
 
+	* gncal-week-view.c (gncal_week_view_set): Did some i18n work
+	* eventedit.c (get_exception_string): Did some i18n work
+
+1999-03-24  Tomas Ogren  <stric@ing.umu.se>
+
 	* gncal-todo.c (gncal_todo_init): Made clist titles i18n:able
 	* main.c (poptOption): Added which views that are possible for
 	--view in the --help text (closes #367)
