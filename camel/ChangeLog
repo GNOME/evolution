@@ -1,5 +1,8 @@
 2000-08-01  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/smtp/camel-smtp-transport.c (smtp_helo): When forced
+	to use the IP, place it in square brackets.
+
 	* providers/imap/camel-imap-utils.c (imap_translate_sexp): New and
 	improved sexp parser. An honest try at using e-sexp is wrapped in
 	a #ifdef at the bottom of the file but is currently not used

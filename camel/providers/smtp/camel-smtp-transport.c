@@ -504,13 +504,18 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 	host = gethostbyaddr ((gchar *)&transport->localaddr.sin_addr, sizeof (transport->localaddr.sin_addr), AF_INET);
 
 	/* hiya server! how are you today? */
-	if (transport->smtp_is_esmtp)
-		cmdbuf = g_strdup_printf ("EHLO %s\r\n", host && host->h_name ? host->h_name : 
-					  inet_ntoa (transport->localaddr.sin_addr));
-	else
-		cmdbuf = g_strdup_printf ("HELO %s\r\n", host && host->h_name ? host->h_name : 
-					  inet_ntoa (transport->localaddr.sin_addr));
-
+	if (transport->smtp_is_esmtp) {
+		if (host && host->h_name)
+			cmdbuf = g_strdup_printf ("EHLO %s\r\n", host->h_name);
+		else
+			cmdbuf = g_strdup_printf ("EHLO [%s]\r\n", inet_ntoa (transport->localaddr.sin_addr));
+	} else {
+		if (host && host->h_name)
+			cmdbuf = g_strdup_printf ("HELO %s\r\n", host->h_name);
+		else
+			cmdbuf = g_strdup_printf ("HELO [%s]\r\n", inet_ntoa (transport->localaddr.sin_addr));
+	}
+	
 	d(fprintf (stderr, "sending : %s", cmdbuf));
 	if (camel_stream_write (transport->ostream, cmdbuf, strlen (cmdbuf)) == -1) {
 		g_free (cmdbuf);
