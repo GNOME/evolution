@@ -122,6 +122,7 @@ images_DATA = \
 	splash.png			\
 	talking-heads.png		\
 	task.xpm			\
+	task.png			\
 	thankyou.png			\
 	timezone-16.xpm			\
    	timezone-48.png 		\
