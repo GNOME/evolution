@@ -1,3 +1,10 @@
+2000-09-08  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-storage-set-view.c: Added base ETableModel functions.
+
+	* evolution-storage-listener.c, evolution-storage.c: Fixed some
+	warnings.
+
 2000-09-08  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shell.c (set_owner_on_components): New.

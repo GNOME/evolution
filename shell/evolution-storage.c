@@ -158,7 +158,9 @@ static void
 corba_class_init (void)
 {
 	POA_Evolution_Storage__vepv *vepv;
+#ifndef NO_WARNINGS
 	POA_Evolution_Storage__epv *epv;
+#endif
 	PortableServer_ServantBase__epv *base_epv;
 
 	base_epv = g_new0 (PortableServer_ServantBase__epv, 1);

@@ -419,6 +419,50 @@ etable_drag_data_get (EStorageSetView *storage_set_view,
 }
 
 
+/* ETableModel Methods */
+
+/* This function returns the number of columns in our ETableModel. */
+static int
+etree_col_count (ETableModel *etc, void *data)
+{
+	return 1;
+}
+
+/* This function duplicates the value passed to it. */
+static void *
+etree_duplicate_value (ETableModel *etc, int col, const void *value, void *data)
+{
+	return g_strdup (value);
+}
+
+/* This function frees the value passed to it. */
+static void
+etree_free_value (ETableModel *etc, int col, void *value, void *data)
+{
+	g_free (value);
+}
+
+/* This function creates an empty value. */
+static void *
+etree_initialize_value (ETableModel *etc, int col, void *data)
+{
+	return g_strdup ("");
+}
+
+/* This function reports if a value is empty. */
+static gboolean
+etree_value_is_empty (ETableModel *etc, int col, const void *value, void *data)
+{
+	return !(value && *(char *)value);
+}
+
+/* This function reports if a value is empty. */
+static char *
+etree_value_to_string (ETableModel *etc, int col, const void *value, void *data)
+{
+	return g_strdup(value);
+}
+
 /* ETreeModel Methods */
 
 static GdkPixbuf*
@@ -773,7 +817,13 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 	priv->tree_expanded_pixbuf = gdk_pixbuf_new_from_xpm_data((const char**)tree_expanded_xpm);
 	priv->tree_unexpanded_pixbuf = gdk_pixbuf_new_from_xpm_data((const char**)tree_unexpanded_xpm);
 
-	priv->etree_model = e_tree_simple_new (etree_icon_at,
+	priv->etree_model = e_tree_simple_new (etree_col_count,
+					       etree_duplicate_value,
+					       etree_free_value,
+					       etree_initialize_value,
+					       etree_value_is_empty,
+					       etree_value_to_string,
+					       etree_icon_at,
 					       etree_value_at,
 					       etree_set_value_at,
 					       etree_is_editable,
