@@ -1558,7 +1558,7 @@ mail_config_signature_run_script (gchar *script)
 		if (maxfd > 0) {
 			for (i = 0; i < maxfd; i++) {
 				if (i != STDIN_FILENO && i != STDOUT_FILENO && i != STDERR_FILENO)
-					close (i);
+					fcntl (i, F_SETFD, FD_CLOEXEC);
 			}
 		}
 		

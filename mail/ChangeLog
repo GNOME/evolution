@@ -1,3 +1,10 @@
+2003-12-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (mail_config_signature_run_script): Use fcntl() to
+	set FD_CLOEXEC on each fd rather than close()ing it. Apparently
+	Linux's older pthread implementations use sockets and so this
+	fouls threading up. GO LINUX! GO!
+
 2003-11-27  Charles Zhang  <charles.zhang@sun.com>
 
 	* mail-account-gui.c (mail_account_gui_changed): move to file
@@ -16,11 +23,11 @@
 
 2003-12-01  Suresh Chandrasekharan <suresh.chandrasekharan@sun.com>
 
-        * mail-callbacks.c: (composer_get_message) Encode the value of
-        "Organization:" header string here incase it contains 8 bit
-        characters.
+	Fix for bug #51551
 
-        Fix for bug #51551
+	* mail-callbacks.c: (composer_get_message) Encode the value of
+	"Organization:" header string here incase it contains 8 bit
+	characters.
 
 2003-10-13  Charles Zhang  <charles.zhang@sun.com>
 
