@@ -1,3 +1,11 @@
+2000-11-28  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/e-calendar-table.c (E_CALENDAR_TABLE_SPEC): Reformatted the
+	table spec to make it easier to read.
+
+	* gui/tag-calendar.c: Oops, Damon wrote this, not me.  Fixed the
+	Authors line.
+
 2000-11-28  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/e-day-view*.[hc]: 
@@ -7,13 +15,13 @@
 
 2000-11-28  Jesse Pavel   <jpavel@helixcode.com>
 
-	*gui/e-meeting-edit.c: removed some debugging code that I had,
+	* gui/e-meeting-edit.c: removed some debugging code that I had,
 	which might have caused problems.
 
 2000-11-27  Jesse Pavel   <jpavel@helixcode.com>
 
-	*gui/calendar-model.c: added a preliminary change to have Assigned
-	To-Do items have a corresponding icon.
+	* gui/calendar-model.c: added a preliminary change to have
+	Assigned To-Do items have a corresponding icon.
 
 2000-11-27  JP Rosevear  <jpr@helixcode.com>
 
@@ -341,7 +349,7 @@
 
 2000-11-07   Jesse Pavel   <jpavel@helixcode.com>
 
-	*gui/e-itip-control.c, gui/e-itip-control.glade: changed the GUI,
+	* gui/e-itip-control.c, gui/e-itip-control.glade: changed the GUI,
 	and added some extra feedback for the user.
 
 2000-11-07  Federico Mena Quintero  <federico@helixcode.com>
@@ -355,11 +363,11 @@
 
 2000-11-06   Jesse Pavel   <jpavel@helixcode.com>
 
-	*gui/e-itip-control.c, gui/e-itip-control.glade: changed to GUI to
+	* gui/e-itip-control.c, gui/e-itip-control.glade: changed to GUI to
 	accomodate dynamically generated buttons, which will be tailored to
 	the type of iTip message that is incoming.
 	
-	*gui/e-meeting-dialog.glade gui/e-meeting-edit.c: added a new button
+	* gui/e-meeting-dialog.glade gui/e-meeting-edit.c: added a new button
 	to publish events, in addition to requesting meetings.
 
 2000-11-05  Federico Mena Quintero  <federico@helixcode.com>
@@ -1773,7 +1781,7 @@
 	* cal-util/cal-recur.c (generate_instances_for_year): The exdate
 	and rdate lists are a list of icaltimetypes, not CalComponentPeriods
 
-	*gui/e-day-view.c (e_day_view_on_delete_occurrence): The exdate list
+	* gui/e-day-view.c (e_day_view_on_delete_occurrence): The exdate list
 	is a list of icaltimetypes, not CalComponentDateTimes
 
 2000-09-05  JP Rosevear  <jpr@helixcode.com>

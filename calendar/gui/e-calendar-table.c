@@ -135,29 +135,61 @@ e_calendar_table_class_init (ECalendarTableClass *class)
 }
 
 
-#define E_CALENDAR_TABLE_SPEC				\
-	"<ETableSpecification click-to-add=\"true\" _click-to-add-message=\"Click to add a task\" draw-grid=\"true\">"	\
-        "<ETableColumn model_col= \"0\" _title=\"Categories\"            expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
-        "<ETableColumn model_col= \"1\" _title=\"Classification\"        expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
-        "<ETableColumn model_col= \"2\" _title=\"Completion Date\"       expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
-        "<ETableColumn model_col= \"3\" _title=\"End Date\"              expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
-        "<ETableColumn model_col= \"4\" _title=\"Start Date\"            expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
-        "<ETableColumn model_col= \"5\" _title=\"Due Date\"              expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
-        "<ETableColumn model_col= \"6\" _title=\"Geographical Position\" expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
-        "<ETableColumn model_col= \"7\" _title=\"Percent complete\"      expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
-        "<ETableColumn model_col= \"8\" _title=\"Priority\"              expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
-        "<ETableColumn model_col= \"9\" _title=\"Summary\"               expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"summary\"  compare=\"string\"/>"  \
-        "<ETableColumn model_col=\"10\" _title=\"Transparency\"          expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
-        "<ETableColumn model_col=\"11\" _title=\"URL\"                   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
-        "<ETableColumn model_col=\"12\" _title=\"Alarms\"                expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
-        "<ETableColumn model_col=\"13\" pixbuf=\"icon\"                  expansion=\"1.0\" minimum_width=\"18\" resizable=\"false\" cell=\"icon\"     compare=\"integer\"/>" \
-        "<ETableColumn model_col=\"14\" pixbuf=\"complete\"              expansion=\"1.0\" minimum_width=\"18\" resizable=\"false\" cell=\"checkbox\" compare=\"integer\"/>" \
-	"<ETableState>" 				\
-                "<column source=\"13\"/>"               \
-                "<column source=\"14\"/>"               \
-                "<column source= \"9\"/>"               \
-        	"<grouping> </grouping>"		\
-	"</ETableState>"				\
+#define E_CALENDAR_TABLE_SPEC							\
+	"<ETableSpecification click-to-add=\"true\" "				\
+	" _click-to-add-message=\"Click to add a task\" "			\
+	" draw-grid=\"true\">"							\
+        "  <ETableColumn model_col= \"0\" _title=\"Categories\" "		\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "		\
+	"   cell=\"string\"   compare=\"string\"/>"				\
+        "  <ETableColumn model_col= \"1\" _title=\"Classification\" "		\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "		\
+	"   cell=\"string\"   compare=\"string\"/>"				\
+        "  <ETableColumn model_col= \"2\" _title=\"Completion Date\" "		\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "		\
+	"   cell=\"string\"   compare=\"string\"/>"				\
+        "  <ETableColumn model_col= \"3\" _title=\"End Date\" "			\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "		\
+	"   cell=\"string\"   compare=\"string\"/>"				\
+        "  <ETableColumn model_col= \"4\" _title=\"Start Date\" "		\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "		\
+	"   cell=\"string\"   compare=\"string\"/>"				\
+        "  <ETableColumn model_col= \"5\" _title=\"Due Date\" "			\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "		\
+	"   cell=\"string\"   compare=\"string\"/>"				\
+        "  <ETableColumn model_col= \"6\" _title=\"Geographical Position\" "	\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "		\
+	"   cell=\"string\"   compare=\"string\"/>"				\
+        "  <ETableColumn model_col= \"7\" _title=\"Percent complete\" "		\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "		\
+	"   cell=\"string\"   compare=\"string\"/>"				\
+        "  <ETableColumn model_col= \"8\" _title=\"Priority\" "			\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "		\
+	"   cell=\"string\"   compare=\"string\"/>"				\
+        "  <ETableColumn model_col= \"9\" _title=\"Summary\" "			\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "		\
+	"   cell=\"summary\"  compare=\"string\"/>"				\
+        "  <ETableColumn model_col=\"10\" _title=\"Transparency\" "		\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "		\
+	"   cell=\"string\"   compare=\"string\"/>"				\
+        "  <ETableColumn model_col=\"11\" _title=\"URL\" "			\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "		\
+	"   cell=\"string\"   compare=\"string\"/>"				\
+        "  <ETableColumn model_col=\"12\" _title=\"Alarms\" "			\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "		\
+	"   cell=\"string\"   compare=\"string\"/>"				\
+        "  <ETableColumn model_col=\"13\" pixbuf=\"icon\" "			\
+	"   expansion=\"1.0\" minimum_width=\"22\" resizable=\"false\" "	\
+	"   cell=\"icon\"     compare=\"integer\"/>"				\
+        "  <ETableColumn model_col=\"14\" pixbuf=\"complete\" "			\
+	"   expansion=\"1.0\" minimum_width=\"22\" resizable=\"false\" "	\
+	"   cell=\"checkbox\" compare=\"integer\"/>"				\
+	"  <ETableState>"							\
+	"    <column source=\"13\"/>"						\
+	"    <column source=\"14\"/>"						\
+	"    <column source= \"9\"/>"						\
+	"    <grouping></grouping>"						\
+	"  </ETableState>"							\
 	"</ETableSpecification>"
 
 static void
