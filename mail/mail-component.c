@@ -56,6 +56,7 @@
 #include <gtk/gtklabel.h>
 
 #include <e-util/e-mktemp.h>
+#include <e-util/e-dialog-utils.h>
 
 #include <gal/e-table/e-tree.h>
 #include <gal/e-table/e-tree-memory.h>
