@@ -1,3 +1,13 @@
+2001-01-22  Not Zed  <NotZed@Ximian.com>
+
+	* filter-message-search.[ch]: Removed, now lives in
+	camel-filter-search.*
+
+	* Makefile.am (libfilter_la_SOURCES): Removed filter-driver.[ch]
+	and filter-message-search.[ch].
+
+	* filter-driver.[ch]: Removed.  now lives in camel-filter-driver.*
+
 2001-01-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filter-driver.c (filter_driver_filter_message): Set the delete

@@ -31,8 +31,6 @@ libfilter_la_SOURCES =				\
 	filter-context.h			\
 	filter-datespec.c			\
 	filter-datespec.h			\
-	filter-driver.c				\
-	filter-driver.h				\
 	filter-editor.c				\
 	filter-editor.h				\
 	filter-element.c			\
@@ -43,8 +41,6 @@ libfilter_la_SOURCES =				\
 	filter-folder.h				\
 	filter-input.c				\
 	filter-input.h				\
-	filter-message-search.c			\
-	filter-message-search.h			\
 	filter-option.c				\
 	filter-option.h				\
 	filter-part.c				\
