@@ -429,21 +429,23 @@ command_work_offline (BonoboUIComponent *uih,
 	shell_view = E_SHELL_VIEW (data);
 	shell = e_shell_view_get_shell (shell_view);
 
-	switch (e_shell_get_line_status (shell)) {
-	case E_SHELL_LINE_STATUS_ONLINE:
-		g_warning ("Putting the shell offline");
-		e_shell_go_offline (shell, shell_view);
-		break;
-	case E_SHELL_LINE_STATUS_OFFLINE:
-		g_warning ("Putting the shell online");
-		e_shell_go_online (shell, shell_view);
-		break;
-	case E_SHELL_LINE_STATUS_GOING_OFFLINE:
-		g_warning ("The shell is going off-line already; not doing anything.");
-		break;
-	default:
-		g_assert_not_reached ();
-	}
+	g_warning ("Putting the shell offline");
+	e_shell_go_offline (shell, shell_view);
+}
+
+static void
+command_work_online (BonoboUIComponent *uih,
+		     void *data,
+		     const char *path)
+{
+	EShellView *shell_view;
+	EShell *shell;
+
+	shell_view = E_SHELL_VIEW (data);
+	shell = e_shell_view_get_shell (shell_view);
+
+	g_warning ("Putting the shell online");
+	e_shell_go_online (shell, shell_view);
 }
 
 
@@ -498,6 +500,7 @@ BonoboUIVerb file_verbs [] = {
 	BONOBO_UI_VERB ("FileExit", command_quit),
 
 	BONOBO_UI_VERB ("WorkOffline", command_work_offline),
+	BONOBO_UI_VERB ("WorkOnline", command_work_online),
 
 	BONOBO_UI_VERB_END
 };
@@ -516,7 +519,7 @@ static EPixmap pixmaps [] = {
 	E_PIXMAP ("/menu/File/New/Folder",	"folder.xpm"),
 	E_PIXMAP ("/menu/File/Folder/Folder",	"folder.xpm"),
 	E_PIXMAP ("/menu/File/FileImporter",	"import.xpm"),
-	E_PIXMAP ("/menu/File/WorkOffline",	"work_offline.xpm"),
+	E_PIXMAP ("/menu/File/ToggleOffline",	"work_offline.xpm"),
 	E_PIXMAP_END
 };
 
@@ -542,6 +545,71 @@ menu_do_misc (BonoboUIComponent *component,
 }
 
 
+/* The Work Online / Work Offline menu item.  */
+
+static void
+update_offline_menu_item (EShellView *shell_view,
+			  EShellLineStatus line_status)
+{
+	BonoboUIComponent *ui_component;
+
+	ui_component = e_shell_view_get_bonobo_ui_component (shell_view);
+
+	switch (line_status) {
+	case E_SHELL_LINE_STATUS_OFFLINE:
+		bonobo_ui_component_set_prop (ui_component,
+					      "/menu/File/ToggleOffline",
+					      "label", _("Work online"), NULL);
+		bonobo_ui_component_set_prop (ui_component,
+					      "/menu/File/ToggleOffline",
+					      "verb", "WorkOnline", NULL);
+		bonobo_ui_component_set_prop (ui_component,
+					      "/commands/WorkOnline",
+					      "sensitive", "1", NULL);
+		break;
+
+	case E_SHELL_LINE_STATUS_ONLINE:
+		bonobo_ui_component_set_prop (ui_component,
+					      "/menu/File/ToggleOffline",
+					      "label", _("Work offline"), NULL);
+		bonobo_ui_component_set_prop (ui_component,
+					      "/menu/File/ToggleOffline",
+					      "verb", "WorkOffline", NULL);
+		bonobo_ui_component_set_prop (ui_component,
+					      "/commands/WorkOffline",
+					      "sensitive", "1", NULL);
+		break;
+
+	case E_SHELL_LINE_STATUS_GOING_OFFLINE:
+		bonobo_ui_component_set_prop (ui_component,
+					      "/menu/File/ToggleOffline",
+					      "label", _("Work offline"), NULL);
+		bonobo_ui_component_set_prop (ui_component,
+					      "/menu/File/ToggleOffline",
+					      "verb", "WorkOffline", NULL);
+		bonobo_ui_component_set_prop (ui_component,
+					      "/commands/WorkOffline",
+					      "sensitive", "0", NULL);
+		break;
+
+	default:
+		g_assert_not_reached ();
+	}
+}
+
+static void
+shell_line_status_changed_cb (EShell *shell,
+			      EShellLineStatus new_status,
+			      void *data)
+{
+	EShellView *shell_view;
+
+	shell_view = E_SHELL_VIEW (data);
+
+	update_offline_menu_item (shell_view, new_status);
+}
+
+
 #define SHORTCUT_BAR_TOGGLE_PATH "/commands/ViewShortcutBar"
 #define FOLDER_BAR_TOGGLE_PATH "/commands/ViewFolderBar"
 
@@ -549,11 +617,13 @@ void
 e_shell_view_menu_setup (EShellView *shell_view)
 {
 	BonoboUIComponent *uic;
+	EShell *shell;
 
 	g_return_if_fail (shell_view != NULL);
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
 	uic = e_shell_view_get_bonobo_ui_component (shell_view);
+	shell = e_shell_view_get_shell (shell_view);
 
 	bonobo_ui_component_add_verb_list_with_data (
 		uic, file_verbs, shell_view);
@@ -580,4 +650,9 @@ e_shell_view_menu_setup (EShellView *shell_view)
 				      FOLDER_BAR_TOGGLE_PATH);
 	shortcut_bar_mode_changed_cb (shell_view, e_shell_view_get_shortcut_bar_mode (shell_view),
 				      SHORTCUT_BAR_TOGGLE_PATH);
+
+	/* Set up the work online / work offline menu item.  */
+	gtk_signal_connect (GTK_OBJECT (shell), "line_status_changed",
+			    GTK_SIGNAL_FUNC (shell_line_status_changed_cb), shell_view);
+	update_offline_menu_item (shell_view, e_shell_get_line_status (shell));
 }

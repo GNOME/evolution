@@ -477,7 +477,7 @@ evolution_shell_component_client_get_offline_interface (EvolutionShellComponentC
 	CORBA_exception_init (&ev);
 
 	interface = Bonobo_Unknown_queryInterface (bonobo_object_corba_objref (BONOBO_OBJECT (shell_component_client)),
-						   "IDL:GNOME/Evolution/ShellComponent/Offline:1.0",
+						   "IDL:GNOME/Evolution/Offline:1.0",
 						   &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION)

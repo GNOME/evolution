@@ -191,10 +191,10 @@ impl_OfflineProgressListener_updateProgress (PortableServer_Servant servant,
 	CORBA_free (component_info->active_connection_list);
 	component_info->active_connection_list = duplicate_connection_list (current_active_connections);
 
+	update_dialog_clist (offline_handler);
+
 	if (priv->num_total_connections == 0)
 		gtk_signal_emit (GTK_OBJECT (offline_handler), signals[OFFLINE_PROCEDURE_FINISHED], TRUE);
-
-	update_dialog_clist (offline_handler);
 }
 
 static gboolean
@@ -618,8 +618,8 @@ pop_up_confirmation_dialog (EShellOfflineHandler *offline_handler)
 	dialog = glade_xml_get_widget (priv->dialog_gui, "active_connection_dialog");
 
 	/* FIXME: do we really want this?  */
-	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (priv->parent_shell_view));
-	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	/* gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (priv->parent_shell_view)); */
+	/* gtk_window_set_modal (GTK_WINDOW (dialog), TRUE); */
 
 	gnome_dialog_set_default (GNOME_DIALOG (dialog), 1);
 

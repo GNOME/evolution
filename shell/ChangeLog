@@ -1,5 +1,29 @@
 2001-05-03  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-offline-handler.c
+	(impl_OfflineProgressListener_updateProgress): Update the GtkCList
+	before emitting the "offline_procedure_finished" signal.  In fact,
+	we might be destroyed from within the signal handlers and then
+	things would get messy.
+
+	* evolution-shell-component-client.c
+	(evolution_shell_component_client_get_offline_interface):
+	"IDL:GNOME/Evolution/Offline:1.0", not
+	"IDL:GNOME/Evolution/ShellComponent/Offline:1.0".  Sigh.
+
+	* e-shell-view-menu.c: Update to match the rename of the
+	`WorkOffline' menu item in the `File' menu into `ToggleOffline'.
+	Now the `WorkOffline' verb actually puts the shell offline, while
+	`WorkOnline' puts in online, so we don't use one single verb to
+	toggle the online/offline status.
+	(command_work_offline): Only go offline.
+	(command_work_online): New.  Make the shell go online.
+	(update_offline_menu_item): New.
+	(shell_line_status_changed_cb): New, callback for the
+	"line_status_changed" signal on the associated EShell.
+
+2001-05-03  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-offline-handler.c: New member `dialog_gui' in
 	`EShellOfflineHandlerPrivate'.
 	(impl_destroy): Unref here if not NULL.
