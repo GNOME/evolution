@@ -77,9 +77,6 @@ struct _EvolutionActivityClientPrivate {
 };
 
 
-#define DEBUG() g_print ("*** ActivityClient: %s %p [%ld]\n", __FUNCTION__, activity_client, (long) pthread_self ())
-
-
 /* Utility functions.  */
 
 /* Create an icon from @pixbuf in @icon_return.  */
@@ -191,8 +188,6 @@ update_timeout_callback (void *data)
 	activity_client = EVOLUTION_ACTIVITY_CLIENT (data);
 	priv = activity_client->priv;
 
-	DEBUG ();
-
 	if (priv->have_pending_update) {
 		priv->have_pending_update = FALSE;
 		corba_update_progress (activity_client, priv->new_information, priv->new_progress);
@@ -238,13 +233,8 @@ impl_destroy (GtkObject *object)
 	activity_client = EVOLUTION_ACTIVITY_CLIENT (object);
 	priv = activity_client->priv;
 
-	DEBUG ();
-
 	if (priv->next_update_timeout_id != 0)
 		g_source_remove (priv->next_update_timeout_id);
-
-	g_print ("*** ActivityClient: g_source_remove %d %p [%ld]\n",
-		 priv->next_update_timeout_id, activity_client, (long) pthread_self ());
 
 	CORBA_exception_init (&ev);
 
@@ -304,8 +294,6 @@ init (EvolutionActivityClient *activity_client)
 {
 	EvolutionActivityClientPrivate *priv;
 
-	DEBUG ();
-
 	priv = g_new (EvolutionActivityClientPrivate, 1);
 	priv->activity_interface     = CORBA_OBJECT_NIL;
 	priv->listener               = bonobo_listener_new (listener_callback, activity_client);
@@ -341,8 +329,6 @@ evolution_activity_client_construct (EvolutionActivityClient *activity_client,
 	g_return_val_if_fail (*animated_icon != NULL, FALSE);
 	g_return_val_if_fail (information != NULL, FALSE);
 	g_return_val_if_fail (suggest_display_return != NULL, FALSE);
-
-	DEBUG ();
 
 	priv = activity_client->priv;
 	g_return_val_if_fail (priv->activity_interface == CORBA_OBJECT_NIL, FALSE);
@@ -398,8 +384,6 @@ evolution_activity_client_new (EvolutionShellClient *shell_client,
 
 	activity_client = gtk_type_new (evolution_activity_client_get_type ());
 
-	DEBUG ();
-
 	if (! evolution_activity_client_construct (activity_client,
 						   shell_client,
 						   component_id,
@@ -428,26 +412,27 @@ evolution_activity_client_update (EvolutionActivityClient *activity_client,
 	g_return_val_if_fail (information != NULL, FALSE);
 	g_return_val_if_fail (progress >= 0.0 && progress <= 1.0, FALSE);
 
-	DEBUG ();
-
 	priv = activity_client->priv;
 
 	if (priv->next_update_timeout_id == 0) {
 		/* There is no pending timeout, so the last CORBA update
-		   happened more than UPDATE_DELAY msecs ago.  */
+		   happened more than UPDATE_DELAY msecs ago. So we set up a
+		   timeout so we can check against it at the next update
+		   request.
 
-		/* First of all, we set up a timeout so we can check against it
-		   at the next update request.  */
+		   Notice that GLib timeouts or other operations on this object
+		   can be invoked within a remote CORBA invocation, so we need
+		   to set `next_update_timeout_id' and `have_pending_update'
+		   before doing the CORBA call, or nasty race conditions might
+		   happen.  */
 
 		priv->have_pending_update = FALSE;
+
 		priv->next_update_timeout_id = g_timeout_add (UPDATE_DELAY,
 							      update_timeout_callback,
 							      activity_client);
 
 		retval = corba_update_progress (activity_client, information, progress);
-
-		g_print ("*** ActivityClient: g_timeout_add %d %p [%ld]\n",
-			 priv->next_update_timeout_id, activity_client, (long) pthread_self ());
 	} else {
 		/* There is a pending timeout, so the last CORBA update
 		   happened less than UPDATE_DELAY msecs ago.  So just queue an
@@ -477,8 +462,6 @@ evolution_activity_client_request_dialog (EvolutionActivityClient *activity_clie
 	g_return_val_if_fail (EVOLUTION_IS_ACTIVITY_CLIENT (activity_client), GNOME_Evolution_Activity_DIALOG_ACTION_ERROR);
 
 	priv = activity_client->priv;
-
-	DEBUG ();
 
 	CORBA_exception_init (&ev);
 
