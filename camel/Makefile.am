@@ -46,6 +46,7 @@ libcamel_la_SOURCES = 				\
 	camel-movemail.c			\
 	camel-multipart.c			\
 	camel-object.c				\
+	camel-operation.c			\
 	camel-provider.c			\
 	camel-remote-store.c			\
 	camel-search-private.c			\
@@ -102,6 +103,7 @@ libcamelinclude_HEADERS =			\
 	camel-movemail.h			\
 	camel-multipart.h			\
 	camel-object.h				\
+	camel-operation.h			\
 	camel-provider.h			\
 	camel-remote-store.h			\
 	camel-seekable-stream.h			\

@@ -29,6 +29,7 @@
 #include "camel-stream-mem.h"
 #include "camel-stream-filter.h"
 #include "camel-mime-message.h"
+#include "camel-operation.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -141,9 +142,13 @@ pop3_refresh_info (CamelFolder *folder, CamelException *ex)
 	CamelPop3Folder *pop3_folder = (CamelPop3Folder *) folder;
 	CamelPop3Store *pop3_store = CAMEL_POP3_STORE (folder->parent_store);
 
+	camel_operation_start(NULL, _("Retrieving POP summary"));
+
 	status = camel_pop3_command (pop3_store, &data, ex, "STAT");
-	if (status != CAMEL_POP3_OK)
+	if (status != CAMEL_POP3_OK) {
+		camel_operation_end(NULL);
 		return;
+	}
 
 	count = atoi (data);
 	g_free (data);
@@ -155,6 +160,7 @@ pop3_refresh_info (CamelFolder *folder, CamelException *ex)
 			pop3_store->supports_uidl = FALSE;
 			break;
 		case CAMEL_POP3_FAIL:
+			camel_operation_end(NULL);
 			return;
 		}
 	}
@@ -167,8 +173,10 @@ pop3_refresh_info (CamelFolder *folder, CamelException *ex)
 
 		for (i = 0; i < count; i++)
 			uids->pdata[i] = g_strdup_printf ("%d", i + 1);
+		camel_operation_end(NULL);
 	} else {
-		data = camel_pop3_command_get_additional_data (pop3_store, ex);
+		data = camel_pop3_command_get_additional_data (pop3_store, 0, ex);
+		camel_operation_end(NULL);
 		if (camel_exception_is_set (ex))
 			return;
 
@@ -263,7 +271,7 @@ uid_to_number (CamelPop3Folder *pop3_folder, const char *uid)
 static CamelMimeMessage *
 pop3_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 {
-	int status, num;
+	int status, num, total;
 	char *result, *body;
 	CamelStream *msgstream;
 	CamelMimeMessage *msg;
@@ -275,19 +283,28 @@ pop3_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 		return NULL;
 	}
 
+	camel_operation_start(NULL, _("Retrieving POP message %d"), num);
+
 	status = camel_pop3_command (CAMEL_POP3_STORE (folder->parent_store),
 				     &result, ex, "RETR %d", num);
-	if (status != CAMEL_POP3_OK)
+	if (status != CAMEL_POP3_OK) {
+		camel_operation_end(NULL);
 		return NULL;
-	g_free (result);
+	}
 
-	body = camel_pop3_command_get_additional_data (CAMEL_POP3_STORE (folder->parent_store), ex);
+	/* this should be "nnn octets" ? */
+	if (sscanf(result, "%d", &total) != 1)
+		total = 0;
+
+	g_free (result);
+	body = camel_pop3_command_get_additional_data (CAMEL_POP3_STORE (folder->parent_store), total, ex);
 	if (!body) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      _("Could not retrieve message from POP "
 					"server %s: %s"), service->url->host,
 				      camel_exception_get_description (ex));
+		camel_operation_end(NULL);
 		return NULL;
 	}
 
@@ -299,6 +316,8 @@ pop3_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 						  CAMEL_STREAM (msgstream));
 
 	camel_object_unref (CAMEL_OBJECT (msgstream));
+
+	camel_operation_end(NULL);
 
 	return msg;
 }

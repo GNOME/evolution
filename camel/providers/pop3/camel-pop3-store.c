@@ -35,6 +35,8 @@
 #include <unistd.h>
 #include <errno.h>
 
+#include "camel-operation.h"
+
 #ifdef HAVE_KRB4
 /* Specified nowhere */
 #define KPOP_PORT 1109
@@ -250,7 +252,7 @@ connect_to_server (CamelService *service, /*gboolean real, */CamelException *ex)
 		char *p;
 		int len;
 
-		buf = camel_pop3_command_get_additional_data (store, ex);
+		buf = camel_pop3_command_get_additional_data (store, 0, ex);
 		if (camel_exception_is_set (ex))
 			return FALSE;
 
@@ -632,6 +634,7 @@ pop3_get_response (CamelPop3Store *store, char **ret, CamelException *ex)
  * camel_pop3_command_get_additional_data: get "additional data" from
  * a POP3 command.
  * @store: the POP3 store
+ * @total: Total bytes expected (for progress reporting), use 0 for 'unknown'.
  *
  * This command gets the additional data returned by "multi-line" POP
  * commands, such as LIST, RETR, TOP, and UIDL. This command _must_
@@ -643,11 +646,12 @@ pop3_get_response (CamelPop3Store *store, char **ret, CamelException *ex)
  * Return value: the data, which the caller must free.
  **/
 char *
-camel_pop3_command_get_additional_data (CamelPop3Store *store, CamelException *ex)
+camel_pop3_command_get_additional_data (CamelPop3Store *store, int total, CamelException *ex)
 {
 	GPtrArray *data;
 	char *buf, *p;
 	int i, len = 0, status = CAMEL_POP3_OK;
+	int pc = 0;
 
 	data = g_ptr_array_new ();
 	while (1) {
@@ -661,6 +665,13 @@ camel_pop3_command_get_additional_data (CamelPop3Store *store, CamelException *e
 
 		g_ptr_array_add (data, buf);
 		len += strlen (buf) + 1;
+
+		if (total) {
+			pc = (len+1) * 100 / total;
+			camel_operation_progress(NULL, pc);
+		} else {
+			camel_operation_progress_count(NULL, len);
+		}
 	}
 	
 	if (buf)

@@ -33,7 +33,7 @@
 #include <errno.h>
 #include <string.h>
 
-#include "camel-session.h"	/* for camel_cancel_* */
+#include "camel-operation.h"
 
 static CamelSeekableStreamClass *parent_class = NULL;
 
@@ -214,7 +214,7 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 	ssize_t nread;
 	int cancel_fd;
 
-	if (camel_cancel_check(NULL)) {
+	if (camel_operation_cancel_check(NULL)) {
 		errno = EINTR;
 		return  -1;
 	}
@@ -222,7 +222,7 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 	if (seekable->bound_end != CAMEL_STREAM_UNBOUND)
 		n = MIN (seekable->bound_end - seekable->position, n);
 
-	cancel_fd = camel_cancel_fd(NULL);
+	cancel_fd = camel_operation_cancel_fd(NULL);
 	if (cancel_fd == -1) {
 		do {
 			nread = read (stream_fs->fd, buffer, n);
@@ -263,7 +263,7 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 	ssize_t v, written = 0;
 	int cancel_fd;
 
-	if (camel_cancel_check(NULL)) {
+	if (camel_operation_cancel_check(NULL)) {
 		errno = EINTR;
 		return  -1;
 	}
@@ -271,7 +271,7 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 	if (seekable->bound_end != CAMEL_STREAM_UNBOUND)
 		n = MIN (seekable->bound_end - seekable->position, n);
 
-	cancel_fd = camel_cancel_fd(NULL);
+	cancel_fd = camel_operation_cancel_fd(NULL);
 	if (cancel_fd == -1) {
 		do {
 			v = write (stream_fs->fd, buffer+written, n-written);

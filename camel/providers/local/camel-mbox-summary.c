@@ -21,7 +21,8 @@
  */
 
 #include "camel-mbox-summary.h"
-#include <camel/camel-mime-message.h>
+#include "camel/camel-mime-message.h"
+#include "camel/camel-operation.h"
 
 #include <sys/stat.h>
 #include <sys/uio.h>
@@ -230,18 +231,26 @@ summary_rebuild(CamelMboxSummary *mbs, off_t offset, CamelException *ex)
 	CamelMimeParser *mp;
 	int fd;
 	int ok = 0;
+	struct stat st;
+	off_t size = 0;
 
 	/* FIXME: If there is a failure, it shouldn't clear the summary and restart,
 	   it should try and merge the summary info's.  This is a bit tricky. */
+
+	camel_operation_start(NULL, _("Summarising folder"));
 
 	fd = open(cls->folder_path, O_RDONLY);
 	if (fd == -1) {
 		printf("%s failed to open: %s", cls->folder_path, strerror(errno));
 		camel_exception_setv(ex, 1, _("Could not open folder: %s: summarising from position %ld: %s"),
 				     cls->folder_path, offset, strerror(errno));
+		camel_operation_end(NULL);
 		return -1;
 	}
 	
+	if (fstat(fd, &st) == 0)
+		size = st.st_size;
+
 	mp = camel_mime_parser_new();
 	camel_mime_parser_init_with_fd(mp, fd);
 	camel_mime_parser_scan_from(mp, TRUE);
@@ -262,12 +271,16 @@ summary_rebuild(CamelMboxSummary *mbs, off_t offset, CamelException *ex)
 			d(printf("mime parser state ran out? state is %d\n", camel_mime_parser_state(mp)));
 			camel_object_unref(CAMEL_OBJECT(mp));
 			/* end of file - no content? no error either */
+			camel_operation_end(NULL);
 			return 0;
 		}
 	}
 
 	while (camel_mime_parser_step(mp, NULL, NULL) == HSCAN_FROM) {
 		CamelMessageInfo *info;
+		int pc = (camel_mime_parser_tell(mp)+1) * 100/size;
+
+		camel_operation_progress(NULL, pc);
 
 		info = camel_folder_summary_add_from_parser(s, mp);
 		if (info == NULL) {
@@ -284,14 +297,14 @@ summary_rebuild(CamelMboxSummary *mbs, off_t offset, CamelException *ex)
 	
 	/* update the file size/mtime in the summary */
 	if (ok != -1) {
-		struct stat st;
-
 		if (stat(cls->folder_path, &st) == 0) {
 			camel_folder_summary_touch(s);
 			mbs->folder_size = st.st_size;
 			s->time = st.st_mtime;
 		}
 	}
+
+	camel_operation_end(NULL);
 
 	return ok;
 }
@@ -477,11 +490,14 @@ mbox_summary_sync_full(CamelLocalSummary *cls, gboolean expunge, CamelFolderChan
 
 	d(printf("performing full summary/sync\n"));
 
+	camel_operation_start(NULL, _("Synchronising folder"));
+
 	fd = open(cls->folder_path, O_RDONLY);
 	if (fd == -1) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Could not open folder to summarise: %s: %s"),
 				     cls->folder_path, strerror(errno));
+		camel_operation_end(NULL);
 		return -1;
 	}
 
@@ -502,6 +518,10 @@ mbox_summary_sync_full(CamelLocalSummary *cls, gboolean expunge, CamelFolderChan
 
 	count = camel_folder_summary_count(s);
 	for (i = 0; i < count; i++) {
+		int pc = (i+1)*100/count;
+
+		camel_operation_progress(NULL, pc);
+
 		info = (CamelMboxMessageInfo *)camel_folder_summary_index(s, i);
 
 		g_assert(info);
@@ -630,7 +650,8 @@ mbox_summary_sync_full(CamelLocalSummary *cls, gboolean expunge, CamelFolderChan
 	tmpname = NULL;
 
 	camel_object_unref((CamelObject *)mp);
-	
+	camel_operation_end(NULL);
+		
 	return 0;
  error:
 	if (fd != -1)
@@ -647,6 +668,8 @@ mbox_summary_sync_full(CamelLocalSummary *cls, gboolean expunge, CamelFolderChan
 		camel_object_unref((CamelObject *)mp);
 	if (info)
 		camel_folder_summary_info_free(s, (CamelMessageInfo *)info);
+
+	camel_operation_end(NULL);
 
 	return -1;
 }
@@ -668,11 +691,15 @@ mbox_summary_sync_quick(CamelLocalSummary *cls, gboolean expunge, CamelFolderCha
 
 	d(printf("Performing quick summary sync\n"));
 
+	camel_operation_start(NULL, _("Synchronising folder"));
+
 	fd = open(cls->folder_path, O_RDWR);
 	if (fd == -1) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Could not open folder to summarise: %s: %s"),
 				     cls->folder_path, strerror(errno));
+
+		camel_operation_end(NULL);
 		return -1;
 	}
 
@@ -684,6 +711,9 @@ mbox_summary_sync_quick(CamelLocalSummary *cls, gboolean expunge, CamelFolderCha
 	count = camel_folder_summary_count(s);
 	for (i = 0; i < count; i++) {
 		int xevoffset;
+		int pc = (i+1)*100/count;
+
+		camel_operation_progress(NULL, pc);
 
 		info = (CamelMboxMessageInfo *)camel_folder_summary_index(s, i);
 
@@ -769,6 +799,8 @@ mbox_summary_sync_quick(CamelLocalSummary *cls, gboolean expunge, CamelFolderCha
 	}
 
 	camel_object_unref((CamelObject *)mp);
+
+	camel_operation_end(NULL);
 	
 	return 0;
  error:
@@ -778,6 +810,8 @@ mbox_summary_sync_quick(CamelLocalSummary *cls, gboolean expunge, CamelFolderCha
 		camel_object_unref((CamelObject *)mp);
 	if (info)
 		camel_folder_summary_info_free(s, (CamelMessageInfo *)info);
+
+	camel_operation_end(NULL);
 
 	return -1;
 }

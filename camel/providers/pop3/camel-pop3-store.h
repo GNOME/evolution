@@ -65,8 +65,7 @@ void camel_pop3_store_expunge (CamelPop3Store *store, CamelException *ex);
 /* support functions */
 enum { CAMEL_POP3_OK, CAMEL_POP3_ERR, CAMEL_POP3_FAIL };
 int camel_pop3_command (CamelPop3Store *store, char **ret, CamelException *ex, char *fmt, ...);
-char *camel_pop3_command_get_additional_data (CamelPop3Store *store,
-					      CamelException *ex);
+char *camel_pop3_command_get_additional_data (CamelPop3Store *store, int total, CamelException *ex);
 
 /* Standard Camel function */
 CamelType camel_pop3_store_get_type (void);

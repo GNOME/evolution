@@ -36,8 +36,6 @@
 #include <unistd.h>
 #include <errno.h>
 
-#include <gal/util/e-util.h>
-
 #include "camel-remote-store.h"
 #include "camel-folder.h"
 #include "camel-exception.h"
@@ -49,6 +47,7 @@
 #include "string-utils.h"
 
 #include "camel-private.h"
+#include "camel-operation.h"
 
 #define d(x) x
 #if d(!)0
@@ -202,7 +201,7 @@ timeout_cb (gpointer data)
 	return TRUE;
 }
 
-/* this is a 'cancellable' connect, cancellable from camel_cancel etc */
+/* this is a 'cancellable' connect, cancellable from camel_operation_cancel etc */
 /* returns -1 & errno == EINTR if the connection was cancelled */
 static int socket_connect(struct hostent *h, int port)
 {
@@ -214,7 +213,7 @@ static int socket_connect(struct hostent *h, int port)
 	int cancel_fd;
 
 	/* see if we're cancelled yet */
-	if (camel_cancel_check(NULL)) {
+	if (camel_operation_cancel_check(NULL)) {
 		errno = EINTR;
 		return -1;
 	}
@@ -226,7 +225,7 @@ static int socket_connect(struct hostent *h, int port)
 
 	fd = socket (h->h_addrtype, SOCK_STREAM, 0);
 
-	cancel_fd = camel_cancel_fd(NULL);
+	cancel_fd = camel_operation_cancel_fd(NULL);
 	if (cancel_fd == -1) {
 		ret = connect(fd, (struct sockaddr *)&sin, sizeof (sin));
 		if (ret == -1) {

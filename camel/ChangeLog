@@ -1,3 +1,25 @@
+2001-02-07  Not Zed  <NotZed@Ximian.com>
+
+	* camel-operation.c (camel_operation_start): Changed to push the
+	operation into a status stack.
+	(camel_operation_progress): Changed to only accept % complete.
+	(camel_operation_reset): Free status stack as well.
+
+	* providers/pop3/camel-pop3-folder.c (pop3_get_message): Get the
+	octect count from the return line, and pass it to
+	get_additional_data().
+	(pop3_refresh_info): Added status stuff.
+
+	* providers/pop3/camel-pop3-store.c
+	(camel_pop3_command_get_additional_data): Added a total bytes
+	expected argument for progress reporting & fixed callers.
+	(camel_pop3_command_get_additional_data): Added progress
+	reporting.
+
+	* providers/local/camel-mbox-summary.c (mbox_summary_sync_full):
+	(mbox_summary_sync_quick):
+	(summary_rebuild): Added progress reporting stuff.
+
 2001-02-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-search-private.c (CAMEL_SEARCH_COMPARE): Macro for making
@@ -26,6 +48,19 @@
 	Made these pass char ** as the second parameter to iconv.
 
 2001-02-06  Not Zed  <NotZed@Ximian.com>
+
+	* camel-session.c: Removed all the camel_cancel stuff.
+
+	* camel-stream-fs.c (stream_read): Change to use camel_operation.	
+	(stream_write): "
+
+	* camel-remote-store.c (socket_connect): Change to use
+	camel_operation rather than camel_cancel stuff.
+	Removed gal include, WTF is that doing there anyway?
+
+	* Makefile.am (libcamel_la_SOURCES): 
+	(libcamelinclude_HEADERS): Added camel-operation.[ch], stuff to
+	handle notification and cancellation.
 
 	* camel-search-private.c: Removed unwanted header.  It was never
 	put in for a reason.  Stop fixing irrelevant warnings.
