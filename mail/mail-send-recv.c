@@ -111,6 +111,7 @@ receive_cancel(GtkButton *button, struct _send_info *info)
 static void
 free_folder_info(void *key, struct _folder_info *info, void *data)
 {
+	camel_folder_thaw (info->folder);	
 	camel_object_unref((CamelObject *)info->folder);
 	g_free(info->uri);
 }
@@ -132,8 +133,10 @@ free_info_data(void *datain)
 	g_hash_table_foreach(data->folders, (GHFunc)free_folder_info, NULL);
 	g_hash_table_destroy(data->folders);
 	g_mutex_free(data->lock);
-	if (data->inbox)
+	if (data->inbox) {
+		camel_folder_thaw (data->inbox);		
 		camel_object_unref((CamelObject *)data->inbox);
+	}
 	g_free(data);
 }
 
@@ -179,6 +182,7 @@ static struct _send_data *build_dialogue(GSList *sources, CamelFolder *outbox, c
 	data->lock = g_mutex_new();
 	data->folders = g_hash_table_new(g_str_hash, g_str_equal);
 	data->inbox = mail_tool_get_local_inbox(NULL);
+	camel_folder_freeze (data->inbox);
 
 	gd = (GnomeDialog *)gnome_dialog_new(_("Send & Receive mail"), GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, NULL);
 	gnome_dialog_set_sensitive(gd, 0, FALSE);
@@ -454,6 +458,7 @@ receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelExcep
 		camel_object_unref((CamelObject *)oldinfo->folder);
 		oldinfo->folder = folder;
 	} else {
+		camel_folder_freeze (folder);		
 		oldinfo = g_malloc0(sizeof(*oldinfo));
 		oldinfo->folder = folder;
 		oldinfo->uri = g_strdup(uri);
