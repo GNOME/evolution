@@ -1,3 +1,7 @@
+2000-11-08  Matt Bissiri  <bissiri@eecs.umich.edu>
+
+	* e-shell-folder-selection-dialog.c: Fix typo in a comment.
+
 2000-11-06  Dan Winship  <danw@helixcode.com>
 
 	* e-storage-set-view.c (insert_folders): Pass full_name, not

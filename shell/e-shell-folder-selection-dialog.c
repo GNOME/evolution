@@ -340,7 +340,7 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
  * @allowed_types: List of the names of the allowed types
  * 
  * Create a new folder selection dialog widget.  @default_uri can be either an
- * `evolution:' URI or a physical URI (all the non-`evoluion:' URIs are
+ * `evolution:' URI or a physical URI (all the non-`evolution:' URIs are
  * considered to be physical URIs).
  * 
  * Return value: 
