@@ -1,3 +1,17 @@
+2005-01-10  Harish Krishnaswamy  <kharish@novell.com>
+
+	* gui/dialogs/cal-attachment-bar.[ch]: (destroy), (init),
+	(cal_attachment_bar_set_local_attachment_store),
+	(cal_attachment_bar_get_attachment_list),
+	(cal_attachment_bar_get_nth_attachment_filename),
+	(cal_attachment_bar_set_attachment_list):
+	Modified cal-attachment-bar to allow the path to 
+	the local attachment store be set externally, thereby
+	hiding the storage policy of different backends from it.
+	* gui/dialogs/comp-editor.c: (real_edit_comp):
+	set the local attachment store after obtaining it from 
+	the calendar.
+
 2005-01-09  JP Rosevear  <jpr@novell.com>
 
 	* gui/calendar-component.c (impl_handleURI): handle calendar://

@@ -1241,7 +1241,6 @@ static void
 real_edit_comp (CompEditor *editor, ECalComponent *comp)
 {
 	CompEditorPrivate *priv;
-	char *source_url;
 	const char *uid;
 	
 	g_return_if_fail (editor != NULL);
@@ -1264,10 +1263,8 @@ real_edit_comp (CompEditor *editor, ECalComponent *comp)
 	set_title_from_comp (editor);
 	set_icon_from_comp (editor);
 	e_cal_component_get_uid (comp, &uid);
-	source_url = g_strconcat (e_cal_get_uri (priv->client), "/", NULL);
-	/* The source_url and uid will be preserved by the callee and freed when 
-	 * the latter gets destroyed */
-	cal_attachment_bar_set_source_url (priv->attachment_bar, source_url);
+	cal_attachment_bar_set_local_attachment_store (priv->attachment_bar, 
+			e_cal_get_local_attachment_store (priv->client)); 
 	cal_attachment_bar_set_comp_uid (priv->attachment_bar, g_strdup	(uid));
 
 	fill_widgets (editor);

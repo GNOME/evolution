@@ -74,9 +74,9 @@ struct _CalAttachmentBarPrivate {
 	guint num_attachments;
 	/* The persistent copies of the attachments
 	 * derive their location and name from the 
-	 * source_url and the comp_uid.
+	 * local_attachment_store and the comp_uid.
 	 */
-	char *source_url;
+	char *local_attachment_store;
 	char *comp_uid;
 };
 
@@ -540,8 +540,8 @@ destroy (GtkObject *object)
 	
 	/* TODO leaking this here to prevent a crash */
 	/*
-	if (bar->priv->source_url)
-		g_free (bar->priv->source_url);
+	if (bar->priv->local_attachment_store)
+		g_free (bar->priv->local_attachment_store);
 	if (bar->priv->comp_uid)
 		g_free (bar->priv->comp_uid);
 	*/
@@ -635,7 +635,7 @@ init (CalAttachmentBar *bar)
 	
 	priv->attachments = NULL;
 	priv->num_attachments = 0;
-	priv->source_url = NULL;
+	priv->local_attachment_store = NULL;
 	priv->comp_uid = NULL;
 	
 	bar->priv = priv;
@@ -729,11 +729,13 @@ get_default_charset (void)
 }
 
 void 
-cal_attachment_bar_set_source_url (CalAttachmentBar *bar, char *source_url)
+cal_attachment_bar_set_local_attachment_store (CalAttachmentBar *bar,
+		const char *attachment_store)
 {
-	if (bar->priv->source_url) 
-		g_free (bar->priv->source_url);
-	bar->priv->source_url = source_url;	
+	if (bar->priv->local_attachment_store) 
+		g_free (bar->priv->local_attachment_store);
+	bar->priv->local_attachment_store = 
+		g_strconcat (attachment_store, "/", NULL);
 }
 
 void 
@@ -796,9 +798,7 @@ cal_attachment_bar_get_attachment_list (CalAttachmentBar *bar)
 		/* Extract the content from the stream and write it down
 		 * as a mime part file into the directory denoting the
 		 * calendar source */
-		/* TODO convert it into a generic path using the source
-		 * uri and use content-id to generate filename */
-		attach_file_url = g_strconcat (priv->source_url,
+		attach_file_url = g_strconcat (priv->local_attachment_store,
 				priv->comp_uid,  "-",
 			 camel_file_util_safe_filename
 			 (camel_mime_part_get_filename (attachment->body)), NULL); 
@@ -831,7 +831,7 @@ cal_attachment_bar_get_nth_attachment_filename (CalAttachmentBar *bar, int n)
 	g_return_val_if_fail (E_IS_CAL_ATTACHMENT_BAR (bar), 0);
 	
 	attach = g_slist_nth_data (bar->priv->attachments, n);
-	return g_strconcat (bar->priv->source_url, bar->priv->comp_uid, "-", camel_mime_part_get_filename
+	return g_strconcat (bar->priv->local_attachment_store, bar->priv->comp_uid, "-", camel_mime_part_get_filename
 			(attach->body), NULL);
 }
 
@@ -870,7 +870,7 @@ cal_attachment_bar_set_attachment_list (CalAttachmentBar *bar, GSList *attach_li
 		attach =  g_slist_nth_data (priv->attachments,
 				priv->num_attachments-1);
 		camel_mime_part_set_filename (attach->body,
-				attach_filename + strlen (priv->source_url)+ 
+				attach_filename + strlen (priv->local_attachment_store)+ 
 				strlen (priv->comp_uid) + 1); 
 		update (bar);
 	}

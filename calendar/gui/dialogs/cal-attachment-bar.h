@@ -73,7 +73,8 @@ GSList *cal_attachment_bar_get_attachment_list (CalAttachmentBar *bar);
 char * cal_attachment_bar_get_nth_attachment_filename (CalAttachmentBar *bar, int n);
 GSList *cal_attachment_bar_get_mime_attach_list (CalAttachmentBar *bar);
 void cal_attachment_bar_set_attachment_list (CalAttachmentBar *bar, GSList *attach_list);
-void cal_attachment_bar_set_source_url (CalAttachmentBar *bar, char *source_url);
+void cal_attachment_bar_set_local_attachment_store (CalAttachmentBar *bar, 
+		const char *attachment_store);
 void cal_attachment_bar_set_comp_uid (CalAttachmentBar *bar, char *comp_uid);
 
 #ifdef __cplusplus
