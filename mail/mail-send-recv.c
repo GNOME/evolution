@@ -48,6 +48,7 @@
 #include "mail-tools.h"
 #include "mail-ops.h"
 #include "mail-send-recv.h"
+#include "mail-folder-cache.h"
 
 #define d(x)
 
@@ -601,7 +602,7 @@ receive_update_got_store (char *uri, CamelStore *store, void *data)
 		
 		if (storage) {
 			if (!gtk_object_get_data (GTK_OBJECT (storage), "connected"))
-				mail_scan_subfolders (store, storage);
+				mail_note_store (store);
 			
 			mail_update_subfolders (store, storage, receive_update_done, info);
 			bonobo_object_unref (BONOBO_OBJECT (storage));

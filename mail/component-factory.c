@@ -157,7 +157,7 @@ create_view (EvolutionShellComponent *shell_component,
 		}
 		
 		if (!gtk_object_get_data (GTK_OBJECT (storage), "connected"))
-			mail_scan_subfolders (CAMEL_STORE (store), storage);
+			mail_note_store (CAMEL_STORE (store));
 		camel_object_unref (CAMEL_OBJECT (store));
 		
 		control = create_noselect_control ();
