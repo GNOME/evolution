@@ -1,4 +1,45 @@
+2000-09-07  Aaron Weber  <aaron@helixcode.com>
+
+	* C/evolution-guide.sgml: Accidentally broke docs, now valid.
+
+2000-09-06  Aaron Weber  <aaron@helixcode.com>
+
+	* C/usage-contact.sgml: Editing, proofing.
+
+2000-09-05  Aaron Weber  <aaron@helixcode.com>
+
+	* C/usage-contact.sgml: Grammar, links, screenshots.
+
+	* fig/* Re-took most screenshots.
+
+	* C/usage-mail.sgml: Filters, proofing.
+
+2000-09-01  Aaron Weber  <aaron@helixcode.com>
+
+	* C/config-prefs.sgml: Added coverage of news, clarified POP/IMAP
+	distinction (there's a theme to these four log entries here).
+
+	* C/usage-mail.sgml: Added coverage of news.
+
+	* C/config-setupassist.sgml: Revised mail sources content for
+	IMAP/POP stuff.
+
+	* C/apx-gloss.sgml: Added IMAP and POP.
+
 2000-08-31  Aaron Weber  <aaron@helixcode.com>
+
+	* C/apx-gloss.sgml: Added regular expressions to glossary.
+	Explanation should be removed from other portions of the book now.
+
+	* C/usage-mainwindow.sgml: Revisions, minor.
+
+	* C/apx-menuref.sgml: Now named menuref.sgml, to reflect its new
+	status as a part.
+
+	* C/evolution-guide.sgml: Structural alterations: Menuref is now a
+	part, not an appendix.
+
+	* C/apx-menuref.sgml: Added contextual menus for mail.
 
 	* C/preface.sgml: Added "quickref and pointers" sections. Props to
 	  O'Reilly for the copy of Outlook in a Nutshell which gave me the

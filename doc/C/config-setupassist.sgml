@@ -1,10 +1,12 @@
     <chapter id="config-setupassist">
       <title>Easy Setup with the Setup Assistant</title>
       <para>
-        The setup assistant can gather most of the information
-        necessary for <application>Evolution</application>'s daily
-        operation. If you prefer more detailed or advanced
-        configuration, see <xref linkend="config-prefs">.
+        The first time you try to use email, the mail setup assistant
+        will ask you for some basic information, so
+        <application>Evolution</application> can let you use email. If
+        you prefer more detailed configuration, or if you want to make
+        changes to an existing email setup, see <xref
+        linkend="config-prefs">.
       </para>
 
    <sect1 id="config-setupassist-mail">
@@ -60,8 +62,10 @@
           <term> <guilabel>Organization:</guilabel></term>
 	  <listitem>
 	    <para>
-              <guilabel>Organization:</guilabel> Any organization you
-              represent.  Leave this blank if you wish.
+              Any organization you represent; often, the company where
+              you work.  Leave this blank if you wish.  One person I
+              know always puts "My own bad self" in this box, so
+              people know his opinions are his alone.
             </para>
 	  </listitem>
       </varlistentry>

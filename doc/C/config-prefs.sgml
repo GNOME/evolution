@@ -73,7 +73,7 @@
 
       <!-- ==============Figure===================== -->
       <figure id="config-prefs-mail-fig">
-	<title>Preferences Dialog</title>
+	<title>Mail Preferences Dialog</title>
 	<screenshot>
 	  <screeninfo>Setting mail preferences</screeninfo>
 	  <graphic fileref="fig/config-mail" format="png" srccredit="Aaron Weber">

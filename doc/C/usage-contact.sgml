@@ -95,9 +95,9 @@
     </para>
     <para>
        The rest of the contact manager is taken up by the display of
-       your cards.  You can view it as a table or as a list of
-       cards&mdash; switch between them in the <guimenu>View</guimenu>
-       menu &mdash; and move through them alphabetically alphanumeric
+       your cards.  You can view that display as a table or as a list
+       of cards&mdash; switch views in the <guimenu>View</guimenu>
+       menu &mdash; and move through them alphabetically with the
        buttons and the scrollbar at the right of the window.
     </para>
   </sect1>
@@ -129,14 +129,14 @@
     	<guilabel>General</guilabel>, for basic contact information,
     	and <guilabel>Details</guilabel>, for a more specific
     	description of the person.  In addition, it contains a full
-    	menu bar, which is still evolving rapidly.  <!-- FIXME -->
+    	menu bar, covered in <xref linkend="menuref">.
       </para>
       
       <figure id="usage-contact-editor-fig">
 	  <title>Evolution Contact Editor</title>
 	  <screenshot>
 	    <screeninfo>Evolution Contact Editor</screeninfo>
-	  <graphic fileref="fig/contact-new" format="png" srccredit="Aaron Weber">
+	  <graphic fileref="fig/contact-editor" format="png" srccredit="Aaron Weber">
 		</graphic>
 	</screenshot>
       </figure>
@@ -152,10 +152,12 @@
         more interesting.
     </para>
     <para>
-      The <guilabel>Categories</guilabel> feature is discussed in
-      <xref linkend="usage-contact-organize">, but the remaining
-      features are described here:
-      <variablelist>
+      For more information about the <guilabel>Categories</guilabel>
+      organization tool, have a look at <xref
+      linkend="usage-contact-organize">.  The rest of the features in
+      the window are here:
+ 
+     <variablelist>
 	<varlistentry>
 	  <term>Full Name</term>
 	  <listitem>
@@ -223,6 +225,7 @@
                  </para>
 		  <tip>
 		    <title>Filing Suggestion</title>
+		   
 		    <para>
                       Don't enter something entirely different from
                       the actual name, since you might forget that
@@ -290,8 +293,8 @@
        mail.  You can have folders and searches the same way you can
        with mail, but the contact manager does not allow vFolders.  It
        does, however, allow each card to fall under several
-       categories, and allow you to create your own categories.
-       Categories are discussed <xref
+       categories, and allow you to create your own categories.  To
+       learn about categories, read <xref
        linkend="usage-contact-organize-group-category">.
     </para>
 
@@ -330,9 +333,10 @@
 	   <guisubmenu>New</guisubmenu>
 	   <guimenuitem>Folder</guimenuitem>
            </menuchoice>
-           and that you can put new folders anywhere you like.  Note
-	   that each card must be in one and only one folder, unless
-	   you want to have duplicate cards.
+           and that you can put new folders anywhere you like.  Each
+	   card must be in a folder, and no card can be in two places
+	   at once.  If you want more flexibility, try <xref
+	   linkend="usage-contact-organize-group-category">
 	 </para>
 	<para>
           To put a card into a folder, just drag it there from the
@@ -364,7 +368,8 @@
         </para>
 	<para>
            Then, you can refer to all the cards in that category by:
-           FEATURE NOT IMPLEMENTED... FIXME
+           <!-- FIXME --> Waiting for Evolution to support the
+           operation.
          </para>
 	<para>
            If the master list of categories doesn't suit you, you can
@@ -373,30 +378,22 @@
            choose <guilabel>Add to Master List</guilabel> in the
            window that appears. 
          </para>
-
-         <tip id="usage-contact-categories-multiple">
-            <title>Another way to use Categories</title>
-            <para>
-               You can categorize contacts by typing the category
-               names into the <guilabel>Categories</guilabel>
-               field. You can also create new categories that way:
-               just type in a category name, and it counts as a
-               category.
-            </para>
-          </tip>
       </sect3>
     </sect2>
   </sect1>
   
   <sect1 id="usage-contact-sharing">
-    <title>Sharing your Cards (and keeping them to yourself)</title>
+    <title>Sharing your Cards</title>
     <para>
-       Cards can be shared over a network.  This is the sort of
-       feature you'll want to use if your company has a list of
-       vendors and clients that needs constant updating.  If you
-       also share your calendars, people can avoid duplicating
-       work and keep up to date on developments within their
-       workgroup or across the entire company.
+       If you keep your cards on a network using an
+       <glossterm>LDAP</glossterm> server, you can share access to
+       them.  Actually, the server software takes care of that, and
+       also determines who is allowed to see and change them.  This is
+       the sort of feature you'll want to use if your company has a
+       list of vendors and clients that needs constant updating.  If
+       you also share your calendars, people can avoid duplicating
+       work and keep up to date on developments within their workgroup
+       or across the entire company.
     </para>
 
      <example id="usage-contact-sharing-ex">
@@ -415,15 +412,34 @@
     <para>
        Of course, you don't want to share all of your cards&mdash; why
        overload the network with a list of babysitters, or tell
-       everyone in the office you're talking to new job prospects?
-       <application>Evolution</application> lets you decide which
-       folders you want to make accessible to others.
+       everyone in the office you're talking to new job prospects?  If
+       you keep cards on your own computer, you can decide which items
+       you want to make accessible to others.
     </para>
     <para>
-       To begin sharing a folder of address cards, wait until
-       <application>Evolution</application> supports this
-       feature. <!-- FIXME -->
-    </para>
+       To learn how to set up your connection to an LDAP server, see
+       <xref linkend="config-prefs-contact">.  Once you have a
+       connection, the network contacts folder or folders will appear
+       inside the <guilabel>External Directories</guilabel> folder in
+       the folder bar, and will work exactly like a local folder of
+       cards, with the following exceptions:
+       <itemizedlist>
+          <listitem><para>
+              They are only available when you are connected to the network.  If 
+              you use a laptop or have a modem connection, you may wish to copy or cache
+              the network directory and then synchronize your copy with the networked version
+              periodically.
+          </para></listitem>
+
+	  <listitem><para>
+              Your ability to view, change, add or delete contacts 
+              depends on the settings of the LDAP server.  For example, you may 
+              read all the entries in the public Netcenter directory (available by default in the 
+              <guilabel>External Directories</guilabel> folder), but you may not change or delete 
+              any of them.
+           </para></listitem>
+       </itemizedlist>
+     </para>
   </sect1>
 
   <sect1 id="usage-contact-automate">
@@ -482,11 +498,7 @@
 -->
 
   </sect1>
-  <sect1 id="usage-contact-menubar">
-    <title>Contact Manager Menubar Reference</title>
-     <para>
-     </para>
-  </sect1>
+
 </chapter> 
 
 

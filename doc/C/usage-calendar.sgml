@@ -36,9 +36,9 @@
        right side of the toolbar to switch between views.
     </para>
     <para>
-       To view yesterday's appointments, (last week's, if you're in
-       the weekly view, and last month's for the monthly view), click
-       the <guibutton>Pref</guibutton> button.  For tomorrow, next week,
+       To view yesterday's appointments, &mdash;last week's, if you're in
+       the weekly view, and last month's for the monthly view&mdash; click
+       the <guibutton>Prev</guibutton> button.  For tomorrow, next week,
        or next month, click <guibutton>Next</guibutton>, and of course,
        click <guibutton>Today</guibutton> for today.
     </para>
@@ -71,8 +71,9 @@ lack of time, resources, and interest.
        multiple days, and events that have a date but no specific
        time.  Of course, you can also set event reminders and alarms
        so that you don't forget about everything you've just put into
-       your calendar. Basically, it can handle almost any schedule you
-       throw at it.
+       your calendar. From managing a busy office to managing a busy
+       family (or both!), <application>Evolution</application> can
+       handle the schedule.
     </para>
     <sect2 id="usage-calendar-apts-basic">
       <title>Creating events</title>
@@ -88,6 +89,16 @@ lack of time, resources, and interest.
 	dialog will pop up with the usual menu bar, tool bar, and
 	window full of choices for you.
       </para>
+      <tip id="new-appointment-shortcut">
+        <title>Shortcut</title>
+        <para>
+           If you don't need to enter more information than the date
+           and time of the appointment, you just click in any blank
+           space in the calendar and start typing. You can enter other
+           information later with the appointment editor.
+        </para>
+      </tip>
+
       <para>
         Your event must have a starting and ending date &mdash; by
         default, today &mdash; but you can choose whether to give it
@@ -130,7 +141,8 @@ lack of time, resources, and interest.
 	    <term><guilabel>Audio</guilabel></term>
 	    <listitem>
 	      <para>
-	        Choose this to have your deliver a sound alarm.
+	        Choose this to have your computer deliver a sound
+	        alarm.
               </para>
 	    </listitem>
 	  </varlistentry>
@@ -322,12 +334,12 @@ lack of time, resources, and interest.
     <example>
       <title>Keeping Multiple Calendars</title>
       <para>
-        Keelyn has one calendar for her own schedule.  Next to that
+        Keelyn has one calendar for her own schedule.  On the network,
         she maintains one for the conference room, so people know when
-        they can schedule meetings.  On the local network, she
-        maintains a calendar that reflects when consultants are going
-        to be on site, and another that keeps track of when the Red
-        Sox are playing.
+        they can schedule meetings.  Next to that, she maintains a
+        calendar that reflects when consultants are going to be on
+        site, and another that keeps track of when the Red Sox are
+        playing.
       </para>
     </example>
     <para>

@@ -1,6 +1,8 @@
 <!--
 <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
 -->
+<!-- NOTE: Queue handling, Outbox, and Written Message Editing are not
+implemented with a stable UI yet, and are described wrong -->
 
 <chapter id="usage-mail"> 
   <title>Evolution Mail</title>
@@ -364,8 +366,8 @@
 	  and <guibutton>Redo</guibutton> , but there's a bit more to
 	  sending mail that's less obvious.  In the next few sections,
 	  you'll see how <application>Evolution</application> handles
-	  additional features, including mailing lists, attachments,
-	  and forwarding.
+	  additional features, including large recipient lists,
+	  attachments, and forwarding.
         </para>
       </sect3>
       <sect3 id="usage-mail-getnsend-send-attach">
@@ -424,20 +426,28 @@
 	<sect4 id="usage-mail-getnsend-send-to-mult">
 	  <title>Multiple Recipients</title>
 	  <para>
-	    You can address your email in three different ways.  The
+	    <application>Evolution</application>, like all email
+	    programs (at least, all the ones in current use)
+	    recognizes three types of addressee: primary recipients,
+	    secondary recipients, and hidden ("blind") recipients. The
 	    <guilabel>To:</guilabel> field is for the primary
-	    recipients of the message you are going to send.  However,
-	    it is considered bad form to have more than a few email
-	    addresses in this section.
+	    recipients of the message you are going to send.  
+         </para>
+         <para>
+	    The simplest way to direct a message is to put the email
+            address or addresses in the <guilabel>To:</guilabel>
+            field, to denote primary recipients.  However, it is
+            considered bad form to have more than a few email
+            addresses in this section.  If you are sending mail to
+            more than one or two people, consider the
+            <guilabel>Cc:</guilabel> field.
 	  </para>
 	  <para>
-	    If you're writing to one person, but want to keep a third
-	    party up to date, you can use <guilabel>Cc:</guilabel>.
 	    Hearkening back to the dark ages when people used
 	    typewriters and there were no copy machines, "Cc" stands
 	    for "Carbon Copy."  Use it whenever you want to share a
 	    message you've written to someone else.
-	    <example>
+	    <example id="ex-mail-cc">
 	      <title>Using the Cc: field</title>
 	      <para>
 	         When Susan sends an email to a client, she puts her
@@ -571,25 +581,36 @@ with quoted materials and the relevant replies interspersed-->
 	    </varlistentry>
 
 	    <varlistentry>
-	      <term><guimenuitem>Replace</guimenuitem></term>
-	      <listitem><para> Find something, replace it with
-	      something else.  </para></listitem>
+	       <term><guimenuitem>Replace</guimenuitem></term>
+	       <listitem><para> 
+                 Find a word or phrase, replace it with
+	         something else.  
+               </para></listitem>
 	    </varlistentry>
 
 	  </variablelist>
-            
+        </para>  
+	<para>
+            For all of these items, you have two additional choices.
+            First, you can choose whether to <guilabel>Search
+            Backwards</guilabel>, which will perform the search
+            starting wherever your cursor is, and moving back towards
+            the beginning of the document (normally, it goes the other
+            way).  Then, you can decide whether to have your search be
+            <guilabel>Case Sensitive</guilabel>, meaning should it pay
+            attention to the case of letters when locating a match.
         </para>
       </sect3>
       <sect3 id="usage-mail-getnsend-send-html">
 	<title>Embellish your email with HTML</title>
 	<para>
             You can't normally use text treatments or pictures in
-            emails, which is why you've probably seen people use
-            asterisks for emphasis or use
-            <glossterm>emoticons</glossterm> to convey their
-            feelings.  However, most of the newer email programs can
-            include and display images and text treatments as well as
-            basic alignment and paragraph formatting.
+            emails, which is why you've probably seen people use far
+            too many exclamation points for emphasis or use
+            <glossterm>emoticons</glossterm> to convey their feelings.
+            However, most of the newer email programs can include and
+            display images and text treatments as well as basic
+            alignment and paragraph formatting.
         </para>
 	<note>
 	  <title>HTML Mail is not a Default Setting</title>
@@ -628,9 +649,9 @@ with quoted materials and the relevant replies interspersed-->
                   Choose <guilabel>Normal</guilabel> for a default
                   text style, or <guilabel>Header 1</guilabel> through
                   <guilabel>Header 6</guilabel> for varying sizes of
-                  header.  You can also select
-                  <guilabel>pre</guilabel> for preformatted text
-                  blocks, and three types of <guilabel>List
+                  header from large (1) to tiny (6).  You can also
+                  select <guilabel>pre</guilabel> for preformatted
+                  text blocks, and three types of <guilabel>List
                   Item</guilabel>.
                 </para>
 	      </listitem>
@@ -639,11 +660,16 @@ with quoted materials and the relevant replies interspersed-->
              <term>Text style</term>
 	      <listitem>
 		<para>
+                  Use these buttons to determine the way your letters
+                  look.  If you have text selected, the style will
+                  apply to the selected text.  If you do not have text
+                  selected, the style will apply to whatever you type
+                  next.  The buttons are:
                   <itemizedlist mark="none">      
-		  <listitem><para><guibutton>B</guibutton> is for bold text</para></listitem>   
-                  <listitem><para><guibutton>I</guibutton> for italics</para></listitem>
-		  <listitem><para><guibutton>U</guibutton> to underline</para></listitem>
-		  <listitem><para><guibutton>S</guibutton> for a strikethrough.</para></listitem>
+		  <listitem><para>Push <guibutton>B</guibutton> for bold text</para></listitem>   
+                  <listitem><para>Push <guibutton>I</guibutton> for italics</para></listitem>
+		  <listitem><para>Push <guibutton>U</guibutton> to underline</para></listitem>
+		  <listitem><para>Push <guibutton>S</guibutton> for a strikethrough.</para></listitem>
                  </itemizedlist>
                </para>               
 	      </listitem>    
@@ -672,6 +698,23 @@ with quoted materials and the relevant replies interspersed-->
                </para>
 	    </listitem>
 	  </varlistentry>
+
+	    <varlistentry>
+	      <term>Color Selection</term>
+	      <listitem>
+		<para>
+                  At the far right is the color section tool.  You can
+                  choose from several colors by clickin on the arrow,
+                  or create your own custom color by clicking on the
+                  color box itself.  If you have text selected, the
+                  color will apply to the selected text.  If you do
+                  not have text selected, the color will apply to
+                  whatever you type next.
+               </para>
+	    </listitem>
+	  </varlistentry>
+
+
 	  </variablelist>
         </para>
 	<para>
@@ -682,12 +725,12 @@ with quoted materials and the relevant replies interspersed-->
                <term><guimenuitem>Insert Link</guimenuitem>:</term>
 	       <listitem>
 	        <para>
-                 Use this tool to
-                 put hyperlinks in your HTML messages.  When you
-                 select it, <application>Evolution</application> will
-                 prompt you for the <guilabel>Text</guilabel> that
-                 will appear, and the <guilabel>Link</guilabel>, where
-                 you should enter the actual web address (URL).
+                  Use this tool to put hyperlinks in your HTML
+                  messages.  When you select it,
+                  <application>Evolution</application> will prompt you
+                  for the <guilabel>Text</guilabel> that will appear,
+                  and the <guilabel>Link</guilabel>, where you should
+                  enter the actual web address (URL).
               </para>
 	    </listitem>
           </varlistentry>
@@ -958,16 +1001,27 @@ possibly never will be due to security evil. -->
     <sect2 id="usage-mail-organize-filters">
       <title>Staying organized: Mail Filters in Evolution</title>
       <para>
-	Filters sort your email for you as you send or recieve
-	it. Most often, you'll want to have
-	<application>Evolution</application> put mail into different
-	folders, but you can have it do anything you like.  People who
-	subscribe to multiple mailing lists, or who often need to
-	refer to messages they have sent, find filters especially
-	helpful to separate personal from list-related mail, but
-	they're good for anybody who gets more than a few messages a
-	day.  To create a filter, open the <interface>filter
-	assistant</interface> by selecting
+        I once worked in the mail room of a large company, where my
+        job was to bundle, sort, and distribute mail to the various
+        mail boxes and desks throughout the building.  Filters do that
+        same job with email, but they lose much less mail than I did.
+        In addition, you can have multiple filters performing multiple
+        actions that may effect the same message in several ways.  For
+        example, your filters could put copies of one message into
+        multiple folders, or keep a copy and send one to another
+        person as well.  Which is to say, it's quite a bit more
+        flexible than an actual person with a pile of envelopes.
+      </para>
+      <para>
+        Most often, you'll want to have
+        <application>Evolution</application> put mail into different
+        folders, but you can have it do almost anything you like.
+        People who subscribe to multiple mailing lists, or who often
+        need to refer to messages they have sent, find filters
+        especially helpful to separate personal from list-related
+        mail, but they're good for anybody who gets more than a few
+        messages a day.  To create a filter, open the
+        <interface>filter assistant</interface> by selecting
 	<menuchoice>
 	  <guimenu>Tools</guimenu> 
           <guimenuitem>Mail Filters</guimenuitem>
@@ -1009,12 +1063,13 @@ possibly never will be due to security evil. -->
            </para></listitem>
 
            <listitem><para>
-            <guibutton>Up</guibutton> &mdash; Move the selected filter up in the list.
+            <guibutton>Up</guibutton> &mdash; Move the selected filter up in the list, 
+             so it will be performed sooner.
            </para></listitem>
 
            <listitem><para>
             <guibutton>Down</guibutton> &mdash;  Move the selected filter down 
-             in the list.
+             in the list, so it will be performed later.
            </para></listitem>
         </itemizedlist>
 
@@ -1039,16 +1094,16 @@ possibly never will be due to security evil. -->
       </para>
       <para>
         Enter a name for your filter in the <guilabel>Name</guilabel>
-        field, and then begin choosing criteria.  You can use multiple
-        criteria by pressing <guibutton>More</guibutton>, and remove
-        the last one by pressing <guibutton>Fewer</guibutton>.  you can
-        choose from five types of criteria, and you can have as many
-        as you like.  If you have multiple criteria, you should also
-        decide between <guilabel>Match all parts</guilabel>, which
-        will make the filter affect only those messages which meet all
-        the criteria you're about to describe, and <guilabel>Match any
-        part</guilabel>, which will make the filter affect any message
-        that meets even one of the criteria.
+        field, and then begin choosing criteria.  Choose how many
+        criteria you'd like by pressing <guibutton>More</guibutton>
+        and <guibutton>Fewer</guibutton>.  You can choose from five
+        types of criteria, and you can have as many as you like; at
+        least, I've never found a maximum.  If you have multiple
+        criteria, you'll want to decide between <guilabel>Match all
+        parts</guilabel>, which will make the filter affect only those
+        messages which meet all the criteria you're about to describe,
+        and <guilabel>Match any part</guilabel>, which will make the
+        filter affect any message that meets even one of the criteria.
      </para>
      <para>
         For each of your filter criteria, you must first select what
@@ -1085,10 +1140,10 @@ possibly never will be due to security evil. -->
 	  <varlistentry>
 	    <term><guilabel>Expression</guilabel></term>
 	    <listitem><para>
-                Enter a regular expression (see <xref linkend="apx-gloss"> 
-                for more information), and <application>Evolution</application>
-                will match it for you. 
-            </para></listitem>
+               Enter a <glossterm>regular expression</glossterm>, and
+	       <application>Evolution</application> will match it for
+	       you.
+           </para></listitem>
 	  </varlistentry>
 	</variablelist>
       </para>
@@ -1155,10 +1210,10 @@ possibly never will be due to security evil. -->
 
 	  <varlistentry>
 	    <term><guilabel>Stop Processing</guilabel></term>
-	    <listitem><para>
-               Select this if you want to tell all other filters to ignore
-               this message.
-            </para></listitem>
+	    <listitem><para> Select this if you want to tell all other
+	    filters to ignore this message.  If multiple filters copy
+	    the message to a different folders, you'll have multiple
+	    copies of the message.  </para></listitem>
 	  </varlistentry>
 
 	  <varlistentry>
@@ -1207,8 +1262,10 @@ possibly never will be due to security evil. -->
 	<title>Two Notable Filter Features</title>
 	<para>
 	  <itemizedlist>
-	    <listitem><para>Any incoming email that does not meet
-	    filter action criteria remains in the Inbox. </para>
+	    <listitem><para>
+              Incoming email that your filters don't move goes into the Inbox; 
+              outgoing mail that they don't move ends up in the Sent folder.
+             </para>
 	    </listitem>
 
 	    <listitem><para>If you move a folder, your filters
@@ -1234,28 +1291,12 @@ possibly never will be due to security evil. -->
       <para>
 	A vFolder is really a hybrid of all the other organizational
 	tools: it looks like a folder, it acts like a search, and you
-	set it up like a filter.  Once you've set it up, you'll be
-	able to open it and read the messages in it as though it were
-	a normal mail folder.  It's not a folder, though, because when
-	you open a vFolder, <application>Evolution</application>
-	performs a search for you.  It's not a regular search, though,
-	because you can build a vFolder with a very complicated set of
-	criteria with multiple inclusions and exclusions, as though
-	you were setting up a filter.
+	set it up like a filter.  In other words, while a conventional
+	folder actually contains messages, a vFolder is a view of
+	messages that may be in several different folders.  The
+	messages it contains are determined on the fly using a set of
+	criteria you choose in advance.
       </para>
-
-<!-- potentially useful, but doesn't fit at the moment:
-     <para>
-       An important difference between a folder and a virtual folder
-	is that a conventional folder actually contains messages, but
-	a vFolder is a view of messages that may be in several
-	different folders.  This means that while a message may fall
-	into several vFolders, it can be in only one conventional
-	folder.  Also, it means that you cannot remove a message from
-	a vFolder unless you delete it, and you cannot add a message
-	to a vFolder unless you change the vFolder's search criteria.
-      </para>
--->
 
       <para>
 	As messages that meet the vFolder criteria arrive or are
@@ -1263,22 +1304,15 @@ possibly never will be due to security evil. -->
 	automatically place them in and and remove them from the
 	vFolder contents list.  When you delete a message, it gets
 	erased from the folder in which it actually exists, as well as
-	any vFolders which include it.
+	any vFolders which display it.
       </para>
+
       <para>
-	That's pretty complicated, but it can be useful. For example,
-	if I have a folder for all the email from one person, and
-	another folder for all the email on a given topic, I
-	<emphasis>feel</emphasis> organized.  But when the person
-	sends me mail about the topic, my whole email filing universe
-	becomes chaotic, and I need vFolders to save the day for me.
-      </para>
-      <para>
-	That sounds silly, but imagine a business trying to keep track
-	of mail from hundreds of vendors and clients, or a university
-	with overlapping and changing groups of faculty, staff,
-	administrators and students.  The more mail you need to organize, the less
-	you can afford the sort of confusion that stems from an
+	Imagine a business trying to keep track of mail from hundreds
+	of vendors and clients, or a university with overlapping and
+	changing groups of faculty, staff, administrators and
+	students.  The more mail you need to organize, the less you
+	can afford the sort of confusion that stems from an
 	organizational system that's not flexible enough.  vFolders
 	make for better organization because they can accept
 	overlapping groups in a way that regular folders and filing
@@ -1288,24 +1322,22 @@ possibly never will be due to security evil. -->
       <example id="usage-mail-organize-vFolders-ex">
 	<title>Using Folders, Searches, and vFolders</title>
 	<para>
-	   To organize my mail box, I can set up a vFolder for emails
-	   from my friend Vince.  Then, whenever I want to see the
-	   messages Vince has sent me, I open the vFolder, and every
-	   message he's sent me shows up, no matter where I've
-	   actually filed it.  If I want, I can also create a vFolder
-	   containing any message from my list of co-workers which
-	   also has the name of the project in it.  That way, when
-	   Vince sends me mail about the project, I can see that
-	   message both in the "Vince" vFolder and in the "Project"
-	   vFolder.  That's because when I open up the "Vince" folder,
-	   I'm really performing a search for all the mail from Vince,
-	   and when I open the "Project" folder I'm really performing
-	   a search for all the mail about the project.
+	   To organize my mail box, I set up a vFolder for emails from
+	   my friend and co-worker Anna.  I have another one for
+	   messages from anybody at work that have "Evolution" in the
+	   subject line, so I can keep a record of what people from
+	   work send me about <application>Evolution</application>.
+	   If Anna sends a message about a picnic on Saturday, it only
+	   shows up in the "Anna" folder. When Anna sends me mail
+	   about the user interface for
+	   <application>Evolution</application>, I can see that
+	   message both in the "Anna" vFolder and in the "Internal
+	   Evolution Discussion" vFolder.
+	</para>
+      </example>
 
 	<!--  (INSERT SCREENSHOT HERE: vFolders in action) -->
 
-	</para>
-      </example>
       <para>
 	 To create a vFolder, select <guimenuitem>VFolder
 	 Editor</guimenuitem> from the <guimenu>Tools</guimenu>
@@ -1334,9 +1366,12 @@ possibly never will be due to security evil. -->
          The second part, however, is slightly different.  In the
          section of the window labelled <guilabel>vFolder Sources
          </guilabel> is a list of folders in which
-         <application>Evolution</application> will search for the contents
-         of your vFolder.  Click <guibutton>Add</guibutton> to add a folder,
-         or <guibutton>Remove</guibutton> to remove one.         
+         <application>Evolution</application> will search for the
+         contents of your vFolder.  Click <guibutton>Add</guibutton>
+         to add a folder, or <guibutton>Remove</guibutton> to remove
+         one.  That way, you can have your vFolder search in
+         newsgroups, or just in one of your mailboxes, or just in a
+         select few folders you've already screened with filters.
        </para>
        <para>
         The vFolder creation window is shown in <xref

@@ -3,11 +3,14 @@
   <abstract>
     <title> An Overview of the Evolution Notes</title>
     <para>
-      In the dark ages before email was invented, there were notes.
-      Even now, notes are an almost necessary part of our lives.  It
-      only makes sense that <application> Evolution</application> has
-      a Notes feature.  <application>Evolution</application> can help
-      you take notes in the following ways:
+      In the dark ages before email was invented, there were little
+      scraps of people which people used for short-term information
+      storage.  These scraps of paper were called notes.  Now, notes
+      are an almost necessary part of our lives, albeit in electronic
+      form.  It only makes sense, then, that
+      <application>Evolution</application> has a Notes feature.
+      <application>Evolution</application> can help you take notes in
+      the following ways:
      <itemizedlist>
        <listitem>
          <para>
@@ -17,13 +20,13 @@
        </listitem>
        <listitem>
          <para>
-           You can color code each note to help cateogrize each note into
-           a topic.
+           You can color code notes to organize them, or just to
+           make them look good.
          </para>
        </listitem>
        <listitem>
          <para>
-           Something
+           Turn a note into an email or a text file.
          </para>
        </listitem>
        <listitem>
@@ -39,3 +42,6 @@
    </para>
   </abstract>
 </chapter>
+
+
+
