@@ -1,3 +1,13 @@
+2000-12-21  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filter-message-search.c (header_contains): Use
+	e_utf8_strstrcase() instead of just strstr().
+	(header_starts_with): Make sure that the header contents are
+	longer than the starts-with string.
+
+	* vfoldertypes.xml: Don't send \"Subject\" to body-contains.
+	Also added matches, starts-with, and ends-with xml stuff.
+
 2000-12-28  Dan Winship  <danw@helixcode.com>
 
 	* filter-message-search.c (handle_multipart, body_contains,

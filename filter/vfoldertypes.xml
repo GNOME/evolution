@@ -12,9 +12,42 @@
         <title>does not contain</title>
         <code>(match-all (not (header-contains "From" ${sender})))</code>
     </option>
+    <option value="is">
+        <title>is</title>
+	<code>(match-all (header-matches "From" ${sender}))</code>
+    </option>
+    <option value="is not">
+        <title>is not</title>
+        <code>(match-all (not (header-matches "From" ${sender})))</code>
+    </option>
+    <option value="starts with">
+     <title>starts with</title>
+     <code>
+        (match-all (header-starts-with "From" ${sender}))
+     </code>
+    </option>
+    <option value="not starts with">
+     <title>does not start with</title>
+     <code>
+        (match-all (not (header-starts-with "From" ${sender})))
+     </code>
+    </option>
+    <option value="ends with">
+     <title>ends with</title>
+     <code>
+        (match-all (header-ends-with "From" ${sender}))
+     </code>
+    </option>
+    <option value="not ends with">
+     <title>does not end with</title>
+     <code>
+        (match-all (not (header-ends-with "From" ${sender})))
+     </code>
+    </option>
    </input>
    <input type="string" name="sender"/>
  </part>
+
  <part name="to">
    <title>Recipients</title>
    <input type="optionlist" name="recipient-type">
@@ -33,9 +66,55 @@
 	                  (header-contains "Cc" ${recipient}))))
      </code>
     </option>
+    <option value="is">
+     <title>is</title>
+     <code>
+	(match-all (or (header-matches "To" ${recipient})
+	    	       (header-matches "Cc" ${recipient})))
+     </code>
+    </option>
+    <option value="is not">
+     <title>is not</title>
+     <code>
+	(match-all (not (or
+               (header-matches "To" ${recipient})
+	       (header-matches "Cc" ${recipient}))))
+     </code>
+    </option>
+    <option value="starts with">
+     <title>starts with</title>
+     <code>
+        (match-all (or (header-starts-with "To" ${recipient})
+	    	       (header-starts-with "Cc" ${recipient})))
+     </code>
+    </option>
+    <option value="not starts with">
+     <title>does not start with</title>
+     <code>
+        (match-all (not (or
+               (header-starts-with "To" ${recipient})
+	       (header-starts-with "Cc" ${recipient}))))
+     </code>
+    </option>
+    <option value="ends with">
+     <title>ends with</title>
+     <code>
+        (match-all (or (header-ends-with "To" ${recipient})
+	    	       (header-ends-with "Cc" ${recipient})))
+     </code>
+    </option>
+    <option value="not ends with">
+     <title>does not end with</title>
+     <code>
+        (match-all (not (or
+               (header-ends-with "To" ${recipient})
+	       (header-ends-with "Cc" ${recipient}))))
+     </code>
+    </option>
    </input>
    <input type="address" name="recipient"/>
  </part>
+
  <part name="subject">
    <title>Subject</title>
    <input type="optionlist" name="subject-type">
@@ -49,6 +128,42 @@
      <title>does not contain</title>
      <code>
 	(match-all (not (header-contains "Subject" ${subject})))
+     </code>
+    </option>
+    <option value="is">
+     <title>is</title>
+     <code>
+	(match-all (header-matches "Subject" ${subject}))
+     </code>
+    </option>
+    <option value="is not">
+     <title>is not</title>
+     <code>
+	(match-all (not (header-matches "Subject" ${subject}))
+     </code>
+    </option>
+    <option value="starts with">
+     <title>starts with</title>
+     <code>
+	(match-all (header-starts-with "Subject" ${subject}))
+     </code>
+    </option>
+    <option value="not starts with">
+     <title>does not start with</title>
+     <code>
+	(match-all (not (header-starts-with "Subject" ${subject}))
+     </code>
+    </option>
+    <option value="ends with">
+     <title>ends with</title>
+     <code>
+	(match-all (header-ends-with "Subject" ${subject}))
+     </code>
+    </option>
+    <option value="not ends with">
+     <title>does not end with</title>
+     <code>
+	(match-all (not (header-ends-with "Subject" ${subject}))
      </code>
     </option>
    </input>
@@ -66,7 +181,7 @@
     <option value="not contains">
      <title>does not contain</title>
      <code>
-	(not (body-contains "Subject" ${word}))
+	(not (body-contains ${word}))
      </code>
     </option>
    </input>
@@ -136,7 +251,7 @@
        (match-all (not (&lt; (get-received-date) ${versus})))
     </code>
    </option>
-  </input>    
+  </input> 
   <input type="datespec" name="versus">
   </input>
  </part>

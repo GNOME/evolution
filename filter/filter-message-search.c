@@ -21,6 +21,7 @@
  */
 
 #include "filter-message-search.h"
+#include <gal/widgets/e-unicode.h>
 #include <e-util/e-sexp.h>
 #include <regex.h>
 #include <string.h>
@@ -96,7 +97,7 @@ header_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterM
 		contents = camel_medium_get_header (CAMEL_MEDIUM (fms->message), header);
 		
 		if (contents) {
-			if (strstr (contents, match))
+			if (e_utf8_strstrcase (contents, match))
 				matched = TRUE;
 		}
 	}
@@ -167,7 +168,7 @@ header_starts_with (struct _ESExp *f, int argc, struct _ESExpResult **argv, Filt
 		
 		contents = camel_medium_get_header (CAMEL_MEDIUM (fms->message), header);
 		
-		if (contents) {
+		if (contents && strlen (contents) >= strlen (match)) {
 			/* danw says to use search-engine style matching...
 			 * This means that if the search match string is
 			 * lowercase then compare case-insensitive else
@@ -695,7 +696,7 @@ user_tag (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageS
 }
 
 static ESExpResult *
-get_sent_date(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
+get_sent_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
 {
 	ESExpResult *r;
 	
@@ -706,7 +707,7 @@ get_sent_date(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMess
 }
 
 static ESExpResult *
-get_received_date(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
+get_received_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
 {
 	ESExpResult *r;
 	
