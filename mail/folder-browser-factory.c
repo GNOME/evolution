@@ -38,18 +38,18 @@ register_ondemand (RuleContext *f, FilterRule *rule, gpointer data)
 	BonoboUIHandler *uih = gtk_object_get_data (GTK_OBJECT (fb), "uih");
 	gchar *text;
 	struct fb_ondemand_closure *oc;
-
+	
 	oc = g_new (struct fb_ondemand_closure, 1);
 	oc->rule = rule;
 	oc->fb = fb;
 	oc->path = g_strdup_printf ("/*Component Placeholder*/Folder/Filter-%s", rule->name);
-
+	
 	if (fb->filter_menu_paths == NULL)
 		bonobo_ui_handler_menu_new_separator (uih, "/*Component Placeholder*/Folder/separator1", -1);
-
+	
 	text = g_strdup_printf (_("Run filter \"%s\""), rule->name);
 	fb->filter_menu_paths = g_slist_prepend (fb->filter_menu_paths, oc);
-
+	
 	bonobo_ui_handler_menu_new_item (uih, oc->path, text,
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE,
@@ -62,7 +62,7 @@ static void
 create_ondemand_hooks (FolderBrowser *fb, BonoboUIHandler *uih)
 {
 	gchar *system, *user;
-
+	
 	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
 	system = EVOLUTION_DATADIR "/evolution/filtertypes.xml";
 	fb->filter_context = filter_context_new();
@@ -78,42 +78,46 @@ create_ondemand_hooks (FolderBrowser *fb, BonoboUIHandler *uih)
  */
 BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("PrintMessage", print_msg),
-
+	
 	/* Settings Menu */
 	BONOBO_UI_VERB ("SetMailFilter", filter_edit),
 	BONOBO_UI_VERB ("VFolderEdit", vfolder_edit_vfolders),
 	BONOBO_UI_VERB ("SetMailConfig", providers_config),
 	BONOBO_UI_VERB ("SetForgetPwd", forget_passwords),
-
+	
 	/* Message Menu */
+	BONOBO_UI_VERB ("MessageSelectAll", select_all),
+	BONOBO_UI_VERB ("MessageUnSelectAll", unselect_all),
+	
 	BONOBO_UI_VERB ("MessageOpenNewWnd", view_message),
 	BONOBO_UI_VERB ("MessageEdit", edit_message),
 	BONOBO_UI_VERB ("MessagePrint", print_msg),
 	BONOBO_UI_VERB ("MessageReplySndr", reply_to_sender),
 	BONOBO_UI_VERB ("MessageReplyAll", reply_to_all),
 	BONOBO_UI_VERB ("MessageForward", forward_msg),
+	
+	BONOBO_UI_VERB ("MessageMarkAsRead", mark_as_seen),
+	BONOBO_UI_VERB ("MessageMarkAsUnRead", mark_as_unseen),
 	BONOBO_UI_VERB ("MessageDelete", delete_msg),
 	BONOBO_UI_VERB ("MessageMove", move_msg),
 	BONOBO_UI_VERB ("MessageCopy", copy_msg),
-
+	
 	BONOBO_UI_VERB ("MessageVFolderSubj", vfolder_subject),
 	BONOBO_UI_VERB ("MessageVFolderSndr", vfolder_sender),
 	BONOBO_UI_VERB ("MessageVFolderRecip", vfolder_recipient),
-
+	
 	BONOBO_UI_VERB ("MessageFilterSubj", filter_subject),
 	BONOBO_UI_VERB ("MessageFilderSndr", filter_sender),
 	BONOBO_UI_VERB ("MessageFilderRecip", filter_recipient),
-
+	
 	/* Folder Menu */
-	BONOBO_UI_VERB ("FolderMarkAllRead", mark_all_seen),
-	BONOBO_UI_VERB ("FolderDeleteAll", mark_all_deleted),
 	BONOBO_UI_VERB ("FolderExpunge", expunge_folder),
 	BONOBO_UI_VERB ("FolderConfig", configure_folder),
-
+	
 	/* Toolbar specific */
 	BONOBO_UI_VERB ("MailGet", send_receieve_mail),
 	BONOBO_UI_VERB ("MailCompose", compose_msg),
-
+	
 	BONOBO_UI_VERB_END
 };
 

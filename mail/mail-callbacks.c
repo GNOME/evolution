@@ -524,31 +524,63 @@ copy_msg (GtkWidget *widget, gpointer user_data)
 }
 
 void
-mark_all_seen (BonoboUIHandler *uih, void *user_data, const char *path)
+select_all (BonoboUIHandler *uih, void *user_data, const char *path)
 {
-        FolderBrowser *fb = FOLDER_BROWSER(user_data);
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
         MessageList *ml = fb->message_list;
 	
 	if (ml->folder == NULL)
 		return;
 	
-	mail_do_flag_all_messages (ml->folder, FALSE,
-				   CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
+	message_list_select (ml, -1, MESSAGE_LIST_SELECT_NEXT, 0, 0);
+	/* FIXME: when clahey codes select all for e-table, finish this */
+	/* e_table_select_all (); */
 }
 
 void
-mark_all_deleted (BonoboUIHandler *uih, void *user_data, const char *path)
+unselect_all (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
-	MessageList *ml = fb->message_list;
+        MessageList *ml = fb->message_list;
 	
 	if (ml->folder == NULL)
 		return;
 	
-	mail_do_flag_all_messages (ml->folder, FALSE,
-				   CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
+	/* FIXME: when clahey codes select all for e-table, finish this */
+	/* e_table_unselect_all (); */
 }
 
+void
+mark_as_seen (BonoboUIHandler *uih, void *user_data, const char *path)
+{
+        FolderBrowser *fb = FOLDER_BROWSER(user_data);
+        MessageList *ml = fb->message_list;
+	GPtrArray *uids;
+	
+	if (ml->folder == NULL)
+		return;
+	
+	uids = g_ptr_array_new ();
+	message_list_foreach (ml, enumerate_msg, uids);
+	mail_do_flag_messages (ml->folder, uids, FALSE,
+			       CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
+}
+
+void
+mark_as_unseen (BonoboUIHandler *uih, void *user_data, const char *path)
+{
+        FolderBrowser *fb = FOLDER_BROWSER(user_data);
+        MessageList *ml = fb->message_list;
+	GPtrArray *uids;
+	
+	if (ml->folder == NULL)
+		return;
+	
+	uids = g_ptr_array_new ();
+	message_list_foreach (ml, enumerate_msg, uids);
+	mail_do_flag_messages (ml->folder, uids, FALSE,
+			       CAMEL_MESSAGE_SEEN, 0);
+}
 				   
 void
 edit_msg (GtkWidget *widget, gpointer user_data)

@@ -1,3 +1,16 @@
+2000-09-25  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* folder-browser-factory.c: Added new menu items
+
+	* mail-callbacks.c (mark_as_seen): New callback to mark all
+	selected messages as Seen.
+	(mark_as_unseen): New callback to mark all selected messages as
+	Unseen.
+	(select_all): New callback to select all messages (not yet
+	finished)
+	(unselect_all): New callback to unselect all messages (not yet
+	finished)
+
 2000-09-25  Not Zed  <NotZed@HelixCode.com>
 
 	* message-list.c (folder_to_cachename): Function to convert a

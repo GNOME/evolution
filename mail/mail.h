@@ -85,8 +85,11 @@ void print_msg (GtkWidget *widget, gpointer user_data);
 void edit_msg (GtkWidget *widget, gpointer user_data);
 void view_msg (GtkWidget *widget, gpointer user_data);
 
-void mark_all_seen (BonoboUIHandler *uih, void *user_data, const char *path);
-void mark_all_deleted (BonoboUIHandler *uih, void *user_data, const char *path);
+void select_all (BonoboUIHandler *uih, void *user_data, const char *path);
+void unselect_all (BonoboUIHandler *uih, void *user_data, const char *path);
+void mark_as_seen (BonoboUIHandler *uih, void *user_data, const char *path);
+void mark_as_unseen (BonoboUIHandler *uih, void *user_data, const char *path);
+
 void edit_message (BonoboUIHandler *uih, void *user_data, const char *path);
 void view_message (BonoboUIHandler *uih, void *user_data, const char *path);
 void expunge_folder (BonoboUIHandler *uih, void *user_data, const char *path);
@@ -94,7 +97,7 @@ void filter_edit (BonoboUIHandler *uih, void *user_data, const char *path);
 void vfolder_edit_vfolders (BonoboUIHandler *uih, void *user_data, const char *path);
 void providers_config (BonoboUIHandler *uih, void *user_data, const char *path);
 
-void configure_folder(BonoboUIHandler *uih, void *user_data, const char *path);
+void configure_folder (BonoboUIHandler *uih, void *user_data, const char *path);
 
 void mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, gboolean to_all);
 void composer_send_cb (EMsgComposer *composer, gpointer data);
