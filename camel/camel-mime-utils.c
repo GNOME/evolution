@@ -3563,6 +3563,7 @@ header_raw_check_mailing_list(struct _header_raw **list)
 			len = regerror (errcode, &pattern, NULL, 0);
 			errstr = g_malloc0 (len + 1);
 			regerror (errcode, &pattern, errstr, len);
+			regfree (&pattern);
 			
 			g_warning ("Internal error, compiling regex failed: %s: %s",
 				   mail_list_magic[i].pattern, errstr);
