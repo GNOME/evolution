@@ -11,6 +11,7 @@
  */
 #include <config.h>
 #include <gtk/gtksignal.h>
+#include <stdlib.h>
 #include "e-util/e-util.h"
 #include "e-tree-model.h"
 

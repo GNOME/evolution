@@ -1016,8 +1016,7 @@ eti_realize (GnomeCanvasItem *item)
 	 */
 	window = canvas_widget->window;
 
-	eti->fill_gc = canvas_widget->style->white_gc;
-	gdk_gc_ref (canvas_widget->style->white_gc);
+	eti->fill_gc = gdk_gc_new (window);
 
 	eti->grid_gc = gdk_gc_new (window);
 #if 0
@@ -1084,6 +1083,8 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 	gboolean f_found;
 	double i2c [6];
 	ArtPoint eti_base, eti_base_item;
+	GtkWidget *canvas = GTK_WIDGET(item->canvas);
+	GdkColor *background;
 	
 	/*
 	 * Clear the background
@@ -1200,6 +1201,19 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 				/* Nothing */
 				break;
 			}
+
+			if (selected){
+				background = &canvas->style->bg [GTK_STATE_SELECTED];
+			} else {
+				if (row % 2)
+					background = &canvas->style->base [GTK_STATE_NORMAL];
+				else
+					background = &canvas->style->base [GTK_STATE_SELECTED];
+			}
+
+			gdk_gc_set_foreground (eti->fill_gc, background);
+			gdk_draw_rectangle (drawable, eti->fill_gc, TRUE,
+					    xd, yd, ecol->width, height);
 
 			e_cell_draw (ecell_view, drawable, ecol->col_idx, col, row, col_selected,
 				     xd, yd, xd + ecol->width, yd + height);

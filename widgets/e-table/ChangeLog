@@ -1,3 +1,10 @@
+2000-08-22  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-cell-text.c, e-cell-toggle.c, e-cell-tree.c, e-table-item.c:
+	Moved drawing of the cell backgrounds from ECell into ETableItem.
+
+	* e-tree-model.c: Include stdlib.c.
+
 2000-08-21  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* e-cell-text.c: Changed UTF-8 syntax from char based to byte based

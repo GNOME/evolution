@@ -160,7 +160,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	GdkRectangle rect, *clip_rect;
 	GtkWidget *canvas = GTK_WIDGET (tree_view->canvas);
 	GdkGC *fg_gc = canvas->style->fg_gc[GTK_STATE_ACTIVE];
-	GdkColor *background, *foreground;
+	GdkColor *foreground;
 
 	int offset, subcell_offset;
 	gboolean expanded, expandable;
@@ -197,16 +197,12 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		gdk_gc_set_clip_rectangle (fg_gc, &rect);
 		clip_rect = &rect;
 
-		if (selected){
-			background = &canvas->style->bg [GTK_STATE_SELECTED];
+		if (selected) {
 			foreground = &canvas->style->text [GTK_STATE_SELECTED];
 		} else {
-			background = &canvas->style->base [GTK_STATE_NORMAL];
 			foreground = &canvas->style->text [GTK_STATE_NORMAL];
 		}
-		gdk_gc_set_foreground (tree_view->gc, background);
-		gdk_draw_rectangle (drawable, tree_view->gc, TRUE,
-				    rect.x, rect.y, rect.width, rect.height);
+
 		gdk_gc_set_foreground (tree_view->gc, foreground);
 
 		/* draw our lines */

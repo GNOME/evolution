@@ -88,10 +88,11 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	  int x1, int y1, int x2, int y2)
 {
 	ECellToggle *toggle = E_CELL_TOGGLE (ecell_view->ecell);
+#if 0
 	ECellToggleView *toggle_view = (ECellToggleView *) ecell_view;
+#endif
 	GdkPixbuf *image;
 	int x, y, width, height;
-	GdkColor *background;
 
 	const int value = GPOINTER_TO_INT (
 		 e_table_model_value_at (ecell_view->e_table_model, model_col, row));
@@ -102,17 +103,6 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		return;
 	}
 
-	/*
-	 * Paint the background
-	 */
-	if (selected){
-		background = &GTK_WIDGET (toggle_view->canvas)->style->bg [GTK_STATE_SELECTED];
-	} else {
-		background = &GTK_WIDGET (toggle_view->canvas)->style->base [GTK_STATE_NORMAL];
-	}
-	gdk_gc_set_foreground (toggle_view->gc, background);
-	gdk_draw_rectangle (drawable, toggle_view->gc, TRUE, x1, y1, x2 - x1, y2 - y1);
-			    
 	image = toggle->images [value];
 
 	if ((x2 - x1) < gdk_pixbuf_get_width (image)){

@@ -441,7 +441,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	CellEdit *edit = text_view->edit;
 	gboolean edit_display = FALSE;
 	ECellTextLineBreaks *linebreaks;
-	GdkColor *background, *foreground, *cell_foreground, *cursor_color;
+	GdkColor *foreground, *cell_foreground, *cursor_color;
 	gchar *color_spec;
 
 	EFontStyle style = E_FONT_PLAIN;
@@ -472,13 +472,8 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	clip_rect = &rect;
 
 	if (selected){
-		background = &canvas->style->bg [GTK_STATE_SELECTED];
 		foreground = &canvas->style->text [GTK_STATE_SELECTED];
 	} else {
-		if (row % 2)
-			background = &canvas->style->base [GTK_STATE_NORMAL];
-		else
-			background = &canvas->style->base [GTK_STATE_SELECTED];
 		foreground = &canvas->style->text [GTK_STATE_NORMAL];
 	}
 
@@ -493,9 +488,6 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 			foreground = cell_foreground;
 	}
 
-	gdk_gc_set_foreground (text_view->gc, background);
-	gdk_draw_rectangle (drawable, text_view->gc, TRUE,
-			    rect.x, rect.y, rect.width, rect.height);
 	gdk_gc_set_foreground (text_view->gc, foreground);
 
 	x1 += 4;
