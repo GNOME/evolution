@@ -4,9 +4,9 @@
       <para>
         To begin using the calendar, select
         <guibutton>Calendar</guibutton> from the <interface>shortcut
-        bar</interface>.  By default, the calendar starts in week view mode (IS
-        THIS TRUE? CHANGE TEXT TO FIT FEATURE). The calendar week view is
-        shown in <xref linkend="usage-calendar-fig">:
+        bar</interface>.  By default, the calendar starts in daily view mode 
+        The calendar's daily view is shown in 
+        <xref linkend="usage-calendar-fig">:
 
        <!-- ============== Figure ============================= -->
 	<figure id="usage-calendar-fig">
@@ -24,7 +24,9 @@
 	<title>Ways of Looking at your Calendar</title>
 	<para>
            You can view your calendar by the day, by the week, by the
-           month, or by the year.  To do so, click BUTTONS SOMEWHERE.
+           month, or by the year.  To do so, click the buttons at the top
+           of <application>Evolution</application> with the numbers 1, 5,
+           7, 31 respectivly.
         </para>
 	<para>
            Describe the less-obvious differences among the views of

@@ -120,7 +120,7 @@
             If you get an error message instead of mail, you probably
             need to change your network preferences.  To learn how to
             do that, have a look at <xref
-            linkend="config-prefs-network">, or ask your system
+            linkend="config-prefs-mail-network">, or ask your system
             administrator.
           </para>
 

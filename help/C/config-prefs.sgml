@@ -1,12 +1,32 @@
 
-    <chapter id="config-prefs">
+<chapter id="config-prefs">
+
+<!--this chapter needs a LOT of work.  structurally it needs for the
+mail and other sections to be similar.  it needs content in the
+Calendar section and the Contact section.  Calendar prefs functions
+documentation-ready, although subject to substantial change. Contact
+functions are not yet available for doc'ing.  . aaron, june 5. 7 am.
+.-->
+
       <title>Advanced Configuration</title>
       <para>
-        To change your configuration settings, select
-        <guimenuitem>Configure Camel Providers</guimenuitem> from the
-        <guimenu>Tools</guimenu> menu.  This will open the
-        preferences window, illustrated in <xref linkend="config-prefs-fig">.
-        Preferences are seperated into several categories:
+        Perhaps your mail server has changed names.  Perhaps you've
+        grown tired of a certain layout for your appointments.
+        Whatever the reason, you want to change your
+        <application>Evolution</application> settings.  This chapter
+        will tell you how to do just that.
+      </para>
+
+       <sect1 id="config-prefs-mail">
+         <title>Mail Settings</title>
+        <para>
+        To change your mail settings, first go to your
+        <interface>Inbox</interface>.  Then select <guimenuitem>Mail
+        Settings</guimenuitem> from the <guimenu>Tools</guimenu> menu.
+        This will open the <interface>mail preferences
+        window</interface>, illustrated in <xref
+        linkend="config-prefs-mail-fig">.  Mail Preferences are
+        seperated into several categories:
         <itemizedlist>
           <listitem>
 	    <para>
@@ -32,65 +52,36 @@
          </itemizedlist>
 
 <!-- THE FOLLOWING MAY BE REINSTATED:
-
- as well as attachment
+              as well as attachment
               and HTML handling, forwarding behavior, filters, and
               other <application>Evolution</application> behaviors
               specific to email.  The default behaviors are those
               approved by Jamie Zawinski.
-            </para>
-	  </listitem>
- 
-	  <listitem>
-	    <para>
-               <guilabel>Contacts</guilabel>, which allows you to
-               control addressbook sharing as well as other funcctions
-               specific to your contact manager.
-            </para>
-	  </listitem>
-
-	  <listitem>
-	    <para>
-              <guilabel>Calendar</guilabel>, which allows you to set
-              up calendar networking, as well as the way that your
-              calendar will behave and appear.  The default view is by
-              week and the default calendar is Western.  Time and
-              date are determined by the system clock and
-              localization, and cannot be set here.
-            </para>
-	  </listitem>
- 
-	  <listitem>
-	    <para>
-              <guilabel>General</guilabel>, which covers everything
-              else, including the <application>Evolution</application>
-              startup screen.
-            </para>
-	  </listitem>
-       </itemizedlist>
 -->
+
+
     </para>
 
       <!-- ==============Figure===================== -->
-      <figure id="config-prefs-fig">
+      <figure id="config-prefs-mail-fig">
 	<title>Preferences Dialog</title>
 	<screenshot>
-	  <screeninfo>Preferences dialog</screeninfo>
-	  <graphic fileref="fig/config-camel-fig" format="png" srccredit="Aaron Weber">
+	  <screeninfo>Setting mail preferences</screeninfo>
+	  <graphic fileref="fig/config-mail" format="png" srccredit="Aaron Weber">
 	    </graphic>
 	</screenshot>
       </figure>
       <!-- ==============End of Figure================-->
 
 
-      <sect1 id="config-prefs-identity">
+      <sect2 id="config-prefs-mail-identity">
       <title>Identity Settings</title> 
       <para>
          If you have only one email address, or use automatic
-         forwarding to funnel multiple addresses into one, then you
-         will only need to configure one identity. You may, however,
-         want more thatn one.  To alter an identity, click on it in
-         the <guilabel>Identity</guilabel> tab of the
+         forwarding to funnel multiple addresses to one account, then
+         you will only need to configure one identity. You may,
+         however, want more that one.  To alter an identity, click on
+         it in the <guilabel>Identity</guilabel> tab of the
          <interface>Preferences</interface> window, and then click
          <guibutton>Edit</guibutton>. To add a new identity, simply
          click <guibutton>Add</guibutton>.
@@ -132,9 +123,9 @@
 	</itemizedlist>
 
       </para>
-    </sect1>
+    </sect2>
 
-    <sect1 id="config-prefs-network">
+    <sect2 id="config-prefs-mail-network">
       <title>Network Settings</title> 
       <para>
         In order to do much of anything with
@@ -152,7 +143,7 @@
         determine how you want to send your mail.
       </para>
  
-	<sect2 id="config-prefs-network-sources">
+	<sect3 id="config-prefs-network-sources">
 	  <title>Mail Sources</title>
 	  <para>
             The <interface>Mail Sources</interface> tab allows you to
@@ -202,58 +193,48 @@
             </para>
         </listitem>
 	</itemizedlist>
-
-          </para>
-	  <sect3 id="config-prefs-network-advanced-multiconnect">
-	    <title>Multiple Network Connections</title>
-	    <para>
-              People with who use multiple ISP's or networks, or who
-	      have multiple email accounts, will need to do a little
-	      more work, but not much.
-            </para>
-	    <example>
-	      <title>Multiple Identities and Networks</title>
-	      <para>
-                Nate's laptop goes everywhere with him, and he needs
-	        to be able to use <application>Evolution</application>
-	        from anywhere&mdash a hotel room, an airplane, a
-	        client's office, his office, anywhere at all.  (INSERT
-	        HOW EVOLUTION HELPS HIM DO THIS).
-              </para>
-	    </example>
-
-	    <para>
-              (INSERT DESCRIPTION OF WHAT THESE THINGS ARE AND HOW TO
-              USE THEM) (I'M THINKING IN TERMS OF THE APPLE LOCATION
-              MANAGER) (Kill this section if Evolution doesn't support
-              this for 1.0).
-            </para>
-	  </sect3>
-	  
-	  <sect3 id="config-prefs-network-advanced-other">
-	    <title>Other Advanced Network Settings</title>
-            <para>
-              I can't think of any at the moment but i'm sure they're
-              out there.  They belong here.
           </para>
 	  </sect3>
-	</sect2>
-      </sect1>
-      <sect1 id="config-prefs-mail">
-	<title>Modifying the Mail</title>
+          <sect3 id="config-prefs-mail-network-transports">
+          <title>Transports</title>
+          <para>
+            The <interface>Transports</interface> tab lets you set how
+            you will send mail.  As of this writing, you have two
+            choices: <guilabel>SMTP</guilabel>, which uses a remote
+            mail server, and <guilabel>sendmail</guilabel>,
+            which uses the <application>sendmail</application> program
+            on your local system.
+         </para>
+         <para>
+            If you choose <guilabel>SMTP</guilabel>, you will need
+            to know the name of your mail server.  Your system
+            administrator or ISP has probably included that
+            information on the piece of paper you lost about five
+            minutes ago.  <application>Evolution</application> can
+            attempt to determine if you have entered the right
+            server name.  To have it do so,
+            check the box labelled <guilabel>Test these values before
+            continuing</guilabel> before you click
+            <guibutton>OK</guibutton>.
+         </para>
+	</sect3>
+      </sect2>
+      <sect2 id="config-prefs-mail-other">
+	<title>Other Mail Preferences</title>
 	<para>
-          This section discusses mail-specific preferences.  Click on
-          the <guibutton>Mail</guibutton> tab in the
-          <interface>Preferences</interface> window to access these
-          settings.
+          Currently, there is only one option that falls into this
+          category: <guilabel>Send messages in HTML format</guilabel>.
+          If you check this box, you will send messages as HTML.  If
+          you leave it unchecked, your messages will be sent without
+          HTML formatting.  See <xref
+          linkend="usage-mail-getnsend-send-html"> for more
+          information about HTML mail.
         </para>
-	<para>
-          You can set the following options: <!--insert variable list here-->
-        </para>
-      </sect1>
-    
-      <sect1 id="config-prefs-contact">
-	<title>Managing the Contact Manager</title>
+      </sect2>
+    </sect1>
+
+    <sect1 id="config-prefs-contact">
+      <title>Managing the Contact Manager</title>
 	<para>
           To set the behavior of your Contact Manager, click on the
           <guibutton>Contact Manager</guibutton> tab in the
@@ -268,10 +249,35 @@
       <sect1 id="config-prefs-cal">
 	<title>Configuring the Calendar</title>
 	<para>
-          This section discusses calendar-specific preferences.  Click
-          on the <guibutton>Calendar</guibutton> tab in the
-          <interface>Preferences</interface> window to access these
-          settings.
+          This section discusses calendar-specific preferences.  While
+          looking at your calendar, select
+          <guimenuitem>Preferences</guimenuitem> from the
+          <guimenu>Edit</guimenu> menu.  This will open up the
+          <interface>Preferences</interface> window.  It contains four
+          tabs: (each tab to be a sect1 by tuesday june 6)
+
+          <itemizedlist>
+           <listitem>
+              <para>
+          <guilabel>Time display</guilabel>
+             </para>
+            </listitem>
+           <listitem>
+              <para> 
+        <guilabel>Colors</guilabel>
+               </para>
+            </listitem>
+           <listitem>
+              <para> 
+        <guilabel>To Do List</guilabel>
+               </para>
+            </listitem>  
+         <listitem>
+              <para>         
+              <guilabel>Alarms</guilabel>
+               </para>
+            </listitem>
+          </itemizedlist>
         </para>
         <para>
           You can set the following options: <!--insert variable list
@@ -288,3 +294,8 @@
       </sect1>
     </chapter>
     
+
+
+
+
+
