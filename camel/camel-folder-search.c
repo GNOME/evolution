@@ -141,6 +141,8 @@ camel_folder_search_finalize (CamelObject *obj)
 
 	if (search->sexp)
 		e_sexp_unref(search->sexp);
+	if (search->summary_hash)
+		g_hash_table_destroy(search->summary_hash);
 
 	g_free(search->last_search);
 	g_hash_table_foreach(p->mempool_hash, free_mempool, obj);

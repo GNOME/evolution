@@ -1,3 +1,8 @@
+2003-06-30  Dan Winship  <danw@ximian.com>
+
+	* camel-folder-search.c (camel_folder_search_finalize): free the
+	summary hash
+
 2003-06-24  David Woodhouse  <dwmw2@infradead.org>
 
 	* camel-mime-utils.c (header_format_date): Put day of week into
