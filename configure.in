@@ -294,10 +294,6 @@ shell/Makefile
 mail/Makefile
 data/Makefile
 libversit/Makefile
-libical/Makefile
-libical/src/Makefile
-libical/src/libical/Makefile
-libical/src/libicalss/Makefile
 libibex/Makefile
 calendar/Makefile
 calendar/doc/Makefile
