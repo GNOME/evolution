@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
-"POT-Creation-Date: 2002-06-07 14:00-0400\n"
+"POT-Creation-Date: 2002-06-19 17:07-0400\n"
 "PO-Revision-Date: 2002-05-25 11:56+0700\n"
 "Last-Translator: pclouds <pclouds@gmx.net>\n"
 "Language-Team: GnomeVI <gnomevi-list@lists.sourceforge.net>\n"
@@ -622,7 +622,7 @@ msgid "Could not initialize Bonobo"
 msgstr "Không thể khởi động Bonobo"
 
 #: addressbook/backend/pas/pas-backend-file.c:259
-#: addressbook/backend/pas/pas-backend-ldap.c:2394
+#: addressbook/backend/pas/pas-backend-ldap.c:2420
 msgid "Searching..."
 msgstr "Đang tìm..."
 
@@ -635,35 +635,35 @@ msgstr "Đang nạp..."
 msgid "Error in search expression."
 msgstr "Lỗi trong biểu thức tìm kiếm"
 
-#: addressbook/backend/pas/pas-backend-ldap.c:522
+#: addressbook/backend/pas/pas-backend-ldap.c:533
 msgid "Connecting to LDAP server..."
 msgstr "Đang kết nối tới LDAP Server..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:532
+#: addressbook/backend/pas/pas-backend-ldap.c:543
 msgid "Unable to connect to LDAP server."
 msgstr "Không thể kết nối tớ LDAP server."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:548
+#: addressbook/backend/pas/pas-backend-ldap.c:559
 msgid "Waiting for connection to LDAP server..."
 msgstr "Đang đợi kết nối tới LDAP server..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:974
+#: addressbook/backend/pas/pas-backend-ldap.c:985
 msgid "Adding card to LDAP server..."
 msgstr "Đang thêm card vào LDAP server..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1075
+#: addressbook/backend/pas/pas-backend-ldap.c:1090
 msgid "Removing card from LDAP server..."
 msgstr "Đang loại bỏ card khỏi LDAP server..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1185
+#: addressbook/backend/pas/pas-backend-ldap.c:1204
 msgid "Modifying card from LDAP server..."
 msgstr "Đang sửa card trong LDAP server..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2311
+#: addressbook/backend/pas/pas-backend-ldap.c:2337
 msgid "Receiving LDAP search results..."
 msgstr "Đang nhận kết quả tìm kiếm LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2317
+#: addressbook/backend/pas/pas-backend-ldap.c:2343
 msgid "Restarting search."
 msgstr "Khởi động lại tìm kiếm."
 
@@ -801,7 +801,7 @@ msgid "Base"
 msgstr "Cơ sở"
 
 #: addressbook/gui/component/addressbook-config.glade.h:8
-#: calendar/gui/dialogs/task-editor.c:178
+#: calendar/gui/dialogs/task-editor.c:182
 msgid "Basic"
 msgstr "Cơ bản"
 
@@ -1220,7 +1220,7 @@ msgid "D_epartment:"
 msgstr "Cơ _quan:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:12
-#: calendar/gui/dialogs/task-editor.c:183
+#: calendar/gui/dialogs/task-editor.c:187
 msgid "Details"
 msgstr "Chi tiết"
 
@@ -1281,7 +1281,7 @@ msgstr "Muốn nhậm _HTML mail"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:31
 #: calendar/gui/dialogs/alarm-page.glade.h:9
-#: calendar/gui/dialogs/meeting-page.c:707 filter/filter.glade.h:8
+#: calendar/gui/dialogs/meeting-page.c:674 filter/filter.glade.h:8
 #: mail/folder-browser.c:1468 mail/mail-config.glade.h:96
 #: ui/evolution-calendar.xml.h:38 ui/evolution-mail-message.xml.h:95
 #: ui/evolution-tasks.xml.h:15 ui/evolution.xml.h:35
@@ -1338,7 +1338,7 @@ msgstr "Lưu liên lạc bằng VCard"
 msgid "TTY/TDD"
 msgstr "TTY/TDD"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2287
+#: addressbook/gui/contact-editor/e-contact-editor.c:2286
 #, c-format
 msgid "Could not find widget for a field: `%s'"
 msgstr "Không thể tìm thấy widget cho trường: `%s'"
@@ -1365,11 +1365,11 @@ msgstr "E-mail"
 msgid "card.vcf"
 msgstr "card.vcf"
 
-#: addressbook/gui/contact-editor/e-contact-save-as.c:170
+#: addressbook/gui/contact-editor/e-contact-save-as.c:177
 msgid "list"
 msgstr "danh sách"
 
-#: addressbook/gui/contact-editor/e-contact-save-as.c:201
+#: addressbook/gui/contact-editor/e-contact-save-as.c:215
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -2825,13 +2825,20 @@ msgstr "và một card khác."
 msgid "Save in addressbook"
 msgstr "Lưu vào sổ địa chỉ"
 
-#: addressbook/gui/widgets/e-minicard-view.c:150
+#: addressbook/gui/widgets/e-minicard-view.c:156
 msgid ""
 "\n"
 "\n"
-"There are no items to show in this view\n"
+"There are no items to show in this view.\n"
 "\n"
 "Double-click here to create a new Contact."
+msgstr ""
+
+#: addressbook/gui/widgets/e-minicard-view.c:159
+msgid ""
+"\n"
+"\n"
+"There are no items to show in this view."
 msgstr ""
 
 #: addressbook/gui/widgets/gal-view-factory-minicard.c:26
@@ -3919,622 +3926,642 @@ msgid "Asia/Macao"
 msgstr "Châu Á/Macao"
 
 #: calendar/zones.h:230
+#, fuzzy
+msgid "Asia/Macau"
+msgstr "Châu Á/Macao"
+
+#: calendar/zones.h:231
 msgid "Asia/Magadan"
 msgstr "Châu Á/Magadan"
 
-#: calendar/zones.h:231
+#: calendar/zones.h:232
+#, fuzzy
+msgid "Asia/Makassar"
+msgstr "Châu Á/Magadan"
+
+#: calendar/zones.h:233
 msgid "Asia/Manila"
 msgstr "Châu Á/Manila"
 
-#: calendar/zones.h:232
+#: calendar/zones.h:234
 msgid "Asia/Muscat"
 msgstr "Châu Á/Muscat"
 
-#: calendar/zones.h:233
+#: calendar/zones.h:235
 msgid "Asia/Nicosia"
 msgstr "Châu Á/Nicosia"
 
-#: calendar/zones.h:234
+#: calendar/zones.h:236
 msgid "Asia/Novosibirsk"
 msgstr "Châu Á/Novosibirsk"
 
-#: calendar/zones.h:235
+#: calendar/zones.h:237
 msgid "Asia/Omsk"
 msgstr "Châu Á/Omsk"
 
-#: calendar/zones.h:236
+#: calendar/zones.h:238
+#, fuzzy
+msgid "Asia/Oral"
+msgstr "Châu Á/Kabul"
+
+#: calendar/zones.h:239
 msgid "Asia/Phnom_Penh"
 msgstr "Châu Á/Phnom_Penh"
 
-#: calendar/zones.h:237
+#: calendar/zones.h:240
 msgid "Asia/Pontianak"
 msgstr "Châu Á/Pontianak"
 
-#: calendar/zones.h:238
+#: calendar/zones.h:241
 msgid "Asia/Pyongyang"
 msgstr "Châu Á/Pyongyang"
 
-#: calendar/zones.h:239
+#: calendar/zones.h:242
 msgid "Asia/Qatar"
 msgstr "Châu Á/Qatar"
 
-#: calendar/zones.h:240
+#: calendar/zones.h:243
+#, fuzzy
+msgid "Asia/Qyzylorda"
+msgstr "Châu Á/Gaza"
+
+#: calendar/zones.h:244
 msgid "Asia/Rangoon"
 msgstr "Châu Á/Rangoon"
 
-#: calendar/zones.h:241
+#: calendar/zones.h:245
 msgid "Asia/Riyadh"
 msgstr "Châu Á/Riyadh"
 
-#: calendar/zones.h:242
+#: calendar/zones.h:246
 msgid "Asia/Saigon"
 msgstr "Châu Á/Sài Gòn"
 
-#: calendar/zones.h:243
+#: calendar/zones.h:247
 msgid "Asia/Sakhalin"
 msgstr "Châu Á/Sakhalin"
 
-#: calendar/zones.h:244
+#: calendar/zones.h:248
 msgid "Asia/Samarkand"
 msgstr "Châu Á/Samarkand"
 
-#: calendar/zones.h:245
+#: calendar/zones.h:249
 msgid "Asia/Seoul"
 msgstr "Châu Á/Seoul"
 
-#: calendar/zones.h:246
+#: calendar/zones.h:250
 msgid "Asia/Shanghai"
 msgstr "Châu Á/Shanghai"
 
-#: calendar/zones.h:247
+#: calendar/zones.h:251
 msgid "Asia/Singapore"
 msgstr "Châu Á/Singapore"
 
-#: calendar/zones.h:248
+#: calendar/zones.h:252
 msgid "Asia/Taipei"
 msgstr "Châu Á/Taipei"
 
-#: calendar/zones.h:249
+#: calendar/zones.h:253
 msgid "Asia/Tashkent"
 msgstr "Châu Á/Tashkent"
 
-#: calendar/zones.h:250
+#: calendar/zones.h:254
 msgid "Asia/Tbilisi"
 msgstr "Châu Á/Tbilisi"
 
-#: calendar/zones.h:251
+#: calendar/zones.h:255
 msgid "Asia/Tehran"
 msgstr "Châu Á/Tehran"
 
-#: calendar/zones.h:252
+#: calendar/zones.h:256
 msgid "Asia/Thimphu"
 msgstr "Châu Á/Thimphu"
 
-#: calendar/zones.h:253
+#: calendar/zones.h:257
 msgid "Asia/Tokyo"
 msgstr "Châu Á/Tokyo"
 
-#: calendar/zones.h:254
+#: calendar/zones.h:258
 msgid "Asia/Ujung_Pandang"
 msgstr "Châu Á/Ujung_Pandang"
 
-#: calendar/zones.h:255
+#: calendar/zones.h:259
 msgid "Asia/Ulaanbaatar"
 msgstr "Châu Á/Ulaanbaatar"
 
-#: calendar/zones.h:256
+#: calendar/zones.h:260
 msgid "Asia/Urumqi"
 msgstr "Châu Á/Urumqi"
 
-#: calendar/zones.h:257
+#: calendar/zones.h:261
 msgid "Asia/Vientiane"
 msgstr "Châu Á/Vientiane"
 
-#: calendar/zones.h:258
+#: calendar/zones.h:262
 msgid "Asia/Vladivostok"
 msgstr "Châu Á/Vladivostok"
 
-#: calendar/zones.h:259
+#: calendar/zones.h:263
 msgid "Asia/Yakutsk"
 msgstr "Châu Á/Yakutsk"
 
-#: calendar/zones.h:260
+#: calendar/zones.h:264
 msgid "Asia/Yekaterinburg"
 msgstr "Châu Á/Yekaterinburg"
 
-#: calendar/zones.h:261
+#: calendar/zones.h:265
 msgid "Asia/Yerevan"
 msgstr "Châu Á/Yerevan"
 
-#: calendar/zones.h:262
+#: calendar/zones.h:266
 msgid "Atlantic/Azores"
 msgstr "Atlantic/Azores"
 
-#: calendar/zones.h:263
+#: calendar/zones.h:267
 msgid "Atlantic/Bermuda"
 msgstr "Đại Tây Dương/Bermuda"
 
-#: calendar/zones.h:264
+#: calendar/zones.h:268
 msgid "Atlantic/Canary"
 msgstr "Đại Tây Dương/Canary"
 
-#: calendar/zones.h:265
+#: calendar/zones.h:269
 msgid "Atlantic/Cape_Verde"
 msgstr "Đại Tây Dương/Cape_Verde"
 
-#: calendar/zones.h:266
+#: calendar/zones.h:270
 msgid "Atlantic/Faeroe"
 msgstr "Đại Tây Dương/Faeroe"
 
-#: calendar/zones.h:267
+#: calendar/zones.h:271
 msgid "Atlantic/Jan_Mayen"
 msgstr "Đại Tây Dương/Jan_Mayen"
 
-#: calendar/zones.h:268
+#: calendar/zones.h:272
 msgid "Atlantic/Madeira"
 msgstr "Đại Tây Dương/Madeira"
 
-#: calendar/zones.h:269
+#: calendar/zones.h:273
 msgid "Atlantic/Reykjavik"
 msgstr "Đại Tây Dương/Reykjavik"
 
-#: calendar/zones.h:270
+#: calendar/zones.h:274
 msgid "Atlantic/South_Georgia"
 msgstr "Đại Tây Dương/South_Georgia"
 
-#: calendar/zones.h:271
+#: calendar/zones.h:275
 msgid "Atlantic/St_Helena"
 msgstr "Đại Tây Dương/St_Helena"
 
-#: calendar/zones.h:272
+#: calendar/zones.h:276
 msgid "Atlantic/Stanley"
 msgstr "Đại Tây Dương/Stanley"
 
-#: calendar/zones.h:273
+#: calendar/zones.h:277
 msgid "Australia/Adelaide"
 msgstr "Châu Úc/Adelaide"
 
-#: calendar/zones.h:274
+#: calendar/zones.h:278
 msgid "Australia/Brisbane"
 msgstr "Châu Úc/Brisbane"
 
-#: calendar/zones.h:275
+#: calendar/zones.h:279
 msgid "Australia/Broken_Hill"
 msgstr "Châu Úc/Broken_Hill"
 
-#: calendar/zones.h:276
+#: calendar/zones.h:280
 msgid "Australia/Darwin"
 msgstr "Châu Úc/Darwin"
 
-#: calendar/zones.h:277
+#: calendar/zones.h:281
 msgid "Australia/Hobart"
 msgstr "Châu Úc/Hobart"
 
-#: calendar/zones.h:278
+#: calendar/zones.h:282
 msgid "Australia/Lindeman"
 msgstr "Châu Úc/Lindeman"
 
-#: calendar/zones.h:279
+#: calendar/zones.h:283
 msgid "Australia/Lord_Howe"
 msgstr "Châu Úc/Lord_Howe"
 
-#: calendar/zones.h:280
+#: calendar/zones.h:284
 msgid "Australia/Melbourne"
 msgstr "Châu Úc/Melbourne"
 
-#: calendar/zones.h:281
+#: calendar/zones.h:285
 msgid "Australia/Perth"
 msgstr "Châu Úc/Perth"
 
-#: calendar/zones.h:282
+#: calendar/zones.h:286
 msgid "Australia/Sydney"
 msgstr "Châu Úc/Sydney"
 
-#: calendar/zones.h:283
+#: calendar/zones.h:287
 msgid "Europe/Amsterdam"
 msgstr "Châu Âu/Amsterdam"
 
-#: calendar/zones.h:284
+#: calendar/zones.h:288
 msgid "Europe/Andorra"
 msgstr "Châu Âu/Andorra"
 
-#: calendar/zones.h:285
+#: calendar/zones.h:289
 msgid "Europe/Athens"
 msgstr "Châu Âu/Athens"
 
-#: calendar/zones.h:286
+#: calendar/zones.h:290
 msgid "Europe/Belfast"
 msgstr "Châu Âu/Belfast"
 
-#: calendar/zones.h:287
+#: calendar/zones.h:291
 msgid "Europe/Belgrade"
 msgstr "Châu Âu/Belgrade"
 
-#: calendar/zones.h:288
+#: calendar/zones.h:292
 msgid "Europe/Berlin"
 msgstr "Châu Âu/Berlin"
 
-#: calendar/zones.h:289
+#: calendar/zones.h:293
 msgid "Europe/Bratislava"
 msgstr "Châu Âu/Bratislava"
 
-#: calendar/zones.h:290
+#: calendar/zones.h:294
 msgid "Europe/Brussels"
 msgstr "Châu Âu/Brussels"
 
-#: calendar/zones.h:291
+#: calendar/zones.h:295
 msgid "Europe/Bucharest"
 msgstr "Châu Âu/Bucharest"
 
-#: calendar/zones.h:292
+#: calendar/zones.h:296
 msgid "Europe/Budapest"
 msgstr "Châu Âu/Budapest"
 
-#: calendar/zones.h:293
+#: calendar/zones.h:297
 msgid "Europe/Chisinau"
 msgstr "Châu Âu/Chisinau"
 
-#: calendar/zones.h:294
+#: calendar/zones.h:298
 msgid "Europe/Copenhagen"
 msgstr "Châu Âu/Copenhagen"
 
-#: calendar/zones.h:295
+#: calendar/zones.h:299
 msgid "Europe/Dublin"
 msgstr "Châu Âu/Dublin"
 
-#: calendar/zones.h:296
+#: calendar/zones.h:300
 msgid "Europe/Gibraltar"
 msgstr "Châu Âu/Gibraltar"
 
-#: calendar/zones.h:297
+#: calendar/zones.h:301
 msgid "Europe/Helsinki"
 msgstr "Châu Âu/Helsinki"
 
-#: calendar/zones.h:298
+#: calendar/zones.h:302
 msgid "Europe/Istanbul"
 msgstr "Châu Âu/Istanbul"
 
-#: calendar/zones.h:299
+#: calendar/zones.h:303
 msgid "Europe/Kaliningrad"
 msgstr "Châu Âu/Kaliningrad"
 
-#: calendar/zones.h:300
+#: calendar/zones.h:304
 msgid "Europe/Kiev"
 msgstr "Châu Âu/Kiev"
 
-#: calendar/zones.h:301
+#: calendar/zones.h:305
 msgid "Europe/Lisbon"
 msgstr "Châu Âu/Lisbon"
 
-#: calendar/zones.h:302
+#: calendar/zones.h:306
 msgid "Europe/Ljubljana"
 msgstr "Châu Âu/Ljubljana"
 
-#: calendar/zones.h:303
+#: calendar/zones.h:307
 msgid "Europe/London"
 msgstr "Châu Âu/London"
 
-#: calendar/zones.h:304
+#: calendar/zones.h:308
 msgid "Europe/Luxembourg"
 msgstr "Châu Âu/Luxembourg"
 
-#: calendar/zones.h:305
+#: calendar/zones.h:309
 msgid "Europe/Madrid"
 msgstr "Châu Âu/Madrid"
 
-#: calendar/zones.h:306
+#: calendar/zones.h:310
 msgid "Europe/Malta"
 msgstr "Châu Âu/Malta"
 
-#: calendar/zones.h:307
+#: calendar/zones.h:311
 msgid "Europe/Minsk"
 msgstr "Châu Âu/Minsk"
 
-#: calendar/zones.h:308
+#: calendar/zones.h:312
 msgid "Europe/Monaco"
 msgstr "Châu Âu/Monaco"
 
-#: calendar/zones.h:309
+#: calendar/zones.h:313
 msgid "Europe/Moscow"
 msgstr "Châu Âu/Moscow"
 
-#: calendar/zones.h:310
+#: calendar/zones.h:314
 msgid "Europe/Nicosia"
 msgstr "Châu Âu/Nicosia"
 
-#: calendar/zones.h:311
+#: calendar/zones.h:315
 msgid "Europe/Oslo"
 msgstr "Châu Âu/Oslo"
 
-#: calendar/zones.h:312
+#: calendar/zones.h:316
 msgid "Europe/Paris"
 msgstr "Châu Âu/Paris"
 
-#: calendar/zones.h:313
+#: calendar/zones.h:317
 msgid "Europe/Prague"
 msgstr "Châu Âu/Prague"
 
-#: calendar/zones.h:314
+#: calendar/zones.h:318
 msgid "Europe/Riga"
 msgstr "Châu Âu/Riga"
 
-#: calendar/zones.h:315
+#: calendar/zones.h:319
 msgid "Europe/Rome"
 msgstr "Châu Âu/Rome"
 
-#: calendar/zones.h:316
+#: calendar/zones.h:320
 msgid "Europe/Samara"
 msgstr "Châu Âu/Samara"
 
-#: calendar/zones.h:317
+#: calendar/zones.h:321
 msgid "Europe/San_Marino"
 msgstr "Châu Âu/San_Marino"
 
-#: calendar/zones.h:318
+#: calendar/zones.h:322
 msgid "Europe/Sarajevo"
 msgstr "Châu Âu/Sarajevo"
 
-#: calendar/zones.h:319
+#: calendar/zones.h:323
 msgid "Europe/Simferopol"
 msgstr "Châu Âu/Simferopol"
 
-#: calendar/zones.h:320
+#: calendar/zones.h:324
 msgid "Europe/Skopje"
 msgstr "Châu Âu/Skopje"
 
-#: calendar/zones.h:321
+#: calendar/zones.h:325
 msgid "Europe/Sofia"
 msgstr "Châu Âu/Sofia"
 
-#: calendar/zones.h:322
+#: calendar/zones.h:326
 msgid "Europe/Stockholm"
 msgstr "Châu Âu/Stockholm"
 
-#: calendar/zones.h:323
+#: calendar/zones.h:327
 msgid "Europe/Tallinn"
 msgstr "Châu Âu/Tallinn"
 
-#: calendar/zones.h:324
+#: calendar/zones.h:328
 msgid "Europe/Tirane"
 msgstr "Châu Âu/Tirane"
 
-#: calendar/zones.h:325
+#: calendar/zones.h:329
 msgid "Europe/Uzhgorod"
 msgstr "Châu Âu/Uzhgorod"
 
-#: calendar/zones.h:326
+#: calendar/zones.h:330
 msgid "Europe/Vaduz"
 msgstr "Châu Âu/Vaduz"
 
-#: calendar/zones.h:327
+#: calendar/zones.h:331
 msgid "Europe/Vatican"
 msgstr "Châu Âu/Vatican"
 
-#: calendar/zones.h:328
+#: calendar/zones.h:332
 msgid "Europe/Vienna"
 msgstr "Châu Âu/Vienna"
 
-#: calendar/zones.h:329
+#: calendar/zones.h:333
 msgid "Europe/Vilnius"
 msgstr "Châu Âu/Vilnius"
 
-#: calendar/zones.h:330
+#: calendar/zones.h:334
 msgid "Europe/Warsaw"
 msgstr "Châu Âu/Warsaw"
 
-#: calendar/zones.h:331
+#: calendar/zones.h:335
 msgid "Europe/Zagreb"
 msgstr "Châu Âu/Zagreb"
 
-#: calendar/zones.h:332
+#: calendar/zones.h:336
 msgid "Europe/Zaporozhye"
 msgstr "Châu Âu/Zaporozhye"
 
-#: calendar/zones.h:333
+#: calendar/zones.h:337
 msgid "Europe/Zurich"
 msgstr "Châu Âu/Zurich"
 
-#: calendar/zones.h:334
+#: calendar/zones.h:338
 msgid "Indian/Antananarivo"
 msgstr "Indian/Antananarivo"
 
-#: calendar/zones.h:335
+#: calendar/zones.h:339
 msgid "Indian/Chagos"
 msgstr "Ấn Độ Dương/Chagos"
 
-#: calendar/zones.h:336
+#: calendar/zones.h:340
 msgid "Indian/Christmas"
 msgstr "Ấn Độ Dương/Christmas"
 
-#: calendar/zones.h:337
+#: calendar/zones.h:341
 msgid "Indian/Cocos"
 msgstr "Ấn Độ Dương/Cocos"
 
-#: calendar/zones.h:338
+#: calendar/zones.h:342
 msgid "Indian/Comoro"
 msgstr "Ấn Độ Dương/Comoro"
 
-#: calendar/zones.h:339
+#: calendar/zones.h:343
 msgid "Indian/Kerguelen"
 msgstr "Ấn Độ Dương/Kerguelen"
 
-#: calendar/zones.h:340
+#: calendar/zones.h:344
 msgid "Indian/Mahe"
 msgstr "Ấn Độ Dương/Mahe"
 
-#: calendar/zones.h:341
+#: calendar/zones.h:345
 msgid "Indian/Maldives"
 msgstr "Ấn Độ Dương/Maldives"
 
-#: calendar/zones.h:342
+#: calendar/zones.h:346
 msgid "Indian/Mauritius"
 msgstr "Ấn Độ Dương/Mauritius"
 
-#: calendar/zones.h:343
+#: calendar/zones.h:347
 msgid "Indian/Mayotte"
 msgstr "Ấn Độ Dương/Mayotte"
 
-#: calendar/zones.h:344
+#: calendar/zones.h:348
 msgid "Indian/Reunion"
 msgstr "Ấn Độ Dương/Reunion"
 
-#: calendar/zones.h:345
+#: calendar/zones.h:349
 msgid "Pacific/Apia"
 msgstr "Thái Bình Dương/Apia"
 
-#: calendar/zones.h:346
+#: calendar/zones.h:350
 msgid "Pacific/Auckland"
 msgstr "Thái Bình Dương/Auckland"
 
-#: calendar/zones.h:347
+#: calendar/zones.h:351
 msgid "Pacific/Chatham"
 msgstr "Thái Bình Dương/Chatham"
 
-#: calendar/zones.h:348
+#: calendar/zones.h:352
 msgid "Pacific/Easter"
 msgstr "Thái Bình Dương/Easter"
 
-#: calendar/zones.h:349
+#: calendar/zones.h:353
 msgid "Pacific/Efate"
 msgstr "Thái Bình Dương/Efate"
 
-#: calendar/zones.h:350
+#: calendar/zones.h:354
 msgid "Pacific/Enderbury"
 msgstr "Thái Bình Dương/Enderbury"
 
-#: calendar/zones.h:351
+#: calendar/zones.h:355
 msgid "Pacific/Fakaofo"
 msgstr "Thái Bình Dương/Fakaofo"
 
-#: calendar/zones.h:352
+#: calendar/zones.h:356
 msgid "Pacific/Fiji"
 msgstr "Thái Bình Dương/Fiji"
 
-#: calendar/zones.h:353
+#: calendar/zones.h:357
 msgid "Pacific/Funafuti"
 msgstr "Thái Bình Dương/Funafuti"
 
-#: calendar/zones.h:354
+#: calendar/zones.h:358
 msgid "Pacific/Galapagos"
 msgstr "Thái Bình Dương/Galapagos"
 
-#: calendar/zones.h:355
+#: calendar/zones.h:359
 msgid "Pacific/Gambier"
 msgstr "Thái Bình Dương/Gambier"
 
-#: calendar/zones.h:356
+#: calendar/zones.h:360
 msgid "Pacific/Guadalcanal"
 msgstr "Thái Bình Dương/Guadalcanal"
 
-#: calendar/zones.h:357
+#: calendar/zones.h:361
 msgid "Pacific/Guam"
 msgstr "Thái Bình Dương/Guam"
 
-#: calendar/zones.h:358
+#: calendar/zones.h:362
 msgid "Pacific/Honolulu"
 msgstr "Thái Bình Dương/Honolulu"
 
-#: calendar/zones.h:359
+#: calendar/zones.h:363
 msgid "Pacific/Johnston"
 msgstr "Thái Bình Dương/Johnston"
 
-#: calendar/zones.h:360
+#: calendar/zones.h:364
 msgid "Pacific/Kiritimati"
 msgstr "Thái Bình Dương/Kiritimati"
 
-#: calendar/zones.h:361
+#: calendar/zones.h:365
 msgid "Pacific/Kosrae"
 msgstr "Thái Bình Dương/Kosrae"
 
-#: calendar/zones.h:362
+#: calendar/zones.h:366
 msgid "Pacific/Kwajalein"
 msgstr "Thái Bình Dương/Kwajalein"
 
-#: calendar/zones.h:363
+#: calendar/zones.h:367
 msgid "Pacific/Majuro"
 msgstr "Thái Bình Dương/Majuro"
 
-#: calendar/zones.h:364
+#: calendar/zones.h:368
 msgid "Pacific/Marquesas"
 msgstr "Thái Bình Dương/Marquesas"
 
-#: calendar/zones.h:365
+#: calendar/zones.h:369
 msgid "Pacific/Midway"
 msgstr "Thái Bình Dương/Midway"
 
-#: calendar/zones.h:366
+#: calendar/zones.h:370
 msgid "Pacific/Nauru"
 msgstr "Thái Bình Dương/Nauru"
 
-#: calendar/zones.h:367
+#: calendar/zones.h:371
 msgid "Pacific/Niue"
 msgstr "Thái Bình Dương/Niue"
 
-#: calendar/zones.h:368
+#: calendar/zones.h:372
 msgid "Pacific/Norfolk"
 msgstr "Thái Bình Dương/Norfolk"
 
-#: calendar/zones.h:369
+#: calendar/zones.h:373
 msgid "Pacific/Noumea"
 msgstr "Thái Bình Dương/Noumea"
 
-#: calendar/zones.h:370
+#: calendar/zones.h:374
 msgid "Pacific/Pago_Pago"
 msgstr "Thái Bình Dương/Pago_Pago"
 
-#: calendar/zones.h:371
+#: calendar/zones.h:375
 msgid "Pacific/Palau"
 msgstr "Thái Bình Dương/Palau"
 
-#: calendar/zones.h:372
+#: calendar/zones.h:376
 msgid "Pacific/Pitcairn"
 msgstr "Thái Bình Dương/Pitcairn"
 
-#: calendar/zones.h:373
+#: calendar/zones.h:377
 msgid "Pacific/Ponape"
 msgstr "Thái Bình Dương/Ponape"
 
-#: calendar/zones.h:374
+#: calendar/zones.h:378
 msgid "Pacific/Port_Moresby"
 msgstr "Thái Bình Dương/Port_Moresby"
 
-#: calendar/zones.h:375
+#: calendar/zones.h:379
 msgid "Pacific/Rarotonga"
 msgstr "Thái Bình Dương/Rarotonga"
 
-#: calendar/zones.h:376
+#: calendar/zones.h:380
 msgid "Pacific/Saipan"
 msgstr "Thái Bình Dương/Saipan"
 
-#: calendar/zones.h:377
+#: calendar/zones.h:381
 msgid "Pacific/Tahiti"
 msgstr "Thái Bình Dương/Tahiti"
 
-#: calendar/zones.h:378
+#: calendar/zones.h:382
 msgid "Pacific/Tarawa"
 msgstr "Thái Bình Dương/Tarawa"
 
-#: calendar/zones.h:379
+#: calendar/zones.h:383
 msgid "Pacific/Tongatapu"
 msgstr "Thái Bình Dương/Tongatapu"
 
-#: calendar/zones.h:380
+#: calendar/zones.h:384
 msgid "Pacific/Truk"
 msgstr "Thái Bình Dương/Truk"
 
-#: calendar/zones.h:381
+#: calendar/zones.h:385
 msgid "Pacific/Wake"
 msgstr "Thái Bình Dương/Wake"
 
-#: calendar/zones.h:382
+#: calendar/zones.h:386
 msgid "Pacific/Wallis"
 msgstr "Thái Bình Dương/Wallis"
 
-#: calendar/zones.h:383
+#: calendar/zones.h:387
 msgid "Pacific/Yap"
 msgstr "Thái Bình Dương/Yap"
 
-#: calendar/cal-util/cal-component.c:1207
+#: calendar/cal-util/cal-component.c:1221
 msgid "Untitled appointment"
 msgstr "Cuộc hẹn không tên"
 
@@ -4775,7 +4802,7 @@ msgid "Free"
 msgstr "Rảnh"
 
 #: calendar/gui/calendar-model.c:605 calendar/gui/e-calendar-table.c:458
-#: calendar/gui/e-meeting-time-sel.c:435
+#: calendar/gui/e-meeting-time-sel.c:438
 #: shell/evolution-shell-component.c:1029
 msgid "Busy"
 msgstr "Bận"
@@ -4794,8 +4821,8 @@ msgstr "Đang làm"
 
 #: calendar/gui/calendar-model.c:760 calendar/gui/calendar-model.c:1195
 #: calendar/gui/dialogs/task-details-page.glade.h:4
-#: calendar/gui/e-calendar-table.c:480 calendar/gui/e-meeting-model.c:326
-#: calendar/gui/e-meeting-model.c:349 calendar/gui/print.c:2273
+#: calendar/gui/e-calendar-table.c:480 calendar/gui/e-meeting-model.c:330
+#: calendar/gui/e-meeting-model.c:353 calendar/gui/print.c:2273
 msgid "Completed"
 msgstr "Hoàn tất"
 
@@ -4810,7 +4837,7 @@ msgstr ""
 "45.436845,125.862501"
 
 #. An empty string is the same as 'None'.
-#: calendar/gui/calendar-model.c:1189 calendar/gui/dialogs/meeting-page.c:312
+#: calendar/gui/calendar-model.c:1189 calendar/gui/dialogs/meeting-page.c:309
 #: calendar/gui/dialogs/meeting-page.glade.h:1 mail/mail-account-gui.c:1485
 #: mail/mail-accounts.c:148 mail/mail-accounts.c:405
 #: mail/mail-config.glade.h:47
@@ -4828,14 +4855,14 @@ msgstr "Đệ quy"
 msgid "Assigned"
 msgstr "Đã gán"
 
-#: calendar/gui/calendar-model.c:1721 calendar/gui/e-meeting-model.c:298
-#: calendar/gui/e-meeting-model.c:308 calendar/gui/e-meeting-model.c:537
-#: calendar/gui/e-meeting-model.c:821
+#: calendar/gui/calendar-model.c:1721 calendar/gui/e-meeting-model.c:302
+#: calendar/gui/e-meeting-model.c:312 calendar/gui/e-meeting-model.c:560
+#: calendar/gui/e-meeting-model.c:848
 msgid "Yes"
 msgstr "Có"
 
-#: calendar/gui/calendar-model.c:1721 calendar/gui/e-meeting-model.c:310
-#: calendar/gui/e-meeting-model.c:822
+#: calendar/gui/calendar-model.c:1721 calendar/gui/e-meeting-model.c:314
+#: calendar/gui/e-meeting-model.c:849
 msgid "No"
 msgstr "Không"
 
@@ -5436,39 +5463,39 @@ msgstr " (Đến hạn "
 msgid "Due "
 msgstr "Đến hạn "
 
-#: calendar/gui/dialogs/comp-editor.c:303
+#: calendar/gui/dialogs/comp-editor.c:318
 msgid "Could not update object!"
 msgstr "Không thể cập nhật đối tượng!"
 
-#: calendar/gui/dialogs/comp-editor.c:678
+#: calendar/gui/dialogs/comp-editor.c:750
 msgid "Edit Appointment"
 msgstr "Sửa cuộc hẹn"
 
-#: calendar/gui/dialogs/comp-editor.c:683
+#: calendar/gui/dialogs/comp-editor.c:755
 #, c-format
 msgid "Appointment - %s"
 msgstr "Cuộc hẹn - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:686
+#: calendar/gui/dialogs/comp-editor.c:758
 #, c-format
 msgid "Task - %s"
 msgstr "Công việc - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:689
+#: calendar/gui/dialogs/comp-editor.c:761
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Mục nhật ký - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:703
+#: calendar/gui/dialogs/comp-editor.c:775
 msgid "No summary"
 msgstr "Không có tóm tắt"
 
-#: calendar/gui/dialogs/comp-editor.c:1061 mail/mail-callbacks.c:1909
+#: calendar/gui/dialogs/comp-editor.c:1137 mail/mail-callbacks.c:1909
 #: mail/mail-display.c:102
 msgid "Overwrite file?"
 msgstr "Ghi đè tập tin?"
 
-#: calendar/gui/dialogs/comp-editor.c:1065 mail/mail-callbacks.c:1916
+#: calendar/gui/dialogs/comp-editor.c:1141 mail/mail-callbacks.c:1916
 #: mail/mail-display.c:106
 msgid ""
 "A file by that name already exists.\n"
@@ -5477,12 +5504,19 @@ msgstr ""
 "Tập tin với tên này đã có rồi.\n"
 "Ghi đè tập tin này?"
 
-#: calendar/gui/dialogs/comp-editor.c:1111 ui/evolution-comp-editor.xml.h:13
+#: calendar/gui/dialogs/comp-editor.c:1187 ui/evolution-comp-editor.xml.h:13
 #: widgets/misc/e-filter-bar.h:101
 msgid "Save As..."
 msgstr "Lưu là..."
 
-#: calendar/gui/dialogs/comp-editor.c:1272
+#: calendar/gui/dialogs/comp-editor.c:1281
+#: calendar/gui/dialogs/comp-editor.c:1316
+#: calendar/gui/dialogs/comp-editor.c:1340
+msgid ""
+"Changes made to this item may be discarded if an update arrives via email"
+msgstr ""
+
+#: calendar/gui/dialogs/comp-editor.c:1367
 msgid "Unable to obtain current version!"
 msgstr "Không thể lấy phiên bản hiện thời!"
 
@@ -5540,27 +5574,27 @@ msgstr "Ủy nhiệm cho:"
 msgid "Enter Delegate"
 msgstr "Nhập người đại diện"
 
-#: calendar/gui/dialogs/event-editor.c:185 calendar/gui/print.c:2224
+#: calendar/gui/dialogs/event-editor.c:189 calendar/gui/print.c:2224
 msgid "Appointment"
 msgstr "Cuộc hẹn"
 
-#: calendar/gui/dialogs/event-editor.c:190
+#: calendar/gui/dialogs/event-editor.c:194
 msgid "Reminder"
 msgstr "Bộ nhắc nhở"
 
-#: calendar/gui/dialogs/event-editor.c:195
+#: calendar/gui/dialogs/event-editor.c:199
 msgid "Recurrence"
 msgstr "Đệ quy"
 
-#: calendar/gui/dialogs/event-editor.c:202
-#: calendar/gui/dialogs/event-editor.c:260
-#: calendar/gui/dialogs/event-editor.c:366
+#: calendar/gui/dialogs/event-editor.c:206
+#: calendar/gui/dialogs/event-editor.c:272
+#: calendar/gui/dialogs/event-editor.c:397
 msgid "Scheduling"
 msgstr "Lập lịch biểu"
 
-#: calendar/gui/dialogs/event-editor.c:207
-#: calendar/gui/dialogs/event-editor.c:263
-#: calendar/gui/dialogs/event-editor.c:369
+#: calendar/gui/dialogs/event-editor.c:211
+#: calendar/gui/dialogs/event-editor.c:275
+#: calendar/gui/dialogs/event-editor.c:400
 msgid "Meeting"
 msgstr "Cuộc họp"
 
@@ -5629,19 +5663,19 @@ msgstr "Thời điểm _cuối:"
 msgid "_Start time:"
 msgstr "Thời điểm đầ_u:"
 
-#: calendar/gui/dialogs/meeting-page.c:425
+#: calendar/gui/dialogs/meeting-page.c:413
 msgid "An organizer is required."
 msgstr "Cần một tổ chức."
 
-#: calendar/gui/dialogs/meeting-page.c:446
+#: calendar/gui/dialogs/meeting-page.c:437
 msgid "At least one attendee is required."
 msgstr "Cần ít nhất một người tham dự."
 
-#: calendar/gui/dialogs/meeting-page.c:626
+#: calendar/gui/dialogs/meeting-page.c:593
 msgid "That person is already attending the meeting!"
 msgstr "Người này đã có tên trong cuộc họp rồi!"
 
-#: calendar/gui/dialogs/meeting-page.c:701
+#: calendar/gui/dialogs/meeting-page.c:668
 msgid "_Delegate To..."
 msgstr "Ủ_y nhiệm cho..."
 
@@ -5715,13 +5749,9 @@ msgid "_Change Organizer"
 msgstr "Đổ_i tổ chức"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:4
-#: calendar/gui/e-meeting-time-sel.c:453
+#: calendar/gui/e-meeting-time-sel.c:456
 msgid "_Invite Others..."
 msgstr "_Mời người khác..."
-
-#: calendar/gui/dialogs/meeting-page.glade.h:5
-msgid "_Other Organizer"
-msgstr "Tổ chức _khác"
 
 #: calendar/gui/dialogs/recurrence-page.c:571
 msgid "This appointment contains recurrences that Evolution cannot edit."
@@ -5846,9 +5876,9 @@ msgstr "Độ ư_u tiên:"
 msgid "_Status:"
 msgstr "_Trạng thái:"
 
-#: calendar/gui/dialogs/task-editor.c:190
-#: calendar/gui/dialogs/task-editor.c:227
-#: calendar/gui/dialogs/task-editor.c:325
+#: calendar/gui/dialogs/task-editor.c:194
+#: calendar/gui/dialogs/task-editor.c:238
+#: calendar/gui/dialogs/task-editor.c:354
 msgid "Assignment"
 msgstr ""
 
@@ -6176,26 +6206,26 @@ msgstr "<i>Không</i>"
 msgid "Status:"
 msgstr "Trạng thái:"
 
-#: calendar/gui/e-itip-control.c:786 calendar/gui/e-meeting-model.c:318
-#: calendar/gui/e-meeting-model.c:341 calendar/gui/e-meeting-model.c:835
-#: calendar/gui/itip-utils.c:323
+#: calendar/gui/e-itip-control.c:786 calendar/gui/e-meeting-model.c:322
+#: calendar/gui/e-meeting-model.c:345 calendar/gui/e-meeting-model.c:862
+#: calendar/gui/itip-utils.c:382
 msgid "Accepted"
 msgstr "Chấp nhận"
 
-#: calendar/gui/e-itip-control.c:790 calendar/gui/itip-utils.c:326
+#: calendar/gui/e-itip-control.c:790 calendar/gui/itip-utils.c:385
 msgid "Tentatively Accepted"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:794 calendar/gui/e-meeting-model.c:320
-#: calendar/gui/e-meeting-model.c:343 calendar/gui/e-meeting-model.c:836
-#: calendar/gui/itip-utils.c:329 calendar/gui/itip-utils.c:355
+#: calendar/gui/e-itip-control.c:794 calendar/gui/e-meeting-model.c:324
+#: calendar/gui/e-meeting-model.c:347 calendar/gui/e-meeting-model.c:863
+#: calendar/gui/itip-utils.c:388 calendar/gui/itip-utils.c:414
 msgid "Declined"
 msgstr "Từ chối"
 
 #: calendar/gui/e-itip-control.c:798 calendar/gui/e-itip-control.c:997
-#: calendar/gui/e-itip-control.c:1068 calendar/gui/e-meeting-model.c:254
-#: calendar/gui/e-meeting-model.c:289 calendar/gui/e-meeting-model.c:354
-#: calendar/gui/e-meeting-model.c:793 calendar/gui/e-meeting-model.c:809
+#: calendar/gui/e-itip-control.c:1068 calendar/gui/e-meeting-model.c:258
+#: calendar/gui/e-meeting-model.c:293 calendar/gui/e-meeting-model.c:358
+#: calendar/gui/e-meeting-model.c:820 calendar/gui/e-meeting-model.c:836
 #: camel/providers/smtp/camel-smtp-transport.c:170
 #: camel/providers/smtp/camel-smtp-transport.c:225
 #: widgets/misc/e-charset-picker.c:57 widgets/misc/e-charset-picker.c:439
@@ -6243,7 +6273,7 @@ msgstr "Cập nhật trạng thái trả lời"
 msgid "Send Latest Information"
 msgstr "Gửi thông tin mới nhất"
 
-#: calendar/gui/e-itip-control.c:916 calendar/gui/itip-utils.c:343
+#: calendar/gui/e-itip-control.c:916 calendar/gui/itip-utils.c:402
 #: ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Bỏ"
@@ -6429,33 +6459,33 @@ msgstr "Hoàn tất cập nhật\n"
 msgid "This response is not from a currentattendee.  Add as an attendee?"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1459
+#: calendar/gui/e-itip-control.c:1458
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr ""
 "Không thể cập nhật trạng thái người tham dự vì trạng thái không hợp lệ!\n"
 
-#: calendar/gui/e-itip-control.c:1472
+#: calendar/gui/e-itip-control.c:1471
 msgid "Attendee status could not be updated!\n"
 msgstr "Không thể cập nhật trạng thái người tham dự!\n"
 
-#: calendar/gui/e-itip-control.c:1474
+#: calendar/gui/e-itip-control.c:1473
 msgid "Attendee status updated\n"
 msgstr "Đã cập nhật trạng thái người tham dự\n"
 
-#: calendar/gui/e-itip-control.c:1476
+#: calendar/gui/e-itip-control.c:1475
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Không thể cập nhật trạng thái người tham dự vì chưa có người nào tham dự"
 
-#: calendar/gui/e-itip-control.c:1504
+#: calendar/gui/e-itip-control.c:1503
 msgid "Removal Complete"
 msgstr "Hoàn tất loại bỏ"
 
-#: calendar/gui/e-itip-control.c:1534 calendar/gui/e-itip-control.c:1584
+#: calendar/gui/e-itip-control.c:1533 calendar/gui/e-itip-control.c:1583
 msgid "Item sent!\n"
 msgstr "Đã gửi!\n"
 
-#: calendar/gui/e-itip-control.c:1536 calendar/gui/e-itip-control.c:1588
+#: calendar/gui/e-itip-control.c:1535 calendar/gui/e-itip-control.c:1587
 msgid "The item could not be sent!\n"
 msgstr "Không thể gửi!\n"
 
@@ -6496,92 +6526,92 @@ msgstr "ngày kết thúc"
 msgid "date-start"
 msgstr "ngày bắt đầu"
 
-#: calendar/gui/e-meeting-model.c:81
+#: calendar/gui/e-meeting-model.c:84
 msgid "Chair Persons"
 msgstr "Người chủ trì"
 
-#: calendar/gui/e-meeting-model.c:82 calendar/gui/e-meeting-model.c:1652
+#: calendar/gui/e-meeting-model.c:85 calendar/gui/e-meeting-model.c:1750
 msgid "Required Participants"
 msgstr "Người tham dự yêu cầu"
 
-#: calendar/gui/e-meeting-model.c:83
+#: calendar/gui/e-meeting-model.c:86
 msgid "Optional Participants"
 msgstr "Người tham dự không yêu cầu"
 
-#: calendar/gui/e-meeting-model.c:84
+#: calendar/gui/e-meeting-model.c:87
 msgid "Non-Participants"
 msgstr "Người không tham dự"
 
-#: calendar/gui/e-meeting-model.c:229 calendar/gui/e-meeting-model.c:246
-#: calendar/gui/e-meeting-model.c:533 calendar/gui/e-meeting-model.c:789
+#: calendar/gui/e-meeting-model.c:233 calendar/gui/e-meeting-model.c:250
+#: calendar/gui/e-meeting-model.c:556 calendar/gui/e-meeting-model.c:816
 msgid "Individual"
 msgstr "Cá nhân"
 
-#: calendar/gui/e-meeting-model.c:231 calendar/gui/e-meeting-model.c:248
-#: calendar/gui/e-meeting-model.c:790
+#: calendar/gui/e-meeting-model.c:235 calendar/gui/e-meeting-model.c:252
+#: calendar/gui/e-meeting-model.c:817
 msgid "Group"
 msgstr "Nhóm"
 
-#: calendar/gui/e-meeting-model.c:233 calendar/gui/e-meeting-model.c:250
-#: calendar/gui/e-meeting-model.c:791
+#: calendar/gui/e-meeting-model.c:237 calendar/gui/e-meeting-model.c:254
+#: calendar/gui/e-meeting-model.c:818
 msgid "Resource"
 msgstr "Tài nguyên"
 
-#: calendar/gui/e-meeting-model.c:235 calendar/gui/e-meeting-model.c:252
-#: calendar/gui/e-meeting-model.c:792
+#: calendar/gui/e-meeting-model.c:239 calendar/gui/e-meeting-model.c:256
+#: calendar/gui/e-meeting-model.c:819
 msgid "Room"
 msgstr "Phòng"
 
-#: calendar/gui/e-meeting-model.c:264 calendar/gui/e-meeting-model.c:281
-#: calendar/gui/e-meeting-model.c:805
+#: calendar/gui/e-meeting-model.c:268 calendar/gui/e-meeting-model.c:285
+#: calendar/gui/e-meeting-model.c:832
 msgid "Chair"
 msgstr "Ghế"
 
-#: calendar/gui/e-meeting-model.c:266 calendar/gui/e-meeting-model.c:283
-#: calendar/gui/e-meeting-model.c:535 calendar/gui/e-meeting-model.c:806
+#: calendar/gui/e-meeting-model.c:270 calendar/gui/e-meeting-model.c:287
+#: calendar/gui/e-meeting-model.c:558 calendar/gui/e-meeting-model.c:833
 msgid "Required Participant"
 msgstr "Người tham dự yêu cầu"
 
-#: calendar/gui/e-meeting-model.c:268 calendar/gui/e-meeting-model.c:285
-#: calendar/gui/e-meeting-model.c:807
+#: calendar/gui/e-meeting-model.c:272 calendar/gui/e-meeting-model.c:289
+#: calendar/gui/e-meeting-model.c:834
 msgid "Optional Participant"
 msgstr "Người tham dự không yêu cầu"
 
-#: calendar/gui/e-meeting-model.c:270 calendar/gui/e-meeting-model.c:287
-#: calendar/gui/e-meeting-model.c:808
+#: calendar/gui/e-meeting-model.c:274 calendar/gui/e-meeting-model.c:291
+#: calendar/gui/e-meeting-model.c:835
 msgid "Non-Participant"
 msgstr "Người không tham dự"
 
-#: calendar/gui/e-meeting-model.c:316 calendar/gui/e-meeting-model.c:339
-#: calendar/gui/e-meeting-model.c:543 calendar/gui/e-meeting-model.c:834
+#: calendar/gui/e-meeting-model.c:320 calendar/gui/e-meeting-model.c:343
+#: calendar/gui/e-meeting-model.c:566 calendar/gui/e-meeting-model.c:861
 msgid "Needs Action"
 msgstr "Cần hành động"
 
-#: calendar/gui/e-meeting-model.c:322 calendar/gui/e-meeting-model.c:345
-#: calendar/gui/e-meeting-model.c:837 calendar/gui/e-meeting-time-sel.c:434
+#: calendar/gui/e-meeting-model.c:326 calendar/gui/e-meeting-model.c:349
+#: calendar/gui/e-meeting-model.c:864 calendar/gui/e-meeting-time-sel.c:437
 msgid "Tentative"
 msgstr "Có thể làm"
 
-#: calendar/gui/e-meeting-model.c:324 calendar/gui/e-meeting-model.c:347
-#: calendar/gui/e-meeting-model.c:838
+#: calendar/gui/e-meeting-model.c:328 calendar/gui/e-meeting-model.c:351
+#: calendar/gui/e-meeting-model.c:865
 msgid "Delegated"
 msgstr "Ủy nhiệm"
 
-#: calendar/gui/e-meeting-model.c:328 calendar/gui/e-meeting-model.c:351
+#: calendar/gui/e-meeting-model.c:332 calendar/gui/e-meeting-model.c:355
 msgid "In Process"
 msgstr "Trong tiến trình"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:475
-#: calendar/gui/e-meeting-time-sel.c:2088
+#: calendar/gui/e-meeting-time-sel.c:2107
 msgid "%A, %B %d, %Y"
 msgstr "%A, %d %B, %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:479
-#: calendar/gui/e-meeting-time-sel.c:2118 e-util/e-time-utils.c:186
+#: calendar/gui/e-meeting-time-sel.c:2137 e-util/e-time-utils.c:186
 #: e-util/e-time-utils.c:276 e-util/e-time-utils.c:348
 msgid "%a %m/%d/%Y"
 msgstr "%a %d/%m/%Y"
@@ -6593,63 +6623,63 @@ msgstr "%a %d/%m/%Y"
 msgid "%m/%d/%Y"
 msgstr "%d/%m/%Y"
 
-#: calendar/gui/e-meeting-time-sel.c:436
+#: calendar/gui/e-meeting-time-sel.c:439
 msgid "Out of Office"
 msgstr "Không chính thức"
 
-#: calendar/gui/e-meeting-time-sel.c:437
+#: calendar/gui/e-meeting-time-sel.c:440
 msgid "No Information"
 msgstr "Không có thông tin"
 
-#: calendar/gui/e-meeting-time-sel.c:473
+#: calendar/gui/e-meeting-time-sel.c:478
 msgid "_Options"
 msgstr "_Tùy chọn"
 
-#: calendar/gui/e-meeting-time-sel.c:490
+#: calendar/gui/e-meeting-time-sel.c:495
 msgid "Show _Only Working Hours"
 msgstr "Chỉ hiện giờ làm _việc"
 
-#: calendar/gui/e-meeting-time-sel.c:503
+#: calendar/gui/e-meeting-time-sel.c:508
 msgid "Show _Zoomed Out"
 msgstr "Hiện Thu _nhỏ"
 
-#: calendar/gui/e-meeting-time-sel.c:521
+#: calendar/gui/e-meeting-time-sel.c:526
 msgid "_Update Free/Busy"
 msgstr "_Cập nhật Rảnh/Bận"
 
-#: calendar/gui/e-meeting-time-sel.c:539
+#: calendar/gui/e-meeting-time-sel.c:544
 msgid "_<<"
 msgstr "_<<"
 
-#: calendar/gui/e-meeting-time-sel.c:556
+#: calendar/gui/e-meeting-time-sel.c:561
 msgid "_Autopick"
 msgstr "_Tự chọn"
 
-#: calendar/gui/e-meeting-time-sel.c:570
+#: calendar/gui/e-meeting-time-sel.c:575
 msgid ">_>"
 msgstr ">_>"
 
-#: calendar/gui/e-meeting-time-sel.c:587
+#: calendar/gui/e-meeting-time-sel.c:592
 msgid "_All People and Resources"
 msgstr "_Mọi người và tài nguyên"
 
-#: calendar/gui/e-meeting-time-sel.c:600
+#: calendar/gui/e-meeting-time-sel.c:605
 msgid "All _People and One Resource"
 msgstr "Mọi người và mộ_t tài nguyên"
 
-#: calendar/gui/e-meeting-time-sel.c:613
+#: calendar/gui/e-meeting-time-sel.c:618
 msgid "_Required People"
 msgstr "Người _yêu cầu"
 
-#: calendar/gui/e-meeting-time-sel.c:626
+#: calendar/gui/e-meeting-time-sel.c:631
 msgid "Required People and _One Resource"
 msgstr "Người yêu cầu _và một tài nguyên"
 
-#: calendar/gui/e-meeting-time-sel.c:649
+#: calendar/gui/e-meeting-time-sel.c:654
 msgid "Meeting _start time:"
 msgstr "Lúc _bắt đầu cuộc họp:"
 
-#: calendar/gui/e-meeting-time-sel.c:668
+#: calendar/gui/e-meeting-time-sel.c:673
 msgid "Meeting _end time:"
 msgstr "Lúc _kết thúc cuộc họp:"
 
@@ -6672,17 +6702,17 @@ msgstr "Chưa hỗ trợ phương thức yêu cầu để nạp `%s'"
 msgid "New _Appointment..."
 msgstr "Cuộc hẹn mớ_i..."
 
-#: calendar/gui/gnome-cal.c:1499
+#: calendar/gui/gnome-cal.c:1500
 #, c-format
 msgid "Could not open the folder in `%s'"
 msgstr "Không thể mở thư mục trong `%s'"
 
-#: calendar/gui/gnome-cal.c:1510
+#: calendar/gui/gnome-cal.c:1511
 #, c-format
 msgid "The method required to open `%s' is not supported"
 msgstr "Chưa hỗ trợ phương thức yêu cầu để mở `%s'"
 
-#: calendar/gui/gnome-cal.c:1872
+#: calendar/gui/gnome-cal.c:1876
 #, c-format
 msgid "Opening calendar at %s"
 msgstr "Đang mở lịch tại %s"
@@ -6743,47 +6773,47 @@ msgstr "Tháng Mười"
 msgid "September"
 msgstr "Tháng Chín"
 
-#: calendar/gui/itip-utils.c:220
+#: calendar/gui/itip-utils.c:280
 msgid "At least one attendee is necessary"
 msgstr "Cần ít nhất một người tham dự."
 
-#: calendar/gui/itip-utils.c:251
+#: calendar/gui/itip-utils.c:311
 msgid "An organizer must be set."
 msgstr "Phải chọn một tổ chức."
 
-#: calendar/gui/itip-utils.c:295
+#: calendar/gui/itip-utils.c:354
 msgid "Event information"
 msgstr "Thông tin sự kiện"
 
-#: calendar/gui/itip-utils.c:297
+#: calendar/gui/itip-utils.c:356
 msgid "Task information"
 msgstr "Thông tin công việc"
 
-#: calendar/gui/itip-utils.c:299
+#: calendar/gui/itip-utils.c:358
 msgid "Journal information"
 msgstr "Thông tin nhật ký"
 
-#: calendar/gui/itip-utils.c:301
+#: calendar/gui/itip-utils.c:360
 msgid "Free/Busy information"
 msgstr "Thông tin rảnh/bận"
 
-#: calendar/gui/itip-utils.c:303
+#: calendar/gui/itip-utils.c:362
 msgid "Calendar information"
 msgstr "Thông tin lịch"
 
-#: calendar/gui/itip-utils.c:339
+#: calendar/gui/itip-utils.c:398
 msgid "Updated"
 msgstr "Đã cập nhật"
 
-#: calendar/gui/itip-utils.c:347
+#: calendar/gui/itip-utils.c:406
 msgid "Refresh"
 msgstr "Cập nhật"
 
-#: calendar/gui/itip-utils.c:351
+#: calendar/gui/itip-utils.c:410
 msgid "Counter-proposal"
 msgstr ""
 
-#: calendar/gui/itip-utils.c:617
+#: calendar/gui/itip-utils.c:660
 msgid "You must be an attendee of the event."
 msgstr "Bạn phải là người tham dự sự kiện."
 
@@ -25564,6 +25594,9 @@ msgstr "init_corba(): không thể khởi động GNOME"
 #: wombat/wombat.c:225
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): không thể khởi động Bonobo"
+
+#~ msgid "_Other Organizer"
+#~ msgstr "Tổ chức _khác"
 
 #~ msgid "Name contains"
 #~ msgstr "Tên chứa"

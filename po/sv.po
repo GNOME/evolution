@@ -6,12 +6,12 @@
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 # Johan Dahlin <zilch.am@home.se>, 2001.
 #
-# $Id: sv.po,v 1.135.2.19 2002/06/20 23:16:46 menthos Exp $
+# $Id: sv.po,v 1.135.2.20 2002/06/23 13:12:09 ettore Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2002-06-21 01:16+0200\n"
+"POT-Creation-Date: 2002-06-19 17:07-0400\n"
 "PO-Revision-Date: 2002-06-21 01:17+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -5936,46 +5936,57 @@ msgid "_Due Date:"
 msgstr "Förfallo_datum:"
 
 #: calendar/gui/e-calendar-table.c:427
+#, c-format
 msgid "0%"
 msgstr "0%"
 
 #: calendar/gui/e-calendar-table.c:428
+#, c-format
 msgid "10%"
 msgstr "10%"
 
 #: calendar/gui/e-calendar-table.c:429
+#, c-format
 msgid "20%"
 msgstr "20%"
 
 #: calendar/gui/e-calendar-table.c:430
+#, c-format
 msgid "30%"
 msgstr "30%"
 
 #: calendar/gui/e-calendar-table.c:431
+#, c-format
 msgid "40%"
 msgstr "40%"
 
 #: calendar/gui/e-calendar-table.c:432
+#, c-format
 msgid "50%"
 msgstr "50%"
 
 #: calendar/gui/e-calendar-table.c:433
+#, c-format
 msgid "60%"
 msgstr "60%"
 
 #: calendar/gui/e-calendar-table.c:434
+#, c-format
 msgid "70%"
 msgstr "70%"
 
 #: calendar/gui/e-calendar-table.c:435
+#, c-format
 msgid "80%"
 msgstr "80%"
 
 #: calendar/gui/e-calendar-table.c:436
+#, c-format
 msgid "90%"
 msgstr "90%"
 
 #: calendar/gui/e-calendar-table.c:437
+#, c-format
 msgid "100%"
 msgstr "100%"
 
@@ -12442,7 +12453,7 @@ msgid "Freezing ice pellets"
 msgstr "Bitande ispellets"
 
 #. HAIL
-#: my-evolution/metar.c:217 my-evolution/Locations.h:883
+#: my-evolution/Locations.h:883 my-evolution/metar.c:217
 msgid "Hail"
 msgstr "Hagel"
 

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0.4\n"
-"POT-Creation-Date: 2002-06-07 14:00-0400\n"
+"POT-Creation-Date: 2002-06-19 17:07-0400\n"
 "PO-Revision-Date: 2002-04-30 11:47GMT\n"
 "Last-Translator: Borislav Aleksandrov <B.Aleksandrov@cnsys.bg>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
@@ -627,7 +627,7 @@ msgid "Could not initialize Bonobo"
 msgstr "Не мога да инициализирам Bonobo"
 
 #: addressbook/backend/pas/pas-backend-file.c:259
-#: addressbook/backend/pas/pas-backend-ldap.c:2394
+#: addressbook/backend/pas/pas-backend-ldap.c:2420
 msgid "Searching..."
 msgstr "Търся..."
 
@@ -640,35 +640,35 @@ msgstr "Зареждам"
 msgid "Error in search expression."
 msgstr "Грешка в търсене на израз."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:522
+#: addressbook/backend/pas/pas-backend-ldap.c:533
 msgid "Connecting to LDAP server..."
 msgstr "Свързвам се с LDAP сървъра..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:532
+#: addressbook/backend/pas/pas-backend-ldap.c:543
 msgid "Unable to connect to LDAP server."
 msgstr "Не успях да се свържа с LDAP сървъра."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:548
+#: addressbook/backend/pas/pas-backend-ldap.c:559
 msgid "Waiting for connection to LDAP server..."
 msgstr "Чакам за връзка с LDAP сървъра..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:974
+#: addressbook/backend/pas/pas-backend-ldap.c:985
 msgid "Adding card to LDAP server..."
 msgstr "Добавям картичка в LDAP сървъра..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1075
+#: addressbook/backend/pas/pas-backend-ldap.c:1090
 msgid "Removing card from LDAP server..."
 msgstr "Махам картичка от LDAP сървъра..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1185
+#: addressbook/backend/pas/pas-backend-ldap.c:1204
 msgid "Modifying card from LDAP server..."
 msgstr "Изменям картичка в LDAP сървъра..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2311
+#: addressbook/backend/pas/pas-backend-ldap.c:2337
 msgid "Receiving LDAP search results..."
 msgstr "Получавам резултатите от ръсенето от LDAP сървъра..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2317
+#: addressbook/backend/pas/pas-backend-ldap.c:2343
 msgid "Restarting search."
 msgstr "Отново почвам търсенето."
 
@@ -807,7 +807,7 @@ msgid "Base"
 msgstr "База"
 
 #: addressbook/gui/component/addressbook-config.glade.h:8
-#: calendar/gui/dialogs/task-editor.c:178
+#: calendar/gui/dialogs/task-editor.c:182
 msgid "Basic"
 msgstr "Основни"
 
@@ -1230,7 +1230,7 @@ msgid "D_epartment:"
 msgstr "От_дел"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:12
-#: calendar/gui/dialogs/task-editor.c:183
+#: calendar/gui/dialogs/task-editor.c:187
 msgid "Details"
 msgstr "Детайли"
 
@@ -1291,7 +1291,7 @@ msgstr "Желая да получавам _HTML mail"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:31
 #: calendar/gui/dialogs/alarm-page.glade.h:9
-#: calendar/gui/dialogs/meeting-page.c:707 filter/filter.glade.h:8
+#: calendar/gui/dialogs/meeting-page.c:674 filter/filter.glade.h:8
 #: mail/folder-browser.c:1468 mail/mail-config.glade.h:96
 #: ui/evolution-calendar.xml.h:38 ui/evolution-mail-message.xml.h:95
 #: ui/evolution-tasks.xml.h:15 ui/evolution.xml.h:35
@@ -1350,7 +1350,7 @@ msgstr "Съхрани Контакт като VCard"
 msgid "TTY/TDD"
 msgstr "TTY/TDD"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2287
+#: addressbook/gui/contact-editor/e-contact-editor.c:2286
 #, c-format
 msgid "Could not find widget for a field: `%s'"
 msgstr "Не мога да намеря графичен обект за поле: `%s'"
@@ -1377,11 +1377,11 @@ msgstr "E-поща"
 msgid "card.vcf"
 msgstr "card.vcf"
 
-#: addressbook/gui/contact-editor/e-contact-save-as.c:170
+#: addressbook/gui/contact-editor/e-contact-save-as.c:177
 msgid "list"
 msgstr "списък"
 
-#: addressbook/gui/contact-editor/e-contact-save-as.c:201
+#: addressbook/gui/contact-editor/e-contact-save-as.c:215
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -2839,13 +2839,27 @@ msgstr "е една друга карта."
 msgid "Save in addressbook"
 msgstr "Запиши в адресната книга"
 
-#: addressbook/gui/widgets/e-minicard-view.c:150
+#: addressbook/gui/widgets/e-minicard-view.c:156
+#, fuzzy
 msgid ""
 "\n"
 "\n"
-"There are no items to show in this view\n"
+"There are no items to show in this view.\n"
 "\n"
 "Double-click here to create a new Contact."
+msgstr ""
+"\n"
+"\n"
+"Няма обекти за показване в този изглед\n"
+"\n"
+"Кликнете два пъти, за да създадете нов Контакт."
+
+#: addressbook/gui/widgets/e-minicard-view.c:159
+#, fuzzy
+msgid ""
+"\n"
+"\n"
+"There are no items to show in this view."
 msgstr ""
 "\n"
 "\n"
@@ -3938,622 +3952,642 @@ msgid "Asia/Macao"
 msgstr "Азия/Макао"
 
 #: calendar/zones.h:230
+#, fuzzy
+msgid "Asia/Macau"
+msgstr "Азия/Макао"
+
+#: calendar/zones.h:231
 msgid "Asia/Magadan"
 msgstr "Азия/Магадан"
 
-#: calendar/zones.h:231
+#: calendar/zones.h:232
+#, fuzzy
+msgid "Asia/Makassar"
+msgstr "Азия/Магадан"
+
+#: calendar/zones.h:233
 msgid "Asia/Manila"
 msgstr "Азия/Манила"
 
-#: calendar/zones.h:232
+#: calendar/zones.h:234
 msgid "Asia/Muscat"
 msgstr "Азия/Мускат"
 
-#: calendar/zones.h:233
+#: calendar/zones.h:235
 msgid "Asia/Nicosia"
 msgstr "Азия/Никозия"
 
-#: calendar/zones.h:234
+#: calendar/zones.h:236
 msgid "Asia/Novosibirsk"
 msgstr "Азия/Новосибирск"
 
-#: calendar/zones.h:235
+#: calendar/zones.h:237
 msgid "Asia/Omsk"
 msgstr "Азия/Омск"
 
-#: calendar/zones.h:236
+#: calendar/zones.h:238
+#, fuzzy
+msgid "Asia/Oral"
+msgstr "Азия/Кабул"
+
+#: calendar/zones.h:239
 msgid "Asia/Phnom_Penh"
 msgstr "Азия/Пном Пен"
 
-#: calendar/zones.h:237
+#: calendar/zones.h:240
 msgid "Asia/Pontianak"
 msgstr "Азия/Понтиак"
 
-#: calendar/zones.h:238
+#: calendar/zones.h:241
 msgid "Asia/Pyongyang"
 msgstr ""
 
-#: calendar/zones.h:239
+#: calendar/zones.h:242
 msgid "Asia/Qatar"
 msgstr "Азия/Катар"
 
-#: calendar/zones.h:240
+#: calendar/zones.h:243
+#, fuzzy
+msgid "Asia/Qyzylorda"
+msgstr "Азия/Газа"
+
+#: calendar/zones.h:244
 msgid "Asia/Rangoon"
 msgstr "Азия/Рангун"
 
-#: calendar/zones.h:241
+#: calendar/zones.h:245
 msgid "Asia/Riyadh"
 msgstr "Азия/Риад"
 
-#: calendar/zones.h:242
+#: calendar/zones.h:246
 msgid "Asia/Saigon"
 msgstr "Азия/Сайгон"
 
-#: calendar/zones.h:243
+#: calendar/zones.h:247
 msgid "Asia/Sakhalin"
 msgstr "Азия/Сахалин"
 
-#: calendar/zones.h:244
+#: calendar/zones.h:248
 msgid "Asia/Samarkand"
 msgstr "Азия/Самарканд"
 
-#: calendar/zones.h:245
+#: calendar/zones.h:249
 msgid "Asia/Seoul"
 msgstr "Азия/Сеул"
 
-#: calendar/zones.h:246
+#: calendar/zones.h:250
 msgid "Asia/Shanghai"
 msgstr "Азия/Шанхай"
 
-#: calendar/zones.h:247
+#: calendar/zones.h:251
 msgid "Asia/Singapore"
 msgstr "Азия/Сингапур"
 
-#: calendar/zones.h:248
+#: calendar/zones.h:252
 msgid "Asia/Taipei"
 msgstr "Азия/Тайпе"
 
-#: calendar/zones.h:249
+#: calendar/zones.h:253
 msgid "Asia/Tashkent"
 msgstr "Азия/Ташкент"
 
-#: calendar/zones.h:250
+#: calendar/zones.h:254
 msgid "Asia/Tbilisi"
 msgstr "Азия/Тбилиси"
 
-#: calendar/zones.h:251
+#: calendar/zones.h:255
 msgid "Asia/Tehran"
 msgstr "Азия/Техеран"
 
-#: calendar/zones.h:252
+#: calendar/zones.h:256
 msgid "Asia/Thimphu"
 msgstr ""
 
-#: calendar/zones.h:253
+#: calendar/zones.h:257
 msgid "Asia/Tokyo"
 msgstr "Азия/Токио"
 
-#: calendar/zones.h:254
+#: calendar/zones.h:258
 msgid "Asia/Ujung_Pandang"
 msgstr ""
 
-#: calendar/zones.h:255
+#: calendar/zones.h:259
 msgid "Asia/Ulaanbaatar"
 msgstr "Азия/Улан Батор"
 
-#: calendar/zones.h:256
+#: calendar/zones.h:260
 msgid "Asia/Urumqi"
 msgstr ""
 
-#: calendar/zones.h:257
+#: calendar/zones.h:261
 msgid "Asia/Vientiane"
 msgstr "Азия/Виентиан"
 
-#: calendar/zones.h:258
+#: calendar/zones.h:262
 msgid "Asia/Vladivostok"
 msgstr "Азия/Владивосток"
 
-#: calendar/zones.h:259
+#: calendar/zones.h:263
 msgid "Asia/Yakutsk"
 msgstr "Азия/Якутск"
 
-#: calendar/zones.h:260
+#: calendar/zones.h:264
 msgid "Asia/Yekaterinburg"
 msgstr ""
 
-#: calendar/zones.h:261
+#: calendar/zones.h:265
 msgid "Asia/Yerevan"
 msgstr "Азия/Ереван"
 
-#: calendar/zones.h:262
+#: calendar/zones.h:266
 msgid "Atlantic/Azores"
 msgstr "Атлантика/Азорски острови"
 
-#: calendar/zones.h:263
+#: calendar/zones.h:267
 msgid "Atlantic/Bermuda"
 msgstr "Атлантика/Бермудски острови"
 
-#: calendar/zones.h:264
+#: calendar/zones.h:268
 msgid "Atlantic/Canary"
 msgstr "Атлантика/Канарски острови"
 
-#: calendar/zones.h:265
+#: calendar/zones.h:269
 msgid "Atlantic/Cape_Verde"
 msgstr "Атлантика/Кабо Верде"
 
-#: calendar/zones.h:266
+#: calendar/zones.h:270
 msgid "Atlantic/Faeroe"
 msgstr "Атлантик/Фаеорски острови"
 
-#: calendar/zones.h:267
+#: calendar/zones.h:271
 msgid "Atlantic/Jan_Mayen"
 msgstr ""
 
-#: calendar/zones.h:268
+#: calendar/zones.h:272
 msgid "Atlantic/Madeira"
 msgstr "Атлантика/Мадейра"
 
-#: calendar/zones.h:269
+#: calendar/zones.h:273
 msgid "Atlantic/Reykjavik"
 msgstr "Атлантик/Рейкявик"
 
-#: calendar/zones.h:270
+#: calendar/zones.h:274
 msgid "Atlantic/South_Georgia"
 msgstr ""
 
-#: calendar/zones.h:271
+#: calendar/zones.h:275
 msgid "Atlantic/St_Helena"
 msgstr ""
 
-#: calendar/zones.h:272
+#: calendar/zones.h:276
 msgid "Atlantic/Stanley"
 msgstr ""
 
-#: calendar/zones.h:273
+#: calendar/zones.h:277
 msgid "Australia/Adelaide"
 msgstr "Австралия/Аделаида"
 
-#: calendar/zones.h:274
+#: calendar/zones.h:278
 msgid "Australia/Brisbane"
 msgstr "Австралия/Брисбейн"
 
-#: calendar/zones.h:275
+#: calendar/zones.h:279
 msgid "Australia/Broken_Hill"
 msgstr ""
 
-#: calendar/zones.h:276
+#: calendar/zones.h:280
 msgid "Australia/Darwin"
 msgstr "Австралия/Дарвин"
 
-#: calendar/zones.h:277
+#: calendar/zones.h:281
 msgid "Australia/Hobart"
 msgstr "Австралия/Хобарт"
 
-#: calendar/zones.h:278
+#: calendar/zones.h:282
 msgid "Australia/Lindeman"
 msgstr "Австралия/Линдеман"
 
-#: calendar/zones.h:279
+#: calendar/zones.h:283
 msgid "Australia/Lord_Howe"
 msgstr ""
 
-#: calendar/zones.h:280
+#: calendar/zones.h:284
 msgid "Australia/Melbourne"
 msgstr "Австралия/Мелбърн"
 
-#: calendar/zones.h:281
+#: calendar/zones.h:285
 msgid "Australia/Perth"
 msgstr "Австралия/Перт"
 
-#: calendar/zones.h:282
+#: calendar/zones.h:286
 msgid "Australia/Sydney"
 msgstr "Австралия/Сидней"
 
-#: calendar/zones.h:283
+#: calendar/zones.h:287
 msgid "Europe/Amsterdam"
 msgstr "Европа/Амстердам"
 
-#: calendar/zones.h:284
+#: calendar/zones.h:288
 msgid "Europe/Andorra"
 msgstr "Европа/Андора"
 
-#: calendar/zones.h:285
+#: calendar/zones.h:289
 msgid "Europe/Athens"
 msgstr "Европа/Атина"
 
-#: calendar/zones.h:286
+#: calendar/zones.h:290
 msgid "Europe/Belfast"
 msgstr "Европа/Белфаст"
 
-#: calendar/zones.h:287
+#: calendar/zones.h:291
 msgid "Europe/Belgrade"
 msgstr "Европа/Белград"
 
-#: calendar/zones.h:288
+#: calendar/zones.h:292
 msgid "Europe/Berlin"
 msgstr "Европа/Берлин"
 
-#: calendar/zones.h:289
+#: calendar/zones.h:293
 msgid "Europe/Bratislava"
 msgstr "Европа/Братислава"
 
-#: calendar/zones.h:290
+#: calendar/zones.h:294
 msgid "Europe/Brussels"
 msgstr "Европа/Брюксел"
 
-#: calendar/zones.h:291
+#: calendar/zones.h:295
 msgid "Europe/Bucharest"
 msgstr "Европа/Букурещ"
 
-#: calendar/zones.h:292
+#: calendar/zones.h:296
 msgid "Europe/Budapest"
 msgstr "Европа/Будапеща"
 
-#: calendar/zones.h:293
+#: calendar/zones.h:297
 msgid "Europe/Chisinau"
 msgstr ""
 
-#: calendar/zones.h:294
+#: calendar/zones.h:298
 msgid "Europe/Copenhagen"
 msgstr "Европа/Копенхаген"
 
-#: calendar/zones.h:295
+#: calendar/zones.h:299
 msgid "Europe/Dublin"
 msgstr "Европа/Дъблин"
 
-#: calendar/zones.h:296
+#: calendar/zones.h:300
 msgid "Europe/Gibraltar"
 msgstr "Европа/Гибралтар"
 
-#: calendar/zones.h:297
+#: calendar/zones.h:301
 msgid "Europe/Helsinki"
 msgstr "Европа/Хелзинки"
 
-#: calendar/zones.h:298
+#: calendar/zones.h:302
 msgid "Europe/Istanbul"
 msgstr "Европа/Инстанбул"
 
-#: calendar/zones.h:299
+#: calendar/zones.h:303
 msgid "Europe/Kaliningrad"
 msgstr "Европа/Калининград"
 
-#: calendar/zones.h:300
+#: calendar/zones.h:304
 msgid "Europe/Kiev"
 msgstr "Европа/Киев"
 
-#: calendar/zones.h:301
+#: calendar/zones.h:305
 msgid "Europe/Lisbon"
 msgstr "Европа/Лисабон"
 
-#: calendar/zones.h:302
+#: calendar/zones.h:306
 msgid "Europe/Ljubljana"
 msgstr "Европа/Люлбляна"
 
-#: calendar/zones.h:303
+#: calendar/zones.h:307
 msgid "Europe/London"
 msgstr "Европа/Лондон"
 
-#: calendar/zones.h:304
+#: calendar/zones.h:308
 msgid "Europe/Luxembourg"
 msgstr "Европа/Люксембург"
 
-#: calendar/zones.h:305
+#: calendar/zones.h:309
 msgid "Europe/Madrid"
 msgstr "Европа/Мадрид"
 
-#: calendar/zones.h:306
+#: calendar/zones.h:310
 msgid "Europe/Malta"
 msgstr "Европа/Малта"
 
-#: calendar/zones.h:307
+#: calendar/zones.h:311
 msgid "Europe/Minsk"
 msgstr "Европа/Минск"
 
-#: calendar/zones.h:308
+#: calendar/zones.h:312
 msgid "Europe/Monaco"
 msgstr "Европа/Монако"
 
-#: calendar/zones.h:309
+#: calendar/zones.h:313
 msgid "Europe/Moscow"
 msgstr "Европа/Мосва"
 
-#: calendar/zones.h:310
+#: calendar/zones.h:314
 msgid "Europe/Nicosia"
 msgstr "Европа/Никозия"
 
-#: calendar/zones.h:311
+#: calendar/zones.h:315
 msgid "Europe/Oslo"
 msgstr "Европа/Осло"
 
-#: calendar/zones.h:312
+#: calendar/zones.h:316
 msgid "Europe/Paris"
 msgstr "Европа/Париж"
 
-#: calendar/zones.h:313
+#: calendar/zones.h:317
 msgid "Europe/Prague"
 msgstr "Европа/Прага"
 
-#: calendar/zones.h:314
+#: calendar/zones.h:318
 msgid "Europe/Riga"
 msgstr "Европа/Рига"
 
-#: calendar/zones.h:315
+#: calendar/zones.h:319
 msgid "Europe/Rome"
 msgstr "Европа/Рим"
 
-#: calendar/zones.h:316
+#: calendar/zones.h:320
 msgid "Europe/Samara"
 msgstr "Европа/Самара"
 
-#: calendar/zones.h:317
+#: calendar/zones.h:321
 msgid "Europe/San_Marino"
 msgstr "Европа/Сан Марино"
 
-#: calendar/zones.h:318
+#: calendar/zones.h:322
 msgid "Europe/Sarajevo"
 msgstr "Европа/Сараево"
 
-#: calendar/zones.h:319
+#: calendar/zones.h:323
 msgid "Europe/Simferopol"
 msgstr "Европа/Симферопол"
 
-#: calendar/zones.h:320
+#: calendar/zones.h:324
 msgid "Europe/Skopje"
 msgstr "Европа/Скопие"
 
-#: calendar/zones.h:321
+#: calendar/zones.h:325
 msgid "Europe/Sofia"
 msgstr "Европа/София"
 
-#: calendar/zones.h:322
+#: calendar/zones.h:326
 msgid "Europe/Stockholm"
 msgstr "Европа/Стокхолм"
 
-#: calendar/zones.h:323
+#: calendar/zones.h:327
 msgid "Europe/Tallinn"
 msgstr "Европа/Талин"
 
-#: calendar/zones.h:324
+#: calendar/zones.h:328
 msgid "Europe/Tirane"
 msgstr "Европа/Тирана"
 
-#: calendar/zones.h:325
+#: calendar/zones.h:329
 msgid "Europe/Uzhgorod"
 msgstr "Европа/Ужгород"
 
-#: calendar/zones.h:326
+#: calendar/zones.h:330
 msgid "Europe/Vaduz"
 msgstr "Европа/Вадуц"
 
-#: calendar/zones.h:327
+#: calendar/zones.h:331
 msgid "Europe/Vatican"
 msgstr "Европа/Ватикана"
 
-#: calendar/zones.h:328
+#: calendar/zones.h:332
 msgid "Europe/Vienna"
 msgstr "Европа/Виена"
 
-#: calendar/zones.h:329
+#: calendar/zones.h:333
 msgid "Europe/Vilnius"
 msgstr "Европа/Вилнюс"
 
-#: calendar/zones.h:330
+#: calendar/zones.h:334
 msgid "Europe/Warsaw"
 msgstr "Европа/Варшава"
 
-#: calendar/zones.h:331
+#: calendar/zones.h:335
 msgid "Europe/Zagreb"
 msgstr "Европа/Загреб"
 
-#: calendar/zones.h:332
+#: calendar/zones.h:336
 msgid "Europe/Zaporozhye"
 msgstr "Европа/Запорожие"
 
-#: calendar/zones.h:333
+#: calendar/zones.h:337
 msgid "Europe/Zurich"
 msgstr "Европа/Цюрих"
 
-#: calendar/zones.h:334
+#: calendar/zones.h:338
 msgid "Indian/Antananarivo"
 msgstr ""
 
-#: calendar/zones.h:335
+#: calendar/zones.h:339
 msgid "Indian/Chagos"
 msgstr ""
 
-#: calendar/zones.h:336
+#: calendar/zones.h:340
 msgid "Indian/Christmas"
 msgstr ""
 
-#: calendar/zones.h:337
+#: calendar/zones.h:341
 msgid "Indian/Cocos"
 msgstr ""
 
-#: calendar/zones.h:338
+#: calendar/zones.h:342
 msgid "Indian/Comoro"
 msgstr "Инийски океан/Комори"
 
-#: calendar/zones.h:339
+#: calendar/zones.h:343
 msgid "Indian/Kerguelen"
 msgstr ""
 
-#: calendar/zones.h:340
+#: calendar/zones.h:344
 msgid "Indian/Mahe"
 msgstr ""
 
-#: calendar/zones.h:341
+#: calendar/zones.h:345
 msgid "Indian/Maldives"
 msgstr "Индийски океан/Малдивски острови"
 
-#: calendar/zones.h:342
+#: calendar/zones.h:346
 msgid "Indian/Mauritius"
 msgstr "Индийски океан/Маурици"
 
-#: calendar/zones.h:343
+#: calendar/zones.h:347
 msgid "Indian/Mayotte"
 msgstr ""
 
-#: calendar/zones.h:344
+#: calendar/zones.h:348
 msgid "Indian/Reunion"
 msgstr "Индийски/Реюнион"
 
-#: calendar/zones.h:345
+#: calendar/zones.h:349
 msgid "Pacific/Apia"
 msgstr ""
 
-#: calendar/zones.h:346
+#: calendar/zones.h:350
 msgid "Pacific/Auckland"
 msgstr ""
 
-#: calendar/zones.h:347
+#: calendar/zones.h:351
 msgid "Pacific/Chatham"
 msgstr ""
 
-#: calendar/zones.h:348
+#: calendar/zones.h:352
 msgid "Pacific/Easter"
 msgstr ""
 
-#: calendar/zones.h:349
+#: calendar/zones.h:353
 msgid "Pacific/Efate"
 msgstr ""
 
-#: calendar/zones.h:350
+#: calendar/zones.h:354
 msgid "Pacific/Enderbury"
 msgstr ""
 
-#: calendar/zones.h:351
+#: calendar/zones.h:355
 msgid "Pacific/Fakaofo"
 msgstr ""
 
-#: calendar/zones.h:352
+#: calendar/zones.h:356
 msgid "Pacific/Fiji"
 msgstr "Тихи океан/Фиджи"
 
-#: calendar/zones.h:353
+#: calendar/zones.h:357
 msgid "Pacific/Funafuti"
 msgstr ""
 
-#: calendar/zones.h:354
+#: calendar/zones.h:358
 msgid "Pacific/Galapagos"
 msgstr "Тихи океан/Галапагос"
 
-#: calendar/zones.h:355
+#: calendar/zones.h:359
 msgid "Pacific/Gambier"
 msgstr ""
 
-#: calendar/zones.h:356
+#: calendar/zones.h:360
 msgid "Pacific/Guadalcanal"
 msgstr ""
 
-#: calendar/zones.h:357
+#: calendar/zones.h:361
 msgid "Pacific/Guam"
 msgstr "Тихи океан/Гуам"
 
-#: calendar/zones.h:358
+#: calendar/zones.h:362
 msgid "Pacific/Honolulu"
 msgstr "Тихи океан/Хонолулу"
 
-#: calendar/zones.h:359
+#: calendar/zones.h:363
 msgid "Pacific/Johnston"
 msgstr ""
 
-#: calendar/zones.h:360
+#: calendar/zones.h:364
 msgid "Pacific/Kiritimati"
 msgstr ""
 
-#: calendar/zones.h:361
+#: calendar/zones.h:365
 msgid "Pacific/Kosrae"
 msgstr ""
 
-#: calendar/zones.h:362
+#: calendar/zones.h:366
 msgid "Pacific/Kwajalein"
 msgstr ""
 
-#: calendar/zones.h:363
+#: calendar/zones.h:367
 msgid "Pacific/Majuro"
 msgstr ""
 
-#: calendar/zones.h:364
+#: calendar/zones.h:368
 msgid "Pacific/Marquesas"
 msgstr ""
 
-#: calendar/zones.h:365
+#: calendar/zones.h:369
 msgid "Pacific/Midway"
 msgstr ""
 
-#: calendar/zones.h:366
+#: calendar/zones.h:370
 msgid "Pacific/Nauru"
 msgstr "Тихи океан/Науру"
 
-#: calendar/zones.h:367
+#: calendar/zones.h:371
 msgid "Pacific/Niue"
 msgstr ""
 
-#: calendar/zones.h:368
+#: calendar/zones.h:372
 msgid "Pacific/Norfolk"
 msgstr "Тихи океан/Норфолк"
 
-#: calendar/zones.h:369
+#: calendar/zones.h:373
 msgid "Pacific/Noumea"
 msgstr ""
 
-#: calendar/zones.h:370
+#: calendar/zones.h:374
 msgid "Pacific/Pago_Pago"
 msgstr "Тихи океан/Пао Пао"
 
-#: calendar/zones.h:371
+#: calendar/zones.h:375
 msgid "Pacific/Palau"
 msgstr "Тихи океан/Палао"
 
-#: calendar/zones.h:372
+#: calendar/zones.h:376
 msgid "Pacific/Pitcairn"
 msgstr ""
 
-#: calendar/zones.h:373
+#: calendar/zones.h:377
 msgid "Pacific/Ponape"
 msgstr ""
 
-#: calendar/zones.h:374
+#: calendar/zones.h:378
 msgid "Pacific/Port_Moresby"
 msgstr ""
 
-#: calendar/zones.h:375
+#: calendar/zones.h:379
 msgid "Pacific/Rarotonga"
 msgstr ""
 
-#: calendar/zones.h:376
+#: calendar/zones.h:380
 msgid "Pacific/Saipan"
 msgstr ""
 
-#: calendar/zones.h:377
+#: calendar/zones.h:381
 msgid "Pacific/Tahiti"
 msgstr "Тихи океан/Таити"
 
-#: calendar/zones.h:378
+#: calendar/zones.h:382
 msgid "Pacific/Tarawa"
 msgstr "Тихи окаен/Тарава"
 
-#: calendar/zones.h:379
+#: calendar/zones.h:383
 msgid "Pacific/Tongatapu"
 msgstr ""
 
-#: calendar/zones.h:380
+#: calendar/zones.h:384
 msgid "Pacific/Truk"
 msgstr ""
 
-#: calendar/zones.h:381
+#: calendar/zones.h:385
 msgid "Pacific/Wake"
 msgstr ""
 
-#: calendar/zones.h:382
+#: calendar/zones.h:386
 msgid "Pacific/Wallis"
 msgstr ""
 
-#: calendar/zones.h:383
+#: calendar/zones.h:387
 msgid "Pacific/Yap"
 msgstr ""
 
-#: calendar/cal-util/cal-component.c:1207
+#: calendar/cal-util/cal-component.c:1221
 msgid "Untitled appointment"
 msgstr "Неназовани срещи"
 
@@ -4798,7 +4832,7 @@ msgid "Free"
 msgstr "Свободно"
 
 #: calendar/gui/calendar-model.c:605 calendar/gui/e-calendar-table.c:458
-#: calendar/gui/e-meeting-time-sel.c:435
+#: calendar/gui/e-meeting-time-sel.c:438
 #: shell/evolution-shell-component.c:1029
 msgid "Busy"
 msgstr "Заето"
@@ -4817,8 +4851,8 @@ msgstr "В Прогрес"
 
 #: calendar/gui/calendar-model.c:760 calendar/gui/calendar-model.c:1195
 #: calendar/gui/dialogs/task-details-page.glade.h:4
-#: calendar/gui/e-calendar-table.c:480 calendar/gui/e-meeting-model.c:326
-#: calendar/gui/e-meeting-model.c:349 calendar/gui/print.c:2273
+#: calendar/gui/e-calendar-table.c:480 calendar/gui/e-meeting-model.c:330
+#: calendar/gui/e-meeting-model.c:353 calendar/gui/print.c:2273
 msgid "Completed"
 msgstr "Приключено"
 
@@ -4833,7 +4867,7 @@ msgstr ""
 "45.436845,125.862501"
 
 #. An empty string is the same as 'None'.
-#: calendar/gui/calendar-model.c:1189 calendar/gui/dialogs/meeting-page.c:312
+#: calendar/gui/calendar-model.c:1189 calendar/gui/dialogs/meeting-page.c:309
 #: calendar/gui/dialogs/meeting-page.glade.h:1 mail/mail-account-gui.c:1485
 #: mail/mail-accounts.c:148 mail/mail-accounts.c:405
 #: mail/mail-config.glade.h:47
@@ -4851,14 +4885,14 @@ msgstr "Повтарям"
 msgid "Assigned"
 msgstr "Назначен"
 
-#: calendar/gui/calendar-model.c:1721 calendar/gui/e-meeting-model.c:298
-#: calendar/gui/e-meeting-model.c:308 calendar/gui/e-meeting-model.c:537
-#: calendar/gui/e-meeting-model.c:821
+#: calendar/gui/calendar-model.c:1721 calendar/gui/e-meeting-model.c:302
+#: calendar/gui/e-meeting-model.c:312 calendar/gui/e-meeting-model.c:560
+#: calendar/gui/e-meeting-model.c:848
 msgid "Yes"
 msgstr "Да"
 
-#: calendar/gui/calendar-model.c:1721 calendar/gui/e-meeting-model.c:310
-#: calendar/gui/e-meeting-model.c:822
+#: calendar/gui/calendar-model.c:1721 calendar/gui/e-meeting-model.c:314
+#: calendar/gui/e-meeting-model.c:849
 msgid "No"
 msgstr "Не"
 
@@ -5454,39 +5488,39 @@ msgstr " (Дължим"
 msgid "Due "
 msgstr "Дължим"
 
-#: calendar/gui/dialogs/comp-editor.c:303
+#: calendar/gui/dialogs/comp-editor.c:318
 msgid "Could not update object!"
 msgstr "Не мога да обновя обекта!"
 
-#: calendar/gui/dialogs/comp-editor.c:678
+#: calendar/gui/dialogs/comp-editor.c:750
 msgid "Edit Appointment"
 msgstr "Редактиране на Среща"
 
-#: calendar/gui/dialogs/comp-editor.c:683
+#: calendar/gui/dialogs/comp-editor.c:755
 #, c-format
 msgid "Appointment - %s"
 msgstr "Среща - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:686
+#: calendar/gui/dialogs/comp-editor.c:758
 #, c-format
 msgid "Task - %s"
 msgstr "Задача - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:689
+#: calendar/gui/dialogs/comp-editor.c:761
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Запис в дневник - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:703
+#: calendar/gui/dialogs/comp-editor.c:775
 msgid "No summary"
 msgstr "Няма резюме"
 
-#: calendar/gui/dialogs/comp-editor.c:1061 mail/mail-callbacks.c:1909
+#: calendar/gui/dialogs/comp-editor.c:1137 mail/mail-callbacks.c:1909
 #: mail/mail-display.c:102
 msgid "Overwrite file?"
 msgstr "Презаписване на файл?"
 
-#: calendar/gui/dialogs/comp-editor.c:1065 mail/mail-callbacks.c:1916
+#: calendar/gui/dialogs/comp-editor.c:1141 mail/mail-callbacks.c:1916
 #: mail/mail-display.c:106
 msgid ""
 "A file by that name already exists.\n"
@@ -5495,12 +5529,19 @@ msgstr ""
 "Файл със същото име вече съществува.\n"
 "Да го презапиша ли?"
 
-#: calendar/gui/dialogs/comp-editor.c:1111 ui/evolution-comp-editor.xml.h:13
+#: calendar/gui/dialogs/comp-editor.c:1187 ui/evolution-comp-editor.xml.h:13
 #: widgets/misc/e-filter-bar.h:101
 msgid "Save As..."
 msgstr "Съхрани Като..."
 
-#: calendar/gui/dialogs/comp-editor.c:1272
+#: calendar/gui/dialogs/comp-editor.c:1281
+#: calendar/gui/dialogs/comp-editor.c:1316
+#: calendar/gui/dialogs/comp-editor.c:1340
+msgid ""
+"Changes made to this item may be discarded if an update arrives via email"
+msgstr ""
+
+#: calendar/gui/dialogs/comp-editor.c:1367
 msgid "Unable to obtain current version!"
 msgstr "Не мога да получа текущата версия!"
 
@@ -5558,27 +5599,27 @@ msgstr "Делегира На:"
 msgid "Enter Delegate"
 msgstr "Въведете Делегата"
 
-#: calendar/gui/dialogs/event-editor.c:185 calendar/gui/print.c:2224
+#: calendar/gui/dialogs/event-editor.c:189 calendar/gui/print.c:2224
 msgid "Appointment"
 msgstr "Среща"
 
-#: calendar/gui/dialogs/event-editor.c:190
+#: calendar/gui/dialogs/event-editor.c:194
 msgid "Reminder"
 msgstr "Напомня"
 
-#: calendar/gui/dialogs/event-editor.c:195
+#: calendar/gui/dialogs/event-editor.c:199
 msgid "Recurrence"
 msgstr "Повторение"
 
-#: calendar/gui/dialogs/event-editor.c:202
-#: calendar/gui/dialogs/event-editor.c:260
-#: calendar/gui/dialogs/event-editor.c:366
+#: calendar/gui/dialogs/event-editor.c:206
+#: calendar/gui/dialogs/event-editor.c:272
+#: calendar/gui/dialogs/event-editor.c:397
 msgid "Scheduling"
 msgstr "Разпределение"
 
-#: calendar/gui/dialogs/event-editor.c:207
-#: calendar/gui/dialogs/event-editor.c:263
-#: calendar/gui/dialogs/event-editor.c:369
+#: calendar/gui/dialogs/event-editor.c:211
+#: calendar/gui/dialogs/event-editor.c:275
+#: calendar/gui/dialogs/event-editor.c:400
 msgid "Meeting"
 msgstr "Среща"
 
@@ -5647,19 +5688,19 @@ msgstr "Край:"
 msgid "_Start time:"
 msgstr "Начало:"
 
-#: calendar/gui/dialogs/meeting-page.c:425
+#: calendar/gui/dialogs/meeting-page.c:413
 msgid "An organizer is required."
 msgstr "Необходим е организатор."
 
-#: calendar/gui/dialogs/meeting-page.c:446
+#: calendar/gui/dialogs/meeting-page.c:437
 msgid "At least one attendee is required."
 msgstr "Необходим е поне един участник."
 
-#: calendar/gui/dialogs/meeting-page.c:626
+#: calendar/gui/dialogs/meeting-page.c:593
 msgid "That person is already attending the meeting!"
 msgstr "Това лице вече е на срещата!"
 
-#: calendar/gui/dialogs/meeting-page.c:701
+#: calendar/gui/dialogs/meeting-page.c:668
 msgid "_Delegate To..."
 msgstr "_Делегира На.."
 
@@ -5733,13 +5774,9 @@ msgid "_Change Organizer"
 msgstr "_Смяна на организатор"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:4
-#: calendar/gui/e-meeting-time-sel.c:453
+#: calendar/gui/e-meeting-time-sel.c:456
 msgid "_Invite Others..."
 msgstr "_Други Поканени..."
-
-#: calendar/gui/dialogs/meeting-page.glade.h:5
-msgid "_Other Organizer"
-msgstr "Др_уг Организатор"
 
 #: calendar/gui/dialogs/recurrence-page.c:571
 msgid "This appointment contains recurrences that Evolution cannot edit."
@@ -5864,9 +5901,9 @@ msgstr "_Приоритет:"
 msgid "_Status:"
 msgstr "_Статус:"
 
-#: calendar/gui/dialogs/task-editor.c:190
-#: calendar/gui/dialogs/task-editor.c:227
-#: calendar/gui/dialogs/task-editor.c:325
+#: calendar/gui/dialogs/task-editor.c:194
+#: calendar/gui/dialogs/task-editor.c:238
+#: calendar/gui/dialogs/task-editor.c:354
 msgid "Assignment"
 msgstr "Задача"
 
@@ -6196,27 +6233,27 @@ msgstr "<i>Без</i>"
 msgid "Status:"
 msgstr "_Статус:"
 
-#: calendar/gui/e-itip-control.c:786 calendar/gui/e-meeting-model.c:318
-#: calendar/gui/e-meeting-model.c:341 calendar/gui/e-meeting-model.c:835
-#: calendar/gui/itip-utils.c:323
+#: calendar/gui/e-itip-control.c:786 calendar/gui/e-meeting-model.c:322
+#: calendar/gui/e-meeting-model.c:345 calendar/gui/e-meeting-model.c:862
+#: calendar/gui/itip-utils.c:382
 msgid "Accepted"
 msgstr "Приет"
 
-#: calendar/gui/e-itip-control.c:790 calendar/gui/itip-utils.c:326
+#: calendar/gui/e-itip-control.c:790 calendar/gui/itip-utils.c:385
 #, fuzzy
 msgid "Tentatively Accepted"
 msgstr "Временно приема"
 
-#: calendar/gui/e-itip-control.c:794 calendar/gui/e-meeting-model.c:320
-#: calendar/gui/e-meeting-model.c:343 calendar/gui/e-meeting-model.c:836
-#: calendar/gui/itip-utils.c:329 calendar/gui/itip-utils.c:355
+#: calendar/gui/e-itip-control.c:794 calendar/gui/e-meeting-model.c:324
+#: calendar/gui/e-meeting-model.c:347 calendar/gui/e-meeting-model.c:863
+#: calendar/gui/itip-utils.c:388 calendar/gui/itip-utils.c:414
 msgid "Declined"
 msgstr "Отказан"
 
 #: calendar/gui/e-itip-control.c:798 calendar/gui/e-itip-control.c:997
-#: calendar/gui/e-itip-control.c:1068 calendar/gui/e-meeting-model.c:254
-#: calendar/gui/e-meeting-model.c:289 calendar/gui/e-meeting-model.c:354
-#: calendar/gui/e-meeting-model.c:793 calendar/gui/e-meeting-model.c:809
+#: calendar/gui/e-itip-control.c:1068 calendar/gui/e-meeting-model.c:258
+#: calendar/gui/e-meeting-model.c:293 calendar/gui/e-meeting-model.c:358
+#: calendar/gui/e-meeting-model.c:820 calendar/gui/e-meeting-model.c:836
 #: camel/providers/smtp/camel-smtp-transport.c:170
 #: camel/providers/smtp/camel-smtp-transport.c:225
 #: widgets/misc/e-charset-picker.c:57 widgets/misc/e-charset-picker.c:439
@@ -6264,7 +6301,7 @@ msgstr "Обновява статуса на отговарящият"
 msgid "Send Latest Information"
 msgstr "Изпраща Последната Информация"
 
-#: calendar/gui/e-itip-control.c:916 calendar/gui/itip-utils.c:343
+#: calendar/gui/e-itip-control.c:916 calendar/gui/itip-utils.c:402
 #: ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Прекръсва"
@@ -6450,31 +6487,31 @@ msgstr "Обновяването приключено\n"
 msgid "This response is not from a currentattendee.  Add as an attendee?"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1459
+#: calendar/gui/e-itip-control.c:1458
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1472
+#: calendar/gui/e-itip-control.c:1471
 msgid "Attendee status could not be updated!\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1474
+#: calendar/gui/e-itip-control.c:1473
 msgid "Attendee status updated\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1476
+#: calendar/gui/e-itip-control.c:1475
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1504
+#: calendar/gui/e-itip-control.c:1503
 msgid "Removal Complete"
 msgstr "Преместването Приключено"
 
-#: calendar/gui/e-itip-control.c:1534 calendar/gui/e-itip-control.c:1584
+#: calendar/gui/e-itip-control.c:1533 calendar/gui/e-itip-control.c:1583
 msgid "Item sent!\n"
 msgstr "Обекта изпратен!\n"
 
-#: calendar/gui/e-itip-control.c:1536 calendar/gui/e-itip-control.c:1588
+#: calendar/gui/e-itip-control.c:1535 calendar/gui/e-itip-control.c:1587
 msgid "The item could not be sent!\n"
 msgstr "Обекта не може да бъде изпратен!\n"
 
@@ -6515,92 +6552,92 @@ msgstr "крайна дата"
 msgid "date-start"
 msgstr "начална дата"
 
-#: calendar/gui/e-meeting-model.c:81
+#: calendar/gui/e-meeting-model.c:84
 msgid "Chair Persons"
 msgstr "Председателствуващ"
 
-#: calendar/gui/e-meeting-model.c:82 calendar/gui/e-meeting-model.c:1652
+#: calendar/gui/e-meeting-model.c:85 calendar/gui/e-meeting-model.c:1750
 msgid "Required Participants"
 msgstr "Членове"
 
-#: calendar/gui/e-meeting-model.c:83
+#: calendar/gui/e-meeting-model.c:86
 msgid "Optional Participants"
 msgstr "Допълнителни Членове"
 
-#: calendar/gui/e-meeting-model.c:84
+#: calendar/gui/e-meeting-model.c:87
 msgid "Non-Participants"
 msgstr "Не Участници"
 
-#: calendar/gui/e-meeting-model.c:229 calendar/gui/e-meeting-model.c:246
-#: calendar/gui/e-meeting-model.c:533 calendar/gui/e-meeting-model.c:789
+#: calendar/gui/e-meeting-model.c:233 calendar/gui/e-meeting-model.c:250
+#: calendar/gui/e-meeting-model.c:556 calendar/gui/e-meeting-model.c:816
 msgid "Individual"
 msgstr "Индивидуално"
 
-#: calendar/gui/e-meeting-model.c:231 calendar/gui/e-meeting-model.c:248
-#: calendar/gui/e-meeting-model.c:790
+#: calendar/gui/e-meeting-model.c:235 calendar/gui/e-meeting-model.c:252
+#: calendar/gui/e-meeting-model.c:817
 msgid "Group"
 msgstr "Група"
 
-#: calendar/gui/e-meeting-model.c:233 calendar/gui/e-meeting-model.c:250
-#: calendar/gui/e-meeting-model.c:791
+#: calendar/gui/e-meeting-model.c:237 calendar/gui/e-meeting-model.c:254
+#: calendar/gui/e-meeting-model.c:818
 msgid "Resource"
 msgstr "Ресурс"
 
-#: calendar/gui/e-meeting-model.c:235 calendar/gui/e-meeting-model.c:252
-#: calendar/gui/e-meeting-model.c:792
+#: calendar/gui/e-meeting-model.c:239 calendar/gui/e-meeting-model.c:256
+#: calendar/gui/e-meeting-model.c:819
 msgid "Room"
 msgstr "Помещение"
 
-#: calendar/gui/e-meeting-model.c:264 calendar/gui/e-meeting-model.c:281
-#: calendar/gui/e-meeting-model.c:805
+#: calendar/gui/e-meeting-model.c:268 calendar/gui/e-meeting-model.c:285
+#: calendar/gui/e-meeting-model.c:832
 msgid "Chair"
 msgstr "Председателствуващ"
 
-#: calendar/gui/e-meeting-model.c:266 calendar/gui/e-meeting-model.c:283
-#: calendar/gui/e-meeting-model.c:535 calendar/gui/e-meeting-model.c:806
+#: calendar/gui/e-meeting-model.c:270 calendar/gui/e-meeting-model.c:287
+#: calendar/gui/e-meeting-model.c:558 calendar/gui/e-meeting-model.c:833
 msgid "Required Participant"
 msgstr "Заявен Участник"
 
-#: calendar/gui/e-meeting-model.c:268 calendar/gui/e-meeting-model.c:285
-#: calendar/gui/e-meeting-model.c:807
+#: calendar/gui/e-meeting-model.c:272 calendar/gui/e-meeting-model.c:289
+#: calendar/gui/e-meeting-model.c:834
 msgid "Optional Participant"
 msgstr "Допълнителен Участник"
 
-#: calendar/gui/e-meeting-model.c:270 calendar/gui/e-meeting-model.c:287
-#: calendar/gui/e-meeting-model.c:808
+#: calendar/gui/e-meeting-model.c:274 calendar/gui/e-meeting-model.c:291
+#: calendar/gui/e-meeting-model.c:835
 msgid "Non-Participant"
 msgstr "Не Участник"
 
-#: calendar/gui/e-meeting-model.c:316 calendar/gui/e-meeting-model.c:339
-#: calendar/gui/e-meeting-model.c:543 calendar/gui/e-meeting-model.c:834
+#: calendar/gui/e-meeting-model.c:320 calendar/gui/e-meeting-model.c:343
+#: calendar/gui/e-meeting-model.c:566 calendar/gui/e-meeting-model.c:861
 msgid "Needs Action"
 msgstr "Необходими Действия"
 
-#: calendar/gui/e-meeting-model.c:322 calendar/gui/e-meeting-model.c:345
-#: calendar/gui/e-meeting-model.c:837 calendar/gui/e-meeting-time-sel.c:434
+#: calendar/gui/e-meeting-model.c:326 calendar/gui/e-meeting-model.c:349
+#: calendar/gui/e-meeting-model.c:864 calendar/gui/e-meeting-time-sel.c:437
 msgid "Tentative"
 msgstr "Пробен"
 
-#: calendar/gui/e-meeting-model.c:324 calendar/gui/e-meeting-model.c:347
-#: calendar/gui/e-meeting-model.c:838
+#: calendar/gui/e-meeting-model.c:328 calendar/gui/e-meeting-model.c:351
+#: calendar/gui/e-meeting-model.c:865
 msgid "Delegated"
 msgstr "Делегиран"
 
-#: calendar/gui/e-meeting-model.c:328 calendar/gui/e-meeting-model.c:351
+#: calendar/gui/e-meeting-model.c:332 calendar/gui/e-meeting-model.c:355
 msgid "In Process"
 msgstr "В Прогрес"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:475
-#: calendar/gui/e-meeting-time-sel.c:2088
+#: calendar/gui/e-meeting-time-sel.c:2107
 msgid "%A, %B %d, %Y"
 msgstr "%A, %B %d, %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:479
-#: calendar/gui/e-meeting-time-sel.c:2118 e-util/e-time-utils.c:186
+#: calendar/gui/e-meeting-time-sel.c:2137 e-util/e-time-utils.c:186
 #: e-util/e-time-utils.c:276 e-util/e-time-utils.c:348
 msgid "%a %m/%d/%Y"
 msgstr "%a %m/%d/%Y"
@@ -6612,63 +6649,63 @@ msgstr "%a %m/%d/%Y"
 msgid "%m/%d/%Y"
 msgstr "%m/%d/%Y"
 
-#: calendar/gui/e-meeting-time-sel.c:436
+#: calendar/gui/e-meeting-time-sel.c:439
 msgid "Out of Office"
 msgstr "Извън Офиса"
 
-#: calendar/gui/e-meeting-time-sel.c:437
+#: calendar/gui/e-meeting-time-sel.c:440
 msgid "No Information"
 msgstr "Няма Информация"
 
-#: calendar/gui/e-meeting-time-sel.c:473
+#: calendar/gui/e-meeting-time-sel.c:478
 msgid "_Options"
 msgstr "_Опций"
 
-#: calendar/gui/e-meeting-time-sel.c:490
+#: calendar/gui/e-meeting-time-sel.c:495
 msgid "Show _Only Working Hours"
 msgstr "Показ_ва само работните часове"
 
-#: calendar/gui/e-meeting-time-sel.c:503
+#: calendar/gui/e-meeting-time-sel.c:508
 msgid "Show _Zoomed Out"
 msgstr "Показва _Намаление"
 
-#: calendar/gui/e-meeting-time-sel.c:521
+#: calendar/gui/e-meeting-time-sel.c:526
 msgid "_Update Free/Busy"
 msgstr "_Обновява Свободен/Зает"
 
-#: calendar/gui/e-meeting-time-sel.c:539
+#: calendar/gui/e-meeting-time-sel.c:544
 msgid "_<<"
 msgstr "_<<"
 
-#: calendar/gui/e-meeting-time-sel.c:556
+#: calendar/gui/e-meeting-time-sel.c:561
 msgid "_Autopick"
 msgstr "_Автизбиране"
 
-#: calendar/gui/e-meeting-time-sel.c:570
+#: calendar/gui/e-meeting-time-sel.c:575
 msgid ">_>"
 msgstr ">_>"
 
-#: calendar/gui/e-meeting-time-sel.c:587
+#: calendar/gui/e-meeting-time-sel.c:592
 msgid "_All People and Resources"
 msgstr "_Всички Хора и Ресурси"
 
-#: calendar/gui/e-meeting-time-sel.c:600
+#: calendar/gui/e-meeting-time-sel.c:605
 msgid "All _People and One Resource"
 msgstr "Вси_чки Хора и Един Ресурс"
 
-#: calendar/gui/e-meeting-time-sel.c:613
+#: calendar/gui/e-meeting-time-sel.c:618
 msgid "_Required People"
 msgstr "_Заявени Хора"
 
-#: calendar/gui/e-meeting-time-sel.c:626
+#: calendar/gui/e-meeting-time-sel.c:631
 msgid "Required People and _One Resource"
 msgstr "Ьаявени Хора и _Един Ресурс"
 
-#: calendar/gui/e-meeting-time-sel.c:649
+#: calendar/gui/e-meeting-time-sel.c:654
 msgid "Meeting _start time:"
 msgstr "Начяло на срещата:"
 
-#: calendar/gui/e-meeting-time-sel.c:668
+#: calendar/gui/e-meeting-time-sel.c:673
 msgid "Meeting _end time:"
 msgstr "Край на срещата:"
 
@@ -6691,17 +6728,17 @@ msgstr "Метода заявен за зареждане на `%s' не се подържа"
 msgid "New _Appointment..."
 msgstr "Нова _Среща..."
 
-#: calendar/gui/gnome-cal.c:1499
+#: calendar/gui/gnome-cal.c:1500
 #, c-format
 msgid "Could not open the folder in `%s'"
 msgstr "Не мога да отворя папка в `%s'"
 
-#: calendar/gui/gnome-cal.c:1510
+#: calendar/gui/gnome-cal.c:1511
 #, c-format
 msgid "The method required to open `%s' is not supported"
 msgstr "Метода заявен за отваряне на `%s' не се подържа"
 
-#: calendar/gui/gnome-cal.c:1872
+#: calendar/gui/gnome-cal.c:1876
 #, c-format
 msgid "Opening calendar at %s"
 msgstr "Отвори календар в %s"
@@ -6762,49 +6799,49 @@ msgstr "Октомври"
 msgid "September"
 msgstr "Септември"
 
-#: calendar/gui/itip-utils.c:220
+#: calendar/gui/itip-utils.c:280
 msgid "At least one attendee is necessary"
 msgstr "Необходим е поне един участник."
 
-#: calendar/gui/itip-utils.c:251
+#: calendar/gui/itip-utils.c:311
 msgid "An organizer must be set."
 msgstr "Трябва да бъде зададен организатор."
 
-#: calendar/gui/itip-utils.c:295
+#: calendar/gui/itip-utils.c:354
 msgid "Event information"
 msgstr "Информация за събитие"
 
-#: calendar/gui/itip-utils.c:297
+#: calendar/gui/itip-utils.c:356
 msgid "Task information"
 msgstr "Информация за задача"
 
-#: calendar/gui/itip-utils.c:299
+#: calendar/gui/itip-utils.c:358
 msgid "Journal information"
 msgstr "Информация за дневник"
 
-#: calendar/gui/itip-utils.c:301
+#: calendar/gui/itip-utils.c:360
 msgid "Free/Busy information"
 msgstr "Информация Свободен/Зает"
 
-#: calendar/gui/itip-utils.c:303
+#: calendar/gui/itip-utils.c:362
 msgid "Calendar information"
 msgstr "Календарна информация"
 
-#: calendar/gui/itip-utils.c:339
+#: calendar/gui/itip-utils.c:398
 #, fuzzy
 msgid "Updated"
 msgstr "Обновява"
 
-#: calendar/gui/itip-utils.c:347
+#: calendar/gui/itip-utils.c:406
 #, fuzzy
 msgid "Refresh"
 msgstr "Освежава Списък"
 
-#: calendar/gui/itip-utils.c:351
+#: calendar/gui/itip-utils.c:410
 msgid "Counter-proposal"
 msgstr ""
 
-#: calendar/gui/itip-utils.c:617
+#: calendar/gui/itip-utils.c:660
 msgid "You must be an attendee of the event."
 msgstr "Вие трябва да сте участни на събирието."
 
@@ -25627,6 +25664,9 @@ msgstr "init_corba(): не мога да инициализирам GNOME"
 #: wombat/wombat.c:225
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): не мога да инициализирам Bonobo"
+
+#~ msgid "_Other Organizer"
+#~ msgstr "Др_уг Организатор"
 
 #~ msgid "Name contains"
 #~ msgstr "Името съдържа"

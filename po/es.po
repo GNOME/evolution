@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0.2\n"
-"POT-Creation-Date: 2002-06-07 14:00-0400\n"
+"POT-Creation-Date: 2002-06-19 17:07-0400\n"
 "PO-Revision-Date: 2002-02-23 12:00+0100\n"
 "Last-Translator: Héctor García Álvarez <hector@scouts-es.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
@@ -640,7 +640,7 @@ msgid "Could not initialize Bonobo"
 msgstr "No se puede inicializar Bonobo"
 
 #: addressbook/backend/pas/pas-backend-file.c:259
-#: addressbook/backend/pas/pas-backend-ldap.c:2394
+#: addressbook/backend/pas/pas-backend-ldap.c:2420
 msgid "Searching..."
 msgstr "Buscando..."
 
@@ -653,35 +653,35 @@ msgstr "Cargando..."
 msgid "Error in search expression."
 msgstr "Error buscando la expresión."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:522
+#: addressbook/backend/pas/pas-backend-ldap.c:533
 msgid "Connecting to LDAP server..."
 msgstr "Conectando al servidor LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:532
+#: addressbook/backend/pas/pas-backend-ldap.c:543
 msgid "Unable to connect to LDAP server."
 msgstr "No pude conectarme al servidor LDAP."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:548
+#: addressbook/backend/pas/pas-backend-ldap.c:559
 msgid "Waiting for connection to LDAP server..."
 msgstr "Esperando la conexión al servidor LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:974
+#: addressbook/backend/pas/pas-backend-ldap.c:985
 msgid "Adding card to LDAP server..."
 msgstr "Añadiendo tarjeta al servidor LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1075
+#: addressbook/backend/pas/pas-backend-ldap.c:1090
 msgid "Removing card from LDAP server..."
 msgstr "Eliminando tarjeta del servidor LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1185
+#: addressbook/backend/pas/pas-backend-ldap.c:1204
 msgid "Modifying card from LDAP server..."
 msgstr "Modificando tarjeta del servidor LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2311
+#: addressbook/backend/pas/pas-backend-ldap.c:2337
 msgid "Receiving LDAP search results..."
 msgstr "Recibiendo los resultados de la búsqueda LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2317
+#: addressbook/backend/pas/pas-backend-ldap.c:2343
 msgid "Restarting search."
 msgstr "Reiniciando búsqueda."
 
@@ -822,7 +822,7 @@ msgstr "Base"
 # #-#-#-#-#  nautilus-es.po (Nautilus)  #-#-#-#-#
 # src/file-manager/fm-properties-window.c:1031
 #: addressbook/gui/component/addressbook-config.glade.h:8
-#: calendar/gui/dialogs/task-editor.c:178
+#: calendar/gui/dialogs/task-editor.c:182
 msgid "Basic"
 msgstr "Básico"
 
@@ -1260,7 +1260,7 @@ msgid "D_epartment:"
 msgstr "_Departamento:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:12
-#: calendar/gui/dialogs/task-editor.c:183
+#: calendar/gui/dialogs/task-editor.c:187
 msgid "Details"
 msgstr "Detalles"
 
@@ -1324,7 +1324,7 @@ msgstr "Prefiere recibir el correo como _HTML"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:31
 #: calendar/gui/dialogs/alarm-page.glade.h:9
-#: calendar/gui/dialogs/meeting-page.c:707 filter/filter.glade.h:8
+#: calendar/gui/dialogs/meeting-page.c:674 filter/filter.glade.h:8
 #: mail/folder-browser.c:1468 mail/mail-config.glade.h:96
 #: ui/evolution-calendar.xml.h:38 ui/evolution-mail-message.xml.h:95
 #: ui/evolution-tasks.xml.h:15 ui/evolution.xml.h:35
@@ -1383,7 +1383,7 @@ msgstr "Guardar contacto como VCard"
 msgid "TTY/TDD"
 msgstr "TTY/TDD"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2287
+#: addressbook/gui/contact-editor/e-contact-editor.c:2286
 #, c-format
 msgid "Could not find widget for a field: `%s'"
 msgstr "No pude encontrar el widget para el campo: `%s'"
@@ -1410,11 +1410,11 @@ msgstr "Correo electrónico"
 msgid "card.vcf"
 msgstr "tarjeta.vcf"
 
-#: addressbook/gui/contact-editor/e-contact-save-as.c:170
+#: addressbook/gui/contact-editor/e-contact-save-as.c:177
 msgid "list"
 msgstr "lista"
 
-#: addressbook/gui/contact-editor/e-contact-save-as.c:201
+#: addressbook/gui/contact-editor/e-contact-save-as.c:215
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -2879,13 +2879,27 @@ msgstr "y una tarjeta más."
 msgid "Save in addressbook"
 msgstr "Guardar en la agenda de direcciones"
 
-#: addressbook/gui/widgets/e-minicard-view.c:150
+#: addressbook/gui/widgets/e-minicard-view.c:156
+#, fuzzy
 msgid ""
 "\n"
 "\n"
-"There are no items to show in this view\n"
+"There are no items to show in this view.\n"
 "\n"
 "Double-click here to create a new Contact."
+msgstr ""
+"\n"
+"\n"
+"No hay elementos para mostrar en esta vista\n"
+"\n"
+"Pulse dos veces aquí para crear un nuevo contacto."
+
+#: addressbook/gui/widgets/e-minicard-view.c:159
+#, fuzzy
+msgid ""
+"\n"
+"\n"
+"There are no items to show in this view."
 msgstr ""
 "\n"
 "\n"
@@ -3984,622 +3998,642 @@ msgid "Asia/Macao"
 msgstr "Asia/Macao"
 
 #: calendar/zones.h:230
+#, fuzzy
+msgid "Asia/Macau"
+msgstr "Asia/Macao"
+
+#: calendar/zones.h:231
 msgid "Asia/Magadan"
 msgstr "Asia/Magadan"
 
-#: calendar/zones.h:231
+#: calendar/zones.h:232
+#, fuzzy
+msgid "Asia/Makassar"
+msgstr "Asia/Magadan"
+
+#: calendar/zones.h:233
 msgid "Asia/Manila"
 msgstr "Asia/Manila"
 
-#: calendar/zones.h:232
+#: calendar/zones.h:234
 msgid "Asia/Muscat"
 msgstr "Asia/Muscat"
 
-#: calendar/zones.h:233
+#: calendar/zones.h:235
 msgid "Asia/Nicosia"
 msgstr "Asia/Nicosia"
 
-#: calendar/zones.h:234
+#: calendar/zones.h:236
 msgid "Asia/Novosibirsk"
 msgstr "Asia/Novosibirsk"
 
-#: calendar/zones.h:235
+#: calendar/zones.h:237
 msgid "Asia/Omsk"
 msgstr "Asia/Omsk"
 
-#: calendar/zones.h:236
+#: calendar/zones.h:238
+#, fuzzy
+msgid "Asia/Oral"
+msgstr "Asia/Kabul"
+
+#: calendar/zones.h:239
 msgid "Asia/Phnom_Penh"
 msgstr "Asia/Phnom_Penh"
 
-#: calendar/zones.h:237
+#: calendar/zones.h:240
 msgid "Asia/Pontianak"
 msgstr "Asia/Pontianak"
 
-#: calendar/zones.h:238
+#: calendar/zones.h:241
 msgid "Asia/Pyongyang"
 msgstr "Asia/Pyongyang"
 
-#: calendar/zones.h:239
+#: calendar/zones.h:242
 msgid "Asia/Qatar"
 msgstr "Asia/Qatar"
 
-#: calendar/zones.h:240
+#: calendar/zones.h:243
+#, fuzzy
+msgid "Asia/Qyzylorda"
+msgstr "Asia/Gaza"
+
+#: calendar/zones.h:244
 msgid "Asia/Rangoon"
 msgstr "Asia/Rangoon"
 
-#: calendar/zones.h:241
+#: calendar/zones.h:245
 msgid "Asia/Riyadh"
 msgstr "Asia/Riyadh"
 
-#: calendar/zones.h:242
+#: calendar/zones.h:246
 msgid "Asia/Saigon"
 msgstr "Asia/Saigon"
 
-#: calendar/zones.h:243
+#: calendar/zones.h:247
 msgid "Asia/Sakhalin"
 msgstr "Asia/Sakhalin"
 
-#: calendar/zones.h:244
+#: calendar/zones.h:248
 msgid "Asia/Samarkand"
 msgstr "Asia/Samarkand"
 
-#: calendar/zones.h:245
+#: calendar/zones.h:249
 msgid "Asia/Seoul"
 msgstr "Asia/Seoul"
 
-#: calendar/zones.h:246
+#: calendar/zones.h:250
 msgid "Asia/Shanghai"
 msgstr "Asia/Shanghai"
 
-#: calendar/zones.h:247
+#: calendar/zones.h:251
 msgid "Asia/Singapore"
 msgstr "Asia/Singapur"
 
-#: calendar/zones.h:248
+#: calendar/zones.h:252
 msgid "Asia/Taipei"
 msgstr "Asia/Taipei"
 
-#: calendar/zones.h:249
+#: calendar/zones.h:253
 msgid "Asia/Tashkent"
 msgstr "Asia/Tashkent"
 
-#: calendar/zones.h:250
+#: calendar/zones.h:254
 msgid "Asia/Tbilisi"
 msgstr "Asia/Tbilisi"
 
-#: calendar/zones.h:251
+#: calendar/zones.h:255
 msgid "Asia/Tehran"
 msgstr "Asia/Tehran"
 
-#: calendar/zones.h:252
+#: calendar/zones.h:256
 msgid "Asia/Thimphu"
 msgstr "Asia/Thimphu"
 
-#: calendar/zones.h:253
+#: calendar/zones.h:257
 msgid "Asia/Tokyo"
 msgstr "Asia/Tokyo"
 
-#: calendar/zones.h:254
+#: calendar/zones.h:258
 msgid "Asia/Ujung_Pandang"
 msgstr "Asia/Ujung_Pandang"
 
-#: calendar/zones.h:255
+#: calendar/zones.h:259
 msgid "Asia/Ulaanbaatar"
 msgstr "Asia/Ulaanbaatar"
 
-#: calendar/zones.h:256
+#: calendar/zones.h:260
 msgid "Asia/Urumqi"
 msgstr "Asia/Urumqi"
 
-#: calendar/zones.h:257
+#: calendar/zones.h:261
 msgid "Asia/Vientiane"
 msgstr "Asia/Vientiane"
 
-#: calendar/zones.h:258
+#: calendar/zones.h:262
 msgid "Asia/Vladivostok"
 msgstr "Asia/Vladivostok"
 
-#: calendar/zones.h:259
+#: calendar/zones.h:263
 msgid "Asia/Yakutsk"
 msgstr "Asia/Yakutsk"
 
-#: calendar/zones.h:260
+#: calendar/zones.h:264
 msgid "Asia/Yekaterinburg"
 msgstr "Asia/Yekaterinburg"
 
-#: calendar/zones.h:261
+#: calendar/zones.h:265
 msgid "Asia/Yerevan"
 msgstr "Asia/Yerevan"
 
-#: calendar/zones.h:262
+#: calendar/zones.h:266
 msgid "Atlantic/Azores"
 msgstr "Atlantico/Azores"
 
-#: calendar/zones.h:263
+#: calendar/zones.h:267
 msgid "Atlantic/Bermuda"
 msgstr "Atlántico/Bermudas"
 
-#: calendar/zones.h:264
+#: calendar/zones.h:268
 msgid "Atlantic/Canary"
 msgstr "Atlantico/Canarias"
 
-#: calendar/zones.h:265
+#: calendar/zones.h:269
 msgid "Atlantic/Cape_Verde"
 msgstr "Atlántico/Cabo Verde"
 
-#: calendar/zones.h:266
+#: calendar/zones.h:270
 msgid "Atlantic/Faeroe"
 msgstr "Atlantico/Feroe"
 
-#: calendar/zones.h:267
+#: calendar/zones.h:271
 msgid "Atlantic/Jan_Mayen"
 msgstr "Atlantico/Jan_Mayen"
 
-#: calendar/zones.h:268
+#: calendar/zones.h:272
 msgid "Atlantic/Madeira"
 msgstr "Atlantico/Madeira"
 
-#: calendar/zones.h:269
+#: calendar/zones.h:273
 msgid "Atlantic/Reykjavik"
 msgstr "Atlantico/Reykjavik"
 
-#: calendar/zones.h:270
+#: calendar/zones.h:274
 msgid "Atlantic/South_Georgia"
 msgstr "Atlantico/South_Georgia"
 
-#: calendar/zones.h:271
+#: calendar/zones.h:275
 msgid "Atlantic/St_Helena"
 msgstr "Atlantico/St_Helena"
 
-#: calendar/zones.h:272
+#: calendar/zones.h:276
 msgid "Atlantic/Stanley"
 msgstr "Atlantico/Stanley"
 
-#: calendar/zones.h:273
+#: calendar/zones.h:277
 msgid "Australia/Adelaide"
 msgstr "Australia/Adelaida"
 
-#: calendar/zones.h:274
+#: calendar/zones.h:278
 msgid "Australia/Brisbane"
 msgstr "Australia/Brisbane"
 
-#: calendar/zones.h:275
+#: calendar/zones.h:279
 msgid "Australia/Broken_Hill"
 msgstr "Australia/Broken Hill"
 
-#: calendar/zones.h:276
+#: calendar/zones.h:280
 msgid "Australia/Darwin"
 msgstr "Australia/Darwin"
 
-#: calendar/zones.h:277
+#: calendar/zones.h:281
 msgid "Australia/Hobart"
 msgstr "Australia/Hobart"
 
-#: calendar/zones.h:278
+#: calendar/zones.h:282
 msgid "Australia/Lindeman"
 msgstr "Australia/Lindeman"
 
-#: calendar/zones.h:279
+#: calendar/zones.h:283
 msgid "Australia/Lord_Howe"
 msgstr "Australia/Lord_Howe"
 
-#: calendar/zones.h:280
+#: calendar/zones.h:284
 msgid "Australia/Melbourne"
 msgstr "Australia/Melbourne"
 
-#: calendar/zones.h:281
+#: calendar/zones.h:285
 msgid "Australia/Perth"
 msgstr "Australia/Perth"
 
-#: calendar/zones.h:282
+#: calendar/zones.h:286
 msgid "Australia/Sydney"
 msgstr "Australia/Sydney"
 
-#: calendar/zones.h:283
+#: calendar/zones.h:287
 msgid "Europe/Amsterdam"
 msgstr "Europa/Amsterdam"
 
-#: calendar/zones.h:284
+#: calendar/zones.h:288
 msgid "Europe/Andorra"
 msgstr "Europa/Andorra"
 
-#: calendar/zones.h:285
+#: calendar/zones.h:289
 msgid "Europe/Athens"
 msgstr "Europa/Atenas"
 
-#: calendar/zones.h:286
+#: calendar/zones.h:290
 msgid "Europe/Belfast"
 msgstr "Europa/Belfast"
 
-#: calendar/zones.h:287
+#: calendar/zones.h:291
 msgid "Europe/Belgrade"
 msgstr "Europa/Belgrado"
 
-#: calendar/zones.h:288
+#: calendar/zones.h:292
 msgid "Europe/Berlin"
 msgstr "Europa/Berlín"
 
-#: calendar/zones.h:289
+#: calendar/zones.h:293
 msgid "Europe/Bratislava"
 msgstr "Europa/Bratislava"
 
-#: calendar/zones.h:290
+#: calendar/zones.h:294
 msgid "Europe/Brussels"
 msgstr "Europa/Bruselas"
 
-#: calendar/zones.h:291
+#: calendar/zones.h:295
 msgid "Europe/Bucharest"
 msgstr "Europa/Bucarest"
 
-#: calendar/zones.h:292
+#: calendar/zones.h:296
 msgid "Europe/Budapest"
 msgstr "Europa/Budapest"
 
-#: calendar/zones.h:293
+#: calendar/zones.h:297
 msgid "Europe/Chisinau"
 msgstr "Europa/Chisinau"
 
-#: calendar/zones.h:294
+#: calendar/zones.h:298
 msgid "Europe/Copenhagen"
 msgstr ""
 
-#: calendar/zones.h:295
+#: calendar/zones.h:299
 msgid "Europe/Dublin"
 msgstr "Europa/Dublín"
 
-#: calendar/zones.h:296
+#: calendar/zones.h:300
 msgid "Europe/Gibraltar"
 msgstr "Europa/Gibraltar"
 
-#: calendar/zones.h:297
+#: calendar/zones.h:301
 msgid "Europe/Helsinki"
 msgstr "Europa/Helsinki"
 
-#: calendar/zones.h:298
+#: calendar/zones.h:302
 msgid "Europe/Istanbul"
 msgstr "Europa/Estanbul"
 
-#: calendar/zones.h:299
+#: calendar/zones.h:303
 msgid "Europe/Kaliningrad"
 msgstr "Europa/Kaliningrado"
 
-#: calendar/zones.h:300
+#: calendar/zones.h:304
 msgid "Europe/Kiev"
 msgstr "Europa/Kiev"
 
-#: calendar/zones.h:301
+#: calendar/zones.h:305
 msgid "Europe/Lisbon"
 msgstr "Europa/Lisboa"
 
-#: calendar/zones.h:302
+#: calendar/zones.h:306
 msgid "Europe/Ljubljana"
 msgstr "Europa/Ljubljana"
 
-#: calendar/zones.h:303
+#: calendar/zones.h:307
 msgid "Europe/London"
 msgstr "Europa/Londres"
 
-#: calendar/zones.h:304
+#: calendar/zones.h:308
 msgid "Europe/Luxembourg"
 msgstr "Europa/Luxemburgo"
 
-#: calendar/zones.h:305
+#: calendar/zones.h:309
 msgid "Europe/Madrid"
 msgstr "Europa/Madrid"
 
-#: calendar/zones.h:306
+#: calendar/zones.h:310
 msgid "Europe/Malta"
 msgstr "Europa/Malta"
 
-#: calendar/zones.h:307
+#: calendar/zones.h:311
 msgid "Europe/Minsk"
 msgstr "Europa/Minsk"
 
-#: calendar/zones.h:308
+#: calendar/zones.h:312
 msgid "Europe/Monaco"
 msgstr "Europa/Mónaco"
 
-#: calendar/zones.h:309
+#: calendar/zones.h:313
 msgid "Europe/Moscow"
 msgstr "Europa/Moscú"
 
-#: calendar/zones.h:310
+#: calendar/zones.h:314
 msgid "Europe/Nicosia"
 msgstr "Europa/Nicosia"
 
-#: calendar/zones.h:311
+#: calendar/zones.h:315
 msgid "Europe/Oslo"
 msgstr "Europa/Oslo"
 
-#: calendar/zones.h:312
+#: calendar/zones.h:316
 msgid "Europe/Paris"
 msgstr "Europa/París"
 
-#: calendar/zones.h:313
+#: calendar/zones.h:317
 msgid "Europe/Prague"
 msgstr "Europa/Praga"
 
-#: calendar/zones.h:314
+#: calendar/zones.h:318
 msgid "Europe/Riga"
 msgstr "Europa/Riga"
 
-#: calendar/zones.h:315
+#: calendar/zones.h:319
 msgid "Europe/Rome"
 msgstr "Europa/Roma"
 
-#: calendar/zones.h:316
+#: calendar/zones.h:320
 msgid "Europe/Samara"
 msgstr "Europa/Samara"
 
-#: calendar/zones.h:317
+#: calendar/zones.h:321
 msgid "Europe/San_Marino"
 msgstr "Europa/San Marino"
 
-#: calendar/zones.h:318
+#: calendar/zones.h:322
 msgid "Europe/Sarajevo"
 msgstr "Europa/Sarajevo"
 
-#: calendar/zones.h:319
+#: calendar/zones.h:323
 msgid "Europe/Simferopol"
 msgstr "Europa/Simferopol"
 
-#: calendar/zones.h:320
+#: calendar/zones.h:324
 msgid "Europe/Skopje"
 msgstr "Europa/Skopje"
 
-#: calendar/zones.h:321
+#: calendar/zones.h:325
 msgid "Europe/Sofia"
 msgstr "Europa/Sofia"
 
-#: calendar/zones.h:322
+#: calendar/zones.h:326
 msgid "Europe/Stockholm"
 msgstr "Europa/Stocokolmo"
 
-#: calendar/zones.h:323
+#: calendar/zones.h:327
 msgid "Europe/Tallinn"
 msgstr "Europa/Tallinn"
 
-#: calendar/zones.h:324
+#: calendar/zones.h:328
 msgid "Europe/Tirane"
 msgstr "Europa/Tirana"
 
-#: calendar/zones.h:325
+#: calendar/zones.h:329
 msgid "Europe/Uzhgorod"
 msgstr "Europa/Uzhgorod"
 
-#: calendar/zones.h:326
+#: calendar/zones.h:330
 msgid "Europe/Vaduz"
 msgstr "Europa/Vaduz"
 
-#: calendar/zones.h:327
+#: calendar/zones.h:331
 msgid "Europe/Vatican"
 msgstr "Europa/Vaticana"
 
-#: calendar/zones.h:328
+#: calendar/zones.h:332
 msgid "Europe/Vienna"
 msgstr "Europa/Viena"
 
-#: calendar/zones.h:329
+#: calendar/zones.h:333
 msgid "Europe/Vilnius"
 msgstr "Europa/Vilnius"
 
-#: calendar/zones.h:330
+#: calendar/zones.h:334
 msgid "Europe/Warsaw"
 msgstr "Europa/Warsovia"
 
-#: calendar/zones.h:331
+#: calendar/zones.h:335
 msgid "Europe/Zagreb"
 msgstr "Europa/Zagreb"
 
-#: calendar/zones.h:332
+#: calendar/zones.h:336
 msgid "Europe/Zaporozhye"
 msgstr "Europa/Zaporozhye"
 
-#: calendar/zones.h:333
+#: calendar/zones.h:337
 msgid "Europe/Zurich"
 msgstr "Europa/Zurich"
 
-#: calendar/zones.h:334
+#: calendar/zones.h:338
 msgid "Indian/Antananarivo"
 msgstr "Índico/Antananarivo"
 
-#: calendar/zones.h:335
+#: calendar/zones.h:339
 msgid "Indian/Chagos"
 msgstr "Índico/Chagos"
 
-#: calendar/zones.h:336
+#: calendar/zones.h:340
 msgid "Indian/Christmas"
 msgstr "Índico/Christmas"
 
-#: calendar/zones.h:337
+#: calendar/zones.h:341
 msgid "Indian/Cocos"
 msgstr "Índico/Cocos"
 
-#: calendar/zones.h:338
+#: calendar/zones.h:342
 msgid "Indian/Comoro"
 msgstr "Índico/Comoros"
 
-#: calendar/zones.h:339
+#: calendar/zones.h:343
 msgid "Indian/Kerguelen"
 msgstr "Índico/Kerguelen"
 
-#: calendar/zones.h:340
+#: calendar/zones.h:344
 msgid "Indian/Mahe"
 msgstr "Índico/Mahe"
 
-#: calendar/zones.h:341
+#: calendar/zones.h:345
 msgid "Indian/Maldives"
 msgstr "Índico/Maldivas"
 
-#: calendar/zones.h:342
+#: calendar/zones.h:346
 msgid "Indian/Mauritius"
 msgstr "Índico/Mauricio"
 
-#: calendar/zones.h:343
+#: calendar/zones.h:347
 msgid "Indian/Mayotte"
 msgstr "Índico/Mayotte"
 
-#: calendar/zones.h:344
+#: calendar/zones.h:348
 msgid "Indian/Reunion"
 msgstr "Índico/Reunión"
 
-#: calendar/zones.h:345
+#: calendar/zones.h:349
 msgid "Pacific/Apia"
 msgstr "Pacífico/Apia"
 
-#: calendar/zones.h:346
+#: calendar/zones.h:350
 msgid "Pacific/Auckland"
 msgstr "Pacífico/Auckland"
 
-#: calendar/zones.h:347
+#: calendar/zones.h:351
 msgid "Pacific/Chatham"
 msgstr "Pacífico/Chatham"
 
-#: calendar/zones.h:348
+#: calendar/zones.h:352
 msgid "Pacific/Easter"
 msgstr "Pacífico/Easter"
 
-#: calendar/zones.h:349
+#: calendar/zones.h:353
 msgid "Pacific/Efate"
 msgstr "Pacífico/Efate"
 
-#: calendar/zones.h:350
+#: calendar/zones.h:354
 msgid "Pacific/Enderbury"
 msgstr "Pacífico/Enderbury"
 
-#: calendar/zones.h:351
+#: calendar/zones.h:355
 msgid "Pacific/Fakaofo"
 msgstr "Pacífico/Fakaofo"
 
-#: calendar/zones.h:352
+#: calendar/zones.h:356
 msgid "Pacific/Fiji"
 msgstr "Pacífico/Fiji"
 
-#: calendar/zones.h:353
+#: calendar/zones.h:357
 msgid "Pacific/Funafuti"
 msgstr "Pacífico/Funafuti"
 
-#: calendar/zones.h:354
+#: calendar/zones.h:358
 msgid "Pacific/Galapagos"
 msgstr "Pacífico/Galapagos"
 
-#: calendar/zones.h:355
+#: calendar/zones.h:359
 msgid "Pacific/Gambier"
 msgstr "Pacífico/Gambier"
 
-#: calendar/zones.h:356
+#: calendar/zones.h:360
 msgid "Pacific/Guadalcanal"
 msgstr "Pacífico/Guadalcanal"
 
-#: calendar/zones.h:357
+#: calendar/zones.h:361
 msgid "Pacific/Guam"
 msgstr "Pacífico/Guam"
 
-#: calendar/zones.h:358
+#: calendar/zones.h:362
 msgid "Pacific/Honolulu"
 msgstr "Pacífico/Honolulu"
 
-#: calendar/zones.h:359
+#: calendar/zones.h:363
 msgid "Pacific/Johnston"
 msgstr "Pacífico/Johnston"
 
-#: calendar/zones.h:360
+#: calendar/zones.h:364
 msgid "Pacific/Kiritimati"
 msgstr "Pacífico/Kiritimati"
 
-#: calendar/zones.h:361
+#: calendar/zones.h:365
 msgid "Pacific/Kosrae"
 msgstr "Pacífico/Kosrae"
 
-#: calendar/zones.h:362
+#: calendar/zones.h:366
 msgid "Pacific/Kwajalein"
 msgstr "Pacífico/Kwajalein"
 
-#: calendar/zones.h:363
+#: calendar/zones.h:367
 msgid "Pacific/Majuro"
 msgstr "Pacífico/Majuro"
 
-#: calendar/zones.h:364
+#: calendar/zones.h:368
 msgid "Pacific/Marquesas"
 msgstr "Pacífico/Marquesas"
 
-#: calendar/zones.h:365
+#: calendar/zones.h:369
 msgid "Pacific/Midway"
 msgstr "Pacífico/Midway"
 
-#: calendar/zones.h:366
+#: calendar/zones.h:370
 msgid "Pacific/Nauru"
 msgstr "Pacífico/Nauru"
 
-#: calendar/zones.h:367
+#: calendar/zones.h:371
 msgid "Pacific/Niue"
 msgstr "Pacífico/Niue"
 
-#: calendar/zones.h:368
+#: calendar/zones.h:372
 msgid "Pacific/Norfolk"
 msgstr "Pacífico/Norfolk"
 
-#: calendar/zones.h:369
+#: calendar/zones.h:373
 msgid "Pacific/Noumea"
 msgstr "Pacífico/Noumea"
 
-#: calendar/zones.h:370
+#: calendar/zones.h:374
 msgid "Pacific/Pago_Pago"
 msgstr "Pacífico/Pago_Pago"
 
-#: calendar/zones.h:371
+#: calendar/zones.h:375
 msgid "Pacific/Palau"
 msgstr "Pacífico/Palau"
 
-#: calendar/zones.h:372
+#: calendar/zones.h:376
 msgid "Pacific/Pitcairn"
 msgstr "Pacífico/Pitcairn"
 
-#: calendar/zones.h:373
+#: calendar/zones.h:377
 msgid "Pacific/Ponape"
 msgstr "Pacífico/Ponape"
 
-#: calendar/zones.h:374
+#: calendar/zones.h:378
 msgid "Pacific/Port_Moresby"
 msgstr "Pacífico/Port_Moresby"
 
-#: calendar/zones.h:375
+#: calendar/zones.h:379
 msgid "Pacific/Rarotonga"
 msgstr "Pacífico/Rarotonga"
 
-#: calendar/zones.h:376
+#: calendar/zones.h:380
 msgid "Pacific/Saipan"
 msgstr "Pacífico/Saipan"
 
-#: calendar/zones.h:377
+#: calendar/zones.h:381
 msgid "Pacific/Tahiti"
 msgstr "Pacífico/Tahiti"
 
-#: calendar/zones.h:378
+#: calendar/zones.h:382
 msgid "Pacific/Tarawa"
 msgstr "Pacífico/Tarawa"
 
-#: calendar/zones.h:379
+#: calendar/zones.h:383
 msgid "Pacific/Tongatapu"
 msgstr "Pacífico/Tongatapu"
 
-#: calendar/zones.h:380
+#: calendar/zones.h:384
 msgid "Pacific/Truk"
 msgstr "Pacífico/Truk"
 
-#: calendar/zones.h:381
+#: calendar/zones.h:385
 msgid "Pacific/Wake"
 msgstr "Pacífico/Wake"
 
-#: calendar/zones.h:382
+#: calendar/zones.h:386
 msgid "Pacific/Wallis"
 msgstr "Pacífico/Wallis"
 
-#: calendar/zones.h:383
+#: calendar/zones.h:387
 msgid "Pacific/Yap"
 msgstr "Pacífico/Yap"
 
-#: calendar/cal-util/cal-component.c:1207
+#: calendar/cal-util/cal-component.c:1221
 msgid "Untitled appointment"
 msgstr "Cita sin título"
 
@@ -4850,7 +4884,7 @@ msgid "Free"
 msgstr "Libre"
 
 #: calendar/gui/calendar-model.c:605 calendar/gui/e-calendar-table.c:458
-#: calendar/gui/e-meeting-time-sel.c:435
+#: calendar/gui/e-meeting-time-sel.c:438
 #: shell/evolution-shell-component.c:1029
 msgid "Busy"
 msgstr "Ocupado"
@@ -4869,8 +4903,8 @@ msgstr "En proceso"
 
 #: calendar/gui/calendar-model.c:760 calendar/gui/calendar-model.c:1195
 #: calendar/gui/dialogs/task-details-page.glade.h:4
-#: calendar/gui/e-calendar-table.c:480 calendar/gui/e-meeting-model.c:326
-#: calendar/gui/e-meeting-model.c:349 calendar/gui/print.c:2273
+#: calendar/gui/e-calendar-table.c:480 calendar/gui/e-meeting-model.c:330
+#: calendar/gui/e-meeting-model.c:353 calendar/gui/print.c:2273
 msgid "Completed"
 msgstr "Completado"
 
@@ -4885,7 +4919,7 @@ msgstr ""
 "45.436845,125.862501"
 
 #. An empty string is the same as 'None'.
-#: calendar/gui/calendar-model.c:1189 calendar/gui/dialogs/meeting-page.c:312
+#: calendar/gui/calendar-model.c:1189 calendar/gui/dialogs/meeting-page.c:309
 #: calendar/gui/dialogs/meeting-page.glade.h:1 mail/mail-account-gui.c:1485
 #: mail/mail-accounts.c:148 mail/mail-accounts.c:405
 #: mail/mail-config.glade.h:47
@@ -4903,14 +4937,14 @@ msgstr "Recurriendo"
 msgid "Assigned"
 msgstr "Asignado"
 
-#: calendar/gui/calendar-model.c:1721 calendar/gui/e-meeting-model.c:298
-#: calendar/gui/e-meeting-model.c:308 calendar/gui/e-meeting-model.c:537
-#: calendar/gui/e-meeting-model.c:821
+#: calendar/gui/calendar-model.c:1721 calendar/gui/e-meeting-model.c:302
+#: calendar/gui/e-meeting-model.c:312 calendar/gui/e-meeting-model.c:560
+#: calendar/gui/e-meeting-model.c:848
 msgid "Yes"
 msgstr "Si"
 
-#: calendar/gui/calendar-model.c:1721 calendar/gui/e-meeting-model.c:310
-#: calendar/gui/e-meeting-model.c:822
+#: calendar/gui/calendar-model.c:1721 calendar/gui/e-meeting-model.c:314
+#: calendar/gui/e-meeting-model.c:849
 msgid "No"
 msgstr "No"
 
@@ -5510,39 +5544,39 @@ msgstr " (Falta "
 msgid "Due "
 msgstr "Falta "
 
-#: calendar/gui/dialogs/comp-editor.c:303
+#: calendar/gui/dialogs/comp-editor.c:318
 msgid "Could not update object!"
 msgstr "¡No pude actualizar el objeto!"
 
-#: calendar/gui/dialogs/comp-editor.c:678
+#: calendar/gui/dialogs/comp-editor.c:750
 msgid "Edit Appointment"
 msgstr "Editar Cita"
 
-#: calendar/gui/dialogs/comp-editor.c:683
+#: calendar/gui/dialogs/comp-editor.c:755
 #, c-format
 msgid "Appointment - %s"
 msgstr "Cita - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:686
+#: calendar/gui/dialogs/comp-editor.c:758
 #, c-format
 msgid "Task - %s"
 msgstr "Tarea - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:689
+#: calendar/gui/dialogs/comp-editor.c:761
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Entrada del diario - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:703
+#: calendar/gui/dialogs/comp-editor.c:775
 msgid "No summary"
 msgstr "Sin resumen"
 
-#: calendar/gui/dialogs/comp-editor.c:1061 mail/mail-callbacks.c:1909
+#: calendar/gui/dialogs/comp-editor.c:1137 mail/mail-callbacks.c:1909
 #: mail/mail-display.c:102
 msgid "Overwrite file?"
 msgstr "¿Sobreescribir archivo?"
 
-#: calendar/gui/dialogs/comp-editor.c:1065 mail/mail-callbacks.c:1916
+#: calendar/gui/dialogs/comp-editor.c:1141 mail/mail-callbacks.c:1916
 #: mail/mail-display.c:106
 msgid ""
 "A file by that name already exists.\n"
@@ -5551,12 +5585,19 @@ msgstr ""
 "Ya existe una archivo con ese nombre.\n"
 "¿Sobreescribirlo?"
 
-#: calendar/gui/dialogs/comp-editor.c:1111 ui/evolution-comp-editor.xml.h:13
+#: calendar/gui/dialogs/comp-editor.c:1187 ui/evolution-comp-editor.xml.h:13
 #: widgets/misc/e-filter-bar.h:101
 msgid "Save As..."
 msgstr "Guardar como..."
 
-#: calendar/gui/dialogs/comp-editor.c:1272
+#: calendar/gui/dialogs/comp-editor.c:1281
+#: calendar/gui/dialogs/comp-editor.c:1316
+#: calendar/gui/dialogs/comp-editor.c:1340
+msgid ""
+"Changes made to this item may be discarded if an update arrives via email"
+msgstr ""
+
+#: calendar/gui/dialogs/comp-editor.c:1367
 msgid "Unable to obtain current version!"
 msgstr "¡Imposible obtener versión actual!"
 
@@ -5614,27 +5655,27 @@ msgstr "Delegado A:"
 msgid "Enter Delegate"
 msgstr "Escribir delegado"
 
-#: calendar/gui/dialogs/event-editor.c:185 calendar/gui/print.c:2224
+#: calendar/gui/dialogs/event-editor.c:189 calendar/gui/print.c:2224
 msgid "Appointment"
 msgstr "Cita"
 
-#: calendar/gui/dialogs/event-editor.c:190
+#: calendar/gui/dialogs/event-editor.c:194
 msgid "Reminder"
 msgstr "Recordatorio"
 
-#: calendar/gui/dialogs/event-editor.c:195
+#: calendar/gui/dialogs/event-editor.c:199
 msgid "Recurrence"
 msgstr "Repetición"
 
-#: calendar/gui/dialogs/event-editor.c:202
-#: calendar/gui/dialogs/event-editor.c:260
-#: calendar/gui/dialogs/event-editor.c:366
+#: calendar/gui/dialogs/event-editor.c:206
+#: calendar/gui/dialogs/event-editor.c:272
+#: calendar/gui/dialogs/event-editor.c:397
 msgid "Scheduling"
 msgstr "Planificación"
 
-#: calendar/gui/dialogs/event-editor.c:207
-#: calendar/gui/dialogs/event-editor.c:263
-#: calendar/gui/dialogs/event-editor.c:369
+#: calendar/gui/dialogs/event-editor.c:211
+#: calendar/gui/dialogs/event-editor.c:275
+#: calendar/gui/dialogs/event-editor.c:400
 msgid "Meeting"
 msgstr "Reunión"
 
@@ -5703,19 +5744,19 @@ msgstr "Hora de _fin:"
 msgid "_Start time:"
 msgstr "Hora de _inicio:"
 
-#: calendar/gui/dialogs/meeting-page.c:425
+#: calendar/gui/dialogs/meeting-page.c:413
 msgid "An organizer is required."
 msgstr "Se requiere un organizador."
 
-#: calendar/gui/dialogs/meeting-page.c:446
+#: calendar/gui/dialogs/meeting-page.c:437
 msgid "At least one attendee is required."
 msgstr "Es necesario por lo menos un asistente."
 
-#: calendar/gui/dialogs/meeting-page.c:626
+#: calendar/gui/dialogs/meeting-page.c:593
 msgid "That person is already attending the meeting!"
 msgstr "¡Esa persona ya está participando en la reunión!"
 
-#: calendar/gui/dialogs/meeting-page.c:701
+#: calendar/gui/dialogs/meeting-page.c:668
 msgid "_Delegate To..."
 msgstr "_Delegado a..."
 
@@ -5795,13 +5836,9 @@ msgid "_Change Organizer"
 msgstr "_Cambiar organizador"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:4
-#: calendar/gui/e-meeting-time-sel.c:453
+#: calendar/gui/e-meeting-time-sel.c:456
 msgid "_Invite Others..."
 msgstr "_Invitar a otros..."
-
-#: calendar/gui/dialogs/meeting-page.glade.h:5
-msgid "_Other Organizer"
-msgstr "_Otro organizador"
 
 #: calendar/gui/dialogs/recurrence-page.c:571
 msgid "This appointment contains recurrences that Evolution cannot edit."
@@ -5926,9 +5963,9 @@ msgstr "_Prioridad:"
 msgid "_Status:"
 msgstr "E_stado:"
 
-#: calendar/gui/dialogs/task-editor.c:190
-#: calendar/gui/dialogs/task-editor.c:227
-#: calendar/gui/dialogs/task-editor.c:325
+#: calendar/gui/dialogs/task-editor.c:194
+#: calendar/gui/dialogs/task-editor.c:238
+#: calendar/gui/dialogs/task-editor.c:354
 msgid "Assignment"
 msgstr "Asignación"
 
@@ -6260,29 +6297,29 @@ msgstr "<i>Ninguna<i>"
 msgid "Status:"
 msgstr "E_stado:"
 
-#: calendar/gui/e-itip-control.c:786 calendar/gui/e-meeting-model.c:318
-#: calendar/gui/e-meeting-model.c:341 calendar/gui/e-meeting-model.c:835
-#: calendar/gui/itip-utils.c:323
+#: calendar/gui/e-itip-control.c:786 calendar/gui/e-meeting-model.c:322
+#: calendar/gui/e-meeting-model.c:345 calendar/gui/e-meeting-model.c:862
+#: calendar/gui/itip-utils.c:382
 msgid "Accepted"
 msgstr "Aceptado"
 
-#: calendar/gui/e-itip-control.c:790 calendar/gui/itip-utils.c:326
+#: calendar/gui/e-itip-control.c:790 calendar/gui/itip-utils.c:385
 #, fuzzy
 msgid "Tentatively Accepted"
 msgstr "Aceptar tentativamente"
 
-#: calendar/gui/e-itip-control.c:794 calendar/gui/e-meeting-model.c:320
-#: calendar/gui/e-meeting-model.c:343 calendar/gui/e-meeting-model.c:836
-#: calendar/gui/itip-utils.c:329 calendar/gui/itip-utils.c:355
+#: calendar/gui/e-itip-control.c:794 calendar/gui/e-meeting-model.c:324
+#: calendar/gui/e-meeting-model.c:347 calendar/gui/e-meeting-model.c:863
+#: calendar/gui/itip-utils.c:388 calendar/gui/itip-utils.c:414
 msgid "Declined"
 msgstr "Rechazado"
 
 # #-#-#-#-#  nautilus-es.po (Nautilus)  #-#-#-#-#
 # libnautilus-private/nautilus-file.c:2936
 #: calendar/gui/e-itip-control.c:798 calendar/gui/e-itip-control.c:997
-#: calendar/gui/e-itip-control.c:1068 calendar/gui/e-meeting-model.c:254
-#: calendar/gui/e-meeting-model.c:289 calendar/gui/e-meeting-model.c:354
-#: calendar/gui/e-meeting-model.c:793 calendar/gui/e-meeting-model.c:809
+#: calendar/gui/e-itip-control.c:1068 calendar/gui/e-meeting-model.c:258
+#: calendar/gui/e-meeting-model.c:293 calendar/gui/e-meeting-model.c:358
+#: calendar/gui/e-meeting-model.c:820 calendar/gui/e-meeting-model.c:836
 #: camel/providers/smtp/camel-smtp-transport.c:170
 #: camel/providers/smtp/camel-smtp-transport.c:225
 #: widgets/misc/e-charset-picker.c:57 widgets/misc/e-charset-picker.c:439
@@ -6332,7 +6369,7 @@ msgstr "Enviar última información"
 
 # #-#-#-#-#  nautilus-es.po (Nautilus)  #-#-#-#-#
 # libnautilus-private/nautilus-program-chooser.c:1262
-#: calendar/gui/e-itip-control.c:916 calendar/gui/itip-utils.c:343
+#: calendar/gui/e-itip-control.c:916 calendar/gui/itip-utils.c:402
 #: ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Cancelar"
@@ -6518,34 +6555,34 @@ msgstr "Actualización completada\n"
 msgid "This response is not from a currentattendee.  Add as an attendee?"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1459
+#: calendar/gui/e-itip-control.c:1458
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr ""
 "¡El estado de asistencia no pudo ser actualizado a causa de un estado "
 "inválido!\n"
 
-#: calendar/gui/e-itip-control.c:1472
+#: calendar/gui/e-itip-control.c:1471
 msgid "Attendee status could not be updated!\n"
 msgstr "¡El estado de asistencia no pudo ser actualizado!\n"
 
-#: calendar/gui/e-itip-control.c:1474
+#: calendar/gui/e-itip-control.c:1473
 msgid "Attendee status updated\n"
 msgstr "Estado de asistencia actualizado\n"
 
-#: calendar/gui/e-itip-control.c:1476
+#: calendar/gui/e-itip-control.c:1475
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "El estado de asistencia no puede ser actualizado porque no existe el elemento"
 
-#: calendar/gui/e-itip-control.c:1504
+#: calendar/gui/e-itip-control.c:1503
 msgid "Removal Complete"
 msgstr "Borrado completo"
 
-#: calendar/gui/e-itip-control.c:1534 calendar/gui/e-itip-control.c:1584
+#: calendar/gui/e-itip-control.c:1533 calendar/gui/e-itip-control.c:1583
 msgid "Item sent!\n"
 msgstr "¡Elemento enviado!\n"
 
-#: calendar/gui/e-itip-control.c:1536 calendar/gui/e-itip-control.c:1588
+#: calendar/gui/e-itip-control.c:1535 calendar/gui/e-itip-control.c:1587
 msgid "The item could not be sent!\n"
 msgstr "¡El elemento no puedo ser enviado!\n"
 
@@ -6586,92 +6623,92 @@ msgstr "fecha de fin"
 msgid "date-start"
 msgstr "fecha de inicio"
 
-#: calendar/gui/e-meeting-model.c:81
+#: calendar/gui/e-meeting-model.c:84
 msgid "Chair Persons"
 msgstr "Presidentes"
 
-#: calendar/gui/e-meeting-model.c:82 calendar/gui/e-meeting-model.c:1652
+#: calendar/gui/e-meeting-model.c:85 calendar/gui/e-meeting-model.c:1750
 msgid "Required Participants"
 msgstr "Participantes requeridos"
 
-#: calendar/gui/e-meeting-model.c:83
+#: calendar/gui/e-meeting-model.c:86
 msgid "Optional Participants"
 msgstr "Participantes opcionales"
 
-#: calendar/gui/e-meeting-model.c:84
+#: calendar/gui/e-meeting-model.c:87
 msgid "Non-Participants"
 msgstr "No participan"
 
-#: calendar/gui/e-meeting-model.c:229 calendar/gui/e-meeting-model.c:246
-#: calendar/gui/e-meeting-model.c:533 calendar/gui/e-meeting-model.c:789
+#: calendar/gui/e-meeting-model.c:233 calendar/gui/e-meeting-model.c:250
+#: calendar/gui/e-meeting-model.c:556 calendar/gui/e-meeting-model.c:816
 msgid "Individual"
 msgstr "Individual"
 
-#: calendar/gui/e-meeting-model.c:231 calendar/gui/e-meeting-model.c:248
-#: calendar/gui/e-meeting-model.c:790
+#: calendar/gui/e-meeting-model.c:235 calendar/gui/e-meeting-model.c:252
+#: calendar/gui/e-meeting-model.c:817
 msgid "Group"
 msgstr "Grupo"
 
-#: calendar/gui/e-meeting-model.c:233 calendar/gui/e-meeting-model.c:250
-#: calendar/gui/e-meeting-model.c:791
+#: calendar/gui/e-meeting-model.c:237 calendar/gui/e-meeting-model.c:254
+#: calendar/gui/e-meeting-model.c:818
 msgid "Resource"
 msgstr "Recurso"
 
-#: calendar/gui/e-meeting-model.c:235 calendar/gui/e-meeting-model.c:252
-#: calendar/gui/e-meeting-model.c:792
+#: calendar/gui/e-meeting-model.c:239 calendar/gui/e-meeting-model.c:256
+#: calendar/gui/e-meeting-model.c:819
 msgid "Room"
 msgstr "Habitación"
 
-#: calendar/gui/e-meeting-model.c:264 calendar/gui/e-meeting-model.c:281
-#: calendar/gui/e-meeting-model.c:805
+#: calendar/gui/e-meeting-model.c:268 calendar/gui/e-meeting-model.c:285
+#: calendar/gui/e-meeting-model.c:832
 msgid "Chair"
 msgstr "Silla"
 
-#: calendar/gui/e-meeting-model.c:266 calendar/gui/e-meeting-model.c:283
-#: calendar/gui/e-meeting-model.c:535 calendar/gui/e-meeting-model.c:806
+#: calendar/gui/e-meeting-model.c:270 calendar/gui/e-meeting-model.c:287
+#: calendar/gui/e-meeting-model.c:558 calendar/gui/e-meeting-model.c:833
 msgid "Required Participant"
 msgstr "Participantes requeridos"
 
-#: calendar/gui/e-meeting-model.c:268 calendar/gui/e-meeting-model.c:285
-#: calendar/gui/e-meeting-model.c:807
+#: calendar/gui/e-meeting-model.c:272 calendar/gui/e-meeting-model.c:289
+#: calendar/gui/e-meeting-model.c:834
 msgid "Optional Participant"
 msgstr "Participantes opcional"
 
-#: calendar/gui/e-meeting-model.c:270 calendar/gui/e-meeting-model.c:287
-#: calendar/gui/e-meeting-model.c:808
+#: calendar/gui/e-meeting-model.c:274 calendar/gui/e-meeting-model.c:291
+#: calendar/gui/e-meeting-model.c:835
 msgid "Non-Participant"
 msgstr "No participan"
 
-#: calendar/gui/e-meeting-model.c:316 calendar/gui/e-meeting-model.c:339
-#: calendar/gui/e-meeting-model.c:543 calendar/gui/e-meeting-model.c:834
+#: calendar/gui/e-meeting-model.c:320 calendar/gui/e-meeting-model.c:343
+#: calendar/gui/e-meeting-model.c:566 calendar/gui/e-meeting-model.c:861
 msgid "Needs Action"
 msgstr "Necesita acción"
 
-#: calendar/gui/e-meeting-model.c:322 calendar/gui/e-meeting-model.c:345
-#: calendar/gui/e-meeting-model.c:837 calendar/gui/e-meeting-time-sel.c:434
+#: calendar/gui/e-meeting-model.c:326 calendar/gui/e-meeting-model.c:349
+#: calendar/gui/e-meeting-model.c:864 calendar/gui/e-meeting-time-sel.c:437
 msgid "Tentative"
 msgstr "Tentativa"
 
-#: calendar/gui/e-meeting-model.c:324 calendar/gui/e-meeting-model.c:347
-#: calendar/gui/e-meeting-model.c:838
+#: calendar/gui/e-meeting-model.c:328 calendar/gui/e-meeting-model.c:351
+#: calendar/gui/e-meeting-model.c:865
 msgid "Delegated"
 msgstr "Delegado"
 
-#: calendar/gui/e-meeting-model.c:328 calendar/gui/e-meeting-model.c:351
+#: calendar/gui/e-meeting-model.c:332 calendar/gui/e-meeting-model.c:355
 msgid "In Process"
 msgstr "En proceso"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:475
-#: calendar/gui/e-meeting-time-sel.c:2088
+#: calendar/gui/e-meeting-time-sel.c:2107
 msgid "%A, %B %d, %Y"
 msgstr "%A, %d de %B de %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:479
-#: calendar/gui/e-meeting-time-sel.c:2118 e-util/e-time-utils.c:186
+#: calendar/gui/e-meeting-time-sel.c:2137 e-util/e-time-utils.c:186
 #: e-util/e-time-utils.c:276 e-util/e-time-utils.c:348
 msgid "%a %m/%d/%Y"
 msgstr "%a %d/%m/%Y"
@@ -6683,63 +6720,63 @@ msgstr "%a %d/%m/%Y"
 msgid "%m/%d/%Y"
 msgstr "%d/%m/%Y"
 
-#: calendar/gui/e-meeting-time-sel.c:436
+#: calendar/gui/e-meeting-time-sel.c:439
 msgid "Out of Office"
 msgstr "Fuera de la oficina"
 
-#: calendar/gui/e-meeting-time-sel.c:437
+#: calendar/gui/e-meeting-time-sel.c:440
 msgid "No Information"
 msgstr "Sin información"
 
-#: calendar/gui/e-meeting-time-sel.c:473
+#: calendar/gui/e-meeting-time-sel.c:478
 msgid "_Options"
 msgstr "_Opciones"
 
-#: calendar/gui/e-meeting-time-sel.c:490
+#: calendar/gui/e-meeting-time-sel.c:495
 msgid "Show _Only Working Hours"
 msgstr "Mostrar _solo las horas de trabajo"
 
-#: calendar/gui/e-meeting-time-sel.c:503
+#: calendar/gui/e-meeting-time-sel.c:508
 msgid "Show _Zoomed Out"
 msgstr "Mostrar quitando _Zoom"
 
-#: calendar/gui/e-meeting-time-sel.c:521
+#: calendar/gui/e-meeting-time-sel.c:526
 msgid "_Update Free/Busy"
 msgstr "_Actualizar Libre/Ocupado"
 
-#: calendar/gui/e-meeting-time-sel.c:539
+#: calendar/gui/e-meeting-time-sel.c:544
 msgid "_<<"
 msgstr "_<<"
 
-#: calendar/gui/e-meeting-time-sel.c:556
+#: calendar/gui/e-meeting-time-sel.c:561
 msgid "_Autopick"
 msgstr "_Auto seleccionar"
 
-#: calendar/gui/e-meeting-time-sel.c:570
+#: calendar/gui/e-meeting-time-sel.c:575
 msgid ">_>"
 msgstr ">_>"
 
-#: calendar/gui/e-meeting-time-sel.c:587
+#: calendar/gui/e-meeting-time-sel.c:592
 msgid "_All People and Resources"
 msgstr "_Todas las personas y los recursos"
 
-#: calendar/gui/e-meeting-time-sel.c:600
+#: calendar/gui/e-meeting-time-sel.c:605
 msgid "All _People and One Resource"
 msgstr "Todas las _personas y un recurso"
 
-#: calendar/gui/e-meeting-time-sel.c:613
+#: calendar/gui/e-meeting-time-sel.c:618
 msgid "_Required People"
 msgstr "Personas _requeridas"
 
-#: calendar/gui/e-meeting-time-sel.c:626
+#: calendar/gui/e-meeting-time-sel.c:631
 msgid "Required People and _One Resource"
 msgstr "Personas requeridas y _un recurso"
 
-#: calendar/gui/e-meeting-time-sel.c:649
+#: calendar/gui/e-meeting-time-sel.c:654
 msgid "Meeting _start time:"
 msgstr "Hora de _inicio de la reunión:"
 
-#: calendar/gui/e-meeting-time-sel.c:668
+#: calendar/gui/e-meeting-time-sel.c:673
 msgid "Meeting _end time:"
 msgstr "Hora de _fin de la reunión:"
 
@@ -6762,17 +6799,17 @@ msgstr "El método necesario para cargar `%s' no está implementado"
 msgid "New _Appointment..."
 msgstr "Nueva cit_a..."
 
-#: calendar/gui/gnome-cal.c:1499
+#: calendar/gui/gnome-cal.c:1500
 #, c-format
 msgid "Could not open the folder in `%s'"
 msgstr "No puedo abrir la carpeta en `%s'"
 
-#: calendar/gui/gnome-cal.c:1510
+#: calendar/gui/gnome-cal.c:1511
 #, c-format
 msgid "The method required to open `%s' is not supported"
 msgstr "El método necesario para abrir `%s' no está implementado"
 
-#: calendar/gui/gnome-cal.c:1872
+#: calendar/gui/gnome-cal.c:1876
 #, c-format
 msgid "Opening calendar at %s"
 msgstr "Abriendo calendario en %s"
@@ -6833,49 +6870,49 @@ msgstr "Octubre"
 msgid "September"
 msgstr "Septiembre"
 
-#: calendar/gui/itip-utils.c:220
+#: calendar/gui/itip-utils.c:280
 msgid "At least one attendee is necessary"
 msgstr "Es necesario por lo menos un asistente"
 
-#: calendar/gui/itip-utils.c:251
+#: calendar/gui/itip-utils.c:311
 msgid "An organizer must be set."
 msgstr "Debe especificar un organizador."
 
-#: calendar/gui/itip-utils.c:295
+#: calendar/gui/itip-utils.c:354
 msgid "Event information"
 msgstr "Información del evento"
 
-#: calendar/gui/itip-utils.c:297
+#: calendar/gui/itip-utils.c:356
 msgid "Task information"
 msgstr "Información de la tarea"
 
-#: calendar/gui/itip-utils.c:299
+#: calendar/gui/itip-utils.c:358
 msgid "Journal information"
 msgstr "Información de la entrada de diario"
 
-#: calendar/gui/itip-utils.c:301
+#: calendar/gui/itip-utils.c:360
 msgid "Free/Busy information"
 msgstr "Información de disponibilidad"
 
-#: calendar/gui/itip-utils.c:303
+#: calendar/gui/itip-utils.c:362
 msgid "Calendar information"
 msgstr "Información del calendario"
 
-#: calendar/gui/itip-utils.c:339
+#: calendar/gui/itip-utils.c:398
 #, fuzzy
 msgid "Updated"
 msgstr "Actualizar"
 
-#: calendar/gui/itip-utils.c:347
+#: calendar/gui/itip-utils.c:406
 #, fuzzy
 msgid "Refresh"
 msgstr "Regenerar la lista"
 
-#: calendar/gui/itip-utils.c:351
+#: calendar/gui/itip-utils.c:410
 msgid "Counter-proposal"
 msgstr ""
 
-#: calendar/gui/itip-utils.c:617
+#: calendar/gui/itip-utils.c:660
 msgid "You must be an attendee of the event."
 msgstr "Debes participar en el evento."
 
@@ -25798,6 +25835,9 @@ msgstr "init_corba(): no pude inicializar GNOME"
 #: wombat/wombat.c:225
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonob(): no pude inicializar Bonobo"
+
+#~ msgid "_Other Organizer"
+#~ msgstr "_Otro organizador"
 
 #~ msgid "Unable to find any of your identities in the attendees list!\n"
 #~ msgstr ""

@@ -1,3 +1,9 @@
+== Version 1.0.8. ==
+
+2002-06-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: 1.0.8.
+
 2002-06-18  JP Rosevear  <jpr@ximian.com>
 
 	* configure.in: check for libsoftokn3 if we couldn't link the
@@ -9,17 +15,6 @@
 	us to leak strings in certain circumstances (when the string being
 	freed was second in the list, the head of the list would get
 	lost.)
-
-2002-06-10  gettextize  <bug-gnu-gettext@gnu.org>
-
-	* Makefile.am (SUBDIRS): Remove intl.
-
-2002-06-10  gettextize  <bug-gnu-gettext@gnu.org>
-
-	* Makefile.am (SUBDIRS): Add m4.
-	(ACLOCAL_AMFLAGS): New variable.
-	(EXTRA_DIST): Add config.rpath.
-	* configure.in (AC_OUTPUT): Add po/Makefile.in, m4/Makefile.
 
 2002-06-10  Ettore Perazzoli  <ettore@ximian.com>
 
