@@ -1,3 +1,9 @@
+2003-10-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-text-index.c (text_index_name_add_buffer): If a word is
+	longer than CAMEL_TEXT_INDEX_MAX_WORDLEN, then ignore it. This
+	fixes bug #50096.
+
 2003-10-08  Not Zed  <NotZed@Ximian.com>
 
 	** See Bug #45504

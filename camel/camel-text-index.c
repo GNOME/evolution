@@ -55,6 +55,8 @@
 /* cursor debug */
 #define c(x)
 
+#define CAMEL_TEXT_INDEX_MAX_WORDLEN  (36)
+
 #ifdef ENABLE_THREADS
 #define CAMEL_TEXT_INDEX_LOCK(kf, lock) (e_mutex_lock(((CamelTextIndex *)kf)->priv->lock))
 #define CAMEL_TEXT_INDEX_UNLOCK(kf, lock) (e_mutex_unlock(((CamelTextIndex *)kf)->priv->lock))
@@ -1478,11 +1480,12 @@ text_index_name_add_buffer(CamelIndexName *idn, const char *buffer, size_t len)
 			utf8[utf8len] = 0;
 			g_string_append(p->buffer, utf8);
 		} else {
-			if (p->buffer->len) {
+			if (p->buffer->len > 0 && p->buffer->len <= CAMEL_TEXT_INDEX_MAX_WORDLEN) {
 				text_index_name_add_word(idn, p->buffer->str);
 				/*camel_index_name_add_word(idn, p->buffer->str);*/
-				g_string_truncate(p->buffer, 0);
 			}
+			
+			g_string_truncate (p->buffer, 0);
 		}
 	}
 
