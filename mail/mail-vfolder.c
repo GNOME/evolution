@@ -51,7 +51,7 @@
 #define d(x) /*(printf("%s(%d):%s: ",  __FILE__, __LINE__, __PRETTY_FUNCTION__), (x))*/
 
 static VfolderContext *context;	/* context remains open all time */
-static CamelStore *vfolder_store; /* the 1 static vfolder store */
+CamelStore *vfolder_store; /* the 1 static vfolder store */
 
 /* lock for accessing shared resources (below) */
 static pthread_mutex_t vfolder_lock = PTHREAD_MUTEX_INITIALIZER;

@@ -182,13 +182,17 @@ em_folder_tree_model_class_init (EMFolderTreeModelClass *klass)
 static int
 sort_cb (GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer user_data)
 {
-	gboolean astore, bstore;
+	extern CamelStore *vfolder_store;
 	char *aname, *bname;
+	CamelStore *store;
+	gboolean is_store;
 	
-	gtk_tree_model_get (model, a, COL_BOOL_IS_STORE, &astore, COL_STRING_DISPLAY_NAME, &aname, -1);
-	gtk_tree_model_get (model, b, COL_BOOL_IS_STORE, &bstore, COL_STRING_DISPLAY_NAME, &bname, -1);
+	gtk_tree_model_get (model, a, COL_BOOL_IS_STORE, &is_store,
+			    COL_POINTER_CAMEL_STORE, &store,
+			    COL_STRING_DISPLAY_NAME, &aname, -1);
+	gtk_tree_model_get (model, b, COL_STRING_DISPLAY_NAME, &bname, -1);
 	
-	if (astore && bstore) {
+	if (is_store) {
 		/* On This Computer is always first and VFolders is always last */
 		if (!strcmp (aname, _("On this Computer")))
 			return -1;
@@ -198,6 +202,30 @@ sort_cb (GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer user_data
 			return 1;
 		if (!strcmp (bname, _("VFolders")))
 			return -1;
+	} else if (store == vfolder_store) {
+		/* perform no sorting, we want to display in the same
+		 * order as they appear in the VFolder editor - UNMATCHED is always last */
+		GtkTreePath *path;
+		int ret;
+		
+		if (aname && !strcmp (aname, _("UNMATCHED")))
+			return 1;
+		if (bname && !strcmp (bname, _("UNMATCHED")))
+			return -1;
+		
+		path = gtk_tree_model_get_path (model, a);
+		aname = gtk_tree_path_to_string (path);
+		gtk_tree_path_free (path);
+		
+		path = gtk_tree_model_get_path (model, b);
+		bname = gtk_tree_path_to_string (path);
+		gtk_tree_path_free (path);
+		
+		ret = strcmp (aname, bname);
+		g_free (aname);
+		g_free (bname);
+		
+		return ret;
 	} else {
 		/* Inbox is always first */
 		if (aname && (!strcmp (aname, "INBOX") || !strcmp (aname, _("Inbox"))))

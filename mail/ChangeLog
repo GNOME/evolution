@@ -1,5 +1,11 @@
 2004-01-15  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-vfolder.c: Make vfolder_store 'global'.
+
+	* em-folder-tree-model.c (sort_cb): Fix bug #12600 by not sorting
+	VFolders (ie. show them in the same order they appear in the
+	editor).
+
 	Fixes bug #52888
 	
 	* em-folder-tree-model.c (sort_cb): New sort function for the
