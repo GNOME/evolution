@@ -1,3 +1,15 @@
+2001-09-19  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names-popup.c
+	(popup_menu_card): Properly handle our GnomeUIInfo labels so that
+	they won't be leaked if they are dynamic strings, so that they
+	will be i18n-correct, and so that underscores won't be interpreted
+	as key accelerators.  What a PITA.  Also, don't leak our
+	iterators.  (Bug #10200.)
+	(popup_menu_list): The same GnomeUIInfo tweaking as in
+	popup_menu_card.
+	(popup_menu_nocard): Ditto.
+
 2001-09-18  JP Rosevear  <jpr@ximian.com>
  
  	* backend/ebook/e-card-simple.c (field_data): add caluri field data
