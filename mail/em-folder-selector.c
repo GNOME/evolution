@@ -419,7 +419,7 @@ em_folder_selector_get_selected_path (EMFolderSelector *emfs)
 		if (strcmp (path, "") != 0)
 			newpath = g_strdup_printf ("%s/%s", path, name);
 		else
-			newpath = g_strdup_printf ("/%s", name);
+			newpath = g_strdup (name);
 		
 		path = emfs->selected_path = newpath;
 	}

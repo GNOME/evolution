@@ -2050,7 +2050,7 @@ emft_popup_copy_folder_selected (const char *uri, void *data)
 	
 	priv = cfd->emft->priv;
 	
-	printf ("%sing folder '%s' to '%s'\n", cfd->delete ? "move" : "copy", priv->selected_path, uri);
+	d(printf ("%sing folder '%s' to '%s'\n", cfd->delete ? "move" : "copy", priv->selected_path, uri));
 	
 	camel_exception_init (&ex);
 	frombase = priv->selected_path;
@@ -2188,14 +2188,13 @@ static struct _mail_msg_op create_folder_op = {
 
 
 static int
-emft_create_folder (CamelStore *store, const char *path, void (* done) (CamelFolderInfo *fi, void *user_data), void *user_data)
+emft_create_folder (CamelStore *store, const char *full_name, void (* done) (CamelFolderInfo *fi, void *user_data), void *user_data)
 {
-	const char *parent, *full_name;
 	char *name, *namebuf = NULL;
 	struct _EMCreateFolder *m;
+	const char *parent;
 	int id;
 	
-	full_name = path[0] == '/' ? path + 1 : path;
 	namebuf = g_strdup (full_name);
 	if (!(name = strrchr (namebuf, '/'))) {
 		name = namebuf;
@@ -2231,7 +2230,7 @@ created_cb (CamelFolderInfo *fi, void *user_data)
 }
 
 gboolean
-em_folder_tree_create_folder (EMFolderTree *emft, const char *path, const char *uri)
+em_folder_tree_create_folder (EMFolderTree *emft, const char *full_name, const char *uri)
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	struct _EMFolderTreeModelStoreInfo *si;
@@ -2239,12 +2238,12 @@ em_folder_tree_create_folder (EMFolderTree *emft, const char *path, const char *
 	CamelStore *store;
 	CamelException ex;
 	
-	d(printf ("Creating folder: %s (%s)\n", path, uri));
+	d(printf ("Creating folder: %s (%s)\n", full_name, uri));
 	
 	camel_exception_init (&ex);
 	if (!(store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex))) {
 		e_error_run((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)emft),
-			    "mail:no-create-folder-nostore", path, ex.desc, NULL);
+			    "mail:no-create-folder-nostore", full_name, ex.desc, NULL);
 		goto fail;
 	}
 	
@@ -2256,7 +2255,7 @@ em_folder_tree_create_folder (EMFolderTree *emft, const char *path, const char *
 	
 	camel_object_unref (store);
 	
-	mail_msg_wait (emft_create_folder (si->store, path, created_cb, &created));
+	mail_msg_wait (emft_create_folder (si->store, full_name, created_cb, &created));
 fail:
 	camel_exception_clear(&ex);
 	

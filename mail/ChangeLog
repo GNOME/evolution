@@ -1,3 +1,12 @@
+2004-06-23  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-folder-selector.c (em_folder_selector_get_selected_path):
+	Don't prepend the path string with a '/'.
+
+	* em-folder-tree.c (em_folder_tree_create_folder): This takes a
+	full_name so update the argument to make that clear.
+	(emft_create_folder): Same and also don't strip a leading '/'
+
 2004-06-25  Not Zed  <NotZed@Ximian.com>
 
 	* em-folder-tree.c (folder_tree_new): set search column.  #60152.
