@@ -885,6 +885,9 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 
 	if (!(flags & E_CELL_EDITING))
 		return 0;
+	
+	if ( edit && !edit->preedit_length && flags & E_CELL_PREEDIT)
+		return TRUE;
 
 	if (edit && edit->view_col == view_col && edit->row == row) {
 		edit_display = TRUE;
