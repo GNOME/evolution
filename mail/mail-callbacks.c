@@ -1008,7 +1008,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	const char *name = NULL, *address = NULL, *source = NULL;
 	const char *message_id, *references, *reply_addr = NULL;
 	char *text = NULL, *subject, date_str[100], *format;
-	const MailConfigAccount *account, *me = NULL;
+	const MailConfigAccount *def, *account, *me = NULL;
 	const GSList *l, *accounts = NULL;
 	GHashTable *account_hash = NULL;
 	GList *to = NULL, *cc = NULL;
@@ -1035,13 +1035,37 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	
 	/* Set the recipients */
 	accounts = mail_config_get_accounts ();
-	
 	account_hash = g_hash_table_new (g_strcase_hash, g_strcase_equal);
+	
+	/* add the default account to the hash first */
+	if ((def = mail_config_get_default_account ())) {
+		if (def->id->address)
+			g_hash_table_insert (account_hash, (char *) def->id->address, (void *) def);
+	}
+	
 	l = accounts;
 	while (l) {
 		account = l->data;
-		if (account->id->address)
-			g_hash_table_insert (account_hash, (char *) account->id->address, (void *) account);
+		
+		if (account->id->address) {
+			const MailConfigAccount *acnt;
+			
+			/* Accounts with identical email addresses that are enabled
+			 * take precedence over the accounts that aren't. If all
+			 * accounts with matching email addresses are disabled, then
+			 * the first one in the list takes precedence. The default
+			 * account always takes precedence no matter what.
+			 */
+			acnt = g_hash_table_lookup (account_hash, account->id->address);
+			if (acnt && acnt != def && !acnt->source->enabled && account->source->enabled) {
+				g_hash_table_remove (account_hash, acnt->id->address);
+				acnt = NULL;
+			}
+			
+			if (!acnt)
+				g_hash_table_insert (account_hash, (char *) account->id->address, (void *) account);
+		}
+		
 		l = l->next;
 	}
 	
@@ -1049,11 +1073,6 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	cc_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
 	mail_ignore_address (composer, to_addrs);
 	mail_ignore_address (composer, cc_addrs);
-	
-	/* default 'me' to the source account... */
-	source = camel_mime_message_get_source (message);
-	if (source)
-		me = mail_config_get_account_by_source_url (source);
 	
  determine_recipients:
 	if (mode == REPLY_LIST) {
@@ -1112,8 +1131,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 			}
 		}
 		
-		if (!me)
-			me = guess_me (to_addrs, cc_addrs, account_hash);
+		me = guess_me (to_addrs, cc_addrs, account_hash);
 	} else {
 		GHashTable *rcpt_hash;
 		EDestination *dest;
@@ -1153,14 +1171,19 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 				cc = g_list_remove_link (cc, to);
 			}
 		} else {
-			if (!me)
-				me = guess_me (to_addrs, cc_addrs, account_hash);
+			me = guess_me (to_addrs, cc_addrs, account_hash);
 		}
 		
 		g_hash_table_destroy (rcpt_hash);
 	}
 	
 	g_hash_table_destroy (account_hash);
+	
+	if (!me) {
+		/* default 'me' to the source account... */
+		if ((source = camel_mime_message_get_source (message)))
+			me = mail_config_get_account_by_source_url (source);
+	}
 	
 	/* set body text here as we want all ignored words to take effect */
 	switch (mail_config_get_default_reply_style ()) {

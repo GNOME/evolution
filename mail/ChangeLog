@@ -1,3 +1,12 @@
+2002-10-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (mail_generate_reply): Don't default 'me' to
+	the source account until after we've tried to detect the account
+	based on recipients. When adding accounts to the account hash, if
+	any accounts have identical email addresses, the ones that are
+	enabled take precedence over ones that aren't. This will hopefully
+	make everyone happy with reply account picking. Fixes bug #31693.
+
 2002-10-01  Larry Ewing  <lewing@ximian.com>
 
 	* mail-display.c (drag_data_get_cb): add support for dragging the
