@@ -59,6 +59,8 @@ typedef struct _TimezoneDialogPage {
 	GtkWidget *page;
 	GtkWidget *vbox;
 	GObject *etd;
+
+	gboolean prepared;
 } TimezoneDialogPage;
 
 typedef struct _ImportDialogPage {
@@ -154,7 +156,7 @@ start_wizard (void)
 	for (i = 0; i < info->_length; i++) {
 		CORBA_exception_init (&ev);
 		wizard = bonobo_activation_activate_from_id (info->_buffer[i].iid, 0, NULL, &ev);
-		if (!BONOBO_EX (&ev)) {
+		if (!BONOBO_EX (&ev) && wizard != CORBA_OBJECT_NIL) {
 			CORBA_free (info);
 			return wizard;
 		}
@@ -358,8 +360,6 @@ finish_func (GnomeDruidPage *page,
 {
 	GConfClient *client;
 	CORBA_Environment ev;
-	const char *displayname;
-	char *tz;
 	icaltimezone *zone;
 
 	/* Notify mailer */
@@ -368,21 +368,13 @@ finish_func (GnomeDruidPage *page,
 	CORBA_exception_free (&ev);
 
 	/* Set Timezone */
-
-	e_timezone_dialog_get_timezone (E_TIMEZONE_DIALOG (data->timezone_page->etd), &displayname);
-	/* We know it is a builtin timezone, as that is all the user can change
-	   it to. */
-	zone = e_timezone_dialog_get_builtin_timezone (displayname);
-	if (zone == NULL)
-		tz = g_strdup ("UTC");
-	else
-		tz = g_strdup (icaltimezone_get_location (zone));
-
-	client = gconf_client_get_default ();
-	gconf_client_set_string (client, "/apps/evolution/calendar/display/timezone", tz, NULL);
-	g_object_unref (client);
-
-	g_free (tz);
+	zone = e_timezone_dialog_get_timezone (E_TIMEZONE_DIALOG (data->timezone_page->etd));
+	if (zone) {
+		client = gconf_client_get_default ();
+		gconf_client_set_string (client, "/apps/evolution/calendar/display/timezone",
+					 icaltimezone_get_display_name (zone), NULL);
+		g_object_unref (client);
+	}
 
 	do_import (data);
 
@@ -450,6 +442,35 @@ make_corba_page (SWData *data, int n, GtkWidget *prev)
 	return page;
 }
 
+static gboolean
+prepare_timezone_page (GnomeDruidPage *page,
+		       GnomeDruid *druid,
+		       SWData *data)
+{
+	GConfClient *client;
+	icaltimezone *zone;
+	char *zone_name;
+
+	if (data->timezone_page->prepared)
+		return TRUE;
+	data->timezone_page->prepared = TRUE;
+
+	client = gconf_client_get_default ();
+	zone_name = gconf_client_get_string (client, "/apps/evolution/calendar/display/timezone", NULL);
+	g_object_unref (client);
+
+	if (!zone_name)
+		return TRUE;
+
+	zone = icaltimezone_get_builtin_timezone (zone_name);
+	g_free (zone_name);
+
+	if (zone)
+		e_timezone_dialog_set_timezone (E_TIMEZONE_DIALOG (data->timezone_page->etd), zone);
+
+	return TRUE;
+}
+
 static TimezoneDialogPage *
 make_timezone_page (SWData *data)
 {
@@ -462,6 +483,8 @@ make_timezone_page (SWData *data)
 	page->page = glade_xml_get_widget (data->wizard, "timezone-page");
 	g_return_val_if_fail (page->page != NULL, NULL);
 
+	g_signal_connect_after (page->page, "prepare",
+				G_CALLBACK (prepare_timezone_page), data);
 	page->vbox = GTK_WIDGET (GNOME_DRUID_PAGE_STANDARD (page->page)->vbox);
 
 	etd = e_timezone_dialog_new ();
@@ -495,7 +518,6 @@ get_intelligent_importers (void)
 
 static gboolean
 prepare_importer_page (GnomeDruidPage *page,
-
 		       GnomeDruid *druid,
 		       SWData *data)
 {
