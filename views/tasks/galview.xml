@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<GalViewCollection default-view="Tasks">
-  <GalView id="Tasks" _title="_Tasks" filename="Tasks.galview" type="etable"/>
-  <GalView id="With_DueDate" _title="With _Due Date" filename="With_DueDate.galview" type="etable"/>
-  <GalView id="With_Status" _title="With _Status" filename="With_Status.galview" type="etable"/>
-</GalViewCollection>
