@@ -872,19 +872,16 @@ msgid "FIXME Path Help text here"
 msgstr ""
 
 #: addressbook/gui/component/addressbook-config.c:513
-#, fuzzy
 msgid "Create path if it doesn't exist."
-msgstr "Цього файлу не ╕сну╓."
+msgstr "Створити шлях, якщо його не ╕сну╓."
 
 #: addressbook/gui/component/addressbook-config.c:647
-#, fuzzy
 msgid "Edit Addressbook"
-msgstr "Зберегти у адресн╕й книз╕"
+msgstr "Виправити адресну книгу"
 
 #: addressbook/gui/component/addressbook-config.c:649
-#, fuzzy
 msgid "Add Addressbook"
-msgstr "Зберегти у адресн╕й книз╕"
+msgstr "Додати адресну книгу"
 
 #: addressbook/gui/component/addressbook-config.c:665
 msgid ""
@@ -1201,14 +1198,12 @@ msgstr "Друкувати"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:577
 #: addressbook/gui/widgets/e-minicard.c:672
-#, fuzzy
 msgid "Print Envelope"
-msgstr "Надрукувати конверт..."
+msgstr "Надрукувати конверт"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:641
-#, fuzzy
 msgid "* Click here to add a contact *"
-msgstr "<клацн╕ть тут для вибору дати>"
+msgstr "* Клацн╕ть тут щоб додати контакт *"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:642
 #, fuzzy
@@ -1216,14 +1211,12 @@ msgid "File As"
 msgstr "Файл"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:644
-#, fuzzy
 msgid "Email"
-msgstr "Е-пошта 2"
+msgstr "Е-пошта"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:645
-#, fuzzy
 msgid "Primary Phone"
-msgstr "Первинний"
+msgstr "Первинний телефон"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:646
 #, fuzzy
@@ -1233,7 +1226,7 @@ msgstr "Пом╕чник"
 #: addressbook/gui/widgets/e-addressbook-view.c:647
 #, fuzzy
 msgid "Business Phone"
-msgstr "Робоча 2"
+msgstr "Робочий телефон"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:648
 msgid "Callback Phone"
@@ -1245,71 +1238,60 @@ msgid "Company Phone"
 msgstr "Компан╕я"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:650
-#, fuzzy
 msgid "Home Phone"
-msgstr "Домашня 2"
+msgstr "Домашн╕й телефон"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:651
 msgid "Organization"
 msgstr "Орган╕зац╕я"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:652
-#, fuzzy
 msgid "Business Address"
-msgstr "Робоча 2"
+msgstr "Робоча адреса"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:653
-#, fuzzy
 msgid "Home Address"
-msgstr "Адреса"
+msgstr "Домашня адреса"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:654
-#, fuzzy
 msgid "Mobile Phone"
-msgstr "Моб╕льний"
+msgstr "Моб╕льний телефон"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:655
 msgid "Car Phone"
-msgstr ""
+msgstr "Автомоб╕льний телефон"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:658
-#, fuzzy
 msgid "Business Phone 2"
-msgstr "Робоча 2"
+msgstr "Робочий телеофн 2"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:659
-#, fuzzy
 msgid "Home Phone 2"
-msgstr "Домашня 2"
+msgstr "Домашн╕й телефон 2"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:661
-#, fuzzy
 msgid "Other Phone"
-msgstr "Стерти контакт?"
+msgstr "╤нший телефон"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:666
-#, fuzzy
 msgid "TTY"
-msgstr "TTY/TDD"
+msgstr "TTY"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:667
-#, fuzzy
 msgid "Other Address"
-msgstr "Перев╕рка адреси"
+msgstr "╤нша адреса"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:670
 msgid "Web Site"
-msgstr ""
+msgstr "Сайт"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:671
-#, fuzzy
 msgid "Department"
-msgstr "В╕дд╕л:"
+msgstr "В╕дд╕л"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:672
-#, fuzzy
 msgid "Office"
-msgstr "Оф╕с:"
+msgstr "Оф╕с"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:673
 #, fuzzy
@@ -1317,19 +1299,16 @@ msgid "Title"
 msgstr "Титул:"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:674
-#, fuzzy
 msgid "Profession"
-msgstr "Профес╕я:"
+msgstr "Профес╕я"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:675
-#, fuzzy
 msgid "Manager"
-msgstr "Пейджер"
+msgstr "Кер╕вник"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:677
-#, fuzzy
 msgid "Nickname"
-msgstr "Пр╕звисько:"
+msgstr "Пр╕звисько"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:678
 #, fuzzy
@@ -1337,9 +1316,8 @@ msgid "Spouse"
 msgstr "Джерело"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:679
-#, fuzzy
 msgid "Note"
-msgstr "Нема╓"
+msgstr "Прим╕тки"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:680
 msgid "Free-busy URL"
@@ -1736,12 +1714,11 @@ msgstr ""
 
 #: calendar/gui/calendar-model.c:1579
 msgid "Yes"
-msgstr ""
+msgstr "Так"
 
 #: calendar/gui/calendar-model.c:1579
-#, fuzzy
 msgid "No"
-msgstr "зараз"
+msgstr "Н╕"
 
 #: calendar/gui/calendar-summary.c:198
 #, fuzzy
@@ -1749,14 +1726,12 @@ msgid "%A, %e %B %Y"
 msgstr "%A, %d %B %Y"
 
 #: calendar/gui/calendar-summary.c:207
-#, fuzzy
 msgid "Appointments"
-msgstr "Зустр╕ч╕:"
+msgstr "Зустр╕ч╕"
 
 #: calendar/gui/calendar-summary.c:245 calendar/gui/calendar-summary.c:251
-#, fuzzy
 msgid "%I:%M%p"
-msgstr "%I:%M %p"
+msgstr "%I:%M%p"
 
 #: calendar/gui/calendar-summary.c:275 calendar/gui/print.c:948
 #: views/tasks/galview.xml.h:1
@@ -1764,13 +1739,12 @@ msgid "Tasks"
 msgstr "Завдання"
 
 #: calendar/gui/calendar-summary.c:443
-#, fuzzy
 msgid "<b>Error loading calendar</b>"
-msgstr "Помилка завантаження файлу: %s"
+msgstr "<b>Помилка завантаження календаря</b>"
 
 #: calendar/gui/calendar-summary.c:455
 msgid "<b>Error loading calendar:<br>Method not supported"
-msgstr ""
+msgstr "<b>Помилка завантаження календаря:<br>Метод не п╕дтриму╓ться"
 
 #: calendar/gui/calendar-summary.c:622
 #, fuzzy
@@ -1778,23 +1752,20 @@ msgid "Display"
 msgstr "День"
 
 #: calendar/gui/calendar-summary.c:627
-#, fuzzy
 msgid "Show appointments"
-msgstr "Показати час завершення зустр╕чей"
+msgstr "Показати зустр╕ч╕"
 
 #: calendar/gui/calendar-summary.c:635
-#, fuzzy
 msgid "Show tasks"
-msgstr "Показати долучення"
+msgstr "Показати завдання"
 
 #: calendar/gui/calendar-summary.c:690
 msgid "Things to do"
 msgstr ""
 
 #: calendar/gui/calendar-summary.c:721 calendar/gui/e-itip-control.glade.h:7
-#, fuzzy
 msgid "Loading Calendar"
-msgstr "Надрукувати календар"
+msgstr "Завантаження календаря"
 
 #: calendar/gui/control-factory.c:126
 msgid "The URI that the calendar will display"
@@ -1902,7 +1873,6 @@ msgid "Alarms timeout after"
 msgstr ""
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
-#, fuzzy
 msgid "Audio Alarms"
 msgstr "Звуков╕ си╜нали"
 
@@ -2207,7 +2177,6 @@ msgid "Task"
 msgstr "Завдання"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:21
-#, fuzzy
 msgid "URL:"
 msgstr "URL:"
 
@@ -2258,9 +2227,8 @@ msgid "Journal entry - %s"
 msgstr "Журнальний запис - %s"
 
 #: calendar/gui/e-calendar-table.c:157
-#, fuzzy
 msgid "Categories"
-msgstr "категор╕╖"
+msgstr "Категор╕╖"
 
 #: calendar/gui/e-calendar-table.c:159
 #, fuzzy
@@ -2268,9 +2236,8 @@ msgid "Completion Date"
 msgstr "Завершено"
 
 #: calendar/gui/e-calendar-table.c:160
-#, fuzzy
 msgid "End Date"
-msgstr "Час завершення:"
+msgstr ""
 
 #: calendar/gui/e-calendar-table.c:161
 #, fuzzy
@@ -2279,7 +2246,7 @@ msgstr "Час початку:"
 
 #: calendar/gui/e-calendar-table.c:163
 msgid "Geographical Position"
-msgstr ""
+msgstr "Географ╕чне положення"
 
 #: calendar/gui/e-calendar-table.c:164
 #, fuzzy
@@ -2297,14 +2264,12 @@ msgid "Transparency"
 msgstr "Прозорий"
 
 #: calendar/gui/e-calendar-table.c:168
-#, fuzzy
 msgid "URL"
-msgstr "URL:"
+msgstr "URL"
 
 #: calendar/gui/e-calendar-table.c:169
-#, fuzzy
 msgid "Alarms"
-msgstr "Звуков╕ си╜нали"
+msgstr "Си╜нали"
 
 #: calendar/gui/e-calendar-table.c:170
 #, fuzzy
@@ -2314,57 +2279,57 @@ msgstr "Клацн╕ть тут щоб викликати адресну книгу"
 #: calendar/gui/e-calendar-table.c:374
 #, c-format
 msgid "0%"
-msgstr ""
+msgstr "0%"
 
 #: calendar/gui/e-calendar-table.c:375
 #, c-format
 msgid "10%"
-msgstr ""
+msgstr "10%"
 
 #: calendar/gui/e-calendar-table.c:376
 #, c-format
 msgid "20%"
-msgstr ""
+msgstr "20%"
 
 #: calendar/gui/e-calendar-table.c:377
 #, c-format
 msgid "30%"
-msgstr ""
+msgstr "30%"
 
 #: calendar/gui/e-calendar-table.c:378
 #, c-format
 msgid "40%"
-msgstr ""
+msgstr "40%"
 
 #: calendar/gui/e-calendar-table.c:379
 #, c-format
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 #: calendar/gui/e-calendar-table.c:380
 #, c-format
 msgid "60%"
-msgstr ""
+msgstr "60%"
 
 #: calendar/gui/e-calendar-table.c:381
 #, c-format
 msgid "70%"
-msgstr ""
+msgstr "70%"
 
 #: calendar/gui/e-calendar-table.c:382
 #, c-format
 msgid "80%"
-msgstr ""
+msgstr "80%"
 
 #: calendar/gui/e-calendar-table.c:383
 #, c-format
 msgid "90%"
-msgstr ""
+msgstr "90%"
 
 #: calendar/gui/e-calendar-table.c:384
 #, c-format
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 #: calendar/gui/e-calendar-table.c:551
 msgid "Mark Complete"
