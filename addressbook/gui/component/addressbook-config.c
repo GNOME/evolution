@@ -290,12 +290,12 @@ static void
 addressbook_source_dialog_set_source (AddressbookSourceDialog *dialog, AddressbookSource *source)
 {
 	char *string;
-	gtk_entry_set_text (GTK_ENTRY (dialog->display_name), source ? source->name : "");
-	gtk_entry_set_text (GTK_ENTRY (dialog->host), source ? source->host : "");
-	gtk_entry_set_text (GTK_ENTRY (dialog->email), source ? source->email_addr : "");
-	gtk_entry_set_text (GTK_ENTRY (dialog->binddn), source ? source->binddn : "");
+	gtk_entry_set_text (GTK_ENTRY (dialog->display_name), source && source->name ? source->name : "");
+	gtk_entry_set_text (GTK_ENTRY (dialog->host), source && source->host ? source->host : "");
+	gtk_entry_set_text (GTK_ENTRY (dialog->email), source && source->email_addr ? source->email_addr : "");
+	gtk_entry_set_text (GTK_ENTRY (dialog->binddn), source && source->binddn ? source->binddn : "");
 	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO(dialog->port_combo)->entry), source ? source->port : LDAP_PORT_STRING);
-	gtk_entry_set_text (GTK_ENTRY (dialog->rootdn), source ? source->rootdn : "");
+	gtk_entry_set_text (GTK_ENTRY (dialog->rootdn), source && source->rootdn ? source->rootdn : "");
 
 	string = g_strdup_printf ("%d", source ? source->limit : 100);
 	gtk_entry_set_text (GTK_ENTRY (dialog->limit_spinbutton), string);
@@ -1140,12 +1140,14 @@ set_advanced_button_state (AddressbookSourceDialog *dialog)
 #endif
 	}
 	else {
+#ifdef NEW_ADVANCED_UI
 		gtk_notebook_set_current_page (GTK_NOTEBOOK(dialog->advanced_button_notebook), 1);
 		
 		/* hide the advanced tabs of the main notebook */
 		gtk_notebook_remove_page (GTK_NOTEBOOK(dialog->notebook), 5);
 		gtk_notebook_remove_page (GTK_NOTEBOOK(dialog->notebook), 4);
 		gtk_notebook_remove_page (GTK_NOTEBOOK(dialog->notebook), 3);
+#endif
 	}
 }
 
@@ -1343,7 +1345,9 @@ addressbook_edit_server_dialog (GtkTreeModel      *model,
 	AddressbookSource *source;
 	AddressbookSourceDialog *sdialog = g_new0 (AddressbookSourceDialog, 1);
 	GtkWidget *general_tab_help;
+#ifdef NEW_ADVANCED_UI
 	GtkWidget *fewer_options_button, *more_options_button;
+#endif
 
 	gtk_tree_model_get (model, model_row,
 			    2, &source,
@@ -1387,14 +1391,17 @@ addressbook_edit_server_dialog (GtkTreeModel      *model,
 	/* XXX setup_dn_customization_tab */
 #endif
 
+	sdialog->notebook = glade_xml_get_widget (sdialog->gui, "account-editor-notebook");
+
 	sdialog->ok_button = glade_xml_get_widget (sdialog->gui, "account-editor-ok-button");
 	sdialog->cancel_button = glade_xml_get_widget (sdialog->gui, "account-editor-cancel-button");
 
+#if NEW_ADVANCED_UI
 	sdialog->advanced_button_notebook = glade_xml_get_widget (sdialog->gui, "account-editor-advanced-button-notebook");
 	fewer_options_button = glade_xml_get_widget (sdialog->gui, "account-editor-fewer-options-button");
 	more_options_button = glade_xml_get_widget (sdialog->gui, "account-editor-more-options-button");
+#endif
 
-	sdialog->notebook = glade_xml_get_widget (sdialog->gui, "account-editor-notebook");
 #ifdef NEW_ADVANCED_UI
 	sdialog->objectclasses_label = glade_xml_get_widget (sdialog->gui, "account-editor-objectclasses-label");
 	g_object_ref (sdialog->objectclasses_label);
@@ -1420,8 +1427,6 @@ addressbook_edit_server_dialog (GtkTreeModel      *model,
 	g_signal_connect (more_options_button,
 			    "clicked", advanced_button_clicked, sdialog);
 
-#else
-	gtk_widget_hide (sdialog->advanced_button_notebook);
 #endif
 
 #ifdef NEW_ADVANCED_UI

@@ -1,5 +1,17 @@
 2003-03-23  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes bug #31786 ]
+	* gui/component/addressbook-config.c
+	(addressbook_source_dialog_set_source): fix some gtk warnings.
+	(set_advanced_button_state): the advanced dialog isn't present in
+	the glade file anymore, so ifdef everything dealing with it.
+	(addressbook_edit_server_dialog): same.
+
+	* gui/component/ldap-config.glade: remove all the unused Advanced
+	UI stuff to lessen the amount of strings needing translation.
+
+2003-03-23  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes bug #32113 ]
 	* backend/ebook/e-destination.h: add include_email arg to
 	e_destination_get_textrep.
