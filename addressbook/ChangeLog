@@ -1,3 +1,10 @@
+2001-10-29  JP Rosevear  <jpr@ximian.com>
+
+	* conduit/address-conduit.c (is_syncable): move the syncable
+	checking code to a different function
+	(ecard_from_remote_record): set the name parts individually
+	(local_record_from_ecard): use is_syncable
+
 2001-10-29  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/ebook/e-card-simple.c (file_as_get_style,

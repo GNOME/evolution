@@ -496,6 +496,84 @@ is_next_done (ECardSimpleField field)
 	return FALSE;
 }
 
+static gboolean
+is_syncable (EAddrConduitContext *ctxt, EAddrLocalRecord *local) 
+{	
+	ECardSimpleField next_mail, next_home, next_work, next_fax;
+	ECardSimpleField next_other, next_main, next_pager, next_mobile;
+	gboolean syncable = TRUE;
+	int i;
+
+	/* See if there are fields we can't sync */
+	get_next_init (&next_mail, &next_home, &next_work, &next_fax,
+		       &next_other, &next_main, &next_pager, &next_mobile);
+	
+	for (i = entryPhone1; i <= entryPhone5; i++) {
+		char *phonelabel = ctxt->ai.phoneLabels[local->addr->phoneLabel[i - entryPhone1]];
+		const char *phone_str = local->addr->entry[i];
+		
+		if (!strcmp (phonelabel, "E-mail")) {
+			if (is_next_done (next_mail)) {
+				syncable = FALSE;
+				break;
+			}
+			if (phone_str && *phone_str)
+				next_mail = get_next_mail (&next_mail);
+		} else if (!strcmp (phonelabel, "Home")) {
+			if (is_next_done (next_home)) {
+				syncable = FALSE;
+				break;
+			}
+			if (phone_str && *phone_str)
+				next_home = get_next_home (&next_home);
+		} else if (!strcmp (phonelabel, "Work")) {
+			if (is_next_done (next_work)) {
+				syncable = FALSE;
+				break;
+			}
+			if (phone_str && *phone_str)
+				next_work = get_next_work (&next_work);
+		} else if (!strcmp (phonelabel, "Fax")) {
+			if (is_next_done (next_fax)) {
+				syncable = FALSE;
+				break;
+			}
+			if (phone_str && *phone_str)
+				next_fax = get_next_fax (&next_fax);
+		} else if (!strcmp (phonelabel, "Other")) {
+			if (is_next_done (next_other)) {
+				syncable = FALSE;
+				break;
+			}
+			if (phone_str && *phone_str)
+				next_other = get_next_other (&next_other);
+		} else if (!strcmp (phonelabel, "Main")) {
+			if (is_next_done (next_main)) {
+				syncable = FALSE;
+				break;
+			}
+			if (phone_str && *phone_str)
+				next_main = get_next_main (&next_main);
+		} else if (!strcmp (phonelabel, "Pager")) {
+			if (is_next_done (next_pager)) {
+				syncable = FALSE;
+				break;
+			}
+			if (phone_str && *phone_str)
+				next_pager = get_next_pager (&next_pager);
+		} else if (!strcmp (phonelabel, "Mobile")) {
+			if (is_next_done (next_mobile)) {
+				syncable = FALSE;
+				break;
+			}
+			if (phone_str && *phone_str)
+				next_mobile = get_next_mobile (&next_mobile);
+		}		
+	}
+
+	return syncable;
+}
+
 static char *
 get_entry_text (struct Address address, int field)
 {
@@ -581,8 +659,7 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 	ECardSimple *simple;
 	const ECardDeliveryAddress *delivery;
 	int phone = entryPhone1;
-	ECardSimpleField next_mail, next_home, next_work, next_fax;
-	ECardSimpleField next_other, next_main, next_pager, next_mobile;
+
 	gboolean syncable;
 	int i;
 	
@@ -628,9 +705,10 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 	if (ecard->name) {
 		local->addr->entry[entryFirstname] = e_pilot_utf8_to_pchar (ecard->name->given);
 		local->addr->entry[entryLastname] = e_pilot_utf8_to_pchar (ecard->name->family);
-		local->addr->entry[entryCompany] = e_pilot_utf8_to_pchar (ecard->org);
-		local->addr->entry[entryTitle] = e_pilot_utf8_to_pchar (ecard->title);
 	}
+
+	local->addr->entry[entryCompany] = e_pilot_utf8_to_pchar (ecard->org);
+	local->addr->entry[entryTitle] = e_pilot_utf8_to_pchar (ecard->title);
 
 	delivery = e_card_simple_get_delivery_address (simple, E_CARD_SIMPLE_ADDRESS_ID_BUSINESS);
 	if (delivery) {
@@ -642,76 +720,13 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 	}
 
 	/* Phone numbers */
-	get_next_init (&next_mail, &next_home, &next_work, &next_fax,
-		       &next_other, &next_main, &next_pager, &next_mobile);
 
 	/* See if everything is syncable */
-	syncable = TRUE;
-	for (i = entryPhone1; i <= entryPhone5; i++) {
-		char *phonelabel = ctxt->ai.phoneLabels[local->addr->phoneLabel[i - entryPhone1]];
-		const char *phone_str = local->addr->entry[i];
-		
-		if (!strcmp (phonelabel, "E-mail")) {
-			if (is_next_done (next_mail)) {
-				syncable = FALSE;
-				break;
-			}
-			if (phone_str && *phone_str)
-				next_mail = get_next_mail (&next_mail);
-		} else if (!strcmp (phonelabel, "Home")) {
-			if (is_next_done (next_home)) {
-				syncable = FALSE;
-				break;
-			}
-			if (phone_str && *phone_str)
-				next_home = get_next_home (&next_home);
-		} else if (!strcmp (phonelabel, "Work")) {
-			if (is_next_done (next_work)) {
-				syncable = FALSE;
-				break;
-			}
-			if (phone_str && *phone_str)
-				next_work = get_next_work (&next_work);
-		} else if (!strcmp (phonelabel, "Fax")) {
-			if (is_next_done (next_fax)) {
-				syncable = FALSE;
-				break;
-			}
-			if (phone_str && *phone_str)
-				next_fax = get_next_fax (&next_fax);
-		} else if (!strcmp (phonelabel, "Other")) {
-			if (is_next_done (next_other)) {
-				syncable = FALSE;
-				break;
-			}
-			if (phone_str && *phone_str)
-				next_other = get_next_other (&next_other);
-		} else if (!strcmp (phonelabel, "Main")) {
-			if (is_next_done (next_main)) {
-				syncable = FALSE;
-				break;
-			}
-			if (phone_str && *phone_str)
-				next_main = get_next_main (&next_main);
-		} else if (!strcmp (phonelabel, "Pager")) {
-			if (is_next_done (next_pager)) {
-				syncable = FALSE;
-				break;
-			}
-			if (phone_str && *phone_str)
-				next_pager = get_next_pager (&next_pager);
-		} else if (!strcmp (phonelabel, "Mobile")) {
-			if (is_next_done (next_mobile)) {
-				syncable = FALSE;
-				break;
-			}
-			if (phone_str && *phone_str)
-				next_mobile = get_next_mobile (&next_mobile);
-		}		
-	}
-
+	syncable = is_syncable (ctxt, local);
+	
 	if (syncable) {
 		INFO ("Syncable");
+
 		/* Sync by priority */
 		for (i = 0, phone = entryPhone1; 
 		     priority[i] != E_CARD_SIMPLE_FIELD_LAST && phone <= entryPhone5; i++) {
@@ -730,6 +745,9 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 			      local->addr->phoneLabel[phone - entryPhone1] = phone - entryPhone1;
 		local->addr->showPhone = 0;
 	} else {
+		ECardSimpleField next_mail, next_home, next_work, next_fax;
+		ECardSimpleField next_other, next_main, next_pager, next_mobile;
+
 		INFO ("Not Syncable");
 		get_next_init (&next_mail, &next_home, &next_work, &next_fax,
 			       &next_other, &next_main, &next_pager, &next_mobile);
@@ -814,10 +832,10 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	struct Address address;
 	ECard *ecard;
 	ECardSimple *simple;
+	ECardName *name;
 	ECardDeliveryAddress *delivery;
 	ECardAddrLabel *label;
 	char *txt;
-	char *stringparts[3];
 	ECardSimpleField next_mail, next_home, next_work, next_fax;
 	ECardSimpleField next_other, next_main, next_pager, next_mobile;
 	int i;
@@ -830,28 +848,34 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 		ecard = e_card_new("");
 	else
 		ecard = e_card_duplicate (in_card);
-	simple = e_card_simple_new (ecard);
 
-	/* Name and company */
-	i = 0;
+	/* Name */
+	name = e_card_name_copy (ecard->name);
 	if (address.entry[entryFirstname] && *address.entry[entryFirstname])
-		stringparts[i++] = address.entry[entryFirstname];
+		name->given = g_strdup (address.entry[entryFirstname]);
 	if (address.entry[entryLastname] && *address.entry[entryLastname])
-		stringparts[i++] = address.entry[entryLastname];
-	stringparts[i] = NULL;
+		name->family = g_strdup (address.entry[entryLastname]);
 
-	txt = g_strjoinv (" ", stringparts);
-	e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_FULL_NAME, e_pilot_utf8_from_pchar (txt));
+	simple = e_card_simple_new (ecard);
+	txt = e_card_name_to_string (name);	
+	e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_FULL_NAME, txt);
+	e_card_simple_set_name (simple, name);
+
+	/* File as */
+	if (!(txt && *txt))
+		e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_FILE_AS, 
+				  address.entry[entryCompany]);
+
 	g_free (txt);
+	e_card_name_unref (name);
 
+	/* Title and Company */
 	txt = get_entry_text (address, entryTitle);
 	e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_TITLE, txt);
 	g_free (txt);
 
 	txt = get_entry_text (address, entryCompany);
 	e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_ORG, txt);
-	if (i == 0)
-		e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_FILE_AS, txt);	
 	g_free (txt);
 
 	/* Address */
@@ -1271,22 +1295,21 @@ compare (GnomePilotConduitSyncAbs *conduit,
 	 GnomePilotRecord *remote,
 	 EAddrConduitContext *ctxt)
 {
-	/* used by the quick compare */
 	GnomePilotRecord local_pilot;
 	int retval = 0;
 
 	LOG ("compare: local=%s remote=%s...\n",
 	     print_local (local), print_remote (remote));
 
-	g_return_val_if_fail (local!=NULL,-1);
-	g_return_val_if_fail (remote!=NULL,-1);
+	g_return_val_if_fail (local != NULL, -1);
+	g_return_val_if_fail (remote != NULL, -1);
 
-  	local_pilot = local_record_to_pilot_record (local, ctxt);
+	local_pilot = local_record_to_pilot_record (local, ctxt);
 
 	if (remote->length != local_pilot.length
 	    || memcmp (local_pilot.record, remote->record, remote->length))
 		retval = 1;
-
+	
 	if (retval == 0)
 		LOG ("    equal");
 	else
