@@ -24,7 +24,6 @@
 #include <config.h>
 #include <string.h>
 #include <gtk/gtkimage.h>
-#include <gtk/gtkinvisible.h>
 #include <gtk/gtkstock.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
@@ -63,8 +62,7 @@ struct _ECalendarViewPrivate {
 	/* The activity client used to show messages on the status bar. */
 	EvolutionActivityClient *activity;
 
-	/* the invisible widget to manage the clipboard selections */
-	GtkWidget *invisible;
+	/* clipboard selections */
 	gchar *clipboard_selection;
 
 	/* The popup menu */
@@ -256,33 +254,6 @@ model_rows_changed_cb (ETableModel *etm, int row, int count, gpointer user_data)
 	e_calendar_view_update_query (cal_view);
 }
 
-static void
-selection_get (GtkWidget *invisible,
-	       GtkSelectionData *selection_data,
-	       guint info,
-	       guint time_stamp,
-	       ECalendarView *cal_view)
-{
-	if (cal_view->priv->clipboard_selection != NULL) {
-		gtk_selection_data_set (selection_data,
-					GDK_SELECTION_TYPE_STRING,
-					8,
-					cal_view->priv->clipboard_selection,
-					strlen (cal_view->priv->clipboard_selection));
-	}
-}
-
-static void
-selection_clear_event (GtkWidget *invisible,
-		       GdkEventSelection *event,
-		       ECalendarView *cal_view)
-{
-	if (cal_view->priv->clipboard_selection != NULL) {
-		g_free (cal_view->priv->clipboard_selection);
-		cal_view->priv->clipboard_selection = NULL;
-	}
-}
-
 void
 e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart, 
 		      icaltimezone *default_zone, icalcomponent *icalcomp, gboolean in_top_canvas) 
@@ -354,80 +325,6 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 }
 
 static void
-selection_received (GtkWidget *invisible,
-		    GtkSelectionData *selection_data,
-		    guint time,
-		    ECalendarView *cal_view)
-{
-	char *comp_str, *default_tzid;
-	icalcomponent *icalcomp;
-	icalcomponent_kind kind;
-	time_t selected_time_start, selected_time_end;
-	icaltimezone *default_zone;
-	ECal *client;
-
-	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
-
-	if (selection_data->length < 0 ||
-	    selection_data->type != GDK_SELECTION_TYPE_STRING) {
-		return;
-	}
-
-	comp_str = (char *) selection_data->data;
-	icalcomp = icalparser_parse_string ((const char *) comp_str);
-	if (!icalcomp)
-		return;
-
-	default_tzid = calendar_config_get_timezone ();
-
-	client = e_cal_model_get_default_client (cal_view->priv->model);
-	/* FIXME Error checking */
-	e_cal_get_timezone (client, default_tzid, &default_zone, NULL);
-
-	/* check the type of the component */
-	/* FIXME An error dialog if we return? */
-	kind = icalcomponent_isa (icalcomp);
-	if (kind != ICAL_VCALENDAR_COMPONENT && kind != ICAL_VEVENT_COMPONENT)
-		return;
-
-	e_calendar_view_set_status_message (cal_view, _("Updating objects"));
-	e_calendar_view_get_selected_time_range (cal_view, &selected_time_start, &selected_time_end);
-
-	/* FIXME Timezone handling */
-	if (kind == ICAL_VCALENDAR_COMPONENT) {
-		icalcomponent_kind child_kind;
-		icalcomponent *subcomp;
-
-		subcomp = icalcomponent_get_first_component (icalcomp, ICAL_ANY_COMPONENT);
-		while (subcomp) {
-			child_kind = icalcomponent_isa (subcomp);
-			if (child_kind == ICAL_VEVENT_COMPONENT)
-				e_calendar_view_add_event (cal_view, client, selected_time_start, 
-						      default_zone, subcomp, FALSE);
-			else if (child_kind == ICAL_VTIMEZONE_COMPONENT) {
-				icaltimezone *zone;
-
-				zone = icaltimezone_new ();
-				icaltimezone_set_component (zone, subcomp);
-				e_cal_add_timezone (client, zone, NULL);
-				
-				icaltimezone_free (zone, 1);
-			}
-			
-			subcomp = icalcomponent_get_next_component (
-				icalcomp, ICAL_ANY_COMPONENT);
-		}
-
-		icalcomponent_free (icalcomp);
-
-	} else {
-		e_calendar_view_add_event (cal_view, client, selected_time_start, default_zone, icalcomp, FALSE);
-	}
-
-	e_calendar_view_set_status_message (cal_view, NULL);
-}
-
-static void
 e_calendar_view_init (ECalendarView *cal_view, ECalendarViewClass *klass)
 {
 	cal_view->priv = g_new0 (ECalendarViewPrivate, 1);
@@ -443,19 +340,6 @@ e_calendar_view_init (ECalendarView *cal_view, ECalendarViewClass *klass)
 			  G_CALLBACK (model_rows_changed_cb), cal_view);
 	g_signal_connect (G_OBJECT (cal_view->priv->model), "model_rows_deleted",
 			  G_CALLBACK (model_rows_changed_cb), cal_view);
-
-	/* Set up the invisible widget for the clipboard selections */
-	cal_view->priv->invisible = gtk_invisible_new ();
-	gtk_selection_add_target (cal_view->priv->invisible,
-				  clipboard_atom,
-				  GDK_SELECTION_TYPE_STRING,
-				  0);
-	g_signal_connect (cal_view->priv->invisible, "selection_get",
-			  G_CALLBACK (selection_get), (gpointer) cal_view);
-	g_signal_connect (cal_view->priv->invisible, "selection_clear_event",
-			  G_CALLBACK (selection_clear_event), (gpointer) cal_view);
-	g_signal_connect (cal_view->priv->invisible, "selection_received",
-			  G_CALLBACK (selection_received), (gpointer) cal_view);
 
 	cal_view->priv->clipboard_selection = NULL;
 }
@@ -479,11 +363,6 @@ e_calendar_view_destroy (GtkObject *object)
 		if (cal_view->priv->activity) {
 			g_object_unref (cal_view->priv->activity);
 			cal_view->priv->activity = NULL;
-		}
-
-		if (cal_view->priv->invisible) {
-			gtk_widget_destroy (cal_view->priv->invisible);
-			cal_view->priv->invisible = NULL;
 		}
 
 		if (cal_view->priv->clipboard_selection) {
@@ -806,11 +685,78 @@ e_calendar_view_copy_clipboard (ECalendarView *cal_view)
 	if (cal_view->priv->clipboard_selection != NULL)
 		g_free (cal_view->priv->clipboard_selection);
 	cal_view->priv->clipboard_selection = g_strdup (comp_str);
-	gtk_selection_owner_set (cal_view->priv->invisible, clipboard_atom, GDK_CURRENT_TIME);
+	gtk_clipboard_set_text (gtk_widget_get_clipboard (GTK_WIDGET (cal_view), clipboard_atom),
+				(const gchar *) comp_str,
+				g_utf8_strlen (comp_str, -1));
 
 	/* free memory */
 	icalcomponent_free (vcal_comp);
 	g_list_free (selected);
+}
+
+static void
+clipboard_get_text_cb (GtkClipboard *clipboard, const gchar *text, ECalendarView *cal_view)
+{
+	char *default_tzid;
+	icalcomponent *icalcomp;
+	icalcomponent_kind kind;
+	time_t selected_time_start, selected_time_end;
+	icaltimezone *default_zone;
+	ECal *client;
+
+	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
+
+	icalcomp = icalparser_parse_string ((const char *) text);
+	if (!icalcomp)
+		return;
+
+	default_tzid = calendar_config_get_timezone ();
+
+	client = e_cal_model_get_default_client (cal_view->priv->model);
+	/* FIXME Error checking */
+	e_cal_get_timezone (client, default_tzid, &default_zone, NULL);
+
+	/* check the type of the component */
+	/* FIXME An error dialog if we return? */
+	kind = icalcomponent_isa (icalcomp);
+	if (kind != ICAL_VCALENDAR_COMPONENT && kind != ICAL_VEVENT_COMPONENT)
+		return;
+
+	e_calendar_view_set_status_message (cal_view, _("Updating objects"));
+	e_calendar_view_get_selected_time_range (cal_view, &selected_time_start, &selected_time_end);
+
+	/* FIXME Timezone handling */
+	if (kind == ICAL_VCALENDAR_COMPONENT) {
+		icalcomponent_kind child_kind;
+		icalcomponent *subcomp;
+
+		subcomp = icalcomponent_get_first_component (icalcomp, ICAL_ANY_COMPONENT);
+		while (subcomp) {
+			child_kind = icalcomponent_isa (subcomp);
+			if (child_kind == ICAL_VEVENT_COMPONENT)
+				e_calendar_view_add_event (cal_view, client, selected_time_start, 
+						      default_zone, subcomp, FALSE);
+			else if (child_kind == ICAL_VTIMEZONE_COMPONENT) {
+				icaltimezone *zone;
+
+				zone = icaltimezone_new ();
+				icaltimezone_set_component (zone, subcomp);
+				e_cal_add_timezone (client, zone, NULL);
+				
+				icaltimezone_free (zone, 1);
+			}
+			
+			subcomp = icalcomponent_get_next_component (
+				icalcomp, ICAL_ANY_COMPONENT);
+		}
+
+		icalcomponent_free (icalcomp);
+
+	} else {
+		e_calendar_view_add_event (cal_view, client, selected_time_start, default_zone, icalcomp, FALSE);
+	}
+
+	e_calendar_view_set_status_message (cal_view, NULL);
 }
 
 void
@@ -818,10 +764,8 @@ e_calendar_view_paste_clipboard (ECalendarView *cal_view)
 {
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
-	gtk_selection_convert (cal_view->priv->invisible,
-			       clipboard_atom,
-			       GDK_SELECTION_TYPE_STRING,
-			       GDK_CURRENT_TIME);
+	gtk_clipboard_request_text (gtk_widget_get_clipboard (GTK_WIDGET (cal_view), clipboard_atom),
+				    (GtkClipboardTextReceivedFunc) clipboard_get_text_cb, cal_view);
 }
 
 static void

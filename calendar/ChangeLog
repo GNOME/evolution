@@ -1,3 +1,14 @@
+2003-11-19  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #43556
+
+	* gui/e-cal-view.c (selection_get, selection_clear_event,
+	selection_received): removed this unneeded functions.
+	(e_calendar_view_init): don't create a GtkInvisible anymore.
+	(e_calendar_view_destroy): no need to destroy the GtkInvisible.
+	(e_cal_view_copy_clipboard, e_cal_view_paste_clipboard):
+	use GtkClipboard.
+
 2003-11-19  JP Rosevear <jpr@ximian.com>
 
 	* gui/e-cal-model-tasks.c (get_due): make sure timezone value is
