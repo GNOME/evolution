@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution CVS-20010612\n"
 "POT-Creation-Date: 2001-10-10 11:08-0400\n"
-"PO-Revision-Date: 2001-10-01 00:28+0900\n"
+"PO-Revision-Date: 2001-23-01 00:28+0900\n"
 "Last-Translator: Takuo KITAME <kitame@debian.org>\n"
 "Language-Team: Japanese <translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -935,9 +935,9 @@ msgstr ""
 "を持っているかどうかチェックしてください"
 
 #: addressbook/gui/component/addressbook.c:550
-#, fuzzy, c-format
+#, c-format
 msgid "Enter password for %s (user %s)"
-msgstr "%s のためのパスワードを入力してください"
+msgstr "%s (user %s) のためのパスワードを入力してください"
 
 #: addressbook/gui/component/addressbook.c:655
 #: calendar/gui/cal-search-bar.c:55
@@ -3432,9 +3432,9 @@ msgid "%s at the start of the appointment"
 msgstr "アポイントの開始 %s"
 
 #: calendar/gui/dialogs/alarm-page.c:420
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s before the end of the appointment"
-msgstr "アポイントの終了 %s"
+msgstr "アポイント終了の前 %s %s"
 
 #: calendar/gui/dialogs/alarm-page.c:423
 #, c-format
@@ -5444,9 +5444,9 @@ msgid "Unsupported operation: search by expression: for %s"
 msgstr "未対応の操作: 正規表現での検索: %s に"
 
 #: camel/camel-folder.c:1087
-#, fuzzy, c-format
+#, c-format
 msgid "Unsupported operation: search by uids: for %s"
-msgstr "未対応の操作: 正規表現での検索: %s に"
+msgstr "未対応の操作: uid での検索: %s に"
 
 #: camel/camel-folder.c:1266
 msgid "Moving messages"
@@ -5954,9 +5954,8 @@ msgid "Failed to verify certificates."
 msgstr "認証の証明に失敗しました"
 
 #: camel/camel-store.c:218
-#, fuzzy
 msgid "Cannot get folder: Invalid operation on this store"
-msgstr "フォルダを作成できません: このストアでは不正な操作です"
+msgstr "フォルダを取得できません: このストアでは不正な操作です"
 
 #: camel/camel-store.c:279
 msgid "Cannot create folder: Invalid operation on this store"
@@ -6280,9 +6279,9 @@ msgstr ""
 "フォルダからインデックスファイル `%s' を削除することが出来ませんでした: %s"
 
 #: camel/providers/local/camel-local-summary.c:367
-#, fuzzy, c-format
+#, c-format
 msgid "Could not save summary: %s: %s"
-msgstr "%s のサマリーをロード出来ませんでした"
+msgstr "サマリーをセーブ出来ませんでした: %s: %s"
 
 #: camel/providers/local/camel-local-summary.c:423
 #: camel/providers/local/camel-spool-summary.c:1158
@@ -7194,14 +7193,14 @@ msgstr "メッセージへファイルを添付します"
 
 #: composer/e-msg-composer-attachment.c:168
 #: composer/e-msg-composer-attachment.c:184
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot attach file %s: %s"
-msgstr "フォルダをチェック出来ません: %s: %s"
+msgstr "ファイルを添付出来ません: %s: %s"
 
 #: composer/e-msg-composer-attachment.c:176
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot attach file %s: not a regular file"
-msgstr "`%s' は通常のファイルではありません"
+msgstr "ファイル %s を添付できません: 通常のファイルではありません"
 
 #: composer/e-msg-composer-attachment.glade.h:1
 msgid "Attachment properties"
@@ -7314,8 +7313,8 @@ msgid ""
 "Unable to open the drafts folder for this account.\n"
 "Would you like to use the default drafts folder?"
 msgstr ""
-"このアカウントの草案フォルダを開くことが出来ません\n"
-"デフォルトの草案フォルダを使ってもよろしいですか?"
+"このアカウントの草稿フォルダを開くことが出来ません\n"
+"デフォルトの草稿フォルダを使ってもよろしいですか?"
 
 #: composer/e-msg-composer.c:1036
 #, c-format
@@ -7578,14 +7577,12 @@ msgid "seconds"
 msgstr " 秒"
 
 #: filter/filter-datespec.c:194
-#, fuzzy
 msgid "You have forgotten to choose a date."
 msgstr "日付の選択を忘れています"
 
 #: filter/filter-datespec.c:196
-#, fuzzy
 msgid "You have chosen an invalid date."
-msgstr "無効な日付を選択しています"
+msgstr "不正な日付を選択しています"
 
 #: filter/filter-datespec.c:271
 msgid ""
@@ -7672,7 +7669,6 @@ msgid "Add action"
 msgstr "動作を追加"
 
 #: filter/filter-folder.c:147
-#, fuzzy
 msgid ""
 "You forgot to choose a folder.\n"
 "Please go back and specify a valid folder to deliver mail to."
@@ -7840,7 +7836,7 @@ msgstr "が存在しない"
 
 #: filter/libfilter-i18n.h:19
 msgid "Draft"
-msgstr "草案"
+msgstr "草稿"
 
 #: filter/libfilter-i18n.h:20
 msgid "ends with"
@@ -8144,9 +8140,9 @@ msgid "Virtual Trash folder"
 msgstr "仮想ごみ箱フォルダ"
 
 #: mail/component-factory.c:125
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot connect to store: %s"
-msgstr "サーバへ接続することが出来ませんでした: %s"
+msgstr "ストアへ接続することが出来ませんでした: %s"
 
 #: mail/component-factory.c:146
 msgid "This folder cannot contain messages."
@@ -8179,14 +8175,12 @@ msgid "Cannot initialize Evolution's mail component."
 msgstr "Evolution メールコンポーネントの初期化が出来ません"
 
 #: mail/component-factory.c:890
-#, fuzzy
 msgid "Cannot initialize Evolution's mail config component."
-msgstr "Evolution メールコンポーネントの初期化が出来ません"
+msgstr "Evolution メール設定コンポーネントの初期化が出来ません"
 
 #: mail/component-factory.c:896
-#, fuzzy
 msgid "Cannot initialize Evolution's folder info component."
-msgstr "Evolution メールコンポーネントの初期化が出来ません"
+msgstr "Evolution フォルダ情報コンポーネントの初期化が出来ません"
 
 #: mail/component-factory.c:1061
 msgid "Cannot register storage with shell"
@@ -8232,9 +8226,9 @@ msgid "%d unsent"
 msgstr "%d 未送信"
 
 #: mail/folder-browser.c:767
-#, fuzzy, c-format
+#, c-format
 msgid "%d sent"
-msgstr "%d 未送信"
+msgstr "%d 送信済"
 
 #: mail/folder-browser.c:769
 #, c-format
@@ -8882,11 +8876,11 @@ msgstr "完了"
 
 #: mail/mail-config.glade.h:32 shell/e-local-storage.c:174
 msgid "Drafts"
-msgstr "草案"
+msgstr "草稿"
 
 #: mail/mail-config.glade.h:33
 msgid "Drafts folder:"
-msgstr "草案フォルダ:"
+msgstr "草稿フォルダ:"
 
 #: mail/mail-config.glade.h:34
 msgid "E_nable"
@@ -8966,9 +8960,8 @@ msgid "Pretty Good Privacy"
 msgstr "プリティグッドプライバシー(PGP)"
 
 #: mail/mail-config.glade.h:58
-#, fuzzy
 msgid "Prompt when sending HTML messages to contacts that don't want them"
-msgstr "送信時に件名が空の場合に知らせる(_E)"
+msgstr "HTML メールを望んでいない宛先に HTML メールを送信する場合に知らせる"
 
 #: mail/mail-config.glade.h:59
 msgid "Prompt when sending messages with an _empty subject"
@@ -9029,11 +9022,11 @@ msgstr "メールの送信"
 #: mail/mail-config.glade.h:75 mail/message-list.etspec.h:6
 #: shell/e-local-storage.c:177
 msgid "Sent"
-msgstr "送信日"
+msgstr "送信済"
 
 #: mail/mail-config.glade.h:76
 msgid "Sent and Draft Messages"
-msgstr "送信済と草案メッセージ"
+msgstr "送信済と草稿メッセージ"
 
 #: mail/mail-config.glade.h:77
 msgid "Sent messages folder:"
@@ -9309,9 +9302,8 @@ msgid "Cc"
 msgstr "Cc"
 
 #: mail/mail-format.c:923
-#, fuzzy
 msgid "Bcc"
-msgstr "Bcc:"
+msgstr "Bcc"
 
 #: mail/mail-format.c:1370
 msgid "No GPG/PGP program configured."
@@ -9371,13 +9363,13 @@ msgid "Reconfiguring folder"
 msgstr "フォルダを再構築中"
 
 #: mail/mail-local.c:655
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot save folder metainfo; you'll probably find you can't\n"
 "open this folder anymore: %s: %s"
 msgstr ""
 "フォルダのメタ情報を保存出来ません; もはやこのフォルダを開く\n"
-"ことが出来ないと気づくでしょう: %s"
+"ことが出来ないと気づくでしょう: %s: %s"
 
 #: mail/mail-local.c:708
 #, c-format
@@ -9502,9 +9494,9 @@ msgid "Copying messages to %s"
 msgstr "%s へメッセージをコピー中"
 
 #: mail/mail-ops.c:877
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot copy a folder `%s' to itself"
-msgstr "フォルダを同じフォルダにはコピーできません"
+msgstr "フォルダ `%s' を同じフォルダにはコピーできません"
 
 #: mail/mail-ops.c:884
 msgid "Moving"
@@ -9733,7 +9725,6 @@ msgid "VFolders"
 msgstr "仮想フォルダ"
 
 #: mail/mail-vfolder.c:736
-#, fuzzy
 msgid "Edit VFolder"
 msgstr "仮想フォルダの編集"
 
@@ -9990,7 +9981,6 @@ msgstr "お天気"
 #. stations and their codes in Evolution sources
 #. (evolution/my-evolution/Locations)
 #: my-evolution/e-summary-weather.c:630
-#, fuzzy
 msgid "KBOS:EGAA:RJTT"
 msgstr "RJTT:RJAA:RJTA"
 
@@ -10015,12 +10005,10 @@ msgid "Executive summary component could not initialize Bonobo.\n"
 msgstr "管理一覧コンポーネントは Bonobo を初期化できませんでした\n"
 
 #: my-evolution/metar.c:29
-#, fuzzy
 msgid "F"
 msgstr "華氏"
 
 #: my-evolution/metar.c:29
-#, fuzzy
 msgid "C"
 msgstr "摂氏"
 
@@ -11223,7 +11211,6 @@ msgid "How many days should the calendar display at once?"
 msgstr "一度に何日分のカレンダーを表示しますか?"
 
 #: my-evolution/my-evolution.glade.h:8
-#, fuzzy
 msgid "M_etric"
 msgstr "メートル法(_E)"
 
@@ -11292,7 +11279,6 @@ msgid "_Five days"
 msgstr "5日間(_F)"
 
 #: my-evolution/my-evolution.glade.h:26
-#, fuzzy
 msgid "_Imperial"
 msgstr "インペリアル法(_I)"
 
@@ -13193,7 +13179,7 @@ msgstr "別名で保存"
 
 #: ui/evolution-message-composer.xml.h:22
 msgid "Save _Draft"
-msgstr "草案を保存(_D)"
+msgstr "草稿を保存(_D)"
 
 #: ui/evolution-message-composer.xml.h:23
 msgid "Save in folder..."
