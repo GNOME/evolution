@@ -1,3 +1,15 @@
+2001-03-17  Miguel de Icaza  <miguel@ximian.com>
+
+	* evolution-calendar.xml: Added ShowWeekView, ShowMonthView,
+	ShowDay, ShowWorkWeek to the View menu.
+
+	* evolution.xml, evolution-mail.xml: Provide "Actions" in the
+	toplevel evolution.  Fill in Actions/Component in Evolution-mail
+	(no visual changes, just internal changes).
+
+	* evolution-calendar.xml: Added Actions menu.  Added New Verb
+	EditNewEvent. 
+
 2001-03-16  Miguel de Icaza  <miguel@ximian.com>
 
 	* evolution-mail.xml: Added accelerator to elements missing

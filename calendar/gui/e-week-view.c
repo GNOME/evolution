@@ -162,7 +162,7 @@ static gboolean e_week_view_on_jump_button_event (GnomeCanvasItem *item,
 static gint e_week_view_key_press (GtkWidget *widget, GdkEventKey *event);
 static void e_week_view_on_new_appointment (GtkWidget *widget,
 					    gpointer data);
-static void e_week_view_on_new_full_day    (GtkWidget *widget,
+static void e_week_view_on_new_event       (GtkWidget *widget,
 					   gpointer data);
 static void e_week_view_on_goto_today      (GtkWidget *widget,
 					   gpointer data);
@@ -3235,7 +3235,7 @@ static EPopupMenu main_items [] = {
 	{ N_("New Appointment..."), NULL,
 	  e_week_view_on_new_appointment, NULL, 0 },
 	{ N_("New All Day Event"), NULL,
-	  e_week_view_on_new_full_day, NULL, 0 },
+	  e_week_view_on_new_event, NULL, 0 },
 
 	{ "", NULL, NULL, NULL, 0 },
 
@@ -3314,57 +3314,28 @@ e_week_view_show_popup_menu (EWeekView	     *week_view,
 	e_popup_menu_run (context_menu, (GdkEvent *) bevent, disable_mask, hide_mask, week_view);
 }
 
-
-static void
-e_week_view_new_event (EWeekView *week_view, gboolean all_day)
-{
-	CalComponent *comp;
-	CalComponentDateTime date;
-	struct icaltimetype itt;
-	time_t dt;
-
-	comp = cal_component_new ();
-	cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
-
-	date.value = &itt;
-	date.tzid = NULL;
-
-	dt = week_view->day_starts[week_view->selection_start_day];
-	if (all_day)
-		dt = time_day_begin (dt);
-	*date.value = icaltime_from_timet (dt, TRUE);
-	cal_component_set_dtstart (comp, &date);
-
-	dt = week_view->day_starts[week_view->selection_end_day + 1];
-	if (all_day)
-		dt = time_day_end (dt);
-	*date.value = icaltime_from_timet (dt, TRUE);
-	cal_component_set_dtend (comp, &date);
-
-	cal_component_commit_sequence (comp);
-
-	if (week_view->calendar)
-		gnome_calendar_edit_object (week_view->calendar, comp);
-	else
-		g_warning ("Calendar not set");
-
-	gtk_object_unref (GTK_OBJECT (comp));
-}
-
 static void
 e_week_view_on_new_appointment (GtkWidget *widget, gpointer data)
 {
 	EWeekView *week_view = E_WEEK_VIEW (data);
+	time_t dtstart, dtend;
 	
-	e_week_view_new_event (week_view, FALSE);
+	dtstart = week_view->day_starts[week_view->selection_start_day];
+	dtend = week_view->day_starts[week_view->selection_end_day + 1];
+	gnome_calendar_new_appointment_for (
+		week_view->calendar, dtstart, dtend, FALSE);
 }
 
 static void
-e_week_view_on_new_full_day (GtkWidget *widget, gpointer data)
+e_week_view_on_new_event (GtkWidget *widget, gpointer data)
 {
 	EWeekView *week_view = E_WEEK_VIEW (data);
+	time_t dtstart, dtend;
 	
-	e_week_view_new_event (week_view, TRUE);
+	dtstart = week_view->day_starts[week_view->selection_start_day];
+	dtend = week_view->day_starts[week_view->selection_end_day + 1];
+	gnome_calendar_new_appointment_for (
+		week_view->calendar, dtstart, dtend, TRUE);
 }
 
 static void

@@ -106,10 +106,10 @@
 	                <placeholder name="ViewBegin"/>
 	    		<menuitem name="ShortcutBar" id="ViewShortcutBar"/>
 			<menuitem name="FolderBar" id="ViewFolderBar"/>
+	                <placeholder name="ViewAfterControl"/>
 		</submenu>
 
 		<placeholder name="Component"/>
-	        <placeholder name="Actions"/>
 
 	        <submenu name="Tools" _label="_Tools">
 		        <placeholder name="Component"/>
@@ -117,6 +117,10 @@
 			<menuitem name="BonoboCustomize" verb=""
 			 _label="Customi_ze Toolbars..." pos="bottom"/>
 		</submenu>
+
+	        <submenu name="Actions" _label="_Actions">
+	                <placeholder name="Component"/>
+	        </submenu>
 
 		<submenu name="Help" _label="_Help">
 

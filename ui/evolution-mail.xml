@@ -127,8 +127,8 @@
         </submenu>
     </submenu>
 
-    <placeholder name="Component">
-      	<submenu name="Actions" _label="_Actions">
+    <submenu name="Actions">
+        <placeholder name="Component">
       	    <menuitem name="SendReceive" verb="MailGetSend"
       	     _label="_Send and Receive"/>
       	      
@@ -189,8 +189,8 @@
 
             <menuitem name="ActionsEmptyTrash" verb="" _label="Empty _Trash"
       	    accel=""/>
-      	</submenu>
-    </placeholder>
+      	</placeholder>
+    </submenu>
     
     <submenu name="Tools" _label="_Tools">
         <placeholder name="Component">

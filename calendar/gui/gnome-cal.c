@@ -1151,23 +1151,30 @@ gnome_calendar_edit_object (GnomeCalendar *gcal, CalComponent *comp)
 /**
  * gnome_calendar_new_appointment:
  * @gcal: An Evolution calendar.
+ * @dtstart: a Unix time_t that marks the beginning of the appointment.
+ * @dtend: a Unix time_t that marks the end of the appointment.
+ * @all_day: if true, the dtstart and dtend are expanded to cover the entire day.
  *
- * Opens an event editor dialog for a new appointment.  The appointment's start
- * and end times are set to the currently selected time range in the calendar
- * views.
+ * Opens an event editor dialog for a new appointment.
+ *
  **/
 void
-gnome_calendar_new_appointment (GnomeCalendar *gcal)
+gnome_calendar_new_appointment_for (GnomeCalendar *cal,
+				    time_t dtstart, time_t dtend,
+				    gboolean all_day)
 {
-	CalComponent *comp;
-	time_t dtstart, dtend;
-	CalComponentDateTime dt;
 	struct icaltimetype itt;
+	CalComponentDateTime dt;
+	CalComponent *comp;
 
-	g_return_if_fail (gcal != NULL);
-	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR (cal));
 
-	gnome_calendar_get_current_time_range (gcal, &dtstart, &dtend);
+	if (all_day){
+		dtstart = time_day_begin (dtstart);
+		dtend = time_day_end (dtend);
+	}
+	
 	dt.value = &itt;
 	dt.tzid = NULL;
 
@@ -1182,9 +1189,28 @@ gnome_calendar_new_appointment (GnomeCalendar *gcal)
 
 	cal_component_commit_sequence (comp);
 
-	gnome_calendar_edit_object (gcal, comp);
+	gnome_calendar_edit_object (cal, comp);
 	gtk_object_unref (GTK_OBJECT (comp));
+}
 
+/**
+ * gnome_calendar_new_appointment:
+ * @gcal: An Evolution calendar.
+ *
+ * Opens an event editor dialog for a new appointment.  The appointment's start
+ * and end times are set to the currently selected time range in the calendar
+ * views.
+ **/
+void
+gnome_calendar_new_appointment (GnomeCalendar *gcal)
+{
+	time_t dtstart, dtend;
+
+	g_return_if_fail (gcal != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+
+	gnome_calendar_get_current_time_range (gcal, &dtstart, &dtend);
+	gnome_calendar_new_appointment_for (gcal, dtstart, dtend, FALSE);
 }
 
 /* Returns the selected time range for the current view. Note that this may be

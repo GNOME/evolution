@@ -102,6 +102,9 @@ void       gnome_calendar_edit_object           (GnomeCalendar *gcal,
 						 CalComponent  *comp);
 
 void       gnome_calendar_new_appointment       (GnomeCalendar *gcal);
+void       gnome_calendar_new_appointment_for   (GnomeCalendar *cal,
+						 time_t dtstart, time_t dtend,
+						 gboolean all_day);
 
 /* Returns the selected time range for the current view. Note that this may be
    different from the fields in the GnomeCalendar, since the view may clip

@@ -62,6 +62,17 @@ new_appointment_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 	gnome_calendar_new_appointment (gcal);
 }
 
+static void
+new_event_cb (BonoboUIComponent *uic, gpointer data, const char *path)
+{
+	GnomeCalendar *gcal;
+	time_t dtstart, dtend;
+	
+	gcal = GNOME_CALENDAR (data);
+	gnome_calendar_get_current_time_range (gcal, &dtstart, &dtend);
+	gnome_calendar_new_appointment_for (gcal, dtstart, dtend, TRUE);
+}
+
 /* Prints the calendar at its current view and time range */
 static void
 print (GnomeCalendar *gcal, gboolean preview)
@@ -97,6 +108,14 @@ file_print_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 	print (gcal, FALSE);
 }
 
+static void
+file_print_preview_cb (BonoboUIComponent *uic, gpointer data, const char *path)
+{
+	GnomeCalendar *gcal;
+
+	gcal = GNOME_CALENDAR (data);
+	print (gcal, TRUE);
+}
 
 /* This iterates over each calendar telling them to update their config
    settings. */
@@ -335,7 +354,9 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("CalendarOpen", open_calendar_cmd),
 	BONOBO_UI_VERB ("CalendarSaveAs", save_as_calendar_cmd),
 	BONOBO_UI_VERB ("CalendarPrint", file_print_cb),
+	BONOBO_UI_VERB ("CalendarPrintPreview", file_print_preview_cb),
 	BONOBO_UI_VERB ("EditNewAppointment", new_appointment_cb),
+	BONOBO_UI_VERB ("EditNewEvent", new_event_cb),
 	BONOBO_UI_VERB ("CalendarPreferences", properties_cmd),
 		  
 	BONOBO_UI_VERB ("CalendarPrev", previous_clicked),

@@ -1,5 +1,17 @@
 2001-03-17  Miguel de Icaza  <miguel@ximian.com>
 
+	* gui/e-day-view.c (e_day_view_on_new_event,
+	e_day_view_on_new_appointment): Simplifed this function to use the
+	shared code.
+
+	* gui/e-week-view.c (e_week_view_on_new_event,
+	e_week_view_on_new_appointment): ditto.
+
+	* gui/gnome-cal.c (gnome_calendar_new_appointment_for): New
+	function used to launch editor components with a time range.   A
+	bunch of functions use this code now instead of duplicating code
+	all over the place
+
 	* gui/e-week-view.c (e_week_view_new_event): Moved functionality
 	here from e_day_view_on_new_appointment.  Allows setting for "full
 	day" event.

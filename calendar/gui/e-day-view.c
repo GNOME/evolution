@@ -321,7 +321,7 @@ static gboolean e_day_view_auto_scroll_handler (gpointer data);
 
 static void e_day_view_on_new_appointment (GtkWidget *widget,
 					   gpointer data);
-static void e_day_view_on_new_full_day    (GtkWidget *widget,
+static void e_day_view_on_new_event       (GtkWidget *widget,
 					   gpointer data);
 static void e_day_view_on_goto_today      (GtkWidget *widget,
 					   gpointer data);
@@ -3027,7 +3027,7 @@ static EPopupMenu main_items [] = {
 	{ N_("New Appointment"), NULL,
 	  e_day_view_on_new_appointment, NULL, 0 },
 	{ N_("New All Day Event"), NULL,
-	  e_day_view_on_new_full_day, NULL, 0 },
+	  e_day_view_on_new_event, NULL, 0 },
 
 	{ "", NULL, NULL, NULL, 0 },
 
@@ -3116,56 +3116,25 @@ e_day_view_on_event_right_click (EDayView *day_view,
 }
 
 static void
-e_day_view_new_event (EDayView *day_view, gboolean all_day)
-{
-	CalComponent *comp;
-	CalComponentDateTime date;
-	time_t dtstart, dtend;
-	struct icaltimetype itt;
-
-	comp = cal_component_new ();
-	cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
-	e_day_view_get_selected_time_range (day_view, &dtstart, &dtend);
-
-	if (all_day){
-		dtstart = time_day_begin (dtstart);
-		dtend = time_day_end (dtend);
-	}
-	
-	date.value = &itt;
-	date.tzid = NULL;
-
-	*date.value = icaltime_from_timet (dtstart, FALSE);
-	cal_component_set_dtstart (comp, &date);
-
-	*date.value = icaltime_from_timet (dtend, FALSE);
-	cal_component_set_dtend (comp, &date);
-
-	cal_component_commit_sequence (comp);
-
-	if (day_view->calendar)
-		gnome_calendar_edit_object (day_view->calendar, comp);
-	else
-		g_warning ("Calendar not set");
-
-	gtk_object_unref (GTK_OBJECT (comp));
-}
-
-
-static void
 e_day_view_on_new_appointment (GtkWidget *widget, gpointer data)
 {
 	EDayView *day_view = E_DAY_VIEW (data);
+	time_t dtstart, dtend;
 	
-	e_day_view_new_event (day_view, FALSE);
+	e_day_view_get_selected_time_range (day_view, &dtstart, &dtend);
+	gnome_calendar_new_appointment_for (
+		day_view->calendar, dtstart, dtend, FALSE);
 }
 
 static void
-e_day_view_on_new_full_day (GtkWidget *widget, gpointer data)
+e_day_view_on_new_event (GtkWidget *widget, gpointer data)
 {
 	EDayView *day_view = E_DAY_VIEW (data);
+	time_t dtstart, dtend;
 	
-	e_day_view_new_event (day_view, TRUE);
+	e_day_view_get_selected_time_range (day_view, &dtstart, &dtend);
+	gnome_calendar_new_appointment_for (
+		day_view->calendar, dtstart, dtend, TRUE);
 }
 
 static void

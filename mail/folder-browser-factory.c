@@ -114,9 +114,9 @@ static struct {
 	char       *pixbuf;
 } pixcache [] = {
 	{ "/menu/File/Print/Print Preview", "16_print.xpm", NULL },
-	{ "/menu/Component/Actions/MessageMove", "16_move_message.xpm", NULL },
-	{ "/menu/Component/Actions/MessageReplyAll", "16_reply_to_all.xpm", NULL },
-	{ "/menu/Component/Actions/MessageReplySndr", "16_reply.xpm", NULL },
+	{ "/menu/Actions/Component/MessageMove", "16_move_message.xpm", NULL },
+	{ "/menu/Actions/Component/MessageReplyAll", "16_reply_to_all.xpm", NULL },
+	{ "/menu/Actions/Component/MessageReplySndr", "16_reply.xpm", NULL },
 	{ "/menu/File/Folder/FolderConfig", "16_configure_folder.xpm", NULL },
 	{ "/menu/Tools/Component/SetMailConfig", "16_configure_mail.xpm", NULL },
 	{ "/Toolbar/MailGet", "buttons/fetch-mail.png", NULL },
