@@ -1,3 +1,7 @@
+2001-06-21  JP Rosevear  <jpr@ximian.com>
+
+	* evolution-comp-editor.xml: add toolbar
+
 2001-06-20  JP Rosevear  <jpr@ximian.com>
 
 	* evolution-comp-editor.xml: collapse print commands here

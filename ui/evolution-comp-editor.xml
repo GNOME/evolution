@@ -25,7 +25,7 @@
 	_tip="Delete this appointment"
 	pixtype="stock" pixname="Trash"/>
 
-        <cmd name="FileClose" _label="_Close"
+        <cmd name="FileClose" _label="C_lose"
 	_tip="Close this appointment"
         pixtype="stock" pixname="Close" accel="*Control*w"/>
 
@@ -76,5 +76,24 @@
 </submenu>
 
 </menu>
+
+<dockitem name="Toolbar"relief="none" behavior="exclusive"
+ _tip="Main toolbar" hlook="text" vlook="icon">
+
+        <toolitem name="FileSaveAndClose" verb="" _label="Save and Close" priority="1"/>
+
+	<separator/>
+        
+	<toolitem name="FilePrint" verb="" _label="Print" priority="1"/>
+
+	<toolitem name="FilePrintPreview" verb="" _label="Print Preview" priority="1"/>
+
+	<separator/>
+
+        <toolitem name="FileDelete" verb="" _label="Delete" priority="1"/>
+
+        <toolitem name="FileClose" verb="" _label="Close" priority="1"/>
+
+</dockitem>
 
 </Root>
