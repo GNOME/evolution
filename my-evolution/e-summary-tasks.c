@@ -206,7 +206,7 @@ generate_html (gpointer data)
 		}
 
 		cal_obj_uid_list_free (uids);
-		g_string_append (string, "</ul>");
+		g_string_append (string, "</dd></dl>");
 	}
 
 	if (tasks->html) {

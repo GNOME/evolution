@@ -1,5 +1,9 @@
 2001-07-09  Iain Holmes  <iain@ximian.com>
 
+	* e-summary-tasks.c (generate_html): Fix same HTML bug as in calendar.
+
+2001-07-09  Iain Holmes  <iain@ximian.com>
+
 	* e-summary-calendar.c (generate_html): Show varying times depending
 	on how soon the appointment is. 
 
