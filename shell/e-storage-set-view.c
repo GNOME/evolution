@@ -2071,6 +2071,7 @@ e_storage_set_view_set_checkboxes_list (EStorageSetView *storage_set_view,
 		priv->checkboxes = g_hash_table_new (g_str_hash, g_str_equal);
 		for (; checkboxes; checkboxes = g_list_next (checkboxes)) {
 			char *path = checkboxes->data;
+
 			if (g_hash_table_lookup (priv->checkboxes, path))
 				continue;
 			path = g_strdup (path);

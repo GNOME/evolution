@@ -322,12 +322,90 @@ dialog_destroy_cb (GtkObject *object,
 	icd->destroyed = TRUE;
 }
 
+struct _IIDInfo {
+	char *iid;
+	char *name;
+};
+
+static void
+free_iid_list (GList *list)
+{
+	for (; list; list = list->next) {
+		struct _IIDInfo *iid = list->data;
+
+		g_free (iid->iid);
+		g_free (iid->name);
+		g_free (iid);
+	}
+}
+
+static const char *
+get_name_from_component_info (const OAF_ServerInfo *info)
+{
+	OAF_Property *property;
+	const char *name;
+
+	property = oaf_server_info_prop_find ((OAF_ServerInfo *) info,
+					      "evolution:menu-name");
+	if (property == NULL || property->v._d != OAF_P_STRING)
+		return NULL;
+
+	name = property->v._u.value_string;
+
+	return name;
+}
+
+static char *
+choose_importer_from_list (GList *importer_list)
+{
+	GtkWidget *dialog, *clist;
+	GList *p;
+	int ans;
+	char *iid;
+
+	dialog = gnome_dialog_new (_("Select importer"),
+				   GNOME_STOCK_BUTTON_OK,
+				   GNOME_STOCK_BUTTON_CANCEL,
+				   NULL);
+	clist = gtk_clist_new (1);
+	for (p = importer_list; p; p = p->next) {
+		struct _IIDInfo *iid;
+		char *text[1];
+		int row;
+
+		iid = p->data;
+		text[0] = iid->name;
+		row = gtk_clist_append (GTK_CLIST (clist), text);
+		gtk_clist_set_row_data (GTK_CLIST (clist), row, iid->iid);
+	}
+
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), clist,
+			    TRUE, TRUE, 0);
+	gtk_widget_show (clist);
+	
+	switch (gnome_dialog_run (GNOME_DIALOG (dialog))) {
+	case 0:
+		ans = GPOINTER_TO_INT (GTK_CLIST (clist)->selection->data);
+		iid = gtk_clist_get_row_data (GTK_CLIST (clist), ans);
+		break;
+
+	case 1:
+	default:
+		iid = NULL;
+		break;
+	}
+	
+	gtk_widget_destroy (dialog);
+
+	return g_strdup (iid);
+}
+
 static char *
 get_iid_for_filetype (const char *filename)
 {
 	OAF_ServerInfoList *info_list;
 	CORBA_Environment ev;
-	GList *can_handle = NULL, *l;
+	GList *can_handle = NULL;
 	char *ret_iid;
 	int i, len = 0;
 
@@ -338,7 +416,7 @@ get_iid_for_filetype (const char *filename)
 		CORBA_Environment ev2;
 		CORBA_Object importer;
 		const OAF_ServerInfo *info;
-
+		
 		info = info_list->_buffer + i;
 
 		CORBA_exception_init (&ev2);
@@ -351,29 +429,40 @@ get_iid_for_filetype (const char *filename)
 
 		if (GNOME_Evolution_Importer_supportFormat (importer,
 							    filename, &ev2)) {
-			can_handle = g_list_prepend (can_handle, 
-						     g_strdup (info->iid));
+			struct _IIDInfo *iid;
+
+			iid = g_new (struct _IIDInfo, 1);
+			iid->iid = g_strdup (info->iid);
+			iid->name = g_strdup (get_name_from_component_info (info));
+			
+			can_handle = g_list_prepend (can_handle, iid);
 			len++;
 		}
 
 		bonobo_object_release_unref (importer, &ev2);
 		CORBA_exception_free (&ev2);
 	}
+
 	CORBA_free (info_list);
 
 	if (len == 1) {
-		ret_iid = can_handle->data;
+		struct _IIDInfo *iid;
+		
+		iid = can_handle->data;
+
+		ret_iid = g_strdup (iid->iid);
+		
+		free_iid_list (can_handle);
 		g_list_free (can_handle);
+		
 		return ret_iid;
 	} else if (len > 1) {
-		/* FIXME: Some way to choose between multiple iids */
-		/* FIXME: Free stuff */
-		g_warning ("Multiple iids can support %s", filename);
-		ret_iid = g_strdup (can_handle->data);
+		/* Display all the IIDs */
+		ret_iid = choose_importer_from_list (can_handle);
 		
-		for (l = can_handle; l; l = l->next)
-			g_free (l->data);
+		free_iid_list (can_handle);
 		g_list_free (can_handle);
+
 		return ret_iid;
 	} else {
 		return NULL;
@@ -527,22 +616,6 @@ filename_changed (GtkEntry *entry,
 
 	gnome_druid_set_buttons_sensitive (GNOME_DRUID (data->druid), 
 					   TRUE, !page->need_filename, TRUE);
-}
-
-static const char *
-get_name_from_component_info (const OAF_ServerInfo *info)
-{
-	OAF_Property *property;
-	const char *name;
-
-	property = oaf_server_info_prop_find ((OAF_ServerInfo *) info,
-					      "evolution:menu-name");
-	if (property == NULL || property->v._d != OAF_P_STRING)
-		return NULL;
-
-	name = property->v._u.value_string;
-
-	return name;
 }
 
 static void

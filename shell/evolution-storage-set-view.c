@@ -68,6 +68,32 @@ storage_set_view_widget_folder_selected_cb (EStorageSetView *storage_set_view_wi
 	}
 }
 
+static void
+storage_set_view_widget_folder_toggled_cb (EStorageSetView *storage_set_view_widget,
+					   void *data)
+{
+	EvolutionStorageSetView *storage_set_view;
+	EvolutionStorageSetViewPrivate *priv;
+	GList *p;
+
+	storage_set_view = EVOLUTION_STORAGE_SET_VIEW (data);
+	priv = storage_set_view->priv;
+
+	for (p = priv->listeners; p != NULL; p = p->next) {
+		CORBA_Environment ev;
+		GNOME_Evolution_StorageSetViewListener listener;
+
+		CORBA_exception_init (&ev);
+
+		listener = (GNOME_Evolution_StorageSetViewListener) p->data;
+		GNOME_Evolution_StorageSetViewListener_notifyFolderToggled (listener, &ev);
+
+		/* FIXME: What if we fail? */
+
+		CORBA_exception_free (&ev);
+	}
+}
+
 
 /* Listener handling.  */
 
@@ -271,6 +297,35 @@ impl_StorageSetView__get_showCheckboxes (PortableServer_Servant servant,
 	return e_storage_set_view_get_show_checkboxes (E_STORAGE_SET_VIEW (priv->storage_set_view_widget));
 }
 
+static void
+impl_StorageSetView__set_checkedFolders (PortableServer_Servant servant,
+					 const GNOME_Evolution_FolderList *list,
+					 CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	EvolutionStorageSetView *storage_set_view;
+	EvolutionStorageSetViewPrivate *priv;
+	GList *path_list = NULL;
+	GList *p;
+	int i;
+	
+	bonobo_object = bonobo_object_from_servant (servant);
+	storage_set_view = EVOLUTION_STORAGE_SET_VIEW (bonobo_object);
+	priv = storage_set_view->priv;
+
+	for (i = 0; i < list->_length; i++) {
+		path_list = g_list_append (path_list, g_strdup (list->_buffer[i].evolutionUri));
+	}
+
+	e_storage_set_view_set_checkboxes_list (E_STORAGE_SET_VIEW (priv->storage_set_view_widget), path_list);
+
+	for (p = path_list; p; p = p->next) {
+		g_free (p->data);
+	}
+
+	g_list_free (path_list);
+}
+
 static GNOME_Evolution_FolderList *
 impl_StorageSetView__get_checkedFolders (PortableServer_Servant servant,
 					 CORBA_Environment *ev)
@@ -309,6 +364,11 @@ impl_StorageSetView__get_checkedFolders (PortableServer_Servant servant,
 		folder = e_storage_set_get_folder (storage_set, path);
 		if (folder == NULL) {
 			g_warning ("Cannot find folder -- %s", path);
+
+			/* Subtract here so that we don't start putting
+			   ininitialised blanks into the CORBA list */
+			return_list->_length--;
+			i--;
 			continue;
 		}
 
@@ -374,6 +434,7 @@ corba_class_init (void)
 	epv->_get_showFolders    = impl_StorageSetView__get_showFolders;
 	epv->_set_showCheckboxes = impl_StorageSetView__set_showCheckboxes;
 	epv->_get_showCheckboxes = impl_StorageSetView__get_showCheckboxes;
+	epv->_set_checkedFolders = impl_StorageSetView__set_checkedFolders;
 	epv->_get_checkedFolders = impl_StorageSetView__get_checkedFolders;
 
 	vepv = &StorageSetView_vepv;
@@ -430,6 +491,8 @@ evolution_storage_set_view_construct (EvolutionStorageSetView *storage_set_view,
 
 	gtk_signal_connect (GTK_OBJECT (priv->storage_set_view_widget), "folder_selected",
 			    GTK_SIGNAL_FUNC (storage_set_view_widget_folder_selected_cb), storage_set_view);
+	gtk_signal_connect (GTK_OBJECT (priv->storage_set_view_widget), "checkboxes_changed",
+			    GTK_SIGNAL_FUNC (storage_set_view_widget_folder_toggled_cb), storage_set_view);
 }
 
 EvolutionStorageSetView *

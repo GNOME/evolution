@@ -1,3 +1,30 @@
+2002-06-26  Iain <iain@ximian.com>
+
+	* Evolution-StorageSetView.idl: Add a notifyFolderToggled method,
+	allow checkedFolders to be writable.
+
+	* e-shell-importer.c (free_iid_list): Free the list of iid infos.
+	(get_name_from_component_info): Move this function from futher down
+	the file to here because it's useful.
+	(choose_importer_from_list): Present the user with a list of importer
+	names to select the one they want to use.
+	(get_iid_for_filetype): Store the name of the importer as well as the
+	iid in the list. If there are multiple matches, show the user a list.
+
+	* evolution-storage-set-view-listener.[ch]: Add a folder toggled signal.
+	(impl_GNOME_Evolution_StorageSetViewListener_notifyFolderToggled):
+	Notify listeners that a folder has been toggled.
+	(corba_class_init): Hook up the new method.
+	(class_init): Create the new signal.
+
+	* evolution-storage-set-view.c
+	(storage_set_view_widget_folder_toggled_cb): Call the CORBA method for 
+	each listener.
+	(impl_StorageSetView__set_checkedFolders): Set the checked folders
+	from the list.
+	(impl_StorageSetView__get_checkedFolders): Don't include blanks in the
+	list.
+	
 2002-06-24  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-folder-selection-dialog.c (impl_clicked): Pass

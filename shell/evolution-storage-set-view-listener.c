@@ -41,6 +41,7 @@ struct _EvolutionStorageSetViewListenerPrivate {
 
 enum {
 	FOLDER_SELECTED,
+	FOLDER_TOGGLED,
 	LAST_SIGNAL
 };
 static guint signals[LAST_SIGNAL] = { 0 };
@@ -69,6 +70,17 @@ impl_GNOME_Evolution_StorageSetViewListener_notifyFolderSelected (PortableServer
 	listener = gtk_object_from_servant (servant);
 
 	gtk_signal_emit (GTK_OBJECT (listener), signals[FOLDER_SELECTED], uri);
+}
+
+static void
+impl_GNOME_Evolution_StorageSetViewListener_notifyFolderToggled (PortableServer_Servant servant,
+								 CORBA_Environment *ev)
+{
+	EvolutionStorageSetViewListener *listener;
+
+	listener = gtk_object_from_servant (servant);
+
+	gtk_signal_emit (GTK_OBJECT (listener), signals[FOLDER_TOGGLED]);
 }
 
 static EvolutionStorageSetViewListenerServant *
@@ -170,7 +182,8 @@ corba_class_init (void)
 
 	epv = g_new0 (POA_GNOME_Evolution_StorageSetViewListener__epv, 1);
 	epv->notifyFolderSelected  = impl_GNOME_Evolution_StorageSetViewListener_notifyFolderSelected;
-
+	epv->notifyFolderToggled = impl_GNOME_Evolution_StorageSetViewListener_notifyFolderToggled;
+	
 	vepv = & my_GNOME_Evolution_StorageSetViewListener_vepv;
 	vepv->_base_epv                            = base_epv;
 	vepv->GNOME_Evolution_StorageSetViewListener_epv = epv;
@@ -193,6 +206,12 @@ class_init (EvolutionStorageSetViewListenerClass *klass)
 						   gtk_marshal_NONE__STRING,
 						   GTK_TYPE_NONE, 1,
 						   GTK_TYPE_STRING);
+	signals[FOLDER_TOGGLED] = gtk_signal_new ("folder_toggled",
+						  GTK_RUN_FIRST,
+						  object_class->type,
+						  GTK_SIGNAL_OFFSET (EvolutionStorageSetViewListenerClass, folder_toggled),
+						  gtk_marshal_NONE__NONE,
+						  GTK_TYPE_NONE, 0);
 
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 

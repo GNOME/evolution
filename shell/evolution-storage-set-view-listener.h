@@ -54,6 +54,9 @@ struct _EvolutionStorageSetViewListenerClass {
 
 	void (* folder_selected) (EvolutionStorageSetViewListener *listener,
 				  const char *uri);
+	void (* folder_toggled) (EvolutionStorageSetViewListener *listener,
+				 const char *uri,
+				 gboolean active);
 };
 
 

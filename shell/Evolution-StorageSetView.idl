@@ -14,6 +14,7 @@ module GNOME {
 module Evolution {
 	interface StorageSetViewListener {
 		void notifyFolderSelected (in string uri);
+		void notifyFolderToggled (); 
 	};
 
 	/* FIXME: Maybe we should have a generic Bonobo::Listener interface.  */
@@ -24,7 +25,7 @@ module Evolution {
 		attribute boolean showFolders;
 		attribute boolean showCheckboxes;
 
-		readonly attribute FolderList checkedFolders;
+		attribute FolderList checkedFolders;
 
 		void addListener (in StorageSetViewListener listener)
 			raises (AlreadyListening);
