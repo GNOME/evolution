@@ -2447,9 +2447,8 @@ html_button_press_event (GtkWidget *widget, GdkEventButton *event, MailDisplay *
 				}
 				
 				html_point_destroy (point);
-			}
-			
-			return TRUE;
+				return TRUE;
+			}			
 		}
 	}
 	
@@ -2496,7 +2495,7 @@ html_enter_notify_event (GtkWidget *widget, GdkEventCrossing *event, MailDisplay
 {
 	update_active (widget, event->x, event->y, mail_display);
 	
-	return TRUE;
+	return FALSE;
 }
 
 static int
@@ -2517,7 +2516,7 @@ html_motion_notify_event (GtkWidget *widget, GdkEventMotion *event, MailDisplay 
 	
 	update_active (widget, x, y, mail_display);
 	
-	return TRUE;
+	return FALSE;
 }
 
 static void
