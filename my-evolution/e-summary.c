@@ -548,7 +548,7 @@ e_summary_new (const GNOME_Evolution_Shell shell)
 	e_summary_rdf_init (summary);
 	e_summary_weather_init (summary);
 
-	e_summary_draw (summary);
+/*  	e_summary_draw (summary); */
 
 	return GTK_WIDGET (summary);
 }

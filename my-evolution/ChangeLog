@@ -1,3 +1,9 @@
+2001-10-16  Iain Holmes  <iain@ximian.com>
+
+	* e-summary.c (e_summary_new): Don't call a draw.
+
+	* e-summary-mail.c (e_summary_mail_init): Make sure html is NULL.
+
 2001-10-14  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* e-summary-calendar.c (generate_html): Made temporary buffer for

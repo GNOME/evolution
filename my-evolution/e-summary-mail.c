@@ -118,7 +118,7 @@ e_summary_mail_generate_html (ESummary *summary)
 	ESummaryMail *mail;
 	GString *string;
 	GList *p;
-	gchar *s;
+	char *s, *old;
 
 	g_return_if_fail (summary != NULL);
 	g_return_if_fail (IS_E_SUMMARY (summary));
@@ -137,8 +137,12 @@ e_summary_mail_generate_html (ESummary *summary)
 	}
 
 	g_string_append (string, "</table></dd></dl>");
-	g_free (mail->html);
+
+	old = mail->html;
 	mail->html = string->str;
+
+	g_free (old);
+
 	g_string_free (string, FALSE);
 }
 
@@ -391,6 +395,7 @@ e_summary_mail_init (ESummary *summary,
 	mail = g_new0 (ESummaryMail, 1);
 	summary->mail = mail;
 
+	mail->html = NULL;
 	CORBA_exception_init (&ev);
 	mail->folder_info = oaf_activate_from_id (MAIL_IID, 0, NULL, &ev);
 	if (BONOBO_EX (&ev)) {
