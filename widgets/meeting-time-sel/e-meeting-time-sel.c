@@ -3238,7 +3238,7 @@ e_meeting_time_selector_on_text_item_event (GnomeCanvasItem *item,
 			}
 
 			attendee = &g_array_index (mts->attendees, EMeetingTimeSelectorAttendee, row);
-			e_canvas_item_grab_focus (attendee->text_item);
+			e_canvas_item_grab_focus (attendee->text_item, TRUE);
 
 			/* Try to move the cursor to the end of the text. */
 			gtk_object_get (GTK_OBJECT (attendee->text_item),

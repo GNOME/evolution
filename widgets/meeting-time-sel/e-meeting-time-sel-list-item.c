@@ -374,7 +374,7 @@ e_meeting_time_selector_list_item_button_press (EMeetingTimeSelectorListItem *mt
 #endif
 
 			attendee = &g_array_index (mts->attendees, EMeetingTimeSelectorAttendee, row);
-			e_canvas_item_grab_focus (attendee->text_item);
+			e_canvas_item_grab_focus (attendee->text_item, TRUE);
 			return TRUE;
 		}
 	} else {
