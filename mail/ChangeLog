@@ -1,3 +1,11 @@
+2001-05-15  Dan Winship  <danw@ximian.com>
+
+	* folder-browser-factory.c (verbs): Update for changes in
+	evolution-mail.xml (many commands were renamed to better match the
+	current menu layout).
+	(pixcache): Refer to commands via their paths in /commands/
+	rather than hardcoding their menu paths.
+
 2001-05-14  Jon Trowbridge  <trow@ximian.com>
 
 	* mail-search.c (mail_search_construct): Put frame around dialog

@@ -47,107 +47,87 @@ static EList *control_list = NULL;
  * Add with 'folder_browser'
  */
 BonoboUIVerb verbs [] = {
-	BONOBO_UI_UNSAFE_VERB ("PrintMessage", print_msg),
-	BONOBO_UI_UNSAFE_VERB ("PrintPreviewMessage", print_preview_msg),
-	BONOBO_UI_UNSAFE_VERB ("MailGetSend", send_receive_mail),
-	BONOBO_UI_UNSAFE_VERB ("MailCompose", compose_msg),
-	
-	/* Edit Menu */
-	BONOBO_UI_UNSAFE_VERB ("EditSelectAll", select_all),
 	BONOBO_UI_UNSAFE_VERB ("EditInvertSelection", invert_selection),
-	
-	/* Settings Menu */
-	BONOBO_UI_UNSAFE_VERB ("SetMailFilter", filter_edit),
-	BONOBO_UI_UNSAFE_VERB ("SetVFolder", vfolder_edit_vfolders),
-	BONOBO_UI_UNSAFE_VERB ("SetMailConfig", providers_config),
-	BONOBO_UI_UNSAFE_VERB ("SetSubscribe", manage_subscriptions),
-	BONOBO_UI_UNSAFE_VERB ("SetForgetPwd", mail_session_forget_passwords),
-	
-	/* Message Menu */
-	BONOBO_UI_UNSAFE_VERB ("MessageOpen", open_message),
-	BONOBO_UI_UNSAFE_VERB ("MessageResend", resend_msg),
-	BONOBO_UI_UNSAFE_VERB ("MessageSaveAs", save_msg),
-	BONOBO_UI_UNSAFE_VERB ("MessagePrint", print_msg),
-	BONOBO_UI_UNSAFE_VERB ("MessageReplySender", reply_to_sender),
-	BONOBO_UI_UNSAFE_VERB ("MessageReplyAll", reply_to_all),
+	BONOBO_UI_UNSAFE_VERB ("EditSelectAll", select_all),
+/*	BONOBO_UI_UNSAFE_VERB ("EditSelectThread", select_thread),	*/
+	BONOBO_UI_UNSAFE_VERB ("EmptyTrash", empty_trash),
+	BONOBO_UI_UNSAFE_VERB ("FolderConfig", configure_folder),
+	BONOBO_UI_UNSAFE_VERB ("FolderExpunge", expunge_folder),
+	BONOBO_UI_UNSAFE_VERB ("ForgetPasswords", mail_session_forget_passwords),
+	BONOBO_UI_UNSAFE_VERB ("MailCompose", compose_msg),
+	BONOBO_UI_UNSAFE_VERB ("MailGetSend", send_receive_mail),
+	BONOBO_UI_UNSAFE_VERB ("MailNext", next_msg),
+	BONOBO_UI_UNSAFE_VERB ("MailPrevious", previous_msg),
+	BONOBO_UI_UNSAFE_VERB ("MailStop", stop_threads),
+	BONOBO_UI_UNSAFE_VERB ("MessageApplyFilters", apply_filters),
+	BONOBO_UI_UNSAFE_VERB ("MessageCopy", copy_msg),
+	BONOBO_UI_UNSAFE_VERB ("MessageDelete", delete_msg),
 	BONOBO_UI_UNSAFE_VERB ("MessageForward", forward),
 	BONOBO_UI_UNSAFE_VERB ("MessageForwardAttached", forward_attached),
 	BONOBO_UI_UNSAFE_VERB ("MessageForwardInline", forward_inline),
 	BONOBO_UI_UNSAFE_VERB ("MessageForwardQuoted", forward_quoted),
-	
+	BONOBO_UI_UNSAFE_VERB ("MessageMarkAllAsRead", mark_all_as_seen),
 	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsRead", mark_as_seen),
 	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsUnRead", mark_as_unseen),
-	BONOBO_UI_UNSAFE_VERB ("MessageMarkAllAsRead", mark_all_as_seen),
-	
 	BONOBO_UI_UNSAFE_VERB ("MessageMove", move_msg),
-	BONOBO_UI_UNSAFE_VERB ("MessageCopy", copy_msg),
-	BONOBO_UI_UNSAFE_VERB ("MessageDelete", delete_msg),
-	BONOBO_UI_UNSAFE_VERB ("MessageUndelete", undelete_msg),
-	
-	/*BONOBO_UI_UNSAFE_VERB ("MessageAddSenderToAddressBook", addrbook_sender),*/
-	
-	BONOBO_UI_UNSAFE_VERB ("MessageApplyFilters", apply_filters),
-	
-	BONOBO_UI_UNSAFE_VERB ("MessageVFolderSubject", vfolder_subject),
-	BONOBO_UI_UNSAFE_VERB ("MessageVFolderSender", vfolder_sender),
-	BONOBO_UI_UNSAFE_VERB ("MessageVFolderRecipient", vfolder_recipient),
-	BONOBO_UI_UNSAFE_VERB ("MessageVFolderMailingList", vfolder_mlist),
-	
-	BONOBO_UI_UNSAFE_VERB ("MessageFilterSubject", filter_subject),
-	BONOBO_UI_UNSAFE_VERB ("MessageFilterSender", filter_sender),
-	BONOBO_UI_UNSAFE_VERB ("MessageFilterRecipient", filter_recipient),
-	BONOBO_UI_UNSAFE_VERB ("MessageFilterMailingList", filter_mlist),
-	
-	BONOBO_UI_UNSAFE_VERB ("MessageHideClear", hide_none),
-	BONOBO_UI_UNSAFE_VERB ("MessageHideRead", hide_read),
-	/*BONOBO_UI_UNSAFE_VERB ("MessageHideDeleted", hide_deleted),*/
-	BONOBO_UI_UNSAFE_VERB ("MessageHideSelected", hide_selected),
-	
-	/* Folder Menu */
-	BONOBO_UI_UNSAFE_VERB ("FolderExpunge", expunge_folder),
-	BONOBO_UI_UNSAFE_VERB ("FolderConfig", configure_folder),
-	BONOBO_UI_UNSAFE_VERB ("EmptyTrash", empty_trash),
-	
-	/* Toolbar specific */
-	BONOBO_UI_UNSAFE_VERB ("MailStop", stop_threads),
-	BONOBO_UI_UNSAFE_VERB ("MailPrevious", previous_msg),
-	BONOBO_UI_UNSAFE_VERB ("MailNext", next_msg),
-
+	BONOBO_UI_UNSAFE_VERB ("MessageOpen", open_message),
+	BONOBO_UI_UNSAFE_VERB ("MessageReplyAll", reply_to_all),
+	BONOBO_UI_UNSAFE_VERB ("MessageReplySender", reply_to_sender),
+	BONOBO_UI_UNSAFE_VERB ("MessageResend", resend_msg),
+	BONOBO_UI_UNSAFE_VERB ("MessageSaveAs", save_msg),
 	BONOBO_UI_UNSAFE_VERB ("MessageSearch", search_msg),
+	BONOBO_UI_UNSAFE_VERB ("MessageUndelete", undelete_msg),
+	BONOBO_UI_UNSAFE_VERB ("PrintMessage", print_msg),
+	BONOBO_UI_UNSAFE_VERB ("PrintPreviewMessage", print_preview_msg),
+	BONOBO_UI_UNSAFE_VERB ("ToolsFilterMailingList", filter_mlist),
+	BONOBO_UI_UNSAFE_VERB ("ToolsFilterRecipient", filter_recipient),
+	BONOBO_UI_UNSAFE_VERB ("ToolsFilters", filter_edit),
+	BONOBO_UI_UNSAFE_VERB ("ToolsFilterSender", filter_sender),
+	BONOBO_UI_UNSAFE_VERB ("ToolsFilterSubject", filter_subject),
+	BONOBO_UI_UNSAFE_VERB ("ToolsSettings", providers_config),
+	BONOBO_UI_UNSAFE_VERB ("ToolsSubscriptions", manage_subscriptions),
+	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderMailingList", vfolder_mlist),
+	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderRecipient", vfolder_recipient),
+	BONOBO_UI_UNSAFE_VERB ("ToolsVFolders", vfolder_edit_vfolders),
+	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderSender", vfolder_sender),
+	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderSubject", vfolder_subject),
+/*	BONOBO_UI_UNSAFE_VERB ("ViewFullHeaders", view_full_headers),	*/
+	BONOBO_UI_UNSAFE_VERB ("ViewHideRead", hide_read),
+	BONOBO_UI_UNSAFE_VERB ("ViewHideSelected", hide_selected),
+	BONOBO_UI_UNSAFE_VERB ("ViewShowAll", hide_none),
 	
 	BONOBO_UI_VERB_END
 };
 
 static EPixmap pixcache [] = {
-	E_PIXMAP ("/menu/File/New/NewFirstItem/MessageNew", "new-message.xpm"),
-	E_PIXMAP ("/menu/File/Folder/FolderConfig", "configure_16_folder.xpm"),
-	E_PIXMAP ("/menu/File/Print/Print", "print.xpm"),
-	E_PIXMAP ("/menu/File/Print/Print Preview", "print-preview.xpm"),
+	E_PIXMAP ("/commands/MailCompose", "new-message.xpm"),
+	E_PIXMAP ("/commands/FolderConfig", "configure_16_folder.xpm"),
+	E_PIXMAP ("/commands/PrintMessage", "print.xpm"),
+	E_PIXMAP ("/commands/PrintPreviewMessage", "print-preview.xpm"),
 
-	E_PIXMAP ("/menu/Edit/MessageDelete", "delete_message.xpm"),
-	E_PIXMAP ("/menu/Edit/MessageUndelete", "undelete_message.xpm"),
+	E_PIXMAP ("/commands/MessageDelete", "delete_message.xpm"),
+	E_PIXMAP ("/commands/MessageUndelete", "undelete_message.xpm"),
 
-	/*E_PIXMAP ("/menu/View/MessageHideDeleted", "hide_deleted_messages.xpm"),*/
-	E_PIXMAP ("/menu/View/MessageHideRead", "hide_read_messages.xpm"),
-	E_PIXMAP ("/menu/View/MessageHideSelected", "hide_selected_messages.xpm"),
-	E_PIXMAP ("/menu/View/MessageHideClear", "show_all_messages.xpm"),
+	E_PIXMAP ("/commands/ViewHideRead", "hide_read_messages.xpm"),
+	E_PIXMAP ("/commands/ViewHideSelected", "hide_selected_messages.xpm"),
+	E_PIXMAP ("/commands/ViewShowAll", "show_all_messages.xpm"),
 
-	E_PIXMAP ("/menu/Actions/Component/SendReceive", "send-receive.xpm"),
-	E_PIXMAP ("/menu/Actions/Component/MessageCopy", "copy_16_message.xpm"),
-	E_PIXMAP ("/menu/Actions/Component/MessageMove", "move_message.xpm"),
-	E_PIXMAP ("/menu/Actions/Component/MessageReplyAll", "reply_to_all.xpm"),
-	E_PIXMAP ("/menu/Actions/Component/MessageReplySender", "reply.xpm"),
-	E_PIXMAP ("/menu/Actions/Component/MessageForward", "forward.xpm"),
+	E_PIXMAP ("/commands/MailGetSend", "send-receive.xpm"),
+	E_PIXMAP ("/commands/MessageCopy", "copy_16_message.xpm"),
+	E_PIXMAP ("/commands/MessageMove", "move_message.xpm"),
+	E_PIXMAP ("/commands/MessageReplyAll", "reply_to_all.xpm"),
+	E_PIXMAP ("/commands/MessageReplySender", "reply.xpm"),
+	E_PIXMAP ("/commands/MessageForward", "forward.xpm"),
 
-	E_PIXMAP ("/menu/Tools/Component/SetMailConfig", "configure_16_mail.xpm"),
+	E_PIXMAP ("/commands/ToolsSettings", "configure_16_mail.xpm"),
 	
-	E_PIXMAP ("/Toolbar/MailGet", "buttons/send-24-receive.png"),
+	E_PIXMAP ("/Toolbar/MailGetSend", "buttons/send-24-receive.png"),
 	E_PIXMAP ("/Toolbar/MailCompose", "buttons/compose-message.png"),
-	E_PIXMAP ("/Toolbar/Reply", "buttons/reply.png"),
-	E_PIXMAP ("/Toolbar/ReplyAll", "buttons/reply-to-all.png"),
-	E_PIXMAP ("/Toolbar/Forward", "buttons/forward.png"),
-	E_PIXMAP ("/Toolbar/Move", "buttons/move-message.png"),
-	E_PIXMAP ("/Toolbar/Copy", "buttons/copy-message.png"),
+	E_PIXMAP ("/Toolbar/MessageReplySender", "buttons/reply.png"),
+	E_PIXMAP ("/Toolbar/MessageReplyAll", "buttons/reply-to-all.png"),
+	E_PIXMAP ("/Toolbar/MessageForward", "buttons/forward.png"),
+	E_PIXMAP ("/Toolbar/MessageMove", "buttons/move-message.png"),
+	E_PIXMAP ("/Toolbar/MessageCopy", "buttons/copy-message.png"),
 
 	E_PIXMAP_END
 };
