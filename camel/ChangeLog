@@ -1,3 +1,9 @@
+2004-07-07  Chris Toshok  <toshok@ximian.com>
+
+	* providers/groupwise/Makefile.am (INCLUDES): use
+	CAMEL_GROUPWISE_CFLAGS.
+	(libcamelgroupwise_la_LIBADD): use CAMEL_GROUPWISE_LIBS.
+
 2004-07-02  Christian Neumair  <chris@gnome-de.org>
 
 	* camel-smime-context.c: s/Can't/Cannot/.

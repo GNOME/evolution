@@ -14,7 +14,7 @@ INCLUDES = -I.. \
 	-I$(top_srcdir)/camel/providers/imap		\
 	-I$(top_srcdir)/camel/providers/smtp		\
 	$(EVOLUTION_CALENDAR_CFLAGS)                  \
-	$(CAMEL_CFLAGS)					\
+	$(CAMEL_GROUPWISE_CFLAGS)			\
 	$(GNOME_INCLUDEDIR)				\
 	$(E_UTIL_CFLAGS)				\
 	$(GTK_INCLUDEDIR)				\
@@ -25,7 +25,7 @@ libcamelgroupwise_la_SOURCES = 			\
 	camel-groupwise-provider.c		\
 	camel-gw-listener.c 		\
 	camel-gw-listener.h		
-libcamelgroupwise_la_LIBADD = $(CAMEL_LIBS)
+libcamelgroupwise_la_LIBADD = $(CAMEL_GROUPWISE_LIBS)
 
 libcamelgroupwise_la_LDFLAGS = -avoid-version -module
 
