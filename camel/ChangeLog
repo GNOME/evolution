@@ -1,3 +1,12 @@
+2000-05-25  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/smtp/camel-smtp-transport.c (_send_to): Took out code
+	that had been there to reconnect to the server if it was not
+	already connected - Mailer code was fixed so that this should not
+	be needed.
+
+	* providers/imap/camel-imap-store.[c,h]: Initial code.
+
 2000-05-24  Dan Winship  <danw@helixcode.com>
 
 	* camel.h: Re-add camel-simple-data-wrapper.h, which was removed

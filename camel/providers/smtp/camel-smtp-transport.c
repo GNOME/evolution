@@ -308,11 +308,7 @@ _send_to (CamelTransport *transport, CamelMedium *message,
 	GList *r;
 	gchar *recipient, *s, *sender;
 	guint i, len;
-	CamelService *service = CAMEL_SERVICE (transport);
 	CamelSmtpTransport *smtp_transport = CAMEL_SMTP_TRANSPORT(transport);
-
-	if (!camel_service_is_connected (service))
-		smtp_connect (service, ex);
 
 	s = g_strdup(camel_mime_message_get_from (CAMEL_MIME_MESSAGE(message)));
 	if (!s) {

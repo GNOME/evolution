@@ -3,6 +3,7 @@
 
 /* 
  * Authors: Jeffrey Stedfast <fejj@helixcode.com>
+ *          Ross Golder <ross@golder.org>
  *
  * Copyright (C) 2000 Helix Code, Inc.
  *
@@ -43,7 +44,10 @@ extern "C" {
 
 typedef struct {
 	CamelStore parent_object;	
-	
+
+	CamelStream *istream, *ostream;
+	guint32 command;
+
 } CamelImapStore;
 
 
@@ -55,6 +59,17 @@ typedef struct {
 
 
 /* public methods */
+void camel_imap_store_open (CamelImapStore *store, CamelException *ex);
+void camel_imap_store_close (CamelImapStore *store, gboolean expunge,
+			     CamelException *ex);
+
+/* support functions */
+
+enum { CAMEL_IMAP_OK, CAMEL_IMAP_ERR, CAMEL_IMAP_FAIL };
+
+gint camel_imap_command (CamelImapStore *store, char **ret, char *fmt, ...);
+gchar *camel_imap_command_get_additional_data (CamelImapStore *store,
+					      CamelException *ex);
 
 /* Standard Gtk function */
 GtkType camel_imap_store_get_type (void);
