@@ -240,25 +240,6 @@ load_images (void)
 	}
 }
 
-/* FIXME this is broken.  */
-static gboolean
-bonobo_widget_is_dead (BonoboWidget *bonobo_widget)
-{
-	BonoboControlFrame *control_frame;
-	CORBA_Object corba_object;
-	CORBA_Environment ev;
-	gboolean is_dead;
-
-	control_frame = bonobo_widget_get_control_frame (bonobo_widget);
-	corba_object = bonobo_control_frame_get_control (control_frame);
-
-	CORBA_exception_init (&ev);
-	is_dead = CORBA_Object_non_existent (corba_object, &ev);
-	CORBA_exception_free (&ev);
-
-	return is_dead;
-}
-
 static void
 cleanup_delayed_selection (EShellView *shell_view)
 {
@@ -1949,11 +1930,6 @@ show_existing_view (EShellView *shell_view,
 
 	notebook_page = gtk_notebook_page_num (GTK_NOTEBOOK (priv->notebook), view->control);
 	g_assert (notebook_page != -1);
-
-	/* A BonoboWidget can be a "zombie" in the sense that its actual
-	   control is dead; if it's zombie, we have to recreate it.  */
-	if (bonobo_widget_is_dead (BONOBO_WIDGET (view->control)))
-		return FALSE;
 
 	g_free (priv->uri);
 	priv->uri = g_strdup (uri);

@@ -1,5 +1,10 @@
 2001-10-30  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c (bonobo_widget_is_dead): Removed.
+	(show_existing_view): Don't call it.
+
+2001-10-30  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-component-registry.c (sleep_with_g_main_loop): New utility
 	function.
 	(sleep_with_g_main_loop_timeout_callback): Callback function for
