@@ -1,3 +1,12 @@
+2004-03-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-format-html.c (efh_format_header): Fixed a bug where txt
+	wasn't being properly initialised in all cases for Date
+	headers. Also fixed the x-evolution-mailer code to simply use the
+	ehader->value that was passed in.
+	(efh_format_headers): Fixed to handle the special
+	X-Evolution-Mailer header.
+
 2004-03-11  Not Zed  <NotZed@Ximian.com>
 
 	* em-folder-browser.c (emfb_set_folder): a really gross hack,

@@ -1480,20 +1480,22 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 		txt = camel_mime_message_get_subject (msg);
 		label = _("Subject");
 		flags |= EM_FORMAT_HEADER_BOLD;
-	} else if (!strcmp (name, "x-evolution-mailer")) { /* pseudo-header */
-		if (!(txt = camel_medium_get_header (part, "x-mailer")))
-			if (!(txt = camel_medium_get_header (part, "user-agent")))
-				return;
-		
+	} else if (!strcmp (name, "x-evolution-mailer")) {
+		/* pseudo-header */
 		label = _("Mailer");
+		txt = header->value;
 		flags |= EM_FORMAT_HEADER_BOLD;
 	} else if (!strcmp (name, "date") || !strcmp (name, "resent-date")) {
 		int msg_offset, local_tz;
 		time_t msg_date;
 		struct tm local;
 		
+		txt = header->value;
+		while (*txt == ' ')
+			txt++;
+		
 		/* Show the local timezone equivalent in brackets if the sender is remote */
-		msg_date = camel_header_decode_date (header->value, &msg_offset);
+		msg_date = camel_header_decode_date (txt, &msg_offset);
 		e_localtime_with_offset (msg_date, &local, &local_tz);
 		
 		/* Convert message offset to minutes (e.g. -0400 --> -240) */
@@ -1513,7 +1515,7 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 				e_utf8_strftime (buf, sizeof (buf), _("<I> (%R %Z)</I>"), &local);
 			}
 			
-			html = camel_text_to_html (header->value, efh->text_html_flags, 0);
+			html = camel_text_to_html (txt, efh->text_html_flags, 0);
 			txt = value = g_strdup_printf ("%s %s", html, buf);
 			g_free (html);
 			flags |= EM_FORMAT_HTML_HEADER_HTML;
@@ -1564,10 +1566,24 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 		}
 	} else {
 		while (h->next) {
+			int mailer;
+			
 			header = ((CamelMimePart *)part)->headers;
+			
+			mailer = !g_ascii_strcasecmp (h->name, "X-Evolution-Mailer");
+			
 			while (header) {
-				if (!g_ascii_strcasecmp(header->name, h->name))
+				if (mailer && (!g_ascii_strcasecmp (header->name, "X-Mailer") ||
+					       !g_ascii_strcasecmp (header->name, "User-Agent"))) {
+					struct _camel_header_raw xmailer;
+					
+					xmailer.name = "X-Evolution-Mailer";
+					xmailer.value = header->value;
+					
+					efh_format_header (emf, stream, part, &xmailer, h->flags, charset);
+				} else if (!g_ascii_strcasecmp (header->name, h->name)) {
 					efh_format_header(emf, stream, part, header, h->flags, charset);
+				}
 				header = header->next;
 			}
 			h = h->next;
