@@ -1801,8 +1801,13 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 	
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	
-	g_return_val_if_fail (CAMEL_IS_MULTIPART_SIGNED (wrapper), FALSE);
-	
+	if (!CAMEL_IS_MULTIPART_SIGNED (wrapper)) {
+		mail_error_printf (html, stream, "\n%s\n", U_("Could not parse MIME message. Displaying as source."));
+		if (mail_content_loaded (wrapper, md, TRUE, NULL, html, NULL))
+			handle_text_plain (part, "text/plain", md, html, stream);
+		return TRUE;
+	}
+
 	mps = CAMEL_MULTIPART_SIGNED (wrapper);
 	
 	/* if subpart & signature is null, what do we do?  just write it out raw?
@@ -1916,8 +1921,13 @@ handle_multipart_related (CamelMimePart *part, const char *mime_type,
 	GHashTable *related_save;
 	int ret;
 	
-	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
-	
+	if (!CAMEL_IS_MULTIPART (wrapper)) {
+		mail_error_printf (html, stream, "\n%s\n", U_("Could not parse MIME message. Displaying as source."));
+		if (mail_content_loaded (wrapper, md, TRUE, NULL, html, NULL))
+			handle_text_plain (part, "text/plain", md, html, stream);
+		return TRUE;
+	}
+
 	mp = CAMEL_MULTIPART (wrapper);
 	nparts = camel_multipart_get_number (mp);	
 	
@@ -2036,7 +2046,12 @@ handle_multipart_alternative (CamelMimePart *part, const char *mime_type,
 	CamelMultipart *multipart;
 	CamelMimePart *mime_part;
 	
-	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
+	if (!CAMEL_IS_MULTIPART (wrapper)) {
+		mail_error_printf (html, stream, "\n%s\n", U_("Could not parse MIME message. Displaying as source."));
+		if (mail_content_loaded (wrapper, md, TRUE, NULL, html, NULL))
+			handle_text_plain (part, "text/plain", md, html, stream);
+		return TRUE;
+	}
 	
 	multipart = CAMEL_MULTIPART (wrapper);
 	
@@ -2056,8 +2071,13 @@ handle_multipart_appledouble (CamelMimePart *part, const char *mime_type,
 		camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	CamelMultipart *multipart;
 
-	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
-	
+	if (!CAMEL_IS_MULTIPART (wrapper)) {
+		mail_error_printf (html, stream, "\n%s\n", U_("Could not parse MIME message. Displaying as source."));
+		if (mail_content_loaded (wrapper, md, TRUE, NULL, html, NULL))
+			handle_text_plain (part, "text/plain", md, html, stream);
+		return TRUE;
+	}
+
 	multipart = CAMEL_MULTIPART (wrapper);
 
 	/* The first part is application/applefile and is not useful
