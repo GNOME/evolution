@@ -1,5 +1,8 @@
 2001-07-24  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-format.c (handle_text_plain): check_specials if this is an
+	application/pgp type as well.
+
 	* mail-ops.c (add_vtrash_info): When dumping the CamelURL to a
 	string, hide all the params.
 
