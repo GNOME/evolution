@@ -1,3 +1,8 @@
+2003-09-16  Harry Lu  <harry.lu@sun.com>
+
+	* gui/apps_evolution_calendar.schemas: change last_notification_time's
+	type from string to int.
+
 2003-09-11  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* conduits/todo/Makefile.am:

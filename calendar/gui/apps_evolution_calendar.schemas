@@ -314,7 +314,7 @@
       <key>/schemas/apps/evolution/calendar/notify/last_notification_time</key>
       <applyto>/apps/evolution/calendar/notify/last_notification_time</applyto>
       <owner>evolution-calendar</owner>
-      <type>string</type>
+      <type>int</type>
       <default>-1</default>
       <locale name="C">
         <short>Time last alarm ran</short>
