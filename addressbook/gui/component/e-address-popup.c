@@ -68,7 +68,7 @@ struct _MiniWizard {
 static void
 mini_wizard_container_add (MiniWizard *wiz, GtkWidget *w)
 {
-	GList *iter = gtk_container_children (GTK_CONTAINER (wiz->vbox));
+	GList *iter = gtk_container_get_children (GTK_CONTAINER (wiz->vbox));
 	while (iter != NULL) {
 		GtkWidget *oldw = (GtkWidget *) iter->data;
 		iter = g_list_next (iter);
@@ -519,44 +519,57 @@ email_table_init (MiniWizard *wiz, ECard *card, const gchar *extra_address)
 typedef struct _CardPicker CardPicker;
 struct _CardPicker {
 	GtkWidget *body;
-	GtkWidget *clist;
+	GtkWidget *list;
+	GtkListStore *model;
 	GList *cards;
 	gchar *new_name;
 	gchar *new_email;
 
-	gint current_row;
+	ECard *current_card;
 };
 
-static void
-card_picker_row_select_cb (GtkCList *clist, gint row, gint col, GdkEventButton *ev, gpointer closure)
-{
-	MiniWizard *wiz = (MiniWizard *) closure;
-	CardPicker *pick = (CardPicker *) wiz->closure;
-	pick->current_row = row;
-	gtk_widget_set_sensitive (wiz->ok_button, TRUE);
-}
+enum {
+	COLUMN_ACTION,
+	COLUMN_CARD
+};
 
-static void
-card_picker_row_unselect_cb (GtkCList *clist, gint row, gint col, GdkEventButton *ev, gpointer closure)
+static gboolean
+card_picker_row_select_cb (GtkTreeSelection  *selection,
+			   GtkTreeModel      *model,
+			   GtkTreePath       *path,
+			   gboolean           path_currently_selected,
+			   gpointer           closure)
 {
 	MiniWizard *wiz = (MiniWizard *) closure;
 	CardPicker *pick = (CardPicker *) wiz->closure;
-	pick->current_row = -1;
-	gtk_widget_set_sensitive (wiz->ok_button, FALSE);
+	GtkTreeIter iter;
+
+	if (path_currently_selected) {
+		gtk_tree_model_get_iter (model, &iter, path);
+		gtk_tree_model_get (model, &iter,
+				    COLUMN_CARD, &pick->current_card,
+				    NULL);
+
+		gtk_widget_set_sensitive (wiz->ok_button, TRUE);
+	}
+	else {
+		pick->current_card = NULL;
+		gtk_widget_set_sensitive (wiz->ok_button, FALSE);
+	}
+
+	return TRUE;
 }
 
 static void
 card_picker_ok_cb (MiniWizard *wiz, gpointer closure)
 {
 	CardPicker *pick = (CardPicker *) closure;
-	g_return_if_fail (pick->current_row >= 0);
 
-	if (pick->current_row == 0) {
+	if (pick->current_card == NULL) {
 		e_contact_quick_add (pick->new_name, pick->new_email, NULL, NULL);
 		mini_wizard_destroy (wiz);
 	} else {
-		ECard *card = (ECard *) g_list_nth_data (pick->cards, pick->current_row-1);
-		email_table_init (wiz, card, pick->new_email);
+		email_table_init (wiz, pick->current_card, pick->new_email);
 	}
 }
 
@@ -578,20 +591,34 @@ card_picker_init (MiniWizard *wiz, const GList *cards, const gchar *new_name, co
 	CardPicker *pick;
 	gchar *str;
 	GtkWidget *w, *swin;
+	GtkTreeIter iter;
 
 	pick = g_new (CardPicker, 1);
 
 	pick->body  = gtk_vbox_new (FALSE, 2);
 
-	pick->clist = gtk_clist_new (1);
-	gtk_clist_set_column_title (GTK_CLIST (pick->clist), 0, _("Select an Action"));
-	gtk_clist_column_titles_show (GTK_CLIST (pick->clist));
-	gtk_clist_set_selection_mode (GTK_CLIST (pick->clist), GTK_SELECTION_SINGLE);
+	pick->model = gtk_list_store_new (2,
+					  G_TYPE_STRING, G_TYPE_POINTER,
+					  NULL);
 
-	gtk_clist_freeze (GTK_CLIST (pick->clist));
+	pick->list = gtk_tree_view_new_with_model (GTK_TREE_MODEL (pick->model));
+
+	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (pick->list), TRUE);
+
+	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (pick->list),
+						     COLUMN_ACTION,
+						     _("Select an Action"),
+						     gtk_cell_renderer_text_new (),
+						     NULL);
+
+	gtk_tree_selection_set_mode (gtk_tree_view_get_selection (GTK_TREE_VIEW (pick->list)),
+				     GTK_SELECTION_SINGLE);
 
 	str = g_strdup_printf (_("Create a new contact \"%s\""), new_name);
-	gtk_clist_append (GTK_CLIST (pick->clist), &str);
+	gtk_list_store_append (pick->model, &iter);
+	gtk_list_store_set (pick->model, &iter,
+			    str, NULL,
+			    NULL);
 	g_free (str);
 
 	pick->cards = NULL;
@@ -603,19 +630,21 @@ card_picker_init (MiniWizard *wiz, const GList *cards, const gchar *new_name, co
 		g_object_ref (card);
 
 		str = g_strdup_printf (_("Add address to existing contact \"%s\""), name_str);
-		gtk_clist_append (GTK_CLIST (pick->clist), &str);
+		gtk_list_store_append (pick->model, &iter);
+		gtk_list_store_set (pick->model, &iter,
+				    COLUMN_ACTION, str,
+				    COLUMN_CARD, card,
+				    NULL);
 		g_free (name_str);
 		g_free (str);
 
 		cards = g_list_next (cards);
 	}
 
-	gtk_clist_thaw (GTK_CLIST (pick->clist));
-
 	pick->new_name  = g_strdup (new_name);
 	pick->new_email = g_strdup (new_email);
 
-	pick->current_row = -1;
+	pick->current_card = NULL;
 	gtk_widget_set_sensitive (wiz->ok_button, FALSE);
 
 	/* Connect some signals & callbacks */
@@ -623,14 +652,9 @@ card_picker_init (MiniWizard *wiz, const GList *cards, const gchar *new_name, co
 	wiz->ok_cb      = card_picker_ok_cb;
 	wiz->cleanup_cb = card_picker_cleanup_cb;
 
-	g_signal_connect (pick->clist,
-			  "select-row",
-			  G_CALLBACK (card_picker_row_select_cb),
-			  wiz);
-	g_signal_connect (pick->clist,
-			  "unselect-row",
-			  G_CALLBACK (card_picker_row_unselect_cb),
-			  wiz);
+	gtk_tree_selection_set_select_func (gtk_tree_view_get_selection (GTK_TREE_VIEW (pick->list)),
+					    card_picker_row_select_cb,
+					    wiz, NULL);
 
 	/* Build our widget */
 
@@ -641,7 +665,7 @@ card_picker_init (MiniWizard *wiz, const GList *cards, const gchar *new_name, co
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (swin),
 					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (swin), pick->clist);
+	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (swin), pick->list);
 	
 	gtk_box_pack_start (GTK_BOX (pick->body), swin, TRUE, TRUE, 2);
 	gtk_widget_show_all (pick->body);

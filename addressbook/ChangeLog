@@ -1,5 +1,11 @@
 2002-12-18  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/e-address-popup.c: convert the clist in here to a
+	GtkTreeView.  your guess is as good as mine if it works (i can't
+	test it at present) but it compiles.
+
+2002-12-18  Chris Toshok  <toshok@ximian.com>
+
 	* gui/widgets/e-addressbook-view.c (jump_to_letters):
 	g_string_sprintfa -> g_string_append_printf.
 	(create_alphabet): same.
