@@ -1,7 +1,12 @@
+2002-09-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-mail-message.xml: Add back "period" and "comma" as
+	accels for MailNextUnread and MailPreviousUnread.
+
 2002-09-03  Ettore Perazzoli  <ettore@ximian.com>
 
-	* evolution-mail-message.xml: Use bracketright and bracketleft for
-	next/prev unread.
+	* evolution-mail-message.xml: Use "bracketright" and "bracketleft"
+	for MailNextUnread and MailPreviousUnread.
 
 2002-08-06  Ettore Perazzoli  <ettore@ximian.com>
 

@@ -199,6 +199,7 @@
 
   <keybindings>
     <accel name="*Shift*comma"        verb="MailPreviousUnread"/>
+    <accel name="comma"	              verb="MailPreviousUnread"/>
     <accel name="less"                verb="MailPreviousUnread"/>
     <accel name="*Shift*less"         verb="MailPreviousUnread"/>
     <accel name="bracketleft"         verb="MailPreviousUnread"/>
@@ -207,6 +208,7 @@
     <accel name="*Shift*braceleft"    verb="MailPreviousUnread"/>
 
     <accel name="*Shift*period"       verb="MailNextUnread"/>
+    <accel name="period"              verb="MailNextUnread"/>
     <accel name="greater"             verb="MailNextUnread"/>
     <accel name="*Shift*greater"      verb="MailNextUnread"/>
     <accel name="bracketright"        verb="MailNextUnread"/>
