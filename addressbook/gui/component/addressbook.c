@@ -717,7 +717,7 @@ addressbook_query_changed (ESearchBar *esb, AddressbookView *view)
 
 				if (subid < 0 || subid == G_MAXINT) {
 					/* match everything */
-					search_query = g_strdup ("(contains \"full_name\" \"\")");
+					search_query = g_strdup ("(contains \"x-evolution-any-field\" \"\")");
 				} else {
 					master_list = get_master_list ();
 					category_name = e_categories_master_list_nth (master_list, subid);
@@ -725,12 +725,12 @@ addressbook_query_changed (ESearchBar *esb, AddressbookView *view)
 				}
 				break;
 			default:
-				search_query = g_strdup ("(contains \"full_name\" \"\")");
+				search_query = g_strdup ("(contains \"x-evolution-any-field\" \"\")");
 				break;
 			}
 			g_string_free (s, TRUE);
 		} else
-			search_query = g_strdup ("(contains \"full_name\" \"\")");
+			search_query = g_strdup ("(contains \"x-evolution-any-field\" \"\")");
 
 		if (search_query)
 			gtk_object_set (GTK_OBJECT(view->view),
