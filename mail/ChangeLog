@@ -1,5 +1,12 @@
 2001-01-19  Dan Winship  <danw@ximian.com>
 
+	* mail-display.c (pixmap_press): Update for e_popup_menu_run
+	change.
+
+	* folder-browser.c (etable_key): On GDK_Menu (the menu key on
+	105-key keyboards), pop up the right-click menu.
+	(on_right_click): update for e_popup_menu_run change.
+	
 	* subscribe-dialog.c (recursive_add_folder): New function to add a
 	folder and any parents of it that don't yet exist. Fixes bugzilla
 	#1028.

@@ -770,7 +770,7 @@ display_menu:
 		g_free(mailing_list_name);
 	}
 
-	e_popup_menu_run (menu, (GdkEventButton *)event, enable_mask, 0, fb);
+	e_popup_menu_run (menu, event, enable_mask, 0, fb);
 	
 	g_free(filter_menu[last_item].name);
 
@@ -839,6 +839,10 @@ etable_key (ETable *table, int row, int col, GdkEvent *ev, FolderBrowser *fb)
 		message_list_select (fb->message_list, row,
 				     MESSAGE_LIST_SELECT_PREVIOUS,
 				     0, CAMEL_MESSAGE_SEEN);
+		return TRUE;
+
+	case GDK_Menu:
+		on_right_click (table, row, col, ev, fb);
 		return TRUE;
 
 	default:

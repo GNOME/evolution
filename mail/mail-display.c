@@ -372,7 +372,7 @@ pixmap_press (GtkWidget *ebox, GdkEventButton *event, EScrollFrame *user_data)
 		mask |= 2;
 	}
 
-	e_popup_menu_run (menu, event, mask, 0, ebox);
+	e_popup_menu_run (menu, (GdkEvent *)event, mask, 0, ebox);
 	g_free (menu[1].name);
 	g_free (menu[2].name);
 	return TRUE;
