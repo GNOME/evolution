@@ -661,6 +661,21 @@ impl_finalize (GObject *object)
 	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
+static gboolean
+e_source_selector_popup_menu (GtkWidget *widget)
+{
+	ESourceSelector *selector = E_SOURCE_SELECTOR (widget);
+	ESource *source = e_source_selector_peek_primary_selection (selector);
+	gboolean res = FALSE;
+
+	if (source) {
+		g_object_ref (source);
+		g_signal_emit (selector, signals[POPUP_EVENT], 0, source, NULL, &res);
+		g_object_unref (source);
+	}
+
+	return res;
+}
 
 /* Initialization.  */
 static gboolean
@@ -677,9 +692,12 @@ static void
 class_init (ESourceSelectorClass *class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
+	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (class);
 
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
+
+	widget_class->popup_menu = e_source_selector_popup_menu;
 
 	parent_class = g_type_class_peek_parent (class);
 

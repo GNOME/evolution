@@ -1,3 +1,9 @@
+2004-10-08  Harry Lu  <harry.lu@sun.com>
+
+	* e-source-selector.c: (e_source_selector_popup_menu),
+	(class_init): implement popup_menu so that popup menu can
+	be shown with Shift+F10.
+
 2004-10-06  JP Rosevear  <jpr@novell.com>
  
  	Fixes #66164
