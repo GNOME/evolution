@@ -1,3 +1,7 @@
+2004-06-08  Chris Toshok  <toshok@ximian.com>
+
+	* lib/e-cert-db.[ch]: quiet the compiler, and dobey.
+
 2004-05-28  Not Zed  <NotZed@Ximian.com>
 
 	* gui/certificate-manager.c (initialize_yourcerts_ui): set some
