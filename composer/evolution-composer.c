@@ -38,13 +38,15 @@
 #define PARENT_TYPE BONOBO_OBJECT_TYPE
 static BonoboObjectClass *parent_class = NULL;
 
-static void (*send_cb) (EMsgComposer *, gpointer);
-static void (*save_draft_cb) (EMsgComposer *, int, gpointer);
+struct _EvolutionComposerPrivate {
+	int send_id;
+	int save_draft_id;
+
+	void (*send_cb) (EMsgComposer *, gpointer);
+	void (*save_draft_cb) (EMsgComposer *, int, gpointer);
+};
 
 /* CORBA interface implementation.  */
-
-static POA_GNOME_Evolution_Composer__vepv Composer_vepv;
-
 static EDestination **
 corba_recipientlist_to_destv (const GNOME_Evolution_Composer_RecipientList *cl)
 {
@@ -250,7 +252,7 @@ impl_Composer_send (PortableServer_Servant servant,
 	bonobo_object = bonobo_object_from_servant (servant);
 	composer = EVOLUTION_COMPOSER (bonobo_object);
 
-	send_cb (composer->composer, NULL);
+	composer->priv->send_cb (composer->composer, NULL);
 }
 
 POA_GNOME_Evolution_Composer__epv *
@@ -271,29 +273,34 @@ evolution_composer_get_epv (void)
 }
 
 
-/* GtkObject stuff */
+/* GObject stuff */
 
 static void
-destroy (GtkObject *object)
+finalise (GObject *object)
 {
 	EvolutionComposer *composer = EVOLUTION_COMPOSER (object);
+	struct _EvolutionComposerPrivate *p = composer->priv;
+
+	g_signal_handler_disconnect(composer->composer, p->send_id);
+	g_signal_handler_disconnect(composer->composer, p->save_draft_id);
+	g_free(p);
 
 	if (composer->composer) {
-		g_object_unref((composer->composer)); 
+		g_object_unref(composer->composer);
 		composer->composer = NULL;
 	}
 
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static void
 evolution_composer_class_init (EvolutionComposerClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	POA_GNOME_Evolution_Composer__epv *epv;
 
-	object_class = GTK_OBJECT_CLASS (klass);
-	object_class->destroy = destroy;
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = finalise;
 
 	parent_class = g_type_class_ref(bonobo_object_get_type ());
 
@@ -315,11 +322,7 @@ evolution_composer_init (EvolutionComposer *composer)
 	
 	account = mail_config_get_default_account ();
 	composer->composer = e_msg_composer_new ();
-	
-	g_signal_connect (composer->composer, "send",
-			  G_CALLBACK (send_cb), NULL);
-	g_signal_connect (composer->composer, "save-draft",
-			  G_CALLBACK (save_draft_cb), NULL);
+	composer->priv = g_malloc0(sizeof(*composer->priv));
 }
 
 #if 0
@@ -374,65 +377,21 @@ evolution_composer_construct (EvolutionComposer *composer,
 }
 
 EvolutionComposer *
-evolution_composer_new (void)
+evolution_composer_new (void (*send) (EMsgComposer *, gpointer),
+			void (*save_draft) (EMsgComposer *, int, gpointer))
 {
 	EvolutionComposer *new;
-#if 0
-	POA_GNOME_Evolution_Composer *servant;
-	CORBA_Environment ev;
-	GNOME_Evolution_Composer corba_object;
+	struct _EvolutionComposerPrivate *p;
 
-	servant = (POA_GNOME_Evolution_Composer *) g_new0 (BonoboObjectServant, 1);
-	servant->vepv = &Composer_vepv;
-
-	CORBA_exception_init (&ev);
-	POA_GNOME_Evolution_Composer__init ((PortableServer_Servant) servant, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_free (servant);
-		CORBA_exception_free (&ev);
-		return NULL;
-	}
-	CORBA_exception_free (&ev);
-
-	new = gtk_type_new (evolution_composer_get_type ());
-	corba_object = bonobo_object_activate_servant (BONOBO_OBJECT (new),
-						       servant);
-#endif
 	new = g_object_new(EVOLUTION_TYPE_COMPOSER, NULL);
-	evolution_composer_construct (new, NULL);
+	evolution_composer_construct (new, bonobo_object_corba_objref((BonoboObject *)new));
+	p = new->priv;
+	p->send_cb = send;
+	p->save_draft_cb = save_draft;
+	p->send_id = g_signal_connect (new->composer, "send", G_CALLBACK (send), NULL);
+	p->save_draft_id = g_signal_connect (new->composer, "save-draft", G_CALLBACK (save_draft), NULL);
 
 	return new;
 }
 
 BONOBO_TYPE_FUNC_FULL(EvolutionComposer, GNOME_Evolution_Composer, BONOBO_TYPE_OBJECT, evolution_composer)
-
-
-#define GNOME_EVOLUTION_MAIL_COMPOSER_FACTORY_ID "OAFIID:GNOME_Evolution_Mail_ComposerFactory"
-
-static BonoboObject *
-factory_fn (BonoboGenericFactory *factory, const char *id, void *closure)
-{
-	if (!mail_config_is_configured ()) {
-		e_notice (NULL, GTK_MESSAGE_ERROR,
-			  _("Could not create composer window, because you "
-			    "have not yet\nconfigured any identities in the "
-			    "mail component."));
-		return NULL;
-	}
-	return BONOBO_OBJECT (evolution_composer_new ());
-}
-
-void
-evolution_composer_factory_init (void (*send) (EMsgComposer *, gpointer),
-				 void (*save_draft) (EMsgComposer *, int, gpointer))
-{
-	if (bonobo_generic_factory_new (GNOME_EVOLUTION_MAIL_COMPOSER_FACTORY_ID,
-					factory_fn, NULL) == NULL) {
-		e_notice (NULL, GTK_MESSAGE_ERROR,
-			  _("Cannot initialize the Evolution composer."));
-		exit (1);
-	}
-	
-	send_cb = send;
-	save_draft_cb = save_draft;
-}

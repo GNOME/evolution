@@ -1,3 +1,24 @@
+2003-03-11  Not Zed  <NotZed@Ximian.com>
+
+	* evolution-composer.c (evolution_composer_new): add
+	send_cb/save_draft_cb arguments.
+	(impl_Composer_send): use the local send_cb.
+	(evolution_composer_init): dont init send, save-draft signals
+	here.
+	(evolution_composer_new): init signals here, fix params to
+	composer_construct().
+	(evolution_composer_factory_init): remove, part of mailer now.
+	(factory_fn): same.
+	(finalise): disconnect from callbacks first.
+
+	* evolution-composer.h: add send_cb/save_draft_cb to composer object.
+
+2003-03-10  Not Zed  <NotZed@Ximian.com>
+
+	* evolution-composer.c (finalise): from destroy.
+	(evolution_composer_class_init): gtkobject->gobject stuff.
+	(evolution_composer_new): remove old redundant stuff.
+
 2003-03-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (composer_get_default_charset_setting): Don't

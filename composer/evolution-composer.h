@@ -46,6 +46,8 @@ typedef struct _EvolutionComposerClass   EvolutionComposerClass;
 struct _EvolutionComposer {
 	BonoboObject parent;
 
+	struct _EvolutionComposerPrivate *priv;
+
 	EMsgComposer *composer;
 };
 
@@ -60,7 +62,8 @@ POA_GNOME_Evolution_Composer__epv *evolution_composer_get_epv            (void);
 GtkType            evolution_composer_get_type     (void);
 void               evolution_composer_construct    (EvolutionComposer *,
 						    GNOME_Evolution_Composer);
-EvolutionComposer *evolution_composer_new          (void);
+EvolutionComposer *evolution_composer_new          (void (*send_cb) (EMsgComposer *, gpointer),
+						    void (*save_draft_cb) (EMsgComposer *, int, gpointer));
 
 void               evolution_composer_factory_init (void (*send) (EMsgComposer *, gpointer),
 						    void (*save_draft) (EMsgComposer *, int, gpointer));
