@@ -1,3 +1,15 @@
+2000-01-11  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gnome-calendar.idl: New IDL for the personal calendar server.
+
+	* cal.h cal.c: New files with the calendar object.
+
+	* cal-listener.h cal-listener.c: New files with the calendar
+	listener object.
+
+	* cal-factory.h cal-factory.c: New files with the calendar factory
+	object.
+
 2000-01-09  Eskil Heyn Olsen  <deity@eskil.dk>
 
 	* Makefile.am: Changes to remove todo capplet stuff from distro.
