@@ -7,11 +7,11 @@
 		 _tip="Delete selected tasks" verb="TasksDelete"
 		 accel="Delete" sensitive="0"/>
 
-		<cmd name="TasksCut" pixtype="stock" pixmap="Cut"
+		<cmd name="TasksCut" pixtype="stock" pixname="Cut"
 		 _tip="Cut selected task" verb="TasksCut" accel="*Control*x"/>
-		<cmd name="TasksCopy" pixtype="stock" pixmap="Copy"
+		<cmd name="TasksCopy" pixtype="stock" pixname="Copy"
 		 _tip="Copy selected task" verb="TasksCopy" accel="*Control*c"/>
-		<cmd name="TasksPaste" pixtype="stock" pixmap="Paste"
+		<cmd name="TasksPaste" pixtype="stock" pixname="Paste"
 		 _tip="Paste task from the clipboard" verb="TasksPaste" accel="*Control*v"/>
   	</commands>
   
@@ -50,8 +50,8 @@
 
 		<submenu name="Edit">
 
-			<menuitem name="Cut" verb="TasksCut" _labek="C_ut"/>
-			<menuitem name="Copy" verb="TasksCopy _labek="_Copy"/>
+			<menuitem name="Cut" verb="TasksCut" _label="C_ut"/>
+			<menuitem name="Copy" verb="TasksCopy" _label="_Copy"/>
 			<menuitem name="Paste" verb="TasksPaste" _label="_Paste"/>
 			<menuitem name="Delete" verb="TasksDelete"
 			_label="_Delete"/>

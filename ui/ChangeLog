@@ -1,3 +1,7 @@
+2001-06-29  Rodrigo Moya <rodrigo@ximian.com>
+
+	* evolution-tasks.xml: fixed typos
+
 2001-06-28  Radek Doulik  <rodo@ximian.com>
 
 	* evolution-signature-editor.xml: new file
