@@ -86,6 +86,26 @@ mail_account_editor_finalise (GtkObject *obj)
         ((GtkObjectClass *)(parent_class))->finalize (obj);
 }
 
+static gboolean
+is_email (const char *address)
+{
+	const char *at, *hname;
+	
+	g_return_val_if_fail (address != NULL, FALSE);
+	
+	at = strchr (address, '@');
+	/* make sure we have an '@' and that it's not the first or last char */
+	if (!at || at == address || *(at + 1) == '\0')
+		return FALSE;
+	
+	hname = at + 1;
+	/* make sure the first and last chars aren't '.' */
+	if (*hname == '.' || hname[strlen (hname) - 1] == '.')
+		return FALSE;
+	
+	return strchr (hname, '.') != NULL;
+}
+
 /* callbacks */
 static void
 entry_changed (GtkEntry *entry, gpointer data)
@@ -98,7 +118,7 @@ entry_changed (GtkEntry *entry, gpointer data)
 	name = gtk_entry_get_text (editor->name);
 	address = gtk_entry_get_text (editor->email);
 	
-	sensitive = account_name && *account_name && name && *name && address && *address;
+	sensitive = account_name && *account_name && name && *name && is_email (address);
 	
 	gnome_dialog_set_sensitive (GNOME_DIALOG (editor), 0, sensitive);
 	gnome_dialog_set_sensitive (GNOME_DIALOG (editor), 1, sensitive);
