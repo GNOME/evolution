@@ -349,8 +349,10 @@ control_activate_cb (BonoboControl *control,
 	
 	if (activate)
 		control_activate (control, uic, view);
-	else
+	else {
 		bonobo_ui_component_unset_container (uic);
+		e_addressbook_view_discard_menus (view->view);
+	}
 }
 
 static void

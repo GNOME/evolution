@@ -39,8 +39,6 @@
 #include <libgnomeprint/gnome-print-master.h>
 #include <libgnomeprint/gnome-print-master-preview.h>
 
-#include "widgets/menus/gal-view-menus.h"
-
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/printing/e-contact-print-envelope.h"
 
@@ -200,6 +198,9 @@ e_addressbook_view_init (EAddressbookView *eav)
 	eav->object = NULL;
 	eav->widget = NULL;
 
+	eav->view_collection = NULL;
+	eav->view_menus = NULL;
+
 	eav->invisible = gtk_invisible_new ();
 
 	gtk_selection_add_target (eav->invisible,
@@ -229,6 +230,16 @@ e_addressbook_view_destroy (GtkObject *object)
 	if (eav->book)
 		gtk_object_unref(GTK_OBJECT(eav->book));
 	g_free(eav->query);
+
+	if (eav->view_collection) {
+		gtk_object_unref (GTK_OBJECT (eav->view_collection));
+		eav->view_collection = NULL;
+	}
+
+	if (eav->view_menus) {
+		gtk_object_unref (GTK_OBJECT (eav->view_menus));
+		eav->view_menus = NULL;
+	}
 
 	if (eav->clipboard_cards) {
 		g_list_foreach (eav->clipboard_cards, (GFunc)gtk_object_unref, NULL);
@@ -1012,16 +1023,23 @@ void
 e_addressbook_view_setup_menus (EAddressbookView *view,
 				BonoboUIComponent *uic)
 {
-	GalViewCollection *collection;
-	GalViewMenus *views;
 	GalViewFactory *factory;
 	ETableSpecification *spec;
 	char *galview;
 
-	collection = gal_view_collection_new();
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (view));
+	g_return_if_fail (uic != NULL);
+	g_return_if_fail (BONOBO_IS_UI_COMPONENT (uic));
+	g_return_if_fail (view->view_collection == NULL);
+
+	g_assert (view->view_collection == NULL);
+	g_assert (view->view_menus == NULL);
+
+	view->view_collection = gal_view_collection_new();
 
 	galview = gnome_util_prepend_user_home("/evolution/views/addressbook/");
-	gal_view_collection_set_storage_directories(collection,
+	gal_view_collection_set_storage_directories(view->view_collection,
 						    EVOLUTION_DATADIR "/evolution/views/addressbook/",
 						    galview);
 	g_free(galview);
@@ -1029,23 +1047,46 @@ e_addressbook_view_setup_menus (EAddressbookView *view,
 	spec = e_table_specification_new();
 	e_table_specification_load_from_string(spec, SPEC);
 
-	factory = gal_view_factory_etable_new(spec);
-	gal_view_collection_add_factory(collection, factory);
-	gtk_object_sink(GTK_OBJECT(factory));
+	factory = gal_view_factory_etable_new (spec);
+	gtk_object_unref (GTK_OBJECT (spec));
+	gal_view_collection_add_factory (view->view_collection, factory);
+	gtk_object_unref (GTK_OBJECT (factory));
 
-	factory = gal_view_factory_minicard_new();
-	gal_view_collection_add_factory(collection, factory);
-	gtk_object_sink(GTK_OBJECT(factory));
+	factory = gal_view_factory_minicard_new ();
+	gal_view_collection_add_factory (view->view_collection, factory);
+	gtk_object_unref (GTK_OBJECT (factory));
 
-	gal_view_collection_load(collection);
+	gal_view_collection_load(view->view_collection);
 
-	views = gal_view_menus_new(collection);
-	gal_view_menus_apply(views, uic, NULL); /* This function probably needs to sink the views object. */
-	gtk_signal_connect(GTK_OBJECT(collection), "display_view",
+	view->view_menus = gal_view_menus_new(view->view_collection);
+	gal_view_menus_apply(view->view_menus, uic, NULL);
+	gtk_signal_connect(GTK_OBJECT(view->view_collection), "display_view",
 			   display_view, view);
-	/*	gtk_object_sink(GTK_OBJECT(views)); */
+}
 
-	gtk_object_sink(GTK_OBJECT(collection));
+/**
+ * e_addressbook_view_discard_menus:
+ * @view: An addressbook view.
+ * 
+ * Makes an addressbook view discard its GAL view menus and its views collection
+ * objects.  This should be called when the corresponding Bonobo component is
+ * deactivated.
+ **/
+void
+e_addressbook_view_discard_menus (EAddressbookView *view)
+{
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (view));
+	g_return_if_fail (view->view_collection);
+
+	g_assert (view->view_collection != NULL);
+	g_assert (view->view_menus != NULL);
+
+	gtk_object_unref (GTK_OBJECT (view->view_collection));
+	view->view_collection = NULL;
+
+	gtk_object_unref (GTK_OBJECT (view->view_menus));
+	view->view_menus = NULL;
 }
 
 static ESelectionModel*

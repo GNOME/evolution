@@ -1,3 +1,23 @@
+2001-05-31  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/widgets/e-addressbook-view.h (EAddressbookView): Added
+	fields for the GalViewMenus and GalViewCollection; we need to keep
+	them around while the component is active.
+
+	* gui/widgets/e-addressbook-view.c
+	(e_addressbook_view_setup_menus): Plug leak; unref the spec.
+	Unref the factories.  Do not unref the collection, since we need
+	it for the signal emission (okay, so the views object adds a
+	reference to it, but if we are interested in it we should keep a
+	reference anyways).
+	(e_addressbook_view_setup_menus): Create the collection and views
+	on the EAddressbookView's fields so that we can keep them around.
+	(e_addressbook_view_discard_menus): New function; gets rid of the
+	collection and views objects.
+
+	* gui/component/addressbook.c (control_activate_cb): Call
+	e_addressbook_view_discard_menus().
+
 2001-05-31  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/select-names/e-select-names.h (struct
@@ -415,8 +435,6 @@
 
 	* gui/widgets/e-addressbook-model.h: same.
 
-
->>>>>>> 1.502
 2001-05-14  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/widgets/e-minicard-view-model.c (remove_card): Fix a small

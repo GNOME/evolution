@@ -23,7 +23,9 @@
 
 #include <gtk/gtktable.h>
 #include <bonobo/bonobo-ui-component.h>
+#include <gal/menus/gal-view-collection.h>
 #include "e-addressbook-model.h"
+#include "widgets/menus/gal-view-menus.h"
 #include "addressbook/backend/ebook/e-book.h"
 
 #ifdef __cplusplus
@@ -75,6 +77,10 @@ struct _EAddressbookView
 	GtkWidget *widget;
 
 	GtkWidget *vbox;
+
+	/* Menus handler and the view collection */
+	GalViewCollection *view_collection;
+	GalViewMenus *view_menus;
 };
 
 struct _EAddressbookViewClass
@@ -93,6 +99,7 @@ GtkType    e_addressbook_view_get_type          (void);
 
 void       e_addressbook_view_setup_menus       (EAddressbookView  *view,
 						 BonoboUIComponent *uic);
+void       e_addressbook_view_discard_menus     (EAddressbookView  *view);
 
 void       e_addressbook_view_print             (EAddressbookView  *view);
 void       e_addressbook_view_delete_selection  (EAddressbookView  *view);
