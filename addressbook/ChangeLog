@@ -1,3 +1,8 @@
+2002-05-23  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook-config.c (addressbook_root_dse_query):
+	fix parameter/local variable overloading.
+
 2002-05-21  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook.c (load_uri_cb): Don't try to invoke

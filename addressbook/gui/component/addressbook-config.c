@@ -222,7 +222,7 @@ addressbook_ldap_auth (GtkWidget *window, AddressbookSource *source, LDAP *ldap)
 }
 
 static int
-addressbook_root_dse_query (GtkWidget *dialog, AddressbookSource *source, LDAP *ldap, char **attrs, LDAPMessage **resp)
+addressbook_root_dse_query (GtkWindow *window, AddressbookSource *source, LDAP *ldap, char **attrs, LDAPMessage **resp)
 {
 	int ldap_error;
 	struct timeval timeout;
@@ -237,7 +237,7 @@ addressbook_root_dse_query (GtkWidget *dialog, AddressbookSource *source, LDAP *
 					attrs, 0, NULL, NULL, &timeout, LDAP_NO_LIMIT, resp);
 	if (LDAP_SUCCESS != ldap_error) {
 		GtkWidget *dialog;
-		dialog = gnome_error_dialog_parented (_("Could not perform query on Root DSE"), GTK_WINDOW (dialog));
+		dialog = gnome_error_dialog_parented (_("Could not perform query on Root DSE"), window);
 		gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	}
 
@@ -638,7 +638,7 @@ do_ldap_root_dse_query (GtkWidget *dialog, ETableModel *model, AddressbookSource
 	attrs[0] = "namingContexts";
 	attrs[1] = NULL;
 
-	ldap_error = addressbook_root_dse_query (dialog, source, ldap, attrs, &resp);
+	ldap_error = addressbook_root_dse_query (GTK_WINDOW (dialog), source, ldap, attrs, &resp);
 
 	if (ldap_error != LDAP_SUCCESS)
 		goto fail;
