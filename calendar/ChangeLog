@@ -1,3 +1,13 @@
+2000-11-30  JP Rosevear  <jpr@helixcode.com>
+
+	* conduits/calendar/calendar-conduit.c: Debug message cleanups
+	(get_ical_day): Fix off-by-one error which affected weekly occurences.
+	(comp_from_remote_record): Monthly by day and by date were reversed
+	(nth_weekday): function taken from event-editor.c that encodes BYDAY 
+	values - this needs to be in libical really.
+	(comp_from_remote_record): Don't set the description if the pilot note
+	is null.  Rejig so that we don't have to free objects.
+
 2000-11-28  Federico Mena Quintero  <federico@helixcode.com>
 
 	Upgrade of the alarm framework.  We now access alarms by a unique

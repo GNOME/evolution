@@ -53,7 +53,7 @@
 GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 
-#define CONDUIT_VERSION "0.1.1"
+#define CONDUIT_VERSION "0.1.2"
 #ifdef G_LOG_DOMAIN
 #undef G_LOG_DOMAIN
 #endif
@@ -71,7 +71,7 @@ void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 #define WARN(e...) g_log (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING, e)
 #define INFO(e...) g_log (G_LOG_DOMAIN, G_LOG_LEVEL_MESSAGE, e)
 
-/* debug spew DELETE ME */
+/* Debug routines */
 static char *
 print_local (ECalLocalRecord *local)
 {
@@ -92,12 +92,8 @@ print_local (ECalLocalRecord *local)
 	}
 
 	return "";
-	
-	return cal_component_get_as_string (local->comp);
 }
 
-
-/* debug spew DELETE ME */
 static char *print_remote (GnomePilotRecord *remote)
 {
 	static char buff[ 4096 ];
@@ -217,22 +213,30 @@ get_ical_day (int day)
 {
 	switch (day) {
 	case 0:
-		return ICAL_MONDAY_WEEKDAY;
-	case 1:
-		return ICAL_TUESDAY_WEEKDAY;
-	case 2:
-		return ICAL_WEDNESDAY_WEEKDAY;
-	case 3:
-		return ICAL_THURSDAY_WEEKDAY;
-	case 4:
-		return ICAL_FRIDAY_WEEKDAY;
-	case 5:
-		return ICAL_SATURDAY_WEEKDAY;
-	case 6:
 		return ICAL_SUNDAY_WEEKDAY;
+	case 1:
+		return ICAL_MONDAY_WEEKDAY;
+	case 2:
+		return ICAL_TUESDAY_WEEKDAY;
+	case 3:
+		return ICAL_WEDNESDAY_WEEKDAY;
+	case 4:
+		return ICAL_THURSDAY_WEEKDAY;
+	case 5:
+		return ICAL_FRIDAY_WEEKDAY;
+	case 6:
+		return ICAL_SATURDAY_WEEKDAY;
 	}
 
 	return ICAL_NO_WEEKDAY;
+}
+
+static short
+nth_weekday (int pos, icalrecurrencetype_weekday weekday)
+{
+	g_assert (pos > 0 && pos <= 5);
+
+	return (pos << 3) | (int) weekday;
 }
 
 static GList *
@@ -289,8 +293,6 @@ local_record_to_pilot_record (ECalLocalRecord *local,
 	g_assert (local->comp != NULL);
 	g_assert (local->appt != NULL );
 	
-	LOG ("local_record_to_remote_record\n");
-
 	p.ID = local->local.ID;
 	p.category = 0;
 	p.attr = local->local.attr;
@@ -319,8 +321,6 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 	CalComponentClassification classif;
 	int i;
 	
-	LOG ("local_record_from_comp\n");
-
 	g_return_if_fail (local != NULL);
 	g_return_if_fail (comp != NULL);
 
@@ -449,9 +449,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	struct icalrecurrencetype recur;
 	int pos, i;
 	CalComponentText summary = {NULL, NULL};
-	CalComponentText description = {NULL, NULL};
 	CalComponentDateTime dt = {NULL, NULL};
- 	GSList *d_list;
 
 	g_return_val_if_fail (remote != NULL, NULL);
 
@@ -466,24 +464,27 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		comp = cal_component_clone (in_comp);
 	}
 
- 	LOG ("        comp_from_remote_record: "
- 	     "creating from remote %s and comp %s\n", 
-  	     print_remote (remote), cal_component_get_as_string (comp));
-
 	cal_component_set_last_modified (comp, &now);
 
 	summary.value = appt.description;
 	cal_component_set_summary (comp, &summary);
 
-	description.value = appt.note;
-	d_list = g_slist_append (NULL, &description);
-	cal_component_set_comment_list (comp, d_list);
-	g_slist_free (d_list);
+	/* The iCal description field */
+	if (!appt.note) {
+		cal_component_set_comment_list (comp, NULL);
+	} else {
+		GSList l;
+		CalComponentText text;
 
+		text.value = appt.note;
+		text.altrep = NULL;
+		l.data = &text;
+		l.next = NULL;
 
-	/* FIX ME This is a bit hackish, how else can we tell if there is
-	 * no due date set?
-	 */
+		cal_component_set_description_list (comp, &l);
+	} 
+
+	/* FIX ME Is there a better way to see if no start time set? */
 	if (appt.begin.tm_sec || appt.begin.tm_min || appt.begin.tm_hour 
 	    || appt.begin.tm_mday || appt.begin.tm_mon || appt.begin.tm_year) {
 		it = icaltime_from_timet (mktime (&appt.begin), FALSE, FALSE);
@@ -511,7 +512,6 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	switch (appt.repeatType) {
 	case repeatNone:
 		recur.freq = ICAL_NO_RECURRENCE;
-		/* nothing */
 		break;
 
 	case repeatDaily:
@@ -534,13 +534,13 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	case repeatMonthlyByDay:
 		recur.freq = ICAL_MONTHLY_RECURRENCE;
 		recur.interval = appt.repeatFrequency;
-		recur.by_month_day[0] = appt.begin.tm_mday;
+		recur.by_day[0] = nth_weekday (appt.repeatDay / 5, get_ical_day (appt.repeatDay % 5 - 1));
 		break;
 		
 	case repeatMonthlyByDate:
 		recur.freq = ICAL_MONTHLY_RECURRENCE;
 		recur.interval = appt.repeatFrequency;
-		/* Not handled! */
+		recur.by_month_day[0] = appt.begin.tm_mday;
 		break;
 
 	case repeatYearly:
@@ -594,9 +594,6 @@ update_comp (GnomePilotConduitSyncAbs *conduit, CalComponent *comp,
 
 	g_return_if_fail (conduit != NULL);
 	g_return_if_fail (comp != NULL);
-
-	LOG ("update_comp: saving to desktop\n%s\n", 
-	     cal_component_get_as_string (comp));
 
 	success = cal_client_update_object (ctxt->client, comp);
 
