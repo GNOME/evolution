@@ -38,36 +38,62 @@
 static BonoboXObjectClass *parent_class = NULL;
 
 struct _ESummaryOfflineHandlerPriv {
-	ESummary *summary;
+	GSList *summaries;
 	GNOME_Evolution_OfflineProgressListener listener_interface;
 };
 
-GNOME_Evolution_ConnectionList *
-e_summary_offline_handler_create_connection_list (ESummary *summary)
+/* ::destroy handler for the bookkeeping of the list of summary views.  */
+
+static void
+summary_destroy_callback (GtkObject *object,
+			  void *data)
+{
+	ESummaryOfflineHandler *offline_handler;
+	ESummaryOfflineHandlerPriv *priv;
+	ESummary *summary;
+
+	summary = E_SUMMARY (object);
+	offline_handler = E_SUMMARY_OFFLINE_HANDLER (data);
+	priv = offline_handler->priv;
+
+	priv->summaries = g_slist_remove (priv->summaries, summary);
+}
+
+static GNOME_Evolution_ConnectionList *
+create_connection_list (GSList  *summaries)
 {
 	GNOME_Evolution_ConnectionList *list;
 	GList *connections, *p;
+	GSList *sp;
 
 	list = GNOME_Evolution_ConnectionList__alloc ();
 	list->_length = 0;
-	list->_maximum = e_summary_count_connections (summary) + 1;
+	list->_maximum = 0;
 	list->_buffer = CORBA_sequence_GNOME_Evolution_Connection_allocbuf (list->_maximum);
 
-	g_print ("_length: %d\n_maximum: %d\n", list->_length, list->_maximum);
-	connections = e_summary_add_connections (summary);
-	for (p = connections; p; p = p->next) {
-		ESummaryConnectionData *data;
+	/* Count the total number of connections first to make CORBA happy.  */
+	for (sp = summaries; sp != NULL; sp = sp->next)
+		list->_maximum += e_summary_count_connections (E_SUMMARY (sp->data)) + 1;
 
-		data = p->data;
-		list->_buffer[list->_length].hostName = CORBA_string_dup (data->hostname);
-		list->_buffer[list->_length].type = CORBA_string_dup (data->type);
-		list->_length++;
+	for (sp = summaries; sp != NULL; sp = sp->next) {
+		ESummary *summary;
 
-		g_free (data->hostname);
-		g_free (data->type);
-		g_free (data);
+		summary = E_SUMMARY (sp->data);
+		connections = e_summary_add_connections (summary);
+		for (p = connections; p != NULL; p = p->next) {
+			ESummaryConnectionData *data;
+
+			data = p->data;
+			list->_buffer[list->_length].hostName = CORBA_string_dup (data->hostname);
+			list->_buffer[list->_length].type = CORBA_string_dup (data->type);
+			list->_length++;
+
+			g_free (data->hostname);
+			g_free (data->type);
+			g_free (data);
+		}
+		g_list_free (connections);
 	}
-	g_list_free (connections);
 	
 	return list;
 }
@@ -78,10 +104,17 @@ impl__get_isOffline (PortableServer_Servant servant,
 		     CORBA_Environment *ev)
 {
 	ESummaryOfflineHandler *offline_handler;
+	GSList *sp;
 
 	offline_handler = E_SUMMARY_OFFLINE_HANDLER (bonobo_object_from_servant (servant));
-	if (offline_handler->priv->summary != NULL) {
-		return offline_handler->priv->summary->online;
+
+	/* We are offline if all of the views are offline.  */
+	for (sp = offline_handler->priv->summaries; sp != NULL; sp = sp->next) {
+		ESummary *summary;
+
+		summary = E_SUMMARY (sp->data);
+		if (summary->online)
+			return FALSE;
 	}
 
 	return TRUE;
@@ -98,14 +131,7 @@ impl_prepareForOffline (PortableServer_Servant servant,
 	offline_handler = E_SUMMARY_OFFLINE_HANDLER (bonobo_object_from_servant (servant));
 	priv = offline_handler->priv;
 
-	if (priv->summary != NULL) {
-		*active_connection_list = e_summary_offline_handler_create_connection_list (priv->summary);
-	} else {
-		*active_connection_list = GNOME_Evolution_ConnectionList__alloc ();
-		(*active_connection_list)->_length = 0;
-		(*active_connection_list)->_maximum = 0;
-		(*active_connection_list)->_buffer = CORBA_sequence_GNOME_Evolution_Connection_allocbuf (0);
-	}
+	*active_connection_list = create_connection_list (priv->summaries);
 }
 
 static void
@@ -122,7 +148,7 @@ went_offline (ESummary *summary,
 	g_return_if_fail (offline_handler != NULL);
 
 	priv = offline_handler->priv;
-	connection_list = e_summary_offline_handler_create_connection_list (summary);
+	connection_list = create_connection_list (priv->summaries);
 
 	CORBA_exception_init (&ev);
 
@@ -143,14 +169,20 @@ impl_goOffline (PortableServer_Servant servant,
 {
 	ESummaryOfflineHandler *offline_handler;
 	ESummaryOfflineHandlerPriv *priv;
+	GSList *sp;
 
 	offline_handler = E_SUMMARY_OFFLINE_HANDLER (bonobo_object_from_servant (servant));
 	priv = offline_handler->priv;
 
-	if (priv->summary != NULL) {
-		priv->listener_interface = CORBA_Object_duplicate (progress_listener, ev);
-		
-		e_summary_set_online (priv->summary, progress_listener, FALSE, went_offline, offline_handler);
+	/* FIXME: If we have a progress already, then something is wrong and we
+	   should raise an exception.  */
+	priv->listener_interface = CORBA_Object_duplicate (progress_listener, &ev);
+
+	for (sp = priv->summaries; sp != NULL; sp = sp->next) {
+		ESummary *summary;
+
+		summary = E_SUMMARY (sp->data);
+		e_summary_set_online (summary, CORBA_OBJECT_NIL, FALSE, went_offline, offline_handler);
 	}
 }
 
@@ -159,10 +191,15 @@ impl_goOnline (PortableServer_Servant servant,
 	       CORBA_Environment *ev)
 {
 	ESummaryOfflineHandler *offline_handler;
+	GSList *sp;
 
 	offline_handler = E_SUMMARY_OFFLINE_HANDLER (bonobo_object_from_servant (servant));
-	if (offline_handler->priv->summary != NULL) {
-		e_summary_set_online (offline_handler->priv->summary, NULL, TRUE, NULL, NULL);
+
+	for (sp = offline_handler->priv->summaries; sp != NULL; sp = sp->next) {
+		ESummary *summary;
+
+		summary = E_SUMMARY (sp->data);
+		e_summary_set_online (summary, CORBA_OBJECT_NIL, TRUE, NULL, NULL);
 	}
 }
 
@@ -188,7 +225,7 @@ impl_destroy (GtkObject *object)
 		CORBA_exception_free (&ev);
 	}
 
-	gtk_object_unref (GTK_OBJECT (priv->summary));
+	g_slist_free (priv->summaries);
 
 	offline_handler->priv = NULL;
 	g_free (priv);
@@ -237,15 +274,18 @@ e_summary_offline_handler_new (void)
 }
 
 void
-e_summary_offline_handler_set_summary (ESummaryOfflineHandler *handler,
+e_summary_offline_handler_add_summary (ESummaryOfflineHandler *handler,
 				       ESummary *summary)
 {
 	g_return_if_fail (handler != NULL);
 	g_return_if_fail (summary != NULL);
 	g_return_if_fail (IS_E_SUMMARY (summary));
 
-	handler->priv->summary = summary;
-	gtk_object_ref (GTK_OBJECT (summary));
+	handler->priv->summaries = g_slist_prepend (handler->priv->summaries,
+						    summary);
+
+	gtk_signal_connect (GTK_OBJECT (summary), "destroy",
+			    GTK_SIGNAL_FUNC (summary_destroy_callback), handler);
 }
 
 BONOBO_X_TYPE_FUNC_FULL (ESummaryOfflineHandler, GNOME_Evolution_Offline, PARENT_TYPE, e_summary_offline_handler);
