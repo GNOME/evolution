@@ -7,9 +7,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution 0.16.100\n"
-"POT-Creation-Date: 2001-11-21 15:19-0500\n"
-"PO-Revision-Date: 2001-11-09 10:43+0100\n"
+"Project-Id-Version: evolution 1.0.0\n"
+"POT-Creation-Date: 2001-11-25 00:11+0100\n"
+"PO-Revision-Date: 2001-11-25 00:11+0100\n"
 "Last-Translator: Frederic Riss <frederic.riss@laposte.net>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -1332,9 +1332,8 @@ msgid "Delete Contact?"
 msgstr "Supprimer le contact ?"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:756
-#, fuzzy
 msgid "Category editor not available."
-msgstr "Aucune description disponible."
+msgstr "Editeur de catégorie non disponible."
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:763
 msgid "This contact belongs to these categories:"
@@ -4592,22 +4591,20 @@ msgid "Accept"
 msgstr "Accepter"
 
 #: calendar/gui/e-itip-control.c:796
-#, fuzzy
 msgid "Tentatively accept"
-msgstr "Essai"
+msgstr "Accepter pour voir"
 
 #: calendar/gui/e-itip-control.c:797
 msgid "Decline"
 msgstr "Refuser"
 
 #: calendar/gui/e-itip-control.c:811
-#, fuzzy
 msgid "Send Free/Busy Information"
-msgstr "Information Libre-Occupé"
+msgstr "Envoyer l'information Libre-Occupé"
 
 #: calendar/gui/e-itip-control.c:824
 msgid "Update respondent status"
-msgstr ""
+msgstr "Mettre à jour le status de l'interlocuteur"
 
 #: calendar/gui/e-itip-control.c:838
 msgid "Send Latest Information"
@@ -7966,9 +7963,8 @@ msgid "Test"
 msgstr "Test"
 
 #: filter/filter-rule.c:217
-#, fuzzy
 msgid "You must name this filter."
-msgstr "Changer le nom de ce dossier"
+msgstr "Vous devez changer le nom de ce dossier virtuel."
 
 #: filter/filter-rule.c:720
 msgid "Rule name: "
@@ -8257,9 +8253,8 @@ msgid "Score Rules"
 msgstr "Règles des scores"
 
 #: filter/vfolder-rule.c:204
-#, fuzzy
 msgid "You must name this vfolder."
-msgstr "Changer le nom de ce dossier"
+msgstr "Vous devez nommer ce dossier virtuel."
 
 #: filter/vfolder-rule.c:213
 msgid "You need to to specify at least one folder as a source."
@@ -11513,7 +11508,6 @@ msgid "All news _feeds:"
 msgstr "Toutes les _sources"
 
 #: my-evolution/my-evolution.glade.h:6
-#, fuzzy
 msgid "C_elsius"
 msgstr "C_elcius"
 
@@ -11827,9 +11821,8 @@ msgid "(Untitled)"
 msgstr "(Sans titre)"
 
 #: shell/e-shell-importer.c:142
-#, fuzzy
 msgid "Choose the type of importer to run:"
-msgstr "Choisissez l'outils d'importation à lancer"
+msgstr "Choisissez l'outil d'importation à lancer"
 
 #: shell/e-shell-importer.c:145
 msgid ""
@@ -11846,9 +11839,8 @@ msgstr ""
 "essaiera de lutiliser."
 
 #: shell/e-shell-importer.c:151 shell/e-shell-startup-wizard.c:799
-#, fuzzy
 msgid "Please select the information that you would like to import:"
-msgstr "Veuillez sélectionner les informations que vous désirez importer"
+msgstr "Veuillez sélectionner les informations que vous désirez importer :"
 
 #. Importer isn't ready yet.
 #. Wait 5 seconds and try again.
