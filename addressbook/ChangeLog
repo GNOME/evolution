@@ -1,3 +1,13 @@
+2002-04-02  Dan Winship  <danw@ximian.com>
+
+	* backend/ebook/e-card-simple.h: Fix spelling of
+	E_CARD_SIMPLE_PHONE_ID_TTYTDD and E_CARD_SIMPLE_FIELD_PHONE_TTYTDD
+	(they previously ended with "TTD" instead of "TDD")
+
+	* backend/ebook/e-card-simple.c: Update for spelling fix.
+
+	* backend/pas/pas-backend-ldap.c: Likewise
+
 2002-04-01  Dan Winship  <danw@ximian.com>
 
 	* gui/component/select-names/e-select-names-text-model.c:

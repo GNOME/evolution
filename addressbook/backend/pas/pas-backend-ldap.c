@@ -231,7 +231,7 @@ struct prop_info {
 	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_ASSISTANT,    "assistant_phone", "assistantPhone"),
 	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_COMPANY,      "company_phone", "companyPhone"),
 	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_CALLBACK,     "callback_phone", "callbackPhone"),
-	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_TTYTTD,       "tty", "tty"),
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_TTYTDD,       "tty", "tty"),
 
 	/* org information */
 	STRING_PROP   (E_CARD_SIMPLE_FIELD_ORG,       "org",       "o"),

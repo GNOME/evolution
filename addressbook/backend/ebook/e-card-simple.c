@@ -81,7 +81,7 @@ static ECardSimpleFieldData field_data[] =
 	{ E_CARD_SIMPLE_FIELD_PHONE_PAGER,        "pager",           N_("Pager"),         N_("Pager"),    E_CARD_SIMPLE_PHONE_ID_PAGER,        E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
 	{ E_CARD_SIMPLE_FIELD_PHONE_RADIO,        "radio",           N_("Radio"),         N_("Radio"),    E_CARD_SIMPLE_PHONE_ID_RADIO,        E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
 	{ E_CARD_SIMPLE_FIELD_PHONE_TELEX,        "telex",           N_("Telex"),         N_("Telex"),    E_CARD_SIMPLE_PHONE_ID_TELEX,        E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_PHONE_TTYTTD,       "tty",             N_("TTY"),           N_("TTY"),      E_CARD_SIMPLE_PHONE_ID_TTYTTD,       E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_PHONE_TTYTDD,       "tty",             N_("TTY"),           N_("TTY"),      E_CARD_SIMPLE_PHONE_ID_TTYTDD,       E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
 	{ E_CARD_SIMPLE_FIELD_ADDRESS_OTHER,      "other_address",   N_("Other"),         N_("Other"),    E_CARD_SIMPLE_ADDRESS_ID_OTHER,      E_CARD_SIMPLE_INTERNAL_TYPE_ADDRESS },
 	{ E_CARD_SIMPLE_FIELD_EMAIL_2,            "email_2",         N_("Email 2"),       N_("Email 2"),  E_CARD_SIMPLE_EMAIL_ID_EMAIL_2,      E_CARD_SIMPLE_INTERNAL_TYPE_EMAIL },
 	{ E_CARD_SIMPLE_FIELD_EMAIL_3,            "email_3",         N_("Email 3"),       N_("Email 3"),  E_CARD_SIMPLE_EMAIL_ID_EMAIL_3,      E_CARD_SIMPLE_INTERNAL_TYPE_EMAIL },
@@ -139,7 +139,7 @@ ECardPhoneFlags phone_correspondences[] = {
 	E_CARD_PHONE_PREF, /* E_CARD_SIMPLE_PHONE_ID_PRIMARY,	   */
 	E_CARD_PHONE_RADIO, /* E_CARD_SIMPLE_PHONE_ID_RADIO,	   */
 	E_CARD_PHONE_TELEX, /* E_CARD_SIMPLE_PHONE_ID_TELEX,	   */
-	E_CARD_PHONE_TTYTDD, /* E_CARD_SIMPLE_PHONE_ID_TTYTTD,	   */
+	E_CARD_PHONE_TTYTDD, /* E_CARD_SIMPLE_PHONE_ID_TTYTDD,	   */
 };
 
 char *phone_names[] = {
@@ -161,7 +161,7 @@ char *phone_names[] = {
 	"Primary",
 	NULL, /* E_CARD_SIMPLE_PHONE_ID_RADIO,	   */
 	NULL, /* E_CARD_SIMPLE_PHONE_ID_TELEX,	   */
-	NULL, /* E_CARD_SIMPLE_PHONE_ID_TTYTTD,	   */
+	NULL, /* E_CARD_SIMPLE_PHONE_ID_TTYTDD,	   */
 };
 
 char *phone_short_names[] = {
@@ -183,7 +183,7 @@ char *phone_short_names[] = {
 	"Prim",
 	NULL, /* E_CARD_SIMPLE_PHONE_ID_RADIO,	   */
 	NULL, /* E_CARD_SIMPLE_PHONE_ID_TELEX,	   */
-	NULL, /* E_CARD_SIMPLE_PHONE_ID_TTYTTD,	   */
+	NULL, /* E_CARD_SIMPLE_PHONE_ID_TTYTDD,	   */
 };
 
 ECardAddressFlags addr_correspondences[] = {
