@@ -1,5 +1,11 @@
 2000-08-12  Dan Winship  <danw@helixcode.com>
 
+	* mail-format.c (decode_pgp): Redo this so that the lock icon
+	remains active after a failed decryption so you can click on it
+	and try again.
+	(try_inline_pgp, handle_multipart_encrypted): Put a border around
+	the decrypted data.
+
 	* message-list.c (cleanup_regenerate_messagelist): Don't clear the
 	tree here. If two "folder_changed"s arrive in close succession,
 	then one possible ordering of events is

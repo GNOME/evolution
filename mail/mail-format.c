@@ -671,37 +671,37 @@ decode_pgp (const char *ciphertext, MailDisplay *md)
 	camel_exception_init (&ex);
 #ifdef PGP_PROGRAM
 	/* FIXME: multipart parts */
-	if (!g_datalist_get_data (md->data, "show_pgp")) {
-		mail_html_write (md->html, md->stream,
-				 "<table><tr valign=center><td>"
-				 "<a href=\"x-evolution-decode-pgp:\">"
-				 "<img src=\"%s\"></a></td><td>"
-				 "Click on the icon to decrypt this "
-				 "message.</td></tr></table>",
-				 get_url_for_icon ("gnome-lockscreen.png", md));
-		return NULL;
-	} else 
+	if (g_datalist_get_data (md->data, "show_pgp")) {
 		plaintext = mail_crypto_openpgp_decrypt (ciphertext, &ex);
+		if (plaintext)
+			return plaintext;
+	}
 #else
 	camel_exception_set (&ex, CAMEL_EXCEPTION_SYSTEM,
 			     "No GPG/PGP support available in this copy "
 			     "of Evolution.");
 #endif
 
+	mail_html_write (md->html, md->stream,
+			 "<table><tr valign=top><td>"
+			 "<a href=\"x-evolution-decode-pgp:\">"
+			 "<img src=\"%s\"></a></td><td>",
+			 get_url_for_icon ("gnome-lockscreen.png", md));
+
 	if (camel_exception_is_set (&ex)) {
 		mail_html_write (md->html, md->stream,
-				 "<table><tr valign=top><td>"
-				 "<table border=2><tr><td><img src=\"%s\">"
-				 "</td></tr></table><td>",
-				 get_url_for_icon ("gnome-lockscreen.png", md));
+				 "Encrypted message not displayed<br><br>\n");
 		mail_error_write (md->html, md->stream,
-				  "(Encrypted message not displayed)\n\n%s",
 				  camel_exception_get_description (&ex));
-		mail_html_write (md->html, md->stream, "</td></tr></table>");
 		camel_exception_clear (&ex);
+	} else {
+		mail_html_write (md->html, md->stream,
+				 "Encrypted message<br><br>\n"
+				 "Click icon to decrypt.");
 	}
 
-	return plaintext;
+	mail_html_write (md->html, md->stream, "</td></tr></table>");
+	return NULL;
 }
 
 static char *
@@ -723,7 +723,11 @@ try_inline_pgp (char *start, MailDisplay *md)
 	plaintext = decode_pgp (ciphertext, md);
 	g_free (ciphertext);
 	if (plaintext) {
+		mail_html_write (md->html, md->stream,
+				 "<table width=\"100%%\" border=2 "
+				 "cellpadding=4><tr><td>");
 		mail_text_write (md->html, md->stream, "%s", plaintext);
+		mail_html_write (md->html, md->stream, "</td></tr></table>");
 		g_free (plaintext);
 	}
 
@@ -1090,7 +1094,11 @@ handle_multipart_encrypted (CamelMimePart *part, const char *mime_type,
 							  memstream);
 		camel_object_unref (CAMEL_OBJECT (memstream));
 
+		mail_html_write (md->html, md->stream,
+				 "<table width=\"100%%\" border=2 "
+				 "cellpadding=4><tr><td>");
 		call_handler_function (part, md);
+		mail_html_write (md->html, md->stream, "</td></tr></table>");
 		camel_object_hook_event (CAMEL_OBJECT (md->current_message),
 					 "finalize", destroy_part, part);
 		g_free (plaintext);
