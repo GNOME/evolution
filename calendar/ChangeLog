@@ -1,3 +1,13 @@
+2004-02-03  Dan Winship  <danw@ximian.com>
+
+	* gui/tasks-component.h: Fix location of e-activity-handler.h
+	#include
+
+	* gui/Makefile.am (INCLUDES): add widgets/misc for
+	e-activity-handler.h and e-task-bar.h
+
+	* gui/dialogs/Makefile.am (INCLUDES): Likewise
+
 2004-02-02  JP Rosevear <jpr@ximian.com>
 
 	* importers/icalendar-importer.c (support_format_fn): use

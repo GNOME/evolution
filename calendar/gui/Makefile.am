@@ -66,6 +66,7 @@ INCLUDES =						\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/calendar			\
 	-I$(top_srcdir)/widgets				\
+	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_srcdir)/a11y/calendar			\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\

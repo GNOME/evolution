@@ -20,6 +20,7 @@ INCLUDES = 								\
 	-I$(top_builddir)/calendar/cal-client				\
 	-I$(top_builddir)/shell						\
 	-I$(top_srcdir)/shell						\
+	-I$(top_srcdir)/widgets/misc					\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"				\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"			\
