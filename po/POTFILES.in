@@ -106,8 +106,6 @@ camel/providers/sendmail/camel-sendmail-provider.c
 camel/providers/sendmail/camel-sendmail-transport.c
 camel/providers/smtp/camel-smtp-provider.c
 camel/providers/smtp/camel-smtp-transport.c
-camel/providers/vee/camel-vee-folder.c
-camel/providers/vee/camel-vee-provider.c
 composer/e-msg-composer-attachment-bar.c
 composer/e-msg-composer-attachment.c
 composer/e-msg-composer-attachment.glade

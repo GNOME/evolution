@@ -1,3 +1,7 @@
+2001-02-22  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* POTFILES.in: Removed references to camel-vee-*.c
+
 2001-02-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* POTFILES.in: Removed references to mail-threads.c
