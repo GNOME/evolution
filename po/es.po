@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-09-04 01:37+0200\n"
-"PO-Revision-Date: 2004-09-04 01:39+0200\n"
+"PO-Revision-Date: 2004-09-06 18:39+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -11004,7 +11004,7 @@ msgstr "Comprobando la consistencia de la carpeta"
 
 #: camel/providers/local/camel-maildir-summary.c:646
 msgid "Checking for new messages"
-msgstr "Comprobando si hay mensajes nuevos"
+msgstr "Comprobación de mensajes nuevos"
 
 #: camel/providers/local/camel-maildir-summary.c:735
 #: camel/providers/local/camel-mbox-summary.c:369
@@ -14801,7 +14801,7 @@ msgstr ""
 
 #: mail/mail-config-druid.c:389 mail/mail-config.glade.h:37
 msgid "Account Management"
-msgstr "Gestión de la cuenta"
+msgstr "Administración de la cuenta"
 
 #: mail/mail-config-druid.c:391
 msgid ""
@@ -14812,14 +14812,14 @@ msgid ""
 "purposes only."
 msgstr ""
 "Casi ha acabado con el proceso de configuración del correo. La identidad, el "
-"servidor de correo de entrada y el método de envío de correo que ha "
-"especificado serán agrupados para crear una cuenta de correo de Evolution. "
+"servidor de correo de entrada y el transporte de envío de correo que ha "
+"especificado se agruparán para crear una cuenta de correo de Evolution. "
 "Por favor escriba un nombre para esta cuenta en el espacio de abajo. Este "
 "nombre sólo se usará para mostrar información."
 
 #: mail/mail-config.c:895
 msgid "Checking Service"
-msgstr "Comprobando el servicio"
+msgstr "Comprobación del servicio"
 
 #: mail/mail-config.c:973 mail/mail-config.c:977
 msgid "Connecting to server..."
@@ -15060,10 +15060,10 @@ msgid ""
 msgstr ""
 "Enhorabuena, ha terminado de configurar su correo.\n"
 "\n"
-"Ahora está listo para mandar y recibir correo \n"
+"Ahora está listo para enviar y recibir correo \n"
 "usando Evolution. \n"
 "\n"
-"Pulse «Finalizar» para guardar su configuración."
+"Pulse «Aplicar» para guardar su configuración."
 
 #: mail/mail-config.glade.h:67
 msgid "De_fault"
@@ -15214,7 +15214,7 @@ msgstr "Res_ponder a:"
 
 #: mail/mail-config.glade.h:118
 msgid "Receiving Email"
-msgstr "Recibiendo mensajes"
+msgstr "Recepción de mensajes"
 
 #: mail/mail-config.glade.h:120
 msgid "Receiving Options"
@@ -15254,7 +15254,7 @@ msgstr "Seleccione..."
 
 #: mail/mail-config.glade.h:130
 msgid "Sending Email"
-msgstr "Enviando correo"
+msgstr "Envío de correo"
 
 #: mail/mail-config.glade.h:133
 msgid "Sent _Messages Folder:"
