@@ -1049,8 +1049,8 @@ cal_backend_file_compute_changes (CalBackend *backend, CalObjType type, const ch
 		case E_DBHASH_STATUS_DIFFERENT:
 			coc = GNOME_Evolution_Calendar_CalObjChange__alloc ();
 			coc->calobj =  CORBA_string_dup (calobj);
-			coc->type = GNOME_Evolution_Calendar_ADDED;
-			changes = g_list_append (changes, coc);
+			coc->type = GNOME_Evolution_Calendar_MODIFIED;
+			changes = g_list_prepend (changes, coc);
 			change_ids = g_list_prepend (change_ids, uid);
 			break;
 		}

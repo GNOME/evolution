@@ -1,3 +1,9 @@
+2001-04-11  JP Rosevear  <jpr@ximian.com>
+
+	* pcs/cal-backend-file.c (cal_backend_file_compute_changes):
+	prepend to both changes and change_ids when different and mark as
+	modified, not added
+
 2001-04-11  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/calendar-model.c (calendar_model_append_row): Fix this to
