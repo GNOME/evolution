@@ -1,3 +1,8 @@
+2001-08-16  Peter Williams  <peterw@ximian.com>
+
+	* evolution-mail-message.xml: Stop search message from conflicting
+	with expunge.
+
 2001-08-16  JP Rosevear  <jpr@ximian.com>
 
 	* evolution-comp-editor.xml: add save menu item
@@ -9,7 +14,6 @@
 
 	* evolution-mail-message.xml : removed the Print Setup menu
 	item, and changed Print Message to Print for consistency's sake.
-
 
 2001-08-16  Ettore Perazzoli  <ettore@ximian.com>
 
