@@ -348,12 +348,15 @@ static gint
 e_canvas_focus_out (GtkWidget *widget, GdkEventFocus *event)
 {
 	GnomeCanvas *canvas;
+	ECanvas *ecanvas;
 
 	canvas = GNOME_CANVAS (widget);
+	ecanvas = E_CANVAS (widget);
 
 	GTK_WIDGET_UNSET_FLAGS (widget, GTK_HAS_FOCUS);
 
-	gdk_im_end ();
+	if (ecanvas->ic)
+		gdk_im_end ();
 
 	if (canvas->focused_item)
 		return emit_event (canvas, (GdkEvent *) event);
@@ -410,6 +413,8 @@ e_canvas_unrealize (GtkWidget *widget)
 		gdk_ic_attr_destroy (ecanvas->ic_attr);
 		ecanvas->ic_attr = NULL;
 	}
+	if (GTK_WIDGET_CLASS (parent_class)->unrealize)
+		(* GTK_WIDGET_CLASS (parent_class)->unrealize) (widget);
 }
 
 static void

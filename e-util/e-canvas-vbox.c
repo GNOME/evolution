@@ -299,8 +299,6 @@ e_canvas_vbox_reflow( GnomeCanvasItem *item, int flags )
 						"height", &item_height,
 						NULL);
 
-				g_print ("%f\n", running_height);
-
 				e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(list->data),
 							    (double) 0,
 							    (double) running_height);
