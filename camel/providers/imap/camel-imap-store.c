@@ -274,27 +274,36 @@ imap_connect (CamelService *service, CamelException *ex)
 		store->has_status_capability = FALSE;
 	g_free (result);
 
-	/* We now need to find out which directory separator this daemon uses */
-	response = camel_imap_command (store, NULL, ex, "LIST \"\" \"\"");
-	if (!response)
-		return FALSE;
-	result = camel_imap_response_extract (response, "LIST", ex);
-	if (!result)
-		return FALSE;
-	else {
-		char *flags, *sep, *folder;
-		
-		if (imap_parse_list_response (result, "", &flags, &sep, &folder)) {
-			if (*sep) {
-				g_free (store->dir_sep);
-				store->dir_sep = g_strdup (sep);
+	/* We now need to find out which directory separator this daemon
+	 * uses. In the pre-4rev1 case, we can't do it, so we'll just
+	 * hope that it's "/".
+	 * FIXME: This code is wrong. The hierarchy separator is per
+	 * namespace.
+	 */
+	if (store->server_level >= IMAP_LEVEL_IMAP4REV1) {
+		response = camel_imap_command (store, NULL, ex,
+					       "LIST \"\" \"\"");
+		if (!response)
+			return FALSE;
+		result = camel_imap_response_extract (response, "LIST", ex);
+		if (!result)
+			return FALSE;
+		else {
+			char *flags, *sep, *folder;
+
+			if (imap_parse_list_response (result, "", &flags,
+						      &sep, &folder)) {
+				if (*sep) {
+					g_free (store->dir_sep);
+					store->dir_sep = g_strdup (sep);
+				}
 			}
+
+			g_free (flags);
+			g_free (sep);
+			g_free (folder);
+			g_free (result);
 		}
-		
-		g_free (flags);
-		g_free (sep);
-		g_free (folder);
-		g_free (result);
 	}
 
 	camel_remote_store_refresh_folders (CAMEL_REMOTE_STORE (store), ex);

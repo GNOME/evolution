@@ -1,3 +1,9 @@
+2000-10-04  Dan Winship  <danw@helixcode.com>
+
+	* providers/imap/camel-imap-store.c (imap_connect): IMAP4
+	(pre-rev1) doesn't support the 'LIST "" ""' idiom, so don't use
+	it. Just assume the dir_sep is '/'. Shrug.
+
 2000-10-04  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* camel-mime-message.c (camel_mime_message_set_reply_to): Use
