@@ -1,3 +1,17 @@
+Evolution x.x.x, ????-??-??
+---------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+  * Addressbook
+
+    #40954 - Wombat crashes when opening an appointment. (Toshok)
+
+  * Mail
+
+    #40694 - Focus not in To field of new message when From field is
+             visible. (Toshok)
+
 Evolution 1.3.2, 2003-04-11
 ---------------------------
 
@@ -90,7 +104,6 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 	     (JP)
     #41127 - Evolution crashed when sending new meeting invitation (JP)
 
-	
   * Mail
 
     #29564 - Message list loses focus when you expunge.  (Michael)
