@@ -1,3 +1,7 @@
+2002-02-02  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-config.glade: Some touchups from me and Anna.
+
 2002-01-31  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (composer_get_message): Don't bother setting
