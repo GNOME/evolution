@@ -78,6 +78,8 @@ gnome_calendar_goto (GnomeCalendar *gcal, time_t new_time)
 
 	g_return_if_fail (new_time != -1);
 
+	new_time = time_start_of_day (new_time);
+
 	if (current == gcal->day_view)
 		gncal_day_panel_set (GNCAL_DAY_PANEL (gcal->day_view), new_time);
 	else if (current == gcal->week_view)
@@ -148,7 +150,7 @@ gnome_calendar_new (char *title)
 	
 	gtk_window_set_title(GTK_WINDOW(retval), title);
 
-	gcal->current_display = time (NULL);
+	gcal->current_display = time_start_of_day (time (NULL));
 	gcal->cal = calendar_new (title);
 	setup_widgets (gcal);
 	return retval;

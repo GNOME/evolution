@@ -1,3 +1,12 @@
+1998-06-04  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* eventedit.c (ee_rp_init_rule): Do not subtract 1 from
+	tm->tm_mday for the default_day.
+
+	* gnome-cal.c (gnome_calendar_new): 
+	(gnome_calendar_goto): Use the start of the day -- things expect
+	it to be that way.
+
 1998-05-27  Nuno Ferreira  <nmrf@rnl.ist.utl.pt>
 
 	* eventedit.c (ee_store_recur_rule_to_ical): Fill in

@@ -965,7 +965,7 @@ ee_rp_init_rule (EventEditor *ee)
 	/* Default to today */
 
 	week_vector = 1 << tm->tm_wday;
-	default_day = tm->tm_mday - 1;
+	default_day = tm->tm_mday;
 	def_pos = 0;
 	def_off = 0;
 
