@@ -1,3 +1,9 @@
+2002-09-24  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/query.c (listener_died_cb): unref the QueryListener object.
+	(query_construct): create an EComponentListener for the non-cached
+	queries' listeners also.
+
 2002-09-23  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/todo/Makefile.am: add libeutil to the link

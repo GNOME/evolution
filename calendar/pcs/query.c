@@ -1404,13 +1404,24 @@ listener_died_cb (EComponentListener *cl, gpointer data)
 {
 	QueryPrivate *priv;
 	Query *query = QUERY (data);
+	GNOME_Evolution_Calendar_QueryListener ql;
+	CORBA_Environment ev;
 
 	priv = query->priv;
 
-	priv->listeners = g_list_remove (priv->listeners, e_component_listener_get_component (cl));
+	ql = e_component_listener_get_component (cl);
+	priv->listeners = g_list_remove (priv->listeners, ql);
 
 	priv->component_listeners = g_list_remove (priv->component_listeners, cl);
 	gtk_object_unref (GTK_OBJECT (cl));
+
+	CORBA_exception_init (&ev);
+	bonobo_object_release_unref (ql, &ev);
+
+	if (BONOBO_EX (&ev))
+		g_message ("query_destroy(): Could not unref the listener\n");
+
+	CORBA_exception_free (&ev);
 }
 
 static void
@@ -1572,6 +1583,7 @@ query_construct (Query *query,
 {
 	QueryPrivate *priv;
 	CORBA_Environment ev;
+	EComponentListener *cl;
 
 	g_return_val_if_fail (query != NULL, NULL);
 	g_return_val_if_fail (IS_QUERY (query), NULL);
@@ -1591,6 +1603,11 @@ query_construct (Query *query,
 		return NULL;
 	}
 	CORBA_exception_free (&ev);
+
+	cl = e_component_listener_new (ql, 0);
+	priv->component_listeners = g_list_append (priv->component_listeners, cl);
+	gtk_signal_connect (GTK_OBJECT (cl), "component_died",
+			    GTK_SIGNAL_FUNC (listener_died_cb), query);
 
 	priv->backend = backend;
 	gtk_object_ref (GTK_OBJECT (priv->backend));
