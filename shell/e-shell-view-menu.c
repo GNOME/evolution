@@ -78,6 +78,30 @@ get_path_for_folder_op (EShellView *shell_view)
 	return e_shell_view_get_current_path (shell_view);
 }
 
+static void
+launch_pilot_settings (const char *extra_arg)
+{
+        char *args[] = {
+                "gpilotd-control-applet",
+		extra_arg,
+		NULL
+        };
+        int pid;
+
+        args[0] = gnome_is_program_in_path ("gpilotd-control-applet");
+        if (!args[0]) {
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			  _("The GNOME Pilot tools do not appear to be installed on this system."));
+		return;
+        }
+
+        pid = gnome_execute_async (NULL, extra_arg ? 2 : 1, args);
+        g_free (args[0]);
+
+        if (pid == -1)
+                e_notice (NULL, GNOME_MESSAGE_BOX_ERROR, _("Error executing %s."), args[0]);
+}
+
 
 /* EShellView callbacks.  */
 
@@ -621,24 +645,15 @@ command_pilot_settings (BonoboUIComponent *uih,
 			void *data,
 			const char *path)
 {
-        char *args[] = {
-                "gpilotd-control-applet",
-                NULL
-        };
-        int pid;
+	launch_pilot_settings (NULL);
+}
 
-        args[0] = gnome_is_program_in_path ("gpilotd-control-applet");
-        if (!args[0]) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-			  _("The GNOME Pilot tools do not appear to be installed on this system."));
-		return;
-        }
-
-        pid = gnome_execute_async (NULL, 4, args);
-        g_free (args[0]);
-
-        if (pid == -1)
-                e_notice (NULL, GNOME_MESSAGE_BOX_ERROR, _("Error executing %s."), args[0]);
+static void
+command_pilot_conduit_settings (BonoboUIComponent *uih,
+				void *data,
+				const char *path)
+{
+	launch_pilot_settings ("--cap-id=1");
 }
 
 
@@ -686,6 +701,7 @@ static BonoboUIVerb actions_verbs[] = {
 static BonoboUIVerb tools_verbs[] = {
 	BONOBO_UI_VERB ("Settings", command_settings),
 
+	BONOBO_UI_VERB ("PilotConduitSettings", command_pilot_conduit_settings),
 	BONOBO_UI_VERB ("PilotSettings", command_pilot_settings),
 
 	BONOBO_UI_VERB_END

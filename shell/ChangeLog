@@ -1,6 +1,14 @@
+2002-09-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	[#14019]
+
+	* e-shell-view-menu.c: Add PilotConduitSettings verb.
+	(command_pilot_conduit_settings): Implementation for the verb.
+	(launch_pilot_settings): Helper function.
+
 2002-09-24  Mike Kestner  <mkestner@ximian.com>
 
-	* e-storage-set-view.c (e_storage_set_enable_search): use the new
+	* e-storage-set-view.c (e_storage_set_enable_search): Use the new
 	e_tree_set_search_column function instead of my lameass sort hack.
 
 2002-09-23  Ettore Perazzoli  <ettore@ximian.com>
