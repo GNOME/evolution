@@ -168,10 +168,10 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 			if (*q == '\n')
 				part_len--;
 		}
-		/* we want to make sure we get up to the last \n */
-		for ( ; *q && *q != '\n'; q++, part_len++);
+		/* FIXME: This is a hack for IMAP daemons that send us a UID at the end of each FETCH */
+		for (q--, part_len--; q > p && *(q-1) != '\n'; q--, part_len--);
 
-		imap_stream->cache = g_strndup (p, part_len);
+		imap_stream->cache = g_strndup (p, part_len + 1);
 		g_free (result);
 		
 		imap_stream->cache_ptr = imap_stream->cache;
