@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-01 02:31+0800\n"
+"POT-Creation-Date: 2005-02-02 12:37+0800\n"
 "PO-Revision-Date: 2005-01-29 17:12+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -79,60 +79,61 @@ msgid "Go to Date"
 msgstr "转到日期"
 
 #: a11y/calendar/ea-cal-view-event.c:235
-msgid "alarm "
-msgstr "提醒"
+msgid "It has alarms."
+msgstr ""
 
-#: a11y/calendar/ea-cal-view-event.c:241
-msgid "recurrence "
+#: a11y/calendar/ea-cal-view-event.c:238
+#, fuzzy
+msgid "It has recurrences."
 msgstr "再现"
 
+#: a11y/calendar/ea-cal-view-event.c:241
+msgid "It is a meeting."
+msgstr ""
+
 #: a11y/calendar/ea-cal-view-event.c:247
-msgid "time-zone "
-msgstr "时区"
-
-#: a11y/calendar/ea-cal-view-event.c:253
-msgid "meeting "
-msgstr "会议"
-
-#: a11y/calendar/ea-cal-view-event.c:258
-msgid "event. Summary is "
+#, fuzzy, c-format
+msgid "Calendar Event: Summary is %s."
 msgstr "会议概览为"
 
-#: a11y/calendar/ea-cal-view-event.c:269
-msgid "empty"
-msgstr "空"
+#: a11y/calendar/ea-cal-view-event.c:249
+#, fuzzy
+msgid "Calendar Event: It has no summary."
+msgstr "日历事件"
 
-#: a11y/calendar/ea-cal-view-event.c:288
+#: a11y/calendar/ea-cal-view-event.c:268
 msgid "calendar view event"
 msgstr "日历视图事件"
 
-#: a11y/calendar/ea-cal-view-event.c:505
+#: a11y/calendar/ea-cal-view-event.c:485
 msgid "Grab Focus"
 msgstr "获得焦点"
 
-#: a11y/calendar/ea-day-view.c:147 a11y/calendar/ea-week-view.c:148
-#, c-format
-msgid ", %d event"
-msgstr "，%d 个事件"
+#: a11y/calendar/ea-day-view.c:146 a11y/calendar/ea-week-view.c:148
+#, fuzzy, c-format
+msgid "It has %d event."
+msgid_plural "It has %d events."
+msgstr[0] "，%d 个事件"
 
-#: a11y/calendar/ea-day-view.c:147 a11y/calendar/ea-week-view.c:148
-#, c-format
-msgid ", %d events"
-msgstr "，%d 个事件"
+#: a11y/calendar/ea-day-view.c:148 a11y/calendar/ea-week-view.c:150
+msgid "It has no events."
+msgstr ""
 
-#: a11y/calendar/ea-day-view.c:150
-msgid "work week view:"
-msgstr "周工作视图："
+#: a11y/calendar/ea-day-view.c:152
+#, fuzzy, c-format
+msgid "Work Week View: %s. %s"
+msgstr "周工作视图"
 
-#: a11y/calendar/ea-day-view.c:154
-msgid "day view:"
-msgstr "日视图："
+#: a11y/calendar/ea-day-view.c:155
+#, fuzzy, c-format
+msgid "Day View: %s. %s"
+msgstr "日视图"
 
-#: a11y/calendar/ea-day-view.c:181
+#: a11y/calendar/ea-day-view.c:186
 msgid "calendar view for a work week"
 msgstr "工作周的日历视图"
 
-#: a11y/calendar/ea-day-view.c:183
+#: a11y/calendar/ea-day-view.c:188
 msgid "calendar view for one or more days"
 msgstr "一天或多天的日历视图"
 
@@ -202,40 +203,35 @@ msgstr "跳转按钮"
 msgid "Click here, you can find more events."
 msgstr "单击此处可查找更多事件。"
 
-#: a11y/calendar/ea-week-view.c:153
-msgid "month view:"
-msgstr "月视图："
+#: a11y/calendar/ea-week-view.c:155
+#, fuzzy, c-format
+msgid "Month View: %s. %s"
+msgstr "月视图"
 
-#: a11y/calendar/ea-week-view.c:158
-msgid "week view:"
-msgstr "周视图："
+#: a11y/calendar/ea-week-view.c:159
+#, fuzzy, c-format
+msgid "Week View: %s. %s"
+msgstr "周视图"
 
-#: a11y/calendar/ea-week-view.c:185
+#: a11y/calendar/ea-week-view.c:190
 msgid "calendar view for a month"
 msgstr "月日历视图"
 
-#: a11y/calendar/ea-week-view.c:187
+#: a11y/calendar/ea-week-view.c:192
 msgid "calendar view for one or more weeks"
 msgstr "一周或多周的日历视图"
 
-#: a11y/widgets/ea-calendar-item.c:293 a11y/widgets/ea-calendar-item.c:299
-msgid " %d %B %Y"
+#: a11y/widgets/ea-calendar-item.c:290 a11y/widgets/ea-calendar-item.c:296
+#, fuzzy
+msgid "%d %B %Y"
 msgstr "%Y年%-m月%-d日"
 
-#: a11y/widgets/ea-calendar-item.c:301
-msgid "calendar (from "
+#: a11y/widgets/ea-calendar-item.c:298
+#, fuzzy, c-format
+msgid "Calendar: from %s to %s"
 msgstr "日历 (从 "
 
-#: a11y/widgets/ea-calendar-item.c:303
-#: calendar/gui/dialogs/comp-editor-util.c:187 calendar/gui/print.c:2261
-msgid " to "
-msgstr " 到 "
-
-#: a11y/widgets/ea-calendar-item.c:305
-msgid ")"
-msgstr ")"
-
-#: a11y/widgets/ea-calendar-item.c:337
+#: a11y/widgets/ea-calendar-item.c:333
 msgid "evolution calendar item"
 msgstr "Evolution 日历项目"
 
@@ -571,10 +567,10 @@ msgid "Migrating `%s':"
 msgstr "升迁“%s”："
 
 #. create the local source group
-#. On This Computer is always first and VFolders is always last
+#. On This Computer is always first and vFolders is always last
 #: addressbook/gui/component/addressbook-migrate.c:493
 #: calendar/gui/migration.c:452 calendar/gui/migration.c:545
-#: mail/em-folder-tree-model.c:196 mail/em-folder-tree-model.c:198
+#: mail/em-folder-tree-model.c:197 mail/em-folder-tree-model.c:199
 #: mail/mail-component.c:270 mail/mail-vfolder.c:222
 msgid "On This Computer"
 msgstr "在此计算机中"
@@ -4665,7 +4661,7 @@ msgid "_Remove"
 msgstr "删除(_R)"
 
 #: calendar/gui/dialogs/cal-attachment-bar.c:440
-#: composer/e-msg-composer-attachment-bar.c:441 mail/em-folder-tree.c:2770
+#: composer/e-msg-composer-attachment-bar.c:441 mail/em-folder-tree.c:2775
 #: ui/evolution-mail-list.xml.h:27
 msgid "_Properties"
 msgstr "属性(_P)"
@@ -4727,7 +4723,7 @@ msgstr "MIME 类型："
 
 #. g_object_set((GObject *)renderer, "activatable", TRUE, NULL);
 #: calendar/gui/dialogs/cal-prefs-dialog.c:576 mail/em-account-prefs.c:460
-#: mail/em-composer-prefs.c:884 plugins/plugin-manager/plugin-manager.c:213
+#: mail/em-composer-prefs.c:888 plugins/plugin-manager/plugin-manager.c:213
 msgid "Enabled"
 msgstr "已启用"
 
@@ -5065,58 +5061,58 @@ msgid "Hide _Attachment Bar (drop attachments here)"
 msgstr "隐藏附件栏(将附件拖至此处)(_A)"
 
 #: calendar/gui/dialogs/comp-editor.c:492
-#: calendar/gui/dialogs/comp-editor.c:537 composer/e-msg-composer.c:2347
+#: calendar/gui/dialogs/comp-editor.c:543 composer/e-msg-composer.c:2347
 #: composer/e-msg-composer.c:3466
 msgid "Show _Attachment Bar (drop attachments here)"
 msgstr "显示附件栏(将附件拖至此处)(_A)"
 
-#: calendar/gui/dialogs/comp-editor.c:1066
-#: calendar/gui/dialogs/comp-editor.c:1109
+#: calendar/gui/dialogs/comp-editor.c:1077
+#: calendar/gui/dialogs/comp-editor.c:1120
 msgid "Edit Appointment"
 msgstr "编辑约会"
-
-#: calendar/gui/dialogs/comp-editor.c:1072
-#: calendar/gui/dialogs/comp-editor.c:1115
-#, c-format
-msgid "Meeting - %s"
-msgstr "会议 - %s"
-
-#: calendar/gui/dialogs/comp-editor.c:1074
-#: calendar/gui/dialogs/comp-editor.c:1117
-#, c-format
-msgid "Appointment - %s"
-msgstr "约会 - %s"
-
-#: calendar/gui/dialogs/comp-editor.c:1078
-#: calendar/gui/dialogs/comp-editor.c:1121
-#, c-format
-msgid "Assigned Task - %s"
-msgstr "指派的任务 - %s"
-
-#: calendar/gui/dialogs/comp-editor.c:1080
-#: calendar/gui/dialogs/comp-editor.c:1123
-#, c-format
-msgid "Task - %s"
-msgstr "任务 - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:1083
 #: calendar/gui/dialogs/comp-editor.c:1126
 #, c-format
+msgid "Meeting - %s"
+msgstr "会议 - %s"
+
+#: calendar/gui/dialogs/comp-editor.c:1085
+#: calendar/gui/dialogs/comp-editor.c:1128
+#, c-format
+msgid "Appointment - %s"
+msgstr "约会 - %s"
+
+#: calendar/gui/dialogs/comp-editor.c:1089
+#: calendar/gui/dialogs/comp-editor.c:1132
+#, c-format
+msgid "Assigned Task - %s"
+msgstr "指派的任务 - %s"
+
+#: calendar/gui/dialogs/comp-editor.c:1091
+#: calendar/gui/dialogs/comp-editor.c:1134
+#, c-format
+msgid "Task - %s"
+msgstr "任务 - %s"
+
+#: calendar/gui/dialogs/comp-editor.c:1094
+#: calendar/gui/dialogs/comp-editor.c:1137
+#, c-format
 msgid "Journal entry - %s"
 msgstr "日志条目 - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:1094
-#: calendar/gui/dialogs/comp-editor.c:1136
+#: calendar/gui/dialogs/comp-editor.c:1105
+#: calendar/gui/dialogs/comp-editor.c:1147
 msgid "No summary"
 msgstr "没有概要"
 
-#: calendar/gui/dialogs/comp-editor.c:1568
-#: calendar/gui/dialogs/comp-editor.c:1601
-#: calendar/gui/dialogs/comp-editor.c:1625
+#: calendar/gui/dialogs/comp-editor.c:1579
+#: calendar/gui/dialogs/comp-editor.c:1612
+#: calendar/gui/dialogs/comp-editor.c:1636
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr "如果更新到达的话，对此项目的更改将被丢弃"
 
-#: calendar/gui/dialogs/comp-editor.c:1649
+#: calendar/gui/dialogs/comp-editor.c:1660
 msgid "Unable to use current version!"
 msgstr "无法使用当前版本！"
 
@@ -5124,6 +5120,10 @@ msgstr "无法使用当前版本！"
 #, c-format
 msgid "Validation error: %s"
 msgstr "校验错误：%s"
+
+#: calendar/gui/dialogs/comp-editor-util.c:187 calendar/gui/print.c:2261
+msgid " to "
+msgstr " 到 "
 
 #: calendar/gui/dialogs/comp-editor-util.c:191 calendar/gui/print.c:2265
 msgid " (Completed "
@@ -5399,7 +5399,7 @@ msgstr "开始时间(_S)："
 #: calendar/gui/e-cal-model-tasks.c:652 calendar/gui/e-itip-control.c:1104
 #: composer/e-msg-composer.c:2122 filter/filter-rule.c:878
 #: mail/em-account-editor.c:675 mail/em-account-editor.c:1273
-#: mail/em-account-prefs.c:421 mail/em-folder-view.c:965
+#: mail/em-account-prefs.c:421 mail/em-folder-view.c:998
 #: plugins/calendar-weather/calendar-weather.c:371
 #: plugins/calendar-weather/calendar-weather.c:425
 #: plugins/itip-formatter/itip-formatter.c:1373
@@ -5904,7 +5904,7 @@ msgstr "在 %2$s 时 %1$s"
 msgid "%s for an unknown trigger type"
 msgstr "%s 为未知触发类型"
 
-#: calendar/gui/e-cal-component-preview.c:70 mail/em-folder-view.c:2470
+#: calendar/gui/e-cal-component-preview.c:70 mail/em-folder-view.c:2503
 #, c-format
 msgid "Click to open %s"
 msgstr "单击以打开 %s"
@@ -5928,9 +5928,12 @@ msgid "Due Date:"
 msgstr "到期日期："
 
 #. write status
+#. translators: exchange out of office status header
 #. Status
 #: calendar/gui/e-cal-component-preview.c:222
-#: calendar/gui/e-itip-control.c:1132 plugins/itip-formatter/itip-view.c:882
+#: calendar/gui/e-itip-control.c:1132
+#: plugins/exchange-account-setup/exchange-account-setup.c:102
+#: plugins/itip-formatter/itip-view.c:882
 msgid "Status:"
 msgstr "状态："
 
@@ -6013,7 +6016,7 @@ msgid "Save as..."
 msgstr "另存为..."
 
 #: calendar/gui/e-calendar-table.c:1156 calendar/gui/e-calendar-view.c:1395
-#: mail/em-folder-view.c:931 ui/evolution-addressbook.xml.h:37
+#: mail/em-folder-view.c:964 ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "打开(_O)"
 
@@ -6022,14 +6025,14 @@ msgid "Open _Web Page"
 msgstr "打开网页(_W)"
 
 #: calendar/gui/e-calendar-table.c:1158 calendar/gui/e-calendar-view.c:1396
-#: mail/em-folder-view.c:933 mail/em-popup.c:493
-#: ui/evolution-mail-message.xml.h:128
+#: mail/em-folder-view.c:966 mail/em-popup.c:493
+#: ui/evolution-mail-message.xml.h:124
 msgid "_Save As..."
 msgstr "另存为(_S)..."
 
 #: calendar/gui/e-calendar-table.c:1159 calendar/gui/e-calendar-view.c:1376
 #: calendar/gui/e-calendar-view.c:1397 ui/evolution-addressbook.xml.h:40
-#: ui/evolution-calendar.xml.h:44 ui/evolution-mail-message.xml.h:125
+#: ui/evolution-calendar.xml.h:44 ui/evolution-mail-message.xml.h:121
 #: ui/evolution-tasks.xml.h:25
 msgid "_Print..."
 msgstr "打印(_P)..."
@@ -6041,17 +6044,17 @@ msgid "C_ut"
 msgstr "剪切(_U)"
 
 #: calendar/gui/e-calendar-table.c:1164 calendar/gui/e-calendar-view.c:1402
-#: composer/e-msg-composer.c:2901 mail/em-folder-tree.c:1036
+#: composer/e-msg-composer.c:2901 mail/em-folder-tree.c:1041
 #: mail/message-list.c:1712 ui/evolution-addressbook.xml.h:31
 #: ui/evolution-calendar.xml.h:39 ui/evolution-composer-entries.xml.h:7
-#: ui/evolution-mail-message.xml.h:109 ui/evolution-tasks.xml.h:20
+#: ui/evolution-mail-message.xml.h:105 ui/evolution-tasks.xml.h:20
 msgid "_Copy"
 msgstr "复制(_C)"
 
 #: calendar/gui/e-calendar-table.c:1165 calendar/gui/e-calendar-view.c:1379
 #: calendar/gui/e-calendar-view.c:1403 ui/evolution-addressbook.xml.h:38
 #: ui/evolution-calendar.xml.h:43 ui/evolution-composer-entries.xml.h:9
-#: ui/evolution-mail-message.xml.h:123 ui/evolution-tasks.xml.h:24
+#: ui/evolution-mail-message.xml.h:119 ui/evolution-tasks.xml.h:24
 msgid "_Paste"
 msgstr "粘贴(_P)"
 
@@ -6073,9 +6076,9 @@ msgstr "把任务标记为完成(_M)"
 
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1176 calendar/gui/e-calendar-view.c:1414
-#: mail/em-folder-tree.c:2766 mail/em-folder-view.c:956
+#: mail/em-folder-tree.c:2771 mail/em-folder-view.c:989
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
-#: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
+#: ui/evolution-mail-message.xml.h:108 ui/evolution-tasks.xml.h:21
 msgid "_Delete"
 msgstr "删除(_D)"
 
@@ -6893,7 +6896,7 @@ msgstr "%Y-%m-%d"
 msgid "Enter the password for %s"
 msgstr "为 %s 输入密码"
 
-#: calendar/gui/e-tasks.c:760 calendar/gui/gnome-cal.c:2353
+#: calendar/gui/e-tasks.c:761 calendar/gui/gnome-cal.c:2353
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -6902,28 +6905,28 @@ msgstr ""
 "%s 错误：\n"
 " %s"
 
-#: calendar/gui/e-tasks.c:808
+#: calendar/gui/e-tasks.c:809
 msgid "Loading tasks"
 msgstr "装入任务"
 
-#: calendar/gui/e-tasks.c:890
+#: calendar/gui/e-tasks.c:891
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "在 %s 打开任务"
 
-#: calendar/gui/e-tasks.c:1086
+#: calendar/gui/e-tasks.c:1087
 msgid "Completing tasks..."
 msgstr "正在完成任务..."
 
-#: calendar/gui/e-tasks.c:1109
+#: calendar/gui/e-tasks.c:1110
 msgid "Deleting selected objects..."
 msgstr "正在删除选中的对象..."
 
-#: calendar/gui/e-tasks.c:1136
+#: calendar/gui/e-tasks.c:1137
 msgid "Expunging"
 msgstr "销毁"
 
-#: calendar/gui/e-tasks.c:1214
+#: calendar/gui/e-tasks.c:1215
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
 #: calendar/gui/print.c:1822 calendar/gui/tasks-component.c:408
 #: calendar/gui/tasks-component.c:881 calendar/gui/tasks-control.c:408
@@ -9121,13 +9124,13 @@ msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "%d 封附加的信件"
 
-#: composer/e-msg-composer.c:2902 mail/em-folder-tree.c:1037
-#: mail/em-folder-tree.c:2263 mail/em-folder-view.c:827
+#: composer/e-msg-composer.c:2902 mail/em-folder-tree.c:1042
+#: mail/em-folder-tree.c:2268 mail/em-folder-view.c:860
 #: mail/message-list.c:1713
 msgid "_Move"
 msgstr "移动(_M)"
 
-#: composer/e-msg-composer.c:2904 mail/em-folder-tree.c:1039
+#: composer/e-msg-composer.c:2904 mail/em-folder-tree.c:1044
 #: mail/message-list.c:1715
 msgid "Cancel _Drag"
 msgstr "取消拖曳(_D)"
@@ -9402,7 +9405,6 @@ msgid "<b>Out of Office Message:</b>"
 msgstr "<b>办公室以外信件：</b>"
 
 #: designs/OOA/ooa.glade.h:5
-#: plugins/exchange-account-setup/exchange-account-setup.c:106
 msgid "<b>Status:</b>"
 msgstr "<b>状态：</b>"
 
@@ -9921,20 +9923,20 @@ msgstr "账户名"
 msgid "Protocol"
 msgstr "协议"
 
-#: mail/em-composer-prefs.c:306 mail/em-composer-prefs.c:425
+#: mail/em-composer-prefs.c:306 mail/em-composer-prefs.c:429
 #: mail/mail-config.c:934
 msgid "Unnamed"
 msgstr "未命名"
 
-#: mail/em-composer-prefs.c:890
+#: mail/em-composer-prefs.c:894
 msgid "Language(s)"
 msgstr "语言"
 
-#: mail/em-composer-prefs.c:933
+#: mail/em-composer-prefs.c:937
 msgid "Add signature script"
 msgstr "添加签名脚本"
 
-#: mail/em-composer-prefs.c:953
+#: mail/em-composer-prefs.c:957
 msgid "Signature(s)"
 msgstr "签名"
 
@@ -10095,7 +10097,7 @@ msgstr "垃圾"
 msgid "Junk Test"
 msgstr "垃圾测试"
 
-#: mail/em-filter-i18n.h:37 mail/em-folder-view.c:964
+#: mail/em-filter-i18n.h:37 mail/em-folder-view.c:997
 #: widgets/misc/e-expander.c:189
 msgid "Label"
 msgstr "标签"
@@ -10221,7 +10223,8 @@ msgid "<b>Then</b>"
 msgstr "<b>则</b>"
 
 #: mail/em-folder-browser.c:133
-msgid "Create _Virtual Folder From Search..."
+#, fuzzy
+msgid "Create _vFolder From Search..."
 msgstr "根据搜索创建虚拟文件夹(_V)..."
 
 #. TODO: can this be done in a loop?
@@ -10247,8 +10250,8 @@ msgstr "<单击此处以便选择文件夹>"
 msgid "Create New Folder"
 msgstr "创建新文件夹"
 
-#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2479
-#: mail/mail-component.c:734 plugins/shared-folder/install-shared.c:144
+#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2484
+#: mail/mail-component.c:739 plugins/shared-folder/install-shared.c:144
 #: plugins/shared-folder/share-folder-common.c:345
 msgid "Specify where to create the folder:"
 msgstr "指定在哪里创建文件夹："
@@ -10261,279 +10264,293 @@ msgstr "创建"
 msgid "Folder _name:"
 msgstr "文件夹名称(_N)："
 
-#: mail/em-folder-tree.c:678
+#: mail/em-folder-tree.c:683
 msgid "Mail Folder Tree"
 msgstr "邮件文件夹树"
 
-#: mail/em-folder-tree.c:911
+#: mail/em-folder-tree.c:916
 #, c-format
 msgid "Moving folder %s"
 msgstr "移动文件夹“%s”"
 
-#: mail/em-folder-tree.c:913
+#: mail/em-folder-tree.c:918
 #, c-format
 msgid "Copying folder %s"
 msgstr "复制文件夹 %s"
 
-#: mail/em-folder-tree.c:920 mail/message-list.c:1617
+#: mail/em-folder-tree.c:925 mail/message-list.c:1617
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "把信件移动到文件夹 %s"
 
-#: mail/em-folder-tree.c:922 mail/message-list.c:1619
+#: mail/em-folder-tree.c:927 mail/message-list.c:1619
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "把信件复制到文件夹 %s"
 
-#: mail/em-folder-tree.c:938
+#: mail/em-folder-tree.c:943
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "无法将信件放到顶级文件夹存储"
 
-#: mail/em-folder-tree.c:1034 ui/evolution-mail-message.xml.h:110
+#: mail/em-folder-tree.c:1039 ui/evolution-mail-message.xml.h:106
 msgid "_Copy to Folder"
 msgstr "复制到文件夹(_C)"
 
-#: mail/em-folder-tree.c:1035 ui/evolution-mail-message.xml.h:119
+#: mail/em-folder-tree.c:1040 ui/evolution-mail-message.xml.h:115
 msgid "_Move to Folder"
 msgstr "移动到文件夹(_M)"
 
-#: mail/em-folder-tree.c:1734 mail/mail-ops.c:1017
+#: mail/em-folder-tree.c:1739 mail/mail-ops.c:1017
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "在“%s”中扫描文件夹"
 
-#: mail/em-folder-tree.c:2007
+#: mail/em-folder-tree.c:2012
 #, c-format
 msgid "Copying `%s' to `%s'"
 msgstr "把“%s”复制到“%s”"
 
-#: mail/em-folder-tree.c:2249 mail/em-folder-tree.c:2263
-#: mail/em-folder-view.c:827 mail/em-folder-view.c:842
+#: mail/em-folder-tree.c:2254 mail/em-folder-tree.c:2268
+#: mail/em-folder-view.c:860 mail/em-folder-view.c:875
 #: mail/importers/evolution-mbox-importer.c:120
 #: mail/importers/evolution-outlook-importer.c:134
 msgid "Select folder"
 msgstr "选择文件夹"
 
-#: mail/em-folder-tree.c:2249 mail/em-folder-view.c:842
+#: mail/em-folder-tree.c:2254 mail/em-folder-view.c:875
 msgid "C_opy"
 msgstr "复制(_O)"
 
-#: mail/em-folder-tree.c:2290 plugins/shared-folder/share-folder-common.c:138
+#: mail/em-folder-tree.c:2295 plugins/shared-folder/share-folder-common.c:138
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "创建文件夹“%s”"
 
-#: mail/em-folder-tree.c:2479 mail/mail-component.c:734
+#: mail/em-folder-tree.c:2484 mail/mail-component.c:739
 #: plugins/shared-folder/install-shared.c:144
 #: plugins/shared-folder/share-folder-common.c:345
 msgid "Create folder"
 msgstr "创建文件夹"
 
-#: mail/em-folder-tree.c:2672
+#: mail/em-folder-tree.c:2677
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "把文件夹“%s”重命名为："
 
-#: mail/em-folder-tree.c:2674
+#: mail/em-folder-tree.c:2679
 msgid "Rename Folder"
 msgstr "重命名文件夹"
 
-#: mail/em-folder-tree.c:2680
+#: mail/em-folder-tree.c:2685
 msgid "Folder names cannot contain '/'"
 msgstr "文件夹名不能含有字符“/”"
 
-#: mail/em-folder-tree.c:2754 ui/evolution-addressbook.xml.h:44
-#: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
+#: mail/em-folder-tree.c:2759 ui/evolution-addressbook.xml.h:44
+#: ui/evolution-mail-global.xml.h:17 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:49
 msgid "_View"
 msgstr "查看(_V)"
 
-#: mail/em-folder-tree.c:2755
+#: mail/em-folder-tree.c:2760
 msgid "Open in _New Window"
 msgstr "在新窗口中打开(_N)"
 
-#: mail/em-folder-tree.c:2759
+#: mail/em-folder-tree.c:2764
 msgid "_Copy..."
 msgstr "复制(_C)..."
 
-#: mail/em-folder-tree.c:2760
+#: mail/em-folder-tree.c:2765
 msgid "_Move..."
 msgstr "移动(_M)..."
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:2764
+#: mail/em-folder-tree.c:2769
 msgid "_New Folder..."
 msgstr "新建文件夹(_N)..."
 
-#: mail/em-folder-tree.c:2767
+#: mail/em-folder-tree.c:2772
 msgid "_Rename..."
 msgstr "重命名(_R)..."
 
-#: mail/em-folder-tree-model.c:200 mail/em-folder-tree-model.c:202
-#: mail/mail-vfolder.c:899
-msgid "VFolders"
+#: mail/em-folder-tree-model.c:201 mail/em-folder-tree-model.c:203
+#: mail/mail-vfolder.c:899 mail/mail-vfolder.c:969
+msgid "vFolders"
 msgstr "虚拟文件夹"
 
 #. UNMATCHED is always last
-#: mail/em-folder-tree-model.c:206 mail/em-folder-tree-model.c:208
+#: mail/em-folder-tree-model.c:207 mail/em-folder-tree-model.c:209
 msgid "UNMATCHED"
 msgstr "不匹配"
 
-#. Inbox is always first
+#: mail/em-folder-tree-model.c:468 mail/mail-component.c:139
+msgid "Drafts"
+msgstr "草稿"
+
 #. translators: standard local mailbox names
-#: mail/em-folder-tree-model.c:212 mail/em-folder-tree-model.c:214
-#: mail/mail-component.c:138
+#: mail/em-folder-tree-model.c:471 mail/mail-component.c:138
 msgid "Inbox"
 msgstr "收件箱"
 
-#: mail/em-folder-tree-model.c:491 mail/em-folder-tree-model.c:795
+#: mail/em-folder-tree-model.c:474 mail/mail-component.c:140
+msgid "Outbox"
+msgstr "发件箱"
+
+#: mail/em-folder-tree-model.c:476 mail/mail-component.c:141
+msgid "Sent"
+msgstr "已发箱"
+
+#: mail/em-folder-tree-model.c:495 mail/em-folder-tree-model.c:799
 msgid "Loading..."
 msgstr "正在装入..."
 
-#: mail/em-folder-view.c:438 mail/GNOME_Evolution_Mail.server.in.in.h:11
+#: mail/em-folder-view.c:471 mail/GNOME_Evolution_Mail.server.in.in.h:11
 #: mail/importers/elm-importer.c:418 mail/importers/netscape-importer.c:1902
-#: mail/importers/pine-importer.c:474 mail/mail-component.c:531
-#: mail/mail-component.c:582
+#: mail/importers/pine-importer.c:474 mail/mail-component.c:536
+#: mail/mail-component.c:587
 msgid "Mail"
 msgstr "邮件"
 
-#: mail/em-folder-view.c:932 ui/evolution-mail-message.xml.h:113
+#: mail/em-folder-view.c:965 ui/evolution-mail-message.xml.h:109
 msgid "_Edit as New Message..."
 msgstr "作为新信件进行编辑(_E)..."
 
-#: mail/em-folder-view.c:934
+#: mail/em-folder-view.c:967
 msgid "_Print"
 msgstr "打印(_P)"
 
-#: mail/em-folder-view.c:937 ui/evolution-mail-message.xml.h:127
+#: mail/em-folder-view.c:970 ui/evolution-mail-message.xml.h:123
 msgid "_Reply to Sender"
 msgstr "回复发件人(_R)"
 
-#: mail/em-folder-view.c:938 mail/em-popup.c:497
+#: mail/em-folder-view.c:971 mail/em-popup.c:497
 #: ui/evolution-mail-message.xml.h:88
 msgid "Reply to _List"
 msgstr "回复邮件列表(_L)"
 
-#: mail/em-folder-view.c:939 mail/em-popup.c:498
+#: mail/em-folder-view.c:972 mail/em-popup.c:498
 #: ui/evolution-mail-message.xml.h:87
 msgid "Reply to _All"
 msgstr "回复所有人(_A)"
 
-#: mail/em-folder-view.c:940 mail/em-popup.c:500
-#: ui/evolution-mail-message.xml.h:114
+#: mail/em-folder-view.c:973 mail/em-popup.c:500
+#: ui/evolution-mail-message.xml.h:110
 msgid "_Forward"
 msgstr "转发(_F)"
 
-#: mail/em-folder-view.c:943
+#: mail/em-folder-view.c:976
 msgid "Follo_w Up..."
 msgstr "跟随(_W)..."
 
-#: mail/em-folder-view.c:944
+#: mail/em-folder-view.c:977
 msgid "Fla_g Completed"
 msgstr "已完成标志(_G)"
 
-#: mail/em-folder-view.c:945
+#: mail/em-folder-view.c:978
 msgid "Cl_ear Flag"
 msgstr "清除标志(_E)"
 
-#: mail/em-folder-view.c:948 ui/evolution-mail-message.xml.h:50
+#: mail/em-folder-view.c:981 ui/evolution-mail-message.xml.h:50
 msgid "Mar_k as Read"
 msgstr "标记为已读(_K)"
 
-#: mail/em-folder-view.c:949
+#: mail/em-folder-view.c:982
 msgid "Mark as _Unread"
 msgstr "标记为未读(_U)"
 
-#: mail/em-folder-view.c:950
+#: mail/em-folder-view.c:983
 msgid "Mark as _Important"
 msgstr "标记为重要(_I)"
 
-#: mail/em-folder-view.c:951
+#: mail/em-folder-view.c:984
 msgid "_Mark as Unimportant"
 msgstr "标记为不重要(_M)"
 
-#: mail/em-folder-view.c:952 ui/evolution-mail-message.xml.h:54
+#: mail/em-folder-view.c:985 ui/evolution-mail-message.xml.h:54
 msgid "Mark as _Junk"
 msgstr "标记为垃圾(_J)"
 
-#: mail/em-folder-view.c:953 ui/evolution-mail-message.xml.h:55
+#: mail/em-folder-view.c:986 ui/evolution-mail-message.xml.h:55
 msgid "Mark as _Not Junk"
 msgstr "标记为非垃圾(_N)"
 
-#: mail/em-folder-view.c:957
+#: mail/em-folder-view.c:990
 msgid "U_ndelete"
 msgstr "取消删除(_N)"
 
-#: mail/em-folder-view.c:960
+#: mail/em-folder-view.c:993
 msgid "Mo_ve to Folder..."
 msgstr "移动到文件夹(_V)..."
 
-#: mail/em-folder-view.c:961 ui/evolution-addressbook.xml.h:32
+#: mail/em-folder-view.c:994 ui/evolution-addressbook.xml.h:32
 msgid "_Copy to Folder..."
 msgstr "复制到文件夹(_C)..."
 
-#: mail/em-folder-view.c:969
+#: mail/em-folder-view.c:1002
 msgid "Add Sender to Address_book"
 msgstr "将发件人添加到地址簿(_B)"
 
-#: mail/em-folder-view.c:972
+#: mail/em-folder-view.c:1005
 msgid "Appl_y Filters"
 msgstr "应用过滤规则(_Y)"
 
-#: mail/em-folder-view.c:973
+#: mail/em-folder-view.c:1006
 msgid "F_ilter Junk"
 msgstr "过滤垃圾(_I)"
 
-#: mail/em-folder-view.c:976
+#: mail/em-folder-view.c:1009
 msgid "Crea_te Rule From Message"
 msgstr "根据信件创建规则(_T)"
 
-#: mail/em-folder-view.c:977
-msgid "VFolder on _Subject"
+#: mail/em-folder-view.c:1010
+#, fuzzy
+msgid "vFolder on _Subject"
 msgstr "基于主题的虚拟文件夹(_S)"
 
-#: mail/em-folder-view.c:978
-msgid "VFolder on Se_nder"
+#: mail/em-folder-view.c:1011
+#, fuzzy
+msgid "vFolder on Se_nder"
 msgstr "基于发件人的虚拟文件夹(_N)"
 
-#: mail/em-folder-view.c:979
-msgid "VFolder on _Recipients"
+#: mail/em-folder-view.c:1012
+#, fuzzy
+msgid "vFolder on _Recipients"
 msgstr "基于收件人的虚拟文件夹(_R)"
 
-#: mail/em-folder-view.c:980
-msgid "VFolder on Mailing _List"
+#: mail/em-folder-view.c:1013
+#, fuzzy
+msgid "vFolder on Mailing _List"
 msgstr "基于邮件列表的虚拟文件夹(_L)"
 
-#: mail/em-folder-view.c:984
+#: mail/em-folder-view.c:1017
 msgid "Filter on Sub_ject"
 msgstr "基于主题过滤(_J)"
 
-#: mail/em-folder-view.c:985
+#: mail/em-folder-view.c:1018
 msgid "Filter on Sen_der"
 msgstr "基于发件人过滤(_D)"
 
-#: mail/em-folder-view.c:986
+#: mail/em-folder-view.c:1019
 msgid "Filter on Re_cipients"
 msgstr "基于收件人过滤(_C)"
 
-#: mail/em-folder-view.c:987
+#: mail/em-folder-view.c:1020
 msgid "Filter on _Mailing List"
 msgstr "基于邮件列表过滤(_M)"
 
 #. default charset used in mail view
-#: mail/em-folder-view.c:1764 mail/em-folder-view.c:1807
+#: mail/em-folder-view.c:1797 mail/em-folder-view.c:1840
 msgid "Default"
 msgstr "默认"
 
-#: mail/em-folder-view.c:1903
+#: mail/em-folder-view.c:1936
 msgid "Print Message"
 msgstr "打印信件"
 
-#: mail/em-folder-view.c:2182
+#: mail/em-folder-view.c:2215
 msgid "_Copy Link Location"
 msgstr "复制链接位置(_C)"
 
-#: mail/em-folder-view.c:2465
+#: mail/em-folder-view.c:2498
 #, c-format
 msgid "Click to mail %s"
 msgstr "单击以给 %s 发送邮件"
@@ -10950,11 +10967,13 @@ msgid "Messages from %s"
 msgstr "来自 %s 的信件"
 
 #: mail/em-vfolder-editor.c:104
-msgid "Virtual _Folders"
-msgstr "虚拟文件夹(_F)"
+#, fuzzy
+msgid "v_Folders"
+msgstr "虚拟文件夹"
 
 #: mail/em-vfolder-rule.c:574
-msgid "VFolder source"
+#, fuzzy
+msgid "vFolder source"
 msgstr "虚拟文件夹来源"
 
 #: mail/evolution-mail.schemas.in.in.h:1
@@ -11682,18 +11701,6 @@ msgstr "%s 邮件列表"
 msgid "Add Filter Rule"
 msgstr "添加过滤规则"
 
-#: mail/mail-component.c:139
-msgid "Drafts"
-msgstr "草稿"
-
-#: mail/mail-component.c:140
-msgid "Outbox"
-msgstr "发件箱"
-
-#: mail/mail-component.c:141
-msgid "Sent"
-msgstr "已发箱"
-
 #: mail/mail-component.c:484
 #, c-format
 msgid "%d deleted"
@@ -11736,31 +11743,31 @@ msgid ", %d unread"
 msgid_plural ", %d unread"
 msgstr[0] "，%d 封未读"
 
-#: mail/mail-component.c:686
+#: mail/mail-component.c:691
 msgid "New Mail Message"
 msgstr "新建信件"
 
-#: mail/mail-component.c:687
+#: mail/mail-component.c:692
 msgid "_Mail Message"
 msgstr "信件(_M)"
 
-#: mail/mail-component.c:688
+#: mail/mail-component.c:693
 msgid "Compose a new mail message"
 msgstr "撰写一封新信"
 
-#: mail/mail-component.c:694
+#: mail/mail-component.c:699
 msgid "New Mail Folder"
 msgstr "新建邮件文件夹"
 
-#: mail/mail-component.c:695
+#: mail/mail-component.c:700
 msgid "Mail _Folder"
 msgstr "邮件文件夹(_F)"
 
-#: mail/mail-component.c:696
+#: mail/mail-component.c:701
 msgid "Create a new mail folder"
 msgstr "创建新邮件文件夹"
 
-#: mail/mail-component.c:843
+#: mail/mail-component.c:848
 msgid "Failed upgrading Mail settings or folders."
 msgstr "升级邮件设置或文件夹失败。"
 
@@ -12919,9 +12926,10 @@ msgstr "无法编辑虚拟文件夹“{0}”，原因是该文件夹不存在。
 
 #. mail:vfolder-notexist secondary
 #: mail/mail-errors.xml.h:193
+#, fuzzy
 msgid ""
-"This folder may have been added implicitly, go to the virtual folder editor "
-"to add it explicitly, if required."
+"This folder may have been added implicitly, go to the vFolder editor to add "
+"it explicitly, if required."
 msgstr ""
 "此文件夹可能已经隐式添加了。如果需要的话，请转到虚拟文件夹编辑器显式添加。"
 
@@ -13333,8 +13341,8 @@ msgid "Invalid folder: `%s'"
 msgstr "无效的文件夹：“%s”"
 
 #: mail/mail-vfolder.c:90
-#, c-format
-msgid "Setting up vfolder: %s"
+#, fuzzy, c-format
+msgid "Setting up vFolder: %s"
 msgstr "设置虚拟文件夹：%s"
 
 #: mail/mail-vfolder.c:239
@@ -13347,16 +13355,14 @@ msgstr "更新“%s:%s”的虚拟文件夹"
 msgid "Updating vFolders for '%s'"
 msgstr "更新“%s”的虚拟文件夹"
 
-#: mail/mail-vfolder.c:969
-msgid "vFolders"
-msgstr "虚拟文件夹"
-
 #: mail/mail-vfolder.c:1008
-msgid "Edit VFolder"
+#, fuzzy
+msgid "Edit vFolder"
 msgstr "编辑虚拟文件夹"
 
 #: mail/mail-vfolder.c:1092
-msgid "New VFolder"
+#, fuzzy
+msgid "New vFolder"
 msgstr "新建虚拟文件夹"
 
 #: mail/message-list.c:999
@@ -13425,7 +13431,7 @@ msgstr "%Y年%m月%d日"
 msgid "Message List"
 msgstr "信件列表"
 
-#: mail/message-list.c:3381
+#: mail/message-list.c:3384
 msgid "Generating message list"
 msgstr "生成信件列表"
 
@@ -13649,7 +13655,7 @@ msgid "Mark as default folder"
 msgstr "标为默认文件夹"
 
 #. Description section
-#: plugins/exchange-account-setup/exchange-account-setup.c:91
+#: plugins/exchange-account-setup/exchange-account-setup.c:86
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
@@ -13657,31 +13663,31 @@ msgstr ""
 "在您位于办公室外时，如果有人给您发送邮件，则会自动将下面指定的信件\n"
 "送回。"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:115
+#: plugins/exchange-account-setup/exchange-account-setup.c:113
 msgid "I am in the office"
 msgstr "我正在办公室内"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:129
+#: plugins/exchange-account-setup/exchange-account-setup.c:127
 msgid "I am out of the office"
 msgstr "我正在办公室外"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:143
+#: plugins/exchange-account-setup/exchange-account-setup.c:141
 msgid "Out of office Message:"
 msgstr "办公室以外信件："
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:194
+#: plugins/exchange-account-setup/exchange-account-setup.c:167
 msgid "Exchange Settings"
 msgstr "Exchange 设置"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:329
-#: plugins/exchange-account-setup/exchange-ask-password.c:193
-msgid "A_uthenticate"
-msgstr "身份验证(_U)"
-
-#: plugins/exchange-account-setup/exchange-account-setup.c:336
+#: plugins/exchange-account-setup/exchange-account-setup.c:305
 #: plugins/exchange-account-setup/exchange-ask-password.c:200
 msgid "_OWA Url:"
 msgstr "_OWA URL："
+
+#: plugins/exchange-account-setup/exchange-account-setup.c:313
+#: plugins/exchange-account-setup/exchange-ask-password.c:193
+msgid "A_uthenticate"
+msgstr "身份验证(_U)"
 
 #: plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
@@ -14738,23 +14744,23 @@ msgstr "无法运行 Bug buddy。"
 #. The translator-credits string is for translators to list
 #. * per language credits for translation, displayed in the
 #. * about box
-#: shell/e-shell-window-commands.c:425
+#: shell/e-shell-window-commands.c:426
 msgid "translator-credits"
 msgstr "开源软件国际化之简体中文组 http://i18n.linux.net.cn"
 
-#: shell/e-shell-window-commands.c:439
+#: shell/e-shell-window-commands.c:440
 msgid "Groupware Suite"
 msgstr "Groupwise 套件"
 
-#: shell/e-shell-window-commands.c:680
+#: shell/e-shell-window-commands.c:681
 msgid "_Work Online"
 msgstr "联机工作(_W)"
 
-#: shell/e-shell-window-commands.c:693 ui/evolution.xml.h:51
+#: shell/e-shell-window-commands.c:694 ui/evolution.xml.h:51
 msgid "_Work Offline"
 msgstr "脱机工作(_W)"
 
-#: shell/e-shell-window-commands.c:706 ui/evolution.xml.h:34
+#: shell/e-shell-window-commands.c:707 ui/evolution.xml.h:34
 msgid "Work Offline"
 msgstr "脱机工作"
 
@@ -15713,9 +15719,9 @@ msgid "View the current contact"
 msgstr "查看当前联系人"
 
 #: ui/evolution-addressbook.xml.h:30 ui/evolution-calendar.xml.h:38
-#: ui/evolution-mail-global.xml.h:15 ui/evolution-mail-list.xml.h:23
+#: ui/evolution-mail-global.xml.h:14 ui/evolution-mail-list.xml.h:23
 #: ui/evolution-mail-messagedisplay.xml.h:4
-#: ui/evolution-mail-message.xml.h:107 ui/evolution-tasks.xml.h:19
+#: ui/evolution-mail-message.xml.h:103 ui/evolution-tasks.xml.h:19
 #: ui/evolution.xml.h:36
 msgid "_Actions"
 msgstr "操作(_A)"
@@ -15728,7 +15734,7 @@ msgstr "转发联系人(_F)..."
 msgid "_Move to Folder..."
 msgstr "移动到文件夹(_M)..."
 
-#: ui/evolution-addressbook.xml.h:39 ui/evolution-mail-global.xml.h:17
+#: ui/evolution-addressbook.xml.h:39 ui/evolution-mail-global.xml.h:16
 msgid "_Preview Pane"
 msgstr "预览板(_P)"
 
@@ -15902,7 +15908,8 @@ msgid "Create or edit rules for filtering new mail"
 msgstr "创建或编辑过滤新邮件的规则"
 
 #: ui/evolution-mail-global.xml.h:5
-msgid "Create or edit virtual folder definitions"
+#, fuzzy
+msgid "Create or edit vFolder definitions"
 msgstr "创建或编辑虚拟文件夹定义"
 
 #: ui/evolution-mail-global.xml.h:6
@@ -15937,13 +15944,14 @@ msgstr "显示信件预览窗口"
 msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr "订阅或取消订阅远程服务器上的文件夹"
 
-#: ui/evolution-mail-global.xml.h:14
-msgid "Virtual Folder _Editor..."
-msgstr "虚拟文件夹编辑器(_E)..."
-
-#: ui/evolution-mail-global.xml.h:16
+#: ui/evolution-mail-global.xml.h:15
 msgid "_Filters..."
 msgstr "过滤器(_F)..."
+
+#: ui/evolution-mail-global.xml.h:18
+#, fuzzy
+msgid "vFolder _Editor..."
+msgstr "虚拟文件夹编辑器(_E)..."
 
 #: ui/evolution-mail-list.xml.h:1
 msgid "Change the properties of this folder"
@@ -16106,8 +16114,9 @@ msgid "Copy selected messages to another folder"
 msgstr "把选中的信件复制到其它文件夹"
 
 #: ui/evolution-mail-message.xml.h:12
-msgid "Create _Virtual Folder From Message"
-msgstr "根据信件创建虚拟文件夹(_V)"
+#, fuzzy
+msgid "Create _vFolder From Message"
+msgstr "根据信件创建过滤器(_C)"
 
 #: ui/evolution-mail-message.xml.h:13
 msgid "Create a rule to filter messages from this sender"
@@ -16126,19 +16135,23 @@ msgid "Create a rule to filter messages with this subject"
 msgstr "根据此主题创建信件过滤规则"
 
 #: ui/evolution-mail-message.xml.h:17
-msgid "Create a virtual folder for these recipients"
+#, fuzzy
+msgid "Create a vFolder for these recipients"
 msgstr "为这些收件人创建虚拟文件夹"
 
 #: ui/evolution-mail-message.xml.h:18
-msgid "Create a virtual folder for this mailing list"
+#, fuzzy
+msgid "Create a vFolder for this mailing list"
 msgstr "为该邮件列表创建虚拟文件夹"
 
 #: ui/evolution-mail-message.xml.h:19
-msgid "Create a virtual folder for this sender"
+#, fuzzy
+msgid "Create a vFolder for this sender"
 msgstr "为该发件人创建虚拟文件夹"
 
 #: ui/evolution-mail-message.xml.h:20
-msgid "Create a virtual folder for this subject"
+#, fuzzy
+msgid "Create a vFolder for this subject"
 msgstr "为该主题创建虚拟文件夹"
 
 #: ui/evolution-mail-message.xml.h:23
@@ -16401,73 +16414,77 @@ msgstr "文字大小(_Z)"
 msgid "Un-delete the selected messages"
 msgstr "取消选中信件的删除"
 
-#: ui/evolution-mail-message.xml.h:103
-msgid "VFolder on Mailing _List..."
-msgstr "基于邮件列表的虚拟文件夹(_L)..."
-
 #: ui/evolution-mail-message.xml.h:104
-msgid "VFolder on Se_nder..."
-msgstr "基于发件人的虚拟文件夹(_N)..."
-
-#: ui/evolution-mail-message.xml.h:105
-msgid "VFolder on _Recipients..."
-msgstr "基于收件人的虚拟文件夹(_R)..."
-
-#: ui/evolution-mail-message.xml.h:106
-msgid "VFolder on _Subject..."
-msgstr "基于主题的虚拟文件夹(_S)..."
-
-#: ui/evolution-mail-message.xml.h:108
 msgid "_Attached"
 msgstr "附加(_A)"
 
-#: ui/evolution-mail-message.xml.h:111
+#: ui/evolution-mail-message.xml.h:107
 msgid "_Create Filter From Message"
 msgstr "根据信件创建过滤器(_C)"
 
-#: ui/evolution-mail-message.xml.h:115
+#: ui/evolution-mail-message.xml.h:111
 msgid "_Go To"
 msgstr "转到(_G)"
 
-#: ui/evolution-mail-message.xml.h:116
+#: ui/evolution-mail-message.xml.h:112
 msgid "_Inline"
 msgstr "嵌入(_I)"
 
-#: ui/evolution-mail-message.xml.h:117
+#: ui/evolution-mail-message.xml.h:113
 msgid "_Larger"
 msgstr "较大(_L)"
 
-#: ui/evolution-mail-message.xml.h:118
+#: ui/evolution-mail-message.xml.h:114
 msgid "_Message Display"
 msgstr "信件显示(_M)"
 
-#: ui/evolution-mail-message.xml.h:120
+#: ui/evolution-mail-message.xml.h:116
 msgid "_Next Message"
 msgstr "下一封信(_N)"
 
-#: ui/evolution-mail-message.xml.h:121
+#: ui/evolution-mail-message.xml.h:117
 msgid "_Normal Display"
 msgstr "普通显示(_N)"
 
-#: ui/evolution-mail-message.xml.h:122
+#: ui/evolution-mail-message.xml.h:118
 msgid "_Open Message"
 msgstr "打开信件(_O)"
 
-#: ui/evolution-mail-message.xml.h:124
+#: ui/evolution-mail-message.xml.h:120
 msgid "_Previous Message"
 msgstr "上一封信(_P)"
 
-#: ui/evolution-mail-message.xml.h:126
+#: ui/evolution-mail-message.xml.h:122
 msgid "_Quoted"
 msgstr "引用(_Q)"
 
-#: ui/evolution-mail-message.xml.h:129 ui/evolution.xml.h:48
+#: ui/evolution-mail-message.xml.h:125 ui/evolution.xml.h:48
 msgid "_Tools"
 msgstr "工具(_T)"
 
-#: ui/evolution-mail-message.xml.h:130
+#: ui/evolution-mail-message.xml.h:126
 msgid "_Undelete"
 msgstr "取消删除(_U)"
+
+#: ui/evolution-mail-message.xml.h:127
+#, fuzzy
+msgid "vFolder on Mailing _List..."
+msgstr "基于邮件列表的虚拟文件夹(_L)..."
+
+#: ui/evolution-mail-message.xml.h:128
+#, fuzzy
+msgid "vFolder on Se_nder..."
+msgstr "基于发件人的虚拟文件夹(_N)..."
+
+#: ui/evolution-mail-message.xml.h:129
+#, fuzzy
+msgid "vFolder on _Recipients..."
+msgstr "基于收件人的虚拟文件夹(_R)..."
+
+#: ui/evolution-mail-message.xml.h:130
+#, fuzzy
+msgid "vFolder on _Subject..."
+msgstr "基于主题的虚拟文件夹(_S)..."
 
 #: ui/evolution-message-composer.xml.h:1
 msgid "Attach"
@@ -17488,3 +17505,41 @@ msgstr "%s (...)"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 完成)"
 
+#~ msgid "alarm "
+#~ msgstr "提醒"
+
+#~ msgid "time-zone "
+#~ msgstr "时区"
+
+#~ msgid "meeting "
+#~ msgstr "会议"
+
+#~ msgid "empty"
+#~ msgstr "空"
+
+#~ msgid ", %d events"
+#~ msgstr "，%d 个事件"
+
+#~ msgid "work week view:"
+#~ msgstr "周工作视图："
+
+#~ msgid "day view:"
+#~ msgstr "日视图："
+
+#~ msgid "month view:"
+#~ msgstr "月视图："
+
+#~ msgid "week view:"
+#~ msgstr "周视图："
+
+#~ msgid ")"
+#~ msgstr ")"
+
+#~ msgid "VFolders"
+#~ msgstr "虚拟文件夹"
+
+#~ msgid "Virtual _Folders"
+#~ msgstr "虚拟文件夹(_F)"
+
+#~ msgid "Create _Virtual Folder From Message"
+#~ msgstr "根据信件创建虚拟文件夹(_V)"
