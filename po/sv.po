@@ -5,13 +5,13 @@
 # Christian Rose <menthos@menthos.com>, 2000, 2001.
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 #
-# $Id: sv.po,v 1.135.2.5 2001/12/12 00:48:41 menthos Exp $
+# $Id: sv.po,v 1.135.2.6 2001/12/12 20:16:27 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-12-12 01:44+0100\n"
-"PO-Revision-Date: 2001-12-12 01:47+0100\n"
+"POT-Creation-Date: 2001-12-12 21:14+0100\n"
+"PO-Revision-Date: 2001-12-12 12:14+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1166,11 +1166,11 @@ msgstr "_Mottagare av meddelande:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid "A_ssistant's name:"
-msgstr "_A_ssistentens namn:"
+msgstr "A_ssistentens namn:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:2
 msgid "Add_ress..."
-msgstr "_Ad_ress..."
+msgstr "Ad_ress..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:3
 msgid "Anni_versary:"
@@ -3164,7 +3164,7 @@ msgid "Free"
 msgstr "Ledig"
 
 #: calendar/gui/calendar-model.c:605 calendar/gui/e-calendar-table.c:458
-#: calendar/gui/e-meeting-time-sel.c:429
+#: calendar/gui/e-meeting-time-sel.c:432
 #: shell/evolution-shell-component.c:1029
 msgid "Busy"
 msgstr "Upptagen"
@@ -4098,7 +4098,7 @@ msgid "_Change Organizer"
 msgstr "_Ändra organisatör"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:4
-#: calendar/gui/e-meeting-time-sel.c:447
+#: calendar/gui/e-meeting-time-sel.c:450
 msgid "_Invite Others..."
 msgstr "Bjud _in andra..."
 
@@ -4217,7 +4217,7 @@ msgid "Progress"
 msgstr "Förlopp"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:12
-#: my-evolution/e-summary-preferences.c:964
+#: my-evolution/e-summary-preferences.c:965
 msgid "URL:"
 msgstr "URL:"
 
@@ -4851,7 +4851,7 @@ msgstr "startdatum"
 msgid "Chair Persons"
 msgstr "Ordförandepersoner"
 
-#: calendar/gui/e-meeting-model.c:96 calendar/gui/e-meeting-model.c:1550
+#: calendar/gui/e-meeting-model.c:96 calendar/gui/e-meeting-model.c:1568
 msgid "Required Participants"
 msgstr "Nödvändiga deltagare"
 
@@ -4928,7 +4928,7 @@ msgid "Declined"
 msgstr "Avböjt"
 
 #: calendar/gui/e-meeting-model.c:325 calendar/gui/e-meeting-model.c:348
-#: calendar/gui/e-meeting-model.c:826 calendar/gui/e-meeting-time-sel.c:428
+#: calendar/gui/e-meeting-model.c:826 calendar/gui/e-meeting-time-sel.c:431
 msgid "Tentative"
 msgstr "Preliminärt"
 
@@ -4944,14 +4944,14 @@ msgstr "Pågår"
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:471
-#: calendar/gui/e-meeting-time-sel.c:2088
+#: calendar/gui/e-meeting-time-sel.c:2102
 msgid "%A, %B %d, %Y"
 msgstr "%A %d %B %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:475
-#: calendar/gui/e-meeting-time-sel.c:2118 e-util/e-time-utils.c:186
+#: calendar/gui/e-meeting-time-sel.c:2132 e-util/e-time-utils.c:186
 #: e-util/e-time-utils.c:276 e-util/e-time-utils.c:348
 msgid "%a %m/%d/%Y"
 msgstr "%a %Y-%m-%d"
@@ -4963,63 +4963,63 @@ msgstr "%a %Y-%m-%d"
 msgid "%m/%d/%Y"
 msgstr "%Y-%m-%d"
 
-#: calendar/gui/e-meeting-time-sel.c:430
+#: calendar/gui/e-meeting-time-sel.c:433
 msgid "Out of Office"
 msgstr "Inte inne"
 
-#: calendar/gui/e-meeting-time-sel.c:431
+#: calendar/gui/e-meeting-time-sel.c:434
 msgid "No Information"
 msgstr "Ingen information"
 
-#: calendar/gui/e-meeting-time-sel.c:467
+#: calendar/gui/e-meeting-time-sel.c:470
 msgid "_Options"
 msgstr "_Alternativ"
 
-#: calendar/gui/e-meeting-time-sel.c:484
+#: calendar/gui/e-meeting-time-sel.c:487
 msgid "Show _Only Working Hours"
 msgstr "Visa _endast arbetstimmar"
 
-#: calendar/gui/e-meeting-time-sel.c:497
+#: calendar/gui/e-meeting-time-sel.c:500
 msgid "Show _Zoomed Out"
 msgstr "Visa ut_zoomade"
 
-#: calendar/gui/e-meeting-time-sel.c:515
+#: calendar/gui/e-meeting-time-sel.c:518
 msgid "_Update Free/Busy"
 msgstr "_Uppdatera ledig/upptagen"
 
-#: calendar/gui/e-meeting-time-sel.c:533
+#: calendar/gui/e-meeting-time-sel.c:536
 msgid "_<<"
 msgstr "_<<"
 
-#: calendar/gui/e-meeting-time-sel.c:550
+#: calendar/gui/e-meeting-time-sel.c:553
 msgid "_Autopick"
 msgstr "_Autovälj"
 
-#: calendar/gui/e-meeting-time-sel.c:564
+#: calendar/gui/e-meeting-time-sel.c:567
 msgid ">_>"
 msgstr ">_>"
 
-#: calendar/gui/e-meeting-time-sel.c:581
+#: calendar/gui/e-meeting-time-sel.c:584
 msgid "_All People and Resources"
 msgstr "_Alla människor och resurser"
 
-#: calendar/gui/e-meeting-time-sel.c:594
+#: calendar/gui/e-meeting-time-sel.c:597
 msgid "All _People and One Resource"
 msgstr "Alla _människor och en resurs"
 
-#: calendar/gui/e-meeting-time-sel.c:607
+#: calendar/gui/e-meeting-time-sel.c:610
 msgid "_Required People"
 msgstr "Folk som k_rävs"
 
-#: calendar/gui/e-meeting-time-sel.c:620
+#: calendar/gui/e-meeting-time-sel.c:623
 msgid "Required People and _One Resource"
 msgstr "Folk som krävs _och en resurs"
 
-#: calendar/gui/e-meeting-time-sel.c:643
+#: calendar/gui/e-meeting-time-sel.c:646
 msgid "Meeting _start time:"
 msgstr "Mötets _starttid:"
 
-#: calendar/gui/e-meeting-time-sel.c:662
+#: calendar/gui/e-meeting-time-sel.c:665
 msgid "Meeting _end time:"
 msgstr "Mötets slu_ttid:"
 
@@ -10207,11 +10207,11 @@ msgstr "Möten"
 msgid "No appointments"
 msgstr "Inga möten"
 
-#: my-evolution/e-summary-calendar.c:377
+#: my-evolution/e-summary-calendar.c:375
 msgid "%k:%M %d %B"
 msgstr "%k.%M %d %B"
 
-#: my-evolution/e-summary-calendar.c:379
+#: my-evolution/e-summary-calendar.c:377
 msgid "%l:%M %d %B"
 msgstr "%l.%M %d %B"
 
@@ -10224,34 +10224,34 @@ msgstr "E-postsammanfattning"
 #. stations and their codes in Evolution sources.
 #. (evolution/my-evolution/Locations)
 #. Codes are seperated with : eg. "KBOS:EGAA"
-#: my-evolution/e-summary-preferences.c:80
+#: my-evolution/e-summary-preferences.c:81
 #: my-evolution/e-summary-weather.c:661
 msgid "KBOS"
 msgstr "ESGG:ESMS:ESSA:ESNU"
 
-#: my-evolution/e-summary-preferences.c:444
+#: my-evolution/e-summary-preferences.c:445
 msgid "Dictionary.com Word of the Day"
 msgstr "Dagens ord från dictionary.com"
 
-#: my-evolution/e-summary-preferences.c:465
+#: my-evolution/e-summary-preferences.c:466
 msgid "Quotes of the Day"
 msgstr "Dagens citat"
 
 # Detta är inte diskussionsgrupper utan nyheter
-#: my-evolution/e-summary-preferences.c:944
+#: my-evolution/e-summary-preferences.c:945
 msgid "Add a news feed"
 msgstr "Lägg till en nyhetskälla"
 
 # Detta är inte diskussionsgrupper utan nyheter
-#: my-evolution/e-summary-preferences.c:952
+#: my-evolution/e-summary-preferences.c:953
 msgid "Enter the URL of the news feed you wish to add"
 msgstr "Ange URL:en till den nyhetskälla som du vill lägga till"
 
-#: my-evolution/e-summary-preferences.c:956
+#: my-evolution/e-summary-preferences.c:957
 msgid "Name:"
 msgstr "Namn:"
 
-#: my-evolution/e-summary-preferences.c:1502
+#: my-evolution/e-summary-preferences.c:1503
 msgid "Summary Settings"
 msgstr "Sammanfattningsinställningar"
 
@@ -14245,6 +14245,45 @@ msgstr "init_corba(): kunde inte initiera GNOME"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): kunde inte initiera Bonobo"
 
+#~ msgid "_Assistant's name:"
+#~ msgstr "_Assistentens namn:"
+
+#~ msgid "_Address..."
+#~ msgstr "_Adress..."
+
+#~ msgid "_Birthday:"
+#~ msgstr "_Födelsedag:"
+
+#~ msgid "_Department:"
+#~ msgstr "_Avdelning:"
+
+#~ msgid "_Full Name..."
+#~ msgstr "_Fullständigt namn..."
+
+#~ msgid "_Profession:"
+#~ msgstr "_Yrke:"
+
+#~ msgid "_Spouse:"
+#~ msgstr "_Partner:"
+
+#~ msgid "_This is the mailing address"
+#~ msgstr "_Detta är postadressen"
+
+#~ msgid "B_usiness"
+#~ msgstr "F_öretag"
+
+#~ msgid "Business _Fax"
+#~ msgstr "Arbets_fax"
+
+#~ msgid "_Business"
+#~ msgstr "Företa_g"
+
+#~ msgid "_Home"
+#~ msgstr "_Hem"
+
+#~ msgid "_Mobile"
+#~ msgstr "_Mobil"
+
 #~ msgid ""
 #~ "Issuer: %s\n"
 #~ "Subject: %s"
@@ -14267,21 +14306,6 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 #~ msgstr ""
 #~ "Fel vid körning av filen %s:\n"
 #~ "%s"
-
-#~ msgid "B_usiness"
-#~ msgstr "F_öretag"
-
-#~ msgid "Business _Fax"
-#~ msgstr "Arbets_fax"
-
-#~ msgid "_Business"
-#~ msgstr "Företa_g"
-
-#~ msgid "_Home"
-#~ msgstr "_Hem"
-
-#~ msgid "_Mobile"
-#~ msgstr "_Mobil"
 
 #~ msgid "I couldn't remove the item from your calendar file!\n"
 #~ msgstr "Jag kunde inte ta bort objektet från din kalenderfil!\n"
