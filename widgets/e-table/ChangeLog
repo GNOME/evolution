@@ -1,3 +1,7 @@
+2000-08-05  Dan Winship  <danw@helixcode.com>
+
+	* e-table.c (e_table_get_{next,prev}_row_sorted): fix
+
 2000-08-05  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table.c: Added a function to get the next row with sorting

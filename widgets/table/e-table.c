@@ -932,9 +932,9 @@ e_table_get_next_row_sorted      (ETable *e_table,
 	if (e_table->sorter) {
 		int i;
 		i = e_table_sorter_model_to_sorted(e_table->sorter, model_row);
-		if (i < e_table_model_row_count(e_table->model)) {
+		if (i < e_table_model_row_count(e_table->model) - 1) {
 			i++;
-			return e_table_sorter_sorted_to_model(e_table->sorter, model_row);
+			return e_table_sorter_sorted_to_model(e_table->sorter, i);
 		} else
 			return -1;
 	} else
@@ -953,7 +953,7 @@ e_table_get_prev_row_sorted      (ETable *e_table,
 		i = e_table_sorter_model_to_sorted(e_table->sorter, model_row);
 		i--;
 		if (i >= 0)
-			return e_table_sorter_sorted_to_model(e_table->sorter, model_row);
+			return e_table_sorter_sorted_to_model(e_table->sorter, i);
 		else
 			return -1;
 	} else
