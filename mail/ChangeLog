@@ -1,5 +1,8 @@
 2003-12-01  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-composer-utils.c (composer_get_message): rfc2047 encode the
+	Organization header value.
+
 	* em-folder-tree.c (em_folder_tree_get_folder_info__got): Make
 	sure our parent folder hasn't been unsubscribed or else we get a
 	segfault here if it has.

@@ -378,8 +378,13 @@ composer_get_message (EMsgComposer *composer, gboolean post, gboolean save_html_
 		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Account", account->name);
 		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Transport", account->transport->url);
 		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc", account->sent_folder_uri);
-		if (account->id->organization && *account->id->organization)
-			camel_medium_set_header (CAMEL_MEDIUM (message), "Organization", account->id->organization);
+		if (account->id->organization && *account->id->organization) {
+			char *org;
+			
+			org = camel_header_encode_string (account->id->organization);
+			camel_medium_set_header (CAMEL_MEDIUM (message), "Organization", org);
+			g_free (org);
+		}
 	}
 	
 	/* Get the message recipients and 'touch' them, boosting their use scores */
