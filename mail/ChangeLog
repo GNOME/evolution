@@ -1,3 +1,8 @@
+2003-07-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* upgrade-mailer.c: Updated to use the camel-file-utils version of
+	mkdir.
+
 2003-07-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-tools.c (mail_tool_forward_message): Strip the signature

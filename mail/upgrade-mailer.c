@@ -46,7 +46,6 @@
 #include <libxml/tree.h>
 
 #include <camel/camel-file-utils.h>
-#include <camel/camel-store.h>
 
 struct _storeinfo {
 	char *base_url;
@@ -254,7 +253,7 @@ cache_upgrade (struct _storeinfo *si, const char *folder_name)
 	/* make sure all parent directories exist */
 	if ((p = strrchr (newpath, '/'))) {
 		*p = '\0';
-		camel_mkdir_hier (newpath, 0755);
+		camel_mkdir (newpath, 0755);
 		*p = '/';
 	}
 	
@@ -271,7 +270,7 @@ cache_upgrade (struct _storeinfo *si, const char *folder_name)
  special_case_folders:
 	
 	/* the user had a toplevel folder named "folders" */
-	if (camel_mkdir_hier (newpath, 0755) == -1) {
+	if (camel_mkdir (newpath, 0755) == -1) {
 		/* we don't bother to check EEXIST because well, if
                    folders/folders exists then we're pretty much
                    fucked */
@@ -293,7 +292,7 @@ cache_upgrade (struct _storeinfo *si, const char *folder_name)
 		/* make sure all parent directories exist */
 		if ((p = strrchr (new_path, '/'))) {
 			*p = '\0';
-			camel_mkdir_hier (new_path, 0755);
+			camel_mkdir (new_path, 0755);
 			*p = '/';
 		}
 		
