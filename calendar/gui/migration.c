@@ -349,7 +349,7 @@ migrate_ical_folder (char *old_path, ESourceGroup *dest_group, char *source_name
 
 
 #define WEBCAL_BASE_URI "webcal://"
-#define CONTACT_BASE_URI "contact://"
+#define CONTACTS_BASE_URI "contacts://"
 #define PERSONAL_RELATIVE_URI "system"
 
 static ESourceGroup *
@@ -359,7 +359,7 @@ create_calendar_contact_source (ESourceList *source_list)
 	ESource *source;
 	
 	/* Create the contacts group */
-	group = e_source_group_new (_("Contacts"), CONTACT_BASE_URI);
+	group = e_source_group_new (_("Contacts"), CONTACTS_BASE_URI);
 	e_source_list_add_group (source_list, group, -1);
 
 	source = e_source_new (_("Birthdays & Anniversaries"), "/");
@@ -403,7 +403,7 @@ create_calendar_sources (CalendarComponent *component,
 				*on_this_computer = g_object_ref (group);
 			else if (!*on_the_web && !strcmp (WEBCAL_BASE_URI, e_source_group_peek_base_uri (group)))
 				*on_the_web = g_object_ref (group);
-			else if (!*contacts && !strcmp (CONTACT_BASE_URI, e_source_group_peek_base_uri (group)))
+			else if (!*contacts && !strcmp (CONTACTS_BASE_URI, e_source_group_peek_base_uri (group)))
 				*contacts = g_object_ref (group);
 		}
 	}

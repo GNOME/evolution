@@ -1,3 +1,10 @@
+2004-02-12  Chris Toshok  <toshok@ximian.com>
+
+	* gui/migration.c (CONTACTS_BASE_URI): rename from
+	CONTACT_BASE_URI, and change to contacts:// to match e-d-s.
+	(create_calendar_contact_source): CONTACT -> CONTACTS.
+	(create_calendar_sources): same.
+
 2004-02-13  Bruce Tao  <bruce.tao@sun.com>
                                                                                 
         See #51567
