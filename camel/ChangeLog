@@ -1,3 +1,11 @@
+2004-07-14  Jeffrey Stedfast  <fejj@novell.com>
+
+	Fix for bug #61538
+
+	* camel-process.c (camel_process_fork): Same.
+
+	* camel-filter-driver.c (pipe_to_system): Fixed strings
+
 2004-07-12 Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* providers/groupwise/camel-gw-listener.c (add_esource)

@@ -710,7 +710,7 @@ pipe_to_system (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFil
 		_exit (255);
 	} else if (pid < 0) {
 		camel_exception_setv (p->ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Failed to create create child process '%s': %s"),
+				      _("Failed to create child process '%s': %s"),
 				      argv[0]->value.string, g_strerror (errno));
 		return -1;
 	}
