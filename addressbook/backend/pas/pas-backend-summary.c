@@ -66,6 +66,10 @@ typedef struct {
 	char *email_1;
 	char *email_2;
 	char *email_3;
+	gboolean wants_html;
+	gboolean wants_html_set;
+	gboolean list;
+	gboolean list_show_addresses;
 } PASBackendSummaryItem;
 
 typedef struct {
@@ -80,6 +84,10 @@ typedef struct {
 	guint16 email_1_len;
 	guint16 email_2_len;
 	guint16 email_3_len;
+	guint8  wants_html;
+	guint8  wants_html_set;
+	guint8  list;
+	guint8  list_show_addresses;
 } PASBackendSummaryDiskItem;
 
 typedef struct {
@@ -94,8 +102,9 @@ typedef struct {
 #define PAS_SUMMARY_FILE_VERSION_1_0 1000
 #define PAS_SUMMARY_FILE_VERSION_2_0 2000
 #define PAS_SUMMARY_FILE_VERSION_3_0 3000
+#define PAS_SUMMARY_FILE_VERSION_4_0 4000
 
-#define PAS_SUMMARY_FILE_VERSION PAS_SUMMARY_FILE_VERSION_3_0
+#define PAS_SUMMARY_FILE_VERSION PAS_SUMMARY_FILE_VERSION_4_0
 
 static void
 free_summary_item (PASBackendSummaryItem *item)
@@ -131,7 +140,7 @@ pas_backend_summary_new (const char *summary_path, int flush_timeout_millis)
 
 	summary->priv->summary_path = g_strdup (summary_path);
 	summary->priv->flush_timeout_millis = flush_timeout_millis;
-	summary->priv->file_version = PAS_SUMMARY_FILE_VERSION_3_0;
+	summary->priv->file_version = PAS_SUMMARY_FILE_VERSION_4_0;
 
 	return summary;
 }
@@ -296,7 +305,7 @@ pas_backend_summary_load_item (PASBackendSummary *summary,
 	char *buf;
 	FILE *fp = summary->priv->fp;
 
-	if (summary->priv->file_version >= PAS_SUMMARY_FILE_VERSION_3_0) {
+	if (summary->priv->file_version >= PAS_SUMMARY_FILE_VERSION_4_0) {
 		PASBackendSummaryDiskItem disk_item;
 		int rv = fread (&disk_item, sizeof (disk_item), 1, fp);
 		if (rv != 1)
@@ -313,6 +322,11 @@ pas_backend_summary_load_item (PASBackendSummary *summary,
 		disk_item.email_3_len = ntohs (disk_item.email_3_len);
 
 		item = g_new0 (PASBackendSummaryItem, 1);
+
+		item->wants_html = disk_item.wants_html;
+		item->wants_html_set = disk_item.wants_html_set;
+		item->list = disk_item.list;
+		item->list_show_addresses = disk_item.list_show_addresses;
 
 		if (disk_item.id_len) {
 			buf = read_string (fp, disk_item.id_len);
@@ -568,6 +582,11 @@ pas_backend_summary_save_item (PASBackendSummary *summary, FILE *fp, PASBackendS
 	len = item->email_3 ? strlen (item->email_3) : 0;
 	disk_item.email_3_len = htons (len);
 
+	disk_item.wants_html = item->wants_html;
+	disk_item.wants_html_set = item->wants_html_set;
+	disk_item.list = item->list;
+	disk_item.list_show_addresses = item->list_show_addresses;
+
 	rv = fwrite (&disk_item, sizeof(disk_item), 1, fp);
 	if (rv != 1)
 		return FALSE;
@@ -685,7 +704,11 @@ pas_backend_summary_add_card (PASBackendSummary *summary, const char *vcard)
 	new_item->email_1    = e_card_simple_get (simple, E_CARD_SIMPLE_FIELD_EMAIL);
 	new_item->email_2    = e_card_simple_get (simple, E_CARD_SIMPLE_FIELD_EMAIL_2);
 	new_item->email_3    = e_card_simple_get (simple, E_CARD_SIMPLE_FIELD_EMAIL_3);
-	
+	new_item->list       = e_card_evolution_list (card);
+	new_item->list_show_addresses = e_card_evolution_list_show_addresses (card);
+	new_item->wants_html = card->wants_html;
+	new_item->wants_html_set = card->wants_html_set;
+
 	g_ptr_array_add (summary->priv->items, new_item);
 	g_hash_table_insert (summary->priv->id_to_item, new_item->id, new_item);
 
@@ -1043,6 +1066,11 @@ pas_backend_summary_get_summary_vcard(PASBackendSummary *summary, const char *id
 		e_card_simple_set_email (simple, E_CARD_SIMPLE_EMAIL_ID_EMAIL_3, item->email_3);
 
 		e_card_simple_sync_card (simple);
+
+		card->list = item->list;
+		card->wants_html = item->wants_html;
+		card->wants_html_set = item->wants_html_set;
+		card->list_show_addresses = item->list_show_addresses;
 
 		vcard = e_card_simple_get_vcard (simple);
 

@@ -1,3 +1,13 @@
+2002-08-30  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes #27923]
+	* backend/pas/pas-backend-summary.c: up the version to 4_0 (4000).
+	(pas_backend_summary_load_item): handle wants_html{_set}, list,
+	and list_show_addresses.
+	(pas_backend_summary_save_item): same.
+	(pas_backend_summary_add_card): same.
+	(pas_backend_summary_get_summary_vcard): same.
+
 2002-08-29  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-component.c (add_creatable_item): call
