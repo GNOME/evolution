@@ -930,7 +930,10 @@ eti_destroy (GtkObject *object)
 	if (eti->height_cache_idle_id)
 		g_source_remove(eti->height_cache_idle_id);
 
-	free_height_cache(eti);
+	if (eti->height_cache)
+		g_free (eti->height_cache);
+	eti->height_cache = NULL;
+	eti->height_cache_idle_count = 0;
 
 	if (eti->tooltip->window)
 		gtk_widget_destroy (eti->tooltip->window);
