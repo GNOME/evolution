@@ -1,8 +1,0 @@
-.deps
-Makefile
-Makefile.in
-.libs
-*.lo
-*.la
-test-crlf
-test-charset
