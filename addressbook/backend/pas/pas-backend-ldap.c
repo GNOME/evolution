@@ -9,10 +9,10 @@
 #define DEBUG
 
 #include "config.h"  
+#include <gtk/gtksignal.h>
 #include <fcntl.h>
 #include <time.h>
 #include <lber.h>
-#include <gtk/gtksignal.h>
 
 #ifdef DEBUG
 #define LDAP_DEBUG
@@ -39,13 +39,12 @@
 #include "ldap_schema.h"
 #endif
 
-#include <e-util/e-sexp.h>
-#include <ebook/e-card-simple.h>
-
 #include "pas-backend-ldap.h"
 #include "pas-book.h"
 #include "pas-card-cursor.h"
 
+#include <e-util/e-sexp.h>
+#include <ebook/e-card-simple.h>
 
 #define LDAP_MAX_SEARCH_RESPONSES 100
 
@@ -81,6 +80,8 @@ struct _PASBackendLDAPPrivate {
            to store all our additional fields */
 	gboolean evolutionPersonSupported;
 	gboolean evolutionPersonChecked;
+
+	gboolean writable;
 
 	/* whether or not there's a request in process on our LDAP* */
 	LDAPOp *current_op;
@@ -2037,8 +2038,8 @@ pas_backend_ldap_process_authenticate_user (PASBackend *backend,
 	pas_book_respond_authenticate_user (book,
 				    ldap_error_to_response (ldap_error));
 
-	if (ldap_error == LDAP_SUCCESS)
-		pas_book_report_writable (book, TRUE);
+	bl->priv->writable = (ldap_error == LDAP_SUCCESS);
+	pas_book_report_writable (book, bl->priv->writable);
 
 	if (!bl->priv->evolutionPersonChecked)
 		check_schema_support (bl);
@@ -2237,6 +2238,8 @@ pas_backend_ldap_add_client (PASBackend             *backend,
 		pas_book_respond_open (
 			book, GNOME_Evolution_Addressbook_BookListener_Success);
 	}
+
+	pas_book_report_writable (book, bl->priv->writable);
 
 	return TRUE;
 }

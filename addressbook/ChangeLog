@@ -1,3 +1,9 @@
+2001-04-11  Chris Toshok <toshok@ximian.com>
+
+        * backend/pas/pas-backend-ldap.c (pas_backend_ldap_add_client):
+        make sure to notify new clients to the writable status of an
+        already open (and authenticated) book.
+
 2001-04-11  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/pas/pas-backend-file.c: Send report_writable signal to
