@@ -41,7 +41,7 @@
 #include <camel/camel-operation.h>
 
 #include "camel-private.h"
-#include "e-util/e-memory.h"
+#include "libedataserver/e-memory.h"
 #include "camel-i18n.h"
 
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/

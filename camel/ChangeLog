@@ -1,166 +1,61 @@
-2004-12-01  Mengjie Yu  <meng-jie.yu@sun.com>
+2004-11-16  Not Zed  <NotZed@Ximian.com>
 
-	* providers/imap/camel-imap-provider.c:add mnemonic for checkboxes.
+	* camel-lock-helper.c (g_strerror): have our own so we don't need
+	to link with glib.
 
-2004-12-01  Not Zed  <NotZed@Ximian.com>
+	* providers/*/Makefile.am: Do not install ANY provider header
+	files.  No providers are subclassable.  No providers are directly
+	linkable.
 
-	** See bug #69776.
+	* camel.pc.in: create package config file.
 
-	* camel-multipart-signed.c (parse_boundary): take end of data
-	argument, so it handles binary data.  Use a binary data string
-	search rather than strstr.
-	(parse_content): dont bother to append a \0 on the end of the
-	data, not binary capable.
+	* tests/lib/folders.c (test_folder_message_ops): updated counts for
+	delete also marking unread.
 
-2004-11-23  Not Zed  <NotZed@Ximian.com>
+	* tests/lib/camel-test.c (camel_test_provider_init): new api for
+	initialising test system 'in-build'.
 
-	** See bug #69615.
+	* camel-provider.c: remove the assertions, init if we need to,k
+	use pthread_once stuff to serialise it.
 
-	* camel-smime-context.c (sm_get_passwd): removed.  All callers
-	that passed it now pass NULL.  This is so we don't override the
-	password function set by e-cert-db.  Seems to work ok, I think.
+	* tests/folder/test3.c (main): remove gtk stuff (???).
 
-2004-11-22  Not Zed  <NotZed@Ximian.com>
+	* tests/*: Fix all the makefiles.  Made make-check work 'in-build'.
 
-	** See bug #69109.
+	* tests/lib/folders.c (test_folder_counts): update for api changes.
+	(test_message_info): similar.
 
-	* providers/smtp/camel-smtp-transport.c (smtp_helo): if we have
-	ipv6 address and it is numeric, prefix it with "IPv6:"
+	* providers/Makefile.am: removed groupwise from the build, this
+	can't go in here anymore, not in its current state.
 
-2004-11-30  Not Zed  <NotZed@Ximian.com>
+	* camel-net-utils.c (camel_gethostbyaddr_r)
+	(camel_gethostbyname_r): the old e_gethost* calls from
+	e-host-utils.c.
 
-	* providers/nntp/camel-nntp-stream.c (CAMEL_NNTP_STREAM_LINE):
-	rename to STREAM_LINE_SIZE so it doesn't override the STREAM_LINE
-	enum.  Sigh.
-	(camel_nntp_stream_init): fix for above change.
+2004-11-15  Not Zed  <NotZed@Ximian.com>
 
-2004-11-28	S.Çağlar Onur <caglar@uludag.org.tr>
+	* providers/imap/camel-imap-utils.c (imap_path_to_physical):
+	copied from e-path.c.
+	(imap_path_find_folders): copied from e-path.c.
 
-	** See bug #69446.
+	* camel.h: remove the provider stuff from the header.
 
-	* evolution-2.0.2/camel/camel-charset-map.c (camel_charset_iso_to_windows)
-	* evolution-2.0.2/camel/camel-filter-search.c (check_header)
-	* evolution-2.0.2/camel/camel-folder-search.c (check_header)
-	* evolution-2.0.2/camel/camel-folder-summary.c (message_info_new,summary_build_content_info,camel_system_flag)
-	* evolution-2.0.2/camel/camel-html-parser.c (camel_html_parser_attr)
-	* evolution-2.0.2/camel/camel-mime-filter-enriched.c (param_parse,camel_mime_filter_enriched_init)
-	* evolution-2.0.2/camel/camel-mime-parser.c (folder_scan_step,main)
-	* evolution-2.0.2/camel/camel-mime-utils.c (camel_header_param,camel_header_set_param,camel_content_type_is,camel_transfer_encoding_from_string,camel_content_type_format,camel_content_type_simple,camel_header_decode_date,header_raw_find_node)
-	* evolution-2.0.2/camel/camel-sasl-digest-md5.c (decode_data_type)
-	* evolution-2.0.2/camel/providers/imap/camel-imap-command.c (camel_imap_response_free)
-	* evolution-2.0.2/camel/providers/imap/camel-imap-folder.c (camel_imap_folder_new,camel_imap_folder_selected,imap_refresh_info,camel_imap_folder_new,camel_imap_folder_selected)
-	* evolution-2.0.2/camel/providers/imap/camel-imap-store.c (imap_get_capability,imap_connect_online,get_folder_online,get_folder_offline,get_subscribed_folders,folder_hash,get_folders)
-	* evolution-2.0.2/camel/providers/pop3/camel-pop3-store.c (get_folder)
-	* evolution-2.0.2/camel/tests/lib/folders.c: (test_folder_message_ops)
-	some strcasecmp() calls changed with g_ascii_strcasecmp() for Turkish 
-	character conversiton problems [ http://www.i18nguy.com/unicode/turkish-i18n.html ]
+	* camel-provider.c: globalise provider_init variable, and asserton
+	it in all functions that rely on it.
 
-2004-10-12  Radek Doulik  <rodo@ximian.com>
+	* camel-service.c: removed getaddrinfo/etc.
 
-	* camel-junk-plugin.c: new init method implementation
+	* camel-net-utils.[ch]: separate out camel_getaddrinfo etc.
 
-	* camel-junk-plugin.h: added junk plugin init declaration
+	* Makefile.am: split camel into 2 libraries, libcamel and
+	libcamel-store.
 
-2004-11-10  Not Zed  <NotZed@Ximian.com>
+	* camel-multipart-signed.c (camel_multipart_signed_sign)
+	(camel_multipart_signed_verify, prepare_sign): remove old
+	deprecated api.
 
-	** See bug #69109.
-	
-	* camel-service.c (cs_getnameinfo): honour the NI_NAMEREQD flag.
-
-	* providers/smtp/camel-smtp-transport.c (smtp_helo): change the
-	nameinfo flags a bit so we know when we got a numeric name and
-	need to wrap it in [].
-
-2004-11-21 Sivaiah Nallagatla <snallagatla@novell.com>
-	
-	* providers/groupwise/camel-groupwise-provider.c : added 
-	a setting to mark the account for offline usuage 
-
-	* providers/groupwise/came-gw-listener.c 
-	(add_esource) (modify_esource) : changed the prototypes
-	to pass CamelUrl instead of individual properties 
-	Add offline_sync property on e-sources if account is 
-	marked for offline
-
-2004-11-18  Not Zed  <NotZed@Ximian.com>
-
-	* providers/nntp/camel-nntp-stream.c:
-	* providers/nntp/camel-nntp-store.c:
-	* providers/nntp/camel-nntp-summary.c: Make debug run based on
-	'nntp' debug option.
-
-	* providers/nntp/camel-nntp-stream.c (stream_fill): if we get a 0
-	read, return ECONNRESET.  This should really have been put on the
-	stream for that imap hack fix.
-
-	* providers/nntp/camel-nntp-store.c (camel_nntp_try_authenticate):
-	retry if the password attempt failed.
-
-	** See bug #68556.
-
-	* providers/nntp/camel-nntp-store.c (xover_setup): don't overwrite
-	exception if we get a failure.
-	(camel_nntp_command): if we continue, then set the return code to
-	-1, so we re-loop rather than abort.
-
-2004-11-15  Jeffrey Stedfast  <fejj@novell.com>
-
-	* providers/pop3/camel-pop3-store.c (connect_to_server_wrapper):
-	In the fallback cases, clear the exception first.
-
-	* providers/imap/camel-imap-store.c (connect_to_server_wrapper):
-	In the fallback cases, clear the exception first.
-
-	* providers/imap4/camel-imap4-store.c (connect_to_server_wrapper):
-	In the fallback cases, clear the exception first.
-
-2004-11-15  Jeffrey Stedfast  <fejj@novell.com>
-
-	* providers/imap/camel-imap-store.c (connect_to_server): Use
-	camel_tcp_stream_ssl_new_raw() for STARTTLS stream.
-
-	* providers/imap4/camel-imap4-store.c (connect_to_server): Use
-	camel_tcp_stream_ssl_new_raw() for STARTTLS stream.
-
-	* providers/pop3/camel-pop3-store.c: Change default port numbers
-	to be correct (they shouldn't all be the pop3s port).
-	(connect_to_server): Moved the last tcp_stream unref to afetr the
-	last fail-check so that we won't ever get a double-unref on
-	something we only own one ref on.
-	(connect_to_server): Unref the tcp_stream if we fail to create an
-	engine object before returning fail.
-	(connect_to_server): Use camel_tcp_stream_ssl_new_raw() for
-	STARTTLS stream.
-
-	* providers/imap4/camel-imap4-stream.c (camel_imap4_stream_line):
-	Fix bug #69408 by filling our input buffer if inptr == inend.
-
-2004-11-13  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* providers/imap4/camel-imap4-engine.c
-	(camel_imap4_engine_parse_resp_code): Handle numeric tokens for
-	the COPYUID set values as well.
-
-2004-11-12  Jeffrey Stedfast  <fejj@novell.com>
-
-	* providers/imap4/camel-imap4-summary.c (camel_imap4_summary_new):
-	Folder now gets set on the CamelFolderSummary object rather than
-	the CamelIMAP4Summary.
-	(imap4_fetch_all_update): Base summary class now has a folder
-	member, use that instead.
-	(imap4_fetch_all_add): Same.
-	(imap4_summary_fetch_all): Same.
-	(imap4_summary_fetch_flags): Same.
-	(camel_imap4_summary_set_uidvalidity): Same.
-	(camel_imap4_summary_expunge): Same.
-	(camel_imap4_summary_flush_updates): Same.
-
-	* providers/imap4/camel-imap4-folder.c (imap4_append_message):
-	Init appended_uid value to NULL
-
-	* providers/imap4/camel-imap4-engine.c (engine_parse_namespace):
-	Properly handle NILs for the namespace separator (somehow I missed
-	this, silly me).
+	* camel-multipart-encrypted.c (camel_multipart_encrypted_encrypt) 
+	(camel_multipart_encrypted_decrypt): remove old deprecated api.
 
 2004-11-12  Not Zed  <NotZed@Ximian.com>
 

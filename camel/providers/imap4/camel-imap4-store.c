@@ -35,6 +35,7 @@
 #include <camel/camel-private.h>
 
 #include <camel/camel-i18n.h>
+#include <camel/camel-net-utils.h>
 
 #include "camel-imap4-store.h"
 #include "camel-imap4-engine.h"
@@ -225,7 +226,7 @@ connect_to_server (CamelIMAP4Engine *engine, struct addrinfo *ai, int ssl_mode, 
 	if (ssl_mode != MODE_CLEAR) {
 #ifdef HAVE_SSL
 		if (ssl_mode == MODE_TLS) {
-			tcp_stream = camel_tcp_stream_ssl_new_raw (service->session, service->url->host, STARTTLS_FLAGS);
+			tcp_stream = camel_tcp_stream_ssl_new (service->session, service->url->host, STARTTLS_FLAGS);
 		} else {
 			tcp_stream = camel_tcp_stream_ssl_new (service->session, service->url->host, SSL_PORT_FLAGS);
 		}
@@ -319,8 +320,8 @@ connect_to_server_wrapper (CamelIMAP4Engine *engine, CamelException *ex)
 	struct addrinfo *ai, hints;
 	const char *ssl_mode;
 	int mode, ret, i;
-	const char *port;
 	char *serv;
+	const char *port;
 	
 	if ((ssl_mode = camel_url_get_param (service->url, "use_ssl"))) {
 		for (i = 0; ssl_options[i].value; i++)
@@ -352,13 +353,10 @@ connect_to_server_wrapper (CamelIMAP4Engine *engine, CamelException *ex)
 	if (ai == NULL)
 		return FALSE;
 	
-	if (!(ret = connect_to_server (engine, ai, mode, ex)) && mode == MODE_SSL) {
-		camel_exception_clear (ex);
+	if (!(ret = connect_to_server (engine, ai, mode, ex)) && mode == MODE_SSL)
 		ret = connect_to_server (engine, ai, MODE_TLS, ex);
-	} else if (!ret && mode == MODE_TLS) {
-		camel_exception_clear (ex);
+	else if (!ret && mode == MODE_TLS)
 		ret = connect_to_server (engine, ai, MODE_CLEAR, ex);
-	}
 	
 	camel_freeaddrinfo (ai);
 	

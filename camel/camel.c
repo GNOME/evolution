@@ -87,7 +87,6 @@ camel_init (const char *configdir, gboolean nss_init)
 
 	camel_mime_utils_init();
 	camel_operation_init();
-	camel_provider_init();
 
 #ifdef HAVE_NSS
 	if (nss_init) {

@@ -4,7 +4,6 @@ INCLUDES =						\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/widgets/e-text			\
 	-I$(top_srcdir)/widgets/misc			\
-	-I$(top_srcdir)/camel				\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/composer			\
 	-I$(top_builddir)/composer			\
@@ -146,17 +145,11 @@ libevolution_mail_la_SOURCES =			\
 	em-vfolder-rule.h			\
 	em-vfs-stream.c				\
 	em-vfs-stream.h				\
-	mail-account-editor.c			\
-	mail-account-editor.h			\
-	mail-account-gui.c			\
-	mail-account-gui.h			\
 	mail-autofilter.c			\
 	mail-autofilter.h			\
 	mail-component-factory.c		\
 	mail-component.c			\
 	mail-component.h			\
-	mail-config-druid.c			\
-	mail-config-druid.h			\
 	mail-config-factory.c			\
 	mail-config-factory.h			\
 	mail-config.c				\
@@ -196,7 +189,6 @@ endif
 libevolution_mail_la_LIBADD =					\
 	$(top_builddir)/shell/importer/libevolution-importer.la	\
 	$(top_builddir)/mail/importers/libevolution-mail-importers.la\
-	$(top_builddir)/camel/libcamel.la			\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/composer/libcomposer.la			\

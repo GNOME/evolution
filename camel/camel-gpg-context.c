@@ -46,7 +46,7 @@
 #include <errno.h>
 #include <ctype.h>
 
-#include "gal/util/e-iconv.h"
+#include "libedataserver/e-iconv.h"
 
 #include "camel-gpg-context.h"
 #include "camel-mime-filter-charset.h"

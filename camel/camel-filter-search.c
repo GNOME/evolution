@@ -42,9 +42,8 @@
 #include <signal.h>
 #include <sys/wait.h>
 
-#include <e-util/e-sexp.h>
-
-#include <gal/util/e-iconv.h>
+#include <libedataserver/e-sexp.h>
+#include <libedataserver/e-iconv.h>
 
 #include "camel-mime-message.h"
 #include "camel-provider.h"
@@ -152,7 +151,7 @@ check_header (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMess
 		CamelContentType *ct;
 		const char *charset = NULL;
 		
-		if (g_ascii_strcasecmp(name, "x-camel-mlist") == 0) {
+		if (strcasecmp(name, "x-camel-mlist") == 0) {
 			header = camel_message_info_mlist(fms->info);
 			type = CAMEL_SEARCH_TYPE_MLIST;
 		} else {
@@ -160,7 +159,7 @@ check_header (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMess
 			
 			header = camel_medium_get_header (CAMEL_MEDIUM (message), argv[0]->value.string);
 			/* FIXME: what about Resent-To, Resent-Cc and Resent-From? */
-			if (g_ascii_strcasecmp("to", name) == 0 || g_ascii_strcasecmp("cc", name) == 0 || g_ascii_strcasecmp("from", name) == 0)
+			if (strcasecmp("to", name) == 0 || strcasecmp("cc", name) == 0 || strcasecmp("from", name) == 0)
 				type = CAMEL_SEARCH_TYPE_ADDRESS_ENCODED;
 			else {
 				ct = camel_mime_part_get_content_type (CAMEL_MIME_PART (message));

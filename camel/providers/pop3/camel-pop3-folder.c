@@ -39,7 +39,7 @@
 #include "camel-data-cache.h"
 #include "camel-i18n.h"
 
-#include <e-util/md5-utils.h>
+#include <libedataserver/md5-utils.h>
 
 #include <stdlib.h>
 #include <string.h>

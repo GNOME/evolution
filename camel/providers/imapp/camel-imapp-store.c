@@ -57,6 +57,7 @@
 #include "camel-imapp-exception.h"
 #include "camel-imapp-utils.h"
 #include "camel-imapp-driver.h"
+#include "camel-net-utils.h"
 
 /* Specified in RFC 2060 section 2.1 */
 #define IMAP_PORT 143

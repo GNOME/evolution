@@ -43,7 +43,6 @@
 #include <camel/camel-mime-parser.h>
 #include <camel/camel-exception.h>
 #include <camel/camel-stream-mem.h>
-#include <e-util/e-path.h>
 
 #include "mail/mail-mt.h"
 #include "mail/mail-component.h"

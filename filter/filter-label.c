@@ -37,7 +37,7 @@
 #include <libgnomeui/gnome-file-entry.h>
 
 #include "filter-label.h"
-#include "e-util/e-sexp.h"
+#include <libedataserver/e-sexp.h>
 
 #define d(x) 
 

@@ -72,7 +72,7 @@
 /* should this be in e-util rather than gal? */
 #include <gal/util/e-util.h>
 
-#include <e-util/e-msgport.h>
+#include <libedataserver/e-msgport.h>
 #include <e-util/e-gui-utils.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-icon-factory.h>
@@ -833,6 +833,7 @@ static gboolean
 efhd_xpkcs7mime_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
 {
 	GtkWidget *icon, *button;
+	GdkPixbuf *pixbuf;
 	struct _smime_pobject *po = (struct _smime_pobject *)pobject;
 	const char *name;
 
@@ -842,7 +843,10 @@ efhd_xpkcs7mime_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	else
 		name = smime_encrypt_table[po->valid->encrypt.status].icon;
 
-	icon = e_icon_factory_get_image (name, E_ICON_SIZE_LARGE_TOOLBAR);
+	pixbuf = e_icon_factory_get_icon (name, E_ICON_SIZE_LARGE_TOOLBAR);
+	
+	icon = gtk_image_new_from_pixbuf (pixbuf);
+	g_object_unref(pixbuf);
 	gtk_widget_show(icon);
 
 	button = gtk_button_new();
@@ -1213,7 +1217,6 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 		{ NULL, 0, 0 },
 		{ "text/uri-list", 0, 1 },
 	};
-	AtkObject *a11y;
 
 	/* FIXME: handle default shown case */
 	d(printf("adding attachment button/content\n"));
@@ -1293,11 +1296,6 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	button = gtk_button_new();
 	/*GTK_WIDGET_UNSET_FLAGS(button, GTK_CAN_FOCUS);*/
 	gtk_container_add((GtkContainer *)button, gtk_arrow_new(GTK_ARROW_DOWN, GTK_SHADOW_NONE));
-
-	a11y = gtk_widget_get_accessible (button);
-	atk_object_set_name (a11y, _("Attachment Button"));
-
-
 	g_signal_connect(button, "button_press_event", G_CALLBACK(efhd_attachment_popup), info);
 	g_signal_connect(button, "popup_menu", G_CALLBACK(efhd_attachment_popup_menu), info);
 	g_signal_connect(button, "clicked", G_CALLBACK(efhd_attachment_popup_menu), info);

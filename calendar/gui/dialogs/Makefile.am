@@ -30,6 +30,9 @@ INCLUDES = 								\
 
 noinst_LTLIBRARIES = libcal-dialogs.la
 
+libcal_dialogs_la_LIBADD =					\
+	$(top_builddir)/addressbook/util/libeabutil.la
+
 libcal_dialogs_la_SOURCES =	\
 	$(IDL_GENERATED)	\
 	alarm-dialog.c		\

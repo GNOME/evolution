@@ -45,7 +45,7 @@
 #include "camel-session.h"
 #include "camel-exception.h"
 #include "camel-url.h"
-#include "e-util/md5-utils.h"
+#include "libedataserver/md5-utils.h"
 #include "camel-pop3-engine.h"
 #include "camel-sasl.h"
 #include "camel-data-cache.h"
@@ -55,6 +55,7 @@
 #include "camel-tcp-stream-ssl.h"
 #endif
 #include "camel-i18n.h"
+#include "camel-net-utils.h"
 
 /* Specified in RFC 1939 */
 #define POP3_PORT "110"
@@ -157,7 +158,7 @@ connect_to_server (CamelService *service, struct addrinfo *ai, int ssl_mode, Cam
 	if (ssl_mode != MODE_CLEAR) {
 #ifdef HAVE_SSL
 		if (ssl_mode == MODE_TLS) {
-			tcp_stream = camel_tcp_stream_ssl_new_raw (service->session, service->url->host, STARTTLS_FLAGS);
+			tcp_stream = camel_tcp_stream_ssl_new (service->session, service->url->host, STARTTLS_FLAGS);
 		} else {
 			tcp_stream = camel_tcp_stream_ssl_new (service->session, service->url->host, SSL_PORT_FLAGS);
 		}
@@ -200,7 +201,7 @@ connect_to_server (CamelService *service, struct addrinfo *ai, int ssl_mode, Cam
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Failed to read a valid greeting from POP server %s"),
 				      service->url->host);
-		camel_object_unref (tcp_stream);
+		
 		return FALSE;
 	}
 	
@@ -236,14 +237,14 @@ connect_to_server (CamelService *service, struct addrinfo *ai, int ssl_mode, Cam
 	/* Okay, now toggle SSL/TLS mode */
 	ret = camel_tcp_stream_ssl_enable_ssl (CAMEL_TCP_STREAM_SSL (tcp_stream));
 	
+	camel_object_unref (CAMEL_OBJECT (tcp_stream));
+	
 	if (ret == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Failed to connect to POP server %s in secure mode: %s"),
 				      service->url->host, _("SSL negotiations failed"));
 		goto stls_exception;
 	}
-	
-	camel_object_unref (tcp_stream);
 	
 	/* rfc2595, section 4 states that after a successful STLS
            command, the client MUST discard prior CAPA responses */
@@ -275,9 +276,9 @@ static struct {
 } ssl_options[] = {
 	{ "",              "pop3s", POP3S_PORT, MODE_SSL   },  /* really old (1.x) */
 	{ "always",        "pop3s", POP3S_PORT, MODE_SSL   },
-	{ "when-possible", "pop3",  POP3_PORT,  MODE_TLS   },
-	{ "never",         "pop3",  POP3_PORT,  MODE_CLEAR },
-	{ NULL,            "pop3",  POP3_PORT,  MODE_CLEAR },
+	{ "when-possible", "pop3",  POP3S_PORT, MODE_TLS   },
+	{ "never",         "pop3",  POP3S_PORT, MODE_CLEAR },
+	{ NULL,            "pop3",  POP3S_PORT, MODE_CLEAR },
 };
 
 static gboolean
@@ -319,13 +320,10 @@ connect_to_server_wrapper (CamelService *service, CamelException *ex)
 	if (ai == NULL)
 		return FALSE;
 	
-	if (!(ret = connect_to_server (service, ai, mode, ex)) && mode == MODE_SSL) {
-		camel_exception_clear (ex);
+	if (!(ret = connect_to_server (service, ai, mode, ex)) && mode == MODE_SSL)
 		ret = connect_to_server (service, ai, MODE_TLS, ex);
-	} else if (!ret && mode == MODE_TLS) {
-		camel_exception_clear (ex);
+	else if (!ret && mode == MODE_TLS)
 		ret = connect_to_server (service, ai, MODE_CLEAR, ex);
-	}
 	
 	camel_freeaddrinfo (ai);
 	
@@ -629,7 +627,7 @@ pop3_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 static CamelFolder *
 get_folder (CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex)
 {
-	if (g_ascii_strcasecmp (folder_name, "inbox") != 0) {
+	if (strcasecmp (folder_name, "inbox") != 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID,
 				      _("No such folder `%s'."), folder_name);
 		return NULL;

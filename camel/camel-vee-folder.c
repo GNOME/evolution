@@ -40,10 +40,10 @@
 #include "camel-debug.h"
 #include "camel-i18n.h"
 
-#include "e-util/md5-utils.h"
+#include "libedataserver/md5-utils.h"
 
 #if defined (DOEPOOLV) || defined (DOESTRV)
-#include "e-util/e-memory.h"
+#include "libedataserver/e-memory.h"
 #endif
 
 #define d(x) 

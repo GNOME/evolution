@@ -27,7 +27,7 @@
 #include <camel/camel-exception.h>
 
 /* FIXME: camelise */
-#include "e-util/e-msgport.h"
+#include "libedataserver/e-msgport.h"
 
 struct _CamelStream;
 struct _CamelMimePart;

@@ -36,8 +36,8 @@
 
 #include "camel-file-utils.h"
 
-#include "e-util/md5-utils.h"
-#include "e-util/e-memory.h"
+#include "libedataserver/md5-utils.h"
+#include "libedataserver/e-memory.h"
 
 #include "camel-private.h"
 #include "camel-url.h"

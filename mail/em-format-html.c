@@ -31,9 +31,9 @@
 #include <fcntl.h>
 #include <ctype.h>
 
-#include <gal/util/e-iconv.h>
-#include <gal/util/e-util.h>	/* for e_utf8_strftime, what about e_time_format_time? */
-#include "e-util/e-time-utils.h"
+#include <libedataserver/e-iconv.h>
+#include <libedataserver/e-util.h>	/* for e_utf8_strftime, what about e_time_format_time? */
+#include <libedataserver/e-time-utils.h>
 #include "e-util/e-icon-factory.h"
 
 #include <gtkhtml/gtkhtml.h>
@@ -59,7 +59,7 @@
 #include <camel/camel-data-cache.h>
 #include <camel/camel-file-utils.h>
 
-#include <e-util/e-msgport.h>
+#include <libedataserver/e-msgport.h>
 
 #include "mail-component.h"
 #include "mail-config.h"
@@ -69,7 +69,7 @@
 #include "em-html-stream.h"
 #include "em-utils.h"
 
-#define d(x)
+#define d(x) 
 
 #define EFH_TABLE_OPEN "<table>"
 
@@ -1165,55 +1165,43 @@ static void efh_format_do(struct _mail_msg *mm)
 		em_format_format_message((EMFormat *)m->format, (CamelStream *)m->estream, (CamelMedium *)m->message);
 	}
 
-	camel_stream_flush((CamelStream *)m->estream);
+	camel_stream_write_string((CamelStream *)m->estream, "</body>\n</html>\n");
+	camel_stream_close((CamelStream *)m->estream);
+	camel_object_unref(m->estream);
+	m->estream = NULL;
 
 	puri_level = ((EMFormat *)m->format)->pending_uri_level;
 	base = ((EMFormat *)m->format)->base;
 
-	do {
-		/* now dispatch any added tasks ... */
-		g_mutex_lock(m->format->priv->lock);
-		while ((job = (struct _EMFormatHTMLJob *)e_dlist_remhead(&m->format->priv->pending_jobs))) {
-			g_mutex_unlock(m->format->priv->lock);
-
-			/* This is an implicit check to see if the gtkhtml has been destroyed */
-			if (!cancelled)
-				cancelled = m->format->html == NULL;
-
-			/* Now do an explicit check for user cancellation */
-			if (!cancelled)
-				cancelled = camel_operation_cancel_check(NULL);
-
-			/* call jobs even if cancelled, so they can clean up resources */
-			((EMFormat *)m->format)->pending_uri_level = job->puri_level;
-			if (job->base)
-				((EMFormat *)m->format)->base = job->base;
-			job->callback(job, cancelled);
-			((EMFormat *)m->format)->base = base;
-
-			/* clean up the job */
-			camel_object_unref(job->stream);
-			if (job->base)
-				camel_url_free(job->base);
-			g_free(job);
-
-			g_mutex_lock(m->format->priv->lock);
-		}
+	/* now dispatch any added tasks ... */
+	g_mutex_lock(m->format->priv->lock);
+	while ((job = (struct _EMFormatHTMLJob *)e_dlist_remhead(&m->format->priv->pending_jobs))) {
 		g_mutex_unlock(m->format->priv->lock);
 
-		if (m->estream) {
-			/* Closing this base stream can queue more jobs, so we need
-			   to check the list again after we've finished */
-			d(printf("out of jobs, closing root stream\n"));
-			camel_stream_write_string((CamelStream *)m->estream, "</body>\n</html>\n");
-			camel_stream_close((CamelStream *)m->estream);
-			camel_object_unref(m->estream);
-			m->estream = NULL;
-		}
+		/* This is an implicit check to see if the gtkhtml has been destroyed */
+		if (!cancelled)
+			cancelled = m->format->html == NULL;
 
-		/* e_dlist_empty is atomic and doesn't need locking */
-	} while (!e_dlist_empty(&m->format->priv->pending_jobs));
+		/* Now do an explicit check for user cancellation */
+		if (!cancelled)
+			cancelled = camel_operation_cancel_check(NULL);
 
+		/* call jobs even if cancelled, so they can clean up resources */
+		((EMFormat *)m->format)->pending_uri_level = job->puri_level;
+		if (job->base)
+			((EMFormat *)m->format)->base = job->base;
+		job->callback(job, cancelled);
+		((EMFormat *)m->format)->base = base;
+
+		/* clean up the job */
+		camel_object_unref(job->stream);
+		if (job->base)
+			camel_url_free(job->base);
+		g_free(job);
+
+		g_mutex_lock(m->format->priv->lock);
+	}
+	g_mutex_unlock(m->format->priv->lock);
 	d(printf("out of jobs, done\n"));
 
 	((EMFormat *)m->format)->pending_uri_level = puri_level;

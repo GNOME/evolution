@@ -45,7 +45,7 @@
 #include <gal/widgets/e-categories-master-list-option-menu.h>
 #include <gal/e-text/e-entry.h>
 #include <e-util/e-categories-master-list-wombat.h>
-#include "e-util/e-sexp.h"
+#include <libedataserver/e-sexp.h>
 
 static void  e_select_names_init       (ESelectNames		 *names);
 static void  e_select_names_class_init (ESelectNamesClass	 *klass);

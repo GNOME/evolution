@@ -17,8 +17,8 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-#include "e-util/e-msgport.h"
-#include "e-util/e-memory.h"
+#include "libedataserver/e-msgport.h"
+#include "libedataserver/e-memory.h"
 
 #include "camel/camel-object.h"
 

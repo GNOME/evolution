@@ -88,6 +88,11 @@ char *imap_namespace_concat (CamelImapStore *store, const char *name);
 char *imap_mailbox_encode (const unsigned char *in, size_t inlen);
 char *imap_mailbox_decode (const unsigned char *in, size_t inlen);
 
+typedef gboolean (*IMAPPathFindFoldersCallback) (const char *physical_path, const char *path, gpointer user_data);
+
+char *imap_path_to_physical (const char *prefix, const char *vpath);
+gboolean imap_path_find_folders (const char *prefix, IMAPPathFindFoldersCallback callback, gpointer data);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

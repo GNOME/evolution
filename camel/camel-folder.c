@@ -33,7 +33,7 @@
 #include "camel-store.h"
 #include "camel-mime-message.h"
 #include "camel-debug.h"
-#include "e-util/e-memory.h"
+#include "libedataserver/e-memory.h"
 #include "camel-operation.h"
 #include "camel-session.h"
 #include "camel-filter-driver.h"

@@ -1,7 +1,7 @@
-2004-11-26  JP Rosevear  <jpr@novell.com>
+2004-11-15  Not Zed  <NotZed@Ximian.com>
 
-	* e-msg-composer.c (create_composer): get image from icon factory
-	directly
+	* e-msg-composer.c (handle_multipart_encrypted): remove the old
+	camel_multipart_encrypted api.
 
 2004-10-28  Not Zed  <NotZed@Ximian.com>
 

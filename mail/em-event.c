@@ -30,7 +30,7 @@
 #include <glib.h>
 
 #include "em-event.h"
-#include "e-util/e-msgport.h"
+#include "libedataserver/e-msgport.h"
 #include <e-util/e-icon-factory.h>
 
 #include <camel/camel-store.h>

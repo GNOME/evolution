@@ -38,8 +38,8 @@
 
 #include "e-searching-tokenizer.h"
 
-#include "e-util/e-memory.h"
-#include "e-util/e-msgport.h"
+#include "libedataserver/e-memory.h"
+#include "libedataserver/e-msgport.h"
 
 #define d(x) 
 

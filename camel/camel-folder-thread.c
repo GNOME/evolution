@@ -35,7 +35,7 @@
 #include <glib.h>
 
 #include "camel-folder-thread.h"
-#include "e-util/e-memory.h"
+#include "libedataserver/e-memory.h"
 
 #define d(x) 
 #define m(x) 

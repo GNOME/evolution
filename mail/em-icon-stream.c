@@ -34,7 +34,7 @@
 #include <gtk/gtkimage.h>
 #include "em-icon-stream.h"
 
-#include "e-util/e-msgport.h"
+#include "libedataserver/e-msgport.h"
 
 #define d(x) 
 

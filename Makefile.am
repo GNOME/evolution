@@ -7,7 +7,6 @@ changelogs =				\
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = 				\
-	camel-$(BASE_VERSION).pc		\
 	evolution-shell-$(BASE_VERSION).pc
 
 EXTRA_DIST = 			\
@@ -37,7 +36,6 @@ SUBDIRS = 			\
 	a11y			\
         widgets                 \
         shell                   \
-	camel			\
 	filter			\
 	$(SMIME_DIR)		\
 	addressbook		\

@@ -12,6 +12,7 @@ if ENABLE_IMAP4
 IMAP4_DIR=imap4
 endif
 
-SUBDIRS = pop3 sendmail smtp imap $(NNTP_DIR) local $(IMAPP_DIR) $(IMAP4_DIR) groupwise
+SUBDIRS = pop3 sendmail smtp imap $(NNTP_DIR) local $(IMAPP_DIR) $(IMAP4_DIR)
+# groupwise
 
 

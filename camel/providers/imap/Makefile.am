@@ -1,7 +1,5 @@
 ## Process this file with automake to produce Makefile.in
 
-libcamelimapincludedir = $(privincludedir)/camel
-
 camel_provider_LTLIBRARIES = libcamelimap.la
 camel_provider_DATA = libcamelimap.urls
 
@@ -28,7 +26,7 @@ libcamelimap_la_SOURCES = 			\
 	camel-imap-utils.c			\
 	camel-imap-wrapper.c
 
-libcamelimapinclude_HEADERS =			\
+noinst_HEADERS =			\
 	camel-imap-command.h			\
 	camel-imap-folder.h			\
 	camel-imap-message-cache.h		\
@@ -38,11 +36,9 @@ libcamelimapinclude_HEADERS =			\
 	camel-imap-summary.h			\
 	camel-imap-types.h			\
 	camel-imap-utils.h			\
-	camel-imap-wrapper.h
+	camel-imap-wrapper.h			\
+	camel-imap-private.h
 
 libcamelimap_la_LDFLAGS = -avoid-version -module
-
-noinst_HEADERS =				\
-	camel-imap-private.h
 
 EXTRA_DIST = libcamelimap.urls

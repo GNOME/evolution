@@ -28,7 +28,7 @@
 #define _EM_FORMAT_H
 
 #include <glib-object.h>
-#include "e-util/e-msgport.h"
+#include "libedataserver/e-msgport.h"
 
 struct _CamelStream;
 struct _CamelMimePart;

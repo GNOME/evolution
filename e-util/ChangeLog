@@ -1,49 +1,14 @@
-2004-11-29  Mengjie Yu  <meng-jie.yu@sun.com>
+2004-11-16  Not Zed  <NotZed@Ximian.com>
 
-	* e-config.c: (ec_rebuild):add mnemonic for label.
-	* e-passwords.c: (ep_ask_password):add description for password dialog.
+	* e-host-utils.[ch]: removed, code moved into
+	camel-net-utils.[ch].
 
-2004-11-26  JP Rosevear  <jpr@novell.com>
+2004-11-15  Not Zed  <NotZed@Ximian.com>
 
-	* e-gui-utils.c (e_create_image_widget): get the image directly
-	from the icon factory
+	* e-trie.[ch], e-memory.[ch], e-sexp.[ch], e-msgport.[ch]: Moved
+	to eds/libedataserver.
 
-	* e-config.c: insert debug defines so we can
-	turn spew on and off
-
-	* e-event.c: insert debug defines so we can turn spew on and off	
-
-	* e-menu.c: insert debug defines so we can turn spew on and off		
-	
-	* e-plugin.c: insert debug defines and set to off for now
-
-	* e-popup.c: insert debug defines so we can turn spew on and off
-	(e_popup_create_menu): get the image directly from the icon
-	factory
-
-2004-11-26  JP Rosevear  <jpr@novell.com>
-	
-	* e-icon-factory.h: add proto
-
-	* e-icon-factory.c (e_icon_factory_init): cast to kill warning
-	(e_icon_factory_get_image): new function to return a GtkImage
-	widget give an icon name and size
-
-2004-11-25  Chenthill Palanisamy <pchenthill@novell.com>
-
-	* e-config.c (ec_rebuild): Set the row and column spacings as
-	tweleve while creating the table to make it HIG compliant.
-       	
-2004-11-19  Not Zed  <NotZed@Ximian.com>
-
-	* e-plugin.c (ep_load): if the plugin fails to load just disable
-	it, don't unref it (it may be referenced elsewhere).
-
-2004-11-18  Not Zed  <NotZed@Ximian.com>
-
-	* e-plugin.c (epl_loadmodule): split out module loadng code.
-	(epl_construct): if we're enabled, and load-on-startup is set,
-	load the module right away.  Not to be abused!
+	* e-path.[ch]: removed & deleted.
 
 2004-11-03  Not Zed  <NotZed@Ximian.com>
 

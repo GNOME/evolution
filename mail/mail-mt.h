@@ -25,7 +25,7 @@
 
 #include <pthread.h>
 #include "camel/camel-exception.h"
-#include "e-util/e-msgport.h"
+#include "libedataserver/e-msgport.h"
 #include "camel/camel-object.h"
 #include "camel/camel-operation.h"
 

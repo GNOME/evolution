@@ -20,7 +20,6 @@
  *
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -30,14 +29,15 @@
 #include <ctype.h>
 #include <unistd.h>
 
-#include <e-util/md5-utils.h>
+#include <libedataserver/md5-utils.h>
 
-#include <gal/util/e-iconv.h>
+#include <libedataserver/e-iconv.h>
 
 #include "camel-charset-map.h"
 #include "camel-mime-utils.h"
 #include "camel-sasl-digest-md5.h"
 #include "camel-i18n.h"
+#include "camel-net-utils.h"
 
 #define d(x)
 
@@ -366,7 +366,7 @@ decode_data_type (DataType *dtype, const char *name)
 	int i;
 	
 	for (i = 0; dtype[i].name; i++) {
-		if (!g_ascii_strcasecmp (dtype[i].name, name))
+		if (!strcasecmp (dtype[i].name, name))
 			break;
 	}
 	
@@ -473,7 +473,7 @@ parse_server_challenge (const char *tokens, gboolean *abort)
 			break;
 		case DIGEST_STALE:
 			PARANOID (digest_abort (&got_stale, abort));
-			if (!g_ascii_strcasecmp (param->value, "true"))
+			if (!strcasecmp (param->value, "true"))
 				challenge->stale = TRUE;
 			else
 				challenge->stale = FALSE;

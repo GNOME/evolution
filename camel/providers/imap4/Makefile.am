@@ -1,7 +1,5 @@
 ## Process this file with automake to produce Makefile.in
 
-libcamelimap4includedir = $(privincludedir)/camel
-
 camel_provider_LTLIBRARIES = libcamelimap4.la
 camel_provider_DATA = libcamelimap4.urls
 

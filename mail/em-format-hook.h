@@ -24,7 +24,7 @@
 #define __EM_FORMAT_HOOK_H__
 
 #include <glib-object.h>
-#include "e-util/e-msgport.h"
+#include "libedataserver/e-msgport.h"
 #include "e-util/e-plugin.h"
 
 #include "em-format.h"

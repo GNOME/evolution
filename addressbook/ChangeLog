@@ -1,101 +1,18 @@
-2004-12-01  Sivaiah Nallagatla <snallagatla@novell.com> 
+2004-11-16  Not Zed  <NotZed@Ximian.com>
 
-	* gui/contact-editor/e-contact-editor.c (save_contact) :
-	save the uid and set it again in the contact. Otherwise, there is
-	possibility we trying to save the contact wiht out UID, as we destory the 
-	contact and create new one when data is wrong  
+	* util/Makefile.am (libeabutil_la_LIBADD): remove camel, add
+	ADDRESSBOOK_LIBS.
 
-	 
-2004-11-28  Sivaiah Nallagatla <snallagatla@novell.com>
+	* conduit/Makefile.am (libeaddress_conduit_la_LIBADD): remove
+	camel.
 
-	* gui/contact-editor/e-contact-editor.h : Define
-	new list for storing required fields
+	* gui/component/Makefile.am (libevolution_addressbook_la_LIBADD):
+	remove camel.
 
-	* gui/contact-editor/e-contact-editor.c 
-	(e_contact_editor_class_init) : install new REQUIRED_FIELDS
-	property 
-	(e_contact_editor_set_property)
-	(e_contact_editor_get_property) : added handling 
-	for new RQUIRED_FIELDS_PROPERTY
-	(e_contact_editor_dispose) : unref the new 
-	required_fields member 
-	(required_fields_cb) : call back to set required fields into
-	contact editor
-	(is_non_string_field) : new method to detect
-	whether a particular field in contact is a string or not
-	(e_contact_editor_is_valid) : check for presence of 
-	all required fields
-	(save_contact) : extract all the data before 
-	calling e_contact_editor_is_valid so that
-	it can check for required fields. Clean up the contact
-	if there is an error
-	
-2004-11-27  Sushma Rai  <rsushma@novell.com>
+2004-11-15  Not Zed  <NotZed@Ximian.com>
 
-	* gui/widgets/e-minicard-view.c (set_empty_message):
-	Checking for the static capability "do-initial-query",
-	and setting the relevent empty addressbook message.
-
-2004-11-26  JP Rosevear  <jpr@novell.com>
-
-	* gui/component/select-names/e-select-names-popup.c
-	(populate_popup_contact): get image directly from icon factory
-
-	* gui/contact-editor/e-contact-editor-im.c
-	(setup_service_optmenu): ditto
-	
-2004-11-25  Hao Sheng  <hao.sheng@sun.com>
-
-	* gui/contact-editor/contact-editor.glade:
-	add "labelled by" between entry and label,
-	make accessbility work.
-	* gui/contact-editor/e-contact-editor.c:
-	(e_contact_editor_create_web): add accessible name to e_url_entry.
-
-2004-11-22  Joan Sanfeliu  <joan@fibranet.com>
-
-	* gui/component/apps_evolution_addressbook.schemas.in.in:
-	* gui/component/ldap-config.glade : Evolution product name spelled
-	with an uppercase E
-
-	Fixes #61065
-
-2004-11-22  Rodney Dawes  <dobey@novell.com>
-
-	* importers/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in:
-	Fix name attribute values to be identical
-
-	Fixes #61976
-
-2004-11-21  Sivaiah Nallagatla <snallagatla@novell.com>
-
-	* rever last commit , it is supposed to for offline 
-	branch not to HEAD 
-
-2004-11-21  Sivaiah Nallagatla <snallagatla@novell.com>
-
-	* gui/widgets/eab-gui-util.c (eab_load_error_dialog) : 
-	added message which gets prompted when user tries 
-	to access a book which is not available in offline mode
-
-	* gui/component/addressbook-config.c (eabc_general_offline) 
-	(offline_status_changed_cb) : added a new check box
-	to properties page to mark a book for offline usage 
-
-	* gui/component/addressbook.c (load_source_cb) : do no try to
-	authenticate in case of offline mode. 
-	(auth_required_cb) : new call back which gets called
-	when backend sends notification for  password to client
-	
-2004-11-07  Sivaiah Nallagatla <snallagatla@novell.com>
-
-       * util/eab-book-util.c (eab_name_and_email_query) :
-       When name is NULL query against complete email id instead of
-       user name part to take care of users@foo.org not matching
-       against users@bar.org . Also include query based on name always
-
-       Fix for  #67656
-
+	* *.c: Moved various things from e-util to libedataserver, where
+	appropriate.
 
 2004-11-08  Andre Klapper  <a901600@gmx.de>
 

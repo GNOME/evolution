@@ -5,7 +5,7 @@
 #include <camel/camel-object.h>
 
 #include "camel-imapp-stream.h"
-#include <e-util/e-msgport.h>
+#include <libedataserver/e-msgport.h>
 #include "camel-imapp-folder.h"
 
 #define CAMEL_IMAPP_ENGINE_TYPE     (camel_imapp_engine_get_type ())

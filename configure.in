@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.52)
 
-AC_INIT(evolution, 2.1.1, http://bugzilla.ximian.com/enter_bug.cgi?product=Evolution)
+AC_INIT(evolution, 2.1.0, http://bugzilla.ximian.com/enter_bug.cgi?product=Evolution)
 AC_CONFIG_SRCDIR(README)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 
@@ -78,7 +78,7 @@ AC_SUBST(HAVE_JW)
 dnl I18N stuff
 AC_PROG_INTLTOOL([0.30])
 
-ALL_LINGUAS="am ar az be bg bs ca cs cy da de el en_AU en_CA en_GB es et eu fa fi fr ga gl gu he hr hu is it ja ko lt lv mn ms nb nl nn no pa pl pt pt_BR ro ru sk sl sq sr sr@Latn sv tr uk vi wa zh_CN zh_TW"
+ALL_LINGUAS="am ar az be bg bs ca cs da de el en_AU en_CA en_GB es et eu fa fi fr ga gl gu he hr hu is it ja ko lt lv mn ms nb nl nn no pa pl pt pt_BR ro ru sk sl sq sr sr@Latn sv tr uk vi wa zh_CN zh_TW"
 AM_GLIB_GNU_GETTEXT
 
 GETTEXT_PACKAGE=evolution-2.2
@@ -122,7 +122,7 @@ AC_ARG_ENABLE(test-component, [  --enable-test-component=[no/yes]      Enable te
 AM_CONDITIONAL(ENABLE_TEST_COMPONENT, test "x$enable_test_comp" = "xyes")
 
 dnl
-dnl system mail stuff
+dnl system mail stuff (tbd?)
 dnl
 AC_PATH_PROG(SENDMAIL, sendmail, /usr/sbin/sendmail, /usr/sbin:/usr/lib)
 AC_DEFINE_UNQUOTED(SENDMAIL_PATH, "$SENDMAIL", [Path to a sendmail binary, or equivalent])
@@ -1098,11 +1098,11 @@ fi
 
 dnl --- Required version numbers
 
-GAL_REQUIRED=2.3.1
+GAL_REQUIRED=2.3.0
 GAL_PACKAGE=2.4
-GTKHTML_REQUIRED=3.5.1
+GTKHTML_REQUIRED=3.5.0
 GTKHTML_PACKAGE=3.6
-EDS_REQUIRED=1.1.1
+EDS_REQUIRED=1.1.0
 EDS_PACKAGE=1.2
 BONOBOUI_REQUIRED=2.4.2
 
@@ -1130,15 +1130,11 @@ CPPFLAGS="$CPPFLAGS_save"
 
 dnl --- Flags for the various libraries we build
 
-EVO_SET_COMPILE_FLAGS(CAMEL, glib-2.0 gthread-2.0 gal-2.4 >= $GAL_REQUIRED $mozilla_nss,
-		      $THREADS_CFLAGS $KRB4_CFLAGS $KRB5_CFLAGS $MANUAL_NSS_CFLAGS $OPENSSL_CFLAGS,
-	              $THREADS_LIBS $KRB4_LDFLAGS $KRB5_LDFLAGS $MANUAL_NSS_LIBS $OPENSSL_LDFLAGS)
+EVO_SET_COMPILE_FLAGS(CAMEL, camel-provider-$EDS_PACKAGE)
 AC_SUBST(CAMEL_CFLAGS)
 AC_SUBST(CAMEL_LIBS)
 
-EVO_SET_COMPILE_FLAGS(CAMEL_GROUPWISE, libegroupwise-$EDS_PACKAGE >= $EDS_REQUIRED,
-		      $CAMEL_CFLAGS,
-	              $CAMEL_LIBS)
+EVO_SET_COMPILE_FLAGS(CAMEL_GROUPWISE, camel-provider-$EDS_PACKAGE libegroupwise-$EDS_PACKAGE >= $EDS_REQUIRED)
 AC_SUBST(CAMEL_GROUPWISE_CFLAGS)
 AC_SUBST(CAMEL_GROUPWISE_LIBS)
 
@@ -1173,11 +1169,11 @@ EVO_SET_COMPILE_FLAGS(E_WIDGETS, glib-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED 
 AC_SUBST(E_WIDGETS_CFLAGS)
 AC_SUBST(E_WIDGETS_LIBS)
  
-EVO_SET_COMPILE_FLAGS(IMPORTERS, gconf-2.0 libglade-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libgnomeui-2.0 libebook-$EDS_PACKAGE >= $EDS_REQUIRED)
+EVO_SET_COMPILE_FLAGS(IMPORTERS, camel-$EDS_PACKAGE gconf-2.0 libglade-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libgnomeui-2.0 libebook-$EDS_PACKAGE >= $EDS_REQUIRED)
 AC_SUBST(IMPORTERS_CFLAGS)
 AC_SUBST(IMPORTERS_LIBS)
 
-EVO_SET_COMPILE_FLAGS(LIBFILTER, libgnome-2.0 libgnomeui-2.0 libglade-2.0 libxml-2.0 gconf-2.0 gal-$GAL_PACKAGE >= $GAL_REQUIRED)
+EVO_SET_COMPILE_FLAGS(LIBFILTER, libgnome-2.0 libgnomeui-2.0 libglade-2.0 libxml-2.0 gconf-2.0 gal-$GAL_PACKAGE >= $GAL_REQUIRED libedataserver-$EDS_PACKAGE >= $EDS_REQUIRED)
 AC_SUBST(LIBFILTER_CFLAGS)
 AC_SUBST(LIBFILTER_LIBS)
 
@@ -1189,7 +1185,7 @@ AC_SUBST(SHELL_LIBS)
 
 dnl --- evolution-addressbook flags
 
-EVOLUTION_ADDRESSBOOK_DEPS="gconf-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 gal-$GAL_PACKAGE >= $GAL_REQUIRED libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 gnome-vfs-2.0 libgnomeprintui-2.2 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED libebook-$EDS_PACKAGE >= $EDS_REQUIRED libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED"
+EVOLUTION_ADDRESSBOOK_DEPS="gconf-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 gal-$GAL_PACKAGE >= $GAL_REQUIRED libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 gnome-vfs-2.0 libgnomeprintui-2.2 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED libebook-$EDS_PACKAGE >= $EDS_REQUIRED libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED camel-$EDS_PACKAGE"
 
 EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK, $EVOLUTION_ADDRESSBOOK_DEPS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_CFLAGS)
@@ -1218,7 +1214,7 @@ fi
 
 dnl --- evolution-mail flags
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED gal-$GAL_PACKAGE >= $GAL_REQUIRED libglade-2.0 gnome-vfs-module-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED libxml-2.0 bonobo-activation-2.0 gthread-2.0 gconf-2.0 $mozilla_nss libebook-$EDS_PACKAGE >= $EDS_REQUIRED)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-provider-$EDS_PACKAGE libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED gal-$GAL_PACKAGE >= $GAL_REQUIRED libglade-2.0 gnome-vfs-module-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED libxml-2.0 bonobo-activation-2.0 gthread-2.0 gconf-2.0 $mozilla_nss libebook-$EDS_PACKAGE >= $EDS_REQUIRED)
 AC_SUBST(EVOLUTION_MAIL_CFLAGS)
 AC_SUBST(EVOLUTION_MAIL_LIBS)
 
@@ -1261,9 +1257,6 @@ AC_SUBST(privdatadir)
 
 privincludedir='${includedir}'/evolution-$BASE_VERSION
 AC_SUBST(privincludedir)
-
-camel_providerdir="$privlibdir/camel-providers"
-AC_SUBST(camel_providerdir)
 
 componentdir="$privlibdir/components"
 AC_SUBST(componentdir)
@@ -1492,25 +1485,6 @@ addressbook/printing/Makefile
 addressbook/tools/Makefile
 addressbook/util/Makefile
 art/Makefile
-camel/Makefile
-camel/providers/Makefile
-camel/providers/groupwise/Makefile
-camel/providers/imap/Makefile
-camel/providers/imapp/Makefile
-camel/providers/imap4/Makefile
-camel/providers/local/Makefile
-camel/providers/nntp/Makefile
-camel/providers/pop3/Makefile
-camel/providers/sendmail/Makefile
-camel/providers/smtp/Makefile
-camel/tests/Makefile
-camel/tests/folder/Makefile
-camel/tests/lib/Makefile
-camel/tests/message/Makefile
-camel/tests/mime-filter/Makefile
-camel/tests/misc/Makefile
-camel/tests/smime/Makefile
-camel/tests/stream/Makefile
 data/Makefile
 data/cde_app_root/Makefile
 data/cde_app_root/dt/Makefile
@@ -1578,7 +1552,6 @@ smime/lib/Makefile
 smime/gui/Makefile
 tools/Makefile
 evolution-shell.pc
-camel.pc
 ])
 
 if test "x$with_sub_version" != "x"; then

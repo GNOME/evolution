@@ -1,100 +1,24 @@
-2004-11-25  Radek Doulik  <rodo@ximian.com>
+2004-11-16  Not Zed  <NotZed@Ximian.com>
 
-	* em-junk-filter.c (em_junk_sa_test_spamd): do not call gconf here
-	as we may be called from worker thread
-	(em_junk_filter_get_plugin): read alternative spam[cd] binaries
-	paths here, use init lock to be sure no one is accessing spam[cd]
-	binaries paths
+	* Makefile.am:
+	* importers/Makefile.am: Removed camel linking.
 
-	Fixes #69623
+2004-11-15  Not Zed  <NotZed@Ximian.com>
 
-2004-12-01  Mengjie Yu  <meng-jie.yu@sun.com>
+	* *.c: Moved various things from e-util to libedataserver.
 
-	* em-account-editor.c:according to the HIG, remove accelerators in 
-	the notebook tab labels 
+	* GNOME_Evolution_Mail.server.in.in: remove the startup wizard stuff.
 
-2004-12-01  Mengjie Yu  <meng-jie.yu@sun.com>
+	* mail-config-druid.[ch]:
+	* mail-account-editor.[ch]:
+	* mail-account-gui.[ch]: removed & deleted.
 
-	* em-account-editor.c: (emae_option_toggle),
-	(emae_receive_options_item):add mnemonic for buttons.
-	* em-format-html-display.c: (efhd_attachment_button):add atk name
-	for the popup button.
-	* mail-account-gui.c: (mail_account_gui_build_extra_conf):add 
-	access key for checkbox.
-	* message-list.c: (message_list_construct):add a atk name for the
-	message list.
+	* mail-session.c (mail_session_init): and here too.
+	* em-migrate.c (em_migrate_1_4): init camel-provider library too.
+	(e_path_to_physical): copy from e-util/e-path.c.
 
-2004-11-22  Not Zed  <NotZed@Ximian.com>
-
-	** See bug #69339.
-
-	* em-format-html.c (efh_format_do): after closing the base output
-	stream, re-loop if more jobs were queued.
-
-2004-11-19  Not Zed  <NotZed@Ximian.com>
-
-	** See bug #69339.
-
-	* em-format-html.c (efh_format_do): close the stream/html after we're
-	finished, since the multipart/related stuff may write more content
-	for orphaned attachments.
-
-2004-11-23  Not Zed  <NotZed@Ximian.com>
-
-	** See bug #69579.
-
-	* em-folder-properties.c (em_folder_properties_show): check to see
-	if the vfolder is the unmatched folder before letting the user try
-	to see its properties.
-
-2004-11-30  Not Zed  <NotZed@Ximian.com>
-
-	** See bug #68958.
-
-	* em-folder-browser.c (emfb_list_built): if the pending selected
-	uid isn't in the folder (yet), don't clear it, just keep it
-	around.  Hook/unhook folder_changed events.
-	(emfb_folder_changed, emfb_gui_folder_changed): if a select_uid is
-	set, and the message is now available, then select it.
-
-2004-11-28	S.Çağlar Onur <caglar@uludag.org.tr>
-
-	** See bug #69446.
-
-	* evolution-2.0.2/mail/mail-account-gui.c (mail_account_gui_setup): 
-	some strcasecmp() calls changed with g_ascii_strcasecmp() for Turkish
-	character conversiton problems [ http://www.i18nguy.com/unicode/turkish-i18n.html ]
-
-2004-11-26  JP Rosevear  <jpr@novell.com>
-
-	* em-format.c: wrap printf's in debug defines
-
-2004-11-26  JP Rosevear  <jpr@novell.com>
-	
-	* em-format-html-display.c (efhd_xpkcs7mime_button): get image
-	widget directly from icon factory
-
-	* mail-send-recv.c (build_dialog): ditto
-	
-2004-10-12  Radek Doulik  <rodo@ximian.com>
-
-	* em-junk-filter.c: when starting new spamd, call it with
-	--socketpath parameter to use unix sockets instead of opening TCP
-	port. kill such started daemon in finalize callback which is
-	installed by atexit. also try to respawn spamd in case spamc
-	returns error, if respawning is too fast (8 restarts in last 5
-	minutes) fallback to spamassassin
-
-	* mail-component.c (impl_quit): call mail_session_quit
-
-	* mail-session.c (mail_session_init): call junk plugin init
-	(mail_session_quit): new method, called on evo exit
-
-2004-11-22  Joan Sanfeliu  <joan@fibranet.com>
-
-	* mail-config.glade : Evolution word spelled with an uppercase E
-
-	Fixes #61065
+	* Makefile.am (libevolution_mail_la_LIBADD): link to new libcamel
+	provider too.
 
 2004-11-12  Not Zed  <NotZed@Ximian.com>
 

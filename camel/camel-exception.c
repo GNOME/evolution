@@ -30,7 +30,7 @@
 #include <pthread.h>
 
 #include "camel-exception.h"
-#include "e-util/e-memory.h"
+#include "libedataserver/e-memory.h"
 
 #include "camel-debug.h"
 

@@ -35,7 +35,7 @@ extern "C" {
 #include <camel/camel-disco-store.h>
 
 #ifdef ENABLE_THREADS
-#include <e-util/e-msgport.h>
+#include <libedataserver/e-msgport.h>
 
 typedef struct _CamelImapMsg CamelImapMsg;
 

@@ -1,6 +1,8 @@
-2004-11-29  Mengjie Yu  <meng-jie.yu@sun.com>
+2004-11-15  Not Zed  <NotZed@Ximian.com>
 
-	* filter-rule.c: (get_widget):add mnemonic widget in search box.
+	* *.c: Moved stuff from e-util to libedataserver.
+
+	* filter-system-flag.c: removed gal header.
 
 2004-07-29  Carlos Garnacho Parro  <carlosg@gnome.org>
 

@@ -34,7 +34,7 @@
 #include <time.h>
 
 #include "broken-date-parser.h"
-#include "e-time-utils.h"
+#include "libedataserver/e-time-utils.h"
 
 #define d(x)
 

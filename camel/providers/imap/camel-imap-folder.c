@@ -37,8 +37,8 @@
 #include <fcntl.h>
 #include <ctype.h>
 
-#include "e-util/e-path.h"
-#include "e-util/e-time-utils.h"
+/*#include "libedataserver/e-path.h"*/
+#include "libedataserver/e-time-utils.h"
 
 #include "camel-imap-folder.h"
 #include "camel-imap-command.h"
@@ -371,7 +371,7 @@ camel_imap_folder_selected (CamelFolder *folder, CamelImapResponse *response,
 			val = strtoul (resp + 2, &resp, 10);
 			if (val == 0)
 				continue;
-			if (!g_ascii_strcasecmp (resp, " EXISTS")) {
+			if (!strcasecmp (resp, " EXISTS")) {
 				/* Another one?? */
 				exists = val;
 				continue;
@@ -470,7 +470,7 @@ imap_rename (CamelFolder *folder, const char *new)
 	char *folders;
 
 	folders = g_strconcat (imap_store->storage_path, "/folders", NULL);
-	folder_dir = e_path_to_physical (folders, new);
+	folder_dir = imap_path_to_physical (folders, new);
 	g_free (folders);
 	summary_path = g_strdup_printf("%s/summary", folder_dir);
 
@@ -512,7 +512,7 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 	 * should do it.  */
 	CAMEL_SERVICE_LOCK (imap_store, connect_lock);
 	if (imap_store->current_folder != folder
-	    || g_ascii_strcasecmp(folder->full_name, "INBOX") == 0) {
+	    || strcasecmp(folder->full_name, "INBOX") == 0) {
 		response = camel_imap_command (imap_store, folder, ex, NULL);
 		if (response) {
 			camel_imap_folder_selected (folder, response, ex);
@@ -528,7 +528,7 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 #if 0
 		/* on some servers need to CHECKpoint INBOX to recieve new messages?? */
 		/* rfc2060 suggests this, but havent seen a server that requires it */
-		if (g_ascii_strcasecmp(folder->full_name, "INBOX") == 0) {
+		if (strcasecmp(folder->full_name, "INBOX") == 0) {
 			response = camel_imap_command (imap_store, folder, ex, "CHECK");
 			camel_imap_response_free (imap_store, response);
 		}

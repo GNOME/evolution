@@ -203,7 +203,7 @@ int main (void)
 #include "camel-charset-map.h"
 #include "camel-charset-map-private.h"
 
-#include <gal/util/e-iconv.h>
+#include <libedataserver/e-iconv.h>
 
 #include <glib.h>
 #include <locale.h>
@@ -336,23 +336,23 @@ camel_charset_iso_to_windows (const char *isocharset)
 	 *    windows-cp1257.
 	 */
 	
-	if (!g_ascii_strcasecmp (isocharset, "iso-8859-1") || !g_ascii_strcasecmp (isocharset, "us-ascii"))
+	if (!strcasecmp (isocharset, "iso-8859-1") || !strcasecmp (isocharset, "us-ascii"))
 		return "windows-cp1252";
-	else if (!g_ascii_strcasecmp (isocharset, "iso-8859-2"))
+	else if (!strcasecmp (isocharset, "iso-8859-2"))
 		return "windows-cp1250";
-	else if (!g_ascii_strcasecmp (isocharset, "iso-8859-4"))
+	else if (!strcasecmp (isocharset, "iso-8859-4"))
 		return "windows-cp1257";
-	else if (!g_ascii_strcasecmp (isocharset, "iso-8859-5"))
+	else if (!strcasecmp (isocharset, "iso-8859-5"))
 		return "windows-cp1251";
-	else if (!g_ascii_strcasecmp (isocharset, "iso-8859-6"))
+	else if (!strcasecmp (isocharset, "iso-8859-6"))
 		return "windows-cp1256";
-	else if (!g_ascii_strcasecmp (isocharset, "iso-8859-7"))
+	else if (!strcasecmp (isocharset, "iso-8859-7"))
 		return "windows-cp1253";
-	else if (!g_ascii_strcasecmp (isocharset, "iso-8859-8"))
+	else if (!strcasecmp (isocharset, "iso-8859-8"))
 		return "windows-cp1255";
-	else if (!g_ascii_strcasecmp (isocharset, "iso-8859-9"))
+	else if (!strcasecmp (isocharset, "iso-8859-9"))
 		return "windows-cp1254";
-	else if (!g_ascii_strcasecmp (isocharset, "iso-8859-13"))
+	else if (!strcasecmp (isocharset, "iso-8859-13"))
 		return "windows-cp1257";
 	
 	return isocharset;

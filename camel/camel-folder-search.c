@@ -35,6 +35,8 @@
 
 #include <glib.h>
 
+#include "libedataserver/e-memory.h"
+
 #include "camel-folder-search.h"
 #include "camel-folder-thread.h"
 
@@ -43,7 +45,6 @@
 #include "camel-multipart.h"
 #include "camel-mime-message.h"
 #include "camel-stream-mem.h"
-#include "e-util/e-memory.h"
 #include "camel-search-private.h"
 #include "camel-i18n.h"
 
@@ -872,7 +873,7 @@ check_header(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolder
 		} else if (!strcasecmp(headername, "cc")) {
 			header = camel_message_info_cc(search->current);
 			type = CAMEL_SEARCH_TYPE_ADDRESS;
-		} else if (!g_ascii_strcasecmp(headername, "x-camel-mlist")) {
+		} else if (!strcasecmp(headername, "x-camel-mlist")) {
 			header = camel_message_info_mlist(search->current);
 			type = CAMEL_SEARCH_TYPE_MLIST;
 		} else {

@@ -7,12 +7,12 @@
 #include <gconf/gconf-client.h>
 
 #include "e-plugin.h"
-#include "e-msgport.h"
+#include "libedataserver/e-msgport.h"
 
 /* plugin debug */
-#define pd(x)
+#define pd(x) x
 /* plugin hook debug */
-#define phd(x)
+#define phd(x) x
 
 /*
 <camel-plugin
@@ -117,7 +117,7 @@ ep_construct(EPlugin *ep, xmlNodePtr root)
 	ep->domain = e_plugin_xml_prop(root, "domain");
 	ep->name = e_plugin_xml_prop_domain(root, "name", ep->domain);
 
-	pd(printf("creating plugin '%s' '%s'\n", ep->name?ep->name:"un-named", ep->id));
+	printf("creating plugin '%s' '%s'\n", ep->name?ep->name:"un-named", ep->id);
 
 	node = root->children;
 	while (node) {
@@ -333,18 +333,20 @@ ep_load(const char *filename)
 			ep->id = id;
 			ep->path = g_strdup(filename);
 			ep->enabled = ep_check_enabled(id);
-			if (e_plugin_construct(ep, root) == -1)
-				e_plugin_enable(ep, FALSE);
-			g_hash_table_insert(ep_plugins, ep->id, ep);
-			pdoc->plugins = g_slist_prepend(pdoc->plugins, ep);
-			cache |= (ep->hooks_pending != NULL);
+			if (e_plugin_construct(ep, root) == -1) {
+				g_object_unref(ep);
+			} else {
+				g_hash_table_insert(ep_plugins, ep->id, ep);
+				pdoc->plugins = g_slist_prepend(pdoc->plugins, ep);
+				cache |= (ep->hooks_pending != NULL);
+			}
 		}
 	}
 
 	res = 0;
 fail:
 	if (cache) {
-		pd(printf("Caching plugin description '%s' for unknown future hooks\n", filename));
+		printf("Caching plugin description '%s' for unknown future hooks\n", filename);
 		e_dlist_addtail(&ep_plugin_docs, (EDListNode *)pdoc);
 	} else {
 		xmlFreeDoc(pdoc->doc);
@@ -363,7 +365,7 @@ ep_load_pending(EPlugin *ep, EPluginHookClass *type)
 	int res = 0;
 	GSList *l, *p;
 
-	phd(printf("New hook type registered '%s', loading pending hooks on plugin '%s'\n", type->id, ep->id));
+	printf("New hook type registered '%s', loading pending hooks on plugin '%s'\n", type->id, ep->id);
 
 	l = ep->hooks_pending;
 	p = NULL;
@@ -373,7 +375,7 @@ ep_load_pending(EPlugin *ep, EPluginHookClass *type)
 		char *class = xmlGetProp(node, "class");
 		EPluginHook *hook;
 
-		phd(printf(" checking pending hook '%s'\n", class?class:"<unknown>"));
+		printf(" checking pending hook '%s'\n", class?class:"<unknown>");
 
 		if (class) {
 			if (strcmp(class, type->id) == 0) {
@@ -448,7 +450,7 @@ e_plugin_load_plugins(void)
 		struct dirent *d;
 		char *path = l->data;
 
-		pd(printf("scanning plugin dir '%s'\n", path));
+		printf("scanning plugin dir '%s'\n", path);
 
 		dir = opendir(path);
 		if (dir == NULL) {
@@ -734,30 +736,6 @@ static void *epl_parent_class;
    pages.
 */
 
-static int
-epl_loadmodule(EPlugin *ep)
-{
-	if (epl->module == NULL) {
-		EPluginLibEnableFunc enable;
-		
-		if ((epl->module = g_module_open(epl->location, 0)) == NULL) {
-			g_warning("can't load plugin '%s'", g_module_error());
-			return -1;
-		}
-
-		if (g_module_symbol(epl->module, "e_plugin_lib_enable", (void *)&enable)) {
-			if (enable(epl, TRUE) != 0) {
-				ep->enabled = FALSE;
-				g_module_close(epl->module);
-				epl->module = NULL;
-				return -1;
-			}
-		}
-	}
-
-	return 0;
-}
-
 static void *
 epl_invoke(EPlugin *ep, const char *name, void *data)
 {
@@ -768,8 +746,23 @@ epl_invoke(EPlugin *ep, const char *name, void *data)
 		return NULL;
 	}
 
-	if (epl_loadmodule(ep) != 0)
-		return NULL;
+	if (epl->module == NULL) {
+		EPluginLibEnableFunc enable;
+		
+		if ((epl->module = g_module_open(epl->location, 0)) == NULL) {
+			g_warning("can't load plugin '%s'", g_module_error());
+			return NULL;
+		}
+
+		if (g_module_symbol(epl->module, "e_plugin_lib_enable", (void *)&enable)) {
+			if (enable(epl, TRUE) != 0) {
+				ep->enabled = FALSE;
+				g_module_close(epl->module);
+				epl->module = NULL;
+				return NULL;
+			}
+		}
+	}
 
 	if (!g_module_symbol(epl->module, name, (void *)&cb)) {
 		g_warning("Cannot resolve symbol '%s' in plugin '%s' (not exported?)", name, epl->location);
@@ -790,46 +783,28 @@ epl_construct(EPlugin *ep, xmlNodePtr root)
 	if (epl->location == NULL)
 		return -1;
 
-	/* If we're enabled, check for the load-on-startup property */
-	if (ep->enabled) {
-		xmlChar *tmp;
-
-		tmp = xmlGetProp(root, "load-on-startup");
-		if (tmp) {
-			xmlFree(tmp);
-			if (epl_loadmodule(ep) != 0)
-				return -1;
-		}
-	}
-
 	return 0;
 }
 
 static void
 epl_enable(EPlugin *ep, int state)
 {
-	EPluginLibEnableFunc enable;
-
 	((EPluginClass *)epl_parent_class)->enable(ep, state);
 
-	/* if we're disabling and it isn't loaded, nothing to do */
-	if (!state && epl->module == NULL)
-		return;
+	/* try and unload the module if the plugin will let us */
+	/* This may cause more problems than its worth ... so actual module removal disabled for now */
+	if (epl->module && !state) {
+		EPluginLibEnableFunc enable;
 
-	/* this will noop if we're disabling since we tested it above */
-	if (epl_loadmodule(ep) != 0)
-		return;
-
-	if (g_module_symbol(epl->module, "e_plugin_lib_enable", (void *)&enable)) {
-		if (enable(epl, state) != 0)
-			return;
-	}
+		if (g_module_symbol(epl->module, "e_plugin_lib_enable", (void *)&enable)) {
+			if (enable(epl, FALSE) != 0)
+				return;
+		}
 #if 0
-	if (!state) {
 		g_module_close(epl->module);
 		epl->module = NULL;
-	}
 #endif
+	}
 }
 
 static void
@@ -1015,7 +990,7 @@ e_plugin_hook_register_type(GType type)
 					cache |= (((EPlugin *)l->data)->hooks_pending != NULL);
 
 				if (!cache) {
-					pd(printf("Gargabe collecting plugin description\n"));
+					printf("Gargabe collecting plugin description\n");
 					e_dlist_remove((EDListNode *)pdoc);
 					xmlFreeDoc(pdoc->doc);
 					g_free(pdoc);

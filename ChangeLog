@@ -1,10 +1,18 @@
-2004-12-01  Dafydd Harries  <daf@muse.19inch.net>
+2004-12-02  Not Zed  <NotZed@Ximian.com>
 
-	* configure.in: Add "cy" (Welsh) to ALL_LINGUAS.
+	* configure.in: Make evolution mail link to camel-provider not
+	camel only.  Removed some camel stuff.
 
-2004-11-29  JP Rosevear  <jpr@novell.com>
+2004-11-16  Not Zed  <NotZed@Ximian.com>
 
-	* configure.in: bump version, requires
+	* Makefile.am (SUBDIRS): removed camel.
+
+	* configure.in: Removed camel building, fixed module includes to
+	use camel via packageconfig.
+
+2004-11-15  Not Zed  <NotZed@Ximian.com>
+
+	* configure.in: Added libeds to camel and mail and filter cflags.
 
 2004-11-09  Rodney Dawes  <dobey@novell.com>
 

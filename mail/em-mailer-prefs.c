@@ -29,7 +29,7 @@
 #include "em-mailer-prefs.h"
 #include "em-format.h"
 
-#include <gal/util/e-iconv.h>
+#include <libedataserver/e-iconv.h>
 #include <gtkhtml/gtkhtml-properties.h>
 #include <libxml/tree.h>
 #include "widgets/misc/e-charset-picker.h"

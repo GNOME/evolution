@@ -34,8 +34,6 @@
 #include <unistd.h>
 #include <errno.h>
 
-#include "e-util/e-path.h"
-
 #include "camel-imap-store.h"
 #include "camel-imap-store-summary.h"
 #include "camel-imap-folder.h"
@@ -62,6 +60,7 @@
 #include "camel-private.h"
 #include "camel-debug.h"
 #include "camel-i18n.h"
+#include "camel-net-utils.h"
 
 #define d(x) 
 
@@ -483,7 +482,7 @@ imap_get_capability (CamelService *service, CamelException *ex)
 			continue;
 		}
 		for (i = 0; capabilities[i].name; i++) {
-			if (g_ascii_strcasecmp (capa, capabilities[i].name) == 0) {
+			if (strcasecmp (capa, capabilities[i].name) == 0) {
 				store->capabilities |= capabilities[i].flag;
 				break;
 			}
@@ -525,7 +524,7 @@ connect_to_server (CamelService *service, struct addrinfo *ai, int ssl_mode, Cam
 	if (ssl_mode != MODE_CLEAR) {
 #ifdef HAVE_SSL
 		if (ssl_mode == MODE_TLS) {
-			tcp_stream = camel_tcp_stream_ssl_new_raw (service->session, service->url->host, STARTTLS_FLAGS);
+			tcp_stream = camel_tcp_stream_ssl_new (service->session, service->url->host, STARTTLS_FLAGS);
 		} else {
 			tcp_stream = camel_tcp_stream_ssl_new (service->session, service->url->host, SSL_PORT_FLAGS);
 		}
@@ -919,13 +918,10 @@ connect_to_server_wrapper (CamelService *service, CamelException *ex)
 	if (ai == NULL)
 		return FALSE;
 	
-	if (!(ret = connect_to_server (service, ai, mode, ex)) && mode == MODE_SSL) {
-		camel_exception_clear (ex);
+	if (!(ret = connect_to_server (service, ai, mode, ex)) && mode == MODE_SSL)
 		ret = connect_to_server (service, ai, MODE_TLS, ex);
-	} else if (!ret && mode == MODE_TLS) {
-		camel_exception_clear (ex);
+	else if (!ret && mode == MODE_TLS)
 		ret = connect_to_server (service, ai, MODE_CLEAR, ex);
-	}
 	
 	camel_freeaddrinfo (ai);
 	
@@ -1042,7 +1038,7 @@ imap_forget_folder (CamelImapStore *imap_store, const char *folder_name, CamelEx
 		name = folder_name;
 	
 	storage_path = g_strdup_printf ("%s/folders", imap_store->storage_path);
-	folder_dir = e_path_to_physical (storage_path, folder_name);
+	folder_dir = imap_path_to_physical (storage_path, folder_name);
 	g_free (storage_path);
 	if (access (folder_dir, F_OK) != 0) {
 		g_free (folder_dir);
@@ -1452,7 +1448,7 @@ imap_connect_online (CamelService *service, CamelException *ex)
 		for (i = 0; i < folders->len; i++) {
 			CamelFolderInfo *fi = folders->pdata[i];
 			
-			haveinbox = haveinbox || !g_ascii_strcasecmp (fi->full_name, "INBOX");
+			haveinbox = haveinbox || !strcasecmp (fi->full_name, "INBOX");
 			
 			if (fi->flags & (CAMEL_IMAP_FOLDER_MARKED | CAMEL_IMAP_FOLDER_UNMARKED))
 				store->capabilities |= IMAP_CAPABILITY_useful_lsub;
@@ -1472,7 +1468,7 @@ imap_connect_online (CamelService *service, CamelException *ex)
 				CamelFolderInfo *fi = folders->pdata[i];
 				
 				/* this should always be TRUE if folders->len > 0 */
-				if (!g_ascii_strcasecmp (fi->full_name, "INBOX")) {
+				if (!strcasecmp (fi->full_name, "INBOX")) {
 					haveinbox = TRUE;
 					
 					/* if INBOX is marked as \NoSelect then it is probably
@@ -1817,7 +1813,7 @@ get_folder_online (CamelStore *store, const char *folder_name, guint32 flags, Ca
 	if (!camel_imap_store_connected (imap_store, ex))
 		return NULL;
 	
-	if (!g_ascii_strcasecmp (folder_name, "INBOX"))
+	if (!strcasecmp (folder_name, "INBOX"))
 		folder_name = "INBOX";
 
 	/* Lock around the whole lot to check/create atomically */
@@ -1983,7 +1979,7 @@ get_folder_online (CamelStore *store, const char *folder_name, guint32 flags, Ca
 	}
 
 	storage_path = g_strdup_printf("%s/folders", imap_store->storage_path);
-	folder_dir = e_path_to_physical (storage_path, folder_name);
+	folder_dir = imap_path_to_physical (storage_path, folder_name);
 	g_free(storage_path);
 	new_folder = camel_imap_folder_new (store, folder_name, folder_dir, ex);
 	g_free (folder_dir);
@@ -2022,11 +2018,11 @@ get_folder_offline (CamelStore *store, const char *folder_name,
 	    !camel_service_connect (CAMEL_SERVICE (store), ex))
 		return NULL;
 	
-	if (!g_ascii_strcasecmp (folder_name, "INBOX"))
+	if (!strcasecmp (folder_name, "INBOX"))
 		folder_name = "INBOX";
 	
 	storage_path = g_strdup_printf("%s/folders", imap_store->storage_path);
-	folder_dir = e_path_to_physical (storage_path, folder_name);
+	folder_dir = imap_path_to_physical (storage_path, folder_name);
 	g_free(storage_path);
 	if (!folder_dir || access (folder_dir, F_OK) != 0) {
 		g_free (folder_dir);
@@ -2196,8 +2192,8 @@ rename_folder (CamelStore *store, const char *old_name, const char *new_name_in,
 		manage_subscriptions(store, new_name_in, TRUE);
 
 	storage_path = g_strdup_printf("%s/folders", imap_store->storage_path);
-	oldpath = e_path_to_physical (storage_path, old_name);
-	newpath = e_path_to_physical (storage_path, new_name_in);
+	oldpath = imap_path_to_physical (storage_path, old_name);
+	newpath = imap_path_to_physical (storage_path, new_name_in);
 	g_free(storage_path);
 
 	/* So do we care if this didn't work?  Its just a cache? */
@@ -2461,7 +2457,7 @@ get_subscribed_folders (CamelImapStore *imap_store, const char *top, CamelExcept
 		if (si->flags & CAMEL_STORE_INFO_FOLDER_SUBSCRIBED
 		    && imap_is_subfolder(camel_store_info_path(imap_store->summary, si), top)) {
 			g_ptr_array_add(names, (char *)camel_imap_store_info_full_name(imap_store->summary, si));
-			haveinbox = haveinbox || g_ascii_strcasecmp(camel_imap_store_info_full_name(imap_store->summary, si), "INBOX") == 0;
+			haveinbox = haveinbox || strcasecmp(camel_imap_store_info_full_name(imap_store->summary, si), "INBOX") == 0;
 		}
 		camel_store_summary_info_free((CamelStoreSummary *)imap_store->summary, si);
 	}
@@ -2632,7 +2628,7 @@ fill_fi(CamelStore *store, CamelFolderInfo *fi, guint32 flags)
 
 		/* This is a lot of work for one path! */
 		storage_path = g_strdup_printf("%s/folders", ((CamelImapStore *)store)->storage_path);
-		folder_dir = e_path_to_physical(storage_path, fi->full_name);
+		folder_dir = imap_path_to_physical(storage_path, fi->full_name);
 		path = g_strdup_printf("%s/summary", folder_dir);
 		s = (CamelFolderSummary *)camel_object_new(camel_imap_summary_get_type());
 		camel_folder_summary_set_build_content(s, TRUE);
@@ -2728,7 +2724,7 @@ static guint folder_hash(const void *ap)
 {
 	const char *a = ap;
 
-	if (g_ascii_strcasecmp(a, "INBOX") == 0)
+	if (strcasecmp(a, "INBOX") == 0)
 		a = "INBOX";
 
 	return g_str_hash(a);
@@ -2739,9 +2735,9 @@ static int folder_eq(const void *ap, const void *bp)
 	const char *a = ap;
 	const char *b = bp;
 
-	if (g_ascii_strcasecmp(a, "INBOX") == 0)
+	if (strcasecmp(a, "INBOX") == 0)
 		a = "INBOX";
-	if (g_ascii_strcasecmp(b, "INBOX") == 0)
+	if (strcasecmp(b, "INBOX") == 0)
 		b = "INBOX";
 
 	return g_str_equal(a, b);
@@ -2851,7 +2847,7 @@ get_folders(CamelStore *store, const char *top, guint32 flags, CamelException *e
 		goto fail;
 	for (i=0; i<folders->len && !haveinbox; i++) {
 		fi = folders->pdata[i];
-		haveinbox = (g_ascii_strcasecmp(fi->full_name, "INBOX")) == 0;
+		haveinbox = (strcasecmp(fi->full_name, "INBOX")) == 0;
 	}
 
 	if (!haveinbox && top == imap_store->namespace) {
@@ -3038,7 +3034,7 @@ get_folder_info_offline (CamelStore *store, const char *top,
 	/* A kludge to avoid having to pass a struct to the callback */
 	g_ptr_array_add (folders, imap_store);
 	storage_path = g_strdup_printf("%s/folders", imap_store->storage_path);
-	if (!e_path_find_folders (storage_path, get_one_folder_offline, folders)) {
+	if (!imap_path_find_folders (storage_path, get_one_folder_offline, folders)) {
 		camel_disco_store_check_online (CAMEL_DISCO_STORE (imap_store), ex);
 		fi = NULL;
 	} else {

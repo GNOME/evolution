@@ -45,12 +45,12 @@
 #endif
 
 #include <glib.h>
-#include <gal/util/e-iconv.h>
-#include <e-util/e-time-utils.h>
+#include <libedataserver/e-iconv.h>
+#include <libedataserver/e-time-utils.h>
 
 #include "camel-mime-utils.h"
 #include "camel-charset-map.h"
-#include "camel-service.h"  /* for camel_gethostbyname() */
+#include "camel-net-utils.h"
 #include "camel-utf8.h"
 
 #ifndef CLEAN_DATE
@@ -1929,7 +1929,7 @@ rfc2184_decode (const char *in, size_t len)
 char *
 camel_header_param (struct _camel_header_param *p, const char *name)
 {
-	while (p && g_ascii_strcasecmp (p->name, name) != 0)
+	while (p && strcasecmp (p->name, name) != 0)
 		p = p->next;
 	if (p)
 		return p->value;
@@ -1946,7 +1946,7 @@ camel_header_set_param (struct _camel_header_param **l, const char *name, const 
 	
 	while (p->next) {
 		pn = p->next;
-		if (!g_ascii_strcasecmp (pn->name, name)) {
+		if (!strcasecmp (pn->name, name)) {
 			g_free (pn->value);
 			if (value) {
 				pn->value = g_strdup (value);
@@ -2005,14 +2005,14 @@ camel_content_type_is(CamelContentType *ct, const char *type, const char *subtyp
 	/* no type == text/plain or text/"*" */
 	if (ct==NULL || (ct->type == NULL && ct->subtype == NULL)) {
 		return (!strcasecmp(type, "text")
-			&& (!g_ascii_strcasecmp(subtype, "plain")
+			&& (!strcasecmp(subtype, "plain")
 			    || !strcasecmp(subtype, "*")));
 	}
 
 	return (ct->type != NULL
-		&& (!g_ascii_strcasecmp(ct->type, type)
+		&& (!strcasecmp(ct->type, type)
 		    && ((ct->subtype != NULL
-			 && !g_ascii_strcasecmp(ct->subtype, subtype))
+			 && !strcasecmp(ct->subtype, subtype))
 			|| !strcasecmp("*", subtype))));
 }
 
@@ -2789,7 +2789,7 @@ camel_transfer_encoding_from_string (const char *string)
 	
 	if (string != NULL) {
 		for (i = 0; i < sizeof (encodings) / sizeof (encodings[0]); i++)
-			if (!g_ascii_strcasecmp (string, encodings[i]))
+			if (!strcasecmp (string, encodings[i]))
 				return i;
 	}
 	
@@ -3028,7 +3028,7 @@ header_encode_param (const unsigned char *in, gboolean *encoded)
 	else
 		charset = "iso-8859-1";
 	
-	if (strcasecmp(charset, "UTF-8") != 0
+	if (g_ascii_strcasecmp(charset, "UTF-8") != 0
 	    && (outbuf = header_convert(charset, "UTF-8", in, strlen(in)))) {
 		inptr = outbuf;
 	} else {
@@ -3240,7 +3240,7 @@ camel_content_type_format (CamelContentType *ct)
 		w(g_warning ("Content-Type with no main type"));
 	} else if (ct->subtype == NULL) {
 		w(g_warning ("Content-Type with no sub type: %s", ct->type));
-		if (!g_ascii_strcasecmp (ct->type, "multipart"))
+		if (!strcasecmp (ct->type, "multipart"))
 			g_string_append_printf (out, "%s/mixed", ct->type);
 		else
 			g_string_append_printf (out, "%s", ct->type);
@@ -3263,7 +3263,7 @@ camel_content_type_simple (CamelContentType *ct)
 		return g_strdup ("text/plain");
 	} else if (ct->subtype == NULL) {
 		w(g_warning ("Content-Type with no sub type: %s", ct->type));
-		if (!g_ascii_strcasecmp (ct->type, "multipart"))
+		if (!strcasecmp (ct->type, "multipart"))
 			return g_strdup_printf ("%s/mixed", ct->type);
 		else
 			return g_strdup (ct->type);
@@ -3449,7 +3449,7 @@ camel_header_decode_date(const char *in, int *saveoffset)
 	foundmonth = FALSE;
 	if (monthname) {
 		for (i=0;i<sizeof(tz_months)/sizeof(tz_months[0]);i++) {
-			if (!g_ascii_strcasecmp(tz_months[i], monthname)) {
+			if (!strcasecmp(tz_months[i], monthname)) {
 				tm.tm_mon = i;
 				foundmonth = TRUE;
 				break;
@@ -3501,7 +3501,7 @@ camel_header_decode_date(const char *in, int *saveoffset)
 
 		if (tz) {
 			for (i=0;i<sizeof(tz_offsets)/sizeof(tz_offsets[0]);i++) {
-				if (!g_ascii_strcasecmp(tz_offsets[i].name, tz)) {
+				if (!strcasecmp(tz_offsets[i].name, tz)) {
 					offset = tz_offsets[i].offset;
 					break;
 				}
@@ -3671,7 +3671,7 @@ header_raw_find_node(struct _camel_header_raw **list, const char *name)
 
 	l = *list;
 	while (l) {
-		if (!g_ascii_strcasecmp(l->name, name))
+		if (!strcasecmp(l->name, name))
 			break;
 		l = l->next;
 	}
@@ -3723,7 +3723,7 @@ camel_header_raw_remove(struct _camel_header_raw **list, const char *name)
 	p = (struct _camel_header_raw *)list;
 	l = *list;
 	while (l) {
-		if (!g_ascii_strcasecmp(l->name, name)) {
+		if (!strcasecmp(l->name, name)) {
 			p->next = l->next;
 			header_raw_free(l);
 			l = p->next;

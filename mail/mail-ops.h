@@ -36,7 +36,7 @@ extern "C" {
 #include "camel/camel-mime-message.h"
 #include "camel/camel-operation.h"
 
-#include "e-util/e-msgport.h"
+#include "libedataserver/e-msgport.h"
 #include "e-util/e-account.h"
 
 void mail_append_mail (CamelFolder *folder, CamelMimeMessage *message, CamelMessageInfo *info,

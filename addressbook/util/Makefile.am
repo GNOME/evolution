@@ -20,7 +20,7 @@ libeabutil_la_SOURCES =					\
 	eab-book-util.h
 
 libeabutil_la_LIBADD =					\
-	$(top_builddir)/camel/libcamel.la		\
+	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
 	$(top_builddir)/e-util/libeutil.la
 
 MARSHAL_GENERATED = eab-marshal.c eab-marshal.h

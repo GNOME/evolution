@@ -53,7 +53,7 @@
 #include "mail-mt.h"
 #include "mail-ops.h"
 #include "e-util/e-passwords.h"
-#include "e-util/e-msgport.h"
+#include "libedataserver/e-msgport.h"
 #include "em-junk-filter.h"
 #include "widgets/misc/e-error.h"
 
@@ -628,7 +628,9 @@ mail_session_init (const char *base_directory)
 	
 	if (camel_init (base_directory, TRUE) != 0)
 		exit (0);
-	
+
+	camel_provider_init();
+
 	session = CAMEL_SESSION (camel_object_new (MAIL_SESSION_TYPE));
 	
 	camel_dir = g_strdup_printf ("%s/mail", base_directory);
@@ -641,8 +643,6 @@ mail_session_init (const char *base_directory)
 								(GConfClientNotifyFunc) mail_session_check_junk_notify,
 								session, NULL, NULL);
 	session->junk_plugin = CAMEL_JUNK_PLUGIN (em_junk_filter_get_plugin ());
-	if (session->junk_plugin)
-		camel_junk_plugin_init (session->junk_plugin);
 
 	/* The shell will tell us to go online. */
 	camel_session_set_online ((CamelSession *) session, FALSE);

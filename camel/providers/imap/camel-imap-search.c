@@ -38,7 +38,7 @@
 #include "camel-imap-utils.h"
 #include "camel-imap-summary.h"
 
-#include "e-util/md5-utils.h"	/* md5 hash building */
+#include "libedataserver/md5-utils.h"	/* md5 hash building */
 #include "camel-mime-utils.h"	/* base64 encoding */
 
 #include "camel-seekable-stream.h"

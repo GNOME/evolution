@@ -38,7 +38,7 @@
 
 #include <bonobo/bonobo-generic-factory.h>
 
-#include <gal/util/e-iconv.h>
+#include <libedataserver/e-iconv.h>
 #include <gal/widgets/e-gui-utils.h>
 
 #include <gtk/gtktreemodel.h>

@@ -126,7 +126,6 @@ test_seekable_substream_writepart(CamelStream *s, int type)
 	CamelSeekableSubstream *sus = (CamelSeekableSubstream *)s;
 	CamelSeekableStream *sp = sus->parent_stream;
 	int i, len;
-	off_t end;
 
 	push("writing substream, type %d", type);
 
@@ -177,7 +176,6 @@ test_seekable_substream_readpart(CamelStream *s)
 	CamelSeekableSubstream *sus = (CamelSeekableSubstream *)s;
 	CamelSeekableStream *sp = sus->parent_stream;
 	int i, len;
-	off_t end;
 
 	push("reading substream");
 

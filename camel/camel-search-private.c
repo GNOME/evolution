@@ -40,7 +40,7 @@
 #include "camel-mime-message.h"
 #include "camel-multipart.h"
 #include "camel-stream-mem.h"
-#include "e-util/e-sexp.h"
+#include "libedataserver/e-sexp.h"
 #include "camel-search-private.h"
 #include "camel-i18n.h"
 

@@ -47,9 +47,9 @@
 #include "camel-debug.h"
 #include "camel-i18n.h"
 
-#include "e-util/e-sexp.h"
-#include "e-util/e-memory.h"
-#include "e-util/e-msgport.h"	/* for edlist */
+#include "libedataserver/e-sexp.h"
+#include "libedataserver/e-memory.h"
+#include "libedataserver/e-msgport.h"	/* for edlist */
 
 #define d(x)
 

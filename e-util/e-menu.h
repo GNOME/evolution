@@ -24,7 +24,7 @@
 #define __E_MENU_H__
 
 #include <glib-object.h>
-#include "e-util/e-msgport.h"
+#include "libedataserver/e-msgport.h"
 
 #ifdef __cplusplus
 extern "C" {

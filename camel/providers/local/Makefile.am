@@ -1,19 +1,13 @@
 ## Process this file with automake to produce Makefile.in
 
-libcamellocalincludedir = $(privincludedir)/camel
-
 camel_provider_LTLIBRARIES = libcamellocal.la
 camel_provider_DATA = libcamellocal.urls
 
-INCLUDES = -I.. \
-	-I$(srcdir)/..				\
+INCLUDES = \
 	-I$(top_srcdir)/camel			\
 	-I$(top_srcdir)/intl			\
-	-I$(top_srcdir)/e-util			\
 	-I$(top_srcdir)				\
 	$(CAMEL_CFLAGS)				\
-	$(GNOME_INCLUDEDIR)			\
-	$(GTK_INCLUDEDIR)			\
 	-DG_LOG_DOMAIN=\"camel-local-provider\"
 
 libcamellocal_la_SOURCES = 			\
@@ -34,7 +28,7 @@ libcamellocal_la_SOURCES = 			\
 	camel-spool-store.c			\
 	camel-spool-summary.c
 
-libcamellocalinclude_HEADERS =			\
+noinst_HEADERS =				\
 	camel-local-folder.h			\
 	camel-local-store.h			\
 	camel-local-summary.h			\
@@ -49,13 +43,12 @@ libcamellocalinclude_HEADERS =			\
 	camel-maildir-summary.h			\
 	camel-spool-folder.h			\
 	camel-spool-store.h			\
-	camel-spool-summary.h
-
-noinst_HEADERS =				\
+	camel-spool-summary.h			\
 	camel-local-private.h
 
 libcamellocal_la_LDFLAGS = -avoid-version -module
 
-libcamellocal_la_LIBADD = $(top_builddir)/e-util/libeutil.la
+libcamellocal_la_LIBADD = \
+	$(top_builddir)/libedataserver/libedataserver-${BASE_VERSION}.la
 
 EXTRA_DIST = libcamellocal.urls

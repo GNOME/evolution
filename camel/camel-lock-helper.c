@@ -116,12 +116,17 @@ camel_exception_clear (CamelException *exception)
 	;
 }
 
-char *gettext (const char *msgid);
-
-char *
-gettext (const char *msgid)
+/* dummy functions so we can link with camel-lock.c */
+char *gettext(const char *msgid);
+char *gettext(const char *msgid)
 {
 	return NULL;
+}
+
+const char *g_strerror(int err);
+const char *g_strerror(int err)
+{
+	return "";
 }
 
 static int lock_path(const char *path, guint32 *lockid)

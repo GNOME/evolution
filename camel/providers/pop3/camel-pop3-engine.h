@@ -22,7 +22,7 @@
 #define _CAMEL_POP3_ENGINE_H
 
 #include <camel/camel-object.h>
-#include "e-util/e-msgport.h"
+#include "libedataserver/e-msgport.h"
 #include "camel-pop3-stream.h"
 
 #define CAMEL_POP3_ENGINE(obj)         CAMEL_CHECK_CAST (obj, camel_pop3_engine_get_type (), CamelPOP3Engine)

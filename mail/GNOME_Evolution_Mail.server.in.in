@@ -79,21 +79,6 @@
 		   _value="Evolution Mail composer"/>
   </oaf_server>
 
-  <!-- Startup Wizard -->
-  <!-- (wizard) -->
-  <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Wizard:@VERSION@"
-	      type="factory"
-	      location="OAFIID:GNOME_Evolution_Mail_Factory:@VERSION@">
-
-    <oaf_attribute name="repo_ids" type="stringv">
-      <item value="IDL:GNOME/Evolution/StartupWizard:@VERSION@"/>
-    </oaf_attribute>
-
-    <oaf_attribute name="evolution:startup_wizard:priority" type="number"
-		   value="1"/>
-  </oaf_server>
-
-
   <!-- Configuration pages -->
 
   <!-- Account Editor -->
