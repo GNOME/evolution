@@ -1,3 +1,8 @@
+2003-06-11  Larry Ewing  <lewing@ximian.com>
+
+	* mail-send-recv.c (free_folder_info): free the info structure as
+	well.
+
 2003-06-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-tag-followup.c (get_week_start_day): Use mail-config's

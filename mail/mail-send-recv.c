@@ -157,6 +157,7 @@ free_folder_info(void *key, struct _folder_info *info, void *data)
 	mail_sync_folder(info->folder, NULL, NULL);
 	camel_object_unref(info->folder);
 	g_free(info->uri);
+	g_free(info);
 }
 
 static void free_send_info(void *key, struct _send_info *info, void *data)
