@@ -1,5 +1,8 @@
 2001-03-19  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* component-factory.c (owner_unset_cb): Call
+	unref_standard_folders() here instead.
+
 	* folder-browser-factory.c: Add Resend Message menu item.
 
 	* folder-browser.c (on_right_click): Add resend to the right-click

@@ -231,8 +231,6 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 		g_free (uri);
 	}
 	
-	g_atexit (unref_standard_folders);
-	
 	mail_session_enable_interaction (TRUE);
 	
 	mail_autoreceive_setup ();
@@ -265,6 +263,8 @@ idle_quit (gpointer user_data)
 static void
 owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 {
+	unref_standard_folders ();
+	
 	g_idle_add_full (G_PRIORITY_LOW, idle_quit, NULL, NULL);
 }
 
