@@ -92,15 +92,17 @@ struct _EContactListEditorClass
 	void (* editor_closed) (EContactListEditor *cle);
 };
 
-EContactListEditor *e_contact_list_editor_new             (EBook *book,
-							   ECard *list_card,
-							   gboolean is_new_list,
-							   gboolean editable);
-GtkType             e_contact_list_editor_get_type        (void);
-void                e_contact_list_editor_show            (EContactListEditor *editor);
-void                e_contact_list_editor_raise           (EContactListEditor *editor);
+EContactListEditor *e_contact_list_editor_new                (EBook *book,
+							      ECard *list_card,
+							      gboolean is_new_list,
+							      gboolean editable);
+GtkType             e_contact_list_editor_get_type           (void);
+void                e_contact_list_editor_show               (EContactListEditor *editor);
+void                e_contact_list_editor_raise              (EContactListEditor *editor);
 
-gboolean            e_contact_list_editor_confirm_delete  (GtkWindow      *parent);
+gboolean            e_contact_list_editor_confirm_delete     (GtkWindow      *parent);
+
+gboolean            e_contact_list_editor_request_close_all  (void);
 
 #ifdef __cplusplus
 }

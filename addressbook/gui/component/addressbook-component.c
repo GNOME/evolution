@@ -505,6 +505,20 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 }
 
 
+/* Quitting.  */
+
+static gboolean
+request_quit (EvolutionShellComponent *shell_component,
+	      void *data)
+{
+	if (! e_contact_editor_request_close_all ()
+	    || ! e_contact_list_editor_request_close_all ())
+		return FALSE;
+	else
+		return TRUE;
+}
+
+
 /* The factory function.  */
 
 static void
@@ -549,7 +563,8 @@ create_component (void)
 							 remove_folder, xfer_folder,
 							 NULL,
 							 get_dnd_selection,
-							 NULL, NULL);
+							 request_quit,
+							 NULL);
 
 	destination_interface = evolution_shell_component_dnd_destination_folder_new (destination_folder_handle_motion,
 										      destination_folder_handle_drop,

@@ -1,3 +1,23 @@
+2002-05-16  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/addressbook-component.c (request_quit): New, quit
+	handler for the EvolutionShellComponent.
+	(add_creatable_item): Set it up.
+
+	* gui/contact-editor/e-contact-list-editor.c
+	(e_contact_list_editor_request_close_all): New.
+	(e_contact_list_editor_new): Put the contact editor in a static
+	list and gtk_object_weakref() it.
+	(contact_list_editor_destroy_notify): New, GtkDestroyNotify
+	function for the contact editors.
+
+	* gui/contact-editor/e-contact-editor.c
+	(e_contact_editor_request_close_all): New.
+	(e_contact_editor_new): Put the contact editor in a static list
+	and gtk_object_weakref() it.
+	(contact_editor_destroy_notify): New, GtkDestroyNotify function
+	for the contact editors.
+
 2002-05-15  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook-component.c (create_component): Pass

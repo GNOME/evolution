@@ -112,6 +112,8 @@ enum {
 	DYNAMIC_LIST_ADDRESS
 };
 
+static GSList *all_contact_editors = NULL;
+
 GtkType
 e_contact_editor_get_type (void)
 {
@@ -1489,6 +1491,14 @@ supported_fields_cb (EBook *book, EBookStatus status,
 	command_state_changed (ce);
 }
 
+static void
+contact_editor_destroy_notify (void *data)
+{
+	EContactEditor *ce = E_CONTACT_EDITOR (data);
+
+	all_contact_editors = g_slist_remove (all_contact_editors, ce);
+}
+
 EContactEditor *
 e_contact_editor_new (EBook *book,
 		      ECard *card,
@@ -1501,6 +1511,9 @@ e_contact_editor_new (EBook *book,
 	g_return_val_if_fail (E_IS_CARD (card), NULL);
 
 	ce = E_CONTACT_EDITOR (gtk_type_new (E_CONTACT_EDITOR_TYPE));
+
+	all_contact_editors = g_slist_prepend (all_contact_editors, ce);
+	gtk_object_weakref (GTK_OBJECT (ce), contact_editor_destroy_notify, ce);
 
 	gtk_object_set (GTK_OBJECT (ce),
 			"book", book,
@@ -2745,4 +2758,28 @@ enable_widget (GtkWidget *widget, gboolean enabled)
 	}
 	else
 		gtk_widget_set_sensitive (widget, enabled);
+}
+
+
+gboolean
+e_contact_editor_request_close_all (void)
+{
+	GSList *p;
+	GSList *pnext;
+	gboolean retval;
+
+	retval = TRUE;
+	for (p = all_contact_editors; p != NULL; p = pnext) {
+		pnext = p->next;
+
+		e_contact_editor_raise (E_CONTACT_EDITOR (p->data));
+		if (! prompt_to_save_changes (E_CONTACT_EDITOR (p->data))) {
+			retval = FALSE;
+			break;
+		}
+
+		close_dialog (E_CONTACT_EDITOR (p->data));
+	}
+
+	return retval;
 }
