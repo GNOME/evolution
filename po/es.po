@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.13\n"
-"POT-Creation-Date: 2001-11-05 19:49-0500\n"
-"PO-Revision-Date: 2001-10-12 22:43+0200\n"
+"POT-Creation-Date: 2001-11-09 11:03+0100\n"
+"PO-Revision-Date: 2001-11-09 11:55+0100\n"
 "Last-Translator: Héctor García Álvarez <hector@scouts-es.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -603,7 +603,7 @@ msgstr ""
 
 #: addressbook/backend/ebook/e-card.c:4235
 msgid "Multiple VCards"
-msgstr "VCards Múltiples"
+msgstr "VCards múltiples"
 
 #: addressbook/backend/ebook/e-card.c:4243
 #, c-format
@@ -1116,7 +1116,7 @@ msgid ""
 "correct this problem."
 msgstr ""
 "Evolution no puede obtener la agenda de direcciones local.\n"
-"Bajo circunstancias normales, esto no deberia pasar nunca.\n"
+"Bajo circunstancias normales, esto no debería pasar nunca.\n"
 "Puede que necesites salir y reiniciar Evolution para arreglar\n"
 "este problema."
 
@@ -1207,7 +1207,7 @@ msgid ""
 "Internet, enter the address\n"
 "of that information here."
 msgstr ""
-"Si esta persona publica información de disponibilidad u otra inforación de "
+"Si esta persona publica información de disponibilidad u otra información de "
 "calendario en Internet, escribe\n"
 "aquí la dirección de esa información."
 
@@ -1280,7 +1280,7 @@ msgstr "_Puesto:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
 msgid "_Manager's Name:"
-msgstr "Nombre del _manager:"
+msgstr "Nombre del _encargado:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:31
 msgid "_Mobile"
@@ -1308,7 +1308,7 @@ msgstr "_Cónyuge:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:37
 msgid "_This is the mailing address"
-msgstr "Es_tá es la dirección de correo"
+msgstr "Es_ta es la dirección de correo"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:38
 msgid "_Web page address:"
@@ -2322,7 +2322,6 @@ msgstr "Zimbiabue"
 msgid "_Address:"
 msgstr "_Dirección:"
 
-
 #: addressbook/gui/contact-editor/fulladdr.glade.h:238
 msgid "_City:"
 msgstr "_Ciudad:"
@@ -2565,7 +2564,7 @@ msgid "Success"
 msgstr "Éxito"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:34
-#: camel/providers/imap/camel-imap-command.c:340 shell/e-shell.c:1894
+#: camel/providers/imap/camel-imap-command.c:355 shell/e-shell.c:1894
 #: shell/e-storage.c:528 shell/evolution-shell-component.c:1044
 msgid "Unknown error"
 msgstr "Error desconocido"
@@ -2761,11 +2760,11 @@ msgstr "Dimensiones:"
 
 #: addressbook/printing/e-contact-print.glade.h:7
 msgid "F_ont..."
-msgstr "F_uente..."
+msgstr "Tipo de _letra..."
 
 #: addressbook/printing/e-contact-print.glade.h:8
 msgid "Fonts"
-msgstr "Fuentes"
+msgstr "Tipos de letra"
 
 #: addressbook/printing/e-contact-print.glade.h:9
 msgid "Footer:"
@@ -2901,7 +2900,7 @@ msgstr "Ancho:"
 
 #: addressbook/printing/e-contact-print.glade.h:42
 msgid "_Font..."
-msgstr "_Fuente..."
+msgstr "_Tipo de letra..."
 
 #: addressbook/printing/e-contact-print.c:1111
 msgid "Print cards"
@@ -3685,7 +3684,7 @@ msgstr "Semana Laboral"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 msgid "_12 hour (AM/PM)"
-msgstr "_12 horas (AM/PM"
+msgstr "_12 horas (AM/PM)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 msgid "_24 hour"
@@ -3828,35 +3827,35 @@ msgstr "Falta "
 msgid "Could not update object!"
 msgstr "¡No pude actualizar el objeto!"
 
-#: calendar/gui/dialogs/comp-editor.c:676
+#: calendar/gui/dialogs/comp-editor.c:678
 msgid "Edit Appointment"
 msgstr "Editar Cita"
 
-#: calendar/gui/dialogs/comp-editor.c:681
+#: calendar/gui/dialogs/comp-editor.c:683
 #, c-format
 msgid "Appointment - %s"
 msgstr "Cita - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:684
+#: calendar/gui/dialogs/comp-editor.c:686
 #, c-format
 msgid "Task - %s"
 msgstr "Tarea - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:687
+#: calendar/gui/dialogs/comp-editor.c:689
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Entrada del diario - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:701
+#: calendar/gui/dialogs/comp-editor.c:703
 msgid "No summary"
 msgstr "Sin resumen"
 
-#: calendar/gui/dialogs/comp-editor.c:1059 mail/mail-callbacks.c:1891
+#: calendar/gui/dialogs/comp-editor.c:1061 mail/mail-callbacks.c:1891
 #: mail/mail-display.c:102
 msgid "Overwrite file?"
 msgstr "¿Sobreescribir archivo?"
 
-#: calendar/gui/dialogs/comp-editor.c:1063 mail/mail-callbacks.c:1898
+#: calendar/gui/dialogs/comp-editor.c:1065 mail/mail-callbacks.c:1898
 #: mail/mail-display.c:106
 msgid ""
 "A file by that name already exists.\n"
@@ -3865,12 +3864,12 @@ msgstr ""
 "Ya existe una archivo con ese nombre.\n"
 "¿Sobreescribirlo?"
 
-#: calendar/gui/dialogs/comp-editor.c:1109 ui/evolution-comp-editor.xml.h:13
+#: calendar/gui/dialogs/comp-editor.c:1111 ui/evolution-comp-editor.xml.h:13
 #: widgets/misc/e-filter-bar.h:101
 msgid "Save As..."
 msgstr "Guardar como..."
 
-#: calendar/gui/dialogs/comp-editor.c:1270
+#: calendar/gui/dialogs/comp-editor.c:1272
 msgid "Unable to obtain current version!"
 msgstr "¡Imposible obtener versión actual!"
 
@@ -3941,12 +3940,14 @@ msgid "Recurrence"
 msgstr "Recurrencia"
 
 #: calendar/gui/dialogs/event-editor.c:202
-#: calendar/gui/dialogs/event-editor.c:352
+#: calendar/gui/dialogs/event-editor.c:260
+#: calendar/gui/dialogs/event-editor.c:362
 msgid "Scheduling"
 msgstr "Planificación"
 
 #: calendar/gui/dialogs/event-editor.c:207
-#: calendar/gui/dialogs/event-editor.c:355
+#: calendar/gui/dialogs/event-editor.c:263
+#: calendar/gui/dialogs/event-editor.c:365
 msgid "Meeting"
 msgstr "Reunión"
 
@@ -4565,7 +4566,7 @@ msgstr "Actualizar"
 #: calendar/gui/e-itip-control.c:839 calendar/gui/e-itip-control.c:853
 #: shell/e-shell.c:1884 widgets/misc/e-cell-date-edit.c:258
 msgid "OK"
-msgstr "OK"
+msgstr "Aceptar"
 
 #: calendar/gui/e-itip-control.c:795
 msgid "Accept"
@@ -4597,6 +4598,7 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #: calendar/gui/e-itip-control.c:867
+#, c-format
 msgid "<b>%s</b> has published meeting information."
 msgstr "<b>%s</b> ha publicado información de reuniones."
 
@@ -4623,6 +4625,7 @@ msgid "Meeting Update"
 msgstr "Actualización de la reunión"
 
 #: calendar/gui/e-itip-control.c:882
+#, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
 msgstr "<b>%s</b> desea recibir la última actualización de la reunión."
 
@@ -4633,7 +4636,7 @@ msgstr "Petición de actualización de la reunión"
 #: calendar/gui/e-itip-control.c:887
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
-msgstr "<b>%s</b> ha constestado a la petición de reunión."
+msgstr "<b>%s</b> ha contestado a la petición de reunión."
 
 #: calendar/gui/e-itip-control.c:888
 msgid "Meeting Reply"
@@ -4656,9 +4659,10 @@ msgstr "<b>%s</b> ha enviado un mensaje ininteligible."
 
 #: calendar/gui/e-itip-control.c:898
 msgid "Bad Meeting Message"
-msgstr "Mensaje de reunión erroneo"
+msgstr "Mensaje de reunión erróneo"
 
 #: calendar/gui/e-itip-control.c:917
+#, c-format
 msgid "<b>%s</b> has published task information."
 msgstr "<b>%s</b> ha publicado la información de la tarea."
 
@@ -4685,6 +4689,7 @@ msgid "Task Update"
 msgstr "Actualización de tarea"
 
 #: calendar/gui/e-itip-control.c:932
+#, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
 msgstr "<b>%s</b> quiere recibir la última información de la tarea."
 
@@ -4712,9 +4717,10 @@ msgstr "Cancelación de tarea"
 
 #: calendar/gui/e-itip-control.c:948
 msgid "Bad Task Message"
-msgstr "Mensaje de tarea erroneo"
+msgstr "Mensaje de tarea erróneo"
 
 #: calendar/gui/e-itip-control.c:967
+#, c-format
 msgid "<b>%s</b> has published free/busy information."
 msgstr "<b>%s</b> ha publicado la información de disponibilidad."
 
@@ -4725,7 +4731,7 @@ msgstr "Información de disponibilidad"
 #: calendar/gui/e-itip-control.c:972
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
-msgstr "<b>%s</b> pide tu información de disponibilidad."
+msgstr "<b>%s</b> pide su información de disponibilidad."
 
 #: calendar/gui/e-itip-control.c:973
 msgid "Free/Busy Request"
@@ -4742,7 +4748,7 @@ msgstr "Respuesta sobre disponibilidad"
 
 #: calendar/gui/e-itip-control.c:983
 msgid "Bad Free/Busy Message"
-msgstr "Mensaje de disponibilidad erroneo"
+msgstr "Mensaje de disponibilidad erróneo"
 
 #: calendar/gui/e-itip-control.c:1052
 msgid "The message does not appear to be properly formed"
@@ -4788,22 +4794,18 @@ msgstr ""
 "El estado de asistencia no puede ser actualizado porque no existe el elemento"
 
 #: calendar/gui/e-itip-control.c:1316
-msgid "I couldn't remove the item from your calendar file!\n"
-msgstr "¡No pude quitar el elemento del archivo de su calendario!\n"
-
-#: calendar/gui/e-itip-control.c:1318
 msgid "Removal Complete"
 msgstr "Borrado completo"
 
-#: calendar/gui/e-itip-control.c:1350 calendar/gui/e-itip-control.c:1400
+#: calendar/gui/e-itip-control.c:1348 calendar/gui/e-itip-control.c:1398
 msgid "Item sent!\n"
 msgstr "¡Elemento enviado!\n"
 
-#: calendar/gui/e-itip-control.c:1352 calendar/gui/e-itip-control.c:1404
+#: calendar/gui/e-itip-control.c:1350 calendar/gui/e-itip-control.c:1402
 msgid "The item could not be sent!\n"
 msgstr "¡El elemento no puedo ser enviado!\n"
 
-#: calendar/gui/e-itip-control.c:1568
+#: calendar/gui/e-itip-control.c:1566
 msgid "Unable to find any of your identities in the attendees list!\n"
 msgstr ""
 "¡No pude encontrar ninguna de tus identidades en la lista de participantes!\n"
@@ -4970,7 +4972,7 @@ msgstr "Sin información"
 
 #: calendar/gui/e-meeting-time-sel.c:465
 msgid "_Options"
-msgstr "_Opciónes"
+msgstr "_Opciones"
 
 #: calendar/gui/e-meeting-time-sel.c:482
 msgid "Show _Only Working Hours"
@@ -5264,7 +5266,7 @@ msgstr "Mar"
 
 #: calendar/gui/print.c:498
 msgid "We"
-msgstr "Mier"
+msgstr "Miér"
 
 #: calendar/gui/print.c:499
 msgid "Th"
@@ -5316,22 +5318,27 @@ msgid "Task"
 msgstr "Tarea"
 
 #: calendar/gui/print.c:2262
+#, c-format
 msgid "Status: %s"
 msgstr "Estado: %s"
 
 #: calendar/gui/print.c:2280
+#, c-format
 msgid "Priority: %s"
 msgstr "Prioridad: %s"
 
 #: calendar/gui/print.c:2294
+#, c-format
 msgid "Percent Complete: %i"
 msgstr "Porcentaje Completado: %i"
 
 #: calendar/gui/print.c:2306
+#, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
 #: calendar/gui/print.c:2320
+#, c-format
 msgid "Categories: %s"
 msgstr "Categorías: %s"
 
@@ -5487,8 +5494,7 @@ msgid ""
 "contains? expects argument 1 to be one of \"any\", \"summary\", \"description"
 "\""
 msgstr ""
-"contains? espera que el argumento 1 sea \"any\", \"summary\" ó \"description"
-"\""
+"contains? espera que el argumento 1 sea «any», «summary» ó «description»"
 
 #: calendar/pcs/query.c:721
 msgid "has-categories? expects at least 1 argument"
@@ -5533,11 +5539,11 @@ msgstr "La verificación no está implementada en este cifrado"
 
 #: camel/camel-cipher-context.c:294
 msgid "Encryption is not supported by this cipher"
-msgstr "La encriptación no está implementada por este cifrado"
+msgstr "El cifrado no está implementada por este cifrado"
 
 #: camel/camel-cipher-context.c:336
 msgid "Decryption is not supported by this cipher"
-msgstr "La desencriptación no está implementada por este cifrado"
+msgstr "El descifrado no está implementada por este cifrado"
 
 #: camel/camel-disco-diary.c:180
 #, c-format
@@ -5882,7 +5888,8 @@ msgstr "(servidor desconocido)"
 
 #: camel/camel-remote-store.c:358 camel/camel-remote-store.c:420
 #: camel/camel-remote-store.c:481
-#: camel/providers/imap/camel-imap-command.c:386
+#: camel/providers/imap/camel-imap-command.c:228
+#: camel/providers/imap/camel-imap-command.c:401
 msgid "Operation cancelled"
 msgstr "Operación cancelada"
 
@@ -5998,7 +6005,7 @@ msgstr ""
 "%s"
 
 #: camel/camel-sasl-kerberos4.c:218
-#: camel/providers/imap/camel-imap-store.c:496
+#: camel/providers/imap/camel-imap-store.c:495
 msgid "Bad authentication response from server."
 msgstr "Respuesta de autentificación errónea desde el servidor."
 
@@ -6147,7 +6154,7 @@ msgstr "No puedo obtener la carpeta: Operación no válida"
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "No puedo crear la carpeta: Operación no válida"
 
-#: camel/camel-tcp-stream-openssl.c:536
+#: camel/camel-tcp-stream-openssl.c:519
 #, c-format
 msgid ""
 "Issuer: %s\n"
@@ -6157,7 +6164,7 @@ msgstr ""
 "Asunto: %s"
 
 #. construct our user prompt
-#: camel/camel-tcp-stream-openssl.c:541 camel/camel-tcp-stream-ssl.c:428
+#: camel/camel-tcp-stream-openssl.c:524 camel/camel-tcp-stream-ssl.c:428
 #, c-format
 msgid ""
 "Bad certificate from %s:\n"
@@ -6230,26 +6237,26 @@ msgstr "No pude cambiarle el nombre a la carpeta: %s: No existe"
 msgid "You cannot copy messages from this trash folder."
 msgstr "No puede copiar mensajes de esta papelera."
 
-#: camel/providers/imap/camel-imap-command.c:329
+#: camel/providers/imap/camel-imap-command.c:344
 #, c-format
 msgid "Unexpected response from IMAP server: %s"
 msgstr "Respuesta inesperada del servidor IMAP: %s"
 
-#: camel/providers/imap/camel-imap-command.c:339
+#: camel/providers/imap/camel-imap-command.c:354
 #, c-format
 msgid "IMAP command failed: %s"
 msgstr "El comando IMAP ha fallado: %s"
 
-#: camel/providers/imap/camel-imap-command.c:394
+#: camel/providers/imap/camel-imap-command.c:409
 msgid "Server response ended too soon."
 msgstr "La respuesta del servidor terminó demasiado pronto."
 
-#: camel/providers/imap/camel-imap-command.c:586
+#: camel/providers/imap/camel-imap-command.c:601
 #, c-format
 msgid "IMAP server response did not contain %s information"
 msgstr "La respuesta del servidor IMAP no contenía información de %s"
 
-#: camel/providers/imap/camel-imap-command.c:622
+#: camel/providers/imap/camel-imap-command.c:637
 #, c-format
 msgid "Unexpected OK response from IMAP server: %s"
 msgstr "El servidor IMAP inesperadamente ha respondido OK: %s"
@@ -6273,21 +6280,21 @@ msgstr "La carpeta fue destruida y recreada en el servidor."
 msgid "Scanning for changed messages"
 msgstr "Buscando mensajes modificados"
 
-#: camel/providers/imap/camel-imap-folder.c:1562
-#: camel/providers/imap/camel-imap-folder.c:1974
+#: camel/providers/imap/camel-imap-folder.c:1566
+#: camel/providers/imap/camel-imap-folder.c:1978
 msgid "This message is not currently available"
 msgstr "Este mensaje no está disponible actualmente"
 
-#: camel/providers/imap/camel-imap-folder.c:1713
-#: camel/providers/imap/camel-imap-folder.c:1794
+#: camel/providers/imap/camel-imap-folder.c:1717
+#: camel/providers/imap/camel-imap-folder.c:1798
 msgid "Fetching summary information for new messages"
 msgstr "Obteniendo información de los nuevos mensajes"
 
-#: camel/providers/imap/camel-imap-folder.c:1719
+#: camel/providers/imap/camel-imap-folder.c:1723
 msgid "Scanning for new messages"
 msgstr "Buscando mensajes nuevos"
 
-#: camel/providers/imap/camel-imap-folder.c:2011
+#: camel/providers/imap/camel-imap-folder.c:2015
 msgid "Could not find message body in FETCH response."
 msgstr "No pude encontrar el cuerpo del mensaje en la respuesta de FETCH"
 
@@ -6330,7 +6337,8 @@ msgstr "Espacio de nombres"
 
 #: camel/providers/imap/camel-imap-provider.c:57
 msgid "Apply filters to new messages in INBOX on this server"
-msgstr "Aplicar filtros a los mensajes nuevos en INBOX en este servidor"
+msgstr ""
+"Aplicar filtros a los mensajes nuevos en el buzón de entrada de este servidor"
 
 #: camel/providers/imap/camel-imap-provider.c:63
 msgid "IMAP"
@@ -6344,29 +6352,29 @@ msgstr "Para leer y guardar correo en los servidores IMAP."
 msgid "This option will connect to the IMAP server using a plaintext password."
 msgstr "Conectará con el servidor IMAP usando una contraseña de texto plano"
 
-#: camel/providers/imap/camel-imap-store.c:519
+#: camel/providers/imap/camel-imap-store.c:518
 #, c-format
 msgid "IMAP server %s does not support requested authentication type %s"
 msgstr ""
 "El servidor IMAP %s no implementa el método de autenticación requerido %s"
 
-#: camel/providers/imap/camel-imap-store.c:529
+#: camel/providers/imap/camel-imap-store.c:528
 #: camel/providers/smtp/camel-smtp-transport.c:386
 #, c-format
 msgid "No support for authentication type %s"
 msgstr "El tipo de autenticación %s no está implementado"
 
-#: camel/providers/imap/camel-imap-store.c:553
+#: camel/providers/imap/camel-imap-store.c:552
 #, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
 msgstr "%sPor favor escriba la contraseña IMAP para %s@%s"
 
-#: camel/providers/imap/camel-imap-store.c:568
+#: camel/providers/imap/camel-imap-store.c:567
 #: camel/providers/smtp/camel-smtp-transport.c:430
 msgid "You didn't enter a password."
 msgstr "No escribió una clave."
 
-#: camel/providers/imap/camel-imap-store.c:594
+#: camel/providers/imap/camel-imap-store.c:593
 #, c-format
 msgid ""
 "Unable to authenticate to IMAP server.\n"
@@ -6377,12 +6385,12 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/imap/camel-imap-store.c:897
+#: camel/providers/imap/camel-imap-store.c:896
 #, c-format
 msgid "No such folder %s"
 msgstr "No existe la carpeta %s"
 
-#: camel/providers/imap/camel-imap-store.c:1272
+#: camel/providers/imap/camel-imap-store.c:1271
 msgid "The parent folder is not allowed to contain subfolders"
 msgstr "No está permitido que la carpeta raíz contenga subcarpetas"
 
@@ -6404,7 +6412,7 @@ msgstr "Para obtener el correo local de archivos mbox estándar."
 
 #: camel/providers/local/camel-local-provider.c:62
 msgid "Apply filters to new messages in INBOX"
-msgstr "Aplicar filtros a los mensajes nuevos en INBOX"
+msgstr "Aplicar filtros a los mensajes nuevos en el buzón de entrada"
 
 #: camel/providers/local/camel-local-provider.c:68
 msgid "Maildir-format mail directories"
@@ -7794,11 +7802,11 @@ msgstr "segundos"
 
 #: filter/filter-datespec.c:194
 msgid "You have forgotten to choose a date."
-msgstr "Te has olvidado de elegir una fecha."
+msgstr "Se ha olvidado de elegir una fecha."
 
 #: filter/filter-datespec.c:196
 msgid "You have chosen an invalid date."
-msgstr "Has elegido una fecha incorrecta."
+msgstr "Ha elegido una fecha incorrecta."
 
 #: filter/filter-datespec.c:271
 msgid ""
@@ -7889,8 +7897,8 @@ msgid ""
 "You forgot to choose a folder.\n"
 "Please go back and specify a valid folder to deliver mail to."
 msgstr ""
-"Te has olvidado de elegir una carpeta.\n"
-"Por favor vuelve y especifica una carpeta válida donde entregar el correo."
+"Se ha olvidado de elegir una carpeta.\n"
+"Vuelva y especifique una carpeta válida donde entregar el correo."
 
 #: filter/filter-folder.c:242 filter/vfolder-rule.c:356
 #: mail/mail-account-gui.c:837
@@ -8289,7 +8297,7 @@ msgstr ""
 
 #: importers/pine-importer.c:100
 msgid "Evolution is importing your old Pine data"
-msgstr "Evolution está importando tu vieja información de Pine"
+msgstr "Evolution está importando su vieja información de Pine"
 
 #: importers/pine-importer.c:663
 msgid ""
@@ -8706,7 +8714,7 @@ msgid "Are you sure you want to delete this news account?"
 msgstr "¿Esta seguro que quiere borrar esta cuenta de noticias?"
 
 #. give our dialog an Close button and title
-#: mail/mail-accounts.c:790 mail/mail-config.glade.h:42
+#: mail/mail-accounts.c:783 mail/mail-config.glade.h:42
 msgid "Mail Settings"
 msgstr "Configuración del correo"
 
@@ -8764,7 +8772,7 @@ msgstr ""
 
 #: mail/mail-callbacks.c:230
 msgid "You have not set a mail transport method"
-msgstr "No has definido un sistema para enviar el correo"
+msgstr "No ha definido un sistema para enviar el correo"
 
 #. FIXME: this wording sucks
 #: mail/mail-callbacks.c:265
@@ -8928,9 +8936,9 @@ msgid ""
 "below do not need to be filled in,\n"
 "unless you wish to include this information in email you send."
 msgstr ""
-"Por favor escribe debajo tu nombre y dirección de correo. Los campos  "
-"«opcionales» no hace falta que los rellenes,\n"
-"a menos que quieras incluir esta información en las cartas que envíes."
+"Por favor escriba debajo su nombre y dirección de correo. Los campos  "
+"«opcionales» no hace falta que los rellene,\n"
+"a menos que quiera incluir esta información en las cartas que envíe."
 
 #: mail/mail-config-druid.c:148
 msgid ""
@@ -8938,9 +8946,9 @@ msgid ""
 "not sure, ask your system\n"
 "administrator or Internet Service Provider."
 msgstr ""
-"Por favor rellena la información acerca del servidor de correo de entrada. "
-"Si no estas seguro, pregúntale a tu\n"
-"administrador de sistemas o a tu Proveedor de Servicios de Internet."
+"Por favor rellene la información acerca del servidor de correo de entrada. "
+"Si no está seguro, pregúntele a su\n"
+"administrador de sistemas o a su Proveedor de Servicios de Internet."
 
 #: mail/mail-config-druid.c:150
 msgid "Please select among the following options"
@@ -8953,8 +8961,8 @@ msgid ""
 "administrator or Internet Service Provider."
 msgstr ""
 "Por favor escriba debajo la información acerca de como enviará su correo. Si "
-"no estas seguro, pregúntale\n"
-"a tu administrador de sistemas o a tu Proveedor de Servicios de Internet."
+"no está seguro, pregúntele\n"
+"a su administrador de sistemas o a su Proveedor de Servicios de Internet."
 
 #: mail/mail-config-druid.c:154
 msgid ""
@@ -8966,9 +8974,9 @@ msgid ""
 "space below.\n"
 "This name will be used for display purposes only."
 msgstr ""
-"Casi has acabado con el proceso de configuración del correo. La identidad, "
+"Casi ha acabado con el proceso de configuración del correo. La identidad, "
 "el servidor de correo de entrada y\n"
-"el método de envío de correo que has especificado serán agrupados para crear "
+"el método de envío de correo que ha especificado serán agrupados para crear "
 "una cuenta\n"
 "de correo de Evolution. Por favor escriba un nombre para esta cuenta.\n"
 "Este nombre solo se usará para mostrar información."
@@ -8978,11 +8986,12 @@ msgstr ""
 msgid "Evolution Account Assistant"
 msgstr "Asistente de cuentas de Evolution"
 
-#: mail/mail-config.c:316
+#: mail/mail-config.c:326
+#, c-format
 msgid "Account %d"
 msgstr "Cuenta %d"
 
-#: mail/mail-config.c:1643
+#: mail/mail-config.c:1859
 #, c-format
 msgid ""
 "Could not get inbox for new mail store:\n"
@@ -8996,15 +9005,16 @@ msgstr ""
 #. Create the shortcut. FIXME: This only works if the
 #. * full name matches the path.
 #.
-#: mail/mail-config.c:1654
+#: mail/mail-config.c:1870
+#, c-format
 msgid "%s: Inbox"
-msgstr "%s: Correo entrante"
+msgstr "%s: Buzón de entrada"
 
-#: mail/mail-config.c:1896
+#: mail/mail-config.c:2112
 msgid "Checking Service"
 msgstr "Comprobando el servicio"
 
-#: mail/mail-config.c:1967 mail/mail-config.c:1971
+#: mail/mail-config.c:2183 mail/mail-config.c:2187
 msgid "Connecting to server..."
 msgstr "Conectando al servidor..."
 
@@ -9070,7 +9080,7 @@ msgstr "Configuración"
 
 #: mail/mail-config.glade.h:16
 msgid "Confirm when Expunging a folder"
-msgstr "Confirmar antes de comprir una carpeta"
+msgstr "Confirmar antes de comprimir una carpeta"
 
 #: mail/mail-config.glade.h:17
 msgid ""
@@ -9563,53 +9573,53 @@ msgstr "Cc"
 msgid "Bcc"
 msgstr "Bcc"
 
-#: mail/mail-format.c:1812
+#: mail/mail-format.c:1813
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 "Este mensaje está firmado digitalmente. Pulsa en el icono del candado para "
 "más información."
 
-#: mail/mail-format.c:1835
+#: mail/mail-format.c:1836
 msgid "Evolution does not recognize this type of signed message."
 msgstr "Evolution no reconoce este tipo de mensajes firmados."
 
-#: mail/mail-format.c:1843
+#: mail/mail-format.c:1844
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Este mensaje está firmado digitalmente y es auténtico."
 
-#: mail/mail-format.c:1851
+#: mail/mail-format.c:1852
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr ""
 "Este mensaje está firmado digitalmente pero no se puede verificar su "
 "autenticidad."
 
-#: mail/mail-format.c:2067
+#: mail/mail-format.c:2068
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Puntero a sitio FTP (%s)"
 
-#: mail/mail-format.c:2081
+#: mail/mail-format.c:2082
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Puntero a archivo local (%s) valido en «%s»"
 
-#: mail/mail-format.c:2086
+#: mail/mail-format.c:2087
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Puntero a archivo local (%s)"
 
-#: mail/mail-format.c:2115
+#: mail/mail-format.c:2116
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Puntero a sitio FTP (%s)"
 
-#: mail/mail-format.c:2123
+#: mail/mail-format.c:2124
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Puntero a datos externos desconocidos (tipo «%s»)"
 
-#: mail/mail-format.c:2128
+#: mail/mail-format.c:2129
 msgid "Malformed external-body part."
 msgstr "Parte externa al cuerpo del mensaje mal escrita."
 
@@ -11444,7 +11454,7 @@ msgstr "Todas las _fuentes de noticias:"
 
 #: my-evolution/my-evolution.glade.h:6
 msgid "C_elcius"
-msgstr "C_elcius"
+msgstr "C_elsius"
 
 #: my-evolution/my-evolution.glade.h:8
 msgid "How many days should the calendar display at once?"
@@ -11552,11 +11562,11 @@ msgstr "Cancelar Operación"
 
 #: shell/e-local-storage.c:174 shell/e-shortcuts.c:1052
 msgid "Inbox"
-msgstr "Correo entrante"
+msgstr "Buzón de entrada"
 
 #: shell/e-local-storage.c:175
 msgid "Outbox"
-msgstr "Correo saliente"
+msgstr "Buzón de salida"
 
 #: shell/e-local-storage.c:636
 msgid "Local Folders"
@@ -11694,13 +11704,13 @@ msgstr ""
 #: shell/e-shell-folder-commands.c:401
 #, c-format
 msgid "Delete \"%s\""
-msgstr "Borrar \"%s\""
+msgstr "Borrar «%s»"
 
 #. "Are you sure..." label
 #: shell/e-shell-folder-commands.c:411
 #, c-format
 msgid "Are you sure you want to remove the \"%s\" folder?"
-msgstr "¿Esta seguro que quiere borrar la carpeta \"%s\"?"
+msgstr "¿Esta seguro que quiere borrar la carpeta «%s»?"
 
 #: shell/e-shell-folder-commands.c:488
 #, c-format
@@ -11714,7 +11724,7 @@ msgstr ""
 #: shell/e-shell-folder-commands.c:536
 #, c-format
 msgid "Rename the \"%s\" folder to:"
-msgstr "Renombrar carpeta \"%s\" a:"
+msgstr "Renombrar carpeta «%s» a:"
 
 #: shell/e-shell-folder-commands.c:542
 msgid "Rename folder"
@@ -12028,7 +12038,7 @@ msgid ""
 "in order to access that data again."
 msgstr ""
 "El componente de Evolution que se ocupa de las carpetas de tipo\n"
-"\"%s\" ha fallado inesperadamente. Deberá salir de Evolution y volver\n"
+"«%s» ha fallado inesperadamente. Deberá salir de Evolution y volver\n"
 "a entrar para poder acceder otra vez a esa información."
 
 #: shell/e-shell.c:1886
@@ -12396,7 +12406,7 @@ msgstr ""
 "Evolution conectarse a tus cuentas de correo, e importar archivos\n"
 "otras aplicaciones. \n"
 "\n"
-"Por favor pulsa el botón \"Siguiente\" para continuar. "
+"Por favor pulsa el botón «Siguiente» para continuar. "
 
 #: shell/glade/evolution-startup-wizard.glade.h:15
 msgid ""
@@ -12405,10 +12415,10 @@ msgid ""
 "\n"
 "Click the \"Finish\" button to save your settings. "
 msgstr ""
-"Has introducido toda la información necesaria para\n"
+"Ha introducido toda la información necesaria para\n"
 "configurar Evolution. \n"
 "\n"
-"Pulsa el botón \"Finalizar\" para guardar tu configuración. "
+"Pulse el botón «Finalizar» para guardar su configuración. "
 
 #: shell/importer/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
@@ -13369,7 +13379,7 @@ msgstr "Configurar los datos de la página para la impresora actual"
 
 #: ui/evolution-mail-message.xml.h:79
 msgid "Show Email _Source"
-msgstr "Mostrar la Fuente del Men_saje"
+msgstr "Mostrar la fuente del men_saje"
 
 #: ui/evolution-mail-message.xml.h:80
 msgid "Show Full _Headers"
@@ -13591,7 +13601,7 @@ msgstr "Mostrar adjuntos"
 
 #: ui/evolution-message-composer.xml.h:36
 msgid "Sign this message with your PGP key"
-msgstr "Firmar este mensaje con tu clave PGP"
+msgstr "Firmar este mensaje con su clave PGP"
 
 #: ui/evolution-message-composer.xml.h:37
 msgid "Sign this message with your S/MIME Signature Certificate"
@@ -13656,7 +13666,7 @@ msgstr "A_yuda"
 
 #: ui/evolution-subscribe.xml.h:1
 msgid "Add folder to your list of subscribed folders"
-msgstr "Añadir carpeta a tu lista de carpeta suscritas"
+msgstr "Añadir carpeta a su lista de carpetas suscritas"
 
 #: ui/evolution-subscribe.xml.h:2
 msgid "F_older"
@@ -13672,7 +13682,7 @@ msgstr "Regenerar la lista de carpetas"
 
 #: ui/evolution-subscribe.xml.h:5
 msgid "Remove folder from your list of subscribed folders"
-msgstr "Quitar carpetas de tu lista de carpetas suscritas"
+msgstr "Quitar carpetas de su lista de carpetas suscritas"
 
 #: ui/evolution-subscribe.xml.h:7
 msgid "Subscribe"
@@ -14143,6 +14153,9 @@ msgstr "init_corba(): no pude inicializar GNOME"
 #: wombat/wombat.c:225
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonob(): no pude inicializar Bonobo"
+
+#~ msgid "I couldn't remove the item from your calendar file!\n"
+#~ msgstr "¡No pude quitar el elemento del archivo de su calendario!\n"
 
 #~ msgid ""
 #~ "Please select the information\n"
