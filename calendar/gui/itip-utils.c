@@ -1057,8 +1057,10 @@ comp_fb_normalize (icalcomponent *icomp)
 	
 	prop = icalcomponent_get_first_property (icomp, 
 						 ICAL_ORGANIZER_PROPERTY);
-	p = icalproperty_new_clone (prop);
-	icalcomponent_add_property (iclone, p);
+	if (prop) {
+		p = icalproperty_new_clone (prop);
+		icalcomponent_add_property (iclone, p);
+	}
 	
 	itt = icalcomponent_get_dtstart (icomp);
 	icalcomponent_set_dtstart (iclone, itt);
@@ -1103,8 +1105,10 @@ comp_fb_normalize (icalcomponent *icomp)
 	icalcomponent_set_dtstamp (iclone, itt);	
 	
 	prop = icalcomponent_get_first_property (icomp, ICAL_URL_PROPERTY);
-	p = icalproperty_new_clone (prop);
-	icalcomponent_add_property (iclone, p);
+	if (prop) {
+		p = icalproperty_new_clone (prop);
+		icalcomponent_add_property (iclone, p);
+	}
 	
 	comment =  icalcomponent_get_comment (icomp);
 	if (comment)
