@@ -1,3 +1,9 @@
+/*
+ * Calendar properties dialog box
+ * (C) 1998 the Free Software Foundation
+ *
+ * Author: Miguel de Icaza <miguel@kernel.org>
+ */
 #include <config.h>
 #include <gnome.h>
 #include "main.h"
