@@ -353,6 +353,28 @@ ee_load_tables(void)
 	closedir(dir);
 }
 
+/* unfortunately, gmarkup_escape doesn't expose its gstring based api :( */
+static void
+ee_append_text(GString *out, const char *text)
+{
+	char c;
+
+	while ( (c=*text++) ) {
+		if (c == '<')
+			g_string_append(out, "&lt;");
+		else if (c == '>')
+			g_string_append(out, "&gt;");
+		else if (c == '"')
+			g_string_append(out, "&quot;");
+		else if (c == '\'')
+			g_string_append(out, "&apos;");
+		else if (c == '&')
+			g_string_append(out, "&amp;");
+		else
+			g_string_append_c(out, c);
+	}
+}
+
 static void
 ee_build_label(GString *out, const char *fmt, GPtrArray *args)
 {
@@ -365,7 +387,7 @@ ee_build_label(GString *out, const char *fmt, GPtrArray *args)
 		g_string_append_len(out, fmt, newstart-fmt);
 		id = atoi(newstart+1);
 		if (id < args->len)
-			g_string_append(out, args->pdata[id]);
+			ee_append_text(out, args->pdata[id]);
 		else
 			g_warning("Error references argument %d not supplied by caller", id);
 		fmt = end+1;
