@@ -1,3 +1,10 @@
+2000-10-19  Iain Holmes  <iain@helixcode.com>
+
+	*e-shell-view.c (e_shell_view_save_settings): If there is no view
+        save the default uri instead.
+        (socket_destroy_cb): When a view crashes, change the view to the
+        default one.
+
 2000-10-18  Iain Holmes  <iain@helixcode.com>
 
 	* e-shell-view.c (start_progress_bar): If the widget is not realized
