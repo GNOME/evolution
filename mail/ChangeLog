@@ -1,3 +1,8 @@
+2001-12-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-ops.c (filter_folder_filter): Don't expunge when we sync
+	anymore, this fixes bug #4472.
+
 2001-12-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-autofilter.c (rule_from_message): Make sure that the
