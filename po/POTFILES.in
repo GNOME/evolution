@@ -202,6 +202,7 @@ data/evolution.keys.in
 default_user/searches.xml
 e-util/e-categories-config.c
 e-util/e-passwords.c
+e-util/e-pilot-settings.c
 e-util/e-time-utils.c
 executive-summary/GNOME_Evolution_Summary.oaf.in
 executive-summary/component/component-factory.c
