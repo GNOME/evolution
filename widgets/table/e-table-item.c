@@ -907,6 +907,10 @@ eti_destroy (GtkObject *object)
 
 	if (eti->tooltip->window)
 		gtk_widget_destroy (eti->tooltip->window);
+	if (eti->tooltip->timer) {
+		gtk_timeout_remove (eti->tooltip->timer);
+		eti->tooltip->timer = 0;
+	}
 	g_free (eti->tooltip);
 
 	if (GTK_OBJECT_CLASS (eti_parent_class)->destroy)
@@ -1039,6 +1043,9 @@ eti_init (GnomeCanvasItem *item)
 	eti->needs_compute_height = 0;
 
 	eti->tooltip = g_new0 (ETableTooltip, 1);
+	eti->tooltip->timer = 0;
+	eti->tooltip->window = NULL;
+	eti->tooltip->eti = GNOME_CANVAS_ITEM (eti);
 
 	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM (eti), eti_reflow);
 }
@@ -1467,7 +1474,6 @@ _do_tooltip (ETableItem *eti)
 	for (i = 0; i < eti->tooltip->row; i++)
 		y += (ETI_ROW_HEIGHT (eti, i) + 1);
 	eti->tooltip->y = y;
-	eti->tooltip->eti = GNOME_CANVAS_ITEM (eti);
 	eti->tooltip->row_height = ETI_ROW_HEIGHT (eti, i);
 	
 	e_cell_show_tooltip (ecell_view, 
@@ -1799,6 +1805,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	case GDK_ENTER_NOTIFY:
 		if (eti->tooltip->timer > 0)
 			gtk_timeout_remove (eti->tooltip->timer);
+		eti->tooltip->timer = 0;
 		break;
 
 	default:
