@@ -62,8 +62,33 @@
            access news and weather from the Internet.  This is also
            the case if you wish to load remote images into HTML mail
            message.  You can tell the GNOME Virtual File System about
-           your HTTP proxy in one of two ways:
+           your HTTP proxy in one of three ways, from easiest to most
+           complicated:
             <variablelist>
+             <varlistentry>
+              <term>Use the VFS Proxy Tool</term>
+	      <listitem>
+		<para>
+                 <orderedlist numeration="arabic">
+		    <listitem>
+		      <para>
+			Run the command "gnome-vfs-proxy-capplet" or
+			select the GNOME VFS Proxy Configuration tool
+			from your Desktop Preferences menu in the menu
+			panel.
+	               </para>
+		    </listitem>
+                    <listitem>
+		      <para>
+			Enter the address or hostname of your proxy
+			server and click the <guibutton>OK</guibutton>
+			button.
+	               </para>
+		    </listitem>
+                </orderedlist>
+               </para>
+      	      </listitem>
+            </varlistentry>
 	    <varlistentry>
 	      <term>Configure it with Nautilus</term>
 	      <listitem>
@@ -139,7 +164,7 @@
                   read the gconftool man page.
                 </para>
 	      </listitem>
-	    </varlistentry>
+             </varlistentry>
 	  </variablelist>
          </para>
       </note>
@@ -150,18 +175,14 @@
       <para>
 	To add a city to be displayed in the weather:
 	<orderedlist numeration="arabic">
+	  
 	  <listitem>
 	    <para>
-	      Click <guilabel>Summary</guilabel> in the <guilabel>Shortcut Bar</guilabel>.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Click
+	      Choose
 	      <menuchoice>
 		<guimenu>Tools</guimenu>
-		<guimenuitem>Summary Settings</guimenuitem>
-	      </menuchoice>.
+		<guimenuitem>Configure</guimenuitem> </menuchoice> and
+		select the Summary Preferences tool.
 	    </para>
 	  </listitem>
 	  <listitem>
@@ -200,26 +221,18 @@
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
-	      Click <guilabel>Summary</guilabel> in the <guilabel>Shortcut Bar</guilabel>.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Click
+	      Choose
 	      <menuchoice>
 		<guimenu>Tools</guimenu>
-		<guimenuitem>Summary Settings</guimenuitem>
-	      </menuchoice>.
+		<guimenuitem>Configure</guimenuitem> </menuchoice> and
+		select the Summary Preferences tool. Then, choose the
+		<guilabel>News</guilabel> tab.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Click the <guilabel>News Feeds</guilabel> tab.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Select the news news feed on the left column.
+	      In the left hand column, select the news feed to add to
+	      your display.
 	    </para>
 	  </listitem>
 	  <listitem>
@@ -234,26 +247,26 @@
 	  </listitem>
 	</orderedlist>
       </para>
+      <para>
+        You can also add your own news feeds. Evolution will display
+        RDF format news feeds from the website of your choice.
+      </para>
+
     </sect2>
     <sect2 id="customizing-mail">
       <title>Customizing Your Mail Summary</title>
       <para>
 	To customize your mail summary:
 	<orderedlist numeration="arabic">
-	  <listitem>
+        <listitem>
 	    <para>
-	      Click <guilabel>Summary</guilabel> in the <guilabel>Shortcut Bar</guilabel>.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Click
+	      Choose
 	      <menuchoice>
 		<guimenu>Tools</guimenu>
-		<guimenuitem>Summary Settings</guimenuitem>
-	      </menuchoice>.
+		<guimenuitem>Configure</guimenuitem> </menuchoice> and
+		select the Summary Preferences tool.
 	    </para>
-	  </listitem>
+	  </listitem>	
 	  <listitem>
 	    <para>
 	      Click the <guibutton>Mail</guibutton> tab.
@@ -277,18 +290,13 @@
       <para>
 	To customize your calendar summary:
 	<orderedlist numeration="arabic">
-	  <listitem>
+	 <listitem>
 	    <para>
-	      Click <guilabel>Summary</guilabel> in the <guilabel>Shortcut Bar</guilabel>.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Click
+	      Choose
 	      <menuchoice>
 		<guimenu>Tools</guimenu>
-		<guimenuitem>Summary Settings</guimenuitem>
-	      </menuchoice>.
+		<guimenuitem>Configure</guimenuitem> </menuchoice> and
+		select the Summary Preferences tool.
 	    </para>
 	  </listitem>
 	  <listitem>
