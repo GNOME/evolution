@@ -484,7 +484,10 @@ forward_message (FolderBrowser *fb, gboolean attach)
 {
 	EMsgComposer *composer;
 	CamelMimeMessage *cursor_msg;
+	MailConfigIdentity *id;
 	GPtrArray *uids;
+	gchar *sig_file = NULL;
+	gboolean send_html;
 	
 	cursor_msg = fb->mail_display->current_message;
 	g_return_if_fail (cursor_msg != NULL);
@@ -492,7 +495,13 @@ forward_message (FolderBrowser *fb, gboolean attach)
 	if (!check_send_configuration (fb))
 		return;
 	
-	composer = e_msg_composer_new ();
+	id = mail_config_get_default_identity ();
+	send_html = mail_config_send_html ();
+	
+	if (id)
+		sig_file = id->sig;
+	
+	composer = e_msg_composer_new_with_sig_file (sig_file, send_html);
 	if (!composer)
 		return;
 	
