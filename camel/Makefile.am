@@ -77,6 +77,7 @@ libcamel_la_SOURCES = 				\
 	camel-sasl-kerberos4.c			\
 	camel-sasl-login.c			\
 	camel-sasl-plain.c			\
+	camel-sasl-popb4smtp.c			\
 	camel-search-private.c			\
 	camel-seekable-stream.c			\
 	camel-seekable-substream.c		\
@@ -162,6 +163,7 @@ libcamelinclude_HEADERS =			\
 	camel-sasl-kerberos4.h			\
 	camel-sasl-login.h			\
 	camel-sasl-plain.h			\
+	camel-sasl-popb4smtp.h			\
 	camel-seekable-stream.h			\
 	camel-seekable-substream.h		\
 	camel-service.h				\

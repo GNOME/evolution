@@ -34,6 +34,7 @@
 #include "camel-sasl-kerberos4.h"
 #include "camel-sasl-login.h"
 #include "camel-sasl-plain.h"
+#include "camel-sasl-popb4smtp.h"
 
 static CamelObjectClass *parent_class = NULL;
 
@@ -196,6 +197,8 @@ camel_sasl_new (const char *service_name, const char *mechanism, CamelService *s
 		sasl = (CamelSasl *)camel_object_new (CAMEL_SASL_PLAIN_TYPE);
 	else if (!strcmp (mechanism, "LOGIN"))
 		sasl = (CamelSasl *)camel_object_new (CAMEL_SASL_LOGIN_TYPE);
+	else if (!strcmp (mechanism, "POPB4SMTP"))
+		sasl = (CamelSasl *)camel_object_new (CAMEL_SASL_POPB4SMTP_TYPE);
 	else
 		return NULL;
 
@@ -251,6 +254,8 @@ camel_sasl_authtype (const char *mechanism)
 		return &camel_sasl_plain_authtype;
 	else if (!strcmp (mechanism, "LOGIN"))
 		return &camel_sasl_login_authtype;
+	else if (!strcmp(mechanism, "POPB4SMTP"))
+		return &camel_sasl_popb4smtp_authtype;
 	else
 		return NULL;
 }

@@ -233,7 +233,7 @@ connect_to_server (CamelService *service, CamelException *ex)
 	struct hostent *h;
 	guint32 addrlen;
 	int port, ret;
-	
+
 	if (!CAMEL_SERVICE_CLASS (parent_class)->connect (service, ex))
 		return FALSE;
 	
@@ -343,6 +343,25 @@ smtp_connect (CamelService *service, CamelException *ex)
 {
 	CamelSmtpTransport *transport = CAMEL_SMTP_TRANSPORT (service);
 
+	/* We (probably) need to check popb4smtp before we connect ... */
+	if (strcmp(service->url->authmech, "POPB4SMTP") == 0) {
+		int truth;
+		GByteArray *chal;
+		CamelSasl *sasl;
+
+		sasl = camel_sasl_new("smtp", "POPB4SMTP", service);
+		chal = camel_sasl_challenge(sasl, NULL, ex);
+		truth = camel_sasl_authenticated(sasl);
+		if (chal)
+			g_byte_array_free(chal, TRUE);
+		camel_object_unref((CamelObject *)sasl);
+
+		if (!truth)
+			return FALSE;
+
+		return connect_to_server(service, ex);
+	}
+
 	if (!connect_to_server (service, ex))
 		return FALSE;
 
@@ -352,11 +371,11 @@ smtp_connect (CamelService *service, CamelException *ex)
 		CamelServiceAuthType *authtype;
 		gboolean authenticated = FALSE;
 		char *errbuf = NULL;
-		
+
 		if (!transport->is_esmtp || !g_hash_table_lookup (transport->authtypes, service->url->authmech)) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
 					      _("SMTP server %s does not support requested "
-					      "authentication type %s"), service->url->host,
+						"authentication type %s"), service->url->host,
 					      service->url->authmech);
 			camel_service_disconnect (service, TRUE, NULL);
 			return FALSE;
@@ -737,17 +756,17 @@ smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 	gchar *cmdbuf, *respbuf = NULL, *challenge;
 	CamelSasl *sasl;
 
+	camel_operation_start_transient(NULL, _("SMTP Authentication"));
+
 	sasl = camel_sasl_new ("smtp", mech, CAMEL_SERVICE (transport));
 	if (!sasl) {
-		g_free (respbuf);
+		camel_operation_end(NULL);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Error creating SASL authentication object."));
 		return FALSE;
 	}
 
-	camel_operation_start_transient(NULL, _("SMTP Authentication"));
-
-	challenge = camel_sasl_challenge_base64 (sasl, NULL, ex);
+	challenge = camel_sasl_challenge_base64(sasl, NULL, ex);
 	if (challenge) {
 		cmdbuf = g_strdup_printf ("AUTH %s %s\r\n", mech, challenge);
 		g_free (challenge);
@@ -812,6 +831,7 @@ smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 		goto lose;
 	}
 
+	camel_object_unref((CamelObject *)sasl);
 	camel_operation_end(NULL);
 
 	return TRUE;
@@ -829,9 +849,7 @@ smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 				     _("Bad authentication response from server.\n"));
 	}
 	
-	if (sasl)
-		camel_object_unref (CAMEL_OBJECT (sasl));
-
+	camel_object_unref (CAMEL_OBJECT (sasl));
 	camel_operation_end(NULL);
 	
 	return FALSE;

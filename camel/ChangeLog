@@ -1,3 +1,29 @@
+2001-08-03  Not Zed  <NotZed@Ximian.com>
+
+	* providers/smtp/camel-smtp-transport.c (smtp_connect): special
+	case popb4smtp auth before we try and connect, and do the magic
+	here first.
+
+2001-08-02  Not Zed  <NotZed@Ximian.com>
+
+	* providers/smtp/camel-smtp-transport.c (smtp_connect): Check for
+	POPB4SMTP separate to the esmtp auth list.
+	(smtp_auth): If creating the sasl object means it is
+	already authenticated, then exit early.  Sort of 'clean hack' to
+	help popb4smtp work.
+	(smtp_auth): Unref the sasl object, clean up a memleak i think.
+
+	* providers/smtp/camel-smtp-provider.c
+	(camel_provider_module_init): Added POPB4SMTP auth type.
+
+	* camel-sasl.c (camel_sasl_authtype): Added POPB4SMTP type.
+
+	* camel-sasl-popb4smtp.c: New file for pop before smtp
+	'authentication'.
+
+	* Makefile.am (libcamel_la_SOURCES, HEADERS): Add
+	camel-sasl-popb4smtp.[ch].
+
 2001-08-01  Not Zed  <NotZed@Ximian.com>
 
 	* providers/local/camel-mbox-folder.c (mbox_lock): If we fail to
