@@ -83,10 +83,15 @@ reply_indent (EditorListener *l, CORBA_Environment * ev)
 		}
 			
 	}
+
 	GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "style-normal", ev);
 	GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "indent-zero", ev);
+	GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "cursor-position-save", ev);
+	GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "select-paragraph-extended", ev);
 	GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "text-default-color", ev);
 	GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "italic-off", ev);
+	GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "disable-selection", ev);
+	GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "cursor-position-restore", ev);
 }
 
 static CORBA_any *

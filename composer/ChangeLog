@@ -1,3 +1,7 @@
+2001-04-17  Radek Doulik  <rodo@ximian.com>
+
+	* listener.c (reply_indent): more auto-indentation magic
+
 2001-04-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (build_message): Use the mail-crypto pgp-mime
