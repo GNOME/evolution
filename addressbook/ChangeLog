@@ -1,5 +1,11 @@
 2004-05-28  Chris Toshok  <toshok@ximian.com>
 
+	* gui/widgets/eab-contact-display.c (render_contact): render all
+	email addresses, not just the first 3.
+	(eab_contact_display_class_init): use a C comment, not C++.
+
+2004-05-28  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/select-names/e-select-names-bonobo.c
 	(entry_set_property_fn): call e_select_names_model_load_contacts
 	after setting text/addresses/destinations.

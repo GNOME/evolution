@@ -33,6 +33,8 @@
 #include <gtkhtml/gtkhtml-stream.h>
 #include <gtk/gtkscrolledwindow.h>
 
+/*#define HANDLE_MAILTO_INTERNALLY 1*/
+
 #define PARENT_TYPE (gtk_vbox_get_type ())
 
 struct _EABContactDisplayPrivate {
@@ -281,43 +283,33 @@ static void
 render_contact (GtkHTMLStream *html_stream, EContact *contact)
 {
 	GString *accum;
-	const char *e;
+	GList *email_list, *l;
+#ifdef HANDLE_MAILTO_INTERNALLY
+	int email_num = 0;
+#endif
 	char *nl;
 
 	gtk_html_stream_printf (html_stream, "<table border=\"0\">");
 
 	accum = g_string_new ("");
 	nl = "";
-	e = e_contact_get_const (contact, E_CONTACT_EMAIL_1);
-	if (e) {
+
+	email_list = e_contact_get (contact, E_CONTACT_EMAIL);
+	for (l = email_list; l; l = l->next) {
 #ifdef HANDLE_MAILTO_INTERNALLY
-		g_string_append_printf (accum, "<a href=\"internal-mailto:0\">%s</a>", e);
+		char *html = e_text_to_html (l->data, 0);
+		g_string_append_printf (accum, "%s<a href=\"internal-mailto:%d\">%s</a>", nl, email_num, html);
+		email_num ++;
+		g_free (html);
 		nl = "<br>";
+		
 #else
-		g_string_append_printf (accum, "%s", e);
+		g_string_append_printf (accum, "%s%s", nl, l->data);
 		nl = "\n";
 #endif
 	}
-	e = e_contact_get_const (contact, E_CONTACT_EMAIL_2);
-	if (e) {
-#ifdef HANDLE_MAILTO_INTERNALLY
-		g_string_append_printf (accum, "<a href=\"internal-mailto:1\">%s</a>", e);
-		nl = "<br>";
-#else
-		g_string_append_printf (accum, "%s%s", nl, e);
-		nl = "\n";
-#endif
-	}
-	e = e_contact_get_const (contact, E_CONTACT_EMAIL_3);
-	if (e) {
-#ifdef HANDLE_MAILTO_INTERNALLY
-		g_string_append_printf (accum, "<a href=\"internal-mailto:2\">%s</a>", e);
-		nl = "<br>";
-#else
-		g_string_append_printf (accum, "%s%s", nl, e);
-		nl = "\n";
-#endif
-	}
+	g_list_foreach (email_list, (GFunc)g_free, NULL);
+	g_list_free (email_list);
 
 	if (accum->len) {
 		start_block (html_stream, "");
@@ -670,7 +662,7 @@ eab_contact_display_init (GObject *object)
 static void
 eab_contact_display_class_init (GtkObjectClass *object_class)
 {
-	//	object_class->destroy = mail_display_destroy;
+	/*	object_class->destroy = mail_display_destroy;*/
 }
 
 GType
