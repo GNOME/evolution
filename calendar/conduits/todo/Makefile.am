@@ -7,6 +7,7 @@ INCLUDES = 					\
 	-I$(top_srcdir)/e-util			\
 	-I$(top_builddir)/e-util		\
 	$(BONOBO_GNOME_CFLAGS)			\
+	$(BONOBO_CONF_CFLAGS)			\
 	$(PISOCK_CFLAGS)			\
 	$(GNOME_PILOT_CFLAGS)
 
@@ -28,6 +29,7 @@ libetodo_conduit_la_LIBADD = 						\
 	$(top_builddir)/libwombat/libwombat-static.la	 		\
 	$(top_builddir)/e-util/libeconduit-static.la	 		\
 	$(BONOBO_GNOME_LIBS)						\
+	$(BONOBO_CONF_LIBS)						\
 	$(PISOCK_LIBS) 							\
 	$(GNOME_LIBDIR) 						\
 	$(GNOME_LIBS)

@@ -32,6 +32,7 @@
 #include <pi-datebook.h>
 #include <gpilotd/gnome-pilot-conduit.h>
 #include <gpilotd/gnome-pilot-conduit-sync-abs.h>
+#include <libical/src/libical/icaltime.h>
 #include <cal-client/cal-client.h>
 #include <e-pilot-map.h>
 
@@ -62,6 +63,7 @@ struct _ECalConduitContext {
 	char *calendar_file;
 	gboolean calendar_open_success;
 
+	icaltimezone *timezone;
 	time_t since;
 	GList *uids;
 	GList *changed;

@@ -26,6 +26,7 @@
 
 #include <liboaf/liboaf.h>
 #include <bonobo.h>
+#include <bonobo-conf/bonobo-config-database.h>
 #include <cal-client/cal-client-types.h>
 #include <cal-client/cal-client.h>
 #include <cal-util/timeutil.h>
@@ -211,6 +212,51 @@ start_calendar_server (ECalConduitContext *ctxt)
 }
 
 /* Utility routines */
+static icaltimezone *
+get_timezone (CalClient *client, const char *tzid) 
+{
+	icaltimezone *timezone = NULL;
+
+	timezone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
+	if (timezone == NULL)
+		 cal_client_get_timezone (client, tzid, &timezone);
+	
+	return timezone;
+}
+
+static icaltimezone *
+get_default_timezone (void)
+{
+	Bonobo_ConfigDatabase db;
+	icaltimezone *timezone = NULL;
+	char *location;
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+	
+	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+	
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		CORBA_exception_free (&ev);
+		return NULL;
+ 	}
+
+	CORBA_exception_free (&ev);
+
+	location = bonobo_config_get_string (db, "/Calendar/Display/Timezone", NULL);
+	if (location == NULL)
+		goto cleanup;
+	
+	timezone = icaltimezone_get_builtin_timezone (location);
+	g_free (location);
+
+ cleanup:
+	bonobo_object_release_unref (db, NULL);
+
+	return timezone;	
+}
+
+
 static char *
 map_name (ECalConduitContext *ctxt) 
 {
@@ -402,14 +448,14 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 
 	cal_component_get_dtstart (comp, &dt);	
 	if (dt.value) {
-		dt_time = icaltime_as_timet (*dt.value);
+		dt_time = icaltime_as_timet_with_zone (*dt.value, get_timezone (ctxt->client, dt.tzid));
 		
 		local->appt->begin = *localtime (&dt_time);
 	}
 
 	cal_component_get_dtend (comp, &dt);	
-	if (dt.value && time_add_day (dt_time, 1) != icaltime_as_timet (*dt.value)) {
-		dt_time = icaltime_as_timet (*dt.value);
+	if (dt.value && time_add_day (dt_time, 1) != icaltime_as_timet_with_zone (*dt.value, get_timezone (ctxt->client, dt.tzid))) {
+		dt_time = icaltime_as_timet_with_zone (*dt.value, get_timezone (ctxt->client, dt.tzid));
 		
 		local->appt->end = *localtime (&dt_time);
 		local->appt->event = 0;
@@ -483,7 +529,7 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 			local->appt->repeatForever = 1;
 		} else {
 			local->appt->repeatForever = 0;
-			dt_time = icaltime_as_timet (recur->until);
+			dt_time = icaltime_as_timet_with_zone (recur->until, ctxt->timezone);
 			local->appt->repeatEnd = *localtime (&dt_time);
 		}
 		
@@ -527,15 +573,16 @@ local_record_from_uid (ECalLocalRecord *local,
 static CalComponent *
 comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 			 GnomePilotRecord *remote,
-			 CalComponent *in_comp)
+			 CalComponent *in_comp,
+			 icaltimezone *timezone)
 {
 	CalComponent *comp;
 	struct Appointment appt;
-	struct icaltimetype now = icaltime_from_timet (time (NULL), FALSE), it;
+	struct icaltimetype now = icaltime_from_timet_with_zone (time (NULL), FALSE, timezone), it;
 	struct icalrecurrencetype recur;
 	int pos, i;
 	CalComponentText summary = {NULL, NULL};
-	CalComponentDateTime dt = {NULL, NULL};
+	CalComponentDateTime dt = {NULL, icaltimezone_get_tzid (timezone)};
 	char *txt;
 	
 	g_return_val_if_fail (remote != NULL, NULL);
@@ -574,7 +621,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	} 
 
 	if (!is_empty_time (appt.begin)) {
-		it = icaltime_from_timet (mktime (&appt.begin), FALSE);
+		it = icaltime_from_timet_with_zone (mktime (&appt.begin), FALSE, timezone);
 		dt.value = &it;
 		cal_component_set_dtstart (comp, &dt);
 	}
@@ -583,11 +630,11 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		time_t t = mktime (&appt.begin);
 		
 		t = time_day_end (t);
-		it = icaltime_from_timet (t, FALSE);
+		it = icaltime_from_timet_with_zone (t, FALSE, timezone);
 		dt.value = &it;
 		cal_component_set_dtend (comp, &dt);
 	} else if (!is_empty_time (appt.end)) {
-		it = icaltime_from_timet (mktime (&appt.end), FALSE);
+		it = icaltime_from_timet_with_zone (mktime (&appt.end), FALSE, timezone);
 		dt.value = &it;
 		cal_component_set_dtend (comp, &dt);
 	}
@@ -647,7 +694,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		if (!appt.repeatForever) {
 			time_t t = mktime (&appt.repeatEnd);
 			t = time_add_day (t, 1);
-			recur.until = icaltime_from_timet (t, FALSE);
+			recur.until = icaltime_from_timet_with_zone (t, FALSE, timezone);
 		}
 
 		list = g_slist_append (list, &recur);
@@ -722,7 +769,6 @@ pre_sync (GnomePilotConduit *conduit,
 
 	LOG ("---------------------------------------------------------\n");
 	LOG ("pre_sync: Calendar Conduit v.%s", CONDUIT_VERSION);
-	g_message ("Calendar Conduit v.%s", CONDUIT_VERSION);
 
 	ctxt->client = NULL;
 	
@@ -732,6 +778,12 @@ pre_sync (GnomePilotConduit *conduit,
 		return -1;
 	}
 
+	/* Get the timezone */
+	ctxt->timezone = get_default_timezone ();
+	if (ctxt->timezone == NULL)
+		return -1;
+	LOG ("  Using timezone: %s", icaltimezone_get_tzid (ctxt->timezone));
+	
 	/* Load the uid <--> pilot id mapping */
 	filename = map_name (ctxt);
 	e_pilot_map_read (filename, &ctxt->map);
@@ -908,7 +960,7 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 	static GList *iterator;
 	static int count;
 
-	g_return_val_if_fail (local != NULL, 0);
+	g_return_val_if_fail (local != NULL, -1);
 
 	if (*local == NULL) {
 		LOG ("beginning for_each_modified: beginning\n");
@@ -992,7 +1044,7 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 
 	LOG ("add_record: adding %s to desktop\n", print_remote (remote));
 
-	comp = comp_from_remote_record (conduit, remote, NULL);
+	comp = comp_from_remote_record (conduit, remote, NULL, ctxt->timezone);
 	update_comp (conduit, comp, ctxt);
 
 	cal_component_get_uid (comp, &uid);
@@ -1016,7 +1068,7 @@ replace_record (GnomePilotConduitSyncAbs *conduit,
 	LOG ("replace_record: replace %s with %s\n",
 	     print_local (local), print_remote (remote));
 
-	new_comp = comp_from_remote_record (conduit, remote, local->comp);
+	new_comp = comp_from_remote_record (conduit, remote, local->comp, ctxt->timezone);
 	gtk_object_unref (GTK_OBJECT (local->comp));
 	local->comp = new_comp;
 	update_comp (conduit, local->comp, ctxt);

@@ -26,6 +26,7 @@
 
 #include <liboaf/liboaf.h>
 #include <bonobo.h>
+#include <bonobo-conf/bonobo-config-database.h>
 #include <cal-client/cal-client-types.h>
 #include <cal-client/cal-client.h>
 #include <cal-util/timeutil.h>
@@ -215,6 +216,50 @@ start_calendar_server (EToDoConduitContext *ctxt)
 }
 
 /* Utility routines */
+static icaltimezone *
+get_timezone (CalClient *client, const char *tzid) 
+{
+	icaltimezone *timezone = NULL;
+
+	timezone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
+	if (timezone == NULL)
+		 cal_client_get_timezone (client, tzid, &timezone);
+	
+	return timezone;
+}
+
+static icaltimezone *
+get_default_timezone (void)
+{
+	Bonobo_ConfigDatabase db;
+	icaltimezone *timezone = NULL;
+	char *location;
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+	
+	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+	
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		CORBA_exception_free (&ev);
+		return NULL;
+ 	}
+
+	CORBA_exception_free (&ev);
+
+	location = bonobo_config_get_string (db, "/Calendar/Display/Timezone", NULL);
+	if (location == NULL)
+		goto cleanup;
+	
+	timezone = icaltimezone_get_builtin_timezone (location);
+	g_free (location);
+
+ cleanup:
+	bonobo_object_release_unref (db, NULL);
+
+	return timezone;	
+}
+
 static char *
 map_name (EToDoConduitContext *ctxt) 
 {
@@ -356,7 +401,7 @@ local_record_from_comp (EToDoLocalRecord *local, CalComponent *comp, EToDoCondui
 
 	cal_component_get_due (comp, &due);	
 	if (due.value) {
-		due_time = icaltime_as_timet (*due.value);
+		due_time = icaltime_as_timet_with_zone (*due.value, get_timezone (ctxt->client, due.tzid));
 		
 		local->todo->due = *localtime (&due_time);
 		local->todo->indefinite = 0;
@@ -414,13 +459,14 @@ local_record_from_uid (EToDoLocalRecord *local,
 static CalComponent *
 comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 			 GnomePilotRecord *remote,
-			 CalComponent *in_comp)
+			 CalComponent *in_comp,
+			 icaltimezone *timezone)
 {
 	CalComponent *comp;
 	struct ToDo todo;
-	struct icaltimetype now = icaltime_from_timet (time (NULL), FALSE);
+	struct icaltimetype now = icaltime_from_timet_with_zone (time (NULL), FALSE, timezone);
 	CalComponentText summary = {NULL, NULL};
-	CalComponentDateTime dt = {NULL, NULL};
+	CalComponentDateTime dt = {NULL, icaltimezone_get_tzid (timezone)};
 	struct icaltimetype due;
 	char *txt;
 	
@@ -466,7 +512,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	}
 
 	if (!is_empty_time (todo.due)) {
-		due = icaltime_from_timet (mktime (&todo.due), FALSE);
+		due = icaltime_from_timet_with_zone (mktime (&todo.due), FALSE, timezone);
 		dt.value = &due;
 		cal_component_set_due (comp, &dt);
 	}
@@ -546,6 +592,12 @@ pre_sync (GnomePilotConduit *conduit,
 		gnome_pilot_conduit_error (conduit, _("Could not start wombat"));
 		return -1;
 	}
+
+	/* Get the timezone */
+	ctxt->timezone = get_default_timezone ();
+	if (ctxt->timezone == NULL)
+		return -1;
+	LOG ("  Using timezone: %s", icaltimezone_get_tzid (ctxt->timezone));
 
 	/* Load the uid <--> pilot id map */
 	filename = map_name (ctxt);
@@ -807,7 +859,7 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 
 	LOG ("add_record: adding %s to desktop\n", print_remote (remote));
 
-	comp = comp_from_remote_record (conduit, remote, NULL);
+	comp = comp_from_remote_record (conduit, remote, NULL, ctxt->timezone);
 	update_comp (conduit, comp, ctxt);
 
 	cal_component_get_uid (comp, &uid);
@@ -831,7 +883,7 @@ replace_record (GnomePilotConduitSyncAbs *conduit,
 	LOG ("replace_record: replace %s with %s\n",
 	     print_local (local), print_remote (remote));
 
-	new_comp = comp_from_remote_record (conduit, remote, local->comp);
+	new_comp = comp_from_remote_record (conduit, remote, local->comp, ctxt->timezone);
 	gtk_object_unref (GTK_OBJECT (local->comp));
 	local->comp = new_comp;
 	update_comp (conduit, local->comp, ctxt);

@@ -1,3 +1,27 @@
+2001-07-27  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/calendar/calendar-conduit.c: handle timezones
+	everywhere
+	(get_timezone): new function to get a timezone based
+	on a tzid
+	(get_default_timezone): get default timezone
+
+	* conduits/calendar/calendar-conduit.h: time zone field for the
+	context
+
+	* conduits/calendar/Makefile.am: link to bonobo conf
+
+	* conduits/todo/todo-conduit.c: handle timezones
+	everywhere
+	(get_timezone): new function to get a timezone based
+	on a tzid
+	(get_default_timezone): get default timezone
+
+	* conduits/todo/todo-conduit.h: time zone field for the
+	context
+
+	* conduits/todo/Makefile.am: link to bonobo conf
+	
 2001-07-27  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-day-view-main-item.c (e_day_view_main_item_draw_day_event):
