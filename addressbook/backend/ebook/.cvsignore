@@ -13,3 +13,4 @@ test-card
 test-client
 test-client-list
 load-pine-addressbook
+load-gnomecard-addressbook

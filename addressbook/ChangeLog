@@ -1,5 +1,9 @@
 2000-08-12  Christopher James Lahey  <clahey@helixcode.com>
 
+	* backend/ebook/.cvsignore: Added load-gnomecard-addressbook.
+
+2000-08-12  Christopher James Lahey  <clahey@helixcode.com>
+
 	* gui/search/e-addressbook-search-dialog.c,
 	gui/search/e-addressbook-search-dialog.h: Made this into a Gtk
 	object.
