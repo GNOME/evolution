@@ -20,7 +20,8 @@ INCLUDES = \
 	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"	\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"            \
 	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"	\
-	-DG_LOG_DOMAIN=\"evolution-mail\"
+	-DG_LOG_DOMAIN=\"evolution-mail\"		\
+	$(THREADS_CFLAGS)
 
 EVOLUTION_MAIL_CORBA_GENERATED = \
 	Mail.h			\
@@ -69,8 +70,7 @@ evolution_mail_LDADD = 					\
 	$(top_builddir)/libibex/libibex.la		\
 	$(top_builddir)/filter/libfilter.la		\
 	$(BONOBO_HTML_GNOME_LIBS)			\
-	$(EXTRA_GNOME_LIBS)				\
-	$(PTHREAD_LIB)					\
+	$(THREADS_LIBS)					\
 	$(UNICODE_LIBS)
 
 test_mail_SOURCES = \
@@ -85,10 +85,10 @@ test_thread_SOURCES =	\
 	test-thread.c
 
 test_thread_LDADD = 			\
-	$(BONOBO_VFS_GNOME_LIBS)	\
-	$(PTHREAD_LIB)
+	$(BONOBO_HTML_GNOME_LIBS)	\
+	$(THREADS_LIBS)
 
-test_thread_CFLAGS = -g
+test_thread_CFLAGS = -g $(THREADS_CFLAGS)
 
 GOAD_FILES = evolution-mail.gnorba
 OAF_FILES = evolution-mail.oafinfo

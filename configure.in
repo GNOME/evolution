@@ -136,43 +136,26 @@ dnl **************************************************
 dnl * Posix thread support
 dnl **************************************************
 
-have_pthread=false
+dnl Hah! Threads are no longer an option
+dnl AC_ARG_WITH(threads, [  --with-threads          Include thread support],[
+dnl FIXME: support more thread types, pth at least
 
-AC_ARG_WITH(threads, [  --with-threads          Include thread support],[
-        if test x$withval = xyes; then
-              test_thread=true
-        else
-              test_thread=false
-	fi
-],[
-	test_thread=false
-])
+GNOME_PTHREAD_CHECK
 
-if $test_thread; then
-     GNOME_PTHREAD_CHECK
-     if test "x$PTHREAD_LIB" = "x" ; then
-         have_pthread=false
-     else
-         have_pthread=true
-     fi
-else
-     have_pthread=false
+if test "x$PTHREAD_LIB" = "x" ; then
+	AC_MSG_ERROR([POSIX threads are currently required for Evolution])
 fi
-
-AM_CONDITIONAL(ENABLE_THREADS, $have_pthread)
 
 dnl
 dnl Notice that this is a hack, and we wont be able to use this forever, but
 dnl at least for some time
 dnl
-if $have_pthread; then 
- 	THREADS_LIBS="$PTHREAD_LIB `glib-config --libs gthread`"
-	THREADS_CFLAGS="`glib-config --cflags gthread`"
-else
-	THREADS_LIBS=""
-	THREADS_CFLAGS=""
-fi
 
+THREADS_LIBS="$PTHREAD_LIB `$GLIB_CONFIG --libs gthread`"
+THREADS_CFLAGS="`$GLIB_CONFIG --cflags gthread`"
+
+AC_SUBST(THREADS_LIBS)
+AC_SUBST(THREADS_CFLAGS)
 
 dnl **************************************************
 dnl * Print check

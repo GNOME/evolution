@@ -1,3 +1,8 @@
+2000-06-25  Peter Williams  <peterw@helixcode.com>
+
+	* Makefile.am: Clean up the various _LIBS and _CFLAGS
+	to work with simpler THREADS_LIBS and THREADS_CFLAGS scheme.
+
 2000-06-23  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* folder-browser.c (folder_browser_load_folder): Improved the

@@ -55,12 +55,7 @@ test_movemail_LDADD = \
 	$(GNOME_LIBDIR) 			\
 	$(GNOMEUI_LIBS) $(INTLLIBS) $(EXTRA_GNOME_LIBS)
 
-if ENABLE_THREADS
 THREAD_RELATED_TESTS=test8
-else
-THREAD_RELATED_TESTS=
-endif
-
 
 noinst_PROGRAMS =  	\
 	test1		\
