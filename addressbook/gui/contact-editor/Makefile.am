@@ -22,6 +22,7 @@ noinst_LTLIBRARIES =				\
 	libecontacteditor.la
 
 libecontacteditor_la_SOURCES = 			\
+	$(MARSHAL_GENERATED)			\
 	e-contact-editor-address.c		\
 	e-contact-editor-address.h		\
 	e-contact-editor-fullname.c		\

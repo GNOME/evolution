@@ -51,13 +51,13 @@ privlib_LTLIBRARIES = libeselectnames.la
 
 libeselectnames_la_SOURCES = 			\
 	$(IDL_GENERATED)			\
+	$(MARSHAL_GENERATED)			\
 	e-select-names-bonobo.c			\
 	e-select-names-bonobo.h			\
 	e-select-names-completion.c		\
 	e-select-names-completion.h		\
 	e-select-names-manager.c		\
 	e-select-names-manager.h		\
-	e-select-names-marshal.c		\
 	e-select-names-model.c			\
 	e-select-names-model.h			\
 	e-select-names-popup.c			\

@@ -23,9 +23,9 @@ noinst_LTLIBRARIES =				\
 	libecontactlisteditor.la
 
 libecontactlisteditor_la_SOURCES = 		\
+	$(MARSHAL_GENERATED)			\
 	e-contact-list-editor.c			\
 	e-contact-list-editor.h			\
-	e-contact-list-editor-marshal.c		\
 	e-contact-list-model.c			\
 	e-contact-list-model.h
 

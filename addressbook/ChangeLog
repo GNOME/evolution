@@ -1,5 +1,16 @@
 2003-11-07  JP Rosevear <jpr@ximian.com>
 
+	* gui/widgets/Makefile.am: make sure the marshal header is in the
+	source list
+
+	* gui/component/select-names/Makefile.am: ditto
+
+	* gui/contact-editor/Makefile.am: ditto
+
+	* gui/contact-list-editor/Makefile.am: ditto
+	
+2003-11-07  JP Rosevear <jpr@ximian.com>
+
 	* util/Makefile.am: dist the marshal list
 
 2003-11-07  JP Rosevear <jpr@ximian.com>

@@ -40,6 +40,7 @@ noinst_LTLIBRARIES =				\
 
 libeabwidgets_la_SOURCES =			\
 	$(CORBA_SOURCE)				\
+	$(MARSHAL_GENERATED)			\
 	eab-contact-display.c			\
 	eab-contact-display.h			\
 	eab-gui-util.c				\
