@@ -580,18 +580,27 @@ camel_certdb_nss_cert_add(CamelCertDB *certdb, CERTCertificate *cert)
 void
 camel_certdb_nss_cert_set(CamelCertDB *certdb, CamelCert *ccert, CERTCertificate *cert)
 {
-	char *path, *fingerprint;
+	char *dir, *path, *fingerprint;
 	CamelStream *stream;
-
+	struct stat st;
+	
 	fingerprint = ccert->fingerprint;
 
 	if (ccert->rawcert == NULL)
 		ccert->rawcert = g_byte_array_new();
 	g_byte_array_set_size(ccert->rawcert, cert->derCert.len);
 	memcpy(ccert->rawcert->data, cert->derCert.data, cert->derCert.len);
-
-	path = g_strdup_printf("%s/.camel_certs/%s", getenv("HOME"), fingerprint);
-
+	
+	dir = g_strdup_printf ("%s/.camel_certs", getenv ("HOME"));
+	if (stat (dir, &st) == -1 && mkdir (dir, 0700) == -1) {
+		g_warning ("Could not create cert directory '%s': %s", dir, strerror (errno));
+		g_free (dir);
+		return;
+	}
+	
+	path = g_strdup_printf ("%s/%s", dir, fingerprint);
+	g_free (dir);
+	
 	stream = camel_stream_fs_new_with_name(path, O_WRONLY|O_CREAT|O_TRUNC, 0600);
 	if (stream != NULL) {
 		if (camel_stream_write(stream, ccert->rawcert->data, ccert->rawcert->len) != ccert->rawcert->len) {
@@ -603,7 +612,7 @@ camel_certdb_nss_cert_set(CamelCertDB *certdb, CamelCert *ccert, CERTCertificate
 	} else {
 		g_warning("Could not save cert: %s: %s", path, strerror(errno));
 	}
-
+	
 	g_free(path);
 }
 
