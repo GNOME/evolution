@@ -158,6 +158,8 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 			camel_object_hook_event (CAMEL_OBJECT (input->destination), "folder_changed",
 						 input->hook_func, input->hook_data);
 		
+		camel_folder_freeze (input->destination);
+		
 		uids = camel_folder_get_uids (folder);
 		for (i = 0; i < uids->len; i++) {
 			CamelMimeMessage *message;
@@ -197,7 +199,15 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 			}
 			camel_object_unref (CAMEL_OBJECT (message));
 		}
-		camel_folder_sync (folder, TRUE, ex);
+		
+		camel_folder_sync (folder, FALSE, ex);
+		
+		camel_folder_thaw (input->destination);
+		
+		if (input->hook_func)
+			camel_object_unhook_event (CAMEL_OBJECT (folder), "folder_changed", 
+						   input->hook_func, input->hook_data);
+		
 		camel_folder_free_uids (folder, uids);
 		
 		data->empty = FALSE;
