@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.1\n"
-"POT-Creation-Date: 2002-02-20 11:01+0200\n"
-"PO-Revision-Date: 2002-02-20 19:04+0200\n"
+"POT-Creation-Date: 2002-02-21 10:44+0200\n"
+"PO-Revision-Date: 2002-02-21 16:45+0200\n"
 "Last-Translator: Yuriy Syrota <yuri@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -344,17 +344,17 @@ msgstr "vCard для %s"
 msgid "Could not initialize Bonobo"
 msgstr "Не вдалось ініціалізувати Bonobo"
 
-#: addressbook/backend/pas/pas-backend-file.c:260
+#: addressbook/backend/pas/pas-backend-file.c:261
 #: addressbook/backend/pas/pas-backend-ldap.c:2287
 msgid "Searching..."
 msgstr "Пошук..."
 
-#: addressbook/backend/pas/pas-backend-file.c:262
+#: addressbook/backend/pas/pas-backend-file.c:263
 msgid "Loading..."
 msgstr "Завантаження..."
 
 #. need a different error message here.
-#: addressbook/backend/pas/pas-backend-file.c:271
+#: addressbook/backend/pas/pas-backend-file.c:272
 msgid "Error in search expression."
 msgstr "Помилка у реґулярному виразі."
 
@@ -400,6 +400,8 @@ msgid ""
 "Cursor could not be loaded\n"
 ""
 msgstr ""
+"Не вдалося завантажити курсор\n"
+""
 
 #: addressbook/conduit/address-conduit.c:549
 msgid ""
@@ -2418,7 +2420,7 @@ msgstr "Успішно"
 #: addressbook/gui/widgets/e-addressbook-util.c:36
 #: camel/providers/imap/camel-imap-command.c:275
 #: camel/providers/imap/camel-imap-command.c:363
-#: shell/e-shell.c:1895
+#: shell/e-shell.c:1900
 #: shell/e-storage.c:528
 #: shell/evolution-shell-component.c:1057
 msgid "Unknown error"
@@ -3653,7 +3655,7 @@ msgstr "Загальне"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 msgid "_Hide completed tasks after"
-msgstr "Прибрати виконані завдання після"
+msgstr "_Сховати виконані завдання після"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 msgid "_Mon"
@@ -5260,7 +5262,7 @@ msgstr ""
 
 #: calendar/zones.h:12
 msgid "Africa/Bamako"
-msgstr ""
+msgstr "Африка/Бамако"
 
 #: calendar/zones.h:13
 msgid "Africa/Bangui"
@@ -5357,7 +5359,7 @@ msgstr ""
 
 #: calendar/zones.h:36
 msgid "Africa/Lagos"
-msgstr ""
+msgstr "Африка/Лаґос"
 
 #: calendar/zones.h:37
 msgid "Africa/Libreville"
@@ -5463,9 +5465,8 @@ msgid "America/Anguilla"
 msgstr "Анґуілла"
 
 #: calendar/zones.h:62
-#, fuzzy
 msgid "America/Antigua"
-msgstr "Американська Самоа"
+msgstr "Америка/Антіґуа"
 
 #: calendar/zones.h:63
 #, fuzzy
@@ -5498,9 +5499,8 @@ msgid "America/Boa_Vista"
 msgstr ""
 
 #: calendar/zones.h:70
-#, fuzzy
 msgid "America/Bogota"
-msgstr "Американська Самоа"
+msgstr "Америка/Боґота"
 
 #: calendar/zones.h:71
 msgid "America/Boise"
@@ -5547,9 +5547,8 @@ msgid "America/Chihuahua"
 msgstr ""
 
 #: calendar/zones.h:81
-#, fuzzy
 msgid "America/Cordoba"
-msgstr "Американська Самоа"
+msgstr "Америка/Кордоба"
 
 #: calendar/zones.h:82
 #, fuzzy
@@ -5601,9 +5600,8 @@ msgid "America/Eirunepe"
 msgstr ""
 
 #: calendar/zones.h:93
-#, fuzzy
 msgid "America/El_Salvador"
-msgstr "Сальвадор"
+msgstr "Америка/Ель Сальвадор"
 
 #: calendar/zones.h:94
 msgid "America/Fortaleza"
@@ -5627,19 +5625,16 @@ msgid "America/Grand_Turk"
 msgstr ""
 
 #: calendar/zones.h:99
-#, fuzzy
 msgid "America/Grenada"
-msgstr "Американська Самоа"
+msgstr "Америка/Ґренада"
 
 #: calendar/zones.h:100
-#, fuzzy
 msgid "America/Guadeloupe"
-msgstr "Ґваделупа"
+msgstr "Америка/Ґваделупа"
 
 #: calendar/zones.h:101
-#, fuzzy
 msgid "America/Guatemala"
-msgstr "Ґватемала"
+msgstr "Америка/Ґватемала"
 
 #: calendar/zones.h:102
 msgid "America/Guayaquil"
@@ -5718,9 +5713,8 @@ msgid "America/La_Paz"
 msgstr "Американська Самоа"
 
 #: calendar/zones.h:120
-#, fuzzy
 msgid "America/Lima"
-msgstr "Американська Самоа"
+msgstr "Америка/Ліма"
 
 #: calendar/zones.h:121
 msgid "America/Los_Angeles"
@@ -5736,9 +5730,8 @@ msgid "America/Maceio"
 msgstr "Американська Самоа"
 
 #: calendar/zones.h:124
-#, fuzzy
 msgid "America/Managua"
-msgstr "Американська Самоа"
+msgstr "Америка/Манаґуа"
 
 #: calendar/zones.h:125
 #, fuzzy
@@ -5821,9 +5814,8 @@ msgid "America/North_Dakota/Center"
 msgstr ""
 
 #: calendar/zones.h:143
-#, fuzzy
 msgid "America/Panama"
-msgstr "Американська Самоа"
+msgstr "Америка/Панама"
 
 #: calendar/zones.h:144
 msgid "America/Pangnirtung"
@@ -5882,9 +5874,8 @@ msgid "America/Rosario"
 msgstr "Американська Самоа"
 
 #: calendar/zones.h:157
-#, fuzzy
 msgid "America/Santiago"
-msgstr "Американська Самоа"
+msgstr "Америка/Сантьяґо"
 
 #: calendar/zones.h:158
 #, fuzzy
@@ -5945,14 +5936,12 @@ msgid "America/Thunder_Bay"
 msgstr ""
 
 #: calendar/zones.h:171
-#, fuzzy
 msgid "America/Tijuana"
-msgstr "Азейбарджан"
+msgstr "Америка/Тіхуана"
 
 #: calendar/zones.h:172
-#, fuzzy
 msgid "America/Tortola"
-msgstr "Американська Самоа"
+msgstr "Америка/Тортола"
 
 #: calendar/zones.h:173
 msgid "America/Vancouver"
@@ -6015,9 +6004,8 @@ msgid "Antarctica/Syowa"
 msgstr "Антарктика"
 
 #: calendar/zones.h:186
-#, fuzzy
 msgid "Antarctica/Vostok"
-msgstr "Антарктика"
+msgstr "Антарктика/Восток"
 
 #: calendar/zones.h:187
 msgid "Arctic/Longyearbyen"
@@ -6025,7 +6013,7 @@ msgstr ""
 
 #: calendar/zones.h:188
 msgid "Asia/Aden"
-msgstr ""
+msgstr "Азія/Аден"
 
 #: calendar/zones.h:189
 msgid "Asia/Almaty"
@@ -6053,12 +6041,11 @@ msgstr ""
 
 #: calendar/zones.h:195
 msgid "Asia/Baghdad"
-msgstr ""
+msgstr "Азія/Баґдад"
 
 #: calendar/zones.h:196
-#, fuzzy
 msgid "Asia/Bahrain"
-msgstr "Бахрейн"
+msgstr "Азія/Бахрейн"
 
 #: calendar/zones.h:197
 msgid "Asia/Baku"
@@ -6066,15 +6053,15 @@ msgstr "Азія/Баку"
 
 #: calendar/zones.h:198
 msgid "Asia/Bangkok"
-msgstr ""
+msgstr "Азія/Банґкок"
 
 #: calendar/zones.h:199
 msgid "Asia/Beirut"
-msgstr ""
+msgstr "Азія/Бейрут"
 
 #: calendar/zones.h:200
 msgid "Asia/Bishkek"
-msgstr ""
+msgstr "Азія/Бішкек"
 
 #: calendar/zones.h:201
 msgid "Asia/Brunei"
@@ -6126,9 +6113,8 @@ msgid "Asia/Harbin"
 msgstr ""
 
 #: calendar/zones.h:213
-#, fuzzy
 msgid "Asia/Hong_Kong"
-msgstr "Гонґ Конґ"
+msgstr "Азія/Гонґ Конґ"
 
 #: calendar/zones.h:214
 msgid "Asia/Hovd"
@@ -6136,12 +6122,11 @@ msgstr ""
 
 #: calendar/zones.h:215
 msgid "Asia/Irkutsk"
-msgstr ""
+msgstr "Азія/Іркутськ"
 
 #: calendar/zones.h:216
-#, fuzzy
 msgid "Asia/Istanbul"
-msgstr "Помічник"
+msgstr "Азія/Стамбул"
 
 #: calendar/zones.h:217
 msgid "Asia/Jakarta"
@@ -6173,11 +6158,11 @@ msgstr ""
 
 #: calendar/zones.h:224
 msgid "Asia/Katmandu"
-msgstr ""
+msgstr "Азія/Катманду"
 
 #: calendar/zones.h:225
 msgid "Asia/Krasnoyarsk"
-msgstr ""
+msgstr "Азія/Красноярськ"
 
 #: calendar/zones.h:226
 msgid "Asia/Kuala_Lumpur"
@@ -6188,9 +6173,8 @@ msgid "Asia/Kuching"
 msgstr ""
 
 #: calendar/zones.h:228
-#, fuzzy
 msgid "Asia/Kuwait"
-msgstr "Кувейт"
+msgstr "Азія/Кувейт"
 
 #: calendar/zones.h:229
 msgid "Asia/Macao"
@@ -6215,7 +6199,7 @@ msgstr ""
 
 #: calendar/zones.h:234
 msgid "Asia/Novosibirsk"
-msgstr ""
+msgstr "Азія/Новосибірськ"
 
 #: calendar/zones.h:235
 msgid "Asia/Omsk"
@@ -6266,9 +6250,8 @@ msgid "Asia/Shanghai"
 msgstr "Азія/Шанхай"
 
 #: calendar/zones.h:247
-#, fuzzy
 msgid "Asia/Singapore"
-msgstr "Синґапур"
+msgstr "Азія/Сінґапур"
 
 #: calendar/zones.h:248
 msgid "Asia/Taipei"
@@ -6316,33 +6299,31 @@ msgstr ""
 
 #: calendar/zones.h:259
 msgid "Asia/Yakutsk"
-msgstr ""
+msgstr "Азія/Якутськ"
 
 #: calendar/zones.h:260
 msgid "Asia/Yekaterinburg"
-msgstr ""
+msgstr "Азія/Єкатеринбурґ"
 
 #: calendar/zones.h:261
 msgid "Asia/Yerevan"
-msgstr ""
+msgstr "Азія/Єреван"
 
 #: calendar/zones.h:262
 msgid "Atlantic/Azores"
 msgstr ""
 
 #: calendar/zones.h:263
-#, fuzzy
 msgid "Atlantic/Bermuda"
-msgstr "Бермуди"
+msgstr "Атлантика/Бермуди"
 
 #: calendar/zones.h:264
 msgid "Atlantic/Canary"
 msgstr ""
 
 #: calendar/zones.h:265
-#, fuzzy
 msgid "Atlantic/Cape_Verde"
-msgstr "Капе Верде"
+msgstr "Атлантика/Капе Верде"
 
 #: calendar/zones.h:266
 msgid "Atlantic/Faeroe"
@@ -6373,9 +6354,8 @@ msgid "Atlantic/Stanley"
 msgstr ""
 
 #: calendar/zones.h:273
-#, fuzzy
 msgid "Australia/Adelaide"
-msgstr "Австралія"
+msgstr "Австралія/Аделаіда"
 
 #: calendar/zones.h:274
 #, fuzzy
@@ -6427,9 +6407,8 @@ msgid "Europe/Amsterdam"
 msgstr "Європа/Амстердам"
 
 #: calendar/zones.h:284
-#, fuzzy
 msgid "Europe/Andorra"
-msgstr "Андорра"
+msgstr "Європа/Андорра"
 
 #: calendar/zones.h:285
 #, fuzzy
@@ -6477,13 +6456,12 @@ msgid "Europe/Dublin"
 msgstr "Європа/Дублін"
 
 #: calendar/zones.h:296
-#, fuzzy
 msgid "Europe/Gibraltar"
-msgstr "Ґібралтар"
+msgstr "Європа/Ґібралтар"
 
 #: calendar/zones.h:297
 msgid "Europe/Helsinki"
-msgstr ""
+msgstr "Європа/Гельсинки"
 
 #: calendar/zones.h:298
 msgid "Europe/Istanbul"
@@ -6491,7 +6469,7 @@ msgstr "Європа/Стамбул"
 
 #: calendar/zones.h:299
 msgid "Europe/Kaliningrad"
-msgstr ""
+msgstr "Європа/Калінінґрад"
 
 #: calendar/zones.h:300
 msgid "Europe/Kiev"
@@ -6510,9 +6488,8 @@ msgid "Europe/London"
 msgstr "Європа/Лондон"
 
 #: calendar/zones.h:304
-#, fuzzy
 msgid "Europe/Luxembourg"
-msgstr "Люксембурґ"
+msgstr "Європа/Люксембурґ"
 
 #: calendar/zones.h:305
 msgid "Europe/Madrid"
@@ -6621,11 +6598,11 @@ msgstr "Європа/Варшава"
 
 #: calendar/zones.h:331
 msgid "Europe/Zagreb"
-msgstr ""
+msgstr "Європа/Заґреб"
 
 #: calendar/zones.h:332
 msgid "Europe/Zaporozhye"
-msgstr ""
+msgstr "Європа/Запоріжжя"
 
 #: calendar/zones.h:333
 msgid "Europe/Zurich"
@@ -6950,9 +6927,8 @@ msgid "Failed at message %d of %d"
 msgstr "Збій на повідомленні %d з %d"
 
 #: camel/camel-filter-search.c:126
-#, fuzzy
 msgid "Failed to retrieve message"
-msgstr "Збій розкодовування повідомлення."
+msgstr "Збій отримання повідомлення"
 
 #: camel/camel-filter-search.c:543
 #: camel/camel-filter-search.c:551
@@ -7029,9 +7005,9 @@ msgid "Could not lock '%s': protocol error with lock-helper"
 msgstr ""
 
 #: camel/camel-lock-client.c:215
-#, fuzzy, c-format
+#, c-format
 msgid "Could not lock '%s'"
-msgstr "Не вдалося запустити спадкоємний процес: %s"
+msgstr "Не вдалося заблокувати \"%s\""
 
 #. well, this is really only a programatic error
 #: camel/camel-lock.c:91
@@ -7732,7 +7708,7 @@ msgid "Check for new messages in all folders"
 msgstr ""
 
 #: camel/providers/imap/camel-imap-provider.c:48
-#: shell/e-shell-view.c:832
+#: shell/e-shell-view.c:834
 msgid "Folders"
 msgstr "Теки"
 
@@ -8114,9 +8090,9 @@ msgstr "Фатальна помилка поштового аналізатор�
 
 #: camel/providers/local/camel-mbox-summary.c:370
 #: camel/providers/local/camel-spool-summary.c:497
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot check folder: %s: %s"
-msgstr "Не вдалося отримати теку: %s: %s"
+msgstr "Неможливо перевірити теку: %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:502
 #: camel/providers/local/camel-mbox-summary.c:703
@@ -8279,11 +8255,9 @@ msgstr ""
 #: camel/providers/pop3/camel-pop3-folder.c:495
 #: camel/providers/pop3/camel-pop3-folder.c:502
 #: camel/providers/pop3/camel-pop3-folder.c:512
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get message %s: %s"
-msgstr ""
-"Неможливо отримати повідомлення: %s\n"
-"  %s"
+msgstr "Неможливо отримати повідомлення %s: %s  %s"
 
 #: camel/providers/nntp/camel-nntp-folder.c:157
 #: camel/providers/pop3/camel-pop3-folder.c:278
@@ -8327,30 +8301,30 @@ msgid "This option will authenticate with the NNTP server using a plaintext pass
 msgstr ""
 
 #: camel/providers/nntp/camel-nntp-summary.c:234
-#, fuzzy, c-format
+#, c-format
 msgid "No such folder: %s"
-msgstr "Невірна тека \"%s\""
+msgstr "Неправильна тека: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:238
-#, fuzzy, c-format
+#, c-format
 msgid "Could not get group: %s"
-msgstr "Не вдалося створити канал: %s"
+msgstr "Не вдалося отримати групу: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:344
-#, fuzzy, c-format
+#, c-format
 msgid "NNTP Command failed: %s"
-msgstr "Збій команди IMAP: %s"
+msgstr "Збій команди NNTP: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:404
 #: camel/providers/nntp/camel-nntp-summary.c:505
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Scanning new messages"
-msgstr "Пошук нових повідомлень"
+msgstr "%s: сканування нових повідомлень"
 
 #: camel/providers/nntp/camel-nntp-summary.c:520
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown server response: %s"
-msgstr "Невідома помилка: %s"
+msgstr "Невідома відповідь сервера: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:566
 #, fuzzy
@@ -8358,9 +8332,9 @@ msgid "Use cancel"
 msgstr "Операцію скасовано"
 
 #: camel/providers/nntp/camel-nntp-summary.c:568
-#, fuzzy, c-format
+#, c-format
 msgid "Operation failed: %s"
-msgstr "Операцію скасовано"
+msgstr "Збій операції: %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:265
 msgid "Retrieving POP summary"
@@ -8760,9 +8734,8 @@ msgstr "Затримка відповіді на DATA: %s: пошту не ві�
 #. * 354 Enter mail, end with "." on a line by itself
 #.
 #: camel/providers/smtp/camel-smtp-transport.c:1105
-#, fuzzy
 msgid "DATA response error"
-msgstr "помилка відповіді на RSET: %s"
+msgstr "Помилка відповіді на DATA"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1145
 #: camel/providers/smtp/camel-smtp-transport.c:1163
@@ -8771,9 +8744,8 @@ msgid "DATA send timed out: message termination: %s: mail not sent"
 msgstr ""
 
 #: camel/providers/smtp/camel-smtp-transport.c:1177
-#, fuzzy
 msgid "DATA termination response error"
-msgstr "Неочікувана відповідь від сервера IMAP: %s"
+msgstr ""
 
 #: camel/providers/smtp/camel-smtp-transport.c:1200
 #, c-format
@@ -8781,9 +8753,8 @@ msgid "RSET request timed out: %s"
 msgstr "затримка відповіді на RSET: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1214
-#, fuzzy
 msgid "RSET response error"
-msgstr "помилка відповіді на RSET: %s"
+msgstr "Помилка відповіді на RSET"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1237
 #, c-format
@@ -8791,9 +8762,8 @@ msgid "QUIT request timed out: %s: non-fatal"
 msgstr "затримка відповіді на QUIT: %s: нефатально"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1251
-#, fuzzy
 msgid "QUIT response error"
-msgstr "помилка відповіді на RSET: %s"
+msgstr "Помилка відповіді на QUIT"
 
 #: composer/e-msg-composer-attachment-bar.c:101
 msgid "1 byte"
@@ -9052,9 +9022,8 @@ msgid "The Evolution groupware suite"
 msgstr "Evolution - %s"
 
 #: data/evolution.desktop.in.h:2
-#, fuzzy
 msgid "Ximian Evolution"
-msgstr "Часті запитання щодо Ximian Evolution"
+msgstr "Ximian Evolution"
 
 #: data/evolution.keys.in.h:1
 msgid "address card"
@@ -9226,9 +9195,8 @@ msgid "Cannot initialize Evolution's Executive Summary component."
 msgstr "Не вдалося ініціалізувати компонент зведення Evolutuion."
 
 #: executive-summary/component/e-summary-callbacks.c:125
-#, fuzzy
 msgid "Select a service"
-msgstr "Вибрати файл"
+msgstr "Вибрати послугу"
 
 #: executive-summary/component/e-summary-callbacks.c:289
 msgid ""
@@ -9250,9 +9218,9 @@ msgid "Open %s with the default GNOME web browser"
 msgstr ""
 
 #: executive-summary/component/e-summary-url.c:71
-#, fuzzy, c-format
+#, c-format
 msgid "Send an email to %s"
-msgstr "Відіслати пошту"
+msgstr "Відіслати пошту на %s"
 
 #: executive-summary/component/e-summary-url.c:72
 #, fuzzy, c-format
@@ -9265,14 +9233,14 @@ msgid "Run %s"
 msgstr ""
 
 #: executive-summary/component/e-summary-url.c:75
-#, fuzzy, c-format
+#, c-format
 msgid "Close %s"
-msgstr "Закрити"
+msgstr "Закрити %s"
 
 #: executive-summary/component/e-summary-url.c:76
-#, fuzzy, c-format
+#, c-format
 msgid "Move %s to the left"
-msgstr "Перенести цю теку в інше місце"
+msgstr "Перенести %s ліворуч"
 
 #: executive-summary/component/e-summary-url.c:77
 #, c-format
@@ -9295,25 +9263,26 @@ msgid "Configure %s"
 msgstr "Конфіґурувати теку"
 
 #: executive-summary/component/e-summary-url.c:553
-#, fuzzy
 msgid "page"
-msgstr "Сторінка"
+msgstr "сторінка"
 
 #: executive-summary/component/e-summary.c:925
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot open the HTML file:\n"
 "%s"
 msgstr ""
-"Не вдалось стерти теку:\n"
+"Неможливо відкрити файл HTML:\n"
 "%s"
 
 #: executive-summary/component/e-summary.c:939
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error reading data:\n"
 "%s"
-msgstr "Помилка завантаження %s"
+msgstr ""
+"Помилка зчитування даних:\n"
+"%s"
 
 #: executive-summary/component/e-summary.c:957
 msgid ""
@@ -9329,14 +9298,12 @@ msgid ""
 msgstr ""
 
 #: executive-summary/test-service/GNOME_Evolution_Summary_rdf.oaf.in.h:1
-#, fuzzy
 msgid "Factory for the RDF summary."
-msgstr "Не вдалося ініціалізувати поштовий компонент Evolutuion."
+msgstr "Фабрика для RDF-зведень"
 
 #: executive-summary/test-service/GNOME_Evolution_Summary_rdf.oaf.in.h:2
-#, fuzzy
 msgid "RDF Summary"
-msgstr "Зведення"
+msgstr "RFD-зведення"
 
 #: executive-summary/test-service/GNOME_Evolution_Summary_test.oaf.in.h:1
 #, fuzzy
@@ -11201,7 +11168,7 @@ msgstr ""
 
 #: mail/mail-display.c:435
 msgid "Hide"
-msgstr "Прибрати"
+msgstr "Сховати"
 
 #: mail/mail-display.c:456
 msgid "External Viewer"
@@ -11448,9 +11415,9 @@ msgid "Opening store %s"
 msgstr ""
 
 #: mail/mail-ops.c:1420
-#, fuzzy, c-format
+#, c-format
 msgid "Removing folder %s"
-msgstr "Відкривання теки %s"
+msgstr "Видалення теки %s"
 
 #: mail/mail-ops.c:1514
 #, c-format
@@ -11490,23 +11457,25 @@ msgstr ""
 " %s"
 
 #: mail/mail-ops.c:1943
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error saving messages to: %s:\n"
 " %s"
-msgstr "Помилка збереження файлу: %s"
+msgstr ""
+"Помилка збереження повідомлень у %s:\n"
+"%s"
 
 #: mail/mail-ops.c:2017
 msgid "Saving attachment"
 msgstr "Збереження долучення"
 
 #: mail/mail-ops.c:2033
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot create output file: %s:\n"
 " %s"
 msgstr ""
-"Неможливо створити файл виводу: %s:\n"
+"Неможливо створити файл виводу %s:\n"
 " %s"
 
 #: mail/mail-ops.c:2064
@@ -11661,9 +11630,8 @@ msgid ""
 msgstr ""
 
 #: mail/mail-vfolder.c:785
-#, fuzzy
 msgid "vFolders"
-msgstr "Теки"
+msgstr "Віртуальні теки"
 
 #: mail/mail-vfolder.c:825
 msgid "Edit VFolder"
@@ -11933,9 +11901,8 @@ msgid "Afonsos"
 msgstr "Анонім"
 
 #: my-evolution/Locations.h:22
-#, fuzzy
 msgid "Africa"
-msgstr "Південня Африка"
+msgstr "Африка"
 
 #: my-evolution/Locations.h:23
 msgid "Afyon"
@@ -12773,7 +12740,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:217
 msgid "Belgorod"
-msgstr ""
+msgstr "Бєлґород"
 
 #: my-evolution/Locations.h:219
 #, fuzzy
@@ -12826,7 +12793,7 @@ msgstr "Перезавантажити"
 
 #: my-evolution/Locations.h:230
 msgid "Bergamo"
-msgstr ""
+msgstr "Берґамо"
 
 #: my-evolution/Locations.h:231
 #, fuzzy
@@ -12899,7 +12866,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:247
 msgid "Bilbao"
-msgstr ""
+msgstr "Більбао"
 
 #: my-evolution/Locations.h:248
 #, fuzzy
@@ -15623,7 +15590,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:892
 msgid "Hamburg"
-msgstr ""
+msgstr "Гамбурґ"
 
 #: my-evolution/Locations.h:893
 msgid "Hamburg-Finkenwerder"
@@ -15752,7 +15719,7 @@ msgstr "Прочитано"
 
 #: my-evolution/Locations.h:922
 msgid "Helsinki"
-msgstr ""
+msgstr "Гельсинки"
 
 #: my-evolution/Locations.h:923
 #, fuzzy
@@ -16038,7 +16005,7 @@ msgstr "Індія"
 
 #: my-evolution/Locations.h:993
 msgid "Indianapolis"
-msgstr ""
+msgstr "Індіанаполіс"
 
 #: my-evolution/Locations.h:994
 msgid "Indian Springs"
@@ -16072,7 +16039,7 @@ msgstr "Норвеґія"
 
 #: my-evolution/Locations.h:1001
 msgid "Iowa City"
-msgstr ""
+msgstr "Яйова"
 
 #: my-evolution/Locations.h:1002
 msgid "Iqaluit"
@@ -16093,7 +16060,7 @@ msgstr "Інформація"
 
 #: my-evolution/Locations.h:1006
 msgid "Iran, Islamic Republic of"
-msgstr ""
+msgstr "Іран"
 
 #: my-evolution/Locations.h:1008
 #, fuzzy
@@ -16366,7 +16333,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1076
 msgid "Katowice"
-msgstr ""
+msgstr "Катовіце"
 
 #: my-evolution/Locations.h:1077
 msgid "Kavala"
@@ -16840,7 +16807,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1187
 msgid "Las Vegas"
-msgstr ""
+msgstr "Лас Веґас"
 
 #: my-evolution/Locations.h:1188
 #, fuzzy
@@ -17640,7 +17607,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1371
 msgid "Memphis"
-msgstr ""
+msgstr "Мемфіс"
 
 #: my-evolution/Locations.h:1372
 msgid "Memphis-NAS"
@@ -18079,11 +18046,11 @@ msgstr ""
 
 #: my-evolution/Locations.h:1472
 msgid "Moscow Domodedovo"
-msgstr ""
+msgstr "Москва (Домодєдово)"
 
 #: my-evolution/Locations.h:1473
 msgid "Moscow Sheremetyevo"
-msgstr ""
+msgstr "Москва (Шеремєтьєво)"
 
 #: my-evolution/Locations.h:1474
 msgid "Moses Lake"
@@ -18238,7 +18205,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1509
 msgid "Nalchik"
-msgstr ""
+msgstr "Нальчик"
 
 #: my-evolution/Locations.h:1510
 #, fuzzy
@@ -18594,7 +18561,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1593
 msgid "Novosibirsk"
-msgstr ""
+msgstr "Новосибірськ"
 
 #: my-evolution/Locations.h:1594
 msgid "Nueva Gerona"
@@ -18660,7 +18627,7 @@ msgstr "Відкрити"
 
 #: my-evolution/Locations.h:1608
 msgid "Odesa"
-msgstr ""
+msgstr "Одеса"
 
 #: my-evolution/Locations.h:1609
 #, fuzzy
@@ -19245,7 +19212,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1749
 msgid "Pittsburgh"
-msgstr ""
+msgstr "Піцбурґ"
 
 #: my-evolution/Locations.h:1750
 msgid "Pittsburgh-West Mifflin"
@@ -19257,7 +19224,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1752
 msgid "Plovdiv"
-msgstr ""
+msgstr "Пловдив"
 
 #: my-evolution/Locations.h:1753
 #, fuzzy
@@ -19834,7 +19801,7 @@ msgstr "Румунія"
 
 #: my-evolution/Locations.h:1884
 msgid "Rio De Janeiro"
-msgstr ""
+msgstr "Ріо Де Жанейро"
 
 #: my-evolution/Locations.h:1885
 msgid "Rio Gallegos"
@@ -19842,7 +19809,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1886
 msgid "Rio Grande"
-msgstr ""
+msgstr "Ріо Ґранде"
 
 #: my-evolution/Locations.h:1887
 #, fuzzy
@@ -20184,7 +20151,7 @@ msgstr "Сальвадор"
 
 #: my-evolution/Locations.h:1965
 msgid "Salzburg"
-msgstr ""
+msgstr "Зальзбурґ"
 
 #: my-evolution/Locations.h:1966
 msgid "Samara"
@@ -20216,7 +20183,7 @@ msgstr "Сан Маріно"
 
 #: my-evolution/Locations.h:1972
 msgid "San Antonio"
-msgstr ""
+msgstr "Сан Антоніо"
 
 #: my-evolution/Locations.h:1973
 msgid "San Antonio Del Tachira"
@@ -22157,9 +22124,8 @@ msgid "Waterbury"
 msgstr "Погода"
 
 #: my-evolution/Locations.h:2432
-#, fuzzy
 msgid "Waterloo"
-msgstr "Погода"
+msgstr "Ватерлоо"
 
 #: my-evolution/Locations.h:2433
 #, fuzzy
@@ -22564,7 +22530,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2528
 msgid "Yuzhno-Sakhalinsk"
-msgstr ""
+msgstr "Южно-Сахалінськ"
 
 #: my-evolution/Locations.h:2529
 msgid "Zacatecas"
@@ -22576,9 +22542,8 @@ msgid "Zadar"
 msgstr "Календар"
 
 #: my-evolution/Locations.h:2531
-#, fuzzy
 msgid "Zagreb"
-msgstr "Сторінка"
+msgstr "Заґреб"
 
 #: my-evolution/Locations.h:2532
 msgid "Zakinthos"
@@ -22594,9 +22559,8 @@ msgid "Zanesville"
 msgstr "Скасовано"
 
 #: my-evolution/Locations.h:2535
-#, fuzzy
 msgid "Zaragoza"
-msgstr "Параґвай"
+msgstr "Сараґоса"
 
 #: my-evolution/Locations.h:2536
 msgid "Zell Am See"
@@ -22607,9 +22571,8 @@ msgid "Zuni Pueblo"
 msgstr ""
 
 #: my-evolution/Locations.h:2538
-#, fuzzy
 msgid "Zurich"
-msgstr "Турецький"
+msgstr "Цюріх"
 
 #: my-evolution/component-factory.c:44
 msgid "Folder containing the Evolution Summary"
@@ -24417,41 +24380,41 @@ msgstr "Не вдалося запустити Bug buddy"
 msgid "About Ximian Evolution"
 msgstr "Про Ximian Evolution"
 
-#: shell/e-shell-view-menu.c:424
+#: shell/e-shell-view-menu.c:427
 msgid "Go to folder..."
 msgstr "Перейти на теку..."
 
-#: shell/e-shell-view-menu.c:425
+#: shell/e-shell-view-menu.c:428
 msgid "Select the folder that you want to open"
 msgstr "Виберіть теку, яку ви бажаєте відкрити"
 
-#: shell/e-shell-view-menu.c:545
+#: shell/e-shell-view-menu.c:548
 msgid "Create a new shortcut"
 msgstr "Створити новий ярлик"
 
-#: shell/e-shell-view-menu.c:546
+#: shell/e-shell-view-menu.c:549
 msgid "Select the folder you want the shortcut to point to:"
 msgstr ""
 
-#: shell/e-shell-view-menu.c:577
+#: shell/e-shell-view-menu.c:580
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
 msgstr ""
 
-#: shell/e-shell-view-menu.c:585
+#: shell/e-shell-view-menu.c:588
 #, c-format
 msgid "Error executing %s."
 msgstr "Помилка виконання %s."
 
-#: shell/e-shell-view-menu.c:688
+#: shell/e-shell-view-menu.c:691
 msgid "_Work Online"
 msgstr "Робота на лінії"
 
-#: shell/e-shell-view-menu.c:701
+#: shell/e-shell-view-menu.c:704
 #: ui/evolution.xml.h:51
 msgid "_Work Offline"
 msgstr "Робота не на лінії"
 
-#: shell/e-shell-view-menu.c:714
+#: shell/e-shell-view-menu.c:717
 #: ui/evolution.xml.h:30
 msgid "Work Offline"
 msgstr "Робота не на лінії"
@@ -24460,24 +24423,24 @@ msgstr "Робота не на лінії"
 msgid "(No folder displayed)"
 msgstr "(Жодної теки не відображено)"
 
-#: shell/e-shell-view.c:1598
+#: shell/e-shell-view.c:1600
 #, c-format
 msgid "%s (%d)"
 msgstr "%s (%d)"
 
-#: shell/e-shell-view.c:1600
+#: shell/e-shell-view.c:1602
 msgid "(None)"
 msgstr "(Немає)"
 
-#: shell/e-shell-view.c:1647
+#: shell/e-shell-view.c:1649
 msgid "Ximian Evolution is currently online.  Click on this button to work offline."
 msgstr ""
 
-#: shell/e-shell-view.c:1654
+#: shell/e-shell-view.c:1656
 msgid "Ximian Evolution is in the process of going offline."
 msgstr ""
 
-#: shell/e-shell-view.c:1660
+#: shell/e-shell-view.c:1662
 msgid "Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
 
@@ -24486,7 +24449,7 @@ msgstr ""
 msgid "Cannot set up local storage -- %s"
 msgstr ""
 
-#: shell/e-shell.c:1660
+#: shell/e-shell.c:1665
 #, c-format
 msgid ""
 "The Evolution component that handles folders of type \"%s\"\n"
@@ -24494,24 +24457,24 @@ msgid ""
 "in order to access that data again."
 msgstr ""
 
-#: shell/e-shell.c:1885
+#: shell/e-shell.c:1890
 #: widgets/misc/e-cell-date-edit.c:258
 msgid "OK"
 msgstr "Гаразд"
 
-#: shell/e-shell.c:1887
+#: shell/e-shell.c:1892
 msgid "Invalid arguments"
 msgstr "Невірні арґументи"
 
-#: shell/e-shell.c:1889
+#: shell/e-shell.c:1894
 msgid "Cannot register on OAF"
 msgstr "Неможливо зараєструватись на OAF"
 
-#: shell/e-shell.c:1891
+#: shell/e-shell.c:1896
 msgid "Configuration Database not found"
 msgstr "Не знайдено конфіґураційної бази даних"
 
-#: shell/e-shell.c:1893
+#: shell/e-shell.c:1898
 #: shell/e-storage.c:500
 msgid "Generic error"
 msgstr "Загальна помилка"
@@ -24587,11 +24550,11 @@ msgstr "Перейменувати цю групу ярликів"
 
 #: shell/e-shortcuts-view.c:251
 msgid "_Hide the Shortcut Bar"
-msgstr "Прибрати панель ярликів"
+msgstr "_Сховати панель ярликів"
 
 #: shell/e-shortcuts-view.c:252
 msgid "Hide the shortcut bar"
-msgstr "Прибрати панель ярликів"
+msgstr "Сховати панель ярликів"
 
 #: shell/e-shortcuts-view.c:371
 msgid "Rename shortcut"
@@ -24933,32 +24896,50 @@ msgstr "Більше не запитувати"
 msgid "Evolution can import data from the following files:"
 msgstr "Evolution може імпортувати дані з таких файлів:"
 
-#: shell/main.c:83
+#: shell/main.c:88
 msgid "Evolution"
 msgstr "Evolution"
 
-#: shell/main.c:89
+#: shell/main.c:94
 msgid "Evolution is now exiting ..."
 msgstr "Evolution завершує роботу..."
 
-#: shell/main.c:210
+#: shell/main.c:215
 msgid "Cannot access the Ximian Evolution shell."
 msgstr "Неможливо зв'язатись з оболонкою Ximian Evolutuion."
 
-#: shell/main.c:219
+#: shell/main.c:224
 #, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
 msgstr "Неможливо ініціалізувати оболонку Ximian Evolutuion: %s"
 
-#: shell/main.c:289
+#: shell/main.c:294
 msgid "Disable splash screen"
 msgstr "Вимкнути заставку"
 
-#: shell/main.c:290
+#: shell/main.c:295
+#, fuzzy
+msgid "Start in offline mode"
+msgstr "Початок імпортування"
+
+#: shell/main.c:296
+#, fuzzy
+msgid "Start in online mode"
+msgstr "Початок імпортування"
+
+#: shell/main.c:297
 msgid "Send the debugging output of all components to a file."
 msgstr ""
 
-#: shell/main.c:332
+#: shell/main.c:315
+#, c-format
+msgid ""
+"%s: --online and --offline cannot be used together.\n"
+"  Use %s --help for more information.\n"
+""
+msgstr ""
+
+#: shell/main.c:345
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Не вдалося ініціалізувати компонентну систему Bonobo."
 
@@ -25535,15 +25516,15 @@ msgstr "Вирізати вибрані повідомлення"
 
 #: ui/evolution-mail-list.xml.h:5
 msgid "Hide S_elected Messages"
-msgstr "Прибрати вибрані повідомлення"
+msgstr "Сховати _вибрані повідомлення"
 
 #: ui/evolution-mail-list.xml.h:6
 msgid "Hide _Deleted Messages"
-msgstr "Прибрати стерті повідомлення"
+msgstr "Сховати с_терті повідомлення"
 
 #: ui/evolution-mail-list.xml.h:7
 msgid "Hide _Read Messages"
-msgstr "Прибрати прочитані повідомлення"
+msgstr "Сховати _прочитані повідомлення"
 
 #: ui/evolution-mail-list.xml.h:8
 msgid "Hide deleted messages rather than displaying them with a line through them"
@@ -25588,19 +25569,19 @@ msgstr "Вибрати всі видимі повідомлення"
 
 #: ui/evolution-mail-list.xml.h:18
 msgid "Sh_ow Hidden Messages"
-msgstr "Показати прибрані повідомлення"
+msgstr "П_оказати сховані повідомлення"
 
 #: ui/evolution-mail-list.xml.h:19
 msgid "Show messages that have been temporarily hidden"
-msgstr "Знову показати тимчасово прибрані повідомлення"
+msgstr "Знову показати тимчасово сховані повідомлення"
 
 #: ui/evolution-mail-list.xml.h:20
 msgid "Temporarily hide all messages that have already been read"
-msgstr "Тимчасово прибрати всі прочитані повідомлення"
+msgstr "Тимчасово сховати всі прочитані повідомлення"
 
 #: ui/evolution-mail-list.xml.h:21
 msgid "Temporarily hide the selected messages"
-msgstr "Тимчасово прибрати вібрані повідомлення"
+msgstr "Тимчасово сзовати вибрані повідомлення"
 
 #: ui/evolution-mail-list.xml.h:22
 msgid "Threaded Message list"
@@ -26147,7 +26128,7 @@ msgstr "Стерти це повідомлення негайно"
 
 #: ui/evolution-message-composer.xml.h:33
 msgid "Show / hide attachments"
-msgstr "Показати / прибрати долучення"
+msgstr "Показати / сховати долучення"
 
 #: ui/evolution-message-composer.xml.h:34
 msgid "Show _attachments"
