@@ -363,7 +363,7 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 			local->addr->entry[entryTitle] = e_pilot_utf8_to_pchar (ecard->title);
 	}
 
-	delivery = e_card_simple_get_delivery_address (simple, E_CARD_SIMPLE_ADDRESS_ID_HOME);
+	delivery = e_card_simple_get_delivery_address (simple, E_CARD_SIMPLE_ADDRESS_ID_BUSINESS);
 	if (delivery) {
 		local->addr->entry[entryAddress] = e_pilot_utf8_to_pchar (delivery->street);
 		local->addr->entry[entryCity] = e_pilot_utf8_to_pchar (delivery->city);
@@ -434,6 +434,7 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	ECard *ecard;
 	ECardSimple *simple;
 	ECardDeliveryAddress delivery;
+	ECardAddrLabel label;
 	char *string;
 	char *stringparts[3];
 	int i;
@@ -474,7 +475,7 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 
 	/* Address */
 	memset (&delivery, 0, sizeof (ECardDeliveryAddress));
-	delivery.flags = E_CARD_ADDR_HOME;
+	delivery.flags = E_CARD_ADDR_WORK;
 	if (address.entry[entryAddress])
 		delivery.street = get_entry_text (address, entryAddress);
 	if (address.entry[entryCity])
@@ -486,16 +487,19 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	if (address.entry[entryZip])
 		delivery.code = get_entry_text (address, entryZip);
 
-	string = e_card_delivery_address_to_string (&delivery);
-	e_card_simple_set (simple,  E_CARD_SIMPLE_FIELD_ADDRESS_BUSINESS, string);
-	g_free (string);
+	label.flags = E_CARD_ADDR_WORK;
+	label.data = e_card_delivery_address_to_string (&delivery);
+
+	e_card_simple_set_address (simple, E_CARD_SIMPLE_ADDRESS_ID_BUSINESS, &label);
+	e_card_simple_set_delivery_address (simple, E_CARD_SIMPLE_ADDRESS_ID_BUSINESS, &delivery);
 
 	free (delivery.street);
 	free (delivery.city);
 	free (delivery.region);
 	free (delivery.country);
 	free (delivery.code);
-
+	g_free (label.data);
+	
 	/* Phone numbers */
 	for (i = entryPhone1; i <= entryPhone5; i++) {
 		char *phonelabel = ctxt->ai.phoneLabels[address.phoneLabel[i - entryPhone1]];
@@ -517,8 +521,6 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_PAGER, phonenum);
 		else if (!strcmp (phonelabel, "Mobile"))
 			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_MOBILE, phonenum);
-
-		g_print ("    ['%s' : '%s']\n", phonelabel, phonenum);
 		
 		g_free (phonenum);
 	}

@@ -1,3 +1,17 @@
+2001-04-12  JP Rosevear  <jpr@ximian.com>
+
+	* conduit/address-conduit.c (local_record_from_ecard): put the
+	business address into the pilot record as that is what we put into
+	the desktop record
+	(ecard_from_remote_record): set both the address label and
+	delivery address to avoid bad parser guessing, fixes #2143
+
+	* backend/ebook/e-card-types.h: remove deprecated pilot code
+
+	* backend/ebook/e-card.c: ditto
+
+	* backend/ebook/e-card.h: ditto
+	
 2001-04-11  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/address-conduit.c (local_record_from_ecard): Don't add

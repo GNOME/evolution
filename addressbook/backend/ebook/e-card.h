@@ -74,8 +74,6 @@ struct _ECard {
 	guint32         wants_html : 1; /* Wants html mail. */
 	guint32         wants_html_set : 1; /* Wants html mail. */
 
-	guint32         pilot_id;       /* id of the corresponding pilot */
-	guint32         pilot_status;   /* status information */
 #if 0
 	ECardPhoto      *logo;          /* This person's org's logo.        */
 
