@@ -353,18 +353,18 @@ typedef struct _GetPathForPhysicalUriForeachData GetPathForPhysicalUriForeachDat
 static void
 get_path_for_physical_uri_foreach (EFolderTree *folder_tree,
 				   const char *path,
-				   void *data,
-				   void *closure)
+				   void *path_data,
+				   void *user_data)
 {
 	GetPathForPhysicalUriForeachData *foreach_data;
 	const char *physical_uri;
 	EFolder *e_folder;
 
-	foreach_data = (GetPathForPhysicalUriForeachData *) data;
+	foreach_data = (GetPathForPhysicalUriForeachData *) user_data;
 	if (foreach_data->retval != NULL)
 		return;
 
-	e_folder = (EFolder *) data;
+	e_folder = (EFolder *) path_data;
 	if (e_folder == NULL)
 		return;
 
