@@ -1,3 +1,9 @@
+2004-11-08  Andre Klapper  <a901600@gmx.de>
+
+	Fixes bug #61966.
+
+	* addressbook-errors.xml: Add a missing word to a string.
+
 2004-11-08  Steven Zhang <steven.zhang@sun.com>
 
 	* gui/widgets/e-minicard.c: (e_minicard_activate_editor): 

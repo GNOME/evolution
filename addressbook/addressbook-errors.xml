@@ -3,7 +3,7 @@
 
  <error id="ldap-init" type="error" modal="true">
   <primary>This addressbook could not be opened.</primary>
-  <secondary>This addressbook server might unreachable or the server name may be misspelled or your network connection could be down.</secondary>
+  <secondary>This addressbook server might be unreachable or the server name may be misspelled or your network connection could be down.</secondary>
  </error>
 
  <error id="ldap-auth" type="error" modal="true">
