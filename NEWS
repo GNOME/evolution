@@ -30,6 +30,12 @@ Addressbook:
 
   - Made evolution-vcard-importer.c load the file into the correct directory. (Iain Holmes)
 
+Calendar & Tasks:
+
+  - Show icons for categories (Rodrigo)
+
+  - General bug fixes. (Federico, JP, Damon, Rodrigo)
+
 Version 0.11 "No code name yet", 2001-07-12
 ---------------------------------------------
 
