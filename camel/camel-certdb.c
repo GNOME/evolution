@@ -234,7 +234,7 @@ certdb_cert_load (CamelCertDB *certdb, FILE *istream)
 	CamelCert *cert;
 	
 	cert = camel_certdb_cert_new (certdb);
-	
+
 	if (camel_file_util_decode_string (istream, &cert->issuer) == -1)
 		goto error;
 	if (camel_file_util_decode_string (istream, &cert->subject) == -1)
@@ -264,7 +264,7 @@ camel_certdb_load (CamelCertDB *certdb)
 	
 	g_return_val_if_fail (CAMEL_IS_CERTDB (certdb), -1);
 	g_return_val_if_fail (certdb->filename, -1);
-	
+
 	in = fopen (certdb->filename, "r");
 	if (in == NULL)
 		return -1;
@@ -526,6 +526,8 @@ certdb_cert_free (CamelCertDB *certdb, CamelCert *cert)
 	g_free (cert->subject);
 	g_free (cert->hostname);
 	g_free (cert->fingerprint);
+	if (cert->rawcert)
+		g_byte_array_free(cert->rawcert, TRUE);
 }
 
 void

@@ -1,3 +1,34 @@
+2002-10-15  Not Zed  <NotZed@Ximian.com>
+
+	* camel-tcp-stream-ssl.c (cert_fingerprint): helper, build
+	fingerprint.
+	(camel_certdb_nss_cert_get): Helper for nss certs.  Lookup cert.
+	As well as fingerprint, the whole raw cert is checked for
+	validity.
+	(camel_certdb_nss_cert_add): Add an nss cert to a certdb, also
+	saves the cert by fingerprint in ~/.camel_certs/.
+	(ssl_bad_cert): Changed to use above functions to simplify logic.
+	(ssl_bad_cert): Also added non-compiled code which mimics what
+	mozilla does, but it doesn't work right :-/
+	(camel_certdb_nss_cert_set): Save the raw cert associated with a
+	cert.
+
+	* camel-certdb.c (certdb_cert_free): Free the raw cert data if
+	set.
+
+2002-10-14  Not Zed  <NotZed@Ximian.com>
+
+	* camel-file-utils.c (camel_file_util_encode_string): Encode a
+	length of 0 as 1, not 0, to match the decode code.
+
+2002-10-03  Not Zed  <NotZed@Ximian.com>
+
+	* camel-folder.c
+	(filter_filter): Do the filtering ourselves.  This is so a problem
+	like a missing uid (which can happen legitemitely) doesn't
+	prematurely abort filtering.  Stop on all other errors.  See
+	#31667.
+
 2002-10-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-gpg-context.c (camel_gpg_context_new): No longer takes a

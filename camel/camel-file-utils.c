@@ -248,7 +248,7 @@ camel_file_util_encode_string (FILE *out, const char *str)
 	register int len;
 
 	if (str == NULL)
-		return camel_file_util_encode_uint32 (out, 0);
+		return camel_file_util_encode_uint32 (out, 1);
 
 	len = strlen (str);
 	if (camel_file_util_encode_uint32 (out, len+1) == -1)

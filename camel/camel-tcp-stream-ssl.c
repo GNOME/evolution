@@ -44,6 +44,8 @@
 #include <prio.h>
 #include <prerror.h>
 #include <prerr.h>
+#include <secerr.h>
+#include <sslerr.h>
 #include "nss.h"    /* Don't use <> here or it will include the system nss.h instead */
 #include <ssl.h>
 #include <cert.h>
@@ -466,117 +468,369 @@ ssl_auth_cert (void *data, PRFileDesc *sockfd, PRBool checksig, PRBool is_server
 }
 #endif
 
+CamelCert *camel_certdb_nss_cert_get(CamelCertDB *certdb, CERTCertificate *cert);
+CamelCert *camel_certdb_nss_cert_add(CamelCertDB *certdb, CERTCertificate *cert);
+void camel_certdb_nss_cert_set(CamelCertDB *certdb, CamelCert *ccert, CERTCertificate *cert);
+
+static char *
+cert_fingerprint(CERTCertificate *cert)
+{
+	unsigned char md5sum[16], fingerprint[50], *f;
+	int i;
+	const char tohex[16] = "0123456789abcdef";
+
+	md5_get_digest (cert->derCert.data, cert->derCert.len, md5sum);
+	for (i=0,f = fingerprint; i<16; i++) {
+		unsigned int c = md5sum[i];
+
+		*f++ = tohex[(c >> 4) & 0xf];
+		*f++ = tohex[c & 0xf];
+		*f++ = ':';
+	}
+
+	fingerprint[47] = 0;
+
+	return g_strdup(fingerprint);
+}
+
+/* lookup a cert uses fingerprint to index an on-disk file */
+CamelCert *
+camel_certdb_nss_cert_get(CamelCertDB *certdb, CERTCertificate *cert)
+{
+	char *fingerprint, *path;
+	CamelCert *ccert;
+	int fd;
+	ssize_t len;
+	struct stat st;
+
+	fingerprint = cert_fingerprint(cert);
+	ccert = camel_certdb_get_cert(certdb, fingerprint);
+	if (ccert == NULL) {
+		g_free(fingerprint);
+		return ccert;
+	}
+
+	if (ccert->rawcert == NULL) {
+		path = g_strdup_printf("%s/.camel_certs/%s", getenv("HOME"), fingerprint);
+		if (stat(path, &st) == -1
+		    || (fd = open(path, O_RDONLY)) == -1) {
+			g_warning("could not load cert %s: %s", path, strerror(errno));
+			g_free(fingerprint);
+			g_free(path);
+			camel_cert_set_trust(certdb, ccert, CAMEL_CERT_TRUST_UNKNOWN);
+			camel_certdb_touch(certdb);
+
+			return ccert;
+		}
+		g_free(path);
+		
+		ccert->rawcert = g_byte_array_new();
+		g_byte_array_set_size(ccert->rawcert, st.st_size);
+		len = read(fd, ccert->rawcert->data, st.st_size);
+		close(fd);
+		if (len != st.st_size) {
+			g_warning("cert size read truncated %s: %d != %ld", path, len, st.st_size);
+			g_byte_array_free(ccert->rawcert, TRUE);
+			ccert->rawcert = NULL;
+			g_free(fingerprint);
+			camel_cert_set_trust(certdb, ccert, CAMEL_CERT_TRUST_UNKNOWN);
+			camel_certdb_touch(certdb);
+
+			return ccert;
+		}
+	}
+
+	g_free(fingerprint);
+	if (ccert->rawcert->len != cert->derCert.len
+	    || memcmp(ccert->rawcert->data, cert->derCert.data, cert->derCert.len) != 0) {
+		g_warning("rawcert != derCer");
+		camel_cert_set_trust(certdb, ccert, CAMEL_CERT_TRUST_UNKNOWN);
+		camel_certdb_touch(certdb);
+	}
+
+	return ccert;
+}
+
+/* add a cert to the certdb */
+CamelCert *
+camel_certdb_nss_cert_add(CamelCertDB *certdb, CERTCertificate *cert)
+{
+	CamelCert *ccert;
+	char *fingerprint;
+
+	fingerprint = cert_fingerprint(cert);
+
+	ccert = camel_certdb_cert_new(certdb);
+	camel_cert_set_issuer(certdb, ccert, CERT_NameToAscii(&cert->issuer));
+	camel_cert_set_subject(certdb, ccert, CERT_NameToAscii(&cert->subject));
+	/* hostname is set in caller */
+	/*camel_cert_set_hostname(certdb, ccert, ssl->priv->expected_host);*/
+	camel_cert_set_fingerprint(certdb, ccert, fingerprint);
+	camel_cert_set_trust(certdb, ccert, CAMEL_CERT_TRUST_UNKNOWN);
+	g_free(fingerprint);
+
+	camel_certdb_nss_cert_set(certdb, ccert, cert);
+
+	camel_certdb_add(certdb, ccert);
+
+	return ccert;
+}
+
+/* set the 'raw' cert (& save it) */
+void
+camel_certdb_nss_cert_set(CamelCertDB *certdb, CamelCert *ccert, CERTCertificate *cert)
+{
+	char *path, *fingerprint;
+	CamelStream *stream;
+
+	fingerprint = ccert->fingerprint;
+
+	if (ccert->rawcert == NULL)
+		ccert->rawcert = g_byte_array_new();
+	g_byte_array_set_size(ccert->rawcert, cert->derCert.len);
+	memcpy(ccert->rawcert->data, cert->derCert.data, cert->derCert.len);
+
+	path = g_strdup_printf("%s/.camel_certs/%s", getenv("HOME"), fingerprint);
+
+	stream = camel_stream_fs_new_with_name(path, O_WRONLY|O_CREAT|O_TRUNC, 0600);
+	if (stream != NULL) {
+		if (camel_stream_write(stream, ccert->rawcert->data, ccert->rawcert->len) != ccert->rawcert->len) {
+			g_warning("Could not save cert: %s: %s", path, strerror(errno));
+			unlink(path);
+		}
+		camel_stream_close(stream);
+		camel_object_unref(stream);
+	} else {
+		g_warning("Could not save cert: %s: %s", path, strerror(errno));
+	}
+
+	g_free(path);
+}
+
+
+#if 0
+/* used by the mozilla-like code below */
+static char *
+get_nickname(CERTCertificate *cert)
+{
+	char *server, *nick = NULL;
+	int i;
+	PRBool status = PR_TRUE;
+
+	server = CERT_GetCommonName(&cert->subject);
+	if (server == NULL)
+		return NULL;
+
+	for (i=1;status == PR_TRUE;i++) {
+		if (nick) {
+			g_free(nick);
+			nick = g_strdup_printf("%s #%d", server, i);
+		} else {
+			nick = g_strdup(server);
+		}
+		status = SEC_CertNicknameConflict(server, &cert->derSubject, cert->dbhandle);
+	}
+
+	return nick;
+}
+#endif
+
 static SECStatus
 ssl_bad_cert (void *data, PRFileDesc *sockfd)
 {
-	unsigned char md5sum[16], fingerprint[40], *f;
-	gboolean accept, valid_cert;
+	gboolean accept;
 	CamelCertDB *certdb = NULL;
 	CamelCert *ccert = NULL;
-	char *prompt, *cert_str;
+	char *prompt, *cert_str, *fingerprint;
 	CamelTcpStreamSSL *ssl;
 	CERTCertificate *cert;
 	CamelService *service;
-	int i;
-	
+	SECStatus status = SECFailure;
+
 	g_return_val_if_fail (data != NULL, SECFailure);
 	g_return_val_if_fail (CAMEL_IS_TCP_STREAM_SSL (data), SECFailure);
-	
+
 	ssl = CAMEL_TCP_STREAM_SSL (data);
 	service = ssl->priv->service;
 	
 	cert = SSL_PeerCertificate (sockfd);
+	if (cert == NULL)
+		return SECFailure;
+
+	certdb = camel_certdb_get_default();
+	ccert = camel_certdb_nss_cert_get(certdb, cert);
+	if (ccert == NULL) {
+		ccert = camel_certdb_nss_cert_add(certdb, cert);
+		camel_cert_set_hostname(certdb, ccert, ssl->priv->expected_host);
+	}
+
+	if (ccert->trust == CAMEL_CERT_TRUST_UNKNOWN) {
+		status = CERT_VerifyCertNow(cert->dbhandle, cert, TRUE, certUsageSSLClient, NULL);
+		fingerprint = cert_fingerprint(cert);
+		cert_str = g_strdup_printf (_("Issuer:            %s\n"
+					      "Subject:           %s\n"
+					      "Fingerprint:       %s\n"
+					      "Signature:         %s"),
+					    CERT_NameToAscii (&cert->issuer),
+					    CERT_NameToAscii (&cert->subject),
+					    fingerprint, status == SECSuccess?_("GOOD"):_("BAD"));
+		g_free(fingerprint);
+
+		/* construct our user prompt */
+		prompt = g_strdup_printf (_("SSL Certificate check for %s:\n\n%s\n\nDo you wish to accept?"),
+					  service->url->host, cert_str);
+		g_free (cert_str);
 	
-	/* calculate the MD5 hash of the raw certificate */
-	md5_get_digest (cert->derCert.data, cert->derCert.len, md5sum);
-	/*HASH_HashBuf (HASH_AlgMD5, md5sum, cert->derCert.data, cert->derCert.len);*/
-	for (i = 0, f = fingerprint; i < 16; i++, f += 3)
-		sprintf (f, "%.2x%c", md5sum[i], i != 15 ? ':' : '\0');
-	
-	valid_cert = CERT_VerifyCertNow (CERT_GetDefaultCertDB (), cert, TRUE, certUsageSSLClient, NULL);
-	/*issuer = CERT_FindCertByName (CERT_GetDefaultCertDB (), &cert->derIssuer);
-	  valid_cert = issuer && CERT_VerifySignedData (&cert->signatureWrap, issuer, PR_Now (), NULL);*/
-	
-	/* first check our own certificate database to see if we accepted the cert (nss's certdb seems to not work) */
-	certdb = camel_certdb_get_default ();
-	if (certdb) {
-		ccert = camel_certdb_get_cert (certdb, fingerprint);
-		if (ccert) {
-			if (ccert->trust != CAMEL_CERT_TRUST_UNKNOWN) {
-				accept = ccert->trust != CAMEL_CERT_TRUST_NEVER;
-				camel_certdb_cert_unref (certdb, ccert);
-				camel_object_unref (certdb);
-				
-				return accept ? SECSuccess : SECFailure;
-			}
-		} else {
-			/* create a new camel-cert */
-			ccert = camel_certdb_cert_new (certdb);
-			camel_cert_set_issuer (certdb, ccert, CERT_NameToAscii (&cert->issuer));
-			camel_cert_set_subject (certdb, ccert, CERT_NameToAscii (&cert->subject));
-			camel_cert_set_hostname (certdb, ccert, ssl->priv->expected_host);
-			camel_cert_set_fingerprint (certdb, ccert, fingerprint);
-			camel_cert_set_trust (certdb, ccert, CAMEL_CERT_TRUST_UNKNOWN);
-			
-			/* Add the certificate to our db */
-			camel_certdb_add (certdb, ccert);
+		/* query the user to find out if we want to accept this certificate */
+		accept = camel_session_alert_user (service->session, CAMEL_SESSION_ALERT_WARNING, prompt, TRUE);
+		g_free(prompt);
+		if (accept) {
+			camel_certdb_nss_cert_set(certdb, ccert, cert);
+			camel_cert_set_trust(certdb, ccert, CAMEL_CERT_TRUST_FULLY);
+			camel_certdb_touch(certdb);
 		}
+	} else {
+		accept = ccert->trust != CAMEL_CERT_TRUST_NEVER;
 	}
-	
-	cert_str = g_strdup_printf (_("Issuer:            %s\n"
-				      "Subject:           %s\n"
-				      "Fingerprint:       %s\n"
-				      "Signature:         %s"),
-				    CERT_NameToAscii (&cert->issuer),
-				    CERT_NameToAscii (&cert->subject),
-				    fingerprint, valid_cert ? _("GOOD") : _("BAD"));
-	
-	/* construct our user prompt */
-	prompt = g_strdup_printf (_("SSL Certificate check for %s:\n\n%s\n\nDo you wish to accept?"),
-				  service->url->host, cert_str);
-	g_free (cert_str);
-	
-	/* query the user to find out if we want to accept this certificate */
-	accept = camel_session_alert_user (service->session, CAMEL_SESSION_ALERT_WARNING, prompt, TRUE);
-	g_free (prompt);
-	
-	if (accept) {
-#if 0
-		/* this is how mutt does it but last time I tried to
-                   use CERT_AddTempCertToPerm() I got link errors and
-                   I have also been told by the nss devs that that
-                   function has been deprecated... */
-		CERTCertTrust trust;
-		
-		CERT_DecodeTrustString (&trust, "P,,");
-		
-		CERT_AddTempCertToPerm (cert, NULL, &trust);
-#else
-		SECItem *certs[1];
-		
-		if (!cert->trust)
-			cert->trust = PORT_ZAlloc (sizeof (CERTCertTrust));
-		
-		cert->trust->sslFlags = CERTDB_VALID_PEER | CERTDB_TRUSTED;
-		
-		certs[0] = &cert->derCert;
-		
-		CERT_ImportCerts (CERT_GetDefaultCertDB (), certUsageSSLServer, 1, certs,
-				  NULL, TRUE, FALSE, cert->nickname);
-#endif
-		
-		if (ccert) {
-			camel_cert_set_trust (certdb, ccert, CAMEL_CERT_TRUST_FULLY);
-			camel_certdb_touch (certdb);
-		}
-	}
-	
-	if (certdb) {
-		camel_certdb_cert_unref (certdb, ccert);
-		camel_object_unref (certdb);
-	}
-	
+
+	camel_certdb_cert_unref(certdb, ccert);
+	camel_object_unref(certdb);
+
 	return accept ? SECSuccess : SECFailure;
+
+#if 0
+	int i, error;
+	CERTCertTrust trust;
+	SECItem *certs[1];
+	int go = 1;
+	char *host, *nick;
+
+	error = PR_GetError();
+
+	/* This code is basically what mozilla does - however it doesn't seem to work here
+	   very reliably :-/ */
+	while (go && status != SECSuccess) {
+		char *prompt = NULL;
+
+		printf("looping, error '%d'\n", error);
+
+		switch(error) {
+		case SEC_ERROR_UNKNOWN_ISSUER:
+		case SEC_ERROR_CA_CERT_INVALID:
+		case SEC_ERROR_UNTRUSTED_ISSUER:
+		case SEC_ERROR_EXPIRED_ISSUER_CERTIFICATE:
+			/* add certificate */
+			printf("unknown issuer, adding ... \n");
+			prompt = g_strdup_printf(_("Certificate problem: %s\nIssuer: %s"), cert->subjectName, cert->issuerName);
+
+			if (camel_session_alert_user(service->session, CAMEL_SESSION_ALERT_WARNING, prompt, TRUE)) {
+
+				nick = get_nickname(cert);
+				if (NULL == nick) {
+					g_free(prompt);
+					status = SECFailure;
+					break;
+				}
+
+				printf("adding cert '%s'\n", nick);
+
+				if (!cert->trust) {
+					cert->trust = (CERTCertTrust*)PORT_ArenaZAlloc(cert->arena, sizeof(CERTCertTrust));
+					CERT_DecodeTrustString(cert->trust, "P");
+				}
+		
+				certs[0] = &cert->derCert;
+				/*CERT_ImportCerts (cert->dbhandle, certUsageSSLServer, 1, certs, NULL, TRUE, FALSE, nick);*/
+				CERT_ImportCerts(cert->dbhandle, certUsageUserCertImport, 1, certs, NULL, TRUE, FALSE, nick);
+				g_free(nick);
+
+				printf(" cert type %08x\n", cert->nsCertType);
+
+				memset((void*)&trust, 0, sizeof(trust));
+				if (CERT_GetCertTrust(cert, &trust) != SECSuccess) {
+					CERT_DecodeTrustString(&trust, "P");
+				}
+				trust.sslFlags |= CERTDB_VALID_PEER | CERTDB_TRUSTED;
+				if (CERT_ChangeCertTrust(cert->dbhandle, cert, &trust) != SECSuccess) {
+					printf("couldn't change cert trust?\n");
+				}
+
+				/*status = SECSuccess;*/
+#if 1
+				/* re-verify? */
+				status = CERT_VerifyCertNow(cert->dbhandle, cert, TRUE, certUsageSSLServer, NULL);
+				error = PR_GetError();
+				printf("re-verify status %d, error %d\n", status, error);
+#endif
+
+				printf(" cert type %08x\n", cert->nsCertType);
+			} else {
+				printf("failed/cancelled\n");
+				go = 0;
+			}
+
+			break;
+		case SSL_ERROR_BAD_CERT_DOMAIN:
+			printf("bad domain\n");
+
+			prompt = g_strdup_printf(_("Bad certificate domain: %s\nIssuer: %s"), cert->subjectName, cert->issuerName);
+
+			if (camel_session_alert_user (service->session, CAMEL_SESSION_ALERT_WARNING, prompt, TRUE)) {
+				host = SSL_RevealURL(sockfd);
+				status = CERT_AddOKDomainName(cert, host);
+				printf("add ok domain name : %s\n", status == SECFailure?"fail":"ok");
+				error = PR_GetError();
+				if (status == SECFailure)
+					go = 0;
+			} else {
+				go = 0;
+			}
+
+			break;
+			
+		case SEC_ERROR_EXPIRED_CERTIFICATE:
+			printf("expired\n");
+
+			prompt = g_strdup_printf(_("Certificate expired: %s\nIssuer: %s"), cert->subjectName, cert->issuerName);
+
+			if (camel_session_alert_user(service->session, CAMEL_SESSION_ALERT_WARNING, prompt, TRUE)) {
+				cert->timeOK = PR_TRUE;
+				status = CERT_VerifyCertNow(cert->dbhandle, cert, TRUE, certUsageSSLClient, NULL);
+				error = PR_GetError();
+				if (status == SECFailure)
+					go = 0;
+			} else {
+				go = 0;
+			}
+
+			break;
+
+		case SEC_ERROR_CRL_EXPIRED:
+			printf("crl expired\n");
+
+			prompt = g_strdup_printf(_("Certificate revocation list expired: %s\nIssuer: %s"), cert->subjectName, cert->issuerName);
+
+			if (camel_session_alert_user(service->session, CAMEL_SESSION_ALERT_WARNING, prompt, TRUE)) {
+				host = SSL_RevealURL(sockfd);
+				status = CERT_AddOKDomainName(cert, host);
+			}
+
+			go = 0;
+			break;
+
+		default:
+			printf("generic error\n");
+			go = 0;
+			break;
+		}
+
+		g_free(prompt);
+	}
+
+	CERT_DestroyCertificate(cert);
+
+	return status;
+#endif
 }
 
 static PRFileDesc *

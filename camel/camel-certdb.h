@@ -68,6 +68,7 @@ typedef struct {
 	char *fingerprint;
 	
 	CamelCertTrust trust;
+	GByteArray *rawcert;
 } CamelCert;
 
 struct _CamelCertDB {
