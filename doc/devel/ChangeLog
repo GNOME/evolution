@@ -1,3 +1,8 @@
+2001-12-18  JP Rosevear  <jpr@ximian.com>
+
+	* calendar/cal-client/Makefile.am: cal-client needs bonobo-conf
+	now
+
 2001-10-29  Federico Mena Quintero  <federico@ximian.com>
 
 	* calendar/alarm-generation.sgml: Updated docs for repeating
