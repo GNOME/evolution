@@ -279,7 +279,7 @@ func_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data
 static char *
 is_helper (const char *s1, const char *s2)
 {
-	if (!strcmp(s1, s2))
+	if (!strcasecmp(s1, s2))
 		return (char*)s1;
 	else
 		return NULL;

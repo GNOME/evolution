@@ -1,5 +1,13 @@
 2002-08-29  Chris Toshok  <toshok@ximian.com>
 
+	* backend/pas/pas-backend-card-sexp.c (is_helper): use strcasecmp
+	here, since all the other helpers use case insensitive
+	comparisons.
+
+	* backend/pas/pas-backend-summary.c (is_helper): same.
+
+2002-08-29  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/pas-backend-ldap.c (category_ber): return NULL if
 	the list is empty.
 	(pas_backend_ldap_connect): always try to use ldapv3, not just
