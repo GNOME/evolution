@@ -188,9 +188,11 @@ free_send_data(void)
 
 	list = folder_browser_factory_get_control_list ();
 	for (it = e_list_get_iterator (list); e_iterator_is_valid (it); e_iterator_next (it)) {
-		BonoboControl *control = e_iterator_get (it);
+		BonoboControl *control = (BonoboControl *) e_iterator_get (it);
 		if (control) {			
-			FolderBrowser *fb = bonobo_control_get_widget (control);
+			FolderBrowser *fb;
+			
+			fb = FOLDER_BROWSER (bonobo_control_get_widget (control));
 			if (fb && fb->folder)
 				mail_sync_folder (fb->folder, NULL, NULL);
 		}

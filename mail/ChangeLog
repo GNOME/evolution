@@ -1,3 +1,13 @@
+2001-06-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-send-recv.c (free_send_data): The e_iterator_get() returns
+	a gconstpointer and we need a non-const BonoboControl so cast it.
+
+	* mail-account-gui.c (mail_account_gui_new):
+	gui->check_html_signature is GtkToggleButton not a GtkCheckButton.
+
+	* folder-info.c: Added some #include's to supress warnings.
+
 2001-06-28  Ettore Perazzoli  <ettore@ximian.com>
 
 	* mail-display.c: Fix case of labels in the `link_menu' so that it

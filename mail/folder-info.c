@@ -16,7 +16,11 @@
 #include <bonobo/bonobo-context.h>
 #include <bonobo/bonobo-exception.h>
 
+#include "mail.h"
 #include "mail-mt.h"
+#include "mail-tools.h"
+
+#include <camel/camel-folder.h>
 #include <camel/camel-exception.h>
 
 #define FOLDER_INFO_IID "OAFIID:GNOME_Evolution_FolderInfo_Factory"
@@ -47,6 +51,8 @@ struct _folder_info_msg {
 	int read;
 	int unread;
 };
+
+static GtkType evolution_folder_info_get_type (void);
 
 static void
 do_get_info (struct _mail_msg *mm)

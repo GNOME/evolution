@@ -800,7 +800,7 @@ mail_account_gui_new (MailConfigAccount *account)
 	gui->organization = GTK_ENTRY (glade_xml_get_widget (gui->xml, "identity_organization"));
 	gui->signature = GNOME_FILE_ENTRY (glade_xml_get_widget (gui->xml, "fileentry_signature"));
 	gui->html_signature = GNOME_FILE_ENTRY (glade_xml_get_widget (gui->xml, "fileentry_html_signature"));
-	gui->has_html_signature = GTK_CHECK_BUTTON (glade_xml_get_widget (gui->xml, "check_html_signature"));
+	gui->has_html_signature = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "check_html_signature"));
 	gnome_file_entry_set_default_path (gui->signature, g_get_home_dir ());
 	gnome_file_entry_set_default_path (gui->html_signature, g_get_home_dir ());
 	if (account->id) {

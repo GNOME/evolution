@@ -76,3 +76,4 @@ int  mail_storages_count (void);
 
 
 void evolution_folder_info_factory_init (void);
+
