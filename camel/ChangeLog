@@ -1,3 +1,12 @@
+2000-10-09  Chris Toshok  <toshok@helixcode.com>
+
+	* providers/nntp/camel-nntp-store.c (finalize): write out the
+	newsrc.
+	(nntp_store_get_name): if @brief, just return host.
+
+	* providers/nntp/camel-nntp-newsrc.c: robustification and bug
+	fixes.
+
 2000-10-06  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* camel-folder-summary.c (camel_summary_format_address): Decode

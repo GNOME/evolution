@@ -122,8 +122,6 @@ camel_nntp_store_get_overview_fmt (CamelNNTPStore *store, CamelException *ex)
 	int i;
 	gboolean done = FALSE;
 	
-	g_print ("camel_nntp_store_get_overview_fmt\n");
-
 	status = camel_nntp_command (store, ex, NULL,
 				     "LIST OVERVIEW.FMT");
 
@@ -281,8 +279,11 @@ nntp_store_disconnect (CamelService *service, CamelException *ex)
 static char *
 nntp_store_get_name (CamelService *service, gboolean brief)
 {
-	/* Same info for long and brief... */
-	return g_strdup_printf ("USENET news via %s", service->url->host);
+	if (brief)
+		return g_strdup_printf ("%s", service->url->host);
+	else
+		return g_strdup_printf ("USENET News via %s", service->url->host);
+	
 }
 
 static CamelServiceAuthType password_authtype = {
@@ -477,13 +478,9 @@ nntp_store_unsubscribe_folder (CamelStore *store, const char *folder_name,
 static void
 finalize (CamelObject *object)
 {
-	/* Done for us now */
-	/*CamelException ex;
-	 *
-	 *camel_exception_init (&ex);
-	 *nntp_store_disconnect (CAMEL_SERVICE (object), &ex);
-	 *camel_exception_clear (&ex);
-	 */
+	CamelNNTPStore *nntp_store = CAMEL_NNTP_STORE (object);
+	if (nntp_store->newsrc)
+		camel_nntp_newsrc_write (nntp_store->newsrc);
 }
 
 static void
