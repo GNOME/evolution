@@ -57,7 +57,9 @@
 #include "camel-sasl.h"
 #include "string-utils.h"
 
-#define d(x) x
+
+extern int camel_verbose_debug;
+#define d(x) (camel_verbose_debug ? (x) : 0)
 
 /* Specified in RFC 821 */
 #define SMTP_PORT 25

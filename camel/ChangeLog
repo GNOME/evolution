@@ -1,3 +1,8 @@
+2003-04-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/smtp/camel-smtp-transport.c: Turn off debugging if
+	CAMEL_VERBOSE_DEBUG isn't set.
+
 2003-04-10  Not Zed  <NotZed@Ximian.com>
 
 	* tests/mime-filter/data: filter data test cases.
