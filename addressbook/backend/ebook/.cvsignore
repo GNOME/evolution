@@ -14,9 +14,9 @@ test-client
 test-client-list
 load-pine-addressbook
 load-gnomecard-addressbook
-evolution-gnomecard-importer
+evolution-vcard-importer
 Evolution-Composer-stubs.c
 Evolution-Composer-skels.c
 Evolution-Composer-common.c
 Evolution-Composer.h
-GNOME_Evolution_Addressbook_GnomeCard_Importer.oaf
+GNOME_Evolution_Addressbook_VCard_Importer.oaf
