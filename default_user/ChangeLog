@@ -1,3 +1,8 @@
+2001-07-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (default_DATA): Remove `shortcuts.xml'.  The shell
+	is now able to create that by itself.
+
 2001-06-07  Iain Holmes  <iain@ximian.com>
 
 	* shortcuts.xml: Removed the references to local/Executive-Summary.
