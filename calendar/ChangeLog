@@ -1,3 +1,17 @@
+2002-04-18  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-day-view.c (e_day_view_on_settings): show the settings
+
+	* gui/e-week-view.c (e_week_view_on_settings): ditto
+
+	* gui/calendar-commands.c (control_util_show_settings): show the
+	settings dialog
+
+	* gui/calendar-commands.h: new proto
+
+	* gui/control-factory.c (control_factory_new_control): set the
+	control as object data on the calendar
+
 2002-04-17  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/e-calendar-table.c, gui/e-day-view.c, gui/e-week-view.c,

@@ -355,6 +355,8 @@ static void e_day_view_on_forward (GtkWidget *widget,
 				   gpointer data);
 static void e_day_view_on_publish (GtkWidget *widget,
 				   gpointer data);
+static void e_day_view_on_settings (GtkWidget *widget,
+				    gpointer data);
 static void e_day_view_on_delete_occurrence (GtkWidget *widget,
 					     gpointer data);
 static void e_day_view_on_delete_appointment (GtkWidget *widget,
@@ -3539,6 +3541,17 @@ enum {
 	MASK_EDITING  = 8
 };
 
+#if 0
+static EPopupMenu view_items [] = {
+	E_POPUP_RADIO_ITEM (N_("Day View"), e_day_view_on_goto_date, 0, 0),
+	E_POPUP_RADIO_ITEM (N_("Work Week View"), e_day_view_on_goto_date, 0, 0),
+	E_POPUP_RADIO_ITEM (N_("Week View"), e_day_view_on_goto_date, 0, 0),
+	E_POPUP_RADIO_ITEM (N_("Month View"), e_day_view_on_goto_date, 0, 0),
+
+	E_POPUP_TERMINATOR
+};
+#endif
+
 static EPopupMenu main_items [] = {
 	E_POPUP_ITEM (N_("New _Appointment"),
 	  e_day_view_on_new_appointment, 0),
@@ -3561,6 +3574,11 @@ static EPopupMenu main_items [] = {
 
 	E_POPUP_SEPARATOR,
 
+#if 0
+	E_POPUP_SUBMENU (N_("Current View"),
+			 view_items, 0),
+#endif
+
 	E_POPUP_ITEM (N_("Go to _Today"),
 	  e_day_view_on_goto_today, 0),
 	E_POPUP_ITEM (N_("_Go to Date..."),
@@ -3574,15 +3592,16 @@ static EPopupMenu main_items [] = {
 	E_POPUP_SEPARATOR,
 
 	E_POPUP_ITEM (N_("_Configure..."),
-	  e_day_view_on_paste, 0),
+	  e_day_view_on_settings, 0),
 
 	E_POPUP_TERMINATOR
 };
 
 static EPopupMenu child_items [] = {
+
 	E_POPUP_ITEM (N_("_Open"), e_day_view_on_edit_appointment, MASK_EDITABLE | MASK_EDITING),
-	E_POPUP_ITEM (N_("_Save As..."), e_day_view_on_save_as, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING),
-	E_POPUP_ITEM (N_("_Print..."), e_day_view_on_print_event, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING),
+	E_POPUP_ITEM (N_("_Save As..."), e_day_view_on_save_as, MASK_EDITABLE | MASK_EDITING),
+	E_POPUP_ITEM (N_("_Print..."), e_day_view_on_print_event, MASK_EDITABLE | MASK_EDITING),
 
 	/* Only show this separator if one of the above is shown. */
 	E_POPUP_SEPARATOR,
@@ -3914,6 +3933,16 @@ e_day_view_on_publish (GtkWidget *widget, gpointer data)
 
  		g_list_free (comp_list);
 	}
+}
+
+static void
+e_day_view_on_settings (GtkWidget *widget, gpointer data)
+{
+	EDayView *day_view;
+
+	day_view = E_DAY_VIEW (data);
+
+	control_util_show_settings (day_view->calendar);
 }
 
 static void

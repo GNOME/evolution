@@ -198,6 +198,8 @@ static void e_week_view_on_forward (GtkWidget *widget,
 				    gpointer data);
 static void e_week_view_on_publish (GtkWidget *widget,
 				    gpointer data);
+static void e_week_view_on_settings (GtkWidget *widget,
+				     gpointer data);
 static void e_week_view_on_delete_occurrence (GtkWidget *widget,
 					      gpointer data);
 static void e_week_view_on_delete_appointment (GtkWidget *widget,
@@ -3452,15 +3454,15 @@ static EPopupMenu main_items [] = {
 
 	E_POPUP_SEPARATOR,
 
-	E_POPUP_ITEM (N_("_Configure..."), e_week_view_on_paste, 0),
+	E_POPUP_ITEM (N_("_Configure..."), e_week_view_on_settings, 0),
 
 	E_POPUP_TERMINATOR
 };
 
 static EPopupMenu child_items [] = {
 	E_POPUP_ITEM (N_("_Open"), e_week_view_on_edit_appointment, MASK_EDITABLE | MASK_EDITING),
-	E_POPUP_ITEM (N_("_Save As..."), e_week_view_on_save_as, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING),
-	E_POPUP_ITEM (N_("_Print..."), e_week_view_on_print_event, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING),
+	E_POPUP_ITEM (N_("_Save As..."), e_week_view_on_save_as, MASK_EDITABLE | MASK_EDITING),
+	E_POPUP_ITEM (N_("_Print..."), e_week_view_on_print_event, MASK_EDITABLE | MASK_EDITING),
 
 	/* Only show this separator if one of the above is shown. */
 	E_POPUP_SEPARATOR,
@@ -3786,6 +3788,16 @@ e_week_view_on_publish (GtkWidget *widget, gpointer data)
 
  		g_list_free (comp_list);
 	}
+}
+
+static void
+e_week_view_on_settings (GtkWidget *widget, gpointer data)
+{
+	EWeekView *week_view;
+
+	week_view = E_WEEK_VIEW (data);
+
+	control_util_show_settings (week_view->calendar);
 }
 
 static void

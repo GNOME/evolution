@@ -471,6 +471,31 @@ control_util_set_folder_bar_label (BonoboControl *control, char *label)
 	CORBA_exception_free (&ev);
 }
 
+void
+control_util_show_settings (GnomeCalendar *gcal)
+{
+	BonoboControl *control;
+	GNOME_Evolution_ShellView shell_view;
+	CORBA_Environment ev;
+
+	control = gtk_object_get_data (GTK_OBJECT (gcal), "control");
+	if (control == NULL)
+		return;
+
+	shell_view = get_shell_view_interface (control);
+	if (shell_view == CORBA_OBJECT_NIL)
+		return;
+
+	CORBA_exception_init (&ev);
+	
+	GNOME_Evolution_ShellView_showSettings (shell_view, &ev);
+	
+	if (BONOBO_EX (&ev))
+		g_message ("control_util_show_settings(): Could not show settings");
+
+	CORBA_exception_free (&ev);
+}
+
 /* Sensitizes the UI Component menu/toolbar calendar commands based on the
  * number of selected events. (This will always be 0 or 1 currently.)  If enable
  * is FALSE, all will be disabled.  Otherwise, the currently-selected number of
