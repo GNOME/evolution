@@ -35,7 +35,7 @@
       <class>GnomeDruidPageStart</class>
       <name>druidpagestart1</name>
       <title>Mail Configuration</title>
-      <text>Welcome to the Evolution Mail Configuration Druid.
+      <text>Welcome to the Evolution Mail Configuration Assistant.
 
 Click &quot;Next&quot; to begin. </text>
       <title_color>255,255,255</title_color>
@@ -2169,7 +2169,7 @@ Kerberos
   <class>GtkWindow</class>
   <name>mail_accounts_window</name>
   <visible>False</visible>
-  <title>window1</title>
+  <title>Mail Settings</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
   <modal>False</modal>
