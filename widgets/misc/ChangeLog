@@ -1,3 +1,20 @@
+2002-03-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-search-bar.c (clear_verb_cb): New.
+	(setup_standard_verbs): New.
+	(e_search_bar_set_ui_component): Call it if a new
+	BonoboUIComponent is set.
+	(append_xml_menu_item): New helper function.
+	(update_bonobo_menus): Use it.  Also add a "Clear" menu item.
+	(e_search_bar_construct): @menu_items can be NULL now.
+	(e_search_bar_new): Same here.
+	(set_menu): Work with NULL items.
+
+	* e-filter-bar.c (menubar_activated): Don't handle
+	E_FILTERBAR_RESET_ID anymore.
+
+	* e-filter-bar.h: Remove `E_FILTERBAR_RESET_ID' and `E_FILTERBAR_RESET'.
+
 2002-03-15  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-search-bar.c (init): Init various members to NULL.

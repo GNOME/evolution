@@ -81,25 +81,20 @@ struct _EFilterBarClass
 /* "preset" items */
 enum {
 	/* preset menu options */
-	E_FILTERBAR_RESET_ID = -2,
-	E_FILTERBAR_SAVE_ID = -3,
-	E_FILTERBAR_EDIT_ID = -4,
+	E_FILTERBAR_SAVE_ID = -2,
+	E_FILTERBAR_EDIT_ID = -3,
 
 	/* preset option options */
-	E_FILTERBAR_ADVANCED_ID = -5,
-
-	E_FILTERBAR_LAST_ID = -6,
+	E_FILTERBAR_ADVANCED_ID = -4,
 };
 
 #define E_FILTERBAR_SAVE { N_("Add to Saved Searches"), E_FILTERBAR_SAVE_ID, NULL }
-#define E_FILTERBAR_RESET { N_("Clear"), E_FILTERBAR_RESET_ID, NULL }
 #define E_FILTERBAR_EDIT { N_("Edit..."), E_FILTERBAR_EDIT_ID, NULL }
 #define E_FILTERBAR_ADVANCED { N_("Advanced..."), E_FILTERBAR_ADVANCED_ID, NULL }
 
 #ifdef JUST_FOR_TRANSLATORS
 const char * strings[] = {
 	N_("Save As..."),
-	N_("Show All"),
 	N_("Edit..."),
 	N_("Advanced...")
 };

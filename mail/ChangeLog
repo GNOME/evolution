@@ -1,3 +1,7 @@
+2002-03-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* folder-browser.c: Remove E_FILTERBAR_RESET menu entry.
+
 2002-03-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser.c (on_right_click): Draw colour rectangles for

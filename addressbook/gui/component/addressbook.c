@@ -813,11 +813,6 @@ set_prop (BonoboPropertyBag *bag,
 	}
 }
 
-static ESearchBarItem addressbook_search_menu_items[] = {
-	E_FILTERBAR_RESET,
-	{ NULL, -1, NULL },
-};
-
 enum {
 	ESB_FULL_NAME,
 	ESB_EMAIL,
@@ -846,20 +841,6 @@ alphabet_state_changed (EAddressbookView *eav, gunichar letter, AddressbookView 
 		e_search_bar_set_item_id (view->search, ESB_ADVANCED);
 	}
 	view->ignore_search_changes = FALSE;
-}
-
-static void
-addressbook_menu_activated (ESearchBar *esb, int id, AddressbookView *view)
-{
-	switch (id) {
-	case E_FILTERBAR_RESET_ID:
-		/* e_addressbook_view_show_all(view->view); */
-		view->ignore_search_changes = TRUE;
-		e_search_bar_set_item_id (view->search, ESB_ANY);
-		view->ignore_search_changes = FALSE;
-		e_search_bar_set_text (esb, "");
-		break;
-	}
 }
 
 static void
@@ -1127,8 +1108,7 @@ addressbook_factory_new_control (void)
 	/* Create the control. */
 	view->control = bonobo_control_new (view->vbox);
 
-	view->search = E_SEARCH_BAR(e_search_bar_new(addressbook_search_menu_items,
-						     addressbook_search_option_items));
+	view->search = E_SEARCH_BAR (e_search_bar_new (NULL, addressbook_search_option_items));
 	make_suboptions (view);
 	connect_master_list_changed (view);
 
@@ -1138,8 +1118,6 @@ addressbook_factory_new_control (void)
 			    GTK_SIGNAL_FUNC (addressbook_query_changed), view);
 	gtk_signal_connect (GTK_OBJECT (view->search), "search_activated",
 			    GTK_SIGNAL_FUNC (addressbook_search_activated), view);
-	gtk_signal_connect (GTK_OBJECT (view->search), "menu_activated",
-			    GTK_SIGNAL_FUNC (addressbook_menu_activated), view);
 
 	view->view = E_ADDRESSBOOK_VIEW(e_addressbook_view_new());
 	gtk_container_add (GTK_CONTAINER (frame), GTK_WIDGET (view->view));

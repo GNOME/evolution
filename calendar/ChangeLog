@@ -1,3 +1,10 @@
+2002-03-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/cal-search-bar.c: Removed `search_menu_items'.
+	(cal_search_bar_menu_activated): Removed.
+	(cal_search_bar_class_init): Don't install.
+	(cal_search_bar_construct): No menu items here.
+
 2002-03-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* gui/e-day-view.c: Updated to use new EPopupMenu API.

@@ -97,7 +97,29 @@ emit_menu_activated (ESearchBar *esb, int item)
 }
 
 
-/* Callbacks.  */
+/* Callbacks -- Standard verbs.  */
+
+static void
+clear_verb_cb (BonoboUIComponent *ui_component,
+	       void *data,
+	       const char *verb_name)
+{
+	ESearchBar *esb;
+
+	esb = E_SEARCH_BAR (data);
+	e_search_bar_set_text (esb, "");
+
+	emit_search_activated (esb);
+}
+
+static void
+setup_standard_verbs (ESearchBar *search_bar)
+{
+	bonobo_ui_component_add_verb (search_bar->ui_component, "ESearchBar:Clear",
+				      clear_verb_cb, search_bar);
+}
+
+/* Callbacks -- The verbs for all the definable items.  */
 
 static void
 search_verb_cb (BonoboUIComponent *ui_component,
@@ -310,6 +332,26 @@ copy_subitems (ESearchBarSubitem *subitems)
 }
 
 static void
+append_xml_menu_item (GString *xml,
+		      const char *name,
+		      const char *label,
+		      const char *verb,
+		      const char *accelerator)
+{
+	char *encoded_label;
+
+	encoded_label = bonobo_ui_util_encode_str (label);
+	g_string_sprintfa (xml, "<menuitem name=\"%s\" verb=\"%s\" label=\"%s\"",
+			   name, verb, encoded_label);
+	g_free (encoded_label);
+
+	if (accelerator != NULL)
+		g_string_sprintfa (xml, " accel=\"%s\"", accelerator);
+
+	g_string_sprintfa (xml, "/>");
+}
+
+static void
 update_bonobo_menus (ESearchBar *esb)
 {
 	GString *xml;
@@ -317,6 +359,8 @@ update_bonobo_menus (ESearchBar *esb)
 	char *verb_name;
 
 	xml = g_string_new ("<placeholder name=\"SearchBar\">");
+
+	append_xml_menu_item (xml, "Clear", _("Clear"), "ESearchBar:Clear", "*Control**Shift*b");
 
 	for (p = esb->menu_items; p != NULL; p = p->next) {
 		const ESearchBarItem *item;
@@ -326,16 +370,12 @@ update_bonobo_menus (ESearchBar *esb)
 		verb_name = g_strdup_printf ("ESearchBar:Activate:%d", item->id);
 		bonobo_ui_component_add_verb (esb->ui_component, verb_name, search_verb_cb, esb);
 
-		if (item->text == NULL) {
+		if (item->text == NULL)
 			g_string_append (xml, "<separator/>");
-		} else {
-			char *encoded_label;
+		else
+			append_xml_menu_item (xml, verb_name, item->text, verb_name, NULL);
 
-			encoded_label = bonobo_ui_util_encode_str (item->text);
-			g_string_sprintfa (xml, "<menuitem name=\"%s\" verb=\"%s\" label=\"%s\"/>",
-					   verb_name, verb_name, encoded_label);
-			g_free (encoded_label);
-		}
+		g_free (verb_name);
 	}
 
 	g_string_sprintfa (xml, "</placeholder>");
@@ -343,7 +383,6 @@ update_bonobo_menus (ESearchBar *esb)
 	bonobo_ui_component_set (esb->ui_component, "/menu/Search", xml->str, NULL);
 
 	g_string_free (xml, TRUE);
-	g_free (verb_name);
 }
 
 static void
@@ -351,7 +390,10 @@ set_menu (ESearchBar *esb,
 	  ESearchBarItem *items)
 {
 	int i;
-	
+
+	if (items == NULL)
+		return;
+
 	for (i = 0; items[i].id != -1; i++) {
 		ESearchBarItem *new_item;
 
@@ -678,7 +720,6 @@ e_search_bar_construct (ESearchBar *search_bar,
 {
 	g_return_if_fail (search_bar != NULL);
 	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
-	g_return_if_fail (menu_items != NULL);
 	g_return_if_fail (option_items != NULL);
 
 	gtk_box_set_spacing (GTK_BOX (search_bar), 1);
@@ -713,7 +754,6 @@ e_search_bar_set_menu (ESearchBar *search_bar, ESearchBarItem *menu_items)
 {
 	g_return_if_fail (search_bar != NULL);
 	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
-	g_return_if_fail (menu_items != NULL);
 	
 	((ESearchBarClass *)((GtkObject *)search_bar)->klass)->set_menu (search_bar, menu_items);
 }
@@ -723,7 +763,6 @@ e_search_bar_add_menu (ESearchBar *search_bar, ESearchBarItem *menu_item)
 {
 	g_return_if_fail (search_bar != NULL);
 	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
-	g_return_if_fail (menu_item != NULL);
 	
 	set_menu (search_bar, menu_item);
 }
@@ -788,7 +827,6 @@ e_search_bar_new (ESearchBarItem *menu_items,
 {
 	GtkWidget *widget;
 
-	g_return_val_if_fail (menu_items != NULL, NULL);
 	g_return_val_if_fail (option_items != NULL, NULL);
 	
 	widget = GTK_WIDGET (gtk_type_new (e_search_bar_get_type ()));
@@ -810,6 +848,7 @@ e_search_bar_set_ui_component (ESearchBar *search_bar,
 	search_bar->ui_component = ui_component;
 	if (ui_component != NULL) {
 		bonobo_object_ref (BONOBO_OBJECT (ui_component));
+		setup_standard_verbs (search_bar);
 		update_bonobo_menus (search_bar);
 	}
 }

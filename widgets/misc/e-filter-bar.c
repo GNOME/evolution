@@ -137,13 +137,6 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 	EFilterBar *efb = (EFilterBar *)esb;
 	
 	switch (id) {
-	case E_FILTERBAR_RESET_ID:
-		d(printf("Reset menu\n"));
-		efb->current_query = NULL;
-		e_search_bar_set_item_id (esb, efb->option_base);
-		e_search_bar_set_text (esb, NULL);
-		gtk_widget_set_sensitive (esb->entry, TRUE);
-		break;
 	case E_FILTERBAR_EDIT_ID:
 		if (!efb->save_dialogue) {
 			GnomeDialog *gd;
