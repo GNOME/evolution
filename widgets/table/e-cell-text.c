@@ -394,6 +394,7 @@ ect_unrealize (ECellView *ecv)
 
 	if (text_view->font)
 		e_font_unref (text_view->font);
+	text_view->font = NULL;
 	
 	if (text_view->stipple)
 		gdk_bitmap_unref (text_view->stipple);

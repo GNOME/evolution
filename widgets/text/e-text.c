@@ -476,6 +476,7 @@ e_text_destroy (GtkObject *object)
 
 	if (text->font)
 		e_font_unref (text->font);
+	text->font = NULL;
 
 #if 0
 	if (text->suckfont)
@@ -1265,6 +1266,7 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 			e_font_unref (text->font);
 
 		text->font = GTK_VALUE_POINTER (*arg);
+		e_font_ref (text->font);
 
 		calc_ellipsis (text);
 		if (text->line_wrap)
@@ -2797,9 +2799,6 @@ _do_tooltip (gpointer data)
 				      "fill_color", "light gray",
 				      NULL);
 
-	/* Ref the font so that it is not destroyed
-	   when the tooltip text is destroyed */
-	e_font_ref (text->font);
 	tooltip_text = gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (canvas)),
 					      e_text_get_type (),
 					      "anchor", GTK_ANCHOR_NW,
