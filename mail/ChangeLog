@@ -1,3 +1,8 @@
+2001-09-17    <NotZed@Ximian.com>
+
+	* mail-ops.c (mail_get_folderinfo): Get folderinfo 1 at a time
+	rather than all at once.
+
 2001-09-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* component-factory.c (storage_remove_folder): Unsubscribe from

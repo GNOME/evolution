@@ -1171,7 +1171,7 @@ mail_get_folderinfo (CamelStore *store, void (*done)(CamelStore *store, CamelFol
 	m->data = data;
 	id = m->msg.seq;
 
-	e_thread_put(mail_thread_new, (EMsg *)m);
+	e_thread_put(mail_thread_queued, (EMsg *)m);
 
 	return id;
 }
