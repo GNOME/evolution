@@ -1131,6 +1131,11 @@ static void
 start_query (EBook *book, EBookStatus status, gpointer closure)
 {
 	EAddressPopup *pop = E_ADDRESS_POPUP (closure);
+
+	if (status != E_BOOK_STATUS_SUCCESS) {
+		e_address_popup_no_matches (pop);
+		return;
+	}
 	
 	if (pop->query_tag)
 		e_book_simple_query_cancel (book, pop->query_tag);

@@ -1,3 +1,13 @@
+2002-06-10  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/ebook/e-book-util.c (e_book_expand_uri): Made expand_uri
+	a bit more robust and readable.
+	(e_book_get_default_book_uri): Made e_book_get_default_book_uri
+	use e_book_expand_uri if using the bonobo_config value.
+
+	* gui/component/e-address-popup.c (start_query): Handle the
+	failure state here by acting as if there are no matches.
+
 2002-06-05  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/widgets/e-minicard.c (e_minicard_event): Call

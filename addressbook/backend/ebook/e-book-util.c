@@ -42,27 +42,27 @@ struct _CommonBookInfo {
 char *
 e_book_expand_uri (const char *uri)
 {
-	char *new_uri;
-
 	if (!strncmp (uri, "file:", 5)) {
-		if (strlen (uri + 7) > 3
-		    && !strcmp (uri + strlen(uri) - 3, ".db")) {
-			/* it's a .db file */
-			new_uri = g_strdup (uri);
-		}
-		else {
-			char *file_name;
+		int length = strlen (uri);
+		int offset = 5;
+
+		if (!strncmp (uri, "file://", 7))
+			offset = 7;
+
+		if (length < 3 || strcmp (uri + length - 3, ".db")) {
 			/* we assume it's a dir and glom addressbook.db onto the end. */
-			file_name = g_concat_dir_and_file(uri + 7, "addressbook.db");
-			new_uri = g_strdup_printf("file://%s", file_name);
+
+			char *ret_val;
+			char *file_name;
+
+			file_name = g_concat_dir_and_file(uri + offset, "addressbook.db");
+			ret_val = g_strdup_printf("file://%s", file_name);
 			g_free(file_name);
+			return ret_val; 
 		}
-	}
-	else {
-		new_uri = g_strdup (uri);
 	}
 
-	return new_uri;
+	return g_strdup (uri);
 }
 
 static void
@@ -281,9 +281,9 @@ e_book_get_default_book_uri ()
 	CORBA_exception_free (&ev);
 
 	if (val) {
-		uri = val;
-	}
-	else {
+		uri = e_book_expand_uri (val);
+		g_free (val);
+	} else {
 		char *filename;
 		filename = gnome_util_prepend_user_home ("evolution/local/Contacts/addressbook.db");
 		uri = g_strdup_printf ("file://%s", filename);
