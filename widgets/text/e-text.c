@@ -2304,6 +2304,12 @@ e_text_point (GnomeCanvasItem *item, double x, double y,
 
 	lines = text->lines;
 
+	if ( !lines ) {
+		text->needs_split_into_lines = 1;
+		e_canvas_item_request_reflow (item);
+		return 1;
+	}
+
 	if (text->fill_clip_rectangle) {
 		double clip_width;
 		double clip_height;
@@ -3387,6 +3393,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 
 	default:
 		new_pos = text->selection_end;
+		break;
 	}
 
 	new_pos = e_text_model_validate_position (text->model, new_pos);
