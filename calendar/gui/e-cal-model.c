@@ -894,7 +894,7 @@ ecm_value_is_empty (ETableModel *etm, int col, const void *value)
 static char *
 ecm_value_to_string (ETableModel *etm, int col, const void *value)
 {
-	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_FIELD_LAST, NULL);
+	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_FIELD_LAST, g_strdup (""));
 
 	switch (col) {
 	case E_CAL_MODEL_FIELD_CATEGORIES :
@@ -906,19 +906,19 @@ ecm_value_to_string (ETableModel *etm, int col, const void *value)
 		return e_cal_model_date_value_to_string (E_CAL_MODEL (etm), value);
 	case E_CAL_MODEL_FIELD_ICON :
 		if (GPOINTER_TO_INT (value) == 0)
-			return _("Normal");
+			return g_strdup (_("Normal"));
 		else if (GPOINTER_TO_INT (value) == 1)
-			return _("Recurring");
+			return g_strdup (_("Recurring"));
 		else
-			return _("Assigned");
+			return g_strdup (_("Assigned"));
 	case E_CAL_MODEL_FIELD_HAS_ALARMS :
-		return value ? _("Yes") : _("No");
+		return g_strdup (value ? _("Yes") : _("No"));
 	case E_CAL_MODEL_FIELD_COLOR :
 	case E_CAL_MODEL_FIELD_COMPONENT :
-		return NULL;
+		return g_strdup ("");
 	}
 
-	return NULL;
+	return g_strdup ("");
 }
 
 /* ECalModel class methods */
@@ -1787,7 +1787,7 @@ e_cal_model_date_value_to_string (ECalModel *model, const void *value)
 	struct tm tmp_tm;
 	char buffer[64];
 
-	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), g_strdup (""));
 
 	priv = model->priv;
 

@@ -1,3 +1,17 @@
+2004-07-08  Radek Doulik  <rodo@ximian.com>
+
+	* gui/e-cal-model.c (e_cal_model_date_value_to_string): as below
+
+	* gui/e-cal-model-calendar.c (ecmc_value_to_string): as below
+
+	* gui/e-cal-model.c (ecm_value_to_string): as below
+
+	* gui/e-cal-model-tasks.c (ecmt_value_to_string): dup the string
+	value, it's free-ed later. instead of returning NULL return
+	g_strdup ("") as gal does
+
+	Fixes #56271
+
 2004-07-12  Rodney Dawes  <dobey#novell.com>
 
 	* gui/e-tasks.c (pane_realized): Add this callback so we can set the

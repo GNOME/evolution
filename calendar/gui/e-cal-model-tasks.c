@@ -992,8 +992,8 @@ ecmt_value_to_string (ETableModel *etm, int col, const void *value)
 {
 	ECalModelTasks *model = (ECalModelTasks *) etm;
 
-	g_return_val_if_fail (E_IS_CAL_MODEL_TASKS (model), NULL);
-	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_TASKS_FIELD_LAST, NULL);
+	g_return_val_if_fail (E_IS_CAL_MODEL_TASKS (model), g_strdup (""));
+	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_TASKS_FIELD_LAST, g_strdup (""));
 
 	if (col < E_CAL_MODEL_FIELD_LAST)
 		return E_TABLE_MODEL_CLASS (parent_class)->value_to_string (etm, col, value);
@@ -1009,7 +1009,7 @@ ecmt_value_to_string (ETableModel *etm, int col, const void *value)
 		return e_cal_model_date_value_to_string (E_CAL_MODEL (model), value);
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETE :
 	case E_CAL_MODEL_TASKS_FIELD_OVERDUE :
-		return value ? _("Yes") : _("No");
+		return g_strdup (value ? _("Yes") : _("No"));
 	case E_CAL_MODEL_TASKS_FIELD_PERCENT :
 		if (GPOINTER_TO_INT (value) < 0)
 			return g_strdup ("N/A");
@@ -1017,7 +1017,7 @@ ecmt_value_to_string (ETableModel *etm, int col, const void *value)
 			return g_strdup_printf ("%i%%", GPOINTER_TO_INT (value));
 	}
 
-	return NULL;
+	return g_strdup ("");
 }
 
 /* ECalModel class methods */

@@ -173,6 +173,8 @@ calendar_view_factory_new_view (GalViewFactory *factory, const char *name)
 	priv = cal_view_factory->priv;
 
 	cal_view = calendar_view_new (priv->view_type, name);
+	gal_view_set_built_in (GAL_VIEW (cal_view), TRUE);
+
 	return GAL_VIEW (cal_view);
 }
 

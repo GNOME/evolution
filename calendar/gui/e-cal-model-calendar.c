@@ -463,7 +463,7 @@ ecmc_value_is_empty (ETableModel *etm, int col, const void *value)
 static char *
 ecmc_value_to_string (ETableModel *etm, int col, const void *value)
 {
-	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_CALENDAR_FIELD_LAST, NULL);
+	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_CALENDAR_FIELD_LAST, g_strdup (""));
 
 	if (col < E_CAL_MODEL_FIELD_LAST)
 		return E_TABLE_MODEL_CLASS (parent_class)->value_to_string (etm, col, value);
@@ -476,7 +476,7 @@ ecmc_value_to_string (ETableModel *etm, int col, const void *value)
 		return g_strdup (value);
 	}
 
-	return NULL;
+	return g_strdup ("");
 }
 
 /* ECalModel class methods */
