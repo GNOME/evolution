@@ -19,6 +19,7 @@ images_DATA = \
 	save.xpm			\
 	all_contacts.xpm		\
 	find_contact.xpm		\
+	find_message.xpm		\
 	briefcase.png       		\
 	butterfly.png			\
 	cellphone.png       		\
