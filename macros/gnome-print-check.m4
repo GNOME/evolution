@@ -8,7 +8,7 @@
 dnl AM_PATH_GNOME_PRINT([MINIMUM-VERSION, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]]])
 dnl Test for GNOME-PRINT, and define GNOME_PRINT_CFLAGS and GNOME_PRINT_LIBS
 dnl
-AC_DEFUN(AM_PATH_GNOME_PRINT,
+AC_DEFUN([AM_PATH_GNOME_PRINT],
 [dnl 
 dnl Get the cflags and libraries from the gnome-config script
 dnl
