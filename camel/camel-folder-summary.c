@@ -2138,6 +2138,60 @@ void		camel_tag_list_free(CamelTag **list)
 	*list = NULL;
 }
 
+
+/**
+ * camel_message_info_new:
+ *
+ * Returns a new CamelMessageInfo structure.
+ **/
+CamelMessageInfo *
+camel_message_info_new ()
+{
+	CamelMessageInfo *info;
+	
+	info = g_new0 (CamelMessageInfo, 1);
+#ifdef DOESTRV
+	info->strings = e_strv_new (CAMEL_MESSAGE_INFO_LAST);
+#endif
+	
+	return info;
+}
+
+
+/**
+ * camel_message_info_new_from_header:
+ * @header: raw header
+ *
+ * Returns a new CamelMessageInfo structure populated by the header.
+ **/
+CamelMessageInfo *
+camel_message_info_new_from_header (struct _header_raw *header)
+{
+	CamelMessageInfo *info;
+	char *subject, *from, *to, *cc;
+	
+	subject = camel_folder_summary_format_string (header, "subject");
+	from = camel_folder_summary_format_address (header, "from");
+	to = camel_folder_summary_format_address (header, "to");
+	cc = camel_folder_summary_format_address (header, "cc");
+	
+	info = g_new0 (CamelMessageInfo, 1);
+#ifdef DOESTRV
+	info->strings = e_strv_new (CAMEL_MESSAGE_INFO_LAST);
+	camel_message_info_set_subject (info, subject);
+	camel_message_info_set_from (info, from);
+	camel_message_info_set_to (info, to);
+	camel_message_info_set_cc (info, cc);
+#else
+	info->subject = subject;
+	info->from = from;
+	info->to = to;
+	info->cc = cc;
+#endif
+	
+	return info;
+}
+
 /**
  * camel_message_info_dup_to:
  * @from: source message info

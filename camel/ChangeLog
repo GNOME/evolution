@@ -1,5 +1,11 @@
 2000-11-30  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* camel-folder-summary.c (camel_message_info_new): New convenience
+	function, doesn't do much but it sure makes code cleaner to read.
+	(camel_message_info_new_from_header): This one makes my life heaven.
+
+2000-11-30  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* providers/imap/camel-imap-summary.c (camel_imap_summary_new):
 	Handle the case where the summary failed to load - clear the
 	summary and then set the dirty bit so that it is sure to save

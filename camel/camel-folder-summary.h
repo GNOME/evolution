@@ -277,6 +277,8 @@ void		camel_tag_list_free(CamelTag **list);
 /* message info utils for working with pseudo-messageinfo structures
    NOTE: These cannot be added to a real summary object, but suffice for all
    other external interfaces that use message info's */
+CamelMessageInfo *camel_message_info_new ();
+CamelMessageInfo *camel_message_info_new_from_header (struct _header_raw *header);
 void camel_message_info_dup_to(const CamelMessageInfo *from, CamelMessageInfo *to);
 void camel_message_info_free(CamelMessageInfo *mi);
 
