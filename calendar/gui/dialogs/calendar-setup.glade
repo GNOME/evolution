@@ -1291,6 +1291,7 @@
 	      <property name="yalign">0.5</property>
 	      <property name="xpad">0</property>
 	      <property name="ypad">0</property>
+	      <property name="mnemonic_widget">source-color</property>
 	    </widget>
 	    <packing>
 	      <property name="left_attach">0</property>
@@ -1563,7 +1564,7 @@
 	  <property name="spacing">0</property>
 
 	  <child>
-	    <widget class="GtkButton" id="button18">
+	    <widget class="GtkButton" id="cancel-button">
 	      <property name="visible">True</property>
 	      <property name="can_default">True</property>
 	      <property name="can_focus">True</property>
