@@ -1,3 +1,16 @@
+1999-02-04  Martin Baulig  <martin@home-of-linux.org>
+
+	* aclocal-include.m4 (INSIDE_GNOME_COMMON): New automake
+	conditional that's always false.
+
+	* gnome-common.m4: New file. This defines a `GNOME_COMMON_INIT'
+	macro that should be used in all GNOME Applications outside
+	the CVS tree.
+
+	* Makefile.am: If we are `INSIDE_GNOME_COMMON', install all
+	$(MACROS), autogen.sh, gnome-common.m4 and a newly created
+	gnome-macros.dep in `$(datadir)/aclocal/gnome'.
+
 Sun Jan 24 03:59:32 1999  Timur Bakeyev <mc@bat.ru>
 
 	* gnome-pthread-check.m4: Add recognition of 2 more libraries - 

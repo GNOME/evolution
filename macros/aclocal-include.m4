@@ -7,4 +7,8 @@
 
 dnl AM_ACLOCAL_INCLUDE(macrodir)
 AC_DEFUN([AM_ACLOCAL_INCLUDE],
-[for k in $1 ; do ACLOCAL="$ACLOCAL -I $k" ; done])
+[
+	AM_CONDITIONAL(INSIDE_GNOME_COMMON, test x = y)
+
+	for k in $1 ; do ACLOCAL="$ACLOCAL -I $k" ; done
+])
