@@ -21,7 +21,7 @@ static void event_editor_destroy    (GtkObject        *object);
 /* Note: do not i18n these strings, they are part of the vCalendar protocol */
 static char *class_names [] = { "PUBLIC", "PRIVATE", "CONFIDENTIAL" };
 
-static GtkWindowClass *parent_class;
+static GnomeDialogClass *parent_class;
 
 struct numbered_item {
 	char *text;
@@ -44,7 +44,7 @@ event_editor_get_type (void)
 			(GtkArgSetFunc) NULL,
 			(GtkArgGetFunc) NULL,
 		};
-		event_editor_type = gtk_type_unique (gtk_window_get_type (), &event_editor_info);
+		event_editor_type = gtk_type_unique (gnome_dialog_get_type (), &event_editor_info);
 	}
 	return event_editor_type;
 }
@@ -54,7 +54,7 @@ event_editor_class_init (EventEditorClass *class)
 {
 	GtkObjectClass *object_class;
 
-	parent_class = gtk_type_class (gtk_window_get_type ());
+	parent_class = gtk_type_class (gnome_dialog_get_type ());
 	object_class = (GtkObjectClass*) class;
 	object_class->destroy = event_editor_destroy;
 }
@@ -712,7 +712,6 @@ ee_ok (GtkWidget *widget, EventEditor *ee)
 		gnome_calendar_object_changed (ee->gnome_cal, ee->ical, CHANGE_ALL);
 
 	ee->ical->new = 0;
-	gtk_widget_destroy (GTK_WIDGET (ee));
 }
 
 static void
@@ -723,25 +722,19 @@ ee_cancel (GtkWidget *widget, EventEditor *ee)
 		ee->ical = NULL;
 	}
 
-	gtk_widget_destroy (GTK_WIDGET (ee));
 }
 
-static GtkWidget *
+static void
 ee_create_buttons (EventEditor *ee)
 {
-	GtkWidget *box = gtk_hbox_new (1, 5);
-	GtkWidget *ok, *cancel;
+        gnome_dialog_append_buttons(GNOME_DIALOG(ee), 
+				    GNOME_STOCK_BUTTON_OK,
+				    GNOME_STOCK_BUTTON_CANCEL, NULL);
 
-	ok     = gnome_stock_button (GNOME_STOCK_BUTTON_OK);
-	cancel = gnome_stock_button (GNOME_STOCK_BUTTON_CANCEL);
-
-	gtk_box_pack_start (GTK_BOX (box), ok, 0, 0, 5);
-	gtk_box_pack_start (GTK_BOX (box), cancel, 0, 0, 5);
-
-	gtk_signal_connect (GTK_OBJECT (ok),     "clicked", GTK_SIGNAL_FUNC(ee_ok), ee);
-	gtk_signal_connect (GTK_OBJECT (cancel), "clicked", GTK_SIGNAL_FUNC(ee_cancel), ee);
+	gnome_dialog_button_connect (GNOME_DIALOG (ee), 0, GTK_SIGNAL_FUNC(ee_ok), ee);
+	gnome_dialog_button_connect (GNOME_DIALOG (ee), 1, GTK_SIGNAL_FUNC(ee_cancel), ee);
 	
-	return box;
+	return;
 }
 
 /*
@@ -1424,24 +1417,17 @@ ee_init_recurrence_page (EventEditor *ee)
 
 static void
 event_editor_init_widgets (EventEditor *ee)
-{
-	ee->vbox = gtk_vbox_new (0, 0);
-	gtk_container_add (GTK_CONTAINER (ee), ee->vbox);
-	gtk_container_border_width (GTK_CONTAINER (ee), 5);
-	
+{	
 	ee->notebook = gtk_notebook_new ();
-	gtk_box_pack_start (GTK_BOX (ee->vbox), ee->notebook, 1, 1, 0);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG(ee)->vbox), ee->notebook, 1, 1, 0);
 
 	/* Init the various configuration pages */
 	ee_init_general_page (ee);
 	ee_init_summary_page (ee);
 	ee_init_recurrence_page (ee);
-	
-	/* Separator */
-	gtk_box_pack_start (GTK_BOX (ee->vbox), gtk_hseparator_new (), 0, 0, 0);
-
+       
 	/* Buttons */
-	gtk_box_pack_start (GTK_BOX (ee->vbox), ee_create_buttons (ee), 0, 0, 5);
+	ee_create_buttons(ee);
 	
 	/* We show all of the contained widgets */
 	gtk_widget_show_all (GTK_BIN (ee)->child);
@@ -1451,6 +1437,7 @@ static void
 event_editor_init (EventEditor *ee)
 {
 	ee->ical = 0;
+	gnome_dialog_set_destroy(GNOME_DIALOG(ee), TRUE);
 }
 
 static void

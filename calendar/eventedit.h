@@ -9,6 +9,7 @@
 #define EVENT_EDITOR_H
 
 #include "gnome-cal.h"
+#include <libgnomeui/gnome-dialog.h>
 
 BEGIN_GNOME_DECLS
 
@@ -19,9 +20,8 @@ BEGIN_GNOME_DECLS
 
 
 typedef struct {
-	GtkWindow  window;
+	GnomeDialog dialog;
 	GtkWidget  *notebook;
-	GtkWidget  *vbox;
 
         GtkWidget  *general;
         GtkWidget  *general_table;
@@ -64,7 +64,7 @@ typedef struct {
 } EventEditor;
 
 typedef struct {
-	GtkWindowClass parent_class;
+	GnomeDialogClass parent_class;
 } EventEditorClass;
 
 

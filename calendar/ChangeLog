@@ -1,3 +1,11 @@
+Sat Apr 25 22:20:45 1998  Havoc Pennington  <hp@pobox.com>
+
+	* eventedit.c, eventedit.h: Descend from GnomeDialog. Took vbox
+	out of class structure; use GnomeDialog vbox
+	instead. gnome_dialog_set_destroy instead of destroying in button
+	callbacks. Don't create buttons, separator, or vbox manually. 
+	#include <libgnomeui/gnome-dialog.h>.
+
 1998-04-24  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* calobj.c (ical_object_create_from_vobject): Fixed alarm loading;
