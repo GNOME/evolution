@@ -100,8 +100,6 @@ checkmem(void *p)
 
 /* mempool class */
 
-#define STRUCT_ALIGN (4)
-
 typedef struct _MemChunkFreeNode {
 	struct _MemChunkFreeNode *next;
 	unsigned int atoms;
@@ -357,13 +355,13 @@ typedef struct _MemPoolNode {
 	struct _MemPoolNode *next;
 
 	int free;
-	char data[1];
 } MemPoolNode;
 
 typedef struct _MemPoolThresholdNode {
 	struct _MemPoolThresholdNode *next;
-	char data[1];
 } MemPoolThresholdNode;
+
+#define ALIGNED_SIZEOF(t)	((sizeof (t) + G_MEM_ALIGN - 1) & -G_MEM_ALIGN)
 
 typedef struct _EMemPool {
 	int blocksize;
@@ -425,7 +423,7 @@ MemPool *e_mempool_new(int blocksize, int threshold, EMemPoolFlags flags)
 	switch (flags & E_MEMPOOL_ALIGN_MASK) {
 	case E_MEMPOOL_ALIGN_STRUCT:
 	default:
-		pool->align = STRUCT_ALIGN-1;
+		pool->align = G_MEM_ALIGN-1;
 		break;
 	case E_MEMPOOL_ALIGN_WORD:
 		pool->align = 2-1;
@@ -451,27 +449,27 @@ void *e_mempool_alloc(MemPool *pool, register int size)
 	if (size>=pool->threshold) {
 		MemPoolThresholdNode *n;
 
-		n = g_malloc(sizeof(*n) - sizeof(char) + size);
+		n = g_malloc(ALIGNED_SIZEOF(*n) + size);
 		n->next = pool->threshold_blocks;
 		pool->threshold_blocks = n;
-		return &n->data[0];
+		return (char *) n + ALIGNED_SIZEOF(*n);
 	} else {
 		register MemPoolNode *n;
 
 		n = pool->blocks;
 		if (n && n->free >= size) {
 			n->free -= size;
-			return &n->data[n->free];
+			return (char *) n + ALIGNED_SIZEOF(*n) + n->free;
 		}
 
 		/* maybe we could do some sort of the free blocks based on size, but
 		   it doubt its worth it at all */
 
-		n = g_malloc(sizeof(*n) - sizeof(char) + pool->blocksize);
+		n = g_malloc(ALIGNED_SIZEOF(*n) + pool->blocksize);
 		n->next = pool->blocks;
 		pool->blocks = n;
 		n->free = pool->blocksize - size;
-		return &n->data[n->free];
+		return (char *) n + ALIGNED_SIZEOF(*n) + n->free;
 	}
 }
 
