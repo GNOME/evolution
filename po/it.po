@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
-"POT-Creation-Date: 2003-12-18 22:33+0100\n"
-"PO-Revision-Date: 2003-12-18 22:40+0100\n"
+"POT-Creation-Date: 2003-12-20 16:00+0100\n"
+"PO-Revision-Date: 2003-12-20 16:12+0100\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team:  <tp@lists.linux.it>,<it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -90,18 +90,18 @@ msgstr ""
 msgid "Manager your S/Mime certificates here"
 msgstr "Gestione dei certificati S/Mime"
 
-#: addressbook/gui/component/addressbook-component.c:145
+#: addressbook/gui/component/addressbook-component.c:211
 #: addressbook/gui/component/ldap-config.glade.h:28
 msgid "New Addressbook"
 msgstr "Nuova rubrica"
 
-#: addressbook/gui/component/addressbook-component.c:146
+#: addressbook/gui/component/addressbook-component.c:212
 msgid "Properties..."
 msgstr "Proprietà..."
 
-#: addressbook/gui/component/addressbook-component.c:147
+#: addressbook/gui/component/addressbook-component.c:213
 #: addressbook/gui/widgets/e-addressbook-view.c:1017
-#: calendar/gui/calendar-component.c:440 calendar/gui/tasks-component.c:414
+#: calendar/gui/calendar-component.c:443 calendar/gui/tasks-component.c:417
 #: filter/libfilter-i18n.h:10 mail/em-account-prefs.c:236
 #: ui/evolution-addressbook.xml.h:8 ui/evolution-comp-editor.xml.h:4
 #: ui/evolution-contact-editor.xml.h:3
@@ -109,59 +109,59 @@ msgstr "Proprietà..."
 msgid "Delete"
 msgstr "Elimina"
 
-#: addressbook/gui/component/addressbook-component.c:148
-#: calendar/gui/calendar-component.c:439 calendar/gui/tasks-component.c:412
+#: addressbook/gui/component/addressbook-component.c:214
+#: calendar/gui/calendar-component.c:442 calendar/gui/tasks-component.c:415
 msgid "Rename"
 msgstr "Rinomina"
 
-#: addressbook/gui/component/addressbook-component.c:217
+#: addressbook/gui/component/addressbook-component.c:285
 msgid "New Contact"
 msgstr "Nuovo contatto"
 
-#: addressbook/gui/component/addressbook-component.c:218
+#: addressbook/gui/component/addressbook-component.c:286
 msgid "_Contact"
 msgstr "_Contatti"
 
-#: addressbook/gui/component/addressbook-component.c:219
+#: addressbook/gui/component/addressbook-component.c:287
 msgid "Create a new contact"
 msgstr "Crea un nuovo contatto"
 
-#: addressbook/gui/component/addressbook-component.c:224
+#: addressbook/gui/component/addressbook-component.c:292
 msgid "New Contact List"
 msgstr "Nuova elenco contatti"
 
-#: addressbook/gui/component/addressbook-component.c:225
+#: addressbook/gui/component/addressbook-component.c:293
 msgid "Contact _List"
 msgstr "E_lenco contatti"
 
-#: addressbook/gui/component/addressbook-component.c:226
+#: addressbook/gui/component/addressbook-component.c:294
 msgid "Create a new contact list"
 msgstr "Crea un nuovo elenco contatti"
 
-#: addressbook/gui/component/addressbook-component.c:375
-#: calendar/gui/calendar-component.c:833 calendar/gui/tasks-component.c:767
+#: addressbook/gui/component/addressbook-component.c:443
+#: calendar/gui/calendar-component.c:838 calendar/gui/tasks-component.c:771
 msgid "On This Computer"
 msgstr "Su questo computer"
 
 #. orange
-#: addressbook/gui/component/addressbook-component.c:385
-#: calendar/gui/calendar-component.c:841 calendar/gui/migration.c:123
-#: calendar/gui/migration.c:146 calendar/gui/tasks-component.c:775
+#: addressbook/gui/component/addressbook-component.c:453
+#: calendar/gui/calendar-component.c:846 calendar/gui/migration.c:123
+#: calendar/gui/migration.c:146 calendar/gui/tasks-component.c:779
 #: filter/filter-label.c:123 mail/mail-config.c:65 mail/mail-config.glade.h:88
 #: shell/e-config-upgrade.c:1456
 msgid "Personal"
 msgstr "Personale"
 
 #. red
-#: addressbook/gui/component/addressbook-component.c:392
-#: calendar/gui/calendar-component.c:848 filter/filter-label.c:122
+#: addressbook/gui/component/addressbook-component.c:460
+#: calendar/gui/calendar-component.c:853 filter/filter-label.c:122
 #: mail/mail-config.c:64 mail/mail-config.glade.h:135
 #: shell/e-config-upgrade.c:1455
 msgid "Work"
 msgstr "Lavoro"
 
 #. Create the LDAP source group
-#: addressbook/gui/component/addressbook-component.c:400
+#: addressbook/gui/component/addressbook-component.c:468
 msgid "On LDAP Servers"
 msgstr "Su server LDAP"
 
@@ -332,12 +332,12 @@ msgstr "  Mostra basi supportate"
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 #: addressbook/gui/contact-editor/fullname.glade.h:1
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
-#: calendar/gui/dialogs/alarm-options.glade.h:1
-#: calendar/gui/dialogs/event-page.glade.h:1
+#: calendar/gui/dialogs/alarm-options.glade.h:2
+#: calendar/gui/dialogs/event-page.glade.h:2
 #: calendar/gui/dialogs/meeting-page.glade.h:1
 #: calendar/gui/dialogs/new-calendar.glade.h:1
 #: calendar/gui/dialogs/new-task-list.glade.h:1
-#: calendar/gui/dialogs/task-page.glade.h:1
+#: calendar/gui/dialogs/task-page.glade.h:2
 #: composer/e-msg-composer-attachment.glade.h:1 mail/mail-config.glade.h:6
 #: mail/mail-search.glade.h:1 mail/message-tags.glade.h:1
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:1
@@ -882,7 +882,7 @@ msgstr "Collaborazione"
 
 #. Construct the app
 #: addressbook/gui/contact-editor/contact-editor.glade.h:11
-#: addressbook/gui/contact-editor/e-contact-editor.c:1519
+#: addressbook/gui/contact-editor/e-contact-editor.c:1520
 msgid "Contact Editor"
 msgstr "Editor dei contatti"
 
@@ -2009,19 +2009,19 @@ msgstr ""
 "Cancellare\n"
 "questo contatto?"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1987
+#: addressbook/gui/contact-editor/e-contact-editor.c:2028
 msgid "Business"
 msgstr "Ufficio"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1988
+#: addressbook/gui/contact-editor/e-contact-editor.c:2029
 msgid "Home"
 msgstr "Casa"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1989
+#: addressbook/gui/contact-editor/e-contact-editor.c:2030
 msgid "Other"
 msgstr "Altro"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2528
+#: addressbook/gui/contact-editor/e-contact-editor.c:2569
 #, c-format
 msgid "Could not find widget for a field: `%s'"
 msgstr "Impossibile trovare il widget per un campo: `%s'"
@@ -2368,9 +2368,9 @@ msgstr "Taglia"
 
 #. create the dialog
 #: addressbook/gui/widgets/e-addressbook-view.c:1015
-#: calendar/gui/calendar-component.c:437
+#: calendar/gui/calendar-component.c:440
 #: calendar/gui/dialogs/copy-source-dialog.c:135
-#: calendar/gui/tasks-component.c:410 ui/evolution-addressbook.xml.h:2
+#: calendar/gui/tasks-component.c:413 ui/evolution-addressbook.xml.h:2
 #: ui/evolution-mail-message.xml.h:9 ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "Copia"
@@ -2707,8 +2707,8 @@ msgid "Protocol not supported"
 msgstr "Protocollo non supportato"
 
 #: addressbook/gui/widgets/eab-gui-util.c:50
-#: calendar/gui/dialogs/task-details-page.glade.h:3
-#: calendar/gui/e-cal-model-tasks.c:325 calendar/gui/e-cal-model-tasks.c:600
+#: calendar/gui/dialogs/task-details-page.glade.h:6
+#: calendar/gui/e-cal-model-tasks.c:325 calendar/gui/e-cal-model-tasks.c:601
 #: calendar/gui/e-calendar-table.c:465 calendar/gui/e-tasks.c:213
 #: calendar/gui/print.c:2320 camel/camel-service.c:734
 #: camel/camel-service.c:772 camel/camel-service.c:856
@@ -3273,7 +3273,7 @@ msgstr "Componente delle attività di Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: calendar/gui/e-tasks.c:1082 calendar/gui/print.c:1796
-#: calendar/gui/tasks-control.c:486
+#: calendar/gui/tasks-control.c:490
 #: calendar/importers/icalendar-importer.c:716
 #: mail/importers/netscape-importer.c:1845 shell/e-shortcuts.c:1087
 msgid "Tasks"
@@ -3541,116 +3541,116 @@ msgstr ""
 "dell'ammontare di tempo impostato. Se si continua, non sarà più possibile "
 "ripristinare questi eventi."
 
-#: calendar/gui/calendar-commands.c:366
+#: calendar/gui/calendar-commands.c:367
 msgid "Purge events older than"
 msgstr "Elimina eventi più vecchi di"
 
-#: calendar/gui/calendar-commands.c:371
-#: calendar/gui/dialogs/alarm-options.glade.h:10 filter/filter.glade.h:17
+#: calendar/gui/calendar-commands.c:372
+#: calendar/gui/dialogs/alarm-options.glade.h:14 filter/filter.glade.h:17
 msgid "days"
 msgstr "giorni"
 
-#: calendar/gui/calendar-commands.c:440
+#: calendar/gui/calendar-commands.c:441
 msgid "%A %d %B %Y"
 msgstr "%A, %d %B %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
-#: calendar/gui/calendar-commands.c:443 calendar/gui/e-day-view-top-item.c:692
+#: calendar/gui/calendar-commands.c:444 calendar/gui/e-day-view-top-item.c:692
 #: calendar/gui/e-day-view.c:1359 calendar/gui/e-week-view-main-item.c:329
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
-#: calendar/gui/calendar-commands.c:445 calendar/gui/calendar-commands.c:450
-#: calendar/gui/calendar-commands.c:452
+#: calendar/gui/calendar-commands.c:446 calendar/gui/calendar-commands.c:451
+#: calendar/gui/calendar-commands.c:453
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
-#: calendar/gui/calendar-commands.c:469 calendar/gui/calendar-commands.c:475
-#: calendar/gui/calendar-commands.c:481 calendar/gui/calendar-commands.c:483
+#: calendar/gui/calendar-commands.c:470 calendar/gui/calendar-commands.c:476
+#: calendar/gui/calendar-commands.c:482 calendar/gui/calendar-commands.c:484
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: calendar/gui/calendar-commands.c:473
+#: calendar/gui/calendar-commands.c:474
 #: calendar/gui/e-week-view-main-item.c:337 calendar/gui/print.c:1517
 msgid "%d %B"
 msgstr "%d %B"
 
-#: calendar/gui/calendar-component.c:375
+#: calendar/gui/calendar-component.c:376
 #, c-format
 msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
 msgstr "Il calendario '%s' sarà rimosso. Sei sicuro di voler continuare?"
 
-#: calendar/gui/calendar-component.c:415
+#: calendar/gui/calendar-component.c:417
 msgid "Rename this calendar to"
 msgstr "Rinomina questo calendario come"
 
-#: calendar/gui/calendar-component.c:435
+#: calendar/gui/calendar-component.c:438
 msgid "New Calendar"
 msgstr "Nuovo calendario"
 
-#: calendar/gui/calendar-component.c:619
+#: calendar/gui/calendar-component.c:622
 msgid "New appointment"
 msgstr "Nuovo appuntamento"
 
-#: calendar/gui/calendar-component.c:620
+#: calendar/gui/calendar-component.c:623
 msgid "_Appointment"
 msgstr "_Appuntamento"
 
-#: calendar/gui/calendar-component.c:621
+#: calendar/gui/calendar-component.c:624
 msgid "Create a new appointment"
 msgstr "Crea un nuovo appuntamento"
 
-#: calendar/gui/calendar-component.c:626
+#: calendar/gui/calendar-component.c:629
 msgid "New meeting"
 msgstr "Nuova riunione"
 
-#: calendar/gui/calendar-component.c:627
+#: calendar/gui/calendar-component.c:630
 msgid "M_eeting"
 msgstr "Riunion_e"
 
-#: calendar/gui/calendar-component.c:628
+#: calendar/gui/calendar-component.c:631
 msgid "Create a new meeting request"
 msgstr "Crea una nuova richiesta di riunione"
 
-#: calendar/gui/calendar-component.c:633
+#: calendar/gui/calendar-component.c:636
 msgid "New all day appointment"
 msgstr "Nuovo appuntamento giornaliero"
 
-#: calendar/gui/calendar-component.c:634
+#: calendar/gui/calendar-component.c:637
 msgid "All _Day Appointment"
 msgstr "Appuntamento giornaliero"
 
-#: calendar/gui/calendar-component.c:635
+#: calendar/gui/calendar-component.c:638
 msgid "Create a new all-day appointment"
 msgstr "Crea un nuovo appuntamento giornaliero"
 
-#: calendar/gui/calendar-component.c:640
+#: calendar/gui/calendar-component.c:643
 msgid "New calendar"
 msgstr "Nuovo calendario"
 
-#: calendar/gui/calendar-component.c:641
+#: calendar/gui/calendar-component.c:644
 msgid "C_alendar"
 msgstr "C_alendario"
 
-#: calendar/gui/calendar-component.c:642
+#: calendar/gui/calendar-component.c:645
 msgid "Create a new calendar"
 msgstr "Crea un nuovo calendario"
 
-#: calendar/gui/calendar-component.c:709
+#: calendar/gui/calendar-component.c:712
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "Impossibile aprire il calendario '%s' per creare eventi e appuntamenti"
 
-#: calendar/gui/calendar-component.c:721
+#: calendar/gui/calendar-component.c:725
 msgid "There is no calendar available for creating events and meetings"
 msgstr "Non c'è un calendario disponibile per creare eventi e appuntamenti"
 
 #. create the remote source group
-#: calendar/gui/calendar-component.c:857
+#: calendar/gui/calendar-component.c:862
 msgid "On The Web"
 msgstr "Sul Web"
 
@@ -3696,7 +3696,7 @@ msgstr "Metodo non supportato durante l'apertura del calendario"
 msgid "Permission denied to open the calendar"
 msgstr "Negato il permesso di aprire il calendario"
 
-#: calendar/gui/comp-editor-factory.c:516
+#: calendar/gui/comp-editor-factory.c:517
 #, c-format
 msgid "open_client(): %s"
 msgstr "open_client(): %s"
@@ -3734,51 +3734,73 @@ msgstr "Opzioni programma di avviso"
 msgid "Unknown Alarm Options"
 msgstr "Opzioni di avviso sconosciute"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:2
-msgid "Alarm Repeat"
-msgstr "Ripeti avviso"
+#: calendar/gui/dialogs/alarm-options.glade.h:1
+#: calendar/gui/dialogs/alarm-page.glade.h:1
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
+#: calendar/gui/dialogs/event-page.glade.h:1
+#: calendar/gui/dialogs/recurrence-page.glade.h:1
+#: calendar/gui/dialogs/task-details-page.glade.h:1
+#: calendar/gui/dialogs/task-page.glade.h:1
+msgid "    "
+msgstr "    "
 
 #: calendar/gui/dialogs/alarm-options.glade.h:3
-msgid "Message to Display:"
-msgstr "Messaggio da visualizzare:"
+msgid "<b>Alarm Action</b>"
+msgstr "<b>Azione di avviso</b>"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:4
+msgid "<b>Alarm Email</b>"
+msgstr "<b>Avviso email</b>"
+
+#: calendar/gui/dialogs/alarm-options.glade.h:5
+msgid "<b>Alarm Repeat</b>"
+msgstr "<b>Avviso ripetuto</b>"
+
+#: calendar/gui/dialogs/alarm-options.glade.h:6
+msgid "<b>Alarm Sound</b>"
+msgstr "<b>Avviso sonoro</b>"
+
+#: calendar/gui/dialogs/alarm-options.glade.h:7
+msgid "<b>Message to Display</b>"
+msgstr "<b>Messaggio da visualizzare</b>"
+
+#: calendar/gui/dialogs/alarm-options.glade.h:8
 msgid "Message to Send"
 msgstr "Messaggio da spedire"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:5
+#: calendar/gui/dialogs/alarm-options.glade.h:9
 msgid "Play sound:"
 msgstr "Emetti un suono:"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:6
+#: calendar/gui/dialogs/alarm-options.glade.h:10
 msgid "Repeat the alarm"
 msgstr "Ripeti l'avviso"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:7
+#: calendar/gui/dialogs/alarm-options.glade.h:11
 msgid "Run program:"
 msgstr "Esegui programma:"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:8
+#: calendar/gui/dialogs/alarm-options.glade.h:12
 msgid "Send To:"
 msgstr "Invia a:"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:9
+#: calendar/gui/dialogs/alarm-options.glade.h:13
 msgid "With these arguments:"
 msgstr "Con questi argomenti:"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:11 smime/gui/smime-ui.glade.h:47
+#: calendar/gui/dialogs/alarm-options.glade.h:15 smime/gui/smime-ui.glade.h:47
 msgid "dialog1"
 msgstr "dialogo1"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:12
+#: calendar/gui/dialogs/alarm-options.glade.h:16
 msgid "extra times every"
 msgstr "tempo in più ogni"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:13 filter/filter.glade.h:18
+#: calendar/gui/dialogs/alarm-options.glade.h:17 filter/filter.glade.h:18
 msgid "hours"
 msgstr "ore"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:14 filter/filter.glade.h:19
+#: calendar/gui/dialogs/alarm-options.glade.h:18 filter/filter.glade.h:19
 msgid "minutes"
 msgstr "minuti"
 
@@ -3786,286 +3808,285 @@ msgstr "minuti"
 msgid "Action/Trigger"
 msgstr "Azione"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:1
-#: calendar/gui/dialogs/recurrence-page.glade.h:2
-msgid "Basics"
-msgstr "Di base"
-
 #: calendar/gui/dialogs/alarm-page.glade.h:2
-#: calendar/gui/dialogs/recurrence-page.glade.h:3
+#: calendar/gui/dialogs/recurrence-page.glade.h:2
+msgid "<b>Basics</b>"
+msgstr "<b>Di base</b>"
+
+#: calendar/gui/dialogs/alarm-page.glade.h:3
+msgid "<b>Reminders</b>"
+msgstr "<b>Promemoria</b>"
+
+#: calendar/gui/dialogs/alarm-page.glade.h:4
+#: calendar/gui/dialogs/recurrence-page.glade.h:7
 msgid "Date/Time:"
 msgstr "Data/ora:"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:3 calendar/gui/e-alarm-list.c:465
+#: calendar/gui/dialogs/alarm-page.glade.h:5 calendar/gui/e-alarm-list.c:465
 msgid "Display a message"
 msgstr "Visualizza un messaggio"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:4 calendar/gui/e-alarm-list.c:461
+#: calendar/gui/dialogs/alarm-page.glade.h:6 calendar/gui/e-alarm-list.c:461
 msgid "Play a sound"
 msgstr "Emetti un suono"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:5
-msgid "Reminders"
-msgstr "Promemoria"
-
-#: calendar/gui/dialogs/alarm-page.glade.h:6 calendar/gui/e-alarm-list.c:473
+#: calendar/gui/dialogs/alarm-page.glade.h:7 calendar/gui/e-alarm-list.c:473
 msgid "Run a program"
 msgstr "Esegui programma"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:7
+#: calendar/gui/dialogs/alarm-page.glade.h:8
 msgid "Send an Email"
 msgstr "Invia una Email"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:8
-#: calendar/gui/dialogs/recurrence-page.glade.h:8
+#: calendar/gui/dialogs/alarm-page.glade.h:9
+#: calendar/gui/dialogs/recurrence-page.glade.h:9
 #: calendar/gui/e-itip-control.c:983 calendar/gui/e-itip-control.glade.h:11
 #: calendar/gui/e-tasks.c:168
 msgid "Summary:"
 msgstr "Indice:"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:9
+#: calendar/gui/dialogs/alarm-page.glade.h:10
 msgid "_Options..."
 msgstr "_Opzioni..."
 
-#: calendar/gui/dialogs/alarm-page.glade.h:10
+#: calendar/gui/dialogs/alarm-page.glade.h:11
 msgid "after"
 msgstr "dopo"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:11
+#: calendar/gui/dialogs/alarm-page.glade.h:12
 msgid "before"
 msgstr "prima"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:12
-#: calendar/gui/dialogs/recurrence-page.glade.h:14
+#: calendar/gui/dialogs/alarm-page.glade.h:13
+#: calendar/gui/dialogs/recurrence-page.glade.h:15
 msgid "day(s)"
 msgstr "giorno(i)"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:13
+#: calendar/gui/dialogs/alarm-page.glade.h:14
 msgid "end of appointment"
 msgstr "termine dell'appuntamento"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:14
+#: calendar/gui/dialogs/alarm-page.glade.h:15
 msgid "hour(s)"
 msgstr "ora(e)"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:15 mail/mail-config.glade.h:182
+#: calendar/gui/dialogs/alarm-page.glade.h:16 mail/mail-config.glade.h:182
 msgid "minute(s)"
 msgstr "minuto(i)"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:16
+#: calendar/gui/dialogs/alarm-page.glade.h:17
 msgid "start of appointment"
 msgstr "inizio dell'appuntamento"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:2
 msgid "05 minutes"
 msgstr "05 minuti"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:2
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:3
 msgid "10 minutes"
 msgstr "10 minuti"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:3
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:4
 msgid "15 minutes"
 msgstr "15 minuti"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:4
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:5
 msgid "30 minutes"
 msgstr "30 minuti"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:5
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6
 msgid "60 minutes"
 msgstr "60 minuti"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6 mail/mail-config.glade.h:15
-msgid "Alerts"
-msgstr "Allarmi"
-
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
+msgid "<b>Alerts</b>"
+msgstr "<b>Allarmi</b>"
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
+msgid "<b>Task List</b>"
+msgstr "<b>Elenco attività</b>"
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
+msgid "<b>Time</b>"
+msgstr "<b>Ora</b>"
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
+msgid "<b>Work Week</b>"
+msgstr "<b>Settimana lavorativa</b>"
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 msgid "Calendar and Tasks Settings"
 msgstr "Impostazioni calendario e attività"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
 msgid "Color for overdue tasks"
 msgstr "Colore attività scadute"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
 msgid "Color for tasks due today"
 msgstr "Colore attività di oggi"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
 msgid "Day _ends:"
 msgstr "Fine giornate:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 msgid "Days"
 msgstr "Giorni"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 #: calendar/gui/dialogs/recurrence-page.c:1048
 #: calendar/gui/e-itip-control.c:607
 msgid "Friday"
 msgstr "Venerdì"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 msgid "Hours"
 msgstr "Ore"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
 msgid "Minutes"
 msgstr "Minuti"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 #: calendar/gui/dialogs/recurrence-page.c:1044
 #: calendar/gui/e-itip-control.c:603
 msgid "Monday"
 msgstr "Lunedì"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 msgid "S_un"
 msgstr "Dom"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
 #: calendar/gui/dialogs/recurrence-page.c:1049
 #: calendar/gui/e-itip-control.c:608
 msgid "Saturday"
 msgstr "Sabato"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
 msgid "Sh_ow a reminder"
 msgstr "Mostra un promemoria"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
 msgid "Show week _numbers in date navigator"
 msgstr "Mostra i _numeri delle settimane"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
 #: calendar/gui/dialogs/recurrence-page.c:1050
 #: calendar/gui/e-itip-control.c:602
 msgid "Sunday"
 msgstr "Domenica"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
 msgid "T_asks due today:"
 msgstr "Scadenze per oggi:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
 msgid "T_hu"
 msgstr "G_io"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
-msgid "Task List"
-msgstr "Elenco attività"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
 #: calendar/gui/dialogs/recurrence-page.c:1047
 #: calendar/gui/e-itip-control.c:606
 msgid "Thursday"
 msgstr "Giovedì"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
-msgid "Time"
-msgstr "Ora"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
 msgid "Time _zone:"
 msgstr "F_uso orario: "
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
 msgid "Time format:"
 msgstr "Formato dell'ora:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 #: calendar/gui/dialogs/recurrence-page.c:1045
 #: calendar/gui/e-itip-control.c:604
 msgid "Tuesday"
 msgstr "Martedì"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
 msgid "W_eek starts:"
 msgstr "Inizio settimana:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 #: calendar/gui/dialogs/recurrence-page.c:1046
 #: calendar/gui/e-itip-control.c:605
 msgid "Wednesday"
 msgstr "Mercoledì"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
-#: ui/evolution-calendar.xml.h:31
-msgid "Work Week"
-msgstr "Settimana lavorativa"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 msgid "Work days:"
 msgstr "Giorni lavorativi:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 msgid "_12 hour (AM/PM)"
 msgstr "_12 ore (AM/PM)"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 msgid "_24 hour"
 msgstr "_24 ore"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 msgid "_Ask for confirmation when deleting items"
 msgstr "Chiedi conferm_a prima di cancellare"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
 msgid "_Compress weekends in month view"
 msgstr "_Comprimi fine settimana nella vista mensile"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "_Day begins:"
 msgstr "Inizio giornata:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 msgid "_Display"
 msgstr "_Visualizzazione"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 msgid "_Fri"
 msgstr "_Ven"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
 #: mail/mail-config.glade.h:153
 msgid "_General"
 msgstr "_Generale"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 msgid "_Hide completed tasks after"
 msgstr "_Nascondi le attività completate dopo"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 msgid "_Mon"
 msgstr "_Lun"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
 msgid "_Overdue tasks:"
 msgstr "Attività scadute:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
 msgid "_Sat"
 msgstr "_Sab"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
 msgid "_Show appointment end times in week and month views"
 msgstr ""
 "Mostra la scadenza degli appuntamenti nelle viste mensili e settimanali"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
 msgid "_Time divisions:"
 msgstr "Suddivisioni di _tempo:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 msgid "_Tue"
 msgstr "Mar"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
 msgid "_Wed"
 msgstr "_Mer"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
 msgid "before every appointment"
 msgstr "prima di ogni appuntamento"
 
@@ -4382,78 +4403,81 @@ msgstr "L'ora finale è errata"
 msgid "Unable to open the calendar '%s'."
 msgstr "Impossibile aprire il calendario '%s'."
 
-#: calendar/gui/dialogs/event-page.glade.h:2
+#: calendar/gui/dialogs/event-page.glade.h:3
+#: calendar/gui/dialogs/task-page.glade.h:3
+msgid "<b>Classification</b>"
+msgstr "<b>Classificazione</b>"
+
+#: calendar/gui/dialogs/event-page.glade.h:4
+#: calendar/gui/dialogs/task-page.glade.h:4
+msgid "<b>Date &amp; Time</b>"
+msgstr "<b>Data e ora</b>"
+
+#: calendar/gui/dialogs/event-page.glade.h:5
+#: calendar/gui/dialogs/task-page.glade.h:5
+msgid "<b>Description</b>"
+msgstr "<b>Descrizione</b>"
+
+#: calendar/gui/dialogs/event-page.glade.h:6
+msgid "<b>L_ocation</b>"
+msgstr "<b>Posizione ge_ografica</b>"
+
+#: calendar/gui/dialogs/event-page.glade.h:7
+msgid "<b>Show Time As</b>"
+msgstr "<b>Mostra orario come</b>"
+
+#: calendar/gui/dialogs/event-page.glade.h:8
+#: calendar/gui/dialogs/task-page.glade.h:6
+msgid "<b>Su_mmary</b>"
+msgstr "<b>So_mmario</b>"
+
+#: calendar/gui/dialogs/event-page.glade.h:9
 msgid "A_ll day event"
 msgstr "_Eventi della giornata"
 
-#: calendar/gui/dialogs/event-page.glade.h:3
+#: calendar/gui/dialogs/event-page.glade.h:10
 msgid "B_usy"
 msgstr "O_ccupato"
 
-#: calendar/gui/dialogs/event-page.glade.h:4
-#: calendar/gui/dialogs/task-page.glade.h:2
+#: calendar/gui/dialogs/event-page.glade.h:11
+#: calendar/gui/dialogs/task-page.glade.h:7
 msgid "Ca_tegories..."
 msgstr "Ca_tegorie..."
 
-#: calendar/gui/dialogs/event-page.glade.h:5
+#: calendar/gui/dialogs/event-page.glade.h:12
 msgid "Calendar:"
 msgstr "Calendario:"
 
-#: calendar/gui/dialogs/event-page.glade.h:6
-#: calendar/gui/dialogs/task-page.glade.h:3
-#: calendar/gui/e-cal-list-view.etspec.h:2
-#: calendar/gui/e-calendar-table.etspec.h:5
-msgid "Classification"
-msgstr "Classificazione"
-
-#: calendar/gui/dialogs/event-page.glade.h:7
+#: calendar/gui/dialogs/event-page.glade.h:13
 msgid "Co_nfidential"
 msgstr "Co_nfidenziale"
 
-#: calendar/gui/dialogs/event-page.glade.h:8
-#: calendar/gui/dialogs/task-page.glade.h:5
-msgid "Date & Time"
-msgstr "Data e ora"
-
-#: calendar/gui/dialogs/event-page.glade.h:9
+#: calendar/gui/dialogs/event-page.glade.h:14
 msgid "F_ree"
 msgstr "Libe_ro"
 
-#: calendar/gui/dialogs/event-page.glade.h:10
-msgid "L_ocation:"
-msgstr "Posizione _geografica:"
-
-#: calendar/gui/dialogs/event-page.glade.h:11
-#: calendar/gui/dialogs/task-page.glade.h:8
+#: calendar/gui/dialogs/event-page.glade.h:15
+#: calendar/gui/dialogs/task-page.glade.h:10
 msgid "Pri_vate"
 msgstr "Pri_vato"
 
-#: calendar/gui/dialogs/event-page.glade.h:12
-#: calendar/gui/dialogs/task-page.glade.h:9
+#: calendar/gui/dialogs/event-page.glade.h:16
+#: calendar/gui/dialogs/task-page.glade.h:11
 msgid "Pu_blic"
 msgstr "Pub_blico"
 
-#: calendar/gui/dialogs/event-page.glade.h:13
-msgid "Show Time As"
-msgstr "Mostra orario come"
-
-#: calendar/gui/dialogs/event-page.glade.h:14
-#: calendar/gui/dialogs/task-page.glade.h:11
-msgid "Su_mmary:"
-msgstr "_Indice:"
-
-#: calendar/gui/dialogs/event-page.glade.h:15
+#: calendar/gui/dialogs/event-page.glade.h:17
 msgid "_End time:"
 msgstr "Ora di _fine:"
 
-#: calendar/gui/dialogs/event-page.glade.h:16
+#: calendar/gui/dialogs/event-page.glade.h:18
 msgid "_Start time:"
 msgstr "_Ora di inizio:"
 
 #. an empty string is the same as 'None'
 #: calendar/gui/dialogs/meeting-page.c:310
 #: calendar/gui/dialogs/meeting-page.glade.h:2
-#: calendar/gui/e-cal-model-tasks.c:592 composer/e-msg-composer.c:2050
+#: calendar/gui/e-cal-model-tasks.c:593 composer/e-msg-composer.c:2050
 #: mail/em-account-prefs.c:448 mail/em-folder-view.c:715
 #: mail/mail-account-gui.c:1259 mail/mail-account-gui.c:1783
 #: mail/mail-config.glade.h:80
@@ -4635,19 +4659,19 @@ msgid ""
 msgstr ""
 "Si sta modificando una voce giornaliera ricorrente. Cosa si vuole modificare?"
 
-#: calendar/gui/dialogs/recur-comp.c:72
+#: calendar/gui/dialogs/recur-comp.c:73
 msgid "This Instance Only"
 msgstr "Solo questa istanza"
 
-#: calendar/gui/dialogs/recur-comp.c:76
+#: calendar/gui/dialogs/recur-comp.c:77
 msgid "This and Prior Instances"
 msgstr "Questa e le precedenti istanze"
 
-#: calendar/gui/dialogs/recur-comp.c:82
+#: calendar/gui/dialogs/recur-comp.c:83
 msgid "This and Future Instances"
 msgstr "Questa istanza e quelle future"
 
-#: calendar/gui/dialogs/recur-comp.c:87
+#: calendar/gui/dialogs/recur-comp.c:88
 msgid "All Instances"
 msgstr "Tutte le istanze"
 
@@ -4704,67 +4728,67 @@ msgstr "ricorrenze"
 msgid "Date/Time"
 msgstr "Data/ora"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:1
+#: calendar/gui/dialogs/recurrence-page.glade.h:3
+msgid "<b>Exceptions</b>"
+msgstr "<b>Eccezioni</b>"
+
+#: calendar/gui/dialogs/recurrence-page.glade.h:4
+msgid "<b>Preview</b>"
+msgstr "<b>Anteprima</b>"
+
+#: calendar/gui/dialogs/recurrence-page.glade.h:5
+msgid "<b>Recurrence Rule</b>"
+msgstr "<b>Regole di ricorrenza</b>"
+
+#: calendar/gui/dialogs/recurrence-page.glade.h:6
 msgid "A_dd"
 msgstr "A_ggiungi"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:4
+#: calendar/gui/dialogs/recurrence-page.glade.h:8
 msgid "Every"
 msgstr "Ogni"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:5
-msgid "Exceptions"
-msgstr "Eccezioni"
-
-#: calendar/gui/dialogs/recurrence-page.glade.h:6
-msgid "Preview"
-msgstr "Anteprima"
-
-#: calendar/gui/dialogs/recurrence-page.glade.h:7
-msgid "Recurrence Rule"
-msgstr "Regole di ricorrenza"
-
-#: calendar/gui/dialogs/recurrence-page.glade.h:9
+#: calendar/gui/dialogs/recurrence-page.glade.h:10
 msgid "_Custom recurrence"
 msgstr "_Ricorrenza personalizzata"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:10
+#: calendar/gui/dialogs/recurrence-page.glade.h:11
 msgid "_Modify"
 msgstr "_Modifica"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:11
+#: calendar/gui/dialogs/recurrence-page.glade.h:12
 msgid "_No recurrence"
 msgstr "_Nessuna ricorrenza"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:12
+#: calendar/gui/dialogs/recurrence-page.glade.h:13
 msgid "_Remove"
 msgstr "_Rimuovere"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:13
+#: calendar/gui/dialogs/recurrence-page.glade.h:14
 msgid "_Simple recurrence"
 msgstr "Ricorrenza _semplice"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:15
+#: calendar/gui/dialogs/recurrence-page.glade.h:16
 msgid "for"
 msgstr "per"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:16
+#: calendar/gui/dialogs/recurrence-page.glade.h:17
 msgid "forever"
 msgstr "sempre"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:17
+#: calendar/gui/dialogs/recurrence-page.glade.h:18
 msgid "month(s)"
 msgstr "mese(i)"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:18
+#: calendar/gui/dialogs/recurrence-page.glade.h:19
 msgid "until"
 msgstr "fino a"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:19
+#: calendar/gui/dialogs/recurrence-page.glade.h:20
 msgid "week(s)"
 msgstr "settimana(e)"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:20
+#: calendar/gui/dialogs/recurrence-page.glade.h:21
 msgid "year(s)"
 msgstr "anno(i)"
 
@@ -4778,11 +4802,11 @@ msgstr ""
 "\n"
 "Salvare le modifiche?"
 
-#: calendar/gui/dialogs/save-comp.c:57 composer/e-msg-composer.c:1555
+#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1555
 msgid "_Discard Changes"
 msgstr "Non salvare"
 
-#: calendar/gui/dialogs/save-comp.c:62
+#: calendar/gui/dialogs/save-comp.c:63
 msgid "Save Event"
 msgstr "Salva eventi"
 
@@ -4810,13 +4834,21 @@ msgstr ""
 msgid "Completed date is wrong"
 msgstr "La data completata è errata"
 
-#: calendar/gui/dialogs/task-details-page.glade.h:2
+#: calendar/gui/dialogs/task-details-page.glade.h:3
 #, no-c-format
 msgid "% _Complete"
 msgstr "% _Completato"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:4
-#: calendar/gui/e-cal-model-tasks.c:323 calendar/gui/e-cal-model-tasks.c:598
+msgid "<b>Progress</b>"
+msgstr "<b>Avanzamento</b>"
+
+#: calendar/gui/dialogs/task-details-page.glade.h:5
+msgid "<b>Web Page</b>"
+msgstr "<b>Pagine web</b>"
+
+#: calendar/gui/dialogs/task-details-page.glade.h:7
+#: calendar/gui/e-cal-model-tasks.c:323 calendar/gui/e-cal-model-tasks.c:599
 #: calendar/gui/e-calendar-table.c:464 calendar/gui/e-meeting-model.c:289
 #: calendar/gui/e-meeting-model.c:312 calendar/gui/e-meeting-store.c:187
 #: calendar/gui/e-meeting-store.c:210 calendar/gui/e-tasks.c:210
@@ -4824,62 +4856,54 @@ msgstr "% _Completato"
 msgid "Completed"
 msgstr "Completato"
 
-#: calendar/gui/dialogs/task-details-page.glade.h:5
+#: calendar/gui/dialogs/task-details-page.glade.h:8
 #: calendar/gui/e-calendar-table.c:389 calendar/gui/e-tasks.c:231
 #: mail/message-list.c:919
 msgid "High"
 msgstr "Alta"
 
-#: calendar/gui/dialogs/task-details-page.glade.h:6
-#: calendar/gui/e-cal-model-tasks.c:321 calendar/gui/e-cal-model-tasks.c:596
-#: calendar/gui/e-cal-model-tasks.c:658 calendar/gui/e-calendar-table.c:463
+#: calendar/gui/dialogs/task-details-page.glade.h:9
+#: calendar/gui/e-cal-model-tasks.c:321 calendar/gui/e-cal-model-tasks.c:597
+#: calendar/gui/e-cal-model-tasks.c:659 calendar/gui/e-calendar-table.c:463
 #: calendar/gui/e-tasks.c:207 calendar/gui/print.c:2314
 msgid "In Progress"
 msgstr "In corso"
 
-#: calendar/gui/dialogs/task-details-page.glade.h:7
+#: calendar/gui/dialogs/task-details-page.glade.h:10
 #: calendar/gui/e-calendar-table.c:391 calendar/gui/e-tasks.c:235
 #: mail/message-list.c:917
 msgid "Low"
 msgstr "Bassa"
 
-#: calendar/gui/dialogs/task-details-page.glade.h:8
+#: calendar/gui/dialogs/task-details-page.glade.h:11
 #: calendar/gui/e-cal-model.c:835 calendar/gui/e-calendar-table.c:390
 #: calendar/gui/e-tasks.c:233 mail/message-list.c:918
 msgid "Normal"
 msgstr "Normale"
 
-#: calendar/gui/dialogs/task-details-page.glade.h:9
-#: calendar/gui/e-cal-model-tasks.c:319 calendar/gui/e-cal-model-tasks.c:594
+#: calendar/gui/dialogs/task-details-page.glade.h:12
+#: calendar/gui/e-cal-model-tasks.c:319 calendar/gui/e-cal-model-tasks.c:595
 #: calendar/gui/e-calendar-table.c:462 calendar/gui/e-tasks.c:217
 #: calendar/gui/print.c:2311
 msgid "Not Started"
 msgstr "Da cominciare"
 
-#: calendar/gui/dialogs/task-details-page.glade.h:10
-msgid "Progress"
-msgstr "In corso"
-
-#: calendar/gui/dialogs/task-details-page.glade.h:11
+#: calendar/gui/dialogs/task-details-page.glade.h:13
 #: calendar/gui/e-calendar-table.c:392
 msgid "Undefined"
 msgstr "Non definita"
 
-#: calendar/gui/dialogs/task-details-page.glade.h:12
+#: calendar/gui/dialogs/task-details-page.glade.h:14
 msgid "_Date Completed:"
 msgstr "Completato in _data:"
 
-#: calendar/gui/dialogs/task-details-page.glade.h:13
+#: calendar/gui/dialogs/task-details-page.glade.h:15
 msgid "_Priority:"
 msgstr "_Priorità:"
 
-#: calendar/gui/dialogs/task-details-page.glade.h:14
+#: calendar/gui/dialogs/task-details-page.glade.h:16
 msgid "_Status:"
 msgstr "_Stato:"
-
-#: calendar/gui/dialogs/task-details-page.glade.h:15
-msgid "_Web Page:"
-msgstr "Pagina _web:"
 
 #: calendar/gui/dialogs/task-editor.c:193
 msgid "Basic"
@@ -4904,25 +4928,19 @@ msgstr "La data scadenza è precedente alla data di inizio!"
 msgid "Unable to open tasks in '%s'."
 msgstr "Impossibile aprire le attività in '%s'."
 
-#: calendar/gui/dialogs/task-page.glade.h:4
+#: calendar/gui/dialogs/task-page.glade.h:8
 msgid "Con_fidential"
 msgstr "Con_fidenziale"
 
-#: calendar/gui/dialogs/task-page.glade.h:6 calendar/gui/e-itip-control.c:1038
-#: calendar/gui/e-itip-control.glade.h:6 calendar/gui/e-tasks.c:247
-#: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:45
-msgid "Description:"
-msgstr "Descrizione:"
-
-#: calendar/gui/dialogs/task-page.glade.h:7
+#: calendar/gui/dialogs/task-page.glade.h:9
 msgid "Folder:"
 msgstr "Cartella:"
 
-#: calendar/gui/dialogs/task-page.glade.h:10
+#: calendar/gui/dialogs/task-page.glade.h:12
 msgid "Sta_rt Date:"
 msgstr "Data di _inizio:"
 
-#: calendar/gui/dialogs/task-page.glade.h:12
+#: calendar/gui/dialogs/task-page.glade.h:13
 msgid "_Due Date:"
 msgstr "Sca_denza:"
 
@@ -5034,6 +5052,11 @@ msgstr "Privato"
 msgid "Confidential"
 msgstr "Confidenziale"
 
+#: calendar/gui/e-cal-list-view.etspec.h:2
+#: calendar/gui/e-calendar-table.etspec.h:5
+msgid "Classification"
+msgstr "Classificazione"
+
 #: calendar/gui/e-cal-list-view.etspec.h:3
 #: calendar/gui/e-calendar-table.etspec.h:9
 msgid "Description"
@@ -5093,7 +5116,7 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: calendar/gui/e-cal-model-tasks.c:933 calendar/gui/e-cal-model.c:841
+#: calendar/gui/e-cal-model-tasks.c:934 calendar/gui/e-cal-model.c:841
 #: calendar/gui/e-meeting-list-view.c:168 calendar/gui/e-meeting-model.c:261
 #: calendar/gui/e-meeting-model.c:271 calendar/gui/e-meeting-model.c:529
 #: calendar/gui/e-meeting-model.c:782 calendar/gui/e-meeting-store.c:159
@@ -5101,7 +5124,7 @@ msgstr ""
 msgid "Yes"
 msgstr "Sì"
 
-#: calendar/gui/e-cal-model-tasks.c:933 calendar/gui/e-cal-model.c:841
+#: calendar/gui/e-cal-model-tasks.c:934 calendar/gui/e-cal-model.c:841
 #: calendar/gui/e-meeting-list-view.c:169 calendar/gui/e-meeting-model.c:273
 #: calendar/gui/e-meeting-model.c:783 calendar/gui/e-meeting-store.c:171
 msgid "No"
@@ -5556,6 +5579,12 @@ msgstr "Accettato con tentativo"
 #: calendar/gui/itip-utils.c:450
 msgid "Declined"
 msgstr "Annullato"
+
+#: calendar/gui/e-itip-control.c:1038 calendar/gui/e-itip-control.glade.h:6
+#: calendar/gui/e-tasks.c:247 composer/e-msg-composer-attachment.glade.h:3
+#: mail/mail-config.glade.h:45
+msgid "Description:"
+msgstr "Descrizione:"
 
 #: calendar/gui/e-itip-control.c:1078 calendar/gui/e-itip-control.c:1106
 #: calendar/gui/e-itip-control.c:1132 calendar/gui/e-itip-control.c:1145
@@ -6495,7 +6524,7 @@ msgid "Contacts: "
 msgstr "Contatti: "
 
 #: calendar/gui/print.c:2531 calendar/gui/print.c:2617
-#: calendar/gui/tasks-control.c:563 mail/em-format-html-print.c:147
+#: calendar/gui/tasks-control.c:567 mail/em-format-html-print.c:147
 msgid "Print Preview"
 msgstr "Anteprima di stampa"
 
@@ -6507,50 +6536,50 @@ msgstr "Stampa elemento"
 msgid "Print Setup"
 msgstr "Impostazione pagina"
 
-#: calendar/gui/tasks-component.c:348
+#: calendar/gui/tasks-component.c:349
 #, c-format
 msgid "Task List '%s' will be removed. Are you sure you want to continue?"
 msgstr "L'elenco attività '%s' sarà rimosso. Sei sicuro di voler continuare?"
 
-#: calendar/gui/tasks-component.c:388
+#: calendar/gui/tasks-component.c:390
 msgid "Rename this task list to"
 msgstr "Rinomina questo elenco attività come"
 
-#: calendar/gui/tasks-component.c:408
+#: calendar/gui/tasks-component.c:411
 msgid "New Task List"
 msgstr "Nuovo elenco attività"
 
-#: calendar/gui/tasks-component.c:584
+#: calendar/gui/tasks-component.c:586
 msgid "New task"
 msgstr "Nuova attività"
 
-#: calendar/gui/tasks-component.c:585
+#: calendar/gui/tasks-component.c:587
 msgid "_Task"
 msgstr "_Attività"
 
-#: calendar/gui/tasks-component.c:586
+#: calendar/gui/tasks-component.c:588
 msgid "Create a new task"
 msgstr "Crea una nuova attività"
 
-#: calendar/gui/tasks-component.c:591
+#: calendar/gui/tasks-component.c:593
 msgid "New task list"
 msgstr "Nuovo elenco attività"
 
-#: calendar/gui/tasks-component.c:592
+#: calendar/gui/tasks-component.c:594
 msgid "_Task List"
 msgstr "Elenco a_ttività"
 
-#: calendar/gui/tasks-component.c:593
+#: calendar/gui/tasks-component.c:595
 msgid "Create a new task list"
 msgstr "Crea un nuovo elenco attività"
 
-#: calendar/gui/tasks-component.c:660
+#: calendar/gui/tasks-component.c:662
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr ""
 "Impossibile aprire l'elenco attività '%s' per creare appuntamenti e riunioni"
 
-#: calendar/gui/tasks-component.c:672
+#: calendar/gui/tasks-component.c:675
 msgid "There is no calendar available for creating tasks"
 msgstr "Non c'è un calendario accessibile per creare delle attività"
 
@@ -6558,7 +6587,7 @@ msgstr "Non c'è un calendario accessibile per creare delle attività"
 msgid "The URI of the tasks folder to display"
 msgstr "La URI della cartella delle attività da visualizzare"
 
-#: calendar/gui/tasks-control.c:447
+#: calendar/gui/tasks-control.c:450
 msgid ""
 "This operation will permanently erase all tasks marked as completed. If you "
 "continue, you will not be able to recover these tasks.\n"
@@ -6571,11 +6600,11 @@ msgstr ""
 "\n"
 "Cancellare comunque queste attività?"
 
-#: calendar/gui/tasks-control.c:450
+#: calendar/gui/tasks-control.c:454
 msgid "Do not ask me again."
 msgstr "Non chiedere più in futuro."
 
-#: calendar/gui/tasks-control.c:592
+#: calendar/gui/tasks-control.c:596
 msgid "Print Tasks"
 msgstr "Stampa Azioni"
 
@@ -13484,6 +13513,10 @@ msgstr "Aggiungi nuova firma..."
 msgid "Al_ways encrypt to myself when sending encrypted mail"
 msgstr "Cifra sempre con la mia chiave durante l'invio di posta crittografata"
 
+#: mail/mail-config.glade.h:15
+msgid "Alerts"
+msgstr "Allarmi"
+
 #: mail/mail-config.glade.h:17
 msgid "Always _blind carbon-copy (Bcc) to:"
 msgstr "Sempre copia carbone _nascosta (Bcc) a:"
@@ -16303,6 +16336,10 @@ msgstr "Mostra la settimana lavorativa"
 #: ui/evolution-calendar.xml.h:30
 msgid "Week"
 msgstr "Settimana"
+
+#: ui/evolution-calendar.xml.h:31
+msgid "Work Week"
+msgstr "Settimana lavorativa"
 
 #: ui/evolution-comp-editor.xml.h:2 ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2
