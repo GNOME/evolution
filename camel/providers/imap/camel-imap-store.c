@@ -519,6 +519,7 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 	CamelImapStore *store = (CamelImapStore *) service;
 	CamelImapResponse *response;
 	CamelStream *tcp_stream;
+	CamelSockOptData sockopt;
 	struct hostent *h;
 	int clean_quit;
 	int port, ret;
@@ -576,7 +577,17 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 	store->connected = TRUE;
 	store->preauthed = FALSE;
 	store->command = 0;
-	
+
+	/* Disable Nagle - we send a lot of small requests which nagle slows down */
+	sockopt.option = CAMEL_SOCKOPT_NODELAY;
+	sockopt.value.no_delay = TRUE;
+	camel_tcp_stream_setsockopt((CamelTcpStream *)tcp_stream, &sockopt);
+
+	/* Set keepalive - needed for some hosts/router configurations, we're idle a lot */
+	sockopt.option = CAMEL_SOCKOPT_KEEPALIVE;
+	sockopt.value.keep_alive = TRUE;
+	camel_tcp_stream_setsockopt((CamelTcpStream *)tcp_stream, &sockopt);
+
 	/* Read the greeting, if any, and deal with PREAUTH */
 	if (camel_imap_store_readline (store, &buf, ex) < 0) {
 		if (store->istream) {

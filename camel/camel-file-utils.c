@@ -43,6 +43,7 @@
 #define MAX(a,b) ((a) > (b) ? (a) : (b))
 #endif
 
+#define IO_TIMEOUT (60*4)
 
 /**
  * camel_file_util_encode_uint32:
@@ -404,27 +405,32 @@ camel_read (int fd, char *buf, size_t n)
 		fcntl (fd, F_SETFL, flags | O_NONBLOCK);
 		
 		do {
+			struct timeval tv;
+			int res;
+
 			FD_ZERO (&rdset);
 			FD_SET (fd, &rdset);
 			FD_SET (cancel_fd, &rdset);
 			fdmax = MAX (fd, cancel_fd) + 1;
-			
+			tv.tv_sec = IO_TIMEOUT;
+			tv.tv_usec = 0;
 			nread = -1;
-			if (select (fdmax, &rdset, 0, 0, NULL) != -1) {
-				if (FD_ISSET (cancel_fd, &rdset)) {
-					fcntl (fd, F_SETFL, flags);
-					errno = EINTR;
-					return -1;
-				}
-				
+
+			res = select(fdmax, &rdset, 0, 0, &tv);
+			if (res == -1)
+				;
+			else if (res == 0)
+				errno = ETIMEDOUT;
+			else if (FD_ISSET (cancel_fd, &rdset)) {
+				errno = EINTR;
+				goto failed;
+			} else {				
 				do {
 					nread = read (fd, buf, n);
 				} while (nread == -1 && errno == EINTR);
-			} else if (errno == EINTR) {
-				errno = EAGAIN;
 			}
-		} while (nread == -1 && (errno == EAGAIN || errno == EWOULDBLOCK));
-		
+		} while (nread == -1 && (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK));
+	failed:
 		errnosav = errno;
 		fcntl (fd, F_SETFL, flags);
 		errno = errnosav;
@@ -475,36 +481,35 @@ camel_write (int fd, const char *buf, size_t n)
 		
 		fdmax = MAX (fd, cancel_fd) + 1;
 		do {
+			struct timeval tv;
+			int res;
+
 			FD_ZERO (&rdset);
 			FD_ZERO (&wrset);
 			FD_SET (fd, &wrset);
 			FD_SET (cancel_fd, &rdset);
-			
+			tv.tv_sec = IO_TIMEOUT;
+			tv.tv_usec = 0;			
 			w = -1;
-			if (select (fdmax, &rdset, &wrset, 0, NULL) != -1) {
-				if (FD_ISSET (cancel_fd, &rdset)) {
-					fcntl (fd, F_SETFL, flags);
-					errno = EINTR;
-					return -1;
-				}
-				
+
+			res = select (fdmax, &rdset, &wrset, 0, &tv);
+			if (res == -1) {
+				if (errno == EINTR)
+					w = 0;
+			} else if (res == 0)
+				errno = ETIMEDOUT;
+			else if (FD_ISSET (cancel_fd, &rdset))
+				errno = EINTR;
+			else {
 				do {
 					w = write (fd, buf + written, n - written);
 				} while (w == -1 && errno == EINTR);
 				
 				if (w == -1) {
-					if (errno == EAGAIN || errno == EWOULDBLOCK) {
+					if (errno == EAGAIN || errno == EWOULDBLOCK)
 						w = 0;
-					} else {
-						errnosav = errno;
-						fcntl (fd, F_SETFL, flags);
-						errno = errnosav;
-						return -1;
-					}
 				} else
 					written += w;
-			} else if (errno == EINTR) {
-				w = 0;
 			}
 		} while (w != -1 && written < n);
 		

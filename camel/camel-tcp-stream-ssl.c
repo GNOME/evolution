@@ -65,6 +65,8 @@
 /* from md5-utils.h */
 void md5_get_digest (const char *buffer, int buffer_size, unsigned char digest[16]);
 
+#define IO_TIMEOUT (PR_TicksPerSecond() * 4 * 60)
+#define CONNECT_TIMEOUT (PR_TicksPerSecond () * 4 * 60)
 
 static CamelTcpStreamClass *parent_class = NULL;
 
@@ -342,37 +344,38 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 		nonblock = sockopts.value.non_blocking;
 		sockopts.value.non_blocking = TRUE;
 		PR_SetSocketOption (tcp_stream_ssl->priv->sockfd, &sockopts);
-		
+
 		pollfds[0].fd = tcp_stream_ssl->priv->sockfd;
 		pollfds[0].in_flags = PR_POLL_READ;
 		pollfds[1].fd = cancel_fd;
 		pollfds[1].in_flags = PR_POLL_READ;
 		
 		do {
+			PRInt32 res;
+
 			pollfds[0].out_flags = 0;
 			pollfds[1].out_flags = 0;
-			
 			nread = -1;
-			if (PR_Poll (pollfds, 2, -1) != -1) {
-				if (pollfds[1].out_flags == PR_POLL_READ) {
-					sockopts.option = PR_SockOpt_Nonblocking;
-					sockopts.value.non_blocking = nonblock;
-					PR_SetSocketOption (tcp_stream_ssl->priv->sockfd, &sockopts);
-					errno = EINTR;
-					return -1;
-				}
-				
+
+			res = PR_Poll(pollfds, 2, IO_TIMEOUT);
+			if (res == -1)
+				set_errno(PR_GetError());
+			else if (res == 0)
+				errno = ETIMEDOUT;
+			else if (pollfds[1].out_flags == PR_POLL_READ) {
+				errno = EINTR;
+				goto failed;
+			} else {
 				do {
 					nread = PR_Read (tcp_stream_ssl->priv->sockfd, buffer, n);
 					if (nread == -1)
 						set_errno (PR_GetError ());
 				} while (nread == -1 && errno == EINTR);
-			} else {
-				errno = EAGAIN;
 			}
 		} while (nread == -1 && (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK));
 		
 		/* restore O_NONBLOCK options */
+	failed:
 		error = errno;
 		sockopts.option = PR_SockOpt_Nonblocking;
 		sockopts.value.non_blocking = nonblock;
@@ -427,19 +430,22 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 		pollfds[1].in_flags = PR_POLL_READ;
 		
 		do {
+			PRInt32 res;
+
 			pollfds[0].out_flags = 0;
 			pollfds[1].out_flags = 0;
-			
 			w = -1;
-			if (PR_Poll (pollfds, 2, -1) != -1) {
-				if (pollfds[1].out_flags == PR_POLL_READ) {
-					sockopts.option = PR_SockOpt_Nonblocking;
-					sockopts.value.non_blocking = nonblock;
-					PR_SetSocketOption (tcp_stream_ssl->priv->sockfd, &sockopts);
-					errno = EINTR;
-					return -1;
-				}
-				
+
+			res = PR_Poll (pollfds, 2, IO_TIMEOUT);
+			if (res == -1) {
+				set_errno(PR_GetError());
+				if (errno == EINTR)
+					w = 0;
+			} else if (res == 0)
+				errno = ETIMEDOUT;
+			else if (pollfds[1].out_flags == PR_POLL_READ) {
+				errno = EINTR;
+			} else {
 				do {
 					w = PR_Write (tcp_stream_ssl->priv->sockfd, buffer + written, n - written);
 					if (w == -1)
@@ -447,22 +453,10 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 				} while (w == -1 && errno == EINTR);
 				
 				if (w == -1) {
-					if (errno == EAGAIN || errno == EWOULDBLOCK) {
+					if (errno == EAGAIN || errno == EWOULDBLOCK)
 						w = 0;
-					} else {
-						error = errno;
-						sockopts.option = PR_SockOpt_Nonblocking;
-						sockopts.value.non_blocking = nonblock;
-						PR_SetSocketOption (tcp_stream_ssl->priv->sockfd, &sockopts);
-						errno = error;
-						return -1;
-					}
 				} else
 					written += w;
-			} else {
-				set_errno (PR_GetError ());
-				if (errno == EINTR)
-					w = 0;
 			}
 		} while (w != -1 && written < n);
 		
@@ -1028,13 +1022,10 @@ enable_ssl (CamelTcpStreamSSL *ssl, PRFileDesc *fd)
 	return ssl_fd;
 }
 
-#define CONNECT_TIMEOUT PR_TicksPerSecond () * 120
-
 static int
 stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 {
 	CamelTcpStreamSSL *ssl = CAMEL_TCP_STREAM_SSL (stream);
-	PRIntervalTime timeout = CONNECT_TIMEOUT;
 	PRNetAddr netaddr;
 	PRFileDesc *fd;
 	
@@ -1079,7 +1070,7 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 		fd = ssl_fd;
 	}
 	
-	if (PR_Connect (fd, &netaddr, timeout) == PR_FAILURE) {
+	if (PR_Connect (fd, &netaddr, CONNECT_TIMEOUT) == PR_FAILURE) {
 		int errnosave;
 		
 		set_errno (PR_GetError ());
@@ -1092,9 +1083,7 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 				poll.in_flags = PR_POLL_WRITE | PR_POLL_EXCEPT;
 				poll.out_flags = 0;
 				
-				timeout = CONNECT_TIMEOUT;
-				
-				if (PR_Poll (&poll, 1, timeout) == PR_FAILURE) {
+				if (PR_Poll (&poll, 1, CONNECT_TIMEOUT) == PR_FAILURE) {
 					set_errno (PR_GetError ());
 					goto exception;
 				}
@@ -1121,7 +1110,7 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 	}
 	
 	ssl->priv->sockfd = fd;
-	
+
 	return 0;
 }
 

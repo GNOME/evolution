@@ -1,3 +1,19 @@
+2004-05-06  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-store.c (connect_to_server): set
+	nodelay and keepalive on the socket.
+
+	* camel-file-utils.c (camel_read): put a timeout on the select.
+	Logic shuffle to match the ssl stuff.
+	(camel_write): Similar.
+
+	* camel-tcp-stream-ssl.c (stream_connect): remove timeout, use
+	CONNECT_TIMEOUT directly.
+	(stream_read): put a timeout on the poll.  IO_TIMEOUT.  And a
+	little logic shuffle.
+	(stream_write): similar.
+	(CONNECT_TIMEOUT): make this 4 minutes === tcp-raw timeout.
+
 2004-05-05  Not Zed  <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-folder.c (get_message_simple): dont
