@@ -24,6 +24,7 @@
 #define EVOLUTION_IMPORTER_CLIENT_H
 
 #include <glib.h>
+#include <gtk/gtkwidget.h>
 #include <importer/evolution-importer.h>
 #include <importer/evolution-importer-listener.h>
 
@@ -57,12 +58,11 @@ GType evolution_importer_client_get_type (void);
 EvolutionImporterClient *evolution_importer_client_new (const CORBA_Object objref);
 EvolutionImporterClient *evolution_importer_client_new_from_id (const char *id);
 
+GtkWidget *evolution_importer_client_create_control (EvolutionImporterClient *client);
 gboolean evolution_importer_client_support_format (EvolutionImporterClient *client,
 						   const char *filename);
 gboolean evolution_importer_client_load_file (EvolutionImporterClient *client,
-					      const char *filename,
-					      const char *physical_uri,
-					      const char *folder_type);
+					      const char *filename);
 void evolution_importer_client_process_item (EvolutionImporterClient *client,
 					     EvolutionImporterListener *listener);
 const char *evolution_importer_client_get_error (EvolutionImporterClient *client);

@@ -35,6 +35,7 @@
 static BonoboObjectClass *parent_class = NULL;
 
 struct _EvolutionImporterPrivate {
+	EvolutionImporterCreateControlFn create_control_fn;
 	EvolutionImporterLoadFileFn load_file_fn;
 	EvolutionImporterSupportFormatFn support_format_fn;
 	EvolutionImporterProcessItemFn process_item_fn;
@@ -48,6 +49,21 @@ static inline EvolutionImporter *
 evolution_importer_from_servant (PortableServer_Servant servant)
 {
 	return EVOLUTION_IMPORTER (bonobo_object_from_servant (servant));
+}
+
+static void
+impl_GNOME_Evolution_Importer_createControl (PortableServer_Servant servant,
+					     Bonobo_Control *control,
+					     CORBA_Environment *ev)
+{
+	EvolutionImporter *importer;
+	EvolutionImporterPrivate *priv;
+
+	importer = evolution_importer_from_servant (servant);
+	priv = importer->priv;
+
+	if (priv->create_control_fn != NULL)
+		(priv->create_control_fn) (importer, control, priv->closure);
 }
 
 static CORBA_boolean
@@ -71,8 +87,6 @@ impl_GNOME_Evolution_Importer_supportFormat (PortableServer_Servant servant,
 static CORBA_boolean
 impl_GNOME_Evolution_Importer_loadFile (PortableServer_Servant servant,
 					const CORBA_char *filename,
-					const CORBA_char *physical_uri,
-					const CORBA_char *folder_type,
 					CORBA_Environment *ev)
 {
 	EvolutionImporter *importer;
@@ -82,7 +96,7 @@ impl_GNOME_Evolution_Importer_loadFile (PortableServer_Servant servant,
 	priv = importer->priv;
 
 	if (priv->load_file_fn != NULL)
-		return (priv->load_file_fn) (importer, filename, physical_uri, folder_type, priv->closure);
+		return (priv->load_file_fn) (importer, filename, priv->closure);
 	else
 		return FALSE;
 }
@@ -152,6 +166,7 @@ evolution_importer_class_init (EvolutionImporterClass *klass)
 	object_class->finalize = finalise;
 
 	parent_class = g_type_class_ref(PARENT_TYPE);
+	epv->createControl = impl_GNOME_Evolution_Importer_createControl;
 	epv->supportFormat = impl_GNOME_Evolution_Importer_supportFormat;
 	epv->loadFile = impl_GNOME_Evolution_Importer_loadFile;
 	epv->processItem = impl_GNOME_Evolution_Importer_processItem;
@@ -172,6 +187,7 @@ evolution_importer_init (EvolutionImporter *importer)
 
 static void
 evolution_importer_construct (EvolutionImporter *importer,
+			      EvolutionImporterCreateControlFn create_control_fn,
 			      EvolutionImporterSupportFormatFn support_format_fn,
 			      EvolutionImporterLoadFileFn load_file_fn,
 			      EvolutionImporterProcessItemFn process_item_fn,
@@ -187,6 +203,7 @@ evolution_importer_construct (EvolutionImporter *importer,
 	g_return_if_fail (process_item_fn != NULL);
 
 	priv = importer->priv;
+	priv->create_control_fn = create_control_fn;
 	priv->support_format_fn = support_format_fn;
 	priv->load_file_fn = load_file_fn;
 	priv->process_item_fn = process_item_fn;
@@ -209,7 +226,8 @@ evolution_importer_construct (EvolutionImporter *importer,
  * Returns: A newly created EvolutionImporter object.
  */
 EvolutionImporter *
-evolution_importer_new (EvolutionImporterSupportFormatFn support_format_fn,
+evolution_importer_new (EvolutionImporterCreateControlFn create_control_fn,
+	                EvolutionImporterSupportFormatFn support_format_fn,
 			EvolutionImporterLoadFileFn load_file_fn,
 			EvolutionImporterProcessItemFn process_item_fn,
 			EvolutionImporterGetErrorFn get_error_fn,
@@ -218,7 +236,7 @@ evolution_importer_new (EvolutionImporterSupportFormatFn support_format_fn,
 	EvolutionImporter *importer;
 
 	importer = g_object_new(evolution_importer_get_type (), NULL);
-	evolution_importer_construct (importer, support_format_fn, load_file_fn,
+	evolution_importer_construct (importer, create_control_fn, support_format_fn, load_file_fn,
 				      process_item_fn, get_error_fn, closure);
 	return importer;
 }

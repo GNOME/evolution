@@ -27,6 +27,7 @@
 #include "e-shell-window-commands.h"
 
 #include "e-shell-about-box.h"
+#include "e-shell-importer.h"
 #include "e-shell-window.h"
 
 #include "evolution-shell-component-utils.h"
@@ -75,9 +76,7 @@ command_import (BonoboUIComponent *uih,
 		EShellWindow *window,
 		const char *path)
 {
-	g_warning ("Import not implemented!");
-
-	/* e_shell_importer_start_import ();  FIXME TODO */
+	e_shell_importer_start_import (window);
 }
 
 static void

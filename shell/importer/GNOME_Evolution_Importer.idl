@@ -56,6 +56,8 @@ module Evolution {
 		 */
 		string getError ();
 
+		void createControl (out Bonobo::Control control);
+
 		/**
 		 * supportFormat:
 		 * @filename: The filename of the file.
@@ -79,9 +81,7 @@ module Evolution {
 		 *
 		 * Returns: An Importer object.
 		 */
-		boolean loadFile (in string filename,
-				  in string folderpath,
-				  in string foldertype);
+		boolean loadFile (in string filename);
 	};
 
 	interface IntelligentImporter : Bonobo::Unknown {

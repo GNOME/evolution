@@ -23,6 +23,6 @@
 #ifndef _E_SHELL_IMPORTER_H_
 #define _E_SHELL_IMPORTER_H_
 
-void  e_shell_importer_start_import  (void);
+void  e_shell_importer_start_import  (EShellWindow *shell_window);
 
 #endif

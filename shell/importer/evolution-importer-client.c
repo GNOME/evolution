@@ -30,6 +30,8 @@
 #include <glib.h>
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-main.h>
+#include <bonobo/bonobo-widget.h>
+#include <bonobo/bonobo-exception.h>
 #include <gal/util/e-util.h>
 
 #include "GNOME_Evolution_Importer.h"
@@ -117,6 +119,32 @@ evolution_importer_client_new_from_id (const char *id)
 }
 
 /* API */
+GtkWidget *
+evolution_importer_client_create_control (EvolutionImporterClient *client)
+{
+	GNOME_Evolution_Importer corba_importer;
+	GtkWidget *widget = NULL;
+	Bonobo_Control control;
+	CORBA_Environment ev;
+	
+	g_return_val_if_fail (client != NULL, FALSE);
+	g_return_val_if_fail (EVOLUTION_IS_IMPORTER_CLIENT (client), FALSE);
+
+	CORBA_exception_init (&ev);
+	corba_importer = client->objref;
+	GNOME_Evolution_Importer_createControl (corba_importer, &control, &ev);
+
+	if (!BONOBO_EX (&ev)) {
+		/* FIXME Pass in container? */
+		widget = bonobo_widget_new_control_from_objref (control, NULL);
+		gtk_widget_show (widget);
+	}	
+	
+	CORBA_exception_free (&ev);
+
+	return widget;	
+}
+
 /**
  * evolution_importer_client_support_format:
  * @client: The EvolutionImporterClient.
@@ -159,10 +187,7 @@ evolution_importer_client_support_format (EvolutionImporterClient *client,
  * Returns: TRUE on sucess, FALSE on failure.
  */
 gboolean
-evolution_importer_client_load_file (EvolutionImporterClient *client,
-				     const char *filename,
-				     const char *physical_uri,
-				     const char *folder_type)
+evolution_importer_client_load_file (EvolutionImporterClient *client, const char *filename)
 {
 	GNOME_Evolution_Importer corba_importer;
 	gboolean result;
@@ -174,11 +199,7 @@ evolution_importer_client_load_file (EvolutionImporterClient *client,
 
 	CORBA_exception_init (&ev);
 	corba_importer = client->objref;
-	result = GNOME_Evolution_Importer_loadFile (corba_importer,
-						    filename,
-						    physical_uri ? physical_uri : "",
-						    folder_type ? folder_type : "",
-						    &ev);
+	result = GNOME_Evolution_Importer_loadFile (corba_importer, filename, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Oh there *WAS* an exception.\nIt was %s",
 			   CORBA_exception_id (&ev));

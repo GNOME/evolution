@@ -142,6 +142,8 @@ evolution_SOURCES =				\
 	e-shell-folder-title-bar.h		\
 	e-shell-offline-handler.c		\
 	e-shell-offline-handler.h		\
+	e-shell-importer.c			\
+	e-shell-importer.h			\
 	e-shell-settings-dialog.c		\
 	e-shell-settings-dialog.h		\
 	e-shell-startup-wizard.c		\

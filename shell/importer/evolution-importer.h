@@ -42,13 +42,15 @@ typedef struct _EvolutionImporter        EvolutionImporter;
 typedef struct _EvolutionImporterPrivate EvolutionImporterPrivate;
 typedef struct _EvolutionImporterClass   EvolutionImporterClass;
 
+typedef void (* EvolutionImporterCreateControlFn) (EvolutionImporter *importer,
+						   Bonobo_Control *control,
+						   void *closure);
+
 typedef gboolean (* EvolutionImporterSupportFormatFn) (EvolutionImporter *importer,
 						       const char *filename,
 						       void *closure);
 typedef gboolean (* EvolutionImporterLoadFileFn) (EvolutionImporter *importer,
 						  const char *filename,
-						  const char *physical_uri,
-						  const char *folder_type,
 						  void *closure);
 typedef void (* EvolutionImporterProcessItemFn) (EvolutionImporter *importer,
 						 CORBA_Object listener,
@@ -83,11 +85,13 @@ struct _EvolutionImporterClass {
 
 GType evolution_importer_get_type (void);
 
-EvolutionImporter *evolution_importer_new (EvolutionImporterSupportFormatFn support_format_fn,
-					   EvolutionImporterLoadFileFn load_file_fn,
-					   EvolutionImporterProcessItemFn process_item_fn,
-					   EvolutionImporterGetErrorFn get_error_fn,
-					   void *closure);
+EvolutionImporter *evolution_importer_new (EvolutionImporterCreateControlFn  create_control_fn,
+					   EvolutionImporterSupportFormatFn  support_format_fn,
+					   EvolutionImporterLoadFileFn       load_file_fn,
+					   EvolutionImporterProcessItemFn    process_item_fn,
+					   EvolutionImporterGetErrorFn       get_error_fn,
+					   void                             *closure);
+
 
 #ifdef __cplusplus
 }

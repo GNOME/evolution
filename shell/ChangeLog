@@ -1,5 +1,43 @@
 2004-02-04  JP Rosevear <jpr@ximian.com>
 
+	* importer/import.glade: add extra page
+
+	* importer/evolution-importer.h: update protos
+
+	* importer/evolution-importer.c: hold the createControl function
+	(impl_GNOME_Evolution_Importer_createControl): implement
+	(impl_GNOME_Evolution_Importer_loadFile): remove dead args
+
+	* importer/evolution-importer-client.h: update/add protos
+
+	* importer/evolution-importer-client.c
+	(evolution_importer_client_create_control): wrapper
+	(evolution_importer_client_load_file): we don't take physical_uri
+	and folder_type as args any more
+
+	* importer/GNOME_Evolution_Importer.idl: add createControl method
+	and remove extraneous loadFile args
+
+	* e-shell-window-commands.c (command_import): uncomment
+
+	* e-shell-importer.h: update proto
+
+	* e-shell-importer.c: remove DEPRECATED hack and tidy includes
+	(get_iid_for_filetype): use query define
+	(start_import): we don't take a file name and client directly now
+	(create_plugin_menu): user query define
+	(importer_dest_page_new): create vbox
+	(import_druid_finish): we no longer do folder selection here
+	(next_file_page): create the client here
+	(prepare_dest_page): show the importer control
+	(next_dest_page): skip to the finish
+	(back_finish_page): back to the destination page
+	(e_shell_importer_start_import): set up the destination page
+
+	* Makefile.am: build import files again
+
+2004-02-04  JP Rosevear <jpr@ximian.com>
+
 	* e-shell-view-menu[hc]: remove dead files
 
 2004-02-04  JP Rosevear <jpr@ximian.com>
