@@ -1,3 +1,13 @@
+2000-09-11  Tuomas Kuosmanen  <tigert@helixcode.com>
+
+	* art/fetch-mail.png
+	* art/compose-message.png
+	* art/reply.png
+	* art/reply-to-all.png
+	* art/forward.png
+	* art/move-message.png
+	* art/copy-message.png: New icons for the main window toolbar
+
 2000-09-11  Christopher James Lahey  <clahey@helixcode.com>
 
 	* NEWS: Added 0.5 changes for ETable and Addressbook.
