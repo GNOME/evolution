@@ -315,7 +315,6 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 	char *pretty_url;
 	EAccount *account;
 	EIterator *iter;
-	GdkPixbuf *pixbuf;
 	GList *icon_list;
 	
 	gd = (GtkDialog *)(send_recv_dialog = gtk_dialog_new_with_buttons(_("Send & Receive Mail"), NULL, GTK_DIALOG_NO_SEPARATOR, NULL));
@@ -398,9 +397,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 		} else if (info->timeout_id == 0)
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
 		
-		pixbuf = e_icon_factory_get_icon ("stock_mail-receive", E_ICON_SIZE_LARGE_TOOLBAR);
-		recv_icon = gtk_image_new_from_pixbuf (pixbuf);
-		gdk_pixbuf_unref (pixbuf);
+		recv_icon = e_icon_factory_get_image ("stock_mail-receive", E_ICON_SIZE_LARGE_TOOLBAR);
 		
 	       	pretty_url = format_url (source->url);
 		label = (GtkLabel *)gtk_label_new (pretty_url);
@@ -453,9 +450,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 		} else if (info->timeout_id == 0)
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
 		
-		pixbuf = e_icon_factory_get_icon ("stock_mail-send", E_ICON_SIZE_LARGE_TOOLBAR);
-		send_icon  = gtk_image_new_from_pixbuf (pixbuf);
-		gdk_pixbuf_unref (pixbuf);
+		send_icon = e_icon_factory_get_image ("stock_mail-send", E_ICON_SIZE_LARGE_TOOLBAR);
 		
 		pretty_url = format_url (destination);
 		label = (GtkLabel *)gtk_label_new (pretty_url);

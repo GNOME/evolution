@@ -1,3 +1,10 @@
+2004-11-26  JP Rosevear  <jpr@novell.com>
+
+	* em-format-html-display.c (efhd_xpkcs7mime_button): get image
+	widget directly from icon factory
+
+	* mail-send-recv.c (build_dialog): ditto
+	
 2004-10-12  Radek Doulik  <rodo@ximian.com>
 
 	* em-junk-filter.c: when starting new spamd, call it with

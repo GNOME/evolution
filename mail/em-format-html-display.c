@@ -833,7 +833,6 @@ static gboolean
 efhd_xpkcs7mime_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
 {
 	GtkWidget *icon, *button;
-	GdkPixbuf *pixbuf;
 	struct _smime_pobject *po = (struct _smime_pobject *)pobject;
 	const char *name;
 
@@ -843,10 +842,7 @@ efhd_xpkcs7mime_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	else
 		name = smime_encrypt_table[po->valid->encrypt.status].icon;
 
-	pixbuf = e_icon_factory_get_icon (name, E_ICON_SIZE_LARGE_TOOLBAR);
-	
-	icon = gtk_image_new_from_pixbuf (pixbuf);
-	g_object_unref(pixbuf);
+	icon = e_icon_factory_get_image (name, E_ICON_SIZE_LARGE_TOOLBAR);
 	gtk_widget_show(icon);
 
 	button = gtk_button_new();
