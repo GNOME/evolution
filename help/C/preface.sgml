@@ -196,7 +196,7 @@
 
 	  <varlistentry>
 	    <term>Create a new folder</term>
-	    <listitem>`
+	    <listitem>
 	      <para>
                 <menuchoice><guimenu>File</guimenu><guisubmenu>New</guisubmenu>
                 <guimenuitem>Folder</guimenuitem></menuchoice> or

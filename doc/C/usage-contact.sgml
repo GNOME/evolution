@@ -197,7 +197,7 @@
 	  <title>Evolution Contact Editor</title>
 	  <screenshot>
 	    <screeninfo>Evolution Contact Editor</screeninfo>
-	  <graphic fileref="fig/contact-editor.png" format="png" srccredit="Aaron Weber">
+	  <graphic fileref="fig/contact-editor" format="png" srccredit="Aaron Weber">
 		</graphic>
 	</screenshot>
       </figure>

@@ -1,3 +1,8 @@
+2001-02-23  Aaron Weber  <aaron@helixcode.com>
+
+	* C/apx-authors.sgml: s/helixcode/ximian (How I missed this page
+	on the first go-round I don't know).
+
 2001-03-14  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* C/Makefile.am: there's no apx-fdl.sgml and evolution-guide.sgml
