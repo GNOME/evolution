@@ -416,7 +416,6 @@ pixbuf_uncache (gpointer key)
 {
 	GdkPixbuf *pixbuf;
 
-	printf ("uncaching %s\n", key);
 	pixbuf = g_hash_table_lookup (thumbnail_cache, key);
 	gdk_pixbuf_unref (pixbuf);
 	g_hash_table_remove (thumbnail_cache, key);
