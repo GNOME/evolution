@@ -1,3 +1,7 @@
+2001-07-26  Peter Williams  <peterw@ximian.com>
+
+	* message-list.etspec: Rename "Date" column to "Sent".
+
 2001-07-25  Anna Marie Dirks <anna@ximian.com> 
 	* mail-config.glade: fixed a mis-spelling of "Fashion" in
 	the mail accounts window. (See bug 5433)
