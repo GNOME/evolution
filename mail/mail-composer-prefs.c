@@ -107,7 +107,6 @@ mail_composer_prefs_finalise (GObject *obj)
 	MailComposerPrefs *prefs = (MailComposerPrefs *) obj;
 	
 	g_object_unref (prefs->gui);
-	g_object_unref (prefs->pman);
 	g_object_unref (prefs->enabled_pixbuf);
 	gdk_pixmap_unref (prefs->mark_pixmap);
 	g_object_unref (prefs->mark_bitmap);
@@ -796,12 +795,6 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	gboolean bool;
 	int style;
 	char *buf;
-	char *names[][2] = {
-		{ "live_spell_check", "chkEnableSpellChecking" },
-		{ "magic_smileys_check", "chkAutoSmileys" },
-		{ "gtk_html_prop_keymap_option", "omenuShortcutsType" },
-		{ NULL, NULL }
-	};
 	
 	prefs->gconf = gconf_client_get_default ();
 	
@@ -826,10 +819,6 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	gtk_toggle_button_set_active (prefs->send_html, bool);
 	g_signal_connect (prefs->send_html, "toggled", G_CALLBACK (toggle_button_toggled), prefs);
 	
-	prefs->auto_smileys = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkAutoSmileys"));
-	/* FIXME: set active? */
-	g_signal_connect (prefs->auto_smileys, "toggled", G_CALLBACK (toggle_button_toggled), prefs);
-	
 	prefs->prompt_empty_subject = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptEmptySubject"));
 	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/prompts/empty_subject", NULL);
 	gtk_toggle_button_set_active (prefs->prompt_empty_subject, bool);
@@ -840,6 +829,16 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	gtk_toggle_button_set_active (prefs->prompt_bcc_only, bool);
 	g_signal_connect (prefs->prompt_bcc_only, "toggled", G_CALLBACK (toggle_button_toggled), prefs);
 	
+	prefs->auto_smileys = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkAutoSmileys"));
+	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/composer/magic_smileys", NULL);
+	gtk_toggle_button_set_active (prefs->auto_smileys, bool);
+	g_signal_connect (prefs->auto_smileys, "toggled", G_CALLBACK (toggle_button_toggled), prefs);
+
+	prefs->spell_check = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkEnableSpellChecking"));
+	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/composer/inline_spelling", NULL);
+	gtk_toggle_button_set_active (prefs->spell_check, bool);
+	g_signal_connect (prefs->spell_check, "toggled", G_CALLBACK (toggle_button_toggled), prefs);
+
 	prefs->charset = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuCharset"));
 	buf = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/composer/charset", NULL);
 	menu = e_charset_picker_new (buf ? buf : e_iconv_locale_charset ());
@@ -847,17 +846,6 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	option_menu_connect (prefs->charset, prefs);
 	g_free (buf);
 	
-#warning "gtkhtml prop manager"
-#if 0	
-	/* Spell Checking: GtkHTML part */
-	prefs->pman = GTK_HTML_PROPMANAGER (gtk_html_propmanager_new (NULL));
-	g_signal_connect (prefs->pman, "changed", G_CALLBACK(toggle_button_toggled), prefs);
-	g_object_ref (prefs->pman);
-	
-	gtk_html_propmanager_set_names (prefs->pman, names);
-	gtk_html_propmanager_set_gui (prefs->pman, gui, NULL);
-#endif
-
 	/* Spell Checking: GNOME Spell part */
 	prefs->colour = GNOME_COLOR_PICKER (glade_xml_get_widget (gui, "colorpickerSpellCheckColor"));
 	prefs->language = GTK_TREE_VIEW (glade_xml_get_widget (gui, "clistSpellCheckLanguage"));
@@ -985,6 +973,12 @@ mail_composer_prefs_apply (MailComposerPrefs *prefs)
 	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/prompts/only_bcc",
 			       gtk_toggle_button_get_active (prefs->prompt_bcc_only), NULL);
 	
+	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/composer/inline_spelling",
+			       gtk_toggle_button_get_active (prefs->spell_check), NULL);
+	
+	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/composer/magic_smileys",
+			       gtk_toggle_button_get_active (prefs->auto_smileys), NULL);
+	
 	menu = gtk_option_menu_get_menu (prefs->charset);
 	if (!(string = e_charset_picker_get_charset (menu)))
 		string = g_strdup (e_iconv_locale_charset ());
@@ -993,10 +987,6 @@ mail_composer_prefs_apply (MailComposerPrefs *prefs)
 	g_free (string);
 	
 	/* Spell Checking */
-#warning "gtkhtml propmanager"
-#if 0
-	gtk_html_propmanager_apply (prefs->pman);
-#endif
 	spell_apply (prefs);
 	
 	/* Forwards and Replies */

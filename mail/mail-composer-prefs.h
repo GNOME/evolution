@@ -32,9 +32,6 @@ extern "C" {
 #include <gtk/gtk.h>
 #include <glade/glade.h>
 #include <gtkhtml/gtkhtml.h>
-#warning "re-add gtkhtml prop manager"
-/* this isn't ported in gtkhtml yet */
-/*#include <gtkhtml/gtkhtml-propmanager.h>*/
 
 #include <libgnomeui/gnome-color-picker.h>
 #include <libgnomeui/gnome-file-entry.h>
@@ -74,8 +71,6 @@ struct _MailComposerPrefs {
 	GtkToggleButton *prompt_bcc_only;
 	GtkOptionMenu *charset;
 	
-	/* Spell Checking */
-	struct _GtkHTMLPropmanager *pman;
 	GtkToggleButton *spell_check;
 	GnomeColorPicker *colour;
 	GtkTreeView *language;

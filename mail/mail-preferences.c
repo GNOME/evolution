@@ -90,7 +90,6 @@ mail_preferences_finalise (GObject *obj)
 	MailPreferences *prefs = (MailPreferences *) obj;
 	
 	g_object_unref (prefs->gui);
-	g_object_unref (prefs->pman);
 	g_object_unref (prefs->gconf);
 	
         ((GObjectClass *)(parent_class))->finalize (obj);
@@ -311,6 +310,7 @@ mail_preferences_construct (MailPreferences *prefs)
 	/* HTML Mail tab */
 	
 	/* Loading Images */
+
 	val = gconf_client_get_int (prefs->gconf, "/apps/evolution/mail/display/load_http_images", NULL);
 	prefs->images_never = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radImagesNever"));
 	gtk_toggle_button_set_active (prefs->images_never, val == MAIL_CONFIG_HTTP_NEVER);
@@ -324,6 +324,11 @@ mail_preferences_construct (MailPreferences *prefs)
 	gtk_toggle_button_set_active (prefs->images_always, val == MAIL_CONFIG_HTTP_ALWAYS);
 	g_signal_connect (prefs->images_always, "toggled", G_CALLBACK (settings_changed), prefs);
 	
+	prefs->show_animated = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkShowAnimatedImages"));
+	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/display/animate_images", NULL);
+	gtk_toggle_button_set_active (prefs->show_animated, bool);
+	g_signal_connect (prefs->show_animated, "toggled", G_CALLBACK (settings_changed), prefs);
+
 	prefs->prompt_unwanted_html = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptWantHTML"));
 	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/prompts/unwanted_html", NULL);
 	gtk_toggle_button_set_active (prefs->prompt_unwanted_html, bool);
@@ -436,19 +441,18 @@ mail_preferences_apply (MailPreferences *prefs)
 	
 	gconf_client_set_int (prefs->gconf, "/apps/evolution/mail/display/load_http_images", val, NULL);
 	
-#warning "gtkhtml propmanager"
-#if 0	
-	gtk_html_propmanager_apply (prefs->pman);
-#endif
 	gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/display/fonts/variable",
 				 gnome_font_picker_get_font_name (prefs->font_variable), NULL);
 	gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/display/fonts/monospace",
 				 gnome_font_picker_get_font_name (prefs->font_fixed), NULL);
 	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/display/fonts/use_custom",
 			       !gtk_toggle_button_get_active (prefs->font_share), NULL);
+	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/display/animate_images",
+			       gtk_toggle_button_get_active (prefs->show_animated), NULL);
 
 	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/prompts/unwanted_html",
 			       gtk_toggle_button_get_active (prefs->prompt_unwanted_html), NULL);
+	
 	
 	/* Labels and Colours */
 	list = NULL;

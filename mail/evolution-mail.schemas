@@ -32,6 +32,48 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/mail/composer/magic_links</key>
+      <applyto>/apps/evolution/mail/composer/magic_links</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+         <short>Automatic link recognition</short>
+         <long>
+	 Recognize links in text and replace them.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/composer/magic_smileys</key>
+      <applyto>/apps/evolution/mail/composer/send_smileys</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+         <short>Automatic smiley recognition</short>
+         <long>
+	 Recognize smileys in text and replace them with images.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/composer/inline_spelling</key>
+      <applyto>/apps/evolution/mail/composer/inline_spelling</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+         <short>Spell check inline</short>
+         <long>
+	 Draw spelling error indicators on words as you type.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/composer/view/From</key>
       <applyto>/apps/evolution/mail/composer/view/From</applyto>
       <owner>evolution-mail</owner>
@@ -147,6 +189,20 @@
          </long>
       </locale>
     </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/display/animate_images</key>
+      <applyto>/apps/evolution/mail/display/animate_images</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+         <short>Show Animations</short>
+         <long>
+          Show animated images as animations.
+         </long>
+      </locale>
+    </schema>   
 
     <schema>
       <key>/schemas/apps/evolution/mail/display/mime_types</key>

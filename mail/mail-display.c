@@ -100,6 +100,8 @@ struct _MailDisplayPrivate {
 	struct _mail_msg *fetch_msg ;
 	GIOChannel *fetch_cancel_channel;
 	guint fetch_cancel_watch;
+
+	guint display_notify_id;
 };
 
 /* max number of connections to download images */
@@ -1812,7 +1814,7 @@ mail_display_render (MailDisplay *md, GtkHTML *html, gboolean reset_scroll)
 	const char *flag, *completed;
 	GtkHTMLStream *html_stream;
 	MailDisplayStream *stream;
-	
+
 	g_return_if_fail (IS_MAIL_DISPLAY (md));
 	g_return_if_fail (GTK_IS_HTML (html));
 	
@@ -1826,7 +1828,7 @@ mail_display_render (MailDisplay *md, GtkHTML *html, gboolean reset_scroll)
 		/* This is a hack until there's a clean way to do this. */
 		GTK_HTML (md->html)->engine->newPage = FALSE;
 	}
-	
+
 	gtk_html_stream_write (html_stream, HTML_HEADER, sizeof (HTML_HEADER) - 1);
 	
 	if (md->current_message && md->display_style == MAIL_CONFIG_DISPLAY_SOURCE)
@@ -2110,6 +2112,13 @@ mail_display_destroy (GtkObject *object)
 	if (mail_display->invisible) {
 		g_object_unref (mail_display->invisible);
 		mail_display->invisible = NULL;
+	}
+	
+	if (mail_display->priv && mail_display->priv->display_notify_id) {
+		GConfClient *gconf = gconf_client_get_default ();
+		gconf_client_notify_remove (gconf, mail_display->priv->display_notify_id);
+		mail_display->priv->display_notify_id = 0;
+		g_object_unref (gconf);
 	}
 	
 	g_free (mail_display->priv);
@@ -2639,6 +2648,17 @@ html_on_url (GtkHTML *html, const char *url, MailDisplay *mail_display)
 	}
 }
 
+/* If if a gconf setting for the mail display has changed redisplay to pick up the changes */
+static void
+display_notify (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, gpointer data)
+{
+	MailDisplay *md = data;
+	
+	/* this should really check which setting has changed but it is late */
+	gtk_html_set_animate (md->html, gconf_client_get_bool (gconf, "/apps/evolution/mail/display/animate_images", NULL));
+	mail_display_queue_redisplay ((MailDisplay *)data);
+}
+
 GtkWidget *
 mail_display_new (void)
 {
@@ -2646,7 +2666,8 @@ mail_display_new (void)
 	GtkWidget *scroll, *html;
 	GdkAtom clipboard_atom;
 	HTMLTokenizer *tok;
-	
+	GConfClient *gconf;
+
 	gtk_box_set_homogeneous (GTK_BOX (mail_display), FALSE);
 	gtk_widget_show (GTK_WIDGET (mail_display));
 	
@@ -2679,6 +2700,14 @@ mail_display_new (void)
 		gtk_selection_add_target (mail_display->invisible,
 					  clipboard_atom, GDK_SELECTION_TYPE_STRING, 1);
 	
+	gconf = gconf_client_get_default ();
+	gtk_html_set_animate (GTK_HTML (html), gconf_client_get_bool (gconf, "/apps/evolution/mail/display/animate_images", NULL));
+
+	gconf_client_add_dir (gconf, "/apps/evolution/mail/display",GCONF_CLIENT_PRELOAD_NONE, NULL);
+	mail_display->priv->display_notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/display",
+									 display_notify, mail_display, NULL, NULL);
+	g_object_unref (gconf);
+
 	mail_display->scroll = GTK_SCROLLED_WINDOW (scroll);
 	mail_display->html = GTK_HTML (html);
 	g_object_ref (mail_display->html);

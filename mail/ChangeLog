@@ -1,3 +1,19 @@
+2003-05-20  Larry Ewing  <lewing@ximian.com>
+
+	* mail-composer-prefs.c: remove references to gtkhtml property
+	manager.  Connect to missing settings.
+
+	* mail-preferences.c: remove references to gtkhtml property
+	manager.  Connect to missing settings.
+
+	* mail-config.glade: remove keybinding setting.
+
+	* mail-display.c (mail_display_destroy): remove notification.
+	(display_notify): set animate and redisplay.  We have to redisplay
+	because the citation color may have changed.
+
+	* evolution-mail.schemas: add composer and display gconf entries.
+	
 2003-05-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (mail_account_gui_save): Only re-add the
