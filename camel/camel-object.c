@@ -210,7 +210,7 @@ camel_type_init (void)
 			     GINT_TO_POINTER (CAMEL_INVALID_TYPE), NULL);
 	g_hash_table_insert (ctype_to_typeinfo,
 			     GINT_TO_POINTER (camel_object_type), obj_info);
-	g_hash_table_insert (name_to_typeinfo, obj_info->name, obj_info);
+	g_hash_table_insert (name_to_typeinfo, (gpointer) obj_info->name, obj_info);
 	
 	/* Sigh. Ugly */
 	make_global_classfuncs (obj_info);
@@ -307,7 +307,7 @@ camel_type_register (CamelType parent, const gchar * name,
 
 	g_hash_table_insert (ctype_to_typeinfo,
 			     GINT_TO_POINTER (obj_info->self), obj_info);
-	g_hash_table_insert (name_to_typeinfo, obj_info->name, obj_info);
+	g_hash_table_insert (name_to_typeinfo, (gpointer) obj_info->name, obj_info);
 
 	/* Sigh. Ugly. */
 	make_global_classfuncs (obj_info);
