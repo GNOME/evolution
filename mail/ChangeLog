@@ -1,3 +1,8 @@
+2001-03-15  Miguel de Icaza  <miguel@ximian.com>
+
+	* folder-browser-factory.c (folder_browser_setup_view_menus): Fix
+	memory leak.
+
 2001-03-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-editor.c (apply_changes): We don't care about SSL,

@@ -196,13 +196,17 @@ folder_browser_setup_view_menus (FolderBrowser *fb,
 	GalViewMenus *views;
 	GalViewFactory *factory;
 	ETableSpecification *spec;
-	char *spec_string;
+	char *spec_string, *local_dir;
 
 	collection = gal_view_collection_new();
 	/* FIXME: Memory leak. */
-	gal_view_collection_set_storage_directories(collection,
-						    EVOLUTION_DATADIR "/evolution/views/mail/",
-						    gnome_util_prepend_user_home("/evolution/views/mail/"));
+	local_dir = gnome_util_prepend_user_home ("/evolution/views/mail/");
+	
+	gal_view_collection_set_storage_directories(
+		collection,
+		EVOLUTION_DATADIR "/evolution/views/mail/",
+		local_dir);
+	g_free (local_dir);
 
 	spec_string = message_list_get_layout(fb->message_list);
 	spec = e_table_specification_new();
