@@ -238,7 +238,6 @@ mail/folder-info.c
 mail/importers/GNOME_Evolution_Mail_Mbox_Importer.oaf.in
 mail/importers/GNOME_Evolution_Mail_Outlook_Importer.oaf.in
 mail/local-config.glade
-mail/mail-account-editor-news.c
 mail/mail-account-editor.c
 mail/mail-account-gui.c
 mail/mail-accounts.c
