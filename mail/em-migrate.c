@@ -812,7 +812,6 @@ static e_gconf_map_t mail_display_map[] = {
 	{ "http_images", "mail/display/load_http_images", E_GCONF_MAP_INT },
 	{ "citation_highlight", "mail/display/mark_citations", E_GCONF_MAP_BOOL },
 	{ "citation_color", "mail/display/citation_colour", E_GCONF_MAP_COLOUR },
-	{ "x_mailer_display_style", "mail/display/xmailer_mask", E_GCONF_MAP_INT },
 	{ 0 },
 };
 

@@ -1,3 +1,39 @@
+2004-05-05  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #57720.
+	
+	* em-folder-browser.c (emfb_create_view_menus): removed some stuff
+	done in create_view_instance in the superclass.
+
+	* em-folder-view.c (emfv_create_view_instance): moved here from
+	em-folder-browser, setup the view instance for the folder.
+	(emfv_set_folder): if the folder is set, create the view instance.
+
+	* em-folder-browser.c: moved the galview instance and menu
+	pointers to EMFolderView, since they're basically meta-data on the
+	messagelist @ to fix issues.
+
+	* em-folder-view.c (em_folder_view_open_selected): copy over the
+	threaded list value when the message browser is brought up.
+
+	** some clean up
+
+	* evolution-mail.schemas.in.in: removed xmailer_mask stuff.
+
+	* em-migrate.c (mail_display_map[]): Removed xmailer_mask stuff.
+
+	* em-folder-view.c (emfv_setting_notify): removed xmailer_mask stuff.
+
+	* em-format-html.c (em_format_html_set_xmailer_mask): removed.
+	This isn't used anymore.
+
+	** Fixes the double-draw on separate mail view.
+
+	* message-list.c (on_cursor_activated_cmd): noop if the cursor and
+	uid match for all cases (clearing uid).
+	(on_selection_changed_cmd): noop if the cursor and new selection
+	hasn't changed & fix a memleak.
+
 2004-05-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fix for bug #55303, but ideally there would be a nicer way of
@@ -37,7 +73,6 @@
 	* mail-license.glade: Modified the display string and added the
 	appropriate gtk_response types for the buttons.
 	
-
 2004-05-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fix for bug #57968

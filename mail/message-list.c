@@ -2641,8 +2641,9 @@ on_cursor_activated_cmd (ETree *tree, int row, ETreePath path, gpointer user_dat
 		new_uid = NULL;
 	else
 		new_uid = get_message_uid (message_list, path);
-	
-	if (message_list->cursor_uid != NULL && new_uid != NULL && !strcmp (message_list->cursor_uid, new_uid))
+
+	if ((message_list->cursor_uid == NULL && new_uid == NULL)
+	    || (message_list->cursor_uid != NULL && new_uid != NULL && !strcmp (message_list->cursor_uid, new_uid)))
 		return;
 	
 	message_list->cursor_row = row;
@@ -2660,18 +2661,27 @@ static void
 on_selection_changed_cmd(ETree *tree, MessageList *ml)
 {
 	GPtrArray *uids;
+	char *newuid;
 
 	/* not sure if we could just ignore this for the cursor, i think sometimes you
 	   only get a selection changed when you should also get a cursor activated? */
 	uids = message_list_get_selected(ml);
-	g_free(ml->cursor_uid);
 	if (uids->len == 1)
-		ml->cursor_uid = g_strdup(uids->pdata[0]);
+		newuid = uids->pdata[0];
 	else
-		ml->cursor_uid = NULL;
+		newuid = NULL;
 
-	if (!ml->idle_id)
-		ml->idle_id = g_idle_add_full (G_PRIORITY_LOW, on_cursor_activated_idle, ml, NULL);
+	if ((newuid == NULL && ml->cursor_uid == NULL)
+	    || (newuid != NULL && ml->cursor_uid != NULL && !strcmp(ml->cursor_uid, newuid))) {
+		/* noop */
+	} else {
+		g_free(ml->cursor_uid);
+		ml->cursor_uid = g_strdup(newuid);
+		if (!ml->idle_id)
+			ml->idle_id = g_idle_add_full (G_PRIORITY_LOW, on_cursor_activated_idle, ml, NULL);
+	}
+
+	message_list_free_uids(ml, uids);
 }
 
 static gint

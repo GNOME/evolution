@@ -282,15 +282,6 @@ em_format_html_set_mark_citations(EMFormatHTML *emfh, int state, guint32 citatio
 	}
 }
 
-void
-em_format_html_set_xmailer_mask(EMFormatHTML *emfh, unsigned int xmailer_mask)
-{
-	if (emfh->xmailer_mask ^ xmailer_mask) {
-		emfh->xmailer_mask = xmailer_mask;
-		em_format_redraw((EMFormat *)emfh);
-	}
-}
-
 CamelMimePart *
 em_format_html_file_part(EMFormatHTML *efh, const char *mime_type, const char *filename)
 {

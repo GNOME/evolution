@@ -67,9 +67,6 @@
 #include <camel/camel-search-private.h>
 
 /* gal view crap */
-#include <gal/menus/gal-view-etable.h>
-#include <gal/menus/gal-view-instance.h>
-#include <gal/menus/gal-view-factory-etable.h>
 #include "widgets/menus/gal-view-menus.h"
 
 #include "e-util/e-dialog-utils.h"
@@ -94,7 +91,6 @@ struct _EMFolderBrowserPrivate {
 
 	GtkWidget *subscribe_editor;
 
-	GalViewInstance *view_instance;
 	GalViewMenus *view_menus;
 
 	guint search_menu_activated_id;
@@ -123,8 +119,6 @@ static void emfb_search_query_changed(ESearchBar *esb, EMFolderBrowser *emfb);
 static int emfb_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev, EMFolderBrowser *emfb);
 static void emfb_list_message_selected (MessageList *ml, const char *uid, EMFolderBrowser *emfb);
 
-static void emfb_create_view_menus(EMFolderBrowser *emfb, BonoboUIComponent *uic);
-
 static const EMFolderViewEnable emfb_enable_map[];
 
 enum {
@@ -140,9 +134,6 @@ static ESearchBarItem emfb_search_items[] = {
 	{ N_("Create _Virtual Folder From Search..."), ESB_SAVE, NULL  },
 	{ NULL, -1, NULL }
 };
-
-static GalViewCollection *collection = NULL;
-
 
 static EMFolderViewClass *emfb_parent;
 
@@ -266,6 +257,7 @@ static void
 emfb_class_init(GObjectClass *klass)
 {
 	klass->finalize = emfb_finalise;
+
 	((GtkObjectClass *)klass)->destroy = emfb_destroy;
 	((EMFolderViewClass *)klass)->set_folder = emfb_set_folder;
 	((EMFolderViewClass *)klass)->activate = emfb_activate;
@@ -869,110 +861,23 @@ emfb_list_built (MessageList *ml, EMFolderBrowser *emfb)
 	emfb->priv->idle_scroll_id = g_timeout_add_full (G_PRIORITY_LOW, 250, (GSourceFunc) scroll_idle_cb, emfb, NULL);
 }
 
-
+/* TODO: All this mess should sit directly on MessageList, but it would
+   need to become BonoboUIComponent aware ... */
 static void
-emfb_list_display_view (GalViewInstance *instance, GalView *view, EMFolderBrowser *emfb)
+emfb_create_view_menus(EMFolderBrowser *emfb, BonoboUIComponent *uic)
 {
-	if (GAL_IS_VIEW_ETABLE (view))
-		gal_view_etable_attach_tree (GAL_VIEW_ETABLE (view), emfb->view.list->tree);
-}
+	struct _EMFolderBrowserPrivate *p = emfb->priv;
 
-static void
-collection_init (void)
-{
-	ETableSpecification *spec;
-	GalViewFactory *factory;
-	const char *evolution_dir;
-	char *dir;
-	
-	if (collection != NULL)
+	if (emfb->view.view_instance == NULL)
 		return;
-	
-	collection = gal_view_collection_new ();
-	
-	gal_view_collection_set_title (collection, _("Mail"));
-	
-	evolution_dir = mail_component_peek_base_directory (mail_component_peek ());
-	dir = g_build_filename (evolution_dir, "mail", "views", NULL);
-	gal_view_collection_set_storage_directories (collection, EVOLUTION_GALVIEWSDIR "/mail/", dir);
-	g_free (dir);
-	
-	spec = e_table_specification_new ();
-	e_table_specification_load_from_file (spec, EVOLUTION_ETSPECDIR "/message-list.etspec");
-	
-	factory = gal_view_factory_etable_new (spec);
-	g_object_unref (spec);
-	gal_view_collection_add_factory (collection, factory);
-	g_object_unref (factory);
-	
-	gal_view_collection_load (collection);
-}
 
-static void
-emfb_create_view_instance (EMFolderBrowser *emfb, CamelFolder *folder, const char *uri)
-{
-	struct _EMFolderBrowserPrivate *priv = emfb->priv;
-	gboolean outgoing;
-	char *id;
-	
-	collection_init ();
-	
-	if (priv->view_instance) {
-		g_object_unref (priv->view_instance);
-		priv->view_instance = NULL;
+	if (p->view_menus) {
+		g_object_unref(p->view_menus);
+		p->view_menus = NULL;
 	}
-	
-	if (folder == NULL) {
-		folder = emfb->view.folder;
-		uri = emfb->view.folder_uri;
-	}
-	
-	outgoing = em_utils_folder_is_drafts (folder, uri)
-		|| em_utils_folder_is_sent (folder, uri)
-		|| em_utils_folder_is_outbox (folder, uri);
-	
-	/* TODO: should this go through mail-config api? */
-	id = mail_config_folder_to_safe_url (folder);
-	priv->view_instance = gal_view_instance_new (collection, id);
-	g_free (id);
-	
-	if (outgoing)
-		gal_view_instance_set_default_view (priv->view_instance, "As_Sent_Folder");
-	
-	gal_view_instance_load (priv->view_instance);
-	
-	if (!gal_view_instance_exists (priv->view_instance)) {
-		struct stat st;
-		char *path;
-		
-		path = mail_config_folder_to_cachename (folder, "et-header-");
-		if (path && stat (path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
-			ETableSpecification *spec;
-			ETableState *state;
-			GalView *view;
-			
-			spec = e_table_specification_new ();
-			e_table_specification_load_from_file (spec, EVOLUTION_ETSPECDIR "/message-list.etspec");
-			view = gal_view_etable_new (spec, "");
-			g_object_unref (spec);
-			
-			state = e_table_state_new ();
-			e_table_state_load_from_file (state, path);
-			gal_view_etable_set_state (GAL_VIEW_ETABLE (view), state);
-			g_object_unref (state);
-			
-			gal_view_instance_set_custom_view (priv->view_instance, view);
-			g_object_unref (view);
-		}
-		
-		g_free (path);
-	}
-	
-	if (priv->view_menus)
-		gal_view_menus_set_instance (priv->view_menus, priv->view_instance);
-	
-	g_signal_connect (priv->view_instance, "display_view", G_CALLBACK (emfb_list_display_view), emfb);	
-	emfb_list_display_view (priv->view_instance, gal_view_instance_get_current_view (priv->view_instance), emfb);
+
+	p->view_menus = gal_view_menus_new (emfb->view.view_instance);
+	gal_view_menus_apply(p->view_menus, uic, NULL);
 }
 
 static void
@@ -1046,47 +951,12 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 		if (emfv->list->cursor_uid == NULL && emfb->priv->list_built_id == 0)
 			p->list_built_id = g_signal_connect(emfv->list, "message_list_built", G_CALLBACK (emfb_list_built), emfv);
 		
-		/*emfb_create_view_instance (emfb, folder, uri);*/
+		/* NOTE: This relies on our parent class setting up emfv->view_instance */
 		if (emfv->uic)
 			emfb_create_view_menus (emfb, emfv->uic);
 	}
 
 	message_list_thaw(emfv->list);
-}
-
-/* TODO: All this mess should sit directly on MessageList, but it would
-   need to become BonoboUIComponent aware ... */
-
-static void
-emfb_create_view_menus(EMFolderBrowser *emfb, BonoboUIComponent *uic)
-{
-	struct _EMFolderBrowserPrivate *p = emfb->priv;
-
-	if (p->view_instance) {
-		g_object_unref(p->view_instance);
-		p->view_instance = NULL;
-	}
-
-	if (p->view_menus) {
-		g_object_unref(p->view_menus);
-		p->view_menus = NULL;
-	}
-
-	/*g_assert(p->view_instance == NULL);
-	  g_assert(p->view_menus == NULL);*/
-	
-	collection_init ();
-	
-	emfb_create_view_instance (emfb, emfb->view.folder, emfb->view.folder_uri);
-	p->view_menus = gal_view_menus_new (p->view_instance);
-	gal_view_menus_apply(p->view_menus, uic, NULL);
-	
-	/* Due to CORBA reentrancy, the view could be gone now. */
-	if (p->view_instance == NULL)
-		return;
-	
-	g_signal_connect(p->view_instance, "display_view", G_CALLBACK(emfb_list_display_view), emfb);	
-	emfb_list_display_view(p->view_instance, gal_view_instance_get_current_view(p->view_instance), emfb);
 }
 
 static void
@@ -1169,6 +1039,7 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		if (((EMFolderBrowser *)emfv)->search)
 			e_search_bar_set_ui_component((ESearchBar *)((EMFolderBrowser *)emfv)->search, uic);
 
+		/* NOTE: This relies on our parent class setting up emfv->view_instance */
 		if (emfv->folder)
 			emfb_create_view_menus((EMFolderBrowser *)emfv, uic);
 	} else {
@@ -1176,11 +1047,6 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		
 		for (v = &emfb_verbs[0]; v->cname; v++)
 			bonobo_ui_component_remove_verb(uic, v->cname);
-
-		if (p->view_instance) {
-			g_object_unref(p->view_instance);
-			p->view_instance = NULL;
-		}
 
 		if (p->view_menus) {
 			g_object_unref(p->view_menus);

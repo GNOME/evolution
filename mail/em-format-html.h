@@ -91,11 +91,6 @@ struct _EMFormatHTMLPObject {
 #define EM_FORMAT_HTML_HEADER_HTML (EM_FORMAT_HEADER_LAST<<1) /* header already in html format */
 #define EM_FORMAT_HTML_HEADER_LAST (EM_FORMAT_HEADER_LAST<<8)
 
-/* xmailer_mask bits */
-#define EM_FORMAT_HTML_XMAILER_EVOLUTION (1<<0)
-#define EM_FORMAT_HTML_XMAILER_OTHER     (1<<1)
-#define EM_FORMAT_HTML_XMAILER_RUPERT    (1<<2)
-
 #define EM_FORMAT_HTML_VPAD "<table cellspacing=0 cellpadding=3><tr><td><a name=\"padding\"></a></td></tr></table>\n"
 
 struct _EMFormatHTML {
@@ -115,7 +110,6 @@ struct _EMFormatHTML {
 	guint32 frame_colour;
 	guint32 content_colour;
 	guint32 citation_colour;
-	unsigned int xmailer_mask:4;
 	unsigned int load_http:2;
 	unsigned int load_http_now:1;
 	unsigned int mark_citations:1;
@@ -135,7 +129,6 @@ void em_format_html_load_http(EMFormatHTML *emf);
 
 void em_format_html_set_load_http(EMFormatHTML *emf, int style);
 void em_format_html_set_mark_citations(EMFormatHTML *emf, int state, guint32 citation_colour);
-void em_format_html_set_xmailer_mask(EMFormatHTML *emf, unsigned int xmailer_mask);
 
 /* retrieves a pseudo-part icon wrapper for a file */
 struct _CamelMimePart *em_format_html_file_part(EMFormatHTML *efh, const char *mime_type, const char *filename);

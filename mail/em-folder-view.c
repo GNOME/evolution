@@ -25,6 +25,9 @@
 #endif
 
 #include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkbutton.h>
@@ -36,6 +39,9 @@
 #include <libgnomeprintui/gnome-print-dialog.h>
 
 #include <gconf/gconf-client.h>
+
+#include <gal/menus/gal-view-etable.h>
+#include <gal/menus/gal-view-factory-etable.h>
 
 #include <camel/camel-mime-message.h>
 #include <camel/camel-stream.h>
@@ -77,9 +83,10 @@
 
 #include "mail-mt.h"
 #include "mail-ops.h"
-#include "mail-config.h"	/* hrm, pity we need this ... */
+#include "mail-config.h"
 #include "mail-autofilter.h"
 #include "mail-vfolder.h"
+#include "mail-component.h"
 
 #include "evolution-shell-component-utils.h" /* Pixmap stuff, sigh */
 
@@ -355,6 +362,7 @@ em_folder_view_open_selected(EMFolderView *emfv)
 			EMMessageBrowser *emmb;
 
 			emmb = (EMMessageBrowser *)em_message_browser_window_new();
+			message_list_set_threaded(((EMFolderView *)emmb)->list, emfv->list->threaded);
 			/* FIXME: session needs to be passed easier than this */
 			em_format_set_session((EMFormat *)((EMFolderView *)emmb)->preview, ((EMFormat *)emfv->preview)->session);
 			em_folder_view_set_folder((EMFolderView *)emmb, emfv->folder, emfv->folder_uri);
@@ -366,6 +374,101 @@ em_folder_view_open_selected(EMFolderView *emfv)
 	}
 
 	return i;
+}
+
+/* ******************************************************************************** */
+static GalViewCollection *collection = NULL;
+
+static void
+emfv_list_display_view(GalViewInstance *instance, GalView *view, EMFolderView *emfv)
+{
+	if (GAL_IS_VIEW_ETABLE(view))
+		gal_view_etable_attach_tree(GAL_VIEW_ETABLE(view), emfv->list->tree);
+}
+
+static void
+emfv_create_view_instance(EMFolderView *emfv)
+{
+	gboolean outgoing;
+	char *id;
+
+	g_assert(emfv->folder);
+	g_assert(emfv->folder_uri);
+
+	if (collection == NULL) {
+		ETableSpecification *spec;
+		GalViewFactory *factory;
+		const char *evolution_dir;
+		char *dir;
+
+		collection = gal_view_collection_new ();
+	
+		gal_view_collection_set_title (collection, _("Mail"));
+	
+		evolution_dir = mail_component_peek_base_directory (mail_component_peek ());
+		dir = g_build_filename (evolution_dir, "mail", "views", NULL);
+		gal_view_collection_set_storage_directories (collection, EVOLUTION_GALVIEWSDIR "/mail/", dir);
+		g_free (dir);
+	
+		spec = e_table_specification_new ();
+		e_table_specification_load_from_file (spec, EVOLUTION_ETSPECDIR "/message-list.etspec");
+	
+		factory = gal_view_factory_etable_new (spec);
+		g_object_unref (spec);
+		gal_view_collection_add_factory (collection, factory);
+		g_object_unref (factory);
+	
+		gal_view_collection_load (collection);
+	}
+	
+	if (emfv->view_instance) {
+		g_object_unref(emfv->view_instance);
+		emfv->view_instance = NULL;
+	}
+	
+	outgoing = em_utils_folder_is_drafts (emfv->folder, emfv->folder_uri)
+		|| em_utils_folder_is_sent (emfv->folder, emfv->folder_uri)
+		|| em_utils_folder_is_outbox (emfv->folder, emfv->folder_uri);
+	
+	/* TODO: should this go through mail-config api? */
+	id = mail_config_folder_to_safe_url (emfv->folder);
+	emfv->view_instance = gal_view_instance_new (collection, id);
+	g_free (id);
+	
+	if (outgoing)
+		gal_view_instance_set_default_view (emfv->view_instance, "As_Sent_Folder");
+	
+	gal_view_instance_load (emfv->view_instance);
+	
+	if (!gal_view_instance_exists (emfv->view_instance)) {
+		struct stat st;
+		char *path;
+		
+		path = mail_config_folder_to_cachename (emfv->folder, "et-header-");
+		if (path && stat (path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
+			ETableSpecification *spec;
+			ETableState *state;
+			GalView *view;
+			
+			spec = e_table_specification_new ();
+			e_table_specification_load_from_file (spec, EVOLUTION_ETSPECDIR "/message-list.etspec");
+			view = gal_view_etable_new (spec, "");
+			g_object_unref (spec);
+			
+			state = e_table_state_new ();
+			e_table_state_load_from_file (state, path);
+			gal_view_etable_set_state (GAL_VIEW_ETABLE (view), state);
+			g_object_unref (state);
+			
+			gal_view_instance_set_custom_view (emfv->view_instance, view);
+			g_object_unref (view);
+		}
+		
+		g_free (path);
+	}
+	
+	g_signal_connect (emfv->view_instance, "display_view", G_CALLBACK (emfv_list_display_view), emfv);
+	emfv_list_display_view (emfv->view_instance, gal_view_instance_get_current_view (emfv->view_instance), emfv);
 }
 
 /* ********************************************************************** */
@@ -401,6 +504,8 @@ emfv_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 									(CamelObjectEventHookFunc)emfv_folder_changed, emfv);
 		camel_object_ref(folder);
 		mail_refresh_folder(folder, NULL, NULL);
+		/* We need to set this up to get the right view options for the message-list, even if we're not showing it */
+		emfv_create_view_instance(emfv);
 	}
 	
 	emfv_enable_menus(emfv);
@@ -1654,12 +1759,21 @@ emfv_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		emfv_enable_menus(emfv);
 		if (emfv->statusbar_active)
 			bonobo_ui_component_set_translate (uic, "/", "<status><item name=\"main\"/></status>", NULL);
+
+		/* We need to set this up to get the right view options for the message-list, even if we're not showing it */
+		if (emfv->folder)
+			emfv_create_view_instance(emfv);
 	} else {
 		const BonoboUIVerb *v;
 
 		/* TODO: Should this just rm /? */
 		for (v = &emfv_message_verbs[0]; v->cname; v++)
 			bonobo_ui_component_remove_verb(uic, v->cname);
+
+		if (emfv->view_instance) {
+			g_object_unref(emfv->view_instance);
+			emfv->view_instance = NULL;
+		}
 
 		if (emfv->folder)
 			mail_sync_folder(emfv->folder, NULL, NULL);
@@ -2028,7 +2142,6 @@ enum {
 	EMFV_MARK_SEEN,
 	EMFV_MARK_SEEN_TIMEOUT,
 	EMFV_LOAD_HTTP,
-	EMFV_XMAILER_MASK,
 	EMFV_HEADERS,
 	EMFV_SETTINGS		/* last, for loop count */
 };
@@ -2044,7 +2157,6 @@ static const char * const emfv_display_keys[] = {
 	"mark_seen",
 	"mark_seen_timeout",
 	"load_http_images",
-	"xmailer_mask",
 	"headers",
 };
 
@@ -2107,9 +2219,6 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 		break;
 	case EMFV_LOAD_HTTP:
 		em_format_html_set_load_http((EMFormatHTML *)emfv->preview, gconf_value_get_int(value));
-		break;
-	case EMFV_XMAILER_MASK:
-		em_format_html_set_xmailer_mask((EMFormatHTML *)emfv->preview, gconf_value_get_int (value));
 		break;
 	case EMFV_HEADERS: {
 		GSList *header_config_list, *p;
