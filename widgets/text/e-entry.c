@@ -519,6 +519,7 @@ e_entry_show_popup (EEntry *entry, gboolean visible)
 		gtk_widget_set_uposition (pop, x, y);
 		e_completion_view_set_width (E_COMPLETION_VIEW (entry->priv->completion_view), dim->width);
 
+		gtk_widget_set_sensitive(pop, TRUE);
 		gtk_widget_show (pop);
 
 
@@ -534,6 +535,8 @@ e_entry_show_popup (EEntry *entry, gboolean visible)
 	} else {
 
 		gtk_widget_hide (pop);
+		/* hack to force the popup to lose focus, which it gets if you click on it */
+		gtk_widget_set_sensitive(pop, FALSE);
 
 		if (entry->priv->ptr_grab) {
 			gdk_pointer_ungrab (GDK_CURRENT_TIME);
