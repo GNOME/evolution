@@ -8266,19 +8266,18 @@ msgid "Invalid arguments to (system-flag)"
 msgstr "Argomenti non validi per (flag di sistema)"
 
 #: camel/camel-filter-search.c:402
-#, fuzzy
 msgid "Invalid arguments to (user-tag)"
-msgstr "Argomenti non validi"
+msgstr "Argomenti non validi per (selezione utente)"
 
 #: camel/camel-filter-search.c:514
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create pipe to '%s': %s"
-msgstr "Impossibile salvare messaggio %s nella cache: %s"
+msgstr "Impossibile creare pipe a '%s': %s"
 
 #: camel/camel-filter-search.c:550
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create create child process '%s': %s"
-msgstr "Impossibile salvare messaggio %s nella cache: %s"
+msgstr "Impossibile creare processo figlio '%s': %s"
 
 #: camel/camel-filter-search.c:656 camel/camel-filter-search.c:664
 #, c-format
@@ -8331,12 +8330,11 @@ msgstr "Impossibile cercare attraverso l'uid in %s (operazione non supportata)"
 
 #: camel/camel-folder.c:1319
 msgid "Moving messages"
-msgstr "Trasferimento dei messaggi in corso"
+msgstr "Trasferimento messaggi in corso"
 
 #: camel/camel-folder.c:1319
-#, fuzzy
 msgid "Copying messages"
-msgstr "Copia messaggi in %s"
+msgstr "Copia messaggi in corso"
 
 #: camel/camel-gpg-context.c:697
 #, c-format
@@ -8345,14 +8343,17 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"E' stato riscontrato un messaggio di stato GnuPG inaspettato:\n"
+"\n"
+"%s"
 
 #: camel/camel-gpg-context.c:711
 msgid "Failed to parse gpg userid hint."
-msgstr ""
+msgstr "Fallita analisi userid hint gpg."
 
 #: camel/camel-gpg-context.c:734
 msgid "Failed to parse gpg passphrase request."
-msgstr ""
+msgstr "Fallita analisi richiesta passphrase gpg."
 
 #: camel/camel-gpg-context.c:742
 #, c-format
@@ -8360,6 +8361,8 @@ msgid ""
 "You need a passphrase to unlock the key for\n"
 "user: \"%s\""
 msgstr ""
+"E' necessaria una passphrase per sbloccare la chiave\n"
+"per l'utente: \"%s\""
 
 #: camel/camel-gpg-context.c:753 camel/camel-gpg-context.c:1206
 #: camel/camel-gpg-context.c:1313 camel/camel-gpg-context.c:1388
