@@ -175,6 +175,7 @@ struct _GnomeCalendarPrivate {
 	   'dates-shown-changed' signal.*/
 	time_t visible_start;
 	time_t visible_end;
+	gboolean updating;
 };
 
 /* Signal IDs */
@@ -715,9 +716,13 @@ update_query (GnomeCalendar *gcal)
 
 	priv = gcal->priv;
 
+	if (priv->updating == TRUE) {
+		return;
+	}
 	e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), _("Updating query"));
 	e_calendar_item_clear_marks (priv->date_navigator->calitem);
 
+	priv->updating = TRUE;
 	/* free the previous queries */
 	for (l = priv->dn_queries; l != NULL; l = l->next) {
 		old_query = l->data;
@@ -737,6 +742,7 @@ update_query (GnomeCalendar *gcal)
 	real_sexp = adjust_e_cal_view_sexp (gcal, priv->sexp);
 	if (!real_sexp) {
 		e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL);
+		priv->updating = FALSE;
 		return; /* No time range is set, so don't start a query */
 	}
 
@@ -768,6 +774,7 @@ update_query (GnomeCalendar *gcal)
 	}
 
 	/* free memory */
+	priv->updating = FALSE;
 	g_free (real_sexp);
 	e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL);
 	update_todo_view (gcal);
@@ -1412,6 +1419,7 @@ gnome_calendar_init (GnomeCalendar *gcal)
 
 	priv->visible_start = -1;
 	priv->visible_end = -1;
+	priv->updating = FALSE;
 }
 
 static void

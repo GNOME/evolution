@@ -1,3 +1,10 @@
+2005-03-17  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #68525, 68580
+	* gui/gnome-cal.c (update_query), (gnome_calendar_init):
+	Added a boolean variable to avoid crash when a race condition
+	occurs.
+
 2005-03-16  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #73101
