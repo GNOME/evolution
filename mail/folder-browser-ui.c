@@ -164,7 +164,6 @@ static EPixmap list_pixcache [] = {
 
 static EPixmap global_pixcache [] = {
 	E_PIXMAP ("/commands/MailCompose", "new-message.xpm"),
-	E_PIXMAP ("/commands/ToolsSettings", "configure_16_mail.xpm"),
 	
 	E_PIXMAP_END
 };

@@ -1,5 +1,8 @@
 2002-04-01  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* folder-browser-ui.c: Removed an unused pixmap from
+	Tools/Settings to avoid a big nasty bonobo warning.
+
 	* mail-composer-prefs.c (mail_composer_prefs_construct):
 	Re-Implemented the signature editor stuff (mostly just copy/paste
 	from Radeks original code).
