@@ -1,3 +1,16 @@
+2000-05-09  Dan Winship  <danw@helixcode.com>
+
+	* folder-browser.c (folder_browser_load_folder): make this a
+	little less kludgy. Use gnome_error_dialog rather than printf on
+	errors.
+
+	* mail-ops.c (fetch_mail): Fix to work with the new shell stuff...
+	sorta. Will need more fixing later when the new shell framework is
+	more done.
+
+	* mail-config.c (finish): Call gnome_config_sync so the data
+	actually gets written.
+
 2000-05-08  Dan Winship  <danw@helixcode.com>
 
 	* mail-display.c (save_data_cb):

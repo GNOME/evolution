@@ -878,6 +878,8 @@ finish (GnomeDruidPage *page, gpointer arg1, gpointer window)
 	path = g_strdup_printf ("=%s/config=/mail/transport", evolution_dir);
 	gnome_config_set_string (path, transport);
 	g_free (path);
+
+	gnome_config_sync ();
 }
 
 void

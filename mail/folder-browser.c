@@ -64,14 +64,23 @@ folder_browser_class_init (GtkObjectClass *object_class)
 static gboolean
 folder_browser_load_folder (FolderBrowser *fb, const char *name)
 {
-	char *store_name;
+	char *store_name, *msg;
 	CamelStore *store;
 	CamelFolder *new_folder;
 	CamelException *ex;
 	gboolean new_folder_exists = FALSE;
 
-	/* Change "file:" to "mbox:". FIXME :) */
-	store_name = g_strdup_printf ("mbox%s", strchr (name, ':'));
+	if (strncmp (name, "file:", 5) != 0) {
+		char *msg;
+
+		msg = g_strdup_printf ("Can't open URI %s", name);
+		gnome_error_dialog (msg);
+		g_free (msg);
+		return FALSE;
+	}
+
+	/* Change "file:" to "mbox:". */
+	store_name = g_strdup_printf ("mbox:%s", name + 5);
 
 	ex = camel_exception_new ();
 	store = camel_session_get_store (session, store_name, ex);
@@ -82,8 +91,9 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 	}
 
 	if (camel_exception_get_id (ex)) {
-		printf ("Unable to get folder %s: %s\n", name,
-			camel_exception_get_description (ex));
+		msg = g_strdup_printf ("Unable to get folder %s: %s\n", name,
+				       camel_exception_get_description (ex));
+		gnome_error_dialog (msg);
 		camel_exception_free (ex);
 		return FALSE;
 	}
@@ -91,8 +101,10 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 	/* If the folder does not exist, we don't want to show it */
 	new_folder_exists = camel_folder_exists (new_folder, ex);
 	if (camel_exception_get_id (ex)) {
-		printf ("Unable to test for folder existence: %s\n",
-			camel_exception_get_description (ex));
+		msg = g_strdup_printf ("Unable to test if folder %s "
+				       "exists: %s\n", name,
+				       camel_exception_get_description (ex));
+		gnome_error_dialog (msg);
 		camel_exception_free (ex);
 		return FALSE;
 	}
@@ -102,7 +114,6 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 		gtk_object_unref (GTK_OBJECT (new_folder));
 		return FALSE;
 	}
-
 	
 	if (fb->folder)
 		gtk_object_unref (GTK_OBJECT (fb->folder));

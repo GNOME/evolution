@@ -67,14 +67,16 @@ check_configured (void)
 	return configured;
 }
 
+/* FIXME: This is BROKEN! It fetches mail into whatever folder you're
+ * currently viewing.
+ */
 void
 fetch_mail (GtkWidget *button, gpointer user_data)
 {
-#if 0
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	CamelException *ex;
 	CamelStore *store = NULL;
-	CamelFolder *folder = NULL, *outfolder = NULL;
+	CamelFolder *folder = NULL;
 	int nmsgs, i;
 	CamelMimeMessage *msg = NULL;
 	char *path, *url = NULL;
@@ -94,6 +96,7 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 		return;
 	}
 
+	path = CAMEL_SERVICE (fb->folder->parent_store)->url->path;
 	ex = camel_exception_new ();
 
 	/* If fetching mail from an mbox store, safely copy it to a
@@ -103,8 +106,7 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 		char *tmp_mbox, *source;
 		int tmpfd;
 
-		tmp_mbox = g_strdup_printf ("%s/movemail.XXXX",
-					    evolution_folders_dir);
+		tmp_mbox = g_strdup_printf ("%s/movemail.XXXX", path);
 #ifdef HAVE_MKSTEMP
 		tmpfd = mkstemp (tmp_mbox);
 #else
@@ -123,8 +125,10 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 		}
 		close (tmpfd);
 
-		/* Skip over "mbox://" plus host part (if any) or url. */
-		source = strchr (url + 7, '/');
+		/* Skip over "mbox:" plus host part (if any) of url. */
+		source = url + 5;
+		if (!strncmp (source, "//", 2))
+			source = strchr (source + 2, '/');
 
 		switch (camel_movemail (source, tmp_mbox, ex)) {
 		case -1:
@@ -137,7 +141,7 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 			goto cleanup;
 		}
 
-		folder = camel_store_get_folder (default_session->store,
+		folder = camel_store_get_folder (fb->folder->parent_store,
 						 strrchr (tmp_mbox, '/') + 1,
 						 ex);
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
@@ -183,20 +187,6 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 	if (nmsgs == 0)
 		goto cleanup;
 
-	outfolder = camel_store_get_folder (default_session->store,
-					    "inbox", ex);
-	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
-		mail_exception_dialog ("Unable to open inbox to store mail",
-				       ex, fb);
-		goto cleanup;
-	}
-	camel_folder_open (outfolder, FOLDER_OPEN_WRITE, ex);
-	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
-		mail_exception_dialog ("Unable to open inbox to store mail",
-				       ex, fb);
-		goto cleanup;
-	}
-
 	for (i = 1; i <= nmsgs; i++) {
 		msg = camel_folder_get_message_by_number (folder, i, ex);
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
@@ -205,7 +195,7 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 			goto cleanup;
 		}
 
-		camel_folder_append_message (outfolder, msg, ex);
+		camel_folder_append_message (fb->folder, msg, ex);
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
 			mail_exception_dialog ("Unable to write message",
 					       ex, fb);
@@ -221,7 +211,10 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 	}
 	msg = NULL;
 
-	folder_browser_set_uri (fb, "inbox"); /* FIXME */
+	/* Redisplay. Ick. FIXME */
+	path = g_strdup_printf ("file://%s", path);
+	folder_browser_set_uri (fb, path);
+	g_free (path);
 
  cleanup:
 	if (url)
@@ -235,22 +228,9 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 		camel_service_disconnect (CAMEL_SERVICE (store), ex);
 		gtk_object_unref (GTK_OBJECT (store));
 	}
-#if 0
-	/* FIXME: we'll want to do this when the rest of the mail
-	 * stuff is refcounting things properly.
-	 */
-	if (outfolder) {
-		if (camel_folder_is_open (outfolder))
-			camel_folder_close (outfolder, FALSE, ex);
-		gtk_object_unref (GTK_OBJECT (outfolder));
-	}
-#endif
 	camel_exception_free (ex);
 	if (msg)
 		gtk_object_unref (GTK_OBJECT (msg));
-#else
-	printf ("Sorry, I'm broken! Try again tomorrow.");
-#endif
 }
 
 
