@@ -28,9 +28,9 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
+#include <gtk/gtkwidget.h>
 
-#include "shortcut-bar/e-shortcut-bar.h"
+#include <gal/shortcut-bar/e-shortcut-bar.h>
 #include "e-shortcuts.h"
 
 #ifdef __cplusplus

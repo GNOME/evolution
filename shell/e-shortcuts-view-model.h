@@ -26,7 +26,7 @@
 
 #include "e-shortcuts.h"
 
-#include "shortcut-bar/e-shortcut-model.h"
+#include <gal/shortcut-bar/e-shortcut-model.h>
 
 #ifdef __cplusplus
 extern "C" {
