@@ -158,6 +158,7 @@ canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 	}
 }
 
+#if 0
 static void
 get_borders (EEntry   *entry,
              gint     *xborder,
@@ -181,6 +182,7 @@ get_borders (EEntry   *entry,
       *yborder += focus_width;
     }
 }
+#endif
 
 static void
 canvas_size_request (GtkWidget *widget, GtkRequisition *requisition,
@@ -195,7 +197,8 @@ canvas_size_request (GtkWidget *widget, GtkRequisition *requisition,
 	g_return_if_fail (requisition != NULL);
 
 	if (entry->priv->draw_borders) {
-		get_borders (entry, &xthick, &ythick);
+		/* get_borders (entry, &xthick, &ythick); */
+		xthick = ythick = 3;
 	} else {
 		xthick = ythick = 0;
 	}
@@ -205,9 +208,9 @@ canvas_size_request (GtkWidget *widget, GtkRequisition *requisition,
 		g_object_get (entry->item,
 			      "text_width", &width,
 			      NULL);
-		requisition->width = 2 + 2 * xthick + width;
+		requisition->width = 2*xthick + width;
 	} else {
-		requisition->width = 2 + MIN_ENTRY_WIDTH + xthick;
+		requisition->width = MIN_ENTRY_WIDTH + 2*xthick;
 	}
 	if (entry->priv->last_width != requisition->width)
 		gtk_widget_queue_resize (widget);
@@ -219,8 +222,7 @@ canvas_size_request (GtkWidget *widget, GtkRequisition *requisition,
 	metrics = pango_context_get_metrics (context, gtk_widget_get_style (widget)->font_desc,
 					     pango_context_get_language (context));
 
-	requisition->height = (2 +
-			       PANGO_PIXELS (pango_font_metrics_get_ascent (metrics) +
+	requisition->height = (PANGO_PIXELS (pango_font_metrics_get_ascent (metrics) +
 					     pango_font_metrics_get_descent (metrics)) +
 			       2 * ythick);
 
