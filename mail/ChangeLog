@@ -1,3 +1,7 @@
+2002-11-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-composer-prefs.c (sig_edit): Correctly spell Advanced.
+
 2002-10-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser.c (folder_browser_query_changed): No longer need

@@ -220,7 +220,7 @@ sig_edit (GtkWidget *widget, MailComposerPrefs *prefs)
 		mail_signature_editor (sig);
 	else
 		e_notice (GTK_WINDOW (prefs), GNOME_MESSAGE_BOX_ERROR,
-			  _("Please specify signature filename\nin Andvanced section of signature settings."));
+			  _("Please specify signature filename\nin Advanced section of signature settings."));
 }
 
 MailConfigSignature *
