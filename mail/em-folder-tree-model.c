@@ -949,11 +949,13 @@ em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore *sto
 
 /* Drag & Drop methods */
 static void
-drop_uid_list (CamelFolder *dest, GtkSelectionData *selection, gboolean move, CamelException *ex)
+drop_uid_list (CamelFolder *dest, GtkSelectionData *selection, gboolean move, gboolean *moved, CamelException *ex)
 {
 	CamelFolder *src;
 	GPtrArray *uids;
 	char *src_uri;
+	
+	*moved = FALSE;
 	
 	em_utils_selection_get_uidlist (selection, &src_uri, &uids);
 	
@@ -968,12 +970,16 @@ drop_uid_list (CamelFolder *dest, GtkSelectionData *selection, gboolean move, Ca
 	camel_folder_transfer_messages_to (src, uids, dest, NULL, move, ex);
 	em_utils_uids_free (uids);
 	camel_object_unref (src);
+	
+	*moved = move && !camel_exception_is_set (ex);
 }
 
 static void
-drop_folder (CamelFolder *dest, GtkSelectionData *selection, gboolean move, CamelException *ex)
+drop_folder (CamelFolder *dest, GtkSelectionData *selection, gboolean move, gboolean *moved, CamelException *ex)
 {
 	CamelFolder *src;
+	
+	*moved = FALSE;
 	
 	/* get the folder being dragged */
 	if (!(src = mail_tool_uri_to_folder (selection->data, 0, ex)))
@@ -987,6 +993,8 @@ drop_folder (CamelFolder *dest, GtkSelectionData *selection, gboolean move, Came
 		new_name = g_strdup_printf ("%s/%s", dest->full_name, src->name);
 		
 		camel_store_rename_folder (dest->parent_store, old_name, new_name, ex);
+		
+		*moved = !camel_exception_is_set (ex);
 		
 		g_free (old_name);
 		g_free (new_name);
@@ -1151,14 +1159,12 @@ em_folder_tree_model_drag_data_received (EMFolderTreeModel *model, GtkTreePath *
 		switch (info) {
 		case DND_DROP_TYPE_UID_LIST:
 			/* import a list of uids from another evo folder */
-			drop_uid_list (folder, selection, move, &ex);
-			*moved = move;
+			drop_uid_list (folder, selection, move, moved, &ex);
 			d(printf ("\t* dropped a x-uid-list\n"));
 			break;
 		case DND_DROP_TYPE_FOLDER:
 			/* copy or move (aka rename) a folder */
-			drop_folder (folder, selection, move, &ex);
-			*moved = move;
+			drop_folder (folder, selection, move, moved, &ex);
 			d(printf ("\t* dropped a x-folder ('%s' into '%s')\n", selection->data, full_name));
 			break;
 		case DND_DROP_TYPE_MESSAGE_RFC822:
@@ -1177,8 +1183,8 @@ em_folder_tree_model_drag_data_received (EMFolderTreeModel *model, GtkTreePath *
 	}
 	
 	if (camel_exception_is_set (&ex)) {
+		printf ("\t* exception: %s\n", ex.desc);
 		camel_exception_clear (&ex);
-		*moved = FALSE;
 		return FALSE;
 	}
 	

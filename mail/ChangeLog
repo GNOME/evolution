@@ -1,3 +1,18 @@
+2004-01-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	And thus completes the fixes for bug #52766.
+
+	* em-folder-tree.c (tree_drag_drop): Don't call
+	gtk_drag_get_data() manually here or we end up getting 2
+	drag-data-received callbacks which is Not Good (tm).
+
+	* em-folder-tree-model.c (drop_folder): Now takes a moved argument
+	to specify whether or not the contents were moved (the move
+	argument is just a hint).
+	(drop_uid_list): Same.
+	(em_folder_tree_model_drag_data_received): Updated for the above
+	api changes.
+
 2004-01-28  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #53179

@@ -518,8 +518,6 @@ tree_drag_begin (GtkWidget *widget, GdkDragContext *context, EMFolderTree *emft)
 	GtkTreePath *path;
 	GtkTreeIter iter;
 	
-	printf ("::drag-begin called\n");
-	
 	selection = gtk_tree_view_get_selection ((GtkTreeView *) widget);
 	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
 		return;
@@ -537,8 +535,6 @@ tree_drag_data_delete (GtkWidget *widget, GdkDragContext *context, EMFolderTree 
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	GtkTreePath *path;
 	
-	printf ("::drag-data-delete called\n");
-	
 	if (!priv->drag_row || (path = gtk_tree_row_reference_get_path (priv->drag_row)))
 		return;
 	
@@ -551,8 +547,6 @@ tree_drag_data_get (GtkWidget *widget, GdkDragContext *context, GtkSelectionData
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	GtkTreePath *path;
-	
-	printf ("::drag-data-get called\n");
 	
 	if (!priv->drag_row || !(path = gtk_tree_row_reference_get_path (priv->drag_row)))
 		return;
@@ -572,8 +566,6 @@ tree_drag_data_received (GtkWidget *widget, GdkDragContext *context, int x, int 
 	gboolean moved;
 	gboolean move;
 	
-	printf ("::drag-data-received called\n");
-	
 	if (!gtk_tree_view_get_dest_row_at_pos (priv->treeview, x, y, &path, &pos))
 		return;
 	
@@ -592,19 +584,13 @@ tree_drag_drop (GtkWidget *widget, GdkDragContext *context, int x, int y, guint 
 	GtkTreePath *path;
 	GdkAtom target;
 	
-	printf ("::drag-drop called\n");
-	
 	if (!gtk_tree_view_get_path_at_pos (priv->treeview, x, y, &path, &column, &cell_x, &cell_y))
 		return FALSE;
 	
 	target = em_folder_tree_model_row_drop_target (priv->model, path, context->targets);
-	if (target == GDK_NONE) {
-		gtk_tree_path_free (path);
-		return FALSE;
-	}
-	
 	gtk_tree_path_free (path);
-	gtk_drag_get_data (widget, context, target, time);
+	if (target == GDK_NONE)
+		return FALSE;
 	
 	return TRUE;
 }
@@ -613,8 +599,6 @@ static void
 tree_drag_end (GtkWidget *widget, GdkDragContext *context, EMFolderTree *emft)
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
-	
-	printf ("::drag-end called\n");
 	
 	if (priv->drag_row) {
 		gtk_tree_row_reference_free (priv->drag_row);
@@ -628,7 +612,6 @@ static void
 tree_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time, EMFolderTree *emft)
 {
 	/* FIXME: unhighlight target row? */
-	printf ("::drag-leave called\n");
 }
 
 static gboolean
@@ -638,8 +621,6 @@ tree_drag_motion (GtkWidget *widget, GdkDragContext *context, int x, int y, guin
 	GtkTreeViewDropPosition pos;
 	GtkTreePath *path;
 	GdkDragAction action;
-	
-	printf ("::drag-motion called\n");
 	
 	if (!gtk_tree_view_get_dest_row_at_pos (priv->treeview, x, y, &path, &pos))
 		return FALSE;
