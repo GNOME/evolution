@@ -324,8 +324,7 @@ get_status (ECalModelComponent *comp_data)
 		case ICAL_STATUS_CANCELLED:
 			return _("Cancelled");
 		default:
-			g_assert_not_reached ();
-			return NULL;
+			return "";
 		}
 	}
 
