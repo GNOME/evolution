@@ -1,3 +1,11 @@
+2004-11-23  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #69579.
+
+	* em-folder-properties.c (em_folder_properties_show): check to see
+	if the vfolder is the unmatched folder before letting the user try
+	to see its properties.
+
 2004-11-30  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #68958.
