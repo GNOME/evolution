@@ -541,21 +541,24 @@ call_handler_function (CamelMimePart *part, MailDisplay *md)
 
 static void
 write_field_to_stream (const char *description, const char *value,
-		       gboolean bold, GtkHTML *html,
+		       gboolean value_is_encoded, gboolean bold, GtkHTML *html,
 		       GtkHTMLStream *stream)
 {
 	char *encoded_value;
 
 	if (value) {
-		unsigned char *raw, *p;
-
-		raw = header_decode_string (value);
+		char *raw, *p;
+		
+		if (value_is_encoded)
+			raw = header_decode_string (value);
+		else
+			raw = g_strdup (value);
 
 		encoded_value = e_text_to_html (raw,
 						E_TEXT_TO_HTML_CONVERT_NL |
 						E_TEXT_TO_HTML_CONVERT_URLS);
 		g_free (raw);
-		for (p = (unsigned char *)encoded_value; *p; p++) {
+		for (p = encoded_value; *p; p++) {
 			if (!isprint (*p))
 				*p = '?';
 		}
@@ -582,35 +585,33 @@ write_headers (CamelMimeMessage *message, MailDisplay *md)
 			 "cellspacing=0 border=1>"
 			 "<tr><td><table>\n");
 
-	write_field_to_stream ("From:",
-			       camel_mime_message_get_from (message),
-			       TRUE, md->html, md->stream);
+	write_field_to_stream ("From:",  camel_mime_message_get_from (message),
+			       TRUE, TRUE, md->html, md->stream);
 
 	reply_to = camel_mime_message_get_reply_to (message);
 	if (reply_to) {
-		write_field_to_stream ("Reply-To:", reply_to, FALSE,
+		write_field_to_stream ("Reply-To:", reply_to, TRUE, FALSE,
 				       md->html, md->stream);
 	}
 
 	recipients = camel_mime_message_get_recipients (
 		message, CAMEL_RECIPIENT_TYPE_TO);
 	string = camel_address_encode (CAMEL_ADDRESS (recipients));
-	write_field_to_stream ("To:", string ? string : "", TRUE,
+	write_field_to_stream ("To:", string ? string : "", TRUE, TRUE,
 			       md->html, md->stream);
 	g_free (string);
 
 	recipients = camel_mime_message_get_recipients(message, CAMEL_RECIPIENT_TYPE_CC);
 	string = camel_address_encode(CAMEL_ADDRESS(recipients));
 	if (string) {
-		write_field_to_stream ("Cc:", string, TRUE,
+		write_field_to_stream ("Cc:", string, TRUE, TRUE,
 				       md->html, md->stream);
 	}
 	g_free (string);
-
-	write_field_to_stream ("Subject:",
-			       camel_mime_message_get_subject (message),
-			       TRUE, md->html, md->stream);
-
+	
+	write_field_to_stream ("Subject:", camel_mime_message_get_subject (message),
+			       FALSE, TRUE, md->html, md->stream);
+	
 	mail_html_write (md->html, md->stream,
 			 "</table></td></tr></table></center><p>");
 }
@@ -1641,7 +1642,7 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	id = mail_config_get_default_identity ();
 	if (id)
 	      sig_file = id->sig;
-	
+
 	/* Set the quoted reply text. */
 	if (text) {
 		char *repl_text;
@@ -1695,7 +1696,7 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	if (!repl_to)
 		repl_to = camel_mime_message_get_from (message);
 
-	recipient = g_strdup (repl_to ? repl_to : ""); 
+	recipient = header_decode_string (repl_to ? repl_to : "");
 	to = g_list_append (NULL, (gpointer)recipient);
 	
 	if (to_all) {
@@ -1709,9 +1710,15 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 		i = 0;
 		cc = NULL;
 		while (camel_internet_address_get (recip, i++, &name, &addr)) {
-			if (*name) {
-				fulladdr = g_strdup_printf ("\"%s\" <%s>",
-							    name, addr);
+			if (name && *name) {
+				char *dname = header_decode_string (name);
+				
+				if (dname && *dname)
+					fulladdr = g_strdup_printf ("\"%s\" <%s>", dname, addr);
+				else
+					fulladdr = g_strdup (addr);
+				
+				g_free (dname);
 			} else
 				fulladdr = g_strdup (addr);
 			
@@ -1726,8 +1733,15 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 		recip = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
 		i = 0;
 		while (camel_internet_address_get (recip, i++, &name, &addr)) {
-			if (*name) {
-				fulladdr = g_strdup_printf ("\"%s\" <%s>", name, addr);
+			if (name && *name) {
+				char *dname = header_decode_string (name);
+				
+				if (dname && *dname)
+					fulladdr = g_strdup_printf ("\"%s\" <%s>", dname, addr);
+				else
+					fulladdr = g_strdup (addr);
+				
+				g_free (dname);
 			} else
 				fulladdr = g_strdup (addr);
 			
