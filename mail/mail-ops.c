@@ -32,7 +32,6 @@
 #include <camel/camel-mime-filter-from.h>
 #include <camel/camel-operation.h>
 #include "mail.h"
-#include "mail-threads.h"
 #include "mail-tools.h"
 #include "mail-ops.h"
 #include "mail-vfolder.h"
@@ -45,8 +44,6 @@
 #include "mail-mt.h"
 
 #define d(x) x
-
-int mail_operation_run(const mail_operation_spec *op, void *in, int free);
 
 #define mail_tool_camel_lock_down()
 #define mail_tool_camel_lock_up()
@@ -733,150 +730,108 @@ mail_send_queue(CamelFolder *queue, const char *destination,
 
 /* ** APPEND MESSAGE TO FOLDER ******************************************** */
 
-typedef struct append_mail_input_s
-{
+struct _append_msg {
+	struct _mail_msg msg;
+
         CamelFolder *folder;
 	CamelMimeMessage *message;
         CamelMessageInfo *info;
-}
-append_mail_input_t;
 
-static gchar *
-describe_append_mail (gpointer in_data, gboolean gerund)
+	void (*done)(CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, void *data);
+	void *data;
+};
+
+static char *append_mail_desc(struct _mail_msg *mm, int done)
 {
-	append_mail_input_t *input = (append_mail_input_t *) in_data;
-	
-	if (gerund) {
-		if (input->message->subject && input->message->subject[0])
-			return g_strdup_printf (_("Appending \"%s\""),
-						input->message->subject);
-		else
-			return
-				g_strdup (_("Appending a message without a subject"));
-	} else {
-		if (input->message->subject && input->message->subject[0])
-			return g_strdup_printf (_("Appending \"%s\""),
-						input->message->subject);
-		else
-			return g_strdup (_("Appending a message without a subject"));
-	}
+	return g_strdup(_("Saving message to folder"));
 }
 
-static void
-setup_append_mail (gpointer in_data, gpointer op_data, CamelException *ex)
+static void append_mail_append(struct _mail_msg *mm)
 {
-	append_mail_input_t *input = (append_mail_input_t *) in_data;
+	struct _append_msg *m = (struct _append_msg *)mm;
 	
-	camel_object_ref (CAMEL_OBJECT (input->message));
-	camel_object_ref (CAMEL_OBJECT (input->folder));
+	camel_mime_message_set_date(m->message, CAMEL_MESSAGE_DATE_CURRENT, 0);
+	camel_folder_append_message(m->folder, m->message, m->info, &mm->ex);
 }
 
-static void
-do_append_mail (gpointer in_data, gpointer op_data, CamelException *ex)
+static void append_mail_appended(struct _mail_msg *mm)
 {
-	append_mail_input_t *input = (append_mail_input_t *) in_data;
-	
-	camel_mime_message_set_date (input->message,
-				     CAMEL_MESSAGE_DATE_CURRENT, 0);
-	
-        mail_tool_camel_lock_up ();
-	
-	/* now to save the message in the specified folder */
-	camel_folder_append_message (input->folder, input->message, input->info, ex);
-	
-        mail_tool_camel_lock_down ();
+	struct _append_msg *m = (struct _append_msg *)mm;
+
+	if (m->done)
+		m->done(m->folder, m->message, m->info, !camel_exception_is_set(&mm->ex), m->data);
 }
 
-static void
-cleanup_append_mail (gpointer in_data, gpointer op_data, CamelException *ex)
+static void append_mail_free(struct _mail_msg *mm)
 {
-	append_mail_input_t *input = (append_mail_input_t *) in_data;
-	
-	camel_object_unref (CAMEL_OBJECT (input->message));
-        camel_object_unref (CAMEL_OBJECT (input->folder));
+	struct _append_msg *m = (struct _append_msg *)mm;
+
+	camel_object_unref((CamelObject *)m->message);
+	camel_object_unref((CamelObject *)m->folder);
 }
 
-static const mail_operation_spec op_append_mail = {
-	describe_append_mail,
-	0,
-	setup_append_mail,
-	do_append_mail,
-	cleanup_append_mail
+static struct _mail_msg_op append_mail_op = {
+	append_mail_desc,
+	append_mail_append,
+	append_mail_appended,
+	append_mail_free
 };
 
 void
-mail_do_append_mail (CamelFolder *folder,
-		     CamelMimeMessage *message,
-		     CamelMessageInfo *info)
+mail_append_mail (CamelFolder *folder,
+		  CamelMimeMessage *message,
+		  CamelMessageInfo *info,
+		  void (*done)(CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, void *data), void *data)
 {
-	append_mail_input_t *input;
-	
+	struct _append_msg *m;
+
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
-	input = g_new (append_mail_input_t, 1);
-	input->folder = folder;
-	input->message = message;
-	input->info = info;
-	
-	mail_operation_queue (&op_append_mail, input, TRUE);
+	m = mail_msg_new(&append_mail_op, NULL, sizeof(*m));
+	m->folder = folder;
+	camel_object_ref((CamelObject *)folder);
+	m->message = message;
+	camel_object_ref((CamelObject *)message);
+	m->info = info;
+
+	m->done = done;
+	m->data = data;
+
+	e_thread_put(mail_thread_new, (EMsg *)m);
 }
 
 /* ** TRANSFER MESSAGES **************************************************** */
 
-typedef struct transfer_messages_input_s
-{
+struct _transfer_msg {
+	struct _mail_msg msg;
+
 	CamelFolder *source;
 	GPtrArray *uids;
-	gboolean delete_from_source;
-	gchar *dest_uri;
-} transfer_messages_input_t;
+	gboolean delete;
+	char *dest_uri;
+};
 
-static gchar *
-describe_transfer_messages (gpointer in_data, gboolean gerund)
+static char *transfer_messages_desc(struct _mail_msg *mm, int done)
 {
-	transfer_messages_input_t *input = (transfer_messages_input_t *) in_data;
-	char *format;
-	
-	if (gerund) {
-		if (input->delete_from_source)
-			format = _("Moving messages from \"%s\" into \"%s\"");
-		else
-			format = _("Copying messages from \"%s\" into \"%s\"");
-	} else {
-		if (input->delete_from_source)
-			format = _("Move messages from \"%s\" into \"%s\"");
-		else
-			format = _("Copy messages from \"%s\" into \"%s\"");
-	}
+	struct _transfer_msg *m = (struct _transfer_msg *)mm;
 
-	return g_strdup_printf (format,
-				mail_tool_get_folder_name (input->source), 
-				input->dest_uri);
+	return g_strdup_printf(m->delete?_("Moving messages to %s"):_("Copying messages to %s"),
+			       m->dest_uri);
+			       
 }
 
-static void
-setup_transfer_messages (gpointer in_data, gpointer op_data,
-			 CamelException *ex)
+static void transfer_messages_transfer(struct _mail_msg *mm)
 {
-	transfer_messages_input_t *input = (transfer_messages_input_t *) in_data;
-
-	camel_object_ref (CAMEL_OBJECT (input->source));
-}
-
-static void
-do_transfer_messages (gpointer in_data, gpointer op_data, CamelException *ex)
-{
-	transfer_messages_input_t *input = (transfer_messages_input_t *) in_data;
+	struct _transfer_msg *m = (struct _transfer_msg *)mm;
 	CamelFolder *dest;
-	gint i;
-	time_t last_update = 0;
-	gchar *desc;
+	int i;
+	char *desc;
 	void (*func) (CamelFolder *, const char *, 
 		      CamelFolder *, 
 		      CamelException *);
 
-	if (input->delete_from_source) {
+	if (m->delete) {
 		func = camel_folder_move_message_to;
 		desc = _("Moving");
 	} else {
@@ -884,59 +839,45 @@ do_transfer_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 		desc = _("Copying");
 	}
 
-	dest = mail_tool_uri_to_folder (input->dest_uri, ex);
-	if (camel_exception_is_set (ex))
+	dest = mail_tool_uri_to_folder (m->dest_uri, &mm->ex);
+	if (camel_exception_is_set (&mm->ex))
 		return;
 
-	mail_tool_camel_lock_up ();
-	camel_folder_freeze (input->source);
+	camel_folder_freeze (m->source);
 	camel_folder_freeze (dest);
 
-	for (i = 0; i < input->uids->len; i++) {
-		const gboolean last_message = (i+1 == input->uids->len);
-		time_t now;
+	for (i = 0; i < m->uids->len; i++) {
+		mail_statusf(_("%s message %d of %d (uid \"%s\")"), desc,
+			     i + 1, m->uids->len, (char *)m->uids->pdata[i]);
 
-		/*
-		 * Update the time display every 2 seconds
-		 */
-		time (&now);
-		if (last_message || ((now - last_update) > 2)) {
-			mail_op_set_message (_("%s message %d of %d (uid \"%s\")"), desc,
-					     i + 1, input->uids->len, (char *) input->uids->pdata[i]);
-			last_update = now;
-		}
-		
-		(func) (input->source,
-			input->uids->pdata[i], dest,
-			ex);
-		g_free (input->uids->pdata[i]);
-		if (camel_exception_is_set (ex))
+		(func) (m->source, m->uids->pdata[i], dest, &mm->ex);
+		if (camel_exception_is_set (&mm->ex))
 			break;
 	}
 
-	camel_folder_thaw (input->source);
-	camel_folder_thaw (dest);
-	camel_object_unref (CAMEL_OBJECT (dest));
-	mail_tool_camel_lock_down ();
+	camel_folder_thaw(m->source);
+	camel_folder_thaw(dest);
+	camel_object_unref((CamelObject *)dest);
 }
 
-static void
-cleanup_transfer_messages (gpointer in_data, gpointer op_data,
-			   CamelException *ex)
+static void transfer_messages_free(struct _mail_msg *mm)
 {
-	transfer_messages_input_t *input = (transfer_messages_input_t *) in_data;
+	struct _transfer_msg *m = (struct _transfer_msg *)mm;
+	int i;
 
-	camel_object_unref (CAMEL_OBJECT (input->source));
-	g_free (input->dest_uri);
-	g_ptr_array_free (input->uids, TRUE);
+	camel_object_unref((CamelObject *)m->source);
+	g_free(m->dest_uri);
+	for (i=0;i<m->uids->len;i++)
+		g_free(m->uids->pdata[i]);
+	g_ptr_array_free(m->uids, TRUE);
+
 }
 
-static const mail_operation_spec op_transfer_messages = {
-	describe_transfer_messages,
-	0,
-	setup_transfer_messages,
-	do_transfer_messages,
-	cleanup_transfer_messages
+static struct _mail_msg_op transfer_messages_op = {
+	transfer_messages_desc,
+	transfer_messages_transfer,
+	NULL,
+	transfer_messages_free,
 };
 
 void
@@ -944,19 +885,20 @@ mail_do_transfer_messages (CamelFolder *source, GPtrArray *uids,
 			   gboolean delete_from_source,
 			   gchar *dest_uri)
 {
-	transfer_messages_input_t *input;
+	struct _transfer_msg *m;
 
 	g_return_if_fail (CAMEL_IS_FOLDER (source));
 	g_return_if_fail (uids != NULL);
 	g_return_if_fail (dest_uri != NULL);
 
-	input = g_new (transfer_messages_input_t, 1);
-	input->source = source;
-	input->uids = uids;
-	input->delete_from_source = delete_from_source;
-	input->dest_uri = g_strdup (dest_uri);
+	m = mail_msg_new(&transfer_messages_op, NULL, sizeof(*m));
+	m->source = source;
+	camel_object_ref((CamelObject *)source);
+	m->uids = uids;
+	m->delete = delete_from_source;
+	m->dest_uri = g_strdup (dest_uri);
 
-	mail_operation_queue (&op_transfer_messages, input, TRUE);
+	e_thread_put(mail_thread_queued, (EMsg *)m);
 }
 
 /* ** SCAN SUBFOLDERS ***************************************************** */
@@ -1559,82 +1501,6 @@ mail_get_messages(CamelFolder *folder, GPtrArray *uids,
 	m->done = done;
 
 	e_thread_put(mail_thread_new, (EMsg *)m);
-}
-
-
-/* dum de dum, below is an entirely async 'operation' thingy */
-struct _op_data {
-	void *out;
-	void *in;
-	CamelException *ex;
-	const mail_operation_spec *op;
-	int pipe[2];
-	int free;
-	GIOChannel *channel;
-};
-
-static void *
-runthread(void *oin)
-{
-	struct _op_data *o = oin;
-
-	o->op->callback(o->in, o->out, o->ex);
-
-	printf("thread run, sending notificaiton\n");
-
-	write(o->pipe[1], "", 1);
-
-	return oin;
-}
-
-static gboolean
-runcleanup(GIOChannel *source, GIOCondition cond, void *d)
-{
-	struct _op_data *o = d;
-
-	printf("got notification, blup\n");
-
-	o->op->cleanup(o->in, o->out, o->ex);
-
-	/*close(o->pipe[0]);*/
-	close(o->pipe[1]);
-
-	if (o->free)
-		g_free(o->in);
-	g_free(o->out);
-	camel_exception_free(o->ex);
-	g_free(o);
-
-	g_io_channel_unref(source);
-
-	return FALSE;
-}
-
-#include <pthread.h>
-
-/* quick hack, like queue, but it runs it instantly in a new thread ! */
-int
-mail_operation_run(const mail_operation_spec *op, void *in, int free)
-{
-	struct _op_data *o;
-	pthread_t id;
-
-	o = g_malloc0(sizeof(*o));
-	o->op = op;
-	o->in = in;
-	o->out = g_malloc0(op->datasize);
-	o->ex = camel_exception_new();
-	o->free = free;
-	pipe(o->pipe);
-
-	o->channel = g_io_channel_unix_new(o->pipe[0]);
-	g_io_add_watch(o->channel, G_IO_IN, (GIOFunc)runcleanup, o);
-
-	o->op->setup(o->in, o->out, o->ex);
-
-	pthread_create(&id, 0, runthread, o);
-
-	return TRUE;
 }
 
 /* ** SAVE MESSAGES ******************************************************* */

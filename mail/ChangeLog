@@ -1,3 +1,33 @@
+2001-02-21  Not Zed  <NotZed@Ximian.com>
+
+	* mail-callbacks.c (composer_postpone_cb): Fix for api changes to
+	append_mail.
+
+	* Makefile.am (evolution_mail_SOURCES): Removed mail-threads.[ch].
+
+	* mail-threads.[ch]: Removed.
+
+	* subscribe-dialog.c (subscribe_do_get_store): Chagned to use new
+	thread stuff.  This is really getting boring.
+	(subscribe_do_subscribe_folder): Changed to use new thread stuff.
+	Last one at last, phew.
+
+	* session.c (register_callback): Changed to use new thread stuff.
+	YUCK.  I dropped some functionality, now the timeout callback
+	return is ignored, so basically it keeps running till finished.
+
+	* mail-ops.c (mail_operation_run): Removed, no longer used/needed.
+	(mail_do_append_mail): Changed to use new thread stuff.
+	(mail_do_transfer_messages): ditto.
+
+	* mail-local.c (local_storage_new_folder_cb): Use new thread
+	stuff, also only run synchronous for this operation.
+	(mail_local_reconfigure_folder): 
+	(reconfigure_clicked): Changed to use new mail thread stuff.
+
+	* mail-config.c (mail_config_check_service): Changed to use new
+	thread stuff.
+
 2001-02-20  Dan Winship  <danw@ximian.com>
 
 	* mail-vtrash.c (get_trash_get): Pass NULL, not "/" for @top.

@@ -30,16 +30,15 @@
 
 #include "filter/filter-context.h"
 
-#include "mail-threads.h"
 #include "evolution-storage.h"	/*EvolutionStorage */
 #include "e-util/e-msgport.h"
 
 /* utility functions */
 FilterContext *mail_load_filter_context(void);
 
-void mail_do_append_mail (CamelFolder *folder,
-			  CamelMimeMessage *message,
-			  CamelMessageInfo *info);
+void mail_append_mail (CamelFolder *folder, CamelMimeMessage *message, CamelMessageInfo *info,
+		       void (*done)(CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, void *data), void *data);
+
 void mail_do_transfer_messages (CamelFolder *source, GPtrArray *uids,
 				gboolean delete_from_source,
 				gchar *dest_uri);

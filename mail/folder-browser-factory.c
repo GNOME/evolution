@@ -254,8 +254,7 @@ control_activate (BonoboControl     *control,
 	
 	update_pixmaps (uic);
 
-	/* this doesn't actually appear to work ? */
-        /*bonobo_ui_component_set_prop(uic, "/Toolbar/Stop", "sensitive", "0", NULL);*/
+        bonobo_ui_component_set_prop(uic, "/commands/MailStop", "sensitive", "0", NULL);
 
 	bonobo_ui_component_thaw (uic, NULL);
 }

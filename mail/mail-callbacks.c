@@ -365,7 +365,7 @@ composer_postpone_cb (EMsgComposer *composer, gpointer data)
 	camel_medium_add_header (CAMEL_MEDIUM (message), "X-Evolution-Transport", account->transport->url);
 	
 	/* Save the message in Outbox */
-	mail_do_append_mail (outbox_folder, message, NULL);
+	mail_append_mail (outbox_folder, message, NULL, NULL, NULL);
 	
 	if (psd)
 		camel_folder_set_message_flags (psd->folder, psd->uid, psd->flags, psd->flags);

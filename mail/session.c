@@ -25,7 +25,6 @@
 #include <gnome.h>
 #include "mail.h"
 #include "mail-session.h"
-#include "mail-threads.h"
 #include "mail-mt.h"
 
 CamelSession *session;
@@ -173,63 +172,54 @@ mail_session_remember_password (const char *url)
 
 /* ******************** */
 
-typedef struct _timeout_data_s {
+struct _timeout_data {
 	CamelTimeoutCallback cb;
 	gpointer camel_data;
 	gboolean result;
-} timeout_data_t;
+};
 
-static gchar *
-describe_camel_timeout (gpointer in_data, gboolean gerund)
+struct _timeout_msg {
+	struct _mail_msg msg;
+
+	CamelTimeoutCallback cb;
+	gpointer camel_data;
+};
+
+static void timeout_timeout(struct _mail_msg *mm)
 {
-	/* FIXME this is so wrong */
+	struct _timeout_msg *m = (struct _timeout_msg *)mm;
 
-	if (gerund)
-		return g_strdup ("Keeping connection alive");
-	else
-		return g_strdup ("Keep connection alive");
+	/* we ignore the callback result, do we care?? no. */
+	m->cb(m->camel_data);
 }
 
-static void
-noop_camel_timeout (gpointer in_data, gpointer op_data, CamelException *ex)
-{
-}
-
-static void
-do_camel_timeout (gpointer in_data, gpointer op_data, CamelException *ex)
-{
-	timeout_data_t *td = (timeout_data_t *) in_data;
-
-	td->result = (td->cb) (td->camel_data);
-}
-
-static const mail_operation_spec spec_camel_timeout =
-{
-	describe_camel_timeout,
-	0,
-	noop_camel_timeout,
-	do_camel_timeout,
-	noop_camel_timeout
+static struct _mail_msg_op timeout_op = {
+	NULL,
+	timeout_timeout,
+	NULL,
+	NULL,
 };
 
 static gboolean 
 camel_timeout (gpointer data)
 {
-	timeout_data_t *td = (timeout_data_t *) data;
+	struct _timeout_data *td = data;
+	struct _timeout_msg *m;
 
-	if (td->result == FALSE) {
-		g_free (td);
-		return FALSE;
-	}
+	m = mail_msg_new(&timeout_op, NULL, sizeof(*m));
 
-	mail_operation_queue (&spec_camel_timeout, td, FALSE);
+	m->cb = td->cb;
+	m->camel_data = td->camel_data;
+
+	e_thread_put(mail_thread_queued, (EMsg *)m);
+
 	return TRUE;
 }
 
 static guint
 register_callback (guint32 interval, CamelTimeoutCallback cb, gpointer camel_data)
 {
-	timeout_data_t *td;
+	struct _timeout_data *td;
 
 	/* We do this because otherwise the timeout can get called
 	 * more often than the dispatch thread can get rid of it,
@@ -238,13 +228,12 @@ register_callback (guint32 interval, CamelTimeoutCallback cb, gpointer camel_dat
 	 */
 	g_return_val_if_fail (interval > 1000, 0);
 
-	td = g_new (timeout_data_t, 1);
+	td = g_malloc(sizeof(*td));
 	td->result = TRUE;
 	td->cb = cb;
 	td->camel_data = camel_data;
 
-	return gtk_timeout_add_full (interval, camel_timeout, NULL,
-				     td, g_free);
+	return gtk_timeout_add_full(interval, camel_timeout, NULL, td, g_free);
 }
 
 static gboolean

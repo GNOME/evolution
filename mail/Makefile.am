@@ -85,8 +85,6 @@ evolution_mail_SOURCES =		\
 	mail-send-recv.h		\
 	mail-summary.c			\
 	mail-summary.h			\
-	mail-threads.c			\
-	mail-threads.h			\
 	mail-tools.c			\
 	mail-tools.h			\
 	mail-types.h			\

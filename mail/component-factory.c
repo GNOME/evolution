@@ -241,7 +241,6 @@ idle_quit (gpointer user_data)
 	g_hash_table_foreach (storages_hash, free_storage, NULL);
 	g_hash_table_destroy (storages_hash);
 
-	mail_operations_terminate ();
 	gtk_main_quit ();
 
 	return FALSE;

@@ -25,7 +25,7 @@
 #define _SUBSCRIBE_DIALOG_H_
 
 #include "mail-types.h"
-#include "camel.h"
+#include "camel/camel-store.h"
 #include <gtk/gtktable.h>
 #include <gal/e-table/e-tree-model.h>
 #include <bonobo/bonobo-control.h>

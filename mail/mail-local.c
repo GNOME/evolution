@@ -57,7 +57,6 @@
 #include "mail.h"
 #include "mail-local.h"
 #include "mail-tools.h"
-#include "mail-threads.h"
 #include "folder-browser.h"
 #include "mail-mt.h"
 
@@ -437,19 +436,21 @@ local_folder_changed_proxy (CamelObject *folder, gpointer event_data, gpointer u
 			  GINT_TO_POINTER (unread), user_data);
 }
 
-static char *
-describe_register_folder (gpointer in_data, gboolean gerund)
-{
-	if (gerund)
-		return g_strdup (_("Registering local folder"));
-	else
-		return g_strdup (_("Register local folder"));
-}
+/* ********************************************************************** */
+/* Register folder */
+
+struct _register_msg {
+	struct _mail_msg msg;
+
+	MailLocalFolder *local_folder;
+};
+
 
 static void
-do_register_folder (gpointer in_data, gpointer op_data, CamelException *ex)
+register_folder_register(struct _mail_msg *mm)
 {
-	MailLocalFolder *local_folder = in_data;
+	struct _register_msg *m = (struct _register_msg *)mm;
+	MailLocalFolder *local_folder = m->local_folder;
 	char *name, *path = local_folder->uri + 7;
 	struct _local_meta *meta;
 	CamelStore *store;
@@ -460,7 +461,7 @@ do_register_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 	g_free (name);
 
 	name = g_strdup_printf ("%s:%s", meta->format, path);
-	store = camel_session_get_store (session, name, ex);
+	store = camel_session_get_store (session, name, &mm->ex);
 	g_free (name);
 	if (!store) {
 		free_metainfo (meta);
@@ -470,7 +471,7 @@ do_register_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 	flags = CAMEL_STORE_FOLDER_CREATE;
 	if (meta->indexed)
 		flags |= CAMEL_STORE_FOLDER_BODY_INDEX;
-	local_folder->folder = camel_store_get_folder (store, meta->name, flags, ex);
+	local_folder->folder = camel_store_get_folder (store, meta->name, flags, &mm->ex);
 	if (local_folder->folder) {
 		camel_object_hook_event (CAMEL_OBJECT (local_folder->folder),
 					 "folder_changed", local_folder_changed_proxy,
@@ -486,30 +487,36 @@ do_register_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 }
 
 static void
-cleanup_register_folder (gpointer in_data, gpointer op_data, CamelException *ex)
+register_folder_registered(struct _mail_msg *mm)
 {
-	MailLocalFolder *local_folder = in_data;
+	struct _register_msg *m = (struct _register_msg *)mm;
+	MailLocalFolder *local_folder = m->local_folder;
 	int unread;
 
-	if (!local_folder->folder) {
-		free_local_folder(local_folder);
-		return;
+	if (local_folder->folder) {
+		g_hash_table_insert (local_folder->local_store->folders, local_folder->uri + 8, local_folder);
+
+		unread = local_folder->last_unread;
+		local_folder->last_unread = 0;
+		local_folder_changed (CAMEL_OBJECT (local_folder->folder), GINT_TO_POINTER (unread), local_folder);
+		m->local_folder = NULL;
 	}
-
-	g_hash_table_insert (local_folder->local_store->folders, local_folder->uri + 8, local_folder);
-
-	unread = local_folder->last_unread;
-	local_folder->last_unread = 0;
-	local_folder_changed (CAMEL_OBJECT (local_folder->folder), GINT_TO_POINTER (unread), local_folder);
 }
 
-static const mail_operation_spec op_register_folder =
+static void 
+register_folder_free(struct _mail_msg *mm)
 {
-	describe_register_folder,
-	0,
+	struct _register_msg *m = (struct _register_msg *)mm;
+
+	if (m->local_folder)
+		free_local_folder(m->local_folder);
+}
+
+static struct _mail_msg_op register_folder_op = {
 	NULL,
-	do_register_folder,
-	cleanup_register_folder
+	register_folder_register,
+	register_folder_registered,
+	register_folder_free,
 };
 
 static void
@@ -520,6 +527,8 @@ local_storage_new_folder_cb (EvolutionStorageListener *storage_listener,
 {
 	MailLocalStore *local_store = data;
 	MailLocalFolder *local_folder;
+	struct _register_msg *m;
+	int id;
 
 	if (strcmp (folder->type, "mail") != 0 ||
 	    strncmp (folder->physical_uri, "file://", 7) != 0 ||
@@ -534,31 +543,14 @@ local_storage_new_folder_cb (EvolutionStorageListener *storage_listener,
 	local_folder->local_store = local_store;
 	camel_object_ref((CamelObject *)local_store);
 
-	/* Note: This needs to be synchronous, as that is what the shell
-	   expects.  Doesn't that suck. */
-	/* This used to be made 'synchronous' by having us wait for
-	   outstanding requests, which was BAD */
+	m = mail_msg_new(&register_folder_op, NULL, sizeof(*m));
 
-	/*mail_operation_queue (&op_register_folder, local_folder, FALSE);*/
-	{
-		CamelException *ex = camel_exception_new();
+	m->local_folder = local_folder;
 
-		do_register_folder(local_folder, NULL, ex);
-		cleanup_register_folder(local_folder, NULL, ex);
-
-#if 0
-		/* yay, so we can't do this, because we've probably got the bloody
-		   splash screen up */
-		if (camel_exception_is_set(ex)) {
-			char *msg = g_strdup_printf(_("Unable to register folder '%s':\n%s"),
-						    path, camel_exception_get_description(ex));
-			GnomeDialog *gd = (GnomeDialog *)gnome_error_dialog(msg);
-			gnome_dialog_run_and_close(gd);
-			g_free(msg);
-		}
-#endif
-		camel_exception_free(ex);
-	}
+	/* run synchronous, the shell expects it (I think) */
+	id = m->msg.seq;
+	e_thread_put(mail_thread_queued, (EMsg *)m);
+	mail_msg_wait(id);
 }
 
 static void
@@ -699,15 +691,20 @@ update_progress(char *fmt, float percent)
 
 /* ******************** */
 
-typedef struct reconfigure_folder_input_s {
+/* we should have our own progress bar for this */
+
+struct _reconfigure_msg {
+	struct _mail_msg msg;
+
 	FolderBrowser *fb;
 	gchar *newtype;
 	GtkWidget *frame;
 	GtkWidget *apply;
 	GtkWidget *cancel;
 	GtkOptionMenu *optionlist;
-} reconfigure_folder_input_t;
+};
 
+#if 0
 static gchar *
 describe_reconfigure_folder (gpointer in_data, gboolean gerund)
 {
@@ -722,19 +719,12 @@ describe_reconfigure_folder (gpointer in_data, gboolean gerund)
 					input->fb->uri,
 					input->newtype);
 }
+#endif
 
 static void
-setup_reconfigure_folder (gpointer in_data, gpointer op_data, CamelException *ex)
+reconfigure_folder_reconfigure(struct _mail_msg *mm)
 {
-	reconfigure_folder_input_t *input = (reconfigure_folder_input_t *) in_data;
-
-	gtk_object_ref (GTK_OBJECT (input->fb));
-}
-
-static void
-do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
-{
-	reconfigure_folder_input_t *input = (reconfigure_folder_input_t *) in_data;
+	struct _reconfigure_msg *m = (struct _reconfigure_msg *)mm;
 	MailLocalFolder *local_folder = NULL;
 	CamelStore *fromstore = NULL, *tostore = NULL;
 	char *fromurl = NULL, *tourl = NULL;
@@ -747,21 +737,21 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 	struct _local_meta *meta = NULL;
 	guint32 flags;
 
-	d(printf("reconfiguring folder: %s to type %s\n", input->fb->uri, input->newtype));
+	d(printf("reconfiguring folder: %s to type %s\n", m->fb->uri, m->newtype));
 
 	mail_status_start(_("Reconfiguring folder"));
 
 	/* NOTE: This var is cleared by the folder_browser via the set_uri method */
-	input->fb->reconfigure = TRUE;
+	m->fb->reconfigure = TRUE;
 
 	/* get the actual location of the mailbox */
-	url = camel_url_new(input->fb->uri, ex);
-	if (camel_exception_is_set(ex)) {
-		g_warning("%s is not a workable url!", input->fb->uri);
+	url = camel_url_new(m->fb->uri, &mm->ex);
+	if (camel_exception_is_set(&mm->ex)) {
+		g_warning("%s is not a workable url!", m->fb->uri);
 		goto cleanup;
 	}
 
-	tmpname = strchr (input->fb->uri, '/');
+	tmpname = strchr (m->fb->uri, '/');
 	if (tmpname) {
 		while (*tmpname == '/')
 			tmpname++;
@@ -769,7 +759,7 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 	} else
 		local_folder = NULL;
 	if (!local_folder) {
-		g_warning("%s is not a registered local folder!", input->fb->uri);
+		g_warning("%s is not a registered local folder!", m->fb->uri);
 		goto cleanup;
 	}
 
@@ -779,7 +769,7 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 
 	/* first, 'close' the old folder */
 	update_progress(_("Closing current folder"), 0.0);
-	camel_folder_sync(local_folder->folder, FALSE, ex);
+	camel_folder_sync(local_folder->folder, FALSE, &mm->ex);
 	camel_object_unhook_event(CAMEL_OBJECT (local_folder->folder),
 				  "folder_changed", local_folder_changed_proxy,
 				  local_folder);
@@ -789,22 +779,22 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 	/* Once for the FolderBrowser, once for the local store */
 	camel_object_unref(CAMEL_OBJECT(local_folder->folder));
 	camel_object_unref(CAMEL_OBJECT(local_folder->folder));
-	local_folder->folder = input->fb->folder = NULL;
+	local_folder->folder = m->fb->folder = NULL;
 
 	camel_url_set_protocol (url, meta->format);
 	fromurl = camel_url_to_string (url, FALSE);
-	camel_url_set_protocol (url, input->newtype);
+	camel_url_set_protocol (url, m->newtype);
 	tourl = camel_url_to_string (url, FALSE);
 
 	d(printf("opening stores %s and %s\n", fromurl, tourl));
 
-	fromstore = camel_session_get_store(session, fromurl, ex);
+	fromstore = camel_session_get_store(session, fromurl, &mm->ex);
 
-	if (camel_exception_is_set(ex))
+	if (camel_exception_is_set(&mm->ex))
 		goto cleanup;
 
-	tostore = camel_session_get_store(session, tourl, ex);
-	if (camel_exception_is_set(ex))
+	tostore = camel_session_get_store(session, tourl, &mm->ex);
+	if (camel_exception_is_set(&mm->ex))
 		goto cleanup;
 
 	/* rename the old mbox and open it again, without indexing */
@@ -812,17 +802,17 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 	d(printf("renaming %s to %s, and opening it\n", meta->name, tmpname));
 	update_progress(_("Renaming old folder and opening"), 0.0);
 
-	camel_store_rename_folder(fromstore, meta->name, tmpname, ex);
-	if (camel_exception_is_set(ex)) {
+	camel_store_rename_folder(fromstore, meta->name, tmpname, &mm->ex);
+	if (camel_exception_is_set(&mm->ex)) {
 		goto cleanup;
 	}
 	
 	/* we dont need to set the create flag ... or need an index if it has one */
-	fromfolder = camel_store_get_folder(fromstore, tmpname, 0, ex);
-	if (fromfolder == NULL || camel_exception_is_set(ex)) {
+	fromfolder = camel_store_get_folder(fromstore, tmpname, 0, &mm->ex);
+	if (fromfolder == NULL || camel_exception_is_set(&mm->ex)) {
 		/* try and recover ... */
-		camel_exception_clear (ex);
-		camel_store_rename_folder(fromstore, tmpname, meta->name, ex);
+		camel_exception_clear (&mm->ex);
+		camel_store_rename_folder(fromstore, tmpname, meta->name, &mm->ex);
 		goto cleanup;
 	}
 
@@ -833,12 +823,12 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 	flags = CAMEL_STORE_FOLDER_CREATE;
 	if (meta->indexed)
 		flags |= CAMEL_STORE_FOLDER_BODY_INDEX;
-	tofolder = camel_store_get_folder(tostore, meta->name, flags, ex);
-	if (tofolder == NULL || camel_exception_is_set(ex)) {
+	tofolder = camel_store_get_folder(tostore, meta->name, flags, &mm->ex);
+	if (tofolder == NULL || camel_exception_is_set(&mm->ex)) {
 		d(printf("cannot open destination folder\n"));
 		/* try and recover ... */
-		camel_exception_clear (ex);
-		camel_store_rename_folder(fromstore, tmpname, meta->name, ex);
+		camel_exception_clear (&mm->ex);
+		camel_store_rename_folder(fromstore, tmpname, meta->name, &mm->ex);
 		goto cleanup;
 	}
 
@@ -846,23 +836,23 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 	uids = camel_folder_get_uids(fromfolder);
 	for (i=0;i<uids->len;i++) {
 		mail_statusf("Copying message %d of %d", i, uids->len);
-		camel_folder_move_message_to(fromfolder, uids->pdata[i], tofolder, ex);
-		if (camel_exception_is_set(ex)) {
+		camel_folder_move_message_to(fromfolder, uids->pdata[i], tofolder, &mm->ex);
+		if (camel_exception_is_set(&mm->ex)) {
 			camel_folder_free_uids(fromfolder, uids);
 			goto cleanup;
 		}
 	}
 	camel_folder_free_uids(fromfolder, uids);
-	camel_folder_expunge(fromfolder, ex);
+	camel_folder_expunge(fromfolder, &mm->ex);
 
 	d(printf("delete old mbox ...\n"));
-	camel_store_delete_folder(fromstore, tmpname, ex);
+	camel_store_delete_folder(fromstore, tmpname, &mm->ex);
 
 	/* switch format */
 	g_free(meta->format);
-	meta->format = g_strdup(input->newtype);
+	meta->format = g_strdup(m->newtype);
 	if (save_metainfo(meta) == -1) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+		camel_exception_setv (&mm->ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot save folder metainfo; "
 					"you'll probably find you can't\n"
 					"open this folder anymore: %s"),
@@ -870,8 +860,15 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 	}
 
  cleanup:
-	if (local_folder && !local_folder->folder)
-		do_register_folder (local_folder, NULL, ex);
+	if (local_folder && !local_folder->folder) {
+		struct _register_msg *rm = mail_msg_new(&register_folder_op, NULL, sizeof(*m));
+
+		/* fake the internal part of this operation, nasty hackish thing */
+		rm->local_folder = local_folder;
+		register_folder_register((struct _mail_msg *)rm);
+		rm->local_folder = NULL;
+		mail_msg_free((struct _mail_msg *)rm);
+	}
 	if (tofolder)
 		camel_object_unref (CAMEL_OBJECT (tofolder));
 	if (fromfolder)
@@ -889,58 +886,60 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 }
 
 static void
-cleanup_reconfigure_folder  (gpointer in_data, gpointer op_data, CamelException *ex)
+reconfigure_folder_reconfigured(struct _mail_msg *mm)
 {
-	reconfigure_folder_input_t *input = (reconfigure_folder_input_t *) in_data;
+	struct _reconfigure_msg *m = (struct _reconfigure_msg *)mm;
 	char *uri;
 
-	if (camel_exception_is_set(ex)) {
+	if (camel_exception_is_set(&mm->ex)) {
 		gnome_error_dialog (_("If you can no longer open this mailbox, then\n"
 				      "you may need to repair it manually."));
 	}
 
 	/* force a reload of the newly formatted folder */
 	d(printf("opening new source\n"));
-	uri = g_strdup(input->fb->uri);
-	folder_browser_set_uri(input->fb, uri);
+	uri = g_strdup(m->fb->uri);
+	folder_browser_set_uri(m->fb, uri);
 	g_free(uri);
-
-	mail_status_end();
-
-	gtk_object_unref (GTK_OBJECT (input->fb));
-	g_free (input->newtype);
 }
 
-static const mail_operation_spec op_reconfigure_folder =
+static void
+reconfigure_folder_free(struct _mail_msg *mm)
 {
-	describe_reconfigure_folder,
-	0,
-	setup_reconfigure_folder,
-	do_reconfigure_folder,
-	cleanup_reconfigure_folder
+	struct _reconfigure_msg *m = (struct _reconfigure_msg *)mm;
+
+	gtk_object_unref (GTK_OBJECT (m->fb));
+	g_free (m->newtype);
+}
+
+static struct _mail_msg_op reconfigure_folder_op = {
+	NULL,
+	reconfigure_folder_reconfigure,
+	reconfigure_folder_reconfigured,
+	reconfigure_folder_free,
 };
 
 static void
-reconfigure_clicked(GnomeDialog *d, int button, reconfigure_folder_input_t *data)
+reconfigure_clicked(GnomeDialog *d, int button, struct _reconfigure_msg *m)
 {
 	if (button == 0) {
 		GtkMenu *menu;
 		int type;
 		char *types[] = { "mbox", "maildir", "mh" };
 
-		menu = (GtkMenu *)gtk_option_menu_get_menu(data->optionlist);
+		menu = (GtkMenu *)gtk_option_menu_get_menu(m->optionlist);
 		type = g_list_index(GTK_MENU_SHELL(menu)->children, gtk_menu_get_active(menu));
 		if (type < 0 || type > 2)
 			type = 0;
 
-		gtk_widget_set_sensitive(data->frame, FALSE);
-		gtk_widget_set_sensitive(data->apply, FALSE);
-		gtk_widget_set_sensitive(data->cancel, FALSE);
+		gtk_widget_set_sensitive(m->frame, FALSE);
+		gtk_widget_set_sensitive(m->apply, FALSE);
+		gtk_widget_set_sensitive(m->cancel, FALSE);
 
-		data->newtype = g_strdup (types[type]);
-		mail_operation_queue (&op_reconfigure_folder, data, TRUE);
+		m->newtype = g_strdup (types[type]);
+		e_thread_put(mail_thread_queued, (EMsg *)m);
 	} else
-		g_free (data);
+		mail_msg_free((struct _mail_msg *)m);
 
 	if (button != -1)
 		gnome_dialog_close(d);
@@ -952,31 +951,31 @@ mail_local_reconfigure_folder(FolderBrowser *fb)
 	CamelStore *store;
 	GladeXML *gui;
 	GnomeDialog *gd;
-	reconfigure_folder_input_t *data;
+	struct _reconfigure_msg *m;
 
 	if (fb->folder == NULL) {
 		g_warning("Trying to reconfigure nonexistant folder");
 		return;
 	}
 
-	data = g_new (reconfigure_folder_input_t, 1);
-
+	m = mail_msg_new(&reconfigure_folder_op, NULL, sizeof(*m));
 	store = camel_folder_get_parent_store(fb->folder);
 
 	gui = glade_xml_new(EVOLUTION_GLADEDIR "/local-config.glade", "dialog_format");
 	gd = (GnomeDialog *)glade_xml_get_widget (gui, "dialog_format");
 
-	data->frame = glade_xml_get_widget (gui, "frame_format");
-	data->apply = glade_xml_get_widget (gui, "apply_format");
-	data->cancel = glade_xml_get_widget (gui, "cancel_format");
-	data->optionlist = (GtkOptionMenu *)glade_xml_get_widget (gui, "option_format");
-	data->newtype = NULL;
-	data->fb = fb;
+	m->frame = glade_xml_get_widget (gui, "frame_format");
+	m->apply = glade_xml_get_widget (gui, "apply_format");
+	m->cancel = glade_xml_get_widget (gui, "cancel_format");
+	m->optionlist = (GtkOptionMenu *)glade_xml_get_widget (gui, "option_format");
+	m->newtype = NULL;
+	m->fb = fb;
+	gtk_object_ref((GtkObject *)fb);
 
 	gtk_label_set_text((GtkLabel *)glade_xml_get_widget (gui, "label_format"),
 			   ((CamelService *)store)->url->protocol);
 
-	gtk_signal_connect((GtkObject *)gd, "clicked", reconfigure_clicked, data);
+	gtk_signal_connect((GtkObject *)gd, "clicked", reconfigure_clicked, m);
 	gtk_object_unref((GtkObject *)gui);
 
 	gnome_dialog_run_and_close (GNOME_DIALOG (gd));
