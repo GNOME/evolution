@@ -3113,22 +3113,3 @@ header_msgid_generate (void)
 	return g_strdup_printf ("%d.%d.%d.camel@%s.%s", (gint) time (NULL), getpid (), count++,
 				(host && *host) ? host : "unknown.host", (domain && *domain) ? domain : "unknown.domain");
 }
-
-gchar *
-mime_guess_type_from_file_name (const gchar *file_name)
-{
-	GnomeVFSFileInfo info;
-	GnomeVFSResult result;
-
-	result = gnome_vfs_get_file_info (file_name, &info,
-					  GNOME_VFS_FILE_INFO_GET_MIME_TYPE |
-					  GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
-	if (result == GNOME_VFS_OK) {
-		gchar *type;
-
-		type = g_strdup (gnome_vfs_file_info_get_mime_type (&info));
-		gnome_vfs_file_info_unref (&info);
-		return type;
-	} else
-		return NULL;
-}

@@ -1,3 +1,8 @@
+2000-11-15  Radek Doulik  <rodo@helixcode.com>
+
+	* camel-mime-utils.c: mime_guess_type_from_file_name moved back to
+	composer as it introduced unwanted VFS dependency
+
 2000-11-15  Not Zed  <NotZed@HelixCode.com>
 
 	* providers/Makefile.am: Removed local again, not quite ready.
