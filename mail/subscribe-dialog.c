@@ -229,9 +229,7 @@ get_short_folderinfo_get (struct _mail_msg *mm)
 {
 	struct _get_short_folderinfo_msg *m = (struct _get_short_folderinfo_msg *) mm;
 
-	camel_operation_register (mm->cancel);
 	m->info = camel_store_get_folder_info (m->ftree->store, m->prefix, CAMEL_STORE_FOLDER_INFO_FAST, &mm->ex);
-	camel_operation_unregister (mm->cancel);
 }
 
 static void

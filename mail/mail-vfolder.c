@@ -308,9 +308,11 @@ mail_vfolder_add_uri(CamelStore *store, const char *uri, int remove)
 	if (CAMEL_IS_VEE_STORE(store) || !strncmp(uri, "vtrash:", 7))
 		return;
 
+	g_assert(pthread_self() == mail_gui_thread);
+
 	LOCK();
 
-	d(printf("Removing uri to check: %s\n", remove?"Removing":"Adding", uri));
+	d(printf("%s uri to check: %s\n", remove?"Removing":"Adding", uri));
 
 	/* maintain the source folders lists for changed rules later on */
 	if (remove) {
@@ -368,9 +370,7 @@ mail_vfolder_add_uri(CamelStore *store, const char *uri, int remove)
 void
 mail_vfolder_delete_uri(CamelStore *store, const char *uri)
 {
-	int remote = (((CamelService *)store)->provider->flags & CAMEL_PROVIDER_IS_REMOTE) != 0;
 	GCompareFunc uri_cmp = CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->compare_folder_name;
-	GList *link;
 	FilterRule *rule;
 	const char *source;
 	CamelVeeFolder *vf;
@@ -387,41 +387,22 @@ mail_vfolder_delete_uri(CamelStore *store, const char *uri)
 
 	LOCK();
 
-	/* maintain remote/local lists */
-	if (remote) {
-		if ((link = my_list_find(source_folders_remote, (void *)uri, uri_cmp)) != NULL) {
-			g_free(link->data);
-			source_folders_remote = g_list_remove_link(source_folders_remote, link);
-		}
-	} else {
-		if ((link = my_list_find(source_folders_local, (void *)uri, uri_cmp)) != NULL) {
-			g_free(link->data);
-			source_folders_local = g_list_remove_link(source_folders_local, link);
-		}
-	}
-
-	/* check to see if a rule needs updating, if it does, make out it changed which will re-build it */
+	/* see if any rules directly reference this removed uri */
  	rule = NULL;
 	while ( (rule = rule_context_next_rule((RuleContext *)context, rule, NULL)) ) {
-		int found = FALSE;
-
 		source = NULL;
-		while ( !found && (source = vfolder_rule_next_source((VfolderRule *)rule, source)) )
-			found = uri_cmp(uri, source);
-
-		if (found
-		    || (rule->source
-			&& ((!strcmp(rule->source, "local") && !remote)
-			    || (!strcmp(rule->source, "remote_active") && remote)
-			    || (!strcmp(rule->source, "local_remote_active"))))) {
-
-			vf = g_hash_table_lookup(vfolder_hash, rule->name);
-			g_assert(vf);
-			if (source) {
+		while ( (source = vfolder_rule_next_source((VfolderRule *)rule, source)) ) {
+			/* Remove all sources that match, ignore changed events though
+			   because the adduri call above does the work async */
+			if (uri_cmp(uri, source)) {
+				vf = g_hash_table_lookup(vfolder_hash, rule->name);
+				g_assert(vf);
+				gtk_signal_disconnect_by_func((GtkObject *)rule, rule_changed, vf);
 				vfolder_rule_remove_source((VfolderRule *)rule, source);
+				gtk_signal_connect((GtkObject *)rule, "changed", rule_changed, vf);
 				g_string_sprintfa(changed, "    %s\n", rule->name);
-			} else
-				rule_changed(rule, (CamelFolder *)vf);
+				source = NULL;
+			}
 		}
 	}
 

@@ -75,6 +75,10 @@ struct _store_info {
 
 static GHashTable *stores;
 
+static void free_folder_info(char *path, struct _folder_info *mfi, void *data);
+static void unset_folder_info(struct _folder_info *mfi, int delete);
+
+
 /* This is how unread counts work (and don't work):
  *
  * camel_folder_unread_message_count() only gives a correct answer if
@@ -308,13 +312,22 @@ store_folder_created(CamelObject *o, void *event_data, void *data)
 
 
 static void
-real_folder_deleted(CamelStore *store, void *event_data, CamelFolderInfo *fi)
+real_folder_deleted(CamelStore *store, struct _store_info *si, CamelFolderInfo *fi)
 {
-	d(printf("real_folder_deleted: %s (%s)\n", fi->full_name, fi->url));
-	
-	if (strstr(fi->url, ";noselect") == NULL)
-		mail_vfolder_delete_uri(store, fi->url);
+	struct _folder_info *mfi;
 
+	d(printf("real_folder_deleted: %s (%s)\n", fi->full_name, fi->url));
+
+	LOCK(info_lock);
+	mfi = g_hash_table_lookup(si->folders, fi->full_name);
+	if (mfi) {
+		g_hash_table_remove(si->folders, mfi->full_name);
+		g_hash_table_remove(si->folders_uri, mfi->uri);
+		unset_folder_info(mfi, TRUE);
+		free_folder_info(NULL, mfi, NULL);
+	}
+	UNLOCK(info_lock);
+	
 	camel_object_unref((CamelObject *)store);
 	camel_folder_info_free(fi);
 }
@@ -345,7 +358,7 @@ store_folder_deleted(CamelObject *o, void *event_data, void *data)
 }
 
 static void
-unset_folder_info(char *path, struct _folder_info *mfi, void *data)
+unset_folder_info(struct _folder_info *mfi, int delete)
 {
 	if (mfi->folder) {
 		CamelFolder *folder = mfi->folder;
@@ -356,9 +369,20 @@ unset_folder_info(char *path, struct _folder_info *mfi, void *data)
 		camel_object_unhook_event((CamelObject *)folder, "finalize", folder_finalised, mfi);
 	}
 
-	if (strstr(mfi->uri, ";noselect") == NULL)
-		mail_vfolder_add_uri(mfi->store_info->store, mfi->uri, TRUE);
+	if (strstr(mfi->uri, ";noselect") == NULL) {
+		if (delete)
+			mail_vfolder_delete_uri(mfi->store_info->store, mfi->uri);
+		else
+			mail_vfolder_add_uri(mfi->store_info->store, mfi->uri, TRUE);
+	}
 }
+
+static void
+unset_folder_info_hash(char *path, struct _folder_info *mfi, void *data)
+{
+	unset_folder_info(mfi, FALSE);
+}
+
 
 static void
 free_folder_info(char *path, struct _folder_info *mfi, void *data)
@@ -386,12 +410,13 @@ store_finalised(CamelObject *o, void *event_data, void *data)
 		camel_object_unhook_event((CamelObject *)store, "folder_unsubscribed", store_folder_unsubscribed, NULL);
 		camel_object_unhook_event((CamelObject *)store, "finalize", store_finalised, NULL);
 
-		g_hash_table_foreach(si->folders, (GHFunc)unset_folder_info, NULL);
+		g_hash_table_foreach(si->folders, (GHFunc)unset_folder_info_hash, NULL);
 		UNLOCK(info_lock);
 		mail_async_event_destroy(si->async_event);
 		LOCK(info_lock);
 		g_hash_table_foreach(si->folders, (GHFunc)free_folder_info, NULL);
 		g_hash_table_destroy(si->folders);
+		g_hash_table_destroy(si->folders_uri);
 		g_free(si);
 	}
 	UNLOCK(info_lock);

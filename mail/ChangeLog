@@ -1,4 +1,13 @@
+2001-10-19    <NotZed@Ximian.com>
+
+	* mail-folder-cache.c (store_finalised): Free folders_uri.
+	(real_folder_deleted): If folder is deleted, remove it from the
+	hashtables.
+
 2001-10-18    <NotZed@Ximian.com>
+
+	* subscribe-dialog.c (get_short_folderinfo_get): Remove the
+	register/unregister, they're already done above us.
 
 	* mail-vfolder.c (vfolder_adduri): Added remove flag - its not
 	adduri, its removeuri, its less typing than creating a removeuri.
@@ -8,6 +17,9 @@
 	(mail_vfolder_add_uri): Added remove flag.
 	(rule_changed): When adding existing folders to a new rule, strdup
 	the list data.
+	(mail_vfolder_delete_uri): Dont do any work to remove the actual
+	folder from the vfolder (we'd have to look it up first), let the
+	vfolder remove it itself.  Just update the rules.
 
 	* mail-folder-cache.c (store_finalised): Unhook from all events
 	when done.
