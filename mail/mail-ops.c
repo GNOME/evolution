@@ -28,6 +28,7 @@
 #include <config.h>
 #include <gnome.h>
 #include <ctype.h>
+#include <camel/camel-mime-filter-from.h>
 #include "mail.h"
 #include "mail-threads.h"
 #include "mail-tools.h"
@@ -2441,24 +2442,25 @@ static void
 do_save_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	save_messages_input_t *input = (save_messages_input_t *) in_data;
-	CamelFolder *dest_folder;
+	CamelStreamFilter *filtered_stream;
+	CamelMimeFilterFrom *from_filter;
+	CamelStream *stream;
 	time_t last_update = 0;
-	char *dir, *name, *url;
-	int i;
+	int fd, fid, i;
 	
-	name = g_basename (input->path);
-	dir = g_dirname (input->path);
-	url = g_strdup_printf ("mbox://%s", dir);
-	g_free (dir);
-	dest_folder = mail_tool_get_folder_from_urlname (url, name, CAMEL_STORE_FOLDER_CREATE, ex);
-	g_free (url);
-	
-	if (camel_exception_is_set (ex))
+	fd = open (input->path, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	if (fd == -1)
 		return;
 	
 	mail_tool_camel_lock_up ();
 	
+	stream = camel_stream_fs_new_with_fd (fd);
+	from_filter = camel_mime_filter_from_new ();
+	filtered_stream = camel_stream_filter_new_with_stream (stream);
+	fid = camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (from_filter));
+	
 	for (i = 0; i < input->uids->len; i++) {
+		CamelMimeMessage *message;
 		const gboolean last_message = (i+1 == input->uids->len);
 		time_t now;
 		
@@ -2472,21 +2474,79 @@ do_save_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 			last_update = now;
 		}
 		
-		camel_folder_copy_message_to (input->folder, input->uids->pdata[i], dest_folder, NULL);
-		
+		message = camel_folder_get_message (input->folder, input->uids->pdata[i], ex);
 		g_free (input->uids->pdata[i]);
+		if (message && !camel_exception_is_set (ex)) {
+			struct _header_address *addr = NULL;
+			struct _header_raw *headers;
+			const char *sender, *str;
+			char *date_str;
+			time_t date;
+			int offset;
+			
+			/* first we must write the "From " line */
+			camel_stream_write (stream, "From ", 5);
+			headers = CAMEL_MIME_PART (message)->headers;
+			
+			/* try to use the sender header */
+			sender = header_raw_find (&headers, "Sender", NULL);
+			if (!sender) {
+				/* okay, try the field */
+				sender = header_raw_find (&headers, "From", NULL);
+				addr = header_address_decode (sender);
+				sender = NULL;
+				if (addr) {
+					if (addr->type == HEADER_ADDRESS_NAME)
+						sender = addr->v.addr;
+					else
+						sender = NULL;
+				}
+				
+				if (!sender)
+					sender = "unknown@nodomain.com";
+			}
+			for ( ; *sender && isspace ((unsigned char) *sender); sender++);
+			camel_stream_write (stream, sender, strlen (sender));
+			if (addr)
+				header_address_unref (addr);
+			
+			/* try to use the received header to get the date */
+			str = header_raw_find (&headers, "Received", NULL);
+			if (str) {
+				str = strrchr (str, ';');
+				if (str)
+					str++;
+			}
+			
+			/* if there isn't one, try the Date field */
+			if (!str)
+				str = header_raw_find (&headers, "Date", NULL);
+			
+			date = header_decode_date (str, &offset);
+			date += ((offset / 100) * (60 * 60)) + (offset % 100) * 60;
+			
+			date_str = header_format_date (date, offset);
+			camel_stream_printf (stream, " %s\n", date_str);
+			g_free (date_str);
+			
+			/* now write the message data */
+			camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), CAMEL_STREAM (filtered_stream));
+			camel_object_unref (CAMEL_OBJECT (message));
+		} else {
+			break;
+		}
 	}
+	
+	camel_stream_flush (CAMEL_STREAM (filtered_stream));
 	
 	g_ptr_array_free (input->uids, TRUE);
 	
-	camel_object_unref (CAMEL_OBJECT (dest_folder));
+	camel_stream_filter_remove (filtered_stream, fid);
+	camel_object_unref (CAMEL_OBJECT (from_filter));
+	camel_object_unref (CAMEL_OBJECT (filtered_stream));
+	camel_object_unref (CAMEL_OBJECT (stream));
 	
 	mail_tool_camel_lock_down ();
-	
-	/* FIXME: temp hack: now to remove the summary file */
-	name = g_strdup_printf ("%s.ev-summary", input->path);
-	unlink (name);
-	g_free (name);
 }
 
 static void

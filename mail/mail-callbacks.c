@@ -500,7 +500,7 @@ forward_message (FolderBrowser *fb, gboolean attach)
 	if (attach)
 		message_list_foreach (fb->message_list, enumerate_msg, uids);
 	else
-		g_ptr_array_add (uids, fb->message_list->cursor_uid);
+		g_ptr_array_add (uids, g_strdup (fb->message_list->cursor_uid));
 	
 	gtk_signal_connect (GTK_OBJECT (composer), "send",
 			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
@@ -679,14 +679,36 @@ save_msg_ok (GtkWidget *widget, gpointer user_data)
 	CamelFolder *folder;
 	GPtrArray *uids;
 	char *path;
+	int fd, ret = 0;
 	
 	/* FIXME: is path an allocated string? */
 	path = gtk_file_selection_get_filename (GTK_FILE_SELECTION (user_data));
 	
-	folder = gtk_object_get_data (GTK_OBJECT (user_data), "folder");
-	uids = gtk_object_get_data (GTK_OBJECT (user_data), "uids");
-	gtk_object_remove_no_notify (GTK_OBJECT (user_data), "uids");
-	mail_do_save_messages (folder, uids, path);
+        fd = open (path, O_RDONLY);
+	if (fd != -1) {
+		GtkWidget *dlg;
+		GtkWidget *text;
+		
+		close (fd);
+		
+		dlg = gnome_dialog_new (_("Overwrite file?"),
+					GNOME_STOCK_BUTTON_YES, 
+					GNOME_STOCK_BUTTON_NO,
+					NULL);
+		text = gtk_label_new (_("A file by that name already exists.\nOverwrite it?"));
+		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dlg)->vbox), text, TRUE, TRUE, 4);
+		gtk_window_set_policy (GTK_WINDOW (dlg), FALSE, TRUE, FALSE);
+		gtk_widget_show (text);
+		
+		ret = gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
+	}
+	
+	if (ret == 0) {
+		folder = gtk_object_get_data (GTK_OBJECT (user_data), "folder");
+		uids = gtk_object_get_data (GTK_OBJECT (user_data), "uids");
+		gtk_object_remove_no_notify (GTK_OBJECT (user_data), "uids");
+		mail_do_save_messages (folder, uids, path);
+	}
 	
 	gtk_widget_destroy (GTK_WIDGET (user_data));
 }

@@ -1,3 +1,18 @@
+2000-12-08  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-callbacks.c (save_msg_ok): Check to see if the file already
+	exists, if it does prompt the user to for permission to overwrite
+	the file.
+	(forward_message): g_strdup the cursor_uid if there is only a
+	single message to be forwarded or we'll segfault later.
+
+	* mail-ops.c (do_save_messages): Rewrote yet again. I'm back to
+	almost an identical implementation as the first time I wrote this
+	except now we write the From line which I had forgotten last
+	time. This means that we no longer have to unlink the .ev-summary
+	file created and we also use fewer resources (no need to create a
+	CamelMboxFolder object).
+
 2000-12-08  JP Rosevear  <jpr@helixcode.com>
 
 	* folder-browser.c (on_double_click): the e-table double-click
