@@ -1,3 +1,7 @@
+2001-09-10  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-preferences.c: Add Memepool RDF.
+
 2001-09-06  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-preferences.c (e_summary_configure): Don't allow dialogs to
