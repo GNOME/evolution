@@ -1,3 +1,8 @@
+2005-02-09  Jeffrey Stedfast  <fejj@novell.com>
+
+	* message-list.c (message_list_set_folder): Reset the
+	normalised_hash. Fixes bug #33933.
+
 2005-02-09  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #70795
