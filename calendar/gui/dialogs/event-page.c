@@ -711,7 +711,7 @@ summary_changed_cb (GtkEditable *editable, gpointer data)
 	if (priv->updating)
 		return;
 	
-	summary = e_dialog_editable_get (editable);
+	summary = e_dialog_editable_get (GTK_WIDGET (editable));
 	comp_editor_page_notify_summary_changed (COMP_EDITOR_PAGE (epage),
 						 summary);
 	g_free (summary);
@@ -1040,6 +1040,9 @@ init_widgets (EventPage *epage)
 	/* Summary */
 	gtk_signal_connect (GTK_OBJECT (priv->summary), "changed",
 			    GTK_SIGNAL_FUNC (summary_changed_cb), epage);
+
+	/* Description - turn on word wrap. */
+	gtk_text_set_word_wrap (GTK_TEXT (priv->description), TRUE);
 
 	/* Start and end times */
 	gtk_signal_connect (GTK_OBJECT (priv->start_time), "changed",

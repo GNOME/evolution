@@ -28,6 +28,7 @@
 
 #include <string.h>
 #include <gtk/gtksignal.h>
+#include <gtk/gtktext.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtkoptionmenu.h>
@@ -699,6 +700,9 @@ init_widgets (TaskPage *tpage)
 	/* Summary */
 	gtk_signal_connect (GTK_OBJECT (priv->summary), "changed",
 			    GTK_SIGNAL_FUNC (summary_changed_cb), tpage);
+
+	/* Description - turn on word wrap. */
+	gtk_text_set_word_wrap (GTK_TEXT (priv->description), TRUE);
 
 	/* Dates */
 	gtk_signal_connect (GTK_OBJECT (priv->start_date), "changed",

@@ -1,3 +1,9 @@
+2001-08-11  Damon Chaplin  <damon@ximian.com>
+
+	* gui/dialogs/event-page.c (init_widgets): 
+	* gui/dialogs/task-page.c (init_widgets): turn on word-wrap for the
+	description fields. Fixes bug #6821.
+
 2001-08-10  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/cal-search-bar.c: Where we have ESearchBarItems, set their
