@@ -251,9 +251,6 @@ imap_init (CamelFolder *folder, CamelStore *parent_store, CamelFolder *parent_fo
 {
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	CamelStore *store = CAMEL_STORE (parent_store);
-	CamelURL *url = CAMEL_SERVICE (store)->url;
-	int status;
-	char *result, *folder_path, *dir_sep;
 	
 	/* call parent method */
 	parent_class->init (folder, parent_store, parent_folder, name, separator, path_begins_with_sep, ex);
@@ -276,36 +273,9 @@ imap_init (CamelFolder *folder, CamelStore *parent_store, CamelFolder *parent_fo
 		CAMEL_MESSAGE_DELETED |
 		CAMEL_MESSAGE_DRAFT |
 		CAMEL_MESSAGE_USER;
-
 	
  	imap_folder->search = NULL;
 	imap_folder->summary = NULL;
-
-	/* SELECT the IMAP mail spool */
-	dir_sep = CAMEL_IMAP_STORE (folder->parent_store)->dir_sep;
-	
-	if (url && url->path && *(url->path + 1) && strcmp (folder->full_name, "INBOX"))
-		folder_path = g_strdup_printf ("%s%s%s", url->path + 1, dir_sep, folder->full_name);
-	else
-		folder_path = g_strdup (folder->full_name);
-
-	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), NULL,
-					      &result, "SELECT %s", folder_path);
-	if (status != CAMEL_IMAP_OK) {
-		CamelService *service = CAMEL_SERVICE (folder->parent_store);
-		
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not SELECT %s on IMAP server %s: %s.",
-				      folder->full_name, service->url->host, 
-				      result ? result : "Unknown error");
-		
-		CAMEL_IMAP_STORE (store)->current_folder = NULL;
-	} else {
-		/* set as current mailbox */
-		CAMEL_IMAP_STORE (store)->current_folder = folder;
-	}
-	g_free (result);
-	g_free (folder_path);
 }
 
 static void
@@ -393,7 +363,7 @@ imap_expunge (CamelFolder *folder, CamelException *ex)
 
 	imap_summary_free (imap_folder->summary);
 
-	gtk_signal_emit_by_name (GTK_OBJECT (folder), "folder_changed", 0);
+	camel_imap_folder_changed (folder, ex);
 }
 
 static gint
@@ -547,7 +517,7 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, guint32 fla
 	g_free (result);
 	g_free (folder_path);
 
-	gtk_signal_emit_by_name (GTK_OBJECT (folder), "folder_changed", 0);
+	camel_imap_folder_changed (folder, ex);
 }
 
 static void
@@ -583,7 +553,7 @@ imap_copy_message_to (CamelFolder *source, const char *uid, CamelFolder *destina
 	g_free (result);
 	g_free (folder_path);
 
-	gtk_signal_emit_by_name (GTK_OBJECT (destination), "folder_changed", 0);
+	camel_imap_folder_changed (destination, ex);
 }
 
 /* FIXME: Duplication of code! */
@@ -632,7 +602,7 @@ imap_move_message_to (CamelFolder *source, const char *uid, CamelFolder *destina
 
 	imap_set_message_flags (source, uid, CAMEL_MESSAGE_DELETED, ~(info->flags), ex);
 
-	gtk_signal_emit_by_name (GTK_OBJECT (destination), "folder_changed", 0);
+	camel_imap_folder_changed (destination, ex);
 }
 
 static GPtrArray *
@@ -728,7 +698,7 @@ imap_get_subfolder_names_internal (CamelFolder *folder, CamelException *ex)
 		namespace = g_strdup (folder->full_name);
 	}
 	
-	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
+	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), NULL,
 					      &result, "LIST \"\" \"%s%s*\"", namespace,
 					      *namespace ? dir_sep : "");
 	
@@ -1230,7 +1200,20 @@ imap_get_message_info (CamelFolder *folder, const char *uid)
 	int j, status;
 
 	g_return_val_if_fail (*uid != '\0', NULL);
-	
+
+	if (imap_folder->summary) {
+		int max, i;
+
+		max = imap_folder->summary->len;
+		for (i = 0; i < max; i++) {
+			info = g_ptr_array_index (imap_folder->summary, i);
+			if (!strcmp (info->uid, uid))
+				return info;
+		}
+	}
+
+	return NULL;
+#if 0
 	/* lets first check to see if we have the message info cached */
 	if (imap_folder->summary) {
 		int max, i;
@@ -1398,6 +1381,7 @@ imap_get_message_info (CamelFolder *folder, const char *uid)
 	}
 	
 	return info;
+#endif
 }
 
 static GPtrArray *
@@ -1485,4 +1469,12 @@ static void
 imap_set_message_user_flag (CamelFolder *folder, const char *uid, const char *name, gboolean value, CamelException *ex)
 {
 	gtk_signal_emit_by_name (GTK_OBJECT (folder), "message_changed", uid);
+}
+
+void
+camel_imap_folder_changed (CamelFolder *folder, CamelException *ex)
+{
+	imap_get_summary_internal (folder, ex);
+	
+	gtk_signal_emit_by_name (GTK_OBJECT (folder), "folder_changed", 0);
 }

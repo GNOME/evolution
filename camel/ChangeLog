@@ -1,5 +1,11 @@
 2000-07-24  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/imap/camel-imap-folder.c (imap_get_message_info): Updated
+	to port easily to the new Camel API
+	(imap_init): Don't SELECT INBOX, we don't need to do that
+
+2000-07-24  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* providers/imap/camel-imap-folder.c (camel_imap_folder_new): 
 	Initialize the summary and subfolder listing.
 	(imap_summary_free): Now takes a GPtrArray arg rather than a 
