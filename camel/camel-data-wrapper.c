@@ -31,7 +31,7 @@ static GtkObjectClass *parent_class=NULL;
 /* Returns the class for a CamelDataWrapper */
 #define CDW_CLASS(so) CAMEL_DATA_WRAPPER_CLASS (GTK_OBJECT(so)->klass)
 
-static void _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream, guint size);
+static void _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 static void _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 static void _set_mime_type (CamelDataWrapper *data_wrapper, GString *mime_type);
 static GString *_get_mime_type (CamelDataWrapper *data_wrapper);
@@ -133,15 +133,15 @@ camel_data_wrapper_write_to_stream (CamelDataWrapper *data_wrapper, CamelStream 
 
 
 static void
-_construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream, guint size)
+_construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	/* nothing */
 }
 
 void 
-camel_data_wrapper_construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream, guint size)
+camel_data_wrapper_construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
-	CDW_CLASS(data_wrapper)->construct_from_stream (data_wrapper, stream, size);
+	CDW_CLASS(data_wrapper)->construct_from_stream (data_wrapper, stream);
 }
 
 

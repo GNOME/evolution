@@ -27,6 +27,7 @@
 #include "gmime-content-field.h"
 #include "gstring-util.h"
 #include "camel-log.h"
+#include "gmime-utils.h"
 
 
 typedef enum {
@@ -75,6 +76,7 @@ static CamelDataWrapper *_get_content_object(CamelMimePart *mime_part);
 static void _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 
 static gboolean _parse_header_pair (CamelMimePart *mime_part, GString *header_name, GString *header_value);
+void _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 
 
 /* loads in a hash table the set of header names we */
@@ -130,6 +132,7 @@ camel_mime_part_class_init (CamelMimePartClass *camel_mime_part_class)
 	
 	/* virtual method overload */
 	camel_data_wrapper_class->write_to_stream = _write_to_stream;
+	camel_data_wrapper_class->construct_from_stream = _construct_from_stream;
 }
 
 static void
@@ -675,3 +678,37 @@ _parse_header_pair (CamelMimePart *mime_part, GString *header_name, GString *hea
 	} else return FALSE;
 		
 }
+
+/* calls _parse_header_pair, but can be called 
+   in a g_hash_table_for_each */
+void 
+_parse_hash_table_pair (gpointer key, gpointer value, gpointer user_data)
+{
+	GString *header_name = (GString *)key;
+	GString *header_value = (GString *)value;
+	CamelMimePart *mime_part = (CamelMimePart *) user_data;
+
+
+	CAMEL_LOG (FULL_DEBUG,"\n--------- New Header ----------\n");
+	if  ((header_name) && (header_name->str))
+		CAMEL_LOG (FULL_DEBUG, "header name :%s\n", header_name->str);
+	if  ((header_value) && (header_value->str))
+		CAMEL_LOG (FULL_DEBUG, "header value :%s\n", header_value->str);
+
+	camel_mime_part_add_header (mime_part, header_name, header_value);
+	CAMEL_LOG (FULL_DEBUG, "--------- End -----------------\n"); 
+}
+
+void
+_construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
+{
+	GHashTable *header_table;
+	CamelMimePart *mime_part = CAMEL_MIME_PART (data_wrapper);
+
+	header_table = get_header_table_from_stream (stream);
+	if (header_table) {
+		g_hash_table_foreach (header_table, _parse_hash_table_pair, (gpointer)mime_part);
+	}	
+	g_hash_table_destroy (header_table);
+}
+

@@ -1,5 +1,16 @@
 1999-06-28  bertrand  <Bertrand.Guiheneuf@inria.fr>
 
+	* tests/test2.c (main): now use 
+	CamelDataWrapper::contruct_form_stream to test 
+	message parsing
+
+	* camel/camel-data-wrapper.c: 
+	* camel/camel-data-wrapper.h: 
+	construct_from_stream no longer has maximimum size arg.
+
+	* camel/camel-mime-part.c (_construct_from_stream): new.
+	Construct the mime_part from a stream.
+
 	* camel/camel-mime-part.c:
 	new field (content_type) and associated methods.
 	(camel_mime_part_init): initialize content_type field.
