@@ -195,7 +195,6 @@ _open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex)
 {
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);
 	struct dirent *dir_entry;
-	DIR *dir_handle;
 	
 	
 	if (folder->open_state == FOLDER_OPEN) {
@@ -763,6 +762,7 @@ _list_subfolders (CamelFolder *folder, CamelException *ex)
 
 
 
+#if 0
 
 static CamelMimeMessage *
 _get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
@@ -803,9 +803,14 @@ _get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
 #warning Set flags and all this stuff here
 		}
 		g_free (message_file_name);
+
 	} else 
 		CAMEL_LOG_FULL_DEBUG  ("CanelMhFolder::get_message message number = %d, not found\n", number);
 	
 	
 	return message;   
 }
+
+#endif 
+
+

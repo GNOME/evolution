@@ -21,5 +21,26 @@
  * USA
  */
 
+#include <glib.h>
+#include "camel-log.h"
+#include "camel-exception.h"
 
 
+typedef struct {
+
+	guint message_position;
+	gchar *from;
+	gchar *date;
+	gchar *subject;
+	gchar *status;
+	gchar *priority;
+	gchar *references;
+	gchar *body_summary;
+
+} CamelMboxParserMessageInfo;
+
+
+GArray * camel_mbox_find_message_positions (int fd, 
+					    const gchar *message_delimiter,
+					    gint first_position, 
+					    CamelException *ex);
