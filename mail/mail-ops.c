@@ -887,12 +887,6 @@ setup_append_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 		return;
 	}
 	
-	if (!input->info) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
-				     "No message info specified for append_mail operation.");
-		return;
-	}
-	
 	if (!CAMEL_IS_FOLDER (input->folder)) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
 				     "Bad done_folder specified for append_mail operation.");

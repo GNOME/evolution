@@ -1,3 +1,8 @@
+2000-09-14  Dan Winship  <danw@helixcode.com>
+
+	* mail-ops.c (setup_append_mail): camel_folder_append is perfectly
+	happy to take a NULL info.
+
 2000-09-14  Michael Meeks  <michael@helixcode.com>
 
 	* folder-browser-factory.c: move fn to bonobo.
