@@ -32,6 +32,7 @@
 
 enum {
 	E_TEXT_CHANGED,
+	E_TEXT_ACTIVATE,
 	E_TEXT_LAST_SIGNAL
 };
 
@@ -202,6 +203,14 @@ e_text_class_init (ETextClass *klass)
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
+	e_text_signals[E_TEXT_ACTIVATE] =
+		gtk_signal_new ("activate",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETextClass, activate),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+
 
 	gtk_object_class_add_signals (object_class, e_text_signals, E_TEXT_LAST_SIGNAL);
 
@@ -270,6 +279,7 @@ e_text_class_init (ETextClass *klass)
 
 
 	klass->changed = NULL;
+	klass->activate = NULL;
 
 	object_class->destroy = e_text_destroy;
 	object_class->set_arg = e_text_set_arg;
@@ -2786,6 +2796,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		e_text_get_selection (text, GDK_SELECTION_PRIMARY, command->time);
 		break;
 	case E_TEP_ACTIVATE:
+		gtk_signal_emit (GTK_OBJECT (text), e_text_signals[E_TEXT_ACTIVATE]);
 		if (text->timer) {
 			g_timer_reset(text->timer);
 		}

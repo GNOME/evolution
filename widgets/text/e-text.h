@@ -202,6 +202,7 @@ struct _ETextClass {
 	GnomeCanvasItemClass parent_class;
 
 	void (* changed) (EText *text);
+	void (* activate) (EText *text);
 };
 
 

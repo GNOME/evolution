@@ -1,3 +1,8 @@
+2000-05-08  Christopher James Lahey  <clahey@helixcode.com>
+
+	* widget/e-text/e-text.c, widgets/e-text/e-text.h: Added an
+	activate signal.
+
 2000-05-06  Chris Toshok  <toshok@helixcode.com>
 	
 	* configure.in: Added new Directories section for the default_user.
