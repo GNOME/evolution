@@ -1,3 +1,7 @@
+2001-09-04  Kevin Breit  <battery841@mediaone.net>
+
+	* C/usage-print.sgml: Added infoa about Windows not handling .ps
+
 2001-09-03  Kevin Breit  <battery841@mediaone.net>
 
 	* C/usage-mail.sgml: Fixed brokenness
