@@ -1,3 +1,12 @@
+2001-12-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-accounts.c (construct): Connect to the dialog's "destroy"
+	event and close any druids/editors that may be open when that
+	signal is caught. Fixes bug #16501.
+
+	* mail-vfolder.c (vfolder_edit): Set the window title to "Virtual
+	Folders". Fixes bug #16695.
+
 2001-12-05  Radek Doulik  <rodo@ximian.com>
 
 	* mail-callbacks.c (do_mail_print): set paper size to
