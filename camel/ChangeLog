@@ -1,3 +1,9 @@
+2000-11-28  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/smtp/camel-smtp-transport.c (smtp_connect): Clear the
+	exception if EHLO fails before trying HELO in the cases where the
+	SMTP provider doesn't announce its ESMTPness.
+
 2000-11-28  Not Zed  <NotZed@HelixCode.com>
 
 	* providers/local/camel-maildir-summary.c

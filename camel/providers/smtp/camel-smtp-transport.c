@@ -200,10 +200,12 @@ smtp_connect (CamelService *service, CamelException *ex)
 		transport->is_esmtp = TRUE;
 		if (!smtp_helo (transport, ex)) {
 			/* Okay, apprently this server doesn't support ESMTP */
+			camel_exception_clear (ex);
 			transport->is_esmtp = FALSE;
 			smtp_helo (transport, ex);
 		}
 	} else {
+		/* send EHLO */
 		smtp_helo (transport, ex);
 	}
 	
