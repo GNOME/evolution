@@ -1,3 +1,9 @@
+2004-07-30  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c (camel_header_encode_string): Similar fix as
+	below in a later if-statement. Thanks to Suresh for spotting this
+	one.
+
 2004-07-28  Jeffrey Stedfast  <fejj@novell.com>
 
 	* camel-mime-utils.c (camel_header_encode_string): Fixed an ABR

@@ -1379,7 +1379,7 @@ camel_header_encode_string (const unsigned char *in)
 			last_was_space = FALSE;
 		}
 		
-		if (!camel_mime_is_lwsp (c) && !word)
+		if (!(c < 256 && camel_mime_is_lwsp (c)) && !word)
 			word = inptr;
 		
 		inptr = newinptr;
