@@ -1,3 +1,11 @@
+2001-09-10  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-contact.sgml: Contact lists.
+
+	* C/usage-mail.sgml: Contact Lists.
+
+	* C/menuref.sgml: Verified and Corrected.
+
 2001-09-10  Kevin Breit  <battery841@mediaone.net>
 
 	* C/usage-mail.sgml: Verified that all functionality is in here, should be!

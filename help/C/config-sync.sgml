@@ -15,7 +15,6 @@
            want.
           </member>
         </simplelist>
-
     </para>
 
     <para>
@@ -28,8 +27,7 @@
        <guilabel>Pilot Conduits</guilabel> section of the Control
        Center.
   </para>
-  
-  <para>
+    <para>
         Once your computer and your Palm-OS device are talking happily
         to each other, you'll have to decide what exactly you want
         them to do with the data they exchange.  To enable a conduit, click the
@@ -39,7 +37,7 @@
 
         <variablelist>
          <varlistentry>
-            <term>Disabled </term>
+            <term>Disabled</term>
             <listitem> 
                <para>
                   Do nothing.

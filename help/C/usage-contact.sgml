@@ -1,6 +1,4 @@
-<!--
 <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
--->
 
 <chapter id="usage-contact">
   <title>Working with Your Contacts</title>
@@ -17,29 +15,19 @@
        The toolbar for the address book is quite simple.
        <itemizedlist>
 	<listitem><para>
-           Click <guibutton>New</guibutton> to create a new card, or double-click 
+           Click <guibutton>New Contact</guibutton> to create a new card, or double-click 
            in a blank space in the contact list. 
 	</para></listitem>
 
 	<listitem><para>
-           <guibutton>Find</guibutton> brings up an in-depth search window.
-         </para></listitem>
-	
-	<listitem><para>
-	    <guibutton>Print</guibutton> sends one or more of your cards to the printer.
+           Click <guibutton>New List</guibutton> to create a new card, or double-click 
+           in a blank space in the contact list. 
 	</para></listitem>
-        <listitem><para>
-           <guibutton>Delete</guibutton> deletes a selected card.
-        </para></listitem>
 
-        <listitem><para> <guibutton>View All</guibutton> displays all
-           the address information in the folder.  Use this button to
-           refresh the display for a network folder, or to switch from
-           viewing the results of a search and see all your contacts.
-	    <!-- Lets xref to search feature -->
-           </para></listitem>
+	<listitem><para> The <guiicon>printer</guiicon> icon sends one
+	    or more of your cards to the printer.  </para></listitem>
 
-        <listitem><para> <guibutton>Stop</guibutton> stops loading
+        <listitem><para> The <guiicon>stop sign</guiicon> icon stops loading
            contact data from the network.  This button is only
            relevant if you are looking at contact information on a
            network.  </para></listitem>
@@ -189,13 +177,14 @@
 	  <term>Multiple Values for Fields</term>
             <listitem>
 	      <para>
-                If you click on the small arrow buttons next to the
-                <guilabel>Primary Email</guilabel> field, you can also
-                choose <guilabel>Email 2</guilabel> and
+                If you click on the downward pointing triangle buttons
+                next to the <guilabel>Primary Email</guilabel> field,
+                you can also choose <guilabel>Email 2</guilabel> and
                 <guilabel>Email 3</guilabel>.  Although the contact
                 editor will only display one of those at any given
-                time, <application>Evolution</application> will
-                store them all.  The arrow buttons next to the
+                time, <application>Evolution</application> will store
+                them all.  Entries that have information in them have
+                a check mark next to them.  The buttons next to the
                 telephone and postal address fields work in the same
                 way.
               </para>
@@ -370,7 +359,9 @@
          to organize your cards.  The first way is to use folders;
          this works the same way mail folders do.  For more
          flexibility, you can also mark contacts as elements of
-         different categories.
+         different categories.  To better integrate with email tools,
+         you can also create lists of contacts that you can send mail
+         to as a single person.
       </para>
 
       <sect3 id="usage-contact-organize-group-folder">
@@ -432,6 +423,72 @@
        -->
 
       </sect3>
+
+      <sect3 id="usage-contact-organize-group-list">
+	<title>Creating a List of Contacts</title>
+	<para>
+           To create a list of contacts:
+
+         <orderedlist numeration="arabic">
+	    <listitem>
+	      <para>
+                Open the list creation dialog box by clicking the
+                <guibutton>New List</guibutton> button or selecting
+                 <menuchoice>
+		  <guimenu>
+                     File
+                  </guimenu>
+		  <guisubmenu>
+                      New
+                   </guisubmenu>
+		   <guimenuitem>
+                     Contact List
+                   </guimenuitem>
+		</menuchoice>.
+               </para>
+	    </listitem>
+
+	    <listitem>
+	      <para>
+                Enter a name for the list.
+              </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+                Enter names or email addresses of contacts, or just
+	        drag contacts from the main window into the list.
+              </para>
+	    </listitem>
+
+	    <listitem>
+	      <para>
+                 Choose whether you would like to hide the email
+                 addresses when you send a message to the list.
+                 Unless it is a very small list, it is recommended
+                 that you leave the addresses hidden.  This is the
+                 same thing as using the "Bcc:" feature discussed in
+                 <xref linkend="usage-mail-getnsend-send-to-types">.
+              </para>
+	    </listitem>
+
+	  </orderedlist>
+	<para>
+           When you are done, click <guibutton>OK</guibutton>. The
+           list will appear as a contact card, which you can use as
+           you would any other. That includes emailing the list to
+           another person, and, of course, sending email to the list.
+        </para>
+	<para>
+           To mail the list, open a new email and type the name you
+           chose for the list. Ximian Evolution will address the
+           message to the entire list when you send it. You can also
+           right-click on the list's address card in the Contact
+           Manager and select <guimenuitem>Send Message to
+           List</guimenuitem>,
+        <para>
+      </sect3>
+
+
     </sect2>
   </sect1>
   

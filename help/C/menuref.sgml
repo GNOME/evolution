@@ -11,20 +11,31 @@
       <application>Ximian Evolution</application>.
    </para>
 
-<!--  Put this in a note somewhere
-  <para>
-    Menus in <application>Evolution</application> are
-    context-sensitive, which means that they vary depending on what
-    you're doing.  If you're reading your mail, you'll have
-    mail-related menus; for your calendar, you'll have
-    calendar-related menu items.  Some menus, of course, like
-    <guimenu>Help</guimenu> and <guimenu>File</guimenu> don't much, if
-    at all, because they have more universal functions.  But you'd
-    never mark an address card as "read," or set the recurrence for an
-    email message you've recieved. depending on whether you're looking
-    at mail, contacts, or calendar information. 
-  </para>
--->
+
+<note id="shortcuts">
+<title>Custom Keyboard Shortcuts</title>
+<para>
+  If you have set custom keyboard shortcuts for your desktop, (you can
+   do this the control center: select
+   <menuchoice><guimenu>System</guimenu><guimenuitem>Settings</guimenuitem></menuchoice>
+   from your menu panel), they may interfere with Evolution keyboard
+   shortcuts.
+</para>
+<para>
+   For example, if you have chosen Emacs-style key bindings for your
+   desktop-wide text editor, the shortcut
+   <keycombo action="simul">
+    <keycap>Ctrl</keycap>
+    <keycap>W</keycap>
+  </keycombo>
+  will act as "Cut region" rather than as "Close Window" in the
+  message composer.
+</para>
+</note>
+
+
+
+
   <sect1 id="quickref-open">
       <title>Opening or Creating Anything</title>
       <para>
@@ -39,7 +50,7 @@
                 <keycombo action="simul">
 		  <keycap>Ctrl</keycap>
 		  <keycap>Shift </keycap>
-		  <keycap>F</keycap>
+		  <keycap>E</keycap>
                 </keycombo>
                 </para>
 	    </listitem>
@@ -98,7 +109,10 @@
 	    <term>Enter a new Contact</term>
 	    <listitem>
 	      <para>       
-                  <menuchoice><guimenu>File</guimenu>
+                  Double-click in any blank space in the contact
+                  manager to create a new address card.  You can also
+                  use 
+                 <menuchoice><guimenu>File</guimenu>
 		  <guisubmenu>New</guisubmenu>
 		  <guimenuitem>Contact</guimenuitem> </menuchoice>  or 
                 <keycombo action="simul">
@@ -109,7 +123,6 @@
                 </para>
 	    </listitem>
 	  </varlistentry>
-
 
 	  <varlistentry>
 	    <term>Create a new Task</term>
@@ -126,7 +139,6 @@
                 </para>
 	    </listitem>
 	  </varlistentry>
-
 	</variablelist>
       </para>
     </sect1> 
@@ -218,18 +230,34 @@
 	    <term>Create Filters and Virtual Folders</term>
 	    <listitem>
 	      <para>
-                Right-click on a message and select "Create Rule..."
-                menu items. You can also create filters and virtual
-                folders in the <guimenu>Tools</guimenu> menu.
+                Right-click on a message and select
+                <guimenuitem>Create Rule From
+                Message</guimenuitem>. You can also create filters and
+                virtual folders in the <guimenu>Tools</guimenu> menu.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+
+
+          <varlistentry>
+	    <term>Add Sender to Address Book</term>
+	    <listitem>
+	      <para>
+                Right-click on a message and select <guimenuitem>Add
+                Sender to Address Book</guimenuitem>.  You can also
+                right-click on any email address to add it to your
+                address book.
 	      </para>
 	    </listitem>
 	  </varlistentry>
 	</variablelist>
 	
+
+
       </para>
     </sect1>
     <sect1 id="quickref-cal">
-      <title>Address Book</title>
+      <title>Calendar</title>
       <para>
         <variablelist>
 	  <varlistentry>
@@ -239,7 +267,8 @@
 		<tip id="new-appt">
 		  <title>New Appointments Fast</title>
 		  <para>
-		    Double-click in a blank space to create a new contact.
+		    Click on any blank spot in the calendar and start
+		    typing to create a new appointment entry.
 		  </para>
 		</tip>
 	      </para>
@@ -308,9 +337,19 @@
 	
         <variablelist>
 	  <varlistentry>
-	    <term></term>
+	    <term>Creating a New Contact</term>
 	    <listitem>
 	      <para>
+                  Double-click in any blank space in the contact
+                  manager to create a new address card.  You can also
+                  use <menuchoice><guimenu>File</guimenu>
+                  <guisubmenu>New</guisubmenu>
+                  <guimenuitem>Contact</guimenuitem> </menuchoice> or
+                <keycombo action="simul">
+		  <keycap>Ctrl</keycap>
+		  <keycap>Shift</keycap>
+		  <keycap>C</keycap>
+                </keycombo>
 	      </para>
 	    </listitem>
 	  </varlistentry>

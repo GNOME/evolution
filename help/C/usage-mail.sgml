@@ -14,9 +14,10 @@
   <note>
     <title>If you use IMAP Mail</title>
     <para>
-      If you chose IMAP mail during the setup process, you must subscribe to
-      your mail folders before you can read mail in them. Read <xref
-								     linkend="usage-mail-subscriptions"> to find out how.
+      If you chose IMAP mail during the setup process, you must
+      subscribe to your mail folders before you can read mail in
+      them. Read <xref linkend="usage-mail-subscriptions"> to find out
+      how.
     </para>
   </note>
   
@@ -496,7 +497,9 @@
            "Send Later" feature is particularly useful if you use a
            modem to connect to the Internet and pay per-minute
            charges: you can remain offline until you need to send
-           mail, then connect and send all your mail at once.  Mail in the outbox is sent when you click <guibutton>Send/Recieve</guibutton> in the main window.
+           mail, then connect and send all your mail at once.  Mail in
+           the outbox is sent when you click
+           <guibutton>Send/Recieve</guibutton> in the main window.
         </para>
         <para>
            To learn more about how you can specify message queue and
@@ -629,6 +632,15 @@
 	    </menuchoice>.
 		
           </para>
+
+         <para>
+           If you frequently write email to the same groups of people,
+           you can create address lists in the Contact Manager, and
+           then send them mail as though they had a single address.
+           To learn how to do that, read <xref
+           linkend="usage-contact-organize-group-list">.
+        </para>
+
         </sect3>
 
         <sect3 id="usage-mail-getnsend-send-to">
@@ -1435,7 +1447,10 @@ with quoted materials and the relevant replies interspersed-->
 
             <listitem>
               <para>
-               Check your spelling and use complete sentences.
+               Check your spelling and use complete sentences. By
+               default, <application>Evolution</application> will put
+               a red line beneath words it doesn't recognize, as you
+               type them.
               </para>
             </listitem>
 
