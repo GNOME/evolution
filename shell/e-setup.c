@@ -186,7 +186,7 @@ copy_default_stuff (const char *evolution_directory)
 				   GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL,
 				   NULL);
 
-	label1 = gtk_label_new (_("This seems to be the first time you run Evolution."));
+	label1 = gtk_label_new (_("This seems to be the first time you are running Evolution."));
 	label2 = gtk_label_new (_("Please click \"OK\" to install the Evolution user files under"));
 	label3 = gtk_label_new (evolution_directory);
 

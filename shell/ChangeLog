@@ -1,3 +1,8 @@
+2001-02-05  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-setup.c (copy_default_stuff): s/first time you run/first time
+	you are running/.
+
 2001-02-02  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-component-registry.h: Don't #include <config.h>.
