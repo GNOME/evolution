@@ -228,7 +228,7 @@ find_next_node(ETreeTableAdapter *adapter, int row)
 		ETreeTableAdapterNode *current = find_node (adapter, path);
 		if (next_sibling) {
 			row += (current ? current->num_visible_children : 0) + 1;
-			if (row >= adapter->priv->n_map)
+			if (row > adapter->priv->n_map)
 				return -1;
 			return row;
 		} else
@@ -245,7 +245,7 @@ find_first_child_node(ETreeTableAdapter *adapter, int row)
 		ETreePath first_child = e_tree_model_node_get_first_child(adapter->priv->source, path);
 		if (first_child && e_tree_table_adapter_node_is_expanded (adapter, path)) {
 			row ++;
-			if (row >= adapter->priv->n_map)
+			if (row > adapter->priv->n_map)
 				return -1;
 			return row;
 		} else
@@ -319,9 +319,11 @@ find_row_num(ETreeTableAdapter *etta, ETreePath path)
 	row = 0;
 
 	for (i = depth; i >= 0; i --) {
-		while (row != -1 && sequence[i] != etta->priv->map_table[row]) {
+		while (row != -1 && row < etta->priv->n_map && sequence[i] != etta->priv->map_table[row]) {
 			row = find_next_node(etta, row);
 		}
+		if (row >= etta->priv->n_map)
+			break;
 		if (row == -1)
 			break;
 		if (i == 0)
@@ -329,6 +331,9 @@ find_row_num(ETreeTableAdapter *etta, ETreePath path)
 		row = find_first_child_node(etta, row);
 	}
 	g_free (sequence);
+
+	if (row >= etta->priv->n_map)
+		row = -1;
 
 	d(g_print("Didn't find last access %d. Setting to %d. (find_row_num)\n", etta->priv->last_access, row));
 	etta->priv->last_access = row;
