@@ -1,3 +1,14 @@
+1999-04-18  bertrand <Bertrand.Guiheneuf@inria.fr>
+
+	* camel/camel-store.[ch]: started implementation
+	* camel/camel-folder.c (camel_folder_get_type): typo
+	uncommented the store related code.
+	(camel_folder_create): enable som store relted code. 
+	Not finished. Have to define public methods first.
+
+	* camel/camel-log.h: some explanation about the 
+	log system
+
 1999-04-18   bertrand <Bertrand.Guiheneuf@inria.fr>
 
 	* camel/camel-folder.c: 

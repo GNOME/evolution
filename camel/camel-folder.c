@@ -66,7 +66,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 
 
 GtkType
-gnome_camel_get_type (void)
+camel_folder_get_type (void)
 {
 	static GtkType camel_folder_type = 0;
 	
@@ -278,13 +278,12 @@ camel_folder_create(CamelFolder *folder)
 	CamelFolder *parent;
 	gchar sep;
 
-#warning Finish it  when CamelStore is done
 
-	/*g_assert(folder->parent_store);*/
+	g_assert(folder->parent_store);
 	g_assert(folder->name);
 
 	if ( CF_CLASS(folder)->exists(folder) ) return;
-	/* sep = camel_store_get_separator(folder->parent_store); */	
+	sep = camel_store_get_separator(folder->parent_store);	
 	if (folder->parent_folder) camel_folder_create(folder->parent_folder);
 	else {   
 		if (folder->full_name) {
@@ -293,9 +292,11 @@ camel_folder_create(CamelFolder *folder)
 				g_warning("I have to handle the case where the path is not OK\n"); 
 				return;
 			} else {
+#warning Public method not implemented yet !!!			
+				parent = camel_store_get_folder(folder->parent_store, prefix);
+				camel_folder_create(parent);
+#warning Finish it  when CamelStore is done
 				/*
-				  parent = camel_store_get_folder(folder->parentStore,prefix);
-				  camel_folder_create(parent);
 				  [parent free];
 				*/
 			}
