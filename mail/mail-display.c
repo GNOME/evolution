@@ -24,8 +24,6 @@
 
 static GtkObjectClass *mail_display_parent_class;
 
-            
-
 
 
 
@@ -68,6 +66,10 @@ Nothing to display in this view
 ";
 
 
+/*----------------------------------------------------------------------*
+ *                     Helper utility functions
+ *----------------------------------------------------------------------*/
+
 
 /* stuff to display Bonobo Components  inside the html message 
  * body view */
@@ -78,26 +80,17 @@ hydrate_persist_stream_from_gstring (Bonobo_PersistStream persist_stream,
 	CORBA_Environment ev;
 	BonoboStream* mem_stream =
 		bonobo_stream_mem_create (gstr->str, gstr->len, TRUE);
-        /*
-	 * If the component doesn't support
-	 * PersistStream, then we destroy the
-	 * stream we created and bail.
-	 */
-	if (persist_stream == CORBA_OBJECT_NIL) {
-		gnome_warning_dialog (_("The component now claims that it "
-					"doesn't support PersistStream!"));
-		bonobo_object_unref (BONOBO_OBJECT (mem_stream));
-		return FALSE;
-	}
+	CORBA_Object mem_stream_corba =
+		bonobo_object_corba_objref (BONOBO_OBJECT (mem_stream));
+	
+	g_assert (persist_stream != CORBA_OBJECT_NIL);
 				
 	CORBA_exception_init (&ev);
 
 	/*
 	 * Load the file into the component using PersistStream.
 	 */
-	Bonobo_PersistStream_load (persist_stream,
-				   (Bonobo_Stream) bonobo_object_corba_objref (BONOBO_OBJECT (mem_stream)),
-				   &ev);
+	Bonobo_PersistStream_load (persist_stream, mem_stream_corba, &ev);
 
 	bonobo_object_unref (BONOBO_OBJECT (mem_stream));
 				
@@ -139,6 +132,10 @@ camel_stream_to_gstring (CamelStream* stream)
 	return tmp_gstring;
 }
 
+/*----------------------------------------------------------------------*
+ *                        Callbacks
+ *----------------------------------------------------------------------*/
+
 static void 
 embeddable_destroy_cb (GtkObject *obj, gpointer user_data)
 {
@@ -156,14 +153,18 @@ embeddable_destroy_cb (GtkObject *obj, gpointer user_data)
 
 
 	vf = bonobo_widget_get_view_frame (be);
-	bonobo_control_frame_control_deactivate (vf);
+	bonobo_control_frame_control_deactivate (
+		BONOBO_CONTROL_FRAME (vf));
 	//w = bonobo_control_frame_get_widget (BONOBO_CONTROL_FRAME (vf));
 	
 	//gtk_widget_destroy (w);
 	
 	CORBA_exception_init (&ev);
-	Bonobo_Unknown_unref (bonobo_object_corba_objref (server), &ev);
-	CORBA_Object_release (bonobo_object_corba_objref (server), &ev);
+	Bonobo_Unknown_unref (
+		bonobo_object_corba_objref (BONOBO_OBJECT(server)), &ev);
+	CORBA_Object_release (
+		bonobo_object_corba_objref (BONOBO_OBJECT(server)), &ev);
+
 	CORBA_exception_free (&ev);
 	bonobo_object_destroy (BONOBO_OBJECT (vf));
 	//gtk_object_unref (obj);
@@ -236,7 +237,8 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, void *unused)
 		
 		gnome_warning_dialog (msg);
 		gtk_object_unref (GTK_OBJECT (bonobo_embeddable));
-		
+
+		g_free (msg);
 		return;
 	}
 
@@ -261,8 +263,16 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, void *unused)
 }
 
 
-
-
+/**
+ * mail_display_set_message:
+ * @mail_display: the mail display object
+ * @mime_message: the input camel medium
+ *
+ * Makes the mail_display object show the contents of the medium
+ * param. This means feeding mail_display->body_stream and
+ * mail_display->headers_stream with html.
+ *
+ **/
 void 
 mail_display_set_message (MailDisplay *mail_display, 
 			  CamelMedium *medium)
@@ -274,7 +284,6 @@ mail_display_set_message (MailDisplay *mail_display,
 	 * but I don't know how the formatter reacts
 	 * to consecutive call to *_to_html - ber */
 	camel_formatter = camel_formatter_new ();
-
 	
 	/*
 	 * for the moment, camel-formatter deals only with 
@@ -351,8 +360,9 @@ mail_display_set_message (MailDisplay *mail_display,
 }
 
 
-/* generic class stuff */
-
+/*----------------------------------------------------------------------*
+ *                     Standard Gtk+ Class functions
+ *----------------------------------------------------------------------*/
 
 static void
 mail_display_init (GtkObject *object)
@@ -461,5 +471,6 @@ mail_display_new (FolderBrowser *parent_folder_browser)
 
 
 E_MAKE_TYPE (mail_display, "MailDisplay", MailDisplay, mail_display_class_init, mail_display_init, PARENT_TYPE);
+
 
 

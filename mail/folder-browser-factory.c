@@ -20,13 +20,8 @@
 #include "shell/Evolution.h"
 #include "shell/evolution-service-repository.h"
 #include "composer/e-msg-composer.h"
+#include <camel/camel-stream-fs.h>
 
-
-static const gchar *warning_dialog_buttons[] = {
-	"Cancel",
-	"OK",
-	NULL
-};
 			
 static void
 folder_browser_set_shell (EvolutionServiceRepository *sr,
@@ -81,7 +76,7 @@ development_warning ()
 				   "I'll try it later",
 				   NULL);
 
-	label = gtk_label_new ("This is a developement version of Evolution.\n "
+	label = gtk_label_new ("This is a development version of Evolution.\n "
 			       "Using the mail component on your mail files\n "
 			       "is extremely hazardous.\n"
 			       "Please backup all your mails before trying\n "
@@ -97,7 +92,6 @@ development_warning ()
 	gtk_object_destroy (GTK_OBJECT (warning_dialog));
 
 	return result;
-	
 } 
 
 static void
@@ -125,10 +119,9 @@ msg_composer_send_cb (EMsgComposer *composer,
 }
 
 
-static void 
-msg_composer_cb (GtkObject *obj, gpointer user_data)
+static void
+msg_composer_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
-	CamelMimeMessage *msg;
 	GtkWidget *composer;
 
 	composer = e_msg_composer_new ();
@@ -163,7 +156,6 @@ control_activate_cb (BonoboControl *control,
 		     gpointer user_data)
 {
 	control_add_menu (control);
-	
 }
 
 
@@ -217,10 +209,7 @@ folder_browser_factory (BonoboGenericFactory *factory, void *closure)
 	 * correct infrastructure in the shell now.    
 	 */
 	folder_browser_control_add_service_repository_interface (control, folder_browser); 	       	
-	
-	
 	return BONOBO_OBJECT (control);
-
 }
 
 void

@@ -1,3 +1,9 @@
+2000-03-21  Matt Loper  <matt@helixcode.com>
+
+	* mail-display.c: Minor cleanup & commenting.
+
+	* folder-browser-factory.c: Minor cleanup & warning elimination.
+
 2000-03-21  bertrand  <bertrand@helixcode.com>
 
 	* message-list.c (ml_value_at): display message size
