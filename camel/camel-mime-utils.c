@@ -1338,7 +1338,7 @@ header_encode_string (const unsigned char *in)
 	int encoding;
 	GString *out;
 	char *outstr;
-	
+
 	g_return_val_if_fail (g_utf8_validate (in, -1, NULL), NULL);
 	
 	if (in == NULL)
@@ -1350,7 +1350,7 @@ header_encode_string (const unsigned char *in)
 			break;
 		inptr++;
 	}
-	if (FALSE && *inptr == '\0')
+	if (*inptr == '\0')
 		return g_strdup (in);
 	
 	/* This gets each word out of the input, and checks to see what charset
@@ -1376,20 +1376,9 @@ header_encode_string (const unsigned char *in)
 		
 		if (g_unichar_isspace (c) && !last_was_space) {
 			/* we've reached the end of a 'word' */
-			if (word) {
-				int len = inptr - word;
-				
-				printf ("checking word '%.*s'\n", len, word);
-				if (!encoding && len > 8 && !strncmp (word, "=?", 2) && !strncmp (inptr - 2, "?=", 2)) {
-					printf ("yes...\n");
-					encoding = 1;
-				} else
-					printf ("no...\n");
-			
-				if (!(last_was_encoded && encoding)) {
-					g_string_append_len (out, start, word - start);
-					start = word;
-				}
+			if (word && !(last_was_encoded && encoding)) {
+				g_string_append_len (out, start, word - start);
+				start = word;
 			}
 			
 			switch (encoding) {
@@ -1435,20 +1424,9 @@ header_encode_string (const unsigned char *in)
 	}
 	
 	if (inptr - start) {
-		if (word) {
-			int len = inptr - word;
-			
-			printf ("checking word '%.*s'\n", len, word);
-			if (!encoding && len > 8 && !strncmp (word, "=?", 2) && !strncmp (inptr - 3, "?=", 2)) {
-				printf ("yes...\n");
-				encoding = 1;
-			} else
-				printf ("no...\n");
-			
-			if (!(last_was_encoded && encoding)) {
-				g_string_append_len (out, start, word - start);
-				start = word;
-			}
+		if (word && !(last_was_encoded && encoding)) {
+			g_string_append_len (out, start, word - start);
+			start = word;
 		}
 		
 		switch (encoding) {

@@ -1,3 +1,8 @@
+2002-09-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c (header_encode_string): Revert a patch that I
+	had not meant to commit that was aimed at fixing bug #29234.
+
 2002-09-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-store-summary.c (camel_store_summary_load): Same as
