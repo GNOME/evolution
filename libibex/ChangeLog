@@ -1,3 +1,8 @@
+2000-02-14  NotZed  <notzed@zedzone.helixcode.com>
+
+	* Makefile: Hack together a build using libtool.  This should all
+	be auto*'d at some point I guess.
+
 2000-02-13  NotZed  <notzed@zedzone.helixcode.com>
 
 	* Added ChangeLog file.
