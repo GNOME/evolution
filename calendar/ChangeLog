@@ -1,5 +1,11 @@
 2004-04-15  JP Rosevear  <jpr@ximian.com>
 
+	* gui/dialogs/task-page.c (task_page_fill_component): don't
+	actually check if start date is after due date, its perfectly
+	valid for that to occur
+
+2004-04-15  JP Rosevear  <jpr@ximian.com>
+
 	Fixes #53903
 	
 	* gui/dialogs/meeting-page.c (meeting_page_fill_widgets):

@@ -537,22 +537,6 @@ task_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 		e_cal_component_set_dtstart (comp, NULL);
 	}
 
-	/* Check whether due datetime is before start datetime */
-	if (start_date_set && due_date_set) {
-		due_tt2 = g_new (struct icaltimetype, 1);
-		memcpy (due_tt2,  &due_tt, sizeof(due_tt));
-		icaltimezone_convert_time (due_tt2, due_zone, start_zone);
-		if (icaltime_compare (start_tt, *due_tt2) > 0) {
-			comp_editor_page_display_validation_error (page,
-					_("Due date is before start date!"),
-					priv->due_date);
-			g_free (due_tt2);
-			return FALSE;
-		}
-		g_free (due_tt2);
-	}
-
-
 	/* Classification. */
 	e_cal_component_set_classification (comp, classification_get (priv->classification_public));
 
