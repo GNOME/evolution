@@ -77,6 +77,8 @@ static void set_message_user_flag (CamelFolder *folder, const char *uid,
 
 static GPtrArray *get_subfolder_names (CamelFolder *folder,
 				       CamelException *ex);
+static void      free_subfolder_names (CamelFolder *folder,
+				       GPtrArray *array);
 static CamelFolder *get_subfolder     (CamelFolder *folder,
 				       const gchar *folder_name,
 				       gboolean create,
@@ -162,7 +164,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->get_parent_folder = get_parent_folder;
 	camel_folder_class->get_parent_store = get_parent_store;
 	camel_folder_class->get_subfolder_names = get_subfolder_names;
-	camel_folder_class->free_subfolder_names = free_uids;
+	camel_folder_class->free_subfolder_names = free_subfolder_names;
 	camel_folder_class->expunge = expunge;
 	camel_folder_class->get_message_count = get_message_count;
 	camel_folder_class->get_unread_message_count = get_unread_message_count;
@@ -531,6 +533,13 @@ camel_folder_get_subfolder_names (CamelFolder *folder, CamelException *ex)
 	return CF_CLASS (folder)->get_subfolder_names (folder, ex);
 }
 
+
+static void
+free_subfolder_names (CamelFolder *folder, GPtrArray *array)
+{
+	g_warning ("CamelFolder::free_subfolder_names not implemented "
+		   "for `%s'", gtk_type_name (GTK_OBJECT_TYPE (folder)));
+}
 
 /**
  * camel_folder_free_subfolder_names:
@@ -952,14 +961,8 @@ camel_folder_get_uids (CamelFolder *folder, CamelException *ex)
 static void
 free_uids (CamelFolder *folder, GPtrArray *array)
 {
-	int i;
-
-	/* Default implementation: free all of the strings and
-	 * the array itself.
-	 */
-	for (i = 0; i < array->len; i++)
-		g_free (array->pdata[i]);
-	g_ptr_array_free (array, TRUE);
+	g_warning ("CamelFolder::free_uids not implemented for `%s'",
+		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
 }
 
 /**
@@ -1284,4 +1287,54 @@ message_changed (CamelFolder *folder, const char *uid)
 						g_strdup (uid));
 		}
 	}
+}
+
+
+/**
+ * camel_folder_free_nop:
+ * @folder: a folder
+ * @array: an array of uids, subfolder names, or CamelMessageInfo
+ *
+ * "Frees" the provided array by doing nothing. Used by CamelFolder
+ * subclasses as an implementation for free_uids, free_summary,
+ * or free_subfolder_names when the returned array is "static"
+ * information and should not be freed.
+ **/
+void
+camel_folder_free_nop (CamelFolder *folder, GPtrArray *array)
+{
+	;
+}
+
+/**
+ * camel_folder_free_shallow:
+ * @folder: a folder
+ * @array: an array of uids, subfolder names, or CamelMessageInfo
+ *
+ * Frees the provided array but not its contents. Used by CamelFolder
+ * subclasses as an implementation for free_uids, free_summary, or
+ * free_subfolder_names when the returned array needs to be freed
+ * but its contents come from "static" information.
+ **/
+void
+camel_folder_free_shallow (CamelFolder *folder, GPtrArray *array)
+{
+	g_ptr_array_free (array, TRUE);
+}
+
+/**
+ * camel_folder_free_deep:
+ * @folder: a folder
+ * @array: an array of uids or subfolder names
+ *
+ * Frees the provided array and its contents. Used by CamelFolder
+ * subclasses as an implementation for free_uids or
+ * free_subfolder_names (but NOT free_summary) when the provided
+ * information was created explicitly by the corresponding get_ call.
+ **/
+void
+camel_folder_free_deep (CamelFolder *folder, GPtrArray *array)
+{
+	g_strfreev ((gchar **)array->pdata);
+	g_ptr_array_free (array, FALSE);
 }

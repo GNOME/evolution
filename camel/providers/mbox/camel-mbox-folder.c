@@ -69,7 +69,6 @@ static void mbox_append_message (CamelFolder *folder, CamelMimeMessage *message,
 static GPtrArray *mbox_get_uids (CamelFolder *folder, CamelException *ex);
 static GPtrArray *mbox_get_subfolder_names (CamelFolder *folder, CamelException *ex);
 static GPtrArray *mbox_get_summary (CamelFolder *folder, CamelException *ex);
-static void mbox_free_summary (CamelFolder *folder, GPtrArray *array);
 static CamelMimeMessage *mbox_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex);
 
 static void mbox_expunge (CamelFolder *folder, CamelException *ex);
@@ -105,9 +104,11 @@ camel_mbox_folder_class_init (CamelMboxFolderClass *camel_mbox_folder_class)
 	camel_folder_class->get_unread_message_count = mbox_get_unread_message_count;
 	camel_folder_class->append_message = mbox_append_message;
 	camel_folder_class->get_uids = mbox_get_uids;
+	camel_folder_class->free_uids = camel_folder_free_deep;
 	camel_folder_class->get_subfolder_names = mbox_get_subfolder_names;
+	camel_folder_class->free_subfolder_names = camel_folder_free_deep;
 	camel_folder_class->get_summary = mbox_get_summary;
-	camel_folder_class->free_summary = mbox_free_summary;
+	camel_folder_class->free_summary = camel_folder_free_nop;
 	camel_folder_class->expunge = mbox_expunge;
 
 	camel_folder_class->get_message = mbox_get_message;
@@ -507,12 +508,6 @@ mbox_get_summary (CamelFolder *folder, CamelException *ex)
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);
 
 	return CAMEL_FOLDER_SUMMARY (mbox_folder->summary)->messages;
-}
-
-void
-mbox_free_summary (CamelFolder *folder, GPtrArray *array)
-{
-	/* no-op */
 }
 
 /* get a single message info, by uid */

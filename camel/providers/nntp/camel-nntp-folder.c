@@ -334,17 +334,6 @@ nntp_folder_get_uids (CamelFolder *folder,
 	return out;
 }
 
-static void
-nntp_folder_free_uids (CamelFolder *folder,
-		       GPtrArray *array)
-{
-	int i;
-	for (i = 0; i < array->len; i ++) {
-		g_free (g_ptr_array_index (array, i));
-	}
-	g_ptr_array_free (array, TRUE /* XXX? */);
-}
-
 static GPtrArray *
 nntp_folder_get_summary (CamelFolder *folder,
 			 CamelException *ex)
@@ -352,13 +341,6 @@ nntp_folder_get_summary (CamelFolder *folder,
 	CamelNNTPFolder *nntp_folder = CAMEL_NNTP_FOLDER (folder);
 
 	return nntp_folder->summary->messages;
-}
-
-static void
-nntp_folder_free_summary (CamelFolder *folder,
-			  GPtrArray *summary)
-{
-	g_assert (0);
 }
 
 static GPtrArray *
@@ -441,9 +423,9 @@ camel_nntp_folder_class_init (CamelNNTPFolderClass *camel_nntp_folder_class)
 	camel_folder_class->get_message = nntp_folder_get_message;
 	camel_folder_class->delete_message = nntp_folder_delete_message;
 	camel_folder_class->get_uids = nntp_folder_get_uids;
-	camel_folder_class->free_uids = nntp_folder_free_uids;
+	camel_folder_class->free_uids = camel_folder_free_deep;
 	camel_folder_class->get_summary = nntp_folder_get_summary;
-	camel_folder_class->free_summary = nntp_folder_free_summary;
+	camel_folder_class->free_summary = camel_folder_free_nop;
 	camel_folder_class->get_subfolder_names = nntp_folder_get_subfolder_names;
 	camel_folder_class->free_subfolder_names = nntp_folder_free_subfolder_names;
 	camel_folder_class->search_by_expression = nntp_folder_search_by_expression;

@@ -71,7 +71,6 @@ static GPtrArray *imap_get_uids (CamelFolder *folder, CamelException *ex);
 static gboolean imap_parse_subfolder_line (gchar *buf, gchar **flags, gchar **sep, gchar **folder);
 static GPtrArray *imap_get_subfolder_names (CamelFolder *folder, CamelException *ex);
 static GPtrArray *imap_get_summary (CamelFolder *folder, CamelException *ex);
-static void imap_free_summary (CamelFolder *folder, GPtrArray *array);
 static CamelMimeMessage *imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex);
 static void imap_delete_message (CamelFolder *folder, const gchar *uid, CamelException *ex);
 
@@ -109,7 +108,9 @@ camel_imap_folder_class_init (CamelImapFolderClass *camel_imap_folder_class)
 	camel_folder_class->expunge = imap_expunge;
 
 	camel_folder_class->get_uids = imap_get_uids;
+	camel_folder_class->free_uids = camel_folder_free_nop;
 	camel_folder_class->get_subfolder_names = imap_get_subfolder_names;
+	camel_folder_class->free_subfolder_names = camel_folder_free_deep;
 
 	camel_folder_class->get_message_count = imap_get_message_count;
 	camel_folder_class->get_unread_message_count = imap_get_unread_message_count;
@@ -121,7 +122,7 @@ camel_imap_folder_class_init (CamelImapFolderClass *camel_imap_folder_class)
 	
 	camel_folder_class->get_summary = imap_get_summary;
 	camel_folder_class->get_message_info = imap_get_message_info;
-	camel_folder_class->free_summary = imap_free_summary;
+	camel_folder_class->free_summary = camel_folder_free_nop;
 
 	camel_folder_class->search_by_expression = imap_search_by_expression;
 
@@ -472,8 +473,6 @@ imap_get_unread_message_count (CamelFolder *folder, CamelException *ex)
 			count++;
 	}
 
-	imap_free_summary (folder, infolist);
-
 	return count;
 }
 
@@ -642,8 +641,6 @@ imap_get_uids (CamelFolder *folder, CamelException *ex)
 		array->pdata[i] = g_strdup (info->uid);
 	}
 
-	imap_free_summary (folder, infolist);
-	
 	return array;
 }
 
@@ -1238,13 +1235,6 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 	imap_folder->summary = array;
 	
 	return array;
-}
-
-void
-imap_free_summary (CamelFolder *folder, GPtrArray *array)
-{
-	/* no-op */
-	return;
 }
 
 /* get a single message info, by uid */

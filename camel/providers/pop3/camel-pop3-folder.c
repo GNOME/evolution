@@ -43,7 +43,6 @@ static void pop3_sync (CamelFolder *folder, gboolean expunge,
 
 static gint pop3_get_message_count (CamelFolder *folder, CamelException *ex);
 static GPtrArray *pop3_get_uids (CamelFolder *folder, CamelException *ex);
-static void pop3_free_uids (CamelFolder *folder, GPtrArray *uids);
 static CamelMimeMessage *pop3_get_message (CamelFolder *folder, 
 					   const char *uid,
 					   CamelException *ex);
@@ -66,7 +65,7 @@ camel_pop3_folder_class_init (CamelPop3FolderClass *camel_pop3_folder_class)
 
 	camel_folder_class->get_message_count = pop3_get_message_count;
 	camel_folder_class->get_uids = pop3_get_uids;
-	camel_folder_class->free_uids = pop3_free_uids;
+	camel_folder_class->free_uids = camel_folder_free_nop;
 
 	camel_folder_class->get_message = pop3_get_message;
 	camel_folder_class->delete_message = pop3_delete_message;
@@ -327,10 +326,3 @@ pop3_get_uids (CamelFolder *folder, CamelException *ex)
 
 	return pop3_folder->uids;
 }
-
-static void
-pop3_free_uids (CamelFolder *folder, GPtrArray *uids)
-{
-	;
-}
-

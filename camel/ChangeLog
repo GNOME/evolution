@@ -1,3 +1,14 @@
+2000-07-12  Dan Winship  <danw@helixcode.com>
+
+	* camel-folder.c (camel_folder_free_deep,
+	camel_folder_free_shallow, camel_folder_free_nop): Useful default
+	implementations for free_{uids,subfolder_names,summary}.
+	(free_subfolder_names, free_uids): Make these g_warning-ing
+	default implementations.
+
+	* providers/*/camel-*-folder.c: Use the new functions where
+	appropriate, remove duplicated code.
+
 2000-07-12  Peter Williams  <peterw@helixcode.com>
 
 	* providers/imap/camel-imap-store.c (query_auth_types): Check for

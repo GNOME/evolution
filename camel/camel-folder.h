@@ -312,6 +312,12 @@ void               camel_folder_move_message_to       (CamelFolder *source,
 void               camel_folder_freeze                (CamelFolder *folder);
 void               camel_folder_thaw                  (CamelFolder *folder);
 
+
+/* For use by subclasses (for free_{uids,summary,subfolder_names}) */
+void camel_folder_free_nop     (CamelFolder *folder, GPtrArray *array);
+void camel_folder_free_shallow (CamelFolder *folder, GPtrArray *array);
+void camel_folder_free_deep    (CamelFolder *folder, GPtrArray *array);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

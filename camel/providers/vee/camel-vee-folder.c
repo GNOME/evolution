@@ -47,7 +47,6 @@ static void vee_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 
 static GPtrArray *vee_get_uids  (CamelFolder *folder, CamelException *ex);
 GPtrArray *vee_get_summary (CamelFolder *folder, CamelException *ex);
-void vee_free_summary (CamelFolder *folder, GPtrArray *array);
 
 static gint vee_get_message_count (CamelFolder *folder, CamelException *ex);
 static gint vee_get_unread_message_count (CamelFolder *folder, CamelException *ex);
@@ -111,8 +110,9 @@ camel_vee_folder_class_init (CamelVeeFolderClass *klass)
 	folder_class->sync = vee_sync;
 
 	folder_class->get_uids = vee_get_uids;
+	folder_class->free_uids = camel_folder_free_deep;
 	folder_class->get_summary = vee_get_summary;
-	folder_class->free_summary = vee_free_summary;
+	folder_class->free_summary = camel_folder_free_nop;
 	folder_class->get_message = vee_get_message;
 
 	folder_class->get_message_info = vee_get_message_info;
@@ -342,11 +342,6 @@ GPtrArray *vee_get_summary (CamelFolder *folder, CamelException *ex)
 	CamelVeeFolder *vf = (CamelVeeFolder *)folder;
 
 	return vf->messages;
-}
-
-void vee_free_summary (CamelFolder *folder, GPtrArray *array)
-{
-	/* no op */
 }
 
 static const CamelMessageInfo *vee_get_message_info (CamelFolder *f, const char *uid)
