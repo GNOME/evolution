@@ -1,3 +1,19 @@
+2001-09-27  Rodrigo Moya <rodrigo@ximian.com>
+
+	* idl/evolution-calendar.idl: added InvalidURI and UnsupportedMethod
+	exceptions to the CalFactory interface
+
+	* pcs/cal-factory.c (impl_CalFactory_open): raise InvalidURI exception on
+	URI errors and UnsupportedMethod when we don't support the method for
+	a given URI
+	
+2001-09-26  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-client/cal-client.c: added support for using multiple calendar
+	factories
+	(cal_client_uri_list): use the list of factories loaded for this
+	CalClient
+
 2001-09-26  Damon Chaplin  <damon@ximian.com>
 
 	* gui/e-calendar-table.c (date_compare_cb): 

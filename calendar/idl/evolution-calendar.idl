@@ -283,6 +283,8 @@ module Calendar {
 	/* A calendar factory, can load and create calendars */
 	interface CalFactory : Bonobo::Unknown {
 		exception NilListener {};
+		exception InvalidURI {};
+		exception UnsupportedMethod {};
 
 		/* Open a calendar from an URI */
 		void open (in string uri, in boolean only_if_exists, in Listener listener)

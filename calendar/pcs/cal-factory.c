@@ -417,7 +417,7 @@ open_fn (gpointer data)
 
 static void
 impl_CalFactory_open (PortableServer_Servant servant,
-		      const CORBA_char *uri,
+		      const CORBA_char *str_uri,
 		      CORBA_boolean only_if_exists,
 		      GNOME_Evolution_Calendar_Listener listener,
 		      CORBA_Environment *ev)
@@ -428,10 +428,40 @@ impl_CalFactory_open (PortableServer_Servant servant,
 	gboolean result;
 	OpenJobData *jd;
 	GNOME_Evolution_Calendar_Listener listener_copy;
+	GnomeVFSURI *uri;
+	const char *method_str;
+	GtkType type;
 
 	factory = CAL_FACTORY (bonobo_object_from_servant (servant));
 	priv = factory->priv;
 
+	/* check URI to see if we support it */
+	CORBA_exception_init (&ev2);
+
+	uri = gnome_vfs_uri_new_private (str_uri, TRUE, TRUE, TRUE);
+	if (!uri) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Calendar_CalFactory_InvalidURI,
+				     NULL);
+		CORBA_exception_free (&ev2);
+		return;
+	}
+
+	method_str = gnome_vfs_uri_get_scheme (uri);
+	type = g_hash_table_lookup (priv->methods, method_str);
+
+	gnome_vfs_uri_unref (uri);
+	if (!type) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Calendar_CalFactory_UnsupportedMethod,
+				     NULL);
+		CORBA_exception_free (&ev2);
+		return;
+	}
+
+	CORBA_exception_free (&ev2);
+		
+	/* duplicate the listener object */
 	CORBA_exception_init (&ev2);
 	result = CORBA_Object_is_nil (listener, &ev2);
 
@@ -459,9 +489,10 @@ impl_CalFactory_open (PortableServer_Servant servant,
 
 	CORBA_exception_free (&ev2);
 
+	/* add new asynchronous job */
 	jd = g_new (OpenJobData, 1);
 	jd->factory = factory;
-	jd->uri = g_strdup (uri);
+	jd->uri = g_strdup (str_uri);
 	jd->only_if_exists = only_if_exists;
 	jd->listener = listener_copy;
 

@@ -44,8 +44,8 @@ struct _CalClientPrivate {
 	 */
 	char *uri;
 
-	/* The calendar factory we are contacting */
-	GNOME_Evolution_Calendar_CalFactory factory;
+	/* The calendar factories we are contacting */
+	GList *factories;
 
 	/* Our calendar listener implementation */
 	CalListener *listener;
@@ -213,7 +213,7 @@ cal_client_init (CalClient *client)
 
 	priv->load_state = CAL_CLIENT_LOAD_NOT_LOADED;
 	priv->uri = NULL;
-	priv->factory = CORBA_OBJECT_NIL;
+	priv->factories = NULL;
 	priv->timezones = g_hash_table_new (g_str_hash, g_str_equal);
 
 	/* create the WombatClient */
@@ -241,36 +241,43 @@ destroy_wombat_client (CalClient *client)
         priv->w_client = NULL;
 }
 
-/* Gets rid of the factory that a client knows about */
+/* Gets rid of the factories that a client knows about */
 static void
-destroy_factory (CalClient *client)
+destroy_factories (CalClient *client)
 {
 	CalClientPrivate *priv;
+	CORBA_Object factory;
 	CORBA_Environment ev;
 	int result;
+	GList *f;
 
 	priv = client->priv;
 
 	CORBA_exception_init (&ev);
-	result = CORBA_Object_is_nil (priv->factory, &ev);
-	if (BONOBO_EX (&ev)) {
-		g_message ("destroy_factory(): could not see if the factory was nil");
-		priv->factory = CORBA_OBJECT_NIL;
-		CORBA_exception_free (&ev);
-		return;
+
+	for (f = priv->factories; f; f = f->next) {
+		factory = f->data;
+
+		result = CORBA_Object_is_nil (factory, &ev);
+		if (BONOBO_EX (&ev)) {
+			g_message ("destroy_factories(): could not see if a factory was nil");
+			CORBA_exception_free (&ev);
+
+			continue;
+		}
+
+		if (result)
+			continue;
+
+		CORBA_Object_release (factory, &ev);
+		if (BONOBO_EX (&ev)) {
+			g_message ("destroy_factories(): could not release a factory");
+			CORBA_exception_free (&ev);
+		}
 	}
-	CORBA_exception_free (&ev);
 
-	if (result)
-		return;
-
-	CORBA_exception_init (&ev);
-	CORBA_Object_release (priv->factory, &ev);
-	if (BONOBO_EX (&ev))
-		g_message ("destroy_factory(): could not release the factory");
-
-	CORBA_exception_free (&ev);
-	priv->factory = CORBA_OBJECT_NIL;
+	g_list_free (priv->factories);
+	priv->factories = NULL;
 }
 
 /* Gets rid of the calendar client interface object that a client knows about */
@@ -342,7 +349,7 @@ cal_client_destroy (GtkObject *object)
 	}
 
 	destroy_wombat_client (client);
-	destroy_factory (client);
+	destroy_factories (client);
 	destroy_cal (client);
 
 	priv->load_state = CAL_CLIENT_LOAD_NOT_LOADED;
@@ -585,8 +592,8 @@ client_forget_password_cb (WombatClient *w_client,
  * cal_client_construct:
  * @client: A calendar client.
  *
- * Constructs a calendar client object by contacting the calendar factory of the
- * calendar server.
+ * Constructs a calendar client object by contacting all available
+ * calendar factories.
  *
  * Return value: The same object as the @client argument, or NULL if the
  * calendar factory could not be contacted.
@@ -595,8 +602,10 @@ CalClient *
 cal_client_construct (CalClient *client)
 {
 	CalClientPrivate *priv;
-	GNOME_Evolution_Calendar_CalFactory factory, factory_copy;
+	GNOME_Evolution_Calendar_CalFactory factory;
+	OAF_ServerInfoList *servers;
 	CORBA_Environment ev;
+	int i;
 
 	CORBA_exception_init (&ev);
 	g_return_val_if_fail (client != NULL, NULL);
@@ -605,27 +614,37 @@ cal_client_construct (CalClient *client)
 	priv = client->priv;
 
 	CORBA_exception_init (&ev);
-	factory = (GNOME_Evolution_Calendar_CalFactory) oaf_activate_from_id (
-		"OAFIID:GNOME_Evolution_Wombat_CalendarFactory",
-		0, NULL, &ev);
 
-	if (BONOBO_EX (&ev)) {
-		g_message ("cal_client_construct(): Could not activate the calendar factory");
+	servers = oaf_query ("repo_ids.has ('IDL:GNOME/Evolution/Calendar/CalFactory:1.0')", NULL, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("Cannot perform OAF query for Calendar servers.");
 		CORBA_exception_free (&ev);
 		return NULL;
 	}
 
-	CORBA_exception_init (&ev);
-	factory_copy = CORBA_Object_duplicate (factory, &ev);
+	if (servers->_length == 0)
+		g_warning ("No Calendar servers installed.");
 
-	if (BONOBO_EX (&ev)) {
-		g_message ("cal_client_construct(): could not duplicate the calendar factory");
-		CORBA_exception_free (&ev);
-		return NULL;
+	for (i = 0; i < servers->_length; i++) {
+		const OAF_ServerInfo *info;
+
+		info = servers->_buffer + i;
+
+		factory = (GNOME_Evolution_Calendar_CalFactory)
+			oaf_activate_from_id (info->iid, 0, NULL, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("cal_client_construct: Could not activate calendar server %s", info->iid);
+			CORBA_free (servers);
+			CORBA_exception_free (&ev);
+			return NULL;
+		}
+
+		priv->factories = g_list_prepend (priv->factories, factory);
 	}
+
+	CORBA_free (servers);
+
 	CORBA_exception_free (&ev);
-
-	priv->factory = factory_copy;
 	return client;
 }
 
@@ -703,6 +722,7 @@ cal_client_open_calendar (CalClient *client, const char *str_uri, gboolean only_
 	CalClientPrivate *priv;
 	GNOME_Evolution_Calendar_Listener corba_listener;
 	CORBA_Environment ev;
+	GList *f;
 
 	g_return_val_if_fail (client != NULL, FALSE);
 	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
@@ -734,8 +754,14 @@ cal_client_open_calendar (CalClient *client, const char *str_uri, gboolean only_
 	priv->load_state = CAL_CLIENT_LOAD_LOADING;
 	priv->uri = g_strdup (str_uri);
 
-	GNOME_Evolution_Calendar_CalFactory_open (priv->factory, str_uri, only_if_exists,
-						  corba_listener, &ev);
+	for (f = priv->factories; f; f = f->next) {
+		CORBA_exception_free (&ev);
+		GNOME_Evolution_Calendar_CalFactory_open (f->data, str_uri,
+							  only_if_exists,
+							  corba_listener, &ev);
+		if (ev._major == CORBA_NO_EXCEPTION)
+			break;
+	}
 
 	if (BONOBO_EX (&ev)) {
 		CORBA_exception_free (&ev);
@@ -782,22 +808,31 @@ cal_client_uri_list (CalClient *client, CalMode mode)
 	GNOME_Evolution_Calendar_StringSeq *uri_seq;
 	GList *uris = NULL;	
 	CORBA_Environment ev;
+	GList *f;
 
 	g_return_val_if_fail (client != NULL, FALSE);
 	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
 
 	priv = client->priv;
 
-	CORBA_exception_init (&ev);
+	for (f = priv->factories; f; f = f->next) {
+		CORBA_exception_init (&ev);
+		uri_seq = GNOME_Evolution_Calendar_CalFactory_uriList (f->data, mode, &ev);
 
-	uri_seq = GNOME_Evolution_Calendar_CalFactory_uriList (priv->factory, mode, &ev);
+		if (BONOBO_EX (&ev)) {
+			g_message ("cal_client_uri_list(): request failed");
 
-	if (BONOBO_EX (&ev))
-		g_message ("cal_client_uri_list(): request failed");
-	else
-		uris = build_uri_list (uri_seq);
+			/* free memory and return */
+			g_list_foreach (uris, (GFunc) g_free, NULL);
+			g_list_free (uris);
+			uris = NULL;
+			break;
+		}
+		else
+			uris = g_list_concat (uris, build_uri_list (uri_seq));
 	
-	CORBA_exception_free (&ev);
+		CORBA_exception_free (&ev);
+	}
 	
 	return uris;	
 }
