@@ -2922,6 +2922,7 @@ msgid "invalid time"
 msgstr "нев╕рний час"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:372
+#, c-format
 msgid "Alarm on %s"
 msgstr "Спов╕щення на %s"
 
@@ -5660,6 +5661,11 @@ msgid ""
 "\n"
 "Do you wish to accept anyway?"
 msgstr ""
+"Нев╕рний сертиф╕кат з %s:\n"
+"\n"
+"%s\n"
+"\n"
+"Бажа╓те прийняти всеодно?"
 
 #: camel/camel-tcp-stream-ssl.c:405
 #, c-format
@@ -5674,48 +5680,43 @@ msgid ""
 msgstr ""
 
 #: camel/camel-url.c:289
-#, fuzzy, c-format
+#, c-format
 msgid "Could not parse URL `%s'"
-msgstr ""
-"Не вдалося в╕дкрити файл \"%s\":\n"
-"%s"
+msgstr "Неможливо проанал╕зувати URL \"%s\""
 
 #: camel/camel-vee-folder.c:586
-#, fuzzy, c-format
+#, c-format
 msgid "No such message %s in %s"
-msgstr "Переслати це пов╕домлення"
+msgstr "Нев╕рне пов╕домлення %s в %s"
 
 #: camel/camel-vee-folder.c:747
-#, fuzzy, c-format
+#, c-format
 msgid "No such message: %s"
-msgstr "Переслати це пов╕домлення"
+msgstr "Нема╓ такого пов╕домлення: %s"
 
 #: camel/camel-vee-store.c:250
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot delete folder: %s: Invalid operation"
-msgstr "Не вдалося отримати теку: %s: %s"
+msgstr "Неможливо стерти теку: %s: Нев╕рна операц╕я"
 
 #: camel/camel-vee-store.c:285
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot delete folder: %s: No such folder"
-msgstr "Не вдалося отримати теку: %s: %s"
+msgstr "Неможливо стерти теку: %s: Нема╓ тако╖ теки"
 
 #: camel/camel-vee-store.c:297
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot rename folder: %s: Invalid operation"
-msgstr "Не вдалося отримати теку: %s: %s"
+msgstr "Неможливо перейменувати теку: %s: Нев╕рна операц╕я"
 
 #: camel/camel-vee-store.c:325
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot rename folder: %s: No such folder"
-msgstr "Не вдалося отримати теку: %s: %s"
+msgstr "Неможливо перейменувати теку: %s: Нема╓ тако╖ теки"
 
 #: camel/camel-vtrash-folder.c:117
-#, fuzzy
 msgid "You cannot copy messages from this trash folder."
-msgstr ""
-"Неможливо отримати пов╕домлення \"%s\" з теки \"%s\"\n"
-"  %s"
+msgstr "Ви неможете скоп╕ювати пов╕домлення з ц╕╓╖ теки см╕тника."
 
 #: camel/providers/imap/camel-imap-command.c:329
 #, c-format
@@ -5768,7 +5769,7 @@ msgstr "Цього пов╕домлення зараз не ╕сну╓"
 #: camel/providers/imap/camel-imap-folder.c:1679
 #: camel/providers/imap/camel-imap-folder.c:1760
 msgid "Fetching summary information for new messages"
-msgstr ""
+msgstr "Отримання ╕нформац╕╖ про нов╕ пов╕домлення"
 
 #: camel/providers/imap/camel-imap-folder.c:1685
 msgid "Scanning for new messages"
@@ -5776,7 +5777,7 @@ msgstr "Пошук нових пов╕домлень"
 
 #: camel/providers/imap/camel-imap-folder.c:1977
 msgid "Could not find message body in FETCH response."
-msgstr ""
+msgstr "Не вдалося знайти т╕ла пов╕домлення у в╕дпов╕д╕ на FETCH."
 
 #: camel/providers/imap/camel-imap-message-cache.c:155
 #, c-format
@@ -5886,7 +5887,8 @@ msgstr "Локальне в╕двантаження"
 
 #: camel/providers/local/camel-local-provider.c:54
 msgid "For retrieving local mail from standard mbox formated spools."
-msgstr "Для отримання локально╖ пошти з стандартного накопичувача у формат╕ mbox."
+msgstr ""
+"Для отримання локально╖ пошти з стандартного накопичувача у формат╕ mbox."
 
 #: camel/providers/local/camel-local-provider.c:63
 msgid "Apply filters to new messages in INBOX"
@@ -5906,7 +5908,9 @@ msgstr "Стандартн╕ накопичувач╕ Unix mbox"
 
 #: camel/providers/local/camel-local-provider.c:82
 msgid "For reading and storing local mail in standard mbox spool files."
-msgstr "Для зчитування та збереження локально╖ пошти у стандартних накопичувальних файлах mbox."
+msgstr ""
+"Для зчитування та збереження локально╖ пошти у стандартних накопичувальних "
+"файлах mbox."
 
 #: camel/providers/local/camel-local-store.c:132
 #: camel/providers/local/camel-spool-store.c:110
@@ -5935,39 +5939,38 @@ msgid "Local mail file %s"
 msgstr "Файл локально╖ пошти %s"
 
 #: camel/providers/local/camel-local-store.c:247
-#, fuzzy, c-format
+#, c-format
 msgid "Could not rename folder %s to %s: %s"
-msgstr "Не вдалося перейменувати теку \"%s\": %s"
+msgstr "Не вдалося перейменувати теку \"%s\" на \"%s\": %s"
 
 #: camel/providers/local/camel-local-store.c:289
-#, fuzzy, c-format
+#, c-format
 msgid "Could not delete folder summary file `%s': %s"
-msgstr "Не вдалося стерти теку \"%s\": %s"
+msgstr "Не вдалося стерти файл зведення теки \"%s\": %s"
 
 #: camel/providers/local/camel-local-store.c:299
-#, fuzzy, c-format
+#, c-format
 msgid "Could not delete folder index file `%s': %s"
-msgstr "Не вдалося стерти теку \"%s\": %s"
+msgstr "Не вдалося стерти ╕ндексний файл теки \"%s\": %s"
 
 #: camel/providers/local/camel-local-summary.c:367
-#, fuzzy, c-format
+#, c-format
 msgid "Could not save summary: %s: %s"
-msgstr "Не вдалося завантажити %s: %s"
+msgstr "Не вдалося зберегти зведення %s: %s"
 
 #: camel/providers/local/camel-local-summary.c:423
 #: camel/providers/local/camel-spool-summary.c:1158
 msgid "Unable to add message to summary: unknown reason"
-msgstr ""
+msgstr "Неможливо додати пов╕домлення до зведення: причина нев╕дома"
 
 #: camel/providers/local/camel-maildir-folder.c:182
-#, fuzzy
 msgid "Maildir append message cancelled"
-msgstr "Переслане пов╕домлення %s"
+msgstr "В╕дм╕нено додавання пов╕домлення у maildir"
 
 #: camel/providers/local/camel-maildir-folder.c:185
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot append message to maildir folder: %s: %s"
-msgstr "В╕д╕слан╕ пов╕домлення"
+msgstr "Неможливо додати пов╕домлення у тку maildir: %s: %s"
 
 #: camel/providers/local/camel-maildir-folder.c:210
 #: camel/providers/local/camel-maildir-folder.c:222
@@ -6064,9 +6067,8 @@ msgid "Cannot open mailbox: %s: %s\n"
 msgstr "Неможливо в╕дкрити поштову скриньку: %s: %s\n"
 
 #: camel/providers/local/camel-mbox-folder.c:266
-#, fuzzy
 msgid "Mail append cancelled"
-msgstr "Операц╕ю скасовано"
+msgstr "Додавання пошти в╕дм╕нено"
 
 #: camel/providers/local/camel-mbox-folder.c:269
 #, c-format
@@ -6079,7 +6081,7 @@ msgstr "Неможливо додати пов╕домлення до файлу Mbox: %s: %s"
 #: camel/providers/local/camel-spool-folder.c:596
 #: camel/providers/local/camel-spool-folder.c:628
 #: camel/providers/local/camel-spool-folder.c:641
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot get message: %s from folder %s\n"
 "  %s"
@@ -6187,7 +6189,7 @@ msgstr "Не вдалося в╕дкрити тимчасову поштову скриньку: %s"
 #: camel/providers/local/camel-spool-summary.c:979
 #: camel/providers/local/camel-spool-summary.c:987
 msgid "Summary and folder mismatch, even after a sync"
-msgstr ""
+msgstr "Зведення ╕ тека не сп╕впадають, нав╕ть п╕сля синхрон╕зац╕╖"
 
 #: camel/providers/local/camel-mbox-summary.c:596
 #: camel/providers/local/camel-spool-summary.c:750
@@ -6206,7 +6208,7 @@ msgstr "Зб╕й запису в тимчасову поштову скриньку: %s: %s"
 #: camel/providers/local/camel-spool-summary.c:1037
 #, c-format
 msgid "Could not close source folder %s: %s"
-msgstr ""
+msgstr "Не вдалося закрити вих╕дну теку %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:640
 #, c-format
@@ -6226,14 +6228,13 @@ msgid "Unknown error: %s"
 msgstr "Нев╕дома помилка: %s"
 
 #: camel/providers/local/camel-mh-folder.c:173
-#, fuzzy
 msgid "MH append message cancelled"
-msgstr "В╕д╕слати пов╕домлення за контактом"
+msgstr "В╕дм╕нено додавання пов╕домлення у MH"
 
 #: camel/providers/local/camel-mh-folder.c:176
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot append message to mh folder: %s: %s"
-msgstr "В╕д╕слан╕ пов╕домлення"
+msgstr "Неможливо додати пов╕домлення у теку MH: %s: %s"
 
 #: camel/providers/local/camel-mh-store.c:110
 #, c-format
@@ -6241,9 +6242,9 @@ msgid "`%s' is not a directory."
 msgstr "\"%s\" не ╓ каталогом."
 
 #: camel/providers/local/camel-mh-summary.c:218
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open MH directory path: %s: %s"
-msgstr "Неможливо в╕дкрити поштову скриньку: %s: %s\n"
+msgstr "Неможливо в╕дкрити каталог MH: %s: %s"
 
 #: camel/providers/local/camel-spool-folder.c:513
 #, fuzzy, c-format
@@ -6261,9 +6262,9 @@ msgid "Folder `%s/%s' does not exist."
 msgstr "Теки \"%s/%s\" не ╕сну╓."
 
 #: camel/providers/local/camel-spool-store.c:164
-#, fuzzy, c-format
+#, c-format
 msgid "Spool mail file %s"
-msgstr "Файл локально╖ пошти %s"
+msgstr "Накопичувальн╕й файл пошти %s"
 
 #: camel/providers/local/camel-spool-store.c:210
 msgid "Spool folders cannot be renamed"
@@ -6276,14 +6277,14 @@ msgstr "Накопичувальн╕ теки не можна видаляти"
 #: camel/providers/local/camel-spool-summary.c:789
 #: camel/providers/local/camel-spool-summary.c:798
 #: camel/providers/local/camel-spool-summary.c:807
-#, fuzzy, c-format
+#, c-format
 msgid "Could not sync temporary folder %s: %s"
-msgstr "Не вдалось в╕дкрити тимчасовий файл пошти %s: %s"
+msgstr "Не вдалось синхрон╕зувати тимчасову теку %s: %s"
 
 #: camel/providers/local/camel-spool-summary.c:822
-#, fuzzy, c-format
+#, c-format
 msgid "Could not sync spool folder %s: %s"
-msgstr "Не вдалося стерти теку \"%s\": %s"
+msgstr "Не вдалося синхрон╕зувати накопичувальну теку %s: %s"
 
 #: camel/providers/local/camel-spool-summary.c:852
 #: camel/providers/local/camel-spool-summary.c:870
@@ -6377,7 +6378,7 @@ msgstr "Створити новий календар"
 
 #: camel/providers/pop3/camel-pop3-folder.c:229
 msgid "Could not open folder: message listing was incomplete."
-msgstr ""
+msgstr "Не вдалося в╕дкрити теку: список пов╕домлень не повний."
 
 #: camel/providers/pop3/camel-pop3-folder.c:253
 #, fuzzy
@@ -6385,9 +6386,9 @@ msgid "Expunging deleted messages"
 msgstr "Стерти вибран╕ пов╕домлення"
 
 #: camel/providers/pop3/camel-pop3-folder.c:329
-#, fuzzy, c-format
+#, c-format
 msgid "Could not fetch message: %s"
-msgstr "Не вдалося в╕д╕слати пов╕домлення: %s"
+msgstr "Не вдалося отримати пов╕домлення: %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:345
 #, c-format
@@ -6395,14 +6396,14 @@ msgid "Could not retrieve message from POP server %s: %s"
 msgstr ""
 
 #: camel/providers/pop3/camel-pop3-folder.c:368
-#, fuzzy, c-format
+#, c-format
 msgid "No message with uid %s"
-msgstr "Зберегти пов╕домлення у вказан╕й тец╕"
+msgstr "Нема╓ пов╕домлення з UID %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:372
-#, fuzzy, c-format
+#, c-format
 msgid "Retrieving POP message %d"
-msgstr "Отримання пов╕домлення %d з %d"
+msgstr "Отримання пов╕домлення POP %d"
 
 #: camel/providers/pop3/camel-pop3-provider.c:37
 #, fuzzy
@@ -6414,18 +6415,17 @@ msgid "Leave messages on server"
 msgstr "Залишати пов╕домлення на сервер╕"
 
 #: camel/providers/pop3/camel-pop3-provider.c:42
-#, fuzzy, c-format
+#, c-format
 msgid "Delete after %s day(s)"
-msgstr "Стерти завдання"
+msgstr "Стирати по завершенню %s дн╕в"
 
 #: camel/providers/pop3/camel-pop3-provider.c:51 mail/mail-config.glade.h:51
 msgid "POP"
 msgstr "POP"
 
 #: camel/providers/pop3/camel-pop3-provider.c:53
-#, fuzzy
 msgid "For connecting to and downloading mail from POP servers."
-msgstr "Для зчитування та збереження плшти на серверах IMAP."
+msgstr "Для з'╓днання та звантаження пошти з сервер╕в POP."
 
 #: camel/providers/pop3/camel-pop3-provider.c:70
 msgid ""
@@ -7016,18 +7016,16 @@ msgid ""
 msgstr ""
 
 #: composer/e-msg-composer.c:1316
-#, fuzzy
 msgid "Warning: Modified Message"
-msgstr "Переслан╕ пов╕домлення"
+msgstr "Увага: зм╕нене пов╕домлення"
 
 #: composer/e-msg-composer.c:1339
 msgid "Open file"
 msgstr "В╕дкрити файл"
 
 #: composer/e-msg-composer.c:1488
-#, fuzzy
 msgid "Insert File"
-msgstr "Вставити текстовий файл..."
+msgstr "Вставити файл"
 
 #: composer/e-msg-composer.c:1863 composer/e-msg-composer.c:2303
 msgid "Compose a message"
@@ -7040,11 +7038,12 @@ msgid ""
 msgstr ""
 
 #: composer/e-msg-composer.c:2343
-#, fuzzy
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
-msgstr "Не вдалось створити в╕кно конструктора."
+msgstr ""
+"Не вдалось створити в╕кно редактора:\n"
+"Неможливо активувати компонент HTML-редактора."
 
 #: composer/evolution-composer.c:349
 msgid ""
@@ -7053,9 +7052,8 @@ msgid ""
 msgstr ""
 
 #: composer/evolution-composer.c:364
-#, fuzzy
 msgid "Cannot initialize Evolution's composer."
-msgstr "Не вдалося ╕н╕ц╕ал╕зувати оболонку Evolutuion."
+msgstr "Не вдалося ╕н╕ц╕ал╕зувати редактора Evolutuion."
 
 #: data/evolution.desktop.in.h:1 shell/main.c:84
 msgid "Evolution"
@@ -7483,9 +7481,8 @@ msgid "does not start with"
 msgstr "не почина╓ться з"
 
 #: filter/libfilter-i18n.h:18
-#, fuzzy
 msgid "Do Not Exist"
-msgstr "не ╕сну╓"
+msgstr "не ╕снують"
 
 #: filter/libfilter-i18n.h:19
 msgid "Draft"
@@ -7687,6 +7684,8 @@ msgid ""
 "Evolution has found Elm mail files\n"
 "Would you like to import them into Evolution?"
 msgstr ""
+"Evolution знайшов поштов╕ файли Elm\n"
+"Чи бажа╓те ви ╕мпортувати ╖х у Evolution?"
 
 #: importers/elm-importer.c:577
 msgid "Elm"
@@ -7705,19 +7704,20 @@ msgid ""
 "Evolution has found GnomeCard files.\n"
 "Would you like them to be imported into Evolution?"
 msgstr ""
+"Evolution знайшов файли GnomeCard.\n"
+"Чи бажа╓те ви ╕мпортувати ╖х у Evolution?"
 
 #: importers/netscape-importer.c:107
 msgid "Evolution is importing your old Netscape data"
-msgstr ""
+msgstr "Evolution ╕мпорту╓ ваш╕ стар╕ дан╕ Netscape"
 
 #: importers/netscape-importer.c:904 importers/pine-importer.c:602
 msgid "Scanning directory"
 msgstr "Сканування каталогу"
 
 #: importers/netscape-importer.c:913
-#, fuzzy
 msgid "Starting import"
-msgstr "Дата початку:"
+msgstr "Початок ╕мпортування"
 
 #: importers/netscape-importer.c:979
 msgid "Settings"
@@ -7728,16 +7728,20 @@ msgid ""
 "Evolution has found Netscape mail files.\n"
 "Would you like them to be imported into Evolution?"
 msgstr ""
+"Evolution знайшов поштов╕ файли Netscape.\n"
+"Чи бажа╓те ви ╕мпортувати ╖х у Evolution?"
 
 #: importers/pine-importer.c:101
 msgid "Evolution is importing your old Pine data"
-msgstr ""
+msgstr "Evolution ╕мпорту╓ ваш╕ стар╕ дан╕ Pine"
 
 #: importers/pine-importer.c:695
 msgid ""
 "Evolution has found Pine mail files.\n"
 "Would you like to import them into Evolution?"
 msgstr ""
+"Evolution знайшов поштов╕ файли Pine.\n"
+"Чи бажа╓те ви ╕мпортувати ╖х у Evolution?"
 
 #: importers/pine-importer.c:723
 msgid "Pine"
@@ -7745,12 +7749,11 @@ msgstr "Pine"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:1
 msgid "Evolution component for handling mail."
-msgstr ""
+msgstr "Компонент Evolution для обробки пошти."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:2
-#, fuzzy
 msgid "Evolution mail composer."
-msgstr "Не вдалося ╕н╕ц╕ал╕зувати поштовий компонент Evolutuion."
+msgstr "Редактор пошти Evolutuion."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:3
 #, fuzzy
@@ -7778,14 +7781,12 @@ msgid "Factory for the Mail Summary component."
 msgstr "Не вдалося ╕н╕ц╕ал╕зувати поштовий компонент Evolutuion."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:8
-#, fuzzy
 msgid "Mail configuration interface"
-msgstr "Конф╕╜урац╕я пошти"
+msgstr "╤нтерфейс конф╕╜урац╕╖ пошти"
 
 #: mail/component-factory.c:95
-#, fuzzy
 msgid "Folder containing mail"
-msgstr "Ф╕льтр списку розсилки"
+msgstr "Тека, що м╕стить пошту"
 
 #: mail/component-factory.c:96
 msgid "Mail storage folder (internal)"
@@ -7806,7 +7807,7 @@ msgstr "Створити новий календар"
 
 #: mail/component-factory.c:142
 msgid "This folder cannot contain messages."
-msgstr ""
+msgstr "Ця тека не може м╕стити пов╕домлення."
 
 #: mail/component-factory.c:374
 msgid "Properties..."
