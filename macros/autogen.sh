@@ -145,16 +145,26 @@ do
 	fi
       fi
       echo "Running aclocal $aclocalinclude ..."
-      aclocal $aclocalinclude
+      aclocal $aclocalinclude || {
+	echo
+	echo "**Error**: aclocal failed. This may mean that you have not"
+	echo "installed all of the packages you need, or you may need to"
+	echo "set ACLOCAL_FLAGS to include \"-I \$prefix/share/aclocal\""
+	echo "for the prefix where you installed the packages whose"
+	echo "macros were not found"
+	exit 1
+      }
+
       if grep "^AM_CONFIG_HEADER" configure.in >/dev/null; then
 	echo "Running autoheader..."
-	autoheader
+	autoheader || { echo "**Error**: autoheader failed."; exit 1; }
       fi
       echo "Running automake --gnu $am_opt ..."
-      automake --add-missing --gnu $am_opt
+      automake --add-missing --gnu $am_opt ||
+	{ echo "**Error**: automake failed."; exit 1; }
       echo "Running autoconf ..."
-      autoconf
-    )
+      autoconf || { echo "**Error**: autoconf failed."; exit 1; }
+    ) || exit 1
   fi
 done
 

@@ -1,3 +1,10 @@
+2000-06-17  Dan Winship  <danw@helixcode.com>
+
+	* autogen.sh: exit immediately if aclocal, autoheader, automake,
+	or autoconf fails, rather than continuing on with broken state.
+	(In the aclocal case, print a hopefully-useful explanatory
+	message.)
+
 2000-06-13  Martin Baulig  <baulig@suse.de>
 
 	* gnome-bonobo-check.am (AM_BONOBO_USES_OAF): New macro.
