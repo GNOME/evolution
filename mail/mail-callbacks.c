@@ -939,21 +939,21 @@ flag_messages(FolderBrowser *fb, guint32 mask, guint32 set)
         MessageList *ml = fb->message_list;
 	GPtrArray *uids;
 	int i;
-
+	
 	if (ml->folder == NULL)
 		return;
-
+	
 	/* could just use specific callback but i'm lazy */
 	uids = g_ptr_array_new ();
 	message_list_foreach (ml, enumerate_msg, uids);
-	camel_folder_freeze(ml->folder);
-	for (i=0;i<uids->len;i++) {
-		camel_folder_set_message_flags(ml->folder, uids->pdata[i], mask, set);
-		g_free(uids->pdata[i]);
+	camel_folder_freeze (ml->folder);
+	for (i = 0; i < uids->len; i++) {
+		camel_folder_set_message_flags (ml->folder, uids->pdata[i], mask, set);
+		g_free (uids->pdata[i]);
 	}
-	camel_folder_thaw(ml->folder);
-
-	g_ptr_array_free(uids, TRUE);
+	camel_folder_thaw (ml->folder);
+	
+	g_ptr_array_free (uids, TRUE);
 }
 
 void
@@ -980,11 +980,11 @@ do_edit_messages(CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, void
 {
 	/*FolderBrowser *fb = data;*/
 	int i;
-
-	for (i=0; i<messages->len; i++) {
+	
+	for (i = 0; i < messages->len; i++) {
 		EMsgComposer *composer;
-
-		composer = e_msg_composer_new_with_message(messages->pdata[i]);
+		
+		composer = e_msg_composer_new_with_message (messages->pdata[i]);
 		if (composer) {
 			gtk_signal_connect (GTK_OBJECT (composer), "send",
 					    composer_send_cb, NULL);

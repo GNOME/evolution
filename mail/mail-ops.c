@@ -633,6 +633,10 @@ send_queue_send(struct _mail_msg *mm)
 		
 		report_status (m, CAMEL_FILTER_STATUS_START, pc, "Sending message %d of %d", i+1, uids->len);
 		
+		info = camel_folder_get_message_info (m->queue, uids->pdata[i]);
+		if (info && info->flags & CAMEL_MESSAGE_DELETED)
+			continue;
+		
 		message = camel_folder_get_message (m->queue, uids->pdata[i], &mm->ex);
 		if (camel_exception_is_set (&mm->ex))
 			break;
