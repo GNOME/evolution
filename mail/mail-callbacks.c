@@ -840,6 +840,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	GList *to = NULL, *cc = NULL;
 	EDestination **tov, **ccv;
 	EMsgComposer *composer;
+	CamelMimePart *part;
 	time_t date;
 	const int max_subject_length = 1024;
 	
@@ -941,7 +942,19 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	}
 	
 	/* set body text here as we want all ignored words to take effect */
-	if ((mode & REPLY_NO_QUOTE) == 0) {
+	switch (mail_config_get_default_reply_style ()) {
+	case MAIL_CONFIG_REPLY_DO_NOT_QUOTE:
+		/* do nothing */
+		break;
+	case MAIL_CONFIG_REPLY_ATTACH:
+		/* attach the original message as an attachment */
+		part = mail_tool_make_message_attachment (message);
+		e_msg_composer_attach (composer, part);
+		camel_object_unref (CAMEL_OBJECT (part));
+		break;
+	case MAIL_CONFIG_REPLY_QUOTED:
+	default:
+		/* do what any sane user would want when replying... */
 		sender = camel_mime_message_get_from (message);
 		if (sender != NULL && camel_address_length (CAMEL_ADDRESS (sender)) > 0) {
 			camel_internet_address_get (sender, 0, &name, &address);
@@ -960,6 +973,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 			e_msg_composer_set_body_text (composer, text);
 			g_free (text);
 		}
+		break;
 	}
 	
 	/* Set the subject of the new message. */

@@ -1,3 +1,9 @@
+2002-03-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (mail_generate_reply): Updated to respect the
+	new mail-config options for default reply style that NotZed had
+	started to implement before there was a gui.
+
 2002-03-27  Dan Winship  <danw@ximian.com>
 
 	* mail-display.c (do_attachment_header): unset GTK_CAN_FOCUS on
