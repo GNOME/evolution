@@ -566,11 +566,15 @@ static int
 gpg_ctx_op_start (struct _GpgCtx *gpg)
 {
 	char *status_fd = NULL, *passwd_fd = NULL;
-	int i, maxfd, fds[10];
+	int i, maxfd, errnosave, fds[10];
 	GPtrArray *argv;
+	struct stat st;
 	
 	for (i = 0; i < 10; i++)
 		fds[i] = -1;
+	
+	if (stat (gpg->path, &st) == -1)
+		goto exception;
 	
 	maxfd = gpg->need_passwd ? 10 : 8;
 	for (i = 0; i < maxfd; i += 2) {
@@ -645,10 +649,14 @@ gpg_ctx_op_start (struct _GpgCtx *gpg)
 	
  exception:
 	
+	errnosave = errno;
+	
 	for (i = 0; i < 10; i++) {
 		if (fds[i] != -1)
 			close (fds[i]);
 	}
+	
+	errno = errnosave;
 	
 	return -1;
 }
@@ -1207,8 +1215,8 @@ gpg_sign (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
 	gpg_ctx_set_ostream (gpg, ostream);
 	
 	if (gpg_ctx_op_start (gpg) == -1) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Failed to execute gpg."));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Failed to execute gpg: %s"), g_strerror (errno));
 		gpg_ctx_free (gpg);
 		
 		return -1;
@@ -1236,7 +1244,9 @@ gpg_sign (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
 		char *diagnostics;
 		
 		diagnostics = gpg_ctx_get_diagnostics (gpg);
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, diagnostics);
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+				     diagnostics && *diagnostics ? diagnostics :
+				     _("Failed to execute gpg."));
 		g_free (diagnostics);
 		
 		gpg_ctx_free (gpg);
@@ -1417,7 +1427,9 @@ gpg_encrypt (CamelCipherContext *context, gboolean sign, const char *userid,
 		char *diagnostics;
 		
 		diagnostics = gpg_ctx_get_diagnostics (gpg);
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, diagnostics);
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+				     diagnostics && *diagnostics ? diagnostics :
+				     _("Failed to execute gpg."));
 		g_free (diagnostics);
 		
 		gpg_ctx_free (gpg);
@@ -1473,7 +1485,9 @@ gpg_decrypt (CamelCipherContext *context, CamelStream *istream,
 		char *diagnostics;
 		
 		diagnostics = gpg_ctx_get_diagnostics (gpg);
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, diagnostics);
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+				     diagnostics && *diagnostics ? diagnostics :
+				     _("Failed to execute gpg."));
 		g_free (diagnostics);
 		
 		gpg_ctx_free (gpg);

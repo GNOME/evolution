@@ -1,5 +1,10 @@
 2002-08-19  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-gpg-context.c (gpg_sign): If the diagnostics are empty,
+	just explain that gpg failed to execute.
+	(gpg_encrypt): Same.
+	(gpg_decrypt): And here too.
+
 	* tests/lib/camel-test.c (camel_test_init): Updated to pass the
 	needed arguments to camel_init() and to init gthreads before camel
 	(since camel expectes it to be initialised already).
