@@ -1,3 +1,11 @@
+2001-03-13  Dan Winship  <danw@ximian.com>
+
+	* mail-display.c (on_url_requested): Call gtk_html_end() on the
+	stream so things happen. Fixes a problem with some inline images
+	(just very small ones maybe?)
+
+	* importers/.cvsignore: create
+
 2001-03-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* session.c (mail_session_init): Call camel_init with the

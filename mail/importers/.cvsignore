@@ -1,0 +1,12 @@
+.deps
+.libs
+.pure
+Makefile
+Makefile.in
+*.bb
+*.bbg
+*.da
+*.gcov
+*.oaf
+*.lo
+*.la

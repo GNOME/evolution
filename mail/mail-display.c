@@ -856,6 +856,8 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 		g_return_if_fail (ba != NULL);
 		gtk_html_write (html, handle, ba->data, ba->len);
 	}
+
+	gtk_html_end (html, handle, GTK_HTML_STREAM_OK);
 }
 
 void
