@@ -18,6 +18,8 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include "config.h"
+
 #include <glib.h>
 
 #include "ibex.h"
@@ -29,4 +31,21 @@ struct ibex {
 	struct _memcache *blocks;
 	struct _IBEXWord *words;
 	int predone;
+
+	/* sigh i hate glib's mutex stuff too */
+#ifdef ENABLE_THREADS
+	GMutex *lock;
+#endif
+	
 };
+
+#ifdef ENABLE_THREADS
+/*#define IBEX_LOCK(ib) (printf(__FILE__ "%d: %s: locking ibex\n", __LINE__, __FUNCTION__), g_mutex_lock(ib->lock))
+  #define IBEX_UNLOCK(ib) (printf(__FILE__ "%d: %s: unlocking ibex\n", __LINE__, __FUNCTION__), g_mutex_unlock(ib->lock))*/
+#define IBEX_LOCK(ib) (g_mutex_lock(ib->lock))
+#define IBEX_UNLOCK(ib) (g_mutex_unlock(ib->lock))
+#else
+#define IBEX_LOCK(ib) 
+#define IBEX_UNLOCK(ib) 
+#endif
+

@@ -85,9 +85,9 @@ static struct _ESExpTerm * parse_value(ESExp *f);
 
 static void parse_dump_term(struct _ESExpTerm *t, int depth);
 
+#ifdef E_SEXP_IS_GTK_OBJECT
 static GtkObjectClass *parent_class;
-
-
+#endif
 
 static GScannerConfig scanner_config =
 {
@@ -820,67 +820,9 @@ parse_list(ESExp *f, int gotbrace)
 	return t;
 }
 
-#if 0
-GList *
-camel_mbox_folder_search_by_expression(CamelFolder *folder, char *expression, CamelException *ex)
-{
-	GScanner *gs;
-	int i;
-	struct _ESExpTerm *t;
-	struct _searchcontext *ctx;
-	struct _ESExpResult *r;
-	GList *matches = NULL;
+static void e_sexp_finalise(void *);
 
-	gs = g_scanner_new(&scanner_config);
-	for(i=0;i<sizeof(symbols)/sizeof(symbols[0]);i++)
-		g_scanner_scope_add_symbol(gs, 0, symbols[i].name, &symbols[i]);
-
-	g_scanner_input_text(gs, expression, strlen(expression));
-	t = parse_list(gs, 0);
-
-	if (t) {
-		ctx = g_malloc0(sizeof(*ctx));
-		ctx->folder = folder;
-		ctx->summary = camel_folder_get_summary(folder, ex);
-		ctx->message_info = camel_folder_summary_get_message_info_list(ctx->summary);
-#ifdef HAVE_IBEX
-		ctx->index = ibex_open(CAMEL_MBOX_FOLDER(folder)->index_file_path, FALSE);
-		if (!ctx->index) {
-			perror("Cannot open index file, body searches will be ignored\n");
-		}
-#endif
-		r = term_eval(ctx, t);
-
-		/* now create a folder summary to return?? */
-		if (r
-		    && r->type == ESEXP_RES_ARRAY_PTR) {
-			d(printf("got result ...\n"));
-			for (i=0;i<r->value.ptrarray->len;i++) {
-				d(printf("adding match: %s\n", (char *)g_ptr_array_index(r->value.ptrarray, i)));
-				matches = g_list_prepend(matches, g_strdup(g_ptr_array_index(r->value.ptrarray, i)));
-			}
-			e_sexp_result_free(r);
-		}
-
-		if (ctx->index)
-			ibex_close(ctx->index);
-
-		gtk_object_unref((GtkObject *)ctx->summary);
-		g_free(ctx);
-		parse_term_free(t);
-	} else {
-		printf("Warning, Could not parse expression!\n %s\n", expression);
-	}
-
-	g_scanner_destroy(gs);
-
-	return matches;
-}
-#endif
-
-
-static void e_sexp_finalise(GtkObject *);
-
+#ifdef E_SEXP_IS_GTK_OBJECT
 static void
 e_sexp_class_init (ESExpClass *class)
 {
@@ -892,6 +834,7 @@ e_sexp_class_init (ESExpClass *class)
 
 	parent_class = gtk_type_class (gtk_object_get_type ());
 }
+#endif
 
 /* 'builtin' functions */
 static struct {
@@ -922,7 +865,7 @@ free_symbol(void *key, void *value, void *data)
 }
 
 static void
-e_sexp_finalise(GtkObject *o)
+e_sexp_finalise(void *o)
 {
 	ESExp *s = (ESExp *)o;
 
@@ -934,7 +877,9 @@ e_sexp_finalise(GtkObject *o)
 	g_scanner_scope_foreach_symbol(s->scanner, 0, free_symbol, 0);
 	g_scanner_destroy(s->scanner);
 
+#ifdef E_SEXP_IS_GTK_OBJECT
 	((GtkObjectClass *)(parent_class))->finalize((GtkObject *)o);
+#endif
 }
 
 static void
@@ -952,8 +897,13 @@ e_sexp_init (ESExp *s)
 			e_sexp_add_function(s, 0, symbols[i].name, symbols[i].func, &symbols[i]);
 		}
 	}
+
+#ifndef E_SEXP_IS_GTK_OBJECT
+	s->refcount = 1;
+#endif
 }
 
+#ifdef E_SEXP_IS_GTK_OBJECT
 guint
 e_sexp_get_type (void)
 {
@@ -975,14 +925,35 @@ e_sexp_get_type (void)
 	
 	return type;
 }
+#endif
 
 ESExp *
 e_sexp_new (void)
 {
+#ifdef E_SEXP_IS_GTK_OBJECT
 	ESExp *f = E_SEXP ( gtk_type_new (e_sexp_get_type ()));
-
+#else
+	ESExp *f = g_malloc0(sizeof(*f));
+	e_sexp_init(f);
+#endif
 	return f;
 }
+
+#ifndef E_SEXP_IS_GTK_OBJECT
+void		e_sexp_ref		(ESExp *f)
+{
+	f->refcount++;
+}
+
+void		e_sexp_unref		(ESExp *f)
+{
+	f->refcount--;
+	if (f->refcount == 0) {
+		e_sexp_finalise(f);
+		g_free(f);
+	}
+}
+#endif
 
 void
 e_sexp_add_function(ESExp *f, int scope, char *name, ESExpFunc *func, void *data)

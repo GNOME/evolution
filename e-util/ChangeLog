@@ -1,3 +1,7 @@
+2000-12-24  Not Zed  <NotZed@HelixCode.com>
+
+	* Merge from camel-mt-branch.
+
 2000-12-20  JP Rosevear  <jpr@helixcode.com>
 
 	* e-pilot-util.c (e_pilot_utf8_to_pchar): Check for null strings
@@ -11,6 +15,29 @@
 
 	* Makefile.am: Conditionally build e-pilot-util.[hc] because
 	they depend on pilot-link stuff
+
+2000-12-23  Not Zed  <NotZed@HelixCode.com>
+
+	* e-msgport.c (e_dlist_length): Util function.
+	(e_thread_new): Another new thread primitive.  This one is a
+	re-usable 'server thread' thingy.
+
+2000-12-21  Not Zed  <NotZed@HelixCode.com>
+
+	* Makefile.am (libeutil_la_SOURCES): Added msgport stuff.
+
+	* e-msgport.[ch]: Some thread primitives.  e_dlist, a
+	double-linked list (ok, not a thread primitive, but used in ...),
+	e_msgport - an asynchronous, non-copying message passing
+	rendesvous port, and e_mutex, a portably configurable mutex.
+
+2000-12-19  Not Zed  <NotZed@HelixCode.com>
+
+	* e-sexp.c: Make the code compile without being a gtk object (the
+	old code can still be built as a gtk object if required).  Also
+	removed some dead code.
+	(e_sexp_ref): New function to ref if we're not a gkt object.
+	(e_sexp_unref): Same for unref.
 
 2000-12-13  Larry Ewing  <lewing@helixcode.com>
 

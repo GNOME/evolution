@@ -18,16 +18,17 @@ noinst_HEADERS = \
 	index.h
 
 INCLUDES = -I$(srcdir) $(GLIB_CFLAGS) $(UNICODE_CFLAGS) \
+	$(THREADS_CFLAGS) \
 		-DG_LOG_DOMAIN=\"libibex\"
 
 
 noinst_PROGRAMS = dumpindex testindex
 
 dumpindex_SOURCES = dumpindex.c
-dumpindex_LDADD = libibex.la $(GLIB_LIBS) $(UNICODE_LIBS)
+dumpindex_LDADD = libibex.la $(GLIB_LIBS) $(UNICODE_LIBS) $(THREADS_LIBS)
 
 testindex_SOURCES = testindex.c
-testindex_LDADD = libibex.la $(GLIB_LIBS) $(UNICODE_LIBS) -lm
+testindex_LDADD = libibex.la $(GLIB_LIBS) $(UNICODE_LIBS) $(THREADS_LIBS) -lm
 
 #noinst_PROGRAMS = mkindex lookup
 #

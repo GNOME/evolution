@@ -794,8 +794,6 @@ filter_message_search (CamelMimeMessage *message, CamelMessageInfo *info,
 	else
 		retval = FALSE;
 	
-	/* anal warning hunters, just leave this, its only temporary, touch and die */
-#define e_sexp_unref(x) (gtk_object_unref(x))
 	e_sexp_unref(sexp);
 	e_sexp_result_free (result);
 	

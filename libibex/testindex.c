@@ -6,6 +6,10 @@
 #include <string.h>
 #include "ibex_internal.h"
 
+#ifdef ENABLE_THREADS
+#include <pthread.h>
+#endif
+
 void word_index_mem_dump_info(struct _IBEXWord *idx);
 
 /*
@@ -69,6 +73,29 @@ static char *getword(GPtrArray *words, float m, float s)
 	return words->pdata[index];
 }
 
+#ifdef ENABLE_THREADS
+int do_read_words;
+
+static void *
+read_words(void *in)
+{
+	ibex *ib = in;
+	GPtrArray *a;
+	int lastlen = 0;
+	int i;
+
+	while (do_read_words) {
+		a = ibex_find(ib, "joneses");
+		if (a->len != lastlen) {
+			printf("Found %d joneses!\n", a->len);
+			lastlen = a->len;
+		}
+		for (i=0;i<a->len;i++)
+			g_free(a->pdata[i]);
+		g_ptr_array_free(a, TRUE);
+	}
+}
+#endif
 
 int main(int argc, char **argv)
 {
@@ -83,9 +110,15 @@ int main(int argc, char **argv)
 	int files;
 	char *dict;
 
+#ifdef ENABLE_THREADS
+	pthread_t id;
+
+	g_thread_init(0);
+#endif
+
 	srand(0xABADF00D);
 
-	files = 80000;
+	files = 8000;
 	dict = "/usr/dict/words";
 
 	/* read words into an array */
@@ -119,6 +152,10 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
+#ifdef ENABLE_THREADS
+	do_read_words = 1;
+	pthread_create(&id, 0, read_words, ib);
+#endif
 	printf("Adding %d files\n", files);
 
 	/* simulate adding new words to a bunch of files */
@@ -150,6 +187,11 @@ int main(int argc, char **argv)
 	}
 
 	word_index_mem_dump_info(ib->words);
+
+#ifdef ENABLE_THREADS
+	do_read_words = 0;
+	pthread_join(id, 0);
+#endif
 
 	ibex_close(ib);
 

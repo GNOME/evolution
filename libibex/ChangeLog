@@ -1,3 +1,27 @@
+2000-12-24  Not Zed  <NotZed@HelixCode.com>
+
+	* Merge from camel-mt-branch.
+
+2000-12-18  Not Zed  <NotZed@HelixCode.com>
+
+	* dumpindex.c (main): Same here.
+
+	* testindex.c (main): Add a g_thread_init().  Sigh, glib's thread
+	stuff is snot.
+	(read_words): Setup another flat-out thread to test
+	multithreadedness at little bit.
+
+	* ibex_block.c (ibex_index_buffer): Add locking around internal
+	calls.
+	(ibex_open): Init the locking mutex.
+	(ibex_close): Free the locking mutex.
+	(ibex_unindex): 
+	(ibex_find): 
+	(ibex_find_name): 
+	(ibex_contains_name): Add locking around internal calls.
+
+	* ibex_internal.h (struct ibex): Add a lock.  Include config.h
+
 2000-12-13  Christopher James Lahey  <clahey@helixcode.com>
 
 	* disktail.c (tail_compress):

@@ -215,12 +215,17 @@ ibex_index_buffer (ibex *ib, char *name, char *buffer, size_t len, size_t *unrea
 		p = q;
 	}
 done:
+	IBEX_LOCK(ib);
+
 	d(printf("name %s count %d size %d\n", name, wordlist->len, len));
 	if (!ib->predone) {
 		ib->words->klass->index_pre(ib->words);
 		ib->predone = TRUE;
 	}
 	ib->words->klass->add_list(ib->words, name, wordlist);
+
+	IBEX_UNLOCK(ib);
+
 	ret = 0;
 error:
 	for (i=0;i<wordlist->len;i++)
@@ -246,12 +251,18 @@ ibex *ibex_open (char *file, int flags, int mode)
 	/* FIXME: the blockcache or the wordindex needs to manage the other one */
 	ib->words = ib->blocks->words;
 
+#ifdef ENABLE_THREADS
+	ib->lock = g_mutex_new();
+#endif
 	return ib;
 }
 
 int ibex_save (ibex *ib)
 {
 	d(printf("syncing database\n"));
+
+	IBEX_LOCK(ib);
+
 	if (ib->predone) {
 		ib->words->klass->index_post(ib->words);
 		ib->predone = FALSE;
@@ -259,6 +270,9 @@ int ibex_save (ibex *ib)
 	ib->words->klass->sync(ib->words);
 	/* FIXME: some return */
 	ibex_block_cache_sync(ib->blocks);
+
+	IBEX_UNLOCK(ib);
+
 	return 0;
 }
 
@@ -275,6 +289,9 @@ int ibex_close (ibex *ib)
 
 	ib->words->klass->close(ib->words);
 	ibex_block_cache_close(ib->blocks);
+#ifdef ENABLE_THREADS
+	g_mutex_free(ib->lock);
+#endif
 	g_free(ib);
 	return ret;
 }
@@ -282,32 +299,47 @@ int ibex_close (ibex *ib)
 void ibex_unindex (ibex *ib, char *name)
 {
 	d(printf("trying to unindex '%s'\n", name));
+	IBEX_LOCK(ib);
 	ib->words->klass->unindex_name(ib->words, name);
+	IBEX_UNLOCK(ib);
 }
 
 GPtrArray *ibex_find (ibex *ib, char *word)
 {
 	char *normal;
 	int len;
+	GPtrArray *ret;
 
 	len = strlen(word);
 	normal = alloca(len+1);
 	ibex_normalise_word(word, word+len, normal);
-	return ib->words->klass->find(ib->words, normal);
+	IBEX_LOCK(ib);
+	ret = ib->words->klass->find(ib->words, normal);
+	IBEX_UNLOCK(ib);
+	return ret;
 }
 
 gboolean ibex_find_name (ibex *ib, char *name, char *word)
 {
 	char *normal;
 	int len;
+	gboolean ret;
 
 	len = strlen(word);
 	normal = alloca(len+1);
 	ibex_normalise_word(word, word+len, normal);
-	return ib->words->klass->find_name(ib->words, name, normal);
+	IBEX_LOCK(ib);
+	ret = ib->words->klass->find_name(ib->words, name, normal);
+	IBEX_UNLOCK(ib);
+	return ret;
 }
 
 gboolean ibex_contains_name(ibex *ib, char *name)
 {
-	return ib->words->klass->contains_name(ib->words, name);
+	gboolean ret;
+
+	IBEX_LOCK(ib);
+	ret = ib->words->klass->contains_name(ib->words, name);
+	IBEX_UNLOCK(ib);
+	return ret;
 }

@@ -205,8 +205,6 @@ filter_driver_finalise (GtkObject *obj)
 	g_hash_table_foreach (p->globals, free_hash_strings, driver);
 	g_hash_table_destroy (p->globals);
 
-	/* anal warning hunters, just leave this, its only temporary, touch and die */
-#define e_sexp_unref(x) (gtk_object_unref((GtkObject *)(x)))
 	e_sexp_unref(p->eval);
 	
 	if (p->defaultfolder)

@@ -5,11 +5,20 @@
 #define _E_SEXP_H
 
 #include <glib.h>
-#include <gtk/gtk.h>
 
+#ifdef E_SEXP_IS_GTK_OBJECT
+#include <gtk/gtk.h>
+#endif
+
+#ifdef E_SEXP_IS_GTK_OBJECT
 #define E_SEXP(obj)         GTK_CHECK_CAST (obj, e_sexp_get_type (), ESExp)
 #define E_SEXP_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, e_sexp_get_type (), ESExpClass)
 #define FILTER_IS_SEXP(obj)      GTK_CHECK_TYPE (obj, e_sexp_get_type ())
+#else
+#define E_SEXP(obj)         ((struct _ESExp *)(obj))
+#define E_SEXP_CLASS(klass) 	((struct _ESExpClass *)(klass))
+#define FILTER_IS_SEXP(obj)      (1)
+#endif
 
 typedef struct _ESExp      ESExp;
 typedef struct _ESExpClass ESExpClass;
@@ -82,19 +91,29 @@ struct _ESExpTerm {
 
 
 struct _ESExp {
+#ifdef E_SEXP_IS_GTK_OBJECT
 	GtkObject object;
-
+#else
+	int refcount;
+#endif
 	GScanner *scanner;	/* for parsing text version */
 	ESExpTerm *tree;	/* root of expression tree */
 };
 
 struct _ESExpClass {
+#ifdef E_SEXP_IS_GTK_OBJECT
 	GtkObjectClass parent_class;
-
+#endif
 };
 
+#ifdef E_SEXP_IS_GTK_OBJECT
 guint		e_sexp_get_type		(void);
+#endif
 ESExp 	       *e_sexp_new		(void);
+#ifndef E_SEXP_IS_GTK_OBJECT
+void		e_sexp_ref		(ESExp *f);
+void		e_sexp_unref		(ESExp *f);
+#endif
 void		e_sexp_add_function  	(ESExp *f, int scope, char *name, ESExpFunc *func, void *data);
 void		e_sexp_add_ifunction  	(ESExp *f, int scope, char *name, ESExpIFunc *func, void *data);
 void		e_sexp_add_variable  	(ESExp *f, int scope, char *name, ESExpTerm *value);

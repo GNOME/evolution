@@ -37,6 +37,10 @@ int main(int argc, char **argv)
 {
 	ibex *ib;
 
+#ifdef ENABLE_THREADS
+	g_thread_init(0);
+#endif
+
 	if (argc != 2) {
 		printf("Usage: %s ibexfile\n", argv[0]);
 		return 1;
