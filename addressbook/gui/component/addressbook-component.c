@@ -107,9 +107,9 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 
 	list->_buffer[2].id = "address_book";
 	list->_buffer[2].description = _("New Contacts Group");
-	list->_buffer[2].menuDescription = _("_Contacts Group");
+	list->_buffer[2].menuDescription = _("Contacts Grou_p");
 	list->_buffer[2].tooltip = _("Create a new contacts group");
-	list->_buffer[2].menuShortcut = 'g';
+	list->_buffer[2].menuShortcut = 'p';
 	list->_buffer[2].iconName = "stock_addressbook";
 	list->_buffer[2].type = GNOME_Evolution_CREATABLE_FOLDER;
 
