@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution CVS-20001108\n"
 "POT-Creation-Date: 2000-11-08 19:55+0900\n"
-"PO-Revision-Date: 2000-11-08 20:05+0900\n"
+"PO-Revision-Date: 2000-11-08 20:42+0900\n"
 "Last-Translator: Akira TAGOH <tagoh@gnome.gr.jp>\n"
 "Language-Team: Japanese <translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -884,15 +884,15 @@ msgstr "詳細..."
 
 #: addressbook/gui/component/addressbook.c:533
 msgid "Any field contains"
-msgstr "フィールドを含む"
+msgstr "フィールドが次のものを含む"
 
 #: addressbook/gui/component/addressbook.c:534
 msgid "Name contains"
-msgstr "名前を含む"
+msgstr "名前が次のものを含む"
 
 #: addressbook/gui/component/addressbook.c:535
 msgid "Email contains"
-msgstr "E メールを含む"
+msgstr "E メールが次のものを含む"
 
 #: addressbook/gui/component/addressbook.c:621
 msgid "The URI that the Folder Browser will display"
@@ -1720,7 +1720,7 @@ msgstr "予約終了時間を表示"
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:76
 msgid "Compress weekends"
-msgstr "週末を要約する"
+msgstr "週末を押し込む"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:68
@@ -3144,7 +3144,7 @@ msgstr "IMAPv4"
 
 #: camel/providers/imap/camel-imap-provider.c:41
 msgid "For reading and storing mail on IMAP servers."
-msgstr ""
+msgstr "IMAP サーバでメールを読んだり蓄積するためのものです"
 
 #: camel/providers/imap/camel-imap-store.c:234
 #: camel/providers/nntp/camel-nntp-store.c:293
@@ -3265,7 +3265,7 @@ msgstr "フォルダを %s から %s へリネーム出来ませんでした: 宛先が存在します"
 
 #: camel/providers/mbox/camel-mbox-store.c:260
 msgid "Mbox folders may not be nested."
-msgstr ""
+msgstr "Mbox フォルダはネストすることが出来ません"
 
 #: camel/providers/mbox/camel-mbox-store.c:274
 #, c-format
@@ -3284,11 +3284,11 @@ msgstr "テンポラリ mailbox を開くことが出来ません: %s"
 
 #: camel/providers/mbox/camel-mbox-summary.c:734
 msgid "Summary mismatch, aborting sync"
-msgstr ""
+msgstr "要約が不一致, 同期が中断しました"
 
 #: camel/providers/mbox/camel-mbox-summary.c:754
 msgid "Summary mismatch, X-Evolution header missing"
-msgstr ""
+msgstr "要約が不一致, X-Evolution ヘッダが見付かりません"
 
 #: camel/providers/mbox/camel-mbox-summary.c:776
 #, c-format
@@ -3391,7 +3391,7 @@ msgstr "フォルダ `%s' をリネーム出来ませんでした: %s は存在します"
 
 #: camel/providers/mh/camel-mh-store.c:202
 msgid "MH folders may not be nested."
-msgstr ""
+msgstr "MH フォルダはネストすることが出来ません"
 
 #: camel/providers/mh/camel-mh-store.c:214
 #, c-format
@@ -3489,12 +3489,17 @@ msgid ""
 "For connecting to POP servers. The POP protocol can also be used to retrieve "
 "mail from certain web mail providers and proprietary email systems."
 msgstr ""
+"POP サーバへ接続するために, POP プロトコルは特定の web "
+"メールプロバイダや独自のメールシステムから E "
+"メールを受信するために使うことが出来ます"
 
 #: camel/providers/pop3/camel-pop3-store.c:150
 msgid ""
 "This option will connect to the POP server using a plaintext password. This "
 "is the only option supported by many POP servers."
 msgstr ""
+"このオプションはプレインテキストのパスワードを使って POP サーバへ接続します. "
+"これは多くの POP サーバでサポートされるオプションです"
 
 #: camel/providers/pop3/camel-pop3-store.c:160
 msgid ""
@@ -3502,11 +3507,14 @@ msgid ""
 "the APOP protocol. This may not work for all users even on servers that "
 "claim to support it."
 msgstr ""
+"このオプションは APOP プロトコル経由で暗号化されたパスワードを使って POP "
+"サーバへ接続します. これは公平なサポートを要求するサーバで, "
+"すべてのユーザが正常に動作するわけではありません."
 
 #: camel/providers/pop3/camel-pop3-store.c:172
 msgid ""
 "This will connect to the POP server and use Kerberos 4 to authenticate to it."
-msgstr ""
+msgstr "これは POP サーバへ接続し, Kerberos 4 認証を使います."
 
 #: camel/providers/pop3/camel-pop3-store.c:217
 #, c-format
@@ -3568,6 +3576,7 @@ msgid ""
 "For delivering mail by passing it to the \"sendmail\" program on the local "
 "system."
 msgstr ""
+"メールを配送するためにローカルシステムの \"sendmail\" プログラムへ渡します"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:105
 #, c-format
@@ -3941,7 +3950,7 @@ msgstr "フィルタを編集"
 #. and now for the action area
 #: filter/filter-filter.c:401
 msgid "Then"
-msgstr ""
+msgstr "その結果"
 
 #: filter/filter-filter.c:414
 msgid "Add action"
@@ -4148,11 +4157,11 @@ msgstr "前"
 
 #: filter/libfilter-i18n.h:29
 msgid "contains"
-msgstr "に次のものが含む"
+msgstr "が次のものを含む"
 
 #: filter/libfilter-i18n.h:30
 msgid "does not contain"
-msgstr "に次のものが含まない"
+msgstr "が次のものを含まない"
 
 #: filter/libfilter-i18n.h:31
 msgid "does not end with"
@@ -4192,11 +4201,11 @@ msgstr "が次のものより小さい"
 
 #: filter/libfilter-i18n.h:40
 msgid "is not"
-msgstr "は次のものではない"
+msgstr "が次のものではない"
 
 #: filter/libfilter-i18n.h:41
 msgid "is"
-msgstr "は次のもの"
+msgstr "が次のものと一致する"
 
 #: filter/libfilter-i18n.h:42
 msgid "matches regex"
@@ -4783,7 +4792,7 @@ msgstr "メールを受信中"
 
 #: mail/mail-config-druid.glade.h:65
 msgid "Remember my password"
-msgstr ""
+msgstr "パスワードを記憶する"
 
 #: mail/mail-config-druid.glade.h:66
 msgid "Reply-to:"
@@ -5695,10 +5704,12 @@ msgid ""
 "Do you really want to remove group\n"
 "`%s' from the shortcut bar?"
 msgstr ""
+"本当にショートカットバーからグループ\n"
+"`%s' を削除したいですか?"
 
 #: shell/e-shortcuts-view.c:239
 msgid "Don't remove"
-msgstr ""
+msgstr "削除しません"
 
 #: shell/e-shortcuts-view.c:250
 msgid "_Small Icons"
@@ -6241,11 +6252,11 @@ msgstr "FIXME: 印刷プレビュー(_v)"
 
 #: ui/evolution-event-editor.xml.h:40
 msgid "FIXME: Pu_blish Form As..."
-msgstr ""
+msgstr "FIXME: 別名でフォームを発行(_b)..."
 
 #: ui/evolution-event-editor.xml.h:41
 msgid "FIXME: Publish _Form..."
-msgstr ""
+msgstr "FIXME: フォームを発行(_F)..."
 
 #: ui/evolution-event-editor.xml.h:42
 msgid "FIXME: Rec_urrence..."
@@ -6441,7 +6452,7 @@ msgstr ""
 
 #: ui/evolution-event-editor.xml.h:97
 msgid "Search again for the same string"
-msgstr ""
+msgstr "同じ文字で再度検索する"
 
 #: ui/evolution-event-editor.xml.h:98
 msgid "Search for a string"
@@ -6457,7 +6468,7 @@ msgstr "すべて選択"
 
 #: ui/evolution-event-editor.xml.h:102
 msgid "Setup the page settings for your current printer"
-msgstr ""
+msgstr "現在のプリンタのためのページ設定をする"
 
 #: ui/evolution-event-editor.xml.h:103
 msgid "Undo"
@@ -6732,11 +6743,11 @@ msgstr ""
 
 #: ui/evolution-subscribe.xml.h:14
 msgid "Subscribe"
-msgstr ""
+msgstr "購読"
 
 #: ui/evolution-subscribe.xml.h:15
 msgid "Unsubscribe"
-msgstr ""
+msgstr "購読解除"
 
 #.
 #. * Translatable strings file generated by extract-ui.
