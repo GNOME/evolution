@@ -192,6 +192,8 @@ qsort_callback(const void *data1, const void *data2)
 	int sort_count = e_table_sort_info_sorting_get_count(etsv_closure->sort_info);
 	int comp_val = 0;
 	int ascending = 1;
+	while(gtk_events_pending())
+		gtk_main_iteration();
 	for (j = 0; j < sort_count; j++) {
 		ETableSortColumn column = e_table_sort_info_sorting_get_nth(etsv_closure->sort_info, j);
 		ETableCol *col;
