@@ -94,45 +94,36 @@ typedef struct {
 					  gboolean create,
 					  CamelException *ex);
 
-	CamelFolder *  (*get_parent_folder)   (CamelFolder *folder, 
-					       CamelException *ex);
+	CamelFolder *  (*get_parent_folder)   (CamelFolder *folder);
 
-	CamelStore *  (*get_parent_store) (CamelFolder *folder, 
-					   CamelException *ex);
+	CamelStore *  (*get_parent_store) (CamelFolder *folder);
 
 	void (*expunge)  (CamelFolder *folder, 
 			  CamelException *ex);
 
-	gint   (*get_message_count)   (CamelFolder *folder, 
-				       CamelException *ex);
+	gint   (*get_message_count)   (CamelFolder *folder);
 
-	gint   (*get_unread_message_count) (CamelFolder *folder, 
-					    CamelException *ex);
+	gint   (*get_unread_message_count) (CamelFolder *folder);
 
 	void (*append_message)  (CamelFolder *folder, 
 				 CamelMimeMessage *message,
 				 guint32 flags,
 				 CamelException *ex);
 	
-	guint32 (*get_permanent_flags) (CamelFolder *folder,
-					CamelException *ex);
+	guint32 (*get_permanent_flags) (CamelFolder *folder);
 	guint32 (*get_message_flags)   (CamelFolder *folder,
-					const char *uid,
-					CamelException *ex);
+					const char *uid);
 	void    (*set_message_flags)   (CamelFolder *folder,
 					const char *uid,
-					guint32 flags, guint32 set,
-					CamelException *ex);
+					guint32 flags, guint32 set);
 
 	gboolean (*get_message_user_flag) (CamelFolder *folder,
 					   const char *uid,
-					   const char *name,
-					   CamelException *ex);
+					   const char *name);
 	void     (*set_message_user_flag) (CamelFolder *folder,
 					   const char *uid,
 					   const char *name,
-					   gboolean value,
-					   CamelException *ex);
+					   gboolean value);
 
 	CamelMimeMessage * (*get_message)  (CamelFolder *folder, 
 					    const gchar *uid, 
@@ -142,18 +133,15 @@ typedef struct {
 				 const gchar *uid, 
 				 CamelException *ex);
 
-	GPtrArray * (*get_uids)       (CamelFolder *folder,
-				       CamelException *ex);
+	GPtrArray * (*get_uids)       (CamelFolder *folder);
 	void (*free_uids)             (CamelFolder *folder,
 				       GPtrArray *array);
 
-	GPtrArray * (*get_summary)    (CamelFolder *folder,
-				       CamelException *ex);
+	GPtrArray * (*get_summary)    (CamelFolder *folder);
 	void (*free_summary)          (CamelFolder *folder,
 				       GPtrArray *summary);
 
-	GPtrArray * (*get_subfolder_names) (CamelFolder *folder,
-				            CamelException *ex);
+	GPtrArray * (*get_subfolder_names) (CamelFolder *folder);
 	void (*free_subfolder_names)       (CamelFolder *folder,
 					    GPtrArray *subfolders);
 
@@ -199,10 +187,8 @@ void               camel_folder_sync                   (CamelFolder *folder,
 							gboolean expunge, 
 							CamelException *ex);
 
-CamelFolder *      camel_folder_get_parent_folder      (CamelFolder *folder, 
-							CamelException *ex);
-CamelStore *       camel_folder_get_parent_store       (CamelFolder *folder, 
-							CamelException *ex);
+CamelFolder *      camel_folder_get_parent_folder      (CamelFolder *folder);
+CamelStore *       camel_folder_get_parent_store       (CamelFolder *folder);
 
 
 /* delete operations */
@@ -216,29 +202,24 @@ const gchar *      camel_folder_get_full_name          (CamelFolder *folder);
 
 
 /* various properties accessors */
-guint32		   camel_folder_get_permanent_flags    (CamelFolder *folder,
-							CamelException *ex);
+guint32		   camel_folder_get_permanent_flags    (CamelFolder *folder);
 
 guint32		   camel_folder_get_message_flags      (CamelFolder *folder,
-							const char *uid,
-							CamelException *ex);
+							const char *uid);
 
 void		   camel_folder_set_message_flags      (CamelFolder *folder,
 							const char *uid,
 							guint32 flags,
-							guint32 set,
-							CamelException *ex);
+							guint32 set);
 
 gboolean	   camel_folder_get_message_user_flag  (CamelFolder *folder,
 							const char *uid,
-							const char *name,
-							CamelException *ex);
+							const char *name);
 
 void		   camel_folder_set_message_user_flag  (CamelFolder *folder,
 							const char *uid,
 							const char *name,
-							gboolean value,
-							CamelException *ex);
+							gboolean value);
 
 
 
@@ -253,19 +234,15 @@ void               camel_folder_append_message         (CamelFolder *folder,
 gboolean           camel_folder_has_summary_capability (CamelFolder *folder);
 
 
-gint               camel_folder_get_message_count     (CamelFolder *folder, 
-						       CamelException *ex);
+gint               camel_folder_get_message_count     (CamelFolder *folder);
 
-gint               camel_folder_get_unread_message_count (CamelFolder *folder, 
-							  CamelException *ex);
+gint               camel_folder_get_unread_message_count (CamelFolder *folder);
 
-GPtrArray *        camel_folder_get_summary           (CamelFolder *folder, 
-						       CamelException *ex);
+GPtrArray *        camel_folder_get_summary           (CamelFolder *folder);
 void               camel_folder_free_summary          (CamelFolder *folder,
 						       GPtrArray *array);
 
-GPtrArray *        camel_folder_get_subfolder_names   (CamelFolder *folder, 
-						       CamelException *ex);
+GPtrArray *        camel_folder_get_subfolder_names   (CamelFolder *folder);
 void               camel_folder_free_subfolder_names  (CamelFolder *folder,
 						       GPtrArray *array);
 
@@ -274,11 +251,10 @@ void               camel_folder_free_subfolder_names  (CamelFolder *folder,
 CamelMimeMessage * camel_folder_get_message           (CamelFolder *folder, 
 						       const gchar *uid, 
 						       CamelException *ex);
-void               camel_folder_delete_message        (CamelFolder *folder, 
-						       const gchar *uid, 
-						       CamelException *ex);
-GPtrArray *        camel_folder_get_uids              (CamelFolder *folder, 
-						       CamelException *ex);
+#define camel_folder_delete_message(folder, uid) \
+	camel_folder_set_message_flags (folder, uid, CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED)
+
+GPtrArray *        camel_folder_get_uids              (CamelFolder *folder);
 void               camel_folder_free_uids             (CamelFolder *folder,
 						       GPtrArray *array);
 

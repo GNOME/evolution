@@ -1,3 +1,16 @@
+2000-07-24  Dan Winship  <danw@helixcode.com>
+
+	* camel-folder.c: Remove exceptions from a number of methods that
+	work on what ought to be static data: get_parent_folder,
+	get_parent_store, get_message_count, get_unread_message_count,
+	get_permanent_flags, get_message_flags, set_message_flags,
+	get_message_user_flag, set_message_user_flag, get_uids,
+	get_summary, get_subfolder_names. Turn camel_folder_delete_message
+	into a macro. (Mostly a pull-up from the camel-async branch.)
+
+	* providers/{imap,mbox,nntp,pop3,vee}: Update for CamelFolder
+	changes
+
 2000-07-24  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (imap_get_message_info): Updated

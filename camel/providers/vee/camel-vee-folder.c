@@ -45,20 +45,20 @@ static void vee_init (CamelFolder *folder, CamelStore *parent_store,
 		      CamelException *ex);
 static void vee_sync (CamelFolder *folder, gboolean expunge, CamelException *ex);
 
-static GPtrArray *vee_get_uids  (CamelFolder *folder, CamelException *ex);
-GPtrArray *vee_get_summary (CamelFolder *folder, CamelException *ex);
+static GPtrArray *vee_get_uids  (CamelFolder *folder);
+GPtrArray *vee_get_summary (CamelFolder *folder);
 
-static gint vee_get_message_count (CamelFolder *folder, CamelException *ex);
-static gint vee_get_unread_message_count (CamelFolder *folder, CamelException *ex);
+static gint vee_get_message_count (CamelFolder *folder);
+static gint vee_get_unread_message_count (CamelFolder *folder);
 static CamelMimeMessage *vee_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex);
 
 static const CamelMessageInfo *vee_get_message_info (CamelFolder *folder, const char *uid);
 static GPtrArray *vee_search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex);
 
-static guint32 vee_get_message_flags (CamelFolder *folder, const char *uid, CamelException *ex);
-static void vee_set_message_flags (CamelFolder *folder, const char *uid, guint32 flags, guint32 set, CamelException *ex);
-static gboolean vee_get_message_user_flag (CamelFolder *folder, const char *uid, const char *name, CamelException *ex);
-static void vee_set_message_user_flag (CamelFolder *folder, const char *uid, const char *name, gboolean value, CamelException *ex);
+static guint32 vee_get_message_flags (CamelFolder *folder, const char *uid);
+static void vee_set_message_flags (CamelFolder *folder, const char *uid, guint32 flags, guint32 set);
+static gboolean vee_get_message_user_flag (CamelFolder *folder, const char *uid, const char *name);
+static void vee_set_message_user_flag (CamelFolder *folder, const char *uid, const char *name, gboolean value);
 
 
 static void camel_vee_folder_class_init (CamelVeeFolderClass *klass);
@@ -278,7 +278,7 @@ vee_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 	;
 }
 
-static gint vee_get_message_count (CamelFolder *folder, CamelException *ex)
+static gint vee_get_message_count (CamelFolder *folder)
 {
 	CamelVeeFolder *vf = (CamelVeeFolder *)folder;
 
@@ -286,7 +286,7 @@ static gint vee_get_message_count (CamelFolder *folder, CamelException *ex)
 }
 
 static gint
-vee_get_unread_message_count (CamelFolder *folder, CamelException *ex)
+vee_get_unread_message_count (CamelFolder *folder)
 {
 	CamelVeeFolder *vee_folder = CAMEL_VEE_FOLDER (folder);
 	CamelMessageInfo *info;
@@ -308,18 +308,12 @@ vee_get_unread_message_count (CamelFolder *folder, CamelException *ex)
 
 static gboolean
 get_real_message (CamelFolder *folder, const char *uid,
-		  CamelFolder **out_folder, const char **out_uid,
-		  CamelException *ex)
+		  CamelFolder **out_folder, const char **out_uid)
 {
 	CamelVeeMessageInfo *mi;
 
 	mi = (CamelVeeMessageInfo *)vee_get_message_info(folder, uid);
-	if (mi == NULL) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
-				     "No such message %s in %s", uid,
-				     folder->name);
-		return FALSE;
-	}
+	g_return_val_if_fail (mi != NULL, FALSE);
 
 	*out_folder = mi->folder;
 	*out_uid = strchr(mi->info.uid, ':')+1;
@@ -331,13 +325,17 @@ static CamelMimeMessage *vee_get_message (CamelFolder *folder, const gchar *uid,
 	const char *real_uid;
 	CamelFolder *real_folder;
 
-	if (!get_real_message (folder, uid, &real_folder, &real_uid, ex))
+	if (!get_real_message (folder, uid, &real_folder, &real_uid)) {
+		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
+				     "No such message %s in %s", uid,
+				     folder->name);
 		return NULL;
+	}
 
 	return camel_folder_get_message (real_folder, real_uid, ex);
 }
 
-GPtrArray *vee_get_summary (CamelFolder *folder, CamelException *ex)
+GPtrArray *vee_get_summary (CamelFolder *folder)
 {
 	CamelVeeFolder *vf = (CamelVeeFolder *)folder;
 
@@ -351,7 +349,7 @@ static const CamelMessageInfo *vee_get_message_info (CamelFolder *f, const char 
 	return g_hash_table_lookup(vf->messages_uid, uid);
 }
 
-static GPtrArray *vee_get_uids (CamelFolder *folder, CamelException *ex)
+static GPtrArray *vee_get_uids (CamelFolder *folder)
 {
 	GPtrArray *result;
 	int i;
@@ -395,55 +393,54 @@ vee_search_by_expression(CamelFolder *folder, const char *expression, CamelExcep
 }
 
 static guint32
-vee_get_message_flags(CamelFolder *folder, const char *uid, CamelException *ex)
+vee_get_message_flags(CamelFolder *folder, const char *uid)
 {
 	const char *real_uid;
 	CamelFolder *real_folder;
 
-	if (!get_real_message (folder, uid, &real_folder, &real_uid, ex))
+	if (!get_real_message (folder, uid, &real_folder, &real_uid))
 		return 0;
 
-	return camel_folder_get_message_flags(real_folder, real_uid, ex);
+	return camel_folder_get_message_flags(real_folder, real_uid);
 }
 
 static void
 vee_set_message_flags(CamelFolder *folder, const char *uid, guint32 flags,
-		      guint32 set, CamelException *ex)
+		      guint32 set)
 {
 	const char *real_uid;
 	CamelFolder *real_folder;
 
-	if (!get_real_message (folder, uid, &real_folder, &real_uid, ex))
+	if (!get_real_message (folder, uid, &real_folder, &real_uid))
 		return;
 
-	camel_folder_set_message_flags(real_folder, real_uid, flags, set, ex);
+	camel_folder_set_message_flags(real_folder, real_uid, flags, set);
 }
 
 static gboolean
 vee_get_message_user_flag(CamelFolder *folder, const char *uid,
-			  const char *name, CamelException *ex)
+			  const char *name)
 {
 	const char *real_uid;
 	CamelFolder *real_folder;
 
-	if (!get_real_message (folder, uid, &real_folder, &real_uid, ex))
+	if (!get_real_message (folder, uid, &real_folder, &real_uid))
 		return FALSE;
 
-	return camel_folder_get_message_user_flag(real_folder, real_uid, name, ex);
+	return camel_folder_get_message_user_flag(real_folder, real_uid, name);
 }
 
 static void
 vee_set_message_user_flag(CamelFolder *folder, const char *uid,
-			  const char *name, gboolean value,
-			  CamelException *ex)
+			  const char *name, gboolean value)
 {
 	const char *real_uid;
 	CamelFolder *real_folder;
 
-	if (!get_real_message (folder, uid, &real_folder, &real_uid, ex))
+	if (!get_real_message (folder, uid, &real_folder, &real_uid))
 		return;
 
-	return camel_folder_set_message_user_flag(real_folder, real_uid, name, value, ex);
+	return camel_folder_set_message_user_flag(real_folder, real_uid, name, value);
 }
 
 

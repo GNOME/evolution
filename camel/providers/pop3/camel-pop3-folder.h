@@ -46,6 +46,7 @@ typedef struct {
 	CamelFolder parent_object;
 
 	GPtrArray *uids;
+	guint32 *flags;
 
 } CamelPop3Folder;
 

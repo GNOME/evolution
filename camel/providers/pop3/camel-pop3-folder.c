@@ -41,14 +41,15 @@ static void pop3_finalize (GtkObject *object);
 static void pop3_sync (CamelFolder *folder, gboolean expunge,
 		       CamelException *ex);
 
-static gint pop3_get_message_count (CamelFolder *folder, CamelException *ex);
-static GPtrArray *pop3_get_uids (CamelFolder *folder, CamelException *ex);
+static gint pop3_get_message_count (CamelFolder *folder);
+static GPtrArray *pop3_get_uids (CamelFolder *folder);
 static CamelMimeMessage *pop3_get_message (CamelFolder *folder, 
 					   const char *uid,
 					   CamelException *ex);
-static void pop3_delete_message (CamelFolder *folder, const char *uid,
-				 CamelException *ex);
+static void pop3_set_message_flags (CamelFolder *folder, const char *uid,
+				    guint32 flags, guint32 set);
 
+static GPtrArray *parse_listing (int count, char *data);
 
 static void
 camel_pop3_folder_class_init (CamelPop3FolderClass *camel_pop3_folder_class)
@@ -68,7 +69,7 @@ camel_pop3_folder_class_init (CamelPop3FolderClass *camel_pop3_folder_class)
 	camel_folder_class->free_uids = camel_folder_free_nop;
 
 	camel_folder_class->get_message = pop3_get_message;
-	camel_folder_class->delete_message = pop3_delete_message;
+	camel_folder_class->set_message_flags = pop3_set_message_flags;
 
 	object_class->finalize = pop3_finalize;
 }
@@ -76,15 +77,12 @@ camel_pop3_folder_class_init (CamelPop3FolderClass *camel_pop3_folder_class)
 static void
 camel_pop3_folder_init (gpointer object, gpointer klass)
 {
-	CamelPop3Folder *pop3_folder = CAMEL_POP3_FOLDER (object);
 	CamelFolder *folder = CAMEL_FOLDER (object);
 
 	folder->can_hold_messages = TRUE;
 	folder->can_hold_folders = FALSE;
 	folder->has_summary_capability = FALSE;
 	folder->has_search_capability = FALSE;
-
-	pop3_folder->uids = NULL;
 }
 
 GtkType
@@ -116,26 +114,104 @@ pop3_finalize (GtkObject *object)
 {
 	CamelPop3Folder *pop3_folder = CAMEL_POP3_FOLDER (object);
 
-	g_ptr_array_free (pop3_folder->uids, TRUE);
+	camel_folder_free_deep (NULL, pop3_folder->uids);
+	g_free (pop3_folder->flags);
 }
 
 CamelFolder *
 camel_pop3_folder_new (CamelStore *parent, CamelException *ex)
 {
-	CamelFolder *folder =
-		CAMEL_FOLDER (gtk_object_new (camel_pop3_folder_get_type (),
-					      NULL));
+	CamelPop3Store *pop3_store = CAMEL_POP3_STORE (parent);
+	CamelPop3Folder *pop3_folder;
+	GPtrArray *uids;
+	int status, count;
+	char *data;
 
-	CF_CLASS (folder)->init (folder, parent, NULL, "inbox", "/", TRUE, ex);
-	return folder;
+	status = camel_pop3_command (pop3_store, &data, "STAT");
+	if (status != CAMEL_POP3_OK) {
+		CamelService *service = CAMEL_SERVICE (parent);
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      "Could not get message count from POP "
+				      "server %s: %s.", service->url->host,
+				      data ? data : "Unknown error");
+		g_free (data);
+		return NULL;
+	}
+
+	count = atoi (data);
+	g_free (data);
+
+	if (pop3_store->supports_uidl != FALSE) {
+		status = camel_pop3_command (pop3_store, NULL, "UIDL");
+		if (status != CAMEL_POP3_OK)
+			pop3_store->supports_uidl = FALSE;
+	}
+
+	if (pop3_store->supports_uidl == FALSE) {
+		int i;
+
+		uids = g_ptr_array_new ();
+		g_ptr_array_set_size (uids, count);
+
+		for (i = 0; i < count; i++)
+			uids->pdata[i] = g_strdup_printf ("%d", i + 1);
+	} else {
+		data = camel_pop3_command_get_additional_data (pop3_store, ex);
+		if (camel_exception_is_set (ex))
+			return NULL;
+
+		uids = parse_listing (count, data);
+		g_free (data);
+
+		if (!uids) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      "Could not open folder: message "
+					      "listing was incomplete.");
+			return NULL;
+		}
+	}
+
+	pop3_folder = gtk_type_new (CAMEL_POP3_FOLDER_TYPE);
+	CF_CLASS (pop3_folder)->init ((CamelFolder *)pop3_folder, parent,
+				      NULL, "inbox", "/", TRUE, ex);
+	pop3_folder->uids = uids;
+	pop3_folder->flags = g_new0 (guint32, uids->len);
+
+	return (CamelFolder *)pop3_folder;
 }
 
 static void
 pop3_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 {
-	if (expunge)
-		camel_pop3_store_expunge (CAMEL_POP3_STORE (folder->parent_store), ex);
+	CamelPop3Folder *pop3_folder;
+	CamelPop3Store *pop3_store;
+	int i, status;
+	char *resp;
+
+	if (!expunge)
+		return;
+
+	pop3_folder = CAMEL_POP3_FOLDER (folder);
+	pop3_store = CAMEL_POP3_STORE (folder->parent_store);
+
+	for (i = 0; i < pop3_folder->uids->len; i++) {
+		if (pop3_folder->flags[i] & CAMEL_MESSAGE_DELETED) {
+			status = camel_pop3_command (pop3_store, &resp,
+						     "DELE %d", i);
+			if (status != CAMEL_POP3_OK) {
+				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+						      "Unable to sync folder"
+						      "%s%s", resp ? ": " : "",
+						      resp ? resp : "");
+				g_free (resp);
+				return;
+			}
+		}
+	}
+
+	camel_pop3_store_expunge (pop3_store, ex);
 }
+
 
 static GPtrArray *
 parse_listing (int count, char *data)
@@ -169,13 +245,9 @@ parse_listing (int count, char *data)
 }
 
 static int
-uid_to_number (CamelFolder *folder, const char *uid, CamelException *ex)
+uid_to_number (CamelPop3Folder *pop3_folder, const char *uid)
 {
-	CamelPop3Folder *pop3_folder = CAMEL_POP3_FOLDER (folder);
 	int i;
-
-	if (!pop3_get_uids (folder, ex))
-		return -1;
 
 	for (i = 0; i < pop3_folder->uids->len; i++) {
 		if (!strcmp (uid, pop3_folder->uids->pdata[i]))
@@ -194,9 +266,12 @@ pop3_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 	CamelStream *msgstream;
 	CamelMimeMessage *msg;
 
-	num = uid_to_number (folder, uid, ex);
-	if (num == -1)
+	num = uid_to_number (CAMEL_POP3_FOLDER (folder), uid);
+	if (num == -1) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
+				      "No message with uid %s", uid);
 		return NULL;
+	}
 
 	status = camel_pop3_command (CAMEL_POP3_STORE (folder->parent_store),
 				     &result, "RETR %d", num);
@@ -226,7 +301,8 @@ pop3_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 	g_free (body);
 	
 	msg = camel_mime_message_new ();
-	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg), CAMEL_STREAM (msgstream));
+	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg),
+						  CAMEL_STREAM (msgstream));
 
 	gtk_object_unref (GTK_OBJECT (msgstream));
 
@@ -234,95 +310,32 @@ pop3_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 }
 
 static void
-pop3_delete_message (CamelFolder *folder, const char *uid,
-		     CamelException *ex)
+pop3_set_message_flags (CamelFolder *folder, const char *uid,
+			guint32 flags, guint32 set)
 {
-	int status, num;
-	char *resp;
+	CamelPop3Folder *pop3_folder = CAMEL_POP3_FOLDER (folder);
+	int num;
 
-	num = uid_to_number (folder, uid, ex);
+	num = uid_to_number (pop3_folder, uid);
 	if (num == -1)
 		return;
 
-	status = camel_pop3_command (CAMEL_POP3_STORE (folder->parent_store),
-				     &resp, "DELE %d", num);
-	if (status != CAMEL_POP3_OK) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
-				      "Unable to delete message %s%s%s",
-				      uid, resp ? ": " : "",
-				      resp ? resp : "");
-	}
-	g_free (resp);
+	pop3_folder->flags[num] =
+		(pop3_folder->flags[num] & ~flags) | (set & flags);
 }
 
 static gint
-pop3_get_message_count (CamelFolder *folder, CamelException *ex)
+pop3_get_message_count (CamelFolder *folder)
 {
 	CamelPop3Folder *pop3_folder = CAMEL_POP3_FOLDER (folder);
-
-	if (!pop3_get_uids (folder, ex))
-		return -1;
 
 	return pop3_folder->uids->len;
 }
 
 static GPtrArray *
-pop3_get_uids (CamelFolder *folder, CamelException *ex)
+pop3_get_uids (CamelFolder *folder)
 {
-	CamelPop3Store *pop3_store = CAMEL_POP3_STORE (folder->parent_store);
 	CamelPop3Folder *pop3_folder = CAMEL_POP3_FOLDER (folder);
-	int count, status;
-	char *data;
-
-	if (pop3_folder->uids)
-		return pop3_folder->uids;
-
-	status = camel_pop3_command (pop3_store, &data, "STAT");
-	if (status != CAMEL_POP3_OK) {
-		CamelService *service = CAMEL_SERVICE (folder->parent_store);
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not get message count from POP "
-				      "server %s: %s.", service->url->host,
-				      data ? data : "Unknown error");
-		g_free (data);
-		return NULL;
-	}
-
-	count = atoi (data);
-	g_free (data);
-
-	if (pop3_store->supports_uidl != FALSE) {
-		status = camel_pop3_command (pop3_store, NULL, "UIDL");
-		if (status != CAMEL_POP3_OK)
-			pop3_store->supports_uidl = FALSE;
-	}
-
-	if (pop3_store->supports_uidl == FALSE) {
-		int i;
-
-		pop3_folder->uids = g_ptr_array_new ();
-		g_ptr_array_set_size (pop3_folder->uids, count);
-
-		for (i = 0; i < count; i++) {
-			pop3_folder->uids->pdata[i] =
-				g_strdup_printf ("%d", i + 1);
-		}
-
-		return pop3_folder->uids;
-	}
-
-	data = camel_pop3_command_get_additional_data (pop3_store, ex);
-	if (camel_exception_is_set (ex))
-		return NULL;
-
-	pop3_folder->uids = parse_listing (count, data);
-	g_free (data);
-
-	if (!pop3_folder->uids) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "UID listing from server was "
-				      "incomplete.");
-	}
 
 	return pop3_folder->uids;
 }

@@ -70,7 +70,7 @@ nntp_folder_init (CamelFolder *folder, CamelStore *parent_store,
 	parent_class->init (folder, parent_store, parent_folder,
 			    name, separator, path_begins_with_sep,
 			    ex);
-	if (camel_exception_get_id (ex)) return;
+	if (camel_exception_is_set (ex)) return;
 
 	/* set flags */
 
@@ -130,9 +130,8 @@ nntp_folder_sync (CamelFolder *folder, gboolean expunge,
 
 	camel_folder_summary_save (CAMEL_NNTP_FOLDER(folder)->summary);
 
-	store = CAMEL_NNTP_STORE (camel_folder_get_parent_store (folder, ex));
-	if (!camel_exception_is_set (ex))
-		camel_nntp_newsrc_write (store->newsrc);
+	store = CAMEL_NNTP_STORE (camel_folder_get_parent_store (folder));
+	camel_nntp_newsrc_write (store->newsrc);
 }
 
 static const gchar *
@@ -160,7 +159,7 @@ nntp_folder_get_subfolder (CamelFolder *folder,
 }
 
 static gint
-nntp_folder_get_message_count (CamelFolder *folder, CamelException *ex)
+nntp_folder_get_message_count (CamelFolder *folder)
 {
 	CamelNNTPFolder *nntp_folder = CAMEL_NNTP_FOLDER(folder);
 
@@ -171,7 +170,7 @@ nntp_folder_get_message_count (CamelFolder *folder, CamelException *ex)
 }
 
 static guint32
-nntp_folder_get_message_flags (CamelFolder *folder, const char *uid, CamelException *ex)
+nntp_folder_get_message_flags (CamelFolder *folder, const char *uid)
 {
 	CamelNNTPFolder *nntp_folder = CAMEL_NNTP_FOLDER (folder);
 	CamelMessageInfo *info = camel_folder_summary_uid (nntp_folder->summary, uid);
@@ -181,7 +180,7 @@ nntp_folder_get_message_flags (CamelFolder *folder, const char *uid, CamelExcept
 
 static void
 nntp_folder_set_message_flags (CamelFolder *folder, const char *uid,
-			       guint32 flags, guint32 set, CamelException *ex)
+			       guint32 flags, guint32 set)
 {
 	CamelNNTPFolder *nntp_folder = CAMEL_NNTP_FOLDER (folder);
 	CamelMessageInfo *info = camel_folder_summary_uid (nntp_folder->summary, uid);
@@ -191,16 +190,14 @@ nntp_folder_set_message_flags (CamelFolder *folder, const char *uid,
 	if (set & CAMEL_MESSAGE_SEEN) {
 		CamelNNTPStore *store;
 		int article_num;
-		CamelNNTPStore *nntp_store = CAMEL_NNTP_STORE (camel_folder_get_parent_store (folder, ex));
+		CamelNNTPStore *nntp_store = CAMEL_NNTP_STORE (camel_folder_get_parent_store (folder));
 
-		if (!camel_exception_is_set (ex)) {
-			sscanf (uid, "%d", &article_num);
+		sscanf (uid, "%d", &article_num);
 
-			camel_nntp_newsrc_mark_article_read (nntp_store->newsrc,
-							     nntp_folder->group_name,
-							     article_num);
-		}
- 	}
+		camel_nntp_newsrc_mark_article_read (nntp_store->newsrc,
+						     nntp_folder->group_name,
+						     article_num);
+	}
 
 	camel_folder_summary_touch (nntp_folder->summary);
 }
@@ -220,10 +217,7 @@ nntp_folder_get_message (CamelFolder *folder, const gchar *uid, CamelException *
 	char *message_id;
 
 	/* get the parent store */
-	parent_store = camel_folder_get_parent_store (folder, ex);
-	if (camel_exception_get_id (ex)) {
-		return NULL;
-	}
+	parent_store = camel_folder_get_parent_store (folder);
 
 	message_id = strchr (uid, ',') + 1;
 	status = camel_nntp_command (CAMEL_NNTP_STORE( parent_store ), NULL, "ARTICLE %s", message_id);
@@ -297,17 +291,8 @@ nntp_folder_get_message (CamelFolder *folder, const gchar *uid, CamelException *
 	return message;
 }
 
-static void
-nntp_folder_delete_message (CamelFolder *folder,
-				   const gchar *uid,
-				   CamelException *ex)
-{
-	g_assert (0);
-}
-
 static GPtrArray *
-nntp_folder_get_uids (CamelFolder *folder,
-		      CamelException *ex)
+nntp_folder_get_uids (CamelFolder *folder)
 {
 	CamelNNTPFolder *nntp_folder = CAMEL_NNTP_FOLDER (folder);
 	GPtrArray *out;
@@ -327,8 +312,7 @@ nntp_folder_get_uids (CamelFolder *folder,
 }
 
 static GPtrArray *
-nntp_folder_get_summary (CamelFolder *folder,
-			 CamelException *ex)
+nntp_folder_get_summary (CamelFolder *folder)
 {
 	CamelNNTPFolder *nntp_folder = CAMEL_NNTP_FOLDER (folder);
 
@@ -336,10 +320,10 @@ nntp_folder_get_summary (CamelFolder *folder,
 }
 
 static GPtrArray *
-nntp_folder_get_subfolder_names (CamelFolder *folder, CamelException *ex)
+nntp_folder_get_subfolder_names (CamelFolder *folder)
 {
 	if (!strcmp (folder->name, "/")) {
-		CamelStore *store = camel_folder_get_parent_store (folder, ex);
+		CamelStore *store = camel_folder_get_parent_store (folder);
 		GPtrArray *array = camel_nntp_newsrc_get_subscribed_group_names (CAMEL_NNTP_STORE (store)->newsrc);
 		return array;
 	}
@@ -352,10 +336,8 @@ static void
 nntp_folder_free_subfolder_names (CamelFolder *folder, GPtrArray *subfolders)
 {
 	if (subfolders) {
-		CamelException *ex = camel_exception_new ();
-		CamelStore *store = camel_folder_get_parent_store (folder, ex);
+		CamelStore *store = camel_folder_get_parent_store (folder);
 		camel_nntp_newsrc_free_group_names (CAMEL_NNTP_STORE (store)->newsrc, subfolders);
-		camel_exception_free (ex);
 	}
 }
 
@@ -404,7 +386,6 @@ camel_nntp_folder_class_init (CamelNNTPFolderClass *camel_nntp_folder_class)
 	camel_folder_class->set_message_flags = nntp_folder_set_message_flags;
 	camel_folder_class->get_message_flags = nntp_folder_get_message_flags;
 	camel_folder_class->get_message = nntp_folder_get_message;
-	camel_folder_class->delete_message = nntp_folder_delete_message;
 	camel_folder_class->get_uids = nntp_folder_get_uids;
 	camel_folder_class->free_uids = camel_folder_free_deep;
 	camel_folder_class->get_summary = nntp_folder_get_summary;

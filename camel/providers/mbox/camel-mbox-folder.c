@@ -63,26 +63,24 @@ static void mbox_init (CamelFolder *folder, CamelStore *parent_store,
 		       CamelException *ex);
 
 static void mbox_sync (CamelFolder *folder, gboolean expunge, CamelException *ex);
-static gint mbox_get_message_count (CamelFolder *folder, CamelException *ex);
-static gint mbox_get_unread_message_count (CamelFolder *folder, CamelException *ex);
+static gint mbox_get_message_count (CamelFolder *folder);
+static gint mbox_get_unread_message_count (CamelFolder *folder);
 static void mbox_append_message (CamelFolder *folder, CamelMimeMessage *message, guint32 flags, CamelException *ex);
-static GPtrArray *mbox_get_uids (CamelFolder *folder, CamelException *ex);
-static GPtrArray *mbox_get_subfolder_names (CamelFolder *folder, CamelException *ex);
-static GPtrArray *mbox_get_summary (CamelFolder *folder, CamelException *ex);
+static GPtrArray *mbox_get_uids (CamelFolder *folder);
+static GPtrArray *mbox_get_subfolder_names (CamelFolder *folder);
+static GPtrArray *mbox_get_summary (CamelFolder *folder);
 static CamelMimeMessage *mbox_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex);
 
 static void mbox_expunge (CamelFolder *folder, CamelException *ex);
-
-static void mbox_delete_message (CamelFolder *folder, const gchar *uid, CamelException *ex);
 
 static const CamelMessageInfo *mbox_get_message_info (CamelFolder *folder, const char *uid);
 
 static GPtrArray *mbox_search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex);
 
-static guint32 mbox_get_message_flags (CamelFolder *folder, const char *uid, CamelException *ex);
-static void mbox_set_message_flags (CamelFolder *folder, const char *uid, guint32 flags, guint32 set, CamelException *ex);
-static gboolean mbox_get_message_user_flag (CamelFolder *folder, const char *uid, const char *name, CamelException *ex);
-static void mbox_set_message_user_flag (CamelFolder *folder, const char *uid, const char *name, gboolean value, CamelException *ex);
+static guint32 mbox_get_message_flags (CamelFolder *folder, const char *uid);
+static void mbox_set_message_flags (CamelFolder *folder, const char *uid, guint32 flags, guint32 set);
+static gboolean mbox_get_message_user_flag (CamelFolder *folder, const char *uid, const char *name);
+static void mbox_set_message_user_flag (CamelFolder *folder, const char *uid, const char *name, gboolean value);
 
 
 static void mbox_finalize (GtkObject *object);
@@ -112,7 +110,6 @@ camel_mbox_folder_class_init (CamelMboxFolderClass *camel_mbox_folder_class)
 	camel_folder_class->expunge = mbox_expunge;
 
 	camel_folder_class->get_message = mbox_get_message;
-	camel_folder_class->delete_message = mbox_delete_message;
 
 	camel_folder_class->search_by_expression = mbox_search_by_expression;
 
@@ -263,31 +260,30 @@ mbox_expunge (CamelFolder *folder, CamelException *ex)
 }
 
 static gint
-mbox_get_message_count (CamelFolder *folder, CamelException *ex)
+mbox_get_message_count (CamelFolder *folder)
 {
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);
 
-	g_assert (folder);
-	g_assert (mbox_folder->summary);
+	g_return_val_if_fail (mbox_folder->summary != NULL, -1);
 	
 	return camel_folder_summary_count (CAMEL_FOLDER_SUMMARY (mbox_folder->summary));
 }
 
 static gint
-mbox_get_unread_message_count (CamelFolder *folder, CamelException *ex)
+mbox_get_unread_message_count (CamelFolder *folder)
 {
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);
 	CamelMessageInfo *info;
 	GPtrArray *infolist;
 	gint i, max, count = 0;
 
-	g_return_val_if_fail (folder != NULL, -1);
+	g_return_val_if_fail (mbox_folder->summary != NULL, -1);
 
 	max = camel_folder_summary_count (CAMEL_FOLDER_SUMMARY (mbox_folder->summary));
 	if (max == -1)
 		return -1;
 
-	infolist = mbox_get_summary (folder, ex);
+	infolist = mbox_get_summary (folder);
 	
 	for (i = 0; i < infolist->len; i++) {
 		info = (CamelMessageInfo *) g_ptr_array_index (infolist, i);
@@ -335,7 +331,6 @@ mbox_append_message (CamelFolder *folder, CamelMimeMessage *message, guint32 fla
 	uid = camel_folder_summary_next_uid (CAMEL_FOLDER_SUMMARY (mbox_folder->summary));
 	xev = g_strdup_printf ("%08x-%04x", uid, flags);
 	camel_medium_add_header (CAMEL_MEDIUM (message), "X-Evolution", xev);
-	g_print ("%s -- %s\n", __FUNCTION__, xev);
 	g_free (xev);
 
 	/* we must write this to the non-filtered stream ... */
@@ -394,7 +389,7 @@ fail:
 }
 
 static GPtrArray *
-mbox_get_uids (CamelFolder *folder, CamelException *ex) 
+mbox_get_uids (CamelFolder *folder) 
 {
 	GPtrArray *array;
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);
@@ -413,23 +408,10 @@ mbox_get_uids (CamelFolder *folder, CamelException *ex)
 }
 
 static GPtrArray *
-mbox_get_subfolder_names (CamelFolder *folder, CamelException *ex)
+mbox_get_subfolder_names (CamelFolder *folder)
 {
 	/* No subfolders. */
 	return g_ptr_array_new ();
-}
-
-static void
-mbox_delete_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
-{
-	const CamelMessageInfo *info;
-	CamelMboxFolder *mf = CAMEL_MBOX_FOLDER (folder);
-
-	info = camel_folder_summary_uid (CAMEL_FOLDER_SUMMARY (mf->summary), uid);
-	if (info) {
-		mbox_set_message_flags (folder, uid, CAMEL_MESSAGE_DELETED, ~(info->flags), ex);
-		camel_folder_summary_touch (CAMEL_FOLDER_SUMMARY (mf->summary));
-	}
 }
 
 static CamelMimeMessage *
@@ -503,7 +485,7 @@ fail:
 }
 
 GPtrArray *
-mbox_get_summary (CamelFolder *folder, CamelException *ex)
+mbox_get_summary (CamelFolder *folder)
 {
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);
 
@@ -541,77 +523,59 @@ mbox_search_by_expression (CamelFolder *folder, const char *expression, CamelExc
 }
 
 static guint32
-mbox_get_message_flags (CamelFolder *folder, const char *uid, CamelException *ex)
+mbox_get_message_flags (CamelFolder *folder, const char *uid)
 {
 	CamelMessageInfo *info;
 	CamelMboxFolder *mf = CAMEL_MBOX_FOLDER (folder);
 
 	info = camel_folder_summary_uid (CAMEL_FOLDER_SUMMARY (mf->summary), uid);
-	if (info) {
-		return info->flags;
-	} else {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
-				     "No such message %s in %s.", uid,
-				     folder->name);
-		return 0;
-	}
+	g_return_val_if_fail (info != NULL, 0);
+
+	return info->flags;
 }
 
 static void
 mbox_set_message_flags (CamelFolder *folder, const char *uid, guint32 flags,
-			guint32 set, CamelException *ex)
+			guint32 set)
 {
 	CamelMessageInfo *info;
 	CamelMboxFolder *mf = CAMEL_MBOX_FOLDER (folder);
 
 	info = camel_folder_summary_uid (CAMEL_FOLDER_SUMMARY (mf->summary), uid);
-	if (info) {
-		info->flags = (info->flags & ~flags) | (set & flags) |
-			CAMEL_MESSAGE_FOLDER_FLAGGED;
-		camel_folder_summary_touch (CAMEL_FOLDER_SUMMARY (mf->summary));
-		
-		gtk_signal_emit_by_name (GTK_OBJECT (folder), "message_changed", uid);
-	} else {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
-				      "No such message %s in %s.", uid,
-				      folder->name);
-	}
+	g_return_if_fail (info != NULL);
+
+	info->flags = (info->flags & ~flags) | (set & flags) |
+		CAMEL_MESSAGE_FOLDER_FLAGGED;
+	camel_folder_summary_touch (CAMEL_FOLDER_SUMMARY (mf->summary));
+
+	gtk_signal_emit_by_name (GTK_OBJECT (folder), "message_changed", uid);
 }
 
 static gboolean
 mbox_get_message_user_flag (CamelFolder *folder, const char *uid,
-			    const char *name, CamelException *ex)
+			    const char *name)
 {
 	CamelMessageInfo *info;
 	CamelMboxFolder *mf = CAMEL_MBOX_FOLDER (folder);
 
 	info = camel_folder_summary_uid (CAMEL_FOLDER_SUMMARY (mf->summary), uid);
-	if (info)
-		return camel_flag_get (&info->user_flags, name);
-	else {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
-				     "No such message %s in %s.", uid,
-				     folder->name);
-		return FALSE;
-	}
+	g_return_val_if_fail (info != NULL, FALSE);
+
+	return camel_flag_get (&info->user_flags, name);
 }
 
-static void mbox_set_message_user_flag (CamelFolder *folder, const char *uid,
-					const char *name, gboolean value,
-					CamelException *ex)
+static void
+mbox_set_message_user_flag (CamelFolder *folder, const char *uid,
+			    const char *name, gboolean value)
 {
 	CamelMessageInfo *info;
 	CamelMboxFolder *mf = CAMEL_MBOX_FOLDER (folder);
 
 	info = camel_folder_summary_uid (CAMEL_FOLDER_SUMMARY (mf->summary), uid);
-	if (info) {
-		camel_flag_set (&info->user_flags, name, value);
-		info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED;
-		camel_folder_summary_touch (CAMEL_FOLDER_SUMMARY (mf->summary));
-		gtk_signal_emit_by_name (GTK_OBJECT (folder), "message_changed", uid);
-	} else {
-                camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
-				     "No such message %s in %s.", uid,
-				     folder->name);
-	}
+	g_return_if_fail (info != NULL);
+
+	camel_flag_set (&info->user_flags, name, value);
+	info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED;
+	camel_folder_summary_touch (CAMEL_FOLDER_SUMMARY (mf->summary));
+	gtk_signal_emit_by_name (GTK_OBJECT (folder), "message_changed", uid);
 }
