@@ -1,3 +1,8 @@
+2003-08-01  Yuedong Du  <yuedong.du@sun.com>
+
+	* message-browser.c: (on_key_press): close mail message window
+	using 'ESC' key, fix bug #47087
+
 2003-07-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-crypto.c: Removed smime functions as they were stale.

@@ -341,6 +341,9 @@ on_key_press (GtkWidget *widget, GdkEventKey *key, gpointer data)
 	case GDK_KP_Delete:
 		message_browser_delete (NULL, mb, NULL);
 		return TRUE;
+	case GDK_Escape:
+		message_browser_close (NULL, mb, NULL);
+		return TRUE;	
 	default:
 	}
 	
