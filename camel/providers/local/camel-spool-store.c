@@ -172,7 +172,6 @@ get_folder_info (CamelStore *store, const char *top,
 	CamelFolder *folder;
 
 	if (top == NULL || strcmp(top, "INBOX") == 0) {
-		/* FIXME: if the folder is opened we could look it up? */
 		fi = g_malloc0(sizeof(*fi));
 		fi->full_name = "INBOX";
 		fi->name = "INBOX";
@@ -181,7 +180,7 @@ get_folder_info (CamelStore *store, const char *top,
 		CAMEL_STORE_LOCK(store, cache_lock);
 		folder = g_hash_table_lookup(store->folders, fi->full_name);
 		if (folder)
-			fi->unread_message_count = camel_folder_get_message_count(folder);
+			fi->unread_message_count = camel_folder_get_unread_message_count(folder);
 		else
 			fi->unread_message_count = -1;
 		CAMEL_STORE_UNLOCK(store, cache_lock);
