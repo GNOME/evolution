@@ -108,9 +108,6 @@ async_create_cb (EStorageSet *storage_set,
 			dialog_data_destroy (dialog_data);
 		}
 		return;
-	} else if (result == E_STORAGE_EXISTS) {
-		e_storage_set_view_set_current_folder (E_STORAGE_SET_VIEW (dialog_data->storage_set_view),
-						       dialog_data->folder_path);
 	}
 
 	/* Tell the callback something failed, then popup a dialog
