@@ -22,7 +22,7 @@
 #include "icalproperty.h"
 #include "icalerror.h"
 #include "icalmemory.h"
-#include <malloc.h>
+#include <stdlib.h>
 #include <string.h>
 
 int* icallangbind_new_array(int size){

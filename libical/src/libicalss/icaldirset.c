@@ -66,9 +66,9 @@
 #include "icalgauge.h"
 
 #include <limits.h> /* For PATH_MAX */
-#include <dirent.h> /* for opendir() */
 #include <errno.h>
 #include <sys/types.h> /* for opendir() */
+#include <dirent.h> /* for opendir() */
 #include <sys/stat.h> /* for stat */
 #include <unistd.h> /* for stat, getpid */
 #include <time.h> /* for clock() */
