@@ -1,3 +1,13 @@
+2002-08-20  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/e-itip-control.c (start_defalt_server): Rename to
+	start_default_server_async () and don't run a nested main loop. Let
+	the caller deal with the client object and signals.
+	(default_server_started_cb): Implement. Async signal handler for
+	'cal_opened' signal, does the embedding.
+	(object_requested_cb): Rewritten to work asynchronously, and finish
+	the embedding when default_server_started_cb() is called.
+
 2003-08-12  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/calendar-offline-handler.c (impl_dispose): Chain. Prevent
