@@ -203,6 +203,9 @@ set_twentyfour_hour (EDayView *day_view)
 	use_24_hour = calendar_config_get_24_hour_format ();
 
 	e_calendar_view_set_use_24_hour_format (E_CALENDAR_VIEW (day_view), use_24_hour);
+
+	/* To redraw the times */
+	gtk_widget_queue_draw (day_view->time_canvas);
 }
 
 static void
