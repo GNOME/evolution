@@ -30,7 +30,6 @@
 #include <gal/widgets/e-scroll-frame.h>
 #include <gal/widgets/e-popup-menu.h>
 #include <gal/widgets/e-gui-utils.h>
-#include <gal/widgets/e-treeview-selection-model.h>
 #include <gal/menus/gal-view-factory-etable.h>
 #include <gal/menus/gal-view-etable.h>
 #include <gal/util/e-xml-utils.h>
@@ -47,6 +46,7 @@
 #include "gal-view-factory-minicard.h"
 #include "gal-view-minicard.h"
 #ifdef WITH_ADDRESSBOOK_VIEW_TREEVIEW
+#include <gal/widgets/e-treeview-selection-model.h>
 #include "gal-view-factory-treeview.h"
 #include "gal-view-treeview.h"
 #endif

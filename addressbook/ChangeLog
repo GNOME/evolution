@@ -1,3 +1,8 @@
+2003-01-08  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/e-addressbook-view.c: oops, don't include
+	e-treeview-selection-model.h unless we're building the treeview.
+
 2003-01-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* backend/pas/pas-backend-ldap.c
