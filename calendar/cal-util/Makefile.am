@@ -1,7 +1,6 @@
 noinst_PROGRAMS = test-recur
 
 INCLUDES =						\
-        -DGNOMELOCALEDIR=\""$(localedir)"\"		\
 	-DG_LOG_DOMAIN=\"cal-util\"			\
 	-I$(top_srcdir) 				\
 	-I$(top_srcdir)/calendar			\
@@ -26,7 +25,7 @@ libcal_util_la_SOURCES = 	\
 	cal-util.c		\
 	timeutil.c
 
-libcal_utilincludedir = $(includedir)/evolution-$(BASE_VERSION)/cal-util
+libcal_utilincludedir = $(privincludedir)/cal-util
 
 libcal_utilinclude_HEADERS =	\
 	cal-component.h		\
