@@ -1,0 +1,9 @@
+1999-10-31  Miguel de Icaza  <miguel@gnu.org>
+
+	* widgets/e-table-column.c, e-table-column.h: New file, implements the
+	e-table-column object.
+
+	* widget/e-table-model.h, e-table-model.c, e-table-simple.c,
+	e-table-simple.h: New files.  Implements the column model and
+	a simple table wrapper.
+
