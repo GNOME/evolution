@@ -42,6 +42,7 @@ gchar *s = N_("Send queued mail and retrieve new mail");
 gchar *s = N_("Threaded Message list");
 gchar *s = N_("VFolder on Se_nder");
 gchar *s = N_("VFolder on _Recipients");
+gchar *s = N_("_Apply Filters");
 gchar *s = N_("_Configure Folder");
 gchar *s = N_("_Copy to Folder");
 gchar *s = N_("_Delete");

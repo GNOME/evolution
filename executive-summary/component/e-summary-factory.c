@@ -89,7 +89,7 @@ control_activate (BonoboControl     *control,
 {
 	Bonobo_UIContainer container;
 
-	container = bonobo_control_get_remote_ui_handler (control);
+	container = bonobo_control_get_remote_ui_container (control);
 	bonobo_ui_component_set_container (ui_component, container);
 	bonobo_object_release_unref (container, NULL);
 

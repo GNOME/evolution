@@ -15,6 +15,7 @@ extern "C"
 
 /** typedefs **/
 #include <bonobo/Bonobo.h>
+# 13 "/opt/gnome/share/idl/Bonobo.idl"
 #if !defined(ORBIT_DECL_Evolution_Composer) && !defined(_Evolution_Composer_defined)
 #define ORBIT_DECL_Evolution_Composer 1
 #define _Evolution_Composer_defined 1
