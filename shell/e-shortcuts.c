@@ -1079,12 +1079,12 @@ void
 e_shortcuts_add_default_shortcuts (EShortcuts *shortcuts,
 				   int group_num)
 {
-	e_shortcuts_add_shortcut (shortcuts, 0, -1, E_SUMMARY_URI, _("Summary"), 0, "summary", NULL);
+	e_shortcuts_add_shortcut (shortcuts, group_num, -1, E_SUMMARY_URI, _("Summary"), 0, "summary", NULL);
 
-	e_shortcuts_add_shortcut (shortcuts, 0, -1, "default:mail", _("Inbox"), 0, "mail", "inbox");
-	e_shortcuts_add_shortcut (shortcuts, 0, -1, "default:calendar", _("Calendar"), 0, "calendar", NULL);
-	e_shortcuts_add_shortcut (shortcuts, 0, -1, "default:tasks", _("Tasks"), 0, "tasks", NULL);
-	e_shortcuts_add_shortcut (shortcuts, 0, -1, "default:contacts", _("Contacts"), 0, "contacts", NULL);
+	e_shortcuts_add_shortcut (shortcuts, group_num, -1, "default:mail", _("Inbox"), 0, "mail", "inbox");
+	e_shortcuts_add_shortcut (shortcuts, group_num, -1, "default:calendar", _("Calendar"), 0, "calendar", NULL);
+	e_shortcuts_add_shortcut (shortcuts, group_num, -1, "default:tasks", _("Tasks"), 0, "tasks", NULL);
+	e_shortcuts_add_shortcut (shortcuts, group_num, -1, "default:contacts", _("Contacts"), 0, "contacts", NULL);
 }
 
 void
@@ -1095,7 +1095,7 @@ e_shortcuts_add_default_group (EShortcuts *shortcuts)
 
 	e_shortcuts_add_group (shortcuts, -1, _("Shortcuts"));
 
-	e_shortcuts_add_default_shortcuts (shortcuts, -1);
+	e_shortcuts_add_default_shortcuts (shortcuts, e_shortcuts_get_num_groups (shortcuts) - 1);
 }
 
 void

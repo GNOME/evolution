@@ -1,3 +1,18 @@
+2003-09-11  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-storage-set-view.c (impl_right_click): If the
+	right_click_row_path is not NULL (i.e. a menu is being popped up
+	already), don't pop up the menu again.  [#48388]
+
+2003-09-11  Ettore Perazzoli  <ettore@ximian.com>
+
+	[#47875, thanks to Calvin Liu for figuring this out.]
+
+	* e-shortcuts.c (e_shortcuts_add_default_shortcuts): Use the
+	group_num arg, so it gets added to the proper group.
+	(e_shortcuts_add_default_group): Pass the actual group number to
+	e_shortcuts_add_default_shortcuts().
+
 2003-09-11  Hans Petter Jansson  <hpj@ximian.com>
 
 	* Makefile.am (evolution_LDADD): libical-evolution.la -> libical.la

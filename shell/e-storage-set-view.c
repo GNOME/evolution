@@ -1257,9 +1257,10 @@ impl_right_click (ETree *etree,
 	storage_set_view = E_STORAGE_SET_VIEW (etree);
 	priv = storage_set_view->priv;
 
-	/* This should never happen, but you never know with ETree.  */
+	/* Avoid recursion which would lock up the event loop (#48388).  */
 	if (priv->right_click_row_path != NULL)
-		g_free (priv->right_click_row_path);
+		return TRUE;
+
 	priv->right_click_row_path = g_strdup (e_tree_memory_node_get_data (E_TREE_MEMORY(priv->etree_model), path));
 
 	if (priv->ui_container) {
