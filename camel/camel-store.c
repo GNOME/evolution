@@ -843,6 +843,12 @@ folder_info_cmp (const void *ap, const void *bp)
 	return strcmp (a->full_name, b->full_name);
 }
 
+static void
+free_name(void *key, void *data, void *user)
+{
+	g_free(key);
+}
+
 /**
  * camel_folder_info_build:
  * @folders: an array of CamelFolderInfo
@@ -873,25 +879,36 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 	if (!namespace)
 		namespace = "";
 	nlen = strlen (namespace);
-	
+
 	qsort (folders->pdata, folders->len, sizeof (folders->pdata[0]), folder_info_cmp);
 	
 	/* Hash the folders. */
 	hash = g_hash_table_new (g_str_hash, g_str_equal);
 	for (i = 0; i < folders->len; i++) {
 		fi = folders->pdata[i];
-		g_hash_table_insert (hash, fi->full_name, fi);
+		if (!strncmp (namespace, fi->full_name, nlen))
+			name = fi->full_name + nlen;
+		else
+			name = fi->full_name;
+		if (*name == separator)
+			name++;
+		g_hash_table_insert (hash, g_strdup(name), fi);
 	}
 	
 	/* Now find parents. */
 	for (i = 0; i < folders->len; i++) {
 		fi = folders->pdata[i];
-		name = fi->full_name;
-		
+		if (!strncmp (namespace, fi->full_name, nlen))
+			name = fi->full_name + nlen;
+		else
+			name = fi->full_name;
+		if (*name == separator)
+			name++;
+
 		/* set the path if it isn't already set */
 		if (!fi->path)
 			camel_folder_info_build_path (fi, separator);
-		
+
 		p = strrchr (name, separator);
 		if (p) {
 			pname = g_strndup (name, p - name);
@@ -903,9 +920,8 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 				   create a fake folder node */
 				CamelURL *url;
 				char *sep;
-				
+
 				pfi = g_new0 (CamelFolderInfo, 1);
-				pfi->full_name = pname;
 				if (short_names) {
 					pfi->name = strrchr (pname, separator);
 					if (pfi->name)
@@ -914,7 +930,8 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 						pfi->name = g_strdup (pname);
 				} else
 					pfi->name = g_strdup (pname);
-				
+
+				/* FIXME: url's with fragments should have the fragment truncated, not path */
 				url = camel_url_new (fi->url, NULL);
 				sep = strrchr (url->path, separator);
 				if (sep)
@@ -922,11 +939,13 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 				else
 					d(g_warning ("huh, no \"%c\" in \"%s\"?", separator, fi->url));
 				
+				pfi->full_name = g_strdup(url->path+1);
+
 				/* since this is a "fake" folder node, it is not selectable */
 				camel_url_set_param (url, "noselect", "yes");
 				pfi->url = camel_url_to_string (url, 0);
 				camel_url_free (url);
-				
+
 				g_hash_table_insert (hash, pname, pfi);
 				g_ptr_array_add (folders, pfi);
 			}
@@ -936,6 +955,7 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 		} else if (!top)
 			top = fi;
 	}
+	g_hash_table_foreach(hash, free_name, NULL);
 	g_hash_table_destroy (hash);
 
 	/* Link together the top-level folders */

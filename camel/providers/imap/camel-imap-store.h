@@ -114,6 +114,7 @@ struct _CamelImapStore {
 	/* Information about the server */
 	CamelImapServerLevel server_level;
 	guint32 capabilities, parameters;
+	/* NB: namespace should be handled by summary->namespace */
 	char *namespace, dir_sep, *base_url, *storage_path;
 	GHashTable *authtypes;
 	

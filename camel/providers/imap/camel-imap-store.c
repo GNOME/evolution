@@ -816,31 +816,26 @@ imap_build_folder_info(CamelImapStore *imap_store, const char *folder_name)
 	CamelURL *url;
 	const char *name;
 	CamelFolderInfo *fi;
-	
+
 	fi = g_malloc0(sizeof(*fi));
-	
+
 	fi->full_name = g_strdup(folder_name);
 	fi->unread_message_count = 0;
-	
+
 	url = camel_url_new (imap_store->base_url, NULL);
 	g_free (url->path);
 	url->path = g_strdup_printf ("/%s", folder_name);
 	fi->url = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
 	camel_url_free(url);
-	
-	/* strip extranious leading /'s */
-	while (*folder_name == '/')
-		folder_name++;
-	
 	fi->path = g_strdup_printf("/%s", folder_name);
 	name = strrchr (fi->path, '/');
 	if (name)
 		name++;
 	else
 		name = fi->path;
-	
+
 	fi->name = g_strdup (name);
-	
+
 	return fi;
 }
 
@@ -1271,33 +1266,29 @@ imap_connect_online (CamelService *service, CamelException *ex)
 	/* canonicalize the namespace to end with dir_sep */
 	len = strlen (store->namespace);
 	if (len && store->namespace[len - 1] != store->dir_sep) {
-		char *tmp;
+		gchar *tmp;
 		
 		tmp = g_strdup_printf ("%s%c", store->namespace, store->dir_sep);
 		g_free (store->namespace);
 		store->namespace = tmp;
 	}
-	
+
 	ns = camel_imap_store_summary_namespace_new(store->summary, store->namespace, store->dir_sep);
 	camel_imap_store_summary_namespace_set(store->summary, ns);
 	
 	if (CAMEL_STORE (store)->flags & CAMEL_STORE_SUBSCRIPTIONS) {
 		GPtrArray *folders;
 		char *pattern;
-		
+
 		/* this pre-fills the summary, and checks that lsub is useful */
-		folders = g_ptr_array_new ();
-		pattern = g_strdup_printf ("%s*", store->namespace);
-		get_folders_online (store, pattern, folders, TRUE, ex);
-		g_free (pattern);
-		
-		/* if we have a namespace, then our LSUB won't include INBOX so LSUB for the INBOX too */
-		if (*store->namespace && !camel_exception_is_set (ex))
-			get_folders_online (store, "INBOX", folders, TRUE, ex);
-		
+		folders = g_ptr_array_new();
+		pattern = g_strdup_printf("%s*", store->namespace);
+		get_folders_online(store, pattern, folders, TRUE, ex);
+		g_free(pattern);
+
 		for (i=0;i<folders->len;i++) {
 			CamelFolderInfo *fi = folders->pdata[i];
-			
+
 			if (fi->flags & (CAMEL_IMAP_FOLDER_MARKED | CAMEL_IMAP_FOLDER_UNMARKED))
 				store->capabilities |= IMAP_CAPABILITY_useful_lsub;
 			camel_folder_info_free(fi);
@@ -1312,7 +1303,7 @@ imap_connect_online (CamelService *service, CamelException *ex)
  done:
 	/* save any changes we had */
 	camel_store_summary_save((CamelStoreSummary *)store->summary);
-	
+
 	CAMEL_SERVICE_UNLOCK (store, connect_lock);
 	
 	if (camel_exception_is_set (ex))
@@ -1926,19 +1917,17 @@ parse_list_response_as_folder_info (CamelImapStore *imap_store,
 				    const char *response)
 {
 	CamelFolderInfo *fi;
-	int flags;
-	char sep, *dir, *name = NULL, *path, *p;
+	int flags, i;
+	char sep, *dir, *name = NULL, *path;
 	CamelURL *url;
 	CamelImapStoreInfo *si;
 	guint32 newflags;
-	
+
 	if (!imap_parse_list_response (imap_store, response, &flags, &sep, &dir))
 		return NULL;
-	
+
 	/* FIXME: should use imap_build_folder_info, note the differences with param setting tho */
-	path = camel_utf7_utf8(dir);
-	
-	/* hack: pokes in value from any list response */
+
 	si = camel_imap_store_summary_add_from_full(imap_store->summary, dir, sep?sep:'/');
 	newflags = (si->info.flags & CAMEL_STORE_INFO_FOLDER_SUBSCRIBED) | (flags & ~CAMEL_STORE_INFO_FOLDER_SUBSCRIBED);
 	if (si->info.flags != newflags) {
@@ -1946,45 +1935,24 @@ parse_list_response_as_folder_info (CamelImapStore *imap_store,
 		camel_store_summary_touch((CamelStoreSummary *)imap_store->summary);
 	}
 	
-	if (sep && sep != '/') {
-		for (p = path; *p; p++) {
-			if (*p == sep)
-				*p = '/';
-		}
-	}
-	
-	if ((name = strrchr (path, '/'))) {
-		name++;
-		if (!*name) {
-			g_free(dir);
-			g_free(path);
-			return NULL;
-		}
-	} else
-		name = path;
-	
 	fi = g_new0 (CamelFolderInfo, 1);
 	fi->flags = flags;
-	fi->name = g_strdup (name);
-	fi->full_name = path;
-	
-	while (*path == '/')
-		path++;
-	fi->path = g_strdup_printf ("/%s", path);
+	fi->name = g_strdup(camel_store_info_name(imap_store->summary, si));
+	fi->path = g_strdup_printf("/%s", camel_store_info_path(imap_store->summary, si));
+	fi->full_name = g_strdup(fi->path+1);
 	
 	url = camel_url_new (imap_store->base_url, NULL);
-	g_free (url->path);
-	url->path = g_strdup_printf ("/%s", fi->full_name);
-	
+	camel_url_set_path(url, fi->path);
+
 	if (flags & CAMEL_FOLDER_NOSELECT || fi->name[0] == 0)
 		camel_url_set_param (url, "noselect", "yes");
 	fi->url = camel_url_to_string (url, 0);
 	camel_url_free (url);
-	
+
 	/* FIXME: redundant */
 	if (flags & CAMEL_IMAP_FOLDER_UNMARKED)
 		fi->unread_message_count = -1;
-	
+
 	return fi;
 }
 
@@ -1998,16 +1966,19 @@ get_subscribed_folders (CamelImapStore *imap_store, const char *top, CamelExcept
 	CamelImapResponse *response;
 	CamelFolderInfo *fi;
 	char *result;
+	int haveinbox = FALSE;
 
 	folders = g_ptr_array_new ();
 	names = g_ptr_array_new ();
 	for (i=0;(si = camel_store_summary_index((CamelStoreSummary *)imap_store->summary, i));i++) {
-		if (si->flags & CAMEL_STORE_INFO_FOLDER_SUBSCRIBED)
+		if (si->flags & CAMEL_STORE_INFO_FOLDER_SUBSCRIBED) {
 			g_ptr_array_add(names, (char *)camel_imap_store_info_full_name(imap_store->summary, si));
+			haveinbox = haveinbox || strcasecmp(camel_imap_store_info_full_name(imap_store->summary, si), "INBOX") == 0;
+		}
 		camel_store_summary_info_free((CamelStoreSummary *)imap_store->summary, si);
 	}
-	
-	if (names->len == 0)
+
+	if (!haveinbox)
 		g_ptr_array_add (names, "INBOX");
 
 	for (i = 0; i < names->len; i++) {
@@ -2399,14 +2370,13 @@ get_folder_info_online (CamelStore *store, const char *top, guint32 flags, Camel
 	if (folders == NULL)
 		return NULL;
 
-	/* note the weird top stuff, it is so a namespace based list "" is properly tree-ised */
-	tree = camel_folder_info_build(folders, top[0] == 0 && imap_store->namespace?"":top, '/', TRUE);
+	tree = camel_folder_info_build(folders, top, '/', TRUE);
 	g_ptr_array_free(folders, TRUE);
 
 	if (!(flags & CAMEL_STORE_FOLDER_INFO_FAST))
 		get_folder_counts(imap_store, tree, ex);
 
-	dumpfi(tree);
+	d(dumpfi(tree));
 	camel_store_summary_save((CamelStoreSummary *)imap_store->summary);
 
 	return tree;

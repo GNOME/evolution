@@ -214,6 +214,7 @@ camel_imap_store_summary_path_to_full(CamelImapStoreSummary *s, const char *path
 	int state=0;
 	char *subpath, *last = NULL;
 	CamelStoreInfo *si;
+	CamelImapStoreNamespace *ns;
 
 	/* check to see if we have a subpath of path already defined */
 	subpath = alloca(strlen(path)+1);
@@ -234,11 +235,16 @@ camel_imap_store_summary_path_to_full(CamelImapStoreSummary *s, const char *path
 		return f;
 	}
 
+	ns = camel_imap_store_summary_namespace_find_path(s, path);
+
 	f = full = alloca(strlen(path)*2+1);
 	if (si)
 		p = path + strlen(subpath);
+	else if (ns)
+		p = path + strlen(ns->path);
 	else
 		p = path;
+
 	while ( (c = camel_utf8_getc((const unsigned char **)&p)) ) {
 		switch(state) {
 		case 0:
@@ -270,18 +276,31 @@ camel_imap_store_summary_path_to_full(CamelImapStoreSummary *s, const char *path
 		g_free(f);
 		camel_store_summary_info_free((CamelStoreSummary *)s, si);
 		f = full;
+	} else if (ns) {
+		full = g_strdup_printf("%s%s", ns->full_name, f);
+		g_free(f);
+		f = full;
 	}
 
 	return f;
 }
 
 CamelImapStoreInfo *
-camel_imap_store_summary_add_from_full(CamelImapStoreSummary *s, const char *full_name, char dir_sep)
+camel_imap_store_summary_add_from_full(CamelImapStoreSummary *s, const char *full, char dir_sep)
 {
 	CamelImapStoreInfo *info;
-	char *pathu8;
+	char *pathu8, *prefix;
+	int len;
+	char *full_name;
+	CamelImapStoreNamespace *ns;
 
-	d(printf("adding full name '%s' '%c'\n", full_name, dir_sep));
+	d(printf("adding full name '%s' '%c'\n", full, dir_sep));
+
+	len = strlen(full);
+	full_name = alloca(len+1);
+	strcpy(full_name, full);
+	if (full_name[len-1] == dir_sep)
+		full_name[len-1] = 0;
 
 	info = camel_imap_store_summary_full_name(s, full_name);
 	if (info) {
@@ -290,7 +309,24 @@ camel_imap_store_summary_add_from_full(CamelImapStoreSummary *s, const char *ful
 		return info;
 	}
 
-	pathu8 = camel_imap_store_summary_full_to_path(s, full_name, dir_sep);
+	ns = camel_imap_store_summary_namespace_find_full(s, full_name);
+	if (ns) {
+		d(printf("(found namespace for '%s' ns '%s') ", full_name, ns->path));
+		len = strlen(ns->full_name);
+		if (len >= strlen(full_name)) {
+			pathu8 = g_strdup(ns->path);
+		} else {
+			if (full_name[len] == ns->sep)
+				len++;
+			prefix = camel_imap_store_summary_full_to_path(s, full_name+len, ns->sep);
+			pathu8 = g_strdup_printf("%s/%s", ns->path, prefix);
+			g_free(prefix);
+		}
+		d(printf(" (pathu8 = '%s')", pathu8));
+	} else {
+		d(printf("(Cannot find namespace for '%s')\n", full_name));
+		pathu8 = camel_imap_store_summary_full_to_path(s, full_name, dir_sep);
+	}
 
 	info = (CamelImapStoreInfo *)camel_store_summary_add_from_path((CamelStoreSummary *)s, pathu8);
 	if (info) {
@@ -303,30 +339,44 @@ camel_imap_store_summary_add_from_full(CamelImapStoreSummary *s, const char *ful
 }
 
 /* should this be const? */
+/* TODO: deprecate/merge this function with path_to_full */
 char *
 camel_imap_store_summary_full_from_path(CamelImapStoreSummary *s, const char *path)
 {
 	CamelImapStoreInfo *si;
+	CamelImapStoreNamespace *ns;
+	char *name = NULL;
 
-	si = (CamelImapStoreInfo *)camel_store_summary_path((CamelStoreSummary *)s, path);
+	ns = camel_imap_store_summary_namespace_find_path(s, path);
+	if (ns)
+		name = camel_imap_store_summary_path_to_full(s, path, ns->sep);
 
-	d(printf("looking up path %s -> %s\n", path, si?si->full_name:"not found"));
+	d(printf("looking up path %s -> %s\n", path, name?name:"not found"));
 
-	if (si)
-		return g_strdup(si->full_name);
-
-	return NULL;
+	return name;
 }
 
 /* TODO: this api needs some more work */
 CamelImapStoreNamespace *camel_imap_store_summary_namespace_new(CamelImapStoreSummary *s, const char *full_name, char dir_sep)
 {
 	CamelImapStoreNamespace *ns;
+	char *p;
+	int len;
+	GString *tmp;
 
 	ns = g_malloc0(sizeof(*ns));
 	ns->full_name = g_strdup(full_name);
+	len = strlen(ns->full_name)-1;
+	if (len >= 0 && ns->full_name[len] == dir_sep)
+		ns->full_name[len] = 0;
 	ns->sep = dir_sep;
-	ns->path = camel_imap_store_summary_full_to_path(s, full_name, dir_sep);
+
+	p = ns->path = camel_imap_store_summary_full_to_path(s, ns->full_name, dir_sep);
+	while (*p) {
+		if (*p == '/')
+			*p = '.';
+		p++;
+	}
 
 	return ns;
 }
@@ -335,9 +385,51 @@ void camel_imap_store_summary_namespace_set(CamelImapStoreSummary *s, CamelImapS
 {
 	static void namespace_clear(CamelStoreSummary *s);
 
+	d(printf("Setting namesapce to '%s' '%c' -> '%s'\n", ns->full_name, ns->sep, ns->path));
 	namespace_clear((CamelStoreSummary *)s);
 	s->namespace = ns;
 	camel_store_summary_touch((CamelStoreSummary *)s);
+}
+
+CamelImapStoreNamespace *
+camel_imap_store_summary_namespace_find_path(CamelImapStoreSummary *s, const char *path)
+{
+	int len;
+	CamelImapStoreNamespace *ns;
+
+	/* NB: this currently only compares against 1 namespace, in future compare against others */
+	ns = s->namespace;
+	while (ns) {
+		len = strlen(ns->path);
+		if (strncmp(ns->path, path, len) == 0
+		    && (path[len] == '/' || path[len] == 0))
+			break;
+		ns = NULL;
+	}
+
+	/* have a default? */
+	return ns;
+}
+
+CamelImapStoreNamespace *
+camel_imap_store_summary_namespace_find_full(CamelImapStoreSummary *s, const char *full)
+{
+	int len;
+	CamelImapStoreNamespace *ns;
+
+	/* NB: this currently only compares against 1 namespace, in future compare against others */
+	ns = s->namespace;
+	while (ns) {
+		len = strlen(ns->full_name);
+		d(printf("find_full: comparing namespace '%s' to name '%s'\n", ns->full_name, full));
+		if (strncmp(ns->full_name, full, len) == 0
+		    && (full[len] == ns->sep || full[len] == 0))
+			break;
+		ns = NULL;
+	}
+
+	/* have a default? */
+	return ns;
 }
 
 static void

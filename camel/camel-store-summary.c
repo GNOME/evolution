@@ -870,7 +870,7 @@ store_info_string(CamelStoreSummary *s, const CamelStoreInfo *mi, int type)
 	case CAMEL_STORE_INFO_NAME:
 		p = strrchr(mi->path, '/');
 		if (p)
-			return p;
+			return p+1;
 		else
 			return mi->path;
 	case CAMEL_STORE_INFO_URI:

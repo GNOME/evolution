@@ -1,3 +1,46 @@
+2002-10-24  Not Zed  <NotZed@Ximian.com>
+
+	** For bug #31647 and bug #31456.
+	
+	* camel-store-summary.c (store_info_string): for STORE_INFO_NAME,
+	skip the leading /.
+
+	* providers/imap/camel-imap-store.c
+	(parse_list_response_as_folder_info): Remove jeff's last patch,
+	and use the store summary to create the name and path of the
+	folderinfo so it manages namespace issues.
+	(get_folder_info_online): Just pass @top directly to
+	build_folder_info always, since namespace is mapped to 1 tree
+	level.
+	(imap_build_folder_info): Remove jeff's last patch, dont strip
+	leading /'s, they shouldn't exist.
+	(imap_connect_online): Remove adding the INBOX here, we add it
+	later.
+	(get_subscribed_folders): Make sure INBOX is always in the list.
+	some imap servers dont seem to let you subscribe to it(?), so
+	always have it act as subscribed.
+
+	* camel-store.c	(camel_folder_info_build): back out the last 2
+	patches from Jeff (for #31456) to get the original behaviour.
+	(camel_folder_info_build): When creating a fake
+	parent, dont strip the namespace from the full_name.  malloc keys
+	in hash since we dont have them anymore.
+	(free_name): Helper to free names.
+
+	* providers/imap/camel-imap-store-summary.c
+	(camel_imap_store_summary_namespace_new): Canonicalise the
+	namespace (strip trailing dir_sep), and change the path to remove
+	any /'s.
+	(camel_imap_store_summary_namespace_find_path):
+	(camel_imap_store_summary_namespace_find_full): new, find
+	namespace by path/full name.
+	(camel_imap_store_summary_full_from_path): Changed to a simple
+	wrapper around path_to_full, after checking namespace.
+	(camel_imap_store_summary_add_from_full): map the namespace if
+	present.
+	(camel_imap_store_summary_path_to_full): If namespace exists,
+	unmap it.
+
 2002-10-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-filter-driver.c (camel_filter_driver_filter_folder):
