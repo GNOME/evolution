@@ -19,6 +19,7 @@
 
 #include "config.h"
 
+#include <e-util/e-msgport.h>
 #include <glib.h>
 
 #include "ibex.h"
@@ -38,7 +39,6 @@ struct ibex {
 	struct _IBEXWord *words;
 	int predone;
 
-	/* sigh i hate glib's mutex stuff too */
 #ifdef ENABLE_THREADS
 	GMutex *lock;
 #endif

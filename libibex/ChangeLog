@@ -2,6 +2,11 @@
 
 	* ibex_block.c (ibex_reset): If we can't open blocks, dont try to
 	deref it.
+	(ibex_move): Dont try to rename if we have no file to rename.
+	Change all callers to ibex_use to call it inside the lock.
+	Otherwise it could change while we're trying to use it ...
+	(ibex_use): Dont lock ib here, always assume we have it locked
+	already, and dont try to close it if we run across it in the list.
 
 2001-10-29    <NotZed@Ximian.com>
 
