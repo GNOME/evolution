@@ -646,7 +646,7 @@ int icalrecur_two_byrule(struct icalrecur_iterator_impl* impl,
     enum byrule itr;
     int passes = 0;
 
-    memset(test_array,0,9);
+    memset(test_array,0,sizeof (test_array));
 
     test_array[one] = 1;
     test_array[two] = 1;

@@ -1,3 +1,9 @@
+2001-10-23  Damon Chaplin  <damon@ximian.com>
+
+	* src/libical/icalrecur.c (icalrecur_two_byrule): use
+	sizeof(test_array) for the memset call. It was clearing 9 bytes but
+	the array uses shorts.
+
 2001-10-22  Damon Chaplin  <damon@ximian.com>
 
 	* zoneinfo/*: updated all files again, placing current RDATEs first,
