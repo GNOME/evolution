@@ -15,7 +15,8 @@ INCLUDES = -I.. \
 	$(CAMEL_CFLAGS)				\
 	$(GNOME_INCLUDEDIR)			\
 	$(GTK_INCLUDEDIR)			\
-	-DG_LOG_DOMAIN=\"camel-imap-provider\"	
+	-DG_LOG_DOMAIN=\"camel-imap-provider\"	\
+	-DG_DISABLE_DEPRECATED
 
 libcamelimap_la_SOURCES = 			\
 	camel-imap-command.c			\

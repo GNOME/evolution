@@ -5,17 +5,18 @@ libcamelsendmailincludedir = $(includedir)/camel
 camel_provider_LTLIBRARIES = libcamelsendmail.la
 camel_provider_DATA = libcamelsendmail.urls
 
-INCLUDES =					\
-	-I..					\
-	-I$(srcdir)/..				\
-	-I$(srcdir)/../../..			\
-	-I$(includedir)				\
-	-I$(top_srcdir)/intl			\
-	-I$(top_srcdir)/camel                   \
-	$(CAMEL_CFLAGS)				\
-	$(GNOME_INCLUDEDIR)			\
-	$(GTK_INCLUDEDIR) 			\
-        -DG_LOG_DOMAIN=\"camel-sendmail-provider\"
+INCLUDES =						\
+	-I..						\
+	-I$(srcdir)/..					\
+	-I$(srcdir)/../../..				\
+	-I$(includedir)					\
+	-I$(top_srcdir)/intl				\
+	-I$(top_srcdir)/camel                   	\
+	$(CAMEL_CFLAGS)					\
+	$(GNOME_INCLUDEDIR)				\
+	$(GTK_INCLUDEDIR) 				\
+	-DG_LOG_DOMAIN=\"camel-sendmail-provider\"	\
+	-DG_DISABLE_DEPRECATED
 
 libcamelsendmail_la_SOURCES = 			\
 	camel-sendmail-provider.c		\

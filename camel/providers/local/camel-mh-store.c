@@ -114,15 +114,15 @@ folders_update(const char *root, const char *folder, int mode)
 	char *tmp, *tmpnew, *line = NULL;
 	CamelStream *stream, *in = NULL, *out = NULL;
 
-	tmpnew = alloca(strlen(root)+16);
-	sprintf(tmpnew, "%s.folders~", root);
+	tmpnew = g_alloca (strlen (root) + 16);
+	sprintf (tmpnew, "%s.folders~", root);
 	
 	out = camel_stream_fs_new_with_name(tmpnew, O_WRONLY|O_CREAT|O_TRUNC, 0666);
 	if (out == NULL)
 		goto fail;
 
-	tmp = alloca(strlen(root)+16);
-	sprintf(tmp, "%s.folders", root);
+	tmp = g_alloca (strlen (root) + 16);
+	sprintf (tmp, "%s.folders", root);
 	stream = camel_stream_fs_new_with_name(tmp, O_RDONLY, 0);
 	if (stream) {
 		in = camel_stream_buffer_new(stream, CAMEL_STREAM_BUFFER_READ);
@@ -338,8 +338,8 @@ static void recursive_scan(CamelStore *store, CamelFolderInfo **fip, CamelFolder
 
 	/* Open the specified directory. */
 	if (path[0]) {
-		fullpath = alloca(strlen(root)+strlen(path)+2);
-		sprintf(fullpath, "%s/%s", root, path);
+		fullpath = alloca (strlen (root) + strlen (path) + 2);
+		sprintf (fullpath, "%s/%s", root, path);
 	} else 
 		fullpath = (char *)root;
 
@@ -407,8 +407,8 @@ folders_scan(CamelStore *store, const char *root, const char *top, CamelFolderIn
 	GHashTable *visited;
 	int len;
 
-	tmp = alloca(strlen(root)+16);
-	sprintf(tmp, "%s/.folders", root);
+	tmp = g_alloca (strlen (root) + 16);
+	sprintf (tmp, "%s/.folders", root);
 	stream = camel_stream_fs_new_with_name(tmp, 0, O_RDONLY);
 	if (stream == NULL)
 		return;

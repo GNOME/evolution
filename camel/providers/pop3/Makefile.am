@@ -16,7 +16,8 @@ INCLUDES =					\
 	$(CAMEL_CFLAGS)				\
 	$(GNOME_INCLUDEDIR)			\
 	$(GTK_INCLUDEDIR)			\
-	-DG_LOG_DOMAIN=\"camel-pop3-provider\"
+	-DG_LOG_DOMAIN=\"camel-pop3-provider\"	\
+	-DG_DISABLE_DEPRECATED
 
 libcamelpop3_la_SOURCES = 			\
 	camel-pop3-engine.c			\

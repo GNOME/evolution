@@ -273,8 +273,8 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 
 	/* look for folders matching the right structure, recursively */
 	if (path) {
-		name = alloca(strlen(root)+strlen(path)+2);
-		sprintf(name, "%s/%s", root, path);
+		name = g_alloca (strlen (root) + strlen (path) + 2);
+		sprintf (name, "%s/%s", root, path);
 	} else
 		name = root;
 

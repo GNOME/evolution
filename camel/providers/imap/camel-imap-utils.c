@@ -20,6 +20,7 @@
  *
  */
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -29,10 +30,6 @@
 #include <string.h>
 #include <time.h>
 #include <errno.h>
-
-#ifdef HAVE_ALLOCA_H
-#include <alloca.h>
-#endif
 
 #include "camel-imap-utils.h"
 #include "camel-imap-summary.h"
@@ -1010,17 +1007,17 @@ imap_uid_array_to_set (CamelFolderSummary *summary, GPtrArray *uids, int uid, ss
 			range = TRUE;
 		else {
 			if (range) {
-				g_string_sprintfa (gset, ":%lu", last_uid);
+				g_string_append_printf (gset, ":%lu", last_uid);
 				range = FALSE;
 			}
-			g_string_sprintfa (gset, ",%lu", this_uid);
+			g_string_append_printf (gset, ",%lu", this_uid);
 		}
 		
 		last_uid = this_uid;
 	}
 	
 	if (range)
-		g_string_sprintfa (gset, ":%lu", last_uid);
+		g_string_append_printf (gset, ":%lu", last_uid);
 	
 	*lastuid = uid;
 	
@@ -1136,21 +1133,21 @@ imap_mailbox_encode (const unsigned char *in, size_t inlen)
 {
 	char *buf;
 
-	buf = alloca(inlen+1);
-	memcpy(buf, in, inlen);
+	buf = g_alloca (inlen + 1);
+	memcpy (buf, in, inlen);
 	buf[inlen] = 0;
-
-	return camel_utf8_utf7(buf);
+	
+	return camel_utf8_utf7 (buf);
 }
 
 char *
 imap_mailbox_decode (const unsigned char *in, size_t inlen)
 {
 	char *buf;
-
-	buf = alloca(inlen+1);
-	memcpy(buf, in, inlen);
+	
+	buf = g_alloca (inlen + 1);
+	memcpy (buf, in, inlen);
 	buf[inlen] = 0;
-
-	return camel_utf7_utf8(buf);
+	
+	return camel_utf7_utf8 (buf);
 }

@@ -561,14 +561,16 @@ camel_mbox_summary_build_from(struct _header_raw *header)
 
 	/* a pseudo, but still bogus attempt at thread safing the function */
 	/*memcpy(&tm, gmtime(&thetime), sizeof(tm));*/
-	gmtime_r(&thetime, &tm);
-
-	g_string_sprintfa(out, " %s %s %2d %02d:%02d:%02d %4d\n",
-			  tz_days[tm.tm_wday],
-			  tz_months[tm.tm_mon], tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec, tm.tm_year + 1900);
-
+	gmtime_r (&thetime, &tm);
+	
+	g_string_append_printf (out, " %s %s %2d %02d:%02d:%02d %4d\n",
+				tz_days[tm.tm_wday], tz_months[tm.tm_mon],
+				tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec,
+				tm.tm_year + 1900);
+	
 	ret = out->str;
-	g_string_free(out, FALSE);
+	g_string_free (out, FALSE);
+	
 	return ret;
 }
 
@@ -594,8 +596,8 @@ mbox_summary_sync_full(CamelMboxSummary *mbs, gboolean expunge, CamelFolderChang
 		return -1;
 	}
 
-	tmpname = alloca(strlen (cls->folder_path) + 5);
-	sprintf(tmpname, "%s.tmp", cls->folder_path);
+	tmpname = g_alloca (strlen (cls->folder_path) + 5);
+	sprintf (tmpname, "%s.tmp", cls->folder_path);
 	d(printf("Writing tmp file to %s\n", tmpname));
 	fdout = open(tmpname, O_WRONLY|O_CREAT|O_TRUNC, 0600);
 	if (fdout == -1) {

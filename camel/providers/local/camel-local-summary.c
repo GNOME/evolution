@@ -453,7 +453,8 @@ local_summary_add(CamelLocalSummary *cls, CamelMimeMessage *msg, const CamelMess
 		camel_folder_change_info_add_uid(ci, camel_message_info_uid(mi));
 	} else {
 		d(printf("Failed!\n"));
-		camel_exception_set(ex, 1, _("Unable to add message to summary: unknown reason"));
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+				     _("Unable to add message to summary: unknown reason"));
 	}
 	return mi;
 }
@@ -475,42 +476,43 @@ local_summary_encode_x_evolution(CamelLocalSummary *cls, const CamelMessageInfo 
 	p = uidstr = camel_message_info_uid(mi);
 	while (*p && isdigit(*p))
 		p++;
-	if (*p == 0 && sscanf(uidstr, "%u", &uid) == 1) {
-		g_string_sprintf(out, "%08x-%04x", uid, mi->flags & 0xffff);
+	if (*p == 0 && sscanf (uidstr, "%u", &uid) == 1) {
+		g_string_printf (out, "%08x-%04x", uid, mi->flags & 0xffff);
 	} else {
-		g_string_sprintf(out, "%s-%04x", uidstr, mi->flags & 0xffff);
+		g_string_printf (out, "%s-%04x", uidstr, mi->flags & 0xffff);
 	}
 
 	if (flag || tag) {
-		val = g_string_new("");
-
+		val = g_string_new ("");
+		
 		if (flag) {
 			while (flag) {
-				g_string_append(val, flag->name);
+				g_string_append (val, flag->name);
 				if (flag->next)
-					g_string_append_c(val, ',');
+					g_string_append_c (val, ',');
 				flag = flag->next;
 			}
-			header_set_param(&params, "flags", val->str);
-			g_string_truncate(val, 0);
+			header_set_param (&params, "flags", val->str);
+			g_string_truncate (val, 0);
 		}
 		if (tag) {
 			while (tag) {
-				g_string_append(val, tag->name);
-				g_string_append_c(val, '=');
-				g_string_append(val, tag->value);
+				g_string_append (val, tag->name);
+				g_string_append_c (val, '=');
+				g_string_append (val, tag->value);
 				if (tag->next)
-					g_string_append_c(val, ',');
+					g_string_append_c (val, ',');
 				tag = tag->next;
 			}
-			header_set_param(&params, "tags", val->str);
+			header_set_param (&params, "tags", val->str);
 		}
-		g_string_free(val, TRUE);
-		header_param_list_format_append(out, params);
-		header_param_list_free(params);
+		g_string_free (val, TRUE);
+		header_param_list_format_append (out, params);
+		header_param_list_free (params);
 	}
 	ret = out->str;
-	g_string_free(out, FALSE);
+	g_string_free (out, FALSE);
+	
 	return ret;
 }
 

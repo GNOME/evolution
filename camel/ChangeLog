@@ -1,5 +1,21 @@
 2002-12-17  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-utils.c: Replace calls to
+	g_string_sprintfa() with g_string_append_printf() since the former
+	seems to have been deprecated.
+
+	* providers/imap/camel-imap-search.c: Same.
+
+	* providers/imap/camel-imap-folder.c: Here too.
+
+	* providers/local/camel-mbox-summary.c: And here.
+
+	* providers/local/camel-local-summary.c: Replace
+	g_string_sprintf() with g_string_printf().
+
+	* camel-data-cache.c (data_cache_expire): Replace
+	g_string_sprintf() with g_string_printf().
+
 	* camel-url.c: Replace calls to g_string_sprintfa() with
 	g_string_append_printf() since the former seems to have been
 	deprecated.

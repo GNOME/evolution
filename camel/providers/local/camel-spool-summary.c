@@ -155,14 +155,14 @@ spool_summary_sync_full(CamelMboxSummary *cls, gboolean expunge, CamelFolderChan
 	}
 
 #ifdef HAVE_MKSTEMP
-	tmpname = alloca(64);
-	sprintf(tmpname, "/tmp/spool.camel.XXXXXX");
-	fdout = mkstemp(tmpname);
+	tmpname = alloca (64);
+	sprintf (tmpname, "/tmp/spool.camel.XXXXXX");
+	fdout = mkstemp (tmpname);
 #else
 #warning "Your system has no mkstemp(3), spool updating may be insecure"
-	tmpname = alloca(L_tmpnam);
-	tmpnam(tmpname);
-	fdout = open(tmpname, O_RDWR|O_CREAT|O_EXCL, 0600);
+	tmpname = alloca (L_tmpnam);
+	tmpnam (tmpname);
+	fdout = open (tmpname, O_RDWR|O_CREAT|O_EXCL, 0600);
 #endif
 	d(printf("Writing tmp file to %s\n", tmpname));
 	if (fdout == -1) {

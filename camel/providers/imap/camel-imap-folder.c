@@ -23,6 +23,7 @@
  * USA
  */
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h> 
 #endif
@@ -689,7 +690,7 @@ get_matching (CamelFolder *folder, guint32 flags, guint32 mask, char **set)
 			if (range != -1) {
 				if (range != i - 1) {
 					info = matches->pdata[matches->len - 1];
-					g_string_sprintfa (gset, ":%s", camel_message_info_uid (info));
+					g_string_append_printf (gset, ":%s", camel_message_info_uid (info));
 				}
 				range = -1;
 			}
@@ -702,12 +703,12 @@ get_matching (CamelFolder *folder, guint32 flags, guint32 mask, char **set)
 		range = i;
 		if (gset->len)
 			g_string_append_c (gset, ',');
-		g_string_sprintfa (gset, "%s", camel_message_info_uid (info));
+		g_string_append_printf (gset, "%s", camel_message_info_uid (info));
 	}
 	
 	if (range != -1 && range != max - 1) {
 		info = matches->pdata[matches->len - 1];
-		g_string_sprintfa (gset, ":%s", camel_message_info_uid (info));
+		g_string_append_printf (gset, ":%s", camel_message_info_uid (info));
 	}
 	
 	if (matches->len) {
@@ -1720,7 +1721,7 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 		/* we assume that part->content_type is more accurate/full than ci->type */
 		camel_data_wrapper_set_mime_type_field (CAMEL_DATA_WRAPPER (body_mp), part->content_type);
 		
-		spec = alloca (strlen (part_spec) + 6);
+		spec = g_alloca (strlen (part_spec) + 6);
 		sprintf (spec, part_spec[0] ? "%s.TEXT" : "TEXT", part_spec);
 		g_free (part_spec);
 		

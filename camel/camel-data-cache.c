@@ -208,8 +208,8 @@ data_cache_expire(CamelDataCache *cdc, const char *path, const char *keep, time_
 	while ( (d = readdir(dir)) ) {
 		if (strcmp(d->d_name, keep) == 0)
 			continue;
-
-		g_string_sprintf(s, "%s/%s", path, d->d_name);
+		
+		g_string_printf (s, "%s/%s", path, d->d_name);
 		dd(printf("Checking '%s' for expiry\n", s->str));
 		if (stat(s->str, &st) == 0
 		    && S_ISREG(st.st_mode)

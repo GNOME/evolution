@@ -14,7 +14,8 @@ INCLUDES = -I../..				\
 	$(CAMEL_CFLAGS)				\
 	$(GNOME_INCLUDEDIR)			\
 	$(GTK_INCLUDEDIR)			\
-	-DG_LOG_DOMAIN=\"camel-nntp-provider\"
+	-DG_LOG_DOMAIN=\"camel-nntp-provider\"	\
+	-DG_DISABLE_DEPRECATED
 
 libcamelnntp_la_SOURCES = 			\
 	camel-nntp-provider.c			\

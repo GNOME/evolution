@@ -208,9 +208,9 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 
 	root_dir_path = camel_local_store_get_toplevel_dir(CAMEL_LOCAL_STORE(folder->parent_store));
 	/* strip the trailing '/' which is always present */
-	len = strlen(root_dir_path);
-	tmp = alloca(len+1);
-	strcpy(tmp, root_dir_path);
+	len = strlen (root_dir_path);
+	tmp = g_alloca (len + 1);
+	strcpy (tmp, root_dir_path);
 	if (len>1 && tmp[len-1] == '/')
 		tmp[len-1] = 0;
 
@@ -344,8 +344,8 @@ local_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args)
 				if (tmp == NULL)
 					goto skip;
 
-				path = alloca(strlen(tmp)+strlen(folder->full_name)+1);
-				sprintf(path, "%s/%s", tmp, folder->full_name);
+				path = g_alloca (strlen (tmp) + strlen (folder->full_name) + 1);
+				sprintf (path, "%s/%s", tmp, folder->full_name);
 
 				if ((tmp = getenv("HOME")) && strncmp(tmp, path, strlen(tmp)) == 0)
 					/* $HOME relative path + protocol string */

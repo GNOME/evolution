@@ -177,19 +177,19 @@ static struct {
 /* convert the uid + flags into a unique:info maildir format */
 char *camel_maildir_summary_info_to_name(const CamelMessageInfo *info)
 {
+	const char *uid;
 	char *p, *buf;
 	int i;
-	const char *uid;
-
-	uid = camel_message_info_uid(info);
-	buf = alloca(strlen(uid) + strlen(":2,") +  (sizeof(flagbits)/sizeof(flagbits[0])) + 1);
-	p = buf + sprintf(buf, "%s:2,", uid);
-	for (i=0;i<sizeof(flagbits)/sizeof(flagbits[0]);i++) {
+	
+	uid = camel_message_info_uid (info);
+	buf = g_alloca (strlen (uid) + strlen (":2,") +  (sizeof (flagbits) / sizeof (flagbits[0])) + 1);
+	p = buf + sprintf (buf, "%s:2,", uid);
+	for (i = 0; i < sizeof (flagbits) / sizeof (flagbits[0]); i++) {
 		if (info->flags & flagbits[i].flagbit)
 			*p++ = flagbits[i].flag;
 	}
 	*p = 0;
-
+	
 	return g_strdup(buf);
 }
 

@@ -312,35 +312,35 @@ sync_match(CamelImapSearch *is, struct _match_record *mr)
 	struct _camel_search_words *words;
 	GString *search;
 	int i;
-
+	
 	if (mr->lastuid >= is->lastuid && mr->validity == is->validity)
 		return 0;
-
-	d(printf("updating match record for uid's %d:%d\n", mr->lastuid+1, is->lastuid));
-
+	
+	d(printf ("updating match record for uid's %d:%d\n", mr->lastuid+1, is->lastuid));
+	
 	/* TODO: Handle multiple search terms */
-
+	
 	/* This handles multiple search words within a single term */
-	words = camel_search_words_split(mr->terms[0]);
-	search = g_string_new("");
-	g_string_sprintfa(search, "UID %d:%d", mr->lastuid+1, is->lastuid);
-	for (i=0;i<words->len;i++) {
+	words = camel_search_words_split (mr->terms[0]);
+	search = g_string_new ("");
+	g_string_append_printf (search, "UID %d:%d", mr->lastuid + 1, is->lastuid);
+	for (i = 0; i < words->len; i++) {
 		char *w = words->words[i]->word, c;
-
-		g_string_sprintfa(search, " BODY \"");
+		
+		g_string_append_printf (search, " BODY \"");
 		while ((c = *w++)) {
 			if (c == '\\' || c == '"')
-				g_string_append_c(search, '\\');
-			g_string_append_c(search, c);
+				g_string_append_c (search, '\\');
+			g_string_append_c (search, c);
 		}
-		g_string_append_c(search, '"');
+		g_string_append_c (search, '"');
 	}
-	camel_search_words_free(words);
-
+	camel_search_words_free (words);
+	
 	/* We only try search using utf8 if its non us-ascii text? */
 	if ((words->type & CAMEL_SEARCH_WORD_8BIT) &&  (store->capabilities & IMAP_CAPABILITY_utf8_search)) {
-		response = camel_imap_command(store, folder, NULL,
-					      "UID SEARCH CHARSET UTF-8 %s", search->str);
+		response = camel_imap_command (store, folder, NULL,
+					       "UID SEARCH CHARSET UTF-8 %s", search->str);
 		/* We can't actually tell if we got a NO response, so assume always */
 		if (response == NULL)
 			store->capabilities &= ~IMAP_CAPABILITY_utf8_search;

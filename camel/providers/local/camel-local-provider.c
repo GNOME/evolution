@@ -133,16 +133,16 @@ make_can_path(char *p, char *o)
 }
 
 /* 'helper' function for it */
-#define get_can_path(p) ((p==NULL)?NULL:(make_can_path((p), alloca(strlen(p)+1))))
+#define get_can_path(p) ((p == NULL) ? NULL : (make_can_path ((p), g_alloca (strlen (p) + 1))))
 
 static guint
 local_url_hash (const void *v)
 {
 	const CamelURL *u = v;
 	guint hash = 0;
-
+	
 #define ADD_HASH(s) if (s) hash ^= g_str_hash (s);
-
+	
 	ADD_HASH (u->protocol);
 	ADD_HASH (u->user);
 	ADD_HASH (u->authmech);

@@ -15,6 +15,7 @@ INCLUDES = -I.. -I$(srcdir)/.. 			 	\
 	-DCAMEL_SBINDIR=\""$(sbindir)"\"	 	\
 	-DCAMEL_PROVIDERDIR=\""$(camel_providerdir)"\" 	\
 	-DG_LOG_DOMAIN=\"camel\"			\
+	-DG_DISABLE_DEPRECATED				\
 	$(CAMEL_CFLAGS)
 
 libcamel_la_SOURCES = 				\

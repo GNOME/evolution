@@ -158,11 +158,11 @@ get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelExce
 	}
 
 	/* need to create the dir heirarchy */
-	sub = alloca(strlen(path)+1);
-	strcpy(sub, path);
+	sub = g_alloca (strlen (path) + 1);
+	strcpy (sub, path);
 	slash = sub;
 	do {
-		slash = strchr(slash+1, '/');
+		slash = strchr (slash + 1, '/');
 		if (slash)
 			*slash = 0;
 		if (stat (sub, &st) == -1) {
