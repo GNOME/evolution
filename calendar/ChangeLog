@@ -1,3 +1,18 @@
+2003-10-30  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal-backend-file.c (cal_backend_file_modify_object):
+	implemented THIS and ALL recurrences cases, blowing away or detaching
+	recurrences from the main component as required.
+	(get_rid_string): make it return const.
+	(get_rid_timetype): new convenience function for getting
+	libical's recurrence ID from a CalComponent.
+	(cal_backend_file_is_read_only, remove_recurrence_cb,
+	remove_component): fixed warnings.
+	(remove_object_instance_cb): callback to remove the instances
+	from the hash on the THISANDPRIOR and THISANDFUTURE cases.
+	(cal_backend_file_remove_object): replaced mismatched if/else
+	statement with proper management of each of the recurrence cases.
+
 2003-10-29  JP Rosevear <jpr@ximian.com>
 
 	* gui/Makefile.am: build new files
