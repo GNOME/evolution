@@ -2,6 +2,9 @@
 #ifndef _FILTER_XML_H
 #define _FILTER_XML_H
 
+#include <glib.h>
+#include <gnome-xml/tree.h>
+
 enum filter_xml_token {
 	FILTER_XML_TEXT=0,
 	FILTER_XML_RULE,
@@ -47,5 +50,13 @@ struct filter_option {
 	GList *description;	/* filter_desc */
 	GList *options;		/* option_rule */
 };
+
+GList *filter_load_ruleset(xmlDocPtr doc);
+GList *filter_load_optionset(xmlDocPtr doc, GList *rules);
+xmlNodePtr filter_write_optionset(xmlDocPtr doc, GList *optionl);
+
+/* callbacks for searching GLists of various types */
+int filter_find_rule(struct filter_rule *a, char *name);
+int filter_find_arg(FilterArg *a, char *name);
 
 #endif /* ! _FILTER_XML_H */

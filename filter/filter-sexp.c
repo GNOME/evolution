@@ -206,10 +206,10 @@ term_eval_and(struct _FilterSEXP *f, int argc, struct _FilterSEXPTerm **argv, vo
 			
 			a1 = (char **)r1->value.ptrarray->pdata;
 			l1 = r1->value.ptrarray->len;
-			for (j=0;i<l1;j++) {
+			for (j=0;j<l1;j++) {
 				int n;
-				n = (int)g_hash_table_lookup(ht, a1[i]);
-				g_hash_table_insert(ht, a1[i], (void *)n+1);
+				n = (int)g_hash_table_lookup(ht, a1[j]);
+				g_hash_table_insert(ht, a1[j], (void *)n+1);
 			}
 		} else if ( r1->type == FSEXP_RES_BOOL ) {
 			bool &= r1->value.bool;
@@ -259,7 +259,7 @@ term_eval_or(struct _FilterSEXP *f, int argc, struct _FilterSEXPTerm **argv, voi
 			
 			a1 = (char **)r1->value.ptrarray->pdata;
 			l1 = r1->value.ptrarray->len;
-			for (j=0;i<l1;j++) {
+			for (j=0;j<l1;j++) {
 				g_hash_table_insert(ht, a1[j], (void *)1);
 			}
 		} else if (r1->type == FSEXP_RES_BOOL) {
@@ -280,6 +280,22 @@ term_eval_or(struct _FilterSEXP *f, int argc, struct _FilterSEXPTerm **argv, voi
 	}
 	g_hash_table_destroy(ht);
 	
+	return r;
+}
+
+static FilterSEXPResult *
+term_eval_not(struct _FilterSEXP *f, int argc, struct _FilterSEXPResult **argv, void *data)
+{
+	int res = TRUE;
+	FilterSEXPResult *r;
+
+	if (argc>0) {
+		if (argv[0]->type == FSEXP_RES_BOOL
+		    && argv[0]->value.bool)
+			res = FALSE;
+	}
+	r = filter_sexp_result_new(FSEXP_RES_BOOL);
+	r->value.bool = res;
 	return r;
 }
 
@@ -873,6 +889,7 @@ static struct {
 } symbols[] = {
 	{ "and", (FilterSEXPFunc *)term_eval_and, 1 },
 	{ "or", (FilterSEXPFunc *)term_eval_or, 1 },
+	{ "not", (FilterSEXPFunc *)term_eval_not, 0 },
 	{ "<", (FilterSEXPFunc *)term_eval_lt, 1 },
 	{ ">", (FilterSEXPFunc *)term_eval_gt, 1 },
 	{ "=", (FilterSEXPFunc *)term_eval_eq, 1 },

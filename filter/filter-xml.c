@@ -1,5 +1,7 @@
 /* -*- Mode: C; c-file-style: "linux"; indent-tabs-mode: t; c-basic-offset: 8; -*- */
 
+/* Load save filter descriptions/options from an xml file */
+
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <gnome.h>
@@ -69,7 +71,8 @@ detokenise(int token)
 }
 
 
-xmlNodePtr find_node(xmlNodePtr start, char *name)
+static xmlNodePtr
+find_node(xmlNodePtr start, char *name)
 {
 	printf("trying to find node '%s'\n", name);
 	while (start && strcmp(start->name, name))
@@ -78,7 +81,8 @@ xmlNodePtr find_node(xmlNodePtr start, char *name)
 	return start;
 }
 
-xmlNodePtr find_node_attr(xmlNodePtr start, char *name, char *attrname, char *attrvalue)
+static xmlNodePtr
+find_node_attr(xmlNodePtr start, char *name, char *attrname, char *attrvalue)
 {
 	xmlNodePtr node;
 	char *s;
@@ -94,192 +98,6 @@ xmlNodePtr find_node_attr(xmlNodePtr start, char *name, char *attrname, char *at
 	}
 	return start;
 }
-
-static int
-find_arg(FilterArg *a, char *name)
-{
-	printf("finding, is %s = %s?\n", a->name, name);
-	return strcmp(a->name, name);
-}
-
-static int
-find_rule(struct filter_rule *a, char *name)
-{
-	printf("finding, is %s = %s?\n", a->name, name);
-	return strcmp(a->name, name);
-}
-
-static int display_order[] = { FILTER_XML_MATCH, FILTER_XML_ACTION, FILTER_XML_EXCEPT };
-
-static struct filter_option *
-option_clone(struct filter_option *source)
-{
-	struct filter_option *dest = g_malloc0(sizeof(*dest));
-	GList *loptions;
-	struct filter_optionrule *old, *new;
-
-	dest->type = source->type;
-	dest->description = source->description;
-	loptions = dest->options;
-	while (loptions) {
-		old = loptions->data;
-		new = g_malloc0(sizeof(*new));
-		new->rule = old->rule;
-		/* FIXME: need to copy any args as well!!! */
-		dest->options = g_list_append(dest->options, new);
-		loptions = g_list_next(loptions);
-	}
-	return dest;
-}
-
-
-
-struct description_decode_lambda {
-	GString *str;
-	GList *args;
-	GtkHTML *html;
-	GtkHTMLStreamHandle *stream;
-};
-
-static char *
-arg_text(FilterArg *arg)
-{
-	char *out = NULL;
-	GList *value, *next;
-	GString *str;
-
-	value = arg->values;
-
-	if (value == NULL)
-		return NULL;
-
-	str = g_string_new("");
-	filter_arg_write_text(arg, str);
-	out = str->str;
-	g_string_free(str, FALSE);
-	return out;
-}
-
-static void
-description_decode_text(struct filter_desc *d, struct description_decode_lambda *l)
-{
-	GList *list;
-	char *txt;
-
-	switch (d->type) {
-	case FILTER_XML_TEXT:
-	case FILTER_XML_DESC:
-	dotext:
-		printf("appending '%s'\n", d->data);
-		printf("vartype = %s\n", detokenise(d->vartype));
-		printf("varname = %s\n", d->varname);
-		if (d->vartype !=-1 && d->varname
-		    && (list = g_list_find_custom(l->args, d->varname, (GCompareFunc) find_arg))
-		    && (txt = arg_text(list->data))) {
-		} else {
-			txt = d->data;
-		}
-		g_string_append(l->str, txt);
-		break;
-	default:
-		printf("WARN: unknown desc text type '%s' = %s\n", detokenise(d->type), d->data);
-		goto dotext;
-	}
-}
-
-static char *
-description_text(GList *description, GList *args)
-{
-	char *txt;
-	struct description_decode_lambda l;
-
-	printf("\ndecoding ...\n");
-
-	l.str = g_string_new("");
-	l.args = args;
-	g_list_foreach(description, (GFunc) description_decode_text, &l);
-
-	printf("string is '%s'\n", l.str->str);
-
-	txt = l.str->str;
-	g_string_free(l.str, FALSE);
-
-	return txt;	
-}
-
-static void
-html_write(GtkHTML *html, GtkHTMLStreamHandle *stream, char *s)
-{
-	printf("appending html '%s'\n", s);
-	gtk_html_write(html, stream, s, strlen(s));
-}
-
-
-static void
-description_decode_html(struct filter_desc *d, struct description_decode_lambda *l)
-{
-	GList *list;
-	char *txt, *end;
-	int free;
-
-	switch (d->type) {
-	case FILTER_XML_TEXT:
-	case FILTER_XML_DESC:
-	dotext:
-		printf("appending '%s'\n", d->data);
-		printf("vartype = %s\n", detokenise(d->vartype));
-		printf("varname = %s\n", d->varname);
-		free = FALSE;
-		if (d->vartype !=-1 && d->varname) {
-			char *link;
-			list = g_list_find_custom(l->args, d->varname, (GCompareFunc) find_arg);
-			end = "</a>";
-			if (list) {
-				txt = arg_text(list->data);
-				if (txt == NULL)
-					txt = d->data;
-				else
-					free = TRUE;
-				link = g_strdup_printf("<a href=\"arg:%p %p\">", d, list->data);
-			} else {
-				printf("cannot find arg '%s'\n", d->varname);
-				link = g_strdup_printf("<a href=\"arg:%p %p\">", d, NULL);
-				txt = d->data;
-			}
-			html_write(l->html, l->stream, link);
-			g_free(link);
-		} else {
-			txt = d->data;
-			end = NULL;
-		}
-		html_write(l->html, l->stream, txt);
-		if (end) {
-			html_write(l->html, l->stream, end);
-		}
-		if (free)
-			g_free(txt);
-		break;
-	default:
-		printf("WARN: unknown desc text type '%s' = %s\n", detokenise(d->type), d->data);
-		goto dotext;
-	}
-}
-
-static void
-description_html_write(GList *description, GList *args, GtkHTML *html, GtkHTMLStreamHandle *stream)
-{
-	char *txt;
-	struct description_decode_lambda l;
-
-	printf("\ndecoding ...\n");
-
-	l.str = NULL;
-	l.args = args;
-	l.html = html;
-	l.stream = stream;
-	g_list_foreach(description, (GFunc) description_decode_html, &l);
-}
-
 
 static GList *
 load_desc(xmlNodePtr node, int type, int vartype, char *varname)
@@ -321,7 +139,7 @@ load_desc(xmlNodePtr node, int type, int vartype, char *varname)
 }
 
 GList *
-load_ruleset(xmlDocPtr doc)
+filter_load_ruleset(xmlDocPtr doc)
 {
 	xmlNodePtr ruleset, rule, n;
 	struct filter_rule *r;
@@ -366,8 +184,6 @@ load_ruleset(xmlDocPtr doc)
 					printf(" ** loading description\n");
 					r->description = load_desc(n->childs, type, -1, NULL);
 					printf(" ** done loading description\n");
-					description_text(r->description, 0);
-					printf(" ** done dumping description\n");
 					break;
 				default:
 					printf("warning, unknown token encountered\n");
@@ -456,7 +272,7 @@ optionrule_new(struct filter_rule *rule)
 }
 
 GList *
-load_optionset(xmlDocPtr doc, GList *rules)
+filter_load_optionset(xmlDocPtr doc, GList *rules)
 {
 	xmlNodePtr optionset, option, o, or;
 	struct filter_option *op;
@@ -525,8 +341,8 @@ load_optionset(xmlDocPtr doc, GList *rules)
 	return l;
 }
 
-static xmlNodePtr
-save_optionset(xmlDocPtr doc, GList *optionl)
+xmlNodePtr
+filter_write_optionset(xmlDocPtr doc, GList *optionl)
 {
 	xmlNodePtr root, cur, option, optionrule, optionvalue;
 	GList *optionrulel, *argl;
@@ -572,56 +388,6 @@ save_optionset(xmlDocPtr doc, GList *optionl)
 	return root;
 }
 
-
-
-/*
-  build an expression for the filter
-*/
-static void
-filterme(struct filter_option *op)
-{
-	GList *optionl;
-	GString *s;
-
-	s = g_string_new("(if (and ");
-	optionl = op->options;
-	while (optionl) {
-		struct filter_optionrule *or = optionl->data;
-		if (or->rule->type == FILTER_XML_MATCH) {
-			g_string_append(s, "(match \"");
-			g_string_append(s, or->rule->name);
-			g_string_append(s, "\" ");
-			g_string_append(s, or->rule->code);
-			g_string_append(s, ") ");
-		}
-		optionl = g_list_next(optionl);
-	}
-	optionl = op->options;
-	while (optionl) {
-		struct filter_optionrule *or = optionl->data;
-		if (or->rule->type == FILTER_XML_EXCEPT) {
-			g_string_append(s, " (except \"");
-			g_string_append(s, or->rule->name);
-			g_string_append(s, "\" ");
-			g_string_append(s, or->rule->code);
-			g_string_append(s, " ) ");
-		}
-		optionl = g_list_next(optionl);
-	}
-	g_string_append(s, ") (begin ");
-	optionl = op->options;
-	while (optionl) {
-		struct filter_optionrule *or = optionl->data;
-		if (or->rule->type == FILTER_XML_ACTION) {
-			g_string_append(s, or->rule->code);
-			g_string_append(s, " ");
-		}
-		optionl = g_list_next(optionl);
-	}
-	g_string_append(s, "))");
-	printf("combined rule '%s'\n", s->str);
-}
-
 #ifdef TESTER
 int main(int argc, char **argv)
 {
@@ -637,13 +403,6 @@ int main(int argc, char **argv)
 
 	out = xmlParseFile("saveoptions.xml");
 	options = load_optionset(doc, rules);
-
-	while (options) {
-		printf("applying a rule ...\n");
-		filterme(options->data);
-		options = g_list_next(options);
-	}
-
 #if 0
 	out = xmlNewDoc("1.0");
 	optionset = save_optionset(out, options);

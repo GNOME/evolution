@@ -63,6 +63,8 @@ guint		filter_arg_get_type	(void);
 FilterArg      *filter_arg_new	(char *name);
 void		filter_arg_value_add(FilterArg *a, void *v);
 
+void		filter_arg_edit_values(FilterArg *arg);
+
 xmlNodePtr	filter_arg_values_get_xml(FilterArg *arg);
 void		filter_arg_values_add_xml(FilterArg *arg, xmlNodePtr node);
 int		filter_arg_get_count(FilterArg *arg);

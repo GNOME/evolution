@@ -135,6 +135,8 @@ filter_arg_new (char *name)
 void
 filter_arg_add(FilterArg *arg, void *v)
 {
+	g_return_if_fail(v != NULL);
+
 	arg->values = g_list_append(arg->values, v);
 	gtk_signal_emit(GTK_OBJECT(arg), signals[CHANGED]);
 }
@@ -160,7 +162,12 @@ filter_arg_write_text(FilterArg *arg, GString *string)
 void
 filter_arg_edit_values(FilterArg *arg)
 {
-	((FilterArgClass *)(arg->object.klass))->edit_values(arg);
+	g_return_if_fail(arg != NULL);
+
+	if (((FilterArgClass *)(arg->object.klass))->edit_values)
+		((FilterArgClass *)(arg->object.klass))->edit_values(arg);
+	else
+		g_warning("No implementation of virtual method edit_values");
 }
 
 xmlNodePtr

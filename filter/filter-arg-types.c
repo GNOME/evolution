@@ -20,7 +20,187 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <gnome.h>
+
 #include "filter-arg-types.h"
+
+
+/* ********************************************************************** */
+/*                               String                                   */
+/* ********************************************************************** */
+
+/* Use for a superclass of any items which are simple strings */
+
+static void filter_arg_string_class_init (FilterArgStringClass *class);
+static void filter_arg_string_init       (FilterArgString      *gspaper);
+
+static FilterArg *string_parent_class;
+
+guint
+filter_arg_string_get_type (void)
+{
+	static guint type = 0;
+	
+	if (!type) {
+		GtkTypeInfo type_info = {
+			"FilterArgString",
+			sizeof (FilterArgString),
+			sizeof (FilterArgStringClass),
+			(GtkClassInitFunc) filter_arg_string_class_init,
+			(GtkObjectInitFunc) filter_arg_string_init,
+			(GtkArgSetFunc) NULL,
+			(GtkArgGetFunc) NULL
+		};
+		
+		type = gtk_type_unique (filter_arg_get_type (), &type_info);
+	}
+	
+	return type;
+}
+
+static void
+arg_string_write_html(FilterArg *argin, GtkHTML *html, GtkHTMLStreamHandle *stream)
+{
+	FilterArgString *arg = (FilterArgString *)argin;
+	/* empty */
+}
+
+static void
+arg_string_write_text(FilterArg *argin, GString *string)
+{
+	FilterArgString *arg = (FilterArgString *)argin;
+	GList *l;
+	char *a;
+
+	l = argin->values;
+	if (l == NULL) {
+		g_string_append(string, "folder");
+	}
+	while (l) {
+		a = l->data;
+		g_string_append(string, a);
+		if (l->next) {
+			g_string_append(string, ", ");
+		}
+		l = g_list_next(l);
+	}
+}
+
+static void
+arg_string_edit_values(FilterArg *arg)
+{
+	printf("edit string value!\n");
+}
+
+static xmlNodePtr
+arg_string_values_get_xml(FilterArg *argin)
+{
+	xmlNodePtr value;
+	FilterArgString *arg = (FilterArgString *)argin;
+	GList *l;
+	char *a;
+
+	value = xmlNewNode(NULL, "optionvalue");
+	xmlSetProp(value, "name", argin->name);
+
+	l = argin->values;
+	while (l) {
+		xmlNodePtr cur;
+
+		a = l->data;
+
+		cur = xmlNewChild(value, NULL, "folder", NULL);
+		if (a)
+			xmlSetProp(cur, "folder", a);
+		l = g_list_next(l);
+	}
+
+	return value;
+}
+
+static void
+arg_string_values_add_xml(FilterArg *arg, xmlNodePtr node)
+{
+	xmlNodePtr n;
+
+	n = node->childs;
+	while (n) {
+		if (!strcmp(n->name, "folder")) {
+			filter_arg_string_add(arg, xmlGetProp(n, "folder"));
+		} else {
+			g_warning("Loading folders from xml, wrong node encountered: %s\n", n->name);
+		}
+		n = n->next;
+	}
+}
+
+static char *
+arg_string_get_value_as_string(FilterArg *argin, void *data)
+{
+	FilterArgString *arg = (FilterArgString *)argin;
+	char *a = (char *)data;
+
+	return a;
+}
+
+static void
+arg_string_free_value(FilterArg *arg, void *a)
+{
+	g_free(a);
+}
+
+static void
+filter_arg_string_class_init (FilterArgStringClass *class)
+{
+	GtkObjectClass *object_class;
+	
+	object_class = (GtkObjectClass *) class;
+	if (string_parent_class == NULL)
+		string_parent_class = gtk_type_class (gtk_object_get_type ());
+
+	class->parent_class.write_html = arg_string_write_html;
+	class->parent_class.write_text = arg_string_write_text;
+	class->parent_class.edit_values = arg_string_edit_values;
+	class->parent_class.free_value = arg_string_free_value;
+
+	class->parent_class.values_get_xml = arg_string_values_get_xml;
+	class->parent_class.values_add_xml = arg_string_values_add_xml;
+}
+
+static void
+filter_arg_string_init (FilterArgString *arg)
+{
+	arg->arg.values = NULL;
+}
+
+/**
+ * filter_arg_string_new:
+ *
+ * Create a new FilterArgString widget.
+ * 
+ * Return value: A new FilterArgString widget.
+ **/
+FilterArg *
+filter_arg_string_new (char *name)
+{
+	FilterArg *a = FILTER_ARG ( gtk_type_new (filter_arg_string_get_type ()));
+	a->name = g_strdup(name);
+	return a;
+}
+
+
+void
+filter_arg_string_add(FilterArg *arg, char *name)
+{
+	filter_arg_add(arg, g_strdup(name));
+}
+
+void
+filter_arg_string_remove(FilterArg *arg, char *name)
+{
+	/* do it */
+}
+
 
 /* ********************************************************************** */
 /*                               Address                                  */
@@ -180,7 +360,6 @@ filter_arg_address_class_init (FilterArgAddressClass *class)
 static void
 filter_arg_address_init (FilterArgAddress *arg)
 {
-	arg->arg.values = NULL;
 }
 
 /**
@@ -225,7 +404,7 @@ filter_arg_address_remove(FilterArg *arg, char *name, char *email)
 static void filter_arg_folder_class_init (FilterArgFolderClass *class);
 static void filter_arg_folder_init       (FilterArgFolder      *gspaper);
 
-static FilterArg *parent_class;
+static FilterArg *folder_parent_class;
 
 guint
 filter_arg_folder_get_type (void)
@@ -243,7 +422,7 @@ filter_arg_folder_get_type (void)
 			(GtkArgGetFunc) NULL
 		};
 		
-		type = gtk_type_unique (filter_arg_get_type (), &type_info);
+		type = gtk_type_unique (filter_arg_string_get_type (), &type_info);
 	}
 	
 	return type;
@@ -278,9 +457,79 @@ arg_folder_write_text(FilterArg *argin, GString *string)
 }
 
 static void
-arg_folder_edit_values(FilterArg *arg)
+arg_folder_edit_values(FilterArg *argin)
 {
-	printf("edit it!\n");
+	FilterArgFolder *arg = (FilterArgFolder *)argin;
+	GList *l;
+	char *a, *start, *ptr, *ptrend, *ptrgap;
+	char outbuf[128], *outptr; /* FIXME: dont use a bounded buffer! */
+	GString *string = g_string_new("");
+	GtkWidget *dialogue;
+	GtkWidget *text;
+
+	dialogue = gnome_dialog_new("Edit addresses",
+				    "Ok", "Cancel", NULL);
+	text = gtk_text_new(NULL, NULL);
+	gtk_object_ref(text);
+
+	l = argin->values;
+	while (l) {
+		a = l->data;
+		gtk_text_insert(text, NULL, NULL, NULL, a, strlen(a));
+		gtk_text_insert(text, NULL, NULL, NULL, "\n", 1);
+		l = g_list_next(l);
+	}
+
+	gtk_box_pack_start(GNOME_DIALOG(dialogue)->vbox, text, TRUE, TRUE, 2);
+	gtk_widget_show(text);
+	gtk_text_set_editable(text, 1);
+
+	gnome_dialog_run_and_close(dialogue);
+
+	/* FIXME: free current values */
+	argin->values = NULL;
+	ptr = GTK_TEXT(text)->text.ch;
+	ptrend = ptr+GTK_TEXT(text)->text_end;
+	ptrgap = ptr+GTK_TEXT(text)->gap_position;
+
+	start = ptr;
+	outptr = outbuf;
+	while (ptr<ptrend) {
+		printf("%c", *ptr);
+		if (*ptr == '\n') {
+			int len = outptr-outbuf;
+			char *new;
+
+			printf("(len = %d)", len);
+
+			if (len>0) {
+				new = g_malloc(len+1);
+				new[len]=0;
+				memcpy(new, outbuf, len);
+				printf("(appending '%s')", new);
+				argin->values = g_list_append(argin->values, new);
+			}
+			outptr = outbuf;
+		} else {
+			*outptr++ = *ptr;
+		}
+		ptr++;
+		if (ptr==ptrgap) {
+			ptr += GTK_TEXT(text)->gap_size;
+		}
+	}
+	if (outptr>outbuf) {
+		int len = outptr-outbuf;
+		char *new;
+
+		printf("(lastlen = %d)", len);
+		
+		new = g_malloc(len+1);
+		new[len]=0;
+		memcpy(new, start, len);
+		argin->values = g_list_append(argin->values, new);
+	}
+	printf("\n");
 }
 
 static xmlNodePtr
@@ -314,10 +563,12 @@ arg_folder_values_add_xml(FilterArg *arg, xmlNodePtr node)
 {
 	xmlNodePtr n;
 
+	printf("adding folder values ...\n");
+
 	n = node->childs;
 	while (n) {
 		if (!strcmp(n->name, "folder")) {
-			filter_arg_folder_add(arg, xmlGetProp(n, "folder"));
+			filter_arg_folder_add(arg, xmlGetProp(n, "name"));
 		} else {
 			g_warning("Loading folders from xml, wrong node encountered: %s\n", n->name);
 		}
@@ -344,24 +595,26 @@ static void
 filter_arg_folder_class_init (FilterArgFolderClass *class)
 {
 	GtkObjectClass *object_class;
-	
+	FilterArgClass *filter_class;
+
 	object_class = (GtkObjectClass *) class;
-	if (parent_class == NULL)
-		parent_class = gtk_type_class (gtk_object_get_type ());
+	filter_class = (FilterArgClass *) class;
+	if (folder_parent_class == NULL)
+		folder_parent_class = gtk_type_class (filter_arg_string_get_type ());
 
-	class->parent_class.write_html = arg_folder_write_html;
-	class->parent_class.write_text = arg_folder_write_text;
-	class->parent_class.edit_values = arg_folder_edit_values;
-	class->parent_class.free_value = arg_folder_free_value;
+	/* FIXME: only need to over-ride the edit values right? */
+	filter_class->write_html = arg_folder_write_html;
+	filter_class->write_text = arg_folder_write_text;
+	filter_class->edit_values = arg_folder_edit_values;
+	filter_class->free_value = arg_folder_free_value;
 
-	class->parent_class.values_get_xml = arg_folder_values_get_xml;
-	class->parent_class.values_add_xml = arg_folder_values_add_xml;
+	filter_class->values_get_xml = arg_folder_values_get_xml;
+	filter_class->values_add_xml = arg_folder_values_add_xml;
 }
 
 static void
 filter_arg_folder_init (FilterArgFolder *arg)
 {
-	arg->arg.values = NULL;
 }
 
 /**

@@ -51,7 +51,32 @@ FilterArg	*filter_arg_address_new	(char *name);
 void             filter_arg_address_add(FilterArg *, char *name, char *email);
 void             filter_arg_address_remove(FilterArg *, char *name, char *email);
 
-/* A Folder */
+/* A simple String */
+#define FILTER_ARG_STRING(obj)         GTK_CHECK_CAST (obj, filter_arg_string_get_type (), FilterArgString)
+#define FILTER_ARG_STRING_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, filter_arg_string_get_type (), FilterArgStringClass)
+#define IS_FILTER_ARG_STRING(obj)      GTK_CHECK_TYPE (obj, filter_arg_string_get_type ())
+
+typedef struct _FilterArgString      FilterArgString;
+typedef struct _FilterArgStringClass FilterArgStringClass;
+
+struct _FilterArgString {
+	FilterArg arg;
+
+	/* Name/property to save/load to xml */
+	/* char *xmlname; */
+	/* char *xmlprop; */
+};
+
+struct _FilterArgStringClass {
+	FilterArgClass parent_class;
+};
+
+guint		 filter_arg_string_get_type	(void);
+FilterArg	*filter_arg_string_new	(char *name);
+void             filter_arg_string_add(FilterArg *, char *name);
+void             filter_arg_string_remove(FilterArg *, char *name);
+
+/* A Folder, subclass of a string */
 #define FILTER_ARG_FOLDER(obj)         GTK_CHECK_CAST (obj, filter_arg_folder_get_type (), FilterArgFolder)
 #define FILTER_ARG_FOLDER_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, filter_arg_folder_get_type (), FilterArgFolderClass)
 #define IS_FILTER_ARG_FOLDER(obj)      GTK_CHECK_TYPE (obj, filter_arg_folder_get_type ())
@@ -60,11 +85,11 @@ typedef struct _FilterArgFolder      FilterArgFolder;
 typedef struct _FilterArgFolderClass FilterArgFolderClass;
 
 struct _FilterArgFolder {
-	FilterArg arg;
+	FilterArgString arg;
 };
 
 struct _FilterArgFolderClass {
-	FilterArgClass parent_class;
+	FilterArgStringClass parent_class;
 };
 
 guint		 filter_arg_folder_get_type	(void);
@@ -73,3 +98,4 @@ void             filter_arg_folder_add(FilterArg *, char *name);
 void             filter_arg_folder_remove(FilterArg *, char *name);
 
 #endif /* ! _FILTER_ARG_TYPES_H */
+
