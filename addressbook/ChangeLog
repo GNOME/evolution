@@ -1,6 +1,24 @@
 2000-10-19  JP Rosevear  <jpr@helixcode.com>
 
 	* conduit/*: Merge properly from HEAD
+
+2000-10-19  JP Rosevear  <jpr@helixcode.com>
+
+	* conduit/address-conduit.h: New structure of file - similar
+	to calendar/todo conduits
+
+	* conduit/address-conduit.c: ditto
+
+	* conduit/address-conduit-config.h: Config stuff for conduit
+
+	* conduit/.cvsignore: Update
+
+	* conduit/Makefile.am: Build fixes
+
+	* conduit/address-conduit-control-applet.desktop: Renamed
+	to e-address-conduit-control-applet.desktop
+
+	* conduit/address.conduit.in: Renamed to e-address.conduit.in
 	
 2000-10-19  JP Rosevear  <jpr@helixcode.com>
 
