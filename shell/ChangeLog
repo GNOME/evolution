@@ -1,3 +1,9 @@
+2002-11-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-folder-selection-dialog.c (impl_dispose): Save the
+	expansion state for the EStorageSetView here.
+	(impl_finalize): Instead of here.
+
 2002-11-20  Chris Toshok  <toshok@ximian.com>
 
 	* e-folder-list.c (e_folder_list_class_init): use e_shell_

@@ -185,6 +185,7 @@ impl_dispose (GObject *object)
 	priv = folder_selection_dialog->priv;
 
 	if (priv->storage_set != NULL) {
+		save_expanded_state (folder_selection_dialog);
 		g_object_unref (priv->storage_set);
 		priv->storage_set = NULL;
 	}
@@ -200,8 +201,6 @@ impl_finalize (GObject *object)
 
 	folder_selection_dialog = E_SHELL_FOLDER_SELECTION_DIALOG (object);
 	priv = folder_selection_dialog->priv;
-
-	save_expanded_state (folder_selection_dialog);
 
 	e_free_string_list (priv->allowed_types);
 
