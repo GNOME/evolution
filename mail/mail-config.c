@@ -1280,12 +1280,6 @@ mail_config_remove_account (MailConfigAccount *account)
 	return config->accounts;
 }
 
-int
-mail_config_get_default_account_num (void)
-{
-	return gconf_client_get_int (config->gconf, "/apps/evolution/mail/default_account", NULL);
-}
-
 void
 mail_config_set_default_account (const MailConfigAccount *account)
 {
@@ -1951,7 +1945,6 @@ mail_config_signature_emit_event (MailConfigSigEvent event, MailConfigSignature 
 gchar *
 mail_config_signature_run_script (gchar *script)
 {
-	GConfClient *gconf;
 	int result, status;
 	int in_fds[2];
 	pid_t pid;
@@ -1960,8 +1953,6 @@ mail_config_signature_run_script (gchar *script)
 		g_warning ("Failed to create pipe to '%s': %s", script, g_strerror (errno));
 		return NULL;
 	}
-	
-	gconf = gconf_client_get_default ();
 	
 	if (!(pid = fork ())) {
 		/* child process */
@@ -1994,12 +1985,15 @@ mail_config_signature_run_script (gchar *script)
 		CamelStreamMem *memstream;
 		CamelMimeFilter *charenc;
 		CamelStream *stream;
+		GConfClient *gconf;
 		GByteArray *buffer;
-		const char *charset;
+		char *charset;
 		char *content;
 		
 		/* parent process */
 		close (in_fds[1]);
+		
+		gconf = gconf_client_get_default ();
 		
 		stream = camel_stream_fs_new_with_fd (in_fds[0]);
 		

@@ -167,9 +167,6 @@ void     mail_config_set_thread_subject       (gboolean thread_subject);
 gboolean mail_config_get_show_preview         (const char *uri);
 void     mail_config_set_show_preview         (const char *uri, gboolean value);
 
-int      mail_config_get_paned_size           (void);
-void     mail_config_set_paned_size           (int size);
-
 const char *mail_config_get_label_name  (int label);
 void        mail_config_set_label_name  (int label, const char *name);
 guint32     mail_config_get_label_color (int label);
@@ -180,7 +177,6 @@ void mail_config_service_set_save_passwd (MailConfigService *service, gboolean s
 
 gboolean                  mail_config_find_account              (const MailConfigAccount *account);
 const MailConfigAccount  *mail_config_get_default_account       (void);
-int                       mail_config_get_default_account_num   (void);
 const MailConfigAccount  *mail_config_get_account_by_name       (const char *account_name);
 const MailConfigAccount  *mail_config_get_account_by_source_url (const char *url);
 const MailConfigAccount  *mail_config_get_account_by_transport_url (const char *url);
