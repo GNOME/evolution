@@ -1847,6 +1847,7 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 	gboolean success;
 	EUri *uri;
 	char *message;
+	char *real_uri;
 
 	g_return_val_if_fail (gcal != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), FALSE);
@@ -1862,20 +1863,28 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 		cal_client_get_load_state (priv->task_pad_client) == CAL_CLIENT_LOAD_NOT_LOADED,
 		FALSE);
 
-	message = g_strdup_printf (_("Opening calendar at %s"), str_uri);
+	uri = e_uri_new (str_uri);
+	if (!uri || !g_strncasecmp (uri->protocol, "file", 4))
+		real_uri = g_concat_dir_and_file (str_uri, "calendar.ics");
+	else
+		real_uri = g_strdup (str_uri);
+
+	message = g_strdup_printf (_("Opening calendar at %s"), real_uri);
 	e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), message);
 	g_free (message);
 
-	if (!cal_client_open_calendar (priv->client, str_uri, FALSE)) {
+	if (!cal_client_open_calendar (priv->client, real_uri, FALSE)) {
 		g_message ("gnome_calendar_open(): Could not issue the request");
+		g_free (real_uri);
+		e_uri_free (uri);
+
 		return FALSE;
 	}
 
-	add_alarms (str_uri);
+	add_alarms (real_uri);
 
 	/* Open the appropriate Tasks folder to show in the TaskPad */
 
-	uri = e_uri_new (str_uri);
 	if (!uri) {
 		tasks_uri = g_strdup_printf ("%s/local/Tasks/tasks.ics", evolution_dir);
 		success = cal_client_open_calendar (priv->task_pad_client, tasks_uri, FALSE);
@@ -1912,8 +1921,10 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 			success = TRUE;
 		}
 
-		e_uri_free (uri);
 	}
+
+	g_free (real_uri);
+	e_uri_free (uri);
 
 	if (!success) {
 		g_message ("gnome_calendar_open(): Could not issue the request");

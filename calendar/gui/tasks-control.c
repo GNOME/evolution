@@ -139,17 +139,14 @@ tasks_control_get_property		(BonoboPropertyBag	*bag,
 					 CORBA_Environment      *ev,
 					 gpointer		 user_data)
 {
-	/*GnomeCalendar *gcal = user_data;*/
+	ETasks *tasks = user_data;
+	char *uri;
 
 	switch (arg_id) {
 
 	case TASKS_CONTROL_PROPERTY_URI_IDX:
-		/*
-		if (fb && fb->uri)
-			BONOBO_ARG_SET_STRING (arg, fb->uri);
-		else
-			BONOBO_ARG_SET_STRING (arg, "");
-		*/
+		uri = cal_client_get_uri (e_tasks_get_cal_client (tasks));
+		BONOBO_ARG_SET_STRING (arg, uri);
 		break;
 
 	default:
@@ -166,15 +163,11 @@ tasks_control_set_property		(BonoboPropertyBag	*bag,
 					 gpointer		 user_data)
 {
 	ETasks *tasks = user_data;
-	char *filename;
 
 	switch (arg_id) {
 
 	case TASKS_CONTROL_PROPERTY_URI_IDX:
-		filename = g_strdup_printf ("%s/tasks.ics",
-					    BONOBO_ARG_GET_STRING (arg));
-		e_tasks_open (tasks, filename);
-		g_free (filename);
+		e_tasks_open (tasks, BONOBO_ARG_GET_STRING (arg));
 		break;
 
 	default:

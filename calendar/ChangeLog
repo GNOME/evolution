@@ -1,3 +1,17 @@
+2002-02-13  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/control-factory.c (set_prop): don't append 'calendar.ics'
+	to the URI.
+	(get_prop): finished.
+
+	* gui/tasks-control.c (tasks_control_set_property): don't append
+	'tasks.ics' to the URI.
+	(tasks_control_get_property): finished.
+
+	* gui/gnome-cal.c (gnome_calendar_open):
+	* gui/e-tasks.c (e_tasks_open): append $filename.ics to the uri to be
+	opened if the uri is local. Leave intact in other cases.
+
 2002-02-06  Damon Chaplin  <damon@ximian.com>
 
 	* cal-util/cal-recur.c (cal_recur_from_icalproperty): convert months
