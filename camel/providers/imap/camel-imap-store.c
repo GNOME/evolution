@@ -1743,7 +1743,15 @@ create_folder (CamelStore *store, const char *parent_name,
 		return NULL;
 	if (!parent_name)
 		parent_name = "";
-	
+
+	if (strchr (folder_name, imap_store->dir_sep)) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID_PATH,
+				      _("The folder name \"%s\" is invalid because "
+					"it containes the character \"%c\""),
+				      folder_name, imap_store->dir_sep);
+		return NULL;
+	}
+
 	/* check if the parent allows inferiors */
 	
 	need_convert = FALSE;
