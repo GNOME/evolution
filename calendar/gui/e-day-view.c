@@ -188,10 +188,13 @@ static gboolean e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 static gboolean e_day_view_on_main_canvas_button_release (GtkWidget *widget,
 							  GdkEventButton *event,
 							  EDayView *day_view);
+static gboolean e_day_view_on_main_canvas_scroll (GtkWidget *widget,
+						  GdkEventScroll *scroll,
+						  EDayView *day_view);
 
-static gboolean e_day_view_on_time_canvas_button_press (GtkWidget *widget,
-							GdkEventButton *event,
-							EDayView *day_view);
+static gboolean e_day_view_on_time_canvas_scroll (GtkWidget *widget,
+						  GdkEventScroll *scroll,
+						  EDayView *day_view);
 
 static void e_day_view_update_calendar_selection_time (EDayView *day_view);
 static gboolean e_day_view_on_main_canvas_motion (GtkWidget *widget,
@@ -448,10 +451,6 @@ static time_t e_day_view_find_work_week_start	(EDayView	*day_view,
 						 time_t		 start_time);
 static void e_day_view_recalc_work_week		(EDayView	*day_view);
 static void e_day_view_recalc_work_week_days_shown	(EDayView	*day_view);
-static gboolean e_day_view_set_event_font_cb	(EDayView	*day_view,
-						 gint		 day,
-						 gint		 event_num,
-						 gpointer	 data);
 
 static void selection_clear_event (GtkWidget *invisible,
 				   GdkEventSelection *event,
@@ -696,6 +695,10 @@ e_day_view_init (EDayView *day_view)
 				  G_CALLBACK (e_day_view_on_main_canvas_button_release),
 				  day_view);
 	g_signal_connect_after (day_view->main_canvas,
+				  "scroll_event",
+				  G_CALLBACK (e_day_view_on_main_canvas_scroll),
+				  day_view);
+	g_signal_connect_after (day_view->main_canvas,
 				  "motion_notify_event",
 				  G_CALLBACK (e_day_view_on_main_canvas_motion),
 				  day_view);
@@ -791,8 +794,8 @@ e_day_view_init (EDayView *day_view)
 			  0, 1, 1, 2,
 			  GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
 	gtk_widget_show (day_view->time_canvas);
-	g_signal_connect_after (day_view->time_canvas, "button_press_event",
-				G_CALLBACK (e_day_view_on_time_canvas_button_press), day_view);
+	g_signal_connect_after (day_view->time_canvas, "scroll_event",
+				G_CALLBACK (e_day_view_on_time_canvas_scroll), day_view);
 
 	canvas_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->time_canvas)->root);
 
@@ -3129,18 +3132,6 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 	g_print ("In e_day_view_on_main_canvas_button_press\n");
 #endif
 
-	/* Handle scroll wheel events */
-	if (event->button == 4) {
-		/* The wheel has been moved up, so scroll the canvas down. */
-		e_day_view_scroll (day_view, E_DAY_VIEW_WHEEL_MOUSE_STEP_SIZE);
-		return TRUE;
-	}
-	if (event->button == 5) {
-		/* The wheel has been moved down, so scroll the canvas up. */
-		e_day_view_scroll (day_view, -E_DAY_VIEW_WHEEL_MOUSE_STEP_SIZE);
-		return TRUE;
-	}
-
 	/* Convert the coords to the main canvas window, or return if the
 	   window is not found. */
 	if (!e_day_view_convert_event_coords (day_view, (GdkEvent*) event,
@@ -3204,24 +3195,39 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 	return TRUE;
 }
 
+static gboolean
+e_day_view_on_main_canvas_scroll (GtkWidget *widget,
+				  GdkEventScroll *scroll,
+				  EDayView *day_view)
+{
+	switch (scroll->direction) {
+	case GDK_SCROLL_UP:
+		e_day_view_scroll (day_view, E_DAY_VIEW_WHEEL_MOUSE_STEP_SIZE);
+		return TRUE;
+	case GDK_SCROLL_DOWN:
+		e_day_view_scroll (day_view, -E_DAY_VIEW_WHEEL_MOUSE_STEP_SIZE);
+		return TRUE;
+	default:
+	}
+
+	return FALSE;
+}
+
 
 static gboolean
-e_day_view_on_time_canvas_button_press (GtkWidget      *widget,
-					GdkEventButton *event,
-					EDayView       *day_view)
+e_day_view_on_time_canvas_scroll (GtkWidget      *widget,
+				  GdkEventScroll *scroll,
+				  EDayView       *day_view)
 {
-	/* Handle scroll wheel events */
-	if (event->button == 4 || event->button == 5) {
-		GtkAdjustment *adj = GTK_LAYOUT (day_view->main_canvas)->vadjustment;
-		gfloat new_value;
-
-		new_value = adj->value + ((event->button == 4) ?
-					  -adj->page_increment / 2:
-					  adj->page_increment / 2);
-		new_value = CLAMP (new_value, adj->lower, adj->upper - adj->page_size);
-		gtk_adjustment_set_value (adj, new_value);
-
+	
+	switch (scroll->direction) {
+	case GDK_SCROLL_UP:
+		e_day_view_scroll (day_view, E_DAY_VIEW_WHEEL_MOUSE_STEP_SIZE);
 		return TRUE;
+	case GDK_SCROLL_DOWN:
+		e_day_view_scroll (day_view, -E_DAY_VIEW_WHEEL_MOUSE_STEP_SIZE);
+		return TRUE;
+	default:
 	}
 
 	return FALSE;

@@ -122,6 +122,9 @@ static gboolean e_week_view_on_button_press (GtkWidget *widget,
 static gboolean e_week_view_on_button_release (GtkWidget *widget,
 					       GdkEventButton *event,
 					       EWeekView *week_view);
+static gboolean e_week_view_on_scroll (GtkWidget *widget,
+				       GdkEventScroll *scroll,
+				       EWeekView *week_view);
 static gboolean e_week_view_on_motion (GtkWidget *widget,
 				       GdkEventMotion *event,
 				       EWeekView *week_view);
@@ -383,6 +386,8 @@ e_week_view_init (EWeekView *week_view)
 				G_CALLBACK (e_week_view_on_button_press), week_view);
 	g_signal_connect_after (week_view->main_canvas, "button_release_event",
 				G_CALLBACK (e_week_view_on_button_release), week_view);
+	g_signal_connect_after (week_view->main_canvas, "scroll_event",
+				G_CALLBACK (e_week_view_on_scroll), week_view);
 	g_signal_connect_after (week_view->main_canvas, "motion_notify_event",
 				G_CALLBACK (e_week_view_on_motion), week_view);
 
@@ -2213,20 +2218,6 @@ e_week_view_on_button_press (GtkWidget *widget,
 		g_print (" item is pressed\n");
 #endif
 
-	/* Handle scroll wheel events */
-	if (event->button == 4 || event->button == 5) {
-		GtkAdjustment *adj = GTK_RANGE (week_view->vscrollbar)->adjustment;
-		gfloat new_value;
-
-		new_value = adj->value + ((event->button == 4) ?
-					  -adj->page_increment:
-					  adj->page_increment);
-		new_value = CLAMP (new_value, adj->lower, adj->upper - adj->page_size);
-		gtk_adjustment_set_value (adj, new_value);
-
-		return TRUE;
-	}
-
 	/* Convert the mouse position to a week & day. */
 	x = event->x;
 	y = event->y;
@@ -2301,6 +2292,31 @@ e_week_view_on_button_release (GtkWidget *widget,
 	}
 
 	return FALSE;
+}
+
+static gboolean
+e_week_view_on_scroll (GtkWidget *widget,
+		       GdkEventScroll *scroll,
+		       EWeekView *week_view)
+{
+	GtkAdjustment *adj = GTK_RANGE (week_view->vscrollbar)->adjustment;
+	gfloat new_value;
+	
+	switch (scroll->direction){
+	case GDK_SCROLL_UP:
+		new_value = adj->value - adj->page_increment;
+		break;
+	case GDK_SCROLL_DOWN:
+		new_value = adj->value + adj->page_increment;
+		break;
+	default:
+		return FALSE;
+	}
+	
+	new_value = CLAMP (new_value, adj->lower, adj->upper - adj->page_size);
+	gtk_adjustment_set_value (adj, new_value);
+	
+	return TRUE;
 }
 
 

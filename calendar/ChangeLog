@@ -1,5 +1,20 @@
 2003-05-15  JP Rosevear  <jpr@ximian.com>
  
+ 	Fixes #41935
+ 	
+ 	* gui/e-week-view.c (e_week_view_init): listen for scroll events
+ 	on the canvas
+ 	(e_week_view_on_button_press): don't scroll here
+ 	(e_week_view_on_scroll): scroll here
+ 
+ 	* gui/e-day-view.c (e_day_view_init): listen for scroll events on
+ 	the time and main canvases
+ 	(e_day_view_on_main_canvas_button_press): don't scroll here
+ 	(e_day_view_on_main_canvas_scroll): scroll here 
+ 	(e_day_view_on_time_canvas_scroll): and here
+	
+2003-05-15  JP Rosevear  <jpr@ximian.com>
+ 
  	Fixes #43029
  	
  	* gui/e-week-view.c (e_week_view_init): don't listen for destroy
