@@ -136,6 +136,10 @@ struct _EShellPrivate {
 	   (Currently, it's interactive IIF there is at least one active
 	   view.)  */
 	unsigned int is_interactive : 1;
+
+	/* Whether quit has been requested, and the shell is now waiting for
+	   permissions from all the components to quit.  */
+	unsigned int preparing_to_quit : 1;
 };
 
 
@@ -958,6 +962,9 @@ view_delete_event_cb (GtkWidget *widget,
 		return FALSE;
 	}
 
+	if (shell->priv->preparing_to_quit)
+		return TRUE;
+
 	/* If it's the last view, ask for confirm before actually destroying
 	   this view.  */
 	if (e_shell_prepare_for_quit (shell))
@@ -1196,6 +1203,7 @@ init (EShell *shell)
 	priv->db                           = CORBA_OBJECT_NIL;
 	priv->is_initialized               = FALSE;
 	priv->is_interactive               = FALSE;
+	priv->preparing_to_quit            = FALSE;
 
 	shell->priv = priv;
 }
@@ -2188,11 +2196,14 @@ e_shell_prepare_for_quit (EShell *shell)
 	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
 
 	priv = shell->priv;
+	priv->preparing_to_quit = TRUE;
 
 	/* Make all the views insensitive so we have some modal-like
 	   behavior.  */
-	for (p = priv->views; p != NULL; p = p->next)
+	for (p = priv->views; p != NULL; p = p->next) {
+		g_print ("Insensitive %p\n", p->data);
 		gtk_widget_set_sensitive (GTK_WIDGET (p->data), FALSE);
+	}
 
 	component_ids = e_component_registry_get_id_list (priv->component_registry);
 
@@ -2223,6 +2234,7 @@ e_shell_prepare_for_quit (EShell *shell)
 	/* Restore all the views to be sensitive.  */
 	for (p = priv->views; p != NULL; p = p->next)
 		gtk_widget_set_sensitive (GTK_WIDGET (p->data), TRUE);
+	priv->preparing_to_quit = FALSE;
 
 	e_free_string_list (component_ids);
 	return retval;

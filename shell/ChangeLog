@@ -1,3 +1,12 @@
+2002-07-01  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell.c: New member preparing_to_quit in EShellPrivate.
+	(init): Initialize to FALSE.
+	(e_shell_prepare_for_quit): Set preparing_to_quit to TRUE on
+	entering, and set it to FALSE on return.
+	(view_delete_event_cb): Don't call e_shell_prepare_for_quit() if
+	preparing_for_quit is TRUE.
+
 2002-06-28  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-storage.c (impl_Storage_updateFolder): Don't stop
