@@ -1,3 +1,8 @@
+2001-08-15  Jakub Steiner <jimmac@ximian.com>
+
+	* save-16.png, save_as-16.png: fix bottom. Tuomas didn't like too
+	  much detail.
+
 2001-08-15  Tuomas Kuosmanen  <tigert@ximian.com>
 
 	* goto-24.png: Icon for "Goto date.." -button. Someone could add this
