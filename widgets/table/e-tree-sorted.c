@@ -923,13 +923,14 @@ ets_proxy_node_inserted (ETreeModel *etm, ETreePath parent, ETreePath child, ETr
 
 		if (position != parent_path->num_children) {
 			for (i = 0; i < parent_path->num_children; i++) {
-				if (parent_path->children[i]->position >= position)
-					parent_path->children[i]->position++;
+				if (parent_path->children[i]->orig_position >= position)
+					parent_path->children[i]->orig_position++;
 			}
 		}
 
 		i = parent_path->num_children;
 		path = new_path(parent_path, child);
+		path->orig_position = position;
 		if (ets->priv->sort_idle_id == 0) {
 			ets->priv->insert_count++;
 			if (ets->priv->insert_count > ETS_INSERT_MAX) {
