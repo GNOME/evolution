@@ -402,7 +402,7 @@ text_to_html (const guchar *input, guint len,
 
 static void
 write_field_to_stream (const gchar *description, const gchar *value,
-		       GtkHTMLStreamHandle *stream)
+		       gboolean bold, GtkHTMLStreamHandle *stream)
 {
 	gchar *s;
 	gchar *encoded_value;
@@ -419,8 +419,10 @@ write_field_to_stream (const gchar *description, const gchar *value,
 	} else
 		encoded_value = g_strdup ("");
 
-	s = g_strdup_printf ("<tr valign=top><th align=right>%s</th>"
-			     "<td>%s</td></tr>", description, encoded_value);
+	s = g_strdup_printf ("<tr valign=top><%s align=right>%s</%s>"
+			     "<td>%s</td></tr>", bold ? "th" : "td",
+			     description, bold ? "th" : "td",
+			     encoded_value);
 	mail_write_html (stream, s);
 	g_free (encoded_value);
 	g_free (s);
@@ -428,7 +430,7 @@ write_field_to_stream (const gchar *description, const gchar *value,
 
 static void
 write_recipients_to_stream (const gchar *recipient_type,
-			    const GList *recipients,
+			    const GList *recipients, gboolean bold,
 			    GtkHTMLStreamHandle *stream)
 {
 	gchar *recipients_string = NULL;
@@ -445,7 +447,8 @@ write_recipients_to_stream (const gchar *recipient_type,
 		recipients = recipients->next;
 	}
 
-	write_field_to_stream (recipient_type, recipients_string, stream);
+	write_field_to_stream (recipient_type, recipients_string,
+			       bold, stream);
 	g_free (recipients_string);
 }
 
@@ -455,7 +458,7 @@ static void
 write_header_info_to_stream (CamelMimeMessage *mime_message,
 			     GtkHTMLStreamHandle *stream)
 {
-	GList *recipients;
+	const GList *recipients;
 
 	mail_write_html (stream, "<table>");
 
@@ -466,27 +469,26 @@ write_header_info_to_stream (CamelMimeMessage *mime_message,
 
 	write_field_to_stream ("From:",
 			       camel_mime_message_get_from (mime_message),
-			       stream);
+			       TRUE, stream);
+
+	if (camel_mime_message_get_reply_to (mime_message)) {
+		write_field_to_stream ("Reply-To:",
+				       camel_mime_message_get_reply_to (mime_message),
+				       FALSE, stream);
+	}
 
 	write_recipients_to_stream ("To:",
 				    camel_mime_message_get_recipients (mime_message, CAMEL_RECIPIENT_TYPE_TO),
-				    stream);
+				    TRUE, stream);
 
 	recipients = camel_mime_message_get_recipients (mime_message, CAMEL_RECIPIENT_TYPE_CC);
 	if (recipients)
-		write_recipients_to_stream ("Cc:", recipients, stream);
+		write_recipients_to_stream ("Cc:", recipients, TRUE, stream);
 	write_field_to_stream ("Subject:",
 			       camel_mime_message_get_subject (mime_message),
-			       stream);
+			       TRUE, stream);
 
 	mail_write_html (stream, "</table>");	
-}
-
-/* case-insensitive string comparison */
-static gint
-strcase_equal (gconstpointer v, gconstpointer v2)
-{
-	return g_strcasecmp ((const gchar*) v, (const gchar*)v2) == 0;
 }
 
 #define MIME_TYPE_WHOLE(a)  (gmime_content_field_get_mime_type ( \
@@ -693,22 +695,64 @@ handle_multipart_mixed (CamelDataWrapper *wrapper,
 	}
 }
 
+/* As seen in RFC 2387! */
+/* FIXME: camel doesn't currently set CamelMultipart::parent, so we
+ * can use it here.
+ */
 static void
 handle_multipart_related (CamelDataWrapper *wrapper,
 			  GtkHTMLStreamHandle *stream,
 			  CamelDataWrapper *root)
 {
-//	CamelMultipart* mp = CAMEL_MULTIPART (wrapper);
+	CamelMultipart *mp;
+	CamelMimeBodyPart *body_part;
+#if 0
+	GMimeContentField *parent_content_type;
+	const char *start, *cid;
+	int i, nparts;
+#endif
 
-	/* FIXME: read RFC, in terms of how a one message
-	   may refer to another object */	
+	g_return_if_fail (CAMEL_IS_MULTIPART (wrapper));
+
+	mp = CAMEL_MULTIPART (wrapper);
+#if 0
+	parent_content_type =
+		camel_mime_part_get_content_type (
+			camel_multipart_get_parent (mp));
+
+	start = gmime_content_field_get_parameter (parent_content_type,
+						   "start");
+	if (start) {
+		nparts = camel_multipart_get_number (mp);	
+		for (i = 0; i < nparts; i++) {
+			CamelMimeBodyPart *body_part =
+				camel_multipart_get_part (mp, i);
+
+			cid = camel_mime_part_get_content_id (
+				CAMEL_MIME_PART (body_part));
+
+			if (!strcmp (cid, start)) {
+				display_camel_body_part (body_part, stream,
+							 root);
+				return;
+			}
+		}
+
+		/* Oops. Hrmph. */
+		handle_multipart_mixed (wrapper, stream, root);
+	}
+#endif
+
+	/* No start parameter, so it defaults to the first part. */
+	body_part = camel_multipart_get_part (mp, 0);
+	display_camel_body_part (body_part, stream, root);
 }
 
 /* multipart/alternative helper function --
  * Returns NULL if no displayable msg is found
  */
 static CamelMimePart *
-find_preferred_alternative (CamelMultipart* multipart)
+find_preferred_alternative (CamelMultipart *multipart)
 {
 	int i, nparts;
 	CamelMimePart* html_part = NULL;

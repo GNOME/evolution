@@ -219,6 +219,73 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, void *unused)
 	g_string_free (camel_stream_gstr, TRUE);
 }
 
+static CamelMimePart *
+find_cid (const char *cid, CamelMimePart *part)
+{
+	const char *msg_cid;
+	CamelDataWrapper *content;
+	CamelMultipart *mp;
+	int i, nparts;
+
+	msg_cid = camel_mime_part_get_content_id (part);
+	if (msg_cid && !strcmp (cid, msg_cid))
+		return part;
+
+	content = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+	if (!content)
+		return NULL;
+
+	if (CAMEL_IS_MIME_PART (content))
+		return find_cid (cid, CAMEL_MIME_PART (content));
+	else if (!CAMEL_IS_MULTIPART (content))
+		return NULL;
+
+	mp = CAMEL_MULTIPART (content);
+	nparts = camel_multipart_get_number (mp);
+	for (i = 0; i < nparts; i++) {
+		CamelMimePart *found_part;
+
+		part = CAMEL_MIME_PART (camel_multipart_get_part (mp, i));
+		found_part = find_cid (cid, part);
+		if (found_part)
+			return found_part;
+	}
+
+	return NULL;
+}
+
+static void
+on_url_requested (GtkHTML *html, const char *url, GtkHTMLStreamHandle handle,
+		  gpointer user_data)
+{
+	char *cid, buf[1024];
+	int nread;
+	CamelMimePart *part;
+	CamelDataWrapper *data;
+	CamelStream *output;
+
+	if (strncmp (url, "cid:", 4))
+		return;
+
+	part = gtk_object_get_data (GTK_OBJECT (html), "message");
+	g_return_if_fail (part != NULL);
+
+	cid = g_strdup_printf ("<%s>", url + 4);
+	part = find_cid (cid, part);
+	g_free (cid);
+
+	if (!part)
+		return;
+
+	data = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+	output = camel_data_wrapper_get_output_stream (data);
+	do {
+		nread = camel_stream_read (output, buf, sizeof (buf));
+		if (nread > 0)
+			gtk_html_write (html, handle, buf, nread);
+	} while (!camel_stream_eos (output));
+}
+
 
 /**
  * mail_display_set_message:
@@ -283,6 +350,8 @@ mail_display_set_message (MailDisplay *mail_display,
 	mail_format_mime_message (CAMEL_MIME_MESSAGE (medium),
 				  headers_stream,
 				  body_stream);
+	gtk_object_set_data (GTK_OBJECT (mail_display->body_html_widget),
+			     "message", medium);
 
 	mail_write_html (headers_stream, "\n</font>\n</body>\n</html>\n");
 	mail_write_html (body_stream, "\n</body>\n</html>\n");
@@ -312,6 +381,10 @@ mail_display_init (GtkObject *object)
 	gtk_signal_connect (GTK_OBJECT (mail_display->body_html_widget), 
 			    "object_requested",
 			    GTK_SIGNAL_FUNC (on_object_requested), 
+			    NULL);
+	gtk_signal_connect (GTK_OBJECT (mail_display->body_html_widget),
+			    "url_requested",
+			    GTK_SIGNAL_FUNC (on_url_requested),
 			    NULL);
 	gtk_widget_show (GTK_WIDGET (mail_display->body_html_widget));
 	

@@ -1,5 +1,11 @@
 2000-04-21  Dan Winship  <danw@helixcode.com>
 
+	* mail-display.c (on_url_requested): deal with cid: URLs.
+	(find_cid): helper routine for above. (This could be much better.)
+	(mail_display_init): connect url_requested signal
+
+	* mail-format.c (handle_multipart_related): Make this work.
+
 	* mail-display.c (mail_display_set_message): ref the message we
 	display, since we're going to unref it when we remove it. Fixes a
 	bug that showed up with the new camel code, but it's not obvious
