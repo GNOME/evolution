@@ -1,3 +1,7 @@
+2004-10-21  Rodrigo Moya <rodrigo@novell.com>
+
+	* configure.in: added save-calendar plugin.
+
 2004-10-21  Not Zed  <NotZed@Ximian.com>
 
 	* configure.in: added copy-tool plugin.
