@@ -44,7 +44,7 @@ BonoboUIVerb verbs [] = {
 	
 	/* Settings Menu */
 	BONOBO_UI_UNSAFE_VERB ("SetMailFilter", filter_edit),
-	BONOBO_UI_UNSAFE_VERB ("VFolderEdit", vfolder_edit_vfolders),
+	BONOBO_UI_UNSAFE_VERB ("SetVFolder", vfolder_edit_vfolders),
 	BONOBO_UI_UNSAFE_VERB ("SetMailConfig", providers_config),
 	BONOBO_UI_UNSAFE_VERB ("SetSubscribe", manage_subscriptions),
 	BONOBO_UI_UNSAFE_VERB ("SetForgetPwd", forget_passwords),

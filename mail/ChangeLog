@@ -1,3 +1,11 @@
+2000-10-19  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-callbacks.c: #include "mail-vfolder.h"
+	(vfolder_edit_vfolders): Don't call the dummy vfolder_edit
+	function.
+
+	* folder-browser-factory.c: s/VFolderEdit/SetVFolder
+
 2000-10-19  Dan Winship  <danw@helixcode.com>
 
 	* mail-ops.c: (do_fetch_mail): For an imap store, just refresh the
