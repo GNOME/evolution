@@ -595,7 +595,7 @@ header_write(int fd, struct _header_raw *header, unsigned int uid, unsigned int 
 	iv[3].iov_len = 1;
 
 	while (header) {
-		if (strcasecmp(header->name, "x-evolution")) {
+		if (g_strcasecmp(header->name, "x-evolution")) {
 			int len;
 
 			iv[0].iov_base = header->name;
@@ -876,12 +876,12 @@ static int index_folder(CamelMboxSummary *s, int startoffset)
 				   messages/message parts */
 				encoding = header_content_encoding_decode(camel_mime_parser_header(mp, "content-transfer-encoding", NULL));
 				if (encoding) {
-					if (!strcasecmp(encoding, "base64")) {
+					if (!g_strcasecmp(encoding, "base64")) {
 						d(printf("Adding decoding filter for base64\n"));
 						if (mf64 == NULL)
 							mf64 = camel_mime_filter_basic_new_type(CAMEL_MIME_FILTER_BASIC_BASE64_DEC);
 						enc_id = camel_mime_parser_filter_add(mp, (CamelMimeFilter *)mf64);
-					} else if (!strcasecmp(encoding, "quoted-printable")) {
+					} else if (!g_strcasecmp(encoding, "quoted-printable")) {
 						d(printf("Adding decoding filter for quoted-printable\n"));
 						if (mfqp == NULL)
 							mfqp = camel_mime_filter_basic_new_type(CAMEL_MIME_FILTER_BASIC_QP_DEC);
@@ -892,8 +892,8 @@ static int index_folder(CamelMboxSummary *s, int startoffset)
 				
 				charset = header_content_type_param(ct, "charset");
 				if (charset!=NULL
-				    && !(strcasecmp(charset, "us-ascii")==0
-					|| strcasecmp(charset, "utf-8")==0)) {
+				    && !(g_strcasecmp(charset, "us-ascii")==0
+					|| g_strcasecmp(charset, "utf-8")==0)) {
 					d(printf("Adding conversion filter from %s to utf-8\n", charset));
 					if (mfc == NULL)
 						mfc = camel_mime_filter_charset_new_convert(charset, "utf-8");

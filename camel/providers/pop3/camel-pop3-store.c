@@ -353,7 +353,7 @@ static char *
 get_folder_name (CamelStore *store, const char *folder_name,
 		 CamelException *ex)
 {
-	if (!strcasecmp (folder_name, "inbox"))
+	if (!g_strcasecmp (folder_name, "inbox"))
 		return g_strdup ("inbox");
 	else {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID,

@@ -32,6 +32,7 @@
 
 #include <unicode.h>
 
+#include <glib.h>
 #include "camel-mime-parser.h"
 #include "camel-mime-utils.h"
 #include "camel-mime-filter.h"
@@ -1021,7 +1022,7 @@ tail_recurse:
 		type = HSCAN_HEADER;
 		if ( (content = header_raw_find(&h->headers, "Content-Type", NULL))
 		     && (ct = header_content_type_decode(content))) {
-			if (!strcasecmp(ct->type, "multipart")) {
+			if (!g_strcasecmp(ct->type, "multipart")) {
 				bound = header_content_type_param(ct, "boundary");
 				if (bound) {
 					d(printf("multipart, boundary = %s\n", bound));
@@ -1036,9 +1037,9 @@ tail_recurse:
 /*					header_raw_replace(&h->headers, "Content-Type", "text/plain", offset);*/
 					g_warning("Multipart with no boundary, treating as text/plain");
 				}
-			} else if (!strcasecmp(ct->type, "message")) {
-				if (!strcasecmp(ct->subtype, "rfc822")
-				    /*|| !strcasecmp(ct->subtype, "partial")*/) {
+			} else if (!g_strcasecmp(ct->type, "message")) {
+				if (!g_strcasecmp(ct->subtype, "rfc822")
+				    /*|| !g_strcasecmp(ct->subtype, "partial")*/) {
 					type = HSCAN_MESSAGE;
 				}
 			}
@@ -1181,7 +1182,7 @@ int main(int argc, char **argv)
 			case HSCAN_HEADER:
 				if (s->parts->content_type
 				    && (charset = header_content_type_param(s->parts->content_type, "charset"))) {
-					if (strcasecmp(charset, "us-ascii")) {
+					if (g_strcasecmp(charset, "us-ascii")) {
 						folder_push_filter_charset(s, "UTF-8", charset);
 					} else {
 						charset = NULL;

@@ -448,7 +448,7 @@ handle_text_plain (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 	/* Check for RFC 2646 flowed text. */
 	type = camel_mime_part_get_content_type (part);
 	format = gmime_content_field_get_parameter (type, "format");
-	if (format && !strcasecmp (format, "flowed")) {
+	if (format && !g_strcasecmp (format, "flowed")) {
 		handle_text_plain_flowed (part, root, box);
 		return;
 	}
@@ -1107,25 +1107,25 @@ reply_body (CamelDataWrapper *data, gboolean *html)
 	 * images. But if we don't do it this way, we don't get
 	 * the headers...
 	 */
-	if (strcasecmp (mime_type->type, "message") == 0) {
+	if (g_strcasecmp (mime_type->type, "message") == 0) {
 		*html = FALSE;
 		return get_data_wrapper_text (data);
 	}
 
-	if (strcasecmp (mime_type->type, "text") == 0) {
-		*html = !strcasecmp (mime_type->subtype, "html");
+	if (g_strcasecmp (mime_type->type, "text") == 0) {
+		*html = !g_strcasecmp (mime_type->subtype, "html");
 		return get_data_wrapper_text (data);
 	}
 
 	/* If it's not message and it's not text, and it's not
 	 * multipart, we don't want to deal with it.
 	 */
-	if (strcasecmp (mime_type->type, "multipart") != 0)
+	if (g_strcasecmp (mime_type->type, "multipart") != 0)
 		return NULL;
 
 	mp = CAMEL_MULTIPART (data);
 
-	if (strcasecmp (mime_type->subtype, "alternative") == 0) {
+	if (g_strcasecmp (mime_type->subtype, "alternative") == 0) {
 		/* Pick our favorite alternative and reply to it. */
 
 		subpart = find_preferred_alternative (mp);
@@ -1148,7 +1148,7 @@ reply_body (CamelDataWrapper *data, gboolean *html)
 		subpart = camel_multipart_get_part (mp, i);
 
 		disp = camel_mime_part_get_disposition (subpart);
-		if (disp && strcasecmp (disp, "inline") != 0)
+		if (disp && g_strcasecmp (disp, "inline") != 0)
 			continue;
 
 		data = camel_medium_get_content_object (

@@ -155,15 +155,15 @@ get_HEAD_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 
 			for (h = 0; h < header_array->len; h ++) {
 				Rfc822Header *header = &((Rfc822Header*)header_array->data)[h];
-				if (!strcasecmp(header->name, "From"))
+				if (!g_strcasecmp(header->name, "From"))
 					info.headers.sender = g_strdup(header->value);
-				else if (!strcasecmp(header->name, "To"))
+				else if (!g_strcasecmp(header->name, "To"))
 					info.headers.to = g_strdup(header->value);
-				else if (!strcasecmp(header->name, "Subject"))
+				else if (!g_strcasecmp(header->name, "Subject"))
 					info.headers.subject = g_strdup(header->value);
-				else if (!strcasecmp(header->name, "Message-ID"))
+				else if (!g_strcasecmp(header->name, "Message-ID"))
 					info.headers.uid = g_strdup(header->value);
-				else if (!strcasecmp(header->name, "Date")) {
+				else if (!g_strcasecmp(header->name, "Date")) {
 					info.headers.sent_date = g_strdup(header->value);
 					info.headers.received_date = g_strdup(header->value);
 				}

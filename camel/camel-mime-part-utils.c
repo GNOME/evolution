@@ -23,6 +23,7 @@
  */
 #include <config.h>
 #include <string.h>
+#include <glib.h>
 #include "gmime-content-field.h"
 #include "string-utils.h"
 #include "camel-mime-part-utils.h"
@@ -70,11 +71,11 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 	/* first, work out conversion, if any, required, we dont care about what we dont know about */
 	encoding = header_content_encoding_decode(camel_mime_parser_header(mp, "content-transfer-encoding", NULL));
 	if (encoding) {
-		if (!strcasecmp(encoding, "base64")) {
+		if (!g_strcasecmp(encoding, "base64")) {
 			d(printf("Adding base64 decoder ...\n"));
 			fdec = (CamelMimeFilter *)camel_mime_filter_basic_new_type(CAMEL_MIME_FILTER_BASIC_BASE64_DEC);
 			decid = camel_mime_parser_filter_add(mp, fdec);
-		} else if (!strcasecmp(encoding, "quoted-printable")) {
+		} else if (!g_strcasecmp(encoding, "quoted-printable")) {
 			d(printf("Adding quoted-printable decoder ...\n"));
 			fdec = (CamelMimeFilter *)camel_mime_filter_basic_new_type(CAMEL_MIME_FILTER_BASIC_QP_DEC);
 			decid = camel_mime_parser_filter_add(mp, fdec);
@@ -87,8 +88,8 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 	if (header_content_type_is(ct, "text", "*")) {
 		const char *charset = header_content_type_param(ct, "charset");
 		if (charset!=NULL
-		    && !(strcasecmp(charset, "us-ascii")==0
-			 || strcasecmp(charset, "utf-8")==0)) {
+		    && !(g_strcasecmp(charset, "us-ascii")==0
+			 || g_strcasecmp(charset, "utf-8")==0)) {
 			d(printf("Adding conversion filter from %s to utf-8\n", charset));
 			fch = (CamelMimeFilter *)camel_mime_filter_charset_new_convert(charset, "utf-8");
 			if (fch) {
