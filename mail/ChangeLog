@@ -1,3 +1,12 @@
+2001-10-13  Jon Trowbridge  <trow@ximian.com>
+
+	* e-searching-tokenizer.c (search_info_compare): Bad hacker!
+	Don't implicitly assume that utf8 characters are one byte in size!
+	(Bug #9520)
+	(e_searching_tokenizer_begin): As long as I'm touching those code:
+	don't increase the size of search matches.  I'll fix the colors
+	later. (part of bug #11589)
+
 2001-10-13  Dan Winship  <danw@ximian.com>
 
 	* mail-callbacks.c (create_msg_composer): Don't emit a gtk warning

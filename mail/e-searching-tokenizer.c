@@ -328,8 +328,14 @@ search_info_compare (SearchInfo *si, const gchar *token, gint *start_pos, gint *
 		/* Check to see if the search string is entirely embedded within the token. */
 		s = find_whole (si, token, si->search);
 		if (s) {
+			const gchar *pos = s;
+			i = g_utf8_strlen (si->search, -1);
+			while (i > 0) {
+				pos = g_utf8_next_char (pos);
+				--i;
+			}
 			*start_pos = s - token;
-			*end_pos = *start_pos + g_utf8_strlen (si->search, -1);
+			*end_pos = pos - token;
 
 			return MATCH_COMPLETE;
 		}
@@ -817,7 +823,6 @@ e_searching_tokenizer_begin (HTMLTokenizer *t, gchar *content_type)
 		search_info_set_case_sensitivity (si, st->priv->case_sensitive_primary);
 
 		search_info_set_match_color (si, "red");
-		search_info_set_match_size_increase (si, 1);
 		search_info_set_match_bold (si, TRUE);
 
 	} else if (st->priv->str_secondary) {
@@ -826,7 +831,6 @@ e_searching_tokenizer_begin (HTMLTokenizer *t, gchar *content_type)
 		search_info_set_case_sensitivity (si, st->priv->case_sensitive_secondary);
 
 		search_info_set_match_color (si, "purple");
-		search_info_set_match_size_increase (si, 1);
 		search_info_set_match_bold (si, TRUE);
 
 	} else {
