@@ -134,7 +134,7 @@ impl_StorageListener_removed_folder (PortableServer_Servant servant,
 	storage_listener_servant = (StorageListenerServant *) servant;
 	storage = storage_listener_servant->storage;
 
-	if (! e_storage_remove_folder (storage, path))
+	if (! e_storage_removed_folder (storage, path))
 		CORBA_exception_set (ev,
 				     CORBA_USER_EXCEPTION,
 				     ex_Evolution_StorageListener_NotFound,

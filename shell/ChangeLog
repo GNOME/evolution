@@ -1,3 +1,70 @@
+2000-06-07  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-storage.c (folder_destroy): Don't destroy the subfolders.
+	(remove_folder): New helper function.
+	(free_private): Use it.
+	(e_storage_removed_folder): Use it here too.
+	(folder_destroy): Don't unref the EFolder if NULL.
+
+	* e-storage-set-view.c (e_storage_set_view_construct): Use
+	`gtk_signal_connect_while_alive()' instead of just
+	`gtk_signal_connect()' so that the signal handler is automatically
+	removed when we are destroyed.
+
+	* e-storage-set.c (e_storage_set_remove_all_storages): New
+	function.
+
+	* e-shell-view.c (e_shell_view_construct): Use `bonobo_object_ref'
+	on the shell instead of `gtk_object_ref'.
+	(destroy): Unref the shell.
+
+	* e-local-storage.h: #include "e-component-registry.h".
+
+	* e-shell.c (setup_local_storage): Renamed from `setup_storages'.
+	Only set up the local storage, not the CORBA one, and don't create
+	the storage set.
+	(e_shell_construct): Create the storage set here instead.  Call
+	`setup_local_storage' after setting up the components.
+
+	* e-local-storage.c: New member `component_registry' in
+	`ELocalStoragePrivate'.
+	(init): Init to NULL.
+	(destroy): If not null, unref it.
+	(e_local_storage_open): New arg @component_registry.
+	(construct): New arg @component_registry.  Init
+	`priv->component_registry' from it.
+
+	* e-local-storage.c (impl_get_name): Renamed from `get_name'.
+	(impl_create_folder): New function, implementing
+	`EStorage::create_folder'.  Just a stub for now.
+	(impl_remove_folder): New function, implementing
+	`EStorage::remove_folder'.  Just a stub for now.
+	(class_init): Install these stub implementations.
+
+	* e-storage.c (e_storage_remove_folder): New function.
+	(e_storage_create_folder): New function.
+	(impl_create_folder): New function, default implementation for
+	`::create_folder'.
+	(impl_remove_folder): New function, default implementation for
+	`::remove_folder'.
+	(class_init): Install the implementations.
+
+	* e-storage.c (impl_get_name): Renamed from `get_name'.
+	(impl_get_folder): Renamed from `get_folder'.
+	(impl_list_folders): Renamed from `list_folders'.
+
+	* e-storage.h: New virtual methods `remove_folder',
+	`create_folder'.
+
+	* e-storage.c (e_storage_removed_folder): Renamed from
+	`e_storage_remove_folder'.
+	* e-corba-storage.c (impl_StorageListener_removed_folder): Updated
+	accordingly.
+
+2000-06-02  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell-view.c (setup_bonobo_ui_handler): Create the default toolbar.
+
 2000-06-02  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* e-shell-view-menu.c: Changed "Using the Shell" to "Getting Started"

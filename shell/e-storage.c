@@ -64,6 +64,8 @@ enum {
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
+/* Folder handling.  */
+
 static Folder *
 folder_new (EFolder *e_folder,
 	    const char *path)
@@ -71,9 +73,9 @@ folder_new (EFolder *e_folder,
 	Folder *folder;
 
 	folder = g_new (Folder, 1);
-	folder->path = g_strdup (path);
-	folder->parent = NULL;
-	folder->e_folder = e_folder;
+	folder->path       = g_strdup (path);
+	folder->parent     = NULL;
+	folder->e_folder   = e_folder;
 	folder->subfolders = NULL;
 
 	return folder;
@@ -95,29 +97,56 @@ folder_add_subfolder (Folder *folder, Folder *subfolder)
 static void
 folder_destroy (Folder *folder)
 {
-	GList *p;
+	g_assert (folder->subfolders == NULL);
 
 	if (folder->parent != NULL)
 		folder_remove_subfolder (folder->parent, folder);
 
 	g_free (folder->path);
 
-	gtk_object_unref (GTK_OBJECT (folder->e_folder));
-
-	for (p = folder->subfolders; p != NULL; p = p->next)
-		folder_destroy (p->data);
+	if (folder->e_folder != NULL)
+		gtk_object_unref (GTK_OBJECT (folder->e_folder));
 
 	g_free (folder);
+}
+
+static void
+remove_folder (EStorage *storage,
+	       Folder *folder)
+{
+	EStoragePrivate *priv;
+
+	priv = storage->priv;
+
+	if (folder->subfolders != NULL) {
+		GList *p;
+
+		for (p = folder->subfolders; p != NULL; p = p->next) {
+			Folder *subfolder;
+
+			subfolder = (Folder *) p->data;
+			remove_folder (storage, subfolder);
+		}
+
+		g_list_free (folder->subfolders);
+		folder->subfolders = NULL;
+	}
+
+	g_hash_table_remove (priv->path_to_folder, folder->path);
+
+	folder_destroy (folder);
 }
 
 static void
 free_private (EStorage *storage)
 {
 	EStoragePrivate *priv;
+	Folder *root_folder;
 
 	priv = storage->priv;
 
-	g_hash_table_foreach (priv->path_to_folder, (GHFunc) folder_destroy, NULL);
+	root_folder = g_hash_table_lookup (priv->path_to_folder, G_DIR_SEPARATOR_S);
+	remove_folder (storage, root_folder);
 
 	g_hash_table_destroy (priv->path_to_folder);
 
@@ -125,11 +154,26 @@ free_private (EStorage *storage)
 }
 
 
+/* GtkObject methods.  */
+
+static void
+destroy (GtkObject *object)
+{
+	EStorage *storage;
+
+	storage = E_STORAGE (object);
+
+	free_private (storage);
+
+	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+}
+
+
 /* EStorage methods.  */
 
 static GList *
-list_folders (EStorage *storage,
-	      const char *path)
+impl_list_folders (EStorage *storage,
+		   const char *path)
 {
 	Folder *folder;
 	Folder *subfolder;
@@ -152,8 +196,8 @@ list_folders (EStorage *storage,
 }
 
 static EFolder *
-get_folder (EStorage *storage,
-	    const char *path)
+impl_get_folder (EStorage *storage,
+		 const char *path)
 {
 	EStoragePrivate *priv;
 	Folder *folder;
@@ -168,24 +212,29 @@ get_folder (EStorage *storage,
 }
 
 static const char *
-get_name (EStorage *storage)
+impl_get_name (EStorage *storage)
 {
-	return "(No name)";
+	return _("(No name)");
 }
 
-
-/* GtkObject methods.  */
+static void
+impl_create_folder (EStorage *storage,
+		    const char *path,
+		    const char *type,
+		    const char *description,
+		    EStorageResultCallback callback,
+		    void *data)
+{
+	(* callback) (storage, E_STORAGE_NOTIMPLEMENTED, data);
+}
 
 static void
-destroy (GtkObject *object)
+impl_remove_folder (EStorage *storage,
+		    const char *path,
+		    EStorageResultCallback callback,
+		    void *data)
 {
-	EStorage *storage;
-
-	storage = E_STORAGE (object);
-
-	free_private (storage);
-
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* callback) (storage, E_STORAGE_NOTIMPLEMENTED, data);
 }
 
 
@@ -201,9 +250,11 @@ class_init (EStorageClass *class)
 
 	object_class->destroy = destroy;
 
-	class->list_folders         = list_folders;
-	class->get_folder           = get_folder;
-	class->get_name             = get_name;
+	class->list_folders   = impl_list_folders;
+	class->get_folder     = impl_get_folder;
+	class->get_name       = impl_get_name;
+	class->create_folder  = impl_create_folder;
+	class->remove_folder  = impl_remove_folder;
 
 	signals[NEW_FOLDER] =
 		gtk_signal_new ("new_folder",
@@ -317,6 +368,40 @@ e_storage_get_name (EStorage *storage)
 }
 
 
+/* Folder operations.  */
+
+void
+e_storage_create_folder (EStorage *storage,
+			 const char *path,
+			 const char *type,
+			 const char *description,
+			 EStorageResultCallback callback,
+			 void *data)
+{
+	g_return_if_fail (storage != NULL);
+	g_return_if_fail (E_IS_STORAGE (storage));
+	g_return_if_fail (path != NULL);
+	g_return_if_fail (type != NULL);
+	g_return_if_fail (callback != NULL);
+
+	(* ES_CLASS (storage)->create_folder) (storage, path, type, description, callback, data);
+}
+
+void
+e_storage_remove_folder (EStorage *storage,
+			 const char *path,
+			 EStorageResultCallback callback,
+			 void *data)
+{
+	g_return_if_fail (storage != NULL);
+	g_return_if_fail (E_IS_STORAGE (storage));
+	g_return_if_fail (path != NULL);
+	g_return_if_fail (callback != NULL);
+
+	(* ES_CLASS (storage)->remove_folder) (storage, path, callback, data);
+}
+
+
 /* These functions are used by subclasses to add and remove folders from the
    state stored in the storage object.  */
 
@@ -374,8 +459,8 @@ e_storage_new_folder (EStorage *storage,
 }
 
 gboolean
-e_storage_remove_folder (EStorage *storage,
-			 const char *path)
+e_storage_removed_folder (EStorage *storage,
+			  const char *path)
 {
 	EStoragePrivate *priv;
 	Folder *folder;
@@ -395,8 +480,7 @@ e_storage_remove_folder (EStorage *storage,
 
 	gtk_signal_emit (GTK_OBJECT (storage), signals[REMOVED_FOLDER], path);
 
-	g_hash_table_remove (priv->path_to_folder, path);
-	folder_destroy (folder);
+	remove_folder (storage, folder);
 
 	return TRUE;
 }

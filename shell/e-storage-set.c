@@ -49,7 +49,7 @@ struct _NamedStorage {
 typedef struct _NamedStorage NamedStorage;
 
 struct _EStorageSetPrivate {
-	GList *storages;
+	GList *storages;	/* EStorage */
 	GHashTable *name_to_named_storage;
 
 	EFolderTypeRegistry *folder_type_registry;
@@ -83,6 +83,19 @@ named_storage_destroy (NamedStorage *named_storage)
 {
 	g_free (named_storage->name);
 	g_free (named_storage);
+}
+
+static gboolean
+name_to_named_storage_foreach_destroy (void *key,
+				       void *value,
+				       void *user_data)
+{
+	NamedStorage *named_storage;
+
+	named_storage = (NamedStorage *) value;
+	named_storage_destroy (named_storage);
+
+	return TRUE;
 }
 
 
@@ -345,6 +358,35 @@ e_storage_set_remove_storage (EStorageSet *storage_set,
 	return TRUE;
 }
 
+void
+e_storage_set_remove_all_storages (EStorageSet *storage_set)
+{
+	EStorageSetPrivate *priv;
+	GList *p;
+
+	g_return_if_fail (storage_set != NULL);
+	g_return_if_fail (E_IS_STORAGE_SET (storage_set));
+
+	priv = storage_set->priv;
+
+	for (p = priv->storages; p != NULL; p = p->next) {
+		EStorage *storage;
+
+		storage = E_STORAGE (p->data);
+
+		gtk_signal_emit (GTK_OBJECT (storage_set), signals[REMOVED_STORAGE], storage);
+		gtk_object_unref (GTK_OBJECT (storage));
+	}
+
+	g_hash_table_foreach_remove (priv->name_to_named_storage,
+				     name_to_named_storage_foreach_destroy,
+				     NULL);
+
+	g_list_free (priv->storages);
+	priv->storages = NULL;
+}
+
+
 EStorage *
 e_storage_set_get_storage (EStorageSet *storage_set,
 			   const char *name)

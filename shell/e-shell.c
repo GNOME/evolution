@@ -161,7 +161,7 @@ setup_corba_storages (EShell *shell)
 }
 
 static gboolean
-setup_storages (EShell *shell)
+setup_local_storage (EShell *shell)
 {
 	EStorage *local_storage;
 	EShellPrivate *priv;
@@ -171,7 +171,8 @@ setup_storages (EShell *shell)
 
 	local_storage_path = g_concat_dir_and_file (priv->local_directory,
 						    LOCAL_STORAGE_DIRECTORY);
-	local_storage = e_local_storage_open (local_storage_path);
+	local_storage = e_local_storage_open (shell->priv->component_registry,
+					      local_storage_path);
 	if (local_storage == NULL) {
 		g_warning (_("Cannot set up local storage -- %s"), local_storage_path);
 		g_free (local_storage_path);
@@ -181,12 +182,11 @@ setup_storages (EShell *shell)
 
 	g_assert (shell->priv->folder_type_registry);
 
-	priv->storage_set = e_storage_set_new (shell->priv->folder_type_registry);
 	e_storage_set_add_storage (priv->storage_set, local_storage);
 
 	gtk_object_unref (GTK_OBJECT (local_storage));
 
-	return setup_corba_storages (shell);
+	return TRUE;
 }
 
 
@@ -362,15 +362,19 @@ e_shell_construct (EShell *shell,
 
 	priv = shell->priv;
 
-	priv->local_directory = g_strdup (local_directory);
+	priv->local_directory      = g_strdup (local_directory);
 	priv->folder_type_registry = e_folder_type_registry_new ();
+	priv->storage_set          = e_storage_set_new (shell->priv->folder_type_registry);
 
-	/* Storages must be set up before the components, because otherwise components
+	/* CORBA storages must be set up before the components, because otherwise components
            cannot register their own storages.  */
-	if (! setup_storages (shell))
+	if (! setup_corba_storages (shell))
 		return;
 
 	setup_components (shell);
+
+	/* The local storage depends on the component registry.  */
+	setup_local_storage (shell);
 
 	shortcut_path = g_concat_dir_and_file (local_directory, "shortcuts.xml");
 	priv->shortcuts = e_shortcuts_new (priv->storage_set,
@@ -492,18 +496,23 @@ e_shell_quit (EShell *shell)
 	g_list_free (priv->views);
 	priv->views = NULL;
 
+	bonobo_object_unref (BONOBO_OBJECT (priv->corba_storage_registry));
+
+	priv->corba_storage_registry = NULL;
+
+	e_storage_set_remove_all_storages (priv->storage_set);
 	gtk_object_unref (GTK_OBJECT (priv->storage_set));
+
 	gtk_object_unref (GTK_OBJECT (priv->shortcuts));
 	gtk_object_unref (GTK_OBJECT (priv->folder_type_registry));
 	gtk_object_unref (GTK_OBJECT (priv->component_registry));
 
-	priv->storage_set = NULL;
-	priv->shortcuts = NULL;
+	priv->storage_set          = NULL;
+	priv->shortcuts            = NULL;
 	priv->folder_type_registry = NULL;
-	priv->component_registry = NULL;
+	priv->component_registry   = NULL;
 
-	/* FIXME Unref does not work here.  Probably somewhere we are leaking a _ref().  */
-	bonobo_object_destroy (BONOBO_OBJECT (shell));
+	bonobo_object_unref (BONOBO_OBJECT (shell));
 }
 
 

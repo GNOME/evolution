@@ -54,6 +54,7 @@ static EStorageClass *parent_class = NULL;
 #define SUBFOLDER_DIR_NAME_LEN 10
 
 struct _ELocalStoragePrivate {
+	EComponentRegistry *component_registry;
 	char *base_path;
 };
 
@@ -233,7 +234,7 @@ load_all_folders (ELocalStorage *local_storage)
 /* GtkObject methods.  */
 
 static void
-destroy (GtkObject *object)
+impl_destroy (GtkObject *object)
 {
 	ELocalStorage *local_storage;
 	ELocalStoragePrivate *priv;
@@ -242,6 +243,10 @@ destroy (GtkObject *object)
 	priv = local_storage->priv;
 
 	g_free (priv->base_path);
+
+	if (priv->component_registry != NULL)
+		gtk_object_unref (GTK_OBJECT (priv->component_registry));
+	
 	g_free (priv);
 
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -251,10 +256,34 @@ destroy (GtkObject *object)
 /* EStorage methods.  */
 
 static const char *
-get_name (EStorage *storage)
+impl_get_name (EStorage *storage)
 {
 	/* FIXME this sucks.  */
 	return "local";
+}
+
+static void
+impl_create_folder (EStorage *storage,
+		    const char *path,
+		    const char *type,
+		    const char *description,
+		    EStorageResultCallback callback,
+		    void *data)
+{
+	ELocalStorage *local_storage;
+
+	local_storage = E_LOCAL_STORAGE (storage);
+}
+
+static void
+impl_remove_folder (EStorage *storage,
+		    const char *path,
+		    EStorageResultCallback callback,
+		    void *data)
+{
+	ELocalStorage *local_storage;
+
+	local_storage = E_LOCAL_STORAGE (storage);
 }
 
 
@@ -266,13 +295,15 @@ class_init (ELocalStorageClass *class)
 	EStorageClass *storage_class;
 	GtkObjectClass *object_class;
 
-	parent_class = gtk_type_class (e_storage_get_type ());
-
-	object_class = GTK_OBJECT_CLASS (class);
-	object_class->destroy = destroy;
-
+	parent_class  = gtk_type_class (e_storage_get_type ());
+	object_class  = GTK_OBJECT_CLASS (class);
 	storage_class = E_STORAGE_CLASS (class);
-	storage_class->get_name = get_name;
+
+	object_class->destroy        = impl_destroy;
+
+	storage_class->get_name      = impl_get_name;
+	storage_class->create_folder = impl_create_folder;
+	storage_class->remove_folder = impl_remove_folder;
 }
 
 static void
@@ -282,7 +313,8 @@ init (ELocalStorage *local_storage)
 
 	priv = g_new (ELocalStoragePrivate, 1);
 
-	priv->base_path = NULL;
+	priv->base_path          = NULL;
+	priv->component_registry = NULL;
 
 	local_storage->priv = priv;
 }
@@ -290,11 +322,15 @@ init (ELocalStorage *local_storage)
 
 static gboolean
 construct (ELocalStorage *local_storage,
+	   EComponentRegistry *component_registry,
 	   const char *base_path)
 {
+	ELocalStoragePrivate *priv;
 	int base_path_len;
 
 	e_storage_construct (E_STORAGE (local_storage));
+
+	priv = local_storage->priv;
 
 	base_path_len = strlen (base_path);
 	while (base_path_len > 0 && base_path[base_path_len - 1] == G_DIR_SEPARATOR)
@@ -302,21 +338,29 @@ construct (ELocalStorage *local_storage,
 
 	g_return_val_if_fail (base_path_len != 0, FALSE);
 
-	local_storage->priv->base_path = g_strndup (base_path, base_path_len);
+	g_assert (priv->component_registry == NULL);
+	gtk_object_ref (GTK_OBJECT (component_registry));
+	priv->component_registry = component_registry;
+
+	g_assert (priv->base_path == NULL);
+	priv->base_path = g_strndup (base_path, base_path_len);
 
 	return load_all_folders (local_storage);
 }
 
 EStorage *
-e_local_storage_open (const char *base_path)
+e_local_storage_open (EComponentRegistry *component_registry,
+		      const char *base_path)
 {
 	EStorage *new;
 
+	g_return_val_if_fail (component_registry != NULL, NULL);
+	g_return_val_if_fail (E_IS_COMPONENT_REGISTRY (component_registry), NULL);
 	g_return_val_if_fail (base_path != NULL, NULL);
 
 	new = gtk_type_new (e_local_storage_get_type ());
 
-	if (! construct (E_LOCAL_STORAGE (new), base_path)) {
+	if (! construct (E_LOCAL_STORAGE (new), component_registry, base_path)) {
 		gtk_object_unref (GTK_OBJECT (new));
 		return NULL;
 	}

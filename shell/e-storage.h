@@ -46,6 +46,18 @@ typedef struct _EStorage        EStorage;
 typedef struct _EStoragePrivate EStoragePrivate;
 typedef struct _EStorageClass   EStorageClass;
 
+enum _EStorageResult {
+	E_STORAGE_OK,
+	E_STORAGE_NOTIMPLEMENTED,
+	E_STORAGE_NOTFOUND,
+	E_STORAGE_EXISTS,
+	E_STORAGE_IO,
+	E_STORAGE_UNSUPPORTEDTYPE
+};
+typedef enum _EStorageResult EStorageResult;
+
+typedef void (* EStorageResultCallback) (EStorage *storage, EStorageResult result, void *data);
+
 #include "e-folder.h"
 
 struct _EStorage {
@@ -58,31 +70,51 @@ struct _EStorageClass {
 	GtkObjectClass parent_class;
 
 	/* Signals.  */
+
 	void * (* new_folder)     (EStorage *storage, const char *path);
 	void * (* removed_folder) (EStorage *storage, const char *path);
 
 	/* Virtual methods.  */
-	GList      * (* list_folders) (EStorage *storage, const char *path);
-	EFolder    * (* get_folder)   (EStorage *storage, const char *path);
-	const char * (* get_name)     (EStorage *storage);
+
+	GList      * (* list_folders)  (EStorage *storage, const char *path);
+	EFolder    * (* get_folder)    (EStorage *storage, const char *path);
+	const char * (* get_name)      (EStorage *storage);
+
+	void         (* create_folder) (EStorage *storage, const char *path,
+					const char *type, const char *description,
+					EStorageResultCallback callback, void *data);
+	void         (* remove_folder) (EStorage *storage, const char *path,
+					EStorageResultCallback callback, void *data);
 };
 
 
-GtkType   e_storage_get_type    (void);
-void      e_storage_construct   (EStorage   *storage);
-EStorage *e_storage_new         (void);
+GtkType     e_storage_get_type          (void);
+void        e_storage_construct         (EStorage   *storage);
+EStorage   *e_storage_new               (void);
+gboolean    e_storage_path_is_relative  (const char *path);
+gboolean    e_storage_path_is_absolute  (const char *path);
 
-gboolean  e_storage_path_is_relative  (const char *path);
-gboolean  e_storage_path_is_absolute  (const char *path);
+GList      *e_storage_list_folders      (EStorage   *storage, const char *path);
+EFolder    *e_storage_get_folder        (EStorage   *storage, const char *path);
 
-GList           *e_storage_list_folders          (EStorage   *storage, const char *path);
-EFolder         *e_storage_get_folder            (EStorage   *storage, const char *path);
+const char *e_storage_get_name          (EStorage   *storage);
 
-const char *e_storage_get_name  (EStorage *storage);
+/* Folder operations.  */
+
+void  e_storage_create_folder  (EStorage               *storage,
+				const char             *path,
+				const char             *type,
+				const char             *description,
+				EStorageResultCallback  callback,
+				void                   *data);
+void  e_storage_remove_folder  (EStorage               *storage,
+				const char             *path,
+				EStorageResultCallback  callback,
+				void                   *data);
 
 /* Protected.  C++ anyone?  */
-gboolean  e_storage_new_folder     (EStorage *storage, const char *path, EFolder *folder);
-gboolean  e_storage_remove_folder  (EStorage *storage, const char *path);
+gboolean  e_storage_new_folder      (EStorage *storage, const char *path, EFolder *folder);
+gboolean  e_storage_removed_folder  (EStorage *storage, const char *path);
 
 #ifdef __cplusplus
 }
