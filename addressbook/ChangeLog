@@ -1,3 +1,16 @@
+2001-05-04  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook-component.c (remove_folder): un-#if 0
+	this.
+	(xfer_folder): add skeleton code to validate xfer request.  always
+	notifies with PERMISSION_DENIED at present.
+	(populate_context_menu): un-#if 0 this.
+	(get_dnd_selection): same.
+	(destination_folder_handle_motion): new function.
+	(destination_folder_handle_drop): new function.
+	(factory_fn): create a EvolutionShellComponentDndDestinationFolder
+	interface, and add it to our shell component.
+
 2001-05-04  JP Rosevear  <jpr@ximian.com>
 
 	* backend/pas/pas-backend-file.c

@@ -28,6 +28,7 @@
 #include <bonobo/bonobo-generic-factory.h>
 
 #include "evolution-shell-component.h"
+#include "evolution-shell-component-dnd.h"
 #include "evolution-storage.h"
 
 #include "addressbook-storage.h"
@@ -101,14 +102,13 @@ create_folder (EvolutionShellComponent *shell_component,
 	CORBA_exception_free(&ev);
 }
 
-#if 0
 static void
 remove_folder (EvolutionShellComponent *shell_component,
 	       const char *physical_uri,
 	       const GNOME_Evolution_ShellComponentListener listener,
 	       void *closure)
 {
-	printf ("should remove %s\n", physical_uri);
+	g_print ("should remove %s\n", physical_uri);
 }
 
 static void
@@ -119,8 +119,41 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	     const GNOME_Evolution_ShellComponentListener listener,
 	     void *closure)
 {
-	printf ("should transfer %s to %s, %s source\n", source_physical_uri,
-		destination_physical_uri, remove_source ? "removing" : "not removing");
+	CORBA_Environment ev;
+	char *source_path;
+	char *destination_path;
+	
+	g_print ("should transfer %s to %s, %s source\n", source_physical_uri,
+		 destination_physical_uri, remove_source ? "removing" : "not removing");
+
+	if (!strncmp (source_physical_uri, "ldap:", 5)
+	    || !strncmp (destination_physical_uri, "ldap:", 5)) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_UNSUPPORTED_OPERATION, &ev);
+		return;
+	}
+	if (strncmp (source_physical_uri, "file://", 7)
+	    || strncmp (destination_physical_uri, "file://", 7)) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_INVALID_URI, &ev);
+		return;
+	}
+
+	/* strip the 'file://' from the beginning of each uri and add addressbook.db */
+	source_path = g_concat_dir_and_file (source_physical_uri + 7, "addressbook.db");
+	destination_path = g_concat_dir_and_file (destination_physical_uri + 7, "addressbook.db");
+
+	if (remove_source) {
+		g_print ("rename %s %s\n", source_path, destination_path);
+	}
+	else {
+		g_print ("copy %s %s\n", source_path, destination_path);
+	}
+
+	CORBA_exception_init (&ev);
+
+	/* XXX always fail for now, until the above stuff is written */
+	GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED, &ev);
+
+	CORBA_exception_free (&ev);
 }
 
 static void
@@ -130,7 +163,7 @@ populate_context_menu (EvolutionShellComponent *shell_component,
 		       const char *type,
 		       void *closure)
 {
-	printf ("should populate context menu for %s (%s)\n", physical_uri, type);
+	g_print ("should populate context menu for %s (%s)\n", physical_uri, type);
 }
 
 static char*
@@ -142,10 +175,9 @@ get_dnd_selection (EvolutionShellComponent *shell_component,
 		   int *selection_length_return,
 		   void *closure)
 {
-	printf ("should get dnd selection for %s\n", physical_uri);
+	g_print ("should get dnd selection for %s\n", physical_uri);
 	return NULL;
 }
-#endif
 
 static int owner_count = 0;
 
@@ -173,6 +205,29 @@ owner_unset_cb (EvolutionShellComponent *shell_component,
 		gtk_main_quit();
 }
 
+static CORBA_boolean
+destination_folder_handle_motion (EvolutionShellComponentDndDestinationFolder *folder,
+				  const char *physical_uri,
+				  const GNOME_Evolution_ShellComponentDnd_DestinationFolder_Context * destination_context,
+				  GNOME_Evolution_ShellComponentDnd_Action * suggested_action_return,
+				  gpointer user_data)
+{
+	g_print ("in destination_folder_handle_motion (%s)\n", physical_uri);
+	return TRUE;
+}
+
+static CORBA_boolean
+destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *folder,
+				const char *physical_uri,
+				const GNOME_Evolution_ShellComponentDnd_DestinationFolder_Context * destination_context,
+				const GNOME_Evolution_ShellComponentDnd_Action action,
+				const GNOME_Evolution_ShellComponentDnd_Data * data,
+				gpointer user_data)
+{
+	g_print ("in destination_folder_handle_drop (%s)\n", physical_uri);
+	return TRUE;
+}
+
 
 /* The factory function.  */
 
@@ -181,14 +236,20 @@ factory_fn (BonoboGenericFactory *factory,
 	    void *closure)
 {
 	EvolutionShellComponent *shell_component;
+	EvolutionShellComponentDndDestinationFolder *destination_interface;
 
 	shell_component = evolution_shell_component_new (folder_types, create_view, create_folder,
-							 NULL, NULL, NULL, NULL,
-#if 0
-							 remove_folder, xfer_folder, 
-							 populate_context_menu, get_dnd_selection,
-#endif
+							 remove_folder, xfer_folder,
+							 populate_context_menu,
+							 get_dnd_selection,
 							 NULL);
+
+	destination_interface = evolution_shell_component_dnd_destination_folder_new (destination_folder_handle_motion,
+										      destination_folder_handle_drop,
+										      shell_component);
+
+	bonobo_object_add_interface (BONOBO_OBJECT (shell_component),
+				     BONOBO_OBJECT (destination_interface));
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
 			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);
