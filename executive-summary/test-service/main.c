@@ -176,6 +176,7 @@ create_view (ExecutiveSummaryComponentFactory *_factory,
 	BonoboObject *component, *view;
 	BonoboPersistStream *stream;
 	BonoboPropertyBag *bag;
+	BonoboEventSource *event_source;
 	UserData *ud;
 
 	/* Create the component object */
@@ -201,8 +202,12 @@ create_view (ExecutiveSummaryComponentFactory *_factory,
 	   ii) Use bonobo_object_add_interface ().
 	*/
 	
+	/* Create an event source to share with all the interfaces, 
+	   as we can only aggregate one onto the ExecutiveSummaryComponent */
+	event_source = bonobo_event_source_new ();
+
 	/* The Summary::HTMLView interface */
-	view = executive_summary_html_view_new ();
+	view = executive_summary_html_view_new_full (event_source);
 	/* Set the default HTML */
 	executive_summary_html_view_set_html (EXECUTIVE_SUMMARY_HTML_VIEW (view),
 					      "<B>Hello World</b>");
@@ -210,7 +215,8 @@ create_view (ExecutiveSummaryComponentFactory *_factory,
 	bonobo_object_add_interface (component, view);
 
 	/* Add the Bonobo::PropertyBag interface */
-	bag = bonobo_property_bag_new (get_property, set_property, ud);
+	bag = bonobo_property_bag_new_full (get_property, set_property, 
+					    event_source, ud);
 	/* Add the properties. There should be 2:
 	   window_title: For the window title.
 	   window_icon: For the window icon.

@@ -50,6 +50,9 @@ struct _RdfSummary {
 	char *icon;
 	char *location;
 	int limit;
+
+	GString *str;
+	char *buffer;
 };
 typedef struct _RdfSummary RdfSummary;
 
@@ -283,79 +286,131 @@ view_destroyed (GtkObject *object,
 	}
 }
 
-static int
-download (RdfSummary *summary)
+static void
+close_callback (GnomeVFSAsyncHandle *handle,
+		GnomeVFSResult result,
+		RdfSummary *summary)
 {
-	ExecutiveSummaryHtmlView *view;
-	GString *rdf;
 	GString *html;
-	char *xml;
-	GnomeVFSHandle *handle = NULL;
-	GnomeVFSResult result;
 	xmlDocPtr doc;
-	char *location;
-	int len = 0;
+	char *xml;
 
-	/* Download the RDF file here */
-	/* Then parse it */
-	/* The update it */
+	if (summary == NULL)
+		return;
 
-	g_print ("Starting download\n");
-	view = EXECUTIVE_SUMMARY_HTML_VIEW (summary->view);
-	result = gnome_vfs_open (&handle, summary->location, 
-				 GNOME_VFS_OPEN_READ);
-	if (result != GNOME_VFS_OK) {
+	g_free (summary->buffer);
+	xml = summary->str->str;
+	g_string_free (summary->str, FALSE);
+
+	doc = xmlParseMemory (xml, strlen (xml));
+	if (doc == NULL) {
 		char *emsg;
+		BonoboArg *arg;
 
+		arg = bonobo_arg_new (BONOBO_ARG_STRING);
+		BONOBO_ARG_SET_STRING (arg, _("Error"));
+		bonobo_property_bag_set_value (summary->bag,
+					       "window_title", 
+					       (const BonoboArg *) arg,
+					       NULL);
+		bonobo_arg_release (arg);
+		
 		emsg = g_strdup_printf ("<b>Cannot open location:<br>%s</b>",
 					summary->location);
-		executive_summary_html_view_set_html (view, emsg);
+		executive_summary_html_view_set_html (EXECUTIVE_SUMMARY_HTML_VIEW (summary->view), emsg);
 		g_free (emsg);
-		return FALSE;
-	}
-
-	rdf = g_string_new ("");
-
-	while (1) {
-		char buffer[4096];
-		GnomeVFSFileSize size;
-
-		memset (buffer, 0x00, 4096);
-
-		result = gnome_vfs_read (handle, buffer, 4096, &size);
-		if (result != GNOME_VFS_OK && result != GNOME_VFS_ERROR_EOF) {
-			executive_summary_html_view_set_html (view,
-							      "<b>Error reading data.</b>");
-			g_string_free (rdf, TRUE);
-			return FALSE;
-		}
-
-		if (size == 0) {
-			break;
-		}
-
-		rdf = g_string_append (rdf, buffer);
-		len += size;
-	}
-
-	gnome_vfs_close (handle);
-	xml = rdf->str;
-	g_string_free (rdf, FALSE);
-
-	doc = xmlParseMemory (xml, len);
-	if (doc == NULL) {
-		g_warning ("Unable to parse document.");
-		return FALSE;
+		g_free (xml);
+		return;
 	}
 	
 	g_free (xml);
 	html = g_string_new ("");
 
 	tree_walk (doc->root, summary, html);
-	executive_summary_html_view_set_html (view, html->str);
+	executive_summary_html_view_set_html (EXECUTIVE_SUMMARY_HTML_VIEW (summary->view), html->str);
 	g_string_free (html, TRUE);
+}
 
-	g_print ("Finished Download\n");
+static void
+read_callback (GnomeVFSAsyncHandle *handle,
+	       GnomeVFSResult result,
+	       gpointer buffer,
+	       GnomeVFSFileSize bytes_requested,
+	       GnomeVFSFileSize bytes_read,
+	       RdfSummary *summary)
+{
+	if (result != GNOME_VFS_OK && result != GNOME_VFS_ERROR_EOF) {
+		char *emsg;
+		BonoboArg *arg;
+
+		arg = bonobo_arg_new (BONOBO_ARG_STRING);
+		BONOBO_ARG_SET_STRING (arg, _("Error"));
+		bonobo_property_bag_set_value (summary->bag,
+					       "window_title", 
+					       (const BonoboArg *) arg,
+					       NULL);
+		bonobo_arg_release (arg);
+		
+		emsg = g_strdup_printf ("<b>Cannot open location:<br>%s</b>",
+					summary->location);
+		executive_summary_html_view_set_html (EXECUTIVE_SUMMARY_HTML_VIEW (summary->view), emsg);
+		g_free (emsg);
+		gnome_vfs_async_close (handle, close_callback, NULL);
+	}
+
+	if (bytes_read == 0) {
+		/* EOF */
+		gnome_vfs_async_close (handle, close_callback, summary);
+	} else {
+		*((char *) buffer + bytes_read) = 0;
+		g_string_append (summary->str, (const char *) buffer);
+		gnome_vfs_async_read (handle, buffer, 4095, read_callback,
+				      summary);
+	}
+}
+
+static void
+open_callback (GnomeVFSAsyncHandle *handle,
+	       GnomeVFSResult result,
+	       RdfSummary *summary)
+{
+	GList *uri;
+	char *buffer;
+
+	if (result != GNOME_VFS_OK) {
+		char *emsg;
+		BonoboArg *arg;
+
+		arg = bonobo_arg_new (BONOBO_ARG_STRING);
+		BONOBO_ARG_SET_STRING (arg, _("Error"));
+		bonobo_property_bag_set_value (summary->bag,
+					       "window_title", 
+					       (const BonoboArg *) arg,
+					       NULL);
+		bonobo_arg_release (arg);
+		
+		emsg = g_strdup_printf ("<b>Cannot open location:<br>%s</b>",
+					summary->location);
+		executive_summary_html_view_set_html (EXECUTIVE_SUMMARY_HTML_VIEW (summary->view), emsg);
+		g_free (emsg);
+		return;
+	}
+
+	summary->str = g_string_new ("");
+	summary->buffer = g_new (char, 4096);
+
+	gnome_vfs_async_read (handle, summary->buffer, 4095, read_callback, summary);
+}
+
+static int
+download (RdfSummary *summary)
+{
+	GnomeVFSAsyncHandle *handle;
+
+	gnome_vfs_async_open (&handle, summary->location, GNOME_VFS_OPEN_READ,
+			      (GnomeVFSAsyncOpenCallback) open_callback, 
+			      summary);
+
 	return FALSE;
 }
 
@@ -527,7 +582,8 @@ create_view (ExecutiveSummaryComponentFactory *_factory,
 					      html);
 	bonobo_object_add_interface (component, view);
 
-	bag = bonobo_property_bag_new (get_prop, set_prop, summary);
+	bag = bonobo_property_bag_new_full (get_prop, set_prop, 
+					    event_source, summary);
 	summary->bag = bag;
 	bonobo_property_bag_add (bag,
 				 "window_title", PROPERTY_TITLE,

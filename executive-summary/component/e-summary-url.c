@@ -81,9 +81,83 @@ typedef struct _PropertyDialog {
 } PropertyDialog;
 #define COMPOSER_IID "OAFIID:GNOME_Evolution_Mail_Composer"
 
+#if HAVECACHE
+static ESummaryCache *image_cache = NULL;
+#endif
+
+#define USE_ASYNC
+
 gboolean e_summary_url_mail_compose (ESummary *esummary,
 				     const char *url);
 gboolean e_summary_url_exec (const char *exec);
+
+struct _DownloadInfo {
+	GtkHTMLStream *stream;
+	char *uri;
+	char *buffer;
+
+	gboolean error;
+};
+typedef struct _DownloadInfo DownloadInfo;
+
+#ifdef USE_ASYNC
+
+static void
+close_callback (GnomeVFSAsyncHandle *handle,
+		GnomeVFSResult result,
+		DownloadInfo *info)
+{
+	if (info->error) {
+		gtk_html_stream_close (info->stream, GTK_HTML_STREAM_ERROR);
+	} else {
+		gtk_html_stream_close (info->stream, GTK_HTML_STREAM_OK);
+	}
+
+	g_free (info->uri);
+	g_free (info->buffer);
+	g_free (info);
+}
+
+static void
+read_callback (GnomeVFSAsyncHandle *handle,
+	       GnomeVFSResult result,
+	       gpointer buffer,
+	       GnomeVFSFileSize bytes_requested,
+	       GnomeVFSFileSize bytes_read,
+	       DownloadInfo *info)
+{
+	if (result != GNOME_VFS_OK && result != GNOME_VFS_ERROR_EOF) {
+		g_warning ("Read error");
+		info->error = TRUE;
+		gnome_vfs_async_close (handle, close_callback, info);
+	}
+	
+	if (bytes_read == 0) {
+		info->error = FALSE;
+		gnome_vfs_async_close (handle, close_callback, info);
+	} else {
+		gtk_html_stream_write (info->stream, buffer, bytes_read);
+		gnome_vfs_async_read (handle, buffer, 4095, read_callback,
+				      info);
+	}
+}
+
+static void
+open_callback (GnomeVFSAsyncHandle *handle,
+	       GnomeVFSResult result,
+	       DownloadInfo *info)
+{
+	if (result != GNOME_VFS_OK) {
+		gtk_html_stream_close (info->stream, GTK_HTML_STREAM_ERROR);
+		g_free (info->uri);
+		g_free (info);
+		return;
+	} 
+
+	info->buffer = g_new (char, 4096);
+	gnome_vfs_async_read (handle, info->buffer, 4095, read_callback, info);
+}
+#endif
 
 void
 e_summary_url_request (GtkHTML *html,
@@ -91,8 +165,13 @@ e_summary_url_request (GtkHTML *html,
 		       GtkHTMLStream *stream)
 {
 	char *filename;
+#ifndef USE_ASYNC
 	GnomeVFSHandle *handle = NULL;
 	GnomeVFSResult result;
+#else
+	GnomeVFSAsyncHandle *handle;
+	DownloadInfo *info;
+#endif
 
 	if (strncasecmp (url, "file:", 5) == 0) {
 		url += 5;
@@ -108,6 +187,7 @@ e_summary_url_request (GtkHTML *html,
 	}
 
 	g_print ("Filename: %s\n", filename);
+#ifndef USE_ASYNC
 	result = gnome_vfs_open (&handle, filename, GNOME_VFS_OPEN_READ);
 	
 	if (result != GNOME_VFS_OK) {
@@ -142,6 +222,16 @@ e_summary_url_request (GtkHTML *html,
 	
 	gtk_html_stream_close (stream, GTK_HTML_STREAM_OK);
 	gnome_vfs_close (handle);
+#else
+	info = g_new (DownloadInfo, 1);
+	info->stream = stream;
+	info->uri = filename;
+	info->error = FALSE;
+
+	gnome_vfs_async_open (&handle, filename, GNOME_VFS_OPEN_READ,
+			      (GnomeVFSAsyncOpenCallback) open_callback, info);
+#endif
+			      
 }
 
 static char *
@@ -443,9 +533,7 @@ e_summary_url_click (GtkWidget *widget,
 		data->dialog = prefsbox;
 
 		CORBA_exception_init (&ev);
-		data->eventsource = Bonobo_Unknown_queryInterface (window->propertycontrol,
-								   "IDL:Bonobo/EventSource:1.0", 
-								   &ev);
+		data->eventsource = bonobo_object_dup_ref (window->event_source, &ev);
 		data->listener = bonobo_listener_new (property_event, data);
 		data->corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (data->listener));
 		Bonobo_EventSource_addListener (data->eventsource,
@@ -746,3 +834,26 @@ e_summary_url_over (GtkHTML *html,
 		e_summary_unset_message (esummary);
 	}
 }
+
+/* Cache stuff */
+#if HAVECACHE
+void
+e_summary_url_init_cache (void)
+{
+	if (image_cache != NULL)
+		return;
+
+	image_cache = e_summary_cache_new ();
+}
+
+void
+e_summary_url_cache_destroy (void)
+{
+	if (image_cache == NULL)
+		return;
+
+	gtk_object_unref (GTK_OBJECT (image_cache));
+
+	image_cache = NULL;
+}
+#endif

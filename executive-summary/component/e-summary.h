@@ -54,9 +54,11 @@ struct _ESummaryWindow {
 	Bonobo_PersistStream persiststream;
 	Bonobo_PropertyBag propertybag;
 	Bonobo_PropertyControl propertycontrol;
+	Bonobo_EventSource property_event_source;
 	Bonobo_EventSource event_source;
+	
 
-	BonoboPropertyListener *listener;
+	BonoboListener *listener;
 	BonoboListener *html_listener;
 	Bonobo_Listener html_corba_listener;
 

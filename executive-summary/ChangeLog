@@ -1,3 +1,25 @@
+2000-12-26  Iain Holmes  <iain@helixcode.com>
+
+	* component/e-summary.c (make_control_html): Neatened the code.
+	(e_summary_add_service): Get the event source that is shared
+	between everything.
+	
+	* component/e-summary-url.c (e_summary_url_click): Use the shared
+	event source.
+
+	* test-service/rdf-summary.c (create_view): Use the EventSource when
+	creating the BonoboPropertyBag.
+
+	* test-service/main.c (create_view): Create a shared BonoboEventSource.
+
+2000-12-21  Iain Holmes  <iain@helixcode.com>
+
+	* test-service/rdf-summary.c (download): Split this function into
+	many callbacks, for async action.
+
+	* component/e-summary-url.c (e_summary_url_request): Split this 
+	into async callbacks too.
+
 2000-12-13  Christopher James Lahey  <clahey@helixcode.com>
 
 	* component/e-summary-callbacks.c (configure_summary): Added a

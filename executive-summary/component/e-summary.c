@@ -337,24 +337,12 @@ make_control_html (ESummaryWindow *window,
 {
 	char *html, *tmp;
 	int id = GPOINTER_TO_INT (window);
-	gboolean u, d, l, r, config;
+	gboolean config;
 
-	u = d = l = r = config = TRUE;
+	config = TRUE;
 
 	if (window->propertycontrol == CORBA_OBJECT_NIL)
 		config = FALSE;
-
-	if (row == 0) /* Top row */
-		u = FALSE;
-
-	if (row >= numwindows - 3) /* Bottom row */
-		d = FALSE;
-
-	if (col == 0) /* Leftmost column */
-		l = FALSE;
-	
-	if (col == 2 || ((row * 3) + col) == numwindows - 1) /* Rightmost column */
-		r = FALSE;
 
 	html = g_strdup_printf ("<table><tr><td><a href=\"close://%d\">"
 				"<img src=\"service-close.png\" border=\"0\">"
@@ -371,53 +359,6 @@ make_control_html (ESummaryWindow *window,
 	}
 	g_free (tmp);
 
-#if 0
-	tmp = html;
-	if (!l) {
-		html = g_strdup_printf ("%s<img src=\"service-left-disabled.png\">"
-					"</td><td>", tmp);
-	} else {
-		html = g_strdup_printf ("%s<a href=\"left://%d\">"
-					"<img src=\"service-left.png\" border=\"0\">"
-					"</a></td><td>", tmp, id);
-	}
-	g_free (tmp);
-	
-	tmp = html;
-	if (!r) {
-		html = g_strdup_printf ("%s<img src=\"service-right-disabled.png\">"
-					"</td></tr></table>", tmp);
-	} else {
-		html = g_strdup_printf ("%s<a href=\"right://%d\">"
-					"<img src=\"service-right.png\" border=\"0\">"
-					"</a></td></tr></table>", tmp, id);
-	}
-	g_free (tmp);
-
-
-	tmp = html;
-	if (!d) {
-		html = g_strdup_printf ("%s<img src=\"service-down-disabled.png\">"
-					"</td><td>", tmp);
-	} else {
-		html = g_strdup_printf ("%s<a href=\"down://%d\">"
-					"<img src=\"service-down.png\" border=\"0\">"
-					"</a></td><td>", tmp, id);
-	}
-	g_free (tmp);
-
-	tmp = html;
-	if (!u) {
-		html = g_strdup_printf ("%s<img src=\"service-up-disabled.png\">"
-					"</td></tr></table>", tmp);
-	} else {
-		html = g_strdup_printf ("%s<a href=\"up://%d\">"
-					"<img src=\"service-up.png\" border=\"0\">"
-					"</a></td></tr></table>", tmp, id);
-	}
-	g_free (tmp);
-
-#endif
 	return html;
 }
 
@@ -648,9 +589,10 @@ html_event (BonoboListener *listener,
 }
 		
 static void
-prop_changed_cb (BonoboPropertyListener *listener,
+prop_changed_cb (BonoboListener *listener,
 		 char *name,
 		 BonoboArg *arg,
+		 CORBA_Environment *ev,
 		 ESummaryWindow *window)
 {
 	if (strcmp (name, "window_title") == 0) {
@@ -678,7 +620,6 @@ e_summary_add_service (ESummary *esummary,
 	ESummaryWindow *window;
 	ESummaryPrivate *priv;
 	Bonobo_Unknown unknown = CORBA_OBJECT_NIL;
-	Bonobo_PropertyListener corba_listener;
 	CORBA_Environment ev;
 
 	g_return_val_if_fail (esummary != NULL, NULL);
@@ -714,6 +655,16 @@ e_summary_add_service (ESummary *esummary,
 		CORBA_Object_release (component, &ev2);
 		CORBA_exception_free (&ev2);
 
+		g_free (window);
+		return NULL;
+	}
+
+	window->event_source = Bonobo_Unknown_queryInterface(window->component,
+							     "IDL:Bonobo/EventSource:1.0", &ev);
+	if (window->event_source == CORBA_OBJECT_NIL) {
+		g_warning ("There is no Bonobo::EventSource interface");
+
+		/* FIXME: Free whatever objects exist */
 		g_free (window);
 		return NULL;
 	}
@@ -762,19 +713,21 @@ e_summary_add_service (ESummary *esummary,
                                           window->propertybag,
 					  "window_icon", NULL));
 	/* Listen to changes */
-	window->listener = bonobo_property_listener_new ();
-	gtk_signal_connect (GTK_OBJECT (window->listener), "prop_changed",
-			    GTK_SIGNAL_FUNC (prop_changed_cb), window);
-	corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (window->listener));
-	Bonobo_PropertyBag_addChangeListener (window->propertybag, 
-					      "window_title", 
-					      corba_listener, &ev);
+	if (window->propertycontrol != CORBA_OBJECT_NIL) {
+		Bonobo_Listener listener;
+		CORBA_Environment ev2;
 
-	Bonobo_PropertyBag_addChangeListener (window->propertybag, 
-					      "window_icon", 
-					      corba_listener, &ev);
+		window->listener = bonobo_listener_new (NULL, NULL);
+		listener = bonobo_object_corba_objref (BONOBO_OBJECT (window->html_listener));
+
+		Bonobo_EventSource_addListener (window->event_source,
+						listener, &ev);
+
+		gtk_signal_connect (GTK_OBJECT (window->listener), "event_notify",
+				    GTK_SIGNAL_FUNC (prop_changed_cb), window);
+	}
+
 	CORBA_exception_free (&ev);
-
 	priv->window_list = g_list_append (priv->window_list, window);
 
 	return window;
