@@ -1,4 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8; fill-column: 160 -*- */
 /* camel-mime-part-utils : Utility for mime parsing and so on
  *
  * Authors: Bertrand Guiheneuf <bertrand@helixcode.com>
@@ -104,8 +104,7 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 	buffer = g_byte_array_new();
 
 	if (!cache) {
-		start = camel_mime_parser_tell(mp) +
-			seekable_source->bound_start;
+		start = camel_mime_parser_tell(mp) + seekable_source->bound_start;
 	}
 	while ( camel_mime_parser_step(mp, &buf, &len) != HSCAN_BODY_END ) {
 		if (buffer) {
@@ -134,8 +133,7 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 
 		d(printf("Big message part, left on disk ...\n"));
 
-		end = camel_mime_parser_tell(mp) +
-			seekable_source->bound_start;
+		end = camel_mime_parser_tell(mp) + seekable_source->bound_start;
 		sub = camel_seekable_substream_new_with_seekable_stream_and_bounds (seekable_source, start, end);
 		if (fdec || fch) {
 			filter = camel_stream_filter_new_with_stream(sub);

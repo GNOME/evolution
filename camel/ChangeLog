@@ -1,3 +1,9 @@
+2000-05-02    <notzed@helixcode.com>
+
+	* camel-mime-part-utils.c
+	(simple_data_wrapper_construct_from_parser): Dont use autofill on
+	these fucking long function anmes!!!!!!
+
 2000-05-02  NotZed  <NotZed@HelixCode.com>
 
 	* providers/mbox/camel-mbox-summary.c
