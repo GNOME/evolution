@@ -494,7 +494,7 @@ construct (MailAccountsDialog *dialog)
 		gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_delete), FALSE);
 		gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_default), FALSE);
 	}
-
+	
 #ifdef ENABLE_NNTP
 	dialog->news_row = -1;
 	dialog->news = mail_config_get_news ();
