@@ -25,3 +25,5 @@ void             camel_nntp_newsrc_write                (CamelNNTPNewsrc *newsrc
 CamelNNTPNewsrc *camel_nntp_newsrc_read_for_server      (const char *server);
 
 #endif /* _CAMEL_NNTP_NEWSRC_H_ */
+
+
