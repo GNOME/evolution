@@ -1,3 +1,8 @@
+2000-11-09  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* subscribe-dialog.glade[.h]: New glade file for possibly using to
+	create the subscribe dialog.
+
 2000-11-08  Radek Doulik  <rodo@helixcode.com>
 
 	* mail-format.c (mail_generate_reply): likewise
