@@ -1,5 +1,17 @@
 2004-06-18  Not Zed  <NotZed@Ximian.com>
 
+	** See #60214.
+
+	* em-folder-view.c (em_folder_view_print): re-arrange code to make
+	the dialogue async.  We also now load the message every time
+	before printing.
+	(emfv_print_response): handle response to print.
+	
+	* em-format-html-print.c (em_format_html_print_message): new api
+	to print a specific uid on a specific folder.
+
+2004-06-18  Not Zed  <NotZed@Ximian.com>
+
 	* em-vfolder-rule.c (get_widget): use mail dialogs.glade.
 
 	* mail-dialogs.glade: move the vfolder-source window here from

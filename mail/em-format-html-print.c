@@ -34,6 +34,8 @@
 #include <gtk/gtkwindow.h>
 
 #include <camel/camel-i18n.h>
+#include "mail-ops.h"
+#include "mail-mt.h"
 #include "em-format-html-print.h"
 
 static void efhp_builtin_init(EMFormatHTMLPrintClass *efhc);
@@ -65,6 +67,8 @@ efhp_finalise(GObject *o)
 	gtk_widget_destroy(efhp->window);
 	if (efhp->config)
 		g_object_unref(efhp->config);
+	if (efhp->source)
+		g_object_unref(efhp->source);
 
 	((GObjectClass *)efhp_parent)->finalize(o);
 }
@@ -194,6 +198,37 @@ int em_format_html_print_print(EMFormatHTMLPrint *efhp, EMFormatHTML *source, st
 
 	g_object_ref(efhp);
 	em_format_format_clone((EMFormat *)efhp, emfs->folder, emfs->uid, emfs->message, (EMFormat *)source);
+
+	return 0;		/* damn async ... */
+}
+
+static void
+emfhp_got_message(struct _CamelFolder *folder, const char *uid, struct _CamelMimeMessage *msg, void *data)
+{
+	EMFormatHTMLPrint *efhp = data;
+
+	if (msg) {
+		if (efhp->source)
+			((EMFormatHTML *)efhp)->load_http = efhp->source->load_http_now;
+		g_signal_connect(efhp, "complete", G_CALLBACK(emfhp_complete), efhp);
+		em_format_format_clone((EMFormat *)efhp, folder, uid, msg, (EMFormat *)efhp->source);
+	} else {
+		g_object_unref(efhp);
+	}
+}
+
+int em_format_html_print_message(EMFormatHTMLPrint *efhp, EMFormatHTML *source, struct _GnomePrintConfig *print_config, struct _CamelFolder *folder, const char *uid, int preview)
+{
+	efhp->config = print_config;
+	if (print_config)
+		g_object_ref(print_config);
+	efhp->preview = preview;
+	efhp->source = source;
+	if (source)
+		g_object_ref(source);
+	g_object_ref(efhp);
+
+	mail_get_message(folder, uid, emfhp_got_message, efhp, mail_thread_new);
 
 	return 0;		/* damn async ... */
 }

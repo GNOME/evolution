@@ -1780,51 +1780,79 @@ emfv_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 	}
 }
 
-int em_folder_view_print(EMFolderView *emfv, int preview)
+struct _print_data {
+	EMFolderView *emfv;
+
+	int preview;
+	CamelFolder *folder;
+	char *uid;
+};
+
+static void
+emfv_print_response(GtkWidget *w, int resp, struct _print_data *data)
 {
-	/*struct _EMFolderViewPrivate *p = emfv->priv;*/
 	EMFormatHTMLPrint *print;
 	GnomePrintConfig *config = NULL;
-	int res;
-	struct _CamelMimeMessage *msg;
 
-	/* FIXME: need to load the message first */
-	if (!emfv->preview_active)
+	switch (resp) {
+	case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
+		data->preview = TRUE;
+	case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
+		if (w)
+			config = gnome_print_dialog_get_config((GnomePrintDialog *)w);
+		print = em_format_html_print_new();
+		em_format_set_session((EMFormat *)print, ((EMFormat *)data->emfv->preview)->session);
+		em_format_html_print_message(print, (EMFormatHTML *)data->emfv->preview, config, data->folder, data->uid, data->preview);
+		g_object_unref(print);
+		if (config)
+			g_object_unref(config);
+		break;
+	}
+
+	if (w)
+		gtk_widget_destroy(w);
+
+	g_object_unref(data->emfv);
+	camel_object_unref(data->folder);
+	g_free(data->uid);
+	g_free(data);
+}
+
+int em_folder_view_print(EMFolderView *emfv, int preview)
+{
+	struct _print_data *data;
+	GPtrArray *uids;
+
+	if (emfv->folder == NULL)
 		return 0;
 
-	msg = emfv->preview->formathtml.format.message;
-	if (msg == NULL)
+	uids = message_list_get_selected(emfv->list);
+	if (uids->len != 1) {
+		message_list_free_uids(emfv->list, uids);
 		return 0;
-	
-	if (!preview) {
+	}
+
+	data = g_malloc0(sizeof(*data));
+	data->emfv = emfv;
+	g_object_ref(emfv);
+	data->preview = preview;
+	data->folder = emfv->folder;
+	camel_object_ref(data->folder);
+	data->uid = g_strdup(uids->pdata[0]);
+	message_list_free_uids(emfv->list, uids);
+
+	if (preview) {
+		emfv_print_response(NULL, GNOME_PRINT_DIALOG_RESPONSE_PREVIEW, data);
+	} else {
 		GtkDialog *dialog = (GtkDialog *)gnome_print_dialog_new(NULL, _("Print Message"), GNOME_PRINT_DIALOG_COPIES);
 
 		gtk_dialog_set_default_response(dialog, GNOME_PRINT_DIALOG_RESPONSE_PRINT);
 		e_dialog_set_transient_for ((GtkWindow *) dialog, (GtkWidget *) emfv);
-		
-		switch (gtk_dialog_run(dialog)) {
-		case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
-			break;
-		case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
-			preview = TRUE;
-			break;
-		default:
-			gtk_widget_destroy((GtkWidget *)dialog);
-			return 0;
-		}
-		
-		config = gnome_print_dialog_get_config((GnomePrintDialog *)dialog);
-		gtk_widget_destroy((GtkWidget *)dialog);
+		g_signal_connect(dialog, "response", G_CALLBACK(emfv_print_response), data);
+		gtk_widget_show((GtkWidget *)dialog);
 	}
 
-	print = em_format_html_print_new();
-	em_format_set_session((EMFormat *)print, ((EMFormat *)emfv->preview)->session);
-	res = em_format_html_print_print(print, (EMFormatHTML *)emfv->preview, config, preview);
-	g_object_unref(print);
-	if (config)
-		g_object_unref(config);
-
-	return res;
+	return 0;
 }
 
 EMPopupTarget *
