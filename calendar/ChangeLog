@@ -1,3 +1,8 @@
+2001-10-24  Damon Chaplin  <damon@ximian.com>
+
+	* gui/GNOME_Evolution_Calendar.oaf.in: added sections for Tasks
+	factory and control. I hope someone checks these!
+
 2001-10-24  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component-factory.c (xfer_folder): Fixed to only copy the
