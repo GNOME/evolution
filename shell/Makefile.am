@@ -38,12 +38,6 @@ $(IDL_GENERATED): $(IDLS)
 	$(ORBIT_IDL) -I$(datadir)/idl -I`$(GNOME_CONFIG) --datadir`/idl	\
 		-I$(srcdir) $(srcdir)/Evolution.idl
 
-# bonobo-idl stuff.
-# (Automatically generated GTK+ object wrappers for CORBA interface implementations).
-
-evolution-session.c: evolution-session.bcd
-	bonobo-idl evolution-session.bcd
-
 # Shell library
 
 noinst_LIBRARIES =	\
