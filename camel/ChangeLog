@@ -1,5 +1,9 @@
 2001-10-16  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-pgp-context.c (pgp_verify): Rearange the order of the gpg
+	options slightly otherwise it might try to use "--no-tty" as the
+	filename to verify :-)
+
 	* camel-object.[c,h]: If CAMEL_DEBUG is defined, print some useful
 	ref/unref info.
 
