@@ -1,3 +1,18 @@
+2004-11-09  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-folder.c (imap_get_message): before
+	short-circuiting the check for child content, check the child
+	content info is actually correct.
+
+2004-11-08  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #69145.
+
+	* providers/imap/camel-imap-folder.c (get_message): remove spec
+	argument, always calculate it from the content-info.
+	(content_info_incomplete): recursively check the content-info for
+	completeness, not just one level.
+
 2004-11-09  Jeffrey Stedfast  <fejj@novell.com>
 
 	* providers/imap4/camel-imap4-provider.c: Updated the properties

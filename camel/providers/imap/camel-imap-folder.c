@@ -71,7 +71,7 @@
 #include "camel-debug.h"
 #include "camel-i18n.h"
 
-#define d(x) x
+#define d(x) 
 
 /* set to -1 for infinite size (suggested max command-line length is
  * 1000 octets (see rfc2683), so we should keep the uid-set length to
@@ -1626,7 +1626,6 @@ imap_search_free (CamelFolder *folder, GPtrArray *uids)
 
 static CamelMimeMessage *get_message (CamelImapFolder *imap_folder,
 				      const char *uid,
-				      const char *part_specifier,
 				      CamelMessageContentInfo *ci,
 				      CamelException *ex);
 
@@ -1842,7 +1841,7 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 		
 		return (CamelDataWrapper *) body_mp;
 	} else if (camel_content_type_is (ci->type, "message", "rfc822")) {
-		content = (CamelDataWrapper *) get_message (imap_folder, uid, part_spec, ci->childs, ex);
+		content = (CamelDataWrapper *) get_message (imap_folder, uid, ci->childs, ex);
 		g_free (part_spec);
 		return content;
 	} else {
@@ -1864,24 +1863,26 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 
 static CamelMimeMessage *
 get_message (CamelImapFolder *imap_folder, const char *uid,
-	     const char *part_spec, CamelMessageContentInfo *ci,
+	     CamelMessageContentInfo *ci,
 	     CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (CAMEL_FOLDER (imap_folder)->parent_store);
 	CamelDataWrapper *content;
 	CamelMimeMessage *msg;
 	CamelStream *stream;
-	char *section_text;
+	char *section_text, *part_spec;
 	int ret;
-	
+
+	part_spec = content_info_get_part_spec(ci);
+	d(printf("get message '%s'\n", part_spec));
 	section_text = g_strdup_printf ("%s%s%s", part_spec, *part_spec ? "." : "",
 					store->server_level >= IMAP_LEVEL_IMAP4REV1 ? "HEADER" : "0");
+
 	stream = camel_imap_folder_fetch_data (imap_folder, uid, section_text, FALSE, ex);
 	g_free (section_text);
+	g_free(part_spec);
 	if (!stream)
 		return NULL;
-
-	d(printf("get message '%s'\n", part_spec));
 
 	msg = camel_mime_message_new ();
 	ret = camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg), stream);
@@ -1950,12 +1951,15 @@ content_info_incomplete (CamelMessageContentInfo *ci)
 	if (!ci->type)
 		return TRUE;
 	
-	if (camel_content_type_is (ci->type, "multipart", "*") && !ci->childs)
-		return TRUE;
-	
-	if (camel_content_type_is (ci->type, "message", "rfc822") && !ci->childs)
-		return TRUE;
-	
+	if (camel_content_type_is (ci->type, "multipart", "*")
+	    || camel_content_type_is (ci->type, "message", "rfc822")) {
+		if (!ci->childs)
+			return TRUE;
+		for (ci = ci->childs;ci;ci=ci->next)
+			if (content_info_incomplete(ci))
+				return TRUE;
+	}
+
 	return FALSE;
 }
 
@@ -1998,7 +2002,7 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 		if (store->server_level < IMAP_LEVEL_IMAP4REV1
 		    || store->braindamaged
 		    || mi->size < IMAP_SMALL_BODY_SIZE
-		    || !mi->content->childs) {
+		    || (!content_info_incomplete(mi->content) && !mi->content->childs)) {
 			msg = get_message_simple (imap_folder, uid, NULL, ex);
 		} else {
 			if (content_info_incomplete (mi->content)) {
@@ -2058,7 +2062,7 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 			if (content_info_incomplete (mi->content))
 				msg = get_message_simple (imap_folder, uid, NULL, ex);
 			else
-				msg = get_message (imap_folder, uid, "", mi->content, ex);
+				msg = get_message (imap_folder, uid, mi->content, ex);
 		}
 	} while (msg == NULL
 		 && retry < 2
