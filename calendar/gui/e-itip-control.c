@@ -421,6 +421,7 @@ update_reply_cb (GtkWidget *widget, gpointer data)
 	}
 
 	while (!cal_client_is_loaded (cal_client)) {
+		gtk_main_iteration_do (FALSE);  /* Do a non-blocking iteration. */
 		usleep (200000L);   /* Pause for 1/5th of a second before checking again.*/
 	}
 

@@ -1,4 +1,8 @@
 2000-11-13   Jesse Pavel   <jpavel@helixcode.com>
+	
+	* gui/e-itip-control.c: made the REPLY code actually work.
+
+2000-11-13   Jesse Pavel   <jpavel@helixcode.com>
 
 	* gui/itip-utils.[ch]: I created this file to store some commonly used enumeration to
 	string mappings and functions.
