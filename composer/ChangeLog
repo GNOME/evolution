@@ -1,3 +1,9 @@
+2001-01-16  Radek Doulik  <rodo@helixcode.com>
+
+	* e-msg-composer.c (e_msg_composer_mark_text_orig): publicate
+	mark_orig_text
+	(set_editor_text): don't call mark_orig_text, let it for reply
+
 2001-01-15  Jason Leach  <jasonleach@usa.net>
 
 	(Plug leaking the subject string on each message sent)

@@ -479,8 +479,8 @@ prepare_engine (EMsgComposer *composer)
 	CORBA_exception_free (&ev);
 }
 
-static void
-mark_orig_text (EMsgComposer *composer)
+void
+e_msg_composer_mark_text_orig (EMsgComposer *composer)
 {
 	g_assert (composer);
 	g_assert (E_IS_MSG_COMPOSER (composer));
@@ -552,8 +552,6 @@ set_editor_text (EMsgComposer *composer, const char *sig_file, const char *text)
 	Bonobo_Unknown_unref (persist, &ev);
 	CORBA_exception_free (&ev);
 	bonobo_object_unref (BONOBO_OBJECT(stream));
-
-	mark_orig_text (composer);
 }
 
 
