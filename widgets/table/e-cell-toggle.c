@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * e-cell-toggle.c: Multi-state image toggle cell object.
  *
@@ -188,27 +189,23 @@ etog_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col,
 	void *_value = e_table_model_value_at (ecell_view->e_table_model, model_col, row);
 	const int value = GPOINTER_TO_INT (_value);
 
-	if (flags & !E_CELL_EDITING)
-		return 0;
-	
+#if 0
+	if (!(flags & E_CELL_EDITING))
+		return FALSE;
+#endif
+
 	switch (event->type){
-	case GDK_BUTTON_RELEASE:
+	case GDK_KEY_PRESS:
+		if (event->key.keyval != GDK_space)
+			return FALSE;
+		/* Fall through */
+	case GDK_BUTTON_PRESS:
 		if (!e_table_model_is_cell_editable(ecell_view->e_table_model, model_col, row))
 			return FALSE;
 		
 		etog_set_value (toggle_view, model_col, view_col, row, value + 1);
 		return TRUE;
 
-	case GDK_KEY_PRESS:
-		if (!e_table_model_is_cell_editable(ecell_view->e_table_model, model_col, row))
-			return FALSE;
-		
-		if (event->key.keyval == GDK_space){
-			etog_set_value (toggle_view, model_col, view_col, row, value + 1);
-			return TRUE;
-		}
-		return FALSE;
-		
 	default:
 		return FALSE;
 	}
