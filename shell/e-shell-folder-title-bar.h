@@ -63,6 +63,8 @@ GtkWidget *e_shell_folder_title_bar_new               (void);
 
 void       e_shell_folder_title_bar_set_title         (EShellFolderTitleBar *folder_title_bar,
 						       const char           *title);
+void       e_shell_folder_title_bar_set_folder_bar_label   (EShellFolderTitleBar *folder_title_bar,
+							    const char           *folder_bar_label);
 void       e_shell_folder_title_bar_set_icon          (EShellFolderTitleBar *folder_title_bar,
 						       const GdkPixbuf      *icon);
 void       e_shell_folder_title_bar_set_toggle_state  (EShellFolderTitleBar *folder_title_bar,

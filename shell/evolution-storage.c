@@ -515,7 +515,7 @@ init (EvolutionStorage *storage)
 	priv->toplevel_node_uri       = NULL;
 	priv->toplevel_node_type      = NULL;
 	priv->folder_tree             = e_folder_tree_new (folder_destroy_notify, storage);
-	priv->uri_to_path                = g_hash_table_new (g_str_hash, g_str_equal);
+	priv->uri_to_path             = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->corba_storage_listeners = NULL;
 
 	storage->priv = priv;

@@ -316,7 +316,7 @@ e_shell_command_add_to_shortcut_bar (EShell *shell,
 {
 	EShortcuts *shortcuts;
 	int group_num;
-	char *uri;
+	const char *uri;
 
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));

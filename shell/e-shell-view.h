@@ -84,13 +84,16 @@ void                     e_shell_view_set_folder_bar_mode  (EShellView          
 							    EShellViewSubwindowMode  mode);
 EShellViewSubwindowMode  e_shell_view_get_folder_bar_mode  (EShellView              *shell_view);
 
+
 EShell            *e_shell_view_get_shell                (EShellView *shell_view);
 BonoboUIComponent *e_shell_view_get_bonobo_ui_component  (EShellView *shell_view);
 BonoboUIContainer *e_shell_view_get_bonobo_ui_container  (EShellView *shell_view);
 GtkWidget         *e_shell_view_get_appbar               (EShellView *shell_view);
 const char        *e_shell_view_get_current_uri          (EShellView *shell_view);
 const char        *e_shell_view_get_current_path         (EShellView *shell_view);
+
 int                e_shell_view_get_current_shortcuts_group_num (EShellView *shell_view);
+void               e_shell_view_set_current_shortcuts_group_num (EShellView *shell_view, int group_num);
 
 gboolean  e_shell_view_save_settings  (EShellView *shell_view,
 				       const char *prefix);

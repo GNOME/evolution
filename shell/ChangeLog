@@ -1,5 +1,40 @@
 2001-05-30  Jason Leach  <jleach@ximian.com>
 
+	* e-shell-view.c (e_shell_view_set_current_shortcuts_group_num):
+	New function (probably should just be static).
+	(e_shell_view_load_settings): Load the current shortcut group here
+	using the above new function.
+	(e_shell_view_save_settings): Save current shortcut group in here.
+
+2001-05-30  Jason Leach  <jleach@ximian.com>
+
+	* e-shell-folder-title-bar.c: New 'folder_bar_label' member for
+	EShellFolderTitleBar, it's for information that's shown to the
+	left of the icon like the dates in the calendar (or, potentially
+	total and unread numbers for mailer).
+	(e_shell_folder_title_bar_set_folder_bar_label): New function,
+	lets others set the title bar extra label.
+
+	* Evolution-ShellView.idl: New method 'setFolderBarLabel' for our
+	exposed ShellView interface.
+	
+	* evolution-shell-view.h: New signal "set_folder_bar_label" for
+	EvolutionShellView.
+
+	* evolution-shell-view.c (impl_ShellView_set_message): Emit the
+	new signal here.
+
+	* e-shell-view.c (setup_corba_interface): Connect the signal here.
+
+	* e-shell-view.c (corba_interface_set_folder_bar_label): New
+	function, callback for the above signals, does the actual extra
+	label setting for the folder title bar.
+
+	* e-shell-folder-commands.c (e_shell_command_add_to_shortcut_bar):
+	Fix a warning here.
+
+2001-05-30  Jason Leach  <jleach@ximian.com>
+
 	* e-shell.c (e_shell_construct): Removed an unecessary sleep(2)
 	call, so evolution will start up 2 seconds faster now.
 

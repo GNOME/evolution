@@ -50,14 +50,18 @@ struct _EShellFolderTitleBarPrivate {
 	GdkPixbuf *icon;
 	GtkWidget *icon_widget;
 
-	/* The hbox containing the button, the label and the icon on the right.  */
+	/* The hbox containing the button, the label, the extra label, and the icon on the right.  */
 	GtkWidget *hbox;
 
-	/* We have a label and a button.  When the button is enabled, the label is hidden;
-           when the button is disable, only the label is visible.  */
+	/* We have a label and a button.  When the button is enabled,
+           the label is hidden; when the button is disable, only the
+           label is visible.  */
 
 	/* The label.  */
 	GtkWidget *label;
+
+	/* Holds extra information that is to be shown to the left of the icon */
+	GtkWidget *folder_bar_label;
 
 	/* The button.  */
 	GtkWidget *button;
@@ -269,8 +273,8 @@ realize (GtkWidget *widget)
 	gtk_widget_show (priv->icon_widget);
 
 	gtk_misc_set_alignment (GTK_MISC (priv->icon_widget), 1.0, .5);
-	gtk_misc_set_padding (GTK_MISC (priv->icon_widget), 5, 0);
-	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->icon_widget, TRUE, TRUE, 2);
+	gtk_misc_set_padding (GTK_MISC (priv->icon_widget), 0, 0);
+	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->icon_widget, FALSE, FALSE, 2);
 }
 
 static void
@@ -345,6 +349,7 @@ init (EShellFolderTitleBar *shell_folder_title_bar)
 	priv->icon_widget  = NULL;
 	priv->hbox         = NULL;
 	priv->label        = NULL;
+	priv->folder_bar_label  = NULL;
 	priv->button_label = NULL;
 	priv->button       = NULL;
 	priv->button_arrow = NULL;
@@ -375,8 +380,11 @@ e_shell_folder_title_bar_construct (EShellFolderTitleBar *folder_title_bar)
 	widget = GTK_WIDGET (folder_title_bar);
 
 	priv->label = gtk_label_new ("");
-	gtk_misc_set_padding (GTK_MISC (priv->label), 5, 0);
 	gtk_misc_set_alignment (GTK_MISC (priv->label), 0.0, 0.5);
+
+	priv->folder_bar_label = gtk_label_new ("");
+	gtk_misc_set_alignment (GTK_MISC (priv->folder_bar_label), 1.0, 0.5);
+	gtk_widget_show (priv->folder_bar_label);
 
 	priv->button_label = gtk_label_new ("");
 	gtk_misc_set_padding (GTK_MISC (priv->button_label), 5, 0);
@@ -399,6 +407,7 @@ e_shell_folder_title_bar_construct (EShellFolderTitleBar *folder_title_bar)
 	gtk_container_set_border_width (GTK_CONTAINER (priv->hbox), 2);
 	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->label, FALSE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->button, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->folder_bar_label, TRUE, TRUE, 0);
 
 	gtk_widget_show (priv->hbox);
 
@@ -465,6 +474,34 @@ e_shell_folder_title_bar_set_title (EShellFolderTitleBar *folder_title_bar,
 
 	/* FIXME: There seems to be a bug in EClippedLabel, this is just a workaround.  */
 	gtk_widget_queue_draw (GTK_WIDGET (folder_title_bar));
+}
+
+/**
+ * e_shell_folder_title_bar_set_folder_bar_label:
+ * @folder_title_bar:
+ * @text: Some text to show in the label.
+ *
+ * Sets the right-justified text label (to the left of the icon) for
+ * the title bar.
+ **/
+void
+e_shell_folder_title_bar_set_folder_bar_label (EShellFolderTitleBar *folder_title_bar,
+					       const char *text)
+{
+	EShellFolderTitleBarPrivate *priv;
+
+	g_return_if_fail (folder_title_bar != NULL);
+	g_return_if_fail (E_IS_SHELL_FOLDER_TITLE_BAR (folder_title_bar));
+
+	priv = folder_title_bar->priv;
+
+	if (text == NULL)
+		gtk_label_set_text (GTK_LABEL (priv->folder_bar_label), "");
+	else
+		gtk_label_set_text (GTK_LABEL (priv->folder_bar_label), text);
+
+	/* FIXME: Might want to set the styles somewhere in here too,
+           black text on grey background isn't the best combination */
 }
 
 /**

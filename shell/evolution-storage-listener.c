@@ -42,11 +42,11 @@ struct _EvolutionStorageListenerPrivate {
 
 
 enum {
-  DESTROYED,
-  NEW_FOLDER,
-  UPDATE_FOLDER,
-  REMOVED_FOLDER,
-  LAST_SIGNAL
+	DESTROYED,
+	NEW_FOLDER,
+	UPDATE_FOLDER,
+	REMOVED_FOLDER,
+	LAST_SIGNAL
 };
 static guint signals[LAST_SIGNAL] = { 0 };
 

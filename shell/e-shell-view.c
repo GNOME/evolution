@@ -677,6 +677,20 @@ setup_progress_bar (EShellView *shell_view)
 	bonobo_object_unref (BONOBO_OBJECT (control));
 }
 
+void
+e_shell_view_set_current_shortcuts_group_num (EShellView *shell_view, int group_num)
+{
+	/* This function could become static */
+	EShellViewPrivate *priv;
+	EShortcutsView *shortcuts_view;
+
+	priv = shell_view->priv;
+
+	shortcuts_view = E_SHORTCUTS_VIEW (priv->shortcut_bar);
+
+	e_group_bar_set_current_group_num (E_GROUP_BAR (E_SHORTCUT_BAR (shortcuts_view)), group_num, FALSE);
+}
+
 int
 e_shell_view_get_current_shortcuts_group_num (EShellView *shell_view)
 {
@@ -1082,6 +1096,24 @@ corba_interface_set_title (EvolutionShellView *shell_view,
 }
 
 static void
+corba_interface_set_folder_bar_label (EvolutionShellView *shell_view,
+				 const char *text,
+				 void *data)
+{
+	EShellView *shell_view;
+	EShellViewPrivate *priv;
+
+	g_return_if_fail (data != NULL);
+	g_return_if_fail (E_IS_SHELL_VIEW (data));
+
+	shell_view = E_SHELL_VIEW (data);
+	priv = shell_view->priv;
+
+	e_shell_folder_title_bar_set_folder_bar_label (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar),
+						  text);
+}
+
+static void
 unmerge_on_error (BonoboObject *object,
 		  CORBA_Object  cobject,
 		  CORBA_Environment *ev)
@@ -1473,6 +1505,9 @@ setup_corba_interface (EShellView *shell_view,
 					shell_view, GTK_OBJECT (shell_view));
 	gtk_signal_connect_while_alive (GTK_OBJECT (corba_interface), "set_title",
 					GTK_SIGNAL_FUNC (corba_interface_set_title),
+					shell_view, GTK_OBJECT (shell_view));
+	gtk_signal_connect_while_alive (GTK_OBJECT (corba_interface), "set_folder_bar_label",
+					GTK_SIGNAL_FUNC (corba_interface_set_folder_bar_label),
 					shell_view, GTK_OBJECT (shell_view));
 
 	bonobo_object_add_interface (BONOBO_OBJECT (control_frame),
@@ -2069,6 +2104,7 @@ e_shell_view_save_settings (EShellView *shell_view,
 
 	gnome_config_push_prefix (prefix);
 
+	gnome_config_set_int ("CurrentShortcutsGroupNum", e_shell_view_get_current_shortcuts_group_num (shell_view));
 	gnome_config_set_int ("FolderBarMode",      e_shell_view_get_folder_bar_mode (shell_view));
 	gnome_config_set_int ("ShortcutBarMode",    e_shell_view_get_shortcut_bar_mode (shell_view));
 	gnome_config_set_int ("HPanedPosition",     e_paned_get_position (E_PANED (priv->hpaned)));
@@ -2118,6 +2154,9 @@ e_shell_view_load_settings (EShellView *shell_view,
 	priv = shell_view->priv;
 
 	gnome_config_push_prefix (prefix);
+
+	val = gnome_config_get_int ("CurrentShortcutsGroupNum");
+	e_shell_view_set_current_shortcuts_group_num (shell_view, val);
 
 	val = gnome_config_get_int ("FolderBarMode");
 	e_shell_view_set_folder_bar_mode (shell_view, val);
