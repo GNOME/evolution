@@ -128,7 +128,7 @@ camel_imap4_summary_new (CamelFolder *folder)
 	CamelFolderSummary *summary;
 	
 	summary = (CamelFolderSummary *) camel_object_new (CAMEL_TYPE_IMAP4_SUMMARY);
-	((CamelIMAP4Summary *) summary)->folder = folder;
+	summary->folder = folder;
 	
 	return summary;
 }
@@ -685,8 +685,7 @@ imap4_fetch_all_free (struct imap4_fetch_all_t *fetch)
 static void
 courier_imap_is_a_piece_of_shit (CamelFolderSummary *summary, guint32 msg)
 {
-	CamelIMAP4Summary *imap = (CamelIMAP4Summary *) summary;
-	CamelSession *session = ((CamelService *) ((CamelFolder *) imap->folder)->parent_store)->session;
+	CamelSession *session = ((CamelService *) summary->folder->parent_store)->session;
 	char *warning;
 	
 	warning = g_strdup_printf ("IMAP server did not respond with an untagged FETCH response "
@@ -704,7 +703,6 @@ courier_imap_is_a_piece_of_shit (CamelFolderSummary *summary, guint32 msg)
 static void
 imap4_fetch_all_add (struct imap4_fetch_all_t *fetch)
 {
-	CamelIMAP4Summary *imap4_summary = (CamelIMAP4Summary *) fetch->summary;
 	CamelFolderChangeInfo *changes = NULL;
 	struct imap4_envelope_t *envelope;
 	CamelMessageInfo *info;
@@ -741,7 +739,7 @@ imap4_fetch_all_add (struct imap4_fetch_all_t *fetch)
 	g_hash_table_destroy (fetch->uid_hash);
 	
 	if (camel_folder_change_info_changed (changes))
-		camel_object_trigger_event (imap4_summary->folder, "folder_changed", changes);
+		camel_object_trigger_event (fetch->summary->folder, "folder_changed", changes);
 	camel_folder_change_info_free (changes);
 	
 	g_free (fetch);
@@ -750,7 +748,6 @@ imap4_fetch_all_add (struct imap4_fetch_all_t *fetch)
 static guint32
 imap4_fetch_all_update (struct imap4_fetch_all_t *fetch)
 {
-	CamelIMAP4Summary *imap4_summary = (CamelIMAP4Summary *) fetch->summary;
 	CamelIMAP4MessageInfo *iinfo, *new_iinfo;
 	CamelFolderChangeInfo *changes = NULL;
 	struct imap4_envelope_t *envelope;
@@ -808,7 +805,7 @@ imap4_fetch_all_update (struct imap4_fetch_all_t *fetch)
 	g_hash_table_destroy (fetch->uid_hash);
 	
 	if (camel_folder_change_info_changed (changes))
-		camel_object_trigger_event (imap4_summary->folder, "folder_changed", changes);
+		camel_object_trigger_event (fetch->summary->folder, "folder_changed", changes);
 	camel_folder_change_info_free (changes);
 	
 	g_free (fetch);
@@ -980,7 +977,7 @@ static CamelIMAP4Command *
 imap4_summary_fetch_all (CamelFolderSummary *summary, guint32 first, guint32 last)
 {
 	CamelIMAP4Summary *imap4_summary = (CamelIMAP4Summary *) summary;
-	CamelFolder *folder = imap4_summary->folder;
+	CamelFolder *folder = summary->folder;
 	struct imap4_fetch_all_t *fetch;
 	CamelIMAP4Engine *engine;
 	CamelIMAP4Command *ic;
@@ -1013,8 +1010,7 @@ imap4_summary_fetch_all (CamelFolderSummary *summary, guint32 first, guint32 las
 static CamelIMAP4Command *
 imap4_summary_fetch_flags (CamelFolderSummary *summary, guint32 first, guint32 last)
 {
-	CamelIMAP4Summary *imap4_summary = (CamelIMAP4Summary *) summary;
-	CamelFolder *folder = imap4_summary->folder;
+	CamelFolder *folder = summary->folder;
 	struct imap4_fetch_all_t *fetch;
 	CamelIMAP4Engine *engine;
 	CamelIMAP4Command *ic;
@@ -1049,7 +1045,7 @@ static int
 imap4_build_summary (CamelFolderSummary *summary, guint32 first, guint32 last)
 {
 	CamelIMAP4Summary *imap4_summary = (CamelIMAP4Summary *) summary;
-	CamelFolder *folder = imap4_summary->folder;
+	CamelFolder *folder = summary->folder;
 	struct imap4_fetch_all_t *fetch;
 	CamelIMAP4Engine *engine;
 	CamelIMAP4Command *ic;
@@ -1189,10 +1185,10 @@ camel_imap4_summary_set_uidvalidity (CamelFolderSummary *summary, guint32 uidval
 	}
 	
 	camel_folder_summary_clear (summary);
-	camel_data_cache_clear (((CamelIMAP4Folder *) imap4_summary->folder)->cache, "cache", NULL);
+	camel_data_cache_clear (((CamelIMAP4Folder *) summary->folder)->cache, "cache", NULL);
 	
 	if (camel_folder_change_info_changed (changes))
-		camel_object_trigger_event (imap4_summary->folder, "folder_changed", changes);
+		camel_object_trigger_event (summary->folder, "folder_changed", changes);
 	camel_folder_change_info_free (changes);
 	
 	imap4_summary->uidvalidity = uidvalidity;
@@ -1217,7 +1213,7 @@ camel_imap4_summary_expunge (CamelFolderSummary *summary, int seqid)
 	imap4_summary->exists--;
 	
 	uid = camel_message_info_uid (info);
-	camel_data_cache_remove (((CamelIMAP4Folder *) imap4_summary->folder)->cache, "cache", uid, NULL);
+	camel_data_cache_remove (((CamelIMAP4Folder *) summary->folder)->cache, "cache", uid, NULL);
 	
 	changes = camel_folder_change_info_new ();
 	camel_folder_change_info_remove_uid (changes, uid);
@@ -1225,7 +1221,7 @@ camel_imap4_summary_expunge (CamelFolderSummary *summary, int seqid)
 	camel_message_info_free(info);
 	camel_folder_summary_remove_index (summary, seqid);
 	
-	camel_object_trigger_event (imap4_summary->folder, "folder_changed", changes);
+	camel_object_trigger_event (summary->folder, "folder_changed", changes);
 	camel_folder_change_info_free (changes);
 }
 
@@ -1256,7 +1252,7 @@ camel_imap4_summary_flush_updates (CamelFolderSummary *summary, CamelException *
 	
 	g_return_val_if_fail (CAMEL_IS_IMAP4_SUMMARY (summary), -1);
 	
-	engine = ((CamelIMAP4Store *) imap4_summary->folder->parent_store)->engine;
+	engine = ((CamelIMAP4Store *) summary->folder->parent_store)->engine;
 	scount = camel_folder_summary_count (summary);
 	
 	if (imap4_summary->uidvalidity_changed) {

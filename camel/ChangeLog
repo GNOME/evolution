@@ -1,5 +1,17 @@
 2004-11-12  Jeffrey Stedfast  <fejj@novell.com>
 
+	* providers/imap4/camel-imap4-summary.c (camel_imap4_summary_new):
+	Folder now gets set on the CamelFolderSummary object rather than
+	the CamelIMAP4Summary.
+	(imap4_fetch_all_update): Base summary class now has a folder
+	member, use that instead.
+	(imap4_fetch_all_add): Same.
+	(imap4_summary_fetch_all): Same.
+	(imap4_summary_fetch_flags): Same.
+	(camel_imap4_summary_set_uidvalidity): Same.
+	(camel_imap4_summary_expunge): Same.
+	(camel_imap4_summary_flush_updates): Same.
+
 	* providers/imap4/camel-imap4-folder.c (imap4_append_message):
 	Init appended_uid value to NULL
 
