@@ -93,6 +93,7 @@ static void cal_backend_file_destroy (GtkObject *object);
 static const char *cal_backend_file_get_uri (CalBackend *backend);
 static gboolean cal_backend_file_is_read_only (CalBackend *backend);
 static const char *cal_backend_file_get_email_address (CalBackend *backend);
+static GNOME_Evolution_Calendar_SchedulingInformation cal_backend_file_get_scheduling_information (CalBackend *backend);
 static CalBackendOpenStatus cal_backend_file_open (CalBackend *backend,
 						   const char *uristr,
 						   gboolean only_if_exists);
@@ -105,6 +106,7 @@ static CalMode cal_backend_file_get_mode (CalBackend *backend);
 static void cal_backend_file_set_mode (CalBackend *backend, CalMode mode);
 
 static int cal_backend_file_get_n_objects (CalBackend *backend, CalObjType type);
+static char *cal_backend_file_get_default_object (CalBackend *backend, CalObjType type);
 static char *cal_backend_file_get_object (CalBackend *backend, const char *uid);
 static CalComponent *cal_backend_file_get_object_component (CalBackend *backend, const char *uid);
 static char *cal_backend_file_get_timezone_object (CalBackend *backend, const char *tzid);
@@ -200,6 +202,7 @@ cal_backend_file_class_init (CalBackendFileClass *class)
 	backend_class->get_mode = cal_backend_file_get_mode;
 	backend_class->set_mode = cal_backend_file_set_mode;	
 	backend_class->get_n_objects = cal_backend_file_get_n_objects;
+	backend_class->get_default_object = cal_backend_file_get_default_object;
 	backend_class->get_object = cal_backend_file_get_object;
 	backend_class->get_object_component = cal_backend_file_get_object_component;
 	backend_class->get_timezone_object = cal_backend_file_get_timezone_object;
@@ -488,7 +491,7 @@ cal_backend_file_get_email_address (CalBackend *backend)
 static GNOME_Evolution_Calendar_SchedulingInformation
 cal_backend_file_get_scheduling_information (CalBackend *backend)
 {
-	GNOME_Evolution_Calendar_SchedulingInformation si = {FALSE, FALSE, FALSE};
+	GNOME_Evolution_Calendar_SchedulingInformation si = {FALSE, FALSE};
 
 	return si;
 }
@@ -1051,6 +1054,41 @@ cal_backend_file_get_n_objects (CalBackend *backend, CalObjType type)
 		n += g_list_length (priv->journals);
 
 	return n;
+}
+
+/* Get_object handler for the file backend */
+static char *
+cal_backend_file_get_default_object (CalBackend *backend, CalObjType type)
+{
+	CalBackendFile *cbfile;
+	CalBackendFilePrivate *priv;
+	CalComponent *comp;
+	char *calobj;
+	
+	cbfile = CAL_BACKEND_FILE (backend);
+	priv = cbfile->priv;
+
+	comp = cal_component_new ();
+	
+	switch (type) {
+	case CALOBJ_TYPE_EVENT:
+		cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
+		break;
+	case CALOBJ_TYPE_TODO:
+		cal_component_set_new_vtype (comp, CAL_COMPONENT_TODO);
+		break;
+	case CALOBJ_TYPE_JOURNAL:
+		cal_component_set_new_vtype (comp, CAL_COMPONENT_JOURNAL);
+		break;
+	default:
+		gtk_object_unref (GTK_OBJECT (comp));
+		return NULL;
+	}
+	
+	calobj = cal_component_get_as_string (comp);
+	gtk_object_unref (GTK_OBJECT (comp));
+
+	return calobj;
 }
 
 /* Get_object handler for the file backend */

@@ -1768,17 +1768,11 @@ backend_died_cb (CalClient *client, gpointer data)
 					     "You will have to restart Evolution in order "
 					     "to use it again"),
 					   cal_client_get_uri (priv->client));
-		e_day_view_set_status_message (E_DAY_VIEW (priv->day_view), NULL);
-		e_day_view_set_status_message (E_DAY_VIEW (priv->work_week_view), NULL);
-		e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), NULL);
-		e_week_view_set_status_message (E_WEEK_VIEW (priv->month_view), NULL);
 	} else if (client == priv->task_pad_client) {
 		message = g_strdup_printf (_("The task backend for\n%s\n has crashed. "
 					     "You will have to restart Evolution in order "
 					     "to use it again"),
 					   cal_client_get_uri (priv->task_pad_client));
-		calendar_model_set_status_message (
-			e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)), NULL);
 	} else
 		g_assert_not_reached ();
 
@@ -2292,7 +2286,7 @@ gnome_calendar_new_appointment_for (GnomeCalendar *cal,
 	else
 		dt.tzid = icaltimezone_get_tzid (priv->zone);
 
-	comp = cal_comp_event_new_with_defaults ();
+	comp = cal_comp_event_new_with_defaults (priv->client);
 
 	/* DTSTART, DTEND */
 

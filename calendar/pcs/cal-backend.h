@@ -113,6 +113,7 @@ struct _CalBackendClass {
 
 	/* General object acquirement and information related virtual methods */
 	int (* get_n_objects) (CalBackend *backend, CalObjType type);
+	char *(* get_default_object) (CalBackend *backend, CalObjType type);
 	char *(* get_object) (CalBackend *backend, const char *uid);
 	CalComponent *(* get_object_component) (CalBackend *backend, const char *uid);
 	char *(* get_timezone_object) (CalBackend *backend, const char *tzid);
@@ -172,6 +173,8 @@ CalMode cal_backend_get_mode (CalBackend *backend);
 void cal_backend_set_mode (CalBackend *backend, CalMode mode);
 
 int cal_backend_get_n_objects (CalBackend *backend, CalObjType type);
+
+char *cal_backend_get_default_object (CalBackend *backend, CalObjType type);
 
 char *cal_backend_get_object (CalBackend *backend, const char *uid);
 

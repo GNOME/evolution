@@ -162,6 +162,28 @@ impl_Cal_get_n_objects (PortableServer_Servant servant,
 
 /* Cal::get_object method */
 static GNOME_Evolution_Calendar_CalObj
+impl_Cal_get_default_object (PortableServer_Servant servant,
+			     GNOME_Evolution_Calendar_CalObjType type,
+			     CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
+	GNOME_Evolution_Calendar_CalObj calobj_copy;
+	char *calobj;
+	
+
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+
+	calobj = cal_backend_get_default_object (priv->backend, type);
+	calobj_copy = CORBA_string_dup (calobj);
+	g_free (calobj);
+
+	return calobj_copy;
+}
+
+/* Cal::get_object method */
+static GNOME_Evolution_Calendar_CalObj
 impl_Cal_get_object (PortableServer_Servant servant,
 		     const GNOME_Evolution_Calendar_CalObjUID uid,
 		     CORBA_Environment *ev)
@@ -766,6 +788,7 @@ cal_class_init (CalClass *klass)
 	epv->getSchedulingInformation = impl_Cal_get_scheduling_information;
 	epv->setMode = impl_Cal_set_mode;
 	epv->countObjects = impl_Cal_get_n_objects;
+	epv->getDefaultObject = impl_Cal_get_default_object;
 	epv->getObject = impl_Cal_get_object;
 	epv->setDefaultTimezone = impl_Cal_set_default_timezone;
 	epv->getTimezoneObject = impl_Cal_get_timezone_object;

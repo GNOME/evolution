@@ -232,7 +232,6 @@ task_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 	TaskEditorPrivate *priv;
 	CalComponentOrganizer organizer;
 	GSList *attendees = NULL;
-	gboolean always;
 	
 	te = TASK_EDITOR (editor);
 	priv = te->priv;
@@ -249,7 +248,6 @@ task_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 	/* Clear things up */
 	e_meeting_model_remove_all_attendees (priv->model);
 
-	always = cal_client_get_always_schedule (comp_editor_get_cal_client (COMP_EDITOR (editor)));
 	if (attendees == NULL) {
 		comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->meet_page));
 		priv->assignment_shown = FALSE;
@@ -287,18 +285,24 @@ task_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 		}
 		itip_addresses_free (addresses);
 
-		/* Add the organizer as an attendee if necessary */
-		if (attendees == NULL && always && cal_client_get_organizer_must_attend (comp_editor_get_cal_client (COMP_EDITOR (editor)))) {
+		/* If we aren't the organizer we can still change our own status */
+		if (!comp_editor_get_user_org (editor)) {
+			addresses = itip_addresses_get ();
+			for (ll = addresses; ll != NULL; ll = ll->next) {
+				EMeetingAttendee *ia;
+				ItipAddress *a = ll->data;
+				
+				ia = e_meeting_model_find_attendee (priv->model, a->address, &row);
+				if (ia != NULL)
+					e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_STATUS);
+			}
+			itip_addresses_free (addresses);
+		} else if (cal_client_get_organizer_must_attend (comp_editor_get_cal_client (COMP_EDITOR (editor)))) {
 			EMeetingAttendee *ia;
-			const ItipAddress *a;
-			
-			a = meeting_page_get_default_organizer (MEETING_PAGE (priv->meet_page));
-			ia = e_meeting_model_add_attendee_with_defaults (priv->model);
-			e_meeting_attendee_set_address (ia, g_strdup (a->address));
-			e_meeting_attendee_set_cn (ia, g_strdup (a->name));
-			e_meeting_attendee_set_role (ia, ICAL_ROLE_REQPARTICIPANT);
-			e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_NONE);
-			gtk_object_unref (GTK_OBJECT (ia));
+
+			ia = e_meeting_model_find_attendee (priv->model, organizer.value, &row);
+			if (ia != NULL)
+				e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_NONE);
 		}
 		
 		priv->assignment_shown = TRUE;

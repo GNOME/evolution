@@ -1386,7 +1386,7 @@ calendar_model_append_row (ETableModel *etm, ETableModel *source, gint row)
 	 * is only used for the task list.
 	 */
 	if (priv->new_comp_vtype == CAL_COMPONENT_EVENT)
-		comp = cal_comp_event_new_with_defaults ();
+		comp = cal_comp_event_new_with_defaults (priv->client);
 	else {
 		comp = cal_component_new ();
 		cal_component_set_new_vtype (comp, priv->new_comp_vtype);

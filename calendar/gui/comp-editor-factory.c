@@ -300,7 +300,7 @@ edit_existing (OpenClient *oc, const char *uid)
  * type.
  */
 static CalComponent *
-get_default_event (gboolean all_day) 
+get_default_event (CalClient *client, gboolean all_day) 
 {
 	CalComponent *comp;
 	struct icaltimetype itt;
@@ -308,7 +308,7 @@ get_default_event (gboolean all_day)
 	char *location;
 	icaltimezone *zone;
 
-	comp = cal_comp_event_new_with_defaults ();
+	comp = cal_comp_event_new_with_defaults (client);
 
 	location = calendar_config_get_timezone ();
 	zone = icaltimezone_get_builtin_timezone (location);
@@ -360,11 +360,11 @@ edit_new (OpenClient *oc, const GNOME_Evolution_Calendar_CompEditorFactory_CompE
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_EVENT:
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_MEETING:
 		editor = COMP_EDITOR (event_editor_new (oc->client));
-		comp = get_default_event (FALSE);
+		comp = get_default_event (oc->client, FALSE);
 		break;
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_ALLDAY_EVENT:
 		editor = COMP_EDITOR (event_editor_new (oc->client));
-		comp = get_default_event (TRUE);
+		comp = get_default_event (oc->client, TRUE);
 		break;
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_TODO:
 		editor = COMP_EDITOR (task_editor_new (oc->client));

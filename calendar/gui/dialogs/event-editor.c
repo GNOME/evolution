@@ -268,7 +268,6 @@ event_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 	EventEditorPrivate *priv;
 	CalComponentOrganizer organizer;
 	GSList *attendees = NULL;
-	gboolean always;
 	
 	ee = EVENT_EDITOR (editor);
 	priv = ee->priv;
@@ -286,8 +285,7 @@ event_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 	e_meeting_model_remove_all_attendees (priv->model);
 
 	/* Set up the attendees */
-	always = cal_client_get_always_schedule (comp_editor_get_cal_client (COMP_EDITOR (editor)));
-	if (attendees == NULL && !always) {
+	if (attendees == NULL) {
 		comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->meet_page));
 		comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->sched_page));
 		priv->meeting_shown = FALSE;
@@ -317,30 +315,24 @@ event_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 			gtk_object_unref (GTK_OBJECT (ia));
 		}
 
-
-		addresses = itip_addresses_get ();
-		for (ll = addresses; ll != NULL; ll = ll->next) {
-			EMeetingAttendee *ia;
-			ItipAddress *a = ll->data;
+		/* If we aren't the organizer we can still change our own status */
+		if (!comp_editor_get_user_org (editor)) {
+			addresses = itip_addresses_get ();
+			for (ll = addresses; ll != NULL; ll = ll->next) {
+				EMeetingAttendee *ia;
+				ItipAddress *a = ll->data;
 				
-			ia = e_meeting_model_find_attendee (priv->model, a->address, &row);
-			if (ia != NULL)
-				e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_STATUS);
-		}
-		itip_addresses_free (addresses);
-
-		/* Add the organizer as an attendee if necessary */
-		if (attendees == NULL && always && cal_client_get_organizer_must_attend (comp_editor_get_cal_client (COMP_EDITOR (editor)))) {
+				ia = e_meeting_model_find_attendee (priv->model, a->address, &row);
+				if (ia != NULL)
+					e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_STATUS);
+			}
+			itip_addresses_free (addresses);
+		} else if (cal_client_get_organizer_must_attend (comp_editor_get_cal_client (COMP_EDITOR (editor)))) {
 			EMeetingAttendee *ia;
-			const ItipAddress *a;
-			
-			a = meeting_page_get_default_organizer (MEETING_PAGE (priv->meet_page));
-			ia = e_meeting_model_add_attendee_with_defaults (priv->model);
-			e_meeting_attendee_set_address (ia, g_strdup (a->address));
-			e_meeting_attendee_set_cn (ia, g_strdup (a->name));
-			e_meeting_attendee_set_role (ia, ICAL_ROLE_REQPARTICIPANT);
-			e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_NONE);
-			gtk_object_unref (GTK_OBJECT (ia));
+
+			ia = e_meeting_model_find_attendee (priv->model, organizer.value, &row);
+			if (ia != NULL)
+				e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_NONE);
 		}
 		
 		priv->meeting_shown = TRUE;

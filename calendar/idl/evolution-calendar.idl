@@ -79,7 +79,6 @@ module Calendar {
 	typedef unsigned long Time_t;
 
 	struct SchedulingInformation {
-		boolean alwaysSchedule;
 		boolean organizerMustAttend;
 		boolean saveSchedules;
 	};
@@ -167,6 +166,9 @@ module Calendar {
 		/* Gets the number of components of the specified types */
 		long countObjects (in CalObjType type);
 
+		/* Get a default object of a given type */
+		CalObj getDefaultObject (in CalObjType type);
+		
 		/* Gets a component based on its URI */
 		CalObj getObject (in CalObjUID uid)
 			raises (NotFound);

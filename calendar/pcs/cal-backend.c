@@ -440,6 +440,16 @@ cal_backend_get_n_objects (CalBackend *backend, CalObjType type)
 	return (* CLASS (backend)->get_n_objects) (backend, type);
 }
 
+char *
+cal_backend_get_default_object (CalBackend *backend, CalObjType type)
+{
+	g_return_val_if_fail (backend != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
+
+	g_assert (CLASS (backend)->get_default_object != NULL);
+	return (* CLASS (backend)->get_default_object) (backend, type);
+}
+
 /**
  * cal_backend_get_object:
  * @backend: A calendar backend.

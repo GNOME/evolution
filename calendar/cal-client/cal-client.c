@@ -52,7 +52,6 @@ struct _CalClientPrivate {
 
 	/* Scheduling info */
 	gboolean scheduling_info_loaded;
-	gboolean always_schedule;
 	gboolean organizer_must_attend;
 	gboolean save_schedules;
 	
@@ -252,7 +251,6 @@ cal_client_init (CalClient *client)
 	priv->uri = NULL;
 	priv->email_address = NULL;
 	priv->scheduling_info_loaded = FALSE;
-	priv->always_schedule = FALSE;
 	priv->organizer_must_attend = FALSE;
 	priv->save_schedules = FALSE;
 	priv->factories = NULL;
@@ -1133,29 +1131,12 @@ load_scheduling_info (CalClient *client)
 	CORBA_exception_init (&ev);
 	si = GNOME_Evolution_Calendar_Cal_getSchedulingInformation (priv->cal, &ev);
 	if (!BONOBO_EX (&ev)) {
-		priv->always_schedule = si.alwaysSchedule;
 		priv->organizer_must_attend = si.organizerMustAttend;
 		priv->save_schedules = si.saveSchedules;
 		priv->scheduling_info_loaded = TRUE;
 	}
 	CORBA_exception_free (&ev);
 
-}
-
-gboolean 
-cal_client_get_always_schedule (CalClient *client)
-{
-	CalClientPrivate *priv;
-
-	g_return_val_if_fail (client != NULL, FALSE);
-	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
-
-	priv = client->priv;
-	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, FALSE);
-
-	load_scheduling_info (client);
-
-	return priv->always_schedule;
 }
 
 gboolean 
@@ -1274,6 +1255,75 @@ struct _CalClientGetTimezonesData {
 	CalClientGetStatus status;
 };
 
+CalClientGetStatus 
+cal_client_get_default_object (CalClient *client, CalObjType type, CalComponent **comp)
+{
+	CalClientPrivate *priv;
+	CORBA_Environment ev;
+	GNOME_Evolution_Calendar_CalObj comp_str;
+	CalClientGetStatus retval;
+	icalcomponent *icalcomp;
+	CalClientGetTimezonesData cb_data;
+
+	g_return_val_if_fail (client != NULL, CAL_CLIENT_GET_NOT_FOUND);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), CAL_CLIENT_GET_NOT_FOUND);
+
+	priv = client->priv;
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, CAL_CLIENT_GET_NOT_FOUND);
+
+	g_return_val_if_fail (comp != NULL, CAL_CLIENT_GET_NOT_FOUND);
+
+	retval = CAL_CLIENT_GET_NOT_FOUND;
+	*comp = NULL;
+
+	CORBA_exception_init (&ev);
+	comp_str = GNOME_Evolution_Calendar_Cal_getDefaultObject (priv->cal, type, &ev);
+
+	if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_NotFound))
+		goto out;
+	else if (BONOBO_EX (&ev)) {		
+		g_message ("cal_client_get_object(): could not get the object");
+		goto out;
+	}
+
+	icalcomp = icalparser_parse_string (comp_str);
+	CORBA_free (comp_str);
+
+	if (!icalcomp) {
+		retval = CAL_CLIENT_GET_SYNTAX_ERROR;
+		goto out;
+	}
+
+	*comp = cal_component_new ();
+	if (!cal_component_set_icalcomponent (*comp, icalcomp)) {
+		icalcomponent_free (icalcomp);
+		gtk_object_unref (GTK_OBJECT (*comp));
+		*comp = NULL;
+
+		retval = CAL_CLIENT_GET_SYNTAX_ERROR;
+		goto out;
+	}
+
+	/* Now make sure we have all timezones needed for this object.
+	   We do this to try to avoid any problems caused by getting a timezone
+	   in the middle of other code. Any calls to ORBit result in a 
+	   recursive call of the GTK+ main loop, which can cause problems for
+	   code that doesn't expect it. Currently GnomeCanvas has problems if
+	   we try to get a timezone in the middle of a redraw, and there is a
+	   resize pending, which leads to an assert failure and an abort. */
+	cb_data.client = client;
+	cb_data.status = CAL_CLIENT_GET_SUCCESS;
+	icalcomponent_foreach_tzid (icalcomp,
+				    cal_client_get_object_timezones_cb,
+				    &cb_data);
+
+	retval = cb_data.status;
+
+ out:
+
+	CORBA_exception_free (&ev);
+	return retval;
+}
 
 /**
  * cal_client_get_object:
