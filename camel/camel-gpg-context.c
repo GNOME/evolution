@@ -208,6 +208,10 @@ struct _GpgCtx {
 	
 	unsigned int bad_passwds:2;
 	
+	unsigned int hadsig:1;
+	unsigned int badsig:1;
+	unsigned int errsig:1;
+	unsigned int goodsig:1;
 	unsigned int validsig:1;
 	unsigned int nopubkey:1;
 	unsigned int trust:3;
@@ -216,7 +220,7 @@ struct _GpgCtx {
 	
 	unsigned int utf8:1;
 	
-	unsigned int padding:15;
+	unsigned int padding:11;
 };
 
 static struct _GpgCtx *
@@ -261,6 +265,10 @@ gpg_ctx_new (CamelSession *session)
 	gpg->need_id = NULL;
 	gpg->passwd = NULL;
 	
+	gpg->hadsig = FALSE;
+	gpg->badsig = FALSE;
+	gpg->errsig = FALSE;
+	gpg->goodsig = FALSE;
 	gpg->validsig = FALSE;
 	gpg->nopubkey = FALSE;
 	gpg->trust = GPG_TRUST_NONE;
@@ -830,14 +838,19 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 				} else if (!strncmp (status, "UNDEFINED", 9)) {
 					gpg->trust = GPG_TRUST_UNDEFINED;
 				}
-			} else if (!strncmp (status, "VALIDSIG", 8)) {
+			} else if (!strncmp (status, "GOODSIG ", 8)) {
+				gpg->goodsig = TRUE;
+				gpg->hadsig = TRUE;
+			} else if (!strncmp (status, "VALIDSIG ", 9)) {
 				gpg->validsig = TRUE;
-			} else if (!strncmp (status, "BADSIG", 6)) {
-				gpg->validsig = FALSE;
-			} else if (!strncmp (status, "ERRSIG", 6)) {
+			} else if (!strncmp (status, "BADSIG ", 7)) {
+				gpg->badsig = FALSE;
+				gpg->hadsig = TRUE;
+			} else if (!strncmp (status, "ERRSIG ", 7)) {
 				/* Note: NO_PUBKEY often comes after an ERRSIG */
-				gpg->validsig = FALSE;
-			} else if (!strncmp (status, "NO_PUBKEY", 9)) {
+				gpg->errsig = FALSE;
+				gpg->hadsig = TRUE;
+			} else if (!strncmp (status, "NO_PUBKEY ", 10)) {
 				gpg->nopubkey = TRUE;
 			}
 			break;
@@ -1647,11 +1660,27 @@ gpg_decrypt(CamelCipherContext *context, CamelMimePart *ipart, CamelMimePart *op
 		valid = camel_cipher_validity_new();
 		valid->encrypt.description = g_strdup(_("Encrypted content"));
 		valid->encrypt.status = CAMEL_CIPHER_VALIDITY_ENCRYPT_ENCRYPTED;
+		
+		if (gpg->hadsig) {
+			if (gpg->validsig) {
+				if (gpg->trust == GPG_TRUST_UNDEFINED || gpg->trust == GPG_TRUST_NONE)
+					valid->sign.status = CAMEL_CIPHER_VALIDITY_SIGN_UNKNOWN;
+				else if (gpg->trust != GPG_TRUST_NEVER)
+					valid->sign.status = CAMEL_CIPHER_VALIDITY_SIGN_GOOD;
+				else
+					valid->sign.status = CAMEL_CIPHER_VALIDITY_SIGN_BAD;
+			} else if (gpg->nopubkey) {
+				valid->sign.status = CAMEL_CIPHER_VALIDITY_SIGN_UNKNOWN;
+			} else {
+				valid->sign.status = CAMEL_CIPHER_VALIDITY_SIGN_BAD;
+			}
+		}
 	} else {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Unable to parse message content"));
 	}
-fail:
+	
+ fail:
 	camel_object_unref(ostream);
 	camel_object_unref(istream);
 	gpg_ctx_free (gpg);
