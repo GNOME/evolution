@@ -148,12 +148,17 @@ e_timezone_dialog_destroy (GtkObject *object)
 {
 	ETimezoneDialog *etd;
 	ETimezoneDialogPrivate *priv;
+	GtkWidget *dialog;
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (E_IS_TIMEZONE_DIALOG (object));
 
 	etd = E_TIMEZONE_DIALOG (object);
 	priv = etd->priv;
+
+	/* Destroy the actual dialog. */
+	dialog = e_timezone_dialog_get_toplevel (etd);
+	gtk_widget_destroy (dialog);
 
 	g_free (priv->tzid);
 	priv->tzid = NULL;
