@@ -1571,7 +1571,7 @@ mark_as_unseen (BonoboUIComponent *uih, void *user_data, const char *path)
 void
 mark_all_as_seen (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	FolderBrowser *fb = FOLDER_BROWSER (fb);
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	GPtrArray *uids;
 	int i;
 	

@@ -1,5 +1,8 @@
 2001-10-28    <NotZed@Ximian.com>
 
+	* mail-callbacks.c (mark_all_as_seen): fb = user_data, not fb =
+	fb!, fixes 13844.
+
 	* mail-local.c (mlf_rename): add the folder name to the path when
 	passing down to the subordinate folder.
 
