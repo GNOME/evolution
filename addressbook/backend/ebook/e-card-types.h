@@ -14,11 +14,12 @@
 /* IDENTIFICATION PROPERTIES */
 
 typedef struct {
-	char            *prefix;        /* Mr. */
-	char            *given;         /* John */
-	char            *additional;    /* Quinlan */
-	char            *family;        /* Public */
-	char            *suffix;        /* Esq. */
+	gint  ref_count;
+	char *prefix;        /* Mr. */
+	char *given;         /* John */
+	char *additional;    /* Quinlan */
+	char *family;        /* Public */
+	char *suffix;        /* Esq. */
 } ECardName;
 
 typedef struct {
@@ -51,6 +52,7 @@ typedef enum {
 } ECardPhoneFlags;
 
 typedef struct {
+	gint ref_count;
 	ECardPhoneFlags  flags;
 	char            *number;
 } ECardPhone;
@@ -67,6 +69,7 @@ typedef enum {
 } ECardAddressFlags;
 
 typedef struct {
+	gint ref_count;
 	ECardAddressFlags  flags;
 
 	char     	  *po;
@@ -79,6 +82,7 @@ typedef struct {
 } ECardDeliveryAddress;
 
 typedef struct {
+	gint ref_count;
 	ECardAddressFlags  flags;
 	char              *data;
 } ECardAddrLabel;
@@ -86,6 +90,7 @@ typedef struct {
 /* ARBITRARY PROPERTIES */
 
 typedef struct {
+	gint ref_count;
 	char *key;
 	char *type;
 	char *value;

@@ -345,13 +345,13 @@ e_card_simple_destroy (GtkObject *object)
 	simple->temp_fields = NULL;
 
 	for(i = 0; i < E_CARD_SIMPLE_PHONE_ID_LAST; i++)
-		e_card_phone_free (simple->phone[i]);
+		e_card_phone_unref (simple->phone[i]);
 	for(i = 0; i < E_CARD_SIMPLE_EMAIL_ID_LAST; i++)
 		g_free(simple->email[i]);
 	for(i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++)
-		e_card_address_label_free(simple->address[i]);
+		e_card_address_label_unref(simple->address[i]);
 	for(i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++)
-		e_card_delivery_address_free(simple->delivery[i]);
+		e_card_delivery_address_unref(simple->delivery[i]);
 }
 
 
@@ -446,7 +446,7 @@ fill_in_info(ECardSimple *simple)
 			       "email",         &email_list,
 			       NULL);
 		for (i = 0; i < E_CARD_SIMPLE_PHONE_ID_LAST; i++) {
-			e_card_phone_free(simple->phone[i]);
+			e_card_phone_unref(simple->phone[i]);
 			simple->phone[i] = NULL;
 		}
 		for (iterator = e_list_get_iterator(phone_list); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
@@ -454,7 +454,7 @@ fill_in_info(ECardSimple *simple)
 			phone = e_iterator_get(iterator);
 			for (i = 0; i < E_CARD_SIMPLE_PHONE_ID_LAST; i ++) {
 				if ((phone->flags == phone_correspondences[i]) && (simple->phone[i] == NULL)) {
-					simple->phone[i] = e_card_phone_copy(phone);
+					simple->phone[i] = e_card_phone_ref(phone);
 					found = TRUE;
 					break;
 				}
@@ -463,7 +463,7 @@ fill_in_info(ECardSimple *simple)
 				continue;
 			for (i = 0; i < E_CARD_SIMPLE_PHONE_ID_LAST; i ++) {
 				if (((phone->flags & phone_correspondences[i]) == phone_correspondences[i]) && (simple->phone[i] == NULL)) {
-					simple->phone[i] = e_card_phone_copy(phone);
+					simple->phone[i] = e_card_phone_ref(phone);
 					break;
 				}
 			}
@@ -486,14 +486,14 @@ fill_in_info(ECardSimple *simple)
 		gtk_object_unref(GTK_OBJECT(iterator));
 
 		for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++) {
-			e_card_address_label_free(simple->address[i]);
+			e_card_address_label_unref(simple->address[i]);
 			simple->address[i] = NULL;
 		}
 		for (iterator = e_list_get_iterator(address_list); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
 			address = e_iterator_get(iterator);
 			for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i ++) {
 				if (((address->flags & addr_correspondences[i]) == addr_correspondences[i]) && (simple->address[i] == NULL)) {
-					simple->address[i] = e_card_address_label_copy(address);
+					simple->address[i] = e_card_address_label_ref(address);
 					break;
 				}
 			}
@@ -501,14 +501,14 @@ fill_in_info(ECardSimple *simple)
 		gtk_object_unref(GTK_OBJECT(iterator));
 
 		for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++) {
-			e_card_delivery_address_free(simple->delivery[i]);
+			e_card_delivery_address_unref(simple->delivery[i]);
 			simple->delivery[i] = NULL;
 		}
 		for (iterator = e_list_get_iterator(delivery_list); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
 			delivery = e_iterator_get(iterator);
 			for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i ++) {
 				if (((delivery->flags & addr_correspondences[i]) == addr_correspondences[i]) && (simple->delivery[i] == NULL)) {
-					simple->delivery[i] = e_card_delivery_address_copy(delivery);
+					simple->delivery[i] = e_card_delivery_address_ref(delivery);
 					break;
 				}
 			}
@@ -555,7 +555,7 @@ e_card_simple_sync_card(ECardSimple *simple)
 						} else {
 							e_iterator_delete(iterator);
 						}
-						e_card_phone_free(simple->phone[i]);
+						e_card_phone_unref(simple->phone[i]);
 						simple->phone[i] = NULL;
 						found = TRUE;
 						break;
@@ -573,7 +573,7 @@ e_card_simple_sync_card(ECardSimple *simple)
 						} else {
 							e_iterator_delete(iterator);
 						}
-						e_card_phone_free(simple->phone[i]);
+						e_card_phone_unref(simple->phone[i]);
 						simple->phone[i] = NULL;
 						break;
 					}
@@ -585,7 +585,7 @@ e_card_simple_sync_card(ECardSimple *simple)
 			if (simple->phone[i]) {
 				simple->phone[i]->flags = phone_correspondences[i];
 				e_list_append(phone_list, simple->phone[i]);
-				e_card_phone_free(simple->phone[i]);
+				e_card_phone_unref(simple->phone[i]);
 				simple->phone[i] = NULL;
 			}
 		}
@@ -627,7 +627,7 @@ e_card_simple_sync_card(ECardSimple *simple)
 						} else {
 							e_iterator_delete(iterator);
 						}
-						e_card_address_label_free(simple->address[i]);
+						e_card_address_label_unref(simple->address[i]);
 						simple->address[i] = NULL;
 						break;
 					}
@@ -639,7 +639,7 @@ e_card_simple_sync_card(ECardSimple *simple)
 			if (simple->address[i]) {
 				simple->address[i]->flags = addr_correspondences[i];
 				e_list_append(address_list, simple->address[i]);
-				e_card_address_label_free(simple->address[i]);
+				e_card_address_label_unref(simple->address[i]);
 				simple->address[i] = NULL;
 			}
 		}
@@ -656,7 +656,7 @@ e_card_simple_sync_card(ECardSimple *simple)
 						} else {
 							e_iterator_delete(iterator);
 						}
-						e_card_delivery_address_free(simple->delivery[i]);
+						e_card_delivery_address_unref(simple->delivery[i]);
 						simple->delivery[i] = NULL;
 						break;
 					}
@@ -668,7 +668,7 @@ e_card_simple_sync_card(ECardSimple *simple)
 			if (simple->delivery[i]) {
 				simple->delivery[i]->flags = addr_correspondences[i];
 				e_list_append(delivery_list, simple->delivery[i]);
-				e_card_delivery_address_free(simple->delivery[i]);
+				e_card_delivery_address_unref(simple->delivery[i]);
 				simple->delivery[i] = NULL;
 			}
 		}
@@ -707,9 +707,8 @@ void            e_card_simple_set_phone   (ECardSimple          *simple,
 					   ECardSimplePhoneId    id,
 					   const ECardPhone           *phone)
 {
-	if (simple->phone[id])
-		e_card_phone_free(simple->phone[id]);
-	simple->phone[id] = e_card_phone_copy(phone);
+	e_card_phone_unref(simple->phone[id]);
+	simple->phone[id] = e_card_phone_ref(phone);
 	simple->changed = TRUE;
 }
 
@@ -717,21 +716,17 @@ void            e_card_simple_set_email   (ECardSimple          *simple,
 					   ECardSimpleEmailId    id,
 					   const char                 *email)
 {
-	if (simple->email[id])
-		g_free(simple->email[id]);
+	g_free(simple->email[id]);
 	simple->email[id] = g_strdup(email);
 	simple->changed = TRUE;
 }
 
-void            e_card_simple_set_address (ECardSimple          *simple,
-					   ECardSimpleAddressId  id,
-					   const ECardAddrLabel       *address)
+void
+e_card_simple_set_address (ECardSimple *simple, ECardSimpleAddressId id, const ECardAddrLabel *address)
 {
-	if (simple->address[id])
-		e_card_address_label_free(simple->address[id]);
-	simple->address[id] = e_card_address_label_copy(address);
-	if (simple->delivery[id])
-		e_card_delivery_address_free(simple->delivery[id]);
+	e_card_address_label_unref(simple->address[id]);
+	simple->address[id] = e_card_address_label_ref(address);
+	e_card_delivery_address_unref(simple->delivery[id]);
 	simple->delivery[id] = e_card_delivery_address_from_label(simple->address[id]);
 	simple->changed = TRUE;
 }
@@ -740,9 +735,8 @@ void            e_card_simple_set_delivery_address (ECardSimple          *simple
 						    ECardSimpleAddressId  id,
 						    const ECardDeliveryAddress *delivery)
 {
-	if (simple->delivery[id])
-		e_card_delivery_address_free(simple->delivery[id]);
-	simple->delivery[id] = e_card_delivery_address_copy(delivery);
+	e_card_delivery_address_unref(simple->delivery[id]);
+	simple->delivery[id] = e_card_delivery_address_ref(delivery);
 	simple->changed = TRUE;
 }
 
@@ -954,8 +948,7 @@ file_as_get_style (ECardSimple *simple)
 	g_free(filestring);
 	g_free(full_name);
 	g_free(company);
-	if (name)
-		e_card_name_free(name);
+	e_card_name_unref(name);
 	
 	return style;
 }
@@ -981,7 +974,7 @@ file_as_set_style(ECardSimple *simple, int style)
 		}
 		g_free(full_name);
 		g_free(company);
-		e_card_name_free(name);
+		e_card_name_unref(name);
 	}
 }
 
@@ -1014,21 +1007,19 @@ void            e_card_simple_set            (ECardSimple          *simple,
 			break; /* FIXME!!!! */
 		case E_CARD_SIMPLE_INTERNAL_TYPE_ADDRESS:
 			address = e_card_address_label_new();
-			address->data = (char *) data;
+			address->data = g_strdup (data);
 			e_card_simple_set_address(simple,
 						  field_data[field].list_type_index,
 						  address);
-			address->data = NULL;
-			e_card_address_label_free(address);
+			e_card_address_label_unref(address);
 			break;
 		case E_CARD_SIMPLE_INTERNAL_TYPE_PHONE:
 			phone = e_card_phone_new();
-			phone->number = (char *) data;
+			phone->number = g_strdup (data);
 			e_card_simple_set_phone(simple,
 						field_data[field].list_type_index,
 						phone);
-			phone->number = NULL;
-			e_card_phone_free(phone);
+			e_card_phone_unref(phone);
 			break;
 		case E_CARD_SIMPLE_INTERNAL_TYPE_EMAIL:
 			e_card_simple_set_email(simple,
@@ -1141,7 +1132,7 @@ void                  e_card_simple_set_arbitrary     (ECardSimple          *sim
 				new_arb->type = g_strdup(type);
 				new_arb->value = g_strdup(value);
 				e_iterator_set(iterator, new_arb);
-				e_card_arbitrary_free(new_arb);
+				e_card_arbitrary_unref(new_arb);
 				return;
 			}
 		}
@@ -1150,7 +1141,7 @@ void                  e_card_simple_set_arbitrary     (ECardSimple          *sim
 		new_arb->type = g_strdup(type);
 		new_arb->value = g_strdup(value);
 		e_list_append(list, new_arb);
-		e_card_arbitrary_free(new_arb);
+		e_card_arbitrary_unref(new_arb);
 	}
 }
 

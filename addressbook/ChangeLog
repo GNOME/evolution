@@ -1,3 +1,45 @@
+2001-10-11  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/ebook/e-card-simple.c (e_card_simple_destroy,
+	fill_in_info, e_card_simple_sync_card, e_card_simple_set_phone,
+	e_card_simple_set_address, e_card_simple_set_delivery_address,
+	file_as_get_style, file_as_set_style, e_card_simple_set,
+	e_card_simple_set_arbitrary),
+	gui/contact-editor/e-contact-editor-address.c
+	(e_contact_editor_address_destroy,
+	e_contact_editor_address_set_arg,
+	e_contact_editor_address_get_arg),
+	gui/contact-editor/e-contact-editor-fullname.c
+	(e_contact_editor_fullname_destroy,
+	e_contact_editor_fullname_set_arg,
+	e_contact_editor_fullname_get_arg),
+	gui/contact-editor/e-contact-editor.c (phone_entry_changed,
+	address_text_changed, name_entry_changed, full_name_clicked,
+	full_addr_clicked, fill_in_info): Changed these to use the new ref
+	and unref functions for ECard auxillary types.
+
+	* backend/ebook/e-card-simple.h: Added a comment.
+
+	* backend/ebook/e-card-types.h: Added ref_count field to all the
+	types.
+
+	* backend/ebook/e-card.c, backend/ebook/e-card.h: Added ref and
+	unref functions here for all the ECard auxillary types.  Removed
+	the corresponding free functions.  Switched to using these
+	functions where appropriate.
+
+	* gui/component/addressbook-factory.c: #include
+	<e-util/e-passwords.h>
+
+	* gui/component/addressbook.c (load_uri_cb): const correctify.
+
+	* gui/component/select-names/e-select-names-manager.c,
+	gui/component/select-names/e-select-names.c: #include
+	<addressbook/gui/component/addressbook.h>
+
+	* gui/widgets/e-addressbook-model.c (modify_card): Removed an
+	unnecessary ref here.
+
 2001-10-11  Dan Winship  <danw@ximian.com>
 
 	* gui/component/select-names/e-select-names.c (update_folder):

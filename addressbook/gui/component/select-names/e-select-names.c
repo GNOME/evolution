@@ -38,6 +38,7 @@
 #include <addressbook/backend/ebook/e-book.h>
 #include <addressbook/gui/component/addressbook-component.h>
 #include <addressbook/gui/component/addressbook-storage.h>
+#include <addressbook/gui/component/addressbook.h>
 #include <shell/evolution-shell-client.h>
 
 #include "e-select-names.h"

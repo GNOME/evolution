@@ -123,7 +123,7 @@ e_contact_editor_address_destroy (GtkObject *object)
 
 	if (e_contact_editor_address->gui)
 		gtk_object_unref(GTK_OBJECT(e_contact_editor_address->gui));
-	e_card_delivery_address_free(e_contact_editor_address->address);
+	e_card_delivery_address_unref(e_contact_editor_address->address);
 }
 
 GtkWidget*
@@ -145,8 +145,7 @@ e_contact_editor_address_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	
 	switch (arg_id){
 	case ARG_ADDRESS:
-		if (e_contact_editor_address->address)
-			e_card_delivery_address_free(e_contact_editor_address->address);
+		e_card_delivery_address_unref(e_contact_editor_address->address);
 		e_contact_editor_address->address = e_card_delivery_address_copy(GTK_VALUE_POINTER (*arg));
 		fill_in_info(e_contact_editor_address);
 		break;
@@ -190,7 +189,7 @@ e_contact_editor_address_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	switch (arg_id) {
 	case ARG_ADDRESS:
 		extract_info(e_contact_editor_address);
-		GTK_VALUE_POINTER (*arg) = e_card_delivery_address_copy(e_contact_editor_address->address);
+		GTK_VALUE_POINTER (*arg) = e_card_delivery_address_ref(e_contact_editor_address->address);
 		break;
 	case ARG_IS_READ_ONLY:
 		GTK_VALUE_BOOL (*arg) = e_contact_editor_address->editable ? TRUE : FALSE;

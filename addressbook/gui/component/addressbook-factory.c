@@ -17,6 +17,7 @@
 #include <bonobo/bonobo-main.h>
 #include <glade/glade.h>
 #include <gal/widgets/e-cursors.h>
+#include <e-util/e-passwords.h>
 
 #include <camel/camel.h>
 

@@ -123,7 +123,7 @@ e_contact_editor_fullname_destroy (GtkObject *object)
 
 	if (e_contact_editor_fullname->gui)
 		gtk_object_unref(GTK_OBJECT(e_contact_editor_fullname->gui));
-	e_card_name_free(e_contact_editor_fullname->name);
+	e_card_name_unref(e_contact_editor_fullname->name);
 }
 
 GtkWidget*
@@ -145,8 +145,7 @@ e_contact_editor_fullname_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	
 	switch (arg_id){
 	case ARG_NAME:
-		if (e_contact_editor_fullname->name)
-			e_card_name_free(e_contact_editor_fullname->name);
+		e_card_name_unref(e_contact_editor_fullname->name);
 		e_contact_editor_fullname->name = e_card_name_copy(GTK_VALUE_POINTER (*arg));
 		fill_in_info(e_contact_editor_fullname);
 		break;
@@ -188,7 +187,7 @@ e_contact_editor_fullname_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	switch (arg_id) {
 	case ARG_NAME:
 		extract_info(e_contact_editor_fullname);
-		GTK_VALUE_POINTER (*arg) = e_card_name_copy(e_contact_editor_fullname->name);
+		GTK_VALUE_POINTER (*arg) = e_card_name_ref(e_contact_editor_fullname->name);
 		break;
 	case ARG_IS_READ_ONLY:
 		GTK_VALUE_BOOL (*arg) = e_contact_editor_fullname->editable ? TRUE : FALSE;

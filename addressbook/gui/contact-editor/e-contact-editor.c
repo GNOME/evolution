@@ -262,7 +262,6 @@ static void
 phone_entry_changed (GtkWidget *widget, EContactEditor *editor)
 {
 	int which;
-	gchar *string;
 	GtkEntry *entry = GTK_ENTRY(widget);
 	ECardPhone *phone;
 
@@ -276,14 +275,10 @@ phone_entry_changed (GtkWidget *widget, EContactEditor *editor)
 		which = 4;
 	} else
 		return;
-	string = e_utf8_gtk_entry_get_text(entry);
 	phone = e_card_phone_new();
-	phone->number = string;
+	phone->number = e_utf8_gtk_entry_get_text(entry);
 	e_card_simple_set_phone(editor->simple, editor->phone_choice[which - 1], phone);
-#if 0
-	phone->number = NULL;
-#endif
-	e_card_phone_free(phone);
+	e_card_phone_unref(phone);
 	set_fields(editor);
 
 	widget_changed (widget, editor);
@@ -318,7 +313,7 @@ address_text_changed (GtkWidget *widget, EContactEditor *editor)
 	address->data = e_utf8_gtk_editable_get_chars(editable, 0, -1);
 
 	e_card_simple_set_address(editor->simple, editor->address_choice, address);
-	e_card_address_label_free(address);
+	e_card_address_label_unref(address);
 
 	widget_changed (widget, editor);
 }
@@ -485,7 +480,7 @@ name_entry_changed (GtkWidget *widget, EContactEditor *editor)
 
 	style = file_as_get_style(editor);
 	
-	e_card_name_free(editor->name);
+	e_card_name_unref(editor->name);
 
 	string = e_utf8_gtk_entry_get_text (GTK_ENTRY(widget));
 	editor->name = e_card_name_from_string(string);
@@ -689,8 +684,8 @@ full_name_clicked(GtkWidget *button, EContactEditor *editor)
 			g_free(full_name);
 		}
 
-		e_card_name_free(editor->name);
-		editor->name = e_card_name_copy(name);
+		e_card_name_unref(editor->name);
+		editor->name = e_card_name_ref(name);
 
 		file_as_set_style(editor, style);
 	}
@@ -729,12 +724,12 @@ full_addr_clicked(GtkWidget *button, EContactEditor *editor)
 		} else {
 			ECardAddrLabel *address = e_card_delivery_address_to_label(new_address);
 			e_card_simple_set_address(editor->simple, editor->address_choice, address);
-			e_card_address_label_free(address);
+			e_card_address_label_unref(address);
 		}
 
 		e_card_simple_set_delivery_address(editor->simple, editor->address_choice, new_address);
 
-		e_card_delivery_address_free(new_address);
+		e_card_delivery_address_unref(new_address);
 	}
 	gtk_object_unref(GTK_OBJECT(dialog));
 }
@@ -1329,9 +1324,7 @@ e_contact_editor_destroy (GtkObject *object) {
 	if (e_contact_editor->book)
 		gtk_object_unref(GTK_OBJECT(e_contact_editor->book));
 
-	if (e_contact_editor->name)
-		e_card_name_free(e_contact_editor->name);
-
+	e_card_name_unref(e_contact_editor->name);
 	g_free (e_contact_editor->company);
 
 	gtk_object_unref(GTK_OBJECT(e_contact_editor->gui));
@@ -2332,8 +2325,8 @@ fill_in_info(EContactEditor *editor)
 		/* File as has to come after company and name or else it'll get messed up when setting them. */
 		fill_in_field(editor, "entry-file-as", file_as);
 		
-		e_card_name_free(editor->name);
-		editor->name = e_card_name_copy(name);
+		e_card_name_unref(editor->name);
+		editor->name = e_card_name_ref(name);
 
 		widget = glade_xml_get_widget(editor->gui, "dateedit-anniversary");
 		if (widget && E_IS_DATE_EDIT(widget)) {

@@ -603,7 +603,8 @@ load_uri_cb (EBook *book, EBookStatus status, gpointer closure)
 		if (source &&
 		    source->type == ADDRESSBOOK_SOURCE_LDAP &&
 		    source->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE) {
-			char *password;
+			const char *password;
+			char *pass_dup = NULL;
 
 			password = e_passwords_get_password(load_uri_data->uri);
 
@@ -613,7 +614,7 @@ load_uri_cb (EBook *book, EBookStatus status, gpointer closure)
 
 				prompt = g_strdup_printf (_("Enter password for %s (user %s)"), source->name, source->email_addr);
 				remember = source->remember_passwd;
-				password = e_passwords_ask_password (
+				pass_dup = e_passwords_ask_password (
 								     prompt, load_uri_data->uri, prompt, TRUE,
 								     E_PASSWORDS_REMEMBER_FOREVER, &remember,
 								     NULL);
@@ -624,10 +625,10 @@ load_uri_cb (EBook *book, EBookStatus status, gpointer closure)
 				g_free (prompt);
 			}
 
-			if (password) {
-				e_book_authenticate_user (book, source->email_addr, password,
+			if (password || pass_dup) {
+				e_book_authenticate_user (book, source->email_addr, password ? password : pass_dup,
 							  load_uri_auth_cb, closure);
-				g_free (password);
+				g_free (pass_dup);
 				return;
 			}
 		}

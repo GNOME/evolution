@@ -142,12 +142,14 @@ gboolean              e_card_evolution_list_show_addresses                (ECard
 /* ECardPhone manipulation */
 ECardPhone           *e_card_phone_new                                    (void);
 ECardPhone           *e_card_phone_copy                                   (const ECardPhone           *phone);
-void                  e_card_phone_free                                   (ECardPhone                 *phone);
+ECardPhone           *e_card_phone_ref                                    (const ECardPhone           *phone);
+void                  e_card_phone_unref                                  (ECardPhone                 *phone);
 
 /* ECardDeliveryAddress manipulation */
 ECardDeliveryAddress *e_card_delivery_address_new                         (void);
 ECardDeliveryAddress *e_card_delivery_address_copy                        (const ECardDeliveryAddress *addr);
-void                  e_card_delivery_address_free                        (ECardDeliveryAddress       *addr);
+ECardDeliveryAddress *e_card_delivery_address_ref                         (const ECardDeliveryAddress *addr);
+void                  e_card_delivery_address_unref                       (ECardDeliveryAddress       *addr);
 gboolean              e_card_delivery_address_is_empty                    (const ECardDeliveryAddress *addr);
 char                 *e_card_delivery_address_to_string                   (const ECardDeliveryAddress *addr);
 ECardDeliveryAddress *e_card_delivery_address_from_label                  (const ECardAddrLabel       *label);
@@ -156,19 +158,22 @@ ECardAddrLabel       *e_card_delivery_address_to_label                    (const
 /* ECardAddrLabel manipulation */
 ECardAddrLabel       *e_card_address_label_new                            (void);
 ECardAddrLabel       *e_card_address_label_copy                           (const ECardAddrLabel       *addr);
-void                  e_card_address_label_free                           (ECardAddrLabel             *addr);
+ECardAddrLabel       *e_card_address_label_ref                            (const ECardAddrLabel       *addr);
+void                  e_card_address_label_unref                          (ECardAddrLabel             *addr);
 
 /* ECardName manipulation */
 ECardName            *e_card_name_new                                     (void);
 ECardName            *e_card_name_copy                                    (const ECardName            *name);
-void                  e_card_name_free                                    (ECardName                  *name);
+ECardName            *e_card_name_ref                                     (const ECardName            *name);
+void                  e_card_name_unref                                   (ECardName                  *name);
 char                 *e_card_name_to_string                               (const ECardName            *name);
 ECardName            *e_card_name_from_string                             (const char                 *full_name);
 
 /* ECardArbitrary manipulation */
 ECardArbitrary       *e_card_arbitrary_new                                (void);
 ECardArbitrary       *e_card_arbitrary_copy                               (const ECardArbitrary       *arbitrary);
-void                  e_card_arbitrary_free                               (ECardArbitrary             *arbitrary);
+ECardArbitrary       *e_card_arbitrary_ref                                (const ECardArbitrary       *arbitrary);
+void                  e_card_arbitrary_unref                              (ECardArbitrary             *arbitrary);
 
 /* ECard email manipulation */
 gboolean              e_card_email_match_string                           (const ECard                *card,

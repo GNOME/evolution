@@ -205,7 +205,6 @@ modify_card(EBookView *book_view,
 			if ( !strcmp(e_card_get_id(model->data[i]), e_card_get_id(E_CARD(cards->data))) ) {
 				gtk_object_unref(GTK_OBJECT(model->data[i]));
 				model->data[i] = e_card_duplicate(E_CARD(cards->data));
-				gtk_object_ref(GTK_OBJECT(model->data[i]));
 				gtk_signal_emit (GTK_OBJECT (model),
 						 e_addressbook_model_signals [CARD_CHANGED],
 						 i);
