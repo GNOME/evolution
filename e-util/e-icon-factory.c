@@ -257,6 +257,7 @@ e_icon_factory_get_icon_list (const char *icon_name)
 			
 			icon = icon_new (icon_name, NULL);
 			g_hash_table_insert (name_to_icon, icon->name, icon);
+			pthread_mutex_unlock(&lock);
 			return NULL;
 		} else {
 			g_hash_table_insert (name_to_icon, icon->name, icon);
