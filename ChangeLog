@@ -1,3 +1,8 @@
+2001-10-30  Federico Mena Quintero  <federico@ximian.com>
+
+	* configure.in: Require GAL version 0.15.99.10.  I know you all
+	love this.
+
 2001-10-30  Radek Doulik  <rodo@ximian.com>
 
 	* configure.in: require gtkhtml version 0.15.99.2
