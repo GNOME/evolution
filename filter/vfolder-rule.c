@@ -34,6 +34,7 @@
 #include "camel/camel-url.h"
 #include "vfolder-context.h"
 #include "vfolder-rule.h"
+#include "mail/em-folder-tree.h"
 #include "mail/em-folder-selector.h"
 #include "mail/mail-component.h"
 
@@ -450,10 +451,10 @@ vfr_folder_response(GtkWidget *dialog, gint button, struct _source_data *data)
 static void
 source_add(GtkWidget *widget, struct _source_data *data)
 {
-	struct _EMFolderTree *emft;
+	EMFolderTree *emft;
 	GtkWidget *dialog;
 	
-	emft = (struct _EMFolderTree *)em_folder_tree_new_with_model(mail_component_get_tree_model(mail_component_peek()));
+	emft = (EMFolderTree *) em_folder_tree_new_with_model(mail_component_get_tree_model(mail_component_peek()));
 	
 	dialog = em_folder_selector_new(emft, EM_FOLDER_SELECTOR_CAN_CREATE, _("Select Folder"), NULL);
 	gtk_window_set_transient_for((GtkWindow *)dialog, (GtkWindow *)gtk_widget_get_toplevel(widget));

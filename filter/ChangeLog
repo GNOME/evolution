@@ -1,3 +1,7 @@
+2003-11-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* vfolder-rule.c: #include "em-folder-tree.h"
+
 2003-11-17  Not Zed  <NotZed@Ximian.com>
 
 	* vfolder-rule.c (source_add): fix for folder selector api changes.
