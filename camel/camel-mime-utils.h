@@ -183,4 +183,7 @@ int quoted_decode_step(unsigned char *in, int len, unsigned char *out, int *save
 int quoted_encode_step(unsigned char *in, int len, unsigned char *out, int *state, int *save);
 int quoted_encode_close(unsigned char *in, int len, unsigned char *out, int *state, int *save);
 
+gchar * mime_guess_type_from_file_name (const gchar *file_name);
+
+
 #endif /* ! _CAMEL_MIME_UTILS_H */

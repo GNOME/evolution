@@ -40,6 +40,8 @@
 #include <ctype.h>
 #include <errno.h>
 
+#include <libgnomevfs/gnome-vfs.h>
+
 #include "camel-mime-utils.h"
 #include "camel-charset-map.h"
 
@@ -3088,4 +3090,23 @@ header_msgid_generate (void)
 	getdomainname (domain, sizeof (domain));
 
 	return g_strdup_printf ("%d.%d.%d.camel@%s.%s", (gint) time (NULL), getpid (), count++, host, domain);
+}
+
+gchar *
+mime_guess_type_from_file_name (const gchar *file_name)
+{
+	GnomeVFSFileInfo info;
+	GnomeVFSResult result;
+
+	result = gnome_vfs_get_file_info (file_name, &info,
+					  GNOME_VFS_FILE_INFO_GET_MIME_TYPE |
+					  GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
+	if (result == GNOME_VFS_OK) {
+		gchar *type;
+
+		type = g_strdup (gnome_vfs_file_info_get_mime_type (&info));
+		gnome_vfs_file_info_unref (&info);
+		return type;
+	} else
+		return NULL;
 }
