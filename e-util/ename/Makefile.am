@@ -18,7 +18,7 @@ libename_la_SOURCES =					\
 	e-address-western.c				\
 	e-name-western.c
 
-libenameincludedir = $(includedir)/evolution-$(BASE_VERSION)/ename
+libenameincludedir = $(privincludedir)/ename
 
 libenameinclude_HEADERS =				\
 	e-address-western.h				\

@@ -8,6 +8,7 @@
  * Copyright 2002, Ximian, Inc.
  */
 
+#include <string.h>
 #include <gconf/gconf-client.h>
 #include "e-config-listener.h"
 

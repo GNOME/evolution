@@ -133,8 +133,7 @@ e_uri_new (const char *uri_string)
 		p++;
 
 	if (p > uri_string && *p == ':') {
-		uri->protocol = g_strndup (uri_string, p - uri_string);
-		g_strdown (uri->protocol);
+		uri->protocol = g_ascii_strdown (uri_string, p - uri_string);
 		uri_string = p + 1;
 	}
 	else

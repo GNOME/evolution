@@ -187,17 +187,13 @@ e_categories_config_open_dialog_for_entry (GtkEntry *entry)
 	text = gtk_entry_get_text (GTK_ENTRY (entry));
 	dialog = GTK_DIALOG (e_categories_new (text));
 	
-	gtk_object_set (GTK_OBJECT (dialog),
-			"ecml", ecmlw,
-			NULL);
+	g_object_set (dialog, "ecml", ecmlw, NULL);
 	
 	/* run the dialog */
 	result = gtk_dialog_run (dialog);
 	
 	if (result == 0) {
-		gtk_object_get (GTK_OBJECT (dialog),
-				"categories", &categories,
-				NULL);
+		g_object_get (dialog, "categories", &categories, NULL);
 		gtk_entry_set_text (GTK_ENTRY (entry), categories);
 		g_free (categories);
 	}

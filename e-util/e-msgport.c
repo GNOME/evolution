@@ -922,6 +922,8 @@ int e_mutex_cond_wait(void *vcond, EMutex *m)
 		g_assert(m->owner == pthread_self());
 		pthread_mutex_unlock(&m->mutex);
 		return ret;
+	default:
+		g_return_val_if_reached(-1);
 	}
 }
 

@@ -1,3 +1,25 @@
+2003-02-05  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (eutilincludedir, etc): define in terms of
+	privincludedir.
+
+	* ename/Makefile.am (libenameincludedir): Likewise
+
+	* e-account.c: Fix warnings
+	* e-account-list.c: Likewise
+	* e-config-listener.c: Likewise
+	* e-gui-utils.c: Likewise.
+	* e-lang-utils.c: Likewise
+	* e-msgport.c: Likewise
+	* e-passwords.c: Likewise
+
+	* e-categories-config.c
+	(e_categories_config_open_dialog_for_entry): Use g_object_get/_set
+	rather than gtk_
+
+	* e-url.c (e_uri_new): Use g_ascii_strdown instead of deprecated
+	g_strdown.
+
 2003-01-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-request.c (e_request_string): Port to GtkDialog.  Strdup the

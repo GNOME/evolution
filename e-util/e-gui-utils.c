@@ -13,6 +13,7 @@
 #include "e-gui-utils.h"
 
 #include <glib.h>
+#include <gtk/gtkalignment.h>
 #include <gtk/gtkimage.h>
 
 GtkWidget *e_create_image_widget(gchar *name,

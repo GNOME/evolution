@@ -25,6 +25,7 @@
 #include "e-account.h"
 #include "e-util-marshal.h"
 
+#include <string.h>
 #include <gal/util/e-util.h>
 
 struct EAccountListPrivate {

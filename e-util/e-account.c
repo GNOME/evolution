@@ -23,6 +23,10 @@
 
 #include "e-account.h"
 
+#include <string.h>
+#include <time.h>
+#include <unistd.h>
+
 #include <gal/util/e-util.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
@@ -273,7 +277,6 @@ static gboolean
 xml_set_service (xmlNodePtr node, EAccountService *service)
 {
 	gboolean changed = FALSE;
-	int timeout;
 
 	changed |= xml_set_bool (node, "save-passwd", &service->save_passwd);
 	changed |= xml_set_bool (node, "keep-on-server", &service->keep_on_server);

@@ -27,6 +27,7 @@
 #endif
 
 #include "e-passwords.h"
+#include <string.h>
 #include <libgnome/gnome-config.h>
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtkentry.h>
