@@ -476,7 +476,8 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 	folder_exists = camel_folder_exists (camel_folder, NULL);
 	
 	if (camel_exception_get_id (&ex)) {
-	      printf ("Unable to test for folder existence \n");
+	      printf ("Unable to test for folder existence: %s\n",
+		      ex.desc?ex.desc:"unknown reason");
 	      return;
 	}
 	
@@ -488,7 +489,8 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 	    */
 	    camel_folder_create (camel_folder, &ex);
 	    if (camel_exception_get_id (&ex)) {
-	      printf ("Unable to create folder\n");
+	      printf ("Unable to create folder: %s\n",
+		      ex.desc?ex.desc:"unknown_reason");
 	      return;
 	    }
 	   
@@ -497,17 +499,21 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 	
 	camel_folder_open (camel_folder, FOLDER_OPEN_RW, &ex);
 	if (camel_exception_get_id (&ex)) {
-	  printf ("Unable to open folder\n");
-	  return;
+		printf ("Unable to open folder: %s\n",
+			ex.desc?ex.desc:"unknown_reason");	  
+		return;
 	}
-
-	message_list->folder_summary = camel_folder_get_summary (camel_folder, &ex);
+	
+	message_list->folder_summary =
+		camel_folder_get_summary (camel_folder, &ex);
+	
 	if (camel_exception_get_id (&ex)) {
-	  printf ("Unable to get summary \n");
-	  return;
+		printf ("Unable to get summary: %s\n",
+			ex.desc?ex.desc:"unknown_reason");	  	  
+		return;
 	}
-
-
+	
+	
 	gtk_object_ref (GTK_OBJECT (camel_folder));
 
 	printf ("Modelo cambio!\n");

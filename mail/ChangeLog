@@ -1,3 +1,8 @@
+2000-02-23  Matt Loper  <matt@helixcode.com>
+
+	* message-list.c (message_list_set_folder): Check 'desc'riptions
+	of exceptions.
+
 2000-02-22  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* message-list.c (message_list_set_folder): 
