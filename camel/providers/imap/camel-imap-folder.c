@@ -800,18 +800,25 @@ imap_sync_online (CamelFolder *folder, CamelException *ex)
 static void
 imap_expunge_uids_offline (CamelFolder *folder, GPtrArray *uids, CamelException *ex)
 {
+	CamelFolderChangeInfo *changes;
 	int i;
+
+	changes = camel_folder_change_info_new ();
 	
 	for (i = 0; i < uids->len; i++) {
 		camel_folder_summary_remove_uid (folder->summary, uids->pdata[i]);
+		camel_folder_change_info_remove_uid (changes, uids->pdata[i]);
 		/* We intentionally don't remove it from the cache because
 		 * the cached data may be useful in replaying a COPY later.
 		 */
 	}
 	camel_folder_summary_save (folder->summary);
-	
+
 	camel_disco_diary_log (CAMEL_DISCO_STORE (folder->parent_store)->diary,
 			       CAMEL_DISCO_DIARY_FOLDER_EXPUNGE, folder, uids);
+
+	camel_object_trigger_event (CAMEL_OBJECT (folder), "folder_changed", changes);
+	camel_folder_change_info_free (changes);
 }
 
 static void
@@ -948,12 +955,11 @@ imap_expunge_uids_resyncing (CamelFolder *folder, GPtrArray *uids, CamelExceptio
 		 */
 		
 		keep_uids = NULL;
-		mark_uids = NULL;
+		mark_uids = uids;
 	}
 	
-	g_free (result);
-	
 	/* Unmark messages to be kept */
+	
 	if (keep_uids) {
 		char *uidset;
 		int uid = 0;
@@ -999,8 +1005,9 @@ imap_expunge_uids_resyncing (CamelFolder *folder, GPtrArray *uids, CamelExceptio
 			}
 			camel_imap_response_free (store, response);
 		}
-		
-		g_ptr_array_free (mark_uids, TRUE);
+
+		if (mark_uids != uids)
+			g_ptr_array_free (mark_uids, TRUE);
 	}
 	
 	/* Do the actual expunging */
@@ -1029,6 +1036,9 @@ imap_expunge_uids_resyncing (CamelFolder *folder, GPtrArray *uids, CamelExceptio
 		
 		g_ptr_array_free (keep_uids, TRUE);
 	}
+
+	/* now we can free this, now that we're done with keep_uids */
+	g_free (result);
 	
 	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
 }
