@@ -145,8 +145,7 @@ EXTRA_DIST =	 			\
 	monthview.xpm			\
 	yearview.xpm			\
 	calendar-control.gnorba		\
-	calendar-control.oafinfo	\
-	gnomecal.conduit
+	calendar-control.oafinfo
 
 
 install-data-local:

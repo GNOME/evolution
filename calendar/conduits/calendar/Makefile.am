@@ -75,7 +75,7 @@ Conduitdir = $(datadir)/gnome-pilot/conduits/
 Conduit_DATA = calendar.conduit
 
 EXTRA_DIST = \
-	$(Conduit_DATA) \
+	calendar.conduit.in \
         $(ccenterConduits_DATA)
 
 install-data-local:
