@@ -90,14 +90,13 @@ static FolderBrowser *folder_browser = NULL;
 
 /* Private functions */
 
+/* call this with the folders locked */
 static mail_folder_info *
 get_folder_info (const gchar *uri)
 {
 	mail_folder_info *mfi;
 
 	g_return_val_if_fail (uri, NULL);
-
-	LOCK_FOLDERS ();
 
 	if (folders == NULL) {
 		dm("Initializing");
@@ -123,10 +122,10 @@ get_folder_info (const gchar *uri)
 	} else
 		dm("Hit cache for uri %s", uri);
 
-	UNLOCK_FOLDERS ();
-
 	return mfi;
 }
+
+/* call with the folders locked */
 
 static gchar *
 make_folder_name (mail_folder_info *mfi)
@@ -134,20 +133,17 @@ make_folder_name (mail_folder_info *mfi)
 	GString *work;
 	gchar *ret;
 
-	LOCK_FOLDERS ();
-
 	work = g_string_new (mfi->name);
 
 	if (mfi->flags & MAIL_FIF_UNREAD_VALID && mfi->unread)
 		g_string_sprintfa (work, " (%d)", mfi->unread);
-
-	UNLOCK_FOLDERS ();
 
 	ret = work->str;
 	g_string_free (work, FALSE);
 	return ret;
 }
 
+/* call with the folders locked */
 
 static gchar *
 make_folder_status (mail_folder_info *mfi)
@@ -155,8 +151,6 @@ make_folder_status (mail_folder_info *mfi)
 	gboolean set_one = FALSE;
 	GString *work;
 	gchar *ret;
-
-	LOCK_FOLDERS ();
 
 	/* Build the display string */
 
@@ -179,8 +173,6 @@ make_folder_status (mail_folder_info *mfi)
 			work = g_string_append (work, _(", "));
 		g_string_sprintfa (work, _("%d total"), mfi->total);
 	}
-
-	UNLOCK_FOLDERS ();
 
 	ret = work->str;
 	g_string_free (work, FALSE);
@@ -221,10 +213,8 @@ update_idle (gpointer user_data)
 
 	/* Get the display string */
 
-	UNLOCK_FOLDERS ();
 	f_name = make_folder_name (mfi);
 	f_status = make_folder_status (mfi);
-	LOCK_FOLDERS ();
 
 	/* bold? */
 
@@ -554,10 +544,11 @@ mail_folder_cache_set_update_estorage (const gchar *uri, EvolutionStorage *estor
 {
 	mail_folder_info *mfi;
 
-	mfi = get_folder_info (uri);
-	g_return_if_fail (mfi);
+	g_return_if_fail (uri);
 
 	LOCK_FOLDERS ();
+
+	mfi = get_folder_info (uri);
 
 	if (mfi->update_mode != MAIL_FIUM_UNKNOWN) {
 		/* we could check to see that update_mode = ESTORAGE */
@@ -578,10 +569,11 @@ mail_folder_cache_set_update_lstorage (const gchar *uri, GNOME_Evolution_LocalSt
 {
 	mail_folder_info *mfi;
 
-	mfi = get_folder_info (uri);
-	g_return_if_fail (mfi);
+	g_return_if_fail (uri);
 
 	LOCK_FOLDERS ();
+
+	mfi = get_folder_info (uri);
 
 	if (mfi->update_mode != MAIL_FIUM_UNKNOWN) {
 		/*we could check to see that update_mode = lstorage */
@@ -601,40 +593,17 @@ mail_folder_cache_set_update_lstorage (const gchar *uri, GNOME_Evolution_LocalSt
 	UNLOCK_FOLDERS ();
 }
 
-#if 0
-void 
-mail_folder_cache_set_update_shellview (const gchar *uri)
-{
-	mail_folder_info *mfi;
-
-	mfi = get_folder_info (uri);
-	g_return_if_fail (mfi);
-
-	LOCK_FOLDERS ();
-
-	if (mfi->update_mode != MAIL_FIUM_UNKNOWN) {
-		/*we could check to see that update_mode = shellview */
-		/*g_warning ("folder cache: update mode already set??");*/
-		UNLOCK_FOLDERS ();
-		return;
-	}
-
-	dm ("Uri %s updates with SHELL VIEW", uri);
-	mfi->update_mode = MAIL_FIUM_SHELL_VIEW;
-
-	UNLOCK_FOLDERS ();
-}
-#endif
-
 void
 mail_folder_cache_note_folder (const gchar *uri, CamelFolder *folder)
 {
 	mail_folder_info *mfi;
 
-	mfi = get_folder_info (uri);
-	g_return_if_fail (mfi);
+	g_return_if_fail (uri);
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
 	LOCK_FOLDERS ();
+
+	mfi = get_folder_info (uri);
 
 	if (mfi->flags & MAIL_FIF_FOLDER_VALID) {
 		if (mfi->folder != folder)
@@ -665,10 +634,12 @@ mail_folder_cache_note_fb (const gchar *uri, FolderBrowser *fb)
 {
 	mail_folder_info *mfi;
 
-	mfi = get_folder_info (uri);
-	g_return_if_fail (mfi);
+	g_return_if_fail (uri);
+	g_return_if_fail (IS_FOLDER_BROWSER (fb));
 
 	LOCK_FOLDERS ();
+
+	mfi = get_folder_info (uri);
 
 	if (!(mfi->flags & MAIL_FIF_FOLDER_VALID)) {
 		dm ("No folder specified so ignoring NOTE_FB at %s", uri);
@@ -695,10 +666,12 @@ mail_folder_cache_note_folderinfo (const gchar *uri, CamelFolderInfo *fi)
 {
 	mail_folder_info *mfi;
 
-	mfi = get_folder_info (uri);
-	g_return_if_fail (mfi);
+	g_return_if_fail (uri);
+	g_return_if_fail (fi);
 
 	LOCK_FOLDERS ();
+
+	mfi = get_folder_info (uri);
 
 	dm ("Noting folderinfo %p for %s", fi, uri);
 
@@ -723,10 +696,12 @@ mail_folder_cache_note_name (const gchar *uri, const gchar *name)
 {
 	mail_folder_info *mfi;
 
-	mfi = get_folder_info (uri);
-	g_return_if_fail (mfi);
+	g_return_if_fail (uri);
+	g_return_if_fail (name);
 
 	LOCK_FOLDERS ();
+
+	mfi = get_folder_info (uri);
 
 	dm ("Noting name %s for %s", name, uri);
 
@@ -751,10 +726,11 @@ mail_folder_cache_try_folder (const gchar *uri)
 	mail_folder_info *mfi;
 	CamelFolder *ret;
 
-	mfi = get_folder_info (uri);
-	g_return_val_if_fail (mfi, NULL);
+	g_return_val_if_fail (uri, NULL);
 
 	LOCK_FOLDERS ();
+
+	mfi = get_folder_info (uri);
 
 	if (mfi->flags & MAIL_FIF_FOLDER_VALID)
 		ret = mfi->folder;

@@ -1,3 +1,16 @@
+2001-07-09  Peter Williams  <peterw@ximian.com>
+
+	* mail-folder-cache.c (mail_folder_cache_set_update_shellview): Deleted
+	(as opposed to #if 0)
+	(get_folder_info): Changed to assume it has the folder lock.
+	(make_folder_name): Same.
+	(make_folder_status): Same.
+	(update_idle): Don't unlock around the make_folder_ functions.
+	(*): Changed behavior wrt. get_folder_info. Lock before calling, but
+	also move preconditions before -- get_folder_info can only return NULL
+	if uri is NULL. Also add preconditions for other arguments where 
+	necessary.
+
 2001-07-07  Christopher James Lahey  <clahey@ximian.com>
 
 	* message-list.c (on_cursor_activated_cmd): Check for new_uid !=
