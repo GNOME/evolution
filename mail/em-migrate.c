@@ -1351,7 +1351,7 @@ cp_r (const char *src, const char *dest)
 	closedir (dir);
 	
 	g_string_free (destpath, TRUE);
-	g_string_free (srcfpath, TRUE);
+	g_string_free (srcpath, TRUE);
 	
 	return 0;
 }
@@ -1417,7 +1417,6 @@ em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full
 	
 	if (!is_mail_folder (path)) {
 		g_free (path);
-		
 		goto try_subdirs;
 	}
 	
