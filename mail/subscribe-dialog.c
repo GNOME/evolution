@@ -431,9 +431,9 @@ fete_init (GtkObject *object)
 
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	text_cell = cell;
-	gtk_object_set (GTK_OBJECT (cell),
-			"bold_column", FOLDER_COL_SUBSCRIBED,
-			NULL);
+	g_object_set (G_OBJECT (cell),
+		      "bold_column", FOLDER_COL_SUBSCRIBED,
+		      NULL);
 	e_table_extras_add_cell (E_TABLE_EXTRAS (extras), "cell_text", cell);
 
 	/* toggle column */
@@ -1452,7 +1452,7 @@ static void
 menu_item_selected (GtkMenuItem *item, gpointer user_data)
 {
 	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
-	StoreData       *sd = gtk_object_get_data (GTK_OBJECT (item), STORE_DATA_KEY);
+	StoreData       *sd = g_object_get_data (G_OBJECT (item), STORE_DATA_KEY);
 
 	g_return_if_fail (sd);
 
@@ -1537,7 +1537,7 @@ populate_store_list (SubscribeDialog *sc)
 		camel_url_free (url);
 		item = gtk_menu_item_new_with_label (string);
 		store_data_async_get_store (iter->data, got_sd_store, item);
-		gtk_object_set_data (GTK_OBJECT (item), STORE_DATA_KEY, iter->data);
+		g_object_set_data (G_OBJECT (item), STORE_DATA_KEY, iter->data);
 		g_signal_connect(item, "activate", G_CALLBACK(menu_item_selected), sc);
 		g_free (string);
 

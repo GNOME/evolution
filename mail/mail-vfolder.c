@@ -826,8 +826,8 @@ edit_rule_response(GtkWidget *w, int button, void *data)
 {
 	if (button == GTK_RESPONSE_OK) {
 		char *user;
-		FilterRule *rule = gtk_object_get_data((GtkObject *)w, "rule");
-		FilterRule *orig = gtk_object_get_data((GtkObject *)w, "orig");
+		FilterRule *rule = g_object_get_data (G_OBJECT (w), "rule");
+		FilterRule *orig = g_object_get_data (G_OBJECT (w), "orig");
 
 		filter_rule_copy(orig, rule);
 		user = g_strdup_printf("%s/vfolders.xml", evolution_dir);

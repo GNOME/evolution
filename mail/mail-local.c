@@ -1390,7 +1390,7 @@ reconfigure_response(GtkDialog *dialog, int button, struct _reconfigure_msg *m)
 
 		menu = gtk_option_menu_get_menu(m->optionlist);
 		item = gtk_menu_get_active(GTK_MENU(menu));
-		m->newtype = g_strdup(gtk_object_get_data((GtkObject *)item, "type"));
+		m->newtype = g_strdup(g_object_get_data (item, "type"));
 		m->index_body = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(m->check_index_body));
 
 		gtk_widget_set_sensitive (m->frame, FALSE);

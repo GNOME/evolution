@@ -1,3 +1,41 @@
+2002-11-14  Ettore Perazzoli  <ettore@ximian.com>
+
+	* component-factory.c (owner_set_cb): Want a (GWeakNotify) cast
+	here, not (GWeakNotify *).
+
+	* subscribe-dialog.c (fete_init): g_object_set() instead of
+	gtk_object_set().
+	(populate_store_list): Likewise.
+	(menu_item_selected): g_object_get_data() instead of
+	gtk_object_get_data().
+
+	* message-list.c (message_list_create_extras): g_object_set()
+	instead of gtk_object_set().
+
+	* message-browser.c (message_browser_message_list_built):
+	g_object_get_data() instead of gtk_object_get_data().
+
+	* mail-vfolder.c (edit_rule_response): g_object_get_data() instead
+	of gtk_object_get_data().
+
+	* mail-summary.c (generate_folder_summaries): g_object_unref() the
+	context instead of gtk_object_destroy().
+
+	* mail-local.c (reconfigure_response): g_object_get_data() instead
+	of gtk_object_get_data().
+
+	* mail-display.c (pixbuf_gen_idle): g_object_unref() the GdkPixbuf
+	loader instead of gtk_object_destroy().
+	(pixbuf_gen_idle): Likewise.
+	(embeddable_destroy_cb): Likewise.
+
+	* mail-config-druid.c (mail_config_druid_destroy): No need to
+	gtk_object_destroy() the GladeXML object.
+	(construct): g_object_set() instead of gtk_object_set().
+
+	* folder-browser.c (folder_browser_gui_init): g_object_get_data()
+	instead of gtk_object_get_data().
+
 2002-11-14  Not Zed  <NotZed@Ximian.com>
 
 	* component-factory.c (create_view): shell client objref.

@@ -219,7 +219,7 @@ message_browser_message_loaded (FolderBrowser *fb, const char *uid, MessageBrows
 static void
 message_browser_message_list_built (MessageList *ml, MessageBrowser *mb)
 {
-	const char *uid = gtk_object_get_data (GTK_OBJECT (mb), "uid");
+	const char *uid = g_object_get_data (G_OBJECT (mb), "uid");
 
 	g_signal_handlers_disconnect_matched(mb->fb, G_SIGNAL_MATCH_DATA|G_SIGNAL_MATCH_FUNC, 0, 0, NULL,
 					     message_browser_message_list_built, mb);

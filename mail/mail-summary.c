@@ -374,7 +374,7 @@ generate_folder_summaries (MailSummary *summary)
 		camel_exception_free (ex);
 	}
 
-	gtk_object_destroy (GTK_OBJECT (context));
+	g_object_unref (context);
 }
 
 static void

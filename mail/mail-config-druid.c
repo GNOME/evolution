@@ -126,7 +126,6 @@ mail_config_druid_destroy (GtkObject *obj)
 	CORBA_Environment ev;
 
 	if (druid->xml) {
-		gtk_object_destroy (GTK_OBJECT (druid->xml));
 		g_object_unref(druid->xml);
 		druid->xml = NULL;
 	
@@ -644,7 +643,7 @@ construct (MailConfigDruid *druid)
 	gtk_window_set_title (GTK_WINDOW (druid), _("Evolution Account Assistant"));
 	gtk_window_set_policy (GTK_WINDOW (druid), FALSE, TRUE, FALSE);
 	gtk_window_set_modal (GTK_WINDOW (druid), FALSE);
-	gtk_object_set (GTK_OBJECT (druid), "type", GTK_WINDOW_TOPLEVEL, NULL);
+	g_object_set (G_OBJECT (druid), "type", GTK_WINDOW_TOPLEVEL, NULL);
 
 	druid->listener = bonobo_listener_new (NULL, NULL);
 	g_signal_connect(druid->listener, "event-notify",

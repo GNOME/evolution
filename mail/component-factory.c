@@ -752,7 +752,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	
 	/* FIXME: should we ref this? */
 	global_shell_client = shell_client;
-	g_object_weak_ref(G_OBJECT(shell_client), (GWeakNotify *)shell_client_destroy, NULL);
+	g_object_weak_ref(G_OBJECT(shell_client), (GWeakNotify)shell_client_destroy, NULL);
 	
 	evolution_dir = g_strdup (evolution_homedir);
 	mail_session_init ();

@@ -617,7 +617,7 @@ pixbuf_gen_idle (struct _PixbufLoader *pbl)
 
 		if (pbl->loader) {
 			gdk_pixbuf_loader_close (pbl->loader, NULL);
-			gtk_object_destroy (GTK_OBJECT (pbl->loader));
+			g_object_unref (pbl->loader);
 			camel_object_unref (pbl->mstream);
 		}
 		g_signal_handler_disconnect((pbl->eb), pbl->destroy_id);
@@ -637,7 +637,7 @@ pixbuf_gen_idle (struct _PixbufLoader *pbl)
 
 		if (pbl->loader) {
 			gdk_pixbuf_loader_close (pbl->loader, NULL);
-			gtk_object_destroy (GTK_OBJECT (pbl->loader));
+			g_object_unref (pbl->loader);
 		}
 	
 		g_free (pbl->type);
@@ -717,7 +717,7 @@ embeddable_destroy_cb (GtkObject *embeddable,
 	
 	if (pbl->loader) {
 		gdk_pixbuf_loader_close (pbl->loader, NULL);
-		gtk_object_destroy (GTK_OBJECT (pbl->loader));
+		g_object_unref (pbl->loader);
 	}
 	
 	g_free (pbl->type);

@@ -2311,8 +2311,8 @@ folder_browser_gui_init (FolderBrowser *fb)
 	
 	/* quick-search bar */
 	if (search_context) {
-		const char *systemrules = gtk_object_get_data (GTK_OBJECT (search_context), "system");
-		const char *userrules = gtk_object_get_data (GTK_OBJECT (search_context), "user");
+		const char *systemrules = g_object_get_data (G_OBJECT (search_context), "system");
+		const char *userrules = g_object_get_data (G_OBJECT (search_context), "user");
 		
 		fb->search = e_filter_bar_new (search_context, systemrules, userrules,
 					       folder_browser_config_search, fb);
