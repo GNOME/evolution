@@ -1,3 +1,9 @@
+2001-08-28  Kevin Breit  <battery841@mediaone.net>
+
+	* C/usage-mail.sgml: Renamed a xref to make it work.
+
+	* C/config-prefs.sgml: Updated for new LDAP UI.
+
 2001-08-24  Kevin Breit  <battery841@mediaone.net>
 
 	* C/usage-mail.sgml: Added info about tables, rules, and images

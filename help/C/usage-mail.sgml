@@ -650,7 +650,7 @@
           <para>
             For more information about using email together with the
             contact manager and the calendar, see <xref
-            linkend="usage-contact-automate"> and <xref
+            linkend="contact-automation-basic"> and <xref
             linkend="usage-calendar-apts">.
           </para>
         </sect3>

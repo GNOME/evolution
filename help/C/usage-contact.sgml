@@ -516,18 +516,7 @@
      </para>
   </sect1>
 
-  <sect1 id="usage-contact-automate">
-    <title>Address Book Tools</title>
-    <para>
-       The address book works closely with
-       <application>Evolution</application>'s mail and calendar tools.
-       For example, you can use the address book to help you manage
-       mailing lists, and send or recieve address cards over email.
-       More tools are on the way, and when they arrive, <!-- FIXME -->
-       they will be described in this section.
-    </para>
-
-    <sect2 id="contact-automation-basic">
+    <sect1 id="contact-automation-basic">
       <title>Send me a Card: Adding New Cards Quickly</title>
       <para>
 	As noted before, when you get information about a person in
@@ -539,9 +528,9 @@
 	hand-held device during HotSync operation.  For more
 	information about that, see <xref linkend="usage-sync">.
       </para>
-    </sect2>
+    </sect1>
 
-    <sect2 id="contact-automation-lists">
+    <sect1 id="contact-automation-lists">
       <title>Managing a Mailing list</title>
       <para>
 	 You already know that when you are writing an email, you can
@@ -564,9 +553,9 @@
       </para>
  -->
 
-    </sect2>
+    </sect1>
     <!---  FIXME this feature not yet implemented 
-  <sect2 id="usage-contact-automation-extra">
+  <sect1 id="usage-contact-automation-extra">
   <title>Map It!</title>
   <para>
     Need a map or directions? Click
@@ -578,5 +567,5 @@
     -->
     
     
-  </sect1>
+
 </chapter> 
