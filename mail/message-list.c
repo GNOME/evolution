@@ -1,15 +1,27 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * message-list.c: Displays the messages.
- *                 Implements CORBA's Evolution::MessageList
+ *  Authors: Miguel de Icaza (miguel@ximian.com)
+ *           Bertrand Guiheneuf (bg@aful.org)
+ *           And just about everyone else in evolution ...
  *
- * Author:
- *     Miguel de Icaza (miguel@ximian.com)
- *     Bertrand Guiheneuf (bg@aful.org)
- *     And just about everyone else in evolution ...
+ *  Copyright 2000-2002 Ximian, Inc. (www.ximian.com)
  *
- * (C) 2000 Ximian, Inc.
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
+ *
  */
+
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -428,6 +440,7 @@ search_func (ETreeModel *model, ETreePath path, struct search_func_data *data)
 	}
 	return FALSE;
 }
+
 
 /**
  * message_list_select:
@@ -1268,13 +1281,13 @@ message_list_destroy (GtkObject *object)
 
 	gtk_object_unref (GTK_OBJECT (message_list->extras));
 	gtk_object_unref (GTK_OBJECT (message_list->model));
-
+	
 	if (message_list->idle_id != 0)
 		g_source_remove (message_list->idle_id);
 	
 	if (message_list->seen_id)
 		gtk_timeout_remove (message_list->seen_id);
-
+	
 	if (message_list->hidden) {
 		g_hash_table_destroy(message_list->hidden);
 		e_mempool_destroy(message_list->hidden_pool);

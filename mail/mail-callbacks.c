@@ -1395,7 +1395,6 @@ void
 post_message (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
-	GtkWidget *composer;
 	char *url;
 	
 	if (FOLDER_BROWSER_IS_DESTROYED (fb) || !check_send_configuration (fb))

@@ -30,6 +30,7 @@
 
 #include "mail-config.h"
 #include "camel/camel-url.h"
+#include "mail-session.h"
 #include "mail-mt.h"
 
 #include "component-factory.h"
@@ -231,13 +232,17 @@ void mail_msg_check_error(void *msg)
 	char *what = NULL;
 	char *text;
 	GnomeDialog *gd;
-
+	
 #ifdef MALLOC_CHECK
 	checkmem(m);
 	checkmem(m->cancel);
 	checkmem(m->priv);
 #endif
-
+	
+	/* don't report any errors if we are not in interactive mode */
+	if (!mail_session_get_interactive ())
+		return;
+	
 	if (!camel_exception_is_set(&m->ex)
 	    || m->ex.id == CAMEL_EXCEPTION_USER_CANCEL)
 		return;

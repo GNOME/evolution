@@ -1,3 +1,17 @@
+2002-08-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-mt.c (mail_msg_check_error): If we are not in interactive
+	mode, don't display error dialogs.
+
+	* component-factory.c (interactive_cb): Updated to use the new
+	function mail_session_set_interactive().
+	(owner_unset_cb): Same here.
+
+	* mail-session.c (mail_session_set_interactive): Renamed from
+	mail_session_enable_interaction().
+	(mail_session_get_interactive): New function to get the
+	interactive state.
+
 2002-08-01  Peter Williams  <peterw@ximian.com>
 
 	* mail-offline-handler.c (struct _sync_info): Add a GHashTable pointer

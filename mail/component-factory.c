@@ -795,7 +795,7 @@ debug_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 static void
 interactive_cb (EvolutionShellComponent *shell_component, gboolean on, gpointer user_data)
 {
-	mail_session_enable_interaction(on);
+	mail_session_set_interactive (on);
 }
 
 static void
@@ -900,7 +900,7 @@ owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 	mail_importer_uninit ();
 	
 	global_shell_client = NULL;
-	mail_session_enable_interaction (FALSE);
+	mail_session_set_interactive (FALSE);
 	
 	gtk_object_unref (GTK_OBJECT (search_context));
 	search_context = NULL;

@@ -62,7 +62,7 @@ CamelSession *session;
 typedef struct _MailSession {
 	CamelSession parent_object;
 
-	gboolean interaction_enabled;
+	gboolean interactive;
 	FILE *filter_logfile;
 
 	EMutex *lock;
@@ -361,7 +361,7 @@ do_get_pass(struct _mail_msg *mm)
 	} else if (m->key) {
 		m->result = e_passwords_get_password(m->key);
 		if (m->result == NULL) {
-			if (mail_session->interaction_enabled) {
+			if (mail_session->interactive) {
 				request_password(m);
 				return;
 			}
@@ -560,7 +560,7 @@ alert_user(CamelSession *session, CamelSessionAlertType type, const char *prompt
 	EMsgPort *user_message_reply;
 	gboolean ret;
 
-	if (!mail_session->interaction_enabled)
+	if (!mail_session->interactive)
 		return FALSE;
 
 	user_message_reply = e_msgport_new ();	
@@ -999,12 +999,18 @@ mail_session_init (void)
 	g_free (camel_dir);
 }
 
-void
-mail_session_enable_interaction (gboolean enable)
+gboolean
+mail_session_get_interactive (void)
 {
-	MAIL_SESSION (session)->interaction_enabled = enable;
+	return MAIL_SESSION (session)->interactive;
+}
 
-	if (!enable) {
+void
+mail_session_set_interactive (gboolean interactive)
+{
+	MAIL_SESSION (session)->interactive = interactive;
+	
+	if (!interactive) {
 		struct _pass_msg *pm;
 		struct _user_message_msg *um;
 
