@@ -22,6 +22,7 @@
 #include <gnome.h>
 
 #include <gnome-xml/xmlmemory.h>
+#include <gal/widgets/e-unicode.h>
 
 #include "filter-part.h"
 #include "filter-element.h"
@@ -154,11 +155,21 @@ filter_part_xml_create (FilterPart *ff, xmlNodePtr node)
 				g_warning ("Invalid xml format, missing/unknown input type");
 			}
 		} else if (!strcmp (n->name, "title")) {
-			if (!ff->title)
-				ff->title = xmlNodeGetContent (n);
+			if (!ff->title) {
+				gchar *str, *decstr;
+				str = xmlNodeGetContent (n);
+				decstr = e_utf8_xml1_decode (str);
+				if (str) xmlFree (str);
+				ff->title = decstr;
+			}
 		} else if (!strcmp (n->name, "code")) {
-			if (!ff->code)
-				ff->code = xmlNodeGetContent (n);
+			if (!ff->code) {
+				gchar *str, *decstr;
+				str = xmlNodeGetContent (n);
+				decstr = e_utf8_xml1_decode (str);
+				if (str) xmlFree (str);
+				ff->code = decstr;
+			}
 		} else {
 			g_warning ("Unknwon part element in xml: %s\n", n->name);
 		}

@@ -1,3 +1,15 @@
+2001-01-02  Lauris Kaplinski  <lauris@helixcode.com>
+
+	* filter-input.c (xml_encode): Encode utf8
+	(xml_decode): Decode utf8
+
+	* filter-option.c (xml_create): Decode utf8
+
+	* filter-part.c (filter_part_xml_create): Decode utf8
+
+	* filter_rule.c (xml_encode): Encode utf8
+	(xml_decode): Decode utf8
+	
 2001-01-02  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filter-driver.c (do_flag): Set the 'dirty' flag - this should

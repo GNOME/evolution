@@ -22,6 +22,7 @@
 #include <gnome.h>
 #include <regex.h>
 
+#include <gnome-xml/xmlmemory.h>
 #include <gal/widgets/e-unicode.h>
 
 #include "filter-input.h"
@@ -226,9 +227,12 @@ xml_encode (FilterElement *fe)
 	while (l) {
                 xmlNodePtr cur;
 		char *str = l->data;
+		char *encstr;
 		
                 cur = xmlNewChild (value, NULL, type, NULL);
-		xmlNodeSetContent (cur, str);
+		encstr = e_utf8_xml1_encode (str);
+		xmlNodeSetContent (cur, encstr);
+		g_free (encstr);
                 l = g_list_next (l);
 	}
 	
@@ -253,9 +257,12 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	n = node->childs;
 	while (n) {
 		if (!strcmp (n->name, type)) {
+			gchar *decstr;
 			str = xmlNodeGetContent (n);
-			d(printf ("  '%s'\n", str));
-			fi->values = g_list_append (fi->values, str);
+			decstr = e_utf8_xml1_decode (str);
+			if (str) xmlFree (str);
+			d(printf ("  '%s'\n", decstr));
+			fi->values = g_list_append (fi->values, decstr);
 		} else {
 			g_warning ("Unknown node type '%s' encountered decoding a %s\n", n->name, type);
 		}

@@ -175,11 +175,19 @@ xml_create (FilterElement *fe, xmlNodePtr node)
 			while (work) {
 				if (!strcmp (work->name, "title")) {
 					if (!op->title) {
-						op->title = xmlNodeGetContent (work);
+						gchar *str, *decstr;
+						str = xmlNodeGetContent (work);
+						decstr = e_utf8_xml1_decode (str);
+						if (str) xmlFree (str);
+						op->title = decstr;
 					}
 				} else if (!strcmp (work->name, "code")) {
 					if (!op->code) {
-						op->code = xmlNodeGetContent (work);
+						gchar *str, *decstr;
+						str = xmlNodeGetContent (work);
+						decstr = e_utf8_xml1_decode (str);
+						if (str) xmlFree (str);
+						op->code = decstr;
 					}
 				}
 				work = work->next;
