@@ -18512,7 +18512,7 @@ msgstr "Tõsta kausta..."
 #: ui/evolution-addressbook.xml.h:14
 #: ui/evolution-calendar.xml.h:16
 msgid "Paste the clipboard"
-msgstr "Kleebib lõikepuhvri"
+msgstr "Asetab lõikepuhvri"
 
 #: ui/evolution-addressbook.xml.h:15
 msgid "Previews the contacts to be printed"
