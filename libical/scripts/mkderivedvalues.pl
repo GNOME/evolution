@@ -1,109 +1,35 @@
 #!/usr/bin/perl 
 
+use lib '.';
+
+require 'readvaluesfile.pl';
 
 use Getopt::Std;
-getopts('chspi:');
+getopts('chi:');
 
-#Options
-# c -> generate c code file
-# h-> generate header file   
-# s -> generate switch statement
+ #Options
+ # c -> generate c code file
+ # h-> generate header file   
 
-# Open with value-c-types.txt
+ # Open with value-types.txt
 
-
-open(F,"$ARGV[0]") || die "Can't open values data file $ARGV[0]:$!";
+my %h = read_values_file($ARGV[0]);
 
 
-# Write the file inline by copying everything before a demarcation
-# line, and putting the generated data after the demarcation
+ # Write the file inline by copying everything before a demarcation
+ # line, and putting the generated data after the demarcation
 
 if ($opt_i) {
-
-  open(IN,$opt_i) || die "Can't open input file $opt_i";
-
-  while(<IN>){
-
-    if (/Do not edit/){
-      last;
-    }
-
-    print;
-
-  }    
-
-  if($opt_p){
-    print "# Everything below this line is machine generated. Do not edit. \n";
-  } else {
-    print "/* Everything below this line is machine generated. Do not edit. */\n";
-  }
-
-}
-
-
-if (($opt_c || $opt_h) and !$opt_i) {
-print <<EOM;
-/* -*- Mode: C -*-
-  ======================================================================
-  FILE: icalderivedvalues.{c,h}
-  CREATOR: eric 09 May 1999
   
-  \044Id:\044
-    
-  (C) COPYRIGHT 1999 Eric Busboom 
-  http://www.softwarestudio.org
-
-  The contents of this file are subject to the Mozilla Public License
-  Version 1.0 (the "License"); you may not use this file except in
-  compliance with the License. You may obtain a copy of the License at
-  http://www.mozilla.org/MPL/
- 
-  Software distributed under the License is distributed on an "AS IS"
-  basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
-  the License for the specific language governing rights and
-  limitations under the License.
- 
- ======================================================================*/
-
-/*
- * THIS FILE IS MACHINE GENERATED DO NOT EDIT
- */
-
-
-
-EOM
+  open(IN,$opt_i) || die "Can't open input file $opt_i";
+  
+  while(<IN>){
+    print;
+  }    
 }
 
-if ($opt_p and !$opt_i){
 
-print <<EOM;
-# -*- Mode: Perl -*-
-#  ======================================================================
-#  \044Id:\044
-#    
-#  (C) COPYRIGHT 1999 Eric Busboom 
-#  http://www.softwarestudio.org
-#
-#  The contents of this file are subject to the Mozilla Public License
-#  Version 1.0 (the "License"); you may not use this file except in
-#  compliance with the License. You may obtain a copy of the License at
-#  http://www.mozilla.org/MPL/
-# 
-#  Software distributed under the License is distributed on an "AS IS"
-#  basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
-#  the License for the specific language governing rights and
-#  limitations under the License. 
-#
-#  The original author is Eric Busboom
-#  The original code is derivedvalues.h
-#
-#  ======================================================================*/
-
-EOM
-
-}
-
-# Map type names to the value in the icalvalue_impl data union */
+ # Map type names to the value in the icalvalue_impl data union */
 
 %union_map = (
 	      BOOLEAN => 'int',
@@ -118,199 +44,180 @@ EOM
 	      URI=>'string',
 	      UTCOFFSET=>'int',
 	      QUERY=>'string',
-	      BINARY=>'string'
+	      BINARY=>'string',
+	      X=>'string'
 	     );
 
-while(<F>)
-{
+
+if($opt_h){
+
+  # First print out the value enumerations
+  $idx = 5000;
+  print "typedef enum icalvalue_kind {\n";
+  print "   ICAL_ANY_VALUE=$idx,\n";
+
+  foreach $value  (keys %h) {
+    
+    $idx++;
+    my $ucv = join("",map {uc(lc($_));}  split(/-/,$value));
+    
+    next if $value eq "NO";
+    
+    print "    ICAL_${ucv}_VALUE=$idx,\n";
+  }
   
-  chop;
-  my @v = split(/\t+/,$_);  
+  $idx++;
+  print "   ICAL_NO_VALUE=$idx\n} icalvalue_kind ;\n\n";
   
-  my $value = shift @v;
-  my $mode = shift @v;
-  my $type = shift @v;
-  my $comment = join(" ",@v);
+  # Now create enumerations for property values
+  $idx = 10000;
   
+  print "#define ICALPROPERTY_FIRST_ENUM $idx\n\n";
+  
+  foreach $value (sort keys %h) {
+    
+    next if !$value;
+    
+    next if $value eq 'NO' or $prop eq 'ANY';
+
+    my $ucv = join("",map {uc(lc($_));}  split(/-/,$value));    
+    my @enums = @{$h{$value}->{'enums'}};
+
+    if(@enums){
+
+      my ($c_autogen,$c_type) = @{$h{$value}->{'C'}};
+      print "typedef $c_type {\n";
+      my $first = 1;
+
+      unshift(@enums,"X");
+
+      push(@enums,"NONE");
+
+      foreach $e (@enums) {
+	if (!$first){
+	  print ",\n";
+	} else {
+	  $first = 0;
+	}
+	
+	my $uce = join("",map {uc(lc($_));}  split(/-/,$e));    
+	
+	print "    ICAL_${ucv}_${uce} = $idx";
+	
+	$idx++;
+      }  
+
+      $c_type =~ s/enum //;
+
+      print "\n} $c_type;\n\n";
+    }
+  }
+
+  print "#define ICALPROPERTY_LAST_ENUM $idx\n\n";
+
+}
+
+
+if($opt_c){
+
+  # print out the value to string map
+
+  print "static struct icalvalue_kind_map value_map[]={\n"; 
+
+  foreach $value  (keys %h) {
+
+    $idx++;
+    my $ucv = join("",map {uc(lc($_));}  split(/-/,$value));
+    
+    next if $value eq "NO";
+    
+    print "    {ICAL_${ucv}_VALUE,\"$value\"},\n";
+  }
+
+    
+  print "    {ICAL_NO_VALUE,\"\"}\n};";
+
+}
+
+
+foreach $value  (keys %h) {
+
+  my $autogen = $h{$value}->{C}->[0];
+  my $type = $h{$value}->{C}->[1];
+
   my $ucf = join("",map {ucfirst(lc($_));}  split(/-/,$value));
   
   my $lc = lc($ucf);
   my $uc = uc($lc);
-
+  
   my $pointer_check = "icalerror_check_arg_rz( (v!=0),\"v\");\n" if $type =~ /\*/;
   my $pointer_check_rv = "icalerror_check_arg_rv( (v!=0),\"v\");\n" if $type =~ /\*/;
-
+  
   my $assign;
-
+  
   if ($type =~ /char/){
-    $assign = "strdup(v);\n\n    if (impl->data.v_string == 0){\n      errno = ENOMEM;\n    }\n";
+    $assign = "icalmemory_strdup(v);\n\n    if (impl->data.v_string == 0){\n      errno = ENOMEM;\n    }\n";
   } else {
     $assign = "v;";
   }
-
+  
   my $union_data;
   
-  if (exists $union_map{$uc} ){
+  if(@{$h{$value}->{'enums'}}){
+    $union_data = 'enum';
+
+  } elsif (exists $union_map{$uc} ){
     $union_data=$union_map{$uc};
   } else {
     $union_data = $lc;
   }
-
-  if ($opt_c && $mode eq "autogen") {
-print <<EOM;
-
-icalvalue*
-icalvalue_new_${lc} ($type v)
-{
-   struct icalvalue_impl* impl = icalvalue_new_impl(ICAL_${uc}_VALUE);
- 
-   $pointer_check
-   icalvalue_set_${lc}((icalvalue*)impl,v);
-
-   return (icalvalue*)impl;
-}
-
-void
-icalvalue_set_${lc}(icalvalue* value, $type v)
-{
-    struct icalvalue_impl* impl; 
-    
-    icalerror_check_arg_rv( (value!=0),"value");
-    $pointer_check_rv
-    icalerror_check_value_type(value, ICAL_${uc}_VALUE);
-
-    impl = (struct icalvalue_impl*)value;
-EOM
-
-if( ${union_data} eq 'string'){
-print"    if(impl->data.v_${union_data}!=0) {free((void*)impl->data.v_${union_data});}\n";
-}
-
-print <<EOM;
-
-    impl->data.v_${union_data} = $assign
-}
-
-$type
-icalvalue_get_${lc}(icalvalue* value)
-{
-    icalerror_check_arg( (value!=0),"value");
-    icalerror_check_value_type(value, ICAL_${uc}_VALUE);
   
-    return ((struct icalvalue_impl*)value)->data.v_${union_data};
-}
+  if ($opt_c && $autogen) {
+    
+    print "\n\n\
+icalvalue* icalvalue_new_${lc} ($type v){\
+   struct icalvalue_impl* impl = icalvalue_new_impl(ICAL_${uc}_VALUE);\
+   $pointer_check\
+   icalvalue_set_${lc}((icalvalue*)impl,v);\
+   return (icalvalue*)impl;\
+}\
+void icalvalue_set_${lc}(icalvalue* value, $type v) {\
+    struct icalvalue_impl* impl; \
+    icalerror_check_arg_rv( (value!=0),\"value\");\
+    $pointer_check_rv\
+    icalerror_check_value_type(value, ICAL_${uc}_VALUE);\
+    impl = (struct icalvalue_impl*)value;\n";
+    
+    if( $union_data eq 'string') {
+      
+      print "    if(impl->data.v_${union_data}!=0) {free((void*)impl->data.v_${union_data});}\n";
+    }
+    
 
-EOM
+    print "\n    impl->data.v_$union_data = $assign \n }\n";
 
-} elsif($opt_h && $mode eq "autogen") {
+    print "$type\ icalvalue_get_${lc}(icalvalue* value)\ {\n\
+    icalerror_check_arg( (value!=0),\"value\");\
+    icalerror_check_value_type(value, ICAL_${uc}_VALUE);\
+    return ((struct icalvalue_impl*)value)->data.v_${union_data};\n}\n";
 
-  print <<EOM;
-/* $value $comment */
-icalvalue* icalvalue_new_${lc}($type v);
-$type icalvalue_get_${lc}(icalvalue* value);
-void icalvalue_set_${lc}(icalvalue* value, ${type} v);
+    
+  } elsif($opt_h && $autogen) {
+    
+    print "\n /* $value */ \
+icalvalue* icalvalue_new_${lc}($type v); \
+$type icalvalue_get_${lc}(icalvalue* value); \
+void icalvalue_set_${lc}(icalvalue* value, ${type} v);\n\n";
 
-EOM
-
-} elsif ($opt_s) {
-
-if ( $ud{$union_data}++ == 0) {
-
-print<<EOM;
-const char* icalvalue_${union_data}_as_ical_string(icalvalue* value) {
-
-    $type data;
-    char temp[1024];
-    char *str;
-    icalerror_check_airg( (value!=0),"value");
-    data = ((struct icalvalue_impl*)value)->data.v_${union_data}
-
-    str = icalmemory_strdup(temp);
-
-    return str;
-}
-
-EOM
-
-}
-}  elsif ($opt_p) { # Generate perl code
-
-print <<EOM;
-
-package Net::ICal::Value::${ucf}; 
-use Net::ICal::Value;
-\@ISA=qw(Net::ICal::Value);
-sub new
-{
-   my \$self = [];
-   my \$package = shift;
-   my \$value = shift;
-
-   bless \$self, \$package;
-
-   my \$p;
-
-   if (\$value){
-      \$p = Net::ICal::icalvalue_new_from_string(\$Net::ICal::ICAL_${uc}_VALUE,\$value);
-   } else {
-      \$p = Net::ICal::icalvalue_new(\$Net::ICal::ICAL_${uc}_VALUE);
-   }
-
-   \$self->[0] = \$p;
-
-   return \$self;
-}
-
-sub set
-{
-   my \$self = shift;
-   my \$v = shift;
-
-   my \$impl = \$self->_impl();
-
-   if (\$v) {
-      my \$new_value = Net::ICal::icalvalue_new_from_string(\$Net::ICal::ICAL_${uc}_VALUE,\$v);
-      if (\$new_value){
-         Net::ICal::icalvalue_free(\$self->[0]);
-          \$self->[0] = \$new_value;
-      }
-
-   }
+  } 
 
 }
-
-sub get
-{
-   my \$self = shift;
-   my \$impl = \$self->[0];   
-
-   if (defined \$impl){
-
-     return  Net::ICal::icalvalue_as_ical_string(\$impl);
-
-   }
-}
-
-EOM
-}
-
-
-
-}
-
-if ($opt_p)
-{
-  print "1;\n";
-}
-
-
+  
+  
 if ($opt_h){
-
-print <<EOM;
-#endif /*ICALVALUE_H*/
-EOM
-}
-
-
-__END__
-
+    print "#endif /*ICALVALUE_H*/\n";
+  }
+  
+  
+  __END__
+  

@@ -25,8 +25,11 @@
 #define ICALTYPES_H
 
 #include <time.h>
-#include "icalenums.h" /* for recurrence enums */
+#include "icalenums.h"
 #include "icaltime.h"
+#include "icalduration.h"
+#include "icalperiod.h"
+
 
 /* This type type should probably be an opaque type... */
 struct icalattachtype
@@ -103,5 +106,31 @@ struct icalreqstattype {
 
 struct icalreqstattype icalreqstattype_from_string(char* str);
 char* icalreqstattype_as_string(struct icalreqstattype);
+
+
+
+struct icaltimezonephase {
+    const char* tzname;
+    int is_stdandard; /* 1 = standard tme, 0 = daylight savings time */
+    struct icaltimetype dtstart;
+    int offsetto;
+    int tzoffsetfrom;
+    const char* comment;
+    struct icaldatetimeperiodtype rdate;
+    const char* rrule;    
+};
+
+
+struct icaltimezonetype {
+    const char* tzid;
+    struct icaltimetype last_mod;
+    const char* tzurl;
+    
+    /* Array of phases. The end of the array is a phase with tzname == 0 */
+    struct icaltimezonephase *phases;
+};
+
+void icaltimezonetype_free(struct icaltimezonetype tzt);
+
 
 #endif /* !ICALTYPES_H */

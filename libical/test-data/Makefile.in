@@ -71,9 +71,14 @@ MAKEINFO = @MAKEINFO@
 OBJDUMP = @OBJDUMP@
 PACKAGE = @PACKAGE@
 PERL = @PERL@
+PY_CFLAGS = @PY_CFLAGS@
+PY_EXTRA_LIBS = @PY_EXTRA_LIBS@
+PY_LIBS = @PY_LIBS@
+PY_LIB_LOC = @PY_LIB_LOC@
 RANLIB = @RANLIB@
 VERSION = @VERSION@
 YACC = @YACC@
+python_val = @python_val@
 
 EXTRA_DIST =  0 1 1.1 2 2445.ics 2446.ics 3 4 5 6 7 smallcluster.ics recur.txt user-cal.vcf complex-mime.txt simple-mime.txt stresstest.ics classify.ics incoming.ics process-incoming.ics calendar.ics restriction.ics overlaps.ics
 
@@ -90,9 +95,9 @@ GZIP_ENV = --best
 all: all-redirect
 .SUFFIXES:
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps test-data/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu test-data/Makefile
 
-Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
+Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
 	cd $(top_builddir) \
 	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
@@ -105,6 +110,11 @@ distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 subdir = test-data
 
 distdir: $(DISTFILES)
+	here=`cd $(top_builddir) && pwd`; \
+	top_distdir=`cd $(top_distdir) && pwd`; \
+	distdir=`cd $(distdir) && pwd`; \
+	cd $(top_srcdir) \
+	  && $(AUTOMAKE) --include-deps --build-dir=$$here --srcdir-name=$(top_srcdir) --output-dir=$$top_distdir --gnu test-data/Makefile
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \

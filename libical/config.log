@@ -1,53 +1,64 @@
 This file contains any messages produced by compilers while
 running configure, to aid debugging if configure makes a mistake.
 
-configure:531: checking for bison
-configure:564: checking for gcc
-configure:677: checking whether the C compiler (gcc -g ) works
-configure:693: gcc -o conftest -g   conftest.c  1>&5
-configure:719: checking whether the C compiler (gcc -g ) is a cross-compiler
-configure:724: checking whether we are using GNU C
-configure:733: gcc -E conftest.c
-configure:752: checking whether gcc accepts -g
-configure:786: checking for flex
-configure:820: checking for yywrap in -lfl
-configure:839: gcc -o conftest -g   conftest.c -lfl   1>&5
-configure:862: checking whether ln -s works
-configure:885: checking for ranlib
-configure:943: checking for a BSD compatible install
-configure:1002: checking for ar
-configure:1034: checking for main in -lical
-configure:1049: gcc -o conftest -g   conftest.c -lical   1>&5
-/usr/bin/ld: cannot open -lical: No such file or directory
-collect2: ld returned 1 exit status
-configure: failed program was:
-#line 1042 "configure"
-#include "confdefs.h"
-
-int main() {
-main()
-; return 0; }
+configure:571: checking for a BSD compatible install
+configure:624: checking whether build environment is sane
+configure:681: checking whether make sets ${MAKE}
+configure:727: checking for working aclocal
+configure:740: checking for working autoconf
+configure:753: checking for working automake
+configure:766: checking for working autoheader
+configure:779: checking for working makeinfo
+configure:797: checking whether to enable maintainer-specific portions of Makefiles
+configure:825: checking for bison
+configure:858: checking for gcc
+configure:971: checking whether the C compiler (gcc  ) works
+configure:987: gcc -o conftest    conftest.c  1>&5
+configure:1013: checking whether the C compiler (gcc  ) is a cross-compiler
+configure:1018: checking whether we are using GNU C
+configure:1046: checking whether gcc accepts -g
 configure:1078: checking how to run the C preprocessor
-configure:1099: gcc -E  conftest.c >/dev/null 2>conftest.out
-configure:1158: checking for ANSI C header files
-configure:1171: gcc -E  conftest.c >/dev/null 2>conftest.out
-configure:1238: gcc -o conftest -g   conftest.c  1>&5
-configure:1265: checking for malloc.h
-configure:1275: gcc -E  conftest.c >/dev/null 2>conftest.out
-configure:1265: checking for unistd.h
-configure:1275: gcc -E  conftest.c >/dev/null 2>conftest.out
-configure:1265: checking for time.h
-configure:1275: gcc -E  conftest.c >/dev/null 2>conftest.out
-configure:1265: checking for stdio.h
-configure:1275: gcc -E  conftest.c >/dev/null 2>conftest.out
-configure:1265: checking for sys/types.h
-configure:1275: gcc -E  conftest.c >/dev/null 2>conftest.out
-configure:1265: checking for assert.h
-configure:1275: gcc -E  conftest.c >/dev/null 2>conftest.out
-configure:1303: checking for working const
-configure:1357: gcc -c -g  conftest.c 1>&5
-configure:1378: checking for size_t
-configure:1411: checking whether struct tm is in sys/time.h or time.h
-configure:1424: gcc -c -g  conftest.c 1>&5
-configure:1448: checking for strdup
-configure:1476: gcc -o conftest -g   conftest.c  1>&5
+configure:1163: checking for flex
+configure:1196: checking for flex
+configure:1230: checking for yywrap in -lfl
+configure:1272: checking lex output file root
+configure:1293: checking whether yytext is a pointer
+configure:1334: checking whether ln -s works
+configure:1366: checking for a BSD compatible install
+configure:1495: checking host system type
+configure:1516: checking build system type
+configure:1536: checking for ranlib
+configure:1575: checking for ld used by GCC
+configure:1637: checking if the linker (/usr/bin/ld) is GNU ld
+configure:1653: checking for BSD-compatible nm
+ltconfig:603: checking for object suffix
+ltconfig:604: gcc -c -g -O2  conftest.c 1>&5
+ltconfig:629: checking for executable suffix
+ltconfig:630: gcc -o conftest -g -O2   conftest.c  1>&5
+ltconfig:776: checking if gcc PIC flag -fPIC works
+ltconfig:777: gcc -c -g -O2 -fPIC -DPIC  conftest.c 1>&5
+ltconfig:829: checking if gcc supports -c -o file.o
+ltconfig:830: gcc -c -g -O2 -o out/conftest2.o  conftest.c 1>&5
+ltconfig:862: checking if gcc supports -c -o file.lo
+ltconfig:863: gcc -c -g -O2 -c -o conftest.lo  conftest.c 1>&5
+ltconfig:914: checking if gcc supports -fno-rtti -fno-exceptions
+ltconfig:915: gcc -c -g -O2 -fno-rtti -fno-exceptions -c conftest.c  conftest.c 1>&5
+ltconfig:958: checking if gcc static flag -static works
+ltconfig:959: gcc -o conftest -g -O2   -static conftest.c  1>&5
+GNU ld version 2.10.90 (with BFD 2.10.0.18)
+ltconfig:1635: checking if global_symbol_pipe works
+ltconfig:1636: gcc -c -g -O2  conftest.c 1>&5
+ltconfig:1639: eval "/usr/bin/nm -B conftest.o | sed -n -e 's/^.*[ 	]\([ABCDGISTW]\)[ 	][ 	]*\(\)\([_A-Za-z][_A-Za-z0-9]*\)$/\1 \2\3 \3/p' > conftest.nm"
+ltconfig:1691: gcc -o conftest -g -O2 -fno-builtin -fno-rtti -fno-exceptions   conftest.c conftstm.o 1>&5
+configure:1865: checking for ar
+configure:1900: checking for perl5
+configure:1945: checking for ANSI C header files
+configure:2052: checking for time.h
+configure:2052: checking for sys/types.h
+configure:2052: checking for assert.h
+configure:2090: checking for working const
+configure:2165: checking for size_t
+configure:2198: checking whether struct tm is in sys/time.h or time.h
+configure:2235: checking for strdup
+configure:2307: checking for python
+configure:2339: checking for swig

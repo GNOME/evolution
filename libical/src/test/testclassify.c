@@ -31,7 +31,6 @@
 #include <string.h> /* For strerror */
 #include "icalset.h"
 #include "icalclassify.h"
-#include "icalssutil.h"
 
 
 struct class_map {

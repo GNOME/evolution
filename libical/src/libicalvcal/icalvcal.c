@@ -153,7 +153,7 @@ static void icalvcal_traverse_objects(VObject *object,icalcomponent* last_comp,
 		snprintf(temp,1024,"%s: %s",message,name);
 		
 		error_param = icalparameter_new_xlicerrortype(
-		    ICAL_XLICERRORTYPE_UNKVCALPROP
+		    ICAL_XLICERRORTYPE_UNKNOWNVCALPROPERROR
 		    );
 
 		error_prop = icalproperty_new_xlicerror(temp);

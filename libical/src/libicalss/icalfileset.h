@@ -30,6 +30,7 @@
 #define ICALFILESET_H
 
 #include "ical.h"
+#include "icalset.h"
 #include "icalgauge.h"
 #include <sys/types.h> /* For open() flags and mode */
 #include <sys/stat.h> /* For open() flags and mode */

@@ -370,7 +370,7 @@ int icalmime_test(char* (*get_string)(char *s, size_t size, void *d),
    for(i = 0; i <NUM_PARTS && parts[i].header.major != SSPM_NO_MAJOR_TYPE ; 
        i++){
        if(parts[i].header.minor == SSPM_CALENDAR_MINOR_TYPE){
-	   parts[i].data = strdup(
+	   parts[i].data = icalmemory_strdup(
 	       icalcomponent_as_ical_string((icalcomponent*)parts[i].data));
        }
    }

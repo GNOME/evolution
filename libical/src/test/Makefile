@@ -1,37 +1,430 @@
 # Generated automatically from Makefile.in by configure.
-INCLUDES = -I . -I../libical -I../libicalss
-CFLAGS =  -Wall -g  $(INCLUDES) 
-LIBS   =  -L../libical -L../libicalss -licalss -lical
-CC	= gcc
-LD	= ld
+# Makefile.in generated automatically by automake 1.4 from Makefile.am
 
-all: usecases copycluster regression parser findobj
+# Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
+# This Makefile.in is free software; the Free Software Foundation
+# gives unlimited permission to copy and/or distribute it,
+# with or without modifications, as long as this notice is preserved.
 
-parser: icaltestparser.o ../libical/libical.a ../libicalss/libicalss.a
-	$(CC) -o icalparser icaltestparser.o $(LIBS)
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY, to the extent permitted by law; without
+# even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
 
-copycluster: copycluster.o ../libical/libical.a ../libicalss/libicalss.a
-	$(CC)  -o copycluster copycluster.o $(INCLUDES)  $(LIBS)	
 
-findobj: findobj.o ../libical/libical.a ../libicalss/libicalss.a 
-	$(CC)  -o findobj findobj.o $(INCLUDES)  $(LIBS)	
+SHELL = /bin/sh
 
-regression: regression.o ../libical/libical.a ../libicalss/libicalss.a
-	$(CC)  -o regression regression.o $(INCLUDES)  $(LIBS)	
+srcdir = .
+top_srcdir = ../..
+prefix = /opt/gnome
+exec_prefix = ${prefix}
 
-usecases: usecases.o ../libical/libical.a ../libicalss/libicalss.a
-	$(CC)  -o usecases usecases.o $(INCLUDES)  $(LIBS)	
+bindir = ${exec_prefix}/bin
+sbindir = ${exec_prefix}/sbin
+libexecdir = ${exec_prefix}/libexec
+datadir = ${prefix}/share
+sysconfdir = ${prefix}/etc
+sharedstatedir = ${prefix}/com
+localstatedir = ${prefix}/var
+libdir = ${exec_prefix}/lib
+infodir = ${prefix}/info
+mandir = ${prefix}/man
+includedir = ${prefix}/include
+oldincludedir = /usr/include
 
-clean:
-	-/bin/rm -f *.o
-	-/bin/rm -f \#*
-	-/bin/rm -f *~ Makefile.bak icalitip.tab.h icalitip.tab.c lex.yy.c
-	-/bin/rm -rf icalparser core regression usecases copycluster findobj
+DESTDIR =
 
-ci: clean
-	ci -u *.c *.h 
+pkgdatadir = $(datadir)/libical
+pkglibdir = $(libdir)/libical
+pkgincludedir = $(includedir)/libical
 
-depend:
-	@makedepend  -Y $(INCLUDES) $(SOURCES)
+top_builddir = ../..
 
-install:
+ACLOCAL = aclocal
+AUTOCONF = autoconf
+AUTOMAKE = automake
+AUTOHEADER = autoheader
+
+INSTALL = /usr/bin/install -c
+INSTALL_PROGRAM = ${INSTALL} $(AM_INSTALL_PROGRAM_FLAGS)
+INSTALL_DATA = ${INSTALL} -m 644
+INSTALL_SCRIPT = ${INSTALL_PROGRAM}
+transform = s,x,x,
+
+NORMAL_INSTALL = :
+PRE_INSTALL = :
+POST_INSTALL = :
+NORMAL_UNINSTALL = :
+PRE_UNINSTALL = :
+POST_UNINSTALL = :
+host_alias = i686-pc-linux-gnu
+host_triplet = i686-pc-linux-gnu
+AR = ar
+AS = @AS@
+CC = gcc
+DLLTOOL = @DLLTOOL@
+LEX = flex
+LIBTOOL = $(SHELL) $(top_builddir)/libtool
+LN_S = ln -s
+MAINT = #
+MAKEINFO = makeinfo
+OBJDUMP = @OBJDUMP@
+PACKAGE = libical
+PERL = perl
+PY_CFLAGS = -I/usr/include/python1.5
+PY_EXTRA_LIBS =        		-lieee -ldl  -lpthread
+PY_LIBS = python1.5
+PY_LIB_LOC = -L/usr/lib/python1.5/config
+RANLIB = ranlib
+VERSION = 0.23a
+YACC = bison -y
+python_val = true
+
+noinst_PROGRAMS = copycluster regression parser storage stow recur testmime testvcal process testclassify
+
+LDADD = ../libicalss/.libs/libicalss.a ../libicalvcal/.libs/libicalvcal.a ../libical/.libs/libical.a 
+
+INCLUDES =         -I. 				       -I../libicalvcal 		       -I$(srcdir)/../libicalvcal 	       -I$(srcdir) 			       -I../libical 			       -I$(srcdir)/../libical 		       -I../libicalss 			       -I$(srcdir)/../libicalss           
+
+
+copycluster_SOURCES = copycluster.c
+regression_SOURCES = regression.c
+parser_SOURCES = icaltestparser.c
+storage_SOURCES = storage.c
+stow_SOURCES = stow.c
+testvcal_SOURCES = testvcal.c
+recur_SOURCES = recur.c 
+testmime_SOURCES = testmime.c
+process_SOURCES = process.c
+testclassify_SOURCES = testclassify.c
+mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+CONFIG_HEADER = ../../config.h
+CONFIG_CLEAN_FILES = 
+PROGRAMS =  $(noinst_PROGRAMS)
+
+
+DEFS = -DHAVE_CONFIG_H -I. -I$(srcdir) -I../..
+CPPFLAGS = 
+LDFLAGS = 
+LIBS = 
+copycluster_OBJECTS =  copycluster.o
+copycluster_LDADD = $(LDADD)
+copycluster_DEPENDENCIES =  ../libicalss/.libs/libicalss.a \
+../libicalvcal/.libs/libicalvcal.a ../libical/.libs/libical.a
+copycluster_LDFLAGS = 
+regression_OBJECTS =  regression.o
+regression_LDADD = $(LDADD)
+regression_DEPENDENCIES =  ../libicalss/.libs/libicalss.a \
+../libicalvcal/.libs/libicalvcal.a ../libical/.libs/libical.a
+regression_LDFLAGS = 
+parser_OBJECTS =  icaltestparser.o
+parser_LDADD = $(LDADD)
+parser_DEPENDENCIES =  ../libicalss/.libs/libicalss.a \
+../libicalvcal/.libs/libicalvcal.a ../libical/.libs/libical.a
+parser_LDFLAGS = 
+storage_OBJECTS =  storage.o
+storage_LDADD = $(LDADD)
+storage_DEPENDENCIES =  ../libicalss/.libs/libicalss.a \
+../libicalvcal/.libs/libicalvcal.a ../libical/.libs/libical.a
+storage_LDFLAGS = 
+stow_OBJECTS =  stow.o
+stow_LDADD = $(LDADD)
+stow_DEPENDENCIES =  ../libicalss/.libs/libicalss.a \
+../libicalvcal/.libs/libicalvcal.a ../libical/.libs/libical.a
+stow_LDFLAGS = 
+recur_OBJECTS =  recur.o
+recur_LDADD = $(LDADD)
+recur_DEPENDENCIES =  ../libicalss/.libs/libicalss.a \
+../libicalvcal/.libs/libicalvcal.a ../libical/.libs/libical.a
+recur_LDFLAGS = 
+testmime_OBJECTS =  testmime.o
+testmime_LDADD = $(LDADD)
+testmime_DEPENDENCIES =  ../libicalss/.libs/libicalss.a \
+../libicalvcal/.libs/libicalvcal.a ../libical/.libs/libical.a
+testmime_LDFLAGS = 
+testvcal_OBJECTS =  testvcal.o
+testvcal_LDADD = $(LDADD)
+testvcal_DEPENDENCIES =  ../libicalss/.libs/libicalss.a \
+../libicalvcal/.libs/libicalvcal.a ../libical/.libs/libical.a
+testvcal_LDFLAGS = 
+process_OBJECTS =  process.o
+process_LDADD = $(LDADD)
+process_DEPENDENCIES =  ../libicalss/.libs/libicalss.a \
+../libicalvcal/.libs/libicalvcal.a ../libical/.libs/libical.a
+process_LDFLAGS = 
+testclassify_OBJECTS =  testclassify.o
+testclassify_LDADD = $(LDADD)
+testclassify_DEPENDENCIES =  ../libicalss/.libs/libicalss.a \
+../libicalvcal/.libs/libicalvcal.a ../libical/.libs/libical.a
+testclassify_LDFLAGS = 
+CFLAGS = -g -O2
+COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+CCLD = $(CC)
+LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+DIST_COMMON =  Makefile.am Makefile.in
+
+
+DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
+
+TAR = gtar
+GZIP_ENV = --best
+DEP_FILES =  .deps/copycluster.P .deps/icaltestparser.P .deps/process.P \
+.deps/recur.P .deps/regression.P .deps/storage.P .deps/stow.P \
+.deps/testclassify.P .deps/testmime.P .deps/testvcal.P
+SOURCES = $(copycluster_SOURCES) $(regression_SOURCES) $(parser_SOURCES) $(storage_SOURCES) $(stow_SOURCES) $(recur_SOURCES) $(testmime_SOURCES) $(testvcal_SOURCES) $(process_SOURCES) $(testclassify_SOURCES)
+OBJECTS = $(copycluster_OBJECTS) $(regression_OBJECTS) $(parser_OBJECTS) $(storage_OBJECTS) $(stow_OBJECTS) $(recur_OBJECTS) $(testmime_OBJECTS) $(testvcal_OBJECTS) $(process_OBJECTS) $(testclassify_OBJECTS)
+
+all: all-redirect
+.SUFFIXES:
+.SUFFIXES: .S .c .lo .o .s
+$(srcdir)/Makefile.in: # Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu src/test/Makefile
+
+Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
+	cd $(top_builddir) \
+	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+
+
+mostlyclean-noinstPROGRAMS:
+
+clean-noinstPROGRAMS:
+	-test -z "$(noinst_PROGRAMS)" || rm -f $(noinst_PROGRAMS)
+
+distclean-noinstPROGRAMS:
+
+maintainer-clean-noinstPROGRAMS:
+
+.s.o:
+	$(COMPILE) -c $<
+
+.S.o:
+	$(COMPILE) -c $<
+
+mostlyclean-compile:
+	-rm -f *.o core *.core
+
+clean-compile:
+
+distclean-compile:
+	-rm -f *.tab.c
+
+maintainer-clean-compile:
+
+.s.lo:
+	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
+
+.S.lo:
+	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
+
+mostlyclean-libtool:
+	-rm -f *.lo
+
+clean-libtool:
+	-rm -rf .libs _libs
+
+distclean-libtool:
+
+maintainer-clean-libtool:
+
+copycluster: $(copycluster_OBJECTS) $(copycluster_DEPENDENCIES)
+	@rm -f copycluster
+	$(LINK) $(copycluster_LDFLAGS) $(copycluster_OBJECTS) $(copycluster_LDADD) $(LIBS)
+
+regression: $(regression_OBJECTS) $(regression_DEPENDENCIES)
+	@rm -f regression
+	$(LINK) $(regression_LDFLAGS) $(regression_OBJECTS) $(regression_LDADD) $(LIBS)
+
+parser: $(parser_OBJECTS) $(parser_DEPENDENCIES)
+	@rm -f parser
+	$(LINK) $(parser_LDFLAGS) $(parser_OBJECTS) $(parser_LDADD) $(LIBS)
+
+storage: $(storage_OBJECTS) $(storage_DEPENDENCIES)
+	@rm -f storage
+	$(LINK) $(storage_LDFLAGS) $(storage_OBJECTS) $(storage_LDADD) $(LIBS)
+
+stow: $(stow_OBJECTS) $(stow_DEPENDENCIES)
+	@rm -f stow
+	$(LINK) $(stow_LDFLAGS) $(stow_OBJECTS) $(stow_LDADD) $(LIBS)
+
+recur: $(recur_OBJECTS) $(recur_DEPENDENCIES)
+	@rm -f recur
+	$(LINK) $(recur_LDFLAGS) $(recur_OBJECTS) $(recur_LDADD) $(LIBS)
+
+testmime: $(testmime_OBJECTS) $(testmime_DEPENDENCIES)
+	@rm -f testmime
+	$(LINK) $(testmime_LDFLAGS) $(testmime_OBJECTS) $(testmime_LDADD) $(LIBS)
+
+testvcal: $(testvcal_OBJECTS) $(testvcal_DEPENDENCIES)
+	@rm -f testvcal
+	$(LINK) $(testvcal_LDFLAGS) $(testvcal_OBJECTS) $(testvcal_LDADD) $(LIBS)
+
+process: $(process_OBJECTS) $(process_DEPENDENCIES)
+	@rm -f process
+	$(LINK) $(process_LDFLAGS) $(process_OBJECTS) $(process_LDADD) $(LIBS)
+
+testclassify: $(testclassify_OBJECTS) $(testclassify_DEPENDENCIES)
+	@rm -f testclassify
+	$(LINK) $(testclassify_LDFLAGS) $(testclassify_OBJECTS) $(testclassify_LDADD) $(LIBS)
+
+tags: TAGS
+
+ID: $(HEADERS) $(SOURCES) $(LISP)
+	list='$(SOURCES) $(HEADERS)'; \
+	unique=`for i in $$list; do echo $$i; done | \
+	  awk '    { files[$$0] = 1; } \
+	       END { for (i in files) print i; }'`; \
+	here=`pwd` && cd $(srcdir) \
+	  && mkid -f$$here/ID $$unique $(LISP)
+
+TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) $(LISP)
+	tags=; \
+	here=`pwd`; \
+	list='$(SOURCES) $(HEADERS)'; \
+	unique=`for i in $$list; do echo $$i; done | \
+	  awk '    { files[$$0] = 1; } \
+	       END { for (i in files) print i; }'`; \
+	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
+	  || (cd $(srcdir) && etags $(ETAGS_ARGS) $$tags  $$unique $(LISP) -o $$here/TAGS)
+
+mostlyclean-tags:
+
+clean-tags:
+
+distclean-tags:
+	-rm -f TAGS ID
+
+maintainer-clean-tags:
+
+distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
+
+subdir = src/test
+
+distdir: $(DISTFILES)
+	here=`cd $(top_builddir) && pwd`; \
+	top_distdir=`cd $(top_distdir) && pwd`; \
+	distdir=`cd $(distdir) && pwd`; \
+	cd $(top_srcdir) \
+	  && $(AUTOMAKE) --include-deps --build-dir=$$here --srcdir-name=$(top_srcdir) --output-dir=$$top_distdir --gnu src/test/Makefile
+	@for file in $(DISTFILES); do \
+	  d=$(srcdir); \
+	  if test -d $$d/$$file; then \
+	    cp -pr $$d/$$file $(distdir)/$$file; \
+	  else \
+	    test -f $(distdir)/$$file \
+	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
+	    || cp -p $$d/$$file $(distdir)/$$file || :; \
+	  fi; \
+	done
+
+DEPS_MAGIC := $(shell mkdir .deps > /dev/null 2>&1 || :)
+
+-include $(DEP_FILES)
+
+mostlyclean-depend:
+
+clean-depend:
+
+distclean-depend:
+	-rm -rf .deps
+
+maintainer-clean-depend:
+
+%.o: %.c
+	@echo '$(COMPILE) -c $<'; \
+	$(COMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
+	@-cp .deps/$(*F).pp .deps/$(*F).P; \
+	tr ' ' '\012' < .deps/$(*F).pp \
+	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
+	    >> .deps/$(*F).P; \
+	rm .deps/$(*F).pp
+
+%.lo: %.c
+	@echo '$(LTCOMPILE) -c $<'; \
+	$(LTCOMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
+	@-sed -e 's/^\([^:]*\)\.o[ 	]*:/\1.lo \1.o :/' \
+	  < .deps/$(*F).pp > .deps/$(*F).P; \
+	tr ' ' '\012' < .deps/$(*F).pp \
+	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
+	    >> .deps/$(*F).P; \
+	rm -f .deps/$(*F).pp
+info-am:
+info: info-am
+dvi-am:
+dvi: dvi-am
+check-am: all-am
+check: check-am
+installcheck-am:
+installcheck: installcheck-am
+install-exec-am:
+install-exec: install-exec-am
+
+install-data-am:
+install-data: install-data-am
+
+install-am: all-am
+	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
+install: install-am
+uninstall-am:
+uninstall: uninstall-am
+all-am: Makefile $(PROGRAMS)
+all-redirect: all-am
+install-strip:
+	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
+installdirs:
+
+
+mostlyclean-generic:
+
+clean-generic:
+
+distclean-generic:
+	-rm -f Makefile $(CONFIG_CLEAN_FILES)
+	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
+
+maintainer-clean-generic:
+mostlyclean-am:  mostlyclean-noinstPROGRAMS mostlyclean-compile \
+		mostlyclean-libtool mostlyclean-tags mostlyclean-depend \
+		mostlyclean-generic
+
+mostlyclean: mostlyclean-am
+
+clean-am:  clean-noinstPROGRAMS clean-compile clean-libtool clean-tags \
+		clean-depend clean-generic mostlyclean-am
+
+clean: clean-am
+
+distclean-am:  distclean-noinstPROGRAMS distclean-compile \
+		distclean-libtool distclean-tags distclean-depend \
+		distclean-generic clean-am
+	-rm -f libtool
+
+distclean: distclean-am
+
+maintainer-clean-am:  maintainer-clean-noinstPROGRAMS \
+		maintainer-clean-compile maintainer-clean-libtool \
+		maintainer-clean-tags maintainer-clean-depend \
+		maintainer-clean-generic distclean-am
+	@echo "This command is intended for maintainers to use;"
+	@echo "it deletes files that may require special tools to rebuild."
+
+maintainer-clean: maintainer-clean-am
+
+.PHONY: mostlyclean-noinstPROGRAMS distclean-noinstPROGRAMS \
+clean-noinstPROGRAMS maintainer-clean-noinstPROGRAMS \
+mostlyclean-compile distclean-compile clean-compile \
+maintainer-clean-compile mostlyclean-libtool distclean-libtool \
+clean-libtool maintainer-clean-libtool tags mostlyclean-tags \
+distclean-tags clean-tags maintainer-clean-tags distdir \
+mostlyclean-depend distclean-depend clean-depend \
+maintainer-clean-depend info-am info dvi-am dvi check check-am \
+installcheck-am installcheck install-exec-am install-exec \
+install-data-am install-data install-am install uninstall-am uninstall \
+all-redirect all-am all installdirs mostlyclean-generic \
+distclean-generic clean-generic maintainer-clean-generic clean \
+mostlyclean distclean maintainer-clean
+
+
+# Tell versions [3.59,3.63) of GNU make to not export all variables.
+# Otherwise a system limit (for SysV at least) may be exceeded.
+.NOEXPORT:

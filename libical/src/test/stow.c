@@ -49,6 +49,10 @@ char* program_name;
 
 void usage(char *message);
 
+#ifndef PATH_MAX
+#define PATH_MAX 256 /* HACK */
+#endif
+
 
 enum options {
     STORE_IN_FILE,
@@ -485,7 +489,7 @@ void usage(char *message)
     fprintf(stderr,"Usage: %s [-emdcn] [-i inputfile] [-o outputfile] [-u calid]\n",program_name);
     fprintf(stderr,"-e\tInput data is encapsulated in a MIME Message \n\
 -m\tInput is raw iCal \n\
--i\tSpecify input file. Otherwise, input comed from stdin\n\
+-i\tSpecify input file. Otherwise, input comes from stdin\n\
 -o\tSpecify file to save incoming message to\n\
 -d\tSpecify database to send data to\n\
 -u\tSet the calid to store the data to\n\

@@ -1,12 +1,14 @@
 #!/usr/local/bin/perl
 
+require "readvaluesfile.pl";
+
 use Getopt::Std;
 getopts('chspi:');
 
 %no_xname = (RELATED=>1,RANGE=>1,RSVP=>1,XLICERRORTYPE=>1,XLICCOMPARETYPE=>1);
 
-# Usually, open  param-c-types.txt
-open(F,"$ARGV[0]") || die "Can't open  C parameter types file $ARGV[0]:$!";
+%params = read_parameters_file($ARGV[0]);
+
 
 # Write the file inline by copying everything before a demarcation
 # line, and putting the generated data after the demarcation
@@ -34,122 +36,174 @@ if ($opt_i) {
 }
 
 
+# Write parameter string map
+if ($opt_c){
+}
 
-if (($opt_c or $opt_h) and !$opt_i) {
+# Write parameter enumerations and datatypes
 
-print <<EOM;
-/* -*- Mode: C -*-
-  ======================================================================
-  FILE: icalderivedparameters.{c,h}
-  CREATOR: eric 09 May 1999
-  
-  \044Id: mkderivedparameters.pl,v 1.1 1999/05/14 07:04:31 eric Exp eric \044
-  \044Locker: eric \044
+if($opt_h){
+  print "typedef enum icalparameter_kind {\n    ICAL_ANY_PARAMETER = 0,\n";
+  foreach $param (sort keys %params) {
     
-  (C) COPYRIGHT 1999 Eric Busboom 
-  http://www.softwarestudio.org
+    next if !$param;
+    
+    next if $param eq 'NO' or $param eq 'ANY';
 
-  The contents of this file are subject to the Mozilla Public License
-  Version 1.0 (the "License"); you may not use this file except in
-  compliance with the License. You may obtain a copy of the License at
-  http://www.mozilla.org/MPL/
- 
-  Software distributed under the License is distributed on an "AS IS"
-  basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
-  the License for the specific language governing rights and
-  limitations under the License.
- 
+    my $uc = join("",map {uc($_);}  split(/-/,$param));
 
- ======================================================================*/
+    my @enums = @{$params{$param}->{'enums'}};
+        
+    print "    ICAL_${uc}_PARAMETER, \n";
+    
+  }  
+  print "    ICAL_NO_PARAMETER\n} icalparameter_kind;\n\n";
 
-/*
- * THIS FILE IS MACHINE GENERATED DO NOT EDIT
- */
+  # Now create enumerations for parameter values
+  $idx = 20000;
+  
+  print "#define ICALPARAMETER_FIRST_ENUM $idx\n\n";
+  
+  foreach $param (sort keys %params) {
+    
+    next if !$param;
+    
+    next if $param eq 'NO' or $prop eq 'ANY';
 
+    my $type = $params{$param}->{"C"};
+    my $ucv = join("",map {uc(lc($_));}  split(/-/,$param));    
+    my @enums = @{$params{$param}->{'enums'}};
 
-EOM
+    if(@enums){
+
+      print "typedef enum $type {\n";
+      my $first = 1;
+
+      unshift(@enums,"X");
+
+      push(@enums,"NONE");
+
+      foreach $e (@enums) {
+	if (!$first){
+	  print ",\n";
+	} else {
+	  $first = 0;
+	}
+	
+	my $uce = join("",map {uc(lc($_));}  split(/-/,$e));    
+	
+	print "    ICAL_${ucv}_${uce} = $idx";
+	
+	$idx++;
+      }
+      $c_type =~ s/enum //;
+
+      print "\n} $type;\n\n";
+    }
+  }
+
+  print "#define ICALPARAMETER_LAST_ENUM $idx\n\n";
 
 }
 
-if ($opt_p and !$opt_i){
+if ($opt_c){
 
-print <<EOM;
-# -*- Mode: Perl -*-
-#  ======================================================================
-#  \044Id:\044
-#    
-#  (C) COPYRIGHT 1999 Eric Busboom 
-#  http://www.softwarestudio.org
-#
-#  The contents of this file are subject to the Mozilla Public License
-#  Version 1.0 (the "License"); you may not use this file except in
-#  compliance with the License. You may obtain a copy of the License at
-#  http://www.mozilla.org/MPL/
-# 
-#  Software distributed under the License is distributed on an "AS IS"
-#  basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
-#  the License for the specific language governing rights and
-#  limitations under the License. 
-#
-#  The original author is Eric Busboom
-#  The original code is derivedparams.h
-#
-#  ======================================================================*/
+  # Create the icalparameter_value to icalvalue_kind conversion table
+  print "struct  icalparameter_value_kind_map value_kind_map[] = {\n";
+  
+  foreach $enum (@{$params{'VALUE'}->{'enums'}}){
+    next if $enum eq 'NO' or $enum eq 'ERROR';
+    $uc = join("",map {uc(lc($_));}  split(/-/,$enum));    
+    print "    {ICAL_VALUE_${uc},ICAL_${uc}_VALUE},\n";
+  }
+  
+  print "    {ICAL_VALUE_X,ICAL_X_VALUE},\n";
+  print "    {ICAL_VALUE_NONE,ICAL_NO_VALUE}\n};\n\n";
+  
+  #Create the parameter Name map
+  print "static struct icalparameter_kind_map parameter_map[] = { \n";
 
-EOM
+  foreach $param (sort keys %params) {
+    
+    next if !$param;
+    
+    next if $param eq 'NO' or $prop eq 'ANY';
+
+    my $lc = join("",map {lc($_);}  split(/-/,$param));    
+    my $uc = join("",map {uc(lc($_));}  split(/-/,$param));    
+
+
+    print "    {ICAL_${uc}_PARAMETER,\"$param\"},\n";
+
+  }
+
+  print "    { ICAL_NO_PARAMETER, \"\"}\n};\n\n";
+  
+  # Create the parameter value map
+
+  print "static struct icalparameter_map icalparameter_map[] = {\n";
+  print "{ICAL_ANY_PARAMETER,0,\"\"},\n";
+
+  foreach $param (sort keys %params) {
+    
+    next if !$param;
+    
+    next if $param eq 'NO' or $prop eq 'ANY';
+
+    my $type = $params{$param}->{"C"};
+    my $uc = join("",map {uc(lc($_));}  split(/-/,$param));    
+    my @enums = @{$params{$param}->{'enums'}};
+
+    if(@enums){
+
+      foreach $e (@enums){
+	my $uce = join("",map {uc(lc($_));}  split(/-/,$e));    
+
+	print "    {ICAL_${uc}_PARAMETER,ICAL_${uc}_${uce},\"$e\"},\n";
+      }
+
+    }
+  }
+
+  print "    {ICAL_NO_PARAMETER,0,\"\"}};\n\n";
 
 }
 
+foreach $param  (keys %params){
 
-while(<F>){
-  
-  chop;
-  my ($param,$type) = split(/\s{2,}/,$_);  
-  
+  my $type = $params{$param}->{'C'};
+
   my $ucf = join("",map {ucfirst(lc($_));}  split(/-/,$param));
   
   my $lc = lc($ucf);
   my $uc = uc($lc);
-  
-  my $lctype = lc($type);
-  
-
+ 
   my $charorenum;
   my $set_code;
   my $pointer_check;
-  my $new_pointer_check;
-  my $new_pointer_check_v;
+  my $pointer_check_v;
   my $xrange;
-
-  if ($type=~/char/){
-    $new_pointer_check = "icalerror_check_arg_rz( (v!=0),\"v\");"; 
-    $new_pointer_check_v = "icalerror_check_arg_rv( (v!=0),\"v\");"; 
-  }
-
 
   if ($type=~/char/ ) {
 
-     $charorenum = "    icalerror_check_arg_rz( (param!=0), \"param\");\n    return ((struct icalparameter_impl*)param)->string;";
+     $charorenum = "    icalerror_check_arg_rz( (param!=0), \"param\");\n    return ($type)((struct icalparameter_impl*)param)->string;";
     
-     $pointer_check = "icalerror_check_arg_rz( (v!=0),\"v\");";
+     $set_code = "((struct icalparameter_impl*)param)->string = icalmemory_strdup(v);";
 
-     $set_code = "((struct icalparameter_impl*)param)->string = strdup(v);"
+     $pointer_check = "icalerror_check_arg_rz( (v!=0),\"v\");"; 
+     $pointer_check_v = "icalerror_check_arg_rv( (v!=0),\"v\");"; 
 
   } else {
 
-    $xrange ="     if ( ((struct icalparameter_impl*)param)->string != 0){\n        return ICAL_${uc}_XNAME;\n        }\n" if !exists $no_xname{$uc};
-
-    $charorenum=<<EOM;
-    icalerror_check_arg( (param!=0), \"param\");
-$xrange
-    return ((struct icalparameter_impl*)param)->data.v_${lc};
-EOM
+    $xrange ="     if ( ((struct icalparameter_impl*)param)->string != 0){\n        return ICAL_${uc}_X;\n        }\n" if !exists $no_xname{$uc};
+    
+    $charorenum= "icalerror_check_arg( (param!=0), \"param\");\n$xrange\nreturn ($type)((struct icalparameter_impl*)param)->data;";
      
-     $pointer_check = "icalerror_check_arg( (v!=0),\"v\");";
+    $pointer_check = "icalerror_check_arg_rz(v >= ICAL_${uc}_X,\"v\");\n    icalerror_check_arg_rz(v < ICAL_${uc}_NONE,\"v\");";
 
-     $set_code = "((struct icalparameter_impl*)param)->data.v_${lc} = v;";
+    $pointer_check_v = "icalerror_check_arg_rv(v >= ICAL_${uc}_X,\"v\");\n    icalerror_check_arg_rv(v < ICAL_${uc}_NONE,\"v\");";
 
-    $print_code = "switch (impl->data.v_${lc}) {\ncase ICAL_${uc}_: {\n}\ncase ICAL_${uc}_XNAME: /* Fall Through */\n}\n";
+     $set_code = "((struct icalparameter_impl*)param)->data = (int)v;";
 
    }
   
@@ -163,7 +217,7 @@ icalparameter* icalparameter_new_${lc}($type v)
 {
    struct icalparameter_impl *impl;
    icalerror_clear_errno();
-   $new_pointer_check
+   $pointer_check
    impl = icalparameter_new_impl(ICAL_${uc}_PARAMETER);
    if (impl == 0) {
       return 0;
@@ -186,7 +240,7 @@ $charorenum
 
 void icalparameter_set_${lc}(icalparameter* param, ${type} v)
 {
-   $new_pointer_check_v
+   $pointer_check_v
    icalerror_check_arg_rv( (param!=0), "param");
    icalerror_clear_errno();
    
@@ -205,20 +259,9 @@ void icalparameter_set_${lc}(icalparameter* value, ${type} v);
 
 EOM
 
-} elsif ($opt_s) {
-
-next if $type =~ /char/;
-
-print<<EOM;
-case ICAL_${uc}_PARAMETER:
-{
-  $print_code
-}
-EOM
-
 }
 
-  if ($opt_p) {
+if ($opt_p) {
     
   print <<EOM;
 
@@ -273,5 +316,6 @@ if ($opt_h){
 
 print <<EOM;
 #endif /*ICALPARAMETER_H*/
+
 EOM
 }

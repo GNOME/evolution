@@ -39,7 +39,7 @@
 #include <assert.h>
 #include <ctype.h> /* for tolower */
 #include <stdlib.h>   /* for malloc, free */
-
+#include <string.h> /* for strcasecmp */
 
 #ifdef DMALLOC
 #include "dmalloc.h"
@@ -489,7 +489,7 @@ char* sspm_major_type_string(enum sspm_major_type type)
     return major_content_type_map[i].str; /* Should return SSPM_UNKNOWN_MINOR_TYPE */
 }
 
-char* sspm_minor_type_string(enum sspm_major_type type)
+char* sspm_minor_type_string(enum sspm_minor_type type)
 {
     int i;
     for (i=0; minor_content_type_map[i].type !=  SSPM_UNKNOWN_MINOR_TYPE; 

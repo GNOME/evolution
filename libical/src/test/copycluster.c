@@ -31,8 +31,14 @@
 #include "icalfileset.h"
 #include <errno.h>
 #include <string.h> /* For strerror */
+#include <signal.h> /* for signal */
+#include <unistd.h> /* for alarm */
 #include "icalrestriction.h"
 
+static void sig_alrm(int i){
+    fprintf(stderr,"Could not get lock on file\n");
+    exit(1);
+}
 /* This program copies a file that holds iCal components to an other file. */
 
 
@@ -57,10 +63,14 @@ int main(int c, char *argv[]){
     }
 
 
-    icalerror_set_error_state(ICAL_MALFORMEDDATA_ERROR, ICAL_ERROR_NONFATAL);
     icalerror_set_error_state(ICAL_PARSE_ERROR, ICAL_ERROR_NONFATAL);
 
+
+    signal(SIGALRM,sig_alrm);
+
+    alarm(0);
     clusterin = icalfileset_new(argv[1]);
+    alarm(0);
 
     if (clusterin == 0){
 	printf("Could not open input cluster \"%s\"",argv[1]);
@@ -81,13 +91,16 @@ int main(int c, char *argv[]){
 	 itr != 0;
 	 itr = icalset_get_next_component(clusterin)){
 
+        icalerror_set_error_state(ICAL_BADARG_ERROR, ICAL_ERROR_NONFATAL);
 	icalrestriction_check(itr);
+        icalerror_set_error_state(ICAL_BADARG_ERROR, ICAL_ERROR_DEFAULT);
 
 	if (itr != 0){
 
 	    if(tostdout){
 
 		printf("--------------\n%s\n",icalcomponent_as_ical_string(itr));
+
 	    } else {
 
 		icalfileset_add_component(clusterout,

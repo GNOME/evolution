@@ -33,7 +33,6 @@
 #include "icalfileset.h"
 #include "icalgauge.h"
 #include <errno.h>
-#include <limits.h> /* For PATH_MAX */
 #include <sys/stat.h> /* for stat */
 #include <unistd.h> /* for stat, getpid */
 #include <stdlib.h>
@@ -155,7 +154,6 @@ icalerrorenum icalfileset_read_file(icalfileset* cluster,mode_t mode)
 {
 
     icalparser *parser;
-    int fd;
   
     struct icalfileset_impl *impl = (struct icalfileset_impl*)cluster;
     
@@ -292,7 +290,7 @@ int icalfileset_safe_saves=0;
 
 icalerrorenum icalfileset_commit(icalfileset* cluster)
 {
-    char tmp[PATH_MAX]; 
+    char tmp[ICAL_PATH_MAX]; 
     char *str;
     icalcomponent *c;
     off_t write_size=0;
@@ -309,7 +307,7 @@ icalerrorenum icalfileset_commit(icalfileset* cluster)
     }
     
     if(icalfileset_safe_saves == 1){
-	snprintf(tmp,PATH_MAX,"cp %s %s.bak",impl->path,impl->path);
+	snprintf(tmp,ICAL_PATH_MAX,"cp %s %s.bak",impl->path,impl->path);
 	
 	if(system(tmp) < 0){
 	    icalerror_set_errno(ICAL_FILE_ERROR);
@@ -376,8 +374,8 @@ icalerrorenum icalfileset_add_component(icalfileset *cluster,
 {
     struct icalfileset_impl* impl = (struct icalfileset_impl*)cluster;
 
-    icalerror_check_arg_rv((cluster!=0),"cluster");
-    icalerror_check_arg_rv((child!=0),"child");
+    icalerror_check_arg_re((cluster!=0),"cluster", ICAL_BADARG_ERROR);
+    icalerror_check_arg_re((child!=0),"child",ICAL_BADARG_ERROR);
 
     icalcomponent_add_component(impl->cluster,child);
 
@@ -392,8 +390,8 @@ icalerrorenum icalfileset_remove_component(icalfileset *cluster,
 {
     struct icalfileset_impl* impl = (struct icalfileset_impl*)cluster;
 
-    icalerror_check_arg_rv((cluster!=0),"cluster");
-    icalerror_check_arg_rv((child!=0),"child");
+    icalerror_check_arg_re((cluster!=0),"cluster",ICAL_BADARG_ERROR);
+    icalerror_check_arg_re((child!=0),"child",ICAL_BADARG_ERROR);
 
     icalcomponent_remove_component(impl->cluster,child);
 
