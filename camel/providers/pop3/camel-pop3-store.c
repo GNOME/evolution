@@ -365,8 +365,8 @@ query_auth_types_generic (CamelService *service, CamelException *ex)
 void
 camel_pop3_store_expunge (CamelPop3Store *store, CamelException *ex)
 {
-	/*camel_pop3_command (store, NULL, ex, "QUIT");*/
-	/*camel_service_disconnect (CAMEL_SERVICE (store), ex);*/
+	camel_pop3_command (store, NULL, ex, "QUIT");
+	camel_service_disconnect (CAMEL_SERVICE (store), FALSE, ex);
 }
 
 
