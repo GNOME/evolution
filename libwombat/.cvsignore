@@ -1,0 +1,10 @@
+Makefile.in
+Makefile
+*.lo
+wombat.h
+wombat-common.c
+wombat-skels.c
+wombat-stubs.c
+.deps
+.libs
+libwombat.la
