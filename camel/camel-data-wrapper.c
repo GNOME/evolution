@@ -41,6 +41,7 @@ static void _set_mime_type (CamelDataWrapper *data_wrapper, gchar *mime_type);
 static gchar *_get_mime_type (CamelDataWrapper *data_wrapper);
 static GMimeContentField *_get_mime_type_field (CamelDataWrapper *data_wrapper);
 static void _set_mime_type_field (CamelDataWrapper *data_wrapper, GMimeContentField *mime_type);
+static CamelStream *_get_stream (CamelDataWrapper *data_wrapper);
 static void _finalize (GtkObject *object);
 
 static void
@@ -57,6 +58,7 @@ camel_data_wrapper_class_init (CamelDataWrapperClass *camel_data_wrapper_class)
 	camel_data_wrapper_class->get_mime_type = _get_mime_type;
 	camel_data_wrapper_class->get_mime_type_field = _get_mime_type_field;
 	camel_data_wrapper_class->set_mime_type_field = _set_mime_type_field;
+	camel_data_wrapper_class->get_stream = _get_stream;
 
 	/* virtual method overload */
 	gtk_object_class->finalize = _finalize;
@@ -236,4 +238,15 @@ camel_data_wrapper_set_mime_type_field (CamelDataWrapper *data_wrapper, GMimeCon
 	CDW_CLASS(data_wrapper)->set_mime_type_field (data_wrapper, mime_type);
 }
 
+static CamelStream *
+_get_stream (CamelDataWrapper *data_wrapper)
+{
+	/* This needs to be implemented in subclasses.  */
+	return NULL;
+}
 
+CamelStream *
+camel_data_wrapper_get_stream (CamelDataWrapper *data_wrapper)
+{
+	CDW_CLASS(data_wrapper)->get_stream (data_wrapper);
+}

@@ -1,3 +1,70 @@
+1999-11-17  Ettore Perazzoli  <ettore@gnu.org>
+
+	* camel/camel-mime-message.c (_write_to_stream): Write
+	"Mime-Version: 1.0" to the stream.
+
+	* tests/test1.c: If executed with a file name parameter, attach a
+	file with with that name to the email without loading it into
+	core, thus demonstrating usage of my latest changes.
+
+	* camel/camel-mime-part.c (_set_encoding): Updated to use
+	`CamelMimePartEncodingType'.
+	(camel_mime_part_set_encoding): Likewise.
+	(_get_encoding): Likewise.
+	(camel_mime_part_get_encoding): Likewise.
+	(_write_content_to_stream): Honour the `encoding' member.
+	(_construct_from_stream): Made static.
+	(camel_mime_part_encoding_to_string): New function.
+	(_write_to_stream): Write the encoding string using it.
+	(camel_mime_part_init): Set encoding to
+	`CAMEL_MIME_PART_ENCODING_DEFAULT'.
+	(_finalize): Don't free `encoding' anymore.
+	(camel_mime_part_encoding_from_string): New function.
+	(_parse_header_pair): Use it.
+
+	* camel/camel-mime-part.h: New enum `CamelMimePartEncodingType'.
+	Member `encoding' of `struct _CamelMimePart' changed from `gchar
+	*' to `CamelMimePartEncodingType'.  All the encoding-related
+	methods changed to use this type instead of `gchar *'.
+
+	* camel/gmime-base64.c (gmime_encode_base64): Got it to work.
+
+	* camel/Makefile.am (libcamel_la_SOURCES): Compile
+	`gmime-base64.c'.
+
+	* camel/gmime-base64.h: New, previously missing, header.
+
+	* camel/camel-stream-data-wrapper.c: New file implementing the
+	`CamelStreamDataWrapper' class.
+	* camel/camel-stream-data-wrapper.h: Corresponding header.
+
+	* camel/camel-simple-data-wrapper.c: Implemented the `get_stream'
+	virtual method.
+	(_get_stream): New function implementing the method.
+	(camel_simple_data_wrapper_class_init): Install it in the class
+	struct.
+	(camel_simple_data_wrapper_init): New function initializing the
+	`stream' member to NULL,
+	(camel_simple_data_wrapper_class_init): Set it as the
+	GtkObjectInitFunc.
+
+	* camel/camel-simple-data-wrapper.h: New member `stream' in
+	`struct _CamelSimpleDataWrapper'.
+
+	* camel/camel-simple-data-wrapper-stream.c: New file implementing
+	the `CamelSimpleDataWrapperStream' class.
+	* camel/camel-simple-data-wrapper-stream.h: Corresponding header.
+
+	* camel/camel-data-wrapper.c (camel_data_wrapper_get_stream): New
+	function.
+	(_get_stream): New private function, just returning NULL.
+	(camel_data_wrapper_class_init): Install it as the default
+	`get_stream' virtual method.
+
+	* camel/camel-data-wrapper.h: New virtual method `get_stream' in
+	`CamelDataWrapperClass'.
+	(camel_data_wrapper_get_stream): New function prototype.
+
 1999-11-05  Ettore Perazzoli  <ettore@gnu.org>
 
 	* tests/ui-tests/msg-composer-test.c: New file for testing the

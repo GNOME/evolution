@@ -53,7 +53,7 @@ typedef struct
 	CamelDataWrapper parent_object;
 
 	GByteArray *byte_array;
-	
+	CamelStream *stream;
 } CamelSimpleDataWrapper;
 
 

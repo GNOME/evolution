@@ -36,6 +36,8 @@ libcamel_la_SOURCES = 				\
 	camel-data-wrapper.c			\
 	camel-exception.c			\
 	camel-simple-data-wrapper.c		\
+	camel-simple-data-wrapper-stream.c	\
+	camel-stream-data-wrapper.c		\
 	camel-folder.c				\
 	camel-folder-summary.c			\
 	camel-medium.c				\
@@ -56,6 +58,7 @@ libcamel_la_SOURCES = 				\
 	camel-stream-fs.c			\
 	camel-stream-mem.c			\
 	data-wrapper-repository.c		\
+	gmime-base64.c				\
 	gmime-content-field.c			\
 	gmime-utils.c				\
 	gstring-util.c				\
@@ -71,6 +74,8 @@ libcamelinclude_HEADERS =			\
 	camel-data-wrapper.h			\
 	camel-exception.h			\
 	camel-simple-data-wrapper.h		\
+	camel-simple-data-wrapper-stream.h	\
+	camel-stream-data-wrapper.h		\
 	camel-folder.h				\
 	camel-folder-summary.h			\
 	camel-mime-body-part.h			\

@@ -45,6 +45,17 @@ extern "C" {
 #define IS_CAMEL_MIME_PART(o)    (GTK_CHECK_TYPE((o), CAMEL_MIME_PART_TYPE))
 
 
+enum _CamelMimePartEncodingType {
+        CAMEL_MIME_PART_ENCODING_DEFAULT,
+        CAMEL_MIME_PART_ENCODING_7BIT,
+        CAMEL_MIME_PART_ENCODING_8BIT,
+        CAMEL_MIME_PART_ENCODING_BASE64,
+        CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE,
+        CAMEL_MIME_PART_NUM_ENCODINGS
+};
+typedef enum _CamelMimePartEncodingType CamelMimePartEncodingType;
+
+
 /* Do not change these values directly, you
    would regret it one day */
 typedef struct 
@@ -57,7 +68,7 @@ typedef struct
 	gchar *content_id;
 	gchar *content_MD5;
 	GList *content_languages;
-	gchar *encoding;
+	CamelMimePartEncodingType encoding;
 	gchar *filename;
 	GList *header_lines;
 	
@@ -82,8 +93,8 @@ typedef struct {
 	const gchar * (*get_content_id) (CamelMimePart *mime_part);
 	void  (*set_content_MD5) (CamelMimePart *mime_part, gchar *content_MD5);
 	const gchar * (*get_content_MD5) (CamelMimePart *mime_part);
-	void  (*set_encoding) (CamelMimePart *mime_part, gchar *encoding);
-	const gchar * (*get_encoding) (CamelMimePart *mime_part);
+	void  (*set_encoding) (CamelMimePart *mime_part, CamelMimePartEncodingType type);
+	const CamelMimePartEncodingType (*get_encoding) (CamelMimePart *mime_part);
 	void  (*set_content_languages) (CamelMimePart *mime_part, GList *content_languages);
 	const GList * (*get_content_languages) (CamelMimePart *mime_part);
 	void  (*set_header_lines) (CamelMimePart *mime_part, GList *header_lines);
@@ -116,8 +127,8 @@ const gchar *camel_mime_part_get_filename (CamelMimePart *mime_part);
 const gchar *camel_mime_part_get_content_id (CamelMimePart *mime_part);
 const gchar *camel_mime_part_get_content_MD5 (CamelMimePart *mime_part);
 void camel_mime_part_set_encoding (CamelMimePart *mime_part, 
-				   gchar *encoding);
-const gchar *camel_mime_part_get_encoding (CamelMimePart *mime_part);
+				   CamelMimePartEncodingType type);
+CamelMimePartEncodingType camel_mime_part_get_encoding (CamelMimePart *mime_part);
 void camel_mime_part_set_content_languages (CamelMimePart *mime_part, 
 					    GList *content_languages);
 const GList *camel_mime_part_get_content_languages (CamelMimePart *mime_part);
@@ -127,10 +138,11 @@ const GList *camel_mime_part_get_header_lines (CamelMimePart *mime_part);
 
 GMimeContentField *camel_mime_part_get_content_type (CamelMimePart *mime_part);
 
+const gchar *camel_mime_part_encoding_to_string (CamelMimePartEncodingType encoding);
+CamelMimePartEncodingType camel_mime_part_encoding_from_string (const gchar *string);
+
 /* utility functions */
 void camel_mime_part_set_text (CamelMimePart *camel_mime_part, const gchar *text);
-
-
 
 
 #ifdef __cplusplus

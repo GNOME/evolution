@@ -25,7 +25,9 @@
  * USA
  */
 #include <config.h>
+
 #include "camel-simple-data-wrapper.h"
+#include "camel-simple-data-wrapper-stream.h"
 #include "camel-log.h"
 
 static  CamelDataWrapperClass *parent_class=NULL;
@@ -36,6 +38,7 @@ static  CamelDataWrapperClass *parent_class=NULL;
 static void _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 static void _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 static void _finalize (GtkObject *object);
+static CamelStream *_get_stream (CamelDataWrapper *data_wrapper);
 
 static void
 camel_simple_data_wrapper_class_init (CamelSimpleDataWrapperClass *camel_simple_data_wrapper_class)
@@ -50,13 +53,17 @@ camel_simple_data_wrapper_class_init (CamelSimpleDataWrapperClass *camel_simple_
 	camel_data_wrapper_class->write_to_stream = _write_to_stream;
 	camel_data_wrapper_class->construct_from_stream = _construct_from_stream;
 
+	camel_data_wrapper_class->get_stream = _get_stream;
+
 	gtk_object_class->finalize = _finalize;
 }
 
 
-
-
-
+static void
+camel_simple_data_wrapper_init (CamelSimpleDataWrapper *wrapper)
+{
+	wrapper->stream = NULL;
+}
 
 GtkType
 camel_simple_data_wrapper_get_type (void)
@@ -70,7 +77,7 @@ camel_simple_data_wrapper_get_type (void)
 			sizeof (CamelSimpleDataWrapper),
 			sizeof (CamelSimpleDataWrapperClass),
 			(GtkClassInitFunc) camel_simple_data_wrapper_class_init,
-			(GtkObjectInitFunc) NULL,
+			(GtkObjectInitFunc) camel_simple_data_wrapper_init,
 				/* reserved_1 */ NULL,
 				/* reserved_2 */ NULL,
 			(GtkClassInitFunc) NULL,
@@ -132,8 +139,6 @@ _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 
 		CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper:: Leaving _write_to_stream\n");
 }
-
-
 
 
 #define _CMSDW_TMP_BUF_SIZE 100
@@ -206,3 +211,20 @@ camel_simple_data_wrapper_set_text (CamelSimpleDataWrapper *simple_data_wrapper,
 	CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper:: Entering set_text\n");
 }
 
+
+
+static CamelStream *
+_get_stream (CamelDataWrapper *data_wrapper)
+{
+	CamelSimpleDataWrapper *simple_data_wrapper;
+
+	simple_data_wrapper = CAMEL_SIMPLE_DATA_WRAPPER (data_wrapper);
+	if (simple_data_wrapper->stream == NULL) {
+		CamelStream *s;
+
+		s = camel_simple_data_wrapper_stream_new (simple_data_wrapper);
+		simple_data_wrapper->stream = s;
+	}
+
+	return simple_data_wrapper->stream;
+}

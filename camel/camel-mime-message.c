@@ -599,6 +599,11 @@ _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	WHPT (stream, "Date", mm->received_date);
 	CAMEL_LOG_FULL_DEBUG ( "CamelMimeMessage:: Writing \"Subject\"\n");
 	WHPT (stream, "Subject", mm->subject);
+
+	/* FIXME correct to do it here?  */
+	CAMEL_LOG_FULL_DEBUG ( "CamelMimeMessage:: Writing \"Mime-Version\"\n");
+	WHPT (stream, "Mime-Version:", "1.0");
+
 	CAMEL_DATA_WRAPPER_CLASS (parent_class)->write_to_stream (data_wrapper, stream);
 	
 }

@@ -60,7 +60,7 @@ static void _finalize (GtkObject *object);
 
 /* from CamelDataWrapper */
 static void _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
-void _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
+static void _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 
 /* from CamelMedia */ 
 static void _add_header (CamelMedium *medium, gchar *header_name, gchar *header_value);
@@ -79,8 +79,8 @@ static void _set_content_id (CamelMimePart *mime_part, gchar *content_id);
 static const gchar *_get_content_id (CamelMimePart *mime_part);
 static void _set_content_MD5 (CamelMimePart *mime_part, gchar *content_MD5);
 static const gchar *_get_content_MD5 (CamelMimePart *mime_part);
-static void _set_encoding (CamelMimePart *mime_part, gchar *encoding);
-static const gchar *_get_encoding (CamelMimePart *mime_part);
+static void _set_encoding (CamelMimePart *mime_part, CamelMimePartEncodingType encoding);
+static CamelMimePartEncodingType _get_encoding (CamelMimePart *mime_part);
 static void _set_content_languages (CamelMimePart *mime_part, GList *content_languages);
 static const GList *_get_content_languages (CamelMimePart *mime_part);
 static void _set_header_lines (CamelMimePart *mime_part, GList *header_lines);
@@ -162,7 +162,7 @@ camel_mime_part_init (gpointer   object,  gpointer   klass)
 	camel_mime_part->content_id = NULL;
 	camel_mime_part->content_MD5 = NULL;
 	camel_mime_part->content_languages = NULL;
-	camel_mime_part->encoding = NULL;
+	camel_mime_part->encoding = CAMEL_MIME_PART_ENCODING_DEFAULT;
 	camel_mime_part->filename = NULL;
 	camel_mime_part->header_lines = NULL;
 
@@ -214,7 +214,6 @@ _finalize (GtkObject *object)
 	g_free (mime_part->content_id);
 	g_free (mime_part->content_MD5);
 	string_list_free (mime_part->content_languages);
-	g_free (mime_part->encoding);
 	g_free (mime_part->filename);
 	if (mime_part->header_lines) string_list_free (mime_part->header_lines);
 	
@@ -416,14 +415,14 @@ camel_mime_part_get_content_MD5 (CamelMimePart *mime_part)
 
 
 static void
-_set_encoding (CamelMimePart *mime_part, gchar *encoding)
+_set_encoding (CamelMimePart *mime_part, CamelMimePartEncodingType encoding)
 {
-	g_free(mime_part->encoding);
 	mime_part->encoding = encoding;
 }
 
 void
-camel_mime_part_set_encoding (CamelMimePart *mime_part, gchar *encoding)
+camel_mime_part_set_encoding (CamelMimePart *mime_part,
+			      CamelMimePartEncodingType encoding)
 {
 	CMP_CLASS(mime_part)->set_encoding (mime_part, encoding);
 }
@@ -433,13 +432,13 @@ camel_mime_part_set_encoding (CamelMimePart *mime_part, gchar *encoding)
 
 
 
-static const gchar *
+static CamelMimePartEncodingType
 _get_encoding (CamelMimePart *mime_part)
 {
 	return mime_part->encoding;
 }
 
-const gchar *
+const CamelMimePartEncodingType
 camel_mime_part_get_encoding (CamelMimePart *mime_part)
 {
 	return CMP_CLASS(mime_part)->get_encoding (mime_part);
@@ -620,6 +619,7 @@ static void
 _write_content_to_stream (CamelMimePart *mime_part, CamelStream *stream)
 {
 	CamelMedium *medium = CAMEL_MEDIUM (mime_part);
+	CamelStream *wrapper_stream;
 	guint buffer_size;
 	gchar *buffer;
 	gchar *encoded_buffer;
@@ -629,23 +629,27 @@ _write_content_to_stream (CamelMimePart *mime_part, CamelStream *stream)
 	CAMEL_LOG_FULL_DEBUG ( "CamelMimePart::_write_content_to_stream, content=%p\n", content);
 	if (!content) return;
 
-	/* buffer_size = camel_data_wrapper_size (content); */
-	/* buffer = g_malloc (buffer_size); */
-
-	camel_data_wrapper_write_to_stream (content, stream);
-
-#if 0
-	//if (mime_part->encoding) {
-		// encoded_buffer_size = gmime_encoded_size(buffer, buffer_size, encoding);
-		// encoded_buffer = g_malloc (encoded_buffer_size);
-		// gmime_encode_buffer (buffer, encoded_buffer, encoding);
-		// camel_stream_write (stream, encoded_buffer, encoded_buffer_size);
-		// g_free (encoded_buffer);
-	//} else 
-		//fwrite (buffer, buffer_size, 1, file);
-		//camel_stream_write (stream, buffer, buffer_size);
-	//g_free (buffer);
-#endif
+	switch (mime_part->encoding) {
+	case CAMEL_MIME_PART_ENCODING_DEFAULT:
+	case CAMEL_MIME_PART_ENCODING_7BIT:
+	case CAMEL_MIME_PART_ENCODING_8BIT:
+		camel_data_wrapper_write_to_stream (content, stream);
+		break;
+	case CAMEL_MIME_PART_ENCODING_BASE64:
+		wrapper_stream = camel_data_wrapper_get_stream (content);
+		if (wrapper_stream == NULL) {
+			/* FIXME in this case, we should probably copy stuff
+                           in-memory and make sure things work anyway.  */
+			g_warning ("Class `%s' does not implement `get_stream'",
+				   gtk_type_name (GTK_OBJECT (content)->klass->type));
+		}
+		gmime_encode_base64 (wrapper_stream, stream);
+		break;
+	default:
+		g_warning ("Encoding type `%s' not supported.",
+			   camel_mime_part_encoding_to_string
+			   (mime_part->encoding));
+	}
 
 	CAMEL_LOG_FULL_DEBUG ( "Leaving CamelMimePart::_write_content_to_stream\n");
 }
@@ -665,7 +669,8 @@ _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	CAMEL_LOG_FULL_DEBUG ( "CamelMimePart::write_to_stream writing content-disposition\n");
 	gmime_content_field_write_to_stream(mp->disposition, stream);
 	CAMEL_LOG_FULL_DEBUG ( "CamelMimePart::write_to_stream writing content-transfer-encoding\n");
-	WHPT (stream, "Content-Transfer-Encoding", mp->encoding);
+	WHPT (stream, "Content-Transfer-Encoding",
+	      camel_mime_part_encoding_to_string (mp->encoding));
 	CAMEL_LOG_FULL_DEBUG ( "CamelMimePart::write_to_stream writing content-description\n");
 	WHPT (stream, "Content-Description", mp->description);
 	CAMEL_LOG_FULL_DEBUG ( "CamelMimePart::write_to_stream writing content-MD5\n");
@@ -733,7 +738,9 @@ _parse_header_pair (CamelMimePart *mime_part, gchar *header_name, gchar *header_
 			   "CamelMimePart::parse_header_pair found HEADER_ENCODING: %s\n",
 			   header_value);
 		
-		camel_mime_part_set_encoding (mime_part, header_value);
+		camel_mime_part_set_encoding
+			(mime_part,
+			 camel_mime_part_encoding_from_string (header_value));
 		header_handled = TRUE;
 		break;
 		
@@ -767,7 +774,7 @@ _parse_header_pair (CamelMimePart *mime_part, gchar *header_name, gchar *header_
 }
 
 
-void
+static void
 _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 
@@ -779,6 +786,41 @@ _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	camel_mime_part_store_stream_in_buffer (mime_part, stream);
 	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::construct_from_stream leaving\n");
 
+}
+
+
+const gchar *
+camel_mime_part_encoding_to_string (CamelMimePartEncodingType encoding)
+{
+	switch (encoding) {
+	case CAMEL_MIME_PART_ENCODING_DEFAULT:
+	case CAMEL_MIME_PART_ENCODING_7BIT:
+		return "7bit";
+	case CAMEL_MIME_PART_ENCODING_8BIT:
+		return "8bit";
+	case CAMEL_MIME_PART_ENCODING_BASE64:
+		return "base64";
+	case CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE:
+		return "quoted-printable";
+	}
+}
+
+
+/* FIXME I am not sure this is the correct way to do this.  */
+CamelMimePartEncodingType
+camel_mime_part_encoding_from_string (const gchar *string)
+{
+	if (strncmp (string, "7bit") == 0)
+		return CAMEL_MIME_PART_ENCODING_7BIT;
+	else if (strncmp (string, "8bit") == 0)
+		return CAMEL_MIME_PART_ENCODING_8BIT;
+	else if (strncmp (string, "base64") == 0)
+		return CAMEL_MIME_PART_ENCODING_BASE64;
+	else if (strncmp (string, "quoted-printable") == 0)
+		return CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE;
+	else
+		/* FIXME?  Spit a warning?  */
+		return CAMEL_MIME_PART_ENCODING_DEFAULT;
 }
 
 

@@ -30,15 +30,12 @@ gmime_encode_base64 (CamelStream *input, CamelStream *output)
 	char buffer [BSIZE];
 	char obuf [80];	/* Output is limited to 76 characters, rfc2045 */
 	int n, i, j, state;
-	long bytes;
-	
-	j = 0;
+	int keep = 0;
+
 	state = 0;
-	bytes = 0;
-	while ((n = camel_stream_read (input, &buffer, sizeof (buffer))) > 0){
-		int   keep = 0;
-		
-		for (i = 0; i < n; i++, state++, bytes++){
+	j = 0;
+	while ((n = camel_stream_read (input, buffer, sizeof (buffer))) > 0){
+		for (i = 0; i < n; i++, state++){
 			char c = buffer [i];
 			
 			switch (state % 3){
@@ -48,21 +45,23 @@ gmime_encode_base64 (CamelStream *input, CamelStream *output)
 				break;
 			case 1:
 				obuf [j++] = base64_alphabet [keep | (c >> 4)];
-				keep = (c & 0xf) << 4;
+				keep = (c & 0xf) << 2;
 				break;
 			case 2:
 				obuf [j++] = base64_alphabet [keep | (c >> 6)];
 				obuf [j++] = base64_alphabet [c & 0x3f];
 				break;
 			}
-			
-			if ((bytes % 72) == 0){
+
+			if (j == 72){
 				obuf [j++] = '\r';
 				obuf [j++] = '\n';
 				camel_stream_write (output, obuf, j);
+				j = 0;
 			}
 		}
 	}
+
 	switch (state % 3){
 	case 0:
 		/* full ouput, nothing left to do */

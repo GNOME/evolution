@@ -3,6 +3,7 @@ CamelProvider
 CamelThreadProxy
 GtkObject
  + CamelDataWrapper
+ | + CameStreamDataWrapper
  | + CamelMedium
  | |  + CamelMimePart
  | |     + CamelMimeBodyPart
@@ -16,6 +17,7 @@ GtkObject
  |  + CamelStore
  + CamelSession
  + CamelStream
+ |  + CameDataWrapperStream
  |  + CamelStreamFs
  |  + CamelStreamBufferedFs
  |  + CamelStreamMem
