@@ -1,3 +1,12 @@
+2005-01-18  JP Rosevear  <jpr@novell.com>
+
+	Fixes #46404
+	
+	* em-folder-view.c (emfv_print_response): use the config in the
+	print data and free it
+	(em_folder_view_print): load the config from e_print and use the
+	dialog from e_print
+
 2005-01-21  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #60664.

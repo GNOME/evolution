@@ -66,6 +66,7 @@
 
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-icon-factory.h>
+#include <e-util/e-print.h>
 
 #include "em-format-html-display.h"
 #include "em-format-html-print.h"
@@ -1847,6 +1848,7 @@ emfv_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 struct _print_data {
 	EMFolderView *emfv;
 
+	GnomePrintConfig *config;
 	int preview;
 	CamelFolder *folder;
 	char *uid;
@@ -1856,20 +1858,15 @@ static void
 emfv_print_response(GtkWidget *w, int resp, struct _print_data *data)
 {
 	EMFormatHTMLPrint *print;
-	GnomePrintConfig *config = NULL;
 
 	switch (resp) {
 	case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
 		data->preview = TRUE;
 	case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
-		if (w)
-			config = gnome_print_dialog_get_config((GnomePrintDialog *)w);
 		print = em_format_html_print_new();
 		em_format_set_session((EMFormat *)print, ((EMFormat *)data->emfv->preview)->session);
-		em_format_html_print_message(print, (EMFormatHTML *)data->emfv->preview, config, data->folder, data->uid, data->preview);
+		em_format_html_print_message(print, (EMFormatHTML *)data->emfv->preview, data->config, data->folder, data->uid, data->preview);
 		g_object_unref(print);
-		if (config)
-			g_object_unref(config);
 		break;
 	}
 
@@ -1877,6 +1874,8 @@ emfv_print_response(GtkWidget *w, int resp, struct _print_data *data)
 		gtk_widget_destroy(w);
 
 	g_object_unref(data->emfv);
+	e_print_save_config (data->config);
+	g_object_unref(data->config);
 	camel_object_unref(data->folder);
 	g_free(data->uid);
 	g_free(data);
@@ -1899,6 +1898,7 @@ int em_folder_view_print(EMFolderView *emfv, int preview)
 	data = g_malloc0(sizeof(*data));
 	data->emfv = emfv;
 	g_object_ref(emfv);
+	data->config = e_print_load_config ();
 	data->preview = preview;
 	data->folder = emfv->folder;
 	camel_object_ref(data->folder);
@@ -1908,8 +1908,8 @@ int em_folder_view_print(EMFolderView *emfv, int preview)
 	if (preview) {
 		emfv_print_response(NULL, GNOME_PRINT_DIALOG_RESPONSE_PREVIEW, data);
 	} else {
-		GtkDialog *dialog = (GtkDialog *)gnome_print_dialog_new(NULL, _("Print Message"), GNOME_PRINT_DIALOG_COPIES);
-
+		GtkDialog *dialog = (GtkDialog *)e_print_get_dialog_with_config (_("Print Message"), GNOME_PRINT_DIALOG_COPIES, data->config);
+		
 		gtk_dialog_set_default_response(dialog, GNOME_PRINT_DIALOG_RESPONSE_PRINT);
 		e_dialog_set_transient_for ((GtkWindow *) dialog, (GtkWidget *) emfv);
 		g_signal_connect(dialog, "response", G_CALLBACK(emfv_print_response), data);
