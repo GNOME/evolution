@@ -1,3 +1,9 @@
+2001-11-28  Christopher James Lahey  <clahey@ximian.com>
+ 
+ 	* gui/widgets/e-minicard-view-widget.c
+	(e_minicard_view_widget_realize): Use an #ECanvasBackground here
+	instead of a #GnomeCanvasRect.
+ 
 2001-12-17  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fixes #17377, Evolution doesn't work on multi-depth displays.]

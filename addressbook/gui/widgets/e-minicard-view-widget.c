@@ -22,7 +22,7 @@
 #include <config.h>
 
 #include <gtk/gtksignal.h>
-#include <libgnomeui/gnome-canvas-rect-ellipse.h>
+#include <gal/widgets/e-canvas-background.h>
 #include <gal/widgets/e-canvas.h>
 
 #include "e-minicard-view-widget.h"
@@ -124,7 +124,6 @@ static void
 e_minicard_view_widget_init (EMinicardViewWidget *view)
 {
 	view->emv = NULL;
-	view->rect = NULL;
 
 	view->book = NULL;
 	view->query = NULL;
@@ -223,15 +222,10 @@ e_minicard_view_widget_realize (GtkWidget *widget)
 {
 	EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET(widget);
 
-	view->rect = gnome_canvas_item_new(
-		gnome_canvas_root( GNOME_CANVAS(view) ),
-		gnome_canvas_rect_get_type(),
-		"x1", (double) 0,
-		"y1", (double) 0,
-		"x2", (double) 100,
-		"y2", (double) 100,
-		"fill_color", "white",
-		NULL );
+	gnome_canvas_item_new(gnome_canvas_root( GNOME_CANVAS(view) ),
+			      e_canvas_background_get_type(),
+			      "fill_color", "white",
+			      NULL );
 
 	view->emv = gnome_canvas_item_new(
 		gnome_canvas_root( GNOME_CANVAS(view) ),
@@ -273,10 +267,6 @@ e_minicard_view_widget_size_allocate(GtkWidget *widget, GtkAllocation *allocatio
 			       NULL);
 		width = MAX(width, allocation->width);
 		gnome_canvas_set_scroll_region (GNOME_CANVAS (view), 0, 0, width - 1, allocation->height - 1);
-		gnome_canvas_item_set( view->rect,
-				       "x2", (double) width,
-				       "y2", (double) allocation->height,
-				       NULL );
 	}
 }
 
@@ -294,10 +284,6 @@ e_minicard_view_widget_reflow(ECanvas *canvas)
 		       NULL);
 	width = MAX(width, GTK_WIDGET(canvas)->allocation.width);
 	gnome_canvas_set_scroll_region(GNOME_CANVAS(canvas), 0, 0, width - 1, GTK_WIDGET(canvas)->allocation.height - 1);
-	gnome_canvas_item_set( view->rect,
-			       "x2", (double) width,
-			       "y2", (double) GTK_WIDGET(canvas)->allocation.height,
-			       NULL );	
 }
 
 static void
