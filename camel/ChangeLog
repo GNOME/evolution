@@ -1,3 +1,17 @@
+2001-07-03  Dan Winship  <danw@ximian.com>
+
+	* providers/imap/camel-imap-message-cache.c
+	(camel_imap_message_cache_clear): Doh. Don't remove things from
+	the hash table while foreach'ing it. (And can't use foreach_remove
+	either because we have to remove them in a weird order). Fixes
+	#3618.
+
+	* providers/imap/camel-imap-folder.c (imap_get_message): If the
+	server returns OK from the FETCH BODY, but there's no parseable
+	BODY response, it's probably because there's an UN-parseable BODY
+	response, implying the message is badly formatted, MIMEwise. In
+	that case, fall back to fetching the message as a single part.
+
 2001-07-02  Sam Creasey <sammy@oh.verio.com>
 
         * providers/nntp/camel-nntp-folder.c: Implemented

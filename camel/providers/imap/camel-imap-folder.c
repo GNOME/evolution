@@ -1423,6 +1423,26 @@ get_message (CamelImapFolder *imap_folder, const char *uid,
 #define IMAP_SMALL_BODY_SIZE 5120
 
 static CamelMimeMessage *
+get_message_simple (CamelImapFolder *imap_folder, const char *uid,
+		    CamelStream *stream, CamelException *ex)
+{
+	CamelMimeMessage *msg;
+
+	if (!stream) {
+		stream = camel_imap_folder_fetch_data (imap_folder, uid, "",
+						       FALSE, ex);
+		if (!stream)
+			return NULL;
+	}
+
+	msg = camel_mime_message_new ();
+	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg),
+						  stream);
+	camel_object_unref (CAMEL_OBJECT (stream));
+	return msg;
+}
+
+static CamelMimeMessage *
 imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 {
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
@@ -1431,25 +1451,20 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 	CamelMimeMessage *msg;
 	CamelStream *stream = NULL;
 
+	/* If the server doesn't support IMAP4rev1, or we already have
+	 * the whole thing cached, fetch it in one piece.
+	 */
+	if (store->server_level < IMAP_LEVEL_IMAP4REV1 ||
+	    (stream = camel_imap_folder_fetch_data (imap_folder, uid, "", TRUE, NULL)))
+		return get_message_simple (imap_folder, uid, stream, ex);
+
 	mi = camel_folder_summary_uid (folder->summary, uid);
 	g_return_val_if_fail (mi != NULL, NULL);
 
-	/* If the message is small, or the server doesn't support
-	 * IMAP4rev1, or we already have the whole thing cached,
-	 * fetch it in one piece.
-	 */
-	if (mi->size < IMAP_SMALL_BODY_SIZE ||
-	    store->server_level < IMAP_LEVEL_IMAP4REV1 ||
-	    (stream = camel_imap_folder_fetch_data (imap_folder, uid, "", TRUE, NULL))) {
+	/* If the message is small, fetch it in one piece. */
+	if (mi->size < IMAP_SMALL_BODY_SIZE) {
 		camel_folder_summary_info_free (folder->summary, mi);
-		if (!stream)
-			stream = camel_imap_folder_fetch_data (imap_folder, uid, "", FALSE, ex);
-		if (!stream)
-			return NULL;
-		msg = camel_mime_message_new ();
-		camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg), stream);
-		camel_object_unref (CAMEL_OBJECT (stream));
-		return msg;
+		return get_message_simple (imap_folder, uid, NULL, ex);
 	}
 
 	/* For larger messages, fetch the structure and build a message
@@ -1492,10 +1507,14 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 		camel_imap_response_free (store, response);
 
 		if (!mi->content->type) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-					      _("Could not find message body in FETCH response."));
+			/* FETCH returned OK, but we didn't parse a BODY
+			 * response. Courier will return invalid BODY
+			 * responses for invalidly MIMEd messages, so
+			 * fall back to fetching the entire thing and
+			 * let the mailer's "bad MIME" code handle it.
+			 */
 			camel_folder_summary_info_free (folder->summary, mi);
-			return NULL;
+			return get_message_simple (imap_folder, uid, NULL, ex);
 		}
 	}
 
