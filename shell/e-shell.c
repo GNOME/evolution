@@ -477,7 +477,6 @@ e_shell_construct (EShell *shell,
 		   const char *iid,
 		   EShellStartupLineMode startup_line_mode)
 {
-	GtkWidget *splash = NULL;
 	EShellPrivate *priv;
 	CORBA_Object corba_object;
 	gboolean start_online;
@@ -501,10 +500,7 @@ e_shell_construct (EShell *shell,
 		return E_SHELL_CONSTRUCT_RESULT_CANNOTREGISTER;
 
 	while (gtk_events_pending ())
-		gtk_main_iteration ();
-	
-	if (splash)
-		gtk_widget_destroy (splash);
+		gtk_main_iteration ();	
 	
 	if (e_shell_startup_wizard_create () == FALSE) {
 		bonobo_object_unref (BONOBO_OBJECT (shell));

@@ -1,5 +1,10 @@
 2004-01-26  JP Rosevear <jpr@ximian.com>
 
+	* e-shell.c (e_shell_construct): there is no splash screen any
+	more
+
+2004-01-26  JP Rosevear <jpr@ximian.com>
+
 	* main.c: drop now useless gtkhtml/gconf check
 
 2004-01-23  Rodney Dawes  <dobey@ximian.com>
