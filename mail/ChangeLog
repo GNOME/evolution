@@ -1,3 +1,10 @@
+2000-06-19  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* mail-ops.c (ask_confirm_for_empty_subject): New function to ask
+	confirmation for an empty subject line.
+	(composer_send_cb): Use it if the subject is empty and only send
+	the message if the user confirms.
+
 2000-06-20  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* component-factory.c (create_imap_storage): Now creates the IMAP

@@ -276,12 +276,32 @@ struct post_send_data {
 	guint32 flags;
 };
 
+static gboolean
+ask_confirm_for_empty_subject (EMsgComposer *composer)
+{
+	GtkWidget *message_box;
+	int button;
+
+	message_box = gnome_message_box_new (_("This message has no subject.\nReally send?"),
+					     GNOME_MESSAGE_BOX_QUESTION,
+					     GNOME_STOCK_BUTTON_YES, GNOME_STOCK_BUTTON_NO,
+					     NULL);
+
+	button = gnome_dialog_run_and_close (GNOME_DIALOG (message_box));
+
+	if (button == 0)
+		return TRUE;
+	else
+		return FALSE;
+}
+
 static void
 composer_send_cb (EMsgComposer *composer, gpointer data)
 {
 	static CamelTransport *transport = NULL;
 	struct post_send_data *psd = data;
 	static char *from = NULL;
+	const char *subject;
 	CamelException *ex;
 	CamelMimeMessage *message;
 	char *name, *addr, *path;
@@ -327,6 +347,14 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	}
 
 	message = e_msg_composer_get_message (composer);
+
+	subject = camel_mime_message_get_subject (message);
+	if (subject == NULL || subject[0] == '\0') {
+		if (! ask_confirm_for_empty_subject (composer)) {
+			gtk_object_unref (GTK_OBJECT (message));
+			return;
+		}
+	}
 
 	camel_mime_message_set_from (message, from);
 	camel_medium_add_header (CAMEL_MEDIUM (message), "X-Mailer",
