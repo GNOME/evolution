@@ -1362,7 +1362,6 @@ mail_config_remove_account (MailConfigAccount *account)
 	config->accounts = g_slist_remove (config->accounts, account);
 	account_destroy (account);
 	
-	mail_autoreceive_setup ();
 	return config->accounts;
 }
 

@@ -2720,7 +2720,7 @@ Quoted
 
       <widget>
 	<class>GtkCheckButton</class>
-	<name>chkPGPRemeberPassphrase</name>
+	<name>chkRememberPGPPassphrase</name>
 	<can_focus>True</can_focus>
 	<label>Remember PGP Passphrase until exit</label>
 	<active>True</active>
