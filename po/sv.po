@@ -6,13 +6,13 @@
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 # Johan Dahlin <zilch.am@home.se>, 2001.
 #
-# $Id: sv.po,v 1.181 2003/06/20 01:08:31 menthos Exp $
+# $Id: sv.po,v 1.182 2003/06/20 21:28:54 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2003-06-20 03:04+0200\n"
-"PO-Revision-Date: 2003-06-20 03:06+0200\n"
+"POT-Creation-Date: 2003-06-20 23:26+0200\n"
+"PO-Revision-Date: 2003-06-20 23:28+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2897,8 +2897,8 @@ msgstr "Protokollet stöds inte"
 #: calendar/gui/calendar-model.c:759 calendar/gui/calendar-model.c:1184
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-calendar-table.c:469 calendar/gui/print.c:2309
-#: camel/camel-service.c:737 camel/camel-service.c:780
-#: camel/camel-service.c:850 camel/camel-service.c:894
+#: camel/camel-service.c:744 camel/camel-service.c:783
+#: camel/camel-service.c:870 camel/camel-service.c:911
 #: camel/providers/pop3/camel-pop3-store.c:443
 #: camel/providers/pop3/camel-pop3-store.c:520
 msgid "Cancelled"
@@ -8799,35 +8799,40 @@ msgstr "URL:en \"%s\" behöver ett värdnamn"
 msgid "URL '%s' needs a path component"
 msgstr "URL:en \"%s\" behöver en sökväg"
 
-#: camel/camel-service.c:741
+#: camel/camel-service.c:748
 #, c-format
 msgid "Resolving: %s"
 msgstr "Slår upp: %s"
 
-#: camel/camel-service.c:774 camel/camel-service.c:889
+#: camel/camel-service.c:781 camel/camel-service.c:909
 #, c-format
 msgid "Failure in name lookup: %s"
 msgstr "Namnuppslagning misslyckades: %s"
 
-#: camel/camel-service.c:801
+#: camel/camel-service.c:802
+#, c-format
+msgid "Host lookup failed: cannot create thread: %s"
+msgstr "Uppslagning av värdnamn misslyckades: kan inte skapa tråd: %s"
+
+#: camel/camel-service.c:816
 #, c-format
 msgid "Host lookup failed: %s: host not found"
 msgstr "Uppslagning av värdnamn misslyckades: %s: värden kunde inte hittas"
 
-#: camel/camel-service.c:804
+#: camel/camel-service.c:819
 #, c-format
 msgid "Host lookup failed: %s: unknown reason"
 msgstr "Uppslagning av värdnamn misslyckades: %s: okänd orsak"
 
-#: camel/camel-service.c:854
+#: camel/camel-service.c:874
 msgid "Resolving address"
 msgstr "Slår upp adress"
 
-#: camel/camel-service.c:917
+#: camel/camel-service.c:943
 msgid "Host lookup failed: host not found"
 msgstr "Uppslagning av värdnamn misslyckades: värden kunde inte hittas"
 
-#: camel/camel-service.c:920
+#: camel/camel-service.c:946
 msgid "Host lookup failed: unknown reason"
 msgstr "Uppslagning av värdnamn misslyckades: okänd orsak"
 
