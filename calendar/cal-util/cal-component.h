@@ -338,6 +338,7 @@ void cal_component_alarms_free (CalComponentAlarms *alarms);
 
 /* CalComponentAlarms */
 CalComponentAlarm *cal_component_alarm_new (void);
+CalComponentAlarm *cal_component_alarm_clone (CalComponentAlarm *alarm);
 
 const char *cal_component_alarm_get_uid (CalComponentAlarm *alarm);
 

@@ -3702,6 +3702,16 @@ cal_component_alarm_new (void)
 	return alarm;
 }
 
+CalComponentAlarm *
+cal_component_alarm_clone (CalComponentAlarm *alarm)
+{
+	CalComponentAlarm *alarm;
+	
+	alarm = cal_component_alarm_new ();
+	
+	return alarm;
+}
+
 /**
  * cal_component_alarm_get_uid:
  * @alarm: An alarm subcomponent.

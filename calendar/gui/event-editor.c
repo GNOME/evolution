@@ -42,8 +42,8 @@
 #include "widget-util.h"
 
 
-enum { BEFORE, AFTER};
-enum { MINUTES, HOURS, DAYS};
+enum {BEFORE, AFTER};
+enum {MINUTES, HOURS, DAYS};
 
 /* Reminder maps */
 static const int reminder_action_map[] = {
@@ -104,6 +104,14 @@ static const int month_day_options_map[] = {
 	MONTH_DAY_SUN,
 	-1
 };
+
+/* Row data for the reminders */
+typedef enum {NEW_ALARM, EXISTING_ALARM} ReminderStatus;
+
+typedef struct {
+	ReminderStatus status;
+	CalComponentAlarm *alarm;
+} ReminderData;
 
 struct _EventEditorPrivate {
 	/* Glade XML data */
@@ -213,7 +221,7 @@ static void event_editor_destroy (GtkObject *object);
 static GtkObjectClass *parent_class;
 
 
-static void append_alarm (EventEditor *ee, CalComponentAlarm *alarm);
+static void append_reminder (EventEditor *ee, CalComponentAlarm *alarm, ReminderStatus status);
 static void append_exception (EventEditor *ee, time_t t);
 static void check_all_day (EventEditor *ee);
 static void set_all_day (GtkWidget *toggle, EventEditor *ee);
@@ -1652,7 +1660,7 @@ fill_reminder_widgets (EventEditor *ee)
 		CalComponentAlarm *ca = cal_component_get_alarm (priv->comp, l->data);
 
 		/* Add it to the clist */
-		append_alarm (ee, ca);
+		append_reminder (ee, ca, EXISTING_ALARM);
 	}
 	cal_component_free_alarm_uids (alarms);
 }
@@ -2107,24 +2115,18 @@ static void
 reminder_to_comp_object (EventEditor *ee, CalComponent *comp)
 {
 	EventEditorPrivate *priv;
-	GList *alarms, *l;
 	GtkCList *reminder_list;
+	ReminderData *rdata;
 	int i;
 	
 	priv = ee->priv;
 	
-	/* Erase all the old ones */
-	alarms = cal_component_get_alarm_uids (comp);
-	for (l = alarms; l != NULL; l = l->next)
-	     cal_component_remove_alarm (comp, l->data);
-	cal_component_free_alarm_uids (alarms);
-	
 	reminder_list = GTK_CLIST (priv->reminder_list);
 	for (i = 0; i < reminder_list->rows; i++) {
-		CalComponentAlarm *alarm;
-		
-		alarm = gtk_clist_get_row_data (reminder_list, i);
-		cal_component_add_alarm (priv->comp, alarm);
+		rdata = gtk_clist_get_row_data (reminder_list, i);
+		if (rdata->status == NEW_ALARM)
+			cal_component_add_alarm (priv->comp, rdata->alarm);
+		g_free (rdata);
 	}
 }
 
@@ -3133,14 +3135,15 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 	preview_recur (ee);
 }
 
-/* Appends an exception date to the list */
+/* Appends an alarm to the list */
 static void
-append_alarm (EventEditor *ee, CalComponentAlarm *alarm)
+append_reminder (EventEditor *ee, CalComponentAlarm *alarm, ReminderStatus status)
 {
 	EventEditorPrivate *priv;
+	GtkCList *clist;
+	ReminderData *rdata;
 	char *c[1];
 	int i;
-	GtkCList *clist;
 
 	priv = ee->priv;
 
@@ -3149,7 +3152,10 @@ append_alarm (EventEditor *ee, CalComponentAlarm *alarm)
 	c[0] = get_alarm_string (alarm);
 	i = e_utf8_gtk_clist_append (clist, c);
 
-	gtk_clist_set_row_data (clist, i, alarm);
+	rdata = g_new (ReminderData, 1);
+	rdata->status = status;
+	rdata->alarm = alarm;
+	gtk_clist_set_row_data (clist, i, rdata);
 	gtk_clist_select_row (clist, i, 0);
 	g_free (c[0]);
 	
@@ -3163,7 +3169,7 @@ reminder_add_cb (GtkWidget *widget, EventEditor *ee)
 	EventEditorPrivate *priv;
 	CalComponentAlarm *alarm;
 	CalAlarmTrigger trigger;
-	
+
 	priv = ee->priv;
 
 	event_editor_set_changed (ee, TRUE);
@@ -3192,7 +3198,7 @@ reminder_add_cb (GtkWidget *widget, EventEditor *ee)
 
 	cal_component_alarm_set_action (alarm, e_dialog_option_menu_get (priv->reminder_action, reminder_action_map));
 
-	append_alarm (ee, alarm);
+	append_reminder (ee, alarm, NEW_ALARM);
 }
 
 /* Callback for the "delete reminder" button */
@@ -3201,6 +3207,7 @@ reminder_delete_cb (GtkWidget *widget, EventEditor *ee)
 {
 	EventEditorPrivate *priv;
 	GtkCList *clist;
+	ReminderData *rdata;
 	int sel;
 
 	priv = ee->priv;
@@ -3213,7 +3220,16 @@ reminder_delete_cb (GtkWidget *widget, EventEditor *ee)
 
 	sel = GPOINTER_TO_INT (clist->selection->data);
 
-	cal_component_alarm_free (gtk_clist_get_row_data (clist, sel));
+	rdata = gtk_clist_get_row_data (clist, sel);
+	
+	if (rdata->status == EXISTING_ALARM) {
+		const char *uid;
+		
+		uid = cal_component_alarm_get_uid (rdata->alarm);
+		cal_component_remove_alarm (priv->comp, uid);
+	}
+	cal_component_alarm_free (rdata->alarm);
+	g_free (rdata);
 
 	gtk_clist_remove (clist, sel);
 	if (sel >= clist->rows)
