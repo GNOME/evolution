@@ -169,11 +169,11 @@
 
     <cmd name="TextZoomIn"
     _tip="Increase the text size"
-    accel="*Control*+"/>
+    accel="*Control*+" />
 
     <cmd name="TextZoomOut"
     _tip="Decrease the text size"
-    accel="*Control*-"/>
+    accel="*Control*-" />
 
     <cmd name="TextZoomReset"
     _tip="Reset the text to its original size"/>
@@ -221,6 +221,8 @@
 
     <submenu name="View">
       <placeholder name="MailMessageView">
+        <separator/>
+
 	<submenu name="TextSize" _label="Text Si_ze">
 	  <menuitem name="TextZoomOut" verb="" _label="S_maller"/>
 	  <menuitem name="TextZoomIn" verb="" _label="_Larger"/>

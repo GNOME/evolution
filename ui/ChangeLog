@@ -1,3 +1,7 @@
+2001-10-25  Larry Ewing  <lewing@ximian.com>
+
+	* evolution-mail-message.xml: add separator before text size menu
+
 2001-10-24  Christopher James Lahey  <clahey@ximian.com>
 
 	* evolution-addressbook.xml: Added Delete and BackSpace
@@ -5,8 +9,8 @@
 
 2001-10-22  Anna Marie Dirks  <anna@ximian.com>
 
-	* evolution-message-composer.xml: Added an accelerator (H_TML) to the Format->Html
-	menu item.
+	* evolution-message-composer.xml: Added an accelerator (H_TML) to
+	the Format->Html menu item.
 
 2001-10-20  Larry Ewing  <lewing@ximian.com>
 
