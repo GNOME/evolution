@@ -11,6 +11,7 @@
 
 #include <config.h>
 #include <stdlib.h>
+#include "gal/util/e-i18n.h"
 #include <libgnomeui/gnome-dialog.h>
 #include <glade/glade.h>
 #include "e-table-config.h"

@@ -16,6 +16,7 @@
 #include <alloca.h>
 #endif
 #include <stdio.h>
+#include "gal/util/e-i18n.h"
 #include <libgnomeui/gnome-canvas.h>
 #include <gtk/gtksignal.h>
 
@@ -666,7 +667,7 @@ et_col_spec_to_col (ETable                    *e_table,
 				ete, col_spec->pixbuf);
 			if (pixbuf) {
 				col = e_table_col_new_with_pixbuf (
-					col_spec->model_col, _(col_spec->title),
+					col_spec->model_col, gettext (col_spec->title),
 					pixbuf, col_spec->expansion,
 					col_spec->minimum_width,
 					cell, compare, col_spec->resizable);
@@ -674,7 +675,7 @@ et_col_spec_to_col (ETable                    *e_table,
 		} 
 		if (col == NULL && col_spec->title && *col_spec->title) {
 			col = e_table_col_new (
-				col_spec->model_col, _(col_spec->title),
+				col_spec->model_col, gettext (col_spec->title),
 				col_spec->expansion, col_spec->minimum_width,
 				cell, compare, col_spec->resizable);
 		}
@@ -897,7 +898,7 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 		ete = e_table_extras_new();
 
 	e_table->use_click_to_add = specification->click_to_add;
-	e_table->click_to_add_message = g_strdup (_(specification->click_to_add_message));
+	e_table->click_to_add_message = g_strdup (gettext (specification->click_to_add_message));
 	e_table->draw_grid = specification->draw_grid;
 	e_table->cursor_mode = specification->cursor_mode;
 	e_table->full_header = et_spec_to_full_header(e_table, specification, ete);

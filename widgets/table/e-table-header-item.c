@@ -10,6 +10,7 @@
 #include <config.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkdnd.h>
+#include "gal/util/e-i18n.h"
 #include <libgnomeui/gnome-canvas.h>
 #include <libgnomeui/gnome-canvas-util.h>
 #include <libgnomeui/gnome-canvas-polygon.h>

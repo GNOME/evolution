@@ -5,6 +5,7 @@
  */
 
 #include <config.h>
+#include "gal/util/e-i18n.h"
 #include "e-cell-date.h"
 #include <gnome.h>
 #include <sys/time.h>

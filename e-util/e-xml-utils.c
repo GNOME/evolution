@@ -21,6 +21,7 @@
  */
 
 #include <locale.h>
+#include "gal/util/e-i18n.h"
 #include <math.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
