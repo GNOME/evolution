@@ -29,6 +29,8 @@
 
 
 
+/* This contains information about one message inside 
+ * the mbox file. This is used in the intenal summary */
 typedef struct {
 
 	guint32  position;
@@ -40,10 +42,12 @@ typedef struct {
 	gchar   *sender;
 	gchar   *to;
 	gchar   *date;
+	gchar   *received_date;
 
 } CamelMboxSummaryInformation;
 
 
+/* this contains informations about the whole mbox file */
 typedef struct {
 	
 	guint nb_message;      /* number of messages in the summary    */

@@ -69,6 +69,7 @@ typedef struct {
 	gchar *sent_date;
 	gchar *received_date;
 	
+	guint32 size;
 	gchar *uid;
 
 	GHashTable *extended_fields;

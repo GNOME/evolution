@@ -1,5 +1,16 @@
 2000-03-21  bertrand  <bertrand@helixcode.com>
 
+	* providers/mbox/camel-mbox-summary.c 
+	(camel_mbox_summary_append_internal_to_external): copy the size field
+
+	* providers/mbox/camel-mbox-folder.c (_get_message_by_uid): initialize 
+	message_info to NULL
+
+	* camel-folder-summary.h: added the size field.
+
+	* providers/mbox/camel-mbox-summary.h: 
+	added the received_date field.
+
 	* providers/mbox/camel-mbox-summary.c:
 	documented all functions.
 

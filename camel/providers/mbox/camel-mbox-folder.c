@@ -179,7 +179,6 @@ _init (CamelFolder *folder, CamelStore *parent_store,
        CamelFolder *parent_folder, const gchar *name, gchar separator,
        CamelException *ex)
 {
-	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);
 
 
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxFolder::init_with_store\n");
@@ -463,7 +462,6 @@ _create (CamelFolder *folder, CamelException *ex)
 	gint mkdir_error;
 	gboolean folder_already_exists;
 	int creat_fd;
-	mode_t old_umask;
 
 	g_assert(folder != NULL);
 
@@ -647,7 +645,6 @@ _delete_messages (CamelFolder *folder, CamelException *ex)
 	const gchar *folder_file_path;
 	gboolean folder_already_exists;
 	int creat_fd;
-	mode_t old_umask;
 
 	g_assert(folder!=NULL);
 	
@@ -1014,7 +1011,7 @@ _get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 	
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER(folder);
 	GArray *message_info_array;
-	CamelMboxSummaryInformation *message_info;
+	CamelMboxSummaryInformation *message_info = NULL;
 	guint32 searched_uid;
 	int i;
 	gboolean uid_found;

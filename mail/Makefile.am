@@ -1,4 +1,4 @@
-bin_PROGRAMS =	evolution-mail test-mail
+bin_PROGRAMS =	evolution-mail test-mail test-sources
 
 providerdir = $(libdir)/evolution/camel-providers/$(VERSION)
 
@@ -57,6 +57,13 @@ test_mail_SOURCES = \
 	test-mail.c
 
 test_mail_LDADD = \
+	$(BONOBO_HTML_GNOME_LIBS)
+
+
+test_sources_SOURCES = \
+	mail-sources.c
+
+test_sources_LDADD = \
 	$(BONOBO_HTML_GNOME_LIBS)
 
 gnorbadir = $(sysconfdir)/CORBA/servers

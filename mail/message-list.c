@@ -191,7 +191,7 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 		return "dudes@server";
 		
 	case COL_SIZE:
-		sprintf (buffer, "%d", 20);
+		sprintf (buffer, "%d", msg_info.size);
 		return buffer;
 			
 	default:
