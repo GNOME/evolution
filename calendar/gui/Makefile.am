@@ -33,8 +33,7 @@ LINK_FLAGS =							\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a		\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/libversit/libversit.la			\
-	$(top_builddir)/libical/src/libical/libical.a		\
-	$(top_builddir)/executive-summary/evolution-services/libevolution-services.la
+	$(top_builddir)/libical/src/libical/libical.a
 
 gladedir   = $(datadir)/evolution/glade
 
@@ -54,8 +53,6 @@ evolution_calendar_SOURCES =			\
 	calendar-commands.h			\
 	calendar-model.c			\
 	calendar-model.h			\
-	calendar-summary.c			\
-	calendar-summary.h			\
 	control-factory.c			\
 	control-factory.h			\
 	component-factory.c			\

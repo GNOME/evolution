@@ -1,3 +1,7 @@
+2000-10-12  Iain Holmes  <iain@helixcode.com>
+
+	* gui/component-factory.c: Disable the executive summary.
+
 2000-10-11  JP Rosevear  <jpr@helixcode.com>
 
 	* pcs/cal-backend.c (cal_backend_log_entry): Take CalObjType

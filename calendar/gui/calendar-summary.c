@@ -93,7 +93,7 @@ cal_loaded (CalClient *client,
 		g_free (html);
 	} else {
 		g_print ("Error loading %d\n", status);
-		executive_summary_component_update (summary->component, "");
+		executive_summary_component_update (summary->component, " ");
 	}
 }
 
@@ -131,5 +131,5 @@ create_summary_view (ExecutiveSummaryComponent *component,
 	gtk_signal_connect (GTK_OBJECT (summary->client), "cal_loaded",
 			    GTK_SIGNAL_FUNC (cal_loaded), summary);
 	
-	return g_strdup ("");
+	return g_strdup (" ");
 }

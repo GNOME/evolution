@@ -24,7 +24,9 @@
 #include <config.h>
 #include <bonobo.h>
 #include "evolution-shell-component.h"
+#ifdef WANT_THE_EXECUTIVE_SUMMARY
 #include <executive-summary/evolution-services/executive-summary-component.h>
+#endif
 #include "component-factory.h"
 #include "control-factory.h"
 #include "calendar-config.h"
@@ -108,6 +110,7 @@ factory_fn (BonoboGenericFactory *factory,
 	return BONOBO_OBJECT (shell_component);
 }
 
+#ifdef WANT_THE_EXECUTIVE_SUMMARY
 static BonoboObject *
 summary_fn (BonoboGenericFactory *factory, 
 	    void *closure)
@@ -120,6 +123,7 @@ summary_fn (BonoboGenericFactory *factory,
 							     evolution_dir);
 	return BONOBO_OBJECT (summary_component);
 }
+#endif
 
 
 void
@@ -129,11 +133,15 @@ component_factory_init (void)
 		return;
 
 	factory = bonobo_generic_factory_new (COMPONENT_FACTORY_ID, factory_fn, NULL);
-	summary_factory = bonobo_generic_factory_new (SUMMARY_FACTORY_ID, summary_fn, NULL);
 
+#ifdef WANT_THE_EXECUTIVE_SUMMARY
+	summary_factory = bonobo_generic_factory_new (SUMMARY_FACTORY_ID, summary_fn, NULL);
+#endif
 	if (factory == NULL)
 		g_error ("Cannot initialize Evolution's calendar component.");
 
+#ifdef WANT_THE_EXECUTIVE_SUMMARY
 	if (summary_factory == NULL)
 		g_error ("Cannot initialize Evolution's calendar summary component.");
+#endif
 }
