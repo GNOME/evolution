@@ -108,8 +108,6 @@ static void            move_messages_to       (CamelFolder *source,
 					       CamelFolder *dest,
 					       CamelException *ex);
 
-static char           *get_uri               (CamelFolder *folder);
-
 static void            freeze                (CamelFolder *folder);
 static void            thaw                  (CamelFolder *folder);
 static gboolean        is_frozen             (CamelFolder *folder);
@@ -156,7 +154,6 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->free_message_info = free_message_info;
 	camel_folder_class->copy_messages_to = copy_messages_to;
 	camel_folder_class->move_messages_to = move_messages_to;
-	camel_folder_class->get_uri = get_uri;
 	camel_folder_class->freeze = freeze;
 	camel_folder_class->thaw = thaw;
 	camel_folder_class->is_frozen = is_frozen;
@@ -1251,34 +1248,6 @@ camel_folder_move_messages_to (CamelFolder *source, GPtrArray *uids,
 		move_messages_to (source, uids, dest, ex);
 	
 	CAMEL_FOLDER_UNLOCK(source, lock);
-}
-
-
-static char *
-get_uri (CamelFolder *folder)
-{
-	/* default implementation */
-	CamelService *service = CAMEL_SERVICE (folder->parent_store);
-	char *service_url, *url;
-	
-	service_url = camel_url_to_string (service->url, CAMEL_URL_HIDE_ALL);
-	url = g_strdup_printf ("%s/%s", service_url, folder->full_name);
-	g_free (service_url);
-	
-	return url;
-}
-
-
-/**
- * camel_folder_get_uri:
- * @folder:
- *
- * Returns the uri for the given folder.
- **/
-char *
-camel_folder_get_uri (CamelFolder *folder)
-{
-	return CF_CLASS (folder)->get_uri (folder);
 }
 
 static void

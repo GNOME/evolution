@@ -1,3 +1,7 @@
+2001-09-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-folder.c: Reverted previous changes.
+
 2001-09-17  JP Rosevear  <jpr@ximian.com>
 
 	* Makefile.am: Helpful install-exec-hook debugging output
