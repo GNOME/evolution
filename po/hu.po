@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.10.99\n"
-"POT-Creation-Date: 2001-11-11 20:36+0100\n"
-"PO-Revision-Date: 2001-11-11 20:13+0100\n"
+"POT-Creation-Date: 2001-11-13 12:13+0100\n"
+"PO-Revision-Date: 2001-11-13 12:43+0100\n"
 "Last-Translator: Andras Timar <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -44,7 +44,7 @@ msgid "Email"
 msgstr "Email"
 
 #: addressbook/backend/ebook/e-card-simple.c:63
-#: addressbook/gui/contact-editor/e-contact-editor.c:1651
+#: addressbook/gui/contact-editor/e-contact-editor.c:1659
 msgid "Primary"
 msgstr "Elsõdleges"
 
@@ -54,15 +54,15 @@ msgstr "Elsõd"
 
 #: addressbook/backend/ebook/e-card-simple.c:64
 #: addressbook/backend/ebook/e-card-simple.c:94
-#: addressbook/gui/contact-editor/e-contact-editor.c:1636
+#: addressbook/gui/contact-editor/e-contact-editor.c:1644
 #: addressbook/gui/widgets/e-addressbook-view.c:883
 msgid "Assistant"
 msgstr "Asszisztens"
 
 #: addressbook/backend/ebook/e-card-simple.c:65
 #: addressbook/backend/ebook/e-card-simple.c:70
-#: addressbook/gui/contact-editor/e-contact-editor.c:1637
-#: addressbook/gui/contact-editor/e-contact-editor.c:1704
+#: addressbook/gui/contact-editor/e-contact-editor.c:1645
+#: addressbook/gui/contact-editor/e-contact-editor.c:1712
 msgid "Business"
 msgstr "Üzleti"
 
@@ -72,12 +72,12 @@ msgid "Bus"
 msgstr "Fogl"
 
 #: addressbook/backend/ebook/e-card-simple.c:66
-#: addressbook/gui/contact-editor/e-contact-editor.c:1640
+#: addressbook/gui/contact-editor/e-contact-editor.c:1648
 msgid "Callback"
 msgstr "Visszahívás"
 
 #: addressbook/backend/ebook/e-card-simple.c:67
-#: addressbook/gui/contact-editor/e-contact-editor.c:1642
+#: addressbook/gui/contact-editor/e-contact-editor.c:1650
 msgid "Company"
 msgstr "Vállalat"
 
@@ -87,8 +87,8 @@ msgstr "Váll"
 
 #: addressbook/backend/ebook/e-card-simple.c:68
 #: addressbook/backend/ebook/e-card-simple.c:71
-#: addressbook/gui/contact-editor/e-contact-editor.c:1643
-#: addressbook/gui/contact-editor/e-contact-editor.c:1705
+#: addressbook/gui/contact-editor/e-contact-editor.c:1651
+#: addressbook/gui/contact-editor/e-contact-editor.c:1713
 msgid "Home"
 msgstr "Otthoni"
 
@@ -102,17 +102,17 @@ msgid "Org"
 msgstr "Szerv"
 
 #: addressbook/backend/ebook/e-card-simple.c:72
-#: addressbook/gui/contact-editor/e-contact-editor.c:1647
+#: addressbook/gui/contact-editor/e-contact-editor.c:1655
 msgid "Mobile"
 msgstr "Mobil"
 
 #: addressbook/backend/ebook/e-card-simple.c:73
-#: addressbook/gui/contact-editor/e-contact-editor.c:1641
+#: addressbook/gui/contact-editor/e-contact-editor.c:1649
 msgid "Car"
 msgstr "Autó"
 
 #: addressbook/backend/ebook/e-card-simple.c:74
-#: addressbook/gui/contact-editor/e-contact-editor.c:1639
+#: addressbook/gui/contact-editor/e-contact-editor.c:1647
 #: addressbook/gui/widgets/e-addressbook-view.c:863
 msgid "Business Fax"
 msgstr "Üzleti fax"
@@ -122,13 +122,13 @@ msgid "Bus Fax"
 msgstr "Üzl fax"
 
 #: addressbook/backend/ebook/e-card-simple.c:75
-#: addressbook/gui/contact-editor/e-contact-editor.c:1645
+#: addressbook/gui/contact-editor/e-contact-editor.c:1653
 #: addressbook/gui/widgets/e-addressbook-view.c:864
 msgid "Home Fax"
 msgstr "Otthoni fax"
 
 #: addressbook/backend/ebook/e-card-simple.c:76
-#: addressbook/gui/contact-editor/e-contact-editor.c:1638
+#: addressbook/gui/contact-editor/e-contact-editor.c:1646
 msgid "Business 2"
 msgstr "2. Üzleti"
 
@@ -137,44 +137,44 @@ msgid "Bus 2"
 msgstr "2. üzl"
 
 #: addressbook/backend/ebook/e-card-simple.c:77
-#: addressbook/gui/contact-editor/e-contact-editor.c:1644
+#: addressbook/gui/contact-editor/e-contact-editor.c:1652
 msgid "Home 2"
 msgstr "2. Otthoni"
 
 #: addressbook/backend/ebook/e-card-simple.c:78
-#: addressbook/gui/contact-editor/e-contact-editor.c:1646
+#: addressbook/gui/contact-editor/e-contact-editor.c:1654
 #: addressbook/gui/widgets/e-addressbook-view.c:867
 msgid "ISDN"
 msgstr "ISDN"
 
 #: addressbook/backend/ebook/e-card-simple.c:79
 #: addressbook/backend/ebook/e-card-simple.c:85
-#: addressbook/gui/contact-editor/e-contact-editor.c:1648
-#: addressbook/gui/contact-editor/e-contact-editor.c:1706
+#: addressbook/gui/contact-editor/e-contact-editor.c:1656
+#: addressbook/gui/contact-editor/e-contact-editor.c:1714
 #: mail/mail-config.glade.h:49
 msgid "Other"
 msgstr "Más"
 
 #: addressbook/backend/ebook/e-card-simple.c:80
-#: addressbook/gui/contact-editor/e-contact-editor.c:1649
+#: addressbook/gui/contact-editor/e-contact-editor.c:1657
 #: addressbook/gui/widgets/e-addressbook-view.c:869
 msgid "Other Fax"
 msgstr "Egyéb fax"
 
 #: addressbook/backend/ebook/e-card-simple.c:81
-#: addressbook/gui/contact-editor/e-contact-editor.c:1650
+#: addressbook/gui/contact-editor/e-contact-editor.c:1658
 #: addressbook/gui/widgets/e-addressbook-view.c:870
 msgid "Pager"
 msgstr "Személyhívó"
 
 #: addressbook/backend/ebook/e-card-simple.c:82
-#: addressbook/gui/contact-editor/e-contact-editor.c:1652
+#: addressbook/gui/contact-editor/e-contact-editor.c:1660
 #: addressbook/gui/widgets/e-addressbook-view.c:871
 msgid "Radio"
 msgstr "Rádió"
 
 #: addressbook/backend/ebook/e-card-simple.c:83
-#: addressbook/gui/contact-editor/e-contact-editor.c:1653
+#: addressbook/gui/contact-editor/e-contact-editor.c:1661
 #: addressbook/gui/widgets/e-addressbook-view.c:872
 msgid "Telex"
 msgstr "Telex"
@@ -186,14 +186,14 @@ msgstr "TTY"
 
 #: addressbook/backend/ebook/e-card-simple.c:86
 #: addressbook/gui/component/e-address-popup.c:484
-#: addressbook/gui/contact-editor/e-contact-editor.c:1679
+#: addressbook/gui/contact-editor/e-contact-editor.c:1687
 #: addressbook/gui/widgets/e-addressbook-view.c:875
 msgid "Email 2"
 msgstr "2. email"
 
 #: addressbook/backend/ebook/e-card-simple.c:87
 #: addressbook/gui/component/e-address-popup.c:494
-#: addressbook/gui/contact-editor/e-contact-editor.c:1680
+#: addressbook/gui/contact-editor/e-contact-editor.c:1688
 #: addressbook/gui/widgets/e-addressbook-view.c:876
 msgid "Email 3"
 msgstr "3. email"
@@ -624,7 +624,7 @@ msgid "Could not initialize Bonobo"
 msgstr "A Bonobo inicializálása nem sikerült"
 
 #: addressbook/backend/pas/pas-backend-file.c:259
-#: addressbook/backend/pas/pas-backend-ldap.c:2212
+#: addressbook/backend/pas/pas-backend-ldap.c:2215
 msgid "Searching..."
 msgstr "Keresés..."
 
@@ -661,11 +661,11 @@ msgstr "Névjegy eltávolítása az LDAP-kiszolgálóról..."
 msgid "Modifying card from LDAP server..."
 msgstr "Névjegy módosítása az LDAP-kiszolgálón..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2157
+#: addressbook/backend/pas/pas-backend-ldap.c:2160
 msgid "Receiving LDAP search results..."
 msgstr "LDAP keresés eredményeinek letöltése..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2162
+#: addressbook/backend/pas/pas-backend-ldap.c:2165
 msgid "Restarting search."
 msgstr "Keresés újraindítása."
 
@@ -1000,7 +1000,7 @@ msgstr "(semmi)"
 
 #: addressbook/gui/component/e-address-popup.c:474
 #: addressbook/gui/contact-editor/contact-editor.glade.h:17
-#: addressbook/gui/contact-editor/e-contact-editor.c:1678
+#: addressbook/gui/contact-editor/e-contact-editor.c:1686
 msgid "Primary Email"
 msgstr "Elsõdleges email"
 
@@ -1057,7 +1057,7 @@ msgstr "Factory a címjegyzék névkiválasztó felületéhez"
 #: addressbook/gui/component/select-names/e-select-names-popup.c:163
 #: addressbook/gui/component/select-names/e-select-names.c:777
 #: composer/e-msg-composer-attachment-bar.c:499 filter/filter-filter.c:436
-#: filter/filter-rule.c:625 shell/e-shortcuts-view.c:180
+#: filter/filter-rule.c:637 shell/e-shortcuts-view.c:180
 msgid "Remove"
 msgstr "Törlés"
 
@@ -1095,6 +1095,11 @@ msgid ""
 "detailed description of the circumstances under which this error\n"
 "occurred.  Thank you."
 msgstr ""
+"Az Evolution nem éri el a címjegyzék helyi tárolóját.\n"
+"Ez attól lehet, hogy az evolution-addressbook komponens összeomlott.\n"
+"Kérjük, segíts jobban megérteni a problémát, hogy végleg elháríthassuk\n"
+"ezt a hibát. Írj egy levelet Jon Trowbridge-nek <trow@ximian.com>\n"
+"a hiba körülményeinek részletes leírásával. Köszönjük."
 
 #: addressbook/gui/component/select-names/e-select-names.c:532
 msgid ""
@@ -1103,6 +1108,10 @@ msgid ""
 "You may need to exit and restart Evolution in order to\n"
 "correct this problem."
 msgstr ""
+"Az Evolution nem éri el a címjegyzék helyi tárolóját.\n"
+"Normális körülmények között és nem fordulhat elõ.\n"
+"A hiba elhárításához ki kell lépned az Evolutionbõl, \n"
+"és újra el kell indítanod."
 
 #: addressbook/gui/component/select-names/e-select-names.c:608
 msgid "Select Contacts from Addressbook"
@@ -1165,7 +1174,7 @@ msgstr "Együttmûködés"
 
 #. Construct the app
 #: addressbook/gui/contact-editor/contact-editor.glade.h:6
-#: addressbook/gui/contact-editor/e-contact-editor.c:1285
+#: addressbook/gui/contact-editor/e-contact-editor.c:1293
 msgid "Contact Editor"
 msgstr "Névjegy szerkesztõ"
 
@@ -1303,15 +1312,19 @@ msgstr "_Weblap címe:"
 msgid "Delete Contact?"
 msgstr "Névjegy törlése?"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:755
+#: addressbook/gui/contact-editor/e-contact-editor.c:756
+msgid "Category editor not available."
+msgstr "A kategóriaszerkesztõ nem elérhetõ."
+
+#: addressbook/gui/contact-editor/e-contact-editor.c:763
 msgid "This contact belongs to these categories:"
 msgstr "Ez a névjegy az alábbi kategóriákhoz tartozik:"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1654
+#: addressbook/gui/contact-editor/e-contact-editor.c:1662
 msgid "TTY/TDD"
 msgstr "TTY/TDD"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2276
+#: addressbook/gui/contact-editor/e-contact-editor.c:2284
 #, c-format
 msgid "Could not find widget for a field: `%s'"
 msgstr "Nem található widget a mezõhöz: `%s'"
@@ -3040,6 +3053,12 @@ msgid ""
 "\n"
 "Are you sure you want to run this program?"
 msgstr ""
+"A Evolution Naptár emlékeztetõje hamarosan elindul.\n"
+"Az emlékeztetõben az van beállítva, hogy futtassa a következõ programot:\n"
+"\n"
+"        %s\n"
+"\n"
+"Biztos futtatni akarod ezt a programot?"
 
 #: calendar/gui/alarm-notify/notify-main.c:166 calendar/gui/main.c:57
 msgid "Could not initialize GNOME"
@@ -3138,7 +3157,7 @@ msgstr "Folyamatban"
 
 #: calendar/gui/calendar-model.c:760 calendar/gui/calendar-model.c:1191
 #: calendar/gui/dialogs/task-details-page.glade.h:4
-#: calendar/gui/e-meeting-model.c:328 calendar/gui/e-meeting-model.c:351
+#: calendar/gui/e-meeting-model.c:329 calendar/gui/e-meeting-model.c:352
 msgid "Completed"
 msgstr "Kész"
 
@@ -3171,12 +3190,12 @@ msgstr "Ismétlõdõ"
 msgid "Assigned"
 msgstr "Kiosztva"
 
-#: calendar/gui/calendar-model.c:1713 calendar/gui/e-meeting-model.c:300
-#: calendar/gui/e-meeting-model.c:310 calendar/gui/e-meeting-model.c:536
+#: calendar/gui/calendar-model.c:1713 calendar/gui/e-meeting-model.c:301
+#: calendar/gui/e-meeting-model.c:311 calendar/gui/e-meeting-model.c:536
 msgid "Yes"
 msgstr "Igen"
 
-#: calendar/gui/calendar-model.c:1713 calendar/gui/e-meeting-model.c:312
+#: calendar/gui/calendar-model.c:1713 calendar/gui/e-meeting-model.c:313
 msgid "No"
 msgstr "Nem"
 
@@ -4453,86 +4472,86 @@ msgstr "date-end"
 msgid "date-start"
 msgstr "date-start"
 
-#: calendar/gui/e-meeting-model.c:94
+#: calendar/gui/e-meeting-model.c:95
 msgid "Chair Persons"
 msgstr "Elnök"
 
-#: calendar/gui/e-meeting-model.c:95 calendar/gui/e-meeting-model.c:1504
+#: calendar/gui/e-meeting-model.c:96 calendar/gui/e-meeting-model.c:1535
 msgid "Required Participants"
 msgstr "Szükséges résztvevõk"
 
-#: calendar/gui/e-meeting-model.c:96
+#: calendar/gui/e-meeting-model.c:97
 msgid "Optional Participants"
 msgstr "Esetleges résztvevõk"
 
-#: calendar/gui/e-meeting-model.c:97
+#: calendar/gui/e-meeting-model.c:98
 msgid "Non-Participants"
 msgstr "Nem vesz részt"
 
-#: calendar/gui/e-meeting-model.c:231 calendar/gui/e-meeting-model.c:248
+#: calendar/gui/e-meeting-model.c:232 calendar/gui/e-meeting-model.c:249
 #: calendar/gui/e-meeting-model.c:532
 msgid "Individual"
 msgstr "Egyén"
 
-#: calendar/gui/e-meeting-model.c:233 calendar/gui/e-meeting-model.c:250
+#: calendar/gui/e-meeting-model.c:234 calendar/gui/e-meeting-model.c:251
 msgid "Group"
 msgstr "Csoport"
 
-#: calendar/gui/e-meeting-model.c:235 calendar/gui/e-meeting-model.c:252
+#: calendar/gui/e-meeting-model.c:236 calendar/gui/e-meeting-model.c:253
 msgid "Resource"
 msgstr "Erõforrás"
 
-#: calendar/gui/e-meeting-model.c:237 calendar/gui/e-meeting-model.c:254
+#: calendar/gui/e-meeting-model.c:238 calendar/gui/e-meeting-model.c:255
 msgid "Room"
 msgstr "Szoba"
 
-#: calendar/gui/e-meeting-model.c:256 calendar/gui/e-meeting-model.c:291
-#: calendar/gui/e-meeting-model.c:356
+#: calendar/gui/e-meeting-model.c:257 calendar/gui/e-meeting-model.c:292
+#: calendar/gui/e-meeting-model.c:357
 #: camel/providers/smtp/camel-smtp-transport.c:222
 #: widgets/misc/e-charset-picker.c:57 widgets/misc/e-charset-picker.c:439
 msgid "Unknown"
 msgstr "Ismeretlen"
 
-#: calendar/gui/e-meeting-model.c:266 calendar/gui/e-meeting-model.c:283
+#: calendar/gui/e-meeting-model.c:267 calendar/gui/e-meeting-model.c:284
 msgid "Chair"
 msgstr "Levezetõ"
 
-#: calendar/gui/e-meeting-model.c:268 calendar/gui/e-meeting-model.c:285
+#: calendar/gui/e-meeting-model.c:269 calendar/gui/e-meeting-model.c:286
 #: calendar/gui/e-meeting-model.c:534
 msgid "Required Participant"
 msgstr "Szükséges résztvevõk"
 
-#: calendar/gui/e-meeting-model.c:270 calendar/gui/e-meeting-model.c:287
+#: calendar/gui/e-meeting-model.c:271 calendar/gui/e-meeting-model.c:288
 msgid "Optional Participant"
 msgstr "Esetleges résztvevõ"
 
-#: calendar/gui/e-meeting-model.c:272 calendar/gui/e-meeting-model.c:289
+#: calendar/gui/e-meeting-model.c:273 calendar/gui/e-meeting-model.c:290
 msgid "Non-Participant"
 msgstr "Nem vesz részt"
 
-#: calendar/gui/e-meeting-model.c:318 calendar/gui/e-meeting-model.c:341
+#: calendar/gui/e-meeting-model.c:319 calendar/gui/e-meeting-model.c:342
 #: calendar/gui/e-meeting-model.c:542
 msgid "Needs Action"
 msgstr "Beavatkozás szükséges"
 
-#: calendar/gui/e-meeting-model.c:320 calendar/gui/e-meeting-model.c:343
+#: calendar/gui/e-meeting-model.c:321 calendar/gui/e-meeting-model.c:344
 msgid "Accepted"
 msgstr "Elfogadva"
 
-#: calendar/gui/e-meeting-model.c:322 calendar/gui/e-meeting-model.c:345
+#: calendar/gui/e-meeting-model.c:323 calendar/gui/e-meeting-model.c:346
 msgid "Declined"
 msgstr "Elutasítva"
 
-#: calendar/gui/e-meeting-model.c:324 calendar/gui/e-meeting-model.c:347
+#: calendar/gui/e-meeting-model.c:325 calendar/gui/e-meeting-model.c:348
 #: calendar/gui/e-meeting-time-sel.c:426
 msgid "Tentative"
 msgstr "Kísérleti"
 
-#: calendar/gui/e-meeting-model.c:326 calendar/gui/e-meeting-model.c:349
+#: calendar/gui/e-meeting-model.c:327 calendar/gui/e-meeting-model.c:350
 msgid "Delegated"
 msgstr "Delegált"
 
-#: calendar/gui/e-meeting-model.c:330 calendar/gui/e-meeting-model.c:353
+#: calendar/gui/e-meeting-model.c:331 calendar/gui/e-meeting-model.c:354
 msgid "In Process"
 msgstr "Folyamatban"
 
@@ -5729,7 +5748,7 @@ msgid "Cannot get folder: Invalid operation on this store"
 msgstr ""
 "Nem sikerült megnyitni a könyvtárat: Érvénytelen mûvelet ezen a tárolón"
 
-#: camel/camel-store.c:280
+#: camel/camel-store.c:282
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr ""
 "Nem sikerült létrehozni a könyvtárat: Érvénytelen mûvelet ezen a tárolón"
@@ -7476,7 +7495,7 @@ msgstr ""
 "Elfelejtettél mappát választani.\n"
 "Lépj vissza, és adj meg egy érvényes mappanevet, ahová a leveleket kéred."
 
-#: filter/filter-folder.c:242 filter/vfolder-rule.c:356
+#: filter/filter-folder.c:242 filter/vfolder-rule.c:364
 #: mail/mail-account-gui.c:837
 msgid "Select Folder"
 msgstr "Válassz mappát"
@@ -7502,39 +7521,43 @@ msgstr ""
 msgid "Test"
 msgstr "Teszt"
 
-#: filter/filter-rule.c:708
+#: filter/filter-rule.c:217
+msgid "You must name this filter."
+msgstr "Meg kell adnod a szûrõ nevét."
+
+#: filter/filter-rule.c:720
 msgid "Rule name: "
 msgstr "Szabály neve:"
 
-#: filter/filter-rule.c:712
+#: filter/filter-rule.c:724
 msgid "Untitled"
 msgstr "Névtelen"
 
-#: filter/filter-rule.c:729
+#: filter/filter-rule.c:741
 msgid "If"
 msgstr "Keresési feltételek"
 
-#: filter/filter-rule.c:747
+#: filter/filter-rule.c:759
 msgid "Execute actions"
 msgstr "Mûvelet végrehajtása,"
 
-#: filter/filter-rule.c:751
+#: filter/filter-rule.c:763
 msgid "if all criteria are met"
 msgstr "ha minden feltétel teljesül"
 
-#: filter/filter-rule.c:756
+#: filter/filter-rule.c:768
 msgid "if any criteria are met"
 msgstr "ha bármely feltétel teljesül"
 
-#: filter/filter-rule.c:767
+#: filter/filter-rule.c:779
 msgid "Add criterion"
 msgstr "Feltétel hozzáadása"
 
-#: filter/filter-rule.c:852
+#: filter/filter-rule.c:864
 msgid "incoming"
 msgstr "bejövõ"
 
-#: filter/filter-rule.c:852
+#: filter/filter-rule.c:864
 msgid "outgoing"
 msgstr "kimenõ"
 
@@ -7788,7 +7811,11 @@ msgstr "Szabály szerkesztése"
 msgid "Score Rules"
 msgstr "Pontszámszabályok"
 
-#: filter/vfolder-rule.c:205
+#: filter/vfolder-rule.c:204
+msgid "You must name this vfolder."
+msgstr "Meg kell adnod a vmappa nevét."
+
+#: filter/vfolder-rule.c:213
 msgid "You need to to specify at least one folder as a source."
 msgstr "Legalább egy mappát meg kell adnod, mint forrást."
 
@@ -8562,6 +8589,9 @@ msgid ""
 "%s\n"
 "No shortcut will be created."
 msgstr ""
+"Nem sikerült elérni a bejövõ levelek mappáját ebben az új levéltárolóban:\n"
+"%s\n"
+"Nem jön létre indítóikon."
 
 #: mail/mail-config.c:2112
 msgid "Checking Service"
@@ -9488,7 +9518,7 @@ msgstr "Vmappa beállítása: %s"
 msgid "Updating vfolders for uri: %s"
 msgstr "Vmappák frissítése erre az uri-ra: %s"
 
-#: mail/mail-vfolder.c:414
+#: mail/mail-vfolder.c:419
 #, c-format
 msgid ""
 "The following vFolder(s):\n"
@@ -9501,16 +9531,16 @@ msgstr ""
 "    '%s'\n"
 "és frissítve lettek."
 
-#: mail/mail-vfolder.c:816
+#: mail/mail-vfolder.c:824
 msgid "Edit VFolder"
 msgstr "VMappa szerkesztése"
 
-#: mail/mail-vfolder.c:832
+#: mail/mail-vfolder.c:840
 #, c-format
 msgid "Trying to edit a vfolder '%s' which doesn't exist."
 msgstr "A nem lézetõ '%s' vmappát próbálod szerkeszteni."
 
-#: mail/mail-vfolder.c:886
+#: mail/mail-vfolder.c:894
 msgid "New VFolder"
 msgstr "Új VMappa"
 
@@ -11293,7 +11323,7 @@ msgstr ""
 "Választhatod az \"Automatikus\" lehetõséget, ha nem tudod a típust, az "
 "Evolution megpróbálja felismerni."
 
-#: shell/e-shell-importer.c:151 shell/e-shell-startup-wizard.c:757
+#: shell/e-shell-importer.c:151 shell/e-shell-startup-wizard.c:799
 msgid "Please select the information that you would like to import:"
 msgstr "Válaszd ki az információt, amelyet importálni szeretnél:"
 
@@ -11393,7 +11423,7 @@ msgstr "Adatok és beállítások importálása korábbi programokból"
 msgid "Import a single file"
 msgstr "Egyetlen fájl importálása"
 
-#: shell/e-shell-importer.c:721 shell/e-shell-startup-wizard.c:586
+#: shell/e-shell-importer.c:721 shell/e-shell-startup-wizard.c:628
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
@@ -11401,11 +11431,11 @@ msgstr ""
 "Várj...\n"
 "Meglévõ beállítások keresése"
 
-#: shell/e-shell-importer.c:724 shell/e-shell-startup-wizard.c:589
+#: shell/e-shell-importer.c:724 shell/e-shell-startup-wizard.c:631
 msgid "Starting Intelligent Importers"
 msgstr "Az okos importálók indítása"
 
-#: shell/e-shell-importer.c:848 shell/e-shell-startup-wizard.c:712
+#: shell/e-shell-importer.c:848 shell/e-shell-startup-wizard.c:754
 #, c-format
 msgid "From %s:"
 msgstr "Feladó %s:"
@@ -11595,7 +11625,7 @@ msgstr "Ne távolítsa el"
 
 #: shell/e-shortcuts-view.c:209
 msgid "Rename Shortcut Group"
-msgstr "Indítóikoni-csoport átnevezése"
+msgstr "Indítóikon-csoport átnevezése"
 
 #: shell/e-shortcuts-view.c:210
 msgid "Rename selected shortcut group to:"
