@@ -4055,8 +4055,8 @@ e_card_list_send (GList *cards, ECardDisposition disposition)
 				recipient->address = CORBA_string_dup (addr ? addr : "");
 
 				if (free_name_addr) {
-					g_free (name);
-					g_free (addr);
+					g_free ((gchar *) name);
+					g_free ((gchar *) addr);
 				}
 				
 				/* If this isn't a list, we quit after the first (i.e. the default) address. */

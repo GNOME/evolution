@@ -68,6 +68,7 @@ EDestination  *e_destination_copy               (const EDestination *);
 void           e_destination_clear              (EDestination *);
 
 gboolean       e_destination_is_empty           (const EDestination *);
+gboolean       e_destination_equal              (const EDestination *a, const EDestination *b);
 
 void           e_destination_set_card           (EDestination *, ECard *card, gint email_num);
 void           e_destination_set_book_uri       (EDestination *, const gchar *uri); 

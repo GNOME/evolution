@@ -303,6 +303,44 @@ e_destination_is_empty (const EDestination *dest)
 		 || (p->list_dests != NULL));
 }
 
+gboolean
+e_destination_equal (const EDestination *a, const EDestination *b)
+{
+	const struct _EDestinationPrivate *pa, *pb;
+	const gchar *na, *nb;
+
+	g_return_val_if_fail (E_IS_DESTINATION (a), FALSE);
+	g_return_val_if_fail (E_IS_DESTINATION (b), FALSE);
+
+	if (a == b)
+		return TRUE;
+
+	pa = a->priv;
+	pb = b->priv;
+
+	/* Check equality of cards. */
+	if (pa->card || pb->card) {
+		if (! (pa->card && pb->card))
+			return FALSE;
+
+		if (pa->card == pb->card || !strcmp (e_card_get_id (pa->card), e_card_get_id (pb->card)))
+			return TRUE;
+
+		return FALSE;
+	}
+	
+	/* Just in case name returns NULL */
+	na = e_destination_get_name (a);
+	nb = e_destination_get_name (b);
+	if ((na || nb) && !(na && nb && !strcmp (na, nb)))
+		return FALSE;
+	
+	if (!strcmp (e_destination_get_email (a), e_destination_get_email (b)))
+		return TRUE;
+	
+	return FALSE;
+}
+
 void
 e_destination_set_card (EDestination *dest, ECard *card, gint email_num)
 {

@@ -465,6 +465,22 @@ disconnect_destination (ESelectNamesModel *model, EDestination *dest)
 	gtk_signal_disconnect_by_func (GTK_OBJECT (dest), destination_changed_proxy, model);
 }
 
+gboolean
+e_select_names_model_contains (ESelectNamesModel *model, EDestination *dest)
+{
+	GList *iter;
+
+	g_return_val_if_fail (E_IS_SELECT_NAMES_MODEL (model), FALSE);
+	g_return_val_if_fail (E_IS_DESTINATION (dest), FALSE);
+
+	for (iter = model->priv->data; iter != NULL; iter = g_list_next (iter)) {
+		if (iter->data != NULL && e_destination_equal (dest, E_DESTINATION (iter->data)))
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
 void
 e_select_names_model_insert (ESelectNamesModel *model, gint index, EDestination *dest)
 {
@@ -647,6 +663,25 @@ e_select_names_model_overwrite_copy (ESelectNamesModel *dest, ESelectNamesModel 
 	for (i = 0; i < len; ++i) {
 		const EDestination *d = e_select_names_model_get_destination (src, i);
 		if (d)
+			e_select_names_model_append (dest, e_destination_copy (d));
+	}
+}
+
+void
+e_select_names_model_merge (ESelectNamesModel *dest, ESelectNamesModel *src)
+{
+	gint i, len;
+
+	g_return_if_fail (E_IS_SELECT_NAMES_MODEL (dest));
+	g_return_if_fail (E_IS_SELECT_NAMES_MODEL (src));
+
+	if (src == dest)
+		return;
+
+	len = e_select_names_model_count (src);
+	for (i = 0; i < len; ++i) {
+		const EDestination *d = e_select_names_model_get_destination (src, i);
+		if (d && !e_select_names_model_contains (dest, d))
 			e_select_names_model_append (dest, e_destination_copy (d));
 	}
 }

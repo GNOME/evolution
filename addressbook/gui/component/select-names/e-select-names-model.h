@@ -61,12 +61,15 @@ void                e_select_names_model_import_destinationv (ESelectNamesModel 
 ECard              *e_select_names_model_get_card            (ESelectNamesModel *model, gint index);
 const gchar        *e_select_names_model_get_string          (ESelectNamesModel *model, gint index);
 
+gboolean      e_select_names_model_contains       (ESelectNamesModel *model, EDestination *dest);
+
 void          e_select_names_model_insert         (ESelectNamesModel *model, gint index, EDestination *dest);
 void          e_select_names_model_append         (ESelectNamesModel *model, EDestination *dest);
 void          e_select_names_model_replace        (ESelectNamesModel *model, gint index, EDestination *dest);
 void          e_select_names_model_delete         (ESelectNamesModel *model, gint index);
 void          e_select_names_model_delete_all     (ESelectNamesModel *model);
 void          e_select_names_model_overwrite_copy (ESelectNamesModel *dest, ESelectNamesModel *src);
+void          e_select_names_model_merge          (ESelectNamesModel *dest, ESelectNamesModel *src);
 
 void          e_select_names_model_clean      (ESelectNamesModel *model);
 

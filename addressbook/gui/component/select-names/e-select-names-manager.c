@@ -472,7 +472,7 @@ e_select_names_clicked(ESelectNames *dialog, gint button, ESelectNamesManager *m
 		for (e_iterator_reset(iterator); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
 			ESelectNamesManagerSection *section = (void *) e_iterator_get(iterator);
 			ESelectNamesModel *source = e_select_names_get_source(dialog, section->id);
-			e_select_names_model_overwrite_copy (section->model, source);
+			e_select_names_model_merge (section->model, source);
 			gtk_object_unref (GTK_OBJECT (source));
 			
 		}

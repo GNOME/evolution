@@ -1,5 +1,22 @@
 2001-08-29  Jon Trowbridge  <trow@ximian.com>
 
+	* gui/component/select-names/e-select-names-manager.c
+	(e_select_names_clicked): Use e_select_names_model_merge to
+	combine the selected names with any existing ones.  This causes
+	you to not lose addresses typed directly into the entry while the
+	SelectNames dialog is up. (Bug #8058)
+
+	* gui/component/select-names/e-select-names-model.c
+	(e_select_names_model_merge): Merge the contents of one
+	ESelectNamesModel into another, avoiding duplicates.
+
+	* backend/ebook/e-destination.c (e_destination_equal): Added.
+	Determines if two destinations appear to refer to the same
+	recipient.
+
+	* backend/ebook/e-card.c (e_card_list_send): Added cast to
+	g_free args to silence compiler warnings.
+
 	* gui/contact-editor/e-contact-quick-add.c (quick_add_set_name):
 	Paranoia.  Check that name != qa->name.
 	(quick_add_set_email): Check that email != qa->email.
