@@ -29,6 +29,7 @@
 #include <config.h>
 #endif
 
+#include <unistd.h>
 #include <pthread.h>
 #include <ctype.h>
 #include <errno.h>
@@ -173,6 +174,7 @@ mail_tool_do_movemail (const gchar *source_url, CamelException *ex)
 	camel_movemail (source, dest_path, ex);
 
 	if (stat (dest_path, &sb) < 0 || sb.st_size == 0) {
+		unlink (dest_path); /* Clean up the movemail.foo file. */
 		g_free (dest_path);
 		return NULL;
 	}

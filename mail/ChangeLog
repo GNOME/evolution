@@ -1,3 +1,8 @@
+2001-06-19  Jon Trowbridge  <trow@ximian.com>
+
+	* mail-tools.c (mail_tool_do_movemail): Properly clean up the
+	movemail files when no mail was received.
+
 2001-06-19  Radek Doulik  <rodo@ximian.com>
 
 	* mail-format.c (write_field_row_begin): add column with &nbsp;
