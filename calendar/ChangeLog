@@ -1,3 +1,10 @@
+2000-04-17  Seth Alves  <alves@hungry.com>
+
+	* pcs/cal-backend.c (add_object): removed implicit save, since
+	we don't want to save as we load from disk.
+	(cal_backend_update_object): added a call to save, since it
+	isn't done by add_object now.
+
 2000-04-16  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-util/Makefile.am: Renamed library from libcalutil to
@@ -35,7 +42,7 @@
 2000-04-10  Seth Alves  <alves@hungry.com>
 
 	* pcs/cal-backend.c (save_to_vcal): create and save an actual
-	vcalendar  instead of a list of vcal objects.
+	vcalendar instead of a list of vcal objects.
 
 2000-04-10  Damon Chaplin  <damon@helixcode.com>
 
