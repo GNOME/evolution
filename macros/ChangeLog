@@ -1,3 +1,7 @@
+1999-02-20  Timur Bakeyev <mc@bat.ru>
+
+	* gnome.m4: Added and exported ZVT_LIBS.
+
 Tue Feb 16 19:35:42 1999  Owen Taylor  <otaylor@redhat.com>
 
 	* gnome-x-checks.m4: Require GTK+-1.1.16.
