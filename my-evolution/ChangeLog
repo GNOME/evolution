@@ -1,5 +1,9 @@
 2002-11-11  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-summary-rdf.c: Convert to use libxml2.
+
+2002-11-11  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-summary-offline-handler.c: Convert from GtkObject to GObject.
 
 2002-11-07  Ettore Perazzoli  <ettore@ximian.com>

@@ -28,8 +28,8 @@
 #include <glib.h>
 #include <gtk/gtkmain.h>
 
-#include <gnome-xml/parser.h>
-#include <gnome-xml/xmlmemory.h>
+#include <libxml/parser.h>
+#include <libxml/xmlmemory.h>
 
 #include <libgnome/gnome-i18n.h>
 
@@ -103,8 +103,8 @@ layer_find (xmlNodePtr node,
 		printf("%s.\n", node->name);
 #endif
 		if (strcasecmp (node->name, match)==0) {
-			if (node->childs != NULL && node->childs->content != NULL) {
-				return node->childs->content;
+			if (node->children != NULL && node->children->content != NULL) {
+				return node->children->content;
 			} else {
 				return fail;
 			}
@@ -213,12 +213,12 @@ tree_walk (xmlNodePtr root,
 			printf ("%p, %s\n", walk, walk->name);
 #endif
 			if (strcasecmp (walk->name, "rdf") == 0) {
-				rewalk = walk->childs;
+				rewalk = walk->children;
 				walk = walk->next;
 				continue;
 			}
 			if (strcasecmp (walk->name, "rss") == 0){
-				rewalk = walk->childs;
+				rewalk = walk->children;
 				walk = walk->next;
 				continue;
 			}
@@ -228,7 +228,7 @@ tree_walk (xmlNodePtr root,
 #endif
 			if (strcasecmp (walk->name, "channel") == 0) {
 				channel = walk;
-				rewalk = channel->childs;
+				rewalk = channel->children;
 			}
 			if (strcasecmp (walk->name, "image") == 0) {
 				image = walk;
@@ -246,8 +246,8 @@ tree_walk (xmlNodePtr root,
 		return;
 	}
 
-	t = layer_find(channel->childs, "title", "");
-	u = layer_find(channel->childs, "link", "");
+	t = layer_find(channel->children, "title", "");
+	u = layer_find(channel->children, "link", "");
 
 	if (*u != '\0')
 		g_string_sprintfa (html, "<a href=\"%s\">", u);
@@ -271,9 +271,9 @@ tree_walk (xmlNodePtr root,
 
 	items = MIN (limit, items);
 	for (i = 0; i < items; i++) {
-		char *p = layer_find (item[i]->childs, "title", "No information");
+		char *p = layer_find (item[i]->children, "title", "No information");
 		
-		tmp = g_strdup_printf ("<LI><font size=\"-1\"><A href=\"%s\">\n", layer_find_url(item[i]->childs, "link", ""));
+		tmp = g_strdup_printf ("<LI><font size=\"-1\"><A href=\"%s\">\n", layer_find_url(item[i]->children, "link", ""));
 		g_string_append (html, tmp);
 		g_free (tmp);
 		
@@ -309,7 +309,7 @@ display_doc (RDF *r)
 		g_string_append (html, "</dt>");
 		g_free (tmp_utf);
 	} else {
-		tree_walk (r->cache->root, r, html);
+		tree_walk (xmlDocGetRootElement (r->cache), r, html);
 	}
 
 	g_free (r->html);
