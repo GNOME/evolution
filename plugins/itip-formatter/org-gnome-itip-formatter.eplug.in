@@ -12,7 +12,7 @@
 		</hook>
 
 		<hook class="org.gnome.evolution.mail.config:1.0">
-			<group target="prefs">
+			<group id="org.gnome.evolution.mail.prefs" target="prefs">
 				<item type="page" path="90.bbdb" label="BBDB" factory="itip_formatter_page_factory"/>
 			</group>
 		</hook>
