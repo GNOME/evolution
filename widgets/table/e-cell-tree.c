@@ -300,7 +300,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
  * ECell::event method
  */
 static gint
-ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row)
+ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row, ECellFlags flags)
 {
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
 	ETreeModel *tree_model = e_cell_tree_get_tree_model (ecell_view->e_table_model, row);
@@ -322,7 +322,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 			return TRUE;
 		}
 		else if (event->button.x < (offset - INDENT_AMOUNT))
-			return TRUE;
+			return FALSE;
 	}
 	default:
 		/* modify the event and pass it off to our subcell_view */
@@ -339,7 +339,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 		default:
 			/* nada */
 		}
-		return e_cell_event(tree_view->subcell_view, event, model_col, view_col, row);
+		return e_cell_event(tree_view->subcell_view, event, model_col, view_col, row, flags);
 	}
 }
 
@@ -423,6 +423,12 @@ ect_show_tooltip (ECellView *ecell_view, int model_col, int view_col, int row,
 	ETreeModel *tree_model = e_cell_tree_get_tree_model (ecell_view->e_table_model, row);
 	ETreePath *node = e_cell_tree_get_node (ecell_view->e_table_model, row);
 	int offset = offset_of_node (tree_model, node);
+
+	{
+		tooltip->x += offset;
+		e_cell_show_tooltip(tree_view->subcell_view, model_col, view_col, row, tooltip);
+	}
+#if 0
 	GdkPixbuf *node_image;
 
 	node_image = e_tree_model_icon_of_node (tree_model, node);
@@ -435,6 +441,7 @@ ect_show_tooltip (ECellView *ecell_view, int model_col, int view_col, int row,
 		tooltip->x += offset;
 		e_cell_show_tooltip (tree_view->subcell_view, model_col, view_col, row, tooltip);
 	}
+#endif
 }
 		
 /*

@@ -182,11 +182,14 @@ etog_set_value (ECellToggleView *toggle_view, int model_col, int view_col, int r
  * ECell::event method
  */
 static gint
-etog_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row)
+etog_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row, ECellFlags flags)
 {
 	ECellToggleView *toggle_view = (ECellToggleView *) ecell_view;
 	void *_value = e_table_model_value_at (ecell_view->e_table_model, model_col, row);
 	const int value = GPOINTER_TO_INT (_value);
+
+	if (flags & !E_CELL_EDITING)
+		return 0;
 	
 	switch (event->type){
 	case GDK_BUTTON_RELEASE:

@@ -679,7 +679,7 @@ eti_table_model_row_changed (ETableModel *table_model, int row, ETableItem *eti)
 		return;
 	}
 
-	eti_request_region_redraw (eti, 0, row, eti->cols, row, 0);
+	eti_request_region_redraw (eti, 0, row, eti->cols - 1, row, 0);
 }
 
 static void
@@ -692,7 +692,7 @@ eti_table_model_cell_changed (ETableModel *table_model, int col, int row, ETable
 		return;
 	}
 
-	eti_request_region_redraw (eti, 0, row, eti->cols -1, row, 0);
+	eti_request_region_redraw (eti, 0, row, eti->cols - 1, row, 0);
 }
 
 static void
@@ -1496,6 +1496,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	switch (e->type){
 	case GDK_BUTTON_PRESS: {
 		double x1, y1;
+		GdkEventButton button;
 		int col, row;
 		gint cursor_row, cursor_col;
 
@@ -1513,15 +1514,22 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
 				return TRUE;
 
-			return_val = FALSE;
+			ecell_view = eti->cell_views [col];
+			button = *(GdkEventButton *)e;
+			button.x = x1;
+			button.y = y1;
 
-			gtk_signal_emit (GTK_OBJECT (eti), eti_signals [CLICK],
-					 row, view_to_model_col(eti, col), e, &return_val);
-
+			return_val = e_cell_event (ecell_view, (GdkEvent *) &button, view_to_model_col(eti, col), col, row, 0);
 			if (return_val)
 				return TRUE;
 
-			e_table_selection_model_do_something(eti->selection, view_to_model_row(eti, row), view_to_model_col(eti, col), e->button.state);
+			return_val = FALSE;
+			gtk_signal_emit (GTK_OBJECT (eti), eti_signals [CLICK],
+					 row, view_to_model_col(eti, col), &button, &return_val);
+			if (return_val)
+				return TRUE;
+
+			e_table_selection_model_do_something(eti->selection, view_to_model_row(eti, row), view_to_model_col(eti, col), button.state);
 
 			gtk_object_get(GTK_OBJECT(eti->selection),
 				       "cursor_row", &cursor_row,
@@ -1534,16 +1542,12 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 					e_table_item_enter_edit (eti, col, row);
 				}
 
-				ecell_view = eti->cell_views [col];
-				
 				/*
 				 * Adjust the event positions
 				 */
-				e->button.x = x1;
-				e->button.y = y1;
-				
-				return_val = e_cell_event (ecell_view, e,
-							   view_to_model_col(eti, col), col, row);
+
+				return_val = e_cell_event (ecell_view, (GdkEvent *) &button,
+							   view_to_model_col(eti, col), col, row, E_CELL_EDITING);
 			}
 
 			break;
@@ -1603,7 +1607,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				e->button.y = y1;
 
 				return_val = e_cell_event (ecell_view, e,
-							   view_to_model_col(eti, col), col, row);
+							   view_to_model_col(eti, col), col, row, E_CELL_EDITING);
 			}
 			break;
 		case 3:
@@ -1666,7 +1670,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			e->motion.y = y1;
 			
 			return_val = e_cell_event (ecell_view, e,
-						   view_to_model_col(eti, col), col, row);
+						   view_to_model_col(eti, col), col, row, E_CELL_EDITING);
 		}
 		break;
 	}
@@ -1757,7 +1761,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				ecell_view = eti->cell_views [eti->editing_col];
 				return_val = e_cell_event (ecell_view, e,
 							   view_to_model_col(eti, eti->editing_col),
-							   eti->editing_col, eti->editing_row);
+							   eti->editing_col, eti->editing_row, E_CELL_EDITING);
 #endif
 			}
 			return_val = FALSE;
@@ -1785,7 +1789,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				ecell_view = eti->cell_views [eti->editing_col];
 				return_val = e_cell_event (ecell_view, e,
 							   view_to_model_col(eti, eti->editing_col),
-							   eti->editing_col, eti->editing_row);
+							   eti->editing_col, eti->editing_row, E_CELL_EDITING);
 			}
 		}
 		break;
@@ -1806,7 +1810,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			ecell_view = eti->cell_views [eti->editing_col];
 			return_val = e_cell_event (ecell_view, e,
 						   view_to_model_col(eti, eti->editing_col),
-						   eti->editing_col, eti->editing_row);
+						   eti->editing_col, eti->editing_row, E_CELL_EDITING);
 		}
 		break;
 	}

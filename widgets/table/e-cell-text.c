@@ -871,7 +871,7 @@ ect_edit_select_all (ECellTextView *text_view)
  * ECell::event method
  */
 static gint
-ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row)
+ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row, ECellFlags flags)
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
 	ETextEventProcessorEvent e_tep_event;
@@ -879,8 +879,11 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 	CellEdit *edit = text_view->edit;
 	GtkWidget *canvas = GTK_WIDGET (text_view->canvas);
 	gint return_val = 0;
-
 	CurrentCell cell, *cellptr;
+
+	if (flags & !E_CELL_EDITING)
+		return 0;
+
 	build_current_cell (&cell, text_view, model_col, view_col, row);
 	
 
