@@ -12,6 +12,7 @@ MACROS=						\
   gnome-libgtop-check.m4			\
   gnome-objc-checks.m4				\
   gnome-orbit-check.m4				\
+  gnome-pilot.m4				\
   gnome-print-check.m4				\
   gnome-pthread-check.m4			\
   gnome-support.m4				\

@@ -1,3 +1,8 @@
+2002-03-10  Sebastian Rittau  <srittau@jroger.in-berlin.de>
+
+	* Makefile.am:
+	Distribute gnome-pilot.m4
+
 2002-02-10  Chema Celorio  <chema@celorio.com>
 
 	* Port to the GNOME 2.0 platform
