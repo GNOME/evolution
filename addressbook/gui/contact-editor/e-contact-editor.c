@@ -677,7 +677,7 @@ fill_in_email_record (EContactEditor *editor, gint record, const gchar *address,
 	g_free (widget_name);
 
 	set_option_menu_history (editor, GTK_OPTION_MENU (location_option_menu),
-				 location >= 0 ? location : email_default [record - 1]);
+				 location >= 0 ? location : email_default [2]);
 	set_entry_text (editor, GTK_ENTRY (email_entry), address ? address : "");
 }
 
@@ -878,7 +878,7 @@ fill_in_email (EContactEditor *editor)
 	/* Clear */
 
 	for (record_n = 1; record_n <= EMAIL_SLOTS; record_n++) {
-		fill_in_email_record (editor, record_n, NULL, -1);
+		fill_in_email_record (editor, record_n, NULL, email_default [record_n - 1]);
 	}
 
 	/* Fill in */
