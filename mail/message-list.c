@@ -252,12 +252,12 @@ message_list_init_header (MessageList *message_list)
 
 	message_list->table_cols [COL_SENT] =
 		e_table_col_new (COL_SENT, _("Sent"),
-				 COL_SUBJECT_WIDTH, COL_SENT_WIDTH_MIN,
+				 COL_SENT_WIDTH, COL_SENT_WIDTH_MIN,
 				 message_list->render_text,
 				 g_str_compare, TRUE);
 
 	message_list->table_cols [COL_RECEIVE] =
-		e_table_col_new (COL_SENT, _("Receive"),
+		e_table_col_new (COL_RECEIVE, _("Receive"),
 				 COL_RECEIVE_WIDTH, COL_RECEIVE_WIDTH_MIN,
 				 message_list->render_text,
 				 g_str_compare, TRUE);

@@ -1,5 +1,11 @@
 2000-03-04  Christopher James Lahey  <clahey@helixcode.com>
 
+	* message-list.c: Set up the column headers properly.
+
+	* folder-browser.c: Show the folder_browser widget.
+
+2000-03-04  Christopher James Lahey  <clahey@helixcode.com>
+
 	* message-list.c: Define ml_duplicate_value and ml_free_value
 	correctly.
 	

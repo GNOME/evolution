@@ -33,6 +33,8 @@ folder_browser_factory (BonoboGenericFactory *factory, void *closure)
 		return NULL;
 
 	folder_browser_set_uri (FOLDER_BROWSER (folder_browser), "inbox");
+
+	gtk_widget_show(folder_browser);
 	
 	control = bonobo_control_new (folder_browser);
 	
