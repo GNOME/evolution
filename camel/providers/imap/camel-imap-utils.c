@@ -347,7 +347,6 @@ imap_parse_list_response (CamelImapStore *store, const char *buf, int *flags, ch
 	
 	if (folder) {
 		char *astring, *mailbox;
-		size_t nlen;
 		
 		/* get the folder name */
 		word = imap_next_word (word);
@@ -360,21 +359,7 @@ imap_parse_list_response (CamelImapStore *store, const char *buf, int *flags, ch
 		if (!mailbox)
 			return FALSE;
 		
-		nlen = strlen (store->namespace);
-		
-		if (!strncmp (mailbox, store->namespace, nlen)) {
-			/* strip off the namespace */
-			if (nlen > 0)
-				memmove (mailbox, mailbox + nlen, (len - nlen) + 1);
-			*folder = mailbox;
-		} else if (!g_strcasecmp (mailbox, "INBOX")) {
-			*folder = mailbox;
-		} else {
-			g_warning ("IMAP folder name \"%s\" does not begin with \"%s\"", mailbox, store->namespace);
-			*folder = mailbox;
-		}
-		
-		return *folder != NULL;
+		*folder = mailbox;
 	}
 	
 	return TRUE;

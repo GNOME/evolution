@@ -681,7 +681,7 @@ imap_command_strdup_vprintf (CamelImapStore *store, const char *fmt,
 {
 	GPtrArray *args;
 	const char *p, *start;
-	char *out, *op, *string;
+	char *out, *outptr, *string;
 	int num, len, i, arglen;
 	
 	args = g_ptr_array_new ();
@@ -701,28 +701,18 @@ imap_command_strdup_vprintf (CamelImapStore *store, const char *fmt,
 			start = p + 1;
 			len += 10;
 			break;
-			
 		case 's':
 			string = va_arg (ap, char *);
 			g_ptr_array_add (args, string);
 			start = p + 1;
 			len += strlen (string);
 			break;
-			
 		case 'S':
 		case 'F':
 			string = va_arg (ap, char *);
 			arglen = strlen (string);
-			if (*p == 'F') {
-				if (store->namespace == NULL) {
-					if (*string != '\0') /*ok if foldername is "" */
-						g_warning ("trying to list folder \"%s\" but no namespace. Hope for the best", string);
-					arglen += 2;
-				} else
-					arglen += strlen (store->namespace) + 1;
-			}
 			g_ptr_array_add (args, string);
-			if (imap_is_atom(string)) {
+			if (imap_is_atom (string)) {
 				len += arglen;
 			} else {
 				if (store->capabilities & IMAP_CAPABILITY_LITERALPLUS)
@@ -732,11 +722,9 @@ imap_command_strdup_vprintf (CamelImapStore *store, const char *fmt,
 			}
 			start = p + 1;
 			break;
-
 		case '%':
 			start = p;
 			break;
-			
 		default:
 			g_warning ("camel-imap-command is not printf. I don't "
 				   "know what '%%%c' means.", *p);
@@ -746,62 +734,54 @@ imap_command_strdup_vprintf (CamelImapStore *store, const char *fmt,
 	}
 	
 	/* Now write out the string */
-	op = out = g_malloc (len + 1);
+	outptr = out = g_malloc (len + 1);
 	p = start = fmt;
 	i = 0;
 	while (*p) {
 		p = strchr (start, '%');
 		if (!p) {
-			strcpy (op, start);
+			strcpy (outptr, start);
 			break;
 		} else {
-			strncpy (op, start, p - start);
-			op += p - start;
+			strncpy (outptr, start, p - start);
+			outptr += p - start;
 		}
 		
 		switch (*++p) {
 		case 'd':
 			num = GPOINTER_TO_INT (args->pdata[i++]);
-			op += sprintf (op, "%d", num);
+			outptr += sprintf (outptr, "%d", num);
 			break;
 			
 		case 's':
 			string = args->pdata[i++];
-			op += sprintf (op, "%s", string);
+			outptr += sprintf (outptr, "%s", string);
 			break;
-			
 		case 'S':
 		case 'F':
 			string = args->pdata[i++];
-			if (*p == 'F') {
-				char *mailbox;
-				
-				mailbox = imap_namespace_concat (store, string);
-				string = imap_mailbox_encode (mailbox, strlen (mailbox));
-				g_free (mailbox);
-			}
-
-			if (imap_is_atom(string)) {
-				op += sprintf(op, "%s", string);
+			if (*p == 'F')
+				string = imap_mailbox_encode (string, strlen (string));
+			
+			if (imap_is_atom (string)) {
+				outptr += sprintf (outptr, "%s", string);
 			} else {
 				if (store->capabilities & IMAP_CAPABILITY_LITERALPLUS) {
-					op += sprintf (op, "{%d+}\r\n%s",
-						       strlen (string), string);
+					outptr += sprintf (outptr, "{%d+}\r\n%s", strlen (string), string);
 				} else {
 					char *quoted = imap_quote_string (string);
-
-					op += sprintf (op, "%s", quoted);
+					
+					outptr += sprintf (outptr, "%s", quoted);
 					g_free (quoted);
 				}
 			}
-
+			
 			if (*p == 'F')
 				g_free (string);
 			break;
-			
 		default:
-			*op++ = '%';
-			*op++ = *p;
+			*outptr++ = '%';
+			*outptr++ = *p;
 		}
 		
 		start = *p ? p + 1 : p;

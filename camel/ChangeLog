@@ -1,3 +1,14 @@
+2002-08-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fixes bug #26237.
+
+	* providers/imap/camel-imap-command.c
+	(imap_command_strdup_vprintf): Don't prepend any namespace shit in
+	the %F case.
+
+	* providers/imap/camel-imap-utils.c (imap_parse_list_response):
+	Don't strip off the namespace.
+
 2002-08-01  Peter Williams  <peterw@ximian.com>
 
 	* providers/imap/camel-imap-store.c (create_folder): If the folder
