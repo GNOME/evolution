@@ -1,5 +1,9 @@
 2003-03-05  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view-menu.c: Added icon for "/popups/NewPopup/Folder".
+
+2003-03-05  Ettore Perazzoli  <ettore@ximian.com>
+
 	* importer/Makefile.am (BUILT_SOURCES): $(IDL_GENERATED), not
 	$(IDL_GENERATED_H).
 	(CLEANFILES): Make the same as $(BUILT_SOURCES).

@@ -724,9 +724,11 @@ static EPixmap pixmaps [] = {
 	E_PIXMAP ("/menu/File/FileImporter",	"import.xpm"),
 	E_PIXMAP ("/menu/File/ToggleOffline",	"work_offline.xpm"),
 
-	E_PIXMAP ("/menu/Tools/Settings",         "settings-16.png"), 
+	E_PIXMAP ("/menu/Tools/Settings",       "settings-16.png"), 
 
 	E_PIXMAP ("/Toolbar/SendReceive",       "buttons/send-24-receive.png"),
+
+	E_PIXMAP ("/popups/NewPopup/Folder",    "folder.xpm"),
 
 	E_PIXMAP_END
 };
