@@ -22,7 +22,11 @@
 #include <gtk/gtksignal.h>
 #include "cal-util/cal-recur.h"
 #include "cal-backend-db.h"
+#ifdef HAVE_DB3_DB_H
+#include <db3/db.h>
+#else
 #include <db.h>
+#endif
 #if DB_VERSION_MAJOR < 3
 #  error "You need libdb3 to compile the DB backend"
 #endif

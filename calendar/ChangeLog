@@ -1,3 +1,8 @@
+2002-04-01  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal-backend-db.c: simple fix for DB3 header inclusion in
+	Mac OS X, by Max Horn <max@quendi.de>
+
 2002-03-31  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-itip-control.c (clean_up): free the my_address member
