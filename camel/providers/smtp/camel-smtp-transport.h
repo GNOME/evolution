@@ -57,7 +57,7 @@ typedef struct {
 
 	struct sockaddr_in localaddr;
 
-	GList *esmtp_supported_authtypes;
+	GHashTable *authtypes;
 	
 } CamelSmtpTransport;
 

@@ -48,6 +48,7 @@
 #include "camel-stream-fs.h"
 #include "camel-session.h"
 #include "camel-exception.h"
+#include "camel-sasl.h"
 #include <gal/util/e-util.h>
 
 #define d(x) x
@@ -63,12 +64,13 @@ static gboolean smtp_send_to (CamelTransport *transport, CamelMedium *message, G
 /* support prototypes */
 static gboolean smtp_connect (CamelService *service, CamelException *ex);
 static gboolean smtp_disconnect (CamelService *service, gboolean clean, CamelException *ex);
-static GList *esmtp_get_authtypes (gchar *buffer);
+static GHashTable *esmtp_get_authtypes (gchar *buffer);
 static GList *query_auth_types (CamelService *service, gboolean connect, CamelException *ex);
 static void free_auth_types (CamelService *service, GList *authtypes);
 static char *get_name (CamelService *service, gboolean brief);
 
 static gboolean smtp_helo (CamelSmtpTransport *transport, CamelException *ex);
+static gboolean smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex);
 static gboolean smtp_mail (CamelSmtpTransport *transport, const char *sender,
 			   gboolean has_8bit_parts, CamelException *ex);
 static gboolean smtp_rcpt (CamelSmtpTransport *transport, const char *recipient, CamelException *ex);
@@ -186,11 +188,11 @@ static gboolean
 smtp_connect (CamelService *service, CamelException *ex)
 {
 	CamelSmtpTransport *transport = CAMEL_SMTP_TRANSPORT (service);
+	gchar *pass = NULL, *respbuf = NULL;
 	struct hostent *h;
 	struct sockaddr_in sin;
-	gint fd, num, i;
 	guint32 addrlen;
-	gchar *pass = NULL, *respbuf = NULL;
+	gint fd;
 	
 	if (!service_class->connect (service, ex))
 		return FALSE;
@@ -201,7 +203,7 @@ smtp_connect (CamelService *service, CamelException *ex)
 	
 	/* set some smtp transport defaults */
 	transport->is_esmtp = FALSE;
-	transport->esmtp_supported_authtypes = NULL;
+	transport->authtypes = NULL;
 	CAMEL_TRANSPORT (transport)->supports_8bit = FALSE;
 	
 	sin.sin_family = h->h_addrtype;
@@ -264,20 +266,44 @@ smtp_connect (CamelService *service, CamelException *ex)
 	}
 	
 	/* check to see if AUTH is required, if so...then AUTH ourselves */
-	if (transport->is_esmtp && transport->esmtp_supported_authtypes) {
-		/* not really supported yet, but we can at least show what auth types are supported */
-		d(fprintf (stderr, "camel-smtp-transport::connect(): %s requires AUTH\n", service->url->host));
-		num = g_list_length (transport->esmtp_supported_authtypes);
+	if (service->url->authmech) {
+		CamelServiceAuthType *authtype;
 		
-		for (i = 0; i < num; i++)
-			d(fprintf (stderr, "\nSupported AUTH: %s\n\n", 
-				(gchar *) g_list_nth_data (transport->esmtp_supported_authtypes, i)));
+		if (!transport->is_esmtp || !g_hash_table_lookup (transport->authtypes, service->url->authmech)) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
+					      "SMTP server %s does not support requested "
+					      "authentication type %s", service->url->host,
+					      service->url->authmech);
+			camel_service_disconnect (service, TRUE, NULL);
+			return FALSE;
+		}
 		
-		g_list_free (transport->esmtp_supported_authtypes);
-		transport->esmtp_supported_authtypes = NULL;
-	} else {
-		d(fprintf (stderr, "\ncamel-smtp-transport::connect(): provider does not use AUTH\n\n"));
+		authtype = camel_sasl_authtype (service->url->authmech);
+		if (!authtype) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
+					      "No support for authentication type %s",
+					      service->url->authmech);
+			camel_service_disconnect (service, TRUE, NULL);
+			return FALSE;
+		}
+		
+		if (!smtp_auth (transport, authtype->authproto, ex)) {
+			camel_service_disconnect (service, TRUE, NULL);
+			return FALSE;
+		}
+		
+		/* we have to re-EHLO */
+		smtp_helo (transport, ex);
 	}
+	
+	return TRUE;
+}
+
+static gboolean
+authtypes_free (gpointer key, gpointer value, gpointer data)
+{
+	g_free (key);
+	g_free (value);
 	
 	return TRUE;
 }
@@ -290,7 +316,7 @@ smtp_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 	/*if (!service->connected)
 	 *	return TRUE;
 	 */
-
+	
 	if (clean) {
 		/* send the QUIT command to the SMTP server */
 		smtp_quit (transport, ex);
@@ -299,70 +325,84 @@ smtp_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 	if (!service_class->disconnect (service, clean, ex))
 		return FALSE;
 	
-	g_free (transport->esmtp_supported_authtypes);
-	transport->esmtp_supported_authtypes = NULL;
+	if (transport->authtypes) {
+		g_hash_table_foreach_remove (transport->authtypes, authtypes_free, NULL);
+		g_hash_table_destroy (transport->authtypes);
+		transport->authtypes = NULL;
+	}
+	
 	camel_object_unref (CAMEL_OBJECT (transport->ostream));
 	camel_object_unref (CAMEL_OBJECT (transport->istream));
+	
 	transport->ostream = NULL;
 	transport->istream = NULL;
 	
 	return TRUE;
 }
 
-static GList *
-esmtp_get_authtypes (gchar *buffer)
+static GHashTable *
+esmtp_get_authtypes (char *buffer)
 {
-	GList *ret = NULL;
+	GHashTable *table = NULL;
 	gchar *start, *end;
 	
 	/* advance to the first token */
-	for (start = buffer; *start == ' ' || *start == '='; start++);
+	for (start = buffer; isspace (*start) || *start == '='; start++);
+	
+	if (!*start) return NULL;
+	
+	table = g_hash_table_new (g_str_hash, g_str_equal);
 	
 	for ( ; *start; ) {
-		/* advance to the end of the token */
-		for (end = start; *end && *end != ' '; end++);
+		char *type;
 		
-		ret = g_list_append (ret, g_strndup (start, end - start));
+		/* advance to the end of the token */
+		for (end = start; *end && !isspace (*end); end++);
+		
+		type = g_strndup (start, end - start);
+		g_hash_table_insert (table, g_strdup (type), type);
 		
 		/* advance to the next token */
-		for (start = end; *start == ' '; start++);
+		for (start = end; isspace (*start); start++);
 	}
 	
-	return ret;
+	return table;
 }
 
-/* FIXME: use these? */
-#ifdef notyet
 static CamelServiceAuthType no_authtype = {
-	_("No authentication required"),
+	N_("No authentication required"),
 	
-	_("This option will connect to the SMTP server without using any "
-	  "kind of authentication. This should be fine for connecting to "
-	  "most SMTP servers.")
+	N_("This option will connect to the SMTP server without using any "
+	   "kind of authentication. This should be fine for connecting to "
+	   "most SMTP servers."),
 	
-	_(""),
+	"",
 	FALSE
 };
-
-static CamelServiceAuthType cram_md5_authtype = {
-	_("CRAM-MD5"),
-	
-	_("This option will connect to the SMTP server using CRAM-MD5 "
-	  "authentication."),
-	
-	_("CRAM-MD5"),
-	TRUE
-};
-#endif
 
 static GList *
 query_auth_types (CamelService *service, gboolean connect, CamelException *ex)
 {
-	/* FIXME: Re-enable this when auth types are actually
-	 * implemented.
-	 */
+	CamelSmtpTransport *transport = CAMEL_SMTP_TRANSPORT (service);
+	CamelServiceAuthType *authtype;
+	GList *types, *t;
 	
-	return NULL;
+	if (connect && !smtp_connect (service, ex))
+		return NULL;
+	
+	types = camel_sasl_authtype_list ();
+	if (connect) {
+		for (t = types; t; t = t->next) {
+			authtype = t->data;
+			
+			if (!g_hash_table_lookup (transport->authtypes, authtype->authproto)) {
+				g_list_remove_link (types, t);
+				g_list_free_1 (t);
+			}
+		}
+	}
+	
+	return g_list_prepend (types, &no_authtype);
 }
 
 static void
@@ -546,16 +586,107 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 			CAMEL_TRANSPORT (transport)->supports_8bit = TRUE;
 		}
 		
-		if (transport->is_esmtp && strstr (respbuf, "AUTH")) {
+		/* Only parse authtypes if we don't already have them */
+		if (transport->is_esmtp && strstr (respbuf, "AUTH") && !transport->authtypes) {
 			/* parse for supported AUTH types */
 			char *auths = strstr (respbuf, "AUTH") + 4;
 			
-			transport->esmtp_supported_authtypes = esmtp_get_authtypes (auths);
+			transport->authtypes = esmtp_get_authtypes (auths);
 		}
 	} while (*(respbuf+3) == '-'); /* if we got "250-" then loop again */
 	g_free (respbuf);
 	
 	return TRUE;
+}
+
+static gboolean
+smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
+{
+	gchar *cmdbuf, *respbuf = NULL;
+	CamelSasl *sasl;
+	
+	/* tell the server we want to authenticate... */
+	cmdbuf = g_strdup_printf ("AUTH %s\r\n", mech);
+	d(fprintf (stderr, "sending : %s", cmdbuf));
+	if (camel_stream_write (transport->ostream, cmdbuf, strlen (cmdbuf)) == -1) {
+		g_free (cmdbuf);
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("AUTH request timed out: %s"),
+				      g_strerror (errno));
+		return FALSE;
+	}
+	g_free (cmdbuf);
+	
+	/* get the base64 encoded server challenge which should follow a 334 code */
+	respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
+	d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
+	if (!respbuf || strncmp (respbuf, "334", 3)) {
+		g_free (respbuf);
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("AUTH request timed out: %s"),
+				      g_strerror (errno));
+		return FALSE;
+	}
+	
+	sasl = camel_sasl_new ("smtp", mech, CAMEL_SERVICE (transport));
+	if (!sasl) {
+		g_free (respbuf);
+		goto break_and_lose;
+	}
+	
+	while (!camel_sasl_authenticated (sasl)) {
+		char *challenge;
+		
+		if (!respbuf)
+			goto lose;
+		
+		/* eat whtspc */
+		for (challenge = respbuf + 4; isspace (*challenge); challenge++);
+		
+		challenge = camel_sasl_challenge_base64 (sasl, challenge, ex);
+		g_free (respbuf);
+		if (camel_exception_is_set (ex))
+			goto break_and_lose;
+		
+		/* send our challenge */
+		cmdbuf = g_strdup_printf ("%s\r\n", challenge);
+		g_free (challenge);
+		d(fprintf (stderr, "sending : %s", cmdbuf));
+		if (camel_stream_write (transport->ostream, cmdbuf, strlen (cmdbuf)) == -1) {
+			g_free (cmdbuf);
+			goto lose;
+		}
+		g_free (cmdbuf);
+		
+		/* get the server's response */
+		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
+		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
+	}
+	
+	/* check that the server says we are authenticated */
+	if (!respbuf || strncmp (respbuf, "234", 3)) {
+		g_free (respbuf);
+		goto lose;
+	}
+	
+	return TRUE;
+	
+ break_and_lose:
+	/* Get the server out of "waiting for continuation data" mode. */
+	d(fprintf (stderr, "sending : *\n"));
+	camel_stream_write (transport->ostream, "*\r\n", 3);
+	respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
+	d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
+	
+ lose:
+	if (!camel_exception_is_set (ex)) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
+				     _("Bad authentication response from server."));
+	}
+	
+	camel_object_unref (CAMEL_OBJECT (sasl));
+	
+	return FALSE;
 }
 
 static gboolean

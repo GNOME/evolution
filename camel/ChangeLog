@@ -1,3 +1,19 @@
+2001-03-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-store.c (try_auth): Don't forget to
+	unref the SASL object.
+
+	* providers/smtp/camel-smtp-transport.c (query_auth_types):
+	Implemented.
+	(smtp_auth): Implemented.
+	(smtp_helo): Don't bother parsing the authtypes if we already have
+	them.
+	(smtp_connect): call smtp_auth() here if we found any authtypes.
+	(smtp_disconnect): Updated as I now use a hash table for the
+	supported authtypes rather than a linked list.
+	(esmtp_get_authtypes): modify to use a hash table instead of a
+	linked list and also use isspace() rather than == ' '.
+
 2001-03-02  Dan Winship  <danw@ximian.com>
 
 	* providers/sendmail/camel-sendmail-transport.c (sendmail_send_to,

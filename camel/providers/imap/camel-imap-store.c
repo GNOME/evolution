@@ -362,7 +362,9 @@ try_auth (CamelImapStore *store, const char *mech, CamelException *ex)
 		g_free (resp);
 		goto lose;
 	}
-
+	
+	camel_object_unref (CAMEL_OBJECT (sasl));
+	
 	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
 	return TRUE;
 
@@ -377,7 +379,11 @@ try_auth (CamelImapStore *store, const char *mech, CamelException *ex)
 		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
 				     _("Bad authentication response from server."));
 	}
+	
+	camel_object_unref (CAMEL_OBJECT (sasl));
+	
 	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+	
 	return FALSE;
 }
 
