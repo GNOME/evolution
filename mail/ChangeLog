@@ -1,5 +1,11 @@
 2004-01-28  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-folder-tree-model.c (em_folder_tree_model_add_store): If the
+	store is already in the model, remove it and then re-add it. Fixes
+	bug #53422.
+
+2004-01-28  Jeffrey Stedfast  <fejj@ximian.com>
+
 	And thus completes the fixes for bug #52766.
 
 	* em-folder-tree.c (tree_drag_drop): Don't call

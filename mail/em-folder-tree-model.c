@@ -671,20 +671,8 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model, CamelStore *store, con
 	g_return_if_fail (CAMEL_IS_STORE (store));
 	g_return_if_fail (display_name != NULL);
 	
-	if ((si = g_hash_table_lookup (model->store_hash, store))) {
-		const char *name;
-		
-		path = gtk_tree_row_reference_get_path (si->row);
-		gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, path);
-		gtk_tree_path_free (path);
-		
-		gtk_tree_model_get ((GtkTreeModel *) model, &iter, COL_STRING_DISPLAY_NAME, (char **) &name, -1);
-		
-		g_warning ("the store `%s' is already in the folder tree as `%s'",
-			   display_name, name);
-		
-		return;
-	}
+	if ((si = g_hash_table_lookup (model->store_hash, store)))
+		em_folder_tree_model_remove_store (model, store);
 	
 	uri = camel_url_to_string (((CamelService *) store)->url, CAMEL_URL_HIDE_ALL);
 	
