@@ -1001,9 +1001,7 @@ do_append (CamelFolder *folder, CamelMimeMessage *message,
 		flagstr = NULL;
 	
 	/* encode any 8bit parts so we avoid sending embedded nul-chars and such  */
-	/* commented out because it might change the encoding on
-           signed parts which'd break stuff */
-	/*camel_mime_message_encode_8bit_parts (message);*/
+	camel_mime_message_encode_8bit_parts (message);
 	
 	/* FIXME: We could avoid this if we knew how big the message was. */
 	memstream = camel_stream_mem_new ();

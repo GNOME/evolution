@@ -1,5 +1,8 @@
 2002-05-06  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-folder.c (do_append): Call
+	camel_mime_message_encode_8bit_parts() which fixes bug #10885.
+
 	* camel-tcp-stream-raw.c (socket_connect): Don't bother with
 	counting down the timeout.
 
