@@ -1241,32 +1241,36 @@ emfv_message_reply(EMFolderView *emfv, int mode)
 	if (((EMFormatHTML *)emfv->preview)->html->engine->selection
 	    && ((EMFormatHTML *)emfv->preview)->html->engine->primary) {
 		/* && GTK_WIDGET_HAS_FOCUS(emfv->preview->formathtml.html)*/
-		CamelMimeMessage *msg, *src;
-		struct _camel_header_raw *header;
 		HTMLEngineSaveState *state;
-
-		src = (CamelMimeMessage *)((EMFormat *)emfv->preview)->message;
-		msg = camel_mime_message_new();
-
-		header = ((CamelMimePart *)src)->headers;
-		while (header) {
-			/* FIXME: shouldn't we strip out *all* Content-* headers? */
-			if (g_ascii_strcasecmp(header->name, "content-type") != 0)
-				camel_medium_add_header((CamelMedium *)msg, header->name, header->value);
-			header = header->next;
-		}
 
 		state = html_engine_save_buffer_new(((EMFormatHTML *)emfv->preview)->html->engine, TRUE);
 		html_object_save(((EMFormatHTML *)emfv->preview)->html->engine->primary, state);
-		camel_mime_part_set_content((CamelMimePart *)msg,
-					    ((GString *)state->user_data)->str,
-					    ((GString *)state->user_data)->len,
-					    "text/html");
+		if (state->user_data && ((GString *)state->user_data)->len) {
+			CamelMimeMessage *msg, *src;
+			struct _camel_header_raw *header;
+
+			src = (CamelMimeMessage *)((EMFormat *)emfv->preview)->message;
+			msg = camel_mime_message_new();
+
+			/* need to strip content- headers */
+			header = ((CamelMimePart *)src)->headers;
+			while (header) {
+				if (g_ascii_strncasecmp(header->name, "content-", 8) != 0)
+					camel_medium_add_header((CamelMedium *)msg, header->name, header->value);
+				header = header->next;
+			}
+			camel_mime_part_set_encoding((CamelMimePart *)msg, CAMEL_TRANSFER_ENCODING_8BIT);
+			camel_mime_part_set_content((CamelMimePart *)msg,
+						    ((GString *)state->user_data)->str,
+						    ((GString *)state->user_data)->len,
+						    "text/html");
+			em_utils_reply_to_message (msg, mode);
+			camel_object_unref(msg);
+		} else {
+			em_utils_reply_to_message_by_uid (emfv->folder, emfv->list->cursor_uid, mode);
+		}
 
 		html_engine_save_buffer_free(state);
-
-		em_utils_reply_to_message (msg, mode);
-		camel_object_unref(msg);
 	} else {
 		em_utils_reply_to_message_by_uid (emfv->folder, emfv->list->cursor_uid, mode);
 	}

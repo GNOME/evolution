@@ -1,3 +1,11 @@
+2004-06-10  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-view.c (emfv_message_reply): check that we have
+	content selected, not just a selection, before trying to reply to
+	that content.  #59146.
+	(emfv_message_reply): strip call content-* headers (fixme), and
+	set transfer-encoding to 8bit.
+
 2004-06-08  Rodney Dawes  <dobey@ximian.com>
 
 	* mail-config.glade: Fix for SSL options appearing for sendmail
