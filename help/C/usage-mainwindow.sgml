@@ -150,7 +150,7 @@ forth.  Can these things be labelled with little arrows & stuff?
           <itemizedlist>
              <listitem>
                 <para>
-                  <guilabel>Calendar</guilabel>, where you'll find the
+                  <guilabel>Calendar</guilabel>, where you'll find your
                   appointments and event listings.
                </para>
              </listitem> 
@@ -162,7 +162,7 @@ forth.  Can these things be labelled with little arrows & stuff?
              </listitem>
              <listitem>
                 <para>
-              <guilabel>Directories</guilabel>, for directories, which
+              <guilabel>Directories</guilabel>, for search directories, which
               have not been implemented yet.
                </para>
              </listitem>
@@ -256,6 +256,21 @@ forth.  Can these things be labelled with little arrows & stuff?
         </para>
       </sect1>
     </chapter>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

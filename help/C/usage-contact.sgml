@@ -1,52 +1,54 @@
-
     <chapter id="usage-contact">
       <title>The Evolution Contact Manager</title>
       <para>
           The <application>Evolution</application> contact manager can
           handle all of the functions of an address book, phone book,
           or Rolodex.  Of course, <application>Evolution</application>
-          allows easier updates than an actual paper book, and much
-          easier synchronization with handheld and remote devices. And
-          I doubt that you can take your little black book and make it
-          accessible to the rest of your office over a network.  Since
-          <application>Evolution</application> supports most major
-          network protocols, including <glossterm>IMAP</glossterm> and
-          <glossterm>LDAP</glossterm>, it's easy to use over an
-          existing network.
+          allows easier updates than an actual paper book. <application>
+          Evolution </application> also allows easy synchronization with 
+          handheld and remote devices.  Since <application>Evolution>
+          </application> supports most major network protocols, including
+          <glossterm>LDAP</glossterm>, it's easy to use over an existing
+          network.
         </para>
 	<para>
-          Antother advantage of <application>Evolution</application>
-          is that the address book is integrated into the rest of
-          the application.  That means that when you look for
-          someone's address, you can also see a history of
-          appointments with that person, and when you get an email
-          with contact information in it, you can create a new address
-          card very quickly.  In addition, searches, folders, and
-          vFolders all work in the same intuitive way they do in the
-          other components, so you don't have to learn another system
-          for similar tasks.
+          Another advantage of the
+          <application>Evolution</application> address book is its
+          integration with the rest of the application.  That means
+          that when you look for someone's address, you can also see a
+          history of appointments with that person.  Or, you can get
+          an e-mail with contact information in it and create a new
+          address card on the spot.  In addition, searches and folders
+          and all work in the same way they do in the other
+          components, so you don't have to learn another system for
+          similar tasks.
         </para>
 	<para>
-          This chaper will cover the usage of the
-          <application>Evolution</application> contact manager,
-          including organizing large amounts of contact data, sharing
-          addresses over a network, and the automation 
-          capabilities of the address book.  Contact manager
-          configuration is addressed in <xref
-          linkend="config-prefs-contact">.
+          This chapter will cover using the
+          <application>Evolution</application> contact manager to
+          organize any amount of contact information, share addresses
+          over a network, and several ways to save time with everyday
+          tasks.  To learn about configuring the contact manager, see
+          <xref linkend="config-prefs-contact">.
         </para>
 
       <sect1 id="usage-contact-basic">
 	<title>Getting Started With the Contact Manager</title>	
 
 	<para>
-          To start managing your contacts, click on
+          To open up your address book, click on
           <guibutton>Contacts</guibutton> in the shortcut bar.
         </para>
 	<para>
-          Describe the interface.  Include the fact that the
-          whole address book consists of a set of cards, organized into
-          folders.
+          The contact manager interface is broken into two main parts.
+          The first part is the contact display section.  This can be
+          found at the bottom right panel of
+          <application>Evolution</application>.  This section is where
+          all your contact information is displayed.  Each of these
+          cards are organized into folders.  The second section is the
+          administrative section which spans the top of the
+          <application> Evolution</application> window.  This is where
+          you can add, edit, or delete records.
         </para>
       </sect1>
       <sect1 id="usage-contact-cards">
@@ -54,8 +56,9 @@
 	<para>
           You can create a new card by pressing the <guibutton>New
           Card</guibutton> button, or by pressing
-          <keysym>KEYSYM</keysym>. The <interface>New Card</interface>
-          window will appear.  It has the following fields:
+          <shortcut><keysym>KEYSYM</keysym></shortcut>. The
+          <interface>New Card</interface> window will appear.  It has
+          the following fields:
 
           <itemizedlist>
             <listitem> <para>
@@ -65,15 +68,15 @@
 
             </para></listitem>
             <listitem> <para>
-              <guilabel>Address:</guilabel>
+              <guilabel>Business:</guilabel>
             </para></listitem>
 
             <listitem> <para>
-                 Something
+              <guilabel>Job Title:</guilabel>
             </para></listitem>
 
             <listitem> <para>
-               Something
+               <guilabel>Home:</guilabel> 
             </para></listitem>
 	  </itemizedlist>
         </para>
@@ -84,7 +87,7 @@
 	   postal addresses by default, but you may have as many or as
 	   few lines to an address as you wish.  To change which
 	   fields an address card has, choose DESCRIBE HERE HOW TO DO
-	   THIS
+	   THIS.
         </para>
 
 	<note>
@@ -95,7 +98,7 @@
             any email address or message, and choose
             <guimenuitem>Create Card for this Address</guimenuitem> or
             <guimenuitem>Create Card for this Sender</guimenuitem>from
-            the menu that appears.  While looking at a calendar
+            the menu.  While looking at a calendar
             appointment, right-click any email address, and choose
             <guimenuitem>Create Card for this Address</guimenuitem>.
             (NOTE that feature may change! unimplemented!)
@@ -104,14 +107,15 @@
 
 	<para>
           You delete a card by pressing the <guibutton>Delete
-          Card</guibutton> button, or by dragging it into the trash folder.
+          Card</guibutton> button, or by dragging it into the trash
+          folder.
         </para>
 
 	<para>
-          You can move cards around just as you would with email:
-          dragging and dropping works, as does right-clicking and
-          selecting <guimenuitem>Move</guimenuitem> from the menu
-          that appears.
+          You can move cards around just as you would move email
+          messages: dragging and dropping works, as does
+          right-clicking and choosing <guimenuitem>Move</guimenuitem>
+          from the menu that appears.
         </para>
       </sect1>
 
@@ -130,8 +134,9 @@
           <application>Evolution</application> feature is its ability
           to recognize when people live together.  If two people in
           your contact manager share an address, and you change the
-          address for one of them, Evolution will ask you if you wish
-          to change the address for both of them, or just for one.
+          address for one of them, <application>Evolution</application>
+          will ask you if you wish to change the address for both of 
+          them, or just for one.
         </para>
 
 	<sect2 id="usage-contact-organize-group">
@@ -207,17 +212,15 @@
          <example id="usage-contact-sharing-ex">
             <title>Sharing Address Cards and Calendar Data</title>
 	      <para>
-	        I want to schedule a meeting with someone at Company
-                X, but I'm not sure who to talk to there.  Our
-                corporate network has an address card that states our
-                contacts there, so I know whom to call.  Since we also
-                share the calendars, I know that Deanna has already
-                scheduled a meeting with them next Thursday, and I can
-                either go to the meeting myself or ask Deanna to
-                discuss my concerns for me.  Either way, I avoid
-                having to schedule yet another meeting with Company X,
-                which is good since everybody hates their products and
-                they're doomed to fail anyway.
+	        Ray wants to schedule a meeting with someone at
+                Company X, so he checks the network for the Company X
+                address card that states his contacts there.  Since
+                his company also shares calendars, he then learns that
+                his co-worker Deanna has already scheduled a meeting
+                with them next Thursday.  He can either go to the
+                meeting himself or ask Deanna to discuss his concerns
+                for him.  Either way, I avoid scheduling an extra
+                meeting with Company X.
              </para>
 	  </example>
 
@@ -239,7 +242,7 @@
       <sect1 id="usage-contact-automate">
 	<title>Automating the Contact Manager</title>
 	<para>
-          The <application> Evolution</application> contact manager
+          The <application>Evolution</application> contact manager
           can perform a wide variety of tasks for you.  From speeding
           up basic tasks like adding a new address card to managing
           mailing lists, you'll find that the contact manager is more
@@ -286,3 +289,5 @@
 	</sect2>
       </sect1>
     </chapter> 
+
+
