@@ -391,6 +391,12 @@ primary_source_selection_changed_cb (ESourceSelector *selector, TasksComponentVi
 }
 
 static void
+source_added_cb (ETasks *tasks, ESource *source, TasksComponentView *component_view)
+{
+	e_source_selector_select_source (E_SOURCE_SELECTOR (component_view->source_selector), source);
+}
+
+static void
 source_removed_cb (ETasks *tasks, ESource *source, TasksComponentView *component_view)
 {
 	e_source_selector_unselect_source (E_SOURCE_SELECTOR (component_view->source_selector), source);
@@ -894,6 +900,8 @@ create_component_view (TasksComponent *tasks_component)
 	component_view->model = E_TABLE_MODEL (e_calendar_table_get_model (e_tasks_get_calendar_table (component_view->tasks)));
 
 	/* This signal is thrown if backends die - we update the selector */
+	g_signal_connect (component_view->tasks, "source_added", 
+			  G_CALLBACK (source_added_cb), component_view);
 	g_signal_connect (component_view->tasks, "source_removed", 
 			  G_CALLBACK (source_removed_cb), component_view);
 

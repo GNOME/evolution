@@ -68,6 +68,9 @@ struct _ECalendarTable {
 
 struct _ECalendarTableClass {
 	GtkTableClass parent_class;
+
+	/* Notification signals */
+	void (* user_created) (ECalendarTable *cal_table);
 };
 
 

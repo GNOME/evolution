@@ -444,6 +444,18 @@ primary_source_selection_changed_cb (ESourceSelector *selector, CalendarComponen
 }
 
 static void
+source_added_cb (GnomeCalendar *calendar, ECalSourceType source_type, ESource *source, CalendarComponentView *component_view)
+{
+	switch (source_type) {
+	case E_CAL_SOURCE_TYPE_EVENT:
+		e_source_selector_select_source (E_SOURCE_SELECTOR (component_view->source_selector), source);
+		break;
+	default:
+		break;
+	}
+}
+
+static void
 source_removed_cb (GnomeCalendar *calendar, ECalSourceType source_type, ESource *source, CalendarComponentView *component_view)
 {
 	switch (source_type) {
@@ -1078,6 +1090,8 @@ create_component_view (CalendarComponent *calendar_component)
 	component_view->calendar = (GnomeCalendar *) bonobo_control_get_widget (component_view->view_control);
 
 	/* This signal is thrown if backends die - we update the selector */
+	g_signal_connect (component_view->calendar, "source_added", 
+			  G_CALLBACK (source_added_cb), component_view);
 	g_signal_connect (component_view->calendar, "source_removed", 
 			  G_CALLBACK (source_removed_cb), component_view);
 

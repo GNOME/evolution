@@ -103,6 +103,7 @@ enum {
 	TIMEZONE_CHANGED,
 	EVENT_CHANGED,
 	EVENT_ADDED,
+	USER_CREATED,
 	OPEN_EVENT,
 	LAST_SIGNAL
 };
@@ -166,6 +167,7 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
  	klass->selected_time_changed = NULL;
 	klass->event_changed = NULL;
 	klass->event_added = NULL;
+	klass->user_created = NULL;
 
 	klass->get_selected_events = NULL;
 	klass->get_selected_time_range = NULL;
@@ -214,15 +216,6 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
 			      G_TYPE_NONE, 1,
 			      G_TYPE_POINTER);
 
-	e_calendar_view_signals[OPEN_EVENT] =
-		g_signal_new ("open_event",
-			      G_TYPE_FROM_CLASS (klass),
-			      G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
-			      G_STRUCT_OFFSET (ECalendarViewClass, open_event),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
-
 	e_calendar_view_signals[EVENT_ADDED] =
 		g_signal_new ("event_added",
 			      G_TYPE_FROM_CLASS (object_class),
@@ -232,6 +225,24 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
 			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1,
 			      G_TYPE_POINTER);
+
+	e_calendar_view_signals[USER_CREATED] =
+		g_signal_new ("user_created",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECalendarViewClass, user_created),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
+
+	e_calendar_view_signals[OPEN_EVENT] =
+		g_signal_new ("open_event",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+			      G_STRUCT_OFFSET (ECalendarViewClass, open_event),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 
 	/* clipboard atom */
 	if (!clipboard_atom)

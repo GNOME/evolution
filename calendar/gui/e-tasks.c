@@ -61,6 +61,7 @@ struct _ETasksPrivate {
 	/* The task lists for display */
 	GHashTable *clients;
 	GList *clients_list;
+	ECal *default_client;
 
 	ECalView *query;
 	
@@ -87,7 +88,6 @@ struct _ETasksPrivate {
 
 	GList *notifications;
 };
-
 
 static void e_tasks_class_init (ETasksClass *class);
 static void e_tasks_init (ETasks *tasks);
@@ -178,6 +178,21 @@ table_selection_change_cb (ETable *etable, gpointer data)
 			 n_selected);
 }
 
+static void
+user_created_cb (GtkWidget *view, ETasks *tasks)
+{
+	ETasksPrivate *priv;	
+	ECal *ecal;
+	ECalModel *model;
+	
+	priv = tasks->priv;
+
+	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
+	ecal = e_cal_model_get_default_client (model);
+
+	e_tasks_add_todo_source (tasks, e_cal_get_source (ecal));
+}
+
 /* Callback used when the sexp in the search bar changes */
 static void
 search_bar_sexp_changed_cb (CalSearchBar *cal_search, const char *sexp, gpointer data)
@@ -236,6 +251,10 @@ set_timezone (ETasks *tasks)
 			/* FIXME Error checking */
 			e_cal_set_default_timezone (client, zone, NULL);
 	}
+
+	if (priv->default_client && e_cal_get_load_state (priv->default_client) == E_CAL_LOAD_LOADED)
+		/* FIXME Error checking */
+		e_cal_set_default_timezone (priv->default_client, zone, NULL);
 
 	if (priv->preview)
 		e_cal_component_preview_set_default_timezone (E_CAL_COMPONENT_PREVIEW (priv->preview), zone);
@@ -477,6 +496,8 @@ setup_widgets (ETasks *tasks)
 	priv->tasks_view = e_calendar_table_new ();
 	priv->tasks_view_config = e_calendar_table_config_new (E_CALENDAR_TABLE (priv->tasks_view));
 	
+	g_signal_connect (priv->tasks_view, "user_created", G_CALLBACK (user_created_cb), tasks);
+
 	etable = e_table_scrolled_get_table (
 		E_TABLE_SCROLLED (E_CALENDAR_TABLE (priv->tasks_view)->etable));
 	e_table_set_state (etable, E_TASKS_TABLE_DEFAULT_STATE);
@@ -492,6 +513,7 @@ setup_widgets (ETasks *tasks)
 			  G_CALLBACK(table_drag_data_get), tasks);
 	g_signal_connect (etable, "table_drag_data_delete",
 			  G_CALLBACK(table_drag_data_delete), tasks);
+
 	/*
 	e_table_drag_dest_set (e_table_scrolled_get_table (E_TABLE_SCROLLED (editor->table)),
 			       0, list_drag_types, num_list_drag_types, GDK_ACTION_LINK);
@@ -651,6 +673,10 @@ e_tasks_destroy (GtkObject *object)
 		g_hash_table_destroy (priv->clients);
 		g_list_free (priv->clients_list);
 
+		if (priv->default_client)
+			g_object_unref (priv->default_client);
+		priv->default_client = NULL;
+
 		if (priv->current_uid) {
 			g_free (priv->current_uid);
 			priv->current_uid = NULL;
@@ -761,6 +787,8 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, ETasks *tasks)
 
 	switch (status) {
 	case E_CALENDAR_STATUS_OK :
+		g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, client_cal_opened_cb, NULL);
+
 		set_status_message (tasks, _("Loading tasks"));
 		model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
 		e_cal_model_add_client (model, ecal);
@@ -787,6 +815,63 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, ETasks *tasks)
 
 		break;
 	}
+}
+
+static void
+default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, ETasks *tasks)
+{
+	ECalModel *model;
+	ESource *source;
+	ETasksPrivate *priv;
+
+	priv = tasks->priv;
+
+	source = e_cal_get_source (ecal);
+
+	switch (status) {
+	case E_CALENDAR_STATUS_OK :
+		g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, default_client_cal_opened_cb, NULL);
+		model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
+		
+		set_timezone (tasks);
+		e_cal_model_set_default_client (model, ecal);
+		break;
+	default :
+		/* Make sure the source doesn't disappear on us */
+		g_object_ref (source);
+
+		priv->clients_list = g_list_remove (priv->clients_list, ecal);
+		g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL, tasks);
+
+		/* Do this last because it unrefs the client */
+		g_hash_table_remove (priv->clients, e_cal_get_uri (ecal));
+
+		gtk_signal_emit (GTK_OBJECT (tasks), e_tasks_signals[SOURCE_REMOVED], source);
+
+		set_status_message (tasks, NULL);
+		g_object_unref (ecal);
+		g_object_unref (source);
+
+		break;
+	}
+}
+
+typedef void (*open_func) (ECal *, ECalendarStatus, ETasks *);
+
+static gboolean
+open_ecal (ETasks *tasks, ECal *cal, gboolean only_if_exists, open_func of)
+{
+	ETasksPrivate *priv;
+
+	priv = tasks->priv;
+	
+	set_status_message (tasks, _("Opening tasks at %s"), e_cal_get_uri (cal));
+
+	g_signal_connect (G_OBJECT (cal), "cal_opened", G_CALLBACK (of), tasks);
+	e_cal_open_async (cal, only_if_exists);
+
+	return TRUE;
 }
 
 void
@@ -833,8 +918,6 @@ e_tasks_add_todo_source (ETasks *tasks, ESource *source)
 {
 	ETasksPrivate *priv;
 	ECal *client;
-	char *str_uri;
-	GError *error = NULL;
 	const char *uid;
 
 	g_return_val_if_fail (tasks != NULL, FALSE);
@@ -845,32 +928,40 @@ e_tasks_add_todo_source (ETasks *tasks, ESource *source)
 
 	uid = e_source_peek_uid (source);
 	client = g_hash_table_lookup (priv->clients, uid);
-	if (client) 
+	if (client) {
+		/* We already have it */
+
 		return TRUE;
-	
+	} else {
+		ESource *default_source;
+		
+		if (priv->default_client) {
+			default_source = e_cal_get_source (priv->default_client);
+		
+			/* We don't have it but the default client is it */
+			if (!strcmp (e_source_peek_uid (default_source), uid))
+				client = g_object_ref (priv->default_client);
+		}
 
-	/* FIXME Loading should be async */
-	/* FIXME With no event handling here the status message never actually changes */
-	str_uri = e_source_get_uri (source);
-	set_status_message (tasks, _("Opening tasks at %s"), str_uri);
-
-	client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
-	if (!client) {
-		g_free (str_uri);
-		return FALSE;
+		/* Create a new one */
+		if (!client) {
+			client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
+			if (!client)
+				return FALSE;
+		}
 	}
 
-	g_hash_table_insert (priv->clients, g_strdup (uid) , client);
-	priv->clients_list = g_list_prepend (priv->clients_list, client);
-	
 	g_signal_connect (G_OBJECT (client), "backend_error", G_CALLBACK (backend_error_cb), tasks);
 	g_signal_connect (G_OBJECT (client), "categories_changed", G_CALLBACK (client_categories_changed_cb), tasks);
 	g_signal_connect (G_OBJECT (client), "backend_died", G_CALLBACK (backend_died_cb), tasks);
-	g_signal_connect (G_OBJECT (client), "cal_opened", G_CALLBACK (client_cal_opened_cb), tasks);
+
+	/* add the client to internal structure */	
+	g_hash_table_insert (priv->clients, g_strdup (uid) , client);
+	priv->clients_list = g_list_prepend (priv->clients_list, client);
 
 	gtk_signal_emit (GTK_OBJECT (tasks), e_tasks_signals[SOURCE_ADDED], source);
 
-	e_cal_open_async (client, FALSE);
+	open_ecal (tasks, client, FALSE, client_cal_opened_cb);
 
 	return TRUE;
 }
@@ -915,8 +1006,6 @@ e_tasks_set_default_source (ETasks *tasks, ESource *source)
 {
 	ETasksPrivate *priv;
 	ECal *ecal;
-	ECalModel *model;
-	char *str_uri;
 	
 	g_return_val_if_fail (tasks != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TASKS (tasks), FALSE);
@@ -924,14 +1013,20 @@ e_tasks_set_default_source (ETasks *tasks, ESource *source)
 
 	priv = tasks->priv;
 
-	str_uri = e_source_get_uri (source);
-	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
-	ecal = e_cal_model_get_client_for_uri (model, str_uri);
-	g_free (str_uri);
-	if (!ecal)
-		return FALSE;
+	ecal = g_hash_table_lookup (priv->clients, e_source_peek_uid (source));
 
-	e_cal_model_set_default_client (model, ecal);
+	if (priv->default_client)
+		g_object_unref (priv->default_client);
+
+	if (ecal) {
+		priv->default_client = g_object_ref (ecal);
+	} else {
+		priv->default_client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
+		if (!priv->default_client)
+			return FALSE;
+	}
+
+	open_ecal (tasks, priv->default_client, FALSE, default_client_cal_opened_cb);
 
 	return TRUE;
 }

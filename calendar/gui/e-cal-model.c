@@ -34,6 +34,8 @@
 typedef struct {
 	ECal *client;
 	ECalView *query;
+
+	gboolean do_query;
 } ECalModelClient;
 
 struct _ECalModelPrivate {
@@ -88,9 +90,15 @@ static char *ecm_value_to_string (ETableModel *etm, int col, const void *value);
 
 static const char *ecm_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data);
 
+static ECalModelClient *add_new_client (ECalModel *model, ECal *client, gboolean do_query);
+static ECalModelClient *find_client_data (ECalModel *model, ECal *client);
+static void remove_client_objects (ECalModel *model, ECalModelClient *client_data);
+static void remove_client (ECalModel *model, ECalModelClient *client_data);
+
 /* Signal IDs */
 enum {
 	TIME_RANGE_CHANGED,
+	ROW_APPENDED,
 	LAST_SIGNAL
 };
 
@@ -135,6 +143,15 @@ e_cal_model_class_init (ECalModelClass *klass)
 			      NULL, NULL,
 			      e_calendar_marshal_VOID__LONG_LONG,
 			      G_TYPE_NONE, 2, G_TYPE_LONG, G_TYPE_LONG);	
+
+	signals[ROW_APPENDED] =
+		g_signal_new ("row_appended",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECalModelClass, row_appended),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 }
 
 static void
@@ -758,9 +775,13 @@ ecm_append_row (ETableModel *etm, ETableModel *source, int row)
 		g_warning (G_STRLOC ": Could not create the object!");
 
 		/* FIXME: show error dialog */
+		icalcomponent_free (comp_data.icalcomp);
+		return;
 	}
 
 	icalcomponent_free (comp_data.icalcomp);
+
+	g_signal_emit (G_OBJECT (model), signals[ROW_APPENDED], 0);	
 }
 
 static void *
@@ -1097,6 +1118,8 @@ e_cal_model_get_default_client (ECalModel *model)
 	
 	priv = model->priv;
 
+	/* FIXME Should we force the client to be open? */
+
 	/* we always return a valid ECal, since we rely on it in many places */
 	if (priv->default_client)
 		return priv->default_client;
@@ -1113,6 +1136,7 @@ void
 e_cal_model_set_default_client (ECalModel *model, ECal *client)
 {
 	ECalModelPrivate *priv;
+	ECalModelClient *client_data;
 	
 	g_return_if_fail (model != NULL);
 	g_return_if_fail (E_IS_CAL_MODEL (model));
@@ -1121,11 +1145,21 @@ e_cal_model_set_default_client (ECalModel *model, ECal *client)
 
 	priv = model->priv;
 
+	if (priv->default_client) {
+		ECalModelClient *client_data;
+		
+		client_data = find_client_data (model, priv->default_client);
+		g_assert (client_data);
+
+		if (!client_data->do_query)
+			remove_client (model, client_data);
+	}
+	
 	/* Make sure its in the model */
-	e_cal_model_add_client (model, client);
+	client_data = add_new_client (model, client, FALSE);
 
 	/* Store the default client */	
-	priv->default_client = e_cal_model_get_client_for_uri (model, e_cal_get_uri (client));
+	priv->default_client = client_data->client;	
 }
 
 /**
@@ -1366,6 +1400,10 @@ update_e_cal_view_for_client (ECalModel *model, ECalModelClient *client_data)
 	/* prepare the query */
 	g_assert (priv->full_sexp != NULL);
 
+	/* Don't create the new query if we won't use it */
+	if (!client_data->do_query)
+		return;
+	
 	if (!e_cal_get_query (client_data->client, priv->full_sexp, &client_data->query, NULL)) {
 		g_warning (G_STRLOC ": Unable to get query");
 
@@ -1412,23 +1450,45 @@ cal_opened_cb (ECal *client, ECalendarStatus status, gpointer user_data)
 	update_e_cal_view_for_client (model, client_data);
 }
 
+
 static ECalModelClient *
-add_new_client (ECalModel *model, ECal *client)
+add_new_client (ECalModel *model, ECal *client, gboolean do_query)
 {
 	ECalModelPrivate *priv;
 	ECalModelClient *client_data;
-
+	ECal *existing_client;
+	
 	priv = model->priv;
 
+	/* Look for an existing client with the same URI */
+	existing_client = e_cal_model_get_client_for_uri (model, e_cal_get_uri (client));
+	if (existing_client) {
+		client_data = find_client_data (model, client);
+		g_assert (client_data);
+
+		if (!client_data->do_query)
+			client_data->do_query = do_query;
+		
+		goto load;
+	}
+	
 	client_data = g_new0 (ECalModelClient, 1);
-	client_data->client = client;
+	client_data->client = g_object_ref (client);
 	client_data->query = NULL;
-	g_object_ref (client_data->client);
+	client_data->do_query = do_query;
 
 	priv->clients = g_list_append (priv->clients, client_data);
 
 	g_signal_connect (G_OBJECT (client_data->client), "backend_died",
 			  G_CALLBACK (backend_died_cb), model);
+
+ load:
+	if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED) {
+		update_e_cal_view_for_client (model, client_data);
+	} else {
+		g_signal_connect (client, "cal_opened", G_CALLBACK (cal_opened_cb), model);
+		e_cal_open_async (client, TRUE);
+	}
 
 	return client_data;
 }
@@ -1447,29 +1507,14 @@ e_cal_model_add_client (ECalModel *model, ECal *client)
 
 	priv = model->priv;
 
-	if (e_cal_model_get_client_for_uri (model, e_cal_get_uri (client)))
-		return;
-
-	client_data = add_new_client (model, client);	
-	if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED) {
-		update_e_cal_view_for_client (model, client_data);
-	} else {
-		g_signal_connect (client, "cal_opened", G_CALLBACK (cal_opened_cb), model);
-		e_cal_open_async (client, TRUE);
-	}
+	client_data = add_new_client (model, client, TRUE);	
 }
 
 static void
-remove_client (ECalModel *model, ECalModelClient *client_data)
+remove_client_objects (ECalModel *model, ECalModelClient *client_data)
 {
-	gint i;
-
-	g_signal_handlers_disconnect_matched (client_data->client, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, model);
-	if (client_data->query)
-		g_signal_handlers_disconnect_matched (client_data->query, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, model);
-
-	model->priv->clients = g_list_remove (model->priv->clients, client_data);
-
+	int i;
+	
 	/* remove all objects belonging to this client */
 	for (i = model->priv->objects->len; i > 0; i--) {
 		ECalModelComponent *comp_data = (ECalModelComponent *) g_ptr_array_index (model->priv->objects, i - 1);
@@ -1485,11 +1530,29 @@ remove_client (ECalModel *model, ECalModelClient *client_data)
 			e_table_model_row_deleted (E_TABLE_MODEL (model), i - 1);
 		}
 	}
+}
 
-	/* If this was the default client, unset it */
-	if (model->priv->default_client == client_data->client)
-		model->priv->default_client = NULL;
-	
+static void
+remove_client (ECalModel *model, ECalModelClient *client_data)
+{
+	/* FIXME We might not want to disconnect the open signal for the default client */
+	g_signal_handlers_disconnect_matched (client_data->client, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, model);
+	if (client_data->query)
+		g_signal_handlers_disconnect_matched (client_data->query, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, model);
+
+	remove_client_objects (model, client_data);
+
+	/* If this is the default client and we were querying (so it
+	 * was also a source), keep it around but don't query it */
+	if (model->priv->default_client == client_data->client && client_data->do_query) {
+		client_data->do_query = FALSE;
+		
+		return;
+	}
+
+	/* Remove the client from the list */
+	model->priv->clients = g_list_remove (model->priv->clients, client_data);
+
 	/* free all remaining memory */
 	g_object_unref (client_data->client);
 	if (client_data->query)

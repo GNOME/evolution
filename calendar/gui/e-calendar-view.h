@@ -87,6 +87,7 @@ struct _ECalendarViewClass {
 	void (* timezone_changed) (ECalendarView *cal_view, icaltimezone *old_zone, icaltimezone *new_zone);
 	void (* event_changed) (ECalendarView *day_view, ECalendarViewEvent *event);
 	void (* event_added) (ECalendarView *day_view, ECalendarViewEvent *event);
+	void (* user_created) (ECalendarView *cal_view);
 
 	/* Virtual methods */
 	GList * (* get_selected_events) (ECalendarView *cal_view); /* a GList of ECalendarViewEvent's */

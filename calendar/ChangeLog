@@ -1,3 +1,79 @@
+2004-07-12  JP Rosevear  <jpr@novell.com>
+ 
+ 	Fixes #57287, 58748
+ 	
+	* gui/tasks-component.c (source_added_cb): if the source was
+ 	added in the main calendar, select it because the user caused this
+ 	to happen by creating a task
+ 	(create_component_view): listen for source_added signal on the
+ 	tasks
+ 
+ 	* gui/gnome-cal.c (view_selection_changed_cb): if the user created
+ 	a task, make sure we are displaying the relevant event list
+ 	(set_timezone): set the default zone of the default client
+ 	(setup_widgets): listen for the user_created signal
+ 	(gnome_calendar_destroy): clean up default client
+ 	(client_cal_opened_cb): disconnect from the open signal
+ 	(default_client_cal_opened_cb): set the default client on the
+ 	models
+ 	(open_ecal): make the callback function a param
+ 	(gnome_calendar_add_source): include the default client when
+ 	searching for an existing client
+ 	(gnome_calendar_set_default_source): make the default client
+ 	independent of the rest of the clients
+ 
+ 	* gui/e-week-view.c (e_week_view_on_editing_stopped): emit
+ 	user_created signal
+ 
+ 	* gui/e-tasks.c (user_created_cb): if the user created a task,
+ 	make sure we are displaying the relevant task list
+ 	(set_timezone): set the timezone on the client
+ 	(setup_widgets): listen for user_created signal
+ 	(e_tasks_destroy): unref default client
+ 	(default_client_cal_opened_cb): set the default on the model when
+ 	it opens
+ 	(open_ecal): open a task list
+ 	(e_tasks_add_todo_source): include the default client when
+ 	searching for an existing client
+ 	(e_tasks_set_default_source): make the default client independent
+ 	of the rest of the clients
+ 
+ 	* gui/e-day-view.c (e_day_view_on_editing_stopped): emit
+ 	user_created signal
+ 
+ 	* gui/e-calendar-view.h: add signal proto
+ 
+ 	* gui/e-calendar-view.c (e_calendar_view_class_init): add
+ 	user_created signal
+ 
+ 	* gui/e-calendar-table.h: add signal proto
+ 
+ 	* gui/e-calendar-table.c (e_calendar_table_class_init): add
+ 	user_created signal
+ 	(row_appended_cb): if row is appended, emit user_created signal
+ 	(e_calendar_table_init): listen for row_appended signal
+ 
+ 	* gui/e-cal-model.h: add signal proto
+ 
+ 	* gui/e-cal-model.c (e_cal_model_class_init): add row_appended
+	signal
+ 	(ecm_append_row): don't leak, emit row appended signal
+ 	(e_cal_model_set_default_client): remove the existing default if
+ 	it was only used as the default
+ 	(update_e_cal_view_for_client): short circuit query create
+ 	(add_new_client): look for an existing client and update its
+ 	record if found, handle opening things here
+ 	(e_cal_model_add_client): just call add_new_client
+ 	(remove_client_objects): just remove a client's objects
+ 	(remove_client): use above, handle removal of client if its
+ 	default
+ 
+ 	* gui/calendar-component.c (source_added_cb): if the source was
+ 	added in the main calendar, select it because the user caused this
+ 	to happen by creating an appointment
+ 	(create_component_view): listen for source_added signal on the
+ 	calendar
+	
 2004-07-08  Radek Doulik  <rodo@ximian.com>
 
 	* gui/e-cal-model.c (e_cal_model_date_value_to_string): as below

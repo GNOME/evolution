@@ -6049,6 +6049,8 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 		if (!on_server) {
 			if (!e_cal_create_object (client, icalcomp, NULL, NULL))
 				g_message (G_STRLOC ": Could not create the object!");
+			else
+				g_signal_emit_by_name (day_view, "user_created");
 		} else {
 			CalObjModType mod = CALOBJ_MOD_ALL;
 			GtkWindow *toplevel;

@@ -84,6 +84,7 @@ typedef struct {
 
 	/* Signals */
 	void (* time_range_changed) (ECalModel *model, time_t start, time_t end);
+	void (* row_appended) (ECalModel *model);
 } ECalModelClass;
 
 GType               e_cal_model_get_type                       (void);

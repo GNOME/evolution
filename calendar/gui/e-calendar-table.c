@@ -104,6 +104,13 @@ static void mark_row_complete_cb (int model_row, gpointer data);
 static ECalModelComponent *get_selected_comp (ECalendarTable *cal_table);
 static void open_task (ECalendarTable *cal_table, ECalModelComponent *comp_data, gboolean assign);
 
+/* Signal IDs */
+enum {
+	USER_CREATED,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL] = { 0 };
 
 /* The icons to represent the task. */
 #define E_CALENDAR_MODEL_NUM_ICONS	4
@@ -130,6 +137,15 @@ e_calendar_table_class_init (ECalendarTableClass *class)
 
 	/* Method override */
 	object_class->destroy		= e_calendar_table_destroy;
+
+	signals[USER_CREATED] =
+		g_signal_new ("user_created",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECalendarTableClass, user_created),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 
 	/* clipboard atom */
 	if (!clipboard_atom)
@@ -279,6 +295,12 @@ priority_compare_cb (gconstpointer a, gconstpointer b)
 }
 
 static void
+row_appended_cb (ECalModel *model, ECalendarTable *cal_table) 
+{
+	g_signal_emit (cal_table, signals[USER_CREATED], 0);
+}
+
+static void
 e_calendar_table_init (ECalendarTable *cal_table)
 {
 	GtkWidget *table;
@@ -292,6 +314,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	/* Create the model */
 
 	cal_table->model = (ECalModel *) e_cal_model_tasks_new ();
+	g_signal_connect (cal_table->model, "row_appended", G_CALLBACK (row_appended_cb), cal_table);
 
 	/* Create the header columns */
 
