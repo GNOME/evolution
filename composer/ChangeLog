@@ -1,3 +1,9 @@
+2004-02-03  Chris Toshok  <toshok@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_guess_mime_type): use
+	FORCE_SLOW_MIME_TYPE so gnome-vfs actually sniffs the file
+	contents before coming up with a mime type.
+
 2004-02-03  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (INCLUDES): add widgets/misc
