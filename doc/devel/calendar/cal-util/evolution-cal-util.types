@@ -1,4 +1,0 @@
-#include <gnome.h>
-#include <cal-util/cal-component.h>
-
-cal_component_get_type
