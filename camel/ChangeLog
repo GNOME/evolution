@@ -1,3 +1,13 @@
+2003-03-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c (header_encode_phrase_merge_words): When we
+	remove a node from the list, make sure to g_list_free_1().
+	(header_encode_phrase_merge_words): Don't use
+	CAMEL_FOLD_PREENCODED as the upper-bound for merged-word length if
+	the merged-word will not be an rfc2047 encoded word. Instead, use
+	CAMEL_FOLD_SIZE-8 (which is the value we use in other places for
+	determining upper-bound lengths). Solves bug #38659.
+
 2003-03-27  Dan Winship  <danw@ximian.com>
 
 	* camel-url.c (append_url_encoded): Like camel_url_encode, but

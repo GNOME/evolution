@@ -1561,6 +1561,8 @@ header_encode_phrase_get_words (const unsigned char *in)
 	return words;
 }
 
+#define MERGED_WORD_LT_FOLDLEN(wordlen, type) ((type) == WORD_2047 ? (wordlen) < CAMEL_FOLD_PREENCODED : (wordlen) < (CAMEL_FOLD_SIZE - 8))
+
 static gboolean
 header_encode_phrase_merge_words (GList **wordsp)
 {
@@ -1578,13 +1580,15 @@ header_encode_phrase_merge_words (GList **wordsp)
 			next = nextl->data;
 			/* merge nodes of the same type AND we are not creating too long a string */
 			if (word_types_compatable (word->type, next->type)) {
-				if (next->end - word->start < CAMEL_FOLD_PREENCODED) {
+				if (MERGED_WORD_LT_FOLDLEN (next->end - word->start, MAX (word->type, next->type))) {
 					/* the resulting word type is the MAX of the 2 types */
 					word->type = MAX(word->type, next->type);
 					
 					word->end = next->end;
 					words = g_list_remove_link (words, nextl);
+					g_list_free_1 (nextl);
 					g_free (next);
+					
 					nextl = g_list_next (wordl);
 					
 					merged = TRUE;
