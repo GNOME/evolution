@@ -1,5 +1,10 @@
 2002-07-02  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-local-storage.c (bonobo_interface_remove_folder_cb): Add
+	parameter @listener to match the signal's signature.  [#24413]
+
+2002-07-02  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-user-creatable-items-handler.c: New member tooltip in
 	struct MenuItem.
 	(ensure_menu_items): Initialize the tooltip member.

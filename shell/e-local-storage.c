@@ -1002,7 +1002,7 @@ bonobo_interface_create_folder_cb (EvolutionStorage *storage,
 				   const char *path,
 				   const char *type,
 				   const char *description,
-				   const char *parent_path,
+				   const char *parent_physical_uri,
 				   void *data)
 {
 	ELocalStorage *local_storage;
@@ -1014,6 +1014,7 @@ bonobo_interface_create_folder_cb (EvolutionStorage *storage,
 
 static int
 bonobo_interface_remove_folder_cb (EvolutionStorage *storage,
+				   const Bonobo_Listener listener,
 				   const char *path,
 				   const char *physical_uri,
 				   void *data)
