@@ -1,5 +1,41 @@
 2001-10-27  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/select-names/e-select-names-completion.c
+	(e_select_names_completion_destroy): free up all the book_data
+	list stuff.
+	(e_select_names_completion_got_book_view_cb): deal with book_data
+	being passed as the closure, and increment the
+	pending_completion_seq counter.
+	(e_select_names_completion_card_added_cb): deal with book_data
+	being passwd as the closure.
+	(e_select_names_completion_seq_complete_cb): same, and decrement
+	the pending_completion_seq if we haven't gotten one for this book
+	view before.
+	(e_select_names_completion_stop_query): cancel all the
+	book_data's.
+	(e_select_names_completion_start_query): use the books_not_ready
+	counter instead of book_ready.  also, do e_book_get_book_view on
+	each of the book's in our list.
+	(e_select_names_completion_do_query): change to deal with our
+	list.
+	(e_select_names_completion_book_ready): decrement the
+	book_not_ready counter.
+	(e_select_names_completion_new): add the book we're created with
+	to our list.
+	(e_select_names_completion_add_book): implement.
+
+	* gui/component/select-names/e-select-names-completion.h: add
+	prototype for e_select_names_completion_add_book.
+
+	* gui/component/select-names/e-select-names-manager.c
+	(e_select_names_manager_new): use addressbook_config_data, and
+	don't unref the db.
+	(e_select_names_manager_create_entry): always add NULL for a book
+	(which corresponds to the local book), and if the completion_book
+	is present, add it to the list of books to complete again.
+
+2001-10-27  Chris Toshok  <toshok@ximian.com>
+
 	* gui/contact-editor/e-contact-quick-add.c (merge_cb): change to
 	EBookCallback signature, and unref the book.
 	(quick_add_merge_card): use addressbook_load_default_book.

@@ -120,7 +120,7 @@ e_select_names_manager_new (void)
 
 	CORBA_exception_init (&ev);
 
-	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+	db = addressbook_config_database (&ev);
 
 	val = bonobo_config_get_string (db, "/Addressbook/Completion/uri", &ev);
 
@@ -134,10 +134,6 @@ e_select_names_manager_new (void)
 	}
 	else
 		manager->completion_book = NULL;
-
-	CORBA_exception_init (&ev);
-	bonobo_object_release_unref (db, &ev);
-	CORBA_exception_free (&ev);
 
 	return manager;
 }
@@ -500,7 +496,10 @@ e_select_names_manager_create_entry (ESelectNamesManager *manager, const char *i
 			e_list_append (manager->entries, entry);
 			g_free(entry);
 
-			comp = e_select_names_completion_new (manager->completion_book, section->model);
+			comp = e_select_names_completion_new (NULL, section->model);
+			if (manager->completion_book)
+				e_select_names_completion_add_book (E_SELECT_NAMES_COMPLETION (comp),
+								    manager->completion_book);
 			e_entry_enable_completion_full (eentry, comp, 50, completion_handler);
 
 			gtk_object_set_data (GTK_OBJECT (eentry), "completion_handler", comp);
