@@ -140,11 +140,25 @@ development_warning ()
 	gnome_dialog_run (GNOME_DIALOG (warning_dialog));
 	
 	gtk_object_destroy (GTK_OBJECT (warning_dialog));
-} 
+}
+
+static void
+view_delete_event_cb (GtkWidget *widget,
+		      GdkEventAny *event,
+		      void *data)
+{
+	EShell *shell;
+
+	shell = E_SHELL (data);
+
+	gtk_widget_destroy (widget);
+	e_shell_quit (shell);
+}
 
 static gint
 idle_cb (gpointer data)
 {
+	GtkWidget *view;
 	char *evolution_directory;
 
 	evolution_directory = (char *) data;
@@ -163,7 +177,9 @@ idle_cb (gpointer data)
 	gtk_signal_connect (GTK_OBJECT (shell), "destroy",
 			    GTK_SIGNAL_FUNC (destroy_cb), NULL);
 
-	e_shell_new_view (shell, STARTUP_URI);
+	view = e_shell_new_view (shell, STARTUP_URI);
+	gtk_signal_connect (GTK_OBJECT (view), "delete_event",
+			    GTK_SIGNAL_FUNC (view_delete_event_cb), shell);
 
 	if (!getenv ("EVOLVE_ME_HARDER"))
 		development_warning ();
