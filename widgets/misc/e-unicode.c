@@ -359,7 +359,6 @@ e_utf8_to_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes)
 
 	*ob = '\0';
 
-	d(printf("utf8_to_gtk: %s => %s\n", string, new));
 	return new;
 }
 
