@@ -2,45 +2,45 @@ Evolution was written by:
 
 Addressbook
 	Arturo Esponosa <arturo@nuclecu.unam.mx> (Original Gnomecard author)
-	Nat Friedman <nat@helixcode.com>
-	Chris Lahey <clahey@helixcode.com>
-	Chris Toshok <toshok@helixcode.com>
+	Nat Friedman <nat@ximian.com>
+	Chris Lahey <clahey@ximian.com>
+	Chris Toshok <toshok@ximian.com>
 
 Artwork
-	Tuomas Kuosmanen <tigert@helixcode.com>
+	Tuomas Kuosmanen <tigert@ximian.com>
 
 Calendar
-	Seth Alves <seth@helixcode.com>
+	Seth Alves <seth@ximian.com>
 	Eric Busboom <eric@softwarestudio.org> (libical author)
 	Arturo Esponosa <arturo@nuclecu.unam.mx> (Gnomecal contributor)
-	Damon Chaplin <damon@helixcode.com>
-	Federico Mena-Quintero <federico@helixcode.com>
-	Jesse Pavel <jesse@helixcode.com>
-	JP Rosevear <jpr@helixcode.com>
+	Damon Chaplin <damon@ximian.com>
+	Federico Mena-Quintero <federico@ximian.com>
+	Jesse Pavel <jesse@ximian.com>
+	JP Rosevear <jpr@ximian.com>
 	Russell Steinthal <rms39@columbia.edu> (Gnomecal maintainer)
 
 Documentation
 	Kevin Breit <battery841@mypad.com>
-	Aaron Weber <aaron@helixcode.com>
+	Aaron Weber <aaron@ximian.com>
 
 Mailer
-	Bertrand Guiheneuf <bertrand@helixcode.com>
-	Matt Loper <matt@helixcode.com>
-	Ettore Perazzoli <ettore@helixcode.com>
-	Jeff Stedfast <fejj@helixcode.com>
-	Peter Williams <peterw@helixcode.com>
-	Dan Winship <danw@helixcode.com>
-	Michael Zucchi <notzed@helixcode.com>
+	Bertrand Guiheneuf <bertrand@ximian.com>
+	Matt Loper <matt@ximian.com>
+	Ettore Perazzoli <ettore@ximian.com>
+	Jeff Stedfast <fejj@ximian.com>
+	Peter Williams <peterw@ximian.com>
+	Dan Winship <danw@ximian.com>
+	Michael Zucchi <notzed@ximian.com>
 
 Notes
 	Anders Carlsson <andersca@gnu.org>
 
 Pilot
-	JP Rosevear <jpr@helixcode.com>
+	JP Rosevear <jpr@ximian.com>
 
 Shell
-	Miguel de Icaza <miguel@helixcode.com>
-	Ettore Perazzoli <ettore@helixcode.com>
+	Miguel de Icaza <miguel@ximian.com>
+	Ettore Perazzoli <ettore@ximian.com>
 
 Translations
 	Akira TAGOH <tagoh@gnome.gr.jp>
@@ -64,11 +64,11 @@ Translations
 	Yuri Syrota <rasta@renome.rovno.ua>
 
 UI
-	Anna Dirks <anna@helixcode.com>
+	Anna Dirks <anna@ximian.com>
 
 Widgets
-	Damon Chaplin <damon@helixcode.com>
-	Miguel de Icaza <miguel@helixcode.com>
-	Chris Lahey <clahey@helixcode.com>
-	Federico Mena-Quintero <federico@helixcode.com>
-	Chris Toshok <toshok@helixcode.com>
+	Damon Chaplin <damon@ximian.com>
+	Miguel de Icaza <miguel@ximian.com>
+	Chris Lahey <clahey@ximian.com>
+	Federico Mena-Quintero <federico@ximian.com>
+	Chris Toshok <toshok@ximian.com>
