@@ -1,5 +1,11 @@
 2001-01-25  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-addressbook.xml: Change the type of the "Find a
+	contact" item to "pixbuf".  Also set the type to "pixbuf" for
+	"Addressbook Configuration", and "Print Contacts".
+
+2001-01-25  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-addressbook.xml: Change the type of the "View All"
 	button to "pixbuf".
 

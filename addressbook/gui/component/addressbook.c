@@ -304,7 +304,11 @@ set_pixmap (BonoboUIComponent *uic,
 static void
 update_pixmaps (BonoboUIComponent *uic)
 {
+	set_pixmap (uic, "/menu/File/Print", "16_print.xpm"); /* FIXME it doesn't seem to work */
+	set_pixmap (uic, "/menu/Settings/AddressbookConfig", "16_configure_addressbook.xpm");
+
 	set_pixmap (uic, "/Toolbar/View All", "24_all_contacts.xpm");
+	set_pixmap (uic, "/Toolbar/Find", "24_find_contact.xpm"); 
 }
 
 static void

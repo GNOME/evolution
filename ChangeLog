@@ -1,5 +1,10 @@
 2001-01-25  Ettore Perazzoli  <ettore@ximian.com>
 
+	* art/Makefile.am (images_DATA): Add `24_find_contacts.xpm',
+	`16_print_xpm', `16_configure_addressbook'.
+
+2001-01-25  Ettore Perazzoli  <ettore@ximian.com>
+
 	* art/Makefile.am (images_DATA): Add `24_all_contacts.xpm'.
 
 2001-01-24  Christopher James Lahey  <clahey@helixcode.com>

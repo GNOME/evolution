@@ -7,7 +7,7 @@
 
 				<menuitem name="Print" verb="ContactsPrint"
 				_label="_Print Contacts..."
-				pixtype="stock" pixname="Print" 
+				pixtype="pixbuf"
                                 accel="*Control*p"/>
 				
 			</placeholder>
@@ -24,7 +24,7 @@
 		<submenu name="Settings">
 
 			<menuitem name="AddressbookConfig" verb="AddressbookConfig" _label="_Addressbook Configuration..."
-		        />
+			pixtype ="pixbuf"/>
 
 		</submenu>
 
@@ -50,7 +50,7 @@
 
 		<toolitem name="Find" _label="Find"
 		_tip="Find a contact" verb="ContactFind"
-		pixtype="stock" pixname="Search"/>
+		pixtype="pixbuf"/>
 
 		<toolitem name="Print" _label="Print"
 		_tip="Print contacts" verb="ContactsPrint"

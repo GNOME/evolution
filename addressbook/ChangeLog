@@ -1,5 +1,10 @@
 2001-01-25  Ettore Perazzoli  <ettore@ximian.com>
 
+	* gui/component/addressbook.c (update_pixmaps): Set the icon for
+	"/Toolbar/Find" to "24_find_contact.xpm".
+
+2001-01-25  Ettore Perazzoli  <ettore@ximian.com>
+
 	* gui/component/addressbook.c (set_pixmap): New.
 	(update_pixmaps): New function, setting the pixmaps for the items
 	of type "pixbuf", using `set_pixmap'.
