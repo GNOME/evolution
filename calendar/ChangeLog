@@ -1,5 +1,15 @@
 2001-12-03  Damon Chaplin  <damon@ximian.com>
 
+	* gui/e-meeting-model.c: 
+	* gui/calendar-model.c: make sure we call e_table_model_pre_change()
+	before changing the model.
+
+	* gui/calendar-config.c (calendar_config_configure_e_calendar_table): 
+	removed call to e_table_model_changed(). calendar_model_refresh()
+	results in that anyway.
+
+2001-12-03  Damon Chaplin  <damon@ximian.com>
+
 	* gui/e-calendar-table.etspec: disabled 'Alarms', 'End Date' and
 	'Show Time As' fields, as these are not useful for tasks. We may want
 	to reenable them later if we add a table view of calendar events.

@@ -1773,6 +1773,8 @@ query_obj_updated_cb (CalQuery *query, const char *uid,
 	model = CALENDAR_MODEL (data);
 	priv = model->priv;
 
+	e_table_model_pre_change (E_TABLE_MODEL (model));
+
 	orig_idx = remove_object (model, uid);
 
 	status = cal_client_get_object (priv->client, uid, &new_comp);
@@ -1836,6 +1838,8 @@ query_obj_updated_cb (CalQuery *query, const char *uid,
 		 */
 		if (orig_idx != -1)
 			e_table_model_row_deleted (E_TABLE_MODEL (model), orig_idx);
+		else
+			e_table_model_no_change (E_TABLE_MODEL (model));
 
 		break;
 
@@ -1845,6 +1849,8 @@ query_obj_updated_cb (CalQuery *query, const char *uid,
 		/* Same notification as above */
 		if (orig_idx != -1)
 			e_table_model_row_deleted (E_TABLE_MODEL (model), orig_idx);
+		else
+			e_table_model_no_change (E_TABLE_MODEL (model));
 
 		break;
 
@@ -1862,10 +1868,14 @@ query_obj_removed_cb (CalQuery *query, const char *uid, gpointer data)
 
 	model = CALENDAR_MODEL (data);
 
+	e_table_model_pre_change (E_TABLE_MODEL (model));
+
 	idx = remove_object (model, uid);
 
 	if (idx != -1)
 		e_table_model_row_deleted (E_TABLE_MODEL (model), idx);
+	else
+		e_table_model_no_change (E_TABLE_MODEL (model));
 }
 
 /* Callback used when a query ends */
