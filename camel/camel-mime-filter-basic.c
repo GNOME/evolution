@@ -2,6 +2,7 @@
  *  Copyright (C) 2000 Ximian Inc.
  *
  *  Authors: Michael Zucchi <notzed@ximian.com>
+ *           Jeffrey Stedfast <fejj@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -221,7 +222,7 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 				}
 				
 				/* go to the next line */
-				for (inptr++; inptr < inend && *inptr != '\n'; inptr++);
+				for ( ; inptr < inend && *inptr != '\n'; inptr++);
 				
 				if (inptr < inend)
 					inptr++;
