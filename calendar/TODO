@@ -15,9 +15,6 @@ Event editor dialog:
 
 Full day view widget:
 
-- The child widgets are not destroyed when the widget is updated, so
-  everything gets displayed incorrectly.
-
 - Notify the calendar when a child changes.  Look for the FIXMEs in
   the code.
 

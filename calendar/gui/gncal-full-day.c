@@ -128,7 +128,7 @@ child_map (GncalFullDay *fullday, Child *child)
 {
 	gdk_window_show (child->window);
 
-	if (GTK_WIDGET_VISIBLE (child->widget) && !GTK_WIDGET_MAPPED (child->widget))
+	if (!GTK_WIDGET_MAPPED (child->widget))
 		gtk_widget_map (child->widget);
 }
 
@@ -137,7 +137,7 @@ child_unmap (GncalFullDay *fullday, Child *child)
 {
 	gdk_window_hide (child->window);
 
-	if (GTK_WIDGET_VISIBLE (child->widget) && GTK_WIDGET_MAPPED (child->widget))
+	if (GTK_WIDGET_MAPPED (child->widget))
 		gtk_widget_unmap (child->widget);
 }
 
@@ -322,7 +322,6 @@ child_new (GncalFullDay *fullday, iCalObject *ico)
 	gtk_text_set_word_wrap (GTK_TEXT (child->widget), TRUE);
 
 	gtk_widget_set_parent (child->widget, GTK_WIDGET (fullday));
-	gtk_widget_show (child->widget);
 
 	return child;
 }
@@ -330,7 +329,21 @@ child_new (GncalFullDay *fullday, iCalObject *ico)
 static void
 child_destroy (GncalFullDay *fullday, Child *child)
 {
-	/* FIXME */
+	/* Unparent the child widget manually as we don't have a remove method */
+
+	gtk_widget_ref (child->widget);
+
+	gtk_widget_unparent (child->widget);
+
+	if (GTK_WIDGET_MAPPED (fullday))
+		child_unmap (fullday, child);
+
+	if (GTK_WIDGET_REALIZED (fullday))
+		child_unrealize (fullday, child);
+
+	gtk_widget_unref (child->widget);
+
+	g_free (child);
 }
 
 static void
@@ -341,7 +354,7 @@ child_set_pos (GncalFullDay *fullday, Child *child, int x, int y, int width, int
 	child->width = width;
 	child->height = height;
 
-	if (!GTK_WIDGET_REALIZED (fullday))
+	if (!child->window) /* realized? */
 		return;
 
 	child_set_text_pos (child);
@@ -566,11 +579,21 @@ static void
 gncal_full_day_destroy (GtkObject *object)
 {
 	GncalFullDay *fullday;
+	GList *children;
+	Child *child;
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (GNCAL_IS_FULL_DAY (object));
 
 	fullday = GNCAL_FULL_DAY (object);
+
+	/* Unparent the children manually as we don't have a remove method */
+
+	for (children = fullday->children; children; children = children->next) {
+		child = children->data;
+
+		gtk_widget_unparent (child->widget);
+	}
 
 	g_list_free (fullday->children);
 	g_free (fullday->drag_info);
@@ -1161,19 +1184,17 @@ gncal_full_day_update (GncalFullDay *fullday)
 	if (!fullday->calendar->cal)
 		return;
 
-	l_events = calendar_get_events_in_range (fullday->calendar->cal,
-						 fullday->lower,
-						 fullday->upper,
-						 calendar_compare_by_dtstart);
-
-	/* FIXME: this is expensive and looks ugly -- use some form of cache? */
-
 	for (children = fullday->children; children; children = children->next)
 		child_destroy (fullday, children->data);
 
 	g_list_free (fullday->children);
 
 	children = NULL;
+
+	l_events = calendar_get_events_in_range (fullday->calendar->cal,
+						 fullday->lower,
+						 fullday->upper,
+						 calendar_compare_by_dtstart);
 
 	for (events = l_events; events; events = events->next) {
 		child = child_new (fullday, events->data);
