@@ -1,9 +1,2 @@
 Makefile
 Makefile.in
-*.log
-*.ps
-*.dvi
-*.tex
-evolution
-index.html
-omf_timestamp

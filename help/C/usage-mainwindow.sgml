@@ -233,8 +233,8 @@
 
 		      <listitem>
 			<para>Whether you want to use a secure (SSL)
-			connection. If your server supports it, it's
-			best to enable this security option.
+			connection. This may allow you to access the
+			server from outside a firewall.
 			</para>
 		      </listitem>
 
@@ -313,9 +313,9 @@
 	  </listitem>
 
 	  <listitem>
-	    <para>Exchange Server: If your active directory user name
-	    is different from your Exchange mail user name, check this
-	    box and enter your mail username here.
+	    <para>Exchange Server: If your Echange mailbox name is is
+	    different from your Windows user name, check this box and
+	    enter your mailbox name here.
 	    </para>
 	  </listitem>
 
@@ -327,10 +327,8 @@
 
 	  <listitem>
 	    <para>
-              Active Directory Server Name: In most organizations, the
-	      Active Directory server will be different from the
-	      Exchange mail server.  Enter the Active Directory server
-	      name here.
+              Active Directory Server Name: Enter the Active Directory
+	      server name here.
             </para>
 	  </listitem>
 
@@ -471,16 +469,18 @@
 	      Authentication Type: Chances are you are using
 	      <guilabel>Password</guilabel>.  If you're not sure, ask
 	      your system administrator or ISP, or have
-	      <application>Ximian Evolution</application> check for you by
-	      clicking <guibutton>Check for supported
-	      types</guibutton>.
+	      <application>Ximian Evolution</application> check for
+	      you by clicking <guibutton>Check for supported
+	      types</guibutton>. For exchange servers, Password is the
+	      only type supported.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Username: The account name you use when you login
-	      to check your email.  Normally, this is the part of your
-	      email address before the '@' character.
+	      Username: The account name you use when you login to
+	      check mail.  For Exchange servers, enter the user name
+	      you use to login to a Windows workstation in your
+	      network.
 	    </para>
 	  </listitem>
 	  <listitem>
@@ -619,12 +619,12 @@ the workaround described in the note below.
     <sect2 id="mutt">
       <title>Importing Mail from mutt</title>
       <para>
-	<application>mutt</application> is a full-featured mail client
-	which is shipped with most Linux and Unix distributions.
-	<application>mutt</application> uses the standard mbox,
-	maildir, and MH file formats, which makes importing your mail into
-	<application>Evolution</application> easy.  By default,
-	<application>mutt</application> uses the mbox file format.
+	<application>mutt</application> is a text-based mail client
+	 shipped with most Linux and Unix distributions.
+	 <application>mutt</application> can use several different
+	 formats, including mbox, maildir, and MH file formats, all of
+	 which import cleanly into
+	 <application>Evolution</application>. Here's how:
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
@@ -678,10 +678,9 @@ the workaround described in the note below.
     <sect2 id="kmail">
       <title>Importing Mail from KMail</title>
       <para>
-	KMail is a full-featured mail client which is shipped with the
-	KDE desktop environment.  KMail uses the standard mbox file
-	format, which means that importing your mail into
-	<application>Evolution</application> is easy.
+	KMail is the mail client is shipped with the KDE desktop
+	environment.  KMail uses the standard UNIX mbox file format to
+	store its messages. Here's how to import nessages from KMail:
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>

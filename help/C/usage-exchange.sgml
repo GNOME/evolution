@@ -353,10 +353,9 @@ There are, however, some features which are not available:
 		  </listitem>
 		  <listitem>
 		    <para>
-                     Enter the name of your Exchange email
-                     server, and the username with which you log in
-                     (normally, this is the part of your email address
-                     before the @).
+                     Enter the name of your Exchange email server, and
+                     the user name you would use to log in to a
+                     Windows workstation in your organization.
                    </para>
 		  </listitem>
 		    <listitem>
@@ -364,19 +363,10 @@ There are, however, some features which are not available:
                       If you wish, select the box labelled
                       <guilabel>Use secure connection
                       (SSL)</guilabel>, to take advantage of a more
-                      secure connection method. If your server
-                      supports it, it is generally recommended to use
-                      SSL.
+                      secure connection method. This may allow you to
+                      connect to the server from outside your
+                      firewall.
                    </para>
-		  </listitem>
-		  <listitem>
-		    <para>
-                      Some servers support multiple authentication
-                      methods.  If your system administrator has asked
-                      that you use one in particular, select it now.
-                      Otherwise, just use
-                      <guilabel>Password</guilabel>.
-                    </para>
 		  </listitem>
 		  <listitem>
 		    <para>
@@ -405,33 +395,22 @@ There are, however, some features which are not available:
 		  </listitem>
 		  <listitem>
 		    <para>
-                      Exchange Server: If your exchange server stores
-                      your folders under a different name from your
-                      login username, select the checkbox and enter
-                      the name your server uses for your mail storage.
+                      Exchange Server: If your Exchange mailbox name
+                      is different from your Windows name, enter your
+                      mailbox name here.
                      </para>
 		  </listitem>
 		  <listitem>
 		    <para>
                      Active Directory: If you would like to use the
-    			   Global Address List (GAL) maintained on
-    			   your Exchange server, check the box
+    			   Global Address List (GAL), check the box
     			   labelled <guilabel>Create a Global Address
-    			   List folder</guilabel>.  The GAL is
-    			   maintained by your system administrator and
-    			   you cannot add, change, or remove items
-    			   from it using Ximian Evolution. However,
-    			   you can use it to invite people to meetings
-    			   and to look up addresses and other
-    			   information. In many organizations, the GAL
-    			   is stored on a different server from email.
-    			   If this is the case, you should also
-    			   specify the directory server name here.  To
-			   avoid strain on the server, the maximum
-			   number of responses to any Active Directory
-			   query has been set to 500. If you would
-			   like to change that, you may do so here as
-			   well.
+    			   List folder</guilabel> and enter the name
+    			   of the directory server.  To avoid strain
+    			   on the server, the maximum number of
+    			   responses to any Active Directory query has
+    			   been set to 500. If you would like to
+    			   change that, you may do so here as well.
                      </para>
 		  </listitem>
 		</orderedlist>
