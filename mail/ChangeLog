@@ -1,5 +1,13 @@
 2004-01-15  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #52878.
+
+	* em-folder-view.c (emfv_finalise): unhook message_changed too.
+	(emfv_set_folder): hook/unhook message_changed too.
+	(emfv_message_changed): implement, proxy to folder_changed.
+
+2004-01-15  Not Zed  <NotZed@Ximian.com>
+
 	** See bugs #51609 and #43515.
 
 	* em-format-html-display.c (efhd_format_prefix): output flag for
