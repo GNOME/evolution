@@ -24,6 +24,7 @@ start_changed (GtkAdjustment *sa, GtkAdjustment *ea)
 		ea->value = sa->value + 1.0;
 		gtk_signal_emit_by_name (GTK_OBJECT (ea), "value_changed");
 	}
+	gnome_property_box_changed (GNOME_PROPERTY_BOX (prop_win));
 }
 
 void
@@ -38,6 +39,7 @@ end_changed (GtkAdjustment *ea, GtkAdjustment *sa)
 		sa->value = ea->value - 1.0;
 		gtk_signal_emit_by_name (GTK_OBJECT (sa), "value_changed");
 	}
+	gnome_property_box_changed (GNOME_PROPERTY_BOX (prop_win));
 }
 
 /* justifies the text */
@@ -52,11 +54,11 @@ align (GtkWidget *w, float side)
 	return a;
 }
 
-static void
+static int
 prop_cancel (void)
 {
-	gtk_widget_destroy (prop_win);
 	prop_win = 0;
+	return FALSE;
 }
 
 static void
@@ -76,23 +78,26 @@ prop_ok (void)
 	day_range_changed ();
 }
 
+static void
+toggled ()
+{
+	gnome_property_box_changed (GNOME_PROPERTY_BOX (prop_win));
+}
+
 void
 properties (void)
 {
 	GtkWidget *t, *f, *l, *ds, *de;
 	GtkWidget *r2;
-	GtkWidget *ok, *cancel, *hbox;
 
 	if (prop_win)
 		return;
 	
-	prop_win = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	prop_win = gnome_property_box_new ();
+
 	t = gtk_table_new (0, 0, 0);
-	f = gtk_frame_new (_("Calendar global parameters"));
-	gtk_container_add (GTK_CONTAINER (prop_win), f);
-	gtk_container_add (GTK_CONTAINER (f), t);
-	gtk_container_border_width (GTK_CONTAINER (prop_win), GNOME_PAD);
-	gtk_container_border_width (GTK_CONTAINER (t), GNOME_PAD);
+	gnome_property_box_append_page (GNOME_PROPERTY_BOX (prop_win), t,
+					gtk_label_new (_("Calendar global parameters")));
 	
 	l = gtk_label_new (_("Day start:"));
 	gtk_table_attach (GTK_TABLE (t), l,
@@ -126,22 +131,22 @@ properties (void)
 							  _("12 hour format"));
 	if (am_pm_flag)
 		gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (r2), 1);
+
+	gtk_signal_connect (GTK_OBJECT (r1), "toggled",
+			    GTK_SIGNAL_FUNC (toggled), NULL);
 	
 	gtk_table_attach (GTK_TABLE (t), align (r1, 0.0), 0, 2, 3, 4, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 	gtk_table_attach (GTK_TABLE (t), align (r2, 0.0), 0, 2, 4, 5, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
-	hbox = gtk_hbox_new (0, 0);
-	ok = gnome_stock_button (GNOME_STOCK_BUTTON_OK);
-	cancel = gnome_stock_button (GNOME_STOCK_BUTTON_CANCEL);
-	gtk_box_pack_start (GTK_BOX (hbox), ok, 0, 0, 0);
-	gtk_box_pack_end (GTK_BOX (hbox), cancel, 0, 0, 0);
-
-	gtk_table_attach (GTK_TABLE (t), hbox, 0, 2, 5, 6, GTK_FILL | GTK_EXPAND, 0, 0, GNOME_PAD);
-	
-	gtk_signal_connect (GTK_OBJECT (ok), "clicked",
-			    GTK_SIGNAL_FUNC (prop_ok), NULL);
-	gtk_signal_connect (GTK_OBJECT (cancel), "clicked",
+	gtk_signal_connect (GTK_OBJECT (prop_win), "destroy",
 			    GTK_SIGNAL_FUNC (prop_cancel), NULL);
+	
+	gtk_signal_connect (GTK_OBJECT (prop_win), "delete_event",
+			    GTK_SIGNAL_FUNC (prop_cancel), NULL);
+	
+	gtk_signal_connect (GTK_OBJECT (prop_win), "apply",
+			    GTK_SIGNAL_FUNC (prop_ok), NULL);
+	
 	gtk_widget_show_all (prop_win);
 }
 
