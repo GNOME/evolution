@@ -78,10 +78,10 @@ struct _EStorageClass {
 
 	/* Signals.  */
 
-	void * (* new_folder)     (EStorage *storage, const char *path);
-	void * (* updated_folder) (EStorage *storage, const char *path);
-	void * (* removed_folder) (EStorage *storage, const char *path);
-	void * (* close_folder)   (EStorage *storage, const char *path);
+	void (* new_folder)     (EStorage *storage, const char *path);
+	void (* updated_folder) (EStorage *storage, const char *path);
+	void (* removed_folder) (EStorage *storage, const char *path);
+	void (* close_folder)   (EStorage *storage, const char *path);
 
 	/* Virtual methods.  */
 
@@ -110,6 +110,7 @@ struct _EStorageClass {
 
 	void         (* async_open_folder)    (EStorage *storage,
 					       const char *path);
+
 };
 
 

@@ -63,6 +63,7 @@ enum {
 	NEW_FOLDER,
 	UPDATED_FOLDER,
 	REMOVED_FOLDER,
+	MOVED_FOLDER,
 	CLOSE_FOLDER,
 	LAST_SIGNAL
 };
@@ -106,42 +107,74 @@ name_to_named_storage_foreach_destroy (void *key,
 /* "Callback converter", from `EStorageResultCallback' to
    `EStorageSetResultCallback'.  */
 
-struct _StorageCallbackConverterData {
+enum _StorageOperation {
+	OPERATION_COPY,
+	OPERATION_MOVE,
+	OPERATION_REMOVE,
+	OPERATION_CREATE
+};
+typedef enum _StorageOperation StorageOperation;
+
+struct _StorageCallbackData {
 	EStorageSet *storage_set;
 	EStorageSetResultCallback storage_set_result_callback;
+	char *source_path;
+	char *destination_path;
+	StorageOperation operation;
 	void *data;
 };
-typedef struct _StorageCallbackConverterData StorageCallbackConverterData;
+typedef struct _StorageCallbackData StorageCallbackData;
 
-static StorageCallbackConverterData *
-storage_callback_converter_data_new (EStorageSet *storage_set,
-				     EStorageSetResultCallback callback,
-				     void *data)
+static StorageCallbackData *
+storage_callback_data_new (EStorageSet *storage_set,
+			   EStorageSetResultCallback callback,
+			   const char *source_path,
+			   const char *destination_path,
+			   StorageOperation operation,
+			   void *data)
 {
-	StorageCallbackConverterData *new;
+	StorageCallbackData *new;
 
-	new = g_new (StorageCallbackConverterData, 1);
+	new = g_new (StorageCallbackData, 1);
 	new->storage_set                 = storage_set;
 	new->storage_set_result_callback = callback;
+	new->source_path                 = g_strdup (source_path);
+	new->destination_path            = g_strdup (destination_path);
+	new->operation                   = operation;
 	new->data                        = data;
 
 	return new;
 }
 
 static void
-storage_callback_converter (EStorage *storage,
-			    EStorageResult result,
-			    void *data)
+storage_callback_data_free (StorageCallbackData *data)
 {
-	StorageCallbackConverterData *converter_data;
+	g_free (data->source_path);
+	g_free (data->destination_path);
 
-	converter_data = (StorageCallbackConverterData *) data;
+	g_free (data);
+}
 
-	(* converter_data->storage_set_result_callback) (converter_data->storage_set,
-							 result,
-							 converter_data->data);
+static void
+storage_callback (EStorage *storage,
+		  EStorageResult result,
+		  void *data)
+{
+	StorageCallbackData *storage_callback_data;
 
-	g_free (converter_data);
+	storage_callback_data = (StorageCallbackData *) data;
+
+	(* storage_callback_data->storage_set_result_callback) (storage_callback_data->storage_set,
+								result,
+								storage_callback_data->data);
+
+	if (storage_callback_data->operation == OPERATION_MOVE)
+		gtk_signal_emit (GTK_OBJECT (storage_callback_data->storage_set),
+				 signals[MOVED_FOLDER],
+				 storage_callback_data->source_path,
+				 storage_callback_data->destination_path);
+
+	storage_callback_data_free (storage_callback_data);
 }
 
 
@@ -375,6 +408,15 @@ class_init (EStorageSetClass *klass)
 				GTK_SIGNAL_OFFSET (EStorageSetClass, removed_folder),
 				gtk_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
+				GTK_TYPE_STRING);
+	signals[MOVED_FOLDER] = 
+		gtk_signal_new ("moved_folder",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EStorageSetClass, moved_folder),
+				gtk_marshal_NONE__POINTER_POINTER,
+				GTK_TYPE_NONE, 2,
+				GTK_TYPE_STRING,
 				GTK_TYPE_STRING);
 	signals[CLOSE_FOLDER] = 
 		gtk_signal_new ("close_folder",
@@ -642,7 +684,7 @@ e_storage_set_async_create_folder  (EStorageSet *storage_set,
 {
 	EStorage *storage;
 	const char *subpath;
-	StorageCallbackConverterData *converter_data;
+	StorageCallbackData *storage_callback_data;
 
 	g_return_if_fail (storage_set != NULL);
 	g_return_if_fail (E_IS_STORAGE_SET (storage_set));
@@ -654,10 +696,12 @@ e_storage_set_async_create_folder  (EStorageSet *storage_set,
 
 	storage = get_storage_for_path (storage_set, path, &subpath);
 
-	converter_data = storage_callback_converter_data_new (storage_set, callback, data);
+	storage_callback_data = storage_callback_data_new (storage_set, callback,
+							   path, NULL, OPERATION_CREATE,
+							   data);
 
 	e_storage_async_create_folder (storage, subpath, type, description,
-				       storage_callback_converter, converter_data);
+				       storage_callback, storage_callback_data);
 }
 
 void
@@ -668,7 +712,7 @@ e_storage_set_async_remove_folder  (EStorageSet *storage_set,
 {
 	EStorage *storage;
 	const char *subpath;
-	StorageCallbackConverterData *converter_data;
+	StorageCallbackData *storage_callback_data;
 
 	g_return_if_fail (storage_set != NULL);
 	g_return_if_fail (E_IS_STORAGE_SET (storage_set));
@@ -678,10 +722,12 @@ e_storage_set_async_remove_folder  (EStorageSet *storage_set,
 
 	storage = get_storage_for_path (storage_set, path, &subpath);
 
-	converter_data = storage_callback_converter_data_new (storage_set, callback, data);
+	storage_callback_data = storage_callback_data_new (storage_set, callback,
+							   path, NULL, OPERATION_REMOVE,
+							   data);
 
 	e_storage_async_remove_folder (storage, subpath,
-				       storage_callback_converter, converter_data);
+				       storage_callback, storage_callback_data);
 }
 
 void
@@ -696,7 +742,7 @@ e_storage_set_async_xfer_folder (EStorageSet *storage_set,
 	EStorage *destination_storage;
 	const char *source_subpath;
 	const char *destination_subpath;
-	StorageCallbackConverterData *converter_data;
+	StorageCallbackData *storage_callback_data;
 
 	g_return_if_fail (storage_set != NULL);
 	g_return_if_fail (E_IS_STORAGE_SET (storage_set));
@@ -716,11 +762,16 @@ e_storage_set_async_xfer_folder (EStorageSet *storage_set,
 		return;
 	}
 
-	converter_data = storage_callback_converter_data_new (storage_set, callback, data);
+	storage_callback_data = storage_callback_data_new (storage_set,
+							   callback,
+							   source_path,
+							   destination_path,
+							   remove_source ? OPERATION_MOVE : OPERATION_COPY,
+							   data);
 
 	e_storage_async_xfer_folder (source_storage,
  				     source_subpath, destination_subpath, remove_source,
-				     storage_callback_converter, converter_data);
+				     storage_callback, storage_callback_data);
 }
 
 

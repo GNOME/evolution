@@ -914,6 +914,32 @@ set_owner_on_components (EShell *shell,
 }
 
 
+/* EStorageSet callbacks.  */
+
+static void
+storage_set_moved_folder_callback (EStorageSet *storage_set,
+				   const char *source_path,
+				   const char *destination_path,
+				   void *data)
+{
+	EShell *shell;
+	char *source_uri;
+	char *destination_uri;
+
+	shell = E_SHELL (data);
+
+	source_uri = g_strconcat (E_SHELL_URI_PREFIX, source_path, NULL);
+	destination_uri = g_strconcat (E_SHELL_URI_PREFIX, destination_path, NULL);
+
+	e_shortcuts_update_shortcuts_for_changed_uri (e_shell_get_shortcuts (shell),
+						      source_uri,
+						      destination_uri);
+
+	g_free (source_uri);
+	g_free (destination_uri);
+}
+
+
 /* EShellView handling and bookkeeping.  */
 
 static int
@@ -1208,6 +1234,11 @@ e_shell_construct (EShell *shell,
 	priv->folder_type_registry = e_folder_type_registry_new ();
 	priv->uri_schema_registry  = e_uri_schema_registry_new ();
 	priv->storage_set          = e_storage_set_new (priv->folder_type_registry);
+
+	gtk_signal_connect_while_alive (GTK_OBJECT (priv->storage_set), "moved_folder",
+					GTK_SIGNAL_FUNC (storage_set_moved_folder_callback),
+					shell,
+					GTK_OBJECT (shell));
 	
 	e_folder_type_registry_register_type (priv->folder_type_registry,
 					      "noselect", "empty.gif",

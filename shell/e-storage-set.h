@@ -65,6 +65,7 @@ struct _EStorageSetClass {
 	void (* new_folder)     (EStorageSet *storage_set, const char *path);
 	void (* updated_folder) (EStorageSet *storage_set, const char *path);
 	void (* removed_folder) (EStorageSet *storage_set, const char *path);
+	void (* moved_folder)   (EStorageSet *storage_set, const char *source_path, const char *destination_path);
 	void (* close_folder)   (EStorageSet *storage_set, const char *path);
 };
 

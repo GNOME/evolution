@@ -1,3 +1,30 @@
+2002-09-25  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Finish fixing #11645.]
+
+	* e-shell-folder-commands.c (xfer_result_callback): Don't update
+	the shortcuts here anymore since now the shell takes care of it.
+
+	* e-shell.c (storage_set_moved_folder_callback): New callback for
+	EStorageSetView::folder_moved; update the shortcuts.
+	(e_shell_construct): Connect.
+
+	* e-storage-set.c: Renamed StorageConverterCallbackData to
+	StorageCallbackData.  New members destination_folder,
+	source_folder, operation in it.
+	(class_init): Install "moved_folder" signal.
+	(storage_callback_data_new): Renamed from
+	storage_converter_callback_data_new.
+	(storage_callback_data_free): New.
+	(storage_callback): Renamed from storage_callback_converter.  Use
+	storage_callback_data_free().
+	(e_storage_set_async_create_folder): Updated to use the
+	storage_callback and storage_callback_data_new().
+	(e_storage_set_async_remove_folder): Likewise.
+	(e_storage_set_async_xfer_folder): Likewise.
+
+	* e-storage-set.h: New signal "moved_folder".
+
 2002-09-24  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #11645 for menu-based folder move operations.  Still requires
