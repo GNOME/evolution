@@ -103,6 +103,16 @@ Addressbook:
 
 Calendar:
 
+  - Fixed sorting in Tasks table. (Damon)
+
+  - Fixed handling of All-Day events. (Damon, JP)
+
+  - Fixed iTIP interoperability with Outlook Web Access (Damon, Dan, JP)
+
+  - Slightly better printing of events & tasks. (Damon)
+
+  - Fixed printing of tasks in the Day view. (Damon)
+
 Summary:
 
   - Worked around gnome-vfs problems that were causing crashes.  (Trow)
