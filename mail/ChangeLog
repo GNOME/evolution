@@ -1,5 +1,13 @@
 2001-02-22  Not Zed  <NotZed@Ximian.com>
 
+	* Makefile.am (CAMEL_OBJS_EXTRA): Removed, no longer link with
+	libcamelvee.
+	(evolution_mail_LDADD): Ditto.
+
+	* mail-vtrash.c: Moved camel-vee-store header ot camel levle.
+
+	* mail-tools.c: Moved camel-vee-folder header to camel.
+
 	* mail-local.c (local_storage_new_folder_cb): started hack for
 	progress reporting, which is currently to the console.
 

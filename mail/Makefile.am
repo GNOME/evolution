@@ -39,10 +39,6 @@ EVOLUTION_MAIL_CORBA_GENERATED = \
 	Mail-skels.c		\
 	Mail-stubs.c
 
-# FIXME Is there any way around having to do this?
-CAMEL_OBJS_EXTRA =					\
-	$(top_builddir)/camel/providers/vee/libcamelvee.la
-
 evolution_mail_SOURCES =		\
 	$(EVOLUTION_MAIL_CORBA_GENERATED)	\
 	component-factory.c		\
@@ -112,7 +108,6 @@ evolution_mail_LDADD = 					\
 	$(top_builddir)/shell/libeshell.a		\
 	$(top_builddir)/composer/libcomposer.a		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a	\
-	$(CAMEL_OBJS_EXTRA)				\
 	$(top_builddir)/camel/libcamel.la		\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/e-util/ename/libename.la	\

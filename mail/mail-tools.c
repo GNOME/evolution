@@ -29,7 +29,7 @@
 #include <ctype.h>
 #include <errno.h>
 #include "camel/camel.h"
-#include "camel/providers/vee/camel-vee-folder.h"
+#include "camel/camel-vee-folder.h"
 #include "mail-vfolder.h"
 #include "mail-vtrash.h"
 #include "filter/vfolder-rule.h"
