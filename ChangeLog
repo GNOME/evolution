@@ -1,3 +1,7 @@
+2003-04-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* NEWS: Updated for mailer fixes
+
 2003-04-28  Rodney Dawes  <dobey@ximian.com>
 
 	* data/cde_app_root/: Use $(privdatadir) instead of

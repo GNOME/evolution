@@ -12,8 +12,45 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
   * Mail
 
+    #21499 - No docs in snaps  (Rodney)
+    #38927 - Signature editor help brings up composer help
     #40694 - Focus not in To field of new message when From field is
              visible. (Toshok)
+    #40989 - Deleted sub-folders hang around  (Michael)
+    #41043 - send/receive accelerators broken  (Michael)
+    #41142 - message search dialog has questionable button order  (Jeff)
+    #41149 - spacing/padding of "Filters" dialog  (Jeff)
+    #41150 - use stock buttons in "Filters" dialog  (Jeff)
+    #41151 - spacing/padding of "Add/Edit Filters" window  (Jeff)
+    #41152 - spacing/padding of "Vfolders" dialog  (Jeff)
+    #41153 - use stock buttons in "VFolders" window  (Jeff)
+    #41155 - spacing/padding in "Add/Edit Vfolders" dialog  (Jeff)
+    #41156 - use stock** buttons in "add/edit vfolders" dialog  (Jeff)
+    #41163 - forwarding HTML mail with inline images results in 
+             misformatted mail  (Michael)
+    #41164 - can't import mails at all  (Michael)
+    #41190 - Crash cursor navigating Inbox  (Michael)
+    #41199 - Subscribe dialog's toolbar -- why? :)  (Michael)
+    #41205 - Use icons on Add/Edit/Delete buttons in "Search Editor"  (Jeff)
+    #41208 - spacing/padding in "advanced search" dialog  (Jeff)
+    #41209 - spacing/padding of "Create VFolder from Search" dialog  (Jeff)
+    #41238 - crash when opening "attachment properties"  (Jeff)
+    #41239 - spacing/padding of "attachment properties"  (Jeff)
+    #41241 - Title capitalisation of "Attachment Properties"  (Jeff)
+    #41244 - spacing/padding of "Reformat Mailbox" dialog  (Jeff)
+    #41389 - Crash creating new Exchange acct  (Jeff)
+    #41398 - vFolder Sources IMAP folder names not being unencoded 
+             correctly  (Michael)
+    #41419 - variable font key has trailing slash  (katzj@redhat.com)
+    #41448 - Crash on startup  (Michael)
+    #41461 - camel_text_to_html doesn't do as good a job with URLs as 
+             e_text_to_html  (Jeff)
+    #41513 - plain text attachments not showing up in the composer  (Jeff)
+    #41578 - up/down buttons broken in vfolder list  (Jeff)
+    #41730 - empty "Organization" headers  (Jeff)
+    #41789 - bonobo components can pause/freeze the gui  (Jeff)
+
+    And more...
 
 Other bugs:
 
