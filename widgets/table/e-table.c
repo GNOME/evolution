@@ -1147,11 +1147,11 @@ void e_table_drag_source_set  (ETable               *table,
 		table->drag_source_button_press_event_id =
 			gtk_signal_connect (GTK_OBJECT (canvas), "button_press_event",
 					    GTK_SIGNAL_FUNC (e_table_drag_source_event_cb),
-					    site);
+					    table);
 		table->drag_source_motion_notify_event_id =
 			gtk_signal_connect (GTK_OBJECT (canvas), "motion_notify_event",
 					    GTK_SIGNAL_FUNC (e_table_drag_source_event_cb),
-					    site);
+					    table);
 
 		table->site = site;
 	}
