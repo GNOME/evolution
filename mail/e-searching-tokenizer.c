@@ -717,7 +717,7 @@ static char *
 searcher_next_token(struct _searcher *s)
 {
 	struct _token *token;
-	char *tok, *stok;
+	char *tok, *stok, *pre_tok;
 	struct _trie *t = s->t;
 	struct _state *q = s->state;
 	struct _match *m = NULL;
@@ -753,7 +753,7 @@ searcher_next_token(struct _searcher *s)
 		}
 
 		/* process whole token */
-		stok = tok;
+		pre_tok = stok = tok;
 		while ((c = camel_utf8_getc((const unsigned char **)&tok))) {
 			if ((s->flags & SEARCH_CASE) == 0)
 				c = g_unichar_tolower(c);
@@ -765,7 +765,7 @@ searcher_next_token(struct _searcher *s)
 				q = &t->root;
 			} else if (m != NULL) {
 				/* keep track of previous offsets of utf8 chars, rotating buffer */
-				s->last[s->lastp] = s->offset + (tok-stok)-1;
+				s->last[s->lastp] = s->offset + (pre_tok-stok);
 				s->lastp = (s->lastp+1)&s->last_mask;
 
 				q = m->match;
@@ -798,9 +798,10 @@ searcher_next_token(struct _searcher *s)
 					}
 				}
 			}
+			pre_tok = tok;
 		}
 
-		s->offset += (tok-stok)-1;
+		s->offset += (pre_tok-stok);
 
 		flush_extra(s);
 	}
