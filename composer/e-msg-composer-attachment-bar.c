@@ -44,6 +44,8 @@
 
 #include "e-icon-list.h"
 
+#include <gal/widgets/e-unicode.h>
+
 #include "camel/camel-data-wrapper.h"
 #include "camel/camel-stream-fs.h"
 #include "camel/camel-stream-mem.h"
@@ -242,11 +244,11 @@ update (EMsgComposerAttachmentBar *bar)
 	/* FIXME could be faster, but we don't care.  */
 	for (p = priv->attachments; p != NULL; p = p->next) {
 		EMsgComposerAttachment *attachment;
-		const gchar *desc;
 		gchar *size_string, *label;
 		CamelContentType *content_type;
 		GdkPixbuf *pixbuf;
 		gboolean image;
+		char *desc;
 		
 		attachment = p->data;
 		content_type = camel_mime_part_get_content_type (attachment->body);
@@ -261,14 +263,14 @@ update (EMsgComposerAttachmentBar *bar)
 			gboolean error = TRUE;
 			char tmp[4096];
 			int t;
-
+			
 			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (attachment->body));
 			mstream = camel_stream_mem_new ();
-
+			
 			camel_data_wrapper_write_to_stream (wrapper, mstream);
-
+			
 			camel_stream_reset (mstream);
-
+			
 			/* Stream image into pixbuf loader */
 			loader = gdk_pixbuf_loader_new ();
 			do {
@@ -287,7 +289,7 @@ update (EMsgComposerAttachmentBar *bar)
 				}
 				
 			} while (!camel_stream_eos (mstream));
-
+			
 			if (!error) {
 				int ratio, width, height;
 				
@@ -318,18 +320,20 @@ update (EMsgComposerAttachmentBar *bar)
 				g_warning ("GdkPixbufLoader Error");
 				image = FALSE;
 			}
-
+			
 			/* Destroy everything */
 			gdk_pixbuf_loader_close (loader);
 			gtk_object_destroy (GTK_OBJECT (loader));
 			camel_stream_close (mstream);
 		}
 		
-		desc = camel_mime_part_get_description (attachment->body);
+		desc = e_utf8_to_gtk_string (GTK_WIDGET (icon_list), camel_mime_part_get_description (attachment->body));
 		if (!desc || *desc == '\0')
-			desc = camel_mime_part_get_filename (attachment->body);
+			desc = e_utf8_to_gtk_string (GTK_WIDGET (icon_list),
+						     camel_mime_part_get_filename (attachment->body));
+		
 		if (!desc)
-			desc = _("attachment");
+			desc = g_strdup (_("attachment"));
 		
 		if (attachment->size) {
 			size_string = size_to_string (attachment->size);
@@ -337,12 +341,12 @@ update (EMsgComposerAttachmentBar *bar)
 			g_free (size_string);
 		} else
 			label = g_strdup (desc);
-
+		
 		if (image) {
 			e_icon_list_append_pixbuf (icon_list, attachment->pixbuf_cache, NULL, label);
 		} else {
 			char *mime_type;
-
+			
 			mime_type = header_content_type_simple (content_type);
 			pixbuf = pixbuf_for_mime_type (mime_type);
 			g_free (mime_type);
@@ -351,7 +355,8 @@ update (EMsgComposerAttachmentBar *bar)
 			if (pixbuf)
 				gdk_pixbuf_unref (pixbuf);
 		}
-
+		
+		g_free (desc);
 		g_free (label);
 	}
 
