@@ -222,6 +222,7 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 {
 	ECard *card = closure;
 	e_book_add_card(book, card, NULL, NULL);
+	gtk_object_unref(GTK_OBJECT(card));
 }
 
 static void
@@ -249,6 +250,7 @@ save_in_addressbook(GtkWidget *button, EMinicardWidget *minicard)
 	gtk_object_get(GTK_OBJECT(minicard),
 		       "card", &card,
 		       NULL);
+	gtk_object_ref(GTK_OBJECT(card));
 
 	if (! e_book_load_uri (book, uri, book_open_cb, card)) {
 		printf ("error calling load_uri!\n");

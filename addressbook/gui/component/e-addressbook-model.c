@@ -178,6 +178,7 @@ create_card(EBookView *book_view,
 	    EAddressbookModel *model)
 {
 	model->data = g_realloc(model->data, (model->data_count + g_list_length((GList *)cards)) * sizeof(ECard *));
+	e_table_model_pre_change(E_TABLE_MODEL(model));
 	for ( ; cards; cards = cards->next) {
 		model->data[model->data_count++] = e_card_simple_new (E_CARD(cards->data));
 		e_table_model_row_inserted(E_TABLE_MODEL(model), model->data_count - 1);
@@ -190,6 +191,7 @@ remove_card(EBookView *book_view,
 	    EAddressbookModel *model)
 {
 	int i;
+	e_table_model_pre_change(E_TABLE_MODEL(model));
 	for ( i = 0; i < model->data_count; i++) {
 		if ( !strcmp(e_card_simple_get_id(model->data[i]), id) ) {
 			gtk_object_unref(GTK_OBJECT(model->data[i]));

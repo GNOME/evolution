@@ -65,6 +65,8 @@ struct _ECard {
 
 	char            *fburl;         /* Free Busy URL                    */
 
+	gint             timezone;      /* number of minutes from UTC as an int */
+
 	EList       *categories;    /* Categories.                      */
 
 	EList       *arbitrary;     /* Arbitrary fields.                */

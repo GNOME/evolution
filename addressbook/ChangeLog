@@ -1,5 +1,14 @@
 2000-08-22  Christopher James Lahey  <clahey@helixcode.com>
 
+	* backend/e-card.h: Started adding a time zone field to ECard.
+
+	* gui/component/e-addressbook-model.c: Added
+	e_table_model_pre_change where appropriate.
+
+	* gui/minicard/e-minicard-control.c: Added a ref and unref pair.
+
+2000-08-22  Christopher James Lahey  <clahey@helixcode.com>
+
 	* gui/component/addressbook.c: Linked in the search dialog again.
 	It looks like some changes in the shell made this not work.
 
