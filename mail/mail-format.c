@@ -1443,7 +1443,7 @@ mail_write_authenticity (MailDisplay *md, CamelCipherValidity *valid)
 				 "<hr>\n<table><tr valign=top>"
 				 "<td><img src=\"%s\"></td>"
 				 "<td><font size=-1>%s<br><br>",
-				 get_url_for_icon (EVOLUTION_ICONSDIR "/wax-seal.png", md),
+				 get_url_for_icon (EVOLUTION_ICONSDIR "/pgp-signature-ok.png", md),
 				 str);
 		g_free (str);
 	} else {
@@ -1454,7 +1454,7 @@ mail_write_authenticity (MailDisplay *md, CamelCipherValidity *valid)
 				 "<hr>\n<table><tr valign=top>"
 				 "<td><img src=\"%s\"></td>"
 				 "<td><font size=-1>%s<br><br>",
-				 get_url_for_icon (EVOLUTION_ICONSDIR "/wax-seal-broken.png", md),
+				 get_url_for_icon (EVOLUTION_ICONSDIR "/pgp-signature-bad.png", md),
 				 str);
 		g_free (str);
 	}

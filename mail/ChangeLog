@@ -1,3 +1,8 @@
+2001-10-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (mail_write_authenticity): Don't use the wax-seal
+	icons for the pgp stuff anymore, use Jimmac's new icons instead.
+
 2001-10-03    <NotZed@Ximian.com>
 
 	* mail-folder-cache.c (folder_changed): Dont wait for event to
