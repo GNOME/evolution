@@ -372,7 +372,7 @@ composer_send_queued_cb (CamelFolder *folder, CamelMimeMessage *msg, CamelMessag
 }
 
 static CamelMimeMessage *
-composer_get_message (EMsgComposer *composer)
+composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 {
 	const MailConfigAccount *account;
 	CamelMimeMessage *message = NULL;
@@ -467,7 +467,7 @@ composer_get_message (EMsgComposer *composer)
 	g_free(subject);
 
 	/* actually get the message now, this will sign/encrypt etc */
-	message = e_msg_composer_get_message (composer);
+	message = e_msg_composer_get_message (composer, save_html_object_data);
 	if (message == NULL)
 		goto finished;
 	
@@ -501,7 +501,7 @@ composer_send_cb (EMsgComposer *composer, gpointer user_data)
 	struct post_send_data *psd = user_data;
 	struct _send_data *send;
 	
-	message = composer_get_message (composer);
+	message = composer_get_message (composer, FALSE);
 	if (!message)
 		return;
 	
