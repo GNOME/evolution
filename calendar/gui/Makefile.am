@@ -24,7 +24,7 @@ ICAL_LINK_FLAGS = ../libical/src/libical/libical.a
 
 INCLUDES = 						\
 	-I$(includedir)					\
-	$(GNOME_INCLUDEDIR)				\
+	$(BONOBO_VFS_GNOME_CFLAGS)			\
 	$(GNOME_CONDUIT_INCLUDEDIR)			\
 	$(PISOCK_INCLUDEDIR)                  		\
 	-I../libical/src/libical			\
