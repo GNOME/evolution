@@ -1053,6 +1053,7 @@ BonoboUIVerb verbs [] = {
 EPixmap pixmaps[] = {
 	E_PIXMAP ("/commands/ContactEditorSave", "save-16.png"),
 	E_PIXMAP ("/commands/ContactEditorSaveAs", "save-as-16.png"),
+	E_PIXMAP ("/commands/ContactEditorDelete", "evolution-trash-mini.png"),
 	E_PIXMAP ("/commands/ContactEditorPrint", "print.xpm"),
 	E_PIXMAP ("/commands/ContactEditorPrintEnvelope", "print.xpm"),
 
