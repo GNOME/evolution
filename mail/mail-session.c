@@ -176,6 +176,13 @@ struct _pass_msg {
 static void do_get_pass(struct _mail_msg *mm);
 
 static void
+pass_activate (GtkEntry *entry, void *data)
+{
+	if (password_dialog)
+		gtk_dialog_response (password_dialog, GTK_RESPONSE_OK);
+}
+
+static void
 pass_response (GtkDialog *dialog, int button, void *data)
 {
 	struct _pass_msg *m = data;
@@ -257,6 +264,7 @@ request_password (struct _pass_msg *m)
 	
 	m->entry = gtk_entry_new ();
 	gtk_entry_set_visibility ((GtkEntry *) m->entry, !m->secret);
+	g_signal_connect (m->entry, "activate", G_CALLBACK (pass_activate), password_dialog);
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (password_dialog)->vbox), m->entry, TRUE, FALSE, 0);
 	gtk_widget_show (m->entry);
 	

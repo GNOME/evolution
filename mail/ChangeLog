@@ -1,3 +1,8 @@
+2003-02-06  Larry Ewing  <lewing@ximian.com>
+
+	* mail-session.c (pass_activate): add an activate handler to the
+	entry so that hitting return will return an OK response.
+
 2003-02-05  Dan Winship  <danw@ximian.com>
 
 	* main.c (main): s/glade_gnome_init/glade_init/
