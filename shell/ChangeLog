@@ -1,5 +1,17 @@
 2001-03-19  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-shell-component-client.c: New members
+	`dnd_source_folder_interface' and
+	`dnd_destination_folder_interface' in
+	`EvolutionShellCompoentClientPrivate'.
+	(init): Initialize.
+	(impl_destroy): Clean up.
+	(evolution_shell_component_client_get_dnd_source_interface): New.
+	(evolution_shell_component_client_get_dnd_destination_interface):
+	New.
+
+2001-03-19  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-storage-set-view.c (init): Ooops.  Initialize the
 	`drag_corba_source_context' member.  correctly.
 	(table_drag_begin): Don't crash if queryInterface returns

@@ -47,6 +47,9 @@ struct _EvolutionShellComponentClientPrivate {
 
 	GNOME_Evolution_ShellComponentListener listener_interface;
 	PortableServer_Servant listener_servant;
+
+	GNOME_Evolution_ShellComponentDnd_SourceFolder dnd_source_folder_interface;
+	GNOME_Evolution_ShellComponentDnd_DestinationFolder dnd_destination_folder_interface;
 };
 
 
@@ -259,12 +262,27 @@ impl_destroy (GtkObject *object)
 {
 	EvolutionShellComponentClient *shell_component_client;
 	EvolutionShellComponentClientPrivate *priv;
+	CORBA_Environment ev;
 
 	shell_component_client = EVOLUTION_SHELL_COMPONENT_CLIENT (object);
 	priv = shell_component_client->priv;
 
 	if (priv->callback != NULL)
 		dispatch_callback (shell_component_client, EVOLUTION_SHELL_COMPONENT_INTERRUPTED);
+
+	CORBA_exception_init (&ev);
+
+	if (priv->dnd_source_folder_interface != CORBA_OBJECT_NIL) {
+		Bonobo_Unknown_unref (priv->dnd_source_folder_interface, &ev);
+		CORBA_Object_release (priv->dnd_source_folder_interface, &ev);
+	}
+
+	if (priv->dnd_destination_folder_interface != CORBA_OBJECT_NIL) {
+		Bonobo_Unknown_unref (priv->dnd_destination_folder_interface, &ev);
+		CORBA_Object_release (priv->dnd_destination_folder_interface, &ev);
+	}
+
+	CORBA_exception_free (&ev);
 
 	g_free (priv);
 
@@ -289,10 +307,15 @@ init (EvolutionShellComponentClient *shell_component_client)
 	EvolutionShellComponentClientPrivate *priv;
 
 	priv = g_new (EvolutionShellComponentClientPrivate, 1);
-	priv->listener_interface = CORBA_OBJECT_NIL;
-	priv->listener_servant   = NULL;
-	priv->callback           = NULL;
-	priv->callback_data      = NULL;
+
+	priv->listener_interface               = CORBA_OBJECT_NIL;
+	priv->listener_servant                 = NULL;
+
+	priv->callback                         = NULL;
+	priv->callback_data                    = NULL;
+
+	priv->dnd_source_folder_interface      = CORBA_OBJECT_NIL;
+	priv->dnd_destination_folder_interface = CORBA_OBJECT_NIL;
 
 	shell_component_client->priv = priv;
 }
@@ -351,6 +374,69 @@ evolution_shell_component_client_new_for_objref (const GNOME_Evolution_ShellComp
 	evolution_shell_component_client_construct (new, objref);
 
 	return new;
+}
+
+
+/* Querying DnD interfaces.  */
+
+GNOME_Evolution_ShellComponentDnd_SourceFolder
+evolution_shell_component_client_get_dnd_source_interface (EvolutionShellComponentClient *shell_component_client)
+{
+	EvolutionShellComponentClientPrivate *priv;
+	GNOME_Evolution_ShellComponentDnd_SourceFolder interface;
+	CORBA_Environment ev;
+
+	g_return_val_if_fail (shell_component_client != NULL, CORBA_OBJECT_NIL);
+	g_return_val_if_fail (EVOLUTION_IS_SHELL_COMPONENT_CLIENT (shell_component_client), CORBA_OBJECT_NIL);
+
+	priv = shell_component_client->priv;
+
+	if (priv->dnd_source_folder_interface != CORBA_OBJECT_NIL)
+		return priv->dnd_source_folder_interface;
+
+	CORBA_exception_init (&ev);
+
+	interface = Bonobo_Unknown_queryInterface (bonobo_object_corba_objref (BONOBO_OBJECT (shell_component_client)),
+						   "IDL:GNOME/Evolution/ShellComponentDnd/SourceFolder:1.0",
+						   &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION)
+		interface = CORBA_OBJECT_NIL;
+
+	CORBA_exception_free (&ev);
+
+	priv->dnd_source_folder_interface = interface;
+	return interface;
+}
+
+GNOME_Evolution_ShellComponentDnd_DestinationFolder
+evolution_shell_component_client_get_dnd_destination_interface (EvolutionShellComponentClient *shell_component_client)
+{
+	EvolutionShellComponentClientPrivate *priv;
+	GNOME_Evolution_ShellComponentDnd_DestinationFolder interface;
+	CORBA_Environment ev;
+
+	g_return_val_if_fail (shell_component_client != NULL, CORBA_OBJECT_NIL);
+	g_return_val_if_fail (EVOLUTION_IS_SHELL_COMPONENT_CLIENT (shell_component_client), CORBA_OBJECT_NIL);
+
+	priv = shell_component_client->priv;
+
+	if (priv->dnd_destination_folder_interface != CORBA_OBJECT_NIL)
+		return priv->dnd_destination_folder_interface;
+
+	CORBA_exception_init (&ev);
+
+	interface = Bonobo_Unknown_queryInterface (bonobo_object_corba_objref (BONOBO_OBJECT (shell_component_client)),
+						   "IDL:GNOME/Evolution/ShellComponentDnd/DestinationFolder:1.0",
+						   &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION)
+		interface = CORBA_OBJECT_NIL;
+
+	CORBA_exception_free (&ev);
+
+	priv->dnd_destination_folder_interface = interface;
+	return interface;
 }
 
 

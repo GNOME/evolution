@@ -66,6 +66,13 @@ void                           evolution_shell_component_client_construct       
 EvolutionShellComponentClient *evolution_shell_component_client_new             (const char                           *id);
 EvolutionShellComponentClient *evolution_shell_component_client_new_for_objref  (const GNOME_Evolution_ShellComponent  objref);
 
+/* Querying DnD interfaces.  */
+
+GNOME_Evolution_ShellComponentDnd_SourceFolder
+evolution_shell_component_client_get_dnd_source_interface (EvolutionShellComponentClient *shell_component_client);
+GNOME_Evolution_ShellComponentDnd_DestinationFolder
+evolution_shell_component_client_get_dnd_destination_interface (EvolutionShellComponentClient *shell_component_client);
+
 /* Synchronous operations.  */
 EvolutionShellComponentResult  evolution_shell_component_client_set_owner    (EvolutionShellComponentClient  *shell_component_client,
 									      GNOME_Evolution_Shell                 shell,
