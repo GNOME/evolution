@@ -1,3 +1,10 @@
+2005-01-21  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #60664.
+
+	* em-format-html-display.c (efhd_init, efhd_gtkhtml_style_set): if
+	the style changes, re-calculate the page colours, and redraw.
+
 2005-01-20  Jeffrey Stedfast  <fejj@novell.com>
 
 	* em-folder-tree.c (emft_copy_folders__desc): Added a description

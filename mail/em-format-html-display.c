@@ -226,6 +226,13 @@ efhd_gtkhtml_realise(GtkHTML *html, EMFormatHTMLDisplay *efhd)
 }
 
 static void
+efhd_gtkhtml_style_set(GtkHTML *html, GtkStyle *old, EMFormatHTMLDisplay *efhd)
+{
+	efhd_gtkhtml_realise(html, efhd);
+	em_format_redraw((EMFormat *)efhd);
+}
+
+static void
 efhd_init(GObject *o)
 {
 	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)o;
@@ -237,7 +244,7 @@ efhd_init(GObject *o)
 	html_engine_set_tokenizer(efh->html->engine, (HTMLTokenizer *)efhd->search_tok);
 
 	g_signal_connect(efh->html, "realize", G_CALLBACK(efhd_gtkhtml_realise), o);
-	
+	g_signal_connect(efh->html, "style-set", G_CALLBACK(efhd_gtkhtml_style_set), o);
 	/* we want to convert url's etc */
 	efh->text_html_flags |= CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS | CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES;
 #undef efh
