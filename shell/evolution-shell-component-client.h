@@ -80,6 +80,7 @@ GNOME_Evolution_Offline
 evolution_shell_component_client_get_offline_interface (EvolutionShellComponentClient *shell_component_client);
 
 /* Synchronous operations.  */
+
 EvolutionShellComponentResult  evolution_shell_component_client_set_owner    (EvolutionShellComponentClient  *shell_component_client,
 									      GNOME_Evolution_Shell           shell,
 									      const char                     *evolution_homedir);
@@ -90,6 +91,9 @@ EvolutionShellComponentResult  evolution_shell_component_client_create_view  (Ev
 									      const char                     *physical_uri,
 									      const char                     *type_string,
 									      BonoboControl                 **control_return);
+
+EvolutionShellComponentResult  evolution_shell_component_client_handle_external_uri  (EvolutionShellComponentClient *shell_component_client,
+										      const char                    *uri);
 
 /* Asyncronous operations.  */
 void  evolution_shell_component_client_async_create_folder  (EvolutionShellComponentClient         *shell_component_client,

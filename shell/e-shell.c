@@ -238,16 +238,17 @@ impl_Shell_handleURI (PortableServer_Servant servant,
 		      const CORBA_char *uri,
 		      CORBA_Environment *ev)
 {
+	EvolutionShellComponentClient *schema_handler;
 	EShell *shell;
 	EShellPrivate *priv;
 	const char *colon_p;
-	const char *schema;
+	char *schema;
 
 	shell = E_SHELL (bonobo_object_from_servant (servant));
 	priv = shell->priv;
 
 	if (strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0) {
-		GNOME_Evolution_Shell_createNewView (servant, uri, ev);
+		GNOME_Evolution_Shell_createNewView (bonobo_object_corba_objref (BONOBO_OBJECT (shell)), uri, ev);
 		return;
 	}
 
@@ -261,6 +262,21 @@ impl_Shell_handleURI (PortableServer_Servant servant,
 	}
 
 	schema = g_strndup (uri, colon_p - uri);
+	schema_handler = e_uri_schema_registry_get_handler_for_schema (priv->uri_schema_registry, schema);
+	g_free (schema);
+
+	if (schema_handler == NULL) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Shell_UnsupportedSchema, NULL);
+		return;
+	}
+
+	if (! evolution_shell_component_client_handle_external_uri (schema_handler, uri)) {
+		/* FIXME: Just a wild guess here.  */
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Shell_NotFound, NULL);
+		return;
+	}
 }
 
 static void
@@ -697,6 +713,7 @@ class_init (EShellClass *klass)
 	epv = & klass->epv;
 	epv->getComponentByType   = impl_Shell_getComponentByType;
 	epv->createNewView        = impl_Shell_createNewView;
+	epv->handleURI            = impl_Shell_handleURI;
 	epv->selectUserFolder     = impl_Shell_selectUserFolder;
 	epv->getLocalStorage      = impl_Shell_getLocalStorage;
 	epv->createStorageSetView = impl_Shell_createStorageSetView;
@@ -717,6 +734,7 @@ init (EShell *shell)
 	priv->shortcuts              = NULL;
 	priv->component_registry     = NULL;
 	priv->folder_type_registry   = NULL;
+	priv->uri_schema_registry    = NULL;
 	priv->corba_storage_registry = NULL;
 	priv->activity_handler       = NULL;
 	priv->offline_handler        = NULL;

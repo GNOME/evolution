@@ -129,57 +129,77 @@ development_warning (void)
 
 /* This is for doing stuff that requires the GTK+ loop to be running already.  */
 
-static void
-new_view_on_running_shell (void)
+static gint
+idle_cb (void *data)
 {
-	CORBA_Object corba_object;
-	GNOME_Evolution_ShellView shell_view;
+	GSList *uri_list;
+	GNOME_Evolution_Shell corba_shell;
 	CORBA_Environment ev;
+	gboolean restored;
 
 	CORBA_exception_init (&ev);
 
-	corba_object = oaf_activate_from_id (E_SHELL_OAFIID, 0, NULL, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION
-	    || CORBA_Object_is_nil (corba_object, &ev)) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-			  _("Cannot initialize the Evolution shell."));
-		return;
-	}
-
-	shell_view = GNOME_Evolution_Shell_createNewView ((GNOME_Evolution_Shell) corba_object, STARTUP_URI, &ev);
-	if (ev._major == CORBA_NO_EXCEPTION) {
-		Bonobo_Unknown_unref ((Bonobo_Unknown) shell_view, &ev);
-		CORBA_Object_release ((CORBA_Object) shell_view, &ev);
-	}
-
-	CORBA_exception_free (&ev);
-}
-
-static gint
-idle_cb (gpointer data)
-{
-	EShellView *view;
+	uri_list = (GSList *) data;
 
 	shell = e_shell_new (evolution_directory, ! no_splash);
 	g_free (evolution_directory);
 
 	if (shell == NULL) {
-		/* A new shell cannot be created, so try to get a new view from
-                   an already running one.  */
-		new_view_on_running_shell ();
-		exit (1);
+		corba_shell = oaf_activate_from_id (E_SHELL_OAFIID, 0, NULL, &ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION || corba_shell == CORBA_OBJECT_NIL) {
+			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+				  _("Cannot access the Evolution shell."));
+			CORBA_exception_free (&ev);
+			return FALSE;
+		}
+
+		restored = FALSE;
+	} else {
+		gtk_signal_connect (GTK_OBJECT (shell), "no_views_left",
+				    GTK_SIGNAL_FUNC (no_views_left_cb), NULL);
+		gtk_signal_connect (GTK_OBJECT (shell), "destroy",
+				    GTK_SIGNAL_FUNC (destroy_cb), NULL);
+
+		if (uri_list == NULL)
+			restored = e_shell_restore_from_settings (shell);
+		else
+			restored = NULL;
+
+		if (!getenv ("EVOLVE_ME_HARDER"))
+			development_warning ();
+
+		corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell));
+		corba_shell = CORBA_Object_duplicate (corba_shell, &ev);
+		Bonobo_Unknown_ref (corba_shell, &ev);
 	}
 
-	gtk_signal_connect (GTK_OBJECT (shell), "no_views_left",
-			    GTK_SIGNAL_FUNC (no_views_left_cb), NULL);
-	gtk_signal_connect (GTK_OBJECT (shell), "destroy",
-			    GTK_SIGNAL_FUNC (destroy_cb), NULL);
+	if (! restored && uri_list == NULL) {
+		const char *uri = "evolution:/local/Inbox";
 
-	if (! e_shell_restore_from_settings (shell))
-		view = e_shell_new_view (shell, STARTUP_URI);
+		GNOME_Evolution_Shell_handleURI (corba_shell, uri, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_warning ("CORBA exception %s when requesting URI -- %s", ev._repo_id, uri);
+	} else {
+		GSList *p;
 
-	if (!getenv ("EVOLVE_ME_HARDER"))
-		development_warning ();
+		for (p = uri_list; p != NULL; p = p->next) {
+			char *uri;
+
+			uri = (char *) p->data;
+
+			GNOME_Evolution_Shell_handleURI (corba_shell, uri, &ev);
+			if (ev._major != CORBA_NO_EXCEPTION)
+				g_warning ("CORBA exception %s when requesting URI -- %s", ev._repo_id, uri);
+		}
+
+		g_slist_free (uri_list);
+	}
+
+	CORBA_exception_free (&ev);
+
+	if (shell == NULL)
+		gtk_main_quit ();
 
 	return FALSE;
 }
@@ -194,6 +214,8 @@ main (int argc, char **argv)
 		POPT_AUTOHELP
 		{ NULL, '\0', 0, NULL, 0, NULL, NULL }
 	};
+	GSList *uri_list;
+	int i;
 
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);
@@ -228,12 +250,14 @@ main (int argc, char **argv)
 	/* FIXME */
 	evolution_directory = g_concat_dir_and_file (g_get_home_dir (), "evolution");
 
-	if (! e_setup (evolution_directory)) {
-		g_free (evolution_directory);
+	if (! e_setup (evolution_directory))
 		exit (1);
-	}
 
-	gtk_idle_add (idle_cb, evolution_directory);
+	uri_list = NULL;
+	for (i = 1; i < argc; i++)
+		uri_list = g_slist_prepend (uri_list, argv[i]);
+
+	gtk_idle_add (idle_cb, uri_list);
 
 	bonobo_main ();
 

@@ -61,7 +61,7 @@ EUriSchemaRegistry *e_uri_schema_registry_new       (void);
 gboolean                       e_uri_schema_registry_set_handler_for_schema  (EUriSchemaRegistry            *registry,
 									      const char                    *schema,
 									      EvolutionShellComponentClient *shell_component);
-EvolutionShellComponentClient *e_uri_schema_get_handler_for_schema           (EUriSchemaRegistry            *registry,
+EvolutionShellComponentClient *e_uri_schema_registry_get_handler_for_schema           (EUriSchemaRegistry            *registry,
 									      const char                    *schema);
 
 #ifdef __cplusplus

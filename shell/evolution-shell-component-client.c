@@ -82,6 +82,8 @@ corba_exception_to_result (const CORBA_Environment *ev)
 			return EVOLUTION_SHELL_COMPONENT_INTERNALERROR;
 		if (strcmp (ev->_repo_id, ex_GNOME_Evolution_ShellComponent_Busy) == 0)
 			return EVOLUTION_SHELL_COMPONENT_BUSY;
+		if (strcmp (ev->_repo_id, ex_GNOME_Evolution_ShellComponent_UnsupportedSchema) == 0)
+			return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDSCHEMA;
 
 		return EVOLUTION_SHELL_COMPONENT_UNKNOWNERROR;
 	} else {
@@ -588,6 +590,30 @@ evolution_shell_component_client_create_view (EvolutionShellComponentClient *she
 		*control_return = BONOBO_CONTROL (bonobo_widget_new_control_from_objref (corba_control,
 											 corba_uih));
 	}
+
+	CORBA_exception_free (&ev);
+
+	return result;
+}
+
+EvolutionShellComponentResult
+evolution_shell_component_client_handle_external_uri  (EvolutionShellComponentClient *shell_component_client,
+						       const char *uri)
+{
+	GNOME_Evolution_ShellComponent corba_component;
+	CORBA_Environment ev;
+	EvolutionShellComponentResult result;
+
+	RETURN_ERROR_IF_FAIL (shell_component_client != NULL);
+	RETURN_ERROR_IF_FAIL (EVOLUTION_IS_SHELL_COMPONENT_CLIENT (shell_component_client));
+	RETURN_ERROR_IF_FAIL (uri != NULL);
+
+	CORBA_exception_init (&ev);
+
+	corba_component = bonobo_object_corba_objref (BONOBO_OBJECT (shell_component_client));
+	GNOME_Evolution_ShellComponent_handleExternalURI (corba_component, uri, &ev);
+
+	result = corba_exception_to_result (&ev);
 
 	CORBA_exception_free (&ev);
 

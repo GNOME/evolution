@@ -157,8 +157,8 @@ e_uri_schema_registry_set_handler_for_schema (EUriSchemaRegistry *registry,
 }
 
 EvolutionShellComponentClient *
-e_uri_schema_get_handler_for_schema (EUriSchemaRegistry *registry,
-				     const char *schema)
+e_uri_schema_registry_get_handler_for_schema (EUriSchemaRegistry *registry,
+					      const char *schema)
 {
 	EUriSchemaRegistryPrivate *priv;
 	const SchemaHandler *handler;
@@ -170,6 +170,9 @@ e_uri_schema_get_handler_for_schema (EUriSchemaRegistry *registry,
 	priv = registry->priv;
 
 	handler = g_hash_table_lookup (priv->schema_to_handler, schema);
+	if (handler == NULL)
+		return NULL;
+
 	return handler->component;
 }
 

@@ -48,13 +48,15 @@ module Evolution {
 		/* FIXME: We might want more exceptions here.  */
 		exception NotFound {};
 		exception UnsupportedType {};
+		exception UnsupportedSchema {};
 		exception InternalError {};
 
 		Bonobo::Control createView (in string physical_uri,
 					    in string type)
 			raises (NotFound, UnsupportedType, InternalError);
 
-		void handleExternalURI (in string external_uri);
+		void handleExternalURI (in string external_uri)
+			raises (NotFound, UnsupportedSchema, InternalError);
 
 		exception Busy {};
 

@@ -1,3 +1,37 @@
+2001-06-28  Ettore Perazzoli  <ettore@ximian.com>
+
+	* main.c (idle_cb): Re-implemented to get a GSList of URIs and
+	open them on a running shell [if any] or on a newly created shell.
+	If no args are provided [i.e. the list is NULL], it either
+	restores from settings [if any], or it just opens the Inbox.
+	(main): Set up the GSList of arguments and have it passed to the
+	idle callback.
+
+	* e-shell.c (init): Ooops.  Init `uri_schema_registry' to NULL as
+	well.
+
+	* evolution-shell-component-client.c
+	(evolution_shell_component_client_handle_external_uri): New.
+	(corba_exception_to_result): Handle the `UnsupportedSchema'
+	exception too.
+
+	* evolution-shell-component.h: New
+	EvolutionShellComponentResult value
+	`EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDSCHEMA'.
+
+	* Evolution-ShellComponent.idl: New exception `UnsupportedSchema'.
+	(handleExternalURI): This can now raise `NotFound',
+	`UnsupportedSchema' and `InternalError'.
+	(createView): This can now raise `UnsupportedSchema' too.
+
+	* e-shell.c (impl_Shell_handleURI): Finish implementation.
+	(class_init): Install it.
+
+	* e-uri-schema-registry.c
+	(e_uri_schema_registry_get_handler_for_schema): Ooops.  Rename
+	from `e_uri_schema_get_handler_for_schema'.  Also, return NULL if
+	no handler is found.
+
 2001-06-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-component-registry.c (register_component): Get the supported
