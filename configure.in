@@ -1554,6 +1554,7 @@ smime/lib/Makefile
 smime/gui/Makefile
 tools/Makefile
 evolution-shell.pc
+evolution-plugin.pc
 ])
 
 if test "x$with_sub_version" != "x"; then
