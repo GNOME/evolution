@@ -24,6 +24,8 @@
 #include <config.h>
 #endif
 
+#include <string.h>
+
 #include "camel-tcp-stream.h"
 
 #define w(x)

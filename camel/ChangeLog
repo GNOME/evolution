@@ -1,3 +1,7 @@
+2002-07-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-tcp-stream.c: #include <string.h> for memcpy.
+
 2002-07-22  Not Zed  <NotZed@Ximian.com>
 
 	* camel-vee-folder.c (vee_set_message_user_tag): Oops, forgot to
