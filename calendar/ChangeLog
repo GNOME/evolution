@@ -1,3 +1,10 @@
+2004-12-21  JP Rosevear  <jpr@novell.com>
+
+	Fixes #41624
+	
+	* conduits/calendar/calendar-conduit.c (local_record_from_comp):
+	append the exceptions, don't keep overwriting the first
+
 2004-12-21  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/e-cal-model.c (set_instance_times): no need to convert times now.

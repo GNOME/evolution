@@ -960,7 +960,7 @@ local_record_from_comp (ECalLocalRecord *local, ECalComponent *comp, ECalConduit
 			icaltimezone_convert_time (dt->value, 
 						   icaltimezone_get_utc_timezone (),
 						   default_tz);
-			*local->appt->exception = icaltimetype_to_tm (dt->value);
+			local->appt->exception[i] = icaltimetype_to_tm (dt->value);
 		}
 		e_cal_component_free_exdate_list (edl);
 	}
