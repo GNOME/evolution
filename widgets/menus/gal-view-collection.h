@@ -5,6 +5,11 @@
 #include <gtk/gtkobject.h>
 #include <gal/menus/gal-view-factory.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
+
 #define GAL_VIEW_COLLECTION_TYPE        (gal_view_collection_get_type ())
 #define GAL_VIEW_COLLECTION(o)          (GTK_CHECK_CAST ((o), GAL_VIEW_COLLECTION_TYPE, GalViewCollection))
 #define GAL_VIEW_COLLECTION_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), GAL_VIEW_COLLECTION_TYPE, GalViewCollectionClass))
@@ -76,6 +81,11 @@ void                   gal_view_collection_copy_view                (GalViewColl
  * might be found there before doing either of these. */
 void                   gal_view_collection_load                     (GalViewCollection *collection);
 void                   gal_view_collection_save                     (GalViewCollection *collection);
+
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 
 #endif /* _GAL_VIEW_COLLECTION_H_ */

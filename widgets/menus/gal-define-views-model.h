@@ -6,6 +6,10 @@
 #include <gal/menus/gal-view.h>
 #include <gal/menus/gal-view-collection.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #define GAL_DEFINE_VIEWS_MODEL_TYPE        (gal_define_views_model_get_type ())
 #define GAL_DEFINE_VIEWS_MODEL(o)          (GTK_CHECK_CAST ((o), GAL_DEFINE_VIEWS_MODEL_TYPE, GalDefineViewsModel))
 #define GAL_DEFINE_VIEWS_MODEL_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), GAL_DEFINE_VIEWS_MODEL_TYPE, GalDefineViewsModelClass))
@@ -38,5 +42,9 @@ void         gal_define_views_model_delete_view  (GalDefineViewsModel *model,
 						  int                  i);
 void         gal_define_views_model_copy_view    (GalDefineViewsModel *model,
 						  int                  i);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* _GAL_DEFINE_VIEWS_MODEL_H_ */

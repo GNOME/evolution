@@ -5,6 +5,10 @@
 #include <gtk/gtkobject.h>
 #include <gnome-xml/tree.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #define GAL_VIEW_TYPE        (gal_view_get_type ())
 #define GAL_VIEW(o)          (GTK_CHECK_CAST ((o), GAL_VIEW_TYPE, GalView))
 #define GAL_VIEW_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), GAL_VIEW_TYPE, GalViewClass))
@@ -62,5 +66,9 @@ GalView    *gal_view_clone          (GalView    *view);
 /* Changed signal */
 void        gal_view_changed        (GalView    *view);
 
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* _GAL_VIEW_H_ */

@@ -7,6 +7,10 @@
 #include <gal/e-table/e-table-state.h>
 #include <gal/e-table/e-table-specification.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #define GAL_VIEW_ETABLE_TYPE        (gal_view_etable_get_type ())
 #define GAL_VIEW_ETABLE(o)          (GTK_CHECK_CAST ((o), GAL_VIEW_ETABLE_TYPE, GalViewEtable))
 #define GAL_VIEW_ETABLE_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), GAL_VIEW_ETABLE_TYPE, GalViewEtableClass))
@@ -32,5 +36,9 @@ GalView *gal_view_etable_new        (ETableSpecification *spec,
 GalView *gal_view_etable_construct  (GalViewEtable       *view,
 				     ETableSpecification *spec,
 				     const gchar         *title);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* _GAL_VIEW_ETABLE_H_ */
