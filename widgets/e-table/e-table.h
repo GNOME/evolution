@@ -63,6 +63,15 @@ typedef struct {
 	gboolean use_click_to_add;
 
 	ETableCursorMode cursor_mode;
+
+	int drag_get_data_row;
+	int drag_get_data_col;
+
+	int drag_row;
+	int drag_col;
+
+	int drop_row;
+	int drop_col;
 } ETable;
 
 typedef struct {

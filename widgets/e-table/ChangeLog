@@ -1,3 +1,9 @@
+2000-07-25  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table.c, e-table.h: Implemented some of the drag & drop code.
+	Drops all report as being on row 0, col 0.  Also, automatic drags
+	don't set the row and column being dragged from.
+
 2000-07-23  Damon Chaplin  <damon@helixcode.com>
 
 	* e-cell-text.c: added a color_column where the color can be specified
