@@ -22,9 +22,17 @@
  */
 
 #include <config.h>
-#include <gnome.h>
-#include <bonobo.h>
+#include <glib.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtksignal.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-util.h>
+#include <libgnomeui/gnome-init.h>
+#include <libgnomeui/gnome-stock.h>
 #include <libgnomeui/gnome-window-icon.h>
+#include <bonobo/bonobo-main.h>
 #include <glade/glade.h>
 #include <liboaf/liboaf.h>
 #include <unicode.h>

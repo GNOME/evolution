@@ -25,7 +25,9 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
+#include <gtk/gtkframe.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtksignal.h>
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
 #include <gal/util/e-util.h>
 

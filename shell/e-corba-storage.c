@@ -25,8 +25,7 @@
 #include <config.h>
 #endif
 
-#include <bonobo.h>
-
+#include <bonobo/bonobo-main.h>
 #include <gal/util/e-util.h>
 
 #include "Evolution.h"

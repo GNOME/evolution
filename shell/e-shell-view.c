@@ -28,11 +28,14 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
-#include <bonobo.h>
-#include <bonobo/bonobo-socket.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnomeui/gnome-window.h>
 #include <libgnomeui/gnome-window-icon.h>
+#include <bonobo/bonobo-socket.h>
+#include <bonobo/bonobo-ui-util.h>
+#include <bonobo/bonobo-widget.h>
 
+#include <gal/e-paned/e-hpaned.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
@@ -53,7 +56,6 @@
 #include "e-shell-view.h"
 #include "e-shell-view-menu.h"
 
-#include <gal/e-paned/e-hpaned.h>
 
 
 static BonoboWindowClass *parent_class = NULL;

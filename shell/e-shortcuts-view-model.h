@@ -24,9 +24,9 @@
 #ifndef _E_SHORTCUTS_VIEW_MODEL_H_
 #define _E_SHORTCUTS_VIEW_MODEL_H_
 
-#include "e-shortcuts.h"
-
 #include <gal/shortcut-bar/e-shortcut-model.h>
+
+#include "e-shortcuts.h"
 
 #ifdef __cplusplus
 extern "C" {

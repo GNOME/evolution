@@ -24,9 +24,8 @@
 #ifndef _E_SHELL_H_
 #define _E_SHELL_H_
 
-#include <bonobo/bonobo-object.h>
-
 #include <liboaf/liboaf.h>	/* For the registration stuff.  */
+#include <bonobo/bonobo-object.h>
 
 #ifdef __cplusplus
 extern "C" {

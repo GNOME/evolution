@@ -26,20 +26,17 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
-
 #include <gal/util/e-util.h>
+#include <gal/e-table/e-tree-memory-callbacks.h>
+#include <gal/e-table/e-cell-tree.h>
+#include <gal/e-table/e-cell-text.h>
+
 #include "e-util/e-gtk-utils.h"
 
 #include "e-shell-constants.h"
 
-#include "e-storage-set-view.h"
-
 #include "e-local-storage.h"
-
-#include <gal/e-table/e-tree-memory-callbacks.h>
-#include <gal/e-table/e-cell-tree.h>
-#include <gal/e-table/e-cell-text.h>
+#include "e-storage-set-view.h"
 
 #ifdef JUST_FOR_TRANSLATORS
 static char *list [] = {

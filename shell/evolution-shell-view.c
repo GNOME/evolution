@@ -26,7 +26,6 @@
 #endif
 
 #include <gtk/gtksignal.h>
-#include <bonobo.h>
 
 #include <gal/util/e-util.h>
 

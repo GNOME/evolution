@@ -25,11 +25,12 @@
 #include <config.h>
 #endif
 
-#include <bonobo.h>
-
-#include "Evolution.h"
+#include <gtk/gtksignal.h>
+#include <bonobo/bonobo-object.h>
 
 #include <gal/util/e-util.h>
+
+#include "Evolution.h"
 
 #include "e-util/e-corba-utils.h"
 

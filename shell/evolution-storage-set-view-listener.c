@@ -25,9 +25,8 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
-#include <bonobo.h>
-
+#include <gtk/gtksignal.h>
+#include <bonobo/bonobo-main.h>
 #include <gal/util/e-util.h>
 
 #include "evolution-storage-set-view-listener.h"

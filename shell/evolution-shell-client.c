@@ -25,7 +25,9 @@
 #include <config.h>
 #endif
 
-#include <bonobo.h>
+#include <gtk/gtkmain.h>
+#include <bonobo/bonobo-main.h>
+#include <bonobo/bonobo-object.h>
 
 #include <gal/util/e-util.h>
 

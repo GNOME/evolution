@@ -25,12 +25,20 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
+#include <gtk/gtkbox.h>
+#include <gtk/gtkhbox.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkpixmap.h>
+#include <gtk/gtkrc.h>
+#include <gtk/gtksignal.h>
+#include <gtk/gtktogglebutton.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-#include "widgets/misc/e-clipped-label.h"
 #include <gal/util/e-util.h>
 
+#include "widgets/misc/e-clipped-label.h"
 #include "e-shell-constants.h"
 #include "e-shell-folder-title-bar.h"
 

@@ -28,10 +28,10 @@
 #include <gtk/gtksignal.h>
 #include <gtk/gtktypeutils.h>
 
+#include <liboaf/liboaf.h>
+
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-widget.h>
-
-#include <liboaf/liboaf.h>
 
 #include <gal/util/e-util.h>
 

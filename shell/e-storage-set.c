@@ -25,11 +25,11 @@
 #include <config.h>
 #endif
 
+#include <string.h>
+
 #include <gtk/gtkobject.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtktypeutils.h>
-
-#include <string.h>
 
 #include <gal/util/e-util.h>
 

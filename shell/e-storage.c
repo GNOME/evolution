@@ -28,8 +28,8 @@
 #include <gtk/gtkobject.h>
 #include <gtk/gtksignal.h>
 
-#include <gnome.h>
-
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 
 #include "e-folder-tree.h"

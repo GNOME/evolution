@@ -43,13 +43,13 @@
 #include <config.h>
 #endif
 
+#include <string.h>
+
 #include <gtk/gtkobject.h>
 #include <gtk/gtktypeutils.h>
 
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
-
-#include <string.h>
 
 #include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>

@@ -24,7 +24,20 @@
  */
 
 #include <config.h>
-#include <gnome.h>
+
+#include <glib.h>
+#include <gtk/gtksignal.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-exec.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-url.h>
+#include <libgnome/gnome-util.h>
+#include <libgnomeui/gnome-about.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-dialog-util.h>
+
+#include <liboaf/liboaf.h>
+#include <bonobo/bonobo-moniker-util.h>
 
 #include "e-shell-folder-creation-dialog.h"
 #include "e-shell-folder-selection-dialog.h"
@@ -33,9 +46,6 @@
 
 #include "e-shell-view-menu.h"
 #include "importer/importer.h"
-
-#include <liboaf/liboaf.h>
-#include <bonobo.h>
 
 
 const char *authors[] = {

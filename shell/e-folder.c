@@ -25,7 +25,6 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtkobject.h>
 #include <gtk/gtksignal.h>
 
 #include <gal/util/e-util.h>

@@ -25,10 +25,13 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
+#include <string.h>
+
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-util.h>
 
 #include "e-shell-constants.h"
-
 #include "e-shell-utils.h"
 
 

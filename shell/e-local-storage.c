@@ -45,10 +45,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include <gnome.h>
-
-#include <bonobo.h>
-
+#include <gtk/gtksignal.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-util.h>
 #include <gal/util/e-util.h>
 #include "e-local-folder.h"
 

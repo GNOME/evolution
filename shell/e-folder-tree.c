@@ -25,8 +25,8 @@
 #include <config.h>
 #endif
 
-#include <glib.h>
 #include <string.h>
+#include <glib.h>
 
 #include "e-folder-tree.h"
 

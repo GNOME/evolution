@@ -26,12 +26,32 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
+#include <gtk/gtkbox.h>
+#include <gtk/gtkcheckbutton.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtkobject.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtkwidget.h>
+#include <gtk/gtkwindow.h>
+
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-config.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-util.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-stock.h>
 
 #include <liboaf/liboaf.h>
 
 #include "intelligent.h"
 #include "GNOME_Evolution_Importer.h"
+
+/* Prototypes */
+
+void intelligent_importer_init (void);
+
+/* End prototypes */
 
 static void
 start_importer (const char *iid)

@@ -24,7 +24,7 @@
 #ifndef __EVOLUTION_LOCAL_STORAGE_H__
 #define __EVOLUTION_LOCAL_STORAGE_H__
 
-#include <gnome.h>
+#include <glib.h>
 
 #include "evolution-storage.h"
 

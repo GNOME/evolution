@@ -24,7 +24,7 @@
 #ifndef __EVOLUTION_SESSION_H__
 #define __EVOLUTION_SESSION_H__
 
-#include <bonobo.h>
+#include <bonobo/bonobo-object.h>
 
 #ifdef __cplusplus
 extern "C" {

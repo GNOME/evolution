@@ -26,14 +26,18 @@
 #include <config.h>
 #endif
 
-#include <glib.h>
-#include <gnome.h>
-
 #include <errno.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <dirent.h>
+#include <stdio.h> /* rename() */
+#include <string.h> /* strlen() */
 
+#include <gtk/gtklabel.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-util.h>
+#include <libgnomeui/gnome-stock.h>
 #include <gal/widgets/e-gui-utils.h>
 
 #include "e-setup.h"

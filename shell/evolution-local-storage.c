@@ -25,7 +25,9 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
+#include <gtk/gtksignal.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-util.h>
 
 #include <gal/util/e-util.h>
 

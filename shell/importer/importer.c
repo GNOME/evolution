@@ -25,7 +25,15 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-druid.h>
+#include <libgnomeui/gnome-druid-page-finish.h>
+#include <libgnomeui/gnome-druid-page-standard.h>
+#include <libgnomeui/gnome-druid-page-start.h>
+#include <libgnomeui/gnome-file-entry.h>
+#include <libgnomeui/gnome-stock.h>
 
 #include <liboaf/liboaf.h>
 

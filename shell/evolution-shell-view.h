@@ -24,8 +24,8 @@
 #ifndef __EVOLUTION_SHELL_VIEW_H__
 #define __EVOLUTION_SHELL_VIEW_H__
 
-#include <gnome.h>
- 
+#include <glib.h>
+#include <bonobo/bonobo-object.h> 
 #include "Evolution.h"
 
 #ifdef __cplusplus

@@ -25,13 +25,17 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
-#include <liboaf/liboaf.h>
-
-#include "Evolution.h"
+#include <gtk/gtkmain.h>
+#include <gtk/gtksignal.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-config.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-util.h>
 
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/util/e-util.h>
+
+#include "Evolution.h"
 
 #include "e-component-registry.h"
 #include "e-corba-storage-registry.h"
@@ -47,6 +51,8 @@
 #include "evolution-storage-set-view-factory.h"
 
 #include "e-shell.h"
+
+#include "importer/intelligent.h"
 
 
 #define PARENT_TYPE BONOBO_OBJECT_TYPE

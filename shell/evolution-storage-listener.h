@@ -24,8 +24,7 @@
 #ifndef __EVOLUTION_STORAGE_LISTENER_H__
 #define __EVOLUTION_STORAGE_LISTENER_H__
 
-#include <gnome.h>
-
+#include <gtk/gtkobject.h>
 #include "Evolution.h"
 
 #ifdef __cplusplus

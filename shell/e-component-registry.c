@@ -25,18 +25,15 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtkobject.h>
 #include <gtk/gtktypeutils.h>
-#include <bonobo.h>
 
 #include <gal/util/e-util.h>
-#include "e-shell-utils.h"
 
 #include "Evolution.h"
 
-#include "evolution-shell-component-client.h"
-
 #include "e-component-registry.h"
+#include "e-shell-utils.h"
+#include "evolution-shell-component-client.h"
 
 
 #define PARENT_TYPE GTK_TYPE_OBJECT

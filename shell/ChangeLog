@@ -1,3 +1,46 @@
+2001-03-29  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-component-registry.c: Remove/replace  unneeded includes and
+	move around stuff so that system headers are included first.
+	* e-corba-storage.c: Replace #include <bonobo.h>
+	* e-folder-tree.c: Shuffle.
+	* e-folder.c: Remove #include <gtk/gtkobject.h>
+	* e-local-storage.c: Replace #include <gnome.h> and <bonobo.h>
+	* e-setup.c: Replace #include <glib.h> and <gnome.h>
+	* e-shell-folder-creation-dialog.c: Replace #include <gnome.h>
+	* e-shell-folder-title-bar.c: Replace <gnome.h>
+	* e-shell-utils.c: Same here.
+	* e-shell-view-menu.c: Same here (and <bonobo.h>)
+	* e-shell-view.c: Replace <gnome.h> and <bonobo.h>
+	* e-shell.c: Replace <gnome.h>
+	* e-shell.h: Shuffle.
+	* e-shortcuts-view-model.c: Replace <gnome.h>
+	* e-shortcuts-view.c: Remove #include <gnome.h>
+	* e-shortcuts.c: Move <string.h> up.
+	* e-splash.c: Replace <gnome.h>
+	* e-storage-set-view.c: Replace <gnome.h>
+	* e-storage-set.c: Shuffle
+	* e-storage.c: Replace <gnome.h>
+	* evolution-local-storage.c: Same here
+	* evolution-local-storage.h: And here.
+	* evolution-session.c: Same here too.
+	* evolution-session.h: Replace <bonobo.h>
+	* evolution-shell-client.c: Here too.
+	* evolution-shell-component-client.c: Shuffle.
+	* evolution-shell-component.c: Replace <bonobo.h>
+	* evolution-shell-view.c: Remove #include <bonobo.h>
+	* evolution-shell-view.h: Replace <gnome.h>
+	* evolution-storage-listener.c: Replace <gnome.h> and <bonobo.h>
+	* evolution-storage-listener.h: Replace <gnome.h>
+	* evolution-storage-set-view-listener.c: Replace <gnome.h> and <bonobo.h>
+	* evolution-storage-set-view.c: Remove <gnome.h>
+	* evolution-storage.c: Replace <bonobo.h>
+	* main.c: Replace <gnome.h> and <bonobo.h>
+	* importer/importer.c: Replace <gnome.h>
+	* importer/intelligent.c: Replace <gnome.h>. Add prototype for
+	intelligent_importer_init().
+	* importer/intelligent.h: Added this file.
+	
 2001-03-28  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-storage-set-view.c (folder_sort_callback): Use

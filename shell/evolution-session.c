@@ -25,11 +25,10 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
+#include <gtk/gtksignal.h>
+#include <gal/util/e-util.h>
 
 #include "Evolution.h"
-
-#include <gal/util/e-util.h>
 
 #include "evolution-session.h"
 
