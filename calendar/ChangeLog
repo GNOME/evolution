@@ -1,5 +1,5 @@
 2002-10-24  JP Rosevear  <jpr@ximian.com>
-
+	
 	* gui/e-itip-control.c (init): initialize new values
 	(clean_up): free new values
 	(find_my_address): if we have a delegator address, use it instead
@@ -57,6 +57,8 @@
 	(calendar_model_init): pre load config database info so we don't
 	do corba calls during draws
 
+	Fixes #32276
+	
 2002-10-17  JP Rosevear  <jpr@ximian.com>
 
 	* gui/gnome-cal.c (gnome_calendar_construct): fix c/p type
@@ -92,6 +94,8 @@
 	(set_view): don't update the info again based on our view change
 	call
 
+	Fixes #16036
+	
 2002-10-08  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #11434
@@ -115,6 +119,8 @@
 	(cal_prefs_dialog_create_time_edit): set the 24 hour format
 	initially
 
+	Fixes #31812
+	
 2002-10-08  JP Rosevear  <jpr@ximian.com>
 	
 	* gui/e-week-view.c: remove pilot settings from contextual menu
