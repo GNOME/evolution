@@ -752,3 +752,26 @@ e_book_query_address_default (const gchar *email,
 
 	e_book_use_default_book (have_address_book_open_cb, info);
 }
+
+/* bad place for this i know. */
+int
+e_utf8_casefold_collate_len (const gchar *str1, const gchar *str2, int len)
+{
+	gchar *s1 = g_utf8_casefold(str1, len);
+	gchar *s2 = g_utf8_casefold(str2, len);
+	int rv;
+
+	rv = g_utf8_collate (s1, s2);
+
+	g_free (s1);
+	g_free (s2);
+
+	return rv;
+}
+
+int
+e_utf8_casefold_collate (const gchar *str1, const gchar *str2)
+{
+	return e_utf8_casefold_collate_len (str1, str2, -1);
+}
+

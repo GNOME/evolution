@@ -85,6 +85,9 @@ void                   e_book_query_address_default     (const gchar            
 							 EBookHaveAddressCallback  cb,
 							 gpointer                  closure);
 
+int                    e_utf8_casefold_collate_len (const gchar *str1, const gchar *str2, int len);
+int                    e_utf8_casefold_collate (const gchar *str1, const gchar *str2);
+
 G_END_DECLS
 
 #endif /* __E_BOOK_UTIL_H__ */

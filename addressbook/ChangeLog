@@ -1,3 +1,11 @@
+2002-11-07  Chris Toshok  <toshok@ximian.com>
+
+	* backend/ebook/e-book-util.h: add prototypes for e_utf8_casefold_collate{_len}
+
+	* backend/ebook/e-book-util.c (e_utf8_casefold_collate_len): move
+	utf8_casefold_collate_len here.
+	(e_utf8_casefold_collate): move utf8_casefold_collate here.
+
 2002-11-06  Chris Toshok  <toshok@ximian.com>
 
 	* printing/e-contact-print-envelope.c: port this to
