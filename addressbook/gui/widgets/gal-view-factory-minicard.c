@@ -7,16 +7,17 @@
  *
  * (C) 2000, 2001 Ximian, Inc.
  */
+
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <glib.h>
 #include <libgnome/gnome-i18n.h>
 #include "gal-view-factory-minicard.h"
 #include "gal-view-minicard.h"
-#include "gal/util/e-util.h"
 
-#define PARENT_TYPE GAL_VIEW_FACTORY_TYPE
-
-static GalViewFactoryClass *gal_view_factory_minicard_parent_class;
+G_DEFINE_TYPE (GalViewFactoryMinicard, gal_view_factory_minicard, GAL_VIEW_FACTORY_TYPE)
 
 static const char *
 gal_view_factory_minicard_get_title       (GalViewFactory *factory)
@@ -38,10 +39,9 @@ gal_view_factory_minicard_get_type_code (GalViewFactory *factory)
 }
 
 static void
-gal_view_factory_minicard_class_init      (GObjectClass *object_class)
+gal_view_factory_minicard_class_init      (GalViewFactoryMinicardClass *minicard_class)
 {
-	GalViewFactoryClass *view_factory_class = GAL_VIEW_FACTORY_CLASS(object_class);
-	gal_view_factory_minicard_parent_class    = g_type_class_ref (PARENT_TYPE);
+	GalViewFactoryClass *view_factory_class = GAL_VIEW_FACTORY_CLASS(minicard_class);
 
 	view_factory_class->get_title           = gal_view_factory_minicard_get_title;
 	view_factory_class->new_view            = gal_view_factory_minicard_new_view;
@@ -82,4 +82,4 @@ gal_view_factory_minicard_construct  (GalViewFactoryMinicard *factory)
 	return GAL_VIEW_FACTORY(factory);
 }
 
-E_MAKE_TYPE(gal_view_factory_minicard, "GalViewFactoryMinicard", GalViewFactoryMinicard, gal_view_factory_minicard_class_init, gal_view_factory_minicard_init, PARENT_TYPE)
+

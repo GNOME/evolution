@@ -8,16 +8,17 @@
  *
  * (C) 2000, 2001 Ximian, Inc.
  */
+
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <glib.h>
 #include <libgnome/gnome-i18n.h>
-#include <gal/util/e-util.h>
 #include "gal-view-factory-treeview.h"
 #include "gal-view-treeview.h"
 
-#define PARENT_TYPE GAL_VIEW_FACTORY_TYPE
-
-static GalViewFactoryClass *gal_view_factory_treeview_parent_class;
+G_DEFINE_TYPE(GalViewFactoryTreeView, gal_view_factory_treeview, GAL_VIEW_FACTORY_TYPE)
 
 static const char *
 gal_view_factory_treeview_get_title       (GalViewFactory *factory)
@@ -39,10 +40,9 @@ gal_view_factory_treeview_get_type_code (GalViewFactory *factory)
 }
 
 static void
-gal_view_factory_treeview_class_init      (GObjectClass *object_class)
+gal_view_factory_treeview_class_init      (GalViewFactoryTreeViewClass *treeview_class)
 {
-	GalViewFactoryClass *view_factory_class = GAL_VIEW_FACTORY_CLASS(object_class);
-	gal_view_factory_treeview_parent_class    = g_type_class_ref (PARENT_TYPE);
+	GalViewFactoryClass *view_factory_class = GAL_VIEW_FACTORY_CLASS(treeview_class);
 
 	view_factory_class->get_title           = gal_view_factory_treeview_get_title;
 	view_factory_class->new_view            = gal_view_factory_treeview_new_view;
@@ -82,5 +82,3 @@ gal_view_factory_treeview_construct  (GalViewFactoryTreeView *factory)
 {
 	return GAL_VIEW_FACTORY(factory);
 }
-
-E_MAKE_TYPE(gal_view_factory_treeview, "GalViewFactoryTreeView", GalViewFactoryTreeView, gal_view_factory_treeview_class_init, gal_view_factory_treeview_init, PARENT_TYPE)

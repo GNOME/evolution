@@ -19,13 +19,14 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include <gtk/gtkbox.h>
 #include <gtk/gtkentry.h>
 #include <gtk/gtkstock.h>
 #include <libgnome/gnome-i18n.h>
-#include "gal/util/e-util.h"
 
 #include "e-addressbook-search-dialog.h"
 
@@ -34,16 +35,7 @@ static void eab_search_dialog_init             (EABSearchDialog          *widget
 static void eab_search_dialog_class_init       (EABSearchDialogClass     *klass);
 static void eab_search_dialog_dispose          (GObject *object);
 
-static GtkDialog *parent_class = NULL;
-
-#define PARENT_TYPE GTK_TYPE_DIALOG
-
-E_MAKE_TYPE (eab_search_dialog,
-	     "EABSearchDialog",
-	     EABSearchDialog,
-	     eab_search_dialog_class_init,
-	     eab_search_dialog_init,
-	     PARENT_TYPE)
+G_DEFINE_TYPE (EABSearchDialog, eab_search_dialog, GTK_TYPE_DIALOG)
 
 enum
 {
@@ -112,8 +104,6 @@ eab_search_dialog_class_init (EABSearchDialogClass *klass)
 	GObjectClass *object_class;
 
 	object_class = (GObjectClass*) klass;
-
-	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	object_class->set_property = eab_search_dialog_set_property;
 	object_class->get_property = eab_search_dialog_get_property;
@@ -196,5 +186,5 @@ eab_search_dialog_dispose (GObject *object)
 
 	view = EAB_SEARCH_DIALOG (object);
 
-	G_OBJECT_CLASS(parent_class)->dispose (object);
+	G_OBJECT_CLASS(eab_search_dialog_parent_class)->dispose (object);
 }
