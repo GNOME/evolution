@@ -11330,7 +11330,7 @@ msgid "You must name this vfolder."
 msgstr "Укажите название этой виртуальной папки."
 
 #: filter/vfolder-rule.c:215
-msgid "You need to to specify at least one folder as a source."
+msgid "You need to specify at least one folder as a source."
 msgstr "Укажите хотя бы одну папку в качестве источника."
 
 #: importers/elm-importer.c:95
@@ -21926,7 +21926,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2113
 msgid "Somerset"
-msgstr ""
+msgstr "Сомерсет"
 
 #: my-evolution/Locations.h:2114
 msgid "Sonderborg"
@@ -25000,9 +25000,8 @@ msgid "Inbox"
 msgstr "Входящие"
 
 #: shell/e-local-storage.c:180
-#, fuzzy
 msgid "Outbox"
-msgstr "mbox"
+msgstr "Исходящие"
 
 #: shell/e-local-storage.c:181
 msgid "Sent"
@@ -25067,6 +25066,9 @@ msgid ""
 "does not have the right permissions. Please make it\n"
 "readable and executable and restart Evolution."
 msgstr ""
+"Каталог %s\n"
+"имеет неверный режим доступа. Пожалуйста, сделайте его\n"
+"читаемым и исполняемым и запустите Evolution снова."
 
 #: shell/e-setup.c:306
 #, c-format
@@ -26151,9 +26153,8 @@ msgstr "Не указано имя файла."
 #. * POTFILES.in. DO NOT compile it as part of your application.
 #.
 #: ui/evolution-addressbook.h:9
-#, fuzzy
 msgid "_Print Contacts..."
-msgstr "Контакты..."
+msgstr "Напечатать Контакты..."
 
 #: ui/evolution-addressbook.h:10
 msgid "As _Table"
@@ -28038,13 +28039,11 @@ msgstr "Скопировать выбранные сообщения"
 msgid "Cut selected messages"
 msgstr "Вырезать выбранные сообщения"
 
-#, fuzzy
 msgid "&lt;- _Remove"
-msgstr "<- Удалить"
+msgstr "&lt;- Удалить"
 
-#, fuzzy
 msgid "_Add -&gt;"
-msgstr "Добавить ->"
+msgstr "Добавить -&gt;"
 
 msgid "Scanning for new messages"
 msgstr "Поиск новых сообщений"
@@ -28082,9 +28081,8 @@ msgstr ""
 msgid "Evolution Importer Assistant"
 msgstr "Помощник по импортированию Evolution"
 
-#, fuzzy
 msgid "_Preferences..."
-msgstr "Настройки шрифтов"
+msgstr "Настройки..."
 
 msgid "Error in search expression."
 msgstr "Ошибка в выражении."
@@ -28105,17 +28103,15 @@ msgstr "Не удалось создать сервис уведомления о сигнале"
 msgid "Free/Busy info begins: <b>"
 msgstr "Информация о занятости (с %s до %s)"
 
-#, fuzzy
 msgid "Meeting ends: <b>"
-msgstr "Время завершения собрания:"
+msgstr "Время завершения собрания: <b>"
 
 #, fuzzy
 msgid "Free/Busy info ends: <b>"
 msgstr "Информация о занятости (с %s до %s)"
 
-#, fuzzy
 msgid "Task Completed: <b>"
-msgstr " (Выполнено "
+msgstr " Задание выполнено: <b> "
 
 msgid "Non-Participants"
 msgstr "Не участвуют"
@@ -28138,9 +28134,8 @@ msgstr "Обновить список"
 msgid "Show _folders from server: "
 msgstr "Показать папки с сервера: "
 
-#, fuzzy
 msgid "_Server:"
-msgstr "Название сервера:"
+msgstr "Сервер:"
 
 msgid ""
 "Evolution is unable to get the addressbook local storage.\n"
@@ -28716,31 +28711,31 @@ msgid "This is the port that your ldap server uses."
 msgstr "Это номер порта, который использует Ваш сервер LDAP."
 
 msgid "label19"
-msgstr "метка"
+msgstr "метка19"
 
 msgid "label20"
-msgstr "метка"
+msgstr "метка20"
 
 msgid "label47"
-msgstr "метка"
+msgstr "метка47"
 
 msgid "label50"
-msgstr "метка"
+msgstr "метка50"
 
 msgid "label52"
-msgstr "метка"
+msgstr "метка52"
 
 msgid "label53"
-msgstr "метка"
+msgstr "метка53"
 
 msgid "label56"
-msgstr "метка"
+msgstr "метка56"
 
 msgid "label58"
-msgstr "метка"
+msgstr "метка58"
 
 msgid "label60"
-msgstr "метка"
+msgstr "метка60"
 
 msgid "Name contains"
 msgstr "Имя содержит"
@@ -28752,13 +28747,13 @@ msgid "Show contacts matching the following criteria:"
 msgstr "Показать контакты, удовлетворяющие следующим критериям:"
 
 msgid "label26"
-msgstr "метка"
+msgstr "метка26"
 
 msgid "New _Task"
 msgstr "Новую задачу"
 
 msgid "label55"
-msgstr "метка"
+msgstr "метка55"
 
 msgid "Create new appointments with a default _reminder"
 msgstr "Создавать новую встречу с напоминанием по умолчанию"
@@ -28770,7 +28765,7 @@ msgid "_Other"
 msgstr "Другие"
 
 msgid "label21"
-msgstr "метка"
+msgstr "метка21"
 
 msgid "_Delete this Task"
 msgstr "Удалить эту задачу"
