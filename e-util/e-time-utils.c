@@ -65,7 +65,7 @@ e_time_parse_date_and_time		(const char	*value,
 	struct tm *today_tm;
 	time_t t;
 	const char *pos, *parse_end;
-	char *format[4];
+	char *format[5];
 	gboolean parsed_date = FALSE, parsed_time = FALSE;
 	gint i;
 
@@ -104,8 +104,11 @@ e_time_parse_date_and_time		(const char	*value,
 	/* strptime format for time of day, without seconds, 12-hour format. */
 	format[2] = _("%I:%M %p");
 
+	/* strptime format for hour and AM/PM */
+	format[3] = _("%I %p");
+
 	/* strptime format for time of day, without seconds 24-hour format. */
-	format[3] = _("%H:%M");
+	format[4] = _("%H:%M");
 
 	for (i = 0; i < sizeof (format) / sizeof (format[0]); i++) {
 		memset (&time_tm, 0, sizeof (time_tm));
@@ -267,7 +270,7 @@ e_time_parse_date (const char *value, struct tm *result)
 ETimeParseStatus
 e_time_parse_time (const char *value, struct tm *result)
 {
-	const char *format[4];
+	const char *format[5];
 
 	/* strptime format for a time of day, in 12-hour format.
 	   If it is not appropriate in the locale set to an empty string. */
@@ -280,8 +283,11 @@ e_time_parse_time (const char *value, struct tm *result)
 	   If it is is not appropriate in the locale set to an empty string. */
 	format[2] = _("%I:%M %p");
 
+	/* strptime format for hour and AM/PM */
+	format[3] = _("%I %p");
+
 	/* strptime format for time of day, without seconds 24-hour format. */
-	format[3] = _("%H:%M");
+	format[4] = _("%H:%M");
 
 	return parse_with_strptime (value, result, format, sizeof (format) / sizeof (format[0]));
 }

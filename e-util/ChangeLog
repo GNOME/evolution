@@ -1,3 +1,9 @@
+2001-08-31  Federico Mena Quintero  <federico@ximian.com>
+
+	* e-time-utils.c (e_time_parse_date_and_time): Added format for 
+	"7 PM" and equivalents.  Fixes bug #7456.
+	(e_time_parse_time): Likewise.
+
 2001-08-28  Not Zed  <NotZed@Ximian.com>
 
 	* e-categories-master-list-wombat.c (ecmlw_load): Dont call
