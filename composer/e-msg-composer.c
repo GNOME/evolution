@@ -158,7 +158,7 @@ best_content (gchar *plain)
 	const char *best;
 
 	if ((best = camel_charset_best (plain, strlen (plain)))) {
-		result = g_strdup_printf ("text/plain ; charset=%s", best);
+		result = g_strdup_printf ("text/plain; charset=%s", best);
 	} else {
 		result = g_strdup ("text/plain");
 	}
@@ -240,7 +240,7 @@ build_message (EMsgComposer *composer)
 	CamelMultipart *body = NULL;
 	CamelMimePart *part;
 	gchar *from = NULL;
-	gboolean e8bit;
+	gboolean plain_e8bit = FALSE, html_e8bit = FALSE;
 	char *html = NULL, *plain = NULL;
 	char *content_type = NULL;
 	int i;
@@ -284,14 +284,15 @@ build_message (EMsgComposer *composer)
 	if (plain == NULL)
 		return NULL;
 
-	e8bit = is_8bit (plain);
+	plain_e8bit = is_8bit (plain);
 	content_type = best_content (plain);
 
 	if (type != MSG_FORMAT_PLAIN) {
 		e_msg_composer_clear_inlined_table (composer);
 		html = get_text (composer->persist_stream_interface, "text/html");
 		
-		/* the component has probably died */ 
+		html_e8bit = is_8bit (html);
+		/* the component has probably died */
 		if (html == NULL) {
 			g_free (plain);
 			g_free (content_type);
@@ -309,7 +310,7 @@ build_message (EMsgComposer *composer)
 
 		camel_mime_part_set_content (part, plain, strlen (plain), content_type);
 
-		if (e8bit)
+		if (plain_e8bit)
 			camel_mime_part_set_encoding (part, best_encoding (plain));		
 
 		g_free (plain);
@@ -328,15 +329,23 @@ build_message (EMsgComposer *composer)
 			camel_multipart_set_boundary (html_with_images, NULL);
 
 			text_html = camel_mime_part_new ();
-			camel_mime_part_set_content (text_html, html, strlen (html), "text/html");
+			camel_mime_part_set_content (text_html, html, strlen (html), "text/html; charset=utf-8");
+
+			if (html_e8bit)
+				camel_mime_part_set_encoding (text_html, best_encoding (html));		
+
 			camel_multipart_add_part (html_with_images, text_html);
 			camel_object_unref (CAMEL_OBJECT (text_html));
 
 			add_inlined_images (composer, html_with_images);
 			camel_medium_set_content_object (CAMEL_MEDIUM (part),
 							 CAMEL_DATA_WRAPPER (html_with_images));
-		} else
-			camel_mime_part_set_content (part, html, strlen (html), "text/html");
+		} else {
+			camel_mime_part_set_content (part, html, strlen (html), "text/html; charset=utf-8");
+			
+			if (html_e8bit)
+				camel_mime_part_set_encoding (part, best_encoding (html));		
+		}
 
 		g_free (html);
 		camel_multipart_add_part (body, part);
@@ -359,7 +368,7 @@ build_message (EMsgComposer *composer)
 		case MSG_FORMAT_PLAIN:
 			camel_mime_part_set_content (part, plain, strlen (plain), best_content (plain));
 
-			if (e8bit)
+			if (plain_e8bit)
 				camel_mime_part_set_encoding (part, best_encoding (plain));
 
 			g_free (plain);
@@ -383,7 +392,7 @@ build_message (EMsgComposer *composer)
 		case MSG_FORMAT_PLAIN:
 			camel_mime_part_set_content (CAMEL_MIME_PART (new), plain, strlen (plain), best_content (plain));
 
-			if (e8bit)
+			if (plain_e8bit)
 				camel_mime_part_set_encoding (CAMEL_MIME_PART (new), best_encoding (plain));
 
 			g_free (plain);

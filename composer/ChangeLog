@@ -1,3 +1,10 @@
+2000-11-10  Larry Ewing  <lewing@helixcode.com>
+
+	* e-msg-composer.c (build_message): set the HTML charset to utf-8
+	for all the html message parts.
+	(build_message): make sure we set the proper encoding on the html
+	part now that it may contain utf-8 characters
+
 2000-11-08  Radek Doulik  <rodo@helixcode.com>
 
 	* e-msg-composer.c (e_msg_composer_clear_inlined_table): new
