@@ -45,7 +45,7 @@ icaltime_from_timet(time_t tm, int is_date, int is_utc)
     }
 #endif
 
-    t = *(localtime(&tm));
+    t = *(gmtime(&tm));
 
     tt.second = t.tm_sec;
     tt.minute = t.tm_min;
@@ -80,10 +80,9 @@ time_t icaltime_as_timet(struct icaltimetype tt)
     stm.tm_isdst = -1; /* prevents mktime from changing hour based on
 			  daylight savings */
 
-    if(tt.is_utc == 0){
+    if(tt.is_utc)
 	stm.tm_sec -= icaltime_local_utc_offset();
-    }
-    
+
     tut = mktime(&stm);
 
     return tut;

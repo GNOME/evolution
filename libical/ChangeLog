@@ -1,5 +1,13 @@
 2000-12-13  Federico Mena Quintero  <federico@helixcode.com>
 
+	* src/libical/icaltime.c (icaltime_from_timet): Use gmtime()
+	unconditionally, since we want an UTC broken-down representation.
+	(icaltime_as_timet): Add the offset only if the time was supposed
+	to be in UTC; that way mktime() will get a proper localtime as
+	source data.
+
+2000-12-13  Federico Mena Quintero  <federico@helixcode.com>
+
 	* src/libical/icaltime.c (icaltime_from_timet): time_t values
 	*are* in UTC by definition, so the is_utc argument is useless.
 	Removed the conversion to UTC and made the icaltimetype.is_utc be
