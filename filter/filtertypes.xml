@@ -481,6 +481,9 @@
    <option value="Seen">
     <title>Read</title>
    </option>
+   <option value="Junk">
+    <title>Junk</title>
+   </option>
   </input>
  </part>
 
@@ -613,6 +616,24 @@
   <input type="integer" name="retval"/>
  </part>
 
+ <part name="pipe">
+  <title>Junk Test</title>
+  <input type="optionlist" name="retval-type">
+   <option value="is-junk">
+    <title>Message is Junk</title>
+    <code>
+      (match-all (junk-test))
+    </code>
+   </option>
+   <option value="is-not-junk">
+    <title>Message is not Junk</title>
+    <code>
+      (match-all (not (junk-test)))
+    </code>
+   </option>
+  </input>
+ </part>
+
 </partset>
 
 
@@ -671,8 +692,8 @@
    <option value="Seen">
     <title>Read</title>
    </option>
-   <option value="Spam">
-    <title>Spam</title>
+   <option value="Junk">
+    <title>Junk</title>
    </option>
   </input>
  </part>
@@ -697,8 +718,8 @@
    <option value="Seen">
     <title>Read</title>
    </option>
-   <option value="Spam">
-    <title>Spam</title>
+   <option value="Junk">
+    <title>Junk</title>
    </option>
   </input>
  </part>
