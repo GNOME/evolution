@@ -1,3 +1,16 @@
+2005-01-19  Harry Lu  <harry.lu@sun.com>
+
+	Fix for 46359, enable "Alt+Down Arrow" to show the popup for
+	e-combo-cell-editable.c.
+
+	* e-combo-cell-editable.c: (show_popup): rewrite it to a more
+	generic function.
+	(button_clicked_cb): call the new show_popup function.
+	(entry_key_press_event_cb): show popup if "Alt+Down Arrow".
+	(ecce_grab_focus): new function.
+	(ecce_class_init): add grab_focus handler so that the entry
+	can get focus.
+
 2005-01-17  Harry Lu  <harry.lu@sun.com>
 
 	Fix for 62831.

@@ -225,9 +225,11 @@ position_popup (EComboCellEditable *ecce, gint x, gint y, gint offset)
 }
 
 static void
-show_popup (EComboCellEditable *ecce, gint x, gint y, gint offset)
+show_popup (EComboCellEditable *ecce)
 {
 	gint row;
+	GtkAllocation  alloc;
+	gint x, y;
 
 	if (!ecce->priv->list)
 		return;
@@ -236,7 +238,11 @@ show_popup (EComboCellEditable *ecce, gint x, gint y, gint offset)
 	row = lookup_row (ecce->priv->list, e_combo_cell_editable_get_text (ecce));
 	set_cursor (ecce->priv->tree_view, row);
 
-	position_popup (ecce, x, y, offset);
+	gtk_editable_select_region (GTK_EDITABLE (ecce->priv->entry), 0, 0);
+	gdk_window_get_origin (GTK_WIDGET (ecce)->window, &x, &y);
+	alloc = GTK_WIDGET (ecce)->allocation;
+
+	position_popup (ecce, x, y + alloc.height, alloc.height);
 
 	gtk_grab_add (GTK_WIDGET (ecce->priv->popup));
 	gtk_widget_grab_focus (GTK_WIDGET (ecce->priv->tree_view));
@@ -246,21 +252,12 @@ show_popup (EComboCellEditable *ecce, gint x, gint y, gint offset)
 static void
 button_clicked_cb (GtkButton *btn, EComboCellEditable *ecce)
 {
-	GtkAllocation  alloc;
-	gint x, y;
-	
 	if (ecce->priv->popup) {
 		kill_popup (ecce);
 		return;
 	}
-	
-	gtk_editable_select_region (GTK_EDITABLE (ecce->priv->entry), 0, 0);
 
-	gdk_window_get_origin (GTK_WIDGET (ecce)->window, &x, &y);
-	
-	alloc = GTK_WIDGET (ecce)->allocation;
-
-	show_popup (ecce, x, y + alloc.height, alloc.height);
+	show_popup (ecce);
 }
 
 static void
@@ -277,6 +274,14 @@ entry_key_press_event_cb (GtkEntry *entry, GdkEventKey *key_event, EComboCellEdi
 		ecce->priv->cancelled = TRUE;
 		gtk_cell_editable_editing_done (GTK_CELL_EDITABLE (ecce));
 		gtk_cell_editable_remove_widget (GTK_CELL_EDITABLE (ecce));
+		return TRUE;
+	}
+
+	if (key_event->state & GDK_MOD1_MASK
+		&& key_event->keyval == GDK_Down) {
+		if (!ecce->priv->popup)
+			show_popup (ecce);
+
 		return TRUE;
 	}
 
@@ -336,9 +341,21 @@ ecce_init (EComboCellEditable *ecce)
 }
 
 static void
+ecce_grab_focus (GtkWidget *widget)
+{
+	EComboCellEditable *ecce = E_COMBO_CELL_EDITABLE (widget);
+
+	gtk_widget_grab_focus (GTK_WIDGET (ecce->priv->entry));
+}
+
+static void
 ecce_class_init (GObjectClass *klass)
 {
+	GtkWidgetClass *widget_class = (GtkWidgetClass *)klass;
+
 	klass->finalize = ecce_finalize;
+	
+	widget_class->grab_focus = ecce_grab_focus;
 	
 	parent_class = GTK_EVENT_BOX_CLASS (g_type_class_peek_parent (klass));
 }
