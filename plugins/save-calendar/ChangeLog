@@ -1,3 +1,12 @@
+2004-12-20  Philip Van Hoof  <pvanhoof@gnome.org>
+
+	* Makefile.am: Code splitup, each format has it's own c-file
+	* csv-format.c: Added. Code splitup
+	* format-handler.h: Added. Code splitup
+	* ical-format.c: Added. Code splitup
+	* rdf-format.c: Added. Support for RDF files. Code splitup
+ 	* save-calendar.c: Support for RDF files. Code splitup
+
 2004-11-30  Philip Van Hoof  <pvanhoof@gnome.org>
 
 	* save-calendar.c: Support for CSV files
