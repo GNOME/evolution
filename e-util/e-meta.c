@@ -107,10 +107,14 @@ static int meta_load(EMeta *em)
 {
 	struct _EMetaPrivate *p = em->priv;
 	struct _meta_data *tail, *md;
-	xmlDocPtr doc;
+	xmlDocPtr doc = NULL;
 	xmlNodePtr root, work;
 	char *name, *val;
-
+	struct stat st;
+	
+	if (stat (p->path, &st) == -1 || !S_ISREG (st.st_mode))
+		return -1;
+	
 	doc = xmlParseFile(p->path);
 	if (doc == NULL)
 		return -1;
