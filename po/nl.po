@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution 1\n"
 "POT-Creation-Date: 2002-01-23 07:24-0500\n"
-"PO-Revision-Date: 2002-01-25 12:27+0100\n"
+"PO-Revision-Date: 2002-01-25 22:28+0100\n"
 "Last-Translator: Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1748,29 +1748,21 @@ msgid "Error modifying list"
 msgstr "Fout bij aanpassen ljist"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:95
-#, fuzzy
 msgid "Error removing list"
-msgstr ""
-"Fout bij lezen gegevens:\n"
-"%s"
+msgstr "Fout bij verwijderen lijst"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:95
 #: addressbook/gui/widgets/e-addressbook-view.c:1389
-#, fuzzy
 msgid "Error removing card"
-msgstr ""
-"Fout bij lezen gegevens:\n"
-"%s"
+msgstr "Fout bij verwijderen kaart"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:202
-#, fuzzy
 msgid "Display Cards?"
-msgstr "Weergave"
+msgstr "Kaarten weergeven?"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:203
-#, fuzzy
 msgid "Display Cards"
-msgstr "Weergave"
+msgstr "Kaarten weergeven"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:207
 #, c-format
@@ -1891,20 +1883,17 @@ msgstr "Kaartweergave"
 
 #: addressbook/printing/e-contact-print-envelope.c:215
 #: addressbook/printing/e-contact-print-envelope.c:236
-#, fuzzy
 msgid "Print envelope"
-msgstr "Envelop Afdrukken..."
+msgstr "Envelop Afdrukken"
 
 #: addressbook/printing/e-contact-print.c:1115
-#, fuzzy
 msgid "Print cards"
-msgstr "Druk Kalender af"
+msgstr "Kaarten afdrukken"
 
 #: addressbook/printing/e-contact-print.c:1175
 #: addressbook/printing/e-contact-print.c:1197
-#, fuzzy
 msgid "Print card"
-msgstr "Druk Kalender af"
+msgstr "Kaart afdrukken"
 
 #: addressbook/printing/e-contact-print.glade.h:1
 msgid "10 pt. Tahoma"
@@ -1931,9 +1920,8 @@ msgid "Dimensions:"
 msgstr "Afmetingen:"
 
 #: addressbook/printing/e-contact-print.glade.h:7
-#, fuzzy
 msgid "F_ont..."
-msgstr "Lettertype..."
+msgstr "Le_ttertype..."
 
 #: addressbook/printing/e-contact-print.glade.h:8
 msgid "Fonts"
@@ -2073,14 +2061,12 @@ msgid "Width:"
 msgstr "Breedte:"
 
 #: addressbook/printing/e-contact-print.glade.h:42
-#, fuzzy
 msgid "_Font..."
-msgstr "Lettertype..."
+msgstr "_Lettertype..."
 
 #: calendar/cal-util/cal-component.c:1207
-#, fuzzy
 msgid "Untitled appointment"
-msgstr "Afspraak bewerken"
+msgstr "Afspraak zonder titel"
 
 #: calendar/cal-util/cal-util.c:498
 #: calendar/cal-util/cal-util.c:520
@@ -2130,9 +2116,8 @@ msgid "Could not read pilot's ToDo application block"
 msgstr "Kon actielijstgegevens niet uit de pilot lezen"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:1
-#, fuzzy
 msgid "A Bonobo control which displays a task list."
-msgstr "Een voorbeeld Bonobo-control dat een kalender toont."
+msgstr "Een Bonobo-control die een takenlijst toont."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:2
 msgid "A sample Bonobo control which displays an calendar."
@@ -2155,9 +2140,8 @@ msgid "Factory for the Calendar Summary component."
 msgstr "Fabriek voor het Kalender Samenvattings component."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:7
-#, fuzzy
 msgid "Factory for the Evolution Tasks control"
-msgstr "Fabriek voor het Evolution post component."
+msgstr "Fabriek voor de Evolution takencomponent"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:8
 msgid "Factory for the calendar iTip view control"
@@ -2168,14 +2152,13 @@ msgid "Factory for the sample Calendar control"
 msgstr "Fabriek voor het voorbeeld Kalender control"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:10
-#, fuzzy
 msgid "Factory to centralize calendar component editor dialogs"
-msgstr "Fabriek voor het Evolution kalender component."
+msgstr ""
+"Fabriek voor het centraliseren van kalendercomponent bewerkingsdialoogvenster"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:11
-#, fuzzy
 msgid "Factory to create a component editor factory"
-msgstr "Fabriek voor het Evolution kalender component."
+msgstr "Fabriek om een componentbewerkingsfabriek te creëren."
 
 #: calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.oaf.in.h:1
 msgid "Alarm notification service"
@@ -2186,9 +2169,8 @@ msgid "Factory for the alarm notification service"
 msgstr "Fabriek voor de alarmmeldings-dienst"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:216
-#, fuzzy
 msgid "Starting:"
-msgstr "Instellingen:"
+msgstr "Bezig met starten:"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:218
 msgid "Ending:"
@@ -2199,14 +2181,13 @@ msgid "invalid time"
 msgstr "ongeldige tijd"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:276
-#, fuzzy
 msgid "Evolution Alarm"
-msgstr "Evolution FAQ"
+msgstr "Evolution alarm"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:371
-#, fuzzy, c-format
+#, c-format
 msgid "Alarm on %s"
-msgstr "Alarmen"
+msgstr "Alarm op %s"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:1
 #: ui/evolution-comp-editor.xml.h:1
@@ -2214,23 +2195,20 @@ msgid "C_lose"
 msgstr "Sluiten"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:2
-#, fuzzy
 msgid "Snoo_ze"
-msgstr "Sluimeren"
+msgstr "S_luimeren"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:3
 msgid "Snooze time (minutes)"
 msgstr "Sluimertijd (minuten)"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:4
-#, fuzzy
 msgid "_Edit appointment"
-msgstr "Afspraak bewerken"
+msgstr "_Afspraak bewerken"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:675
-#, fuzzy
 msgid "No description available."
-msgstr "Geen samenvatting beschikbaar."
+msgstr "Geen beschrijving beschikbaar."
 
 #: calendar/gui/alarm-notify/alarm-queue.c:735
 msgid ""
@@ -2269,9 +2247,8 @@ msgstr ""
 "Weet u zeker dat dit programma gestart moet worden?"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:772
-#, fuzzy
 msgid "Do not ask me about this program again."
-msgstr "Dit bericht niet meer weergeven."
+msgstr "Dit bericht niet meer weergeven voor dit programma."
 
 #: calendar/gui/alarm-notify/notify-main.c:166
 #: calendar/gui/main.c:57
@@ -4878,7 +4855,7 @@ msgstr "C_ontacten...."
 
 #: calendar/gui/print.c:2386
 msgid "Print Calendar"
-msgstr "Druk Kalender af"
+msgstr "Kalender afdrukken"
 
 #: calendar/gui/print.c:2477
 #: calendar/gui/print.c:2569
