@@ -931,6 +931,10 @@ e_shell_view_construct (EShellView *shell_view,
 
 	setup_widgets (shell_view);
 
+	bonobo_ui_engine_config_set_path (
+		bonobo_window_get_ui_engine (BONOBO_WINDOW (shell_view)),
+		"/evolution/UIConf/kvps");
+
 	e_shell_view_menu_setup (shell_view);
 
 	e_shell_view_set_folder_bar_mode (shell_view, E_SHELL_VIEW_SUBWINDOW_HIDDEN);

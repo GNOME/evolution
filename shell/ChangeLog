@@ -1,3 +1,8 @@
+2001-01-16  Michael Meeks  <michael@helixcode.com>
+
+	* e-shell-view.c (e_shell_view_construct): set config
+	path on window.
+
 2001-01-16  JP Rosevear  <jpr@ximian.com>
 
 	* e-shell-folder-title-bar.c (e_shell_folder_title_bar_new): pop the
