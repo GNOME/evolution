@@ -411,6 +411,9 @@ impl_unsetOwner (PortableServer_Servant servant,
 	bonobo_object_unref (BONOBO_OBJECT (priv->owner_client));
 	priv->owner_client = NULL;
 
+	if (priv->ping_timeout_id != -1)
+		g_source_remove (priv->ping_timeout_id);
+
 	gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_UNSET]);
 }
 

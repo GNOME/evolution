@@ -1,5 +1,10 @@
 2001-10-22  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-shell-component.c (impl_unsetOwner): Remove the ping
+	timeout.
+
+2001-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell.c (impl_Shell_selectUserFolder): Don't die if the parent
 	window has no WMHints.
 
