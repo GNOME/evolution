@@ -1,3 +1,19 @@
+2001-06-13  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/task-details-page.c (task_details_page_set_dates):
+	set the completed time in the date editor if appropriate
+
+	* gui/dialogs/task-page.c (task_page_set_dates): if we are
+	updating, return
+	(complete_date_changed): don't returns if we are updating - the
+	guards are done in the calling function
+	(status_changed): indicate when we are updating and when we are
+	finished, round the completion time to the nearest minute
+	(percent_complete_changed): indicate when are updating and when we
+	are finished
+	(percent_complete_changed): notify of the date change after the
+	option menu is updated
+	
 2001-06-11  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-day-view.[ch]: added cut&paste support, by using a GtkInvisible

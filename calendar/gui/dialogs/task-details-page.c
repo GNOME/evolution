@@ -298,6 +298,9 @@ task_details_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 	priv = tdpage->priv;
 
 	comp_editor_date_label (dates, priv->date_time);
+	if (dates->complete != 0)
+	        e_date_edit_set_time (E_DATE_EDIT (priv->completed_date),
+				      dates->complete);
 }
 
 

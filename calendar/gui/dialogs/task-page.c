@@ -36,6 +36,7 @@
 #include <gal/widgets/e-categories.h>
 #include <widgets/misc/e-dateedit.h>
 #include "e-util/e-dialog-widgets.h"
+#include "comp-editor-util.h"
 #include "task-page.h"
 
 
@@ -569,6 +570,9 @@ task_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 	tpage = TASK_PAGE (page);
 	priv = tpage->priv;
 
+	if (priv->updating)
+	        return;
+
 	priv->updating = TRUE;
 	
 	if (dates->complete != 0) {
@@ -753,9 +757,6 @@ complete_date_changed (TaskPage *tpage, time_t complete)
 
 	priv = tpage->priv;
 
-	if (priv->updating)
-		return;
-
 	dates.start = 0;
 	dates.end = 0;
 	dates.due = 0;	
@@ -777,6 +778,8 @@ status_changed (GtkMenu	*menu, TaskPage *tpage)
 	if (priv->updating)
 		return;
 
+	priv->updating = TRUE;
+
 	status = e_dialog_option_menu_get (priv->status, status_map);
 	if (status == ICAL_STATUS_NEEDSACTION) {
 		e_dialog_spin_set (priv->percent_complete, 0);
@@ -786,8 +789,10 @@ status_changed (GtkMenu	*menu, TaskPage *tpage)
 		complete_date_changed (tpage, -1);
 	} else if (status == ICAL_STATUS_COMPLETED) {
 		e_dialog_spin_set (priv->percent_complete, 100);
-		complete_date_changed (tpage, time (NULL));
+		complete_date_changed (tpage, time (NULL) - (time (NULL) % 60));
 	}
+
+	priv->updating = FALSE;
 
 	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (tpage));
 }
@@ -804,6 +809,8 @@ percent_complete_changed (GtkAdjustment	*adj, TaskPage *tpage)
 
 	if (priv->updating)
 		return;
+	
+	priv->updating = TRUE;
 
 	percent = e_dialog_spin_get_int (priv->percent_complete);
 	if (percent == 100) {
@@ -818,8 +825,10 @@ percent_complete_changed (GtkAdjustment	*adj, TaskPage *tpage)
 			status = ICAL_STATUS_INPROCESS;
 	}
 
-	complete_date_changed (tpage, date_completed);
 	e_dialog_option_menu_set (priv->status, status, status_map);
+	complete_date_changed (tpage, date_completed);
+
+	priv->updating = FALSE;
 
 	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (tpage));
 }
