@@ -1,3 +1,11 @@
+2004-02-26  Rodney Dawes  <dobey@ximian.com>
+
+	* em-format-html-display.c (efhd_attachment_button): Create the
+	arrows in these widgets as GTK_SHADOW_NONE, since the default arrow
+	type in GTK+ 2.x is flat triangle arrows, and shadow types are
+	generally ignored for arrows anyway, and so we don't look ugly with
+	themes that handle shadow types on arrows correctly
+
 2004-02-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fix for bug #54352
