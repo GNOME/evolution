@@ -354,6 +354,8 @@ emfq_format_headers (EMFormatQuote *emfq, CamelStream *stream, CamelMedium *part
 		emfq_format_header (emf, stream, part, h->name, h->flags, charset);
 		h = h->next;
 	}
+
+	camel_stream_printf(stream, "<br>\n");
 }
 
 static void

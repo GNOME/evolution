@@ -1,3 +1,10 @@
+2005-02-22  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #68866
+
+	* em-format-quote.c (emfq_format_headers): line-feed after all
+	headers for blind people.
+
 2005-02-21  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #35219
