@@ -1779,39 +1779,21 @@ update_item (EItipControl *itip)
 	icalcomponent_remove_component (priv->top_level, clone);
 }
 
-#if 0
 static void
 update_attendee_status (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
-	ECal *client;
-	ECalGetStatus status;
 	ECalComponent *comp = NULL;
 	icalcomponent *icalcomp = NULL;
-	ECalComponentVType type;
 	const char *uid;
 	GtkWidget *dialog;
-	ECalResult result;
-
+	GError *error;
+	
 	priv = itip->priv;
-
-	type = e_cal_component_get_vtype (priv->comp);
-	if (type == E_CAL_COMPONENT_TODO)
-		client = priv->task_client;
-	else
-		client = priv->event_client;
-
-	if (client == NULL) {
-		dialog = gnome_warning_dialog (_("Attendee status can not be updated "
-						 "because the item no longer exists"));
-		goto cleanup;
-	}
 	
 	/* Obtain our version */
 	e_cal_component_get_uid (priv->comp, &uid);
-	status = e_cal_get_object (client, uid, NULL, &icalcomp);
-
-	if (status == E_CAL_GET_SUCCESS) {
+	if (e_cal_get_object (priv->current_ecal, uid, NULL, &icalcomp, NULL)) {
 		GSList *attendees;
 
 		comp = e_cal_component_new ();
@@ -1853,25 +1835,11 @@ update_attendee_status (EItipControl *itip)
 			}
 		}
 
-		result = e_cal_update_object (client, comp);
-		switch (result) {
-		case E_CAL_RESULT_INVALID_OBJECT :
-			dialog = gnome_warning_dialog (_("Object is invalid and cannot be updated\n"));
-			break;
-		case E_CAL_RESULT_CORBA_ERROR :
-			dialog = gnome_warning_dialog (_("There was an error on the CORBA system\n"));
-			break;
-		case E_CAL_RESULT_NOT_FOUND :
-			dialog = gnome_warning_dialog (_("Object could not be found\n"));
-			break;
-		case E_CAL_RESULT_PERMISSION_DENIED :
-			dialog = gnome_warning_dialog (_("You don't have the right permissions to update the calendar\n"));
-			break;
-		case E_CAL_RESULT_SUCCESS :
+		if (!e_cal_modify_object (priv->current_ecal, icalcomp, CALOBJ_MOD_ALL, &error)) {
+			dialog = gnome_warning_dialog (error->message);
+			g_error_free (error);
+		} else {
 			dialog = gnome_ok_dialog (_("Attendee status updated\n"));
-			break;
-		default :
-			dialog = gnome_warning_dialog (_("Attendee status could not be updated!\n"));
 		}
 	} else {
 		dialog = gnome_warning_dialog (_("Attendee status can not be updated "
@@ -1883,7 +1851,6 @@ update_attendee_status (EItipControl *itip)
 		g_object_unref (comp);
 	gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 }
-#endif
 
 static void
 remove_item (EItipControl *itip)
@@ -2123,8 +2090,7 @@ ok_clicked_cb (GtkHTML *html, const gchar *method, const gchar *url, const gchar
 				send_freebusy (itip);
 				break;
 			case 'R':
-				/* FIXME Make sure this does the right thing in the backend */
-				update_item (itip);
+				update_attendee_status (itip);
 				break;
 			case 'S':
 				send_item (itip);

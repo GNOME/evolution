@@ -1,12 +1,17 @@
 2004-06-23    <jpr@novell.com>
 
+	* gui/e-itip-control.c (update_attendee_status): tidy up to work
+	again
+	(ok_clicked_cb): use above when replying
+
+2004-06-23  JP Rosevear  <jpr@novell.com>
+
 	* gui/dialogs/meeting-page.c (remove_attendee): util function to
 	do the actual removal
 	(remove_attendee_at_row): ditto based on row number
 	(remove_clicked_cb): make the remove button work
 	(popup_delete_cb): use utility routines to do removal
 	(button_press_event): do the icon properly
-
 
 2004-06-22  JP Rosevear  <jpr@novell.com>
 
