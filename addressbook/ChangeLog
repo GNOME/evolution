@@ -1,3 +1,12 @@
+2005-02-19  Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* gui/component/addressbook-component.c 
+	(ensure_sources) : update the base uri 
+	of the "On This Computer" group when user home dir 
+	changes. Also unref personal source if created here.
+
+	Fixes #67724  
+	
 2005-02-09  Sivaiah Nallagatla <snallagatla@novell.com>
                                                                                 
         * gui/component/addressbook-config.c

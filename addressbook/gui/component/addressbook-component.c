@@ -95,7 +95,10 @@ ensure_sources (AddressbookComponent *component)
 
 			group = E_SOURCE_GROUP (g->data);
 
-			if (!on_this_computer && !strcmp (base_uri_proto, e_source_group_peek_base_uri (group)))
+			/* compare only file:// part. If user home dir name changes we do not want to create 
+			   one more group  */
+
+			if (!on_this_computer && !strncmp (base_uri_proto, e_source_group_peek_base_uri (group), 7))
 				on_this_computer = group;
 			else if (!on_ldap_servers && !strcmp (LDAP_BASE_URI, e_source_group_peek_base_uri (group)))
 				on_ldap_servers = group;
@@ -113,6 +116,16 @@ ensure_sources (AddressbookComponent *component)
 				personal_source = source;
 				break;
 			}
+		}
+		/* Make sure we have the correct base uri. This can change when user's
+		   homedir name changes */
+		if (strcmp (base_uri_proto, e_source_group_peek_base_uri (on_this_computer))) {
+		    e_source_group_set_base_uri (on_this_computer, base_uri_proto);
+		    
+		    /* *sigh* . We shouldn't  need this sync call here as set_base_uri
+		       call results in synching to gconf, but that happens in idle loop
+		       and too late to prevent user seeing "Can not Open ... because of invalid uri" error.*/
+		    e_source_list_sync (source_list,NULL);
 		}
 	}
 	else {
@@ -138,7 +151,8 @@ ensure_sources (AddressbookComponent *component)
 
 		on_ldap_servers = group;
 	}
-
+	if (personal_source)
+		g_object_unref (personal_source);
 	g_free (base_uri_proto);
 	g_free (base_uri);
 }
