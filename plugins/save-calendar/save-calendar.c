@@ -34,6 +34,7 @@
 #else
 #  include <gtk/gtkfilesel.h>
 #endif
+#include <gtk/gtkmessagedialog.h>
 #include <gtk/gtkstock.h>
 #include <libedataserver/e-source.h>
 #include <libedataserverui/e-source-selector.h>
@@ -44,12 +45,24 @@ void org_gnome_save_calendar (EPlugin *ep, ECalPopupTargetSource *target);
 void org_gnome_save_tasks (EPlugin *ep, ECalPopupTargetSource *target);
 
 static void
+display_error_message (GtkWidget *parent, GError *error)
+{
+	GtkWidget *dialog;
+
+	dialog = gtk_message_dialog_new (GTK_WINDOW (parent), 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+					 error->message);
+	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
+}
+
+static void
 do_save_calendar (EPlugin *ep, ECalPopupTargetSource *target, ECalSourceType type)
 {
 	ESource *primary_source;
 	char *dest_uri;
 	ECal *source_client, *dest_client;
 	GtkWidget *dialog;
+	GError *error = NULL;
 
 	primary_source = e_source_selector_peek_primary_selection (target->selector);
 
@@ -82,15 +95,18 @@ do_save_calendar (EPlugin *ep, ECalPopupTargetSource *target, ECalSourceType typ
 
 	/* open source client */
 	source_client = e_cal_new (primary_source, type);
-	if (!e_cal_open (source_client, TRUE, NULL)) {
+	if (!e_cal_open (source_client, TRUE, &error)) {
+		display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (target->selector)), error);
 		g_object_unref (source_client);
 		g_free (dest_uri);
+		g_error_free (error);
 		return;
 	}
 
 	/* open destination client */
+	error = NULL;
 	dest_client = e_cal_new_from_uri (dest_uri, type);
-	if (e_cal_open (dest_client, FALSE, NULL)) {
+	if (e_cal_open (dest_client, FALSE, &error)) {
 		GList *objects;
 
 		if (e_cal_get_object_list (source_client, "#t", &objects, NULL)) {
@@ -98,13 +114,20 @@ do_save_calendar (EPlugin *ep, ECalPopupTargetSource *target, ECalSourceType typ
 				icalcomponent *icalcomp = objects->data;
 
 				/* FIXME: deal with additions/modifications */
-				e_cal_create_object (dest_client, icalcomp, NULL, NULL);
+				error = NULL;
+				if (!e_cal_create_object (dest_client, icalcomp, NULL, &error)) {
+					display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (target->selector)), error);
+					g_error_free (error);
+				}
 
 				/* remove item from the list */
 				objects = g_list_remove (objects, icalcomp);
 				icalcomponent_free (icalcomp);
 			}
 		}
+	} else {
+		display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (target->selector)), error);
+		g_error_free (error);
 	}
 
 	/* terminate */
