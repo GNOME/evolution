@@ -1,3 +1,10 @@
+2002-01-22  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes bug # 16864 ]
+	* backend/ebook/evolution-ldif-importer.c (getValue): create and
+	return a GString here, instead of writing to a fixed size buffer.
+	(parseLine): use a GString here instead of a fixed size buffer.
+
 2001-12-20  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* evolution/addressbook/printing/e-contact-print.c (complete_sequence):

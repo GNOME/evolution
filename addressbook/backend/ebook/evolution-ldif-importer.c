@@ -40,8 +40,6 @@ typedef struct {
 	gboolean ready;
 } LDIFImporter;
 
-#define MAX_STRING_LEN 1024
-
 static struct {
 	char *ldif_attribute;
 	ECardSimpleField simple_field;
@@ -162,15 +160,16 @@ base64_decode_simple (char *data, int len)
 				   (unsigned char *)data, &state, &save);
 }
 
-static void
-getValue( char * dest, char **src )
+static GString *
+getValue( char **src )
 {
-	char *d = dest;
+	GString *dest = g_string_new("");
 	char *s = *src;
+	gboolean need_base64 = (*s == ':');
 
  copy_line:
 	while( *s != 0 && *s != '\n' && *s != '\r' )
-		*dest++ = *s++;
+		dest = g_string_append_c (dest, *s++);
 
 	if (*s == '\r') s++;
 	if (*s == '\n')	s++;
@@ -181,17 +180,17 @@ getValue( char * dest, char **src )
 		goto copy_line;
 	}
 
-	*dest = 0;
-
-	if (*d == ':') {
+	if (need_base64) {
 		int new_len;
 		/* it's base64 encoded */
-		memmove (d, d + 2, strlen (d) - 2);
-		new_len = base64_decode_simple (d, strlen (d));
-		*(d + new_len) = 0;
+		dest = g_string_erase (dest, 0, 2);
+		new_len = base64_decode_simple (dest->str, strlen (dest->str));
+		dest = g_string_truncate (dest, new_len);
 	}
 
 	*src = s;
+
+	return dest;
 }
 
 static gboolean
@@ -200,7 +199,7 @@ parseLine( ECardSimple *simple, ECardDeliveryAddress *address, char **buf )
 	char *ptr;
 	char *colon, *value;
 	gboolean field_handled;
-	char ldif_value[MAX_STRING_LEN];
+	GString *ldif_value;
 
 	ptr = *buf;
 
@@ -235,26 +234,26 @@ parseLine( ECardSimple *simple, ECardDeliveryAddress *address, char **buf )
 		while ( isspace(*value) )
 			value++;
 
-		getValue( ldif_value, &value );
+		ldif_value = getValue(&value );
 
 		field_handled = FALSE;
 		for (i = 0; i < num_ldif_fields; i ++) {
 			if (!g_strcasecmp (ptr, ldif_fields[i].ldif_attribute)) {
 				if (ldif_fields[i].flags & FLAG_ADDRESS) {
 					if (!g_strcasecmp (ptr, "locality"))
-						address->city = g_strdup (ldif_value);
+						address->city = g_strdup (ldif_value->str);
 					else if (!g_strcasecmp (ptr, "countryname"))
-						address->country = g_strdup (ldif_value);
+						address->country = g_strdup (ldif_value->str);
 					else if (!g_strcasecmp (ptr, "postalcode"))
-						address->code = g_strdup (ldif_value);
+						address->code = g_strdup (ldif_value->str);
 					else if (!g_strcasecmp (ptr, "st"))
-						address->region = g_strdup (ldif_value);
+						address->region = g_strdup (ldif_value->str);
 					else if (!g_strcasecmp (ptr, "streetaddress"))
-						address->street = g_strdup (ldif_value);
+						address->street = g_strdup (ldif_value->str);
 				}
 				else {
-					e_card_simple_set (simple, ldif_fields[i].simple_field, ldif_value);
-					printf ("set %s to %s\n", ptr, ldif_value);
+					e_card_simple_set (simple, ldif_fields[i].simple_field, ldif_value->str);
+					printf ("set %s to %s\n", ptr, ldif_value->str);
 				}
 				field_handled = TRUE;
 				break;
@@ -264,8 +263,8 @@ parseLine( ECardSimple *simple, ECardDeliveryAddress *address, char **buf )
 		/* handle objectclass/dn/member out here */
 		if (!field_handled) {
 			if (!g_strcasecmp (ptr, "dn"))
-				g_hash_table_insert (dn_card_hash, g_strdup(ldif_value), simple->card);
-			else if (!g_strcasecmp (ptr, "objectclass") && !g_strcasecmp (ldif_value, "groupofnames")) {
+				g_hash_table_insert (dn_card_hash, g_strdup(ldif_value->str), simple->card);
+			else if (!g_strcasecmp (ptr, "objectclass") && !g_strcasecmp (ldif_value->str, "groupofnames")) {
 				e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_IS_LIST, "true");
 			}
 			else if (!g_strcasecmp (ptr, "member")) {
@@ -273,12 +272,14 @@ parseLine( ECardSimple *simple, ECardDeliveryAddress *address, char **buf )
 				gtk_object_get (GTK_OBJECT (simple->card),
 						"email", &email,
 						NULL);
-				e_list_append (email, ldif_value);
+				e_list_append (email, ldif_value->str);
 			}
 		}
 
 		/* put the colon back the way it was, just for kicks */
 		*colon = ':';
+
+		g_string_free (ldif_value, TRUE);
 	}
 	else {
 		g_warning ("unrecognized entry %s", ptr);
