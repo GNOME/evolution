@@ -26,6 +26,7 @@
 	(rule_editor_construct): Only enable a cancel button if
 	EVOLUTION_RULE_UNDO is set.
 	(rule_editor_add_undo): Only add if undo enabled.
+	(rule_editor_add_undo): Fix enable undo logic.
 
 	* filter-rule.c (filter_rule_set_name): Emit a changed event if it
 	changes.

@@ -519,7 +519,7 @@ rule_editor_add_undo(RuleEditor *re, int type, FilterRule *rule, int rank, int n
 {
 	RuleEditorUndo *undo;
 
-	if (!re->undo_active && !enable_undo) {
+	if (!re->undo_active && enable_undo) {
 		undo = g_malloc0(sizeof(*undo));
 		undo->rule = rule;
 		undo->type = type;
