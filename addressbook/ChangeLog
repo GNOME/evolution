@@ -1,3 +1,21 @@
+2001-10-26  Jon Trowbridge  <trow@ximian.com>
+
+	* backend/ebook/e-book-util.c (simple_query_card_added_cb): Return
+	on cancellation.
+	(simple_query_sequence_complete_cb): Act if not cancelled.
+	(simple_query_book_view_cb): Free & return on cancellation.
+	(e_book_simple_query_cancel): Set cancellation flag.
+
+	* gui/component/e-address-popup.c (e_address_popup_query): Hold a
+	reference to ourselves for the duration of our addressbook fetch.
+	(start_query): Release when we've fetched our addressbook.
+	(e_address_popup_cleanup): Break out most of what we do in
+	_destroy into a separate function.
+	(e_address_popup_destroy): Class cleanup.
+	(contact_editor_cb): Paranoid clean-up.
+	(add_contacts_cb): Paranoid clean-up.
+	(e_address_popup_ambiguous_email_add): Paranoid clean-up.
+
 2001-10-26  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/e-address.conduit.in: remove the merges as valid sync

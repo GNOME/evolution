@@ -138,6 +138,7 @@ struct _SimpleQueryInfo {
 	guint add_tag;
 	guint seq_complete_tag;
 	GList *cards;
+	gboolean cancelled;
 };
 
 static void
@@ -199,6 +200,7 @@ simple_query_new (EBook *book, const char *query, EBookSimpleQueryCallback cb, g
 	sq->query = g_strdup_printf (query);
 	sq->cb = cb;
 	sq->closure = closure;
+	sq->cancelled = FALSE;
 
 	/* Automatically add ourselves to the EBook's pending list. */
 	book_add_simple_query (book, sq);
@@ -228,12 +230,12 @@ simple_query_disconnect (SimpleQueryInfo *sq)
 static void
 simple_query_free (SimpleQueryInfo *sq)
 {
+	simple_query_disconnect (sq);
+
 	/* Remove ourselves from the EBook's pending list. */
 	book_remove_simple_query (sq->book, sq);
 
 	g_free (sq->query);
-
-	simple_query_disconnect (sq);
 
 	if (sq->book)
 		gtk_object_unref (GTK_OBJECT (sq->book));
@@ -249,6 +251,9 @@ simple_query_card_added_cb (EBookView *view, const GList *cards, gpointer closur
 {
 	SimpleQueryInfo *sq = closure;
 
+	if (sq->cancelled)
+		return;
+
 	sq->cards = g_list_concat (sq->cards, g_list_copy ((GList *) cards));
 	g_list_foreach ((GList *) cards, (GFunc) gtk_object_ref, NULL);
 }
@@ -261,7 +266,8 @@ simple_query_sequence_complete_cb (EBookView *view, gpointer closure)
 	/* Disconnect signals, so that we don't pick up any changes to the book that occur
 	   in our callback */
 	simple_query_disconnect (sq);
-	sq->cb (sq->book, E_BOOK_SIMPLE_QUERY_STATUS_SUCCESS, sq->cards, sq->closure);
+	if (! sq->cancelled)
+		sq->cb (sq->book, E_BOOK_SIMPLE_QUERY_STATUS_SUCCESS, sq->cards, sq->closure);
 	simple_query_free (sq);
 }
 
@@ -270,7 +276,13 @@ simple_query_book_view_cb (EBook *book, EBookStatus status, EBookView *book_view
 {
 	SimpleQueryInfo *sq = closure;
 
+	if (sq->cancelled) {
+		simple_query_free (sq);
+		return;
+	}
+
 	if (status != E_BOOK_STATUS_SUCCESS) {
+		simple_query_disconnect (sq);
 		sq->cb (sq->book, E_BOOK_SIMPLE_QUERY_STATUS_OTHER_ERROR, NULL, sq->closure);
 		simple_query_free (sq);
 		return;
@@ -314,8 +326,8 @@ e_book_simple_query_cancel (EBook *book, guint tag)
 	sq = book_lookup_simple_query (book, tag);
 
 	if (sq) {
+		sq->cancelled = TRUE;
 		sq->cb (sq->book, E_BOOK_SIMPLE_QUERY_STATUS_CANCELLED, NULL, sq->closure);
-		simple_query_free (sq);
 	} else {
 		g_warning ("Simple query tag %d is unknown", tag);
 	}

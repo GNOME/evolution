@@ -677,24 +677,41 @@ e_address_popup_init (EAddressPopup *pop)
 }
 
 static void
+e_address_popup_cleanup (EAddressPopup *pop)
+{
+	if (pop->card) {
+		gtk_object_unref (GTK_OBJECT (pop->card));
+		pop = NULL;
+	}
+
+	if (pop->scheduled_refresh) {
+		gtk_timeout_remove (pop->scheduled_refresh);
+		pop->scheduled_refresh = 0;
+	}
+
+	if (pop->query_tag) {
+		e_book_simple_query_cancel (pop->book, pop->query_tag);
+		pop->query_tag = 0;
+	}
+
+	if (pop->book) {
+		gtk_object_unref (GTK_OBJECT (pop->book));
+		pop->book = NULL;
+	}
+
+	g_free (pop->name);
+	pop->name = NULL;
+
+	g_free (pop->email);
+	pop->email = NULL;
+}
+
+static void
 e_address_popup_destroy (GtkObject *obj)
 {
 	EAddressPopup *pop = E_ADDRESS_POPUP (obj);
 
-	if (pop->card)
-		gtk_object_unref (GTK_OBJECT (pop->card));
-
-	if (pop->scheduled_refresh)
-		gtk_idle_remove (pop->scheduled_refresh);
-
-	if (pop->query_tag)
-		e_book_simple_query_cancel (pop->book, pop->query_tag);
-
-	if (pop->book)
-		gtk_object_unref (GTK_OBJECT (pop->book));
-
-	g_free (pop->name);
-	g_free (pop->email);
+	e_address_popup_cleanup (pop);
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		GTK_OBJECT_CLASS (parent_class)->destroy (obj);
@@ -751,7 +768,7 @@ e_address_popup_refresh_names (EAddressPopup *pop)
 }
 
 static gint
-refresh_idle_cb (gpointer ptr)
+refresh_timeout_cb (gpointer ptr)
 {
 	EAddressPopup *pop = E_ADDRESS_POPUP (ptr);
 	e_address_popup_refresh_names (pop);
@@ -763,7 +780,7 @@ static void
 e_address_popup_schedule_refresh (EAddressPopup *pop)
 {
 	if (pop->scheduled_refresh == 0)
-		pop->scheduled_refresh = gtk_idle_add (refresh_idle_cb, pop);
+		pop->scheduled_refresh = gtk_timeout_add (20, refresh_timeout_cb, pop);
 }
 
 /* If we are handed something of the form "Foo <bar@bar.com>",
@@ -911,6 +928,7 @@ contact_editor_cb (EBook *book, gpointer closure)
 {
 	EAddressPopup *pop = E_ADDRESS_POPUP (closure);
 	EContactEditor *ce = e_addressbook_show_contact_editor (book, pop->card, FALSE, TRUE);
+	e_address_popup_cleanup (pop);
 	emit_event (pop, "Destroy");
 	e_contact_editor_raise (ce);
 }
@@ -957,6 +975,7 @@ add_contacts_cb (EAddressPopup *pop)
 			e_contact_quick_add_free_form (pop->email, NULL, NULL);
 
 	}
+	e_address_popup_cleanup (pop);
 	emit_event (pop, "Destroy");
 }
 
@@ -1021,6 +1040,7 @@ e_address_popup_ambiguous_email_add (EAddressPopup *pop, const GList *cards)
 		
 	card_picker_init (wiz, cards, pop->name, pop->email);
 
+	e_address_popup_cleanup (pop);
 	emit_event (pop, "Destroy");
 
 	gtk_container_add (GTK_CONTAINER (win), wiz->body);
@@ -1097,17 +1117,20 @@ static void
 start_query (EBook *book, gpointer closure)
 {
 	EAddressPopup *pop = E_ADDRESS_POPUP (closure);
-
+	
 	if (pop->query_tag)
 		e_book_simple_query_cancel (book, pop->query_tag);
 
 	if (pop->book != book) {
 		gtk_object_ref (GTK_OBJECT (book));
-		gtk_object_unref (GTK_OBJECT (pop->book));
+		if (pop->book)
+			gtk_object_unref (GTK_OBJECT (pop->book));
 		pop->book = book;
 	}
 		
 	pop->query_tag = e_book_name_and_email_query (book, pop->name, pop->email, query_cb, pop);
+
+	gtk_object_unref (GTK_OBJECT (pop));
 }
 
 static void
@@ -1115,6 +1138,7 @@ e_address_popup_query (EAddressPopup *pop)
 {
 	g_return_if_fail (pop && E_IS_ADDRESS_POPUP (pop));
 
+	gtk_object_ref (GTK_OBJECT (pop));
 	e_book_use_local_address_book (start_query, pop);
 }
 
