@@ -1,3 +1,11 @@
+2004-06-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-ops.c (save_part_save): This code no longer needs to do
+	charset conversion. Yay. Fixes bug #60225.
+
+	* em-utils.c (em_utils_save_part_to_file): Use the proper e-error
+	namespace.
+
 2004-06-15  Jeffrey Stedfast  <fejj@novell.com>
 
 	* em-folder-tree.c (emft_popup_copy_folder_selected): frombase is

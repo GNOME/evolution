@@ -2002,50 +2002,25 @@ static void
 save_part_save (struct _mail_msg *mm)
 {
 	struct _save_part_msg *m = (struct _save_part_msg *)mm;
-	CamelMimeFilterCharset *charsetfilter;
-	CamelContentType *content_type;
-	CamelStream *filtered_stream;
-	CamelStream *stream_fs;
-	CamelDataWrapper *data;
-	const char *charset;
+	CamelDataWrapper *content;
+	CamelStream *stream;
 	
-	stream_fs = camel_stream_fs_new_with_name (m->path, O_WRONLY | O_CREAT | O_TRUNC, 0666);
-	if (stream_fs == NULL) {
+	if (!(stream = camel_stream_fs_new_with_name (m->path, O_WRONLY | O_CREAT | O_TRUNC, 0666))) {
 		camel_exception_setv (&mm->ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot create output file: %s:\n %s"),
 				      m->path, g_strerror (errno));
 		return;
 	}
 	
-	/* we only convert text/ parts, and we only convert if we have to
-	   null charset param == us-ascii == utf8 always, and utf8 == utf8 obviously */
-	/* this will also let "us-ascii that isn't really" parts pass out in
-	   proper format, without us trying to treat it as what it isn't, which is
-	   the same algorithm camel uses */
+	content = camel_medium_get_content_object (CAMEL_MEDIUM (m->part));
 	
-	data = camel_medium_get_content_object (CAMEL_MEDIUM (m->part));
-	content_type = camel_mime_part_get_content_type (m->part);
-	if (camel_content_type_is (content_type, "text", "*")
-	    && (charset = camel_content_type_param (content_type, "charset"))
-	    && strcasecmp (charset, "utf-8") != 0) {
-		charsetfilter = camel_mime_filter_charset_new_convert ("utf-8", charset);
-		filtered_stream = (CamelStream *) camel_stream_filter_new_with_stream (stream_fs);
-		camel_object_unref (CAMEL_OBJECT (stream_fs));
-		if (charsetfilter) {
-			camel_stream_filter_add (CAMEL_STREAM_FILTER (filtered_stream), CAMEL_MIME_FILTER (charsetfilter));
-			camel_object_unref (charsetfilter);
-		}
-	} else {
-		filtered_stream = stream_fs;
-	}
-	
-	if (camel_data_wrapper_decode_to_stream (data, filtered_stream) == -1
-	    || camel_stream_flush (filtered_stream) == -1)
+	if (camel_data_wrapper_decode_to_stream (content, stream) == -1
+	    || camel_stream_flush (stream) == -1)
 		camel_exception_setv (&mm->ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not write data: %s"),
 				      g_strerror (errno));
 	
-	camel_object_unref (filtered_stream);
+	camel_object_unref (stream);
 }
 
 static void

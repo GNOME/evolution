@@ -452,7 +452,7 @@ em_utils_save_part_to_file(GtkWidget *parent, const char *filename, CamelMimePar
 	}
 	
 	if (stat(filename, &st) != -1 && !S_ISREG(st.st_mode)) {
-		e_error_run((GtkWindow *)parent, "no-write-path-notfile", filename, NULL);
+		e_error_run((GtkWindow *)parent, "mail:no-write-path-notfile", filename, NULL);
 		return FALSE;
 	}
 	
