@@ -252,7 +252,7 @@ changequote(,)dnl
             ncurses_version=`cat conftest.out|sed -e 's/^[^"]*"//' -e 's/".*//'`
 changequote([,])dnl
 	fi
-	rm -rf conftext*
+	rm -rf conftest*
         AC_MSG_RESULT($ncurses_version)
 	case "$ncurses_version" in
 changequote(,)dnl

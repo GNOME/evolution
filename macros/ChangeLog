@@ -1,3 +1,8 @@
+Mon Jun 29 10:35:22 1998  Scott D. Heavner  <sdh@po.cwru.edu>
+
+	* curses.m4: rm conftext* should read rm conftest*, was leaving 
+	conftest.c files around.
+
 1998-06-27  Christopher Blizzard  <blizzard@foo.appliedtheory.com>
 
 	* gnome-objc-checks.m4: Use egcs if it's available.  The gcc that
