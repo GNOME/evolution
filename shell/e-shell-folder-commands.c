@@ -475,6 +475,7 @@ e_shell_command_rename_folder (EShell *shell,
 			       const char *folder_path)
 {
 	EStorageSet *storage_set;
+	EFolder *folder;
 	const char *old_name;
 	char *prompt;
 	char *new_name;
@@ -490,6 +491,9 @@ e_shell_command_rename_folder (EShell *shell,
 
 	if (folder_path == NULL)
 		folder_path = e_shell_view_get_current_path (shell_view);
+
+	folder = e_storage_set_get_folder (storage_set, folder_path);
+	g_return_if_fail (folder != NULL);
 
 	/* Note that we don't need to get the display name here, as the stock
 	   folders cannot be renamed anyway.  */
@@ -509,6 +513,8 @@ e_shell_command_rename_folder (EShell *shell,
 		g_free (new_name);
 		return;
 	}
+
+	e_folder_set_name (folder, new_name);
 
 	old_base_path = g_strndup (folder_path, old_name - folder_path);
 	new_path = g_strconcat (old_base_path, new_name, NULL);

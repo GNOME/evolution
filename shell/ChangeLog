@@ -1,7 +1,9 @@
 2001-09-25  Ettore Perazzoli  <ettore@ximian.com>
 
-	[Implemented the "Rename" command.  Warning, it doesn't quite work
-	yet, as there seems to be something wrong still.]
+	* e-shell-folder-commands.c (e_shell_command_rename_folder):
+	Change the name on the EFolder object too.
+
+2001-09-25  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-storage.c (e_storage_async_xfer_folder): Ooops.  Make the
 	check for CANTMOVETODESCENDANT really work.
