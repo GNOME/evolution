@@ -413,6 +413,7 @@ selected_item (EShortcutBar *shortcut_bar,
 			 shortcuts, uri);
 }
 
+#if 0
 static void
 added_item (EShortcutBar *shortcut_bar,
 	    int group_num,
@@ -495,6 +496,7 @@ removed_group (EShortcutBar *shortcut_bar,
 
 	e_shortcuts_remove_group (shortcuts, group_num);
 }
+#endif
 
 
 static void
