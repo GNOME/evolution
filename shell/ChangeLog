@@ -1,3 +1,8 @@
+2001-04-03  Christopher James Lahey  <clahey@ximian.com>
+
+	* e-shell-folder-selection-dialog.c (dbl_click_cb): Made double
+	clicking not crash here.
+
 2001-04-02  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-setup.c (e_setup): If we have a local folder named "Trash" of

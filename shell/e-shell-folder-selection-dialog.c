@@ -144,6 +144,7 @@ impl_destroy (GtkObject *object)
 static void
 dbl_click_cb (EStorageSetView *essv,
 	      int row,
+	      ETreePath path,
 	      int col,
 	      GdkEvent *event,
 	      EShellFolderSelectionDialog *folder_selection_dialog)
