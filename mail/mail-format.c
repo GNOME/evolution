@@ -187,8 +187,9 @@ void
 mail_format_raw_message (CamelMimeMessage *mime_message, MailDisplay *md,
 			 GtkHTML *html, GtkHTMLStream *stream)
 {
-	GByteArray *bytes;
-	char *html_str;
+	CamelStream *mail_stream, *filtered_stream;
+	CamelMimeFilter *html_filter;
+	guint32 flags;
 	
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (mime_message));
 	
@@ -196,17 +197,20 @@ mail_format_raw_message (CamelMimeMessage *mime_message, MailDisplay *md,
 				  TRUE, NULL, html, NULL))
 		return;
 	
-	bytes = mail_format_get_data_wrapper_text (CAMEL_DATA_WRAPPER (mime_message), md);
-	if (bytes) {
-		g_byte_array_append (bytes, "", 1);
-		html_str = e_text_to_html (bytes->data, E_TEXT_TO_HTML_CONVERT_NL |
-					   E_TEXT_TO_HTML_CONVERT_SPACES | E_TEXT_TO_HTML_ESCAPE_8BIT);
-		g_byte_array_free (bytes, TRUE);
-		mail_html_write (html, stream, "<tt>");
-		mail_html_write (html, stream, html_str);
-		g_free (html_str);
-		mail_html_write (html, stream, "</tt>");
-	}
+	mail_stream = mail_stream_gtkhtml_new (html, stream);
+	filtered_stream = camel_stream_filter_new_with_stream (mail_stream);
+	
+	flags = CAMEL_MIME_FILTER_TOHTML_CONVERT_NL | CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+		CAMEL_MIME_FILTER_TOHTML_ESCAPE_8BIT;
+	html_filter = camel_mime_filter_tohtml_new (flags, 0);
+	camel_stream_filter_add ((CamelStreamFilter *) filtered_stream, html_filter);
+	camel_object_unref (html_filter);
+	
+	camel_stream_write (mail_stream, "<tt>", 4);
+	mail_format_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (mime_message), md, filtered_stream);
+	camel_object_unref (filtered_stream);
+	camel_stream_write (mail_stream, "</tt>", 5);
+	camel_object_unref (mail_stream);
 }
 
 static const char *
@@ -1086,23 +1090,14 @@ mail_content_loaded (CamelDataWrapper *wrapper, MailDisplay *md, gboolean redisp
 	return FALSE;
 }
 
-/* Return the contents of a data wrapper, or %NULL if it contains only
- * whitespace.
- */
-GByteArray *
-mail_format_get_data_wrapper_text (CamelDataWrapper *wrapper, MailDisplay *mail_display)
+
+static ssize_t
+mail_format_data_wrapper_write_to_stream (CamelDataWrapper *wrapper, MailDisplay *mail_display, CamelStream *stream)
 {
-	CamelStream *memstream;
 	CamelStreamFilter *filtered_stream;
-	GByteArray *ba;
-	char *text, *end;
+	ssize_t written;
 	
-	memstream = camel_stream_mem_new ();
-	ba = g_byte_array_new ();
-	camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (memstream), ba);
-	
-	filtered_stream = camel_stream_filter_new_with_stream (memstream);
-	camel_object_unref (memstream);
+	filtered_stream = camel_stream_filter_new_with_stream (stream);
 	
 	if (wrapper->rawtext || (mail_display && mail_display->charset)) {
 		CamelMimeFilterCharset *filter;
@@ -1143,9 +1138,29 @@ mail_format_get_data_wrapper_text (CamelDataWrapper *wrapper, MailDisplay *mail_
 		}
 	}
 	
-	camel_data_wrapper_write_to_stream (wrapper, CAMEL_STREAM (filtered_stream));
+	written = camel_data_wrapper_write_to_stream (wrapper, CAMEL_STREAM (filtered_stream));
 	camel_stream_flush (CAMEL_STREAM (filtered_stream));
 	camel_object_unref (filtered_stream);
+	
+	return written;
+}
+
+/* Return the contents of a data wrapper, or %NULL if it contains only
+ * whitespace.
+ */
+GByteArray *
+mail_format_get_data_wrapper_text (CamelDataWrapper *wrapper, MailDisplay *mail_display)
+{
+	CamelStream *memstream;
+	GByteArray *ba;
+	char *text, *end;
+	
+	memstream = camel_stream_mem_new ();
+	ba = g_byte_array_new ();
+	camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (memstream), ba);
+	
+	mail_format_data_wrapper_write_to_stream (wrapper, mail_display, memstream);
+	camel_object_unref (memstream);
 	
 	for (text = ba->data, end = text + ba->len; text < end; text++) {
 		if (!isspace ((unsigned char) *text))

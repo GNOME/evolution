@@ -1,3 +1,15 @@
+2002-12-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (mail_format_data_wrapper_write_to_stream): New
+	function to handle a lot of the filtering/etc that was done in
+	mail_format_get_data_wrapper_text(). This is the first step toward
+	getting rid of e-text-to-html crap and using my tohtml stream
+	filter instead.
+	(mail_format_get_data_wrapper_text): Use the new function.
+	(mail_format_raw_message): Use camel streams to write the content
+	to gtkhtml rather than using get_data_wrapper_text() and then
+	converting that to html and then writing it to the gtkhtml stream.
+
 2002-12-10  Not Zed  <NotZed@Ximian.com>
 
 	* mail-composer-prefs.c (mail_composer_prefs_construct): language

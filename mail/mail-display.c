@@ -1659,7 +1659,7 @@ mail_text_write (GtkHTML *html, GtkHTMLStream *stream, MailDisplay *md, CamelMim
 	if (!printing)
 		flags |= E_TEXT_TO_HTML_CONVERT_URLS | E_TEXT_TO_HTML_CONVERT_ADDRESSES;
 	
-	if (mail_config_get_citation_highlight () && ! printing)
+	if (!printing && mail_config_get_citation_highlight ())
 		flags |= E_TEXT_TO_HTML_MARK_CITATION;
 	
 	htmltext = e_text_to_html_full (text, flags, mail_config_get_citation_color ());
