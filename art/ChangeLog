@@ -1,5 +1,7 @@
 2001-06-29  Tuomas Kuosmanen  <tigert@ximian.com>
 
+	* print.png: Icon for print message.
+
 	* next-message.png, previous-message.png: New icons to replace
 	the  < > arrows in the mailer. 
 
