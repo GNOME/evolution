@@ -61,7 +61,6 @@
 	menu item if there are no email addresses in the listed contacts.
 	Fixes bug #1298.
 
->>>>>>> 1.1041
 2002-04-30  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/ebook/e-card.c (e_card_list_send): Changed this to set a
