@@ -1,11 +1,11 @@
 
-/* Copyright (C) 2004 Michael Zucchi */
+/* Copyright (C) 2004 Novell, Inc */
+/* Authors: Michael Zucchi
+            Rodrigo Moya */
 
 /* This file is licensed under the GNU GPL v2 or later */
 
-/* Add 'copy to clipboard' things to various menu's.
-
-   Uh, so far only to copy mail addresses from mail content */
+/* Convert a mail message into a task */
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -18,8 +18,11 @@
 #include <gconf/gconf-client.h>
 #include <libecal/e-cal.h>
 #include <libedataserverui/e-source-selector-dialog.h>
-#include "camel/camel-folder.h"
-#include "camel/camel-mime-message.h"
+#include <camel/camel-folder.h>
+#include <camel/camel-medium.h>
+#include <camel/camel-mime-message.h>
+#include <camel/camel-stream.h>
+#include <camel/camel-stream-mem.h>
 #include "mail/em-popup.h"
 
 static void
@@ -51,6 +54,35 @@ set_attendees (ECalComponent *comp, CamelMimeMessage *message)
 	for (l = attendees; l != NULL; l = l->next)
 		g_free (l->data);
 	g_slist_free (attendees);
+}
+
+static void
+set_description (ECalComponent *comp, CamelMimeMessage *message)
+{
+	CamelDataWrapper *content;
+	CamelStream *mem;
+	ECalComponentText text;
+	GSList sl;
+	char *str;
+
+	content = camel_medium_get_content_object ((CamelMedium *) message);
+	if (!content)
+		return;
+
+	mem = camel_stream_mem_new ();
+	camel_data_wrapper_decode_to_stream (content, mem);
+
+	str = g_strndup (((CamelStreamMem *) mem)->buffer->data, ((CamelStreamMem *) mem)->buffer->len);
+	camel_object_unref (mem);
+
+	text.value = str;
+	text.altrep = NULL;
+	sl.next = NULL;
+	sl.data = &text;
+
+	e_cal_component_set_description_list (comp, &sl);
+
+	g_free (str);
 }
 
 static void
@@ -89,8 +121,6 @@ do_mail_to_task (EMPopupTargetSelect *t, ESource *tasks_source)
 			CamelMimeMessage *message;
 			ECalComponent *comp;
 			ECalComponentText text;
-			GSList sl;
-			char *str;
 
 			/* retrieve the message from the CamelFolder */
 			message = camel_folder_get_message (t->folder, g_ptr_array_index (t->uids, i), NULL);
@@ -106,16 +136,8 @@ do_mail_to_task (EMPopupTargetSelect *t, ESource *tasks_source)
 			text.altrep = NULL;
 			e_cal_component_set_summary (comp, &text);
 
-			/* FIXME: a better way to get the full body */
-			str = camel_mime_message_build_mbox_from (message);
-			text.value = str;
-			sl.next = NULL;
-			sl.data = &text;
-			e_cal_component_set_description_list (comp, &sl);
-
-			g_free (str);
-
-			/* set the organizer, and the attendees */
+			/* set all fields */
+			set_description (comp, message);
 			set_organizer (comp, message);
 			set_attendees (comp, message);
 
