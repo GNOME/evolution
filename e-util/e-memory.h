@@ -52,7 +52,7 @@ void e_mempool_destroy(EMemPool *pool);
 
 /* strv's string arrays that can be efficiently modified and then compressed mainly for retrival */
 /* building is relatively fast, once compressed it takes the minimum amount of memory possible to store */
-typedef struct _e_strv EStrv;
+typedef struct _EStrv EStrv;
 
 EStrv *e_strv_new(int size);
 EStrv *e_strv_set_ref(EStrv *strv, int index, char *str);

@@ -1,3 +1,11 @@
+2000-11-30  Not Zed  <NotZed@HelixCode.com>
+
+	* e-memory.c (e_strv_new): Fix typename of args (for all funcs).
+	(e_strv_set_ref): Assert the index is in range.
+	(e_strv_set_ref_free): "
+	(e_strv_set): "
+	(e_strv_get): "
+
 2000-11-29  Not Zed  <NotZed@HelixCode.com>
 
 	* e-sexp.c (term_eval_lt): Plug a memleak, need to free results

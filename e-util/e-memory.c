@@ -508,7 +508,7 @@ void e_mempool_destroy(MemPool *pool)
 
 #define STRV_UNPACKED ((unsigned char)(~0))
 
-struct _e_strv {
+struct _EStrv {
 	unsigned char length;	/* how many entries we have (or the token STRV_UNPACKED) */
 	char data[1];		/* data follows */
 };
@@ -521,7 +521,7 @@ struct _s_strv_string {
 struct _e_strvunpacked {
 	unsigned char type;	/* we overload last to indicate this is unpacked */
 	MemPool *pool;		/* pool of memory for strings */
-	struct _e_strv *source;	/* if we were converted from a packed one, keep the source around for a while */
+	struct _EStrv *source;	/* if we were converted from a packed one, keep the source around for a while */
 	unsigned int length;
 	struct _s_strv_string strings[1]; /* the string array data follows */
 };
@@ -543,7 +543,7 @@ struct _e_strvunpacked {
  * 
  * Return value: 
  **/
-struct _e_strv *
+struct _EStrv *
 e_strv_new(int size)
 {
 	struct _e_strvunpacked *s;
@@ -558,11 +558,11 @@ e_strv_new(int size)
 	s->source = NULL;
 	memset(s->strings, 0, size*sizeof(s->strings[0]));
 
-	return (struct _e_strv *)s;
+	return (struct _EStrv *)s;
 }
 
 static struct _e_strvunpacked *
-strv_unpack(struct _e_strv *strv)
+strv_unpack(struct _EStrv *strv)
 {
 	struct _e_strvunpacked *s;
 	register char *p;
@@ -601,8 +601,8 @@ strv_unpack(struct _e_strv *strv)
  * Return value: A new EStrv if the strv has already
  * been packed, otherwise @strv.
  **/
-struct _e_strv *
-e_strv_set_ref(struct _e_strv *strv, int index, char *str)
+struct _EStrv *
+e_strv_set_ref(struct _EStrv *strv, int index, char *str)
 {
 	struct _e_strvunpacked *s;
 
@@ -613,9 +613,11 @@ e_strv_set_ref(struct _e_strv *strv, int index, char *str)
 	else
 		s = (struct _e_strvunpacked *)strv;
 
+	g_assert(index>=0 && index < s->length);
+
 	s->strings[index].string = str;
 
-	return (struct _e_strv *)s;
+	return (struct _EStrv *)s;
 }
 
 /**
@@ -632,8 +634,8 @@ e_strv_set_ref(struct _e_strv *strv, int index, char *str)
  * Return value: @strv if already unpacked, otherwise an packed
  * EStrv.
  **/
-struct _e_strv *
-e_strv_set_ref_free(struct _e_strv *strv, int index, char *str)
+struct _EStrv *
+e_strv_set_ref_free(struct _EStrv *strv, int index, char *str)
 {
 	struct _e_strvunpacked *s;
 
@@ -644,12 +646,14 @@ e_strv_set_ref_free(struct _e_strv *strv, int index, char *str)
 	else
 		s = (struct _e_strvunpacked *)strv;
 
+	g_assert(index>=0 && index < s->length);
+
 	s->strings[index].string = str;
 	if (s->strings[index].free)
 		g_free(s->strings[index].free);
 	s->strings[index].free = str;
 
-	return (struct _e_strv *)s;
+	return (struct _EStrv *)s;
 }
 
 /**
@@ -667,8 +671,8 @@ e_strv_set_ref_free(struct _e_strv *strv, int index, char *str)
  * Return value: A new EStrv if the strv has already
  * been packed, otherwise @strv.
  **/
-struct _e_strv *
-e_strv_set(struct _e_strv *strv, int index, const char *str)
+struct _EStrv *
+e_strv_set(struct _EStrv *strv, int index, const char *str)
 {
 	struct _e_strvunpacked *s;
 
@@ -679,13 +683,15 @@ e_strv_set(struct _e_strv *strv, int index, const char *str)
 	else
 		s = (struct _e_strvunpacked *)strv;
 
+	g_assert(index>=0 && index < s->length);
+
 	if (s->pool == NULL)
 		s->pool = e_mempool_new(1024, 512, E_MEMPOOL_ALIGN_BYTE);
 
 	s->strings[index].string = e_mempool_alloc(s->pool, strlen(str)+1);
 	strcpy(s->strings[index].string, str);
 
-	return (struct _e_strv *)s;
+	return (struct _EStrv *)s;
 }
 
 /**
@@ -699,8 +705,8 @@ e_strv_set(struct _e_strv *strv, int index, const char *str)
  * 
  * Return value: 
  **/
-struct _e_strv *
-e_strv_pack(struct _e_strv *strv)
+struct _EStrv *
+e_strv_pack(struct _EStrv *strv)
 {
 	struct _e_strvunpacked *s;
 	int len, i;
@@ -727,7 +733,7 @@ e_strv_pack(struct _e_strv *strv)
 				*dst++ = 0;
 			}
 		}
-		e_strv_destroy((struct _e_strv *)s);
+		e_strv_destroy((struct _EStrv *)s);
 	}
 	return strv;
 }
@@ -744,12 +750,13 @@ e_strv_pack(struct _e_strv *strv)
  * Return value: 
  **/
 char *
-e_strv_get(struct _e_strv *strv, int index)
+e_strv_get(struct _EStrv *strv, int index)
 {
 	struct _e_strvunpacked *s;
 	char *p;
 
 	if (strv->length != STRV_UNPACKED) {
+		g_assert(index>=0 && index < strv->length);
 		p = strv->data;
 		while (index > 0) {
 			while (*p++ != 0)
@@ -759,6 +766,7 @@ e_strv_get(struct _e_strv *strv, int index)
 		return p;
 	} else {
 		s = (struct _e_strvunpacked *)strv;
+		g_assert(index>=0 && index < s->length);
 		return s->strings[index].string?s->strings[index].string:"";
 	}
 }
@@ -771,7 +779,7 @@ e_strv_get(struct _e_strv *strv, int index)
  * or unpacked strv's.
  **/
 void
-e_strv_destroy(struct _e_strv *strv)
+e_strv_destroy(struct _EStrv *strv)
 {
 	struct _e_strvunpacked *s;
 	int i;
@@ -808,7 +816,7 @@ main()
 	MemChunk *mc;
 	void *mem, *last;
 	GMemChunk *gmc;
-	struct _e_strv *s;
+	struct _EStrv *s;
 
 	s = strv_new(8);
 	s = strv_set(s, 1, "Testing 1");
