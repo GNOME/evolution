@@ -954,10 +954,10 @@ emfv_edit_cut(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderView *emfv = data;
 
-	if (message_list_has_primary_selection(emfv->list))
-		message_list_copy(emfv->list, TRUE);
-	else if (emfv->preview_active)
+	if (GTK_WIDGET_HAS_FOCUS(emfv->preview->formathtml.html))
 		em_format_html_display_cut(emfv->preview);
+	else
+		message_list_copy(emfv->list, TRUE);
 }
 
 static void
@@ -965,10 +965,10 @@ emfv_edit_copy(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderView *emfv = data;
 
-	if (message_list_has_primary_selection(emfv->list))
-		message_list_copy(emfv->list, FALSE);
-	else if (emfv->preview_active)
+	if (GTK_WIDGET_HAS_FOCUS(emfv->preview->formathtml.html))
 		em_format_html_display_copy(emfv->preview);
+	else
+		message_list_copy(emfv->list, FALSE);
 }
 
 static void

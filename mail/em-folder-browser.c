@@ -489,10 +489,10 @@ emfb_edit_cut(BonoboUIComponent *uid, void *data, const char *path)
 
 	if (GTK_WIDGET_HAS_FOCUS(((ESearchBar *)emfb->search)->entry))
 		gtk_editable_cut_clipboard((GtkEditable *)((ESearchBar *)emfb->search)->entry);
-	else if (message_list_has_primary_selection(emfb->view.list))
-		message_list_copy(emfb->view.list, TRUE);
-	else if (emfb->view.preview_active)
+	else if (GTK_WIDGET_HAS_FOCUS(emfb->view.preview->formathtml.html))
 		em_format_html_display_cut(emfb->view.preview);
+	else
+		message_list_copy(emfb->view.list, TRUE);
 }
 
 static void
@@ -502,10 +502,10 @@ emfb_edit_copy(BonoboUIComponent *uid, void *data, const char *path)
 
 	if (GTK_WIDGET_HAS_FOCUS(((ESearchBar *)emfb->search)->entry))
 		gtk_editable_copy_clipboard((GtkEditable *)((ESearchBar *)emfb->search)->entry);
-	else if (message_list_has_primary_selection(emfb->view.list))
-		message_list_copy(emfb->view.list, FALSE);
-	else if (emfb->view.preview_active)
+	else if (GTK_WIDGET_HAS_FOCUS(emfb->view.preview->formathtml.html))
 		em_format_html_display_copy(emfb->view.preview);
+	else
+		message_list_copy(emfb->view.list, FALSE);
 }
 
 static void

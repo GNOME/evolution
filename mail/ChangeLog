@@ -1,5 +1,17 @@
 2004-04-14  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #56149.
+
+	* em-folder-view.c (emfv_edit_cut): similar to below, use focus to
+	determine who we select from.
+	(emfv_edit_copy): ditto.
+
+	* message-list.c: Remove primary selection stuff.  It just annoys.
+
+	* em-folder-browser.c (emfb_edit_copy): use focus rather than
+	selection owner to determine who to copy from.
+	(emfb_edit_cut): similarly.
+
 	* em-format.c (emf_multipart_related): hmm, use the right pointer
 	when iterating the pending uri list.
 
