@@ -11,8 +11,12 @@
         <cmd name="FilePrintSetup" _label="Print S_etup"
           _tip="Setup the page settings for your current printer"/>
 
+        <cmd name="FileSave" _label="Save"
+	_tip="Save the item and close the dialog box"
+	pixtype="stock" pixname="Save" accel="*Control*s"/>
+
         <cmd name="FileSaveAndClose" _label="Save and Close"
-	_tip="Save the appointment and close the dialog box"
+	_tip="Save the item and close the dialog box"
 	pixtype="stock" pixname="Save" accel="*Control*s"/>
 
         <cmd name="FileSaveAs" _label="Save As..."
@@ -20,11 +24,11 @@
         pixtype="stock" pixname="Save" accel="*Control*Alt*s"/>
 
 	<cmd name="FileDelete" _label="Delete"
-	_tip="Delete this appointment"
+	_tip="Delete this item"
 	pixtype="stock" pixname="Trash"/>
 
         <cmd name="FileClose" _label="C_lose"
-	_tip="Close this appointment"
+	_tip="Close this item"
         pixtype="stock" pixname="Close" accel="*Control*w"/>
 
 </commands>
@@ -32,6 +36,8 @@
 <menu>
 
 <submenu name="File" _label="_File">
+
+        <menuitem name="FileSave" verb=""/>
 
         <menuitem name="FileSaveAndClose" verb=""/>
 

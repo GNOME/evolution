@@ -1,5 +1,7 @@
 2001-08-16  JP Rosevear  <jpr@ximian.com>
 
+	* evolution-comp-editor.xml: add save menu item
+
 	* evolution-task-editor.xml: rename menu item to Assign Task and
 	tidy
 
