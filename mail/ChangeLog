@@ -1,5 +1,9 @@
 2004-02-17  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-format-html-display.c (efhd_xpkcs7mime_validity_clicked):
+	Display an alternate description based on the trust value if we
+	have a trust to work with.
+
 	* em-folder-browser.c (emfb_hide_deleted): Set the hide_deleted
 	bool on EMFolderView.
 

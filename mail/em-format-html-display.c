@@ -636,10 +636,20 @@ efhd_complete(EMFormat *emf)
 static const struct {
 	const char *icon, *shortdesc, *description;
 } smime_sign_table[4] = {
-	{ NULL, N_("Unsigned"), N_("This message is not signed.  There is no guarantee the sender of the message is authentic.") },
-	{ "pgp-signature-ok.png",N_("Valid signature"), N_("This message is signed and is valid, the sender of this message is very likely who they claim to be.") },
+	{ NULL, N_("Unsigned"), N_("This message is not signed. There is no guarantee that this message is authentic.") },
+	{ "pgp-signature-ok.png", N_("Valid signature"), N_("This message is signed and is valid meaning that it is very likely that this message is authentic.") },
 	{ "pgp-signature-bad.png", N_("Invalid signature"), N_("The signature of this message cannot be verified, it may have been altered in transit.") },
 	{ "pgp-signature-nokey.png", N_("Valid signature, cannot verify sender"), N_("This message is signed with a valid signature, but the sender of the message cannot be verified.") },
+};
+
+/* alternate sign_table descriptions for the GOOD signature case */
+static const char *smime_sign_trust[6] = {
+	NULL,
+	N_("This message is signed and valid but the sender is never to be trusted."),
+	N_("This message is signed and valid but there is no indication that the signature belongs to the sender."),
+	NULL,
+	NULL,
+	NULL,
 };
 
 static const struct {
@@ -753,6 +763,7 @@ static void
 efhd_xpkcs7mime_validity_clicked(GtkWidget *button, EMFormatHTMLPObject *pobject)
 {
 	struct _smime_pobject *po = (struct _smime_pobject *)pobject;
+	const char *alt_desc = NULL;
 	GladeXML *xml;
 	GtkWidget *vbox, *w;
 
@@ -764,7 +775,14 @@ efhd_xpkcs7mime_validity_clicked(GtkWidget *button, EMFormatHTMLPObject *pobject
 	po->widget = glade_xml_get_widget(xml, "message_security_dialog");
 
 	vbox = glade_xml_get_widget(xml, "signature_vbox");
-	w = gtk_label_new(_(smime_sign_table[po->valid->sign.status].description));
+	
+	if (po->valid->sign.trust)
+		alt_desc = smime_sign_trust[po->valid->sign.trust];
+	if (po->valid->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_GOOD && alt_desc)
+		w = gtk_label_new (_(alt_desc));
+	else
+		w = gtk_label_new (_(smime_sign_table[po->valid->sign.status].description));
+	
 	gtk_misc_set_alignment((GtkMisc *)w, 0.0, 0.5);
 	gtk_label_set_line_wrap((GtkLabel *)w, TRUE);
 	gtk_box_pack_start((GtkBox *)vbox, w, TRUE, TRUE, 6);
