@@ -1397,6 +1397,7 @@ generate_alarms_for_comp (CalComponent *comp, time_t start, time_t end)
 	time_t alarm_start, alarm_end;
 	struct alarm_occurrence_data aod;
 	CalComponentAlarms *alarms;
+	icalcomponent *icalcomp, *vcalendar_comp;
 
 	if (!cal_component_has_alarms (comp))
 		return NULL;
@@ -1409,7 +1410,15 @@ generate_alarms_for_comp (CalComponent *comp, time_t start, time_t end)
 	aod.end = end;
 	aod.triggers = NULL;
 	aod.n_triggers = 0;
-	cal_recur_generate_instances (comp, alarm_start, alarm_end, add_alarm_occurrences_cb, &aod, resolve_tzid, NULL);
+
+	/* Get the parent VCALENDAR component, so we can resolve TZIDs.  */
+	icalcomp = cal_component_get_icalcomponent (comp);
+	vcalendar_comp = icalcomponent_get_parent (icalcomp);
+	g_assert (vcalendar_comp != NULL);
+
+	cal_recur_generate_instances (comp, alarm_start, alarm_end,
+				      add_alarm_occurrences_cb, &aod,
+				      resolve_tzid, vcalendar_comp);
 
 	/* We add the ABSOLUTE triggers separately */
 	generate_absolute_triggers (comp, &aod);

@@ -332,7 +332,7 @@ get_alarm_string (CalComponentAlarm *alarm)
 		break;
 
 	case CAL_ALARM_DISPLAY:
-		base = _("Show a dialog");
+		base = _("Display a message");
 		break;
 
 	case CAL_ALARM_EMAIL:
@@ -358,10 +358,10 @@ get_alarm_string (CalComponentAlarm *alarm)
 
 		if (trigger.u.rel_duration.is_neg)
 			str = g_strdup_printf ("%s %s %s", base, dur,
-					       _(" before start of appointment"));
+					       _("before start of appointment"));
 		else
 			str = g_strdup_printf ("%s %s %s", base, dur,
-					       _(" after start of appointment"));
+					       _("after start of appointment"));
 
 		g_free (dur);
 		break;
@@ -371,10 +371,10 @@ get_alarm_string (CalComponentAlarm *alarm)
 
 		if (trigger.u.rel_duration.is_neg)
 			str = g_strdup_printf ("%s %s %s", base, dur,
-					       _(" before end of appointment"));
+					       _("before end of appointment"));
 		else
 			str = g_strdup_printf ("%s %s %s", base, dur,
-					       _(" after end of appointment"));
+					       _("after end of appointment"));
 
 		g_free (dur);
 		break;

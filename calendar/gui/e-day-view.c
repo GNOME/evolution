@@ -1376,6 +1376,11 @@ e_day_view_focus_in (GtkWidget *widget, GdkEventFocus *event)
 	gtk_widget_queue_draw (day_view->top_canvas);
 	gtk_widget_queue_draw (day_view->main_canvas);
 
+	g_assert (GTK_WIDGET_REALIZED (day_view->main_canvas));
+	if (E_CANVAS (day_view->main_canvas)->ic)
+		gdk_im_begin (E_CANVAS (day_view->main_canvas)->ic,
+			      GTK_LAYOUT (day_view->main_canvas)->bin_window);
+
 	return FALSE;
 }
 
@@ -1395,6 +1400,10 @@ e_day_view_focus_out (GtkWidget *widget, GdkEventFocus *event)
 
 	gtk_widget_queue_draw (day_view->top_canvas);
 	gtk_widget_queue_draw (day_view->main_canvas);
+
+	g_assert (GTK_WIDGET_REALIZED (day_view->main_canvas));
+	if (E_CANVAS (day_view->main_canvas)->ic)
+		gdk_im_end ();
 
 	return FALSE;
 }

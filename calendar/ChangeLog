@@ -1,5 +1,16 @@
 2001-07-09  Federico Mena Quintero  <federico@ximian.com>
 
+	* pcs/cal-backend-file.c (generate_alarms_for_comp): Pass the
+	parent vCalendar component as the timezone closure of
+	cal_recur_generate_instances().
+
+	* gui/dialogs/alarm-page.c (get_alarm_string): Make the string
+	consistent with the option menu text.
+	(get_alarm_string): Removed extra spaces from the last part of the
+	alarm string.
+
+2001-07-09  Federico Mena Quintero  <federico@ximian.com>
+
 	* gui/e-day-view.c (e_day_view_key_press): Use
 	e_utf8_from_gtk_event_key() so that we can input utf8 text
 	properly.
