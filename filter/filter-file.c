@@ -27,6 +27,7 @@
 
 #include <string.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <regex.h>
 #include <gtk/gtkobject.h>
 #include <gtk/gtkwidget.h>
@@ -148,7 +149,7 @@ filter_file_new (void)
 
 
 FilterFile *
-filter_file_new_type (const char *type)
+filter_file_new_type_name (const char *type)
 {
 	FilterFile *file;
 	
@@ -274,7 +275,7 @@ entry_changed (GtkEntry *entry, FilterElement *fe)
 	new = e_utf8_gtk_entry_get_text (entry);
 	
 	g_free (file->path);
-	fi->path = new;
+	file->path = new;
 }
 
 static GtkWidget *

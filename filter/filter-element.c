@@ -36,6 +36,7 @@
 #include "filter-int.h"
 #include "filter-folder.h"
 #include "filter-source.h"
+#include "filter-file.h"
 
 
 static gboolean validate (FilterElement *fe);
@@ -273,6 +274,8 @@ filter_element_new_type_name (const char *type)
 		return (FilterElement *)filter_input_new_type_name (type);
 	} else if (!strcmp (type, "source")) {
     	        return (FilterElement *)filter_source_new ();
+	} else if (!strcmp (type, "command")) {
+		return (FilterElement *) filter_file_new_type_name (type);
 	} else {
 		g_warning("Unknown filter type '%s'", type);
 		return 0;

@@ -30,6 +30,8 @@ libfilter_la_SOURCES =				\
 	filter-editor.h				\
 	filter-element.c			\
 	filter-element.h			\
+	filter-file.c				\
+	filter-file.h				\
 	filter-filter.c				\
 	filter-filter.h				\
 	filter-folder.c				\

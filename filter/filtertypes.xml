@@ -562,6 +562,38 @@
   <input type="source" name="source"/>
  </part>
 
+ <part name="command">
+  <title>Command</title>
+  <input type="command" name="command"/>
+  <input type="optionlist" name="retval-type">
+   <option value="is">
+    <title>is</title>
+    <code>
+      (match-all (= (shell-exec ${command}) ${retval}))
+    </code>
+   </option>
+   <option value="is-not">
+    <title>is not</title>
+    <code>
+      (match-all (not (= (shell-exec ${command}) ${retval})))
+    </code>
+   </option>
+   <option value="greater-than">
+    <title>is greater than</title>
+    <code>
+      (match-all (&gt; (shell-exec ${command}) ${retval}))
+    </code>
+   </option>
+   <option value="less-than">
+    <title>is less than</title>
+    <code>
+      (match-all (&lt; (shell-exec ${command}) ${retval}))
+    </code>
+   </option>
+  </input>
+  <input type="integer" name="retval"/>
+ </part>
+
 </partset>
 
 
