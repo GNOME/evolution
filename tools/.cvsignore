@@ -1,5 +1,6 @@
 Makefile
 Makefile.in
+evolution-addressbook-abuse
 evolution-addressbook-clean
 evolution-addressbook-import
 evolution-addressbook-export
