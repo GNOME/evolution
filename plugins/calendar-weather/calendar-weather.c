@@ -659,8 +659,8 @@ e_calendar_weather_units (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	option = gtk_option_menu_new ();
 	gtk_widget_show (option);
-	formats[0] = gtk_menu_item_new_with_label (_("Metric (celcius, cm, etc)"));
-	formats[1] = gtk_menu_item_new_with_label (_("Imperial (fahrenheit, inches, etc)"));
+	formats[0] = gtk_menu_item_new_with_label (_("Metric (Celsius, cm, etc)"));
+	formats[1] = gtk_menu_item_new_with_label (_("Imperial (Fahrenheit, inches, etc)"));
 	menu = gtk_menu_new ();
 	gtk_widget_show (menu);
 	for (i = 0; i < 2; i++) {

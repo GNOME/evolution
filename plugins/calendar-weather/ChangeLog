@@ -1,5 +1,9 @@
 2005-01-12  David Trowbridge <trowbrds@cs.colorado.edu>
 
+	* calendar-weather.c (e_calendar_weather_units): fix spelling
+
+2005-01-12  David Trowbridge <trowbrds@cs.colorado.edu>
+
 	* calendar-weather.c, org-gnome-calendar-weather.eplug.in: use
 	a single setting for metric/imperial rather than separate
 	temperature and snowfall settings
