@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.3.5\n"
-"POT-Creation-Date: 2004-06-03 11:14-0400\n"
+"POT-Creation-Date: 2004-06-11 14:21-0400\n"
 "PO-Revision-Date: 2004-01-14 12:40+0800\n"
 "Last-Translator: Dulmandakh <sdulmandakh@yahoo.com>\n"
 "Language-Team: Mongolian <openmn-gnome@lists.sf.net>\n"
