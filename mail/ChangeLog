@@ -1,3 +1,18 @@
+2000-09-03  JP Rosevear  <jpr@helixcode.com>
+
+	* mail-config.c (mail_config_add_news): Copy the passed in item
+	before adding
+	(mail_config_add_source): ditto
+	(mail_config_add_identity): ditto
+
+	* mail-config-gui.c (mail_config): We don't actually need a notebook
+	pointer.
+	(identities_edit_clicked): Don't explicitly destroy, we are using
+	gtk_clist_set_data_full now
+	(sources_edit_clicked): ditto
+	(news_edit_clicked): ditto
+	(mail_config): Use gtk_clist_set_row_data_full to kill leaks
+
 2000-09-03  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* folder-browser-factory.c: Change the "Get Mail" toolbar button

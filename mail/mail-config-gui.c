@@ -161,7 +161,6 @@ typedef struct
 	Evolution_Shell shell;
 	GladeXML *gui;
 	GtkWidget *dialog;
-	GtkWidget *notebook;
 	GtkWidget *clistIdentities;
 	gint idrow;
 	gint maxidrow;
@@ -1757,7 +1756,6 @@ identities_edit_clicked (GtkWidget *widget, MailDialog *dialog)
 		e_utf8_gtk_clist_set_text (clist, dialog->idrow, 3, id2->sig);
 	
 		gtk_clist_set_row_data (clist, dialog->idrow, id2);
-		identity_destroy (id);
 
 		gnome_property_box_changed (GNOME_PROPERTY_BOX (dialog->dialog));
 	}
@@ -1830,7 +1828,6 @@ sources_edit_clicked (GtkWidget *widget, MailDialog *dialog)
 		
 		e_utf8_gtk_clist_set_text (clist, dialog->srow, 0, source2->url);
 		gtk_clist_set_row_data (clist, dialog->srow, source2);
-		service_destroy (source);
 
 		gnome_property_box_changed (GNOME_PROPERTY_BOX (dialog->dialog));
 	}
@@ -1903,7 +1900,6 @@ news_edit_clicked (GtkWidget *widget, MailDialog *dialog)
 		
 		e_utf8_gtk_clist_set_text (clist, dialog->nrow, 0, news2->url);
 		gtk_clist_set_row_data (clist, dialog->nrow, news2);
-		service_destroy (news);
 
 		gnome_property_box_changed (GNOME_PROPERTY_BOX (dialog->dialog));
 	}
@@ -2030,6 +2026,13 @@ mail_config_apply_clicked (GnomePropertyBox *property_box,
 	mail_config_write ();
 }
 
+static void
+mail_config_close (GnomePropertyBox *property_box, MailDialog *dialog) 
+{
+	gtk_object_unref (GTK_OBJECT (dialog->gui));
+	g_free (dialog);
+}
+	
 void
 mail_config (Evolution_Shell shell)
 {
@@ -2039,17 +2042,16 @@ mail_config (Evolution_Shell shell)
 	GtkCList *clist;
 	GtkWidget *button, *tvbox;
 	GSList *l, *sources, *news, *transports;
-
+	
 	provider_list (&sources, &news, &transports);
 
 	dialog = g_new0 (MailDialog, 1);	
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", NULL);
 
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", NULL);
+	dialog->gui = gui;	
 	dialog->shell = shell;
-	/*gtk_object_ref (GTK_OBJECT (dialog->fb)); no place to unref it*/
 
 	dialog->dialog = glade_xml_get_widget (gui, "dialog");
-	dialog->notebook = glade_xml_get_widget (gui, "notebook");
 	
 	/* Identities Page */
 	dialog->clistIdentities = 
@@ -2075,7 +2077,7 @@ mail_config (Evolution_Shell shell)
 		text[3] = id->sig;
 		
 	 	row = e_utf8_gtk_clist_append (clist, text);
-		gtk_clist_set_row_data (clist, row, id);
+		gtk_clist_set_row_data_full (clist, row, id, (GtkDestroyNotify) identity_destroy);
 	}
 
 	gtk_signal_connect (GTK_OBJECT (clist), "select_row",
@@ -2115,7 +2117,7 @@ mail_config (Evolution_Shell shell)
 		text[0] = source->url;
 
 	 	row = e_utf8_gtk_clist_append (clist, text);
-		gtk_clist_set_row_data (clist, row, source);
+		gtk_clist_set_row_data_full (clist, row, source, (GtkDestroyNotify) service_destroy);
 	}
 
 	gtk_signal_connect (GTK_OBJECT (clist), "select_row",
@@ -2155,7 +2157,7 @@ mail_config (Evolution_Shell shell)
 		text[0] = news->url;
 
 	 	row = e_utf8_gtk_clist_append (clist, text);
-		gtk_clist_set_row_data (clist, row, news);
+		gtk_clist_set_row_data_full (clist, row, news, (GtkDestroyNotify) service_destroy);
 	}
 
 	gtk_signal_connect (GTK_OBJECT (clist), "select_row",
@@ -2204,16 +2206,18 @@ mail_config (Evolution_Shell shell)
 			    GTK_SIGNAL_FUNC (timeout_changed),
 			    dialog);
 
-	/* Listen for apply signal */
+	/* Listen for signals */
 	gtk_signal_connect (GTK_OBJECT (dialog->dialog), "apply",
 			    GTK_SIGNAL_FUNC (mail_config_apply_clicked),
 			    dialog);
+	gtk_signal_connect (GTK_OBJECT (dialog->dialog), "destroy",
+			    GTK_SIGNAL_FUNC (mail_config_close),
+			    dialog);
+	gtk_signal_connect (GTK_OBJECT (dialog->dialog), "delete_event",
+			    GTK_SIGNAL_FUNC (mail_config_close),
+			    dialog);
 
-	gnome_dialog_run (GNOME_DIALOG (dialog->dialog));
-
-	/* Clean up */
-	gtk_object_unref (GTK_OBJECT (gui));
-	g_free (dialog);
+	gtk_widget_show (dialog->dialog);
 }
 
 /* ************************************************************************ */

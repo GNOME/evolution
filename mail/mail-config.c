@@ -484,7 +484,9 @@ mail_config_get_identities (void)
 void
 mail_config_add_identity (MailConfigIdentity *id)
 {
-	config->ids = g_slist_append (config->ids, id);
+	MailConfigIdentity *new_id = identity_copy (id);
+	
+	config->ids = g_slist_append (config->ids, new_id);
 }
 
 MailConfigService *
@@ -505,7 +507,9 @@ mail_config_get_sources (void)
 void
 mail_config_add_source (MailConfigService *source) 
 {
-	config->sources = g_slist_append (config->sources, source);
+	MailConfigService *new_source = service_copy (source);
+	
+	config->sources = g_slist_append (config->sources, new_source);
 }
 
 MailConfigService *
@@ -541,7 +545,9 @@ mail_config_get_news (void)
 void
 mail_config_add_news (MailConfigService *news) 
 {
-	config->news = g_slist_append (config->news, news);
+	MailConfigService *new_news = service_copy (news);
+
+	config->news = g_slist_append (config->news, new_news);
 }
 
 
