@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2002-06-19 17:07-0400\n"
-"PO-Revision-Date: 2001-11-21 22:27+0800\n"
+"POT-Creation-Date: 2002-08-17 04:47+0200\n"
+"PO-Revision-Date: 2002-08-17 15:37+0800\n"
 "Last-Translator: Wang Li <charlesw1234@163.com>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +31,7 @@ msgstr "将 VCard 文件导入 Evolution"
 #: addressbook/backend/ebook/e-card-simple.c:60
 #: addressbook/gui/widgets/e-addressbook-view.c:841
 msgid "File As"
-msgstr ""
+msgstr "文件存于"
 
 #: addressbook/backend/ebook/e-card-simple.c:61
 msgid "Name"
@@ -882,12 +882,15 @@ msgid ""
 msgstr ""
 "这是您在 LDAP 服务器上进行的所有搜索的基本节点。详情请咨询您的服务器管理员。"
 
+# addressbook/gui/component/addressbook-config.glade.h:26
 #: addressbook/gui/component/addressbook-config.glade.h:24
 msgid ""
 "This is the method evolution will use to authenticate you.  Note that "
 "setting this to \"Email Address\" requires anonymous access to your ldap "
 "server."
 msgstr ""
+"这是 evolution 用来认证您的方法。请注意若在此设定为“电子邮件地址”则需要您具有"
+"对 ldap 服务器的匿名访问权限。"
 
 #: addressbook/gui/component/addressbook-config.glade.h:25
 msgid "This is the name of the server where your addressbook is located."
@@ -943,7 +946,7 @@ msgid "_Server name:"
 msgstr "服务器名(_S)："
 
 #: addressbook/gui/component/addressbook-factory.c:70
-#: calendar/gui/alarm-notify/notify-main.c:176 calendar/gui/main.c:134
+#: calendar/gui/alarm-notify/notify-main.c:176 calendar/gui/main.c:137
 msgid "Could not initialize gnome-vfs"
 msgstr "无法创始化 gnome-vfs"
 
@@ -2366,9 +2369,12 @@ msgstr "坦桑尼亚联邦共和国"
 msgid "United States"
 msgstr "美国"
 
+# addressbook/gui/contact-editor/fulladdr.glade.h:225
+# addressbook/gui/contact-editor/fulladdr.glade.h:225
+# addressbook/gui/contact-editor/e-contact-editor-address.c:348
 #: addressbook/gui/contact-editor/fulladdr.glade.h:225
 msgid "United States Minor Outlying Islands"
-msgstr ""
+msgstr "美国小型外岛"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:226
 #: my-evolution/Locations.h:2336
@@ -3050,6 +3056,8 @@ msgstr "打印卡片"
 msgid "Print envelope"
 msgstr "打印信封"
 
+# calendar/zones.h:7
+# calendar/zones.h:7
 #.
 #. * These are the timezone names from the Olson timezone data.
 #. * We only place them here so gettext picks them up for translation.
@@ -3057,23 +3065,29 @@ msgstr "打印信封"
 #.
 #: calendar/zones.h:7
 msgid "Africa/Abidjan"
-msgstr ""
+msgstr "非洲/阿比让"
 
+# calendar/zones.h:8
+# calendar/zones.h:8
 #: calendar/zones.h:8
 msgid "Africa/Accra"
-msgstr ""
+msgstr "非洲/阿克拉"
 
+# calendar/zones.h:9
+# calendar/zones.h:9
 #: calendar/zones.h:9
 msgid "Africa/Addis_Ababa"
-msgstr ""
+msgstr "非洲/亚的斯亚贝巴"
 
 #: calendar/zones.h:10
 msgid "Africa/Algiers"
 msgstr "非洲/阿尔及尔"
 
+# calendar/zones.h:11
+# calendar/zones.h:11
 #: calendar/zones.h:11
 msgid "Africa/Asmera"
-msgstr ""
+msgstr "非洲/阿斯马拉"
 
 #: calendar/zones.h:12
 msgid "Africa/Bamako"
@@ -3083,9 +3097,11 @@ msgstr "非洲/巴马科"
 msgid "Africa/Bangui"
 msgstr "非洲/班吉"
 
+# calendar/zones.h:14
+# calendar/zones.h:14
 #: calendar/zones.h:14
 msgid "Africa/Banjul"
-msgstr ""
+msgstr "非洲/班珠尔"
 
 #: calendar/zones.h:15
 msgid "Africa/Bissau"
@@ -3095,13 +3111,17 @@ msgstr "非洲/比绍"
 msgid "Africa/Blantyre"
 msgstr "非洲/布兰太尔"
 
+# calendar/zones.h:17
+# calendar/zones.h:17
 #: calendar/zones.h:17
 msgid "Africa/Brazzaville"
-msgstr ""
+msgstr "非洲/布拉柴维尔"
 
+# calendar/zones.h:18
+# calendar/zones.h:18
 #: calendar/zones.h:18
 msgid "Africa/Bujumbura"
-msgstr ""
+msgstr "非洲/布琼布拉"
 
 #: calendar/zones.h:19
 msgid "Africa/Cairo"
@@ -3115,17 +3135,21 @@ msgstr "非洲/卡萨布兰卡"
 msgid "Africa/Ceuta"
 msgstr "非洲/休达"
 
+# calendar/zones.h:22
+# calendar/zones.h:22
 #: calendar/zones.h:22
 msgid "Africa/Conakry"
-msgstr ""
+msgstr "非洲/科纳克里"
 
 #: calendar/zones.h:23
 msgid "Africa/Dakar"
 msgstr "非洲/达喀尔"
 
+# calendar/zones.h:24
+# calendar/zones.h:24
 #: calendar/zones.h:24
 msgid "Africa/Dar_es_Salaam"
-msgstr ""
+msgstr "非洲/达累斯萨拉姆"
 
 #: calendar/zones.h:25
 msgid "Africa/Djibouti"
@@ -3159,13 +3183,17 @@ msgstr "非洲/约翰内斯堡"
 msgid "Africa/Kampala"
 msgstr "非洲/坎帕拉"
 
+# calendar/zones.h:33
+# calendar/zones.h:33
 #: calendar/zones.h:33
 msgid "Africa/Khartoum"
-msgstr ""
+msgstr "非洲/喀土穆"
 
+# calendar/zones.h:34
+# calendar/zones.h:34
 #: calendar/zones.h:34
 msgid "Africa/Kigali"
-msgstr ""
+msgstr "非洲/基加利"
 
 #: calendar/zones.h:35
 msgid "Africa/Kinshasa"
@@ -3179,89 +3207,127 @@ msgstr "非洲/拉各斯"
 msgid "Africa/Libreville"
 msgstr "非洲/利伯维尔"
 
+# calendar/zones.h:38
+# calendar/zones.h:38
 #: calendar/zones.h:38
 msgid "Africa/Lome"
-msgstr ""
+msgstr "非洲/洛美"
 
+# calendar/zones.h:39
+# calendar/zones.h:39
 #: calendar/zones.h:39
 msgid "Africa/Luanda"
-msgstr ""
+msgstr "非洲/罗安达"
 
+# calendar/zones.h:40
+# calendar/zones.h:40
 #: calendar/zones.h:40
 msgid "Africa/Lubumbashi"
-msgstr ""
+msgstr "非洲/卢本巴希"
 
+# calendar/zones.h:41
+# calendar/zones.h:41
 #: calendar/zones.h:41
 msgid "Africa/Lusaka"
-msgstr ""
+msgstr "非洲/卢萨卡"
 
+# calendar/zones.h:42
+# calendar/zones.h:42
 #: calendar/zones.h:42
 msgid "Africa/Malabo"
-msgstr ""
+msgstr "非洲/马拉博"
 
+# calendar/zones.h:43
+# calendar/zones.h:43
 #: calendar/zones.h:43
 msgid "Africa/Maputo"
-msgstr ""
+msgstr "非洲/马普托"
 
+# calendar/zones.h:44
+# calendar/zones.h:44
 #: calendar/zones.h:44
 msgid "Africa/Maseru"
-msgstr ""
+msgstr "非洲/马塞卢"
 
+# calendar/zones.h:45
+# calendar/zones.h:45
 #: calendar/zones.h:45
 msgid "Africa/Mbabane"
-msgstr ""
+msgstr "非洲/姆巴巴纳"
 
+# calendar/zones.h:46
+# calendar/zones.h:46
 #: calendar/zones.h:46
 msgid "Africa/Mogadishu"
-msgstr ""
+msgstr "非洲/摩加迪沙"
 
+# calendar/zones.h:47
+# calendar/zones.h:47
 #: calendar/zones.h:47
 msgid "Africa/Monrovia"
-msgstr ""
+msgstr "非洲/蒙罗维亚"
 
 #: calendar/zones.h:48
 msgid "Africa/Nairobi"
 msgstr "非洲/内罗毕"
 
+# calendar/zones.h:49
+# calendar/zones.h:49
 #: calendar/zones.h:49
 msgid "Africa/Ndjamena"
-msgstr ""
+msgstr "非洲/恩贾梅纳"
 
+# calendar/zones.h:50
+# calendar/zones.h:50
 #: calendar/zones.h:50
 msgid "Africa/Niamey"
-msgstr ""
+msgstr "非洲/尼亚美"
 
+# calendar/zones.h:51
+# calendar/zones.h:51
 #: calendar/zones.h:51
 msgid "Africa/Nouakchott"
-msgstr ""
+msgstr "非洲/努瓦克肖特"
 
+# calendar/zones.h:52
+# calendar/zones.h:52
 #: calendar/zones.h:52
 msgid "Africa/Ouagadougou"
-msgstr ""
+msgstr "非洲/瓦加杜古"
 
+# calendar/zones.h:53
+# calendar/zones.h:53
 #: calendar/zones.h:53
 msgid "Africa/Porto-Novo"
-msgstr ""
+msgstr "非洲/波多诺伏"
 
+# calendar/zones.h:54
+# calendar/zones.h:54
 #: calendar/zones.h:54
 msgid "Africa/Sao_Tome"
-msgstr ""
+msgstr "非洲/圣多美"
 
 #: calendar/zones.h:55
 msgid "Africa/Timbuktu"
 msgstr ""
 
+# calendar/zones.h:56
+# calendar/zones.h:56
 #: calendar/zones.h:56
 msgid "Africa/Tripoli"
-msgstr ""
+msgstr "非洲/的黎波里"
 
+# calendar/zones.h:57
+# calendar/zones.h:57
 #: calendar/zones.h:57
 msgid "Africa/Tunis"
-msgstr ""
+msgstr "非洲/突尼斯"
 
+# calendar/zones.h:58
+# calendar/zones.h:58
 #: calendar/zones.h:58
 msgid "Africa/Windhoek"
-msgstr ""
+msgstr "非洲/温得和克"
 
 #: calendar/zones.h:59
 #, fuzzy
@@ -3285,9 +3351,11 @@ msgstr "美洲/安提瓜岛"
 msgid "America/Araguaina"
 msgstr "尼加拉瓜"
 
+# calendar/zones.h:64
+# calendar/zones.h:64
 #: calendar/zones.h:64
 msgid "America/Aruba"
-msgstr ""
+msgstr "美洲/阿鲁巴"
 
 #: calendar/zones.h:65
 #, fuzzy
@@ -3319,13 +3387,17 @@ msgstr "美洲/波哥大"
 msgid "America/Boise"
 msgstr "美洲/博伊西"
 
+# calendar/zones.h:72
+# calendar/zones.h:72
 #: calendar/zones.h:72
 msgid "America/Buenos_Aires"
-msgstr ""
+msgstr "美洲/布宜诺斯艾利斯"
 
+# calendar/zones.h:73
+# calendar/zones.h:73
 #: calendar/zones.h:73
 msgid "America/Cambridge_Bay"
-msgstr ""
+msgstr "美洲/剑桥湾"
 
 #: calendar/zones.h:74
 msgid "America/Cancun"
@@ -3353,9 +3425,11 @@ msgstr "美洲/开曼"
 msgid "America/Chicago"
 msgstr "美洲/芝加哥"
 
+# calendar/zones.h:80
+# calendar/zones.h:80
 #: calendar/zones.h:80
 msgid "America/Chihuahua"
-msgstr ""
+msgstr "美洲/奇瓦瓦"
 
 #: calendar/zones.h:81
 #, fuzzy
@@ -3386,17 +3460,23 @@ msgstr ""
 msgid "America/Dawson"
 msgstr "美洲萨摩亚"
 
+# calendar/zones.h:87
+# calendar/zones.h:87
 #: calendar/zones.h:87
 msgid "America/Dawson_Creek"
-msgstr ""
+msgstr "美洲/道森克里克"
 
+# calendar/zones.h:88
+# calendar/zones.h:88
 #: calendar/zones.h:88
 msgid "America/Denver"
-msgstr ""
+msgstr "美洲/丹佛"
 
+# calendar/zones.h:89
+# calendar/zones.h:89
 #: calendar/zones.h:89
 msgid "America/Detroit"
-msgstr ""
+msgstr "美洲/底特律"
 
 #: calendar/zones.h:90
 #, fuzzy
@@ -3450,9 +3530,11 @@ msgstr "瓜德罗普岛"
 msgid "America/Guatemala"
 msgstr "危地马拉"
 
+# calendar/zones.h:102
+# calendar/zones.h:102
 #: calendar/zones.h:102
 msgid "America/Guayaquil"
-msgstr ""
+msgstr "美洲/瓜亚基尔"
 
 #: calendar/zones.h:103
 #, fuzzy
@@ -3469,29 +3551,39 @@ msgstr "美洲萨摩亚"
 msgid "America/Havana"
 msgstr "美洲萨摩亚"
 
+# calendar/zones.h:106
+# calendar/zones.h:106
 #: calendar/zones.h:106
 msgid "America/Hermosillo"
-msgstr ""
+msgstr "美洲/厄木波利斯"
 
+# calendar/zones.h:107
+# calendar/zones.h:107
 #: calendar/zones.h:107
 msgid "America/Indiana/Indianapolis"
-msgstr ""
+msgstr "美洲/印地安那/印地安纳波利斯"
 
+# calendar/zones.h:108
+# calendar/zones.h:108
 #: calendar/zones.h:108
 msgid "America/Indiana/Knox"
-msgstr ""
+msgstr "美洲/印地安那/诺克斯"
 
+# calendar/zones.h:109
+# calendar/zones.h:109
 #: calendar/zones.h:109
 msgid "America/Indiana/Marengo"
-msgstr ""
+msgstr "美洲/印地安那/马伦戈"
 
 #: calendar/zones.h:110
 msgid "America/Indiana/Vevay"
 msgstr ""
 
+# calendar/zones.h:111
+# calendar/zones.h:111
 #: calendar/zones.h:111
 msgid "America/Indianapolis"
-msgstr ""
+msgstr "美洲/印地安纳波利斯"
 
 #: calendar/zones.h:112
 msgid "America/Inuvik"
@@ -3515,9 +3607,11 @@ msgstr ""
 msgid "America/Juneau"
 msgstr "美洲萨摩亚"
 
+# calendar/zones.h:117
+# calendar/zones.h:117
 #: calendar/zones.h:117
 msgid "America/Kentucky/Louisville"
-msgstr ""
+msgstr "美洲/肯塔基/路易斯维尔"
 
 #: calendar/zones.h:118
 msgid "America/Kentucky/Monticello"
@@ -3533,13 +3627,17 @@ msgstr "美洲萨摩亚"
 msgid "America/Lima"
 msgstr "美洲萨摩亚"
 
+# calendar/zones.h:121
+# calendar/zones.h:121
 #: calendar/zones.h:121
 msgid "America/Los_Angeles"
-msgstr ""
+msgstr "美洲/洛杉矶"
 
+# calendar/zones.h:122
+# calendar/zones.h:122
 #: calendar/zones.h:122
 msgid "America/Louisville"
-msgstr ""
+msgstr "美洲/路易斯维尔"
 
 #: calendar/zones.h:123
 #, fuzzy
@@ -3579,21 +3677,29 @@ msgstr ""
 msgid "America/Merida"
 msgstr ""
 
+# calendar/zones.h:131
+# calendar/zones.h:131
 #: calendar/zones.h:131
 msgid "America/Mexico_City"
-msgstr ""
+msgstr "美洲/墨西哥城"
 
+# calendar/zones.h:132
+# calendar/zones.h:132
 #: calendar/zones.h:132
 msgid "America/Miquelon"
-msgstr ""
+msgstr "美洲/密克隆岛"
 
+# calendar/zones.h:133
+# calendar/zones.h:133
 #: calendar/zones.h:133
 msgid "America/Monterrey"
-msgstr ""
+msgstr "美洲/蒙特雷"
 
+# calendar/zones.h:134
+# calendar/zones.h:134
 #: calendar/zones.h:134
 msgid "America/Montevideo"
-msgstr ""
+msgstr "美洲/蒙得维的亚"
 
 #: calendar/zones.h:135
 #, fuzzy
@@ -3610,9 +3716,11 @@ msgstr "蒙特塞拉特群岛"
 msgid "America/Nassau"
 msgstr "美洲萨摩亚"
 
+# calendar/zones.h:138
+# calendar/zones.h:138
 #: calendar/zones.h:138
 msgid "America/New_York"
-msgstr ""
+msgstr "美洲/纽约"
 
 #: calendar/zones.h:139
 msgid "America/Nipigon"
@@ -3628,9 +3736,11 @@ msgstr "美洲萨摩亚"
 msgid "America/Noronha"
 msgstr "美洲萨摩亚"
 
+# calendar/zones.h:142
+# calendar/zones.h:142
 #: calendar/zones.h:142
 msgid "America/North_Dakota/Center"
-msgstr ""
+msgstr "美洲/北达科它/中心"
 
 #: calendar/zones.h:143
 #, fuzzy
@@ -3646,17 +3756,23 @@ msgstr ""
 msgid "America/Paramaribo"
 msgstr "美洲萨摩亚"
 
+# calendar/zones.h:146
+# calendar/zones.h:146
 #: calendar/zones.h:146
 msgid "America/Phoenix"
-msgstr ""
+msgstr "美洲/凤凰城"
 
+# calendar/zones.h:147
+# calendar/zones.h:147
 #: calendar/zones.h:147
 msgid "America/Port-au-Prince"
-msgstr ""
+msgstr "美洲/太子港"
 
+# calendar/zones.h:148
+# calendar/zones.h:148
 #: calendar/zones.h:148
 msgid "America/Port_of_Spain"
-msgstr ""
+msgstr "美洲/西班牙港"
 
 #: calendar/zones.h:149
 msgid "America/Porto_Velho"
@@ -3675,9 +3791,11 @@ msgstr ""
 msgid "America/Rankin_Inlet"
 msgstr ""
 
+# calendar/zones.h:153
+# calendar/zones.h:153
 #: calendar/zones.h:153
 msgid "America/Recife"
-msgstr ""
+msgstr "美洲/累西腓"
 
 #: calendar/zones.h:154
 #, fuzzy
@@ -3736,17 +3854,21 @@ msgstr "美洲萨摩亚"
 msgid "America/St_Thomas"
 msgstr "美洲萨摩亚"
 
+# calendar/zones.h:166
+# calendar/zones.h:166
 #: calendar/zones.h:166
 msgid "America/St_Vincent"
-msgstr ""
+msgstr "美洲/圣文森特"
 
 #: calendar/zones.h:167
 msgid "America/Swift_Current"
 msgstr ""
 
+# calendar/zones.h:168
+# calendar/zones.h:168
 #: calendar/zones.h:168
 msgid "America/Tegucigalpa"
-msgstr ""
+msgstr "美洲/特古西加尔巴"
 
 #: calendar/zones.h:169
 msgid "America/Thule"
@@ -3766,26 +3888,34 @@ msgstr "阿塞拜疆"
 msgid "America/Tortola"
 msgstr "美洲萨摩亚"
 
+# calendar/zones.h:173
+# calendar/zones.h:173
 #: calendar/zones.h:173
 msgid "America/Vancouver"
-msgstr ""
+msgstr "美洲/温哥华"
 
+# calendar/zones.h:174
+# calendar/zones.h:174
 #: calendar/zones.h:174
 msgid "America/Whitehorse"
-msgstr ""
+msgstr "美洲/怀特霍斯"
 
+# calendar/zones.h:175
+# calendar/zones.h:175
 #: calendar/zones.h:175
 msgid "America/Winnipeg"
-msgstr ""
+msgstr "美洲/温尼伯"
 
 #: calendar/zones.h:176
 #, fuzzy
 msgid "America/Yakutat"
 msgstr "美洲萨摩亚"
 
+# calendar/zones.h:177
+# calendar/zones.h:177
 #: calendar/zones.h:177
 msgid "America/Yellowknife"
-msgstr ""
+msgstr "美洲/耶洛奈夫"
 
 #: calendar/zones.h:178
 #, fuzzy
@@ -3831,25 +3961,33 @@ msgstr "南极洲"
 msgid "Antarctica/Vostok"
 msgstr "南极洲"
 
+# calendar/zones.h:187
+# calendar/zones.h:187
 #: calendar/zones.h:187
 msgid "Arctic/Longyearbyen"
-msgstr ""
+msgstr "北极地区/郎伊尔城"
 
+# calendar/zones.h:188
+# calendar/zones.h:188
 #: calendar/zones.h:188
 msgid "Asia/Aden"
-msgstr ""
+msgstr "亚洲/亚丁"
 
 #: calendar/zones.h:189
 msgid "Asia/Almaty"
 msgstr ""
 
+# calendar/zones.h:190
+# calendar/zones.h:190
 #: calendar/zones.h:190
 msgid "Asia/Amman"
-msgstr ""
+msgstr "亚洲/安曼"
 
+# calendar/zones.h:191
+# calendar/zones.h:191
 #: calendar/zones.h:191
 msgid "Asia/Anadyr"
-msgstr ""
+msgstr "亚洲/阿纳德尔"
 
 #: calendar/zones.h:192
 msgid "Asia/Aqtau"
@@ -3863,79 +4001,109 @@ msgstr ""
 msgid "Asia/Ashgabat"
 msgstr ""
 
+# calendar/zones.h:195
+# calendar/zones.h:195
 #: calendar/zones.h:195
 msgid "Asia/Baghdad"
-msgstr ""
+msgstr "亚洲/巴格达"
 
 #: calendar/zones.h:196
 #, fuzzy
 msgid "Asia/Bahrain"
 msgstr "巴林岛"
 
+# calendar/zones.h:197
+# calendar/zones.h:197
 #: calendar/zones.h:197
 msgid "Asia/Baku"
-msgstr ""
+msgstr "亚洲/巴库"
 
+# calendar/zones.h:198
+# calendar/zones.h:198
 #: calendar/zones.h:198
 msgid "Asia/Bangkok"
-msgstr ""
+msgstr "亚洲/曼谷"
 
+# calendar/zones.h:199
+# calendar/zones.h:199
 #: calendar/zones.h:199
 msgid "Asia/Beirut"
-msgstr ""
+msgstr "亚洲/贝鲁特"
 
+# calendar/zones.h:200
+# calendar/zones.h:200
 #: calendar/zones.h:200
 msgid "Asia/Bishkek"
-msgstr ""
+msgstr "亚洲/比什凯克"
 
+# calendar/zones.h:201
+# calendar/zones.h:201
 #: calendar/zones.h:201
 msgid "Asia/Brunei"
-msgstr ""
+msgstr "亚洲/文莱"
 
+# calendar/zones.h:202
+# calendar/zones.h:202
 #: calendar/zones.h:202
 msgid "Asia/Calcutta"
-msgstr ""
+msgstr "亚洲/加尔各答"
 
 #: calendar/zones.h:203
 msgid "Asia/Choibalsan"
 msgstr ""
 
+# calendar/zones.h:204
+# calendar/zones.h:204
 #: calendar/zones.h:204
 msgid "Asia/Chongqing"
-msgstr ""
+msgstr "亚洲/重庆"
 
 #: calendar/zones.h:205
 #, fuzzy
 msgid "Asia/Colombo"
 msgstr "哥伦比亚"
 
+# calendar/zones.h:206
+# calendar/zones.h:206
 #: calendar/zones.h:206
 msgid "Asia/Damascus"
-msgstr ""
+msgstr "亚洲/大马士革"
 
+# calendar/zones.h:207
+# calendar/zones.h:207
 #: calendar/zones.h:207
 msgid "Asia/Dhaka"
-msgstr ""
+msgstr "亚洲/达卡"
 
+# calendar/zones.h:208
+# calendar/zones.h:208
 #: calendar/zones.h:208
 msgid "Asia/Dili"
-msgstr ""
+msgstr "亚洲/帝力"
 
+# calendar/zones.h:209
+# calendar/zones.h:209
 #: calendar/zones.h:209
 msgid "Asia/Dubai"
-msgstr ""
+msgstr "亚洲/迪拜"
 
+# calendar/zones.h:210
+# calendar/zones.h:210
 #: calendar/zones.h:210
 msgid "Asia/Dushanbe"
-msgstr ""
+msgstr "亚洲/杜尚别"
 
+# calendar/zones.h:211
+# calendar/zones.h:211
 #: calendar/zones.h:211
 msgid "Asia/Gaza"
-msgstr ""
+msgstr "亚洲/加沙"
 
+# calendar/zones.h:212
+# calendar/zones.h:212
 #: calendar/zones.h:212
 msgid "Asia/Harbin"
-msgstr ""
+msgstr "亚洲/哈尔滨"
 
 #: calendar/zones.h:213
 #, fuzzy
@@ -3946,68 +4114,88 @@ msgstr "香港"
 msgid "Asia/Hovd"
 msgstr ""
 
+# calendar/zones.h:215
+# calendar/zones.h:215
 #: calendar/zones.h:215
 msgid "Asia/Irkutsk"
-msgstr ""
+msgstr "亚洲/伊尔库次克"
 
 #: calendar/zones.h:216
 #, fuzzy
 msgid "Asia/Istanbul"
 msgstr "助手"
 
+# calendar/zones.h:217
+# calendar/zones.h:217
 #: calendar/zones.h:217
 msgid "Asia/Jakarta"
-msgstr ""
+msgstr "亚洲/雅加达"
 
 #: calendar/zones.h:218
 msgid "Asia/Jayapura"
 msgstr ""
 
+# calendar/zones.h:219
+# calendar/zones.h:219
 #: calendar/zones.h:219
 msgid "Asia/Jerusalem"
-msgstr ""
+msgstr "亚洲/耶路撒冷"
 
 #: calendar/zones.h:220
 msgid "Asia/Kabul"
 msgstr "亚洲/喀布尔"
 
+# calendar/zones.h:221
+# calendar/zones.h:221
 #: calendar/zones.h:221
 msgid "Asia/Kamchatka"
-msgstr ""
+msgstr "亚洲/堪察加半岛"
 
+# calendar/zones.h:222
+# calendar/zones.h:222
 #: calendar/zones.h:222
 msgid "Asia/Karachi"
-msgstr ""
+msgstr "亚洲/卡拉奇"
 
 #: calendar/zones.h:223
 #, fuzzy
 msgid "Asia/Kashgar"
 msgstr "亚洲/"
 
+# calendar/zones.h:224
+# calendar/zones.h:224
 #: calendar/zones.h:224
 msgid "Asia/Katmandu"
-msgstr ""
+msgstr "亚洲/加德满都"
 
+# calendar/zones.h:225
+# calendar/zones.h:225
 #: calendar/zones.h:225
 msgid "Asia/Krasnoyarsk"
-msgstr ""
+msgstr "亚洲/克拉斯诺伏斯克"
 
+# calendar/zones.h:226
+# calendar/zones.h:226
 #: calendar/zones.h:226
 msgid "Asia/Kuala_Lumpur"
-msgstr ""
+msgstr "亚洲/吉隆坡"
 
+# calendar/zones.h:227
+# calendar/zones.h:227
 #: calendar/zones.h:227
 msgid "Asia/Kuching"
-msgstr ""
+msgstr "亚洲/古晋"
 
 #: calendar/zones.h:228
 #, fuzzy
 msgid "Asia/Kuwait"
 msgstr "科威特"
 
+# calendar/zones.h:229
+# calendar/zones.h:229
 #: calendar/zones.h:229
 msgid "Asia/Macao"
-msgstr ""
+msgstr "亚洲/澳门"
 
 #: calendar/zones.h:230
 #, fuzzy
@@ -4023,18 +4211,22 @@ msgstr ""
 msgid "Asia/Makassar"
 msgstr "亚洲/"
 
+# calendar/zones.h:231
+# calendar/zones.h:231
 #: calendar/zones.h:233
 msgid "Asia/Manila"
-msgstr ""
+msgstr "亚洲/马尼拉"
 
 #: calendar/zones.h:234
 #, fuzzy
 msgid "Asia/Muscat"
 msgstr "助手"
 
+# calendar/zones.h:233
+# calendar/zones.h:233
 #: calendar/zones.h:235
 msgid "Asia/Nicosia"
-msgstr ""
+msgstr "亚洲/尼科西亚"
 
 #: calendar/zones.h:236
 msgid "Asia/Novosibirsk"
@@ -4050,83 +4242,118 @@ msgstr "委派任务"
 msgid "Asia/Oral"
 msgstr "亚洲/喀布尔"
 
+# calendar/zones.h:236
+# calendar/zones.h:236
 #: calendar/zones.h:239
 msgid "Asia/Phnom_Penh"
-msgstr ""
+msgstr "亚洲/金边"
 
+# calendar/zones.h:237
+# calendar/zones.h:237
 #: calendar/zones.h:240
 msgid "Asia/Pontianak"
-msgstr ""
+msgstr "亚洲/坤甸"
 
+# calendar/zones.h:238
+# calendar/zones.h:238
 #: calendar/zones.h:241
 msgid "Asia/Pyongyang"
-msgstr ""
+msgstr "亚洲/平壤"
 
 #: calendar/zones.h:242
 #, fuzzy
 msgid "Asia/Qatar"
 msgstr "卡塔尔"
 
+# calendar/zones.h:211
+# calendar/zones.h:211
 #: calendar/zones.h:243
+#, fuzzy
 msgid "Asia/Qyzylorda"
-msgstr ""
+msgstr "亚洲/加沙"
 
+# calendar/zones.h:240
+# calendar/zones.h:240
 #: calendar/zones.h:244
 msgid "Asia/Rangoon"
-msgstr ""
+msgstr "亚洲/仰光"
 
+# calendar/zones.h:241
+# calendar/zones.h:241
 #: calendar/zones.h:245
 msgid "Asia/Riyadh"
-msgstr ""
+msgstr "亚洲/利雅得"
 
+# calendar/zones.h:242
+# calendar/zones.h:242
 #: calendar/zones.h:246
 msgid "Asia/Saigon"
-msgstr ""
+msgstr "亚洲/西贡"
 
+# calendar/zones.h:243
+# calendar/zones.h:243
 #: calendar/zones.h:247
 msgid "Asia/Sakhalin"
-msgstr ""
+msgstr "亚洲/库页岛"
 
+# calendar/zones.h:244
+# calendar/zones.h:244
 #: calendar/zones.h:248
 msgid "Asia/Samarkand"
-msgstr ""
+msgstr "亚洲/撒马尔罕"
 
+# calendar/zones.h:245
+# calendar/zones.h:245
 #: calendar/zones.h:249
 msgid "Asia/Seoul"
-msgstr ""
+msgstr "亚洲/汉城"
 
+# calendar/zones.h:246
+# calendar/zones.h:246
 #: calendar/zones.h:250
 msgid "Asia/Shanghai"
-msgstr ""
+msgstr "亚洲/上海"
 
 #: calendar/zones.h:251
 #, fuzzy
 msgid "Asia/Singapore"
 msgstr "新加坡"
 
+# calendar/zones.h:248
+# calendar/zones.h:248
 #: calendar/zones.h:252
 msgid "Asia/Taipei"
-msgstr ""
+msgstr "亚洲/台北"
 
+# calendar/zones.h:249
+# calendar/zones.h:249
 #: calendar/zones.h:253
 msgid "Asia/Tashkent"
-msgstr ""
+msgstr "亚洲/塔什干"
 
+# calendar/zones.h:250
+# calendar/zones.h:250
 #: calendar/zones.h:254
 msgid "Asia/Tbilisi"
-msgstr ""
+msgstr "亚洲/第比利斯"
 
+# calendar/zones.h:251
+# calendar/zones.h:251
 #: calendar/zones.h:255
 msgid "Asia/Tehran"
-msgstr ""
+msgstr "亚洲/德黑兰"
 
+# calendar/zones.h:252
+# calendar/zones.h:252
 #: calendar/zones.h:256
 msgid "Asia/Thimphu"
-msgstr ""
+msgstr "亚洲/廷布"
 
+# calendar/zones.h:253
+# calendar/zones.h:253
 #: calendar/zones.h:257
 msgid "Asia/Tokyo"
-msgstr ""
+msgstr "亚洲/东京"
 
 #: calendar/zones.h:258
 msgid "Asia/Ujung_Pandang"
@@ -4140,71 +4367,95 @@ msgstr "亚洲/乌兰巴托"
 msgid "Asia/Urumqi"
 msgstr "亚洲/乌鲁木齐"
 
+# calendar/zones.h:257
+# calendar/zones.h:257
 #: calendar/zones.h:261
 msgid "Asia/Vientiane"
-msgstr ""
+msgstr "亚洲/万象"
 
+# calendar/zones.h:258
+# calendar/zones.h:258
 #: calendar/zones.h:262
 msgid "Asia/Vladivostok"
-msgstr ""
+msgstr "亚洲/符拉迪沃斯托克"
 
+# calendar/zones.h:259
+# calendar/zones.h:259
 #: calendar/zones.h:263
 msgid "Asia/Yakutsk"
-msgstr ""
+msgstr "亚洲/雅库茨克"
 
 #: calendar/zones.h:264
 msgid "Asia/Yekaterinburg"
 msgstr ""
 
+# calendar/zones.h:261
+# calendar/zones.h:261
 #: calendar/zones.h:265
 msgid "Asia/Yerevan"
-msgstr ""
+msgstr "亚洲/耶列万"
 
+# calendar/zones.h:262
+# calendar/zones.h:262
 #: calendar/zones.h:266
 msgid "Atlantic/Azores"
-msgstr ""
+msgstr "大西洋/亚述尔群岛"
 
 #: calendar/zones.h:267
 #, fuzzy
 msgid "Atlantic/Bermuda"
 msgstr "百慕大群岛"
 
+# calendar/zones.h:264
+# calendar/zones.h:264
 #: calendar/zones.h:268
 msgid "Atlantic/Canary"
-msgstr ""
+msgstr "大西洋/卡内里"
 
 #: calendar/zones.h:269
 #, fuzzy
 msgid "Atlantic/Cape_Verde"
 msgstr "佛得角"
 
+# calendar/zones.h:266
+# calendar/zones.h:266
 #: calendar/zones.h:270
 msgid "Atlantic/Faeroe"
-msgstr ""
+msgstr "大西洋/法罗"
 
 #: calendar/zones.h:271
 msgid "Atlantic/Jan_Mayen"
 msgstr ""
 
+# calendar/zones.h:268
+# calendar/zones.h:268
 #: calendar/zones.h:272
 msgid "Atlantic/Madeira"
-msgstr ""
+msgstr "大西洋/马德拉群岛"
 
+# calendar/zones.h:269
+# calendar/zones.h:269
 #: calendar/zones.h:273
 msgid "Atlantic/Reykjavik"
-msgstr ""
+msgstr "大西洋/雷克雅未克"
 
+# calendar/zones.h:270
+# calendar/zones.h:270
 #: calendar/zones.h:274
 msgid "Atlantic/South_Georgia"
-msgstr ""
+msgstr "大西洋/南乔治亚"
 
+# calendar/zones.h:271
+# calendar/zones.h:271
 #: calendar/zones.h:275
 msgid "Atlantic/St_Helena"
-msgstr ""
+msgstr "大西洋/圣海伦娜"
 
+# calendar/zones.h:272
+# calendar/zones.h:272
 #: calendar/zones.h:276
 msgid "Atlantic/Stanley"
-msgstr ""
+msgstr "大西洋/斯坦利"
 
 #: calendar/zones.h:277
 #, fuzzy
@@ -4256,9 +4507,11 @@ msgstr "澳大利亚"
 msgid "Australia/Sydney"
 msgstr "澳大利亚"
 
+# calendar/zones.h:283
+# calendar/zones.h:283
 #: calendar/zones.h:287
 msgid "Europe/Amsterdam"
-msgstr ""
+msgstr "欧洲/阿姆斯特丹"
 
 #: calendar/zones.h:288
 #, fuzzy
@@ -4270,129 +4523,175 @@ msgstr "安道尔"
 msgid "Europe/Athens"
 msgstr "属性"
 
+# calendar/zones.h:286
+# calendar/zones.h:286
 #: calendar/zones.h:290
 msgid "Europe/Belfast"
-msgstr ""
+msgstr "欧洲/贝尔法斯特"
 
+# calendar/zones.h:287
+# calendar/zones.h:287
 #: calendar/zones.h:291
 msgid "Europe/Belgrade"
-msgstr ""
+msgstr "欧洲/贝尔格莱德"
 
+# calendar/zones.h:288
+# calendar/zones.h:288
 #: calendar/zones.h:292
 msgid "Europe/Berlin"
-msgstr ""
+msgstr "欧洲/柏林"
 
+# calendar/zones.h:289
+# calendar/zones.h:289
 #: calendar/zones.h:293
 msgid "Europe/Bratislava"
-msgstr ""
+msgstr "欧洲/布拉迪斯拉发"
 
 #: calendar/zones.h:294
 msgid "Europe/Brussels"
 msgstr "欧洲/布鲁塞尔"
 
+# calendar/zones.h:291
+# calendar/zones.h:291
 #: calendar/zones.h:295
 msgid "Europe/Bucharest"
-msgstr ""
+msgstr "欧洲/布加勒斯特"
 
+# calendar/zones.h:292
+# calendar/zones.h:292
 #: calendar/zones.h:296
 msgid "Europe/Budapest"
-msgstr ""
+msgstr "欧洲/布达佩斯"
 
 #: calendar/zones.h:297
 msgid "Europe/Chisinau"
 msgstr ""
 
+# calendar/zones.h:294
+# calendar/zones.h:294
 #: calendar/zones.h:298
 msgid "Europe/Copenhagen"
-msgstr ""
+msgstr "欧洲/哥本哈根"
 
+# calendar/zones.h:295
+# calendar/zones.h:295
 #: calendar/zones.h:299
 msgid "Europe/Dublin"
-msgstr ""
+msgstr "欧洲/都柏林"
 
 #: calendar/zones.h:300
 #, fuzzy
 msgid "Europe/Gibraltar"
 msgstr "直布罗陀"
 
+# calendar/zones.h:297
+# calendar/zones.h:297
 #: calendar/zones.h:301
 msgid "Europe/Helsinki"
-msgstr ""
+msgstr "欧洲/赫尔辛基"
 
 #: calendar/zones.h:302
 msgid "Europe/Istanbul"
 msgstr "欧洲/伊斯坦布尔"
 
+# calendar/zones.h:299
+# calendar/zones.h:299
 #: calendar/zones.h:303
 msgid "Europe/Kaliningrad"
-msgstr ""
+msgstr "欧洲/加里宁格勒"
 
+# calendar/zones.h:300
+# calendar/zones.h:300
 #: calendar/zones.h:304
 msgid "Europe/Kiev"
-msgstr ""
+msgstr "欧洲/基辅"
 
+# calendar/zones.h:301
+# calendar/zones.h:301
 #: calendar/zones.h:305
 msgid "Europe/Lisbon"
-msgstr ""
+msgstr "欧洲/里斯本"
 
+# calendar/zones.h:302
+# calendar/zones.h:302
 #: calendar/zones.h:306
 msgid "Europe/Ljubljana"
-msgstr ""
+msgstr "欧洲/卢布尔雅纳"
 
+# calendar/zones.h:303
+# calendar/zones.h:303
 #: calendar/zones.h:307
 msgid "Europe/London"
-msgstr ""
+msgstr "欧洲/伦敦"
 
 #: calendar/zones.h:308
 #, fuzzy
 msgid "Europe/Luxembourg"
 msgstr "卢森堡"
 
+# calendar/zones.h:305
+# calendar/zones.h:305
 #: calendar/zones.h:309
 msgid "Europe/Madrid"
-msgstr ""
+msgstr "欧洲/马德里"
 
+# calendar/zones.h:306
+# calendar/zones.h:306
 #: calendar/zones.h:310
 msgid "Europe/Malta"
-msgstr ""
+msgstr "欧洲/马耳他"
 
+# calendar/zones.h:307
+# calendar/zones.h:307
 #: calendar/zones.h:311
 msgid "Europe/Minsk"
-msgstr ""
+msgstr "欧洲/明斯克"
 
 #: calendar/zones.h:312
 #, fuzzy
 msgid "Europe/Monaco"
 msgstr "摩纳哥"
 
+# calendar/zones.h:309
+# calendar/zones.h:309
 #: calendar/zones.h:313
 msgid "Europe/Moscow"
-msgstr ""
+msgstr "欧洲/莫斯科"
 
+# calendar/zones.h:310
+# calendar/zones.h:310
 #: calendar/zones.h:314
 msgid "Europe/Nicosia"
-msgstr ""
+msgstr "欧洲/尼科西亚"
 
+# calendar/zones.h:311
+# calendar/zones.h:311
 #: calendar/zones.h:315
 msgid "Europe/Oslo"
-msgstr ""
+msgstr "欧洲/奥斯路"
 
 #: calendar/zones.h:316
 #, fuzzy
 msgid "Europe/Paris"
 msgstr "属性"
 
+# calendar/zones.h:313
+# calendar/zones.h:313
 #: calendar/zones.h:317
 msgid "Europe/Prague"
-msgstr ""
+msgstr "欧洲/布拉格"
 
+# calendar/zones.h:314
+# calendar/zones.h:314
 #: calendar/zones.h:318
 msgid "Europe/Riga"
-msgstr ""
+msgstr "欧洲/里加"
 
+# calendar/zones.h:315
+# calendar/zones.h:315
 #: calendar/zones.h:319
 msgid "Europe/Rome"
-msgstr ""
+msgstr "欧洲/罗马"
 
 #: calendar/zones.h:320
 msgid "Europe/Samara"
@@ -4403,85 +4702,119 @@ msgstr ""
 msgid "Europe/San_Marino"
 msgstr "圣马力诺"
 
+# calendar/zones.h:318
+# calendar/zones.h:318
 #: calendar/zones.h:322
 msgid "Europe/Sarajevo"
-msgstr ""
+msgstr "欧洲/萨拉热窝"
 
+# calendar/zones.h:319
+# calendar/zones.h:319
 #: calendar/zones.h:323
 msgid "Europe/Simferopol"
-msgstr ""
+msgstr "欧洲/辛菲罗波尔"
 
+# calendar/zones.h:320
+# calendar/zones.h:320
 #: calendar/zones.h:324
 msgid "Europe/Skopje"
-msgstr ""
+msgstr "欧洲/斯科普里"
 
+# calendar/zones.h:321
+# calendar/zones.h:321
 #: calendar/zones.h:325
 msgid "Europe/Sofia"
-msgstr ""
+msgstr "欧洲/索非亚"
 
+# calendar/zones.h:322
+# calendar/zones.h:322
 #: calendar/zones.h:326
 msgid "Europe/Stockholm"
-msgstr ""
+msgstr "欧洲/斯德哥尔摩"
 
+# calendar/zones.h:323
+# calendar/zones.h:323
 #: calendar/zones.h:327
 msgid "Europe/Tallinn"
-msgstr ""
+msgstr "欧洲/塔林"
 
+# calendar/zones.h:324
+# calendar/zones.h:324
 #: calendar/zones.h:328
 msgid "Europe/Tirane"
-msgstr ""
+msgstr "欧洲/地拉那"
 
 #: calendar/zones.h:329
 msgid "Europe/Uzhgorod"
 msgstr ""
 
+# calendar/zones.h:326
+# calendar/zones.h:326
 #: calendar/zones.h:330
 msgid "Europe/Vaduz"
-msgstr ""
+msgstr "欧洲/瓦杜兹"
 
+# calendar/zones.h:327
+# calendar/zones.h:327
 #: calendar/zones.h:331
 msgid "Europe/Vatican"
-msgstr ""
+msgstr "欧洲/梵蒂冈"
 
+# calendar/zones.h:328
+# calendar/zones.h:328
 #: calendar/zones.h:332
 msgid "Europe/Vienna"
-msgstr ""
+msgstr "欧洲/维也纳"
 
+# calendar/zones.h:329
+# calendar/zones.h:329
 #: calendar/zones.h:333
 msgid "Europe/Vilnius"
-msgstr ""
+msgstr "欧洲/维尔纽斯"
 
+# calendar/zones.h:330
+# calendar/zones.h:330
 #: calendar/zones.h:334
 msgid "Europe/Warsaw"
-msgstr ""
+msgstr "欧洲/华沙"
 
+# calendar/zones.h:331
+# calendar/zones.h:331
 #: calendar/zones.h:335
 msgid "Europe/Zagreb"
-msgstr ""
+msgstr "欧洲/萨格勒布"
 
 #: calendar/zones.h:336
 msgid "Europe/Zaporozhye"
 msgstr ""
 
+# calendar/zones.h:333
+# calendar/zones.h:333
 #: calendar/zones.h:337
 msgid "Europe/Zurich"
-msgstr ""
+msgstr "欧洲/苏黎世"
 
 #: calendar/zones.h:338
 msgid "Indian/Antananarivo"
 msgstr ""
 
+# calendar/zones.h:335
+# calendar/zones.h:335
 #: calendar/zones.h:339
 msgid "Indian/Chagos"
-msgstr ""
+msgstr "印度洋/查戈斯群岛"
 
+# calendar/zones.h:336
+# calendar/zones.h:336
 #: calendar/zones.h:340
 msgid "Indian/Christmas"
-msgstr ""
+msgstr "印度洋/圣诞岛"
 
+# calendar/zones.h:337
+# calendar/zones.h:337
 #: calendar/zones.h:341
 msgid "Indian/Cocos"
-msgstr ""
+msgstr "印度洋/科科斯"
 
 #: calendar/zones.h:342
 #, fuzzy
@@ -4517,25 +4850,33 @@ msgstr "马约特岛"
 msgid "Indian/Reunion"
 msgstr "留尼汪"
 
+# calendar/zones.h:345
+# calendar/zones.h:345
 #: calendar/zones.h:349
 msgid "Pacific/Apia"
-msgstr ""
+msgstr "太平洋/阿皮亚"
 
 #: calendar/zones.h:350
 msgid "Pacific/Auckland"
 msgstr "太平洋/奥克兰"
 
+# calendar/zones.h:347
+# calendar/zones.h:347
 #: calendar/zones.h:351
 msgid "Pacific/Chatham"
-msgstr ""
+msgstr "太平洋/查塔姆群岛"
 
+# calendar/zones.h:348
+# calendar/zones.h:348
 #: calendar/zones.h:352
 msgid "Pacific/Easter"
-msgstr ""
+msgstr "太平洋/复活节岛"
 
+# calendar/zones.h:349
+# calendar/zones.h:349
 #: calendar/zones.h:353
 msgid "Pacific/Efate"
-msgstr ""
+msgstr "太平洋/埃法特岛"
 
 #: calendar/zones.h:354
 msgid "Pacific/Enderbury"
@@ -4545,37 +4886,49 @@ msgstr ""
 msgid "Pacific/Fakaofo"
 msgstr ""
 
+# calendar/zones.h:352
+# calendar/zones.h:352
 #: calendar/zones.h:356
 msgid "Pacific/Fiji"
-msgstr ""
+msgstr "太平洋/斐济"
 
+# calendar/zones.h:353
+# calendar/zones.h:353
 #: calendar/zones.h:357
 msgid "Pacific/Funafuti"
-msgstr ""
+msgstr "太平洋/富纳富提"
 
+# calendar/zones.h:354
+# calendar/zones.h:354
 #: calendar/zones.h:358
 msgid "Pacific/Galapagos"
-msgstr ""
+msgstr "太平洋/加拉帕哥斯群岛"
 
 #: calendar/zones.h:359
 msgid "Pacific/Gambier"
 msgstr ""
 
+# calendar/zones.h:356
+# calendar/zones.h:356
 #: calendar/zones.h:360
 msgid "Pacific/Guadalcanal"
-msgstr ""
+msgstr "太平洋/瓜达卡纳尔岛"
 
+# calendar/zones.h:357
+# calendar/zones.h:357
 #: calendar/zones.h:361
 msgid "Pacific/Guam"
-msgstr ""
+msgstr "太平洋/关岛"
 
 #: calendar/zones.h:362
 msgid "Pacific/Honolulu"
 msgstr "太平洋/火奴鲁鲁(檀香山)"
 
+# calendar/zones.h:359
+# calendar/zones.h:359
 #: calendar/zones.h:363
 msgid "Pacific/Johnston"
-msgstr ""
+msgstr "太平洋/约翰斯顿"
 
 #: calendar/zones.h:364
 msgid "Pacific/Kiritimati"
@@ -4585,17 +4938,21 @@ msgstr ""
 msgid "Pacific/Kosrae"
 msgstr ""
 
+# calendar/zones.h:362
+# calendar/zones.h:362
 #: calendar/zones.h:366
 msgid "Pacific/Kwajalein"
-msgstr ""
+msgstr "太平洋/夸贾林环礁"
 
 #: calendar/zones.h:367
 msgid "Pacific/Majuro"
 msgstr ""
 
+# calendar/zones.h:364
+# calendar/zones.h:364
 #: calendar/zones.h:368
 msgid "Pacific/Marquesas"
-msgstr ""
+msgstr "太平洋/马克萨斯群岛"
 
 #: calendar/zones.h:369
 msgid "Pacific/Midway"
@@ -4605,25 +4962,35 @@ msgstr "太平洋/中途岛"
 msgid "Pacific/Nauru"
 msgstr "太平洋/瑙鲁"
 
+# calendar/zones.h:367
+# calendar/zones.h:367
 #: calendar/zones.h:371
 msgid "Pacific/Niue"
-msgstr ""
+msgstr "太平洋/纽埃岛"
 
+# calendar/zones.h:368
+# calendar/zones.h:368
 #: calendar/zones.h:372
 msgid "Pacific/Norfolk"
-msgstr ""
+msgstr "太平洋/诺福克"
 
+# calendar/zones.h:369
+# calendar/zones.h:369
 #: calendar/zones.h:373
 msgid "Pacific/Noumea"
-msgstr ""
+msgstr "太平洋/努美阿"
 
+# calendar/zones.h:370
+# calendar/zones.h:370
 #: calendar/zones.h:374
 msgid "Pacific/Pago_Pago"
-msgstr ""
+msgstr "太平洋/帕果-帕果"
 
+# calendar/zones.h:371
+# calendar/zones.h:371
 #: calendar/zones.h:375
 msgid "Pacific/Palau"
-msgstr ""
+msgstr "太平洋/帕劳"
 
 #: calendar/zones.h:376
 #, fuzzy
@@ -4634,41 +5001,57 @@ msgstr "皮特克恩岛"
 msgid "Pacific/Ponape"
 msgstr ""
 
+# calendar/zones.h:374
+# calendar/zones.h:374
 #: calendar/zones.h:378
 msgid "Pacific/Port_Moresby"
-msgstr ""
+msgstr "太平洋/莫尔斯比港"
 
+# calendar/zones.h:375
+# calendar/zones.h:375
 #: calendar/zones.h:379
 msgid "Pacific/Rarotonga"
-msgstr ""
+msgstr "太平洋/拉罗汤加岛"
 
+# calendar/zones.h:376
+# calendar/zones.h:376
 #: calendar/zones.h:380
 msgid "Pacific/Saipan"
-msgstr ""
+msgstr "太平洋/塞班岛"
 
+# calendar/zones.h:377
+# calendar/zones.h:377
 #: calendar/zones.h:381
 msgid "Pacific/Tahiti"
-msgstr ""
+msgstr "太平洋/塔希提"
 
+# calendar/zones.h:378
+# calendar/zones.h:378
 #: calendar/zones.h:382
 msgid "Pacific/Tarawa"
-msgstr ""
+msgstr "太平洋/塔拉瓦岛"
 
 #: calendar/zones.h:383
 msgid "Pacific/Tongatapu"
 msgstr ""
 
+# calendar/zones.h:380
+# calendar/zones.h:380
 #: calendar/zones.h:384
 msgid "Pacific/Truk"
-msgstr ""
+msgstr "太平洋/特鲁克"
 
+# calendar/zones.h:381
+# calendar/zones.h:381
 #: calendar/zones.h:385
 msgid "Pacific/Wake"
-msgstr ""
+msgstr "太平洋/威克岛"
 
+# calendar/zones.h:382
+# calendar/zones.h:382
 #: calendar/zones.h:386
 msgid "Pacific/Wallis"
-msgstr ""
+msgstr "太平洋/沃利斯"
 
 #: calendar/zones.h:387
 msgid "Pacific/Yap"
@@ -5243,10 +5626,13 @@ msgstr "在约会结束时 %s"
 msgid "%s at %s"
 msgstr "在 %2$s 时 %1$s"
 
+# calendar/gui/dialogs/alarm-page.c:459
+# calendar/gui/dialogs/alarm-page.c:459
+# calendar/gui/dialogs/alarm-page.c:458
 #: calendar/gui/dialogs/alarm-page.c:458
 #, c-format
 msgid "%s for an unknown trigger type"
-msgstr ""
+msgstr "%s 为未知触发类型"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:1
 #: calendar/gui/dialogs/recurrence-page.glade.h:2
@@ -6018,57 +6404,46 @@ msgid "_Due Date:"
 msgstr "到期日期(_D)："
 
 #: calendar/gui/e-calendar-table.c:427
-#, c-format
 msgid "0%"
 msgstr "0%"
 
 #: calendar/gui/e-calendar-table.c:428
-#, c-format
 msgid "10%"
 msgstr "10%"
 
 #: calendar/gui/e-calendar-table.c:429
-#, c-format
 msgid "20%"
 msgstr "20%"
 
 #: calendar/gui/e-calendar-table.c:430
-#, c-format
 msgid "30%"
 msgstr "30%"
 
 #: calendar/gui/e-calendar-table.c:431
-#, c-format
 msgid "40%"
 msgstr "40%"
 
 #: calendar/gui/e-calendar-table.c:432
-#, c-format
 msgid "50%"
 msgstr "50%"
 
 #: calendar/gui/e-calendar-table.c:433
-#, c-format
 msgid "60%"
 msgstr "60%"
 
 #: calendar/gui/e-calendar-table.c:434
-#, c-format
 msgid "70%"
 msgstr "70%"
 
 #: calendar/gui/e-calendar-table.c:435
-#, c-format
 msgid "80%"
 msgstr "80%"
 
 #: calendar/gui/e-calendar-table.c:436
-#, c-format
 msgid "90%"
 msgstr "90%"
 
 #: calendar/gui/e-calendar-table.c:437
-#, c-format
 msgid "100%"
 msgstr "100%"
 
@@ -6946,7 +7321,46 @@ msgstr ""
 msgid "You must be an attendee of the event."
 msgstr "您必须是事件的参与者。"
 
-#: calendar/gui/main.c:91
+# addressbook/backend/ebook/load-gnomecard-addressbook.c:21
+# addressbook/backend/ebook/load-pine-addressbook.c:22
+# addressbook/backend/ebook/test-client-list.c:23
+# addressbook/backend/ebook/test-client.c:33
+# addressbook/conduit/address-conduit.c:1533
+# addressbook/gui/component/addressbook-factory.c:50
+# calendar/conduits/calendar/calendar-conduit.c:1449
+# calendar/conduits/todo/todo-conduit.c:1130
+# calendar/gui/alarm-notify/notify-main.c:171 calendar/gui/main.c:62
+# tools/evolution-addressbook-export.c:60
+# tools/evolution-addressbook-import.c:86
+# addressbook/backend/ebook/load-gnomecard-addressbook.c:21
+# addressbook/backend/ebook/load-pine-addressbook.c:22
+# addressbook/backend/ebook/test-client-list.c:23
+# addressbook/backend/ebook/test-client.c:33
+# addressbook/conduit/address-conduit.c:1538
+# addressbook/gui/component/addressbook-factory.c:50
+# calendar/conduits/calendar/calendar-conduit.c:1546
+# calendar/conduits/todo/todo-conduit.c:1130
+# calendar/gui/alarm-notify/notify-main.c:171 calendar/gui/main.c:62
+# tools/evolution-addressbook-export.c:60
+# tools/evolution-addressbook-import.c:86
+# addressbook/backend/ebook/load-gnomecard-addressbook.c:21
+# addressbook/backend/ebook/load-pine-addressbook.c:22
+# addressbook/backend/ebook/test-client-list.c:23
+# addressbook/backend/ebook/test-client.c:33
+# addressbook/conduit/address-conduit.c:1721
+# addressbook/gui/component/addressbook-factory.c:50
+# calendar/conduits/calendar/calendar-conduit.c:1727
+# calendar/conduits/todo/todo-conduit.c:1316
+# calendar/gui/alarm-notify/notify-main.c:171 calendar/gui/main.c:62
+# tools/evolution-addressbook-abuse.c:132
+# tools/evolution-addressbook-export.c:60
+# tools/evolution-addressbook-import.c:86
+#: calendar/gui/main.c:65
+#, fuzzy
+msgid "Could not activate Bonobo"
+msgstr "无法初始化 Bonobo"
+
+#: calendar/gui/main.c:94
 msgid "Could not create the component editor factory"
 msgstr "无法创建组件编辑器车间"
 
@@ -7655,13 +8069,17 @@ msgstr "无法解密该邮件： 没有提供密码"
 msgid "Cannot decrypt this message: couldn't create pipe to GPG/PGP: %s"
 msgstr "无法解密该邮件： 无法创建到 GPG/PGP 的管道： %s"
 
+# camel/camel-pgp-mime.c:310
+# camel/camel-pgp-mime.c:310
 #: camel/camel-pgp-mime.c:310
 msgid "This is a digitally signed message part"
-msgstr ""
+msgstr "这是消息的数字签名部分"
 
+# camel/camel-pgp-mime.c:310
 #: camel/camel-pgp-mime.c:485
+#, fuzzy
 msgid "This is an encrypted message part"
-msgstr ""
+msgstr "这是消息的数字签名部分"
 
 #: camel/camel-provider.c:130
 #, c-format
@@ -10711,9 +11129,11 @@ msgstr "过滤规则"
 msgid "Print Message"
 msgstr "打印消息"
 
+# mail/mail-callbacks.c:2492
+# mail/mail-callbacks.c:2569
 #: mail/mail-callbacks.c:2354
 msgid "US-Letter"
-msgstr ""
+msgstr "美国信纸"
 
 #: mail/mail-callbacks.c:2376
 msgid "Printing of message failed"
@@ -12486,7 +12906,7 @@ msgid "Freezing ice pellets"
 msgstr "冻冰粒"
 
 #. HAIL
-#: my-evolution/Locations.h:883 my-evolution/metar.c:217
+#: my-evolution/metar.c:217 my-evolution/Locations.h:883
 msgid "Hail"
 msgstr "冰雹"
 
@@ -13379,13 +13799,17 @@ msgstr "阿鲁巴岛"
 msgid "Abilene"
 msgstr "手机"
 
+# calendar/zones.h:240
+# my-evolution/Locations.h:7
 #: my-evolution/Locations.h:7
+#, fuzzy
 msgid "Abingdon"
-msgstr ""
+msgstr "亚洲/仰光"
 
+# my-evolution/Locations.h:8
 #: my-evolution/Locations.h:8
 msgid "Abu Dhabi"
-msgstr ""
+msgstr "阿布扎比"
 
 #: my-evolution/Locations.h:9
 msgid "Abu Dhabi - Bateen"
@@ -13395,9 +13819,10 @@ msgstr ""
 msgid "Acajutla"
 msgstr ""
 
+# my-evolution/Locations.h:11
 #: my-evolution/Locations.h:11
 msgid "Acapulco"
-msgstr ""
+msgstr "阿卡普尔科"
 
 #: my-evolution/Locations.h:12
 #, fuzzy
@@ -13417,9 +13842,12 @@ msgstr "阿尔巴尼亚"
 msgid "Adana/Incirlik"
 msgstr ""
 
+# addressbook/gui/contact-editor/fulladdr.glade.h:14
+# calendar/zones.h:273
+# my-evolution/Locations.h:16
 #: my-evolution/Locations.h:16
 msgid "Adelaide"
-msgstr ""
+msgstr "阿德莱德"
 
 #: my-evolution/Locations.h:17
 #, fuzzy
@@ -13463,37 +13891,43 @@ msgstr "阿根廷"
 msgid "Aguascaliantes"
 msgstr "澳大利亚"
 
+# my-evolution/Locations.h:26
 #: my-evolution/Locations.h:26
 msgid "Ahmadabad"
-msgstr ""
+msgstr "阿默达巴德"
 
+# my-evolution/Locations.h:27
 #: my-evolution/Locations.h:27
 msgid "Ahwaz"
-msgstr ""
+msgstr "阿瓦士"
 
 #: my-evolution/Locations.h:28
 msgid "Ainsworth"
 msgstr ""
 
+# my-evolution/Locations.h:29
 #: my-evolution/Locations.h:29
 msgid "Air Force"
-msgstr ""
+msgstr "空军"
 
+# my-evolution/Locations.h:30
 #: my-evolution/Locations.h:30
 msgid "Ajaccio/Campo dell'Oro"
-msgstr ""
+msgstr "阿雅克修/Campo dell'Oro"
 
 #: my-evolution/Locations.h:31
 msgid "Akeno Ab"
 msgstr ""
 
+# my-evolution/Locations.h:32
 #: my-evolution/Locations.h:32
 msgid "Akita Airport"
-msgstr ""
+msgstr "秋田机场"
 
+# my-evolution/Locations.h:33
 #: my-evolution/Locations.h:33
 msgid "Akron"
-msgstr ""
+msgstr "阿克伦城"
 
 #: my-evolution/Locations.h:34
 msgid "Akrotiri"
@@ -13545,9 +13979,10 @@ msgstr "阿尔巴尼亚"
 msgid "Alberta"
 msgstr "阿尔及利亚"
 
+# my-evolution/Locations.h:46
 #: my-evolution/Locations.h:46
 msgid "Alborg"
-msgstr ""
+msgstr "奥尔堡"
 
 #: my-evolution/Locations.h:47
 msgid "Albuquerque"
@@ -13571,9 +14006,13 @@ msgstr "阿尔巴尼亚"
 msgid "Alexandria-Esler"
 msgstr ""
 
+# addressbook/gui/contact-editor/fulladdr.glade.h:5
+# calendar/zones.h:141
+# my-evolution/Locations.h:52
 #: my-evolution/Locations.h:52
+#, fuzzy
 msgid "Alexandria/Nouzha"
-msgstr ""
+msgstr "美洲萨摩亚"
 
 #: my-evolution/Locations.h:53
 msgid "Alexandroupolis"
@@ -13589,13 +14028,15 @@ msgstr "阿尔及利亚"
 msgid "Algona"
 msgstr "安哥拉"
 
+# my-evolution/Locations.h:57
 #: my-evolution/Locations.h:57
 msgid "Alicante"
-msgstr ""
+msgstr "阿利坎特"
 
+# my-evolution/Locations.h:58
 #: my-evolution/Locations.h:58
 msgid "Alice"
-msgstr ""
+msgstr "艾丽丝"
 
 #: my-evolution/Locations.h:59
 msgid "Alice Springs"
@@ -13605,9 +14046,10 @@ msgstr ""
 msgid "Al-Jouf"
 msgstr ""
 
+# my-evolution/Locations.h:61
 #: my-evolution/Locations.h:61
 msgid "Allentown"
-msgstr ""
+msgstr "艾伦镇"
 
 #: my-evolution/Locations.h:62
 #, fuzzy
@@ -13661,9 +14103,10 @@ msgstr "提醒"
 msgid "Altus"
 msgstr ""
 
+# my-evolution/Locations.h:73
 #: my-evolution/Locations.h:73
 msgid "Amami Airport"
-msgstr ""
+msgstr "奄美机场"
 
 #: my-evolution/Locations.h:74
 msgid "Amapala"
@@ -13698,9 +14141,12 @@ msgstr "安哥拉"
 msgid "Ames"
 msgstr "英里"
 
+# addressbook/gui/contact-editor/fulladdr.glade.h:5
+# calendar/zones.h:156
+# my-evolution/Locations.h:81
 #: my-evolution/Locations.h:81
 msgid "Amritsar"
-msgstr ""
+msgstr "阿姆利则"
 
 #: my-evolution/Locations.h:82
 #, fuzzy
@@ -13754,9 +14200,10 @@ msgstr "安道尔"
 msgid "Andravida"
 msgstr "个人"
 
+# my-evolution/Locations.h:93
 #: my-evolution/Locations.h:93
 msgid "Andrews AFB"
-msgstr ""
+msgstr "安德鲁斯空军基地"
 
 #: my-evolution/Locations.h:94
 msgid "Angleton"
@@ -13775,17 +14222,19 @@ msgstr ""
 msgid "Ankara/Etimesgut"
 msgstr ""
 
+# my-evolution/Locations.h:98
 #: my-evolution/Locations.h:98
 msgid "Annaba"
-msgstr ""
+msgstr "安纳巴"
 
 #: my-evolution/Locations.h:99
 msgid "Ann Arbor"
 msgstr ""
 
+# my-evolution/Locations.h:100
 #: my-evolution/Locations.h:100
 msgid "Annette"
-msgstr ""
+msgstr "安妮特"
 
 #: my-evolution/Locations.h:101
 #, fuzzy
@@ -13826,18 +14275,20 @@ msgstr "阿富汗"
 msgid "Antwerpen/Deurne"
 msgstr ""
 
+# my-evolution/Locations.h:109
 #: my-evolution/Locations.h:109
 msgid "Aomori Airport"
-msgstr ""
+msgstr "青森机场"
 
 #: my-evolution/Locations.h:110
 #, fuzzy
 msgid "Apalachicola"
 msgstr "位置记录器"
 
+# my-evolution/Locations.h:111
 #: my-evolution/Locations.h:111
 msgid "Appleton"
-msgstr ""
+msgstr "阿普尔顿"
 
 #: my-evolution/Locations.h:112
 #, fuzzy
@@ -13888,13 +14339,16 @@ msgstr "奥地利"
 msgid "Arizona"
 msgstr "阿根廷"
 
+# calendar/zones.h:35
+# my-evolution/Locations.h:123
 #: my-evolution/Locations.h:123
 msgid "Arkansas"
-msgstr ""
+msgstr "阿肯色州"
 
+# my-evolution/Locations.h:124
 #: my-evolution/Locations.h:124
 msgid "Arkhangelsk"
-msgstr ""
+msgstr "阿尔汉格尔斯克"
 
 #: my-evolution/Locations.h:125
 #, fuzzy
@@ -13906,13 +14360,15 @@ msgstr "方向"
 msgid "Artigas"
 msgstr "阿根廷"
 
+# my-evolution/Locations.h:127
 #: my-evolution/Locations.h:127
 msgid "Asahikawa Ab"
-msgstr ""
+msgstr "旭州 Ab"
 
+# my-evolution/Locations.h:128
 #: my-evolution/Locations.h:128
 msgid "Asahikawa Airport"
-msgstr ""
+msgstr "旭州机场"
 
 #: my-evolution/Locations.h:129
 msgid "Ashburnam"
@@ -13991,9 +14447,11 @@ msgstr "阿尔巴尼亚"
 msgid "Atlantic"
 msgstr "自动"
 
+# calendar/zones.h:264
+# my-evolution/Locations.h:145
 #: my-evolution/Locations.h:145
 msgid "Atlantic City"
-msgstr ""
+msgstr "大西洋城"
 
 #: my-evolution/Locations.h:146
 msgid "Atsugi US NAS"
@@ -14008,9 +14466,10 @@ msgstr ""
 msgid "Auckland"
 msgstr "冰岛"
 
+# my-evolution/Locations.h:149
 #: my-evolution/Locations.h:149
 msgid "Augsburg"
-msgstr ""
+msgstr "奥格斯堡"
 
 #: my-evolution/Locations.h:150
 #, fuzzy
@@ -14032,9 +14491,10 @@ msgstr "奥地利"
 msgid "Australasia"
 msgstr "澳大利亚"
 
+# my-evolution/Locations.h:156
 #: my-evolution/Locations.h:156
 msgid "Avalon"
-msgstr ""
+msgstr "阿瓦隆"
 
 #: my-evolution/Locations.h:157
 msgid "Aviano"
@@ -14061,9 +14521,10 @@ msgstr ""
 msgid "Bahias de Huatulco"
 msgstr ""
 
+# my-evolution/Locations.h:165
 #: my-evolution/Locations.h:165
 msgid "Baker City"
-msgstr ""
+msgstr "贝克城"
 
 #: my-evolution/Locations.h:166
 msgid "Bakersfield"
@@ -14162,13 +14623,15 @@ msgstr "起点"
 msgid "Barnaul"
 msgstr "巴西"
 
+# my-evolution/Locations.h:187
 #: my-evolution/Locations.h:187
 msgid "Barquisimeto"
-msgstr ""
+msgstr "巴基西梅托"
 
+# my-evolution/Locations.h:188
 #: my-evolution/Locations.h:188
 msgid "Barranquilla/Ernestocortissoz"
-msgstr ""
+msgstr "巴兰基利亚/Ernestocortissoz"
 
 #: my-evolution/Locations.h:189
 msgid "Barrow"
@@ -14224,31 +14687,35 @@ msgstr "瑙鲁"
 msgid "Bayamo"
 msgstr "巴哈马群岛"
 
+# my-evolution/Locations.h:201
 #: my-evolution/Locations.h:201
 msgid "Bayreuth"
-msgstr ""
+msgstr "拜罗伊特"
 
 #: my-evolution/Locations.h:202
 #, fuzzy
 msgid "Beatrice"
 msgstr "波罗的语"
 
+# my-evolution/Locations.h:203
 #: my-evolution/Locations.h:203
 msgid "Beaufort"
-msgstr ""
+msgstr "波弗特"
 
 #: my-evolution/Locations.h:204
 #, fuzzy
 msgid "Beaumont"
 msgstr "月"
 
+# my-evolution/Locations.h:205
 #: my-evolution/Locations.h:205
 msgid "Beaumont-Port Arthur"
-msgstr ""
+msgstr "博蒙特港 亚瑟"
 
+# my-evolution/Locations.h:206
 #: my-evolution/Locations.h:206
 msgid "Beauvais-Tille"
-msgstr ""
+msgstr "博韦 - Tille"
 
 #: my-evolution/Locations.h:207
 #, fuzzy
@@ -14275,9 +14742,10 @@ msgstr "贝宁"
 msgid "Beirut"
 msgstr "白俄罗斯"
 
+# my-evolution/Locations.h:212
 #: my-evolution/Locations.h:212
 msgid "Beja"
-msgstr ""
+msgstr "贝沙"
 
 #: my-evolution/Locations.h:213
 #, fuzzy
@@ -14288,9 +14756,10 @@ msgstr "伯利兹"
 msgid "Belfast/Aldergrove"
 msgstr ""
 
+# my-evolution/Locations.h:215
 #: my-evolution/Locations.h:215
 msgid "Belfast/Harbour"
-msgstr ""
+msgstr "贝尔法斯特/港"
 
 #: my-evolution/Locations.h:217
 msgid "Belgorod"
@@ -14333,22 +14802,25 @@ msgstr "委内瑞拉"
 msgid "Benina"
 msgstr "贝宁"
 
+# my-evolution/Locations.h:227
 #: my-evolution/Locations.h:227
 msgid "Benton Harbor"
-msgstr ""
+msgstr "本顿港"
 
+# my-evolution/Locations.h:228
 #: my-evolution/Locations.h:228
 msgid "Bentonville"
-msgstr ""
+msgstr "本顿维尔"
 
 #: my-evolution/Locations.h:229
 #, fuzzy
 msgid "Beograd"
 msgstr "重新载入"
 
+# my-evolution/Locations.h:230
 #: my-evolution/Locations.h:230
 msgid "Bergamo"
-msgstr ""
+msgstr "贝加莫"
 
 #: my-evolution/Locations.h:231
 #, fuzzy
@@ -14372,9 +14844,10 @@ msgstr "贝宁"
 msgid "Berlin-Tegel"
 msgstr ""
 
+# my-evolution/Locations.h:236
 #: my-evolution/Locations.h:236
 msgid "Berlin-Tempelhof"
-msgstr ""
+msgstr "柏林郊外机场"
 
 #: my-evolution/Locations.h:237
 #, fuzzy
@@ -14386,9 +14859,10 @@ msgstr "贝宁"
 msgid "Bethel"
 msgstr "天气"
 
+# my-evolution/Locations.h:239
 #: my-evolution/Locations.h:239
 msgid "Bethlehem Airport"
-msgstr ""
+msgstr "伯利恒机场"
 
 #: my-evolution/Locations.h:240
 #, fuzzy
@@ -14408,22 +14882,25 @@ msgstr ""
 msgid "Bicycle Lake"
 msgstr ""
 
+# my-evolution/Locations.h:244
 #: my-evolution/Locations.h:244
 msgid "Biggin Hill"
-msgstr ""
+msgstr "童帽山"
 
 #: my-evolution/Locations.h:245
 #, fuzzy
 msgid "Big Piney"
 msgstr "Pine"
 
+# my-evolution/Locations.h:246
 #: my-evolution/Locations.h:246
 msgid "Big River Lake"
-msgstr ""
+msgstr "大河湖"
 
+# my-evolution/Locations.h:247
 #: my-evolution/Locations.h:247
 msgid "Bilbao"
-msgstr ""
+msgstr "毕尔巴鄂"
 
 #: my-evolution/Locations.h:248
 #, fuzzy
@@ -14438,29 +14915,33 @@ msgstr ""
 msgid "Binghamton"
 msgstr ""
 
+# my-evolution/Locations.h:251
 #: my-evolution/Locations.h:251
 msgid "Birmingham"
-msgstr ""
+msgstr "伯明翰"
 
 #: my-evolution/Locations.h:252
 msgid "Bisha"
 msgstr ""
 
+# my-evolution/Locations.h:253
 #: my-evolution/Locations.h:253
 msgid "Bishop"
-msgstr ""
+msgstr "主教"
 
 #: my-evolution/Locations.h:254
 msgid "Bismark"
 msgstr ""
 
+# my-evolution/Locations.h:255
 #: my-evolution/Locations.h:255
 msgid "Blackpool"
-msgstr ""
+msgstr "黑泽"
 
+# my-evolution/Locations.h:256
 #: my-evolution/Locations.h:256
 msgid "Blagoveschensk"
-msgstr ""
+msgstr "布拉戈维申斯克"
 
 #: my-evolution/Locations.h:257
 #, fuzzy
@@ -14472,9 +14953,10 @@ msgstr "警告"
 msgid "Block Island"
 msgstr "库克群岛"
 
+# my-evolution/Locations.h:259
 #: my-evolution/Locations.h:259
 msgid "Bloemfontein J. B. M. Hertzog "
-msgstr ""
+msgstr "布隆方丹 J. B. M. Hertzog"
 
 #: my-evolution/Locations.h:260
 #, fuzzy
@@ -14510,36 +14992,40 @@ msgstr ""
 msgid "Bodo"
 msgstr "体"
 
+# my-evolution/Locations.h:268
 #: my-evolution/Locations.h:268
 msgid "Bogota/Eldorado"
-msgstr ""
+msgstr "波哥大/黄金国"
 
 #: my-evolution/Locations.h:269
 #, fuzzy
 msgid "Boise"
 msgstr "起点"
 
+# my-evolution/Locations.h:271
 #: my-evolution/Locations.h:271
 msgid "Bologna"
-msgstr ""
+msgstr "博罗尼亚"
 
 #: my-evolution/Locations.h:272
 #, fuzzy
 msgid "Bolzano"
 msgstr "波兰"
 
+# my-evolution/Locations.h:273
 #: my-evolution/Locations.h:273
 msgid "Bombay/Santacruz"
-msgstr ""
+msgstr "孟买/圣克鲁斯"
 
 #: my-evolution/Locations.h:274
 #, fuzzy
 msgid "Boone"
 msgstr "完成"
 
+# my-evolution/Locations.h:275
 #: my-evolution/Locations.h:275
 msgid "Bordeaux"
-msgstr ""
+msgstr "波尔多"
 
 #: my-evolution/Locations.h:276
 #, fuzzy
@@ -14621,49 +15107,57 @@ msgstr "巴西"
 msgid "Bratsk"
 msgstr "草稿"
 
+# my-evolution/Locations.h:293
 #: my-evolution/Locations.h:293
 msgid "Braunschweig"
-msgstr ""
+msgstr "布伦斯维克"
 
 #: my-evolution/Locations.h:295
 #, fuzzy
 msgid "Bremen"
 msgstr "也门"
 
+# my-evolution/Locations.h:296
 #: my-evolution/Locations.h:296
 msgid "Bremerton"
-msgstr ""
+msgstr "不莱梅顿"
 
 #: my-evolution/Locations.h:297
 #, fuzzy
 msgid "Brest"
 msgstr "西"
 
+# my-evolution/Locations.h:298
 #: my-evolution/Locations.h:298
 msgid "Bridgeport"
-msgstr ""
+msgstr "布里奇波特"
 
 #: my-evolution/Locations.h:299
 #, fuzzy
 msgid "Brindisi"
 msgstr "布隆迪"
 
+# addressbook/gui/contact-editor/fulladdr.glade.h:14
+# calendar/zones.h:274
+# my-evolution/Locations.h:300
 #: my-evolution/Locations.h:300
 msgid "Brisbane"
-msgstr ""
+msgstr "布里斯班"
 
 #: my-evolution/Locations.h:301
 #, fuzzy
 msgid "Bristol"
 msgstr "巴西"
 
+# my-evolution/Locations.h:302
 #: my-evolution/Locations.h:302
 msgid "British Columbia"
-msgstr ""
+msgstr "不列颠属哥伦比亚"
 
+# my-evolution/Locations.h:303
 #: my-evolution/Locations.h:303
 msgid "Brno"
-msgstr ""
+msgstr "布尔诺"
 
 #: my-evolution/Locations.h:304
 #, fuzzy
@@ -14702,9 +15196,10 @@ msgstr ""
 msgid "Brunswick"
 msgstr "布隆迪"
 
+# my-evolution/Locations.h:312
 #: my-evolution/Locations.h:312
 msgid "Brussels-National Airport"
-msgstr ""
+msgstr "布鲁塞尔国家机场"
 
 #: my-evolution/Locations.h:313
 msgid "Bryansk"
@@ -14715,25 +15210,31 @@ msgstr ""
 msgid "Bryce Canyon"
 msgstr "按公司"
 
+# my-evolution/Locations.h:315
 #: my-evolution/Locations.h:315
 msgid "Bucaramanga/Palonegro"
-msgstr ""
+msgstr "布卡拉曼加/Palonegro"
 
+# my-evolution/Locations.h:316
 #: my-evolution/Locations.h:316
 msgid "Bucuresti"
-msgstr ""
+msgstr "布加勒斯特"
 
+# my-evolution/Locations.h:317
 #: my-evolution/Locations.h:317
 msgid "Bucuresti-Otopeni"
-msgstr ""
+msgstr "布加勒斯特-Otopeni"
 
+# calendar/zones.h:292
+# my-evolution/Locations.h:318
 #: my-evolution/Locations.h:318
 msgid "Budapest"
-msgstr ""
+msgstr "布达佩斯"
 
+# my-evolution/Locations.h:319
 #: my-evolution/Locations.h:319
 msgid "Buffalo"
-msgstr ""
+msgstr "布法罗"
 
 #: my-evolution/Locations.h:321
 msgid "Bullfrog"
@@ -14804,22 +15305,25 @@ msgstr "主席"
 msgid "Calabozo"
 msgstr ""
 
+# my-evolution/Locations.h:336
 #: my-evolution/Locations.h:336
 msgid "Calcutta/Dum Dum"
-msgstr ""
+msgstr "加尔各答/Dum Dum"
 
+# my-evolution/Locations.h:337
 #: my-evolution/Locations.h:337
 msgid "Caldwell"
-msgstr ""
+msgstr "考德威尔"
 
 #: my-evolution/Locations.h:338
 #, fuzzy
 msgid "Calgary"
 msgstr "清除"
 
+# my-evolution/Locations.h:339
 #: my-evolution/Locations.h:339
 msgid "Cali/Alfonso Bonillaaragon"
-msgstr ""
+msgstr "卡利/阿方索 Bonillaaragon"
 
 #: my-evolution/Locations.h:340
 #, fuzzy
@@ -14844,9 +15348,11 @@ msgstr "巴拉圭"
 msgid "Camarillo"
 msgstr ""
 
+# calendar/zones.h:73
+# my-evolution/Locations.h:345
 #: my-evolution/Locations.h:345
 msgid "Cambridge"
-msgstr ""
+msgstr "剑桥"
 
 #: my-evolution/Locations.h:346
 #, fuzzy
@@ -14915,18 +15421,20 @@ msgstr ""
 msgid "Canarias/Tenerife Sur"
 msgstr ""
 
+# my-evolution/Locations.h:362
 #: my-evolution/Locations.h:362
 msgid "Canberra"
-msgstr ""
+msgstr "堪培拉"
 
 #: my-evolution/Locations.h:363
 #, fuzzy
 msgid "Cancun"
 msgstr "取消"
 
+# my-evolution/Locations.h:364
 #: my-evolution/Locations.h:364
 msgid "Cannes-Mandelieu"
-msgstr ""
+msgstr "戛纳-Mandelieu"
 
 #: my-evolution/Locations.h:365
 #, fuzzy
@@ -14970,13 +15478,15 @@ msgstr ""
 msgid "Capo Mele"
 msgstr "佛得角"
 
+# my-evolution/Locations.h:374
 #: my-evolution/Locations.h:374
 msgid "Caracas La Carlota"
-msgstr ""
+msgstr "加拉加斯 La Carlota"
 
+# my-evolution/Locations.h:375
 #: my-evolution/Locations.h:375
 msgid "Caracas Maiquetia"
-msgstr ""
+msgstr "加拉加斯 Maiquetia"
 
 #: my-evolution/Locations.h:376
 #, fuzzy
@@ -15013,9 +15523,10 @@ msgstr "反馈"
 msgid "Carroll"
 msgstr "汽车"
 
+# my-evolution/Locations.h:383
 #: my-evolution/Locations.h:383
 msgid "Cartagena/Rafael Nunez"
-msgstr ""
+msgstr "喀他赫纳/Rafael Nunez"
 
 #: my-evolution/Locations.h:384
 msgid "Casa Granda"
@@ -15049,9 +15560,10 @@ msgstr ""
 msgid "Cazaux"
 msgstr ""
 
+# my-evolution/Locations.h:392
 #: my-evolution/Locations.h:392
 msgid "Cecil NAS"
-msgstr ""
+msgstr "塞西尔国家科学院"
 
 #: my-evolution/Locations.h:393
 #, fuzzy
@@ -15062,9 +15574,10 @@ msgstr "晴空"
 msgid "Cedar Rapids"
 msgstr ""
 
+# my-evolution/Locations.h:395
 #: my-evolution/Locations.h:395
 msgid "Central and South America"
-msgstr ""
+msgstr "拉丁美洲"
 
 #: my-evolution/Locations.h:396
 #, fuzzy
@@ -15129,9 +15642,10 @@ msgstr "喀麦隆"
 msgid "Charleroi-Brussels South"
 msgstr ""
 
+# my-evolution/Locations.h:409
 #: my-evolution/Locations.h:409
 msgid "Charles City"
-msgstr ""
+msgstr "查尔斯城"
 
 #: my-evolution/Locations.h:410
 #, fuzzy
@@ -15143,17 +15657,20 @@ msgstr "主席人员"
 msgid "Charlotte"
 msgstr "马约特岛"
 
+# my-evolution/Locations.h:412
 #: my-evolution/Locations.h:412
 msgid "Charlottesville"
-msgstr ""
+msgstr "夏洛特维尔"
 
+# my-evolution/Locations.h:413
 #: my-evolution/Locations.h:413
 msgid "Chatham"
-msgstr ""
+msgstr "查塔姆"
 
+# my-evolution/Locations.h:414
 #: my-evolution/Locations.h:414
 msgid "Chattanooga"
-msgstr ""
+msgstr "查塔努加"
 
 #: my-evolution/Locations.h:415
 msgid "Cheboksary"
@@ -15164,13 +15681,15 @@ msgstr ""
 msgid "Cheju"
 msgstr "智利"
 
+# my-evolution/Locations.h:417
 #: my-evolution/Locations.h:417
 msgid "Chelyabinsk"
-msgstr ""
+msgstr "车里雅宾斯克"
 
+# my-evolution/Locations.h:418
 #: my-evolution/Locations.h:418
 msgid "Chengdu"
-msgstr ""
+msgstr "成都"
 
 #: my-evolution/Locations.h:419
 #, fuzzy
@@ -15186,9 +15705,10 @@ msgstr "其它电话"
 msgid "Chetumal"
 msgstr ""
 
+# my-evolution/Locations.h:422
 #: my-evolution/Locations.h:422
 msgid "Cheyenne"
-msgstr ""
+msgstr "夏安人"
 
 #: my-evolution/Locations.h:423
 msgid "Chiang Kai Shek"
@@ -15203,21 +15723,25 @@ msgstr ""
 msgid "Chiayi"
 msgstr "中国"
 
+# my-evolution/Locations.h:426
 #: my-evolution/Locations.h:426
 msgid "Chicago-DuPage"
-msgstr ""
+msgstr "芝加哥-DuPage"
 
+# my-evolution/Locations.h:427
 #: my-evolution/Locations.h:427
 msgid "Chicago-Lakefront"
-msgstr ""
+msgstr "芝加哥-Lakefront"
 
+# my-evolution/Locations.h:428
 #: my-evolution/Locations.h:428
 msgid "Chicago-Midway"
-msgstr ""
+msgstr "芝加哥-Midway"
 
+# my-evolution/Locations.h:429
 #: my-evolution/Locations.h:429
 msgid "Chicago-O'Hare"
-msgstr ""
+msgstr "芝加哥-O'Hare"
 
 #: my-evolution/Locations.h:430
 msgid "Chichijima"
@@ -15247,9 +15771,10 @@ msgstr "中文"
 msgid "Chihhang"
 msgstr "中国"
 
+# my-evolution/Locations.h:436
 #: my-evolution/Locations.h:436
 msgid "Chihuahua"
-msgstr ""
+msgstr "奇瓦瓦"
 
 #: my-evolution/Locations.h:437
 #, fuzzy
@@ -15275,9 +15800,10 @@ msgstr ""
 msgid "Chino"
 msgstr "中国"
 
+# my-evolution/Locations.h:443
 #: my-evolution/Locations.h:443
 msgid "Chippewa County"
-msgstr ""
+msgstr "齐佩瓦县"
 
 #: my-evolution/Locations.h:444
 #, fuzzy
@@ -15304,26 +15830,30 @@ msgstr ""
 msgid "Chongju Ab"
 msgstr ""
 
+# my-evolution/Locations.h:450
 #: my-evolution/Locations.h:450
 msgid "Christchurch"
-msgstr ""
+msgstr "克赖斯特彻奇"
 
 #: my-evolution/Locations.h:452
 #, fuzzy
 msgid "Chulitna"
 msgstr "中国"
 
+# my-evolution/Locations.h:453
 #: my-evolution/Locations.h:453
 msgid "Churchill"
-msgstr ""
+msgstr "丘吉尔"
 
+# my-evolution/Locations.h:454
 #: my-evolution/Locations.h:454
 msgid "Churchill Falls"
-msgstr ""
+msgstr "丘吉尔瀑布"
 
+# my-evolution/Locations.h:455
 #: my-evolution/Locations.h:455
 msgid "Cincinnati"
-msgstr ""
+msgstr "辛辛那提"
 
 #: my-evolution/Locations.h:456
 msgid "Circle City"
@@ -15368,9 +15898,10 @@ msgstr ""
 msgid "Clayton"
 msgstr "合作"
 
+# my-evolution/Locations.h:466
 #: my-evolution/Locations.h:466
 msgid "Clayton Lake"
-msgstr ""
+msgstr "克莱顿湖"
 
 #: my-evolution/Locations.h:467
 msgid "Clermont-Ferrand"
@@ -15389,9 +15920,10 @@ msgstr ""
 msgid "Cleveland-Lakefront"
 msgstr ""
 
+# my-evolution/Locations.h:471
 #: my-evolution/Locations.h:471
 msgid "Clinton"
-msgstr ""
+msgstr "克林顿"
 
 #: my-evolution/Locations.h:472
 msgid "Clovis-Cannon AFB"
@@ -15402,13 +15934,15 @@ msgstr ""
 msgid "Cobija"
 msgstr "哥伦比亚"
 
+# my-evolution/Locations.h:474
 #: my-evolution/Locations.h:474
 msgid "Cochabamba"
-msgstr ""
+msgstr "科恰班巴"
 
+# my-evolution/Locations.h:475
 #: my-evolution/Locations.h:475
 msgid "Cocoa Beach"
-msgstr ""
+msgstr "可可海岸"
 
 #: my-evolution/Locations.h:476
 #, fuzzy
@@ -15462,30 +15996,35 @@ msgstr ""
 msgid "Columbia"
 msgstr "哥伦比亚"
 
+# my-evolution/Locations.h:488
 #: my-evolution/Locations.h:488
 msgid "Columbia-McEntire"
-msgstr ""
+msgstr "哥伦比亚-McEntire"
 
 #: my-evolution/Locations.h:489
 #, fuzzy
 msgid "Columbus"
 msgstr "哥伦比亚"
 
+# my-evolution/Locations.h:490
 #: my-evolution/Locations.h:490
 msgid "Columbus-Fort Benning"
-msgstr ""
+msgstr "哥伦布-Fort Benning"
 
+# my-evolution/Locations.h:491
 #: my-evolution/Locations.h:491
 msgid "Columbus-Gahanna"
-msgstr ""
+msgstr "哥伦布-Gahanna"
 
+# my-evolution/Locations.h:492
 #: my-evolution/Locations.h:492
 msgid "Columbus-OSU"
-msgstr ""
+msgstr "哥伦布-OSU"
 
+# my-evolution/Locations.h:493
 #: my-evolution/Locations.h:493
 msgid "Columbus-W Point-Starkville"
-msgstr ""
+msgstr "哥伦布-西点-斯塔克维尔"
 
 #: my-evolution/Locations.h:494
 #, fuzzy
@@ -15501,9 +16040,13 @@ msgstr ""
 msgid "Comox"
 msgstr "邮件箱"
 
+# addressbook/gui/contact-editor/fulladdr.glade.h:152
+# calendar/zones.h:63
+# my-evolution/Locations.h:497
 #: my-evolution/Locations.h:497
+#, fuzzy
 msgid "Conceicao Do Araguaia"
-msgstr ""
+msgstr "尼加拉瓜"
 
 #: my-evolution/Locations.h:498
 #, fuzzy
@@ -15515,9 +16058,10 @@ msgstr "取消操作"
 msgid "Concord"
 msgstr "刚果"
 
+# my-evolution/Locations.h:500
 #: my-evolution/Locations.h:500
 msgid "Concordia"
-msgstr ""
+msgstr "肯考迪娅"
 
 #: my-evolution/Locations.h:501
 msgid "Connaught"
@@ -15552,9 +16096,10 @@ msgstr "哥伦比亚"
 msgid "Cordova"
 msgstr "约旦"
 
+# my-evolution/Locations.h:508
 #: my-evolution/Locations.h:508
 msgid "Cork"
-msgstr ""
+msgstr "科克"
 
 #: my-evolution/Locations.h:509
 #, fuzzy
@@ -15566,13 +16111,15 @@ msgstr "科摩罗群岛"
 msgid "Corona"
 msgstr "科摩罗群岛"
 
+# my-evolution/Locations.h:511
 #: my-evolution/Locations.h:511
 msgid "Corpus Christi"
-msgstr ""
+msgstr "圣体节"
 
+# my-evolution/Locations.h:512
 #: my-evolution/Locations.h:512
 msgid "Corpus Christi NAS"
-msgstr ""
+msgstr "圣体节国家科学院"
 
 #: my-evolution/Locations.h:513
 #, fuzzy
@@ -15681,18 +16228,20 @@ msgstr ""
 msgid "Cumana"
 msgstr "圭亚那"
 
+# my-evolution/Locations.h:539
 #: my-evolution/Locations.h:539
 msgid "Cumberland"
-msgstr ""
+msgstr "坎伯兰郡"
 
 #: my-evolution/Locations.h:540
 #, fuzzy
 msgid "Curitiba"
 msgstr "毛里塔尼亚"
 
+# my-evolution/Locations.h:541
 #: my-evolution/Locations.h:541
 msgid "Curitiba Apt"
-msgstr ""
+msgstr "库里提巴 Apt"
 
 #: my-evolution/Locations.h:542
 #, fuzzy
@@ -15703,9 +16252,10 @@ msgstr "剪切"
 msgid "Cut Bank"
 msgstr ""
 
+# my-evolution/Locations.h:544
 #: my-evolution/Locations.h:544
 msgid "Cuzco"
-msgstr ""
+msgstr "库斯科"
 
 #: my-evolution/Locations.h:547
 #, fuzzy
@@ -15725,25 +16275,30 @@ msgstr ""
 msgid "Dalian"
 msgstr "台湾"
 
+# my-evolution/Locations.h:551
 #: my-evolution/Locations.h:551
 msgid "Dallas-Addison"
-msgstr ""
+msgstr "达拉斯-阿狄森"
 
+# my-evolution/Locations.h:552
 #: my-evolution/Locations.h:552
 msgid "Dallas-Fort Worth"
-msgstr ""
+msgstr "达拉斯-Fort Worth"
 
+# my-evolution/Locations.h:553
 #: my-evolution/Locations.h:553
 msgid "Dallas-Love Field"
-msgstr ""
+msgstr "达拉斯-Love Field"
 
+# my-evolution/Locations.h:554
 #: my-evolution/Locations.h:554
 msgid "Dallas-Redbird"
-msgstr ""
+msgstr "达拉斯-Redbird"
 
+# my-evolution/Locations.h:555
 #: my-evolution/Locations.h:555
 msgid "Da Nang"
-msgstr ""
+msgstr "岘港"
 
 #: my-evolution/Locations.h:556
 #, fuzzy
@@ -15754,17 +16309,20 @@ msgstr "一月"
 msgid "Danville"
 msgstr ""
 
+# my-evolution/Locations.h:558
 #: my-evolution/Locations.h:558
 msgid "Dar-El-Beida"
-msgstr ""
+msgstr "达尔贝达"
 
+# my-evolution/Locations.h:559
 #: my-evolution/Locations.h:559
 msgid "Davenport"
-msgstr ""
+msgstr "达文波特"
 
+# my-evolution/Locations.h:560
 #: my-evolution/Locations.h:560
 msgid "David"
-msgstr ""
+msgstr "大卫"
 
 #: my-evolution/Locations.h:561
 msgid "Dawadmi"
@@ -15779,9 +16337,10 @@ msgstr "天"
 msgid "Daytona Beach"
 msgstr ""
 
+# my-evolution/Locations.h:564
 #: my-evolution/Locations.h:564
 msgid "Dayton-Fairborn"
-msgstr ""
+msgstr "代顿-Fairborn"
 
 #: my-evolution/Locations.h:565
 #, fuzzy
@@ -15817,9 +16376,10 @@ msgstr "删除"
 msgid "Dekalb/Peachtree"
 msgstr ""
 
+# my-evolution/Locations.h:573
 #: my-evolution/Locations.h:573
 msgid "Delaware"
-msgstr ""
+msgstr "特拉华"
 
 #: my-evolution/Locations.h:574
 msgid "Del Bajio"
@@ -15858,17 +16418,20 @@ msgstr "黎巴嫩"
 msgid "Denver"
 msgstr "每(_E)"
 
+# my-evolution/Locations.h:583
 #: my-evolution/Locations.h:583
 msgid "Denver-Aurora"
-msgstr ""
+msgstr "丹佛-Aurora"
 
+# my-evolution/Locations.h:584
 #: my-evolution/Locations.h:584
 msgid "Denver-Broomfield"
-msgstr ""
+msgstr "丹佛-Broomfield"
 
+# my-evolution/Locations.h:585
 #: my-evolution/Locations.h:585
 msgid "Denver-Cherry Knolls"
-msgstr ""
+msgstr "丹佛-Cherry Knolls"
 
 #: my-evolution/Locations.h:586
 msgid "Desert Rock"
@@ -15884,21 +16447,26 @@ msgstr "时区"
 msgid "Destin"
 msgstr "问题"
 
+# calendar/zones.h:89
+# my-evolution/Locations.h:589
 #: my-evolution/Locations.h:589
 msgid "Detroit"
-msgstr ""
+msgstr "底特律"
 
+# my-evolution/Locations.h:590
 #: my-evolution/Locations.h:590
 msgid "Detroit Lakes"
-msgstr ""
+msgstr "底特律湖"
 
+# my-evolution/Locations.h:591
 #: my-evolution/Locations.h:591
 msgid "Detroit-Taylor"
-msgstr ""
+msgstr "底特律-泰勒"
 
+# my-evolution/Locations.h:592
 #: my-evolution/Locations.h:592
 msgid "Detroit/Ypsilanti"
-msgstr ""
+msgstr "底特律/Ypsilanti"
 
 #: my-evolution/Locations.h:593
 msgid "Devils Lake"
@@ -15938,9 +16506,10 @@ msgstr "完成"
 msgid "Dinard"
 msgstr "打印卡片"
 
+# my-evolution/Locations.h:601
 #: my-evolution/Locations.h:601
 msgid "District of Columbia"
-msgstr ""
+msgstr "哥伦比亚区"
 
 #: my-evolution/Locations.h:602
 msgid "Diyarbakir"
@@ -15954,9 +16523,10 @@ msgstr ""
 msgid "Dodge City"
 msgstr ""
 
+# my-evolution/Locations.h:606
 #: my-evolution/Locations.h:605
 msgid "Doha"
-msgstr ""
+msgstr "多哈"
 
 #: my-evolution/Locations.h:606
 #, fuzzy
@@ -15977,27 +16547,30 @@ msgstr ""
 msgid "Don Torcuato"
 msgstr "现在或以后"
 
+# my-evolution/Locations.h:613
 #: my-evolution/Locations.h:611
 msgid "Dortmund-Wickede"
-msgstr ""
+msgstr "多特蒙德-Wickede"
 
 #: my-evolution/Locations.h:612
 #, fuzzy
 msgid "Dothan"
 msgstr "完成"
 
+# my-evolution/Locations.h:615
 #: my-evolution/Locations.h:613
 msgid "Douglas"
-msgstr ""
+msgstr "道格拉斯"
 
 #: my-evolution/Locations.h:614
 #, fuzzy
 msgid "Dover"
 msgstr "移动"
 
+# my-evolution/Locations.h:617
 #: my-evolution/Locations.h:615
 msgid "Dresden-Klotzsche"
-msgstr ""
+msgstr "德累斯顿-Klotzsche"
 
 #: my-evolution/Locations.h:616
 msgid "Drummond"
@@ -16025,9 +16598,10 @@ msgstr ""
 msgid "Dubrovnik"
 msgstr ""
 
+# my-evolution/Locations.h:624
 #: my-evolution/Locations.h:622
 msgid "Dubuque"
-msgstr ""
+msgstr "迪比克"
 
 #: my-evolution/Locations.h:623
 #, fuzzy
@@ -16057,18 +16631,20 @@ msgstr ""
 msgid "Durazno"
 msgstr ""
 
+# my-evolution/Locations.h:631
 #: my-evolution/Locations.h:629
 msgid "Durban Louis Botha "
-msgstr ""
+msgstr "德班路易斯博特"
 
 #: my-evolution/Locations.h:630
 #, fuzzy
 msgid "Dusseldorf"
 msgstr "尘暴"
 
+# my-evolution/Locations.h:633
 #: my-evolution/Locations.h:631
 msgid "Dutch Harbor"
-msgstr ""
+msgstr "荷兰港"
 
 #: my-evolution/Locations.h:632
 msgid "Dyersburg"
@@ -16083,22 +16659,25 @@ msgstr "启用"
 msgid "Eagle Range"
 msgstr ""
 
+# my-evolution/Locations.h:637
 #: my-evolution/Locations.h:635
 msgid "East London"
-msgstr ""
+msgstr "东伦敦"
 
+# my-evolution/Locations.h:638
 #: my-evolution/Locations.h:636
 msgid "East Midlands"
-msgstr ""
+msgstr "东米德兰"
 
 #: my-evolution/Locations.h:637
 #, fuzzy
 msgid "East St Louis"
 msgstr "东 - 东南"
 
+# my-evolution/Locations.h:640
 #: my-evolution/Locations.h:638
 msgid "Eau Claire"
-msgstr ""
+msgstr "奥克莱尔"
 
 #: my-evolution/Locations.h:640
 #, fuzzy
@@ -16110,17 +16689,19 @@ msgstr "结束："
 msgid "Edmonton"
 msgstr "月"
 
+# my-evolution/Locations.h:644
 #: my-evolution/Locations.h:642
 msgid "Edmonton/Villeneuve"
-msgstr ""
+msgstr "埃德蒙顿/Villeneuve"
 
 #: my-evolution/Locations.h:643
 msgid "Eduardo Gomes International"
 msgstr ""
 
+# my-evolution/Locations.h:646
 #: my-evolution/Locations.h:644
 msgid "Edwards AFB"
-msgstr ""
+msgstr "爱德华兹空军基地"
 
 #: my-evolution/Locations.h:645
 msgid "Egilsstadir"
@@ -16163,9 +16744,10 @@ msgstr ""
 msgid "Elfin Cove"
 msgstr ""
 
+# my-evolution/Locations.h:658
 #: my-evolution/Locations.h:656
 msgid "Elizabeth City"
-msgstr ""
+msgstr "伊丽莎白城"
 
 #: my-evolution/Locations.h:657
 msgid "Elk City"
@@ -16221,9 +16803,10 @@ msgstr ""
 msgid "Emporia"
 msgstr "重要"
 
+# my-evolution/Locations.h:672
 #: my-evolution/Locations.h:670
 msgid "Enid"
-msgstr ""
+msgstr "伊妮德"
 
 #: my-evolution/Locations.h:671
 #, fuzzy
@@ -16267,9 +16850,10 @@ msgstr ""
 msgid "Eskisehir"
 msgstr ""
 
+# my-evolution/Locations.h:683
 #: my-evolution/Locations.h:681
 msgid "Estherville"
-msgstr ""
+msgstr "以斯维尔"
 
 #: my-evolution/Locations.h:683
 #, fuzzy
@@ -16281,18 +16865,21 @@ msgstr "六月"
 msgid "Eureka"
 msgstr "厄立特里亚"
 
+# calendar/zones.h:300
+# my-evolution/Locations.h:687
 #: my-evolution/Locations.h:685
 msgid "Europe"
-msgstr ""
+msgstr "欧洲"
 
 #: my-evolution/Locations.h:686
 #, fuzzy
 msgid "Evanston"
 msgstr "东"
 
+# my-evolution/Locations.h:689
 #: my-evolution/Locations.h:687
 msgid "Evansville"
-msgstr ""
+msgstr "埃文斯维尔"
 
 #: my-evolution/Locations.h:688
 #, fuzzy
@@ -16321,9 +16908,10 @@ msgstr ""
 msgid "Fagernes"
 msgstr "传呼机"
 
+# my-evolution/Locations.h:696
 #: my-evolution/Locations.h:694
 msgid "Fairbanks"
-msgstr ""
+msgstr "费尔班克斯"
 
 #: my-evolution/Locations.h:695
 msgid "Fairchild"
@@ -16389,13 +16977,15 @@ msgstr ""
 msgid "Feng Nin"
 msgstr "冻雨"
 
+# my-evolution/Locations.h:711
 #: my-evolution/Locations.h:709
 msgid "Fergus Falls"
-msgstr ""
+msgstr "费格斯瀑布"
 
+# my-evolution/Locations.h:712
 #: my-evolution/Locations.h:710
 msgid "Fernando De Noronha"
-msgstr ""
+msgstr "费尔南多 De Noronha"
 
 #: my-evolution/Locations.h:711
 #, fuzzy
@@ -16483,9 +17073,10 @@ msgstr "星期五(_F)"
 msgid "Formosa"
 msgstr "格式"
 
+# my-evolution/Locations.h:732
 #: my-evolution/Locations.h:730
 msgid "Fortaleza"
-msgstr ""
+msgstr "福塔雷萨"
 
 #: my-evolution/Locations.h:731
 msgid "Fort Belvoir"
@@ -16625,13 +17216,15 @@ msgstr ""
 msgid "Foz Do Iguacu"
 msgstr ""
 
+# my-evolution/Locations.h:767
 #: my-evolution/Locations.h:765
 msgid "Frankfort"
-msgstr ""
+msgstr "法兰克福"
 
+# my-evolution/Locations.h:768
 #: my-evolution/Locations.h:766
 msgid "Frankfurt/Main"
-msgstr ""
+msgstr "法兰克福/Main"
 
 #: my-evolution/Locations.h:767
 #, fuzzy
@@ -16657,9 +17250,10 @@ msgstr ""
 msgid "Fresno"
 msgstr "冻雪"
 
+# my-evolution/Locations.h:774
 #: my-evolution/Locations.h:772
 msgid "Fresno-Chandler"
-msgstr ""
+msgstr "弗雷斯诺-Chandler"
 
 #: my-evolution/Locations.h:773
 #, fuzzy
@@ -16694,9 +17288,10 @@ msgstr "二月"
 msgid "Fujairah"
 msgstr ""
 
+# my-evolution/Locations.h:782
 #: my-evolution/Locations.h:780
 msgid "Fuji Ab"
-msgstr ""
+msgstr "富士 Ab"
 
 #: my-evolution/Locations.h:781
 msgid "Fukue Airport"
@@ -16706,17 +17301,19 @@ msgstr ""
 msgid "Fukui Airport"
 msgstr ""
 
+# my-evolution/Locations.h:785
 #: my-evolution/Locations.h:783
 msgid "Fukuoka Airport"
-msgstr ""
+msgstr "福冈机场"
 
 #: my-evolution/Locations.h:784
 msgid "Fullerton"
 msgstr ""
 
+# my-evolution/Locations.h:787
 #: my-evolution/Locations.h:785
 msgid "Funchal"
-msgstr ""
+msgstr "丰沙尔"
 
 #: my-evolution/Locations.h:786
 #, fuzzy
@@ -16737,13 +17334,15 @@ msgstr "页面"
 msgid "Gainesville"
 msgstr "已经取消"
 
+# my-evolution/Locations.h:792
 #: my-evolution/Locations.h:790
 msgid "Galax-Hillsville"
-msgstr ""
+msgstr "加拉克斯-Hillsville"
 
+# my-evolution/Locations.h:793
 #: my-evolution/Locations.h:791
 msgid "Galbraith Lake"
-msgstr ""
+msgstr "加尔布雷斯湖"
 
 #: my-evolution/Locations.h:792
 msgid "Galeao"
@@ -16763,9 +17362,10 @@ msgstr ""
 msgid "Gallup"
 msgstr "瓜德罗普岛"
 
+# my-evolution/Locations.h:798
 #: my-evolution/Locations.h:796
 msgid "Galveston"
-msgstr ""
+msgstr "加尔维斯顿"
 
 #: my-evolution/Locations.h:797
 #, fuzzy
@@ -16782,9 +17382,10 @@ msgstr "发送者"
 msgid "Garden City"
 msgstr "标识"
 
+# my-evolution/Locations.h:802
 #: my-evolution/Locations.h:800
 msgid "Gary"
-msgstr ""
+msgstr "加里"
 
 #: my-evolution/Locations.h:801
 #, fuzzy
@@ -16815,13 +17416,15 @@ msgstr "希腊"
 msgid "Genova"
 msgstr "常规"
 
+# my-evolution/Locations.h:809
 #: my-evolution/Locations.h:807
 msgid "George Airport"
-msgstr ""
+msgstr "乔治机场"
 
+# my-evolution/Locations.h:810
 #: my-evolution/Locations.h:808
 msgid "Georgetown"
-msgstr ""
+msgstr "乔治镇"
 
 #: my-evolution/Locations.h:811
 #, fuzzy
@@ -16832,9 +17435,10 @@ msgstr "加纳"
 msgid "Ghedi"
 msgstr ""
 
+# my-evolution/Locations.h:816
 #: my-evolution/Locations.h:814
 msgid "Gifu Ab"
-msgstr ""
+msgstr "歧阜 Ab"
 
 #: my-evolution/Locations.h:815
 #, fuzzy
@@ -16896,26 +17500,32 @@ msgstr "波兰"
 msgid "Goose Bay"
 msgstr "转到今天"
 
+# my-evolution/Locations.h:830
 #: my-evolution/Locations.h:828
 msgid "Goteborg (Landvetter)"
-msgstr ""
+msgstr "歌德堡 (Landvetter)"
 
+# my-evolution/Locations.h:831
 #: my-evolution/Locations.h:829
 msgid "Goteborg (Save)"
-msgstr ""
+msgstr "歌德堡 (Save)"
 
 #: my-evolution/Locations.h:830
 #, fuzzy
 msgid "Granada"
 msgstr "格林纳达"
 
+# my-evolution/Locations.h:833
 #: my-evolution/Locations.h:831
 msgid "Grand Canyon"
-msgstr ""
+msgstr "大峡谷"
 
+# addressbook/gui/contact-editor/fulladdr.glade.h:5
+# calendar/zones.h:78
+# my-evolution/Locations.h:834
 #: my-evolution/Locations.h:832
 msgid "Grand Cayman"
-msgstr ""
+msgstr "大开曼"
 
 #: my-evolution/Locations.h:833
 msgid "Grand Forks"
@@ -16963,9 +17573,10 @@ msgstr "草稿"
 msgid "Graz"
 msgstr "巴西"
 
+# my-evolution/Locations.h:845
 #: my-evolution/Locations.h:843
 msgid "Great Falls"
-msgstr ""
+msgstr "大瀑布"
 
 #: my-evolution/Locations.h:845
 #, fuzzy
@@ -16981,9 +17592,10 @@ msgstr "格陵兰"
 msgid "Green River"
 msgstr ""
 
+# my-evolution/Locations.h:850
 #: my-evolution/Locations.h:848
 msgid "Greensboro"
-msgstr ""
+msgstr "格林斯博罗"
 
 #: my-evolution/Locations.h:849
 #, fuzzy
@@ -16999,9 +17611,10 @@ msgstr ""
 msgid "Greenwood"
 msgstr "格陵兰"
 
+# my-evolution/Locations.h:854
 #: my-evolution/Locations.h:852
 msgid "Grenoble-Saint-Geoirs"
-msgstr ""
+msgstr "格勒诺布尔-Saint-Geoirs"
 
 #: my-evolution/Locations.h:853
 msgid "Griffiss AFB"
@@ -17035,9 +17648,10 @@ msgstr "瓜德罗普岛"
 msgid "Guanare"
 msgstr "圭亚那"
 
+# my-evolution/Locations.h:862
 #: my-evolution/Locations.h:860
 msgid "Guangzhou"
-msgstr ""
+msgstr "广州"
 
 #: my-evolution/Locations.h:861
 #, fuzzy
@@ -17058,9 +17672,10 @@ msgstr "几内亚"
 msgid "Guarulhos"
 msgstr ""
 
+# my-evolution/Locations.h:868
 #: my-evolution/Locations.h:866
 msgid "Guayaquil/Simon Bolivar"
-msgstr ""
+msgstr "瓜亚基尔/西蒙 Bolivar"
 
 #: my-evolution/Locations.h:867
 #, fuzzy
@@ -17104,9 +17719,10 @@ msgstr ""
 msgid "Guriat"
 msgstr "几内亚"
 
+# my-evolution/Locations.h:878
 #: my-evolution/Locations.h:876
 msgid "Gustavus"
-msgstr ""
+msgstr "古斯塔夫斯"
 
 #: my-evolution/Locations.h:877
 #, fuzzy
@@ -17143,50 +17759,61 @@ msgstr ""
 msgid "Haines"
 msgstr "标题"
 
+# my-evolution/Locations.h:889
 #: my-evolution/Locations.h:887
 msgid "Hakodate Airport"
-msgstr ""
+msgstr "函馆机场"
 
+# addressbook/gui/contact-editor/fulladdr.glade.h:5
+# calendar/zones.h:104
+# my-evolution/Locations.h:890
 #: my-evolution/Locations.h:888
 msgid "Halifax"
-msgstr ""
+msgstr "哈利法克斯"
 
+# my-evolution/Locations.h:891
 #: my-evolution/Locations.h:889
 msgid "Hamamatsu Ab"
-msgstr ""
+msgstr "滨松 Ab"
 
+# my-evolution/Locations.h:892
 #: my-evolution/Locations.h:890
 msgid "Hamburg"
-msgstr ""
+msgstr "汉堡"
 
+# my-evolution/Locations.h:893
 #: my-evolution/Locations.h:891
 msgid "Hamburg-Finkenwerder"
-msgstr ""
+msgstr "汉堡-Finkenwerder"
 
 #: my-evolution/Locations.h:892
 #, fuzzy
 msgid "Hamilton"
 msgstr "冰雹暴"
 
+# my-evolution/Locations.h:895
 #: my-evolution/Locations.h:893
 msgid "Hammerfest"
-msgstr ""
+msgstr "哈默菲斯特"
 
+# my-evolution/Locations.h:896
 #: my-evolution/Locations.h:894
 msgid "Hampton"
-msgstr ""
+msgstr "汉普顿"
 
 #: my-evolution/Locations.h:895
 msgid "Hanamaki Airport"
 msgstr ""
 
+# my-evolution/Locations.h:898
 #: my-evolution/Locations.h:896
 msgid "Hancock"
-msgstr ""
+msgstr "汉考克"
 
+# my-evolution/Locations.h:899
 #: my-evolution/Locations.h:897
 msgid "Hangzhou"
-msgstr ""
+msgstr "杭州"
 
 #: my-evolution/Locations.h:898
 msgid "Hanksville"
@@ -17210,25 +17837,29 @@ msgstr ""
 msgid "Harlingen"
 msgstr "警告"
 
+# my-evolution/Locations.h:905
 #: my-evolution/Locations.h:903
 msgid "Harlowton"
-msgstr ""
+msgstr "哈洛顿"
 
+# my-evolution/Locations.h:906
 #: my-evolution/Locations.h:904
 msgid "Harrisburg"
-msgstr ""
+msgstr "哈里斯堡"
 
+# my-evolution/Locations.h:907
 #: my-evolution/Locations.h:905
 msgid "Harrison"
-msgstr ""
+msgstr "哈里森"
 
 #: my-evolution/Locations.h:906
 msgid "Harstad/Narvik/Evenes"
 msgstr ""
 
+# my-evolution/Locations.h:909
 #: my-evolution/Locations.h:907
 msgid "Hartford"
-msgstr ""
+msgstr "哈特福德"
 
 #: my-evolution/Locations.h:908
 msgid "Hassi-Messaoud"
@@ -17253,9 +17884,10 @@ msgstr "保存"
 msgid "Hawaii"
 msgstr "海地"
 
+# my-evolution/Locations.h:915
 #: my-evolution/Locations.h:913
 msgid "Hawthorne"
-msgstr ""
+msgstr "霍索恩"
 
 #: my-evolution/Locations.h:914
 #, fuzzy
@@ -17284,9 +17916,11 @@ msgstr ""
 msgid "Helena"
 msgstr "圣赫勒拿岛"
 
+# calendar/zones.h:297
+# my-evolution/Locations.h:922
 #: my-evolution/Locations.h:920
 msgid "Helsinki"
-msgstr ""
+msgstr "赫尔辛基"
 
 #: my-evolution/Locations.h:921
 #, fuzzy
@@ -17327,9 +17961,10 @@ msgstr "冰雹"
 msgid "Hinesville"
 msgstr ""
 
+# my-evolution/Locations.h:932
 #: my-evolution/Locations.h:930
 msgid "Hiroshima Airport"
-msgstr ""
+msgstr "广岛机场"
 
 #: my-evolution/Locations.h:931
 #, fuzzy
@@ -17341,13 +17976,15 @@ msgstr "主机"
 msgid "Hobbs"
 msgstr "主机"
 
+# my-evolution/Locations.h:935
 #: my-evolution/Locations.h:933
 msgid "Ho Chi Minh"
-msgstr ""
+msgstr "胡志明市"
 
+# my-evolution/Locations.h:936
 #: my-evolution/Locations.h:934
 msgid "Hodeidah"
-msgstr ""
+msgstr "荷台达"
 
 #: my-evolution/Locations.h:935
 msgid "Hof"
@@ -17389,9 +18026,11 @@ msgstr "龙卷风"
 msgid "Honningsvag"
 msgstr ""
 
+# calendar/zones.h:358
+# my-evolution/Locations.h:948
 #: my-evolution/Locations.h:946
 msgid "Honolulu"
-msgstr ""
+msgstr "火奴鲁鲁"
 
 #: my-evolution/Locations.h:947
 msgid "Hoonah"
@@ -17419,25 +18058,30 @@ msgstr "发送"
 msgid "Houma"
 msgstr "家庭"
 
+# my-evolution/Locations.h:955
 #: my-evolution/Locations.h:953
 msgid "Houston-Bush"
-msgstr ""
+msgstr "休斯顿-布什"
 
+# my-evolution/Locations.h:956
 #: my-evolution/Locations.h:954
 msgid "Houston-Clover"
-msgstr ""
+msgstr "休斯顿-Clover"
 
+# my-evolution/Locations.h:957
 #: my-evolution/Locations.h:955
 msgid "Houston-Ellington Field"
-msgstr ""
+msgstr "休斯顿-埃灵顿 Field"
 
+# my-evolution/Locations.h:958
 #: my-evolution/Locations.h:956
 msgid "Houston-Hobby"
-msgstr ""
+msgstr "休斯顿-Hobby"
 
+# my-evolution/Locations.h:959
 #: my-evolution/Locations.h:957
 msgid "Houston-Hooks"
-msgstr ""
+msgstr "休斯顿-Hooks"
 
 #: my-evolution/Locations.h:958
 #, fuzzy
@@ -17461,13 +18105,15 @@ msgstr ""
 msgid "Hulien"
 msgstr "隐藏"
 
+# my-evolution/Locations.h:965
 #: my-evolution/Locations.h:963
 msgid "Humberside"
-msgstr ""
+msgstr "亨伯赛德郡"
 
+# my-evolution/Locations.h:967
 #: my-evolution/Locations.h:965
 msgid "Huntington"
-msgstr ""
+msgstr "亨廷顿"
 
 #: my-evolution/Locations.h:966
 #, fuzzy
@@ -17483,9 +18129,10 @@ msgstr ""
 msgid "Huron"
 msgstr "小时"
 
+# my-evolution/Locations.h:971
 #: my-evolution/Locations.h:969
 msgid "Hutchinson"
-msgstr ""
+msgstr "哈钦森"
 
 #: my-evolution/Locations.h:970
 msgid "Hyakuri Ab"
@@ -17495,9 +18142,10 @@ msgstr ""
 msgid "Hyannis"
 msgstr ""
 
+# my-evolution/Locations.h:974
 #: my-evolution/Locations.h:972
 msgid "Hyderabad"
-msgstr ""
+msgstr "海得拉巴"
 
 #: my-evolution/Locations.h:973
 msgid "Hyeres-Le Palyvestre"
@@ -17522,9 +18170,10 @@ msgstr ""
 msgid "Idaho"
 msgstr "印度"
 
+# my-evolution/Locations.h:981
 #: my-evolution/Locations.h:979
 msgid "Idaho Falls"
-msgstr ""
+msgstr "爱达荷瀑布"
 
 #: my-evolution/Locations.h:980
 msgid "Iguazu"
@@ -17544,9 +18193,10 @@ msgstr "冰岛"
 msgid "Iliamna"
 msgstr "嵌入"
 
+# my-evolution/Locations.h:986
 #: my-evolution/Locations.h:984
 msgid "Illinois"
-msgstr ""
+msgstr "伊利诺斯州"
 
 #: my-evolution/Locations.h:985
 #, fuzzy
@@ -17557,9 +18207,10 @@ msgstr "四月"
 msgid "Imperial (2)"
 msgstr ""
 
+# my-evolution/Locations.h:989
 #: my-evolution/Locations.h:987
 msgid "Imperial Beach"
-msgstr ""
+msgstr "皇家海岸"
 
 #: my-evolution/Locations.h:988
 #, fuzzy
@@ -17571,17 +18222,25 @@ msgstr "亚美尼亚"
 msgid "Indiana"
 msgstr "印度"
 
+# addressbook/gui/contact-editor/fulladdr.glade.h:129
+# calendar/zones.h:341
+# my-evolution/Locations.h:993
 #: my-evolution/Locations.h:991
 msgid "Indianapolis"
-msgstr ""
+msgstr "印地安纳波利斯"
 
+# addressbook/gui/contact-editor/fulladdr.glade.h:135
+# calendar/zones.h:342
+# my-evolution/Locations.h:994
 #: my-evolution/Locations.h:992
+#, fuzzy
 msgid "Indian Springs"
-msgstr ""
+msgstr "印度洋/毛里求斯"
 
+# my-evolution/Locations.h:995
 #: my-evolution/Locations.h:993
 msgid "Innsbruck"
-msgstr ""
+msgstr "因斯布鲁克"
 
 #: my-evolution/Locations.h:994
 msgid "International Falls"
@@ -17605,30 +18264,34 @@ msgstr ""
 msgid "Iowa"
 msgstr "挪威"
 
+# my-evolution/Locations.h:1001
 #: my-evolution/Locations.h:999
 msgid "Iowa City"
-msgstr ""
+msgstr "爱荷华城"
 
 #: my-evolution/Locations.h:1000
 msgid "Iqaluit"
 msgstr ""
 
+# my-evolution/Locations.h:1003
 #: my-evolution/Locations.h:1001
 msgid "Iquique/Diego Arac"
-msgstr ""
+msgstr "伊基克/Diego Arac"
 
+# my-evolution/Locations.h:1004
 #: my-evolution/Locations.h:1002
 msgid "Iquitos"
-msgstr ""
+msgstr "伊基托斯"
 
 #: my-evolution/Locations.h:1003
 #, fuzzy
 msgid "Iraklion"
 msgstr "信息"
 
+# my-evolution/Locations.h:1006
 #: my-evolution/Locations.h:1004
 msgid "Iran, Islamic Republic of"
-msgstr ""
+msgstr "伊朗伊斯兰共和国"
 
 #: my-evolution/Locations.h:1006
 #, fuzzy
@@ -17643,9 +18306,10 @@ msgstr ""
 msgid "Iruma Ab"
 msgstr ""
 
+# my-evolution/Locations.h:1011
 #: my-evolution/Locations.h:1009
 msgid "Islamabad"
-msgstr ""
+msgstr "伊斯兰堡"
 
 #: my-evolution/Locations.h:1010
 msgid "Isle of Man"
@@ -17664,9 +18328,10 @@ msgstr "意大利"
 msgid "Itaituba"
 msgstr ""
 
+# my-evolution/Locations.h:1017
 #: my-evolution/Locations.h:1015
 msgid "Ithaca"
-msgstr ""
+msgstr "伊萨卡岛"
 
 #: my-evolution/Locations.h:1016
 msgid "Iwakuni MCAS"
@@ -17680,13 +18345,15 @@ msgstr ""
 msgid "Ixtapa"
 msgstr ""
 
+# my-evolution/Locations.h:1022
 #: my-evolution/Locations.h:1019
 msgid "Izmir/Adnan Menderes"
-msgstr ""
+msgstr "伊兹密尔/Adnan Menderes"
 
+# my-evolution/Locations.h:1023
 #: my-evolution/Locations.h:1020
 msgid "Izmir/Cigli"
-msgstr ""
+msgstr "伊兹密尔/Cigli"
 
 #: my-evolution/Locations.h:1021
 msgid "Izmit"
@@ -17697,9 +18364,10 @@ msgstr ""
 msgid "Izumo Airport"
 msgstr "导入"
 
+# my-evolution/Locations.h:1026
 #: my-evolution/Locations.h:1023
 msgid "Jackson"
-msgstr ""
+msgstr "杰克逊"
 
 #: my-evolution/Locations.h:1024
 msgid "Jacksonville"
@@ -17717,9 +18385,10 @@ msgstr ""
 msgid "Jaffrey"
 msgstr ""
 
+# my-evolution/Locations.h:1032
 #: my-evolution/Locations.h:1029
 msgid "Jamestown"
-msgstr ""
+msgstr "詹姆斯敦"
 
 #: my-evolution/Locations.h:1030
 #, fuzzy
@@ -17734,17 +18403,20 @@ msgstr ""
 msgid "Jeddah King Abdul Aziz International Airport"
 msgstr ""
 
+# my-evolution/Locations.h:1037
 #: my-evolution/Locations.h:1034
 msgid "Jefferson City"
-msgstr ""
+msgstr "杰斐逊城"
 
+# my-evolution/Locations.h:1038
 #: my-evolution/Locations.h:1035
 msgid "Jerez"
-msgstr ""
+msgstr "赫雷斯"
 
+# my-evolution/Locations.h:1039
 #: my-evolution/Locations.h:1036
 msgid "Jersey"
-msgstr ""
+msgstr "杰尔西"
 
 #: my-evolution/Locations.h:1037
 msgid "Jinotega"
@@ -17754,9 +18426,10 @@ msgstr ""
 msgid "Johan A. Pengel"
 msgstr ""
 
+# my-evolution/Locations.h:1042
 #: my-evolution/Locations.h:1039
 msgid "Johnstown"
-msgstr ""
+msgstr "约翰斯敦"
 
 #: my-evolution/Locations.h:1040
 msgid "Jonesboro"
@@ -17809,9 +18482,10 @@ msgstr "六月"
 msgid "Kadena Ab"
 msgstr ""
 
+# my-evolution/Locations.h:1055
 #: my-evolution/Locations.h:1052
 msgid "Kagoshima Airport"
-msgstr ""
+msgstr "鹿儿岛机场"
 
 #: my-evolution/Locations.h:1053
 msgid "Kahului"
@@ -17858,21 +18532,25 @@ msgstr ""
 msgid "Kansai International Airport"
 msgstr ""
 
+# my-evolution/Locations.h:1067
 #: my-evolution/Locations.h:1064
 msgid "Kansas"
-msgstr ""
+msgstr "堪萨斯州"
 
+# my-evolution/Locations.h:1068
 #: my-evolution/Locations.h:1065
 msgid "Kansas City"
-msgstr ""
+msgstr "堪萨斯城"
 
+# my-evolution/Locations.h:1069
 #: my-evolution/Locations.h:1066
 msgid "Kansas City-Gladstone"
-msgstr ""
+msgstr "堪萨斯城-格莱斯顿"
 
+# my-evolution/Locations.h:1070
 #: my-evolution/Locations.h:1067
 msgid "Kaohsiung"
-msgstr ""
+msgstr "高雄"
 
 #: my-evolution/Locations.h:1068
 #, fuzzy
@@ -17884,9 +18562,10 @@ msgstr "三月"
 msgid "Karup"
 msgstr "组"
 
+# my-evolution/Locations.h:1073
 #: my-evolution/Locations.h:1070
 msgid "Kassel-Calden"
-msgstr ""
+msgstr "卡塞尔-Calden"
 
 #: my-evolution/Locations.h:1071
 msgid "Kasumigaura Ab"
@@ -17896,9 +18575,10 @@ msgstr ""
 msgid "Kasuminome Ab"
 msgstr ""
 
+# my-evolution/Locations.h:1076
 #: my-evolution/Locations.h:1073
 msgid "Katowice"
-msgstr ""
+msgstr "卡托维兹"
 
 #: my-evolution/Locations.h:1074
 msgid "Kavala"
@@ -17972,9 +18652,10 @@ msgstr "西"
 msgid "Key West NAS"
 msgstr ""
 
+# my-evolution/Locations.h:1093
 #: my-evolution/Locations.h:1090
 msgid "Khabarovsk"
-msgstr ""
+msgstr "哈巴罗夫斯克"
 
 #: my-evolution/Locations.h:1091
 msgid "Khamis Mushait"
@@ -18021,9 +18702,10 @@ msgstr ""
 msgid "Kinloss"
 msgstr ""
 
+# my-evolution/Locations.h:1106
 #: my-evolution/Locations.h:1102
 msgid "Kinston"
-msgstr ""
+msgstr "金斯敦"
 
 #: my-evolution/Locations.h:1103
 msgid "Kirkenes"
@@ -18033,9 +18715,10 @@ msgstr ""
 msgid "Kirksville"
 msgstr ""
 
+# my-evolution/Locations.h:1109
 #: my-evolution/Locations.h:1105
 msgid "Kiruna"
-msgstr ""
+msgstr "基律纳"
 
 #: my-evolution/Locations.h:1106
 msgid "Kisarazu Ab"
@@ -18045,17 +18728,20 @@ msgstr ""
 msgid "Kishineu"
 msgstr ""
 
+# my-evolution/Locations.h:1112
 #: my-evolution/Locations.h:1108
 msgid "Kitakyushu Airport"
-msgstr ""
+msgstr "北九市机场"
 
+# my-evolution/Locations.h:1113
 #: my-evolution/Locations.h:1109
 msgid "Klagenfurt"
-msgstr ""
+msgstr "克拉根福"
 
+# my-evolution/Locations.h:1114
 #: my-evolution/Locations.h:1110
 msgid "Klamath Falls"
-msgstr ""
+msgstr "克拉马斯瀑布"
 
 #: my-evolution/Locations.h:1111
 msgid "Klawock"
@@ -18069,29 +18755,35 @@ msgstr ""
 msgid "Kliningrad"
 msgstr ""
 
+# my-evolution/Locations.h:1118
 #: my-evolution/Locations.h:1114
 msgid "Knoxville"
-msgstr ""
+msgstr "诺克斯维尔"
 
+# my-evolution/Locations.h:1119
 #: my-evolution/Locations.h:1115
 msgid "Knoxville-Downtown"
-msgstr ""
+msgstr "诺克斯维尔-市区"
 
+# my-evolution/Locations.h:1120
 #: my-evolution/Locations.h:1116
 msgid "Kobenhavn/Kastrup"
-msgstr ""
+msgstr "哥本哈根/Kastrup"
 
+# my-evolution/Locations.h:1121
 #: my-evolution/Locations.h:1117
 msgid "Kobenhavn/Roskilde"
-msgstr ""
+msgstr "哥本哈根/Roskilde"
 
+# my-evolution/Locations.h:1122
 #: my-evolution/Locations.h:1118
 msgid "Kochi Airport"
-msgstr ""
+msgstr "高知机场"
 
+# my-evolution/Locations.h:1123
 #: my-evolution/Locations.h:1119
 msgid "Kodiak"
-msgstr ""
+msgstr "科迪亚克"
 
 #: my-evolution/Locations.h:1120
 msgid "Kogalniceanu"
@@ -18113,9 +18805,10 @@ msgstr ""
 msgid "Koln/Bonn"
 msgstr ""
 
+# my-evolution/Locations.h:1129
 #: my-evolution/Locations.h:1125
 msgid "Komatsu Ab"
-msgstr ""
+msgstr "小松 Ab"
 
 #: my-evolution/Locations.h:1126
 msgid "Komatsujima Ab"
@@ -18126,18 +18819,20 @@ msgstr ""
 msgid "Konya"
 msgstr "肯尼亚"
 
+# my-evolution/Locations.h:1132
 #: my-evolution/Locations.h:1128
 msgid "Korea, Democratic People's Republic of"
-msgstr ""
+msgstr "韩国人民民主共和国"
 
 #: my-evolution/Locations.h:1129
 #, fuzzy
 msgid "Korea, Republic of"
 msgstr "捷克共和国"
 
+# my-evolution/Locations.h:1134
 #: my-evolution/Locations.h:1130
 msgid "Kos"
-msgstr ""
+msgstr "科斯"
 
 #: my-evolution/Locations.h:1131
 msgid "Kotzebue"
@@ -18148,29 +18843,34 @@ msgstr ""
 msgid "Kozani"
 msgstr "韩语"
 
+# my-evolution/Locations.h:1137
 #: my-evolution/Locations.h:1133
 msgid "Krakow"
-msgstr ""
+msgstr "克拉科夫"
 
 #: my-evolution/Locations.h:1134
 msgid "Krasnodar"
 msgstr ""
 
+# my-evolution/Locations.h:1139
 #: my-evolution/Locations.h:1135
 msgid "Krasnoyarsk"
-msgstr ""
+msgstr "克拉斯诺伏斯克"
 
+# my-evolution/Locations.h:1140
 #: my-evolution/Locations.h:1136
 msgid "Kristiansand/Kjevik"
-msgstr ""
+msgstr "克里斯蒂安桑/Kjevik"
 
+# my-evolution/Locations.h:1141
 #: my-evolution/Locations.h:1137
 msgid "Kristiansund/Kvernberget"
-msgstr ""
+msgstr "克里斯蒂安桑／Kvernberget"
 
+# my-evolution/Locations.h:1143
 #: my-evolution/Locations.h:1138
 msgid "Kumamoto Airport"
-msgstr ""
+msgstr "熊本机场"
 
 #: my-evolution/Locations.h:1139
 #, fuzzy
@@ -18277,9 +18977,10 @@ msgstr "冈比亚"
 msgid "Lamoni"
 msgstr "黎巴嫩"
 
+# my-evolution/Locations.h:1170
 #: my-evolution/Locations.h:1163
 msgid "Lampedusa"
-msgstr ""
+msgstr "蓝佩杜萨岛"
 
 #: my-evolution/Locations.h:1164
 #, fuzzy
@@ -18301,9 +19002,10 @@ msgstr "发送者"
 msgid "Langebaanweg"
 msgstr "语言"
 
+# my-evolution/Locations.h:1175
 #: my-evolution/Locations.h:1168
 msgid "Langley AFB"
-msgstr ""
+msgstr "兰利空军基地"
 
 #: my-evolution/Locations.h:1169
 #, fuzzy
@@ -18315,17 +19017,20 @@ msgstr "黎巴嫩"
 msgid "Lansing"
 msgstr "警告"
 
+# my-evolution/Locations.h:1178
 #: my-evolution/Locations.h:1171
 msgid "Lanzhou"
-msgstr ""
+msgstr "兰州"
 
+# my-evolution/Locations.h:1179
 #: my-evolution/Locations.h:1172
 msgid "La Paz"
-msgstr ""
+msgstr "拉巴斯"
 
+# my-evolution/Locations.h:1180
 #: my-evolution/Locations.h:1173
 msgid "La Paz/Alto"
-msgstr ""
+msgstr "拉巴斯/Alto"
 
 #: my-evolution/Locations.h:1174
 msgid "Laramie"
@@ -18346,17 +19051,22 @@ msgstr "斯里兰卡"
 msgid "La Romana"
 msgstr "罗马尼亚"
 
+# addressbook/gui/contact-editor/fulladdr.glade.h:5
+# calendar/zones.h:86
+# my-evolution/Locations.h:1185
 #: my-evolution/Locations.h:1178
+#, fuzzy
 msgid "Las Americas"
-msgstr ""
+msgstr "美洲萨摩亚"
 
 #: my-evolution/Locations.h:1179
 msgid "Las Tunas"
 msgstr ""
 
+# my-evolution/Locations.h:1187
 #: my-evolution/Locations.h:1180
 msgid "Las Vegas"
-msgstr ""
+msgstr "拉斯维加斯"
 
 #: my-evolution/Locations.h:1181
 #, fuzzy
@@ -18381,9 +19091,10 @@ msgstr "更大(_L)"
 msgid "La Verne"
 msgstr "佛得角"
 
+# my-evolution/Locations.h:1194
 #: my-evolution/Locations.h:1187
 msgid "Lawrence"
-msgstr ""
+msgstr "劳伦斯"
 
 #: my-evolution/Locations.h:1188
 #, fuzzy
@@ -18416,13 +19127,15 @@ msgstr "卢森堡"
 msgid "Leeuwarden"
 msgstr ""
 
+# my-evolution/Locations.h:1203
 #: my-evolution/Locations.h:1196
 msgid "Le Havre-Octeville"
-msgstr ""
+msgstr "勒阿弗尔-Octeville"
 
+# my-evolution/Locations.h:1204
 #: my-evolution/Locations.h:1197
 msgid "Leipzig-Schkeuditz"
-msgstr ""
+msgstr "莱比锡-Schkeuditz"
 
 #: my-evolution/Locations.h:1198
 msgid "Leknes"
@@ -18509,13 +19222,15 @@ msgstr "尼日尔"
 msgid "Lihue"
 msgstr "纽埃岛"
 
+# my-evolution/Locations.h:1224
 #: my-evolution/Locations.h:1217
 msgid "Lille-Lesquin"
-msgstr ""
+msgstr "里尔-Lesquin"
 
+# my-evolution/Locations.h:1225
 #: my-evolution/Locations.h:1218
 msgid "Lima-Callao"
-msgstr ""
+msgstr "利马-卡亚俄"
 
 #: my-evolution/Locations.h:1219
 #, fuzzy
@@ -18537,9 +19252,10 @@ msgstr "月"
 msgid "Lincoln"
 msgstr "接收"
 
+# my-evolution/Locations.h:1230
 #: my-evolution/Locations.h:1223
 msgid "Linz"
-msgstr ""
+msgstr "林茨"
 
 #: my-evolution/Locations.h:1224
 #, fuzzy
@@ -18556,38 +19272,45 @@ msgstr "霭"
 msgid "Litchfield"
 msgstr "小冰雹"
 
+# my-evolution/Locations.h:1235
 #: my-evolution/Locations.h:1228
 msgid "Little Rock"
-msgstr ""
+msgstr "小石城"
 
+# my-evolution/Locations.h:1236
 #: my-evolution/Locations.h:1229
 msgid "Little Rock AFB"
-msgstr ""
+msgstr "小石城空军基地"
 
 #: my-evolution/Locations.h:1230
 msgid "Livermore"
 msgstr ""
 
+# my-evolution/Locations.h:1238
 #: my-evolution/Locations.h:1231
 msgid "Liverpool"
-msgstr ""
+msgstr "利物浦"
 
+# my-evolution/Locations.h:1239
 #: my-evolution/Locations.h:1232
 msgid "Livingston"
-msgstr ""
+msgstr "利文斯敦"
 
+# calendar/zones.h:302
+# my-evolution/Locations.h:1240
 #: my-evolution/Locations.h:1233
 msgid "Ljubljana"
-msgstr ""
+msgstr "卢布尔雅纳"
 
 #: my-evolution/Locations.h:1234
 #, fuzzy
 msgid "Logan"
 msgstr "NT 登录"
 
+# my-evolution/Locations.h:1242
 #: my-evolution/Locations.h:1235
 msgid "Lolland Falster"
-msgstr ""
+msgstr "洛兰岛 Falster"
 
 #: my-evolution/Locations.h:1236
 #, fuzzy
@@ -18599,21 +19322,25 @@ msgstr "公司"
 msgid "London"
 msgstr "黎巴嫩"
 
+# my-evolution/Locations.h:1245
 #: my-evolution/Locations.h:1238
 msgid "London/City"
-msgstr ""
+msgstr "伦敦/城"
 
+# my-evolution/Locations.h:1246
 #: my-evolution/Locations.h:1239
 msgid "London/Gatwick"
-msgstr ""
+msgstr "伦敦/Gatwick"
 
+# my-evolution/Locations.h:1247
 #: my-evolution/Locations.h:1240
 msgid "London/Heathrow"
-msgstr ""
+msgstr "伦敦/Heathrow"
 
+# my-evolution/Locations.h:1248
 #: my-evolution/Locations.h:1241
 msgid "London/Stansted"
-msgstr ""
+msgstr "伦敦/Stansted"
 
 #: my-evolution/Locations.h:1242
 #, fuzzy
@@ -18641,9 +19368,11 @@ msgstr ""
 msgid "Los Alamos"
 msgstr "提醒"
 
+# calendar/zones.h:121
+# my-evolution/Locations.h:1255
 #: my-evolution/Locations.h:1248
 msgid "Los Angeles"
-msgstr ""
+msgstr "洛杉矶"
 
 #: my-evolution/Locations.h:1249
 msgid "Los Mochis"
@@ -18653,13 +19382,15 @@ msgstr ""
 msgid "Lossiemouth"
 msgstr ""
 
+# my-evolution/Locations.h:1258
 #: my-evolution/Locations.h:1251
 msgid "Louisville"
-msgstr ""
+msgstr "路易斯维尔"
 
+# my-evolution/Locations.h:1259
 #: my-evolution/Locations.h:1252
 msgid "Louisville-Standiford Field"
-msgstr ""
+msgstr "路易斯维尔-Standiford Field"
 
 #: my-evolution/Locations.h:1253
 #, fuzzy
@@ -18713,13 +19444,15 @@ msgstr ""
 msgid "Lyneham"
 msgstr ""
 
+# my-evolution/Locations.h:1274
 #: my-evolution/Locations.h:1266
 msgid "Lyon-Bron"
-msgstr ""
+msgstr "里昂-Bron"
 
+# my-evolution/Locations.h:1275
 #: my-evolution/Locations.h:1267
 msgid "Lyon-Satolas"
-msgstr ""
+msgstr "里昂-Satolas"
 
 #: my-evolution/Locations.h:1268
 #, fuzzy
@@ -18756,39 +19489,45 @@ msgstr "马其顿"
 msgid "Madison"
 msgstr "马尔代夫"
 
+# my-evolution/Locations.h:1283
 #: my-evolution/Locations.h:1275
 msgid "Madras/Minambakkam"
-msgstr ""
+msgstr "马德拉斯/Minambakkam"
 
+# my-evolution/Locations.h:1284
 #: my-evolution/Locations.h:1276
 msgid "Madrid (Barajas)"
-msgstr ""
+msgstr "马德里 (Barajas)"
 
+# my-evolution/Locations.h:1285
 #: my-evolution/Locations.h:1277
 msgid "Madrid (Cuatro Vientos)"
-msgstr ""
+msgstr "马德里 (Cuatro Vientos)"
 
 #: my-evolution/Locations.h:1278
 #, fuzzy
 msgid "Magadan"
 msgstr "加拿大"
 
+# my-evolution/Locations.h:1287
 #: my-evolution/Locations.h:1279
 msgid "Magdalena"
-msgstr ""
+msgstr "马各达林"
 
 #: my-evolution/Locations.h:1280
 #, fuzzy
 msgid "Maine"
 msgstr "经理"
 
+# my-evolution/Locations.h:1289
 #: my-evolution/Locations.h:1281
 msgid "Makhachkala"
-msgstr ""
+msgstr "马哈奇卡拉"
 
+# my-evolution/Locations.h:1290
 #: my-evolution/Locations.h:1282
 msgid "Makkah"
-msgstr ""
+msgstr "麦加"
 
 #: my-evolution/Locations.h:1283
 #, fuzzy
@@ -18846,9 +19585,10 @@ msgstr "匹配："
 msgid "Mangilsan Ab"
 msgstr ""
 
+# my-evolution/Locations.h:1304
 #: my-evolution/Locations.h:1296
 msgid "Manhattan"
-msgstr ""
+msgstr "曼哈顿"
 
 #: my-evolution/Locations.h:1297
 #, fuzzy
@@ -18865,9 +19605,10 @@ msgstr "霭"
 msgid "Manitoba"
 msgstr "主工具栏"
 
+# my-evolution/Locations.h:1308
 #: my-evolution/Locations.h:1300
 msgid "Manitowoc"
-msgstr ""
+msgstr "马尼托沃克"
 
 #: my-evolution/Locations.h:1301
 #, fuzzy
@@ -18893,13 +19634,15 @@ msgstr ""
 msgid "Maraba"
 msgstr "毛里塔尼亚"
 
+# my-evolution/Locations.h:1314
 #: my-evolution/Locations.h:1306
 msgid "Maracaibo-La Chinita"
-msgstr ""
+msgstr "马拉开波-La Chinita"
 
+# my-evolution/Locations.h:1315
 #: my-evolution/Locations.h:1307
 msgid "Maracay-B.A.Sucre"
-msgstr ""
+msgstr "马拉凯-B.A.Sucre"
 
 #: my-evolution/Locations.h:1308
 #, fuzzy
@@ -18925,9 +19668,10 @@ msgstr "毛里塔尼亚"
 msgid "Marib"
 msgstr "邮件"
 
+# my-evolution/Locations.h:1321
 #: my-evolution/Locations.h:1313
 msgid "Maribor"
-msgstr ""
+msgstr "马里博尔"
 
 #: my-evolution/Locations.h:1314
 #, fuzzy
@@ -18943,22 +19687,25 @@ msgstr ""
 msgid "Marion"
 msgstr "边界"
 
+# my-evolution/Locations.h:1325
 #: my-evolution/Locations.h:1317
 msgid "Marion-Wytheville"
-msgstr ""
+msgstr "马里恩-Wytheville"
 
 #: my-evolution/Locations.h:1318
 #, fuzzy
 msgid "Marquette"
 msgstr "马提尼可岛"
 
+# my-evolution/Locations.h:1327
 #: my-evolution/Locations.h:1319
 msgid "Marseille-Provence"
-msgstr ""
+msgstr "马赛-普罗旺斯"
 
+# my-evolution/Locations.h:1328
 #: my-evolution/Locations.h:1320
 msgid "Marseilles"
-msgstr ""
+msgstr "马赛"
 
 #: my-evolution/Locations.h:1321
 #, fuzzy
@@ -19007,22 +19754,25 @@ msgstr ""
 msgid "Marysville-Beale AFB"
 msgstr ""
 
+# my-evolution/Locations.h:1339
 #: my-evolution/Locations.h:1331
 msgid "Mashhad"
-msgstr ""
+msgstr "马什哈德"
 
 #: my-evolution/Locations.h:1332
 #, fuzzy
 msgid "Masirah"
 msgstr "三月"
 
+# my-evolution/Locations.h:1341
 #: my-evolution/Locations.h:1333
 msgid "Mason City"
-msgstr ""
+msgstr "梅森城"
 
+# my-evolution/Locations.h:1342
 #: my-evolution/Locations.h:1334
 msgid "Massachusetts"
-msgstr ""
+msgstr "麻萨诸塞州"
 
 #: my-evolution/Locations.h:1335
 #, fuzzy
@@ -19034,17 +19784,19 @@ msgstr "马其顿"
 msgid "Matamoros"
 msgstr "科摩罗群岛"
 
+# my-evolution/Locations.h:1345
 #: my-evolution/Locations.h:1337
 msgid "Matsumoto Airport"
-msgstr ""
+msgstr "松本机场"
 
 #: my-evolution/Locations.h:1338
 msgid "Matsushima Ab"
 msgstr ""
 
+# my-evolution/Locations.h:1347
 #: my-evolution/Locations.h:1339
 msgid "Matsuyama Airport"
-msgstr ""
+msgstr "松山机场"
 
 #: my-evolution/Locations.h:1340
 #, fuzzy
@@ -19075,9 +19827,10 @@ msgstr "澳门"
 msgid "McAlester"
 msgstr ""
 
+# my-evolution/Locations.h:1354
 #: my-evolution/Locations.h:1346
 msgid "McAllen"
-msgstr ""
+msgstr "麦卡伦"
 
 #: my-evolution/Locations.h:1347
 #, fuzzy
@@ -19134,30 +19887,36 @@ msgstr "经理"
 msgid "Mekoryuk"
 msgstr ""
 
+# addressbook/gui/contact-editor/fulladdr.glade.h:14
+# calendar/zones.h:280
+# my-evolution/Locations.h:1367
 #: my-evolution/Locations.h:1359
 msgid "Melbourne"
-msgstr ""
+msgstr "墨尔本"
 
 #: my-evolution/Locations.h:1360
 #, fuzzy
 msgid "Melfa"
 msgstr "马耳他"
 
+# my-evolution/Locations.h:1369
 #: my-evolution/Locations.h:1361
 msgid "Melilla"
-msgstr ""
+msgstr "梅利利亚"
 
 #: my-evolution/Locations.h:1362
 msgid "Memambetsu Airport"
 msgstr ""
 
+# my-evolution/Locations.h:1371
 #: my-evolution/Locations.h:1363
 msgid "Memphis"
-msgstr ""
+msgstr "孟斐斯"
 
+# my-evolution/Locations.h:1372
 #: my-evolution/Locations.h:1364
 msgid "Memphis-NAS"
-msgstr ""
+msgstr "孟斐斯-国家科学院"
 
 #: my-evolution/Locations.h:1365
 #, fuzzy
@@ -19172,9 +19931,10 @@ msgstr ""
 msgid "Menominee"
 msgstr ""
 
+# my-evolution/Locations.h:1376
 #: my-evolution/Locations.h:1368
 msgid "Menorca"
-msgstr ""
+msgstr "米诺卡"
 
 #: my-evolution/Locations.h:1369
 msgid "Merced"
@@ -19210,9 +19970,10 @@ msgstr ""
 msgid "Metabaru Ab"
 msgstr ""
 
+# my-evolution/Locations.h:1385
 #: my-evolution/Locations.h:1377
 msgid "Metz-Frescaty"
-msgstr ""
+msgstr "梅斯-Frescaty"
 
 #: my-evolution/Locations.h:1378
 #, fuzzy
@@ -19224,17 +19985,20 @@ msgstr "墨西哥"
 msgid "Miami"
 msgstr "邮件"
 
+# my-evolution/Locations.h:1389
 #: my-evolution/Locations.h:1381
 msgid "Miami-Kendall"
-msgstr ""
+msgstr "迈阿密-肯德尔"
 
+# my-evolution/Locations.h:1390
 #: my-evolution/Locations.h:1382
 msgid "Miami-Opa Locka"
-msgstr ""
+msgstr "迈阿密-Opa Locka"
 
+# my-evolution/Locations.h:1391
 #: my-evolution/Locations.h:1383
 msgid "Michigan"
-msgstr ""
+msgstr "密歇根州"
 
 #: my-evolution/Locations.h:1384
 #, fuzzy
@@ -19260,13 +20024,17 @@ msgstr "芬兰"
 msgid "Miho Ab"
 msgstr ""
 
+# my-evolution/Locations.h:1397
 #: my-evolution/Locations.h:1389
 msgid "Milano/Linate"
-msgstr ""
+msgstr "米兰/Linate"
 
+# addressbook/gui/contact-editor/fulladdr.glade.h:129
+# calendar/zones.h:341
+# my-evolution/Locations.h:1398
 #: my-evolution/Locations.h:1390
 msgid "Milano/Malpensa"
-msgstr ""
+msgstr "米兰/Malpensa"
 
 #: my-evolution/Locations.h:1391
 #, fuzzy
@@ -19291,13 +20059,15 @@ msgstr ""
 msgid "Milton"
 msgstr "邮寄给 %s"
 
+# my-evolution/Locations.h:1404
 #: my-evolution/Locations.h:1396
 msgid "Milwaukee"
-msgstr ""
+msgstr "密尔沃基"
 
+# my-evolution/Locations.h:1405
 #: my-evolution/Locations.h:1397
 msgid "Milwaukee-Timmerman"
-msgstr ""
+msgstr "密尔沃基-Timmerman"
 
 #: my-evolution/Locations.h:1398
 msgid "Minamitorishima"
@@ -19321,17 +20091,20 @@ msgstr ""
 msgid "Mineral Wells"
 msgstr ""
 
+# my-evolution/Locations.h:1411
 #: my-evolution/Locations.h:1403
 msgid "Minneapolis"
-msgstr ""
+msgstr "明尼阿波利斯"
 
+# my-evolution/Locations.h:1412
 #: my-evolution/Locations.h:1404
 msgid "Minneapolis [2]"
-msgstr ""
+msgstr "明尼阿波利斯 [2]"
 
+# my-evolution/Locations.h:1413
 #: my-evolution/Locations.h:1405
 msgid "Minneapolis [3]"
-msgstr ""
+msgstr "明尼阿波利斯 [3]"
 
 #: my-evolution/Locations.h:1406
 #, fuzzy
@@ -19347,17 +20120,19 @@ msgstr ""
 msgid "Minot"
 msgstr "不是"
 
+# my-evolution/Locations.h:1417
 #: my-evolution/Locations.h:1409
 msgid "Minot AFB"
-msgstr ""
+msgstr "迈诺特空军基地"
 
 #: my-evolution/Locations.h:1410
 msgid "Misawa Ab"
 msgstr ""
 
+# my-evolution/Locations.h:1419
 #: my-evolution/Locations.h:1411
 msgid "Mississippi"
-msgstr ""
+msgstr "密西西比"
 
 #: my-evolution/Locations.h:1412
 #, fuzzy
@@ -19383,9 +20158,10 @@ msgstr "邮件列表"
 msgid "Miyakejima Airport"
 msgstr ""
 
+# my-evolution/Locations.h:1425
 #: my-evolution/Locations.h:1417
 msgid "Miyazaki Airport"
-msgstr ""
+msgstr "宫崎机场"
 
 #: my-evolution/Locations.h:1418
 #, fuzzy
@@ -19526,18 +20302,20 @@ msgstr ""
 msgid "Monte Terminillo"
 msgstr ""
 
+# my-evolution/Locations.h:1457
 #: my-evolution/Locations.h:1448
 msgid "Montevideo/Carrasco"
-msgstr ""
+msgstr "蒙德维的亚/Carrasco"
 
 #: my-evolution/Locations.h:1449
 #, fuzzy
 msgid "Montgomery"
 msgstr "蒙特塞拉特群岛"
 
+# my-evolution/Locations.h:1459
 #: my-evolution/Locations.h:1450
 msgid "Montgomery-Maxwell AFB"
-msgstr ""
+msgstr "蒙哥马利-麦克斯维尔空军基地"
 
 #: my-evolution/Locations.h:1451
 #, fuzzy
@@ -19553,17 +20331,20 @@ msgstr "月视图"
 msgid "Montpellier-Mediterranee"
 msgstr ""
 
+# my-evolution/Locations.h:1462
 #: my-evolution/Locations.h:1454
 msgid "Montreal Dorval"
-msgstr ""
+msgstr "蒙特利尔 Dorval"
 
+# my-evolution/Locations.h:1463
 #: my-evolution/Locations.h:1455
 msgid "Montreal Mirabel"
-msgstr ""
+msgstr "蒙特利尔 米拉贝尔"
 
+# my-evolution/Locations.h:1464
 #: my-evolution/Locations.h:1456
 msgid "Montreal Saint-Hubert"
-msgstr ""
+msgstr "蒙特利尔 圣休伯特"
 
 #: my-evolution/Locations.h:1457
 #, fuzzy
@@ -19593,17 +20374,20 @@ msgstr "主要"
 msgid "Morristown"
 msgstr ""
 
+# my-evolution/Locations.h:1472
 #: my-evolution/Locations.h:1464
 msgid "Moscow Domodedovo"
-msgstr ""
+msgstr "莫斯科 Domodedovo"
 
+# my-evolution/Locations.h:1473
 #: my-evolution/Locations.h:1465
 msgid "Moscow Sheremetyevo"
-msgstr ""
+msgstr "莫斯科 Sheremetyevo"
 
+# my-evolution/Locations.h:1474
 #: my-evolution/Locations.h:1466
 msgid "Moses Lake"
-msgstr ""
+msgstr "摩西湖"
 
 #: my-evolution/Locations.h:1467
 #, fuzzy
@@ -19649,9 +20433,10 @@ msgstr "月视图"
 msgid "Mount Wilson"
 msgstr ""
 
+# my-evolution/Locations.h:1485
 #: my-evolution/Locations.h:1477
 msgid "Mt Washington"
-msgstr ""
+msgstr "Mt 华盛顿"
 
 #: my-evolution/Locations.h:1478
 msgid "Mugla/Dalaman"
@@ -19688,9 +20473,10 @@ msgstr ""
 msgid "Murcia"
 msgstr "毛里塔尼亚"
 
+# my-evolution/Locations.h:1494
 #: my-evolution/Locations.h:1486
 msgid "Murmansk"
-msgstr ""
+msgstr "摩尔曼斯克"
 
 #: my-evolution/Locations.h:1487
 #, fuzzy
@@ -19727,21 +20513,25 @@ msgstr ""
 msgid "Nacogdoches"
 msgstr ""
 
+# my-evolution/Locations.h:1503
 #: my-evolution/Locations.h:1495
 msgid "Nagasaki Airport"
-msgstr ""
+msgstr "长崎机场"
 
+# my-evolution/Locations.h:1504
 #: my-evolution/Locations.h:1496
 msgid "Nagoya Airport"
-msgstr ""
+msgstr "名古屋机场"
 
+# my-evolution/Locations.h:1505
 #: my-evolution/Locations.h:1497
 msgid "Nagpur Sonegaon"
-msgstr ""
+msgstr "那格浦尔 Sonegaon"
 
+# my-evolution/Locations.h:1506
 #: my-evolution/Locations.h:1498
 msgid "Naha Airport"
-msgstr ""
+msgstr "那霸机场"
 
 #: my-evolution/Locations.h:1499
 #, fuzzy
@@ -19782,9 +20572,10 @@ msgstr "警告"
 msgid "Nantes Atlantique"
 msgstr ""
 
+# my-evolution/Locations.h:1516
 #: my-evolution/Locations.h:1508
 msgid "Nantucket"
-msgstr ""
+msgstr "楠塔基特"
 
 #: my-evolution/Locations.h:1509
 #, fuzzy
@@ -19814,13 +20605,17 @@ msgstr ""
 msgid "Nashua"
 msgstr ""
 
+# my-evolution/Locations.h:1523
 #: my-evolution/Locations.h:1515
 msgid "Nashville"
-msgstr ""
+msgstr "纳什维尔"
 
+# addressbook/gui/contact-editor/fulladdr.glade.h:5
+# calendar/zones.h:137
+# my-evolution/Locations.h:1524
 #: my-evolution/Locations.h:1516
 msgid "Nassau"
-msgstr ""
+msgstr "拿骚"
 
 #: my-evolution/Locations.h:1517
 #, fuzzy
@@ -19901,9 +20696,10 @@ msgstr "新西兰"
 msgid "Newfoundland"
 msgstr "新西兰"
 
+# my-evolution/Locations.h:1543
 #: my-evolution/Locations.h:1535
 msgid "New Hampshire"
-msgstr ""
+msgstr "新汉普郡"
 
 #: my-evolution/Locations.h:1536
 #, fuzzy
@@ -19930,13 +20726,15 @@ msgstr "墨西哥"
 msgid "New Orleans"
 msgstr "新西兰"
 
+# my-evolution/Locations.h:1549
 #: my-evolution/Locations.h:1541
 msgid "New Orleans-Lakefront"
-msgstr ""
+msgstr "新奥尔良-Lakefront"
 
+# my-evolution/Locations.h:1550
 #: my-evolution/Locations.h:1542
 msgid "New Orleans NAS"
-msgstr ""
+msgstr "新奥尔良国家科学院"
 
 #: my-evolution/Locations.h:1543
 #, fuzzy
@@ -19956,9 +20754,10 @@ msgstr ""
 msgid "New River"
 msgstr "新建文件夹(_N)"
 
+# my-evolution/Locations.h:1555
 #: my-evolution/Locations.h:1547
 msgid "New Tokyo International Airport"
-msgstr ""
+msgstr "东京新国际机场"
 
 #: my-evolution/Locations.h:1548
 #, fuzzy
@@ -19970,25 +20769,29 @@ msgstr "新建"
 msgid "New York"
 msgstr "新建文件夹(_N)"
 
+# my-evolution/Locations.h:1558
 #: my-evolution/Locations.h:1550
 msgid "New York-JFK Arpt"
-msgstr ""
+msgstr "纽约-JFK Arpt"
 
+# my-evolution/Locations.h:1559
 #: my-evolution/Locations.h:1551
 msgid "New York-La Guardia"
-msgstr ""
+msgstr "纽约-La Guardia"
 
+# my-evolution/Locations.h:1561
 #: my-evolution/Locations.h:1553
 msgid "Niagara Falls"
-msgstr ""
+msgstr "尼亚加拉瀑布"
 
 #: my-evolution/Locations.h:1555
 msgid "Nice-Cote d'Azur"
 msgstr ""
 
+# my-evolution/Locations.h:1564
 #: my-evolution/Locations.h:1556
 msgid "Niigata Airport"
-msgstr ""
+msgstr "新滹机场"
 
 #: my-evolution/Locations.h:1557
 #, fuzzy
@@ -20052,9 +20855,10 @@ msgstr "东北"
 msgid "North Bend"
 msgstr "北"
 
+# my-evolution/Locations.h:1579
 #: my-evolution/Locations.h:1571
 msgid "North Carolina"
-msgstr ""
+msgstr "北卡罗莱纳州"
 
 #: my-evolution/Locations.h:1572
 #, fuzzy
@@ -20066,13 +20870,15 @@ msgstr "挪威"
 msgid "North Dakota"
 msgstr "东北"
 
+# my-evolution/Locations.h:1582
 #: my-evolution/Locations.h:1574
 msgid "Northeast Philadelphia"
-msgstr ""
+msgstr "东北费城"
 
+# my-evolution/Locations.h:1583
 #: my-evolution/Locations.h:1575
 msgid "North Kingstown"
-msgstr ""
+msgstr "北金斯敦"
 
 #: my-evolution/Locations.h:1576
 #, fuzzy
@@ -20104,17 +20910,20 @@ msgstr "挪威"
 msgid "Notodden"
 msgstr "注释"
 
+# my-evolution/Locations.h:1591
 #: my-evolution/Locations.h:1583
 msgid "Novara/Cameri"
-msgstr ""
+msgstr "诺瓦蜡/Cameri"
 
+# my-evolution/Locations.h:1592
 #: my-evolution/Locations.h:1584
 msgid "Nova Scotia"
-msgstr ""
+msgstr "新斯科舍"
 
+# my-evolution/Locations.h:1593
 #: my-evolution/Locations.h:1585
 msgid "Novosibirsk"
-msgstr ""
+msgstr "新西伯利亚"
 
 #: my-evolution/Locations.h:1586
 msgid "Nueva Gerona"
@@ -20137,13 +20946,15 @@ msgstr ""
 msgid "Nyutabaru Ab"
 msgstr ""
 
+# my-evolution/Locations.h:1599
 #: my-evolution/Locations.h:1591
 msgid "Oahu"
-msgstr ""
+msgstr "瓦胡岛"
 
+# my-evolution/Locations.h:1600
 #: my-evolution/Locations.h:1592
 msgid "Oak Harbor"
-msgstr ""
+msgstr "橡树湾"
 
 #: my-evolution/Locations.h:1593
 #, fuzzy
@@ -20188,35 +20999,39 @@ msgstr "可见"
 msgid "Ogden"
 msgstr "打开"
 
+# my-evolution/Locations.h:1611
 #: my-evolution/Locations.h:1602
 msgid "Ogden-Hill AFB"
-msgstr ""
+msgstr "奥格登山空军基地"
 
 #: my-evolution/Locations.h:1603
 msgid "Ogdensburg"
 msgstr ""
 
+# my-evolution/Locations.h:1613
 #: my-evolution/Locations.h:1604
 msgid "Ohio"
-msgstr ""
+msgstr "俄亥俄州"
 
 #: my-evolution/Locations.h:1605
 #, fuzzy
 msgid "Ohrid"
 msgstr "其它"
 
+# my-evolution/Locations.h:1615
 #: my-evolution/Locations.h:1606
 msgid "Oita Airport"
-msgstr ""
+msgstr "大分机场"
 
 #: my-evolution/Locations.h:1607
 #, fuzzy
 msgid "Ojika Island"
 msgstr "库克群岛"
 
+# my-evolution/Locations.h:1617
 #: my-evolution/Locations.h:1608
 msgid "Okayama Airport"
-msgstr ""
+msgstr "冈山机场"
 
 #: my-evolution/Locations.h:1609
 msgid "Oki Airport"
@@ -20226,21 +21041,25 @@ msgstr ""
 msgid "Okinoerabu"
 msgstr ""
 
+# my-evolution/Locations.h:1620
 #: my-evolution/Locations.h:1611
 msgid "Oklahoma"
-msgstr ""
+msgstr "俄克拉荷马州"
 
+# my-evolution/Locations.h:1621
 #: my-evolution/Locations.h:1612
 msgid "Oklahoma City"
-msgstr ""
+msgstr "俄克拉荷马城"
 
+# my-evolution/Locations.h:1622
 #: my-evolution/Locations.h:1613
 msgid "Oklahoma City-Bethany"
-msgstr ""
+msgstr "俄克拉荷马城-Bethany"
 
+# my-evolution/Locations.h:1623
 #: my-evolution/Locations.h:1614
 msgid "Oklahoma City-Midwest City"
-msgstr ""
+msgstr "俄克拉荷马城-中西部城市"
 
 #: my-evolution/Locations.h:1615
 #, fuzzy
@@ -20261,18 +21080,20 @@ msgstr ""
 msgid "Olbia"
 msgstr "阿尔巴尼亚"
 
+# my-evolution/Locations.h:1628
 #: my-evolution/Locations.h:1619
 msgid "Olympia"
-msgstr ""
+msgstr "奥林匹亚"
 
 #: my-evolution/Locations.h:1620
 #, fuzzy
 msgid "Omaha"
 msgstr "阿曼"
 
+# my-evolution/Locations.h:1630
 #: my-evolution/Locations.h:1621
 msgid "Omaha-Bellevue"
-msgstr ""
+msgstr "奥马哈-Bellevue"
 
 #: my-evolution/Locations.h:1622
 #, fuzzy
@@ -20283,9 +21104,10 @@ msgstr "阿曼"
 msgid "Ominato Ab"
 msgstr ""
 
+# my-evolution/Locations.h:1634
 #: my-evolution/Locations.h:1625
 msgid "Omsk"
-msgstr ""
+msgstr "鄂木斯克"
 
 #: my-evolution/Locations.h:1626
 msgid "O'Neill"
@@ -20306,18 +21128,20 @@ msgstr "出席者"
 msgid "Oran"
 msgstr "阿曼"
 
+# my-evolution/Locations.h:1639
 #: my-evolution/Locations.h:1630
 msgid "Oran/Es Senia"
-msgstr ""
+msgstr "奥兰/Es Senia"
 
 #: my-evolution/Locations.h:1631
 #, fuzzy
 msgid "Orange"
 msgstr "法国"
 
+# my-evolution/Locations.h:1641
 #: my-evolution/Locations.h:1632
 msgid "Orange City"
-msgstr ""
+msgstr "奥林奇城"
 
 #: my-evolution/Locations.h:1633
 msgid "Ord-Sharp"
@@ -20342,9 +21166,10 @@ msgstr "爱尔兰"
 msgid "Orlando"
 msgstr "爱尔兰"
 
+# my-evolution/Locations.h:1647
 #: my-evolution/Locations.h:1638
 msgid "Orlando (Orlando International)"
-msgstr ""
+msgstr "奥兰多 (奥兰多国际)"
 
 #: my-evolution/Locations.h:1639
 msgid "Orsta-Volda"
@@ -20355,9 +21180,10 @@ msgstr ""
 msgid "Oruro"
 msgstr "错误"
 
+# my-evolution/Locations.h:1650
 #: my-evolution/Locations.h:1641
 msgid "Osaka International Airport"
-msgstr ""
+msgstr "大阪国际机场"
 
 #: my-evolution/Locations.h:1642
 msgid "Osan Ab"
@@ -20380,18 +21206,20 @@ msgstr ""
 msgid "Oshkosh"
 msgstr ""
 
+# my-evolution/Locations.h:1656
 #: my-evolution/Locations.h:1647
 msgid "Oslo/Gardenmoen"
-msgstr ""
+msgstr "奥斯陆/Gardenmoen"
 
 #: my-evolution/Locations.h:1648
 #, fuzzy
 msgid "Ostrava"
 msgstr "澳大利亚"
 
+# my-evolution/Locations.h:1658
 #: my-evolution/Locations.h:1649
 msgid "Ottawa"
-msgstr ""
+msgstr "渥太华"
 
 #: my-evolution/Locations.h:1650
 msgid "Ottumwa"
@@ -20415,21 +21243,24 @@ msgstr "持续"
 msgid "Oxnard"
 msgstr ""
 
+# my-evolution/Locations.h:1664
 #: my-evolution/Locations.h:1655
 msgid "Ozark"
-msgstr ""
+msgstr "奥扎克"
 
 #: my-evolution/Locations.h:1656
 msgid "Ozuki Ab"
 msgstr ""
 
+# my-evolution/Locations.h:1666
 #: my-evolution/Locations.h:1657
 msgid "Paderborn-Haxterberg"
-msgstr ""
+msgstr "帕德伯恩-Haxterberg"
 
+# my-evolution/Locations.h:1667
 #: my-evolution/Locations.h:1658
 msgid "Padova"
-msgstr ""
+msgstr "帕多瓦"
 
 #: my-evolution/Locations.h:1659
 msgid "Paducah"
@@ -20462,9 +21293,10 @@ msgstr "帕劳群岛"
 msgid "Palermo"
 msgstr "纸张"
 
+# my-evolution/Locations.h:1677
 #: my-evolution/Locations.h:1668
 msgid "Palma de Mallorca"
-msgstr ""
+msgstr "帕尔马 德 马略卡"
 
 #: my-evolution/Locations.h:1669
 #, fuzzy
@@ -20515,13 +21347,15 @@ msgstr "老挝"
 msgid "Paris"
 msgstr "边界"
 
+# my-evolution/Locations.h:1690
 #: my-evolution/Locations.h:1681
 msgid "Paris/Charles De Gaulle"
-msgstr ""
+msgstr "巴黎/Charles De Gaulle"
 
+# my-evolution/Locations.h:1691
 #: my-evolution/Locations.h:1682
 msgid "Paris/Le Bourget"
-msgstr ""
+msgstr "巴黎/Le Bourget"
 
 #: my-evolution/Locations.h:1683
 #, fuzzy
@@ -20566,17 +21400,19 @@ msgstr ""
 msgid "Patna"
 msgstr "巴拿马"
 
+# my-evolution/Locations.h:1702
 #: my-evolution/Locations.h:1693
 msgid "Patterson"
-msgstr ""
+msgstr "帕特森"
 
 #: my-evolution/Locations.h:1694
 msgid "Patuxent River"
 msgstr ""
 
+# my-evolution/Locations.h:1704
 #: my-evolution/Locations.h:1695
 msgid "Pau/Pyrenees"
-msgstr ""
+msgstr "Pau/比利牛斯山脉"
 
 #: my-evolution/Locations.h:1696
 msgid "Paxson"
@@ -20607,13 +21443,15 @@ msgstr "重新载入"
 msgid "Pendleton"
 msgstr "选择："
 
+# my-evolution/Locations.h:1711
 #: my-evolution/Locations.h:1702
 msgid "Pennsylvania"
-msgstr ""
+msgstr "宾西法尼亚州"
 
+# my-evolution/Locations.h:1712
 #: my-evolution/Locations.h:1703
 msgid "Penn Yan"
-msgstr ""
+msgstr "佩恩 Yan"
 
 #: my-evolution/Locations.h:1704
 msgid "Pensacola"
@@ -20623,9 +21461,10 @@ msgstr ""
 msgid "Pensacola NAS"
 msgstr ""
 
+# my-evolution/Locations.h:1715
 #: my-evolution/Locations.h:1706
 msgid "People's Republic of China"
-msgstr ""
+msgstr "中华人民共和国"
 
 #: my-evolution/Locations.h:1707
 #, fuzzy
@@ -20636,9 +21475,12 @@ msgstr "格鲁吉亚"
 msgid "Pequot Lakes"
 msgstr ""
 
+# addressbook/gui/contact-editor/fulladdr.glade.h:5
+# calendar/zones.h:127
+# my-evolution/Locations.h:1718
 #: my-evolution/Locations.h:1709
 msgid "Pereira/Matecana"
-msgstr ""
+msgstr "佩雷拉/Matecana"
 
 #: my-evolution/Locations.h:1710
 #, fuzzy
@@ -20649,9 +21491,10 @@ msgstr "主要"
 msgid "Perpignan-Rivesaltes"
 msgstr ""
 
+# my-evolution/Locations.h:1721
 #: my-evolution/Locations.h:1712
 msgid "Perry-Foley"
-msgstr ""
+msgstr "佩里-福利"
 
 #: my-evolution/Locations.h:1713
 #, fuzzy
@@ -20663,25 +21506,29 @@ msgstr "秘鲁"
 msgid "Perugia"
 msgstr "秘鲁"
 
+# my-evolution/Locations.h:1725
 #: my-evolution/Locations.h:1716
 msgid "Pescara"
-msgstr ""
+msgstr "佩斯卡拉"
 
+# my-evolution/Locations.h:1726
 #: my-evolution/Locations.h:1717
 msgid "Petersburg"
-msgstr ""
+msgstr "彼得斯堡"
 
 #: my-evolution/Locations.h:1718
 msgid "Petropavlovsk-Kamchatsky"
 msgstr ""
 
+# my-evolution/Locations.h:1728
 #: my-evolution/Locations.h:1719
 msgid "Petrozavodsk"
-msgstr ""
+msgstr "彼得罗扎沃茨克"
 
+# my-evolution/Locations.h:1729
 #: my-evolution/Locations.h:1720
 msgid "Philadelphia"
-msgstr ""
+msgstr "费城"
 
 #: my-evolution/Locations.h:1721
 #, fuzzy
@@ -20698,21 +21545,26 @@ msgstr "菲利宾"
 msgid "Phillips"
 msgstr "菲利宾"
 
+# calendar/zones.h:146
+# my-evolution/Locations.h:1733
 #: my-evolution/Locations.h:1724
 msgid "Phoenix"
-msgstr ""
+msgstr "凤凰城"
 
+# my-evolution/Locations.h:1734
 #: my-evolution/Locations.h:1725
 msgid "Phoenix-Deer Valley"
-msgstr ""
+msgstr "凤凰城-鹿谷"
 
+# my-evolution/Locations.h:1735
 #: my-evolution/Locations.h:1726
 msgid "Phoenix-Goodyear"
-msgstr ""
+msgstr "凤凰城-古德伊尔"
 
+# my-evolution/Locations.h:1736
 #: my-evolution/Locations.h:1727
 msgid "Phoenix-Luke AFB"
-msgstr ""
+msgstr "凤凰城-卢克空军基地"
 
 #: my-evolution/Locations.h:1728
 msgid "Piacenza"
@@ -20761,25 +21613,29 @@ msgstr ""
 msgid "Pisa"
 msgstr "是"
 
+# my-evolution/Locations.h:1748
 #: my-evolution/Locations.h:1739
 msgid "Pisco"
-msgstr ""
+msgstr "皮斯科"
 
+# my-evolution/Locations.h:1749
 #: my-evolution/Locations.h:1740
 msgid "Pittsburgh"
-msgstr ""
+msgstr "匹兹堡"
 
+# my-evolution/Locations.h:1750
 #: my-evolution/Locations.h:1741
 msgid "Pittsburgh-West Mifflin"
-msgstr ""
+msgstr "匹兹堡-West Mifflin"
 
 #: my-evolution/Locations.h:1742
 msgid "Plattsburg"
 msgstr ""
 
+# my-evolution/Locations.h:1752
 #: my-evolution/Locations.h:1743
 msgid "Plovdiv"
-msgstr ""
+msgstr "普罗夫迪夫"
 
 #: my-evolution/Locations.h:1744
 #, fuzzy
@@ -20794,9 +21650,10 @@ msgstr ""
 msgid "Pocos De Caldas"
 msgstr ""
 
+# my-evolution/Locations.h:1756
 #: my-evolution/Locations.h:1747
 msgid "Podgorica"
-msgstr ""
+msgstr "波德戈里查"
 
 #: my-evolution/Locations.h:1748
 #, fuzzy
@@ -20881,13 +21738,16 @@ msgstr ""
 msgid "Port Angeles"
 msgstr "打印信封"
 
+# calendar/zones.h:147
+# my-evolution/Locations.h:1776
 #: my-evolution/Locations.h:1767
 msgid "Port-Au-Prince"
-msgstr ""
+msgstr "太子港"
 
+# my-evolution/Locations.h:1777
 #: my-evolution/Locations.h:1768
 msgid "Port Elizabeth"
-msgstr ""
+msgstr "伊丽莎白港"
 
 #: my-evolution/Locations.h:1769
 #, fuzzy
@@ -20904,9 +21764,10 @@ msgstr "打印卡片"
 msgid "Port Hedland"
 msgstr "波兰"
 
+# my-evolution/Locations.h:1781
 #: my-evolution/Locations.h:1772
 msgid "Port Heiden"
-msgstr ""
+msgstr "海顿港"
 
 #: my-evolution/Locations.h:1773
 #, fuzzy
@@ -20946,9 +21807,10 @@ msgstr ""
 msgid "Port Said"
 msgstr "纵向"
 
+# my-evolution/Locations.h:1790
 #: my-evolution/Locations.h:1781
 msgid "Portsmouth"
-msgstr ""
+msgstr "朴次茅斯"
 
 #: my-evolution/Locations.h:1783
 #, fuzzy
@@ -20963,9 +21825,10 @@ msgstr ""
 msgid "Poughkeepsie"
 msgstr ""
 
+# my-evolution/Locations.h:1795
 #: my-evolution/Locations.h:1786
 msgid "Pownal"
-msgstr ""
+msgstr "波纳尔"
 
 #: my-evolution/Locations.h:1787
 #, fuzzy
@@ -20987,9 +21850,10 @@ msgstr "巴拉圭"
 msgid "Pratica di Mare"
 msgstr "部分细雨"
 
+# my-evolution/Locations.h:1800
 #: my-evolution/Locations.h:1791
 msgid "Prescott"
-msgstr ""
+msgstr "普雷斯科特"
 
 #: my-evolution/Locations.h:1792
 #, fuzzy
@@ -21137,17 +22001,20 @@ msgstr ""
 msgid "Puntilla Lake"
 msgstr ""
 
+# my-evolution/Locations.h:1833
 #: my-evolution/Locations.h:1824
 msgid "Pusan/Kimhae"
-msgstr ""
+msgstr "釜山/Kimhae"
 
 #: my-evolution/Locations.h:1825
 msgid "Pyongtaek Ab"
 msgstr ""
 
+# calendar/zones.h:238
+# my-evolution/Locations.h:1835
 #: my-evolution/Locations.h:1826
 msgid "Pyongyang"
-msgstr ""
+msgstr "平壤"
 
 #: my-evolution/Locations.h:1828
 #, fuzzy
@@ -21159,9 +22026,10 @@ msgstr "问题"
 msgid "Quebec"
 msgstr "主题"
 
+# my-evolution/Locations.h:1839
 #: my-evolution/Locations.h:1830
 msgid "Quebec City"
-msgstr ""
+msgstr "魁北克城"
 
 #: my-evolution/Locations.h:1831
 msgid "Queretaro"
@@ -21175,17 +22043,20 @@ msgstr ""
 msgid "Quimper"
 msgstr ""
 
+# my-evolution/Locations.h:1843
 #: my-evolution/Locations.h:1834
 msgid "Quincy"
-msgstr ""
+msgstr "昆西"
 
+# my-evolution/Locations.h:1844
 #: my-evolution/Locations.h:1835
 msgid "Quito/Mariscal Sucre"
-msgstr ""
+msgstr "基多/Mariscal Sucre"
 
+# my-evolution/Locations.h:1845
 #: my-evolution/Locations.h:1836
 msgid "Rabat"
-msgstr ""
+msgstr "拉巴特"
 
 #: my-evolution/Locations.h:1837
 msgid "Raduzhny"
@@ -21195,13 +22066,15 @@ msgstr ""
 msgid "Rafha"
 msgstr ""
 
+# my-evolution/Locations.h:1848
 #: my-evolution/Locations.h:1839
 msgid "Raleigh-Durham"
-msgstr ""
+msgstr "Raleigh-德拉谟"
 
+# my-evolution/Locations.h:1849
 #: my-evolution/Locations.h:1840
 msgid "Randolph AFB"
-msgstr ""
+msgstr "伦道夫空军基地"
 
 #: my-evolution/Locations.h:1841
 #, fuzzy
@@ -21263,18 +22136,20 @@ msgstr ""
 msgid "Redwood Falls"
 msgstr ""
 
+# my-evolution/Locations.h:1863
 #: my-evolution/Locations.h:1854
 msgid "Reggio Calabria"
-msgstr ""
+msgstr "勒佐卡拉布里亚"
 
 #: my-evolution/Locations.h:1855
 #, fuzzy
 msgid "Regina"
 msgstr "区域"
 
+# my-evolution/Locations.h:1865
 #: my-evolution/Locations.h:1856
 msgid "Reims-Champagne"
-msgstr ""
+msgstr "兰斯-Champagne"
 
 #: my-evolution/Locations.h:1857
 #, fuzzy
@@ -21291,9 +22166,10 @@ msgstr "留尼汪"
 msgid "Renton"
 msgstr "留尼汪"
 
+# my-evolution/Locations.h:1869
 #: my-evolution/Locations.h:1860
 msgid "Resistencia"
-msgstr ""
+msgstr "雷西斯膝西亚"
 
 #: my-evolution/Locations.h:1861
 #, fuzzy
@@ -21305,9 +22181,11 @@ msgstr "规则"
 msgid "Reyes"
 msgstr "回复"
 
+# calendar/zones.h:269
+# my-evolution/Locations.h:1872
 #: my-evolution/Locations.h:1863
 msgid "Reykjavik"
-msgstr ""
+msgstr "雷克雅未克"
 
 #: my-evolution/Locations.h:1864
 #, fuzzy
@@ -21363,17 +22241,19 @@ msgstr "已读"
 msgid "Rimini"
 msgstr "罗马尼亚"
 
+# my-evolution/Locations.h:1884
 #: my-evolution/Locations.h:1875
 msgid "Rio De Janeiro"
-msgstr ""
+msgstr "里约热内卢"
 
 #: my-evolution/Locations.h:1876
 msgid "Rio Gallegos"
 msgstr ""
 
+# my-evolution/Locations.h:1886
 #: my-evolution/Locations.h:1877
 msgid "Rio Grande"
-msgstr ""
+msgstr "格兰德河"
 
 #: my-evolution/Locations.h:1878
 #, fuzzy
@@ -21385,9 +22265,10 @@ msgstr "收音机"
 msgid "Rio / Jacarepagua"
 msgstr "尼加拉瓜"
 
+# my-evolution/Locations.h:1889
 #: my-evolution/Locations.h:1880
 msgid "Rionegro/J.M.Cordova"
-msgstr ""
+msgstr "Rionegro/J.M. 科尔多瓦"
 
 #: my-evolution/Locations.h:1881
 #, fuzzy
@@ -21443,9 +22324,10 @@ msgstr "之前"
 msgid "Rochester"
 msgstr ""
 
+# my-evolution/Locations.h:1903
 #: my-evolution/Locations.h:1893
 msgid "Rockford"
-msgstr ""
+msgstr "罗克福德"
 
 #: my-evolution/Locations.h:1894
 #, fuzzy
@@ -21479,17 +22361,20 @@ msgstr "文件夹"
 msgid "Roma/Ciampino"
 msgstr "罗马尼亚"
 
+# my-evolution/Locations.h:1911
 #: my-evolution/Locations.h:1901
 msgid "Roma/Fiumicino"
-msgstr ""
+msgstr "罗马/Fiumicino"
 
+# my-evolution/Locations.h:1913
 #: my-evolution/Locations.h:1903
 msgid "Roma/Urbe"
-msgstr ""
+msgstr "罗马/Urbe"
 
+# my-evolution/Locations.h:1914
 #: my-evolution/Locations.h:1904
 msgid "Rome-Russell"
-msgstr ""
+msgstr "罗马-拉塞尔"
 
 #: my-evolution/Locations.h:1905
 msgid "Ronchi de' Legionari"
@@ -21499,9 +22384,10 @@ msgstr ""
 msgid "Ronneby"
 msgstr ""
 
+# my-evolution/Locations.h:1917
 #: my-evolution/Locations.h:1907
 msgid "Roosevelt"
-msgstr ""
+msgstr "罗斯福"
 
 #: my-evolution/Locations.h:1908
 #, fuzzy
@@ -21531,21 +22417,24 @@ msgstr "角色"
 msgid "Rost"
 msgstr "主机"
 
+# my-evolution/Locations.h:1924
 #: my-evolution/Locations.h:1914
 msgid "Rostov-Na-Donu"
-msgstr ""
+msgstr "罗斯托夫-Na-Donu"
 
 #: my-evolution/Locations.h:1915
 msgid "Roswell"
 msgstr ""
 
+# my-evolution/Locations.h:1926
 #: my-evolution/Locations.h:1916
 msgid "Rotterdam"
-msgstr ""
+msgstr "鹿特丹"
 
+# my-evolution/Locations.h:1927
 #: my-evolution/Locations.h:1917
 msgid "Rouen-Valle de Seine"
-msgstr ""
+msgstr "鲁昂-Valle de Seine"
 
 #: my-evolution/Locations.h:1918
 msgid "Ruidoso-Sierra Blanca"
@@ -21556,9 +22445,10 @@ msgstr ""
 msgid "Rurrenabaque"
 msgstr "再次发生"
 
+# my-evolution/Locations.h:1930
 #: my-evolution/Locations.h:1920
 msgid "Russell"
-msgstr ""
+msgstr "拉塞尔"
 
 #: my-evolution/Locations.h:1921
 #, fuzzy
@@ -21591,22 +22481,25 @@ msgstr ""
 msgid "Sacramento"
 msgstr "附件"
 
+# my-evolution/Locations.h:1938
 #: my-evolution/Locations.h:1928
 msgid "Sacramento-Woodland"
-msgstr ""
+msgstr "萨克拉曼多-Woodland"
 
+# my-evolution/Locations.h:1939
 #: my-evolution/Locations.h:1929
 msgid "Safford-Municipal Airport"
-msgstr ""
+msgstr "萨克拉曼多-市政机场"
 
 #: my-evolution/Locations.h:1930
 #, fuzzy
 msgid "Saginaw"
 msgstr "西班牙"
 
+# my-evolution/Locations.h:1941
 #: my-evolution/Locations.h:1931
 msgid "Saint Anthony"
-msgstr ""
+msgstr "圣安东尼"
 
 #: my-evolution/Locations.h:1932
 msgid "Saint-Brieuc-Armor"
@@ -21659,9 +22552,10 @@ msgstr "保存"
 msgid "Salida"
 msgstr "索马里"
 
+# my-evolution/Locations.h:1953
 #: my-evolution/Locations.h:1943
 msgid "Salida-Harriet"
-msgstr ""
+msgstr "Salida-哈里特"
 
 #: my-evolution/Locations.h:1944
 #, fuzzy
@@ -21673,9 +22567,10 @@ msgstr "索马里"
 msgid "Salinas"
 msgstr "索马里"
 
+# my-evolution/Locations.h:1956
 #: my-evolution/Locations.h:1946
 msgid "Salisbury"
-msgstr ""
+msgstr "索尔兹伯里"
 
 #: my-evolution/Locations.h:1947
 #, fuzzy
@@ -21691,13 +22586,15 @@ msgstr ""
 msgid "Salta"
 msgstr "马耳他"
 
+# my-evolution/Locations.h:1960
 #: my-evolution/Locations.h:1950
 msgid "Saltillo"
-msgstr ""
+msgstr "萨尔提略"
 
+# my-evolution/Locations.h:1961
 #: my-evolution/Locations.h:1951
 msgid "Salt Lake City"
-msgstr ""
+msgstr "盐湖城"
 
 #: my-evolution/Locations.h:1952
 #, fuzzy
@@ -21713,9 +22610,10 @@ msgstr ""
 msgid "Salvador"
 msgstr "萨尔瓦多"
 
+# my-evolution/Locations.h:1965
 #: my-evolution/Locations.h:1955
 msgid "Salzburg"
-msgstr ""
+msgstr "萨尔茨堡"
 
 #: my-evolution/Locations.h:1956
 #, fuzzy
@@ -21746,21 +22644,24 @@ msgstr ""
 msgid "San Angelo"
 msgstr "圣马力诺"
 
+# my-evolution/Locations.h:1972
 #: my-evolution/Locations.h:1962
 msgid "San Antonio"
-msgstr ""
+msgstr "圣安东妮亚"
 
 #: my-evolution/Locations.h:1963
 msgid "San Antonio Del Tachira"
 msgstr ""
 
+# my-evolution/Locations.h:1974
 #: my-evolution/Locations.h:1964
 msgid "San Antonio-Kelly AFB"
-msgstr ""
+msgstr "圣安东妮亚-凯利空军基地"
 
+# my-evolution/Locations.h:1975
 #: my-evolution/Locations.h:1965
 msgid "San Antonio-Stinson"
-msgstr ""
+msgstr "圣安东妮亚-Stinson"
 
 #: my-evolution/Locations.h:1966
 #, fuzzy
@@ -21787,25 +22688,30 @@ msgstr "沙暴"
 msgid "San Diego"
 msgstr "圣马力诺"
 
+# my-evolution/Locations.h:1981
 #: my-evolution/Locations.h:1971
 msgid "San Diego-Brown"
-msgstr ""
+msgstr "圣迭哥-Brown"
 
+# my-evolution/Locations.h:1982
 #: my-evolution/Locations.h:1972
 msgid "San Diego-Miramar"
-msgstr ""
+msgstr "圣迭哥-Miramar"
 
+# my-evolution/Locations.h:1983
 #: my-evolution/Locations.h:1973
 msgid "San Diego-Montgomery"
-msgstr ""
+msgstr "圣迭哥-Montgomery"
 
+# my-evolution/Locations.h:1984
 #: my-evolution/Locations.h:1974
 msgid "San Diego-North Island"
-msgstr ""
+msgstr "圣迭哥-北岛"
 
+# my-evolution/Locations.h:1985
 #: my-evolution/Locations.h:1975
 msgid "San Diego-Santee"
-msgstr ""
+msgstr "圣迭哥-Santee"
 
 #: my-evolution/Locations.h:1976
 msgid "Sandnessjoen/Stokka"
@@ -21857,9 +22763,10 @@ msgstr ""
 msgid "San Jose del Cabo"
 msgstr ""
 
+# my-evolution/Locations.h:1997
 #: my-evolution/Locations.h:1987
 msgid "San Jose-Santa Clara"
-msgstr ""
+msgstr "圣何塞-Santa Clara"
 
 #: my-evolution/Locations.h:1988
 #, fuzzy
@@ -21984,17 +22891,24 @@ msgstr ""
 msgid "Sao Luiz"
 msgstr "圣卢西亚岛"
 
+# addressbook/gui/contact-editor/fulladdr.glade.h:5
+# calendar/zones.h:159
+# my-evolution/Locations.h:2025
 #: my-evolution/Locations.h:2015
+#, fuzzy
 msgid "Sao Paulo"
-msgstr ""
+msgstr "美洲萨摩亚"
 
+# my-evolution/Locations.h:2026
 #: my-evolution/Locations.h:2016
 msgid "Sapporo Ab"
-msgstr ""
+msgstr "札幌 Ab"
 
+# calendar/zones.h:318
+# my-evolution/Locations.h:2027
 #: my-evolution/Locations.h:2017
 msgid "Sarajevo"
-msgstr ""
+msgstr "萨拉热窝"
 
 #: my-evolution/Locations.h:2018
 msgid "Saranac Lake"
@@ -22005,18 +22919,20 @@ msgstr ""
 msgid "Sarasota"
 msgstr "萨摩亚"
 
+# my-evolution/Locations.h:2030
 #: my-evolution/Locations.h:2020
 msgid "Saratov"
-msgstr ""
+msgstr "萨拉托夫"
 
 #: my-evolution/Locations.h:2021
 #, fuzzy
 msgid "Sarzana"
 msgstr "斯里兰卡"
 
+# my-evolution/Locations.h:2032
 #: my-evolution/Locations.h:2022
 msgid "Saskatchewan"
-msgstr ""
+msgstr "萨斯喀彻温省"
 
 #: my-evolution/Locations.h:2023
 msgid "Saskatoon"
@@ -22077,9 +22993,11 @@ msgstr ""
 msgid "Scranton"
 msgstr "组织"
 
+# mail/mail-callbacks.c:2492
+# my-evolution/Locations.h:2048
 #: my-evolution/Locations.h:2038
 msgid "Seattle"
-msgstr ""
+msgstr "西雅图"
 
 #: my-evolution/Locations.h:2039
 #, fuzzy
@@ -22105,17 +23023,20 @@ msgstr ""
 msgid "Sendai Airport"
 msgstr "开始导入"
 
+# my-evolution/Locations.h:2054
 #: my-evolution/Locations.h:2044
 msgid "Seoul E Ab"
-msgstr ""
+msgstr "汉城 E Ab"
 
+# my-evolution/Locations.h:2055
 #: my-evolution/Locations.h:2045
 msgid "Seoul/Kimp'O International Airport"
-msgstr ""
+msgstr "汉城/Kimp'O 国际机场"
 
+# my-evolution/Locations.h:2056
 #: my-evolution/Locations.h:2046
 msgid "Seoul/Yongdungp'O Rokaf Wc"
-msgstr ""
+msgstr "汉城/Yongdungp'O Rokaf Wc"
 
 #: my-evolution/Locations.h:2047
 msgid "Sept-Iles"
@@ -22143,9 +23064,10 @@ msgstr ""
 msgid "Shanghai"
 msgstr "阴影"
 
+# my-evolution/Locations.h:2063
 #: my-evolution/Locations.h:2053
 msgid "Shannon"
-msgstr ""
+msgstr "香农"
 
 #: my-evolution/Locations.h:2054
 #, fuzzy
@@ -22198,9 +23120,10 @@ msgstr ""
 msgid "Sheridan"
 msgstr "苏丹"
 
+# my-evolution/Locations.h:2075
 #: my-evolution/Locations.h:2065
 msgid "Sherman-Denison"
-msgstr ""
+msgstr "谢尔曼-Denison"
 
 #: my-evolution/Locations.h:2066
 msgid "Shimofusa Ab"
@@ -22233,13 +23156,15 @@ msgstr "分数"
 msgid "Show Low"
 msgstr "微雪"
 
+# my-evolution/Locations.h:2083
 #: my-evolution/Locations.h:2073
 msgid "Shreveport Downtown"
-msgstr ""
+msgstr "什里夫波特市区"
 
+# my-evolution/Locations.h:2084
 #: my-evolution/Locations.h:2074
 msgid "Shreveport Regional"
-msgstr ""
+msgstr "什里夫波特地区"
 
 #: my-evolution/Locations.h:2075
 #, fuzzy
@@ -22321,9 +23246,10 @@ msgstr "沙尘"
 msgid "Smithers"
 msgstr "骤雨"
 
+# my-evolution/Locations.h:2106
 #: my-evolution/Locations.h:2096
 msgid "Smyrna"
-msgstr ""
+msgstr "士麦纳"
 
 #: my-evolution/Locations.h:2097
 #, fuzzy
@@ -22467,13 +23393,15 @@ msgstr "完成日期："
 msgid "Stauning"
 msgstr "开始："
 
+# my-evolution/Locations.h:2139
 #: my-evolution/Locations.h:2129
 msgid "Staunton"
-msgstr ""
+msgstr "斯托顿"
 
+# my-evolution/Locations.h:2140
 #: my-evolution/Locations.h:2130
 msgid "Stavanger/Sola"
-msgstr ""
+msgstr "斯塔万格/Sola"
 
 #: my-evolution/Locations.h:2131
 #, fuzzy
@@ -22525,17 +23453,20 @@ msgstr "停止"
 msgid "St Louis"
 msgstr "圣卢西亚岛"
 
+# my-evolution/Locations.h:2152
 #: my-evolution/Locations.h:2142
 msgid "St Louis-Spirit"
-msgstr ""
+msgstr "圣路易斯-Spirit"
 
+# my-evolution/Locations.h:2153
 #: my-evolution/Locations.h:2143
 msgid "Stockholm (Arlanda)"
-msgstr ""
+msgstr "斯德哥尔摩 (Arlanda)"
 
+# my-evolution/Locations.h:2154
 #: my-evolution/Locations.h:2144
 msgid "Stockholm (Bromma)"
-msgstr ""
+msgstr "斯德哥尔摩 (Bromma)"
 
 #: my-evolution/Locations.h:2145
 msgid "Stockton"
@@ -22564,17 +23495,20 @@ msgstr "挪威"
 msgid "St Paul"
 msgstr "状态"
 
+# my-evolution/Locations.h:2161
 #: my-evolution/Locations.h:2151
 msgid "St Petersburg"
-msgstr ""
+msgstr "圣彼得堡"
 
+# my-evolution/Locations.h:2162
 #: my-evolution/Locations.h:2152
 msgid "St Petersburg / Clearwater"
-msgstr ""
+msgstr "圣彼得堡 / Clearwater"
 
+# my-evolution/Locations.h:2163
 #: my-evolution/Locations.h:2153
 msgid "Strasbourg"
-msgstr ""
+msgstr "斯特拉斯堡"
 
 #: my-evolution/Locations.h:2154
 msgid "Strevell"
@@ -22594,9 +23528,10 @@ msgstr ""
 msgid "Sturgeon Bay"
 msgstr "星期六"
 
+# my-evolution/Locations.h:2168
 #: my-evolution/Locations.h:2158
 msgid "Stuttgart"
-msgstr ""
+msgstr "斯图加特"
 
 #: my-evolution/Locations.h:2159
 #, fuzzy
@@ -22617,13 +23552,16 @@ msgstr "概要"
 msgid "Sumter (2)"
 msgstr ""
 
+# my-evolution/Locations.h:2173
 #: my-evolution/Locations.h:2163
 msgid "Sundsvall-Harnosand"
-msgstr ""
+msgstr "松兹瓦尔-Harnosand"
 
+# calendar/zones.h:248
+# my-evolution/Locations.h:2174
 #: my-evolution/Locations.h:2164
 msgid "Sungshan/Taipei"
-msgstr ""
+msgstr "Sungshan/台北"
 
 #: my-evolution/Locations.h:2165
 msgid "Superior"
@@ -22638,9 +23576,10 @@ msgstr "停止"
 msgid "Suwon Ab"
 msgstr ""
 
+# my-evolution/Locations.h:2179
 #: my-evolution/Locations.h:2169
 msgid "Svalbard"
-msgstr ""
+msgstr "斯瓦尔巴特"
 
 #: my-evolution/Locations.h:2170
 msgid "Svolvaer/Helle"
@@ -22650,21 +23589,24 @@ msgstr ""
 msgid "Swift Current"
 msgstr ""
 
+# my-evolution/Locations.h:2184
 #: my-evolution/Locations.h:2174
 msgid "Sydney"
-msgstr ""
+msgstr "悉尼"
 
 #: my-evolution/Locations.h:2175
 msgid "Syktyvkar"
 msgstr ""
 
+# my-evolution/Locations.h:2187
 #: my-evolution/Locations.h:2176
 msgid "Syracuse"
-msgstr ""
+msgstr "锡拉库扎"
 
+# my-evolution/Locations.h:2188
 #: my-evolution/Locations.h:2177
 msgid "Szczecin"
-msgstr ""
+msgstr "什切青"
 
 #: my-evolution/Locations.h:2178
 msgid "Szombathely"
@@ -22675,9 +23617,10 @@ msgstr ""
 msgid "Tabatinga"
 msgstr "繁体"
 
+# my-evolution/Locations.h:2191
 #: my-evolution/Locations.h:2180
 msgid "Tabriz"
-msgstr ""
+msgstr "大不里士"
 
 #: my-evolution/Locations.h:2181
 #, fuzzy
@@ -22693,34 +23636,39 @@ msgstr ""
 msgid "Tacna"
 msgstr "汤加"
 
+# my-evolution/Locations.h:2195
 #: my-evolution/Locations.h:2184
 msgid "Tacoma"
-msgstr ""
+msgstr "塔科马"
 
+# my-evolution/Locations.h:2196
 #: my-evolution/Locations.h:2185
 msgid "Tacoma-Lakewood"
-msgstr ""
+msgstr "塔科马-Lakewood"
 
 #: my-evolution/Locations.h:2186
 msgid "Tacuarembo"
 msgstr ""
 
+# my-evolution/Locations.h:2198
 #: my-evolution/Locations.h:2187
 msgid "Taegu"
-msgstr ""
+msgstr "大丘"
 
+# my-evolution/Locations.h:2199
 #: my-evolution/Locations.h:2188
 msgid "Taegu Ab"
-msgstr ""
+msgstr "大丘 Ab"
 
 #: my-evolution/Locations.h:2189
 #, fuzzy
 msgid "Taejon"
 msgstr "则"
 
+# my-evolution/Locations.h:2201
 #: my-evolution/Locations.h:2190
 msgid "Tahoe Valley"
-msgstr ""
+msgstr "塔霍谷"
 
 #: my-evolution/Locations.h:2191
 msgid "Taichung"
@@ -22751,9 +23699,10 @@ msgstr "台湾"
 msgid "Tajima"
 msgstr "台湾"
 
+# my-evolution/Locations.h:2209
 #: my-evolution/Locations.h:2198
 msgid "Takamatsu Airport"
-msgstr ""
+msgstr "高松机场"
 
 #: my-evolution/Locations.h:2199
 msgid "Talara"
@@ -22768,9 +23717,10 @@ msgstr "台湾"
 msgid "Talkeetna"
 msgstr ""
 
+# my-evolution/Locations.h:2213
 #: my-evolution/Locations.h:2202
 msgid "Tallahassee"
-msgstr ""
+msgstr "塔拉哈西"
 
 #: my-evolution/Locations.h:2203
 msgid "Tamanrasset"
@@ -22785,18 +23735,20 @@ msgstr ""
 msgid "Tampa"
 msgstr "萨摩亚"
 
+# my-evolution/Locations.h:2217
 #: my-evolution/Locations.h:2206
 msgid "Tampa-Macdill AFB"
-msgstr ""
+msgstr "坦帕-Macdill 空军基地"
 
 #: my-evolution/Locations.h:2207
 #, fuzzy
 msgid "Tampere"
 msgstr "纸张"
 
+# my-evolution/Locations.h:2219
 #: my-evolution/Locations.h:2208
 msgid "Tampico"
-msgstr ""
+msgstr "坦皮科"
 
 #: my-evolution/Locations.h:2209
 #, fuzzy
@@ -22861,13 +23813,16 @@ msgstr ""
 msgid "Tees-Side"
 msgstr ""
 
+# calendar/zones.h:168
+# my-evolution/Locations.h:2234
 #: my-evolution/Locations.h:2223
 msgid "Tegucigalpa"
-msgstr ""
+msgstr "特古西加尔巴"
 
+# my-evolution/Locations.h:2235
 #: my-evolution/Locations.h:2224
 msgid "Tehran-Mehrabad"
-msgstr ""
+msgstr "德黑兰-Mehrabad"
 
 #: my-evolution/Locations.h:2225
 #, fuzzy
@@ -22879,25 +23834,29 @@ msgstr "托克劳群岛"
 msgid "Temple"
 msgstr "电传"
 
+# my-evolution/Locations.h:2238
 #: my-evolution/Locations.h:2227
 msgid "Tennessee"
-msgstr ""
+msgstr "田纳西"
 
+# my-evolution/Locations.h:2239
 #: my-evolution/Locations.h:2228
 msgid "Tepic"
-msgstr ""
+msgstr "特皮克"
 
+# my-evolution/Locations.h:2240
 #: my-evolution/Locations.h:2229
 msgid "Teresina"
-msgstr ""
+msgstr "特雷西纳"
 
 #: my-evolution/Locations.h:2230
 msgid "Terre Haute"
 msgstr ""
 
+# my-evolution/Locations.h:2242
 #: my-evolution/Locations.h:2231
 msgid "Terrell"
-msgstr ""
+msgstr "特雷尔"
 
 #: my-evolution/Locations.h:2232
 msgid "Teterboro"
@@ -22917,9 +23876,10 @@ msgstr "测试"
 msgid "The Dalles"
 msgstr "塞舌尔"
 
+# my-evolution/Locations.h:2247
 #: my-evolution/Locations.h:2236
 msgid "Thessaloniki"
-msgstr ""
+msgstr "萨洛尼卡"
 
 #: my-evolution/Locations.h:2237
 msgid "Thief River Falls"
@@ -22934,9 +23894,10 @@ msgstr ""
 msgid "Thisted"
 msgstr "头衔"
 
+# my-evolution/Locations.h:2251
 #: my-evolution/Locations.h:2240
 msgid "Thompson Falls"
-msgstr ""
+msgstr "汤普森瀑布"
 
 #: my-evolution/Locations.h:2241
 #, fuzzy
@@ -22993,9 +23954,10 @@ msgstr "保密"
 msgid "Tlemcen Zenata"
 msgstr ""
 
+# my-evolution/Locations.h:2264
 #: my-evolution/Locations.h:2253
 msgid "Tobias Bolanos"
-msgstr ""
+msgstr "托拜厄斯 Bolanos"
 
 #: my-evolution/Locations.h:2254
 msgid "Tocumen"
@@ -23014,21 +23976,25 @@ msgstr ""
 msgid "Tokunoshima Island"
 msgstr "圣诞岛"
 
+# my-evolution/Locations.h:2269
 #: my-evolution/Locations.h:2258
 msgid "Tokushima Ab"
-msgstr ""
+msgstr "德岛 Ab"
 
+# my-evolution/Locations.h:2270
 #: my-evolution/Locations.h:2259
 msgid "Tokyo Heliport"
-msgstr ""
+msgstr "东京直升机场"
 
+# my-evolution/Locations.h:2271
 #: my-evolution/Locations.h:2260
 msgid "Tokyo International Airport"
-msgstr ""
+msgstr "东京国际机场"
 
+# my-evolution/Locations.h:2272
 #: my-evolution/Locations.h:2261
 msgid "Tokyo New International Airport"
-msgstr ""
+msgstr "东京新机场"
 
 #: my-evolution/Locations.h:2262
 #, fuzzy
@@ -23050,17 +24016,20 @@ msgstr "汤加"
 msgid "Topeka"
 msgstr "托克劳群岛"
 
+# my-evolution/Locations.h:2277
 #: my-evolution/Locations.h:2266
 msgid "Topeka-Forbes Field"
-msgstr ""
+msgstr "托皮卡-Forbes Field"
 
+# my-evolution/Locations.h:2278
 #: my-evolution/Locations.h:2267
 msgid "Torino/Bric Della Croce"
-msgstr ""
+msgstr "托里诺/Bric Della Croce"
 
+# my-evolution/Locations.h:2279
 #: my-evolution/Locations.h:2268
 msgid "Torino/Caselle"
-msgstr ""
+msgstr "托里诺/Caselle"
 
 #: my-evolution/Locations.h:2269
 #, fuzzy
@@ -23096,21 +24065,24 @@ msgstr "关闭"
 msgid "Toul-Rosieres"
 msgstr ""
 
+# my-evolution/Locations.h:2287
 #: my-evolution/Locations.h:2276
 msgid "Tours-St-Symphorien"
-msgstr ""
+msgstr "图尔斯-St-Symphorien"
 
 #: my-evolution/Locations.h:2277
 msgid "Toussus-Le Noble"
 msgstr ""
 
+# my-evolution/Locations.h:2289
 #: my-evolution/Locations.h:2278
 msgid "Townsville"
-msgstr ""
+msgstr "汤斯维尔"
 
+# my-evolution/Locations.h:2290
 #: my-evolution/Locations.h:2279
 msgid "Toyama Airport"
-msgstr ""
+msgstr "富山机场"
 
 #: my-evolution/Locations.h:2280
 #, fuzzy
@@ -23159,17 +24131,21 @@ msgstr "测试"
 msgid "Trinidad"
 msgstr "龙卷风"
 
+# calendar/zones.h:56
+# my-evolution/Locations.h:2301
 #: my-evolution/Locations.h:2290
 msgid "Tripoli"
-msgstr ""
+msgstr "的黎波里"
 
+# my-evolution/Locations.h:2302
 #: my-evolution/Locations.h:2291
 msgid "Tromso/Langnes"
-msgstr ""
+msgstr "特罗姆兹/Langnes"
 
+# my-evolution/Locations.h:2303
 #: my-evolution/Locations.h:2292
 msgid "Trondheim/Vaernes"
-msgstr ""
+msgstr "特隆赫姆/Vaernes"
 
 #: my-evolution/Locations.h:2293
 msgid "Troutdale"
@@ -23192,17 +24168,20 @@ msgstr ""
 msgid "Tsuiki Ab"
 msgstr ""
 
+# my-evolution/Locations.h:2309
 #: my-evolution/Locations.h:2298
 msgid "Tsushima Airport"
-msgstr ""
+msgstr "对马机场"
 
+# my-evolution/Locations.h:2310
 #: my-evolution/Locations.h:2299
 msgid "Tucson"
-msgstr ""
+msgstr "图森"
 
+# my-evolution/Locations.h:2311
 #: my-evolution/Locations.h:2300
 msgid "Tucson-Davis AFB"
-msgstr ""
+msgstr "图森-戴维斯空军基地"
 
 #: my-evolution/Locations.h:2301
 msgid "Tucuman"
@@ -23276,9 +24255,10 @@ msgstr ""
 msgid "Tyler"
 msgstr "年"
 
+# my-evolution/Locations.h:2329
 #: my-evolution/Locations.h:2318
 msgid "Tyndall AFB"
-msgstr ""
+msgstr "廷德尔空军基地"
 
 #: my-evolution/Locations.h:2319
 #, fuzzy
@@ -23305,9 +24285,10 @@ msgstr ""
 msgid "Ulsan"
 msgstr ""
 
+# my-evolution/Locations.h:2337
 #: my-evolution/Locations.h:2325
 msgid "Ulyanovsk"
-msgstr ""
+msgstr "乌里扬诺夫斯克"
 
 #: my-evolution/Locations.h:2326
 msgid "Umea"
@@ -23354,17 +24335,20 @@ msgstr ""
 msgid "Utah"
 msgstr "附加"
 
+# my-evolution/Locations.h:2351
 #: my-evolution/Locations.h:2339
 msgid "Utica"
-msgstr ""
+msgstr "尤蒂卡"
 
+# my-evolution/Locations.h:2352
 #: my-evolution/Locations.h:2340
 msgid "Utrecht/Soesterberg"
-msgstr ""
+msgstr "乌德勒支/Soesterberg"
 
+# my-evolution/Locations.h:2353
 #: my-evolution/Locations.h:2341
 msgid "Utsunomiya Ab"
-msgstr ""
+msgstr "宇都宫 Ab"
 
 #: my-evolution/Locations.h:2342
 #, fuzzy
@@ -23381,9 +24365,10 @@ msgstr "不定风"
 msgid "Vagar"
 msgstr "卡塔尔"
 
+# my-evolution/Locations.h:2358
 #: my-evolution/Locations.h:2345
 msgid "Valdez 2"
-msgstr ""
+msgstr "瓦尔迪兹 2"
 
 #: my-evolution/Locations.h:2346
 #, fuzzy
@@ -23404,9 +24389,10 @@ msgstr "斯洛文尼亚"
 msgid "Valentine"
 msgstr "嵌入视图"
 
+# my-evolution/Locations.h:2363
 #: my-evolution/Locations.h:2350
 msgid "Valera*"
-msgstr ""
+msgstr "瓦勒拉"
 
 #: my-evolution/Locations.h:2351
 msgid "Valkenburg"
@@ -23416,35 +24402,40 @@ msgstr ""
 msgid "Valley"
 msgstr ""
 
+# my-evolution/Locations.h:2366
 #: my-evolution/Locations.h:2353
 msgid "Valparaiso"
-msgstr ""
+msgstr "瓦尔帕莱索"
 
+# my-evolution/Locations.h:2367
 #: my-evolution/Locations.h:2354
 msgid "Valparaiso-Eglin AFB"
-msgstr ""
+msgstr "瓦尔帕莱索-Eglin 空军基地"
 
 #: my-evolution/Locations.h:2355
 #, fuzzy
 msgid "Van"
 msgstr "经理"
 
+# my-evolution/Locations.h:2369
 #: my-evolution/Locations.h:2356
 msgid "Vancouver"
-msgstr ""
+msgstr "范库弗峰"
 
 #: my-evolution/Locations.h:2357
 #, fuzzy
 msgid "Vandel"
 msgstr "取消"
 
+# my-evolution/Locations.h:2371
 #: my-evolution/Locations.h:2358
 msgid "Vandenberg AFB"
-msgstr ""
+msgstr "范登堡空军基地"
 
+# my-evolution/Locations.h:2372
 #: my-evolution/Locations.h:2359
 msgid "Vandenberg Range"
-msgstr ""
+msgstr "范登堡山脉"
 
 #: my-evolution/Locations.h:2360
 msgid "Van Nuys"
@@ -23455,9 +24446,10 @@ msgstr ""
 msgid "Varadero"
 msgstr "巴巴多斯岛"
 
+# my-evolution/Locations.h:2375
 #: my-evolution/Locations.h:2362
 msgid "Varanasi/Babatpur"
-msgstr ""
+msgstr "瓦蜡纳西/Babatpur"
 
 #: my-evolution/Locations.h:2363
 #, fuzzy
@@ -23483,9 +24475,10 @@ msgstr "委内瑞拉"
 msgid "Venice"
 msgstr "Unicode"
 
+# my-evolution/Locations.h:2382
 #: my-evolution/Locations.h:2369
 msgid "Veracruz"
-msgstr ""
+msgstr "韦拉克鲁斯"
 
 #: my-evolution/Locations.h:2370
 msgid "Vermillion"
@@ -23510,25 +24503,29 @@ msgstr ""
 msgid "Vicenza"
 msgstr "委内瑞拉"
 
+# my-evolution/Locations.h:2388
 #: my-evolution/Locations.h:2375
 msgid "Vichy-Charmeil"
-msgstr ""
+msgstr "维希-Charmeil"
 
+# my-evolution/Locations.h:2389
 #: my-evolution/Locations.h:2376
 msgid "Vichy-Rolla"
-msgstr ""
+msgstr "维希-Rolla"
 
 #: my-evolution/Locations.h:2377
 msgid "Vicksburg"
 msgstr ""
 
+# my-evolution/Locations.h:2391
 #: my-evolution/Locations.h:2378
 msgid "Victoria"
-msgstr ""
+msgstr "维多利亚"
 
+# my-evolution/Locations.h:2393
 #: my-evolution/Locations.h:2380
 msgid "Vigo"
-msgstr ""
+msgstr "比戈"
 
 #: my-evolution/Locations.h:2381
 #, fuzzy
@@ -23555,21 +24552,26 @@ msgstr ""
 msgid "Villa Reynolds"
 msgstr ""
 
+# calendar/zones.h:329
+# my-evolution/Locations.h:2400
 #: my-evolution/Locations.h:2387
 msgid "Vilnius"
-msgstr ""
+msgstr "维尔纽斯"
 
+# my-evolution/Locations.h:2401
 #: my-evolution/Locations.h:2388
 msgid "Virginia"
-msgstr ""
+msgstr "维吉尼亚"
 
+# my-evolution/Locations.h:2402
 #: my-evolution/Locations.h:2389
 msgid "Virginia Beach"
-msgstr ""
+msgstr "维吉尼亚海岸"
 
+# my-evolution/Locations.h:2403
 #: my-evolution/Locations.h:2390
 msgid "Virginia Tech Airport"
-msgstr ""
+msgstr "维吉尼亚 Tech 机场"
 
 #: my-evolution/Locations.h:2391
 msgid "Viru-Viru"
@@ -23580,25 +24582,29 @@ msgstr ""
 msgid "Visalia"
 msgstr "澳大利亚"
 
+# my-evolution/Locations.h:2406
 #: my-evolution/Locations.h:2393
 msgid "Visby"
-msgstr ""
+msgstr "维斯比"
 
 #: my-evolution/Locations.h:2394
 msgid "Viterbo"
 msgstr ""
 
+# my-evolution/Locations.h:2408
 #: my-evolution/Locations.h:2395
 msgid "Vitoria"
-msgstr ""
+msgstr "维多利亚"
 
 #: my-evolution/Locations.h:2396
 msgid "Vladikavkaz"
 msgstr ""
 
+# calendar/zones.h:258
+# my-evolution/Locations.h:2410
 #: my-evolution/Locations.h:2397
 msgid "Vladivostok"
-msgstr ""
+msgstr "符拉迪沃斯托克"
 
 #: my-evolution/Locations.h:2398
 #, fuzzy
@@ -23609,9 +24615,10 @@ msgstr "爱尔兰"
 msgid "Vojens/Skrydstrup"
 msgstr ""
 
+# my-evolution/Locations.h:2413
 #: my-evolution/Locations.h:2400
 msgid "Volgograd"
-msgstr ""
+msgstr "伏尔加格勒"
 
 #: my-evolution/Locations.h:2401
 #, fuzzy
@@ -23623,9 +24630,10 @@ msgstr "托克劳群岛"
 msgid "Volk Field"
 msgstr "发信人域(_F)"
 
+# my-evolution/Locations.h:2416
 #: my-evolution/Locations.h:2403
 msgid "Voronezh"
-msgstr ""
+msgstr "沃罗涅什"
 
 #: my-evolution/Locations.h:2404
 #, fuzzy
@@ -23645,9 +24653,10 @@ msgstr ""
 msgid "Wainwright"
 msgstr ""
 
+# my-evolution/Locations.h:2421
 #: my-evolution/Locations.h:2408
 msgid "Wakefield"
-msgstr ""
+msgstr "韦克菲尔德"
 
 #: my-evolution/Locations.h:2409
 msgid "Wakkanai Airport"
@@ -23675,17 +24684,20 @@ msgstr "警告"
 msgid "Warroad"
 msgstr ""
 
+# my-evolution/Locations.h:2428
 #: my-evolution/Locations.h:2415
 msgid "Warszawa"
-msgstr ""
+msgstr "华沙"
 
+# my-evolution/Locations.h:2429
 #: my-evolution/Locations.h:2416
 msgid "Washington"
-msgstr ""
+msgstr "华盛顿"
 
+# my-evolution/Locations.h:2430
 #: my-evolution/Locations.h:2417
 msgid "Washington/Dulles"
-msgstr ""
+msgstr "华盛顿/杜勒斯"
 
 #: my-evolution/Locations.h:2418
 #, fuzzy
@@ -23734,9 +24746,10 @@ msgstr "网站"
 msgid "Wejh"
 msgstr "三"
 
+# my-evolution/Locations.h:2441
 #: my-evolution/Locations.h:2428
 msgid "Wellington"
-msgstr ""
+msgstr "惠灵顿"
 
 #: my-evolution/Locations.h:2429
 #, fuzzy
@@ -23748,9 +24761,10 @@ msgstr "天气"
 msgid "Wendover"
 msgstr "发送者"
 
+# my-evolution/Locations.h:2444
 #: my-evolution/Locations.h:2431
 msgid "West Atlanta"
-msgstr ""
+msgstr "西亚特兰大"
 
 #: my-evolution/Locations.h:2432
 #, fuzzy
@@ -23775,17 +24789,20 @@ msgstr ""
 msgid "West Palm Beach"
 msgstr ""
 
+# my-evolution/Locations.h:2450
 #: my-evolution/Locations.h:2437
 msgid "West Virginia"
-msgstr ""
+msgstr "西维吉尼亚"
 
+# my-evolution/Locations.h:2451
 #: my-evolution/Locations.h:2438
 msgid "West Yellowstone"
-msgstr ""
+msgstr "西黄石国家公园"
 
+# my-evolution/Locations.h:2452
 #: my-evolution/Locations.h:2439
 msgid "West Yellowstone (2)"
-msgstr ""
+msgstr "西黄石国家公园 (2)"
 
 #: my-evolution/Locations.h:2440
 #, fuzzy
@@ -23797,9 +24814,10 @@ msgstr "会见"
 msgid "Whidbey Island"
 msgstr "圣诞岛"
 
+# my-evolution/Locations.h:2455
 #: my-evolution/Locations.h:2442
 msgid "Whitefield"
-msgstr ""
+msgstr "怀特菲尔德"
 
 #: my-evolution/Locations.h:2443
 msgid "White Plains"
@@ -23809,9 +24827,10 @@ msgstr ""
 msgid "White Sulphur"
 msgstr ""
 
+# my-evolution/Locations.h:2458
 #: my-evolution/Locations.h:2445
 msgid "Whittier"
-msgstr ""
+msgstr "惠蒂尔"
 
 #: my-evolution/Locations.h:2446
 msgid "Wichita"
@@ -23843,9 +24862,10 @@ msgstr "三"
 msgid "Wildwood"
 msgstr ""
 
+# my-evolution/Locations.h:2466
 #: my-evolution/Locations.h:2453
 msgid "Wilkes - Barre"
-msgstr ""
+msgstr "威尔克斯地 - Barre"
 
 #: my-evolution/Locations.h:2454
 msgid "Williams Field"
@@ -23860,9 +24880,10 @@ msgstr ""
 msgid "Williston"
 msgstr "列表"
 
+# my-evolution/Locations.h:2470
 #: my-evolution/Locations.h:2457
 msgid "Willoughby"
-msgstr ""
+msgstr "威洛比"
 
 #: my-evolution/Locations.h:2458
 msgid "Willow Airport"
@@ -23894,18 +24915,21 @@ msgstr ""
 msgid "Winnemucca"
 msgstr ""
 
+# calendar/zones.h:175
+# my-evolution/Locations.h:2478
 #: my-evolution/Locations.h:2465
 msgid "Winnipeg"
-msgstr ""
+msgstr "温尼伯"
 
 #: my-evolution/Locations.h:2466
 #, fuzzy
 msgid "Winslow"
 msgstr "现在"
 
+# my-evolution/Locations.h:2480
 #: my-evolution/Locations.h:2467
 msgid "Winston-Salem"
-msgstr ""
+msgstr "温斯顿-塞伦"
 
 #: my-evolution/Locations.h:2468
 msgid "Winter Haven"
@@ -23967,9 +24991,10 @@ msgstr "波兰"
 msgid "Worthington"
 msgstr "正在工作"
 
+# my-evolution/Locations.h:2494
 #: my-evolution/Locations.h:2481
 msgid "Wrangell"
-msgstr ""
+msgstr "兰格尔"
 
 #: my-evolution/Locations.h:2482
 msgid "Wrightstown / Mcguire AFB"
@@ -23993,21 +25018,27 @@ msgstr "时间"
 msgid "Yacuiba"
 msgstr ""
 
+# my-evolution/Locations.h:2500
 #: my-evolution/Locations.h:2487
 msgid "Yakima"
-msgstr ""
+msgstr "雅吉瓦"
 
 #: my-evolution/Locations.h:2488
 msgid "Yakushima"
 msgstr ""
 
+# addressbook/gui/contact-editor/fulladdr.glade.h:5
+# calendar/zones.h:176
+# my-evolution/Locations.h:2502
 #: my-evolution/Locations.h:2489
+#, fuzzy
 msgid "Yakutat"
-msgstr ""
+msgstr "美洲萨摩亚"
 
+# my-evolution/Locations.h:2503
 #: my-evolution/Locations.h:2490
 msgid "Yakutsk"
-msgstr ""
+msgstr "雅库茨克"
 
 #: my-evolution/Locations.h:2491
 msgid "Yamagata Airport"
@@ -24034,13 +25065,15 @@ msgstr ""
 msgid "Yekaterinburg"
 msgstr ""
 
+# my-evolution/Locations.h:2510
 #: my-evolution/Locations.h:2497
 msgid "Yellowknife"
-msgstr ""
+msgstr "耶洛奈夫"
 
+# my-evolution/Locations.h:2511
 #: my-evolution/Locations.h:2498
 msgid "Yellowstone"
-msgstr ""
+msgstr "黄石国家公园"
 
 #: my-evolution/Locations.h:2500
 #, fuzzy
@@ -24059,9 +25092,10 @@ msgstr ""
 msgid "Yeovilton"
 msgstr ""
 
+# my-evolution/Locations.h:2517
 #: my-evolution/Locations.h:2504
 msgid "Yokosuka Fwf"
-msgstr ""
+msgstr "横须贺 Fwf"
 
 #: my-evolution/Locations.h:2505
 msgid "Yokota Ab"
@@ -24079,21 +25113,24 @@ msgstr ""
 msgid "Yosu"
 msgstr ""
 
+# my-evolution/Locations.h:2522
 #: my-evolution/Locations.h:2509
 msgid "Youngstown"
-msgstr ""
+msgstr "扬斯敦"
 
 #: my-evolution/Locations.h:2510
 msgid "Ypsilanti"
 msgstr ""
 
+# my-evolution/Locations.h:2525
 #: my-evolution/Locations.h:2512
 msgid "Yukon"
-msgstr ""
+msgstr "育空"
 
+# my-evolution/Locations.h:2526
 #: my-evolution/Locations.h:2513
 msgid "Yuma MCAS"
-msgstr ""
+msgstr "尤马 MCAS"
 
 #: my-evolution/Locations.h:2514
 msgid "Yurimaguas"
@@ -24103,9 +25140,10 @@ msgstr ""
 msgid "Yuzhno-Sakhalinsk"
 msgstr ""
 
+# my-evolution/Locations.h:2529
 #: my-evolution/Locations.h:2516
 msgid "Zacatecas"
-msgstr ""
+msgstr "萨卡特卡斯"
 
 #: my-evolution/Locations.h:2517
 #, fuzzy
@@ -24139,9 +25177,10 @@ msgstr "巴拉圭"
 msgid "Zell Am See"
 msgstr ""
 
+# my-evolution/Locations.h:2537
 #: my-evolution/Locations.h:2524
 msgid "Zuni Pueblo"
-msgstr ""
+msgstr "祖尼 普维布洛"
 
 #: my-evolution/Locations.h:2525
 #, fuzzy
@@ -24223,6 +25262,8 @@ msgstr ""
 "无法创建目录 %s：\n"
 "%s"
 
+# shell/e-setup.c:298
+# shell/e-setup.c:298
 #: shell/e-setup.c:298
 #, c-format
 msgid ""
@@ -24230,7 +25271,12 @@ msgid ""
 "does not have the right permissions. Please make it\n"
 "readable and executable and restart Evolution."
 msgstr ""
+"目录 %s\n"
+"的许可权限不正确，请使它可读、\n"
+"可执行，并重新启动 Evolution。"
 
+# shell/e-setup.c:304
+# shell/e-setup.c:304
 #: shell/e-setup.c:304
 #, c-format
 msgid ""
@@ -24238,6 +25284,9 @@ msgid ""
 "should be removed to allow Evolution to work correctly.\n"
 "Please remove this file and restart Evolution."
 msgstr ""
+"文件 %s\n"
+"应该被删除以使 Evolution　能够正确运行。\n"
+"请删除该文件并重新启动 Evolution。"
 
 #: shell/e-setup.c:327
 #, c-format
