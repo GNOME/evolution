@@ -84,6 +84,8 @@ libeutil_la_SOURCES =				\
 	e-url.c					\
 	e-util-marshal.c			\
 	e-xml-hash-utils.c			\
+	eggtrayicon.c				\
+	eggtrayicon.h				\
 	md5-utils.c
 
 MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h

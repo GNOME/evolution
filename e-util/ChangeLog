@@ -1,3 +1,10 @@
+2003-08-28  Hans Petter Jansson  <hpj@ximian.com>
+
+	* eggtrayicon.[ch]: Added for tray icon support. To be removed when
+	libgnomeui sports this functionality.
+
+	* Makefile.am: Include eggtrayicon.
+
 2003-08-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-mktemp.c (e_mktemp_cleanup): We need to unlink the full paths
