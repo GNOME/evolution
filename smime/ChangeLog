@@ -1,3 +1,10 @@
+2004-09-03  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #64420.
+
+	* lib/e-pkcs12.c (prompt_for_password): set the outptr after we've
+	actually got a pointer for it allocated.
+
 2004-08-16  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #62963.
