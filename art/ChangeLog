@@ -1,3 +1,8 @@
+2002-04-25  Larry Ewing  <lewing@ximian.com>
+
+	* Makefile.am (images_DATA): font.png: Add for the font config
+	prefs.
+
 2002-04-17  Dan Winship  <danw@ximian.com>
 
 	* monkey-16.png: Replace with an antialiased version
