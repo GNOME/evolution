@@ -1,3 +1,7 @@
+1998-08-06  Martin Baulig  <martin@home-of-linux.org>
+
+	* gnome-libgtop-sysdeps.m4: Added `freebsd' directory.
+
 1998-08-04  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* gnome-x-checks.m4: Define USE_DEVGTK unconditionally to `true'.

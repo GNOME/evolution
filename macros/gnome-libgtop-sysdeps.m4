@@ -83,6 +83,11 @@ main (void)
 	  libgtop_use_machine_h=yes
 	  libgtop_need_server=yes
 	  ;;
+	freebsd*)
+	  libgtop_sysdeps_dir=freebsd
+	  libgtop_use_machine_h=yes
+	  libgtop_need_server=yes
+	  ;;
 	*)
 	  libgtop_sysdeps_dir=stub
 	  libgtop_use_machine_h=no
