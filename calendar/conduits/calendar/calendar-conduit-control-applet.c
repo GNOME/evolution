@@ -17,24 +17,6 @@
 
 #include "calendar-conduit.h"
 
-/*
-typedef struct ConduitCfg {
-	guint32 pilotId;
-	pid_t child;
-} ConduitCfg;
-
-typedef struct db {
-        char name[256];
-        int flags;
-        unsigned long creator;
-        unsigned long type;
-        int maxblock;
-} db;
-
-#define CONDUIT_CFG(s) ((ConduitCfg*)(s))
-*/
-
-
 
 /* tell changes callbacks to ignore changes or not */
 static gboolean ignore_changes=FALSE;
@@ -77,6 +59,37 @@ static gchar* sync_options[] ={ N_("Disabled"),
 				N_("Merge From Pilot"),
 				N_("Merge To Pilot")};
 #define SYNC_OPTIONS_COUNT 6
+
+
+
+
+/* Saves the configuration data. */
+static void 
+gcalconduit_save_configuration(GCalConduitCfg *c) 
+{
+	gchar prefix[256];
+
+	g_snprintf(prefix,255,"/gnome-pilot.d/calendar-conduit/Pilot_%u/",c->pilotId);
+
+	gnome_config_push_prefix(prefix);
+	gnome_config_set_bool ("open_secret", c->open_secret);
+	gnome_config_pop_prefix();
+
+	gnome_config_sync();
+	gnome_config_drop_all();
+}
+
+/* Creates a duplicate of the configuration data */
+static GCalConduitCfg*
+gcalconduit_dupe_configuration(GCalConduitCfg *c) {
+	GCalConduitCfg *retval;
+	g_return_val_if_fail(c!=NULL,NULL);
+	retval = g_new0(GCalConduitCfg,1);
+	retval->sync_type = c->sync_type;
+	retval->open_secret = c->open_secret;
+	retval->pilotId = c->pilotId;
+	return retval;
+}
 
 
 static void

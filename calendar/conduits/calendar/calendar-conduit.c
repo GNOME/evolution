@@ -58,7 +58,46 @@ void local_record_from_icalobject (GCalLocalRecord *local, iCalObject *obj);
   }
 
 
-gboolean load_success = FALSE;
+
+
+/* Destroys any data allocated by gcalconduit_load_configuration
+   and deallocates the given configuration. */
+static void 
+gcalconduit_destroy_configuration(GCalConduitCfg **c) 
+{
+	g_return_if_fail(c!=NULL);
+	g_return_if_fail(*c!=NULL);
+	g_free(*c);
+	*c = NULL;
+}
+
+
+/* Given a GCalConduitContxt*, allocates the structure */
+static void
+gcalconduit_new_context(GCalConduitContext **ctxt,
+			GCalConduitCfg *c) 
+{
+	*ctxt = g_new0(GCalConduitContext,1);
+	g_assert(ctxt!=NULL);
+	(*ctxt)->cfg = c;
+	CORBA_exception_init (&((*ctxt)->ev));
+}
+
+
+/* Destroys any data allocated by gcalconduit_new_context
+   and deallocates its data. */
+static void
+gcalconduit_destroy_context(GCalConduitContext **ctxt)
+{
+	g_return_if_fail(ctxt!=NULL);
+	g_return_if_fail(*ctxt!=NULL);
+/*
+	if ((*ctxt)->cfg!=NULL)
+		gcalconduit_destroy_configuration(&((*ctxt)->cfg));
+*/
+	g_free(*ctxt);
+	*ctxt = NULL;
+}
 
 
 static void
@@ -67,23 +106,23 @@ gnome_calendar_load_cb (GtkWidget *cal_client,
 			GCalConduitContext *ctxt)
 {
 	CalClient *client = CAL_CLIENT (cal_client);
-	static int tried = 0;
 
-	printf ("entering gnome_calendar_load_cb, tried=%d\n", tried);
+	printf ("entering gnome_calendar_load_cb, tried=%d\n",
+		ctxt->calendar_load_tried);
 
 	if (status == CAL_CLIENT_LOAD_SUCCESS) {
-		load_success = TRUE;
+		ctxt->calendar_load_success = TRUE;
 		printf ("  success\n");
 		gtk_main_quit (); /* end the sub event loop */
 	} else {
-		if (tried) {
+		if (ctxt->calendar_load_tried) {
 			printf ("load and create of calendar failed\n");
 			gtk_main_quit (); /* end the sub event loop */
 			return;
 		}
 
 		cal_client_create_calendar (client, ctxt->calendar_file);
-		tried = 1;
+		ctxt->calendar_load_tried = 1;
 	}
 }
 
@@ -108,29 +147,25 @@ start_calendar_server (GnomePilotConduitStandardAbs *conduit,
 	gtk_signal_connect (GTK_OBJECT (ctxt->client), "cal_loaded",
 			    gnome_calendar_load_cb, ctxt);
 
-	load_success = FALSE;
-
-
 	printf ("calling cal_client_load_calendar\n");
 	cal_client_load_calendar (ctxt->client, ctxt->calendar_file);
-
 
 	/* run a sub event loop to turn cal-client's async load
 	   notification into a synchronous call */
 	gtk_main ();
 
-	return 0;
+	if (ctxt->calendar_load_success)
+		return 0;
+
+	return -1;
 }
 
 
+#if 0
 /* Just a stub to link with */
-
 void calendar_notify (time_t time, CalendarAlarm *which, void *data);
-
-void
-calendar_notify (time_t time, CalendarAlarm *which, void *data)
-{
-}
+void calendar_notify (time_t time, CalendarAlarm *which, void *data) { }
+#endif /* 0 */
 
 
 static GSList * 
@@ -199,7 +234,6 @@ local_record_from_icalobject(GCalLocalRecord *local,
 
 	local->ical = obj;
 	local->local.ID = local->ical->pilot_id;
-  
 /*
 	LOG ("local->Id = %ld [%s], status = %d",
 		  local->local.ID,obj->summary,local->ical->pilot_status);
@@ -227,6 +261,7 @@ local_record_from_icalobject(GCalLocalRecord *local,
  
 	local->local.archived = 0;  
 }
+
 
 /*
  * Given a PilotRecord, find the matching record in
@@ -562,10 +597,11 @@ pre_sync (GnomePilotConduit *c,
 	  GCalConduitContext *ctxt)
 {
 	int l;
-	gint num_records;
 	unsigned char *buf;
-	//GList *uids;
 	GnomePilotConduitStandardAbs *conduit;
+	/* gint num_records; */
+	//GList *uids;
+
 
 	/*
 	g_log_set_always_fatal (G_LOG_LEVEL_ERROR |
@@ -578,7 +614,6 @@ pre_sync (GnomePilotConduit *c,
   
 	g_message ("GnomeCal Conduit v.%s",CONDUIT_VERSION);
 
-	//ctxt->calendar = CORBA_OBJECT_NIL;
 	ctxt->client = NULL;
 	
 	if (start_calendar_server (GNOME_PILOT_CONDUIT_STANDARD_ABS(c), ctxt) != 0) {
@@ -1341,7 +1376,6 @@ conduit_get_gpilot_conduit (guint32 pilotId)
 	GtkObject *retval;
 	GCalConduitCfg *cfg;
 	GCalConduitContext *ctxt;
-
 
 	retval = gnome_pilot_conduit_standard_abs_new ("DatebookDB", 0x64617465);
 	g_assert (retval != NULL);
