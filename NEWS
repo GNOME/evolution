@@ -73,6 +73,8 @@ Mail:
 
 Addressbook:
 
+  - Fixed crashing bug on PPC.  (Clahey)
+
   - Updated to work with both OpenLDAP 1 and OpenLDAP 2.  (Toshok)
 
   - Added configuration dialog for LDAP.  (Toshok)
