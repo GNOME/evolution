@@ -1,5 +1,11 @@
 2001-02-08  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-callbacks.c (mail_generate_reply): New location for this
+	function.
+
+	* mail-format.c: Removed mail_generate_reply as it's ONLY ever
+	used in mail-callbacks.c.
+
 	* mail-ops.c (fetch_mail_fetch): Reworked some keep-mail-on-server
 	logic so that we ALWAYS look for a cached array of UIDs that we
 	may have downloaded previously so as not to download them again

@@ -55,9 +55,6 @@ MailMimeHandler *mail_lookup_handler (const char *mime_type);
 
 gboolean mail_part_is_inline (CamelMimePart *part);
 
-EMsgComposer *mail_generate_reply (CamelMimeMessage *mime_message,
-				   gboolean to_all);
-
 char *mail_get_message_body (CamelDataWrapper *data, gboolean want_plain,
 			     gboolean *is_html);
 

@@ -94,10 +94,8 @@ configure_mail (FolderBrowser *fb)
 		gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
 		gtk_widget_grab_focus (GTK_WIDGET (GNOME_DIALOG (dialog)->buttons->data));
 		
-		gnome_dialog_set_parent (
-			GNOME_DIALOG (dialog),
-			GTK_WINDOW (gtk_widget_get_ancestor (
-				GTK_WIDGET (fb), GTK_TYPE_WINDOW)));
+		gnome_dialog_set_parent (GNOME_DIALOG (dialog),
+					 GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (fb), GTK_TYPE_WINDOW)));
 		
 		switch (gnome_dialog_run_and_close (GNOME_DIALOG (dialog))) {
 		case 0:
@@ -262,17 +260,18 @@ static void
 composer_sent_cb(char *uri, CamelMimeMessage *message, gboolean sent, void *data)
 {
 	struct _send_data *send = data;
-
+	
 	if (sent) {
 		if (send->psd) {
-			camel_folder_set_message_flags(send->psd->folder, send->psd->uid, send->psd->flags, send->psd->flags);
+			camel_folder_set_message_flags (send->psd->folder, send->psd->uid,
+							send->psd->flags, send->psd->flags);
 		}
-		gtk_widget_destroy((GtkWidget *)send->composer);
+		gtk_widget_destroy (GTK_WIDGET (send->composer));
 	} else {
-		gtk_widget_show((GtkWidget *)send->composer);
-		gtk_object_unref((GtkObject *)send->composer);
+		gtk_widget_show (GTK_WIDGET (send->composer));
+		gtk_object_unref (GTK_OBJECT (send->composer));
 	}
-	g_free(send);
+	g_free (send);
 }
 
 void
@@ -296,7 +295,7 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	}
 	
 	/* Use the preferred account */
-        account = e_msg_composer_get_preferred_account (composer);
+	account = e_msg_composer_get_preferred_account (composer);
 	if (!account)
 		account = mail_config_get_default_account ();
 	
@@ -329,11 +328,11 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 		}
 	}
 	
-	send = g_malloc(sizeof(*send));
+	send = g_malloc (sizeof (*send));
 	send->psd = psd;
 	send->composer = composer;
-	gtk_object_ref((GtkObject *)composer);
-	gtk_widget_hide((GtkWidget *)composer);
+	gtk_object_ref (GTK_OBJECT (composer));
+	gtk_widget_hide (GTK_WIDGET (composer));
 	mail_send_mail (account->transport->url, message, composer_sent_cb, send);
 }
 
@@ -369,7 +368,7 @@ composer_postpone_cb (EMsgComposer *composer, gpointer data)
 	mail_do_append_mail (outbox_folder, message, NULL);
 	
 	if (psd)
-		camel_folder_set_message_flags(psd->folder, psd->uid, psd->flags, psd->flags);
+		camel_folder_set_message_flags (psd->folder, psd->uid, psd->flags, psd->flags);
 	
 	gtk_widget_destroy (GTK_WIDGET (composer));
 }
@@ -441,6 +440,132 @@ send_to_url (const char *url)
 	gtk_widget_show (composer);
 }	
 
+static GList *
+list_add_addresses (GList *list, const CamelInternetAddress *cia, const char *notme)
+{
+	int i;
+	const char *name, *addr;
+	char *full;
+	
+	for (i = 0; camel_internet_address_get (cia, i, &name, &addr); i++) {
+		/* now, we format this, as if for display, but does the composer
+		   then use it as a real address?  If so, very broken. */
+		/* we should probably pass around CamelAddresse's if thats what
+		   we mean */
+		full = camel_internet_address_format_address (name, addr);
+		
+		/* Here I'll check to see if the cc:'d address is the address
+		   of the sender, and if so, don't add it to the cc: list; this
+		   is to fix Bugzilla bug #455. */
+		
+		if (notme && strcmp (addr, notme) == 0)
+			g_free (full);
+		else
+			list = g_list_append (list, full);
+	}
+	
+	return list;
+}
+
+static void
+free_recipients (GList *list)
+{
+	GList *l;
+	
+	for (l = list; l; l = l->next)
+		g_free (l->data);
+	g_list_free (list);
+}
+
+static EMsgComposer *
+mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
+{
+	char *text, *subject, *date_str;
+	EMsgComposer *composer;
+	const char *message_id, *references;
+	const char *name = NULL, *address = NULL;
+	GList *to = NULL, *cc = NULL;
+	const MailConfigIdentity *id;
+	gchar *sig_file = NULL;
+	const CamelInternetAddress *reply_to, *sender;
+	time_t date;
+	int offset;
+	
+	id = mail_config_get_default_identity ();
+	if (id)
+	      sig_file = id->signature;
+	
+	composer = e_msg_composer_new_with_sig_file (sig_file, mail_config_get_send_html ());
+	if (!composer)
+		return NULL;
+	
+	/* FIXME: should probably use a shorter date string */
+	sender = camel_mime_message_get_from (message);
+	camel_internet_address_get (sender, 0, &name, &address);
+	date = camel_mime_message_get_date (message, &offset);
+	date_str = header_format_date (date, offset);
+	text = mail_tool_quote_message (message, _("On %s, %s wrote:\n"), date_str, name && *name ? name : address);
+	g_free (date_str);
+	
+	if (text) {
+		e_msg_composer_set_body_text (composer, text);
+		g_free (text);
+		e_msg_composer_mark_text_orig (composer);
+	}
+	
+	/* Set the recipients */
+	reply_to = camel_mime_message_get_reply_to (message);
+	if (!reply_to)
+		reply_to = camel_mime_message_get_from (message);
+	if (reply_to)
+		to = g_list_append (to, camel_address_format (CAMEL_ADDRESS (reply_to)));
+	
+	if (to_all) {
+		cc = list_add_addresses (cc,
+					 camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO),
+					 id->address);
+		cc = list_add_addresses (cc,
+					 camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC),
+					 id->address);
+		
+	}
+	
+	/* Set the subject of the new message. */
+	subject = (char *)camel_mime_message_get_subject (message);
+	if (!subject)
+		subject = g_strdup ("");
+	else {
+		if (!g_strncasecmp (subject, "Re: ", 4))
+			subject = g_strdup (subject);
+		else
+			subject = g_strdup_printf ("Re: %s", subject);
+	}
+	
+	e_msg_composer_set_headers (composer, to, cc, NULL, subject);
+	free_recipients (to);
+	free_recipients (cc);
+	g_free (subject);
+	
+	/* Add In-Reply-To and References. */
+	message_id = camel_medium_get_header (CAMEL_MEDIUM (message),
+					      "Message-Id");
+	references = camel_medium_get_header (CAMEL_MEDIUM (message),
+					      "References");
+	if (message_id) {
+		e_msg_composer_add_header (composer, "In-Reply-To", message_id);
+		if (references) {
+			char *reply_refs;
+			reply_refs = g_strdup_printf ("%s %s", references, message_id);
+			e_msg_composer_add_header (composer, "References", reply_refs);
+			g_free (reply_refs);
+		}
+	} else if (references) {
+		e_msg_composer_add_header (composer, "References", references);
+	}
+	
+	return composer;
+}
+
 void
 mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, gboolean to_all)
 {
@@ -479,9 +604,9 @@ reply_to_sender (GtkWidget *widget, gpointer user_data)
 	
 	if (!check_send_configuration (fb))
 		return;
-
+	
 	mail_reply (fb->folder, fb->mail_display->current_message, 
-	       fb->message_list->cursor_uid, FALSE);
+		    fb->message_list->cursor_uid, FALSE);
 }
 
 void
