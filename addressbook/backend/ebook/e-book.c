@@ -414,6 +414,8 @@ e_book_get_card (EBook       *book,
 
 	card = e_card_new (vcard);
 	g_free(vcard);
+	
+	e_card_set_id(card, id);
 
 	return card;
 }

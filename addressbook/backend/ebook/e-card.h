@@ -28,6 +28,7 @@ typedef struct _ECardClass ECardClass;
 
 struct _ECard {
 	GtkObject object;
+	char *id;
 
 	char            *fname;         /* The full name.                   */
 	ECardName       *name;          /* The structured name.             */
@@ -85,6 +86,7 @@ struct _ECardClass {
 
 ECard         *e_card_new (char *vcard);
 char          *e_card_get_id (ECard *card);
+void           e_card_set_id (ECard *card, gchar *character);
 char          *e_card_get_vcard (ECard *card);
 
 /* Standard Gtk function */

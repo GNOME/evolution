@@ -123,9 +123,18 @@ ECard         *e_card_new (char *vcard)
 	return card;
 }
 
-char          *e_card_get_id (ECard *card)
+char *
+e_card_get_id (ECard *card)
 {
-	return NULL;
+	return card->id;
+}
+
+void
+e_card_set_id (ECard *card, char *id)
+{
+	if ( card->id )
+		g_free(card->id);
+	card->id = g_strdup(id);
 }
 
 char          *e_card_get_vcard (ECard *card)
@@ -478,16 +487,21 @@ static void
 e_card_destroy (GtkObject *object)
 {
 	ECard *card = E_CARD(object);
+	if ( card->id )
+		g_free(card->id);
 	if ( card->fname )
 		g_free(card->fname);
 	if ( card->name )
 		e_card_name_free(card->name);
 	if ( card->bday )
 		g_free(card->bday);
+
 	g_list_foreach(card->email, (GFunc)g_free, NULL);
 	g_list_free(card->email);
+
 	g_list_foreach(card->phone, (GFunc)e_card_phone_free, NULL);
 	g_list_free(card->phone);
+
 	g_list_foreach(card->address, (GFunc)e_card_delivery_address_free, NULL);
 	g_list_free(card->address);
 }
@@ -580,6 +594,7 @@ e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 static void
 e_card_init (ECard *card)
 {
+	card->id = g_strdup("");
 
 	card->fname = NULL;
 	card->name = NULL;
