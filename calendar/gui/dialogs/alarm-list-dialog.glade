@@ -4,7 +4,6 @@
 <glade-interface>
 
 <widget class="GtkDialog" id="alarm-list-dialog">
-  <property name="visible">False</property>
   <property name="title" translatable="yes">Alarms</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_CENTER_ON_PARENT</property>
@@ -18,7 +17,7 @@
   <property name="skip_pager_hint">False</property>
   <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
   <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
-  <property name="has_separator">True</property>
+  <property name="has_separator">False</property>
 
   <child internal-child="vbox">
     <widget class="GtkVBox" id="dialog-vbox1">
@@ -67,10 +66,10 @@
 
       <child>
 	<widget class="GtkVBox" id="vbox53">
-	  <property name="border_width">6</property>
+	  <property name="border_width">12</property>
 	  <property name="visible">True</property>
 	  <property name="homogeneous">False</property>
-	  <property name="spacing">6</property>
+	  <property name="spacing">12</property>
 
 	  <child>
 	    <widget class="GtkHBox" id="hbox55">
