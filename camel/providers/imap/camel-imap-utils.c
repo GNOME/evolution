@@ -629,6 +629,7 @@ imap_parse_body (char **body_p, CamelFolder *folder,
 			skip_char (&body, ' ');
 			if (body)
 				strtoul (body, &body, 10);
+			child->parent = ci;
 		} else if (header_content_type_is (type, "text", "*")) {
 			if (body)
 				strtoul (body, &body, 10);

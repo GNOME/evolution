@@ -44,10 +44,10 @@ typedef struct _CamelFolderSummaryClass CamelFolderSummaryClass;
    describe the content structure of the message (if it has any) */
 struct _CamelMessageContentInfo {
 	struct _CamelMessageContentInfo *next;
-
+	
 	struct _CamelMessageContentInfo *childs;
 	struct _CamelMessageContentInfo *parent;
-
+	
 	struct _header_content_type *type;
 	char *id;
 	char *description;
@@ -332,6 +332,13 @@ void camel_message_info_set_string(CamelMessageInfo *mi, int type, char *str);
 #define camel_message_info_set_uid(x, s) (g_free(((CamelMessageInfo *)(x))->uid),((CamelMessageInfo *)(x))->uid = (s))
 #define camel_message_info_set_mlist(x, s) (g_free(((CamelMessageInfo *)(x))->mlist),((CamelMessageInfo *)(x))->mlist = (s))
 #endif
+
+
+/* debugging functions */
+
+void camel_content_info_dump (CamelMessageContentInfo *ci, int depth);
+
+void camel_message_info_dump (CamelMessageInfo *mi);
 
 #ifdef __cplusplus
 }

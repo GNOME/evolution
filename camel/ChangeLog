@@ -1,3 +1,19 @@
+2002-05-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fixes bug #24136.
+
+	* providers/imap/camel-imap-folder.c (content_info_get_part_spec):
+	New function to take a CamelMessageContentInfo and generate a
+	part-specification string.
+	(get_content): Stop passing around part_spec strings and use
+	content_info_get_part_spec instead.
+
+	* camel-folder-summary.c (camel_content_info_dump): Made this into
+	a public debugging function.
+
+	* providers/imap/camel-imap-utils.c (imap_parse_body): Make sure
+	to set the parent of any message/rfc822 subparts.
+
 2002-05-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (imap_get_message): Previous

@@ -65,6 +65,8 @@
 #include "string-utils.h"
 
 
+#define d(x) x
+
 /* set to -1 for infinite size */
 #define UID_SET_LIMIT  (4096)
 
@@ -1477,22 +1479,98 @@ static CamelMimeMessage *get_message (CamelImapFolder *imap_folder,
 				      CamelMessageContentInfo *ci,
 				      CamelException *ex);
 
+struct _part_spec_stack {
+	struct _part_spec_stack *parent;
+	int part;
+};
+
+static void
+part_spec_push (struct _part_spec_stack **stack, int part)
+{
+	struct _part_spec_stack *node;
+	
+	printf ("pushing %d\n", part);
+	
+	node = g_new (struct _part_spec_stack, 1);
+	node->parent = *stack;
+	node->part = part;
+	
+	*stack = node;
+}
+
+static int
+part_spec_pop (struct _part_spec_stack **stack)
+{
+	struct _part_spec_stack *node;
+	int part;
+	
+	g_return_val_if_fail (*stack != NULL, 0);
+	
+	node = *stack;
+	*stack = node->parent;
+	
+	part = node->part;
+	g_free (node);
+	
+	return part;
+}
+
+static char *
+content_info_get_part_spec (CamelMessageContentInfo *ci)
+{
+	struct _part_spec_stack *stack = NULL;
+	CamelMessageContentInfo *node;
+	char *part_spec, *buf;
+	size_t len = 1;
+	int part;
+	
+	node = ci;
+	while (node->parent) {
+		CamelMessageContentInfo *child;
+		
+		child = node->parent->childs;
+		for (part = 1; child; part++) {
+			if (child == node)
+				break;
+			
+			child = child->next;
+		}
+		
+		len += (part / 10) + 2;
+		part_spec_push (&stack, part);
+		
+		node = node->parent;
+	}
+	
+	buf = part_spec = g_malloc (len);
+	part_spec[0] = '\0';
+	
+	while (stack) {
+		part = part_spec_pop (&stack);
+		buf += sprintf (buf, "%d%s", part, stack ? "." : "");
+	}
+	
+	return part_spec;
+}
+
 /* Fetch the contents of the MIME part indicated by @ci, which is part
  * of message @uid in @folder.
  */
 static CamelDataWrapper *
 get_content (CamelImapFolder *imap_folder, const char *uid,
-	     const char *part_spec, CamelMimePart *part,
-	     CamelMessageContentInfo *ci, CamelException *ex)
+	     CamelMimePart *part, CamelMessageContentInfo *ci,
+	     CamelException *ex)
 {
 	CamelDataWrapper *content = NULL;
 	CamelStream *stream;
-	char *child_spec;
+	char *part_spec;
+	
+	part_spec = content_info_get_part_spec (ci);
 	
 	/* There are three cases: multipart, message/rfc822, and "other" */
-	
 	if (header_content_type_is (ci->type, "multipart", "*")) {
 		CamelMultipart *body_mp;
+		char *child_spec;
 		int speclen, num;
 		
 		body_mp = camel_multipart_new ();
@@ -1502,10 +1580,11 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 		camel_multipart_set_boundary (body_mp, NULL);
 		
 		speclen = strlen (part_spec);
-		child_spec = g_malloc (speclen + 15);
+		child_spec = g_malloc (speclen + 16);
 		memcpy (child_spec, part_spec, speclen);
 		if (speclen > 0)
 			child_spec[speclen++] = '.';
+		g_free (part_spec);
 		
 		ci = ci->childs;
 		num = 1;
@@ -1525,8 +1604,7 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 					return NULL;
 				}
 				
-				*(strchr (child_spec + speclen, '.')) = '\0';
-				content = get_content (imap_folder, uid, child_spec, part, ci, ex);
+				content = get_content (imap_folder, uid, part, ci, ex);
 			}
 			if (!stream || !content) {
 				g_free (child_spec);
@@ -1545,16 +1623,12 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 		
 		return (CamelDataWrapper *)body_mp;
 	} else if (header_content_type_is (ci->type, "message", "rfc822")) {
-		return (CamelDataWrapper *)
-			get_message (imap_folder, uid, part_spec, ci->childs, ex);
+		content = (CamelDataWrapper *) get_message (imap_folder, uid, part_spec, ci->childs, ex);
+		g_free (part_spec);
+		return content;
 	} else {
-		if (!ci->parent || header_content_type_is (ci->parent->type, "message", "rfc822"))
-			child_spec = g_strdup_printf ("%s%s1", part_spec, *part_spec ? "." : "");
-		else
-			child_spec = g_strdup (part_spec);
-		
-		content = camel_imap_wrapper_new (imap_folder, ci->type, uid, child_spec, part);
-		g_free (child_spec);
+		content = camel_imap_wrapper_new (imap_folder, ci->type, uid, part_spec, part);
+		g_free (part_spec);
 		return content;
 	}
 }
@@ -1586,7 +1660,7 @@ get_message (CamelImapFolder *imap_folder, const char *uid,
 		return NULL;
 	}
 	
-	content = get_content (imap_folder, uid, part_spec, CAMEL_MIME_PART (msg), ci, ex);
+	content = get_content (imap_folder, uid, CAMEL_MIME_PART (msg), ci, ex);
 	if (!content) {
 		camel_object_unref (CAMEL_OBJECT (msg));
 		return NULL;
@@ -1701,6 +1775,8 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 			g_datalist_clear (&fetch_data);
 		
 		camel_imap_response_free (store, response);
+		
+		d(camel_content_info_dump (mi->content, 0));
 		
 		if (!mi->content->type) {
 			/* FETCH returned OK, but we didn't parse a BODY

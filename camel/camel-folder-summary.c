@@ -2702,34 +2702,35 @@ camel_message_info_set_string (CamelMessageInfo *mi, int type, char *str)
 }
 #endif
 
-#if 0
-static void
-content_info_dump(CamelMessageContentInfo *ci, int depth)
+
+void
+camel_content_info_dump (CamelMessageContentInfo *ci, int depth)
 {
 	char *p;
-
-	p = alloca(depth*4+1);
-	memset(p, ' ', depth*4);
-	p[depth*4] = 0;
-
+	
+	p = alloca (depth * 4 + 1);
+	memset (p, ' ', depth * 4);
+	p[depth * 4] = 0;
+	
 	if (ci == NULL) {
-		printf("%s<empty>\n", p);
+		printf ("%s<empty>\n", p);
 		return;
 	}
-
-	printf("%scontent-type: %s/%s\n", p, ci->type->type, ci->type->subtype);
-	printf("%scontent-transfer-encoding: %s\n", p, ci->encoding);
-	printf("%scontent-description: %s\n", p, ci->description);
-	printf("%ssize: %lu\n", p, (unsigned long)ci->size);
+	
+	printf ("%scontent-type: %s/%s\n", p, ci->type->type ? ci->type->type : "(null)",
+	       ci->type->subtype ? ci->type->subtype : "(null)");
+	printf ("%scontent-transfer-encoding: %s\n", p, ci->encoding ? ci->encoding : "(null)");
+	printf ("%scontent-description: %s\n", p, ci->description ? ci->description : "(null)");
+	printf ("%ssize: %lu\n", p, (unsigned long) ci->size);
 	ci = ci->childs;
 	while (ci) {
-		content_info_dump(ci, depth+1);
+		camel_content_info_dump (ci, depth + 1);
 		ci = ci->next;
 	}
 }
 
 void
-message_info_dump(CamelMessageInfo *mi)
+camel_message_info_dump (CamelMessageInfo *mi)
 {
 	if (mi == NULL) {
 		printf("No message?\n");
@@ -2743,6 +2744,5 @@ message_info_dump(CamelMessageInfo *mi)
 	printf("From: %s\n", camel_message_info_from(mi));
 	printf("UID: %s\n", camel_message_info_uid(mi));
 	printf("Flags: %04x\n", mi->flags & 0xffff);
-	content_info_dump(mi->content, 0);
+	camel_content_info_dump(mi->content, 0);
 }
-#endif
