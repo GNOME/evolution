@@ -290,6 +290,8 @@ main (int argc, char **argv)
 		exit (EXIT_FAILURE);
 	}
 
+	g_print ("Wombat up and running\n");
+
 	bonobo_main ();
 
 	bonobo_object_unref (BONOBO_OBJECT (cal_factory));

@@ -1,3 +1,7 @@
+2002-07-25  Chris Toshok  <toshok@ximian.com>
+
+	* wombat.c (main): add a silly "up and running" message.
+
 2002-07-22  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (wombat_LDADD): Include libpcsfile.a, libpasfile.a
