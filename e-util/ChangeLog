@@ -1,3 +1,8 @@
+2000-09-11  Dan Winship  <danw@helixcode.com>
+
+	* e-util.c (e_strstrcase): The return value should not be
+	const. (Well, unless the input was, but you can't know that.)
+
 2000-09-11  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-unicode.c, e-unicode.h: Added e_utf8_gtk_editable_get_text and

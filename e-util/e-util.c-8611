@@ -450,7 +450,7 @@ e_strsplit (const gchar *string,
   return str_array;
 }
 
-const gchar *
+gchar *
 e_strstrcase (const gchar *haystack, const gchar *needle)
 {
 	/* find the needle in the haystack neglecting case */
