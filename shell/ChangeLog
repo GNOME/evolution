@@ -1,3 +1,14 @@
+2003-04-22  Anna Marie Dirks  <anna@ximian.com>
+
+       * e-shell-settings-dialog.c (init): Add appropriate padding 
+	to the Evolution Settings window. This is another bit of the 
+	fix for #41392.
+
+       * e-corba-config-page.c (e_corba_config_page_construct): Add 
+	appropriate padding to the corba_config_page widget. Partial 
+	fix for #41392.
+
+
 2003-04-23  Anna Marie Dirks  <anna@ximian.com>
 
 	*glade/e-folder-list.glade : replaced buttons with stock 

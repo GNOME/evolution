@@ -231,6 +231,7 @@ e_corba_config_page_construct (ECorbaConfigPage *corba_config_page,
 	control_widget = bonobo_widget_new_control_from_objref (control, CORBA_OBJECT_NIL);
 	gtk_widget_show (control_widget);
 	gtk_container_add (GTK_CONTAINER (corba_config_page), control_widget);
+	gtk_container_set_border_width (GTK_CONTAINER (corba_config_page), 6); 
 
 	setup_listener (corba_config_page, corba_object);
 

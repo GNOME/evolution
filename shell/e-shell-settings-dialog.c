@@ -341,7 +341,8 @@ init (EShellSettingsDialog *dialog)
 	dialog->priv = priv;
 
 	load_pages (dialog);
-
+	
+	gtk_container_set_border_width (GTK_CONTAINER (dialog), 6); 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Evolution Settings"));
 }
 
