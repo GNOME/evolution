@@ -338,7 +338,7 @@ comp_editor_create_contacts_control (GNOME_Evolution_Addressbook_SelectNames cor
 }
 
 
-Bonobo_EventSource_ListenerId
+void
 comp_editor_connect_contacts_changed (GtkWidget *contacts_entry,
 				      BonoboListenerCallbackFn changed_cb,
 				      gpointer changed_cb_data)
@@ -349,7 +349,7 @@ comp_editor_connect_contacts_changed (GtkWidget *contacts_entry,
 	cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (contacts_entry));
 	pb = bonobo_control_frame_get_control_property_bag (cf, NULL);
 
-	return bonobo_event_source_client_add_listener (
+	bonobo_event_source_client_add_listener (
 		pb, changed_cb,
 		"Bonobo/Property:change:entry_changed",
 		NULL, changed_cb_data);

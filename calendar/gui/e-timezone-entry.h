@@ -33,10 +33,9 @@
 #define __E_TIMEZONE_ENTRY_H_ 
 
 #include <gtk/gtkhbox.h>
-#include <libgnome/gnome-defs.h>
 #include <cal-client/cal-client.h>
  
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 
 #define E_TYPE_TIMEZONE_ENTRY            (e_timezone_entry_get_type ())
@@ -76,6 +75,6 @@ void		e_timezone_entry_set_timezone	(ETimezoneEntry	*tentry,
 void	   e_timezone_entry_set_default_timezone(ETimezoneEntry	*tentry,
 						 icaltimezone	*zone);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* __E_TIMEZONE_ENTRY_H_ */

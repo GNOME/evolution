@@ -1,3 +1,16 @@
+2002-11-06  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/dialogs/comp-editor-util.[ch]
+	(comp_editor_connect_contacts_changed): don't return a
+	Bonobo_EventSource_ListenerId, since it does not exist anymore,
+	and was not even being used.
+
+	* gui/e-timezone-entry.h: use GLib macros.
+
+	* gui/dialogs/*.glade:
+	* gui/alarm-notify/*.glade:
+	* gui/*.glade: converted to Glade2 format.
+
 2002-11-05  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/dialogs/alarm-options.c (alarm_options_dialog_run): adapted to
