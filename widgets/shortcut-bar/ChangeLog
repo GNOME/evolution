@@ -1,5 +1,9 @@
 2000-04-15  Miguel de Icaza  <miguel@gnu.org>
 
+	* e-group-bar.c (e_group_bar_realize): Do not use the parent
+	thingie, because it might be like anything.  And anything can be
+	like any visual, and we dont like want any visual here.
+
 	* e-shortcut-bar.c
 	(e_shortcut_bar_add_group): Apply some loving action when it comes
 	to visuals and colormaps.  Yes, we got one of those machines

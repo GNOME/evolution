@@ -259,7 +259,7 @@ e_group_bar_realize (GtkWidget *widget)
 	gtk_style_set_background (widget->style, widget->window,
 				  GTK_STATE_NORMAL);
 
-	gdk_window_set_back_pixmap (widget->window, NULL, TRUE);
+	gdk_window_set_back_pixmap (widget->window, NULL, FALSE);
 
 	/* Create windows for all the buttons & group canvases. */
 	for (group_num = 0;
