@@ -1,5 +1,23 @@
 2004-01-08  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/alarm-notify/alarm-queue.c (display_notification): store
+	the ECal's associated ECalView, and connect to its "objects_removed"
+	signal.
+	(notifiy_dialog_cb): disconnect signals from the ECalView, not the
+	ECal.
+	(on_dialog_objs_removed_cb): adapted to respond to "objects_removed"
+	signal on ECalView. Made it destroy the tray bar icon also.
+	(add_popup_menu_item): new function to create the popup items.
+	(tray_icon_clicked_cb): remove connection to obsolete signal, and
+	made it popup a menu on right-click.
+	(popup_open_cb, popup_dismiss_cb, popup_dismiss_all_cb): callbacks
+	for popup menu.
+
+	* gui/gnome-cal.c (connect_week_view_focus): don't access the
+	widget's private fields if NULL.
+
+2004-01-08  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/dialogs/comp-editor.c (save_comp): moved the line that sets
 	priv->updating to FALSE up some lines, to avoid getting callbacks
 	with an incorrect value on it.

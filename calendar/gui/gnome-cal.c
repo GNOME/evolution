@@ -803,6 +803,9 @@ connect_day_view_focus (GnomeCalendar *gcal, EDayView *dv)
 static void
 connect_week_view_focus (GnomeCalendar *gcal, EWeekView *wv)
 {
+	if (!E_IS_WEEK_VIEW (wv))
+		return;
+
 	g_signal_connect (wv->main_canvas, "focus_in_event",
 			  G_CALLBACK (calendar_focus_change_cb), gcal);
 	g_signal_connect (wv->main_canvas, "focus_out_event",

@@ -31,6 +31,7 @@
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkeventbox.h>
 #include <gtk/gtkimage.h>
+#include <gtk/gtkimagemenuitem.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtkstock.h>
@@ -714,24 +715,36 @@ typedef struct {
 	gpointer alarm_id;
 	ECalComponent *comp;
 	ECal *client;
+	ECalView *query;
 	GtkWidget *tray_icon;
 	GtkWidget *image;
 	GtkWidget *alarm_dialog;
 } TrayIconData;
 
 static void
-on_dialog_obj_removed_cb (ECal *client, const char *uid, gpointer data)
+on_dialog_objs_removed_cb (ECal *client, GList *objects, gpointer data)
 {
 	const char *our_uid;
+	GList *l;
 	TrayIconData *tray_data = data;
 
 	e_cal_component_get_uid (tray_data->comp, &our_uid);
 	g_return_if_fail (our_uid && *our_uid);
 
-	if (!strcmp (uid, our_uid)) {
-		alarm_notify_dialog_disable_buttons (tray_data->alarm_dialog);
-		tray_data->cqa = NULL;
-		tray_data->alarm_id = NULL;
+	for (l = objects; l != NULL; l = l->next) {
+		const char *uid = l->data;
+
+		if (!uid)
+			continue;
+
+		if (!strcmp (uid, our_uid)) {
+			if (tray_data->alarm_dialog)
+				alarm_notify_dialog_disable_buttons (tray_data->alarm_dialog);
+			tray_data->cqa = NULL;
+			tray_data->alarm_id = NULL;
+
+			gtk_widget_destroy (tray_data->tray_icon);
+		}
 	}
 }
 
@@ -741,8 +754,8 @@ notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
 {
 	TrayIconData *tray_data = data;
 
-	g_signal_handlers_disconnect_matched (tray_data->client, G_SIGNAL_MATCH_FUNC,
-					      0, 0, NULL, on_dialog_obj_removed_cb, NULL);
+	g_signal_handlers_disconnect_matched (tray_data->query, G_SIGNAL_MATCH_FUNC,
+					      0, 0, NULL, on_dialog_objs_removed_cb, NULL);
 
 	switch (result) {
 	case ALARM_NOTIFY_SNOOZE:
@@ -788,6 +801,76 @@ tray_icon_destroyed_cb (GtkWidget *tray, gpointer user_data)
 	return TRUE;
 }
 
+/* Callbacks.  */
+static void
+add_popup_menu_item (GtkMenu *menu, const char *label, const char *pixmap,
+		     GCallback callback, gpointer user_data)
+{
+	GtkWidget *item, *image;
+
+	if (pixmap) {
+		item = gtk_image_menu_item_new_with_label (label);
+
+		/* load the image */
+		if (g_file_test (pixmap, G_FILE_TEST_EXISTS))
+			image = gtk_image_new_from_file (pixmap);
+		else
+			image = gtk_image_new_from_stock (pixmap, GTK_ICON_SIZE_MENU);
+
+		if (image) {
+			gtk_widget_show (image);
+			gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item), image);
+		}
+	} else {
+		item = gtk_menu_item_new_with_label (label);
+	}
+
+	if (callback)
+		g_signal_connect (G_OBJECT (item), "activate", callback, user_data);
+
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	gtk_widget_show (item);
+}
+
+static gboolean
+open_alarm_dialog (TrayIconData *tray_data)
+{
+	QueuedAlarm *qa;
+
+	if (tray_data->alarm_dialog != NULL)
+		return FALSE;
+
+	qa = lookup_queued_alarm (tray_data->cqa, tray_data->alarm_id);
+	if (qa) {
+		gtk_widget_hide (tray_data->tray_icon);
+		tray_data->alarm_dialog = alarm_notify_dialog (
+			tray_data->trigger,
+			qa->instance->occur_start,
+			qa->instance->occur_end,
+			e_cal_component_get_vtype (tray_data->comp),
+			tray_data->message,
+			notify_dialog_cb, tray_data);
+	}
+
+	return TRUE;
+}
+
+static void
+popup_dismiss_cb (GtkWidget *widget, TrayIconData *tray_data)
+{
+}
+
+static void
+popup_dismiss_all_cb (GtkWidget *widget, TrayIconData *tray_data)
+{
+}
+
+static void
+popup_open_cb (GtkWidget *widget, TrayIconData *tray_data)
+{
+	open_alarm_dialog (tray_data);
+}
+
 static gint
 tray_icon_clicked_cb (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
 {
@@ -795,29 +878,20 @@ tray_icon_clicked_cb (GtkWidget *widget, GdkEventButton *event, gpointer user_da
 
 	if (event->type == GDK_BUTTON_PRESS) {
 		if (event->button == 1) {
-			QueuedAlarm *qa;
+			return open_alarm_dialog (tray_data);
+		} else if (event->button == 3) {
+			GtkWidget *menu;
 
-			if (tray_data->alarm_dialog != NULL)
-				return FALSE;
+			/* display popup menu */
+			menu = gtk_menu_new ();
+			add_popup_menu_item (GTK_MENU (menu), _("_Open"), GTK_STOCK_OPEN,
+					     G_CALLBACK (popup_open_cb), tray_data);
+			add_popup_menu_item (GTK_MENU (menu), _("_Dismiss"), NULL,
+					     G_CALLBACK (popup_dismiss_cb), tray_data);
+			add_popup_menu_item (GTK_MENU (menu), _("Dismiss _All"), NULL,
+					     G_CALLBACK (popup_dismiss_all_cb), tray_data);
+			gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, event->button, event->time);
 
-			qa = lookup_queued_alarm (tray_data->cqa, tray_data->alarm_id);
-			if (qa) {
-				gtk_widget_hide (tray_data->tray_icon);
-				tray_data->alarm_dialog = alarm_notify_dialog (
-					tray_data->trigger,
-					qa->instance->occur_start,
-					qa->instance->occur_end,
-					e_cal_component_get_vtype (tray_data->comp),
-					tray_data->message,
-					notify_dialog_cb, tray_data);
-				if (tray_data->alarm_dialog) {
-					g_signal_connect (G_OBJECT (tray_data->client), "obj_removed",
-							  G_CALLBACK (on_dialog_obj_removed_cb), tray_data);
-				}
-			}
-
-			return TRUE;
-		} else if (event->button == 2) {
 			return TRUE;
 		}
 	}
@@ -919,6 +993,7 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	tray_data->alarm_id = alarm_id;
 	tray_data->comp = e_cal_component_clone (comp);
 	tray_data->client = cqa->parent_client->client;
+	tray_data->query = cqa->parent_client->query;
 	tray_data->image = image;
 	tray_data->blink_state = FALSE;
 	g_object_ref (tray_data->client);
@@ -928,6 +1003,8 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 			  G_CALLBACK (tray_icon_destroyed_cb), tray_data);
 	g_signal_connect (G_OBJECT (ebox), "button_press_event",
 			  G_CALLBACK (tray_icon_clicked_cb), tray_data);
+	g_signal_connect (G_OBJECT (tray_data->query), "objects_removed",
+			  G_CALLBACK (on_dialog_objs_removed_cb), tray_data);
 
 	tray_data->blink_id = g_timeout_add (500, tray_icon_blink_cb, tray_data);
 
