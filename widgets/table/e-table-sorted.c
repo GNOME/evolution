@@ -230,7 +230,7 @@ ets_proxy_model_rows_deleted (ETableSubset *etss, ETableModel *source, int row, 
 	gboolean shift;
 	int j;
 
-	shift = row == etss->n_map - 1;
+	shift = row == etss->n_map - count;
 	
 	for (j = 0; j < count; j++) {
 		for (i = 0; i < etss->n_map; i++){
