@@ -60,7 +60,7 @@ AC_MSG_ERROR(gnome-libs 1.0.59 or higher is required.)])
 CFLAGS=$CFLAGS_save
 LIBS=$LIBS_save
 
-ALL_LINGUAS="da el fr gl ja nl no ru sv tr uk"
+ALL_LINGUAS="da el fr gl ja ko nl no ru sv tr uk"
 
 AM_GNOME_GETTEXT
 
