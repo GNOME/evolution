@@ -27,6 +27,7 @@ SUBDIRS =			\
         e-util                  \
 	libical			\
         widgets                 \
+        shell                   \
 	calendar		\
         art                     \
 	ui			\

@@ -1,3 +1,7 @@
+2002-11-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (SUBDIRS): Add shell.
+
 2002-11-04  Rodrigo Moya <rodrigo@ximian.com>
 
 	* configure.in: added calendar/idl/Makefile to AC_OUTPUT
