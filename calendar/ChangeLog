@@ -1,3 +1,22 @@
+2003-04-08  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/dialogs/alarm-options.c: Remove button_ok, button_cancel,
+	canceled members from struct Dialog.
+	(get_widgets): Do not initialize.
+	(close_dialog): Destroy the toplevel.
+	(toplevel_delete_event_cb): Removed.
+	(button_cancel_clicked_cb): Removed.
+	(button_ok_clicked_cb): Removed.
+	(close_dialog): Removed.
+	(alarm_options_dialog_run): Use gtk_dialog_run.
+	(init_widgets): Do not init ->canceled, do not connect OK/Cancel
+	buttons.
+	(alarm_to_dialog): No need to make the file entry modal from here
+	anymore.
+
+	* gui/dialogs/alarm-options.glade: Turned into a GtkDialog.  Set
+	the "modal" property to True for the file entry.
+
 2003-04-07  Hans Petter Jansson  <hpj@ximian.com>
 
 	Fixes #35926.
@@ -80,10 +99,10 @@
 	return based on the response code (not old button stuff)
 
 2003-04-04  Ettore Perazzoli  <ettore@ximian.com>
-  
-       * gui/dialogs/alarm-options.c (alarm_to_dialog): Make the file
-       entry modal.  [#40792]
 
+	* gui/dialogs/alarm-options.c (alarm_to_dialog): Make the file
+	entry modal.  [#40792]
+  
 2003-04-04  JP Rosevear  <jpr@ximian.com>
 	
 	Fixes #40789

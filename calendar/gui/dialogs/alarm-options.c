@@ -27,6 +27,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkcheckbutton.h>
+#include <gtk/gtkdialog.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkwindow.h>
 #include <gtk/gtkhbox.h>
@@ -45,18 +46,11 @@
 
 
 typedef struct {
-	/* Whether the dialog was accepted or canceled */
-	gboolean canceled;
-
 	/* Glade XML data */
 	GladeXML *xml;
 
 	/* Toplevel */
 	GtkWidget *toplevel;
-
-	/* Buttons */
-	GtkWidget *button_ok;
-	GtkWidget *button_cancel;
 
 	/* Alarm repeat widgets */
 	gboolean repeat;
@@ -102,9 +96,6 @@ get_widgets (Dialog *dialog)
 
 	dialog->toplevel = GW ("alarm-options-toplevel");
 
-	dialog->button_ok = GW ("button-ok");
-	dialog->button_cancel = GW ("button-cancel");
-
 	dialog->repeat_toggle = GW ("repeat-toggle");
 	dialog->repeat_group = GW ("repeat-group");
 	dialog->repeat_quantity = GW ("repeat-quantity");
@@ -127,8 +118,6 @@ get_widgets (Dialog *dialog)
 	dialog->palarm_args = GW ("palarm-args");
 
 	return (dialog->toplevel
-		&& dialog->button_ok
-		&& dialog->button_cancel
 		&& dialog->repeat_toggle
 		&& dialog->repeat_group
 		&& dialog->repeat_quantity
@@ -196,44 +185,6 @@ setup_select_names (Dialog *dialog)
 	return TRUE;
 }
 
-/* Closes the dialog by terminating its main loop */
-static void
-close_dialog (Dialog *dialog, gboolean canceled)
-{
-	dialog->canceled = canceled;
-	gtk_main_quit ();
-}
-
-/* Callback used when the toplevel window is deleted */
-static guint
-toplevel_delete_event_cb (GtkWidget *widget, GdkEventAny *event, gpointer data)
-{
-	Dialog *dialog;
-
-	dialog = data;
-	close_dialog (dialog, TRUE);
-	return TRUE;
-}
-
-/* Callback used when the OK button is clicked */
-static void
-button_ok_clicked_cb (GtkWidget *button, gpointer data)
-{
-	Dialog *dialog;
-
-	dialog = data;
-	close_dialog (dialog, FALSE);
-}
-
-/* Callback used when the Cancel button is clicked */
-static void
-button_cancel_clicked_cb (GtkWidget *button, gpointer data)
-{
-	Dialog *dialog;
-
-	dialog = data;
-	close_dialog (dialog, TRUE);
-}
 
 /* Callback used when the repeat toggle button is toggled.  We sensitize the
  * repeat group options as appropriate.
@@ -255,19 +206,6 @@ repeat_toggle_toggled_cb (GtkToggleButton *toggle, gpointer data)
 static void
 init_widgets (Dialog *dialog)
 {
-	/* Toplevel, buttons */
-
-	dialog->canceled = TRUE;
-
-	g_signal_connect((dialog->toplevel), "delete_event",
-			    G_CALLBACK (toplevel_delete_event_cb), dialog);
-
-	g_signal_connect((dialog->button_ok), "clicked",
-			    G_CALLBACK (button_ok_clicked_cb), dialog);
-
-	g_signal_connect((dialog->button_cancel), "clicked",
-			    G_CALLBACK (button_cancel_clicked_cb), dialog);
-
 	/* Alarm repeat */
 
 	g_signal_connect((dialog->repeat_toggle), "toggled",
@@ -468,12 +406,8 @@ static void
 alarm_to_dialog (Dialog *dialog, CalComponentAlarm *alarm)
 {
 	CalAlarmAction action;
-	GnomeFileEntry *file_entry;
 
 	alarm_to_repeat_widgets (dialog, alarm);
-
-	file_entry = glade_xml_get_widget (dialog->xml, "file-entry1");
-	gnome_file_entry_set_modal (file_entry, TRUE);
 
 	cal_component_alarm_get_action (alarm, &action);
 
@@ -783,6 +717,7 @@ gboolean
 alarm_options_dialog_run (CalComponentAlarm *alarm, const char *email, gboolean repeat)
 {
 	Dialog dialog;
+	int response_id;
 
 	g_return_val_if_fail (alarm != NULL, FALSE);
 
@@ -808,10 +743,10 @@ alarm_options_dialog_run (CalComponentAlarm *alarm, const char *email, gboolean 
 
 	alarm_to_dialog (&dialog, alarm);
 
-	gtk_widget_show (dialog.toplevel);
-	gtk_main ();
+	response_id = gtk_dialog_run (GTK_DIALOG (dialog.toplevel));
+	gtk_widget_hide (dialog.toplevel);
 
-	if (!dialog.canceled)
+	if (response_id == GTK_RESPONSE_OK)
 		dialog_to_alarm (&dialog, alarm);
 
 	gtk_widget_destroy (dialog.toplevel);
