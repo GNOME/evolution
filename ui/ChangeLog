@@ -1,3 +1,9 @@
+2001-08-18  Damon Chaplin  <damon@ximian.com>
+
+	* evolution-calendar.xml: changed goto icon from stock icon to pixbuf
+	for the toolbar. Note that the menu still uses the stock icon. Yuck!
+	Added 'New Task' command to toolbar and menus.
+
 2001-08-17  Damon Chaplin  <damon@ximian.com>
 
 	* evolution-addressbook.xml: changed print icon types to pixbuf.
