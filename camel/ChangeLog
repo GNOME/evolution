@@ -1,3 +1,15 @@
+2000-07-31  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-utils.c (imap_translate_sexp): New
+	convenience function to translate a Camel sexp into the equivalent
+	IMAP sexp.
+
+	* providers/imap/camel-imap-store.c: More places now use
+	imap_next_word
+
+	* providers/imap/camel-imap-folder.c (imap_search_by_expression):
+	Implemented initial version (this may or may not work quite right)
+
 2000-07-28  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (imap_expunge): Make sure

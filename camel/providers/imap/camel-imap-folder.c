@@ -272,7 +272,7 @@ imap_init (CamelFolder *folder, CamelStore *parent_store, CamelFolder *parent_fo
 	folder->can_hold_messages = TRUE;
 	folder->can_hold_folders = TRUE;
 	folder->has_summary_capability = TRUE;
-	folder->has_search_capability = FALSE; /* FIXME: this should be TRUE 'cept it ain't implemented yet */
+	folder->has_search_capability = TRUE; /* FIXME: this should be TRUE 'cept it ain't implemented yet */
 	
         /* some IMAP daemons support user-flags           *
 	 * I would not, however, rely on this feature as  *
@@ -351,7 +351,7 @@ imap_expunge (CamelFolder *folder, CamelException *ex)
 {
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	gchar *node, *result;
-	gint i, status;
+	gint i, status, recent = -1;
 
 	g_return_if_fail (folder != NULL);
 
@@ -428,6 +428,10 @@ imap_expunge (CamelFolder *folder, CamelException *ex)
 					/* Hopefully this should never happen */
 					d(fprintf (stderr, "imap expunge-error: message %d is out of range\n", id));
 				}
+			} else if (*word >= '0' && *word <= '9' && !strncmp ("RECENT", imap_next_word (word), 6)) {
+				recent = atoi (word);
+				if (!recent)
+					recent = -1;
 			}
 		} else {
 			break;
@@ -442,7 +446,7 @@ imap_expunge (CamelFolder *folder, CamelException *ex)
 
 	/*imap_folder_summary_free (imap_folder);*/
 	
-	camel_imap_folder_changed (folder, -1, ex);
+	camel_imap_folder_changed (folder, recent, ex);
 }
 
 static gint
@@ -1418,20 +1422,24 @@ imap_get_message_info (CamelFolder *folder, const char *uid)
 static GPtrArray *
 imap_search_by_expression (CamelFolder *folder, const char *expression, CamelException *ex)
 {
-	d(fprintf (stderr, "search expression: %s\n", expression));
-	
-	return g_ptr_array_new ();
-#if 0
 	/* NOTE: This is experimental code... */
-	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
-	char *result;
+	GPtrArray *uids = NULL;
+	char *result, *sexp;
 	int status;
 	
-	if (!imap_folder->has_search_capability)
-		return NULL;
+	d(fprintf (stderr, "camel sexp: '%s'\n", expression));
+	sexp = imap_translate_sexp (expression);
+	d(fprintf (stderr, "imap sexp: '%s'\n", sexp));
+	
+	uids = g_ptr_array_new ();
+	
+	if (!folder->has_search_capability) {
+		g_free (sexp);
+		return uids;
+	}
 	
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
-					      &result, "SEARCH %s", expression);
+					      &result, "SEARCH %s", sexp);
 	
 	if (status != CAMEL_IMAP_OK) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);
@@ -1442,11 +1450,33 @@ imap_search_by_expression (CamelFolder *folder, const char *expression, CamelExc
 				      status != CAMEL_IMAP_FAIL && result ? result :
 				      "Unknown error");
 		g_free (result);
-		return NULL;
+		g_free (sexp);
+		return uids;
 	}
 	
-	/* now to parse @result */
-#endif	
+	if (*result == '*' && !strncmp ("SEARCH", imap_next_word (result), 6)) {
+		char *word;
+		
+		word = imap_next_word (result); /* word now points to SEARCH */
+		
+		for (word = imap_next_word (word); *word && *word != '*'; word = imap_next_word (word)) {
+			gboolean word_is_numeric = TRUE;
+			char *ep;
+			
+			/* find the end of this word and make sure it's a numeric uid */
+			for (ep = word; *ep && *ep != ' ' && *ep != '\n'; ep++)
+				if (*ep < '0' || *ep > '9')
+					word_is_numeric = FALSE;
+			
+			if (word_is_numeric)
+				g_ptr_array_add (uids, g_strndup (word, (gint)(ep - word)));
+		}
+	}
+	
+	g_free (result);
+	g_free (sexp);
+	
+	return uids;
 }
 
 static guint32

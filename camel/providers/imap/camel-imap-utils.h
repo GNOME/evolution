@@ -34,6 +34,8 @@ char *imap_next_word (char *buf);
 
 gboolean imap_parse_list_response (char *buf, char *namespace, char **flags, char **sep, char **folder);
 
+char *imap_translate_sexp (const char *expression);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
