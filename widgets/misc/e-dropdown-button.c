@@ -208,7 +208,7 @@ e_dropdown_button_construct (EDropdownButton *dropdown_button,
 	gtk_widget_add_accelerator (GTK_WIDGET (dropdown_button), "clicked",
 				    priv->accel_group, accel_key, GDK_MOD1_MASK, 0);
 
-	arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_OUT);
+	arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE);
 	gtk_box_pack_start (GTK_BOX (hbox), arrow, FALSE, FALSE, 2);
 	gtk_widget_show (arrow);
 

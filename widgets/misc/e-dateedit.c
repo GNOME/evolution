@@ -339,7 +339,7 @@ create_children			(EDateEdit	*dedit)
 	gtk_box_pack_start (GTK_BOX (dedit), priv->date_button,
 			    FALSE, FALSE, 0);
 
-	arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_OUT);
+	arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE);
 	gtk_container_add (GTK_CONTAINER (priv->date_button), arrow);
 	gtk_widget_show (arrow);
 

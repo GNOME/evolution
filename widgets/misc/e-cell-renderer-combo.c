@@ -92,7 +92,7 @@ ecrc_get_size (GtkCellRenderer *cell, GtkWidget *widget, GdkRectangle *cell_area
 		GTK_CELL_RENDERER_CLASS (parent_class)->get_size (cell, widget, cell_area, x_offset, y_offset, width, height);
 
 	btn = gtk_button_new ();
-	gtk_container_add (GTK_CONTAINER (btn), gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_OUT));
+	gtk_container_add (GTK_CONTAINER (btn), gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE));
 	gtk_widget_size_request (btn, &req);
 	*width += req.width;
 	gtk_widget_destroy (btn);
