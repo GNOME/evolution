@@ -1,3 +1,10 @@
+2005-03-14  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #72979
+	* gui/e-cal-list-view.c (find_meeting),
+	(e_cal_list_view_on_table_double_click): Check whether its a
+	meeting and send appropriate boolean variable.
+
 2005-03-11  Sushma Rai  <rsushma@novell.com>
 
 	* gui/dialogs/event-page.c (event_page_show_options): Removed the check

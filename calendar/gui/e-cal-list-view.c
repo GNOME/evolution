@@ -379,16 +379,27 @@ e_cal_list_view_popup_menu (GtkWidget *widget)
 	return TRUE;
 }
 
+static gboolean 
+find_meeting (icalcomponent *icalcomp) 
+{
+	icalproperty *prop = NULL;
+
+	prop = icalcomponent_get_first_property (icalcomp, ICAL_ATTENDEE_PROPERTY);
+	
+	return prop ? TRUE: FALSE;
+}
+		
+
 static gboolean
 e_cal_list_view_on_table_double_click (GtkWidget *table, gint row, gint col, GdkEvent *event,
 				      gpointer data)
 {
 	ECalListView *cal_list_view = E_CAL_LIST_VIEW (data);
 	ECalModelComponent *comp_data;
-	
+
 	comp_data = e_cal_model_get_component_at (e_calendar_view_get_model (E_CALENDAR_VIEW (cal_list_view)), row);
 	e_calendar_view_edit_appointment (E_CALENDAR_VIEW (cal_list_view), comp_data->client,
-					  comp_data->icalcomp, FALSE);	
+					  comp_data->icalcomp, find_meeting (comp_data->icalcomp));	
 
 	return TRUE;
 }
