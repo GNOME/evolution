@@ -201,7 +201,7 @@ static char imap_atom_specials[128] = {
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
 };
-#define imap_is_atom_char(ch) (isascii (ch) && !imap_atom_specials[ch])
+#define imap_is_atom_char(ch) (isprint (ch) && !imap_atom_specials[ch])
 
 /**
  * imap_parse_string_generic:
