@@ -557,10 +557,16 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 	
 	/* Read the greeting, if any. FIXME: deal with PREAUTH */
 	if (camel_imap_store_recv_line (store, &buf, ex) < 0) {
-		camel_object_unref (CAMEL_OBJECT (store->istream));
-		camel_object_unref (CAMEL_OBJECT (store->ostream));
-		store->istream = NULL;
-		store->ostream = NULL;
+		if (store->istream) {
+			camel_object_unref (CAMEL_OBJECT (store->istream));
+			store->istream = NULL;
+		}
+		
+		if (store->ostream) {
+			camel_object_unref (CAMEL_OBJECT (store->ostream));
+			store->ostream = NULL;
+		}
+		
 		store->connected = FALSE;
 		return FALSE;
 	}
@@ -568,10 +574,17 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 	
 	/* get the imap server capabilities */
 	if (!imap_get_capability (service, ex)) {
-		camel_object_unref (CAMEL_OBJECT (store->istream));
-		camel_object_unref (CAMEL_OBJECT (store->ostream));
-		store->istream = NULL;
-		store->ostream = NULL;
+		if (store->istream) {
+			camel_object_unref (CAMEL_OBJECT (store->istream));
+			store->istream = NULL;
+		}
+		
+		if (store->ostream) {
+			camel_object_unref (CAMEL_OBJECT (store->ostream));
+			store->ostream = NULL;
+		}
+		
+		store->connected = FALSE;
 		return FALSE;
 	}
 	

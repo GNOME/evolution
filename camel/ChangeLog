@@ -1,3 +1,8 @@
+2002-05-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-store.c (connect_to_server): Added
+	some NULL protection fixes.
+
 2002-05-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-remote-store.c: Removed from the build. Glory glory
