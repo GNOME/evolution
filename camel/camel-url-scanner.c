@@ -233,6 +233,7 @@ static struct {
 	{ '(', ')' },
 	{ '{', '}' },
 	{ '[', ']' },
+	{ '<', '>' },
 };
 
 static char
@@ -241,7 +242,7 @@ url_stop_at_brace (const char *in, size_t so)
 	int i;
 	
 	if (so > 0) {
-		for (i = 0; i < 3; i++) {
+		for (i = 0; i < 4; i++) {
 			if (in[so - 1] == url_braces[i].open)
 				return url_braces[i].close;
 		}
