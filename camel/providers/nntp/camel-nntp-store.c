@@ -115,6 +115,7 @@ _get_folder (CamelStore *store, const gchar *folder_name, CamelException *ex)
 	CamelNNTPFolder *new_nntp_folder;
 	CamelFolder *new_folder;
 
+	/* XXX */
 	folder_name = "netscape.public.mozilla.announce";
 
 	/* check if folder has already been created */
