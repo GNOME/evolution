@@ -1,3 +1,14 @@
+2000-04-27  NotZed  <NotZed@HelixCode.com>
+
+	* camel-news-address.c: Class to represent news addresses -
+	currently empty, and not built.
+
+	* camel-internet-address.h: Class to represent internet (email)
+	addresses.
+
+	* camel-address.h: Abstract class to represent (lists of)
+	addresses.
+
 2000-04-27  Dan Winship  <danw@helixcode.com>
 
 	* camel-mime-part.c (write_to_stream): Revert previous change. I
