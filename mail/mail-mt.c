@@ -506,7 +506,8 @@ do_get_pass (struct _mail_msg *mm)
 					 0, pass_got, m, NULL);
 	
 	/* Remember the password? */
-	check = gtk_check_button_new_with_label (_("Remember this password"));
+	check = gtk_check_button_new_with_label (m->service_url ? _("Remember this password") :
+						 _("Remember this password for the remainder of this session"));
 	show = TRUE;
 	
 	if (m->service_url) {

@@ -1,3 +1,9 @@
+2001-09-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-mt.c (do_get_pass): Change the wording of the password
+	dialog if we are getting a pgp passphrase so that users don't
+	misinterpret it to mean saving the passphrase forever.
+
 2001-09-26  Jon Trowbridge  <trow@ximian.com>
 
 	* mail-callbacks.c (composer_get_message): strdup our "This
