@@ -1016,9 +1016,14 @@ handle_evolution_path_drag_motion (EStorageSetView *storage_set_view,
 
 			source_path = e_storage_set_view_get_current_folder (storage_set_view);
 			if (source_path != NULL) {
+				EFolder *folder;
 				int source_path_len;
 				const char *destination_path_base;
 				char *destination_path;
+
+				folder = e_storage_set_get_folder (priv->storage_set, source_path);
+				if (folder != NULL && e_folder_get_is_stock (folder))
+					return FALSE;
 
 				source_path_len = strlen (path);
 				destination_path_base = e_tree_memory_node_get_data (E_TREE_MEMORY (priv->etree_model), path);
