@@ -1486,7 +1486,7 @@ etree_value_at (ETreeModel *etree,
 	storage_set = priv->storage_set;
 
 	/* Storages are always highlighted. */
-	if (path_is_storage (etree, tree_path) && col == 1)
+	if (col == 1 && path_is_storage (etree, tree_path))
 		return (void *) TRUE;
 
 	path = (char *) e_tree_memory_node_get_data (E_TREE_MEMORY(etree), tree_path);
