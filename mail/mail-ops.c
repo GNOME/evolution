@@ -102,7 +102,7 @@ static void
 mail_op_report_status (FilterDriver *driver, enum filter_status_t status, const char *desc,
 		       CamelMimeMessage *msg, void *data)
 {
-	printf("reporting status: %s\n", desc);
+	/*printf("reporting status: %s\n", desc);*/
 
 	/* FIXME: make it work */
 	switch(status) {

@@ -72,6 +72,3 @@ void mail_do_setup_folder (const char *name, CamelFolder **folder);
 void mail_do_view_messages (CamelFolder *folder, GPtrArray *uids,
 			    FolderBrowser *fb);
 
-/* This actually lives in message-list.c */
-void mail_do_regenerate_messagelist (MessageList *list,
-				     const gchar *search);

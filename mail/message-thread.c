@@ -36,8 +36,12 @@
 
 #define d(x)
 
-static struct _container *thread_messages(CamelFolder *folder, GPtrArray *uids);
-static void thread_messages_free(struct _container *);
+#define TIMEIT
+
+#ifdef TIMEIT
+#include <sys/time.h>
+#include <unistd.h>
+#endif
 
 /* for debug only */
 int dump_tree(struct _container *c);
@@ -339,17 +343,25 @@ dump_tree(struct _container *c)
 	return count;
 }
 
-static void thread_messages_free(struct _container *c)
+static void
+container_free(struct _container *c)
 {
 	struct _container *n;
 
 	while (c) {
 		n = c->next;
 		if (c->child)
-			thread_messages_free(c->child); /* free's children first */
+			container_free(c->child); /* free's children first */
 		g_free(c);
 		c = n;
 	}
+}
+
+void
+thread_messages_free(struct _thread_messages *thread)
+{
+	container_free(thread->tree);
+	g_free(thread);
 }
 
 static int
@@ -411,21 +423,29 @@ sort_thread(struct _container **cp)
 	*cp = head;
 }
 
-static struct _container *
+/* NOTE: This function assumes you have obtained the relevant locks for
+   the folder, BEFORE calling it */
+struct _thread_messages *
 thread_messages(CamelFolder *folder, GPtrArray *uids)
 {
 	GHashTable *id_table, *no_id_table;
 	int i;
-	struct _container *c, *p, *child, *head, *container;
+	struct _container *c, *p, *child, *head;
 	struct _header_references *ref;
+	struct _thread_messages *thread;
+
+#ifdef TIMEIT
+	struct timeval start, end;
+	unsigned long diff;
+
+	gettimeofday(&start, NULL);
+#endif
 
 	id_table = g_hash_table_new(g_str_hash, g_str_equal);
 	no_id_table = g_hash_table_new(NULL, NULL);
 	for (i=0;i<uids->len;i++) {
 		const CamelMessageInfo *mi;
-		mail_tool_camel_lock_up ();
 		mi = camel_folder_get_message_info (folder, uids->pdata[i]);
-		mail_tool_camel_lock_down ();
 
 		if (mi == NULL) {
 			g_warning("Folder doesn't contain uid %s", (char *)uids->pdata[i]);
@@ -433,9 +453,16 @@ thread_messages(CamelFolder *folder, GPtrArray *uids)
 		}
 
 		if (mi->message_id) {
-			d(printf("doing : %s\n", mi->message_id));
 			c = g_hash_table_lookup(id_table, mi->message_id);
-			if (!c) {
+			/* check for duplicate messages */
+			if (c) {
+				/* if duplicate, just make out it is a no-id message,  but try and insert it
+				   into the right spot in the tree */
+				d(printf("doing: (duplicate message id)\n"));
+				c = g_malloc0(sizeof(*c));
+				g_hash_table_insert(no_id_table, (void *)mi, c);
+			} else {
+				d(printf("doing : %s\n", mi->message_id));
 				c = g_malloc0(sizeof(*c));
 				g_hash_table_insert(id_table, mi->message_id, c);
 			}
@@ -447,15 +474,16 @@ thread_messages(CamelFolder *folder, GPtrArray *uids)
 
 		c->message = mi;
 		c->order = i;
-		container = c;
+		child = c;
 		ref = mi->references;
 		p = NULL;
-		child = container;
 		head = NULL;
 		d(printf("references:\n"));
 		while (ref) {
 			if (ref->id == NULL) {
-				printf("ref missing id!?\n");
+				/* this shouldn't actually happen, and indicates
+				   some problems in camel */
+				d(printf("ref missing id!?\n"));
 				ref = ref->next;
 				continue;
 			}
@@ -498,7 +526,36 @@ thread_messages(CamelFolder *folder, GPtrArray *uids)
 #endif
 
 	sort_thread(&head);
-	return head;
+
+	thread = g_malloc(sizeof(*thread));
+	thread->tree = head;
+
+#ifdef TIMEIT
+	gettimeofday(&end, NULL);
+	diff = end.tv_sec * 1000 + end.tv_usec/1000;
+	diff -= start.tv_sec * 1000 + start.tv_usec/1000;
+	printf("Message threading %d messages took %d.%03d seconds\n",
+	       uids->len, diff / 1000, diff % 1000);
+#endif
+	return thread;
+}
+
+/* intended for incremental update.  Not implemented yet as, well, its probbaly
+   not worth it (memory overhead vs speed, may as well just rethread the whole
+   lot?)
+
+   But it might be implemented at a later date.
+*/
+void
+thread_messages_add(struct _thread_messages *thread, CamelFolder *folder, GPtrArray *uids)
+{
+	
+}
+
+void
+thread_messages_remove(struct _thread_messages *thread, CamelFolder *folder, GPtrArray *uids)
+{
+	
 }
 
 /* ** THREAD MESSAGES ***************************************************** */
@@ -511,7 +568,7 @@ typedef struct thread_messages_input_s {
 } thread_messages_input_t;
 
 typedef struct thread_messages_data_s {
-	struct _container *container;
+	struct _thread_messages *thread;
 } thread_messages_data_t;
 
 static gchar *describe_thread_messages (gpointer in_data, gboolean gerund);
@@ -539,7 +596,9 @@ static void do_thread_messages (gpointer in_data, gpointer op_data, CamelExcepti
 	thread_messages_input_t *input = (thread_messages_input_t *) in_data;
 	thread_messages_data_t *data = (thread_messages_data_t *) op_data;
 
-	data->container = thread_messages (input->ml->folder, input->uids);
+	mail_tool_camel_lock_up ();
+	data->thread = thread_messages (input->ml->folder, input->uids);
+	mail_tool_camel_lock_down ();
 }
 
 static void cleanup_thread_messages (gpointer in_data, gpointer op_data, CamelException *ex)
@@ -547,8 +606,8 @@ static void cleanup_thread_messages (gpointer in_data, gpointer op_data, CamelEx
 	thread_messages_input_t *input = (thread_messages_input_t *) in_data;
 	thread_messages_data_t *data = (thread_messages_data_t *) op_data;
 
-	(input->build) (input->ml, data->container);
-	thread_messages_free (data->container);
+	(input->build) (input->ml, data->thread->tree);
+	thread_messages_free (data->thread);
 
 	if (input->use_camel_uidfree) {
 		mail_tool_camel_lock_up ();

@@ -1,3 +1,12 @@
+2000-11-02  Not Zed  <NotZed@HelixCode.com>
+
+        ** Merged in camel-incremental-branch.
+
+	* mail-format.c (mail_get_message_body): Jeff!  Sigh.
+	We should definetly not be strduping the
+	content, it has already been copied and duplicated.  Look at
+	get_data_wrapper_text.
+
 2000-11-01  Chris Toshok  <toshok@helixcode.com>
 
 	* subscribe-dialog.h: add fields search_entry and search_top.
@@ -275,6 +284,210 @@
 2000-10-18  Christopher James Lahey  <clahey@helixcode.com>
 
 	* message-list.c: Fixed some column widths.
+
+2000-11-02  Not Zed  <NotZed@HelixCode.com>
+
+	* message-list.c (get_message_info): Call get_message_uid to get
+	the uid, save some duplicated code.
+	(folder_changed): Handle the case of a NULL changes input.
+
+	* message-thread.c (thread_messages): Removed pointless
+	variable/assignment 'container'.
+	(thread_messages): Try and cope with duplicate message id's.
+
+2000-11-01  Not Zed  <NotZed@HelixCode.com>
+
+	* mail-callbacks.c (main_select_first_unread): Changed to use 0 as
+	the first row to select a message.
+
+	* mail-ops.h (mail_do_regenerate_messagelist): Removed from
+	header.  This function is no longer public since it is really an
+	internal message-list function.
+
+	* folder-browser.c (search_full_clicked): Call the set_search()
+	function, rather than messagelist_rebuild, which is going private.
+	(search_set): Same here.
+	(folder_browser_clear_search): And here.
+	(etable_key): Call message_list_select() instead of
+	message_list_home and message_list_end.  Removing some odd code
+	duplication.
+
+	* message-thread.c (do_thread_messages): Moved the mail lock to
+	here, rather than locking for each message lookup (which is
+	useless anyway).  This is still not correct either, as the tree
+	references folder data ... but a bit better than it was.
+	(thread_messages): Removed the mail tool lock stuff, lock in
+	higher functions.
+
+	* message-list.h: Added a threaded indicator to the message list
+	itself.
+	(threaded_view): removed a mystery variable.
+
+	* message-list.c (do_regenerate_messagelist): Made the code a
+	little more readable.
+	(build_tree): Fixed argument to be a thread_messages struct, not a
+	container.
+	(cleanup_regenerate_messagelist): Free changeinfo.
+	(mail_do_regenerate_messagelist): If we are adding changes to a
+	flat view, we dont need to goto the other thread at all, so
+	process immediately.
+	(message_list_toggle_threads): Clear the tree if we're changing
+	the view mode.
+	(message_list_toggle_threads): And reset the rowmap, since it is no
+	longer valid.
+	(build_tree): If we are building into an already empty tree, just
+	build into that (probably irrelevant optimisation).
+	(build_subtree): Build hte subtree in the same order as we got it,
+	not inverted order.
+	(message_list_set_threaded): New function to select the threaded
+	view/flat view.
+	(mail_do_regenerate_messagelist): Removed references to
+	mail_config, get it from the ml->threaded var instead.
+	(message_list_destroy): No longer free the key data for the
+	uid_rowmap.
+	(new_id_from_uid): Convert a uid string into an id string.
+	(new_id_from_subject): Likewise for subject strings.
+	 'id' strings replace the 'uid:' and 'subject:' stuff with
+	 accessors and macros and use less memory and is more readable.
+	(id_is_uid): macro to check if an id string is a uid.
+	(id_uid): Returns the uid part of a uid id string.
+	(id_subject): Returns the uid part of a subject id string.
+	(build_subtree): Use the new id functions, and dont duplicate the
+	uid in the uid rowmap, but just reference it from the tree node.
+	(node_equal): Use new id functions.
+	(add_node_diff): And here too.
+	(remove_node_diff): And here.  Also remove the uid from the
+	rowmap, and dont free it anymore.
+	(get_message_info): And here.
+	(get_message_uid): And here.
+	(subtree_unread): And here.
+	(ml_tree_value_at):  "
+	(ml_tree_set_value_at): Noted a memory leak.  do_flag_messages()
+	doesn't free the contents of the uid array, just the uid array
+	(well that i can tell, teh code has more problems anyway).
+	(ml_tree_set_value_at): And fix the id accessors.
+	(save_node_state):  " 
+	(build_flat): Use id macros/functions.  Dont alloc memory for hash
+	key.
+	(build_flat_diff): Use id macros.
+	(build_flat_diff): Remove the hash table entry before freeing its
+	key data (in the node).
+	(free_key): Removed.  Keys are no longer alloc'd.
+	(clear_tree): When we clear the tree, also clear the uid_rowmap,
+	as it is no longer valid (or contains allocated keys!).
+	(free_tree_ids): Renamed from nuke_uids.
+	(free_ids_cb): Renamed from nuke_uids_cb.
+	(free_tree_ids): Changed arg to be a ETreeModel directly.
+	(ml_tree_value_at): Map id to subject using the right macro.
+	(free_tree_ids): Check we have any nodes to traverse first.
+	(build_flat): Insert to row -1 to append the nodes (faster).
+	(remove_node_diff): Only remove the uid rowmap entry if it is
+	referencing this node (i.e. the key string is the same key string,
+	not just a matching key string).
+	(add_node_diff): Remove the uid rowmap entry before inserting a
+	new one to force the key to be replaced.  This is required as the
+	tree may temporarily contain duplicate messages during the
+	rebuilding phase.
+	(message_list_set_search): New function, set the search string.
+	Only redo the search if it has changed, etc.
+	(mail_do_regenerate_messagelist): Made static.  There is no need
+	for external code to call this.
+	(message_list_set_folder): NOP if the new folder is the same.
+	(message_list_set_folder): Clear the tree before rebuilding it.
+	(message_list_select): Ok, this wins the award for 'most bizarre
+	interface'.  Changed the start row to mean the end of the list if
+	we supply -1, rather than the start of the list.  Also fixed the
+	endpoints (it would never select message 0 if searching
+	backwards).
+	(idle_select_row): Changed start row to 0 from -1.
+	(message_list_end): Removed.
+	(message_list_home): Removed.
+	(go_to_message): Removed.  message_list_select can do this.
+	(message_list_select): Check that direction is one of the valid
+	ones, otherwise we could be thrown for loops.
+
+2000-10-31  Not Zed  <NotZed@HelixCode.com>
+
+	* message-list.c (node_equal): Compares an etree node with a
+	message-thread node to see if they point to the same object.
+	(add_node_diff): Adds a new thread node to the etree.
+	(remove_node_diff): Removed an etree node, freeing any additional
+	data.
+	(build_subtree_diff): Takes an existing etree definition, and a
+	new thread definition and makes the etree match, using as few
+	operations as possible.
+	(do_regenerate_messagelist): No longer free/clear the uid/rowmap
+	here.
+	(regenerate_messagelist_input_t): Added a tree field - are we
+	building a tree view?
+	(regnerate_messagelist_data_t): Added a tree field, if we built a
+	tree result.  Added a changes parameter, for building diff's after
+	search/etc.
+	(mail_do_regenerate_messagelist): Setup the tree indicator.
+	(build_flat_diff): Apply a changeset to a message list.
+	(build_flat): Added a changes argument, if present, use
+	build_flat_diff() to build the list.
+	(do_regenerate_messagelist): If we are generating a threaded view,
+	build the threaded list here, rather in another separate
+	invocation.
+	(cleanup_regenerate_messagelist): Call build_tree directly on the
+	threaded list.
+	(message_list_init): Init the uid_rowmap hash table here instead
+	of somewhere odd.
+	(message_list_destroy): Assume uid_rowmap exists.
+	(do_regenerate_messagelist): Remove the code here that is messing
+	with the message list data (search/uid_rowmap).  We're in a
+	different thread boys ...
+
+2000-10-26  Not Zed  <NotZed@HelixCode.com>
+
+	* message-list.c (cleanup_regenerate_messagelist): Fixed some
+	logic to make more sense (gboolean)!pointer replaced with
+	(pointer != NULL).
+	(build_tree): Put the tree pre/post change stuff in here, where it
+	should be.
+	(build_flat): Same here.
+	(cleanup_regenerate_messagelist): Remove model_changed stuff here.
+	(setup_regenerate_messagelist): Remove pre_change stuff here.
+
+2000-10-20  Not Zed  <NotZed@HelixCode.com>
+
+	* message-list.c (main_folder_changed): Perform incremental update
+	of the display for flat view.
+	(ml_tree_value_at): Spit out a mroe meaningful warning when we
+	can't find the uid in our tree, in the folder.
+
+	* message-thread.c (thread_messages): Made public.
+	(thread_messages_free): Made public.
+	(thread_messages): Now we also return a struct _thread_messages,
+	which is passed to other functions.
+	(container_free): Renamed from thread_messages_free.
+	(thread_messages_free): Take a thread_messages argument.
+	(thread_messages_add): New function to add a list of uid's to the
+	thread list.
+	(thread_messages_remove): Likewise, for removing them.
+	(cleanup_thread_messages): Change for struct changes.
+	(do_thread_messages): Likewise.
+
+2000-10-19  Not Zed  <NotZed@HelixCode.com>
+
+	* mail-tools.c (mail_tool_do_movemail): removed unused var
+
+	* folder-browser.c (search_full_clicked): Fix for api changes,
+	such as it can be called an api, its mroe an utter mess infact.
+	(search_set): Same.
+	(search_set): And here.
+	(folder_browser_clear_search): And here.
+
+	* message-list.c (folder_changed): Copy and forward the changeinfo
+	list to the mian thread.
+	(main_folder_changed): Free the changeinfo. Todo: something smart
+	with this information.
+	(struct regenerate_messagelist_input_s): Added a changes field.
+	(mail_do_regenerate_messagelist): Added a change list argument.
+	(message_list_set_folder): Fix for mail_do_regenreate_messagelist
+	api.
+	(message_list_toggle_threads): Same.
 
 2000-10-18  Iain Holmes  <iain@helixcode.com>
 

@@ -141,7 +141,7 @@ main_select_first_unread (CamelObject *object, gpointer event_data, gpointer dat
 	FolderBrowser *fb = FOLDER_BROWSER (data);
 	/*ETable *table = E_TABLE_SCROLLED (fb->message_list->etable)->table;*/
 	
-	message_list_select (fb->message_list, -1, MESSAGE_LIST_SELECT_NEXT,
+	message_list_select (fb->message_list, 0, MESSAGE_LIST_SELECT_NEXT,
   			     0, CAMEL_MESSAGE_SEEN);
 }
 

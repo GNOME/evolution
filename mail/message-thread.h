@@ -5,7 +5,6 @@
 #include "message-list.h"
 
 struct _container {
-	/* Next must be the first member */
 	struct _container *next,
 		*parent,
 		*child;
@@ -14,6 +13,15 @@ struct _container {
 	int re;			/* re version of subject? */
 	int order;
 };
+
+struct _thread_messages {
+	struct _container *tree;
+};
+
+struct _thread_messages *thread_messages(CamelFolder *folder, GPtrArray *uids);
+void thread_messages_add(struct _thread_messages *thread, CamelFolder *folder, GPtrArray *uids);
+void thread_messages_remove(struct _thread_messages *thread, CamelFolder *folder, GPtrArray *uids);
+void thread_messages_free(struct _thread_messages *c);
 
 void mail_do_thread_messages (MessageList *ml, GPtrArray *uids, 
 			      gboolean use_camel_uidfree,

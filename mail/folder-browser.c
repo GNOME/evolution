@@ -165,7 +165,7 @@ search_full_clicked(MailSearchDialogue *msd, guint button, FolderBrowser *fb)
 	case 0:			/* 'ok' */
 	case 1:			/* 'search' */
 		query = mail_search_dialogue_get_query(msd);
-		mail_do_regenerate_messagelist(fb->message_list, query);
+		message_list_set_search(fb->message_list, query);
 		g_free(query);
 		/* save the search as well */
 		if (fb->search_full)
@@ -178,7 +178,7 @@ search_full_clicked(MailSearchDialogue *msd, guint button, FolderBrowser *fb)
 	case 2:			/* 'cancel' */
 		gnome_dialog_close((GnomeDialog *)msd);
 	case -1:		/* dialogue closed */
-		mail_do_regenerate_messagelist(fb->message_list, 0);
+		message_list_set_search(fb->message_list, 0);
 		/* reset the search buttons state */
 		gtk_menu_set_active(GTK_MENU(GTK_OPTION_MENU(fb->search_menu)->menu), 0);
 		gtk_widget_set_sensitive(fb->search_entry, TRUE);
@@ -223,7 +223,7 @@ search_set(FolderBrowser *fb)
 	if (text == NULL || text[0] == 0) {
 		if (text) 
 			g_free(text);
-		mail_do_regenerate_messagelist (fb->message_list, NULL);
+		message_list_set_search(fb->message_list, NULL);
 		return;
 	}
 
@@ -241,7 +241,7 @@ search_set(FolderBrowser *fb)
 			str++;
 		}
 	}
-	mail_do_regenerate_messagelist (fb->message_list, out->str);
+	message_list_set_search(fb->message_list, out->str);
 	g_string_free(out, TRUE);
 
 	g_free (text);
@@ -387,7 +387,7 @@ folder_browser_clear_search (FolderBrowser *fb)
 {
 	gtk_entry_set_text (GTK_ENTRY (fb->search_entry), "");
 	gtk_option_menu_set_history (GTK_OPTION_MENU (fb->search_menu), 0);
-	mail_do_regenerate_messagelist (fb->message_list, NULL);
+	message_list_set_search(fb->message_list, NULL);
 }
 
 static int
@@ -432,12 +432,12 @@ etable_key (ETable *table, int row, int col, GdkEvent *ev, FolderBrowser *fb)
 
 	case GDK_Home:
 	case GDK_KP_Home:
-		message_list_home (fb->message_list);
+		message_list_select(fb->message_list, 0, MESSAGE_LIST_SELECT_NEXT, 0, 0);
 		return TRUE;
 
 	case GDK_End:
 	case GDK_KP_End:
-		message_list_end (fb->message_list);
+		message_list_select(fb->message_list, -1, MESSAGE_LIST_SELECT_PREVIOUS, 0, 0);
 		return TRUE;
 
 	case 'n':

@@ -51,20 +51,24 @@ struct _MessageList {
 	
 	/* the folder browser that contains the 
 	 * this message list */
+	/* FIXME: This MUST BE REMOVED from this structure.  If we need access to the
+	   mail-display, we should store that instead ... */
 	FolderBrowser *parent_folder_browser;
 	
 	ETableModel  *table_model;
 	
-	ETreePath    *tree_root; /* for tree view */
+	ETreePath    *tree_root;
 	
 	GtkWidget    *etable;
 
 	CamelFolder  *folder;
+
+	GHashTable	*uid_rowmap; /* key is the uid, value is the row number.
+					Note: The key string is owned by table_model */
 	
-	GHashTable *uid_rowmap;
-	
-	char *search;		/* search string */
-	
+	char *search;		/* current search string */
+
+	gboolean threaded;	/* are we displaying threaded view? */
 	int cursor_row;
 	const char *cursor_uid;
 	
@@ -86,6 +90,7 @@ typedef enum {
 } MessageListSelectDirection;
 
 GtkType        message_list_get_type   (void);
+/* FIXME: We should be passing the MailDisplay to the list, or maybe raise signals instead */
 BonoboObject   *message_list_new        (FolderBrowser *parent_folder_browser);
 void           message_list_set_folder (MessageList *message_list,
 					CamelFolder *camel_folder);
@@ -100,10 +105,10 @@ void           message_list_select     (MessageList *message_list,
 					MessageListSelectDirection direction,
 					guint32 flags, guint32 mask);
 
-void           message_list_home       (MessageList *message_list);
-void           message_list_end        (MessageList *message_list);
+void	       message_list_set_threaded(MessageList *ml, gboolean threaded);
+void	       message_list_set_search(MessageList *ml, const char *search);
 
-extern gboolean threaded_view;
+/* FIXME: This should be an external callback that calls set_threaded() */
 void           message_list_toggle_threads (BonoboUIComponent           *component,
 					    const char                  *path,
 					    Bonobo_UIComponent_EventType type,

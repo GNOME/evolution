@@ -1550,13 +1550,12 @@ mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean *is
 	 */
 	if (g_strcasecmp (mime_type->type, "message") == 0) {
 		*is_html = FALSE;
-		return g_strdup (get_data_wrapper_text (data));
+		return get_data_wrapper_text (data);
 	}
 	
 	if (g_strcasecmp (mime_type->type, "text") == 0) {
-		fprintf (stderr, "here we are...\n");
 		*is_html = !g_strcasecmp (mime_type->subtype, "html");
-		return g_strdup (get_data_wrapper_text (data));
+		return get_data_wrapper_text (data);
 	}
 	
 	/* If it's not message and it's not text, and it's not
