@@ -41,7 +41,6 @@
 #include <gtk/gtktogglebutton.h>
 #include <libgnomeui/gnome-color-picker.h>
 #include <glade/glade.h>
-#include <gal/util/e-util.h>
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-icon-factory.h>
 #include <widgets/misc/e-dateedit.h>

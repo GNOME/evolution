@@ -1,5 +1,11 @@
 2004-10-07  JP Rosevear  <jpr@novell.com>
 
+	* gui/dialogs/cal-prefs-dialog.c: remove useless include
+
+	* gui/dialogs/url-editor-dialog.c: ditto
+	
+2004-10-07  JP Rosevear  <jpr@novell.com>
+	
 	* gui/print.c: guard config.h
 
 	* gui/tasks-control.c: guard config.h, remove useless include
