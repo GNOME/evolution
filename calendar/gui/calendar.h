@@ -41,7 +41,12 @@ typedef struct {
 	iCalObject *ico;
 } CalendarObject;
 
-Calendar *calendar_new                  (char *title);
+typedef enum {
+	CALENDAR_INIT_NIL    = 0,
+	CALENDAR_INIT_ALARMS = 1 << 0
+} CalendarNewOptions;
+
+Calendar *calendar_new                  (char *title,CalendarNewOptions options);
 char     *calendar_get_as_vcal_string   (Calendar *cal);
 char     *calendar_string_from_object   (iCalObject *object);
 

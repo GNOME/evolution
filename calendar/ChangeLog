@@ -1,3 +1,28 @@
+1999-12-31  Eskil Heyn Olsen  <deity@eskil.dk>
+
+	* eventedit.c (ee_store_recur_end_to_ical): Adds 86400 secs (1
+	day) to the date chooses by the user. This ensures the recurrence
+	also occurs on that date.
+	(ee_rp_init_ending_date): And subtracts 86400 secs when about to
+	redisplay the box.
+
+	* calendar.h: Added an argument to calendar_new, to enable certain 
+	features, such as initing alarms or nor.
+
+	* calendar.c (calendar_new): Implemented support for the
+	CALENDAR_INIT_ALARMS option to calendar_new.
+
+	* corba-cal.c (cal_repo_get_updated_objects): Added
+ 	CALENDAR_INIT_ALARMS to calendar_new calls.
+
+	* main.c: Added CALENDAR_INIT_ALARMS to calendar_new calls. This
+ 	should probably be CALENDAR_INIT_NIL, but I'm not sure, guess
+ 	steintr should check it.
+
+	* gnome-cal.c: Added CALENDAR_INIT_ALARMS to calendar_new calls.
+
+	* calendar-pilot-sync.c: Added CALENDAR_INIT_NIL to calendar_new calls.
+
 1999-12-10  Russell Steinthal  <rms39@columbia.edu>
 
 	* eventedit.c (ee_create_ae): Fix sensitivity bug when used to

@@ -227,7 +227,7 @@ gnome_calendar_new (char *title)
 	gtk_window_set_title(GTK_WINDOW(retval), title);
 
 	gcal->current_display = time_day_begin (time (NULL));
-	gcal->cal = calendar_new (title);
+	gcal->cal = calendar_new (title,CALENDAR_INIT_ALARMS);
 	setup_widgets (gcal);
 	gnome_calendar_create_corba_server (gcal);
 

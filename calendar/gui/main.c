@@ -788,7 +788,7 @@ dump_events (void)
 	process_dates ();
 	init_calendar ();
 
-	cal = calendar_new (full_name);
+	cal = calendar_new (full_name, CALENDAR_INIT_ALARMS);
 	s = calendar_load (cal, load_file ? load_file : user_calendar_file);
 	if (s){
 		printf ("error: %s\n", s);
@@ -832,7 +832,7 @@ dump_todo (void)
 	process_dates ();
 	init_calendar ();
 
-	cal = calendar_new (full_name);
+	cal = calendar_new (full_name, CALENDAR_INIT_ALARMS);
 	s = calendar_load (cal, load_file ? load_file : user_calendar_file);
 	if (s){
 		printf ("error: %s\n", s);

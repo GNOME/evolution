@@ -251,7 +251,7 @@ cal_repo_get_updated_objects (PortableServer_Servant servant,
 	CORBA_char *res;
 	char *str;
 
-	dirty_cal = calendar_new ("Temporal");
+	dirty_cal = calendar_new ("Temporal",CALENDAR_INIT_NIL);
 	
 	for (l = gcal->cal->events; l; l = l->next){
 		iCalObject *obj = l->data;

@@ -33,7 +33,7 @@ static void calendar_init_alarms (Calendar *cal);
 static void calendar_set_day (void);
 
 Calendar *
-calendar_new (char *title)
+calendar_new (char *title,CalendarNewOptions options)
 {
 	Calendar *cal;
 
@@ -46,7 +46,9 @@ calendar_new (char *title)
 
 	cal->event_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	
-	calendar_init_alarms (cal);
+	if (options & CALENDAR_INIT_ALARMS) {
+		calendar_init_alarms (cal);
+	}
 	
 	return cal;
 }
@@ -633,7 +635,7 @@ calendar_string_from_object (iCalObject *object)
 
 	g_return_val_if_fail (object != NULL, NULL);
 	
-	cal = calendar_new ("Temporal");
+	cal = calendar_new ("Temporal",CALENDAR_INIT_NIL);
 	calendar_add_object (cal, object);
 	str = calendar_get_as_vcal_string (cal);
 	calendar_remove_object (cal, object);

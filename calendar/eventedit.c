@@ -650,7 +650,9 @@ ee_store_recur_end_to_ical (EventEditor *ee)
 
 	case 1:
 		/* end date */
-		ical->recur->_enddate = gnome_date_edit_get_date (GNOME_DATE_EDIT (ee->recur_ed_end_on));
+		/* Also here, to ensure that the event is used, we add 86400 secs to get 
+		   get next day, in accordance to the RFC */
+		ical->recur->_enddate = gnome_date_edit_get_date (GNOME_DATE_EDIT (ee->recur_ed_end_on)) + 86400;
 		ical->recur->enddate = ical->recur->_enddate;
 		ical->recur->duration = 0;
 		break;
@@ -1247,9 +1249,10 @@ ee_rp_init_ending_date (EventEditor *ee)
 	gtk_widget_set_sensitive (ihbox, FALSE);
 	gtk_box_pack_start (GTK_BOX (hbox), ihbox, FALSE, FALSE, 0);
 
-	if (ee->ical->recur)
-		enddate = ee->ical->recur->enddate;
-	else
+	if (ee->ical->recur) {
+		/* Shorten by one day, as we store end-on date a day ahead */
+		enddate = ee->ical->recur->enddate - 86400;
+	} else
 		enddate = ee->ical->dtend;
 
 	ee->recur_ed_end_on = widget = date_edit_new (enddate, FALSE);

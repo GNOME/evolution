@@ -605,7 +605,7 @@ sync_pilot (GNOME_Calendar_Repository repo, int pilot_fd)
 	 */
 	if (!only_pilot_to_desktop){
 		vcalendar_string = GNOME_Calendar_Repository_get_updated_objects (repo, &ev);
-		dirty_cal = calendar_new ("Temporal");
+		dirty_cal = calendar_new ("Temporal",CALENDAR_INIT_NIL);
 		error = calendar_load_from_memory (dirty_cal, vcalendar_string);
 		if (!error)
 			sync_cal_to_pilot (repo, dirty_cal, pilot_fd);
