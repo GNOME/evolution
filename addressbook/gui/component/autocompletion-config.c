@@ -35,6 +35,7 @@
 #include <libedataserver/e-source-list.h>
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtkscrolledwindow.h>
+#include <gtk/gtktreeselection.h>
 #include <gtk/gtkwidget.h>
 #include <gtk/gtksignal.h>
 
@@ -130,8 +131,7 @@ autocompletion_config_control_new (void)
 					     GTK_SHADOW_IN);
 
 	ac->control_widget = e_source_selector_new (ac->source_list);
-	e_source_selector_set_toggle_selection((ESourceSelector *)ac->control_widget, TRUE);
-
+	
 	gtk_container_add (GTK_CONTAINER (scrolledwin), ac->control_widget);
 
 	initialize_selection (ac);

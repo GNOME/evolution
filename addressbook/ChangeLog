@@ -1,3 +1,9 @@
+2004-07-20  JP Rosevear  <jpr@novell.com>
+
+	* gui/component/autocompletion-config.c
+	(autocompletion_config_control_new): don't set the toggle
+	selection
+
 2004-07-16  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/contact-editor/e-contact-editor.c (contact_added_cb)
