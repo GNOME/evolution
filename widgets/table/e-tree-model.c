@@ -591,6 +591,8 @@ e_tree_model_node_insert (ETreeModel *tree_model,
 
 			tree_model->row_array = g_array_insert_val (tree_model->row_array,
 								    parent_row + position + 1, new_path);
+
+			e_table_model_row_inserted (E_TABLE_MODEL(tree_model), parent_row + position + 1);
 		}
 	}
 	else {
@@ -598,11 +600,9 @@ e_tree_model_node_insert (ETreeModel *tree_model,
 		if (tree_model->root_visible)
 			tree_model->row_array = g_array_insert_val (tree_model->row_array, 0, tree_model->root);
 		new_path = tree_model->root;
-	}
 
-	/* FIXME: find out the number of descendents that will be visible,
-	   and call insert_row that many times. */
-	e_table_model_changed (E_TABLE_MODEL(tree_model));
+		e_table_model_row_inserted (E_TABLE_MODEL (tree_model), 0);
+	}
 
 	return new_path;
 }
