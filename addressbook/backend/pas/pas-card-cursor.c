@@ -64,10 +64,13 @@ impl_pas_card_cursor_get_nth (PortableServer_Servant  servant,
 			    CORBA_Environment      *ev)
 {
 	PASCardCursor *cursor = PAS_CARD_CURSOR (bonobo_object_from_servant (servant));
-	if ( cursor->priv->get_nth )
-		return cursor->priv->get_nth( cursor, n, cursor->priv->data );
-	else
-		return "";
+	if ( cursor->priv->get_nth ) {
+		char *vcard = cursor->priv->get_nth( cursor, n, cursor->priv->data );
+		char *retval = CORBA_string_dup (vcard);
+		g_free (vcard);
+		return retval;
+	} else
+		return CORBA_string_dup ("");
 }
 
 /*

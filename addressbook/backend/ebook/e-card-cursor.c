@@ -7,7 +7,7 @@
  */
 
 #include <config.h>
-#include <bonobo.h>
+#include <gtk/gtk.h>
 #include "addressbook.h"
 #include "e-card-cursor.h"
 
@@ -118,7 +118,7 @@ e_card_cursor_class_init (ECardCursorClass *klass)
 {
 	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 
-	parent_class = gtk_type_class (bonobo_object_get_type ());
+	parent_class = gtk_type_class (gtk_object_get_type ());
 
 	object_class->destroy = e_card_cursor_destroy;
 }

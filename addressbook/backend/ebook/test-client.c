@@ -48,7 +48,6 @@ init_bonobo (int argc, char **argv)
 
 }
 
-#if 0
 static void
 get_cursor_cb (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer closure)
 {
@@ -64,7 +63,6 @@ get_cursor_cb (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer cl
 	}
 	gtk_object_unref(GTK_OBJECT(cursor));
 }
-#endif
 
 static void
 add_card_cb (EBook *book, EBookStatus status, const gchar *id, gpointer closure)
@@ -88,9 +86,7 @@ add_card_cb (EBook *book, EBookStatus status, const gchar *id, gpointer closure)
 	g_free(vcard);
 	gtk_object_unref(GTK_OBJECT(card));
 
-#if 0
 	e_book_get_all_cards(book, get_cursor_cb, NULL);
-#endif
 }
 
 static void
@@ -106,7 +102,7 @@ ebook_create (void)
 	
 	book = e_book_new ();
 
-	if (! e_book_load_uri (book, "file:/tmp/test.txt", book_open_cb, NULL)) {
+	if (! e_book_load_uri (book, "file:/tmp/test.db", book_open_cb, NULL)) {
 		printf ("error calling load_uri!\n");
 	}
 

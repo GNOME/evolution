@@ -54,7 +54,7 @@ get_nth(PASCardCursor *cursor, long n, gpointer data)
 	PASBackendFileCursorPrivate *cursor_data = (PASBackendFileCursorPrivate *) data;
 	GList *nth_item = g_list_nth(cursor_data->elements, n);
 
-	return (char*)nth_item->data;
+	return g_strdup((char*)nth_item->data);
 }
 
 static void
@@ -220,13 +220,14 @@ pas_backend_file_build_all_cards_list(PASBackend *backend,
 	  PASBackendFile *bf = PAS_BACKEND_FILE (backend);
 	  DB             *db = bf->priv->file_db;
 	  int            db_error;
-
-	  cursor_data->elements = NULL;
-	  do {
-		  DBT  id_dbt, vcard_dbt;
-		  char *id;
+	  DBT  id_dbt, vcard_dbt;
+	  char *id;
   
-		  db_error = db->seq(db, &id_dbt, &vcard_dbt, R_NEXT);
+	  cursor_data->elements = NULL;
+
+	  db_error = db->seq(db, &id_dbt, &vcard_dbt, R_NEXT);
+
+	  while (db_error == 0) {
 
 		  id = g_strndup(id_dbt.data, id_dbt.size);
 
@@ -237,11 +238,13 @@ pas_backend_file_build_all_cards_list(PASBackend *backend,
 		  }
 		  else {
 			  g_free(id);
-			  g_list_append(cursor_data->elements, g_strndup(vcard_dbt.data,
-									 vcard_dbt.size));
+			  cursor_data->elements = g_list_append(cursor_data->elements, g_strndup(vcard_dbt.data,
+												 vcard_dbt.size));
 		  }
 
-	  } while (db_error == 0);
+		  db_error = db->seq(db, &id_dbt, &vcard_dbt, R_NEXT);
+
+	  }
 
 	  if (db_error == -1) {
 		  g_warning ("pas_backend_file_build_all_cards_list: error building list\n");
