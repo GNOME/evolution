@@ -205,7 +205,7 @@ msgstr ""
 "Gebruik dit programma niet om uw echte email mee\n"
 "te lezen en geef het geen toegang tot uw echte mail server.\n"
 "\n"
-"U bent gewaarschuwd"
+"U bent gewaarschuwd\n"
 
 #: mail/folder-browser-factory.c:114
 msgid "New mail"
