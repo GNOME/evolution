@@ -595,7 +595,6 @@ get_bounds (EText *text, double *px1, double *py1, double *px2, double *py2)
 		*px2 = text->cx + text->max_width;
 		*py2 = text->cy + text->height;
 	}
-
 }
 
 static void
@@ -1058,7 +1057,6 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		else
 			text->needs_calc_line_widths = 1;
 		needs_reflow = 1;
-		text->needs_recalc_bounds = 1;
 		break;
 
 	case ARG_CLIP_HEIGHT:
@@ -1185,7 +1183,6 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		else
 			text->needs_calc_line_widths = 1;
 		needs_reflow = 1;
-		text->needs_recalc_bounds = 1;
 		break;
 
 	default:
@@ -1382,6 +1379,7 @@ e_text_reflow (GnomeCanvasItem *item, int flags)
 		calc_height (text);
 		gnome_canvas_item_request_update(item);
 		text->needs_calc_height = 0;
+		text->needs_recalc_bounds = 1;
 	}
 }
 
@@ -1861,11 +1859,6 @@ e_text_point (GnomeCanvasItem *item, double x, double y,
 	best = 1.0e36;
 
 	lines = text->lines;
-
-#if 0
-	if ( lines )
-		return 1;
-#endif
 
 	for (i = 0; i < text->num_lines; i++) {
 		/* Compute the coordinates of rectangle for the current line,
