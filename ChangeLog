@@ -1,3 +1,7 @@
+2004-02-24  JP Rosevear <jpr@ximian.com>
+
+	* marshal.mk: make sure to use the srcdir to build the list
+
 2004-02-23  Rodney Dawes  <dobey@ximian.com>
 
 	* configure.in: Fix a typo in the smime check, so it actually works
