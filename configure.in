@@ -20,8 +20,8 @@ fi
 EVOLUTION_MAJOR_VERSION=1
 EVOLUTION_MINOR_VERSION=2
 EVOLUTION_MICRO_VERSION=3
-EVOLUTION_NANO_VERSION=0
-VERSION=$EVOLUTION_MAJOR_VERSION.$EVOLUTION_MINOR_VERSION.$EVOLUTION_MICRO_VERSION
+EVOLUTION_NANO_VERSION=99
+VERSION=$EVOLUTION_MAJOR_VERSION.$EVOLUTION_MINOR_VERSION.$EVOLUTION_MICRO_VERSION.$EVOLUTION_NANO_VERSION
 PACKAGE=evolution
 
 AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
@@ -665,13 +665,14 @@ if test "x$with_krb5" != "xno"; then
 	if test "$ac_cv_lib_kerberos5" != "no"; then
 		AC_DEFINE(HAVE_KRB5)
 		if test "$ac_cv_lib_kerberos5" == "$mitlibs"; then
+			KRB5_CFLAGS="-I$with_krb5/include"
 			msg_krb5="yes (MIT)"
 			AC_DEFINE(HAVE_MIT_KRB5)
 		else
+			KRB5_CFLAGS="-I$with_krb5/include/heimdal"
 			msg_krb5="yes (Heimdal)"
 			AC_DEFINE(HAVE_HEIMDAL_KRB5)
 		fi
-		KRB5_CFLAGS="-I$with_krb5/include"
 		KRB5_LDFLAGS="-L$with_krb5/lib $ac_cv_lib_kerberos5"
 	fi
 else

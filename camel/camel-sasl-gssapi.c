@@ -33,7 +33,7 @@
 #include <gssapi/gssapi.h>
 #include <gssapi/gssapi_generic.h>
 #else /* HAVE_HEIMDAL_KRB5 */
-#include <heimdal/gssapi.h>
+#include <gssapi.h>
 #endif
 #include <errno.h>
 

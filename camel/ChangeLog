@@ -1,3 +1,7 @@
+2003-03-25  Rodney Dawes  <dobey@ximian.com>
+
+	* camel-sasl-gssapi.c: #include <gssapi.h> for heimdal, fixed CFLAGS
+	
 2003-03-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-sasl-gssapi.c: We don't want to #include <et/com_err.h",
