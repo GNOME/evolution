@@ -1,5 +1,7 @@
 2002-09-12  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* main.c (main): Ignore SIGXFSZ to fix bug #30269.
+
 	* upgrade-mailer.c (cache_upgrade_and_free): The new callback
 	function for the g_hash_table_foreach which both upgrades the
 	cache for that store and then free's the struct _storeinfo

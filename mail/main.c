@@ -109,6 +109,9 @@ main (int argc, char *argv [])
 		sigaction (SIGSEGV, &sa, NULL);
 		sigaction (SIGBUS, &sa, NULL);
 		sigaction (SIGFPE, &sa, NULL);
+		
+		sa.sa_handler = SIG_IGN;
+		sigaction (SIGXFSZ, &sa, NULL);
 		gnome_segv_handler = osa.sa_handler;
 		g_static_mutex_lock (&segv_mutex);
 	}
