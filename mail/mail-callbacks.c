@@ -396,6 +396,41 @@ composer_get_message (EMsgComposer *composer)
 	message = e_msg_composer_get_message (composer);
 	if (message == NULL)
 		return NULL;
+
+	recipients = e_msg_composer_get_recipients (composer);
+
+	/* Check for invalid recipients */
+	if (recipients) {
+		gboolean have_invalid = FALSE;
+		gchar *msg, *new_msg;
+		GtkWidget *message_box;
+
+		for (i = 0; recipients[i] && !have_invalid; ++i) {
+			if (! e_destination_is_valid (recipients[i]))
+				have_invalid = TRUE;
+		}
+
+		msg = _("This message contains invalid recipients:");
+		for (i = 0; recipients[i]; ++i) {
+			if (! e_destination_is_valid (recipients[i])) {
+				new_msg = g_strdup_printf ("%s\n    %s", msg, e_destination_get_address (recipients[i]));
+				g_free (msg);
+				msg = new_msg;
+			}
+		}
+		
+		new_msg = e_utf8_from_locale_string (msg);
+		g_free (msg);
+		msg = new_msg;
+
+		message_box = gnome_message_box_new (msg, GNOME_MESSAGE_BOX_WARNING, GNOME_STOCK_BUTTON_OK, NULL);
+
+		gnome_dialog_run_and_close (GNOME_DIALOG (message_box));
+
+		camel_object_unref (CAMEL_OBJECT (message));
+		message = NULL;
+		goto finished;
+	}
 	
 	/* Check for recipients */
 	for (num_addrs = 0, i = 0; i < 3; i++) {
@@ -416,7 +451,8 @@ composer_get_message (EMsgComposer *composer)
 		gnome_dialog_run_and_close (GNOME_DIALOG (message_box));
 		
 		camel_object_unref (CAMEL_OBJECT (message));
-		return NULL;
+		message = NULL;
+		goto finished;
 	}
 	
 	if (iaddr && num_addrs == camel_address_length (CAMEL_ADDRESS (iaddr))) {
@@ -437,7 +473,8 @@ composer_get_message (EMsgComposer *composer)
 
 		if (!ask_confirm_for_only_bcc (composer, hidden_list_case)) {
 			camel_object_unref (CAMEL_OBJECT (message));
-			return NULL;
+			message = NULL;
+			goto finished;
 		}
 	}
 
@@ -448,7 +485,6 @@ composer_get_message (EMsgComposer *composer)
 	    && mail_config_get_send_html ()
 	    && mail_config_get_confirm_unwanted_html ()) {
 		gboolean html_problem = FALSE;
-		recipients = e_msg_composer_get_recipients (composer);
 		for (i = 0; recipients[i] != NULL && !html_problem; ++i) {
 			if (! e_destination_get_html_mail_pref (recipients[i]))
 				html_problem = TRUE;
@@ -459,7 +495,8 @@ composer_get_message (EMsgComposer *composer)
 			e_destination_freev (recipients);
 			if (html_problem) {
 				camel_object_unref (CAMEL_OBJECT (message));
-				return NULL;
+				message = NULL;
+				goto finished;
 			}
 		}
 	}
@@ -469,7 +506,8 @@ composer_get_message (EMsgComposer *composer)
 	if (subject == NULL || subject[0] == '\0') {
 		if (!ask_confirm_for_empty_subject (composer)) {
 			camel_object_unref (CAMEL_OBJECT (message));
-			return NULL;
+			message = NULL;
+			goto finished;
 		}
 	}
 	
@@ -484,8 +522,10 @@ composer_get_message (EMsgComposer *composer)
 	/* Get the message recipients and 'touch' them, boosting their use scores */
 	recipients = e_msg_composer_get_recipients (composer);
 	e_destination_touchv (recipients);
+
+
+ finished:
 	e_destination_freev (recipients);
-	
 	return message;
 }
 
