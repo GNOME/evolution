@@ -264,14 +264,12 @@ get_folder_internal(CamelStore *store, const char *folder_name, guint32 flags, C
  * camel_store_get_folder: Return the folder corresponding to a path.
  * @store: a CamelStore
  * @folder_name: name of the folder to get
- * @create: whether or not to create the folder if it doesn't already exist
+ * @flags: folder flags (create, save body index, etc)
  * @ex: a CamelException
  * 
  * Returns the folder corresponding to the path @folder_name. If the
  * path begins with the separator character, it is relative to the
- * root folder. Otherwise, it is relative to the default folder. If
- * @create is %TRUE and the named folder does not already exist, it will
- * be created.
+ * root folder. Otherwise, it is relative to the default folder.
  *
  * Return value: the folder
  **/
