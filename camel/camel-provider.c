@@ -177,13 +177,13 @@ camel_provider_load (CamelSession *session, const char *path, CamelException *ex
  * Returns 0 on success or -1 on fail.
  **/
 int
-camel_provider_auto_detect (CamelProvider *provider, GHashTable *settings,
+camel_provider_auto_detect (CamelProvider *provider, CamelURL *url,
 			    GHashTable **auto_detected, CamelException *ex)
 {
 	g_return_val_if_fail (provider != NULL, -1);
 	
 	if (provider->auto_detect) {
-		return provider->auto_detect (settings, auto_detected, ex);
+		return provider->auto_detect (url, auto_detected, ex);
 	} else {
 		*auto_detected = NULL;
 		return 0;

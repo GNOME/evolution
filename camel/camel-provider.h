@@ -37,6 +37,7 @@ extern "C" {
 #include <camel/camel-types.h>
 #include <camel/camel-object.h>
 #include <camel/camel-exception.h>
+#include <camel/camel-url.h>
 
 #define CAMEL_PROVIDER(obj) ((CamelProvider *)(obj))
 
@@ -129,7 +130,7 @@ typedef struct {
 #define CAMEL_PROVIDER_CONF_DEFAULT_HOSTNAME  { CAMEL_PROVIDER_CONF_LABEL, "hostname", NULL, N_("_Host:"), NULL }
 #define CAMEL_PROVIDER_CONF_DEFAULT_PATH      { CAMEL_PROVIDER_CONF_ENTRY, "path", NULL, N_("_Path:"), "" }
 
-typedef int (*CamelProviderAutoDetectFunc) (GHashTable *settings, GHashTable **auto_detected, CamelException *ex);
+typedef int (*CamelProviderAutoDetectFunc) (CamelURL *url, GHashTable **auto_detected, CamelException *ex);
 
 typedef struct {
 	/* Provider name used in CamelURLs. */
@@ -184,7 +185,7 @@ void camel_provider_load (CamelSession *session, const char *path, CamelExceptio
 void camel_provider_module_init (CamelSession *session);
 
 
-int camel_provider_auto_detect (CamelProvider *provider, GHashTable *settings,
+int camel_provider_auto_detect (CamelProvider *provider, CamelURL *url,
 				GHashTable **auto_detected, CamelException *ex);
 
 #ifdef __cplusplus
