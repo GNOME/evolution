@@ -69,19 +69,23 @@ fi
 for j in `find $srcdir -name configure.in -print`
 do 
     i=`dirname $j`
-    macrodirs=`sed -n -e 's,AM_ACLOCAL_INCLUDE(\(.*\)),\1,gp' < $j`
-    echo processing $i
-    ## debug
-    test -n "$macrodirs" && echo \`aclocal\' will also look in \`$macrodirs\'
-    (cd $i; \
-    aclocalinclude=""; \
-    for k in $macrodirs; do \
-        if test -d $k; then aclocalinclude="$aclocalinclude -I $k"; \
-        else echo "**Warning**: No such directory \`$k'.  Ignored."; fi; \
-    done; \
-    libtoolize --copy --force; \
-    aclocal $aclocalinclude; \
-    autoheader; automake --add-missing --gnu; autoheader; autoconf)
+    if test -e $i/NO-AUTO-GEN; then
+        echo skipping $i -- flagged as no auto-gen
+    else
+    	macrodirs=`sed -n -e 's,AM_ACLOCAL_INCLUDE(\(.*\)),\1,gp' < $j`
+    	echo processing $i
+    	## debug
+    	test -n "$macrodirs" && echo \`aclocal\' will also look in \`$macrodirs\'
+    	(cd $i; \
+    	aclocalinclude=""; \
+    	for k in $macrodirs; do \
+    	    if test -d $k; then aclocalinclude="$aclocalinclude -I $k"; \
+    	    else echo "**Warning**: No such directory \`$k'.  Ignored."; fi; \
+    	done; \
+    	libtoolize --copy --force; \
+    	aclocal $aclocalinclude; \
+    	autoheader; automake --add-missing --gnu; autoheader; autoconf)
+    fi
 done
 
 echo running $srcdir/configure --enable-maintainer-mode "$@"
