@@ -261,6 +261,6 @@ evolution_folder_info_notify_ready (void)
 		Bonobo_PropertyBag bag;
 
 		bag = (Bonobo_PropertyBag)bonobo_object_corba_objref(BONOBO_OBJECT(info->pb));
-		bonobo_pbclient_set_boolean("folder-info-ready", ready, NULL);
+		bonobo_pbclient_set_boolean(bag, "folder-info-ready", ready, NULL);
 	}
 }

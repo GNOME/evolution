@@ -1,3 +1,8 @@
+2003-01-09  Chris Toshok  <toshok@ximian.com>
+
+	* folder-info.c (evolution_folder_info_notify_ready): pass bag to
+	bonobo_pbclient_set_boolean.
+
 2003-01-09  Ettore Perazzoli  <ettore@ximian.com>
 
 	* component-factory.c (owner_set_cb): Don't call
