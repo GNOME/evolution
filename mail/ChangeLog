@@ -1,3 +1,8 @@
+2004-10-06  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-tree.c (emft_tree_button_press): remove some debug
+	that made it in accidentally.
+
 2004-10-05  Not Zed  <NotZed@Ximian.com>
 
 	* em-folder-tree.c (emft_popup_copy_folder_selected): remove old

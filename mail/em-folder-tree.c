@@ -2765,10 +2765,8 @@ emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTr
 	gtk_tree_path_free (tree_path);
 	
 	/* FIXME: we really need the folderinfo to build a proper menu */
-	if (!emft_selection_get_selected (selection, &model, &iter)) {
-		printf("nothing selected!\n");
+	if (!emft_selection_get_selected (selection, &model, &iter))
 		return FALSE;
-	}
 	
 	gtk_tree_model_get (model, &iter, COL_POINTER_CAMEL_STORE, &store,
 			    COL_STRING_URI, &uri, COL_STRING_FULL_NAME, &full_name,
