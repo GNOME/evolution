@@ -659,7 +659,7 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 	struct _EMFormatHTMLCache *efhc;
 
 	camel_stream_printf (stream,
-			     "<div style=\"border-style: solid; border-color: #%06x; border-width: 1px; background-color: #%06x; padding: 10px;\">\n",
+			     "<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px;\">\n",
 			     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff);
 
 	flags = efh->text_html_flags;
@@ -767,7 +767,7 @@ efh_text_enriched(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, E
 	camel_object_unref(enriched);
 
 	camel_stream_printf (stream,
-			     "<div style=\"border-style: solid; border-color: #%06x; border-width: 1px; background-color: #%06x; padding: 10px;\">\n",
+			     "<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px;\">\n",
 			     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff);
 
 	em_format_format_text((EMFormat *)efh, (CamelStream *)filtered_stream, dw);
@@ -790,7 +790,7 @@ efh_text_html(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFor
 	char *cid = NULL;
 
 	camel_stream_printf (stream,
-			     "<div style=\"border-style: solid; border-color: #%06x; border-width: 1px; background-color: #%06x;\">\n"
+			     "<div style=\"border: solid #%06x 1px; background-color: #%06x;\">\n"
 			     "<!-- text/html -->\n",
 			     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff);
 	
@@ -941,7 +941,7 @@ efh_message_deliverystatus(EMFormatHTML *efh, CamelStream *stream, CamelMimePart
 
 	/* Yuck, this is copied from efh_text_plain */
 	camel_stream_printf (stream,
-			     "<div style=\"border-style: solid; border-color: #%06x; border-width: 1px; background-color: #%06x; padding: 10px;\">\n",
+			     "<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px;\">\n",
 			     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff);
 
 	filtered_stream = camel_stream_filter_new_with_stream(stream);

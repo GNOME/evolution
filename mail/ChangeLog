@@ -3,6 +3,7 @@
 	* em-format-html.c: replace 3 nested html tables used to create
 	this gray border around parts content with div block with border
 	style
+	use shorthand border: property
 
 2004-11-01  Jeffrey Stedfast  <fejj@novell.com>
 
