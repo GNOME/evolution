@@ -14,7 +14,7 @@
 #include <pthread.h>
 
 #define m(x)			/* msgport debug */
-#define t(x) x			/* thread debug */
+#define t(x) 			/* thread debug */
 
 void e_dlist_init(EDList *v)
 {
@@ -616,7 +616,7 @@ void e_thread_put(EThread *e, EMsg *msg)
 		    && g_list_length(e->id_list) < e->queue_limit
 		    && pthread_create(&id, NULL, thread_dispatch, e) == 0) {
 			struct _thread_info *info = g_malloc0(sizeof(*info));
-			printf("created NEW thread %ld\n", id);
+			t(printf("created NEW thread %ld\n", id));
 			info->id = id;
 			info->busy = TRUE;
 			e->id_list = g_list_append(e->id_list, info);

@@ -2,6 +2,7 @@
 
 	* e-msgport.c (e_thread_destroy): Wait a lot lot longer for
 	threads to finish.
+	: Turned off some of the debug.
 
 2001-02-08  Not Zed  <NotZed@Ximian.com>
 
