@@ -1306,6 +1306,7 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	gboolean want_plain, is_html;
 	const char *repl_to, *message_id, *references;
 	GList *to, *cc;
+	extern char *evolution_dir; /* FIXME yuck!  */
 
 	path = g_strdup_printf ("=%s/config=/mail/msg_format", evolution_dir);
 	string = gnome_config_get_string (path);
