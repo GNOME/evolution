@@ -1,0 +1,6 @@
+2004-10-22  Harish Krishnaswamy <kharish@novell.com>
+
+	* mark-calendar-offline.c: implement a plugin that lets the user mark a
+	calendar to be available for off-line use, if it is not already set to be so
+	and vice versa
+	
