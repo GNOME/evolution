@@ -1180,6 +1180,7 @@ e_storage_set_view_set_current_folder (EStorageSetView *storage_set_view,
 		return;
 	}
 
+	e_tree_model_show_node (priv->etree_model, node);
 	e_table_set_cursor_row (E_TABLE (storage_set_view),
 				e_tree_model_row_of_node (priv->etree_model, node));
 

@@ -278,7 +278,9 @@ command_new_folder (BonoboUIComponent *uih,
 		default_parent_folder = NULL;
 
 	e_shell_show_folder_creation_dialog (shell, GTK_WINDOW (shell_view),
-					     default_parent_folder);
+					     default_parent_folder,
+					     NULL /* result_callback */,
+					     NULL /* result_callback_data */);
 }
 
 static void
@@ -378,7 +380,9 @@ command_create_folder (BonoboUIComponent *uih,
 	else
 		default_folder = NULL;
 
-	e_shell_show_folder_creation_dialog (shell, GTK_WINDOW (shell_view), default_folder);
+	e_shell_show_folder_creation_dialog (shell, GTK_WINDOW (shell_view), default_folder,
+					     NULL /* result_callback */,
+					     NULL /* result_callback_data */);
 }
 
 static void

@@ -1,3 +1,34 @@
+2001-02-08  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-folder-creation-dialog.c (dialog_clicked_cb): Destroy
+	the dialog instead of using `gnome_dialog_close()'.
+	(dialog_clicked_cb): Likewise.
+	(dialog_close_cb): Removed.
+	(e_shell_show_folder_creation_dialog): Don't connect to the
+	"close" signal anymore.
+
+	* e-shell-folder-selection-dialog.c
+	(folder_creation_dialog_result_cb): New callback.  Set the default
+	folder to be the newly created one.
+	(impl_clicked): Use it.
+
+	* e-shell-folder-creation-dialog.c: Add members `folder_path',
+	`result_callback' and `result_callback_data' to `struct
+	_DialogData'.
+	(e_shell_show_folder_creation_dialog): New args @result_callback
+	and @result_callback_data.
+	(async_create_cb): Notify the result through the specified
+	callback.
+	(dialog_clicked_cb): Likewise.  Set the `folder_path' in the
+	DialogData so that we can pass it over when we get the async
+	notification of the result of the operation.
+
+	* e-shell-folder-creation-dialog.h: New type
+	`EShellFolderCreationDialogCallback'.
+
+	* e-storage-set-view.c (e_storage_set_view_set_current_folder):
+	Show the node too, using `e_tree_model_show_node()'.
+
 2001-02-05  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-setup.c (copy_default_stuff): s/first time you run/first time
