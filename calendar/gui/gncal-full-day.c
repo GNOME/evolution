@@ -286,7 +286,7 @@ static void
 child_draw_decor (GncalFullDay *fullday, Child *child, GdkRectangle *area)
 {
 	iCalObject *ico = child->ico;
-	GdkRectangle rect, dest;
+	GdkRectangle rect;
 	int ry = 0;
 
 	rect.x = child->width - child->decor_width;
@@ -432,11 +432,36 @@ delete_appointment (GtkWidget *widget, gpointer data)
 }
 
 static void
+unrecur_appointment (GtkWidget *widget, gpointer data)
+{
+	Child *child;
+	GncalFullDay *fullday;
+	iCalObject *new;
+
+	child = data;
+	fullday = GNCAL_FULL_DAY (child->widget->parent);
+	
+	/* New object */
+	new = ical_object_duplicate (child->ico);
+	g_free (new->recur);
+	new->recur = 0;
+	new->dtstart = child->start;
+	new->dtend   = child->end;
+	
+	/* Duplicate, and eliminate the recurrency fields */
+	ical_object_add_exdate (child->ico, child->start);
+	gnome_calendar_object_changed (fullday->calendar, child->ico, CHANGE_ALL);
+
+	gnome_calendar_add_object (fullday->calendar, new);
+}
+
+static void
 child_popup_menu (GncalFullDay *fullday, Child *child, GdkEventButton *event)
 {
-	int sensitive;
-
+	int sensitive, idx, items;
+	
 	static struct menu_item child_items[] = {
+		{ N_("Make this appointment movable"), (GtkSignalFunc) unrecur_appointment, NULL, TRUE },
 		{ N_("Edit this appointment..."), (GtkSignalFunc) edit_appointment, NULL, TRUE },
 		{ N_("Delete this appointment"), (GtkSignalFunc) delete_appointment, NULL, TRUE },
 		{ NULL, NULL, NULL, TRUE },
@@ -445,14 +470,23 @@ child_popup_menu (GncalFullDay *fullday, Child *child, GdkEventButton *event)
 
 	child_items[0].data = child;
 	child_items[1].data = child;
-	child_items[3].data = fullday;
+	child_items[2].data = child;
+	child_items[4].data = fullday;
 
 	sensitive = (child->ico->user_data == NULL);
 
 	child_items[0].sensitive = sensitive;
 	child_items[1].sensitive = sensitive;
+	child_items[2].sensitive = sensitive;
 
-	popup_menu (child_items, sizeof (child_items) / sizeof (child_items[0]), event);
+	if (child->ico->recur){
+		idx   = 0;
+		items = 5;
+	} else {
+		idx   = 1;
+		items = 4;
+	}
+	popup_menu (&child_items [idx], items, event);
 }
 
 static void

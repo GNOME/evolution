@@ -274,7 +274,6 @@ mail_notify (char *mail_address, char *text, time_t app_time)
 	pipe (p);
 	pid = fork ();
 	if (pid == 0){
-		const int top = max_open_files ();
 		int dev_null;
 
 		dev_null = open ("/dev/null", O_RDWR);
@@ -362,7 +361,6 @@ gnome_calendar_tag_calendar (GnomeCalendar *cal, GtkCalendar *gtk_cal)
 {
 	time_t month_begin, month_end;
 	struct tm tm;
-	GList  *l;
 
 	/* compute month_begin */
 	tm.tm_hour = 0;

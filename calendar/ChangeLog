@@ -1,3 +1,23 @@
+1998-05-14  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* timeutil.c (isodate_from_time_t): Do not add the spurious
+	padding. 
+
+	* calobj.c (store_date_list): Bug fix:  I was using the wrong
+	pointer when saving the exception date list. 
+	(set_date_list): Bug fix:  load correctly the complete exception
+	date list. 
+	(set_date_list): Use ',' for the exception date separator as the
+	versit people can not get their standard right. 
+
+	* gncal-full-day.c (unrecur_appointment): Support for making an
+	existing recurrent event `movable' for a day.
+
+	* calobj.c (ical_object_add_exdate): New routine, used to add
+	exception dates. 
+	(ical_object_duplicate): New routine:  used to do the magic
+	recur->no-recur event.
+
 1998-05-08  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* gncal-full-day.c (new_appointment): Use gtk_calendar freeze/thaw

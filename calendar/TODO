@@ -23,12 +23,6 @@ Week view:
 
 - Replace the calendar by a `task density' widget like in Solaris cm.
 
-Day view:
-
-- Highlight the days with appointments in the calendar.
-
 General:
-
-- See that the views synchronize when you do a gnome_calendar_goto().
 
 - Write online help.  Nice help.  Lots of help.

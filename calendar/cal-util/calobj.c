@@ -92,6 +92,7 @@ ical_object_destroy (iCalObject *ico)
 	free_if_defined  (ico->status);
 	free_if_defined  (ico->class);
 	free_if_defined  (ico->url);
+	free_if_defined  (ico->recur);
 
 	/* Lists */
 	lfree_if_defined (ico->exdate);
@@ -127,13 +128,24 @@ set_date_list (char *str)
 	GList *list = 0;
 	char *s;
 
-	for (s = strtok (str, ";"); s; s = strtok (NULL, ";")){
+	for (s = strtok (str, ";,"); s; s = strtok (NULL, ";,")){
 		time_t *t = g_new (time_t, 1);
 
+		while (*s && isspace (*s))
+			s++;
 		*t = time_from_isodate (s);
 		list = g_list_prepend (list, t);
 	}
 	return list;
+}
+
+void
+ical_object_add_exdate (iCalObject *o, time_t t)
+{
+	time_t *pt = g_new (time_t, 1);
+
+	*pt = t;
+	o->exdate = g_list_prepend (o->exdate, pt);
 }
 
 static void
@@ -455,6 +467,31 @@ setup_alarm_at (iCalObject *ico, CalendarAlarm *alarm, char *iso_time, VObject *
 	}
 }
 
+/*
+ * Duplicates an iCalObject.  Implementation is a grand hack
+ */
+iCalObject *
+ical_object_duplicate (iCalObject *o)
+{
+	VObject *vo;
+	iCalObject *new;
+	
+	vo = ical_object_to_vobject (o);
+	switch (o->type){
+	case ICAL_EVENT:
+		new = ical_object_create_from_vobject (vo, VCEventProp);
+		break;
+	case ICAL_TODO:
+		new = ical_object_create_from_vobject (vo, VCTodoProp);
+		break;
+	default:
+		new = NULL;
+	}
+
+	cleanVObject (vo);
+	return new;
+}
+	
 /* FIXME: we need to load the recurrence properties */
 iCalObject *
 ical_object_create_from_vobject (VObject *o, const char *object_name)
@@ -716,7 +753,7 @@ static void
 store_date_list (VObject *o, char *prop, GList *values)
 {
 	GList *l;
-	int   size;
+	int   size, len;
 	char  *s, *p;
 
 	size = g_list_length (values);
@@ -724,12 +761,13 @@ store_date_list (VObject *o, char *prop, GList *values)
 
 	for (l = values; l; l = l->next){
 		strcpy (s, isodate_from_time_t (*(time_t *)l->data));
-		s [16] = ';';
-		s += 17;
+		len = strlen (s);
+		s [len] = ',';
+		s += len + 1;
 	}
 	s--;
 	*s = 0;
-	addPropValue (o, prop, s);
+	addPropValue (o, prop, p);
 	g_free (p);
 }
 
