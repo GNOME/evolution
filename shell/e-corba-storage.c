@@ -326,7 +326,7 @@ async_folder_cb (BonoboListener *listener, char *event_name,
 		break;
 	}
 
-	closure->callback (closure->storage, result, closure->data);
+	(* closure->callback) (closure->storage, result, closure->data);
 	bonobo_object_unref (BONOBO_OBJECT (listener));
 	g_free (closure);
 }
@@ -373,7 +373,7 @@ async_create_folder (EStorage *storage, const char *path,
 						   corba_listener, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		callback (storage, E_STORAGE_GENERICERROR, data);
+		(* callback) (storage, E_STORAGE_GENERICERROR, data);
 		bonobo_object_unref (BONOBO_OBJECT (listener));
 		g_free (closure);
 	}
@@ -413,13 +413,55 @@ async_remove_folder (EStorage *storage, const char *path,
 						   corba_listener, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		callback (storage, E_STORAGE_GENERICERROR, data);
+		(* callback) (storage, E_STORAGE_GENERICERROR, data);
 		bonobo_object_unref (BONOBO_OBJECT (listener));
 		g_free (closure);
 	}
 	CORBA_exception_free (&ev);
 }
 
+static void
+async_xfer_folder (EStorage *storage,
+		   const char *source_path,
+		   const char *destination_path,
+		   gboolean remove_source,
+		   EStorageResultCallback callback,
+		   void *data)
+{
+	ECorbaStorage *corba_storage;
+	ECorbaStoragePrivate *priv;
+	EFolder *folder;
+	BonoboListener *listener;
+	Bonobo_Listener corba_listener;
+	CORBA_Environment ev;
+	struct async_folder_closure *closure;
+
+	corba_storage = E_CORBA_STORAGE (storage);
+	priv = corba_storage->priv;
+
+	folder = e_storage_get_folder (storage, source_path);
+	if (e_folder_get_is_stock (folder) && remove_source)
+		(* callback) (storage, E_STORAGE_CANTCHANGESTOCKFOLDER, data);
+
+	closure = g_new (struct async_folder_closure, 1);
+	closure->callback = callback;
+	closure->storage = storage;
+	closure->data = data;
+	listener = bonobo_listener_new (async_folder_cb, closure);
+	corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (listener));
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Storage_asyncXferFolder (priv->storage_interface,
+						 source_path, destination_path,
+						 remove_source, corba_listener, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		(* callback) (storage, E_STORAGE_GENERICERROR, data);
+		bonobo_object_unref (BONOBO_OBJECT (listener));
+		g_free (closure);
+	}
+	CORBA_exception_free (&ev);
+}
 
 
 static void
@@ -458,6 +500,7 @@ class_init (ECorbaStorageClass *klass)
 	storage_class->get_display_name = get_display_name;
 	storage_class->async_create_folder = async_create_folder;
 	storage_class->async_remove_folder = async_remove_folder;
+	storage_class->async_xfer_folder = async_xfer_folder;
 
 	corba_class_init ();
 

@@ -1,5 +1,12 @@
 2001-10-26  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-corba-storage.c
+	(async_xfer_folder): New, implementation for the
+	::async_xfer_folder method.
+	(class_init): Install it.
+
+2001-10-26  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell.c (destroy): Set ->is_initialized to %FALSE.
 	(e_shell_unregister_all): Same here.
 
