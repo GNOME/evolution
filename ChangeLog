@@ -1,3 +1,8 @@
+1999-06-03  bertrand  <Bertrand.Guiheneuf@inria.fr>
+
+	* devel-docs/query/virtual-folder-in-depth.sgml: 
+	sgmlized Giao's doc about virtual folders.
+
 1999-05-31  bertrand  <Bertrand.Guiheneuf@inria.fr>
 
 	* tests/test2.c (main): 
