@@ -1,3 +1,18 @@
+2004-04-13  Not Zed  <NotZed@Ximian.com>
+
+	* e-user-creatable-items-handler.c (create_verb): add a component
+	name argument, so we don't use 'this_component', and everything
+	comes from tasks!  Fix callers to pass the component alias.
+	(struct _EUserCreatableItemsHandlerPrivate): change
+	default_menu_item to be fallback_menu_item for the mail message
+	new fallback.  Make default_menu_item be the default for the view
+	(which some code seems to think it should be).  Fixes #56866.
+	(ensure_menu_items): setup the fallback_menu_item here.
+	(get_default_action_for_view): use the fallback as the fallback,
+	not default.
+	(setup_toolbar_button): set the default menu item here for the
+	current view.
+
 2004-04-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-shell.c (e_shell_attempt_upgrade): Don't activate the

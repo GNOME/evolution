@@ -90,6 +90,7 @@ struct _EUserCreatableItemsHandlerPrivate {
 	   component in the view we are in doesn't provide a default user
 	   creatable type.  This pointer always points to one of the menu items
 	   in ->objects.  */
+	const MenuItem *fallback_menu_item;
 	const MenuItem *default_menu_item;
 
 	char *menu_xml;
@@ -216,14 +217,10 @@ item_is_default (const MenuItem *item,
 }
 
 static char *
-create_verb (EUserCreatableItemsHandler *handler,
-	     int component_num, const char *type_id)
+create_verb (EUserCreatableItemsHandler *handler, int component_num, const char *comp, const char *type_id)
 {
-	return g_strdup_printf ("EUserCreatableItemsHandler-%s:%d:%s",
-				handler->priv->this_component,
-				component_num, type_id);
+	return g_strdup_printf ("EUserCreatableItemsHandler-%s:%d:%s", comp, component_num, type_id);
 }
-
 
 /* Setting up menu items for the "File -> New" submenu and the "New" toolbar
    button.  */
@@ -259,7 +256,7 @@ ensure_menu_items (EUserCreatableItemsHandler *handler)
 				item = g_new (MenuItem, 1);
 				item->label        = corba_item->menuDescription;
 				item->shortcut     = corba_item->menuShortcut;
-				item->verb         = create_verb (handler, component_num, corba_item->id);
+				item->verb         = create_verb (handler, component_num, component->alias, corba_item->id);
 				item->tooltip      = corba_item->tooltip;
 				item->component    = g_strdup (component->alias);
 
@@ -288,14 +285,14 @@ ensure_menu_items (EUserCreatableItemsHandler *handler)
 	priv->objects = g_slist_reverse (objects);
 	priv->folders = g_slist_reverse (folders);
 
-	priv->default_menu_item = NULL;
+	priv->fallback_menu_item = NULL;
 	if (default_verb != NULL) {
 		for (p = priv->objects; p != NULL; p = p->next) {
 			const MenuItem *item;
 
 			item = (const MenuItem *) p->data;
 			if (strcmp (item->verb, default_verb) == 0)
-				priv->default_menu_item = item;
+				priv->fallback_menu_item = item;
 		}
 	}
 }
@@ -340,7 +337,7 @@ get_default_action_for_view (EUserCreatableItemsHandler *handler)
 			return item;
 	}
 
-	return priv->default_menu_item;
+	return priv->fallback_menu_item;
 }
 
 
@@ -427,6 +424,7 @@ add_verbs (EUserCreatableItemsHandler *handler,
 
 				verb_name = create_verb (handler,
 							 component_num,
+							 component->alias,
 							 component->type_list->_buffer[i].id);
 
 				bonobo_ui_component_add_verb (ui_component, verb_name, verb_fn, handler);
@@ -671,7 +669,6 @@ static void
 setup_toolbar_button (EUserCreatableItemsHandler *handler)
 {
 	EUserCreatableItemsHandlerPrivate *priv;
-	const MenuItem *default_menu_item;
 
 	priv = handler->priv;
 
@@ -691,8 +688,8 @@ setup_toolbar_button (EUserCreatableItemsHandler *handler)
 
 	priv->new_control = bonobo_control_new (priv->new_button);
 
-	default_menu_item = get_default_action_for_view (handler);
-	if (!default_menu_item) {
+	priv->default_menu_item = get_default_action_for_view (handler);
+	if (!priv->default_menu_item) {
 		gtk_widget_set_sensitive (priv->new_button, FALSE);
 		return;
 	}
@@ -700,13 +697,13 @@ setup_toolbar_button (EUserCreatableItemsHandler *handler)
 	gtk_widget_set_sensitive (priv->new_button, TRUE);
 
 	e_combo_button_set_icon (E_COMBO_BUTTON (priv->new_button),
-				 default_menu_item->icon);
+				 priv->default_menu_item->icon);
 
 	priv->tooltips = gtk_tooltips_new ();
 	gtk_object_ref (GTK_OBJECT (priv->tooltips));
 	gtk_object_sink (GTK_OBJECT (priv->tooltips));
 	gtk_tooltips_set_tip (priv->tooltips, priv->new_button,
-			      default_menu_item->tooltip, NULL);
+			      priv->default_menu_item->tooltip, NULL);
 }
 
 
