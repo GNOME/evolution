@@ -1,3 +1,7 @@
+2003-07-26  Larry Ewing  <lewing@ximian.com>
+
+	* configure.in: use libgtkhtml-3.1 for linking.
+
 2003-07-26  Rodney Dawes  <dobey@ximian.com>
 
 	* configure.in: Bump version to "1.5", so that we end up being
