@@ -1,3 +1,10 @@
+2001-02-07  Iain Holmes  <iain@ximian.com>
+
+	* gui/calendar-summary.c (create_summary_view): Add a setter to the
+	property bag.
+	(set_property): The setter.
+	(generate_html_summary): Sort the UIDs accodring to time.
+
 2001-02-06  JP Rosevear  <jpr@ximian.com>
 
 	* cal-util/cal-component.c (cal_component_set_categories): If the

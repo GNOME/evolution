@@ -77,6 +77,106 @@ static int running_views = 0;
 static BonoboGenericFactory *factory;
 #define CALENDAR_SUMMARY_ID "OAFIID:GNOME_Evolution_Calendar_Summary_ComponentFactory"
 
+/* list_sort_merge, and list_sort are copied from GNOME-VFS.
+   Author: Sven Oliver <sven.over@ob.kamp.net>
+   Modified by Ettore Perazzoli <ettore@comm2000.it> to let the compare
+   functions get an additional gpointer parameter.  
+
+   Included here as using gnome-vfs for 1 20 line function 
+   seems a bit of overkill.
+*/
+
+typedef gint (* CalSummaryListCompareFunc) (gconstpointer a, 
+					    gconstpointer b,
+					    gpointer data);
+static GList *
+cal_list_sort_merge (GList *l1,
+		     GList *l2,
+		     CalSummaryListCompareFunc compare_func,
+		     gpointer data)
+{
+	GList list, *l, *lprev;
+
+	l = &list;
+	lprev = NULL;
+
+	while (l1 && l2) {
+		if (compare_func (l1->data, l2->data, data) < 0) {
+			l->next = l1;
+			l = l->next;
+			l->prev = lprev;
+			lprev = l;
+			l1 = l1->next;
+		} else {
+			l->next = l2;
+			l = l->next;
+			l->prev = lprev;
+			lprev = l;
+			l2 = l2->next;
+		}
+	}
+
+	l->next = l1 ? l1 : l2;
+	l->next->prev = l;
+
+	return list.next;
+}
+
+static GList *
+cal_list_sort (GList *list,
+	       CalSummaryListCompareFunc compare_func,
+	       gpointer data)
+{
+	GList *l1, *l2;
+
+	if (!list)
+		return NULL;
+	if (!list->next)
+		return list;
+
+	l1 = list;
+	l2 = list->next;
+
+	while ((l2 = l2->next) != NULL) {
+		if ((l2 = l2->next) == NULL)
+			break;
+		l1 = l1->next;
+	}
+
+	l2 = l1->next;
+	l1->next = NULL;
+	
+	return cal_list_sort_merge (cal_list_sort (list, compare_func, data),
+				    cal_list_sort (l2, compare_func, data),
+				    compare_func, data);
+}
+	
+static int
+sort_uids (gconstpointer a,
+	   gconstpointer b,
+	   gpointer user_data)
+{
+	CalComponent *comp_a, *comp_b;
+	CalSummary *summary = user_data;
+	CalClientGetStatus status;
+	CalComponentDateTime start_a, start_b;
+
+	/* a after b then return > 0 */
+
+	status = cal_client_get_object (summary->client, a, &comp_a);
+	if (status != CAL_CLIENT_GET_SUCCESS)
+		return -1;
+
+	status = cal_client_get_object (summary->client, b, &comp_b);
+	if (status != CAL_CLIENT_GET_SUCCESS)
+		return 1;
+
+	cal_component_get_dtstart (comp_a, &start_a);
+	cal_component_get_dtstart (comp_b, &start_b);
+
+	return icaltime_compare (*start_a.value, *start_b.value);
+}
+
 static gboolean
 generate_html_summary (gpointer data)
 {
@@ -107,6 +207,8 @@ generate_html_summary (gpointer data)
 		uids = cal_client_get_objects_in_range (summary->client, 
 							CALOBJ_TYPE_EVENT, day_begin,
 							day_end);
+		uids = cal_list_sort (uids, sort_uids, summary);
+
 		for (l = uids; l; l = l->next){
 			CalComponent *comp;
 			CalComponentText text;
@@ -227,11 +329,45 @@ get_property (BonoboPropertyBag *bag,
 
 	switch (arg_id) {
 	case PROPERTY_TITLE:
+		g_warning ("Get property: %s", summary->title);
 		BONOBO_ARG_SET_STRING (arg, summary->title);
 		break;
 
 	case PROPERTY_ICON:
 		BONOBO_ARG_SET_STRING (arg, summary->icon);
+		break;
+
+	default:
+		break;
+	}
+}
+
+static void
+set_property (BonoboPropertyBag *bag,
+	      const BonoboArg *arg,
+	      guint arg_id,
+	      CORBA_Environment *ev,
+	      gpointer user_data)
+{
+	CalSummary *summary = (CalSummary *) user_data;
+
+	switch (arg_id) {
+	case PROPERTY_TITLE:
+		if (summary->title)
+			g_free (summary->title);
+
+		summary->title = g_strdup (BONOBO_ARG_GET_STRING (arg));
+		bonobo_property_bag_notify_listeners (bag, "window_title",
+						      arg, NULL);
+		break;
+
+	case PROPERTY_ICON:
+		if (summary->icon)
+			g_free (summary->icon);
+
+		summary->icon = g_strdup (BONOBO_ARG_GET_STRING (arg));
+		bonobo_property_bag_notify_listeners (bag, "window_icon",
+						      arg, NULL);
 		break;
 
 	default:
@@ -584,7 +720,7 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 	bonobo_object_add_interface (component, view);
 
 	/* BonoboPropertyBag */
-	bag = bonobo_property_bag_new_full (get_property, NULL, 
+	bag = bonobo_property_bag_new_full (get_property, set_property, 
 					    event_source, summary);
 	bonobo_property_bag_add (bag, "window_title", PROPERTY_TITLE,
 				 BONOBO_ARG_STRING, NULL, 
