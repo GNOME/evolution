@@ -1016,6 +1016,15 @@ fi
 AC_SUBST(OPENSSL_CFLAGS)
 AC_SUBST(OPENSSL_LDFLAGS)
 
+dnl *******************
+dnl GObject marshalling
+dnl *******************
+AM_PATH_GLIB_2_0
+
+dnl We use AC_SUBST_FILE because AC_SUBST won't deal with newlines
+EVO_MARSHAL_RULE=$srcdir/marshal.mk
+AC_SUBST_FILE(EVO_MARSHAL_RULE)
+
 dnl *************************
 dnl CFLAGS and LIBS and stuff
 dnl *************************
@@ -1029,8 +1038,6 @@ AC_MSG_CHECKING(for CORBA include paths)
 IDL_INCLUDES="-I "`pkg-config --variable=idldir libbonobo-2.0`" -I "`pkg-config --variable=idldir bonobo-activation-2.0`
 AC_MSG_RESULT($IDL_INCLUDES)
 AC_SUBST(IDL_INCLUDES)
-
-AM_PATH_GLIB_2_0
 
 dnl Utility macro to set compiler flags for a specific lib.
 AC_DEFUN(EVO_SET_COMPILE_FLAGS, [

@@ -1,3 +1,14 @@
+2003-07-23  Dan Winship  <danw@ximian.com>
+
+	* configure.in: Define EVO_MARSHAL_RULE, which creates glib
+	marshaller .c and .h files that don't cause gcc warnings
+
+	* marshal.mk: The Makefile fragment used by EVO_MARSHAL_RULE.
+	(Can't include newlines in an AC_SUBST, so we have to use
+	AC_SUBST_FILE)
+
+	* Makefile.am (EXTRA_DIST): add marshal.mk
+
 2003-07-20 Hasbullah Bin Pit <sebol@ikhlas.com>
 
 	*configure.in: Added 'ms' (Malay) to ALL_LINGUAS.

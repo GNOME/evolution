@@ -18,6 +18,7 @@ EXTRA_DIST = 			\
 	MAINTAINERS		\
 	NEWS			\
 	NEWS-1.0		\
+	marshal.mk		\
 	intltool-merge.in	\
 	intltool-update.in	\
 	intltool-extract.in	\
