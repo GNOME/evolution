@@ -13,6 +13,10 @@
 
 2002-04-04  Not Zed  <NotZed@Ximian.com>
 
+	* providers/imap/camel-imap-search.c (imap_body_contains): If
+	(body-contains) is not passed any arguments, return empty/false.
+	Fixes a crash exposed by #15001.
+
 	* camel-remote-store.c (remote_connect): Reset the keepalive
 	timeout to 10 minutes rather than the 30 seconds I was using for
 	testing.

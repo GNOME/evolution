@@ -411,7 +411,7 @@ imap_body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, Came
 				g_ptr_array_add(r->value.ptrarray, (char *)camel_message_info_uid(info));
 			}
 		}
-	} else if (s->summary->len == 0) {
+	} else if (argc == 0 || s->summary->len == 0) {
 		/* nothing to match case, do nothing (should be handled higher up?) */
 		if (s->current) {
 			r = e_sexp_result_new(f, ESEXP_RES_BOOL);
