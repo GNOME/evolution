@@ -1,3 +1,18 @@
+2002-05-16  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-msg-composer.c: New local `all_composers'; keeps a list of all
+	the composer windows created.  Changed type of `parent_class' to
+	BonoboWindowClass *.
+	(do_exit): Cleaned up a bit.  Raise the composer window before
+	showing the message box dialog.
+	(exit_dialog_cb): Removed.
+	(e_msg_composer_request_close_all): New.
+	(create_composer): Add the composer to the all_composers list and
+	weakref it.
+	(msg_composer_destroy_notify): GtkDestroyNotify function for the
+	composer's weakref; remove the composer from the all_composers
+	list.
+
 2002-05-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-attachment.c (e_msg_composer_attachment_new):

@@ -50,8 +50,10 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <unistd.h>
+
 #include <gal/unicode/gunicode.h>
 #include <gal/util/e-unicode-i18n.h>
+
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-exec.h>
 #include <libgnomeui/gnome-app.h>
@@ -60,22 +62,24 @@
 #include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-stock.h>
 #include <libgnomeui/gnome-window-icon.h>
+
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-moniker-util.h>
 #include <bonobo/bonobo-object-client.h>
 #include <bonobo/bonobo-stream-memory.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <bonobo/bonobo-widget.h>
+
 #include <libgnomevfs/gnome-vfs.h>
 
 #include <glade/glade.h>
+
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-scroll-frame.h>
 #include <gal/e-text/e-entry.h>
+
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/htmlselection.h>
-
-/*#include <addressbook/backend/ebook/e-card.h>*/
 
 #include "widgets/misc/e-charset-picker.h"
 
@@ -133,8 +137,14 @@ static GtkTargetEntry drop_types[] = {
 
 static int num_drop_types = sizeof (drop_types) / sizeof (drop_types[0]);
 
-static GnomeAppClass *parent_class = NULL;
+
+/* The parent class.  */
+static BonoboWindowClass *parent_class = NULL;
 
+/* All the composer windows open, for bookkeeping purposes.  */
+static GSList *all_composers = NULL;
+
+
 /* local prototypes */
 static GList *add_recipients   (GList *list, const char *recips, gboolean decode);
 
@@ -1306,46 +1316,43 @@ menu_file_save_draft_cb (BonoboUIComponent *uic, void *data, const char *path)
 
 /* Exit dialog.  (Displays a "Save composition to 'Drafts' before exiting?" warning before actually exiting.)  */
 
-enum { REPLY_YES = 0, REPLY_NO, REPLY_CANCEL };
-
-static void
-exit_dialog_cb (int reply, EMsgComposer *composer)
-{
-	switch (reply) {
-	case REPLY_YES:
-		gtk_signal_emit (GTK_OBJECT (composer), signals[SAVE_DRAFT], TRUE);
-		e_msg_composer_unset_changed (composer);
-		break;
-	case REPLY_NO:
-		gtk_widget_destroy (GTK_WIDGET (composer));
-		break;
-	case REPLY_CANCEL:
-	default:
-	}
-}
-
 static void
 do_exit (EMsgComposer *composer)
 {
 	GtkWidget *dialog;
 	gint button;
 	
-	if (e_msg_composer_is_dirty (composer)) {
-		dialog = gnome_message_box_new (_("This message has not been sent.\n\nDo you wish to save your changes?"),
-						GNOME_MESSAGE_BOX_QUESTION,
-						GNOME_STOCK_BUTTON_YES,      /* Save */
-						GNOME_STOCK_BUTTON_NO,       /* Don't save */
-						GNOME_STOCK_BUTTON_CANCEL,   /* Cancel */
-						NULL);
-	
-		gtk_window_set_title (GTK_WINDOW (dialog), _("Warning: Modified Message"));
-		gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (composer));
-		gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
-		button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
-		
-		exit_dialog_cb (button, composer);
-	} else {
+	if (! e_msg_composer_is_dirty (composer)) {
 		gtk_widget_destroy (GTK_WIDGET (composer));
+		return;
+	}
+
+	gdk_window_raise (GTK_WIDGET (composer)->window);
+
+	dialog = gnome_message_box_new (_("This message has not been sent.\n\nDo you wish to save your changes?"),
+					GNOME_MESSAGE_BOX_QUESTION,
+					GNOME_STOCK_BUTTON_YES,      /* Save */
+					GNOME_STOCK_BUTTON_NO,       /* Don't save */
+					GNOME_STOCK_BUTTON_CANCEL,   /* Cancel */
+					NULL);
+	
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Warning: Modified Message"));
+	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (composer));
+	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
+	button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+		
+	switch (button) {
+	case 0:			/* Save */
+		gtk_signal_emit (GTK_OBJECT (composer), signals[SAVE_DRAFT], TRUE);
+		e_msg_composer_unset_changed (composer);
+		break;
+	case 1:			/* Don't save */
+		gtk_widget_destroy (GTK_WIDGET (composer));
+		break;
+	case 2:			/* Cancel */
+		break;
+	default:
+		g_assert_not_reached ();
 	}
 }
 
@@ -2628,6 +2635,14 @@ map_default_cb (EMsgComposer *composer, gpointer user_data)
 	CORBA_exception_free (&ev);
 }
 
+static void
+msg_composer_destroy_notify (void *data)
+{
+	EMsgComposer *composer = E_MSG_COMPOSER (data);
+
+	all_composers = g_slist_remove (all_composers, composer);
+}
+
 static EMsgComposer *
 create_composer (void)
 {
@@ -2640,6 +2655,12 @@ create_composer (void)
 
 	composer = gtk_type_new (E_TYPE_MSG_COMPOSER);
 	
+	all_composers = g_slist_prepend (all_composers, composer);
+
+	gtk_object_weakref (GTK_OBJECT (composer),
+			    msg_composer_destroy_notify,
+			    composer);
+
 	gtk_window_set_default_size (GTK_WINDOW (composer),
 				     DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	gnome_window_icon_set_from_file (GTK_WINDOW (composer), EVOLUTION_DATADIR
@@ -4320,4 +4341,21 @@ e_msg_composer_drop_editor_undo (EMsgComposer *composer)
 	CORBA_exception_init (&ev);
 	GNOME_GtkHTML_Editor_Engine_dropUndo (composer->editor_engine, &ev);
 	CORBA_exception_free (&ev);
+}
+
+
+gboolean
+e_msg_composer_request_close_all (void)
+{
+	GSList *p, *pnext;
+
+	for (p = all_composers; p != NULL; p = pnext) {
+		pnext = p->next;
+		do_exit (E_MSG_COMPOSER (p->data));
+	}
+
+	if (all_composers == NULL)
+		return TRUE;
+	else
+		return FALSE;
 }

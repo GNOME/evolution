@@ -936,6 +936,13 @@ send_receive_cb (EvolutionShellComponent *shell_component,
 	mail_send_receive ();
 }
 
+static gboolean
+request_quit (EvolutionShellComponent *shell_component,
+	      void *closure)
+{
+	return e_msg_composer_request_close_all ();
+}
+
 static BonoboObject *
 create_component (void)
 {
@@ -952,7 +959,8 @@ create_component (void)
 							 xfer_folder,
 							 populate_folder_context_menu,
 							 get_dnd_selection,
-							 NULL, NULL);
+							 request_quit,
+							 NULL);
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "send_receive",
 			    GTK_SIGNAL_FUNC (send_receive_cb), NULL);

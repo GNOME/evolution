@@ -194,6 +194,9 @@ void                     e_msg_composer_add_message_attachments          (EMsgCo
 void                     e_msg_composer_ignore                           (EMsgComposer      *composer,
 									  const gchar       *str);
 void                     e_msg_composer_drop_editor_undo                 (EMsgComposer      *composer);
+
+gboolean                 e_msg_composer_request_close_all                (void);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
