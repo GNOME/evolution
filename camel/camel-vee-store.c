@@ -219,7 +219,7 @@ vee_get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelExce
 	GHashTable *infos_hash;
 	int i;
 
-	printf("Get folder info '%s'\n", top?top:"<null>");
+	d(printf("Get folder info '%s'\n", top?top:"<null>"));
 
 	infos_hash = g_hash_table_new(g_str_hash, g_str_equal);
 	folders = camel_object_bag_list(store->folders);
@@ -230,7 +230,7 @@ vee_get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelExce
 		char *name = ((CamelFolder *)folder)->full_name, *pname, *tmp;
 		CamelFolderInfo *pinfo;
 
-		printf("folder '%s'\n", name);
+		d(printf("folder '%s'\n", name));
 
 		/* check we have to include this one */
 		if (top) {
@@ -249,7 +249,7 @@ vee_get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelExce
 				add = strchr(name, '/') == NULL;
 		}
 
-		printf("%sadding '%s'\n", add?"":"not ", name);
+		d(printf("%sadding '%s'\n", add?"":"not ", name));
 
 		if (add) {
 			/* ensures unread is correct */
@@ -274,7 +274,7 @@ vee_get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelExce
 
 		/* check for parent, if present, update flags and if adding, update parent linkage */
 		pname = g_strdup(((CamelFolder *)folder)->full_name);
-		printf("looking up parent of '%s'\n", pname);
+		d(printf("looking up parent of '%s'\n", pname));
 		tmp = strrchr(pname, '/');
 		if (tmp) {
 			*tmp = 0;
@@ -284,7 +284,7 @@ vee_get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelExce
 
 		if (pinfo) {
 			pinfo->flags = (pinfo->flags & ~(CAMEL_FOLDER_CHILDREN|CAMEL_FOLDER_NOCHILDREN))|CAMEL_FOLDER_CHILDREN;
-			printf("updating parent flags for children '%s' %08x\n", pinfo->full_name, pinfo->flags);
+			d(printf("updating parent flags for children '%s' %08x\n", pinfo->full_name, pinfo->flags));
 			tail = pinfo->child;
 			if (tail == NULL)
 				pinfo->child = info;
