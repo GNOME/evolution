@@ -9,3 +9,4 @@ Makefile.in
 *.signals
 *.stamp
 *-scan.c
+.libs
