@@ -1,5 +1,14 @@
 2001-06-19  JP Rosevear  <jpr@ximian.com>
 
+	* gui/Makefile.am: don't compile or install the old meeting edit
+	stuff
+
+	* gui/e-week-view.c: ditto
+
+	* gui/e-day-view.c: Remove scheduling menu option
+	
+2001-06-19  JP Rosevear  <jpr@ximian.com>
+
 	* gui/itip-utils.c: add some needed commas
 	(itip_send_comp): if publishing, don't set the to list and show
 	the message.  unless publishing, just send the email

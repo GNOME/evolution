@@ -51,7 +51,6 @@
 #include "cal-util/timeutil.h"
 #include "calendar-commands.h"
 #include "goto.h"
-#include "e-meeting-edit.h"
 #include "e-week-view-event-item.h"
 #include "e-week-view-layout.h"
 #include "e-week-view-main-item.h"
@@ -166,8 +165,6 @@ static void e_week_view_on_delete_appointment (GtkWidget *widget,
 static void e_week_view_on_cut (GtkWidget *widget, gpointer data);
 static void e_week_view_on_copy (GtkWidget *widget, gpointer data);
 static void e_week_view_on_paste (GtkWidget *widget, gpointer data);
-static void e_week_view_on_schedule_meet (GtkWidget *widget, 
-					  gpointer data);
 static void e_week_view_on_unrecur_appointment (GtkWidget *widget,
 						gpointer data);
 
@@ -3047,8 +3044,7 @@ static EPopupMenu child_items [] = {
 	  e_week_view_on_copy, NULL, MASK_EDITING | MASK_EDITABLE },
 	{ N_("Paste"), NULL,
 	  e_week_view_on_paste, NULL, 0 },
-	{ N_("Schedule Meeting"), NULL,
-	  e_week_view_on_schedule_meet, NULL, MASK_EDITING },
+
 	{ "", NULL, NULL, NULL, 0},
 
 	{ N_("New Appointment..."), NULL,
@@ -3281,27 +3277,6 @@ e_week_view_on_paste (GtkWidget *widget, gpointer data)
 			       clipboard_atom,
 			       GDK_SELECTION_TYPE_STRING,
 			       GDK_CURRENT_TIME);
-}
-
-static void
-e_week_view_on_schedule_meet (GtkWidget *widget, gpointer data)
-{
-	EWeekView *week_view;
-	EWeekViewEvent *event;
-	EMeetingEditor *editor;
-	
-	week_view = E_WEEK_VIEW (data);
-
-	if (week_view->popup_event_num == -1)
-		return;
-
-	event = &g_array_index (week_view->events, EWeekViewEvent,
-				week_view->popup_event_num);
-
-	editor = e_meeting_editor_new (event->comp, week_view->client);
-
-	e_meeting_edit (editor);
-	e_meeting_editor_free (editor);
 }
 
 static void

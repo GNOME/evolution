@@ -48,7 +48,6 @@ INCLUDES = 						\
 gladedir   = $(datadir)/evolution/glade
 
 glade_DATA = 					\
-	e-meeting-dialog.glade			\
 	e-itip-control.glade			\
 	goto-dialog.glade
 
@@ -84,8 +83,6 @@ evolution_calendar_SOURCES =			\
 	e-day-view.h				\
 	e-itip-control.h			\
 	e-itip-control.c			\
-	e-meeting-edit.h			\
-	e-meeting-edit.c			\
 	e-week-view-event-item.c		\
 	e-week-view-event-item.h		\
 	e-week-view-layout.c			\

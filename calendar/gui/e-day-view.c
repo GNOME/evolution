@@ -52,7 +52,6 @@
 #include "comp-util.h"
 #include "calendar-commands.h"
 #include "goto.h"
-#include "e-meeting-edit.h"
 #include "e-day-view-time-item.h"
 #include "e-day-view-top-item.h"
 #include "e-day-view-layout.h"
@@ -325,8 +324,6 @@ static void e_day_view_on_delete_appointment (GtkWidget *widget,
 static void e_day_view_on_cut (GtkWidget *widget, gpointer data);
 static void e_day_view_on_copy (GtkWidget *widget, gpointer data);
 static void e_day_view_on_paste (GtkWidget *widget, gpointer data);
-static void e_day_view_on_schedule_meet (GtkWidget *widget,
-					 gpointer data);
 static void e_day_view_on_unrecur_appointment (GtkWidget *widget,
 					       gpointer data);
 static EDayViewEvent* e_day_view_get_popup_menu_event (EDayView *day_view);
@@ -3210,8 +3207,6 @@ static EPopupMenu child_items [] = {
 	  e_day_view_on_copy, NULL, 0 },
 	{ N_("Paste"), NULL,
 	  e_day_view_on_paste, NULL, 0 },
-	{ N_("Schedule Meeting"), NULL,
-	  e_day_view_on_schedule_meet, NULL, MASK_EDITING },
 
 	{ "", NULL, NULL, NULL, MASK_SINGLE},
 
@@ -3442,25 +3437,6 @@ e_day_view_on_paste (GtkWidget *widget, gpointer data)
 			       clipboard_atom,
 			       GDK_SELECTION_TYPE_STRING,
 			       GDK_CURRENT_TIME);
-}
-
-static void
-e_day_view_on_schedule_meet (GtkWidget *widget, gpointer data)
-{
-	EDayView *day_view;
-	EDayViewEvent *event;
-	EMeetingEditor *editor;
-	
-	day_view = E_DAY_VIEW (data);
-
-	event = e_day_view_get_popup_menu_event (day_view);
-	if (event == NULL)
-		return;
-
-	editor = e_meeting_editor_new (event->comp, day_view->client);
-
-	e_meeting_edit (editor);
-	e_meeting_editor_free (editor);
 }
 
 static void
