@@ -55,6 +55,8 @@ static void e_calendar_table_destroy (GtkObject *object);
 
 static void e_calendar_table_on_double_click (ETable *table,
 					      gint row,
+					      gint col,
+					      GdkEvent *event,
 					      ECalendarTable *cal_table);
 static gint e_calendar_table_on_right_click (ETable *table,
 					     gint row,
@@ -197,6 +199,7 @@ static void
 e_calendar_table_init (ECalendarTable *cal_table)
 {
 	GtkWidget *table;
+	ETable *e_table;
 	ETableModel *model;
 	ECell *cell;
 	ETableExtras *extras;
@@ -264,13 +267,15 @@ e_calendar_table_init (ECalendarTable *cal_table)
 			  GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
 	gtk_widget_show (table);
 
-	gtk_signal_connect (GTK_OBJECT (table), "double_click",
+
+	e_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (table));
+	gtk_signal_connect (GTK_OBJECT (e_table), "double_click",
 			    GTK_SIGNAL_FUNC (e_calendar_table_on_double_click),
 			    cal_table);
-	gtk_signal_connect (GTK_OBJECT (table), "right_click",
+	gtk_signal_connect (GTK_OBJECT (e_table), "right_click",
 			    GTK_SIGNAL_FUNC (e_calendar_table_on_right_click),
 			    cal_table);
-	gtk_signal_connect (GTK_OBJECT (table), "key_press",
+	gtk_signal_connect (GTK_OBJECT (e_table), "key_press",
 			    GTK_SIGNAL_FUNC (e_calendar_table_on_key_press),
 			    cal_table);
 }
@@ -318,7 +323,9 @@ e_calendar_table_set_cal_client (ECalendarTable *cal_table,
 
 static void
 e_calendar_table_on_double_click (ETable *table,
-				  gint row,
+				  gint row, 
+				  gint col,
+				  GdkEvent *event,
 				  ECalendarTable *cal_table)
 {
 	e_calendar_table_open_task (cal_table, row);
