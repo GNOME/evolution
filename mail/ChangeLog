@@ -1,3 +1,7 @@
+2003-12-10  Larry Ewing  <lewing@ximian.com>
+
+	* em-format-html.c: add text/x-patch as a plain type.
+
 2003-12-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-migrate.c (get_local_store): Fixed a leak.

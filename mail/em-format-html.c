@@ -1101,6 +1101,7 @@ static EMFormatHandler type_builtin_table[] = {
 	{ "image/x-xpixmap", (EMFormatFunc)efh_image },
 	{ "text/enriched", (EMFormatFunc)efh_text_enriched },
 	{ "text/plain", (EMFormatFunc)efh_text_plain },
+	{ "text/x-patch", (EMFormatFunc)efh_text_plain },
 	{ "text/html", (EMFormatFunc)efh_text_html },
 	{ "text/richtext", (EMFormatFunc)efh_text_enriched },
 	/*{ "text/ *", (EMFormatFunc)efh_text_plain },*/
