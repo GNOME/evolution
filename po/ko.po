@@ -5,15 +5,15 @@
 # Changwoo Ryu <cwryu@debian.org>, 2003-2004.
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution 1.5.1\n"
-"POT-Creation-Date: 2004-01-12 22:53-0500\n"
-"PO-Revision-Date: 2004-01-13 03:08+0900\n"
+"Project-Id-Version: evolution 1.5.2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-01-14 00:38+0900\n"
+"PO-Revision-Date: 2004-01-14 02:47+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: GTP Korean <gnome-kr-translation@gnome.or.kr>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: addressbook/conduit/address-conduit.c:272
@@ -193,6 +193,7 @@ msgid "Migrating `%s':"
 msgstr "`%s' 옮기는 중:"
 
 #. create the local source group
+#. create the source group
 #: addressbook/gui/component/addressbook-migrate.c:313
 #: calendar/gui/calendar-component.c:540 calendar/gui/calendar-component.c:550
 #: calendar/gui/tasks-component.c:502 calendar/gui/tasks-component.c:508
@@ -895,25 +896,19 @@ msgid "Full _Name..."
 msgstr "전체 이름(_N)..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:19
-#, fuzzy
 msgid ""
 "If this person has the ability to participate in a video conference, enter "
 "their address here."
-msgstr ""
-"<b>화상 회의</b>\n"
-"화상 회의에 참여할 수 있으면, 그 주소를 여기에 입력하십시오."
+msgstr "화상 회의에 참여할 수 있으면, 그 주소를 여기에 입력하십시오."
 
 # free/busy -> 약속 있음/없음, Microsoft Office XP 참고
 #: addressbook/gui/contact-editor/contact-editor.glade.h:20
-#, fuzzy
 msgid ""
 "If this person publishes free/busy or other calendar information on the "
 "Internet, enter the address\n"
 "of that information here."
 msgstr ""
-"<b>달력 주소</b>\n"
-"이 사람이 약속 있음/없음 정보 혹은 기타 달력 정보를 인터넷에 게시하고 있다"
-"면,\n"
+"이 사람이 약속 있음/없음 정보 혹은 기타 달력 정보를 인터넷에 게시하고 있다면,\n"
 "그 달력 정보의 주소를 여기에 입력하십시오."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:22
@@ -2975,19 +2970,19 @@ msgid "GTK Tree View"
 msgstr "GTk 트리 뷰"
 
 # 테스트 프로그램
-#: addressbook/gui/widgets/test-reflow.c:106
+#: addressbook/gui/widgets/test-reflow.c:119
 msgid "Reflow Test"
 msgstr "Reflow 테스트"
 
 # 테스트 프로그램
-#: addressbook/gui/widgets/test-reflow.c:107
+#: addressbook/gui/widgets/test-reflow.c:120
 #: addressbook/printing/test-contact-print-style-editor.c:54
 #: addressbook/printing/test-print.c:53
 msgid "Copyright (C) 2000, Ximian, Inc."
 msgstr "Copyright (C) 2000, Ximian, Inc."
 
 # 테스트 프로그램
-#: addressbook/gui/widgets/test-reflow.c:109
+#: addressbook/gui/widgets/test-reflow.c:122
 msgid "This should test the reflow canvas item"
 msgstr "reflow canvas item을 테스트합니다"
 
@@ -3528,7 +3523,7 @@ msgstr "일별 보기 및 주별 보기에 보일 시간 간격"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
 msgid "List of urls for free/busy publishing"
-msgstr ""
+msgstr "약속 있음/없음 정보를 게시할 URL 목록"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
 msgid "Minute the workday ends on"
@@ -3667,6 +3662,10 @@ msgstr "%Y년 %B %d일 %A"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
+#. strftime format %a = abbreviated weekday name,
+#. %d = day of month, %b = abbreviated month name.
+#. You can change the order but don't change the
+#. specifiers or add anything.
 #: calendar/gui/calendar-commands.c:425 calendar/gui/e-day-view-top-item.c:692
 #: calendar/gui/e-day-view.c:1365 calendar/gui/e-week-view-main-item.c:329
 msgid "%a %d %b"
@@ -3866,14 +3865,12 @@ msgstr "알 수 없는 알림 옵션"
 
 # Alarm -> 알림, Microsoft Office XP 참고
 #: calendar/gui/dialogs/alarm-options.glade.h:2
-#, fuzzy
 msgid "Alarm Repeat"
-msgstr "<b>알림 반복</b>"
+msgstr "알림 반복"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:3
-#, fuzzy
 msgid "Message to Display:"
-msgstr "메세지 표시"
+msgstr "표시할 메세지:"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:4
 msgid "Message to Send"
@@ -3922,7 +3919,6 @@ msgstr "동작/시작 옵션"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:1
 #: calendar/gui/dialogs/recurrence-page.glade.h:2
-#, fuzzy
 msgid "Basics"
 msgstr "기본"
 
@@ -3940,9 +3936,8 @@ msgid "Play a sound"
 msgstr "소리 연주"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:5
-#, fuzzy
 msgid "Reminders"
-msgstr "알림"
+msgstr "미리 알림"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:6 calendar/gui/e-alarm-list.c:471
 msgid "Run a program"
@@ -4097,9 +4092,8 @@ msgid "T_hu"
 msgstr "목(_H)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
-#, fuzzy
 msgid "Task List"
-msgstr "작업 목록(_T)"
+msgstr "작업 목록"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
 #: calendar/gui/dialogs/recurrence-page.c:1047
@@ -4108,9 +4102,8 @@ msgid "Thursday"
 msgstr "목요일"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
-#, fuzzy
 msgid "Time"
-msgstr "제목"
+msgstr "시간"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
 msgid "Time _zone:"
@@ -4154,9 +4147,8 @@ msgid "_24 hour"
 msgstr "_24시간"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
-#, fuzzy
 msgid "_Add URL"
-msgstr "더하기(_A)"
+msgstr "URL 더하기(_A)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
 msgid "_Ask for confirmation when deleting items"
@@ -4176,9 +4168,8 @@ msgstr "표시(_D)"
 
 # free/busy -> 약속 있음/없음, Microsoft Office XP 참고
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
-#, fuzzy
 msgid "_Free/Busy Publishing"
-msgstr "약속 있음/없음 요청"
+msgstr "약속 있음/없음 게시(_F)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 msgid "_Fri"
@@ -4648,7 +4639,7 @@ msgstr "약속"
 
 #: calendar/gui/dialogs/event-editor.c:207
 msgid "Reminder"
-msgstr "알림"
+msgstr "미리 알림"
 
 #: calendar/gui/dialogs/event-editor.c:214
 msgid "Recurrence"
@@ -4718,18 +4709,16 @@ msgstr "비밀(_N)"
 
 #: calendar/gui/dialogs/event-page.glade.h:8
 #: calendar/gui/dialogs/task-page.glade.h:5
-#, fuzzy
 msgid "Date & Time"
-msgstr "날짜/시각"
+msgstr "날짜 및 시각"
 
 #: calendar/gui/dialogs/event-page.glade.h:9
 msgid "F_ree"
 msgstr "약속 없음(_R)"
 
 #: calendar/gui/dialogs/event-page.glade.h:10
-#, fuzzy
 msgid "L_ocation:"
-msgstr "위치:"
+msgstr "위치(_O):"
 
 #: calendar/gui/dialogs/event-page.glade.h:11
 #: calendar/gui/dialogs/task-page.glade.h:8
@@ -4742,15 +4731,13 @@ msgid "Pu_blic"
 msgstr "공용(_B)"
 
 #: calendar/gui/dialogs/event-page.glade.h:13
-#, fuzzy
 msgid "Show Time As"
-msgstr "<b>시간 표시</b>"
+msgstr "시간 표시 방법"
 
 #: calendar/gui/dialogs/event-page.glade.h:14
 #: calendar/gui/dialogs/task-page.glade.h:11
-#, fuzzy
 msgid "Su_mmary:"
-msgstr "요약:"
+msgstr "요약(_M):"
 
 #: calendar/gui/dialogs/event-page.glade.h:15
 msgid "_End time:"
@@ -4761,6 +4748,11 @@ msgid "_Start time:"
 msgstr "시작 시각(_S):"
 
 #. an empty string is the same as 'None'
+#. add a "None" option to the stores menu
+#. Put the "None" and "UTC" entries at the top of the combo's list.
+#. When "None" is selected we want the field to be cleared.
+#. Note that we don't show this here, since by default a 'None' date
+#. is not permitted.
 #: calendar/gui/dialogs/meeting-page.c:311
 #: calendar/gui/dialogs/meeting-page.glade.h:3
 #: calendar/gui/e-cal-model-tasks.c:592 composer/e-msg-composer.c:2066
@@ -4989,19 +4981,16 @@ msgid "Every"
 msgstr "매"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:5
-#, fuzzy
 msgid "Exceptions"
-msgstr "<b>예외</b>"
+msgstr "예외"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:6
-#, fuzzy
 msgid "Preview"
-msgstr "미리 보기:"
+msgstr "미리 보기"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:7
-#, fuzzy
 msgid "Recurrence Rule"
-msgstr "<b>반복 규칙</b>"
+msgstr "반복 규칙"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:9
 msgid "_Custom recurrence"
@@ -5134,9 +5123,8 @@ msgid "Not Started"
 msgstr "시작 안함"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:10
-#, fuzzy
 msgid "Progress"
-msgstr "진행중"
+msgstr "진행"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:11
 #: calendar/gui/e-calendar-table.c:394
@@ -5156,9 +5144,8 @@ msgid "_Status:"
 msgstr "상태(_S):"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:15
-#, fuzzy
 msgid "_Web Page:"
-msgstr "웹 페이지:"
+msgstr "웹 페이지(_W):"
 
 #: calendar/gui/dialogs/task-editor.c:193
 msgid "Basic"
@@ -5622,12 +5609,20 @@ msgid "URL"
 msgstr "URL"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
+#. strptime format of a weekday, a date and a time,
+#. in 24-hour format.
+#. strftime format of a weekday, a date and a
+#. time, in 24-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:117 e-util/e-time-utils.c:180
 #: e-util/e-time-utils.c:393
 msgid "%a %m/%d/%Y %H:%M:%S"
 msgstr "%Y/%m/%d %a %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
+#. strptime format of a weekday, a date and a time,
+#. in 12-hour format.
+#. strftime format of a weekday, a date and a
+#. time, in 12-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:120 e-util/e-time-utils.c:175
 #: e-util/e-time-utils.c:402
 msgid "%a %m/%d/%Y %I:%M:%S %p"
@@ -5651,6 +5646,10 @@ msgstr "%02i분 단위"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
+#. strftime format %A = full weekday name, %d = day of
+#. month, %B = full month name. You can change the
+#. order but don't change the specifiers or add
+#. anything.
 #: calendar/gui/e-day-view-top-item.c:688 calendar/gui/e-day-view.c:1348
 #: calendar/gui/e-week-view-main-item.c:320 calendar/gui/print.c:1532
 msgid "%A %d %B"
@@ -5658,6 +5657,9 @@ msgstr "%B %d일 %A"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
+#. strftime format %d = day of month, %b = abbreviated
+#. month name. You can change the order but don't
+#. change the specifiers or add anything.
 #: calendar/gui/e-day-view-top-item.c:696 calendar/gui/e-day-view.c:1381
 #: calendar/gui/e-week-view-main-item.c:343
 msgid "%d %b"
@@ -5785,7 +5787,6 @@ msgstr "iCalendar 오류"
 msgid "An unknown person"
 msgstr "모르는 사람"
 
-#. Describe what the user can do
 #: calendar/gui/e-itip-control.c:916
 msgid ""
 "<br> Please review the following information, and then select an action from "
@@ -6258,6 +6259,10 @@ msgstr "%Y년 %B %d일 %A"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
+#. This is a strftime() format string %a = abbreviated weekday name,
+#. %m = month number, %d = month day, %Y = full year.
+#. strptime format of a weekday and a date.
+#. strftime format of a weekday and a date.
 #: calendar/gui/e-meeting-time-sel-item.c:456
 #: calendar/gui/e-meeting-time-sel.c:2093 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
@@ -6266,6 +6271,10 @@ msgstr "%Y/%m/%d %a"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
+#. strptime format of a weekday and a date.
+#. This is the preferred date format for the locale.
+#. This is a strftime() format for a short date. %m = month,
+#. %d = day of month, %Y = year (all digits).
 #: calendar/gui/e-meeting-time-sel-item.c:460 e-util/e-time-utils.c:238
 #: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1606
 msgid "%m/%d/%Y"
@@ -6547,9 +6556,9 @@ msgid "You must be an attendee of the event."
 msgstr "이 행사의 참석자여야 합니다."
 
 #: calendar/gui/itip-utils.c:1155
-#, fuzzy, c-format
+#, c-format
 msgid "Enter the password for %s"
-msgstr "`%s'의 열쇠글을 입력하십시오"
+msgstr "%s의 열쇠글을 입력하십시오"
 
 #: calendar/gui/print.c:476
 msgid "1st"
@@ -10406,44 +10415,41 @@ msgid "Internal error: uid in invalid format: %s"
 msgstr "내부 오류: uid 형식이 잘못되었습니다: %s"
 
 #: camel/providers/nntp/camel-nntp-folder.c:170
-#, fuzzy, c-format
+#, c-format
 msgid "Could not get article %s from NNTP server"
-msgstr "서버에서 그룹 목록을 가져올 수 없습니다."
+msgstr "NNTP 서버에서 글 \"%s\"을(를) 가져올 수 없습니다."
 
 #: camel/providers/nntp/camel-nntp-folder.c:353
 msgid "Posting not allowed by news server"
-msgstr ""
+msgstr "뉴스 서버에서 게시를 허용하지 않습니다"
 
 #: camel/providers/nntp/camel-nntp-folder.c:364
 #, c-format
 msgid "Failed to send newsgroups header: %s: message not posted"
-msgstr ""
+msgstr "뉴스그룹 헤더를 보내는 데 실패했습니다: %s: 메세지를 올리지 않았습니다"
 
 #: camel/providers/nntp/camel-nntp-folder.c:404
 #: camel/providers/nntp/camel-nntp-folder.c:417
 #, c-format
 msgid "Error posting to newsgroup: %s: message not posted"
-msgstr ""
+msgstr "뉴스그룹에 올리는 데 오류가 발생했습니다: %s: 메세지를 올리지 않았습니다"
 
 #: camel/providers/nntp/camel-nntp-folder.c:429
 msgid "Error reading response to posted message: message not posted"
-msgstr ""
+msgstr "올린 메세지에 대한 응답을 읽는 데 오류가 발생했습니다: 메세지를 올리지 않았습니다"
 
 #: camel/providers/nntp/camel-nntp-folder.c:432
-#, fuzzy, c-format
+#, c-format
 msgid "Error posting message: %s: message not posted"
-msgstr ""
-"메세지를 자동 저장하는데 오류가 발생했습니다: %s\n"
-" %s"
+msgstr "메세지를 올리는 데 오류가 발생했습니다: %s: 메세지를 올리지 않았습니다"
 
 #: camel/providers/nntp/camel-nntp-folder.c:448
 msgid "You cannot post NNTP messages while working offline!"
-msgstr ""
+msgstr "오프라인으로 작업하는 중에는 NNTP 메세지를 올릴 수 없습니다!"
 
 #: camel/providers/nntp/camel-nntp-folder.c:459
-#, fuzzy
 msgid "You cannot copy messages from a NNTP folder!"
-msgstr "메세지를 임시 메일함 폴더에 복사할 수 없습니다: %s"
+msgstr "NNTP 폴더에서 메세지를 복사할 수 없습니다!"
 
 #: camel/providers/nntp/camel-nntp-grouplist.c:45
 msgid "Could not get group list from server."
@@ -10463,11 +10469,11 @@ msgstr "%s에 대한 그룹 목록 파일을 저장할 수 없습니다: %s"
 #: camel/providers/nntp/camel-nntp-provider.c:43
 msgid ""
 "Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
-msgstr ""
+msgstr "폴더 이름을 줄인 이름으로 표시합니다 (예를 들어 comp.os.linux를 c.o.linux로)"
 
 #: camel/providers/nntp/camel-nntp-provider.c:45
 msgid "In the subscription dialog, show relative folder names"
-msgstr ""
+msgstr "구독 대화 상자에서, 상대 폴더 이름을 표시합니다"
 
 #: camel/providers/nntp/camel-nntp-provider.c:52
 msgid "USENET news"
@@ -10499,18 +10505,18 @@ msgid "USENET News via %s"
 msgstr "%s 서버를 통한 USENET 뉴스"
 
 #: camel/providers/nntp/camel-nntp-store.c:641
-#, fuzzy
 msgid "Stream error"
-msgstr "파싱 오류"
+msgstr "스트림 오류"
 
 #: camel/providers/nntp/camel-nntp-store.c:644
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error retrieving newsgroups:\n"
 "\n"
 "%s"
 msgstr ""
-"%s 여는 데 오류가 밝생했습니다:\n"
+"뉴스그룹을 가져오는 데 오류가 밝생했습니다:\n"
+"\n"
 "%s"
 
 #: camel/providers/nntp/camel-nntp-store.c:736
@@ -10519,6 +10525,9 @@ msgid ""
 "\n"
 "No such newsgroup. The selected item is a probably a parent folder."
 msgstr ""
+"이 뉴스그룹에 구독할 수 없습니다:\n"
+"\n"
+"그런 뉴스그룹이 없습니다. 선택한 항목이 상위 폴더일 것입니다."
 
 #: camel/providers/nntp/camel-nntp-store.c:768
 msgid ""
@@ -10526,25 +10535,26 @@ msgid ""
 "\n"
 "newsgroup does not exist!"
 msgstr ""
+"이 뉴스그룹서 구독을 해제할 수 없습니다:\n"
+"\n"
+"뉴스그룹이 없습니다!"
 
 #: camel/providers/nntp/camel-nntp-store.c:793
 msgid "You cannot create a folder in a News store: subscribe instead."
-msgstr ""
+msgstr "뉴스 저장고에 폴더를 만들 수 없습니다: 대신에 구독하십시오."
 
 #: camel/providers/nntp/camel-nntp-store.c:801
-#, fuzzy
 msgid "You cannot rename a folder in a News store."
-msgstr "%s 폴더의 이름을 %s(으)로 바꿀 수 없습니다: %s"
+msgstr "뉴스 저장고의 폴더의 이름을 바꿀 수 없습니다."
 
 #: camel/providers/nntp/camel-nntp-store.c:809
-#, fuzzy
 msgid "You cannot remove a folder in a News store: unsubscribe instead."
-msgstr "폴더를 자기 자신의 하위 폴더로 옮길 수는 없습니다."
+msgstr "뉴스 저장고의 폴더를 지울 수 없습니다: 대신에 구독 해제하십시오."
 
 #: camel/providers/nntp/camel-nntp-summary.c:229
-#, fuzzy, c-format
+#, c-format
 msgid "Connection error: %s"
-msgstr "알 수 없는 오류: %s"
+msgstr "연결 오류: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:240
 #, c-format
@@ -10557,9 +10567,8 @@ msgid "Could not get group: %s"
 msgstr "그룹을 받아 올 수 없습니다: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:311
-#, fuzzy
 msgid "Could not get messages: unspecificed error"
-msgstr "메세지를 보낼 수 없음: %s"
+msgstr "메세지를 가져올 수 없습니다: 지정하지 않은 오류"
 
 #: camel/providers/nntp/camel-nntp-summary.c:356
 #, c-format
@@ -11110,9 +11119,8 @@ msgstr "게시물 수신자"
 
 # post -> 게시, Microsoft Office XP 참고
 #: composer/e-msg-composer-hdrs.c:508
-#, fuzzy
 msgid "Choose folders to post the message to."
-msgstr "메세지를 게시할 폴더를 선택하십시오."
+msgstr "메세지를 올릴 폴더를 선택하십시오."
 
 #: composer/e-msg-composer-hdrs.c:542
 msgid "Click here for the address book"
@@ -11178,9 +11186,8 @@ msgid "Post To:"
 msgstr "게시 위치:"
 
 #: composer/e-msg-composer-hdrs.c:614
-#, fuzzy
 msgid "Click here to select folders to post to"
-msgstr "<폴더를 고를려면 여기를 누르십시오>"
+msgstr "게시할 폴더를 고를려면 여기를 누르십시오"
 
 #: composer/e-msg-composer-select-file.c:119
 msgid "Attach file(s)"
@@ -11514,12 +11521,16 @@ msgstr "동기화 분류:"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
+#. strftime format of a weekday, a date and a
+#. time, in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:185 e-util/e-time-utils.c:398
 msgid "%a %m/%d/%Y %I:%M %p"
 msgstr "%Y/%m/%d %a %p %I:%M"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
+#. strftime format of a weekday, a date and a
+#. time, in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:190 e-util/e-time-utils.c:389
 msgid "%a %m/%d/%Y %H:%M"
 msgstr "%Y/%m/%d %a %H:%M"
@@ -11571,23 +11582,31 @@ msgid "%m/%d/%Y %H"
 msgstr "%Y/%m/%d %H"
 
 #. strptime format for a time of day, in 12-hour format.
+#. strftime format of a time in 12-hour format.
 #: e-util/e-time-utils.c:339 e-util/e-time-utils.c:438
 msgid "%I:%M:%S %p"
 msgstr "%p %I:%M:%S"
 
 #. strptime format for a time of day, in 24-hour format.
+#. strftime format of a time in 24-hour format.
 #: e-util/e-time-utils.c:343 e-util/e-time-utils.c:430
 msgid "%H:%M:%S"
 msgstr "%H:%M:%S"
 
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
+#. strftime format of a time in 12-hour format,
+#. without seconds.
+#. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
 #: widgets/misc/e-dateedit.c:1416 widgets/misc/e-dateedit.c:1641
 msgid "%I:%M %p"
 msgstr "%p %I:%M"
 
 #. strptime format for time of day, without seconds 24-hour format.
+#. strftime format of a time in 24-hour format,
+#. without seconds.
+#. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
 #: widgets/misc/e-dateedit.c:1413 widgets/misc/e-dateedit.c:1638
 msgid "%H:%M"
@@ -15875,9 +15894,8 @@ msgstr "Evolution"
 msgid "Evolution is now exiting ..."
 msgstr "Evolution을 마칩니다..."
 
-#. Preview/Alpha/Beta version warning message
 #: shell/main.c:269
-#, no-c-format
+#, c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Ximian Evolution groupware suite.\n"
@@ -17554,18 +17572,16 @@ msgid "Toggles whether the From chooser is displayed"
 msgstr "발신 항목을 보여줄 지 토글합니다"
 
 #: ui/evolution-message-composer.xml.h:35
-#, fuzzy
 msgid "Toggles whether the Post-To field is displayed"
-msgstr "회신 주소 항목을 보여줄 지 토글합니다"
+msgstr "올리는 곳 항목을 보여줄 지 토글합니다"
 
 #: ui/evolution-message-composer.xml.h:36
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "회신 주소 항목을 보여줄 지 토글합니다"
 
 #: ui/evolution-message-composer.xml.h:37
-#, fuzzy
 msgid "Toggles whether the To field is displayed"
-msgstr "참조 항목을 보여줄 지 토글합니다"
+msgstr "받는 이항목을 보여줄 지 토글합니다"
 
 #: ui/evolution-message-composer.xml.h:38
 msgid "_Attachment..."
@@ -17597,9 +17613,8 @@ msgid "_Open..."
 msgstr "열기(_O)..."
 
 #: ui/evolution-message-composer.xml.h:48
-#, fuzzy
 msgid "_Post-To Field"
-msgstr "회신 주소 항목(_R)"
+msgstr "올리는 곳 항목(_P)"
 
 #: ui/evolution-message-composer.xml.h:49
 msgid "_Reply-To Field"
@@ -17610,9 +17625,8 @@ msgid "_Security"
 msgstr "보안(_S)"
 
 #: ui/evolution-message-composer.xml.h:52
-#, fuzzy
 msgid "_To Field"
-msgstr "발신 항목(_F)"
+msgstr "받는 이 항목(_T)"
 
 #: ui/evolution-signature-editor.xml.h:5
 msgid "H_TML"
@@ -18151,64 +18165,3 @@ msgstr "표시 여백"
 #: widgets/misc/e-expander.c:232
 msgid "Spacing around expander arrow"
 msgstr "확장 화살표 주위의 여백"
-
-#~ msgid "    "
-#~ msgstr "    "
-
-# Alarm -> 알림, Microsoft Office XP 참고
-#~ msgid "<b>Alarm Action</b>"
-#~ msgstr "<b>알림 동작</b>"
-
-# Alarm -> 알림, Microsoft Office XP 참고
-#~ msgid "<b>Alarm Email</b>"
-#~ msgstr "<b>알림 전자메일</b>"
-
-# Alarm -> 알림, Microsoft Office XP 참고
-#~ msgid "<b>Alarm Sound</b>"
-#~ msgstr "<b>알림 소리</b>"
-
-#~ msgid "<b>Message to Display</b>"
-#~ msgstr "<b>표시할 메세지</b>"
-
-#~ msgid "<b>Basics</b>"
-#~ msgstr "<b>기본<b>"
-
-# Reminder -> 미리 알림, Microsoft Office XP 참고
-#~ msgid "<b>Reminders</b>"
-#~ msgstr "<b>미리 알림</b>"
-
-#~ msgid "<b>Alerts</b>"
-#~ msgstr "<b>경고<b>"
-
-#~ msgid "<b>Task List</b>"
-#~ msgstr "<b>작업 목록</b>"
-
-#~ msgid "<b>Time</b>"
-#~ msgstr "<b>시각</b>"
-
-#~ msgid "<b>Work Week</b>"
-#~ msgstr "<b>근무 주</b>"
-
-#~ msgid "<b>Classification</b>"
-#~ msgstr "<b>분류</b>"
-
-#~ msgid "<b>Date &amp; Time</b>"
-#~ msgstr "<b>날짜 및 시간</b>"
-
-#~ msgid "<b>Description</b>"
-#~ msgstr "<b>설명</b>"
-
-#~ msgid "<b>L_ocation</b>"
-#~ msgstr "<b>위치(_O)</b>"
-
-#~ msgid "<b>Su_mmary</b>"
-#~ msgstr "<b>요약(_U)</b>"
-
-#~ msgid "<b>Preview</b>"
-#~ msgstr "<b>미리 보기</b>"
-
-#~ msgid "<b>Progress</b>"
-#~ msgstr "<b>진행</b>"
-
-#~ msgid "<b>Web Page</b>"
-#~ msgstr "<b>웹 페이지</b>"
