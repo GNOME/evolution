@@ -62,8 +62,7 @@ enum {
 	ARG_LINE_WRAP,
 	ARG_BREAK_CHARACTERS,
 	ARG_MAX_LINES,
-	ARG_WIDTH,
-	ARG_HEIGHT
+	ARG_ALLOW_NEWLINES,
 };
 
 static void
@@ -233,6 +232,11 @@ et_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 			       "max_lines", &GTK_VALUE_INT (*arg),
 			       NULL);
 		break;
+	case ARG_ALLOW_NEWLINES:
+		gtk_object_get(GTK_OBJECT(ee->item),
+			       "allow_newlines", &GTK_VALUE_BOOL (*arg),
+			       NULL);
+		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
 		break;
@@ -346,6 +350,12 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 			       "max_lines", GTK_VALUE_INT (*arg),
 			       NULL);
 		break;
+
+	case ARG_ALLOW_NEWLINES:
+		gtk_object_set(GTK_OBJECT(ee->item),
+			       "allow_newlines", GTK_VALUE_BOOL (*arg),
+			       NULL);
+		break;
 	}
 }
 
@@ -414,6 +424,8 @@ e_entry_class_init (GtkObjectClass *object_class)
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_BREAK_CHARACTERS);
 	gtk_object_add_arg_type ("EEntry::max_lines",
 				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_MAX_LINES);
+	gtk_object_add_arg_type ("EEntry::allow_newlines",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_ALLOW_NEWLINES);
 }
 
 E_MAKE_TYPE(e_entry, "EEntry", EEntry, e_entry_class_init, e_entry_init, PARENT_TYPE);

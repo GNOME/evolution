@@ -85,6 +85,7 @@ enum {
 	ARG_WIDTH,
 	ARG_HEIGHT,
 	ARG_DRAW_BORDERS,
+	ARG_ALLOW_NEWLINES,
 };
 
 
@@ -280,6 +281,8 @@ e_text_class_init (ETextClass *klass)
 				 GTK_TYPE_DOUBLE, GTK_ARG_READABLE, ARG_HEIGHT);
 	gtk_object_add_arg_type ("EText::draw_borders",
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_DRAW_BORDERS);
+	gtk_object_add_arg_type ("EText::allow_newlines",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_ALLOW_NEWLINES);
 
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
@@ -1016,8 +1019,9 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		if ( text->tep && text->tep_command_id )
 			gtk_signal_disconnect(GTK_OBJECT(text->tep),
 					      text->tep_command_id);
-		if ( text->tep )
+		if ( text->tep ) {
 			gtk_object_unref(GTK_OBJECT(text->tep));
+		}
 		text->tep = E_TEXT_EVENT_PROCESSOR(GTK_VALUE_OBJECT (*arg));
 		gtk_object_ref(GTK_OBJECT(text->tep));
 		text->tep_command_id = 
@@ -1278,6 +1282,13 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		}
 		break;
 
+	case ARG_ALLOW_NEWLINES:
+		_get_tep(text);
+		gtk_object_set (GTK_OBJECT (text->tep),
+				"allow_newlines", GTK_VALUE_BOOL (*arg),
+				NULL);
+		break;
+
 	default:
 		return;
 	}
@@ -1415,6 +1426,17 @@ e_text_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	case ARG_DRAW_BORDERS:
 		GTK_VALUE_BOOL (*arg) = text->draw_borders;
+		break;
+
+	case ARG_ALLOW_NEWLINES:
+		{
+			gboolean allow_newlines;
+			_get_tep(text);
+			gtk_object_get (GTK_OBJECT (text->tep),
+					"allow_newlines", &allow_newlines,
+					NULL);
+			GTK_VALUE_BOOL (*arg) = allow_newlines;
+		}
 		break;
 
 	default:

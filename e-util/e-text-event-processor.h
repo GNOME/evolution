@@ -45,10 +45,10 @@ typedef struct _ETextEventProcessorClass  ETextEventProcessorClass;
 
 struct _ETextEventProcessor
 {
-  GtkObject parent;
+	GtkObject parent;
 
-  /* object specific fields */
-  
+	/* object specific fields */
+	guint allow_newlines : 1;
 };
 
 struct _ETextEventProcessorClass

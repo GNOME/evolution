@@ -25,11 +25,15 @@
 static void e_text_event_processor_init		(ETextEventProcessor		 *card);
 static void e_text_event_processor_class_init	(ETextEventProcessorClass	 *klass);
 
+static void e_text_event_processor_set_arg (GtkObject *object, GtkArg *arg, guint arg_id);
+static void e_text_event_processor_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
+
 static GtkObjectClass *parent_class = NULL;
 
 /* The arguments we take */
 enum {
-	ARG_0
+	ARG_0,
+	ARG_ALLOW_NEWLINES,
 };
 
 enum {
@@ -67,30 +71,37 @@ e_text_event_processor_get_type (void)
 static void
 e_text_event_processor_class_init (ETextEventProcessorClass *klass)
 {
-  GtkObjectClass *object_class;
+	GtkObjectClass *object_class;
 
-  object_class = (GtkObjectClass*) klass;
+	object_class = (GtkObjectClass*) klass;
 
-  parent_class = gtk_type_class (gtk_object_get_type ());
+	parent_class = gtk_type_class (gtk_object_get_type ());
 
-  e_tep_signals[E_TEP_EVENT] =
-	  gtk_signal_new ("command",
-			  GTK_RUN_LAST,
-			  object_class->type,
-			  GTK_SIGNAL_OFFSET (ETextEventProcessorClass, command),
-			  gtk_marshal_NONE__POINTER,
-			  GTK_TYPE_NONE, 1,
-			  GTK_TYPE_POINTER);
+	e_tep_signals[E_TEP_EVENT] =
+		gtk_signal_new ("command",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETextEventProcessorClass, command),
+				gtk_marshal_NONE__POINTER,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_POINTER);
 
-  gtk_object_class_add_signals (object_class, e_tep_signals, E_TEP_LAST_SIGNAL);
+	gtk_object_class_add_signals (object_class, e_tep_signals, E_TEP_LAST_SIGNAL);
 
-  klass->event = NULL;
-  klass->command = NULL;
+	gtk_object_add_arg_type ("ETextEventProcessor::allow_newlines", GTK_TYPE_BOOL,
+				 GTK_ARG_READWRITE, ARG_ALLOW_NEWLINES);
+
+	klass->event = NULL;
+	klass->command = NULL;
+
+	object_class->set_arg = e_text_event_processor_set_arg;
+	object_class->get_arg = e_text_event_processor_get_arg;
 }
 
 static void
 e_text_event_processor_init (ETextEventProcessor *tep)
 {
+	tep->allow_newlines = TRUE;
 }
 
 gint
@@ -100,5 +111,36 @@ e_text_event_processor_handle_event (ETextEventProcessor *tep, ETextEventProcess
 		return E_TEXT_EVENT_PROCESSOR_CLASS(GTK_OBJECT(tep)->klass)->event(tep, event);
 	} else {
 		return 0;
+	}
+}
+
+/* Set_arg handler for the text item */
+static void
+e_text_event_processor_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+{
+	ETextEventProcessor *tep = E_TEXT_EVENT_PROCESSOR (object);
+
+	switch (arg_id) {
+	case ARG_ALLOW_NEWLINES:
+		tep->allow_newlines = GTK_VALUE_BOOL (*arg);
+		break;
+	default:
+		return;
+	}
+}
+
+/* Get_arg handler for the text item */
+static void
+e_text_event_processor_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+{
+	ETextEventProcessor *tep = E_TEXT_EVENT_PROCESSOR (object);
+
+	switch (arg_id) {
+	case ARG_ALLOW_NEWLINES:
+		GTK_VALUE_BOOL (*arg) = tep->allow_newlines;
+		break;
+	default:
+		arg->type = GTK_TYPE_INVALID;
+		break;
 	}
 }

@@ -48,7 +48,7 @@ struct _ETextEventProcessorEmacsLike
 	ETextEventProcessor parent;
 	
 	/* object specific fields */
-	gboolean mouse_down;
+	guint mouse_down : 1;
 };
 
 struct _ETextEventProcessorEmacsLikeClass
