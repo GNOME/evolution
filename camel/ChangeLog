@@ -1,5 +1,25 @@
 2001-03-13  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-tcp-stream-ssl.c (camel_tcp_stream_ssl_get_type):
+	Oops. Make this a subclass of CamelTcpStream, not CamelStream.
+
+	* camel-types.h: Add the defs for CamelTcpStream and
+	CamelTcpStreamRaw
+
+	* Makefile.am: Add camel-tcp-stream and camel-tcp-stream-raw to
+	the build.
+
+	* camel-remote-store.c (remote_connect): Update to use
+	CamelTcpStreams.
+
+	* camel-tcp-stream-raw.c (stream_connect): Made cancellable by
+	copying the currently used code in camel-remote-store.c.
+	(stream_setsockopt): Oops, flags = fcntl (..., GET_FL);
+	(camel_tcp_stream_raw_get_type): Oops. Make this a subclass of
+	CamelTcpStream, not CamelStream.
+
+2001-03-13  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel.c (camel_init): Since all of the Mozilla libs (including
 	NSPR and NSS) correctly handle reinitializations, we might as well
 	init both NSPR and NSS in camel_init so we can be sure of that

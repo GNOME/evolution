@@ -68,6 +68,8 @@ libcamel_la_SOURCES = 				\
 	camel-stream-mem.c			\
 	camel-stream-null.c			\
 	camel-stream.c				\
+	camel-tcp-stream-raw.c			\
+	camel-tcp-stream.c			\
 	camel-transport.c			\
 	camel-uid-cache.c			\
 	camel-url.c				\
@@ -132,6 +134,8 @@ libcamelinclude_HEADERS =			\
 	camel-stream-mem.h			\
 	camel-stream-null.h			\
 	camel-stream.h				\
+	camel-tcp-stream-raw.h			\
+	camel-tcp-stream.h			\
 	camel-transport.h			\
 	camel-types.h				\
 	camel-uid-cache.h			\

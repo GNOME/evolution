@@ -62,7 +62,7 @@ camel_tcp_stream_ssl_class_init (CamelTcpStreamSSLClass *camel_tcp_stream_ssl_cl
 	CamelStreamClass *camel_stream_class =
 		CAMEL_STREAM_CLASS (camel_tcp_stream_ssl_class);
 	
-	parent_class = CAMEL_STREAM_CLASS (camel_type_get_global_classfuncs (camel_tcp_stream_get_type ()));
+	parent_class = CAMEL_TCP_STREAM_CLASS (camel_type_get_global_classfuncs (camel_tcp_stream_get_type ()));
 	
 	/* virtual method overload */
 	camel_stream_class->read = stream_read;
@@ -104,7 +104,7 @@ camel_tcp_stream_ssl_get_type (void)
 	static CamelType type = CAMEL_INVALID_TYPE;
 	
 	if (type == CAMEL_INVALID_TYPE) {
-		type = camel_type_register (camel_stream_get_type (),
+		type = camel_type_register (camel_tcp_stream_get_type (),
 					    "CamelTcpStreamSSL",
 					    sizeof (CamelTcpStreamSSL),
 					    sizeof (CamelTcpStreamSSLClass),

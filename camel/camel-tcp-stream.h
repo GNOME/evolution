@@ -35,6 +35,7 @@ extern "C" {
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netinet/tcp.h>
+#include <netdb.h>
 #include <unistd.h>
 
 #define CAMEL_TCP_STREAM_TYPE     (camel_tcp_stream_get_type ())
@@ -99,16 +100,16 @@ typedef struct {
 	int (*connect)    (CamelTcpStream *stream, struct hostent *host, int port);
 	int (*getsockopt) (CamelTcpStream *stream, CamelSockOptData *data);
 	int (*setsockopt) (CamelTcpStream *stream, const CamelSockOptData *data);
-	
+
 } CamelTcpStreamClass;
 
 /* Standard Camel function */
 CamelType camel_tcp_stream_get_type (void);
 
 /* public methods */
-int camel_tcp_stream_connect    (CamelTcpStream *stream, struct hostent *host, int port);
-int camel_tcp_stream_getsockopt (CamelTcpStream *stream, CamelSockOptData *data);
-int camel_tcp_stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data);
+int         camel_tcp_stream_connect    (CamelTcpStream *stream, struct hostent *host, int port);
+int         camel_tcp_stream_getsockopt (CamelTcpStream *stream, CamelSockOptData *data);
+int         camel_tcp_stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data);
 
 #ifdef __cplusplus
 }

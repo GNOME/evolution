@@ -42,7 +42,12 @@
 #include "camel-session.h"
 #include "camel-stream.h"
 #include "camel-stream-buffer.h"
-#include "camel-stream-fs.h"
+#include "camel-tcp-stream.h"
+#include "camel-tcp-stream-raw.h"
+#if HAVE_NSS
+#include "camel-tcp-stream-ssl.h"
+#endif
+
 #include "camel-url.h"
 #include "string-utils.h"
 
@@ -194,147 +199,51 @@ timeout_cb (gpointer data)
 	return TRUE;
 }
 
-/* this is a 'cancellable' connect, cancellable from camel_operation_cancel etc */
-/* returns -1 & errno == EINTR if the connection was cancelled */
-static int socket_connect(struct hostent *h, int port)
-{
-	struct sockaddr_in sin;
-	int fd;
-	int ret;
-	socklen_t len;
-	struct timeval tv;
-	int cancel_fd;
-
-	/* see if we're cancelled yet */
-	if (camel_operation_cancel_check(NULL)) {
-		errno = EINTR;
-		return -1;
-	}
-
-	/* setup connect, we do it using a nonblocking socket so we can poll it */
-	sin.sin_port = htons(port);
-	sin.sin_family = h->h_addrtype;
-	memcpy (&sin.sin_addr, h->h_addr, sizeof (sin.sin_addr));
-
-	fd = socket (h->h_addrtype, SOCK_STREAM, 0);
-
-	cancel_fd = camel_operation_cancel_fd(NULL);
-	if (cancel_fd == -1) {
-		ret = connect(fd, (struct sockaddr *)&sin, sizeof (sin));
-		if (ret == -1) {
-			close(fd);
-			return -1;
-		}
-		return fd;
-	} else {
-		fd_set rdset, wrset;
-		int flags, fdmax;
-
-		flags = fcntl(fd, F_GETFL);
-		fcntl(fd, F_SETFL, flags | O_NONBLOCK);
-
-		ret = connect(fd, (struct sockaddr *)&sin, sizeof (sin));
-		if (ret == 0) {
-			fcntl(fd, F_SETFL, flags);
-			return fd;
-		}
-
-		if (errno != EINPROGRESS) {
-			close(fd);
-			return -1;
-		}
-
-		FD_ZERO(&rdset);
-		FD_ZERO(&wrset);
-		FD_SET(fd, &wrset);
-		FD_SET(cancel_fd, &rdset);
-		fdmax = MAX(fd, cancel_fd)+1;
-		tv.tv_usec = 0;
-		tv.tv_sec = 60*4;
-		if (select(fdmax, &rdset, &wrset, 0, &tv) == 0) {
-			close(fd);
-			errno = ETIMEDOUT;
-			return -1;
-		}
-		if (cancel_fd != -1 && FD_ISSET(cancel_fd, &rdset)) {
-			close(fd);
-			errno = EINTR;
-			return -1;
-		} else {
-			len = sizeof(int);
-			if (getsockopt(fd, SOL_SOCKET, SO_ERROR, &ret, &len) == -1) {
-				close(fd);
-				return -1;
-			}
-			if (ret != 0) {
-				close(fd);
-				errno = ret;
-				return -1;
-			}
-		}
-		fcntl(fd, F_SETFL, flags);
-	}
-
-	return fd;
-}
-
 static gboolean
 remote_connect (CamelService *service, CamelException *ex)
 {
 	CamelRemoteStore *store = CAMEL_REMOTE_STORE (service);
+	CamelStream *tcp_stream;
 	struct hostent *h;
-	struct sockaddr_in sin;
-	gint fd;
-	gint port;
+	gint ret, port;
 	
 	h = camel_service_gethost (service, ex);
 	if (!h)
 		return FALSE;
 	
-	/* connect to the server */
-	sin.sin_family = h->h_addrtype;
-	
 	if (service->url->port)
 		port = service->url->port;
 	else
 		port = store->default_port;	
-
-#if 1
-	fd = socket_connect(h, port);
-	if (fd == -1) {
+	
+#ifdef HAVE_NSS
+	if (store->use_ssl)
+		tcp_stream = camel_tcp_stream_ssl_new ();
+	else
+		tcp_stream = camel_tcp_stream_raw_new ();
+#else
+	tcp_stream = camel_tcp_stream_raw_new ();
+#endif /* HAVE_NSS */
+	
+	ret = camel_tcp_stream_connect (CAMEL_TCP_STREAM (tcp_stream), h, port);
+	if (ret == -1) {
 		if (errno == EINTR)
-			camel_exception_set(ex, CAMEL_EXCEPTION_USER_CANCEL, _("Connection cancelled"));
+			camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
+					     _("Connection cancelled"));
 		else
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 					      _("Could not connect to %s (port %d): %s"),
 					      service->url->host ? service->url->host : _("(unknown host)"),
-					      port, strerror (errno));
+					      port, g_strerror (errno));
 		return FALSE;
 	}
-#else
-	sin.sin_port = htons (port);
-	
-	memcpy (&sin.sin_addr, h->h_addr, sizeof (sin.sin_addr));
-	
-	fd = socket (h->h_addrtype, SOCK_STREAM, 0);
-	if (fd == -1 || connect (fd, (struct sockaddr *)&sin, sizeof (sin)) == -1) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      _("Could not connect to %s (port %d): %s"),
-				      service->url->host ? service->url->host : _("(unknown host)"),
-				      port, g_strerror (errno));
-		if (fd > -1)
-			close (fd);
-		
-		return FALSE;
-	}
-#endif
 	
 	/* parent class connect initialization */
 	if (CAMEL_SERVICE_CLASS (store_class)->connect (service, ex) == FALSE)
 		return FALSE;
 	
-	store->ostream = camel_stream_fs_new_with_fd (fd);
-	store->istream = camel_stream_buffer_new (store->ostream, CAMEL_STREAM_BUFFER_READ);
+	store->ostream = tcp_stream;
+	store->istream = camel_stream_buffer_new (tcp_stream, CAMEL_STREAM_BUFFER_READ);
 	
 	/* Okay, good enough for us */
 	CAMEL_SERVICE (store)->connected = TRUE;

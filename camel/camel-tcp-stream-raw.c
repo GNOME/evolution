@@ -23,9 +23,11 @@
 
 #include <config.h>
 #include "camel-tcp-stream-raw.h"
-#include <unistd.h>
+#include "camel-operation.h"
+#include <sys/time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
 #include <string.h>
@@ -52,7 +54,7 @@ camel_tcp_stream_raw_class_init (CamelTcpStreamRawClass *camel_tcp_stream_raw_cl
 	CamelStreamClass *camel_stream_class =
 		CAMEL_STREAM_CLASS (camel_tcp_stream_raw_class);
 	
-	parent_class = CAMEL_STREAM_CLASS (camel_type_get_global_classfuncs (camel_tcp_stream_get_type ()));
+	parent_class = CAMEL_TCP_STREAM_CLASS (camel_type_get_global_classfuncs (camel_tcp_stream_get_type ()));
 	
 	/* virtual method overload */
 	camel_stream_class->read = stream_read;
@@ -89,7 +91,7 @@ camel_tcp_stream_raw_get_type (void)
 	static CamelType type = CAMEL_INVALID_TYPE;
 	
 	if (type == CAMEL_INVALID_TYPE) {
-		type = camel_type_register (camel_stream_get_type (),
+		type = camel_type_register (camel_tcp_stream_get_type (),
 					    "CamelTcpStreamRaw",
 					    sizeof (CamelTcpStreamRaw),
 					    sizeof (CamelTcpStreamRawClass),
@@ -165,16 +167,114 @@ stream_close (CamelStream *stream)
 	return 0;
 }
 
+/* this is a 'cancellable' connect, cancellable from camel_operation_cancel etc */
+/* returns -1 & errno == EINTR if the connection was cancelled */
+static int
+socket_connect (struct hostent *h, int port)
+{
+	struct sockaddr_in sin;
+	int fd;
+	int ret;
+	socklen_t len;
+	struct timeval tv;
+	int cancel_fd;
+	
+	/* see if we're cancelled yet */
+	if (camel_operation_cancel_check (NULL)) {
+		errno = EINTR;
+		return -1;
+	}
+	
+	/* setup connect, we do it using a nonblocking socket so we can poll it */
+	sin.sin_port = htons (port);
+	sin.sin_family = h->h_addrtype;
+	memcpy (&sin.sin_addr, h->h_addr, sizeof (sin.sin_addr));
+	
+	fd = socket (h->h_addrtype, SOCK_STREAM, 0);
+	
+	cancel_fd = camel_operation_cancel_fd (NULL);
+	if (cancel_fd == -1) {
+		ret = connect (fd, (struct sockaddr *)&sin, sizeof (sin));
+		if (ret == -1) {
+			close (fd);
+			return -1;
+		}
+		
+		return fd;
+	} else {
+		fd_set rdset, wrset;
+		int flags, fdmax;
+		
+		flags = fcntl (fd, F_GETFL);
+		fcntl (fd, F_SETFL, flags | O_NONBLOCK);
+		
+		ret = connect (fd, (struct sockaddr *)&sin, sizeof (sin));
+		if (ret == 0) {
+			fcntl (fd, F_SETFL, flags);
+			return fd;
+		}
+		
+		if (errno != EINPROGRESS) {
+			close (fd);
+			return -1;
+		}
+		
+		FD_ZERO (&rdset);
+		FD_ZERO (&wrset);
+		FD_SET (fd, &wrset);
+		FD_SET (cancel_fd, &rdset);
+		fdmax = MAX (fd, cancel_fd) + 1;
+		tv.tv_usec = 0;
+		tv.tv_sec = 60 * 4;
+		
+		if (select (fdmax, &rdset, &wrset, 0, &tv) == 0) {
+			close (fd);
+			errno = ETIMEDOUT;
+			return -1;
+		}
+		
+		if (cancel_fd != -1 && FD_ISSET (cancel_fd, &rdset)) {
+			close (fd);
+			errno = EINTR;
+			return -1;
+		} else {
+			len = sizeof (int);
+			
+			if (getsockopt (fd, SOL_SOCKET, SO_ERROR, &ret, &len) == -1) {
+				close (fd);
+				return -1;
+			}
+			
+			if (ret != 0) {
+				close (fd);
+				errno = ret;
+				return -1;
+			}
+		}
+		
+		fcntl (fd, F_SETFL, flags);
+	}
+	
+	return fd;
+}
 
+#define DIVINE_INTERVENTION
 static int
 stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 {
 	CamelTcpStreamRaw *raw = CAMEL_TCP_STREAM_RAW (stream);
+#ifndef DIVINE_INTERVENTION
 	struct sockaddr_in sin;
+#endif
 	int fd;
 	
 	g_return_val_if_fail (host != NULL, -1);
 	
+#ifdef DIVINE_INTERVENTION
+	fd = socket_connect (host, port);
+	if (fd == -1)
+		return -1;
+#else
 	sin.sin_family = host->h_addrtype;
 	sin.sin_port = htons (port);
 	
@@ -188,6 +288,7 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 		
 		return -1;
 	}
+#endif
 	
 	raw->sockfd = fd;
 	
@@ -272,7 +373,7 @@ stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data)
 	if (data->option == CAMEL_SOCKOPT_NONBLOCKING) {
 		int flags, set;
 		
-		fcntl (((CamelTcpStreamRaw *)stream)->sockfd, F_GETFL);
+		flags = fcntl (((CamelTcpStreamRaw *)stream)->sockfd, F_GETFL);
 		if (flags == -1)
 			return -1;
 		
