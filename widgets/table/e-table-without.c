@@ -85,6 +85,8 @@ add_row (ETableWithout *etw, int model_row)
 {
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
 
+	e_table_model_pre_change (E_TABLE_MODEL (etw));
+
 	etss->map_table = g_renew (int, etss->map_table, etss->n_map + 1);
 
 	etss->map_table[etss->n_map++] = model_row;
@@ -97,6 +99,7 @@ remove_row (ETableWithout *etw, int view_row)
 {
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
 
+	e_table_model_pre_change (E_TABLE_MODEL (etw));
 	memmove (etss->map_table + view_row, etss->map_table + view_row + 1, (etss->n_map - view_row - 1) * sizeof (int));
 	etss->n_map --;
 	e_table_model_row_deleted (E_TABLE_MODEL (etw), view_row);
@@ -340,6 +343,8 @@ e_table_without_show_all   (ETableWithout *etw)
 	int i; /* Model row */
 	int row_count;
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
+
+	e_table_model_pre_change (E_TABLE_MODEL (etw));
 
 	if (etw->priv->hash) {
 		g_hash_table_foreach (etw->priv->hash, delete_hash_element, etw);

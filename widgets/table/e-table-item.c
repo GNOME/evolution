@@ -4,7 +4,7 @@
  *
  * Author:
  *   Christopher James Lahey <clahey@ximian.com>
- *   Miguel de Icaza (miguel@gnu.org)
+ *   Miguel de Icaza <miguel@gnu.org>
  *
  * Copyright 1999, 2000, 2001, Ximian, Inc.
  *
@@ -881,12 +881,26 @@ eti_idle_maybe_show_cursor(ETableItem *eti)
 	g_idle_add (eti_idle_maybe_show_cursor_cb, eti);
 }
 
+static void
+eti_cancel_drag_due_to_model_change (ETableItem *eti)
+{
+	if (eti->maybe_in_drag) {
+		eti->maybe_in_drag = FALSE;
+		if (!eti->maybe_did_something)
+			e_selection_model_do_something(E_SELECTION_MODEL (eti->selection), eti->drag_row, eti->drag_col, eti->drag_state);
+	}
+	if (eti->in_drag) {
+		eti->in_drag = FALSE;
+	}
+}
+
 /*
  * Callback routine: invoked before the ETableModel has suffers a change
  */
 static void
 eti_table_model_pre_change (ETableModel *table_model, ETableItem *eti)
 {
+	eti_cancel_drag_due_to_model_change (eti);
 	eti_check_cursor_bounds (eti);
 	if (eti_editing (eti))
 		e_table_item_leave_edit (eti);
@@ -895,6 +909,7 @@ eti_table_model_pre_change (ETableModel *table_model, ETableItem *eti)
 /*
  * Callback routine: invoked when the ETableModel has suffered a change
  */
+
 static void
 eti_table_model_changed (ETableModel *table_model, ETableItem *eti)
 {
@@ -2065,12 +2080,13 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		int col, row;
 		gint cursor_row, cursor_col;
 
-		if (e->button.button == 1) {
-			if (eti->grabbed) {
-				gtk_grab_remove (GTK_WIDGET (item->canvas));
-				gnome_canvas_item_ungrab(item, e->button.time);
-			}
+		if (eti->grabbed) {
+			gtk_grab_remove (GTK_WIDGET (item->canvas));
+			gnome_canvas_item_ungrab(item, e->button.time);
 			eti->grabbed = FALSE;
+		}
+
+		if (e->button.button == 1) {
 			if (eti->maybe_in_drag) {
 				eti->maybe_in_drag = FALSE;
 				if (!eti->maybe_did_something)
