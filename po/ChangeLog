@@ -1,3 +1,8 @@
+2004-06-29  Christian Rose  <menthos@menthos.com>
+
+	* POTFILES.in: Removed non-existing .h files, added missing files,
+	sorted the whole thing.
+
 2004-06-28  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* POTFILES.in: Update this.
