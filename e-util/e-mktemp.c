@@ -20,14 +20,15 @@
  */
 
 
-#include "e-mktemp.h"
-
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include <glib.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <stdlib.h>
+#include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <dirent.h>
@@ -36,6 +37,8 @@
 #ifdef ENABLE_THREADS
 #include <pthread.h>
 #endif
+
+#include "e-mktemp.h"
 
 
 static gboolean initialized = FALSE;
