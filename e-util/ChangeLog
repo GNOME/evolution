@@ -1,3 +1,7 @@
+2005-01-09  JP Rosevear  <jpr@novell.com>
+
+	* e-url.c (e_uri_new): fix parsing of query string
+
 2005-01-07  Rodrigo Moya <rodrigo@novell.com>
 
 	* e-categories-config.c (e_categories_config_open_dialog_for_entry):

@@ -191,8 +191,6 @@ e_uri_new (const char *uri_string)
 			uri_decode (uri->host);
 			uri->port = 0;
 		}
-
-		uri_string = slash;
 	}
 
 	/* find query */
@@ -225,6 +223,7 @@ e_uri_new (const char *uri_string)
 					name = g_strndup (cur, p - cur);
 					value = g_strdup ("");
 				}
+
 				uri_decode (name);
 				g_datalist_set_data_full (&uri->params, name,
 							  value, g_free);
