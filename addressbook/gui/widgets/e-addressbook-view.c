@@ -567,6 +567,7 @@ status_message (GtkObject *object, const gchar *status, EAddressbookView *eav)
 
 #ifdef JUST_FOR_TRANSLATORS
 static char *list [] = {
+	N_("* Click here to add a contact *"),
 	N_("Name"),
 	N_("Email"),
 	N_("Primary"),

@@ -1,3 +1,8 @@
+2001-02-07  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/widgets/e-addressbook-view.c: Added N_("* Click here to add
+	a contact *").
+
 2001-02-07  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_connect): only
