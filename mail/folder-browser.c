@@ -845,6 +845,12 @@ got_folder (char *uri, CamelFolder *folder, void *data)
 	
 	if (fb->message_list == NULL)
 		goto done;
+
+	if (fb->folder) {
+		camel_object_unhook_event(fb->folder, "folder_changed", folder_changed, fb);
+		camel_object_unhook_event(fb->folder, "message_changed", folder_changed, fb);
+		camel_object_unref(fb->folder);
+	}
 	
 	fb->folder = folder;
 	if (folder == NULL)

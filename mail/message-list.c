@@ -2322,6 +2322,11 @@ message_list_set_search (MessageList *ml, const char *search)
 	
 	if (search != NULL && ml->search != NULL && strcmp (search, ml->search) == 0)
 		return;
+
+	if (ml->thread_tree) {
+		camel_folder_thread_messages_unref(ml->thread_tree);
+		ml->thread_tree = NULL;
+	}
 	
 	mail_regen_list (ml, search, NULL, NULL);
 }
@@ -2443,7 +2448,12 @@ message_list_hide_clear (MessageList *ml)
 	ml->hide_before = ML_HIDE_NONE_START;
 	ml->hide_after = ML_HIDE_NONE_END;
 	MESSAGE_LIST_UNLOCK (ml, hide_lock);
-	
+
+	if (ml->thread_tree) {
+		camel_folder_thread_messages_unref(ml->thread_tree);
+		ml->thread_tree = NULL;
+	}
+
 	mail_regen_list (ml, ml->search, NULL, NULL);
 }
 

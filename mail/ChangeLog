@@ -1,3 +1,12 @@
+2002-09-10  Not Zed  <NotZed@Ximian.com>
+
+	* folder-browser.c (got_folder): If we already have a folder, make
+	sure we unref/unhook from it.  Fixes a crash on exit.
+
+	* message-list.c (message_list_hide_clear): clear thread tree
+	cache if set.
+	(message_list_set_search): Same.  For bug #28834.
+
 2002-09-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser-ui.c (folder_browser_ui_scan_selection): Make
