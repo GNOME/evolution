@@ -53,6 +53,7 @@
 
 #include "camel-mime-utils.h"
 #include "camel-charset-map.h"
+#include "camel-service.h"  /* for camel_gethostbyname() */
 
 #ifdef ENABLE_THREADS
 #include <pthread.h>
@@ -1991,7 +1992,8 @@ header_decode_param (const char **in, char **paramp, char **valuep, int *is_rfc2
 	gboolean is_rfc2184_encoded = FALSE;
 	gboolean is_rfc2184 = FALSE;
 	const char *inptr = *in;
-	char *param, *value = NULL;
+	char *param = NULL;
+	char *value = NULL;
 	
 	*is_rfc2184_param = FALSE;
 	*rfc2184_part = -1;
@@ -2002,7 +2004,7 @@ header_decode_param (const char **in, char **paramp, char **valuep, int *is_rfc2
 		inptr++;
 		value = header_decode_value (&inptr);
 		
-		if (is_rfc2184) {
+		if (value && is_rfc2184) {
 			/* We have ourselves an rfc2184 parameter */
 			
 			if (*rfc2184_part == -1) {
@@ -3699,7 +3701,6 @@ header_raw_clear(struct _header_raw **list)
 char *
 header_msgid_generate (void)
 {
-	char host[MAXHOSTNAMELEN];
 #ifdef ENABLE_THREADS
 	static pthread_mutex_t count_lock = PTHREAD_MUTEX_INITIALIZER;
 #define COUNT_LOCK() pthread_mutex_lock (&count_lock)
@@ -3708,18 +3709,28 @@ header_msgid_generate (void)
 #define COUNT_LOCK()
 #define COUNT_UNLOCK()
 #endif /* ENABLE_THREADS */
+	char host[MAXHOSTNAMELEN];
+	struct hostent *h = NULL;
 	static int count = 0;
-	int hrv;
-	char *ret;
+	char *msgid;
+	int retval;
 	
-	hrv = gethostname (host, sizeof (host));
+	retval = gethostname (host, sizeof (host));
+	
+	if (retval == 0 && *host)
+		h = camel_gethostbyname (host, NULL);
+	else
+		host[0] = '\0';
 	
 	COUNT_LOCK ();
-	ret = g_strdup_printf ("%d.%d.%d.camel@%s", (gint) time (NULL), getpid (), count++,
-			       (hrv == 0 && host && *host) ? host : "unknown.host");
+	msgid = g_strdup_printf ("%d.%d.%d.camel@%s", (int) time (NULL), getpid (), count++,
+				 h ? h->h_name : (*host ? host : "localhost.localdomain"));
 	COUNT_UNLOCK ();
 	
-	return ret;
+	if (h)
+		camel_free_host (h);
+	
+	return msgid;
 }
 
 

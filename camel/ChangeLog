@@ -1,5 +1,11 @@
 2002-07-15  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-utils.c (header_msgid_generate): Try to get the FQDN
+	from the results of gethostname(). If that fails, then fall back
+	to the results gotten from gethostname() or if that fails just use
+	"localhost.localdomain". Addresses bug #17416.
+	(header_decode_param): Protect against a NULL value.
+
 	* providers/smtp/camel-smtp-transport.c (smtp_data): Get rid of
 	the constant 'required' variable, just use the value when calling
 	set_best_encoding.
