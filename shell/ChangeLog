@@ -1,5 +1,25 @@
 2002-07-09  Ettore Perazzoli  <ettore@ximian.com>
 
+	* main.c (main): Call e_icon_factory_init().
+
+	* e-local-storage.c (setup_folder_as_stock): New arg @icon_name;
+	if not NULL, set up a custom icon for the folder.
+	(setup_stock_folders): Set up custom icons for inbox and outbox.
+
+	* e-storage-set-view.c (get_pixbuf_for_folder): If the folder has
+	a custom icon, return the custom icon.
+
+	* e-folder.c: New member custom_icon_name.
+	(init): Initialize to NULL.
+	(destroy): Free.
+	(e_folder_get_custom_icon): New.
+	(e_folder_set_custom_icon): New.
+
+	* e-icon-cache.c: New.
+	* e-icon-cache.h: New.
+
+2002-07-09  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-local-storage.c (remove_folder): Remove unused variable.
 
 2002-07-08  Ettore Perazzoli  <ettore@ximian.com>

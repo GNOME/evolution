@@ -1,4 +1,4 @@
- /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-folder.h
  *
  * Copyright (C) 2000, 2001, 2002  Ximian, Inc.
@@ -80,15 +80,17 @@ int         e_folder_get_unread_count 	  (EFolder *folder);
 gboolean    e_folder_get_highlighted  	  (EFolder *folder);
 gboolean    e_folder_get_is_stock     	  (EFolder *folder);
 gboolean    e_folder_get_can_sync_offline (EFolder *folder);
+const char *e_folder_get_custom_icon_name (EFolder *folder);
 
-void e_folder_set_name             (EFolder *folder, const char *name);
-void e_folder_set_type_string      (EFolder *folder, const char *type);
-void e_folder_set_description      (EFolder *folder, const char *description);
-void e_folder_set_physical_uri     (EFolder *folder, const char *physical_uri);
-void e_folder_set_unread_count     (EFolder *folder, int unread_count);
-void e_folder_set_child_highlight  (EFolder *folder, gboolean highlighted);
-void e_folder_set_is_stock         (EFolder *folder, gboolean is_stock);
-void e_folder_set_can_sync_offline (EFolder *folder, gboolean can_sync_offline);
+void  e_folder_set_name              (EFolder *folder, const char *name);
+void  e_folder_set_type_string       (EFolder *folder, const char *type);
+void  e_folder_set_description       (EFolder *folder, const char *description);
+void  e_folder_set_physical_uri      (EFolder *folder, const char *physical_uri);
+void  e_folder_set_unread_count      (EFolder *folder, int unread_count);
+void  e_folder_set_child_highlight   (EFolder *folder, gboolean highlighted);
+void  e_folder_set_is_stock          (EFolder *folder, gboolean is_stock);
+void  e_folder_set_can_sync_offline  (EFolder *folder, gboolean can_sync_offline);
+void  e_folder_set_custom_icon       (EFolder *folder, const char *icon_name);
 
 void e_folder_to_corba  (EFolder    *folder,
 			 const char *evolution_uri,

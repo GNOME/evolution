@@ -152,7 +152,8 @@ new_folder (ELocalStorage *local_storage,
 static gboolean
 setup_folder_as_stock (ELocalStorage *local_storage,
 		       const char *path,
-		       const char *name)
+		       const char *name,
+		       const char *custom_icon_name)
 {
 	EFolder *folder;
 
@@ -162,6 +163,7 @@ setup_folder_as_stock (ELocalStorage *local_storage,
 
 	e_folder_set_name (folder, name);
 	e_folder_set_is_stock (folder, TRUE);
+	e_folder_set_custom_icon (folder, custom_icon_name);
 
 	return TRUE;
 }
@@ -169,14 +171,14 @@ setup_folder_as_stock (ELocalStorage *local_storage,
 static void
 setup_stock_folders (ELocalStorage *local_storage)
 {
-	setup_folder_as_stock (local_storage, "/Calendar", U_("Calendar"));
-	setup_folder_as_stock (local_storage, "/Contacts", U_("Contacts"));
-	setup_folder_as_stock (local_storage, "/Drafts", U_("Drafts"));
-	setup_folder_as_stock (local_storage, "/Inbox", U_("Inbox"));
-	setup_folder_as_stock (local_storage, "/Outbox", U_("Outbox"));
-	setup_folder_as_stock (local_storage, "/Sent", U_("Sent"));
-	setup_folder_as_stock (local_storage, "/Tasks", U_("Tasks"));
-	setup_folder_as_stock (local_storage, "/Trash", U_("Trash"));
+	setup_folder_as_stock (local_storage, "/Calendar", U_("Calendar"), NULL);
+	setup_folder_as_stock (local_storage, "/Contacts", U_("Contacts"), NULL);
+	setup_folder_as_stock (local_storage, "/Drafts", U_("Drafts"), NULL);
+	setup_folder_as_stock (local_storage, "/Inbox", U_("Inbox"), "inbox");
+	setup_folder_as_stock (local_storage, "/Outbox", U_("Outbox"), "outbox");
+	setup_folder_as_stock (local_storage, "/Sent", U_("Sent"), NULL);
+	setup_folder_as_stock (local_storage, "/Tasks", U_("Tasks"), NULL);
+	setup_folder_as_stock (local_storage, "/Trash", U_("Trash"), NULL);
 }
 
 static gboolean

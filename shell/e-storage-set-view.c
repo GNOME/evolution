@@ -253,52 +253,56 @@ static GdkPixbuf *
 get_pixbuf_for_folder (EStorageSetView *storage_set_view,
 		       EFolder *folder)
 {
-	GdkPixbuf *scaled_pixbuf;
 	const char *type_name;
 	EStorageSetViewPrivate *priv;
+	EFolderTypeRegistry *folder_type_registry;
+	EStorageSet *storage_set;
+	GdkPixbuf *icon_pixbuf;
+	GdkPixbuf *scaled_pixbuf;
+	const char *custom_icon_name;
+	int icon_pixbuf_width, icon_pixbuf_height;
 
 	priv = storage_set_view->priv;
-	
+
+	custom_icon_name = e_folder_get_custom_icon_name (folder);
+	if (custom_icon_name != NULL)
+		return e_icon_factory_get_icon (custom_icon_name, TRUE);
+
 	type_name = e_folder_get_type_string (folder);
 
 	scaled_pixbuf = g_hash_table_lookup (priv->type_name_to_pixbuf, type_name);
+	if (scaled_pixbuf != NULL)
+		return scaled_pixbuf;
 
-	if (scaled_pixbuf == NULL) {
-		EFolderTypeRegistry *folder_type_registry;
-		EStorageSet *storage_set;
-		GdkPixbuf *icon_pixbuf;
-		int icon_pixbuf_width, icon_pixbuf_height;
+	storage_set = priv->storage_set;
+	folder_type_registry = e_storage_set_get_folder_type_registry (storage_set);
 
-		storage_set = priv->storage_set;
-		folder_type_registry = e_storage_set_get_folder_type_registry (storage_set);
+	icon_pixbuf = e_folder_type_registry_get_icon_for_type (folder_type_registry,
+								type_name, TRUE);
 
-		icon_pixbuf = e_folder_type_registry_get_icon_for_type (folder_type_registry,
-									type_name, TRUE);
+	if (icon_pixbuf == NULL)
+		return NULL;
 
-		if (icon_pixbuf == NULL)
-			return NULL;
+	icon_pixbuf_width = gdk_pixbuf_get_width (icon_pixbuf);
+	icon_pixbuf_height = gdk_pixbuf_get_height (icon_pixbuf);
 
-		icon_pixbuf_width = gdk_pixbuf_get_width (icon_pixbuf);
-		icon_pixbuf_height = gdk_pixbuf_get_height (icon_pixbuf);
+	if (icon_pixbuf_width == E_SHELL_MINI_ICON_SIZE && icon_pixbuf_height == E_SHELL_MINI_ICON_SIZE) {
+		scaled_pixbuf = gdk_pixbuf_ref (icon_pixbuf);
+	} else {
+		scaled_pixbuf = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (icon_pixbuf),
+						gdk_pixbuf_get_has_alpha (icon_pixbuf),
+						gdk_pixbuf_get_bits_per_sample (icon_pixbuf),
+						E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE);
 
-		if (icon_pixbuf_width == E_SHELL_MINI_ICON_SIZE && icon_pixbuf_height == E_SHELL_MINI_ICON_SIZE) {
-			scaled_pixbuf = gdk_pixbuf_ref (icon_pixbuf);
-		} else {
-			scaled_pixbuf = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (icon_pixbuf),
-							gdk_pixbuf_get_has_alpha (icon_pixbuf),
-							gdk_pixbuf_get_bits_per_sample (icon_pixbuf),
-							E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE);
-
-			gdk_pixbuf_scale (icon_pixbuf, scaled_pixbuf,
-					  0, 0, E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE,
-					  0.0, 0.0,
-					  (double) E_SHELL_MINI_ICON_SIZE / gdk_pixbuf_get_width (icon_pixbuf),
-					  (double) E_SHELL_MINI_ICON_SIZE / gdk_pixbuf_get_height (icon_pixbuf),
-					  GDK_INTERP_HYPER);
-		}
-
-		g_hash_table_insert (priv->type_name_to_pixbuf, g_strdup (type_name), scaled_pixbuf);
+		gdk_pixbuf_scale (icon_pixbuf, scaled_pixbuf,
+				  0, 0, E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE,
+				  0.0, 0.0,
+				  (double) E_SHELL_MINI_ICON_SIZE / gdk_pixbuf_get_width (icon_pixbuf),
+				  (double) E_SHELL_MINI_ICON_SIZE / gdk_pixbuf_get_height (icon_pixbuf),
+				  GDK_INTERP_HYPER);
 	}
+
+	g_hash_table_insert (priv->type_name_to_pixbuf, g_strdup (type_name), scaled_pixbuf);
 
 	return scaled_pixbuf;
 }

@@ -49,6 +49,10 @@ struct _EFolderPrivate {
 	unsigned int self_highlight : 1;
 	unsigned int is_stock : 1;
 	unsigned int can_sync_offline : 1;
+
+	/* Custom icon for this folder; if NULL the folder will just use the
+	   icon for its type.  */
+	char *custom_icon_name;
 };
 
 #define EF_CLASS(obj) \
@@ -112,6 +116,8 @@ destroy (GtkObject *object)
 	g_free (priv->description);
 	g_free (priv->physical_uri);
 
+	g_free (priv->custom_icon_name);
+
 	g_free (priv);
 
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -158,6 +164,7 @@ init (EFolder *folder)
 	priv->self_highlight   = FALSE;
 	priv->is_stock         = FALSE;
 	priv->can_sync_offline = FALSE;
+	priv->custom_icon_name = NULL;
 
 	folder->priv = priv;
 }
@@ -265,6 +272,29 @@ e_folder_get_is_stock (EFolder *folder)
 	g_return_val_if_fail (E_IS_FOLDER (folder), FALSE);
 
 	return folder->priv->is_stock;
+}
+
+gboolean
+e_folder_get_can_sync_offline (EFolder *folder)
+{
+	g_return_val_if_fail (E_IS_FOLDER (folder), FALSE);
+
+	return folder->priv->can_sync_offline;
+}
+
+/**
+ * e_folder_get_custom_icon:
+ * @folder: An EFolder
+ * 
+ * Get the name of the custom icon for @folder, or NULL if no custom icon is
+ * associated with it
+ **/
+const char *
+e_folder_get_custom_icon_name (EFolder *folder)
+{
+	g_return_val_if_fail (E_IS_FOLDER (folder), NULL);
+
+	return folder->priv->custom_icon_name;
 }
 
 
@@ -380,12 +410,29 @@ e_folder_set_can_sync_offline (EFolder *folder,
 	gtk_signal_emit (GTK_OBJECT (folder), signals[CHANGED]);
 }
 
-gboolean
-e_folder_get_can_sync_offline (EFolder *folder)
+/**
+ * e_folder_set_custom_icon_name:
+ * @folder: An EFolder
+ * @icon_name: Name of the icon to be set (to be found in the standard
+ * Evolution icon dir)
+ * 
+ * Set a custom icon for @folder (thus overriding the default icon, which is
+ * the one associated to the type of the folder).
+ **/
+void
+e_folder_set_custom_icon (EFolder *folder,
+			  const char *icon_name)
 {
-	g_return_val_if_fail (E_IS_FOLDER (folder), FALSE);
+	g_return_if_fail (E_IS_FOLDER (folder));
 
-	return folder->priv->can_sync_offline;
+	if (icon_name != folder->priv->custom_icon_name) {
+		g_free (folder->priv->custom_icon_name);
+
+		if (icon_name == NULL)
+			folder->priv->custom_icon_name = NULL;
+		else
+			folder->priv->custom_icon_name = g_strdup (icon_name);
+	}
 }
 
 

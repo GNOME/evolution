@@ -54,6 +54,7 @@
 
 #include "e-util/e-gtk-utils.h"
 
+#include "e-icon-factory.h"
 #include "e-shell-constants.h"
 #include "e-shell-config.h"
 #include "e-setup.h"
@@ -480,6 +481,7 @@ main (int argc, char **argv)
 
 	glade_gnome_init ();
 	e_cursors_init ();
+	e_icon_factory_init ();
 
 	gnome_window_icon_set_default_from_file (EVOLUTION_IMAGES "/evolution-inbox.png");
 
