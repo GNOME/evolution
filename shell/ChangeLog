@@ -1,5 +1,10 @@
 2001-08-23  Zbigniew Chyla  <cyba@gnome.pl>
 
+	* e-shortcuts.c (e_shortcuts_add_default_group): Convert names of the
+	default group and shortcuts to UTF-8 (still no U_ :().
+
+2001-08-23  Zbigniew Chyla  <cyba@gnome.pl>
+
 	* e-shortcuts-view.c (destroy_group_cb): Convert the name of the group
 	to GTK+ locale before displaying it in a dialog.
 
