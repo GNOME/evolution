@@ -1,3 +1,18 @@
+2002-06-27  Aaron Weber  <aaron@ximian.com>
+
+	* C/evolution-C.omf: apply patch from owen taylor
+
+2002-06-26  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-contact.sgml: remove the search-refining feature, which
+	isn't actually true, i think.
+	
+	* C/apx-authors.sgml: update slightly.
+
+	* C/apx-bugs.sgml: remove list of 1.1.x features.
+
+	* C/usage-mainwindow.sgml: minor tweaks
+
 2002-06-25  Aaron Weber  <aaron@ximian.com>
 
 	* C/config-prefs.sgml: more improvem,ent.
