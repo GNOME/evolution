@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
-"POT-Creation-Date: 2001-05-21 08:28+0200\n"
-"PO-Revision-Date: 2001-05-21 09:00+02:00\n"
+"POT-Creation-Date: 2001-05-22 15:15+0200\n"
+"PO-Revision-Date: 2001-05-22 15:23+02:00\n"
 "Last-Translator: András Tímár <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -456,7 +456,8 @@ msgstr "_Vállalat:"
 #: addressbook/contact-editor/contact-editor.glade.h:23
 #: mail/folder-browser.c:715 mail/mail-config.glade.h:85
 #: ui/evolution-event-editor.xml.h:57 ui/evolution-mail.xml.h:103
-#: ui/evolution-task-editor-dialog.xml.h:69 ui/evolution.xml.h:46
+#: ui/evolution-task-editor-dialog.xml.h:69 ui/evolution-tasks.xml.h:9
+#: ui/evolution.xml.h:46
 msgid "_Delete"
 msgstr "_Törlés"
 
@@ -738,25 +739,16 @@ msgstr "M_egkülönböztetõ név"
 msgid "_Title:"
 msgstr "_Megszólítás:"
 
-#: addressbook/gui/component/addressbook.c:244
-msgid "As _Minicards"
-msgstr "_Kártyákként"
-
-#: addressbook/gui/component/addressbook.c:250
-#: ui/evolution-addressbook.xml.h:1
-msgid "As _Table"
-msgstr "_Táblázatként"
-
-#: addressbook/gui/component/addressbook.c:410
+#: addressbook/gui/component/addressbook.c:361
 #, c-format
 msgid "Enter password for %s"
 msgstr "Írd be %s jelszavát"
 
-#: addressbook/gui/component/addressbook.c:438
+#: addressbook/gui/component/addressbook.c:389
 msgid "Unable to open addressbook"
 msgstr "Nem tudom megnyitni a címjegyzéket"
 
-#: addressbook/gui/component/addressbook.c:445
+#: addressbook/gui/component/addressbook.c:396
 msgid ""
 "We were unable to open this addressbook.  This either\n"
 "means you have entered an incorrect URI, or the LDAP server\n"
@@ -766,7 +758,7 @@ msgstr ""
 "jelenti, hogy helytelen URI-t adtál meg, vagy az LDAP\n"
 "kiszolgáló nem mûködik."
 
-#: addressbook/gui/component/addressbook.c:450
+#: addressbook/gui/component/addressbook.c:401
 msgid ""
 "This version of Evolution does not have LDAP support\n"
 "compiled in to it.  If you want to use LDAP in Evolution\n"
@@ -778,7 +770,7 @@ msgstr ""
 "a CVS forrásból kell lefordítanod a programot, miután letöltötted\n"
 "az OpenLDAP-t az alábbi helyrõl.\n"
 
-#: addressbook/gui/component/addressbook.c:458
+#: addressbook/gui/component/addressbook.c:409
 msgid ""
 "We were unable to open this addressbook.  Please check that the\n"
 "path exists and that you have permission to access it."
@@ -786,19 +778,19 @@ msgstr ""
 "Nem sikerült megnyitni a címjegyzéket. Ellenõrizd, hogy az útvonal\n"
 "létezik-e és van-e jogod az eléréséhez."
 
-#: addressbook/gui/component/addressbook.c:618 calendar/gui/gnome-cal.c:233
+#: addressbook/gui/component/addressbook.c:569 calendar/gui/gnome-cal.c:233
 msgid "Any field contains"
 msgstr "Bármely mezõ tartalmazza"
 
-#: addressbook/gui/component/addressbook.c:619
+#: addressbook/gui/component/addressbook.c:570
 msgid "Name contains"
 msgstr "A név tartalmazza"
 
-#: addressbook/gui/component/addressbook.c:620
+#: addressbook/gui/component/addressbook.c:571
 msgid "Email contains"
 msgstr "Az emailcím tartalmazza"
 
-#: addressbook/gui/component/addressbook.c:763
+#: addressbook/gui/component/addressbook.c:714
 msgid "The URI that the Folder Browser will display"
 msgstr "Az URI amit a Mappaböngészõ meg fog nyitni"
 
@@ -953,9 +945,9 @@ msgstr "Címjegyzék forrásai"
 #: calendar/gui/e-meeting-dialog.glade.h:8
 #: calendar/gui/event-editor-dialog.glade.h:9 filter/filter.glade.h:2
 #: filter/libfilter-i18n.h:11 mail/mail-config.glade.h:23
-#: mail/message-browser.c:202 ui/evolution-addressbook.xml.h:3
+#: mail/message-browser.c:202 ui/evolution-addressbook.xml.h:2
 #: ui/evolution-event-editor.xml.h:17 ui/evolution-mail.xml.h:22
-#: ui/evolution-task-editor-dialog.xml.h:18
+#: ui/evolution-task-editor-dialog.xml.h:18 ui/evolution-tasks.xml.h:3
 msgid "Delete"
 msgstr "Törlés"
 
@@ -1215,8 +1207,8 @@ msgstr "Levél küldése ennek a személynek"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:233
 #: addressbook/gui/widgets/e-addressbook-view.c:614 mail/message-browser.c:199
-#: ui/evolution-addressbook.xml.h:9 ui/evolution-calendar.xml.h:23
-#: ui/evolution-mail.xml.h:65 ui/evolution-tasks.xml.h:4
+#: ui/evolution-addressbook.xml.h:6 ui/evolution-calendar.xml.h:23
+#: ui/evolution-mail.xml.h:65 ui/evolution-tasks.xml.h:6
 msgid "Print"
 msgstr "Nyomtatás"
 
@@ -1608,17 +1600,17 @@ msgstr ""
 "telepítésedet."
 
 #: calendar/gui/calendar-model.c:360 calendar/gui/calendar-model.c:898
-#: calendar/gui/e-calendar-table.c:323
+#: calendar/gui/e-calendar-table.c:322
 msgid "Public"
 msgstr "Nyilvános"
 
 #: calendar/gui/calendar-model.c:363 calendar/gui/calendar-model.c:900
-#: calendar/gui/e-calendar-table.c:324
+#: calendar/gui/e-calendar-table.c:323
 msgid "Private"
 msgstr "Személyes"
 
 #: calendar/gui/calendar-model.c:366 calendar/gui/calendar-model.c:902
-#: calendar/gui/e-calendar-table.c:325
+#: calendar/gui/e-calendar-table.c:324
 msgid "Confidential"
 msgstr "Bizalmas"
 
@@ -1646,54 +1638,54 @@ msgstr "Ny"
 
 #: calendar/gui/calendar-model.c:497 calendar/gui/calendar-model.c:1066
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:10
-#: calendar/gui/e-calendar-table.c:345 mail/message-list.c:689
+#: calendar/gui/e-calendar-table.c:344 mail/message-list.c:689
 msgid "High"
 msgstr "Magas"
 
 #: calendar/gui/calendar-model.c:499 calendar/gui/calendar-model.c:1068
 #: calendar/gui/calendar-model.c:1574
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:13
-#: calendar/gui/e-calendar-table.c:346 mail/message-list.c:688
+#: calendar/gui/e-calendar-table.c:345 mail/message-list.c:688
 msgid "Normal"
 msgstr "Normális"
 
 #: calendar/gui/calendar-model.c:501 calendar/gui/calendar-model.c:1070
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:12
-#: calendar/gui/e-calendar-table.c:347 mail/message-list.c:687
+#: calendar/gui/e-calendar-table.c:346 mail/message-list.c:687
 msgid "Low"
 msgstr "Alacsony"
 
 #: calendar/gui/calendar-model.c:537 calendar/gui/calendar-model.c:1122
-#: calendar/gui/e-calendar-table.c:399
+#: calendar/gui/e-calendar-table.c:398
 msgid "Transparent"
 msgstr "Áttetszõ"
 
 #: calendar/gui/calendar-model.c:540 calendar/gui/calendar-model.c:1124
-#: calendar/gui/e-calendar-table.c:398
+#: calendar/gui/e-calendar-table.c:397
 msgid "Opaque"
 msgstr "Átlátszatlan"
 
 #: calendar/gui/calendar-model.c:638 calendar/gui/calendar-model.c:1176
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:14
-#: calendar/gui/e-calendar-table.c:419
+#: calendar/gui/e-calendar-table.c:418
 msgid "Not Started"
 msgstr "Nem indult még el"
 
 #: calendar/gui/calendar-model.c:641 calendar/gui/calendar-model.c:1178
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:11
-#: calendar/gui/e-calendar-table.c:420
+#: calendar/gui/e-calendar-table.c:419
 msgid "In Progress"
 msgstr "Folyamatban"
 
 #: calendar/gui/calendar-model.c:644 calendar/gui/calendar-model.c:1180
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:6
-#: calendar/gui/e-calendar-table.c:421
+#: calendar/gui/e-calendar-table.c:420
 msgid "Completed"
 msgstr "Kész"
 
 #: calendar/gui/calendar-model.c:647 calendar/gui/calendar-model.c:1182
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:4
-#: calendar/gui/e-calendar-table.c:422 camel/camel-service.c:544
+#: calendar/gui/e-calendar-table.c:421 camel/camel-service.c:544
 #: camel/camel-service.c:580
 msgid "Cancelled"
 msgstr "Megszakítva"
@@ -1727,8 +1719,8 @@ msgstr ""
 
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:896 calendar/gui/calendar-model.c:1120
-#: calendar/gui/calendar-model.c:1174 calendar/gui/e-calendar-table.c:322
-#: calendar/gui/e-calendar-table.c:397 mail/mail-account-gui.c:976
+#: calendar/gui/calendar-model.c:1174 calendar/gui/e-calendar-table.c:321
+#: calendar/gui/e-calendar-table.c:396 mail/mail-account-gui.c:976
 #: mail/mail-accounts.c:120 mail/mail-accounts.c:164
 #: mail/mail-config.glade.h:46 shell/e-shell-view.c:1312
 #: widgets/misc/e-cell-date-edit.c:237 widgets/misc/e-dateedit.c:432
@@ -1757,7 +1749,7 @@ msgstr "A prioritás 'Magas', 'Alacsony' vagy 'Nem megadott' lehet."
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1064
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:22
-#: calendar/gui/e-calendar-table.c:348
+#: calendar/gui/e-calendar-table.c:347
 msgid "Undefined"
 msgstr "Nem megadott"
 
@@ -1927,7 +1919,7 @@ msgid "Display options"
 msgstr "Megjelenítési beállítások"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
-#: calendar/gui/e-calendar-table.c:155
+#: calendar/gui/e-calendar-table.c:154
 msgid "Due Date"
 msgstr "Lejárat"
 
@@ -1995,7 +1987,7 @@ msgid "Pick a color"
 msgstr "Válassz egy színt"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
-#: calendar/gui/e-calendar-table.c:158
+#: calendar/gui/e-calendar-table.c:157
 msgid "Priority"
 msgstr "Prioritás"
 
@@ -2177,7 +2169,7 @@ msgid "% Comp_lete:"
 msgstr "S_zázalékos készenlét:"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:5
-#: calendar/gui/e-calendar-table.c:151
+#: calendar/gui/e-calendar-table.c:150
 #: calendar/gui/event-editor-dialog.glade.h:6
 msgid "Classification"
 msgstr "Besorolás"
@@ -2244,123 +2236,123 @@ msgstr "_Prioritás:"
 msgid "_Status:"
 msgstr "Áll_apot:"
 
-#: calendar/gui/e-calendar-table.c:150
+#: calendar/gui/e-calendar-table.c:149
 msgid "Categories"
 msgstr "Kategóriák"
 
-#: calendar/gui/e-calendar-table.c:152
+#: calendar/gui/e-calendar-table.c:151
 msgid "Completion Date"
 msgstr "Befejezés dátuma"
 
-#: calendar/gui/e-calendar-table.c:153
+#: calendar/gui/e-calendar-table.c:152
 msgid "End Date"
 msgstr "Határidõ"
 
-#: calendar/gui/e-calendar-table.c:154
+#: calendar/gui/e-calendar-table.c:153
 msgid "Start Date"
 msgstr "Kezdés dátuma"
 
-#: calendar/gui/e-calendar-table.c:156
+#: calendar/gui/e-calendar-table.c:155
 msgid "Geographical Position"
 msgstr "Földrajzi hely"
 
-#: calendar/gui/e-calendar-table.c:157
+#: calendar/gui/e-calendar-table.c:156
 msgid "Percent complete"
 msgstr "Százalékos készenlét"
 
-#: calendar/gui/e-calendar-table.c:159
+#: calendar/gui/e-calendar-table.c:158
 msgid "Summary"
 msgstr "Összegzés"
 
-#: calendar/gui/e-calendar-table.c:160
+#: calendar/gui/e-calendar-table.c:159
 msgid "Transparency"
 msgstr "Átlátszóság"
 
-#: calendar/gui/e-calendar-table.c:161
+#: calendar/gui/e-calendar-table.c:160
 msgid "URL"
 msgstr "URL"
 
-#: calendar/gui/e-calendar-table.c:162
+#: calendar/gui/e-calendar-table.c:161
 msgid "Alarms"
 msgstr "Ébresztõk"
 
-#: calendar/gui/e-calendar-table.c:163
+#: calendar/gui/e-calendar-table.c:162
 msgid "Click here to add a task"
 msgstr "Kattints ide új feladat hozzáadásához"
 
-#: calendar/gui/e-calendar-table.c:367
+#: calendar/gui/e-calendar-table.c:366
 #, c-format
 msgid "0%"
 msgstr "0%"
 
-#: calendar/gui/e-calendar-table.c:368
+#: calendar/gui/e-calendar-table.c:367
 #, c-format
 msgid "10%"
 msgstr "10%"
 
-#: calendar/gui/e-calendar-table.c:369
+#: calendar/gui/e-calendar-table.c:368
 #, c-format
 msgid "20%"
 msgstr "20%"
 
-#: calendar/gui/e-calendar-table.c:370
+#: calendar/gui/e-calendar-table.c:369
 #, c-format
 msgid "30%"
 msgstr "30%"
 
-#: calendar/gui/e-calendar-table.c:371
+#: calendar/gui/e-calendar-table.c:370
 #, c-format
 msgid "40%"
 msgstr "40%"
 
-#: calendar/gui/e-calendar-table.c:372
+#: calendar/gui/e-calendar-table.c:371
 #, c-format
 msgid "50%"
 msgstr "50%"
 
-#: calendar/gui/e-calendar-table.c:373
+#: calendar/gui/e-calendar-table.c:372
 #, c-format
 msgid "60%"
 msgstr "60%"
 
-#: calendar/gui/e-calendar-table.c:374
+#: calendar/gui/e-calendar-table.c:373
 #, c-format
 msgid "70%"
 msgstr "70%"
 
-#: calendar/gui/e-calendar-table.c:375
+#: calendar/gui/e-calendar-table.c:374
 #, c-format
 msgid "80%"
 msgstr "80%"
 
-#: calendar/gui/e-calendar-table.c:376
+#: calendar/gui/e-calendar-table.c:375
 #, c-format
 msgid "90%"
 msgstr "90%"
 
-#: calendar/gui/e-calendar-table.c:377
+#: calendar/gui/e-calendar-table.c:376
 #, c-format
 msgid "100%"
 msgstr "100%"
 
-#: calendar/gui/e-calendar-table.c:705
+#: calendar/gui/e-calendar-table.c:736
 msgid "Edit this task"
 msgstr "A feladat szerkesztése"
 
-#: calendar/gui/e-calendar-table.c:707
+#: calendar/gui/e-calendar-table.c:738
 msgid "Mark as complete"
 msgstr "Megjelölés készként"
 
-#: calendar/gui/e-calendar-table.c:708
+#: calendar/gui/e-calendar-table.c:739
 #: ui/evolution-task-editor-dialog.xml.h:19
 msgid "Delete this task"
 msgstr "A feladat törlése"
 
-#: calendar/gui/e-calendar-table.c:713
+#: calendar/gui/e-calendar-table.c:744
 msgid "Mark tasks as complete"
 msgstr "Feladatok megjelölése készként"
 
-#: calendar/gui/e-calendar-table.c:714
+#: calendar/gui/e-calendar-table.c:745 ui/evolution-tasks.xml.h:4
 msgid "Delete selected tasks"
 msgstr "Kijelölt feladatok törlése"
 
@@ -2633,21 +2625,21 @@ msgstr ""
 msgid "Status"
 msgstr "Állapot"
 
-#: calendar/gui/e-tasks.c:149 calendar/gui/e-tasks.c:469
-#: calendar/gui/e-tasks.c:502
+#: calendar/gui/e-tasks.c:181 calendar/gui/e-tasks.c:525
+#: calendar/gui/e-tasks.c:558
 msgid "All"
 msgstr "Mindenki"
 
-#: calendar/gui/e-tasks.c:155
+#: calendar/gui/e-tasks.c:187
 msgid "Category:"
 msgstr "Kategória:"
 
-#: calendar/gui/e-tasks.c:298
+#: calendar/gui/e-tasks.c:333
 #, c-format
 msgid "Could not load the tasks in `%s'"
 msgstr "Nem sikerült betölteni a feladatot %s-be."
 
-#: calendar/gui/e-tasks.c:310
+#: calendar/gui/e-tasks.c:345
 #, c-format
 msgid "The method required to load `%s' is not supported"
 msgstr "'%s' betöltéséhez szükséges eljárás nem támogatott"
@@ -3207,11 +3199,11 @@ msgid "Print Calendar"
 msgstr "Naptár nyomtatása"
 
 #: calendar/gui/print.c:1321 mail/mail-callbacks.c:1447
-#: ui/evolution-addressbook.xml.h:10 ui/evolution-calendar.xml.h:24
+#: ui/evolution-addressbook.xml.h:7 ui/evolution-calendar.xml.h:24
 msgid "Print Preview"
 msgstr "Nyomtatási kép"
 
-#: calendar/gui/tasks-control.c:108
+#: calendar/gui/tasks-control.c:136
 msgid "The URI of the tasks folder to display"
 msgstr "A megjelenítendõ feladatmappa URI-ja"
 
@@ -5812,9 +5804,9 @@ msgstr "Szabály szerkesztése"
 msgid "Score Rules"
 msgstr "Pontszámszabályok"
 
-#: importers/elm-importer.c:512 importers/netscape-importer.c:780
-#: importers/pine-importer.c:646 shell/e-shell-importer.c:653
-#: shell/importer/import.glade.h:4
+#: importers/elm-importer.c:512 importers/evolution-gnomecard-importer.c:238
+#: importers/netscape-importer.c:780 importers/pine-importer.c:646
+#: shell/e-shell-importer.c:653 shell/importer/import.glade.h:4
 msgid "Import"
 msgstr "Importálás"
 
@@ -5827,8 +5819,8 @@ msgstr "Levél"
 msgid "Elm Aliases"
 msgstr "Elm álnevek"
 
-#: importers/elm-importer.c:528 importers/netscape-importer.c:807
-#: importers/pine-importer.c:668
+#: importers/elm-importer.c:528 importers/evolution-gnomecard-importer.c:250
+#: importers/netscape-importer.c:807 importers/pine-importer.c:668
 msgid "Don't ask me again"
 msgstr "Ne kérdezze meg többet."
 
@@ -5843,6 +5835,18 @@ msgstr ""
 #: importers/elm-importer.c:579
 msgid "Elm mail"
 msgstr "Elm levél"
+
+#: importers/evolution-gnomecard-importer.c:243 importers/pine-importer.c:661
+msgid "Addressbook"
+msgstr "Címjegyzék"
+
+#: importers/evolution-gnomecard-importer.c:275
+msgid ""
+"Evolution has found GnomeCard files.\n"
+"Would you like them to be imported into Evolution?"
+msgstr ""
+"Az Evolúció GnomeCard fájlokat talált.\n"
+"Szeretnéd ezeket az Evolúcióba importálni?"
 
 #: importers/netscape-importer.c:790 importers/pine-importer.c:656
 msgid "Settings"
@@ -5863,10 +5867,6 @@ msgid ""
 msgstr ""
 "Az Evolúció Netscape levélfájlokat talált.\n"
 "Szeretnéd ezeket az Evolúcióba importálni?"
-
-#: importers/pine-importer.c:661
-msgid "Addressbook"
-msgstr "Címjegyzék"
 
 #: importers/pine-importer.c:705
 msgid ""
@@ -5933,12 +5933,12 @@ msgid "Resend"
 msgstr "Újraküldés"
 
 #: mail/folder-browser.c:690 ui/evolution-calendar.xml.h:43
-#: ui/evolution-mail.xml.h:118 ui/evolution-tasks.xml.h:8
+#: ui/evolution-mail.xml.h:118 ui/evolution-tasks.xml.h:11
 msgid "_Save As..."
 msgstr "M_entés másként..."
 
 #: mail/folder-browser.c:692 ui/evolution-event-editor.xml.h:69
-#: ui/evolution-task-editor-dialog.xml.h:82 ui/evolution-tasks.xml.h:7
+#: ui/evolution-task-editor-dialog.xml.h:82 ui/evolution-tasks.xml.h:10
 msgid "_Print"
 msgstr "_Nyomtatás"
 
@@ -6471,7 +6471,7 @@ msgstr "Legyen ez az alapértelmezett postafiók"
 
 #: mail/mail-config.glade.h:42
 msgid "Mark messages as \"Read\" after:"
-msgstr "_Minden olvasott levél kijelölése"
+msgstr "Várakozás a levél olvasottként megjelölése elõtt:"
 
 #: mail/mail-config.glade.h:44
 msgid "Never load images off the net"
@@ -6820,6 +6820,11 @@ msgid ""
 "If you can no longer open this mailbox, then\n"
 "you may need to repair it manually."
 msgstr ""
+
+#: mail/mail-local.c:1047
+#, c-format
+msgid "Reconfigure %s"
+msgstr "%s újrabeállítása"
 
 #: mail/mail-mt.c:190
 #, c-format
@@ -7333,6 +7338,24 @@ msgstr ""
 "Hoppá! Az '%s' nézet váratlanul meghalt. :-(\n"
 "Ez valószínûleg azt jelenti, hogy a %s komponens összeomlott."
 
+#: shell/e-shell-folder-commands.c:238
+#, c-format
+msgid "Specify a folder to copy folder \"%s\" into:"
+msgstr ""
+
+#: shell/e-shell-folder-commands.c:243
+msgid "Copy folder"
+msgstr "Mappa másolása"
+
+#: shell/e-shell-folder-commands.c:280
+#, c-format
+msgid "Specify a folder to move folder \"%s\" into:"
+msgstr ""
+
+#: shell/e-shell-folder-commands.c:285
+msgid "Move folder"
+msgstr "Mappa mozgatása"
+
 #: shell/e-shell-folder-creation-dialog.c:99
 #, c-format
 msgid ""
@@ -7763,68 +7786,60 @@ msgstr "Minden összetevõ hibakeresõ üzeneteit fájlba irányítja."
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Nem tudom elindítani a Bonobo komponens rendszert."
 
-#: ui/evolution-addressbook.xml.h:2
+#: ui/evolution-addressbook.xml.h:1
 msgid "Create new contact"
 msgstr "Új névjegy készítése"
 
-#: ui/evolution-addressbook.xml.h:4
+#: ui/evolution-addressbook.xml.h:3
 msgid "Delete a contact"
 msgstr "Névjegy törlése"
 
-#: ui/evolution-addressbook.xml.h:5 ui/evolution-task-editor-dialog.xml.h:23
-msgid "Find"
-msgstr "Keresés"
-
-#: ui/evolution-addressbook.xml.h:6
-msgid "Find a contact"
-msgstr "Névjegy keresése"
-
-#: ui/evolution-addressbook.xml.h:7
+#: ui/evolution-addressbook.xml.h:4
 msgid "New contact"
 msgstr "Új névjegy"
 
-#: ui/evolution-addressbook.xml.h:8 ui/evolution-mail.xml.h:63
+#: ui/evolution-addressbook.xml.h:5 ui/evolution-mail.xml.h:63
 msgid "Previews the message to be printed"
 msgstr "Elõnézeti képet ad a nyomtatandó levélrõl"
 
-#: ui/evolution-addressbook.xml.h:11
+#: ui/evolution-addressbook.xml.h:8
 msgid "Print contacts"
 msgstr "Névjegyek nyomtatása"
 
-#: ui/evolution-addressbook.xml.h:12
+#: ui/evolution-addressbook.xml.h:9
 msgid "Stop"
 msgstr "Leállítás"
 
-#: ui/evolution-addressbook.xml.h:13
+#: ui/evolution-addressbook.xml.h:10
 msgid "Stop Loading"
 msgstr "Betöltés leállítása"
 
-#: ui/evolution-addressbook.xml.h:14
+#: ui/evolution-addressbook.xml.h:11
 msgid "View All"
 msgstr "Mindet megjeleníti"
 
-#: ui/evolution-addressbook.xml.h:15
+#: ui/evolution-addressbook.xml.h:12
 msgid "View all contacts"
 msgstr "Az összes névjegy megjelenítése"
 
-#: ui/evolution-addressbook.xml.h:16
+#: ui/evolution-addressbook.xml.h:13
 msgid "_Addressbook Sources..."
 msgstr "_Címjegyzék forrásai..."
 
-#: ui/evolution-addressbook.xml.h:17
+#: ui/evolution-addressbook.xml.h:14
 msgid "_Contact"
 msgstr "_Névjegyek"
 
-#: ui/evolution-addressbook.xml.h:18 ui/evolution-calendar.xml.h:42
+#: ui/evolution-addressbook.xml.h:15 ui/evolution-calendar.xml.h:42
 #: ui/evolution-contact-editor.xml.h:15
 msgid "_Print..."
 msgstr "_Nyomtatás..."
 
-#: ui/evolution-addressbook.xml.h:19
+#: ui/evolution-addressbook.xml.h:16
 msgid "_Search for contacts"
 msgstr "_Névjegy keresése"
 
-#: ui/evolution-addressbook.xml.h:20 ui/evolution-calendar.xml.h:44
+#: ui/evolution-addressbook.xml.h:17 ui/evolution-calendar.xml.h:44
 #: ui/evolution-event-editor.xml.h:74 ui/evolution-task-editor-dialog.xml.h:88
 #: ui/evolution.xml.h:64
 msgid "_Tools"
@@ -8930,6 +8945,10 @@ msgstr "Leiratkozás"
 msgid "Assig_n Task (FIXME)"
 msgstr "Feladat _kiosztása (FIXME)"
 
+#: ui/evolution-task-editor-dialog.xml.h:23
+msgid "Find"
+msgstr "Keresés"
+
 #: ui/evolution-task-editor-dialog.xml.h:24
 msgid "Find Again"
 msgstr "Következõ találat"
@@ -9002,19 +9021,19 @@ msgstr "_Válasz (FIXME)"
 msgid "Create a new task"
 msgstr "Új feladat létrehozása"
 
-#: ui/evolution-tasks.xml.h:3
+#: ui/evolution-tasks.xml.h:5
 msgid "New Task"
 msgstr "Új feladat"
 
-#: ui/evolution-tasks.xml.h:5
+#: ui/evolution-tasks.xml.h:7
 msgid "Save task as something else"
 msgstr "Feladat mentése másként"
 
-#: ui/evolution-tasks.xml.h:6
+#: ui/evolution-tasks.xml.h:8
 msgid "Tasks Preferences..."
 msgstr "Feladatok beállításai"
 
-#: ui/evolution-tasks.xml.h:9
+#: ui/evolution-tasks.xml.h:12
 msgid "_Task"
 msgstr "_Feladat"
 
@@ -9228,7 +9247,7 @@ msgid "_Work Offline"
 msgstr "K_apcsolat nélküli munka"
 
 #: views/addressbook/galview.xml.h:1
-msgid "Adress Cards"
+msgid "Address Cards"
 msgstr "Címkártyák"
 
 #: views/addressbook/galview.xml.h:2
@@ -9342,11 +9361,11 @@ msgstr "Minden meghívott"
 msgid "%A, %B %d, %Y"
 msgstr "%Y %B %d, %A"
 
-#: widgets/menus/gal-view-menus.c:176
+#: widgets/menus/gal-view-menus.c:207
 msgid "_Current View"
 msgstr "_Aktuális nézet"
 
-#: widgets/menus/gal-view-menus.c:202
+#: widgets/menus/gal-view-menus.c:248
 msgid "Define Views"
 msgstr "Nézet megadása"
 
@@ -9447,6 +9466,15 @@ msgstr "init_corba(): nem sikerült a GNOME inicializálása"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): a Bonobo inicializálása nem sikerült"
 
+#~ msgid "As _Minicards"
+#~ msgstr "_Kártyákként"
+
+#~ msgid "As _Table"
+#~ msgstr "_Táblázatként"
+
+#~ msgid "Find a contact"
+#~ msgstr "Névjegy keresése"
+
 #~ msgid "Mark Complete"
 #~ msgstr "Késznek jelöl"
 
@@ -9468,13 +9496,6 @@ msgstr "init_bonobo(): a Bonobo inicializálása nem sikerült"
 
 #~ msgid "label55"
 #~ msgstr "label55"
-
-#~ msgid ""
-#~ "Evolution has found GnomeCard files.\n"
-#~ "Would you like them to be imported into Evolution?"
-#~ msgstr ""
-#~ "Az Evolúció GnomeCard fájlokat talált.\n"
-#~ "Szeretnéd ezeket az Evolúcióba importálni?"
 
 #~ msgid "Compose a new message"
 #~ msgstr "Új levél írása"
