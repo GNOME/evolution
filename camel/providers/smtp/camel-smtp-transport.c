@@ -159,7 +159,8 @@ smtp_construct (CamelService *service, CamelSession *session,
 	CAMEL_SERVICE_CLASS (parent_class)->construct (service, session, provider, url, ex);
 	
 	if ((use_ssl = camel_url_get_param (url, "use_ssl"))) {
-		if (!strcmp (use_ssl, "always"))
+		/* Note: previous versions would use "" to toggle use_ssl to 'on' */
+		if (!*use_url || !strcmp (use_ssl, "always"))
 			smtp_transport->flags |= CAMEL_SMTP_TRANSPORT_USE_SSL_ALWAYS;
 		else if (!strcmp (use_ssl, "when-possible"))
 			smtp_transport->flags |= CAMEL_SMTP_TRANSPORT_USE_SSL_WHEN_POSSIBLE;
