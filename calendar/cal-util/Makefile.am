@@ -16,6 +16,8 @@ lib_LTLIBRARIES = libcalutil.la
 libcalutil_la_SOURCES = \
 	cal-util.c	\
 	cal-util.h	\
+	calobj.c	\
+	calobj.h	\
 	timeutil.c	\
 	timeutil.h
 
