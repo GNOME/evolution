@@ -407,7 +407,7 @@ message_list_select (MessageList               *message_list,
 	}
 	
 	/* If it's -1, we want the last view row, not the last model row. */
-	/* model_to_view_row etc simply dont work for sorted views.  Sigh. */
+	/* model_to_view_row etc simply doesn't work for sorted views.  Sigh. */
 	if (base_row == -1)
 		vrow = e_tree_row_count (message_list->tree) - 1;
 	else
@@ -437,10 +437,27 @@ message_list_select (MessageList               *message_list,
 	}
 	
 	if (wraparound) {
-		if (direction == MESSAGE_LIST_SELECT_PREVIOUS)
-			base_row = -1;
-		else
+		ETreePath node;
+		
+		if (direction == MESSAGE_LIST_SELECT_NEXT) {
 			base_row = 0;
+			vrow = 0;
+		} else {
+			base_row = -1;
+			vrow = e_tree_row_count (message_list->tree) - 1;
+		}
+		
+		/* lets see if the first/last (depending on direction)
+                   row matches our selection criteria */
+		node = e_tree_node_at_row (message_list->tree, vrow);
+		info = get_message_info (message_list, node);
+		if (info && (info->flags & mask) == flags) {
+			e_tree_set_cursor (message_list->tree, node);
+			
+			gtk_signal_emit (GTK_OBJECT (message_list), message_list_signals[MESSAGE_SELECTED],
+					 camel_message_info_uid (info));
+			return;
+		}
 		
 		message_list_select (message_list, base_row, direction, flags, mask, FALSE);
 	}
