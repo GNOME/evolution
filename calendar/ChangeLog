@@ -1,5 +1,8 @@
 2000-04-19  Seth Alves  <alves@hungry.com>
 
+	* pcs/cal-backend.c (remove_object): don't call save from here
+	because in all cases the caller of remove_object calls save
+
 	* gui/calendar-commands.c (calendar_set_uri): calls gnome_calendar_open
 	instead of checking on disk and calling load or create.
 

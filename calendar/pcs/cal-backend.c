@@ -420,7 +420,7 @@ remove_object (CalBackend *backend, iCalObject *ico)
 	g_list_free_1 (l);
 
 	ical_object_destroy (ico);
-	save (backend);
+	/*save (backend);*/
 }
 
 /* Load a calendar from a VObject */
