@@ -13,7 +13,7 @@ CFLAGS=`gtk-config --cflags gtk`
 LDFLAGS="-lcamel `gtk-config --libs gtk` "
 
 
-HTML_DIR=$(datadir)/gnome/html
+HTML_DIR=$(datadir)/gnome/html/evolution-$(BASE_VERSION)
 
 
 
