@@ -37,7 +37,7 @@
 
 #define COLUMN_HEADER_HEIGHT 16
 
-#define PARENT_TYPE e_scroll_frame_get_type ()
+#define PARENT_TYPE gtk_scrolled_window_get_type ()
 
 static GtkObjectClass *parent_class;
 
@@ -50,17 +50,17 @@ static void
 e_table_scrolled_init (GtkObject *object)
 {
 	ETableScrolled *ets;
-	EScrollFrame *scroll_frame;
+	GtkScrolledWindow *scrolled_window;
 
-	ets          = E_TABLE_SCROLLED (object);
-	scroll_frame = E_SCROLL_FRAME   (object);
+	ets = E_TABLE_SCROLLED (object);
+	scrolled_window = GTK_SCROLLED_WINDOW (object);
 
 	GTK_WIDGET_SET_FLAGS (ets, GTK_CAN_FOCUS);
 
 	ets->table = g_object_new (E_TABLE_TYPE, NULL);
 
-	e_scroll_frame_set_policy      (scroll_frame, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	e_scroll_frame_set_shadow_type (scroll_frame, GTK_SHADOW_IN);
+	gtk_scrolled_window_set_policy      (scrolled_window, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (scrolled_window, GTK_SHADOW_IN);
 }
 
 static void

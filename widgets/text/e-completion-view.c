@@ -381,7 +381,7 @@ e_completion_view_set_cursor_row (ECompletionView *cv, gint r)
 	}
 #endif
 
-	adj = e_scroll_frame_get_vadjustment (E_SCROLL_FRAME (cv->table));	
+	adj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (cv->table));	
 
 	table = e_completion_view_table (cv);
 
@@ -801,9 +801,8 @@ e_completion_view_construct (ECompletionView *cv, ECompletion *completion)
 	cv->table = e_table_scrolled_new (cv->model, NULL, simple_spec, NULL);
 	g_object_unref (cv->model);
 
-	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (cv->table), GTK_SHADOW_NONE);
-	e_scroll_frame_set_scrollbar_spacing (E_SCROLL_FRAME (cv->table), 0);
-	e_scroll_frame_set_policy (E_SCROLL_FRAME (cv->table), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (cv->table), GTK_SHADOW_NONE);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (cv->table), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
 	gtk_container_add (GTK_CONTAINER (cv), cv->table);
 	gtk_widget_show_all (cv->table);

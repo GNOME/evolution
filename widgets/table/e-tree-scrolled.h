@@ -24,7 +24,7 @@
 #ifndef _E_TREE_SCROLLED_H_
 #define _E_TREE_SCROLLED_H_
 
-#include <gal/widgets/e-scroll-frame.h>
+#include <gtk/gtkscrolledwindow.h>
 #include <gal/e-table/e-tree-model.h>
 #include <gal/e-table/e-tree.h>
 
@@ -37,13 +37,13 @@ G_BEGIN_DECLS
 #define E_IS_TREE_SCROLLED_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TREE_SCROLLED_TYPE))
 
 typedef struct {
-	EScrollFrame parent;
+	GtkScrolledWindow parent;
 
 	ETree *tree;
 } ETreeScrolled;
 
 typedef struct {
-	EScrollFrameClass parent_class;
+	GtkScrolledWindowClass parent_class;
 } ETreeScrolledClass;
 
 GType           e_tree_scrolled_get_type                  (void);
@@ -73,4 +73,3 @@ ETree         *e_tree_scrolled_get_tree                 (ETreeScrolled *ets);
 G_END_DECLS
 
 #endif /* _E_TREE_SCROLLED_H_ */
-

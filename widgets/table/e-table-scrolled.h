@@ -24,7 +24,7 @@
 #ifndef _E_TABLE_SCROLLED_H_
 #define _E_TABLE_SCROLLED_H_
 
-#include <gal/widgets/e-scroll-frame.h>
+#include <gtk/gtkscrolledwindow.h>
 #include <gal/e-table/e-table-model.h>
 #include <gal/e-table/e-table.h>
 
@@ -37,13 +37,13 @@ G_BEGIN_DECLS
 #define E_IS_TABLE_SCROLLED_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_SCROLLED_TYPE))
 
 typedef struct {
-	EScrollFrame parent;
+	GtkScrolledWindow parent;
 
 	ETable *table;
 } ETableScrolled;
 
 typedef struct {
-	EScrollFrameClass parent_class;
+	GtkScrolledWindowClass parent_class;
 } ETableScrolledClass;
 
 GType           e_table_scrolled_get_type                  (void);
