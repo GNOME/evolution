@@ -1,5 +1,10 @@
 2001-08-15  Federico Mena Quintero  <federico@ximian.com>
 
+	* gui/dialogs/cal-prefs-dialog.glade: OK, re-added the default
+	alarm options.  Way too many people are asking for them.
+
+2001-08-15  Federico Mena Quintero  <federico@ximian.com>
+
 	* gui/component-factory.c (factory_fn): Add the user creatable
 	items.  The callback is not actually implemented yet; this is just
 	to finalize the GUI.
