@@ -1,3 +1,7 @@
+2001-10-27  Kevin Breit  <mrproper@ximian.com>
+
+	* C/evolution.sgml: Bumped the version # to 1.0
+
 2001-10-26  Kevin Breit  <mrproper@ximian.com>
 
 	* C/usage-calendar.sgml: Lots of changes on recommendation from Damon Chaplin.  We love you Damon!
