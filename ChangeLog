@@ -1,3 +1,7 @@
+2000-11-02  Christopher James Lahey  <clahey@helixcode.com>
+
+	* configure.in: Require gal 0.2.1.2.
+
 2000-11-02  Michael Meeks  <michael@helixcode.com>
 
 	* configure.in: Require Bonobo-0.27+
