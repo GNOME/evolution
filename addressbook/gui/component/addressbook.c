@@ -41,11 +41,7 @@
 
 #include <addressbook/printing/e-contact-print.h>
 
-#ifdef USING_OAF
 #define CONTROL_FACTORY_ID "OAFIID:control-factory:addressbook:3e10597b-0591-4d45-b082-d781b7aa6e17"
-#else
-#define CONTROL_FACTORY_ID "control-factory:addressbook"
-#endif
 
 #define PROPERTY_FOLDER_URI          "folder_uri"
 

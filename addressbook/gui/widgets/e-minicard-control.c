@@ -321,17 +321,10 @@ e_minicard_control_factory_init (void)
 	if (factory != NULL)
 		return;
 
-#if USING_OAF
 	factory =
 		bonobo_generic_factory_new (
 		        "OAFIID:control-factory:e_minicard:16bb7c25-c7d2-46dc-a5f0-a0975d0e0595",
 			e_minicard_control_factory, NULL);
-#else
-	factory =
-		bonobo_generic_factory_new (
-			"control-factory:e-minicard",
-			e_minicard_control_factory, NULL);
-#endif
 
 	if (factory == NULL)
 		g_error ("I could not register a EMinicard control factory.");

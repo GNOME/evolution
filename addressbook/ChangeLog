@@ -1,3 +1,14 @@
+2000-08-26  JP Rosevear  <jpr@helixcode.com>
+
+	* gui/component/addressbook-component.c: Remove gnorba stuff
+
+	* gui/minicard/e-minicard-control.c (e_minicard_control_factory_init):
+	ditto
+
+	* gui/component/addressbook.c: ditto
+
+	* gui/component/addressbook-factory.c: ditto
+
 2000-08-25  Christopher James Lahey  <clahey@helixcode.com>
 
 	* demo/* Removed the demo directory since it's no longer used.

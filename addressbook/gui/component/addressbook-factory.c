@@ -11,6 +11,7 @@
 #include <config.h>
 #include <gnome.h>
 #include <bonobo.h>
+#include <liboaf/liboaf.h>
 #include <glade/glade.h>
 #include <e-util/e-cursors.h>
 
@@ -19,9 +20,6 @@
 #include "addressbook/gui/minicard/e-minicard-control.h"
 #include "select-names/e-select-names-factory.h"
 
-#ifdef USING_OAF
-
-#include <liboaf/liboaf.h>
 
 static void
 init_corba (int *argc, char **argv)
@@ -31,26 +29,6 @@ init_corba (int *argc, char **argv)
 
 	oaf_init (*argc, argv);
 }
-
-#else
-
-#include <libgnorba/gnorba.h>
- 
-static void
-init_corba (int *argc, char **argv)
-{
-	CORBA_Environment ev;
-
-	CORBA_exception_init (&ev);
-
-	gnome_CORBA_init_with_popt_table (
-		"evolution-addressbook", "0.0",
-		argc, argv, NULL, 0, NULL, GNORBA_INIT_SERVER_FUNC, &ev);
-
-	CORBA_exception_free (&ev);
-}
-
-#endif
 
 static void
 init_bonobo (int argc, char **argv)

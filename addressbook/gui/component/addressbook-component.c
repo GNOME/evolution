@@ -35,11 +35,8 @@
 #include "e-ldap-storage.h"
 
 
-#ifdef USING_OAF
+
 #define COMPONENT_FACTORY_ID "OAFIID:evolution-shell-component-factory:addressbook:dbf3bba0-4b0a-4f07-899b-1ec56fdf38a0"
-#else
-#define COMPONENT_FACTORY_ID "evolution-shell-component-factory:addressbook"
-#endif
 
 /* Nasty hack for filters to be able to find folders */
 /* Not even used with addressbook??? */
