@@ -36,6 +36,9 @@ struct _EMsgComposerHdrsPrivate {
 	/* Total number of headers that we have.  */
 	guint num_hdrs;
 
+	/* The tooltips.  */
+	GtkTooltips *tooltips;
+
 	/* Standard headers.  */
 	GtkWidget *to_entry;
 	GtkWidget *cc_entry;
@@ -64,6 +67,8 @@ address_button_clicked_cb (GtkButton *button,
 static GtkWidget *
 add_header (EMsgComposerHdrs *hdrs,
 	    const gchar *name,
+	    const gchar *tip,
+	    const gchar *tip_private,
 	    gboolean addrbook_button)
 {
 	EMsgComposerHdrsPrivate *priv;
@@ -79,6 +84,9 @@ add_header (EMsgComposerHdrs *hdrs,
 				    GTK_SIGNAL_FUNC (address_button_clicked_cb),
 				    hdrs);
 		pad = 2;
+		gtk_tooltips_set_tip (hdrs->priv->tooltips, label,
+				      _("Click here for the address book"),
+				      NULL);
 	} else {
 		label = gtk_label_new (name);
 		pad = GNOME_PAD;
@@ -97,6 +105,8 @@ add_header (EMsgComposerHdrs *hdrs,
 			  2, 2);
 	gtk_widget_show (entry);
 
+	gtk_tooltips_set_tip (hdrs->priv->tooltips, entry, tip, tip_private);
+
 	priv->num_hdrs++;
 
 	return entry;
@@ -109,19 +119,57 @@ setup_headers (EMsgComposerHdrs *hdrs)
 
 	priv = hdrs->priv;
 
-	priv->to_entry = add_header (hdrs, _("To:"), TRUE);
-	priv->cc_entry = add_header (hdrs, _("Cc:"), TRUE);
-	priv->bcc_entry = add_header (hdrs, _("Bcc:"), TRUE);
-	priv->subject_entry = add_header (hdrs, _("Subject:"), FALSE);
+	priv->to_entry = add_header
+		(hdrs, _("To:"), 
+		 _("Enter the recipients of the message"),
+		 NULL,
+		 TRUE);
+	priv->cc_entry = add_header
+		(hdrs, _("Cc:"),
+		 _("Enter the addresses that will receive a carbon copy of "
+		   "the message"),
+		 NULL,
+		 TRUE);
+	priv->bcc_entry = add_header
+		(hdrs, _("Bcc:"),
+		 _("Enter the addresses that will receive a carbon copy of "
+		   "the message without appearing in the recipient list of "
+		   "the message."),
+		 NULL,
+		 TRUE);
+	priv->subject_entry = add_header
+		(hdrs, _("Subject:"),
+		 _("Enter the subject of the mail"),
+		 NULL,
+		 FALSE);
+}
+
+
+/* GtkObject methods.  */
+
+static void
+destroy (GtkObject *object)
+{
+	EMsgComposerHdrs *hdrs;
+	EMsgComposerHdrsPrivate *priv;
+
+	hdrs = E_MSG_COMPOSER_HDRS (object);
+	priv = hdrs->priv;
+
+	gtk_object_destroy (GTK_OBJECT (priv->tooltips));
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 
 static void
-class_init (EMsgComposerHdrsClass *klass)
+class_init (EMsgComposerHdrsClass *class)
 {
 	GtkObjectClass *object_class;
 
-	object_class = (GtkObjectClass*) klass;
+	object_class = GTK_OBJECT_CLASS (class);
+	object_class->destroy = destroy;
 
 	parent_class = gtk_type_class (gtk_table_get_type ());
 
@@ -148,6 +196,8 @@ init (EMsgComposerHdrs *hdrs)
 	priv->cc_entry = NULL;
 	priv->bcc_entry = NULL;
 	priv->subject_entry = NULL;
+
+	priv->tooltips = gtk_tooltips_new ();
 
 	priv->num_hdrs = 0;
 

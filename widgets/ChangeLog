@@ -1,3 +1,14 @@
+1999-11-12  Ettore Perazzoli  <ettore@gnu.org>
+
+	* e-msg-composer-hdrs.c: New member `tooltips' in `struct
+	_EMsgComposerHdrsPrivate'.
+	(init): Initialize it.
+	(destroy): New function.
+	(class_init): Install it as the `destroy' GtkObject method.
+	(add_header): New parameters `tip', `tip_private'.  Setup a
+	tooltip for the entry with them.
+	(setup_headers): Updated accordingly.
+
 1999-11-11  Miguel de Icaza  <miguel@gnu.org>
 
 	* e-table-header.c (e_table_header_add_column): Update offsets. 
