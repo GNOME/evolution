@@ -289,7 +289,7 @@ install-test-component: evolution-test-component
 
 server_in_files = GNOME_Evolution_Shell.server.in.in
 server_DATA = $(server_in_files:.server.in.in=.server)
-$(server_in_files:.server.in.in=.server.in): $(server_in_files)
+%.server.in: %.server.in.in
 	sed -e "s|\@BINDIR\@|$(bindir)|"				\
 	    -e "s|\@VERSION\@|$(BASE_VERSION)|"				\
 	    $< > $@
@@ -377,7 +377,7 @@ evolution.pure: evolution
 
 endif
 
-BUILT_SOURCES = $(IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED) $(MARSHAL_GENERATED)
+BUILT_SOURCES = $(IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA)
 CLEANFILES = $(BUILT_SOURCES)
 
 dist-hook:

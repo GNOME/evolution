@@ -47,8 +47,8 @@
 
 /* output revision of configuration */
 #define CONF_MAJOR (1)
-#define CONF_MINOR (3)
-#define CONF_REVISION (1)
+#define CONF_MINOR (4)
+#define CONF_REVISION (0)
 
 /* major/minor/revision of existing config */
 static unsigned int major = -1;
