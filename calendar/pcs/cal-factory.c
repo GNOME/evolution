@@ -30,8 +30,8 @@
 #include "cal-factory.h"
 #include "job.h"
 
-#define PARENT_TYPE         BONOBO_X_OBJECT_TYPE
-#define CAL_FACTORY_OAF_ID "OAFIID:GNOME_Evolution_Wombat_CalendarFactory"
+#define PARENT_TYPE                BONOBO_X_OBJECT_TYPE
+#define DEFAULT_CAL_FACTORY_OAF_ID "OAFIID:GNOME_Evolution_Wombat_CalendarFactory"
 
 static BonoboXObjectClass *parent_class;
 
@@ -42,6 +42,9 @@ struct _CalFactoryPrivate {
 
 	/* Hash table from GnomeVFSURI structures to CalBackend objects */
 	GHashTable *backends;
+
+	/* OAFIID of the factory */
+	char *iid;
 
 	/* Whether we have been registered with OAF yet */
 	guint registered : 1;
@@ -469,9 +472,10 @@ cal_factory_destroy (GtkObject *object)
 	priv->backends = NULL;
 
 	if (priv->registered) {
-		oaf_active_server_unregister (CAL_FACTORY_OAF_ID, BONOBO_OBJREF (factory));
+		oaf_active_server_unregister (priv->iid, BONOBO_OBJREF (factory));
 		priv->registered = FALSE;
 	}
+	g_free (priv->iid);
 
 	g_free (priv);
 	factory->priv = NULL;
@@ -543,6 +547,7 @@ str_tolower (const char *s)
 /**
  * cal_factory_oaf_register:
  * @factory: A calendar factory.
+ * @iid: OAFIID for the factory to be registered.
  * 
  * Registers a calendar factory with the OAF object activation daemon.  This
  * function must be called before any clients can activate the factory.
@@ -550,10 +555,11 @@ str_tolower (const char *s)
  * Return value: TRUE on success, FALSE otherwise.
  **/
 gboolean
-cal_factory_oaf_register (CalFactory *factory)
+cal_factory_oaf_register (CalFactory *factory, const char *iid)
 {
 	CalFactoryPrivate *priv;
 	OAF_RegistrationResult result;
+	char *tmp_iid;
 
 	g_return_val_if_fail (factory != NULL, FALSE);
 	g_return_val_if_fail (IS_CAL_FACTORY (factory), FALSE);
@@ -562,11 +568,18 @@ cal_factory_oaf_register (CalFactory *factory)
 
 	g_return_val_if_fail (!priv->registered, FALSE);
 
-	result = oaf_active_server_register (CAL_FACTORY_OAF_ID, BONOBO_OBJREF (factory));
+	/* if iid is NULL, use the default factory OAFIID */
+	if (iid)
+		tmp_iid = g_strdup (iid);
+	else
+		tmp_iid = g_strdup (DEFAULT_CAL_FACTORY_OAF_ID);
+
+	result = oaf_active_server_register (tmp_iid, BONOBO_OBJREF (factory));
 
 	switch (result) {
 	case OAF_REG_SUCCESS:
 		priv->registered = TRUE;
+		priv->iid = tmp_iid;
 		return TRUE;
 
 	case OAF_REG_NOT_LISTED:
@@ -585,6 +598,8 @@ cal_factory_oaf_register (CalFactory *factory)
 			   "generic error");
 		break;
 	}
+
+	g_free (tmp_iid);
 
 	return FALSE;
 }

@@ -62,7 +62,7 @@ struct _CalFactoryClass {
 GtkType     cal_factory_get_type        (void);
 CalFactory *cal_factory_new             (void);
 
-gboolean    cal_factory_oaf_register    (CalFactory *factory);
+gboolean    cal_factory_oaf_register    (CalFactory *factory, const char *iid);
 void        cal_factory_register_method (CalFactory *factory,
 					 const char *method,
 					 GtkType     backend_type);
