@@ -1,5 +1,9 @@
 2002-11-27  Joaquim Fellmann  <joaquim@altern.org>
 
+	*fr.po: Updated French translation.
+
+2002-11-27  Joaquim Fellmann  <joaquim@altern.org>
+
 	* fr.po: Switch charset to ISO-8859-1 which is the one to use
 	with evolution 1.2 (UTF-8 seems to be for GNOME 2)
 
