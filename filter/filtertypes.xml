@@ -186,7 +186,7 @@
     <option value="not starts with">
      <title>does not start with</title>
      <code>
-	(match-all (not (header-starts-with "Subject" ${subject}))
+	(match-all (not (header-starts-with "Subject" ${subject})))
      </code>
     </option>
     <option value="ends with">
