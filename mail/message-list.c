@@ -2285,7 +2285,7 @@ on_selection_changed_cmd(ETree *tree, MessageList *ml)
 		e_tree_selected_path_foreach(ml->tree, (ETreeForeachFunc)get_selected_cb, ml);
 
 	if ((selected == 1 || selected == 0) && !ml->idle_id)
-		g_idle_add_full (G_PRIORITY_LOW, on_cursor_activated_idle, ml, NULL);
+		ml->idle_id = g_idle_add_full (G_PRIORITY_LOW, on_cursor_activated_idle, ml, NULL);
 }
 
 static gint
