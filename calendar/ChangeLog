@@ -1,3 +1,15 @@
+2004-06-03  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #56875
+
+	* gui/dialogs/event-editor.c (event_editor_construct): connect to
+	"client_changed" signal on the EventPage.
+	(client_changed_cb): set menu sensibility when the client changes.
+
+	* gui/dialogs/task-editor.c (task_editor_construct): connect to
+	"client_changed signal on the TaskPage.
+	(client_changed_cb): set menu sensibility when the client changes.
+
 2004-06-02  Chris Toshok  <toshok@ximian.com>
 
 	* gui/migration.c (migrate_calendars): remove absolute_uri from
@@ -10,9 +22,6 @@
 	pre-completion code, not needed anymore.
 	(emlv_finalize): no need to unref the book anymore.
 	(emlv_init): don't call start_addressbook_server.
-
-	* gui/e-meeting-store.c (start_addressbook_server): removed.
-	(ems_finalize): no need to unref the book anymore.
 
 	* gui/dialogs/copy-source-dialog.c (copy_source): fixed
 	leak and pass the correct icalcomponent to e_cal_modify_object.
