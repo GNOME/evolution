@@ -1,4 +1,4 @@
-2001-10-21  Dan Winship  <danw@frotz.mysterion.org>
+2001-10-21  Dan Winship  <danw@ximian.com>
 
 	Make inline images used for replies not show up as
 	attachments. Also, I think this should make replies to HTML
