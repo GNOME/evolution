@@ -871,37 +871,37 @@ e_shell_construct (EShell *shell,
 	g_return_val_if_fail (E_IS_SHELL (shell), E_SHELL_CONSTRUCT_RESULT_INVALIDARG);
 	g_return_val_if_fail (local_directory != NULL, E_SHELL_CONSTRUCT_RESULT_INVALIDARG);
 	g_return_val_if_fail (g_path_is_absolute (local_directory), E_SHELL_CONSTRUCT_RESULT_INVALIDARG);
-
+	
 	priv = shell->priv;
-
+	
 	priv->iid                  = g_strdup (iid);
 	priv->local_directory      = g_strdup (local_directory);
 	priv->folder_type_registry = e_folder_type_registry_new ();
 	priv->uri_schema_registry  = e_uri_schema_registry_new ();
 	priv->storage_set          = e_storage_set_new (priv->folder_type_registry);
-
+	
 	/* CORBA storages must be set up before the components, because otherwise components
            cannot register their own storages.  */
 	if (! setup_corba_storages (shell))
 		return FALSE;
-
+	
 	CORBA_exception_init (&ev);
-
+	
 	priv->db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
 	if (BONOBO_EX (&ev) || priv->db == CORBA_OBJECT_NIL) {
 		g_warning ("Cannot access Bonobo/ConfigDatabase on wombat:");
-
+		
 		/* Make sure the DB object is NIL so we don't mess up
 		   (`bonobo_get_object()' might return an undefined value in
 		   the case of an exception).  */
 		priv->db = CORBA_OBJECT_NIL;
-
+		
 		CORBA_exception_free (&ev);
 		return E_SHELL_CONSTRUCT_RESULT_NOCONFIGDB;
  	}
 	
 	CORBA_exception_free (&ev);
-
+	
 	/* Now we can register into OAF.  Notice that we shouldn't be
 	   registering into OAF until we are sure we can complete the
 	   process.  */
@@ -912,7 +912,7 @@ e_shell_construct (EShell *shell,
 		CORBA_exception_free (&ev);
 		return E_SHELL_CONSTRUCT_RESULT_CANNOTREGISTER;
 	}
-
+	
 	if (! show_splash) {
 		splash = NULL;
 	} else {
@@ -921,50 +921,50 @@ e_shell_construct (EShell *shell,
 				    GTK_SIGNAL_FUNC (gtk_widget_hide_on_delete), NULL);
 		gtk_widget_show (splash);
 	}
-
+	
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
-
+	
 	priv->user_creatable_items_handler = e_shell_user_creatable_items_handler_new ();
-
+	
 	if (show_splash)
 		setup_components (shell, E_SPLASH (splash));
 	else
 		setup_components (shell, NULL);
-
+	
 	/* Set up the shortcuts.  */
-
+	
 	shortcut_path = g_concat_dir_and_file (local_directory, "shortcuts.xml");
 	priv->shortcuts = e_shortcuts_new (priv->storage_set,
 					   priv->folder_type_registry,
 					   shortcut_path);
 	g_assert (priv->shortcuts != NULL);
-
+	
 	if (e_shortcuts_get_num_groups (priv->shortcuts) == 0)
 		e_shortcuts_add_default_group (priv->shortcuts);
-
+	
 	g_free (shortcut_path);
-
+	
 	/* The local storage depends on the component registry.  */
 	setup_local_storage (shell);
-
+	
 	/* Set up the ::Activity interface.  This must be done before we notify
 	   the components, as they might want to use it.  */
 	setup_activity_interface (shell);
-
+	
 	/* Set up the shortcuts interface.  This has to be done after the
 	   shortcuts are actually initialized.  */
-
+	
 	setup_shortcuts_interface (shell);
-
+	
 	/* Now that we have a local storage and all the interfaces set up, we
 	   can tell the components we are here.  */
 	set_owner_on_components (shell);
-
+	
 	if (show_splash) {
 		gtk_widget_destroy (splash);
 	}
-
+	
 	if (e_shell_startup_wizard_create () == FALSE) {
 		/* FIXME: Need to kill all components somehow */
 		exit (0);
@@ -974,15 +974,12 @@ e_shell_construct (EShell *shell,
 					   priv->folder_type_registry,
 					   shortcut_path);
 	g_assert (priv->shortcuts != NULL);
-
+	
 	if (e_shortcuts_get_num_groups (priv->shortcuts) == 0)
 		e_shortcuts_add_default_group (priv->shortcuts);
-
+	
 	g_free (shortcut_path);
-
-	if (show_splash)
-		gtk_widget_destroy (splash);
-
+	
 	return E_SHELL_CONSTRUCT_RESULT_OK;
 }
 
