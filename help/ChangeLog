@@ -1,3 +1,10 @@
+2002-10-08  Aaron Weber  <aaron@ximian.com>
+
+
+	* C/preface.sgml: add info about man page and so forth.
+
+	* C/usage-mail.sgml: fix 30892, a cosmetic bug.
+
 2002-09-20  Aaron Weber  <aaron@ximian.com>
 
 	* C/usage-mail.sgml: offline usage.

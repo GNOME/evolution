@@ -78,6 +78,18 @@ Lastly, we'll have warnings, in cases where you should be careful:
     </sect1>
 
 
+    <sect1 id="other-help">
+      <title>Additional Help Sources</title>
+      <para>
+        You can find additional help in three places. For information
+        about command-line options, open a terminal window and type
+        <command> man evolution</command> or <command>evolution
+        --help</command>. For support, late-breaking news, and errata,
+        visit the Ximian support center at <ulink
+        url="http://support.ximian.com">support.ximian.com</ulink>.
+      </para>
+    </sect1>
+
     <sect1 id="whats-new-in-one-two">
       <title>What's New in Evolution 1.2</title>
       <para>
