@@ -1,3 +1,12 @@
+2003-01-10  Ettore Perazzoli  <ettore@ximian.com>
+
+	* apps_evolution_shell.schemas: Set defaults for
+	/apps/evolution/shell/default_folders/... .
+
+	* e-shortcuts-view.c (pop_up_right_click_menu_for_group): Destroy
+	the popup_menu with gtk_widget_destroy() instead of
+	gtk_widget_unref().
+
 2003-01-10  Not Zed  <NotZed@Ximian.com>
 
 	* evolution-config-control.c (impl_apply): remove cast to

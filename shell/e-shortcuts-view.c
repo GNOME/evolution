@@ -307,7 +307,7 @@ pop_up_right_click_menu_for_group (EShortcutsView *shortcuts_view,
 	gnome_popup_menu_do_popup_modal (popup_menu, NULL, NULL, event, menu_data, GTK_WIDGET (shortcuts_view));
 
 	g_free (menu_data);
-	gtk_widget_unref (popup_menu);
+	gtk_widget_destroy (popup_menu);
 }
 
 

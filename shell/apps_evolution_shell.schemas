@@ -8,7 +8,7 @@
       <applyto>/apps/evolution/shell/default_folders/mail_path</applyto>
       <owner>evolution</owner>
       <type>string</type>
-      <default></default>
+      <default>evolution:/local/Inbox</default>
       <locale name="C">
         <short>Path to the default mail folder</short>
       </locale>
@@ -32,7 +32,7 @@
       <applyto>/apps/evolution/shell/default_folders/contacts_path</applyto>
       <owner>evolution</owner>
       <type>string</type>
-      <default></default>
+      <default>evolution:/local/Contacts</default>
       <locale name="C">
         <short>Path to the default contacts folder</short>
       </locale>
@@ -56,7 +56,7 @@
       <applyto>/apps/evolution/shell/default_folders/calendar_path</applyto>
       <owner>evolution</owner>
       <type>string</type>
-      <default></default>
+      <default>evolution:/local/Calendar</default>
       <locale name="C">
         <short>Path to the default calendar folder</short>
       </locale>
@@ -80,7 +80,7 @@
       <applyto>/apps/evolution/shell/default_folders/tasks_path</applyto>
       <owner>evolution</owner>
       <type>string</type>
-      <default></default>
+      <default>evolution:/local/Tasks</default>
       <locale name="C">
         <short>Path to the default tasks folder</short>
       </locale>
