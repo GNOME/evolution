@@ -80,7 +80,12 @@ get_current_page (GnomeCalendar *gcal)
 char *
 gnome_calendar_get_current_view_name (GnomeCalendar *gcal)
 {
-	GtkWidget *page = get_current_page (gcal);
+	GtkWidget *page;
+
+	g_return_val_if_fail (gcal != NULL, "dayview");
+	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), "dayview");
+
+	page = get_current_page (gcal);
 
 	if (page == gcal->day_view)
 		return "dayview";
@@ -97,10 +102,13 @@ gnome_calendar_get_current_view_name (GnomeCalendar *gcal)
 void
 gnome_calendar_goto (GnomeCalendar *gcal, time_t new_time)
 {
-	GtkWidget *current = get_current_page (gcal);
+	GtkWidget *current;
 
+	g_return_if_fail (gcal != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 	g_return_if_fail (new_time != -1);
 
+	current = get_current_page (gcal);
 	new_time = time_day_begin (new_time);
 
 	if (current == gcal->day_view)
@@ -145,18 +153,27 @@ gnome_calendar_direction (GnomeCalendar *gcal, int direction)
 void
 gnome_calendar_next (GnomeCalendar *gcal)
 {
+	g_return_if_fail (gcal != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+
 	gnome_calendar_direction (gcal, 1);
 }
 
 void
 gnome_calendar_previous (GnomeCalendar *gcal)
 {
+	g_return_if_fail (gcal != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+
 	gnome_calendar_direction (gcal, -1);
 }
 
 void
 gnome_calendar_dayjump (GnomeCalendar *gcal, time_t time)
 {
+	g_return_if_fail (gcal != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+
 	gtk_notebook_set_page (GTK_NOTEBOOK (gcal->notebook), 0);
 	gnome_calendar_goto (gcal, time);
 }
@@ -164,6 +181,9 @@ gnome_calendar_dayjump (GnomeCalendar *gcal, time_t time)
 void
 gnome_calendar_goto_today (GnomeCalendar *gcal)
 {
+	g_return_if_fail (gcal != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+	
 	gnome_calendar_goto (gcal, time (NULL));
 }
 
@@ -171,6 +191,11 @@ void
 gnome_calendar_set_view (GnomeCalendar *gcal, char *page_name)
 {
 	int page = 0;
+
+	g_return_if_fail (gcal != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+	g_return_if_fail (page_name != NULL);
+	
 
 	if (strcmp (page_name, "dayview") == 0)
 		page = 0;
@@ -218,6 +243,10 @@ int
 gnome_calendar_load (GnomeCalendar *gcal, char *file)
 {
 	char *r;
+
+	g_return_val_if_fail (gcal != NULL, 0);
+	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), 0);
+	g_return_val_if_fail (file != NULL, 0);
 	
 	if ((r = calendar_load (gcal->cal, file)) != NULL){
 		printf ("Error loading calendar: %s\n", r);
@@ -230,6 +259,10 @@ gnome_calendar_load (GnomeCalendar *gcal, char *file)
 void
 gnome_calendar_add_object (GnomeCalendar *gcal, iCalObject *obj)
 {
+	g_return_if_fail (gcal != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+	g_return_if_fail (obj != NULL);
+
 	calendar_add_object (gcal->cal, obj);
 	gnome_calendar_update_all (gcal, obj, CHANGE_NEW);
 }
@@ -237,6 +270,10 @@ gnome_calendar_add_object (GnomeCalendar *gcal, iCalObject *obj)
 void
 gnome_calendar_remove_object (GnomeCalendar *gcal, iCalObject *obj)
 {
+	g_return_if_fail (gcal != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+	g_return_if_fail (obj != NULL);
+
 	calendar_remove_object (gcal->cal, obj);
 	gnome_calendar_update_all (gcal, obj, CHANGE_ALL);
 }
@@ -444,6 +481,11 @@ gnome_calendar_tag_calendar (GnomeCalendar *cal, GtkCalendar *gtk_cal)
 {
 	time_t month_begin, month_end;
 	struct tm tm;
+
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR (cal));
+	g_return_if_fail (gtk_cal != NULL);
+	g_return_if_fail (GTK_IS_CALENDAR (gtk_cal));
 
 	/* compute month_begin */
 	tm.tm_hour = 0;
