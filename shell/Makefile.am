@@ -78,6 +78,27 @@ $(SELECT_NAMES_IDL_GENERATED_H): $(SELECT_NAMES_IDL)
 $(SELECT_NAMES_IDL_GENERATED_C): $(SELECT_NAMES_IDL_GENERATED_H)
 
 
+# Wombat CORBA stuff
+
+WOMBAT_IDL = \
+	$(top_srcdir)/wombat/Evolution-Wombat.idl
+
+WOMBAT_IDL_GENERATED_H =			\
+	Evolution-Wombat.h
+
+WOMBAT_IDL_GENERATED_C =			\
+	Evolution-Wombat-common.c		\
+	Evolution-Wombat-skels.c		\
+	Evolution-Wombat-stubs.c
+
+WOMBAT_IDL_GENERATED = $(WOMBAT_IDL_GENERATED_C) $(WOMBAT_IDL_GENERATED_H)
+
+$(WOMBAT_IDL_GENERATED_H): $(WOMBAT_IDL)
+	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(WOMBAT_IDL)
+
+$(WOMBAT_IDL_GENERATED_C): $(WOMBAT_IDL_GENERATED_H)
+
+
 # IDL install
 
 idl_DATA = $(IDLS)
@@ -140,6 +161,7 @@ libeshell_la_LIBADD =				\
 
 evolution_SOURCES =				\
 	$(SELECT_NAMES_IDL_GENERATED)		\
+	$(WOMBAT_IDL_GENERATED)			\
 	e-activity-handler.c			\
 	e-activity-handler.h			\
 	e-component-info.c			\

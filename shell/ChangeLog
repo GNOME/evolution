@@ -1,3 +1,11 @@
+2003-03-28  Ettore Perazzoli  <ettore@ximian.com>
+
+	[#40377]
+
+	* main.c (kill_old_wombat): New.
+	(kill_wombat): New.
+	(idle_cb): Call kill_old_wombat().
+
 2003-03-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-offline-handler.c (update_dialog_tree_view): Renamed

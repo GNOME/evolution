@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* main.c
  *
- * Copyright (C) 2000, 2001, 2002  Ximian, Inc.
+ * Copyright (C) 2000, 2001, 2002, 2003  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -60,6 +60,7 @@
 #include <glade/glade.h>
 
 #include "e-config-upgrade.h"
+#include "Evolution-Wombat.h"
 
 #ifdef GTKHTML_HAVE_GCONF
 #include <gconf/gconf.h>
@@ -164,6 +165,53 @@ shell_weak_notify (void *data,
 		   GObject *where_the_object_was)
 {
 	bonobo_main_quit ();
+}
+
+
+static void
+kill_wombat (void)
+{
+	g_print ("(Killing old version of Wombat...)\n");
+
+	system (KILL_PROCESS_CMD " -9 lt-evolution-wombat 2> /dev/null");
+	system (KILL_PROCESS_CMD " -9 evolution-wombat 2> /dev/null");
+}
+
+static void
+kill_old_wombat (void)
+{
+	GNOME_Evolution_WombatInterfaceCheck iface;
+	CORBA_Environment ev;
+	CORBA_char *version;
+
+	CORBA_exception_init (&ev);
+
+	iface = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_Wombat_InterfaceCheck", 0, NULL, &ev);
+	if (BONOBO_EX (&ev) || iface == CORBA_OBJECT_NIL) {
+		kill_wombat ();
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	version = GNOME_Evolution_WombatInterfaceCheck__get_interfaceVersion (iface, &ev);
+	if (BONOBO_EX (&ev)) {
+		kill_wombat ();
+		CORBA_Object_release (iface, &ev);
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	if (strcmp (version, VERSION) != 0) {
+		CORBA_free (version);
+		kill_wombat ();
+		CORBA_Object_release (iface, &ev);
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	CORBA_free (version);
+	CORBA_Object_release (iface, &ev);
+	CORBA_exception_free (&ev);
 }
 
 
@@ -298,6 +346,8 @@ idle_cb (void *data)
 	gboolean have_evolution_uri;
 	gboolean display_default;
 	gboolean displayed_any;
+
+	kill_old_wombat ();
 
 	CORBA_exception_init (&ev);
 
