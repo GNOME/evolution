@@ -1,3 +1,9 @@
+2000-08-22  Dan Winship  <danw@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c
+	(imap_protocol_get_summary_specifier): use BODY.PEEK, not BODY, so
+	we don't set the message \Seen.
+
 2000-08-22  Christopher James Lahey  <clahey@helixcode.com>
 
 	* providers/pop3/camel-pop3-store.c: Fixed a small warning.

@@ -1065,7 +1065,7 @@ imap_protocol_get_summary_specifier (CamelFolder *folder)
 	char *headers_wanted = "SUBJECT FROM TO CC DATE MESSAGE-ID REFERENCES IN-REPLY-TO";
 
 	if (CAMEL_IMAP_STORE (folder->parent_store)->server_level >= IMAP_LEVEL_IMAP4REV1) {
-		sect_begin = "BODY[HEADER.FIELDS";
+		sect_begin = "BODY.PEEK[HEADER.FIELDS";
 		sect_end = "]";
 	} else {
 		sect_begin = "RFC822.HEADER.LINES";
