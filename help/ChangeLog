@@ -1,3 +1,7 @@
+2002-03-14  Kevin Breit  <mrproper@ximian.com>
+
+	* C/usage-mail.sgml: Pulled warning about the HTML mail stuff.
+
 2002-03-12  Kevin Breit  <mrproper@ximian.com>
 
 	* C/usage-mail.sgml: Replaced "png" with "PNG".  This shouldn't break the SGML build and it's a slow start to the XML porting process.

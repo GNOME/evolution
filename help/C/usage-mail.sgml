@@ -1774,12 +1774,6 @@
 	    </listitem>
 	  </orderedlist>
 	</para>
-	<warning>
-	  <para>
-	    A lot of people hate HTML in an email, this includes
-	    signatures.  Be careful who you send HTML email to.
-	  </para>
-	</warning>
       </sect3>
     </sect2>
   </sect1>
