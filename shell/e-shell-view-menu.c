@@ -219,6 +219,8 @@ command_about_box (BonoboUIComponent *uih,
 
 	about_box_window = gtk_window_new (GTK_WINDOW_DIALOG);
 	gtk_window_set_policy (GTK_WINDOW (about_box_window), FALSE, FALSE, FALSE);
+	gtk_signal_connect (GTK_OBJECT (about_box_window), "key_press_event",
+			    GTK_SIGNAL_FUNC (about_box_event_callback), &about_box_window);
 	gtk_signal_connect (GTK_OBJECT (about_box_window), "button_press_event",
 			    GTK_SIGNAL_FUNC (about_box_event_callback), &about_box_window);
 	gtk_signal_connect (GTK_OBJECT (about_box_window), "delete_event",
