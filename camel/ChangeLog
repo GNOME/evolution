@@ -1,3 +1,9 @@
+2002-07-30  Peter Williams  <peterw@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (imap_transfer_offline): Use
+	the same command-counter mojo that the append code uses in case
+	the use tries to copy the same message to the folder repeatedly.
+
 2002-07-29  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-filter-driver.c (unset_flag): New filter action to unset a
@@ -8,6 +14,12 @@
 	* providers/local/camel-local-store.c (get_folder): If the path
 	exists and is a directory, return non-NULL. Missed this before
 	which is how we could return NULL even on success. Oops.
+
+2002-07-26  Peter Williams  <peterw@ximian.com>
+
+	* providers/imap/camel-imap-summary.c
+	(camel_imap_summary_add_offline_uncached): The flags'n'tags
+	copy was unnecessary. Removed it.
 
 2002-07-25  Jeffrey Stedfast  <fejj@ximian.com>
 

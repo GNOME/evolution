@@ -1264,7 +1264,8 @@ imap_transfer_offline (CamelFolder *source, GPtrArray *uids,
 	for (i = 0; i < uids->len; i++) {
 		uid = uids->pdata[i];
 
-		destuid = g_strdup_printf ("copy-%s:%s", source->full_name, uid);
+		destuid = g_strdup_printf ("copy-%s:%s:%d", source->full_name, uid,
+					   store->command++);
 
 		mi = camel_folder_summary_uid (source->summary, uid);
 		g_return_if_fail (mi != NULL);
