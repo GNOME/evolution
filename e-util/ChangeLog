@@ -1,3 +1,8 @@
+2003-01-26  Chris Toshok  <toshok@ximian.com>
+
+	* e-pilot-settings.c (e_pilot_settings_new): ref/sink the pilot
+	settings to clear up that gtk warning.
+
 2003-01-25  Chris Toshok  <toshok@ximian.com>
 
 	* e-pilot-map.c (e_pilot_map_read): g_file_exists -> g_file_test.

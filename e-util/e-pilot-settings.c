@@ -114,7 +114,11 @@ init (EPilotSettings *ps)
 GtkWidget *
 e_pilot_settings_new (void)
 {
-	return g_object_new (E_TYPE_PILOT_SETTINGS, NULL);
+	GtkWidget *w = g_object_new (E_TYPE_PILOT_SETTINGS, NULL);
+	g_object_ref (w);
+	gtk_object_sink (GTK_OBJECT (w));
+
+	return w;
 }
 
 gboolean
