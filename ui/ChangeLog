@@ -1,3 +1,8 @@
+2002-04-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-addressbook.xml: Added missing </submenu> tag.  Remove
+	bogus "Dump" menu item.
+
 2002-03-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* evolution-mail-global.xml: Removed the "Mail Settings" stuff.
