@@ -617,7 +617,7 @@ smtp_send (CamelTransport *transport, CamelMedium *message, CamelException *ex)
 	bcc = camel_mime_message_get_recipients (CAMEL_MIME_MESSAGE (message), CAMEL_RECIPIENT_TYPE_BCC);
 	
 	/* get all of the To addresses into our recipient list */
-	len = CAMEL_ADDRESS (to)->addresses->len;
+	len = camel_address_length (CAMEL_ADDRESS (to));
 	for (index = 0; index < len; index++) {
 		const char *addr;
 		
@@ -626,7 +626,7 @@ smtp_send (CamelTransport *transport, CamelMedium *message, CamelException *ex)
 	}
 	
 	/* get all of the Cc addresses into our recipient list */
-	len = CAMEL_ADDRESS (cc)->addresses->len;
+	len = camel_address_length (CAMEL_ADDRESS (cc));
 	for (index = 0; index < len; index++) {
 		const char *addr;
 		
@@ -635,7 +635,7 @@ smtp_send (CamelTransport *transport, CamelMedium *message, CamelException *ex)
 	}
 	
 	/* get all of the Bcc addresses into our recipient list */
-	len = CAMEL_ADDRESS (bcc)->addresses->len;
+	len = camel_address_length (CAMEL_ADDRESS (bcc));
 	for (index = 0; index < len; index++) {
 		const char *addr;
 		
