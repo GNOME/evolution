@@ -152,8 +152,8 @@ e_signature_list_finalize (GObject *object)
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
-static void
-add_autogen (ESignatureList *list)
+static GSList *
+add_autogen (ESignatureList *list, GSList *new_sigs)
 {
 	ESignature *autogen;
 	
@@ -162,6 +162,8 @@ add_autogen (ESignatureList *list)
 	autogen->autogen = TRUE;
 	
 	e_list_append (E_LIST (list), autogen);
+	
+	return g_slist_prepend (new_sigs, autogen);
 }
 
 static void
@@ -195,8 +197,7 @@ gconf_signatures_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry,
 					if (e_signature_set_from_xml (signature, l->data))
 						g_signal_emit (signature_list, signals[SIGNATURE_CHANGED], 0, signature);
 					
-					if (!have_autogen)
-						have_autogen = signature->autogen;
+					have_autogen |= signature->autogen;
 					
 					break;
 				}
@@ -205,15 +206,10 @@ gconf_signatures_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry,
 			g_object_unref (iter);
 		}
 		
-		if (!have_autogen) {
-			add_autogen (signature_list);
-			have_autogen = TRUE;
-			resave = TRUE;
-		}
-		
 		if (!found) {
 			/* Must be a new signature */
 			signature = e_signature_new_from_xml (l->data);
+			have_autogen |= signature->autogen;
 			if (!signature->uid) {
 				signature->uid = e_uid_new ();
 				resave = TRUE;
@@ -227,7 +223,7 @@ gconf_signatures_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry,
 	}
 	
 	if (!have_autogen) {
-		add_autogen (signature_list);
+		new_sigs = add_autogen (signature_list, new_sigs);
 		have_autogen = TRUE;
 		resave = TRUE;
 	}
