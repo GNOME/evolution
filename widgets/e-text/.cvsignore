@@ -6,3 +6,4 @@ Makefile.in
 *.lo
 *.la
 e-text-test
+e-entry-test

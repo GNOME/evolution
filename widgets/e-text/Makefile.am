@@ -20,12 +20,21 @@ libetext_a_SOURCES = 		\
 	e-text.h
 
 noinst_PROGRAMS =	\
-	e-text-test
+	e-text-test	\
+	e-entry-test
 
 e_text_test_SOURCES =	\
 	e-text-test.c
 
 e_text_test_LDADD =				\
+	libetext.a				\
+	$(EXTRA_GNOME_LIBS)			\
+	$(top_builddir)/e-util/libeutil.la
+
+e_entry_test_SOURCES =	\
+	e-entry-test.c
+
+e_entry_test_LDADD =				\
 	libetext.a				\
 	$(EXTRA_GNOME_LIBS)			\
 	$(top_builddir)/e-util/libeutil.la
