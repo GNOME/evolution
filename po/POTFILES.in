@@ -4,6 +4,7 @@ addressbook/conduit/address-conduit.c
 addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in
 addressbook/gui/component/addressbook-component.c
 addressbook/gui/component/addressbook-config.c
+addressbook/gui/component/addressbook-migrate.c
 addressbook/gui/component/addressbook.c
 addressbook/gui/component/apps_evolution_addressbook.schemas.in.in
 addressbook/gui/component/ldap-config.glade
@@ -78,6 +79,8 @@ calendar/gui/dialogs/alarm-options.glade
 calendar/gui/dialogs/alarm-page.c
 calendar/gui/dialogs/alarm-page.glade
 calendar/gui/dialogs/cal-prefs-dialog.glade
+calendar/gui/dialogs/calendar-config.c
+calendar/gui/dialogs/calendar-config.glade
 calendar/gui/dialogs/cancel-comp.c
 calendar/gui/dialogs/changed-comp.c
 calendar/gui/dialogs/comp-editor-page.c
@@ -93,7 +96,6 @@ calendar/gui/dialogs/event-page.glade
 calendar/gui/dialogs/meeting-page.c
 calendar/gui/dialogs/meeting-page.etspec
 calendar/gui/dialogs/meeting-page.glade
-calendar/gui/dialogs/new-calendar.c
 calendar/gui/dialogs/new-calendar.glade
 calendar/gui/dialogs/new-task-list.c
 calendar/gui/dialogs/new-task-list.glade
@@ -350,6 +352,7 @@ shell/importer/intelligent.c
 shell/main.c
 smime/gui/certificate-manager.c
 smime/gui/certificate-viewer.c
+smime/gui/component.c
 smime/gui/e-cert-selector.c
 smime/gui/smime-ui.glade
 smime/lib/e-cert-db.c
