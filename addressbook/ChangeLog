@@ -1,3 +1,11 @@
+2001-01-25  Not Zed  <NotZed@Ximian.com>
+
+	* backend/pas/pas-backend-ldap.c: esexp api change fixes.
+
+	* backend/pas/pas-backend-file.c (entry_compare): Fix for e_sexp api changes.
+	(vcard_matches_search): esexp api fixes.
+	(pas_backend_file_search): Ouch, unref the e-sexp properly (not gtk object).
+
 2001-01-24  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-ldap.c (email_ber_func): make sure to

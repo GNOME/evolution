@@ -1070,7 +1070,7 @@ func_and(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 		g_free (strings);
 	}
 
-	r = e_sexp_result_new(ESEXP_RES_BOOL);
+	r = e_sexp_result_new(f, ESEXP_RES_BOOL);
 	r->value.bool = FALSE;
 
 	return r;
@@ -1105,7 +1105,7 @@ func_or(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 		g_free (strings);
 	}
 
-	r = e_sexp_result_new(ESEXP_RES_BOOL);
+	r = e_sexp_result_new(f, ESEXP_RES_BOOL);
 	r->value.bool = FALSE;
 
 	return r;
@@ -1124,7 +1124,7 @@ func_not(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 		g_free (term);
 	}
 
-	r = e_sexp_result_new(ESEXP_RES_BOOL);
+	r = e_sexp_result_new(f, ESEXP_RES_BOOL);
 	r->value.bool = FALSE;
 
 	return r;
@@ -1196,7 +1196,7 @@ func_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data
 		}
 	}
 
-	r = e_sexp_result_new(ESEXP_RES_BOOL);
+	r = e_sexp_result_new(f, ESEXP_RES_BOOL);
 	r->value.bool = FALSE;
 
 	return r;
@@ -1221,7 +1221,7 @@ func_is(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 							       ldap_attr, str));
 	}
 
-	r = e_sexp_result_new(ESEXP_RES_BOOL);
+	r = e_sexp_result_new(f, ESEXP_RES_BOOL);
 	r->value.bool = FALSE;
 
 	return r;
@@ -1251,7 +1251,7 @@ func_beginswith(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *da
 							       str));
 	}
 
-	r = e_sexp_result_new(ESEXP_RES_BOOL);
+	r = e_sexp_result_new(f, ESEXP_RES_BOOL);
 	r->value.bool = FALSE;
 
 	return r;
@@ -1281,7 +1281,7 @@ func_endswith(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data
 							       str));
 	}
 
-	r = e_sexp_result_new(ESEXP_RES_BOOL);
+	r = e_sexp_result_new(f, ESEXP_RES_BOOL);
 	r->value.bool = FALSE;
 
 	return r;
@@ -1329,8 +1329,8 @@ pas_backend_ldap_build_query (gchar *query)
 
 	r = e_sexp_eval(sexp);
 
+	e_sexp_result_free(sexp, r);
 	e_sexp_unref (sexp);
-	e_sexp_result_free(r);
 
 	if (list->next) {
 		g_warning ("conversion to ldap query string failed");

@@ -358,7 +358,7 @@ entry_compare(PASBackendFileSearchContext *ctx, struct _ESExp *f,
 		}
 		
 	}
-	r = e_sexp_result_new(ESEXP_RES_BOOL);
+	r = e_sexp_result_new(f, ESEXP_RES_BOOL);
 	r->value.bool = truth;
 
 	return r;
@@ -462,7 +462,7 @@ vcard_matches_search (const PASBackendFileBookView *view, char *vcard_string)
 
 	gtk_object_unref(GTK_OBJECT(view->search_context->card));
 
-	e_sexp_result_free(r);
+	e_sexp_result_free(view->search_sexp, r);
 
 	return retval;
 }
@@ -483,7 +483,7 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 		return;
 
 	if (view->search_sexp)
-		gtk_object_unref(GTK_OBJECT(view->search_sexp));
+		e_sexp_unref(view->search_sexp);
 	view->search_sexp = e_sexp_new();
 
 	for(i=0;i<sizeof(symbols)/sizeof(symbols[0]);i++) {
