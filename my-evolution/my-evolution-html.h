@@ -16,7 +16,7 @@
 "<tbody><tr>"
 #else
 #define HTML_1 "<html><head></head><body background=\"bcg.png\" "\
-"bgcolor=\"white\" link=\"#314e6c\" alink=\"black\" vlink=\"#314e6c\">"\
+"bgcolor=\"white\" text=\"#000000\" link=\"#314e6c\" alink=\"black\" vlink=\"#314e6c\">"\
 "<img src=\"empty.gif\" alt=\"\" width=\"10\" height=\"20\">"\
 "<table border=\"0\" numcols=\"5\" cellspacing=\"0\" cellpadding=\"0\" width=\"100%\">"\
 "<tbody><tr>"

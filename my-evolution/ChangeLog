@@ -1,3 +1,7 @@
+2001-08-21  Iain Holmes  <iain@ximian.com>
+
+	* my-evolution-html.h: Set the text colour to black.
+
 2001-08-21  Damon Chaplin  <damon@ximian.com>
 
 	* e-summary-calendar.c (generate_html): 
