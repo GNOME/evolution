@@ -153,7 +153,7 @@ start_address_server (GnomePilotConduitStandardAbs *conduit,
 	ctxt->ebook = e_book_new ();
 
 	path = g_concat_dir_and_file (g_get_home_dir (),
-				      "evolution/local/Contacts");
+				      "evolution/local/Contacts/addressbook.db");
 	uri = g_strdup_printf ("file:%s", path);
 	g_free (path);
 
@@ -186,7 +186,8 @@ local_record_from_ecard(AddressbookLocalRecord *local,
 	local->ecard = ecard;
 	local->local.ID = local->ecard->pilot_id;
 
-	gtk_object_get (GTK_OBJECT(ecard), "pilot_status", &current_status);
+	gtk_object_get (GTK_OBJECT(ecard),
+			"pilot_status", &current_status, NULL);
 
 	switch(current_status) {
 	case E_CARD_PILOT_STATUS_NONE: 
@@ -226,7 +227,8 @@ get_ecard_by_pilot_id (GList *card_list, recordid_t id)
 		if (!card)
 			continue;
 
-		gtk_object_get (GTK_OBJECT(card), "pilot_id", &pilot_id);
+		gtk_object_get (GTK_OBJECT(card),
+				"pilot_id", &pilot_id, NULL);
 
 		if (pilot_id == id)
 			return card;
@@ -274,6 +276,7 @@ ecard_from_remote_record(GnomePilotConduitStandardAbs *conduit,
 	struct Address address;
 	VObject *vobj;
 	VObject *nameprop, *addressprop;
+	int i;
 	char *temp;
 
 	g_return_val_if_fail(remote!=NULL,NULL);
@@ -306,6 +309,20 @@ ecard_from_remote_record(GnomePilotConduitStandardAbs *conduit,
 		ADD_PROP (orgprop, entryCompany, VCOrgNameProp);
 	}
 
+#if 0
+	for (i = entryPhone1; i <= entryPhone5; i ++) {
+		if (address.entry [i]) {
+			VObject *phoneprop = addPropValue (vobj,
+							   VCTelephoneProp,
+							   address.entry[i]);
+
+			printf ("added phone entry %s\n", address.entry[i]);
+
+			addProp (phoneprop, VCWorkProp); /* XXX */
+		}
+	}
+#endif
+
 	temp = writeMemVObject (NULL, NULL, vobj);
 	ecard = e_card_new (temp);
 	free (temp);
@@ -313,15 +330,24 @@ ecard_from_remote_record(GnomePilotConduitStandardAbs *conduit,
 
 	free_Address(&address);
 
-	gtk_object_set (GTK_OBJECT(ecard), "pilot_id", remote->ID);
+	gtk_object_set (GTK_OBJECT(ecard), "pilot_id", remote->ID, NULL);
 
 	return ecard;
 }
 
+typedef struct {
+	EBookStatus status;
+	char *id;
+} add_card_cons;
+
 static void
 add_card_cb (EBook *ebook, EBookStatus status, const char *id, gpointer closure)
 {
-	(*(EBookStatus*)closure) = status;
+	add_card_cons *cons = (add_card_cons*)closure;
+
+	cons->status = status;
+	cons->id = g_strdup (id);
+
 	gtk_main_quit();
 }
 
@@ -332,6 +358,7 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 {
 	struct Address address;
 	ECard *ecard;
+	add_card_cons cons;
 
 	g_return_val_if_fail(remote!=NULL,-1);
 
@@ -344,7 +371,6 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 	ecard = get_ecard_by_pilot_id (ctxt->cards, remote->ID);
 
 	if (ecard == NULL) {
-		EBookStatus ebook_status;
 
 		LOG ("Object did not exist, creating a new one");
 		printf ("Object did not exist, creating a new one\n");
@@ -352,11 +378,15 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 		ecard = ecard_from_remote_record (conduit, remote);
 
 		/* add the ecard to the server */
-		e_book_add_card (ctxt->ebook, ecard, add_card_cb, &ebook_status);
+		e_book_add_card (ctxt->ebook, ecard, add_card_cb, &cons);
+
 		gtk_main(); /* enter sub mainloop */
 
-		if (ebook_status == E_BOOK_STATUS_SUCCESS)
-			ctxt->cards = g_list_append (ctxt->cards, ecard);
+		if (cons.status == E_BOOK_STATUS_SUCCESS) {
+			ctxt->cards = g_list_append (ctxt->cards,
+				     e_book_get_card (ctxt->ebook, cons.id));
+			g_free (cons.id);
+		}
 		else
 			WARN ("update_record: failed to add card to ebook\n");
 	} else {
@@ -427,7 +457,7 @@ pre_sync (GnomePilotConduit *c,
 
 	/* Set the counters for the progress bar crap */
 
-	gtk_object_set_data(GTK_OBJECT(c),"dbinfo",dbi);
+	gtk_object_set_data (GTK_OBJECT(c),"dbinfo",dbi);
   
 	/* load_records(c); */
 
@@ -492,7 +522,6 @@ free_match	(GnomePilotConduitStandardAbs *conduit,
 	g_return_val_if_fail(local!=NULL,-1);
 	g_return_val_if_fail(*local!=NULL,-1);
 
-	gtk_object_unref (GTK_OBJECT((*local)->ecard));
 	g_free(*local);
 	
         *local = NULL;
@@ -665,6 +694,7 @@ iterate_specific (GnomePilotConduitStandardAbs *conduit,
 		switch (flag) {
 		case GnomePilotRecordNothing: tmp = g_strdup("RecordNothing"); break;
 		case GnomePilotRecordModified: tmp = g_strdup("RecordModified"); break;
+		case GnomePilotRecordDeleted: tmp = g_strdup("RecordDeleted"); break;
 		case GnomePilotRecordNew: tmp = g_strdup("RecordNew"); break;
 		default: tmp = g_strdup_printf("0x%x",flag); break;
 		}
@@ -702,7 +732,8 @@ purge (GnomePilotConduitStandardAbs *conduit,
 	for (it=ctxt->cards; it;) {
 		guint32 current_status;
 
-		gtk_object_get (GTK_OBJECT (it->data), "pilot_status", &current_status);
+		gtk_object_get (GTK_OBJECT (it->data), "pilot_status",
+				&current_status, NULL);
 
 		if (current_status == E_CARD_PILOT_STATUS_DEL) {
 			EBookStatus remove_status;
@@ -722,6 +753,8 @@ purge (GnomePilotConduitStandardAbs *conduit,
 				it = g_list_next (it);
 			}
 		}
+		else
+			it = g_list_next (it);
 	}
 
 	return retval;
@@ -762,9 +795,11 @@ set_status (GnomePilotConduitStandardAbs *conduit,
 		break;
 	}
 	
-	gtk_object_set (GTK_OBJECT (local->ecard), "pilot_status", ecard_status);
+	gtk_object_set (GTK_OBJECT (local->ecard),
+			"pilot_status", ecard_status, NULL);
 
-	e_book_commit_card (ctxt->ebook, local->ecard, status_cb, &commit_status);
+	e_book_commit_card (ctxt->ebook, local->ecard, status_cb,
+			    &commit_status);
 
 	gtk_main (); /* enter sub loop */
 
@@ -799,7 +834,8 @@ set_pilot_id (GnomePilotConduitStandardAbs *conduit,
 
 	local->local.ID = ID;
 
-	gtk_object_set (GTK_OBJECT(local->ecard), "pilot_id", local->local.ID);
+	gtk_object_set (GTK_OBJECT(local->ecard),
+			"pilot_id", local->local.ID, NULL);
 	e_book_commit_card (ctxt->ebook, local->ecard, status_cb, &commit_status);
 
 	gtk_main (); /* enter sub loop */
@@ -828,6 +864,9 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 	  AddressbookConduitContext *ctxt)
 {
 	PilotRecord *p;
+	ECardName *ecard_name;
+	EList *ecard_phones;
+	char *ecard_org, *ecard_note, *ecard_title;
 	
 	LOG ("entering transmit");
 
@@ -844,6 +883,53 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 
 	local->address = g_new0(struct Address,1);
 
+	gtk_object_get (GTK_OBJECT (local->ecard),
+			"name", &ecard_name,
+			"org", &ecard_org,
+			"note", &ecard_note,
+			"title", &ecard_title,
+			"phone", &ecard_phones,
+			NULL);
+
+	/* use strdup instead of g_strdup since free_transmit uses free, not g_free. */
+	if (ecard_name) {
+		if (ecard_name->given)
+			local->address->entry [ entryFirstname ] = strdup (ecard_name->given);
+		if (ecard_name->family)
+			local->address->entry [ entryLastname ] = strdup (ecard_name->family);
+		e_card_name_free (ecard_name);
+	}
+
+	if (ecard_org) {
+		local->address->entry [ entryCompany ] = strdup (ecard_org);
+		g_free (ecard_org);
+	}
+	if (ecard_title) {
+		local->address->entry [ entryTitle ] = strdup (ecard_title);
+		g_free (ecard_title);
+	}
+	if (ecard_phones) {
+		int phone_entry = entryPhone1;
+		EIterator *iterator = e_list_get_iterator (ecard_phones);
+		ECardPhone *phone;
+
+		while ((phone = (ECardPhone*)e_iterator_get(iterator))) {
+
+			local->address->entry [ phone_entry ] = strdup (phone->number);
+
+			/* only store 5 numbers */
+			if (phone_entry == entryPhone5)
+				break;
+
+			if (e_iterator_next (iterator) == FALSE)
+				break;
+		}
+	}
+
+	if (ecard_note) {
+		local->address->entry [ entryNote ] = strdup (ecard_note);
+		g_free (ecard_note);
+	}
 #if 0
 	printf ("transmitting address to pilot [%s] complete=%d/%ld\n",
 		local->ical->summary==NULL?"NULL":local->ical->summary,
@@ -989,7 +1075,8 @@ delete_all (GnomePilotConduitStandardAbs *conduit,
 	GList *it;
 
 	for (it=ctxt->cards; it; it = g_list_next (it)) {
-		gtk_object_set (GTK_OBJECT (it->data), "pilot_status", E_CARD_PILOT_STATUS_DEL);
+		gtk_object_set (GTK_OBJECT (it->data),
+				"pilot_status", E_CARD_PILOT_STATUS_DEL, NULL);
 	}
 
         return 0;
@@ -1012,7 +1099,7 @@ conduit_get_gpilot_conduit (guint32 pilotId)
 	gnome_pilot_conduit_construct(GNOME_PILOT_CONDUIT(retval),"AddressConduit");
 
 	conduit_load_configuration(&cfg,pilotId);
-	gtk_object_set_data(retval,"addressconduit_cfg",cfg);
+	gtk_object_set_data (retval,"addressconduit_cfg",cfg);
 
 	conduit_new_context(&ctxt,cfg);
 	gtk_object_set_data(GTK_OBJECT(retval),"addressconduit_context",ctxt);

@@ -696,7 +696,7 @@ pas_backend_file_build_all_cards_list(PASBackend *backend,
 	  while (db_error == 0) {
 
 		  /* don't include the version in the list of cards */
-		  if (id_dbt.size != strlen(PAS_BACKEND_FILE_VERSION_NAME + 1)
+		  if (id_dbt.size != strlen(PAS_BACKEND_FILE_VERSION_NAME) + 1
 		      || strcmp (id_dbt.data, PAS_BACKEND_FILE_VERSION_NAME)) {
 
 			  cursor_data->elements = g_list_append(cursor_data->elements,
