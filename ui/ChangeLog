@@ -1,3 +1,7 @@
+2000-10-18  Michael Meeks  <michael@helixcode.com>
+
+	* evolution-task-editor-dialog.xml: added.
+
 2000-10-14  Michael Meeks  <michael@helixcode.com>
 
 	* Makefile.am: Add rule to use bonobo-ui-extract to build
