@@ -1,5 +1,10 @@
 2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-utils.c (e_shell_folder_name_is_valid): Do not allow
+	names with a "#" in them either.
+
+2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c (update_other_users_folder_items_sensitivity):
 	New function to toggle the "open other user's folder" menu item
 	sensitivity on or off depending on whether there are any storages

@@ -126,10 +126,16 @@ e_shell_folder_name_is_valid (const char *name,
 	
 	if (strchr (name, E_PATH_SEPARATOR) != NULL) {
 		if (reason_return != NULL)
-			*reason_return = _("Folder name cannot contain slashes.");
+			*reason_return = _("Folder name cannot contain the character \"/\".");
 		return FALSE;
 	}
-	
+
+	if (strchr (name, '#') != NULL) {
+		if (reason_return != NULL)
+			*reason_return = _("Folder name cannot contain the character \"#\".");
+		return FALSE;
+	}
+
 	if (strcmp (name, ".") == 0 || strcmp (name, "..") == 0) {
 		if (reason_return != NULL)
 			*reason_return = _("'.' and '..' are reserved folder names.");
