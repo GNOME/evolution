@@ -419,15 +419,15 @@ set_colors (EMinicardLabel *label)
 		if (label->has_focus) {
 			gnome_canvas_item_set (label->rect, 
 					       "outline_color_gdk", &style->mid[GTK_STATE_SELECTED],
-					       "fill_color_gdk", &style->bg[GTK_STATE_SELECTED],
+					       "fill_color_gdk", &style->bg[GTK_STATE_NORMAL],
 					       NULL);
 
 			gnome_canvas_item_set (label->field,
-					       "fill_color_gdk", &canvas->style->text[GTK_STATE_SELECTED],
+					       "fill_color_gdk", &canvas->style->text[GTK_STATE_NORMAL],
 					       NULL);
 
 			gnome_canvas_item_set (label->fieldname,
-					       "fill_color_gdk", &canvas->style->text[GTK_STATE_SELECTED],
+					       "fill_color_gdk", &canvas->style->text[GTK_STATE_NORMAL],
 					       NULL);
 		}
 		else {

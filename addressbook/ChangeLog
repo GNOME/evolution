@@ -1,5 +1,13 @@
 2003-05-19  Chris Toshok  <toshok@ximian.com>
 
+	* gui/widgets/e-minicard-label.c (set_colors): if we've got focus,
+	set the background of the rect to bg[NORMAL], and the fill color
+	of the text and label to text[NORMAL].  This will make the
+	background a different color than the canvas, but won't make it
+	use the selected background.  fixes #42472
+
+2003-05-19  Chris Toshok  <toshok@ximian.com>
+
 	* gui/merging/e-card-merging.c (e_card_merging_book_commit_card):
 	add a g_object_ref(card), to match the one in
 	e_card_merging_book_add_card.  Fixes #43175.
