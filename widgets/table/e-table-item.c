@@ -1697,6 +1697,11 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			       "cursor_col", &cursor_col,
 			       NULL);
 
+		if (eti->tooltip->window) {
+			gtk_widget_destroy (eti->tooltip->window);
+			eti->tooltip->window = NULL;
+		}
+
 		if (eti->tooltip->timer > 0)
 			gtk_timeout_remove (eti->tooltip->timer);
 		eti->tooltip->col = col;

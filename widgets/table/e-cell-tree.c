@@ -324,7 +324,9 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 		else if (event->button.x < (offset - INDENT_AMOUNT))
 			return FALSE;
 	}
-	default:
+	default: {
+		gint return_value;
+
 		/* modify the event and pass it off to our subcell_view */
 		switch (event->type) {
 		case GDK_BUTTON_PRESS:
@@ -339,7 +341,26 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 		default:
 			/* nada */
 		}
-		return e_cell_event(tree_view->subcell_view, event, model_col, view_col, row, flags, actions);
+
+		return_value = e_cell_event(tree_view->subcell_view, event, model_col, view_col, row, flags, actions);
+
+		/* modify the event and pass it off to our subcell_view */
+		switch (event->type) {
+		case GDK_BUTTON_PRESS:
+		case GDK_BUTTON_RELEASE:
+		case GDK_2BUTTON_PRESS:
+		case GDK_3BUTTON_PRESS:
+			event->button.x += offset;
+			break;
+		case GDK_MOTION_NOTIFY:
+			event->motion.x += offset;
+			break;
+		default:
+			/* nada */
+		}
+
+		return return_value;
+	}
 	}
 }
 
@@ -429,11 +450,8 @@ ect_show_tooltip (ECellView *ecell_view, int model_col, int view_col, int row,
 	if (node_image)
 		offset += gdk_pixbuf_get_width (node_image);
 
-	/* if the tooltip happened in the subcell, then handle it */
-	if (tooltip->cx > offset) {
-		tooltip->x += offset;
-		e_cell_show_tooltip (tree_view->subcell_view, model_col, view_col, row, col_width - offset, tooltip);
-	}
+	tooltip->x += offset;
+	e_cell_show_tooltip (tree_view->subcell_view, model_col, view_col, row, col_width - offset, tooltip);
 }
 		
 /*
