@@ -1,3 +1,9 @@
+2002-04-10  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/gnome-cal.c (gnome_calendar_open): use the default uri for
+	tasks (as stored in the configuration) when the calendar URI is not
+	a local one (connector, etc).
+
 2002-04-10  Dan Winship  <danw@ximian.com>
 
 	* cal-client/cal-client.c (get_default_uri): Use new-and-improved

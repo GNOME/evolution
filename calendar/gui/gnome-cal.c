@@ -1902,31 +1902,17 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 	else {
 		if (!g_strncasecmp (uri->protocol, "file", 4)) {
 			tasks_uri = g_strdup_printf ("%s/local/Tasks/tasks.ics", evolution_dir);
-			success = cal_client_open_calendar (priv->task_pad_client, tasks_uri, FALSE);
-
-			add_alarms (tasks_uri);
-			g_free (tasks_uri);
 		}
 		else {
-			CalendarModel *model;
-
-			/* we use the same CalClient for tasks than for events */
-			gtk_object_unref (GTK_OBJECT (priv->task_pad_client));
-			gtk_object_ref (GTK_OBJECT (priv->client));
-			priv->task_pad_client = priv->client;
-
-			gtk_signal_connect (GTK_OBJECT (priv->task_pad_client), "cal_opened",
-					    GTK_SIGNAL_FUNC (client_cal_opened_cb), gcal);
-			gtk_signal_connect (GTK_OBJECT (priv->task_pad_client), "categories_changed",
-					    GTK_SIGNAL_FUNC (client_categories_changed_cb), gcal);
-
-			model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo));
-			g_assert (model != NULL);
-
-			calendar_model_set_cal_client (model, priv->task_pad_client, CALOBJ_TYPE_TODO);
-
-			success = TRUE;
+			/* we use the default uri for tasks */
+			tasks_uri = calendar_config_get_default_tasks_uri ();
+			if (!tasks_uri)
+				tasks_uri = g_strdup_printf ("%s/local/Tasks/tasks.ics", evolution_dir);
 		}
+
+		success = cal_client_open_calendar (priv->task_pad_client, tasks_uri, FALSE);
+		add_alarms (tasks_uri);
+		g_free (tasks_uri);
 
 	}
 
