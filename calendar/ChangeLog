@@ -1,4 +1,8 @@
-2004-06-25    <jpr@novell.com>
+2004-06-25  JP Rosevear  <jpr@novell.com>
+
+	* gui/dialogs/alarm-dialog.glade: don't show option tabs
+
+2004-06-25  JP Rosevear  <jpr@novell.com>
 
 	* gui/dialogs/task-editor.c (task_editor_construct): use "Task"
 	instead of "Basic"
