@@ -4,6 +4,7 @@
  * Originally written by Papadimitriou Spiros <spapadim+@cs.cmu.ed>
  */
 
+#include <config.h>
 #include <glib.h>
 
 #include <unistd.h>

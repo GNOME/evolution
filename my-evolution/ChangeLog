@@ -1,5 +1,9 @@
 2001-07-12  Iain Holmes  <iain@ximian.com>
 
+	* metar.c: #include <config.h>
+
+2001-07-12  Iain Holmes  <iain@ximian.com>
+
 	* e-summary.c (e_summary_draw): put _() around the date string.
 
 	* metar.c: Put some _() around things.
