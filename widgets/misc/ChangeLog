@@ -1,4 +1,5 @@
 2003-06-11  Larry Ewing  <lewing@ximian.com>
 
-	* e-search-bar.c (impl_get_property): 
+	* e-search-bar.c (impl_get_property): take ownership of the duped
+	string.
 
