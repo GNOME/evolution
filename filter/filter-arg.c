@@ -452,7 +452,6 @@ filter_arg_edit_clicked(GnomeDialog *d, int button, struct filter_arg_edit *edat
 	}
 	xmlFreeNodeList(p->oldargs);
 	p->oldargs = NULL;
-	g_free(edata);
 	p->dialogue = NULL;
 	gnome_dialog_close(d);
 }

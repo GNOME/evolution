@@ -29,3 +29,7 @@ libfilter_la_SOURCES =				\
 	filter-driver.h
 
 EXTRA_DIST = blank.xpm check.xpm
+
+# basic rules.
+filterdir = $(prefix)/share/evolution
+filter_DATA = filtertypes.xml

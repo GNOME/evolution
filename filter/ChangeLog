@@ -1,5 +1,15 @@
 2000-05-16  NotZed  <NotZed@HelixCode.com>
 
+	* filtertypes.xml: Initial filter rules.
+
+	* filter-xml.c (filter_write_optionset): Save the description
+	also.
+	(write_description): Routine to save description - only saves 1
+	node of description.
+
+	* filter-arg.c (filter_arg_edit_clicked): Dont free edata here,
+	let the destroy do it(?)
+
 	* filter-editor.c (main): Simple driver program for testing, so i
 	can fix all this really broken code *sigh*
 

@@ -350,6 +350,9 @@ filter_editor_set_rule_files(FilterEditor *e, const char *systemrules, const cha
 	out = xmlParseFile(userrules);
 	if (out)
 		options = filter_load_optionset(out, rules);
+
+	printf("Loading system rules: %s = %p = %p\n", systemrules, doc, rules);
+	printf("Loading user rules: %s = %p = %p\n", userrules, out, options);
 	
 	filter_editor_set_rules(e, rules, options2, options);
 }

@@ -334,6 +334,19 @@ filter_load_optionset(xmlDocPtr doc, GList *rules)
 	return l;
 }
 
+static xmlNodePtr
+write_description(xmlDocPtr doc, GList *descl)
+{
+	xmlNodePtr d;
+	struct filter_desc *desc;
+
+	desc = descl->data;
+	d = xmlNewDocNode(doc, NULL, "description", NULL);
+	if (desc->type == FILTER_XML_TEXT)
+		xmlNodeSetContent(d, desc->data);
+	return d;
+}
+
 xmlNodePtr
 filter_write_optionset(xmlDocPtr doc, GList *optionl)
 {
@@ -349,6 +362,13 @@ filter_write_optionset(xmlDocPtr doc, GList *optionl)
 
 		option = xmlNewDocNode(doc, NULL, "option", NULL);
 		xmlSetProp(option, "type", detokenise(op->type));
+
+		if (op->description) {
+			xmlNodePtr desc;
+
+			desc = write_description(doc, op->description);
+			xmlAddChild(option, desc);
+		}
 
 		optionrulel = op->options;
 		while (optionrulel) {
