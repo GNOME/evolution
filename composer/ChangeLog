@@ -1,3 +1,7 @@
+2001-06-28  Radek Doulik  <rodo@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_get_sig_file_content): exported
+
 2001-06-27  Larry Ewing  <lewing@ximian.com>
 
 	* e-msg-composer.c (menu_file_insert_file_cb): make hook this up.

@@ -161,6 +161,8 @@ gboolean          e_msg_composer_get_smime_sign         (EMsgComposer     *compo
 void              e_msg_composer_set_smime_encrypt      (EMsgComposer     *composer,
 							 gboolean          smime_encrypt);
 gboolean          e_msg_composer_get_smime_encrypt      (EMsgComposer     *composer);
+gchar *           e_msg_composer_get_sig_file_content   (const char       *sigfile,
+							 gboolean          in_html);
 
 #ifdef __cplusplus
 }

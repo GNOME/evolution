@@ -679,8 +679,8 @@ get_file_content (const gchar *file_name, gboolean convert, guint flags)
 	return html;
 }
 
-static char *
-get_sig_file_content (const char *sigfile, gboolean in_html)
+char *
+e_msg_composer_get_sig_file_content (const char *sigfile, gboolean in_html)
 {
 	if (!sigfile || !*sigfile) {
 		return NULL;
@@ -749,7 +749,7 @@ get_signature_html (EMsgComposer *composer)
 	if (!sig_file)
 		return NULL;
 
-	text = get_sig_file_content (sig_file, format_html);
+	text = e_msg_composer_get_sig_file_content (sig_file, format_html);
 	if (text) {
 		html = g_strdup_printf ("<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature\" value=\"1\">-->"
 					"<TABLE WIDTH=\"100%%\" CELLSPACING=\"0\" CELLPADDING=\"0\"><TR><TD>"
@@ -2680,7 +2680,7 @@ delete_old_signature (EMsgComposer *composer)
 }
 
 /**
- * e_msg_composer_set_sig:
+ * e_msg_composer_show_sig:
  * @composer: A message composer widget
  * @path: Signature file
  * 
