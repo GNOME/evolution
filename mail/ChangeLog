@@ -1,3 +1,13 @@
+2000-10-12  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* message-list.c (message_list_setup_etable): Create the 'spec'
+	and 'extras' arguments and call e_table_scrolled_new() rather than
+	set_specification as that function no longer (?) exists. 
+
+	Also started to add drag & drop functionality to something like
+	Nautilus (but #if 0'd it out until I had time to finish it and
+	till after 0.6).
+
 2000-10-12  Not Zed  <NotZed@HelixCode.com>
 
 	* message-list.c (message_list_setup_etable): Duh, fix the test

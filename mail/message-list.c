@@ -108,6 +108,15 @@ static struct {
 	{ NULL,			NULL }
 };
 
+enum DndTargetTyhpe {
+	DND_TARGET_LIST_TYPE_URI,
+};
+#define URI_LIST_TYPE "text/uri-list"
+static GtkTargetEntry drag_types[] = {
+	{ URI_LIST_TYPE, 0, DND_TARGET_LIST_TYPE_URI },
+};
+static const int num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
+
 static gint
 address_compare (gconstpointer address1, gconstpointer address2)
 {
@@ -225,18 +234,18 @@ get_message_info (MessageList *message_list, int row)
 	ETreeModel *model = (ETreeModel *)message_list->table_model;
 	ETreePath *node;
 	char *uid;
-
+	
 	if (row >= e_table_model_row_count (message_list->table_model))
 		return NULL;
-
+	
 	node = e_tree_model_node_at_row (model, row);
 	g_return_val_if_fail (node != NULL, NULL);
 	uid = e_tree_model_node_get_data (model, node);
-
+	
 	if (strncmp (uid, "uid:", 4) != 0)
 		return NULL;
 	uid += 4;
-
+	
 	return camel_folder_get_message_info (message_list->folder, uid);
 }
 
@@ -339,6 +348,52 @@ select_msg (MessageList *message_list, gint row)
 	mail_do_display_message (message_list, uid, mark_msg_seen);
 }
 
+#if 0
+static void
+message_list_drag_data_get (ETable             *table,
+			    int                 row,
+			    int                 col,
+			    GdkDragContext     *context,
+			    GtkSelectionData   *selection_data,
+			    guint               info,
+			    guint               time,
+			    gpointer            user_data)
+{
+	MessageList *mlist = (MessageList *) user_data;
+	CamelMessageInfo *info = get_message_info (mlist, row);
+	CamelException *ex;
+	CamelFolder *folder;
+	char *dirname = "/tmp/ev-XXXXXXXXXX";
+	char *filename;
+	char *url;
+	
+	switch (info) {
+	case DND_TARGET_TYPE_URI_LIST:
+		dirname = mkdtemp (dirname);
+		filename = g_strdup_printf ("%s.eml", info->subject);
+		url = g_strdup_printf ("file:%s", dirname);
+		
+		ex = camel_exception_new ();
+		folder = mail_tool_get_folder_from_urlname (url, filename, TRUE, ex);
+		if (camel_exception_is_set (ex)) {
+			camel_exception_free (ex);
+			g_free (url);
+			return;
+		}
+		
+		gtk_selection_data_set (selection_data, selection_data->target, 8,
+					(guchar *) url, strlen (url));
+		
+		camel_object_unref (CAMEL_OBJECT (folder));
+		g_free (filename);
+		g_free (url);
+		break;
+	default:
+		break;
+	}
+	e_table_drag_source_set (table, GDK_BUTTON1_MASK, drag_types, num_drag_types, GDK_ACTION_MOVE);
+}
+#endif
 
 /*
  * SimpleTableModel::col_count
@@ -892,7 +947,18 @@ message_list_setup_etable(MessageList *message_list)
 			if (strstr(name, "/Drafts") != NULL
 			    || strstr(name, "/Outbox") != NULL
 			    || strstr(name, "/Sent") != NULL) {
-				e_table_scrolled_set_specification(E_TABLE_SCROLLED(message_list->etable), spec);
+				ETableExtras *extras;
+				char *spec;
+				
+				if (message_list->etable)
+					gtk_object_destroy (GTK_OBJECT (message_list->etable));
+				
+				spec = message_list_get_layout (message_list);
+				extras = message_list_create_extras ();
+				message_list->etable = e_table_scrolled_new (message_list->table_model,
+									     extras, spec, state);
+				gtk_object_sink (GTK_OBJECT (extras));
+				g_free (spec);
 			}
 			g_free(name);
 		}
@@ -953,6 +1019,15 @@ message_list_init (GtkObject *object)
 	
 	gtk_signal_connect (GTK_OBJECT (message_list->etable), "double_click",
 			    GTK_SIGNAL_FUNC (on_double_click), message_list);
+
+#if 0
+	/* drag & drop */
+	e_table_drag_source_set (message_list->etable, GDK_BUTTON1_MASK,
+				 drag_types, num_drag_types, GDK_ACTION_MOVE);
+	
+	gtk_signal_connect (GTK_OBJECT (message_list->etable), "drag_data_get",
+			    GTK_SIGNAL_FUNC (message_list_drag_data_get), message_list);
+#endif
 	
 	gtk_widget_show (message_list->etable);
 
