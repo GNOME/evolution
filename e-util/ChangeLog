@@ -1,6 +1,14 @@
 2000-08-22  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* e-unicode.h:
+	* e-unicode.c: e_utf8_gtk_editable_get_chars
+	e_utf8_gtk_entry_get_text
+	e_utf8_gtk_entry_set_text
+	e_utf8_to_gtk_string: New convenience functions
+
+2000-08-22  Lauris Kaplinski  <lauris@helixcode.com>
+
+	* e-unicode.h:
 	* e-unicode.c: Some convenience functions to deal with Gtk+ and UTF-8
 
 	* Makefile.am: Added e-unicode.h, e-unicode.c

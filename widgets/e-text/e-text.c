@@ -2224,7 +2224,7 @@ _get_position_from_xy (EText *text, gint x, gint y)
 	x += text->xofs_edit;
 	xpos = get_line_xpos_item_relative (text, lines);
 
-	for (i = 0, p = lines->text; i < lines->length; i++, p = unicode_get_utf8 (p, &unival)) {
+	for (i = 0, p = lines->text; p && i < lines->length; i++, p = unicode_get_utf8 (p, &unival)) {
 		int charwidth;
 
 		charwidth = e_font_utf8_char_width (text->font, E_FONT_PLAIN, p);
@@ -2235,6 +2235,9 @@ _get_position_from_xy (EText *text, gint x, gint y)
 		}
 		xpos += (charwidth + 1) / 2;
 	}
+
+	if (!p) return 0;
+
 	return p - text->text;
 }
 

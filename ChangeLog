@@ -1,5 +1,9 @@
 2000-08-22  Lauris Kaplinski  <lauris@helixcode.com>
 
+	* widgets/e-text/e-text.c (_get_position_from_xy): Don't crash on illegal string
+
+2000-08-22  Lauris Kaplinski  <lauris@helixcode.com>
+
 	* widgets/e-text/e-text.c (e_text_event): Use e_utf8_from_gtk_event_key
 	to translate GDK_KEY_PRESS to insertable UTF-8 string
 

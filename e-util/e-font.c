@@ -95,6 +95,9 @@ e_font_utf8_text_width (EFont *font, EFontStyle style, char *text, int numbytes)
 	gchar *p;
 	gint uni, len;
 
+	g_return_val_if_fail (font != NULL, 0);
+	g_return_val_if_fail (text != NULL, 0);
+
 	iso = alloca (numbytes);
 
 	for (len = 0, p = text; p != NULL && p < (text + numbytes); len++, p = unicode_next_utf8 (p)) {
@@ -111,6 +114,9 @@ e_font_utf8_char_width (EFont *font, EFontStyle style, char *text)
 {
 	unicode_char_t uni;
 	guchar iso;
+
+	g_return_val_if_fail (font != NULL, 0);
+	g_return_val_if_fail (text != NULL, 0);
 
 	if (!unicode_get_utf8 (text, &uni)) return 0;
 

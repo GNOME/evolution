@@ -28,6 +28,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
 #include <e-util/e-gui-utils.h>
+#include <e-util/e-unicode.h>
 #include <e-contact-save-as.h>
 #include "addressbook/printing/e-contact-print.h"
 
@@ -203,11 +204,13 @@ phone_entry_changed (GtkWidget *widget, EContactEditor *editor)
 		which = 4;
 	} else
 		return;
-	string = gtk_entry_get_text(entry);
+	string = e_utf8_gtk_entry_get_text(entry);
 	phone = e_card_phone_new();
 	phone->number = string;
 	e_card_simple_set_phone(editor->simple, editor->phone_choice[which - 1], phone);
+#if 0
 	phone->number = NULL;
+#endif
 	e_card_phone_free(phone);
 	set_fields(editor);
 }
@@ -218,9 +221,11 @@ email_entry_changed (GtkWidget *widget, EContactEditor *editor)
 	gchar *string;
 	GtkEntry *entry = GTK_ENTRY(widget);
 
-	string = gtk_entry_get_text(entry);
+	string = e_utf8_gtk_entry_get_text(entry);
 
 	e_card_simple_set_email(editor->simple, editor->email_choice, string);
+
+	g_free (string);
 }
 
 static void
@@ -233,7 +238,9 @@ address_text_changed (GtkWidget *widget, EContactEditor *editor)
 		return;
 
 	address = e_card_address_label_new();
-	address->data = gtk_editable_get_chars(editable, 0, -1);
+
+	address->data = e_utf8_gtk_editable_get_chars(editable, 0, -1);
+
 	e_card_simple_set_address(editor->simple, editor->address_choice, address);
 	e_card_address_label_free(address);
 }
@@ -317,7 +324,7 @@ static int
 file_as_get_style (EContactEditor *editor)
 {
 	GtkEntry *file_as = GTK_ENTRY(glade_xml_get_widget(editor->gui, "entry-file-as"));
-	char *filestring = gtk_entry_get_text(file_as);
+	char *filestring;
 	char *trystring;
 	ECardName *name = editor->name;
 	int i;
@@ -325,15 +332,19 @@ file_as_get_style (EContactEditor *editor)
 
 	if (!name) return 0;
 
+	filestring = e_utf8_gtk_entry_get_text(file_as);
+
 	style = -1;
 	for (i = 0; i < 5; i++) {
 		trystring = name_to_style(name, editor->company, i);
 		if (!strcmp(trystring, filestring)) {
 			g_free(trystring);
+			g_free(filestring);
 			return i;
 		}
 		g_free(trystring);
 	}
+	g_free (filestring);
 	return -1;
 }
 
@@ -348,18 +359,22 @@ file_as_set_style(EContactEditor *editor, int style)
 		
 
 	if (style == -1) {
-		string = g_strdup(gtk_entry_get_text(file_as));
+		string = e_utf8_gtk_entry_get_text(file_as);
 		strings = g_list_append(strings, string);
 	}
 
+	widget = glade_xml_get_widget(editor->gui, "combo-file-as");
+
 	for (i = 0; i < 5; i++) {
 		if (style_makes_sense(editor->name, editor->company, i)) {
-			string = name_to_style(editor->name, editor->company, i);
-			strings = g_list_append(strings, string);
+			char *u;
+			u = name_to_style(editor->name, editor->company, i);
+			string = e_utf8_to_gtk_string (widget, u);
+			g_free (u);
+			if (string) strings = g_list_append(strings, string);
 		}
 	}
 
-	widget = glade_xml_get_widget(editor->gui, "combo-file-as");
 	if (widget && GTK_IS_COMBO(widget)) {
 		GtkCombo *combo = GTK_COMBO(widget);
 		gtk_combo_set_popdown_strings(combo, strings);
@@ -369,7 +384,7 @@ file_as_set_style(EContactEditor *editor, int style)
 
 	if (style != -1) {
 		string = name_to_style(editor->name, editor->company, style);
-		gtk_entry_set_text(file_as, string);
+		e_utf8_gtk_entry_set_text(file_as, string);
 		g_free(string);
 	}
 }
@@ -379,6 +394,7 @@ name_entry_changed (GtkWidget *widget, EContactEditor *editor)
 {
 	GtkWidget *file_as;
 	int style = 0;
+	char *string;
 
 	file_as = glade_xml_get_widget(editor->gui, "entry-file-as");
 
@@ -387,7 +403,10 @@ name_entry_changed (GtkWidget *widget, EContactEditor *editor)
 	}
 	
 	e_card_name_free(editor->name);
-	editor->name = e_card_name_from_string(gtk_entry_get_text(GTK_ENTRY(widget)));
+
+	string = e_utf8_gtk_entry_get_text (GTK_ENTRY(widget));
+	editor->name = e_card_name_from_string(string);
+	g_free (string);
 	
 	if (file_as && GTK_IS_ENTRY(file_as)) {
 		file_as_set_style(editor, style);
@@ -408,7 +427,7 @@ company_entry_changed (GtkWidget *widget, EContactEditor *editor)
 	
 	g_free(editor->company);
 	
-	editor->company = g_strdup(gtk_entry_get_text(GTK_ENTRY(widget)));
+	editor->company = e_utf8_gtk_entry_get_text(GTK_ENTRY(widget));
 	
 	if (file_as && GTK_IS_ENTRY(file_as)) {
 		file_as_set_style(editor, style);
@@ -474,7 +493,7 @@ full_name_clicked(GtkWidget *button, EContactEditor *editor)
 		fname_widget = glade_xml_get_widget(editor->gui, "entry-fullname");
 		if (fname_widget && GTK_IS_ENTRY(fname_widget)) {
 			char *full_name = e_card_name_to_string(name);
-			gtk_entry_set_text(GTK_ENTRY(fname_widget), full_name);
+			e_utf8_gtk_entry_set_text(GTK_ENTRY(fname_widget), full_name);
 			g_free(full_name);
 		}
 	}
@@ -489,7 +508,7 @@ categories_clicked(GtkWidget *button, EContactEditor *editor)
 	int result;
 	GtkWidget *entry = glade_xml_get_widget(editor->gui, "entry-categories");
 	if (entry && GTK_IS_ENTRY(entry))
-		categories = gtk_entry_get_text(GTK_ENTRY(entry));
+		categories = e_utf8_gtk_entry_get_text(GTK_ENTRY(entry));
 	else if (editor->card)
 		gtk_object_get(GTK_OBJECT(editor->card),
 			       "categories", &categories,
@@ -497,12 +516,13 @@ categories_clicked(GtkWidget *button, EContactEditor *editor)
 	dialog = GNOME_DIALOG(e_contact_editor_categories_new(categories));
 	gtk_widget_show(GTK_WIDGET(dialog));
 	result = gnome_dialog_run (dialog);
+	g_free (categories);
 	if (result == 0) {
 		gtk_object_get(GTK_OBJECT(dialog),
 			       "categories", &categories,
 			       NULL);
 		if (entry && GTK_IS_ENTRY(entry))
-			gtk_entry_set_text(GTK_ENTRY(entry), categories);
+			e_utf8_gtk_entry_set_text(GTK_ENTRY(entry), categories);
 		else
 			gtk_object_set(GTK_OBJECT(editor->card),
 				       "categories", categories,
@@ -510,8 +530,10 @@ categories_clicked(GtkWidget *button, EContactEditor *editor)
 		g_free(categories);
 	}
 	gtk_object_destroy(GTK_OBJECT(dialog));
+#if 0
 	if (!entry)
 		g_free(categories);
+#endif
 }
 
 /* Emits the signal to request saving a card */
@@ -1228,7 +1250,7 @@ _dialog_clicked(GtkWidget *dialog, gint button, EContactEditor *editor)
 			gtk_object_set(GTK_OBJECT(label),
 				       "label", gtk_entry_get_text(GTK_ENTRY(dialog_entry)),
 				       NULL);
-			*list = g_list_append(*list, g_strdup(gtk_entry_get_text(GTK_ENTRY(dialog_entry))));
+			*list = g_list_append(*list, e_utf8_gtk_entry_get_text(GTK_ENTRY(dialog_entry)));
 			g_free(*info);
 			*info = NULL;
 		}
@@ -1461,11 +1483,12 @@ _address_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEdito
 static void
 set_field(GtkEntry *entry, const char *string)
 {
-	char *oldstring = gtk_entry_get_text(entry);
+	char *oldstring = e_utf8_gtk_entry_get_text(entry);
 	if (!string)
 		string = "";
 	if (strcmp(string, oldstring))
-		gtk_entry_set_text(entry, string);
+		e_utf8_gtk_entry_set_text(entry, string);
+	g_free (oldstring);
 }
 
 static void
@@ -1522,8 +1545,11 @@ set_address_field(EContactEditor *editor, int result)
 		editable = GTK_EDITABLE(widget);
 		gtk_editable_delete_text(editable, 0, -1);
 		address = e_card_simple_get_address(editor->simple, result);
-		if (address && address->data)
-			gtk_editable_insert_text(editable, address->data, strlen(address->data), &position);
+		if (address && address->data) {
+			gchar *u = e_utf8_to_gtk_string ((GtkWidget *) editable, address->data);
+			gtk_editable_insert_text(editable, u, strlen(u), &position);
+			g_free (u);
+		}
 
 		editor->address_choice = result;
 	}
@@ -1601,8 +1627,11 @@ fill_in_field(EContactEditor *editor, char *id, char *value)
 		int position = 0;
 		GtkEditable *editable = GTK_EDITABLE(widget);
 		gtk_editable_delete_text(editable, 0, -1);
-		if (value)
-			gtk_editable_insert_text(editable, value, strlen(value), &position);
+		if (value) {
+			gchar *u = e_utf8_to_gtk_string ((GtkWidget *) editable, value);
+			gtk_editable_insert_text(editable, u, strlen(u), &position);
+			g_free (u);
+		}
 	}
 }
 
@@ -1629,8 +1658,11 @@ fill_in_single_field(EContactEditor *editor, char *name)
 		gtk_editable_delete_text(editable, 0, -1);
 		arbitrary = e_card_simple_get_arbitrary(simple,
 							name);
-		if (arbitrary && arbitrary->value)
-			gtk_editable_insert_text(editable, arbitrary->value, strlen(arbitrary->value), &position);
+		if (arbitrary && arbitrary->value) {
+			gchar *u = e_utf8_to_gtk_string ((GtkWidget *) editable, arbitrary->value);
+			gtk_editable_insert_text(editable, u, strlen(u), &position);
+			g_free (u);
+		}
 	}
 }
 
@@ -1705,7 +1737,8 @@ extract_field(EContactEditor *editor, ECard *card, char *editable_id, char *key)
 	GtkWidget *widget = glade_xml_get_widget(editor->gui, editable_id);
 	if (widget && GTK_IS_EDITABLE(widget)) {
 		GtkEditable *editable = GTK_EDITABLE(widget);
-		char *string = gtk_editable_get_chars(editable, 0, -1);
+		char *string = e_utf8_gtk_editable_get_chars(editable, 0, -1);
+
 		if (string && *string)
 			gtk_object_set(GTK_OBJECT(card),
 				       key, string,
@@ -1714,7 +1747,8 @@ extract_field(EContactEditor *editor, ECard *card, char *editable_id, char *key)
 			gtk_object_set(GTK_OBJECT(card),
 				       key, NULL,
 				       NULL);
-		g_free(string);
+
+		if (string) g_free(string);
 	}
 }
 
@@ -1725,7 +1759,7 @@ extract_single_field(EContactEditor *editor, char *name)
 	ECardSimple *simple = editor->simple;
 	if (widget && GTK_IS_EDITABLE(widget)) {
 		GtkEditable *editable = GTK_EDITABLE(widget);
-		char *string = gtk_editable_get_chars(editable, 0, -1);
+		char *string = e_utf8_gtk_editable_get_chars(editable, 0, -1);
 
 		if (string && *string)
 			e_card_simple_set_arbitrary(simple,
@@ -1737,7 +1771,7 @@ extract_single_field(EContactEditor *editor, char *name)
 						    name,
 						    NULL,
 						    NULL);
-		g_free(string);
+		if (string) g_free(string);
 	}
 }
 
@@ -1757,12 +1791,14 @@ extract_info(EContactEditor *editor)
 		widget = glade_xml_get_widget(editor->gui, "entry-file-as");
 		if (widget && GTK_IS_EDITABLE(widget)) {
 			GtkEditable *editable = GTK_EDITABLE(widget);
-			char *string = gtk_editable_get_chars(editable, 0, -1);
+			char *string = e_utf8_gtk_editable_get_chars(editable, 0, -1);
+
 			if (string && *string)
 				gtk_object_set(GTK_OBJECT(card),
 					       "file_as", string,
 					       NULL);
-			g_free(string);
+
+			if (string) g_free(string);
 		}
 
 		for (i = 0; i < sizeof(field_mapping) / sizeof(field_mapping[0]); i++) {
