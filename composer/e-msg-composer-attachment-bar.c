@@ -31,6 +31,7 @@
 #include <glade/glade.h>
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
+#include <gdk/gdkkeysyms.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-app-helper.h>
@@ -331,7 +332,7 @@ remove_selected (EMsgComposerAttachmentBar *bar)
 	GnomeIconList *icon_list;
 	EMsgComposerAttachment *attachment;
 	GList *attachment_list, *p;
-	int num;
+	int num = 0, left, dlen;
 	
 	icon_list = GNOME_ICON_LIST (bar);
 	
@@ -341,6 +342,7 @@ remove_selected (EMsgComposerAttachmentBar *bar)
 	
 	attachment_list = NULL;
 	p = gnome_icon_list_get_selection (icon_list);
+	dlen = g_list_length (p);
 	for ( ; p != NULL; p = p->next) {
 		num = GPOINTER_TO_INT (p->data);
 		attachment = E_MSG_COMPOSER_ATTACHMENT (g_list_nth_data (bar->priv->attachments, num));
@@ -360,6 +362,11 @@ remove_selected (EMsgComposerAttachmentBar *bar)
 	g_list_free (attachment_list);
 	
 	update (bar);
+	
+	left = gnome_icon_list_get_num_icons (icon_list);
+	num = num - dlen + 1;
+	if (left > 0)
+		gnome_icon_list_focus_icon (icon_list, left > num ? num : left - 1);
 }
 
 static void
@@ -597,6 +604,23 @@ button_press_event (GtkWidget *widget,
 	return TRUE;
 }
 
+static gint
+key_press_event (GtkWidget *widget, GdkEventKey *event)
+{
+        EMsgComposerAttachmentBar *bar;
+        GnomeIconList *icon_list;
+	
+        bar = E_MSG_COMPOSER_ATTACHMENT_BAR (widget);
+        icon_list = GNOME_ICON_LIST (bar);                                                                                 
+                                                                                
+        if (event->keyval == GDK_Delete) {
+                remove_selected (bar);
+                return TRUE;
+        }
+                                                                                
+        return GTK_WIDGET_CLASS (parent_class)->key_press_event (widget, event);
+}
+
 
 /* Initialization.  */
 
@@ -617,6 +641,7 @@ class_init (EMsgComposerAttachmentBarClass *klass)
 	
 	widget_class->button_press_event = button_press_event;
 	widget_class->popup_menu = popup_menu_event;
+	widget_class->key_press_event = key_press_event;
 
 	
 	/* Setup signals.  */

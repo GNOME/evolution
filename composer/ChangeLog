@@ -1,3 +1,10 @@
+2004-02-27  Bruce Tao <bruce.tao@sun.com>
+
+	* e-msg-composer-attachment-bar.c: add a key-press event handler, 
+	with which a little modification to Paolo Borelli's patch.
+	 <pborelli@katamail.com> When one attachment is deleted, the 
+	icon right after the last deleted one will be focused.
+
 2004-02-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (set_editor_text): Add a <br> tag between the
