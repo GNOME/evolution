@@ -6,6 +6,7 @@
 #include <unicode.h>
 #include <ctype.h>
 #include <string.h>
+#include <errno.h>
 
 #include "ibex_internal.h"
 
