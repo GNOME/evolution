@@ -1,3 +1,9 @@
+2003-04-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (autosave_save_draft): If the composer isn't
+	'dirty', then don't autosave the draft (no need to). Fixes bug
+	#40764.
+
 2003-04-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (menu_edit_select_all_cb): Add a select-all

@@ -1240,6 +1240,9 @@ autosave_save_draft (EMsgComposer *composer)
 	int fd, camelfd;
 	gboolean success = TRUE;
 	
+	if (!e_msg_composer_is_dirty (composer))
+		return TRUE;
+	
 	fd = composer->autosave_fd;
 	file = composer->autosave_file;
 	
