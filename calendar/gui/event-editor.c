@@ -33,6 +33,7 @@
 #include <gal/widgets/e-categories.h>
 #include <cal-util/timeutil.h>
 #include "dialogs/delete-comp.h"
+#include "dialogs/save-comp.h"
 #include "calendar-config.h"
 #include "event-editor.h"
 #include "e-meeting-edit.h"
@@ -3265,17 +3266,7 @@ prompt_to_save_changes		(EventEditor	*ee)
 	if (!priv->changed)
 		return TRUE;
 
-	dialog = gnome_message_box_new (_("Do you want to save changes?"),
-					GNOME_MESSAGE_BOX_QUESTION,
-					GNOME_STOCK_BUTTON_YES,
-					GNOME_STOCK_BUTTON_NO,
-					GNOME_STOCK_BUTTON_CANCEL,
-					NULL);
-
-	gnome_dialog_set_parent (GNOME_DIALOG (dialog),
-				 GTK_WINDOW (priv->app));
-
-	switch (gnome_dialog_run_and_close (GNOME_DIALOG (dialog))) {
+	switch (save_component_dialog (GTK_WINDOW (priv->app))) {
 	case 0: /* Save */
 		/* FIXME: If an error occurs here, we should popup a dialog
 		   and then return FALSE. */

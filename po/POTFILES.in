@@ -48,6 +48,7 @@ calendar/gui/dialogs/alarm-notify-dialog.c
 calendar/gui/dialogs/alarm-notify.glade
 calendar/gui/dialogs/cal-prefs-dialog.glade
 calendar/gui/dialogs/delete-comp.c
+calendar/gui/dialogs/save-comp.c
 calendar/gui/dialogs/task-editor-dialog.glade
 calendar/gui/dialogs/task-editor.c
 calendar/gui/e-calendar-table.c

@@ -38,6 +38,7 @@
 #include <widgets/misc/e-dateedit.h>
 #include <cal-util/timeutil.h>
 #include "delete-comp.h"
+#include "save-comp.h"
 #include "task-editor.h"
 #include "../calendar-config.h"
 #include "../widget-util.h"
@@ -1294,17 +1295,7 @@ prompt_to_save_changes		(TaskEditor	*tedit)
 	if (!priv->changed)
 		return TRUE;
 
-	dialog = gnome_message_box_new (_("Do you want to save changes?"),
-					GNOME_MESSAGE_BOX_QUESTION,
-					GNOME_STOCK_BUTTON_YES,
-					GNOME_STOCK_BUTTON_NO,
-					GNOME_STOCK_BUTTON_CANCEL,
-					NULL);
-
-	gnome_dialog_set_parent (GNOME_DIALOG (dialog),
-				 GTK_WINDOW (priv->app));
-
-	switch (gnome_dialog_run_and_close (GNOME_DIALOG (dialog))) {
+	switch (save_component_dialog (GTK_WINDOW (priv->app))) {
 	case 0: /* Save */
 		/* FIXME: If an error occurs here, we should popup a dialog
 		   and then return FALSE. */

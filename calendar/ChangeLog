@@ -1,5 +1,19 @@
 2001-01-22  JP Rosevear  <jpr@ximian.com>
 
+	* gui/dialogs/Makefile.am: compile new stuff
+
+	* gui/dialogs/task-editor.c (prompt_to_save_changes): use new
+	standard dialog
+
+	* gui/event-editor.c (prompt_to_save_changes): ditto
+
+	* gui/dialogs/save-comp.h: new header
+
+	* gui/dialogs/save-comp.c (save_component_dialog): shows the save 
+	dialog
+	
+2001-01-22  JP Rosevear  <jpr@ximian.com>
+
 	* conduits/todo/todo-conduit.c (for_each_modified): remove duplicate
 	message
 

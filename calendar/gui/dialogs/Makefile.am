@@ -21,6 +21,8 @@ libcal_dialogs_a_SOURCES =	\
 	cal-prefs-dialog.h	\
 	delete-comp.c		\
 	delete-comp.h		\
+	save-comp.c		\
+	save-comp.h		\
 	task-editor.c		\
 	task-editor.h
 
