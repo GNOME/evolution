@@ -41,8 +41,8 @@
 #include "e-util/e-memory.h"
 #include "camel-search-private.h"
 
-#define d(x)
-#define r(x)
+#define d(x) 
+#define r(x) 
 
 struct _CamelFolderSearchPrivate {
 	GHashTable *mempool_hash;
@@ -465,6 +465,8 @@ search_match_all(struct _ESExp *f, int argc, struct _ESExpTerm **argv, CamelFold
 	if (search->match1) {
 		search->current = search->match1;
 
+		d(printf("matching against 1 message: %s\n", camel_message_info_subject(search->current)));
+
 		if (argc>0) {
 			r1 = e_sexp_term_eval(f, argv[0]);
 			if (r1->type == ESEXP_RES_BOOL) {
@@ -518,7 +520,7 @@ check_header(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolder
 	ESExpResult *r;
 	int truth = FALSE;
 
-	r(printf("executing check-header\n"));
+	r(printf("executing check-header %d\n", how));
 
 	/* are we inside a match-all? */
 	if (search->current && argc>1

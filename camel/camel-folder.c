@@ -1163,6 +1163,7 @@ freeze (CamelFolder *folder)
 
 	folder->priv->frozen++;
 
+	printf("freeze(%p) = %d\n", folder, folder->priv->frozen);
 	CAMEL_FOLDER_UNLOCK(folder, change_lock);
 }
 
@@ -1192,6 +1193,9 @@ thaw (CamelFolder * folder)
 	CAMEL_FOLDER_LOCK(folder, change_lock);
 
 	folder->priv->frozen--;
+
+	printf("thaw(%p) = %d\n", folder, folder->priv->frozen);
+
 	if (folder->priv->frozen == 0) {
 		/* If we have more or less messages, do a folder changed, otherwise just
 		   do a message changed for each one.
@@ -1235,6 +1239,8 @@ folder_changed (CamelObject *obj, gpointer event_data)
 	CamelFolderChangeInfo *changed = event_data;
 	gboolean ret = TRUE;
 
+	printf("folder_changed(%p, %p), frozen=%d\n", obj, event_data, folder->priv->frozen);
+
 	if (folder->priv->frozen) {
 		CAMEL_FOLDER_LOCK(folder, change_lock);
 
@@ -1256,6 +1262,8 @@ message_changed (CamelObject *obj, /*const char *uid*/gpointer event_data)
 {
 	CamelFolder *folder = CAMEL_FOLDER (obj);
 	gboolean ret = TRUE;
+
+	printf("message_changed(%p, %p), frozen=%d\n", folder, event_data, folder->priv->frozen);
 
 	if (folder->priv->frozen) {
 		CAMEL_FOLDER_LOCK(folder, change_lock);

@@ -89,5 +89,5 @@ camel_vee_store_new (void)
 static CamelFolder *
 vee_get_folder (CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex)
 {
-	return camel_vee_folder_new (store, folder_name, ex);
+	return camel_vee_folder_new(store, folder_name, flags, ex);
 }

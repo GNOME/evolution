@@ -24,9 +24,6 @@
 
 #include <camel/camel-folder.h>
 
-/* try the dynamic update version */
-#define DYNAMIC
-
 #define CAMEL_VEE_FOLDER(obj)         CAMEL_CHECK_CAST (obj, camel_vee_folder_get_type (), CamelVeeFolder)
 #define CAMEL_VEE_FOLDER_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_vee_folder_get_type (), CamelVeeFolderClass)
 #define CAMEL_IS_VEE_FOLDER(obj)      CAMEL_CHECK_TYPE (obj, camel_vee_folder_get_type ())
@@ -43,10 +40,10 @@ struct _CamelVeeFolder {
 	char *vname;		/* local name */
 	CamelFolder *local;	/* local storage for folder */
 
+	guint32 flags;		/* folder open flags */
+
 	CamelFolderChangeInfo *changes;
-#ifdef DYNAMIC
 	CamelFolderSearch *search;
-#endif
 };
 
 struct _CamelVeeFolderClass {
@@ -54,9 +51,7 @@ struct _CamelVeeFolderClass {
 };
 
 guint		camel_vee_folder_get_type	(void);
-CamelFolder    *camel_vee_folder_new		(CamelStore *parent_store,
-						 const char *name,
-						 CamelException *ex);
+CamelFolder    *camel_vee_folder_new		(CamelStore *parent_store, const char *name, guint32 flags, CamelException *ex);
 
 void camel_vee_folder_add_folder(CamelVeeFolder *vf, CamelFolder *sub);
 

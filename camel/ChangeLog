@@ -1,3 +1,49 @@
+2001-02-19  Not Zed  <NotZed@Ximian.com>
+
+	* providers/vee/camel-vee-folder.c (camel_vee_folder_new): Added
+	flags argument.
+	(message_changed): Add support for the auto-update flag, in which
+	case we auto-match the content as it changes.
+	(camel_vee_folder_init): Remoive "DYNAMIC" optionality
+	(camel_vee_folder_finalise): "
+	(vee_expunge): As we expunge folders, re-sync their content by
+	rerunning the query.
+
+	* providers/vee/camel-vee-store.c (vee_get_folder): Pass flags to
+	folder new.
+
+2001-02-18  Not Zed  <NotZed@Ximian.com>
+
+	* providers/vee/Makefile.am (noinst_HEADERS): Added
+	camel-vee-private.h.
+
+	* providers/vee/camel-vee-private.h: New file to add locking stuff
+	for vee folders.
+
+	* providers/vee/camel-vee-folder.c (camel_vee_folder_new): Add
+	locking around unmatched setup.
+	(camel_vee_folder_init): Setup lock.
+	(camel_vee_folder_finalise): Free locks.
+	(folder_changed): Add locking.
+	(unmatched_finalise): "
+	(message_changed): "
+	(vee_folder_build): "
+
+2001-02-17  Not Zed  <NotZed@Ximian.com>
+
+	* providers/vee/camel-vee-folder.c (vee_folder_add): Check uid
+	doesn't exist before adding it.
+
+2001-02-16  Not Zed  <NotZed@Ximian.com>
+
+	* providers/vee/camel-vee-folder.c (camel_vee_folder_new): Create
+	a new virtual virtual folder UNMATCHED, to store all messages that
+	dont match other vfolders.
+	(unmatched_folder_changed): When a vfolder issues a changed event,
+	use its info to update the unmatched folder info.
+	(unmatched_finalise): When a vfolder is finalised, remove any uids
+	it has as if we had a removed event for it.
+
 2001-02-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-filter-driver.c (camel_filter_driver_finalise): Thaw the

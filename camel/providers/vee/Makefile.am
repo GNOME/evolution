@@ -28,6 +28,9 @@ libcamelveeinclude_HEADERS =			\
 	camel-vee-folder.h			\
 	camel-vee-store.h
 
+noinst_HEADERS =				\
+	camel-vee-private.h
+
 libcamelvee_la_LDFLAGS = -version-info 0:0:0
 
 libcamelvee_la_LIBADD = $(top_builddir)/e-util/libeutil.la $(top_builddir)/libibex/libibex.la $(UNICODE_LIBS)
