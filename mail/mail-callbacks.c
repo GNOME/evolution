@@ -791,48 +791,43 @@ send_to_url (const char *url)
 
 static GList *
 list_add_addresses (GList *list, const CamelInternetAddress *cia, const GSList *accounts,
-		    GHashTable *rcpt_hash, const MailConfigAccount **me,
-		    const char *ignore_addr)
+		    GHashTable *rcpt_hash, const MailConfigAccount **me)
 {
+	const MailConfigAccount *account;
+	GHashTable *account_hash;
 	const char *name, *addr;
 	const GSList *l;
-	gboolean notme;
 	int i;
 	
-	for (i = 0; camel_internet_address_get (cia, i, &name, &addr); i++) {
-		/* Make sure we don't want to ignore this address */
-		if (!ignore_addr || g_strcasecmp (ignore_addr, addr)) {
-			
-			/* Here I'll check to see if the cc:'d address is the address
-			   of the sender, and if so, don't add it to the cc: list; this
-			   is to fix Bugzilla bug #455. */
-			notme = TRUE;
-			l = accounts;
-			while (l) {
-				const MailConfigAccount *acnt = l->data;
-				
-				if (!g_strcasecmp (acnt->id->address, addr)) {
-					notme = FALSE;
-					if (me && !*me)
-						*me = acnt;
-					break;
-				}
-				
-				l = l->next;
-			}
-			
-			if (notme && !g_hash_table_lookup (rcpt_hash, addr)) {
-				EDestination *dest;
-				
-				dest = e_destination_new ();
-				e_destination_set_name (dest, name);
-				e_destination_set_email (dest, addr);
-				
-				list = g_list_append (list, dest);
-				g_hash_table_insert (rcpt_hash, (char *) addr, GINT_TO_POINTER (1));
-			} 
-		}
+	account_hash = g_hash_table_new (g_strcase_hash, g_strcase_equal);
+	l = accounts;
+	while (l) {
+		account = l->data;
+		g_hash_table_insert (account_hash, (char *) account->id->address, (void *) account);
+		l = l->next;
 	}
+	
+	for (i = 0; camel_internet_address_get (cia, i, &name, &addr); i++) {
+		/* Here I'll check to see if the cc:'d address is the address
+		   of the sender, and if so, don't add it to the cc: list; this
+		   is to fix Bugzilla bug #455. */
+		account = g_hash_table_lookup (account_hash, addr);
+		if (account && me && !*me)
+			*me = account;
+		
+		if (!account && !g_hash_table_lookup (rcpt_hash, addr)) {
+			EDestination *dest;
+			
+			dest = e_destination_new ();
+			e_destination_set_name (dest, name);
+			e_destination_set_email (dest, addr);
+			
+			list = g_list_append (list, dest);
+			g_hash_table_insert (rcpt_hash, (char *) addr, GINT_TO_POINTER (1));
+		} 
+	}
+	
+	g_hash_table_destroy (account_hash);
 	
 	return list;
 }
@@ -975,14 +970,16 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	} else {
 		GHashTable *rcpt_hash;
 		
-		rcpt_hash = g_hash_table_new (g_str_hash, g_str_equal);
+		rcpt_hash = g_hash_table_new (g_strcase_hash, g_strcase_equal);
 		
 		reply_to = camel_mime_message_get_reply_to (message);
 		if (!reply_to)
 			reply_to = camel_mime_message_get_from (message);
 		if (reply_to) {
-			/* Get the Reply-To address so we can ignore references to it in the Cc: list */
-			if (camel_internet_address_get (reply_to, 0, &name, &reply_addr)) {
+			int i;
+			
+			for (i = 0; camel_internet_address_get (reply_to, i, &name, &reply_addr); i++) {
+				/* Get the Reply-To address so we can ignore references to it in the Cc: list */
 				EDestination *dest;
 				
 				dest = e_destination_new ();
@@ -994,8 +991,8 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 		}
 		
 		if (mode == REPLY_ALL) {
-			cc = list_add_addresses (cc, to_addrs, accounts, rcpt_hash, &me, NULL);
-			cc = list_add_addresses (cc, cc_addrs, accounts, rcpt_hash, me ? NULL : &me, reply_addr);
+			cc = list_add_addresses (cc, to_addrs, accounts, rcpt_hash, &me);
+			cc = list_add_addresses (cc, cc_addrs, accounts, rcpt_hash, me ? NULL : &me);
 		} else {
 			me = guess_me (to_addrs, cc_addrs, accounts);
 		}
