@@ -3,8 +3,8 @@
 	* mail-format.c (setup_mime_tables): Handle application/pgp using
 	the text/plain handler.
 
-	* mail-account-gui.c (get_sensitive_widget): New function to determine
-	which widget is focused.
+	* mail-account-gui.c (get_focused_widget): New function to
+	determine which widget is focused.
 
 	* mail-account-editor.c (apply_changes): Not only flip to the
 	notebook page that wasn't finished, but also grab the focus of the

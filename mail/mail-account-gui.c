@@ -62,7 +62,7 @@ is_email (const char *address)
 }
 
 static GtkWidget *
-get_sensitive_widget (GtkWidget *def, ...)
+get_focused_widget (GtkWidget *def, ...)
 {
 	GtkWidget *widget, *ret = NULL;
 	va_list args;
@@ -93,18 +93,18 @@ mail_account_gui_identity_complete (MailAccountGui *gui, GtkWidget **incomplete)
 	text = gtk_entry_get_text (gui->full_name);
 	if (!text || !*text) {
 		if (incomplete)
-			*incomplete = get_sensitive_widget (GTK_WIDGET (gui->full_name),
-							    GTK_WIDGET (gui->email_address),
-							    NULL);
+			*incomplete = get_focused_widget (GTK_WIDGET (gui->full_name),
+							  GTK_WIDGET (gui->email_address),
+							  NULL);
 		return FALSE;
 	}
 	
 	text = gtk_entry_get_text (gui->email_address);
 	if (!text || !is_email (text)) {
 		if (incomplete)
-			*incomplete = get_sensitive_widget (GTK_WIDGET (gui->email_address),
-							    GTK_WIDGET (gui->full_name),
-							    NULL);
+			*incomplete = get_focused_widget (GTK_WIDGET (gui->email_address),
+							  GTK_WIDGET (gui->full_name),
+							  NULL);
 		return FALSE;
 	}
 	
@@ -124,10 +124,10 @@ service_complete (MailAccountGuiService *service, GtkWidget **incomplete)
 		text = gtk_entry_get_text (service->hostname);
 		if (!text || !*text) {
 			if (incomplete)
-				*incomplete = get_sensitive_widget (GTK_WIDGET (service->hostname),
-								    GTK_WIDGET (service->username),
-								    GTK_WIDGET (service->path),
-								    NULL);
+				*incomplete = get_focused_widget (GTK_WIDGET (service->hostname),
+								  GTK_WIDGET (service->username),
+								  GTK_WIDGET (service->path),
+								  NULL);
 			return FALSE;
 		}
 	}
@@ -136,10 +136,10 @@ service_complete (MailAccountGuiService *service, GtkWidget **incomplete)
 		text = gtk_entry_get_text (service->username);
 		if (!text || !*text) {
 			if (incomplete)
-				*incomplete = get_sensitive_widget (GTK_WIDGET (service->username),
-								    GTK_WIDGET (service->path),
-								    GTK_WIDGET (service->hostname),
-								    NULL);
+				*incomplete = get_focused_widget (GTK_WIDGET (service->username),
+								  GTK_WIDGET (service->path),
+								  GTK_WIDGET (service->hostname),
+								  NULL);
 			return FALSE;
 		}
 	}
@@ -148,10 +148,10 @@ service_complete (MailAccountGuiService *service, GtkWidget **incomplete)
 		text = gtk_entry_get_text (service->path);
 		if (!text || !*text) {
 			if (incomplete)
-				*incomplete = get_sensitive_widget (GTK_WIDGET (service->path),
-								    GTK_WIDGET (service->hostname),
-								    GTK_WIDGET (service->username),
-								    NULL);
+				*incomplete = get_focused_widget (GTK_WIDGET (service->path),
+								  GTK_WIDGET (service->hostname),
+								  GTK_WIDGET (service->username),
+								  NULL);
 			return FALSE;
 		}
 	}
@@ -178,9 +178,9 @@ mail_account_gui_transport_complete (MailAccountGui *gui, GtkWidget **incomplete
 		
 		if (!text || !*text) {
 			if (incomplete)
-				*incomplete = get_sensitive_widget (GTK_WIDGET (gui->transport.username),
-								    GTK_WIDGET (gui->transport.hostname),
-								    NULL);
+				*incomplete = get_focused_widget (GTK_WIDGET (gui->transport.username),
+								  GTK_WIDGET (gui->transport.hostname),
+								  NULL);
 			return FALSE;
 		}
 	}
