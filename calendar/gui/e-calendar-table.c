@@ -1028,7 +1028,7 @@ static gboolean
 e_calendar_table_on_popup_menu (GtkWidget *widget, gpointer data)
 {
 	ETable *table = E_TABLE(widget);
-	g_return_if_fail(table);
+	g_return_val_if_fail(table, FALSE);
 
 	return e_calendar_table_show_popup_menu (table, NULL,
 						 E_CALENDAR_TABLE(data));
