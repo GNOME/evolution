@@ -310,7 +310,7 @@ camel_iconv_open (const char *to, const char *from)
 size_t
 camel_iconv (iconv_t cd, const char **inbuf, size_t *inleft, char **outbuf, size_t *outleft)
 {
-	return iconv (cd, (ICONV_CONST char **) inbuf, inleft, outbuf, outleft);
+	return iconv (cd, inbuf, inleft, outbuf, outleft);
 }
 
 
