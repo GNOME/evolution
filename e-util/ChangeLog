@@ -1,3 +1,12 @@
+2001-01-29  Not Zed  <NotZed@Ximian.com>
+
+	* e-msgport.c (e_thread_put): If we have waiting threads, then
+	dont start a new one for the NEW case.
+	(thread_dispatch): For the NEW case, dont exit, just keep running,
+	waiting for a new message to come along.
+	(e_thread_destroy): When cleaning up NEW threads, cancel any
+	non-busy threads.
+
 2001-01-24  Not Zed  <NotZed@Ximian.com>
 
 	* e-sexp.h (ESExp): Add chunk allocators.
