@@ -1,7 +1,7 @@
 ## CORBA stuff
 
 IDLS =                          \
-        Evolution-Composer.idl  
+        $(srcdir)/../../composer/Evolution-Composer.idl
 
 IDL_GENERATED =                 \
         Evolution-Composer.h              \
@@ -11,7 +11,7 @@ IDL_GENERATED =                 \
 
 $(IDL_GENERATED): $(IDLS) 
 	$(ORBIT_IDL) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`   \
-                -I . Evolution-Composer.idl
+                -I . $(srcdir)/../../composer/Evolution-Composer.idl
 
 ##
 

@@ -3,6 +3,12 @@
 	* removed the Evolution-Composer generated files, due
 	to a tip on how we do things.	
 
+	* gui/e-meeting-edit.c: I fixed a bunch of memory-deallocation
+	bugs, and finished the initial integration with the mailer.
+	
+	* gui/Makefile.am: made the build us the Evolution-Composer.idl
+	from the composer directory.
+
 2000-10-25  Jesse Pavel <jpavel@helixcode.com>
 
 	* gui/Evolution-Composer.idl: added this from the composer IDL sources

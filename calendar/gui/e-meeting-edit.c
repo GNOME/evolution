@@ -641,6 +641,7 @@ send_button_clicked_cb (GtkWidget *widget, gpointer data)
 		recipient = &(to_list->_buffer[cntr]);
 		CORBA_free (recipient->name);
 		CORBA_free (recipient->address);
+		recipient->name = recipient->address = NULL;
 	}
 
 	CORBA_free (to_list->_buffer);
@@ -654,8 +655,7 @@ send_button_clicked_cb (GtkWidget *widget, gpointer data)
 	CORBA_free (description);
 	CORBA_free (attach_data);
 
-	bonobo_object_unref (BONOBO_OBJECT (bonobo_server));
-
+	bonobo_object_unref (BONOBO_OBJECT (bonobo_server)); 
 }
 
 	
