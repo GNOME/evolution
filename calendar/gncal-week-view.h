@@ -11,6 +11,7 @@
 
 #include <gtk/gtktable.h>
 #include <libgnome/gnome-defs.h>
+#include <libgnomeui/gtkcalendar.h>
 #include "gncal-day-view.h"
 
 
@@ -33,6 +34,7 @@ struct _GncalWeekView {
 	struct tm start_of_week;
 
 	GncalDayView *days[7];		/* the day view widgets */
+	GtkCalendar  *gtk_calendar;     /* At least for now; see the FIXME comments in the .c file */
 };
 
 struct _GncalWeekViewClass {

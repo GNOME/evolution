@@ -285,7 +285,7 @@ gncal_day_view_update (GncalDayView *dview)
 	if (dview->day_str)
 		g_free (dview->day_str);
 
-	tm = *localtime_r (&dview->lower);
+	tm = *localtime (&dview->lower);
 	strftime (buf, 256, "%A %d", &tm);
 	dview->day_str = g_strdup (buf);
 

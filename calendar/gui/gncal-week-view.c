@@ -5,6 +5,7 @@
  * Author: Federico Mena <federico@nuclecu.unam.mx>
  */
 
+#include <string.h>
 #include "gncal-week-view.h"
 
 
@@ -43,6 +44,8 @@ gncal_week_view_init (GncalWeekView *wview)
 
 	for (i = 0; i < 7; i++)
 		wview->days[i] = NULL;
+
+	wview->gtk_calendar = NULL;
 }
 
 GtkWidget *
@@ -80,6 +83,22 @@ gncal_week_view_new (Calendar *calendar, time_t start_of_week)
 		gtk_widget_show (GTK_WIDGET (wview->days[i]));
 	}
 
+	/* FIXME: for now this is a plain calendar (for not having anything better to put
+	 * there).  In the final version it should be a nice days/hours matrix with
+	 * "event density" display as in Sun's "cm" program.
+	 */
+
+	wview->gtk_calendar = GTK_CALENDAR (gtk_calendar_new ());
+	gtk_calendar_display_options (wview->gtk_calendar,
+				      GTK_CALENDAR_SHOW_HEADING | GTK_CALENDAR_SHOW_DAY_NAMES);
+	gtk_table_attach (GTK_TABLE (wview), GTK_WIDGET (wview->gtk_calendar),
+			  0, 3,
+			  1, 2,
+			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			  4, 4);
+	gtk_widget_show (GTK_WIDGET (wview->gtk_calendar));
+
 	gncal_week_view_set (wview, start_of_week);
 
 	return GTK_WIDGET (wview);
@@ -111,15 +130,16 @@ gncal_week_view_set (GncalWeekView *wview, time_t start_of_week)
 {
 	struct tm tm;
 	time_t day_start, day_end;
+	int i;
 
 	g_return_if_fail (wview != NULL);
 	g_return_if_fail (GNCAL_IS_WEEK_VIEW (wview));
 
 	tm = *localtime (&start_of_week);
 	
-	/* back up to start of week */
+	/* back up to start of week (Monday) */
 
-	tm.tm_mday -= tm.tm_wday;
+	tm.tm_mday -= (tm.tm_wday == 0) ? 6 : (tm.tm_wday - 1);
 
 	/* Start of day */
 
@@ -129,11 +149,17 @@ gncal_week_view_set (GncalWeekView *wview, time_t start_of_week)
 
 	day_start = mktime (&tm);
 
+	/* Calendar */
+
+	gtk_calendar_select_month (wview->gtk_calendar, tm.tm_mon + 1, tm.tm_year + 1900);
+
+	/* Day views */
+
 	for (i = 0; i < 7; i++) { /* rest of days */
 		tm.tm_mday++;
 		day_end = mktime (&tm);
 
-		gncal_day_view_set_bounds (days[i], day_start, day_end - 1);
+		gncal_day_view_set_bounds (wview->days[i], day_start, day_end - 1);
 
 		day_start = day_end;
 	}
