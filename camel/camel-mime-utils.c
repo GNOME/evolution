@@ -2855,26 +2855,24 @@ camel_header_newsgroups_decode(const char *in)
 	const char *inptr = in;
 	register char c;
 	struct _camel_header_newsgroup *head, *last, *ng;
+	const char *start;
 
 	head = NULL;
 	last = (struct _camel_header_newsgroup *)&head;
 
-	c = *in;
-	while (c) {
-		const char *start;
-
+	do {
 		header_decode_lwsp(&inptr);
-		start = in;
-		while ((c = *in++) && !camel_mime_is_lwsp(c) && c != ',')
+		start = inptr;
+		while ((c = *inptr++) && !camel_mime_is_lwsp(c) && c != ',')
 			;
-		if (start != in) {
+		if (start != inptr-1) {
 			ng = g_malloc(sizeof(*ng));
-			ng->newsgroup = g_strndup(start, in-start);
+			ng->newsgroup = g_strndup(start, inptr-start-1);
 			ng->next = NULL;
 			last->next = ng;
 			last = ng;
 		}
-	}
+	} while (c);
 
 	return head;
 }
