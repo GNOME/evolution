@@ -294,39 +294,7 @@ async_folder_cb (BonoboListener *listener, char *event_name,
 	EStorageResult result;
 
 	corba_result = any->_value;
-	switch (*corba_result) {
-	case GNOME_Evolution_Storage_OK:
-		result = E_STORAGE_OK;
-		break;
-	case GNOME_Evolution_Storage_UNSUPPORTED_OPERATION:
-		result = E_STORAGE_UNSUPPORTEDOPERATION;
-		break;
-	case GNOME_Evolution_Storage_UNSUPPORTED_TYPE:
-		result = E_STORAGE_UNSUPPORTEDTYPE;
-		break;
-	case GNOME_Evolution_Storage_INVALID_URI:
-		result = E_STORAGE_INVALIDNAME;
-		break;
-	case GNOME_Evolution_Storage_ALREADY_EXISTS:
-		result = E_STORAGE_EXISTS;
-		break;
-	case GNOME_Evolution_Storage_DOES_NOT_EXIST:
-		result = E_STORAGE_NOTFOUND;
-		break;
-	case GNOME_Evolution_Storage_PERMISSION_DENIED:
-		result = E_STORAGE_PERMISSIONDENIED;
-		break;
-	case GNOME_Evolution_Storage_NO_SPACE:
-		result = E_STORAGE_NOSPACE;
-		break;
-	case GNOME_Evolution_Storage_NOT_EMPTY:
-		result = E_STORAGE_NOTEMPTY;
-		break;
-	case GNOME_Evolution_Storage_GENERIC_ERROR:
-	default:
-		result = E_STORAGE_GENERICERROR;
-		break;
-	}
+	result = e_corba_storage_corba_result_to_storage_result (*corba_result);
 
 	(* closure->callback) (closure->storage, result, closure->data);
 	bonobo_object_unref (BONOBO_OBJECT (listener));
@@ -712,6 +680,34 @@ e_corba_storage_show_folder_properties (ECorbaStorage *corba_storage,
 		g_warning ("Error in Storage::showFolderProperties -- %s", BONOBO_EX_ID (&ev));
 
 	CORBA_exception_free (&ev);
+}
+
+EStorageResult
+e_corba_storage_corba_result_to_storage_result (GNOME_Evolution_Storage_Result corba_result)
+{
+	switch (corba_result) {
+	case GNOME_Evolution_Storage_OK:
+		return E_STORAGE_OK;
+	case GNOME_Evolution_Storage_UNSUPPORTED_OPERATION:
+		return E_STORAGE_UNSUPPORTEDOPERATION;
+	case GNOME_Evolution_Storage_UNSUPPORTED_TYPE:
+		return E_STORAGE_UNSUPPORTEDTYPE;
+	case GNOME_Evolution_Storage_INVALID_URI:
+		return E_STORAGE_INVALIDNAME;
+	case GNOME_Evolution_Storage_ALREADY_EXISTS:
+		return E_STORAGE_EXISTS;
+	case GNOME_Evolution_Storage_DOES_NOT_EXIST:
+		return E_STORAGE_NOTFOUND;
+	case GNOME_Evolution_Storage_PERMISSION_DENIED:
+		return E_STORAGE_PERMISSIONDENIED;
+	case GNOME_Evolution_Storage_NO_SPACE:
+		return E_STORAGE_NOSPACE;
+	case GNOME_Evolution_Storage_NOT_EMPTY:
+		return E_STORAGE_NOTEMPTY;
+	case GNOME_Evolution_Storage_GENERIC_ERROR:
+	default:
+		return E_STORAGE_GENERICERROR;
+	}
 }
 
 

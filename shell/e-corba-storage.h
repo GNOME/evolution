@@ -80,6 +80,7 @@ void e_corba_storage_show_folder_properties (ECorbaStorage *corba_storage,
 					     const char *path,
 					     int property_item_id,
 					     GdkWindow *parent_window);
+EStorageResult e_corba_storage_corba_result_to_storage_result (GNOME_Evolution_Storage_Result corba_result);
 
 #ifdef __cplusplus
 }

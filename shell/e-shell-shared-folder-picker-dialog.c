@@ -346,7 +346,7 @@ create_progress_dialog (EShell *shell,
 	GtkWidget *dialog;
 	GtkWidget *label;
 	GtkWidget *progress_bar;
-	int progress_bar_timeout_id;
+	int timeout_id;
 	char *text;
 
 	dialog = gnome_dialog_new (_("Opening Folder"), GNOME_STOCK_BUTTON_CANCEL, NULL);
@@ -370,12 +370,16 @@ create_progress_dialog (EShell *shell,
 	gtk_progress_set_activity_mode (GTK_PROGRESS (progress_bar), TRUE);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), progress_bar, FALSE, TRUE, 0);
 
-	progress_bar_timeout_id = g_timeout_add (50, progress_bar_timeout_callback, progress_bar);
+	timeout_id = g_timeout_add (50, progress_bar_timeout_callback, progress_bar);
 	gtk_signal_connect (GTK_OBJECT (progress_bar), "destroy",
 			    GTK_SIGNAL_FUNC (progress_bar_destroy_callback),
-			    GINT_TO_POINTER (progress_bar_timeout_id));
+			    GINT_TO_POINTER (timeout_id));
 
-	g_timeout_add (PROGRESS_DIALOG_DELAY, progress_dialog_show_timeout_callback, dialog);
+	timeout_id = g_timeout_add (PROGRESS_DIALOG_DELAY, progress_dialog_show_timeout_callback, dialog);
+	gtk_signal_connect (GTK_OBJECT (progress_bar), "destroy",
+			    GTK_SIGNAL_FUNC (progress_bar_destroy_callback),
+			    GINT_TO_POINTER (timeout_id));
+
 	return dialog;
 }
 
@@ -432,24 +436,39 @@ shared_folder_discovery_listener_callback (BonoboListener *listener,
 {
 	GNOME_Evolution_Storage_FolderResult *result;
 	DiscoveryData *discovery_data;
+	EShell *shell;
+	EShellView *parent;
+	EStorage *storage;
 
 	discovery_data = (DiscoveryData *) data;
-	result = (GNOME_Evolution_Storage_FolderResult *) value->_value;
+	shell = discovery_data->shell;
+	parent = discovery_data->parent;
+	storage = discovery_data->storage;
 
+	/* Make sure the progress dialog doesn't show up now. */
 	cleanup_discovery (discovery_data);
 
-	if (result == GNOME_Evolution_Storage_OK) {
+	result = (GNOME_Evolution_Storage_FolderResult *) value->_value;
+	if (result->result == GNOME_Evolution_Storage_OK) {
 		char *uri;
 
 		uri = g_strconcat (E_SHELL_URI_PREFIX, "/",
-				   e_storage_get_name (discovery_data->storage),
+				   e_storage_get_name (storage),
 				   result->path,
 				   NULL);
 
 		if (discovery_data->parent != NULL)
-			e_shell_view_display_uri (discovery_data->parent, uri);
+			e_shell_view_display_uri (parent, uri);
 		else
-			e_shell_create_view (discovery_data->shell, uri, NULL);
+			e_shell_create_view (shell, uri, NULL);
+	} else {
+		EStorageResult storage_result;
+
+		storage_result = e_corba_storage_corba_result_to_storage_result (result->result);
+		e_notice (parent ? GTK_WINDOW (parent) : NULL,
+			  GNOME_MESSAGE_BOX_ERROR,
+			  _("Could not open shared folder: %s."),
+			  e_storage_result_to_string (storage_result));
 	}
 }
 
@@ -519,8 +538,8 @@ discover_folder (EShell *shell,
 		cleanup_discovery (discovery_data);
 
 	/* FIXME: Be more verbose?  */
-	e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-		  _("Cannot find open the specified shared folder."));
+	e_notice (GTK_WINDOW (parent), GNOME_MESSAGE_BOX_ERROR,
+		  _("Cannot find the specified shared folder."));
 
 	CORBA_exception_free (&ev);
 }
