@@ -1,3 +1,7 @@
+2003-03-21  Rodney Dawes  <dobey@ximian.com>
+
+	* configure.in: Fix the mit krb5+krb4 check to work with --without-kr5
+	
 2003-03-18  Rodney Dawes  <dobey@ximian.com>
 
 	* configure.in: Fix typos in krb5 check to work --without-krb5
