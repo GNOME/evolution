@@ -93,6 +93,8 @@ enum _e_cal_popup_target_source_t {
 	E_CAL_POPUP_SOURCE_PRIMARY = 1<<0,
 	E_CAL_POPUP_SOURCE_SYSTEM = 1<<1,	/* system folder */
 	E_CAL_POPUP_SOURCE_USER = 1<<2, /* user folder (!system) */
+	E_CAL_POPUP_SOURCE_OFFLINE = 1 <<3,
+	E_CAL_POPUP_SOURCE_NO_OFFLINE = 1 <<4
 };
 
 typedef struct _ECalPopupTargetSelect ECalPopupTargetSelect;

@@ -197,6 +197,7 @@ e_cal_popup_target_new_source(ECalPopup *eabp, ESourceSelector *selector)
 	guint32 mask = ~0;
 	const char *source_uri;
 	ESource *source;
+	const char *offline = NULL;
 
 	/* TODO: this is duplicated for addressbook too */
 
@@ -214,6 +215,19 @@ e_cal_popup_target_new_source(ECalPopup *eabp, ESourceSelector *selector)
 		mask &= ~E_CAL_POPUP_SOURCE_SYSTEM;
 	else
 		mask &= ~E_CAL_POPUP_SOURCE_USER;
+
+
+	source = e_source_selector_peek_primary_selection (selector);
+	/* check for e_target_selector's offline_status property here */
+	offline = e_source_get_property (source, "offline");
+
+	if (offline  && strcmp (offline,"1") == 0) { 
+		/* set the menu item to Mark Offline - */
+		mask &= ~E_CAL_POPUP_SOURCE_NO_OFFLINE;
+	}
+	else {
+		mask &= ~E_CAL_POPUP_SOURCE_OFFLINE;
+	}
 
 	t->target.mask = mask;
 
@@ -269,6 +283,8 @@ static const EPopupHookTargetMask ecalph_source_masks[] = {
 	{ "primary", E_CAL_POPUP_SOURCE_PRIMARY },
 	{ "system", E_CAL_POPUP_SOURCE_SYSTEM },
 	{ "user", E_CAL_POPUP_SOURCE_USER },
+	{ "offline", E_CAL_POPUP_SOURCE_OFFLINE},
+	{ "no-offline", E_CAL_POPUP_SOURCE_NO_OFFLINE},	
 	{ 0 }
 };
 
