@@ -42,7 +42,7 @@ fi
 #  (gettext --version) < /dev/null > /dev/null 2>&1 || {
 #    echo
 #    echo "**Error**: You must have \`gettext' installed to compile $PKG_NAME."
-#    echo "Get ftp://alpha.gnu.org/gnu/gettext-0.10.35.tar.gz"
+#    echo "Get ftp://ftp.gnu.org/pub/gnu/gettext/gettext-0.10.39.tar.gz"
 #    echo "(or a newer version if it is available)"
 #    DIE=1
 #  }
@@ -53,7 +53,7 @@ fi
 #  (gettext --version) < /dev/null > /dev/null 2>&1 || {
 #    echo
 #    echo "**Error**: You must have \`gettext' installed to compile $PKG_NAME."
-#    echo "Get ftp://alpha.gnu.org/gnu/gettext-0.10.35.tar.gz"
+#    echo "Get ftp://ftp.gnu.org/pub/gnu/gettext/gettext-0.10.39.tar.gz"
 #    echo "(or a newer version if it is available)"
 #    DIE=1
 #  }
