@@ -1,7 +1,12 @@
 2002-04-05  JP Rosevear  <jpr@ximian.com>
 
+	* POTFILES.in: comment out more unused camel files
+	
+2002-04-05  JP Rosevear  <jpr@ximian.com>
+
 	* POTFILES.in: remove file that is not compiled (and hence not
 	disted)
+	
 
 2002-04-04  Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>
 
