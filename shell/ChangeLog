@@ -1,5 +1,7 @@
 2001-08-13  Ettore Perazzoli  <ettore@ximian.com>
 
+2001-08-13  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell.c (view_destroy_cb): Restore the shell reffing/unreffing
 	here.
 
