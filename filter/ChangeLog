@@ -1,5 +1,10 @@
 2000-05-15  NotZed  <NotZed@HelixCode.com>
 
+	* filter-editor.c (filter_editor_set_rule_files): filename based
+	interface.
+	(filter_editor_save_rules): Interface to save the options to a
+	filename.
+
 	* filter-xml.[ch]: Bunch of cleanup.
 
 	* filter-xml.c (filter_*_file): New interfaces to read/write files

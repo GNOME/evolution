@@ -52,5 +52,7 @@ guint		filter_editor_get_type	(void);
 FilterEditor      *filter_editor_new	(void);
 
 void filter_editor_set_rules(FilterEditor *e, GList *rules, GList *systemoptions, GList *useroptions);
+void filter_editor_set_rule_files(FilterEditor *e, const char *systemrules, const char *userrules);
+int filter_editor_save_rules(FilterEditor *e, const char *userrules);
 
 #endif /* ! _FILTER_EDITOR_H */
