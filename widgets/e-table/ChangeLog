@@ -1,3 +1,7 @@
+2000-09-11  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table.c: Made page up and page down active in the ETable.
+
 2000-09-09  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-tree-simple.c: Fixed the ETableModel callbacks.
