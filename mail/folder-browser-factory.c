@@ -88,6 +88,12 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih)
 					 0,
 					 0, 0, providers_config, NULL);
 	
+	bonobo_ui_handler_menu_new_item (uih, "/Tools/Forget Passwords", N_("Forget _Passwords"),
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE,
+					 0,
+					 0, 0, forget_passwords, NULL);
+	
 	toolbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL,
 				   GTK_TOOLBAR_BOTH);
 
@@ -120,6 +126,7 @@ control_deactivate (BonoboControl *control, BonoboUIHandler *uih)
 	bonobo_ui_handler_menu_remove (uih, "/Tools/Filter Druid ...");
 	bonobo_ui_handler_menu_remove (uih, "/Tools/Virtual Folder Druid ...");
 	bonobo_ui_handler_menu_remove (uih, "/Tools/Mail Configuration ...");
+	bonobo_ui_handler_menu_remove (uih, "/Tools/Forget Passwords");
 	bonobo_ui_handler_dock_remove (uih, "/Toolbar");
 }
 

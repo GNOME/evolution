@@ -64,4 +64,5 @@ GtkWidget *providers_config_new (void);
 
 /* session */
 void session_init (void);
+void forget_passwords (BonoboUIHandler *uih, void *user_data, const char *path);
 extern CamelSession *session;
