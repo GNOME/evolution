@@ -134,6 +134,7 @@ clicked (GtkButton *button)
 					 GTK_TYPE_WINDOW);
 
 	gtk_widget_set_sensitive (GTK_WIDGET (parent_window), FALSE);
+	gtk_object_ref (GTK_OBJECT (parent_window));
 
 	folder_selector_button = EVOLUTION_FOLDER_SELECTOR_BUTTON (button);
 	priv = folder_selector_button->priv;
@@ -149,6 +150,7 @@ clicked (GtkButton *button)
 						   &return_folder);
 
 	gtk_widget_set_sensitive (GTK_WIDGET (parent_window), TRUE);
+	gtk_object_unref (GTK_OBJECT (parent_window));
 
 	if (!return_folder) {
 		gtk_signal_emit (GTK_OBJECT (folder_selector_button),

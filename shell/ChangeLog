@@ -1,3 +1,9 @@
+2002-07-12  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-folder-selector-button.c (clicked): Ref the
+	parent_window and then unref after you are done using it.
+	[#27673]
+
 2002-07-12  Peter Williams  <peterw@ximian.com>
 
 	* Makefile.am (eshellinclude_HEADERS): Install some headers
