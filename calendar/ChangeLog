@@ -1,3 +1,10 @@
+2005-02-04  Harry Lu  <harry.lu@sun.com>
+
+	Add a11y name for attachment button and bars.
+
+	* gui/dialogs/cal-attachment-bar.c: (cal_attachment_bar_new):
+	* gui/dialogs/comp-editor.c: (setup_widgets):
+
 2005-02-04  Rodney Dawes  <dobey@novell.com>
 
 	* gui/dialogs/comp-editor.[ch]: Add a string to CompEditorPrivate to
