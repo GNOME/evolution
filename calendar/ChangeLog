@@ -1,5 +1,12 @@
 2000-10-27    <jpr@helixcode.com>
 
+	* conduits/calendar/calendar-conduit.c (check_for_slow_setting): 
+	Check boundary case of fast sync
+
+	* conduits/todo/todo-conduit.c (check_for_slow_setting): ditto
+
+2000-10-27    <jpr@helixcode.com>
+
 	* conduits/calendar/calendar-conduit.c (add_archive_record): Remove
 	invalid test.
 	(local_record_from_comp): If the event is all day, mark it as timeless

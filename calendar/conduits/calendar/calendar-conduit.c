@@ -587,7 +587,7 @@ check_for_slow_setting (GnomePilotConduit *c, ECalConduitContext *ctxt)
 	map_count = g_hash_table_size (ctxt->map->pid_map);
 	
 	/* If there are no objects or objects but no log */
-	if ((count == 0) || (count > 0 && map_count == 0)) {
+	if (map_count == 0) {
 		GnomePilotConduitStandard *conduit;
 		LOG ("    doing slow sync\n");
 		conduit = GNOME_PILOT_CONDUIT_STANDARD (c);
