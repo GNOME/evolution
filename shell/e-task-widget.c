@@ -32,9 +32,8 @@
 #include <gtk/gtklabel.h>
 #include <gtk/gtkpixmap.h>
 
-/* HA HA.  Just #including <libgnome/gnome-i18n.h> doesn't seem to work, so
-   I'll have to include the full thing.  */
-#include <libgnome/libgnome.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 
 #include <gal/util/e-util.h>
 

@@ -1,9 +1,15 @@
+2001-07-25  Jason Leach  <jleach@ximian.com>
+
+	* e-task-widget.c: #include <libgnome/gnome-defs.h> and
+	<libgnome/gnome-i18n.h> instead of the full <libgnome/libgnome.h>,
+	as noted by a comment here.
+
 2001-07-24  Jason Leach  <jleach@ximian.com>
 
 	* e-storage-set-view.c (e_storage_set_view_construct): Add the
 	"/My Evolution" path to the path_to_etree_node hash so that
 	storage_set_view_set_current_folder() can select the My Evolution
-	node when it's the current one. Fixes #5114 and #3956.
+	node when it's the current one.  Fixes #5114 and #3956.
 
 2001-07-23  Ettore Perazzoli  <ettore@ximian.com>
 
