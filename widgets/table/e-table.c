@@ -690,11 +690,17 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	xmlColumns = e_xml_get_child_by_name(xmlRoot, "columns-shown");
 	xmlGrouping = e_xml_get_child_by_name(xmlRoot, "grouping");
 	
+	gtk_widget_push_visual (gdk_rgb_get_visual ());
+	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
+
 	e_table->header = e_table_make_header (e_table, full_header, xmlColumns);
 
 	e_table_setup_header (e_table);
 	e_table_setup_table (e_table, full_header, e_table->header, etm, xmlGrouping);
 	e_table_fill_table (e_table, etm);
+
+	gtk_widget_pop_colormap ();
+	gtk_widget_pop_visual ();
 }
 
 void
