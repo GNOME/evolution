@@ -47,6 +47,7 @@ libebook_la_SOURCES =					\
 	e-card-cursor.c					\
 	e-card-simple.c					\
 	e-card.c					\
+	e-card-compare.c				\
 	e-destination.c
 
 libebookincludedir = $(includedir)/evolution/ebook
@@ -62,6 +63,7 @@ libebookinclude_HEADERS =				\
 	e-card-simple.h					\
 	e-card-types.h					\
 	e-card.h					\
+	e-card-compare.h				\
 	e-destination.h
 
 

@@ -1,3 +1,10 @@
+2001-06-04  Jon Trowbridge  <trow@ximian.com>
+
+	* backend/ebook/e-card-compare.c: Added.  Code for testing
+	if two ECards appear to pertain to the same contact (using loose
+	matching rules, as opposed to requiring exact equality) and to
+	query the addressbook for the "best match" to ECard.
+
 2001-06-03  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook.c (set_status_message): remove spew,
