@@ -1,3 +1,9 @@
+2004-06-25  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c (fill_in_address_textview): Add
+	a newline between street line and rest of extended address.
+	(extract_address_textview): Omit the newline trailing the street line.
+
 2004-06-24  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/contact-editor/e-contact-editor.c (address_labels): Add table.

@@ -1645,6 +1645,7 @@ fill_in_address_textview (EContactEditor *editor, gint record, EContactAddress *
 	gtk_text_buffer_set_text (text_buffer, address->street ? address->street : "", -1);
 
 	gtk_text_buffer_get_end_iter (text_buffer, &iter);
+	gtk_text_buffer_insert (text_buffer, &iter, "\n", -1);
 	gtk_text_buffer_insert (text_buffer, &iter, address->ext ? address->ext : "", -1);
 }
 
@@ -1714,12 +1715,14 @@ extract_address_textview (EContactEditor *editor, gint record, EContactAddress *
 		return;
 
 	iter_2 = iter_1;
-	gtk_text_iter_forward_line (&iter_2);
+	gtk_text_iter_forward_to_line_end (&iter_2);
 
 	/* Extract street (first line of text) */
 	address->street = gtk_text_iter_get_text (&iter_1, &iter_2);
 
 	iter_1 = iter_2;
+	gtk_text_iter_forward_line (&iter_1);
+
 	if (gtk_text_iter_is_end (&iter_1))
 		return;
 
