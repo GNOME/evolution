@@ -1,3 +1,8 @@
+2001-01-04  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-folder.c (thaw): If we have a lot of messages changed,
+	promote it to a folder changed event.
+
 2000-01-03  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* camel-folder-search.c (search_header_matches): Implemented.

@@ -1213,7 +1213,7 @@ thaw (CamelFolder * folder)
 		   do a message changed for each one.
 		   TODO: message_changed is now probably irrelevant and not required */
 		info = folder->priv->changed_frozen;
-		if (info->uid_added->len > 0 || info->uid_removed->len > 0) {
+		if (info->uid_added->len > 0 || info->uid_removed->len > 0 || info->uid_changed->len > 10) {
 			camel_object_trigger_event(CAMEL_OBJECT(folder), "folder_changed", info);
 		} else if (info->uid_changed->len > 0) {
 			for (i=0;i<info->uid_changed->len;i++) {
