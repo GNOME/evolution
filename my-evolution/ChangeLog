@@ -1,3 +1,20 @@
+2001-10-29  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-preferences.c (make_initial_rdf_list): Set list to NULL.
+	(make_initial_weather_list): Set list to NULL.
+
+	* e-summary-weather.c (e_summary_weather_init): Check if the prefs are
+	NULL or if the weather stations are NULL.
+
+	* e-summary-rdf.c (e_summary_rdf_init): Check if the prefs or the list
+	of news feeds is NULL.
+
+2001-10-29  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-preferences.c (fill_rdf_all_clist): Open the new location.
+	If it doesn't exist try the old location.
+	(save_known_rdfs): Save to the new location.
+
 2001-10-29  Rodrigo Moya <rodrigo@ximian.com>
 
 	* e-summary-calendar.c (e_summary_calendar_init): retrieve the

@@ -62,31 +62,13 @@ make_initial_mail_list (ESummaryPrefs *prefs)
 static void
 make_initial_rdf_list (ESummaryPrefs *prefs)
 {
-	GList *rdfs;
-
-	rdfs = g_list_prepend (NULL, g_strdup ("http://news.gnome.org/gnome-news/rdf"));
-
-	prefs->rdf_urls = rdfs;
+	prefs->rdf_urls = NULL;
 }
 
 static void
 make_initial_weather_list (ESummaryPrefs *prefs)
 {
-	/* translators: Put here a list of codes for locations you want to
-	   see in My Evolution by default. You can find the list of all
-	   stations and their codes in Evolution sources
-	   (evolution/my-evolution/Locations) */
-	char *default_stations = _("KBOS"), **stations_v, **p;
-	GList *stations = NULL;
-
-	stations_v = g_strsplit (default_stations, ":", 0);
-	g_assert (stations_v != NULL);
-	for (p = stations_v; *p != NULL; p++) {
-		stations = g_list_prepend (stations, *p);
-	}
-	g_free (stations_v);
-
-	prefs->stations = g_list_reverse (stations);
+	prefs->stations = NULL;
 }
 
 /* Load the prefs off disk */
@@ -501,7 +483,7 @@ save_known_rdfs (GList *rdfs)
 	FILE *handle;
 	char *rdf_file;
 
-	rdf_file = gnome_util_prepend_user_home ("evolution/config/RDF-urls.txt");
+	rdf_file = gnome_util_prepend_user_home ("evolution/RDF-urls.txt");
 	handle = fopen (rdf_file, "w");
 	g_free (rdf_file);
 
@@ -531,9 +513,15 @@ fill_rdf_all_clist (GtkCList *clist,
 	int i;
 	char *rdf_file, line[4096];
 
-	rdf_file = gnome_util_prepend_user_home ("evolution/config/RDF-urls.txt");
+	rdf_file = gnome_util_prepend_user_home ("evolution/RDF-urls.txt");
 	handle = fopen (rdf_file, "r");
 	g_free (rdf_file);
+	if (handle == NULL) {
+		/* Open the old location just so that users data isn't lost */
+		rdf_file = gnome_util_prepend_user_home ("evolution/config/RDF-urls.txt");
+		handle = fopen (rdf_file, "r");
+		g_free (rdf_file);
+	}
 
 	if (handle == NULL) {
 		for (i = 0; rdfs[i].url; i++) {
