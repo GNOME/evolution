@@ -1173,3 +1173,11 @@ e_tree_sorted_orig_position       (ETreeSorted    *ets,
 	ETreeSortedPath *sorted_path = path;
 	return sorted_path->orig_position;
 }
+
+int
+e_tree_sorted_node_num_children   (ETreeSorted    *ets,
+				   ETreePath       path)
+{
+	ETreeSortedPath *sorted_path = path;
+	return sorted_path->num_children;
+}

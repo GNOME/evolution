@@ -48,6 +48,8 @@ ETreePath    e_tree_sorted_model_to_view_path  (ETreeSorted    *ets,
 						ETreePath       model_path);
 int          e_tree_sorted_orig_position       (ETreeSorted    *ets,
 						ETreePath       path);
+int          e_tree_sorted_node_num_children   (ETreeSorted    *ets,
+						ETreePath       path);
 
 #ifdef __cplusplus
 }

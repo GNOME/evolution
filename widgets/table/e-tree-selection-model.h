@@ -14,6 +14,11 @@
 extern "C" {
 #endif /* __cplusplus */
 
+typedef void (*ETreeForeachFunc) (ETreePath path,
+				  gpointer closure);
+
+typedef struct ETreeSelectionModelNode ETreeSelectionModelNode;
+
 #define E_TREE_SELECTION_MODEL_TYPE        (e_tree_selection_model_get_type ())
 #define E_TREE_SELECTION_MODEL(o)          (GTK_CHECK_CAST ((o), E_TREE_SELECTION_MODEL_TYPE, ETreeSelectionModel))
 #define E_TREE_SELECTION_MODEL_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TREE_SELECTION_MODEL_TYPE, ETreeSelectionModelClass))
@@ -27,9 +32,7 @@ typedef struct {
 	ETreeSorted *ets;
 	ETreeModel *model;
 
-	GHashTable *data;
-
-	gboolean invert_selection;
+	ETreeSelectionModelNode *root;
 
 	ETreePath cursor_path;
 	gint cursor_col;
@@ -47,8 +50,12 @@ typedef struct {
 	ESelectionModelClass parent_class;
 } ETreeSelectionModelClass;
 
+
 GtkType          e_tree_selection_model_get_type  (void);
 ESelectionModel *e_tree_selection_model_new       (void);
+void             e_tree_selection_model_foreach   (ETreeSelectionModel *etsm,
+						   ETreeForeachFunc     callback,
+						   gpointer             closure);
 
 #ifdef __cplusplus
 }
