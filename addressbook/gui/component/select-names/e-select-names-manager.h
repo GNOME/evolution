@@ -34,6 +34,8 @@ struct _ESelectNamesManager {
 
 	GList *completion_books;
 
+	int minimum_query_length;
+
 	gulong listener_id;
 
 	char *cached_folder_list;

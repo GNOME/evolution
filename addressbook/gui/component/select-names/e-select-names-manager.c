@@ -29,6 +29,8 @@
 #include "addressbook/gui/component/addressbook.h"
 #include <bonobo/bonobo-object.h>
 
+#define DEFAULT_MINIMUM_QUERY_LENGTH 3
+
 enum {
 	CHANGED,
 	OK,
@@ -270,6 +272,9 @@ e_select_names_manager_entry_new (ESelectNamesManager *manager, ESelectNamesMode
 		e_select_names_completion_add_book (E_SELECT_NAMES_COMPLETION(entry->comp), book);
 	}
 
+	e_select_names_completion_set_minimum_query_length (E_SELECT_NAMES_COMPLETION(entry->comp),
+							    manager->minimum_query_length);
+
 	e_entry_enable_completion_full (entry->entry, entry->comp, 100, completion_handler);
 		
 	entry->manager = manager;
@@ -407,9 +412,10 @@ load_completion_books (ESelectNamesManager *manager)
 }
 
 static void
-read_completion_books_from_db (ESelectNamesManager *manager, EConfigListener *db)
+read_completion_settings_from_db (ESelectNamesManager *manager, EConfigListener *db)
 {
 	char *val;
+	long ival;
 
 	val = e_config_listener_get_string (db, "/apps/evolution/addressbook/completion/uris");
 
@@ -418,22 +424,25 @@ read_completion_books_from_db (ESelectNamesManager *manager, EConfigListener *db
 		manager->cached_folder_list = val;
 		load_completion_books(manager);
 	}
+
+	ival = e_config_listener_get_long (db, "/apps/evolution/addressbook/completion/minimum_query_length");
+	if (ival <= 0) ival = DEFAULT_MINIMUM_QUERY_LENGTH;
+
+	manager->minimum_query_length = ival;
 }
 
 static void
-uris_listener (EConfigListener *db, const char *key,
-	       ESelectNamesManager *manager)
+db_listener (EConfigListener *db, const char *key,
+	     ESelectNamesManager *manager)
 {
 	GList *l;
-	char *val;
 
-	/* return if it's not the key we're interested in */
-	if (strcmp (key, "/apps/evolution/addressbook/completion/uris"))
-		return;
+	if (!strcmp (key, "/apps/evolution/addressbook/completion/uris")) {
+		char *val = e_config_listener_get_string (db, key);
 
-	val = e_config_listener_get_string (db, "/apps/evolution/addressbook/completion/uris");
+		if (!val)
+			return;
 
-	if (val) {
 		if (!manager->cached_folder_list || strcmp (val, manager->cached_folder_list)) {
 			for (l = manager->entries; l; l = l->next) {
 				ESelectNamesManagerEntry *entry = l->data;
@@ -447,6 +456,20 @@ uris_listener (EConfigListener *db, const char *key,
 			g_free (manager->cached_folder_list);
 			manager->cached_folder_list = val;
 			load_completion_books (manager);
+		}
+	}
+	else if (!strcmp (key, "/apps/evolution/addressbook/completion/minimum_query_length")) {
+		long ival = e_config_listener_get_long (db, key);
+
+		if (ival <= 0)
+			ival = DEFAULT_MINIMUM_QUERY_LENGTH;
+
+		manager->minimum_query_length = ival;
+
+		for (l = manager->entries; l; l = l->next) {
+			ESelectNamesManagerEntry *entry = l->data;
+			e_select_names_completion_set_minimum_query_length (E_SELECT_NAMES_COMPLETION(entry->comp),
+									    manager->minimum_query_length);
 		}
 	}
 }
@@ -467,9 +490,9 @@ e_select_names_manager_new (void)
 
 	manager->listener_id = g_signal_connect (db,
 						 "key_changed",
-						 G_CALLBACK (uris_listener), manager);
+						 G_CALLBACK (db_listener), manager);
 
-	read_completion_books_from_db (manager, db);
+	read_completion_settings_from_db (manager, db);
 
 	return manager;
 }

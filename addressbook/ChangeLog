@@ -1,3 +1,27 @@
+2003-01-01  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes the non-ui portion of #36183 ]
+	* gui/component/select-names/e-select-names-completion.c
+	(e_select_names_completion_start_query): use the entry's
+	minimum_query_length instead of a constant here.
+	(e_select_names_completion_set_minimum_query_length): new
+	function, set the entry's minimum_query_length.
+
+	* gui/component/select-names/e-select-names-manager.c
+	(e_select_names_manager_entry_new): set the minimum_query length
+	after setting the completion books.
+	(read_completion_settings_from_db): rename
+	read_completion_books_from_db to this, and read the
+	minimum_query_length too.
+	(db_listener): rename uris_listener to this, and listen for
+	changes on both the uris and minimum_query_length settings.
+
+	* gui/component/select-names/e-select-names-completion.h: add
+	prototype for e_select_names_completion_set_minimum_query_length.
+
+	* gui/component/select-names/e-select-names-manager.h: add
+	minimum_query_length to struct _ESelectNamesManager.
+
 2002-12-19  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook-config.c

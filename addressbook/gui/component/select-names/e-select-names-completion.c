@@ -39,8 +39,6 @@
 #include <addressbook/backend/ebook/e-card-simple.h>
 #include <addressbook/backend/ebook/e-card-compare.h>
 
-#define MINIMUM_QUERY_LENGTH 3
-
 typedef struct {
 	EBook *book;
 	guint book_view_tag;
@@ -71,6 +69,8 @@ struct _ESelectNamesCompletionPrivate {
 	gboolean primary_only;
 
 	gboolean can_fail_due_to_too_many_hits; /* like LDAP, for example... */
+
+	gint minimum_query_length;
 };
 
 static void e_select_names_completion_class_init (ESelectNamesCompletionClass *);
@@ -1022,9 +1022,8 @@ e_select_names_completion_start_query (ESelectNamesCompletion *comp, const gchar
 	if (comp->priv->books_not_ready == 0) {
 		gchar *sexp;
 	
-		if (strlen (query_text) < MINIMUM_QUERY_LENGTH)
+		if (strlen (query_text) < comp->priv->minimum_query_length)
 			return;
-
 
 		g_free (comp->priv->query_text);
 		comp->priv->query_text = g_strdup (query_text);
@@ -1315,6 +1314,13 @@ e_select_names_completion_clear_books (ESelectNamesCompletion *comp)
 {
 	e_select_names_completion_stop_query (comp);
 	e_select_names_completion_clear_book_data (comp);
+}
+
+void
+e_select_names_completion_set_minimum_query_length (ESelectNamesCompletion *comp, int query_length)
+{
+	g_return_if_fail (E_IS_SELECT_NAMES_COMPLETION (comp));
+	comp->priv->minimum_query_length = query_length;
 }
 
 gboolean
