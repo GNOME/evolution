@@ -3,6 +3,7 @@
 	* gui/component/select-names/e-select-names.c
 	(e_select_names_set_default): stick with the style font if the
 	efont bold font does not exist.	
+	(e_select_names_set_default): don't forget to unref the oldstyle.
 
 2001-10-20  Jon Trowbridge  <trow@ximian.com>
 

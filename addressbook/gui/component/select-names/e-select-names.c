@@ -941,8 +941,8 @@ e_select_names_set_default (ESelectNames *e_select_names,
 
 				gtk_widget_set_style(child->label, style);
 
-				gtk_style_unref(oldstyle);
 			}
+			gtk_style_unref(oldstyle);
 		}
 	}
 }
