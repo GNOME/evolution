@@ -177,7 +177,17 @@ druid_cancel (GnomeDruid *druid, gpointer user_data)
 
 	GNOME_Evolution_Wizard_notifyAction (wiz, 0, GNOME_Evolution_Wizard_CANCEL, &ev);
 	CORBA_exception_free (&ev);
-	
+
+	if (page_list != NULL) {
+		g_list_free (page_list);
+		page_list = NULL;
+	}
+
+	if (page_hash != NULL) {
+		g_hash_table_destroy (page_hash);
+		page_hash = NULL;
+	}
+
 	gtk_widget_destroy (GTK_WIDGET (config));
 }
 
@@ -187,6 +197,16 @@ druid_finish (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 	MailConfigDruid *druid = user_data;
 
 	gtk_object_set_data (GTK_OBJECT (account_wizard), "account-data", NULL);
+	if (page_list != NULL) {
+		g_list_free (page_list);
+		page_list = NULL;
+	}
+
+	if (page_hash != NULL) {
+		g_hash_table_destroy (page_hash);
+		page_hash = NULL;
+	}
+
 	gtk_widget_destroy (GTK_WIDGET (druid));
 }
 
