@@ -129,7 +129,7 @@
       <applyto>/apps/evolution/calendar/display/month_hpane_position</applyto>
       <owner>evolution-calendar</owner>
       <type>int</type>
-      <default>640</default>
+      <default>32000</default>
       <locale name="C">
         <short>Position of the horizontal pane in the month view</short>
       </locale>

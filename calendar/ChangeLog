@@ -1,4 +1,10 @@
 2003-04-24  JP Rosevear  <jpr@ximian.com>
+ 
+ 	* gui/apps_evolution_calendar.schemas: set the hpane default to
+ 	32000 so we never see a pane no matter the start up window size
+ 	unless the user changes it
+
+2003-04-24  JP Rosevear  <jpr@ximian.com>
 
 	Fixes #37552
 	
