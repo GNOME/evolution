@@ -78,13 +78,10 @@ print_local (EToDoLocalRecord *local)
 
 	if (local->todo && local->todo->description) {
 		g_snprintf (buff, 4096, "[%d %ld %d %d '%s' '%s']",
-			    local->todo->indefinite ?
-			    local->todo->indefinite : "",
+			    local->todo->indefinite,
 			    mktime (& local->todo->due),
-			    local->todo->priority ?
-			    local->todo->priority : "",
-			    local->todo->complete ?
-			    local->todo->complete : "",
+			    local->todo->priority,
+			    local->todo->complete,
 			    local->todo->description ?
 			    local->todo->description : "",
 			    local->todo->note ?
@@ -108,14 +105,11 @@ static char *print_remote (GnomePilotRecord *remote)
 	memset (&todo, 0, sizeof (struct ToDo));
 	unpack_ToDo (&todo, remote->record, remote->length);
 
-	g_snprintf (buff, "[%d %ld %d %d '%s' '%s']",
-		    todo.indefinite ?
-		    todo.indefinite : "",
+	g_snprintf (buff, 4096, "[%d %ld %d %d '%s' '%s']",
+		    todo.indefinite,
 		    mktime (&todo.due),
-		    todo.priority ?
-		    todo.priority : "",
-		    todo.complete ?
-		    todo.complete : "",
+		    todo.priority,
+		    todo.complete,
 		    todo.description ?
 		    todo.description : "",
 		    todo.note ?

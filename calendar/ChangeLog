@@ -1,3 +1,8 @@
+2001-01-16  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/todo/todo-conduit.c (print_local): fix debug output
+	(print_remote): ditto
+
 2001-01-15  JP Rosevear  <jpr@ximian.com>
 
 	* pcs/cal-backend.c (cal_backend_compute_changes): accomadate tasks
