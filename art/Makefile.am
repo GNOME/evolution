@@ -151,6 +151,7 @@ buttons_DATA = 				\
 	reply.png			\
 	reply-to-all.png		\
 	receive-24.png		\
+	save-24.png			\
 	send-24-receive.png		\
 	send-24.png		\
 	weekview.xpm  			\

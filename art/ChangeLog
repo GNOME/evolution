@@ -1,6 +1,7 @@
 2001-08-20  Damon Chaplin  <damon@ximian.com>
 
 	* Makefile.am (images_DATA): added goto-16.png & new_task-16.png.
+	(buttons_DATA): added save-24.png.
 
 2001-08-20  Damon Chaplin  <damon@ximian.com>
 
