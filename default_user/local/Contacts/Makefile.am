@@ -1,4 +1,4 @@
-defaultcalendardir = $(datadir)/evolution/default_user/local/Contacts
+defaultcalendardir = $(datadir)/evolution-$(BASE_VERSION)/default_user/local/Contacts
 defaultcalendar_DATA =		\
 	folder-metadata.xml	\
 	create-initial
