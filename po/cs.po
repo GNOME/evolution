@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
-"POT-Creation-Date: 2003-02-20 14:24+0100\n"
-"PO-Revision-Date: 2003-02-20 20:17+0100\n"
+"POT-Creation-Date: 2003-02-21 11:36+0100\n"
+"PO-Revision-Date: 2003-02-21 17:11+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -4109,7 +4109,7 @@ msgstr ""
 
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1177 calendar/gui/dialogs/meeting-page.c:288
-#: calendar/gui/dialogs/meeting-page.glade.h:1 composer/e-msg-composer.c:1980
+#: calendar/gui/dialogs/meeting-page.glade.h:1 composer/e-msg-composer.c:1979
 #: mail/folder-browser.c:1730 mail/mail-account-gui.c:1229
 #: mail/mail-account-gui.c:1655 mail/mail-accounts.c:392
 #: mail/mail-config.glade.h:77
@@ -4764,7 +4764,7 @@ msgstr "Není shrnutí"
 
 #: calendar/gui/dialogs/comp-editor.c:1206
 #: calendar/gui/e-calendar-table.c:1035 calendar/gui/e-day-view.c:3929
-#: calendar/gui/e-week-view.c:3737 composer/e-msg-composer.c:1157
+#: calendar/gui/e-week-view.c:3737 composer/e-msg-composer.c:1156
 msgid "Save as..."
 msgstr "Uložit jako..."
 
@@ -5330,8 +5330,8 @@ msgstr "Kliknout pro přidání úkolu"
 msgid "Alarms"
 msgstr "Alarmy"
 
-#: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:1143
-#: camel/camel-filter-driver.c:1238
+#: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:1156
+#: camel/camel-filter-driver.c:1251
 msgid "Complete"
 msgstr "Dokončit"
 
@@ -6418,7 +6418,7 @@ msgid "Contacts: "
 msgstr "Kontakty: "
 
 #: calendar/gui/print.c:2519 calendar/gui/print.c:2597
-#: calendar/gui/tasks-control.c:579 mail/mail-callbacks.c:2923
+#: calendar/gui/tasks-control.c:579 mail/mail-callbacks.c:2925
 #: my-evolution/e-summary.c:617
 msgid "Print Preview"
 msgstr "Prohlížení před tiskem"
@@ -8251,80 +8251,80 @@ msgstr "Příprava složky '%s' pro práci při odpojení"
 msgid "You must be working online to complete this operation"
 msgstr "Pro dokončení této operace musíte pracovat on-line"
 
-#: camel/camel-filter-driver.c:666 camel/camel-filter-search.c:514
+#: camel/camel-filter-driver.c:667 camel/camel-filter-search.c:510
 #, c-format
 msgid "Failed to create pipe to '%s': %s"
 msgstr "Nepodařilo se vytvořit propojení ' %s': %s"
 
-#: camel/camel-filter-driver.c:710 camel/camel-filter-search.c:550
+#: camel/camel-filter-driver.c:715 camel/camel-filter-search.c:550
 #, c-format
 msgid "Failed to create create child process '%s': %s"
 msgstr "Selhalo vytvoření procesu potomka '%s': %s"
 
-#: camel/camel-filter-driver.c:732
+#: camel/camel-filter-driver.c:744
 #, c-format
-msgid "Invalid message stream received from %s"
-msgstr "Od %s přijat neplatný proud zprávy"
+msgid "Invalid message stream received from %s: %s"
+msgstr "Přijat neplatný proud zprávy od %s: %s"
 
-#: camel/camel-filter-driver.c:910 camel/camel-filter-driver.c:919
+#: camel/camel-filter-driver.c:923 camel/camel-filter-driver.c:932
 msgid "Syncing folders"
 msgstr "Synchronizuji složky"
 
-#: camel/camel-filter-driver.c:1008 camel/camel-filter-driver.c:1381
+#: camel/camel-filter-driver.c:1021 camel/camel-filter-driver.c:1394
 #, c-format
 msgid "Error parsing filter: %s: %s"
 msgstr "Chyba při zpracování filtru: %s: %s"
 
-#: camel/camel-filter-driver.c:1017 camel/camel-filter-driver.c:1387
+#: camel/camel-filter-driver.c:1030 camel/camel-filter-driver.c:1400
 #, c-format
 msgid "Error executing filter: %s: %s"
 msgstr "Chyba při spuštění filtru: %s: %s"
 
-#: camel/camel-filter-driver.c:1084
+#: camel/camel-filter-driver.c:1097
 msgid "Unable to open spool folder"
 msgstr "Nelze otevřít adresář fronty"
 
-#: camel/camel-filter-driver.c:1093
+#: camel/camel-filter-driver.c:1106
 msgid "Unable to process spool folder"
 msgstr "Nelze zpracovat adresář fronty"
 
-#: camel/camel-filter-driver.c:1108
+#: camel/camel-filter-driver.c:1121
 #, c-format
 msgid "Getting message %d (%d%%)"
 msgstr "Stahuji zprávu %d (%d%%)"
 
-#: camel/camel-filter-driver.c:1112
+#: camel/camel-filter-driver.c:1125
 msgid "Cannot open message"
 msgstr "Nelze otevřít zprávu"
 
-#: camel/camel-filter-driver.c:1113 camel/camel-filter-driver.c:1125
+#: camel/camel-filter-driver.c:1126 camel/camel-filter-driver.c:1138
 #, c-format
 msgid "Failed on message %d"
 msgstr "Nepodařilo se stáhnout zprávu %d"
 
-#: camel/camel-filter-driver.c:1139 camel/camel-filter-driver.c:1233
+#: camel/camel-filter-driver.c:1152 camel/camel-filter-driver.c:1246
 msgid "Syncing folder"
 msgstr "Synchronizuji složku"
 
-#: camel/camel-filter-driver.c:1200
+#: camel/camel-filter-driver.c:1213
 #, c-format
 msgid "Getting message %d of %d"
 msgstr "Stahuji zprávu %d z %d"
 
-#: camel/camel-filter-driver.c:1215
+#: camel/camel-filter-driver.c:1228
 #, c-format
 msgid "Failed at message %d of %d"
 msgstr "Nepodařilo se stáhnout zprávu %d z %d"
 
-#: camel/camel-filter-search.c:139
+#: camel/camel-filter-search.c:133
 msgid "Failed to retrieve message"
 msgstr "Nepodařilo se stáhnout zprávu"
 
-#: camel/camel-filter-search.c:387
+#: camel/camel-filter-search.c:383
 msgid "Invalid arguments to (system-flag)"
 msgstr "Neplatné parametry pro (system-flag)"
 
-#: camel/camel-filter-search.c:402
+#: camel/camel-filter-search.c:398
 msgid "Invalid arguments to (user-tag)"
 msgstr "Neplatné parametry pro (user-tag)"
 
@@ -8647,11 +8647,11 @@ msgstr ""
 "Tato volba vás připojí k serveru pomocí bezpečného hesla CRAM-MD5, pokud ho "
 "server podporuje."
 
-#: camel/camel-sasl-digest-md5.c:43
+#: camel/camel-sasl-digest-md5.c:44
 msgid "DIGEST-MD5"
 msgstr "DIGEST-MD5"
 
-#: camel/camel-sasl-digest-md5.c:45
+#: camel/camel-sasl-digest-md5.c:46
 msgid ""
 "This option will connect to the server using a secure DIGEST-MD5 password, "
 "if the server supports it."
@@ -8659,28 +8659,28 @@ msgstr ""
 "Tato volba vás připojí k serveru pomocí bezpečného hesla DIGEST-MD5, pokud "
 "ho server podporuje."
 
-#: camel/camel-sasl-digest-md5.c:810
+#: camel/camel-sasl-digest-md5.c:811
 msgid "Server challenge too long (>2048 octets)\n"
 msgstr "Zpráva challenge pro server příliš dlouhá (>2048 bajtů)\n"
 
-#: camel/camel-sasl-digest-md5.c:819
+#: camel/camel-sasl-digest-md5.c:820
 msgid "Server challenge invalid\n"
 msgstr "Zpráva challenge pro server neplatná\n"
 
-#: camel/camel-sasl-digest-md5.c:825
+#: camel/camel-sasl-digest-md5.c:826
 msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
 msgstr ""
 "Zpráva challenge pro server obsahovala neplatný prvek \"Kvalita ochrany\"\n"
 
-#: camel/camel-sasl-digest-md5.c:847
+#: camel/camel-sasl-digest-md5.c:848
 msgid "Server response did not contain authorization data\n"
 msgstr "Odpověď serveru neobsahovala informaci o ověření\n"
 
-#: camel/camel-sasl-digest-md5.c:865
+#: camel/camel-sasl-digest-md5.c:866
 msgid "Server response contained incomplete authorization data\n"
 msgstr "Odpověď serveru obsahovala neúplné údaje o ověření\n"
 
-#: camel/camel-sasl-digest-md5.c:875
+#: camel/camel-sasl-digest-md5.c:876
 msgid "Server response does not match\n"
 msgstr "Odpověď serveru neodpovídá\n"
 
@@ -8827,7 +8827,7 @@ msgstr "Přihlášení POP před SMTP pomocí neznámého transportu"
 msgid "POP Before SMTP auth using a non-pop source"
 msgstr "Přihlášení POP před SMTP bez použití zdroje POP"
 
-#: camel/camel-search-private.c:113
+#: camel/camel-search-private.c:114
 #, c-format
 msgid "Regular expression compilation failed: %s: %s"
 msgstr "Překlad regulárního výrazu selhal: %s: %s"
@@ -10592,11 +10592,11 @@ msgstr "Cíl odeslání"
 msgid "Attach file(s)"
 msgstr "Připojit soubor(y)"
 
-#: composer/e-msg-composer.c:528
+#: composer/e-msg-composer.c:527
 msgid "Could not create a PGP signature context"
 msgstr "Nelze vytvořit kontext podpisu PGP."
 
-#: composer/e-msg-composer.c:807
+#: composer/e-msg-composer.c:806
 #, c-format
 msgid ""
 "Error while reading file %s:\n"
@@ -10605,30 +10605,30 @@ msgstr ""
 "Chyba při čtení souboru %s:\n"
 "%s"
 
-#: composer/e-msg-composer.c:1170
+#: composer/e-msg-composer.c:1169
 msgid "File exists, overwrite?"
 msgstr "Soubor existuje, přepsat?"
 
-#: composer/e-msg-composer.c:1188
+#: composer/e-msg-composer.c:1187
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Chyba při ukládání souboru: %s"
 
-#: composer/e-msg-composer.c:1211
+#: composer/e-msg-composer.c:1210
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Chyba při načítání souboru: %s"
 
-#: composer/e-msg-composer.c:1246
+#: composer/e-msg-composer.c:1245
 #, c-format
 msgid "Error accessing file: %s"
 msgstr "Chyba při přístupu k souboru: %s"
 
-#: composer/e-msg-composer.c:1254
+#: composer/e-msg-composer.c:1253
 msgid "Unable to retrieve message from editor"
 msgstr "Nelze obdržet zprávu z editoru"
 
-#: composer/e-msg-composer.c:1261
+#: composer/e-msg-composer.c:1260
 #, c-format
 msgid ""
 "Unable to seek on file: %s\n"
@@ -10637,7 +10637,7 @@ msgstr ""
 "Nelze hledat v souboru: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1268
+#: composer/e-msg-composer.c:1267
 #, c-format
 msgid ""
 "Unable to truncate file: %s\n"
@@ -10646,7 +10646,7 @@ msgstr ""
 "Nelze rozdělit soubor: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1277
+#: composer/e-msg-composer.c:1276
 #, c-format
 msgid ""
 "Unable to copy file descriptor: %s\n"
@@ -10655,7 +10655,7 @@ msgstr ""
 "Nelze kopírovat popisovač souboru: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1286
+#: composer/e-msg-composer.c:1285
 #, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -10664,7 +10664,7 @@ msgstr ""
 "Chyba při automatickém ukládaní zprávy: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1380
+#: composer/e-msg-composer.c:1379
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
@@ -10672,7 +10672,7 @@ msgstr ""
 "Ximian Evolution našla neuložené soubory z předchozího sezení.\n"
 "Chcete se pokusit o jejich obnovení?"
 
-#: composer/e-msg-composer.c:1542
+#: composer/e-msg-composer.c:1541
 #, c-format
 msgid ""
 "The message \"%s\" has not been sent.\n"
@@ -10683,31 +10683,31 @@ msgstr ""
 "\n"
 "Chcete uložit změny?"
 
-#: composer/e-msg-composer.c:1547
+#: composer/e-msg-composer.c:1546
 msgid "_Discard Changes"
 msgstr "Zaho_dit změny"
 
-#: composer/e-msg-composer.c:1551
+#: composer/e-msg-composer.c:1550
 msgid "Warning: Modified Message"
 msgstr "Varování: Změněná zpráva"
 
-#: composer/e-msg-composer.c:1583
+#: composer/e-msg-composer.c:1582
 msgid "Open file"
 msgstr "Otevřít soubor"
 
-#: composer/e-msg-composer.c:1941
+#: composer/e-msg-composer.c:1940
 msgid "Signature:"
 msgstr "Podpis:"
 
-#: composer/e-msg-composer.c:1981 mail/mail-account-gui.c:1230
+#: composer/e-msg-composer.c:1980 mail/mail-account-gui.c:1230
 msgid "Autogenerated"
 msgstr "automatický"
 
-#: composer/e-msg-composer.c:2160 composer/e-msg-composer.c:2755
+#: composer/e-msg-composer.c:2159 composer/e-msg-composer.c:2754
 msgid "Compose a message"
 msgstr "Napsat zprávu"
 
-#: composer/e-msg-composer.c:2786
+#: composer/e-msg-composer.c:2785
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
@@ -10715,7 +10715,7 @@ msgstr ""
 "Nelze vytvořit okno pro psaní zpráv:\n"
 "Nelze aktivovat ovládací prvek pro výběr adresy."
 
-#: composer/e-msg-composer.c:2812
+#: composer/e-msg-composer.c:2811
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component.\n"
@@ -10727,7 +10727,7 @@ msgstr ""
 "Ujistěte se prosím, že máte instalovanou\n"
 "správnou verzi gtkhtml a libgtkhtml.\n"
 
-#: composer/e-msg-composer.c:2872
+#: composer/e-msg-composer.c:2871
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -10735,7 +10735,7 @@ msgstr ""
 "Nelze vytvořit okno pro psaní zpráv:\n"
 "Nelze aktivovat komponent HTML editor."
 
-#: composer/e-msg-composer.c:3888
+#: composer/e-msg-composer.c:3887
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -12154,12 +12154,12 @@ msgid "Don't delete"
 msgstr "Neodstraňovat"
 
 #: mail/mail-accounts.c:303 mail/mail-accounts.c:341
-#: mail/mail-composer-prefs.c:650 mail/mail-composer-prefs.c:668
+#: mail/mail-composer-prefs.c:651 mail/mail-composer-prefs.c:669
 msgid "Disable"
 msgstr "Zakázat"
 
 #: mail/mail-accounts.c:303 mail/mail-accounts.c:343
-#: mail/mail-composer-prefs.c:650 mail/mail-composer-prefs.c:668
+#: mail/mail-composer-prefs.c:651 mail/mail-composer-prefs.c:669
 msgid "Enable"
 msgstr "Povolit"
 
@@ -12169,7 +12169,7 @@ msgid "[Default]"
 msgstr "[Výchozí]"
 
 #: mail/mail-accounts.c:427 mail/mail-accounts.etspec.h:2
-#: mail/mail-composer-prefs.c:811
+#: mail/mail-composer-prefs.c:812
 msgid "Enabled"
 msgstr "Povoleno"
 
@@ -12332,12 +12332,12 @@ msgstr "Přesunout zprávu(y) do"
 msgid "Copy message(s) to"
 msgstr "Kopírovat zprávu(y) do"
 
-#: mail/mail-callbacks.c:2333
+#: mail/mail-callbacks.c:2335
 #, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr "Opravdu chcete upravit všechny zprávy (%d)?"
 
-#: mail/mail-callbacks.c:2349
+#: mail/mail-callbacks.c:2351
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -12345,7 +12345,7 @@ msgstr ""
 "Upravovat můžete pouze zprávy uložené\n"
 "ve složce Koncepty."
 
-#: mail/mail-callbacks.c:2382
+#: mail/mail-callbacks.c:2384
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
@@ -12353,16 +12353,16 @@ msgstr ""
 "Pouze zprávy ze složky Odeslané je možné\n"
 "znovu poslat."
 
-#: mail/mail-callbacks.c:2392
+#: mail/mail-callbacks.c:2394
 #, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr "Opravdu chcete přeposlat všechny zprávy (%d)?"
 
-#: mail/mail-callbacks.c:2413
+#: mail/mail-callbacks.c:2415
 msgid "No Message Selected"
 msgstr "Žádná vybraná zpráva"
 
-#: mail/mail-callbacks.c:2454
+#: mail/mail-callbacks.c:2456
 #, c-format
 msgid ""
 "Cannot save to `%s'\n"
@@ -12371,7 +12371,7 @@ msgstr ""
 "Nelze uložit do `%s'\n"
 " %s"
 
-#: mail/mail-callbacks.c:2459
+#: mail/mail-callbacks.c:2461
 #, c-format
 msgid ""
 "`%s' already exists.\n"
@@ -12380,15 +12380,15 @@ msgstr ""
 "`%s' již existuje.\n"
 "Chcete jej přepsat?"
 
-#: mail/mail-callbacks.c:2500
+#: mail/mail-callbacks.c:2502
 msgid "Save Message As..."
 msgstr "Uložit zprávu jako..."
 
-#: mail/mail-callbacks.c:2502
+#: mail/mail-callbacks.c:2504
 msgid "Save Messages As..."
 msgstr "Uložit zprávy jako..."
 
-#: mail/mail-callbacks.c:2670
+#: mail/mail-callbacks.c:2672
 msgid ""
 "This operation will permanently erase all messages marked as\n"
 "deleted. If you continue, you will not be able to recover these messages.\n"
@@ -12400,7 +12400,7 @@ msgstr ""
 "\n"
 "Opravdu vymazat tyto zprávy?"
 
-#: mail/mail-callbacks.c:2756
+#: mail/mail-callbacks.c:2758
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -12409,29 +12409,29 @@ msgstr ""
 "Chyba při načítání informací o filtrech:\n"
 "%s"
 
-#: mail/mail-callbacks.c:2764
+#: mail/mail-callbacks.c:2766
 msgid "Filters"
 msgstr "Filtry"
 
-#: mail/mail-callbacks.c:2806
+#: mail/mail-callbacks.c:2808
 #, c-format
 msgid "Page %d of %d"
 msgstr "Stránka %d z %d"
 
-#: mail/mail-callbacks.c:2862
+#: mail/mail-callbacks.c:2864
 msgid "Print Message"
 msgstr "Tisknout zprávu"
 
-#: mail/mail-callbacks.c:2929
+#: mail/mail-callbacks.c:2931
 msgid "Printing of message failed"
 msgstr "Tisk zprávy selhal"
 
-#: mail/mail-callbacks.c:3119
+#: mail/mail-callbacks.c:3121
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "Opravdu chcete otevřít všechny zprávy (%d) v samostatných oknech?"
 
-#: mail/mail-composer-prefs.c:226
+#: mail/mail-composer-prefs.c:227
 msgid ""
 "Please specify signature filename\n"
 "in Advanced section of signature settings."
@@ -12439,28 +12439,28 @@ msgstr ""
 "Zadejte prosím název souboru s podpisem\n"
 "v sekci Pokročilé nastavení podpisů."
 
-#: mail/mail-composer-prefs.c:245 mail/mail-composer-prefs.c:247
-#: mail/mail-composer-prefs.c:376 mail/mail-composer-prefs.c:431
+#: mail/mail-composer-prefs.c:246 mail/mail-composer-prefs.c:248
+#: mail/mail-composer-prefs.c:377 mail/mail-composer-prefs.c:432
 msgid "[script]"
 msgstr "[skript]"
 
-#: mail/mail-composer-prefs.c:320
+#: mail/mail-composer-prefs.c:321
 msgid "You must specify a valid script name."
 msgstr "Musíte zadat platný název skriptu."
 
-#: mail/mail-composer-prefs.c:335 mail/mail-config.c:1281
+#: mail/mail-composer-prefs.c:336 mail/mail-config.c:1281
 msgid "Unnamed"
 msgstr "Beze jména"
 
-#: mail/mail-composer-prefs.c:815
+#: mail/mail-composer-prefs.c:816
 msgid "Language(s)"
 msgstr "Jazyk(y)"
 
-#: mail/mail-composer-prefs.c:859
+#: mail/mail-composer-prefs.c:860
 msgid "Add script signature"
 msgstr "Přidat skript podpisu"
 
-#: mail/mail-composer-prefs.c:878
+#: mail/mail-composer-prefs.c:879
 msgid "Signature(s)"
 msgstr "Podpis(y)"
 
