@@ -40,6 +40,7 @@
 #include <bonobo/bonobo-context.h>
 
 #include <gal/util/e-util.h>
+#include <gal/unicode/gunicode.h>
 #include <e-util/e-html-utils.h>
 #include <e-util/e-url.h>
 #include "mail.h"
@@ -483,7 +484,7 @@ config_read (void)
 	config->default_charset = gnome_config_get_string (str);
 	g_free (str);
 	if (!config->default_charset) {
-		config->default_charset = g_get_charset ();
+		g_get_charset (&config->default_charset);
 		if (!config->default_charset ||
 		    !g_strcasecmp (config->default_charset, "US-ASCII"))
 			config->default_charset = g_strdup ("ISO-8859-1");
