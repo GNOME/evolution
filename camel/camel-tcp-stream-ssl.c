@@ -22,6 +22,8 @@
 
 
 #include <config.h>
+
+#ifdef HAVE_NSS
 #include "camel-tcp-stream-ssl.h"
 #include <unistd.h>
 #include <sys/types.h>
@@ -29,6 +31,9 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <string.h>
+#include <mozilla/nspr.h>
+#include <nss.h>
+#include <ssl.h>
 
 static CamelTcpStreamClass *parent_class = NULL;
 
@@ -45,7 +50,6 @@ static int stream_getsockopt (CamelTcpStream *stream, CamelSockOptData *data);
 static int stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data);
 
 /* callbacks */
-
 static SECStatus ssl_bad_cert  (void *data, PRFileDesc *fd);
 static SECStatus ssl_auth_cert (void *data, PRFileDesc *fd, PRBool checksig, PRBool is_server);
 
@@ -113,7 +117,6 @@ camel_tcp_stream_ssl_get_type (void)
 	return type;
 }
 
-
 /**
  * camel_tcp_stream_ssl_new:
  * @session: camel session
@@ -147,7 +150,7 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 	
 	do {
 		nread = PR_Read (tcp_stream_ssl->sockfd, buffer, n);
-	} while (nread == -1 && errno == EINTR);
+	} while (nread == -1 && PR_GetError () == PR_PENDING_INTERRUPT_ERROR);
 	
 	return nread;
 }
@@ -156,15 +159,15 @@ static ssize_t
 stream_write (CamelStream *stream, const char *buffer, size_t n)
 {
 	CamelTcpStreamSSL *tcp_stream_ssl = CAMEL_TCP_STREAM_SSL (stream);
-	ssize_t v, written = 0;
+	ssize_t w, written = 0;
 	
 	do {
-		v = PR_Write (tcp_stream_ssl->sockfd, buffer, n);
-		if (v > 0)
-			written += v;
-	} while (v == -1 && errno == EINTR);
+		w = PR_Write (tcp_stream_ssl->sockfd, buffer, n);
+		if (w > 0)
+			written += w;
+	} while (w == -1 && PR_GetError () == PR_PENDING_INTERRUPT_ERROR);
 	
-	if (v == -1)
+	if (w == -1)
 		return -1;
 	else
 		return written;
@@ -198,19 +201,24 @@ static SECStatus
 ssl_bad_cert (void *data, PRFileDesc *fd)
 {
 	CamelSession *session;
+	gpointer accept;
 	char *string;
 	PRInt32 len;
 	
 	g_return_val_if_fail (data != NULL, SECFailure);
 	g_return_val_if_fail (CAMEL_IS_SESSION (data), SECFailure);
 	
+	session = CAMEL_SESSION (data);
+	
 	/* FIXME: International issues here?? */
 	len = PR_GetErrorTextLen (PR_GetError ());
-	string = g_malloc0 (len);
+	string = g_malloc0 (len + 1);
 	PR_GetErrorText (string);
 	
-	session = CAMEL_SESSION (data);
-	if (camel_session_query_cert_authenticator (session, string))
+	accept = camel_session_query_authenticator (session, CAMEL_AUTHENTICATOR_ACCEPT,
+						    string, FALSE, NULL, NULL, NULL);
+	
+	if (GPOINTER_TO_INT (accept))
 		return SECSuccess;
 	
 	return SECFailure;
@@ -282,3 +290,5 @@ stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data)
 	
 	return 0;
 }
+
+#endif /* HAVE_NSS */

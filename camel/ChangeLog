@@ -1,5 +1,14 @@
 2001-03-09  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-tcp-stream-ssl.h: Comment out everything unless HAVE_NSS
+	is defined.
+
+	* camel-tcp-stream-ssl.c (stream_read): Don't use errno, use
+	nspr's error code stuff.
+	(stream_write): Same.
+
+2001-03-09  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-session.c (camel_session_query_authenticator): Created a
 	new mode (CAMEL_AUTHENTICATOR_ACCEPT) which is a Yes/No prompt to
 	the user. This will be needed by the SSL/TLS code to come. Also

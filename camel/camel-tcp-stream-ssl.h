@@ -30,17 +30,19 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
+#include <config.h>
+
+#ifdef HAVE_NSS
 #include <camel/camel-tcp-stream.h>
 #include <camel/camel-session.h>
-#include <nspr.h>
+#include <mozilla/nspr.h>
 
 #define CAMEL_TCP_STREAM_SSL_TYPE     (camel_tcp_stream_ssl_get_type ())
 #define CAMEL_TCP_STREAM_SSL(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_TCP_STREAM_SSL_TYPE, CamelTcpStreamSSL))
 #define CAMEL_TCP_STREAM_SSL_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_TCP_STREAM_SSL_TYPE, CamelTcpStreamSSLClass))
 #define CAMEL_IS_TCP_STREAM_SSL(o)    (CAMEL_CHECK_TYPE((o), CAMEL_TCP_STREAM_SSL_TYPE))
 
-struct _CamelTcpStreamSSL
-{
+struct _CamelTcpStreamSSL {
 	CamelTcpStream parent_object;
 	
 	PRFileDesc *sockfd;
@@ -61,6 +63,8 @@ CamelType camel_tcp_stream_ssl_get_type (void);
 
 /* public methods */
 CamelStream *camel_tcp_stream_ssl_new (CamelSession *session, const char *expected_host);
+
+#endif /* HAVE_NSS */
 
 #ifdef __cplusplus
 }
