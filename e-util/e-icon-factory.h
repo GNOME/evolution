@@ -36,6 +36,7 @@ enum {
 };
 
 void       e_icon_factory_init              (void);
+void       e_icon_factory_shutdown          (void);
 
 char      *e_icon_factory_get_icon_filename (const char *icon_name, int icon_size);
 
