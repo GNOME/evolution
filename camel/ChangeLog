@@ -1,3 +1,9 @@
+2002-06-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-gpg-context.c (gpg_ctx_get_argv): Don't use
+	--no-auto-key-retrieve, this option has apparently been deprecated
+	in gpg 1.0.7.
+
 2002-06-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-gpg-context.c (gpg_ctx_op_step): Loop on our reads while

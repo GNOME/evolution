@@ -516,8 +516,12 @@ gpg_ctx_get_argv (struct _GpgCtx *gpg, int status_fd, char **sfd, int passwd_fd,
 		g_ptr_array_add (argv, "-");
 		break;
 	case GPG_CTX_MODE_VERIFY:
-		if (!camel_session_is_online (gpg->session))
-			g_ptr_array_add (argv, "--no-auto-key-retrieve");
+		if (!camel_session_is_online (gpg->session)) {
+			/* this is a deprecated flag to gpg since 1.0.7 */
+			/*g_ptr_array_add (argv, "--no-auto-key-retrieve");*/
+			g_ptr_array_add (argv, "--keyserver-options");
+			g_ptr_array_add (argv, "no-auto-key-retrieve");
+		}
 		g_ptr_array_add (argv, "--verify");
 		if (gpg->sigfile)
 			g_ptr_array_add (argv, gpg->sigfile);
@@ -958,6 +962,8 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 			
 			if (gpg_ctx_parse_status (gpg, ex) == -1)
 				return -1;
+		} else {
+			gpg->complete = TRUE;
 		}
 	}
 	
@@ -1106,7 +1112,7 @@ gpg_ctx_op_complete (struct _GpgCtx *gpg)
 }
 
 static gboolean
-gpg_ctx_op_is_exited (struct _GpgCtx *gpg)
+gpg_ctx_op_exited (struct _GpgCtx *gpg)
 {
 	pid_t retval;
 	int status;
@@ -1314,7 +1320,7 @@ gpg_verify (CamelCipherContext *context, CamelCipherHash hash,
 		goto exception;
 	}
 	
-	while (!gpg_ctx_op_complete (gpg) && !gpg_ctx_op_is_exited (gpg)) {
+	while (!gpg_ctx_op_complete (gpg) && !gpg_ctx_op_exited (gpg)) {
 		if (camel_operation_cancel_check (NULL)) {
 			camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
 					     _("Cancelled."));
