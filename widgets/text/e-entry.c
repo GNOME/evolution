@@ -1105,6 +1105,9 @@ e_entry_destroy (GtkObject *object)
 
 	g_free (entry->priv);
 	entry->priv = NULL;
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 static void
