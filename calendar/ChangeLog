@@ -1,9 +1,14 @@
+2004-10-27  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/e-cal-list-view.c (e_cal_list_view_new): don't expand recurrences
+	for the list view.
+
 2004-10-21  Harish Krishnaswamy  <kharish@novell.com>
 
 	* gui/e-cal-popup.[ch]: (e_cal_popup_target_new_source):
 	Add status bits to denote if the calendar source is available offline
 	so that plugins to calendar popups can use the status qualifier to denote 
-	their visibility preferences. 
+	their visibility preferences.
 
 2004-10-21  Rodrigo Moya <rodrigo@novell.com>
 

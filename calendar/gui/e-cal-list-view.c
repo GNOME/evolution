@@ -316,7 +316,6 @@ e_cal_list_view_new (void)
 	ECalModel *model;
 	
 	model = E_CAL_MODEL (e_cal_model_calendar_new ());
-	e_cal_model_set_flags (model, E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES);
 
 	cal_list_view = g_object_new (e_cal_list_view_get_type (), "model", model, NULL);
 	if (!e_cal_list_view_construct (cal_list_view)) {
