@@ -63,10 +63,9 @@ char *evolution_dir;
 
 EvolutionShellClient *global_shell_client = NULL;
 
-#define COMPONENT_FACTORY_ID "OAFIID:GNOME_Evolution_Mail_ShellComponentFactory"
-#define SUMMARY_FACTORY_ID   "OAFIID:GNOME_Evolution_Mail_ExecutiveSummaryComponentFactory"
+#define COMPONENT_ID 		"OAFIID:GNOME_Evolution_Mail_ShellComponent"
+#define SUMMARY_FACTORY_ID	"OAFIID:GNOME_Evolution_Mail_ExecutiveSummaryComponentFactory"
 
-static BonoboGenericFactory *component_factory = NULL;
 static GHashTable *storages_hash;
 static EvolutionShellComponent *shell_component;
 
@@ -677,7 +676,6 @@ idle_quit (gpointer user_data)
 	if (e_list_length (folder_browser_factory_get_control_list ()))
 		return TRUE;
 
-	bonobo_object_unref (BONOBO_OBJECT (component_factory));
 	g_hash_table_foreach (storages_hash, free_storage, NULL);
 	g_hash_table_destroy (storages_hash);
 
@@ -742,7 +740,7 @@ user_create_new_item_cb (EvolutionShellComponent *shell_component,
 }
 
 static BonoboObject *
-component_fn (BonoboGenericFactory *factory, void *closure)
+create_component (void)
 {
 	EvolutionShellComponentDndDestinationFolder *destination_interface;
 	MailOfflineHandler *offline_handler;
@@ -790,17 +788,21 @@ component_fn (BonoboGenericFactory *factory, void *closure)
 void
 component_factory_init (void)
 {
-	component_factory = bonobo_generic_factory_new (COMPONENT_FACTORY_ID,
-							component_fn, NULL);
+	BonoboObject *shell_component;
+	int result;
 
-	evolution_mail_config_factory_init ();
-	evolution_folder_info_factory_init ();
-
-	if (component_factory == NULL) {
+	shell_component = create_component ();
+	result = oaf_active_server_register (COMPONENT_ID, bonobo_object_corba_objref (shell_component));
+	if (result == OAF_REG_ERROR) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  _("Cannot initialize Evolution's mail component."));
 		exit (1);
 	}
+
+	/* FIXME these don't check for errors.  */
+
+	evolution_mail_config_factory_init ();
+	evolution_folder_info_factory_init ();
 }
 
 static int

@@ -1,3 +1,19 @@
+2001-09-05  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #958, ShellComponents should not be created by factories, for
+	the mailer case.]
+
+	* GNOME_Evolution_Mail.oaf.in: Remove the
+	GNOME_Evolution_Mail_ShellComponentFactory.
+
+	* component-factory.c: Changed to not use a factory.
+	(COMPONENT_FACTORY_ID): Removed.
+	(COMPONENT_ID): New.
+	(idle_quit): Don't unref the component_factory.
+	(create_component): Renamed from `component_fn'.  Take no args.
+	(component_factory_init): Create the component with
+	`create_component' and register it on OAF.
+
 2001-09-06  Radek Doulik  <rodo@ximian.com>
 
 	* everywhere updated for new mail_content_loaded definition
