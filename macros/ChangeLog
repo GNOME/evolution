@@ -1,4 +1,13 @@
+Sun Mar  8 17:04:28 1998  Tom Tromey  <tromey@cygnus.com>
+
+	* gnome-support.m4: Set need_gnome_support shell variable.  Define
+	BUILD_GNOME_SUPPORT automake conditional.  Define LTLIBOBJS.  Look
+	for argp_domain element in struct argp.
+
 Sat Mar  7 00:04:22 1998  Tom Tromey  <tromey@cygnus.com>
+
+	* gnome-support.m4 (GNOME_SUPPORT_CHECKS): Add argp-pvh.o to
+	LIBOBJS.
 
 	* gnome-support.m4 (GNOME_SUPPORT_CHECKS): Check for strnlen().
 
