@@ -450,6 +450,8 @@ folder_tree_new (EMFolderTree *emft, EMFolderTreeModel *model)
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
 	gtk_tree_selection_set_select_function(selection, emft_select_func, emft, NULL);
 	gtk_tree_view_set_headers_visible ((GtkTreeView *) tree, FALSE);
+
+	gtk_tree_view_set_search_column((GtkTreeView *)tree, COL_STRING_DISPLAY_NAME);
 	
 	return (GtkTreeView *) tree;
 }

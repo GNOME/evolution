@@ -1,3 +1,7 @@
+2004-06-25  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-tree.c (folder_tree_new): set search column.  #60152.
+
 2004-06-24  Rodney Dawes  <dobey@novell.com>
 
 	* em-utils.c (em_utils_add_address): Add code to set the parent,
