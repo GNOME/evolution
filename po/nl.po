@@ -20,9 +20,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.evolution-1-4-branch\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-04 03:19+0100\n"
-"PO-Revision-Date: 2003-11-21 14:07+0100\n"
-"Last-Translator: Vincent van Adrighem <adrighem@gnome.org>\n"
+"POT-Creation-Date: 2003-12-07 03:19+0100\n"
+"PO-Revision-Date: 2003-12-07 14:03+0100\n"
+"Last-Translator: Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4109,6 +4109,10 @@ msgstr "uren"
 msgid "minutes"
 msgstr "minuten"
 
+#: calendar/gui/dialogs/alarm-page.c:796
+msgid "Action/Trigger"
+msgstr "Actie/prikkeling"
+
 #: calendar/gui/dialogs/alarm-page.glade.h:1
 #: calendar/gui/dialogs/recurrence-page.glade.h:2
 msgid "Basics"
@@ -4928,6 +4932,10 @@ msgstr "op de"
 #: calendar/gui/dialogs/recurrence-page.c:1358
 msgid "occurrences"
 msgstr "gebeurtenissen"
+
+#: calendar/gui/dialogs/recurrence-page.c:2325
+msgid "Date/Time"
+msgstr "Datum/tijd"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:1
 msgid "A_dd"
