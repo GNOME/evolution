@@ -210,6 +210,8 @@ get_intelligent_importers (void)
 		iids_ret = g_list_prepend (iids_ret, g_strdup (info->iid));
 	}
 
+	CORBA_free (info_list);
+
 	return iids_ret;
 }
 
