@@ -794,6 +794,8 @@ card_added_cb (EBook *book, EBookStatus status, const char *id, EditorCloseStruc
 
 	g_free (ecs);
 
+	e_card_set_id (ce->card, id);
+
 	gtk_signal_emit (GTK_OBJECT (ce), contact_editor_signals[CARD_ADDED],
 			 status, ce->card);
 
@@ -956,6 +958,10 @@ card_deleted_cb (EBook *book, EBookStatus status, EContactEditor *ce)
 {
 	gtk_signal_emit (GTK_OBJECT (ce), contact_editor_signals[CARD_DELETED],
 			 status, ce->card);
+
+	/* always close the dialog after we successfully delete a card */
+	if (status == E_BOOK_STATUS_SUCCESS)
+		close_dialog (ce);
 }
 
 static void

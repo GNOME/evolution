@@ -1,5 +1,20 @@
 2001-08-17  Chris Toshok  <toshok@ximian.com>
 
+	* gui/contact-list-editor/e-contact-list-editor.c (list_added_cb):
+	call e_card_set_id on the list's card so we can continue to use
+	this dialog.  also, call command_state_changed if we aren't
+	closing the dialog so the toolbar is properly sensitized.
+	(list_deleted_cb): always close the dialog after we successfully
+	delete a list.
+
+	* gui/contact-editor/e-contact-editor.c (card_added_cb): call
+	e_card_set_id on the card so we can continue to use this dialog
+	(to modify or delete the card.)
+	(card_deleted_cb): always close the dialog after we successfully
+	delete a card.
+
+2001-08-17  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/addressbook.c (addressbook_query_changed): call
 	e_sexp_encode_string on the search string the user types in so it
 	doesn't break sexp parsing in the wombat.

@@ -309,6 +309,8 @@ list_added_cb (EBook *book, EBookStatus status, const char *id, EditorCloseStruc
 
 	g_free (ecs);
 
+	e_card_set_id (cle->card, id);
+
 	gtk_signal_emit (GTK_OBJECT (cle), contact_list_editor_signals[LIST_ADDED],
 			 status, cle->card);
 
@@ -317,6 +319,8 @@ list_added_cb (EBook *book, EBookStatus status, const char *id, EditorCloseStruc
 
 		if (should_close)
 			close_dialog (cle);
+		else
+			command_state_changed (cle);
 	}
 }
 
@@ -383,6 +387,10 @@ list_deleted_cb (EBook *book, EBookStatus status, EContactListEditor *cle)
 {
 	gtk_signal_emit (GTK_OBJECT (cle), contact_list_editor_signals[LIST_DELETED],
 			 status, cle->card);
+
+	/* always close the dialog after we successfully delete a list */
+	if (status == E_BOOK_STATUS_SUCCESS)
+		close_dialog (cle);
 }
 
 static void
