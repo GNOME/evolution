@@ -554,12 +554,24 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 				   the iTip control, and it needs only the From email address,
 				   but perhaps in the future we can generalize this section of code
 				   to pass a bunch of useful things to all embedded controls. */
+				
+				CamelInternetAddress *ia;
+				const char *addr;
+				const char *name;
 
 				CORBA_exception_init (&ev);
 
-				from_address = camel_mime_message_get_from (md->current_message);
+				ia = camel_internet_address_new ();
+				addr = camel_mime_message_get_from (md->current_message);
+				camel_address_decode (CAMEL_ADDRESS (ia), (const char *) addr);
+
+				camel_internet_address_get (ia, 0, &name, &from_address);
+				
 				bonobo_property_bag_client_set_value_string (prop_bag, "from_address", 
 									     from_address, &ev);
+				
+				camel_object_unref (CAMEL_OBJECT (ia));
+
 				CORBA_exception_free (&ev);
 			}
 		}

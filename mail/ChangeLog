@@ -1,3 +1,8 @@
+2000-11-06	Jesse Pavel   <jpavel@helixcode.com>
+
+	* mail-display.c: used Camel to parse the full address before passing
+	the email address to my iTip control.
+
 2000-11-06  Dan Winship  <danw@helixcode.com>
 
 	First draft of folder tree unread message indication for /local
