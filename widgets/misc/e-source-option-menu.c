@@ -59,6 +59,8 @@ static uint signals[NUM_SIGNALS] = { 0 };
 
 typedef struct {
 	ESourceOptionMenu *option_menu;
+	ESource *source;
+	ESource *found_source;
 	int i;
 } ForeachMenuItemData;
 
@@ -68,8 +70,13 @@ select_source_foreach_menu_item (GtkWidget *menu_item,
 {
 	ESource *source = gtk_object_get_data (GTK_OBJECT (menu_item), MENU_ITEM_SOURCE_DATA_ID);
 
-	if (source == data->option_menu->priv->selected_source)
+	if (data->found_source)
+		return;
+
+	if (source && e_source_equal (source, data->source)) {
+		data->found_source = source;
 		gtk_option_menu_set_history (GTK_OPTION_MENU (data->option_menu), data->i);
+	}
 
 	data->i ++;
 }
@@ -80,20 +87,19 @@ select_source (ESourceOptionMenu *menu,
 {
 	ForeachMenuItemData *foreach_data;
 
-	if (menu->priv->selected_source != NULL)
-		g_object_unref (menu->priv->selected_source);
-	menu->priv->selected_source = source;
-
 	foreach_data = g_new0 (ForeachMenuItemData, 1);
 	foreach_data->option_menu = menu;
+	foreach_data->source = source;
 
 	gtk_container_foreach (GTK_CONTAINER (GTK_OPTION_MENU (menu)->menu),
 			       (GtkCallback) select_source_foreach_menu_item, foreach_data);
 
-	g_free (foreach_data);
-	g_object_ref (source);
+	if (foreach_data->found_source) {
+		menu->priv->selected_source = foreach_data->found_source;
+		g_signal_emit (menu, signals[SOURCE_SELECTED], 0, foreach_data->found_source);
+	}
 
-	g_signal_emit (menu, signals[SOURCE_SELECTED], 0, source);
+	g_free (foreach_data);
 }
 
 

@@ -1,3 +1,13 @@
+2003-12-16  Hans Petter Jansson  <hpj@ximian.com>
+
+	* misc/e-source-option-menu.c (select_source_foreach_menu_item):
+	Use e_source_equal() instead of comparing pointers. This allows user
+	to pass in a source that was obtained from somewhere else. Set the
+	matching internal source as "selected" instead of the one passed in.
+	(select_source): Emit signal only if we found a match. Don't ref/unref
+	anything, since the selected source will always be from our internal
+	list.
+
 2003-12-10  Not Zed  <NotZed@Ximian.com>
 
 	* menus/gal-view-menus.c (remove_instance): NULL out
