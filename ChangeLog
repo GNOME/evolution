@@ -1,3 +1,7 @@
+2000-12-01  Dan Winship  <danw@helixcode.com>
+
+	* README: gnome-vfs depends on gconf, so add that.
+
 2000-11-30  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* configure.in: Bumped required gal version to 0.2.99.4 for
