@@ -3,12 +3,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "POT-Creation-Date: 2001-01-17 18:47-0500\n"
-"PO-Revision-Date: 2000-11-08 19:50+0100\n"
+"PO-Revision-Date: 2001-01-24 15:15+0100\n"
 "Last-Translator: Szabolcs BAN <shooby@gnome.hu>\n"
-"Language-Team: Hungarian <hu@li.org>\n"
+"Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=8859-2\n"
-"Content-Transfer-Encoding: 8-bit\n"
+"Content-Transfer-Encoding: 8bit\n"
 
 #: executive-summary/component/component-factory.c:152
 #, fuzzy
@@ -162,7 +162,7 @@ msgstr ""
 #: mail/mail-config.c:801
 #, fuzzy
 msgid "Connect to server"
-msgstr "Nem tudom elindítani a wombat szervert"
+msgstr "Nem tudom elindítani a wombat kiszolgálót"
 
 #: notes/component-factory.c:27
 #, fuzzy
@@ -599,7 +599,7 @@ msgstr "Az EBook nincs betöltve\n"
 #: calendar/conduits/calendar/calendar-conduit.c:729
 #: calendar/conduits/todo/todo-conduit.c:544
 msgid "Could not start wombat server"
-msgstr "Nem tudom elindítani a wombat szervert"
+msgstr "Nem tudom elindítani a wombat kiszolgálót"
 
 #: addressbook/conduit/address-conduit.c:654
 #: calendar/conduits/calendar/calendar-conduit.c:730
@@ -945,12 +945,12 @@ msgid ""
 "OpenLDAP and recompile and install Evolution.\n"
 msgstr ""
 "Nem tudom a címjegyzéket megnyitni. Ez azt jelenti,\n"
-"hogy hibás URI-t írtál be, vagy egy LDAP szervert\n"
+"hogy hibás URI-t írtál be, vagy egy LDAP kiszolgálót\n"
 "szeretnél elérni, és nincs LDAP támogatás befordítva.\n"
 "Ha URI-t írtál be, ellenõrizd az URI-t elírás vagy\n"
 "helytelen szintaktika szempontjából. Ha nem,\n"
-"lehet, hogy egy LDAP szervert kéne elérned. Ha szeretnél\n"
-"használni egy LDAP szervert, le kell töltened és\n"
+"lehet, hogy egy LDAP kiszolgálót kéne elérned. Ha szeretnél\n"
+"használni egy LDAP kiszolgálót, le kell töltened és\n"
 "telepítened az OpenLDAP csomagot, és újrafordítani az Evolúciót.\n"
 
 #: addressbook/gui/component/addressbook.c:530 mail/folder-browser.c:221
@@ -985,7 +985,7 @@ msgstr "Névjegy törlése?"
 #: addressbook/gui/component/addressbook-config.c:139
 #, fuzzy
 msgid "LDAP Server"
-msgstr "LDAP szerver:"
+msgstr "LDAP kiszolgáló:"
 
 #: addressbook/gui/component/addressbook-config.c:141
 #, fuzzy
@@ -1200,7 +1200,7 @@ msgstr "Az Evolúció naptár csatorna beállító eszköze.\n"
 #: calendar/conduits/calendar/calendar-conduit.c:685
 #: calendar/conduits/todo/todo-conduit.c:500
 msgid "Error while communicating with calendar server"
-msgstr "Hibás kommunikáció a naptár szerverrel"
+msgstr "Hibás kommunikáció a naptár kiszolgálóval"
 
 #: calendar/conduits/calendar/calendar-conduit.c:784
 #: calendar/conduits/calendar/calendar-conduit.c:787
@@ -2071,7 +2071,7 @@ msgstr ""
 #: camel/camel-remote-store.c:184
 #, c-format
 msgid "%s server %s"
-msgstr "%s szerver %s"
+msgstr "%s kiszolgáló %s"
 
 #: camel/camel-remote-store.c:188
 #, c-format
@@ -2091,7 +2091,7 @@ msgstr ""
 
 #: camel/camel-remote-store.c:322 camel/camel-remote-store.c:335
 msgid "(unknown host)"
-msgstr "(ismeretlen szerver)"
+msgstr "(ismeretlen kiszolgáló)"
 
 #: camel/camel-remote-store.c:426 camel/camel-remote-store.c:488
 #: camel/camel-remote-store.c:556
@@ -2183,12 +2183,12 @@ msgstr "Ismeretlen hiba"
 #: camel/providers/imap/camel-imap-command.c:297
 #, fuzzy
 msgid "Server response ended too soon."
-msgstr "Az IMAP szerver válasza nem tartalmaz %s információt"
+msgstr "Az IMAP kiszolgáló válasza nem tartalmaz %s információt"
 
 #: camel/providers/imap/camel-imap-command.c:433
 #, c-format
 msgid "IMAP server response did not contain %s information"
-msgstr "Az IMAP szerver válasza nem tartalmaz %s információt"
+msgstr "Az IMAP kiszolgáló válasza nem tartalmaz %s információt"
 
 #: camel/providers/imap/camel-imap-command.c:469
 #, c-format
@@ -2540,7 +2540,7 @@ msgstr ""
 
 #: camel/providers/nntp/camel-nntp-auth.c:62
 msgid "Server rejected username"
-msgstr "A szerver a felhasználói nevet visszadobta"
+msgstr "A kiszolgáló a felhasználói nevet visszadobta"
 
 #: camel/providers/nntp/camel-nntp-auth.c:68
 msgid "Failed to send username to server"
@@ -2768,7 +2768,7 @@ msgstr ""
 #: camel/providers/smtp/camel-smtp-transport.c:320
 #, fuzzy, c-format
 msgid "SMTP server %s"
-msgstr "%s szerver %s"
+msgstr "%s kiszolgáló %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:322
 #, c-format
@@ -4773,7 +4773,7 @@ msgstr ""
 "és még sok szeretetet fogunk beleölni az UI fejlesztérébe. Tudnod kell\n"
 "viszont, hogy amit használsz, nem demoware.\n"
 "Tehát, itt az idõ a mentegetõzésre. Az Evolúció fog: crash-elni, \n"
-"elveszti a leveleid, kósza processzeket hagy futni, megeszi a teljes\n"
+"elveszti a leveleid, kósza folyamatokat hagy futni, megeszi a teljes\n"
 "CPU idõdet, HTML leveleket küld véletlenszerû levlistáknak, és lejárat\n"
 "a kollegáid és a barátaid elõtt. Használd a saját felelõsségedre.\n"
 "Azért reméljük, élvezni fogod a kemény munkánk eredményét, és várjuk\n"
