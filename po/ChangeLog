@@ -1,3 +1,7 @@
+2004-04-28  Not Zed  <NotZed@Ximian.com>
+
+	* POTFILES.in: Added mailer error files.
+
 2004-04-27  Gareth Owen  <gowen72@yahoo.com>
 
 	* en_GB.po: Updated British English translation

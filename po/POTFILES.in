@@ -239,6 +239,7 @@ composer/e-msg-composer-hdrs.c
 composer/e-msg-composer-select-file.c
 composer/e-msg-composer.c
 composer/evolution-composer.c
+composer/mail-composer-errors.xml.in
 data/evolution.desktop.in.in
 data/evolution.keys.in.in
 designs/OOA/ooa.glade
@@ -251,6 +252,7 @@ e-util/e-pilot-settings.c
 e-util/e-time-utils.c
 filter/filter-datespec.c
 filter/filter-editor.c
+filter/filter-errors.xml.in
 filter/filter-file.c
 filter/filter-filter.c
 filter/filter-folder.c
@@ -306,6 +308,7 @@ mail/mail-config-druid.c
 mail/mail-config.c
 mail/mail-config.glade
 mail/mail-crypto.c
+mail/mail-errors.xml.in
 mail/mail-folder-cache.c
 mail/mail-mt.c
 mail/mail-ops.c
