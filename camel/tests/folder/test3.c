@@ -77,6 +77,8 @@ static struct {
 	int counts[3];
 	char *expr;
 } searches[] = {
+	{ { 1, 1, 0 }, "(header-matches \"subject\" \"Test1 message99 subject\")" },
+	
 	{ { 100, 50, 0 }, "(header-contains \"subject\" \"subject\")" },
 	{ { 0, 0, 0 }, "(header-contains \"subject\" \"Subject\")" },
 

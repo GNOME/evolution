@@ -49,6 +49,7 @@ struct {
 	{ "stop", "(body-contains \"data2\")", "(stop)" },
 	{ "notreached1", "(body-contains \"data2\")", "(move-to \"folder2\")" },
 	{ "count1", "(body-contains \"data3\")", "(move-to \"folder2\")" },
+	{ "ustrcasecmp", "(header-matches \"Subject\" \"Test0 message100 subject\")", "(copy-to \"folder2\")" },
 };
 
 /* broken match rules */
