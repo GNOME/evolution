@@ -1,3 +1,12 @@
+2004-04-02  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #56338.
+
+	* em-format-html.c (emfh_gethttp): fix the fugly "load http if"
+	that doesn't work to be a fugly "load http if" that does work.
+	(efh_format_timeout): dont set load_http_now here, its only an
+	override now.
+
 2004-04-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-migrate.c (cp_r): Report progress. "Fixes" bug #56355.

@@ -441,10 +441,12 @@ static void emfh_gethttp(struct _EMFormatHTMLJob *job, int cancelled)
 	if (instream == NULL) {
 		char *proxy;
 
-		if ((job->format->load_http != MAIL_CONFIG_HTTP_ALWAYS && !job->format->load_http_now)
-		    || job->format->load_http == MAIL_CONFIG_HTTP_NEVER
-		    || (job->format->load_http == MAIL_CONFIG_HTTP_SOMETIMES
-			&& !em_utils_in_addressbook(camel_mime_message_get_from(job->format->format.message)))) {
+		printf(" load http %d now=%d\n", job->format->load_http, job->format->load_http_now);
+
+		if (!(job->format->load_http_now
+		      || job->format->load_http == MAIL_CONFIG_HTTP_ALWAYS
+		      || (job->format->load_http == MAIL_CONFIG_HTTP_SOMETIMES
+			  && em_utils_in_addressbook(camel_mime_message_get_from(job->format->format.message))))) {
 			/* TODO: Ideally we would put the http requests into another queue and only send them out
 			   if the user selects 'load images', when they do.  The problem is how to maintain this
 			   state with multiple renderings, and how to adjust the thread dispatch/setup routine to handle it */
@@ -1314,8 +1316,6 @@ efh_format_timeout(struct _format_msg *m)
 			p->text_inline_parts = g_hash_table_new(NULL, NULL);
 
 			p->last_part = m->message;
-			/* FIXME: Need to handle 'load if sender in addressbook' case too */
-			efh->load_http_now = efh->load_http;
 		}
 		
 		efh->priv->format_id = m->msg.seq;
