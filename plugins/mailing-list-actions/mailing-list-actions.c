@@ -4,9 +4,6 @@
  * This file is licensed under the GNU GPL v2 or later
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
 #include <glib/gi18n-lib.h>
 #include <stdio.h>
 #include <string.h>
@@ -95,13 +92,13 @@ void emla_list_action_do (CamelFolder *folder, const char *uid, CamelMimeMessage
 {
 	emla_action_data *action_data = (emla_action_data *) data;
 	EmlaAction action = action_data->action;
-	const char* header = NULL, *headerpos, *fromurl = NULL;
+	const char* header = NULL, *headerpos;
 	char *end, *url = NULL;
 	int t;
 	GError *err;
 	EMsgComposer *composer;
 	int send_message_response;
-	EAccount *account = NULL;
+	EAccount *account;
 
 	for (t = 0; t < emla_n_action_headers; t++) {
 		if (emla_action_headers[t].action == action &&
@@ -140,29 +137,20 @@ void emla_list_action_do (CamelFolder *folder, const char *uid, CamelMimeMessage
 		url[end-headerpos] = '\0';
 
 		if (strncmp (url, "mailto:", 6) == 0) {
-			if (emla_action_headers[t].interactive) {
+			if (emla_action_headers[t].interactive)
 				send_message_response = GTK_RESPONSE_NO;
-			} else {
-				fromurl = camel_mime_message_get_source (msg);
-				account = mail_config_get_account_by_source_url (fromurl);
-				if (!account) {
-					fromurl = action_data->uri;
-					account = mail_config_get_account_by_source_url (fromurl);
-				}
-				send_message_response = e_error_run (NULL, "org.gnome.mailing-list-actions:ask-send-message",
-				                                     (account && account->id && account->id->address) ? account->id->address : "(default e-mail)",
-				                                     url, NULL);
-			}
+			else
+				send_message_response = e_error_run (NULL, "org.gnome.mailing-list-actions:ask-send-message", url, NULL);
 
 			if (send_message_response == GTK_RESPONSE_YES) {
 				/* directly send message */
 				composer = e_msg_composer_new_from_url (url);
-				if (account)
+				if ((account = mail_config_get_account_by_source_url (action_data->uri)))
 					e_msg_composer_hdrs_set_from_account ((EMsgComposerHdrs *) composer->hdrs, account->name);
 				em_utils_composer_send_cb (composer, NULL);
 			} else if (send_message_response == GTK_RESPONSE_NO) {
 				/* show composer */
-				em_utils_compose_new_message_with_mailto (url, fromurl);
+				em_utils_compose_new_message_with_mailto (url, action_data->uri);
 			}
 
 			goto exit;

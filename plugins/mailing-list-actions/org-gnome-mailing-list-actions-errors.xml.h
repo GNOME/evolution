@@ -9,11 +9,11 @@ char *s = N_("Posting to this mailing list is not allowed. Possibly, this is a r
 /* org.gnome.mailing-list-actions:ask-send-message primary */
 char *s = N_("Send e-mail message to mailing list?");
 /* org.gnome.mailing-list-actions:ask-send-message secondary */
-char *s = N_("An e-mail message will be sent to the URL \"{1}\", using the e-mail address \"{0}\". You can either send the message automatically, or see and change it first.\n"
+char *s = N_("An e-mail message will be sent to the URL \"{0}\". You can either send the message automatically, or see and change it first.\n"
 	"\n"
 	"You should receive an answer from the mailing list shortly after the message has been sent.");
-char *s = N_("_Edit message");
 char *s = N_("_Send message");
+char *s = N_("_Edit message");
 /* org.gnome.mailing-list-actions:malformed-header primary */
 char *s = N_("Malformed header");
 /* org.gnome.mailing-list-actions:malformed-header secondary */
