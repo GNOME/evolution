@@ -2537,7 +2537,7 @@ camel_message_info_new_from_header (struct _header_raw *header)
 	camel_message_info_set_from(info, from);
 	camel_message_info_set_to(info, to);
 	camel_message_info_set_cc(info, cc);
-	camel_message_info_set_mlist(info, cc);
+	camel_message_info_set_mlist(info, mlist);
 
 	return info;
 }

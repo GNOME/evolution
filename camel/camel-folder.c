@@ -1057,7 +1057,7 @@ static void
 copy_message_to (CamelFolder *source, const char *uid, CamelFolder *dest, CamelException *ex)
 {
 	CamelMimeMessage *msg;
-	CamelMessageInfo *info;
+	CamelMessageInfo *info = NULL;
 
 	/* Default implementation. */
 	
@@ -1065,11 +1065,18 @@ copy_message_to (CamelFolder *source, const char *uid, CamelFolder *dest, CamelE
 	msg = CF_CLASS(source)->get_message(source, uid, ex);
 	if (!msg)
 		return;
-	info = CF_CLASS(source)->get_message_info (source, uid);
+	if (source->has_summary_capability)
+		info = CF_CLASS(source)->get_message_info (source, uid);
+	else
+		info = camel_message_info_new_from_header(((CamelMimePart *)msg)->headers);
 	camel_folder_append_message (dest, msg, info, ex);
 	camel_object_unref (CAMEL_OBJECT (msg));
-	if (info)
-		CF_CLASS(source)->free_message_info(source, info);
+	if (info) {
+		if (source->has_summary_capability)
+			CF_CLASS(source)->free_message_info(source, info);
+		else
+			camel_message_info_free(info);
+	}
 }
 
 /**
@@ -1109,21 +1116,27 @@ move_message_to (CamelFolder *source, const char *uid,
 		 CamelFolder *dest, CamelException *ex)
 {
 	CamelMimeMessage *msg;
-	CamelMessageInfo *info;
+	CamelMessageInfo *info = NULL;
 
 	/* Default implementation. */
 	
 	msg = CF_CLASS(source)->get_message (source, uid, ex);
 	if (!msg)
 		return;
-	info = CF_CLASS(source)->get_message_info (source, uid);
+	if (source->has_summary_capability)
+		info = CF_CLASS(source)->get_message_info (source, uid);
+	else
+		info = camel_message_info_new_from_header(((CamelMimePart *)msg)->headers);
 	camel_folder_append_message (dest, msg, info, ex);
 	camel_object_unref (CAMEL_OBJECT (msg));
 	if (!camel_exception_is_set(ex))
 		CF_CLASS(source)->set_message_flags(source, uid, CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
-
-	if (info)
-		CF_CLASS(source)->free_message_info(source, info);
+	if (info) {
+		if (source->has_summary_capability)
+			CF_CLASS(source)->free_message_info(source, info);
+		else
+			camel_message_info_free(info);
+	}
 }
 
 /**

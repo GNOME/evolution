@@ -1,5 +1,12 @@
 2001-02-23  Not Zed  <NotZed@Ximian.com>
 
+	* camel-folder-summary.c (camel_message_info_new_from_header):
+	Doh, cut and paste problem, use mlist not cc.
+
+	* camel-folder.c (move_message_to): 
+	(copy_message_to): If the source folder doesn't support a
+	summary, dont try and get the message info from it.
+
 	* camel-filter-search.c (check_header): Implement a pseudo-header
 	"x-camel-mlist" which just looks up in the message info for a
 	match.

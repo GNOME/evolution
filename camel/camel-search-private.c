@@ -372,7 +372,7 @@ camel_search_header_match (const char *value, const char *match, camel_search_ma
 {
 	const char *p;
 	int vlen, mlen;
-	
+
 	while (*value && isspace (*value))
 		value++;
 	
