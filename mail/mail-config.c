@@ -438,7 +438,7 @@ config_write_fonts (void)
 	char *var_font;
 	
 	if (!evolution_dir) {
-		g_warning ("evolution_dir empty", filename);
+		g_warning ("evolution_dir empty");
 		return;
 	}
 

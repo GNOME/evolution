@@ -114,11 +114,11 @@ void *mail_msg_new(mail_msg_op_t *ops, EMsgPort *reply_port, size_t size)
 	msg->ops = ops;
 	msg->seq = mail_msg_seq++;
 	msg->msg.reply_port = reply_port;
-	msg->cancel = camel_operation_new(mail_operation_status, (void *)msg->seq);
+	msg->cancel = camel_operation_new(mail_operation_status, GINT_TO_POINTER(msg->seq));
 	camel_exception_init(&msg->ex);
 	msg->priv = g_malloc0(sizeof(*msg->priv));
 
-	g_hash_table_insert(mail_msg_active_table, (void *)msg->seq, msg);
+	g_hash_table_insert(mail_msg_active_table, GINT_TO_POINTER(msg->seq), msg);
 
 	d(printf("New message %p\n", msg));
 
@@ -184,7 +184,7 @@ void mail_msg_free(void *msg)
 		fprintf(log, "%p: Free  (exception `%s')\n", msg,
 			camel_exception_get_description(&m->ex)?camel_exception_get_description(&m->ex):"None");
 #endif
-	g_hash_table_remove(mail_msg_active_table, (void *)m->seq);
+	g_hash_table_remove(mail_msg_active_table, GINT_TO_POINTER(m->seq));
 	pthread_cond_broadcast(&mail_msg_cond);
 
 	/* We need to make sure we dont lose a reference here YUCK YUCK */
@@ -281,7 +281,7 @@ void mail_msg_cancel(unsigned int msgid)
 	struct _mail_msg *m;
 
 	MAIL_MT_LOCK(mail_msg_lock);
-	m = g_hash_table_lookup(mail_msg_active_table, (void *)msgid);
+	m = g_hash_table_lookup(mail_msg_active_table, GINT_TO_POINTER(msgid));
 
 	if (m && m->cancel)
 		camel_operation_cancel(m->cancel);
@@ -299,20 +299,20 @@ void mail_msg_wait(unsigned int msgid)
 
 	if (ismain) {
 		MAIL_MT_LOCK(mail_msg_lock);
-		m = g_hash_table_lookup(mail_msg_active_table, (void *)msgid);
+		m = g_hash_table_lookup(mail_msg_active_table, GINT_TO_POINTER(msgid));
 		while (m) {
 			MAIL_MT_UNLOCK(mail_msg_lock);
 			gtk_main_iteration();
 			MAIL_MT_LOCK(mail_msg_lock);
-			m = g_hash_table_lookup(mail_msg_active_table, (void *)msgid);
+			m = g_hash_table_lookup(mail_msg_active_table, GINT_TO_POINTER(msgid));
 		}
 		MAIL_MT_UNLOCK(mail_msg_lock);
 	} else {
 		MAIL_MT_LOCK(mail_msg_lock);
-		m = g_hash_table_lookup(mail_msg_active_table, (void *)msgid);
+		m = g_hash_table_lookup(mail_msg_active_table, GINT_TO_POINTER(msgid));
 		while (m) {
 			pthread_cond_wait(&mail_msg_cond, &mail_msg_lock);
-			m = g_hash_table_lookup(mail_msg_active_table, (void *)msgid);
+			m = g_hash_table_lookup(mail_msg_active_table, GINT_TO_POINTER(msgid));
 		}
 		MAIL_MT_UNLOCK(mail_msg_lock);
 	}
@@ -326,7 +326,7 @@ int mail_msg_active(unsigned int msgid)
 	if (msgid == (unsigned int)-1) 
 		active = g_hash_table_size(mail_msg_active_table) > 0;
 	else
-		active = g_hash_table_lookup(mail_msg_active_table, (void *)msgid) != NULL;
+		active = g_hash_table_lookup(mail_msg_active_table, GINT_TO_POINTER(msgid)) != NULL;
 	MAIL_MT_UNLOCK(mail_msg_lock);
 
 	return active;

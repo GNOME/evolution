@@ -41,6 +41,7 @@
 
 #include <libgnomeprint/gnome-print-job.h>
 #include <libgnomeprintui/gnome-print-dialog.h>
+#include <libgnomeprintui/gnome-print-job-preview.h>
 
 #include <bonobo/bonobo-widget.h>
 #include <bonobo/bonobo-socket.h>

@@ -31,6 +31,7 @@
 
 #include <glib.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
+#include <libgnomevfs/gnome-vfs-mime.h>
 #include <libgnomevfs/gnome-vfs-mime-utils.h>
 #include "mail.h"
 

@@ -1,3 +1,26 @@
+2003-05-17  Jeremy Katz  <katzj@redhat.com>
+
+	* mail-offline-handler.c: Add #include to fix warning.
+
+	* mail-mt.c (mail_msg_new): Use glib macros for pointer/int
+	conversions.
+	(mail_msg_free): Likewise.
+	(mail_msg_cancel): Likewise.
+	(mail_msg_wait): Likewise.
+	(mail_msg_active): Likewise.
+	* mail-session.c (main_register_timeout): Likewise.
+	(register_timeout): Likewise.
+	(main_remove_timeout): Likewise.
+	(remove_timeout): Likewise.
+	* message-list.c (ml_value_to_string): Likewise.
+	
+	* mail-identify.c: Add #include to fix warning.
+	
+	* mail-config.c (config_write_fonts): Don't pass extra arguments
+	to g_warning.
+	
+	* mail-callbacks.c: Add #include to fix warning.
+
 2003-05-15  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #42838.

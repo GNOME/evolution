@@ -29,6 +29,7 @@
 #include "mail-offline-handler.h"
 #include "mail.h"
 #include "mail-ops.h"
+#include "mail-folder-cache.h"
 
 #include <gtk/gtkmain.h>
 

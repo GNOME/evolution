@@ -657,7 +657,7 @@ static void
 main_register_timeout (CamelSession *session, void *event_data, void *data)
 {
 	MailSession *ms = (MailSession *)session;
-	unsigned int handle = (unsigned int)event_data;
+	unsigned int handle = GPOINTER_TO_UINT(event_data);
 	struct _timeout_data *td;
 	
 	MAIL_SESSION_LOCK(session, lock);
@@ -707,7 +707,7 @@ register_timeout (CamelSession *session, guint32 interval, CamelTimeoutCallback 
 	
 	camel_object_ref (ms);
 	mail_async_event_emit (ms->async, MAIL_ASYNC_GUI, (MailAsyncFunc) main_register_timeout,
-			       (CamelObject *) session, (void *) ret, NULL);
+			       (CamelObject *) session, GUINT_TO_POINTER(ret), NULL);
 
 	return ret;
 }
@@ -716,7 +716,7 @@ static void
 main_remove_timeout (CamelSession *session, void *event_data, void *data)
 {
 	MailSession *ms = (MailSession *) session;
-	unsigned int handle = (unsigned int) event_data;
+	unsigned int handle = GPOINTER_TO_UINT(event_data);
 	struct _timeout_data *td;
 	
 	MAIL_SESSION_LOCK(session, lock);
@@ -750,7 +750,7 @@ remove_timeout (CamelSession *session, guint handle)
 	if (remove) {
 		camel_object_ref (ms);
 		mail_async_event_emit (ms->async, MAIL_ASYNC_GUI, (MailAsyncFunc) main_remove_timeout,
-				       (CamelObject *) session, (void *) handle, NULL);
+				       (CamelObject *) session, GUINT_TO_POINTER(handle), NULL);
 	} else
 		g_warning ("Removing a timeout i dont know about (or twice): %d", handle);
 

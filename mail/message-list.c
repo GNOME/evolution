@@ -762,13 +762,13 @@ ml_value_to_string (ETreeModel *etm, int col, const void *value, void *data)
 	
 	switch (col){
 	case COL_MESSAGE_STATUS:
-		i = (unsigned int)value;
+		i = GPOINTER_TO_UINT(value);
 		if (i > 4)
 			return g_strdup ("");
 		return g_strdup (_(status_map[i]));
 		
 	case COL_SCORE:
-		i = (unsigned int) value + 3;
+		i = GPOINTER_TO_UINT(value) + 3;
 		if (i > 6)
 			i = 3;
 		return g_strdup (_(score_map[i]));
@@ -778,7 +778,7 @@ ml_value_to_string (ETreeModel *etm, int col, const void *value, void *data)
 	case COL_DELETED:
 	case COL_UNREAD:
 	case COL_FOLLOWUP_FLAG_STATUS:
-		return g_strdup_printf ("%d", (int) value);
+		return g_strdup_printf ("%d", GPOINTER_TO_UINT(value));
 		
 	case COL_SENT:
 	case COL_RECEIVED:
