@@ -181,7 +181,7 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 			}
 			camel_object_unref (CAMEL_OBJECT (message));
 		}
-		camel_folder_sync (folder, ex);
+		camel_folder_sync (folder, TRUE, ex);
 		camel_folder_free_uids (folder, uids);
 		
 		data->empty = FALSE;
