@@ -1,4 +1,16 @@
 dnl
+dnl GNOME_LIBGTOP_TYPES
+dnl
+dnl some typechecks for libgtop.
+dnl
+
+AC_DEFUN([GNOME_LIBGTOP_TYPES],
+[
+	AC_CHECK_TYPE(u_int64_t, unsigned long long int)
+	AC_CHECK_TYPE(int64_t, long long int)
+])
+
+dnl
 dnl GNOME_LIBGTOP_HOOK (script-if-libgtop-enabled, failflag)
 dnl
 dnl if failflag is "fail" then GNOME_LIBGTOP_HOOK will abort if gtopConf.sh
@@ -7,7 +19,7 @@ dnl
 
 AC_DEFUN([GNOME_LIBGTOP_HOOK],
 [	
-	dnl AC_REQUIRE([GNOME_LIBGTOP_SYSDEPS])
+	AC_REQUIRE([GNOME_LIBGTOP_TYPES])
 
 	AC_SUBST(LIBGTOP_LIBDIR)
 	AC_SUBST(LIBGTOP_INCLUDEDIR)
