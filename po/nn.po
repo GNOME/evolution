@@ -13,6 +13,23 @@
 # translation of nn.po to Norwegian (nynorsk)
 # translation of nn.po to Norwegian (nynorsk)
 # translation of nn.po to Norwegian (nynorsk)
+# translation of nn.po to Norwegian (nynorsk)
+# translation of nn.po to Norwegian (nynorsk)
+# translation of nn.po to Norwegian (nynorsk)
+# translation of nn.po to Norwegian (nynorsk)
+# translation of nn.po to Norwegian (nynorsk)
+# translation of nn.po to Norwegian (nynorsk)
+# translation of nn.po to Norwegian (nynorsk)
+# translation of nn.po to Norwegian (nynorsk)
+# translation of nn.po to Norwegian (nynorsk)
+# translation of nn.po to Norwegian (nynorsk)
+# translation of nn.po to Norwegian (nynorsk)
+# translation of nn.po to Norwegian (nynorsk)
+# translation of nn.po to Norwegian (nynorsk)
+# translation of nn.po to Norwegian (nynorsk)
+# translation of nn.po to Norwegian (nynorsk)
+# translation of nn.po to Norwegian (nynorsk)
+# translation of nn.po to Norwegian (nynorsk)
 # Norwegian (Nynorsk) translation of Evolution
 # Copyright (C) 2001-2002 Roy-Magne Mo, 2003 Åsmund Skjæveland
 # Roy-Magne Mo <rmo@sunnmore.net>, 2001-2002.
@@ -23,7 +40,7 @@ msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-09-23 13:44+0200\n"
-"PO-Revision-Date: 2003-09-23 21:12+0200\n"
+"PO-Revision-Date: 2003-09-25 11:35+0200\n"
 "Last-Translator: Åsmund Skjæveland <aasmunds@fys.uio.no>\n"
 "Language-Team: Norwegian (nynorsk) <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -622,6 +639,10 @@ msgid ""
 "Please make your search more specific or raise the result limit in\n"
 "the directory server preferences for this addressbook."
 msgstr ""
+"Det var fleire treff på dette søket enn tenaren er satt opp\n"
+"til å returnera, eller fleire treff enn Evolution er satt opp\n"
+"til å visa. Gjer søket ditt meir spesifikt eller hev\n"
+"resultatgrensa i oppsettet for katalogtenaren i denne adresseboka."
 
 #: addressbook/gui/component/addressbook.c:961
 msgid ""
@@ -1253,15 +1274,15 @@ msgstr "kort"
 
 #: addressbook/gui/component/ldap-config.glade.h:92
 msgid "connecting-tab"
-msgstr ""
+msgstr "tilkopling-fane"
 
 #: addressbook/gui/component/ldap-config.glade.h:93
 msgid "general-tab"
-msgstr ""
+msgstr "almennt-fane"
 
 #: addressbook/gui/component/ldap-config.glade.h:94
 msgid "searching-tab"
-msgstr ""
+msgstr "søke-fane"
 
 #: addressbook/gui/component/select-names/e-select-names.c:509
 msgid "Select Contacts from Addressbook"
@@ -1340,30 +1361,28 @@ msgid "_Folder:"
 msgstr "_Mapper:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
-#, fuzzy
 msgid " B_usiness:"
-msgstr "Firma"
+msgstr " F_irma:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:3
 msgid "A_ddress..."
-msgstr "A_dresse ..."
+msgstr "_Adresse ..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:4
 msgid "A_ssistant's name:"
-msgstr "Namn på a_ssistent:"
+msgstr "Namn på _assistent:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:5
 msgid "Anni_versary:"
-msgstr "M_erkedag"
+msgstr "_Merkedag"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:6
 msgid "Birthda_y:"
-msgstr "Fødsels_dag:"
+msgstr "_Fødselsdag:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:7
-#, fuzzy
 msgid "Business fa_x:"
-msgstr "Firma-fax"
+msgstr "Firma-fa_x:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:8
 msgid "Collaboration"
@@ -1377,7 +1396,7 @@ msgstr "Kontaktredigering"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:10
 msgid "D_epartment:"
-msgstr "Avd_eling:"
+msgstr "A_vdeling:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:11
 #: calendar/gui/dialogs/task-editor.c:199
@@ -1390,7 +1409,7 @@ msgstr "_Ledig/Oppteken URL:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:13
 msgid "File a_s:"
-msgstr "Lagra _som:"
+msgstr "Arkiver _som:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:14
 msgid "Full _Name..."
@@ -1412,15 +1431,15 @@ msgstr "Ny telefontype"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:19
 msgid "No_tes:"
-msgstr "Mer_knadar:"
+msgstr "M_erknadar:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:20
 msgid "Organi_zation:"
-msgstr "Organi_sasjon:"
+msgstr "O_rganisasjon:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:21
 msgid "P_rofession:"
-msgstr "Y_rke:"
+msgstr "_Yrke:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:22
 msgid "Primary _email:"
@@ -1432,16 +1451,15 @@ msgstr "E_ktefelle:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:24
 msgid "Wants to receive _HTML mail"
-msgstr "Vil motta _HTML-post"
+msgstr "_Vil motta HTML-post"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:25
 msgid "_Add"
 msgstr "_Legg til"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:26
-#, fuzzy
 msgid "_Business:"
-msgstr "Firma"
+msgstr "_Firma:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:27
 msgid "_Categories..."
@@ -1468,7 +1486,7 @@ msgstr "_Jobb-tittel:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:31
 msgid "_Manager's name:"
-msgstr "Na_mn på leiar:"
+msgstr "Namn på _leiar:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:32
 msgid "_Mobile:"
@@ -1484,15 +1502,15 @@ msgstr "K_ontor:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:35
 msgid "_Public Calendar URL:"
-msgstr "_Offentleg kalendar-URL:"
+msgstr "_Offentleg kalender-URL:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:36
 msgid "_This is the mailing address"
-msgstr "De_tte er postadressa"
+msgstr "_Dette er postadressa"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:37
 msgid "_Web page address:"
-msgstr "_Nettsideaddresse"
+msgstr "Ne_ttsideadresse"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:102
 #: addressbook/gui/contact-editor/e-contact-editor.c:184
@@ -1514,7 +1532,7 @@ msgstr "USA"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:136
 msgid "Afghanistan"
-msgstr "Afganistan"
+msgstr "Afghanistan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:137
 #: my-evolution/Locations.h:42
@@ -1528,7 +1546,7 @@ msgstr "Algerie"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:139
 msgid "American Samoa"
-msgstr "Amerikansk samoa"
+msgstr "Amerikansk Samoa"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:140
 msgid "Andorra"
@@ -1544,7 +1562,7 @@ msgstr "Anguilla"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:143
 msgid "Antarctica"
-msgstr "Antarktis"
+msgstr "Antarktika"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:144
 msgid "Antigua And Barbuda"
@@ -1575,7 +1593,7 @@ msgstr "Austerrike"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:150
 msgid "Azerbaijan"
-msgstr "Aserbadjan"
+msgstr "Aserbadsjan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:151
 #: my-evolution/Locations.h:161
@@ -1619,7 +1637,7 @@ msgstr "Bermuda"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:160
 msgid "Bhutan"
-msgstr "Bhutan                lokal fil-bakdel"
+msgstr "Bhutan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:161
 #: my-evolution/Locations.h:270
@@ -1628,7 +1646,7 @@ msgstr "Bolivia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:162
 msgid "Bosnia And Herzegowina"
-msgstr "Bosnia og Herzegovina"
+msgstr "Bosnia-Hercegovina"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:163
 msgid "Botswana"
@@ -1636,7 +1654,7 @@ msgstr "Botswana"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:164
 msgid "Bouvet Island"
-msgstr "Bouvet Island"
+msgstr "Bouvetøya"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:165
 #: my-evolution/Locations.h:294
@@ -1644,12 +1662,13 @@ msgid "Brazil"
 msgstr "Brasil"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:166
+# TRN: Det finst visst inga offisiell omsetjing for dette.
 msgid "British Indian Ocean Territory"
-msgstr "Britisk Indisk sjøterritorium"
+msgstr "Britisk indisk sjøterritorium"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:167
 msgid "Brunei Darussalam"
-msgstr "Brunei Darussalam"
+msgstr "Brunei"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:168
 #: my-evolution/Locations.h:320
@@ -1679,20 +1698,20 @@ msgstr "Canada"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:174
 msgid "Cape Verde"
-msgstr "Cape Verde"
+msgstr "Kapp Verde"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:175
 #: my-evolution/Locations.h:389
 msgid "Cayman Islands"
-msgstr "Cayman Islands"
+msgstr "Caymanøyane"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:176
 msgid "Central African Republic"
-msgstr "Den Sentralafrikanske republikken"
+msgstr "Den sentralafrikanske republikken"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:177
 msgid "Chad"
-msgstr "Tjad"
+msgstr "Tsjad"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:178
 #: my-evolution/Locations.h:438
@@ -1706,11 +1725,11 @@ msgstr "Kina"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:180
 #: my-evolution/Locations.h:451
 msgid "Christmas Island"
-msgstr "Christmas Island"
+msgstr "Christmasøya"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:181
 msgid "Cocos (Keeling) Islands"
-msgstr "Cocos (Keeling) Islands"
+msgstr "Kokosøyane"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:182
 #: my-evolution/Locations.h:483
@@ -1719,16 +1738,17 @@ msgstr "Colombia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:183
 msgid "Comoros"
-msgstr "Comoros"
+msgstr "Komorane"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:184
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:185
+# TRN: Er dette Kongo-Brazaville (Congo), cg, eller Kongo (The Democratic republic of the Congo) cd?
 msgid "Congo"
-msgstr "Kongo"
+msgstr "Kongo-Brazaville"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:186
 msgid "Cook Islands"
-msgstr "Cook Islands"
+msgstr "Cookøyane"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:187
 #: my-evolution/Locations.h:517
@@ -1737,17 +1757,17 @@ msgstr "Costa Rica"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:188
 msgid "Cote d'Ivoire"
-msgstr "Cote d'Ivoire"
+msgstr "Elfenbeinskysten"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:189
 #: my-evolution/Locations.h:528
 msgid "Croatia"
-msgstr "Krotia"
+msgstr "Kroatia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:190
 #: my-evolution/Locations.h:532
 msgid "Cuba"
-msgstr "Kuba"
+msgstr "Cuba"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:191
 #: my-evolution/Locations.h:545
@@ -1757,7 +1777,7 @@ msgstr "Kypros"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:192
 #: my-evolution/Locations.h:546
 msgid "Czech Republic"
-msgstr "Tjekkisk republikk"
+msgstr "Tjekkia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:193
 #: my-evolution/Locations.h:580
@@ -1775,11 +1795,11 @@ msgstr "Dominica"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:196
 #: my-evolution/Locations.h:608
 msgid "Dominican Republic"
-msgstr "Dominikanske republikk"
+msgstr "Den dominikanske republikken"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:197
 msgid "East Timor"
-msgstr "Aust-timor"
+msgstr "Aust-Timor"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:198
 #: my-evolution/Locations.h:641
@@ -1798,7 +1818,7 @@ msgstr "El Salvador"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:201
 msgid "Equatorial Guinea"
-msgstr "Ekvatorial Guinea"
+msgstr "Ekvatorial-Guinea"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:202
 msgid "Eritrea"
@@ -1837,15 +1857,16 @@ msgstr "Frankrike"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:210
 msgid "French Guiana"
-msgstr "French Guiana"
+msgstr "Fransk Guyana"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:211
 msgid "French Polynesia"
-msgstr "French Polynesia"
+msgstr "Fransk Polynesia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:212
+# TRN: Inga offisiell omsetjing
 msgid "French Southern Territories"
-msgstr "Fransk sørleg territoriar"
+msgstr "Franske sørlege territorium"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:213
 msgid "Gabon"
@@ -1906,7 +1927,7 @@ msgstr "Guinea"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:226
 msgid "Guinea-bissau"
-msgstr "Guinea-bissau"
+msgstr "Guinea-Bissau"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:227
 msgid "Guyana"
@@ -1918,12 +1939,13 @@ msgid "Haiti"
 msgstr "Haiti"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:229
+# TRN: Inga offisiell omsetjing
 msgid "Heard And McDonald Islands"
-msgstr "Heard And McDonald Islands"
+msgstr "Heard- og McDonald-øyane"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:230
 msgid "Holy See"
-msgstr "Den heilage sjø"
+msgstr "Vatikanstaten"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:231
 #: my-evolution/Locations.h:945
@@ -1933,7 +1955,7 @@ msgstr "Honduras"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:232
 #: my-evolution/Locations.h:946
 msgid "Hong Kong"
-msgstr "Hong Kong"
+msgstr "Hongkong"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:233
 #: my-evolution/Locations.h:966
@@ -1976,7 +1998,7 @@ msgstr "Jamaica"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:241
 #: my-evolution/Locations.h:1035
 msgid "Japan"
-msgstr "Japansk"
+msgstr "Japan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:242
 #: my-evolution/Locations.h:1046
@@ -1985,7 +2007,7 @@ msgstr "Jordan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:243
 msgid "Kazakhstan"
-msgstr "Kasakstan"
+msgstr "Kasakhstan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:244
 msgid "Kenya"
@@ -1997,7 +2019,7 @@ msgstr "Kiribati"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:246
 msgid "Korea, Republic Of"
-msgstr "Korea, Republic of"
+msgstr "Sør-Korea"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:247
 #: my-evolution/Locations.h:1146
@@ -2006,7 +2028,7 @@ msgstr "Kuwait"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:248
 msgid "Kyrgyzstan"
-msgstr "Kirgistan"
+msgstr "Kirgisistan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:249
 msgid "Laos"
@@ -2046,7 +2068,7 @@ msgstr "Luxembourg"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:257
 msgid "Macau"
-msgstr "Macau"
+msgstr "Macao"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:258
 msgid "Macedonia"
@@ -2079,7 +2101,7 @@ msgstr "Malta"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:265
 msgid "Marshall Islands"
-msgstr "Marshall Islands"
+msgstr "Marshalløyane"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:266
 msgid "Martinique"
@@ -2104,7 +2126,7 @@ msgstr "Mexico"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:271
 msgid "Micronesia"
-msgstr "Mikronesia"
+msgstr "Mikronesiaføderasjonen"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:272
 msgid "Moldova, Republic Of"
@@ -2129,7 +2151,7 @@ msgstr "Marokko"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:277
 msgid "Mozambique"
-msgstr "Mozambique"
+msgstr "Mosambik"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:278
 msgid "Myanmar"
@@ -2154,16 +2176,16 @@ msgstr "Nederland"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:283
 msgid "Netherlands Antilles"
-msgstr "Nederlandske antillar"
+msgstr "Dei nederlandske antillane"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:284
 msgid "New Caledonia"
-msgstr "New Caledonia"
+msgstr "Ny-Caledonia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:285
 #: my-evolution/Locations.h:1558
 msgid "New Zealand"
-msgstr "Ny Zealand"
+msgstr "New Zealand"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:286
 #: my-evolution/Locations.h:1560
@@ -2185,11 +2207,11 @@ msgstr "Niue"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:290
 #: my-evolution/Locations.h:1572
 msgid "Norfolk Island"
-msgstr "Norfolk Island"
+msgstr "Norfolkøya"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:291
 msgid "Northern Mariana Islands"
-msgstr "Northern Mariana Islands"
+msgstr "Nord-Marianane"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:292
 #: my-evolution/Locations.h:1585
@@ -2211,8 +2233,9 @@ msgid "Palau"
 msgstr "Palau"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:296
+# TRN: Ikkje ei offisiell omsetjing
 msgid "Palestinian Territory"
-msgstr "Palestina"
+msgstr "Palestinske territorium"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:297
 #: my-evolution/Locations.h:1681
@@ -2221,7 +2244,7 @@ msgstr "Panama"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:298
 msgid "Papua New Guinea"
-msgstr "Papua New Guinea"
+msgstr "Papua Ny-Guinea"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:299
 #: my-evolution/Locations.h:1686
@@ -2235,7 +2258,7 @@ msgstr "Peru"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:301
 msgid "Philippines"
-msgstr "Fillipinene"
+msgstr "Fillipinane"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:302
 msgid "Pitcairn"
@@ -2262,6 +2285,8 @@ msgid "Qatar"
 msgstr "Qatar"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:307
+# TRN: Aksentar.
+#, fuzzy
 msgid "Reunion"
 msgstr "Reunion"
 
@@ -2280,15 +2305,16 @@ msgstr "Rwanda"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:311
 msgid "Saint Kitts And Nevis"
-msgstr "Saint Kitts And Nevis"
+msgstr "St. Kitts og Nevis"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:312
 msgid "Saint Lucia"
-msgstr "Saint Lucia"
+msgstr "St. Lucia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:313
+# TRN: Feil i original streng
 msgid "Saint Vincent And The Grena-dines"
-msgstr "Saint Vincent And The Grena-dines"
+msgstr "St. Vincent og Grenadinane"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:314
 msgid "Samoa"
@@ -2299,13 +2325,15 @@ msgid "San Marino"
 msgstr "San Marino"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:316
+#, fuzzy
+# TRN: Legg til tødlar og slikt.
 msgid "Sao Tome And Principe"
-msgstr "Sao Tome And Principe"
+msgstr "Sao Tome og Principe"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:317
 #: my-evolution/Locations.h:2032
 msgid "Saudi Arabia"
-msgstr "Saudi Arabia"
+msgstr "Saudi-Arabia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:318
 msgid "Senegal"
@@ -2313,7 +2341,7 @@ msgstr "Senegal"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:319
 msgid "Seychelles"
-msgstr "Seychellene"
+msgstr "Seychellane"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:320
 msgid "Sierra Leone"
@@ -2336,7 +2364,7 @@ msgstr "Slovenia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:324
 msgid "Solomon Islands"
-msgstr "Solomon Islands"
+msgstr "Salomonøyane"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:325
 msgid "Somalia"
@@ -2348,8 +2376,9 @@ msgid "South Africa"
 msgstr "Sør-Afrika"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:327
+# TRN: Ikkje offisiell omsetjing
 msgid "South Georgia And The South Sandwich Islands"
-msgstr "South Georgia And The South Sandwich Islands"
+msgstr "Sør-Georgia og dei sørlege Sandwich-øyane"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:328
 #: my-evolution/Locations.h:2124
@@ -2366,7 +2395,7 @@ msgstr "St. Helena"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:331
 msgid "St. Pierre And Miquelon"
-msgstr "St. Pierre And Miquelon"
+msgstr "Saint-Pierre-et-Miquelon"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:332
 msgid "Sudan"
@@ -2375,7 +2404,7 @@ msgstr "Sudan"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:333
 #: my-evolution/Locations.h:2173
 msgid "Suriname"
-msgstr "Suriname"
+msgstr "Surinam"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:334
 msgid "Svalbard And Jan Mayen Islands"
@@ -2402,7 +2431,7 @@ msgstr "Taiwan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:339
 msgid "Tajikistan"
-msgstr "Tajikistan"
+msgstr "Tadsjikistan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:340
 msgid "Tanzania, United Republic Of"
@@ -2443,7 +2472,7 @@ msgstr "Turkmenistan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:349
 msgid "Turks And Caicos Islands"
-msgstr "Turks And Caicos Islands"
+msgstr "Turks- og Caicosøyane"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:350
 msgid "Tuvalu"
@@ -2460,7 +2489,7 @@ msgstr "Ukrainia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:353
 msgid "United Arab Emirates"
-msgstr "Forente Arabiske Emirater"
+msgstr "Dei sameinte arabiske emirata"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:354
 #: my-evolution/Locations.h:2339
@@ -2469,7 +2498,7 @@ msgstr "Storbritannia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:355
 msgid "United States Minor Outlying Islands"
-msgstr "United States Minor Outlying Islands"
+msgstr ""
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:356
 #: my-evolution/Locations.h:2345
@@ -2504,11 +2533,11 @@ msgstr "Jomfruøyane (USA)"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:363
 msgid "Wallis And Futuna Islands"
-msgstr "Wallis And Futuna Islands"
+msgstr ""
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:364
 msgid "Western Sahara"
-msgstr "Western Sahara"
+msgstr "Vest-Sahara"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:365
 #: my-evolution/Locations.h:2509
@@ -2596,7 +2625,7 @@ msgstr "Kan ikkje finna skjermelement for felt: «%s»"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:298
 msgid "Contact Quick-Add"
-msgstr ""
+msgstr "Ny kontakt - raskt"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:301
 msgid "_Edit Full"
@@ -3020,14 +3049,12 @@ msgid "Search for Contacts..."
 msgstr "Søk etter kontakter ..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:894
-#, fuzzy
 msgid "Addressbook Sources..."
-msgstr "Kjelde:"
+msgstr "Adressebokkjelder ..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:896
-#, fuzzy
 msgid "Pilot Settings..."
-msgstr "_Pilot-innstillingar"
+msgstr "Pilot-innstillingar ..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:900
 #: ui/evolution-addressbook.xml.h:10
@@ -3050,9 +3077,8 @@ msgid "Print Envelope"
 msgstr "Skriv ut konvolutt"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:908
-#, fuzzy
 msgid "Copy to folder..."
-msgstr "_Kopier til mappe ..."
+msgstr "Kopier til mappe ..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:909
 msgid "Move to folder..."
@@ -3083,9 +3109,8 @@ msgstr "Slett"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:919
 #: calendar/gui/e-cal-view.c:1109
-#, fuzzy
 msgid "Current View"
-msgstr "_Aktiv visning"
+msgstr "Aktiv vising"
 
 #. Minicard view stuff
 #. Translators: put here a list of labels you want to see on buttons in
@@ -3110,6 +3135,9 @@ msgid ""
 "%s\n"
 "has crashed. You will have to restart Evolution in order to use it again"
 msgstr ""
+"Adressebok-bakdelen for\n"
+"%s\n"
+"har krasja. Du må starta Evolution på nytt for å bruka han igjen."
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:1
 msgid "* Click here to add a contact *"
@@ -3173,9 +3201,8 @@ msgstr "Primær telefon"
 
 #: addressbook/gui/widgets/e-minicard.c:146
 #: addressbook/gui/widgets/e-minicard-label.c:115
-#, fuzzy
 msgid "Width"
-msgstr "Breidd:"
+msgstr "Breidd"
 
 #: addressbook/gui/widgets/e-minicard.c:153
 #: addressbook/gui/widgets/e-minicard-label.c:122
@@ -3202,7 +3229,7 @@ msgstr "og %d andre kort."
 
 #: addressbook/gui/widgets/e-minicard-control.c:206
 msgid "and one other card."
-msgstr ""
+msgstr "og eitt anna kort."
 
 #: addressbook/gui/widgets/e-minicard-control.c:318
 msgid "Save in addressbook"
@@ -3449,56 +3476,56 @@ msgstr "_Skrifttype ..."
 
 #: addressbook/tools/evolution-addressbook-export.c:56
 msgid "Specify the output file instead of standard output"
-msgstr ""
+msgstr "Spesifiser utfil som skal brukast i staden for standard ut."
 
 #: addressbook/tools/evolution-addressbook-export.c:57
 msgid "OUTPUTFILE"
-msgstr ""
+msgstr "UTFIL"
 
 #: addressbook/tools/evolution-addressbook-export.c:58
-#, fuzzy
 msgid "List local addressbook folders"
-msgstr "Evolution adressebok mappevisar"
+msgstr "List opp lokale adressebokmapper"
 
 #: addressbook/tools/evolution-addressbook-export.c:60
 msgid "Show cards as vcard or csv file"
-msgstr ""
+msgstr "Vis kort som vcard eller csv-fil"
 
 #: addressbook/tools/evolution-addressbook-export.c:60
-#, fuzzy
 msgid "[vcard|csv]"
-msgstr "kort"
+msgstr "[vcard|csv]"
 
 #: addressbook/tools/evolution-addressbook-export.c:61
 msgid "Export in asynchronous mode "
-msgstr ""
+msgstr "Eksporter i asynkron modus"
 
 #: addressbook/tools/evolution-addressbook-export.c:63
 msgid "The number of cards in one output file in asychronous mode,default size 100."
-msgstr ""
+msgstr "Talet på kort i ei utfil i asynkron modus, standard storleik er 100."
 
 #: addressbook/tools/evolution-addressbook-export.c:63
 msgid "NUMBER"
-msgstr ""
+msgstr "TAL"
 
 #: addressbook/tools/evolution-addressbook-export.c:91
 msgid "Command line arguments error, please use --help option to see the usage."
-msgstr ""
+msgstr "Feil i kommandolinjeargumenta. Bruk --help for å sjå ein hjelpetekst."
 
 #: addressbook/tools/evolution-addressbook-export.c:105
 msgid "Only support csv or vcard format."
-msgstr ""
+msgstr "Støtt berre csv- eller cvard-format."
 
 #: addressbook/tools/evolution-addressbook-export.c:114
 msgid "In async mode, output must be file."
-msgstr ""
+msgstr "I akynkron modus må ut-kanalen vera ei fil."
 
 #: addressbook/tools/evolution-addressbook-export.c:122
+# TRN: AYB! FIX ORIGINAL!
 msgid "In normal mode, there should not need size option."
 msgstr ""
 
 #: addressbook/tools/evolution-addressbook-export.c:153
 #, fuzzy
+# TRN: Are errors impossible?
 msgid "Impossible internal error."
 msgstr "Intern feil"
 
@@ -3673,14 +3700,13 @@ msgid "Could not read pilot's Calendar application block"
 msgstr "Kan ikkje lesa kalender-applikasjonsblokka på kalenderen"
 
 #: calendar/conduits/todo/todo-conduit.c:206
-#, fuzzy
 msgid "Default Priority:"
-msgstr "_Prioritet:"
+msgstr "Standard prioritet:"
 
 #: calendar/conduits/todo/todo-conduit.c:970
 #: calendar/conduits/todo/todo-conduit.c:973
 msgid "Could not read pilot's ToDo application block"
-msgstr ""
+msgstr "Kunne ikkje lesa applikasjonsblokka for hugseliste i piloten"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:213
 msgid "Starting:"
@@ -3691,9 +3717,8 @@ msgid "Ending:"
 msgstr "Slutt:"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:254
-#, fuzzy
 msgid "Evolution Alarm"
-msgstr "Evolution"
+msgstr "Evolution alarm"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:347
 #, c-format
@@ -3708,14 +3733,12 @@ msgid "C_lose"
 msgstr "_Lukk"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:2
-#, fuzzy
 msgid "Snoo_ze"
-msgstr "Spooler"
+msgstr "Utse_tt"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:3
-#, fuzzy
 msgid "Snooze time (minutes)"
-msgstr "Låg grense (minutt):"
+msgstr "Tid alarmen skal utsetjast (minutt):"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:4
 msgid "_Edit appointment"
@@ -3746,6 +3769,10 @@ msgid ""
 "configured to send an email.  Evolution will display\n"
 "a normal reminder dialog box instead."
 msgstr ""
+"Evolution støttar ikkje påminningar frå kalenderen\n"
+"via e-post enno, men denne påminnaren var stilt til å\n"
+"senda ein e-post. Evolution vil visa ein normal\n"
+"påminnar-dialogboks i staden."
 
 #: calendar/gui/alarm-notify/alarm-queue.c:1009
 #, c-format
@@ -3757,16 +3784,22 @@ msgid ""
 "\n"
 "Are you sure you want to run this program?"
 msgstr ""
+"Ei påminning i Evolution kalender er i ferd med å utløysast. Denne "
+"påminnaren er stilt til å køyra dette programmet:\n"
+"\n"
+"        %s\n"
+"\n"
+"Er du sikker på at du vil køyra dette programmet?"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:1023
-#, fuzzy
 msgid "Do not ask me about this program again."
-msgstr "Ikkje spør igjen"
+msgstr "Ikkje spør om dette programmet fleire gongar."
 
 #: calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in.in.h:1
 #, fuzzy
+# TRN: Påminning om ein alarm? Rare greier.
 msgid "Evolution Calendar alarm notification service"
-msgstr "Tilgjengelege lenkjer:"
+msgstr "Evolution Kalender alarmpåminningsteneste"
 
 #: calendar/gui/alarm-notify/notify-main.c:173
 msgid "Could not initialize Bonobo"
@@ -3786,11 +3819,13 @@ msgid ""
 "amount of time. If you continue, you will not be able to recover these "
 "events."
 msgstr ""
+"Denne operasjonen vil fjerna permanent alle hendingar eldre enn den "
+"valde tidslengda. Dersom du held fram, vil du ikkje kunna gjenoppretta "
+"desse hendingane."
 
 #: calendar/gui/calendar-commands.c:372
-#, fuzzy
 msgid "Purge events older than"
-msgstr "er mindre enn"
+msgstr "Fjern hendingar eldre enn"
 
 #: calendar/gui/calendar-commands.c:377
 #: calendar/gui/dialogs/alarm-options.glade.h:10 filter/filter.glade.h:17
@@ -3829,7 +3864,7 @@ msgstr "%d. %b"
 
 #: calendar/gui/calendar-commands.c:901
 msgid "Could not create the calendar view.  Please check your ORBit and OAF setup."
-msgstr ""
+msgstr "Kunne ikkje oppretta ei kalendervising. Kontroller ORBit- og OAF-oppsettet ditt."
 
 #: calendar/gui/calendar-component.c:70 calendar/gui/gnome-cal.c:1527
 #: importers/netscape-importer.c:1873 mail/importers/netscape-importer.c:1843
@@ -3843,14 +3878,12 @@ msgid "Folder containing appointments and events"
 msgstr "Mappe inneheld avtaler og hendingar"
 
 #: calendar/gui/calendar-component.c:75
-#, fuzzy
 msgid "Public Calendar"
-msgstr "_Offentleg kalendar-URL:"
+msgstr "Offentleg kalender"
 
 #: calendar/gui/calendar-component.c:76
-#, fuzzy
 msgid "Public folder containing appointments and events"
-msgstr "Mappe inneheld avtaler og hendingar"
+msgstr "Offentleg mappe som inneheld avtalar og hendingar"
 
 #: calendar/gui/calendar-component.c:80 calendar/gui/e-tasks.c:1080
 #: calendar/gui/print.c:1787 calendar/gui/tasks-control.c:487
@@ -3866,14 +3899,12 @@ msgid "Folder containing to-do items"
 msgstr "Mappe inneheld huskeliste"
 
 #: calendar/gui/calendar-component.c:85
-#, fuzzy
 msgid "Public Tasks"
-msgstr "Skriv ut kort"
+msgstr "Offentlege oppgåver"
 
 #: calendar/gui/calendar-component.c:86
-#, fuzzy
 msgid "Public folder containing to-do items"
-msgstr "Mappe inneheld huskeliste"
+msgstr "Offentleg mappe som inneheld huskeliste"
 
 #: calendar/gui/calendar-component.c:732
 #, fuzzy
@@ -11728,16 +11759,14 @@ msgstr "Pownal"
 #. forest green
 #: filter/filter-label.c:124 mail/mail-config.c:68
 #: mail/mail-config.glade.h:120 shell/e-config-upgrade.c:1457
-#, fuzzy
 msgid "To Do"
-msgstr "Togo"
+msgstr "Hugseliste"
 
 #. blue
 #: filter/filter-label.c:125 mail/mail-config.c:69 mail/mail-config.glade.h:66
 #: shell/e-config-upgrade.c:1458
-#, fuzzy
 msgid "Later"
-msgstr "etter"
+msgstr "Seinare"
 
 #: filter/filter-part.c:531 shell/evolution-test-component.c:63
 msgid "Test"
@@ -11760,9 +11789,8 @@ msgid "If"
 msgstr "Dersom"
 
 #: filter/filter-rule.c:791
-#, fuzzy
 msgid "Execute actions"
-msgstr "Køyr autorun.sh"
+msgstr "Utfør handlingar"
 
 #: filter/filter-rule.c:795
 msgid "if all criteria are met"
@@ -25390,15 +25418,14 @@ msgid "Rename the \"%s\" folder to:"
 msgstr "Endra namn på mappa «%s» til:"
 
 #: shell/e-shell-folder-commands.c:541
-#, fuzzy
 msgid "Rename Folder"
-msgstr "Endra namn på profil '%1'"
+msgstr "Endra namn på mappa"
 
 #: shell/e-shell-folder-commands.c:547
 #: shell/e-shell-folder-creation-dialog.c:180
-#, fuzzy, c-format
+#, c-format
 msgid "The specified folder name is not valid: %s"
-msgstr "Arkivfilnamnet er ikkje gyldig.\n"
+msgstr "Det oppgjevne mappenamnet er ikkje gyldig: %s"
 
 #: shell/e-shell-folder-commands.c:554
 #, c-format
@@ -25410,20 +25437,22 @@ msgid "Selected folder does not belong to another user"
 msgstr ""
 
 #: shell/e-shell-folder-commands.c:587
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot remove folder:\n"
 "%s"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr ""
+"Kan ikkje fjerna mappa:\n"
+"%s"
 
 #: shell/e-shell-folder-creation-dialog.c:137
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot create the specified folder:\n"
 "%s"
 msgstr ""
-"Kan ikkje laga fila\n"
-"\""
+"Kan ikkje laga den oppgjevne mappa:\n"
+"%s"
 
 #: shell/e-shell-folder-creation-dialog.c:318
 #, fuzzy
@@ -25484,11 +25513,13 @@ msgid "Evolution Error"
 msgstr "Evolution feil"
 
 #: shell/e-shell-importer.c:481
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "There is no importer that is able to handle\n"
 "%s"
-msgstr "Det er ikkje band i stasjonen."
+msgstr ""
+"Det er ingen importørar som kan handsama\n"
+"%s"
 
 #: shell/e-shell-importer.c:490
 msgid "Importing"
@@ -25504,11 +25535,9 @@ msgstr ""
 "Startar %s"
 
 #: shell/e-shell-importer.c:509
-#, fuzzy, c-format
+#, c-format
 msgid "Error starting %s"
-msgstr ""
-"Feil ved nedlasting av fil:\n"
-"%1"
+msgstr "Feil ved start av %s"
 
 #: shell/e-shell-importer.c:523
 #, c-format
@@ -25622,9 +25651,9 @@ msgid "Opening Folder"
 msgstr "Leitar etter tilleggsmodular"
 
 #: shell/e-shell-shared-folder-picker-dialog.c:393
-#, fuzzy, c-format
+#, c-format
 msgid "Opening Folder \"%s\""
-msgstr "Leitar etter tilleggsmodular"
+msgstr "Opnar mappa «%s»"
 
 #: shell/e-shell-shared-folder-picker-dialog.c:398
 #, fuzzy, c-format
@@ -25632,9 +25661,9 @@ msgid "in \"%s\" ..."
 msgstr "Opne i %s ..."
 
 #: shell/e-shell-shared-folder-picker-dialog.c:482
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open shared folder: %s."
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Kan ikkje opna delt mappe: %s"
 
 #: shell/e-shell-shared-folder-picker-dialog.c:535
 #, fuzzy
@@ -25663,25 +25692,16 @@ msgid "No folder name specified."
 msgstr "Gå til side"
 
 #: shell/e-shell-utils.c:123
-#, fuzzy
 msgid "Folder name cannot contain the Return character."
-msgstr ""
-"Kan ikkje laga heimekatalog\n"
-"Feil: %1"
+msgstr "Mappenamn kan ikkje innehalda linjeskift."
 
 #: shell/e-shell-utils.c:129
-#, fuzzy
 msgid "Folder name cannot contain the character \"/\"."
-msgstr ""
-"Kan ikkje laga heimekatalog\n"
-"Feil: %1"
+msgstr "Mappenamn kan ikkje innehalda teiknet «/»."
 
 #: shell/e-shell-utils.c:135
-#, fuzzy
 msgid "Folder name cannot contain the character \"#\"."
-msgstr ""
-"Kan ikkje laga heimekatalog\n"
-"Feil: %1"
+msgstr "Mappenamn kan ikkje innehalda teiknet «#»."
 
 #: shell/e-shell-utils.c:141
 msgid "'.' and '..' are reserved folder names."
@@ -25717,11 +25737,9 @@ msgid "The GNOME Pilot tools do not appear to be installed on this system."
 msgstr ""
 
 #: shell/e-shell-view-menu.c:97
-#, fuzzy, c-format
+#, c-format
 msgid "Error executing %s."
-msgstr ""
-"Feil ved lesing a fil:\n"
-"%1"
+msgstr "Feil ved køyring av %s."
 
 #: shell/e-shell-view-menu.c:193
 #, fuzzy
@@ -25788,9 +25806,9 @@ msgid "Group name:"
 msgstr "Gruppenamn:"
 
 #: shell/e-shortcuts-view.c:179
-#, fuzzy, c-format
+#, c-format
 msgid "Do you really want to remove group \"%s\" from the shortcut bar?"
-msgstr "Vil du verkeleg leggja '%1' i papirkorga?"
+msgstr "Vil du verkeleg fjerna gruppa «%s» frå snarveglinja?"
 
 #: shell/e-shortcuts-view.c:222
 #, fuzzy
@@ -25982,9 +26000,9 @@ msgid "%s (...)"
 msgstr "%s (...)"
 
 #: shell/e-task-widget.c:216
-#, fuzzy, c-format
+#, c-format
 msgid "%s (%d%% complete)"
-msgstr "%1 av %2 ferdig"
+msgstr "%s (%d%% ferdig)"
 
 #: shell/evolution-folder-selector-button.c:100
 msgid "<click here to select a folder>"
@@ -26054,12 +26072,15 @@ msgid "Old owner has died"
 msgstr "Gammal eigar har døydd"
 
 #: shell/evolution-shell-component-utils.c:124
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s\n"
 "\n"
 "Unknown error."
-msgstr "Ukjend feil"
+msgstr ""
+"%s\n"
+"\n"
+"Ukjend feil."
 
 #: shell/evolution-shell-component-utils.c:127
 #, c-format
@@ -26315,9 +26336,9 @@ msgid "Cannot access the Ximian Evolution shell."
 msgstr "Kan ikkje initialisera adresseboka"
 
 #: shell/main.c:410
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
-msgstr "Kan ikkje initialisera adresseboka"
+msgstr "Kan ikkje starta Ximian Evolution-skalet: %s"
 
 #: shell/main.c:542
 msgid "Disable splash screen"
@@ -26394,9 +26415,9 @@ msgstr "Sentrer dei valte elementa"
 #. * found, so just bail completely.
 #.
 #: tools/killev.c:63
-#, fuzzy, c-format
+#, c-format
 msgid "Could not execute '%s': %s\n"
-msgstr "Kunne ikkje lasta kalender '%1'.\n"
+msgstr "Kan ikkje køyra «%s»: %s\n"
 
 #: tools/killev.c:78
 #, c-format
@@ -26858,9 +26879,8 @@ msgid "Post Ne_w Message"
 msgstr "Ny melding"
 
 #: ui/evolution-mail-global.xml.h:12
-#, fuzzy
 msgid "Post a message to a Public folder"
-msgstr "Mottek meldingar frå %1"
+msgstr "Post ei melding til ei offentleg mappe"
 
 #: ui/evolution-mail-global.xml.h:13
 #, fuzzy
@@ -26904,9 +26924,8 @@ msgid "Cut selected message(s) to the clipboard"
 msgstr "Lim inn melding i klippebordet"
 
 #: ui/evolution-mail-list.xml.h:4
-#, fuzzy
 msgid "E_xpunge"
-msgstr "Forventar %1"
+msgstr "_Tøm"
 
 #: ui/evolution-mail-list.xml.h:5
 msgid "Hide S_elected Messages"
@@ -26922,10 +26941,9 @@ msgstr "Skjul _lesne meldingar"
 
 #: ui/evolution-mail-list.xml.h:8
 msgid "Hide deleted messages rather than displaying them with a line through them"
-msgstr ""
+msgstr "Gøym dei sletta meldingane i staden for å visa dei gjennomstreka"
 
 #: ui/evolution-mail-list.xml.h:9
-#, fuzzy
 msgid "Mark All as _Read"
 msgstr "Markér alle som l_esne"
 
@@ -26934,14 +26952,12 @@ msgid "Mark all visible messages as read"
 msgstr "Markér alle synlege meldingar som lest"
 
 #: ui/evolution-mail-list.xml.h:11 ui/evolution-mail-message.xml.h:66
-#, fuzzy
 msgid "Paste message(s) from the clipboard"
-msgstr "Lim inn melding i klippebordet"
+msgstr "Lim inn melding(ar) frå utklippstavla"
 
 #: ui/evolution-mail-list.xml.h:12
-#, fuzzy
 msgid "Permanently remove all deleted messages from this folder"
-msgstr "Kontroller stavinga til alle dei omsette programtekstane i fila."
+msgstr "Fjern alle sletta meldingar frå denne mappa for godt"
 
 #: ui/evolution-mail-list.xml.h:14
 msgid "Select _Thread"
