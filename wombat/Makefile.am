@@ -43,3 +43,15 @@ endif
 EXTRA_DIST =		\
 	wombat.gnorba	\
 	wombat.oafinfo
+
+if ENABLE_PURIFY
+PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+
+all-local: wombat.pure
+
+wombat.pure: wombat
+	@rm -f wombat.pure
+	$(PLINK) $(wombat_LDFLAGS) $(wombat_OBJECTS) $(wombat_LDADD) $(LIBS)
+
+endif
+

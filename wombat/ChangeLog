@@ -1,3 +1,8 @@
+2000-05-05  Chris Toshok <toshok@helixcode.com>
+	* .cvsignore: ignore wombat.pure
+
+	* Makefile.am: add support for building wombat.pure
+
 2000-05-01  Federico Mena Quintero  <federico@helixcode.com>
 
 	* wombat.c (main): Doh, also unref the pas_book_factory when we
