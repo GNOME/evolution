@@ -1,3 +1,8 @@
+2001-08-11  Jason Leach  <jleach@ximian.com>
+
+	* evolution-mail-message.xml: Make the label for the resending
+	menu item read "Edit as New Message...", bug #6838.
+
 2001-08-11  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #7608, New - Phantom menu entry in Tasks.]
