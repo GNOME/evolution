@@ -1229,6 +1229,7 @@ autosave_init_file (EMsgComposer *composer)
 	}
 	return FALSE;
 }
+
 static void
 autosave_manager_start (AutosaveManager *am)
 {
@@ -3335,6 +3336,11 @@ e_msg_composer_get_message_draft (EMsgComposer *composer)
 	account = e_msg_composer_get_preferred_account (composer);
 	if (account && account->name)
 		camel_medium_set_header (CAMEL_MEDIUM (msg), "X-Evolution-Account", account->name);
+	
+	/* build_message() set this to text/html since we set composer->send_html to
+	   TRUE before calling e_msg_composer_get_message() */
+	if (!composer->send_html)
+		camel_medium_set_header (CAMEL_MEDIUM (msg), "X-Evolution-Format", "text/plain");
 	
 	return msg;
 }

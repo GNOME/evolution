@@ -202,7 +202,6 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 		}
 		
 		if (account->id->address && *account->id->address) {
-
 			if (strcmp (account->name, account->id->address))
 				label = g_strdup_printf ("%s <%s> (%s)", account->id->name,
 							 account->id->address, account->name);

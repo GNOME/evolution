@@ -1,3 +1,9 @@
+2002-01-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_get_message_draft): Set the
+	X-Evolution-Format header to text/plain if that is the editing
+	mode we are really in. This fixes bug #11499.
+
 2002-01-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_new_from_url): A few minor
