@@ -40,19 +40,24 @@
 #include <pi-file.h>
 #include <pi-dlp.h>
 #include <pi-version.h>
-#include <todo-conduit-config.h>
-#include <todo-conduit.h>
 #include <libical/src/libical/icaltypes.h>
 
+#define TODO_CONFIG_LOAD 1
+#define TODO_CONFIG_DESTROY 1
+#include <todo-conduit-config.h>
+#undef TODO_CONFIG_LOAD
+#undef TODO_CONFIG_DESTROY
+
+#include <todo-conduit.h>
 
 GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 
-#define CONDUIT_VERSION "0.8.11"
+#define CONDUIT_VERSION "0.1.0"
 #ifdef G_LOG_DOMAIN
 #undef G_LOG_DOMAIN
 #endif
-#define G_LOG_DOMAIN "todoconduit"
+#define G_LOG_DOMAIN "etodoconduit"
 
 #define DEBUG_CALCONDUIT 1
 /* #undef DEBUG_CALCONDUIT */
@@ -315,19 +320,6 @@ start_calendar_server (EToDoConduitContext *ctxt)
 }
 
 /* Utility routines */
-static const char *
-status_to_string (gint status)
-{
-	switch(status) {
-	case GnomePilotRecordNothing: return "GnomePilotRecordNothing";
-	case GnomePilotRecordDeleted: return "GnomePilotRecordDeleted";
-	case GnomePilotRecordNew: return "GnomePilotRecordNew";
-	case GnomePilotRecordModified: return "GnomePilotRecordModified";
-	}
-
-	return "Unknown";
-}
-
 static void
 compute_pid (EToDoConduitContext *ctxt, EToDoLocalRecord *local, const char *uid)
 {
@@ -1098,12 +1090,12 @@ conduit_get_gpilot_conduit (guint32 pilot_id)
   	gtk_signal_connect (retval, "compare", (GtkSignalFunc) compare, ctxt);
 
   	gtk_signal_connect (retval, "add_record", (GtkSignalFunc) add_record, ctxt);
-/*  	gtk_signal_connect (retval, "add_archive_record", (GtkSignalFunc) add_archive_record, ctxt); */
+  	gtk_signal_connect (retval, "add_archive_record", (GtkSignalFunc) add_archive_record, ctxt); 
 
   	gtk_signal_connect (retval, "replace_record", (GtkSignalFunc) replace_record, ctxt);
 
   	gtk_signal_connect (retval, "delete_record", (GtkSignalFunc) delete_record, ctxt);
-/*  	gtk_signal_connect (retval, "delete_archive_record", (GtkSignalFunc) delete_archive_record, ctxt); */
+  	gtk_signal_connect (retval, "delete_archive_record", (GtkSignalFunc) delete_archive_record, ctxt);
 
   	gtk_signal_connect (retval, "match", (GtkSignalFunc) match, ctxt);
   	gtk_signal_connect (retval, "free_match", (GtkSignalFunc) free_match, ctxt);

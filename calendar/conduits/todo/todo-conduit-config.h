@@ -37,6 +37,8 @@ struct _EToDoConduitCfg {
 	GnomePilotConduitSyncType  sync_type;   /* only used by capplet */
 };
 
+#ifdef TODO_CONFIG_LOAD
+/* Load the configuration data */
 static void 
 todoconduit_load_configuration (EToDoConduitCfg **c, guint32 pilot_id) 
 {
@@ -56,7 +58,9 @@ todoconduit_load_configuration (EToDoConduitCfg **c, guint32 pilot_id)
 	
 	(*c)->pilot_id = pilot_id;
 }
+#endif
 
+#ifdef TODO_CONFIG_SAVE
 /* Saves the configuration data. */
 static void
 todoconduit_save_configuration (EToDoConduitCfg *c) 
@@ -73,7 +77,9 @@ todoconduit_save_configuration (EToDoConduitCfg *c)
 	gnome_config_sync ();
 	gnome_config_drop_all ();
 }
+#endif
 
+#ifdef TODO_CONFIG_DUPE
 /* Creates a duplicate of the configuration data */
 static EToDoConduitCfg*
 todoconduit_dupe_configuration (EToDoConduitCfg *c) 
@@ -89,7 +95,10 @@ todoconduit_dupe_configuration (EToDoConduitCfg *c)
 
 	return retval;
 }
+#endif
 
+#ifdef TODO_CONFIG_DESTROY
+/* Destroy a configuration */
 static void 
 todoconduit_destroy_configuration (EToDoConduitCfg **c) 
 {
@@ -99,6 +108,7 @@ todoconduit_destroy_configuration (EToDoConduitCfg **c)
 	g_free (*c);
 	*c = NULL;
 }
+#endif
 
 #endif __TODO_CONDUIT_CONFIG_H__ 
 

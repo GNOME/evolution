@@ -22,8 +22,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef __TODO_CONDUIT_CONFIG_H__
-#define __TODO_CONDUIT_CONFIG_H__
+#ifndef __CAL_CONDUIT_CONFIG_H__
+#define __CAL_CONDUIT_CONFIG_H__
 
 #include <gnome.h>
 #include <libgpilotdCM/gnome-pilot-conduit-management.h>
@@ -37,6 +37,8 @@ struct _ECalConduitCfg {
 	GnomePilotConduitSyncType  sync_type;   /* only used by capplet */
 };
 
+#ifdef CAL_CONFIG_LOAD
+/* Loads the configuration data */
 static void 
 calconduit_load_configuration (ECalConduitCfg **c, guint32 pilot_id) 
 {
@@ -56,7 +58,9 @@ calconduit_load_configuration (ECalConduitCfg **c, guint32 pilot_id)
 	
 	(*c)->pilot_id = pilot_id;
 }
+#endif
 
+#ifdef CAL_CONFIG_SAVE
 /* Saves the configuration data. */
 static void
 calconduit_save_configuration (ECalConduitCfg *c) 
@@ -73,7 +77,9 @@ calconduit_save_configuration (ECalConduitCfg *c)
 	gnome_config_sync ();
 	gnome_config_drop_all ();
 }
+#endif
 
+#ifdef CAL_CONFIG_DUPE
 /* Creates a duplicate of the configuration data */
 static ECalConduitCfg*
 calconduit_dupe_configuration (ECalConduitCfg *c) 
@@ -89,7 +95,10 @@ calconduit_dupe_configuration (ECalConduitCfg *c)
 
 	return retval;
 }
+#endif
 
+#ifdef CAL_CONFIG_DESTROY
+/* Destroy a configuration */
 static void 
 calconduit_destroy_configuration (ECalConduitCfg **c) 
 {
@@ -99,8 +108,9 @@ calconduit_destroy_configuration (ECalConduitCfg **c)
 	g_free (*c);
 	*c = NULL;
 }
+#endif
 
-#endif __TODO_CONDUIT_CONFIG_H__ 
+#endif __CAL_CONDUIT_CONFIG_H__ 
 
 
 
