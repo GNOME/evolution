@@ -236,14 +236,14 @@ connect_to_server (CamelService *service, struct addrinfo *ai, int ssl_mode, Cam
 	/* Okay, now toggle SSL/TLS mode */
 	ret = camel_tcp_stream_ssl_enable_ssl (CAMEL_TCP_STREAM_SSL (tcp_stream));
 	
-	camel_object_unref (CAMEL_OBJECT (tcp_stream));
-	
 	if (ret == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Failed to connect to POP server %s in secure mode: %s"),
 				      service->url->host, _("SSL negotiations failed"));
 		goto stls_exception;
 	}
+	
+	camel_object_unref (tcp_stream);
 	
 	/* rfc2595, section 4 states that after a successful STLS
            command, the client MUST discard prior CAPA responses */
