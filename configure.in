@@ -1103,6 +1103,7 @@ AC_SUBST(EVOLUTION_MAIL_LIBS)
 
 dnl -- evolution-data-server IDL and version
 
+AC_DEFINE(DATASERVER_API_VERSION, "1.0", evolution-data-server API version)
 AC_DEFINE_UNQUOTED(DATASERVER_VERSION, "`pkg-config --modversion evolution-data-server-1.0`", evolution-data-server version)
 
 AC_MSG_CHECKING(for evolution-data-server IDL)

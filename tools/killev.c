@@ -202,9 +202,9 @@ main (int argc, char **argv)
 	add_matching_repo_id ("IDL:GNOME/Evolution/Shell:" BASE_VERSION);
 	g_hash_table_foreach_remove (components, kill_component, NULL);
 
-	add_matching_repo_id ("IDL:GNOME/Evolution/ShellComponent:" BASE_VERSION);
-	add_matching_repo_id ("IDL:GNOME/Evolution/Calendar/CalFactory:" BASE_VERSION);
-	add_matching_repo_id ("IDL:GNOME/Evolution/BookFactory:" BASE_VERSION);
+	add_matching_repo_id ("IDL:GNOME/Evolution/Component:" BASE_VERSION);
+	add_matching_repo_id ("IDL:GNOME/Evolution/DataServer/CalFactory:" DATASERVER_API_VERSION);
+	add_matching_repo_id ("IDL:GNOME/Evolution/DataServer/BookFactory:" DATASERVER_API_VERSION);
 	add_matching_repo_id ("IDL:GNOME/Evolution/Importer:" BASE_VERSION);
 	add_matching_repo_id ("IDL:GNOME/Evolution/IntelligentImporter:" BASE_VERSION);
 	add_matching_repo_id ("IDL:GNOME/Spell/Dictionary:0.3");

@@ -1,3 +1,10 @@
+2004-03-02  Dan Winship  <danw@ximian.com>
+
+	* configure.in (DATASERVER_API_VERSION): Define this (the number
+	used in the e-d-s component repo_ids).
+
+	* tools/killev.c (main): Update the repo_ids
+
 2004-02-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in: Fixed the ENABLE_SMIME conditional to work. Fixes
