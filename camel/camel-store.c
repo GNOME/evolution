@@ -32,12 +32,12 @@ static CamelServiceClass *parent_class = NULL;
 /* Returns the class for a CamelStore */
 #define CS_CLASS(so) CAMEL_STORE_CLASS (GTK_OBJECT(so)->klass)
 
-static void _set_separator(CamelStore *store, gchar sep);
-static CamelFolder *_get_root_folder(CamelStore *store);
-static CamelFolder *_get_default_folder(CamelStore *store);
-static void _init(CamelStore *store, CamelSession *session, const gchar *url_name);
-static CamelFolder *_get_folder (CamelStore *store, const gchar *folder_name);
-static gchar _get_separator (CamelStore *store);
+static void _set_separator(CamelStore *store, gchar sep, CamelException *ex);
+static CamelFolder *_get_root_folder(CamelStore *store, CamelException *ex);
+static CamelFolder *_get_default_folder(CamelStore *store, CamelException *ex);
+static void _init(CamelStore *store, CamelSession *session, const gchar *url_name, CamelException *ex);
+static CamelFolder *_get_folder (CamelStore *store, const gchar *folder_name, CamelException *ex);
+static gchar _get_separator (CamelStore *store, CamelException *ex);
 
 static void _finalize (GtkObject *object);
 
@@ -105,10 +105,10 @@ camel_store_get_type (void)
  * 
  **/
 void 
-camel_store_init (CamelStore *store, CamelSession *session, const gchar *url_name)
+camel_store_init (CamelStore *store, CamelSession *session, const gchar *url_name, CamelException *ex)
 {
 	g_assert(store);
-	CS_CLASS(store)->init (store, session, url_name);
+	CS_CLASS(store)->init (store, session, url_name, ex);
 }
 
 
@@ -124,7 +124,7 @@ camel_store_init (CamelStore *store, CamelSession *session, const gchar *url_nam
  * 
  **/
 static void 
-_init (CamelStore *store, CamelSession *session, const gchar *url_name)
+_init (CamelStore *store, CamelSession *session, const gchar *url_name, CamelException *ex)
 {
 	
 #warning re-enable assertion here.
@@ -160,7 +160,7 @@ _finalize (GtkObject *object)
  *
  **/
 static void
-_set_separator (CamelStore *store, gchar sep)
+_set_separator (CamelStore *store, gchar sep, CamelException *ex)
 {
     store->separator = sep;
 }
@@ -170,7 +170,7 @@ _set_separator (CamelStore *store, gchar sep)
 
 
 static gchar
-_get_separator (CamelStore *store)
+_get_separator (CamelStore *store, CamelException *ex)
 {
 	g_assert(store);
 	return store->separator;
@@ -187,9 +187,9 @@ _get_separator (CamelStore *store)
  * Return value: the separator
  **/
 gchar
-camel_store_get_separator (CamelStore *store)
+camel_store_get_separator (CamelStore *store, CamelException *ex)
 {
-	return  CS_CLASS(store)->get_separator (store);
+	return  CS_CLASS(store)->get_separator (store, ex);
 }
 
 
@@ -199,7 +199,7 @@ camel_store_get_separator (CamelStore *store)
 
 
 static CamelFolder *
-_get_folder (CamelStore *store, const gchar *folder_name)
+_get_folder (CamelStore *store, const gchar *folder_name, CamelException *ex)
 {
 	return NULL;
 }
@@ -223,9 +223,9 @@ _get_folder (CamelStore *store, const gchar *folder_name)
  * Return value: the folder
  **/
 CamelFolder *
-camel_store_get_folder (CamelStore *store, const gchar *folder_name)
+camel_store_get_folder (CamelStore *store, const gchar *folder_name, CamelException *ex)
 {
-	return CS_CLASS(store)->get_folder (store, folder_name);
+	return CS_CLASS(store)->get_folder (store, folder_name, ex);
 }
 
 
@@ -239,7 +239,7 @@ camel_store_get_folder (CamelStore *store, const gchar *folder_name)
  * @Return value: the tolevel folder.
  **/
 static CamelFolder *
-_get_root_folder (CamelStore *store)
+_get_root_folder (CamelStore *store, CamelException *ex)
 {
     return NULL;
 }
@@ -254,7 +254,7 @@ _get_root_folder (CamelStore *store)
  *  @Return value: the default folder.
  **/
 static CamelFolder *
-_get_default_folder (CamelStore *store)
+_get_default_folder (CamelStore *store, CamelException *ex)
 {
     return NULL;
 }

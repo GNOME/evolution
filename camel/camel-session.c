@@ -139,7 +139,7 @@ camel_session_get_store_from_provider (CamelSession *session, CamelProvider *pro
 
 	store = CAMEL_STORE (gtk_object_new (provider->object_type, NULL));
 #warning set the url to a useful value.
-	camel_store_init(store, session, NULL);
+	camel_store_init(store, session, NULL, NULL);
 	return store;
 }
 
@@ -208,7 +208,7 @@ camel_session_get_store (CamelSession *session, const gchar *url_string)
 	if (url->protocol) {
 		new_store = camel_session_get_store_for_protocol (session, url->protocol);
 		if (new_store)
-			camel_store_init (new_store, session, url_string);
+			camel_store_init (new_store, session, url_string, NULL);
 	}
 	g_url_free (url);
 	

@@ -138,7 +138,7 @@ camel_folder_pt_proxy_class_init (CamelFolderPtProxyClass *camel_folder_pt_proxy
 	camel_folder_class->get_message_count = _get_message_count;
 	camel_folder_class->append_message = _append_message;
 	camel_folder_class->list_permanent_flags = _list_permanent_flags;
-	camel_folder_class->copy_message_to;
+	camel_folder_class->copy_message_to = _copy_message_to;
 	camel_folder_class->get_message_uid = _get_message_uid;
 	camel_folder_class->get_message_by_uid = _get_message_by_uid;
 	camel_folder_class->get_uid_list = _get_uid_list;

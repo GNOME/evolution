@@ -32,8 +32,8 @@ static CamelStoreClass *parent_class=NULL;
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT(so)->klass)
 #define CMBOXF_CLASS(so) CAMEL_MBOX_FOLDER_CLASS (GTK_OBJECT(so)->klass)
 
-static void _init (CamelStore *store, CamelSession *session, const gchar *url_name);
-static CamelFolder *_get_folder (CamelStore *store, const gchar *folder_name);
+static void _init (CamelStore *store, CamelSession *session, const gchar *url_name, CamelException *ex);
+static CamelFolder *_get_folder (CamelStore *store, const gchar *folder_name, CamelException *ex);
 
 
 static void
@@ -92,7 +92,7 @@ camel_mbox_store_get_type (void)
 
 /* These evil public functions are here for test only */
 void 
-camel_mbox_store_set_toplevel_dir (CamelMboxStore *store, const gchar *toplevel)
+camel_mbox_store_set_toplevel_dir (CamelMboxStore *store, const gchar *toplevel, CamelException *ex)
 {
 	store->toplevel_dir = g_strdup (toplevel);
 	CAMEL_STORE(store)->separator = '/';
@@ -100,7 +100,7 @@ camel_mbox_store_set_toplevel_dir (CamelMboxStore *store, const gchar *toplevel)
 
 
 const gchar *
-camel_mbox_store_get_toplevel_dir (CamelMboxStore *store)
+camel_mbox_store_get_toplevel_dir (CamelMboxStore *store, CamelException *ex)
 {
 	return store->toplevel_dir;
 }
@@ -108,14 +108,14 @@ camel_mbox_store_get_toplevel_dir (CamelMboxStore *store)
 
 
 static void 
-_init (CamelStore *store, CamelSession *session, const gchar *url_name)
+_init (CamelStore *store, CamelSession *session, const gchar *url_name, CamelException *ex)
 {
 	CamelMboxStore *mbox_store = CAMEL_MBOX_STORE (store);
 	Gurl *store_url;
 	
 	g_assert (url_name);
 	/* call parent implementation */
-	parent_class->init (store, session, url_name);
+	parent_class->init (store, session, url_name, ex);
 	
 	
 	/* find the path in the URL*/
@@ -133,7 +133,7 @@ _init (CamelStore *store, CamelSession *session, const gchar *url_name)
 
 
 static CamelFolder *
-_get_folder (CamelStore *store, const gchar *folder_name)
+_get_folder (CamelStore *store, const gchar *folder_name, CamelException *ex)
 {
 	CamelMboxFolder *new_mbox_folder;
 	CamelFolder *new_folder;
@@ -145,8 +145,8 @@ _get_folder (CamelStore *store, const gchar *folder_name)
 	new_mbox_folder =  gtk_type_new (CAMEL_MBOX_FOLDER_TYPE);
 	new_folder = CAMEL_FOLDER (new_mbox_folder);
 	
-	CF_CLASS (new_folder)->init_with_store (new_folder, store, NULL);
-	CF_CLASS (new_folder)->set_name (new_folder, folder_name, NULL);
+	CF_CLASS (new_folder)->init_with_store (new_folder, store, ex);
+	CF_CLASS (new_folder)->set_name (new_folder, folder_name, ex);
 	
 	
 	return new_folder;

@@ -220,17 +220,10 @@ void camel_folder_open (CamelFolder *folder,
 			CamelFolderOpenMode mode, 
 			CamelException *ex);
 
-void camel_folder_open_async (CamelFolder *folder, 
-			      CamelFolderOpenMode mode, 
-			      CamelFolderAsyncCallback callback, 
-			      gpointer user_data, 
-			      CamelException *ex);
 
-void camel_folder_close_async (CamelFolder *folder, 
-			      gboolean expunge, 
-			      CamelFolderAsyncCallback callback, 
-			      gpointer user_data, 
-			      CamelException *ex);
+void camel_folder_close (CamelFolder *folder, 
+			 gboolean expunge, 
+			 CamelException *ex);
 
 gboolean camel_folder_create (CamelFolder *folder, CamelException *ex);
 CamelFolder *camel_folder_get_parent_folder (CamelFolder *folder, CamelException *ex);

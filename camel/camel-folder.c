@@ -156,7 +156,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->get_message_count = _get_message_count;
 	camel_folder_class->append_message = _append_message;
 	camel_folder_class->list_permanent_flags = _list_permanent_flags;
-	camel_folder_class->copy_message_to;
+	camel_folder_class->copy_message_to = _copy_message_to;
 	camel_folder_class->get_message_uid = _get_message_uid;
 	camel_folder_class->get_message_by_uid = _get_message_by_uid;
 	camel_folder_class->get_uid_list = _get_uid_list;
@@ -496,7 +496,7 @@ _set_name (CamelFolder *folder,
 		return;		
 	}
 			
-	separator = camel_store_get_separator (folder->parent_store);
+	separator = camel_store_get_separator (folder->parent_store, ex);
 	camel_exception_clear (ex);
 	if (folder->parent_folder) {
 		parent_full_name = camel_folder_get_full_name (folder->parent_folder, ex);
@@ -776,7 +776,7 @@ _get_subfolder (CamelFolder *folder,
 		camel_exception_set (ex, 
 				     CAMEL_EXCEPTION_FOLDER_NULL,
 				     "folder object is NULL");
-		return;
+		return NULL;
 	}
 
 	
@@ -784,24 +784,24 @@ _get_subfolder (CamelFolder *folder,
 		camel_exception_set (ex, 
 				     CAMEL_EXCEPTION_INVALID_PARAM,
 				     "folder_name parameter is NULL");
-		return;
+		return NULL;
 	}	
 	
 	if (!folder->parent_store) {
 		camel_exception_set (ex, 
 				     CAMEL_EXCEPTION_FOLDER_INVALID,
 				     "folder has no parent store");
-		return;
+		return NULL;
 	}
 	
 	current_folder_full_name = camel_folder_get_full_name (folder, ex);
 	if (camel_exception_get_id (ex)) return NULL;
 
 
-	separator = camel_store_get_separator (folder->parent_store);
+	separator = camel_store_get_separator (folder->parent_store, ex);
 	full_name = g_strdup_printf ("%s%d%s", current_folder_full_name, separator, folder_name);
 	
-	new_folder = camel_store_get_folder (folder->parent_store, full_name);
+	new_folder = camel_store_get_folder (folder->parent_store, full_name, ex);
 	return new_folder;
 }
 
@@ -889,7 +889,7 @@ _create (CamelFolder *folder, CamelException *ex)
 		return TRUE;
 	
 	
-	sep = camel_store_get_separator (folder->parent_store);	
+	sep = camel_store_get_separator (folder->parent_store, ex);	
 	if (folder->parent_folder) {
 		camel_folder_create (folder->parent_folder, ex);
 		if (camel_exception_get_id (ex)) return FALSE;
@@ -903,7 +903,7 @@ _create (CamelFolder *folder, CamelException *ex)
 				g_warning("have to handle the case where the path is not OK\n"); 
 				return FALSE;
 			} else {
-				parent = camel_store_get_folder (folder->parent_store, prefix);
+				parent = camel_store_get_folder (folder->parent_store, prefix, ex);
 				camel_folder_create (parent, ex);
 				if (camel_exception_get_id (ex)) return FALSE;
 			}
@@ -1297,7 +1297,7 @@ camel_folder_expunge (CamelFolder *folder,  CamelException *ex)
 		return NULL;
 	}
 
-	CF_CLASS (folder)->expunge (folder, ex);
+	return CF_CLASS (folder)->expunge (folder, ex);
 }
 
 

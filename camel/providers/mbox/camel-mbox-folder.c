@@ -346,8 +346,8 @@ _set_name (CamelFolder *folder, const gchar *name, CamelException *ex)
 	g_free (mbox_folder->folder_file_path);
 	g_free (mbox_folder->folder_dir_path);
 
-	separator = camel_store_get_separator (folder->parent_store);
-	root_dir_path = camel_mbox_store_get_toplevel_dir (CAMEL_MBOX_STORE(folder->parent_store));
+	separator = camel_store_get_separator (folder->parent_store, ex);
+	root_dir_path = camel_mbox_store_get_toplevel_dir (CAMEL_MBOX_STORE(folder->parent_store), ex);
 
 	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::set_name full_name is %s\n", folder->full_name);
 	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::set_name root_dir_path is %s\n", root_dir_path);

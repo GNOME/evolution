@@ -1,5 +1,11 @@
 2000-01-21  bertrand  <bertrand@helixcode.com>
 
+	* camel/camel-store.c: add exception handling everywhere in
+	the store related functions arguments. 
+	* camel/providers/mbox/camel-mbox-folder.c: idem
+	* camel/providers/mbox/camel-mbox-folder.h: idem
+	* camel/providers/mbox/camel-mbox-store.h: idem
+
 	* camel/providers/mbox/Makefile.am (libcamelmbox_la_SOURCES): 
 	added camel-mbox-provider.c to the mbox provider
 	sources. 

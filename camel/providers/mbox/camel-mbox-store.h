@@ -60,8 +60,8 @@ typedef struct {
 /* Standard Gtk function */
 GtkType camel_mbox_store_get_type (void);
 
-void camel_mbox_store_set_toplevel_dir (CamelMboxStore *store, const gchar *toplevel);
-const gchar *camel_mbox_store_get_toplevel_dir (CamelMboxStore *store);
+void camel_mbox_store_set_toplevel_dir (CamelMboxStore *store, const gchar *toplevel, CamelException *ex);
+const gchar *camel_mbox_store_get_toplevel_dir (CamelMboxStore *store, CamelException *ex);
 
 #ifdef __cplusplus
 }
