@@ -86,6 +86,62 @@ Calendar & Tasks:
 
 Addressbook:
 
+  - Various fixes.  (Anna Dirks, Dan Winship, Jason Leach, Jos Dehaes,
+    Kjartan Maraas, Lahey, Nat Friedman, Radek Doulik, Toshok, Trow)
+
+  - Made addressbook menus match the right click menus.  (Lahey)
+
+  - Made addressbook use camel for building email addresses.  (Trow)
+
+  - Fixed up phone number matching to not cause errors.  (Lahey)
+
+  - Made the alphabet bar change the current search.  (Lahey)
+
+  - Made duplicate contact matching less sensitive.  (Lahey)
+
+  - Changed advanced search to match behavior in mailer.  (Toshok)
+
+  - Work on addressbook authentication.  (Toshok)
+
+  - Changes to EDestination.  (Trow)
+
+  - Magic comma work.  (Trow)
+
+  - Redesigned ESelectNames dialog.  (Anna Dirks)
+
+  - Made LDAP changes appear in gui immediately if they're made by the
+    local client.  (Toshok)
+
+  - Made ECard hold a link to its original EBook.  (Lahey, Trow)
+
+  - Adapted for new ESearchBar. (Federico, Trow)
+
+  - Added the ability to create cards from anywhere in evolution.
+    (Lahey)
+
+  - Made searches for completion not use invalid cached data.  (Trow)
+
+  - Encode strings typed in by the user for use in sexps.  (Toshok)
+
+  - Made EContactEditor make the save button active more often.
+    (Toshok)
+
+  - Made ESelectNames handle LDAP storages.  (Toshok)
+
+  - Added full country list to addressbook full address editor.
+    (Lahey)
+
+  - Added the contact count to the folder bar.  (Lahey)
+
+  - Updated icons.  (Damon, Ettore)
+
+  - Worked on addressbook conduit.  (JP)
+
+  - Made ESelectNames only show names on the left that aren't on the
+    right.  (Trow)
+
+  - Fixed up minicard dragging.  (Toshok)
+
 My Evolution:
 
   - Miscellaneous fixes all over the place. (iain)
