@@ -45,7 +45,6 @@
       <applyto>/apps/evolution/addressbook/display/vpane_position</applyto>
       <owner>evolution-addressbook</owner>
       <type>int</type>
-      <default></default>
       <locale name="C">
         <short>Position of the vertical pane in main view</short>
       </locale>

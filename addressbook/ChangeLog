@@ -1,3 +1,12 @@
+2004-07-08  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* gui/component/Makefile.am:
+	tarball should ship .schemas.in.in files, not generated files.
+
+	* gui/component/apps_evolution_addressbook.schemas.in.in:
+	Don't set empty default value on an int, this causes gconf warning.
+	(bug #60859)
+
 2004-07-02  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/contact-list-editor/e-contact-list-editor.c

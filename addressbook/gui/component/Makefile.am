@@ -96,7 +96,7 @@ CLEANFILES    = $(BUILT_SOURCES)
 
 EXTRA_DIST =			\
 	$(glade_DATA)		\
-	$(schema_DATA)		\
+	$(schema_in_files)	\
 	$(server_in_files)
 
 dist-hook:
