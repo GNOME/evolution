@@ -26,7 +26,7 @@
 #include <bonobo/bonobo-widget.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-ui-component.h>
-#include <addressbook/util/e-destination.h>
+#include <libebook/e-destination.h>
 
 #include <string.h>
 #include <glib.h>
