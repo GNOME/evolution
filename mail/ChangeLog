@@ -1,3 +1,8 @@
+2001-12-20  Jon Trowbridge  <trow@ximian.com>
+
+	* message-list.c (on_click): Makes the auto-undelete behavior when
+	changing message flags a bit more sane. (Fixes #17634)
+
 2001-12-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fixes #17377, Evolution doesn't work on multi-depth displays.]
