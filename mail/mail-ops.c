@@ -141,6 +141,7 @@ real_fetch_mail (gpointer user_data)
 	char *userrules, *systemrules;
 	char *tmp_mbox = NULL, *source;
 	guint handler_id = 0;
+	struct stat st;
 
 	info = (rfm_t *) user_data;
 	fb = info->fb;
@@ -172,30 +173,20 @@ real_fetch_mail (gpointer user_data)
 	 * temporary store first.
 	 */
 	if (!strncmp (url, "mbox:", 5)) {
-		int tmpfd;
-
-		tmpfd = open (tmp_mbox, O_RDWR | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR);
-
-		if (tmpfd == -1) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      "Couldn't create temporary "
-					      "mbox: %s", g_strerror (errno));
-			async_mail_exception_dialog ("Unable to move mail", ex, fb );
-			goto cleanup;
-		}
-		close (tmpfd);
-
 		/* Skip over "mbox:" plus host part (if any) of url. */
 		source = url + 5;
 		if (!strncmp (source, "//", 2))
 			source = strchr (source + 2, '/');
 
-		switch (camel_movemail (source, tmp_mbox, ex)) {
-		case -1:
-			async_mail_exception_dialog ("Unable to move mail", ex, fb);
-			/* FALL THROUGH */
+		camel_movemail (source, tmp_mbox, ex);
+		if (camel_exception_is_set (ex)) {
+			async_mail_exception_dialog ("Unable to move mail",
+						     ex, fb);
+			goto cleanup;
+		}
 
-		case 0:
+		if (stat (tmp_mbox, &st) == -1 || st.st_size == 0) {
+			gnome_ok_dialog ("No new messages.");
 			goto cleanup;
 		}
 
@@ -311,6 +302,8 @@ real_fetch_mail (gpointer user_data)
 		gtk_signal_disconnect (GTK_OBJECT (dest_folder), handler_id);
 
  cleanup:
+	if (stat (tmp_mbox, &st) == 0 && st.st_size == 0)
+		unlink (tmp_mbox); /* FIXME: should use camel to do this */
 	g_free (tmp_mbox);
 
 	if (filter)
