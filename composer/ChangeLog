@@ -1,8 +1,7 @@
-2001-11-19  Jeffrey Stedfast  <fejj@ximian.com>
+2001-11-30  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* e-msg-composer.c (setup_ui): If we come back online, switch the
-	Send accelerator back to the Send button from the Send Later
-	button.
+	* e-msg-composer.c (setup_ui): Change the FileSend tooltip the be
+	the same as the FileSendLater tooltip if we are in offline mode.
 
 2001-11-11  Jeffrey Stedfast  <fejj@ximian.com>
 
