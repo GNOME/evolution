@@ -1,3 +1,10 @@
+2003-08-12  Harry Lu <harry.lu@sun.com>
+
+	** Fixes #47464.
+
+	* gui/dialogs/meeting-page.c: (get_widgets): The Organizer's value
+	need not match one of the values in the list.
+
 2003-08-12  Andrew Wu <andrew.wu@sun.com>
 
 	* gui/e-calendar-table.c: Alt+o to open task.
