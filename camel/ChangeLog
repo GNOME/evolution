@@ -6,6 +6,10 @@
 	(imap_free_summary): Don't do anything here.
 	(imap_finalize): Free the summary here instead of in
 	imap_free_summary().
+	(imap_set_message_flags): Implemented
+	(imap_sync): Added code to set flags on messages that have had
+	their flags changed (however I #if'd it out until we are more
+	confidant in the IMAP code :)
 
 	* camel-url.c (check_equal): No need to check s1 if s2 is NULL
 	(camel_url_equal): Don't check the passwd component of the url.

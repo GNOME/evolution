@@ -135,7 +135,7 @@ camel_imap_folder_class_init (CamelImapFolderClass *camel_imap_folder_class)
 
 	camel_folder_class->get_permanent_flags = imap_get_permanent_flags;
 	camel_folder_class->get_message_flags = imap_get_message_flags;
-	/*camel_folder_class->set_message_flags = imap_set_message_flags;*/
+	camel_folder_class->set_message_flags = imap_set_message_flags;
 	/*camel_folder_class->get_message_user_flags = imap_get_message_user_flags;*/
 	/*camel_folder_class->set_message_user_flags = imap_set_message_user_flags;*/
 
@@ -312,6 +312,55 @@ static void
 imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 {
 	/* TODO: actually code this method */
+	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
+	gint i, max;
+
+#if 0
+	/* uhhh...this is kinda unsafe so we'll leave it blocked out */
+	if (imap_folder->summary) {
+		max = imap_folder->summary->len;
+		for (i = 0; i < max; i++) {
+			CamelMessageInfo *info;
+
+			info = (CamelMessageInfo *) g_ptr_array_index (imap_folder->summary, i);
+			if (info->flags & CAMEL_MESSAGE_FOLDER_FLAGGED) {
+				char *flags;
+				
+				flags = g_strconcat (info->flags & CAMEL_MESSAGE_SEEN ? "\\Seen " : "",
+						     info->flags & CAMEL_MESSAGE_DRAFT ? "\\Draft " : "",
+						     info->flags & CAMEL_MESSAGE_DELETED ? "\\Deleted " : "",
+						     info->flags & CAMEL_MESSAGE_DELETED ? "\\Answered " : "",
+						     NULL);
+				if (*flags) {
+					gchar *result;
+					gint s;
+					
+					*(flags + strlen (flags) - 1) = '\0';
+					s = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store),
+									 folder, &result,
+									 "UID STORE %s FLAGS.SILENT (%s)",
+									 info->uid, flags);
+					
+					if (s != CAMEL_IMAP_OK) {
+						CamelService *service = CAMEL_SERVICE (folder->parent_store);
+						camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+								      "Could not set flags on message %s on IMAP "
+								      "server %s: %s.", info->uid,
+								      service->url->host,
+								      status == CAMEL_IMAP_ERR ? result :
+								      "Unknown error");
+						g_free (result);
+						return;
+					}
+					
+					g_free(result);
+				}
+				g_free (flags);
+			}
+		}
+	}
+#endif
+	
 	if (expunge)
 		imap_expunge (folder, ex);
 }
@@ -520,7 +569,6 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelExcept
 static GPtrArray *
 imap_get_uids (CamelFolder *folder, CamelException *ex) 
 {
-	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	CamelMessageInfo *info;
 	GPtrArray *array, *infolist;
 	gint i, count;
@@ -1090,7 +1138,18 @@ imap_get_message_flags (CamelFolder *folder, const char *uid, CamelException *ex
 static void
 imap_set_message_flags (CamelFolder *folder, const char *uid, guint32 flags, guint32 set, CamelException *ex)
 {
-	return;
+	CamelMessageInfo *info;
+
+	if (!(info = (CamelMessageInfo *)imap_summary_get_by_uid (folder, uid))) {
+		CamelService *service = CAMEL_SERVICE (folder->parent_store);
+		
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      "Could not set flags for message %s on IMAP server %s: %s",
+				      uid, service->url->host, "Unknown error");
+		return;
+	}
+
+	info->flags = (info->flags & ~flags) | (set & flags) | CAMEL_MESSAGE_FOLDER_FLAGGED;
 }
 
 static gboolean
