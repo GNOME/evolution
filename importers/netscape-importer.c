@@ -419,9 +419,7 @@ netscape_import_accounts (NetscapeImporter *importer)
 	account.id = id;
 	account.transport = transport;
 
-	account.drafts_folder_name = CORBA_string_dup ("");
 	account.drafts_folder_uri = CORBA_string_dup ("");
-	account.sent_folder_name = CORBA_string_dup ("");
 	account.sent_folder_uri = CORBA_string_dup ("");
 
 	/* Create POP3 source */
