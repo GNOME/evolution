@@ -12,7 +12,8 @@ gncal_SOURCES = \
 
 gncal_LDADD = \
 	$(GNOMEUI_LIBS) \
-	$(top_builddir)/support/libsupport.a
+	$(top_builddir)/support/libsupport.a \
+	$(INTLLIBS)
 
 EXTRA_DIST = \
 	gncal.desktop
