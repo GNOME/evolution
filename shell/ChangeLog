@@ -1,3 +1,8 @@
+2002-09-11  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-setup.c (setup_bonobo_conf_private_directory): g_free() not
+	free(), since we allocate with glib functions.  [#19899]
+
 2002-09-05  Mike Kestner  <mkestner@ximian.com>
 
 	* Makefile.am : no longer distribute the etstate files.

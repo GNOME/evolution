@@ -282,16 +282,16 @@ setup_bonobo_conf_private_directory (const char *evolution_directory)
 				  _("Evolution could not create directory\n"
 				    "%s:\n%s"),
 				  name, strerror (errno));
-			free (name);
+			g_free (name);
 			return FALSE;
 		}
 
-		free (name);
+		g_free (name);
 		return TRUE;
 	}
 
 	if (S_ISDIR (buf.st_mode) && access (name, R_OK | W_OK | X_OK) == 0) {
-		free (name);
+		g_free (name);
 		return TRUE;
 	}
 
@@ -309,7 +309,7 @@ setup_bonobo_conf_private_directory (const char *evolution_directory)
 			  name, strerror (errno));
 	}
 
-	free (name);
+	g_free (name);
 	return FALSE;
 }
 
