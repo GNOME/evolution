@@ -1,3 +1,10 @@
+2003-03-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (composer_get_default_charset_setting): Don't
+	allow the returned charset to be NULL.
+	(get_file_content): Make sure there is buffered data before trying
+	to convert it to UTF-8.
+
 2003-03-04  Not Zed  <NotZed@Ximian.com>
 
 	* e-msg-composer-hdrs.c (destroy): disconnect any signal handlers

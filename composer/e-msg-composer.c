@@ -239,10 +239,14 @@ composer_get_default_charset_setting (void)
 	
 	gconf = gconf_client_get_default ();
 	buf = gconf_client_get_string (gconf, "/apps/evolution/mail/composer/charset", NULL);
+	
+	if (buf == NULL)
+		buf = gconf_client_get_string (gconf, "/apps/evolution/mail/format/charset", NULL);
+	
 	charset = e_iconv_charset_name (buf);
 	g_free (buf);
 	
-	return charset;
+	return charset ? charset : "us-ascii";
 }
 
 static const char *
@@ -835,7 +839,7 @@ get_file_content (EMsgComposer *composer, const char *file_name, gboolean want_h
 	   signature file that is in his/her locale charset. If it's not in UTF-8 and not in
 	   the charset the composer is in (or their default mail charset) then fuck it,
 	   there's nothing we can do. */
-	if (!g_utf8_validate (buffer->data, buffer->len, NULL)) {
+	if (buffer->len && !g_utf8_validate (buffer->data, buffer->len, NULL)) {
 		stream = (CamelStream *) memstream;
 		memstream = (CamelStreamMem *) camel_stream_mem_new ();
 		camel_stream_mem_set_byte_array (memstream, g_byte_array_new ());
