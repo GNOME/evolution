@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-applets 1.4.1\n"
-"POT-Creation-Date: 2001-10-10 11:08-0400\n"
-"PO-Revision-Date: 2001-10-09 09:15+0200\n"
+"POT-Creation-Date: 2001-10-10 07:58-0400\n"
+"PO-Revision-Date: 2001-10-10 09:15+0200\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -216,7 +216,7 @@ msgstr "Kontor"
 
 #: addressbook/backend/ebook/e-card-simple.c:88
 msgid "Off"
-msgstr "Af"
+msgstr "Ktr"
 
 #: addressbook/backend/ebook/e-card-simple.c:89
 #: addressbook/gui/widgets/e-addressbook-view.c:899
@@ -239,7 +239,7 @@ msgstr "Leder"
 
 #: addressbook/backend/ebook/e-card-simple.c:91
 msgid "Man"
-msgstr "Mand"
+msgstr "Leder"
 
 #: addressbook/backend/ebook/e-card-simple.c:92
 msgid "Ass"
@@ -252,7 +252,7 @@ msgstr "Kaldenavn"
 
 #: addressbook/backend/ebook/e-card-simple.c:93
 msgid "Nick"
-msgstr "Kaldenavn"
+msgstr "Kaldt"
 
 #: addressbook/backend/ebook/e-card-simple.c:94
 #: addressbook/gui/widgets/e-addressbook-view.c:904
@@ -785,7 +785,7 @@ msgid "Base"
 msgstr "Basis"
 
 #: addressbook/gui/component/addressbook-config.glade.h:7
-#: calendar/gui/dialogs/task-editor.c:177
+#: calendar/gui/dialogs/task-editor.c:172
 msgid "Basic"
 msgstr "Grundlæggende"
 
@@ -1149,7 +1149,7 @@ msgid "Contact Editor"
 msgstr "Kontaktredigering"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:7
-#: calendar/gui/dialogs/task-editor.c:182
+#: calendar/gui/dialogs/task-editor.c:177
 msgid "Details"
 msgstr "Detaljer"
 
@@ -1366,7 +1366,6 @@ msgid "Antarctica"
 msgstr "Antarktis"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:10
-#, fuzzy
 msgid "Antigua And Barbuda"
 msgstr "Antigua og Barbuda"
 
@@ -1975,9 +1974,8 @@ msgid "Palau"
 msgstr "Palau"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:162
-#, fuzzy
 msgid "Palestinian Territory"
-msgstr "Britisk-Indisk havområde"
+msgstr "Palestinensisk område"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:163
 msgid "Panama"
@@ -2520,7 +2518,7 @@ msgstr "Succes"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:35
 #: camel/providers/imap/camel-imap-command.c:340 shell/e-shell.c:1712
-#: shell/e-storage.c:525
+#: shell/e-storage.c:520
 msgid "Unknown error"
 msgstr "Ukendt fejl"
 
@@ -2528,7 +2526,7 @@ msgstr "Ukendt fejl"
 msgid "Repository offline"
 msgstr "\"Offline\" lager"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:37 shell/e-storage.c:515
+#: addressbook/gui/widgets/e-addressbook-util.c:37 shell/e-storage.c:510
 msgid "Permission denied"
 msgstr "Tilgang nægtet"
 
@@ -3898,25 +3896,25 @@ msgstr "Delegér til:"
 msgid "Enter Delegate"
 msgstr "Indtast delegat"
 
-#: calendar/gui/dialogs/event-editor.c:186
+#: calendar/gui/dialogs/event-editor.c:181
 msgid "Appointment"
 msgstr "Aftale"
 
-#: calendar/gui/dialogs/event-editor.c:191
+#: calendar/gui/dialogs/event-editor.c:186
 msgid "Reminder"
 msgstr "Påmindelse"
 
-#: calendar/gui/dialogs/event-editor.c:196
+#: calendar/gui/dialogs/event-editor.c:191
 msgid "Recurrence"
 msgstr "Genindtræffelse"
 
-#: calendar/gui/dialogs/event-editor.c:203
-#: calendar/gui/dialogs/event-editor.c:353
+#: calendar/gui/dialogs/event-editor.c:198
+#: calendar/gui/dialogs/event-editor.c:345
 msgid "Scheduling"
 msgstr "Mødeplanlægning"
 
-#: calendar/gui/dialogs/event-editor.c:208
-#: calendar/gui/dialogs/event-editor.c:356
+#: calendar/gui/dialogs/event-editor.c:203
+#: calendar/gui/dialogs/event-editor.c:348
 msgid "Meeting"
 msgstr "Møde"
 
@@ -4207,8 +4205,8 @@ msgstr "_Prioritet:"
 msgid "_Status:"
 msgstr "_Status:"
 
-#: calendar/gui/dialogs/task-editor.c:189
-#: calendar/gui/dialogs/task-editor.c:293
+#: calendar/gui/dialogs/task-editor.c:184
+#: calendar/gui/dialogs/task-editor.c:285
 msgid "Assignment"
 msgstr "Tildeling"
 
@@ -4370,7 +4368,7 @@ msgstr "Startdato"
 #. people who won't care about using /Local Folders/Inbox
 #: calendar/gui/e-calendar-table.etspec.h:16
 #: my-evolution/component-factory.c:45 shell/e-shortcuts.c:1050
-#: shell/e-storage-set-view.c:1453 shell/e-summary-storage.c:80
+#: shell/e-storage-set-view.c:1444 shell/e-summary-storage.c:80
 msgid "Summary"
 msgstr "Sammendrag"
 
@@ -4648,9 +4646,8 @@ msgid "The attachment does not contain a valid calendar message"
 msgstr "Bilaget indeholder ikke en gyldig kalender-besked"
 
 #: calendar/gui/e-itip-control.c:995
-#, fuzzy
 msgid "The attachment has no viewable calendar items"
-msgstr "Bilaget indeholder ikke en gyldig kalender-besked"
+msgstr "Bilaget har ingen viselig kalender-opføringer"
 
 #: calendar/gui/e-itip-control.c:1094
 msgid "Calendar file could not be updated!\n"
@@ -4979,7 +4976,7 @@ msgstr "September"
 
 #: calendar/gui/itip-utils.c:253
 msgid "Atleast one attendee is necessary"
-msgstr ""
+msgstr "Mindst en deltager er nødvendig"
 
 #: calendar/gui/itip-utils.c:283
 msgid "An organizer must be set."
@@ -5463,9 +5460,9 @@ msgid "Unsupported operation: search by expression: for %s"
 msgstr "Uunderstøttet operation: søg efter udtryk: efter %s"
 
 #: camel/camel-folder.c:1087
-#, fuzzy, c-format
+#, c-format
 msgid "Unsupported operation: search by uids: for %s"
-msgstr "Uunderstøttet operation: søg efter udtryk: efter %s"
+msgstr "Uunderstøttet operation: søg efter uid'er: efter %s"
 
 #: camel/camel-folder.c:1266
 msgid "Moving messages"
@@ -7220,14 +7217,14 @@ msgstr "Vedlæg en fil til beskeden"
 
 #: composer/e-msg-composer-attachment.c:168
 #: composer/e-msg-composer-attachment.c:184
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot attach file %s: %s"
-msgstr "Kan ikke tjekke mappe: %s: %s"
+msgstr "Kan ikke vedlægge fil %s: %s"
 
 #: composer/e-msg-composer-attachment.c:176
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot attach file %s: not a regular file"
-msgstr "`%s' er ikke en normal fil."
+msgstr "Kan ikke vedlægge fil %s: ikke en almindelig fil"
 
 #: composer/e-msg-composer-attachment.glade.h:1
 msgid "Attachment properties"
@@ -8167,9 +8164,9 @@ msgid "Virtual Trash folder"
 msgstr "Virtuel affaldsmappe"
 
 #: mail/component-factory.c:125
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot connect to store: %s"
-msgstr "Kunne ikke koble til server: %s"
+msgstr "Kunne ikke koble til lager: %s"
 
 #: mail/component-factory.c:146
 msgid "This folder cannot contain messages."
@@ -9345,7 +9342,6 @@ msgid "Cc"
 msgstr "Cc"
 
 #: mail/mail-format.c:923
-#, fuzzy
 msgid "Bcc"
 msgstr "Bcc:"
 
@@ -9538,9 +9534,9 @@ msgid "Copying messages to %s"
 msgstr "Kopierer beskeder til %s"
 
 #: mail/mail-ops.c:877
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot copy a folder `%s' to itself"
-msgstr "Kan ikke kopiere en mappe over i sig selv."
+msgstr "Kan ikke kopiere en mappe '%s' over i sig selv."
 
 #: mail/mail-ops.c:884
 msgid "Moving"
@@ -11874,7 +11870,7 @@ msgstr "Kan ikke registrere i OAF"
 msgid "Configuration Database not found"
 msgstr "Konfigurationsdatabase ikke fundet"
 
-#: shell/e-shell.c:1710 shell/e-storage.c:501
+#: shell/e-shell.c:1710 shell/e-storage.c:496
 msgid "Generic error"
 msgstr "Generisk fejl"
 
@@ -12012,47 +12008,47 @@ msgstr ""
 msgid "(No name)"
 msgstr "(Uden navn)"
 
-#: shell/e-storage.c:499
+#: shell/e-storage.c:494
 msgid "No error"
 msgstr "Ingen fejl"
 
-#: shell/e-storage.c:503
+#: shell/e-storage.c:498
 msgid "A folder with the same name already exists"
 msgstr "En mappe med samme navn eksisterer allerede"
 
-#: shell/e-storage.c:505
+#: shell/e-storage.c:500
 msgid "The specified folder type is not valid"
 msgstr "Specificeret mappetype er ikke gyldig"
 
-#: shell/e-storage.c:507
+#: shell/e-storage.c:502
 msgid "I/O error"
 msgstr "I/U-fejl"
 
-#: shell/e-storage.c:509
+#: shell/e-storage.c:504
 msgid "Not enough space to create the folder"
 msgstr "Ikke nok plads til at oprette mappen"
 
-#: shell/e-storage.c:511
+#: shell/e-storage.c:506
 msgid "The specified folder was not found"
 msgstr "Specificeret mappe blev ikke fundet"
 
-#: shell/e-storage.c:513
+#: shell/e-storage.c:508
 msgid "Function not implemented in this storage"
 msgstr "Funktionen er ikke implementeret i dette lager"
 
-#: shell/e-storage.c:517
+#: shell/e-storage.c:512
 msgid "Operation not supported"
 msgstr "Operationen er ikke understøttet"
 
-#: shell/e-storage.c:519
+#: shell/e-storage.c:514
 msgid "The specified type is not supported in this storage"
 msgstr "Specificeret type er ikke understøttet for dette lager"
 
-#: shell/e-storage.c:521
+#: shell/e-storage.c:516
 msgid "The specified folder cannot be modified or removed"
 msgstr "Specificeret mappe kan ikke ændres eller fjernes"
 
-#: shell/e-storage.c:523
+#: shell/e-storage.c:518
 msgid "Cannot make a folder a child of one of its descendants"
 msgstr "Kan ikke gøre en mappe til barn af en af sine efterkommere"
 
