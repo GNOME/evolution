@@ -634,8 +634,8 @@ GNOME_VFS_CFLAGS="`gnome-config --cflags vfs`"
 AC_SUBST(GNOME_VFS_LIBS)
 AC_SUBST(GNOME_VFS_CFLAGS)
 
-BONOBO_VFS_GNOME_LIBS="`gnome-config --libs bonobox libglade gdk_pixbuf gnomecanvaspixbuf vfs gnomeui `"
-BONOBO_VFS_GNOME_CFLAGS="`gnome-config --cflags bonobox libglade gdk_pixbuf gnomecanvaspixbuf vfs gnomeui `"
+BONOBO_VFS_GNOME_LIBS="`gnome-config --libs oaf bonobox libglade gdk_pixbuf gnomecanvaspixbuf vfs gnomeui `"
+BONOBO_VFS_GNOME_CFLAGS="`gnome-config --cflags oaf bonobox libglade gdk_pixbuf gnomecanvaspixbuf vfs gnomeui `"
 AC_SUBST(BONOBO_VFS_GNOME_LIBS)
 AC_SUBST(BONOBO_VFS_GNOME_CFLAGS)
 
