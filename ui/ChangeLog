@@ -1,7 +1,7 @@
 2001-10-24  Christopher James Lahey  <clahey@ximian.com>
 
 	* evolution-addressbook.xml: Added Delete and BackSpace
-	keybindings here.
+	keybindings here.  Fixes Ximian bug #2772.
 
 2001-10-22  Anna Marie Dirks  <anna@ximian.com>
 
