@@ -1,3 +1,13 @@
+2004-11-25  Radek Doulik  <rodo@ximian.com>
+
+	* em-junk-filter.c (em_junk_sa_test_spamd): do not call gconf here
+	as we may be called from worker thread
+	(em_junk_filter_get_plugin): read alternative spam[cd] binaries
+	paths here, use init lock to be sure no one is accessing spam[cd]
+	binaries paths
+
+	Fixes #69623
+
 2004-11-22  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #69339.
