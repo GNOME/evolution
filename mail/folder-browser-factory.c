@@ -108,50 +108,73 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB_END
 };
 
+static struct {
+	const char *path;
+	const char *fname;
+	char       *pixbuf;
+} pixcache [] = {
+	{ "/menu/File/Print/Print Preview", "16_print.xpm", NULL },
+	{ "/menu/Component/Actions/MessageMove", "16_move_message.xpm", NULL },
+	{ "/menu/Component/Actions/MessageReplyAll", "16_reply_to_all.xpm", NULL },
+	{ "/menu/Component/Actions/MessageReplySndr", "16_reply.xpm", NULL },
+	{ "/menu/File/Folder/FolderConfig", "16_configure_folder.xpm", NULL },
+	{ "/menu/Tools/Component/SetMailConfig", "16_configure_mail.xpm", NULL },
+	{ "/Toolbar/MailGet", "buttons/fetch-mail.png", NULL },
+	{ "/Toolbar/MailCompose", "buttons/compose-message.png", NULL },
+	{ "/Toolbar/Reply", "buttons/reply.png", NULL },
+	{ "/Toolbar/ReplyAll", "buttons/reply-to-all.png", NULL },
+	{ "/Toolbar/Forward", "buttons/forward.png", NULL },
+	{ "/Toolbar/Move", "buttons/move-message.png", NULL },
+	{ "/Toolbar/Copy", "buttons/copy-message.png", NULL },
+	{ NULL, NULL, NULL }
+};
+
 static void
-set_pixmap (BonoboUIComponent *uic,
-	    const char        *xml_path,
-	    const char        *icon)
+free_pixmaps (void)
 {
-	char *path;
-	GdkPixbuf *pixbuf;
+	int i;
 
-	path = g_concat_dir_and_file (EVOLUTION_DATADIR "/images/evolution", icon);
-
-	pixbuf = gdk_pixbuf_new_from_file (path);
-	if (pixbuf == NULL) {
-		g_warning ("Cannot load image -- %s", path);
-		g_free (path);
-		return;
-	}
-
-	bonobo_ui_util_set_pixbuf (uic, xml_path, pixbuf);
-
-	gdk_pixbuf_unref (pixbuf);
-
-	g_free (path);
+	for (i = 0; pixcache [i].path; i++)
+		g_free (pixcache [i].pixbuf);
 }
 
 static void
 update_pixmaps (BonoboUIComponent *uic)
 {
-	set_pixmap (uic, "/menu/File/Print/Print Preview", "16_print.xpm");
+	static int done_init = 0;
+	int i;
 
-	set_pixmap (uic, "/menu/Component/Actions/MessageMove", "16_move_message.xpm");
-	set_pixmap (uic, "/menu/Component/Actions/MessageReplyAll", "16_reply_to_all.xpm");
-	set_pixmap (uic, "/menu/Component/Actions/MessageReplySndr", "16_reply.xpm");
 
-	set_pixmap (uic, "/menu/File/Folder/FolderConfig", "16_configure_folder.xpm");
+	if (!done_init) {
+		g_atexit (free_pixmaps);
+		done_init = 1;
+	}
 
-	set_pixmap (uic, "/menu/Tools/Component/SetMailConfig", "16_configure_mail.xpm");
+	for (i = 0; pixcache [i].path; i++) {
+		if (!pixcache [i].pixbuf) {
+			char *path;
+			GdkPixbuf *pixbuf;
 
-	set_pixmap (uic, "/Toolbar/MailGet", "buttons/fetch-mail.png");
-	set_pixmap (uic, "/Toolbar/MailCompose", "buttons/compose-message.png");
-	set_pixmap (uic, "/Toolbar/Reply", "buttons/reply.png");
-	set_pixmap (uic, "/Toolbar/ReplyAll", "buttons/reply-to-all.png");
-	set_pixmap (uic, "/Toolbar/Forward", "buttons/forward.png");
-	set_pixmap (uic, "/Toolbar/Move", "buttons/move-message.png");
-	set_pixmap (uic, "/Toolbar/Copy", "buttons/copy-message.png");
+			path = g_concat_dir_and_file (
+				EVOLUTION_DATADIR "/images/evolution",
+				pixcache [i].fname);
+			
+			pixbuf = gdk_pixbuf_new_from_file (path);
+			if (pixbuf == NULL) {
+				g_warning ("Cannot load image -- %s", path);
+				g_free (path);
+				return;
+			}
+
+			pixcache [i].pixbuf = bonobo_ui_util_pixbuf_to_xml (pixbuf);
+			
+			gdk_pixbuf_unref (pixbuf);
+			
+			g_free (path);
+		}
+		bonobo_ui_component_set_prop (uic, pixcache [i].path, "pixname",
+					      pixcache [i].pixbuf, NULL);
+	}
 }
 
 static void

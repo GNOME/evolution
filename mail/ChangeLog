@@ -1,3 +1,8 @@
+2001-03-04  Michael Meeks  <michael@ximian.com>
+
+	* folder-browser-factory.c (free_pixmaps): impl.
+	(update_pixmaps): accelerate with cache.
+
 2001-03-13  Iain Holmes  <iain@ximian.com>
 
 	* Makefile.am: Removed the importers and created a subdirectory for them to
