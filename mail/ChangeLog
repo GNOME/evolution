@@ -1,9 +1,28 @@
+2000-11-07  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* folder-browser.c (search_full_clicked): Updated to use the
+	ESearchBar object rather than the previously used search widgets.
+	(search_full): Same.
+	(search_save): Same. Also use enums to make it a little easier to
+	read now that we have to have enums anyway.
+	(folder_browser_search_menu_activated): New ESearchBar menu
+	callback.
+	(folder_browser_search_query_changed): New ESearchBar query
+	callback. Replaces search_set()
+	(folder_browser_clear_search): Updated to use the ESearchBar
+	object rather than the previously used search widgets.
+	(folder_browser_gui_init): Don't hand construct a search widget,
+	use the new ESearchBar convenience widget.
+
+	* mail-ops.c (cleanup_load_folder): Updated to reflect changes to
+	FolderBrowser.
+
 2000-11-07	Jesse Pavel   <jpavel@helixcode.com>
 
-	* mail-display.c: (pixmap_press): modified some of the EPopupMenu
+	* mail-display.c (pixmap_press): modified some of the EPopupMenu
 	structures to account for differences in the popup menu API (as
-	informed by Jeff.
-	 (on_object_requested): passed the user's default email address
+	informed by Jeff. 
+	(on_object_requested): passed the user's default email address
 	to the iTip control.
 
 2000-11-07  Ettore Perazzoli  <ettore@helixcode.com>

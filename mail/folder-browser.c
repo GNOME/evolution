@@ -38,6 +38,8 @@
 
 #include <gal/widgets/e-popup-menu.h>
 
+#define d(x) x
+
 #define PARENT_TYPE (gtk_table_get_type ())
 
 static void fb_resize_cb (GtkWidget *w, GtkAllocation *a);
@@ -57,30 +59,30 @@ folder_browser_destroy (GtkObject *object)
 {
 	FolderBrowser *folder_browser;
 	CORBA_Environment ev;
-
+	
 	folder_browser = FOLDER_BROWSER (object);
-
+	
 	CORBA_exception_init (&ev);
 	
 	if (folder_browser->search_full)
-		gtk_object_unref((GtkObject *)folder_browser->search_full);
+		gtk_object_unref (GTK_OBJECT (folder_browser->search_full));
 	
 	if (folder_browser->shell != CORBA_OBJECT_NIL)
 		CORBA_Object_release (folder_browser->shell, &ev);
 	
-	 g_free (folder_browser->uri);
-
+	g_free (folder_browser->uri);
+	
 	if (folder_browser->folder) {
 		mail_do_sync_folder (folder_browser->folder);
 		camel_object_unref (CAMEL_OBJECT (folder_browser->folder));
 	}
-
+	
 	if (folder_browser->message_list)
 		bonobo_object_unref (BONOBO_OBJECT (folder_browser->message_list));
-
+	
 	if (folder_browser->mail_display)
 		gtk_widget_destroy (GTK_WIDGET (folder_browser->mail_display));
-
+	
 	if (folder_browser->filter_context)
 		gtk_object_unref (GTK_OBJECT (folder_browser->filter_context));
 	
@@ -88,9 +90,9 @@ folder_browser_destroy (GtkObject *object)
 		g_slist_foreach (folder_browser->filter_menu_paths, oc_destroy, NULL);
 		g_slist_free (folder_browser->filter_menu_paths);
 	}
-
+	
 	CORBA_exception_free (&ev);
-
+	
 	folder_browser_parent_class->destroy (object);
 }
 
@@ -98,7 +100,7 @@ static void
 folder_browser_class_init (GtkObjectClass *object_class)
 {
 	object_class->destroy = folder_browser_destroy;
-
+	
 	folder_browser_parent_class = gtk_type_class (PARENT_TYPE);
 }
 
@@ -123,7 +125,8 @@ folder_browser_class_init (GtkObjectClass *object_class)
 
 #define EQUAL(a,b) (strcmp (a,b) == 0)
 
-gboolean folder_browser_set_uri (FolderBrowser *folder_browser, const char *uri)
+gboolean
+folder_browser_set_uri (FolderBrowser *folder_browser, const char *uri)
 {
 	if (*uri)
 		mail_do_load_folder (folder_browser, uri);
@@ -139,20 +142,44 @@ folder_browser_set_message_preview (FolderBrowser *folder_browser, gboolean show
 	g_warning ("FIXME: implement me");
 }
 
-static char * search_options[] = {
-	N_("Body or subject contains"),
-	N_("Body contains"),
-	N_("Subject contains"),
-	N_("Body does not contain"),
-	N_("Subject does not contain"),
-	N_("Custom search"),
-	NULL
+enum {
+	ESB_SHOW_ALL,
+	ESB_ADVANCED,
+	ESB_SAVE,
+};
+
+static ESearchBarItem folder_browser_search_menu_items[] = {
+	{ N_("Show All"),    ESB_SHOW_ALL },
+	{ NULL,              0            },
+	{ N_("Advanced..."), ESB_ADVANCED },
+	{ NULL,              0            },
+	{ N_("Save Search"), ESB_SAVE     },
+	{ NULL,              -1           }
+};
+
+enum {
+	ESB_BODY_SUBJECT_CONTAINS,
+	ESB_BODY_CONTAINS,
+	ESB_SUBJECT_CONTAINS,
+	ESB_BODY_DOES_NOT_CONTAIN,
+	ESB_SUBJECT_DOES_NOT_CONTAIN,
+	ESB_CUSTOM_SEARCH,
+};
+
+static ESearchBarItem folder_browser_search_option_items[] = {
+	{ N_("Body or subject contains"), ESB_BODY_SUBJECT_CONTAINS    },
+	{ N_("Body contains"),            ESB_BODY_CONTAINS            },
+        { N_("Subject contains"),         ESB_SUBJECT_CONTAINS         },
+	{ N_("Body does not contain"),    ESB_BODY_DOES_NOT_CONTAIN    },
+	{ N_("Subject does not contain"), ESB_SUBJECT_DOES_NOT_CONTAIN },
+	{ N_("Custom search"),            ESB_CUSTOM_SEARCH            },
+	{ NULL,                           -1                           }
 };
 
 /* NOTE: If this is changed, then change the search_save() function to match! */
 /* %s is replaced by the whole search string in quotes ...
    possibly could split the search string into words as well ? */
-static char * search_string[] = {
+static char *search_string[] = {
 	"(or (body-contains %s) (match-all (header-contains \"Subject\" %s)))",
 	"(body-contains %s)",
 	"(match-all (header-contains \"Subject\" %s)",
@@ -160,240 +187,203 @@ static char * search_string[] = {
 	"(match-all (not (header-contains \"Subject\" %s)))",
 	"%s",
 };
-#define CUSTOM_SEARCH_ID (5)
 
 static void
-search_full_clicked(MailSearchDialogue *msd, guint button, FolderBrowser *fb)
+search_full_clicked (MailSearchDialogue *msd, guint button, FolderBrowser *fb)
 {
 	char *query;
-
+	
 	switch (button) {
 	case 0:			/* 'ok' */
 	case 1:			/* 'search' */
-		query = mail_search_dialogue_get_query(msd);
-		message_list_set_search(fb->message_list, query);
-		g_free(query);
+		query = mail_search_dialogue_get_query (msd);
+		message_list_set_search (fb->message_list, query);
+		g_free (query);
+		
 		/* save the search as well */
 		if (fb->search_full)
-			gtk_object_unref((GtkObject *)fb->search_full);
+			gtk_object_unref (GTK_OBJECT (fb->search_full));
+		
 		fb->search_full = msd->rule;
-		gtk_object_ref((GtkObject *)fb->search_full);
+		
+		gtk_object_ref (GTK_OBJECT (fb->search_full));
 		if (button == 0)
-			gnome_dialog_close((GnomeDialog *)msd);
+			gnome_dialog_close (GNOME_DIALOG (msd));
 		break;
 	case 2:			/* 'cancel' */
-		gnome_dialog_close((GnomeDialog *)msd);
+		gnome_dialog_close (GNOME_DIALOG (msd));
 	case -1:		/* dialogue closed */
-		message_list_set_search(fb->message_list, 0);
+		message_list_set_search (fb->message_list, 0);
 		/* reset the search buttons state */
-		gtk_menu_set_active(GTK_MENU(GTK_OPTION_MENU(fb->search_menu)->menu), 0);
-		gtk_widget_set_sensitive(fb->search_entry, TRUE);
+		gtk_menu_set_active (GTK_MENU (GTK_OPTION_MENU (fb->search->option)->menu), 0);
+		gtk_widget_set_sensitive (fb->search->entry, TRUE);
 		break;
 	}
 }
 
 /* bring up the 'full search' dialogue and let the user use that to search with */
 static void
-search_full(GtkWidget *w, FolderBrowser *fb)
+search_full (GtkWidget *w, FolderBrowser *fb)
 {
 	MailSearchDialogue *msd;
-
+	
 	/* make search dialogue thingy match */
-	gtk_menu_set_active(GTK_MENU(GTK_OPTION_MENU(fb->search_menu)->menu), CUSTOM_SEARCH_ID);
-	gtk_widget_set_sensitive(fb->search_entry, FALSE);
-
-	msd = mail_search_dialogue_new_with_rule(fb->search_full);
-	gtk_signal_connect((GtkObject *)msd, "clicked", search_full_clicked, fb);
-	gtk_widget_show((GtkWidget*)msd);
+	gtk_menu_set_active (GTK_MENU (GTK_OPTION_MENU (fb->search->option)->menu), ESB_CUSTOM_SEARCH);
+	gtk_widget_set_sensitive (fb->search->entry, FALSE);
+	
+	msd = mail_search_dialogue_new_with_rule (fb->search_full);
+	gtk_signal_connect (GTK_OBJECT (msd), "clicked", search_full_clicked, fb);
+	gtk_widget_show (GTK_WIDGET (msd));
 }
 
 static void
-search_set(FolderBrowser *fb)
+search_save (GtkWidget *w, FolderBrowser *fb)
 {
-	GtkWidget *widget;
-	GString *out;
-	char *str;
-	int index;
-	char *text;
-
-	widget = gtk_menu_get_active (GTK_MENU(GTK_OPTION_MENU(fb->search_menu)->menu));
-	index = (int)gtk_object_get_data((GtkObject *)widget, "search_option");
-	if (index == CUSTOM_SEARCH_ID) {
-		search_full(NULL, fb);
-		return;
-	}
-	gtk_widget_set_sensitive(fb->search_entry, TRUE);
-
-	text = e_utf8_gtk_entry_get_text((GtkEntry *)fb->search_entry);
-
-	if (text == NULL || text[0] == 0) {
-		if (text) 
-			g_free(text);
-		message_list_set_search(fb->message_list, NULL);
-		return;
-	}
-
-	if (index > sizeof(search_string)/sizeof(search_string[0]))
-		index = 0;
-	str = search_string[index];
-
-	out = g_string_new("");
-	while (*str) {
-		if (str[0] == '%' && str[1]=='s') {
-			str+=2;
-			e_sexp_encode_string(out, text);
-		} else {
-			g_string_append_c(out, *str);
-			str++;
-		}
-	}
-	message_list_set_search(fb->message_list, out->str);
-	g_string_free(out, TRUE);
-
-	g_free (text);
-}
-
-static void
-search_menu_deactivate(GtkWidget *menu, FolderBrowser *fb)
-{
-	search_set(fb);
-}
-
-static GtkWidget *
-create_option_menu (char **menu_list, int item, void *data)
-{
-	GtkWidget *omenu;
-	GtkWidget *menu;
-	int i = 0;
-       
-	omenu = gtk_option_menu_new ();
-	menu = gtk_menu_new ();
-	while (*menu_list){
-		GtkWidget *entry;
-
-		/* We don't use e_utf8_gtk_menu_item_new_with_label here
-		 * because the string comes from gettext and so is localized,
-		 * not UTF-8.
-		 */
-		entry = gtk_menu_item_new_with_label (_(*menu_list));
-		gtk_widget_show (entry);
-		gtk_object_set_data((GtkObject *)entry, "search_option", (void *)i);
-		gtk_menu_append (GTK_MENU (menu), entry);
-		menu_list++;
-		i++;
-	}
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
-	gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), item);
-	gtk_widget_show (omenu);
-
-	gtk_signal_connect (GTK_OBJECT (menu), 
-			    "deactivate",
-			    GTK_SIGNAL_FUNC (search_menu_deactivate), data);
-
-	return omenu;
-}
-
-static void
-search_activate(GtkEntry *entry, FolderBrowser *fb)
-{
-	search_set(fb);
-}
-
-static void
-search_save(GtkWidget *w, FolderBrowser *fb)
-{
-	GtkWidget *widget;
-	int index;
 	char *text;
 	FilterElement *element;
 	VfolderRule *rule;
 	FilterPart *part;
-
-	text = e_utf8_gtk_entry_get_text((GtkEntry *)fb->search_entry);
-
-	widget = gtk_menu_get_active (GTK_MENU(GTK_OPTION_MENU(fb->search_menu)->menu));
-	index = (int)gtk_object_get_data((GtkObject *)widget, "search_option");
-
+	int index;
+	
+	text = e_utf8_gtk_entry_get_text (GTK_ENTRY (fb->search->entry));
+	
+	index = fb->search->option_choice;
+	
 	/* some special case code for the custom search position */
-	if (index == CUSTOM_SEARCH_ID) {
-		g_free(text);
-		text = g_strdup(_("Custom"));
+	if (index == ESB_CUSTOM_SEARCH) {
+		g_free (text);
+		text = g_strdup (_("Custom"));
 	} else {
 		if (text == NULL || text[0] == 0) {
 			g_free (text);
 			return;
 		}
 	}
-
-	rule = vfolder_rule_new();
+	
+	rule = vfolder_rule_new ();
 	((FilterRule *)rule)->grouping = FILTER_GROUP_ANY;
-	vfolder_rule_add_source(rule, fb->uri);
-	filter_rule_set_name((FilterRule *)rule, text);
-	switch(index) {
-	case 5:			/* custom search */
+	vfolder_rule_add_source (rule, fb->uri);
+	filter_rule_set_name ((FilterRule *)rule, text);
+	
+	switch (index) {
+	case ESB_CUSTOM_SEARCH:
 		if (fb->search_full) {
 			GList *partl;
-
+			
 			/* copy the parts from the search rule to the vfolder rule */
 			partl = fb->search_full->parts;
 			while (partl) {
 				FilterPart *old = partl->data;
-				part = filter_part_clone(old);
-				filter_rule_add_part((FilterRule *)rule, part);
-				partl = g_list_next(partl);
+				part = filter_part_clone (old);
+				filter_rule_add_part ((FilterRule *)rule, part);
+				partl = g_list_next (partl);
 			}
 			break;
 		}
-	default:		/* header or body contains */
-		index = 0;
-	case 1: case 2:
-		if (index == 0 || index == 1) {	/* body-contains */
-			part = vfolder_create_part("body");
-			filter_rule_add_part((FilterRule *)rule, part);
-			element = filter_part_find_element(part, "body-type");
-			filter_option_set_current((FilterOption *)element, "contains");
-			element = filter_part_find_element(part, "word");
-			filter_input_set_value((FilterInput *)element, text);
+	default:
+		/* header or body contains */
+		index = ESB_BODY_SUBJECT_CONTAINS;
+	case ESB_BODY_CONTAINS:
+	case ESB_SUBJECT_CONTAINS:
+		if (index == ESB_BODY_SUBJECT_CONTAINS || index == ESB_BODY_CONTAINS) {
+			part = vfolder_create_part ("body");
+			filter_rule_add_part ((FilterRule *)rule, part);
+			element = filter_part_find_element (part, "body-type");
+			filter_option_set_current ((FilterOption *)element, "contains");
+			element = filter_part_find_element (part, "word");
+			filter_input_set_value ((FilterInput *)element, text);
 		}
-		if (index == 0 || index == 2) {	/* subject contains */
-			part = vfolder_create_part("subject");
-			filter_rule_add_part((FilterRule *)rule, part);
-			element = filter_part_find_element(part, "subject-type");
-			filter_option_set_current((FilterOption *)element, "contains");
-			element = filter_part_find_element(part, "subject");
-			filter_input_set_value((FilterInput *)element, text);
-		}
-		break;
-	case 3:			/* not body contains */
-		part = vfolder_create_part("body");
-		filter_rule_add_part((FilterRule *)rule, part);
-		element = filter_part_find_element(part, "body-type");
-		filter_option_set_current((FilterOption *)element, "not contains");
-		element = filter_part_find_element(part, "word");
-		filter_input_set_value((FilterInput *)element, text);
-		break;
-	case 4:			/* not header contains */
-		part = vfolder_create_part("subject");
-		filter_rule_add_part((FilterRule *)rule, part);
-		element = filter_part_find_element(part, "subject-type");
-		filter_option_set_current((FilterOption *)element, "not contains");
-		element = filter_part_find_element(part, "subject");
-		filter_input_set_value((FilterInput *)element, text);
-		break;
 		
+		if (index == ESB_BODY_SUBJECT_CONTAINS || index == ESB_SUBJECT_CONTAINS) {
+			part = vfolder_create_part ("subject");
+			filter_rule_add_part ((FilterRule *)rule, part);
+			element = filter_part_find_element (part, "subject-type");
+			filter_option_set_current ((FilterOption *)element, "contains");
+			element = filter_part_find_element (part, "subject");
+			filter_input_set_value ((FilterInput *)element, text);
+		}
+		break;
+	case ESB_BODY_DOES_NOT_CONTAIN:
+		part = vfolder_create_part ("body");
+		filter_rule_add_part ((FilterRule *)rule, part);
+		element = filter_part_find_element (part, "body-type");
+		filter_option_set_current ((FilterOption *)element, "not contains");
+		element = filter_part_find_element (part, "word");
+		filter_input_set_value ((FilterInput *)element, text);
+		break;
+	case ESB_SUBJECT_DOES_NOT_CONTAIN:
+		part = vfolder_create_part ("subject");
+		filter_rule_add_part ((FilterRule *)rule, part);
+		element = filter_part_find_element (part, "subject-type");
+		filter_option_set_current ((FilterOption *)element, "not contains");
+		element = filter_part_find_element (part, "subject");
+		filter_input_set_value ((FilterInput *)element, text);
+		break;
 	}
-
-	vfolder_gui_add_rule(rule);
-
+	
+	vfolder_gui_add_rule (rule);
+	
 	g_free (text);
+}
+
+static void
+folder_browser_search_menu_activated (ESearchBar *esb, int id, FolderBrowser *fb)
+{
+	switch (id) {
+	case ESB_SHOW_ALL:
+		message_list_set_search (fb->message_list, NULL);
+		break;
+	case ESB_ADVANCED:
+		search_full (NULL, fb);
+		break;
+	case ESB_SAVE:
+		search_save (NULL, fb);
+		break;
+	}
+}
+
+static void
+folder_browser_search_query_changed (ESearchBar *esb, FolderBrowser *fb)
+{
+	GString *search_query;
+	char *search_word, *str;
+	int search_type;
+	
+	gtk_object_get (GTK_OBJECT (esb),
+			"text", &search_word,
+			"option_choice", &search_type,
+			NULL);
+	
+	if (search_word && strlen (search_word)) {
+		str = search_string[search_type];
+		
+		search_query = g_string_new ("");
+		while (*str) {
+			if (str[0] == '%' && str[1]=='s') {
+				str += 2;
+				e_sexp_encode_string (search_query, search_word);
+			} else {
+				g_string_append_c (search_query, *str);
+				str++;
+			}
+		}
+		
+		message_list_set_search (fb->message_list, search_query->str);
+		g_string_free (search_query, TRUE);
+	} else {
+		message_list_set_search (fb->message_list, NULL);
+	}
+	
+	g_free (search_word);
 }
 
 void
 folder_browser_clear_search (FolderBrowser *fb)
 {
-	gtk_entry_set_text (GTK_ENTRY (fb->search_entry), "");
-	gtk_option_menu_set_history (GTK_OPTION_MENU (fb->search_menu), 0);
-	message_list_set_search(fb->message_list, NULL);
+	gtk_entry_set_text (GTK_ENTRY (fb->search->entry), "");
+	gtk_option_menu_set_history (GTK_OPTION_MENU (fb->search->option), 0);
+	
+	message_list_set_search (fb->message_list, NULL);
 }
 
 void
@@ -404,51 +394,51 @@ folder_browser_toggle_threads (BonoboUIComponent           *component,
 			       gpointer                     user_data)
 {
 	FolderBrowser *fb = user_data;
-
+	
 	if (type != Bonobo_UIComponent_STATE_CHANGED)
 		return;
 	
-	mail_config_set_thread_list(atoi(state));
-	message_list_set_threaded(fb->message_list, atoi(state));
+	mail_config_set_thread_list (atoi (state));
+	message_list_set_threaded (fb->message_list, atoi (state));
 }
 
 void
-vfolder_subject(GtkWidget *w, FolderBrowser *fb)
+vfolder_subject (GtkWidget *w, FolderBrowser *fb)
 {
-	vfolder_gui_add_from_message(fb->mail_display->current_message, AUTO_SUBJECT,
-				     fb->uri);
+	vfolder_gui_add_from_message (fb->mail_display->current_message, AUTO_SUBJECT,
+				      fb->uri);
 }
 
 void
-vfolder_sender(GtkWidget *w, FolderBrowser *fb)
+vfolder_sender (GtkWidget *w, FolderBrowser *fb)
 {
-	vfolder_gui_add_from_message(fb->mail_display->current_message, AUTO_FROM,
-				     fb->uri);
+	vfolder_gui_add_from_message (fb->mail_display->current_message, AUTO_FROM,
+				      fb->uri);
 }
 
 void
-vfolder_recipient(GtkWidget *w, FolderBrowser *fb)
+vfolder_recipient (GtkWidget *w, FolderBrowser *fb)
 {
-	vfolder_gui_add_from_message(fb->mail_display->current_message, AUTO_TO,
-				     fb->uri);
+	vfolder_gui_add_from_message (fb->mail_display->current_message, AUTO_TO,
+				      fb->uri);
 }
 
 void
-filter_subject(GtkWidget *w, FolderBrowser *fb)
+filter_subject (GtkWidget *w, FolderBrowser *fb)
 {
-	filter_gui_add_from_message(fb->mail_display->current_message, AUTO_SUBJECT);
+	filter_gui_add_from_message (fb->mail_display->current_message, AUTO_SUBJECT);
 }
 
 void
-filter_sender(GtkWidget *w, FolderBrowser *fb)
+filter_sender (GtkWidget *w, FolderBrowser *fb)
 {
-	filter_gui_add_from_message(fb->mail_display->current_message, AUTO_FROM);
+	filter_gui_add_from_message (fb->mail_display->current_message, AUTO_FROM);
 }
 
 void
-filter_recipient(GtkWidget *w, FolderBrowser *fb)
+filter_recipient (GtkWidget *w, FolderBrowser *fb)
 {
-	filter_gui_add_from_message(fb->mail_display->current_message, AUTO_TO);
+	filter_gui_add_from_message (fb->mail_display->current_message, AUTO_TO);
 }
 
 void
@@ -457,13 +447,13 @@ filter_mlist (GtkWidget *w, FolderBrowser *fb)
 	char *name;
 	char *header_value;
 	const char *header_name;
-
+	
 	name = mail_mlist_magic_detect_list (fb->mail_display->current_message, &header_name, &header_value);
 	if (name == NULL)
 		return;
-
+	
 	filter_gui_add_for_mailing_list (fb->mail_display->current_message, name, header_name, header_value);
-
+	
 	g_free (name);
 	g_free (header_value);
 }
@@ -618,7 +608,7 @@ etable_key (ETable *table, int row, int col, GdkEvent *ev, FolderBrowser *fb)
 		gtk_adjustment_value_changed (vadj);
 		return TRUE;
 	}
-
+	
 	case GDK_Delete:
 	case GDK_KP_Delete:
 		delete_msg (NULL, fb);
@@ -631,12 +621,12 @@ etable_key (ETable *table, int row, int col, GdkEvent *ev, FolderBrowser *fb)
 	case GDK_KP_Home:
 		message_list_select(fb->message_list, 0, MESSAGE_LIST_SELECT_NEXT, 0, 0);
 		return TRUE;
-
+		
 	case GDK_End:
 	case GDK_KP_End:
 		message_list_select(fb->message_list, -1, MESSAGE_LIST_SELECT_PREVIOUS, 0, 0);
 		return TRUE;
-
+		
 	case 'n':
 	case 'N':
 		message_list_select (fb->message_list, row,
@@ -667,65 +657,41 @@ on_double_click (ETableScrolled *table, gint row, FolderBrowser *fb)
 static void
 folder_browser_gui_init (FolderBrowser *fb)
 {
-	GtkWidget *hbox, *label;
-	GtkButton *button, *searchbutton;
-	GtkWidget *search_alignment, *save_alignment;
-
-	/*
-	 * The panned container
-	 */
+	/* The panned container */
 	fb->vpaned = e_vpaned_new ();
 	gtk_widget_show (fb->vpaned);
-
-	gtk_table_attach (
-		GTK_TABLE (fb), fb->vpaned,
-		0, 1, 1, 3,
-		GTK_FILL | GTK_EXPAND,
-		GTK_FILL | GTK_EXPAND,
-		0, 0);
-
+	
+	gtk_table_attach (GTK_TABLE (fb), fb->vpaned,
+			  0, 1, 1, 3,
+			  GTK_FILL | GTK_EXPAND,
+			  GTK_FILL | GTK_EXPAND,
+			  0, 0);
+	
 	/* quick-search entry */
-	hbox = gtk_hbox_new(FALSE, 3);
-	gtk_widget_show(hbox);
-	fb->search_entry = gtk_entry_new();
-	gtk_widget_show(fb->search_entry);
-	gtk_signal_connect(GTK_OBJECT (fb->search_entry), "activate", search_activate, fb);
-	search_alignment = gtk_alignment_new(.5, .5, 0, 0);
-	gtk_widget_show(search_alignment);
-	searchbutton = (GtkButton *)gtk_button_new_with_label(_("Full Search"));
-	gtk_widget_show((GtkWidget *)searchbutton);
-	label = gtk_label_new(_("Search"));
-	gtk_widget_show(label);
-	fb->search_menu = create_option_menu(search_options, 0, fb);
-	button = (GtkButton *)gtk_button_new_with_label(_("Save"));
-	gtk_widget_show((GtkWidget *)button);
-	save_alignment = gtk_alignment_new(.5, .5, 0, 0);
-	gtk_widget_show(save_alignment);
-	gtk_signal_connect((GtkObject *)button, "clicked", search_save, fb);
-	gtk_signal_connect((GtkObject *)searchbutton, "clicked", search_full, fb);
-	gtk_container_add(GTK_CONTAINER(save_alignment), GTK_WIDGET(button));
-	gtk_box_pack_end((GtkBox *)hbox, save_alignment, FALSE, FALSE, 3);
-	gtk_box_pack_end((GtkBox *)hbox, fb->search_entry, FALSE, FALSE, 3);
-	gtk_box_pack_end((GtkBox *)hbox, fb->search_menu, FALSE, FALSE, 3);
-	gtk_box_pack_end((GtkBox *)hbox, label, FALSE, FALSE, 3);
-	gtk_container_add(GTK_CONTAINER(search_alignment), GTK_WIDGET(searchbutton));
-	gtk_box_pack_end((GtkBox *)hbox, search_alignment, FALSE, FALSE, 3);
-	gtk_table_attach (
-		GTK_TABLE (fb), hbox,
-		0, 1, 0, 1,
-		GTK_FILL | GTK_EXPAND,
-		0,
-		0, 0);
-
+	fb->search = E_SEARCH_BAR (e_search_bar_new (folder_browser_search_menu_items,
+						     folder_browser_search_option_items));
+	gtk_widget_show (GTK_WIDGET (fb->search));
+	
+	gtk_signal_connect (GTK_OBJECT (fb->search), "query_changed",
+			    GTK_SIGNAL_FUNC (folder_browser_search_query_changed), fb);
+	gtk_signal_connect (GTK_OBJECT (fb->search), "menu_activated",
+			    GTK_SIGNAL_FUNC (folder_browser_search_menu_activated), fb);
+	
+	gtk_table_attach (GTK_TABLE (fb), GTK_WIDGET (fb->search),
+			  0, 1, 0, 1,
+			  GTK_FILL | GTK_EXPAND,
+			  0,
+			  0, 0);
+	
 	fb->message_list_w = message_list_get_widget (fb->message_list);
 	e_paned_add1 (E_PANED (fb->vpaned), fb->message_list_w);
 	gtk_widget_show (fb->message_list_w);
-
+	
 	gtk_signal_connect (GTK_OBJECT (fb->message_list_w), "size_allocate",
 	                    GTK_SIGNAL_FUNC (fb_resize_cb), NULL);
-
+	
 	e_paned_add2 (E_PANED (fb->vpaned), GTK_WIDGET (fb->mail_display));
-	e_paned_set_position (E_PANED (fb->vpaned), mail_config_paned_size());
+	e_paned_set_position (E_PANED (fb->vpaned), mail_config_paned_size ());
 	gtk_widget_show (GTK_WIDGET (fb->mail_display));
 	gtk_widget_show (GTK_WIDGET (fb));
 }
@@ -747,10 +713,10 @@ mark_msg_seen (gpointer data)
 }
 
 static void
-on_message_selected(MessageList *ml, const char *uid, FolderBrowser *fb)
+on_message_selected (MessageList *ml, const char *uid, FolderBrowser *fb)
 {
-	printf("selecting uid %s\n", uid);
-	mail_do_display_message(ml, fb->mail_display, uid, mark_msg_seen);
+	d(printf ("selecting uid %s\n", uid));
+	mail_do_display_message (ml, fb->mail_display, uid, mark_msg_seen);
 }
 
 static void

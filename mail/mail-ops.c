@@ -1693,11 +1693,11 @@ cleanup_load_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 	load_folder_input_t *input = (load_folder_input_t *) in_data;
 
 	if (input->fb->folder) {
-		gtk_widget_set_sensitive (GTK_WIDGET (input->fb->search_entry),
+		gtk_widget_set_sensitive (GTK_WIDGET (input->fb->search->entry),
 					  camel_folder_has_search_capability (input->
 									      fb->
 									      folder));
-		gtk_widget_set_sensitive (GTK_WIDGET (input->fb->search_menu),
+		gtk_widget_set_sensitive (GTK_WIDGET (input->fb->search->option),
 					  camel_folder_has_search_capability (input->
 									      fb->
 									      folder));

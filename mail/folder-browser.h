@@ -8,6 +8,7 @@
 #include <gtk/gtktable.h>
 #include "camel/camel-stream.h"
 #include <bonobo/bonobo-property-bag.h>
+#include "filter/e-search-bar.h"
 #include "filter/filter-rule.h"
 #include "filter/filter-context.h" /*eek*/
 #include "message-list.h"
@@ -41,8 +42,8 @@ struct  _FolderBrowser {
 	GtkWidget   *message_list_w;
 	MailDisplay *mail_display;
 	GtkWidget   *vpaned;
-	GtkWidget   *search_menu;
-	GtkWidget   *search_entry;
+	
+	ESearchBar  *search;
 	FilterRule  *search_full; /* if we have a full search active */
 
 	gboolean     preview_shown;
