@@ -230,6 +230,26 @@ vfolder_refresh(void)
 	g_string_free(expr, TRUE);
 }
 
+static void
+unlist_vfolder (CamelObject *folder, gpointer event_data, gpointer user_data)
+{
+	GList *l;
+
+	l = available_vfolders;
+	while (l) {
+		struct _vfolder_info *info = l->data;
+
+		if ((CamelObject *)info->folder == folder) {
+			info->folder = NULL;
+			return;
+		}
+
+		l = l->next;
+	}
+
+	g_message ("Whoa, unlisting vfolder %p but can't find it", folder);
+}
+
 void
 vfolder_create_storage(EvolutionShellComponent *shell_component)
 {
@@ -303,6 +323,7 @@ vfolder_uri_to_folder(const char *uri, CamelException *ex)
 	/* we dont have indexing on vfolders */
 	folder = mail_tool_get_folder_from_urlname (storeuri, foldername, CAMEL_STORE_FOLDER_CREATE, ex);
 	info->folder = (CamelVeeFolder *)folder;
+	camel_object_hook_event ((CamelObject *) info->folder, "finalize", unlist_vfolder, NULL);
 
 	mail_folder_cache_set_update_estorage (uri, vfolder_storage);
 	mail_folder_cache_note_folder (uri, info->folder);
