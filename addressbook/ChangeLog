@@ -1,5 +1,11 @@
 2001-06-20  Chris Toshok  <toshok@ximian.com>
 
+	* backend/pas/pas-backend-file.c
+	(pas_backend_file_process_get_supported_fields): fix a refcounting
+	memleak.
+
+2001-06-20  Chris Toshok  <toshok@ximian.com>
+
 	* backend/ebook/e-book-listener.c
 	(e_book_listener_queue_get_supported_fields_response): fix memory
 	leak.
