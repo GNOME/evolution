@@ -4,13 +4,15 @@
 
 2001-07-03  Peter Williams  <peterw@ximian.com>
 
-	* filter-source.c (get_widget): Prevent crashing while we work this out.
+	* filter-source.c (get_widget): Prevent crashing while we work
+	this out.
 
 	* filter-rule.c (get_widget): Don't try to gtk_widget_grab_default
 	with a widget that can't be the default. Altough it should be able
 	to....
 
 2001-07-02  Sam Creasey <sammy@oh.verio.com>
+
 	* filter-int.c: Added an integer type for filtering values.  used
 	for size.
 
@@ -20,12 +22,13 @@
 	
 2001-07-02  Anna Marie Dirks <anna@ximian.com> 
 
-	* filter-rule.c (get_widget): Changed "Add criterion" button to have 
-	normal button relief in response to complaints of it not appearing 
-	clickable.
+	* filter-rule.c (get_widget): Changed "Add criterion" button to
+	have normal button relief in response to complaints of it not
+	appearing clickable.
 
-	* filter-filter.c: Changed "Add action" button to have normal button
-	relief in response to complaints of it not appearing clickable.
+	* filter-filter.c: Changed "Add action" button to have normal
+	button relief in response to complaints of it not appearing
+	clickable.
 
 2001-06-29  Jeffrey Stedfast  <fejj@ximian.com>
 
