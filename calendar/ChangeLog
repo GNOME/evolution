@@ -1,3 +1,41 @@
+2004-04-07  JP Rosevear <jpr@ximian.com>
+
+	* gui/gnome-cal.c (gnome_calendar_dayjump): remove extra set view
+	params
+	(gnome_calendar_set_view): simplify, just set the current view id
+	and let the gal view stuff do the rest
+	(display_view): modify from set_view, don't set the view id here
+	or update the default view config setting
+	(display_view_cb): update the date navigator
+	(gnome_calendar_construct): kill the default view stuff, gal view
+	handles that
+	(gnome_calendar_on_date_navigator_selection_changed): use display_view
+
+	* gui/e-week-view.c (time_range_changed_cb): ditto
+	(e_week_view_set_selected_time_range): just set the selection,
+	don't fool with the base date
+	(e_week_view_on_button_press): do a full day event if double
+	clicked on
+
+	* gui/e-day-view.c (time_range_changed_cb): only set the selection
+	if we can't preserve an existing selection
+
+	* gui/control-factory.c (set_prop): 
+
+	* gui/calendar-config.h: remove protos
+
+	* gui/calendar-config.c: remove default view calls
+
+	* gui/calendar-commands.c (show_day_view_clicked): remove extra
+	params to gnome_calendar_set_view
+	(show_work_week_view_clicked): ditto
+	(show_week_view_clicked): ditto
+	(show_month_view_clicked): ditto
+	(show_list_view_clicked): ditto
+
+	* gui/apps_evolution_calendar.schemas.in.in: remove default view
+	setting, gal view remembers this for us
+
 2004-04-05  JP Rosevear <jpr@ximian.com>
 
 	* gui/e-week-view.c (time_range_changed_cb): only select one day

@@ -92,17 +92,6 @@
     </schema>
 
     <schema>
-      <key>/schemas/apps/evolution/calendar/display/default_view</key>
-      <applyto>/apps/evolution/calendar/display/default_view</applyto>
-      <owner>evolution-calendar</owner>
-      <type>int</type>
-      <default>0</default>
-      <locale name="C">
-        <short>The view showing when the calendar starts</short>
-      </locale>
-    </schema>
-
-    <schema>
       <key>/schemas/apps/evolution/calendar/display/hpane_position</key>
       <applyto>/apps/evolution/calendar/display/hpane_position</applyto>
       <owner>evolution-calendar</owner>

@@ -222,7 +222,7 @@ show_day_view_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
 
 	gcal = GNOME_CALENDAR (data);
 
-	gnome_calendar_set_view (gcal, GNOME_CAL_DAY_VIEW, FALSE, TRUE);
+	gnome_calendar_set_view (gcal, GNOME_CAL_DAY_VIEW);
 }
 
 static void
@@ -232,7 +232,7 @@ show_work_week_view_clicked (BonoboUIComponent *uic, gpointer data, const char *
 
 	gcal = GNOME_CALENDAR (data);
 
-	gnome_calendar_set_view (gcal, GNOME_CAL_WORK_WEEK_VIEW, FALSE, TRUE);
+	gnome_calendar_set_view (gcal, GNOME_CAL_WORK_WEEK_VIEW);
 }
 
 static void
@@ -242,7 +242,7 @@ show_week_view_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
 
 	gcal = GNOME_CALENDAR (data);
 
-	gnome_calendar_set_view (gcal, GNOME_CAL_WEEK_VIEW, FALSE, TRUE);
+	gnome_calendar_set_view (gcal, GNOME_CAL_WEEK_VIEW);
 }
 
 static void
@@ -252,7 +252,7 @@ show_month_view_clicked (BonoboUIComponent *uic, gpointer data, const char *path
 
 	gcal = GNOME_CALENDAR (data);
 
-	gnome_calendar_set_view (gcal, GNOME_CAL_MONTH_VIEW, FALSE, TRUE);
+	gnome_calendar_set_view (gcal, GNOME_CAL_MONTH_VIEW);
 }
 
 
@@ -263,7 +263,7 @@ show_list_view_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
 
 	gcal = GNOME_CALENDAR (data);
 
-	gnome_calendar_set_view (gcal, GNOME_CAL_LIST_VIEW, FALSE, TRUE);
+	gnome_calendar_set_view (gcal, GNOME_CAL_LIST_VIEW);
 }
 
 

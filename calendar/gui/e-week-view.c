@@ -27,7 +27,9 @@
  * EWeekView - displays the Week & Month views of the calendar.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include "e-week-view.h"
 #include "ea-calendar.h"
@@ -253,8 +255,8 @@ static void
 time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpointer user_data)
 {
 	EWeekView *week_view = E_WEEK_VIEW (user_data);
-	GDate date, base_date, end_date;
-	gint day_offset, weekday, week_start_offset, num_days;
+	GDate date, base_date;
+	gint day_offset, weekday, week_start_offset;
 	gboolean update_adjustment_value = FALSE;
 
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
@@ -323,7 +325,9 @@ time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpo
 	gtk_widget_queue_draw (week_view->main_canvas);
 
 	/* FIXME Preserve selection if possible */
-	e_week_view_set_selected_time_range (E_CALENDAR_VIEW (week_view), start_time, start_time);
+	if (week_view->selection_start_day == -1 || 
+	    (week_view->multi_week_view ? week_view->weeks_shown * 7 : 7) <= week_view->selection_start_day)
+		e_week_view_set_selected_time_range (E_CALENDAR_VIEW (week_view), start_time, start_time);
 }
 
 
@@ -1424,8 +1428,8 @@ e_week_view_set_selected_time_range	(ECalendarView	*cal_view,
 					 time_t		 start_time,
 					 time_t		 end_time)
 {
-	GDate date, base_date, end_date;
-	gint day_offset, weekday, week_start_offset, num_days;
+	GDate date, end_date;
+	gint num_days;
 	gboolean update_adjustment_value = FALSE;
 	EWeekView *week_view = E_WEEK_VIEW (cal_view);
 
@@ -1433,63 +1437,9 @@ e_week_view_set_selected_time_range	(ECalendarView	*cal_view,
 
 	time_to_gdate_with_zone (&date, start_time, e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 
-	if (week_view->multi_week_view) {
-		/* Find the number of days since the start of the month. */
-		day_offset = g_date_day (&date) - 1;
-
-		/* Find the 1st week which starts at or before the start of
-		   the month. */
-		base_date = date;
-		g_date_set_day (&base_date, 1);
-
-		/* Calculate the weekday of the 1st of the month, 0 = Mon. */
-		weekday = g_date_weekday (&base_date) - 1;
-
-		/* Convert it to an offset from the start of the display. */
-		week_start_offset = (weekday + 7 - week_view->display_start_day) % 7;
-
-		/* Add it to the day offset so we go back to the 1st week at
-		   or before the start of the month. */
-		day_offset += week_start_offset;
-	} else {
-		/* Calculate the weekday of the given date, 0 = Mon. */
-		weekday = g_date_weekday (&date) - 1;
-
-		/* Convert it to an offset from the start of the display. */
-		week_start_offset = (weekday + 7 - week_view->display_start_day) % 7;
-
-		/* Set the day_offset to the result, so we move back to the
-		   start of the week. */
-		day_offset = week_start_offset;
-	}
-
-	/* Calculate the base date, i.e. the first day shown when the
-	   scrollbar adjustment value is 0. */
-	base_date = date;
-	g_date_subtract_days (&base_date, day_offset);
-
-	/* See if we need to update the base date. */
-	if (!g_date_valid (&week_view->base_date)
-	    || g_date_compare (&week_view->base_date, &base_date)) {
-		week_view->base_date = base_date;
-		update_adjustment_value = TRUE;
-	}
-
-	/* See if we need to update the first day shown. */
-	if (!g_date_valid (&week_view->first_day_shown)
-	    || g_date_compare (&week_view->first_day_shown, &base_date)) {
-		week_view->first_day_shown = base_date;
-		start_time = time_add_day_with_zone (start_time, -day_offset,
-						     e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
-		start_time = time_day_begin_with_zone (start_time,
-						       e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
-		e_week_view_recalc_day_starts (week_view, start_time);
-		e_week_view_update_query (week_view);
-	}
-
 	/* Set the selection to the given days. */
 	week_view->selection_start_day = g_date_julian (&date)
-		- g_date_julian (&base_date);
+		- g_date_julian (&week_view->base_date);
 	if (end_time == start_time
 	    || end_time <= time_add_day_with_zone (start_time, 1,
 						   e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view))))
@@ -1497,7 +1447,7 @@ e_week_view_set_selected_time_range	(ECalendarView	*cal_view,
 	else {
 		time_to_gdate_with_zone (&end_date, end_time - 60, e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 		week_view->selection_end_day = g_date_julian (&end_date)
-			- g_date_julian (&base_date);
+			- g_date_julian (&week_view->base_date);
 	}
 
 	/* Make sure the selection is valid. */
@@ -2181,7 +2131,7 @@ e_week_view_on_button_press (GtkWidget *widget,
 		return FALSE;
 
 	if (event->button == 1 && event->type == GDK_2BUTTON_PRESS) {
-		e_calendar_view_new_appointment (E_CALENDAR_VIEW (week_view));
+		e_calendar_view_new_appointment_full (E_CALENDAR_VIEW (week_view), TRUE, FALSE);
 		return TRUE;
 	}
 

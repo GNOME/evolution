@@ -410,21 +410,6 @@ calendar_config_add_notification_dnav_show_week_no (GConfClientNotifyFunc func, 
 	return id;
 }
 
-/* The view to show on start-up, 0 = Day, 1 = WorkWeek, 2 = Week, 3 = Month. */
-gint
-calendar_config_get_default_view	(void)
-{
-	return gconf_client_get_int (config, CALENDAR_CONFIG_DEFAULT_VIEW, NULL);
-}
-
-
-void
-calendar_config_set_default_view	(gint	      view)
-{
-	gconf_client_set_int (config, CALENDAR_CONFIG_DEFAULT_VIEW, view, NULL);
-}
-
-
 /* The positions of the panes in the normal and month views. */
 gint
 calendar_config_get_hpane_pos		(void)

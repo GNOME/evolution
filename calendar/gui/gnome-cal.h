@@ -121,8 +121,7 @@ void       gnome_calendar_dayjump          	(GnomeCalendar *gcal,
 void       gnome_calendar_goto_today            (GnomeCalendar *gcal);
 
 GnomeCalendarViewType gnome_calendar_get_view (GnomeCalendar *gcal);
-void gnome_calendar_set_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type,
-			      gboolean range_selected, gboolean grab_focus);
+void gnome_calendar_set_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type);
 
 GtkWidget *gnome_calendar_get_current_view_widget (GnomeCalendar *gcal);
 
