@@ -1,3 +1,7 @@
+1999-07-29  Jonathan Blandford  <jrb@redhat.com>
+
+	* gnome-cal.c (setup_widgets): Add scrolling to the yearview.
+
 1999-07-28  Miguel de Icaza  <miguel@gnu.org>
 
 	* calendar-pilot-sync.c: (sync_object_to_pilot): If the enddate is
