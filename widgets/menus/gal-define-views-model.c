@@ -79,9 +79,7 @@ gdvm_set_value_at (ETableModel *etc, int col, int row, const void *val)
 	if (views->editable) {
 		if (col != 0 || row < 0 || row > views->data_count)
 			return;
-		gtk_object_set(GTK_OBJECT(views->data[row]),
-			       "name", val,
-			       NULL);
+		gal_view_set_title(views->data[row], val);
 		e_table_model_cell_changed(etc, col, row);
 	}
 }

@@ -21,32 +21,36 @@ typedef struct {
 	/*
 	 * Virtual methods
 	 */
-	void        (*edit)           (GalView *view);
-	void        (*load_from_node) (GalView *view,
-				       xmlNode *node);
-	void        (*save_to_node)   (GalView *view,
-				       xmlNode *parent);
-	const char *(*get_title)      (GalView *view);
-	GalView    *(*clone)          (GalView *view);
+	void        (*edit)       (GalView    *view);
+	void        (*load)       (GalView    *view,
+				   const char *filename);
+	void        (*save)       (GalView    *view,
+				   const char *filename);
+	const char *(*get_title)  (GalView    *view);
+	void        (*set_title)  (GalView    *view,
+				   const char *title);
+	GalView    *(*clone)      (GalView    *view);
 } GalViewClass;
 
 /* Standard functions */
-GtkType     gal_view_get_type        (void);
+GtkType     gal_view_get_type   (void);
 
 /* Open an editor dialog for this view. */
-void        gal_view_edit            (GalView *view);
+void        gal_view_edit       (GalView    *view);
 
 /* xml load and save functions */
-void        gal_view_load_from_node  (GalView *view,
-				      xmlNode *node);
-void        gal_view_save_to_node    (GalView *view,
-				      xmlNode *parent);
+void        gal_view_load       (GalView    *view,
+				 const char *filename);
+void        gal_view_save       (GalView    *view,
+				 const char *filename);
 
-/* Query functions */
-const char *gal_view_get_title       (GalView *view);
+/* Title functions */
+const char *gal_view_get_title  (GalView    *view);
+void        gal_view_set_title  (GalView    *view,
+				 const char *title);
 
 /* Cloning the view */
-GalView    *gal_view_clone           (GalView *view);
+GalView    *gal_view_clone      (GalView    *view);
 
 
 #endif /* _GAL_VIEW_H_ */

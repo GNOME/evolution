@@ -36,35 +36,35 @@ gal_view_edit            (GalView *view)
 }
 
 /**
- * gal_view_load_from_node
+ * gal_view_load
  * @view: The view to load to
- * @node: The xml data to load
+ * @filename: The file to load from
  */
 void  
-gal_view_load_from_node  (GalView *view,
-			  xmlNode *node)
+gal_view_load  (GalView *view,
+		const char *filename)
 {
 	g_return_if_fail (view != NULL);
 	g_return_if_fail (GAL_IS_VIEW (view));
 
-	if (GV_CLASS (view)->load_from_node)
-		GV_CLASS (view)->load_from_node (view, node);
+	if (GV_CLASS (view)->load)
+		GV_CLASS (view)->load (view, filename);
 }
 
 /**
- * gal_view_save_to_node
+ * gal_view_save
  * @view: The view to save
- * @parent: Save the data as a child of this node
+ * @filename: The file to save to
  */
 void
-gal_view_save_to_node    (GalView *view,
-			  xmlNode *parent)
+gal_view_save    (GalView *view,
+		  const char *filename)
 {
 	g_return_if_fail (view != NULL);
 	g_return_if_fail (GAL_IS_VIEW (view));
 
-	if (GV_CLASS (view)->save_to_node)
-		GV_CLASS (view)->save_to_node (view, parent);
+	if (GV_CLASS (view)->save)
+		GV_CLASS (view)->save (view, filename);
 }
 
 /**
@@ -83,6 +83,22 @@ gal_view_get_title       (GalView *view)
 		return GV_CLASS (view)->get_title (view);
 	else
 		return NULL;
+}
+
+/**
+ * gal_view_set_title
+ * @view: The view to set.
+ * @title: The new title value.
+ */
+void
+gal_view_set_title       (GalView *view,
+			  const char *title)
+{
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (GAL_IS_VIEW (view));
+
+	if (GV_CLASS (view)->set_title)
+		GV_CLASS (view)->set_title (view, title);
 }
 
 /**
@@ -110,8 +126,8 @@ gal_view_class_init      (GtkObjectClass *object_class)
 	gal_view_parent_class = gtk_type_class (PARENT_TYPE);
 	
 	klass->edit           = NULL;     
-	klass->load_from_node = NULL;     
-	klass->save_to_node   = NULL;     
+	klass->load = NULL;     
+	klass->save   = NULL;     
 	klass->get_title      = NULL;     
 	klass->clone          = NULL;
 }

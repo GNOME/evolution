@@ -49,11 +49,29 @@ GalView *
 gal_view_factory_new_view        (GalViewFactory *factory,
 				  const char     *name)
 {
-	g_return_val_if_fail (factory != NULL, 0);
-	g_return_val_if_fail (GAL_IS_VIEW_FACTORY (factory), 0);
+	g_return_val_if_fail (factory != NULL, NULL);
+	g_return_val_if_fail (GAL_IS_VIEW_FACTORY (factory), NULL);
 
 	if (GVF_CLASS (factory)->new_view)
 		return GVF_CLASS (factory)->new_view (factory, name);
+	else
+		return NULL;
+}
+
+/**
+ * gal_view_factory_get_type_code:
+ * @factory: The factory to use
+ *
+ * Returns: The type code
+ */
+const char *
+gal_view_factory_get_type_code (GalViewFactory *factory)
+{
+	g_return_val_if_fail (factory != NULL, NULL);
+	g_return_val_if_fail (GAL_IS_VIEW_FACTORY (factory), NULL);
+
+	if (GVF_CLASS (factory)->get_type_code)
+		return GVF_CLASS (factory)->get_type_code (factory);
 	else
 		return NULL;
 }

@@ -25,23 +25,31 @@ gal_view_etable_edit            (GalView *view)
 }
 
 static void  
-gal_view_etable_load_from_node  (GalView *view,
-				 xmlNode *node)
+gal_view_etable_load  (GalView *view,
+		       const char *filename)
 {
-
+	e_table_state_load_from_file(GAL_VIEW_ETABLE(view)->state, filename);
 }
 
 static void
-gal_view_etable_save_to_node    (GalView *view,
-				 xmlNode *parent)
+gal_view_etable_save    (GalView *view,
+			 const char *filename)
 {
-
+	e_table_state_save_to_file(GAL_VIEW_ETABLE(view)->state, filename);
 }
 
 static const char *
 gal_view_etable_get_title       (GalView *view)
 {
 	return GAL_VIEW_ETABLE(view)->title;
+}
+
+static void
+gal_view_etable_set_title       (GalView *view,
+				 const char *title)
+{
+	g_free(GAL_VIEW_ETABLE(view)->title);
+	GAL_VIEW_ETABLE(view)->title = g_strdup(title);
 }
 
 static GalView *
@@ -77,14 +85,15 @@ gal_view_etable_class_init      (GtkObjectClass *object_class)
 {
 	GalViewClass *gal_view_class = GAL_VIEW_CLASS(object_class);
 	gal_view_etable_parent_class = gtk_type_class (PARENT_TYPE);
-	
-	gal_view_class->edit           = gal_view_etable_edit          ;
-	gal_view_class->load_from_node = gal_view_etable_load_from_node;
-	gal_view_class->save_to_node   = gal_view_etable_save_to_node  ;
-	gal_view_class->get_title      = gal_view_etable_get_title     ;
-	gal_view_class->clone          = gal_view_etable_clone         ;
 
-	object_class->destroy          = gal_view_etable_destroy       ;
+	gal_view_class->edit         = gal_view_etable_edit     ;
+	gal_view_class->load         = gal_view_etable_load     ;
+	gal_view_class->save         = gal_view_etable_save     ;
+	gal_view_class->get_title    = gal_view_etable_get_title;
+	gal_view_class->set_title    = gal_view_etable_set_title;
+	gal_view_class->clone        = gal_view_etable_clone    ;
+
+	object_class->destroy        = gal_view_etable_destroy  ;
 }
 
 static void

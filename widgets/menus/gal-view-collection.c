@@ -10,11 +10,24 @@
 #include <config.h>
 #include <gtk/gtksignal.h>
 #include <gal/util/e-util.h>
+#include <gal/util/e-xml-utils.h>
+#include <gnome-xml/parser.h>
 #include "gal-view-collection.h"
 
 #define GVC_CLASS(e) ((GalViewCollectionClass *)((GtkObject *)e)->klass)
 
 #define PARENT_TYPE gtk_object_get_type ()
+
+struct _GalViewCollectionItem {
+	GalView *view;
+	char *id;
+	gboolean changed;
+	gboolean ever_changed;
+	gboolean built_in;
+	char *filename;
+	char *title;
+	char *type;
+};
 
 static GtkObjectClass *gal_view_collection_parent_class;
 
@@ -44,12 +57,33 @@ gal_view_collection_display_view (GalViewCollection *collection,
 }
 
 static void
+gal_view_collection_item_free (GalViewCollectionItem *item)
+{
+	g_free(item->id);
+	if (item->view)
+		gtk_object_unref(GTK_OBJECT(item->view));
+	g_free(item);
+}
+
+static void
 gal_view_collection_destroy (GtkObject *object)
 {
 	GalViewCollection *collection = GAL_VIEW_COLLECTION(object);
+	int i;
 
-	e_free_object_list(collection->view_list);
+	for (i = 0; i < collection->view_count; i++) {
+		gal_view_collection_item_free (collection->view_data[i]);
+	}
+	g_free(collection->view_data);
 	e_free_object_list(collection->factory_list);
+
+	for (i = 0; i < collection->removed_view_count; i++) {
+		gal_view_collection_item_free (collection->removed_view_data[i]);
+	}
+	g_free(collection->removed_view_data);
+
+	g_free(collection->system_dir);
+	g_free(collection->local_dir);
 
 	if (gal_view_collection_parent_class->destroy)
 		(*gal_view_collection_parent_class->destroy)(object);
@@ -79,8 +113,15 @@ gal_view_collection_class_init (GtkObjectClass *object_class)
 static void
 gal_view_collection_init (GalViewCollection *collection)
 {
-	collection->view_list    = NULL;
-	collection->factory_list = NULL;
+	collection->view_data          = NULL;
+	collection->view_count         = 0;
+	collection->factory_list       = NULL;
+
+	collection->removed_view_data  = NULL;
+	collection->removed_view_count = 0;
+
+	collection->system_dir         = NULL;
+	collection->local_dir          = NULL;
 }
 
 /**
@@ -133,9 +174,14 @@ gal_view_collection_new                      (void)
  */
 void
 gal_view_collection_set_storage_directories  (GalViewCollection *collection,
-					      char              *system_dir,
-					      char              *local_dir)
+					      const char        *system_dir,
+					      const char        *local_dir)
 {
+	g_free(collection->system_dir);
+	g_free(collection->local_dir);
+
+	collection->system_dir = g_strdup(system_dir);
+	collection->local_dir = g_strdup(local_dir);
 }
 
 /**
@@ -153,4 +199,154 @@ gal_view_collection_add_factory              (GalViewCollection *collection,
 {
 	gtk_object_ref(GTK_OBJECT(factory));
 	collection->factory_list = g_list_prepend(collection->factory_list, factory);
+}
+
+static GalViewCollectionItem *
+load_single_file (GalViewCollection *collection,
+		  gchar *dir,
+		  gboolean local,
+		  xmlNode *node)
+{
+	GalViewCollectionItem *item;
+	item = g_new(GalViewCollectionItem, 1);
+	item->ever_changed = local;
+	item->changed = FALSE;
+	item->built_in = !local;
+	item->id = e_xml_get_string_prop_by_name(node, "id");
+	item->title = e_xml_get_string_prop_by_name(node, "title");
+	item->filename = e_xml_get_string_prop_by_name(node, "filename");
+	item->type = e_xml_get_string_prop_by_name(node, "type");
+	if (item->filename) {
+		GalViewFactory *factory;
+		char *temp;
+		GList *factories;
+
+		temp = g_concat_dir_and_file(dir, item->filename);
+		g_free(item->filename);
+		item->filename = temp;
+
+		factory = NULL;
+		for (factories = collection->factory_list; factories; factories = factories->next) {
+			if (!strcmp(gal_view_factory_get_type_code(factories->data), item->type)) {
+				factory = factories->data;
+				break;
+			}
+		}
+		if (factory) {
+			item->view = gal_view_factory_new_view (factory, item->filename);
+			gal_view_load(item->view, item->filename);
+		}
+	}
+	return item;
+}
+
+static void
+load_single_dir (GalViewCollection *collection,
+		 char *dir,
+		 gboolean local)
+{
+	xmlDoc *doc;
+	xmlNode *root;
+	xmlNode *child;
+	char *filename = g_concat_dir_and_file(dir, "galview.xml");
+
+	doc = xmlParseFile(filename);
+	root = xmlDocGetRootElement(doc);
+	for (child = root->xmlChildrenNode; child; child = child->next) {
+		gchar *id = e_xml_get_string_prop_by_name(child, "id");
+		gboolean found = FALSE;
+		int i;
+
+		for (i = 0; i < collection->view_count; i++) {
+			if (!strcmp(id, collection->view_data[i]->id))
+				if (!local)
+					collection->view_data[i]->built_in = TRUE;
+			found = TRUE;
+			break;
+		}
+		if (!found) {
+			for (i = 0; i < collection->removed_view_count; i++) {
+				if (!strcmp(id, collection->removed_view_data[i]->id))
+					if (!local)
+						collection->removed_view_data[i]->built_in = TRUE;
+				found = TRUE;
+				break;
+			}
+		}
+
+		if (!found) {
+			GalViewCollectionItem *item = load_single_file (collection, dir, local, child);
+			if (item->filename) {
+				collection->view_data = g_renew(GalViewCollectionItem *, collection->view_data, collection->view_count + 1);
+				collection->view_data[collection->view_count] = item;
+				collection->view_count ++;
+			} else {
+				collection->removed_view_data = g_renew(GalViewCollectionItem *, collection->removed_view_data, collection->removed_view_count + 1);
+				collection->removed_view_data[collection->removed_view_count] = item;
+				collection->removed_view_count ++;
+			}
+		}
+		g_free(id);
+	}
+
+	g_free(filename);
+}
+
+/**
+ * gal_view_collection_load
+ * @collection: The view collection to load information for
+ *
+ * Loads the data from the system and user directories specified in
+ * set storage directories.  This is primarily for internal use by
+ * other parts of gal_view.
+ */
+void
+gal_view_collection_load              (GalViewCollection *collection)
+{
+	load_single_dir(collection, collection->local_dir, TRUE);
+	load_single_dir(collection, collection->system_dir, FALSE);
+}
+
+/**
+ * gal_view_collection_save
+ * @collection: The view collection to save information for
+ *
+ * Saves the data to the user directory specified in set storage
+ * directories.  This is primarily for internal use by other parts of
+ * gal_view.
+ */
+void
+gal_view_collection_save              (GalViewCollection *collection)
+{
+	int i;
+	xmlDoc *doc;
+	xmlNode *root;
+	char *filename;
+
+	doc = xmlNewDoc("1.0");
+	root = xmlNewNode(NULL, "GalViewCollection");
+	xmlDocSetRootElement(doc, root);
+	for (i = 0; i < collection->view_count; i++) {
+		xmlNode *child;
+		GalViewCollectionItem *item;
+
+		item = collection->view_data[i];
+		if (item->ever_changed) {
+			child = xmlNewChild(root, NULL, "GalView", NULL);
+			e_xml_set_string_prop_by_name(child, "id", item->id);
+			e_xml_set_string_prop_by_name(child, "title", item->title);
+			e_xml_set_string_prop_by_name(child, "filename", item->filename);
+			e_xml_set_string_prop_by_name(child, "type", item->type);
+
+			if (item->changed) {
+				filename = g_concat_dir_and_file(collection->local_dir, item->filename);
+				gal_view_save(item->view, filename);
+				g_free(filename);
+			}
+		}
+	}
+	filename = g_concat_dir_and_file(collection->local_dir, "galview.xml");
+	xmlSaveFile(filename, doc);
+	xmlFreeDoc(doc);
+	g_free(filename);
 }
