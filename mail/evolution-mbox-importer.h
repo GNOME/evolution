@@ -24,6 +24,9 @@
 #ifndef _EVOLUTION_MBOX_IMPORTER_H_
 #define _EVOLUTION_MBOX_IMPORTER_H_
 
+#include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-generic-factory.h>
+
 #define MBOX_FACTORY_IID "OAFIID:GNOME_Evolution_Mail_Mbox_ImporterFactory"
 
 BonoboObject *mbox_factory_fn (BonoboGenericFactory *_factory,

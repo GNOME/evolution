@@ -20,6 +20,9 @@
  *
  */
 
+#include "config.h"
+#include "mail-send-recv.h"
+
 #include <stdio.h>
 #include <string.h>
 
@@ -43,6 +46,7 @@
 #include <gtk/gtk.h>
 #include <libgnomeui/gnome-stock.h>
 #include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-window-icon.h>
 
 /* send/receive email */
 
@@ -521,7 +525,7 @@ void mail_send_receive(void)
 	   smtp one. */
 	data = build_dialogue(sources, outbox_folder, account->transport->url);
 	scan = data->infos;
-	gd = data->gd;
+	gd = GTK_WIDGET(data->gd);
 	gtk_signal_connect((GtkObject *)gd, "destroy", gtk_widget_destroyed, &gd);
 	while (scan) {
 		struct _send_info *info = scan->data;

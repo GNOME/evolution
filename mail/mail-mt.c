@@ -216,7 +216,7 @@ mail_msg_received(EThread *e, EMsg *msg, void *data)
 		m->ops->receive_msg(m);
 }
 
-void mail_msg_cleanup(void)
+static void mail_msg_cleanup(void)
 {
 	e_thread_destroy(mail_thread_queued);
 	e_thread_destroy(mail_thread_new);

@@ -39,6 +39,7 @@
 #include "mail-tools.h"
 #include "mail-ops.h"
 #include "mail-local.h"
+#include "mail-send-recv.h"
 #include "mail-vfolder.h"
 #include "folder-browser.h"
 #include "subscribe-dialog.h"

@@ -24,6 +24,9 @@
 #ifndef _EVOLUTION_OUTLOOK_IMPORTER_H_
 #define _EVOLUTION_OUTLOOK_IMPORTER_H_
 
+#include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-generic-factory.h>
+
 #define OUTLOOK_FACTORY_IID "OAFIID:GNOME_Evolution_Mail_Outlook_ImporterFactory"
 
 BonoboObject *outlook_factory_fn (BonoboGenericFactory *_factory,

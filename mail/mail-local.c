@@ -959,7 +959,7 @@ mail_local_lookup_folder (const char *name,
 								   "file:/",
 								   CAMEL_PROVIDER_STORE, NULL);
 
-	return get_folder (local_store, name, 0, ev);
+	return get_folder (CAMEL_STORE(local_store), name, 0, ev);
 }
 
 void

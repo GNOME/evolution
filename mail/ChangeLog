@@ -1,3 +1,28 @@
+2001-02-05  Christopher James Lahey  <clahey@ximian.com>
+
+	* evolution-mbox-importer.c, evolution-mbox-importer.h: Moved
+	bonobo includes from the .c to the .h.  Include
+	evolution-mbox-importer.h in evolution-mbox-importer.c.
+
+	* evolution-outlook-importer.c, evolution-outlook-importer.h:
+	Moved bonobo includes from the .c to the .h.  Include
+	evolution-outlook-importer.h in evolution-outlook-importer.c.
+
+	* mail-callbacks.c: Include mail-send-recv.h.
+
+	* mail-local.c (mail_local_lookup_folder): Cast local_store to
+	CAMEL_STORE.
+
+	* mail-mt.c (mail_msg_cleanup): Make this function static.
+
+	* mail-send-recv.c, mail-send-recv.h: Created mail_send_recv.h.
+	Included it in mail-send-recv.c.  Added a #include
+	<libgnomeui/gnome-window-icon.h>.
+	(mail_send_receive): Added a cast.
+
+	* mail-summary.c (new_folder_cb, removed_folder_cb,
+	create_summary_view): Cast the source func in calling g_idle_add.
+
 2001-02-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (try_inline_pgp_sig): New function to handle

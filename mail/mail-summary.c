@@ -440,7 +440,7 @@ new_folder_cb (EvolutionStorageListener *listener,
 	g_print ("New folder: %s\n", path);
 
 	if (summary->idle == 0)
-		summary->idle = g_idle_add (idle_check, summary);
+		summary->idle = g_idle_add ((GSourceFunc) idle_check, summary);
 }
 
 static void
@@ -451,7 +451,7 @@ removed_folder_cb (EvolutionStorageListener *listener,
 	g_print ("Removed folder: %s\n", path);
 
 	if (summary->idle == 0)
-		summary->idle = g_idle_add (idle_check, summary);
+		summary->idle = g_idle_add ((GSourceFunc) idle_check, summary);
 }
 #endif
 
@@ -523,7 +523,7 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 #endif
 	
 	if (summary->idle == 0)
-		summary->idle = g_idle_add (idle_check, summary);
+		summary->idle = g_idle_add ((GSourceFunc) idle_check, summary);
 
 	return component;
 }

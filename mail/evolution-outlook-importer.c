@@ -26,8 +26,7 @@
 #include <config.h>
 #endif
 
-#include <bonobo/bonobo-object.h>
-#include <bonobo/bonobo-generic-factory.h>
+#include "evolution-outlook-importer.h"
 
 #include <stdio.h>
 
