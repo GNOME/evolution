@@ -38,11 +38,11 @@ typedef enum {
 } PgpHashType;
 
 char *mail_crypto_openpgp_decrypt (const char *ciphertext,
+				   int cipherlen,
 				   int *outlen,
 				   CamelException *ex);
 
-char *mail_crypto_openpgp_encrypt (const char *plaintext,
-				   int inlen,
+char *mail_crypto_openpgp_encrypt (const char *in, int inlen,
 				   const GPtrArray *recipients,
 				   gboolean sign,
 				   const char *userid,
@@ -51,8 +51,35 @@ char *mail_crypto_openpgp_encrypt (const char *plaintext,
 char *mail_crypto_openpgp_clearsign (const char *plaintext,
 				     const char *userid,
 				     PgpHashType hash,
-				     gboolean detached,
 				     CamelException *ex);
+
+char *mail_crypto_openpgp_sign (const char *in, int inlen,
+				const char *userid,
+				PgpHashType hash,
+				CamelException *ex);
+
+gboolean mail_crypto_openpgp_verify (const char *in, int inlen,
+				     const char *sigin, int siglen,
+				     CamelException *ex);
+
+gboolean is_rfc2015_signed (CamelMimePart *part);
+
+gboolean is_rfc2015_encrypted (CamelMimePart *part);
+
+void pgp_mime_part_sign (CamelMimePart **mime_part,
+			 const gchar *userid,
+			 PgpHashType hash,
+			 CamelException *ex);
+
+gboolean pgp_mime_part_verify (CamelMimePart *mime_part,
+			       CamelException *ex);
+
+void pgp_mime_part_encrypt (CamelMimePart **mime_part,
+			    const GPtrArray *recipients,
+			    CamelException *ex);
+
+CamelMimePart *pgp_mime_part_decrypt (CamelMimePart *mime_part,
+				      CamelException *ex);
 
 #ifdef __cplusplus
 }

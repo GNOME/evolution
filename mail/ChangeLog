@@ -1,3 +1,31 @@
+2000-12-15  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-format.c (handle_multipart_signed): New callback to handle
+	multipart/signed parts.
+	(decode_pgp): Update to account for the cipherlen argument needed
+	for openpgp_decrypt.
+	(is_rfc2015): Removed as we now have a better version in
+	mail-crypto.
+	(handle_multipart_encrypted): Updated to use the PGP/MIME utility
+	functions.
+
+	* mail-crypto.c (mail_crypto_openpgp_decrypt): Don't check
+	(!*plaintext) as it could be a binary stream. Now also takes a
+	cipherlen argument.
+	(mail_crypto_openpgp_sign): New function.
+	(pgp_mime_part_sign): New function to replace a mime part with the
+	pgp signed equivalent.
+	(pgp_mime_part_encrypt): New function to replace a mime part with
+	the pgp encrypted equivalent.
+	(pgp_mime_part_decrypt): New function to decrypt a pgp encrypted
+	mime part (like from pgp_mime_part_encrypt) and replace it.
+	(is_rfc2015_signed): New function to determine if a mime part is
+	an rfc2015 signed part.
+	(is_rfc2015_encrypted): New function to determine if a mime part
+	is an rfc2015 encrypted part.
+	(mail_crypto_openpgp_verify): New openpgp function to verify a
+	signature.
+
 2000-12-14  Christopher James Lahey  <clahey@helixcode.com>
 
 	* mail-threads.c (update_active_views): Unref the iterator when

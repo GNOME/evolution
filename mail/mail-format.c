@@ -75,6 +75,9 @@ static gboolean handle_multipart_appledouble (CamelMimePart *part,
 static gboolean handle_multipart_encrypted   (CamelMimePart *part,
 					      const char *mime_type,
 					      MailDisplay *md);
+static gboolean handle_multipart_signed      (CamelMimePart *part,
+					      const char *mime_type,
+					      MailDisplay *md);
 static gboolean handle_message_rfc822        (CamelMimePart *part,
 					      const char *mime_type,
 					      MailDisplay *md);
@@ -305,6 +308,8 @@ setup_mime_tables (void)
 			     handle_multipart_appledouble);
 	g_hash_table_insert (mime_function_table, "multipart/encrypted",
 			     handle_multipart_encrypted);
+	g_hash_table_insert (mime_function_table, "multipart/signed",
+			     handle_multipart_signed);
 
 	/* RFC 2046 says unrecognized text subtypes can be treated
 	 * as text/plain (as long as you recognize the character set),
@@ -835,8 +840,9 @@ decode_pgp (const char *ciphertext, int *outlen, MailDisplay *md)
 	camel_exception_init (&ex);
 #ifdef PGP_PROGRAM
 	/* FIXME: multipart parts */
+	/* another FIXME: this doesn't have to return plaintext you realize... */
 	if (g_datalist_get_data (md->data, "show_pgp")) {
-		plaintext = mail_crypto_openpgp_decrypt (ciphertext, outlen, &ex);
+		plaintext = mail_crypto_openpgp_decrypt (ciphertext, strlen (ciphertext), outlen, &ex);
 		if (plaintext)
 			return plaintext;
 	}
@@ -880,11 +886,12 @@ try_inline_pgp (char *start, MailDisplay *md)
 	if (!end)
 		return start;
 
-	end += sizeof ("-----END PGP MESSAGE-----") - 1;
+	end += strlen ("-----END PGP MESSAGE-----") - 1;
 
 	mail_html_write (md->html, md->stream, "<hr>");
 	
-	/* FIXME: uhm, pgp decrypted data doesn't have to be plaintext */
+	/* FIXME: uhm, pgp decrypted data doesn't have to be plaintext
+	 * however, I suppose that since it was 'inline', it probably is */
 	ciphertext = g_strndup (start, end - start);
 	plaintext = decode_pgp (ciphertext, &outlen, md);
 	g_free (ciphertext);
@@ -1189,90 +1196,55 @@ handle_multipart_mixed (CamelMimePart *part, const char *mime_type,
 }
 
 static gboolean
-is_rfc2015 (CamelMimePart *part)
-{
-	int nparts;
-	char *text;
-	CamelDataWrapper *wrapper;
-	CamelMultipart *mp;
-	GMimeContentField *type;
-
-	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
-	mp = CAMEL_MULTIPART (wrapper);
-	nparts = camel_multipart_get_number (mp);
-	if (nparts != 2)
-		return FALSE;
-
-	/* Check for application/pgp-encrypted in the first part. */
-	part = camel_multipart_get_part (mp, 0);
-	type = camel_mime_part_get_content_type (part);
-	if (!gmime_content_field_is_type (type, "application", "pgp-encrypted"))
-		return FALSE;
-
-	/* Check version. */
-	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
-	text = get_data_wrapper_text (wrapper);
-	if (!text || !strstr(text, "Version: 1")) {
-		g_free(text);
-		return FALSE;
-	}
-	g_free(text);
-
-	/* Check for application/octet-stream in the second part. */
-	part = camel_multipart_get_part(mp, 1);
-	type = camel_mime_part_get_content_type (part);
-	if (!gmime_content_field_is_type (type, "application", "octet-stream"))
-		return FALSE;
-
-	return TRUE;
-}
-
-static gboolean
 handle_multipart_encrypted (CamelMimePart *part, const char *mime_type,
 			    MailDisplay *md)
 {
-	CamelDataWrapper *wrapper =
-		camel_medium_get_content_object (CAMEL_MEDIUM (part));
-	CamelMultipart *mp;
-	char *ciphertext, *plaintext;
-	int outlen;
-
-	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
-	mp = CAMEL_MULTIPART (wrapper);
-
-	/* Currently we only handle RFC2015-style PGP encryption. */
-	if (!is_rfc2015 (part))
-		return handle_multipart_mixed (part, mime_type, md);
-
-	part = camel_multipart_get_part (mp, 1);
-	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
-	ciphertext = get_data_wrapper_text (wrapper);
-	if (!ciphertext)
-		return FALSE;
+	CamelDataWrapper *wrapper;
+	CamelMimePart *mime_part;
+	CamelException ex;
 	
-	/* FIXME: please note that decrypted data does NOT have to be plaintext */
-	plaintext = decode_pgp (ciphertext, &outlen, md);
-	if (plaintext) {
-		CamelStream *memstream;
-
-		memstream = camel_stream_mem_new_with_buffer (plaintext,
-							      strlen (plaintext));
-		part = camel_mime_part_new ();
-		camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (part),
-							  memstream);
-		camel_object_unref (CAMEL_OBJECT (memstream));
-
-		mail_html_write (md->html, md->stream,
-				 "<table width=\"100%%\" border=2 "
-				 "cellpadding=4><tr><td>");
-		call_handler_function (part, md);
-		mail_html_write (md->html, md->stream, "</td></tr></table>");
-		camel_object_hook_event (CAMEL_OBJECT (md->current_message),
-					 "finalize", destroy_part, part);
-		g_free (plaintext);
+	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
+	
+	/* Currently we only handle RFC2015-style PGP encryption. */
+	if (!is_rfc2015_encrypted (part))
+		return handle_multipart_mixed (part, mime_type, md);
+	
+	camel_exception_init (&ex);
+	mime_part = pgp_mime_part_decrypt (part, &ex);
+	if (camel_exception_is_set (&ex)) {
+		/* I guess we just treat this as a multipart/mixed */
+		return handle_multipart_mixed (part, mime_type, md);
+	} else {
+		gboolean retcode;
+		
+		retcode = call_handler_function (mime_part, md);
+		camel_object_unref (CAMEL_OBJECT (mime_part));
+		
+		return retcode;
 	}
+}
 
-	return TRUE;
+/* FIXME: So this function is mostly just a place-holder for now */
+static gboolean
+handle_multipart_signed (CamelMimePart *part, const char *mime_type,
+			 MailDisplay *md)
+{
+	CamelDataWrapper *wrapper;
+	CamelException ex;
+	gboolean valid;
+	
+	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
+	
+	/* Currently we only handle RFC2015-style PGP signatures. */
+	if (!is_rfc2015_signed (part))
+		return handle_multipart_mixed (part, mime_type, md);
+	
+	camel_exception_init (&ex);
+	valid = pgp_mime_part_verify (part, &ex);
+	
+	return valid;
 }
 
 /* As seen in RFC 2387! */
