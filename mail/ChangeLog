@@ -1,5 +1,8 @@
 2004-04-28  Not Zed  <NotZed@Ximian.com>
 
+	* message-list.c (ml_selection_clear_event): return the right
+	type, related to #53839.
+
 	** Changed error messages to use EError.
 
 2004-04-27  Not Zed  <NotZed@Ximian.com>

@@ -1446,12 +1446,14 @@ ml_selection_get(GtkWidget *widget, GtkSelectionData *data, guint info, guint ti
 	}
 }
 
-static void
+static gboolean
 ml_selection_clear_event(GtkWidget *widget, GdkEventSelection *event, MessageList *ml)
 {
 	struct _MessageListPrivate *p = ml->priv;
 
 	clear_selection(ml, &p->clipboard);
+
+	return TRUE;
 }
 
 static void
