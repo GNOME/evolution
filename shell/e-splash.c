@@ -264,6 +264,8 @@ button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer data)
 	ESplash *splash = (ESplash *) data;
 	
 	gtk_widget_hide (GTK_WIDGET (splash));
+	
+	return TRUE;
 }
 
 
