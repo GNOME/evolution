@@ -3,23 +3,51 @@ Version 0.11.0 "No code name yet", 2001-07-12
 
 Shell:
 
-Mail: 
+Mail:
 
-  - Added more folder information and cleaned up this code. You can 
-    now see the number of hidden messages and total number of messages
-    in the upper righthand corner of the screen. (Peter)
+  - Added ability to specify a charset in the composer and for the Preview Pane.  (Jeff, Danw)
 
-  - Standalone message view now has full menus. (Peter)
+  - Auto-save messages during composition and composer crash-recovery.  (Larry)
 
-  - Implemented "Select Thread". (Peter)
+  - Better signature file handling.  (Radek)
+
+  - File->Insert menu.  (Larry)
+
+  - Address-completion in the composer.  (Trow)
+
+  - Much improved PGP/GPG.  (Jeff)
+
+  - Cut/Copy/Paste and Drag & Drop.  (Jeff)
+
+  - Disconnected IMAP, IMAP filtering, and other IMAP improvements. (Danw)
+
+  - Empty Trash On Exit.  (Jeff)
+
+  - More informative Folder message counts (new/hidden/total).  (Peter)
+
+  - Implemented "Select Thread".  (Peter)
+
+  - Movemail fixes and improvements.  (Michael)
+
+  - Improved/Configurable Forward/Reply functionality.  (Jeff, Trow, Danw)
+
+  - Improved Message browser window.  (Jeff, Peter)
+
+  - Load HTML images Sometimes/Always/Never.  (Danw)
+
+  - rfc2184 conformance.  (Jeff)
+
+  - Online/Offline modes.  (Ettore, Danw, Jeff)
+
+  - HTML indexing.  (Michael)
+
+  - Spool providers.  (Michael)
+
+  - Many i18n fixes. (Jeff, Trow, Larry, Michael)
 
   - Fixed saving of html signature preferences. (Peter)
 
   - Cleaned up exiting by having remote stores sync folders (Peter)
-
-  - Bugzilla bugs fixed: 4245, 4137, 4281, 4422
-
-  - Send Later no longer segfaults (Peter)
 
   - Attached binhex files do not cause infintie loops (Peter)
 
