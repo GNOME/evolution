@@ -73,6 +73,7 @@ struct _header_scan_state {
 	int atleast;
 
 	int seek;		/* current offset to start of buffer */
+	int unstep;		/* how many states to 'unstep' (repeat the current state) */
 
 	int midline;		/* are we mid-line interrupted? */
 	int scan_from;		/* do we care about From lines? */
@@ -323,12 +324,27 @@ camel_mime_parser_content_type(CamelMimeParser *m)
 	return NULL;
 }
 
+void camel_mime_parser_unstep(CamelMimeParser *m)
+{
+	struct _header_scan_state *s = _PRIVATE(m);
+
+	s->unstep++;
+}
+
 enum _header_state
 camel_mime_parser_step(CamelMimeParser *m, char **databuffer, int *datalength)
 {
 	struct _header_scan_state *s = _PRIVATE(m);
 
-	folder_scan_step(s, databuffer, datalength);
+	d(printf("OLD STATE:  '%s' :\n", states[s->state]));
+
+	if (s->unstep <= 0)
+		folder_scan_step(s, databuffer, datalength);
+	else
+		s->unstep--;
+
+	d(printf("NEW STATE:  '%s' :\n", states[s->state]));
+
 	return s->state;
 }
 
@@ -357,6 +373,24 @@ off_t camel_mime_parser_seek(CamelMimeParser *m, off_t off, int whence)
 {
 	struct _header_scan_state *s = _PRIVATE(m);
 	return folder_seek(s, off, whence);
+}
+
+enum _header_state camel_mime_parser_state(CamelMimeParser *m)
+{
+	struct _header_scan_state *s = _PRIVATE(m);
+	return s->state;
+}
+
+CamelStream *camel_mime_parser_stream(CamelMimeParser *m)
+{
+	struct _header_scan_state *s = _PRIVATE(m);
+	return s->stream;
+}
+
+int camel_mime_parser_fd(CamelMimeParser *m)
+{
+	struct _header_scan_state *s = _PRIVATE(m);
+	return s->fd;
 }
 
 /* ********************************************************************** */
@@ -613,7 +647,8 @@ retry:
 						goto header_done;
 					}
 
-					if (s->outptr[0] == '\n' && s->outptr>s->outbuf)
+					/* we always have at least _1_ char here ... */
+					if (s->outptr[-1] == '\n')
 						s->outptr--;
 					s->outptr[0] = 0;
 
@@ -676,7 +711,7 @@ header_truncated:
 		memcpy(s->outptr, start, headerlen);
 		s->outptr += headerlen;
 	}
-	if (s->outptr[0] == '\n' && s->outptr>s->outbuf)
+	if (s->outptr>s->outbuf && s->outptr[-1] == '\n')
 		s->outptr--;
 	s->outptr[0] = 0;
 
@@ -832,6 +867,10 @@ folder_scan_close(struct _header_scan_state *s)
 	g_free(s->outbuf);
 	while (s->parts)
 		folder_pull_part(s);
+	if (s->fd != -1)
+		close(s->fd);
+	if (s->stream)
+		gtk_object_unref((GtkObject *)s->stream);
 	g_free(s);
 }
 
@@ -857,6 +896,7 @@ folder_scan_init(void)
 	s->atleast = 0;
 
 	s->seek = 0;		/* current character position in file of the last read block */
+	s->unstep = 0;
 
 	s->header_start = -1;
 
@@ -883,6 +923,8 @@ folder_scan_init_with_fd(struct _header_scan_state *s, int fd)
 	len = read(fd, s->inbuf, SCAN_BUF);
 	if (len>=0) {
 		s->inend = s->inbuf+len;
+		if (s->fd != -1)
+			close(s->fd);
 		s->fd = fd;
 		if (s->stream) {
 			gtk_object_unref((GtkObject *)s->stream);
@@ -902,7 +944,10 @@ folder_scan_init_with_stream(struct _header_scan_state *s, CamelStream *stream)
 	len = camel_stream_read(stream, s->inbuf, SCAN_BUF);
 	if (len>=0) {
 		s->inend = s->inbuf+len;
+		if (s->stream)
+			gtk_object_unref((GtkObject *)s->stream);
 		s->stream = stream;
+		gtk_object_ref((GtkObject *)stream);
 		if (s->fd != -1) {
 			close(s->fd);
 			s->fd = -1;

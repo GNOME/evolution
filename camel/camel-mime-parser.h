@@ -79,11 +79,17 @@ CamelMimeParser      *camel_mime_parser_new	(void);
 int		camel_mime_parser_init_with_fd(CamelMimeParser *, int fd);
 int		camel_mime_parser_init_with_stream(CamelMimeParser *m, CamelStream *stream);
 
+/* get the stream or fd back of the parser */
+CamelStream    *camel_mime_parser_stream(CamelMimeParser *m);
+int		camel_mime_parser_fd(CamelMimeParser *m);
+
 /* scan 'From' separators? */
 void camel_mime_parser_scan_from(CamelMimeParser *, int);
 
 /* normal interface */
 enum _header_state camel_mime_parser_step(CamelMimeParser *, char **, int *);
+void camel_mime_parser_unstep(CamelMimeParser *);
+enum _header_state camel_mime_parser_state(CamelMimeParser *);
 
 /* get content type for the current part/header */
 struct _header_content_type *camel_mime_parser_content_type(CamelMimeParser *);

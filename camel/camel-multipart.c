@@ -33,6 +33,7 @@
 #include "camel-mime-body-part.h"
 #include "camel-multipart.h"
 
+#define d(x)
 
 static void                  add_part          (CamelMultipart *multipart,
 						   CamelMimeBodyPart *part);
@@ -56,8 +57,9 @@ static void                  write_to_stream   (CamelDataWrapper *data_wrapper,
 						CamelStream *stream);
 static void                  set_input_stream  (CamelDataWrapper *data_wrapper,
 						CamelStream *stream);
-
 static void                  finalize          (GtkObject *object);
+static void construct_from_parser(CamelDataWrapper *dw, CamelMimeParser *mp);
+
 
 static CamelDataWrapperClass *parent_class = NULL;
 
@@ -96,6 +98,8 @@ camel_multipart_class_init (CamelMultipartClass *camel_multipart_class)
 	camel_data_wrapper_class->write_to_stream = write_to_stream;
 	camel_data_wrapper_class->set_input_stream = set_input_stream;
 
+	camel_data_wrapper_class->construct_from_parser = construct_from_parser;	
+
 	gtk_object_class->finalize = finalize;
 }
 
@@ -105,7 +109,7 @@ camel_multipart_init (gpointer object, gpointer klass)
 	CamelMultipart *multipart = CAMEL_MULTIPART (object);
 
 	camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (multipart),
-					  "multipart");
+					  "multipart/mixed");
 	camel_multipart_set_boundary (multipart, "=-=-=-=");
 	multipart->preface = NULL;
 	multipart->postface = NULL;
@@ -163,6 +167,7 @@ finalize (GtkObject *object)
 
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 }
+
 
 
 /**
@@ -408,6 +413,7 @@ camel_multipart_get_parent (CamelMultipart *multipart)
 }
 
 
+
 static void
 set_boundary (CamelMultipart *multipart, gchar *boundary)
 {
@@ -629,22 +635,44 @@ set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 		 * set_input_stream.
 		 */
 		saved_stream_pos = camel_seekable_stream_get_current_position (seekable_stream);
-
-		camel_data_wrapper_set_input_stream (
-			CAMEL_DATA_WRAPPER (body_part),
-			CAMEL_STREAM (body_part_input_stream));
-
-		/* Restore the stream position. */
-		camel_seekable_stream_seek (seekable_stream, saved_stream_pos,
-					    CAMEL_STREAM_SET);
-
-		/* Add the body part to the multipart object. */
-		camel_multipart_add_part (multipart, body_part);
+		camel_data_wrapper_set_input_stream (CAMEL_DATA_WRAPPER (body_part), 
+						     CAMEL_STREAM (body_part_input_stream));
+		
+		/* restore the stream position */
+		camel_seekable_stream_seek (seekable_stream, saved_stream_pos, CAMEL_STREAM_SET);
+		
+		/* add the body part to the multipart object */
+		camel_multipart_add_part (multipart, body_part);		
 	}
-
-	if (multipart->postface)
-		g_free (multipart->postface);
-
+	
+	/* g_string_assign (new_part, ""); */
+	/* my_localize_part (new_part, stream, real_boundary_line, end_boundary_line); */
+	
+	if (multipart->postface) g_free (multipart->postface);
+	/* if ( (new_part->str)[0] != '\0') multipart->postface = g_strdup (new_part->str); */
+	
+	/* g_string_free (new_part, TRUE); */
+	
 	g_free (real_boundary_line);
 	g_free (end_boundary_line);
+}
+
+/* multi_part */
+static void
+construct_from_parser(CamelDataWrapper *dw, CamelMimeParser *mp)
+{
+	CamelDataWrapper *bodypart;
+	char *buf;
+	int len;
+
+	d(printf("constructing multipart\n"));
+
+	/* get/set boundary? */
+
+	while (camel_mime_parser_step(mp, &buf, &len) != HSCAN_MULTIPART_END) {
+		camel_mime_parser_unstep(mp);
+		bodypart = (CamelDataWrapper *)camel_mime_body_part_new();
+		camel_data_wrapper_construct_from_parser(bodypart, mp);
+		camel_multipart_add_part((CamelMultipart *)dw, (CamelMimeBodyPart *)bodypart);
+	}
 }

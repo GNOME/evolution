@@ -91,8 +91,9 @@ void header_raw_clear(struct _header_raw **list);
 /* decode a header which is a simple token */
 char *header_token_decode(const char *in);
 
-/* decode a string type, like a subject line */
+/* decode/encode a string type, like a subject line */
 char *header_decode_string(const char *in);
+char *header_encode_string(const unsigned char *in);
 
 /* decode an email date field into a GMT time, + optional offset */
 time_t header_decode_date(const char *in, int *saveoffset);

@@ -37,7 +37,16 @@
 #include "camel-seekable-substream.h"
 #include "camel-stream-filter.h"
 #include "camel-mime-filter-basic.h"
+#include "camel-mime-filter-charset.h"
 #include <ctype.h>
+#include "camel-mime-parser.h"
+
+/* ick, this shouldn't need to know about the parent types ... then again the repository does *sigh* */
+#include "camel-mime-message.h"
+#include "camel-multipart.h"
+#include "camel-mime-body-part.h"
+
+#define d(x)
 
 typedef enum {
 	HEADER_UNKNOWN,
@@ -69,6 +78,7 @@ static void            my_write_to_stream              (CamelDataWrapper *data_w
 							CamelStream *stream);
 static void            my_construct_from_stream        (CamelDataWrapper *data_wrapper, 
 							CamelStream *stream);
+static void            construct_from_parser           (CamelDataWrapper *, CamelMimeParser *);
 static void            my_set_input_stream             (CamelDataWrapper *data_wrapper, 
 							CamelStream *stream);
 static CamelStream *   my_get_output_stream            (CamelDataWrapper *data_wrapper);
@@ -122,8 +132,9 @@ camel_mime_part_class_init (CamelMimePartClass *camel_mime_part_class)
 
 	camel_data_wrapper_class->write_to_stream     = my_write_to_stream;
 	camel_data_wrapper_class->construct_from_stream = my_construct_from_stream;
+	camel_data_wrapper_class->construct_from_parser = construct_from_parser;
 	camel_data_wrapper_class->set_input_stream    = my_set_input_stream;
-	camel_data_wrapper_class->get_output_stream   = my_get_output_stream;
+/*	camel_data_wrapper_class->get_output_stream   = my_get_output_stream;*/
 
 	gtk_object_class->finalize                    = my_finalize;
 }
@@ -133,7 +144,7 @@ camel_mime_part_init (gpointer   object,  gpointer   klass)
 {
 	CamelMimePart *camel_mime_part = CAMEL_MIME_PART (object);
 	
-	camel_mime_part->content_type         = gmime_content_field_new (NULL, NULL);
+	camel_mime_part->content_type         = gmime_content_field_new ("text", "plain");
 	camel_mime_part->description          = NULL;
 	camel_mime_part->disposition          = NULL;
 	camel_mime_part->content_id           = NULL;
@@ -224,7 +235,7 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 		break;
 	case HEADER_ENCODING:
 		text = header_token_decode(header_value);
-		camel_mime_part_set_encoding(mime_part, camel_mime_part_encoding_from_string (text));
+		mime_part->encoding = camel_mime_part_encoding_from_string (text);
 		g_free(text);
 		break;
 	case HEADER_CONTENT_MD5:
@@ -498,9 +509,13 @@ my_get_content_object (CamelMedium *medium)
 	CamelStream *decoded_stream;
 	CamelMimeFilter *mf = NULL;
 
+	d(printf("getting content object? for %p\n", medium));
+
 	if (!medium->content ) {
 		stream = mime_part->content_input_stream; 
 		decoded_stream = stream;
+
+		g_warning("No content object, this old code is probably going to crash ...");
 
 		switch (mime_part->encoding) {
 		case CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE:
@@ -606,8 +621,7 @@ my_write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	CamelMimePart *mp = CAMEL_MIME_PART (data_wrapper);
 	CamelMedium *medium = CAMEL_MEDIUM (data_wrapper);
 
-	/* FIXME: something needs to be done about this ... */
-	gmime_write_header_with_glist_to_stream (stream, "Content-Language", mp->content_languages,", ");
+	d(printf("mime_part::write_to_stream\n"));
 
 #warning This class should NOT BE WRITING the headers out
 	if (medium->headers) {
@@ -618,8 +632,24 @@ my_write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 		}
 	}
 
+	/* FIXME: something needs to be done about this ... */
+	gmime_write_header_with_glist_to_stream (stream, "Content-Language", mp->content_languages,", ");
+
 	camel_stream_write_string(stream,"\n");
-	my_write_content_to_stream (mp, stream);
+
+#if 1
+	{
+		CamelDataWrapper *content = camel_medium_get_content_object (CAMEL_MEDIUM (data_wrapper));
+		if (content) {
+			camel_data_wrapper_write_to_stream(content, stream);
+		} else {
+			g_warning("No content for data wrapper");
+		}
+	}
+#else
+	((CamelDataWrapperClass *)parent_class)->write_to_stream (data_wrapper, stream);
+#endif
+	/*my_write_content_to_stream (mp, stream);*/
 }
 
 
@@ -636,7 +666,76 @@ my_construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 }
 
 
+/* FIXME: this should be in another file ... */
+/* This replaces the data wrapper repository ... and/or could be replaced by it? */
+static void
+camel_mime_part_construct_content(CamelDataWrapper *dw, CamelMimeParser *mp)
+{
+	CamelDataWrapper *content = NULL;
+	int state;
 
+	switch ((state = camel_mime_parser_state(mp))) {
+	case HSCAN_HEADER:
+		d(printf("Creating body part\n"));
+		content = (CamelDataWrapper *)camel_simple_data_wrapper_new();
+		break;
+	case HSCAN_MESSAGE:
+		d(printf("Creating message part\n"));
+		content = (CamelDataWrapper *)camel_mime_message_new();
+		break;
+	case HSCAN_MULTIPART:
+		d(printf("Creating multi-part\n"));
+		content = (CamelDataWrapper *)camel_multipart_new();
+		break;
+	default:
+		g_warning("Invalid state encountered???: %d", camel_mime_parser_state(mp));
+	}
+	if (content) {
+		camel_data_wrapper_construct_from_parser(content, mp);
+#warning there just has got to be a better way ... to transfer the mime-type to the datawrapper
+		/* would you believe you have to set this BEFORE you set the content object???  oh my god !!!! */
+		camel_data_wrapper_set_mime_type_field (content, 
+							camel_mime_part_get_content_type ((CamelMimePart *)dw));
+		camel_medium_set_content_object((CamelMedium *)dw, content);
+	}
+	/* this should probably go into camel-mime-message::construct_from_parser */
+	if (state == HSCAN_MESSAGE) {
+		char *buf;
+		int len;
+
+		if (camel_mime_parser_step(mp, &buf, &len) != HSCAN_MESSAGE_END) {
+			g_warning("Bad parser state: Expecing MESSAGE_EOF, got: %d", camel_mime_parser_state(mp));
+			camel_mime_parser_unstep(mp);
+		}
+	}
+}
+
+/* mime_part */
+static void
+construct_from_parser(CamelDataWrapper *dw, CamelMimeParser *mp)
+{
+	struct _header_raw *headers;
+	char *buf;
+	int len;
+
+	d(printf("constructing mime-part\n"));
+
+	switch (camel_mime_parser_step(mp, &buf, &len)) {
+	case HSCAN_HEADER:
+	case HSCAN_MESSAGE:
+	case HSCAN_MULTIPART:
+		/* we have the headers, build them into 'us' */
+		headers = camel_mime_parser_headers_raw(mp);
+		while (headers) {
+			camel_medium_add_header((CamelMedium *)dw, headers->name, headers->value);
+			headers = headers->next;
+		}
+		camel_mime_part_construct_content(dw, mp);
+		break;
+	default:
+		g_warning("Invalid state encountered???: %d", camel_mime_parser_state(mp));
+	}
+}
 
 static void 
 my_set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
@@ -734,13 +833,13 @@ camel_mime_part_encoding_from_string (const gchar *string)
 {
 	if (string == NULL)
 		return CAMEL_MIME_PART_ENCODING_DEFAULT;
-	else if (strcmp (string, "7bit") == 0)
+	else if (strcasecmp (string, "7bit") == 0)
 		return CAMEL_MIME_PART_ENCODING_7BIT;
-	else if (strcmp (string, "8bit") == 0)
+	else if (strcasecmp (string, "8bit") == 0)
 		return CAMEL_MIME_PART_ENCODING_8BIT;
-	else if (strcmp (string, "base64") == 0)
+	else if (strcasecmp (string, "base64") == 0)
 		return CAMEL_MIME_PART_ENCODING_BASE64;
-	else if (strcmp (string, "quoted-printable") == 0)
+	else if (strcasecmp (string, "quoted-printable") == 0)
 		return CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE;
 	else
 		/* FIXME?  Spit a warning?  */

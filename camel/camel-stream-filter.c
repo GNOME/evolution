@@ -99,6 +99,9 @@ finalise(GtkObject *o)
 	}
 	g_free(p->realbuffer);
 	g_free(p);
+	gtk_object_unref((GtkObject *)filter->source);
+
+	GTK_OBJECT_CLASS (camel_stream_filter_parent)->finalize (o);
 }
 
 

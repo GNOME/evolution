@@ -29,6 +29,8 @@
 #include <config.h>
 #include "camel-data-wrapper.h"
 
+#define d(x)
+
 static GtkObjectClass *parent_class = NULL;
 
 /* Returns the class for a CamelDataWrapper */
@@ -44,6 +46,7 @@ static CamelStream *get_output_stream (CamelDataWrapper *data_wrapper);
 
 static void construct_from_stream (CamelDataWrapper *data_wrapper,
 				   CamelStream *stream);
+static void construct_from_parser(CamelDataWrapper *, CamelMimeParser *);
 static void write_to_stream (CamelDataWrapper *data_wrapper,
 			     CamelStream *stream);
 static void set_mime_type (CamelDataWrapper *data_wrapper,
@@ -65,6 +68,7 @@ camel_data_wrapper_class_init (CamelDataWrapperClass *camel_data_wrapper_class)
 	/* virtual method definition */
 	camel_data_wrapper_class->write_to_stream = write_to_stream;
 	camel_data_wrapper_class->construct_from_stream = construct_from_stream;
+	camel_data_wrapper_class->construct_from_parser = construct_from_parser;
 	camel_data_wrapper_class->set_mime_type = set_mime_type;
 	camel_data_wrapper_class->get_mime_type = get_mime_type;
 	camel_data_wrapper_class->get_mime_type_field = get_mime_type_field;
@@ -207,6 +211,7 @@ set_output_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 		gtk_object_ref (GTK_OBJECT (stream));
 		gtk_object_sink (GTK_OBJECT (stream));
 	}
+	d(printf("data_wrapper:: set_output_stream(%p)\n", stream));
 }
 
 /**
@@ -236,6 +241,7 @@ camel_data_wrapper_set_output_stream (CamelDataWrapper *data_wrapper,
 static CamelStream *
 get_output_stream (CamelDataWrapper *data_wrapper)
 {
+	d(printf("data_wrapper:: get_output_stream(%p) = %p\n", data_wrapper, data_wrapper->output_stream));
 	return data_wrapper->output_stream;
 }
 
@@ -262,14 +268,19 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	gint nb_written;
 	CamelStream *output_stream;
 
+	d(printf("data_wrapper::write_to_stream\n"));
+
 	output_stream = camel_data_wrapper_get_output_stream (data_wrapper);
-	if (!output_stream)
+	if (!output_stream) {
+		g_warning("write to stream with no stream");
 		return;
+	}
 
 	camel_stream_reset (output_stream);
 
 	while (!camel_stream_eos (output_stream)) {
 		nb_read = camel_stream_read (output_stream, tmp_buf, 4096);
+		d(printf("copying %d bytes\n", nb_read));
 		nb_written = 0;
 		while (nb_written < nb_read)
 			nb_written += camel_stream_write (stream, tmp_buf + nb_written, nb_read - nb_written);
@@ -418,6 +429,8 @@ set_mime_type_field (CamelDataWrapper *data_wrapper,
 	if (data_wrapper->mime_type)
 		gmime_content_field_unref (data_wrapper->mime_type);
 	data_wrapper->mime_type = mime_type;
+	if (mime_type)
+		gmime_content_field_ref (data_wrapper->mime_type);
 }
 
 void
@@ -427,3 +440,16 @@ camel_data_wrapper_set_mime_type_field (CamelDataWrapper *data_wrapper,
 	CDW_CLASS (data_wrapper)->set_mime_type_field (data_wrapper,
 						       mime_type);
 }
+
+static void construct_from_parser(CamelDataWrapper *d, CamelMimeParser *mp)
+{
+	/* do nothing? */
+	g_warning("Construct from parser not implemented for: %s", gtk_type_name(((GtkObject *)d)->klass->type));
+}
+
+void
+camel_data_wrapper_construct_from_parser(CamelDataWrapper *data_wrapper, CamelMimeParser *mp)
+{
+	CDW_CLASS (data_wrapper)->construct_from_parser (data_wrapper, mp);
+}
+

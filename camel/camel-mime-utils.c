@@ -34,6 +34,7 @@
 #include <time.h>
 
 #include <ctype.h>
+#include <errno.h>
 
 #include "camel-mime-utils.h"
 
@@ -586,6 +587,35 @@ quoted_decode(const unsigned char *in, int len, unsigned char *out)
 	return -1;
 }
 
+/* rfc2047 version of quoted-printable */
+static int
+quoted_encode(const unsigned char *in, int len, unsigned char *out)
+{
+	register const unsigned char *inptr, *inend;
+	unsigned char *outptr;
+	unsigned char c;
+
+	inptr = in;
+	inend = in+len;
+	outptr = out;
+	while (inptr<inend) {
+		c = *inptr++;
+		if (is_qpsafe(c) && !(c=='_' || c=='?')) {
+			if (c==' ')
+				c='_';
+			*outptr++=c;
+		} else {
+			*outptr++ = '=';
+			*outptr++ = tohex[(c>>4) & 0xf];
+			*outptr++ = tohex[c & 0xf];
+		}
+	}
+
+	printf("encoding '%.*s' = '%.*s'\n", len, in, outptr-out, out);
+
+	return outptr-out;
+}
+
 
 static void
 header_decode_lwsp(const char **in)
@@ -736,6 +766,7 @@ header_decode_text(const char *in, int inlen)
 
 	encstart = out->str;
 	g_string_free(out, FALSE);
+
 	return encstart;
 }
 
@@ -745,6 +776,125 @@ header_decode_string(const char *in)
 	if (in == NULL)
 		return NULL;
 	return header_decode_text(in, strlen(in));
+}
+
+static char *encoding_map[] = {
+	"US-ASCII",
+	"ISO-8859-1",
+	"UTF-8"
+};
+
+/* FIXME: needs a way to cache iconv opens for different charsets? */
+static
+char *rfc2047_encode_word(const char *in, int len, char *type)
+{
+	unicode_iconv_t ic;
+	char *buffer, *out, *ascii;
+	size_t inlen, outlen, enclen;
+
+	printf("Converting '%.*s' to %s\n", len, in, type);
+
+	/* convert utf8->encoding */
+	outlen = len*6;
+	buffer = alloca(outlen);
+	inlen = len;
+	out = buffer;
+
+	/* if we can't convert from utf-8, just encode as utf-8 */
+	if (!strcasecmp(type, "UTF-8")
+	    || (ic = unicode_iconv_open(type, "UTF-8")) == (unicode_iconv_t)-1) {
+		memcpy(buffer, in, len);
+		out = buffer+len;
+		type = "UTF-8";
+	} else {
+		if (unicode_iconv(ic, &in, &inlen, &out, &outlen) == -1) {
+			g_warning("Conversion problem: conversion truncated: %s", strerror(errno));
+		}
+		unicode_iconv_close(ic);
+	}
+	enclen = out-buffer;
+
+	/* now create qp version */
+	ascii = alloca(enclen*3 + strlen(type) + 8);
+	out = ascii;
+	/* should determine which encoding is smaller, and use that? */
+	out += sprintf(out, "=?%s?Q?", type);
+	out += quoted_encode(buffer, enclen, out);
+	sprintf(out, "?=");
+
+	printf("converted = %s\n", ascii);
+	return g_strdup(ascii);
+}
+
+
+/* TODO: Should this worry about quotes?? */
+char *
+header_encode_string(const unsigned char *in)
+{
+	GString *out;
+	const unsigned char *inptr = in, *start;
+	int encoding;
+	char *outstr;
+
+	if (in == NULL)
+		return NULL;
+
+	/* do a quick us-ascii check (the common case?) */
+	while (*inptr) {
+		if (*inptr > 127)
+			break;
+		inptr++;
+	}
+	if (*inptr == 0)
+		return g_strdup(in);
+
+	/* This gets each word out of the input, and checks to see what charset
+	   can be used to encode it. */
+	/* TODO: Work out when to merge subsequent words, or across word-parts */
+	/* FIXME: Make sure a converted word is less than the encoding size */
+	out = g_string_new("");
+	inptr = in;
+	encoding = 0;
+	start = inptr;
+	while (inptr && *inptr) {
+		unicode_char_t c;
+		const char *newinptr;
+		newinptr = unicode_get_utf8(inptr, &c);
+		if (newinptr == NULL) {
+			g_warning("Invalid UTF-8 sequence encountered (pos %d, char '%c'): %s", (inptr-in), inptr[0], in);
+			inptr++;
+			continue;
+		}
+		inptr = newinptr;
+		if (unicode_isspace(c)) {
+			if (encoding == 0) {
+				g_string_append_len(out, start, inptr-start);
+			} else {
+				char *text = rfc2047_encode_word(start, inptr-start-1, encoding_map[encoding]);
+				g_string_append(out, text);
+				g_string_append_c(out, c);
+				g_free(text);
+			}
+			start = inptr;
+			encoding = 0;
+		} else if (c>127 && c < 256) {
+			encoding = MAX(encoding, 1);
+		} else if (c >=256) {
+			encoding = MAX(encoding, 2);
+		}
+	}
+	if (inptr-start) {
+		if (encoding == 0) {
+			g_string_append_len(out, start, inptr-start);
+		} else {
+			char *text = rfc2047_encode_word(start, inptr-start, encoding_map[encoding]);
+			g_string_append(out, text);
+			g_free(text);
+		}
+	}
+	outstr = out->str;
+	g_string_free(out, FALSE);
+	return outstr;
 }
 
 
@@ -976,8 +1126,6 @@ void header_content_type_set_param(struct _header_content_type *t, const char *n
 int
 header_content_type_is(struct _header_content_type *ct, const char *type, const char *subtype)
 {
-	printf("type = %s / %s\n", type, subtype);
-
 	/* no type == text/plain or text/"*" */
 	if (ct==NULL) {
 		return (!strcasecmp(type, "text")

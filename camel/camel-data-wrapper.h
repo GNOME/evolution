@@ -37,7 +37,7 @@ extern "C" {
 #include <gtk/gtk.h>
 #include "camel-types.h"
 #include "gmime-content-field.h"
-
+#include <camel/camel-mime-parser.h>
 
 #define CAMEL_DATA_WRAPPER_TYPE     (camel_data_wrapper_get_type ())
 #define CAMEL_DATA_WRAPPER(obj)     (GTK_CHECK_CAST((obj), CAMEL_DATA_WRAPPER_TYPE, CamelDataWrapper))
@@ -83,6 +83,9 @@ typedef struct {
 	void                (*construct_from_stream)  (CamelDataWrapper *data_wrapper,
 						       CamelStream *stream);
 
+	void                (*construct_from_parser)  (CamelDataWrapper *data_wrapper,
+						       CamelMimeParser *);
+
 } CamelDataWrapperClass;
 
 
@@ -109,6 +112,9 @@ void                camel_data_wrapper_set_output_stream        (CamelDataWrappe
 								 CamelStream *stream);
 CamelStream *       camel_data_wrapper_get_output_stream        (CamelDataWrapper *data_wrapper);
 
+
+void                camel_data_wrapper_construct_from_parser    (CamelDataWrapper *data_wrapper,
+								 CamelMimeParser *);
 
 
 /* deprecated methods. Left until the new parser scheme is ok */

@@ -51,14 +51,17 @@ extern "C" {
 #define CAMEL_IS_MIME_MESSAGE(o)    (GTK_CHECK_TYPE((o), CAMEL_MIME_MESSAGE_TYPE))
 
 
+/* specify local time */
+#define CAMEL_MESSAGE_DATE_CURRENT (~0)
 
 struct _CamelMimeMessage
 {
 	CamelMimePart parent_object;
 
 	/* header fields */
-	gchar *received_date;
-	gchar *sent_date;
+	time_t date;
+	int date_offset;	/* GMT offset */
+	char *date_str;		/* cached copy of date string */
 
 	gchar *subject;
 	gchar *reply_to;
@@ -126,8 +129,10 @@ GtkType camel_mime_message_get_type (void);
 CamelMimeMessage * camel_mime_message_new                  (void);
 
 
-void               camel_mime_message_set_received_date    (CamelMimeMessage *mime_message, 
-							    const gchar *received_date);
+void               camel_mime_message_set_date		   (CamelMimeMessage *mime_message,  time_t date, int offset);
+void               camel_mime_message_get_date		   (CamelMimeMessage *mime_message,  time_t *date, int *offset);
+char		  *camel_mime_message_get_date_string	   (CamelMimeMessage *mime_message);
+
 const gchar *      camel_mime_message_get_received_date    (CamelMimeMessage *mime_message);
 const gchar *      camel_mime_message_get_sent_date        (CamelMimeMessage *mime_message);
 void               camel_mime_message_set_reply_to         (CamelMimeMessage *mime_message, 

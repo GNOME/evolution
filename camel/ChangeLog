@@ -1,3 +1,28 @@
+2000-04-23  NotZed  <NotZed@HelixCode.com>
+
+	* camel-data-wrapper.c (set_mime_type_field): Ref the
+	content_field when we get it?
+
+	* camel-mime-parser.c (camel_mime_parser_unstep): New function.
+	Cause a subsequent call to mime_parser_step() to return the same
+	state over again.
+
+	* providers/mbox/camel-mbox-folder.c (_get_message_by_uid):
+	Initial test code using the mime parser to construct the message.
+
+	* camel-mime-part.c (construct_from_parser): part constructor.
+	(camel_mime_part_construct_content): Basically a simpler
+	replacement for the datawrapper repository.
+	(camel_mime_part_init): Set the default type to text/plain.
+
+	* camel-simple-data-wrapper.c (construct_from_parser): Initial
+	implementation of a content constructor.
+
+	* camel-multipart.c (construct_from_parser): Multipart
+	construction routine.
+	(camel_multipart_init): Set the default multipart type to
+	multipart/mixed.  Duh, no subtype is not allowed anyway.
+
 2000-04-22  Dan Winship  <danw@helixcode.com>
 
 	* camel-multipart.[ch]: clean, document, etc.
@@ -5,6 +30,64 @@
 	need to deal with the larger problem
 
 2000-04-22  NotZed  <NotZed@HelixCode.com>
+
+	* camel-mime-message.h (struct _CamelMimeMessage): Removed
+	send_date, and received_date, and replaced it with a time_t
+	'date' (this is what the header is called), and date_offset to
+	store the GMT offset of the date.
+
+	* camel-mime-message.c (camel_mime_message_set_from): Update raw
+	header as we go.
+	(_set_from): Removed.
+	(_get_from): Removed.
+	(camel_mime_message_get_from): Moved implementation here.
+	(camel_mime_message_get_subject): Move implementation here.
+	(_get_subject): Nuked.
+	(camel_mime_message_set_subject): Handle utf-8 input, and also
+	update raw header when changed.
+	(_set_subject): Removed.
+	(_set_received_date): Removed.
+	(camel_mime_message_set_received_date): Removed.
+	(_get_received_date): Removed.
+	(camel_mime_message_get_received_date): Removed.
+	(_get_sent_date): Removed.
+	(camel_mime_message_get_sent_date): Removed.
+	(camel_mime_message_get_date): New function to get the date as a
+	time_t/offset.
+	(camel_mime_message_set_date): Set the date as a time_t/offset.
+	(camel_mime_message_get_date_string): Get the date as a string.
+	(camel_mime_message_init): Initialise the current date as
+	'CMAEL_MESSAGE_DATE_CURRENT'.
+	(_set_reply_to): Removed.
+	(camel_mime_message_set_reply_to): Moved implementation here.
+	This is still broken, reply-to can have multiple addresses.
+	(_get_reply_to): Removed.
+	(_set_field): Removed, no longer used anywhere.
+	(_get_field): Also removed.
+	(_init_header_name_table): Add the Date header.
+	(process_header): Also handle snooping of Date header here.
+
+	* camel-stream-filter.c (finalise): Unref the source stream on
+	finalise, and also call the parent class (oops).
+
+	* camel-mime-parser.c (camel_mime_parser_state): New function to
+	get the current parser state.
+	(camel_mime_parser_stream): Allow you to get the stream back from
+	the mime_parser.
+	(camel_mime_parser_fd): Alternative to allow you to get the fd
+	back from the mime_parser.
+	(folder_scan_init_with_stream): Properly ref/unref the stream.
+	(folder_scan_close): Properly unref the stream/close the fd on
+	exit.
+	(folder_scan_init_with_fd): Close the old fd if there is one.
+
+	* camel-data-wrapper.c (camel_data_wrapper_construct_from_parser):
+	New method, construct a data wrapper from an initialised parser.
+	(construct_from_parser): Empty implementation.
+	
+	* providers/mbox/camel-mbox-summary.c (message_struct_new):
+	Convert subject line to unicode, before storing in the summary.
+	(strdup_trim): Removed, no longer needed.
 
 	* providers/mbox/camel-mbox-folder.c (_get_message_by_uid): Ref
 	the folder after setting it in the new message.
@@ -18,8 +101,20 @@
 	(my_write_to_stream): Removed old code, all headers are now stored
 	in the camel-medium level, always.  Need to do the same with
 	camel-mime-message i suppose ...
+	(my_write_to_stream): Write the content using the parent class,
+	not some weird function.
+	(camel_mime_part_class_init): Dont override get_output_stream.
+	(camel_mime_part_encoding_from_string): Bleh, make it
+	case-insensitive.
 
 	* camel-mime-utils.c (header_content_type_is): Handle empty types.
+	(header_encode_string): Start of an implementation of the rfc2047
+	encoder.  It does iso-8859-1, and us-ascii, and utf-8 (others get
+	tricky *sigh*)
+	(rfc2047_encode_word): Convert a single word/string into rfc2047
+	encoding.
+	(quoted_encode): Different quoted-printable encoding for rfc2047
+	encoding of headers.
 
 	* gmime-content-field.c (gmime_content_field_write_to_stream): Use
 	header_content_type_format() to format it.

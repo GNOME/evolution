@@ -341,21 +341,6 @@ body_part_new(CamelMimeParser *mp, CamelMboxMessageContentInfo *parent, int star
 	return bs;
 }
 
-static char *strdup_trim(const char *s)
-{
-	const char *end;
-
-	if (s == NULL)
-		return NULL;
-
-	while (isspace(*s))
-		s++;
-	end = s+strlen(s)-1;
-	while (end>s && isspace(*end))
-	       end--;
-	return g_strndup(s, end-s+1);
-}
-
 static CamelMboxMessageInfo *
 message_struct_new(CamelMimeParser *mp, CamelMboxMessageContentInfo *parent, int start, int body, off_t xev_offset)
 {
@@ -364,9 +349,9 @@ message_struct_new(CamelMimeParser *mp, CamelMboxMessageContentInfo *parent, int
 	ms = g_malloc0(sizeof(*ms));
 
 	/* FIXME: what about cc, sender vs from? */
-	ms->info.subject = strdup_trim(camel_mime_parser_header(mp, "subject", NULL));
-	ms->info.from = strdup_trim(camel_mime_parser_header(mp, "from", NULL));
-	ms->info.to = strdup_trim(camel_mime_parser_header(mp, "to", NULL));
+	ms->info.subject = header_decode_string(camel_mime_parser_header(mp, "subject", NULL));
+	ms->info.from = g_strdup(camel_mime_parser_header(mp, "from", NULL));
+	ms->info.to = g_strdup(camel_mime_parser_header(mp, "to", NULL));
 
 	ms->info.date_sent = header_decode_date(camel_mime_parser_header(mp, "date", NULL), NULL);
 	ms->info.date_received = 0;
