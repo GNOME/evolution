@@ -29,6 +29,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -437,7 +438,7 @@ static gchar
 	/* now addr_strt & addr_end point to the beginning & ending of the email addy */
 
 	/* copy the string into addr */
-	addr = g_strndup(addr_strt, (gint)(addr_end - addr_strt));
+	addr = g_strndup(addr_strt, (gint)(addr_end - addr_strt + 1));
 
 	for (ptr1 = addr_strt; ptr1 <= addr_end; ptr1++)    /* look for an '@' sign */
 		if (*ptr1 == '@')
@@ -614,7 +615,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *
 	}
 	
 	/* now to send the actual data */
-	message_stream = camel_stream_buffer_new(CAMEL_DATA_WRAPPER (message)->output_stream, CAMEL_STREAM_BUFFER_READ);
+	message_stream = camel_stream_buffer_new(camel_data_wrapper_get_output_stream (CAMEL_DATA_WRAPPER (message)), CAMEL_STREAM_BUFFER_READ);
 	while (1) {
 		/* send 1 line at a time */
 		buf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER(message_stream), ex);

@@ -1,3 +1,11 @@
+2000-05-17  Dan Winship  <danw@helixcode.com>
+
+	* providers/smtp/camel-smtp-transport.c
+	(smtp_get_email_addr_from_text): fix an off-by-one error in
+	address parsing
+	(smtp_data): use camel_data_wrapper_get_output_stream rather than
+	data_wrapper->output_stream
+
 2000-05-17  NotZed  <NotZed@HelixCode.com>
 
 	* providers/mbox/camel-mbox-folder.c (message_changed): Snoop
