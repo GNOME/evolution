@@ -44,7 +44,6 @@ endarken_style (GtkWidget *widget)
 	GtkStyle *style;
 	GtkRcStyle *new_rc_style;
 	int i;
-	static int first_time = TRUE;
 
 	style = widget->style;
 
@@ -67,12 +66,26 @@ endarken_style (GtkWidget *widget)
 		new_rc_style->color_flags[i] = GTK_RC_BG | GTK_RC_FG | GTK_RC_BASE | GTK_RC_TEXT;
 	}
 
-	if (first_time) {
-		gtk_widget_modify_style (widget, new_rc_style);
-		first_time = FALSE;
-	}
+	gtk_widget_modify_style (widget, new_rc_style);
 
 	gtk_rc_style_unref (new_rc_style);
+}
+
+
+static void
+impl_style_set (GtkWidget *widget,
+		GtkStyle *previous_style)
+{
+	static int in_style_set = 0;
+
+	if (in_style_set > 0)
+		return;
+
+	in_style_set ++;
+
+	endarken_style (widget);
+
+	in_style_set --;
 }
 
 
@@ -84,6 +97,7 @@ class_init (GtkObjectClass *object_class)
 	parent_class = gtk_type_class (PARENT_TYPE);
 
 	widget_class = GTK_WIDGET_CLASS (object_class);
+	widget_class->style_set = impl_style_set;
 }
 
 static void
@@ -98,8 +112,6 @@ e_gray_bar_new (void)
 	GtkWidget *new;
 
 	new = gtk_type_new (e_gray_bar_get_type ());
-
-	endarken_style (new);
 
 	return new;
 }
