@@ -1665,6 +1665,17 @@ eti_realize (GnomeCanvasItem *item)
 
 	free_height_cache(eti);
 
+	if (item->canvas->focused_item == NULL) {
+		int row;
+		row = e_selection_model_cursor_row (E_SELECTION_MODEL (eti->selection));
+		row = model_to_view_row(eti, row);
+		if (row != -1) {
+			e_canvas_item_grab_focus (item, FALSE);
+			eti_show_cursor (eti, 0);
+			eti_check_cursor_bounds (eti);
+		}
+	}
+
 	eti->needs_compute_height = 1;
 	eti->needs_compute_width = 1;
 	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (eti));
