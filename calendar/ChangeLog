@@ -1,5 +1,10 @@
 2004-05-21  Larry Ewing  <lewing@ximian.com>
 
+	* gui/dialogs/calendar-setup.c: set the dialog icons appropriately
+	for add task and calendar dialogs.
+
+2004-05-21  Larry Ewing  <lewing@ximian.com>
+
 	* gui/dialogs/calendar-setup.c: remove references to the uri
 	buttons.
 

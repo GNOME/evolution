@@ -653,14 +653,6 @@ source_group_changed_sensitive (SourceDialog *source_dialog)
 }
 
 static void
-general_test_uri (SourceDialog *source_dialog)
-{
-	/* FIXME this should do something more specific that just showing the uri */
-	gnome_url_show (gtk_entry_get_text (GTK_ENTRY (source_dialog->uri_entry)),
-			NULL);
-}
-
-static void
 new_calendar_cancel (SourceDialog *source_dialog)
 {
 	gtk_widget_destroy (source_dialog->window);
@@ -684,6 +676,7 @@ calendar_setup_new_calendar (GtkWindow *parent)
 {
 	SourceDialog *source_dialog = g_new0 (SourceDialog, 1);
 	int index;
+	GList *icon_list;
 
 	source_dialog->gui_xml = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, "add-calendar-window", NULL);
 	if (!source_dialog->gui_xml) {
@@ -743,12 +736,15 @@ calendar_setup_new_calendar (GtkWindow *parent)
 	
 	source_to_dialog (source_dialog);
 	
-	g_signal_connect_swapped (glade_xml_get_widget (source_dialog->gui_xml, "uri-button"), "clicked",
-				  G_CALLBACK (general_test_uri), source_dialog);
-	
-
 	gtk_window_set_type_hint (GTK_WINDOW (source_dialog->window), GDK_WINDOW_TYPE_HINT_DIALOG);
 	gtk_window_set_modal (GTK_WINDOW (source_dialog->window), TRUE);
+
+	icon_list = e_icon_factory_get_icon_list ("stock_calendar");
+	if (icon_list) {
+		gtk_window_set_icon_list (GTK_WINDOW (source_dialog->window), icon_list);
+		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
+		g_list_free (icon_list);
+	}
 
 	gtk_widget_show_all (source_dialog->window);
 	return TRUE;
@@ -847,6 +843,7 @@ calendar_setup_new_task_list (GtkWindow *parent)
 {
 	SourceDialog *source_dialog = g_new0 (SourceDialog, 1);
 	int index;
+	GList *icon_list;
 
 	source_dialog->gui_xml = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, "add-task-list-window", NULL);
 	if (!source_dialog->gui_xml) {
@@ -905,13 +902,17 @@ calendar_setup_new_task_list (GtkWindow *parent)
 	
 	source_dialog->source_color = glade_xml_get_widget (source_dialog->gui_xml, "source-color");
 
-	g_signal_connect_swapped (glade_xml_get_widget (source_dialog->gui_xml, "uri-button"), "clicked",
-				  G_CALLBACK (general_test_uri), source_dialog);
-
 	source_to_dialog (source_dialog);
 
 	gtk_window_set_type_hint (GTK_WINDOW (source_dialog->window), GDK_WINDOW_TYPE_HINT_DIALOG);
 	gtk_window_set_modal (GTK_WINDOW (source_dialog->window), TRUE);
+	
+	icon_list = e_icon_factory_get_icon_list ("stock_task");
+	if (icon_list) {
+		gtk_window_set_icon_list (GTK_WINDOW (source_dialog->window), icon_list);
+		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
+		g_list_free (icon_list);
+	}
 
 	gtk_widget_show_all (source_dialog->window);
 	return TRUE;
