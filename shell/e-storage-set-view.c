@@ -1301,6 +1301,21 @@ etree_get_save_id (ETreeModel *etm, ETreePath node, void *model_data)
 	return g_strdup(e_tree_memory_node_get_data (E_TREE_MEMORY(etm), node));
 }
 
+static gboolean
+etree_has_get_node_by_id (ETreeModel *etm, void *data)
+{
+	return TRUE;
+}
+
+static ETreePath
+etree_get_node_by_id (ETreeModel *etm, gchar *save_id, void *model_data)
+{
+	EStorageSetView *storage_set_view;
+	storage_set_view = E_STORAGE_SET_VIEW (model_data);
+
+	return g_hash_table_lookup (storage_set_view->priv->path_to_etree_node, save_id);
+}
+
 static void *
 etree_value_at (ETreeModel *etree, ETreePath tree_path, int col, void *model_data)
 {
@@ -1773,6 +1788,9 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 
 							 etree_has_save_id,
 							 etree_get_save_id,
+							 etree_has_get_node_by_id,
+							 etree_get_node_by_id,
+
 							 etree_value_at,
 							 etree_set_value_at,
 							 etree_is_editable,
