@@ -26,7 +26,6 @@ evolution_addressbook_import_LDADD =				\
 	$(GNOME_FULL_LIBS)					\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
 	$(top_builddir)/camel/libcamel.la			\
-	$(top_builddir)/libibex/libibex.la			\
 	$(top_builddir)/e-util/ename/libename.la		\
 	$(top_builddir)/libversit/libversit.a			\
 	$(top_builddir)/e-util/libeutil.la			\

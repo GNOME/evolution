@@ -4,6 +4,8 @@
 
 	* Makefile.am: Removed libibex from SUBDIRS.
 
+	* tools/Makefile.am: Don't link with libibex.
+
 2002-04-22  Christopher James Lahey  <clahey@ximian.com>
 
 	* configure.in: Require gal 0.19.99.14.
