@@ -1,3 +1,21 @@
+2001-12-17  JP Rosevear  <jpr@ximian.com>
+ 
+ 	* gui/itip-utils.c (comp_limit_attendees): can't remove properties
+ 	in an iteration loop, so remove them outside the loop
+ 	(comp_minimal): don't set a recurid if there isn't one, add the x
+ 	properties to the clone
+ 	(comp_compliant): unref the clone for DECLINECOUNTER
+ 
+ 	* gui/e-itip-control.c (get_refresh_options): make function
+ 	available again
+ 	(show_current_event): use it here
+ 	(ok_clicked_cb): can't remove properties in an iteration loop, so
+ 	remove them outside the loop
+ 
+ 	* cal-util/cal-component.c (free_icalcomponent): properly free the
+ 	attendee list
+ 	(cal_component_rescan): don't destroy the alarm hash
+
 2001-12-14  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fixes #17377, Evolution doesn't work on multi-depth displays.]

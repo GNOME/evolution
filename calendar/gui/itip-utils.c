@@ -450,7 +450,8 @@ comp_limit_attendees (CalComponent *comp)
 	GList *addresses;
 	icalproperty *prop;
 	gboolean found = FALSE, match = FALSE;
-	
+	GSList *l, *list = NULL;
+
 	icomp = cal_component_get_icalcomponent (comp);
 	addresses = itip_addresses_get ();	
 
@@ -464,8 +465,7 @@ comp_limit_attendees (CalComponent *comp)
 
 		/* If we've already found something, just erase the rest */
 		if (found) {
-			icalcomponent_remove_property (icomp, prop);
-			icalproperty_free (prop);
+			list = g_slist_prepend (list, prop);
 			continue;
 		}
 		
@@ -482,12 +482,20 @@ comp_limit_attendees (CalComponent *comp)
 			if (strstr (text, a->address))
 				found = match = TRUE;
 		}
-		if (!match) {
-			icalcomponent_remove_property (icomp, prop);
-			icalproperty_free (prop);
-		}
+
+		if (!match)
+			list = g_slist_prepend (list, prop);
 		match = FALSE;
 	}
+
+	for (l = list; l != NULL; l = l->next) {
+		prop = l->data;
+
+		icalcomponent_remove_property (icomp, prop);
+		icalproperty_free (prop);
+	}
+	g_slist_free (list);
+
 	itip_addresses_free (addresses);
 
 	return found;
@@ -551,7 +559,7 @@ static CalComponent *
 comp_minimal (CalComponent *comp, gboolean attendee)
 {
 	CalComponent *clone;
-	icalcomponent *icomp;
+	icalcomponent *icomp, *icomp_clone;
 	icalproperty *prop;
 	CalComponentOrganizer organizer;
 	const char *uid;
@@ -600,9 +608,11 @@ comp_minimal (CalComponent *comp, gboolean attendee)
 	cal_component_free_text_list (comments);
 	
 	cal_component_get_recurid (comp, &recur_id);
-	cal_component_set_recurid (clone, recur_id);
+	if (recur_id->datetime->value != NULL)
+		cal_component_set_recurid (clone, recur_id);
 	
 	icomp = cal_component_get_icalcomponent (comp);
+	icomp_clone = cal_component_get_icalcomponent (clone);
 	for (prop = icalcomponent_get_first_property (icomp, ICAL_X_PROPERTY);
 	     prop != NULL;
 	     prop = icalcomponent_get_next_property (icomp, ICAL_X_PROPERTY))
@@ -610,7 +620,7 @@ comp_minimal (CalComponent *comp, gboolean attendee)
 		icalproperty *p;
 		
 		p = icalproperty_new_clone (prop);
-		icalcomponent_add_property (icomp, p);
+		icalcomponent_add_property (icomp_clone, p);
 	}
 
 	cal_component_rescan (clone);
@@ -659,6 +669,7 @@ comp_compliant (CalComponentItipMethod method, CalComponent *comp)
 	case CAL_COMPONENT_METHOD_DECLINECOUNTER:
 		/* Need to remove almost everything */
 		temp_clone = comp_minimal (clone, FALSE);
+		gtk_object_unref (GTK_OBJECT (clone));
 		clone = temp_clone;
 		break;
 	default:

@@ -1552,9 +1552,10 @@ ok_clicked_cb (GtkHTML *html, const gchar *method, const gchar *url, const gchar
 		if (priv->my_address != NULL) {
 			icalcomponent *ical_comp;
 			icalproperty *prop;
-			const char *attendee, *text;
 			icalvalue *value;
-
+			const char *attendee, *text;
+			GSList *l, *list = NULL;
+			
 			ical_comp = cal_component_get_icalcomponent (comp);
 
 			for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
@@ -1568,11 +1569,17 @@ ok_clicked_cb (GtkHTML *html, const gchar *method, const gchar *url, const gchar
 				attendee = icalvalue_get_string (value);
 				text = itip_strip_mailto (attendee);
 
-				if (!strstr (text, priv->my_address)) {
-					icalcomponent_remove_property (ical_comp, prop);
-					icalproperty_free (prop);
-				}
+				if (!strstr (text, priv->my_address))
+					list = g_slist_prepend (list, prop);
 			}
+
+			for (l = list; l; l = l->next) {
+				prop = l->data;
+				icalcomponent_remove_property (ical_comp, prop);
+				icalproperty_free (prop);
+			}
+			g_slist_free (list);
+
 			cal_component_rescan (comp);
 			itip_send_comp (CAL_COMPONENT_METHOD_REPLY, comp);
 		} else {
