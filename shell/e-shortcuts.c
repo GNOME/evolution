@@ -45,12 +45,16 @@
 
 #include <string.h>
 
+#include <gtk/gtkmain.h>
 #include <gtk/gtkobject.h>
+#include <gtk/gtksignal.h>
 #include <gtk/gtktypeutils.h>
 
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
 
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>
 #include <gal/shortcut-bar/e-shortcut-bar.h>

@@ -1,3 +1,11 @@
+2001-04-03  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-local-folder.c: Include <libgnome/gnome-defs> and
+	<libgnome/gnome-i18n.h>
+	* e-shortcuts.c: Same here and add some gtk headers to
+	compensate for changes in gal.
+	* importer/intelligent.c: Mark a string for translation.
+	 
 2001-04-03  Dan Winship  <danw@ximian.com>
 
 	* main.c:
