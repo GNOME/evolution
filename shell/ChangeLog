@@ -1,5 +1,9 @@
 2001-08-17  Iain Holmes  <iain@ximian.com>
 
+	* Makefile.am: Add the Evolution-Wizard.idl file
+
+2001-08-17  Iain Holmes  <iain@ximian.com>
+
 	* e-shell-folder-selection-dialog.c (folder_creation_dialog_result_cb):
 	Check the priv isn't NULL before dereferencing it.
 

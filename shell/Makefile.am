@@ -28,6 +28,7 @@ IDLS = \
 	Evolution-Shortcuts.idl			\
 	Evolution-Storage.idl			\
 	Evolution-StorageSetView.idl		\
+	Evolution-Wizard.idl			\
 	Evolution-common.idl			\
 	Evolution.idl
 
