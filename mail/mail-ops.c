@@ -257,7 +257,7 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 	FilterContext *fc;
 	FilterDriver *filter;
 	FILE *logfile = NULL;
-
+	
 	/* If using IMAP, don't do anything... */
 	if (!strncmp (input->source_url, "imap:", 5)) {
 		data->empty = FALSE;
@@ -270,67 +270,79 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 		if (input->destination == NULL)
 			return;
 	}
-
+	
 	/* setup filter driver */
-	fc = mail_load_evolution_rule_context();
-	filter = filter_driver_new(fc, mail_tool_filter_get_folder_func, 0);
-	filter_driver_set_default_folder(filter, input->destination);
-
+	fc = mail_load_evolution_rule_context ();
+	filter = filter_driver_new (fc, mail_tool_filter_get_folder_func, 0);
+	filter_driver_set_default_folder (filter, input->destination);
+	
 	if (TRUE /* perform_logging */) {
 		char *filename = g_strdup_printf ("%s/evolution-filter-log", evolution_dir);
 		logfile = fopen (filename, "a+");
 		g_free (filename);
 	}
-	filter_driver_set_status_func(filter, mail_op_report_status, logfile);
-
+	filter_driver_set_status_func (filter, mail_op_report_status, logfile);
+	
 	/* why on earth we 'up' a lock to get it, ... */
 	mail_tool_camel_lock_up ();
-
-	camel_folder_freeze(input->destination);
-
+	
+	camel_folder_freeze (input->destination);
+	
 	if (!strncmp (input->source_url, "mbox:", 5)) {
 		char *path = mail_tool_do_movemail (input->source_url, ex);
 
-		if (path && !camel_exception_is_set(ex)) {
-			filter_driver_filter_mbox(filter, path, FILTER_SOURCE_INCOMING, ex);
+		if (path && !camel_exception_is_set (ex)) {
+			filter_driver_filter_mbox (filter, path, FILTER_SOURCE_INCOMING, ex);
 
 			/* ok?  zap the output file */
-			if (!camel_exception_is_set(ex)) {
-				unlink(path);
+			if (!camel_exception_is_set (ex)) {
+				unlink (path);
 			}
 		}
-		g_free(path);
+		g_free (path);
 	} else {
 		CamelFolder *folder = mail_tool_get_inbox (input->source_url, ex);
 
 		if (folder) {
 			if (camel_folder_get_message_count (folder) > 0) {
-				GPtrArray *uids, *new_uids = NULL;
 				CamelUIDCache *cache = NULL;
-
-				uids = camel_folder_get_uids(folder);
+				GPtrArray *uids;
+				
+				uids = camel_folder_get_uids (folder);
 				if (input->keep_on_server) {
-					char *cachename = mail_config_folder_to_cachename(folder, "cache-");
+					char *cachename = mail_config_folder_to_cachename (folder, "cache-");
 
-					cache = camel_uid_cache_new(cachename);
+					cache = camel_uid_cache_new (cachename);
 					if (cache) {
-						new_uids = camel_uid_cache_get_new_uids(cache, uids);
-						camel_folder_free_uids(folder, uids);
+						GPtrArray *new_uids;
+						
+						new_uids = camel_uid_cache_get_new_uids (cache, uids);
+						camel_folder_free_uids (folder, uids);
 						uids = new_uids;
 					}
+					
+					g_free (cachename);
 				}
-				filter_driver_filter_folder(filter, folder, FILTER_SOURCE_INCOMING, uids, !input->keep_on_server, ex);
-				if (new_uids) {
-					camel_uid_cache_free_uids(new_uids);
-					if (!camel_exception_is_set(ex))
-						camel_uid_cache_save(cache);
-					camel_uid_cache_destroy(cache);
-				} else {
-					camel_folder_free_uids(folder, uids);
-				}
+				
+				filter_driver_filter_folder (filter, folder, FILTER_SOURCE_INCOMING,
+							     uids, !input->keep_on_server, ex);
+				
+				if (cache) {
+					/* save the cache for the next time we fetch mail! */
+					camel_uid_cache_free_uids (uids);
+					
+					if (!camel_exception_is_set (ex))
+						camel_uid_cache_save (cache);
+					camel_uid_cache_destroy (cache);
+				} else
+					camel_folder_free_uids (folder, uids);
 			} else {
 				data->empty = TRUE;
 			}
+			
+			/* sync and expunge */
+			camel_folder_sync (folder, TRUE, ex);
+			
 			camel_object_unref (CAMEL_OBJECT (folder));
 		} else {
 			data->empty = TRUE;
@@ -338,14 +350,14 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 	}
 
 	if (logfile)
-		fclose(logfile);
+		fclose (logfile);
 
-	camel_folder_thaw(input->destination);
+	camel_folder_thaw (input->destination);
 
 	mail_tool_camel_lock_down ();
 
 	/*camel_object_unref (CAMEL_OBJECT (input->destination));*/
-	gtk_object_unref((GtkObject *)filter);
+	gtk_object_unref (GTK_OBJECT (filter));
 }
 
 static void
@@ -456,12 +468,13 @@ do_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
 		logfile = fopen (filename, "a+");
 		g_free (filename);
 	}
+	
 	filter_driver_set_status_func(driver, mail_op_report_status, logfile);
 	/* build the uid list - all uid's not deleted already */
 	uids = camel_folder_get_uids (input->source);
 	new_uids = g_ptr_array_new();
 	for (i=0;i<uids->len;i++) {
-		CamelMessageInfo *info = camel_folder_get_message_info(input->source, uids->pdata[i]);
+		const CamelMessageInfo *info = camel_folder_get_message_info(input->source, uids->pdata[i]);
 		if (info && (info->flags & CAMEL_MESSAGE_DELETED) == 0) {
 			g_ptr_array_add(new_uids, uids->pdata[i]);
 		}
