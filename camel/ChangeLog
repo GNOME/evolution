@@ -1,3 +1,9 @@
+2002-07-17  Not Zed  <NotZed@Ximian.com>
+
+	* providers/pop3/camel-pop3-store.c (pop3_try_authenticate): Got
+	rid of the stupid "tryagain" semantics, which didn't work.
+	(pop3_connect): Fixed here to only retry under proper conditions.
+
 2002-07-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-filter-canon.c (filter): When CRLF encoding, "empty"

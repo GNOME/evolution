@@ -440,7 +440,7 @@ try_sasl(CamelPOP3Store *store, const char *mech, CamelException *ex)
 	return -1;
 }
 
-static gboolean
+static int
 pop3_try_authenticate (CamelService *service, const char *errmsg,
 		       CamelException *ex)
 {
@@ -501,25 +501,24 @@ pop3_try_authenticate (CamelService *service, const char *errmsg,
 		return FALSE;
 	}
 	
-	while ((status = camel_pop3_engine_iterate (store->engine, pcp)) > 0)
+	while ((status = camel_pop3_engine_iterate(store->engine, pcp)) > 0)
 		;
-	
-	if (pcp->state != CAMEL_POP3_COMMAND_OK) {
-		if (status == -1)
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("Unable to connect to POP server %s.\nError sending password: %s"),
-					      CAMEL_SERVICE (store)->url->host,
-					      errno ? g_strerror (errno) : _("Unknown error"));
-		else
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
-					      _("Unable to connect to POP server %s.\nError sending password: %s"),
-					      CAMEL_SERVICE (store)->url->host, store->engine->line);
-	}
-	camel_pop3_engine_command_free(store->engine, pcp);
 
+	if (status == -1)
+		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
+				     _("Unable to connect to POP server %s.\nError sending password: %s"),
+				     CAMEL_SERVICE(store)->url->host,
+				     errno?strerror(errno): _("Unknown error"));
+	else if (pcp->state != CAMEL_POP3_COMMAND_OK)
+		camel_exception_setv(ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
+				     _("Unable to connect to POP server %s.\nError sending password: %s"),
+				     CAMEL_SERVICE(store)->url->host, store->engine->line);
+
+	camel_pop3_engine_command_free(store->engine, pcp);
+	
 	if (pcu)
 		camel_pop3_engine_command_free(store->engine, pcu);
-
+	
 	return status;
 }
 
@@ -527,7 +526,7 @@ static gboolean
 pop3_connect (CamelService *service, CamelException *ex)
 {
 	char *errbuf = NULL;
-	gboolean tryagain;
+	int status;
 	CamelPOP3Store *store = (CamelPOP3Store *)service;
 	
 	if (store->cache == NULL) {
@@ -548,29 +547,31 @@ pop3_connect (CamelService *service, CamelException *ex)
 	if (!connect_to_server_wrapper (service, ex))
 		return FALSE;
 	
-	camel_exception_clear (ex);
 	do {
-		if (camel_exception_is_set (ex)) {
-			errbuf = g_strdup_printf ("%s\n\n", camel_exception_get_description (ex));
-			camel_exception_clear (ex);
+		camel_exception_clear(ex);
+		status = pop3_try_authenticate(service, errbuf, ex);
+		g_free(errbuf);
+		errbuf = NULL;
+
+		if (camel_exception_is_set(ex)) {
+			errbuf = g_strdup_printf("%s\n\n", camel_exception_get_description(ex));
 			
 			/* don't forget the password if we encountered an unknown error */
-			if (camel_exception_get_id (ex) == CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE) {
+			if (camel_exception_get_id(ex) == CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE) {
 				/* Uncache the password before prompting again. */
-				camel_session_forget_password (camel_service_get_session (service),
-							       service, "password", ex);
-				g_free (service->url->passwd);
+				camel_session_forget_password(camel_service_get_session (service),
+							      service, "password", NULL);
+				g_free(service->url->passwd);
 				service->url->passwd = NULL;
 			}
 		}
 		
-		tryagain = pop3_try_authenticate (service, errbuf, ex);
-		g_free (errbuf);
-		errbuf = NULL;
-	} while (tryagain);
+	} while(status != -1 && ex->id == CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE);
+
+	g_free(errbuf);
 	
-	if (camel_exception_is_set (ex)) {
-		camel_service_disconnect (service, TRUE, ex);
+	if (status == -1 || camel_exception_is_set(ex)) {
+		camel_service_disconnect(service, TRUE, ex);
 		return FALSE;
 	}
 	
