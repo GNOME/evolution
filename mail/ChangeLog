@@ -1,3 +1,9 @@
+2001-10-04    <NotZed@Ximian.com>
+
+	* folder-browser-ui.c (folder_browser_setup_property_menu): Do a
+	better job of setting up the name.  Also de-sensitise when we
+	can't configure the folder.
+
 2001-10-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (providers_config): Set the parent window as

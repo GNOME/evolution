@@ -253,9 +253,15 @@ folder_browser_setup_property_menu (FolderBrowser *fb,
 				    BonoboUIComponent *uic)
 {
 	char *name, *base = NULL;
+	CamelURL *url;
 
-	if (fb->uri)
-		base = g_basename (fb->uri);
+	url = camel_url_new(fb->uri, NULL);
+	if (url) {
+		if (url->fragment)
+			base = g_basename(url->fragment);
+		else
+			base = g_basename(url->path);
+	}
 
 	if (base && base [0] != 0)
 		name = g_strdup_printf (_("Properties for \"%s\""), base);
@@ -266,6 +272,16 @@ folder_browser_setup_property_menu (FolderBrowser *fb,
 		uic, "/menu/File/Folder/ComponentPlaceholder/ChangeFolderProperties",
 		"label", name, NULL);
 	g_free (name);
+
+	if (url)
+		camel_url_free(url);
+
+	if (strncmp(fb->uri, "vfolder:", 8) == 0 || strncmp(fb->uri, "file:", 5) == 0)
+		name = "1";
+	else
+		name = "0";
+	bonobo_ui_component_set_prop (uic, "/commands/ChangeFolderProperties", "sensitive", name, NULL);
+
 }
 
 /* Must be in the same order as MailConfigDisplayStyle */
