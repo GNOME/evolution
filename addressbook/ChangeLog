@@ -1,3 +1,10 @@
+2005-01-21  JP Rosevear  <jpr@novell.com>
+
+	Fixes #70622
+	
+	* gui/widgets/eab-contact-display.c (eab_contact_display_init):
+	construct the html widget
+
 2005-01-21 Sivaiah Nallagatla <snallagatla@novell.com>
 
        * gui/widgets/e-addressbook-model.[ch]
@@ -25,7 +32,6 @@
        to find displayed contact indiex
 
        fixes #71448
-
 
 2005-01-21  Rodney Dawes  <dobey@novell.com>
 
@@ -63,7 +69,7 @@
 	Fixes #41228
 
 2005-01-21  JP Rosevear  <jpr@novell.com>
-
+	
 	Fixes #46404	
 	
 	* gui/widgets/e-addressbook-view.c (eab_view_print): just show the

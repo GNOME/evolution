@@ -659,6 +659,7 @@ eab_contact_display_new (void)
 static void
 eab_contact_display_init (GObject *object)
 {
+	gtk_html_construct (object);
 }
 
 static void
