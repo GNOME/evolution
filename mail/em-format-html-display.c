@@ -242,7 +242,7 @@ efhd_init(GObject *o)
 	html_engine_set_tokenizer(efh->html->engine, (HTMLTokenizer *)efhd->search_tok);
 
 	g_signal_connect(efh->html, "realize", G_CALLBACK(efhd_gtkhtml_realise), o);
-
+	
 	/* we want to convert url's etc */
 	efh->text_html_flags |= CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS | CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES;
 #undef efh
@@ -517,6 +517,8 @@ em_format_html_display_search(EMFormatHTMLDisplay *efhd)
 	p->search_wrap = FALSE;
 
 	gtk_dialog_set_default_response((GtkDialog *)p->search_dialog, GTK_RESPONSE_ACCEPT);
+	e_dialog_set_transient_for ((GtkWindow *) p->search_dialog, (GtkWidget *) ((EMFormatHTML *) efhd)->html);
+	gtk_window_set_destroy_with_parent ((GtkWindow *) p->search_dialog, TRUE);
 	efhd_update_matches(efhd);
 
 	g_signal_connect(p->search_entry, "activate", G_CALLBACK(efhd_search_entry_activate), efhd);

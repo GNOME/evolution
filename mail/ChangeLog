@@ -1,7 +1,15 @@
+2004-08-13  Jeffrey Stedfast  <fejj@novell.com>
+
+	Fix for bug #62812
+
+	* em-format-html-display.c (em_format_html_display_search): Set
+	the search_dialog to be transient for the parent window and make
+	sure to destroy the search_dialog when the parent gets destroyed.
+
 2004-08-21 Sivaiah Nallagatla <snallagatla@novell.com>
 
-        * mail-erros.xml : changed the groupwise account setup error
-        message
+	* mail-erros.xml : changed the groupwise account setup error
+	message
 
 2004-08-16  Not Zed  <NotZed@Ximian.com>
 
