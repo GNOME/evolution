@@ -6,12 +6,14 @@
  */
 
 #include <gnome.h>
+#include <gdk/gdkkeysyms.h>
 #include "calendar.h"
 #include "gnome-cal.h"
 #include "gncal-full-day.h"
 #include "gncal-week-view.h"
 #include "timeutil.h"
 #include "views.h"
+#include "main.h"
 
 static void gnome_calendar_init                    (GnomeCalendar *gcal);
 
@@ -38,6 +40,44 @@ gnome_calendar_get_type (void)
 }
 
 static void
+day_view_key_press (GncalFullDay *fday, GdkEventKey *kevent, GnomeCalendar *gcal)
+{
+	iCalObject *ical;
+	time_t start, end;
+	
+	if (kevent->keyval != GDK_Return)
+		return;
+
+	/* Create a new event on the selected range */
+	ical = ical_new ("", user_name, "");
+	ical->new = 1;
+/*	gncal_full_day_selection_range (gcal->day_view, &ical->dtstart, &ical->dtend); */
+	event_editor_new (gcal, ical);
+}
+
+static void
+setup_day_view (GnomeCalendar *gcal)
+{
+	time_t a, b, now;
+	
+	now = time (NULL);
+	a = time_start_of_day (now);
+	b = time_end_of_day (now);
+	
+	gcal->day_view = gncal_full_day_new (gcal, a, b);
+	gtk_widget_set_events (gcal->day_view,
+			       gtk_widget_get_events (gcal->day_view) | GDK_KEY_PRESS_MASK);
+	gcal->day_view_container = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (gcal->day_view_container),
+					GTK_POLICY_AUTOMATIC,
+					GTK_POLICY_AUTOMATIC);
+	gtk_container_add (GTK_CONTAINER (gcal->day_view_container), gcal->day_view);
+	gtk_widget_show (gcal->day_view);
+	gtk_signal_connect (GTK_OBJECT (gcal->day_view), "key_press_event",
+			    GTK_SIGNAL_FUNC (day_view_key_press), gcal);
+}
+
+static void
 setup_widgets (GnomeCalendar *gcal)
 {
 	time_t now;
@@ -49,23 +89,8 @@ setup_widgets (GnomeCalendar *gcal)
 	gcal->year_view = year_view_create (gcal);
 	gcal->task_view = tasks_create (gcal);
 
-	if (1)
-	{
-		time_t a, b;
-
-		a = time_start_of_day (now);
-		b = time_end_of_day (now);
-		
-		gcal->day_view = gncal_full_day_new (gcal, a, b);
-
-		gcal->day_view_container = gtk_scrolled_window_new (NULL, NULL);
-		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (gcal->day_view_container),
-						GTK_POLICY_AUTOMATIC,
-						GTK_POLICY_AUTOMATIC);
-		gtk_container_add (GTK_CONTAINER (gcal->day_view_container), gcal->day_view);
-		gtk_widget_show (gcal->day_view);
-	}
-
+	setup_day_view (gcal);
+	
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->day_view_container,  gtk_label_new (_("Day View")));
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->week_view, gtk_label_new (_("Week View")));
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->year_view, gtk_label_new (_("Year View")));

@@ -370,7 +370,7 @@ ee_store_dlg_values_to_ical (EventEditor *ee)
 	/* FIXME: This is not entirely correct; we should check if the values actually changed */
 	ical->last_mod = now;
 
-	if (ee->new_ical)
+	if (ee->ical->new)
 		ical->created = now;
 
 	g_free (ical->summary);
@@ -382,7 +382,7 @@ ee_ok (GtkWidget *widget, EventEditor *ee)
 {
 	ee_store_dlg_values_to_ical (ee);
 
-	if (ee->new_ical)
+	if (ee->ical->new)
 		gnome_calendar_add_object (GNOME_CALENDAR (ee->gnome_cal), ee->ical);
 
 	gtk_widget_destroy (GTK_WIDGET (ee));
@@ -391,7 +391,7 @@ ee_ok (GtkWidget *widget, EventEditor *ee)
 static void
 ee_cancel (GtkWidget *widget, EventEditor *ee)
 {
-	if (ee->new_ical)
+	if (ee->ical->new)
 		ical_object_destroy (ee->ical);
 	gtk_widget_destroy (GTK_WIDGET (ee));
 }
@@ -793,11 +793,9 @@ event_editor_new (GnomeCalendar *gcal, iCalObject *ical)
 	ee = EVENT_EDITOR (retval);
 	
 	if (ical == 0){
-		ee->new_ical = 1;
 		ical = ical_new ("Test Comment", user_name, "Test Summary");
-	} else
-		ee->new_ical = 0;
-	
+		ical->new = 1;
+	} 
 	ee->ical = ical;
 	ee->gnome_cal = gcal;
 	event_editor_init_widgets (ee);

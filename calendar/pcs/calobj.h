@@ -131,6 +131,8 @@ typedef struct {
 	CalendarAlarm malarm;
 
 	Recurrence    *recur;
+	
+	int new;
 } iCalObject;
 
 iCalObject *ical_new (char *comment, char *organizer, char *summary);

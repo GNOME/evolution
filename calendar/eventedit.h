@@ -52,7 +52,6 @@ typedef struct {
 	
 	/* The associated ical object */
 	iCalObject *ical;
-	int        new_ical;
 
 	/* The calendar owner of this event */
         GnomeCalendar *gnome_cal;

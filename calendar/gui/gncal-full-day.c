@@ -1469,3 +1469,21 @@ gncal_full_day_set_bounds (GncalFullDay *fullday, time_t lower, time_t upper)
 		gncal_full_day_update (fullday);
 	}
 }
+
+/*
+ * Returns the selected range
+ */
+int
+gncal_full_day_selection_range (GncalFullDay *fullday, time_t *lower, time_t *upper)
+{
+	struct drag_info *di;
+
+	g_return_val_if_fail (fullday != NULL, 0);
+	g_return_val_if_fail (GNCAL_IS_FULL_DAY (fullday), 0);
+	g_return_val_if_fail (lower != NULL, 0);
+	g_return_val_if_fail (upper != NULL, 0);
+
+	di = fullday->drag_info;
+
+	return 1;
+}
