@@ -1102,17 +1102,33 @@ retry:
 
 			start = inptr;
 
-			if (!s->midline
-			    && (part = folder_boundary_check(s, inptr, lastone))) {
-				if ((s->outptr>s->outbuf) || (inptr-start))
-					goto header_truncated; /* may not actually be truncated */
-				
-				goto normal_exit;
+			if (!s->midline) {
+				if ((part = folder_boundary_check(s, inptr, lastone))) {
+					if ((s->outptr>s->outbuf) || (inptr-start))
+						goto header_truncated; /* may not actually be truncated */
+
+					goto normal_exit;
+				}
+
+				/* Replace any number of spaces and tabs at the start of the line with
+				 * a single space.
+				 */
+				if (*start == ' ' || *start == '\t') {
+					static char *space = " ";
+					do
+						start++;
+					while (*start == ' ' || *start == '\t');
+					header_append(s, space, space + 1);
+				}
 			}
 
 			/* goto next line */
 			while ((*inptr++)!='\n')
 				;
+
+			g_assert(inptr<=s->inend+1);
+
+			header_append(s, start, inptr-1);
 
 			/* check against the real buffer end, not our 'atleast limited' end */
 			/* also make sure we have at least 1 char lookahead, so even if we found a \n at
@@ -1123,10 +1139,6 @@ retry:
 			} else {
 				s->midline = FALSE;
 			}
-
-			g_assert(inptr<=s->inend);
-
-			header_append(s, start, inptr);
 
 			h(printf("outbuf[0] = %02x '%c' oubuf[1] = %02x '%c'\n",
 				 s->outbuf[0], isprint(s->outbuf[0])?s->outbuf[0]:'.',

@@ -1,3 +1,9 @@
+2000-06-17  Dan Winship  <danw@helixcode.com>
+
+	* camel-mime-parser.c (folder_scan_header): Don't copy newlines
+	into the parsed header text, and turn any number of tabs and
+	spaces after a newline into a single space.
+
 2000-06-17  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (imap_init): Should now
