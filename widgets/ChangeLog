@@ -1,3 +1,9 @@
+2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-timezone-dialog/Makefile.am (gladedir): Version using
+	$(BASE_VERSION).
+	(INCLUDES): Update the MAP_DIR define with versioning.
+
 2003-01-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-timezone-dialog/Makefile.am: Images are now in
