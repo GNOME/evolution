@@ -1,3 +1,9 @@
+2001-01-30  Michael Meeks  <michael@helixcode.com>
+
+	* evolution.xml: Use hlook and vlook so by default we get
+	no text in vertical mode, and priority only in horizontal
+	mode.
+
 2001-01-27  JP Rosevear  <jpr@ximian.com>
 
 	* evolution-event-editor.xml: Menu cleanups
