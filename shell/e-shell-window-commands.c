@@ -345,22 +345,22 @@ static BonoboUIVerb help_verbs [] = {
 };
 
 static EPixmap pixmaps [] = {
-	E_PIXMAP ("/commands/SendReceive", "send-receive.xpm"),
-	E_PIXMAP ("/Toolbar/SendReceive", "buttons/send-24-receive.png"),
-	E_PIXMAP ("/menu/File/FileImporter", "import.xpm"),
-	E_PIXMAP ("/menu/File/ToggleOffline", "work_offline.xpm"),
-	E_PIXMAP ("/menu/Tools/Settings", "settings-16.png"),
+	E_PIXMAP ("/commands/SendReceive", "stock_mail-send-receive", 16),
+	E_PIXMAP ("/Toolbar/SendReceive", "stock_mail-send-receive", 24),
+	E_PIXMAP ("/menu/File/FileImporter", "stock_mail-import", 16),
+	E_PIXMAP ("/menu/File/ToggleOffline", "stock_disconnect", 16),
+	E_PIXMAP ("/menu/Tools/Settings", "gnome-settings", 16),
 
 	E_PIXMAP_END
 };
 
 static EPixmap offline_pixmaps [] = {
-	E_PIXMAP ("/menu/File/ToggleOffline", "work_offline.xpm"),
+	E_PIXMAP ("/menu/File/ToggleOffline", "stock_disconnect", 16),
 	E_PIXMAP_END
 };
 
 static EPixmap online_pixmaps [] = {
-	E_PIXMAP ("/menu/File/ToggleOffline", "work_online-16.png"),
+	E_PIXMAP ("/menu/File/ToggleOffline", "stock_connect", 16),
 	E_PIXMAP_END
 };
 

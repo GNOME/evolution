@@ -101,7 +101,6 @@ eshellincludedir = $(privincludedir)/shell
 
 eshellinclude_HEADERS = 			\
 	Evolution.h				\
-	e-icon-factory.h			\
 	e-shell-corba-icon-utils.h		\
 	e-shell-utils.h				\
 	e-user-creatable-items-handler.h	\
@@ -112,7 +111,6 @@ eshellinclude_HEADERS = 			\
 libeshell_la_SOURCES = 				\
 	$(IDL_GENERATED)			\
 	$(MARSHAL_GENERATED)			\
-	e-icon-factory.c			\
 	e-shell-corba-icon-utils.c		\
 	e-shell-utils.c				\
 	e-user-creatable-items-handler.c	\

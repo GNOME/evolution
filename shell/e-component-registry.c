@@ -27,7 +27,7 @@
 #include "e-component-registry.h"
 
 #include "e-shell-utils.h"
-
+#include <e-util/e-icon-factory.h>
 #include "e-util/e-lang-utils.h"
 
 #include <libgnome/gnome-i18n.h>
@@ -173,8 +173,7 @@ query_components (EComponentRegistry *registry)
 		if (icon_name == NULL) {
 			icon = NULL;
 		} else {
-			char *full_path = e_shell_get_icon_path (icon_name, TRUE);
-			icon = gdk_pixbuf_new_from_file (full_path, NULL);
+			icon = e_icon_factory_get_icon (icon_name, 24);
 		}
 
 		sort_order_string = bonobo_server_info_prop_lookup (& info_list->_buffer[i],

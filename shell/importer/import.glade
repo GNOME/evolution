@@ -33,7 +33,6 @@ importing external files into Evolution.</property>
 	<widget class="GnomeDruidPageStandard" id="page1">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Importer Type</property>
-	  <property name="logo">import.png</property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="druid-vbox2">
@@ -54,7 +53,6 @@ importing external files into Evolution.</property>
 	<widget class="GnomeDruidPageStandard" id="page2-file">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Select a File</property>
-	  <property name="logo">import.png</property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="druid-vbox1">
@@ -75,7 +73,6 @@ importing external files into Evolution.</property>
 	<widget class="GnomeDruidPageStandard" id="page3-file">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Import Location</property>
-	  <property name="logo">import.png</property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="druid-vbox3">
@@ -96,7 +93,6 @@ importing external files into Evolution.</property>
 	<widget class="GnomeDruidPageStandard" id="page2-intelligent">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Select Importers</property>
-	  <property name="logo">import.png</property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="druid-vbox3">

@@ -24,7 +24,7 @@
 #endif
 
 #include "evolution-shell-component-utils.h"
-
+#include <e-util/e-icon-factory.h>
 #include "e-util/e-dialog-utils.h"
 
 #include <string.h>
@@ -53,23 +53,14 @@ void e_pixmaps_update (BonoboUIComponent *uic, EPixmap *pixcache)
 
 	for (i = 0; pixcache [i].path; i++) {
 		if (!pixcache [i].pixbuf) {
-			char *path;
 			GdkPixbuf *pixbuf;
 
-			path = g_build_filename (EVOLUTION_IMAGES, pixcache [i].fname, NULL);
-
-			pixbuf = gdk_pixbuf_new_from_file (path, NULL);
-			if (pixbuf == NULL) {
-				g_warning ("Cannot load image -- %s", path);
-			} else {
-				pixcache [i].pixbuf = bonobo_ui_util_pixbuf_to_xml (pixbuf);
-				g_object_unref (pixbuf);
-				bonobo_ui_component_set_prop (uic,
-					pixcache [i].path, "pixname",
-					pixcache [i].pixbuf, NULL);
-			}
-
-			g_free (path);
+			pixbuf = e_icon_factory_get_icon (pixcache [i].name, pixcache [i].size);
+			pixcache [i].pixbuf = bonobo_ui_util_pixbuf_to_xml (pixbuf);
+			g_object_unref (pixbuf);
+			bonobo_ui_component_set_prop (uic,
+				pixcache [i].path, "pixname",
+				pixcache [i].pixbuf, NULL);
 		} else {
 			bonobo_ui_component_set_prop (uic, pixcache [i].path,
 						      "pixname",

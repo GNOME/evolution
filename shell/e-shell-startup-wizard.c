@@ -31,7 +31,7 @@
 
 #include "e-timezone-dialog/e-timezone-dialog.h"
 #include "e-util/e-gtk-utils.h"
-
+#include <e-util/e-icon-factory.h>
 #include <gconf/gconf-client.h>
 
 #include <evolution-wizard.h>
@@ -493,12 +493,17 @@ make_timezone_page (SWData *data)
 {
 	TimezoneDialogPage *page;
 	ETimezoneDialog *etd;
+	GdkPixbuf *pixbuf;
 	
 	g_return_val_if_fail (data != NULL, NULL);
 
 	page = g_new0 (TimezoneDialogPage, 1);
 	page->page = glade_xml_get_widget (data->wizard, "timezone-page");
 	g_return_val_if_fail (page->page != NULL, NULL);
+
+	pixbuf = e_icon_factory_get_icon ("stock_timezone", 48);
+	gnome_druid_page_standard_set_logo (GNOME_DRUID_PAGE_STANDARD (page->page), pixbuf);
+	g_object_unref (pixbuf);
 
 	g_signal_connect_after (page->page, "prepare",
 				G_CALLBACK (prepare_timezone_page), data);
@@ -723,12 +728,17 @@ make_importer_page (SWData *data)
 {
 	ImportDialogPage *page;
 	GtkWidget *label, *sep;
+	GdkPixbuf *pixbuf;
 	
 	g_return_val_if_fail (data != NULL, NULL);
 
 	page = g_new0 (ImportDialogPage, 1);
 	page->page = glade_xml_get_widget (data->wizard, "import-page");
 	g_return_val_if_fail (page->page != NULL, NULL);
+
+	pixbuf = e_icon_factory_get_icon ("stock_mail-import", 48);
+	gnome_druid_page_standard_set_logo (GNOME_DRUID_PAGE_STANDARD (page->page), pixbuf);
+	g_object_unref (pixbuf);
 
 	g_signal_connect_after (page->page, "prepare",
 				G_CALLBACK (prepare_importer_page), data);

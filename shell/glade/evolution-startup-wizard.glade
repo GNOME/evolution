@@ -36,7 +36,6 @@ Please click the &quot;Forward&quot; button to continue. </property>
 	<widget class="GnomeDruidPageStandard" id="timezone-page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Timezone </property>
-	  <property name="logo">timezone-48.png</property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="druid-vbox6">
@@ -57,7 +56,6 @@ Please click the &quot;Forward&quot; button to continue. </property>
 	<widget class="GnomeDruidPageStandard" id="import-page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Importing Files</property>
-	  <property name="logo">import.png</property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="druid-vbox7">

@@ -29,9 +29,9 @@
 
     <oaf_attribute name="evolution:button_label" type="string" _value="Test"/>
     <oaf_attribute name="evolution:button_sort_order" type="string" value="-1"/>
-    <oaf_attribute name="evolution:button_icon" type="string" value="evolution-inbox.png"/>
+    <oaf_attribute name="evolution:button_icon" type="string" value="stock_mail"/>
 
-    <oaf_attribute name="evolution:component_icon" type="string" value="evolution-inbox.png"/>
+    <oaf_attribute name="evolution:component_icon" type="string" value="stock_mail"/>
     <oaf_attribute name="evolution:component_display_order" type="number" value="1"/>
 
   </oaf_server>

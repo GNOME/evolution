@@ -1141,10 +1141,13 @@ e_shell_importer_start_import (EShellWindow *shell_window)
 	ImportData *data = g_new0 (ImportData, 1);
 	GtkWidget *html;
 	static gboolean dialog_open = FALSE;
+	GdkPixbuf *icon;
 
 	if (dialog_open) {
 		return;
 	}
+	
+	icon = e_icon_factory_get_icon ("stock_import", 48);
 
 	dialog_open = TRUE;
 	data->window = shell_window;
@@ -1166,9 +1169,11 @@ e_shell_importer_start_import (EShellWindow *shell_window)
 
 	/* Start page */
 	data->start = GNOME_DRUID_PAGE_EDGE (glade_xml_get_widget (data->wizard, "page0"));
+	gnome_druid_page_edge_set_logo (data->start, icon);
 
 	/* Intelligent or direct import page */
 	data->typedialog = glade_xml_get_widget (data->wizard, "page1");
+	gnome_druid_page_standard_set_logo (data->typedialog, icon);
 	g_signal_connect (data->typedialog, "next",
 			  G_CALLBACK (next_type_page), data);
 	data->typepage = importer_type_page_new (data);
@@ -1180,6 +1185,7 @@ e_shell_importer_start_import (EShellWindow *shell_window)
 
 	/* Intelligent importer source page */
 	data->intelligent = glade_xml_get_widget (data->wizard, "page2-intelligent");
+	gnome_druid_page_standard_set_logo (data->intelligent, icon);
 	g_signal_connect (data->intelligent, "back",
 			  G_CALLBACK (back_intelligent_page), data);
 	g_signal_connect_after (data->intelligent, "prepare",
@@ -1195,10 +1201,12 @@ e_shell_importer_start_import (EShellWindow *shell_window)
 
 	/* File selection and file type page */
 	data->filedialog = glade_xml_get_widget (data->wizard, "page2-file");
+	gnome_druid_page_standard_set_logo (data->filedialog, icon);
 	g_signal_connect_after (data->filedialog, "prepare",
 			  G_CALLBACK (prepare_file_page), data);
 	g_signal_connect (data->filedialog, "next",
 			  G_CALLBACK (next_file_page), data);
+	gnome_druid_page_edge_set_logo (data->finish, icon);
 	data->filepage = importer_file_page_new (data);
 
 	html = create_help ("file_html");
@@ -1227,6 +1235,8 @@ e_shell_importer_start_import (EShellWindow *shell_window)
 			  G_CALLBACK (import_druid_finish), data);
 
 	g_object_weak_ref ((GObject *)data->dialog, import_druid_weak_notify, data);
+
+	g_object_unref (icon);
 
 	gtk_widget_show_all (data->dialog);
 }

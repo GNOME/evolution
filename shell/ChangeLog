@@ -1,3 +1,21 @@
+2004-04-19  Michael Terry  <mike@mterry.name>
+
+	* GNOME_Evolution_Test.server.in.in: Change component icons to use the
+	icon theme names for icons
+	* Makefile.am: Remove e-icon-factory.[ch]
+	* e-component-registry.c: Use the icon theme for component icons
+	* e-icon-factory.[ch]: Removed these files
+	* e-shell-importer.c:
+	* e-shell-settings-dialog.c:
+	* e-shell-startup-wizard.c:
+	* e-shell-window-commands.c:
+	* e-user-creatable-items-handler.c:
+	* evolution-shell-component-utils.[ch]:
+	* main.c:
+	* glade/evolution-startup-wizard.glade:
+	* importer/import.glade: Use the icon theme via EIconFactory for all
+	of the icons in the shell, and the window icons
+
 2004-04-14  JP Rosevear <jpr@ximian.com>
 
 	* e-shell-importer.c (get_iid_for_filetype): differentiate between

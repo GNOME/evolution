@@ -25,7 +25,7 @@
 #endif
 
 #include "e-user-creatable-items-handler.h"
-
+#include <e-util/e-icon-factory.h>
 #include "e-shell-utils.h"
 #include "Evolution.h"
 
@@ -267,9 +267,7 @@ ensure_menu_items (EUserCreatableItemsHandler *handler)
 				if (corba_item->iconName == "") {
 					item->icon = NULL;
 				} else {
-					char *icon_path = e_shell_get_icon_path (corba_item->iconName, TRUE);
-					item->icon = gdk_pixbuf_new_from_file (icon_path, NULL);
-					g_free (icon_path);
+					item->icon = e_icon_factory_get_icon (corba_item->iconName, 16);
 				}
 
 				if (corba_item->type == GNOME_Evolution_CREATABLE_OBJECT)

@@ -28,7 +28,7 @@
 #include "e-shell-settings-dialog.h"
 
 #include "e-corba-config-page.h"
-
+#include <e-util/e-icon-factory.h>
 #include "e-util/e-lang-utils.h"
 
 #include <gal/util/e-util.h>
@@ -204,11 +204,7 @@ load_pages (EShellSettingsDialog *dialog)
 			if (g_path_is_absolute (icon_path)) {
 				icon = gdk_pixbuf_new_from_file (icon_path, NULL);
 			} else {
-				char *real_icon_path;
-
-				real_icon_path = g_build_filename (EVOLUTION_IMAGES, icon_path, NULL);
-				icon = gdk_pixbuf_new_from_file (real_icon_path, NULL);
-				g_free (real_icon_path);
+				icon = e_icon_factory_get_icon (icon_path, 48);
 			}
 		}
 

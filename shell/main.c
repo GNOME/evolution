@@ -28,7 +28,7 @@
 #include "e-util/e-gtk-utils.h"
 #include "e-util/e-bconf-map.h"
 
-#include "e-icon-factory.h"
+#include <e-util/e-icon-factory.h>
 #include "e-shell-constants.h"
 
 #include "e-shell.h"
@@ -55,7 +55,6 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-ui-init.h>
-#include <libgnomeui/gnome-window-icon.h>
 
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-moniker-util.h>
@@ -521,6 +520,7 @@ main (int argc, char **argv)
 	poptContext popt_context;
 	const char **args;
 	char *evolution_directory;
+	GList *icon_list;
 
 	/* Make ElectricFence work.  */
 	free (malloc (10));
@@ -571,7 +571,12 @@ main (int argc, char **argv)
 	e_cursors_init ();
 	e_icon_factory_init ();
 
-	gnome_window_icon_set_default_from_file (EVOLUTION_IMAGES "/evolution-inbox.png");
+	icon_list = e_icon_factory_get_icon_list ("stock_mail");
+	if (icon_list) {
+		gtk_window_set_default_icon_list (icon_list);
+		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
+		g_list_free (icon_list);
+	}
 
 	/* FIXME We shouldn't be using the old directory at all I think */
 	evolution_directory = g_build_filename (g_get_home_dir (), "evolution", NULL);
