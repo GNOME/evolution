@@ -1,5 +1,13 @@
 2001-03-19  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-ops.c: Removed gnome.h and ctype.h
+	(send_queue_send): Don't remove the X-Evolution header here.
+	(mail_send_message): Remove it here instead (so we only have to
+	remove it in one place - no matter if you send a single message or
+	send_queue.
+
+2001-03-19  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-format.c (write_headers): Write the date header.
 
 	* component-factory.c (owner_unset_cb): Call

@@ -26,8 +26,7 @@
  */
 
 #include <config.h>
-#include <gnome.h>
-#include <ctype.h>
+
 #include <errno.h>
 #include <camel/camel-mime-filter-from.h>
 #include <camel/camel-operation.h>
@@ -462,35 +461,38 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	CamelMessageInfo *info;
 	CamelTransport *xport;
 	const char *version;
-
+	
 	if (SUB_VERSION[0] == '\0')
 		version = "Evolution/" VERSION " (Preview Release)";
 	else
 		version = "Evolution/" VERSION SUB_VERSION " (Preview Release)";
-	camel_medium_add_header(CAMEL_MEDIUM (message), "X-Mailer", version);
-	camel_mime_message_set_date(message, CAMEL_MESSAGE_DATE_CURRENT, 0);
-
-	xport = camel_session_get_transport(session, destination, ex);
-	if (camel_exception_is_set(ex))
+	camel_medium_add_header (CAMEL_MEDIUM (message), "X-Mailer", version);
+	camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
+	
+	/* Remove the X-Evolution header so we don't send our flags too ;-) */
+	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution");
+	
+	xport = camel_session_get_transport (session, destination, ex);
+	if (camel_exception_is_set (ex))
 		return;
 	
-	camel_transport_send(xport, (CamelMedium *)message, ex);
-	camel_object_unref((CamelObject *)xport);
-	if (camel_exception_is_set(ex))
+	camel_transport_send (xport, (CamelMedium *)message, ex);
+	camel_object_unref (CAMEL_OBJECT (xport));
+	if (camel_exception_is_set (ex))
 		return;
 	
 	/* post-process */
-	info = camel_message_info_new();
+	info = camel_message_info_new ();
 	info->flags = CAMEL_MESSAGE_SEEN;
-
+	
 	if (driver)
 		camel_filter_driver_filter_message (driver, message, info,
 						    NULL, NULL, "", ex);
 	
 	if (sent_folder)
-		camel_folder_append_message(sent_folder, message, info, ex);
+		camel_folder_append_message (sent_folder, message, info, ex);
 	
-	camel_message_info_free(info);
+	camel_message_info_free (info);
 }
 
 /* ********************************************************************** */
@@ -616,7 +618,7 @@ send_queue_send(struct _mail_msg *mm)
 	GPtrArray *uids;
 	int i;
 	
-	printf("sending queue\n");
+	d(printf("sending queue\n"));
 	
 	uids = camel_folder_get_uids (m->queue);
 	if (uids == NULL || uids->len == 0)
@@ -640,9 +642,6 @@ send_queue_send(struct _mail_msg *mm)
 		message = camel_folder_get_message (m->queue, uids->pdata[i], &mm->ex);
 		if (camel_exception_is_set (&mm->ex))
 			break;
-		
-		/* Remove the X-Evolution header so we don't send our flags too ;-) */
-		camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution");
 		
 		/* Get the preferred transport URI */
 		destination = (char *)camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Transport");
