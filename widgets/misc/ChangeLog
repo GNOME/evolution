@@ -1,3 +1,7 @@
+2001-01-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-dropdown-button.c, e-dropdown-button.h: New.
+
 2001-01-25  Damon Chaplin  <damon@ximian.com>
 
 	* e-calendar-item.[hc]: e_calendar_item_get_date_range() now returns
