@@ -1,5 +1,12 @@
 2001-03-13  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* Makefile.am: Added camel-tcp-stream-ssl to the build.
+
+	* camel-remote-store.h: Add a use_ssl member to the
+	CamelRemoteStore object.
+
+2001-03-13  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-tcp-stream-ssl.c (camel_tcp_stream_ssl_get_type):
 	Oops. Make this a subclass of CamelTcpStream, not CamelStream.
 

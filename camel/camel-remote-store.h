@@ -44,6 +44,7 @@ typedef struct {
 
 	CamelStream *istream, *ostream;
 	guint timeout_id, default_port;
+	gboolean use_ssl;
 } CamelRemoteStore;
 
 
