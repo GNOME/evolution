@@ -1,3 +1,7 @@
+2005-01-09  JP Rosevear  <jpr@novell.com>
+
+	* configure.in: add calendar-file plugin
+
 2005-01-08 Priit Laes <amd@store20.com>
 	
 	* configure.in : Remove duplicate entry for itip-formatter in
