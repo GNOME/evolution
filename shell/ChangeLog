@@ -1,5 +1,22 @@
 2002-11-04  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-folder-type-registry.c
+	(e_folder_type_registry_get_handler_for_type): Remove warning for
+	when the type is unknown.
+	(e_folder_type_registry_type_is_user_creatable): Likewise.
+	(e_folder_type_registry_get_display_name_for_type): Likewise.
+	(e_folder_type_registry_get_description_for_type): Likewise.
+	(e_folder_type_registry_get_exported_dnd_types_for_type):
+	Likewise.
+	(e_folder_type_registry_get_accepted_dnd_types_for_type):
+	Likewise.
+	(e_folder_type_registry_unregister_type): Likewise.
+	(e_folder_type_registry_get_icon_name_for_type): Likewise.
+	(e_folder_type_registry_get_icon_for_type): Likewise.
+	(set_handler): Removed warning here too.
+
+2002-11-04  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-folder-list.c: Replace gtk_signal_emit() with g_signal_emit().
 	* e-folder.c: Likewise.
 	* e-shell-folder-selection-dialog.c: Likewise.
