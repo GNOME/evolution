@@ -25,7 +25,8 @@
 /*
  * ECellCombo - a subclass of ECellPopup used to support popup lists like a
  * GtkCombo widget. It only supports a basic popup list of strings at present,
- * with no auto-completion.
+ * with no auto-completion. The child ECell of the ECellPopup must be an
+ * ECellText or subclass.
  */
 
 #ifndef _E_CELL_COMBO_H_
@@ -56,6 +57,7 @@ typedef struct {
 GtkType    e_cell_combo_get_type		(void);
 ECell     *e_cell_combo_new			(void);
 
+/* These must be UTF-8. */
 void       e_cell_combo_set_popdown_strings	(ECellCombo	*ecc, 
 						 GList		*strings);
 

@@ -69,11 +69,23 @@ typedef struct {
 
 	char *(*get_text)  (ECellText *cell, ETableModel *model, int col, int row);
 	void  (*free_text) (ECellText *cell, char *text);
+	void  (*set_value) (ECellText *cell, ETableModel *model, int col, int row, const char *text);
 } ECellTextClass;
 
 GtkType    e_cell_text_get_type (void);
 ECell     *e_cell_text_new      (const char *fontname, GtkJustification justify);
 ECell     *e_cell_text_construct(ECellText *cell, const char *fontname, GtkJustification justify);
+
+/* Gets the value from the model and converts it into a string. In ECellText
+   itself, the value is assumed to be a char* and so needs no conversion.
+   In subclasses the ETableModel value may be a more complicated datatype. */
+char	  *e_cell_text_get_text (ECellText *cell, ETableModel *model, int col, int row);
+
+/* Frees the value returned by e_cell_text_get_text(). */
+void	   e_cell_text_free_text (ECellText *cell, char *text);
+
+/* Sets the ETableModel value, based on the given string. */
+void	   e_cell_text_set_value (ECellText *cell, ETableModel *model, int col, int row, const char *text);
 
 END_GNOME_DECLS
 

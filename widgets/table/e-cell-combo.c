@@ -59,6 +59,7 @@
 #include "gal/util/e-util.h"
 #include "e-table-item.h"
 #include "e-cell-combo.h"
+#include "e-cell-text.h"
 
 
 /* The height to make the popup list if there aren't any items in it. */
@@ -257,6 +258,7 @@ e_cell_combo_select_matching_item	(ECellCombo	*ecc)
 {
 	ECellPopup *ecp = E_CELL_POPUP (ecc);
 	ECellView *ecv = (ECellView*) ecp->popup_cell_view;
+	ECellText *ecell_text = E_CELL_TEXT (ecp->child);
 	ETableItem *eti = E_TABLE_ITEM (ecp->popup_cell_view->cell_view.e_table_item_view);
 	ETableCol *ecol;
 	GtkList *list;
@@ -266,8 +268,8 @@ e_cell_combo_select_matching_item	(ECellCombo	*ecc)
 	char *cell_text, *list_item_text;
 
 	ecol = e_table_header_get_column (eti->header, ecp->popup_view_col);
-	cell_text = e_table_model_value_at (ecv->e_table_model,
-					    ecol->col_idx, ecp->popup_row);
+	cell_text = e_cell_text_get_text (ecell_text, ecv->e_table_model,
+					  ecol->col_idx, ecp->popup_row);
 
 	list = GTK_LIST (ecc->popup_list);
 	elem = list->children;
@@ -291,6 +293,8 @@ e_cell_combo_select_matching_item	(ECellCombo	*ecc)
 		if (list->children)
 			gtk_widget_grab_focus (GTK_WIDGET (list->children->data));
 	}
+
+	e_cell_text_free_text (ecell_text, cell_text);
 }
 
 
@@ -298,8 +302,6 @@ static void
 e_cell_combo_show_popup			(ECellCombo	*ecc)
 {
 	gint x, y, width, height, old_width, old_height;
-
-	g_print ("In e_cell_popup_popup_list\n");
 
 	/* This code is practically copied from GtkCombo. */
 	old_width = ecc->popup_window->allocation.width;
@@ -470,8 +472,6 @@ e_cell_combo_button_press		(GtkWidget	*popup_window,
 {
 	GtkWidget *event_widget;
 
-	g_print ("In e_cell_combo_button_press\n");
-
 	event_widget = gtk_get_event_widget (event);
 
 	/* If the button press was for a widget inside the popup list, but
@@ -516,9 +516,6 @@ e_cell_combo_button_release		(GtkWidget	*popup_window,
 
 	event_widget = gtk_get_event_widget ((GdkEvent*) event);
   
-	g_print ("In e_cell_popup_button_release event_widget:%s\n",
-		 gtk_widget_get_name (event_widget));
-
 	/* See if the button was released in the list (or its children). */
 	while (event_widget && event_widget != ecc->popup_list)
 		event_widget = event_widget->parent;
@@ -549,8 +546,6 @@ e_cell_combo_key_press			(GtkWidget	*popup_window,
 					 GdkEventKey	*event,
 					 ECellCombo	*ecc)
 {
-	g_print ("In e_cell_popup_key_press\n");
-
 	/* If the Escape key is pressed we hide the popup. */
 	if (event->keyval != GDK_Escape
 	    && event->keyval != GDK_Return
@@ -579,13 +574,12 @@ e_cell_combo_update_cell		(ECellCombo	*ecc)
 {
 	ECellPopup *ecp = E_CELL_POPUP (ecc);
 	ECellView *ecv = (ECellView*) ecp->popup_cell_view;
+	ECellText *ecell_text = E_CELL_TEXT (ecp->child);
 	ETableItem *eti = E_TABLE_ITEM (ecv->e_table_item_view);
 	ETableCol *ecol;
 	GtkList *list = GTK_LIST (ecc->popup_list);
 	GtkListItem *listitem;
 	gchar *text, *old_text;
-
-	g_print ("In e_cell_popup_update_cell\n");
 
 	/* Return if no item is selected. */
 	if (list->selection == NULL)
@@ -597,19 +591,17 @@ e_cell_combo_update_cell		(ECellCombo	*ecc)
 
 	/* Compare it with the existing cell contents. */
 	ecol = e_table_header_get_column (eti->header, ecp->popup_view_col);
-	old_text = e_table_model_value_at (ecv->e_table_model,
-					   ecol->col_idx, ecp->popup_row);
 
-	g_print ("   Old text: %s New text: %s\n", old_text, text);
+	old_text = e_cell_text_get_text (ecell_text, ecv->e_table_model,
+					 ecol->col_idx, ecp->popup_row);
 
 	/* If they are different, update the cell contents. */
-	if (strcmp (old_text, text)) {
-		g_print ("  Setting cell text...\n");
-		e_table_model_set_value_at (ecv->e_table_model,
-					    ecol->col_idx, ecp->popup_row,
-					    text);
-		g_print ("  Set cell text.\n");
+	if (old_text && strcmp (old_text, text)) {
+		e_cell_text_set_value (ecell_text, ecv->e_table_model,
+				       ecol->col_idx, ecp->popup_row, text);
 	}
+
+	e_cell_text_free_text (ecell_text, old_text);
 }
 
 

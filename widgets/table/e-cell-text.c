@@ -211,8 +211,8 @@ static GdkColor* e_cell_text_get_color (ECellTextView *cell_view, gchar *color_s
 
 static ECellClass *parent_class;
 
-static char *
-ect_get_text (ECellText *cell, ETableModel *model, int col, int row)
+char *
+e_cell_text_get_text (ECellText *cell, ETableModel *model, int col, int row)
 {
 	if (ECT_CLASS(cell)->get_text)
 		return ECT_CLASS(cell)->get_text (cell, model, col, row);
@@ -220,11 +220,19 @@ ect_get_text (ECellText *cell, ETableModel *model, int col, int row)
 		return NULL;
 }
 
-static void
-ect_free_text (ECellText *cell, char *text)
+void
+e_cell_text_free_text (ECellText *cell, char *text)
 {
 	if (ECT_CLASS(cell)->free_text)
 		ECT_CLASS(cell)->free_text (cell, text);
+}
+
+void
+e_cell_text_set_value (ECellText *cell, ETableModel *model, int col, int row,
+		       const char *text)
+{
+	if (ECT_CLASS(cell)->set_value)
+		ECT_CLASS(cell)->set_value (cell, model, col, row, text);
 }
 
 static char *
@@ -236,6 +244,17 @@ ect_real_get_text (ECellText *cell, ETableModel *model, int col, int row)
 static void
 ect_real_free_text (ECellText *cell, char *text)
 {
+}
+
+/* This is the default method for setting the ETableModel value based on
+   the text in the ECellText. This simply uses the text as it is - it assumes
+   the value in the model is a char*. Subclasses may parse the text into
+   data structures to pass to the model. */
+static void
+ect_real_set_value (ECellText *cell, ETableModel *model, int col, int row,
+		    const char *text)
+{
+	e_table_model_set_value_at (model, col, row, text);
 }
 
 static void
@@ -253,10 +272,12 @@ static void
 ect_accept_edits (ECellTextView *text_view)
 {
 	CurrentCell *cell = (CurrentCell *) text_view->edit;
+	ECellView *ecell_view = (ECellView *) text_view;
+	ECellText *ect = (ECellText *) ecell_view->ecell;
 
 	if (strcmp (text_view->edit->old_text, cell->text)) {
-		e_table_model_set_value_at (text_view->cell_view.e_table_model,
-					    cell->model_col, cell->row, cell->text);
+		e_cell_text_set_value (ect, ecell_view->e_table_model,
+				       cell->model_col, cell->row, cell->text);
 	}
 }
 
@@ -951,9 +972,9 @@ ect_height (ECellView *ecell_view, int model_col, int view_col, int row)
 	if (row == -1) {
 		value = e_font_height (font) + TEXT_PAD;
 	} else {
-		string = ect_get_text(ect, ecell_view->e_table_model, model_col, row);
+		string = e_cell_text_get_text(ect, ecell_view->e_table_model, model_col, row);
 		value = e_font_height (font) * number_of_lines(string) + TEXT_PAD;
-		ect_free_text(ect, string);
+		e_cell_text_free_text(ect, string);
 	}
 
 	return value;
@@ -1010,9 +1031,9 @@ ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 	edit->pointer_in = FALSE;
 	edit->default_cursor_shown = TRUE;
 	
-	temp = ect_get_text(ect, ecell_view->e_table_model, model_col, row);
+	temp = e_cell_text_get_text(ect, ecell_view->e_table_model, model_col, row);
 	edit->old_text = g_strdup (temp);
-	ect_free_text(ect, temp);
+	e_cell_text_free_text(ect, temp);
 	edit->cell.text = g_strdup (edit->old_text);
 
 #if 0
@@ -1059,7 +1080,7 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 	GnomeFont *font = gnome_font_new ("Helvetica", 12);
 	char *string;
 	ECellText *ect = E_CELL_TEXT(ecell_view->ecell);
-	string = ect_get_text(ect, ecell_view->e_table_model, model_col, row);
+	string = e_cell_text_get_text(ect, ecell_view->e_table_model, model_col, row);
 	gnome_print_gsave(context);
 	if (gnome_print_moveto(context, 2, 2) == -1)
 				/* FIXME */;
@@ -1077,7 +1098,7 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 	gnome_print_setfont(context, font);
 	gnome_print_show(context, string);
 	gnome_print_grestore(context);
-	ect_free_text(ect, string);
+	e_cell_text_free_text(ect, string);
 }
 
 static gdouble
@@ -1421,6 +1442,7 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 
 	ectc->get_text = ect_real_get_text;
 	ectc->free_text = ect_real_free_text;
+	ectc->set_value = ect_real_set_value;
 
 	object_class->get_arg = ect_get_arg;
 	object_class->set_arg = ect_set_arg;
@@ -2415,9 +2437,9 @@ build_current_cell (CurrentCell *cell, ECellTextView *text_view, int model_col, 
 	cell->row = row;
 	cell->breaks = NULL;
 
-	temp = ect_get_text(ect, ecell_view->e_table_model, model_col, row);
+	temp = e_cell_text_get_text(ect, ecell_view->e_table_model, model_col, row);
 	cell->text = g_strdup(temp);
-	ect_free_text(ect, temp);
+	e_cell_text_free_text(ect, temp);
 
 	cell->width = e_table_header_get_column (
 		((ETableItem *)ecell_view->e_table_item_view)->header,
