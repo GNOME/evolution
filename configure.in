@@ -486,24 +486,27 @@ dnl ********
 AC_ARG_WITH(krb5, [  --with-krb5=PREFIX      Location of Kerberos 5 libs/includes])
 AC_ARG_WITH(krb4, [  --with-krb4=PREFIX      Location of Kerberos 4 libs/includes])
 msg_krb5=No
-if test x${with_krb5:=no} != xno; then
-	CFLAGS_save="$CFLAGS"
+if test ${with_krb5:=no} != no; then
 	LDFLAGS_save="$LDFLAGS"
-	CFLAGS="-I$with_krb5/include/krb5"
-	LDFLAGS="-L$with_krb5/lib"
-	AC_CHECK_LIB(krb5, krb5_init_context,
+
+	mitlibs="-lkrb5 -lk5crypto -lcom_err"
+	heimlibs="-lkrb5 -lcrypto -lasn1 -lcom_err -lroken"
+	AC_CACHE_CHECK([for Kerberos 5], ac_cv_lib_kerberos5,
 	[
+		LDFLAGS="$LDFLAGS -L$with_krb5/lib $mitlibs"
+		AC_TRY_LINK_FUNC(krb5_init_context, ac_cv_lib_kerberos5="$mitlibs",
+		[
+			LDFLAGS="$LDFLAGS_save -L$with_krb5/lib $heimlibs"
+			AC_TRY_LINK_FUNC(krb5_init_context, ac_cv_lib_kerberos5="$heimlibs", ac_cv_lib_kerberos5=no)
+		])
+		LDFLAGS="$LDFLAGS_save"
+	])
+	if test "$ac_cv_lib_kerberos5" != no; then
 		AC_DEFINE(HAVE_KRB5)
-		KRB5_CFLAGS="$CFLAGS"
-		KRB5_LDFLAGS="$LDFLAGS -lkrb5 -lk5crypto -lcom_err"
 		msg_krb5=Yes
-	],[
-		AC_MSG_WARN([A sample Kerberos 5 program could not be compiled with the
-Kerberos found in $with_krb5. Please verify that the prefix is correct.])
-		with_krb5=no
-	], [-lk5crypto -lcom_err])
-	CFLAGS="$CFLAGS_save"
-	LDFLAGS="$LIBS_save"
+		KRB5_CFLAGS="-I$with_krb5/include/krb5"
+		KRB5_LDFLAGS="-L$with_krb5/lib $ac_cv_lib_kerberos5"
+	fi
 else
 	AC_MSG_CHECKING(for Kerberos 5)
 	AC_MSG_RESULT($with_krb5)
@@ -511,49 +514,52 @@ fi
 
 msg_krb4=No
 if test x${with_krb4:=no} != xno; then
-	CFLAGS_save="$CFLAGS"
 	LDFLAGS_save="$LDFLAGS"
-	CFLAGS="-I$with_krb4/include/kerberosIV -I$with_krb4/include/kerberos"
-	test -f "$with_krb4/include/krb.h" && \
-		CFLAGS="$CFLAGS -I$with_krb4/include"
-	test -f "$with_krb4/include/port-sockets.h" && \
-		CFLAGS="$CFLAGS -I$with_krb4/include"
-
-	LDFLAGS="-L$with_krb4/lib"
-	AC_CHECK_LIB(krb, krb_mk_req,
+	AC_CACHE_CHECK(Kerberos 4, ac_cv_lib_kerberos4,
 	[
-		AC_DEFINE(HAVE_KRB4)
-		KRB4_CFLAGS="$CFLAGS"
-		KRB4_LDFLAGS="$LDFLAGS -lkrb"
-		msg_krb4=Yes
-	],[
-		AC_CHECK_LIB(krb, krb_rd_req,
-		[
-			AC_DEFINE(HAVE_KRB4)
-			KRB4_CFLAGS="$CFLAGS"
-			KRB4_LDFLAGS="$LDFLAGS -lkrb -ldes"
-			msg_krb4=Yes
-		],[
-			AC_CHECK_LIB(krb4, krb_mk_req,
+		ac_cv_lib_kerberos4=no
+
+		case $ac_cv_lib_kerberos5 in
+		*k5crypto*)
+			# Look for MIT krb5 compat krb4
+			LDFLAGS="$LDFLAGS -L$with_krb4/lib -lkrb4 -ldes425 $KRB5_LDFLAGS"
+			AC_TRY_LINK_FUNC(krb_mk_req, ac_cv_lib_kerberos4="-lkrb4 -ldes425 $KRB5_LDFLAGS")
+			;;
+		esac
+
+		if test "$ac_cv_lib_kerberos4" = no; then
+			# Look for KTH krb4
+			LDFLAGS="$LDFLAGS_save -L$with_krb4/lib -lkrb -lcrypto -lcom_err -lroken"
+			AC_TRY_LINK_FUNC(krb_mk_req, ac_cv_lib_kerberos4="-lkrb -lcrypto -lcom_err -lroken")
+		fi
+		if test "$ac_cv_lib_kerberos4" = no; then
+			# Look for old MIT krb4
+			LDFLAGS="$LDFLAGS_save -L$with_krb4/lib -lkrb"
+			AC_TRY_LINK_FUNC(krb_mk_req, ac_cv_lib_kerberos4=-lkrb,
 			[
-				AC_DEFINE(HAVE_KRB4)
-				KRB4_CFLAGS="$CFLAGS"
-				KRB4_LDFLAGS="$LDFLAGS -lkrb4 -ldes425 $KRB5_LDFLAGS"
-				msg_krb4=Yes
-			],[
-				AC_MSG_WARN([A sample Kerberos 4 program could not be compiled with the
-Kerberos found in $with_krb4. Please verify that the prefix is correct.])
-				with_krb4=no
-			],[-ldes425 $KRB5_LDFLAGS])
-		],[-ldes])
+				LDFLAGS="$LDFLAGS -ldes"
+				AC_TRY_LINK_FUNC(krb_mk_req, ac_cv_lib_kerberos4="-lkrb -ldes")
+			])
+		fi
 	])
+	LDFLAGS="$LDFLAGS_save"
+	if test "$ac_cv_lib_kerberos4" != no; then
+		AC_DEFINE(HAVE_KRB4)
+		msg_krb4=Yes
+		if test -f "$with_krb4/include/krb.h" -o -f "$with_krb4/include/port-sockets.h"; then
+			KRB4_CFLAGS="-I$with_krb4/include"
+		else
+			KRB4_CFLAGS="-I$with_krb4/include/kerberosIV"
+		fi
+		KRB4_LDFLAGS="-L$with_krb4/lib $ac_cv_lib_kerberos4"
 
-	AC_TRY_COMPILE([#include "krb.h"
-	int krb_sendauth;
-	],[return 0],[AC_DEFINE(NEED_KRB_SENDAUTH_PROTO)],)
-
-	CFLAGS="$CFLAGS_save"
-	LDFLAGS="$LIBS_save"
+		CFLAGS_save="$CFLAGS"
+		CFLAGS="$CFLAGS $KRB4_CFLAGS"
+		AC_TRY_COMPILE([#include "krb.h"
+		int krb_sendauth;
+		],[return 0],[AC_DEFINE(NEED_KRB_SENDAUTH_PROTO)],)
+		CFLAGS="$CFLAGS_save"
+	fi
 else
 	AC_MSG_CHECKING(for Kerberos 4)
 	AC_MSG_RESULT(${with_krb4})

@@ -1,3 +1,9 @@
+2001-03-01  Dan Winship  <danw@ximian.com>
+
+	* configure.in: Redo the Kerberos stuff again to deal with the
+	stuff currently on my machine. I think it should deal with both
+	the MIT and KTH versions of both krb4 and krb5 now.
+
 2001-03-01  Jakub Steiner <jimmac@ximian.com>
 
 	* art/48_evo-address-conduit.png: 48^2 version of the
