@@ -54,6 +54,10 @@ module Evolution {
 		void async_remove_folder (in ShellComponentListener listener,
 					  in string physical_uri)
 			raises (Busy);
+
+		void populate_folder_context_menu (in Bonobo::UIHandler uih,
+						   in string physical_uri,
+						   in string type);
 	};
 
 	interface ShellComponentListener {

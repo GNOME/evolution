@@ -40,9 +40,10 @@ static BonoboObjectClass *parent_class = NULL;
 struct _EvolutionShellComponentPrivate {
 	GList *folder_types;	/* EvolutionShellComponentFolderType */
 
-	EvolutionShellComponentCreateViewFn   create_view_fn;
-	EvolutionShellComponentCreateFolderFn create_folder_fn;
-	EvolutionShellComponentRemoveFolderFn remove_folder_fn;
+	EvolutionShellComponentCreateViewFn              create_view_fn;
+	EvolutionShellComponentCreateFolderFn            create_folder_fn;
+	EvolutionShellComponentRemoveFolderFn            remove_folder_fn;
+	EvolutionShellComponentPopulateFolderContextMenu populate_folder_context_menu_fn;
 
 	EvolutionShellClient *owner_client;
 
@@ -263,6 +264,30 @@ impl_ShellComponent_async_remove_folder (PortableServer_Servant servant,
 	(* priv->remove_folder_fn) (shell_component, physical_uri, listener, priv->closure);
 }
 
+static void
+impl_ShellComponent_populate_folder_context_menu (PortableServer_Servant servant,
+						  const Bonobo_UIHandler corba_uih,
+						  const CORBA_char *physical_uri,
+						  const CORBA_char *type,
+						  CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	EvolutionShellComponent *shell_component;
+	EvolutionShellComponentPrivate *priv;
+	BonoboUIHandler *uih;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object);
+	priv = shell_component->priv;
+
+	uih = bonobo_ui_handler_new ();
+	bonobo_ui_handler_set_container (uih, corba_uih);
+
+	(* priv->populate_folder_context_menu_fn) (shell_component, uih, physical_uri, type, priv->closure);
+
+	bonobo_object_unref (BONOBO_OBJECT (uih));
+}
+
 
 /* GtkObject methods.  */
 
@@ -315,12 +340,13 @@ corba_class_init (void)
 	base_epv->default_POA = NULL;
 
 	epv = g_new0 (POA_Evolution_ShellComponent__epv, 1);
-	epv->_get_supported_types = impl_ShellComponent__get_supported_types;
-	epv->set_owner            = impl_ShellComponent_set_owner;
-	epv->unset_owner          = impl_ShellComponent_unset_owner;
-	epv->create_view          = impl_ShellComponent_create_view;
-	epv->async_create_folder  = impl_ShellComponent_async_create_folder;
-	epv->async_remove_folder  = impl_ShellComponent_async_remove_folder;
+	epv->_get_supported_types         = impl_ShellComponent__get_supported_types;
+	epv->set_owner                    = impl_ShellComponent_set_owner;
+	epv->unset_owner                  = impl_ShellComponent_unset_owner;
+	epv->create_view                  = impl_ShellComponent_create_view;
+	epv->async_create_folder          = impl_ShellComponent_async_create_folder;
+	epv->async_remove_folder          = impl_ShellComponent_async_remove_folder;
+	epv->populate_folder_context_menu = impl_ShellComponent_populate_folder_context_menu;
 
 	vepv = &ShellComponent_vepv;
 	vepv->_base_epv                    = base_epv;
@@ -367,12 +393,14 @@ init (EvolutionShellComponent *shell_component)
 
 	priv = g_new (EvolutionShellComponentPrivate, 1);
 
-	priv->folder_types     = NULL;
-	priv->create_view_fn   = NULL;
-	priv->create_folder_fn = NULL;
-	priv->remove_folder_fn = NULL;
-	priv->owner_client     = NULL;
-	priv->closure          = NULL;
+	priv->folder_types                    = NULL;
+	priv->create_view_fn                  = NULL;
+	priv->create_folder_fn                = NULL;
+	priv->remove_folder_fn                = NULL;
+	priv->populate_folder_context_menu_fn = NULL;
+
+	priv->owner_client                    = NULL;
+	priv->closure                         = NULL;
 
 	shell_component->priv = priv;
 }
@@ -385,6 +413,7 @@ evolution_shell_component_construct (EvolutionShellComponent *shell_component,
 				     EvolutionShellComponentCreateViewFn create_view_fn,
 				     EvolutionShellComponentCreateFolderFn create_folder_fn,
 				     EvolutionShellComponentRemoveFolderFn remove_folder_fn,
+				     EvolutionShellComponentPopulateFolderContextMenu populate_folder_context_menu_fn,
 				     void *closure)
 {
 	EvolutionShellComponentPrivate *priv;
@@ -397,9 +426,10 @@ evolution_shell_component_construct (EvolutionShellComponent *shell_component,
 
 	priv = shell_component->priv;
 
-	priv->create_view_fn   = create_view_fn;
-	priv->create_folder_fn = create_folder_fn;
-	priv->remove_folder_fn = remove_folder_fn;
+	priv->create_view_fn                  = create_view_fn;
+	priv->create_folder_fn                = create_folder_fn;
+	priv->remove_folder_fn                = remove_folder_fn;
+	priv->populate_folder_context_menu_fn = populate_folder_context_menu_fn;
 
 	priv->closure = closure;
 
@@ -427,6 +457,7 @@ evolution_shell_component_new (const EvolutionShellComponentFolderType folder_ty
 			       EvolutionShellComponentCreateViewFn create_view_fn,
 			       EvolutionShellComponentCreateFolderFn create_folder_fn,
 			       EvolutionShellComponentRemoveFolderFn remove_folder_fn,
+			       EvolutionShellComponentPopulateFolderContextMenu populate_folder_context_menu_fn,
 			       void *closure)
 {
 	EvolutionShellComponent *new;
@@ -442,6 +473,7 @@ evolution_shell_component_new (const EvolutionShellComponentFolderType folder_ty
 	corba_object = bonobo_object_activate_servant (BONOBO_OBJECT (new), servant);
 	evolution_shell_component_construct (new, folder_types, corba_object,
 					     create_view_fn, create_folder_fn, remove_folder_fn,
+					     populate_folder_context_menu_fn,
 					     closure);
 
 	return new;

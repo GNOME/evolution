@@ -87,6 +87,11 @@ typedef void (* EvolutionShellComponentRemoveFolderFn) (EvolutionShellComponent 
 						        const char *physical_uri,
 						        const Evolution_ShellComponentListener listener,
 						        void *closure);
+typedef void (* EvolutionShellComponentPopulateFolderContextMenu) (EvolutionShellComponent *shell_component,
+								   BonoboUIHandler *uih,
+								   const char *physical_uri,
+								   const char *type,
+								   void *closure);
 
 struct _EvolutionShellComponentFolderType {
 	char *name;
@@ -112,19 +117,21 @@ struct _EvolutionShellComponentClass {
 
 
 GtkType                  evolution_shell_component_get_type   (void);
-void                     evolution_shell_component_construct  (EvolutionShellComponent                 *shell_component,
-							       const EvolutionShellComponentFolderType  folder_types[],
-							       Evolution_ShellComponent                 corba_object,
-							       EvolutionShellComponentCreateViewFn      create_view_fn,
-							       EvolutionShellComponentCreateFolderFn    create_folder_fn,
-							       EvolutionShellComponentRemoveFolderFn    remove_folder_fn,
-							       void                                    *closure);
-EvolutionShellComponent *evolution_shell_component_new        (const EvolutionShellComponentFolderType  folder_types[],
-							       EvolutionShellComponentCreateViewFn      create_view_fn,
-							       EvolutionShellComponentCreateFolderFn    create_folder_fn,
-							       EvolutionShellComponentRemoveFolderFn    remove_folder_fn,
-							       void                                    *closure);
-EvolutionShellClient    *evolution_shell_component_get_owner  (EvolutionShellComponent                 *shell_component);
+void                     evolution_shell_component_construct  (EvolutionShellComponent                          *shell_component,
+							       const EvolutionShellComponentFolderType           folder_types[],
+							       Evolution_ShellComponent                          corba_object,
+							       EvolutionShellComponentCreateViewFn               create_view_fn,
+							       EvolutionShellComponentCreateFolderFn             create_folder_fn,
+							       EvolutionShellComponentRemoveFolderFn             remove_folder_fn,
+							       EvolutionShellComponentPopulateFolderContextMenu  populate_folder_context_menu_fn,
+							       void                                             *closure);
+EvolutionShellComponent *evolution_shell_component_new        (const EvolutionShellComponentFolderType           folder_types[],
+							       EvolutionShellComponentCreateViewFn               create_view_fn,
+							       EvolutionShellComponentCreateFolderFn             create_folder_fn,
+							       EvolutionShellComponentRemoveFolderFn             remove_folder_fn,
+							       EvolutionShellComponentPopulateFolderContextMenu  populate_folder_context_menu_fn,
+							       void                                             *closure);
+EvolutionShellClient    *evolution_shell_component_get_owner  (EvolutionShellComponent                          *shell_component);
 
 #ifdef cplusplus
 }

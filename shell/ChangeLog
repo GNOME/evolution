@@ -1,5 +1,21 @@
 2000-07-20  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* evolution-shell-component.c: New member
+	`populate_folder_context_menu' in
+	`EvolutionShellComponentPrivate'.
+	(impl_ShellComponent_populate_folder_context_menu): New,
+	implementation for
+	`Evolution::ShellComponent::populate_folder_context_menu'.
+	(corba_class_init): Install it.
+	(evolution_shell_component_new): New arg
+	@populate_folder_context_menu.
+	(evolution_shell_component_construct): Likewise.
+
+	* Evolution-ShellComponent.idl: New method
+	`::populate_folder_context_menu'.
+
+2000-07-20  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-shell-view.c (e_shell_view_save_settings): Save the paned
 	positions.
 	(e_shell_view_load_settings): Restore them.
