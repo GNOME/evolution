@@ -1,5 +1,8 @@
 2000-04-24  Dan Winship  <danw@helixcode.com>
 
+	* camel-mime-part-utils.c
+	(simple_data_wrapper_construct_from_parser): fix a cut-and-pasto.
+
 	* providers/mbox/camel-mbox-folder.c (_get_message_by_uid): ref
 	(and sink) the message stream if we're going to unref it later.
 	Otherwise it could get destroyed while there are still substreams

@@ -141,7 +141,7 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 				camel_stream_filter_add(filter, fdec);
 			}
 			if (fch) {
-				camel_mime_filter_reset(fdec);
+				camel_mime_filter_reset(fch);
 				camel_stream_filter_add(filter, fch);
 			}
 			camel_data_wrapper_set_output_stream (dw, (CamelStream *)filter);
