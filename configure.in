@@ -582,6 +582,8 @@ if test x$enable_pilot_conduits = xyes; then
 else
    msg_pilot=no
 fi
+AC_SUBST(GNOME_PILOT_CFLAGS)
+AC_SUBST(GNOME_PILOT_LIBS)
 
 dnl ********
 dnl Kerberos
