@@ -640,7 +640,8 @@ composer_send_cb (EMsgComposer *composer, gpointer user_data)
 	
 	send = g_malloc (sizeof (*send));
 	send->ccd = user_data;
-	ccd_ref (send->ccd);
+	if (send->ccd)
+		ccd_ref (send->ccd);
 	send->send = !post;
 	send->composer = composer;
 	gtk_object_ref (GTK_OBJECT (composer));
@@ -794,7 +795,8 @@ composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer user_data)
 	sdi->composer = composer;
 	gtk_object_ref (GTK_OBJECT (composer));
 	sdi->ccd = user_data;
-	ccd_ref (sdi->ccd);
+	if (sdi->ccd)
+		ccd_ref (sdi->ccd);
 	sdi->quit = quit;
 	
 	mail_append_mail (folder, msg, info, save_draft_done, sdi);

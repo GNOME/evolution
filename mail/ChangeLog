@@ -1,3 +1,10 @@
+2002-09-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Merging in patch from Jeff.]
+	* mail-callbacks.c (composer_save_draft_cb): NULL-check the ccd
+	before reffing it.
+	(composer_send_cb): Same.
+
 2002-09-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* upgrade-mailer.c (shortcuts_upgrade_xml_file): Don't look for an
