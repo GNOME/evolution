@@ -1,5 +1,9 @@
 2004-04-09  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* e-account.c (xml_set_identity): If we fail to set a sig_uid then
+	try to extract the old style signature id and assume the migration
+	code will fix us up (if not, nothing bad will happen anyway).
+
 	* e-signature-list.c (gconf_signatures_changed): If the autogen
 	signature isn't in the list (or isn't the first in the list), add
 	it to the head of the list.

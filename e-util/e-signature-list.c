@@ -430,7 +430,7 @@ e_signature_list_find (ESignatureList *signatures, e_signature_find_t type, cons
 	if (!key)
 		return NULL;
 	
-	for (it = e_list_get_iterator ((EList *)signatures);
+	for (it = e_list_get_iterator ((EList *) signatures);
 	     e_iterator_is_valid (it);
 	     e_iterator_next (it)) {
 		int found = 0;

@@ -282,6 +282,22 @@ xml_set_identity (xmlNodePtr node, EAccountIdentity *id)
 			changed |= xml_set_content (node, &id->organization);
 		else if (!strcmp (node->name, "signature")) {
 			changed |= xml_set_prop (node, "uid", &id->sig_uid);
+			if (!id->sig_uid) {
+				/* set a fake sig uid so the migrate code can handle this */
+				gboolean autogen = FALSE;
+				int sig_id = 0;
+				
+				xml_set_bool (node, "auto", &autogen);
+				xml_set_int (node, "default", &sig_id);
+				
+				if (autogen) {
+					id->sig_uid = g_strdup ("::0");
+					changed = TRUE;
+				} else if (sig_id) {
+					id->sig_uid = g_strdup_printf ("::%d", sig_id + 1);
+					changed = TRUE;
+				}
+			}
 		}
 	}
 
