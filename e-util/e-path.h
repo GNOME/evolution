@@ -22,6 +22,9 @@
 
 #include <glib.h>
 
+/* FIXME: deprecated
+   This is used exclusively for the legacy imap cache code.  DO NOT use this in any new code */
+
 typedef gboolean (*EPathFindFoldersCallback) (const char *physical_path,
 					      const char *path,
 					      gpointer user_data);

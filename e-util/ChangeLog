@@ -1,3 +1,19 @@
+2004-05-12  Not Zed  <NotZed@Ximian.com>
+
+	* e-error-tool.c: Tool to do i18n string extraction for error xml
+	files.
+
+2004-05-10  Not Zed  <NotZed@Ximian.com>
+
+	* e-fsutils.c (e_fsutils_usage): new file/function, get disk usage
+	of a path, in 1024 byte blocks.
+	(e_fsutils_avail): new file/function, get disk space available for
+	a given path, in 1024 byte blocks.
+
+	* e-meta.[ch]: Removed.  Poor idea badly executed, and no longer used.
+
+	* e-path.h: add a fixme about deprecation.
+
 2004-04-30  Not Zed  <NotZed@Ximian.com>
 
 	* e-lang-utils.[ch]: Removed.  This is covered by

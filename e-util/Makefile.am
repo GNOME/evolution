@@ -23,6 +23,7 @@ eutilinclude_HEADERS = 				\
 	e-dialog-utils.h			\
 	e-dialog-widgets.h			\
 	e-folder-map.h				\
+	e-fsutils.h				\
 	e-gtk-utils.h				\
 	e-gui-utils.h				\
 	e-host-utils.h				\
@@ -32,7 +33,6 @@ eutilinclude_HEADERS = 				\
 	e-list-iterator.h			\
 	e-list.h				\
 	e-memory.h				\
-	e-meta.h				\
 	e-mktemp.h				\
 	e-msgport.h				\
 	e-passwords.h				\
@@ -53,7 +53,6 @@ libeutil_la_SOURCES =				\
 	e-account-list.c			\
 	e-account.c				\
 	e-bconf-map.c				\
-	e-folder-map.c				\
 	e-categories-config.c			\
 	e-categories-master-list-wombat.c	\
 	e-component-listener.c			\
@@ -61,6 +60,8 @@ libeutil_la_SOURCES =				\
 	e-corba-utils.c				\
 	e-dialog-utils.c			\
 	e-dialog-widgets.c			\
+	e-folder-map.c				\
+	e-fsutils.c				\
 	e-gtk-utils.c				\
 	e-gui-utils.c				\
 	e-host-utils.c				\
@@ -70,7 +71,6 @@ libeutil_la_SOURCES =				\
 	e-list-iterator.c			\
 	e-list.c				\
 	e-memory.c				\
-	e-meta.c				\
 	e-mktemp.c				\
 	e-msgport.c				\
 	e-passwords.c				\
@@ -110,6 +110,17 @@ pilot_compile = md5-utils.c
 endif
 
 libeconduit_la_SOURCES = $(pilot_compile)
+
+# e-error-tool
+
+e_error_tool_SOURCES = \
+	e-error-tool.c
+
+e_error_tool_LDADD = \
+	$(GNOME_FULL_LIBS)
+
+noinst_PROGRAMS = 			\
+	e-error-tool
 
 EXTRA_DIST =				\
 	$(pilot_sources)		\
