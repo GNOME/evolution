@@ -699,41 +699,6 @@ slurp_response (CamelImapStore *store, CamelFolder *folder, char *cmdid, char **
 	return status;
 }
 
-/* frees cmdid! */
-static gint
-parse_single_line (CamelImapStore *store, char *cmdid, CamelException *ex)
-{
-	char *respbuf;
-	gint status;
-	char *word;
-	
-	if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store), &respbuf, ex) < 0)
-		return CAMEL_IMAP_FAIL;
-	
-	/* Assume that buf indeed starts with cmdid; then
-	 * it can only start with a plus when the slurper
-	 * found a valid plus. So no need to check for
-	 * stop_on_plus.
-	 */
-	
-	if (*respbuf == '+') {
-		g_free (cmdid);
-		return CAMEL_IMAP_PLUS;
-	}
-	
-	status = camel_imap_status (cmdid, respbuf);
-	g_free (cmdid);
-	
-	if (status == CAMEL_IMAP_OK)
-		return status;
-	
-	word = imap_next_word (respbuf); /* points to status */
-	word = imap_next_word (word);    /* points to fail message, if there is one */
-	
-	camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-			      "IMAP command failed: %s", word);
-	return status;
-}
 
 /**
  * camel_imap_command: Send a command to a IMAP server.
@@ -760,9 +725,9 @@ parse_single_line (CamelImapStore *store, char *cmdid, CamelException *ex)
 gint
 camel_imap_command (CamelImapStore *store, CamelFolder *folder, CamelException *ex, char *fmt, ...)
 {
-	gchar *cmdid;
-	va_list ap;
+	char *cmdid, *respbuf, *word;
 	gint status = CAMEL_IMAP_OK;
+	va_list ap;
 	
 	/* check for current folder */
 	status = check_current_folder (store, folder, fmt, ex);
@@ -773,11 +738,36 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, CamelException *
 	va_start (ap, fmt);
         if (!send_command (store, &cmdid, fmt, ap, ex)) {
 		va_end (ap);
+		g_free (cmdid);
 		return CAMEL_IMAP_FAIL;
 	}
 	va_end (ap);
 	
-	return parse_single_line (store, cmdid, ex);
+	/* read single line response */
+	if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store), &respbuf, ex) < 0) {
+		g_free (cmdid);
+		return CAMEL_IMAP_FAIL;
+	}
+	
+	status = camel_imap_status (cmdid, respbuf);
+	g_free (cmdid);
+	
+	if (status == CAMEL_IMAP_OK)
+		return status;
+	
+	if (respbuf) {
+		/* get error response and set exception accordingly */
+		word = imap_next_word (respbuf); /* points to status */
+		word = imap_next_word (word);    /* points to fail message, if there is one */
+		
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      "IMAP command failed: %s", word);
+	} else {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      "IMAP command failed: %s", "Unknown");
+	}
+	
+	return status;
 }
 
 /**
@@ -819,7 +809,7 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 	status = check_current_folder (store, folder, fmt, ex);
 	if (status != CAMEL_IMAP_OK)
 		return status;
-
+	
 	/* send the command */
 	va_start (ap, fmt);
         if (!send_command (store, &cmdid, fmt, ap, ex)) {
@@ -858,6 +848,7 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 gint
 camel_imap_command_preliminary (CamelImapStore *store, char **cmdid, CamelException *ex, char *fmt, ...)
 {
+	char *respbuf, *word;
 	gint status = CAMEL_IMAP_OK;
 	va_list ap;
 	
@@ -869,8 +860,32 @@ camel_imap_command_preliminary (CamelImapStore *store, char **cmdid, CamelExcept
 	}
 	va_end (ap);
 	
-	/* Read the response */
-	return parse_single_line (store, g_strdup (*cmdid), ex);
+	/* read single line response */
+	if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store), &respbuf, ex) < 0)
+		return CAMEL_IMAP_FAIL;
+	
+	/* Check for '+' which indicates server is ready for command continuation */
+	if (*respbuf == '+') {
+		g_free (cmdid);
+		return CAMEL_IMAP_PLUS;
+	}
+	
+	status = camel_imap_status (*cmdid, respbuf);
+	g_free (cmdid);
+	
+	if (respbuf) {
+		/* get error response and set exception accordingly */
+		word = imap_next_word (respbuf); /* points to status */
+		word = imap_next_word (word);    /* points to fail message, if there is one */
+		
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      "IMAP command failed: %s", word);
+	} else {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      "IMAP command failed: %s", "Unknown");
+	}
+	
+	return status;
 }
 
 /**
