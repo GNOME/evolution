@@ -1,5 +1,10 @@
 2000-06-02  Christopher James Lahey  <clahey@helixcode.com>
 
+	* message-list.c: Use camel_folder_free_summary instead of
+	g_ptr_array_free.  Unref the folder when we're done with it.
+
+2000-06-02  Christopher James Lahey  <clahey@helixcode.com>
+
 	* session.c: Revert removal of e_setup_base_dir.
 
 2000-06-02  Dan Winship  <danw@helixcode.com>

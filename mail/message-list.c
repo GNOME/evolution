@@ -686,13 +686,15 @@ message_list_destroy (GtkObject *object)
 	if (message_list->summary_search_cache)
 		g_ptr_array_free(message_list->summary_search_cache, TRUE);
 	if (message_list->summary_table)
-		g_ptr_array_free(message_list->summary_table, TRUE);
+		camel_folder_free_summary(message_list->folder, message_list->summary_table);
 
 	for (i = 0; i < COL_LAST; i++)
 		gtk_object_unref (GTK_OBJECT (message_list->table_cols [i]));
 	
 	if (message_list->idle_id != 0)
 		g_source_remove(message_list->idle_id);
+
+	gtk_object_unref (GTK_OBJECT (message_list->folder));
 
 	GTK_OBJECT_CLASS (message_list_parent_class)->destroy (object);
 }
@@ -864,8 +866,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 	}
 
 	if (message_list->summary_table)
-		g_ptr_array_free(message_list->summary_table, TRUE);
-	message_list->summary_table = NULL;
+		camel_folder_free_summary(message_list->folder, message_list->summary_table);
 	
 	camel_exception_init (&ex);
 	
@@ -909,7 +910,8 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 	gtk_object_ref (GTK_OBJECT (camel_folder));
 
 	message_list->summary_table = camel_folder_get_summary (message_list->folder, NULL);
-	e_table_model_changed (message_list->table_model);
+
+	message_list_set_search(message_list, message_list->search);
 
 	select_msg (message_list, 0);
 }
