@@ -115,7 +115,6 @@ gdvd_button_new_dialog_callback(GtkWidget *widget, int id, GalDefineViewsDialog 
 			gchar *dup_of_name = g_strdup(name);
 			g_strchomp(dup_of_name);
 			if (*dup_of_name != '\0') {
-				GtkWidget *editor;
 				view = gal_view_factory_new_view(factory, dup_of_name);
 				gal_define_views_model_append(GAL_DEFINE_VIEWS_MODEL(dialog->model), view);
 				gal_view_edit(view, GTK_WINDOW (dialog));
@@ -176,6 +175,7 @@ gdvd_button_delete_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
 
 }
 
+#if 0
 static void
 gdvd_button_copy_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
 {
@@ -193,6 +193,7 @@ gdvd_button_copy_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
 	}
 
 }
+#endif
 
 static void
 gdvd_connect_signal(GalDefineViewsDialog *dialog, char *widget_name, char *signal, GCallback handler)
@@ -223,6 +224,8 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 	}
 	gtk_widget_ref(widget);
 	gtk_container_remove (GTK_CONTAINER (widget->parent), widget);
+	gtk_window_set_default_size(GTK_WINDOW(dialog), 360, 270);
+	gtk_container_set_border_width(GTK_CONTAINER(dialog), 6);
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), widget, TRUE, TRUE, 0);
 	gtk_widget_unref(widget);
 
@@ -282,10 +285,13 @@ gal_define_views_dialog_set_collection(GalDefineViewsDialog *dialog,
 							      collection->title);
 				gtk_label_set_text (GTK_LABEL (widget),
 						    text);
+				gtk_window_set_title (GTK_WINDOW (dialog), text);
 				g_free (text);
 			} else {
 				gtk_label_set_text (GTK_LABEL (widget),
 						    _("Define Views"));
+				gtk_window_set_title (GTK_WINDOW (dialog),
+						      _("Define Views"));
 			}
 		}
 	}
