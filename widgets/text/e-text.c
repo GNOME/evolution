@@ -313,10 +313,11 @@ e_text_class_init (ETextClass *klass)
 static void
 e_text_init (EText *text)
 {
-	text->text = NULL;
 	text->model = e_text_model_new();
-	gtk_object_ref(GTK_OBJECT(text->model));
-	gtk_object_sink(GTK_OBJECT(text->model));
+	text->text = e_text_model_get_text (text->model);
+	
+	gtk_object_ref (GTK_OBJECT(text->model));
+	gtk_object_sink (GTK_OBJECT(text->model));
 	text->model_changed_signal_id =
 		gtk_signal_connect(GTK_OBJECT(text->model),
 				   "changed",
@@ -1014,6 +1015,7 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 					   text);
 
 		e_text_free_lines(text);
+
 		text->text = e_text_model_get_text(text->model);
 
 		text->needs_split_into_lines = 1;

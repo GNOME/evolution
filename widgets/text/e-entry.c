@@ -105,9 +105,9 @@ canvas_size_request (GtkWidget *widget, GtkRequisition *requisition,
 static gint
 canvas_focus_in_event (GtkWidget *widget, GdkEventFocus *focus, EEntry *e_entry)
 {
-	if (e_entry->canvas->focused_item != GNOME_CANVAS_ITEM(e_entry->item)) {
+	if (e_entry->canvas->focused_item != GNOME_CANVAS_ITEM(e_entry->item))
 		gnome_canvas_item_grab_focus(GNOME_CANVAS_ITEM(e_entry->item));
-	}
+
 	return 0;
 }
 
