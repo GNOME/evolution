@@ -1,9 +1,14 @@
-2001-07-02 Anna Marie Dirks <anna@ximian.com>
-	*misc/e-filter-bar.c (option_changed): Specified a default size
-	for the Advanced Search dialog such that when it first appear, it
-	is large enough to view all parts of a search clause without 
-	the user needing to resize it. 
+2001-08-10  Christopher James Lahey  <clahey@ximian.com>
 
+	* menus/gal-view-menus.c (build_menus): Don't display the Define
+	Views dialog.
+
+2001-07-02 Anna Marie Dirks <anna@ximian.com>
+
+	* misc/e-filter-bar.c (option_changed): Specified a default size
+	for the Advanced Search dialog such that when it first appear, it
+	is large enough to view all parts of a search clause without the
+	user needing to resize it.
 
 2001-05-31  Federico Mena Quintero  <federico@ximian.com>
 

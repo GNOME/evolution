@@ -252,12 +252,14 @@ build_menus(GalViewMenus *menus)
 		e_list_append (menus->priv->listenerClosures, closure);
 	}
 
+#if 0
 	menuitem = bonobo_ui_node_new_child(submenu, "separator");
 
 	menuitem = bonobo_ui_node_new_child(submenu, "menuitem");
 	bonobo_ui_node_set_attr(menuitem, "name", "DefineViews");
 	bonobo_ui_node_set_attr(menuitem, "_label", N_("Define Views"));
 	bonobo_ui_node_set_attr(menuitem, "verb", "DefineViews");
+#endif
 
 	string = bonobo_ui_node_to_string(root, TRUE);
 	xml = g_strdup(string);
