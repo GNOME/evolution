@@ -1,3 +1,8 @@
+2003-05-02  Not Zed  <NotZed@Ximian.com>
+
+	* e-shell-about-box.c (text[]): grepped changelogs and added all
+	names found.  #40391.
+
 2003-05-01  Dan Winship  <danw@ximian.com>
 
 	* glade/e-shell-shared-folder-picker-dialog.glade: Don't expand
