@@ -174,7 +174,11 @@ static gboolean e_week_view_on_text_item_event (GnomeCanvasItem *item,
 static gboolean e_week_view_on_jump_button_event (GnomeCanvasItem *item,
 						  GdkEvent *event,
 						  EWeekView *week_view);
-static gint e_week_view_key_press (GtkWidget *widget, GdkEventKey *event);
+static gboolean e_week_view_key_press (GtkWidget *widget, GdkEventKey *event);
+static gboolean e_week_view_do_key_press (GtkWidget *widget,
+					  GdkEventKey *event);
+static gboolean e_week_view_popup_menu (GtkWidget *widget);
+
 static void e_week_view_on_new_appointment (GtkWidget *widget,
 					    gpointer data);
 static void e_week_view_on_new_event       (GtkWidget *widget,
@@ -238,7 +242,6 @@ static void e_week_view_queue_layout (EWeekView *week_view);
 static void e_week_view_cancel_layout (EWeekView *week_view);
 static gboolean e_week_view_layout_timeout_cb (gpointer data);
 
-
 static GtkTableClass *parent_class;
 static GdkAtom clipboard_atom = GDK_NONE;
 
@@ -273,6 +276,7 @@ e_week_view_class_init (EWeekViewClass *class)
 	widget_class->focus_in_event	= e_week_view_focus_in;
 	widget_class->focus_out_event	= e_week_view_focus_out;
 	widget_class->key_press_event	= e_week_view_key_press;
+	widget_class->popup_menu        = e_week_view_popup_menu;
 	widget_class->expose_event	= e_week_view_expose_event;
 
 	class->selection_changed = NULL;
@@ -3430,9 +3434,8 @@ e_week_view_is_one_day_event	(EWeekView	*week_view,
 	return FALSE;
 }
 
-
-static gint
-e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
+static gboolean
+e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 {
 	EWeekView *week_view;
 	CalComponent *comp;
@@ -3519,6 +3522,18 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	g_object_unref (comp);
 
 	return TRUE;
+}
+
+static gboolean
+e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
+{
+	gboolean handled = FALSE;
+	handled = e_week_view_do_key_press (widget, event);
+
+	/* if not handled, try key bindings */
+	if (!handled)
+		handled = GTK_WIDGET_CLASS (parent_class)->key_press_event (widget, event);
+	return handled;
 }
 
 enum {
@@ -3692,6 +3707,14 @@ e_week_view_show_popup_menu (EWeekView	     *week_view,
 	e_popup_menu (popup, (GdkEvent *) bevent);
 }
 
+static gboolean
+e_week_view_popup_menu (GtkWidget *widget)
+{
+	EWeekView *week_view = E_WEEK_VIEW (widget);
+	e_week_view_show_popup_menu (week_view, NULL,
+				     week_view->editing_event_num);
+	return TRUE;
+}
 
 static void
 e_week_view_on_new_appointment (GtkWidget *widget, gpointer data)

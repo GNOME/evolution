@@ -144,8 +144,11 @@ static gint e_day_view_focus_in (GtkWidget *widget,
 				 GdkEventFocus *event);
 static gint e_day_view_focus_out (GtkWidget *widget,
 				  GdkEventFocus *event);
-static gint e_day_view_key_press (GtkWidget *widget,
-				  GdkEventKey *event);
+static gboolean e_day_view_key_press (GtkWidget *widget,
+				      GdkEventKey *event);
+static gboolean e_day_view_do_key_press (GtkWidget *widget,
+					 GdkEventKey *event);
+static gboolean e_day_view_popup_menu (GtkWidget *widget);
 static void e_day_view_cursor_key_up_shifted (EDayView *day_view,
 					      GdkEventKey *event);
 static void e_day_view_cursor_key_down_shifted (EDayView *day_view,
@@ -249,6 +252,11 @@ static void e_day_view_on_event_right_click (EDayView *day_view,
 					     GdkEventButton *bevent,
 					     gint day,
 					     gint event_num);
+static void e_day_view_show_popup_menu (EDayView *day_view,
+					GdkEvent *gdk_event,
+					gint day,
+					gint event_num);
+
 
 static void e_day_view_recalc_day_starts (EDayView *day_view,
 					  time_t start_time);
@@ -506,14 +514,15 @@ e_day_view_class_init (EDayViewClass *class)
 	widget_class->focus_in_event	= e_day_view_focus_in;
 	widget_class->focus_out_event	= e_day_view_focus_out;
 	widget_class->key_press_event	= e_day_view_key_press;
+	widget_class->popup_menu        = e_day_view_popup_menu;
 
 	class->selection_changed = NULL;
 
 	/* clipboard atom */
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
-}
 
+}
 
 static void
 e_day_view_init (EDayView *day_view)
@@ -3748,10 +3757,10 @@ free_view_popup (GtkWidget *widget, gpointer data)
 }
 
 static void
-e_day_view_on_event_right_click (EDayView *day_view,
-				 GdkEventButton *bevent,
-				 gint day,
-				 gint event_num)
+e_day_view_show_popup_menu (EDayView *day_view,
+			    GdkEvent *gdk_event,
+			    gint day,
+			    gint event_num)
 {
 	EDayViewEvent *event;
 	int have_selection;
@@ -3814,7 +3823,27 @@ e_day_view_on_event_right_click (EDayView *day_view,
 	
 	popup = e_popup_menu_create (context_menu, disable_mask, hide_mask, day_view);
 	g_signal_connect (popup, "selection-done", G_CALLBACK (free_view_popup), day_view);
-	e_popup_menu (popup, (GdkEvent *) bevent);
+	e_popup_menu (popup, gdk_event);
+}
+
+static gboolean
+e_day_view_popup_menu (GtkWidget *widget)
+{
+	EDayView *day_view = E_DAY_VIEW (widget);
+	e_day_view_show_popup_menu (day_view, NULL,
+				    day_view->editing_event_day,
+				    day_view->editing_event_num);
+	return TRUE;
+}
+
+static void
+e_day_view_on_event_right_click (EDayView *day_view,
+				 GdkEventButton *bevent,
+				 gint day,
+				 gint event_num)
+{
+	e_day_view_show_popup_menu (day_view, (GdkEvent*)bevent,
+				    day, event_num);
 }
 
 static void
@@ -5585,9 +5614,8 @@ e_day_view_event_sort_func (const void *arg1,
 	return 0;
 }
 
-
-static gint
-e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
+static gboolean
+e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 {
 	EDayView *day_view;
 	CalComponent *comp;
@@ -5739,6 +5767,17 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	return TRUE;
 }
 
+static gboolean
+e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
+{
+	gboolean handled = FALSE;
+	handled = e_day_view_do_key_press (widget, event);
+
+	/* if not handled, try key bindings */
+	if (!handled)
+		handled = GTK_WIDGET_CLASS (parent_class)->key_press_event (widget, event);
+	return handled;
+}
 
 static void
 e_day_view_cursor_key_up_shifted (EDayView *day_view, GdkEventKey *event)
