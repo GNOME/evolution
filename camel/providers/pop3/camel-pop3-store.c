@@ -157,7 +157,7 @@ connect_to_server (CamelService *service, struct addrinfo *ai, int ssl_mode, Cam
 	if (ssl_mode != MODE_CLEAR) {
 #ifdef HAVE_SSL
 		if (ssl_mode == MODE_TLS) {
-			tcp_stream = camel_tcp_stream_ssl_new (service->session, service->url->host, STARTTLS_FLAGS);
+			tcp_stream = camel_tcp_stream_ssl_new_raw (service->session, service->url->host, STARTTLS_FLAGS);
 		} else {
 			tcp_stream = camel_tcp_stream_ssl_new (service->session, service->url->host, SSL_PORT_FLAGS);
 		}
@@ -275,9 +275,9 @@ static struct {
 } ssl_options[] = {
 	{ "",              "pop3s", POP3S_PORT, MODE_SSL   },  /* really old (1.x) */
 	{ "always",        "pop3s", POP3S_PORT, MODE_SSL   },
-	{ "when-possible", "pop3",  POP3S_PORT, MODE_TLS   },
-	{ "never",         "pop3",  POP3S_PORT, MODE_CLEAR },
-	{ NULL,            "pop3",  POP3S_PORT, MODE_CLEAR },
+	{ "when-possible", "pop3",  POP3_PORT,  MODE_TLS   },
+	{ "never",         "pop3",  POP3_PORT,  MODE_CLEAR },
+	{ NULL,            "pop3",  POP3_PORT,  MODE_CLEAR },
 };
 
 static gboolean
