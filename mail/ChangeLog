@@ -25,15 +25,6 @@
 
 	* mail-callbacks.c (do_mail_print): set printing widget name
 
-2003-06-24  Radek Doulik  <rodo@ximian.com>
-
-	* mail-composer-prefs.c: use spell preferences at new location
-
-	* mail-config.c: copy old spell settings from /GNOME/Spell
-
-	* evolution-mail.schemas: added spell color default + migration
-	flag
-
 2003-06-23  Dan Winship  <danw@ximian.com>
 
 	* message-list.c (on_selection_changed_cmd): Save the idle_id

@@ -143,34 +143,6 @@
       </locale>
     </schema>
 
-    <schema>
-      <key>/schemas/apps/evolution/mail/composer/spell_copied_from_old_location</key>
-      <applyto>/apps/evolution/mail/composer/spell_copied_from_old_location</applyto>
-      <owner>evolution-mail</owner>
-      <type>bool</type>
-      <default>false</default>
-      <locale name="C">
-         <short>spell preferences are copied from an old location</short>
-         <long>
-	 spell preferences are copied from an old location (/GNOME/Spell)
-         </long>
-      </locale>
-    </schema>
-
-    <schema>
-      <key>/schemas/apps/evolution/mail/composer/spell_error_color</key>
-      <applyto>/apps/evolution/mail/composer/spell_error_color</applyto>
-      <owner>evolution-mail</owner>
-      <type>string</type>
-      <default>#ff0000</default>
-      <locale name="C">
-         <short>spell error color</short>
-         <long>
-	 color for marking misspelled words.
-         </long>
-      </locale>
-    </schema>
-
     <!-- Display Settings -->
 
     <schema>
