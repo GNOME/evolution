@@ -2079,6 +2079,24 @@ load_shortcut_bar_icon_modes (EShellView *shell_view)
 	}
 }
 
+static char *
+get_local_prefix_for_view (EShellView *shell_view,
+			   int view_num)
+{
+	EShellViewPrivate *priv;
+	char *prefix;
+	const char *local_directory;
+
+	priv = shell_view->priv;
+
+	local_directory = e_shell_get_local_directory (priv->shell);
+
+	prefix = g_strdup_printf ("=%s/config/Shell=/Views/%d/",
+				  local_directory, view_num);
+	
+	return prefix;
+}
+
 
 /**
  * e_shell_view_save_settings:
@@ -2091,16 +2109,20 @@ load_shortcut_bar_icon_modes (EShellView *shell_view)
  **/
 gboolean
 e_shell_view_save_settings (EShellView *shell_view,
-			    const char *prefix)
+			    int view_num)
 {
 	EShellViewPrivate *priv;
 	const char *uri;
+	char *prefix;
+	char *filename;
 
 	g_return_val_if_fail (shell_view != NULL, FALSE);
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
-	g_return_val_if_fail (prefix != NULL, FALSE);
 
 	priv = shell_view->priv;
+
+	prefix = get_local_prefix_for_view (shell_view, view_num);
+	g_return_val_if_fail (prefix != NULL, FALSE);
 
 	gnome_config_push_prefix (prefix);
 
@@ -2120,13 +2142,16 @@ e_shell_view_save_settings (EShellView *shell_view,
 
 	gnome_config_pop_prefix ();
 
-#if 0
-	char *expanded_state_file = g_strdup_printf ("%s/config/shell-expanded", evolution_dir);
+	/* Save the expanded state for this ShellViews StorageSetView */
+	filename = g_strdup_printf ("%s/config/storage-set-view-expanded:view_%d",
+				    e_shell_get_local_directory (priv->shell),
+				    view_num);
+	e_tree_save_expanded_state (E_TREE (priv->storage_set_view),
+				    filename);
 
-	e_tree_save_expanded_state(E_TREE(priv->storage_set_view), expanded_state_file);
-	g_free(expanded_state_file);
-#endif
-	
+	g_free (filename);
+	g_free (prefix);
+
 	return TRUE;
 }
 
@@ -2141,17 +2166,21 @@ e_shell_view_save_settings (EShellView *shell_view,
  **/
 gboolean
 e_shell_view_load_settings (EShellView *shell_view,
-			    const char *prefix)
+			    int view_num)
 {
 	EShellViewPrivate *priv;
 	int val;
 	char *stringval;
+	char *prefix;
+	char *filename;
 
 	g_return_val_if_fail (shell_view != NULL, FALSE);
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
-	g_return_val_if_fail (prefix != NULL, FALSE);
 
 	priv = shell_view->priv;
+
+	prefix = get_local_prefix_for_view (shell_view, view_num);
+	g_return_val_if_fail (prefix != NULL, FALSE);
 
 	gnome_config_push_prefix (prefix);
 
@@ -2178,9 +2207,21 @@ e_shell_view_load_settings (EShellView *shell_view,
 	load_shortcut_bar_icon_modes (shell_view);
 
 	gnome_config_pop_prefix ();
-	
+
+	/* Load the expanded state for the ShellView's StorageSetView */
+	filename = g_strdup_printf ("%s/config/storage-set-view-expanded:view_%d",
+				    e_shell_get_local_directory (priv->shell),
+				    view_num);
+
+	e_tree_load_expanded_state (E_TREE (priv->storage_set_view),
+				    filename);
+
+	g_free (filename);
+	g_free (prefix);
+
 	return TRUE;
 }
+
 
 
 E_MAKE_TYPE (e_shell_view, "EShellView", EShellView, class_init, init, BONOBO_TYPE_WINDOW)

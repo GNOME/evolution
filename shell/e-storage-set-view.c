@@ -1499,9 +1499,7 @@ new_storage_cb (EStorageSet *storage_set,
 	node = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model),
 					  priv->root_node,
 					  -1, path);
-	e_tree_memory_sort_node(E_TREE_MEMORY(priv->etree_model), priv->root_node, storage_sort_callback, storage_set_view);
-
-	e_tree_node_set_expanded (E_TREE(storage_set_view), node, TRUE);
+	e_tree_memory_sort_node (E_TREE_MEMORY(priv->etree_model), priv->root_node, storage_sort_callback, storage_set_view);
 
 	if (! add_node_to_hash (storage_set_view, path, node)) {
 		e_tree_memory_node_remove (E_TREE_MEMORY(priv->etree_model), node);
@@ -1822,8 +1820,7 @@ insert_storages (EStorageSetView *storage_set_view)
 
 		parent = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), priv->root_node,
 						    -1, path);
-		e_tree_memory_sort_node(E_TREE_MEMORY(priv->etree_model), priv->root_node, storage_sort_callback, storage_set_view);
-		e_tree_node_set_expanded (E_TREE(storage_set_view), parent, TRUE);
+		e_tree_memory_sort_node (E_TREE_MEMORY(priv->etree_model), priv->root_node, storage_sort_callback, storage_set_view);
 
 		g_hash_table_insert (priv->path_to_etree_node, path, parent);
 
@@ -1874,6 +1871,7 @@ e_storage_set_view_construct (EStorageSetView   *storage_set_view,
 							 storage_set_view);
 
 	e_tree_memory_set_node_destroy_func (E_TREE_MEMORY (priv->etree_model), (GFunc) g_free, NULL);
+	e_tree_memory_set_expanded_default (E_TREE_MEMORY (priv->etree_model), TRUE);
 
 	priv->root_node = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), NULL, -1, g_strdup ("/Root Node"));
 

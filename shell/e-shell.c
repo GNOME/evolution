@@ -361,7 +361,8 @@ setup_corba_storages (EShell *shell)
 	if (corba_storage_registry == NULL)
 		return FALSE;
 
-	bonobo_object_add_interface (BONOBO_OBJECT (shell), BONOBO_OBJECT (corba_storage_registry));
+	bonobo_object_add_interface (BONOBO_OBJECT (shell),
+				     BONOBO_OBJECT (corba_storage_registry));
 
 	/* Notice that `bonobo_object_add_interface()' aggregates the two object's
            reference counts, so we need an extra ref here if we want to keep a separate
@@ -764,7 +765,7 @@ e_shell_construct (EShell *shell,
 
 	priv->local_directory      = g_strdup (local_directory);
 	priv->folder_type_registry = e_folder_type_registry_new ();
-	priv->storage_set          = e_storage_set_new (shell->priv->folder_type_registry);
+	priv->storage_set          = e_storage_set_new (priv->folder_type_registry);
 
 	/* CORBA storages must be set up before the components, because otherwise components
            cannot register their own storages.  */
@@ -986,15 +987,10 @@ save_settings_for_views (EShell *shell)
 
 		view = E_SHELL_VIEW (p->data);
 
-		prefix = g_strdup_printf ("=%s/config/Shell=/Views/%d/",
-					  priv->local_directory, i);
-
-		if (! e_shell_view_save_settings (view, prefix)) {
+		if (! e_shell_view_save_settings (view, i)) {
 			g_warning ("Cannot save settings for view -- %d", i);
 			retval = FALSE;
 		}
-
-		g_free (prefix);
 	}
 
 	prefix = g_strdup_printf ("=%s/config/Shell=/Views/NumberOfViews",
@@ -1023,7 +1019,8 @@ save_settings_for_component (EShell *shell,
 
 	CORBA_exception_init (&ev);
 
-	session_interface = Bonobo_Unknown_queryInterface (unknown_interface, "IDL:GNOME/Evolution/Session:1.0", &ev);
+	session_interface = Bonobo_Unknown_queryInterface (unknown_interface,
+							   "IDL:GNOME/Evolution/Session:1.0", &ev);
 	if (ev._major != CORBA_NO_EXCEPTION || CORBA_Object_is_nil (session_interface, &ev)) {
 		CORBA_exception_free (&ev);
 		return TRUE;
@@ -1137,17 +1134,12 @@ e_shell_restore_from_settings (EShell *shell)
 	for (i = 0; i < num_views; i++) {
 		EShellView *view;
 
-		prefix = g_strdup_printf ("=%s/config/Shell=/Views/%d/",
-					  priv->local_directory, i);
-
-		/* FIXME restore the URI here.  There should be an
+		/* FIXME: restore the URI here.  There should be an
                    e_shell_view_new_from_configuration() thingie.  */
 		view = e_shell_new_view (shell, NULL);
 
-		if (! e_shell_view_load_settings (view, prefix))
+		if (! e_shell_view_load_settings (view, i))
 			retval = FALSE;
-
-		g_free (prefix);
 	}
 
 	return retval;

@@ -96,9 +96,10 @@ int                e_shell_view_get_current_shortcuts_group_num (EShellView *she
 void               e_shell_view_set_current_shortcuts_group_num (EShellView *shell_view, int group_num);
 
 gboolean  e_shell_view_save_settings  (EShellView *shell_view,
-				       const char *prefix);
+				       int view_num);
 gboolean  e_shell_view_load_settings  (EShellView *shell_view,
-				       const char *prefix);
+				       int view_num);
+
 
 #ifdef __cplusplus
 }

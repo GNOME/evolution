@@ -1,3 +1,23 @@
+2001-06-06  Jason Leach  <jleach@ximian.com>
+
+	(Fix bug #418: Save state of folder tree view)
+	
+	* e-shell-view.c (e_shell_view_save_settings): Changed the char *
+	@prefix argument to an int @view_num.
+	(e_shell_view_load_settings): Ditto.
+	(get_local_prefix_for_view): New function that gets us a prefix
+	from a view_num.
+
+	* e-shell-view.c (e_shell_view_save_settings): Save the
+	expanded/collapsed information for each storage-set-view here.
+	(e_shell_view_load_settings): Load it here.
+
+	* e-storage-set-view.c (e_storage_set_view_construct): Make it so
+	new storage set views have their storages expanded by default, but
+	will respsect the expanded state information that we load into it.
+	(insert_storages): Minor change here too.
+	(new_folder_cb): Ditto.
+	
 2001-06-05  Jason Leach  <jleach@ximian.com>
 
 	* e-shell-view-menu.c: Plug in all the folder tree right click
