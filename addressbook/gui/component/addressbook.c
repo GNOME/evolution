@@ -898,12 +898,10 @@ addressbook_factory_new_control (void)
 		subitems[0].translate = FALSE;
 
 		for (i=0; i<N; ++i) {
-			char *category;
+			const char *category = e_categories_master_list_nth (master_list, i);
 
 			subitems[i+1].id = i;
-			category = (char *) e_categories_master_list_nth (master_list, i);
 			subitems[i+1].text = e_utf8_to_locale_string (category);
-			g_free (category);
 			subitems[i+1].translate = FALSE;
 		}
 		subitems[N+1].id = -1;

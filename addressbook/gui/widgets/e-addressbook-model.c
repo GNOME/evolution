@@ -419,7 +419,7 @@ ECard *
 e_addressbook_model_get_card(EAddressbookModel *model,
 			     int                row)
 {
-	if (model->data && row < model->data_count) {
+	if (model->data && 0 <= row && row < model->data_count) {
 		ECard *card;
 		card = e_card_duplicate (model->data[row]);
 		return card;

@@ -593,10 +593,16 @@ e_contact_list_editor_create_table(gchar *name,
 static void
 add_email_cb (GtkWidget *w, EContactListEditor *editor)
 {
+	GtkAdjustment *adj = e_scroll_frame_get_vadjustment (E_SCROLL_FRAME (editor->table));
 	char *text = gtk_entry_get_text (GTK_ENTRY(editor->email_entry));
 
-	if (text && *text)
+	if (text && *text) {
 		e_contact_list_model_add_email (E_CONTACT_LIST_MODEL(editor->model), text);
+
+		/* Skip to the end of the list */
+		if (adj->upper - adj->lower > adj->page_size)
+			gtk_adjustment_set_value (adj, adj->upper);
+	}
 
 	gtk_entry_set_text (GTK_ENTRY(editor->email_entry), "");
 
@@ -720,12 +726,14 @@ table_drag_data_received_cb (ETable *table, int row, int col,
 			     GtkSelectionData *selection_data,
 			     guint info, guint time, EContactListEditor *editor)
 {
+	GtkAdjustment *adj = e_scroll_frame_get_vadjustment (E_SCROLL_FRAME (editor->table));
 	char *target_type;
 	gboolean changed = FALSE;
 
 	target_type = gdk_atom_name (selection_data->target);
 
 	if (!strcmp (target_type, VCARD_TYPE)) {
+
 		GList *card_list = e_card_load_cards_from_string_with_default_charset (selection_data->data, "ISO-8859-1");
 		GList *c;
 
@@ -745,6 +753,10 @@ table_drag_data_received_cb (ETable *table, int row, int col,
 		}
 		g_list_foreach (card_list, (GFunc)gtk_object_unref, NULL);
 		g_list_free (card_list);
+
+		/* Skip to the end of the list */
+		if (adj->upper - adj->lower > adj->page_size)
+			gtk_adjustment_set_value (adj, adj->upper);
 	}
 
 	if (changed && !editor->changed) {

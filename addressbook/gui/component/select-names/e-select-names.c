@@ -198,15 +198,16 @@ real_add_address_cb (int model_row, gpointer closure)
 
 	mapped_row = e_table_subset_view_to_model_row (E_TABLE_SUBSET (names->without), model_row);
 
-	card = e_addressbook_model_get_card(E_ADDRESSBOOK_MODEL(names->model), mapped_row);
+	card = e_addressbook_model_get_card (E_ADDRESSBOOK_MODEL(names->model), mapped_row);
+	
+	if (card != NULL) {
+		e_destination_set_card (dest, card, 0);
 
+		e_select_names_model_append (child->source, dest);
+		e_select_names_model_clean (child->source);
 
-	e_destination_set_card (dest, card, 0);
-
-	e_select_names_model_append (child->source, dest);
-	e_select_names_model_clean (child->source);
-
-	gtk_object_unref(GTK_OBJECT(card));
+		gtk_object_unref(GTK_OBJECT(card));
+	}
 }
 
 static void
@@ -702,7 +703,6 @@ button_clicked(GtkWidget *button, ESelectNamesChild *child)
 static void
 remove_address(ETable *table, int row, int col, GdkEvent *event, ESelectNamesChild *child)
 {
-	g_message ("remove row %d", row);
 	e_select_names_model_delete (child->source, row);
 }
 
@@ -720,8 +720,7 @@ etable_selection_foreach_cb (int row, void *data)
 	/* Build a list of rows in reverse order, then remove them,
            necessary because otherwise it'll start trying to delete
            rows out of index in ETableModel */
-	selected_rows = g_slist_prepend (selected_rows,
-					 GINT_TO_POINTER (row));
+	selected_rows = g_slist_prepend (selected_rows, GINT_TO_POINTER (row));
 }
 
 static void

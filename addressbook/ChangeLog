@@ -1,3 +1,23 @@
+2001-10-05  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names.c
+	(real_add_address_cb): Check to make sure our call to
+	e_addressbook_model_get_card doesn't return NULL.
+
+	* gui/widgets/e-addressbook-model.c
+	(e_addressbook_model_get_card): Chek that we aren't requesting a
+	negative row.
+
+	* gui/contact-list-editor/e-contact-list-editor.c (add_email_cb):
+	Move to the bottom of the scrolled window, so we can see the
+	address we just added.
+	(table_drag_data_received_cb): Move to the bottom of the scrolled
+	window, so we can see the contact we just dropped.
+
+	* gui/component/addressbook.c (addressbook_factory_new_control):
+	We don't own the string returned by e_categories_master_list_nth,
+	so terrible things will happen if we free it. (Bug 10916)
+
 2001-10-05  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/e-addressbook-view.c (e_addressbook_view_set_arg):
