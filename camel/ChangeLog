@@ -1,3 +1,11 @@
+2001-07-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-part-utils.c
+	(simple_data_wrapper_construct_from_parser): Ripped out my code
+	since it was never being used since the mime parser is not using a
+	seekable stream (ever?) which pretty much means my code needs to
+	be done someplace else.
+
 2001-07-11  Peter Williams  <peterw@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (camel_imap_folder_changed): 

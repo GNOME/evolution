@@ -1905,7 +1905,7 @@ header_decode_rfc2184_param (const char **in, char **paramp, int *part, gboolean
 }
 
 static int
-header_decode_param(const char **in, char **paramp, char **valuep, int *is_rfc2184_param)
+header_decode_param (const char **in, char **paramp, char **valuep, int *is_rfc2184_param)
 {
 	gboolean is_rfc2184_encoded = FALSE;
 	gboolean is_rfc2184 = FALSE;
@@ -1970,9 +1970,9 @@ header_decode_param(const char **in, char **paramp, char **valuep, int *is_rfc21
 }
 
 char *
-header_param(struct _header_param *p, const char *name)
+header_param (struct _header_param *p, const char *name)
 {
-	while (p && strcasecmp(p->name, name) != 0)
+	while (p && g_strcasecmp (p->name, name) != 0)
 		p = p->next;
 	if (p)
 		return p->value;
@@ -1980,7 +1980,7 @@ header_param(struct _header_param *p, const char *name)
 }
 
 struct _header_param *
-header_set_param(struct _header_param **l, const char *name, const char *value)
+header_set_param (struct _header_param **l, const char *name, const char *value)
 {
 	struct _header_param *p = (struct _header_param *)l, *pn;
 
@@ -1989,12 +1989,12 @@ header_set_param(struct _header_param **l, const char *name, const char *value)
 		if (!g_strcasecmp (pn->name, name)) {
 			g_free (pn->value);
 			if (value) {
-				pn->value = g_strdup(value);
+				pn->value = g_strdup (value);
 				return pn;
 			} else {
 				p->next = pn->next;
 				g_free (pn->name);
-				g_free(pn);
+				g_free (pn);
 				return NULL;
 			}
 		}
@@ -2004,26 +2004,27 @@ header_set_param(struct _header_param **l, const char *name, const char *value)
 	if (value == NULL)
 		return NULL;
 
-	pn = g_malloc(sizeof(*pn));
+	pn = g_malloc (sizeof (*pn));
 	pn->next = 0;
-	pn->name = g_strdup(name);
-	pn->value = g_strdup(value);
+	pn->name = g_strdup (name);
+	pn->value = g_strdup (value);
 	p->next = pn;
 
 	return pn;
 }
 
 const char *
-header_content_type_param(struct _header_content_type *t, const char *name)
+header_content_type_param (struct _header_content_type *t, const char *name)
 {
 	if (t==NULL)
 		return NULL;
-	return header_param(t->params, name);
+	return header_param (t->params, name);
 }
 
-void header_content_type_set_param(struct _header_content_type *t, const char *name, const char *value)
+void
+header_content_type_set_param (struct _header_content_type *t, const char *name, const char *value)
 {
-	header_set_param(&t->params, name, value);
+	header_set_param (&t->params, name, value);
 }
 
 /**

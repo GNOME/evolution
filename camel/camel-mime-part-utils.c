@@ -26,12 +26,16 @@
 #include <config.h>
 #endif
 
+#include <stdio.h>
 #include <string.h>
+#include <unistd.h>
+
 #include "string-utils.h"
 #include "camel-mime-part-utils.h"
 #include "camel-mime-message.h"
 #include "camel-multipart.h"
 #include "camel-seekable-substream.h"
+#include "camel-stream-fs.h"
 #include "camel-stream-filter.h"
 #include "camel-stream-mem.h"
 #include "camel-mime-filter-basic.h"
@@ -42,119 +46,57 @@
 
 /* simple data wrapper */
 static void
-simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser *mp)
+simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser *mp)
 {
-	GByteArray *buffer;
-	char *buf;
-	int len;
-	off_t start = 0, end;
 	CamelMimeFilter *fdec = NULL, *fcrlf = NULL, *fch = NULL;
+	int len, decid = -1, crlfid = -1, chrid = -1;
 	struct _header_content_type *ct;
-	int decid=-1, crlfid=-1, chrid=-1;
-	CamelStream *source;
 	CamelSeekableStream *seekable_source = NULL;
-	char *encoding;
+	CamelStream *source;
+	GByteArray *buffer;
+	off_t start = 0, end;
+	char *encoding, *buf;
 	
 	d(printf("constructing data-wrapper\n"));
-
+	
 	/* Ok, try and be smart.  If we're storing a small message (typical) convert it,
 	   and store it in memory as we parse it ... if not, throw away the conversion
 	   and scan till the end ... */
 	
 	/* if we can't seek, dont have a stream/etc, then we must cache it */
-	source = camel_mime_parser_stream(mp);
+	source = camel_mime_parser_stream (mp);
 	if (source) {
-		camel_object_ref((CamelObject *)source);
+		camel_object_ref ((CamelObject *)source);
 		if (CAMEL_IS_SEEKABLE_STREAM (source)) {
 			seekable_source = CAMEL_SEEKABLE_STREAM (source);
 		}
 	}
 	
 	/* first, work out conversion, if any, required, we dont care about what we dont know about */
-	encoding = header_content_encoding_decode(camel_mime_parser_header(mp, "content-transfer-encoding", NULL));
+	encoding = header_content_encoding_decode (camel_mime_parser_header (mp, "content-transfer-encoding", NULL));
 	if (encoding) {
-		if (!strcasecmp(encoding, "base64")) {
+		if (!g_strcasecmp (encoding, "base64")) {
 			d(printf("Adding base64 decoder ...\n"));
-			fdec = (CamelMimeFilter *)camel_mime_filter_basic_new_type(CAMEL_MIME_FILTER_BASIC_BASE64_DEC);
-			decid = camel_mime_parser_filter_add(mp, fdec);
+			fdec = (CamelMimeFilter *)camel_mime_filter_basic_new_type (CAMEL_MIME_FILTER_BASIC_BASE64_DEC);
+			decid = camel_mime_parser_filter_add (mp, fdec);
 		} else if (!strcasecmp(encoding, "quoted-printable")) {
 			d(printf("Adding quoted-printable decoder ...\n"));
-			fdec = (CamelMimeFilter *)camel_mime_filter_basic_new_type(CAMEL_MIME_FILTER_BASIC_QP_DEC);
-			decid = camel_mime_parser_filter_add(mp, fdec);
+			fdec = (CamelMimeFilter *)camel_mime_filter_basic_new_type (CAMEL_MIME_FILTER_BASIC_QP_DEC);
+			decid = camel_mime_parser_filter_add (mp, fdec);
 		}
-		g_free(encoding);
+		g_free (encoding);
 	}
 	
 	/* If we're doing text, we also need to do CRLF->LF and may have to convert it to UTF8 as well. */
 	ct = camel_mime_parser_content_type (mp);
 	if (header_content_type_is (ct, "text", "*")) {
 		const char *charset = header_content_type_param (ct, "charset");
-		char *acharset; /* to be alloca'd if needed */
 		
 		if (fdec) {
 			d(printf("Adding CRLF conversion filter\n"));
 			fcrlf = (CamelMimeFilter *)camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_DECODE,
 									       CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
 			crlfid = camel_mime_parser_filter_add (mp, fcrlf);
-		}
-		
-		/* Possible Lame Mailer Alert... check the META tag for a charset */
-		if (!charset && header_content_type_is (ct, "text", "html")) {
-			/* example: <META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"> */
-			const char *data, *slashhead;
-			CamelStream *mem;
-			
-			mem = camel_stream_mem_new ();
-			camel_data_wrapper_write_to_stream (dw, mem);
-			camel_stream_write (mem, "", 1);
-			
-			data = CAMEL_STREAM_MEM (mem)->buffer->data;
-			slashhead = strstrcase (data, "</head");
-			if (!slashhead)
-				slashhead = data + CAMEL_STREAM_MEM (mem)->buffer->len;
-			
-			/* Yea, this is ugly */
-			while (data < slashhead) {
-				struct _header_param *params;
-				char *meta, *metaend;
-				const char *val;
-				
-				meta = strstrcase (data, "<meta");
-				if (!meta)
-					break;
-				
-				metaend = strchr (meta, '>');
-				if (!metaend)
-					metaend = slashhead;
-				
-				params = html_meta_param_list_decode (meta, metaend - meta);
-				if (params) {
-					val = header_param (params, "http-equiv");
-					if (val && !g_strcasecmp (val, "Content-Type")) {
-						struct _header_content_type *content_type;
-						
-						content_type = header_content_type_decode (val);
-						charset = header_content_type_param (content_type, "charset");
-						if (charset) {
-							acharset = alloca (strlen (charset) + 1);
-							strcpy (acharset, charset);
-							charset = acharset;
-						}
-						
-						header_content_type_unref (content_type);
-					}
-					
-					header_param_list_free (params);
-					
-					/* break as soon as we find a charset */
-					if (charset)
-						break;
-				}
-				
-				data = metaend;
-			}
-			
-			camel_object_unref (CAMEL_OBJECT (mem));
 		}
 		
 		/* if the charset is not us-ascii or utf-8, then we need to convert to utf-8 */
@@ -169,57 +111,58 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 		}
 	}
 	
-	buffer = g_byte_array_new();
-
+	buffer = g_byte_array_new ();
+	
 	if (seekable_source /* !cache */) {
-		start = camel_mime_parser_tell(mp) + seekable_source->bound_start;
+		start = camel_mime_parser_tell (mp) + seekable_source->bound_start;
 	}
+	
 	while (camel_mime_parser_step (mp, &buf, &len) != HSCAN_BODY_END) {
 		d(printf("appending o/p data: %d: %.*s\n", len, len, buf));
 		if (buffer) {
 			if (buffer->len > 20480 && seekable_source) {
-				/* is this a 'big' message?  Yes?  We dont want to convert it all then.*/
-				camel_mime_parser_filter_remove(mp, decid);
-				camel_mime_parser_filter_remove(mp, chrid);
+				/* is this a 'big' message?  Yes?  We dont want to convert it all then. */
+				camel_mime_parser_filter_remove (mp, decid);
+				camel_mime_parser_filter_remove (mp, chrid);
 				decid = -1;
 				chrid = -1;
-				g_byte_array_free(buffer, TRUE);
+				g_byte_array_free (buffer, TRUE);
 				buffer = NULL;
 			} else {
-				g_byte_array_append(buffer, buf, len);
+				g_byte_array_append (buffer, buf, len);
 			}
 		}
 	}
-
+	
 	if (buffer) {
 		CamelStream *mem;
-
+		
 		d(printf("Small message part, kept in memory!\n"));
-
-		mem = camel_stream_mem_new_with_byte_array(buffer);
+		
+		mem = camel_stream_mem_new_with_byte_array (buffer);
 		camel_data_wrapper_construct_from_stream (dw, mem);
 		camel_object_unref ((CamelObject *)mem);
 	} else {
 		CamelStream *sub;
 		CamelStreamFilter *filter;
-
+		
 		d(printf("Big message part, left on disk ...\n"));
-
-		end = camel_mime_parser_tell(mp) + seekable_source->bound_start;
+		
+		end = camel_mime_parser_tell (mp) + seekable_source->bound_start;
 		sub = camel_seekable_substream_new_with_seekable_stream_and_bounds (seekable_source, start, end);
 		if (fdec || fch) {
-			filter = camel_stream_filter_new_with_stream(sub);
+			filter = camel_stream_filter_new_with_stream (sub);
 			if (fdec) {
-				camel_mime_filter_reset(fdec);
-				camel_stream_filter_add(filter, fdec);
+				camel_mime_filter_reset (fdec);
+				camel_stream_filter_add (filter, fdec);
 			}
 			if (fcrlf) {
-				camel_mime_filter_reset(fcrlf);
-				camel_stream_filter_add(filter, fcrlf);
+				camel_mime_filter_reset (fcrlf);
+				camel_stream_filter_add (filter, fcrlf);
 			}
 			if (fch) {
-				camel_mime_filter_reset(fch);
-				camel_stream_filter_add(filter, fch);
+				camel_mime_filter_reset (fch);
+				camel_stream_filter_add (filter, fch);
 			}
 			camel_data_wrapper_construct_from_stream (dw, (CamelStream *)filter);
 			camel_object_unref ((CamelObject *)filter);
@@ -228,30 +171,31 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 		}
 		camel_object_unref ((CamelObject *)sub);
 	}
-
-	camel_mime_parser_filter_remove(mp, decid);
-	camel_mime_parser_filter_remove(mp, crlfid);
-	camel_mime_parser_filter_remove(mp, chrid);
-
+	
+	camel_mime_parser_filter_remove (mp, decid);
+	camel_mime_parser_filter_remove (mp, crlfid);
+	camel_mime_parser_filter_remove (mp, chrid);
+	
 	if (fdec)
-		camel_object_unref((CamelObject *)fdec);
+		camel_object_unref ((CamelObject *)fdec);
 	if (fcrlf)
-		camel_object_unref((CamelObject *)fcrlf);
+		camel_object_unref ((CamelObject *)fcrlf);
 	if (fch)
-		camel_object_unref((CamelObject *)fch);
+		camel_object_unref ((CamelObject *)fch);
 	if (source)
-		camel_object_unref((CamelObject *)source);
-
+		camel_object_unref ((CamelObject *)source);
 }
 
 /* This replaces the data wrapper repository ... and/or could be replaced by it? */
 void
-camel_mime_part_construct_content_from_parser(CamelMimePart *dw, CamelMimeParser *mp)
+camel_mime_part_construct_content_from_parser (CamelMimePart *dw, CamelMimeParser *mp)
 {
 	CamelDataWrapper *content = NULL;
 	char *buf;
 	int len;
 
+	printf ("camel_mime_part_construct_content_from_parser()\n");
+	
 	switch (camel_mime_parser_state(mp)) {
 	case HSCAN_HEADER:
 		d(printf("Creating body part\n"));
