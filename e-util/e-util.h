@@ -29,4 +29,7 @@ typedef enum {
   E_FOCUS_END
 } EFocus;
 
+int g_str_compare(const void *x, const void *y);
+int g_int_compare(const void *x, const void *y);
+
 #endif /* _E_UTIL_H_ */

@@ -126,6 +126,17 @@ ml_is_cell_editable (ETableModel *etm, int col, int row, void *data)
 	return FALSE;
 }
 
+static void *
+ml_duplicate_value (ETableModel *etm, int col, const void *value, void *data)
+{
+  return value;
+}
+
+static void
+ml_free_value (ETableModel *etm, int col, void *value, void *data)
+{
+}
+
 static void
 ml_thaw (ETableModel *etm, void *data)
 {
@@ -312,7 +323,8 @@ message_list_init (GtkObject *object)
 
 	message_list->table_model = e_table_simple_new (
 		ml_col_count, ml_row_count, ml_value_at,
-		ml_set_value_at, ml_is_cell_editable, ml_thaw, message_list);
+		ml_set_value_at, ml_is_cell_editable, ml_duplicate_value, ml_free_value,
+		ml_thaw, message_list);
 
 	message_list_init_renderers (message_list);
 	message_list_init_header (message_list);

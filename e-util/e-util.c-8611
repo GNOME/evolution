@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* 
- * e-xml-utils.h
+ * e-xml-utils.c
  * Copyright (C) 2000  Helix Code, Inc.
  * Author: Chris Lahey <clahey@helixcode.com>
  *
@@ -20,12 +20,22 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#ifndef __E_XML_UTILS__
-#define __E_XML_UTILS__
+#include "e-util.h"
+#include <glib.h>
 
-#include <gnome.h>
-#include <gnome-xml/tree.h>
-xmlNode *e_xml_get_child_by_name(xmlNode *parent, xmlChar *child_name);
-int e_xml_get_integer_prop_by_name(xmlNode *parent, xmlChar *prop_name);
+int
+g_str_compare(const void *x, const void *y)
+{
+  return strcmp(x, y);
+}
 
-#endif /* __E_XML_UTILS__ */
+int
+g_int_compare(const void *x, const void *y)
+{
+  if ( GPOINTER_TO_INT(x) < GPOINTER_TO_INT(y) )
+    return -1;
+  else if ( GPOINTER_TO_INT(x) == GPOINTER_TO_INT(y) )
+    return 0;
+  else
+    return -1;
+}

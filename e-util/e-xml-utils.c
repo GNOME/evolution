@@ -34,3 +34,13 @@ xmlNode *e_xml_get_child_by_name(xmlNode *parent, xmlChar *child_name)
 	}
 	return NULL;
 }
+
+int
+e_xml_get_integer_prop_by_name(xmlNode *parent, xmlChar *prop_name)
+{
+	xmlChar *prop = xmlGetProp(parent, prop_name);
+	if (prop)
+		return atoi(prop);
+	else
+		return 0;
+}

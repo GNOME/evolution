@@ -14,6 +14,7 @@ libeutil_a_SOURCES = \
 	e-gui-utils.h	\
 	e-setup.c	\
 	e-setup.h	\
+	e-util.c	\
 	e-util.h	\
 	e-xml-utils.c	\
 	e-xml-utils.h

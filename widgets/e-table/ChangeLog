@@ -5,8 +5,8 @@
 	test model view stuff.  Changed the test to not have as many
 	extra, useless, columns.
 
-	* test-cols.c, test-check.c: Added duplicate_value and add_value.  Use the new
-	compare functions.
+	* test-cols.c, test-check.c: Added duplicate_value and add_value.
+	Use the new compare functions.
 
 	* e-table.c, e-table.h: Use all the new features of e-table-groups
 	(sorting and grouping).  Handle on the fly reorganization of
@@ -19,7 +19,8 @@
 
 	* e-table-subset-variable.c, e-table-subset-variable.h:
 	Virtualized the add and remove commands so that
-	e_table_sorted_variable could override the add command to do sorting.
+	e_table_sorted_variable could override the add command to do
+	sorting.
 
 	* e-table-sorted.c: Fixed this to inherit properly from
 	ETableSubset.

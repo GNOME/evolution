@@ -1,3 +1,14 @@
+2000-02-24  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-util/e-xml-utils.c, e-util/e-xml-utils.h: Added
+	e_xml_get_integer_prop_by_name.
+
+	* e-util/Makefile.am: Added e-util.c.
+
+	* e-util/e-util.h: Added e-util.c functions.
+
+	* e-util/e-util.c: New file for compare functions
+
 2000-02-24  Dan Winship  <danw@helixcode.com>
 
 	* acconfig.h:
