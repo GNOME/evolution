@@ -1978,7 +1978,7 @@ flag_messages (FolderBrowser *fb, guint32 mask, guint32 set)
 	
 	camel_folder_thaw (fb->folder);
 	
-	g_ptr_array_free (uids);
+	g_ptr_array_free (uids, TRUE);
 	
 	return i;
 }
