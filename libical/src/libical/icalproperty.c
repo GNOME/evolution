@@ -25,6 +25,10 @@
 
 ======================================================================*/
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include <string.h> /* For strdup, rindex */
 #include <assert.h> 
 #include <stdlib.h>
@@ -37,6 +41,8 @@
 #include "icalenums.h"
 #include "icalerror.h"
 #include "icalmemory.h"
+
+#define TMP_BUF_SIZE 1024
 
 /* Private routines for icalproperty */
 void icalvalue_set_parent(icalvalue* value,
@@ -89,7 +95,6 @@ icalproperty_new_impl (icalproperty_kind kind)
 
     if ( ( prop = (struct icalproperty_impl*)
 	   malloc(sizeof(struct icalproperty_impl))) == 0) {
-	errno = ENOMEM;
 	icalerror_set_errno(ICAL_NEWFAILED_ERROR);
 	return 0;
     }
@@ -196,7 +201,7 @@ icalproperty_free (icalproperty* prop)
 
     icalparameter* param;
     
-    icalerror_check_arg_re((prop!=0),"prop",ICAL_BADARG_ERROR);
+    icalerror_check_arg_rv((prop!=0),"prop");
 
     p = (struct icalproperty_impl*)prop;
 
@@ -254,6 +259,12 @@ icalproperty_as_ical_string (icalproperty* prop)
     icalvalue* value;
     char *out_buf;
 
+#ifdef ICAL_UNIX_NEWLINE    
+    char newline[] = "\n";
+#else
+    char newline[] = "\r\n";
+#endif
+
     struct icalproperty_impl *impl = (struct icalproperty_impl*)prop;
     
     icalerror_check_arg_rz( (prop!=0),"prop");
@@ -275,7 +286,7 @@ icalproperty_as_ical_string (icalproperty* prop)
 
 
     icalmemory_append_string(&buf, &buf_ptr, &buf_size, property_name);
-    icalmemory_append_string(&buf, &buf_ptr, &buf_size, "\n");
+    icalmemory_append_string(&buf, &buf_ptr, &buf_size, newline);
 
     /* Append parameters */
     for(param = icalproperty_get_first_parameter(prop,ICAL_ANY_PARAMETER);
@@ -285,15 +296,15 @@ icalproperty_as_ical_string (icalproperty* prop)
 	char* kind_string = icalparameter_as_ical_string(param); 
 
 	if (kind_string == 0 ) {
-	    char temp[1024];
-	    sprintf(temp, "Got a parameter of unknown kind in %s property",property_name);
+	    char temp[TMP_BUF_SIZE];
+	    snprintf(temp, TMP_BUF_SIZE,"Got a parameter of unknown kind in %s property",property_name);
 	    icalerror_warn(temp);
 	    continue;
 	}
 
 	icalmemory_append_string(&buf, &buf_ptr, &buf_size, " ;");
     	icalmemory_append_string(&buf, &buf_ptr, &buf_size, kind_string);
- 	icalmemory_append_string(&buf, &buf_ptr, &buf_size, "\n");
+ 	icalmemory_append_string(&buf, &buf_ptr, &buf_size, newline);
 
     }    
 
@@ -311,7 +322,7 @@ icalproperty_as_ical_string (icalproperty* prop)
 	
     }
     
-    icalmemory_append_string(&buf, &buf_ptr, &buf_size, "\n");
+    icalmemory_append_string(&buf, &buf_ptr, &buf_size, newline);
 
     /* Now, copy the buffer to a tmp_buffer, which is safe to give to
        the caller without worring about de-allocating it. */
@@ -1740,7 +1751,7 @@ void icalproperty_set_requeststatus(icalproperty* prop, char* v)
 
     icalerror_check_arg_rv( (prop!=0),"prop");
 
-    value = icalvalue_new_text(v);
+    value = icalvalue_new_string(v);
 
     icalproperty_set_value(prop,value);
 
@@ -1753,7 +1764,7 @@ char* icalproperty_get_requeststatus(icalproperty* prop)
 
     value = icalproperty_get_value(prop);
 
-    return icalvalue_get_text(value);
+    return icalvalue_get_string(value);
 }
 
 /* EXDATE */

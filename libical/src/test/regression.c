@@ -43,94 +43,48 @@
 /* This example creates and minipulates the ical object that appears
  * in rfc 2445, page 137 */
 
-/*
-     BEGIN:VCALENDAR
-     PRODID:-//RDU Software//NONSGML HandCal//EN
-     VERSION:2.0
-     BEGIN:VTIMEZONE
-     TZID:US-Eastern
-     BEGIN:STANDARD
-     DTSTART:19981025T020000
-     RDATE:19981025T020000
-     TZOFFSETFROM:-0400
-     TZOFFSETTO:-0500
-     TZNAME:EST
-     END:STANDARD
-     BEGIN:DAYLIGHT
-     DTSTART:19990404T020000
-     RDATE:19990404T020000
-     TZOFFSETFROM:-0500
-     TZOFFSETTO:-0400
-     TZNAME:EDT
-     END:DAYLIGHT
-     END:VTIMEZONE
-     BEGIN:VEVENT
-     DTSTAMP:19980309T231000Z
-     UID:guid-1.host1.com
-     ORGANIZER;ROLE=CHAIR:MAILTO:mrbig@host.com
-     ATTENDEE;RSVP=TRUE;ROLE=REQ-PARTICIPANT;CUTYPE=GROUP:
-      MAILTO:employee-A@host.com
-     DESCRIPTION:Project XYZ Review Meeting
-     CATEGORIES:MEETING
-     CLASS:PUBLIC
-     CREATED:19980309T130000Z
-     SUMMARY:XYZ Project Review
-     DTSTART;TZID=US-Eastern:19980312T083000
-     DTEND;TZID=US-Eastern:19980312T093000
-     LOCATION:1CP Conference Room 4350
-     END:VEVENT
-     END:VCALENDAR
-
-*/
-char str[] = "BEGIN:VCALENDAR
-PRODID:\"-//RDU Software//NONSGML HandCal//EN\"
-VERSION:2.0
-BEGIN:VTIMEZONE
-TZID:US-Eastern
-BEGIN:STANDARD
-DTSTART:19981025T020000
-RDATE:19981025T020000
-TZOFFSETFROM:-0400
-TZOFFSETTO:-0500
-TZNAME:EST
-END:STANDARD
-BEGIN:DAYLIGHT
-DTSTART:19990404T020000
-RDATE:19990404T020000
-TZOFFSETFROM:-0500
-TZOFFSETTO:-0400
-TZNAME:EDT
-END:DAYLIGHT
-END:VTIMEZONE
-BEGIN:VEVENT
-DTSTAMP:19980309T231000Z
-UID:guid-1.host1.com
-ORGANIZER;ROLE=CHAIR:MAILTO:mrbig@host.com
-ATTENDEE;RSVP=TRUE;ROLE=REQ-PARTICIPANT;CUTYPE=GROUP:MAILTO:employee-A@host.com
-DESCRIPTION:Project XYZ Review Meeting
-CATEGORIES:MEETING
-CLASS:PUBLIC
-CREATED:19980309T130000Z
-SUMMARY:XYZ Project Review
-DTSTART;TZID=US-Eastern:19980312T083000
-DTEND;TZID=US-Eastern:19980312T093000
-LOCATION:1CP Conference Room 4350
-END:VEVENT
-BEGIN:BOOGA
-DTSTAMP:19980309T231000Z
-X-LIC-FOO:Booga
-DTSTOMP:19980309T231000Z
-UID:guid-1.host1.com
-END:BOOGA
+char str[] = "BEGIN:VCALENDAR\
+PRODID:\"-//RDU Software//NONSGML HandCal//EN\"\
+VERSION:2.0\
+BEGIN:VTIMEZONE\
+TZID:US-Eastern\
+BEGIN:STANDARD\
+DTSTART:19981025T020000\
+RDATE:19981025T020000\
+TZOFFSETFROM:-0400\
+TZOFFSETTO:-0500\
+TZNAME:EST\
+END:STANDARD\
+BEGIN:DAYLIGHT\
+DTSTART:19990404T020000\
+RDATE:19990404T020000\
+TZOFFSETFROM:-0500\
+TZOFFSETTO:-0400\
+TZNAME:EDT\
+END:DAYLIGHT\
+END:VTIMEZONE\
+BEGIN:VEVENT\
+DTSTAMP:19980309T231000Z\
+UID:guid-1.host1.com\
+ORGANIZER;ROLE=CHAIR:MAILTO:mrbig@host.com\
+ATTENDEE;RSVP=TRUE;ROLE=REQ-PARTICIPANT;CUTYPE=GROUP:MAILTO:employee-A@host.com\
+DESCRIPTION:Project XYZ Review Meeting\
+CATEGORIES:MEETING\
+CLASS:PUBLIC\
+CREATED:19980309T130000Z\
+SUMMARY:XYZ Project Review\
+DTSTART;TZID=US-Eastern:19980312T083000\
+DTEND;TZID=US-Eastern:19980312T093000\
+LOCATION:1CP Conference Room 4350\
+END:VEVENT\
+BEGIN:BOOGA\
+DTSTAMP:19980309T231000Z\
+X-LIC-FOO:Booga\
+DTSTOMP:19980309T231000Z\
+UID:guid-1.host1.com\
+END:BOOGA\
 END:VCALENDAR";
 
-void _test_string_line_generator(char* str);
-
-void test_string_line_generator() {
-
-    _test_string_line_generator(str);
-
-}
 
 icalcomponent* create_simple_component()
 {
@@ -611,9 +565,9 @@ void test_properties()
        	icalparameter_new_cn("A Common Name 4"),
 	0); 
 
-    for(param = icalproperty_get_first_parameter(prop,ICAL_ANY_PROPERTY);
+    for(param = icalproperty_get_first_parameter(prop,ICAL_ANY_PARAMETER);
 	param != 0; 
-	param = icalproperty_get_next_parameter(prop,ICAL_ANY_PROPERTY)) {
+	param = icalproperty_get_next_parameter(prop,ICAL_ANY_PARAMETER)) {
 						
 	printf("Prop parameter: %s\n",icalparameter_get_cn(param));
     }    
@@ -809,17 +763,6 @@ void test_memory()
 
     printf("Char-by-Char buffer: %s\n", f);
 
-}
-
-int test_parser()
-{
-
-
-    icalcomponent *c = icalparser_parse_string(str);
-    printf("%s\n",icalcomponent_as_ical_string(c));
-    icalcomponent_free(c);
-    icalmemory_free_ring();
-    return 1;
 }
 
 
@@ -1084,7 +1027,7 @@ void test_restriction()
 	    ICAL_VCALENDAR_COMPONENT,
 	    icalproperty_new_version("2.0"),
 	    icalproperty_new_prodid("-//RDU Software//NONSGML HandCal//EN"),
-	    icalproperty_new_method(ICAL_METHOD_CANCEL),
+	    icalproperty_new_method(ICAL_METHOD_REQUEST),
 	    icalcomponent_vanew(
 		ICAL_VTIMEZONE_COMPONENT,
 		icalproperty_new_tzid("US_Eastern"),
@@ -1129,11 +1072,11 @@ void test_restriction()
 		icalproperty_new_class("PUBLIC"),
 		icalproperty_new_created(atime),
 		icalproperty_new_summary("XYZ Project Review"),
-		icalproperty_vanew_dtstart(
+/*		icalproperty_vanew_dtstart(
 		    atime,
 		    icalparameter_new_tzid("US-Eastern"),
 		    0
-		    ),
+		    ),*/
 		icalproperty_vanew_dtend(
 		    atime,
 		    icalparameter_new_tzid("US-Eastern"),
@@ -1273,35 +1216,89 @@ void test_strings(){
 
 }
 
+void test_requeststat()
+{
+  icalrequeststatus s;
+  struct icalreqstattype st, st2;
+  char temp[1024];
+
+  s = icalenum_num_to_reqstat(2,1);
+
+  assert(s == ICAL_2_1_FALLBACK_STATUS);
+
+  assert(icalenum_reqstat_major(s) == 2);
+  assert(icalenum_reqstat_minor(s) == 1);
+
+  printf("2.1: %s\n",icalenum_reqstat_desc(s));
+
+  st.code = s;
+  st.debug = "booga";
+  st.desc = 0;
+
+  printf("%s\n",icalreqstattype_as_string(st));
+
+  st.desc = " A non-standard description";
+
+  printf("%s\n",icalreqstattype_as_string(st));
+
+
+  st.desc = 0;
+
+  sprintf(temp,"%s\n",icalreqstattype_as_string(st));
+  
+
+  st2 = icalreqstattype_from_string("2.1;Success but fallback taken  on one or more property  values.;booga");
+
+  printf("%d --  %d --  %s -- %s\n",icalenum_reqstat_major(st2.code),
+         icalenum_reqstat_minor(st2.code),
+         icalenum_reqstat_desc(st2.code),
+         st2.debug);
+
+  st2 = icalreqstattype_from_string("2.1;Success but fallback taken  on one or more property  values.;booga");
+  printf("%s\n",icalreqstattype_as_string(st2));
+
+  st2 = icalreqstattype_from_string("2.1;Success but fallback taken  on one or more property  values.;");
+  printf("%s\n",icalreqstattype_as_string(st2));
+
+  st2 = icalreqstattype_from_string("2.1;Success but fallback taken  on one or more property  values.");
+  printf("%s\n",icalreqstattype_as_string(st2));
+
+  st2 = icalreqstattype_from_string("2.1;");
+  printf("%s\n",icalreqstattype_as_string(st2));
+
+  st2 = icalreqstattype_from_string("2.1");
+  printf("%s\n",icalreqstattype_as_string(st2));
+
+  st2 = icalreqstattype_from_string("16.4");
+  assert(st2.code == ICAL_UNKNOWN_STATUS);
+
+  st2 = icalreqstattype_from_string("1.");
+  assert(st2.code == ICAL_UNKNOWN_STATUS);
+
+}
+
+
 int main(int argc, char *argv[])
 {
-
-
-    printf("\n------------Test strings---------------\n");
-    test_strings();
-
-exit(0);
-
-    printf("\n------------Test recur---------------\n");
-    test_recur();
-
-#if 0
-    printf("\n------------Test Calendar---------------\n");
-    test_calendar();
-
-    printf("\n------------Test Store---------------\n");
-    test_store();
-#endif
-
-    printf("\n------------Test duration---------------\n");
-    test_duration();
-
 
 
     printf("\n------------Test Restriction---------------\n");
     test_restriction();
 
+    exit(0);
 
+    printf("\n------------Test request status-------\n");
+    test_requeststat();
+
+
+    printf("\n------------Test strings---------------\n");
+    test_strings();
+
+    printf("\n------------Test recur---------------\n");
+    test_recur();
+
+    printf("\n------------Test duration---------------\n");
+    test_duration();
 
     printf("\n------------Test Compare---------------\n");
     test_compare();
@@ -1323,9 +1320,6 @@ exit(0);
 
     printf("\n------------Create Components --------\n");
     create_new_component();
-
-    printf("\n------------Test Parser---------------\n");
-    test_parser();
 
     printf("\n----- Create Components with vaargs ---\n");
     create_new_component_with_va_args();

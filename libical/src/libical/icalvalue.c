@@ -28,6 +28,10 @@
 
 ======================================================================*/
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 
 #include "ical.h"
 #include "icalerror.h"
@@ -38,6 +42,7 @@
 #include <stdlib.h> /* for malloc */
 #include <stdio.h> /* for sprintf */
 #include <string.h> /* For memset, others */
+#include <stddef.h> /* For offsetof() macro */
 #include <errno.h>
 #include <time.h> /* for mktime */
 #include <stdlib.h> /* for atoi and atof */
@@ -46,6 +51,8 @@
 #if _MAC_OS_
 #include "strdup.h"
 #endif
+
+#define TMP_BUF_SIZE 1024
 
 void print_datetime_to_string(char* str,  struct icaltimetype *data);
 void print_date_to_string(char* str,  struct icaltimetype *data);
@@ -97,7 +104,6 @@ struct icalvalue_impl*  icalvalue_new_impl(icalvalue_kind kind){
 
     if ( ( v = (struct icalvalue_impl*)
 	   malloc(sizeof(struct icalvalue_impl))) == 0) {
-	errno = ENOMEM;
 	icalerror_set_errno(ICAL_NEWFAILED_ERROR);
 	return 0;
     }
@@ -147,6 +153,7 @@ icalvalue* icalvalue_new_clone(icalvalue* value){
 	    /* HACK ugh. I don't feel like impleenting this */
 	}
 
+	case ICAL_STRING_VALUE:
 	case ICAL_TEXT_VALUE:
 	case ICAL_CALADDRESS_VALUE:
 	case ICAL_URI_VALUE:
@@ -188,6 +195,64 @@ icalvalue* icalvalue_new_clone(icalvalue* value){
     return new;
 }
 
+char* strdup_and_dequote(char* str)
+{
+    char* p;
+    char* out = (char*)malloc(sizeof(char) * strlen(str) +1);
+    char* pout;
+
+    if (out == 0){
+	return 0;
+    }
+
+    pout = out;
+
+    for (p = str; *p!=0; p++){
+	
+	if( *p == '\\')
+	{
+	    p++;
+	    switch(*p){
+		case 0:
+		{
+		    break;
+		    *pout = '\0';
+		}
+		case 'n':
+		{
+		    *pout = '\n';
+		    break;
+		}
+		case 'N':
+		{
+		    *pout = '\n';
+		    break;
+		}
+		case '\\':
+		case ',':
+		case ';':
+		{
+		    *pout = *p;
+		    break;
+		}
+		default:
+		{
+		    *pout = ' ';
+		}		
+	    }
+	} else {
+	    *pout = *p;
+	}
+
+	pout++;
+	
+    }
+
+    *pout = '\0';
+
+    return out;
+}
+
 icalvalue* icalvalue_new_from_string_with_error(icalvalue_kind kind,char* str,icalproperty** error)
 {
 
@@ -207,7 +272,7 @@ icalvalue* icalvalue_new_from_string_with_error(icalvalue_kind kind,char* str,ic
 	    value = 0;
 
 	    if (error != 0){
-		char temp[1024];
+		char temp[TMP_BUF_SIZE];
 		sprintf(temp,"ATTACH Values are not implemented"); 
 		*error = icalproperty_vanew_xlicerror( 
 		    temp, 
@@ -226,7 +291,7 @@ icalvalue* icalvalue_new_from_string_with_error(icalvalue_kind kind,char* str,ic
 	    value = 0;
 
 	    if (error != 0){
-		char temp[1024];
+		char temp[TMP_BUF_SIZE];
 		sprintf(temp,"BINARY Values are not implemented"); 
 		*error = icalproperty_vanew_xlicerror( 
 		    temp, 
@@ -245,7 +310,7 @@ icalvalue* icalvalue_new_from_string_with_error(icalvalue_kind kind,char* str,ic
 	    value = 0;
 
 	    if (error != 0){
-		char temp[1024];
+		char temp[TMP_BUF_SIZE];
 		sprintf(temp,"BOOLEAN Values are not implemented"); 
 		*error = icalproperty_vanew_xlicerror( 
 		    temp, 
@@ -278,7 +343,16 @@ icalvalue* icalvalue_new_from_string_with_error(icalvalue_kind kind,char* str,ic
 
 	case ICAL_TEXT_VALUE:
 	{
-	    value = icalvalue_new_text(str);
+	    char* dequoted_str = strdup_and_dequote(str);
+	    value = icalvalue_new_text(dequoted_str);
+	    free(dequoted_str);
+	    break;
+	}
+
+
+	case ICAL_STRING_VALUE:
+	{
+	    value = icalvalue_new_string(str);
 	    break;
 	}
 
@@ -297,7 +371,15 @@ icalvalue* icalvalue_new_from_string_with_error(icalvalue_kind kind,char* str,ic
 	case ICAL_METHOD_VALUE:
 	{
 	    icalproperty_method method = icalenum_string_to_method(str);
-	    value = icalvalue_new_method(method);
+
+	    if(method == ICAL_METHOD_NONE){
+		value = 0;
+	    } else {
+		value = icalvalue_new_method(method);
+	    }
+
+	    break; 
+
 	}
 	case ICAL_GEO_VALUE:
 	{
@@ -305,7 +387,7 @@ icalvalue* icalvalue_new_from_string_with_error(icalvalue_kind kind,char* str,ic
 	    /* HACK */
 
 	    if (error != 0){
-		char temp[1024];
+		char temp[TMP_BUF_SIZE];
 		sprintf(temp,"GEO Values are not implemented"); 
 		*error = icalproperty_vanew_xlicerror( 
 		    temp, 
@@ -337,15 +419,10 @@ icalvalue* icalvalue_new_from_string_with_error(icalvalue_kind kind,char* str,ic
 	{
 
 	    if (error != 0 ){
-		char temp[1024];
+		char temp[TMP_BUF_SIZE];
 
-		if (strlen(str) > 265) {
-		    sprintf(temp,"Unknown type for \'%256s...\'",str);
-		} else {
-		    sprintf(temp,"Unknown type for \'%s\'",str);
+                snprintf(temp,TMP_BUF_SIZE,"Unknown type for \'%s\'",str);
 			    
-		}	
-
 		*error = icalproperty_vanew_xlicerror( 
 		    temp, 
 		    icalparameter_new_xlicerrortype( 
@@ -360,14 +437,9 @@ icalvalue* icalvalue_new_from_string_with_error(icalvalue_kind kind,char* str,ic
 
 
     if (error != 0 && *error == 0 && value == 0){
-	char temp[1024];
+	char temp[TMP_BUF_SIZE];
 	
-	if (strlen(str) > 265) {
-	    sprintf(temp,"Failed to parse value: \'%256s...\'",str);
-	} else {
-	    sprintf(temp,"Failed to parse value: \'%s\'",str);
-	    
-	}	
+        snprintf(temp,TMP_BUF_SIZE,"Failed to parse value: \'%s\'",str);
 	
 	*error = icalproperty_vanew_xlicerror( 
 	    temp, 
@@ -529,20 +601,22 @@ char* icalvalue_recur_as_ical_string(icalvalue* value)
     struct icalvalue_impl *impl = (struct icalvalue_impl*)value;
     struct icalrecurrencetype *recur = impl->data.v_recur;
 
-    struct { char* str; short* array; short limit;  } map[] = 
-    {
-	{";BYSECOND=",recur->by_second,60},
-	{";BYMINUTE=",recur->by_minute,60},
-	{";BYHOUR=",recur->by_hour,24},
-	{";BYDAY=",recur->by_day,7},
-	{";BYMONTHDAY=",recur->by_month_day,31},
-	{";BYYEARDAY=",recur->by_year_day,366},
-	{";BYWEEKNO=",recur->by_week_no,52},
-	{";BYMONTH=",recur->by_month,12},
-	{";BYSETPOS=",recur->by_set_pos,366},
-	{0,0,0},
-    };
-    
+    struct { char* str;size_t offset; short limit;  } recurmap[] = 
+      {
+        {";BYSECOND=",offsetof(struct icalrecurrencetype,by_second),60},
+        {";BYMINUTE=",offsetof(struct icalrecurrencetype,by_minute),60},
+        {";BYHOUR=",offsetof(struct icalrecurrencetype,by_hour),24},
+        {";BYDAY=",offsetof(struct icalrecurrencetype,by_day),7},
+        {";BYMONTHDAY=",offsetof(struct icalrecurrencetype,by_month_day),31},
+        {";BYYEARDAY=",offsetof(struct icalrecurrencetype,by_year_day),366},
+        {";BYWEEKNO=",offsetof(struct icalrecurrencetype,by_week_no),52},
+        {";BYMONTH=",offsetof(struct icalrecurrencetype,by_month),12},
+        {";BYSETPOS=",offsetof(struct icalrecurrencetype,by_set_pos),366},
+        {0,0,0},
+      };
+
+
+
     icalerror_check_arg_rz((value != 0),"value");
 
     if(recur->freq == ICAL_NO_RECURRENCE){
@@ -577,14 +651,14 @@ char* icalvalue_recur_as_ical_string(icalvalue* value)
 	icalmemory_append_string(&str,&str_p,&buf_sz, temp);
     }
     
-    for(j =0; map[j].str != 0; j++){
-	short* array = map[j].array;
-	short limit = map[j].limit;
+    for(j =0; recurmap[j].str != 0; j++){
+	short* array = (short*)(recurmap[j].offset+ (size_t)recur);
+	short limit = recurmap[j].limit;
 
 	/* Skip unused arrays */
 	if( array[0] != ICAL_RECURRENCE_ARRAY_MAX ) {
 
-	    icalmemory_append_string(&str,&str_p,&buf_sz,map[j].str);
+	    icalmemory_append_string(&str,&str_p,&buf_sz,recurmap[j].str);
 	    
 	    for(i=0; i< limit  && array[i] != ICAL_RECURRENCE_ARRAY_MAX;
 		i++){
@@ -731,11 +805,11 @@ char* icalvalue_attach_as_ical_string(icalvalue* value) {
 void append_duration_segment(char** buf, char** buf_ptr, size_t* buf_size, 
 			     char* sep, unsigned int value) {
 
-    char digits[256]; /* HACK: large hardcoded limit */
+    char temp[TMP_BUF_SIZE];
 
-    sprintf(digits,"%d",value);
+    sprintf(temp,"%d",value);
 
-    icalmemory_append_string(buf, buf_ptr, buf_size, digits);
+    icalmemory_append_string(buf, buf_ptr, buf_size, temp);
     icalmemory_append_string(buf, buf_ptr, buf_size, sep);
     
 }
@@ -1025,6 +1099,7 @@ icalvalue_as_ical_string (icalvalue* value)
 	case ICAL_TEXT_VALUE:
 	    return icalvalue_text_as_ical_string(value);
 
+	case ICAL_STRING_VALUE:
 	case ICAL_URI_VALUE:
 	case ICAL_CALADDRESS_VALUE:
 	    return icalvalue_string_as_ical_string(value);
@@ -1155,7 +1230,7 @@ icalvalue_compare(icalvalue* a, icalvalue *b)
 	case ICAL_DATE_VALUE:
 	case ICAL_DATETIME_VALUE:
 	case ICAL_DATETIMEDATE_VALUE:
-	case ICAL_DURATION_VALUE:
+	case ICAL_DURATION_VALUE: /* HACK. Not correct for DURATION */
 	case ICAL_TIME_VALUE:
 	case ICAL_DATETIMEPERIOD_VALUE:
 	{
@@ -1216,7 +1291,9 @@ icalproperty* icalvalue_get_parent(icalvalue* value)
 
 
 
-/* Recur is a special case, so it is not auto generated */
+/* Recur is a special case, so it is not auto generated. Well,
+   actually, it is auto-generated, but you will have to manually
+   remove the auto-generated version after each generation.  */
 icalvalue*
 icalvalue_new_recur (struct icalrecurrencetype v)
 {
@@ -1762,6 +1839,46 @@ icalvalue_get_period(icalvalue* value)
 
 
 icalvalue*
+icalvalue_new_string (char* v)
+{
+   struct icalvalue_impl* impl = icalvalue_new_impl(ICAL_STRING_VALUE);
+ 
+   icalerror_check_arg_rz( (v!=0),"v");
+
+   icalvalue_set_string((icalvalue*)impl,v);
+
+   return (icalvalue*)impl;
+}
+
+void
+icalvalue_set_string(icalvalue* value, char* v)
+{
+    struct icalvalue_impl* impl; 
+    
+    icalerror_check_arg_rv( (value!=0),"value");
+    icalerror_check_arg_rv( (v!=0),"v");
+
+    icalerror_check_value_type(value, ICAL_STRING_VALUE);
+
+    impl = (struct icalvalue_impl*)value;
+    impl->data.v_string = strdup(v);
+
+    if (impl->data.v_string == 0){
+      errno = ENOMEM;
+    }
+
+}
+
+char*
+icalvalue_get_string(icalvalue* value)
+{
+    icalerror_check_arg( (value!=0),"value");
+    icalerror_check_value_type(value, ICAL_STRING_VALUE);
+  
+    return ((struct icalvalue_impl*)value)->data.v_string;
+}
+
+icalvalue*
 icalvalue_new_text (char* v)
 {
    struct icalvalue_impl* impl = icalvalue_new_impl(ICAL_TEXT_VALUE);
@@ -1777,74 +1894,18 @@ void
 icalvalue_set_text(icalvalue* value, char* v)
 {
     struct icalvalue_impl* impl; 
-    char *p,*d;
-
+    
     icalerror_check_arg_rv( (value!=0),"value");
     icalerror_check_arg_rv( (v!=0),"v");
 
     icalerror_check_value_type(value, ICAL_TEXT_VALUE);
 
     impl = (struct icalvalue_impl*)value;
-    impl->data.v_string = malloc(strlen(v)+1);
+    impl->data.v_string = strdup(v);
 
     if (impl->data.v_string == 0){
       errno = ENOMEM;
-      return;
     }
-
-    for(d=impl->data.v_string,p=v; *p!=0; p++){
-
-	if (*p == '\\') { 
-	    p++;
-
-	    if (p == 0){
-		break;
-	    }
-
-	    switch(*p){
-		case 'n': {
-		    *d='\n';d++;
-		    break;
-		}
-
-		case '\\': {
-		    *d='\\';d++;
-		    break;
-		}
-		
-		case 't': {
-		    *d='\n';d++;
-		    break;
-		}
-		case 'r': {
-		    *d='\r';d++;
-		    break;
-		}
-		case 'b': {
-		    *d='\b';d++;
-		    break;
-		}
-		case 'f': {
-		    *d='\f';d++;
-		    break;
-		}
-		
-		case ';':
-		case ',':{
-		    *d=*p;d++;
-		    break;
-		}
-
-		case '"':{
-		    *d='\"';d++;
-		    break;
-		}		
-	    }
-	} else {
-	    *d=*p;d++;
-	}
-    }
-    *d='\0';
 
 }
 

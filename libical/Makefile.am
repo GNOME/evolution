@@ -1,8 +1,11 @@
 
-EXTRA_DIST =			\
-	CHANGES			\
-	README			\
-	TEST			\
+
+EXTRA_DIST = \
+	ChangeLog \
+	README \
+	TEST \
 	TODO
 
-SUBDIRS = src
+SUBDIRS = design-data doc scripts test-data src 
+
+

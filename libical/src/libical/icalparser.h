@@ -31,6 +31,16 @@
 #include "ical.h"
 #include <stdio.h> /* For FILE* */
 
+typedef void* icalparser;
+typedef enum icalparser_state {
+    ICALPARSER_ERROR,
+    ICALPARSER_SUCCESS,
+    ICALPARSER_BEGIN_COMP,
+    ICALPARSER_END_COMP,
+    ICALPARSER_IN_PROGRESS
+} icalparser_state;
+
+
 /***********************************************************************
  * Message oriented parsing.  icalparser_parse takes a string that
  * holds the text ( in RFC 2445 format ) and returns a pointer to an
@@ -38,29 +48,28 @@
  * pointer to a function that returns one content line per invocation
  **********************************************************************/
 
-icalcomponent* icalparser_parse(char* (*line_gen_func)());
+icalcomponent* icalparser_parse(icalparser *parser,
+				char* (*line_gen_func)(char *s, size_t size, void *d));
 
-/* Parse directly from a string */
+/* A simple, and incorrect interface - can only return one component*/
 icalcomponent* icalparser_parse_string(char* str);
 
-/*  icalparser_flex_input is the routine that is called from the macro
-    YYINPUT in the flex lexer. */
-int icalparser_flex_input(char* buf, int max_size);
-void icalparser_clear_flex_input();
 
 /***********************************************************************
  * Line-oriented parsing. 
  * 
  * Create a new parser via icalparse_new_parser, then add ines one at
- * a time with icalparse_add_line(). After adding the last line, call
- * icalparse_close() to return the parsed component.
+ * a time with icalparse_add_line(). icalparser_add_line() will return
+ * non-zero when it has finished with a component.
  ***********************************************************************/
 
-/* These are not implemented yet */
-typedef void* icalparser;
-icalparser icalparse_new_parser();
-void icalparse_add_line(icalparser* parser );
-icalcomponent* icalparse_close(icalparser* parser);
+icalparser* icalparser_new();
+void icalparser_set_gen_data(icalparser* parser, void* data);
+icalcomponent* icalparser_add_line(icalparser* parser, char* str );
+icalcomponent* icalparser_claim(icalparser* parser);
+icalcomponent* icalparser_clean(icalparser* parser);
+icalparser_state icalparser_get_state(icalparser* parser);
+void icalparser_free(icalparser* parser);
 
 /***********************************************************************
  * Parser support functions
@@ -69,11 +78,17 @@ icalcomponent* icalparse_close(icalparser* parser);
 /* Use the flex/bison parser to turn a string into a value type */
 icalvalue*  icalparser_parse_value(icalvalue_kind kind, char* str, icalcomponent** errors);
 
-char* icalparser_get_line(char* (*line_gen_func)(char *s, size_t size, void *d), int *lineno);
+/* Given a line generator function, return a single iCal content line.*/
+char* icalparser_get_line(icalparser* parser, char* (*line_gen_func)(char *s, size_t size, void *d));
 
 
+/* a line_gen_function that returns lines from a string. To use it,
+   set string_line_generator_str to point to the input string, and set
+   string_line_generator_pos to 0. These globals make the routine not
+   thead-safe.  */
 
-/* a line_gen_function that returns lines from a string */
-
+extern char* string_line_generator_str;
+extern char* string_line_generator_pos;
+char* string_line_generator(char *out, size_t buf_size, void *d);
 
 #endif /* !ICALPARSE_H */

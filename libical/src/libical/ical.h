@@ -25,6 +25,7 @@
 #ifndef ICAL_H
 #define ICAL_H
 
+#include "icalversion.h"
 #include "icalenums.h"
 #include "icalvalue.h"
 #include "icalparameter.h"
@@ -35,7 +36,6 @@
 #include "icalmemory.h"
 #include "icalerror.h"
 #include "icalrestriction.h"
-
 
 #endif /* !ICAL_H */
 

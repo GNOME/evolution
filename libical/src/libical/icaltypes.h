@@ -157,12 +157,26 @@ union icaltriggertype
 	struct icaldurationtype duration;
 };
 
-struct icalrequestsstatustype {
 
-	short minor;
-	short major; 
+/* struct icalreqstattype. This struct contains two string pointers,
+but don't try to free either of them. The "desc" string is a pointer
+to a static table inside the library.  Don't try to free it. The
+"debug" string is a pointer into the string that the called passed
+into to icalreqstattype_from_string. Don't try to free it either, and
+don't use it after the original string has been freed.
 
+BTW, you would get that original string from
+*icalproperty_get_requeststatus() or icalvalue_get_text(), when
+operating on a the value of a request_status property. */
+
+struct icalreqstattype {
+
+  icalrequeststatus code;
+  char* desc;
+  char* debug;
 };
 
+struct icalreqstattype icalreqstattype_from_string(char* str);
+char* icalreqstattype_as_string(struct icalreqstattype);
 
 #endif /* !ICALTYPES_H */

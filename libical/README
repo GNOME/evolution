@@ -55,10 +55,28 @@ manipulating iCal objects. With it, you can parse text representations
 of iCal components, add and remove sub-components, properties,
 parameters and values, and print the components back out as strings. 
 
+
+Notes for Libical Developers
+-------------------
+
+If you don't want to use gcc as the compiler, and you got the sources
+from CVS, you should set the CC variable to the path to the compiler
+and run "automake --include-deps" to keep automake from using
+gcc-specific automatic dependancy tracking.
+
+        > CC=/pkg/SUNWspro/bin/cc; export CC
+        > automake --include-deps
+        > ./configure --prefix=/proj/local/
+        > make
+
+You will not need to re-run automake unless you got the sources from CVS. 
+
+
 Perl Library
 ------------
 
-There is a perl language binding of this library, LIBICAL. It is  available from CPAN. or from http://www.softwarestudio.org/libical
+There is a perl language binding of this library, LIBICAL. 
+It is  available from http://www.softwarestudio.org/libical
 
 Parser
 ------

@@ -36,8 +36,8 @@
 
 typedef enum icalcomponent_kind {
     ICAL_NO_COMPONENT,
-    ICAL_ANY_COMPONENT,	/* Used in get_components to select all components*/
-    ICAL_XROOT_COMPONENT, /* Root component returned by parser */
+    ICAL_ANY_COMPONENT,	/* Used to select all components*/
+    ICAL_XROOT_COMPONENT,
     ICAL_XATTACH_COMPONENT, /* MIME attached data, returned by parser. */
     ICAL_VEVENT_COMPONENT,
     ICAL_VTODO_COMPONENT,
@@ -210,9 +210,10 @@ typedef enum icalvalue_kind {
     ICAL_FLOAT_VALUE,
     ICAL_GEO_VALUE, /* Non-Standard */
     ICAL_INTEGER_VALUE,
-    ICAL_METHOD_VALUE,
+    ICAL_METHOD_VALUE, /* Non-Standard */
     ICAL_PERIOD_VALUE,
     ICAL_RECUR_VALUE,
+    ICAL_STRING_VALUE, /* Non-Standard */
     ICAL_TEXT_VALUE,
     ICAL_TIME_VALUE,
     ICAL_TRIGGER_VALUE, /* Non-Standard */
@@ -318,7 +319,8 @@ typedef enum icalparameter_role {
 
 typedef enum icalparameter_xlicerrortype {
     ICAL_XLICERRORTYPE_COMPONENTPARSEERROR,
-    ICAL_XLICERRORTYPE_PARAMETERPARSEERROR,
+    ICAL_XLICERRORTYPE_PARAMETERVALUEPARSEERROR,
+    ICAL_XLICERRORTYPE_PARAMETERNAMEPARSEERROR,
     ICAL_XLICERRORTYPE_PROPERTYPARSEERROR,
     ICAL_XLICERRORTYPE_VALUEPARSEERROR,
     ICAL_XLICERRORTYPE_INVALIDITIP
@@ -396,6 +398,7 @@ char* icalenum_weekday_to_string(icalrecurrencetype_weekday kind);
  **********************************************************************/
 
 typedef enum icalrequeststatus {
+    ICAL_UNKNOWN_STATUS,
     ICAL_2_0_SUCCESS_STATUS,
     ICAL_2_1_FALLBACK_STATUS,
     ICAL_2_2_IGPROP_STATUS,
@@ -431,6 +434,10 @@ typedef enum icalrequeststatus {
 } icalrequeststatus;
 
 
+char* icalenum_reqstat_desc(icalrequeststatus stat);
+short icalenum_reqstat_major(icalrequeststatus stat);
+short icalenum_reqstat_minor(icalrequeststatus stat);
+icalrequeststatus icalenum_num_to_reqstat(short major, short minor);
 
 /***********************************************************************
  * Conversion functions

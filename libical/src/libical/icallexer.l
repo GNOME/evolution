@@ -6,7 +6,7 @@
   
   DESCRIPTION:
   
-  $Id: icallexer.l,v 1.1 2000/04/18 18:17:04 alves Exp $
+  $Id: icallexer.l,v 1.1.1.1 2000/05/15 04:24:50 ericb Exp $
   $Locker:  $
 
   (C) COPYRIGHT 1999 Eric Busboom 
@@ -122,6 +122,8 @@ digit		[0-9]
 T			 { return TIME_CHAR; }
 Z			 { return UTC_CHAR; }
 {crlf}                   { return EOL;}
+.			 { return CHARACTER; }
+
 }
 
 <duration_value>{
@@ -136,6 +138,8 @@ T			 { return TIME_CHAR; }
 <number_value>{
 [\+\-\.0-9]+		 {  yylval.v_int=atoi(yytext); return INTNUMBER; }
 {crlf}                   { return EOL;}
+.			 { return CHARACTER; }
+
 }
 
 <period_value>{

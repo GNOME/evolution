@@ -32,7 +32,11 @@ if ($opt_i) {
 
   }    
 
-  print "/* Everything below this line is machine generated. Do not edit. */\n";
+  if($opt_p){
+    print "# Everything below this line is machine generated. Do not edit. \n";
+  } else {
+    print "/* Everything below this line is machine generated. Do not edit. */\n";
+  }
 
 }
 
@@ -224,9 +228,9 @@ EOM
 
 print <<EOM;
 
-package ICal::Value::${ucf}; 
-use ICal::Value;
-\@ISA=qw(ICal::Value);
+package Net::ICal::Value::${ucf}; 
+use Net::ICal::Value;
+\@ISA=qw(Net::ICal::Value);
 sub new
 {
    my \$self = [];
@@ -238,9 +242,9 @@ sub new
    my \$p;
 
    if (\$value){
-      \$p = ICal::icalvalue_new_from_string(\$ICal::ICAL_${uc}_VALUE,\$value);
+      \$p = Net::ICal::icalvalue_new_from_string(\$Net::ICal::ICAL_${uc}_VALUE,\$value);
    } else {
-      \$p = ICal::icalvalue_new(\$ICal::ICAL_${uc}_VALUE);
+      \$p = Net::ICal::icalvalue_new(\$Net::ICal::ICAL_${uc}_VALUE);
    }
 
    \$self->[0] = \$p;
@@ -256,9 +260,9 @@ sub set
    my \$impl = \$self->_impl();
 
    if (\$v) {
-      my \$new_value = ICal::icalvalue_new_from_string(\$ICal::ICAL_${uc}_VALUE,\$v);
+      my \$new_value = Net::ICal::icalvalue_new_from_string(\$Net::ICal::ICAL_${uc}_VALUE,\$v);
       if (\$new_value){
-         ICal::icalvalue_free(\$self->[0]);
+         Net::ICal::icalvalue_free(\$self->[0]);
           \$self->[0] = \$new_value;
       }
 
@@ -273,7 +277,7 @@ sub get
 
    if (defined \$impl){
 
-     return  ICal::icalvalue_as_ical_string(\$impl);
+     return  Net::ICal::icalvalue_as_ical_string(\$impl);
 
    }
 }

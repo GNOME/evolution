@@ -1,11 +1,4 @@
 BEGIN:VCALENDAR
-X-LIC-CLUSTERCOUNT
- :0
-DTSTART
- :00000000T000000
-DTEND
- :00000000T000000     
-BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//hacksw/handcal//NONSGML v1.0//EN
 BEGIN:VEVENT
@@ -248,7 +241,7 @@ LOCATION:1CP Conference Room 4350
 END:VEVENT
 END:VCALENDAR
 BEGIN:VCALENDAR
-METHOD:xyz
+METHOD:PUBLISH
 VERSION:2.0
 PRODID:-//ABC Corporation//NONSGML My Product//EN
 BEGIN:VEVENT
@@ -256,7 +249,6 @@ DTSTAMP:19970324T1200Z
 SEQUENCE:0
 UID:uid3@host1.com
 ORGANIZER:MAILTO:jdoe@host1.com
-ATTENDEE;RSVP=TRUE:MAILTO:jsmith@host1.com
 DTSTART:19970324T123000Z
 DTEND:19970324T210000Z
 CATEGORIES:MEETING,PROJECT
@@ -283,7 +275,7 @@ STATUS:NEEDS-ACTION
 SUMMARY:Submit Income Taxes
 BEGIN:VALARM
 ACTION:AUDIO
-TRIGGER;VALUE=DATE-TIME:19980403T120000Z
+TRIGGER:19980403T120000
 ATTACH;FMTTYPE=audio/basic:http://host.com/pub/audio-
  files/ssbanner.aud
 REPEAT:4
@@ -303,8 +295,9 @@ CLASS:PUBLIC
 CATEGORIES:Project Report, XYZ, Weekly Meeting
 DESCRIPTION:Project xyz Review Meeting Minutes\n
  Agenda\n1. Review of project version 1.0 requirements.\n2.
- Definition of project processes.\n3. Review of project schedule.\n
- Participants: John Smith, Jane Doe, Jim Dandy\n-It was
+ Definition
+ of project processes.\n3. Review of project schedule.\n
+ Participants: John Smith\, Jane Doe\, Jim Dandy\n-It was
   decided that the requirements need to be signed off by
   product marketing.\n-Project processes were accepted.\n
  -Project schedule needs to account for scheduled holidays
@@ -325,5 +318,4 @@ FREEBUSY:19980316T153000Z/19980316T163000Z
 FREEBUSY:19980318T030000Z/19980318T040000Z
 URL:http://www.host.com/calendar/busytime/jsmith.ifb
 END:VFREEBUSY
-END:VCALENDAR
 END:VCALENDAR

@@ -13,6 +13,7 @@ INTEGER			int
 METHOD			icalproperty_method	# Non-std
 PERIOD			struct icalperiodtype
 RECUR			struct icalrecurrencetype
+STRING			char*			# Non-std
 TEXT			char*
 TIME			struct icaltimetype
 TRIGGER			union icaltriggertype	# Non-std

@@ -24,14 +24,20 @@
   The original code is icaltypes.c
 
  ======================================================================*/
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
 #include "icaltypes.h"
 #include "icalerror.h"
+#include "icalmemory.h"
 #include <stdlib.h> /* for malloc */
 #include <errno.h> /* for errno */
 #include <string.h> /* for strdup */
 #include <assert.h>
 #include <limits.h> /* for SHRT_MAX */
+
+#define TEMP_MAX 1024
 
 void*
 icalattachtype_get_data (struct icalattachtype* type);
@@ -186,7 +192,25 @@ time_t icaldurationtype_as_timet(struct icaldurationtype dur)
                          (60 * 60 * 24 * 7 * dur.weeks));
 } 
 
-
+/* From Seth Alves,  <alves@hungry.com>   */
+struct icaldurationtype icaldurationtype_from_timet(time_t t)
+{
+        struct icaldurationtype dur;
+        time_t used = 0;
+ 
+        dur.weeks = (t - used) / (60 * 60 * 24 * 7);
+        used += dur.weeks * (60 * 60 * 24 * 7);
+        dur.days = (t - used) / (60 * 60 * 24);
+        used += dur.days * (60 * 60 * 24);
+        dur.hours = (t - used) / (60 * 60);
+        used += dur.hours * (60 * 60);
+        dur.minutes = (t - used) / (60);
+        used += dur.minutes * (60);
+        dur.seconds = (t - used);
+ 
+        return dur;
+}
+                             
 void icalrecurrencetype_clear(struct icalrecurrencetype *recur)
 {
     memset(recur,ICAL_RECURRENCE_ARRAY_MAX_BYTE,
@@ -197,4 +221,84 @@ void icalrecurrencetype_clear(struct icalrecurrencetype *recur)
     recur->interval = 0;
     recur->until.year = 0;
     recur->count = 0;
+}
+
+
+struct icalreqstattype icalreqstattype_from_string(char* str)
+{
+  char *p1,*p2;
+  size_t len; 
+  struct icalreqstattype stat;
+  int major, minor;
+
+  icalerror_check_arg((str != 0),"str");
+
+  stat.code = ICAL_UNKNOWN_STATUS;
+  stat.debug = 0; 
+
+   stat.desc = 0;
+
+  /* Get the status numbers */
+
+  sscanf(str, "%d.%d",&major, &minor);
+
+  if (major <= 0 || minor < 0){
+    icalerror_set_errno(ICAL_BADARG_ERROR);
+    return stat;
+  }
+
+  stat.code = icalenum_num_to_reqstat(major, minor);
+
+  if (stat.code == ICAL_UNKNOWN_STATUS){
+    icalerror_set_errno(ICAL_BADARG_ERROR);
+    return stat;
+  }
+  
+
+  p1 = strchr(str,';');
+
+  if (p1 == 0){
+    icalerror_set_errno(ICAL_BADARG_ERROR);
+    return stat;
+  }
+
+  /* Just ignore the second clause; it will be taken from inside the library 
+   */
+
+
+
+  p2 = strchr(p1+1,';');
+  if (p2 != 0 && *p2 != 0){
+    stat.debug = p2+1;
+  } 
+
+  return stat;
+  
+}
+
+char* icalreqstattype_as_string(struct icalreqstattype stat)
+{
+  char format[20];
+  char *temp;
+
+  temp = (char*)icalmemory_tmp_buffer(TEMP_MAX);
+
+  icalerror_check_arg_rz((stat.code != ICAL_UNKNOWN_STATUS),"Status");
+  
+  if (stat.desc == 0){
+    stat.desc = icalenum_reqstat_desc(stat.code);
+  }
+  
+  if(stat.debug != 0){
+    snprintf(temp,TEMP_MAX,"%d.%d;%s;%s", icalenum_reqstat_major(stat.code),
+             icalenum_reqstat_minor(stat.code),
+             stat.desc, stat.debug);
+    
+  } else {
+    snprintf(temp,TEMP_MAX,"%d.%d;%s", icalenum_reqstat_major(stat.code),
+             icalenum_reqstat_minor(stat.code),
+             stat.desc);
+  }
+
+  return temp;
 }

@@ -1,4 +1,4 @@
-#This file was created by <eric> Mon Feb  7 20:19:42 2000
+#This file was created by <eric> Sat Feb 19 10:33:21 2000
 #LyX 1.0 (C) 1995-1999 Matthias Ettrich and the LyX Team
 \lyxformat 2.15
 \textclass linuxdoc
@@ -47,13 +47,13 @@ Libical is an Open Source implementation of the iCalendar protocols and
 
 Libical implements the following specifications and protocols
 \layout Standard
-\added_space_top 0.3cm \added_space_bottom 0.3cm \align center \LyXTable
+\added_space_top 0.3cm \added_space_bottom 0.3cm \LyXTable
 multicol5
 5 2 0 0 -1 -1 -1 -1
-1 1 0 0
-1 1 0 0
-1 1 0 0
-1 1 0 0
+1 0 0 0
+1 0 0 0
+1 0 0 0
+1 0 0 0
 1 1 0 0
 8 1 0 "" ""
 8 1 1 "" ""
@@ -89,12 +89,16 @@ CAP
 draft
 \layout Standard
 
-(The current version, 0.14, does not implement iRip or CAP.
+(The current version, 0.15, does not implement iRip or CAP.
  ) 
 \layout Standard
 
 This documentation assumes that you are familiar with the iCalendar standards
  RFC2445 and RFC2446.
+ these specifications are online on the CALSCH webpage at:
+\layout Verbatim
+
+http://www.imc.org/ietf-calendar/
 \layout Subsection
 
 The libical project
@@ -104,16 +108,16 @@ This code is under active development.
  If you would like to contribute to the project, you can contact me, Eric
  Busboom, at eric@softwarestudio.org.
  The project has a webpage at
-\layout Quote
+\layout Verbatim
 
 http://softwarestudio.org/libical/index.html 
 \layout Standard
 
 and a mailing list that you can join by sending the following mail:
-\layout Code
+\layout Verbatim
 
 To: minimalist@softwarestudio.org 
-\layout Code
+\layout Verbatim
 
 Subject: subscribe libical 
 \layout Subsection
@@ -140,12 +144,18 @@ Purpose & Goals
 \layout Subsection
 
 Document version
-\layout Standard
+\layout Verbatim
 
-$Id: UsingLibical.lyx,v 1.1 2000/02/17 18:02:36 alves Exp $
+$Id: UsingLibical.lyx,v 1.1.1.2 2000/05/15 04:24:18 ericb Exp $
 \layout Section
 
 Building the Library
+\layout Standard
+
+Libical uses autoconf to generate makefiles, although it uses none of the
+ autoconf flags to influence the compilation.
+ It should built with no adjustments on Linux, FreeBSD and Solaris.
+ 
 \layout Section
 
 Structure 
@@ -160,7 +170,7 @@ Properties are the fundamental unit of information in iCal, and they work
  a bit like a hash entry, with a constant key and a variable value.
  Properties may also have modifiers, called parameters.
  In the iCal content line
-\layout Code
+\layout Verbatim
 
 ORGANIZER;ROLE=CHAIR:MAILTO:mrbig@host.com
 \layout Standard
@@ -201,34 +211,114 @@ Components are groups of properties that represent the core objects of a
 
 The central goal of libical is to parse iTIP data into an internal representatio
 n of Components, Properties, Parameters an Values, and to allow the user
- to manipulate the data in various ways
+ to manipulate the data in various ways 
+\layout Standard
+\added_space_bottom 0.3cm 
+\begin_float fig 
+\layout Standard
+
+
+\begin_inset Figure size 180 147
+file icaluml.eps
+flags 13
+
+\end_inset 
+
+
+\end_float 
+When a component is send across a network, if it is un-encrypted, it will
+ look something like:
+\layout Code
+
+BEGIN:VEVENT 
+\layout Code
+
+DTSTAMP:19980309T231000Z 
+\layout Code
+
+UID:guid-1.host1.com 
+\layout Code
+
+ORGANIZER;ROLE=CHAIR:MAILTO:mrbig@host.com 
+\layout Code
+
+ATTENDEE;RSVP=TRUE;ROLE=REQ-PARTICIPANT;CUTYPE=GROUP: 
+\layout Code
+
+
+\protected_separator 
+ MAILTO:employee-A@host.com 
+\layout Code
+
+DESCRIPTION:Project XYZ Review Meeting 
+\layout Code
+
+CATEGORIES:MEETING 
+\layout Code
+
+CLASS:PUBLIC 
+\layout Code
+
+CREATED:19980309T130000Z 
+\layout Code
+
+SUMMARY:XYZ Project Review 
+\layout Code
+
+DTSTART;TZID=US-Eastern:19980312T083000 
+\layout Code
+
+DTEND;TZID=US-Eastern:19980312T093000 
+\layout Code
+
+LOCATION:1CP Conference Room 4350 
+\layout Code
+
+END:VEVENT 
 \layout Subsection
+
+Core iCal classes
+\layout Subsubsection
 
 Components 
-\layout Subsection
+\layout Subsubsection
 
 Properties 
-\layout Subsection
+\layout Subsubsection
 
 Values 
-\layout Subsection
+\layout Subsubsection
 
 Parameters 
 \layout Subsection
 
+Other elements of libical
+\layout Standard
+
+In addition to the core iCal classes, libical has many other types, structures,
+ classes that aid in creating and using iCal components.
+ 
+\layout Subsubsection
+
 Enumerations
-\layout Subsection
+\layout Subsubsection
 
 Types
-\layout Subsection
+\layout Subsubsection
 
 The Parser
-\layout Subsection
+\layout Subsubsection
 
 Restrictions
-\layout Subsection
+\layout Subsubsection
+
+Error objects
+\layout Subsubsection
 
 Memory Management
+\layout Subsubsection
+
+Storage classes
 \layout Section
 
 Differences From RFCs 
@@ -250,7 +340,8 @@ Libical defines components for groups of properties that look and act like
  components, but are not defined as components in the specification.
  XDAYLIGHT and XSTANDARD are notable examples.
  These pseudo components group properties within the VTIMEZONE components.
- XDAYLIGHT starts with 
+ For instanace, the timezone properties associated with daylight savings
+ time starts with 
 \begin_inset Quotes eld
 \end_inset 
 
@@ -264,8 +355,25 @@ BEGIN:DAYLIGHT
 
 END:DAYLIGHT, just like other components, but is not defined as a component
  in RFC2445.
- ( See RFC2445, page 61 ) In Libical, it is a component.
- 
+ ( See RFC2445, page 61 ) In Libical,this grouping is represented by the
+ XDAYLIGHT component.
+ Standard iCAL components all start with the letter 
+\begin_inset Quotes eld
+\end_inset 
+
+V,
+\begin_inset Quotes erd
+\end_inset 
+
+ while pseudo components start with
+\begin_inset Quotes erd
+\end_inset 
+
+X.
+\begin_inset Quotes erd
+\end_inset 
+
+
 \layout Standard
 
 There are also pseudo components that are conceptually derived classess
@@ -346,16 +454,16 @@ S property can have multiple value instances.
  In libical, all properties have a single value, and multi-valued properties
  are broken down into multiple single valued properties during parsing.
  That is, an input line like, 
-\layout Code
+\layout Verbatim
 
 CATEGORIES: work, home
 \layout Standard
 
 becomes in libical's internal representation
-\layout Code
+\layout Verbatim
 
 CATEGORIES: work
-\layout Code
+\layout Verbatim
 
 CATEGORIES: home
 \layout Standard
@@ -392,55 +500,1232 @@ Using constructor interfaces, you create each of the objects seperately
  and them assemble them in to components: 
 \layout Code
 
+icalcomponent *event;
+\layout Code
+
+icalproperty *prop;
+\layout Code
+
+icalparameter *param;
+\layout Code
+
+struct icaltimetype atime;
+\layout Code
+
 event = icalcomponent_new(ICAL_VEVENT_COMPONENT);
 \layout Code
 
-icalcomponent_add_property(event, icalproperty_new_dtstamp(atime) );
+prop = icalproperty_new_dtstamp(atime) ;
 \layout Code
 
-icalcomponent_add_property(event,icalproperty_new_uid(strdup("guid-1.host1.com"))
- );
+icalcomponent_add_property(event, prop);
 \layout Code
 
-property=icalproperty_new_organizer(strdup("mrbig@host.com")); 
+prop = icalproperty_new_uid(strdup("guid-1.host1.com")) );
 \layout Code
 
-icalproperty_add_parameter(property,icalparameter_new_role(ICAL_ROLE_CHAIR)
- );
+icalcomponent_add_property(event,prop);
 \layout Code
 
-icalcomponent_add_property(event,property);
+prop=icalproperty_new_organizer(strdup("mrbig@host.com")); 
+\layout Code
+
+param = icalparameter_new_role(ICAL_ROLE_CHAIR) 
+\layout Code
+
+icalproperty_add_parameter(prop, param);
+\layout Code
+
+icalcomponent_add_property(event,prop);
+\layout Standard
+
+While we are on this example, you should notice that libical uses a semi-object-
+oriented style of interface.
+ Most things you work with are objects, that are instantiated with a constructor
+ that has 
+\begin_inset Quotes eld
+\end_inset 
+
+new
+\begin_inset Quotes erd
+\end_inset 
+
+ in the name.
+ Also note that, other than the object reference, most structure data is
+ passed in to libical routines by value.
+ Strings, of course, are passed in by reference, but libical will take ownership
+ of the memory, so you had beter strdup() the data unless you want a core
+ dump when the memory is freed for the second time.
+ Libical has some complex bu very regular memory handling rules.
+ These are detailed in section 
+\begin_inset LatexCommand \ref{sec:memory}
+
+\end_inset 
+
+.
+\layout Standard
+
+If any of the constructors fail, they will return 0.
+ If you try to insert 0 into a property or component, or use a zero-valued
+ object reference, libical will either silently ignore the error or will
+ abort with an error message.
+ This behavior is controlled by a compile time flag (ICAL_ERRORS_ARE_FATAL),
+ and will abort by default.
+ 
 \layout Subsubsection
 
 vaargs Constructors 
-\layout Subsubsection
-
-Parsing Text Files 
-\layout Subsection
-
-Accessing Components 
-\layout Subsubsection
-
-Finding Components 
-\layout Subsubsection
-
-Removing Components 
 \layout Standard
 
-Removing an element from a list while iterating through the list can cause
- problems, since you will probably be removing the element that the internal
- iterator points to.
- This will result in the iteration loop terminating immediately after removing
- the element.
- To avoid the problem, you will need to step the iterator ahead of the element
- you are going to remove, like this:
-\layout Code
-
-for(c = icalcomponent_get_first_component(parent_comp,ICAL_ANY_COMPONENT);
+There is another way to create complex components, which is arguable more
+ elegant, if you are not horrified by vaargs.
+ The vaargs constructor interface all you to create intricate components
+ in a single block of text.
  
 \layout Code
 
 
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+ calendar = 
+\layout Code
+
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+icalcomponent_vanew(
+\layout Code
+
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+ ICAL_VCALENDAR_COMPONENT,
+\layout Code
+
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+ icalproperty_new_version(strdup("2.0")),
+\layout Code
+
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+ icalproperty_new_prodid(strdup("-//RDU Software//NONSGML HandCal//EN")),
+\layout Code
+
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+ icalcomponent_vanew(
+\layout Code
+
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+ICAL_VEVENT_COMPONENT,
+\layout Code
+
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+icalproperty_new_dtstamp(atime),
+\layout Code
+
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+icalproperty_new_uid(strdup("guid-1.host1.com")),
+\layout Code
+
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+icalproperty_vanew_organizer(
+\layout Code
+
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+ strdup("mrbig@host.com"),
+\layout Code
+
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+ icalparameter_new_role(ICAL_ROLE_CHAIR),
+\layout Code
+
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+ 0
+\layout Code
+
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+),
+\layout Code
+
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+icalproperty_vanew_attendee(
+\layout Code
+
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+ strdup("employee-A@host.com"),
+\layout Code
+
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+ icalparameter_new_role(ICAL_ROLE_REQPARTICIPANT),
+\layout Code
+
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+ icalparameter_new_rsvp(1),
+\layout Code
+
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+ icalparameter_new_cutype(ICAL_CUTYPE_GROUP),
+\layout Code
+
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+ 0
+\layout Code
+
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+ ),
+\layout Code
+
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+icalproperty_new_location(strdup("1CP Conference Room 4350")),
+\layout Code
+
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+0
+\layout Code
+
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+),
+\layout Code
+
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+ 0
+\layout Code
+
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+ );
+\layout Standard
+
+This form is similar to the regular constructor, except that they have 
+\begin_inset Quotes eld
+\end_inset 
+
+vanew
+\begin_inset Quotes erd
+\end_inset 
+
+ instead of 
+\begin_inset Quotes eld
+\end_inset 
+
+new
+\begin_inset Quotes erd
+\end_inset 
+
+ in the name.
+ The arguments are similar too, except that the component contstructor can
+ have a list of properties, and the property constructor can have a list
+ or parameters.
+ Be sure to terminate every list with a '0', or your code will crash, if
+ you are lucky.
+ 
+\layout Subsubsection
+
+Parsing Text Files 
+\layout Standard
+
+The final way to create components will probably be the most common; you
+ can create components from RFC2445 compliant text.
+ If you have the string in memory, use
+\layout Verbatim
+
+icalcomponent* icalparser_parse_string(char* str);
+\layout Standard
+
+This may seem wasteful if you want to pull a large component off of the
+ network; you may prefer to parse the component line by line.
+ This is possible too, with 
+\layout Verbatim
+
+icalcomponent* icalparser_parse(char*(*line_gen_func)(char *s, size_t size,
+ void *d));
+\layout Standard
+
+This routine takes a pointer to a function that copies 'size' characters
+ to 's'.
+ The routine returns 's', similar to fgets().
+ See string_line_generator in icalparser.c for an example.
+ 
+\layout Subsection
+
+Accessing Components 
+\layout Standard
+
+Given a reference to a component, you probably will want to access the propertie
+s, parameters and values inside.
+ 
+\layout Subsubsection
+
+Finding Components 
+\layout Standard
+
+To find a sub-component of a component, use: 
+\layout Verbatim
+
+icalproperty* icalcomponent_get_first_component(
+\layout Verbatim
+
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+icalcomponent* component, 
+\layout Verbatim
+
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+icalcomponent_kind kind);
+\layout Standard
+
+This routine will return a reference to the first component of the type
+ 'kind.' The key kind values, listed in icalenums.h are: 
+\layout Code
+
+ICAL_ANY_COMPONENT
+\layout Code
+
+ICAL_VEVENT_COMPONENT
+\layout Code
+
+ICAL_VTODO_COMPONENT
+\layout Code
+
+ICAL_VJOURNAL_COMPONENT
+\layout Code
+
+ICAL_VCALENDAR_COMPONENT 
+\layout Code
+
+ICAL_VFREEBUSY_COMPONENT
+\layout Code
+
+ICAL_VALARM_COMPONENT
+\layout Standard
+
+These are only the most common components; there are many more listed in
+ icalenums.h.
+\layout Standard
+
+As you might guess, if there is more than one subcomponent of the type you
+ have chosen, this routine will return only the first.
+ to get at the others, you need to iterate through the component.
+ 
+\layout Subsubsection
+
+Interating Through Components
+\layout Standard
+
+Iteration requires a second routine to get the next subcomponent after the
+ first:
+\layout Verbatim
+
+icalcomponent* icalcomponent_get_next_component(icalcomponent* component,
+ 
+\layout Verbatim
+
+icalcomponent_kind kind);
+\layout Standard
+
+With the 'first' and 'next' routines, you can create a for loop to iterate
+ through all of a components subcomponents
+\layout Code
+
+
+\protected_separator 
+ for(c = icalcomponent_get_first_component(comp,ICAL_ANY_COMPONENT); 
+\layout Code
+
+
+\protected_separator 
+ 
 \protected_separator 
  
 \protected_separator 
@@ -459,7 +1744,9 @@ c != 0;
 \protected_separator 
  
 \protected_separator 
-c = next
+ 
+\protected_separator 
+c = icalcomponent_get_next_component(comp,ICAL_ANY_COMPONENT))
 \layout Code
 
 { 
@@ -469,7 +1756,75 @@ c = next
 \protected_separator 
  
 \protected_separator 
- next = icalcomponent_get_next_component(parent_comp,ICAL_ANY_COMPONENT);
+ 
+\protected_separator 
+ do_something(c);
+\layout Code
+
+}
+\layout Standard
+
+This code bit wil iterate through all of the subcomponents in 'comp' but
+ you can select a specific type of component by changing ICAL_ANY_COMPONENT
+ to another component type.
+\layout Subsubsection
+
+Removing Components 
+\layout Standard
+
+Libical component have internal iterators, so you can only have one iteration
+ over a component at a time.
+ Removing an element from a list while iterating through the list can cause
+ problems, since you will probably be removing the element that the internal
+ iterator points to.
+ This will result in the iteration loop terminating immediately after removing
+ the element.
+ To avoid the problem, you will need to step the iterator ahead of the element
+ you are going to remove, like this:
+\layout Code
+
+for(c = icalcomponent_get_first_component(parent_comp,ICAL_ANY_COMPONENT);
+ 
+\layout Code
+
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+
+\protected_separator 
+c != 0; 
+\layout Code
+
+
+\protected_separator 
+ 
+\protected_separator 
+ 
+\protected_separator 
+ 
+\protected_separator 
+c = next
+\layout Code
+
+{ 
+\protected_separator 
+ 
+\protected_separator 
+ 
+\layout Code
+
+
+\protected_separator 
+next = icalcomponent_get_next_component(parent_comp,ICAL_ANY_COMPONENT);
 \layout Code
 
 
@@ -482,10 +1837,180 @@ c = next
 }
 \layout Subsubsection
 
-Finding Properties 
-\layout Subsubsection
+Working with properties and parameters
+\layout Standard
 
-Removing Properties 
+Finding, iterating and removing properties works the same as it does for
+ components, using the property-specific or parameter-specific interfaces:
+ 
+\layout Verbatim
+
+icalproperty* icalcomponent_get_first_property(
+\layout Verbatim
+
+
+\protected_separator 
+ 
+\protected_separator 
+ 
+\protected_separator 
+icalcomponent* component, 
+\layout Verbatim
+
+
+\protected_separator 
+ 
+\protected_separator 
+ 
+\protected_separator 
+icalproperty_kind kind); 
+\layout Verbatim
+
+icalproperty* icalcomponent_get_next_property(
+\layout Verbatim
+
+
+\protected_separator 
+ 
+\protected_separator 
+ 
+\protected_separator 
+icalcomponent* component, 
+\layout Verbatim
+
+
+\protected_separator 
+ 
+\protected_separator 
+ 
+\protected_separator 
+icalproperty_kind kind);
+\layout Verbatim
+
+void icalcomponent_add_property(
+\layout Verbatim
+
+
+\protected_separator 
+ 
+\protected_separator 
+ 
+\protected_separator 
+icalcomponent* component, 
+\layout Verbatim
+
+
+\protected_separator 
+ 
+\protected_separator 
+ 
+\protected_separator 
+icalproperty* property);
+\layout Verbatim
+
+void icalcomponent_remove_property(
+\layout Verbatim
+
+
+\protected_separator 
+ 
+\protected_separator 
+ 
+\protected_separator 
+icalcomponent* component, 
+\layout Verbatim
+
+
+\protected_separator 
+ 
+\protected_separator 
+ 
+\protected_separator 
+icalproperty* property);
+\layout Verbatim
+
+icalparameter* icalproperty_get_first_parameter(
+\layout Verbatim
+
+
+\protected_separator 
+ 
+\protected_separator 
+ 
+\protected_separator 
+icalproperty* prop, 
+\layout Verbatim
+
+
+\protected_separator 
+ 
+\protected_separator 
+ 
+\protected_separator 
+icalparameter_kind kind); 
+\layout Verbatim
+
+icalparameter* icalproperty_get_next_parameter(
+\layout Verbatim
+
+
+\protected_separator 
+ 
+\protected_separator 
+ 
+\protected_separator 
+icalproperty* prop, 
+\layout Verbatim
+
+
+\protected_separator 
+ 
+\protected_separator 
+ 
+\protected_separator 
+icalparameter_kind kind);
+\layout Verbatim
+
+void icalproperty_add_parameter(
+\layout Verbatim
+
+
+\protected_separator 
+ 
+\protected_separator 
+ 
+\protected_separator 
+icalproperty* prop,
+\layout Verbatim
+
+
+\protected_separator 
+ 
+\protected_separator 
+ 
+\protected_separator 
+icalparameter* parameter);
+\layout Verbatim
+
+void icalproperty_remove_parameter(
+\layout Verbatim
+
+
+\protected_separator 
+ 
+\protected_separator 
+ 
+\protected_separator 
+icalproperty* prop, 
+\layout Verbatim
+
+
+\protected_separator 
+ 
+\protected_separator 
+ 
+\protected_separator 
+icalparameter_kind kind);
 \layout Subsubsection
 
 Getting Values 
@@ -514,6 +2039,11 @@ The libical distribution inclues a seperate library, libicalss, that allows
  This library is documented seperately.
  
 \layout Subsection
+
+
+\begin_inset LatexCommand \label{sec:memory}
+
+\end_inset 
 
 Memory Management 
 \layout Standard
@@ -562,7 +2092,8 @@ Error Handling
 icalerror_errno.
  Return values.
  #defines.
- icalerror_stop_here
+ icalerror_stop_here.
+ X-LIC-ERROR
 \layout Subsubsection
 
 Return values
@@ -572,6 +2103,12 @@ icalerrno
 \layout Subsubsection
 
 Component errors
+\layout Subsubsection
+
+icalerror_stop_here
+\layout Subsubsection
+
+X-LIC-ERROR
 \layout Subsection
 
 Naming Standard
@@ -678,7 +2215,7 @@ _VALUE,
 \begin_inset Quotes eld
 \end_inset 
 
-_PAAMETER
+_PARAMETER
 \begin_inset Quotes erd
 \end_inset 
 
@@ -701,7 +2238,7 @@ Iteration
 \layout Standard
 
 Copying components.
- Remember that you must clone or remove an object before putting in on anothr
+ Remember that you must clone or remove an object before putting in on another
  list.
  
 \layout Standard

@@ -35,14 +35,19 @@
  * several buffers active simultaneously, which is handy when creating
  * string representations of components. */
 
-
 #define ICALMEMORY_C
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 
 #include "icalmemory.h"
 #include "icalerror.h"
 
 #include <stdio.h> /* for printf (debugging) */
 #include <stdlib.h> /* for malloc, realloc */
+#include <string.h> /* for memset() */
 
 #define BUFFER_RING_SIZE 25
 #define MIN_BUFFER_SIZE 200
@@ -179,7 +184,7 @@ icalmemory_append_string(char** buf, char** pos, size_t* buf_size,
     data_length = (size_t)*pos - (size_t)*buf;    
     final_length = data_length + string_length; 
 
-    if ( final_length > (size_t) *buf_size ) {
+    if ( final_length >= (size_t) *buf_size) {
 
 	
 	*buf_size  = (*buf_size) * 2  + final_length;
