@@ -460,12 +460,16 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 		for (b = e->buttons;b;b=b->next) {
 			if (b->stock) {
 				if (b->label) {
+#if 0
 					/* FIXME: So although this looks like it will work, it wont.
-					   Need to do it the hard way ... */
+					   Need to do it the hard way ... it also breaks the
+					   default_response stuff */
 					w = gtk_button_new_from_stock(b->stock);
 					gtk_button_set_label((GtkButton *)w, b->label);
 					gtk_widget_show(w);
 					gtk_dialog_add_action_widget(dialog, w, b->response);
+#endif
+					gtk_dialog_add_button(dialog, b->label, b->response);
 				} else
 					gtk_dialog_add_button(dialog, b->stock, b->response);
 			} else

@@ -1,3 +1,12 @@
+2005-01-20  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #64964.
+
+	* e-error.c (e_error_newv): just use add_button, not
+	add_action_widget, for stock+label widgets, since they both show
+	the same, and for some reason set_default_response doesn't work
+	otherwise.
+
 2005-01-20  Harry Lu  <harry.lu@sun.com>
 
 	* e-search-bar.c: (activate_by_subitems): add a translater note.
