@@ -2345,11 +2345,12 @@ header_param_list_format_append(GString *out, struct _header_param *p)
 	while (p) {
 		int here = out->len;
 		if (len+strlen(p->name)+strlen(p->value)>60) {
-			out = g_string_append(out, "\n\t");
+			out = g_string_append(out, ";\n\t");
 			len = 0;
-		}
-
-		g_string_sprintfa(out, "; %s=", p->name);
+		} else
+			out = g_string_append (out, "; ");
+		
+		g_string_sprintfa(out, "%s=", p->name);
 
 		for (ch = p->value; *ch; ch++) {
 			if (is_tspecial(*ch))

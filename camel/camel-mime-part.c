@@ -221,19 +221,6 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 	return TRUE;
 }
 
-/* Note: It is my understanding that we need to encode the values here as they are
-   not being encoded at the header_raw_* level. */
-
-/*
-   NO: This is absolutely wrong.  The medium interface is entirely raw.
-   You cannot just go blingingly encoding headers because it depends entirely
-   on the header being encoded.  process_header decodes and mirrors the
-   known headers, appropriately, and we just add this raw header to our
-   list.
-
-   Please read the comments, they explained it already!!!!!!!
-*/
-
 static void
 set_header (CamelMedium *medium, const char *header_name, const void *header_value)
 {
