@@ -1,3 +1,8 @@
+2001-10-29  Damon Chaplin  <damon@ximian.com>
+
+	* en_AU.po: new file. Copied en_GB.po since they should be pretty much
+	exactly the same.
+
 2001-10-30  Wang Jian  <lark@linux.net.cn>
 
 	* zh_CN.po: Updated Simplified Chinese translation by
