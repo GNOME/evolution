@@ -41,8 +41,8 @@
 struct _iconv_cache_bucket {
 	struct _iconv_cache_bucket *next;
 	struct _iconv_cache_bucket *prev;
-	guint32 refcount;
-	gboolean used;
+	guint32 refcount:31;
+	guint32 used:1;
 	iconv_t cd;
 	char *key;
 };

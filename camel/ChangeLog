@@ -1,7 +1,9 @@
 2003-02-24  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* camel-iconv.c (iconv_cache_bucket_expire): Use g_iconv_close()
-	here, missed this before.
+	* camel-iconv.c: Make bucket->refcount 31 bits and bucket->used 1
+	bit instead of having each use their own 32bit int.
+	(iconv_cache_bucket_expire): Use g_iconv_close() here, missed this
+	before.
 	(camel_iconv): Might as well call g_iconv here even though it just
 	calls iconv directly.
 
