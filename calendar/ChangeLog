@@ -1,3 +1,10 @@
+2004-03-17 Gary Ekker <gekker@novell.com>
+
+	Fixes #55292
+	
+	* gui/e-pub-utils.c (e_pub_publish): fix a crash when trying to
+	publish a NULL component
+
 2004-03-16  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/dialogs/select-source-dialog.[ch]: new dialog for allowing the

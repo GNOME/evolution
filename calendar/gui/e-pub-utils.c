@@ -286,8 +286,9 @@ e_pub_publish (gboolean publish) {
 				g_free (source_uid);
 			}
 			
-			published = itip_publish_comp ((ECal *) client, 
-						       uri->location, 
+			if (cloned && clone)
+				published = itip_publish_comp ((ECal *) client,
+						       uri->location,
 						       uri->username, 
 						       uri->password, &clone);
 			
