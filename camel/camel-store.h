@@ -72,6 +72,10 @@ struct _CamelStore
 #define CAMEL_STORE_FOLDER_BODY_INDEX (1<<1)
 #define CAMEL_STORE_FOLDER_PRIVATE (1<<2) /* a private folder, that shouldn't show up in unmatched/folder info's, etc */
 
+#define CAMEL_STORE_FOLDER_INFO_FAST       (1 << 0)
+#define CAMEL_STORE_FOLDER_INFO_RECURSIVE  (1 << 1)
+#define CAMEL_STORE_FOLDER_INFO_SUBSCRIBED (1 << 2)
+
 typedef struct {
 	CamelServiceClass parent_class;
 
@@ -104,12 +108,9 @@ typedef struct {
 	void            (*sync)                     (CamelStore *store,
 						     CamelException *ex);
 
-	/* this should take flags instead, so its more futureproof */
 	CamelFolderInfo *(*get_folder_info)         (CamelStore *store,
 						     const char *top,
-						     gboolean fast,
-						     gboolean recursive,
-						     gboolean subscribed_only,
+						     guint32 flags,
 						     CamelException *ex);
 	void            (*free_folder_info)         (CamelStore *store,
 						     CamelFolderInfo *fi);
@@ -155,9 +156,7 @@ void             camel_store_sync               (CamelStore *store,
 
 CamelFolderInfo *camel_store_get_folder_info    (CamelStore *store,
 						 const char *top,
-						 gboolean fast,
-						 gboolean recursive,
-						 gboolean subscribed_only,
+						 guint32 flags,
 						 CamelException *ex);
 void             camel_store_free_folder_info   (CamelStore *store,
 						 CamelFolderInfo *fi);

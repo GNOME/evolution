@@ -1,11 +1,12 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* camel-imap-folder.h : Abstract class for an imap folder */
+/* camel-imap-folder.h: class for an imap folder */
 
 /* 
- * Author: 
- *   Jeffrey Stedfast <fejj@helixcode.com> 
+ * Authors:
+ *   Dan Winship <danw@ximian.com>
+ *   Jeffrey Stedfast <fejj@ximian.com> 
  *
- * Copyright (C) 2000 Helix Code, Inc. (www.helixcode.com)
+ * Copyright (C) 2000, 2001 Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -34,7 +35,7 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include "camel-imap-types.h"
-#include "camel-folder.h"
+#include "camel-disco-folder.h"
 #include <camel/camel-folder-search.h>
 
 #define CAMEL_IMAP_FOLDER_TYPE     (camel_imap_folder_get_type ())
@@ -43,7 +44,7 @@ extern "C" {
 #define CAMEL_IS_IMAP_FOLDER(o)    (CAMEL_CHECK_TYPE((o), CAMEL_IMAP_FOLDER_TYPE))
 
 struct _CamelImapFolder {
-	CamelFolder parent_object;
+	CamelDiscoFolder parent_object;
 
 	struct _CamelImapFolderPrivate *priv;
 
@@ -53,7 +54,7 @@ struct _CamelImapFolder {
 
 
 typedef struct {
-	CamelFolderClass parent_class;
+	CamelDiscoFolderClass parent_class;
 
 	/* Virtual methods */	
 	
@@ -63,7 +64,6 @@ typedef struct {
 /* public methods */
 CamelFolder *camel_imap_folder_new (CamelStore *parent,
 				    const char *folder_name,
-				    const char *short_name,
 				    const char *folder_dir,
 				    CamelException *ex);
 

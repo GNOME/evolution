@@ -46,9 +46,7 @@ static char *get_name(CamelService *service, gboolean brief);
 static CamelFolder *get_inbox (CamelStore *store, CamelException *ex);
 static void rename_folder(CamelStore *store, const char *old_name, const char *new_name, CamelException *ex);
 static CamelFolderInfo *get_folder_info (CamelStore *store, const char *top,
-					 gboolean fast, gboolean recursive,
-					 gboolean subscribed_only,
-					 CamelException *ex);
+					 guint32 flags, CamelException *ex);
 static void delete_folder(CamelStore *store, const char *folder_name, CamelException *ex);
 static void rename_folder(CamelStore *store, const char *old, const char *new, CamelException *ex);
 
@@ -187,9 +185,7 @@ get_name (CamelService *service, gboolean brief)
 
 static CamelFolderInfo *
 get_folder_info (CamelStore *store, const char *top,
-		 gboolean fast, gboolean recursive,
-		 gboolean subscribed_only,
-		 CamelException *ex)
+		 guint32 flags, CamelException *ex)
 {
 	/* FIXME: This is broken, but it corresponds to what was
 	 * there before.

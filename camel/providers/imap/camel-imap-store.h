@@ -33,7 +33,7 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include "camel-imap-types.h"
-#include "camel-remote-store.h"
+#include "camel-disco-store.h"
 
 #define CAMEL_IMAP_STORE_TYPE     (camel_imap_store_get_type ())
 #define CAMEL_IMAP_STORE(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_IMAP_STORE_TYPE, CamelImapStore))
@@ -59,7 +59,7 @@ typedef enum {
 #define IMAP_PARAM_FILTER_INBOX			(1 << 2)
 
 struct _CamelImapStore {
-	CamelRemoteStore parent_object;	
+	CamelDiscoStore parent_object;	
 	struct _CamelImapStorePrivate *priv;
 
 	/* Information about the command channel / connection status */
@@ -77,15 +77,13 @@ struct _CamelImapStore {
 
 
 typedef struct {
-	CamelRemoteStoreClass parent_class;
+	CamelDiscoStoreClass parent_class;
 
 } CamelImapStoreClass;
 
 
 /* Standard Camel function */
 CamelType camel_imap_store_get_type (void);
-
-gboolean camel_imap_store_check_online (CamelImapStore *store, CamelException *ex);
 
 #ifdef __cplusplus
 }

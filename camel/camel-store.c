@@ -60,9 +60,7 @@ static void rename_folder (CamelStore *store, const char *old_name,
 
 static void store_sync (CamelStore *store, CamelException *ex);
 static CamelFolderInfo *get_folder_info (CamelStore *store, const char *top,
-					 gboolean fast, gboolean recursive,
-					 gboolean subscribed_only,
-					 CamelException *ex);
+					 guint32 flags, CamelException *ex);
 static void free_folder_info (CamelStore *store, CamelFolderInfo *tree);
 
 static gboolean folder_subscribed (CamelStore *store, const char *folder_name);
@@ -471,9 +469,7 @@ camel_store_sync (CamelStore *store, CamelException *ex)
 
 static CamelFolderInfo *
 get_folder_info (CamelStore *store, const char *top,
-		 gboolean fast, gboolean recursive,
-		 gboolean subscribed_only,
-		 CamelException *ex)
+		 guint32 flags, CamelException *ex)
 {
 	g_warning ("CamelStore::get_folder_info not implemented for `%s'",
 		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store)));
@@ -484,36 +480,37 @@ get_folder_info (CamelStore *store, const char *top,
  * camel_store_get_folder_info:
  * @store: a CamelStore
  * @top: the name of the folder to start from
- * @fast: whether or not to do a "fast" scan.
- * @recursive: whether to include information for subfolders
+ * @flags: various CAMEL_STORE_FOLDER_INFO_* flags to control behavior
  * @ex: a CamelException
  *
  * This fetches information about the folder structure of @store,
  * starting with @top, and returns a tree of CamelFolderInfo
- * structures. If @fast is %TRUE, the message_count or
- * unread_message_count fields of some or all of the structures may be
- * set to -1, if the store cannot determine that information quickly.
- * If @recursive is %TRUE, the returned tree will include all levels of
- * hierarchy below @top. If it is %FALSE, it will only include the
- * immediate subfolders of @top.
- *
+ * structures. If @flags includes %CAMEL_STORE_FOLDER_INFO_SUBSCRIBED,
+ * only subscribed folders will be listed. (This flag can only be used
+ * for stores that support subscriptions.) If @flags includes
+ * %CAMEL_STORE_FOLDER_INFO_RECURSIVE, the returned tree will include
+ * all levels of hierarchy below @top. If not, it will only include
+ * the immediate subfolders of @top. If @flags includes
+ * %CAMEL_STORE_FOLDER_INFO_FAST, the unread_message_count fields of
+ * some or all of the structures may be set to -1, if the store cannot
+ * determine that information quickly.
+ * 
  * Return value: a CamelFolderInfo tree, which must be freed with
  * camel_store_free_folder_info.
  **/
 CamelFolderInfo *
 camel_store_get_folder_info (CamelStore *store, const char *top,
-			     gboolean fast, gboolean recursive,
-			     gboolean subscribed_only,
-			     CamelException *ex)
+			     guint32 flags, CamelException *ex)
 {
 	CamelFolderInfo *ret;
 
 	g_return_val_if_fail (CAMEL_IS_STORE (store), NULL);
+	g_return_val_if_fail ((store->flags & CAMEL_STORE_SUBSCRIPTIONS) ||
+			      !(flags & CAMEL_STORE_FOLDER_INFO_SUBSCRIBED),
+			      NULL);
 
 	CAMEL_STORE_LOCK(store, folder_lock);
-
-	ret = CS_CLASS (store)->get_folder_info (store, top, fast, recursive, subscribed_only, ex);
-
+	ret = CS_CLASS (store)->get_folder_info (store, top, flags, ex);
 	CAMEL_STORE_UNLOCK(store, folder_lock);
 
 	return ret;

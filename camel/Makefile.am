@@ -24,6 +24,8 @@ libcamel_la_SOURCES = 				\
 	camel-cipher-context.c			\
 	camel-data-wrapper.c			\
 	camel-digest-folder.c			\
+	camel-disco-folder.c			\
+	camel-disco-store.c			\
 	camel-exception.c			\
 	camel-file-utils.c			\
 	camel-filter-driver.c			\
@@ -100,6 +102,9 @@ libcamelinclude_HEADERS =			\
 	camel-cipher-context.h			\
 	camel-data-wrapper.h			\
 	camel-digest-folder.h			\
+	camel-disco-diary.h			\
+	camel-disco-folder.h			\
+	camel-disco-store.h			\
 	camel-exception-list.def		\
 	camel-exception.h			\
 	camel-file-utils.h			\

@@ -1,3 +1,29 @@
+2001-05-03  Dan Winship  <danw@ximian.com>
+
+	* camel-disco-store.c: new abstract class for disconnectable
+	remote stores
+
+	* camel-disco-folder.c: new abstract class for folders on
+	disconnectable stores.
+
+	* Makefile.am: Add camel-disco-folder.[ch] and
+	camel-disco-store.[ch].
+
+	* providers/imap/camel-imap-store.c: Make this a subclass of
+	CamelDiscoStore, and fix up the offline interfaces for the changes
+	since they were first written (particularly the fact that some
+	IMAP stores don't just use subscribed folders).
+
+	* providers/imap/camel-imap-folder.c: Make this a subclass of
+	CamelDiscoFolder, although most ops still fail in disconnected
+	mode.
+
+	* camel-store.c (camel_store_get_folder_info): Change gboolean,
+	gboolean, gboolean to guint32 in the prototype for this function.
+
+	* providers/local/camel-local-store.c (get_folder_info): Update
+	for prototype change.
+
 2001-05-02  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-store.h: Clean this up a bit. Add a
