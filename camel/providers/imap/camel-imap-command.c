@@ -273,7 +273,7 @@ imap_read_untagged (CamelImapStore *store, char *line, CamelException *ex)
 						  FALSE, NULL);
 			goto lose;
 		}
-		str->str[length] = '\0';
+		str->str[length + 1] = '\0';
 
 		/* Fix up the literal, turning CRLFs into LF. Also, if
 		 * we find any embedded NULs, strip them. This is
@@ -292,7 +292,7 @@ imap_read_untagged (CamelImapStore *store, char *line, CamelException *ex)
 		s = d = str->str + 1;
 		end = str->str + 1 + length;
 		while (s < end) {
-			while (*s == '\0' && s < end) {
+			while (s < end && *s == '\0') {
 				s++;
 				length--;
 			}
@@ -313,7 +313,7 @@ imap_read_untagged (CamelImapStore *store, char *line, CamelException *ex)
 		 * don't want it to be shorter either, because then the
 		 * GString's length would be off...
 		 */
-		sprintf (p, "{%0*d}", ldigits, str->len);
+		sprintf (p, "{%0*d}", ldigits, length);
 
 		fulllen += str->len;
 		g_ptr_array_add (data, str);

@@ -257,7 +257,7 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 				}
 			}
 		} else {
-			memcpy(bptr, sbf->ptr, bytes_left);
+			memcpy(bptr, sbf->ptr, n);
 			sbf->ptr += n;
 			bptr += n;
 			n = 0;

@@ -1,3 +1,11 @@
+2000-11-29  Dan Winship  <danw@helixcode.com>
+
+	* providers/imap/camel-imap-command.c (imap_read_untagged): Fix
+	some off-by-one-ness.
+
+	* camel-stream-buffer.c (stream_read): Fix another bug found in
+	previously-unused code here.
+
 2000-11-29  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* tests/lib/Makefile.am (INCLUDES): `$(top_srcdir)' for builddir
