@@ -76,6 +76,7 @@ images_DATA = \
 	hide_read_messages.xpm		\
 	hide_selected_messages.xpm	\
 	house.png           		\
+	ldap-16.png			\
 	malehead.png			\
 	mail-config-druid.png		\
 	mail-config-druid-identity.png	\
