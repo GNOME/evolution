@@ -404,9 +404,8 @@ imap_connect (CamelService *service, CamelException *ex)
 	if (service->url->authmech) {
 		if (!g_hash_table_lookup (store->authtypes, service->url->authmech)) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
-					      "IMAP server %s does not "
-					      "support requested "
-					      "authentication type %s",
+					      _("IMAP server %s does not support requested "
+						"authentication type %s"),
 					      service->url->host,
 					      service->url->authmech);
 			camel_service_disconnect (service, TRUE, NULL);
@@ -416,8 +415,7 @@ imap_connect (CamelService *service, CamelException *ex)
 		authtype = camel_sasl_authtype (service->url->authmech);
 		if (!authtype) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
-					      "No support for "
-					      "authentication type %s",
+					      _("No support for authentication type %s"),
 					      service->url->authmech);
 			camel_service_disconnect (service, TRUE, NULL);
 			return FALSE;
@@ -460,7 +458,7 @@ imap_connect (CamelService *service, CamelException *ex)
 
 			if (!service->url->passwd) {
 				camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
-						     "You didn\'t enter a password.");
+						     _("You didn't enter a password."));
 				camel_service_disconnect (service, TRUE, NULL);
 				return FALSE;
 			}

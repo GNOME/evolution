@@ -280,7 +280,10 @@ smtp_connect (CamelService *service, CamelException *ex)
 	
 	/* check to see if AUTH is required, if so...then AUTH ourselves */
 	if (service->url->authmech) {
+		CamelSession *session = camel_service_get_session (service);
 		CamelServiceAuthType *authtype;
+		gboolean authenticated = FALSE;
+		char *errbuf = NULL;
 		
 		if (!transport->is_esmtp || !g_hash_table_lookup (transport->authtypes, service->url->authmech)) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
@@ -300,9 +303,58 @@ smtp_connect (CamelService *service, CamelException *ex)
 			return FALSE;
 		}
 		
-		if (!smtp_auth (transport, authtype->authproto, ex)) {
-			camel_service_disconnect (service, TRUE, NULL);
-			return FALSE;
+		if (!authtype->need_password) {
+			/* authentication mechanism doesn't need a password,
+			   so if it fails there's nothing we can do */
+			authenticated = smtp_auth (transport, authtype->authproto, ex);
+			if (!authenticated) {
+				camel_service_disconnect (service, TRUE, NULL);
+				return FALSE;
+			}
+		}
+		
+		/* keep trying to login until either we succeed or the user cancels */
+		while (!authenticated) {
+			if (errbuf) {
+				/* We need to un-cache the password before prompting again */
+				camel_session_query_authenticator (
+					session, CAMEL_AUTHENTICATOR_TELL, NULL,
+					TRUE, service, "password", ex);
+				g_free (service->url->passwd);
+				service->url->passwd = NULL;
+			}
+			
+			if (!service->url->passwd) {
+				char *prompt;
+				
+				prompt = g_strdup_printf (_("%sPlease enter the SMTP password for %s@%s"),
+							  errbuf ? errbuf : "", service->url->user,
+							  service->url->host);
+				
+				service->url->passwd =
+					camel_session_query_authenticator (
+						session, CAMEL_AUTHENTICATOR_ASK,
+						prompt, TRUE, service, "password", ex);
+				
+				g_free (prompt);
+				g_free (errbuf);
+				errbuf = NULL;
+				
+				if (!service->url->passwd) {
+					camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
+							     _("You didn't enter a password."));
+					camel_service_disconnect (service, TRUE, NULL);
+					return FALSE;
+				}
+			}
+			
+			authenticated = smtp_auth (transport, authtype->authproto, ex);
+			if (!authenticated) {
+				errbuf = g_strdup_printf (_("Unable to authenticate "
+							    "to IMAP server.\n%s\n\n"),
+							  camel_exception_get_description (ex));
+				camel_exception_clear (ex);
+			}
 		}
 		
 		/* we have to re-EHLO */
