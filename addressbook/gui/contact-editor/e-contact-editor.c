@@ -2913,7 +2913,7 @@ static void
 e_contact_editor_init (EContactEditor *e_contact_editor)
 {
 	GladeXML *gui;
-	GtkWidget *widget;
+	GtkWidget *widget, *label;
 	char *icon_path;
 
 	e_contact_editor->name = e_contact_name_new();
@@ -2950,6 +2950,8 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	g_signal_connect (widget, "clicked", G_CALLBACK (categories_clicked), e_contact_editor);
 	widget = glade_xml_get_widget (e_contact_editor->gui, "source-option-menu-source");
 	g_signal_connect (widget, "source_selected", G_CALLBACK (source_selected), e_contact_editor);
+	label = glade_xml_get_widget (e_contact_editor->gui, "where-label");
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
 	widget = glade_xml_get_widget (e_contact_editor->gui, "button-ok");
 	g_signal_connect (widget, "clicked", G_CALLBACK (file_save_and_close_cb), e_contact_editor);
 	widget = glade_xml_get_widget (e_contact_editor->gui, "button-cancel");

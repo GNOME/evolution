@@ -1,3 +1,13 @@
+2004-07-21  Rodney Dawes  <dobey@novell.com>
+
+	* gui/contact-editor/contact-editor.glade:
+	Give a reasonable name to the widget for the _Where label
+
+	* gui/contact-editor/e-contact-editor.c (e_contact_editor_init):
+	Set the mnemonic widget for the _Where label
+
+	Fixes #61544
+
 2004-07-20  JP Rosevear  <jpr@novell.com>
 
 	* gui/component/autocompletion-config.c
