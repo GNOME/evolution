@@ -27,6 +27,8 @@ $(IDL_GENERATED): $(IDLS)
 	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`   \
                 $(top_srcdir)/calendar/idl/evolution-calendar.idl
 
+BUILT_SOURCES = $(IDL_GENERATED)
+
 SUBDIRS = alarm-notify dialogs
 
 help_base = $(datadir)/gnome/help/cal
@@ -180,7 +182,6 @@ evolution-calendar.pure: evolution-calendar
 
 endif
 
-BUILT_SOURCES = $(IDL_GENERATED)
 CLEANFILES += $(BUILT_SOURCES)
 
 dist-hook:

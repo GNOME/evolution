@@ -1,3 +1,8 @@
+2001-07-10  Peter Williams  <peterw@ximian.com>
+
+	* gui/Makefile.am (BUILT_SOURCES): Move this higher so that
+	Makefile properly depends on us. Fixes distcheck.
+
 2001-07-11  Jason Leach  <jleach@ximian.com>
 
 	[Fix bug #4389: ETableSpecification still in e-calendar-table.c
