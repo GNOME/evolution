@@ -87,7 +87,6 @@
 #include "em-icon-stream.h"
 #include "em-utils.h"
 #include "em-popup.h"
-#include "em-icon-stream.h"
 
 #define d(x)
 
