@@ -61,7 +61,7 @@ e_summary_weather_get_html (ESummary *summary)
 	char *html;
 	char *s;
 
-	if (summary->weather == NULL) {
+	if (summary->weather == NULL || summary->weather->weathers == NULL) {
 		return NULL;
 	}
 
@@ -92,18 +92,6 @@ static char *
 make_url (const char *code)
 {
 	return g_strdup_printf ("http://weather.noaa.gov/cgi-bin/mgetmetar.pl?cccc=%s", code);
-}
-
-static char *
-make_anchor (const char *name, const char *code)
-{
-	char *url, *anchor;
-
-	url = make_url (code);
-	anchor = g_strdup_printf ("<a href=\"%s\">%s</a>", url, name);
-	g_free (url);
-
-	return anchor;
 }
 
 static void
