@@ -1666,7 +1666,8 @@ set_current_notebook_page (EShellView *shell_view,
 	EShellViewPrivate *priv;
 	GtkNotebook *notebook;
 	GtkWidget *current;
-	BonoboControlFrame *control_frame;
+	BonoboControlFrame *old_control_frame = NULL;
+	BonoboControlFrame *new_control_frame;
 	int current_page;
 
 	priv = shell_view->priv;
@@ -1678,10 +1679,9 @@ set_current_notebook_page (EShellView *shell_view,
 
 	if (current_page != -1 && current_page != 0) {
 		current = gtk_notebook_get_nth_page (notebook, current_page);
-		control_frame = bonobo_widget_get_control_frame (BONOBO_WIDGET (current));
 
-		bonobo_control_frame_set_autoactivate (control_frame, FALSE);
-		bonobo_control_frame_control_deactivate (control_frame);
+		old_control_frame = bonobo_widget_get_control_frame (BONOBO_WIDGET (current));
+		bonobo_control_frame_set_autoactivate (old_control_frame, FALSE);
 	}
 
 	e_shell_folder_title_bar_set_folder_bar_label  (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar), "");
@@ -1691,10 +1691,12 @@ set_current_notebook_page (EShellView *shell_view,
 		return;
 
 	current = gtk_notebook_get_nth_page (notebook, page_num);
-	control_frame = bonobo_widget_get_control_frame (BONOBO_WIDGET (current));
-
-	bonobo_control_frame_set_autoactivate (control_frame, FALSE);
-	bonobo_control_frame_control_activate (control_frame);
+	new_control_frame = bonobo_widget_get_control_frame (BONOBO_WIDGET (current));
+	bonobo_control_frame_set_autoactivate (new_control_frame, FALSE);
+ 
+	bonobo_control_frame_control_activate (new_control_frame);
+	if (old_control_frame)
+		bonobo_control_frame_control_deactivate (old_control_frame);
 }
 
 static void
