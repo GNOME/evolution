@@ -1,3 +1,8 @@
+2000-06-21  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table-header.c: Made moving columns to the right work
+	properly.
+
 2000-06-20  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table-group-leaf.c: Fix a minor warning.

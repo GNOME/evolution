@@ -449,6 +449,9 @@ e_table_header_move (ETableHeader *eth, int source_index, int target_index)
 	g_return_if_fail (source_index < eth->col_count);
 	g_return_if_fail (target_index < eth->col_count);
 
+	if (source_index < target_index)
+		target_index --;
+
 	old = eth->columns [source_index];
 	eth_do_remove (eth, source_index, FALSE);
 	eth_do_insert (eth, target_index, old);
