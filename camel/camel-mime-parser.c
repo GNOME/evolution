@@ -47,7 +47,7 @@
 
 #define r(x) 
 #define h(x) 
-#define c(x) 
+#define c(x)  
 #define d(x) 
 
 /*#define PURIFY*/

@@ -117,12 +117,34 @@ vtrash_copy_messages_to (CamelFolder *source, GPtrArray *uids, CamelFolder *dest
 			      _("You cannot copy messages from this trash folder."));
 }
 
+struct _move_data {
+	CamelFolder *folder;
+	CamelFolder *dest;
+	GPtrArray *uids;
+};
+
+static void
+move_messages(CamelFolder *folder, struct _move_data *md, CamelException *ex)
+{
+	int i;
+
+	camel_folder_move_messages_to(md->folder, md->uids, md->dest, ex);
+	for (i=0;i<md->uids->len;i++)
+		g_free(md->uids->pdata[i]);
+	g_ptr_array_free(md->uids, TRUE);
+	camel_object_unref((CamelObject *)md->folder);
+	g_free(md);
+}
+
 static void
 vtrash_move_messages_to (CamelFolder *source, GPtrArray *uids, CamelFolder *dest, CamelException *ex)
 {
 	CamelVeeMessageInfo *mi;
 	int i;
-	
+	GHashTable *batch = NULL;
+	const char *tuid;
+	struct _move_data *md;
+
 	for (i = 0; i < uids->len; i++) {
 		mi = (CamelVeeMessageInfo *)camel_folder_get_message_info (source, uids->pdata[i]);
 		if (mi == NULL) {
@@ -135,15 +157,32 @@ vtrash_move_messages_to (CamelFolder *source, GPtrArray *uids, CamelFolder *dest
 			camel_folder_set_message_flags (source, uids->pdata[i], CAMEL_MESSAGE_DELETED, 0);
 		} else {
 			/* This means that the user is trying to move the message
-			   from the vTrash to a folder other than the original. */
-			GPtrArray *tuids;
-			
-			tuids = g_ptr_array_new ();
-			g_ptr_array_add (tuids, uids->pdata[i]);
-			camel_folder_move_messages_to (mi->folder, tuids, dest, ex);
-			g_ptr_array_free (tuids, TRUE);
+			   from the vTrash to a folder other than the original.	
+			   We batch them up as much as we can */
+
+			if (batch == NULL)
+				batch = g_hash_table_new(NULL, NULL);
+			md = g_hash_table_lookup(batch, mi->folder);
+			if (md == NULL) {
+				md = g_malloc0(sizeof(*md));
+				md->folder = mi->folder;
+				camel_object_ref((CamelObject *)md->folder);
+				md->uids = g_ptr_array_new();
+				md->dest = dest;
+				g_hash_table_insert(batch, mi->folder, md);
+			}
+
+			tuid = uids->pdata[i];
+			if (strlen(tuid)>8)
+				tuid += 8;
+			printf("moving message uid '%s'\n", tuid);
+			g_ptr_array_add(md->uids, g_strdup(tuid));
 		}
-		
 		camel_folder_free_message_info (source, (CamelMessageInfo *)mi);
+	}
+
+	if (batch) {
+		g_hash_table_foreach(batch, (GHFunc)move_messages, ex);
+		g_hash_table_destroy(batch);
 	}
 }

@@ -375,7 +375,7 @@ base64_decode_step(unsigned char *in, size_t len, unsigned char *out, int *state
 	while (inptr>in && i) {
 		inptr--;
 		if (camel_mime_base64_rank[*inptr] != 0xff) {
-			if (*inptr == '=')
+			if (*inptr == '=' && outptr>out)
 				outptr--;
 			i--;
 		}
@@ -869,7 +869,7 @@ quoted_decode_step(unsigned char *in, size_t len, unsigned char *out, int *saves
   this is for the "Q" encoding of international words,
   which is slightly different than plain quoted-printable (mainly by allowing 0x20 <> _)
 */
-static int
+static size_t
 quoted_decode(const unsigned char *in, size_t len, unsigned char *out)
 {
 	register const unsigned char *inptr;
@@ -910,13 +910,13 @@ quoted_decode(const unsigned char *in, size_t len, unsigned char *out)
 	if (ret==0) {
 		return outptr-out;
 	}
-	return -1;
+	return 0;
 }
 
 /* rfc2047 version of quoted-printable */
 /* safemask is the mask to apply to the camel_mime_special_table to determine what
    characters can safely be included without encoding */
-static int
+static size_t
 quoted_encode (const unsigned char *in, size_t len, unsigned char *out, unsigned short safemask)
 {
 	register const unsigned char *inptr, *inend;

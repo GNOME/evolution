@@ -1,3 +1,32 @@
+2002-04-09  Not Zed  <NotZed@Ximian.com>
+
+	* camel-mime-part.c (construct_from_parser): If we get multiple
+	Content-Type header values, change subsequent headers to
+	X-Invalid-Content-Type so it doesn't wreck processing.  This fixes
+	the reported case in #18929, but i dont know if it fixes the
+	original posters problems.
+
+2002-04-08  Not Zed  <NotZed@Ximian.com>
+
+	* camel-vtrash-folder.c (vtrash_move_messages_to): If we find
+	we're moving from the vtrash to another folder, we need to convert
+	the uid from a vfolder uid to the source uid (+8).  Fix for
+	#20886.  Also changed to batch multiple moves to different folders
+	so they are done as efficiently as possible rather than one at a
+	time.
+
+	* camel-mime-utils.c (base64_decode_step): If we only get passed
+	'=', we back track only if we actually output any data.  Fix for
+	#21716.
+	(quoted_decode): Pass out size_t instead of int, and use 0 instead
+	of -1 for error since its not signed.  This will fix similar bug
+	to above in different circumstances since the result is taken as
+	unsigned.  This is only an internal func.
+	(quoted_encode): Return size_t just for consistency.
+
+	* camel-block-file.c (block_file_validate_root): Comment out the
+	debug and move it into a warning when the validation fails.
+
 2002-04-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.c (uuencode_close): Don't count our filler when

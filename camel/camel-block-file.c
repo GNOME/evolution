@@ -98,22 +98,15 @@ block_file_validate_root(CamelBlockFile *bs)
 
 	fstat(bs->fd, &st);
 
-	(printf("Validate root: '%s'\n", bs->path));
-	(printf("version: %.8s (%.8s)\n", bs->root->version, bs->version));
-	(printf("block size: %d (%d)%s\n", br->block_size, bs->block_size,
+	d(printf("Validate root: '%s'\n", bs->path));
+	d(printf("version: %.8s (%.8s)\n", bs->root->version, bs->version));
+	d(printf("block size: %d (%d)%s\n", br->block_size, bs->block_size,
 		br->block_size != bs->block_size ? " BAD":" OK"));
-	(printf("free: %ld (%d add size < %ld)%s\n", (long)br->free, br->free / bs->block_size * bs->block_size, (long)st.st_size,
+	d(printf("free: %ld (%d add size < %ld)%s\n", (long)br->free, br->free / bs->block_size * bs->block_size, (long)st.st_size,
 		(br->free > st.st_size) || (br->free % bs->block_size) != 0 ? " BAD":" OK"));
-	(printf("last: %ld (%d and size: %ld)%s\n", (long)br->last, br->last / bs->block_size * bs->block_size, (long)st.st_size,
+	d(printf("last: %ld (%d and size: %ld)%s\n", (long)br->last, br->last / bs->block_size * bs->block_size, (long)st.st_size,
 		(br->last != st.st_size) || ((br->last % bs->block_size) != 0) ? " BAD": " OK"));
-	(printf("flags: %s\n", (br->flags & CAMEL_BLOCK_FILE_SYNC)?"SYNC":"unSYNC"));
-
-	printf("last = %ld, size = %ld\n", (unsigned long)br->last, (unsigned long)st.st_size);
-
-	if (br->last != st.st_size)
-		printf("last != size!\n");
-	else
-		printf("last == size?\n");
+	d(printf("flags: %s\n", (br->flags & CAMEL_BLOCK_FILE_SYNC)?"SYNC":"unSYNC"));
 
 	if (br->last == 0
 	    || memcmp(bs->root->version, bs->version, 8) != 0
@@ -124,6 +117,15 @@ block_file_validate_root(CamelBlockFile *bs)
 	    || st.st_size != br->last
 	    || br->free > st.st_size
 	    || (br->flags & CAMEL_BLOCK_FILE_SYNC) == 0) {
+		g_warning("Invalid root: '%s'\n", bs->path);
+		g_warning("version: %.8s (%.8s)\n", bs->root->version, bs->version);
+		g_warning("block size: %d (%d)%s\n", br->block_size, bs->block_size,
+			  br->block_size != bs->block_size ? " BAD":" OK");
+		g_warning("free: %ld (%d add size < %ld)%s\n", (long)br->free, br->free / bs->block_size * bs->block_size, (long)st.st_size,
+			  (br->free > st.st_size) || (br->free % bs->block_size) != 0 ? " BAD":" OK");
+		g_warning("last: %ld (%d and size: %ld)%s\n", (long)br->last, br->last / bs->block_size * bs->block_size, (long)st.st_size,
+			  (br->last != st.st_size) || ((br->last % bs->block_size) != 0) ? " BAD": " OK");
+		g_warning("flags: %s\n", (br->flags & CAMEL_BLOCK_FILE_SYNC)?"SYNC":"unSYNC");
 		return -1;
 	}
 

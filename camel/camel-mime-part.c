@@ -249,7 +249,7 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 		g_free (mime_part->content_location);
 		mime_part->content_location = header_location_decode (header_value);
 		break;
-	case HEADER_CONTENT_TYPE: 
+	case HEADER_CONTENT_TYPE:
 		if (mime_part->content_type)
 			header_content_type_unref (mime_part->content_type);
 		mime_part->content_type = header_content_type_decode (header_value);
@@ -785,9 +785,14 @@ construct_from_parser(CamelMimePart *dw, CamelMimeParser *mp)
 			process_header((CamelMedium *)dw, "content-type", content);
 
 		while (headers) {
-			camel_medium_add_header((CamelMedium *)dw, headers->name, headers->value);
+			if (strcasecmp(headers->name, "content-type") == 0
+			    && headers->value != content)
+				camel_medium_add_header((CamelMedium *)dw, "X-Invalid-Content-Type", headers->value);
+			else
+				camel_medium_add_header((CamelMedium *)dw, headers->name, headers->value);
 			headers = headers->next;
 		}
+
 		camel_mime_part_construct_content_from_parser(dw, mp);
 		break;
 	default:
