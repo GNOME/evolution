@@ -157,8 +157,7 @@ libevolution_mail_la_SOURCES =			\
 	message-tag-editor.c			\
 	message-tag-editor.h			\
 	message-tag-followup.c			\
-	message-tag-followup.h			\
-	mail.h
+	message-tag-followup.h
 
 libevolution_mail_la_LIBADD =					\
 	$(top_builddir)/shell/importer/libevolution-importer.la	\

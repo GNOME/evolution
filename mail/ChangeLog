@@ -1,5 +1,7 @@
 2004-03-31  Not Zed  <NotZed@Ximian.com>
 
+	* mail.h: REMOVED!  And there was much rejoicing.
+
 	* *.[ch]: Cleaned up header inclusions and added plenty of forward
 	declarations.  Sped up complete re-compilation by upto 20%.
 	
