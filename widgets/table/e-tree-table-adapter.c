@@ -999,8 +999,13 @@ int    e_tree_table_adapter_row_of_node (ETreeTableAdapter *etta, ETreePath path
 {
 	if (etta->priv->root_visible)
 		return find_row_num(etta, path);
-	else
-		return find_row_num(etta, path) - 1;
+	else {
+		int row_num = find_row_num (etta, path);
+		if (row_num != -1)
+			return row_num - 1;
+		else
+			return row_num;
+	}
 }
 
 gboolean     e_tree_table_adapter_root_node_is_visible(ETreeTableAdapter *etta)

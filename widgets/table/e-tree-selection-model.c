@@ -750,7 +750,7 @@ etsm_row_foreach_cb (ETreePath path, gpointer user_data)
 {
 	ModelAndCallback *mac = user_data;
 	int row = etsm_row_of_node(mac->etsm, path);
-	if (row != -1)
+	if (row >= 0)
 		mac->callback(row, mac->closure);
 }
 
