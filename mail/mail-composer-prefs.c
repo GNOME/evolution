@@ -703,6 +703,9 @@ spell_language_button_press (GtkTreeView *tv, GdkEventButton *event, MailCompose
 	GtkTreeViewColumn *column = NULL;
 	gtk_tree_view_get_path_at_pos (tv, event->x, event->y, &path, &column, NULL, NULL);
 
+	/* FIXME: This routine should just be a "toggled" event handler on the checkbox cell renderer which
+	   has "activatable" set. */
+
 	if (path != NULL && column != NULL && !strcmp (gtk_tree_view_column_get_title (column), _("Enabled"))) {
 		GtkTreeIter iter;
 		GtkTreeModel *model;
@@ -712,6 +715,7 @@ spell_language_button_press (GtkTreeView *tv, GdkEventButton *event, MailCompose
 		gtk_tree_model_get_iter (model, &iter, path);
 		gtk_tree_model_get (model, &iter, 0, &enabled, -1);
 		gtk_list_store_set ((GtkListStore *) model, &iter, 0, !enabled, -1);
+		gtk_button_set_label ((GtkButton *) prefs->spell_able_button, enabled ? _("Enable") : _("Disable"));
 		spell_changed (prefs);
 	}
 
