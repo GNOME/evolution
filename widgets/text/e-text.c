@@ -3286,7 +3286,7 @@ e_text_class_init (ETextClass *klass)
 	g_object_class_install_property (gobject_class, PROP_FILL_STIPPLE,
 					 g_param_spec_object ("fill_stipple",
 							      _( "Fill stipple" ),
-							      _( "FIll stipple" ),
+							      _( "Fill stipple" ),
 							      GDK_TYPE_DRAWABLE,
 							      G_PARAM_READWRITE));
 
