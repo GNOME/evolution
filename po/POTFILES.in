@@ -95,6 +95,7 @@ filter/filter-datespec.c
 filter/filter-editor.c
 filter/filter-filter.c
 filter/filter-folder.c
+filter/filter-input.c
 filter/filter-option.c
 filter/filter-part.c
 filter/filter-rule.c

@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.4\n"
-"POT-Creation-Date: 2000-10-31 01:17+0100\n"
-"PO-Revision-Date: 2000-10-31 00:01+01:00\n"
+"POT-Creation-Date: 2000-10-31 14:42+0100\n"
+"PO-Revision-Date: 2000-10-31 14:43+01:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3800,39 +3800,48 @@ msgstr "Skriv inn URI for mappen"
 msgid "<click here to select a folder>"
 msgstr "<klikk her for å velge en mappe>"
 
-#: filter/filter-part.c:439
+#: filter/filter-input.c:188
+#, c-format
+msgid ""
+"Error in regular expression '%s':\n"
+"%s"
+msgstr ""
+"Feil i regulært uttrykk '%s':\n"
+"%s"
+
+#: filter/filter-part.c:458
 msgid "Test"
 msgstr "Test"
 
-#: filter/filter-rule.c:509
+#: filter/filter-rule.c:520
 msgid "Rule name: "
 msgstr "Regelnavn: "
 
-#: filter/filter-rule.c:513
+#: filter/filter-rule.c:524
 msgid "Untitled"
 msgstr "Uten navn"
 
-#: filter/filter-rule.c:527
+#: filter/filter-rule.c:538
 msgid "If"
 msgstr "Hvis"
 
-#: filter/filter-rule.c:544
+#: filter/filter-rule.c:555
 msgid "Execute actions"
 msgstr "Utfør handlinger"
 
-#: filter/filter-rule.c:548
+#: filter/filter-rule.c:559
 msgid "if all criteria are met"
 msgstr "hvis alle kriterier er møtt"
 
-#: filter/filter-rule.c:553
+#: filter/filter-rule.c:564
 msgid "if any criteria are met"
 msgstr "hvis et kriterie er møtt"
 
-#: filter/filter-rule.c:564
+#: filter/filter-rule.c:575
 msgid "Add criterion"
 msgstr "Legg til kriterie"
 
-#: filter/filter-rule.c:570
+#: filter/filter-rule.c:581
 msgid "Remove criterion"
 msgstr "Fjern kriterie"
 
