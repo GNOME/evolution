@@ -1,3 +1,9 @@
+2004-08-13  Sivaiah Nallagatla <snallagatla@novell.com>
+
+       * providers/groupwise/camel-groupwise-provider.c : update
+       ssl setting label and title of the soap settings section
+       Fixes #62747
+
 2004-08-13  Rodney Dawes  <dobey@novell.com>
 
 	* camel-sasl-gssapi.c: Handle et/comm_err.h as well as the
