@@ -419,7 +419,7 @@ static void enterValues(const char *value)
 	       using ';' to separate the values. */
 	    if (vObjectUStringZValue(curProp)) {
 		p1 = fakeCString(vObjectUStringZValue(curProp));
-		p2 = malloc((strlen(p1)+strlen(value)+1));
+		p2 = malloc((strlen(p1)+strlen(value)+2));
 		strcpy(p2, p1);
 		deleteStr(p1);
 

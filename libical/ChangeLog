@@ -1,3 +1,9 @@
+2002-10-01  Ettore Perazzoli  <ettore@ximian.com>
+
+	* src/libicalvcal/vcc.y: Allocate the right number of bytes when
+	appending the string value [it was allocating one fewer than
+	necessary].  [#28321]
+
 2002-06-18  JP Rosevear  <jpr@ximian.com>
 
 	* Update timezones (from Damon)
