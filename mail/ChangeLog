@@ -1,3 +1,8 @@
+2004-05-05  William Jon McCann  <mccann@jhu.edu>
+
+	* GNOME_Evolution_Mail.server.in.in: Add menu_label and
+	menu_accelerator.
+
 2004-05-19  Not Zed  <NotZed@Ximian.com>
 
 	* mail-component.c (mc_quit_sync): fixed up the empty trash on
