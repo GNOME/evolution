@@ -1,3 +1,15 @@
+2000-09-15  Dan Winship  <danw@helixcode.com>
+
+	This bug was so much fun to fix the first time that I decided to
+	fix it again.
+
+	2000-07-11  Dan Winship  <danw@helixcode.com>
+
+		* mail-ops.c (real_send_mail): Set the post_send_data flag
+		rather than toggling it. (Maybe we'll need more control
+		over it later, but for now, the only flag we set is
+		"replied", and we want that set, not toggled.)
+
 2000-09-14  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-callbacks.c (transfer_msg): **Temp fix** Send "" as the

@@ -616,7 +616,8 @@ do_send_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 						      input->done_uid);
 		camel_folder_set_message_flags (input->done_folder,
 						input->done_uid,
-						input->done_flags, ~set);
+						input->done_flags,
+						input->done_flags);
 		mail_tool_camel_lock_down ();
 	}
 	
