@@ -1,7 +1,7 @@
 changelogs =			\
 	ChangeLog
 
-EXTRA_DIST =			\
+EXTRA_DIST = config.rpath 			\
 	AUTHORS			\
 	$(changelogs)		\
 	COPYING-DOCS		\
@@ -13,8 +13,8 @@ EXTRA_DIST =			\
 	xml-i18n-update.in	\
 	xml-i18n-extract.in
 
-SUBDIRS =			\
-        intl                    \
+SUBDIRS = m4 			\
+                           \
         macros                  \
         data                    \
         e-util                  \
@@ -60,3 +60,5 @@ cde-install: install dtappintegrate
 cde-uninstall: dtappunintegrate uninstall
 
 endif
+
+ACLOCAL_AMFLAGS = -I m4
