@@ -1000,6 +1000,8 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, gboolean has_8bi
 	filtered_stream = camel_stream_filter_new_with_stream (transport->ostream);
 	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (bccfilter));
 	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (crlffilter));
+	camel_object_unref (CAMEL_OBJECT (bccfilter));
+	camel_object_unref (CAMEL_OBJECT (crlffilter));
 	
 	if (camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), CAMEL_STREAM (filtered_stream)) == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,

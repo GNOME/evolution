@@ -1,3 +1,8 @@
+2001-09-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/smtp/camel-smtp-transport.c (smtp_data): Make sure to
+	unref the mime filters when we finish with them.
+
 2001-09-07  Ettore Perazzoli  <ettore@ximian.com>
 
 	* providers/local/camel-mbox-summary.c (mbox_summary_sync_full):
