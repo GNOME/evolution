@@ -1,4 +1,25 @@
-2004-03-26  Rodney Dawes <dobey@ximian.com>
+2004-03-31  Rodney Dawes  <dobey@ximian.com>
+
+	* e-shell-importer.c (choose_importer_from_list):
+	(start_import):
+	(prepare_intelligent_page): Remove dialog separators
+	* e-shell-offline-handler.c (pop_up_confirmation_dialog): Change the
+	border with of the dialog's vbox and action area to be HIG-compliant
+	* e-shell-settings-dialog.c (init): Remove the dialog separator
+	* e-shell-startup-wizard.c (prepare_importer_page): Remove the dialog
+	separator to be more HIG-compliant
+	(key_press_event_callback): Fix compile warnings and cast to the
+	correct widget types for calling various gtk api
+	Remove the dialog separator to be more HIG-compliant
+	* main.c (show_development_warning): Make the devel warning dialog
+	that pops up for unstable versions be HIG-compliant
+	* glade/e-active-connection-dialog.glade: Make the active connection
+	dialog for going off-line be HIG-compliant
+	* importer/intelligent.c (create_gui): Remove the dialog separator
+	and set the dialog's vbox and action area border widths to be more
+	compliant with the HIG
+
+2004-03-26  Rodney Dawes  <dobey@ximian.com>
 
 	* e-shell-settings-dialog.c (impl_realize): We don't need this really
 	(class_init): We don't need to have our own realize impl for setting

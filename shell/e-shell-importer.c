@@ -333,6 +333,7 @@ choose_importer_from_list (GList *importer_list)
 					     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					     GTK_STOCK_OK, GTK_RESPONSE_OK,
 					     NULL);
+	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 
 	clist = gtk_clist_new (1);
@@ -456,6 +457,7 @@ start_import (gpointer parent, const char *filename, EvolutionImporterClient *cl
 	icd->dialog = GTK_DIALOG (gtk_dialog_new_with_buttons(_("Importing"), NULL, 0,
 							      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 							      NULL));
+	gtk_dialog_set_has_separator (icd->dialog, FALSE);
 	g_signal_connect (icd->dialog, "response", G_CALLBACK (dialog_response_cb), icd);
 
 	g_object_weak_ref (G_OBJECT(icd->dialog), dialog_destroy_notify, icd);
@@ -717,6 +719,7 @@ prepare_intelligent_page (GnomeDruidPage *page,
 	dialog = gtk_message_dialog_new(NULL, 0, GTK_MESSAGE_INFO, GTK_BUTTONS_NONE, "%s",
 					_("Please wait...\nScanning for existing setups"));
 	e_make_widget_backing_stored (dialog);
+	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Starting Intelligent Importers"));
 	gtk_widget_show_all (dialog);

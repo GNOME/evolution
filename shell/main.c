@@ -192,6 +192,7 @@ warning_dialog_response_callback (GtkDialog *dialog,
 static void
 show_development_warning (GtkWindow *parent)
 {
+	GtkWidget *vbox;
 	GtkWidget *label;
 	GtkWidget *warning_dialog;
 	GtkWidget *dont_bother_me_again_checkbox;
@@ -208,9 +209,22 @@ show_development_warning (GtkWindow *parent)
 
 	g_object_unref (client);
 
-	warning_dialog = gtk_dialog_new_with_buttons("Ximian Evolution " VERSION, parent,
-						     GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
-						     GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+	warning_dialog = gtk_dialog_new ();
+	gtk_window_set_title (GTK_WINDOW (warning_dialog), "Ximian Evolution " VERSION);
+	gtk_window_set_modal (GTK_WINDOW (warning_dialog), TRUE);
+	gtk_dialog_add_button (GTK_DIALOG (warning_dialog), GTK_STOCK_OK, GTK_RESPONSE_OK);
+	e_dialog_set_transient_for (GTK_WINDOW (warning_dialog), GTK_WIDGET (parent));
+
+	gtk_dialog_set_has_separator (GTK_DIALOG (warning_dialog), FALSE);
+
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (warning_dialog)->vbox), 0);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (warning_dialog)->action_area), 12);
+
+	vbox = gtk_vbox_new (FALSE, 12);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (warning_dialog)->vbox), vbox,
+			    TRUE, TRUE, 0);
+
 	text = g_strdup_printf(
 		/* xgettext:no-c-format */
 		/* Preview/Alpha/Beta version warning message */
@@ -234,26 +248,23 @@ show_development_warning (GtkWindow *parent)
 	g_free(text);
 
 	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
+	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
 
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (warning_dialog)->vbox), 
-			    label, TRUE, TRUE, 4);
+	gtk_box_pack_start (GTK_BOX (vbox), label, TRUE, TRUE, 0);
 
 	label = gtk_label_new (_("Thanks\n"
 				 "The Ximian Evolution Team\n"));
 	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_RIGHT);
 	gtk_misc_set_alignment(GTK_MISC(label), 1, .5);
 
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (warning_dialog)->vbox), 
-			    label, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), label, TRUE, TRUE, 0);
 
 	dont_bother_me_again_checkbox = gtk_check_button_new_with_label (_("Don't tell me again"));
 
-	/* GTK sucks.  (Just so you know.)  */
 	alignment = gtk_alignment_new (0.0, 0.0, 0.0, 0.0);
 
 	gtk_container_add (GTK_CONTAINER (alignment), dont_bother_me_again_checkbox);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (warning_dialog)->vbox),
-			    alignment, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), alignment, TRUE, TRUE, 0);
 
 	gtk_widget_show_all (warning_dialog);
 

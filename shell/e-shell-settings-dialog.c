@@ -325,6 +325,7 @@ init (EShellSettingsDialog *dialog)
 	set_dialog_size (dialog);
 	
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Evolution Settings"));
+	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 }
 
 

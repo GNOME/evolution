@@ -564,6 +564,7 @@ prepare_importer_page (GnomeDruidPage *page,
 	dialog = gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_INFO,
 					 GTK_BUTTONS_NONE,
 					 _("Please wait...\nScanning for existing setups"));
+	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 	e_make_widget_backing_stored (dialog);
 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Starting import"));
@@ -785,20 +786,22 @@ key_press_event_callback (GtkWidget   *widget,
 				  "you have entered will be forgotten. You will need to run this assistant again "
 				  "before using Evolution.\n\nDo you want to quit using the Assistant now?");
  
-		confirm_dialog = gtk_message_dialog_new (data->dialog,
+		confirm_dialog = gtk_message_dialog_new (GTK_WINDOW (data->dialog),
 							 GTK_DIALOG_MODAL,
 							 GTK_MESSAGE_WARNING,
 							 GTK_BUTTONS_NONE,
 							 confirmations);
 
-		gtk_dialog_add_button (confirm_dialog, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
-		gtk_dialog_add_button (confirm_dialog, GTK_STOCK_QUIT, GTK_RESPONSE_OK);
+		gtk_dialog_add_button (GTK_DIALOG (confirm_dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+		gtk_dialog_add_button (GTK_DIALOG (confirm_dialog), GTK_STOCK_QUIT, GTK_RESPONSE_OK);
+		gtk_dialog_set_has_separator (GTK_DIALOG (confirm_dialog),
+					      FALSE);
 
 		returnvalue = gtk_dialog_run (GTK_DIALOG (confirm_dialog));
 		gtk_widget_destroy (confirm_dialog);
  
 		if (returnvalue == GTK_RESPONSE_OK) {
-			startup_wizard_cancel (data->druid, data);
+		        startup_wizard_cancel ((GnomeDruid *)data->druid, data);
 			return TRUE;
 		}
 	}

@@ -656,6 +656,8 @@ pop_up_confirmation_dialog (EShellOfflineHandler *offline_handler)
 	}
 
 	dialog = glade_xml_get_widget (priv->dialog_gui, "active_connection_dialog");
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 0);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area), 12);
 
 	/* FIXME: do we really want this?  */
 	/* gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (priv->parent_shell_view)); */

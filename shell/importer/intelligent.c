@@ -186,6 +186,10 @@ create_gui (GList *importers)
 
 	d = g_new (IntelligentImporterDialog, 1);
 	d->dialog = dialog = gtk_dialog_new();
+	gtk_dialog_set_has_separator ((GtkDialog *) dialog, FALSE);
+	gtk_container_set_border_width ((GtkContainer *) ((GtkDialog *)dialog)->vbox, 0);
+	gtk_container_set_border_width ((GtkContainer *) ((GtkDialog *)dialog)->action_area, 12);
+
 	gtk_window_set_title((GtkWindow *)dialog, _("Importers"));
 	dummy = gtk_button_new_from_stock(GTK_STOCK_CONVERT);
 	gtk_button_set_label((GtkButton *)dummy, _("Import"));
