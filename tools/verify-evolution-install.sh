@@ -47,7 +47,7 @@ check_config() {
     eval val=\$$1
     if test ! -x $val ; then
 	problem="Cannot find $2 or it ($val) is not executable"
-	rpmsolution="Install or reinstall the '$3-devel' package"
+	rpmsolution="Install or reinstall the \'$3-devel\' package"
 	debsolution="Install or reinstall the $3 development libraries." #FIXME
 	srcsolution="Get the latest release of $3 and install it."
 	comment="If you know that $3 is installed, try setting the
@@ -65,9 +65,9 @@ check_prefix() {
     if test x"$3" = xstrict ; then
 	if test x"$otherpfx" != x"$gl_prefix" ; then
 	    problem="gnome-libs and $2 do not share the same prefix"
-	    rpmsolution="This problem shouldn't happen with RPM installations. Verify your installation of Helix Gnome."
-	    debsolution="This problem shouldn't happen with DEB installations. Verify your installation of Helix Gnome."
-	    srcsolution="Re-run 'configure' in $2's source directory with the flag '--prefix=$gl_prefix."
+	    rpmsolution="This problem shouldn\'t happen with RPM installations. Verify your installation of Helix Gnome."
+	    debsolution="This problem shouldn\'t happen with DEB installations. Verify your installation of Helix Gnome."
+	    srcsolution="Re-run \'configure\' in $2\'s source directory with the flag \'--prefix=$gl_prefix\'."
 	    problem
 	fi
     else
@@ -77,8 +77,10 @@ check_prefix() {
 	passed=no
 
 	for e in $ok; do
-	    if test x"$e" != x -a $otherpfx = $e ; then
-		passed=yes;
+	    if test x"$e" != x ; then
+		if test $otherpfx = $e ; then
+		    passed=yes;
+		fi
 	    fi
 	done
 
@@ -86,9 +88,9 @@ check_prefix() {
 
 	if test x"$passed" = xno ; then
 	    problem="$2 is not in GNOME_PATH or the same prefix as gnome-libs"
-	    rpmsolution="This problem shouldn't happen with RPM installations. Verify your installation of Helix Gnome."
-	    debsolution="This problem shouldn't happen with DEB installations. Verify your installation of Helix Gnome."
-	    srcsolution="Re-run 'configure' in $2\'s source directory with the flag \'--prefix=$gl_prefix\'."
+	    rpmsolution="This problem shouldn\'t happen with RPM installations. Verify your installation of Helix Gnome."
+	    debsolution="This problem shouldn\'t happen with DEB installations. Verify your installation of Helix Gnome."
+	    srcsolution="Re-run \'configure\' in $2\'s source directory with the flag \'--prefix=$gl_prefix\'."
 	    comment="Try exporting an environment variable \'GNOME_PATH\' with the prefix of $2."
 	    problem
 	fi
@@ -102,9 +104,9 @@ check_sysconf() {
     eval othersysc=\`\$$1 --sysconfdir\`
     if test x"$othersysc" != x"$gl_sysconf" ; then
 	problem="gnome-libs and $2 do not share the same sysconfdir"
-	rpmsolution="This problem shouldn't happen with RPM installations. Verify your installation of Helix Gnome."
-	debsolution="This problem shouldn't happen with DEB installations. Verify your installation of Helix Gnome."
-	srcsolution="Re-run 'configure' in $2's source directory with the flag '--sysconfdir=$gl_sysconf."
+	rpmsolution="This problem shouldn\'t happen with RPM installations. Verify your installation of Helix Gnome."
+	debsolution="This problem shouldn\'t happen with DEB installations. Verify your installation of Helix Gnome."
+	srcsolution="Re-run \'configure\' in $2\'s source directory with the flag \'--sysconfdir=$gl_sysconf\'."
 	problem
     fi
 }
@@ -113,15 +115,57 @@ check_oafinfo() {
     #basename=$1
     #othername=$2
 
-    if test ! -f ${gl_datadir}/oaf/$1.oafinfo ; then
-	problem="$1.oafinfo isn't installed into Gnome's prefix"
-	rpmsolution="This problem shouldn't happen with RPM installations. Verify your installation of Helix Gnome."
-	debsolution="This problem shouldn't happen with DEB installations. Verify your installation of Helix Gnome."
-	srcsolution="Re-run 'configure' in $2's source directory with the flag '--datadir=$gl_datadir."
+    base=$1.oafinfo
+    search="${gl_datadir}/oaf:$OAF_INFO_PATH"
+    IFSback="$IFS"
+    IFS=":"
+    ok=no
+
+    for ping in $search ; do
+	if test x"$ping" != x ; then
+	    if test -f $ping/$base ; then
+		file=$ping/$base
+		ok=yes
+	    fi
+	fi
+    done
+
+    IFS="$IFSback"
+
+    if test x$ok = xno ; then
+	problem="$1.oafinfo isn\'t installed into Gnome\'s prefix or in OAF_INFO_PATH"
+	rpmsolution="This problem shouldn\'t happen with RPM installations. Verify your installation of Helix Gnome."
+	debsolution="This problem shouldn\'t happen with DEB installations. Verify your installation of Helix Gnome."
+	srcsolution="Re-run \'configure\' in $2\'s source directory with the flag \'--datadir=$gl_datadir\'."
 	comment="Another likely cause of this problem would be a failed installation of $2.
-You should check to see that the install succeeded."
+You should check to see that the install succeeded. You may also add the
+location $1.oafinfo to the environment variable OAF_INFO_PATH"
 	problem
     fi
+
+    iids=`cat $file |grep iid= |sed -e 's,.*iid="\([^"]*\)".*,\1,'`
+    IFS="
+"
+
+    tempfile="temp-$$-verifier"
+    for iid in $iids ; do
+	echo "Attempting to activate IID \"$iid\"..."
+	$OAF_CLIENT -qs "iid == '$iid'" >$tempfile
+	result=`cat $tempfile |grep exception`
+	if test x"$result" != x ; then
+	    problem="The component $2 (in $file) couldn't be activated by OAF"
+	    rpmsolution="Verify that $file is valid and that oaf and $2 are correctly installed."
+	    debsolution="Verify that $file is valid and that oaf and $2 are correctly installed."
+	    srcsolution="Verify that $file is valid and that oaf and $2 are correctly installed."
+	    comment="$OAF_CLIENT reported this:
+`cat $tempfile`"
+	    rm -f $tempfile
+	    problem
+        fi
+    done
+    rm -f $tempfile
+
+    IFS="$IFSback"
 }
 
 check_bin() {
@@ -129,10 +173,10 @@ check_bin() {
     #othername=$2
 
     if test ! -f ${gl_bindir}/$1 ; then
-	problem="The binary $1 isn't installed into Gnome's prefix"
-	rpmsolution="This problem shouldn't happen with RPM installations. Verify your installation of Helix Gnome."
-	debsolution="This problem shouldn't happen with DEB installations. Verify your installation of Helix Gnome."
-	srcsolution="Re-run 'configure' in $2's source directory with the flag '--bindir=$gl_bindir."
+	problem="The binary $1 isn\'t installed into Gnome\'s prefix"
+	rpmsolution="This problem shouldn\'t happen with RPM installations. Verify your installation of Helix Gnome."
+	debsolution="This problem shouldn\'t happen with DEB installations. Verify your installation of Helix Gnome."
+	srcsolution="Re-run \'configure\' in $2\'s source directory with the flag \'--bindir=$gl_bindir\'."
 	comment="Another likely cause of this problem would be a failed installation of $2.
 You should check to see that the install succeeded."
 	problem
@@ -147,9 +191,9 @@ check_no_gnorba() {
 
     if test x"$ping" != x ; then
 	problem="$2 was built using Gnorba, not OAF"
-	rpmsolution="This problem shouldn't happen with RPM installations. Verify your installation of Helix Gnome."
-	debsolution="This problem shouldn't happen with DEB installations. Verify your installation of Helix Gnome."
-	srcsolution="Update $2 and re-run 'configure' in its source directory with the flag '--enable-oaf=yes."
+	rpmsolution="This problem shouldn\'t happen with RPM installations. Verify your installation of Helix Gnome."
+	debsolution="This problem shouldn\'t happen with DEB installations. Verify your installation of Helix Gnome."
+	srcsolution="Update $2 and re-run \'configure\' in its source directory with the flag \'--enable-oaf=yes\'."
 	problem
     fi
 }
@@ -205,8 +249,8 @@ check_module3() {
     #$3=version
     $GNOME_CONFIG --modversion $1 1>/dev/null 2>/dev/null </dev/null
     if test x$? != x0 ; then
-	problem="Package $2 doesn't seem to be installed."
-	rpmsolution="Get and install the packages '$2' and '$2-devel'"
+	problem="Package $2 doesn\'t seem to be installed."
+	rpmsolution="Get and install the packages \'$2\' and \'$2-devel\'"
 	debsolution="Get and install the package $2 and its development libraries" #FIXME
 	srcsolution="Download the source and install the package $2"
 	comment="If you think the package is installed, check that its prefix is $gl_prefix --
@@ -289,8 +333,8 @@ check_module2() {
     #$3=version
     $GNOME_CONFIG --modversion $1 1>/dev/null 2>/dev/null </dev/null
     if test x$? != x0 ; then
-	problem="Package $2 doesn't seem to be installed."
-	rpmsolution="Get and install the packages '$2' and '$2-devel'"
+	problem="Package $2 doesn\'t seem to be installed."
+	rpmsolution="Get and install the packages \'$2\' and \'$2-devel\'"
 	debsolution="Get and install the package $2 and its development libraries" #FIXME
 	srcsolution="Download the source and install the package $2"
 	comment="If you think the package is installed, check that its prefix is $gl_prefix --
@@ -312,10 +356,10 @@ if test -d /var/lib/rpm ; then
     $RPM --version 1>/dev/null 2>/dev/null </dev/null
     if test x$? != x0 ; then
 	problem="The rpm executable ($RPM) does not seem to work."
-	rpmsolution="none, if rpm doesn't work."
+	rpmsolution="none, if rpm doesn\'t work."
 	debsolution="not applicable."
 	srcsolution="download and install rpm manually."
-	comment="If rpm really won't work then there is something wrong with your system."
+	comment="If rpm really won\'t work then there is something wrong with your system."
 	problem
     fi
 else
@@ -357,8 +401,20 @@ check_prefix ORBIT_CONFIG ORBit
 check_config OAF_CONFIG oaf-config oaf
 check_prefix OAF_CONFIG oaf
 versionparse3 "`$OAF_CONFIG --version`" "0.4.0" "oaf"
-check_oafinfo oafd oaf
 check_bin oafd
+
+OAF_CLIENT=${OAF_CLIENT-`which oaf-client`}
+if test ! -x ${OAF_CLIENT-notexecutable} ; then
+    problem="oaf-client couldn't be found"
+    rpmsolution="Install the 'oaf-devel' package"
+    debsolution="Install the oaf development libraries"
+    srcsolution="Make sure that oaf is installed correctly"
+    comment="If you think you have oaf-client installed, try exporting an
+environment variable OAF_CLIENT pointing to it"
+    problem
+fi
+
+check_oafinfo oafd oaf
 
 #gconf
 check_config GCONF_CONFIG gconf-config GConf
