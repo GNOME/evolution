@@ -327,10 +327,10 @@ child_cursor_change (ETableGroup *etg, int row,
 }
 
 static void
-child_double_click (ETableGroup *etg, int row,
+child_double_click (ETableGroup *etg, int row, int col, GdkEvent *event,
 		    ETableGroupContainer *etgc)
 {
-	e_table_group_double_click (E_TABLE_GROUP (etgc), row);
+	e_table_group_double_click (E_TABLE_GROUP (etgc), row, col, event);
 }
 
 static gint

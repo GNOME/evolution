@@ -1624,6 +1624,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	case GDK_2BUTTON_PRESS: {
 		double x1, y1;
 		int col, row;
+		GdkEventButton button;
 
 		if (e->button.button == 5 ||
 		    e->button.button == 4)
@@ -1634,8 +1635,12 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
 			return TRUE;
 
+		button = *(GdkEventButton *)e;
+		button.x = x1;
+		button.y = y1;
+
 		gtk_signal_emit (GTK_OBJECT (eti), eti_signals [DOUBLE_CLICK],
-				 row);
+				 row, col, &button);
 		break;
 	}
 	case GDK_MOTION_NOTIFY: {
@@ -1891,8 +1896,8 @@ eti_class_init (GtkObjectClass *object_class)
 				GTK_RUN_LAST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ETableItemClass, double_click),
-				gtk_marshal_NONE__INT,
-				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+				gtk_marshal_NONE__INT_INT_POINTER,
+				GTK_TYPE_NONE, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_POINTER);
 
 	eti_signals [RIGHT_CLICK] =
 		gtk_signal_new ("right_click",

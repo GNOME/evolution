@@ -99,6 +99,9 @@ ethi_destroy (GtkObject *object){
 		ethi->sort_info = NULL;
 	}
 
+	if (ethi->full_header)
+		gtk_object_unref (GTK_OBJECT(ethi->full_header));
+
 	if (GTK_OBJECT_CLASS (ethi_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (ethi_parent_class)->destroy) (object);
 }

@@ -24,54 +24,31 @@ typedef struct {
 
 typedef struct {
 	EScrollFrameClass parent_class;
-
-	void        (*cursor_change)      (ETableScrolled *est, int row);
-	void        (*double_click)       (ETableScrolled *est, int row);
-	gint        (*right_click)        (ETableScrolled *est, int row, int col, GdkEvent *event);
-	gint        (*click)              (ETableScrolled *est, int row, int col, GdkEvent *event);
-	gint        (*key_press)          (ETableScrolled *est, int row, int col, GdkEvent *event);
 } ETableScrolledClass;
 
-GtkType         e_table_scrolled_get_type         (void);
+GtkType         e_table_scrolled_get_type                  (void);
 
-ETableScrolled *e_table_scrolled_construct                 (ETableScrolled    *ets,
-							    ETableModel       *etm,
-							    ETableExtras      *ete,
-							    const char        *spec,
-							    const char        *state);
-GtkWidget      *e_table_scrolled_new                       (ETableModel       *etm,
-							    ETableExtras      *ete,
-							    const char        *spec,
-							    const char        *state);
+ETableScrolled *e_table_scrolled_construct                 (ETableScrolled *ets,
+							    ETableModel    *etm,
+							    ETableExtras   *ete,
+							    const char     *spec,
+							    const char     *state);
+GtkWidget      *e_table_scrolled_new                       (ETableModel    *etm,
+							    ETableExtras   *ete,
+							    const char     *spec,
+							    const char     *state);
 
-ETableScrolled *e_table_scrolled_construct_from_spec_file  (ETableScrolled    *ets,
-							    ETableModel       *etm,
-							    ETableExtras      *ete,
-							    const char        *spec_fn,
-							    const char        *state_fn);
-GtkWidget      *e_table_scrolled_new_from_spec_file        (ETableModel       *etm,
-							    ETableExtras      *ete,
-							    const char        *spec_fn,
-							    const char        *state_fn);
+ETableScrolled *e_table_scrolled_construct_from_spec_file  (ETableScrolled *ets,
+							    ETableModel    *etm,
+							    ETableExtras   *ete,
+							    const char     *spec_fn,
+							    const char     *state_fn);
+GtkWidget      *e_table_scrolled_new_from_spec_file        (ETableModel    *etm,
+							    ETableExtras   *ete,
+							    const char     *spec_fn,
+							    const char     *state_fn);
 
-gchar          *e_table_scrolled_get_state                 (ETableScrolled    *ets);
-void            e_table_scrolled_save_state                (ETableScrolled    *ets,
-							    const gchar       *filename);
-
-/* note that it is more efficient to provide the state at creation time */
-void            e_table_scrolled_set_state                 (ETableScrolled    *ets,
-							    const gchar       *state);
-void            e_table_scrolled_load_state                (ETableScrolled    *ets,
-							    const gchar       *filename);
-
-void            e_table_scrolled_set_cursor_row            (ETableScrolled    *ets,
-							    int                row);
-/* -1 means we don't have the cursor. */
-int             e_table_scrolled_get_cursor_row            (ETableScrolled    *ets);
-void            e_table_scrolled_selected_row_foreach      (ETableScrolled    *ets,
-							    ETableForeachFunc  callback,
-							    gpointer           closure);
-EPrintable     *e_table_scrolled_get_printable             (ETableScrolled    *ets);
+ETable         *e_table_scrolled_get_table                 (ETableScrolled *ets);
 
 END_GNOME_DECLS
 

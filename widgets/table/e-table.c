@@ -337,11 +337,11 @@ group_cursor_change (ETableGroup *etg, int row, ETable *et)
 }
 
 static void
-group_double_click (ETableGroup *etg, int row, ETable *et)
+group_double_click (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et)
 {
 	gtk_signal_emit (GTK_OBJECT (et),
 			 et_signals [DOUBLE_CLICK],
-			 row);
+			 row, col, event);
 }
 
 static gint
@@ -1958,8 +1958,8 @@ e_table_class_init (GtkObjectClass *object_class)
 				GTK_RUN_LAST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ETableClass, double_click),
-				gtk_marshal_NONE__INT,
-				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+				gtk_marshal_NONE__INT_INT_POINTER,
+				GTK_TYPE_NONE, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_POINTER);
 
 	et_signals [RIGHT_CLICK] =
 		gtk_signal_new ("right_click",

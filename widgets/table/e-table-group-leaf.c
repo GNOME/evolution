@@ -91,10 +91,10 @@ etgl_cursor_change (GtkObject *object, gint row, ETableGroupLeaf *etgl)
 }
 
 static void
-etgl_double_click (GtkObject *object, gint row, ETableGroupLeaf *etgl)
+etgl_double_click (GtkObject *object, gint row, gint col, GdkEvent *event, ETableGroupLeaf *etgl)
 {
 	if (row < E_TABLE_SUBSET(etgl->subset)->n_map)
-		e_table_group_double_click (E_TABLE_GROUP(etgl), E_TABLE_SUBSET(etgl->subset)->map_table[row]);
+		e_table_group_double_click (E_TABLE_GROUP(etgl), E_TABLE_SUBSET(etgl->subset)->map_table[row], col, event);
 }
 
 static gint
