@@ -330,7 +330,7 @@ ldap_error_to_response (int ldap_error)
 {
 	if (ldap_error == LDAP_SUCCESS)
 		return GNOME_Evolution_Addressbook_BookListener_Success;
-	else if (NAME_ERROR (ldap_error))
+	else if (LDAP_NAME_ERROR (ldap_error))
 		return GNOME_Evolution_Addressbook_BookListener_CardNotFound;
 	else if (ldap_error == LDAP_INSUFFICIENT_ACCESS)
 		return GNOME_Evolution_Addressbook_BookListener_PermissionDenied;
