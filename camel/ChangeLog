@@ -1,5 +1,10 @@
 2001-09-13  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/local/camel-mbox-folder.c (mbox_append_message): Do
+	error-checking based on function return values rather than
+	exceptions as it's possible for them to be NULL.
+	(mbox_get_message): Same.
+
 	* providers/imap/camel-imap-folder.c (imap_append_offline): Pass
 	an exception to the cache.
 	(imap_append_online): Same.

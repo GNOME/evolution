@@ -181,7 +181,7 @@ mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const Camel
 	CamelMboxSummary *mbs = (CamelMboxSummary *)folder->summary;
 	CamelMessageInfo *mi;
 	char *fromline = NULL;
-	int fd;
+	int fd, retval;
 	struct stat st;
 #if 0
 	char *xev;
@@ -193,13 +193,13 @@ mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const Camel
 	d(printf("Appending message\n"));
 
 	/* first, check the summary is correct (updates folder_size too) */
-	camel_local_summary_check((CamelLocalSummary *)folder->summary, lf->changes, ex);
-	if (camel_exception_is_set(ex))
+	retval = camel_local_summary_check ((CamelLocalSummary *)folder->summary, lf->changes, ex);
+	if (retval == -1)
 		goto fail;
 
 	/* add it to the summary/assign the uid, etc */
 	mi = camel_local_summary_add((CamelLocalSummary *)folder->summary, message, info, lf->changes, ex);
-	if (camel_exception_is_set(ex))
+	if (mi == NULL)
 		goto fail;
 
 	d(printf("Appending message: uid is %s\n", camel_message_info_uid(mi)));
@@ -310,7 +310,7 @@ mbox_get_message(CamelFolder *folder, const gchar * uid, CamelException *ex)
 	CamelMimeMessage *message;
 	CamelMboxMessageInfo *info;
 	CamelMimeParser *parser;
-	int fd;
+	int fd, retval;
 	int retried = FALSE;
 	
 	d(printf("Getting message %s\n", uid));
@@ -367,8 +367,8 @@ retry:
 
 		if (!retried) {
 			retried = TRUE;
-			camel_local_summary_check((CamelLocalSummary *)folder->summary, lf->changes, ex);
-			if (!camel_exception_is_set(ex))
+			retval = camel_local_summary_check ((CamelLocalSummary *)folder->summary, lf->changes, ex);
+			if (retval != -1)
 				goto retry;
 		}
 
