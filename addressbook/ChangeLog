@@ -1,3 +1,14 @@
+2002-07-31  Chris Toshok  <toshok@ximian.com>
+
+	[ roll in the following change from the 1.0 branch.]
+	* backend/pas/pas-backend-ldap.c:
+	(prop_info): change the CALURI and FBURL ecard attributes to map to the
+	RFC 2739 specified attributes.
+        (check_schema_support): check to see if calEntry is supported.
+        (add_objectclass_mod): insert calEntry if it's supported.
+	* backend/pas/evolutionperson.schema: deprecate freeBusyURI
+	and calendarURI.
+
 2002-07-31  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Patch by Jacob Berkman <jacob@ximian.com>, fixes #25968]
