@@ -1,3 +1,8 @@
+2003-05-05  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-session.c (request_password): Set OK as the default
+	response for the password_dialog.
+
 2003-04-30  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (mark_as_unseen): To be consistant with the

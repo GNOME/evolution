@@ -262,6 +262,7 @@ request_password (struct _pass_msg *m)
 	password_dialog = (GtkDialog *) gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_QUESTION,
 								GTK_BUTTONS_OK_CANCEL, "%s", m->prompt);
 	gtk_window_set_title (GTK_WINDOW (password_dialog), title);
+	gtk_dialog_set_default_response (password_dialog, GTK_RESPONSE_OK);
 	g_free (title);
 	
 	gtk_container_set_border_width ((GtkContainer *) password_dialog, 6);
