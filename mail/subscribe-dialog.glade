@@ -42,7 +42,7 @@
       <name>dockitem2</name>
       <border_width>1</border_width>
       <placement>GNOME_DOCK_TOP</placement>
-      <band>1</band>
+      <band>0</band>
       <position>0</position>
       <offset>0</offset>
       <locked>False</locked>
@@ -67,7 +67,7 @@
 	  <class>GtkButton</class>
 	  <child_name>Toolbar:button</child_name>
 	  <name>refresh_button</name>
-	  <tooltip>Apri file</tooltip>
+	  <tooltip>Refresh folder listing</tooltip>
 	  <label>Refresh List</label>
 	  <stock_pixmap>GNOME_STOCK_PIXMAP_REFRESH</stock_pixmap>
 	</widget>
@@ -76,7 +76,6 @@
 	  <class>GtkButton</class>
 	  <child_name>Toolbar:button</child_name>
 	  <name>close_button</name>
-	  <tooltip>Salve file</tooltip>
 	  <label>Close</label>
 	  <stock_pixmap>GNOME_STOCK_PIXMAP_CLOSE</stock_pixmap>
 	  <child>
@@ -115,7 +114,7 @@
 	  <yalign>0.5</yalign>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
-	  <default_focus_target>optionmenu2</default_focus_target>
+	  <default_focus_target>store_menu</default_focus_target>
 	  <child>
 	    <padding>0</padding>
 	    <expand>False</expand>
