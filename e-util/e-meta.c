@@ -30,10 +30,6 @@
 
 #include <glib.h>
 
-#include "e-meta.h"
-
-#include <gal/util/e-util.h>
-
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include <libxml/xmlmemory.h>
@@ -42,6 +38,10 @@
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
+
+#include <gal/util/e-xml-utils.h>
+#include <gal/util/e-util.h>
+#include "e-meta.h"
 
 static GObjectClass *e_meta_parent_class;
 
@@ -441,7 +441,7 @@ static char *meta_filename(const char *base, const char *key)
 
 	while ( (c = *p++) ) {
 		if (c == '/')
-			c == '_';
+			c = '_';
 		*o++ = c;
 	}
 	strcpy(o, ".emeta");
