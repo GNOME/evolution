@@ -12,7 +12,6 @@ INCLUDES = \
 	-I$(top_srcdir)/executive-summary/evolution-services    \
 	$(EXTRA_GNOME_CFLAGS)					\
 	$(GNOME_VFS_CFLAGS)					\
-	$(UNICODE_CFLAGS)					\
 	$(GTKHTML_CFLAGS)					\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
@@ -66,8 +65,7 @@ evolution_executive_summary_LDADD = 					\
 	$(BONOBO_VFS_GNOME_LIBS)			\
 	$(EXTRA_GNOME_LIBS)				\
 	-lgal						\
-	$(GTKHTML_LIBS)					\
-	$(UNICODE_LIBS)
+	$(GTKHTML_LIBS)
 
 gladedir = $(datadir)/evolution/glade
 glade_DATA = executive-summary-config.glade

@@ -1,3 +1,12 @@
+2001-04-25  Dan Winship  <danw@ximian.com>
+
+	* idl/Makefile.am (INCLUDES): Remove this section, which doesn't
+	apply to anything since there are no targets in this directory.
+
+	* test-service/Makefile.am: 
+	* evolution-services/Makefile.am: 
+	* component/Makefile.am: Remove UNICODE_LIBS/UNICODE_CFLAGS
+
 2001-04-14  Michael Meeks  <michael@ximian.com>
 
 	* idl/Makefile.am: Remove stale build cruftiness.

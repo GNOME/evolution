@@ -8,7 +8,6 @@ INCLUDES = \
 	-I$(top_builddir)/executive-summary		\
 	$(EXTRA_GNOME_CFLAGS)				\
 	$(GNOME_VFS_CFLAGS)				\
-	$(UNICODE_CFLAGS)				\
 	$(GTKHTML_CFLAGS)				\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
@@ -48,8 +47,7 @@ libevolution_services_la_LIBADD = 					\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(BONOBO_VFS_GNOME_LIBS)			\
 	$(EXTRA_GNOME_LIBS)				\
-	$(GTKHTML_LIBS)					\
-	$(UNICODE_LIBS)
+	$(GTKHTML_LIBS)
 
 BUILT_SOURCES = $(IDL_GENERATED)
 CLEANFILES   += $(BUILT_SOURCES)
