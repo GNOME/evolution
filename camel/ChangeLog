@@ -1,3 +1,14 @@
+2001-06-25  Dan Winship  <danw@ximian.com>
+
+	* providers/imap/camel-imap-store.c (try_auth): Fix this: IMAP
+	doesn't allow an extra argument to AUTHENTICATE to avoid a useless
+	round trip like some other SASL bindings do.
+
+	* providers/imap/camel-imap-command.c (imap_read_response): Deal
+	with IMAP servers that (incorrectly) return "+\r\n" rather than
+	"+ \r\n" for an empty continuation response.
+	(camel_imap_response_extract_continuation): Likewise.
+
 2001-06-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.c (word_types_compatable): New function that

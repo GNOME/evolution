@@ -391,16 +391,12 @@ try_auth (CamelImapStore *store, const char *mech, CamelException *ex)
 
 	CAMEL_IMAP_STORE_ASSERT_LOCKED (store, command_lock);
 
-	sasl = camel_sasl_new ("imap", mech, CAMEL_SERVICE (store));
-
-	sasl_resp = camel_sasl_challenge_base64 (sasl, NULL, ex);
-
-	response = camel_imap_command (store, NULL, ex, "AUTHENTICATE %s%s%s",
-				       mech, sasl_resp ? " " : "",
-				       sasl_resp ? sasl_resp : "");
+	response = camel_imap_command (store, NULL, ex,
+				       "AUTHENTICATE %s", mech);
 	if (!response)
-		goto lose;
+		return FALSE;
 
+	sasl = camel_sasl_new ("imap", mech, CAMEL_SERVICE (store));
 	while (!camel_sasl_authenticated (sasl)) {
 		resp = camel_imap_response_extract_continuation (store, response, ex);
 		if (!resp)

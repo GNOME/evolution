@@ -218,7 +218,7 @@ imap_read_response (CamelImapStore *store, CamelException *ex)
 	response->status = respbuf;
 
 	/* Check for OK or continuation response. */
-	if (!strncmp (respbuf, "+ ", 2))
+	if (*respbuf == '+')
 		return response;
 	retcode = imap_next_word (respbuf);
 	if (!strncmp (retcode, "OK", 2))
@@ -514,7 +514,7 @@ camel_imap_response_extract_continuation (CamelImapStore *store,
 {
 	char *status;
 
-	if (response->status && !strncmp (response->status, "+ ", 2)) {
+	if (response->status && *response->status == '+') {
 		status = response->status;
 		response->status = NULL;
 		CAMEL_IMAP_STORE_LOCK (store, command_lock);
