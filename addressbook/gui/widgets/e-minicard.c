@@ -513,6 +513,7 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 		int ret_val = e_minicard_selected(e_minicard, event);
 		GdkEventMask mask = ((1 << (4 + event->button.button)) |
 				     GDK_POINTER_MOTION_MASK |
+				     GDK_BUTTON_PRESS_MASK |
 				     GDK_BUTTON_RELEASE_MASK);
 
 		e_canvas_item_grab_focus(item, TRUE);
