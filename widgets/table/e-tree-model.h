@@ -142,7 +142,11 @@ void        e_tree_model_node_traverse         (ETreeModel     *model,
 						ETreePath       path,
 						ETreePathFunc   func,
 						gpointer        data);
-
+void        e_tree_model_node_traverse_preorder (ETreeModel     *model,
+						 ETreePath       path,
+						 ETreePathFunc   func,
+						 gpointer        data);
+	
 /*
 ** Routines for emitting signals on the ETreeModel
 */

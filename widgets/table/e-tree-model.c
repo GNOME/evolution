@@ -740,3 +740,69 @@ e_tree_model_value_to_string (ETreeModel *etree, int col, const void *value)
 	else
 		return g_strdup("");
 }
+
+/**
+ * e_tree_model_node_traverse:
+ * @model: 
+ * @path: 
+ * @func: 
+ * @data: 
+ * 
+ * 
+ **/
+void
+e_tree_model_node_traverse (ETreeModel *model, ETreePath path, ETreePathFunc func, gpointer data)
+{
+	ETreePath child;
+
+	g_return_if_fail (model != NULL);
+	g_return_if_fail (E_IS_TREE_MODEL (model));
+	g_return_if_fail (path != NULL);
+
+	child = e_tree_model_node_get_first_child (model, path);
+
+	while (child) {
+		ETreePath next_child;
+
+		next_child = e_tree_model_node_get_next (model, child);
+		e_tree_model_node_traverse (model, child, func, data);
+		if (func (model, child, data) == TRUE)
+			return;
+
+		child = next_child;
+	}
+}
+
+/**
+ * e_tree_model_node_traverse_preorder:
+ * @model: 
+ * @path: 
+ * @func: 
+ * @data: 
+ * 
+ * 
+ **/
+void
+e_tree_model_node_traverse_preorder (ETreeModel *model, ETreePath path, ETreePathFunc func, gpointer data)
+{
+	ETreePath child;
+
+	g_return_if_fail (model != NULL);
+	g_return_if_fail (E_IS_TREE_MODEL (model));
+	g_return_if_fail (path != NULL);
+
+	child = e_tree_model_node_get_first_child (model, path);
+
+	while (child) {
+		ETreePath next_child;
+
+		if (func (model, child, data) == TRUE)
+			return;
+
+		next_child = e_tree_model_node_get_next (model, child);
+		e_tree_model_node_traverse_preorder (model, child, func, data);
+
+		child = next_child;
+	}
+}
+

@@ -68,6 +68,10 @@ enum {
 enum {
 	ARG_0,
 	ARG_LENGTH_THRESHOLD,
+	ARG_HORIZONTAL_DRAW_GRID,
+	ARG_VERTICAL_DRAW_GRID,
+	ARG_DRAW_FOCUS,
+	ARG_ETTA
 };
 
 struct ETreePriv {
@@ -1128,7 +1132,15 @@ e_tree_get_printable (ETree *e_tree)
 static void
 et_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
+	ETree *etree = E_TREE (o);
+
 	switch (arg_id){
+	case ARG_ETTA:
+		if (etree->priv->item) {
+			GTK_VALUE_OBJECT (*arg) = GTK_OBJECT (etree->priv->etta);
+		}
+		break;
+
 	default:
 		break;
 	}
@@ -1154,6 +1166,32 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		}
 		break;
 
+	case ARG_HORIZONTAL_DRAW_GRID:
+		etree->priv->horizontal_draw_grid = GTK_VALUE_BOOL (*arg);
+		if (etree->priv->item) {
+			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etree->priv->item),
+					       "horizontal_draw_grid", GTK_VALUE_BOOL (*arg),
+					       NULL);
+		}
+		break;
+
+	case ARG_VERTICAL_DRAW_GRID:
+		etree->priv->vertical_draw_grid = GTK_VALUE_BOOL (*arg);
+		if (etree->priv->item) {
+			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etree->priv->item),
+					       "vertical_draw_grid", GTK_VALUE_BOOL (*arg),
+					       NULL);
+		}
+		break;
+		
+	case ARG_DRAW_FOCUS:
+		etree->priv->draw_focus = GTK_VALUE_BOOL (*arg);
+		if (etree->priv->item) {
+			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etree->priv->item),
+					       "draw_focus", GTK_VALUE_BOOL (*arg),
+					       NULL);
+		}
+		break;
 	}
 }
 
@@ -2138,6 +2176,14 @@ e_tree_class_init (ETreeClass *class)
 
 	gtk_object_add_arg_type ("ETree::length_threshold", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_LENGTH_THRESHOLD);
+	gtk_object_add_arg_type ("ETree::horizontal_draw_grid", GTK_TYPE_BOOL,
+				 GTK_ARG_WRITABLE, ARG_HORIZONTAL_DRAW_GRID);
+	gtk_object_add_arg_type ("ETree::vertical_draw_grid", GTK_TYPE_BOOL,
+				 GTK_ARG_WRITABLE, ARG_VERTICAL_DRAW_GRID);
+	gtk_object_add_arg_type ("ETree::draw_focus", GTK_TYPE_BOOL,
+				 GTK_ARG_WRITABLE, ARG_DRAW_FOCUS);
+	gtk_object_add_arg_type ("ETree::ETreeTableAdapter", GTK_TYPE_OBJECT,
+				 GTK_ARG_READABLE, ARG_ETTA);
 }
 
 E_MAKE_TYPE(e_tree, "ETree", ETree, e_tree_class_init, e_tree_init, PARENT_TYPE);
