@@ -772,7 +772,7 @@ tb_save_and_close_cb (GtkWidget *widget, gpointer data)
 /* Toolbar */
 
 static GnomeUIInfo toolbar[] = {
-	GNOMEUIINFO_ITEM_STOCK (N_("FIXME: Save and Close"),
+	GNOMEUIINFO_ITEM_STOCK (N_("Save and Close"),
 				N_("Save the appointment and close the dialog box"),
 				tb_save_and_close_cb,
 				GNOME_STOCK_PIXMAP_SAVE),
@@ -781,12 +781,6 @@ static GnomeUIInfo toolbar[] = {
 			       N_("Print this item"), NULL),
 	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Insert File..."),
 			       N_("Insert a file as an attachment"), NULL),
-	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Recurrence..."),
-			       N_("Configure recurrence rules"), NULL),
-	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Invite Attendees..."),
-			       N_("Invite attendees to a meeting"), NULL),
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Delete"),
 			       N_("Delete this item"), NULL),

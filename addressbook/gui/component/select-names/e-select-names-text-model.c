@@ -33,7 +33,7 @@ static void  e_select_names_text_model_insert_length (ETextModel *model, gint po
 static void  e_select_names_text_model_delete        (ETextModel *model, gint position, gint length);
 
 static void e_select_names_text_model_model_changed (ESelectNamesModel *source,
-					      ESelectNamesTextModel *model);
+						     ESelectNamesTextModel *model);
 
 
 ETextModelClass *parent_class;
@@ -111,27 +111,83 @@ e_select_names_text_model_class_init (ESelectNamesTextModelClass *klass)
 	text_model_class->delete        = e_select_names_text_model_delete;
 }
 
+static int
+get_length(EIterator *iterator)
+{
+	const ESelectNamesModelData *data = e_iterator_get(iterator);
+	return strlen(data->string);
+}
+
 static void
 e_select_names_text_model_set_text    	(ETextModel *model, gchar *text)
 {
-#if 0
-	e_select_names_model_clear(model);
-#endif
+	ESelectNamesModel *source = E_SELECT_NAMES_TEXT_MODEL(model)->source;
+	EIterator *iterator = e_list_get_iterator(e_select_names_model_get_data(source));
+	
+	e_iterator_reset(iterator);
+	e_select_names_model_replace(source,
+				     iterator,
+				     0,
+				     strlen(model->text),
+				     text);
 }
 
 static void
 e_select_names_text_model_insert      	(ETextModel *model, gint position, gchar *text)
 {
+	ESelectNamesModel *source = E_SELECT_NAMES_TEXT_MODEL(model)->source;
+	EIterator *iterator = e_list_get_iterator(e_select_names_model_get_data(source));
+
+	for (e_iterator_reset(iterator); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
+		int this_length = get_length(iterator);
+		if (position <= this_length) {
+			e_select_names_model_insert(source,
+						    iterator,
+						    position,
+						    text);
+		} else {
+			position -= this_length;
+		}
+	}
 }
 
 static void
 e_select_names_text_model_insert_length (ETextModel *model, gint position, gchar *text, gint length)
 {
+	ESelectNamesModel *source = E_SELECT_NAMES_TEXT_MODEL(model)->source;
+	EIterator *iterator = e_list_get_iterator(e_select_names_model_get_data(source));
+
+	for (e_iterator_reset(iterator); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
+		int this_length = get_length(iterator);
+		if (position <= this_length) {
+			e_select_names_model_insert_length(source,
+							   iterator,
+							   position,
+							   text,
+							   length);
+		} else {
+			position -= this_length;
+		}
+	}
 }
 
 static void
 e_select_names_text_model_delete        (ETextModel *model, gint position, gint length)
 {
+	ESelectNamesModel *source = E_SELECT_NAMES_TEXT_MODEL(model)->source;
+	EIterator *iterator = e_list_get_iterator(e_select_names_model_get_data(source));
+
+	for (e_iterator_reset(iterator); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
+		int this_length = get_length(iterator);
+		if (position <= this_length) {
+			e_select_names_model_delete(source,
+						    iterator,
+						    position,
+						    length);
+		} else {
+			position -= this_length;
+		}
+	}
 }
 
 static void

@@ -21,6 +21,11 @@
 #define E_IS_SELECT_NAMES_TABLE_MODEL(obj)         (GTK_CHECK_TYPE ((obj), E_TYPE_SELECT_NAMES_TABLE_MODEL))
 #define E_IS_SELECT_NAMES_TABLE_MODEL_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), E_TYPE_SELECT_NAMES_TABLE_MODEL))
 
+typedef struct {
+	char *name;
+	char *email;
+} ESelectNamesTableModelData;
+
 typedef struct _ESelectNamesTableModel ESelectNamesTableModel;
 typedef struct _ESelectNamesTableModelClass ESelectNamesTableModelClass;
 
@@ -28,6 +33,10 @@ struct _ESelectNamesTableModel {
 	ETableModel parent;
 
 	ESelectNamesModel *source;
+	int source_changed_id;
+
+	int count;
+	ESelectNamesTableModelData *data; /* This is used as an array. */
 };
 
 struct _ESelectNamesTableModelClass {

@@ -198,3 +198,53 @@ EList                    *e_select_names_model_get_data                 (ESelect
 {
 	return model->data;
 }
+
+void
+e_select_names_model_insert            (ESelectNamesModel *model,
+					EIterator *iterator, /* Must be one of the iterators in the model. */
+					int index,
+					char *data)
+{
+}
+
+void
+e_select_names_model_insert_length     (ESelectNamesModel *model,
+					EIterator *iterator, /* Must be one of the iterators in the model. */
+					int index,
+					char *data,
+					int length)
+{
+}
+
+void
+e_select_names_model_delete            (ESelectNamesModel *model,
+					EIterator *iterator, /* Must be one of the iterators in the model. */
+					int index,
+					int length)
+{
+}
+
+void
+e_select_names_model_replace           (ESelectNamesModel *model,
+					EIterator *iterator, /* Must be one of the iterators in the model. */
+					int index,
+					int replacement_length,
+					char *data)
+{
+}
+
+
+void
+e_select_names_model_add_item          (ESelectNamesModel *model,
+					EIterator *iterator, /* NULL for at the beginning. */
+					ESelectNamesModelData *data)
+{
+}
+
+void
+e_select_names_model_remove_item       (ESelectNamesModel *model,
+					EIterator *iterator)
+{
+}
+
+

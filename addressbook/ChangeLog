@@ -1,3 +1,21 @@
+2000-07-06  Christopher James Lahey  <clahey@helixcode.com>
+
+	* contact-editor/e-contact-editor.c: Changed "FIXME: Save and
+	Close" to "Save and Close".  Removed some toolbar items that will
+	never be used.
+
+	* gui/component/select-names/e-select-names-model.c,
+	gui/component/select-names/e-select-names-model.h: Added functions
+	to allow you to modify the model (not implemented yet.)
+
+	* gui/component/select-names/e-select-names-table-model.c,
+	gui/component/select-names/e-select-names-table-model.h: Finished
+	this.  Doesn't support changing the model at all.
+
+	* gui/component/select-names/e-select-names-text-model.c: Finished
+	this.  Changing the model by typing is done, but doesn't work
+	since none of the functions in the base model are implemented.
+
 2000-07-05  Chris Toshok  <toshok@helixcode.com>
 
 	* gui/component/addressbook.c (new_server_cb): call
