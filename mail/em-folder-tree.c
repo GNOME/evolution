@@ -79,6 +79,8 @@ struct _EMFolderTreePrivate {
 	guint save_state_id;
 	
 	guint loading_row_id;
+	
+	GtkTreeRowReference *drag_row;
 };
 
 enum {
@@ -87,36 +89,6 @@ enum {
 };
 
 static guint signals[LAST_SIGNAL] = { 0 };
-
-/* Drag & Drop types */
-enum DndDragType {
-	DND_DRAG_TYPE_FOLDER,          /* drag an evo folder */
-	DND_DRAG_TYPE_TEXT_URI_LIST,   /* drag to an mbox file */
-};
-
-enum DndDropType {
-	DND_DROP_TYPE_UID_LIST,        /* drop a list of message uids */
-	DND_DROP_TYPE_FOLDER,          /* drop an evo folder */
-	DND_DROP_TYPE_MESSAGE_RFC822,  /* drop a message/rfc822 stream */
-	DND_DROP_TYPE_TEXT_URI_LIST,   /* drop an mbox file */
-};
-
-static GtkTargetEntry drag_types[] = {
-	{ "x-folder",         0, DND_DRAG_TYPE_FOLDER         },
-	{ "text/uri-list",    0, DND_DRAG_TYPE_TEXT_URI_LIST  },
-};
-
-static const int num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
-
-static GtkTargetEntry drop_types[] = {
-	{ "x-uid-list" ,      0, DND_DROP_TYPE_UID_LIST       },
-	{ "x-folder",         0, DND_DROP_TYPE_FOLDER         },
-	{ "message/rfc822",   0, DND_DROP_TYPE_MESSAGE_RFC822 },
-	{ "text/uri-list",    0, DND_DROP_TYPE_TEXT_URI_LIST  },
-};
-
-static const int num_drop_types = sizeof (drop_types) / sizeof (drop_types[0]);
-
 
 extern CamelSession *session;
 
@@ -304,6 +276,8 @@ em_folder_tree_init (EMFolderTree *emft)
 	priv->selected_path = NULL;
 	priv->treeview = NULL;
 	priv->model = NULL;
+	priv->drag_row = NULL;
+	
 	emft->priv = priv;
 }
 
@@ -535,6 +509,140 @@ em_folder_tree_new_with_model (EMFolderTreeModel *model)
 }
 
 
+static void
+tree_drag_begin (GtkWidget *widget, GdkDragContext *context, EMFolderTree *emft)
+{
+	/* FIXME: set an icon? */
+	printf ("::drag-begin called\n");
+}
+
+static void
+tree_drag_data_delete (GtkWidget *widget, GdkDragContext *context, EMFolderTree *emft)
+{
+	struct _EMFolderTreePrivate *priv = emft->priv;
+	GtkTreePath *path;
+	
+	printf ("::drag-data-delete called\n");
+	
+	if (!priv->drag_row || (path = gtk_tree_row_reference_get_path (priv->drag_row)))
+		return;
+	
+	em_folder_tree_model_drag_data_delete (priv->model, path);
+	gtk_tree_path_free (path);
+}
+
+static void
+tree_drag_data_get (GtkWidget *widget, GdkDragContext *context, GtkSelectionData *selection, guint info, guint time, EMFolderTree *emft)
+{
+	struct _EMFolderTreePrivate *priv = emft->priv;
+	GtkTreePath *path;
+	
+	printf ("::drag-data-get called\n");
+	
+	if (!priv->drag_row || !(path = gtk_tree_row_reference_get_path (priv->drag_row)))
+		return;
+	
+	em_folder_tree_model_drag_data_get (priv->model, path, selection, info);
+	gtk_tree_path_free (path);
+}
+
+static void
+tree_drag_data_received (GtkWidget *widget, GdkDragContext *context, int x, int y, GtkSelectionData *selection,
+			 guint info, guint time, EMFolderTree *emft)
+{
+	struct _EMFolderTreePrivate *priv = emft->priv;
+	GtkTreeViewColumn *column;
+	int cell_x, cell_y;
+	GtkTreePath *path;
+	gboolean success;
+	gboolean moved;
+	gboolean move;
+	
+	printf ("::drag-data-received called\n");
+	
+	if (!gtk_tree_view_get_path_at_pos (priv->treeview, x, y, &path, &column, &cell_x, &cell_y))
+		return;
+	
+	move = context->action == GDK_ACTION_MOVE;
+	success = em_folder_tree_model_drag_data_received (priv->model, path, selection, info, move, &moved);
+	
+	gtk_drag_finish (context, success, success && move && !moved, time);
+}
+
+static gboolean
+tree_drag_drop (GtkWidget *widget, GdkDragContext *context, int x, int y, guint time, EMFolderTree *emft)
+{
+	struct _EMFolderTreePrivate *priv = emft->priv;
+	GtkTreeViewColumn *column;
+	int cell_x, cell_y;
+	GtkTreePath *path;
+	GdkAtom target;
+	
+	printf ("::drag-drop called\n");
+	
+	if (!gtk_tree_view_get_path_at_pos (priv->treeview, x, y, &path, &column, &cell_x, &cell_y))
+		return FALSE;
+	
+	target = em_folder_tree_model_row_drop_target (priv->model, path, context->targets);
+	if (target == GDK_NONE) {
+		gtk_tree_path_free (path);
+		return FALSE;
+	}
+	
+	gtk_tree_path_free (path);
+	widget = gtk_drag_get_source_widget (context);
+	gtk_drag_get_data (widget, context, target, time);
+	
+	return TRUE;
+}
+
+static void
+tree_drag_end (GtkWidget *widget, GdkDragContext *context, EMFolderTree *emft)
+{
+	struct _EMFolderTreePrivate *priv = emft->priv;
+	
+	printf ("::drag-end called\n");
+	
+	if (priv->drag_row) {
+		gtk_tree_row_reference_free (priv->drag_row);
+		priv->drag_row = NULL;
+	}
+	
+	/* FIXME: undo anything done in drag-begin */
+}
+
+static void
+tree_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time, EMFolderTree *emft)
+{
+	/* FIXME: unhighlight target row? */
+	printf ("::drag-leave called\n");
+}
+
+static gboolean
+tree_drag_motion (GtkWidget *widget, GdkDragContext *context, int x, int y, guint time, EMFolderTree *emft)
+{
+	struct _EMFolderTreePrivate *priv = emft->priv;
+	GtkTreeViewColumn *column;
+	int cell_x, cell_y;
+	GtkTreePath *path;
+	GdkDragAction action;
+	
+	printf ("::drag-motion called\n");
+	
+	if (!gtk_tree_view_get_path_at_pos (priv->treeview, x, y, &path, &column, &cell_x, &cell_y))
+		return FALSE;
+	
+	/* FIXME: highlight target row? */
+	
+	action = em_folder_tree_model_row_drop_possible (priv->model, path, context->targets);
+	gtk_tree_path_free (path);
+	
+	gdk_drag_status (context, action, time);
+	
+	return action;
+}
+
+
 void
 em_folder_tree_enable_drag_and_drop (EMFolderTree *emft)
 {
@@ -543,11 +651,19 @@ em_folder_tree_enable_drag_and_drop (EMFolderTree *emft)
 	g_return_if_fail (EM_IS_FOLDER_TREE (emft));
 	
 	priv = emft->priv;
-	gtk_tree_view_enable_model_drag_source (priv->treeview, 0, drag_types, num_drag_types,
-						GDK_ACTION_COPY | GDK_ACTION_MOVE);
-	gtk_tree_view_enable_model_drag_dest (priv->treeview, drop_types, num_drop_types,
-					      GDK_ACTION_COPY | GDK_ACTION_MOVE);
+	
+	em_folder_tree_model_set_drag_drop_types (priv->model, (GtkWidget *) priv->treeview);
+	
+	g_signal_connect (priv->treeview, "drag-begin", G_CALLBACK (tree_drag_begin), emft);
+	g_signal_connect (priv->treeview, "drag-data-delete", G_CALLBACK (tree_drag_data_delete), emft);
+	g_signal_connect (priv->treeview, "drag-data-get", G_CALLBACK (tree_drag_data_get), emft);
+	g_signal_connect (priv->treeview, "drag-data-received", G_CALLBACK (tree_drag_data_received), emft);
+	g_signal_connect (priv->treeview, "drag-drop", G_CALLBACK (tree_drag_drop), emft);
+	g_signal_connect (priv->treeview, "drag-end", G_CALLBACK (tree_drag_end), emft);
+	g_signal_connect (priv->treeview, "drag-leave", G_CALLBACK (tree_drag_leave), emft);
+	g_signal_connect (priv->treeview, "drag-motion", G_CALLBACK (tree_drag_motion), emft);
 }
+
 
 void
 em_folder_tree_set_multiselect (EMFolderTree *tree, gboolean mode)

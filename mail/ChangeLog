@@ -1,3 +1,23 @@
+2004-01-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-tree-model.c (em_folder_tree_model_get_type): Removed
+	the drag & drop interfaces, apparently these aren't good enough
+	for what we need. Gotta implement this all the Hard Way (tm).
+	(em_folder_tree_model_drag_data_received): Helper function called
+	by the drag_data_received signal callback in em-folder-tree.c
+	(em_folder_tree_model_row_drop_possible): Same idea.
+	(em_folder_tree_model_row_drop_target): Again.
+	(em_folder_tree_model_row_draggable): You get the idea...
+	(em_folder_tree_model_drag_data_get): And again.
+	(em_folder_tree_model_drag_data_delete): Same.
+	(em_folder_tree_model_set_drag_drop_types): Setup the drag & drop
+	types on the widget (since the target drag & drop types are now
+	internal to the model code rathr than the tree code).
+
+	* em-folder-tree.c (em_folder_tree_enable_drag_and_drop):
+	Rewritten. Connect to all the drag & drop signals and implemnent
+	them.
+
 2004-01-23  Larry Ewing  <lewing@ximian.com>
 
 	* mail-component-factory.c (factory): add the control id to the

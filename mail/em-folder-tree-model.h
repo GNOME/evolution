@@ -116,6 +116,16 @@ void em_folder_tree_model_save_expanded (EMFolderTreeModel *model);
 
 void em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore *store, const char *path, int unread);
 
+/* Drag & Drop stuff */
+gboolean em_folder_tree_model_drag_data_received (EMFolderTreeModel *model, GtkTreePath *path, GtkSelectionData *selection,
+						  guint info, gboolean move, gboolean *moved);
+GdkDragAction em_folder_tree_model_row_drop_possible (EMFolderTreeModel *model, GtkTreePath *path, GList *targets);
+GdkAtom em_folder_tree_model_row_drop_target (EMFolderTreeModel *model, GtkTreePath *path, GList *targets);
+gboolean em_folder_tree_model_row_draggable (EMFolderTreeModel *model, GtkTreePath *path);
+gboolean em_folder_tree_model_drag_data_get (EMFolderTreeModel *model, GtkTreePath *path, GtkSelectionData *selection, guint info);
+gboolean em_folder_tree_model_drag_data_delete (EMFolderTreeModel *model, GtkTreePath *path);
+void em_folder_tree_model_set_drag_drop_types (EMFolderTreeModel *model, GtkWidget *widget);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
