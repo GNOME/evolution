@@ -1,3 +1,10 @@
+2003-08-26  Jack Jia  <jack.jia@sun.com>
+
+	** Fixes #47863.
+
+	* gui/alarm-notify/alarm-notify.c (AlarmNotify_removeCalendar): set
+	the initial value of lc_ptr and orig_str_ptr to NULL to avoid crash.
+
 2003-08-22  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* gui/alarm-notify/notify-main.c: (main):
