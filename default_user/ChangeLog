@@ -1,3 +1,8 @@
+2001-03-22  Dan Winship  <danw@ximian.com>
+
+	* local/Inbox/mbox: Change the From address to "The Evolution
+	Team" <evolve@ximian.com> so that we get spammed instead of hello@
+
 2001-03-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* local/Trash/folder-metadata.xml: The type of this folder is now
