@@ -1809,7 +1809,6 @@ _blink_scroll_timeout (gpointer data)
 	ECellText *ect = E_CELL_TEXT (((ECellView *)text_view)->ecell);
 	CellEdit *edit = text_view->edit;
 	CurrentCell *cell = CURRENT_CELL(edit);
-	ECellTextLineBreaks *linebreaks = cell->breaks;
 
 	gulong current_time;
 	gboolean scroll = FALSE;
@@ -1828,12 +1827,17 @@ _blink_scroll_timeout (gpointer data)
 	}
 	if (scroll && edit->button_down) {
 		/* FIXME: Copy this for y. */
-		if (edit->lastx - ect->x > cell->width &&
-		    edit->xofs_edit < linebreaks->max_width - cell->width) {
-			edit->xofs_edit += 4;
-			if (edit->xofs_edit > linebreaks->max_width - cell->width + 1)
-				edit->xofs_edit = linebreaks->max_width - cell->width + 1;
-			redraw = TRUE;
+		if (edit->lastx - ect->x > cell->width) {
+			ECellTextLineBreaks *linebreaks;
+			split_into_lines (cell);
+			linebreaks = cell->breaks;
+			if (edit->xofs_edit < linebreaks->max_width - cell->width) {
+				edit->xofs_edit += 4;
+				if (edit->xofs_edit > linebreaks->max_width - cell->width + 1)
+					edit->xofs_edit = linebreaks->max_width - cell->width + 1;
+				redraw = TRUE;
+			}
+			unref_lines (cell);
 		}
 		if (edit->lastx - ect->x < 0 &&
 		    edit->xofs_edit > 0) {
@@ -2380,7 +2384,7 @@ split_into_lines (CurrentCell *cell)
 	gint len;
 
 	char *text = cell->text;
-	ECellTextLineBreaks *linebreaks = cell->breaks;
+	ECellTextLineBreaks *linebreaks;
 
 	if (! cell->breaks) {
 		cell->breaks = g_new (ECellTextLineBreaks, 1);
