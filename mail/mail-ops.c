@@ -174,8 +174,6 @@ real_fetch_mail (gpointer user_data)
 	if (!strncmp (url, "mbox:", 5)) {
 		int tmpfd;
 
-		printf ("moving from a local mbox\n");
-
 		tmpfd = open (tmp_mbox, O_RDWR | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR);
 
 		if (tmpfd == -1) {
@@ -235,8 +233,6 @@ real_fetch_mail (gpointer user_data)
 			GPtrArray *uids;
 			int i;
 
-			printf ("folder isn't searchable, performing movemail ...\n");
-
 			folder = camel_store_get_folder (dest_store,
 							 "movemail", TRUE, ex);
 			if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
@@ -249,7 +245,6 @@ real_fetch_mail (gpointer user_data)
 			for (i = 0; i < uids->len; i++) {
 				CamelMimeMessage *msg;
 				
-				printf("copying message %d to dest\n", i + 1);
 				msg = camel_folder_get_message (sourcefolder, uids->pdata[i], ex);
 				if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
 					async_mail_exception_dialog ("Unable to read message", ex, fb);
@@ -277,7 +272,6 @@ real_fetch_mail (gpointer user_data)
 				async_mail_exception_dialog ("", ex, fb);
 			gtk_object_unref (GTK_OBJECT (sourcefolder));
 		} else {
-			printf("we can search on this folder, performing search!\n");
 			folder = sourcefolder;
 		}
 	}
@@ -835,13 +829,11 @@ expunge_folder (BonoboUIHandler *uih, void *user_data, const char *path)
 static void
 filter_druid_clicked (FilterEditor *fe, int button, FolderBrowser *fb)
 {
-	printf ("closing dialog\n");
 	if (button == 0) {
 		char *user;
 
 		user = g_strdup_printf ("%s/filters.xml", evolution_dir);
 		filter_editor_save_rules (fe, user);
-		printf ("saving filter options to '%s'\n", user);
 		g_free (user);
 	}
 	
@@ -857,7 +849,6 @@ filter_edit (BonoboUIHandler *uih, void *user_data, const char *path)
 	FilterEditor *fe;
 	char *user, *system;
 
-	printf ("Editing filters ...\n");
 	fe = filter_editor_new ();
 
 	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
@@ -873,13 +864,11 @@ filter_edit (BonoboUIHandler *uih, void *user_data, const char *path)
 static void
 vfolder_editor_clicked(FilterEditor *fe, int button, FolderBrowser *fb)
 {
-	printf ("closing dialog\n");
 	if (button == 0) {
 		char *user;
 
 		user = g_strdup_printf ("%s/vfolders.xml", evolution_dir);
 		filter_editor_save_rules (fe, user);
-		printf ("saving vfolders to '%s'\n", user);
 		g_free (user);
 
 		/* FIXME: this is also not the way to do this, see also
@@ -921,7 +910,6 @@ vfolder_editor_clicked(FilterEditor *fe, int button, FolderBrowser *fb)
 				g_string_sprintf (query, "vfolder:/%s/vfolder/%s?", evolution_dir, desctext);
 				filter_driver_expand_option (fe, query, NULL, fo);
 				name = g_strdup_printf ("/%s", desctext);
-				printf ("Adding new vfolder: %s\n", query->str);
 				evolution_storage_new_folder (storage, name, "mail",
 							      query->str, name + 1);
 				g_string_free (query, TRUE);
@@ -943,7 +931,6 @@ vfolder_edit (BonoboUIHandler *uih, void *user_data, const char *path)
 	FilterEditor *fe;
 	char *user, *system;
 
-	printf ("Editing vfolders ...\n");
 	fe = filter_editor_new ();
 
 	user = g_strdup_printf ("%s/vfolders.xml", evolution_dir);
@@ -961,7 +948,6 @@ providers_config (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	GtkWidget *pc;
 
-	printf ("Configuring Providers ...\n");
 	pc = providers_config_new ();
 
 	gtk_widget_show (pc);

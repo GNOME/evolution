@@ -258,7 +258,6 @@ create_vfolder_storage (EvolutionShellComponent *shell_component)
 			g_string_sprintf(query, "vfolder:%s/vfolder/%s?", evolution_dir, desctext);
 			filter_driver_expand_option(fe, query, NULL, fo);
 			name = g_strdup_printf("/%s", desctext);
-			printf("Adding new vfolder: %s\n", query->str);
 			evolution_storage_new_folder (storage, name,
 						      "mail",
 						      query->str,
@@ -384,7 +383,6 @@ real_create_imap_storage( gpointer user_data )
 
 		path = g_strdup_printf ("/%s", (char *)lsub->pdata[i]);
 		buf = g_strdup_printf ("%s/%s", source, path);
-		g_print ("Adding %s\n", path);
 
 #ifdef USE_BROKEN_THREADS
 		mail_op_set_message( "Adding %s", path );
@@ -504,7 +502,6 @@ real_create_news_storage( gpointer user_data )
 
 		path = g_strdup_printf ("/%s", (char *)lsub->pdata[i]);
 		buf = g_strdup_printf ("%s%s", source, path);
-		g_print ("Adding %s\n", path);
 
 #ifdef USE_BROKEN_THREADS
 		mail_op_set_message( "Adding %s", path );

@@ -101,12 +101,10 @@ mail_uri_to_folder (const char *name)
 	} else if (!strncmp (name, "imap:", 5)) {
 		char *service, *ptr;
 		
-		fprintf (stderr, "\n****** name = %s ******\n", name);
 		service = g_strdup_printf ("%s/", name);
 		for (ptr = service + 7; *ptr && *ptr != '/'; ptr++);
 		ptr++;
 		*ptr = '\0';
-		fprintf (stderr, "****** service = %s ******\n", service);
 		store = camel_session_get_store (session, service, ex);
 		g_free (service);
 		if (store) {
@@ -116,7 +114,6 @@ mail_uri_to_folder (const char *name)
 			for (ptr = (char *)(name + 7); *ptr && *ptr != '/'; ptr++);
 			if (*ptr == '/') {
 				if (url && url->path) {
-					fprintf (stderr, "namespace = %s\n", url->path + 1);
 					ptr += strlen (url->path);
 					if (*ptr == '/')
 						ptr++;
@@ -128,7 +125,6 @@ mail_uri_to_folder (const char *name)
 
 				folder_name = g_strdup (ptr);
 				
-				fprintf (stderr, "getting folder: %s\n", folder_name);
 				folder = camel_store_get_folder (store, folder_name, TRUE, ex);
 				g_free (folder_name);
 			}

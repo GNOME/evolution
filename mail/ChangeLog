@@ -1,5 +1,7 @@
 2000-07-10  Dan Winship  <danw@helixcode.com>
 
+	* kill more debugging messages
+
 	* mail-ops.c (real_fetch_mail): Don't multiply free dest_url.
 
 	* message-list.c (message_list_select): Update
