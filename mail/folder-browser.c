@@ -939,7 +939,7 @@ static void done_message_selected(CamelFolder *folder, char *uid, CamelMimeMessa
 static gboolean
 do_message_selected(FolderBrowser *fb)
 {
-	d(printf ("selecting uid %s (delayed)\n", fb->new_uid));
+	d(printf ("selecting uid %s (delayed)\n", fb->new_uid ? fb->new_uid : "NONE"));
 
 	/* keep polling if we are busy */
 	if (fb->reconfigure) {
@@ -972,7 +972,7 @@ do_message_selected(FolderBrowser *fb)
 static void
 on_message_selected (MessageList *ml, const char *uid, FolderBrowser *fb)
 {
-	d(printf ("selecting uid %s (direct)\n", uid));
+	d(printf ("selecting uid %s (direct)\n", uid ? uid : "NONE"));
 
 	if (fb->loading_id != 0)
 		gtk_timeout_remove(fb->loading_id);

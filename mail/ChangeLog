@@ -1,5 +1,8 @@
 2001-04-12  Dan Winship  <danw@ximian.com>
 
+	* folder-browser.c (do_message_selected, on_message_selected):
+	Don't printf NULL
+
 	* mail-format.c (mail_part_is_inline): Don't leak memory.
 
 2001-04-12  Jeffrey Stedfast  <fejj@ximian.com>
