@@ -44,7 +44,8 @@
 
 #include "e-icon-list.h"
 
-#include "camel/camel-charset-map.h"
+#include <gal/util/e-iconv.h>
+
 #include "camel/camel-data-wrapper.h"
 #include "camel/camel-stream-fs.h"
 #include "camel/camel-stream-null.h"
@@ -729,7 +730,7 @@ get_default_charset (void)
 	
 	gconf = gconf_client_get_default ();
 	buf = gconf_client_get_string (gconf, "/apps/evolution/mail/composer/charset", NULL);
-	charset = camel_charset_canonical_name (buf);
+	charset = e_iconv_charset_name (buf);
 	g_free (buf);
 	
 	return charset;

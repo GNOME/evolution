@@ -52,8 +52,6 @@
 #include <errno.h>
 #include <ctype.h>
 
-#include <glib/gunicode.h>
-
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtkscrolledwindow.h>
 
@@ -76,6 +74,7 @@
 
 #include <glade/glade.h>
 
+#include <gal/util/e-iconv.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/e-text/e-entry.h>
 
@@ -240,7 +239,7 @@ composer_get_default_charset_setting (void)
 	
 	gconf = gconf_client_get_default ();
 	buf = gconf_client_get_string (gconf, "/apps/evolution/mail/composer/charset", NULL);
-	charset = camel_charset_canonical_name (buf);
+	charset = e_iconv_charset_name (buf);
 	g_free (buf);
 	
 	return charset;
