@@ -1,3 +1,8 @@
+2001-11-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (pgpopen): Fix the boolean check to be && and not
+	||.
+
 2001-11-20  Not Zed  <NotZed@Ximian.com>
 
 	* folder-browser-ui.c: Disable search if no message
