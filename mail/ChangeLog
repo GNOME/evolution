@@ -1,3 +1,8 @@
+2000-08-10  Dan Winship  <danw@helixcode.com>
+
+	* mail-callbacks.c (reply_to_all): Fix a bug in the async changes.
+	(This was identical to reply_to_sender.)
+
 2000-08-10  Not Zed  <NotZed@HelixCode.com>
 
 	* mail-local.c (do_local_reconfigure_folder): Update for

@@ -320,7 +320,7 @@ reply_to_all (GtkWidget *widget, gpointer user_data)
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 
 	mail_reply (fb->folder, fb->mail_display->current_message, 
-	       fb->message_list->cursor_uid, FALSE);
+	       fb->message_list->cursor_uid, TRUE);
 }
 
 static void
