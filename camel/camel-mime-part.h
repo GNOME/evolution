@@ -32,7 +32,7 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
-#include "camel-data-wrapper.h"
+#include "camel-media.h"
 #include "camel-stream.h"
 
 
