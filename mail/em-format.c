@@ -50,11 +50,11 @@
 #include <camel/camel-mime-filter-windows.h>
 
 #include "em-format.h"
+#include "em-utils.h"
 
 #define d(x) 
 
 static void emf_builtin_init(EMFormatClass *);
-static const char *emf_snoop_part(CamelMimePart *part);
 
 static const EMFormatHandler *emf_find_handler(EMFormat *emf, const char *mime_type);
 static void emf_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMimeMessage *msg, EMFormat *emfsource);
@@ -485,7 +485,7 @@ em_format_part_as(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const
 
 	if (mime_type != NULL) {
 		if (g_ascii_strcasecmp(mime_type, "application/octet-stream") == 0)
-			emf->snoop_mime_type = mime_type = emf_snoop_part(part);
+			emf->snoop_mime_type = mime_type = em_utils_snoop_type(part);
 
 		handle = em_format_find_handler(emf, mime_type);
 		if (handle == NULL)
@@ -1003,54 +1003,6 @@ em_format_describe_part(CamelMimePart *part, const char *mime_type)
 }
 
 /* ********************************************************************** */
-
-/* originally from mail-identify.c */
-static const char *
-emf_snoop_part(CamelMimePart *part)
-{
-	const char *filename, *name_type = NULL, *magic_type = NULL;
-	CamelDataWrapper *dw;
-	
-	filename = camel_mime_part_get_filename (part);
-	if (filename) {
-		/* GNOME-VFS will misidentify TNEF attachments as MPEG */
-		if (!strcmp (filename, "winmail.dat"))
-			return "application/vnd.ms-tnef";
-		
-		name_type = gnome_vfs_mime_type_from_name(filename);
-	}
-	
-	dw = camel_medium_get_content_object((CamelMedium *)part);
-	if (!camel_data_wrapper_is_offline(dw)) {
-		CamelStreamMem *mem = (CamelStreamMem *)camel_stream_mem_new();
-
-		if (camel_data_wrapper_decode_to_stream(dw, (CamelStream *)mem) > 0)
-			magic_type = gnome_vfs_get_mime_type_for_data(mem->buffer->data, mem->buffer->len);
-		camel_object_unref(mem);
-	}
-
-	d(printf("snooped part, magic_type '%s' name_type '%s'\n", magic_type, name_type));
-
-	/* If GNOME-VFS doesn't recognize the data by magic, but it
-	 * contains English words, it will call it text/plain. If the
-	 * filename-based check came up with something different, use
-	 * that instead and if it returns "application/octet-stream"
-	 * try to do better with the filename check.
-	 */
-	
-	if (magic_type) {
-		if (name_type
-		    && (!strcmp(magic_type, "text/plain")
-			|| !strcmp(magic_type, "application/octet-stream")))
-			return name_type;
-		else
-			return magic_type;
-	} else
-		return name_type;
-
-	/* We used to load parts to check their type, we dont anymore,
-	   see bug #11778 for some discussion */
-}
 
 #ifdef ENABLE_SMIME
 static void

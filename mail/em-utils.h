@@ -100,6 +100,8 @@ char *em_uri_to_camel (const char *euri);
 /* is this address in the addressbook?  caches results */
 gboolean em_utils_in_addressbook(struct _CamelInternetAddress *addr);
 
+const char *em_utils_snoop_type(struct _CamelMimePart *part);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

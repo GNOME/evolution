@@ -41,6 +41,10 @@
 #include <bonobo/bonobo-widget.h>
 #include <bonobo/bonobo-event-source.h>
 
+#include <libgnomevfs/gnome-vfs-mime.h>
+#include <libgnomevfs/gnome-vfs-mime-utils.h>
+#include <libgnomevfs/gnome-vfs-mime-handlers.h>
+
 #include "mail-component.h"
 #include "mail-mt.h"
 #include "mail-ops.h"
@@ -1764,4 +1768,59 @@ em_utils_in_addressbook(CamelInternetAddress *iaddr)
 	g_hash_table_insert(emu_addr_cache, node->addr, node);
 
 	return found;
+}
+
+/**
+ * em_utils_snoop_type:
+ * @part: 
+ * 
+ * Rries to snoop the mime type of a part.
+ * 
+ * Return value: NULL if unknown (more likely application/octet-stream).
+ **/
+const char *
+em_utils_snoop_type(CamelMimePart *part)
+{
+	const char *filename, *name_type = NULL, *magic_type = NULL;
+	CamelDataWrapper *dw;
+	
+	filename = camel_mime_part_get_filename (part);
+	if (filename) {
+		/* GNOME-VFS will misidentify TNEF attachments as MPEG */
+		if (!strcmp (filename, "winmail.dat"))
+			return "application/vnd.ms-tnef";
+		
+		name_type = gnome_vfs_mime_type_from_name(filename);
+	}
+	
+	dw = camel_medium_get_content_object((CamelMedium *)part);
+	if (!camel_data_wrapper_is_offline(dw)) {
+		CamelStreamMem *mem = (CamelStreamMem *)camel_stream_mem_new();
+
+		if (camel_data_wrapper_decode_to_stream(dw, (CamelStream *)mem) > 0)
+			magic_type = gnome_vfs_get_mime_type_for_data(mem->buffer->data, mem->buffer->len);
+		camel_object_unref(mem);
+	}
+
+	d(printf("snooped part, magic_type '%s' name_type '%s'\n", magic_type, name_type));
+
+	/* If GNOME-VFS doesn't recognize the data by magic, but it
+	 * contains English words, it will call it text/plain. If the
+	 * filename-based check came up with something different, use
+	 * that instead and if it returns "application/octet-stream"
+	 * try to do better with the filename check.
+	 */
+	
+	if (magic_type) {
+		if (name_type
+		    && (!strcmp(magic_type, "text/plain")
+			|| !strcmp(magic_type, "application/octet-stream")))
+			return name_type;
+		else
+			return magic_type;
+	} else
+		return name_type;
+
+	/* We used to load parts to check their type, we dont anymore,
+	   see bug #11778 for some discussion */
 }

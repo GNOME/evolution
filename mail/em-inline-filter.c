@@ -31,6 +31,8 @@
 #include <camel/camel-multipart.h>
 #include <camel/camel-stream-mem.h>
 
+#include "em-utils.h"
+
 #define d(x) 
 
 static void em_inline_filter_class_init (EMInlineFilterClass *klass);
@@ -120,6 +122,7 @@ emif_add_part(EMInlineFilter *emif, const char *data, int len)
 	CamelStream *mem;
 	CamelDataWrapper *dw;
 	CamelMimePart *part;
+	const char *mimetype;
 
 	if (emif->state == EMIF_PLAIN)
 		type = emif->base_encoding;
@@ -144,11 +147,21 @@ emif_add_part(EMInlineFilter *emif, const char *data, int len)
 	camel_mime_part_set_encoding(part, type);
 	camel_object_unref(dw);
 
-	if (emif->filename) {
+	if (emif->filename)
 		camel_mime_part_set_filename(part, emif->filename);
-		g_free(emif->filename);
-		emif->filename = NULL;
+
+	/* pre-snoop the mime type of unknown objects, and poke and hack it into place */
+	if (camel_content_type_is(dw->mime_type, "application", "octet-stream")
+	    && (mimetype = em_utils_snoop_type(part))
+	    && strcmp(mimetype, "application/octet-stream") != 0) {
+		camel_data_wrapper_set_mime_type(dw, mimetype);
+		camel_mime_part_set_content_type(part, mimetype);
+		if (emif->filename)
+			camel_mime_part_set_filename(part, emif->filename);
 	}
+
+	g_free(emif->filename);
+	emif->filename = NULL;
 
 	emif->parts = g_slist_append(emif->parts, part);
 }
