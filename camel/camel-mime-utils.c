@@ -2,6 +2,7 @@
  *  Copyright (C) 2000 Helix Code Inc.
  *
  *  Authors: Michael Zucchi <notzed@helixcode.com>
+ *           Jeffrey Stedfast <fejj@helixcode.com>
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Library General Public License
@@ -481,11 +482,8 @@ uudecode_step (unsigned char *in, int len, unsigned char *out, int *state, guint
 					*outptr++ = CAMEL_UUDECODE_CHAR (b1) << 4 | CAMEL_UUDECODE_CHAR (b2) >> 2;
 				        *outptr++ = CAMEL_UUDECODE_CHAR (b2) << 6 | CAMEL_UUDECODE_CHAR (b3);
 				} else {
-					int j = 0;
-					
 					if (*uulen >= 1) {
 						*outptr++ = CAMEL_UUDECODE_CHAR (b0) << 2 | CAMEL_UUDECODE_CHAR (b1) >> 4;
-						j++;
 					}
 					if (*uulen >= 2) {
 						*outptr++ = CAMEL_UUDECODE_CHAR (b1) << 4 | CAMEL_UUDECODE_CHAR (b2) >> 2;

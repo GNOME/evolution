@@ -2,6 +2,7 @@
  *  Copyright (C) 2000 Helix Code Inc.
  *
  *  Authors: Michael Zucchi <notzed@helixcode.com>
+ *           Jeffrey Stedfast <fejj@helixcode.com>
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Library General Public License
@@ -157,6 +158,8 @@ int base64_decode_step(unsigned char *in, int len, unsigned char *out, int *stat
 
 int base64_encode_step(unsigned char *in, int len, unsigned char *out, int *state, int *save);
 int base64_encode_close(unsigned char *in, int inlen, unsigned char *out, int *state, int *save);
+
+int uudecode_step (unsigned char *in, int len, unsigned char *out, int *state, guint32 *save, char *uulen);
 
 int quoted_decode_step(unsigned char *in, int len, unsigned char *out, int *savestate, int *saveme);
 

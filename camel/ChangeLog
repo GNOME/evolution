@@ -1,3 +1,10 @@
+2000-07-05  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* camel-mime-utils.h: Added prototype for uudecode_step
+
+	* camel-mime-utils.c (uudecode_step): Cleaned up some junk that
+	should have been cleaned up when debugging printf's were taken out.
+
 2000-07-05  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* providers/mbox/camel-mbox-summary.c (camel_mbox_summary_sync):
