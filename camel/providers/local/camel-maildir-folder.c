@@ -54,7 +54,6 @@ static CamelLocalSummary *maildir_create_summary(const char *path, const char *f
 
 static void maildir_append_message(CamelFolder * folder, CamelMimeMessage * message, const CamelMessageInfo *info, char **appended_uid, CamelException * ex);
 static CamelMimeMessage *maildir_get_message(CamelFolder * folder, const gchar * uid, CamelException * ex);
-static void maildir_refresh_info(CamelFolder *folder, CamelException *ex);
 
 static void maildir_finalize(CamelObject * object);
 
@@ -68,7 +67,6 @@ static void camel_maildir_folder_class_init(CamelObjectClass * camel_maildir_fol
 	/* virtual method definition */
 
 	/* virtual method overload */
-	camel_folder_class->refresh_info = maildir_refresh_info;
 	camel_folder_class->append_message = maildir_append_message;
 	camel_folder_class->get_message = maildir_get_message;
 
@@ -125,20 +123,6 @@ camel_maildir_folder_new(CamelStore *parent_store, const char *full_name, guint3
 static CamelLocalSummary *maildir_create_summary(const char *path, const char *folder, CamelIndex *index)
 {
 	return (CamelLocalSummary *)camel_maildir_summary_new(path, folder, index);
-}
-
-static void
-maildir_refresh_info(CamelFolder *folder, CamelException *ex)
-{
-	CamelLocalFolder *lf = (CamelLocalFolder *)folder;
-
-	if (camel_local_summary_check((CamelLocalSummary *)folder->summary, lf->changes, ex) == -1)
-		return;
-
-	if (camel_folder_change_info_changed(lf->changes)) {
-		camel_object_trigger_event((CamelObject *)folder, "folder_changed", lf->changes);
-		camel_folder_change_info_clear(lf->changes);
-	}
 }
 
 static void

@@ -70,6 +70,8 @@ static int local_getv(CamelObject *object, CamelException *ex, CamelArgGetV *arg
 static int local_lock(CamelLocalFolder *lf, CamelLockType type, CamelException *ex);
 static void local_unlock(CamelLocalFolder *lf);
 
+static void local_refresh_info(CamelFolder *folder, CamelException *ex);
+
 static void local_sync(CamelFolder *folder, gboolean expunge, CamelException *ex);
 static void local_expunge(CamelFolder *folder, CamelException *ex);
 
@@ -94,6 +96,7 @@ camel_local_folder_class_init(CamelLocalFolderClass * camel_local_folder_class)
 	/* virtual method overload */
 	oklass->getv = local_getv;
 
+	camel_folder_class->refresh_info = local_refresh_info;
 	camel_folder_class->sync = local_sync;
 	camel_folder_class->expunge = local_expunge;
 
@@ -369,6 +372,21 @@ static void
 local_unlock(CamelLocalFolder *lf)
 {
 	/* nothing */
+}
+
+/* for auto-check to work */
+static void
+local_refresh_info(CamelFolder *folder, CamelException *ex)
+{
+	CamelLocalFolder *lf = (CamelLocalFolder *)folder;
+
+	if (camel_local_summary_check((CamelLocalSummary *)folder->summary, lf->changes, ex) == -1)
+		return;
+
+	if (camel_folder_change_info_changed(lf->changes)) {
+		camel_object_trigger_event((CamelObject *)folder, "folder_changed", lf->changes);
+		camel_folder_change_info_clear(lf->changes);
+	}
 }
 
 static void

@@ -409,18 +409,27 @@ camel_object_new(CamelType type)
 }
 
 void
-camel_object_ref(CamelObject *o)
+camel_object_ref(void *vo)
 {
+	register CamelObject *o = vo;
+
+	g_return_if_fail(CAMEL_IS_OBJECT(o));
+
 	CLASS_LOCK(o->klass);
 	o->ref_count++;
 	CLASS_UNLOCK(o->klass);
 }
 
 void
-camel_object_unref(CamelObject *o)
+camel_object_unref(void *vo)
 {
-	register CamelObjectClass *klass = o->klass, *k;
+	register CamelObject *o = vo;
+	register CamelObjectClass *klass, *k;
+
+	g_return_if_fail(CAMEL_IS_OBJECT(o));
 	
+	klass = o->klass;
+
 	CLASS_LOCK(klass);
 	o->ref_count--;
 	if (o->ref_count > 0

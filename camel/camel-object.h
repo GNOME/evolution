@@ -192,8 +192,8 @@ CamelType camel_object_get_type (void);
 CamelObject *camel_object_new (CamelType type);
 CamelObject *camel_object_new_name (const char *name);
 
-void camel_object_ref (CamelObject *obj);
-void camel_object_unref (CamelObject *obj);
+void camel_object_ref(void *);
+void camel_object_unref(void *);
 
 #ifdef CAMEL_DEBUG
 #define camel_object_ref(o) (printf("%s (%s:%d):ref (%p)\n", __FUNCTION__, __FILE__, __LINE__, o), camel_object_ref(o))

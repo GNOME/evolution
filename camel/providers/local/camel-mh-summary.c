@@ -39,6 +39,8 @@
 #include "camel-mh-summary.h"
 #include <camel/camel-mime-message.h>
 
+#include "camel-private.h"
+
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 
 #define CAMEL_MH_SUMMARY_VERSION (0x2000)
@@ -135,24 +137,30 @@ static char *mh_summary_next_uid_string(CamelFolderSummary *s)
 	int fd = -1;
 	guint32 uid;
 	char *name;
+	char *uidstr;
 
 	/* if we are working to add an existing file, then use current_uid */
-	if (mhs->priv->current_uid)
-		return g_strdup(mhs->priv->current_uid);
+	if (mhs->priv->current_uid) {
+		uidstr = g_strdup(mhs->priv->current_uid);
+		/* tell the summary of this, so we always append numbers to the end */
+		camel_folder_summary_set_uid(s, strtoul(uidstr, NULL, 10)+1);
+	} else {
+		/* else scan for one - and create it too, to make sure */
+		do {
+			close(fd);
+			uid = camel_folder_summary_next_uid(s);
+			name = g_strdup_printf("%s/%u", cls->folder_path, uid);
+			/* O_EXCL isn't guaranteed, sigh.  Oh well, bad luck, mh has problems anyway */
+			fd = open(name, O_WRONLY|O_CREAT|O_EXCL, 0600);
+			g_free(name);
+		} while (fd == -1 && errno == EEXIST);
 
-	/* else scan for one - and create it too, to make sure */
-	do {
 		close(fd);
-		uid = camel_folder_summary_next_uid(s);
-		name = g_strdup_printf("%s/%u", cls->folder_path, uid);
-		/* O_EXCL isn't guaranteed, sigh.  Oh well, bad luck, mh has problems anyway */
-		fd = open(name, O_WRONLY|O_CREAT|O_EXCL, 0600);
-		g_free(name);
-	} while (fd == -1 && errno == EEXIST);
 
-	close(fd);
+		uidstr = g_strdup_printf("%u", uid);
+	}
 
-	return g_strdup_printf("%u", uid);
+	return uidstr;
 }
 
 static int camel_mh_summary_add(CamelLocalSummary *cls, const char *name, int forceindex)
@@ -199,12 +207,27 @@ remove_summary(char *key, CamelMessageInfo *info, CamelLocalSummary *cls)
 }
 
 static int
+sort_uid_cmp(const void *ap, const void *bp)
+{
+	const CamelMessageInfo
+		*a = *((CamelMessageInfo **)ap),
+		*b = *((CamelMessageInfo **)bp);
+	const char
+		*auid = camel_message_info_uid(a),
+		*buid = camel_message_info_uid(b);
+	int aval = atoi(auid), bval = atoi(buid);
+
+	return (aval < bval) ? -1 : (aval > bval) ? 1 : 0;
+}
+
+static int
 mh_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changeinfo, CamelException *ex)
 {
 	DIR *dir;
 	struct dirent *d;
 	char *p, c;
 	CamelMessageInfo *info;
+	CamelFolderSummary *s = (CamelFolderSummary *)cls;
 	GHashTable *left;
 	int i, count;
 	int forceindex;
@@ -258,12 +281,17 @@ mh_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changeinfo, Came
 					g_hash_table_remove(left, uid);
 				}
 				camel_folder_summary_info_free((CamelFolderSummary *)cls, info);
-			}	
+			}
 		}
 	}
 	closedir(dir);
 	g_hash_table_foreach(left, (GHFunc)remove_summary, cls);
 	g_hash_table_destroy(left);
+
+	/* sort the summary based on message number (uid), since the directory order is not useful */
+	CAMEL_SUMMARY_LOCK(s, summary_lock);
+	qsort(s->messages->pdata, s->messages->len, sizeof(CamelMessageInfo *), sort_uid_cmp);
+	CAMEL_SUMMARY_UNLOCK(s, summary_lock);
 
 	return 0;
 }

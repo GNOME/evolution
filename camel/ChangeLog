@@ -1,3 +1,67 @@
+2002-06-04  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-local-provider.c: Remove the
+	CONF_DEFAULT_PATH entry, as this is handled by the url config
+	stuff.  This made it basically impossible to configure any local
+	folder from the gui.
+
+	* providers/local/camel-local-folder.c (local_refresh_info): Force
+	a refresh.  Should work for all local folders to force them to
+	refresh.
+
+	* providers/local/camel-maildir-folder.c (maildir_refresh_info):
+	Removed, moved into camel-local-folder.
+
+	* providers/local/camel-mh-summary.c (mh_summary_next_uid_string):
+	Once we assign or get a uid, tell the summary of this, so the next
+	uid we get will be higher than any previously.
+
+	* camel-object.c (camel_object_ref, camel_object_unref): I got
+	sick of casting, these now take void * like they should, and
+	perform their own run-time type checking.
+
+	* providers/local/camel-mh-store.c (recursive_scan): Changed to
+	use stat, not lstat (*shrug* maybe someone wants to softlink their
+	maildir tree?).
+	(inode_hash):
+	(inode_equal):
+	(inode_free): Copied from camel-maildir store (should put into
+	camel-local-store or utils?).
+	(recursive_scan): Changed to check for re-visiting inodes.  Also,
+	it builds the tree itself, rather than using folder_info_build.
+	(add_folder): Changed to folder_info_new.
+	(recursive_scan): Properly honour the recursive flag.  Also,
+	lookup unread count from folder.
+	(folder_info_new): Init unread message count to -1, since we dont
+	know yet.
+	(folder_info_new): Take the name as an argument, and perform the
+	merging here.
+	(folders_update): Util func to add/remove folders from .folders
+	file.  I'm assuming its sorted.
+	(get_folder): Add the folder to .folders if we created a new one,
+	and if it exists.
+	(delete_folder): Remove from .folders, etc.
+	(folders_scan): If we have a .folders file, read and use that
+	instead.
+	(recursive_scan): Handle scanning from a particular directory
+	properly.
+	(rename_folder): Implement so we can track any changes to the
+	.folders file if its turned on.
+
+	** Applied patch below from Greg Hudson.
+	
+2002-05-10  Greg Hudson  <ghudson@mit.edu>
+
+	* camel-mh-store.c (get_inbox, get_folder_info, recursive_scan,
+	add_folder): Implement support for MH stores.
+
+	* camel-mh-summary.c (mh_summary_check, sort_uid_cmp): Sort MH
+	messages by message number (uid), like we sort maildir messages by
+	date.
+
+	* camel-local-provider.c (mh_provider): Turn on source and store
+	flags.
+
 2002-06-03  Not Zed  <NotZed@Ximian.com>
 
 	* camel-vee-folder.c (camel_vee_folder_add_folder):

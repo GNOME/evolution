@@ -170,6 +170,7 @@ CamelStream *
 camel_stream_buffer_new (CamelStream *stream, CamelStreamBufferMode mode)
 {
 	CamelStreamBuffer *sbf;
+
 	sbf = CAMEL_STREAM_BUFFER (camel_object_new (camel_stream_buffer_get_type ()));
 	CAMEL_STREAM_BUFFER_CLASS (CAMEL_OBJECT_GET_CLASS(sbf))->init (sbf, stream, mode);
 

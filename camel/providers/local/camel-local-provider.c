@@ -40,6 +40,8 @@
 
 static CamelProviderConfEntry mh_conf_entries[] = {
 	CAMEL_PROVIDER_CONF_DEFAULT_PATH,
+	{ CAMEL_PROVIDER_CONF_CHECKBOX, "dotfolders", NULL,
+	  N_("Use the `.folders' folder summary file (exmh)"), "0" },
 	{ CAMEL_PROVIDER_CONF_END }
 };
 
@@ -48,7 +50,7 @@ static CamelProvider mh_provider = {
 	N_("MH-format mail directories"),
 	N_("For storing local mail in MH-like mail directories."),
 	"mail",
-	CAMEL_PROVIDER_IS_LOCAL,
+	CAMEL_PROVIDER_IS_SOURCE | CAMEL_PROVIDER_IS_STORAGE | CAMEL_PROVIDER_IS_LOCAL,
 	CAMEL_URL_NEED_PATH | CAMEL_URL_PATH_IS_ABSOLUTE,
 	mh_conf_entries,
 	/* ... */
@@ -118,7 +120,7 @@ static CamelProvider spoold_provider = {
 	"mail",
 	CAMEL_PROVIDER_IS_SOURCE | CAMEL_PROVIDER_IS_STORAGE | CAMEL_PROVIDER_IS_LOCAL,
 	CAMEL_URL_NEED_PATH | CAMEL_URL_PATH_IS_ABSOLUTE,
-	spoold_conf_entries,
+	NULL,
 	/* ... */
 };
 

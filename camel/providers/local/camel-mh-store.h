@@ -34,9 +34,14 @@ extern "C" {
 #define CAMEL_MH_STORE_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_MH_STORE_TYPE, CamelMhStoreClass))
 #define CAMEL_IS_MH_STORE(o)    (CAMEL_CHECK_TYPE((o), CAMEL_MH_STORE_TYPE))
 
+enum {
+	CAMEL_MH_DOTFOLDERS = (1<<0), /* update/use .folders file */
+};
+
 typedef struct {
 	CamelLocalStore parent_object;
-	
+
+	guint32 flags;
 } CamelMhStore;
 
 typedef struct {
