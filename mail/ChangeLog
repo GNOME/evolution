@@ -1,5 +1,15 @@
 2004-01-30  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #53123.
+
+	* em-folder-tree-model.c (drop_folder): changed to take store and
+	dest folder as arg, to handle the case of the parent folder being
+	"" properly.
+	(em_folder_tree_model_drag_data_received): special case dropping a
+	folder, and don't allow dropping to "" for any other types.
+
+2004-01-30  Not Zed  <NotZed@Ximian.com>
+
 	** See bug #53558 (plus other fixes/cleanups)
 
 	* em-format.c (emf_format_secure): default implementation, handle

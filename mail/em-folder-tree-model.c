@@ -963,48 +963,44 @@ drop_uid_list (CamelFolder *dest, GtkSelectionData *selection, gboolean move, gb
 }
 
 static void
-drop_folder (CamelFolder *dest, GtkSelectionData *selection, gboolean move, gboolean *moved, CamelException *ex)
+drop_folder (CamelStore *dest_store, const char *dest_name, GtkSelectionData *selection, gboolean move, gboolean *moved, CamelException *ex)
 {
 	CamelFolder *src;
+	char *new_name;
 	
 	*moved = FALSE;
-	
-	/* get the folder being dragged */
+
+	/* FIXME: all this stuff needs to run asynchronous */
+
 	if (!(src = mail_tool_uri_to_folder (selection->data, 0, ex)))
 		return;
-	
-	if (src->parent_store == dest->parent_store && move) {
-		/* simple rename() action */
-		char *old_name, *new_name;
-		
-		old_name = g_strdup (src->full_name);
-		new_name = g_strdup_printf ("%s/%s", dest->full_name, src->name);
-		
-		camel_store_rename_folder (dest->parent_store, old_name, new_name, ex);
-		
+
+	/* handles dropping to the root properly */
+	if (dest_name[0])
+		new_name = g_strdup_printf ("%s/%s", dest_name, src->name);
+	else
+		new_name = g_strdup(src->name);
+
+	if (src->parent_store == dest_store && move) {
+		/* simple case, rename */
+		camel_store_rename_folder (dest_store, src->full_name, new_name, ex);
 		*moved = !camel_exception_is_set (ex);
-		
-		g_free (old_name);
-		g_free (new_name);
 	} else {
+		CamelFolder *dest;
+
 		/* copy the folder to the new location */
-		CamelFolder *folder;
-		char *path;
-		
-		path = g_strdup_printf ("%s/%s", dest->full_name, src->name);
-		if ((folder = camel_store_get_folder (dest->parent_store, path, CAMEL_STORE_FOLDER_CREATE, ex))) {
+		if ((dest = camel_store_get_folder (dest_store, new_name, CAMEL_STORE_FOLDER_CREATE, ex))) {
 			GPtrArray *uids;
 			
 			uids = camel_folder_get_uids (src);
-			camel_folder_transfer_messages_to (src, uids, folder, NULL, FALSE, ex);
+			camel_folder_transfer_messages_to (src, uids, dest, NULL, FALSE, ex);
 			camel_folder_free_uids (src, uids);
 			
-			camel_object_unref (folder);
+			camel_object_unref (dest);
 		}
-		
-		g_free (path);
 	}
-	
+
+	g_free(new_name);
 	camel_object_unref (src);
 }
 
@@ -1107,7 +1103,6 @@ drop_text_uri_list (CamelFolder *dest, GtkSelectionData *selection, CamelExcepti
 	g_free (urls);
 }
 
-
 gboolean
 em_folder_tree_model_drag_data_received (EMFolderTreeModel *model, GtkTreePath *dest_path, GtkSelectionData *selection,
 					 guint info, gboolean move, gboolean *moved)
@@ -1139,22 +1134,25 @@ em_folder_tree_model_drag_data_received (EMFolderTreeModel *model, GtkTreePath *
 		d(printf ("\tdropped on a placeholder row?\n"));
 		return FALSE;
 	}
-	
+
 	full_name = path[0] == '/' ? path + 1 : path;
-	
 	camel_exception_init (&ex);
-	if ((folder = camel_store_get_folder (store, full_name, 0, &ex))) {
+
+	/* for types other than folder, we can't drop to the root path */
+	if (info == DND_DROP_TYPE_FOLDER) {
+		/* copy or move (aka rename) a folder */
+		drop_folder(store, full_name, selection, move, moved, &ex);
+		d(printf ("\t* dropped a x-folder ('%s' into '%s')\n", selection->data, full_name));
+	} else if (full_name[0] == 0) {
+		return FALSE;
+	} else if ((folder = camel_store_get_folder (store, full_name, 0, &ex))) {
 		switch (info) {
 		case DND_DROP_TYPE_UID_LIST:
 			/* import a list of uids from another evo folder */
 			drop_uid_list (folder, selection, move, moved, &ex);
 			d(printf ("\t* dropped a x-uid-list\n"));
 			break;
-		case DND_DROP_TYPE_FOLDER:
-			/* copy or move (aka rename) a folder */
-			drop_folder (folder, selection, move, moved, &ex);
-			d(printf ("\t* dropped a x-folder ('%s' into '%s')\n", selection->data, full_name));
-			break;
+		/* case DND_DROP_TYPE_FOLDER: handled above special case */
 		case DND_DROP_TYPE_MESSAGE_RFC822:
 			/* import a message/rfc822 stream */
 			drop_message_rfc822 (folder, selection, &ex);
