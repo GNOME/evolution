@@ -1,3 +1,8 @@
+2001-07-11  Not Zed  <NotZed@Ximian.com>
+
+	* configure.in: Added option --with-broken-spool for solaris mbox
+	spool format.
+
 2001-07-10  Marius Andreiana  <mandreiana@yahoo.com>
 
 	* configure.in: Added ro (Romanian) to ALL_LINGUAS
