@@ -4,29 +4,30 @@ SUBDIRS = providers tests
 
 libcamelincludedir = $(includedir)/camel
 
-sbin_PROGRAMS =	camel-lock-helper camel-index-control
+sbin_PROGRAMS =	camel-lock-helper
 
 lib_LTLIBRARIES = libcamel.la
 noinst_LTLIBRARIES = libcamel-static.la
 
-INCLUDES = -I.. -I$(srcdir)/.. 			 	\
-	-I$(top_srcdir)/intl			 	\
-	-I$(top_srcdir)/e-util			 	\
-	-DCAMEL_SBINDIR=\""$(sbindir)"\"	 	\
-	-DCAMEL_PROVIDERDIR=\""$(camel_providerdir)"\" 	\
-	-DG_LOG_DOMAIN=\"camel\"			\
-	$(CAMEL_CFLAGS)
+INCLUDES = -I.. -I$(srcdir)/.. 			 \
+	-I$(top_srcdir)/intl			 \
+	-I$(top_srcdir)/e-util			 \
+	$(CAMEL_CFLAGS)				 \
+	$(GNOME_INCLUDEDIR)			 \
+	$(KRB4_CFLAGS)				 \
+	$(NSPR_CFLAGS)				 \
+	$(NSS_CFLAGS)				 \
+	-DCAMEL_SBINDIR=\""$(sbindir)"\"	 \
+	-DCAMEL_PROVIDERDIR=\""$(camel_providerdir)"\" \
+	-DG_LOG_DOMAIN=\"camel\"
 
 libcamel_la_SOURCES = 				\
 	broken-date-parser.c			\
 	camel-address.c				\
-	camel-block-file.c			\
 	camel-cipher-context.c			\
 	camel-cms-context.c			\
-	camel-data-cache.c			\
 	camel-data-wrapper.c			\
 	camel-digest-folder.c			\
-	camel-digest-store.c			\
 	camel-disco-diary.c			\
 	camel-disco-folder.c			\
 	camel-disco-store.c			\
@@ -39,8 +40,6 @@ libcamel_la_SOURCES = 				\
 	camel-folder-thread.c			\
 	camel-folder.c				\
 	camel-html-parser.c			\
-	camel-http-stream.c			\
-	camel-index.c				\
 	camel-internet-address.c		\
 	camel-lock.c				\
 	camel-lock-client.c			\
@@ -48,11 +47,9 @@ libcamel_la_SOURCES = 				\
 	camel-mime-filter-bestenc.c		\
 	camel-mime-filter-basic.c		\
 	camel-mime-filter-charset.c		\
-	camel-mime-filter-chomp.c		\
 	camel-mime-filter-crlf.c		\
 	camel-mime-filter-from.c		\
 	camel-mime-filter-html.c		\
-	camel-mime-filter-tohtml.c		\
 	camel-mime-filter-index.c		\
 	camel-mime-filter-linewrap.c		\
 	camel-mime-filter-save.c		\
@@ -66,7 +63,6 @@ libcamel_la_SOURCES = 				\
 	camel-multipart.c			\
 	camel-object.c				\
 	camel-operation.c			\
-	camel-partition-table.c			\
 	camel-pgp-context.c			\
 	camel-pgp-mime.c			\
 	camel-smime-context.c			\
@@ -79,7 +75,6 @@ libcamel_la_SOURCES = 				\
 	camel-sasl-digest-md5.c			\
 	camel-sasl-kerberos4.c			\
 	camel-sasl-login.c			\
-	camel-sasl-ntlm.c			\
 	camel-sasl-plain.c			\
 	camel-sasl-popb4smtp.c			\
 	camel-search-private.c			\
@@ -88,17 +83,14 @@ libcamel_la_SOURCES = 				\
 	camel-service.c				\
 	camel-session.c				\
 	camel-store.c				\
-	camel-store-summary.c			\
 	camel-stream-buffer.c			\
 	camel-stream-filter.c			\
 	camel-stream-fs.c			\
 	camel-stream-mem.c			\
 	camel-stream-null.c			\
 	camel-stream.c				\
-	camel-text-index.c			\
 	camel-tcp-stream-raw.c			\
 	camel-tcp-stream-ssl.c			\
-	camel-tcp-stream-openssl.c		\
 	camel-tcp-stream.c			\
 	camel-transport.c			\
 	camel-uid-cache.c			\
@@ -115,14 +107,11 @@ libcamel_la_SOURCES = 				\
 libcamelinclude_HEADERS =			\
 	broken-date-parser.h			\
 	camel-address.h				\
-	camel-block-file.h			\
 	camel-charset-map.h			\
 	camel-cipher-context.h			\
 	camel-cms-context.h			\
-	camel-data-cache.h			\
 	camel-data-wrapper.h			\
 	camel-digest-folder.h			\
-	camel-digest-store.h			\
 	camel-disco-diary.h			\
 	camel-disco-folder.h			\
 	camel-disco-store.h			\
@@ -135,8 +124,6 @@ libcamelinclude_HEADERS =			\
 	camel-folder-summary.h			\
 	camel-folder-thread.h			\
 	camel-folder.h				\
-	camel-http-stream.h			\
-	camel-index.h				\
 	camel-internet-address.h		\
 	camel-lock.h				\
 	camel-lock-client.h			\
@@ -144,11 +131,9 @@ libcamelinclude_HEADERS =			\
 	camel-mime-filter-bestenc.h		\
 	camel-mime-filter-basic.h		\
 	camel-mime-filter-charset.h		\
-	camel-mime-filter-chomp.h		\
 	camel-mime-filter-crlf.h		\
 	camel-mime-filter-from.h		\
 	camel-mime-filter-html.h		\
-	camel-mime-filter-tohtml.h		\
 	camel-mime-filter-index.h		\
 	camel-mime-filter-linewrap.h		\
 	camel-mime-filter-save.h		\
@@ -162,7 +147,6 @@ libcamelinclude_HEADERS =			\
 	camel-multipart.h			\
 	camel-object.h				\
 	camel-operation.h			\
-	camel-partition-table.h			\
 	camel-pgp-context.h			\
 	camel-pgp-mime.h			\
 	camel-smime-context.h			\
@@ -175,7 +159,6 @@ libcamelinclude_HEADERS =			\
 	camel-sasl-digest-md5.h			\
 	camel-sasl-kerberos4.h			\
 	camel-sasl-login.h			\
-	camel-sasl-ntlm.h			\
 	camel-sasl-plain.h			\
 	camel-sasl-popb4smtp.h			\
 	camel-seekable-stream.h			\
@@ -183,14 +166,12 @@ libcamelinclude_HEADERS =			\
 	camel-service.h				\
 	camel-session.h				\
 	camel-store.h				\
-	camel-store-summary.h			\
 	camel-stream-buffer.h			\
 	camel-stream-filter.h			\
 	camel-stream-fs.h			\
 	camel-stream-mem.h			\
 	camel-stream-null.h			\
 	camel-stream.h				\
-	camel-text-index.h			\
 	camel-tcp-stream-raw.h			\
 	camel-tcp-stream-ssl.h			\
 	camel-tcp-stream.h			\
@@ -208,9 +189,11 @@ libcamelinclude_HEADERS =			\
 
 libcamel_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir)
 
-libcamel_la_LIBADD =				\
-	$(top_builddir)/e-util/libeutil.la 	\
-	$(CAMEL_LIBS)
+libcamel_la_LIBADD = $(top_builddir)/e-util/libeutil.la \
+	$(CAMEL_LIBS)				\
+	$(KRB4_LDFLAGS)				\
+	$(NSPR_LDFLAGS)				\
+	$(NSS_LDFLAGS)
 
 libcamel_static_la_SOURCES = $(libcamel_la_SOURCES)
 libcamel_static_la_LIBADD  = $(libcamel_la_LIBADD)
@@ -221,14 +204,6 @@ camel_lock_helper_SOURCES = 			\
 	camel-lock-helper.h			\
 	camel-lock.c				\
 	camel-lock.h
-
-camel_index_control_SOURCES =			\
-	camel-index-control.c
-
-camel_index_control_LDADD =			\
-	$(libcamel_la_LIBADD)			\
-	libcamel.la				\
-	$(EVOLUTION_MAIL_LIBS)
 
 install-exec-hook:
 	@if test -n "$(CAMEL_LOCK_HELPER_USER)"; then \
@@ -270,3 +245,19 @@ noinst_HEADERS =				\
 
 EXTRA_DIST =					\
 	README
+
+#noinst_PROGRAMS =				\
+#	camel-mime-filter-from
+#
+#camel_mime_filter_from_SOURCES = 		\
+#	camel-mime-filter-from.c
+#
+#camel_mime_filter_from_LDADD = 		\
+#	../camel/libcamel.la			\
+#	../e-util/libeutil.la			\
+#	../libibex/libibex.la			\
+#	$(GNOME_LIBDIR)				\
+#	$(GNOMEUI_LIBS)				\
+#	$(INTLLIBS)				\
+#	$(PTHREAD_LIB)				\
+#	$(EXTRA_GNOME_LIBS)

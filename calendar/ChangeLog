@@ -1,115 +1,31 @@
-2002-05-03  Rodrigo Moya <rodrigo@ximian.com>
+2002-04-30  Rodrigo Moya <rodrigo@ximian.com>
 
-	* gui/e-tasks.c (e_tasks_delete_selected):
-	(e_tasks_complete_selected): show progress messages
-	on the status bar.
+	* gui/alarm-notify/alarm-notify.c (alarm_notify_add_calendar): only
+	call add_uri_to_load for URIs that are actually successfully
+	opened.
+	(retry_idle_cb): idle function to keep trying opening the calendar
+	folders that failed.
+	(cal_opened_cb): add/remove URIs from configuration as they are
+	loaded successfully/with errors. And retry opening calendars that
+	fail (temporary fix for #21240).
 
-2002-05-02  Rodrigo Moya <rodrigo@ximian.com>
-
-	* pcs/query.c: #include <gtk/gtkmain.h> to avoid warnings.
-
-2002-05-02  JP Rosevear  <jpr@ximian.com>
-
-	* gui/e-week-view.c (free_view_popup): only discard the popup if
-	we created one
-
-2002-05-02  Rodrigo Moya <rodrigo@ximian.com>
-
-	* pcs/query.c: refactored a bit, to not do things in idle loops.
-
-2002-05-01  JP Rosevear  <jpr@ximian.com>
-
-	* gui/print.c (print_day_details): modify the start and end hours
-	to accomodate all the events in the day
-
-	* gui/e-day-view.c (free_view_popup): only discard the popup if we
-	created one
-
-2002-04-30  JP Rosevear  <jpr@ximian.com>
-
-	* gui/gnome-cal.c (gnome_calendar_construct): remove setup_widgets
-	from here
-	(gnome_calendar_init): move setup_widgets back here
-
-2002-04-26  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* gui/Makefile.am: Don't link to libibex anymore!!
-
-2002-04-24  JP Rosevear  <jpr@ximian.com>
-
-	* gui/e-day-view.c (e_day_view_on_pilot_settings): launch pilot
-	settings capplet
-
-	* gui/e-week-view.c (e_week_view_on_pilot_settings): ditto
+	* gui/alarm-notify/notify-main.c (load_calendars): converted this
+	function into a GSourceFunc.
+	(main): installed load_calendars with g_idle_add.
 	
-2002-04-24  JP Rosevear  <jpr@ximian.com>
-	
-	* gui/e-week-view.c (free_view_popup): free the view popup
-	(e_week_view_show_popup_menu): add the view popup to the
-	"main_item" menu and listen for destruction
-
-	* gui/e-day-view.c (free_view_popup): as above
-	(e_day_view_on_event_right_click): as above
-
-	* gui/e-week-view.h: add class member
-
-	* gui/e-day-view.h: add a class member
-
-	* gui/gnome-cal.h: new protos
-
-	* gui/gnome-cal.c (set_view): set the instance view id properly
-	when switching views
-	(gnome_calendar_setup_view_popup): generate a view popup
-	(gnome_calendar_discard_view_popup): destroy a view popup
-
-2002-04-22  Rodrigo Moya <rodrigo@ximian.com>
+2002-04-18  Rodrigo Moya <rodrigo@ximian.com>
 
 	* pcs/cal.c (impl_Cal_get_alarms_in_range): raise an exception if the
 	backend's method returns NULL, since we can't send a NULL pointer to
 	ORBit.
 
-2002-04-19  Anna Marie Dirks  <anna@ximian.com>
+2002-04-17  Rodrigo Moya <rodrigo@ximian.com>
 
-	* gui/dialogs/cal-prefs-dialog.glade: Collapsed notebook into two pages
-	and added accelerators for everything, as part of my config dialog
-	polishing project
-
-2002-04-18  JP Rosevear  <jpr@ximian.com>
-
-	* gui/dialogs/recurrence-page.c (simple_recur_to_comp): properly
-	handle -ve recurrence values
-	(month_num_submenu_selection_done_cb): track the current date in
-	use
-	(make_recur_month_num_submenu): make a submenu of dates
-	(make_recur_month_num_menu): make the date/relation option menu
-	(month_num_menu_selection_done_cb): update the date properly and
-	keep both option menus consistent
-	(month_day_menu_selection_done_cb): keep both option menus
-	consistent
-	(make_monthly_special): listen for selection done signal
-	(make_recurrence_special): destroy old month_num_menu
-	(recurrence_page_fill_widgets): properly handle -ve recurrence
-	values
-
-2002-04-18  JP Rosevear  <jpr@ximian.com>
-	
-	* gui/e-day-view.c (e_day_view_on_settings): show the settings
-
-	* gui/e-week-view.c (e_week_view_on_settings): ditto
-
-	* gui/calendar-commands.c (control_util_show_settings): show the
-	settings dialog
-
-	* gui/calendar-commands.h: new proto
-
-	* gui/control-factory.c (control_factory_new_control): set the
-	control as object data on the calendar
-
-2002-04-17  Christopher James Lahey  <clahey@ximian.com>
-
-	* gui/e-calendar-table.c, gui/e-day-view.c, gui/e-week-view.c,
-	gui/dialogs/meeting-page.c: Updated these to match the new
-	EPopupMenu.
+	* pcs/cal-backend.[ch]:
+	* pcs/cal-backend-file.c:
+	* pcs/cal.c: reverted my getQuery change, since it will break
+	compatibility with evolution 1.0.3, and, for the time being, we
+	only want this on HEAD.
 
 2002-04-05  Rodrigo Moya <rodrigo@ximian.com>
 
@@ -122,64 +38,13 @@
 
 	* pcs/query.[ch]: fixed headers.
 
-2002-04-10  Dan Winship  <danw@ximian.com>
-
-	* gui/gnome-cal.c (gnome_calendar_open): Fix this: Rodrigo's patch
-	used one of the functions I just removed. :)
-
-2002-04-10  Rodrigo Moya <rodrigo@ximian.com>
+2002-04-01  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/gnome-cal.c (gnome_calendar_open): use the default uri for
 	tasks (as stored in the configuration) when the calendar URI is not
 	a local one (connector, etc).
 
-2002-04-10  Dan Winship  <danw@ximian.com>
-
-	* cal-client/cal-client.c (get_default_uri): Use new-and-improved
-	default folder URI config paths.
-
-	* gui/calendar-config.c (calendar_config_{get,set}_default_uri,
-	calendar_config_{get,set}_default_tasks_uri): Remove these. The
-	shell owns this information now. (Weren't being used anyway.)
-
-	* gui/component-factory.c (get_data_uri): Fix another place that
-	hardcoded tacking foo.ics on to the end of URLs.
-
-2002-04-08  Dan Winship  <danw@ximian.com>
-
-	* gui/component-factory.c (create_view): Add view_info arg. If the
-	view_info is non-empty and this is a calendar folder, set the
-	"view" property on the control's propertybag.
-
-	* gui/control-factory.c (calendar_properties_init): Set up the
-	"view" property.
-	(get_prop, set_prop): handle the "view" property by
-	getting/setting the GnomeCalendar's view. Unfortunately, this
-	doesn't actually work. See #23208.
-
-	* gui/calendar-commands.c (calendar_control_activate): Set the UI
-	component's container before calling
-	gnome_calendar_set_ui_component so that the search bar
-	initialization will work.
-
-2002-04-06  JP Rosevear  <jpr@ximian.com>
-
-	* pcs/cal-backend-db.[hc]: Remove dead files.
-
-2002-04-06  JP Rosevear  <jpr@ximian.com>
-	
-	* gui/GNOME_Evolution_Calendar.oaf.in: add config_item:type
-
-2002-04-01  Kjartan Maraas  <kmaraas@gnome.org>
-
-	* gui/e-itip-control.c: Fix a string.
-	
-2002-04-01  Rodrigo Moya <rodrigo@ximian.com>
-
-	* pcs/cal-backend-db.c: simple fix for DB3 header inclusion in
-	Mac OS X, by Max Horn <max@quendi.de>
-
-2002-03-31  JP Rosevear  <jpr@ximian.com>
+2002-03-28  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-itip-control.c (clean_up): free the my_address member
 	(find_my_address): fall back on a CN match if possible
@@ -190,166 +55,6 @@
 	the attendee any how (as an optional participant)
 	(ok_clicked_cb): if we are suppose to rsvp and the status was ok,
 	but the attendee address is not known, find it
-	
-2002-03-29  Ettore Perazzoli  <ettore@ximian.com>
-
-	* gui/GNOME_Evolution_Calendar.oaf.in: Set a priority for the
-	config item.  Rename to "Calendar and Tasks".
-
-2002-03-29  JP Rosevear  <jpr@ximian.com>
-
-	* conduits/calendar/Makefile.am: s/libversit.la/libversit.a/
-
-	* conduits/todo/Makefile.am: ditto
-
-2002-03-29  JP Rosevear  <jpr@ximian.com>
-	
-	* gui/e-calendar-table.c: implement new pop up menu items for
-	"Save as", "Print", "Assign Task", "Forward as iCalendar"
-
-	* gui/e-day-view.c: similarly, also "Publish Free/Busy
-	Information" and "New Meeting" and "New Task"
-
-	* gui/e-week-view.c: ditto
-
-	* gui/dialogs/task-editor.c (show_assignment): move the assignment
-	page stuff here
-	(task_editor_show_assignment): use it
-	(assign_task_cmd): ditto
-
-	* gui/dialogs/task-editor.h: new proto
-
-	* gui/dialogs/comp-editor.c (save_as_cmd): use new e-util file
-	selector function
-
-	* meeting-mockup.glade: Remove old file
-
-	* topic.dat
-
-2002-03-19  Dan Winship  <danw@ximian.com>
-
-	* cal-util/Makefile.am: s/libversit.la/libversit.a/
-
-	* cal-client/Makefile.am: Likewise
-
-	* gui/Makefile.am: Likewise
-
-2002-03-18  Ettore Perazzoli  <ettore@ximian.com>
-
-	* gui/cal-search-bar.c: Removed `search_menu_items'.
-	(cal_search_bar_menu_activated): Removed.
-	(cal_search_bar_class_init): Don't install.
-	(cal_search_bar_construct): No menu items here.
-
-2002-03-15  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* gui/e-day-view.c: Updated to use new EPopupMenu API.
-
-	* gui/e-week-view.c: Updated to use new EPopupMenu API.
-
-	* gui/e-calendar-table.c: Updated to use new EPopupMenu API.
-
-2002-03-15  Ettore Perazzoli  <ettore@ximian.com>
-
-	* gui/tasks-control.c (tasks_control_activate): Call
-	`e_tasks_set_ui_component()' here to give it the
-	BonoboUIComponent.
-	(tasks_control_deactivate): Likewise, call it here to unset the
-	BonoboUIComponent.
-
-	* gui/e-tasks.c (e_tasks_set_ui_component): New.
-
-	* gui/calendar-commands.c (calendar_control_activate): Call
-	gnome_calendar_set_ui_component() here.
-	(calendar_control_deactivate): ...And here, with a NULL
-	BonoboUIComponent.
-
-	* gui/gnome-cal.c (gnome_calendar_set_ui_component): New.
-
-2002-03-15  JP Rosevear  <jpr@ximian.com>
-
-	* gui/main.c: use bonobo exception macros to tidy
-
-	* gui/itip-control-factory.c: ditto
-
-	* gui/gnome-cal.c: ditto
-
-	* gui/comp-editor-factory.c: ditto
-
-	* gui/calendar-commands.c: ditto
-
-2002-03-14  JP Rosevear  <jpr@ximian.com>
-
-	* idl/evolution-calendar.idl: add all day event editor mode
-
-	* gui/component-factory.c: clean up exception handling
-	(sc_user_create_new_item_cb): support the all day event id
-	(create_object): add a user creatable all day appointment item
-
-	* gui/comp-editor-factory.c (get_default_event): get a default
-	event either all day or starting at the top of the hour
-	(get_default_task): get a default task
-	(edit_new): support the all day event mode
-
-	* gui/calendar-commands.c: remove unused functions/verbs
-
-2002-03-13  Ettore Perazzoli  <ettore@ximian.com>
-
-	* gui/GNOME_Evolution_Calendar.oaf.in: Add an
-	"evolution:config_item:icon_path" attribute so we get an icon for
-	the calendar preferences.
-
-2002-03-12  Ettore Perazzoli  <ettore@ximian.com>
-
-	* gui/dialogs/cal-prefs-dialog.glade: Add <visible>False</visible>
-	to cal-prefs-dialog so it doesn't get shown when we load the Glade
-	file with libglade.
-
-	* gui/component-factory.c (owner_set_cb): Register the
-	ConfigControl factory.
-
-	* gui/tasks-control.c: Removed verb "TaskSettings".
-	(tasks_control_settings_cmd): Removed.
-
-	* gui/calendar-commands.c: Removed verb "CalendarSettings".
-	(settings_cmd): Removed.
-
-	* gui/dialogs/cal-prefs-dialog.c: Renamed `CalPrefsDialogPrivate'
-	to `DialogData'.  Replace `dialog' member with a `page' member.
-	Remove `toplevel_notebook' member.
-	(init_widgets): Renamed from `cal_prefs_dialog_init_widgets'.
-	Just get a DialogData.
-	(get_widgets): Get a DialogData pointer.
-	(cal_prefs_dialog_destroy): Removed.
-	(config_control_destroy_callback): New, signal handler for
-	::destroy for ConfigControl.
-	(cal_prefs_dialog_new): Create a new DialogData, connect all the
-	signal handlers.
-	(create_time_edit): Renamed from
-	`cal_prefs_dialog_create_time_edit'.
-	(cal_prefs_dialog_show): Removed.
-	(cal_prefs_dialog_button_clicked): Removed.
-	(show_task_list_config): Get a DialogData.
-	(show_config): Renamed from `cal_prefs_dialog_show_config'.
-	Likewise.
-	(update_task_list_config): Likewise.
-	(update_config): Renamed from
-	`cal_prefs_dialog_update_config'. Likewise.
-	(color_set_callback): New callback, makes the dialog report
-	changes when the setting in any of the color widgets is changed.
-	(widget_changed_callback): New callback, makes the dialog report
-	changes when any of the widgets changes status.
-	(connect_changed): New utility function to connect this callback
-	to all the widgets.
-	(setup_widgets): Connect all the widgets.
-	(cal_prefs_dialog_new): Call `setup_widgets'.
-
-	* gui/config-control-factory.c: New.
-	* gui/config-control-factory.h: New.
-
-	* gui/GNOME_Evolution_Calendar.oaf.in: Add
-	OAFIID:GNOME_Evolution_Calendar_ConfigControl and
-	OAFIID:GNOME_Evolution_Calendar_ConfigControlFactory.
 
 2002-03-06  Rodrigo Moya <rodrigo@ximian.com>
 
@@ -374,7 +79,7 @@
 	particular iCalendar representation of the object was created.)
 	Fixes #21198.
 
-2002-03-05  JP Rosevear  <jpr@ximian.com>
+2002-03-04  JP Rosevear  <jpr@ximian.com>
 
 	* gui/print.c: remove unneeded parameter from print_text_size
 	everywhere
@@ -384,35 +89,17 @@
 	(print_text_size): use get_font_for_size
 	(print_day_background): use get_font_for_size
 
-2002-03-05  JP Rosevear  <jpr@ximian.com>
-
-	* gui/e-meeting-time-sel-item.c
-	(e_meeting_time_selector_item_draw): pass the real table
-	to e_meeting_model_etable_view_to_model_row
-	(e_meeting_time_selector_item_paint_busy_periods): ditto
-
-	* gui/dialogs/meeting-page.c (right_click_cb): ditto
-	
-	* gui/e-meeting-model.h: update protos
-
-	* gui/e-meeting-model.c
-	(e_meeting_model_etable_model_to_view_row): take in to account the
-	fact the table used the without model
-	(e_meeting_model_etable_view_to_model_row): ditto
-
-2002-03-04  Damon Chaplin  <damon@ximian.com>
-
-	* gui/tasks-control.c: added support for printing the Tasks table.
-	I hacked it a bit so the user could choose portrait or landscape mode.
-	This is bug #9677. ETable printing has a few issues, though, and it
-	isn't very pretty.
-
 2002-03-04  Dan Winship  <danw@ximian.com>
 
 	* gui/itip-utils.c (comp_subject): Prefix the subject with an
 	indicator like "Accepted" or "Cancelled" explaining what the
 	action is, since Outlook doesn't display any of that information
 	inline like we do. (20780)
+
+2002-03-01  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-itip-control.c (write_html): if this is a reply, print the
+	attendee status
 
 2002-02-28  Rodrigo Moya <rodrigo@ximian.com>
 
@@ -435,6 +122,22 @@
 	(comp_content_type): Include the filename here since we can't add
 	a Content-Disposition now.
 
+2002-02-24  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-meeting-time-sel-item.c
+	(e_meeting_time_selector_item_draw): pass the real table
+	to e_meeting_model_etable_view_to_model_row
+	(e_meeting_time_selector_item_paint_busy_periods): ditto
+
+	* gui/dialogs/meeting-page.c (right_click_cb): ditto
+	
+	* gui/e-meeting-model.h: update protos
+
+	* gui/e-meeting-model.c
+	(e_meeting_model_etable_model_to_view_row): take in to account the
+	fact the table used the without model
+	(e_meeting_model_etable_view_to_model_row): ditto
+
 2002-02-24  Chris Toshok  <toshok@ximian.com>
 
 	* gui/cal-search-bar.c (cal_search_bar_class_init): change
@@ -442,19 +145,13 @@
 	(cal_search_bar_search_activated): rename
 	cal_search_bar_query_changed to this.
 
-2002-02-21  Ettore Perazzoli  <ettore@ximian.com>
-
-	* gui/component-factory.c (add_creatable_item): New helper
-	function.
-	(create_object): Add icons for the various user creatable items.
-
 2002-02-19  JP Rosevear  <jpr@ximian.com>
  
  	* gui/e-itip-control.c (send_item): pass extra itip_send_comp
-	params
+ 	params
  	(send_freebusy): ditto
  	(ok_clicked_cb): ditto, including the timezones culled from the
-	component
+ 	component
  
  	* gui/e-week-view.c: pass extra itip_send_comp params
  
@@ -526,10 +223,10 @@
  	comparison function
  
  	* gui/Makefile.am: compile new files
-	
+ 
 2002-02-13  Rodrigo Moya <rodrigo@ximian.com>
 
-        * gui/control-factory.c (set_prop): don't append 'calendar.ics'
+	* gui/control-factory.c (set_prop): don't append 'calendar.ics'
 	to the URI.
 	(get_prop): finished.
 
@@ -541,172 +238,17 @@
 	* gui/e-tasks.c (e_tasks_open): append $filename.ics to the uri to be
 	opened if the uri is local. Leave intact in other cases.
 
-2002-02-08  Damon Chaplin  <damon@ximian.com>
-
-	* gui/comp-util.c (cal_comp_util_compare_event_timezones): check if
-	the CalComponentDateTime values are set before trying to use them.
-	Possibly fixes bug #18529.
-
-	* importers/icalendar-importer.c: added vCalendar importer and
-	intelligent GnomeCalendar importer code here, as it shares a lot of
-	code with the iCalendar importer.
-
-	NOTE: check_folder_type() needs to be finished at some point.
-	It needs a new shell Corba call so it can decide whether to import
-	events or tasks into the folder. Currently it just imports both.
-
-	* importers/main.c (importer_factory_fn): create vCalendar importer
-	or GnomeCalendar importer if required.
-
-	* importers/evolution-calendar-importer.h: added declarations for
-	creating a vCalendar importer and intelligent Gnome Calendar importer.
-
-	* importers/Makefile.am: added -DEVOLUTION_SOUNDDIR so the importer
-	knows what filename to use for audio alarms in vCalendar files.
-	Added libicalvcal-evolution to LDADD.
-
-	* importers/GNOME_Evolution_Calendar_Importer.oaf.in: added vCalendar
-	importer and intelligent Gnome Calendar importer.
-
-	* gui/comp-util.c (cal_comp_util_compare_event_timezones): return TRUE
-	if the event uses UTC. We don't want to flag all events from Outlook,
-	which use UTC.
-
-2002-02-08  JP Rosevear  <jpr@ximian.com>
-
-	* gui/dialogs/task-details-page.glade: change custom widget
-	creator to e_url_entry_new
-
-	* gui/dialogs/task-details-page.c (get_widgets): get the url entry
-	and its entry
-
-2002-02-08  JP Rosevear  <jpr@ximian.com>
-
-	* gui/dialogs/task-details-page.glade: add a custom widget created
-	with e_url_button_new
-
-	* gui/dialogs/task-details-page.c (task_details_page_init): init
-	url_button member to NULL
-	(init_widgets): set the url button entry
-	(get_widgets): get the url button
-
-	* gui/calendar-commands.c (pixmaps): use new all day event icon
-
-2002-02-07  JP Rosevear  <jpr@ximian.com>
-
-	* gui/e-day-view.c: pass meeting boolean for
-	gnome_calendar_edit_object and gnome_calendar_new_appointment_for
-
-	* gui/e-week-view-event-item.c: ditto
-
-	* gui/e-week-view.c: ditto
-
-	* gui/tasks-control.c (confirm_expunge): kill warning
-
-	* gui/calendar-commands.c (new_meeting_cb): show a new meeting
-	dialog
-	(new_event_cb): pass new param
-
-	* gui/gnome-cal.c (gnome_calendar_edit_object): take meeting
-	boolean and show meeting page if true
-	(gnome_calendar_new_appointment_for): takeing meeting param and
-	pass to above
-	(gnome_calendar_new_appointment): add new param
-
-	* gui/gnome-cal.h: update proto
-
-	* gui/component-factory.c (create_component): take a comp editor
-	mode, determine vtype
-	(sc_user_create_new_item_cb): check for meeting user creatable
-	item
-	(create_object): add meeting as user creatable item
-
-	* gui/comp-editor-factory.c (edit_new): get a comp editor mode
-	now, determine vtype and show meeting page if required
-	(queue_edit_new): get comp editor mode
-	(impl_editNew): ditto, plus queue the mode directly instead of
-	determining the vtype
-
-	* gui/dialogs/event-editor.c (show_meeting): new internal util
-	function to show meeting page
-	(event_editor_show_meeting): show the meeting
-	(schedule_meeting_cmd): use show_meeting
-
-	* gui/dialogs/event-editor.h: new proto
-
-	* idl/evolution-calendar.idl: editNew takes a mode rather than a
-	type now
-
-	* cal-util/Makefile.am: fix includes
-
-2002-02-07  Christopher James Lahey  <clahey@ximian.com>
-
-	* gui/e-tasks.c (e_tasks_setup_view_menus), gui/gnome-cal.c
-	(gnome_calendar_setup_view_menus): Made these use the new
-	GalViewMenus stuff.
-
 2002-02-06  Damon Chaplin  <damon@ximian.com>
 
 	* cal-util/cal-recur.c (cal_recur_from_icalproperty): convert months
 	from 1-12 to 0-11. Fixes bug #19235.
 
-2002-02-04  JP Rosevear  <jpr@ximian.com>
-
-	* conduits/todo/todo-conduit.c (e_todo_gui_new): new gui routines
-	for conduit settings
-	(e_todo_gui_fill_config): ditto
-	(e_todo_gui_fill_widgets): ditto
-	(e_todo_gui_destroy): ditto
-	(e_todo_context_destroy): destroy new_cfg and gui properly
-	(local_record_from_comp): set the priority to the default setting
-	if none is set on the icalendar object
-	(fill_widgets): fill gui widgets
-	(create_settings_window): create gui
-
-2002-01-30  JP Rosevear  <jpr@ximian.com>
-
-	* gui/e-itip-control.c (write_html): if this is a reply, print the
-	attendee status
-
-2002-01-25  Federico Mena Quintero  <federico@ximian.com>
+2002-01-22  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/dialogs/alarm-options.glade: Use 1 instead of zero as the
 	minimum value for the repetitions spin button as we use a check
 	box to specify whether the alarm has repetitions or not.  Fixes
 	bug #19054.
-
-2002-01-24  Ettore Perazzoli  <ettore@ximian.com>
-
-	* importers/Makefile.am (evolution_calendar_importer_LDADD):
-	Ooops.  Forgot to use EVOLUTION_CALENDAR_LIBS here.
-
-2002-01-24  Ettore Perazzoli  <ettore@ximian.com>
-
-	* conduits/calendar/Makefile.am: Use
-	EVOLUTION_CALENDAR_CONDUIT_LIBS and
-	EVOLUTION_CALENDAR_CONDUIT_CFLAGS.
-	* conduits/todo/Makefile.am: Likewise.
-
-	* cal-client/Makefile.am: Use EVOLUTION_CALENDAR_LIBS and
-	EVOLUTION_CALENDAR_CFLAGS.
-	* cal-util/Makefile.am: Likewise.
-	* gui/alarm-notify/Makefile.am: Likewise.
-	* gui/Makefile.am: Likewise.
-
-2002-01-23  Ettore Perazzoli  <ettore@ximian.com>
-
-	* gui/component-factory.c (create_object): Pass a NULL @icon to
-	`evolution_shell_component_add_user_creatable_item()'.
-
-2002-01-21  JP Rosevear  <jpr@ximian.com>
-
-	* conduits/todo/todo-conduit.c (todoconduit_load_configuration):
-	return a new configuration struct, load default priority setting
-	(todoconduit_save_configuration): save default priority setting
-	(e_todo_context_new): dupe configuration
-
-	* conduits/calendar/calendar-conduit.c (e_calendar_context_new):
-	set ps to NULL
 
 2002-01-17  Damon Chaplin  <damon@ximian.com>
 
@@ -719,39 +261,6 @@
 	* gui/dialogs/task-page.c (task_page_fill_widgets): default component
 	classification to PUBLIC. Fixes internal bug #1066
 
-2002-01-14  JP Rosevear  <jpr@ximian.com>
-
-	* conduits/calendar/calendar-conduit.c: move all functions here,
-	get rid of header files, use e-pilot-settings to display gui
-
-	* conduits/todo/todo-conduit.c: as above
-	
-2002-01-14  JP Rosevear  <jpr@ximian.com>
-	
-	* gui/gnome-cal.c (get_current_time): use icaltimetype_to_tm
-	
-2002-01-14  JP Rosevear  <jpr@ximian.com>
-	
-	* gui/e-week-view-main-item.c (e_week_view_main_item_draw_day):
-	figure out when today is and highlight if it is not selected
-
-	* gui/e-week-view.h: enum the "today" color
-
-	* gui/e-week-view.c (e_week_view_realize): init the "today" color
-
-2002-01-13  JP Rosevear  <jpr@ximian.com>
-
-	* gui/alarm-notify/save.h: add protos
-
-	* gui/alarm-notify/save.c (save_blessed_program): records a
-	program as blessed
-	(is_blessed_program): checks to see if a program is blessed
-
-	* gui/alarm-notify/alarm-queue.c (procedure_notification_dialog):
-	popup a dialog notifying the user that is a program and let them
-	not see the dialog about this program again
-	(procedure_notification): use above
-
 2002-01-11  Damon Chaplin  <damon@ximian.com>
 
 	* gui/e-timezone-entry.c: 
@@ -759,110 +268,7 @@
 	* gui/calendar-config.c (on_timezone_set): translate timezone names
 	when displayed. Fixes bug #6544.
 
-2002-01-03  JP Rosevear  <jpr@ximian.com>
-
-	* gui/tasks-control.c (tasks_control_complete_cmd): new verb
-	callback
-	(sensitize_commands): set sensitivity of mark complete command
-
-	* gui/e-tasks.h: new proto
-
-	* gui/e-tasks.c (e_tasks_complete_selected): mark selected tasks
-	in the table as complete
-
-	* gui/e-calendar-table.h: new proto
-
-	* gui/e-calendar-table.c (e_calendar_table_complete_selected):
-	mark selected rows as complete
-
-2002-01-03  JP Rosevear  <jpr@ximian.com>
-	
-	* gui/tasks-control.c (confirm_expunge): only need one warning
-	message now
-
-	* gui/e-tasks.c (create_sexp): change the logic to expunge all
-	completed tasks not just hidden ones
-
-2002-01-03  JP Rosevear  <jpr@ximian.com>
-	
-	* gui/tasks-control.c (confirm_expunge): confirm expunging of the
-	tasks
-	(tasks_control_expunge_cmd): verb callback
-
-	* gui/calendar-config.c (config_read): read confirm expunge value
-	(calendar_config_write): write confirm expunge value
-	(calendar_config_write_on_exit): ditto
-	(calendar_config_get_confirm_expunge): get value
-	(calendar_config_set_confirm_expunge): set value
-
-	* gui/calendar-config.h: new proto
-
-	* gui/e-itip-control.c (start_calendar_server): kill warning
-
-	* gui/e-tasks.c (e_tasks_init): init query member to NULL
-	(set_status_message): util function to set status message
-	(e_tasks_open): use above
-	(cal_opened_cb): ditto
-	(create_sexp): create sexp of items to be deleted
-	(query_obj_updated_cb): remove any items found
-	(query_eval_error_cb): bail out on error
-	(query_query_done_cb): tidy when done
-	(e_tasks_delete_completed): set up query
-
-	* gui/e-tasks.h: new proto
-
-	* gui/calendar-model.c (query_query_done_cb): use g_warning
-	instead of printing to stderr
-	(query_eval_error_cb): ditto
-	(update_query): clear the status message if we can't create the
-	query
-
-	* gui/tag-calendar.c (resolve_tzid_cb): make this static
-
-2001-12-21  JP Rosevear  <jpr@ximian.com>
-
-	* gui/dialogs/comp-editor.c: remove needs send signal related
-	cruft
-	(save_comp_with_send): with send_component_dialog, indicate if the
-	meeting info is newly created or not
-	(real_edit_comp): remember if the dialog initially needs a send
-
-	* gui/dialogs/send-comp.c (send_component_dialog): take a "new"
-	parameter indicating whether the dialog should intimate if the
-	component to be sent is a new meeting or not
-
-	* gui/dialogs/send-comp.h: update proto
-
-	* gui/dialogs/comp-editor.c: remove no longer used needs_send
-	notification and signal
-
-	* gui/dialogs/comp-editor.h: remove proto
-
-	* gui/e-day-view.c (e_day_view_on_main_canvas_drag_data_received): add new
-	param to send_component_dialog
-	(e_day_view_finish_long_event_resize): ditto
-	(e_day_view_finish_resize): ditto
-	(e_day_view_on_editing_stopped): ditto
-	(e_day_view_on_top_canvas_drag_data_received): ditto
-
-	* gui/e-week-view.c (e_week_view_on_editing_stopped): add new
-	param to send_component_dialog
-
-2001-12-21 JP Rosevear  <jpr@ximian.com>
-	
-	* gui/dialogs/comp-editor.h: inherit from bonobo window	
-
-	* gui/dialogs/comp-editor.c: inherit from bonobo window
-	(comp_editor_key_press_event): Look for an escape key press and
-	close the window if found
-
-2001-12-20  Ettore Perazzoli  <ettore@ximian.com>
-
-	[Fixes #17377, Evolution doesn't work on multi-depth displays.]
-
-	* gui/main.c (main): Push GdkRGB visual and colormap.
-
-2001-12-19  JP Rosevear  <jpr@ximian.com>
+2001-12-18  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/calendar/calendar-conduit.c (check_for_slow_setting):
 	go slow and clear the map if the last uri and the current uri do
@@ -897,7 +303,20 @@
      	(cal_client_open_default_calendar): open the default uri or the
      	fallback if the method is unsupported
      	(cal_client_open_default_tasks): same for tasks
-	
+
+2001-12-18  Dan Winship  <danw@ximian.com>
+
+	* gui/itip-utils.c (itip_send_comp): Unfortunate hack to make this
+	work with Outlook 2000 in an Exchange environment (at the expense
+	of making it break with O2k in a POP/IMAP environment, unless you
+	set EVOLUTION_SEND_IMIP_AS_ATTACHMENT.) Fails to adequately fix
+	#14705, but it's the best we can do for 1.0.1.
+
+2001-12-17  JP Rosevear  <jpr@ximian.com>
+ 
+ 	* gui/e-meeting-model.c (process_free_busy): indicate the meeting
+ 	attendee has calendar info
+
 2001-12-17  JP Rosevear  <jpr@ximian.com>
  
  	* gui/e-itip-control.c (send_item): use get_real_item
@@ -911,22 +330,28 @@
  	(send_item): use get_real_item
 
 2001-12-17  JP Rosevear  <jpr@ximian.com>
+ 
+ 	* gui/itip-utils.c (comp_limit_attendees): can't remove properties
+ 	in an iteration loop, so remove them outside the loop
+ 	(comp_minimal): don't set a recurid if there isn't one, add the x
+ 	properties to the clone
+ 	(comp_compliant): unref the clone for DECLINECOUNTER
+ 
+ 	* gui/e-itip-control.c (get_refresh_options): make function
+ 	available again
+ 	(show_current_event): use it here
+ 	(ok_clicked_cb): can't remove properties in an iteration loop, so
+ 	remove them outside the loop
+ 
+ 	* cal-util/cal-component.c (free_icalcomponent): properly free the
+ 	attendee list
+ 	(cal_component_rescan): don't destroy the alarm hash
 
-	* gui/itip-utils.c (comp_limit_attendees): can't remove properties
-	in an iteration loop, so remove them outside the loop
-	(comp_minimal): don't set a recurid if there isn't one, add the x
-	properties to the clone
-	(comp_compliant): unref the clone for DECLINECOUNTER
+2001-12-14  Ettore Perazzoli  <ettore@ximian.com>
 
-	* gui/e-itip-control.c (get_refresh_options): make function
-	available again
-	(show_current_event): use it here
-	(ok_clicked_cb): can't remove properties in an iteration loop, so
-	remove them outside the loop
+	[Fixes #17377, Evolution doesn't work on multi-depth displays.]
 
-	* cal-util/cal-component.c (free_icalcomponent): properly free the
-	attendee list
-	(cal_component_rescan): don't destroy the alarm hash
+	* gui/main.c (main): Push GdkRGB visual and colormap.
 
 2001-12-13  Damon Chaplin  <damon@ximian.com>
 
@@ -934,11 +359,11 @@
 	We won't be using the translations in 1.0.1, but it gives translators
 	time before we do use them in 1.0.2.
 
-	* Makefile.am: added zones.h to EXTRA_DIST.
+	* Makefile.am (CONDUIT_DIR): added zones.h to EXTRA_DIST.
 
 2001-12-12  JP Rosevear  <jpr@ximian.com>
  
-	* gui/e-day-view.c (e_day_view_on_top_canvas_button_release):
+ 	* gui/e-day-view.c (e_day_view_on_top_canvas_button_release):
  	ungrab the pointer before calling
  	e_day_view_finish_long_event_resize
  	(e_day_view_on_main_canvas_button_release): ditto
@@ -948,7 +373,10 @@
  	(e_day_view_on_editing_stopped): ditto
  	(e_day_view_on_top_canvas_drag_data_received): ditto
  	(e_day_view_on_main_canvas_drag_data_received): ditto
-
+ 
+ 	* gui/e-week-view.c (e_week_view_on_editing_stopped): ask if the
+ 	meeting should be sent if
+ 
 2001-12-11  JP Rosevear  <jpr@ximian.com>
 
  	* gui/e-meeting-model.c (process_free_busy_comp): properly convert
@@ -984,22 +412,6 @@
 	* importers/GNOME_Evolution_Calendar_Importer.oaf.in: fixed executable
 	name. Fixes bug #16880.
 
-2001-12-08  JP Rosevear  <jpr@ximian.com>
-  
-  	* conduits/calendar/calendar-conduit.c (local_record_from_comp):
-  	if we have an alarm that can be represented on the pilot, set the
-  	appointment fields appropriately, if the duration has values for
-  	minutes and/or hours and/or days, use the lowest common
-  	denominator
-  	(comp_from_remote_record): if the appointment on the pilot has an
-  	alarm, find the first alarm an item currently had that is relative
-  	to the start and with a negative duration and update it (or create
-  	a new one if no valid ones exist)
-  
- 	* cal-util/cal-component.c (cal_component_get_alarm_uids): build
-  	list in the order they appear in the component so we get
-  	consisting order for the gui and for the pilot
- 
 2001-12-08  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/calendar-config.c (calendar_config_get_default_uri):
@@ -1035,6 +447,22 @@
 	(start_query_cb): Set the state to QUERY_IN_PROGRESS here instead
 	of in populate_query().
 
+2001-12-07  JP Rosevear  <jpr@ximian.com>
+  
+  	* conduits/calendar/calendar-conduit.c (local_record_from_comp):
+  	if we have an alarm that can be represented on the pilot, set the
+  	appointment fields appropriately, if the duration has values for
+  	minutes and/or hours and/or days, use the lowest common
+  	denominator
+  	(comp_from_remote_record): if the appointment on the pilot has an
+  	alarm, find the first alarm an item currently had that is relative
+  	to the start and with a negative duration and update it (or create
+  	a new one if no valid ones exist)
+  
+ 	* cal-util/cal-component.c (cal_component_get_alarm_uids): build
+  	list in the order they appear in the component so we get
+  	consisting order for the gui and for the pilot
+ 
 2001-12-07  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/calendar-config.c (calendar_config_get_default_uri):
@@ -1049,18 +477,18 @@
 
 2001-12-06  Jon Trowbridge  <trow@ximian.com>
 
-        * gui/dialogs/event-editor.c (event_editor_destroy): Explicitly
+	* gui/dialogs/event-editor.c (event_editor_destroy): Explicitly
 	destroy the EMeetingModel.  This is a hack to work around problems
 	with the reference counting; we are still leaking the
 	EMeetingModels.
 
-        * gui/e-meeting-time-sel.c
-        (e_meeting_time_selector_construct): Ref our EMeetingModel.
-        (e_meeting_time_selector_destroy): Unref the model.
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct):
+	Ref our EMeetingModel.
+	(e_meeting_time_selector_destroy): Unref the model.
 
-        * gui/e-meeting-model.c (destroy): Properly destroy
+	* gui/e-meeting-model.c (destroy): Properly destroy
 	corba_select_names with a call to bonobo_object_release_unref.
-        (Fixes 14002)
+	(Fixes 14002)
 
 2001-12-05  Rodrigo Moya <rodrigo@ximian.com>
 

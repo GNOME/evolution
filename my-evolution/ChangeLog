@@ -1,276 +1,8 @@
-2002-04-22  Iain Holmes <iain@ximian.com>
+2002-04-16  Iain Holmes  <iain@ximian.com>
 
-	* e-summary-mail.c: Remove the shown and mode bits from the 
-	ESummaryMail structure.
-	(e_summary_mail_generate_html): USe the folder_store list instead
-	of the blank one in mail->
-	(new_folder_cb): Allow all mail folders now.
-	(update_folder_cb): Get the uri correctly.
-	(mail_change_notify): Remove debugging spew.
-	(e_summary_mail_reconfigure): Comment out the part that adds a 
-	protocol to the front of a uri.
-	(insert_path_recur): If there is no toplevel, guess if from the
-	folder path. Not sure if it works for everything.
-	(add_storage_to_table): Store the whole of the sorted list,
-	and resort it every time.
-	(make_toplevel): I18n the titles, and remove the debugging.
-	(e_summary_mail_fill_list): Store the sortewd list.
-
-	* e-summary_preferences.c (fill_rdf_etable): Create a new entry
-	to add to the shown list.
-
-	* e-summary-shown.c (make_table): take a title for the table. 
-	Generate the spec from that table.
-	(e_tree_model_node_append): Freeze the tree before adding the
-	node.
-	(e_summary_shown_add_node): Take an expanded boolean.
-	
-	* e-summary-table.c: Make the SPEC set the width correctly.
-	(e_summary_table_add_node): Freeze the table.
-
-	* e-summary-weather.c (is_weather_shown): Search the global_prefs
-	to see if the node is shown.
-	(e_summary_weather_fill_etable): Set the expanded state on all to
-	FALSE except for leaf nodes.. 
-	Create a new entry for shown rows.
-	
-2002-04-08  Dan Winship  <danw@ximian.com>
-
-	* component-factory.c (create_view): Add view_info arg but don't
-	do anything with it.
-
-2002-04-06  JP Rosevear  <jpr@ximian.com>
-
-	* GNOME_Evolution_Summary.oaf.in.in: add config_item:priority
-
-2002-04-05  JP Rosevear  <jpr@ximian.com>
-
-	* Makefile.am: dist the relevant xpms
-
-2002-04-04  JP Rosevear  <jpr@ximian.com>
-
-	* Makefile.am: fix substitution typo
-
-2002-03-30  Ettore Perazzoli  <ettore@ximian.com>
-
-	* Makefile.am: Added support for the ENABLE_SHLIB_COMPONENTS
-	conditional.
-
-	* GNOME_Evolution_Summary.oaf.in.in: New.
-
-	* e-summary-mail.c (update_folder_cb): Protect against
-	summary->mail being NULL.
-
-	* component-factory.c: Add a shlib factory.
-	(create_component): Get a @factory and @data.
-	(component_factory_init): Actually make it use a
-	BonoboGenericFactory again.
-
-2002-03-29  Ettore Perazzoli  <ettore@ximian.com>
-
-	* GNOME_Evolution_Summary.oaf.in: Add priority.
-
-2002-03-19  Dan Winship  <danw@ximian.com>
-
-	* Makefile.am (evolution_executive_summary_LDADD):
-	s/libversit.la/libversit.a/
-
-2002-03-19  Iain Holmes  <iain@ximian.com>
-
-	* component-factory.c: Create a global_preferences structure.
-	(create_view): Pass in the global_preferences to the view.
-	(create_component): Initialise the preferences.
-
-	* e-summary-factory.[ch] (e_summary_factory_new_control): Take a prefs
-	structure and pass it to the view creation.
-	
-	* e-summary-mail: Remove some debug spew.
-
-	* e-summary-preferences.[ch]: Create a global_preferences structure.
-	(e_summary_preferences_init): just return the prefs instead of adding
-	a pointer to it.
-	(config_control_destroy_cb): Remove the old_prefs stuff.
-	(factory_fn): Ditto.
-
-	* e-summary.[ch] (e_summary_init): Don't initialise the preferences
-	here.
-	(e_summary_new): Take a preferences structure and keep a pointer to
-	it.
-
-2002-03-15  Iain Holmes  <iain@ximian.com>
-
-	* Makefile.am: Add the e-summary-shown.[ch] files.
-
-	* e-summary-mail.c: Add entries for the Storages in the private
-	 struct.
-	 (new_folder_cb): Only allow mail folders that are local or vfolders.
-	 Store the StorageInfo that the folder belongs to in the folder struct
-	 Add the folder to the list of folders in the storage.
-	 (update_folder_cb): Update the signature.
-	 (mail_change_notify): Simplify the check to see if we are displaying
-	 the folder.
-	 (e_summary_mail_register_storage): Take a name argument.
-	 Create a StorageInfo structure, connect the signals and add the
-	 listener.
-	 (e_summary_mail_register_local_storage): Get the local storage from
-	 the shell and register it with e_summary_mail_register_storage.
-	 (storage_notify): Receive notifications when a new storage is created
-	 or destroyed or changed. Stuff only happens when a storage is
-	 created, currently.
-	 (e_summary_mail_register_storages): Don't register local storage
-	 here. Get the StorageRegistry from the corba_shell, create a new
-	 BonoboListener and add it to the registry.
-	 (e_summary_mail_init): Free a CORBA_Environment.
-	 (e_summary_mail_reconfigure): Add a check for the uri being a
-	 vfolder.
-	 (str_compare): Compare ESummaryMailFolders instead of MailRowDatas.
-	 (sort_storages): Compare 2 storage names.
-	 (get_parent_path): Special case for the vfolders.
-	 (insert_path_recur): Remove the toplevel creation.
-	 Create a toplevel node if the uri is a storage toplevel.
-	 Special case the name finder for vfolders.
-	 Get the number of children in the parent so that we can add the new
-	 child after the rest.
-	 (add_storage_to_table): For each folder in a storage, add it to the
-	 table.
-	 (make_toplevel): Generate the toplevel name for each storage.
-	 (e_summary_mail_fill_list): For each storage, add the folders.
-
-	 * e-summary-preferences.c (fill_rdf_etable): Put the entries into an
-	 ESummaryShown instead of an ESummaryTable.
-	 (make_property_dialog): Hook up to the Showns.
-	 (add_shown_to_list): Add the locations to the list.
-	 (property_box_clicked_cb): Create a new list for the RDFs and
-	 weathers.
-	 (e_summary_preferences_make_rdf_table): Make an ESummaryShown.
-	 (e_summary_preferences_make_weather_table): Make an ESummaryShown.
-
-	 * e-summary-table.c: Use ECellTri.
-	 (value_at): Get the right value for the TriCell.
-	 (set_value_at): Set the right value for the TriCell.
-	 (e_summary_table_init): Use the ECellTri.
-	 (e_summary_table_get_num_children): Get the number of children a
-	 path has.
-
-	 * e-summary-weather.c (e_summary_weather_fill_etable): Use an
-	 ESummaryShown instead of ESummaryTable.
-
-	 * e-summary.[ch]: Store the GNOME_Evolution_Shell in the nonprivate
-	 structure.
-
-	 * e-summary-shown.[ch]: Widget to do Add-> <-Remove with two tables.
-
-2002-02-22  Iain Holmes  <iain@ximian.com>
-
-	* e-summary-factory.c: Use the new configure icon.
-
-2002-02-13  Iain Holmes  <iain@ximian.com>
-
-	* Makefile.am: Add the e-cell-tri.[ch] files
-
-	* e-summary-table.c
-
-2002-03-14  Ettore Perazzoli  <ettore@ximian.com>
-
-	* e-summary-factory.c (e_summary_factory_new_control): Call
-	`e_summary_preferences_register_config_control_factory()'.
-
-	* e-summary-preferences.c: Remove member `box' from struct
-	PropertyData.  Added member `config_control'.
-	(e_summary_configure): Removed.
-	(property_box_destroy_cb): Removed.
-	(property_box_clicked_cb): Removed.
-	(property_box_apply_cb): New.
-	(config_control_destroy_cb): New.
-	(factory_fn): New, factory function for the
-	EvolutionConfigControl.
-	(e_summary_preferences_register_config_control_factory): New.
-	(mail_show_full_path_toggled_cb): Invoke ::changed on
-	pd->config_control.
-	(add_dialog_clicked_cb): Likewise.
-	(rdf_refresh_value_changed_cb): Likewise.
-	(rdf_limit_value_changed_cb): Likewise.
-	(mail_etable_item_changed_cb): Likewise.
-	(rdf_etable_item_changed_cb): Likewise.
-	(weather_etable_item_changed_cb): Likewise.
-	(weather_refresh_value_changed_cb): Likewise.
-	(weather_metric_toggled_cb): Likewise.
-	(weather_imperial_toggled_cb): Likewise.
-	(calendar_one_toggled_cb): Likewise.
-	(calendar_five_toggled_cb): Likewise.
-	(calendar_week_toggled_cb): Likewise.
-	(calendar_month_toggled_cb): Likewise.
-	(calendar_all_toggled_cb): Likewise.
-	(calendar_today_toggled_cb): Likewise.
-	(config_control_destroy_cb): Don't set ->prefs_window to NULL.
-
-	* my-evolution.glade: Renamed "notebook2" to "notebook".  Also
-	change its parent into a GtkWindow as libglade seems to have some
-	kind of problem with the GnomePropertyBox [glade_xml_get_widget()
-	for "notebook" always returned NULL].
-
-	* e-summary.h: Remove member `prefs_window' from `ESummary'.
-
-2002-02-14  Radek Doulik  <rodo@ximian.com>
-
-	* e-summary-tasks.c (sort_uids): fix case when priority is
-	undefined and pri_a or pri_b is returned as NULL, also fixes
-	memory leak
-
-2002-02-08  Damon Chaplin  <damon@ximian.com>
-
-	* e-summary-calendar.c (e_cal_comp_util_compare_event_timezones): 
-	updated to new version from calendar/gui/comp-util.c
-
-2002-02-04  Iain Holmes  <iain@ximian.com>
-
-	* Makefile.am: Add the e-summary-table.[ch] files.
-
-	* e-summary-mail.c: Move the headers.
-	(e_summary_mail_get_html): Regenerate the HTML.
-	(update_folder_cb): Make the file:// part static as it's the same
-	every time.
-	(mail_change_notify): Don't recalculate the HTML here.
-	(e_summary_mail_reconfigure): Don't add file:// if it's already there.
-	(get_parent_path): Given a path, return it's parent.
-	(is_folder_shown): Check all the shown folders to see if the given one
-	is shown.
-	(insert_path_recur): Recursively add a path to the tree.
-	(free_path_hash): Free the key of the hash table.
-	(e_summary_mail_fill_list): Add all the folders to the tree.
-
-	* e-summary-preferences.c: Move the headers
-	(rdf_is_shown): Check if an RDF is shown.
-	(fill_rdf_etable): Fill the etable with all the RDFs
-	(fill_weather_etable): Fill the weather etable.
-	(fill_mail_etable): Ditto (with mail)
-	(make_property_dialog): Use the etables.
-	(free_property_dialog): Free the new lists.
-	(maybe_add_to_shown): Check if the item is clicked and if so add it to
-	the list.
-	(property_box_clicked_cb): Set all the new properties
-	(e_summary_preferences_make_*_table): Make the etables
-
-	* e-summary-rdf.c (e_summary_rdf_update): Don't cancel the message,
-	just keep using the previous one.
-	
-	* e-summary-weather.c (message_finished): Better error message.
-	(e_summary_weather_update): Just continue if a message is already
-	going.
-	(is_weather_shown): Find out if a station is shown.
-	(e_summary_weather_fill_etable): Fill the etable.
-
-	* main.c (main): Init the cursors.
-
-	* my-evolution.glade: Add the custom widgets.
+	* e-summary-preferences.c: Change the kde url.
 
 2002-02-02  Ettore Perazzoli  <ettore@ximian.com>
-
-	* e-summary-offline-handler.c (create_connection_list): Allocate
-	the ConnectionList list with the right number of entries instead
-	of zero.
-
-2002-02-01  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix a crash that can happen if you have opened multiple views of
 	the summary and try to go off-line.  This is not the correct fix,
@@ -304,17 +36,6 @@
 	(impl_goOnline): Likewise.  Pass CORBA_OBJECT_NIL, not NULL, for
 	the progress CORBA_Object pointer.
 
-2002-01-24  Ettore Perazzoli  <ettore@ximian.com>
-
-	* Makefile.am: Use EVOLUTION_EXECUTIVE_SUMMARY_CFLAGS and
-	EVOLUTION_EXECUTIVE_SUMMARY_LIBS.
-
-2002-01-24  Iain Holmes  <iain@ximian.com>
-
-	* Locations: Applied the Ukraine patch from Leonid Kanter
-
-	* Locations.h: Re-generated to get the UK stations added.
-
 2002-01-22  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-mail (e_summary_mail_reconfigure): Do the list backwards.
@@ -322,65 +43,24 @@
 	* e-summary-preferences.c (fill_mail_shown_clist): Prepend items.
 	(mail_add_clicked_cb): Prepend items.
 
-2002-01-04  Iain Holmes  <iain@ximian.com>
+2002-02-03  Iain Holmes  <iain@ximian.com>
 
-	* e-summary-weather.c (message_finished): Made the Weather message
-	more verbose, and say which station data could not be retrieved for.
-
-2002-01-03  Iain Holmes <iain@ximian.com>
-
-	* Makefile.am: Use SOUP_CFLAGS and SOUP_LIBS
-
-	* e-summary-rdf.c: Include soup.h
-	(close_callback): Remove.
-	(message_finished): Generate the cache and other stuff and redraw.
-	(read_callback): Remove.
-	(open_callback): Remove.
-	(e_summary_rdf_update): Replace gnome-vfs with Soup stuff.
-	(e_summary_rdf_count): Replace gnome-vfs with soup.
-	(rdf_free): ditto
-	(e_summary_rdf_set_online): Ditto
-
-	* e-summary-weather.c: Include soup.h
-	(close_callback): Remove.
-	(message_finished): Parse all the downloaded html.
-	(read_callback): Remove.
-	(open_callback): Remove.
-	(e_summary_weather_update): Use soup instead of gnome-vfs
-	(weather_free): Ditto.
-	(e_summary_weather_count): Ditto.
-	(e_summary_weather_add): ditto;
-	(e_summary_weather_set_online): Ditto.
-
-	* e-summary.c (close_callback): Remove.
-	(read_callback): Remove.
-	(open_callback): Remove.
-	(e_read_file_with_length): Read a file.
-	(e_summary_url_requested): Create the images cache. Load the image
-	with e_read_file_with_length instead of gnome-vfs.
-
-	* main.c (main): Remove gnome_vfs_init.
-
-	* weather.h: Replace gnome-vfs stuff.
-
-2002-01-03  Iain Holmes <iain@ximian.com>
-
-	* e-summary-offline-handler.c (impl_prepareForOffline): Create an
+	* e-summary-offline-handler.c (impl_prepareForOffline): Create an 
 	empty list if the summary == NULL. Fixes bug 18025
 
-2001-12-20  Ettore Perazzoli  <ettore@ximian.com>
-
-	[Fixes #17377, Evolution doesn't work on multi-depth displays.]
-
-	* main.c (main): Push GdkRGB visual and colormap.
-
-2001-12-19  JP Rosevear  <jpr@ximian.com>
+2001-12-18  JP Rosevear  <jpr@ximian.com>
 
 	* e-summary-tasks.c (e_summary_tasks_init): use
 	cal_client_open_default_tasks
 
 	* e-summary-calendar.c (e_summary_calendar_init): use
 	cal_client_open_default_calendar
+
+2001-12-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fixes #17377, Evolution doesn't work on multi-depth displays.]
+
+	* main.c (main): Push GdkRGB visual and colormap.
 
 2001-12-14  Iain Holmes  <iain@ximian.com>
 

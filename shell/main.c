@@ -23,7 +23,6 @@
 #include <config.h>
 #include <fcntl.h>
 #include <glib.h>
-#include <stdio.h>
 
 #include <gtk/gtkframe.h>
 #include <gtk/gtklabel.h>
@@ -54,7 +53,6 @@
 #include "e-util/e-gtk-utils.h"
 
 #include "e-shell-constants.h"
-#include "e-shell-config.h"
 #include "e-setup.h"
 
 #include "e-shell.h"
@@ -62,11 +60,7 @@
 
 static EShell *shell = NULL;
 static char *evolution_directory = NULL;
-
-/* Command-line options.  */
 static gboolean no_splash = FALSE;
-static gboolean start_online = FALSE;
-static gboolean start_offline = FALSE;
 extern char *evolution_debug_log;
 
 
@@ -188,30 +182,19 @@ idle_cb (void *data)
 	GNOME_Evolution_Shell corba_shell;
 	CORBA_Environment ev;
 	EShellConstructResult result;
-	EShellStartupLineMode startup_line_mode;
 	GSList *p;
 	gboolean have_evolution_uri;
 	gboolean display_default;
-	gboolean displayed_any;
 
 	CORBA_exception_init (&ev);
 
 	uri_list = (GSList *) data;
 
-	if (! start_online && ! start_offline)
-		startup_line_mode = E_SHELL_STARTUP_LINE_MODE_CONFIG;
-	else if (start_online)
-		startup_line_mode = E_SHELL_STARTUP_LINE_MODE_ONLINE;
-	else
-		startup_line_mode = E_SHELL_STARTUP_LINE_MODE_OFFLINE;
-
-	shell = e_shell_new (evolution_directory, ! no_splash, startup_line_mode, &result);
+	shell = e_shell_new (evolution_directory, ! no_splash, &result);
 	g_free (evolution_directory);
 
 	switch (result) {
 	case E_SHELL_CONSTRUCT_RESULT_OK:
-		e_shell_config_factory_register (shell);
-
 		gtk_signal_connect (GTK_OBJECT (shell), "no_views_left",
 				    GTK_SIGNAL_FUNC (no_views_left_cb), NULL);
 		gtk_signal_connect (GTK_OBJECT (shell), "destroy",
@@ -246,25 +229,16 @@ idle_cb (void *data)
 		const char *uri;
 
 		uri = (const char *) p->data;
-		if (strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0 ||
-		    strncmp (uri, E_SHELL_DEFAULTURI_PREFIX, E_SHELL_DEFAULTURI_PREFIX_LEN) == 0)
+		if (strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0)
 			have_evolution_uri = TRUE;
 	}
 
 	if (shell == NULL) {
-		/* We're talking to a remote shell. If the user didn't
-		 * ask us to open any particular URI, then open another
-		 * view of the default URI
-		 */
 		if (uri_list == NULL)
 			display_default = TRUE;
 		else
 			display_default = FALSE;
 	} else {
-		/* We're starting a new shell. If the user didn't specify
-		 * any evolution: URIs to view, AND we can't load the
-		 * user's previous settings, then show the default URI.
-		 */
 		if (! have_evolution_uri) {
 			if (! e_shell_restore_from_settings (shell)) 
 				display_default = TRUE;
@@ -275,23 +249,7 @@ idle_cb (void *data)
 		}
 	}
 
-	displayed_any = FALSE;
-	for (p = uri_list; p != NULL; p = p->next) {
-		const char *uri;
-
-		uri = (const char *) p->data;
-		GNOME_Evolution_Shell_handleURI (corba_shell, uri, &ev);
-		if (ev._major == CORBA_NO_EXCEPTION)
-			displayed_any = TRUE;
-		else {
-			g_warning ("CORBA exception %s when requesting URI -- %s", ev._repo_id, uri);
-			CORBA_exception_free (&ev);
-		}
-	}
-
-	g_slist_free (uri_list);
-
-	if (display_default && ! displayed_any) {
+	if (display_default) {
 		const char *uri;
 
 		uri = E_SHELL_VIEW_DEFAULT_URI;
@@ -299,6 +257,20 @@ idle_cb (void *data)
 		if (ev._major != CORBA_NO_EXCEPTION)
 			g_warning ("CORBA exception %s when requesting URI -- %s", ev._repo_id, uri);
 	}
+
+	for (p = uri_list; p != NULL; p = p->next) {
+		const char *uri;
+
+		uri = (const char *) p->data;
+		GNOME_Evolution_Shell_handleURI (corba_shell, uri, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_warning ("CORBA exception %s when requesting URI -- %s", ev._repo_id, uri);
+
+		if (strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0)
+			have_evolution_uri = TRUE;
+	}
+
+	g_slist_free (uri_list);
 
 	CORBA_Object_release (corba_shell, &ev);
 
@@ -315,8 +287,6 @@ main (int argc, char **argv)
 {
 	struct poptOption options[] = {
 		{ "no-splash", '\0', POPT_ARG_NONE, &no_splash, 0, N_("Disable splash screen"), NULL },
-		{ "offline", '\0', POPT_ARG_NONE, &start_offline, 0, N_("Start in offline mode"), NULL },
-		{ "online", '\0', POPT_ARG_NONE, &start_online, 0, N_("Start in online mode"), NULL },
 		{ "debug", '\0', POPT_ARG_STRING, &evolution_debug_log, 0, N_("Send the debugging output of all components to a file."), NULL },
 		{ NULL, '\0', POPT_ARG_INCLUDE_TABLE, &oaf_popt_options, 0, NULL, NULL },
 		POPT_AUTOHELP
@@ -333,12 +303,6 @@ main (int argc, char **argv)
 	free (malloc (10));
 
 	gnome_init_with_popt_table ("Evolution", VERSION " [" SUB_VERSION "]", argc, argv, options, 0, &popt_context);
-
-	if (start_online && start_offline) {
-		fprintf (stderr, _("%s: --online and --offline cannot be used together.\n  Use %s --help for more information.\n"),
-			 argv[0], argv[0]);
-		exit (1);
-	}
 
 	if (evolution_debug_log) {
 		int fd;

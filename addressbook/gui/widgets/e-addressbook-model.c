@@ -14,7 +14,6 @@
 #include <gnome-xml/xmlmemory.h>
 #include <gnome.h>
 #include <gal/widgets/e-gui-utils.h>
-#include "e-addressbook-util.h"
 
 #define PARENT_TYPE gtk_object_get_type()
 GtkObjectClass *parent_class;
@@ -440,16 +439,6 @@ e_addressbook_model_get_card(EAddressbookModel *model,
 		ECard *card;
 		card = e_card_duplicate (model->data[row]);
 		return card;
-	}
-	return NULL;
-}
-
-const ECard *
-e_addressbook_model_peek_card(EAddressbookModel *model,
-			      int                row)
-{
-	if (model->data && 0 <= row && row < model->data_count) {
-		return model->data[row];
 	}
 	return NULL;
 }

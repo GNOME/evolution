@@ -137,12 +137,19 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 	EFilterBar *efb = (EFilterBar *)esb;
 	
 	switch (id) {
+	case E_FILTERBAR_RESET_ID:
+		d(printf("Reset menu\n"));
+		efb->current_query = NULL;
+		e_search_bar_set_item_id (esb, efb->option_base);
+		e_search_bar_set_text (esb, NULL);
+		gtk_widget_set_sensitive (esb->entry, TRUE);
+		break;
 	case E_FILTERBAR_EDIT_ID:
 		if (!efb->save_dialogue) {
 			GnomeDialog *gd;
 			
 			gd = (GnomeDialog *) rule_editor_new (efb->context, FILTER_SOURCE_INCOMING);
-			efb->save_dialogue = (GtkWidget *) gd;
+			efb->save_dialogue = gd;
 			gtk_window_set_title (GTK_WINDOW (gd), _("Search Editor"));
 			gtk_signal_connect (GTK_OBJECT (gd), "clicked", full_rule_editor_clicked, efb);
 			gtk_signal_connect (GTK_OBJECT (gd), "destroy", rule_editor_destroyed, efb);
@@ -453,6 +460,8 @@ context_changed (RuleContext *context, gpointer user_data)
 static void
 context_rule_removed (RuleContext *context, FilterRule *rule, gpointer user_data)
 {
+	EFilterBar *efb = E_FILTER_BAR (user_data);
+
 	/*gtk_signal_disconnect_by_func((GtkObject *)rule, rule_changed, efb);*/
 }
 
@@ -588,17 +597,14 @@ init (EFilterBar *efb)
 /* Object construction.  */
 
 EFilterBar *
-e_filter_bar_new (RuleContext *context,
-		  const char *systemrules,
-		  const char *userrules,
-		  EFilterBarConfigRule config,
-		  void *data)
+e_filter_bar_new (RuleContext *context, const char *systemrules, const char *userrules,
+		  EFilterBarConfigRule config, void *data)
 {
 	EFilterBar *bar;
 	ESearchBarItem item = { NULL, -1, NULL };
 	
 	bar = gtk_type_new (e_filter_bar_get_type ());
-
+	
 	bar->context = context;
 	gtk_object_ref (GTK_OBJECT (context));
 	

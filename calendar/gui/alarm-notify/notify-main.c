@@ -109,8 +109,8 @@ alarm_notify_factory_fn (BonoboGenericFactory *factory, void *data)
 }
 
 /* Loads the calendars that the alarm daemon has been told to load in the past */
-static void
-load_calendars (void)
+static gboolean
+load_calendars (gpointer user_data)
 {
 	GPtrArray *uris;
 	int i;
@@ -118,7 +118,7 @@ load_calendars (void)
 	uris = get_calendars_to_load ();
 	if (!uris) {
 		g_message ("load_calendars(): Could not get the list of calendars to load");
-		return;
+		return TRUE; /* should we continue retrying? */
 	}
 
 	for (i = 0; i < uris->len; i++) {
@@ -151,6 +151,8 @@ load_calendars (void)
 	}
 
 	g_ptr_array_free (uris, TRUE);
+
+	return FALSE;
 }
 
 int
@@ -187,7 +189,7 @@ main (int argc, char **argv)
 
 	set_session_parameters (argv);
 
-	load_calendars ();
+	g_idle_add ((GSourceFunc) load_calendars, NULL);
 
 	bonobo_main ();
 

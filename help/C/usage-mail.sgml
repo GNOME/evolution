@@ -15,7 +15,8 @@
       them. Read <xref linkend="usage-mail-subscriptions"> to find out
       how.
     </para>
-  </note>  
+  </note>
+  
   
   <sect1 id="usage-mail-getnsend-read">
     <title>Reading Mail</title>    
@@ -119,16 +120,15 @@
 		When you press <guibutton>Delete</guibutton> or click
 		the trash button, your mail isn't actually deleted,
 		but is marked for deletion.  Your email is not gone
-		until you have <glossterm
-		linkend="expunge">expunged</glossterm> it. When you
-		expunge a folder, you remove all the mail that you
-		have marked for deletion.
+		until you have expunged it. When you "Expunge" a
+		folder, you remove all the mail that you have marked
+		for deletion.
 	      </para>
               <para>
                  If you don't like this behavior, select
                  <menuchoice><guimenu>View</guimenu><guimenuitem>Hide
-                 Deleted Messages</guimenuitem></menuchoice>.
-                 You will only see deleted messages when you look in
+                 Deleted Messages</guimenuitem></menuchoice>. Then,
+                 you will only see deleted messages when you look in
                  your <guilabel>Trash</guilabel> folder.
               </para>
 	    </note>
@@ -152,7 +152,7 @@
       <note>
 	<title>Trash is Actually a vFolder?</title>
 	<para>
-	   Both local and IMAP Trash folders are actually vFolders that
+	  Both local and IMAP Trash folders are actually vFolders that
           display all messages you have marked for later deletion.
           For more information about vFolders, see <xref
           linkend="usage-mail-organize-vfolders">.  Since emptying
@@ -162,6 +162,12 @@
           same as expunging deleted mail from <emphasis>all</emphasis>
           your folders.
 	</para>
+        <para>
+           This is not, however, true for the Trash folder on Exchange
+           servers, which behaves just the same as it would in
+           Outlook. That is to say, the Trash folder on an Exchange
+           server is a normal folder with actual messages in it.
+        </para>
       </note>
     </sect2>
     <sect2 id="usage-mail-getnsend-undelete">
@@ -190,7 +196,7 @@
 	      <title>What does Undelete actually do?</title>
 	      <para>
                 If you have marked a message for deletion, undeleting
-		it will unmark it and the message will be removed
+		it will unmark it, and the message will be removed
 		from the Trash folder. However, it can't bring back
 		messages that have been expunged.
 	      </para>
@@ -216,17 +222,17 @@
       <itemizedlist>
 	<listitem>
 	  <para>
-	    Your personal information.
+	    your personal information
 	  </para>
 	</listitem>
 	<listitem>
 	  <para>
-	    Your outgoing email server information.
+	    your outgoing email server information
 	  </para>
 	</listitem>
 	<listitem>
 	  <para>
-	    Your mail account identity name.
+	    your mail account identity name
 	  </para>
 	</listitem>
       </itemizedlist>
@@ -242,52 +248,54 @@
       <title>Can't Check Mail?</title>
       <para>
 	If you get an error message instead of mail, you probably need
-	to check your network settings.  For more information on your
-	network seeings, refer to <xref linkend="config-prefs-mail">,
-	or ask your system administrator.
+	to check your network settings.  To learn how to do that, have
+	a look at <xref linkend="config-prefs-mail">, or ask your
+	system administrator.
        </para>
      </note>
 
-    <tip>
-      <title>Sharing Mailboxes with Other Mail Programs</title>
-      <para>
-	If you want to use <application>Evolution</application>
-	and another email client, such as
-	<application>Mutt</application>, at the same time,
-	here's how:
-	<orderedlist numeration="arabic">
-	  <listitem>
-	    <para>
-	      Download your mail in the other application as
-	      you would normally.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      In <application>Evolution</application>
-	      <menuchoice><guimenu>Tools</guimenu><guimenuitem>Mail
-		  Settings</guimenuitem></menuchoice>, and pick the account
-	      you'd like to use to share mail. You may want to
-	      create a new account just for this source of
-	      mail.
-	    </para>
-	  </listitem>                     
-	  <listitem>
-	    <para>
-	      Under the <guilabel>Receiving Mail</guilabel>
-	      tab, select the type of mail file that your
-	      other mail application uses, and then enter the
-	      full path to that file.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Click the <guibutton>OK</guibutton> button.
-	    </para>
-	  </listitem>
-	</orderedlist>
-      </para>
-    </tip>
+
+
+          <tip>
+            <title>Sharing Mailboxes with Other Mail Programs</title>
+            <para>
+              If you want to use <application>Evolution</application>
+              and another email client, such as
+              <application>Mutt</application>, at the same time,
+              here's how:
+              <orderedlist numeration="arabic">
+                <listitem>
+                   <para>
+                      Download your mail in the other application as
+                      you would normally.
+                   </para>
+                  </listitem>
+                <listitem>
+                   <para>
+                      In <application>Evolution</application>
+                      <menuchoice><guimenu>Tools</guimenu><guimenuitem>Mail
+                      Settings</guimenuitem></menuchoice>, and pick the account
+                      you'd like to use to share mail. You may want to
+                      create a new account just for this source of
+                      mail.
+                   </para>
+               </listitem>                     
+               <listitem>
+                   <para>
+                      Under the <guilabel>Receiving Mail</guilabel>
+                      tab, select the type of mail file that your
+                      other mail application uses, and then enter the
+                      full path to that file.
+                   </para>
+                  </listitem>
+                <listitem>
+                   <para>
+                      Click the <guibutton>OK</guibutton> button.
+                   </para>
+                  </listitem>
+                </orderedlist>
+               </para>
+            </tip>
 
 
 <!-- NOT FOR 1.0
@@ -307,93 +315,90 @@
 -->
 
      <sect2 id="usage-mail-getnsend-get-attach">
-      <title>Working with Attachments and HTML Mail</title>
-      <para>
-	If someone sends you an <glossterm linkend="attachment">attachment</glossterm>,
-	a file attached to an email,
-	<application>Evolution</application> will display the file
-	at the bottom of the message to which it's attached.  Text,
-	including HTML formatting and embedded images, will appear
-	as part of the message, rather than at the end of the
-	message as an attachment.
-      </para>
+	 <title>Working with Attachments and HTML Mail</title>
+	 <para>
+	   If someone sends you an <glossterm linkend="attachment">attachment</glossterm>,
+	   a file attached to an email,
+	   <application>Evolution</application> will display the file
+	   at the bottom of the message to which it's attached.  Text,
+	   including HTML formatting and embedded images, will appear
+	   as part of the message, rather than at the end of the
+	   message as an attachment.
+     </para>
 
      <sect3 id="usage-mail-getnsend-get-attach-actions">
-	<title>Saving or Opening Attachments</title>
-	<para>
-	  If you get an attachment with an email message,
-	  <application>Ximian Evolution</application> can help you save
-	  it or open it with the appropriate applications.
-	</para>
-	<para>
-	  To save an attachment to disk:
-	  <orderedlist numeration="arabic">
-	    <listitem>
-	      <para>
-		Click the downward pointing arrow on the attachment icon
-		and select <guimenuitem>Save to Disk</guimenuitem>.
-	      </para>
-	    </listitem>
-	    <listitem>
-	      <para>
-		Choose a location and name for the file.
-	      </para>
-	    </listitem>
-	    <listitem>
-	      <para>
-		Click <guibutton>OK</guibutton>.
-	      </para>
-	    </listitem>
-	  </orderedlist>
-	</para>
-	
-	<para>
-	  To Open an Attachment in a Program:
-	  <orderedlist numeration="arabic">
-	    <listitem>
-	      <para>
-		Open the mail message with the attachment you want to read.
-	      </para>
-	    </listitem>
-	    <listitem>
-	      <para>
-		Click the arrow next the attachment icon.
-	      </para>
-	    </listitem>
-	    <listitem>
-	      <para>
-		Select the program you'd like to use. It will start up
-		and open the document.
-	      </para>
-	    </listitem>
-	  </orderedlist>
-	</para>
-	<para>
-	</para>
-      </sect3>
-      
-      <sect3 id="usage-mail-getnsend-get-attach-html">
-	<title>Inline Images in HTML Mail</title>
-	<para>
-	  When someone sends you HTML mail that includes an image in
-	  the body of the message (for example, the welcome message in your
-	  Inbox when you first start <application>Ximian
-	   Evolution</application>) <application>Evolution</application>
-	  will display the image inside the message.  You can create
-	  messages like this by using the
-	  <menuchoice>
-	    <guimenu>Insert</guimenu>
-	    <guimenuitem>Image</guimenuitem>
-	  </menuchoice>
-	  tool in the message composer.
-	</para>
+     <title>Saving or Opening Attachments</title>
+     <para>
+        If you get an attachment with an email message,
+        <application>Ximian Evolution</application> can help you save
+        it or open it with the appropriate applications.
+     </para>
+     <para>
+       To save an attachment to disk:
+       <orderedlist numeration="arabic">
+	 <listitem>
+	   <para>
+	     Click the downward pointing arrow on the attachment icon
+	     and select <guimenuitem>Save to Disk</guimenuitem>.
+	   </para>
+	 </listitem>
+	 <listitem>
+	   <para>
+	     Choose a location and name for the file.
+	   </para>
+	 </listitem>
+	 <listitem>
+	   <para>
+	     Click <guibutton>OK</guibutton>.
+	   </para>
+	 </listitem>
+       </orderedlist>
+      </para>
 
       <para>
-         If the image isn't included in the message, but is
-         a link to an image, <application>Evolution</application> can
-         download the image from the Internet for you.  By default,
-         <application>Evolution</application> will not display the image.
-         This is because remotely hosted
+	To Open an Attachment in a Program:
+	<orderedlist numeration="arabic">
+	  <listitem>
+	    <para>
+	      Open the mail message with the attachment you want to read.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Click the arrow next the attachment icon.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Select the program you'd like to use. It will start up
+	      and open the document.
+	    </para>
+	  </listitem>
+	</orderedlist>
+      </para>
+      <para>
+      </para>
+      </sect3>
+
+      <sect3 id="usage-mail-getnsend-get-attach-html">
+      <title>Inline Images in HTML Mail</title>
+      <para>
+         When someone sends you HTML mail that includes an image in
+         the body of the message (for example, the welcome message in your
+         Inbox when you first start <application>Ximian
+         Evolution</application>) <application>Evolution</application>
+         will display the image inside the message.  You can create
+         messages like this by using the
+         <menuchoice><guimenu>Insert</guimenu><guimenuitem>Image</guimenuitem></menuchoice>
+         tool in the message composer.
+      </para>
+
+      <para>
+         If the image isn't included in the message, but is, instead,
+         a link to an image, <application>Evolution</application> can 
+         download the image from the Internet for you.  However,
+         <application>Evolution</application> will not display the
+         image unless you ask it to. This is because remotely hosted
          images can be slow to load and display, and can even be used
          by spammers to track who reads their email.  Having images
          not load automatically helps protect your privacy.
@@ -425,14 +430,14 @@
            through the Summary tool. You can tell the GNOME Virtual
            File System about your HTTP proxy in one of two ways:
             <variablelist>
-	      <varlistentry>
+	    <varlistentry>
 	      <term>Configure it with Nautilus</term>
 	      <listitem>
 		<para>
                  <orderedlist numeration="arabic">
 		    <listitem>
 		      <para>
-			Open a Nautilus window.
+			Open a Nautilus window
 	               </para>
 		    </listitem>
       		    <listitem>
@@ -508,20 +513,18 @@
     </sect2>
   </sect1>
 
-  <sect1 id="usage-mail-getnsend-send">
-    <title>Composing New Email Messages</title>
-    <para>
-      You can start writing a new email message by selecting
-      <menuchoice>
-	<guimenu>File</guimenu>
-	<guisubmenu>New</guisubmenu> 
-	<guimenuitem>Mail Message</guimenuitem>
-      </menuchoice>, or by pressing the
-      <guibutton>Compose</guibutton> button in the Inbox toolbar.
-      When you do so, the <interface>New Message</interface> window
-      will open, as shown in <xref
-				   linkend="usage-mail-newmsg-fig">.
-    </para>
+    <sect1 id="usage-mail-getnsend-send">
+      <title>Composing New Email Messages</title>
+      <para>
+         You can start writing a new email message by selecting
+         <menuchoice> <guimenu>File</guimenu>
+         <guisubmenu>New</guisubmenu> <guimenuitem>
+         Mail Message</guimenuitem></menuchoice>, or by pressing the
+         <guibutton>Compose</guibutton> button in the Inbox toolbar.
+         When you do so, the <interface>New Message</interface> window
+         will open, as shown in <xref
+         linkend="usage-mail-newmsg-fig">.
+      </para>
 
 <!--   ==============Figure=================================== -->
       <figure id="usage-mail-newmsg-fig">
@@ -621,12 +624,12 @@
 	  <orderedlist numeration="arabic">
 	    <listitem>
 	      <para>
-		Push the attach button in the composer toolbar.
+		Push the attach button in the composer toolbar
 	      </para>
 	    </listitem>
 	    <listitem>
 	      <para>
-		Select the file you want to attach.
+		Select the file you want to attach
 	      </para>
 	    </listitem>
 	    <listitem>
@@ -641,19 +644,19 @@
 	  attach it as well.
         </para>
         <para>
-	  To hide the display of files you've attached to the
-	  message, select <menuchoice>
+            To hide the display of files you've attached to the
+            message, select <menuchoice>
             <guimenu>View</guimenu> <guimenuitem>Hide
-	      Attachments</guimenuitem> </menuchoice>; to show them
-	  again, choose <guimenuitem>Show Attachments</guimenuitem>.
+            Attachments</guimenuitem> </menuchoice>; to show them
+            again, choose <guimenuitem>Show Attachments</guimenuitem>.
         </para>
         <para>
-	  When you send the message, a copy of the attached file
-	  will go with it.  Be aware that big attachments can take a
-	  long time to download.
+            When you send the message, a copy of the attached file
+            will go with it.  Be aware that big attachments can take a
+            long time to download.
         </para>
-      </sect3>
-      
+       </sect3>
+
       <sect3 id="usage-mail-getnsend-send-to-types">
 	<title>Specifying Recipients for Email</title>
         <para>
@@ -1606,7 +1609,7 @@
       </para>
     </sect2>
     <sect2 id="fancy-mail">
-      <title>Improving Email Appearance with HTML</title>
+      <title>Making Your Email More Fancy</title>
       <para>
 	<application>Evolution</application> can do a lot with email
 	by utilizing the HTML features.  Making an email functional
@@ -1625,8 +1628,7 @@
 	    <title>Indented Text with Headlines</title>
 	    <screenshot>
 	      <screeninfo></screeninfo>
-	      <graphic  format="png" fileref="figures/outline"
-		       srccredit="Kevin Breit">
+	      <graphic  format="png" fileref="figures/outline" srccredit="Kevin Breit">
 	    </screenshot>
 	  </figure>
 	</para>
@@ -1637,13 +1639,12 @@
 	  following content indented.
 	</para>
 	<para>
-	Making your headlines a larger size instead of bold can help
-	as well.  Header size 4 is often the best alternative for
-	bold.  You can change your text to size 4 by selecting it and
-	pressing <keycombo
-	action="simul"><keycap>Ctrl</keycap><keycap>4</keycap></keycombo>,
-	and change it back to normal size with <keycombo
-	action="simul"><keycap>Ctrl</keycap><keycap>0</keycap></keycombo>.
+	You may want to increase the size of your section headlings
+	instead of merely putting them in bold.  Header size 4 is
+	often the best choice, since it is not too large.  You can
+	change your text to size 4 by selecting it and pressing
+	Ctrl+4.  You can set your text to the normal text size by
+	hitting Ctrl+0.
 	</para>
       </sect3>
       <sect3 id="bulleted-lists">
@@ -1662,24 +1663,25 @@
       <sect3 id="inline-images">
 	<title>Images In Your Email</title>
 	<para>
-	  Another way to improve the appearance of messages is to add
-	  images to them.  Especially if you want to discuss a
-	  particular image in the message, the the HTML picture frame
-	  template in <application>Evolution</application>, as it
-	  looks good and has captions below it.
+	  Images can help people to understand your point.  You can
+	  even use a HTML Picture Frame Template in
+	  <application>Evolution</application>, which looks very
+	  attractive and sets your image off from the rest of your
+	  message with a border and caption.
 	</para>
 	<para>
 	  If you do choose to use images, try to keep them narrow.  If
 	  your images are wider than 400 pixels, the image may not fit
 	  in the whole email window, making it hard for your reader to
-	  read the email and view the image.  Instead, you should
-	  consider using a thumbnail and creating a link on the image
-	  which opens a browser with the full image.
+	  read the email and view the image.  Consider using a smaller
+	  version ("thumbnail") of your image, and offering a link to
+	  the larger version your readers can view in a web browser if
+	  they want.
 	  <figure>
 	    <title>Images in an email</title>
 	    <screenshot>
 	      <screeninfo></screeninfo>
-	      <graphic  format="png" fileref="small_desktop" srccredit="Kevin Breit">
+	      <graphic  format="png" fileref="figures/small_desktop" srccredit="Kevin Breit">
 	    </screenshot>
 	  </figure>
 	</para>
@@ -1687,10 +1689,9 @@
       <sect3 id="color-suggestions">
 	<title>Coloring Your Text</title>
 	<para>
-	  Colors can help bring words or sentences out for emphasis.
-	  You should choose your colors carefully though, because the
-	  wrong color can be distracting.  Some good colors to use
-	  are:
+	  Colors can help bring words or sentences out for emphasis.  You
+	  should choose your colors carefully though, as the wrong color
+	  can be distracting.  Some good colors to use would be:
 	  <itemizedlist>
 	    <listitem>
 	      <para>
@@ -1708,91 +1709,11 @@
 	      </para>
 	    </listitem>
 	  </itemizedlist>
-	  <!-- Include a screenshot --> 
-
-  All of these colors are of a similar level of saturation and are
-  easy to read on a white background.
-
-	</para>
-      </sect3>
-      <sect3 id="signature-howto">
-	<title>HTML Signatures in Your Email</title>
-	<para>
-	  The last few lines of an email message are often devoted to
-	  a signature block, typically a few lines of text appended
-	  automatically to every email by the mail program itself. You
-	  can use the signature to add your address and any other
-	  contact information you think is important, or simply to
-	  provide an amusing or interesting closing line for your
-	  message.  <application>Evolution</application> gives you the
-	  option of designing your signatures in HTML or in plain
-	  text.
+	  <!-- Include a screenshot -->
+	  Notice how these colors are similar saturation <!-- Confirm I am using the right word -->
 	</para>
 	<para>
-	  To set up an HTML signature:
-	  <orderedlist numeration="arabic">
-	    <listitem>
-	      <para>
-		Click
-		<menuchoice>
-		  <guimenu>Tools</guimenu>
-		  <guimenuitem>Mail Settings</guimenuitem>
-		</menuchoice>
-		while in the mail component.
-	      </para>
-	    </listitem>
-	    <listitem>
-	      <para>
-		Select the account you wish to associate the signature
-		to and click <guibutton>Edit</guibutton>.
-	      </para>
-	    </listitem>
-	    <listitem>
-	      <para>
-		At the bottom you'll see a field for a <guilabel>HTML
-		Signature</guilabel>.  Click the box next to it to
-		enable a signature.
-	      </para>
-	    </listitem>
-	    <listitem>
-	      <para>
-		If you have a pre-made signature, click the
-		<guibutton>Browse</guibutton> to select your
-		signature.  You can find pre-made signatures at <ulink
-		url="http://www.ximian.com/devzone/projects/art/signatures.html">the
-		Ximian signature page</ulink>.
-	      </para>
-	    </listitem>
-	    <listitem>
-	      <para>
-		If you are creating a new signature, click the
-		<guibutton>Edit</guibutton> button to open up the HTML
-		signature editor.
-	      </para>
-	    </listitem>
-	    <listitem>
-	      <para>
-		The HTML signature editor uses the same interface as
-		the composer.  You can create your signature in this
-		window.
-	      </para>
-	    </listitem>
-	    <listitem>
-	      <para>
-		Once you have completed your signature, click
-		<menuchoice>
-		  <guimenu>File</guimenu>
-		  <guimenuitem>Save and Close</guimenuitem>
-		</menuchoice>
-	      </para>
-	    </listitem>
-	    <listitem>
-	      <para>
-		When you select your mail to be composed in HTML
-		format, your HTML signature will automatically show up.
-	      </para>
-	    </listitem>
-	  </orderedlist>
+	  Happy mailing!
 	</para>
       </sect3>
     </sect2>
@@ -1973,7 +1894,7 @@
       </para>
 
 	<example> 
-         <title>Sending an Encrypted Message</title>
+         <title>Sending an Encrypted Messagee</title>
 	  <para>
 	    Kevin wants to send an encrypted message to his friend
 	    Rachel.  He looks up her public key on a general key
@@ -1988,8 +1909,7 @@
       <tip id="always-sign">
 	<title>Always Sign</title>
 	<para>
-	  You can set <application>Evolution</application> to always
-	  sign your email messages:
+	  You can set <application>Evolution</application> to always sign your email messages:
 	  <orderedlist numeration="arabic">
 	    <listitem>
 	      <para>
@@ -2003,8 +1923,7 @@
 	    </listitem>
 	    <listitem>
 	      <para>
-		Click the <guibutton>Always sign outgoing messages
-		when using this account</guibutton> button.
+		Click the <guibutton>Always sign outgoing messages when using this account</guibutton> button.
 	      </para>
 	    </listitem>
 	  </orderedlist>
@@ -2044,8 +1963,7 @@
 	  <listitem>
       	   <para>
             Choose a key length. The default, 1024 bits, should be
-            long enough, and 2048 bits is considered very strong
-            indeed.
+            long enough.
 	  </para>
          </listitem>
 
@@ -2161,7 +2079,7 @@ wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for
       </para>
       <para>
         If someone sends you their public key directly, save it as a
-        plain text file and enter the command <command>gpg --import
+        plain text file and enter the command <command>gpg
         filename</command>. This will add it to your keyring.
       </para>
     </sect2>

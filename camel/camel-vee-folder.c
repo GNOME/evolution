@@ -601,14 +601,10 @@ vee_search_by_expression(CamelFolder *folder, const char *expression, CamelExcep
 	CamelVeeFolder *vf = (CamelVeeFolder *)folder;
 	struct _CamelVeeFolderPrivate *p = _PRIVATE(vf);
 	GHashTable *searched = g_hash_table_new(NULL, NULL);
-	
+
 	CAMEL_VEE_FOLDER_LOCK(vf, subfolder_lock);
-	
-	if (vf != folder_unmatched)
-		expr = g_strdup_printf ("(and %s %s)", vf->expression, expression);
-	else
-		expr = g_strdup (expression);
-	
+
+	expr = g_strdup_printf("(and %s %s)", vf->expression, expression);
 	node = p->folders;
 	while (node) {
 		CamelFolder *f = node->data;

@@ -49,13 +49,16 @@ INCLUDES = 							\
 	-I$(top_builddir)/addressbook/backend/ebook		\
 	-I$(top_srcdir)/widgets					\
 	-I$(includedir)						\
+	$(BONOBO_HTML_GNOME_CFLAGS)				\
+	$(GNOME_VFS_CFLAGS)					\
+	$(GAL_CFLAGS)						\
+	$(BONOBO_CONF_CFLAGS)					\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
         -DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"        	\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"			\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
-	-DEVOLUTION_IMAGESDIR=\""$(datadir)"/images/evolution\" \
-	$(EVOLUTION_CALENDAR_CFLAGS)
+	-DEVOLUTION_IMAGESDIR=\""$(datadir)"/images/evolution\"
 
 iconsdir = $(datadir)/images/evolution
 
@@ -87,8 +90,6 @@ evolution_calendar_SOURCES =			\
 	comp-editor-factory.h			\
 	comp-util.c				\
 	comp-util.h				\
-	config-control-factory.c		\
-	config-control-factory.h		\
 	control-factory.c			\
 	control-factory.h			\
 	component-factory.c			\
@@ -166,16 +167,23 @@ evolution_calendar_LDADD =								\
 	$(top_builddir)/calendar/cal-client/libcal-client.la				\
 	$(top_builddir)/calendar/cal-util/libcal-util.la				\
 	$(top_builddir)/e-util/libeutil.la						\
+	$(top_builddir)/libversit/libversit.la						\
 	$(top_builddir)/libical/src/libical/libical-evolution.la			\
 	$(top_builddir)/libwombat/libwombat.la						\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la				\
 	$(top_builddir)/camel/libcamel.la						\
-	$(top_builddir)/libversit/libversit.a						\
+	$(top_builddir)/libibex/libibex.la						\
+	$(top_builddir)/libversit/libversit.la						\
 	$(top_builddir)/e-util/ename/libename.la					\
 	dialogs/libcal-dialogs.a							\
 	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.a			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a					\
-	$(EVOLUTION_CALENDAR_LIBS)
+	$(EXTRA_GNOME_LIBS)								\
+	$(BONOBO_HTML_GNOME_LIBS)							\
+	$(GNOME_VFS_LIBS)								\
+	$(BONOBO_CONF_LIBS)								\
+	$(GAL_LIBS)									\
+	$(INTLLIBS)
 
 evolution_calendar_LDFLAGS = -export-dynamic
 

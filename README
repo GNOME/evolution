@@ -143,8 +143,6 @@ and -devel packages for each library.
 
  - gtkhtml - later than 0.16.1
 
- - SOUP: later than 0.6.99
-
 Other non-GNOME Dependencies:
 
  - Berkeley's libdb - 3.1.17
@@ -210,16 +208,6 @@ in your evolution source directory do:
 ./autogen.sh --prefix=<evo-prefix> --with-nspr-includes=<nspr-includes-prefix>
 --with-nspr-libs=<nspr-libs-prefix> --with-nss-includes=<nss-includes-prefix>
 --with-nss-libs=<nss-libs-prefix>
-
-You'll need to `cp ~/.mozilla/default/*.db ~/evolution` on you've
-installed Evolution in order to get a functional SSL-enabled
-Evolution.
-
-WARNING: Evolution also comes with OpenSSL support
-(--with-openssl-libs and --with-openssl-includes), but it's not very
-well tested, and quite unstable at this point.  It is recommended that
-you use the NSPR-based SSL support instead.
-
 
 NEWSGROUP (NNTP) SUPPORT
 ------------------------

@@ -30,8 +30,6 @@
 
 /* #include <ctype.h> */
 #include <errno.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-exec.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/util/e-unicode-i18n.h>
@@ -121,14 +119,13 @@ filter_folder_filter (struct _mail_msg *mm)
 		folder_uids = uids = camel_folder_get_uids (folder);
 	
 	camel_filter_driver_filter_folder (m->driver, folder, m->cache, uids, m->delete, &mm->ex);
-	camel_filter_driver_flush (m->driver, &mm->ex);
 	
 	if (folder_uids)
 		camel_folder_free_uids (folder, folder_uids);
 	
-	/* sync our source folder */
+	/* sync and expunge */
 	if (!m->cache)
-		camel_folder_sync (folder, FALSE, camel_exception_is_set (&mm->ex) ? NULL : &mm->ex);
+		camel_folder_sync (folder, TRUE, camel_exception_is_set (&mm->ex) ? NULL : &mm->ex);
 	camel_folder_thaw (folder);
 	
 	if (m->destination)
@@ -178,8 +175,7 @@ static struct _mail_msg_op filter_folder_op = {
 
 void
 mail_filter_folder (CamelFolder *source_folder, GPtrArray *uids,
-		    const char *type, gboolean notify,
-		    CamelOperation *cancel)
+		    const char *type, CamelOperation *cancel)
 {
 	struct _filter_mail_msg *m;
 	
@@ -196,12 +192,6 @@ mail_filter_folder (CamelFolder *source_folder, GPtrArray *uids,
 	
 	m->driver = camel_session_get_filter_driver (session, type, NULL);
 	
-	if (!notify) {
-		/* FIXME: have a #define NOTIFY_FILTER_NAME macro? */
-		/* the filter name has to stay in sync with mail-session::get_filter_driver */
-		camel_filter_driver_remove_rule_by_name (m->driver, "new-mail-notification");
-	}
-	
 	e_thread_put (mail_thread_new, (EMsg *)m);
 }
 
@@ -209,7 +199,7 @@ mail_filter_folder (CamelFolder *source_folder, GPtrArray *uids,
 void
 mail_filter_on_demand (CamelFolder *folder, GPtrArray *uids)
 {
-	mail_filter_folder (folder, uids, FILTER_SOURCE_INCOMING, FALSE, NULL);
+	mail_filter_folder (folder, uids, FILTER_SOURCE_INCOMING, NULL);
 }
 
 /* ********************************************************************** */
@@ -427,42 +417,28 @@ mail_fetch_mail (const char *source, int keep, const char *type, CamelOperation 
 
 extern CamelFolder *sent_folder;
 
-static char *normal_recipients[] = {
-	CAMEL_RECIPIENT_TYPE_TO,
-	CAMEL_RECIPIENT_TYPE_CC,
-	CAMEL_RECIPIENT_TYPE_BCC
-};
-
-static char *resent_recipients[] = {
-	CAMEL_RECIPIENT_TYPE_RESENT_TO,
-	CAMEL_RECIPIENT_TYPE_RESENT_CC,
-	CAMEL_RECIPIENT_TYPE_RESENT_BCC
-};
-
 /* send 1 message to a specific transport */
 static void
 mail_send_message (CamelMimeMessage *message, const char *destination,
 		   CamelFilterDriver *driver, CamelException *ex)
 {
-	const CamelInternetAddress *iaddr;
-	CamelAddress *from, *recipients;
 	CamelMessageInfo *info;
 	CamelTransport *xport = NULL;
 	char *transport_url = NULL;
 	char *sent_folder_uri = NULL;
-	const char *resent_from;
 	CamelFolder *folder;
 	XEvolution *xev;
-	int i;
 	
-	camel_medium_set_header (CAMEL_MEDIUM (message), "X-Mailer",
+	camel_medium_add_header (CAMEL_MEDIUM (message), "X-Mailer",
 				 "Ximian Evolution " VERSION SUB_VERSION " " VERSION_COMMENT);
 	
 	camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
 	
 	xev = mail_tool_remove_xevolution_headers (message);
 	
-	if (xev->account) {
+	if (xev->transport) {
+		transport_url = g_strstrip (g_strdup (xev->transport));
+	} else if (xev->account) {
 		const MailConfigAccount *account;
 		char *name;
 		
@@ -472,8 +448,6 @@ mail_send_message (CamelMimeMessage *message, const char *destination,
 		
 		if (account && account->transport && account->transport->url)
 			transport_url = g_strdup (account->transport->url);
-	} else if (xev->transport) {
-		transport_url = g_strstrip (g_strdup (xev->transport));
 	}
 	
 	if (xev->fcc)
@@ -488,27 +462,7 @@ mail_send_message (CamelMimeMessage *message, const char *destination,
 		return;
 	}
 	
-	from = (CamelAddress *) camel_internet_address_new ();
-	resent_from = camel_medium_get_header (CAMEL_MEDIUM (message), "Resent-From");
-	if (resent_from) {
-		camel_address_decode (from, resent_from);
-	} else {
-		iaddr = camel_mime_message_get_from (message);
-		camel_address_copy (from, CAMEL_ADDRESS (iaddr));
-	}
-	
-	recipients = (CamelAddress *) camel_internet_address_new ();
-	for (i = 0; i < 3; i++) {
-		const char *type;
-		
-		type = resent_from ? resent_recipients[i] : normal_recipients[i];
-		iaddr = camel_mime_message_get_recipients (message, type);
-		camel_address_cat (recipients, CAMEL_ADDRESS (iaddr));
-	}
-	
-	camel_transport_send_to (xport, message, from, recipients, ex);
-	camel_object_unref (CAMEL_OBJECT (recipients));
-	camel_object_unref (CAMEL_OBJECT (from));
+	camel_transport_send (xport, CAMEL_MEDIUM (message), ex);
 	
 	mail_tool_restore_xevolution_headers (message, xev);
 	mail_tool_destroy_xevolution (xev);
@@ -2215,58 +2169,4 @@ mail_store_set_offline (CamelStore *store, gboolean offline,
 	m->done = done;
 
 	e_thread_put(mail_thread_queued, (EMsg *)m);
-}
-
-
-/* ** Execute Shell Command ***************************************************** */
-
-struct _execute_shell_command_msg {
-	struct _mail_msg msg;
-	
-	char *command;
-};
-
-static char *execute_shell_command_desc (struct _mail_msg *mm, int done)
-{
-	struct _execute_shell_command_msg *m = (struct _execute_shell_command_msg *) mm;
-	char *msg;
-	
-	msg = g_strdup_printf (_("Executing shell command: %s"), m->command);
-	
-	return msg;
-}
-
-static void execute_shell_command_do (struct _mail_msg *mm)
-{
-	struct _execute_shell_command_msg *m = (struct _execute_shell_command_msg *) mm;
-	
-	gnome_execute_shell (NULL, m->command);
-}
-
-static void execute_shell_command_free (struct _mail_msg *mm)
-{
-	struct _execute_shell_command_msg *m = (struct _execute_shell_command_msg *) mm;
-	
-	g_free (m->command);
-}
-
-static struct _mail_msg_op execute_shell_command_op = {
-	execute_shell_command_desc,
-	execute_shell_command_do,
-	NULL,
-	execute_shell_command_free,
-};
-
-void
-mail_execute_shell_command (CamelFilterDriver *driver, const char *command, void *data)
-{
-	struct _execute_shell_command_msg *m;
-	
-	if (command == NULL)
-		return;
-	
-	m = mail_msg_new (&execute_shell_command_op, NULL, sizeof (*m));
-	m->command = g_strdup (command);
-	
-	e_thread_put (mail_thread_queued, (EMsg *) m);
 }

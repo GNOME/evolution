@@ -48,6 +48,8 @@ static BonoboObjectClass *parent_class = NULL;
 struct _ESelectNamesBonoboPrivate {
 	ESelectNamesManager *manager;
 	BonoboEventSource *event_source;
+	guint manager_changed_tag;
+	guint manager_ok_tag;
 };
 
 enum _EntryPropertyID {
@@ -75,11 +77,11 @@ entry_get_property_fn (BonoboPropertyBag *bag,
 	switch (arg_id) {
 	case ENTRY_PROPERTY_ID_TEXT:
 		{
-			ETextModel *text_model;
-			text_model = E_TEXT_MODEL (gtk_object_get_data (GTK_OBJECT (w), "select_names_text_model"));
-			g_assert (text_model != NULL);
+			ESelectNamesModel *model;
+			model = E_SELECT_NAMES_MODEL (gtk_object_get_data (GTK_OBJECT (w), "select_names_model"));
+			g_assert (model != NULL);
 			
-			BONOBO_ARG_SET_STRING (arg, e_text_model_get_text (text_model));
+			BONOBO_ARG_SET_STRING (arg, e_select_names_model_get_textification (model));
 		break;
 		}
 
@@ -348,21 +350,41 @@ impl_SelectNames_activate_dialog (PortableServer_Servant servant,
 
 /* GtkObject methods.  */
 
+/* ACK! */
+typedef struct {
+	char *id;
+	EEntry *entry;
+} ESelectNamesManagerEntry;
+
 static void
 impl_destroy (GtkObject *object)
 {
 	ESelectNamesBonobo *select_names;
 	ESelectNamesBonoboPrivate *priv;
+	EIterator *iterator;
 
 	select_names = E_SELECT_NAMES_BONOBO (object);
 	priv = select_names->priv;
+
+	gtk_signal_disconnect (GTK_OBJECT (priv->manager), priv->manager_changed_tag);
+	gtk_signal_disconnect (GTK_OBJECT (priv->manager), priv->manager_ok_tag);
 
 	if (priv->manager->names) {
 		gtk_widget_destroy (GTK_WIDGET (priv->manager->names));
 		priv->manager->names = NULL;
 	}
 
-	gtk_object_unref (GTK_OBJECT (priv->manager));
+	/* More suckage */
+	iterator = e_list_get_iterator (priv->manager->entries);
+	for (e_iterator_reset (iterator); e_iterator_is_valid (iterator); e_iterator_next (iterator)) {
+		ESelectNamesManagerEntry *entry = (ESelectNamesManagerEntry *)e_iterator_get (iterator);
+		if (entry && entry->entry)
+			gtk_widget_destroy (GTK_WIDGET (entry->entry));
+	}
+	gtk_object_unref (GTK_OBJECT (iterator));
+	
+	/* FIXME: We leak on purpose.  This sucks. */
+	/* gtk_object_unref (GTK_OBJECT (priv->manager)); */
 
 	g_free (priv);
 }
@@ -414,15 +436,17 @@ init (ESelectNamesBonobo *select_names)
 	priv->manager = e_select_names_manager_new ();
 	priv->event_source = NULL;
 
-	gtk_signal_connect (GTK_OBJECT (priv->manager),
-			    "changed",
-			    GTK_SIGNAL_FUNC (manager_changed_cb),
-			    select_names);
+	priv->manager_changed_tag =
+		gtk_signal_connect (GTK_OBJECT (priv->manager),
+				    "changed",
+				    GTK_SIGNAL_FUNC (manager_changed_cb),
+				    select_names);
 
-	gtk_signal_connect (GTK_OBJECT (priv->manager),
-			    "ok",
-			    GTK_SIGNAL_FUNC (manager_ok_cb),
-			    select_names);
+	priv->manager_ok_tag =
+		gtk_signal_connect (GTK_OBJECT (priv->manager),
+				    "ok",
+				    GTK_SIGNAL_FUNC (manager_ok_cb),
+				    select_names);
 
 	select_names->priv = priv;
 }

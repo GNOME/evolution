@@ -1,5 +1,446 @@
-*** SOMEONE SHOULD MERGE NEWS FROM THE 1-0 BRANCH HERE ***
+Evolution 1.0.5, 05-06-2002
+---------------------------
 
+Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+  * Mailer
+
+    #24140 -- Crash when downloading a message with invalid header.
+              (Jeff)
+
+    #17174 -- Mail spools appear to be unread forever.  (Michael)
+
+  * Shell
+
+    #23538 -- Intermittent bug when moving folders around.  (Michael)
+
+Other fixes:
+
+  * Calendar
+
+    - Make reminders work with remote backends.  (Rodrigo)
+
+  * Misc
+
+    - Added support for adding an Evolution icon to the CDE
+      Application Manager.  (Ettore)
+
+Updated translations:
+
+  - bg (Borislav Aleksandrov)
+  - pl (GNOME PL Team)
+
+
+Evolution 1.0.4, 04-18-2002
+---------------------------
+
+Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+  * Addressbook
+
+    #22965 -- Comply with RFC 2739 for calCalURI and calFBURL.  (Toshok)
+
+  * Calendar
+
+    #22624 -- Unable to accept meeting request that doesn't list user
+              as attendee.  (JP)
+
+  * Startup Wizard
+
+    #22047 -- Crash after closing the start-up wizard.  (Ettore)
+
+  * Mailer
+
+     #8214 -- "Error Synchronizing Folder" on incoming mail spool.
+              (Michael)
+    #18929 -- If we get multiple Content-Type header values, change
+              subsequent headers to X-Invalid-Content-Type so it doesn't 
+              wreck processing.  (Michael)
+    #22363 -- Problems resyncing IMAP folders when going Online.  (Jeff)
+    #21716 -- Fixes to decoding illegally rfc2047 encoded words.  (Michael)
+    #22657 -- Fixes printing for some localizations (Radek)
+    
+
+Other fixes:
+
+  * Calendar
+
+    - Use default tasks folder in calendar view.  (Rodrigo)
+    - Added getQuery method to CalBackend to allow custom queries for
+      each calendar backend.  (Rodrigo)
+
+  * Mailer
+
+    - Fixed Daylight-Savings-Time calculations on systems that use 
+      tm.tm_gmtoff rather than 'timezone' (affects BSD systems).  (Jeff)
+    - Fixed the annoying EINPROGRESS error dialogs when connecting 
+      to IMAP/SMTP/POP via SSL.  (Jeff)
+    - Changed the date format used in From-lines in mbox spools to be 
+      the same as those used by Pine to fix interoperability issues.
+      (Michael)
+    - Fixed some filtertypes.xml typos.  (Michael)
+
+  * Summary
+
+    - Change the dot.kde.org url.
+
+Updated translations:
+
+  - fi (Sami Pesonen)
+  - fr (Christophe Merlet, Frederic Riss)
+  - ko (Young-Ho Cha)
+  - nl (Tino Meinen)
+  - no (Kjartan Maraas)
+  - pt_BR (Gustavo Maciel Dias Vieira)
+
+
+Evolution 1.0.3, 03-19-2002
+---------------------------
+
+Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+  * Addressbook
+
+    #16097 -- Need a way to let the user specify the DN to
+              authenticate against.  (Toshok)
+    #16680 -- LDAP performance problem.  (Toshok)
+    #16968 -- Changing search type immediately requeries.  (Toshok)
+    #20089 -- Cannot copy contacts with comma from "Contacts" to LDAP.
+              (Toshok)
+    #20690 -- LDAP contacts dont show when using letter shortcuts.
+              (Toshok)
+    #20740 -- LDAP performance problem.  (Toshok)
+    #20871 -- SelectNames dialog needs search feedback.  (Toshok)
+
+  * Calendar
+
+    #14705 -- iMIP compatibility with versions of Outlook. (Better fix
+              for the pseudo-fix in 1.0.1). We now support Outlook in
+              both Workgroup and Internet-Only modes.  (Dan)
+    #19054 -- Minimum number of alarm repetitions should be
+              1. (Federico)
+    #19234 -- BYMONTH off-by-one in RRULE:FREQ=YEARLY.  (Damon)
+    #20510 -- Load free busy info as attendees are added.  (JP)
+    #20022 -- Itip addresses are case sensitive.  (JP)
+    #20226 -- Timezone data missing from some itip replies.  (JP)
+    #20346 -- Calendar should indicate if backend dies.  (Rodrigo)
+    #20780 -- Better subjects in iMIP messages.  (Dan)
+    #20787 -- Accepted/declined messages aren't always clear.  (JP)
+    #20800 -- Sorting of free busy information in schedule page does
+	      not work.  (JP)
+    #20783 -- Accepting updated meeting request doesn't work.  (Rodrigo)
+    #21198 -- Outlook didn't recognize Evolution's acceptance of an
+	      updated meeting request.  (Dan)
+    #21240 -- Calendar Reminders don't appear for appointments in remote
+              servers.  (Rodrigo)
+
+  * Mailer
+
+    #19564 -- Don't crash when changing to disconnected mode.  (Michael)
+    #20779 -- Set a 'name' parameter in the Content-Type header
+              since Outlook doesn't seem to check the filename
+              parameter on the Content-Disposition header. (Jeff)
+
+  * Shell
+
+    #20234 -- Deleting folder gratuitiously causes /local to open.
+	      (Ettore)
+    #20237 -- Shell silently drops xfer errors.  (Ettore)
+    #20311 -- New window from shortcuts should not show the folder 
+              bar and the shortcut bar.  (Ettore)
+
+  * Summary
+
+    #18025 -- Summary crash upon switching to offline mode.  (Ettore)
+
+Other fixes:
+
+  * Calendar
+
+    - Show more descriptive messages on opening errors.  (Rodrigo)
+    - Remove $filename.ics from remote URIs.  (Rodrigo)
+
+  * Addressbook
+
+    - Fix search weirdness in local addressbooks.  (Toshok)
+    - Let backends return general error status from load_uri instead
+      of just TRUE/FALSE.  (Toshok)
+    - EBook(View) handling fixes in ESelectNames and
+      EAddressbookModel.  (Clahey)
+    - Rethink (and change) some of the default queries to ones that
+      are at the same time useful and more easily implemented
+      efficiently by the backends, in both the component's view and in
+      the select-names dialog.  (Toshok)
+    - Change the "beginswith" query implementation on the name field
+      to search both first and last name, so it's a little more useful
+      in the general case.  (Toshok)
+
+Updated translations:
+
+  - es (Carlos Perelló Marín)
+  - fr (Christophe Merlet)
+  - jp (Akira TAGOH)
+  - nl (Vincent van Adrighem)
+  - nn (Roy-Magne Mo)
+  - no (Kjartan Maraas)
+  - pt_BR (Gustavo Maciel Dias Vieira)
+
+
+Evolution 1.0.2, 01-24-2002
+---------------------------
+
+Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+  * Addressbook
+
+    #17725 -- Non-ASCII letter headings are black when printing
+              (Zbigniew Chyla)
+
+  * Calendar
+
+    #6544  -- Make Timezone names translatable (Damon)
+    #18801 -- Alarms with specific trigger times are not shown (Damon)
+  
+  * Importers
+
+    #16864 -- LDIF importer chokes on long description field (Toshok)
+    #17441 -- Crash trying to import VCards file into an LDAP folder
+              (Ettore)
+
+  * Mail
+
+    #6896  -- message_list_select() with wraparound won't select very
+              first message (Jeff)
+    #11499 -- All recovered Composer windows have HTML enabled (Jeff)
+    #16947 -- Crash while setting up a new mail account (Jeff)
+    #17205 -- Crash of evolution-mail on start-up (Jeff)
+    #17634 -- Marking a message as unread should undelete it, as well
+              (Jeff)
+    #17694 -- Exchange 5.5 reporting 2 messages as having the same UID
+              breaks Evolution (Jeff)
+    #17759 -- Cancelling Send/Receive can lose mail for local case
+              (Jeff)
+    #18142 -- Mailer crash when trying to send an email (Jeff)
+
+Other fixes:
+
+  * Summary
+
+    - Change the list of items in the mail preferences (Iain)
+
+  * Calendar
+
+    - Make Tasks default to public as in Outlook (Rodrigo)
+
+  * Importers
+
+    - Make the druid as a transient window for the main shell (Iain)
+
+  * Mail
+
+    - Follow symlinks for mbox files (Jeff)
+    - Fixed copy/paste problems in mail-account-gui.c (Ian Goldberg,
+      Jeff)
+    - Make Vfolders work with add-on storages (Dan)
+
+  * Shell
+
+    - Don't crash on missing icon on start-up (Michael Meeks)
+    - Change activation/deactivation order for views in order to
+      reduce flicker in the toolbars (Michael Meeks)
+
+Updated translations:
+
+  - bg (Alexander Shopov)
+  - el (Nick Niktaris, Panayotis Pakos, Simos Xenitellis)
+  - fr (Christophe Merlet)
+  - hu (Andras Timar)
+  - it (Clara Tattoni, Ettore)
+  - lv (Peteris Krisjanis)
+  - nn (Roy-Magne Mo)
+  - no (Kjartan Maraas)
+  - sk (Stanislav Visnovsky)
+  - sv (Christian Rose)
+
+
+Evolution 1.0.1, 12-18-2001
+---------------------------
+
+New features:
+
+  * csv2vcard script to convert CSV addressbook files from Outlook
+    into VCard files that the Evolution importer can understand (by
+    Michael MacDonald).
+
+  * Alarms are now properly synced in the calendar conduit.
+
+Bugs fixed:
+
+  * Addressbook
+
+    #10114 -- No icon for Delete in the New Contact List editor
+    #10241 -- Occasional address completion flakiness
+    #10910 -- "Save" in list editor vs. "Save and Close" in contact editor
+    #11776 -- Email addresses are case sensitive
+    #13751 -- AddressBook address entry form usability problem
+    #14002 -- Select names dialog stays up after composer is closed
+    #14074 -- Editing fields under the "Collaboration" LDAP contact
+    #14715 -- Wombat gets locked up when LDAP server is down
+    #14876 -- Modifying LDAP contacts destroys existing objectclass entries
+    #15379 -- Printing from the addressbook totally broken
+    #16156 -- "Save As", "Send As", "Send To" not available in list editor
+    #16176 -- Tab order starts wrong
+    #16510 -- Small contact editor fixes
+    #16744 -- Crash
+    #16852 -- Crash closing empty mail
+    #16910 -- Crashed addressbook when selecting addresses
+    #17109 -- Crashed when editing a contact
+    #17126 -- Adding some addresses does not work
+
+  * Calendar
+
+    #7641  -- Crash in EMap widget when used in Evolution 
+    #8993  -- Attendees not stripped properly from itip replies
+    #13843 -- Deleting tasks causes crash
+    #13952 -- Notifier repeatedly gives alarm after appointment ended
+    #14087 -- Daily repeat event with end-date misses one day
+    #14489 -- UI bug in Calendar Settings
+    #14699 -- gtk_signal_disconnect_by_data warning
+    #14705 -- iMIP compatibility with versions of Outlook. (We now support
+	      Outlook in an Exchange environment by default, but the old
+	      behavior can be turned on with the environment variable
+	      EVOLUTION_SEND_IMIP_AS_ATTACHMENT. This will be fixed better
+	      later.)
+    #15401 -- Use UTF-8-aware gnome-print calls
+    #15456 -- Typo in translatable string
+    #15774 -- Crashed by selecting "decline" in meeting request
+    #15941 -- Location missing for the calendar
+    #15749 -- Empty end time in all-day-event crashes calendar.
+    #15774 -- Selecting decline in schedule meeting request makes evo crash
+    #15798 -- Calendar Date Never Updates         
+    #16232 -- e-itip-control.c - init() doing odd stuff     
+    #16359 -- Calendar Crash
+    #16460 -- Changing a meeting doesn't always offer to send an update
+    #16571 -- Weird URI in meeting request email
+    #16910 -- Crashed when entering a completion percentage
+    #16224 -- remove unsupported columns from Tasks view
+    #16880 -- Cannot import ical (ics) even its own       
+    #17344 -- iCalendar should not be translated   
+    #17526 -- Refreshing request does not show relevant information
+    #17527 -- Refresh requests have wrong menu
+    #17531 -- libical does not build with bison 1.30
+    #17606 -- libical does not build with autoconf 2.52
+    (none) -- Scheduling page did not accurately display no information range
+
+  * Conduits
+
+    #1183  -- Handle alarms in conduits
+    #14452 -- Converting names wrong from Palm
+    #15810 -- Crashed during EAddress sync
+    #15922 -- Crash
+    #16460 -- Changing a meeting doesn't always offer to send an
+              update
+    #16997 -- Pilot compilation with libiconv
+    #17230 -- Custom data on Pilot being over written
+
+  * Importers
+
+    #14701 -- Importing locks up Evolution
+
+  * Mail
+
+    #2233  -- Don't show RTF attachments inline 
+    #5547  -- Crash: Error closing a HTML-mail 
+    #12062 -- Can't use 'n' to skip to next unread if multiple messages 
+  	      are selected
+    #13898 -- Crash: Cannot create emails in evolution
+    #14127 -- Wrong error message 
+    #14348 -- Some things that need open messages... 
+    #14517 -- "Clear" needed twice for non-body+subject searches 
+    #14662 -- GPG signature showing as attachment 
+    #14678 -- Timestamp on outgoing mail incorrect on FreeBSD
+    #14734 -- Evolution-mail crashes while accessing imap servers 
+    #14770 -- Appending messages to other IMAP folder can cause INBOX to
+  	      stop updating
+    #14838 -- Saving passwords doesn't work
+    #14848 -- Forwarding wrong email due to next/prev 
+    #14965 -- Message copy fails with space in folder names
+    #14976 -- Crash when reading a message from an IMAP server
+    #15264 -- Crash: evolution-mail seg fault on exit 
+    #15374 -- "___" in autogenerated name of vfolder created by sender of 
+    #15415 -- Virtual Folders Editor: display of non-ascii symbols is broken 
+    #15449 -- `N' wraps `P' doesn't 
+    #15451 -- Crash when pressing stop during "going offline" 
+    #15489 -- Evolution crashed while deleting my IMAP mail account 
+    #15491 -- Evolution crashes/becomes unusable if ppp connection is lost
+    #15498 -- Crash: Faulty vFolder editor 
+    #15512 -- Hangs while scanning for changed messages on S/IMAP+Exchange
+    #15552 -- Crash
+    #15608 -- RCPT TO: response error: Success 
+    #15647 -- Composer "send" button has wrong tooltip when offline 
+    #15657 -- Empty recipients 
+    #15693 -- Crash: Loading message contents from IMAP and close application 
+    #15745 -- Search edit window widgets disabled. / Mail component crash.
+    #15813 -- Decrypting cuts off initial text
+    #15843 -- Attachments inside attachments 
+    #15946 -- Opening IMAP mailbox made it crash 
+    #15952 -- Mailer crashed after hitting page down key 
+    #16227 -- "Body contains" seems to want a regexp 
+    #16254 -- Add Sender to Addressbook missing from menus 
+    #16284 -- Evolution-mail crashed selecting "create vfolder on subject" 
+    #16371 -- Corrupt Email crashes Mail component 
+    #16416 -- X-Mailer says "Preview Release" 
+    #16501 -- Crash while creating new account
+    #16520 -- Crash
+    #16559 -- Race-condition in the Camel type system
+    #16669 -- Camel 64-bit badness
+    #16695 -- A few dialogs are missing sensible titles 
+    #16698 -- Crash: Can't empty trash; segfault when I try to exit
+    #16722 -- Attachment properties dialog crash
+    #16903 -- Crash: segv retrieving mail
+    #16924 -- Crash on a particular spam message
+    #16936 -- Crash when opening a specific message 
+    #16947 -- Crash: Trouble Setting up a new mail account
+    #17085 -- Bad encoding for subject
+    #17386 -- Crash when reading a specific message
+
+  * Shell
+
+    #7827  -- Switching desktops leaves the folder bar popped up
+    #14518 -- Crashed when starting the program
+    #14701 -- Importing locks up Evolution
+    #15435 -- "Rename folder" dialog: non-ASCII folder names are displayed
+    #16507 -- Right Click -> View does nothing
+    #16693 -- Crash when creating a new folder
+    #17258 -- Shell displays splash even if Evolution is already running
+
+  * Summary
+
+    #8029  -- Locations.h file for translators
+    #11212 -- Degree symbol in weather
+    #14483 -- "Hello"?
+    #14996 -- All-day appointments are displayed incorrectly in the
+              summary view
+    #16417 -- Have a better default than CNN headlines
+    #16772 -- Summary crashes on startup
+    #17249 -- Crash going offline
+  
+  * Misc
+
+    #16358 -- Evolution doesn't have a man page
+    #17377 -- Evolution doesn't work on multi-visual displays
+
+
+Evolution 1.0, 2001-11-14
+-------------------------
+
+Misc:
+  Removed OpenSSL support.
+
+Mailer:
+  #14893 -- Mailer hanging if you specify an invalid password
+
+  
 Evolution 0.99.2 (Release Candidate 2), 2001-11-14
 --------------------------------------------------
 
@@ -61,7 +502,6 @@ Addressbook:
   #14646 -- Doesn't handle failure in default_book case
   #14743 -- Contacts crashes when saving a List
   #14780 -- Pushing categories in Contact editor crashes Contacts
-  #17355 -- e-select-names/completion from arbitrary storages
 
 Pilot conduits:
 

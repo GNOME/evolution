@@ -9,6 +9,7 @@ INCLUDES = -I.. \
 	-I$(srcdir)/..				\
 	-I$(top_srcdir)/camel			\
 	-I$(top_srcdir)/intl			\
+	-I$(top_srcdir)/libibex			\
 	-I$(top_srcdir)/e-util			\
 	-I$(top_srcdir)				\
 	-I$(includedir)				\
@@ -39,7 +40,7 @@ libcamelimapinclude_HEADERS =			\
 	camel-imap-utils.h			\
 	camel-imap-wrapper.h
 
-libcamelimap_la_LDFLAGS = -avoid-version -module
+libcamelimap_la_LDFLAGS = -version-info 0:0:0
 
 noinst_HEADERS =				\
 	camel-imap-private.h

@@ -33,12 +33,8 @@
 
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-
-
 #include <gal/widgets/e-unicode.h>
-
-#include <libsoup/soup.h>
-
+#include <libgnomevfs/gnome-vfs.h>
 #include "e-summary.h"
 
 struct _ESummaryRDF {
@@ -53,14 +49,14 @@ struct _ESummaryRDF {
 typedef struct _RDF {
 	char *uri;
 	char *html;
+	GnomeVFSAsyncHandle *handle;
+	GString *string;
+	char *buffer;
 
 	xmlDocPtr cache;
 	ESummary *summary;
 
 	gboolean shown;
-
-	/* Soup stuff */
-	SoupMessage *message;
 } RDF;
 
 int xmlSubstituteEntitiesDefaultValue = 1;
@@ -318,33 +314,118 @@ display_doc (RDF *r)
 }
 
 static void
-message_finished (SoupMessage *msg,
-		  gpointer userdata)
+close_callback (GnomeVFSAsyncHandle *handle,
+		GnomeVFSResult result,
+		RDF *r)
 {
+	ESummary *summary;
+	char *xml;
 	xmlDocPtr doc;
-	RDF *r = (RDF *) userdata;
 
-	if (SOUP_MESSAGE_IS_ERROR (msg)) {
-		g_warning ("Message failed: %d\n%s", msg->errorcode,
-			   msg->errorphrase);
-		r->cache = NULL;
-		r->message = NULL;
+	summary = r->summary;
+	if (summary->rdf->connection->callback) {
+		ESummaryConnection *connection = summary->rdf->connection;
+		connection->callback (summary, connection->callback_closure);
+	}
 
-		display_doc (r);
+	if (r->handle == NULL) {
+		g_free (r->buffer);
+		r->buffer = NULL;
+		g_string_free (r->string, TRUE);
+		r->string = NULL;
 		return;
 	}
+
+	r->handle = NULL;
+	g_free (r->buffer);
+	r->buffer = NULL;
+	xml = r->string->str;
+	g_string_free (r->string, FALSE);
+	r->string = NULL;
 
 	if (r->cache != NULL) {
 		xmlFreeDoc (r->cache);
 		r->cache = NULL;
 	}
 
-	doc = xmlParseMemory (msg->response.body, msg->response.length);
-	r->cache = doc;
-	r->message = NULL;
+	doc = xmlParseMemory (xml, strlen (xml));
+#if 0
+	if (doc == NULL) {
+		g_free (r->html);
+		r->html = g_strdup ("<b>Error parsing XML</b>");
 
-	/* Display it */
+		e_summary_draw (r->summary);
+		g_free (xml);
+		return;
+	}
+#endif
+	g_free (xml);
+	r->cache = doc;
+
+	/* Draw it */
 	display_doc (r);
+}
+
+static void
+read_callback (GnomeVFSAsyncHandle *handle,
+	       GnomeVFSResult result,
+	       gpointer buffer,
+	       GnomeVFSFileSize bytes_requested,
+	       GnomeVFSFileSize bytes_read,
+	       RDF *r)
+{
+	if (result != GNOME_VFS_OK && result != GNOME_VFS_ERROR_EOF) {
+		char *str;
+
+		g_free (r->html);
+		str = g_strdup_printf ("<b>%s:</b><br>%s", _("Error downloading RDF"),
+				       r->uri);
+		r->html = e_utf8_from_locale_string (str);
+
+		g_free (str);
+
+		e_summary_draw (r->summary);
+		r->handle = NULL;
+		gnome_vfs_async_close (handle, 
+				       (GnomeVFSAsyncCloseCallback) close_callback, r);
+		return;
+	}
+
+	if (bytes_read == 0) {
+		gnome_vfs_async_close (handle,
+				       (GnomeVFSAsyncCloseCallback) close_callback, r);
+	} else {
+		*((char *) buffer + bytes_read) = 0;
+		g_string_append (r->string, (const char *) buffer);
+		gnome_vfs_async_read (handle, buffer, 4095,
+				      (GnomeVFSAsyncReadCallback) read_callback, r);
+	}
+}
+
+static void
+open_callback (GnomeVFSAsyncHandle *handle,
+	       GnomeVFSResult result,
+	       RDF *r)
+{
+	if (result != GNOME_VFS_OK) {
+		char *str;
+
+		r->handle = NULL;
+		g_free (r->html);
+		str = g_strdup_printf ("<b>%s:</b><br>%s", _("Error downloading RDF"),
+				       r->uri);
+		r->html = e_utf8_from_locale_string (str);
+		g_free (str);
+
+		display_doc (r);
+		return;
+	}
+
+	r->string = g_string_new ("");
+	r->buffer = g_new (char, 4096);
+
+	gnome_vfs_async_read (handle, r->buffer, 4095,
+			      (GnomeVFSAsyncReadCallback) read_callback, r);
 }
 
 gboolean
@@ -358,24 +439,27 @@ e_summary_rdf_update (ESummary *summary)
 	}
 
 	for (r = summary->rdf->rdfs; r; r = r->next) {
-		SoupContext *context;
 		RDF *rdf = r->data;
 
-		if (rdf->message) {
-			continue;
+		if (rdf->handle) {
+			gnome_vfs_async_cancel (rdf->handle);
+			rdf->handle = NULL;
 		}
 
-		context = soup_context_get (rdf->uri);
-		g_print ("Updating %s\n", rdf->uri);
-		if (context == NULL) {
-			g_warning ("Invalid URL: %s", rdf->uri);
-			soup_context_unref (context);
-			continue;
+		if (rdf->buffer) {
+			g_free (rdf->buffer);
+			rdf->buffer = NULL;
+		}
+		
+		if (rdf->string) {
+			g_string_free (rdf->string, TRUE);
+			rdf->string = NULL;
 		}
 
-		rdf->message = soup_message_new (context, SOUP_METHOD_GET);
-		soup_context_unref (context);
-		soup_message_queue (rdf->message, message_finished, rdf);
+		g_warning ("Opening %s", rdf->uri);
+		gnome_vfs_async_open (&rdf->handle, rdf->uri, 
+				      GNOME_VFS_OPEN_READ,
+				      (GnomeVFSAsyncOpenCallback) open_callback, rdf);
 	}
 
 	return TRUE;
@@ -426,7 +510,7 @@ e_summary_rdf_count (ESummary *summary,
 	for (p = rdf->rdfs; p; p = p->next) {
 		RDF *r = p->data;
 
-		if (r->message != NULL) {
+		if (r->handle != NULL) {
 			count++;
 		}
 	}
@@ -457,7 +541,7 @@ e_summary_rdf_add (ESummary *summary,
 	for (p = rdf->rdfs; p; p = p->next) {
 		RDF *r = p->data;
 
-		if (r->message != NULL) {
+		if (r->handle != NULL) {
 			ESummaryConnectionData *d;
 
 			d = make_connection (r);
@@ -472,12 +556,17 @@ static void
 rdf_free (RDF *r)
 {
 	/* Stop the download */
-	if (r->message) {
-		soup_message_cancel (r->message);
+	if (r->handle) {
+		gnome_vfs_async_cancel (r->handle);
 	}
 
 	g_free (r->uri);
 	g_free (r->html);
+	g_free (r->buffer);
+
+	if (r->string) {
+		g_string_free (r->string, TRUE);
+	}
 
 	if (r->cache) {
 		xmlFreeDoc (r->cache);
@@ -510,9 +599,9 @@ e_summary_rdf_set_online (ESummary *summary,
 			RDF *r;
 
 			r = p->data;
-			if (r->message) {
-				soup_message_cancel (r->message);
-				r->message = NULL;
+			if (r->handle) {
+				gnome_vfs_async_cancel (r->handle);
+				r->handle = NULL;
 			}
 		}
 

@@ -4,9 +4,9 @@ figs = \
 	figures/config-mail.png			\
 	figures/contact-editor.png		\
 	figures/contact.png			\
-	figures/exchange-identity.png		\
+	figures/exchange-identity.png           \
+	figures/exchange-receive.png            \
 	figures/exchange-receive-options.png	\
-	figures/exchange-receive.png		\
 	figures/filter-assist-fig.png		\
 	figures/filter-new-fig.png		\
 	figures/full-1.png			\
@@ -22,6 +22,7 @@ figs = \
 	figures/mail-threaded.png		\
 	figures/mainwindow-pic.png		\
 	figures/newmsg.png			\
+	figures/outline.png			\
 	figures/print-dest.png			\
 	figures/print-preview.png		\
 	figures/replymsg.png			\
@@ -45,7 +46,6 @@ sgml_ents =	\
 	usage-calendar.sgml	\
 	usage-contact.sgml	\
 	usage-exec-summary.sgml	\
-	usage-exchange.sgml	\
 	usage-mail-org.sgml	\
 	usage-mail.sgml		\
 	usage-mainwindow.sgml	\
