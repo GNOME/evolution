@@ -62,13 +62,12 @@ struct _EStorageSetViewClass {
 				   const char *path);
 	void (* folder_opened)    (EStorageSetView *storage_set_view,
 				   const char *path);
-
-	void (* dnd_action) (EStorageSetView *storage_set_view,
-			     GdkDragContext *context,
-			     const char *source_data,
-			     const char *source_data_type,
-			     const char *target_path);
-
+	
+	void (* folder_dragged) (EStorageSetView *view, const char *path, GdkDragContext *context,
+				 GtkSelectionData *selection, guint info, guint time);
+	void (* folder_receive_drop) (EStorageSetView *view, const char *path, GdkDragContext *context,
+				      GtkSelectionData *selection, guint info, guint time);
+	
 	void (* folder_context_menu_popping_up)  (EStorageSetView *storage_set_view,
 						  const char *path);
 	void (* folder_context_menu_popped_down) (EStorageSetView *storage_set_view);
@@ -86,6 +85,9 @@ void       e_storage_set_view_construct  (EStorageSetView   *storage_set_view,
 					  BonoboUIContainer *ui_container);
 
 EStorageSet *e_storage_set_view_get_storage_set  (EStorageSetView *storage_set_view);
+
+void        e_storage_set_view_set_drag_types (EStorageSetView *view, const GtkTargetEntry *drag_types, int ntypes);
+void        e_storage_set_view_set_drop_types (EStorageSetView *view, const GtkTargetEntry *drop_types, int ntypes);
 
 void        e_storage_set_view_set_current_folder  (EStorageSetView *storage_set_view,
 						    const char      *path);

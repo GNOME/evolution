@@ -1,3 +1,7 @@
+2003-10-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-storage-set-view.c: Rewrote the drag & drop code.
+
 2003-10-21  Not Zed  <NotZed@Ximian.com>
 
 	* e-storage-browser.c (e_storage_browser_show_path): ref the view

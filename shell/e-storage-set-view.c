@@ -59,23 +59,10 @@
 
 static GdkPixbuf *checks [3];
 
-
 /*#define DEBUG_XML*/
 
 #define ROOT_NODE_NAME "/RootNode"
 
-
-/* This is used on the source side to define the two basic types that we always
-   export.  */
-enum _DndTargetTypeIdx {
-	E_FOLDER_DND_PATH_TARGET_TYPE_IDX = 0,
-	E_SHORTCUT_TARGET_TYPE_IDX = 1
-};
-typedef enum _DndTargetTypeIdx DndTargetTypeIdx;
-
-#define E_SHORTCUT_TARGET_TYPE     "E-SHORTCUT"
-
-
 #define PARENT_TYPE E_TREE_TYPE
 static ETreeClass *parent_class = NULL;
 
@@ -91,7 +78,13 @@ struct _EStorageSetViewPrivate {
 	GHashTable *path_to_etree_node;
 
 	GHashTable *type_name_to_pixbuf;
-
+	
+	const GtkTargetEntry *drag_types;
+	int num_drag_types;
+	
+	const GtkTargetEntry *drop_types;
+	int num_drop_types;
+	
 	/* Path of the row selected by the latest "cursor_activated" signal.  */
 	char *selected_row_path;
 
@@ -126,7 +119,8 @@ struct _EStorageSetViewPrivate {
 enum {
 	FOLDER_SELECTED,
 	FOLDER_OPENED,
-	DND_ACTION,
+	FOLDER_DRAGGED,
+	FOLDER_RECEIVE_DROP,
 	FOLDER_CONTEXT_MENU_POPPING_UP,
 	FOLDER_CONTEXT_MENU_POPPED_DOWN,
 	CHECKBOXES_CHANGED,
@@ -141,20 +135,6 @@ static unsigned int signals[LAST_SIGNAL] = { 0 };
 static void setup_folder_changed_callbacks (EStorageSetView *storage_set_view,
 					    EFolder *folder,
 					    const char *path);
-
-
-/* DND stuff.  */
-
-enum _DndTargetType {
-	DND_TARGET_TYPE_URI_LIST,
-	DND_TARGET_TYPE_E_SHORTCUT
-};
-typedef enum _DndTargetType DndTargetType;
-
-#define URI_LIST_TYPE   "text/uri-list"
-#define E_SHORTCUT_TYPE "E-SHORTCUT"
-
-
 /* Sorting callbacks.  */
 
 static int
@@ -345,251 +325,27 @@ get_pixbuf_for_folder (EStorageSetView *storage_set_view,
 	return scaled_pixbuf;
 }
 
-static EFolder *
-get_folder_at_node (EStorageSetView *storage_set_view,
-		    ETreePath path)
-{
-	EStorageSetViewPrivate *priv;
-	const char *folder_path;
-
-	priv = storage_set_view->priv;
-
-	if (path == NULL)
-		return NULL;
-
-	folder_path = e_tree_memory_node_get_data (E_TREE_MEMORY(priv->etree_model), path);
-	g_assert (folder_path != NULL);
-
-	return e_storage_set_get_folder (priv->storage_set, folder_path);
-}
-
-static EvolutionShellComponentClient *
-get_component_at_node (EStorageSetView *storage_set_view,
-		       ETreePath path)
-{
-	EStorageSetViewPrivate *priv;
-	EvolutionShellComponentClient *component_client;
-	EFolderTypeRegistry *folder_type_registry;
-	EFolder *folder;
-
-	priv = storage_set_view->priv;
-
-	folder = get_folder_at_node (storage_set_view, path);
-	if (folder == NULL)
-		return NULL;
-
-	folder_type_registry = e_storage_set_get_folder_type_registry (priv->storage_set);
-	g_assert (folder_type_registry != NULL);
-
-	component_client = e_folder_type_registry_get_handler_for_type (folder_type_registry,
-									e_folder_get_type_string (folder));
-
-	return component_client;
-}
-
-static GNOME_Evolution_ShellComponentDnd_ActionSet
-convert_gdk_drag_action_set_to_corba (GdkDragAction action)
-{
-	GNOME_Evolution_ShellComponentDnd_Action retval;
-
-	retval = GNOME_Evolution_ShellComponentDnd_ACTION_DEFAULT;
-
-	if (action & GDK_ACTION_COPY)
-		retval |= GNOME_Evolution_ShellComponentDnd_ACTION_COPY;
-	if (action & GDK_ACTION_MOVE)
-		retval |= GNOME_Evolution_ShellComponentDnd_ACTION_MOVE;
-	if (action & GDK_ACTION_LINK)
-		retval |= GNOME_Evolution_ShellComponentDnd_ACTION_LINK;
-	if (action & GDK_ACTION_ASK)
-		retval |= GNOME_Evolution_ShellComponentDnd_ACTION_ASK;
-
-	return retval;
-}
-
-
 /* The weakref callback for priv->ui_component.  */
 
 static void
-ui_container_destroy_notify (void *data,
-			     GObject *where_the_object_was)
+ui_container_destroy_notify (void *data, GObject *deadbeef)
 {
 	EStorageSetViewPrivate *priv  = (EStorageSetViewPrivate *) data;
 
 	priv->ui_container = NULL;
-}	
-
-
-/* DnD selection setup stuff.  */
-
-/* This will create an array of GtkTargetEntries from the specified list of DND
-   types.  The type name will *not* be allocated in the list, as this is
-   supposed to be used only temporarily to set up the cell as a drag source.  */
-static GtkTargetEntry *
-create_target_entries_from_dnd_type_list (GList *dnd_types,
-					  int *num_entries_return)
-{
-	GtkTargetEntry *entries;
-	GList *p;
-	int num_entries;
-	int i;
-
-	if (dnd_types == NULL)
-		num_entries = 0;
-	else
-		num_entries = g_list_length (dnd_types);
-
-	/* We always add two entries, one for an Evolution URI type, and one
-	   for e-shortcuts.  This will let us do drag & drop within Evolution
-	   at least.  */
-	num_entries += 2;
-
-	entries = g_new (GtkTargetEntry, num_entries);
-
-	i = 0;
-
-	/* The Evolution URI will always come first.  */
-	entries[i].target = E_FOLDER_DND_PATH_TARGET_TYPE;
-	entries[i].flags = 0;
-	entries[i].info = i;
-	g_assert (i == E_FOLDER_DND_PATH_TARGET_TYPE_IDX);
-	i ++;
-
-	/* ...Then the shortcut type.  */
-	entries[i].target = E_SHORTCUT_TARGET_TYPE;
-	entries[i].flags = 0;
-	entries[i].info = i;
-	g_assert (i == E_SHORTCUT_TARGET_TYPE_IDX);
-	i ++;
-
-	for (p = dnd_types; p != NULL; p = p->next, i++) {
-		const char *dnd_type;
-
-		g_assert (i < num_entries);
-
-		dnd_type = (const char *) p->data;
-
-		entries[i].target = (char *) dnd_type;
-		entries[i].flags  = 0;
-		entries[i].info   = i;
-	}
-
-	*num_entries_return = num_entries;
-	return entries;
-}
-
-static void
-free_target_entries (GtkTargetEntry *entries)
-{
-	g_assert (entries != NULL);
-
-	/* The target names are not strdup()ed so a simple free will do.  */
-	g_free (entries);
 }
 
 static GtkTargetList *
-create_target_list_for_node (EStorageSetView *storage_set_view,
-			     ETreePath node)
+create_target_list_for_node (EStorageSetView *view, ETreePath node)
 {
-	EStorageSetViewPrivate *priv;
+	EStorageSetViewPrivate *priv = view->priv;
 	GtkTargetList *target_list;
-	EFolderTypeRegistry *folder_type_registry;
-	GList *exported_dnd_types;
-	GtkTargetEntry *target_entries;
-	EFolder *folder;
-	const char *folder_type;
-	int num_target_entries;
-
-	priv = storage_set_view->priv;
-
-	folder_type_registry = e_storage_set_get_folder_type_registry (priv->storage_set);
-
-	folder = get_folder_at_node (storage_set_view, node);
-	folder_type = e_folder_get_type_string (folder);
-
-	exported_dnd_types = e_folder_type_registry_get_exported_dnd_types_for_type (folder_type_registry,
-										     folder_type);
-
-	target_entries = create_target_entries_from_dnd_type_list (exported_dnd_types,
-								   &num_target_entries);
-	g_assert (target_entries != NULL);
-
-	target_list = gtk_target_list_new (target_entries, num_target_entries);
-
-	free_target_entries (target_entries);
-
+	
+	target_list = gtk_target_list_new (priv->drag_types, priv->num_drag_types);
+	
 	return target_list;
 }
 
-static void
-set_e_shortcut_selection (EStorageSetView *storage_set_view,
-			  GtkSelectionData *selection_data)
-{
-	EStorageSetViewPrivate *priv;
-	ETreePath node;
-	EFolder *folder;
-	int shortcut_len;
-	char *shortcut;
-	const char *name;
-	const char *folder_path;
-
-	g_assert (storage_set_view != NULL);
-	g_assert (selection_data != NULL);
-
-	priv = storage_set_view->priv;
-
-	node = lookup_node_in_hash (storage_set_view, priv->selected_row_path);
-
-	folder_path = e_tree_memory_node_get_data (E_TREE_MEMORY(priv->etree_model), node);
-	g_assert (folder_path != NULL);
-
-	folder = e_storage_set_get_folder (priv->storage_set, folder_path);
-	if (folder != NULL)
-		name = e_folder_get_name (folder);
-	else
-		name = NULL;
-
-	/* FIXME: Get `evolution:' from somewhere instead of hardcoding it here.  */
-
-	if (name != NULL)
-		shortcut_len = strlen (name);
-	else
-		shortcut_len = 0;
-	
-	shortcut_len ++;	/* Separating zero.  */
-
-	shortcut_len += strlen ("evolution:");
-	shortcut_len += strlen (priv->selected_row_path);
-	shortcut_len ++;	/* Trailing zero.  */
-
-	shortcut = g_malloc (shortcut_len);
-
-	if (name == NULL)
-		sprintf (shortcut, "%cevolution:%s", '\0', priv->selected_row_path);
-	else
-		sprintf (shortcut, "%s%cevolution:%s", name, '\0', priv->selected_row_path);
-
-	gtk_selection_data_set (selection_data, selection_data->target,
-				8, (guchar *) shortcut, shortcut_len);
-
-	g_free (shortcut);
-}
-
-static void
-set_evolution_path_selection (EStorageSetView *storage_set_view,
-			      GtkSelectionData *selection_data)
-{
-	EStorageSetViewPrivate *priv;
-
-	g_assert (storage_set_view != NULL);
-	g_assert (selection_data != NULL);
-
-	priv = storage_set_view->priv;
-
-	gtk_selection_data_set (selection_data, selection_data->target,
-				8, (guchar *) priv->selected_row_path, strlen (priv->selected_row_path) + 1);
-}
-
-
 /* Folder context menu.  */
 
 struct _FolderPropertyItemsData {
@@ -909,339 +665,147 @@ impl_finalize (GObject *object)
 /* -- Source-side DnD.  */
 
 static gint
-impl_tree_start_drag (ETree *tree,
-		      int row,
-		      ETreePath path,
-		      int col,
-		      GdkEvent *event)
+impl_tree_start_drag (ETree *tree, int row, ETreePath path, int col, GdkEvent *event)
 {
+	EStorageSetView *view = (EStorageSetView *) tree;
 	GdkDragContext *context;
 	GtkTargetList *target_list;
 	GdkDragAction actions;
-	EStorageSetView *storage_set_view;
-
-	storage_set_view = E_STORAGE_SET_VIEW (tree);
-
-	if (! storage_set_view->priv->allow_dnd)
+	
+	if (!view->priv->allow_dnd)
 		return FALSE;
-
-	target_list = create_target_list_for_node (storage_set_view, path);
+	
+	target_list = create_target_list_for_node (view, path);
 	if (target_list == NULL)
 		return FALSE;
 
 	actions = GDK_ACTION_MOVE | GDK_ACTION_COPY;
 
-	context = e_tree_drag_begin (tree, row, col,
-				     target_list,
-				     actions,
-				     1, event);
-
+	context = e_tree_drag_begin (tree, row, col, target_list, actions, 1, event);
+	
 	gtk_drag_set_icon_default (context);
-
+	
 	gtk_target_list_unref (target_list);
 
 	return TRUE;
 }
 
 static void
-impl_tree_drag_begin (ETree *etree,
-		      int row,
-		      ETreePath path,
-		      int col,
-		      GdkDragContext *context)
+impl_tree_drag_begin (ETree *etree, int row, ETreePath path, int col, GdkDragContext *context)
 {
-	EStorageSetView *storage_set_view;
-	EStorageSetViewPrivate *priv;
-	EFolder *folder;
-	EvolutionShellComponentClient *component_client;
-	GNOME_Evolution_ShellComponent corba_component;
-	GNOME_Evolution_ShellComponentDnd_ActionSet possible_actions;
-	GNOME_Evolution_ShellComponentDnd_Action suggested_action;
-	CORBA_Environment ev;
-
-	storage_set_view = E_STORAGE_SET_VIEW (etree);
-	priv = storage_set_view->priv;
-
+	EStorageSetView *view = (EStorageSetView *) etree;
+	EStorageSetViewPrivate *priv = view->priv;
+	
 	g_free (priv->selected_row_path);
-	priv->selected_row_path = g_strdup (e_tree_memory_node_get_data (E_TREE_MEMORY(priv->etree_model), path));
-
-	g_assert (priv->drag_corba_source_interface == CORBA_OBJECT_NIL);
-
-	folder = get_folder_at_node (storage_set_view, path);
-	component_client = get_component_at_node (storage_set_view, path);
-
-	if (component_client == NULL)
-		return;
-
-	/* Query the `ShellComponentDnd::SourceFolder' interface on the
-	   component.  */
-	/* FIXME we could use the new
-	   `evolution_shell_component_client_get_dnd_source_interface()'
-	   call. */
-
-	CORBA_exception_init (&ev);
-
-	corba_component = evolution_shell_component_client_corba_objref (component_client);
-	priv->drag_corba_source_interface = Bonobo_Unknown_queryInterface (corba_component,
-									   "IDL:GNOME/Evolution/ShellComponentDnd/SourceFolder:1.0",
-									   &ev);
-	if (ev._major != CORBA_NO_EXCEPTION
-	    || priv->drag_corba_source_interface == CORBA_OBJECT_NIL) {
-		priv->drag_corba_source_interface = CORBA_OBJECT_NIL;
-
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	GNOME_Evolution_ShellComponentDnd_SourceFolder_beginDrag (priv->drag_corba_source_interface,
-								  e_folder_get_physical_uri (folder),
-								  e_folder_get_type_string (folder),
-								  &possible_actions,
-								  &suggested_action,
-								  &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		Bonobo_Unknown_unref (priv->drag_corba_source_interface, &ev);
-		CORBA_Object_release (priv->drag_corba_source_interface, &ev);
-
-		priv->drag_corba_source_interface = CORBA_OBJECT_NIL;
-
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	CORBA_exception_free (&ev);
-
-	if (priv->drag_corba_source_context != NULL)
-		CORBA_free (priv->drag_corba_source_context);
-
-	priv->drag_corba_source_context = GNOME_Evolution_ShellComponentDnd_SourceFolder_Context__alloc ();
-	priv->drag_corba_source_context->physicalUri     = CORBA_string_dup (e_folder_get_physical_uri (folder));
-	priv->drag_corba_source_context->folderType      = CORBA_string_dup (e_folder_get_type_string (folder));
-	priv->drag_corba_source_context->possibleActions = possible_actions;
-	priv->drag_corba_source_context->suggestedAction = suggested_action;
+	priv->selected_row_path = g_strdup (e_tree_memory_node_get_data (E_TREE_MEMORY (priv->etree_model), path));
 }
 
 static void
-impl_tree_drag_end (ETree *tree,
-		    int row,
-		    ETreePath path,
-		    int col,
-		    GdkDragContext *context)
+impl_tree_drag_data_get (ETree *etree, int drag_row, ETreePath drag_path, int drag_col,
+			 GdkDragContext *context, GtkSelectionData *selection, guint info, guint time)
 {
-	EStorageSetView *storage_set_view;
-	EStorageSetViewPrivate *priv;
-	CORBA_Environment ev;
-
-	storage_set_view = E_STORAGE_SET_VIEW (tree);
-	priv = storage_set_view->priv;
-
-	if (priv->drag_corba_source_interface == CORBA_OBJECT_NIL)
-		return;
-
-	CORBA_exception_init (&ev);
-
-	GNOME_Evolution_ShellComponentDnd_SourceFolder_endDrag (priv->drag_corba_source_interface,
-								priv->drag_corba_source_context,
-								&ev);
-
-	CORBA_free (priv->drag_corba_source_context);
-	priv->drag_corba_source_context = NULL;
-
-	Bonobo_Unknown_unref (priv->drag_corba_source_interface, &ev);
-	CORBA_Object_release (priv->drag_corba_source_interface, &ev);
-
-	CORBA_exception_free (&ev);
-}
-
-static void
-impl_tree_drag_data_get (ETree *etree,
-			 int drag_row,
-			 ETreePath drag_path,
-			 int drag_col,
-			 GdkDragContext *context,
-			 GtkSelectionData *selection_data,
-			 unsigned int info,
-			 guint32 time)
-{
-	EStorageSetView *storage_set_view;
-	EStorageSetViewPrivate *priv;
-	CORBA_Environment ev;
-	char *target_type;
-
-	storage_set_view = E_STORAGE_SET_VIEW (etree);
-	priv = storage_set_view->priv;
-
-	switch (info) {
-	case E_SHORTCUT_TARGET_TYPE_IDX:
-		set_e_shortcut_selection (storage_set_view, selection_data);
-		return;
-	case E_FOLDER_DND_PATH_TARGET_TYPE_IDX:
-		set_evolution_path_selection (storage_set_view, selection_data);
-		return;
-	}
-
-	g_assert (info > 0);
-
-	if (priv->drag_corba_source_interface == CORBA_OBJECT_NIL)
-		return;
-
-	target_type = gdk_atom_name ((GdkAtom) context->targets->data);
-
-	CORBA_exception_init (&ev);
-
-	GNOME_Evolution_ShellComponentDnd_SourceFolder_getData (priv->drag_corba_source_interface,
-								priv->drag_corba_source_context,
-								convert_gdk_drag_action_set_to_corba (context->action),
-								target_type,
-								& priv->drag_corba_data,
-								&ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION)
-		gtk_selection_data_set (selection_data,
-					selection_data->target, 8, "", -1);
-	else
-		gtk_selection_data_set (selection_data,
-					gdk_atom_intern (priv->drag_corba_data->target, FALSE),
-					priv->drag_corba_data->format,
-					priv->drag_corba_data->bytes._buffer,
-					priv->drag_corba_data->bytes._length);
-
-	g_free (target_type);
-
-	CORBA_exception_free (&ev);
-}
-
-static void
-impl_tree_drag_data_delete (ETree *tree,
-			    int row,
-			    ETreePath path,
-			    int col,
-			    GdkDragContext *context)
-{
-	EStorageSetView *storage_set_view;
-	EStorageSetViewPrivate *priv;
-	CORBA_Environment ev;
-
-	storage_set_view = E_STORAGE_SET_VIEW (tree);
-	priv = storage_set_view->priv;
-
-	if (priv->drag_corba_source_interface == CORBA_OBJECT_NIL)
-		return;
-
-	CORBA_exception_init (&ev);
-
-	GNOME_Evolution_ShellComponentDnd_SourceFolder_deleteData (priv->drag_corba_source_interface,
-								   priv->drag_corba_source_context,
-								   &ev);
-
-	CORBA_exception_free (&ev);
+	EStorageSetView *view = (EStorageSetView *) etree;
+	EStorageSetViewPrivate *priv = view->priv;
+	const char *path;
+	
+	path = e_tree_memory_node_get_data (E_TREE_MEMORY (priv->etree_model),
+					    e_tree_node_at_row (E_TREE (view), drag_row));
+	
+	g_assert (path != NULL);
+	
+	g_signal_emit (view, FOLDER_DRAGGED, 0, path, context, selection, info, time);
 }
 
 /* -- Destination-side DnD.  */
 
 static gboolean
-impl_tree_drag_motion (ETree *tree,
-		       int row,
-		       ETreePath path,
-		       int col,
-		       GdkDragContext *context,
-		       int x,
-		       int y,
-		       unsigned int time)
+find_target_drop_type (EStorageSetViewPrivate *priv, GdkDragContext *context, GdkAtom *atom)
 {
-	EStorageSetView *storage_set_view;
-	EStorageSetViewPrivate *priv;
-	const char *folder_path;
+	char *target;
+	GList *t;
+	int i;
+	
+	for (t = context->targets; t != NULL; t = t->next) {
+		target = gdk_atom_name (t->data);
+		for (i = 0; i < priv->num_drop_types; i++) {
+			if (!strcmp (target, priv->drop_types[i].target)) {
+				g_free (target);
+				
+				if (atom)
+					*atom = t->data;
+				
+				return TRUE;
+			}
+		}
+		
+		g_free (target);
+	}
+	
+	return FALSE;
+}
 
-	storage_set_view = E_STORAGE_SET_VIEW (tree);
-	priv = storage_set_view->priv;
-
-	if (! priv->allow_dnd)
+static gboolean
+impl_tree_drag_motion (ETree *etree, int row, ETreePath path, int col,
+		       GdkDragContext *context, int x, int y, guint time)
+{
+	EStorageSetView *view = (EStorageSetView *) etree;
+	EStorageSetViewPrivate *priv = view->priv;
+	
+	if (!priv->allow_dnd)
 		return FALSE;
-
-	folder_path = e_tree_memory_node_get_data (E_TREE_MEMORY (priv->etree_model),
-						   e_tree_node_at_row (E_TREE (storage_set_view), row));
-	if (folder_path == NULL)
-		return FALSE;
-
-	e_tree_drag_highlight (E_TREE (storage_set_view), row, -1);
-
-	return e_folder_dnd_bridge_motion (GTK_WIDGET (storage_set_view), context, time,
-					   priv->storage_set, folder_path);
+	
+	e_tree_drag_highlight (E_TREE (view), row, -1);
+	
+	if (find_target_drop_type (priv, context, NULL)) {
+		gdk_drag_status (context, context->suggested_action, time);
+				
+		return TRUE;
+	}
+	
+	gdk_drag_status (context, 0, time);
+	
+	return FALSE;
 }
 
 static void
-impl_tree_drag_leave (ETree *etree,
-		      int row,
-		      ETreePath path,
-		      int col,
-		      GdkDragContext *context,
-		      unsigned int time)
+impl_tree_drag_leave (ETree *etree, int row, ETreePath path, int col, GdkDragContext *context, guint time)
 {
 	e_tree_drag_unhighlight (etree);
 }
 
 static gboolean
-impl_tree_drag_drop (ETree *etree,
-		     int row,
-		     ETreePath path,
-		     int col,
-		     GdkDragContext *context,
-		     int x,
-		     int y,
-		     unsigned int time)
+impl_tree_drag_drop (ETree *etree, int row, ETreePath path, int col, GdkDragContext *context,
+		     int x, int y, guint time)
 {
-	EStorageSetView *storage_set_view;
-	EStorageSetViewPrivate *priv;
-	const char *folder_path;
-
-	storage_set_view = E_STORAGE_SET_VIEW (etree);
-	priv = storage_set_view->priv;
-
+	EStorageSetView *view = (EStorageSetView *) etree;
+	EStorageSetViewPrivate *priv = view->priv;
+	GdkAtom atom;
+	
 	e_tree_drag_unhighlight (etree);
-
-	folder_path = e_tree_memory_node_get_data (E_TREE_MEMORY (priv->etree_model),
-						   e_tree_node_at_row (E_TREE (storage_set_view), row));
-	if (folder_path == NULL)
+	
+	if (!find_target_drop_type (priv, context, &atom))
 		return FALSE;
-
-	return e_folder_dnd_bridge_drop (GTK_WIDGET (etree), context, time,
-					 priv->storage_set, folder_path);
+	
+	gtk_drag_get_data ((GtkWidget *) etree, context, atom, time);
+	
+	return FALSE;
 }
 
 static void
-impl_tree_drag_data_received (ETree *etree,
-			      int row,
-			      ETreePath path,
-			      int col,
-			      GdkDragContext *context,
-			      int x,
-			      int y,
-			      GtkSelectionData *selection_data,
-			      unsigned int info,
-			      unsigned int time)
+impl_tree_drag_data_received (ETree *etree, int row, ETreePath path, int col,
+			      GdkDragContext *context, int x, int y,
+			      GtkSelectionData *selection, guint info, guint time)
 {
-	EStorageSetView *storage_set_view;
-	EStorageSetViewPrivate *priv;
+	EStorageSetView *view = (EStorageSetView *) etree;
+	EStorageSetViewPrivate *priv = view->priv;
 	const char *folder_path;
-
-	storage_set_view = E_STORAGE_SET_VIEW (etree);
-	priv = storage_set_view->priv;
-
+	
 	folder_path = e_tree_memory_node_get_data (E_TREE_MEMORY (priv->etree_model),
-						   e_tree_node_at_row (E_TREE (storage_set_view), row));
-	if (path == NULL) {
-		gtk_drag_finish (context, FALSE, FALSE, time);
-		return;
-	}
-
-	e_folder_dnd_bridge_data_received  (GTK_WIDGET (etree),
-					    context,
-					    selection_data,
-					    time,
-					    priv->storage_set,
-					    folder_path);
+						   e_tree_node_at_row (E_TREE (view), row));
+	
+	g_assert (folder_path != NULL);
+	
+	g_signal_emit (view, FOLDER_RECEIVE_DROP, 0, folder_path, context, selection, info, time);
 }
 
 static gboolean
@@ -1799,9 +1363,7 @@ class_init (EStorageSetViewClass *klass)
 	etree_class->cursor_activated        = impl_cursor_activated;
 	etree_class->start_drag              = impl_tree_start_drag;
 	etree_class->tree_drag_begin         = impl_tree_drag_begin;
-	etree_class->tree_drag_end           = impl_tree_drag_end;
 	etree_class->tree_drag_data_get      = impl_tree_drag_data_get;
-	etree_class->tree_drag_data_delete   = impl_tree_drag_data_delete;
 	etree_class->tree_drag_motion        = impl_tree_drag_motion;
 	etree_class->tree_drag_drop          = impl_tree_drag_drop;
 	etree_class->tree_drag_leave         = impl_tree_drag_leave;
@@ -1827,18 +1389,33 @@ class_init (EStorageSetViewClass *klass)
 				G_TYPE_NONE, 1,
 				G_TYPE_STRING);
 
-	signals[DND_ACTION]
-		= g_signal_new ("dnd_action",
+	signals[FOLDER_DRAGGED]
+		= g_signal_new ("folder_dragged",
 				G_OBJECT_CLASS_TYPE (object_class),
 				G_SIGNAL_RUN_FIRST,
-				G_STRUCT_OFFSET (EStorageSetViewClass, dnd_action),
+				G_STRUCT_OFFSET (EStorageSetViewClass, folder_dragged),
 				NULL, NULL,
-				e_shell_marshal_NONE__POINTER_POINTER_POINTER_POINTER,
-				G_TYPE_NONE, 4,
+				e_shell_marshal_NONE__STRING_POINTER_POINTER_UINT_UINT,
+				G_TYPE_NONE, 5,
+				G_TYPE_STRING,
 				G_TYPE_POINTER,
 				G_TYPE_POINTER,
+				G_TYPE_UINT,
+				G_TYPE_UINT);
+
+	signals[FOLDER_RECEIVE_DROP]
+		= g_signal_new ("folder_receive_drop",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EStorageSetViewClass, folder_receive_drop),
+				NULL, NULL,
+				e_shell_marshal_NONE__STRING_POINTER_POINTER_UINT_UINT,
+				G_TYPE_NONE, 5,
+				G_TYPE_STRING,
 				G_TYPE_POINTER,
-				G_TYPE_POINTER);
+				G_TYPE_POINTER,
+				G_TYPE_UINT,
+				G_TYPE_UINT);
 
 	signals[FOLDER_CONTEXT_MENU_POPPING_UP]
 		= g_signal_new ("folder_context_menu_popping_up",
@@ -2207,13 +1784,36 @@ e_storage_set_view_get_storage_set (EStorageSetView *storage_set_view)
 }
 
 void
+e_storage_set_view_set_drag_types (EStorageSetView *view, const GtkTargetEntry *drag_types, int ntypes)
+{
+	g_return_if_fail (E_IS_STORAGE_SET_VIEW (view));
+	
+	view->priv->drag_types = drag_types;
+	view->priv->num_drag_types = ntypes;
+	
+	e_tree_drag_source_set ((ETree *) view, GDK_BUTTON1_MASK, drag_types,
+				ntypes, GDK_ACTION_MOVE | GDK_ACTION_COPY);
+}
+
+void
+e_storage_set_view_set_drop_types (EStorageSetView *view, const GtkTargetEntry *drop_types, int ntypes)
+{
+	g_return_if_fail (E_IS_STORAGE_SET_VIEW (view));
+	
+	view->priv->drop_types = drop_types;
+	view->priv->num_drop_types = ntypes;
+	
+	e_tree_drag_dest_set ((ETree *) view, GTK_DEST_DEFAULT_ALL, drop_types,
+			      ntypes, GDK_ACTION_MOVE | GDK_ACTION_COPY);
+}
+
+void
 e_storage_set_view_set_current_folder (EStorageSetView *storage_set_view,
 				       const char *path)
 {
 	EStorageSetViewPrivate *priv;
 	ETreePath node;
-
-	g_return_if_fail (storage_set_view != NULL);
+	
 	g_return_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view));
 	g_return_if_fail (path != NULL && g_path_is_absolute (path));
 
@@ -2238,8 +1838,7 @@ e_storage_set_view_get_current_folder (EStorageSetView *storage_set_view)
 	EStorageSetViewPrivate *priv;
 	ETreePath etree_node;
 	const char *path;
-
-	g_return_val_if_fail (storage_set_view != NULL, NULL);
+	
 	g_return_val_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view), NULL);
 
 	priv = storage_set_view->priv;
@@ -2262,8 +1861,7 @@ e_storage_set_view_set_show_folders (EStorageSetView *storage_set_view,
 				     gboolean show)
 {
 	EStorageSetViewPrivate *priv;
-
-	g_return_if_fail (storage_set_view != NULL);
+	
 	g_return_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view));
 
 	priv = storage_set_view->priv;
@@ -2303,8 +1901,7 @@ e_storage_set_view_set_show_checkboxes (EStorageSetView *storage_set_view,
 {
 	EStorageSetViewPrivate *priv;
 	ETableState *state;
-
-	g_return_if_fail (storage_set_view != NULL);
+	
 	g_return_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view));
 
 	priv = storage_set_view->priv;
@@ -2337,7 +1934,6 @@ e_storage_set_view_set_show_checkboxes (EStorageSetView *storage_set_view,
 gboolean
 e_storage_set_view_get_show_checkboxes (EStorageSetView *storage_set_view)
 {
-	g_return_val_if_fail (storage_set_view != NULL, FALSE);
 	g_return_val_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view), FALSE);
 
 	return storage_set_view->priv->show_checkboxes;
@@ -2347,7 +1943,6 @@ void
 e_storage_set_view_enable_search (EStorageSetView *storage_set_view,
 				  gboolean enable)
 {
-	g_return_if_fail (storage_set_view != NULL);
 	g_return_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view));
 
 	enable = !! enable;
@@ -2422,16 +2017,14 @@ void
 e_storage_set_view_set_allow_dnd (EStorageSetView *storage_set_view,
 				  gboolean allow_dnd)
 {
-	g_return_if_fail (storage_set_view != NULL);
 	g_return_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view));
-
-	storage_set_view->priv->allow_dnd = !! allow_dnd;
+	
+	storage_set_view->priv->allow_dnd = allow_dnd;
 }
 
 gboolean
 e_storage_set_view_get_allow_dnd (EStorageSetView *storage_set_view)
 {
-	g_return_val_if_fail (storage_set_view != NULL, FALSE);
 	g_return_val_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view), FALSE);
 
 	return storage_set_view->priv->allow_dnd;
@@ -2440,7 +2033,6 @@ e_storage_set_view_get_allow_dnd (EStorageSetView *storage_set_view)
 const char *
 e_storage_set_view_get_right_click_path (EStorageSetView *storage_set_view)
 {
-	g_return_val_if_fail (storage_set_view != NULL, NULL);
 	g_return_val_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view), NULL);
 
 	return storage_set_view->priv->right_click_row_path;
