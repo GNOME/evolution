@@ -754,7 +754,7 @@ etgc_reflow (GnomeCanvasItem *item, gint flags)
 				
 				gnome_canvas_item_set (GNOME_CANVAS_ITEM(child_node->rect),
 						      "x1", (double) 0,
-						      "x2", (double) running_width,
+						      "x2", (double) running_width + GROUP_INDENT,
 						      "y1", (double) running_height - extra_height,
 						      "y2", (double) running_height + item_height,
 						      NULL);

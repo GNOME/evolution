@@ -1,3 +1,26 @@
+2000-06-10  Christopher James Lahey  <clahey@helixcode.com>
+
+	* Makefile.am: Added $(GNOME_PRINT_LIBS) to all of the LDADDs.
+
+	* e-cell-text.c: Added printing of text cells.
+
+	* e-cell.c, e-cell.h: Added print and print_height methods.
+
+	* e-table-field-chooser.glade: Added a minimum size.
+
+	* e-table-group-container.c: Fixed a rectangle sizing bug.
+
+	* e-table-group-leaf.c: Implemented get_printable.
+
+	* e-table-group.c, e-table-group.h: Added a get_printable method
+	to return an EPrintable.
+
+	* e-table-item.c, e-table-item.h: Added a get_printable function
+	to return an EPrintable.
+
+	* e-table.c, e-table.h: Added a get_printable function to return
+	an EPrintable.
+
 2000-06-08  Chris Toshok  <toshok@helixcode.com>
 
 	* e-tree-gnode.c, e-tree-gnode.h: New files.  A tree model using a

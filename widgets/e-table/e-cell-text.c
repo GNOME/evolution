@@ -1154,6 +1154,35 @@ ect_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, voi
 	}
 }
 
+static void
+ect_print (ECellView *ecell_view, GnomePrintContext *context, 
+	   int model_col, int view_col, int row,
+	   double width, double height)
+{
+	GnomeFont *font = gnome_font_new("Helvetica", 12);
+	char *string;
+	ECellText *ect = E_CELL_TEXT(ecell_view->ecell);
+	if (ect->filter) {
+		string = (*ect->filter)(e_table_model_value_at (ecell_view->e_table_model, model_col, row));
+	} else {
+		string = e_table_model_value_at (ecell_view->e_table_model, model_col, row);
+	}
+	gnome_print_moveto(context, 0, (height - gnome_font_get_ascender(font) + gnome_font_get_descender(font)) / 2);
+	gnome_print_setfont(context, font);
+	gnome_print_show(context, string);
+	if (ect->filter) {
+		g_free(string);
+	}
+}
+
+static gdouble
+ect_print_height (ECellView *ecell_view, GnomePrintContext *context, 
+		  int model_col, int view_col, int row,
+		  double width)
+{
+	return 12;
+}
+
 /*
  * GtkObject::destroy method
  */
@@ -1233,6 +1262,8 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 	ecc->height     = ect_height;
 	ecc->enter_edit = ect_enter_edit;
 	ecc->leave_edit = ect_leave_edit;
+	ecc->print      = ect_print;
+	ecc->print_height = ect_print_height;
 
 	object_class->get_arg = ect_get_arg;
 	object_class->set_arg = ect_set_arg;

@@ -85,6 +85,8 @@
       <widget>
 	<class>GtkScrolledWindow</class>
 	<name>scrolledwindow1</name>
+	<width>200</width>
+	<height>200</height>
 	<hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
 	<vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
 	<hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>

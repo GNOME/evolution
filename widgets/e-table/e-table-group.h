@@ -7,6 +7,7 @@
 #include "e-table-header.h"
 #include "e-table-sort-info.h"
 #include "e-util/e-util.h"
+#include "e-util/e-printable.h"
 
 #define E_TABLE_GROUP_TYPE        (e_table_group_get_type ())
 #define E_TABLE_GROUP(o)          (GTK_CHECK_CAST ((o), E_TABLE_GROUP_TYPE, ETableGroup))
@@ -63,30 +64,33 @@ typedef struct {
 	gboolean (*get_focus) (ETableGroup *etg);
 	gint (*get_focus_column) (ETableGroup *etg);
 	ETableCol *(*get_ecol) (ETableGroup *etg);
+	EPrintable *(*get_printable) (ETableGroup *etg);
 
 } ETableGroupClass;
 
-void             e_table_group_add       (ETableGroup      *etg,
-					  gint              row);
-void             e_table_group_add_all   (ETableGroup      *etg);
-gboolean         e_table_group_remove    (ETableGroup      *etg,
-					  gint              row);
-gint             e_table_group_get_count (ETableGroup      *etg);
-void             e_table_group_increment (ETableGroup      *etg,
-					  gint              position,
-					  gint              amount);
-gint             e_table_group_row_count (ETableGroup      *etg);
-void             e_table_group_set_focus (ETableGroup      *etg,
-					  EFocus            direction,
-					  gint              view_col);
-void             e_table_group_select_row (ETableGroup     *etg,
-					   gint             row);
+/* Virtual functions */
+void             e_table_group_add         	     (ETableGroup      *etg,
+					   	      gint              row);
+void             e_table_group_add_all     	     (ETableGroup      *etg);
+gboolean         e_table_group_remove      	     (ETableGroup      *etg,
+					   	      gint              row);
+gint             e_table_group_get_count   	     (ETableGroup      *etg);
+void             e_table_group_increment   	     (ETableGroup      *etg,
+					   	      gint              position,
+					   	      gint              amount);
+gint             e_table_group_row_count   	     (ETableGroup      *etg);
+void             e_table_group_set_focus   	     (ETableGroup      *etg,
+					   	      EFocus            direction,
+					   	      gint              view_col);
+void             e_table_group_select_row  	     (ETableGroup     *etg,
+					   	      gint             row);
 int              e_table_group_get_selected_view_row (ETableGroup *etg);
-void             e_table_group_unfocus   (ETableGroup      *etg);
-gboolean         e_table_group_get_focus (ETableGroup      *etg);
-gint             e_table_group_get_focus_column (ETableGroup      *etg);
-ETableHeader    *e_table_group_get_header (ETableGroup     *etg);
-ETableCol       *e_table_group_get_ecol  (ETableGroup      *etg);
+void             e_table_group_unfocus     	     (ETableGroup      *etg);
+gboolean         e_table_group_get_focus   	     (ETableGroup      *etg);
+gint             e_table_group_get_focus_column      (ETableGroup      *etg);
+ETableHeader    *e_table_group_get_header            (ETableGroup     *etg);
+ETableCol       *e_table_group_get_ecol              (ETableGroup      *etg);
+EPrintable      *e_table_group_get_printable         (ETableGroup      *etg);
 
 ETableGroup     *e_table_group_new       (GnomeCanvasGroup *parent,
 					  ETableHeader     *full_header,

@@ -10,6 +10,7 @@
 #include "e-table-group.h"
 #include "e-table-sort-info.h"
 #include "e-table-item.h"
+#include "e-util/e-printable.h"
 
 BEGIN_GNOME_DECLS
 
@@ -66,29 +67,31 @@ typedef struct {
 	gint        (*key_press)          (ETable *et, int row, int col, GdkEvent *event);
 } ETableClass;
 
-GtkType    e_table_get_type   		    (void);
-
-ETable    *e_table_construct  		    (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
-			      		     const char *spec);
-GtkWidget *e_table_new        		    (ETableHeader *full_header, ETableModel *etm,
-			      		     const char *spec);
-
-ETable    *e_table_construct_from_spec_file (ETable *e_table,
-					     ETableHeader *full_header,
-					     ETableModel *etm,
-					     const char *filename);
-GtkWidget *e_table_new_from_spec_file       (ETableHeader *full_header,
-					     ETableModel *etm,
-					     const char *filename);
-
-gchar     *e_table_get_specification        (ETable *e_table);
-void       e_table_save_specification       (ETable *e_table, gchar *filename);
-
-void       e_table_select_row               (ETable *e_table,
-					     int row);
+GtkType     e_table_get_type   		    (void);
+	   
+ETable     *e_table_construct  		    (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
+	   				      const char *spec);
+GtkWidget  *e_table_new        		    (ETableHeader *full_header, ETableModel *etm,
+	   				      const char *spec);
+	   
+ETable     *e_table_construct_from_spec_file (ETable *e_table,
+	   				      ETableHeader *full_header,
+	   				      ETableModel *etm,
+	   				      const char *filename);
+GtkWidget  *e_table_new_from_spec_file       (ETableHeader *full_header,
+	   				      ETableModel *etm,
+	   				      const char *filename);
+	   
+gchar      *e_table_get_specification        (ETable *e_table);
+void        e_table_save_specification       (ETable *e_table, gchar *filename);
+	   
+void        e_table_select_row               (ETable *e_table,
+	   				      int row);
 /* -1 means no selection. */
-int        e_table_get_selected_view_row    (ETable *e_table);
+int         e_table_get_selected_view_row    (ETable *e_table);
+EPrintable *e_table_get_printable            (ETable *e_table);
 
 END_GNOME_DECLS
 
 #endif /* _E_TABLE_H_ */
+

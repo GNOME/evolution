@@ -682,6 +682,12 @@ e_table_get_selected_view_row (ETable *e_table)
 	return e_table_group_get_selected_view_row(e_table->group);
 }
 
+EPrintable *
+e_table_get_printable (ETable *e_table)
+{
+	return e_table_group_get_printable(e_table->group);
+}
+
 static void
 et_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {

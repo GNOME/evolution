@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * e-cell.c: base class for cell renderers in e-table
  *
@@ -104,6 +105,8 @@ e_cell_class_init (GtkObjectClass *object_class)
 	ecc->height = ec_height;
 	ecc->enter_edit = ec_enter_edit;
 	ecc->leave_edit = ec_leave_edit;
+	ecc->print = NULL;
+	ecc->print_height = NULL;
 }
 
 static void
@@ -145,13 +148,34 @@ e_cell_unrealize (ECellView *ecell_view)
 {
 	E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->unrealize (ecell_view);
 }
-	
+
 void
 e_cell_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	     int model_col, int view_col, int row, gboolean selected, int x1, int y1, int x2, int y2)
 {
 	E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->draw (
 		ecell_view, drawable, model_col, view_col, row, selected, x1, y1, x2, y2);
+}
+
+void
+e_cell_print (ECellView *ecell_view, GnomePrintContext *context, 
+	      int model_col, int view_col, int row,
+	      double width, double height)
+{
+	E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->print
+		(ecell_view, context, model_col, view_col, row, width, height);
+}
+
+gdouble
+e_cell_print_height (ECellView *ecell_view, GnomePrintContext *context, 
+		     int model_col, int view_col, int row,
+		     double width)
+{
+	if (E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->print_height)
+		return E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->print_height
+			(ecell_view, context, model_col, view_col, row, width);
+	else
+		return 0.0;
 }
 
 int

@@ -5,6 +5,7 @@
 #include <libgnomeui/gnome-canvas.h>
 #include "e-table-model.h"
 #include "e-table-header.h"
+#include <e-util/e-printable.h>
 
 #define E_TABLE_ITEM_TYPE        (e_table_item_get_type ())
 #define E_TABLE_ITEM(o)          (GTK_CHECK_CAST ((o), E_TABLE_ITEM_TYPE, ETableItem))
@@ -133,5 +134,10 @@ void             e_table_item_enter_edit         (ETableItem *eti, int col, int 
 void             e_table_item_redraw_range       (ETableItem *eti,
 						  int start_col, int start_row,
 						  int end_col, int end_row);
+
+EPrintable      *e_table_item_get_printable      (ETableItem        *eti);
+void             e_table_item_print_height       (ETableItem        *eti,
+						  GnomePrintContext *context,
+						  gdouble            width);
 
 #endif /* _E_TABLE_ITEM_H_ */

@@ -245,6 +245,13 @@ etgl_get_focus_column (ETableGroup *etg)
 	return e_table_item_get_focused_column (etgl->item);
 }
 
+static EPrintable *
+etgl_get_printable (ETableGroup *etg)
+{
+	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
+	return e_table_item_get_printable (etgl->item);
+}
+
 static void
 etgl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 {
@@ -356,6 +363,7 @@ etgl_class_init (GtkObjectClass *object_class)
 	e_group_class->unfocus    = etgl_unfocus;
 	e_group_class->get_selected_view_row = etgl_get_selected_view_row;
 	e_group_class->get_focus_column = etgl_get_focus_column;
+	e_group_class->get_printable = etgl_get_printable;
 
 	gtk_object_add_arg_type ("ETableGroupLeaf::drawgrid", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_GRID);

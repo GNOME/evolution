@@ -1714,3 +1714,258 @@ e_table_item_leave_edit (ETableItem *eti)
 	eti->edit_ctx = NULL;
 }
 
+typedef struct {
+	ETableItem *item;
+	int rows_printed;
+} ETableItemPrintContext;
+
+static gdouble *
+e_table_item_calculate_print_widths (ETableHeader *eth, gdouble width)
+{
+	int i;
+	double extra;
+	double expansion;
+	int last_resizable = -1;
+	gdouble scale = 300.0L / 70.0L;
+	gdouble *widths = g_new(gdouble, e_table_header_count(eth));
+	/* - 1 to account for the last pixel border. */
+	extra = width - 1;
+	expansion = 0;
+	for (i = 0; i < eth->col_count; i++) {
+		extra -= eth->columns[i]->min_width * scale;
+		if (eth->columns[i]->resizeable && eth->columns[i]->expansion > 0)
+			last_resizable = i;
+		expansion += eth->columns[i]->resizeable ? eth->columns[i]->expansion : 0;
+		widths[i] = eth->columns[i]->min_width * scale;
+	}
+	for (i = 0; i <= last_resizable; i++) {
+		widths[i] += extra * (eth->columns[i]->resizeable ? eth->columns[i]->expansion : 0)/expansion;
+	}
+
+	return widths;
+}
+
+static gdouble
+eti_printed_row_height (ETableItem *item, gdouble *widths, GnomePrintContext *context, gint row)
+{
+	int col;
+	int cols = item->cols;
+	gdouble height = 0;
+	for (col = 0; col < cols; col++) {
+		ETableCol *ecol = e_table_header_get_column (item->header, col);
+		ECellView *ecell_view = item->cell_views [col];
+		gdouble this_height = e_cell_print_height (ecell_view, context, ecol->col_idx, col, row, 
+							   widths[col] - 1);
+		if (this_height > height)
+			height = this_height;
+	}
+	return height;
+}
+
+#define CHECK(x) if((x) == -1) return -1;
+
+static gint
+gp_draw_rect (GnomePrintContext *context, gdouble x, gdouble y, gdouble width, gdouble height)
+{
+	CHECK(gnome_print_moveto(context, x, y));
+	CHECK(gnome_print_lineto(context, x + width, y));
+	CHECK(gnome_print_lineto(context, x + width, y - height));
+	CHECK(gnome_print_lineto(context, x, y - height));
+	CHECK(gnome_print_lineto(context, x, y));
+	return gnome_print_fill(context);
+}
+
+static void
+e_table_item_print_page  (EPrintable *ep,
+			  GnomePrintContext *context,
+			  gdouble width,
+			  gdouble height,
+			  gboolean quantize,
+			  ETableItemPrintContext *itemcontext)
+{
+	ETableItem *item = itemcontext->item;
+	const int rows = item->rows;
+	const int cols = item->cols;
+	int rows_printed = itemcontext->rows_printed;
+	gdouble *widths;
+	int row, col;
+	gdouble yd = height;
+	
+	widths = e_table_item_calculate_print_widths (itemcontext->item->header, width);
+
+	/*
+	 * Draw cells
+	 */
+	if (item->draw_grid){
+		gp_draw_rect(context, 0, yd, width, 1);
+	}
+	yd--;
+	
+	for (row = rows_printed; row < rows; row++){
+		gdouble xd = 0, row_height;
+		
+		row_height = eti_printed_row_height(item, widths, context, row);
+		if (quantize) {
+			if (yd - row_height - 1 < 0 && row != rows_printed) {
+				break;
+			}
+		} else {
+			if (yd < 0) {
+				break;
+			}
+		}
+
+		for (col = 0; col < cols; col++){
+			ETableCol *ecol = e_table_header_get_column (item->header, col);
+			ECellView *ecell_view = item->cell_views [col];
+
+			if (gnome_print_gsave(context) == -1)
+				/* FIXME */;
+			if (gnome_print_translate(context, xd, yd - row_height) == -1)
+				/* FIXME */;
+
+			if (gnome_print_moveto(context, 0, 0) == -1)
+				/* FIXME */;
+			if (gnome_print_lineto(context, widths[col] - 1, 0) == -1)
+				/* FIXME */;
+			if (gnome_print_lineto(context, widths[col] - 1, row_height) == -1)
+				/* FIXME */;
+			if (gnome_print_lineto(context, 0, row_height) == -1)
+				/* FIXME */;
+			if (gnome_print_lineto(context, 0, 0) == -1)
+				/* FIXME */;
+			if (gnome_print_clip(context) == -1)
+				/* FIXME */;
+
+			e_cell_print (ecell_view, context, ecol->col_idx, col, row, 
+				      widths[col] - 1, row_height);
+
+			if (gnome_print_grestore(context) == -1)
+				/* FIXME */;
+			
+			xd += widths[col];
+		}
+		yd -= row_height;
+
+		if (item->draw_grid){
+			gp_draw_rect(context, 0, yd, width, 1);
+		}
+		yd--;
+	}
+
+	itemcontext->rows_printed = row;
+
+	if (item->draw_grid){
+		gdouble xd = 0;
+		
+		for (col = 0; col < cols; col++){
+			gp_draw_rect(context, xd, height, 1, height - yd);
+			
+			xd += widths[col];
+		}
+		gp_draw_rect(context, xd, height, 1, height - yd);
+	}
+
+	g_free (widths);
+}
+
+static gboolean
+e_table_item_data_left   (EPrintable *ep,
+			  ETableItemPrintContext *itemcontext)
+{
+	ETableItem *item = itemcontext->item;
+	int rows_printed = itemcontext->rows_printed;
+
+	gtk_signal_emit_stop_by_name(GTK_OBJECT(ep), "data_left");
+	return rows_printed < item->rows;
+}
+
+static void
+e_table_item_reset       (EPrintable *ep,
+			  ETableItemPrintContext *itemcontext)
+{
+	itemcontext->rows_printed = 0;
+}
+
+static gdouble
+e_table_item_height      (EPrintable *ep,
+			  GnomePrintContext *context,
+			  gdouble width,
+			  gdouble max_height,
+			  ETableItemPrintContext *itemcontext)
+{
+	ETableItem *item = itemcontext->item;
+	const int rows = item->rows;
+	int rows_printed = itemcontext->rows_printed;
+	gdouble *widths;
+	int row;
+	gdouble yd = 0;
+	
+	widths = e_table_item_calculate_print_widths (itemcontext->item->header, width);
+
+	/*
+	 * Draw cells
+	 */
+	yd++;
+	
+	for (row = rows_printed; row < rows; row++){
+		gdouble row_height;
+		
+		row_height = eti_printed_row_height(item, widths, context, row);
+		if (max_height != -1 && yd + row_height + 1 > max_height && row != rows_printed) {
+			break;
+		}
+
+		yd += row_height;
+
+		yd++;
+	}
+
+	g_free (widths);
+
+	gtk_signal_emit_stop_by_name(GTK_OBJECT(ep), "height");
+	return yd;
+}
+
+static void
+e_table_item_printable_destroy (GtkObject *object,
+				ETableItemPrintContext *itemcontext)
+{
+	gtk_object_unref(GTK_OBJECT(itemcontext->item));
+	g_free(itemcontext);
+}
+
+EPrintable *
+e_table_item_get_printable (ETableItem *item)
+{
+	EPrintable *printable = e_printable_new();
+	ETableItemPrintContext *itemcontext;
+
+	itemcontext = g_new(ETableItemPrintContext, 1);
+	itemcontext->item = item;
+	gtk_object_ref(GTK_OBJECT(item));
+	itemcontext->rows_printed = 0;
+
+	gtk_signal_connect (GTK_OBJECT(printable),
+			    "print_page",
+			    GTK_SIGNAL_FUNC(e_table_item_print_page),
+			    itemcontext);
+	gtk_signal_connect (GTK_OBJECT(printable),
+			    "data_left",
+			    GTK_SIGNAL_FUNC(e_table_item_data_left),
+			    itemcontext);
+	gtk_signal_connect (GTK_OBJECT(printable),
+			    "reset",
+			    GTK_SIGNAL_FUNC(e_table_item_reset),
+			    itemcontext);
+	gtk_signal_connect (GTK_OBJECT(printable),
+			    "height",
+			    GTK_SIGNAL_FUNC(e_table_item_height),
+			    itemcontext);
+	gtk_signal_connect (GTK_OBJECT(printable),
+			    "destroy",
+			    GTK_SIGNAL_FUNC(e_table_item_printable_destroy),
+			    itemcontext);
+
+	return printable;
+}

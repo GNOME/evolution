@@ -12,6 +12,7 @@ glade_headers = 				\
 
 INCLUDES =					\
 	$(EXTRA_GNOME_CFLAGS)			\
+	$(GNOME_PRINT_CFLAGS)			\
 	$(GNOME_INCLUDEDIR)			\
 	-DETABLE_GLADEDIR=\"$(gladedir)\"	\
 	-I$(top_srcdir)/widgets/e-text		\
@@ -94,7 +95,8 @@ table_test_LDADD =				\
 	libetable.a				\
 	$(EXTRA_GNOME_LIBS)			\
 	$(top_builddir)/widgets/e-text/libetext.a \
-	$(top_builddir)/e-util/libeutil.la	
+	$(top_builddir)/e-util/libeutil.la	\
+	$(GNOME_PRINT_LIBS)
 
 table_test_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 
@@ -105,7 +107,8 @@ table_size_test_LDADD =				\
 	libetable.a				\
 	$(EXTRA_GNOME_LIBS)			\
 	$(top_builddir)/widgets/e-text/libetext.a \
-	$(top_builddir)/e-util/libeutil.la	
+	$(top_builddir)/e-util/libeutil.la	\
+	$(GNOME_PRINT_LIBS)
 
 table_size_test_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 
@@ -116,7 +119,8 @@ table_example_1_LDADD =				\
 	libetable.a				\
 	$(EXTRA_GNOME_LIBS)			\
 	$(top_builddir)/widgets/e-text/libetext.a \
-	$(top_builddir)/e-util/libeutil.la	
+	$(top_builddir)/e-util/libeutil.la	\
+	$(GNOME_PRINT_LIBS)
 
 table_example_1_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 
@@ -127,7 +131,8 @@ table_example_2_LDADD =				\
 	libetable.a				\
 	$(EXTRA_GNOME_LIBS)			\
 	$(top_builddir)/widgets/e-text/libetext.a \
-	$(top_builddir)/e-util/libeutil.la	
+	$(top_builddir)/e-util/libeutil.la	\
+	$(GNOME_PRINT_LIBS)
 
 table_example_2_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 
@@ -140,7 +145,8 @@ tree_example_1_LDADD =				\
 	libetable.a				\
 	$(EXTRA_GNOME_LIBS)			\
 	$(top_builddir)/widgets/e-text/libetext.a \
-	$(top_builddir)/e-util/libeutil.la	
+	$(top_builddir)/e-util/libeutil.la	\
+	$(GNOME_PRINT_LIBS)
 
 icons = 			\
 	arrow-down.xpm		\

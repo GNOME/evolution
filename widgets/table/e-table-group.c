@@ -240,6 +240,18 @@ e_table_group_get_ecol (ETableGroup *etg)
 		return NULL;
 }
 
+EPrintable *
+e_table_group_get_printable (ETableGroup *etg)
+{
+	g_return_val_if_fail (etg != NULL, NULL);
+	g_return_val_if_fail (E_IS_TABLE_GROUP (etg), NULL);
+
+	if (ETG_CLASS (etg)->get_printable)
+		return ETG_CLASS (etg)->get_printable (etg);
+	else
+		return NULL;
+}
+
 void
 e_table_group_row_selection (ETableGroup *e_table_group, gint row, gboolean selected)
 {
@@ -369,6 +381,7 @@ etg_class_init (GtkObjectClass *object_class)
 	klass->unfocus = NULL;
 	klass->get_focus = etg_get_focus;
 	klass->get_ecol = NULL;
+	klass->get_printable = NULL;
 
 	etg_parent_class = gtk_type_class (PARENT_TYPE);
 
