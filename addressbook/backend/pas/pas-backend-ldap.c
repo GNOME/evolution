@@ -1539,39 +1539,29 @@ func_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data
 			int i;
 			int query_length;
 			char *big_query;
-			char *header, *footer;
 			char *match_str;
-
-			header = g_malloc0((num_prop_infos - 1) * 2 + 1);
-			footer = g_malloc0(num_prop_infos + 1);
-			for (i = 0; i < num_prop_infos - 1; i ++) {
-				strcat (header, "(|");
-				strcat (footer, ")");
-			}
 
 			match_str = g_strdup_printf("=*%s%s)",
 						    str, one_star ? "" : "*");
 
-			query_length = strlen (header) + strlen (footer);
+			query_length = 3; /* strlen ("(|") + strlen (")") */
 
 			for (i = 0; i < num_prop_infos; i ++) {
-				query_length += 1 + strlen(prop_info[i].ldap_attr) + strlen (match_str);
+				query_length += 1 /* strlen ("(") */ + strlen(prop_info[i].ldap_attr) + strlen (match_str);
 			}
 
 			big_query = g_malloc0(query_length + 1);
-			strcat (big_query, header);
+			strcat (big_query, "(|");
 			for (i = 0; i < num_prop_infos; i ++) {
 				strcat (big_query, "(");
 				strcat (big_query, prop_info[i].ldap_attr);
 				strcat (big_query, match_str);
 			}
-			strcat (big_query, footer);
+			strcat (big_query, ")");
 
 			*list = g_list_prepend(*list, big_query);
 
 			g_free (match_str);
-			g_free (header);
-			g_free (footer);
 		}
 		else {
 			char *ldap_attr = query_prop_to_ldap(propname);

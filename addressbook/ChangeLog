@@ -1,3 +1,11 @@
+2001-07-25  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-ldap.c (func_contains): change the way
+	x-evolution-any-field is converted to an ldap query.  it used to
+	be we'd nest queries like: (|(|(|(foo=*x*))(bar=*x*))(baz=*x*)).
+	now we build it like: (|(foo=*x*)(bar=*x*)(baz=*x*)).  much more
+	efficient (both in the building, and on the server side no doubt).
+
 2001-07-25  Jon Trowbridge  <trow@ximian.com>
 
 	* backend/ebook/e-destination.c (e_destination_get_name): Properly dup
