@@ -21,6 +21,13 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #20311 -- Make new windows opened through the right-click menu not
               show the shortcut bar and the folder bar by default.  (Ettore)
 
+  * Mailer
+
+    #19564 -- Don't crash when changing to disconnected mode.  (Michael)
+    #20779 -- Set a 'name' parameter in the Content-Type header
+              since Outlook doesn't seem to check the filename
+              parameter on the Content-Disposition header.     (Jeff)
+
 Other fixes:
 
   * Calendar
