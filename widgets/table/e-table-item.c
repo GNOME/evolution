@@ -666,7 +666,7 @@ eti_request_region_redraw (ETableItem *eti,
 static void
 eti_request_region_show (ETableItem *eti,
 			 int start_col, int start_row,
-			 int end_col, int end_row)
+			 int end_col, int end_row, int delay)
 {
 	int x1, y1, x2, y2;
 	
@@ -675,7 +675,10 @@ eti_request_region_show (ETableItem *eti,
 	x2 = x1 + e_table_header_col_diff (eti->header, start_col, end_col + 1);
 	y2 = y1 + eti_row_diff (eti, start_row, end_row + 1);
 
-	e_canvas_item_show_area(GNOME_CANVAS_ITEM(eti), x1, y1, x2, y2); 
+	if (delay)
+		e_canvas_item_show_area_delayed(GNOME_CANVAS_ITEM(eti), x1, y1, x2, y2, delay);
+	else
+		e_canvas_item_show_area(GNOME_CANVAS_ITEM(eti), x1, y1, x2, y2);
 }
 
 static void
@@ -927,7 +930,7 @@ eti_destroy (GtkObject *object)
 	if (eti->height_cache_idle_id)
 		g_source_remove(eti->height_cache_idle_id);
 
-	g_free (eti->height_cache);
+	free_height_cache(eti);
 
 	if (eti->tooltip->window)
 		gtk_widget_destroy (eti->tooltip->window);
@@ -2203,29 +2206,11 @@ e_table_item_get_focused_column (ETableItem *eti)
 	return cursor_col;
 }
 
-typedef struct {
-	gint view_row;
-	gint view_col;
-	ETableItem *eti;
-} IntsAndEti;
-
-static gboolean
-region_timeout (gpointer data)
-{
-	IntsAndEti *iae = data;
-
-	eti_request_region_show (iae->eti, iae->view_col, iae->view_row, iae->view_col, iae->view_row);
-	gtk_object_unref(GTK_OBJECT(iae->eti));
-	g_free(iae);
-	return FALSE;
-}
-
 static void
 eti_cursor_change (ETableSelectionModel *selection, int row, int col, ETableItem *eti)
 {
 	int view_row = model_to_view_row(eti, row);
 	int view_col = model_to_view_col(eti, col);
-	IntsAndEti *iae;
 
 	if (view_row == -1 || view_col == -1) {
 		e_table_item_leave_edit (eti);
@@ -2233,14 +2218,9 @@ eti_cursor_change (ETableSelectionModel *selection, int row, int col, ETableItem
 	}
 
 	if (!eti->in_key_press) {
-	iae = g_new(IntsAndEti, 1);
-	iae->view_row = view_row;
-	iae->view_col = view_col;
-	iae->eti = eti;
-	gtk_object_ref(GTK_OBJECT(eti));
-	g_timeout_add(DOUBLE_CLICK_TIME + 10, region_timeout, iae);
+		eti_request_region_show (eti, view_col, view_row, view_col, view_row, DOUBLE_CLICK_TIME + 10);
 	} else {
-		eti_request_region_show (eti, view_col, view_row, view_col, view_row);
+		eti_request_region_show (eti, view_col, view_row, view_col, view_row, 0);
 	}
 
 	e_canvas_item_grab_focus(GNOME_CANVAS_ITEM(eti));
