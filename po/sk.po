@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.9\n"
-"POT-Creation-Date: 2001-02-11 17:37+0100\n"
-"PO-Revision-Date: 2001-02-11 17:43CET\n"
+"POT-Creation-Date: 2001-02-14 13:52+0100\n"
+"PO-Revision-Date: 2001-02-14 14:05CET\n"
 "Last-Translator: Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@rak.isternet.sk>\n"
 "MIME-Version: 1.0\n"
@@ -299,6 +299,14 @@ msgid ""
 msgstr ""
 "\n"
 "Verejný kµúè:"
+
+#: addressbook/backend/ebook/GNOME_Evolution_Addressbook_GnomeCard_Importer.oaf.in.h:1
+msgid "Factory to import GnomeCard files into Evolution."
+msgstr "Vytváracie rozhranie pre import súborov GnomeCard do Evolution."
+
+#: addressbook/backend/ebook/GNOME_Evolution_Addressbook_GnomeCard_Importer.oaf.in.h:2
+msgid "Imports GnomeCard files into Evolution."
+msgstr "Importuje súbory GnomeCard do Evolution"
 
 #: addressbook/backend/ebook/load-gnomecard-addressbook.c:16
 #: addressbook/backend/ebook/load-pine-addressbook.c:17
@@ -822,25 +830,25 @@ msgstr "_Prípona:"
 msgid "_Title:"
 msgstr "_Titul:"
 
-#: addressbook/gui/component/addressbook.c:231
+#: addressbook/gui/component/addressbook.c:230
 msgid "As _Minicards"
 msgstr "Ako _minikarty"
 
-#: addressbook/gui/component/addressbook.c:237
+#: addressbook/gui/component/addressbook.c:236
 #: ui/evolution-addressbook.xml.h:1
 msgid "As _Table"
 msgstr "Ako _tabuµku"
 
-#: addressbook/gui/component/addressbook.c:406
+#: addressbook/gui/component/addressbook.c:405
 #, c-format
 msgid "Enter password for %s"
 msgstr "Zadajte heslo pre %s"
 
-#: addressbook/gui/component/addressbook.c:434
+#: addressbook/gui/component/addressbook.c:433
 msgid "Unable to open addressbook"
 msgstr "Nie je mo¾né otvori» adresár"
 
-#: addressbook/gui/component/addressbook.c:439
+#: addressbook/gui/component/addressbook.c:438
 msgid ""
 "We were unable to open this addressbook.  This either\n"
 "means you have entered an incorrect URI, or have tried\n"
@@ -860,27 +868,27 @@ msgstr ""
 "si nain¹talova» OpenLDAP a znovu skompilova» a \n"
 "nain¹talova» Evolution.\n"
 
-#: addressbook/gui/component/addressbook.c:562 mail/folder-browser.c:221
+#: addressbook/gui/component/addressbook.c:561 mail/folder-browser.c:221
 msgid "Show All"
 msgstr "Zobrazi» v¹etko"
 
-#: addressbook/gui/component/addressbook.c:564 mail/folder-browser.c:223
+#: addressbook/gui/component/addressbook.c:563 mail/folder-browser.c:223
 msgid "Advanced..."
 msgstr "Pokroèilé..."
 
-#: addressbook/gui/component/addressbook.c:594
+#: addressbook/gui/component/addressbook.c:593
 msgid "Any field contains"
 msgstr "¥ubovoµné pole obsahuje"
 
-#: addressbook/gui/component/addressbook.c:595
+#: addressbook/gui/component/addressbook.c:594
 msgid "Name contains"
 msgstr "Meno obsahuje"
 
-#: addressbook/gui/component/addressbook.c:596
+#: addressbook/gui/component/addressbook.c:595
 msgid "Email contains"
 msgstr "E-mail obsahuje"
 
-#: addressbook/gui/component/addressbook.c:739
+#: addressbook/gui/component/addressbook.c:738
 msgid "The URI that the Folder Browser will display"
 msgstr "URI, ktoré zobrazí prehliadaè prieèinku"
 
@@ -1055,6 +1063,42 @@ msgstr "Meno"
 #: addressbook/gui/component/addressbook-config.glade.h:6
 msgid "URI"
 msgstr "URI"
+
+#: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:1
+msgid "A sample Bonobo control which displays an addressbook."
+msgstr "Uká¾kový ovládací prvok Bonobo, ktorý zobrazuje adresár."
+
+#: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:2
+msgid "Control that displays an Evolution addressbook minicard."
+msgstr "Ovládací prvok pre zobrazenie minikariet adresára Evolution."
+
+#: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:3
+msgid "Evolution Addressbook minicard viewer"
+msgstr "Prehliadaè minikariet adresára Evolution"
+
+#: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:4
+msgid "Evolution component for handling contacts."
+msgstr "Komponent Evolution pre prácu s kontaktami."
+
+#: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:5
+msgid "Factory for the Addressbook Minicard control"
+msgstr "Vytváracie rozhranie pre ovládací prvok minikariet adresára."
+
+#: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:6
+msgid "Factory for the Evolution addressbook component."
+msgstr "Vytváracie rozhranie pre komponent adresára Evolution."
+
+#: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:7
+msgid "Factory for the sample Addressbook control"
+msgstr "Vytváracie rozhranie pre uká¾kový ovládací prvok Adresár"
+
+#: addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.oaf.in.h:1
+msgid "Evolution's addressbook name selection interface."
+msgstr "Rozhranie pre výber mena adresára Evolution."
+
+#: addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.oaf.in.h:2
+msgid "Factory for the Addressbook's name selection interface"
+msgstr "Vytváracie rozhranie pre rozhranie pre výber mena adresára."
 
 #: addressbook/gui/component/select-names/select-names.glade.h:1
 msgid "Find..."
@@ -1240,6 +1284,10 @@ msgstr "Poznámka"
 #: addressbook/gui/widgets/e-addressbook-view.c:598
 msgid "Free-busy URL"
 msgstr "Voµno/zaneprázdnený URL"
+
+#: addressbook/gui/widgets/e-addressbook-view.c:599
+msgid "Click here to add a contact"
+msgstr "Kliknutím pridáte kontakt"
 
 #: addressbook/gui/widgets/e-minicard-control.c:280
 msgid "Save in addressbook"
@@ -1459,26 +1507,40 @@ msgstr "Nástroj pre nastavenie spojky pre todo Evolution.\n"
 msgid "Could not read pilot's ToDo application block"
 msgstr "Nie je mo¾né preèíta» blok aplikácie ToDo pilota"
 
-#: calendar/gui/calendar-commands.c:248
+#: calendar/gui/alarm-notify.c:585 calendar/gui/alarm-notify.c:884
+#: calendar/gui/alarm-notify.c:940
+msgid "Reminder of your appointment at "
+msgstr "Pripomenú» schôdzku o "
+
+#: calendar/gui/alarm-notify.c:876 calendar/gui/dialogs/alarm-notify.glade.h:3
+msgid "Snooze"
+msgstr "Opakova»"
+
+#. Idea: we need Snooze option :-)
+#: calendar/gui/alarm-notify.c:889 calendar/gui/alarm-notify.c:944
+msgid "Ok"
+msgstr "Ok"
+
+#: calendar/gui/calendar-commands.c:233
 msgid "File not found"
 msgstr "Súbor nenájdený"
 
-#: calendar/gui/calendar-commands.c:272
+#: calendar/gui/calendar-commands.c:257
 msgid "Open calendar"
 msgstr "Otvori» kalendár"
 
-#: calendar/gui/calendar-commands.c:314
+#: calendar/gui/calendar-commands.c:299
 msgid "Save calendar"
 msgstr "Ulo¾i» kalendár"
 
-#: calendar/gui/calendar-commands.c:451
+#: calendar/gui/calendar-commands.c:444
 msgid "Could not create the calendar view.  Please check your ORBit and OAF setup."
 msgstr ""
 "Nie je mo¾né vytvori» kalendárový pohµad. Prosím, overte nastavenie ORBit a "
 "OAF."
 
 #. strftime format of a weekday and a date.
-#: calendar/gui/calendar-model.c:337
+#: calendar/gui/calendar-model.c:334
 #: widgets/meeting-time-sel/e-meeting-time-sel-item.c:467
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:2499
 msgid "%a %m/%d/%Y"
@@ -1486,59 +1548,59 @@ msgstr "%a %d/%m/%Y"
 
 #. strftime format of a weekday, a date and a time,
 #. in 24-hour format.
-#: calendar/gui/calendar-model.c:341 calendar/gui/calendar-model.c:771
+#: calendar/gui/calendar-model.c:338 calendar/gui/calendar-model.c:768
 msgid "%a %m/%d/%Y %H:%M:%S"
 msgstr "%a %d/%m/%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time,
 #. in 12-hour format.
-#: calendar/gui/calendar-model.c:345 calendar/gui/calendar-model.c:774
+#: calendar/gui/calendar-model.c:342 calendar/gui/calendar-model.c:771
 msgid "%a %m/%d/%Y %I:%M:%S %p"
 msgstr "%a %d/%m/%Y %I:%M:%S %p"
 
-#: calendar/gui/calendar-model.c:379
+#: calendar/gui/calendar-model.c:376
 msgid "Public"
 msgstr "Verejný"
 
-#: calendar/gui/calendar-model.c:382
+#: calendar/gui/calendar-model.c:379
 msgid "Private"
 msgstr "Súkromný"
 
-#: calendar/gui/calendar-model.c:385
+#: calendar/gui/calendar-model.c:382
 msgid "Confidential"
 msgstr "Tajný"
 
-#: calendar/gui/calendar-model.c:388 calendar/gui/calendar-model.c:556
+#: calendar/gui/calendar-model.c:385 calendar/gui/calendar-model.c:553
 #: calendar/gui/event-editor.c:1579 calendar/gui/event-editor.c:1606
 #: camel/providers/smtp/camel-smtp-transport.c:181
 msgid "Unknown"
 msgstr "Neznámy"
 
-#: calendar/gui/calendar-model.c:476
+#: calendar/gui/calendar-model.c:473
 msgid "N"
 msgstr "S"
 
-#: calendar/gui/calendar-model.c:476
+#: calendar/gui/calendar-model.c:473
 msgid "S"
 msgstr "J"
 
-#: calendar/gui/calendar-model.c:478
+#: calendar/gui/calendar-model.c:475
 msgid "E"
 msgstr "V"
 
-#: calendar/gui/calendar-model.c:478
+#: calendar/gui/calendar-model.c:475
 msgid "W"
 msgstr "Z"
 
-#: calendar/gui/calendar-model.c:550
+#: calendar/gui/calendar-model.c:547
 msgid "Transparent"
 msgstr "Priesvitný"
 
-#: calendar/gui/calendar-model.c:553
+#: calendar/gui/calendar-model.c:550
 msgid "Opaque"
 msgstr "Nepriehµadný"
 
-#: calendar/gui/calendar-model.c:779
+#: calendar/gui/calendar-model.c:776
 #, c-format
 msgid ""
 "The date must be entered in the format: \n"
@@ -1550,7 +1612,7 @@ msgstr ""
 "%s"
 
 #. strptime format for a date.
-#: calendar/gui/calendar-model.c:880 calendar/gui/calendar-model.c:928
+#: calendar/gui/calendar-model.c:877 calendar/gui/calendar-model.c:925
 #: widgets/meeting-time-sel/e-meeting-time-sel-item.c:471
 #: widgets/misc/e-dateedit.c:1273 widgets/misc/e-dateedit.c:1454
 msgid "%m/%d/%Y"
@@ -1558,27 +1620,27 @@ msgstr "%d/%m/%Y"
 
 #. strptime format for a time of day, in 12-hour format.
 #. If it is is not appropriate in the locale set to an empty string.
-#: calendar/gui/calendar-model.c:898
+#: calendar/gui/calendar-model.c:895
 msgid "%I:%M:%S %p%n"
 msgstr "%I:%M:%S %p%n"
 
 #. strptime format for a time of day, in 24-hour format.
-#: calendar/gui/calendar-model.c:901
+#: calendar/gui/calendar-model.c:898
 msgid "%H:%M:%S%n"
 msgstr "%H:%M:%S%n"
 
 #. strptime format for time of day, without seconds, 12-hour format.
 #. If it is is not appropriate in the locale set to an empty string.
-#: calendar/gui/calendar-model.c:905
+#: calendar/gui/calendar-model.c:902
 msgid "%I:%M %p%n"
 msgstr "%I:%M %p%n"
 
 #. strptime format for time of day, without seconds 24-hour format.
-#: calendar/gui/calendar-model.c:908
+#: calendar/gui/calendar-model.c:905
 msgid "%H:%M%n"
 msgstr "%H:%M%n"
 
-#: calendar/gui/calendar-model.c:1028
+#: calendar/gui/calendar-model.c:1025
 msgid ""
 "The geographical position must be entered in the format: \n"
 "\n"
@@ -1588,13 +1650,34 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: calendar/gui/calendar-model.c:1068
+#: calendar/gui/calendar-model.c:1065
 msgid "The percent value must be between 0 and 100, inclusive"
 msgstr "Percentuálna hodnota musí by» medzi 0 a¾ 100"
 
-#: calendar/gui/calendar-model.c:1108
+#: calendar/gui/calendar-model.c:1105
 msgid "The priority must be between 1 and 9, inclusive"
 msgstr "Priorita musí by» medzi 1 a¾ 9"
+
+#: calendar/gui/calendar-model.c:1548
+#: calendar/gui/dialogs/task-editor-dialog.glade.h:13
+msgid "Normal"
+msgstr "Normálny"
+
+#: calendar/gui/calendar-model.c:1550
+msgid "Recurring"
+msgstr "Opakovanie"
+
+#: calendar/gui/calendar-model.c:1552
+msgid "Assigned"
+msgstr "Priradené"
+
+#: calendar/gui/calendar-model.c:1558
+msgid "Yes"
+msgstr "Áno"
+
+#: calendar/gui/calendar-model.c:1558
+msgid "No"
+msgstr "Nie"
 
 #: calendar/gui/calendar-summary.c:197
 msgid "%A, %e %B %Y"
@@ -1654,10 +1737,6 @@ msgstr "Zavrie»"
 #: calendar/gui/dialogs/alarm-notify.glade.h:2
 msgid "Edit appointment"
 msgstr "Upravi» schôdzku"
-
-#: calendar/gui/dialogs/alarm-notify.glade.h:3
-msgid "Snooze"
-msgstr "Opakova»"
 
 #: calendar/gui/dialogs/alarm-notify.glade.h:4
 msgid "Snooze time (minutes)"
@@ -1977,10 +2056,6 @@ msgstr "Prebieha"
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:12
 msgid "Low"
 msgstr "Nízka"
-
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:13
-msgid "Normal"
-msgstr "Normálny"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:14
 msgid "Not Started"
@@ -2397,21 +2472,21 @@ msgstr ""
 msgid "Status"
 msgstr "Stav"
 
-#: calendar/gui/e-tasks.c:140 calendar/gui/e-tasks.c:454
-#: calendar/gui/e-tasks.c:487
+#: calendar/gui/e-tasks.c:144 calendar/gui/e-tasks.c:459
+#: calendar/gui/e-tasks.c:492
 msgid "All"
 msgstr "V¹etky"
 
-#: calendar/gui/e-tasks.c:146
+#: calendar/gui/e-tasks.c:150
 msgid "Category:"
 msgstr "Kategória:"
 
-#: calendar/gui/e-tasks.c:284
+#: calendar/gui/e-tasks.c:288
 #, c-format
 msgid "Could not load the tasks in `%s'"
 msgstr "Nepodarilo sa naèíta» úlohy v `%s'"
 
-#: calendar/gui/e-tasks.c:296
+#: calendar/gui/e-tasks.c:300
 #, c-format
 msgid "The method required to load `%s' is not supported"
 msgstr "Metódy potrebná pre naèítanie `%s' nie je podporovaná"
@@ -2664,6 +2739,38 @@ msgstr " po konci schôdzky"
 #: calendar/gui/print.c:1094 calendar/gui/print.c:1095
 msgid "%a %b %d %Y"
 msgstr "%a %b %d %Y"
+
+#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:1
+msgid "Evolution calendar executive summary component."
+msgstr "Komponent Súhrn kalendára Evolution."
+
+#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:2
+msgid "Evolution calendar iTip/iMip viewer"
+msgstr "Prehliadaè iTip/mTip kalendára Evolution"
+
+#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:3
+msgid "Evolution component for handling the calendar."
+msgstr "Komponent Evolution pre prácu s kalendárom."
+
+#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:4
+msgid "Factory for the Calendar Summary component."
+msgstr "Vytváracie rozhranie pre komponent Súhrnu kalendára."
+
+#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:5
+msgid "Factory for the Evolution calendar component."
+msgstr "Vytváracie rozhranie pre komponent Kalendár Evolution."
+
+#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:6
+msgid "Factory for the calendar iTip view control"
+msgstr "Vytváracie rozhranie pre ovládací prvok pohµadu iTip kalendára"
+
+#: calendar/gui/GNOME_Evolution_Calendar_Control.oaf.in.h:1
+msgid "A sample Bonobo control which displays an calendar."
+msgstr "Uká¾kový ovládací prvok Bonobo pre zobrazenie kalendára."
+
+#: calendar/gui/GNOME_Evolution_Calendar_Control.oaf.in.h:2
+msgid "Factory for the sample Calendar control"
+msgstr "Vytváracie rozhranie pre uká¾kový ovládací prvok Kalendár."
 
 #: calendar/gui/gnome-cal.c:694
 #, c-format
@@ -4203,7 +4310,7 @@ msgstr "Napísa» správu"
 msgid "Could not create composer window."
 msgstr "Nie je mo¾né vytvori» okno editora správ."
 
-#: composer/evolution-composer.c:360
+#: composer/evolution-composer.c:359
 msgid "Cannot initialize Evolution's composer."
 msgstr "Nie je mo¾né inicializova» editor správ Evolution."
 
@@ -4214,6 +4321,14 @@ msgstr "karta s adresou"
 #: data/evolution.keys.in.h:2
 msgid "calendar information"
 msgstr "informácie o kalendári"
+
+#: executive-summary/GNOME_Evolution_Summary.oaf.in.h:1
+msgid "Evolution component for the executive summary."
+msgstr "Komponent Evolution pre Súhrn."
+
+#: executive-summary/GNOME_Evolution_Summary.oaf.in.h:2
+msgid "Factory for the Evolution executive summary component."
+msgstr "Vytváracie rozhranie pre komponent Súhrn Evolution."
 
 #: executive-summary/component/component-factory.c:159
 msgid "Cannot initialize Evolution's Executive Summary component."
@@ -4326,6 +4441,30 @@ msgstr ""
 "Komponent Súhrn nemohol inicializova» Bonobo.\n"
 "Ak bolo zobrazené nejaké varovanie o RootPOA, asi to\n"
 "znamená, ¾e ste prelo¾ili Bonobo s GOAD a nie s OAF."
+
+#: executive-summary/test-service/GNOME_Evolution_Summary_rdf.oaf.in.h:1
+msgid "Factory for the RDF summary."
+msgstr "Vytváracie rozhranie pre súhrn RDF."
+
+#: executive-summary/test-service/GNOME_Evolution_Summary_rdf.oaf.in.h:2
+msgid "RDF Summary"
+msgstr "Súhrn RDF"
+
+#: executive-summary/test-service/GNOME_Evolution_Summary_test.oaf.in.h:1
+msgid "Factory for the test bonobo component."
+msgstr "Vytváracie rozhranie pre komponent testovacej slu¾by"
+
+#: executive-summary/test-service/GNOME_Evolution_Summary_test.oaf.in.h:2
+msgid "Factory for the test component."
+msgstr "Vytváracie rozhranie pre testovaciu slu¾bu."
+
+#: executive-summary/test-service/GNOME_Evolution_Summary_test.oaf.in.h:3
+msgid "Test bonobo service"
+msgstr "Testovacia slu¾ba Bonobo"
+
+#: executive-summary/test-service/GNOME_Evolution_Summary_test.oaf.in.h:4
+msgid "Test service"
+msgstr "Testovacia slu¾ba"
 
 #: executive-summary/test-service/rdf-summary.c:455
 #: executive-summary/test-service/rdf-summary.c:491
@@ -4886,6 +5025,54 @@ msgstr "Vytvori» pravidlo zo správy"
 msgid "Filter on Mailing List (%s)"
 msgstr "Filter na konferenciu (%s)"
 
+#: mail/GNOME_Evolution_Mail.oaf.in.h:1
+msgid "Evolution component for handling mail."
+msgstr "Komponent Evolution pre prácu s po¹tou."
+
+#: mail/GNOME_Evolution_Mail.oaf.in.h:2
+msgid "Evolution mail composer."
+msgstr "Po¹tový komponent Evolution."
+
+#: mail/GNOME_Evolution_Mail.oaf.in.h:3
+msgid "Evolution mail executive summary component."
+msgstr "Komponent Súhrn po¹ty Evolution."
+
+#: mail/GNOME_Evolution_Mail.oaf.in.h:4
+msgid "Evolution mail folder display component."
+msgstr "Komponent zobrazenia po¹tového prieèinku Evolution."
+
+#: mail/GNOME_Evolution_Mail.oaf.in.h:5
+msgid "Evolution mail folder factory component."
+msgstr "Vytváracie rozhranie pre komponent po¹tového prieèinku Evolution."
+
+#: mail/GNOME_Evolution_Mail.oaf.in.h:6
+msgid "Factory for the Evolution composer."
+msgstr "Vytváracie rozhranie pre editor správ Evolution."
+
+#: mail/GNOME_Evolution_Mail.oaf.in.h:7
+msgid "Factory for the Evolution mail component."
+msgstr "Vytváracie rozhranie pre po¹tový komponent Evolution."
+
+#: mail/GNOME_Evolution_Mail.oaf.in.h:8
+msgid "Factory for the Mail Summary component."
+msgstr "Vytváracie rozhranie pre komponent Súhrnu po¹ty Evolution."
+
+#: mail/GNOME_Evolution_Mail.oaf.in.h:9
+msgid "Factory to import Outlook Express 4 mails into Evolution"
+msgstr "Vytváracie rozhranie pre import súborov Outlook Express 4 do Evolution"
+
+#: mail/GNOME_Evolution_Mail.oaf.in.h:10
+msgid "Factory to import mbox into Evolution"
+msgstr "Vytváracie rozhranie pre import súborov mbox do Evolution"
+
+#: mail/GNOME_Evolution_Mail.oaf.in.h:11
+msgid "Imports Outlook Express 4 files into Evolution"
+msgstr "Importuje súbory Outlook Express 4 do Evolution"
+
+#: mail/GNOME_Evolution_Mail.oaf.in.h:12
+msgid "Imports mbox files into Evolution"
+msgstr "Importuje súbory mbox do Evolution"
+
 #: mail/local-config.glade.h:1
 msgid "Current store format:"
 msgstr "Súèasný formát ukladania:"
@@ -4922,7 +5109,7 @@ msgstr "mh"
 
 #. add a "None" option to the stores menu
 #: mail/mail-account-editor.c:695 mail/mail-account-editor.c:697
-#: mail/mail-account-editor.c:746 mail/mail-accounts.c:114
+#: mail/mail-account-editor.c:777 mail/mail-accounts.c:114
 #: mail/mail-config-druid.c:916 mail/mail-config.glade.h:44
 #: shell/e-shell-view.c:1119 widgets/misc/e-dateedit.c:421
 #: widgets/misc/e-dateedit.c:1330 widgets/misc/e-dateedit.c:1445
@@ -5081,11 +5268,11 @@ msgstr "Tlaèi» správu"
 msgid "Printing of message failed"
 msgstr "Tlaè správy zlyhala"
 
-#: mail/mail-config.c:834
+#: mail/mail-config.c:835
 msgid "Connecting to server"
 msgstr "Pripájam sa k serveru"
 
-#: mail/mail-config.c:836
+#: mail/mail-config.c:837
 msgid "Connect to server"
 msgstr "Pripojenie k serveru"
 
@@ -5511,7 +5698,7 @@ msgstr ""
 "Nie je mo¾né ulo¾i» metainformácie do prieèinku, asi zistíte,\n"
 "¾e ho nie je mo¾né ani otvori»: %s"
 
-#: mail/mail-local.c:852
+#: mail/mail-local.c:853
 msgid ""
 "If you can no longer open this mailbox, then\n"
 "you may need to repair it manually."
@@ -5988,30 +6175,6 @@ msgstr "Prihlási» si prieèinok \"%s\""
 msgid "Unsubscribe from folder \"%s\""
 msgstr "Odhlási» sa z prieèinku \"%s\""
 
-#: mail/subscribe-dialog.glade.h:1
-msgid "All Folders"
-msgstr "V¹etky prieèinky"
-
-#: mail/subscribe-dialog.glade.h:2
-msgid "Display folders whose name contain:"
-msgstr "Zobrazi» prieèinky, ktorých meno obsahuje:"
-
-#: mail/subscribe-dialog.glade.h:3
-msgid "Query"
-msgstr "Otázka"
-
-#: mail/subscribe-dialog.glade.h:4 ui/evolution-subscribe.xml.h:8
-msgid "Subscribe"
-msgstr "Prihlási» si"
-
-#: mail/subscribe-dialog.glade.h:5
-msgid "Subscribed"
-msgstr "Prihlásené"
-
-#: mail/subscribe-dialog.glade.h:6 ui/evolution-subscribe.xml.h:9
-msgid "Unsubscribe"
-msgstr "Odhlási»"
-
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:1
 msgid "Folder name:"
 msgstr "Meno prieèinku:"
@@ -6438,6 +6601,10 @@ msgstr "Operácia nepodporovaná"
 #: shell/e-storage.c:431
 msgid "The specified type is not supported in this storage"
 msgstr "Uvedený typ nie je podporovaný týmto skladom"
+
+#: shell/GNOME_Evolution_Shell.oaf.in.h:1
+msgid "The Evolution shell."
+msgstr "Shell Evolution."
 
 #: shell/main.c:74
 msgid ""
@@ -7360,6 +7527,14 @@ msgstr "Obnovi» zoznam prieèinkov"
 msgid "Remove folder from your list of subscribed folders"
 msgstr "Odstráni» prieèinok zo zoznamu prihlásených prieèinkov"
 
+#: ui/evolution-subscribe.xml.h:8
+msgid "Subscribe"
+msgstr "Prihlási» si"
+
+#: ui/evolution-subscribe.xml.h:9
+msgid "Unsubscribe"
+msgstr "Odhlási»"
+
 #: ui/evolution-task-editor-dialog.xml.h:5
 msgid "Assig_n Task (FIXME)"
 msgstr "P_riradi» úlohu"
@@ -7706,4 +7881,24 @@ msgstr "Túto správu u¾ nezobrazova»."
 #: widgets/misc/e-search-bar.c:135
 msgid "Sear_ch"
 msgstr "_Nájs»"
+
+#: wombat/GNOME_Evolution_Wombat.oaf.in.h:1
+msgid "The Personal Addressbook Server"
+msgstr "Osobný adresárový server"
+
+#: wombat/GNOME_Evolution_Wombat.oaf.in.h:2
+msgid "The Personal Calendar Server; calendar factory"
+msgstr "Vytváracie rozhranie kalendára pre Osobný kalendárový server."
+
+#: wombat/wombat.c:182
+msgid "setup_vfs(): could not initialize GNOME-VFS"
+msgstr "setup_vfs(): Nie je mo¾né inicializova» GNOME"
+
+#: wombat/wombat.c:194
+msgid "init_corba(): could not initialize GNOME"
+msgstr "init_corba(): Nie je mo¾né inicializova» GNOME"
+
+#: wombat/wombat.c:207
+msgid "init_bonobo(): could not initialize Bonobo"
+msgstr "init_bonobo(): Nie je mo¾né inicializova» Bonobo"
 
