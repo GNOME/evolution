@@ -94,8 +94,7 @@ static gboolean e_icon_bar_timeout_handler (gpointer data);
 
 static void e_icon_bar_recalc_common_positions (EIconBar *icon_bar);
 static gint e_icon_bar_recalc_item_positions (EIconBar *icon_bar);
-static void e_icon_bar_on_text_resized (GnomeCanvasItem *text_item,
-					EIconBar *icon_bar);
+static void e_icon_bar_reflow (ECanvas *canvas);
 static gint e_icon_bar_find_item (EIconBar *icon_bar,
 				  GnomeCanvasItem *text_item);
 static gboolean e_icon_bar_on_item_event (GnomeCanvasItem *item,
@@ -168,9 +167,11 @@ e_icon_bar_class_init (EIconBarClass *class)
 {
 	GtkObjectClass *object_class;
 	GtkWidgetClass *widget_class;
+	ECanvasClass *ecanvas_class;
 
 	object_class = (GtkObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
+	ecanvas_class = E_CANVAS_CLASS( class );
 
 	e_icon_bar_signals[ITEM_SELECTED] =
 		gtk_signal_new ("item_selected",
@@ -203,6 +204,8 @@ e_icon_bar_class_init (EIconBarClass *class)
 	widget_class->focus_out_event	 = e_icon_bar_focus_out;
 	widget_class->drag_motion	 = e_icon_bar_drag_motion;
 	widget_class->drag_leave	 = e_icon_bar_drag_leave;
+
+	ecanvas_class->reflow            = e_icon_bar_reflow;
 
 	class->selected_item		 = NULL;
 }
@@ -578,9 +581,6 @@ e_icon_bar_add_item (EIconBar	    *icon_bar,
 					   "text", text,
 					   NULL);
 
-	gtk_signal_connect (GTK_OBJECT (item.text), "resize",
-			    GTK_SIGNAL_FUNC (e_icon_bar_on_text_resized),
-			    icon_bar);
 	gtk_signal_connect (GTK_OBJECT (item.text), "event",
 			    GTK_SIGNAL_FUNC (e_icon_bar_on_item_event),
 			    icon_bar);
@@ -863,13 +863,12 @@ e_icon_bar_set_item_data_full	(EIconBar	  *icon_bar,
 
 
 static void
-e_icon_bar_on_text_resized (GnomeCanvasItem *text_item,
-			    EIconBar *icon_bar)
+e_icon_bar_reflow (ECanvas *canvas)
 {
 #if 0
-	g_print ("In e_icon_bar_on_text_resized\n");
+	g_print ("In e_icon_bar_on_canvas_reflow\n");
+	gtk_widget_queue_resize (GTK_WIDGET (canvas));
 #endif
-	gtk_widget_queue_resize (GTK_WIDGET (icon_bar));
 }
 
 				       
