@@ -1,3 +1,8 @@
+2001-07-03  Jason Leach  <jleach@ximian.com>
+
+	* evolution-mail-message.xml: Added "Mark as Important" menu
+	thingy.
+
 2001-07-03  Iain Holmes  <iain@ximian.com>
 
 	* Add the seperate pixbuf for the Print button

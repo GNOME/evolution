@@ -1,3 +1,7 @@
+2001-07-03  Jason Leach  <jleach@ximian.com>
+
+	* folder-browser-ui.c: "Mark as Important" menu thingy here.
+
 2001-07-03  Peter Williams  <peterw@ximian.com>
 
 	* folder-browser.c (message_list_drag_data_get): Compile fixes.
