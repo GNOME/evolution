@@ -145,6 +145,7 @@ void header_raw_clear(struct _header_raw **list);
 char *header_raw_check_mailing_list(struct _header_raw **list);
 
 /* fold a header */
+char *header_address_fold(const char *in, int headerlen);
 char *header_fold(const char *in, int headerlen);
 char *header_unfold(const char *in);
 

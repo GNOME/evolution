@@ -422,7 +422,7 @@ camel_internet_address_encode_address(int *inlen, const char *real, const char *
 
 	if (name && name[0]) {
 		if (strlen(name) + len > CAMEL_FOLD_SIZE) {
-			char *folded = header_fold(name, len);
+			char *folded = header_address_fold(name, len);
 			char *last;
 			g_string_append(out, folded);
 			g_free(folded);

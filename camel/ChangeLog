@@ -1,3 +1,17 @@
+2001-06-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-internet-address.c
+	(camel_internet_address_encode_address): Use the new
+	header_address_fold.
+
+	* camel-mime-utils.c: Removed some old #if 0'd code of mine.
+	(rfc2047_encode_word): If enclen is 0, don't write an encoded word
+	token (=?iso-8859-7?Q??= would be an invalid token).
+	(header_address_fold): New function to wrap address headers -
+	header_fold() was force-wrapping rfc2047 encoded words which was
+	making the test suite fail. The *real* solution, however, is to
+	not create rfc2047 encoded words longer than 72 chars.
+
 2001-06-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-filter-driver.c (open_folder): Since we want an error

@@ -1221,22 +1221,24 @@ rfc2047_encode_word(GString *outstring, const char *in, int len, const char *typ
 			}
 			inlen -= (inptr - p);
 		}
-
+		
 		enclen = out-buffer;
-
-		/* create token */
-		out = ascii;
-		if (first)
-			first = 0;
-		else
-			*out++ = ' ';
-		out += sprintf(out, "=?%s?Q?", type);
-		out += quoted_encode(buffer, enclen, out, safemask);
-		sprintf(out, "?=");
-
-		d(printf("converted part = %s\n", ascii));
-
-		g_string_append(outstring, ascii);
+		
+		if (enclen) {
+			/* create token */
+			out = ascii;
+			if (first)
+				first = 0;
+			else
+				*out++ = ' ';
+			out += sprintf (out, "=?%s?Q?", type);
+			out += quoted_encode (buffer, enclen, out, safemask);
+			sprintf (out, "?=");
+			
+			d(printf("converted part = %s\n", ascii));
+			
+			g_string_append (outstring, ascii);
+		}
 	}
 
 	if (ic != (iconv_t) -1) {
@@ -1494,11 +1496,12 @@ header_encode_phrase_get_words (const unsigned char *in)
 	return words;
 }
 
-static void
+static gboolean
 header_encode_phrase_merge_words (GList **wordsp)
 {
 	GList *wordl, *nextl, *words = *wordsp;
 	struct _phrase_word *word, *next;
+	gboolean merged = FALSE;
 	
 	/* scan the list, checking for words of similar types that can be merged */
 	wordl = words;
@@ -1518,6 +1521,8 @@ header_encode_phrase_merge_words (GList **wordsp)
 					words = g_list_remove_link (words, nextl);
 					g_free (next);
 					nextl = g_list_next (wordl);
+					
+					merged = TRUE;
 				} else {
 					/* if it is going to be too long, make sure we include the
 					   separating whitespace */
@@ -1533,6 +1538,8 @@ header_encode_phrase_merge_words (GList **wordsp)
 	}
 	
 	*wordsp = words;
+	
+	return merged;
 }
 
 /* encodes a phrase sequence (different quoting/encoding rules to strings) */
@@ -1551,7 +1558,7 @@ header_encode_phrase (const unsigned char *in)
 	if (!words)
 		return NULL;
 	
-	header_encode_phrase_merge_words (&words);
+	while (header_encode_phrase_merge_words (&words));
 	
 	out = g_string_new ("");
 	
@@ -3662,47 +3669,14 @@ header_address_list_format(struct _header_address *a)
 	return ret;
 }
 
-#if 0
-static const char *
-header_fold_next_space (const char *in)
-{
-	register const char *inptr = in;
-	gboolean escaped = FALSE;
-	
-	if (is_lwsp (*inptr))
-		return inptr;
-	
-	do {
-		if (*inptr == '\\') {
-			escaped = TRUE;
-		} else if (*inptr == '"' && !escaped) {
-			/* find the end of this quoted section */
-			for (inptr++; *inptr; inptr++) {
-				if (*inptr == '"' && *(inptr-1) != '\\')
-					break;
-			}
-		} else {
-			escaped = FALSE;
-		}
-		
-		inptr++;
-	} while (*inptr && !is_lwsp (*inptr));
-	
-	if (*inptr)
-		return inptr;
-	else
-		return NULL;
-}
-
-/* I wonder if this might be better for folding headers? */
 char *
-header_fold (const char *in, int headerlen, gboolean force)
+header_address_fold (const char *in, int headerlen)
 {
-	const char *inptr = in, *space, *p, *n;
-	gboolean needunfold = FALSE;
 	int len, outlen, i;
+	const char *inptr = in, *space, *p, *n;
 	GString *out;
 	char *ret;
+	int needunfold = FALSE;
 	
 	if (in == NULL)
 		return NULL;
@@ -3712,19 +3686,19 @@ header_fold (const char *in, int headerlen, gboolean force)
 	p = in;
 	while (*p) {
 		n = strchr (p, '\n');
-		if (n == NULL)
-			n = p + strlen (p);
-		else
-			needunfold = TRUE;
+		if (n == NULL) {
+			len += strlen (p);
+			break;
+		}
 		
-		len += n - p;
+		needunfold = TRUE;
+		len += n-p;
 		
 		if (len >= CAMEL_FOLD_SIZE)
 			break;
 		len = 0;
 		p = n + 1;
 	}
-	
 	if (len < CAMEL_FOLD_SIZE)
 		return g_strdup (in);
 	
@@ -3735,18 +3709,14 @@ header_fold (const char *in, int headerlen, gboolean force)
 	out = g_string_new ("");
 	outlen = headerlen + 2;
 	while (*inptr) {
-		if (force)
-			space = strchr (inptr, ' ');
-		else
-			space = header_fold_next_space (inptr);
-		
+		space = strchr (inptr, ' ');
 		if (space) {
 			len = space - inptr + 1;
 		} else {
 			len = strlen (inptr);
 		}
 		
-		d(printf ("next word '%.*s'\n", len, inptr));
+		d(printf("next word '%.*s'\n", len, inptr));
 		
 		if (outlen + len > CAMEL_FOLD_SIZE) {
 			d(printf("outlen = %d wordlen = %d\n", outlen, len));
@@ -3755,28 +3725,15 @@ header_fold (const char *in, int headerlen, gboolean force)
 				g_string_truncate (out, out->len-1);
 			g_string_append (out, "\n\t");
 			outlen = 1;
-			
-			if (force) {
-				/* check for very long words, just cut them up */
-				while (outlen + len > CAMEL_FOLD_SIZE) {
-					for (i = 0; i < CAMEL_FOLD_SIZE - outlen; i++)
-						g_string_append_c (out, inptr[i]);
-					inptr += CAMEL_FOLD_SIZE - outlen;
-					len -= CAMEL_FOLD_SIZE - outlen;
-					g_string_append (out, "\n\t");
-					outlen = 1;
-				}
-			}
 		}
 		
 		outlen += len;
-		
-		for (i = 0; i < len; i++)
+		for (i = 0; i < len; i++) {
 			g_string_append_c (out, inptr[i]);
+		}
 		
 		inptr += len;
 	}
-	
 	ret = out->str;
 	g_string_free (out, FALSE);
 	
@@ -3785,8 +3742,6 @@ header_fold (const char *in, int headerlen, gboolean force)
 	
 	return ret;	
 }
-#endif
-
 
 /* simple header folding */
 /* will work even if the header is already folded */
