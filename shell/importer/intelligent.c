@@ -177,32 +177,57 @@ unselect_row_cb (GtkCList *clist,
 static IntelligentImporterDialog *
 create_gui (GList *importers)
 {
-	GtkWidget *dialog, *clist, *sw;
+	GtkWidget *dialog, *clist, *sw, *label;
+	GtkWidget *hbox, *vbox, *dummy;
 	IntelligentImporterDialog *d;
 	GList *l;
 	int running = 0;
 
 	d = g_new (IntelligentImporterDialog, 1);
-	d->dialog = dialog = gnome_dialog_new (_("Importers"), "Import",
-					       GNOME_STOCK_BUTTON_CANCEL, 
+	d->dialog = dialog = gnome_dialog_new (_("Importers"), 
 					       NULL);
+	gnome_dialog_append_button_with_pixmap (GNOME_DIALOG (dialog), 
+						_("Import"), 
+						GNOME_STOCK_PIXMAP_CONVERT);
+	gnome_dialog_append_button_with_pixmap (GNOME_DIALOG (dialog), 
+						_("Don't import"),
+						GNOME_STOCK_BUTTON_NO);
+	gnome_dialog_append_button_with_pixmap (GNOME_DIALOG (dialog), _("Don't ask me again"),
+						GNOME_STOCK_BUTTON_CANCEL);
+	
 	gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
 	d->importers = NULL;
 	d->current = NULL;
 
 	d->clist = clist = gtk_clist_new (1);
 	gtk_clist_set_selection_mode (GTK_CLIST (d->clist), GTK_SELECTION_MULTIPLE);
+	
+	label = gtk_label_new ("Evolution has found the following data sources:");
+	gtk_misc_set_alignment(GTK_MISC(label), 0, .5);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label,
+			    TRUE, TRUE, 0);
+
+	hbox = gtk_hbox_new (FALSE, 2);
+	gtk_container_set_border_width (GTK_CONTAINER (hbox), 2);
+
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), hbox,
+			    TRUE, TRUE, 0);
 
 	sw = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW(sw), 
+					GTK_POLICY_AUTOMATIC, 
+					GTK_POLICY_AUTOMATIC);
 	gtk_widget_set_usize (sw, 300, 150);
 	gtk_container_add (GTK_CONTAINER (sw), clist);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), sw,
-			    TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), sw, TRUE, TRUE, 0);
 	
+	vbox = gtk_vbox_new (FALSE, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox), 2);
+	gtk_box_pack_start (GTK_BOX (hbox), vbox, TRUE, TRUE, 0);
+
 	d->placeholder = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (d->placeholder), FALSE);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), d->placeholder,
-			    FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), d->placeholder, TRUE, TRUE, 0);
 
 	for (l = importers; l; l = l->next) {
 		IntelligentImporterData *data;
@@ -327,8 +352,10 @@ create_gui (GList *importers)
 	}
 	
 	d->running = running;
+	dummy = gtk_drawing_area_new ();
+	gtk_widget_show (dummy);
 	gtk_notebook_append_page (GTK_NOTEBOOK (d->placeholder),
-				  gtk_label_new (""), NULL);
+				  dummy, NULL);
 	/* Set the start to the blank page */
 	gtk_notebook_set_page (GTK_NOTEBOOK (d->placeholder), running);
 
@@ -346,6 +373,19 @@ intelligent_importer_init (void)
 {
 	GList *importers, *l, *selected = NULL;
 	IntelligentImporterDialog *d;
+	char *prefix;
+	gboolean dontaskagain;
+
+	prefix = g_strdup_printf ("=%s/evolution/config/Shell=/intelligent-importers/", gnome_util_user_home ());
+	gnome_config_push_prefix (prefix);
+	g_free (prefix);
+	
+	dontaskagain = gnome_config_get_bool ("Dontaskagain=False");
+	gnome_config_pop_prefix ();
+	
+	if (dontaskagain) {
+		return;
+	}
 
 	importers = get_intelligent_importers ();
 	if (importers == NULL)
@@ -416,6 +456,23 @@ intelligent_importer_init (void)
 
 		break;
 		
+	case 1: /* No button */
+		free_importer_dialog (d);
+		break;
+
+	case 2: /* Dont ask again */
+		prefix = g_strdup_printf ("=%s/evolution/config/Shell=/intelligent-importers/", 
+					  gnome_util_user_home ());
+		gnome_config_push_prefix (prefix);
+		g_free (prefix);
+		
+		gnome_config_set_bool ("Dontaskagain", TRUE);
+		gnome_config_pop_prefix ();
+
+		g_print ("Not asking again");
+		free_importer_dialog (d);
+		break;
+
 	default:
 		free_importer_dialog (d);
 		break;

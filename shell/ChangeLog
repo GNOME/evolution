@@ -1,3 +1,11 @@
+2001-06-06  Iain Holmes  <iain@ximian.com>
+
+	* importers/intelligent.c (create_gui): Make a few boxes, and make
+	the whole dialog horizontal. Add better buttons, and a "Don't ask 
+	again button" (And the world rejoices).
+	Fixed the notebook so it displayed the blank page on startup.
+	(intelligent_importer_init): Handle the "Don't ask me again" button.
+
 2001-06-06  Jason Leach  <jleach@ximian.com>
 
 	(Fix bug #3205: Component crash causes folder switch even when not
