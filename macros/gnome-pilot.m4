@@ -106,8 +106,6 @@ AC_DEFUN([PILOT_LINK_HOOK],[
 		CFLAGS="$CFLAGS_save"
 	fi
 
-	PISOCK_CFLAGS="$PISOCK_CFLAGS -DGP_PILOT_LINK_VERSION=\\\"$PILOT_LINK_VERSION\\\""
-
 	unset piversion_include
 	unset pi_verion
 	unset pi_major

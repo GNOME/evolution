@@ -1,3 +1,8 @@
+2001-09-16  Eskil Heyn Olsen  <eskil@eskil.dk>
+
+	* gnome-pilot.m4:
+	PISOCK_CFLAGS no longer contains pilot-link version.
+
 2001-09-09  Eskil Heyn Olsen  <eskil@eskil.dk>
 
 	* gnome-pilot.m4:
