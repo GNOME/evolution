@@ -1,7 +1,7 @@
 noinst_PROGRAMS = test-recur
 
 INCLUDES =						\
-        -DGNOMELOCALEDIR=\""$(datadir)/locale"\"	\
+        -DGNOMELOCALEDIR=\""$(localedir)"\"		\
 	-DG_LOG_DOMAIN=\"cal-util\"			\
 	-I$(top_srcdir) 				\
 	-I$(top_srcdir)/calendar			\

@@ -8,7 +8,7 @@ INCLUDES = 								\
 	$(EXTRA_GNOME_CFLAGS)						\
 	-DEVOLUTION_IMAGES=\""$(datadir)/images/evolution"\"		\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"				\
-	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"   		\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"   		\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"            		\
 	-DEVOLUTION_GLADEDIR=\"$(datadir)/evolution/glade\"		\
 	-DG_LOG_DOMAIN=\"evolution-shell\"

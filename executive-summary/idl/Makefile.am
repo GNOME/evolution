@@ -10,7 +10,7 @@ INCLUDES = \
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
-	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"	\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"            \
 	-DG_LOG_DOMAIN=\"evolution-executive-summary\"
 

@@ -5,7 +5,7 @@ INCLUDES =						\
 	-I$(top_srcdir)/libical/src/libical		\
 	-I$(top_builddir)/libical/src/libical		\
 	$(BONOBO_VFS_GNOME_CFLAGS)			\
-        -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
+        -DGNOMELOCALEDIR=\""$(localedir)"\"
 
 CORBA_GENERATED =				\
 	evolution-calendar.h			\

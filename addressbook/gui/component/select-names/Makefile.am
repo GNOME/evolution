@@ -39,7 +39,7 @@ INCLUDES =						\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
-	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"	\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"
 
 lib_LTLIBRARIES = libeselectnames.la

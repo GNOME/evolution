@@ -8,9 +8,9 @@ INCLUDES =						\
 	-I$(top_srcdir)/calendar/pcs			\
 	-I$(top_srcdir)/libical/src/libical		\
 	$(GNOME_INCLUDEDIR)				\
-	$(BONOBO_VFS_GNOME_CFLAGS)				\
+	$(BONOBO_VFS_GNOME_CFLAGS)			\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
-	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"
 
 bin_PROGRAMS =	\
 	wombat

@@ -10,7 +10,7 @@ INCLUDES = 						\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	$(BONOBO_VFS_GNOME_CFLAGS)			\
-        -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
+        -DGNOMELOCALEDIR=\""$(localedir)"\"
 
 noinst_LIBRARIES = libcal-dialogs.a
 

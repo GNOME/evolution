@@ -17,7 +17,7 @@ $(CORBA_GENERATED): $(idls)
 	$(ORBIT_IDL) $(idl_flags) $(srcdir)/../idl/evolution-calendar.idl
 
 INCLUDES =						\
-        -DGNOMELOCALEDIR=\""$(datadir)/locale"\"        \
+        -DGNOMELOCALEDIR=\""$(localedir)"\"		\
 	-DG_LOG_DOMAIN=\"cal-client\"			\
 	-I$(top_srcdir)/calendar			\
 	-I$(srcdir) -I$(top_srcdir) 			\

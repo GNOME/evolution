@@ -1,3 +1,9 @@
+2000-10-23  Dan Winship  <danw@helixcode.com>
+
+	* idl/Makefile.am (INCLUDES): 
+	* evolution-services/Makefile.am (INCLUDES): 
+	* component/Makefile.am (INCLUDES): Update EVOLUTION_LOCALEDIR
+
 2000-10-14  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* evolution-executive-summary.oafinfo: Added

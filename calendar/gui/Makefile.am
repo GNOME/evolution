@@ -18,7 +18,7 @@ INCLUDES = 						\
 	$(EXTRA_GNOME_CFLAGS)				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
-        -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
+        -DGNOMELOCALEDIR=\""$(localedir)"\"
 
 LINK_FLAGS =							\
 	$(BONOBO_VFS_GNOME_LIBS)				\

@@ -1,3 +1,7 @@
+2000-10-23  Dan Winship  <danw@helixcode.com>
+
+	* Makefile.am (INCLUDES): Update EVOLUTION_LOCALEDIR
+
 2000-10-20  Michael Meeks  <michael@helixcode.com>
 
 	* evolution-shell-component-client.c

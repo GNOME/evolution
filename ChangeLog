@@ -1,3 +1,11 @@
+2000-10-23  Dan Winship  <danw@helixcode.com>
+
+	* notes/Makefile.am (INCLUDES): Update EVOLUTION_LOCALEDIR
+
+	* configure.in: set localedir here to use in Makefiles.
+	(AM_GNOME_GETTEXT doesn't actually always set it to
+	$(datadir)/locale).
+
 2000-10-23  Christopher James Lahey  <clahey@helixcode.com>
 
 	* configure.in: Updated the gal check to check for gal 0.2.1.

@@ -17,7 +17,7 @@ $(CORBA_SOURCE): $(idls)
 	$(ORBIT_IDL) $(srcdir)/../idl/addressbook.idl $(idl_flags)
 
 INCLUDES =						\
-        -DGNOMELOCALEDIR=\""$(datadir)/locale"\"        \
+        -DGNOMELOCALEDIR=\""$(localedir)"\"        \
 	-DG_LOG_DOMAIN=\"EBook\"			\
 	-I$(top_srcdir) 				\
 	-I$(top_srcdir)/addressbook/backend		\
