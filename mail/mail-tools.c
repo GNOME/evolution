@@ -37,6 +37,7 @@
 
 #include <camel/camel.h>
 #include <camel/camel-vee-folder.h>
+#include <camel/camel-file-utils.h>
 
 #include <filter/vfolder-rule.h>
 #include <filter/vfolder-context.h>
@@ -97,22 +98,30 @@ mail_tool_get_trash (const gchar *url, int connect, CamelException *ex)
 }
 
 static char *
-mail_tool_get_local_movemail_path (const unsigned char *uri)
+mail_tool_get_local_movemail_path (const unsigned char *uri, CamelException *ex)
 {
 	unsigned char *safe_uri, *c;
-	char *path;
-	
+	char *path, *full;
+	struct stat st;
+
 	safe_uri = g_strdup (uri);
 	for (c = safe_uri; *c; c++)
-		if (strchr ("/:;=|%&#!*^()\\, ", *c) || !isprint ((int) *c))
+		if (strchr("/:;=|%&#!*^()\\, ", *c) || !isprint((int) *c))
 			*c = '_';
+
+	path = g_strdup_printf("%s/mail/spool", mail_component_peek_base_directory(NULL));
+	if (stat(path, &st) == -1 && camel_mkdir(path, 0777) == -1) {
+		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("Could not create spool directory `%s': %s"),
+				     path, g_strerror(errno));
+		g_free(path);
+		return NULL;
+	}
+
+	full = g_strdup_printf("%s/movemail.%s", path, safe_uri);
+	g_free(path);
+	g_free(safe_uri);
 	
-	path = g_strdup_printf ("%s/local/Inbox/movemail.%s",
-				mail_component_peek_base_directory (mail_component_peek ()),
-				safe_uri);
-	g_free (safe_uri);
-	
-	return path;
+	return full;
 }
 
 char *
@@ -127,17 +136,19 @@ mail_tool_do_movemail (const char *source_url, CamelException *ex)
 		return NULL;
 
 	if (strcmp(uri->protocol, "mbox") != 0) {
-		/* FIXME: use right text here post 1.4 */
+		/* This is really only an internal error anyway */
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
-				      _("Could not parse URL `%s'"),
+				      _("Trying to movemail a non-mbox source `%s'"),
 				      source_url);
 		camel_url_free(uri);
 		return NULL;
 	}
 	
 	/* Set up our destination. */
-	dest_path = mail_tool_get_local_movemail_path (source_url);
-	
+	dest_path = mail_tool_get_local_movemail_path (source_url, ex);
+	if (dest_path == NULL)
+		return NULL;
+
 	/* Movemail from source (source_url) to dest_path */
 	camel_movemail (uri->path, dest_path, ex);
 	camel_url_free(uri);

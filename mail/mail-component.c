@@ -192,8 +192,12 @@ load_accounts (MailComponent *component, EAccountList *accounts)
 		account = (EAccount *) e_iterator_get (iter);
 		service = account->source;
 		name = account->name;
-		
-		if (account->enabled && service->url != NULL)
+
+		/* HACK: mbox url's are handled by the local store setup above,
+		   any that come through as account sources are really movemail sources! */
+		if (account->enabled
+		    && service->url != NULL
+		    && strncmp(service->url, "mbox:", 5) != 0)
 			mail_component_load_store_by_uri (component, service->url, name);
 		
 		e_iterator_next (iter);
@@ -675,8 +679,8 @@ mail_component_load_store_by_uri (MailComponent *component, const char *uri, con
 		return NULL;
 	}
 	
-	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE) ||
-	    (prov->flags & CAMEL_PROVIDER_IS_EXTERNAL))
+	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE)
+	    || (prov->flags & CAMEL_PROVIDER_IS_EXTERNAL))
 		return NULL;
 	
 	store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex);

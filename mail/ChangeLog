@@ -1,5 +1,16 @@
 2004-01-28  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #53179
+
+	* mail-tools.c (mail_tool_get_local_movemail_path): Fix the
+	movemail path.
+
+	* mail-component.c (load_accounts): hack alert!
+	* mail-send-recv.c (get_receive_type): hack alert!  hardcode mbox:
+	to be a movemail source.
+
+2004-01-28  Not Zed  <NotZed@Ximian.com>
+
 	* mail-send-recv.c (setup_send_data): ref folder from
 	mail_component_get_folder.
 
