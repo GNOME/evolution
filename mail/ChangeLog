@@ -1,3 +1,8 @@
+2005-01-07  Not Zed  <NotZed@Ximian.com>
+
+	* em-account-prefs.c (account_add_clicked): remove old code, setup
+	transient parent and weak ref for refresh.
+
 2005-01-06  JP Rosevear  <jpr@novell.com>
 
 	* Makefile.am: install schemas properly

@@ -143,26 +143,16 @@ account_add_clicked (GtkButton *button, gpointer user_data)
 	EMAccountPrefs *prefs = (EMAccountPrefs *) user_data;
 	
 	if (prefs->druid == NULL) {
-#if 0
-		GtkWidget *parent;
-
-		prefs->druid = (GtkWidget *) mail_config_druid_new ();
-		
-		parent = gtk_widget_get_toplevel ((GtkWidget *) prefs);
-		if (GTK_WIDGET_TOPLEVEL (parent))
-			gtk_window_set_transient_for ((GtkWindow *) prefs->druid, (GtkWindow *) parent);
-		
-		g_object_weak_ref ((GObject *) prefs->druid,
-				   (GWeakNotify) account_add_finished, prefs);
-		
-		gtk_widget_show (prefs->druid);
-		g_object_ref (prefs);
-#else
 		EMAccountEditor *emae;
 
 		emae = em_account_editor_new(NULL, EMAE_DRUID);
+		prefs->druid = emae->editor;
+
+		gtk_window_set_transient_for((GtkWindow *)prefs->druid, (GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)prefs));
+		g_object_ref(prefs);
+		/* rather nasty hack to reload the accounts, it should just listen to the e-account-list */
+		g_object_weak_ref((GObject *) prefs->druid, (GWeakNotify) account_add_finished, prefs);
 		gtk_widget_show(emae->editor);
-#endif
 	} else {
 		gdk_window_raise (prefs->druid->window);
 	}

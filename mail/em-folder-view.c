@@ -251,7 +251,7 @@ emfv_destroy (GtkObject *o)
 	}
 
 	if (p->invisible) {
-		gtk_object_destroy(p->invisible);
+		gtk_object_destroy((GtkObject *)p->invisible);
 		p->invisible = NULL;
 	}
 

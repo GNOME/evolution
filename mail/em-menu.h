@@ -64,7 +64,8 @@ enum {
 	EM_MENU_SELECT_LAST               = 1<<18     /* reserve 2 slots */
 };
 
-/* Flags that describe a TARGET_WIDGET (none) */
+/* Flags that describe a TARGET_WIDGET (none)
+   this should probably be a more specific target type */
 
 typedef struct _EMMenuTargetSelect EMMenuTargetSelect;
 
