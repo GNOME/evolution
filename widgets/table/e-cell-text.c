@@ -748,7 +748,6 @@ static gint
 ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row)
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
-	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
 	ETextEventProcessorEvent e_tep_event;
 	gboolean edit_display = FALSE;
 	CellEdit *edit = text_view->edit;

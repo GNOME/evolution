@@ -374,7 +374,7 @@ static void
 ethi_add_drop_marker (ETableHeaderItem *ethi, int col)
 {
 	int rx, ry;
-	int x, y;
+	int x;
 	
 	if (ethi->drag_mark == col)
 		return;
@@ -925,11 +925,14 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 	g_hash_table_destroy (arrows);
 }
 
+/* FIXME: Implement this. */
+#if 0
 static GtkMenu *
 ethi_create_context_menu (ETableHeaderItem *ethi)
 {
 }
-	
+#endif
+
 static EPopupMenu ethi_context_menu [] = {
 	{ NULL, NULL, NULL, 0 }
 };

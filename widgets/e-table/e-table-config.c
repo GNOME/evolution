@@ -95,7 +95,8 @@ get_filter (ETable *etable)
 static void
 load_label_data (GladeXML *gui, ETable *etable)
 {
-	xmlNode *xmlRoot;
+	/* FIXME: Set this to the right value. */
+	xmlNode *xmlRoot = NULL;
 	char *s;
 	
 /*	xmlRoot = xmlDocGetRootElement (etable->specification); */

@@ -102,7 +102,7 @@ e_table_col_new_with_pixbuf (int col_idx, GdkPixbuf *pixbuf, int width, int min_
 	etc->selected = 0;
 	etc->resizeable = resizable;
 
-	gtk_object_ref (etc->ecell);
+	gtk_object_ref (GTK_OBJECT(etc->ecell));
 	gdk_pixbuf_ref (etc->pixbuf);
 
 	return etc;

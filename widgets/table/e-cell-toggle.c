@@ -90,7 +90,6 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	ECellToggle *toggle = E_CELL_TOGGLE (ecell_view->ecell);
 	ECellToggleView *toggle_view = (ECellToggleView *) ecell_view;
 	GdkPixbuf *image;
-	GdkPixbuf *flat;
 	int x, y, width, height;
 	const int value = GPOINTER_TO_INT (
 		 e_table_model_value_at (ecell_view->e_table_model, model_col, row));
