@@ -1,3 +1,10 @@
+2004-06-23  Rodney Dawes  <dobey@novell.com>
+
+	* gui/calendar-component.c: Revert previous change to add the
+	callbacks for notification of calendar selection changes
+	(create_new_view): Update the comment for watching notification on
+	the tasks selection to state it is for the mini tasks view
+
 2004-06-23 JP Rosevear  <jpr@novell.com>
 
 	Fixes #57862
