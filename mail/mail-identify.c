@@ -78,11 +78,10 @@ mail_identify_mime_part (CamelMimePart *part, MailDisplay *md)
 		} else
 			type = NULL;
 		camel_object_unref (CAMEL_OBJECT (memstream));
+
+		if (type)
+			return g_strdup (type);
 	}
-
-	if (type)
-		return g_strdup (type);
-
 
 	/* Another possibility to try is the x-mac-type / x-mac-creator
 	 * parameter to Content-Type used by some Mac email clients. That

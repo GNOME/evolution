@@ -1,3 +1,8 @@
+2001-01-26  Dan Winship  <danw@ximian.com>
+
+	* mail-identify.c (mail_identify_mime_part): Fix an uninitialized
+	variable use.
+
 2001-01-26  Jason Leach  <jasonleach@usa.net>
 
 	(Fixing an old FIXME)
