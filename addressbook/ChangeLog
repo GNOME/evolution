@@ -1,3 +1,27 @@
+2000-09-15  Christopher James Lahey  <clahey@helixcode.com>
+
+	* contact-editor/e-contact-editor.h,
+	contact-editor/e-contact-save-as.h,
+	gui/widgets/e-addressbook-model.h,
+	gui/widgets/e-minicard-view-widget.h,
+	gui/widgets/e-minicard-view.h, gui/widgets/e-minicard.c,
+	gui/widgets/e-minicard.h: Fixed the paths of some .h #includes.
+
+	* gui/component/addressbook.c: Removed all of the code to actually
+	create and display the correct view of the addressbook and moved
+	it to the new class gui/widgets/e-addressbook-view.c.
+
+	* gui/widgets/Makefile.am: Added everything necessary for
+	e-addressbook-view.c and e-addressbook-view.h.
+
+	* gui/widgets/e-addressbook-view.c,
+	gui/widgets/e-addressbook-view.h: New class to deal with actual
+	display of addresses and switching between card view and table
+	view.
+
+	* gui/widgets/e-minicard-view-widget.c: Made this deal more
+	gracefully with having the book set to NULL.
+
 2000-09-16  Michael Meeks  <michael@helixcode.com>
 
 	* gui/component/select-names/e-select-names.c: fix broken include.

@@ -25,7 +25,7 @@
 #include "e-minicard.h"
 #include "e-minicard-label.h"
 #include "e-text.h"
-#include <ebook/e-book.h>
+#include "addressbook/backend/ebook/e-book.h"
 #include <e-util/e-canvas.h>
 #include <e-util/e-util.h>
 #include <e-util/e-canvas-utils.h>

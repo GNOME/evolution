@@ -24,8 +24,8 @@
 #include <gnome.h>
 #include <glade/glade.h>
 #include <bonobo.h>
-#include <ebook/e-card.h>
-#include <ebook/e-card-simple.h>
+#include "addressbook/backend/ebook/e-card.h"
+#include "addressbook/backend/ebook/e-card-simple.h"
 
 #ifdef __cplusplus
 extern "C" {

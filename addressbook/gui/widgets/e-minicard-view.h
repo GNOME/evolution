@@ -22,8 +22,8 @@
 #define __E_MINICARD_VIEW_H__
 
 #include <gnome.h>
-#include <widgets/e-reflow/e-reflow-sorted.h>
-#include <ebook/e-book.h>
+#include "widgets/e-reflow/e-reflow-sorted.h"
+#include "addressbook/backend/ebook/e-book.h"
 
 #ifdef __cplusplus
 extern "C" {

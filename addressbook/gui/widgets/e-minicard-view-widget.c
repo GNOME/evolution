@@ -122,9 +122,12 @@ e_minicard_view_widget_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_BOOK:
 		if (emvw->book)
 			gtk_object_unref(GTK_OBJECT(emvw->book));
-		emvw->book = E_BOOK(GTK_VALUE_OBJECT (*arg));
-		if (emvw->book)
-			gtk_object_ref(GTK_OBJECT(emvw->book));
+		if (GTK_VALUE_OBJECT (*arg)) {
+			emvw->book = E_BOOK(GTK_VALUE_OBJECT (*arg));
+			if (emvw->book)
+				gtk_object_ref(GTK_OBJECT(emvw->book));
+		} else
+			emvw->book = NULL;
 		if (emvw->emv)
 			gtk_object_set(GTK_OBJECT(emvw->emv),
 				       "book", emvw->book,
@@ -243,7 +246,7 @@ e_minicard_view_widget_reflow(ECanvas *canvas)
 		       "width", &width,
 		       NULL);
 	width = MAX(width, GTK_WIDGET(canvas)->allocation.width);
-	gnome_canvas_set_scroll_region(GNOME_CANVAS(canvas), 0, 0, width - 1, GTK_WIDGET(canvas)->allocation.width - 1);
+	gnome_canvas_set_scroll_region(GNOME_CANVAS(canvas), 0, 0, width - 1, GTK_WIDGET(canvas)->allocation.height - 1);
 	gnome_canvas_item_set( view->rect,
 			       "x2", (double) width,
 			       "y2", (double) GTK_WIDGET(canvas)->allocation.height,

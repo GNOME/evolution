@@ -3,9 +3,9 @@
 #define _E_ADDRESSBOOK_MODEL_H_
 
 #include "e-table-model.h"
-#include <ebook/e-book.h>
-#include <ebook/e-book-view.h>
-#include <ebook/e-card-simple.h>
+#include "addressbook/backend/ebook/e-book.h"
+#include "addressbook/backend/ebook/e-book-view.h"
+#include "addressbook/backend/ebook/e-card-simple.h"
 
 #define E_ADDRESSBOOK_MODEL_TYPE        (e_addressbook_model_get_type ())
 #define E_ADDRESSBOOK_MODEL(o)          (GTK_CHECK_CAST ((o), E_ADDRESSBOOK_MODEL_TYPE, EAddressbookModel))

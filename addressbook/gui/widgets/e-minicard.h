@@ -22,8 +22,8 @@
 #define __E_MINICARD_H__
 
 #include <gnome.h>
-#include <ebook/e-card.h>
-#include <ebook/e-card-simple.h>
+#include "addressbook/backend/ebook/e-card.h"
+#include "addressbook/backend/ebook/e-card-simple.h"
 
 #ifdef __cplusplus
 extern "C" {

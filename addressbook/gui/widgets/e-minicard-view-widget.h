@@ -24,7 +24,7 @@
 #include <gnome.h>
 #include "e-minicard-view.h"
 #include "e-util/e-canvas.h"
-#include <ebook/e-book.h>
+#include "addressbook/backend/ebook/e-book.h"
 
 #ifdef __cplusplus
 extern "C" {

@@ -18,27 +18,17 @@
 
 #include <ebook/e-book.h>
 #include <e-util/e-util.h>
-#include <e-util/e-popup-menu.h>
 #include <e-util/e-unicode.h>
-#include "addressbook/gui/widgets/e-minicard-view-widget.h"
 #include "addressbook/gui/search/e-addressbook-search-dialog.h"
 
-#include <e-table.h>
-#include <e-cell-text.h>
+#include "addressbook/gui/widgets/e-addressbook-view.h"
 
-#include <e-scroll-frame.h>
-
-#include <addressbook/gui/widgets/e-addressbook-model.h>
 #include <select-names/e-select-names.h>
 #include <select-names/e-select-names-manager.h>
 
 #include "e-contact-editor.h"
 #include "e-contact-save-as.h"
 #include "e-ldap-server-dialog.h"
-#include <libgnomeprint/gnome-print.h>
-#include <libgnomeprint/gnome-print-dialog.h>
-#include <libgnomeprint/gnome-print-master.h>
-#include <libgnomeprint/gnome-print-master-preview.h>
 
 #include <addressbook/printing/e-contact-print.h>
 
@@ -48,28 +38,15 @@
 
 #define PROPERTY_FOLDER_URI_IDX      1
 
-typedef enum {
-	ADDRESSBOOK_VIEW_NONE, /* initialized to this */
-	ADDRESSBOOK_VIEW_TABLE,
-	ADDRESSBOOK_VIEW_MINICARD
-} AddressbookViewType;
-
 typedef struct {
-	AddressbookViewType view_type;
-	EBook *book;
+	EAddressbookView *view;
 	GtkWidget *vbox;
-	GtkWidget *minicard_hbox;
-	GtkWidget *minicard_view;
-	GtkWidget *table;
-	ETableModel *model;
-	ECardSimple *simple;
-	GtkAllocation last_alloc;
 	BonoboControl *control;
 	BonoboPropertyBag *properties;
 	char *uri;
 } AddressbookView;
 
-static void change_view_type (AddressbookView *view, AddressbookViewType view_type);
+static void change_view_type (AddressbookView *view, EAddressbookViewType view_type);
 
 static void
 control_deactivate (BonoboControl *control, BonoboUIHandler *uih)
@@ -141,16 +118,13 @@ new_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 	EBook *book;
 	EContactEditor *ce;
 	AddressbookView *view = (AddressbookView *) user_data;
-	GtkObject *object;
 
 	card = e_card_new("");
 
-	if (view->minicard_view)
-		object = GTK_OBJECT(view->minicard_view);
-	else
-		object = GTK_OBJECT(view->model);
+	gtk_object_get(GTK_OBJECT(view->view),
+		       "book", &book,
+		       NULL);
 
-	gtk_object_get(object, "book", &book, NULL);
 	g_assert (E_IS_BOOK (book));
 
 	ce = e_contact_editor_new (card, TRUE);
@@ -171,11 +145,16 @@ static void
 toggle_view_as_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = user_data;
-	
-	if (view->view_type == ADDRESSBOOK_VIEW_TABLE)
-		change_view_type (view, ADDRESSBOOK_VIEW_MINICARD);
+	EAddressbookViewType view_type;
+
+	gtk_object_get(GTK_OBJECT(view),
+		       "type", &view_type,
+		       NULL);
+
+	if (view_type == E_ADDRESSBOOK_VIEW_TABLE)
+		change_view_type (view, E_ADDRESSBOOK_VIEW_MINICARD);
 	else
-		change_view_type (view, ADDRESSBOOK_VIEW_TABLE);
+		change_view_type (view, E_ADDRESSBOOK_VIEW_TABLE);
 }
 
 #ifdef HAVE_LDAP
@@ -190,7 +169,6 @@ new_server_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 	ELDAPServer *server = g_new (ELDAPServer, 1);
 	EBook *book;
 	AddressbookView *view = (AddressbookView *) user_data;
-	GtkObject *object;
 
 	/* fill in the defaults */
 	server->name = g_strdup("");
@@ -201,11 +179,10 @@ new_server_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 	server->uri = g_strdup_printf ("ldap://%s:%s/%s", server->host, server->port, server->rootdn);
 	e_ldap_server_editor_show (server);
 
-	if (view->minicard_view)
-		object = GTK_OBJECT(view->minicard_view);
-	else
-		object = GTK_OBJECT(view->model);
-	gtk_object_get(object, "book", &book, NULL);
+	gtk_object_get(GTK_OBJECT(view->view),
+		       "book", &book,
+		       NULL);
+
 	g_assert (E_IS_BOOK (book));
 	
 	/* write out the new server info */
@@ -224,57 +201,13 @@ search_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	EBook *book;
 	AddressbookView *view = (AddressbookView *) user_data;
-	GtkObject *object;
 
-	if (view->minicard_view)
-		object = GTK_OBJECT(view->minicard_view);
-	else
-		object = GTK_OBJECT(view->model);
-	gtk_object_get(object, "book", &book, NULL);
+	gtk_object_get(GTK_OBJECT(view->view),
+		       "book", &book,
+		       NULL);
 	g_assert (E_IS_BOOK (book));
 
 	gtk_widget_show(e_addressbook_search_dialog_new(book));
-}
-
-static char *
-get_query (AddressbookView *view)
-{
-	GtkObject *object;
-	char *query = NULL;
-
-	if (view->minicard_view)
-		object = GTK_OBJECT(view->minicard_view);
-	else
-		object = GTK_OBJECT(view->model);
-
-	if (object)
-		gtk_object_get (object, "query", &query, NULL);
-
-	return query;
-}
-
-static void
-set_query (AddressbookView *view, char *query)
-{
-	GtkObject *object;
-
-	if (view->minicard_view)
-		object = GTK_OBJECT(view->minicard_view);
-	else
-		object = GTK_OBJECT(view->model);
-
-	gtk_object_set (object, 
-			"query", query, 
-			NULL);
-}
-
-static void
-set_book(AddressbookView *view)
-{
-	if (view->book)
-		gtk_object_set(view->minicard_view ? GTK_OBJECT(view->minicard_view) : GTK_OBJECT(view->model),
-			       "book", view->book,
-			       NULL);
 }
 
 #if 0
@@ -289,7 +222,9 @@ find_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 	GtkWidget* dlg = gnome_dialog_new ("Search Contacts", "Find",
 					   GNOME_STOCK_BUTTON_CANCEL, NULL);
 
-	search_text = get_query (view);
+	gtk_object_get (view->view,
+			"query", &search_text,
+			NULL);
 	e_utf8_gtk_entry_set_text(GTK_ENTRY(search_entry), search_text);
 	g_free (search_text);
 
@@ -304,127 +239,26 @@ find_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 	/* If the user clicks "okay"...*/
 	if (result == 0) {
 		search_text = e_utf8_gtk_entry_get_text(GTK_ENTRY(search_entry));
-		set_query (view, search_text);
+		gtk_object_set (view->view, 
+				"query", query, 
+				NULL);
 		g_free (search_text);
 	}
 }
 #endif
 
 static void
-card_deleted_cb (EBook* book, EBookStatus status, gpointer user_data)
-{
-	g_print ("%s: %s(): a card was deleted\n", __FILE__, __FUNCTION__);
-}
-
-static void
 delete_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
-	if (view->minicard_view)
-		e_minicard_view_widget_remove_selection (E_MINICARD_VIEW_WIDGET(view->minicard_view), card_deleted_cb, NULL);
-}
-
-static void
-e_contact_print_destroy(GnomeDialog *dialog, gpointer data)
-{
-	ETableScrolled *table = gtk_object_get_data(GTK_OBJECT(dialog), "table");
-	EPrintable *printable = gtk_object_get_data(GTK_OBJECT(dialog), "printable");
-	gtk_object_unref(GTK_OBJECT(printable));
-	gtk_object_unref(GTK_OBJECT(table));
-}
-
-static void
-e_contact_print_button(GnomeDialog *dialog, gint button, gpointer data)
-{
-	GnomePrintMaster *master;
-	GnomePrintContext *pc;
-	EPrintable *printable = gtk_object_get_data(GTK_OBJECT(dialog), "printable");
-	GtkWidget *preview;
-	switch( button ) {
-	case GNOME_PRINT_PRINT:
-		master = gnome_print_master_new_from_dialog( GNOME_PRINT_DIALOG(dialog) );
-		pc = gnome_print_master_get_context( master );
-		e_printable_reset(printable);
-		while (e_printable_data_left(printable)) {
-			if (gnome_print_gsave(pc) == -1)
-				/* FIXME */;
-			if (gnome_print_translate(pc, 72, 72) == -1)
-				/* FIXME */;
-			e_printable_print_page(printable,
-					       pc,
-					       6.5 * 72,
-					       5 * 72,
-					       TRUE);
-			if (gnome_print_grestore(pc) == -1)
-				/* FIXME */;
-			if (gnome_print_showpage(pc) == -1)
-				/* FIXME */;
-		}
-		gnome_print_master_close(master);
-		gnome_print_master_print(master);
-		gtk_object_unref(GTK_OBJECT(master));
-		gnome_dialog_close(dialog);
-		break;
-	case GNOME_PRINT_PREVIEW:
-		master = gnome_print_master_new_from_dialog( GNOME_PRINT_DIALOG(dialog) );
-		pc = gnome_print_master_get_context( master );
-		e_printable_reset(printable);
-		while (e_printable_data_left(printable)) {
-			if (gnome_print_gsave(pc) == -1)
-				/* FIXME */;
-			if (gnome_print_translate(pc, 72, 72) == -1)
-				/* FIXME */;
-			e_printable_print_page(printable,
-					       pc,
-					       6.5 * 72,
-					       9 * 72,
-					       TRUE);
-			if (gnome_print_grestore(pc) == -1)
-				/* FIXME */;
-			if (gnome_print_showpage(pc) == -1)
-				/* FIXME */;
-		}
-		gnome_print_master_close(master);
-		preview = GTK_WIDGET(gnome_print_master_preview_new(master, "Print Preview"));
-		gtk_widget_show_all(preview);
-		gtk_object_unref(GTK_OBJECT(master));
-		break;
-	case GNOME_PRINT_CANCEL:
-		gnome_dialog_close(dialog);
-		break;
-	}
+	e_addressbook_view_delete_selection(view->view);
 }
 
 static void
 print_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
-	if (view->minicard_view) {
-		char *query = get_query(view);
-		GtkWidget *print = e_contact_print_dialog_new(view->book, query);
-		g_free(query);
-		gtk_widget_show_all(print);
-	} else {
-		GtkWidget *dialog;
-		EPrintable *printable;
-
-		dialog = gnome_print_dialog_new("Print cards", GNOME_PRINT_DIALOG_RANGE | GNOME_PRINT_DIALOG_COPIES);
-		gnome_print_dialog_construct_range_any(GNOME_PRINT_DIALOG(dialog), GNOME_PRINT_RANGE_ALL | GNOME_PRINT_RANGE_SELECTION,
-						       NULL, NULL, NULL);
-		
-		printable = e_table_scrolled_get_printable(E_TABLE_SCROLLED(view->table));
-
-		gtk_object_ref(GTK_OBJECT(view->table));
-
-		gtk_object_set_data(GTK_OBJECT(dialog), "table", view->table);
-		gtk_object_set_data(GTK_OBJECT(dialog), "printable", printable);
-		
-		gtk_signal_connect(GTK_OBJECT(dialog),
-				   "clicked", GTK_SIGNAL_FUNC(e_contact_print_button), NULL);
-		gtk_signal_connect(GTK_OBJECT(dialog),
-				   "destroy", GTK_SIGNAL_FUNC(e_contact_print_destroy), NULL);
-		gtk_widget_show(dialog);
-	}
+	e_addressbook_view_print(view->view);
 }
 
 static void
@@ -442,7 +276,9 @@ search_entry_activated (GtkWidget* widget, gpointer user_data)
 		search_query = g_strdup (
 			"(contains \"full_name\" \"\")");
 
-	set_query(view, search_query);
+	gtk_object_set (GTK_OBJECT(view->view),
+			"query", search_query,
+			NULL);
 
 	g_free (search_query);
 	g_free (search_word);
@@ -525,7 +361,7 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 	bonobo_ui_container_freeze (container, NULL);
 
 	fname = bonobo_ui_util_get_ui_fname (
-		EVOLUTION_DATADIR, "evolution-addressbook.xml");
+		"evolution-addressbook.xml");
 	g_warning ("Attempting ui load from '%s'", fname);
 		
 	ui = bonobo_ui_util_new_ui (component, fname, "evolution-addressbook");
@@ -570,8 +406,6 @@ addressbook_view_free(AddressbookView *view)
 {
 	if (view->properties)
 		bonobo_object_unref(BONOBO_OBJECT(view->properties));
-	if (view->book)
-		gtk_object_unref(GTK_OBJECT(view->book));
 	g_free(view->uri);
 	g_free(view);
 }
@@ -579,9 +413,12 @@ addressbook_view_free(AddressbookView *view)
 static void
 book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 {
-	AddressbookView *view = closure;
 	if (status == E_BOOK_STATUS_SUCCESS) {
-		set_book (view);
+		AddressbookView *view = closure;
+
+		gtk_object_set(GTK_OBJECT(view->view),
+			       "book", book,
+			       NULL);
 	} else {
 		GtkWidget *warning_dialog, *label, *href;
         	warning_dialog = gnome_dialog_new (
@@ -654,14 +491,20 @@ set_prop (BonoboPropertyBag *bag,
 	AddressbookView *view = user_data;
 
 	char *uri_data;
+	EBook *book;
 	
 	switch (arg_id) {
 
 	case PROPERTY_FOLDER_URI_IDX:
+		gtk_object_get(GTK_OBJECT(view->view),
+			       "book", &book,
+			       NULL);
 		if (view->uri) {
 			/* we've already had a uri set on this view, so unload it */
-			e_book_unload_uri (view->book);
+			e_book_unload_uri (book);
 			g_free (view->uri);
+		} else {
+			book = e_book_new ();
 		}
 
 		view->uri = g_strdup(BONOBO_ARG_GET_STRING (arg));
@@ -675,7 +518,7 @@ set_prop (BonoboPropertyBag *bag,
 			uri_data = g_strdup (view->uri);
 		}
 
-		if (! e_book_load_uri (view->book, uri_data, book_open_cb, view))
+		if (! e_book_load_uri (book, uri_data, book_open_cb, view))
 			printf ("error calling load_uri!\n");
 
 		g_free(uri_data);
@@ -688,347 +531,30 @@ set_prop (BonoboPropertyBag *bag,
 	}
 }
 
-#define SPEC "<?xml version=\"1.0\"?>    \
-<ETableSpecification click-to-add=\"1\"> \
-  <columns-shown>                        \
-    <column>0</column>                   \
-    <column>1</column>                   \
-    <column>5</column>                   \
-    <column>3</column>                   \
-    <column>4</column>                   \
-  </columns-shown>                       \
-  <grouping>                             \
-    <leaf column=\"0\" ascending=\"1\"/> \
-  </grouping>                            \
-</ETableSpecification>"
-
 static void
-teardown_minicard_view (AddressbookView *view)
+change_view_type (AddressbookView *view, EAddressbookViewType view_type)
 {
-	if (view->minicard_view) {
-		view->minicard_view = NULL;
-	}
-	if (view->minicard_hbox) {
-		gtk_widget_destroy(view->minicard_hbox);
-		view->minicard_hbox = NULL;
-	}
-}
-
-typedef struct {
-	AddressbookView *view;
-	char letter;
-} LetterClosure;
-
-static void
-jump_to_letter(GtkWidget *button, LetterClosure *closure)
-{
-	if (closure->view->minicard_view)
-		e_minicard_view_widget_jump_to_letter(E_MINICARD_VIEW_WIDGET(closure->view->minicard_view), closure->letter);
-}
-
-static void
-free_closure(GtkWidget *button, LetterClosure *closure)
-{
-	g_free(closure);
-}
-
-static void
-connect_button (AddressbookView *view, GladeXML *gui, char letter)
-{
-	char *name;
-	GtkWidget *button;
-	LetterClosure *closure;
-	name = g_strdup_printf("button-%c", letter);
-	button = glade_xml_get_widget(gui, name);
-	g_free(name);
-	if (!button)
-		return;
-	closure = g_new(LetterClosure, 1);
-	closure->view = view;
-	closure->letter = letter;
-	gtk_signal_connect(GTK_OBJECT(button), "clicked",
-			   GTK_SIGNAL_FUNC(jump_to_letter), closure);
-	gtk_signal_connect(GTK_OBJECT(button), "destroy",
-			   GTK_SIGNAL_FUNC(free_closure), closure);
-}
-
-static GtkWidget *
-create_alphabet (AddressbookView *view)
-{
-	GtkWidget *widget;
-	char letter;
-	GladeXML *gui = glade_xml_new (EVOLUTION_GLADEDIR "/alphabet.glade", NULL);
-
-	widget = glade_xml_get_widget(gui, "scrolledwindow-top");
-	if (!widget) {
-		return NULL;
-	}
-	
-	connect_button(view, gui, '1');
-	for (letter = 'a'; letter <= 'z'; letter ++) {
-		connect_button(view, gui, letter);
-	}
-	
-	gtk_object_unref(GTK_OBJECT(gui));
-	return widget;
-}
-
-static void
-create_minicard_view (AddressbookView *view, char *initial_query)
-{
-	GtkWidget *scrollframe;
-	GtkWidget *alphabet;
-
-	gtk_widget_push_visual (gdk_rgb_get_visual ());
-	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
-
-	view->minicard_hbox = gtk_hbox_new(FALSE, 0);
-
-	view->minicard_view = e_minicard_view_widget_new();
-
-	scrollframe = e_scroll_frame_new (NULL, NULL);
-	e_scroll_frame_set_policy (E_SCROLL_FRAME (scrollframe),
-				   GTK_POLICY_AUTOMATIC,
-				   GTK_POLICY_NEVER);
-
-	gtk_container_add (GTK_CONTAINER (scrollframe), view->minicard_view);
-
-	gtk_box_pack_start(GTK_BOX(view->minicard_hbox), scrollframe, TRUE, TRUE, 0);
-
-	alphabet = create_alphabet(view);
-	if (alphabet) {
-		gtk_object_ref(GTK_OBJECT(alphabet));
-		gtk_widget_unparent(alphabet);
-		gtk_box_pack_start(GTK_BOX(view->minicard_hbox), alphabet, FALSE, FALSE, 0);
-		gtk_object_unref(GTK_OBJECT(alphabet));
-	}
-
-	gtk_box_pack_start(GTK_BOX(view->vbox), view->minicard_hbox, TRUE, TRUE, 0);
-
-	gtk_widget_show_all( GTK_WIDGET(view->minicard_hbox) );
-
-#if 0
-	gdk_window_set_back_pixmap(
-		GTK_LAYOUT(view->canvas)->bin_window, NULL, FALSE);
-#endif
-
-	gtk_widget_pop_visual ();
-	gtk_widget_pop_colormap ();
-}
-
-static void
-teardown_table_view (AddressbookView *view)
-{
-	if (view->table) {
-		gtk_widget_destroy (GTK_WIDGET (view->table));
-		view->table = NULL;
-	}
-	if (view->model) {
-		gtk_object_unref (GTK_OBJECT (view->model));
-		view->model = NULL;
-	}
-	if (view->simple) {
-		gtk_object_destroy (GTK_OBJECT (view->simple));
-		view->simple = NULL;
-	}
-}
-
-static void
-table_double_click(ETableScrolled *table, gint row, AddressbookView *view)
-{
-	ECard *card = e_addressbook_model_get_card(E_ADDRESSBOOK_MODEL(view->model), row);
-	EBook *book;
-	EContactEditor *ce;
-
-	gtk_object_get(GTK_OBJECT(view->model),
-		       "book", &book,
-		       NULL);
-
-	g_assert (E_IS_BOOK (book));
-
-	ce = e_contact_editor_new (card, FALSE);
-
-	gtk_signal_connect (GTK_OBJECT (ce), "add_card",
-			    GTK_SIGNAL_FUNC (add_card_cb), book);
-	gtk_signal_connect (GTK_OBJECT (ce), "commit_card",
-			    GTK_SIGNAL_FUNC (commit_card_cb), book);
-	gtk_signal_connect (GTK_OBJECT (ce), "editor_closed",
-			    GTK_SIGNAL_FUNC (editor_closed_cb), NULL);
-
-	gtk_object_unref(GTK_OBJECT(card));
-}
-
-typedef struct {
-	EBook *book;
-	ECard *card;
-} CardAndBook;
-
-static void
-card_and_book_free (CardAndBook *card_and_book)
-{
-	gtk_object_unref(GTK_OBJECT(card_and_book->card));
-	gtk_object_unref(GTK_OBJECT(card_and_book->book));
-}
-
-static void
-save_as (GtkWidget *widget, CardAndBook *card_and_book)
-{
-	e_contact_save_as(_("Save as VCard"), card_and_book->card);
-	card_and_book_free(card_and_book);
-}
-
-static void
-print (GtkWidget *widget, CardAndBook *card_and_book)
-{
-	gtk_widget_show(e_contact_print_card_dialog_new(card_and_book->card));
-	card_and_book_free(card_and_book);
-}
-
-static void
-delete (GtkWidget *widget, CardAndBook *card_and_book)
-{
-	if (e_contact_editor_confirm_delete()) {
-		/* Add the card in the contact editor to our ebook */
-		e_book_remove_card (card_and_book->book,
-				    card_and_book->card,
-				    NULL,
-				    NULL);
-	}
-	card_and_book_free(card_and_book);
-}
-
-static gint
-table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, AddressbookView *view)
-{
-	CardAndBook *card_and_book;
-
-	EPopupMenu menu[] = {
-		{"Save as VCard", NULL, GTK_SIGNAL_FUNC(save_as), 0}, 
-		{"Print", NULL, GTK_SIGNAL_FUNC(print), 0},
-		{"Delete", NULL, GTK_SIGNAL_FUNC(delete), 0}, 
-		{NULL, NULL, NULL, 0}
-	};
-
-	card_and_book = g_new(CardAndBook, 1);
-	card_and_book->card = e_addressbook_model_get_card(E_ADDRESSBOOK_MODEL(view->model), row);
-	gtk_object_get(GTK_OBJECT(view->model),
-		       "book", &(card_and_book->book),
-		       NULL);
-
-	gtk_object_ref(GTK_OBJECT(card_and_book->book));
-
-	e_popup_menu_run (menu, (GdkEventButton *)event, 0, 0, card_and_book);
-
-	return TRUE;
-}
-
-static void
-create_table_view (AddressbookView *view, char *initial_query)
-{
-	ECell *cell_left_just;
-	ETableHeader *e_table_header;
-	int i;
-	
-	view->simple = e_card_simple_new(NULL);
-
-	view->model = e_addressbook_model_new();
-
-	/*
-	  Next we create a header.  The ETableHeader is used in two
-	  different way.  The first is the full_header.  This is the
-	  list of possible columns in the view.  The second use is
-	  completely internal.  Many of the ETableHeader functions are
-	  for that purpose.  The only functions we really need are
-	  e_table_header_new and e_table_header_add_col.
-
-	  First we create the header.  */
-	e_table_header = e_table_header_new ();
-	
-	/* Next we have to build renderers for all of the columns.
-	   Since all our columns are text columns, we can simply use
-	   the same renderer over and over again.  If we had different
-	   types of columns, we could use a different renderer for
-	   each column. */
-	cell_left_just = e_cell_text_new (view->model, NULL, GTK_JUSTIFY_LEFT);
-		
-	/* Next we create a column object for each view column and add
-	   them to the header.  We don't create a column object for
-	   the importance column since it will not be shown. */
-	for (i = 0; i < E_CARD_SIMPLE_FIELD_LAST - 1; i++){
-		/* Create the column. */
-		ETableCol *ecol = e_table_col_new (
-						   i, e_card_simple_get_name(view->simple, i+1),
-						   1.0, 20, cell_left_just,
-						   g_str_compare, TRUE);
-		/* Add it to the header. */
-		e_table_header_add_column (e_table_header, ecol, i);
-	}
-
-	/* Here we create the table.  We give it the three pieces of
-	   the table we've created, the header, the model, and the
-	   initial layout.  It does the rest.  */
-	view->table = e_table_scrolled_new (e_table_header, E_TABLE_MODEL(view->model), SPEC);
-
-	gtk_signal_connect(GTK_OBJECT(view->table), "double_click",
-			   GTK_SIGNAL_FUNC(table_double_click), view);
-	gtk_signal_connect(GTK_OBJECT(view->table), "right_click",
-			   GTK_SIGNAL_FUNC(table_right_click), view);
-
-	gtk_object_set (GTK_OBJECT(view->table),
-			"click_to_add_message", _("* Click here to add a contact *"),
-			"drawgrid", TRUE,
-			NULL);
-
-	gtk_box_pack_start(GTK_BOX(view->vbox), view->table, TRUE, TRUE, 0);
-
-	gtk_widget_show( GTK_WIDGET(view->table) );
-}
-
-static void
-change_view_type (AddressbookView *view, AddressbookViewType view_type)
-{
-	char *query = NULL;
 	BonoboUIHandler *uih = bonobo_control_get_ui_handler (view->control);
 
-	if (view_type == view->view_type)
-		return;
-	
-	if (view->view_type != ADDRESSBOOK_VIEW_NONE)
-		query = get_query(view);
-	else
-		query = g_strdup("(contains \"x-evolution-any-field\" \"\")");
-
+	gtk_object_set(GTK_OBJECT(view->view),
+		       "type", view_type,
+		       NULL);
 
 	switch (view_type) {
-	case ADDRESSBOOK_VIEW_MINICARD:
-		teardown_table_view (view);
-		create_minicard_view (view, query);
-		if (uih)
-			bonobo_ui_handler_menu_set_label (uih, "/View/Toggle View",
-							  N_("As _Table"));
-		break;
-	case ADDRESSBOOK_VIEW_TABLE:
-		teardown_minicard_view (view);
-		create_table_view (view, query);
+	case E_ADDRESSBOOK_VIEW_TABLE:
 		if (uih)
 			bonobo_ui_handler_menu_set_label (uih, "/View/Toggle View",
 							  N_("As _Minicards"));
 		break;
+	case E_ADDRESSBOOK_VIEW_MINICARD:
+		if (uih)
+			bonobo_ui_handler_menu_set_label (uih, "/View/Toggle View",
+							  N_("As _Table"));
+		break;
 	default:
 		g_warning ("view_type must be either TABLE or MINICARD\n");
-		g_free (query);
 		return;
 	}
-
-	view->view_type = view_type;
-
-	/* set the book */
-	set_book (view);
-
-	/* and reset the query */
-	if (query)
-		set_query (view, query);
-	g_free (query);
 }
 
 
@@ -1048,16 +574,16 @@ addressbook_factory_new_control (void)
 	/* Create the control. */
 	view->control = bonobo_control_new(view->vbox);
 
-	view->model = NULL;
-	view->minicard_view = NULL;
+	view->view = E_ADDRESSBOOK_VIEW(e_addressbook_view_new());
+
+	gtk_box_pack_start(GTK_BOX(view->vbox), GTK_WIDGET(view->view),
+			   TRUE, TRUE, 0);
 
 	/* create the initial view */
-	change_view_type (view, ADDRESSBOOK_VIEW_MINICARD);
+	change_view_type (view, E_ADDRESSBOOK_VIEW_MINICARD);
 
-	gtk_widget_show_all( view->vbox );
-
-	/* create the view's ebook */
-	view->book = e_book_new ();
+	gtk_widget_show( view->vbox );
+	gtk_widget_show( GTK_WIDGET(view->view) );
 
 	view->properties = bonobo_property_bag_new (get_prop, set_prop, view);
 
