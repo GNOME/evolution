@@ -1,3 +1,12 @@
+2001-04-25  Dan Winship  <danw@ximian.com>
+
+	* mail-callbacks.c (are_you_sure): New foot-shooting-prevention
+	helper function.
+	(edit_msg_internal, view_msg): If the user has more than 10
+	messages selected, ask before opening them all in separate
+	windows, to protect against misclicks/typos after "select all"
+	(which we've had at least two reports of now).
+
 2001-04-25  Radek Doulik  <rodo@ximian.com>
 
 	* mail-tools.c (mail_tool_quote_message): set object data directly

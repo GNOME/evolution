@@ -1121,6 +1121,26 @@ is_drafts_folder (CamelFolder *folder)
 	return FALSE;
 }
 
+static gboolean
+are_you_sure (const char *msg, GPtrArray *uids, FolderBrowser *fb)
+{
+	GtkWidget *window = gtk_widget_get_ancestor (fb, GTK_TYPE_WINDOW);
+	GtkWidget *dialog;
+	char *buf;
+	int button, i;
+
+	buf = g_strdup_printf (msg, uids->len);
+	dialog = gnome_ok_cancel_dialog_parented (buf, NULL, NULL, (GtkWindow *)window);
+	button = gnome_dialog_run_and_close (dialog);
+	if (button != 0) {
+		for (i = 0; i < uids->len; i++)
+			g_free (uids->pdata[i]);
+		g_ptr_array_free (uids, TRUE);
+	}
+
+	return button == 0;
+}
+
 static void
 edit_msg_internal (FolderBrowser *fb)
 {
@@ -1132,6 +1152,9 @@ edit_msg_internal (FolderBrowser *fb)
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
 	
+	if (uids->len > 10 && !are_you_sure (_("Are you sure you want to edit all %d messages?"), uids, fb))
+		return;
+
 	mail_get_messages (fb->folder, uids, do_edit_messages, fb);
 }
 
@@ -1546,6 +1569,10 @@ view_msg (GtkWidget *widget, gpointer user_data)
 	
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
+
+	if (uids->len > 10 && !are_you_sure (_("Are you sure you want to open all %d messages in separate windows?"), uids, fb))
+		return;
+
 	for (i = 0; i < uids->len; i++) {
 		mail_get_message (fb->folder, uids->pdata [i], do_view_message, fb, mail_thread_queued);
 		g_free (uids->pdata [i]);
