@@ -549,12 +549,12 @@ e_minicard_activate_editor(EMinicard *minicard)
 		if (book != NULL) {
 			if (e_contact_get (minicard->contact, E_CONTACT_IS_LIST)) {
 				EContactListEditor *editor = eab_show_contact_list_editor (book, minicard->contact,
-												FALSE, minicard->editable);
+											   FALSE, e_book_is_writable (book));
 				minicard->editor = EAB_EDITOR (editor);
 			}
 			else {
 				EContactEditor *editor = eab_show_contact_editor (book, minicard->contact,
-												FALSE, minicard->editable);
+										  FALSE, e_book_is_writable (book));
 				minicard->editor = EAB_EDITOR (editor);
 			}
 
