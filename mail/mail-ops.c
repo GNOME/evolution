@@ -500,6 +500,7 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	if (header) {
 		const MailConfigAccount *account;
 
+		/* FIXME: this is broken, since we need to be threadsafe */
 		account = mail_config_get_account_by_name (header);
 		camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Account");
 		if (account) {
@@ -546,17 +547,17 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 		camel_filter_driver_filter_message (driver, message, info,
 						    NULL, NULL, "", ex);
 	
-	if (sent_folder_uri) {
-		folder = mail_tool_uri_to_folder (sent_folder_uri, NULL);
-		if (!folder) {
-			/* FIXME */
-			folder = sent_folder;
-		}
-	} else
+	if (sent_folder_uri)
+		folder = mail_tool_uri_to_folder (sent_folder_uri, ex);
+	else
 		folder = sent_folder;
 
-	if (folder)
+	if (folder) {
 		camel_folder_append_message (folder, message, info, ex);
+		camel_folder_sync(folder, FALSE, ex);
+		if (folder != sent_folder)
+			camel_object_unref((CamelObject *)folder);
+	}
 	
 	camel_message_info_free (info);
 }

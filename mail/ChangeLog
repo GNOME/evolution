@@ -1,3 +1,10 @@
+2001-04-18  Not Zed  <NotZed@Ximian.com>
+
+	* mail-ops.c (mail_send_message): Pass the exception to
+	uri_to_folder, so the user knows if it failed.  Unref the folder
+	after we're done with it, if it is not the default sent folder.
+	Sync the sent folder after each append.
+	
 2001-04-17  Ettore Perazzoli  <ettore@ximian.com>
 
 	* mail-account-gui.c: Add prototype for static function
