@@ -1218,15 +1218,17 @@ delete_msg (GtkWidget *button, gpointer user_data)
 	deleted = flag_messages (fb, CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN,
 				 CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN);
 	if (deleted == 1) {
-		row = e_tree_row_of_node (fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
-		message_list_select (fb->message_list, row, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_DELETED);
+		row = e_tree_row_of_node (fb->message_list->tree,
+					  e_tree_get_cursor (fb->message_list->tree));
+		message_list_select (fb->message_list, row, MESSAGE_LIST_SELECT_NEXT,
+				     0, CAMEL_MESSAGE_DELETED);
 	}
 }
 
 void
 undelete_msg (GtkWidget *button, gpointer user_data)
 {
-	flag_messages(FOLDER_BROWSER(user_data), CAMEL_MESSAGE_DELETED, 0);
+	flag_messages (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_DELETED, 0);
 }
 
 void
@@ -1235,18 +1237,8 @@ next_msg (GtkWidget *button, gpointer user_data)
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	int row;
 	
-	row = e_tree_row_of_node(fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
+	row = e_tree_row_of_node (fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
 	message_list_select (fb->message_list, row, MESSAGE_LIST_SELECT_NEXT, 0, 0);
-}
-
-void
-previous_msg (GtkWidget *button, gpointer user_data)
-{
-	FolderBrowser *fb = FOLDER_BROWSER (user_data);
-	int row;
-	
-	row = e_tree_row_of_node(fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
-	message_list_select (fb->message_list, row, MESSAGE_LIST_SELECT_PREVIOUS, 0, 0);
 }
 
 void
@@ -1255,10 +1247,32 @@ next_unread_msg (GtkWidget *button, gpointer user_data)
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	int row;
 	
-	row = e_tree_row_of_node(fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
+	row = e_tree_row_of_node (fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
 	message_list_select (fb->message_list, row,
 			     MESSAGE_LIST_SELECT_NEXT,
 			     0, CAMEL_MESSAGE_SEEN);
+}
+
+void
+next_flagged_msg (GtkWidget *button, gpointer user_data)
+{
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	int row;
+	
+	row = e_tree_row_of_node (fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
+	message_list_select (fb->message_list, row,
+			     MESSAGE_LIST_SELECT_NEXT,
+			     CAMEL_MESSAGE_FLAGGED, CAMEL_MESSAGE_FLAGGED);
+}
+
+void
+previous_msg (GtkWidget *button, gpointer user_data)
+{
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	int row;
+	
+	row = e_tree_row_of_node (fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
+	message_list_select (fb->message_list, row, MESSAGE_LIST_SELECT_PREVIOUS, 0, 0);
 }
 
 void
@@ -1267,10 +1281,22 @@ previous_unread_msg (GtkWidget *button, gpointer user_data)
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	int row;
 	
-	row = e_tree_row_of_node(fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
+	row = e_tree_row_of_node (fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
 	message_list_select (fb->message_list, row,
 			     MESSAGE_LIST_SELECT_PREVIOUS,
 			     0, CAMEL_MESSAGE_SEEN);
+}
+
+void
+previous_flagged_msg (GtkWidget *button, gpointer user_data)
+{
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	int row;
+	
+	row = e_tree_row_of_node (fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
+	message_list_select (fb->message_list, row,
+			     MESSAGE_LIST_SELECT_PREVIOUS,
+			     CAMEL_MESSAGE_FLAGGED, CAMEL_MESSAGE_FLAGGED);
 }
 
 static void

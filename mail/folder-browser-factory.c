@@ -57,7 +57,11 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("MailCompose", compose_msg),
 	BONOBO_UI_UNSAFE_VERB ("MailGetSend", send_receive_mail),
 	BONOBO_UI_UNSAFE_VERB ("MailNext", next_msg),
+	BONOBO_UI_UNSAFE_VERB ("MailNextUnread", next_unread_msg),
+	BONOBO_UI_UNSAFE_VERB ("MailNextFlagged", next_flagged_msg),
 	BONOBO_UI_UNSAFE_VERB ("MailPrevious", previous_msg),
+	BONOBO_UI_UNSAFE_VERB ("MailPreviousUnread", previous_unread_msg),
+	BONOBO_UI_UNSAFE_VERB ("MailPreviousFlagged", previous_flagged_msg),
 	BONOBO_UI_UNSAFE_VERB ("MailStop", stop_threads),
 	BONOBO_UI_UNSAFE_VERB ("MessageApplyFilters", apply_filters),
 	BONOBO_UI_UNSAFE_VERB ("MessageCopy", copy_msg),
@@ -91,10 +95,10 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ToolsVFolders", vfolder_edit_vfolders),
 	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderSender", vfolder_sender),
 	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderSubject", vfolder_subject),
-	BONOBO_UI_UNSAFE_VERB ("ViewHideRead", hide_read),
-	BONOBO_UI_UNSAFE_VERB ("ViewHideSelected", hide_selected),
-	BONOBO_UI_UNSAFE_VERB ("ViewLoadImages", load_images),
+	BONOBO_UI_UNSAFE_VERB ("HideRead", hide_read),
+	BONOBO_UI_UNSAFE_VERB ("HideSelected", hide_selected),
 	BONOBO_UI_UNSAFE_VERB ("ViewShowAll", hide_none),
+	BONOBO_UI_UNSAFE_VERB ("ViewLoadImages", load_images),
 	
 	BONOBO_UI_VERB_END
 };

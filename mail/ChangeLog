@@ -1,3 +1,11 @@
+2001-05-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser-factory.c: Added callbacks for Next/Previous
+	Unread and Next/Previous Flagged message.
+
+	* mail-callbacks.c (previous_flagged_msg): Implemented.
+	(next_flagged_msg): Implemented.
+
 2001-05-26  Dan Winship  <danw@ximian.com>
 
 	* mail-ops.c (mail_send_message, transfer_messages_transfer,
