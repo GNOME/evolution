@@ -268,6 +268,7 @@ folder_selection_dialog_folder_selected_cb (EShellFolderSelectionDialog *folder_
 		corba_folder.physicalUri = "";
 		corba_folder.evolutionUri = "";
 		corba_folder.unreadCount = -1;
+		corba_folder.customIconName = "";
 	} else {
 		corba_folder.type = (CORBA_char *)e_folder_get_type_string (folder);
 		corba_folder.description = (CORBA_char *)e_folder_get_description (folder);
@@ -279,6 +280,9 @@ folder_selection_dialog_folder_selected_cb (EShellFolderSelectionDialog *folder_
 			corba_folder.physicalUri = "";
 		corba_folder.evolutionUri = (CORBA_char *)g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
 		corba_folder.unreadCount = e_folder_get_unread_count (folder);
+		corba_folder.customIconName = (CORBA_char *)e_folder_get_custom_icon_name (folder);
+		if (corba_folder.customIconName == NULL)
+			corba_folder.customIconName = "";
 	}
 
 	GNOME_Evolution_FolderSelectionListener_notifySelected (listener, &corba_folder, &ev);
@@ -543,7 +547,6 @@ impl_Shell_selectUserFolder (PortableServer_Servant servant,
 			     const CORBA_char *title,
 			     const CORBA_char *default_folder,
 			     const GNOME_Evolution_Shell_FolderTypeNameList *corba_allowed_type_names,
-			     const CORBA_char *default_type,
 			     CORBA_Environment *ev)
 {
 	GtkWidget *folder_selection_dialog;

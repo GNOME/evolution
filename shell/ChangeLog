@@ -1,3 +1,10 @@
+2002-07-14  Chris Toshok  <toshok@ximian.com>
+
+	* e-shell.c (folder_selection_dialog_folder_selected_cb): set
+	corba_folder.customIconName so we don't crash.
+	(impl_Shell_selectUserFolder): remove the default_type parameter
+	to fix a compiler warning.
+
 2002-07-12  Dan Winship  <danw@ximian.com>
 
 	* evolution-storage.c (impl_Storage_asyncDiscoverSharedFolder):
