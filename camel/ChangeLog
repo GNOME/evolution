@@ -7,16 +7,15 @@
 
 2004-08-26  Sivaiah Nallagatla <snallagatla@novell.com>
 	
-	* provoders/groupwise/camel-gw-listner.c 
+	* providers/groupwise/camel-gw-listner.c
 	(add_calendar_tasks_sources) : change the "CheckList" to "Tasks"
-	as there is another foder called chekclist in groupwise
-	not related to tasks
-	Fixes #64092 
+	as there is another foder called chekclist in groupwise not
+	related to tasks Fixes #64092
 
 2004-08-25  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
-	* camel-folder.c: (folder_getv):
-	Init one variable (remove warning) and don't redefine it.
+	* camel-folder.c (folder_getv): Init one variable (remove warning)
+	and don't redefine it.
 
 2004-08-23  Not Zed  <NotZed@Ximian.com>
 
