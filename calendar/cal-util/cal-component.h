@@ -168,8 +168,8 @@ void cal_component_set_dtstart (CalComponent *comp, CalComponentDateTime *dt);
 void cal_component_get_due (CalComponent *comp, CalComponentDateTime *dt);
 void cal_component_set_due (CalComponent *comp, CalComponentDateTime *dt);
 
-void cal_component_get_exdate_list (CalComponent *comp, GSList **period_list);
-void cal_component_set_exdate_list (CalComponent *comp, GSList *period_list);
+void cal_component_get_exdate_list (CalComponent *comp, GSList **exdate_list);
+void cal_component_set_exdate_list (CalComponent *comp, GSList *exdate_list);
 
 void cal_component_get_last_modified (CalComponent *comp, struct icaltimetype **t);
 void cal_component_set_last_modified (CalComponent *comp, struct icaltimetype *t);
