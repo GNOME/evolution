@@ -1223,7 +1223,7 @@ header_decode_string (const char *in, const char *default_charset)
 static void
 rfc2047_encode_word(GString *outstring, const char *in, size_t len, const char *type, unsigned short safemask)
 {
-	iconv_t ic = (iconv_t *)-1;
+	iconv_t ic = (iconv_t) -1;
 	char *buffer, *out, *ascii;
 	size_t inlen, outlen, enclen, bufflen;
 	const char *inptr, *p;
@@ -1368,7 +1368,6 @@ header_encode_string (const unsigned char *in)
 			inptr++;
 			continue;
 		}
-
 		
 		if (g_unichar_isspace (c) && !last_was_space) {
 			/* we've reached the end of a 'word' */
@@ -2898,8 +2897,11 @@ header_param_list_decode(const char *in)
 static char *
 header_encode_param (const unsigned char *in, gboolean *encoded)
 {
-	const unsigned char *inptr = in;
-	char *outstr, *charset;
+	register const unsigned char *inptr = in;
+	unsigned char *outbuf = NULL;
+	iconv_t cd = (iconv_t) -1;
+	const char *charset;
+	char *outstr;
 	int encoding;
 	GString *out;
 	
@@ -2918,12 +2920,11 @@ header_encode_param (const unsigned char *in, gboolean *encoded)
 	if (*inptr == '\0')
 		return g_strdup (in);
 	
-	out = g_string_new ("");
 	inptr = in;
 	encoding = 0;
 	while (inptr && *inptr) {
-		gunichar c;
 		const char *newinptr;
+		gunichar c;
 		
 		newinptr = g_utf8_next_char (inptr);
 		c = g_utf8_get_char (inptr);
@@ -2934,34 +2935,68 @@ header_encode_param (const unsigned char *in, gboolean *encoded)
 			continue;
 		}
 		
-		/* FIXME: make sure that '\'', '*', and ';' are also encoded */
-		
 		if (c > 127 && c < 256) {
 			encoding = MAX (encoding, 1);
-			g_string_sprintfa (out, "%%%c%c", tohex[(c >> 4) & 0xf], tohex[c & 0xf]);
 		} else if (c >= 256) {
 			encoding = MAX (encoding, 2);
+		}
+		
+		inptr = newinptr;
+	}
+	
+	if (encoding == 2)
+		charset = camel_charset_best (in, inptr - in);
+	else
+		charset = "iso-8859-1";
+	
+	if (strcasecmp (charset, "UTF-8") != 0)
+		cd = e_iconv_open (charset, "UTF-8");
+	
+	if (cd == (iconv_t) -1) {
+		charset = "UTF-8";
+		inptr = in;
+	} else {
+		size_t inleft, outleft;
+		const char *inbuf;
+		char *outptr;
+		
+		inleft = (inptr - in);
+		outleft = inleft * 6 + 16 + 1;
+		outptr = outbuf = alloca (outleft);
+		inbuf = in;
+		
+		if (e_iconv (cd, &inbuf, &inleft, &outptr, &outleft) == (size_t) -1) {
+			w(g_warning ("Conversion problem: conversion truncated: %s" g_strerror (errno)));
+		} else {
+			e_iconv (cd, NULL, 0, &outptr, &outleft);
+		}
+		
+		e_iconv_close (cd);
+		
+		*outptr = '\0';
+		
+		inptr = outbuf;
+	}
+	
+	/* FIXME: set the 'language' as well, assuming we can get that info...? */
+	out = g_string_new ("");
+	g_string_sprintfa (out, "%s''", charset);
+	
+	while (inptr && *inptr) {
+		unsigned char c = *inptr++;
+		
+		/* FIXME: make sure that '\'', '*', and ';' are also encoded */
+		
+		if (c > 127) {
 			g_string_sprintfa (out, "%%%c%c", tohex[(c >> 4) & 0xf], tohex[c & 0xf]);
 		} else if (is_lwsp (c) || !(camel_mime_special_table[c] & IS_ESAFE)) {
 			g_string_sprintfa (out, "%%%c%c", tohex[(c >> 4) & 0xf], tohex[c & 0xf]);
 		} else {
 			g_string_append_c (out, c);
 		}
-		
-		inptr = newinptr;
 	}
 	
-	/* FIXME: set the 'language' as well, assuming we can get that info...? */
-	switch (encoding) {
-	default:
-		g_string_prepend (out, "iso-8859-1''");
-		break;
-	case 2:
-		charset = g_strdup_printf ("%s''", camel_charset_best (in, inptr - in));
-		g_string_prepend (out, charset);
-		g_free (charset);
-		break;
-	}
+	g_free (outbuf);
 	
 	outstr = out->str;
 	g_string_free (out, FALSE);

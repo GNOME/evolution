@@ -1,3 +1,9 @@
+2002-03-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c (header_encode_param): Fix this to work
+	right. We need to convert the input buffer to the charset we claim
+	in the encoded param (duh).
+
 2002-03-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/smtp/camel-smtp-transport.c

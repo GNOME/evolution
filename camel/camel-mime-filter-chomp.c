@@ -125,12 +125,12 @@ complete (CamelMimeFilter *f, char *in, size_t len, size_t prespace,
 		
 		/* in the case of a canonical eoln */
 		if (*inptr == '\r' && *(inptr + 1) == '\n') {
-			*outptr++ = *inptr++;
+			*outptr++ = (char) *inptr++;
 			(*outlen)++;
 		}
 		
 		if (*inptr == '\n') {
-			*outptr++ = *inptr++;
+			*outptr++ = (char) *inptr++;
 			(*outlen)++;
 		}
 		

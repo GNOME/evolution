@@ -401,7 +401,7 @@ decode_broken_date (struct _date_token *tokens, int *tzone)
 	}
 	
 	d(printf ("\n"));
-		
+	
 	time = mktime (&tm);
 #if defined(HAVE_TIMEZONE)
 	time -= timezone;
