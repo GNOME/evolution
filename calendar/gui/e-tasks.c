@@ -44,6 +44,7 @@
 #include "calendar-config.h"
 #include "calendar-component.h"
 #include "comp-util.h"
+#include "e-calendar-table-config.h"
 #include "misc.h"
 
 #include "e-tasks.h"
@@ -61,7 +62,8 @@ struct _ETasksPrivate {
 	
 	/* The ECalendarTable showing the tasks. */
 	GtkWidget   *tasks_view;
-
+	ECalendarTableConfig *tasks_view_config;
+	
 	/* Calendar search bar for tasks */
 	GtkWidget *search_bar;
 
@@ -502,14 +504,13 @@ setup_widgets (ETasks *tasks)
 
 	/* create the task list */
 	priv->tasks_view = e_calendar_table_new ();
-
+	priv->tasks_view_config = e_calendar_table_config_new (E_CALENDAR_TABLE (priv->tasks_view));
+	
 	etable = e_table_scrolled_get_table (
 		E_TABLE_SCROLLED (E_CALENDAR_TABLE (priv->tasks_view)->etable));
 	e_table_set_state (etable, E_TASKS_TABLE_DEFAULT_STATE);
 	gtk_paned_add1 (GTK_PANED (paned), priv->tasks_view);
 	gtk_widget_show (priv->tasks_view);
-
-	calendar_config_configure_e_calendar_table (E_CALENDAR_TABLE (priv->tasks_view));
 
 	g_signal_connect (etable, "cursor_change", G_CALLBACK (table_cursor_change_cb), tasks);
 	g_signal_connect (etable, "selection_change", G_CALLBACK (table_selection_change_cb), tasks);
@@ -637,6 +638,11 @@ e_tasks_destroy (GtkObject *object)
 			priv->current_uid = NULL;
 		}
 
+		if (priv->tasks_view_config) {
+			g_object_unref (priv->tasks_view_config);
+			priv->tasks_view_config = NULL;
+		}
+		
 		g_free (priv);
 		tasks->priv = NULL;
 	
@@ -690,7 +696,7 @@ e_tasks_open			(ETasks		*tasks,
 	/* create the CalClient */
 	priv->client = cal_client_new (real_uri, CALOBJ_TYPE_TODO);
 	if (!priv->client)
-		return NULL;
+		return FALSE;
 
 	g_signal_connect (priv->client, "cal_opened",
 			  G_CALLBACK (cal_opened_cb), tasks);
@@ -1128,8 +1134,6 @@ e_tasks_update_all_config_settings	(void)
 	for (elem = all_tasks; elem; elem = elem->next) {
 		tasks = E_TASKS (elem->data);
 		priv = tasks->priv;
-
-		calendar_config_configure_e_calendar_table (E_CALENDAR_TABLE (priv->tasks_view));
 
 		if (zone)
 			/* FIXME Error checking */

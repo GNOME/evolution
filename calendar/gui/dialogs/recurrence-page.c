@@ -49,6 +49,7 @@
 #include "../weekday-picker.h"
 #include "comp-editor-util.h"
 #include "../e-date-time-list.h"
+#include "../e-mini-calendar-config.h"
 #include "recurrence-page.h"
 
 
@@ -193,7 +194,8 @@ struct _RecurrencePagePrivate {
 
 	/* For the recurrence preview, the actual widget */
 	GtkWidget *preview_calendar;
-
+	EMiniCalendarConfig *preview_calendar_config;
+	
 	gboolean updating;
 };
 
@@ -319,6 +321,11 @@ recurrence_page_finalize (GObject *object)
 	if (priv->exception_list_store) {
 		g_object_unref (priv->exception_list_store);
 		priv->exception_list_store = NULL;
+	}
+
+	if (priv->preview_calendar_config) {
+		g_object_unref (priv->preview_calendar_config);
+		priv->preview_calendar_config = NULL;
 	}
 
 	g_free (priv);
@@ -2254,10 +2261,10 @@ init_widgets (RecurrencePage *rpage)
 
 	priv->preview_calendar = e_calendar_new ();
 	ecal = E_CALENDAR (priv->preview_calendar);
+	priv->preview_calendar_config = e_mini_calendar_config_new (ecal);
 	g_signal_connect((ecal->calitem), "date_range_changed",
 			    G_CALLBACK (preview_date_range_changed_cb),
 			    rpage);
-	calendar_config_configure_e_calendar (ecal);
 	e_calendar_item_set_max_days_sel (ecal->calitem, 0);
 	gtk_container_add (GTK_CONTAINER (priv->preview_bin),
 			   priv->preview_calendar);

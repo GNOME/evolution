@@ -1,5 +1,21 @@
 2003-10-29  JP Rosevear <jpr@ximian.com>
 
+	* gui/dialogs/recurrence-page.c (recurrence_page_finalize): unref
+	config manager
+	(init_widgets): create config manager for the e-calendar
+
+	* gui/e-tasks.c (setup_widgets): create config manager for the
+	table view
+	(e_tasks_destroy): unref config manager
+	(e_tasks_open): return FALSE not NULL
+	(e_tasks_update_all_config_settings): don't configure the calendar
+	table here, we have a manager
+
+	* gui/calendar-config.c: remove dead config functions (handled by
+	config managers now)
+
+2003-10-29  JP Rosevear <jpr@ximian.com>
+
 	* gui/gnome-cal.c (set_timezone): set the timezone for all clients
 	(timezone_changed_cb): callback for changes
 	(setup_config): setup the configuration
@@ -46,7 +62,8 @@
 	(calendar_config_add_notification_dnav_show_week_no): notify of
 	show week number setting change
 
-	* gui/calendar-component.c (calendar_component_peek): remove bad comma
+	* gui/calendar-component.c (calendar_component_peek): remove bad
+	comma
 
 	* gui/Makefile.am: build new config classes
 

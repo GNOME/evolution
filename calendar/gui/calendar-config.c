@@ -629,31 +629,6 @@ calendar_config_set_confirm_purge (gboolean confirm)
 	gconf_client_set_bool (config, CALENDAR_CONFIG_PROMPT_PURGE, confirm, NULL);
 }
 
-/* This sets all the common config settings for an ECalendar widget.
-   These are the week start day, and whether we show week numbers. */
-void
-calendar_config_configure_e_calendar	(ECalendar	*cal)
-{
-	gboolean dnav_show_week_no;
-	gint week_start_day;
-
-	g_return_if_fail (E_IS_CALENDAR (cal));
-
-	dnav_show_week_no = calendar_config_get_dnav_show_week_no ();
-
-	/* Note that this is 0 (Sun) to 6 (Sat). */
-	week_start_day = calendar_config_get_week_start_day ();
-
-	/* Convert it to 0 (Mon) to 6 (Sun), which is what we use. */
-	week_start_day = (week_start_day + 6) % 7;
-
-	gnome_canvas_item_set (GNOME_CANVAS_ITEM (cal->calitem),
-			       "show_week_numbers", dnav_show_week_no,
-			       "week_start_day", week_start_day,
-			       NULL);
-}
-
-
 /* This sets all the common config settings for an EDateEdit widget.
    These are the week start day, whether we show week numbers, and whether we
    use 24 hour format. */
@@ -679,82 +654,6 @@ calendar_config_configure_e_date_edit	(EDateEdit	*dedit)
 	e_date_edit_set_show_week_numbers (dedit, dnav_show_week_no);
 	e_date_edit_set_use_24_hour_format (dedit, use_24_hour);
 }
-
-
-/* This sets all the common config settings for an ECellDateEdit ETable item.
-   These are the settings for the ECalendar popup and the time list (if we use
-   24 hour format, and the hours of the working day). */
-void
-calendar_config_configure_e_cell_date_edit	(ECellDateEdit	*ecde)
-{
-	gboolean use_24_hour;
-	gint start_hour, end_hour;
-	ECellPopup *ecp;
-	ECellDateEditText *ecd;
-	char *location;
-	icaltimezone *zone;
-
-	g_return_if_fail (E_IS_CELL_DATE_EDIT (ecde));
-
-	ecp = E_CELL_POPUP (ecde);
-	ecd = E_CELL_DATE_EDIT_TEXT (ecp->child);
-
-	location = calendar_config_get_timezone ();
-	zone = icaltimezone_get_builtin_timezone (location);
-
-	calendar_config_configure_e_calendar (E_CALENDAR (ecde->calendar));
-
-	use_24_hour = calendar_config_get_24_hour_format ();
-
-	start_hour = calendar_config_get_day_start_hour ();
-	end_hour = calendar_config_get_day_end_hour ();
-
-	/* Round up the end hour. */
-	if (calendar_config_get_day_end_minute () != 0)
-		end_hour++;
-
-	e_cell_date_edit_freeze (ecde);
-	g_object_set (G_OBJECT (ecde),
-		      "use_24_hour_format", use_24_hour,
-#if 0
-		      /* We use the default 0 - 24 now. */
-		      "lower_hour", start_hour,
-		      "upper_hour", end_hour,
-#endif
-		      NULL);
-	e_cell_date_edit_thaw (ecde);
-
-	e_cell_date_edit_text_set_timezone (ecd, zone);
-	e_cell_date_edit_text_set_use_24_hour_format (ecd, use_24_hour);
-}
-
-
-/* This sets all the common config settings for an ECalendarTable widget.
-   These are the settings for the ECalendar popup and the time list (if we use
-   24 hour format, and the hours of the working day). */
-void
-calendar_config_configure_e_calendar_table	(ECalendarTable	*cal_table)
-{
-	ECalModel *model;
-	gboolean use_24_hour;
-	char *location;
-	icaltimezone *zone;
-
-	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
-
-	use_24_hour = calendar_config_get_24_hour_format ();
-
-	model = e_calendar_table_get_model (cal_table);
-	e_cal_model_set_use_24_hour_format (model, use_24_hour);
-
-	location = calendar_config_get_timezone ();
-	zone = icaltimezone_get_builtin_timezone (location);
-	e_cal_model_set_timezone (model, zone);
-
-	calendar_config_configure_e_cell_date_edit (cal_table->dates_cell);
-}
-
-
 
 void
 calendar_config_check_timezone_set ()
