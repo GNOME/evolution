@@ -1,3 +1,8 @@
+2004-10-12  Not Zed  <NotZed@Ximian.com>
+
+	* em-format-html-display.c (efhd_find_handler): use builtin
+	handlers (and plugins) always overriding bonobo ones.
+
 2004-10-11  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #67408.

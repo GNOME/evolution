@@ -925,19 +925,17 @@ static const EMFormatHandler *efhd_find_handler(EMFormat *emf, const char *mime_
 {
 	const EMFormatHandler *handle;
 
-	if (efhd_use_component(mime_type)) {
-		if ((handle = g_hash_table_lookup(efhd_bonobo_handlers, mime_type)) == NULL) {
-			EMFormatHandler *h = g_malloc0(sizeof(*h));
+	if ( (handle = ((EMFormatClass *)efhd_parent)->find_handler(emf, mime_type)) == NULL
+	     && efhd_use_component(mime_type)
+	     && (handle = g_hash_table_lookup(efhd_bonobo_handlers, mime_type)) == NULL) {
+		EMFormatHandler *h = g_malloc0(sizeof(*h));
 
-			h->mime_type = g_strdup(mime_type);
-			h->handler = efhd_bonobo_unknown;
-			h->flags = EM_FORMAT_HANDLER_INLINE_DISPOSITION;
-			g_hash_table_insert(efhd_bonobo_handlers, h->mime_type, h);
+		h->mime_type = g_strdup(mime_type);
+		h->handler = efhd_bonobo_unknown;
+		h->flags = EM_FORMAT_HANDLER_INLINE_DISPOSITION;
+		g_hash_table_insert(efhd_bonobo_handlers, h->mime_type, h);
 
-			handle = h;
-		}
-	} else {
-		handle = ((EMFormatClass *)efhd_parent)->find_handler(emf, mime_type);
+		handle = h;
 	}
 
 	return handle;
