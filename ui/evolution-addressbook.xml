@@ -95,30 +95,29 @@
 		</submenu>
 
 		<submenu name="View">
-
 		</submenu>
 
-		<submenu name="Tools" _label="_Tools">
-                        <placeholder name="Component">
+                <placeholder name="ComponentToolsPlaceholder">
+			<submenu name="Tools" _label="_Tools">
 				<menuitem name="ToolSearch" verb=""
-				_label="_Search for contacts"
-				pixtype="stock" pixname="Search" />
-	  
-	                        <menuitem name="AddressbookConfig" verb=""
-	                         _label="_Addressbook Sources..."
-	                         pixtype ="pixbuf"/>
-	                </placeholder>
-		</submenu>
-		<submenu name="Actions" _label="_Actions">
-                        <placeholder name="Component">
+				 _label="_Search for contacts"
+				 pixtype="stock" pixname="Search" />
+	        	        <menuitem name="AddressbookConfig" verb=""
+	        	         _label="_Addressbook Sources..."
+	        	         pixtype ="pixbuf"/>
+			</submenu>
+                <placeholder/>
+
+		<placeholder name="ComponentActionsPlaceholder">
+                        <submenu name="Actions" _label="_Actions">
 
 			    <menuitem name="ContactsSendContactToOther"
 			     _label="Send _contact to other" verb=""/>
 
 			    <menuitem name="ContactsSendMessageToContact"
 			     _label="Send _message to contact" verb=""/>
-	                </placeholder>
-		</submenu>
+	                </submenu>
+		</placeholder>
 	</menu>
 
 	<dockitem name="Toolbar">

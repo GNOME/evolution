@@ -74,14 +74,14 @@
       </placeholder>
     </submenu>
 
-    <submenu name="Tools" _label="_Tools">
-      <placeholder name="Component">
+    <placeholder name="ComponentToolsPlaceholder">
+      <submenu name="Tools" _label="_Tools">
 	<menuitem name="CalendarSettings" verb="" _label="_Calendar Settings..." pixtype="pixbuf"/>
-      </placeholder>
-    </submenu>
+      </submenu>
+    </placeholder>
 
-    <submenu name="Actions">
-      <placeholder name="Component">
+    <placeholder name="ComponentActionsPlaceholder">
+      <submenu name="Actions" _label="_Actions">
 	<menuitem name="NewAppointment" verb="CalendarNewAppointment"
 		  _label="Create a _New Appointment" pixtype="pixbuf"/>
 	<menuitem name="NewEvent" verb="CalendarNewEvent" _label="Create a New All-Day _Event"/>
@@ -89,8 +89,8 @@
 	<separator/>
 
 	<menuitem name="PublishFreeBusy" verb="" _label="Publish Free/Busy Information"/>
-      </placeholder>
-    </submenu>
+      </submenu>
+    </placeholder>
   </menu>
 
   <dockitem name="Toolbar">

@@ -1,7 +1,23 @@
-2001-08-08  Anna Marie Dirks <anna@ximian.com> 
+2001-08-09  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-addressbook.xml: Put the "Tools" and "Actions" menus
+	in the "ComponentToolsPlaceholder" and
+	"ComponentActionsPlaceholder", respectively.
+	* evolution-calendar.xml: Likewise.
+	* evolution-contact-editor.xml: Likewise.
+	* evolution-mail-global.xml: Likewise.
+	* evolution-mail-message.xml: Likewise.
+
+	* evolution.xml: Remove "Tools" and "Actions" menus.  Create a
+	"ComponentActionsPlaceholder" and a "ComponentToolsPlaceholder"
+	instead.
+	* evolution-mail-messagedisplay.xml: Likewise, put "Tools" and
+	"Actions" in placeholders.
+
+2001-08-08  Anna Marie Dirks <anna@ximian.com>
+
 	* evolution-mail-list.xml: Changed the "Show All" menu item
 	to be "Show Hidden Messages". 
-
 
 2001-08-08  Chris Toshok  <toshok@ximian.com>
 

@@ -69,8 +69,8 @@
       <placeholder name="MailListEditFlags"/>
     </submenu>
 
-    <submenu name="Actions">
-      <placeholder name="Component">
+    <placeholder name="ComponentActionsPlaceholder">
+      <submenu name="Actions" _label="_Actions">
         <menuitem name="MailGetSend" verb="" _label="_Send / Receive"/>
         <menuitem name="ActionCompose" verb="MailCompose" _label="Compose _New Message"/>
 
@@ -83,11 +83,11 @@
         <placeholder name="MailListActions"/>
 
         <menuitem name="EmptyTrash" verb="" _label="Empty _Trash"/>
-      </placeholder>
-    </submenu>
+      </submenu>
+    </placeholder>
 
-    <submenu name="Tools">
-      <placeholder name="Component">
+    <placeholder name="ComponentToolsPlaceholder">
+      <submenu name="Tools" _label="_Tools">
 
         <menuitem name="ToolsSettings" verb="" _label="_Mail Settings..."/>
 
@@ -109,8 +109,8 @@
 
         <separator/>
 
-      </placeholder>
-    </submenu>
+      </submenu>
+    </placeholder>
   </menu>
 
   <dockitem name="Toolbar">

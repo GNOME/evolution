@@ -158,13 +158,8 @@
 
     <placeholder name="Component"/>
 
-    <submenu name="Actions" _label="_Actions">
-      <placeholder name="Component"/>
-    </submenu>
-
-    <submenu name="Tools" _label="_Tools">
-      <placeholder name="Component"/>
-    </submenu>
+    <placeholder name="ComponentActionsPlaceholder"/>
+    <placeholder name="ComponentToolsPlaceholder"/>
 
     <submenu name="Help" _label="_Help">
 
