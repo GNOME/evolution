@@ -1,3 +1,7 @@
+2000-01-09  Eskil Heyn Olsen  <deity@eskil.dk>
+
+	* Makefile.am: Changes to remove todo capplet stuff from distro.
+
 2000-01-08  Vadim Strizhevsky  <vadim@optonline.net>
 
 	* calendar-conduit-control-applet.c: Added pilotID argument to 

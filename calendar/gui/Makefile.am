@@ -194,8 +194,8 @@ PalmPilotdir = $(ccenterdir)/Peripherals/PalmPilot
 Conduitsdir = $(PalmPilotdir)/Conduits
 
 Conduits_DATA = \
-	calendar-conduit-control-applet.desktop \
-	todo-conduit-control-applet.desktop 
+	calendar-conduit-control-applet.desktop 
+#	todo-conduit-control-applet.desktop 
 
 Conduits_seconddir = $(datadir)/gnome/apps/Settings/Peripherals/PalmPilot/Conduits/
 Conduits_second_DATA = $(Conduits_DATA)
@@ -204,12 +204,14 @@ endif
 EXTRA_DIST = \
 	gncal.desktop	\
 	calendar-conduit-control-applet.desktop \
-	todo-conduit-control-applet.desktop \
 	bell.xpm	\
 	recur.xpm	\
 	$(idl_DATA)	\
 	$(gnorba_DATA)  \
 	gnome-calendar-conduit.png 
+
+#	todo-conduit-control-applet.desktop \
+
 
 appicondir = $(datadir)/pixmaps
 appicon_DATA = gnome-calendar-conduit.png
