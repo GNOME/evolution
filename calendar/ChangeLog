@@ -1,5 +1,9 @@
 2003-11-14  JP Rosevear <jpr@ximian.com>
 
+	* gui/*.[hc]: include e-source* from e-d-s
+
+2003-11-14  JP Rosevear <jpr@ximian.com>
+
 	* gui/calendar-config.c (calendar_config_get_calendars_selected):
 	config accessor
 	(calendar_config_set_calendars_selected): ditto
