@@ -122,6 +122,39 @@ else
 fi
 AC_DEFINE_UNQUOTED(SYSTEM_MAIL_DIR, "$system_mail_dir")
 
+case `ls -ld $system_mail_dir 2>&1 | awk '{print $1;}'` in
+d??????rw?)
+	CAMEL_LOCK_HELPER_USER=""
+	CAMEL_LOCK_HELPER_GROUP=""
+	system_mail_perm="world writable"
+	;;
+
+d???rw????)
+	CAMEL_LOCK_HELPER_USER=""
+	CAMEL_LOCK_HELPER_GROUP=`ls -ld $system_mail_dir 2>&1 | awk '{print $4;}'`
+	system_mail_perm="writable by group $CAMEL_LOCK_HELPER_GROUP"
+	;;
+
+drw???????)
+	CAMEL_LOCK_HELPER_USER=`ls -ld $system_mail_dir 2>&1 | awk '{print $3;}'`
+	CAMEL_LOCK_HELPER_GROUP=""
+	system_mail_perm="writable by user $CAMEL_LOCK_HELPER_USER"
+	;;
+
+*)
+	CAMEL_LOCK_HELPER_USER=""
+	CAMEL_LOCK_HELPER_GROUP=""
+	system_mail_perm="???"
+	;;
+esac
+
+AC_MSG_RESULT([$system_mail_dir, $system_mail_perm])
+AC_SUBST(CAMEL_LOCK_HELPER_USER)
+AC_SUBST(CAMEL_LOCK_HELPER_GROUP)
+
+AM_CONDITIONAL(CAMEL_LOCK_HELPER_SETUID, test -n "$CAMEL_LOCK_HELPER_USER")
+AM_CONDITIONAL(CAMEL_LOCK_HELPER_SETGID, test -n "$CAMEL_LOCK_HELPER_GROUP")
+
 dnl * Time zone stuff
 AC_CACHE_CHECK(for timezone variable, ac_cv_var_timezone,
 	AC_TRY_COMPILE([
@@ -1070,7 +1103,7 @@ echo "
 fi
 
 echo "
-	Mail Directory:   $system_mail_dir
+	Mail Directory:   $system_mail_dir, $system_mail_perm
 	LDAP support:     $msg_ldap
 	NNTP support:     $msg_nntp
 	Pilot conduits:   $msg_pilot

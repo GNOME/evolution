@@ -1,3 +1,9 @@
+2001-06-18  Dan Winship  <danw@ximian.com>
+
+	* configure.in: Check the modes on $system_mail_dir and set up
+	variables for camel/Makefile to make camel-lock-helper
+	setuid/setgid.
+
 2001-06-11  JP Rosevear  <jpr@ximian.com>
 
 	* configure.in: One slight db3 check correction
