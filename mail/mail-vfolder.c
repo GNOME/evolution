@@ -367,12 +367,12 @@ mail_vfolder_remove_uri(CamelStore *store, const char *uri)
 
 	/* maintain remote/local lists */
 	if (remote) {
-		if ((link = my_list_find(source_folders_remote, (void *)uri, uri_cmp)) == NULL) {
+		if ((link = my_list_find(source_folders_remote, (void *)uri, uri_cmp)) != NULL) {
 			g_free(link->data);
 			source_folders_remote = g_list_remove_link(source_folders_remote, link);
 		}
 	} else {
-		if ((link = my_list_find(source_folders_local, (void *)uri, uri_cmp)) == NULL) {
+		if ((link = my_list_find(source_folders_local, (void *)uri, uri_cmp)) != NULL) {
 			g_free(link->data);
 			source_folders_local = g_list_remove_link(source_folders_local, link);
 		}

@@ -1,3 +1,8 @@
+2001-10-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-vfolder.c (mail_vfolder_remove_uri): replace my_list_find()
+	== NULL with my_list_find() != NULL.
+
 2001-10-01  Dan Winship  <danw@ximian.com>
 
 	* component-factory.c (mail_load_storage_by_uri): create storages
