@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2002-06-12 16:41-0400\n"
-"PO-Revision-Date: 2002-07-02 17:53-0400\n"
+"PO-Revision-Date: 2002-07-11 18:46-0400\n"
 "Last-Translator: Radka Doulíková <doulikova@centrum.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -467,7 +467,7 @@ msgstr ""
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:14
 msgid "This page can be used to configure access to LDAP directory servers"
-msgstr ""
+msgstr "Tato stránka se pouøívá pro nastavení pøístupu k adresáøùm LDAP serverù"
 
 #: addressbook/gui/component/addressbook-component.c:73
 #: addressbook/gui/component/addressbook-component.c:620
@@ -1400,7 +1400,7 @@ msgstr ""
 #: ui/evolution-mail-message.xml.h:95 ui/evolution-tasks.xml.h:16
 #: ui/evolution.xml.h:43
 msgid "_Delete"
-msgstr "Smazat"
+msgstr "_Smazat"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:32
 msgid "_Job title:"
@@ -3754,7 +3754,7 @@ msgstr "hodinu/-y"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:11 filter/filter-datespec.c:85
 msgid "minutes"
-msgstr "minuty"
+msgstr "minut(-u,-y)"
 
 #: calendar/gui/dialogs/alarm-page.c:309
 #, c-format
@@ -4037,7 +4037,7 @@ msgstr "úterý"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
 msgid "W_eek starts:"
-msgstr "Tý_den zaèíná:"
+msgstr "_Týden zaèíná:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 msgid "Wenesday"
@@ -4046,7 +4046,7 @@ msgstr "støeda"
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
 #: ui/evolution-calendar.xml.h:24
 msgid "Work Week"
-msgstr "pracovní týden"
+msgstr "Pracovní týden"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 msgid "Work days:"
@@ -5969,7 +5969,7 @@ msgstr "Tisknout kalendáø"
 #: my-evolution/e-summary.c:619 ui/evolution-addressbook.xml.h:19
 #: ui/evolution-mail-message.xml.h:66
 msgid "Print Preview"
-msgstr "Tisknout pøehled"
+msgstr "Prohlédnout pøed tiskem"
 
 #: calendar/gui/print.c:2550
 msgid "Print Item"
@@ -6180,267 +6180,267 @@ msgstr ""
 #.
 #: calendar/zones.h:7
 msgid "Africa/Abidjan"
-msgstr ""
+msgstr "Afrika/Abidjan"
 
 #: calendar/zones.h:8
 msgid "Africa/Accra"
-msgstr ""
+msgstr "Afrika/Accra"
 
 #: calendar/zones.h:9
 msgid "Africa/Addis_Ababa"
-msgstr ""
+msgstr "Afrika/Addis_Abeba"
 
 #: calendar/zones.h:10
 msgid "Africa/Algiers"
-msgstr ""
+msgstr "Afrika/Algiers"
 
 #: calendar/zones.h:11
 msgid "Africa/Asmera"
-msgstr ""
+msgstr "Afrika/Asmera"
 
 #: calendar/zones.h:12
 msgid "Africa/Bamako"
-msgstr ""
+msgstr "Afrika/Bamako"
 
 #: calendar/zones.h:13
 msgid "Africa/Bangui"
-msgstr ""
+msgstr "Afrika/Bangui"
 
 #: calendar/zones.h:14
 msgid "Africa/Banjul"
-msgstr ""
+msgstr "Afrika/Banjul"
 
 #: calendar/zones.h:15
 msgid "Africa/Bissau"
-msgstr ""
+msgstr "Afrika/Bissau"
 
 #: calendar/zones.h:16
 msgid "Africa/Blantyre"
-msgstr ""
+msgstr "Afrika/Blantyre"
 
 #: calendar/zones.h:17
 msgid "Africa/Brazzaville"
-msgstr ""
+msgstr "Afrika/Brazzaville"
 
 #: calendar/zones.h:18
 msgid "Africa/Bujumbura"
-msgstr ""
+msgstr "Afrika/Bujumbura"
 
 #: calendar/zones.h:19
 msgid "Africa/Cairo"
-msgstr ""
+msgstr "Afrika/Káhira"
 
 #: calendar/zones.h:20
 msgid "Africa/Casablanca"
-msgstr ""
+msgstr "Afrika/Casablanca"
 
 #: calendar/zones.h:21
 msgid "Africa/Ceuta"
-msgstr ""
+msgstr "Afrika/Ceuta"
 
 #: calendar/zones.h:22
 msgid "Africa/Conakry"
-msgstr ""
+msgstr "Afrika/Conakry"
 
 #: calendar/zones.h:23
 msgid "Africa/Dakar"
-msgstr ""
+msgstr "Afrika/Dakar"
 
 #: calendar/zones.h:24
 msgid "Africa/Dar_es_Salaam"
-msgstr ""
+msgstr "Afrika/Dar_es_Salaam"
 
 #: calendar/zones.h:25
 msgid "Africa/Djibouti"
-msgstr ""
+msgstr "Afrika/D¾ibuti"
 
 #: calendar/zones.h:26
 msgid "Africa/Douala"
-msgstr ""
+msgstr "Afrika/Douala"
 
 #: calendar/zones.h:27
 msgid "Africa/El_Aaiun"
-msgstr ""
+msgstr "Afrika/El_Aaiun"
 
 #: calendar/zones.h:28
 msgid "Africa/Freetown"
-msgstr ""
+msgstr "Afrika/Freetown"
 
 #: calendar/zones.h:29
 msgid "Africa/Gaborone"
-msgstr ""
+msgstr "Afrika/Gaborone"
 
 #: calendar/zones.h:30
 msgid "Africa/Harare"
-msgstr ""
+msgstr "Afrika/Harare"
 
 #: calendar/zones.h:31
 msgid "Africa/Johannesburg"
-msgstr ""
+msgstr "Afrika/Johannesburg"
 
 #: calendar/zones.h:32
 msgid "Africa/Kampala"
-msgstr ""
+msgstr "Afrika/Kampala"
 
 #: calendar/zones.h:33
 msgid "Africa/Khartoum"
-msgstr ""
+msgstr "Afrika/Khartoum"
 
 #: calendar/zones.h:34
 msgid "Africa/Kigali"
-msgstr ""
+msgstr "Afrika/Kigali"
 
 #: calendar/zones.h:35
 msgid "Africa/Kinshasa"
-msgstr ""
+msgstr "Afrika/Kinshasa"
 
 #: calendar/zones.h:36
 msgid "Africa/Lagos"
-msgstr ""
+msgstr "Afrika/Lagos"
 
 #: calendar/zones.h:37
 msgid "Africa/Libreville"
-msgstr ""
+msgstr "Afrika/Libreville"
 
 #: calendar/zones.h:38
 msgid "Africa/Lome"
-msgstr ""
+msgstr "Afrika/Lome"
 
 #: calendar/zones.h:39
 msgid "Africa/Luanda"
-msgstr ""
+msgstr "Afrika/Luanda"
 
 #: calendar/zones.h:40
 msgid "Africa/Lubumbashi"
-msgstr ""
+msgstr "Afrika/Lubumbashi"
 
 #: calendar/zones.h:41
 msgid "Africa/Lusaka"
-msgstr ""
+msgstr "Afrika/Lusaka"
 
 #: calendar/zones.h:42
 msgid "Africa/Malabo"
-msgstr ""
+msgstr "Afrika/Malabo"
 
 #: calendar/zones.h:43
 msgid "Africa/Maputo"
-msgstr ""
+msgstr "Afrika/Maputo"
 
 #: calendar/zones.h:44
 msgid "Africa/Maseru"
-msgstr ""
+msgstr "Afrika/Maseru"
 
 #: calendar/zones.h:45
 msgid "Africa/Mbabane"
-msgstr ""
+msgstr "Afrika/Mbabane"
 
 #: calendar/zones.h:46
 msgid "Africa/Mogadishu"
-msgstr ""
+msgstr "Afrika/Mogadishu"
 
 #: calendar/zones.h:47
 msgid "Africa/Monrovia"
-msgstr ""
+msgstr "Afrika/Monrovia"
 
 #: calendar/zones.h:48
 msgid "Africa/Nairobi"
-msgstr ""
+msgstr "Afrika/Nairobi"
 
 #: calendar/zones.h:49
 msgid "Africa/Ndjamena"
-msgstr ""
+msgstr "Afrika/Ndjamena"
 
 #: calendar/zones.h:50
 msgid "Africa/Niamey"
-msgstr ""
+msgstr "Afrika/Niamey"
 
 #: calendar/zones.h:51
 msgid "Africa/Nouakchott"
-msgstr ""
+msgstr "Afrika/Nouakchott"
 
 #: calendar/zones.h:52
 msgid "Africa/Ouagadougou"
-msgstr ""
+msgstr "Afrika/Ouagadougou"
 
 #: calendar/zones.h:53
 msgid "Africa/Porto-Novo"
-msgstr ""
+msgstr "Afrika/Porto-Novo"
 
 #: calendar/zones.h:54
 msgid "Africa/Sao_Tome"
-msgstr ""
+msgstr "Afrika/Sao_Tome"
 
 #: calendar/zones.h:55
 msgid "Africa/Timbuktu"
-msgstr ""
+msgstr "Afrika/Timbuktu"
 
 #: calendar/zones.h:56
 msgid "Africa/Tripoli"
-msgstr ""
+msgstr "Afrika/Tripoli"
 
 #: calendar/zones.h:57
 msgid "Africa/Tunis"
-msgstr ""
+msgstr "Afrika/Tunis"
 
 #: calendar/zones.h:58
 msgid "Africa/Windhoek"
-msgstr ""
+msgstr "Afrika/Windhoek"
 
 #: calendar/zones.h:59
 msgid "America/Adak"
-msgstr ""
+msgstr "Amerika/Adak"
 
 #: calendar/zones.h:60
 msgid "America/Anchorage"
-msgstr ""
+msgstr "Amerika/Anchorage"
 
 #: calendar/zones.h:61
 msgid "America/Anguilla"
-msgstr ""
+msgstr "Amerika/Anguilla"
 
 #: calendar/zones.h:62
 msgid "America/Antigua"
-msgstr ""
+msgstr "Amerika/Antigua"
 
 #: calendar/zones.h:63
 msgid "America/Araguaina"
-msgstr ""
+msgstr "Amerika/Araguaina"
 
 #: calendar/zones.h:64
 msgid "America/Aruba"
-msgstr ""
+msgstr "Amerika/Aruba"
 
 #: calendar/zones.h:65
 msgid "America/Asuncion"
-msgstr ""
+msgstr "Amerika/Asuncion"
 
 #: calendar/zones.h:66
 msgid "America/Barbados"
-msgstr ""
+msgstr "Amerika/Barbados"
 
 #: calendar/zones.h:67
 msgid "America/Belem"
-msgstr ""
+msgstr "Amerika/Belem"
 
 #: calendar/zones.h:68
 msgid "America/Belize"
-msgstr ""
+msgstr "Amerika/Belize"
 
 #: calendar/zones.h:69
 msgid "America/Boa_Vista"
-msgstr ""
+msgstr "Amerika/Boa_Vista"
 
 #: calendar/zones.h:70
 msgid "America/Bogota"
-msgstr ""
+msgstr "Amerika/Bogota"
 
 #: calendar/zones.h:71
 msgid "America/Boise"
-msgstr ""
+msgstr "Amerika/Boise"
 
 #: calendar/zones.h:72
 msgid "America/Buenos_Aires"
-msgstr ""
+msgstr "Amerika/Buenos_Aires"
 
 #: calendar/zones.h:73
 msgid "America/Cambridge_Bay"
@@ -9604,7 +9604,7 @@ msgstr ""
 #. This is a filename. Translators take note.
 #: composer/e-msg-composer-attachment-bar.c:361 mail/mail-display.c:152
 msgid "attachment"
-msgstr ""
+msgstr "priloha"
 
 #: composer/e-msg-composer-attachment-bar.c:506
 msgid "Remove selected items from the attachment list"
@@ -10030,7 +10030,7 @@ msgstr "minutu"
 
 #: filter/filter-datespec.c:86 mail/mail-config.glade.h:189
 msgid "seconds"
-msgstr "Výbìr ikony..."
+msgstr "vteøinì(-ách)"
 
 #: filter/filter-datespec.c:194
 msgid "You have forgotten to choose a date."
@@ -10048,7 +10048,7 @@ msgid ""
 msgstr ""
 "Datum zprávy bude porovnáváno s èasem,\n"
 "kdy bude spu¹tìn filtr nebo\n"
-"bude otevøena vslo¾ka."
+"bude otevøena Vslo¾ka."
 
 #: filter/filter-datespec.c:294
 msgid ""
@@ -10071,7 +10071,7 @@ msgstr ""
 #. keep in sync with FilterDatespec_type!
 #: filter/filter-datespec.c:369
 msgid "the current time"
-msgstr "souèasným èasem"
+msgstr "se souèasným èasem"
 
 #: filter/filter-datespec.c:369
 msgid "a time you specify"
@@ -10089,7 +10089,7 @@ msgstr "Vybrat èas pro porovnání"
 #. The label
 #: filter/filter-datespec.c:428
 msgid "Compare against"
-msgstr "Porovnat s"
+msgstr "Porovnat"
 
 #: filter/filter-datespec.c:546 filter/filter-datespec.c:725
 msgid "now"
@@ -11065,11 +11065,11 @@ msgstr ""
 #: mail/mail-accounts.c:734 mail/mail-accounts.etspec.h:2
 #: mail/mail-config.glade.h:52
 msgid "Enabled"
-msgstr ""
+msgstr "Povoleno"
 
 #: mail/mail-accounts.c:735 mail/mail-accounts.etspec.h:1
 msgid "Account name"
-msgstr ""
+msgstr "Jméno úètu"
 
 #: mail/mail-accounts.c:736 mail/mail-accounts.etspec.h:3
 msgid "Protocol"
@@ -11427,7 +11427,7 @@ msgstr ""
 
 #: mail/mail-config.glade.h:10
 msgid "Add Sc_ript"
-msgstr ""
+msgstr "Pøidat skr_ipt"
 
 #: mail/mail-config.glade.h:11
 msgid "Add new signature..."
@@ -11451,11 +11451,11 @@ msgstr ""
 
 #: mail/mail-config.glade.h:18
 msgid "Attach original message"
-msgstr ""
+msgstr "Pøilo¾it pùvodní zprávu"
 
 #: mail/mail-config.glade.h:19 mail/message-list.etspec.h:1
 msgid "Attachment"
-msgstr ""
+msgstr "Pøíloha"
 
 #: mail/mail-config.glade.h:20
 msgid "Authentication"
@@ -11483,16 +11483,15 @@ msgstr "_Barvy"
 
 #: mail/mail-config.glade.h:26
 msgid "Check spelling while I _type"
-msgstr ""
+msgstr "Kontrolovat pravopis bìhem _psaní"
 
 #: mail/mail-config.glade.h:27
 msgid "Checking for New Mail"
 msgstr ""
 
 #: mail/mail-config.glade.h:28
-#, fuzzy
 msgid "Color for _misspelled words:"
-msgstr "Barva pro úkoly, které mají být splnìny dnes"
+msgstr "_Barva pro ¹patnì napsaná slova:"
 
 #: mail/mail-config.glade.h:29
 msgid "Composing Messages"
@@ -11518,15 +11517,15 @@ msgstr ""
 
 #: mail/mail-config.glade.h:39
 msgid "Default Behavior"
-msgstr ""
+msgstr "Pøedem nastavené chování"
 
 #: mail/mail-config.glade.h:40
 msgid "Default character _encoding:"
-msgstr ""
+msgstr "Výchozí znaková sada"
 
 #: mail/mail-config.glade.h:41
 msgid "Deleting Mail"
-msgstr ""
+msgstr "Mazání po¹ty"
 
 #: mail/mail-config.glade.h:43
 msgid "Digital IDs..."
@@ -11534,7 +11533,7 @@ msgstr ""
 
 #: mail/mail-config.glade.h:44
 msgid "Do not quote original message"
-msgstr ""
+msgstr "Necitovat pùvodní zprávu"
 
 #: mail/mail-config.glade.h:45 shell/glade/evolution-startup-wizard.glade.h:2
 msgid "Done"
@@ -11562,7 +11561,7 @@ msgstr "E-mailová _adresa:"
 
 #: mail/mail-config.glade.h:51
 msgid "Empty _trash folders on exit"
-msgstr ""
+msgstr "Pøi ukonèení vyprázdnit slo¾ku _ko¹"
 
 #: mail/mail-config.glade.h:53
 msgid "Execute Command..."
@@ -11570,7 +11569,7 @@ msgstr ""
 
 #: mail/mail-config.glade.h:54
 msgid "Fi_xed -width:"
-msgstr ""
+msgstr "Pe_vná ¹íøka:"
 
 #: mail/mail-config.glade.h:55
 msgid "Font Properties"
@@ -11578,7 +11577,7 @@ msgstr "Vlastnosti písma"
 
 #: mail/mail-config.glade.h:56
 msgid "Format messages in _HTML"
-msgstr ""
+msgstr "Psát zprávy v _HTML formátu"
 
 #: mail/mail-config.glade.h:57
 msgid "Get Digital ID..."
@@ -11598,7 +11597,7 @@ msgstr ""
 
 #: mail/mail-config.glade.h:62
 msgid "Inline"
-msgstr ""
+msgstr "Vlo¾ené"
 
 #: mail/mail-config.glade.h:63
 msgid "Kerberos "
@@ -11626,19 +11625,19 @@ msgstr ""
 
 #: mail/mail-config.glade.h:72
 msgid "Message Display"
-msgstr ""
+msgstr "Zobrazení zprávy"
 
 #: mail/mail-config.glade.h:73
 msgid "Microsoft"
-msgstr ""
+msgstr "Microsoft"
 
 #: mail/mail-config.glade.h:74
 msgid "NNTP Server:"
-msgstr ""
+msgstr "NNTP Server:"
 
 #: mail/mail-config.glade.h:77
 msgid "New Mail Notification"
-msgstr ""
+msgstr "Upozornìní na novou po¹tu"
 
 #: mail/mail-config.glade.h:78
 msgid "News Servers"
@@ -11646,7 +11645,7 @@ msgstr ""
 
 #: mail/mail-config.glade.h:80
 msgid "On Screen fonts"
-msgstr ""
+msgstr "Fonty na obrazovce"
 
 #: mail/mail-config.glade.h:81
 msgid "Optional Information"
@@ -11662,11 +11661,11 @@ msgstr ""
 
 #: mail/mail-config.glade.h:88
 msgid "Pick a color"
-msgstr "Vyber barvu"
+msgstr "Vybrat barvu"
 
 #: mail/mail-config.glade.h:89
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
-msgstr ""
+msgstr "Up_ozornit, kdy¾ posílám zprávu, kde jsou uvedeni jen pøíjemci v neviditelné kopii"
 
 #: mail/mail-config.glade.h:90
 msgid "Pretty Good Privacy (PGP/GPG)"
@@ -11674,7 +11673,7 @@ msgstr ""
 
 #: mail/mail-config.glade.h:91
 msgid "Printed Fonts"
-msgstr ""
+msgstr "Fonty pro tisk"
 
 #: mail/mail-config.glade.h:92
 msgid "Qmail maildir "
@@ -11682,15 +11681,15 @@ msgstr ""
 
 #: mail/mail-config.glade.h:93
 msgid "Quote original message"
-msgstr ""
+msgstr "Citovat pùvodní zprávu"
 
 #: mail/mail-config.glade.h:94
 msgid "Quoted"
-msgstr ""
+msgstr "Citace"
 
 #: mail/mail-config.glade.h:95
 msgid "Re_member this password"
-msgstr ""
+msgstr "Zapamatovat si toto heslo"
 
 #: mail/mail-config.glade.h:96
 msgid "Re_ply-To:"
@@ -11722,19 +11721,19 @@ msgstr ""
 
 #: mail/mail-config.glade.h:104
 msgid "Select HTML fixed width font"
-msgstr ""
+msgstr "Vybrat HTML font s pevnou ¹íøkou"
 
 #: mail/mail-config.glade.h:105
 msgid "Select HTML fixed width font for printing"
-msgstr ""
+msgstr "Vybrat pro tisk HTML font s pevnou ¹íøkou"
 
 #: mail/mail-config.glade.h:106
 msgid "Select HTML variable width font"
-msgstr ""
+msgstr "Vybrat HTML font s promìnlivou ¹íøkou"
 
 #: mail/mail-config.glade.h:107
 msgid "Select HTML variable width font for printing"
-msgstr ""
+msgstr "Vybrat pro tisk HTML font s promìnlivou ¹íøkou"
 
 #: mail/mail-config.glade.h:108
 msgid "Select PGP program"
@@ -11786,7 +11785,7 @@ msgstr ""
 
 #: mail/mail-config.glade.h:121
 msgid "Specify _filename:"
-msgstr ""
+msgstr "Upøesnit _název souboru:"
 
 #: mail/mail-config.glade.h:122
 #, fuzzy
@@ -11823,7 +11822,7 @@ msgstr ""
 
 #: mail/mail-config.glade.h:133
 msgid "V_ariable-width:"
-msgstr ""
+msgstr "P_romìnlivá ¹íøka:"
 
 #: mail/mail-config.glade.h:134
 msgid ""
@@ -11866,7 +11865,7 @@ msgstr "_Automaticky vkládat chechtáky"
 
 #: mail/mail-config.glade.h:148
 msgid "_Beep when new mail arrives"
-msgstr ""
+msgstr "_Pípnout, kdy¾ pøijde nová po¹ta"
 
 #: mail/mail-config.glade.h:149
 msgid "_Certificate ID:"
@@ -11874,7 +11873,7 @@ msgstr ""
 
 #: mail/mail-config.glade.h:150
 msgid "_Confirm when expunging a folder"
-msgstr ""
+msgstr "_Vy¾adovat potvrzení pøi vymazání slo¾ky"
 
 #: mail/mail-config.glade.h:151
 msgid "_Default signature:"
@@ -11886,7 +11885,7 @@ msgstr "_Výchozí hodnoty"
 
 #: mail/mail-config.glade.h:154
 msgid "_Do not notify me when new mail arrives"
-msgstr ""
+msgstr "Neupozoròovat, kdy¾ pøijde nová po¹ta"
 
 #: mail/mail-config.glade.h:156
 msgid "_Enable"
@@ -11894,11 +11893,11 @@ msgstr "_Povolit"
 
 #: mail/mail-config.glade.h:157
 msgid "_Fixed-width:"
-msgstr ""
+msgstr "P_evná ¹íøka:"
 
 #: mail/mail-config.glade.h:158
 msgid "_Forward style:"
-msgstr ""
+msgstr "_Styl pøeposílaných:"
 
 #: mail/mail-config.glade.h:159
 msgid "_Full name:"
@@ -11922,7 +11921,7 @@ msgstr ""
 
 #: mail/mail-config.glade.h:166
 msgid "_Mark messages as read after"
-msgstr ""
+msgstr "_Oznaèit zprávu jako pøeètenou po"
 
 #: mail/mail-config.glade.h:167
 msgid "_Name:"
@@ -11938,15 +11937,15 @@ msgstr ""
 
 #: mail/mail-config.glade.h:171
 msgid "_Play sound file when new mail arrives"
-msgstr ""
+msgstr "_Zahrát zvuk, kdy¾ pøijde nová po¹ta"
 
 #: mail/mail-config.glade.h:172
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
-msgstr ""
+msgstr "_Upozornit, kdy¾ posílám zprávu v HTML formátu kontaktùm, které si to nepøejí"
 
 #: mail/mail-config.glade.h:173
 msgid "_Prompt when sending messages with an empty subject line"
-msgstr ""
+msgstr "_Upozornit, kdy¾ posílám zprávu s prázdným políèkem \"Pøedmìt\""
 
 #: mail/mail-config.glade.h:174
 msgid "_Receiving Mail"
@@ -11954,7 +11953,7 @@ msgstr ""
 
 #: mail/mail-config.glade.h:175
 msgid "_Reply style:"
-msgstr ""
+msgstr "Styl _odpovìdí:"
 
 #: mail/mail-config.glade.h:176
 msgid "_Restore defaults"
@@ -11986,7 +11985,7 @@ msgstr ""
 
 #: mail/mail-config.glade.h:183
 msgid "_Variable-width:"
-msgstr ""
+msgstr "_Promìnlivá ¹íøka:"
 
 #: mail/mail-config.glade.h:184
 msgid "_every"
@@ -12511,7 +12510,7 @@ msgstr ""
 
 #: mail/mail-signature-editor.c:378
 msgid "Type the name by which you would like to refer to this signature."
-msgstr ""
+msgstr "Napi¹te jméno, které má odkazovat na tento podpis."
 
 #: mail/mail-signature-editor.c:381 my-evolution/e-summary-preferences.c:774
 msgid "Name:"
@@ -12519,7 +12518,7 @@ msgstr "Jméno:"
 
 #: mail/mail-signature-editor.c:397
 msgid "Signature hint"
-msgstr ""
+msgstr "Nápovìda"
 
 #: mail/mail-signature-editor.c:407
 msgid ""
@@ -12527,10 +12526,12 @@ msgid ""
 "\"Insert\" menu, and select either the \"Text file\" or the \"HTML file\" "
 "item."
 msgstr ""
+"Pokud chcete pou¾ít starý podpis, mù¾ete ho importovat otevøením menu\n"
+"\"Vlo¾it\" a vybrat buï polo¾ku \"Textový soubor\" nebo \"HTML soubor\"."
 
 #: mail/mail-signature-editor.c:416
 msgid "Hide signature hint"
-msgstr ""
+msgstr "Skrýt nápovìdu"
 
 #: mail/mail-tools.c:257
 #, c-format
@@ -22853,11 +22854,11 @@ msgstr ""
 #. DRIZZLE
 #: my-evolution/metar.c:127
 msgid "Drizzle"
-msgstr ""
+msgstr "Mrholení"
 
 #: my-evolution/metar.c:128
 msgid "Drizzle in the vicinity"
-msgstr ""
+msgstr "Mrholení v blízkém okolí"
 
 #: my-evolution/metar.c:129
 msgid "Light drizzle"
@@ -22885,7 +22886,7 @@ msgstr ""
 
 #: my-evolution/metar.c:135 my-evolution/metar.c:150
 msgid "Thunderstorm"
-msgstr ""
+msgstr "Bouøka"
 
 #: my-evolution/metar.c:136
 msgid "Windy drizzle"
@@ -22893,7 +22894,7 @@ msgstr ""
 
 #: my-evolution/metar.c:137
 msgid "Showers"
-msgstr ""
+msgstr "Pøeháòky"
 
 #: my-evolution/metar.c:138
 msgid "Drifting drizzle"
@@ -22906,11 +22907,11 @@ msgstr ""
 #. RAIN
 #: my-evolution/metar.c:142
 msgid "Rain"
-msgstr ""
+msgstr "Dé¹»"
 
 #: my-evolution/metar.c:143
 msgid "Rain in the vicinity"
-msgstr ""
+msgstr "Dé¹» v blízkém okolí"
 
 #: my-evolution/metar.c:144
 msgid "Light rain"
@@ -22959,27 +22960,27 @@ msgstr ""
 
 #: my-evolution/metar.c:158
 msgid "Snow in the vicinity"
-msgstr ""
+msgstr "Snì¾ení v blízkém okolí"
 
 #: my-evolution/metar.c:159
 msgid "Light snow"
-msgstr ""
+msgstr "Lehké snì¾ení"
 
 #: my-evolution/metar.c:160
 msgid "Moderate snow"
-msgstr ""
+msgstr "Mírné snì¾ení"
 
 #: my-evolution/metar.c:161
 msgid "Heavy snow"
-msgstr ""
+msgstr "Silné snì¾ení"
 
 #: my-evolution/metar.c:162
 msgid "Shallow snow"
-msgstr ""
+msgstr "Slabé snì¾ení"
 
 #: my-evolution/metar.c:163
 msgid "Patches of snow"
-msgstr ""
+msgstr "Obèasné snì¾ení"
 
 #: my-evolution/metar.c:164
 msgid "Partial snowfall"
@@ -22987,7 +22988,7 @@ msgstr ""
 
 #: my-evolution/metar.c:165 my-evolution/metar.c:180
 msgid "Snowstorm"
-msgstr ""
+msgstr "Snìhové bouøe"
 
 #: my-evolution/metar.c:166
 msgid "Blowing snowfall"
@@ -22995,56 +22996,56 @@ msgstr ""
 
 #: my-evolution/metar.c:167
 msgid "Snow showers"
-msgstr ""
+msgstr "Snìhové pøeháòky"
 
 #: my-evolution/metar.c:168
 msgid "Drifting snow"
-msgstr ""
+msgstr "Snì¾ení s vìtrem"
 
 #: my-evolution/metar.c:169
 msgid "Freezing snow"
-msgstr ""
+msgstr "Mrznoucí snì¾ení"
 
 #. SNOW_GRAINS
 #: my-evolution/metar.c:172
 msgid "Snow grains"
-msgstr ""
+msgstr "Snì¾ení"
 
 #: my-evolution/metar.c:173
 msgid "Snow grains in the vicinity"
-msgstr ""
+msgstr "Snì¾ení v blízkém okolí"
 
 #: my-evolution/metar.c:174
 msgid "Light snow grains"
-msgstr ""
+msgstr "Lehké snì¾ení"
 
 #: my-evolution/metar.c:175
 msgid "Moderate snow grains"
-msgstr ""
+msgstr "Mírné snì¾ení"
 
 #: my-evolution/metar.c:176
 msgid "Heavy snow grains"
-msgstr ""
+msgstr "Silné snì¾ení"
 
 #: my-evolution/metar.c:177
 msgid "Shallow snow grains"
-msgstr ""
+msgstr "Slabé snì¾ení"
 
 #: my-evolution/metar.c:178
 msgid "Patches of snow grains"
-msgstr ""
+msgstr "Obèasné snì¾ení"
 
 #: my-evolution/metar.c:179
 msgid "Partial snow grains"
-msgstr ""
+msgstr "Snì¾ení"
 
 #: my-evolution/metar.c:181
 msgid "Blowing snow grains"
-msgstr ""
+msgstr "Snì¾ení s vìtrem"
 
 #: my-evolution/metar.c:182
 msgid "Snow grain showers"
-msgstr ""
+msgstr "Snìhové pøeháòky"
 
 #: my-evolution/metar.c:183
 msgid "Drifting snow grains"
@@ -23530,31 +23531,31 @@ msgstr ""
 #. HAZE
 #: my-evolution/metar.c:337
 msgid "Haze"
-msgstr ""
+msgstr "Mlha"
 
 #: my-evolution/metar.c:338
 msgid "Haze in the vicinity"
-msgstr ""
+msgstr "Mlha v blízkém okolí"
 
 #: my-evolution/metar.c:339
 msgid "Light haze"
-msgstr ""
+msgstr "Lehká mlha"
 
 #: my-evolution/metar.c:340
 msgid "Moderate haze"
-msgstr ""
+msgstr "Mírná mlha"
 
 #: my-evolution/metar.c:341
 msgid "Thick haze"
-msgstr ""
+msgstr "Hustá mlha"
 
 #: my-evolution/metar.c:342
 msgid "Shallow haze"
-msgstr ""
+msgstr "Slabá mlha"
 
 #: my-evolution/metar.c:343
 msgid "Patches of haze"
-msgstr ""
+msgstr "Obèasná mlha"
 
 #: my-evolution/metar.c:344
 msgid "Partial haze"
@@ -23562,7 +23563,7 @@ msgstr ""
 
 #: my-evolution/metar.c:346
 msgid "Haze with wind"
-msgstr ""
+msgstr "Mlha s vìtrem"
 
 #: my-evolution/metar.c:348
 msgid "Drifting haze"
@@ -24136,7 +24137,7 @@ msgstr ""
 
 #: shell/e-shell-config-folder-settings.c:71
 msgid "Default Folders"
-msgstr ""
+msgstr "Výchozí slo¾ky"
 
 #: shell/e-shell-config-folder-settings.c:74
 msgid "Offline Folders"
@@ -25587,39 +25588,39 @@ msgstr "Vybrat v¹e"
 
 #: ui/evolution-mail-list.xml.h:14
 msgid "Select _Thread"
-msgstr ""
+msgstr "Vybrat _vlákno"
 
 #: ui/evolution-mail-list.xml.h:15
 msgid "Select all and only the messages that are not currently selected"
-msgstr ""
+msgstr "Vybrat v¹e a pouze zprávy, které nyní nejsou vybrány"
 
 #: ui/evolution-mail-list.xml.h:16
 msgid "Select all messages in the same thread as the selected message"
-msgstr ""
+msgstr "Vybrat v¹echny zprávy ve stejném vláknì, jako je vybraná zpráva"
 
 #: ui/evolution-mail-list.xml.h:17
 msgid "Select all visible messages"
-msgstr ""
+msgstr "Vybrat v¹echny viditelné zprávy"
 
 #: ui/evolution-mail-list.xml.h:18
 msgid "Sh_ow Hidden Messages"
-msgstr ""
+msgstr "Ukázat _skryté zprávy"
 
 #: ui/evolution-mail-list.xml.h:19
 msgid "Show messages that have been temporarily hidden"
-msgstr ""
+msgstr "Ukázat zprávy, které byly doèasnì skryty"
 
 #: ui/evolution-mail-list.xml.h:20
 msgid "Temporarily hide all messages that have already been read"
-msgstr ""
+msgstr "Doèasnì skrýt v¹echny ji¾ pøeètené zprávy"
 
 #: ui/evolution-mail-list.xml.h:21
 msgid "Temporarily hide the selected messages"
-msgstr ""
+msgstr "Doèasnì skrýt vybrané zprávy"
 
 #: ui/evolution-mail-list.xml.h:22
 msgid "Threaded Message list"
-msgstr ""
+msgstr "Seznam zpráv dle vláken"
 
 #: ui/evolution-mail-list.xml.h:26 ui/evolution-tasks.xml.h:18
 msgid "_Expunge"
@@ -25631,7 +25632,7 @@ msgstr "_Slo¾ka"
 
 #: ui/evolution-mail-list.xml.h:28 ui/evolution-subscribe.xml.h:12
 msgid "_Invert Selection"
-msgstr ""
+msgstr "_Obrátit výbìr"
 
 #: ui/evolution-mail-list.xml.h:30
 msgid "_Properties..."
@@ -25639,7 +25640,7 @@ msgstr "_Vlastnosti..."
 
 #: ui/evolution-mail-list.xml.h:31
 msgid "_Threaded Message List"
-msgstr ""
+msgstr "Seznam zpráv dle _vláken"
 
 #: ui/evolution-mail-message.xml.h:1
 msgid "A_dd Sender to Addressbook"
@@ -25647,7 +25648,7 @@ msgstr "Pøidat _odesílatele do adresáøe"
 
 #: ui/evolution-mail-message.xml.h:2
 msgid "A_pply Filters"
-msgstr ""
+msgstr "Pou¾ít _filtry"
 
 #: ui/evolution-mail-message.xml.h:3
 msgid "Add Sender to Addressbook"
@@ -25655,7 +25656,7 @@ msgstr "Pøidat odesílatele do adresáøe"
 
 #: ui/evolution-mail-message.xml.h:4
 msgid "Apply filter rules to the selected messages"
-msgstr ""
+msgstr "Pou¾ít pravidla filtru na vybrané zprávy"
 
 #: ui/evolution-mail-message.xml.h:5
 msgid "Compose a reply to all of the recipients of the selected message"
@@ -25663,7 +25664,7 @@ msgstr "Napsat odpovìï v¹em pøíjemcùm vybrané zprávy"
 
 #: ui/evolution-mail-message.xml.h:6
 msgid "Compose a reply to the mailing list of the selected message"
-msgstr ""
+msgstr "Napsat odpovìï seznamu adres z vybraných zpráv"
 
 #: ui/evolution-mail-message.xml.h:7
 msgid "Compose a reply to the sender of the selected message"
@@ -25675,7 +25676,7 @@ msgstr "Kopírovat vybrané zprávy do jiné slo¾ky"
 
 #: ui/evolution-mail-message.xml.h:10
 msgid "Create _Virtual Folder From Message"
-msgstr ""
+msgstr "Ze zprávy vytvoøit _virtuální slo¾ku"
 
 #: ui/evolution-mail-message.xml.h:11
 msgid "Create a rule to filter messages from this sender"
@@ -25747,19 +25748,19 @@ msgstr "Pø_eposlat"
 
 #: ui/evolution-mail-message.xml.h:29
 msgid "Filter on Mailing _List..."
-msgstr ""
+msgstr "Filtr podle _seznamu adres..."
 
 #: ui/evolution-mail-message.xml.h:30
 msgid "Filter on Se_nder..."
-msgstr ""
+msgstr "Filtr podle _odesílatele..."
 
 #: ui/evolution-mail-message.xml.h:31
 msgid "Filter on _Recipients..."
-msgstr ""
+msgstr "Filtr podle _pøíjemcù..."
 
 #: ui/evolution-mail-message.xml.h:32
 msgid "Filter on _Subject..."
-msgstr ""
+msgstr "Filtr podle pøe_dmìtu..."
 
 #: ui/evolution-mail-message.xml.h:33
 msgid "Flag selected message(s) for follow-up"
@@ -25843,15 +25844,15 @@ msgstr "Dal¹í"
 
 #: ui/evolution-mail-message.xml.h:55
 msgid "Next _Important Message"
-msgstr "Dal¹í _dùle¾itá zpráva"
+msgstr "dal¹í _dùle¾itou zprávu"
 
 #: ui/evolution-mail-message.xml.h:56
 msgid "Next _Thread"
-msgstr "Dal¹í _vlákno"
+msgstr "dal¹í _vlákno"
 
 #: ui/evolution-mail-message.xml.h:57
 msgid "Next _Unread Message"
-msgstr "Dal¹í _nepøeètená zpráva"
+msgstr "dal¹í _nepøeètenou zprávu"
 
 #: ui/evolution-mail-message.xml.h:58
 msgid "Open the selected message in a new window"
@@ -25859,7 +25860,7 @@ msgstr "Otevøít vybranou zprávu v novém oknì"
 
 #: ui/evolution-mail-message.xml.h:59
 msgid "Open the selected message in the composer to re-send it"
-msgstr ""
+msgstr "Otevøít vybranou zprávu a upravit ji pro znovuposlání"
 
 #: ui/evolution-mail-message.xml.h:60
 msgid "Original Si_ze"
@@ -25867,15 +25868,15 @@ msgstr "Pùvodní _velikost"
 
 #: ui/evolution-mail-message.xml.h:61
 msgid "P_revious Unread Message"
-msgstr "Pøe_dchozí nepøeètená zpráva"
+msgstr "pøe_dchozí nepøeètenou zprávu"
 
 #: ui/evolution-mail-message.xml.h:62
 msgid "Pr_evious Important Message"
-msgstr "Pø_edchozí dùle¾itá zpráva"
+msgstr "pø_edchozí dùle¾itou zprávu"
 
 #: ui/evolution-mail-message.xml.h:63
 msgid "Preview the message to be printed"
-msgstr ""
+msgstr "Prohlí¾ení zprávy pøed tiskem"
 
 #: ui/evolution-mail-message.xml.h:64
 msgid "Previous"
@@ -25895,7 +25896,7 @@ msgstr ""
 
 #: ui/evolution-mail-message.xml.h:74
 msgid "Reset the text to its original size"
-msgstr ""
+msgstr "Obnovit text v jeho pùvodní velikosti"
 
 #: ui/evolution-mail-message.xml.h:75
 msgid "S_earch Message..."
@@ -25919,7 +25920,7 @@ msgstr "Nastavit stránku pro aktuální tiskárnu"
 
 #: ui/evolution-mail-message.xml.h:80
 msgid "Show Email _Source"
-msgstr ""
+msgstr "Ukázat _zdroj e-malu"
 
 #: ui/evolution-mail-message.xml.h:81
 msgid "Show Full _Headers"
@@ -25927,11 +25928,11 @@ msgstr "Ukázat celou _hlavièku"
 
 #: ui/evolution-mail-message.xml.h:82
 msgid "Show message in the normal style"
-msgstr ""
+msgstr "Ukázat zprávu v normálním stylu"
 
 #: ui/evolution-mail-message.xml.h:83
 msgid "Show message with all email headers"
-msgstr ""
+msgstr "Ukázat zprávu se v¹emi e-mailovými hlavièkami"
 
 #: ui/evolution-mail-message.xml.h:84
 msgid "Show the raw email source of the message"
@@ -25939,11 +25940,11 @@ msgstr ""
 
 #: ui/evolution-mail-message.xml.h:85
 msgid "Text Si_ze"
-msgstr ""
+msgstr "_Velikost textu"
 
 #: ui/evolution-mail-message.xml.h:86
 msgid "Un-delete the selected messages"
-msgstr ""
+msgstr "Obnovit smazané vybrané zprávy"
 
 #: ui/evolution-mail-message.xml.h:87
 msgid "VFolder on Mailing _List..."
@@ -25967,11 +25968,11 @@ msgstr ""
 
 #: ui/evolution-mail-message.xml.h:93
 msgid "_Copy to Folder"
-msgstr ""
+msgstr "_Kopírovat do slo¾ky"
 
 #: ui/evolution-mail-message.xml.h:94
 msgid "_Create Filter From Message"
-msgstr ""
+msgstr "_Vytvoøit filtr ze zprávy"
 
 #: ui/evolution-mail-message.xml.h:97
 msgid "_Forward Message"
@@ -25983,7 +25984,7 @@ msgstr "_Jít na"
 
 #: ui/evolution-mail-message.xml.h:99
 msgid "_Inline"
-msgstr ""
+msgstr "_Vlo¾ené"
 
 #: ui/evolution-mail-message.xml.h:100
 msgid "_Larger"
@@ -25991,7 +25992,7 @@ msgstr "_Vìt¹í"
 
 #: ui/evolution-mail-message.xml.h:101
 msgid "_Message Display"
-msgstr ""
+msgstr "_Zobrazení zprávy"
 
 #: ui/evolution-mail-message.xml.h:102
 msgid "_Move to Folder"
@@ -25999,7 +26000,7 @@ msgstr "_Pøesunout do slo¾ky"
 
 #: ui/evolution-mail-message.xml.h:103
 msgid "_Next Message"
-msgstr "_Následující zpráva"
+msgstr "_následující zprávu"
 
 #: ui/evolution-mail-message.xml.h:104
 msgid "_Normal Display"
@@ -26011,11 +26012,11 @@ msgstr "_Otevøít zprávu"
 
 #: ui/evolution-mail-message.xml.h:106
 msgid "_Previous Message"
-msgstr "_Pøedchozí zpráva"
+msgstr "_pøedchozí zprávu"
 
 #: ui/evolution-mail-message.xml.h:108
 msgid "_Quoted"
-msgstr ""
+msgstr "_Citace"
 
 #: ui/evolution-mail-message.xml.h:111 ui/evolution.xml.h:58
 msgid "_Tools"
@@ -26805,9 +26806,7 @@ msgstr ""
 #~ msgid ""
 #~ "This page can be used to configure synchronization of folders for offline "
 #~ "usage"
-#~ msgstr ""
-#~ "Tato strana nemù¾e být pou¾ita ke konfiguraci preferencí kalendáøe a "
-#~ "úkolu "
+#~ msgstr "Tato stránka se pou¾ívá k nastavení synchronizace slo¾ek pro práci offline"
 
 #~ msgid " Edit "
 #~ msgstr " Upravit "
