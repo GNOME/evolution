@@ -508,6 +508,14 @@ static char *meta_data_key(const char *uri, char **pathp)
 	char *p, c;
 
 	url = camel_url_new(uri, NULL);
+
+	if (url == NULL) {
+		g_warning("Trying to retrieve meta-data for unparsable uri: %s", uri);
+		*pathp = g_build_path(evolution_dir, "meta/unknown", NULL);
+
+		return g_strdup("folder");
+	}
+
 	path = g_string_new(evolution_dir);
 	g_string_append_printf(path, "/meta/%s/", url->protocol);
 

@@ -1,3 +1,10 @@
+2003-05-06  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #42400
+
+	* mail-tools.c (meta_data_key): protect against getting an
+	unparsable uri.
+
 2003-05-05  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #42294.
