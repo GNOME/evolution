@@ -26,6 +26,7 @@
 #include <e-cell-text.h>
 
 #include <e-addressbook-model.h>
+#include <e-select-names.h>
 #include "e-contact-editor.h"
 #include "e-contact-save-as.h"
 #include "e-ldap-server-dialog.h"
@@ -76,6 +77,7 @@ control_deactivate (BonoboControl *control, BonoboUIHandler *uih)
 {
 	/* how to remove a menu item */
 	bonobo_ui_handler_menu_remove (uih, "/File/Print");
+	bonobo_ui_handler_menu_remove (uih, "/File/TestSelectNames");
 	bonobo_ui_handler_menu_remove (uih, "/View/<sep>");
 	bonobo_ui_handler_menu_remove (uih, "/View/Toggle View"); 
 	bonobo_ui_handler_menu_remove (uih, "/Actions/New Contact"); 
@@ -407,6 +409,17 @@ print_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 	}
 }
 
+static void
+test_select_names_cb (BonoboUIHandler *uih, void *user_data, const char *path)
+{
+	ESelectNames *names = E_SELECT_NAMES(e_select_names_new());
+	
+	e_select_names_add_section(names, _("To"), "to");
+	e_select_names_add_section(names, _("From"), "from");
+	e_select_names_add_section(names, _("Cc"), "cc");
+	gtk_widget_show(GTK_WIDGET(names));
+}
+
 static GnomeUIInfo gnome_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("New"), N_("Create a new contact"), new_contact_cb, GNOME_STOCK_PIXMAP_NEW),
 
@@ -484,6 +497,13 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
 					 0, 0, print_cb,
+					 (gpointer) view);
+
+	bonobo_ui_handler_menu_new_item (uih, "/File/TestSelectNames",
+					 N_("Test Select Names"),
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 0, 0, test_select_names_cb,
 					 (gpointer) view);
 
 	bonobo_ui_handler_menu_new_item (uih, "/View/Toggle View",

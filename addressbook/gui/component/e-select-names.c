@@ -36,6 +36,7 @@ static void e_select_names_get_arg (GtkObject *object, GtkArg *arg, guint arg_id
 static void e_select_names_destroy (GtkObject *object);
 
 static GnomeDialogClass *parent_class = NULL;
+#define PARENT_TYPE gnome_dialog_get_type()
 
 /* The arguments we take */
 enum {
@@ -68,7 +69,7 @@ e_select_names_get_type (void)
 			(GtkClassInitFunc) NULL,
 		};
 
-		type = gtk_type_unique (gtk_vbox_get_type (), &info);
+		type = gtk_type_unique (PARENT_TYPE, &info);
 	}
 
 	return type;
@@ -81,11 +82,11 @@ e_select_names_class_init (ESelectNamesClass *klass)
 
 	object_class = (GtkObjectClass*) klass;
 
-	parent_class = gtk_type_class (gnome_dialog_get_type ());
+	parent_class = gtk_type_class (PARENT_TYPE);
 
-	gtk_object_add_arg_type ("EAddressbookModel::book", GTK_TYPE_OBJECT, 
+	gtk_object_add_arg_type ("ESelectNames::book", GTK_TYPE_OBJECT, 
 				 GTK_ARG_READWRITE, ARG_BOOK);
-	gtk_object_add_arg_type ("EAddressbookModel::query", GTK_TYPE_STRING,
+	gtk_object_add_arg_type ("ESelectNames::query", GTK_TYPE_STRING,
 				 GTK_ARG_READWRITE, ARG_QUERY);
 
 	object_class->set_arg = e_select_names_set_arg;
@@ -261,7 +262,7 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id)
 		return;
 	}
 
-	table = GTK_TABLE(glade_xml_get_widget (e_select_names->gui, "recipient-table"));
+	table = GTK_TABLE(glade_xml_get_widget (e_select_names->gui, "table-recipients"));
 
 	child = g_new(ESelectNamesChild, 1);
 

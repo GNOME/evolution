@@ -74,13 +74,14 @@ gnorba_DATA = addressbook.gnorba
 endif
 
 gladedir   = $(datadir)/evolution/glade
-glade_DATA = ldap-server-dialog.glade ldap-server-dialog.glade.h alphabet.glade
+glade_DATA = ldap-server-dialog.glade ldap-server-dialog.glade.h alphabet.glade select-names.glade
 
 EXTRA_DIST = 			\
 	$(glade_DATA)		\
 	addressbook.gnorba	\
 	addressbook.oafinfo	\
-	alphabet.glade.h
+	alphabet.glade.h	\
+	select-names.glade.h
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@

@@ -15,6 +15,8 @@
 #include <gnome.h>
 
 #define PARENT_TYPE e_table_model_get_type()
+ETableModelClass *parent_class;
+
 /*
  * EAddressbookModel callbacks
  * These are the callbacks that define the behavior of our custom model.
@@ -197,15 +199,17 @@ e_addressbook_model_class_init (GtkObjectClass *object_class)
 {
 	ETableModelClass *model_class = (ETableModelClass *) object_class;
 
+	parent_class = gtk_type_class (PARENT_TYPE);
+
+	object_class->destroy = addressbook_destroy;
+	object_class->set_arg   = e_addressbook_model_set_arg;
+	object_class->get_arg   = e_addressbook_model_get_arg;
+
 	gtk_object_add_arg_type ("EAddressbookModel::book", GTK_TYPE_OBJECT, 
 				 GTK_ARG_READWRITE, ARG_BOOK);
 	gtk_object_add_arg_type ("EAddressbookModel::query", GTK_TYPE_STRING,
 				 GTK_ARG_READWRITE, ARG_QUERY);
 	
-	object_class->destroy = addressbook_destroy;
-	object_class->set_arg   = e_addressbook_model_set_arg;
-	object_class->get_arg   = e_addressbook_model_get_arg;
-
 	model_class->column_count = addressbook_col_count;
 	model_class->row_count = addressbook_row_count;
 	model_class->value_at = addressbook_value_at;
