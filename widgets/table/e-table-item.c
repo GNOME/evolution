@@ -1418,6 +1418,14 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
 				return TRUE;
 
+			return_val = FALSE;
+
+			gtk_signal_emit (GTK_OBJECT (eti), eti_signals [CLICK],
+					 row, col, e, &return_val);
+
+			if (return_val)
+				return TRUE;
+
 			e_table_selection_model_do_something(eti->selection, view_to_model_row(eti, row), view_to_model_col(eti, col), e->button.state);
 
 			gtk_object_get(GTK_OBJECT(eti->selection),
@@ -1442,8 +1450,6 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				e_cell_event (ecell_view, e, view_to_model_col(eti, col), col, row);
 			}
 
-			gtk_signal_emit (GTK_OBJECT (eti), eti_signals [RIGHT_CLICK],
-					 row, col, e, &return_val);
 			break;
 		case 3:
 			gnome_canvas_item_w2i (item, &e->button.x, &e->button.y);
