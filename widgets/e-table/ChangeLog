@@ -1,3 +1,17 @@
+2000-05-16  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table-sorted-variable.c: Fixed a FIXME comment.
+
+	* e-table-header.c, e-table-header.h: Added code to put off size
+	calculation to the idle loop.  Added code to not resize columns
+	with 0 expansion.  Removed the set_width function; it's been
+	replaced with a Gtk+ arg.
+
+	* Makefile.am: Added e-table-defines.h to the Makefile.am.
+
+	* e-table-defines.h: A new file containing some #defines for use
+	in ETable.
+
 2000-05-14  Christopher James Lahey  <clahey@helixcode.com>
 
 	* Implemented the feature where the ETable columns automatically

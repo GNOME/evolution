@@ -215,7 +215,7 @@ int cols_closure;
 int *ascending_closure;
 GCompareFunc *compare_closure;
 
-/* FIXME: Make it not cache the second and later rows (as if anyone cares.) */
+/* FIXME: Make it not cache the second and later columns (as if anyone cares.) */
 
 static int
 qsort_callback(const void *data1, const void *data2)

@@ -23,12 +23,16 @@ struct _ETableHeader {
 
 	int col_count;
 	int width;
+	int nominal_width;
 
 	ETableSortInfo *sort_info;
 	int sort_info_group_change_id;
 
 	ETableCol **columns;
 	gboolean selectable;
+	
+	GSList *change_queue, *change_tail;
+	gint idle;
 };
 
 typedef struct {
@@ -59,7 +63,6 @@ void        e_table_header_move          (ETableHeader *eth,
 					  int source_index,
 					  int target_index);
 void        e_table_header_remove        (ETableHeader *eth, int idx);
-void        e_table_header_set_width     (ETableHeader *eth, int width);
 void        e_table_header_set_size      (ETableHeader *eth, int idx, int size);
 void        e_table_header_set_selection (ETableHeader *eth,
 					  gboolean allow_selection);

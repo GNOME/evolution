@@ -36,6 +36,7 @@ libetable_a_SOURCES = 				\
 	e-table-col.h				\
 	e-table-config.c			\
 	e-table-config.h			\
+	e-table-defines.h			\
 	e-table-group.c				\
 	e-table-group.h				\
 	e-table-group-container.c		\

@@ -30,10 +30,74 @@ enum {
 static void eth_set_arg (GtkObject *object, GtkArg *arg, guint arg_id);
 static void eth_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
 static void eth_do_remove (ETableHeader *eth, int idx, gboolean do_unref);
+static void eth_set_width(ETableHeader *eth, int width);
+static void eth_set_size (ETableHeader *eth, int idx, int size);
+static void eth_calc_widths (ETableHeader *eth);
+static void dequeue(ETableHeader *eth, int *column, int *width);
 
 static guint eth_signals [LAST_SIGNAL] = { 0, };
 
 static GtkObjectClass *e_table_header_parent_class;
+
+struct two_ints {
+	int column;
+	int width;
+};
+
+static gboolean
+dequeue_idle(ETableHeader *eth)
+{
+	int column, width;
+	dequeue(eth, &column, &width);
+	while(eth->change_queue && ((struct two_ints *)eth->change_queue->data)->column == column)
+		dequeue(eth, &column, &width);
+	if (column == -1)
+		eth_set_width(eth, width);
+	else if (column < eth->col_count)
+		eth_set_size(eth, column, width);
+	if (eth->change_queue)
+		return TRUE;
+	else {
+		eth_calc_widths(eth);
+		eth->idle = 0;
+		return FALSE;
+	}
+}
+
+static void
+enqueue(ETableHeader *eth, int column, int width)
+{
+	struct two_ints *store;
+	store = g_new(struct two_ints, 1);
+	store->column = column;
+	store->width = width;
+	
+	eth->change_tail = g_slist_last(g_slist_append(eth->change_tail, store));
+	if (!eth->change_queue)
+		eth->change_queue = eth->change_tail;
+
+	if (!eth->idle) {
+		eth->idle = g_idle_add_full(G_PRIORITY_LOW, (GSourceFunc) dequeue_idle, eth, NULL);
+	}
+}
+
+static void
+dequeue(ETableHeader *eth, int *column, int *width)
+{
+	GSList *head;
+	struct two_ints *store;
+	head = eth->change_queue;
+	eth->change_queue = eth->change_queue->next;
+	if (!eth->change_queue)
+		eth->change_tail = NULL;
+	store = head->data;
+	g_slist_free_1(head);
+	if (column)
+		*column = store->column;
+	if (width)
+		*width = store->width;
+	g_free(store);
+}
 
 static void
 eth_destroy (GtkObject *object)
@@ -48,6 +112,9 @@ eth_destroy (GtkObject *object)
 					      eth->sort_info_group_change_id);
 		gtk_object_unref(GTK_OBJECT(eth->sort_info));
 	}
+
+	g_slist_foreach(eth->change_queue, (GFunc) g_free, NULL);
+	g_slist_free(eth->change_queue);
 	
 	/*
 	 * Destroy columns
@@ -104,6 +171,9 @@ e_table_header_init (ETableHeader *eth)
 
 	eth->columns = NULL;
 	eth->selectable = FALSE;
+	
+	eth->change_queue = NULL;
+	eth->change_tail = NULL;
 }
 
 GtkType
@@ -142,7 +212,13 @@ e_table_header_new (void)
 static void
 eth_group_info_changed(ETableSortInfo *info, ETableHeader *eth)
 {
-	e_table_header_calc_widths(eth);
+	enqueue(eth, -1, eth->nominal_width);
+}
+
+static void
+eth_set_width(ETableHeader *eth, int width)
+{
+	eth->width = width;
 }
 
 static void
@@ -152,8 +228,8 @@ eth_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	switch (arg_id) {
 	case ARG_WIDTH:
-		eth->width = GTK_VALUE_DOUBLE (*arg);
-		e_table_header_calc_widths(eth);
+		eth->nominal_width = GTK_VALUE_DOUBLE (*arg);
+		enqueue(eth, -1, GTK_VALUE_DOUBLE (*arg));
 		break;
 	case ARG_SORT_INFO:
 		if (eth->sort_info) {
@@ -168,7 +244,7 @@ eth_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 				= gtk_signal_connect(GTK_OBJECT(eth->sort_info), "group_info_changed",
 						     GTK_SIGNAL_FUNC(eth_group_info_changed), eth);
 		}
-		e_table_header_calc_widths(eth);
+		enqueue(eth, -1, eth->nominal_width);
 		break;
 	default:
 		break;
@@ -185,7 +261,7 @@ eth_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(eth->sort_info);
 		break;
 	case ARG_WIDTH:
-		GTK_VALUE_DOUBLE (*arg) = eth->width;
+		GTK_VALUE_DOUBLE (*arg) = eth->nominal_width;
 		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
@@ -237,7 +313,7 @@ e_table_header_add_column (ETableHeader *eth, ETableCol *tc, int pos)
 	
 	eth_do_insert (eth, pos, tc);
 
-	e_table_header_calc_widths(eth);
+	enqueue(eth, -1, eth->nominal_width);
 	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [STRUCTURE_CHANGE]);
 }
 
@@ -391,7 +467,7 @@ e_table_header_remove (ETableHeader *eth, int idx)
 	g_return_if_fail (idx < eth->col_count);
 
 	eth_do_remove (eth, idx, TRUE);
-	e_table_header_calc_widths(eth);
+	enqueue(eth, -1, eth->nominal_width);
 	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [STRUCTURE_CHANGE]);
 }
 
@@ -401,7 +477,13 @@ e_table_header_set_selection (ETableHeader *eth, gboolean allow_selection)
 }
 
 void
-e_table_header_set_size (ETableHeader *eth, int idx, int size)
+e_table_header_set_size(ETableHeader *eth, int idx, int size)
+{
+	enqueue(eth, idx, size);
+}
+
+static void
+eth_set_size (ETableHeader *eth, int idx, int size)
 {
 	double expansion;
 	double old_expansion;
@@ -440,7 +522,6 @@ e_table_header_set_size (ETableHeader *eth, int idx, int size)
 	for (; i < eth->col_count; i++) {
 		min_width += eth->columns[i]->min_width;
 		if (eth->columns[i]->resizeable) {
-			printf ("Expansion[%d] = %f\n", i, eth->columns[i]->expansion);
 			expansion += eth->columns[i]->expansion;
 			expandable_count ++;
 		}
@@ -457,7 +538,7 @@ e_table_header_set_size (ETableHeader *eth, int idx, int size)
 		for (i = idx + 1; i < eth->col_count; i++) {
 			eth->columns[i]->expansion = 0;
 		}
-		goto end;
+		return;
 	}
 
 	total_extra = usable_width - min_width;
@@ -466,15 +547,13 @@ e_table_header_set_size (ETableHeader *eth, int idx, int size)
 		for (i = idx; i < eth->col_count; i++) {
 			eth->columns[i]->expansion = 0;
 		}
-		goto end;
+		return;
 	}
 
 	/* If you try to resize smaller than the minimum width, it
 	 * uses the minimum. */
 	if (size < eth->columns[idx]->min_width)
 		size = eth->columns[idx]->min_width;
-
-	printf ("size = %d, eth->columns[idx]->min_width = %d, total_extra = %d, expansion = %f\n", size, eth->columns[idx]->min_width, total_extra, expansion);
 
 	/* If all the extra space will be used up in this column, use
 	 * all the expansion and set all others to 0.
@@ -484,7 +563,7 @@ e_table_header_set_size (ETableHeader *eth, int idx, int size)
 		for (i = idx + 1; i < eth->col_count; i++) {
 			eth->columns[i]->expansion = 0;
 		}
-		goto end;
+		return;
 	}
 	
 	/* The old_expansion used by columns to the right. */
@@ -494,10 +573,6 @@ e_table_header_set_size (ETableHeader *eth, int idx, int size)
 	eth->columns[idx]->expansion = expansion * (((double)(size - eth->columns[idx]->min_width))/((double)total_extra));
 	/* The expansion left for the columns on the right. */
 	expansion -= eth->columns[idx]->expansion;
-
-	printf ("eth->columns[idx]->expansion = %f\n", eth->columns[idx]->expansion);
-
-	printf ("At (2) old_expansion = %f, expansion = %f\n", old_expansion, expansion);
 
 	/* (2) If the old columns to the right didn't have any
 	 * expansion before, expand them evenly.  old_expansion > 0 by
@@ -512,7 +587,7 @@ e_table_header_set_size (ETableHeader *eth, int idx, int size)
 				eth->columns[i]->expansion = expansion / expandable_count;
 			}
 		}
-		goto end;
+		return;
 	}
 
 	/* Remove from total_extra the amount used for this column. */
@@ -523,9 +598,6 @@ e_table_header_set_size (ETableHeader *eth, int idx, int size)
 			eth->columns[i]->expansion *= expansion / old_expansion;
 		}
 	}
-
- end:
-	e_table_header_calc_widths(eth);
 }
 
 int
@@ -552,8 +624,8 @@ e_table_header_col_diff (ETableHeader *eth, int start_col, int end_col)
 	return total;
 }
 
-void
-e_table_header_calc_widths (ETableHeader *eth)
+static void
+eth_calc_widths (ETableHeader *eth)
 {
 	int i;
 	int extra, extra_left;
@@ -563,7 +635,7 @@ e_table_header_calc_widths (ETableHeader *eth)
 	expansion = 0;
 	for (i = 0; i < eth->col_count; i++) {
 		extra -= eth->columns[i]->min_width;
-		if (eth->columns[i]->resizeable) {
+		if (eth->columns[i]->resizeable && eth->columns[i]->expansion != 0.0) {
 			expansion += eth->columns[i]->expansion;
 			last_resizeable = i;
 		}
