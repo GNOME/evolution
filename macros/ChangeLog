@@ -1,3 +1,7 @@
+2001-06-20  Havoc Pennington  <hp@redhat.com>
+
+	* gnome.m4: fix to include the CFLAGS for extra libraries
+
 2001-06-13  Pavel Roskin  <proski@gnu.org>
 
 	* gnome-fileutils.m4: Always explicitly declare main() with the
