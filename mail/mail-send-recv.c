@@ -602,7 +602,7 @@ receive_update_got_store (char *uri, CamelStore *store, void *data)
 		
 		if (storage) {
 			if (!gtk_object_get_data (GTK_OBJECT (storage), "connected"))
-				mail_note_store (store);
+				mail_note_store(store, storage, CORBA_OBJECT_NIL);
 			
 			mail_update_subfolders (store, storage, receive_update_done, info);
 			bonobo_object_unref (BONOBO_OBJECT (storage));

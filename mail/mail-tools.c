@@ -367,7 +367,7 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 		}
 	} else {
 		vfolder_register_source(folder);
-		mail_note_folder(folder, NULL);
+		mail_note_folder(folder);
 	}
 	
 	camel_url_free (url);

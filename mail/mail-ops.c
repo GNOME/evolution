@@ -36,6 +36,7 @@
 #include <camel/camel-mime-filter-from.h>
 #include <camel/camel-operation.h>
 #include <camel/camel-vtrash-folder.h>
+#include <camel/camel-vee-store.h>
 #include "mail.h"
 #include "mail-tools.h"
 #include "mail-ops.h"
@@ -1097,10 +1098,26 @@ add_vtrash_info (CamelStore *store, CamelFolderInfo *info)
 	
 	/* Fill in the new fields */
 	vtrash->full_name = g_strdup (U_("Trash"));
-	vtrash->name = g_strdup (U_("Trash"));
+	vtrash->name = g_strdup(vtrash->full_name);
 	vtrash->url = g_strdup_printf ("vtrash:%s", uri);
 	vtrash->unread_message_count = -1;
+	vtrash->path = g_strdup_printf("/%s", vtrash->name);
 	g_free (uri);
+}
+
+static void
+add_unmatched_info(CamelFolderInfo *fi)
+{
+	for (; fi->sibling; fi = fi->sibling) {
+		if (!strcmp(fi->full_name, CAMEL_UNMATCHED_NAME)) {
+			printf("renaming unmatched!\n");
+			g_free(fi->name);
+			fi->name = g_strdup(U_("Unmatched"));
+			g_free(fi->path);
+			fi->path = g_strdup_printf("/%s", fi->name);
+			break;
+		}
+	}
 }
 
 static void
@@ -1113,8 +1130,12 @@ get_folderinfo_get (struct _mail_msg *mm)
 		flags |= CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
 	
 	m->info = camel_store_get_folder_info (m->store, NULL, flags, &mm->ex);
-	if (m->info && m->info->url && (m->store->flags & CAMEL_STORE_VTRASH))
-		add_vtrash_info (m->store, m->info);
+	if (m->info) {
+		if (m->info->url && (m->store->flags & CAMEL_STORE_VTRASH))
+			add_vtrash_info(m->store, m->info);
+		if (CAMEL_IS_VEE_STORE(m->store))
+			add_unmatched_info(m->info);
+	}
 }
 
 static void

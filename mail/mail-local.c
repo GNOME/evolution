@@ -938,9 +938,6 @@ local_storage_new_folder_cb (EvolutionStorageListener *storage_listener,
 	if (strcmp (folder->type, "mail") != 0)
 		return;
 
-	if (path[0] == '/')
-		path++;
-
 	d(printf("Local folder new:\n"));
 	d(printf(" path = '%s'\n uri = '%s'\n display = '%s'\n",
 		 path, folder->physicalUri, folder->displayName));
@@ -956,9 +953,6 @@ local_storage_removed_folder_cb (EvolutionStorageListener *storage_listener,
 				 const char *path,
 				 void *data)
 {
-	if (path[0] == '/')
-		path++;
-
 	d(printf("Local folder remove:\n"));
 	d(printf(" path = '%s'\n", path));
 
@@ -982,7 +976,7 @@ storage_listener_startup (EvolutionShellClient *shellclient)
 	}
 
 	/* setup to record this store's changes */
-	mail_note_local_store((CamelStore *)global_local_store, local_corba_storage);
+	mail_note_store((CamelStore *)global_local_store, NULL, local_corba_storage);
 
 	local_storage_listener = evolution_storage_listener_new ();
 	corba_local_storage_listener = evolution_storage_listener_corba_objref (

@@ -46,11 +46,16 @@ struct _vfolder_info {
 };
 
 /* list of vfolders available */
-static VfolderContext *context;
-static CamelStore *vfolder_store;
-static GList *source_folders;	/* list of source folders */
 
+static VfolderContext *context;	/* context remains open all time */
+static CamelStore *vfolder_store; /* the 1 static vfolder store */
+
+/* lock for accessing shared resources (below) */
+static pthread_mutex_t vfolder_lock = PTHREAD_MUTEX_INITIALIZER;
+
+static GList *source_folders;	/* list of source folders */
 static GHashTable *vfolder_hash;
+
 
 /* Ditto below */
 EvolutionStorage *vfolder_storage;
@@ -60,6 +65,9 @@ extern EvolutionShellClient *global_shell_client;
 /* more globals ... */
 extern char *evolution_dir;
 extern CamelSession *session;
+
+#define LOCK() pthread_mutex_lock(&vfolder_lock);
+#define UNLOCK() pthread_mutex_unlock(&vfolder_lock);
 
 /* ********************************************************************** */
 
@@ -100,7 +108,9 @@ register_source(char *key, CamelVeeFolder *vfolder, CamelFolder *folder)
 static void
 source_finalise(CamelFolder *folder, void *event_data, void *data)
 {
+	LOCK();
 	source_folders = g_list_remove(source_folders, folder);
+	UNLOCK();
 }
 
 /* for registering potential vfolder sources */
@@ -109,9 +119,12 @@ vfolder_register_source (CamelFolder *folder)
 {
 	if (CAMEL_IS_VEE_FOLDER(folder))
 		return;
-	
-	if (g_list_find(source_folders, folder))
+
+	LOCK();
+	if (g_list_find(source_folders, folder)) {
+		UNLOCK();
 		return;
+	}
 	
 	/* note that once we register a source, it will be ref'd
 	   by our vfolder ... and wont go away with this, but we
@@ -119,7 +132,9 @@ vfolder_register_source (CamelFolder *folder)
 	camel_object_hook_event((CamelObject *)folder, "finalize", (CamelObjectEventHookFunc)source_finalise, folder);
 	
 	source_folders = g_list_append(source_folders, folder);
-	g_hash_table_foreach(vfolder_hash, (GHFunc)register_source, folder);
+	if (vfolder_hash)
+		g_hash_table_foreach(vfolder_hash, (GHFunc)register_source, folder);
+	UNLOCK();
 }
 
 /* ********************************************************************** */
@@ -266,11 +281,14 @@ rule_changed(FilterRule *rule, CamelFolder *folder)
 		evolution_storage_removed_folder(mail_lookup_storage(vfolder_store), path);
 		g_free(path);
 
+		LOCK();
 		if (g_hash_table_lookup_extended(vfolder_hash, folder->full_name, (void **)&key, (void **)&old)) {
 			g_hash_table_remove(vfolder_hash, key);
 			g_free(key);
+			UNLOCK();
 			camel_object_unref((CamelObject *)folder);
 		} else {
+			UNLOCK();
 			g_warning("couldn't find a vfolder rule in our table? %s", folder->full_name);
 		}
 
@@ -284,7 +302,8 @@ rule_changed(FilterRule *rule, CamelFolder *folder)
 	while ( (sourceuri = vfolder_rule_next_source((VfolderRule *)rule, sourceuri)) ) {
 		sources_uri = g_list_append(sources_uri, g_strdup(sourceuri));
 	}
-	
+
+	LOCK();
 	l = source_folders;
 	while (l) {
 		if (check_source(rule, l->data)) {
@@ -293,6 +312,7 @@ rule_changed(FilterRule *rule, CamelFolder *folder)
 		}
 		l = l->next;
 	}
+	UNLOCK();
 
 	query = g_string_new("");
 	filter_rule_build_code(rule, query);
@@ -313,9 +333,11 @@ static void context_rule_added(RuleContext *ctx, FilterRule *rule)
 	if (folder) {
 		gtk_signal_connect((GtkObject *)rule, "changed", rule_changed, folder);
 
+		LOCK();
 		g_hash_table_insert(vfolder_hash, g_strdup(rule->name), folder);
+		UNLOCK();
 
-		mail_note_folder(folder, NULL);
+		mail_note_folder(folder);
 		rule_changed(rule, folder);
 	}
 }
@@ -333,11 +355,14 @@ static void context_rule_removed(RuleContext *ctx, FilterRule *rule)
 	evolution_storage_removed_folder(mail_lookup_storage(vfolder_store), path);
 	g_free(path);
 
+	LOCK();
 	if (g_hash_table_lookup_extended(vfolder_hash, rule->name, (void **)&key, (void **)&folder)) {
 		g_hash_table_remove(vfolder_hash, key);
 		g_free(key);
+		UNLOCK();
 		camel_object_unref((CamelObject *)folder);
-	}
+	} else
+		UNLOCK();
 
 	camel_store_delete_folder(vfolder_store, rule->name, NULL);
 }

@@ -1,3 +1,28 @@
+2001-09-20    <NotZed@Ximian.com>
+
+	* mail-vfolder.c (vfolder_register_source): Lock around
+	hashtable/list manipulation.  Also dont try scan vfolder_hash if
+	it hasn't been setup yet.
+	(source_finalise): Lock around list access.
+	(rule_changed): Lock around hash access.
+	(context_rule_added): Lock around hash access.
+	(context_rule_removed): "
+	(rule_changed): Lock around list access.
+
+	* mail-local.c (storage_listener_startup): Fix for api change.
+	(local_storage_new_folder_cb): Dont skip over leading / in path.
+	(local_storage_removed_folder_cb): ditto.
+
+	* mail-folder-cache.c (create_folders): No longer pass prefix
+	between recursive calls - we have the path in the folderinfo.
+	(setup_folder): No longer take path arg, we get it from
+	folderinfo.
+	(mail_note_folder): No longer take path arg, we use
+	folder->full_name to key the folder table.
+	(mail_note_store): Consolidate note_store interface, pass storage
+	or corba_storage to it.
+	(mail_note_local_store): Removed.
+
 2001-09-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-local.c (mail_local_store_add_folder): Set the folder info
@@ -11,8 +36,8 @@
 	* folder-browser.c (got_folder): Dont register vfolder sources
 	here.
 
-	* mail-ops.c (mail_get_folder): Add thread parameter.  Fix
-	callers.
+	* mail-ops.c (mail_get_folder): Add thread parameter.  Fix callers.
+	(add_unmatched_info): Scan for unmatched name and re-title.
 
 	* mail-vfolder.c (vfolder_setup): Use the 'slow' queue for setting
 	up vfolders.

@@ -31,16 +31,12 @@
 /* Add a store whose folders should appear in the shell
    The folders are scanned from the store, and/or added at
    runtime via the folder_created event */
-void mail_note_store(struct _CamelStore *store);
-
-/* Similar to above, but do updates via a local GNOME_Evolutuion_Storage
-   rather than a remote proxy EvolutionStorage object */
-void mail_note_local_store(struct _CamelStore *store, GNOME_Evolution_Storage corba_storage);
+void mail_note_store(struct _CamelStore *store, struct _EvolutionStorage *storage, GNOME_Evolution_Storage corba_storage);
 
 /* When a folder has been opened, notify it for watching.
-   The path may be NULL if the shell-equivalent path can be determined
-   from the folder->full_name, if it cannot, then the path must	
-   be supplied */
-void mail_note_folder(struct _CamelFolder *folder, const char *path);
+   The folder must have already been created on the store (which has already been noted)
+   before the folder can be opened
+ */
+void mail_note_folder(struct _CamelFolder *folder);
 
 #endif

@@ -100,7 +100,7 @@ update_1folder(struct _folder_info *mfi, CamelFolderInfo *info)
 }
 
 static void
-setup_folder(const char *path, CamelFolderInfo *fi, struct _store_info *si)
+setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 {
 	struct _folder_info *mfi;
 	char *type;
@@ -113,9 +113,9 @@ setup_folder(const char *path, CamelFolderInfo *fi, struct _store_info *si)
 		update_1folder(mfi, fi);
 	} else {
 		/* always 'add it', but only 'add it' to non-local stores */
-		d(printf("Adding new folder: %s (%s)\n", path, fi->url));
+		d(printf("Adding new folder: %s (%s)\n", fi->path, fi->url));
 		mfi = g_malloc0(sizeof(*mfi));
-		mfi->path = g_strdup(path);
+		mfi->path = g_strdup(fi->path);
 		mfi->name = g_strdup(fi->name);
 		mfi->full_name = g_strdup(fi->full_name);
 		mfi->store_info = si;
@@ -124,7 +124,7 @@ setup_folder(const char *path, CamelFolderInfo *fi, struct _store_info *si)
 
 		if (si->storage != NULL) {
 			type = (strncmp(fi->url, "vtrash:", 7)==0)?"vtrash":"mail";
-			evolution_storage_new_folder(si->storage, path, mfi->name, type,
+			evolution_storage_new_folder(si->storage, mfi->path, mfi->name, type,
 						     fi->url, mfi->name, unread);
 		}
 	}
@@ -160,7 +160,7 @@ folder_finalised(CamelObject *o, gpointer event_data, gpointer user_data)
 }
 
 static void
-real_note_folder(CamelFolder *folder, char *path, void *data)
+real_note_folder(CamelFolder *folder, void *event_data, void *data)
 {
 	CamelStore *store = folder->parent_store;
 	struct _store_info *si;
@@ -170,26 +170,20 @@ real_note_folder(CamelFolder *folder, char *path, void *data)
 	si = g_hash_table_lookup(stores, store);
 	UNLOCK(info_lock);
 	if (si == NULL) {
-		g_free(path);
 		g_warning("Adding a folder `%s' to a store which hasn't been added yet?\n", folder->full_name);
 		camel_object_unref((CamelObject *)folder);
 		return;
 	}
-
-	if (path == NULL)
-		path = g_strdup_printf("/%s", folder->full_name);
 
 	LOCK(info_lock);
 	mfi = g_hash_table_lookup(si->folders, folder->full_name);
 	UNLOCK(info_lock);
 
 	if (mfi == NULL) {
-		g_warning("Adding a folder `%s' that I dont know about yet?\n path='%s'", folder->full_name, path);
-		g_free(path);
+		g_warning("Adding a folder `%s' that I dont know about yet?", folder->full_name);
 		camel_object_unref((CamelObject *)folder);
 		return;
 	}
-	g_free(path);
 
 	/* dont do anything if we already have this */
 	if (mfi->folder == folder)
@@ -205,42 +199,33 @@ real_note_folder(CamelFolder *folder, char *path, void *data)
 	camel_object_unref((CamelObject *)folder);
 }
 
-/* supply path if different from folder->full_name? */
-void mail_note_folder(CamelFolder *folder, const char *path)
+void mail_note_folder(CamelFolder *folder)
 {
-	char *real = NULL;
-
 	if (stores == NULL) {
 		g_warning("Adding a folder `%s' to a store which hasn't been added yet?\n", folder->full_name);
 		return;
 	}
 
 	camel_object_ref((CamelObject *)folder);
-	if (path)
-		real = g_strdup_printf("/%s", path);
-	mail_proxy_event((CamelObjectEventHookFunc)real_note_folder, (CamelObject *)folder, real, NULL);
+	mail_proxy_event((CamelObjectEventHookFunc)real_note_folder, (CamelObject *)folder, NULL, NULL);
 }
 
 static void
 real_folder_created(CamelStore *store, void *event_data, CamelFolderInfo *fi)
 {
 	struct _store_info *si;
-	char *path;
 
 	d(printf("real_folder_created: %s (%s)\n", fi->full_name, fi->url));
 
 	LOCK(info_lock);
 	si = g_hash_table_lookup(stores, store);
 	UNLOCK(info_lock);
-	if (si) {
-		path = g_strdup_printf("/%s", fi->full_name);
-		setup_folder(path, fi, si);
-		g_free(path);
-	} else {
+	if (si)
+		setup_folder(fi, si);
+	else
 		/* leaks, so what */
 		g_warning("real_folder_created: can't find store: %s\n",
 			  camel_url_to_string(((CamelService *)store)->url, 0));
-	}
 }
 
 static void
@@ -287,7 +272,7 @@ store_finalised(CamelObject *o, void *event_data, void *data)
 	si = g_hash_table_lookup(stores, store);
 	if (si) {
 		g_hash_table_remove(stores, store);
-		g_hash_table_foreach(si->folders, free_folder_info, NULL);
+		g_hash_table_foreach(si->folders, (GHFunc)free_folder_info, NULL);
 		g_hash_table_destroy(si->folders);
 		g_free(si);
 	}
@@ -295,20 +280,14 @@ store_finalised(CamelObject *o, void *event_data, void *data)
 }
 
 static void
-create_folders(const char *prefix, CamelFolderInfo *fi, struct _store_info *si)
+create_folders(CamelFolderInfo *fi, struct _store_info *si)
 {
-	char *path;
-
-	path = g_strdup_printf ("%s/%s", prefix, fi->name);
-	setup_folder(path, fi, si);
+	setup_folder(fi, si);
 	
 	if (fi->child)
-		create_folders(path, fi->child, si);
-	
-	g_free(path);
-
+		create_folders(fi->child, si);
 	if (fi->sibling)
-		create_folders(prefix, fi->sibling, si);
+		create_folders(fi->sibling, si);
 }
 
 static void
@@ -319,14 +298,18 @@ update_folders(CamelStore *store, CamelFolderInfo *info, void *data)
 	if (info) {
 		if (si->storage)
 			gtk_object_set_data (GTK_OBJECT (si->storage), "connected", GINT_TO_POINTER (TRUE));
-		create_folders("", info, si);
+		create_folders(info, si);
 	}
 }
 
-static void
-setup_store(CamelStore *store, EvolutionStorage *storage, GNOME_Evolution_Storage corba_storage)
+void
+mail_note_store(CamelStore *store, EvolutionStorage *storage, GNOME_Evolution_Storage corba_storage)
 {
 	struct _store_info *si;
+
+	g_assert(CAMEL_IS_STORE(store));
+	g_assert(pthread_self() == mail_gui_thread);
+	g_assert(storage != NULL || corba_storage != CORBA_OBJECT_NIL);
 
 	LOCK(info_lock);
 
@@ -352,32 +335,4 @@ setup_store(CamelStore *store, EvolutionStorage *storage, GNOME_Evolution_Storag
 	UNLOCK(info_lock);
 
 	mail_msg_wait(mail_get_folderinfo(store, update_folders, si));
-}
-
-
-void mail_note_store(CamelStore *store)
-{
-	EvolutionStorage *storage;
-	/* i'm not including all the sht in mail.h just for this !*/
-	EvolutionStorage *mail_lookup_storage (CamelStore *store);
-
-	g_assert(CAMEL_IS_STORE(store));
-	g_assert(pthread_self() == mail_gui_thread);
-
-	storage = mail_lookup_storage(store);
-	if (storage == NULL) {
-		g_warning("Trying to monitor a store for which there is no storage: %s",
-			  camel_url_to_string(((CamelService *)store)->url, 0));
-		return;
-	}
-
-	setup_store(store, storage, CORBA_OBJECT_NIL);
-}
-
-void mail_note_local_store(CamelStore *store, GNOME_Evolution_Storage corba_storage)
-{
-	g_assert(CAMEL_IS_STORE(store));
-	g_assert(pthread_self() == mail_gui_thread);
-
-	setup_store(store, NULL, corba_storage);
 }
