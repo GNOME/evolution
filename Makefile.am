@@ -10,6 +10,7 @@ application_DATA = evolution.desktop
 EXTRA_DIST =			\
 	AUTHORS			\
 	$(changelogs)		\
+	COPYING-DOCS		\
 	README			\
 	HACKING			\
 	MAINTAINERS		\

@@ -1,3 +1,10 @@
+2000-11-29  Federico Mena Quintero  <federico@helixcode.com>
+
+	* COPYING-DOCS: Added a copy of the GNU Free Documentation
+	License.
+
+	* Makefile.am (EXTRA_DIST): Added COPYING-DOCS.
+
 2000-11-28  JP Rosevear  <jpr@helixcode.com>
 
 	* acconfig.h: Add USE_FLOCK, USE_FCNTL, USE_FLOCK
