@@ -16,6 +16,8 @@
 #undef NEED_KRB_SENDAUTH_PROTO
 #undef HAVE_KRB5
 #undef HAVE_NSS
+#undef HAVE_SSL
+#undef HAVE_OPENSSL
 #undef MOVEMAIL_PATH
 #undef USE_DOT
 #undef USE_FCNTL

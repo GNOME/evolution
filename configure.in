@@ -597,7 +597,7 @@ else
 	AC_MSG_RESULT(no)
 fi
 
-AC_ARG_WITH(nss-libs, [  --with-nss-libs=PREFIX     	Location of Mozilla nss3 libs/includes.],
+AC_ARG_WITH(nss-libs, [  --with-nss-libs=PREFIX     	Location of Mozilla nss3 libs.],
 	with_nss_libs="$withval")
 msg_nss="no"
 if test "x${with_nss_libs}" != "xno" -a "x${have_nss_includes}" != "xno"; then
@@ -634,6 +634,72 @@ dnl ====================================
 dnl = End mozilla hacks
 dnl ====================================
 
+dnl ******************************
+dnl OpenSSL
+dnl ******************************
+
+AC_ARG_WITH(openssl-includes, [  --with-openssl-includes=PREFIX     Location of OpenSSL includes.],
+	with_openssl_includes="$withval", with_openssl_includes="/usr/include")
+have_openssl_includes="no"
+if test "x${with_openssl_includes}" != "xno"; then
+	CPPFLAGS_save="$CPPFLAGS"
+	
+	AC_MSG_CHECKING(for OpenSSL includes)
+	AC_MSG_RESULT("")
+	
+	CPPFLAGS="$CPPFLAGS -I$with_openssl_includes"
+	AC_CHECK_HEADERS(openssl/ssl.h openssl/x509.h, [ openssl_includes="yes" ])
+	CPPFLAGS="$CPPFLAGS_save"
+	
+	if test "x{$openssl_includes}" != "xno" -a "x{$openssl_includes}" != "x"; then
+		have_openssl_includes="yes"
+		OPENSSL_CFLAGS="-I$with_openssl_includes"
+	else
+		OPENSSL_CFLAGS=""
+	fi
+else
+	AC_MSG_CHECKING(for OpenSSL includes)
+	AC_MSG_RESULT(no)
+fi
+
+AC_ARG_WITH(openssl-libs, [  --with-openssl-libs=PREFIX     	Location of OpenSSL libs.],
+	with_openssl_libs="$withval")
+msg_openssl="no"
+if test "x${with_openssl_libs}" != "xno" -a "x${have_openssl_includes}" != "xno"; then
+	LDFLAGS_save="$LDFLAGS"
+	
+	AC_CACHE_CHECK([for OpenSSL libraries], openssl_libs,
+	[
+		LDFLAGS="$LDFLAGS -L$with_openssl_libs -lssl -lcrypto"
+		AC_TRY_LINK_FUNC(SSL_read, openssl_libs="yes", openssl_libs="no")
+		LDFLAGS="$LDFLAGS_save"
+	])
+	if test "x${openssl_libs}" != "xno"; then
+		AC_DEFINE(HAVE_OPENSSL)
+		msg_openssl="yes"
+		OPENSSL_LDFLAGS="-L$with_openssl_libs -lssl -lcrypto"
+	else
+		OPENSSL_CFLAGS=""
+		OPENSSL_LDFLAGS=""
+	fi
+else
+	AC_MSG_CHECKING(for OpenSSL libraries)
+	AC_MSG_RESULT(no)
+fi
+
+AC_SUBST(OPENSSL_CFLAGS)
+AC_SUBST(OPENSSL_LDFLAGS)
+
+dnl ******************************
+dnl See if we have SSL support
+dnl ******************************
+
+if test "x${msg_nss}" != "xno" -o "x${msg_openssl}" != "xno"; then
+	msg_ssl="yes"
+	AC_DEFINE(HAVE_SSL)
+else
+	msg_ssl="no"
+fi
 
 dnl ******************************
 dnl gtk-doc
@@ -822,7 +888,8 @@ echo "
 	NNTP support:     $msg_nntp
 	Pilot conduits:   $msg_pilot
 	Kerberos 4/5:     $msg_krb4/$msg_krb5
-	SSL support:      $msg_nss
+	SSL support:      $msg_ssl
+	S/MIME support:   $msg_nss
 	Use movemail:	  $with_movemail
 	Dot Locking:	  $msg_dot
 	File Locking:	  $msg_file
