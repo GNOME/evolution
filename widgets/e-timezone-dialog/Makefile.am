@@ -1,5 +1,6 @@
 INCLUDES =					\
 	-I$(top_srcdir)				\
+	-I$(top_srcdir)/libical/src/libical	\
 	$(EXTRA_GNOME_CFLAGS)			\
 	-DMAP_DIR=\""$(datadir)/images/evolution"\"	\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
