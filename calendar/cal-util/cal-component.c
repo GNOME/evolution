@@ -4814,14 +4814,12 @@ cal_component_alarm_set_trigger (CalComponentAlarm *alarm, CalAlarmTrigger trigg
 	switch (trigger.type) {
 	case CAL_ALARM_TRIGGER_RELATIVE_START:
 		t.duration = trigger.u.rel_duration;
-		t.time.is_date = -1;
 		value_type = ICAL_VALUE_DURATION;
 		related = ICAL_RELATED_START;
 		break;
 
 	case CAL_ALARM_TRIGGER_RELATIVE_END:
 		t.duration = trigger.u.rel_duration;
-		t.time.is_date = -1;
 		value_type = ICAL_VALUE_DURATION;
 		related = ICAL_RELATED_END;
 		break;

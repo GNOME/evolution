@@ -2131,6 +2131,7 @@ init_widgets (RecurrencePage *rpage)
 
 	/* Make sure the EDateEdit widgets and ECalendarItem use our timezones
 	   to get the current time. */
+	e_date_edit_set_show_time (E_DATE_EDIT (priv->exception_date), FALSE);
 	e_date_edit_set_get_time_callback (E_DATE_EDIT (priv->exception_date),
 					   (EDateEditGetTimeCallback) comp_editor_get_current_time,
 					   rpage, NULL);
