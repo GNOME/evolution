@@ -329,7 +329,7 @@ add_calendar_tasks_sources (GwAccountInfo *info)
 
 	relative_uri =  g_strdup_printf ("%s@%s/", url->user, poa_address);
 	add_esource ("/apps/evolution/calendar/sources", info->name, _("Calendar"), url->user, relative_uri, soap_port, use_ssl);
-	add_esource ("/apps/evolution/tasks/sources", info->name, _("Checklist"), url->user,  relative_uri, soap_port, use_ssl);
+	add_esource ("/apps/evolution/tasks/sources", info->name, _("Tasks"), url->user,  relative_uri, soap_port, use_ssl);
 	
 	camel_url_free (url);
 	g_free (relative_uri);
