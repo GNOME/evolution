@@ -18,6 +18,7 @@
 #include <shell/Evolution.h>
 
 #include "e-summary-factory.h"
+#include "e-summary-offline-handler.h"
 #include "component-factory.h"
 #include <gal/widgets/e-gui-utils.h>
 
@@ -42,16 +43,21 @@ create_view (EvolutionShellComponent *shell,
 	     void *closure)
 {
 	EvolutionShellClient *shell_client;
+	ESummaryOfflineHandler *offline_handler;
 	GNOME_Evolution_Shell corba_shell;
 	BonoboControl *control;
+
 
 	if (g_strcasecmp (folder_type, "My Evolution") != 0) {
 		return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE;
 	}
 
+	offline_handler = gtk_object_get_data (GTK_OBJECT (shell), 
+					       "offline-handler");
 	shell_client = evolution_shell_component_get_owner (shell);
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
-	control = e_summary_factory_new_control (physical_uri, corba_shell);
+	control = e_summary_factory_new_control (physical_uri, corba_shell,
+						 offline_handler);
 	if (!control)
 		return EVOLUTION_SHELL_COMPONENT_NOTFOUND;
 
@@ -96,6 +102,7 @@ factory_fn (BonoboGenericFactory *factory,
 	    void *closure)
 {
 	EvolutionShellComponent *shell_component;
+	ESummaryOfflineHandler *offline_handler;
 
 	running_objects++;
 
@@ -111,6 +118,11 @@ factory_fn (BonoboGenericFactory *factory,
 			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_unset",
 			    GTK_SIGNAL_FUNC (owner_unset_cb), NULL);
+
+	offline_handler = e_summary_offline_handler_new ();
+	gtk_object_set_data (GTK_OBJECT (shell_component), "offline-handler",
+			     offline_handler);
+	bonobo_object_add_interface (BONOBO_OBJECT (shell_component), BONOBO_OBJECT (offline_handler));
 
 	return BONOBO_OBJECT (shell_component);
 }

@@ -27,10 +27,13 @@
 #include "metar.h"
 
 struct _ESummaryWeather {
+	ESummaryConnection *connection;
 	GList *weathers;
 
 	char *html;
 	guint32 timeout;
+
+	gboolean online;
 };
 
 static GHashTable *locations_hash = NULL;
@@ -210,8 +213,15 @@ close_callback (GnomeVFSAsyncHandle *handle,
 		GnomeVFSResult result,
 		Weather *w)
 {
+	ESummary *summary;
 	char *html, *metar, *end;
 	char *search_str;
+
+	summary = w->summary;
+	if (summary->weather->connection->callback) {
+		ESummaryConnection *connection = summary->weather->connection;
+		connection->callback (summary, connection->callback_closure);
+	}
 
 	if (w->handle == NULL) {
 		g_free (w->buffer);
@@ -241,8 +251,6 @@ close_callback (GnomeVFSAsyncHandle *handle,
 		return;
 	}
 	*end = '\0';
-
-	g_warning ("Parsing %s", metar);
 
 	parse_metar (metar, w);
 	g_free (html);
@@ -420,11 +428,91 @@ e_summary_weather_protocol (ESummary *summary,
 
 }
 
+static int
+e_summary_weather_count (ESummary *summary,
+			 void *data)
+{
+	ESummaryWeather *weather;
+	GList *p;
+	int count = 0;
+
+	weather = summary->weather;
+	for (p = weather->weathers; p; p = p->next) {
+		Weather *w = p->data;
+
+		if (w->handle != NULL) {
+			count++;
+		}
+	}
+
+	return count;
+}
+
+static ESummaryConnectionData *
+make_connection (Weather *w)
+{
+	ESummaryConnectionData *data;
+
+	data = g_new (ESummaryConnectionData, 1);
+	data->hostname = g_strdup (w->location);
+	data->type = g_strdup ("Weather");
+
+	return data;
+}
+
+static GList *
+e_summary_weather_add (ESummary *summary,
+		       void *data)
+{
+	ESummaryWeather *weather;
+	GList *p, *connections = NULL;
+
+	weather = summary->weather;
+	for (p = weather->weathers; p; p = p->next) {
+		Weather *w = p->data;
+
+		if (w->handle != NULL) {
+			ESummaryConnectionData *d;
+
+			d = make_connection (w);
+			connections = g_list_prepend (connections, d);
+		}
+	}
+
+	return connections;
+}
+
+static void
+e_summary_weather_set_online (ESummary *summary,
+			      gboolean online,
+			      void *data)
+{
+	ESummaryWeather *weather;
+
+	weather = summary->weather;
+	if (weather->online == online) {
+		return;
+	}
+
+	if (online == TRUE) {
+		e_summary_weather_update (summary);
+		weather->timeout = gtk_timeout_add (summary->preferences->weather_refresh_time * 1000,
+						    (GtkFunction) e_summary_weather_update,
+						    summary);
+	} else {
+		gtk_timeout_remove (weather->timeout);
+		weather->timeout = 0;
+	}
+
+	weather->online = online;
+}
+
 void
 e_summary_weather_init (ESummary *summary)
 {
 	ESummaryPrefs *prefs;
 	ESummaryWeather *weather;
+	ESummaryConnection *connection;
 	int timeout;
 
 	g_return_if_fail (summary != NULL);
@@ -436,7 +524,19 @@ e_summary_weather_init (ESummary *summary)
 
 	prefs = summary->preferences;
 	weather = g_new0 (ESummaryWeather, 1);
+	weather->online = TRUE;
 	summary->weather = weather;
+
+	connection = g_new (ESummaryConnection, 1);
+	connection->count = e_summary_weather_count;
+	connection->add = e_summary_weather_add;
+	connection->set_online = e_summary_weather_set_online;
+	connection->closure = NULL;
+	connection->callback = NULL;
+	connection->callback_closure = NULL;
+
+	weather->connection = connection;
+	e_summary_add_online_connection (summary, connection);
 
 	e_summary_add_protocol_listener (summary, "weather", e_summary_weather_protocol, weather);
 

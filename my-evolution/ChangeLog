@@ -1,3 +1,35 @@
+2001-06-30  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-rdf.c (tree_walk): Remove spewage.
+	(e_summary_rdf_count):
+	(e_summary_rdf_add):
+	(make_connection):
+	(e_summary_rdf_set_online): Callbacks for the online_handler stuff.
+	(e_summary_rdf_init): Setup the offline handler stuff.
+	(close_callback): Update the number of onlines there are.
+
+	* e-summary-weather.c (close_callback): Update the number of onlines.
+	(e_summary_weather_count): Count the number of active downloads.
+	(e_summary_weather_add): Make a list of active downloads.
+	(make_connection): Make connection data.
+	(e_summary_weather_set_online): Set if the component is online or not.
+	(e_summary_weather_init): Setup the offline handler stuff.
+
+	* e-summary.c (e_summary_count_connections): Call all the callbacks
+	in the various modules that have online data and count the number of
+	connections.
+	(e_summary_add_connections): Make a list of them all.
+	(e_summary_set_online): Set the online status for each registered
+	module.
+	(e_summary_add_online_connection): Register a new module.
+
+	* e-summary-offline-handler.[ch]: BonoboXObject implementing the
+	GNOME::Evolution::Offline interface.
+
+	* e-summary-factory.c (factory_fn): Create an offline handler.
+
+	* Makefile.am: Compile e-summary-offline-handler.[ch]
+
 2001-06-30  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* e-summary-calendar.c (generate_html):

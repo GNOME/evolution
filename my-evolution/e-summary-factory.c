@@ -19,6 +19,7 @@
 
 #include "e-summary.h"
 #include "e-summary-factory.h"
+#include "e-summary-offline-handler.h"
 #include "e-summary-preferences.h"
 #include "evolution-shell-component-utils.h" /* For E_PIXMAP */
 
@@ -108,7 +109,8 @@ control_destroy_cb (BonoboControl *control,
 
 BonoboControl *
 e_summary_factory_new_control (const char *uri,
-			       const GNOME_Evolution_Shell shell)
+			       const GNOME_Evolution_Shell shell,
+			       ESummaryOfflineHandler *handler)
 {
 	BonoboControl *control;
 	GtkWidget *summary;
@@ -118,6 +120,7 @@ e_summary_factory_new_control (const char *uri,
 		return NULL;
 	}
 
+	e_summary_offline_handler_set_summary (handler, E_SUMMARY (summary));
 	gtk_widget_show (summary);
 	
 	control = bonobo_control_new (summary);

@@ -25,10 +25,12 @@
 #include "e-summary.h"
 
 struct _ESummaryRDF {
+	ESummaryConnection *connection;
 	GList *rdfs;
 
 	char *html;
 	guint32 timeout;
+	gboolean online;
 };
 
 typedef struct _RDF {
@@ -164,7 +166,6 @@ tree_walk (xmlNodePtr root,
 		wipe_trackers = FALSE;
 	} else {
 		limit = r->summary->preferences->limit;
-		g_print ("Limit: %d\n", limit);
 		wipe_trackers = r->summary->preferences->wipe_trackers;
 	}
 
@@ -321,8 +322,15 @@ close_callback (GnomeVFSAsyncHandle *handle,
 		GnomeVFSResult result,
 		RDF *r)
 {
+	ESummary *summary;
 	char *xml;
 	xmlDocPtr doc;
+
+	summary = r->summary;
+	if (summary->rdf->connection->callback) {
+		ESummaryConnection *connection = summary->rdf->connection;
+		connection->callback (summary, connection->callback_closure);
+	}
 
 	if (r->handle == NULL) {
 		g_free (r->buffer);
@@ -455,11 +463,91 @@ e_summary_rdf_protocol (ESummary *summary,
 	display_doc (r);
 }
 
+static int
+e_summary_rdf_count (ESummary *summary,
+		     void *data)
+{
+	ESummaryRDF *rdf;
+	GList *p;
+	int count = 0;
+
+	rdf = summary->rdf;
+	for (p = rdf->rdfs; p; p = p->next) {
+		RDF *r = p->data;
+
+		if (r->handle != NULL) {
+			count++;
+		}
+	}
+
+	return count;
+}
+
+static ESummaryConnectionData *
+make_connection (RDF *r)
+{
+	ESummaryConnectionData *d;
+
+	d = g_new (ESummaryConnectionData, 1);
+	d->hostname = g_strdup (r->uri);
+	d->type = g_strdup ("RDF Summary");
+
+	return d;
+}
+
+static GList *
+e_summary_rdf_add (ESummary *summary,
+		   void *data)
+{
+	ESummaryRDF *rdf;
+	GList *p, *connections = NULL;
+
+	rdf = summary->rdf;
+	for (p = rdf->rdfs; p; p = p->next) {
+		RDF *r = p->data;
+
+		if (r->handle != NULL) {
+			ESummaryConnectionData *d;
+
+			d = make_connection (r);
+			connections = g_list_prepend (connections, d);
+		}
+	}
+
+	return connections;
+}
+
+static void
+e_summary_rdf_set_online (ESummary *summary,
+			  gboolean online,
+			  void *data)
+{
+	ESummaryRDF *rdf;
+
+	rdf = summary->rdf;
+	if (rdf->online == online) {
+		return;
+	}
+
+	if (online == TRUE) {
+		e_summary_rdf_update (summary);
+		rdf->timeout = gtk_timeout_add (summary->preferences->rdf_refresh_time * 1000,
+						(GtkFunction) e_summary_rdf_update,
+						summary);
+	} else {
+		gtk_timeout_remove (rdf->timeout);
+		rdf->timeout = 0;
+	}
+
+	rdf->online = online;
+}
+
 void
 e_summary_rdf_init (ESummary *summary)
 {
 	ESummaryPrefs *prefs;
 	ESummaryRDF *rdf;
+	ESummaryConnection *connection;
 	int timeout;
 
 	g_return_if_fail (summary != NULL);
@@ -468,6 +556,17 @@ e_summary_rdf_init (ESummary *summary)
 	prefs = summary->preferences;
 	rdf = g_new0 (ESummaryRDF, 1);
 	summary->rdf = rdf;
+
+	connection = g_new (ESummaryConnection, 1);
+	connection->count = e_summary_rdf_count;
+	connection->add = e_summary_rdf_add;
+	connection->set_online = e_summary_rdf_set_online;
+	connection->closure = NULL;
+	connection->callback = NULL;
+	connection->callback_closure = NULL;
+
+	rdf->connection = connection;
+	e_summary_add_online_connection (summary, connection);
 
 	e_summary_add_protocol_listener (summary, "rdf", e_summary_rdf_protocol, rdf);
 	if (prefs == NULL) {

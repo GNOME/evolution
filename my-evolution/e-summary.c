@@ -70,6 +70,8 @@ struct _ESummaryPrivate {
 	GtkWidget *html;
 
 	GHashTable *protocol_hash;
+
+	GList *connections;
 };
 
 typedef struct _ProtocolListener {
@@ -139,7 +141,7 @@ e_summary_draw (ESummary *summary)
 	g_string_append (string, HTML_5);
 
 	stream = gtk_html_begin (GTK_HTML (summary->priv->html));
-	GTK_HTML (summary->priv->html)->engine->newPage = FALSE;
+/*  	GTK_HTML (summary->priv->html)->engine->newPage = FALSE; */
 	gtk_html_write (GTK_HTML (summary->priv->html), stream, string->str, strlen (string->str));
 	gtk_html_end (GTK_HTML (summary->priv->html), stream, GTK_HTML_STREAM_OK);
 
@@ -364,6 +366,7 @@ e_summary_init (ESummary *summary)
 			    TRUE, TRUE, 0);
 
 	priv->protocol_hash = NULL;
+	priv->connections = NULL;
 
 	summary->prefs_window = NULL;
 	e_summary_preferences_init (summary);
@@ -575,4 +578,70 @@ e_summary_reconfigure (ESummary *summary)
 	if (summary->calendar != NULL) {
 		e_summary_calendar_reconfigure (summary);
 	}
+}
+
+int 
+e_summary_count_connections (ESummary *summary)
+{
+	GList *p;
+	int count = 0;
+
+	for (p = summary->priv->connections; p; p = p->next) {
+		ESummaryConnection *c;
+
+		c = p->data;
+		count += c->count (summary, c->closure);
+	}
+
+	return count;
+}
+
+GList *
+e_summary_add_connections (ESummary *summary)
+{
+	GList *p;
+	GList *connections = NULL;
+
+	for (p = summary->priv->connections; p; p = p->next) {
+		ESummaryConnection *c;
+		GList *r;
+
+		c = p->data;
+		r = c->add (summary, c->closure);
+
+		connections = g_list_concat (connections, r);
+	}
+
+	return connections;
+}
+
+void
+e_summary_set_online (ESummary *summary,
+		      gboolean online,
+		      ESummaryOnlineCallback callback,
+		      void *closure)
+{
+	GList *p;
+
+	for (p = summary->priv->connections; p; p = p->next) {
+		ESummaryConnection *c;
+
+		c = p->data;
+		c->callback = callback;
+		c->callback_closure = closure;
+
+		c->set_online (summary, online, c->closure);
+	}
+}
+
+void
+e_summary_add_online_connection (ESummary *summary,
+				 ESummaryConnection *connection)
+{
+	g_return_if_fail (summary != NULL);
+	g_return_if_fail (IS_E_SUMMARY (summary));
+	g_return_if_fail (connection != NULL);
+
+	summary->priv->connections = g_list_prepend (summary->priv->connections,
+						     connection);
 }

@@ -40,6 +40,8 @@ evolution_executive_summary_SOURCES =		\
 	e-summary-factory.h		\
 	e-summary-mail.c		\
 	e-summary-mail.h		\
+	e-summary-offline-handler.c	\
+	e-summary-offline-handler.h	\
 	e-summary-preferences.c		\
 	e-summary-rdf.h			\
 	e-summary-rdf.c			\

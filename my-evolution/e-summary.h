@@ -27,10 +27,36 @@
 typedef struct _ESummaryPrivate ESummaryPrivate;
 typedef struct _ESummaryClass ESummaryClass;
 typedef struct _ESummaryPrefs ESummaryPrefs;
+typedef struct _ESummaryConnection ESummaryConnection;
+typedef struct _ESummaryConnectionData ESummaryConnectionData;
 
 typedef void (* ESummaryProtocolListener) (ESummary *summary,
 					   const char *uri,
 					   void *closure);
+typedef int (* ESummaryConnectionCount) (ESummary *summary,
+					 void *closure);
+typedef GList *(* ESummaryConnectionAdd) (ESummary *summary,
+					  void *closure);
+typedef void (* ESummaryConnectionSetOnline) (ESummary *summary,
+					      gboolean online,
+					      void *closure);
+typedef void (*ESummaryOnlineCallback) (ESummary *summary,
+					void *closure);
+
+struct _ESummaryConnection {
+	ESummaryConnectionCount count;
+	ESummaryConnectionAdd add;
+	ESummaryConnectionSetOnline set_online;
+	ESummaryOnlineCallback callback;
+
+	void *closure;
+	void *callback_closure;
+};
+
+struct _ESummaryConnectionData {
+	char *hostname;
+	char *type;
+};
 
 struct _ESummaryPrefs {
 
@@ -70,6 +96,7 @@ struct _ESummary {
 	GNOME_Evolution_ShellView shell_view_interface;
 
 	GtkWidget *prefs_window;
+	gboolean online;
 };
 
 struct _ESummaryClass {
@@ -92,4 +119,12 @@ void e_summary_add_protocol_listener (ESummary *summary,
 				      ESummaryProtocolListener listener,
 				      void *closure);
 void e_summary_reconfigure (ESummary *summary);
+int e_summary_count_connections (ESummary *summary);
+GList *e_summary_add_connections (ESummary *summary);
+void e_summary_set_online (ESummary *summary,
+			   gboolean online,
+			   ESummaryOnlineCallback callback,
+			   void *closure);
+void e_summary_add_online_connection (ESummary *summary,
+				      ESummaryConnection *connection);
 #endif
