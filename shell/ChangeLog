@@ -1,3 +1,21 @@
+2000-10-16  Dan Winship  <danw@helixcode.com>
+
+	* evolution-storage-set-view-factory.c
+	(evolution_storage_set_view_factory_new_view): Add a typecast.
+
+	* e-storage-set-view.c (popup_folder_menu): Move variable
+	declarations into the #if 0 to kill warnings.
+	(populate_folder_context_menu_with_common_items,
+	folder_context_menu_activate_cb): Move these into #if 0 too.
+
+	* e-shell.c: Add prototype.
+
+	* e-shell-view.c (storage_set_view_box_map_cb): 
+	* e-shell-folder-title-bar.c (e_shell_folder_title_bar_construct):
+	Remove unused variables.
+
+	* e-setup.c: Fix warning caused by e-util -> gal migration.
+
 2000-10-11  Iain Holmes  <iain@helixcode.com>
 
 	* e-setup.c (check_evolution_directory): Check if there are any

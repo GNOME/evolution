@@ -357,7 +357,6 @@ void
 e_shell_folder_title_bar_construct (EShellFolderTitleBar *folder_title_bar)
 {
 	EShellFolderTitleBarPrivate *priv;
-	GtkRequisition button_requisition;
 	GtkWidget *button_hbox;
 	GtkWidget *widget;
 

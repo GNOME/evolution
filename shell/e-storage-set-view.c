@@ -199,6 +199,7 @@ get_pixbuf_for_folder (EStorageSetView *storage_set_view,
 /* FIXME: This should be moved somewhere else, so that also the sortcut code
    can share it.  */
 
+#if 0
 static void
 folder_context_menu_activate_cb (BonoboUIHandler *uih,
 				 void *data,
@@ -225,18 +226,19 @@ populate_folder_context_menu_with_common_items (EStorageSetView *storage_set_vie
 					 folder_context_menu_activate_cb,
 					 storage_set_view);
 }
+#endif
 
 static void
 popup_folder_menu (EStorageSetView *storage_set_view,
 		   GdkEventButton *event)
 {
+#if 0
 	EvolutionShellComponentClient *handler;
 	EStorageSetViewPrivate *priv;
 	EFolderTypeRegistry *folder_type_registry;
 	BonoboUIHandler *uih;
 	EFolder *folder;
 
-#if 0	
 	priv = storage_set_view->priv;
 
 	uih = bonobo_ui_handler_new ();

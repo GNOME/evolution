@@ -47,7 +47,7 @@ evolution_storage_set_view_factory_new_view (EShell *shell)
 	storage_set_view = e_storage_set_view_new (storage_set);
 	gtk_widget_show (storage_set_view);
 
-	storage_set_view_interface = evolution_storage_set_view_new (storage_set_view);
+	storage_set_view_interface = evolution_storage_set_view_new (E_STORAGE_SET_VIEW (storage_set_view));
 	if (storage_set_view_interface == NULL) {
 		gtk_widget_destroy (storage_set_view);
 		return NULL;

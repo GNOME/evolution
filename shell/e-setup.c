@@ -30,7 +30,7 @@
 #include <sys/types.h>
 #include <dirent.h>
 
-#include "e-util/e-gui-utils.h"
+#include <gal/widgets/e-gui-utils.h>
 
 #include "e-setup.h"
 

@@ -219,8 +219,6 @@ storage_set_view_box_map_cb (GtkWidget *widget,
 {
 	EShellView *shell_view;
 	EShellViewPrivate *priv;
-	GtkWidget *horizontal_scrollbar;
-	GtkWidget *vertical_scrollbar;
 
 	shell_view = E_SHELL_VIEW (data);
 	priv = shell_view->priv;

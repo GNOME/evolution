@@ -48,6 +48,8 @@
 
 #include "e-shell.h"
 
+static gboolean save_settings_for_views (EShell *shell);
+
 
 #define PARENT_TYPE BONOBO_OBJECT_TYPE
 static BonoboObjectClass *parent_class = NULL;
