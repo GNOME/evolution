@@ -1,3 +1,11 @@
+2004-02-23  Rodney Dawes  <dobey@ximian.com>
+
+	* providers/local/camel-mbox-store.c (scan_dir): If our folder has
+	a subdir, but no actual children, then we need to unset the flag for
+	CAMEL_FOLDER_CHILDREN
+
+	Fixes #54470
+
 2004-02-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-store.c (camel_store_uri_cmp): Removed. Useless/broken

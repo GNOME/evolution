@@ -736,6 +736,8 @@ scan_dir(CamelStore *store, GHashTable *visited, CamelFolderInfo *parent, const 
 				
 				if ((fi->child = scan_dir(store, visited, fi, path, fi->full_name, flags, ex)))
 					fi->flags |= CAMEL_FOLDER_CHILDREN;
+				else
+					fi->flags =(fi->flags & ~CAMEL_FOLDER_CHILDREN) | CAMEL_FOLDER_NOCHILDREN;
 			}
 		}
 		
