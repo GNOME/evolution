@@ -202,8 +202,46 @@ static char *
 vfolder_adduri_desc(struct _mail_msg *mm, int done)
 {
 	struct _adduri_msg *m = (struct _adduri_msg *)mm;
+	char *euri, *desc;
 
-	return g_strdup_printf(_("Updating vfolders for uri: %s"), m->uri);
+	/* Yuck yuck.  Lookup the account name and use that to describe the path */
+	/* We really need to normalise this across all of camel and evolution :-/ */
+	euri = em_uri_from_camel(m->uri);
+	if (euri) {
+		CamelURL *url = camel_url_new(euri, NULL);
+
+		if (url) {
+			const char *loc = NULL;
+
+			if (url->host && !strcmp(url->host, "local")
+			    && url->user && !strcmp(url->user, "local")) {
+				loc = _("On This Computer");
+			} else {
+				char *uid;
+				const EAccount *account;
+				
+				if (url->user == NULL)
+					uid = g_strdup(url->host);
+				else
+					uid = g_strdup_printf("%s@%s", url->user, url->host);
+
+				account = e_account_list_find(mail_config_get_accounts(), E_ACCOUNT_FIND_UID, uid);
+				g_free(uid);
+				if (account != NULL)
+					loc = account->name;
+			}
+
+			if (loc && url->path)
+				desc = g_strdup_printf(_("Updating vFolders for '%s:%s'"), loc, url->path);
+			camel_url_free(url);
+		}
+		g_free(euri);
+	}
+
+	if (desc == NULL)
+		desc = g_strdup_printf(_("Updating vFolders for '%s'"), m->uri);
+
+	return desc;
 }
 
 static void

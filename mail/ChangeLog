@@ -1,5 +1,12 @@
 2004-05-18  Not Zed  <NotZed@Ximian.com>
 
+	* mail-folder-cache.c (folder_changed): no new message test if its
+	the drafts folder too.
+
+	* mail-vfolder.c (vfolder_adduri_desc): use a nicer, account-based
+	formatter for folder names.  Hmm, that was a good waste of time.
+	For #55412.
+
 	* em-folder-view.c (emfv_list_selection_change): Listen to the
 	tree selection change event directly & proxy out, so we can update
 	the status bar properly.  Blah.  For #58600.

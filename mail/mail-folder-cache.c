@@ -435,6 +435,7 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 
 	if (!CAMEL_IS_VEE_FOLDER(folder)
 	    && folder != mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX)
+	    && folder != mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_DRAFTS)
 	    && folder != mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT)
 	    && changes && changes->uid_added)
 		new = changes->uid_added->len;
