@@ -1,9 +1,9 @@
 Makefile
 Makefile.in
-evolution
-evolution.junk
-evolution.log
-evolution.ps
-evolution.dvi
+evolution-guide
+evolution-guide.junk
+evolution-guide.log
+evolution-guide.ps
+evolution-guide.dvi
 evolution.tex
 fig/*.eps

@@ -2,6 +2,8 @@ sgml
 Makefile
 Makefile.in
 *-decl.txt
+*-decl-list.txt
+*-unused.txt
 *.signals
 *.hierarchy
 
