@@ -236,6 +236,27 @@ em_menu_target_new_select(EMMenu *emp, struct _CamelFolder *folder, const char *
 	return t;
 }
 
+/**
+ * em_menu_target_new_window:
+ * @emp: 
+ * @window: 
+ * 
+ * create a dummy target which references some sort of widget.
+ * 
+ * Return value: 
+ **/
+EMMenuTargetWidget *
+em_menu_target_new_widget(EMMenu *emp, struct _GtkWidget *w)
+{
+	EMMenuTargetWidget *t = e_menu_target_new(&emp->popup, EM_MENU_TARGET_WIDGET, sizeof(*t));
+	guint32 mask = ~0;
+
+	t->target.mask = mask;
+	t->target.widget = w;
+
+	return t;
+}
+
 static void
 emp_standard_menu_factory(EMenu *emp, void *data)
 {

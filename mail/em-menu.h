@@ -39,6 +39,7 @@ typedef struct _EMMenuClass EMMenuClass;
 /* Types of popup tagets */
 enum _em_menu_target_t {
 	EM_MENU_TARGET_SELECT,
+	EM_MENU_TARGET_WIDGET,
 };
 
 /* Flags that describe a TARGET_SELECT */
@@ -63,6 +64,8 @@ enum {
 	EM_MENU_SELECT_LAST               = 1<<18     /* reserve 2 slots */
 };
 
+/* Flags that describe a TARGET_WIDGET (none) */
+
 typedef struct _EMMenuTargetSelect EMMenuTargetSelect;
 
 struct _EMMenuTargetSelect {
@@ -70,6 +73,12 @@ struct _EMMenuTargetSelect {
 	struct _CamelFolder *folder;
 	char *uri;
 	GPtrArray *uids;
+};
+
+typedef struct _EMMenuTargetWidget EMMenuTargetWidget;
+
+struct _EMMenuTargetWidget {
+	EMenuTarget target;
 };
 
 typedef struct _EMenuItem EMMenuItem;
@@ -90,6 +99,7 @@ GType em_menu_get_type(void);
 EMMenu *em_menu_new(const char *menuid);
 
 EMMenuTargetSelect *em_menu_target_new_select(EMMenu *emp, struct _CamelFolder *folder, const char *folder_uri, GPtrArray *uids);
+EMMenuTargetWidget *em_menu_target_new_widget(EMMenu *emp, struct _GtkWidget *w);
 
 /* ********************************************************************** */
 

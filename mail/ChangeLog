@@ -1,5 +1,8 @@
 2005-01-05  Not Zed  <NotZed@Ximian.com>
 
+	* em-menu.c (em_menu_target_new_widget): add a semi-dummy target
+	for widget target.
+
 	* mail-component.c (handleuri_got_folder): handle the "reply"
 	parameter, if set.
 
