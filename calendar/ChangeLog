@@ -1,3 +1,10 @@
+2001-04-26  Dan Winship  <danw@ximian.com>
+
+	* conduits/todo/Makefile.am (libetodo_conduit_la_LIBADD): Remove
+	UNICODE_LIBS
+
+	* cal-client/Makefile.am (client_test_LDADD): Remove -lunicode
+
 2001-04-24  Duncan Mak  <duncan@ximian.com>
 
 	* gui/alarm-notify/notify-main.c (funny_trigger_cb): Fixed
