@@ -1,3 +1,13 @@
+2003-11-18  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/calendar-component.c (add_popup_menu_item): added 'sensitive'
+	argument.
+	(fill_popup_menu_cb): disable/enable menu items depending on whether
+	there is a selection or not.
+
+	* gui/tasks-component.c (add_popup_menu_item, fill_popup_menu_cb):
+	ditto.
+
 2003-11-17  JP Rosevear <jpr@ximian.com>
 
 	* Cleanup some ref/unref calls

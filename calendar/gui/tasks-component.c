@@ -200,7 +200,7 @@ get_default_task (ECal *ecal)
 /* Callbacks.  */
 static void
 add_popup_menu_item (GtkMenu *menu, const char *label, const char *pixmap,
-		     GCallback callback, gpointer user_data)
+		     GCallback callback, gpointer user_data, gboolean sensitive)
 {
 	GtkWidget *item, *image;
 
@@ -212,14 +212,19 @@ add_popup_menu_item (GtkMenu *menu, const char *label, const char *pixmap,
 		if (!image)
 			image = gtk_image_new_from_file (pixmap);
 
-		if (image)
+		if (image) {
+			gtk_widget_show (image);
 			gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item), image);
+		}
 	} else {
 		item = gtk_menu_item_new_with_label (label);
 	}
 
 	if (callback)
 		g_signal_connect (G_OBJECT (item), "activate", callback, user_data);
+
+	if (!sensitive)
+		gtk_widget_set_sensitive (item, FALSE);
 
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	gtk_widget_show (item);
@@ -298,9 +303,17 @@ rename_task_list_cb (GtkWidget *widget, TasksComponent *comp)
 static void
 fill_popup_menu_cb (ESourceSelector *selector, GtkMenu *menu, TasksComponent *component)
 {
-	add_popup_menu_item (menu, _("New Task List"), GTK_STOCK_NEW, G_CALLBACK (new_task_list_cb), component);
-	add_popup_menu_item (menu, _("Delete"), GTK_STOCK_DELETE, G_CALLBACK (delete_task_list_cb), component);
-	add_popup_menu_item (menu, _("Rename"), NULL, G_CALLBACK (rename_task_list_cb), component);
+	gboolean sensitive;
+
+	sensitive = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->source_selector)) ?
+		TRUE : FALSE;
+
+	add_popup_menu_item (menu, _("New Task List"), GTK_STOCK_NEW, G_CALLBACK (new_task_list_cb),
+			     component, TRUE);
+	add_popup_menu_item (menu, _("Delete"), GTK_STOCK_DELETE, G_CALLBACK (delete_task_list_cb),
+			     component, sensitive);
+	add_popup_menu_item (menu, _("Rename"), NULL, G_CALLBACK (rename_task_list_cb),
+			     component, sensitive);
 }
 
 static void

@@ -229,7 +229,7 @@ get_default_event (ECal *client, gboolean all_day)
 /* Callbacks.  */
 static void
 add_popup_menu_item (GtkMenu *menu, const char *label, const char *pixmap,
-		     GCallback callback, gpointer user_data)
+		     GCallback callback, gpointer user_data, gboolean sensitive)
 {
 	GtkWidget *item, *image;
 
@@ -241,14 +241,19 @@ add_popup_menu_item (GtkMenu *menu, const char *label, const char *pixmap,
 		if (!image)
 			image = gtk_image_new_from_file (pixmap);
 
-		if (image)
+		if (image) {
+			gtk_widget_show (image);
 			gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item), image);
+		}
 	} else {
 		item = gtk_menu_item_new_with_label (label);
 	}
 
 	if (callback)
 		g_signal_connect (G_OBJECT (item), "activate", callback, user_data);
+
+	if (!sensitive)
+		gtk_widget_set_sensitive (item, FALSE);
 
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	gtk_widget_show (item);
@@ -328,9 +333,14 @@ rename_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
 static void
 fill_popup_menu_cb (ESourceSelector *selector, GtkMenu *menu, CalendarComponent *comp)
 {
-	add_popup_menu_item (menu, _("New Calendar"), NULL, G_CALLBACK (new_calendar_cb), comp);
-	add_popup_menu_item (menu, _("Delete"), GTK_STOCK_DELETE, G_CALLBACK (delete_calendar_cb), comp);
-	add_popup_menu_item (menu, _("Rename"), NULL, G_CALLBACK (rename_calendar_cb), comp);
+	gboolean sensitive;
+
+	sensitive = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->source_selector)) ?
+		TRUE : FALSE;
+
+	add_popup_menu_item (menu, _("New Calendar"), NULL, G_CALLBACK (new_calendar_cb), comp, TRUE);
+	add_popup_menu_item (menu, _("Delete"), GTK_STOCK_DELETE, G_CALLBACK (delete_calendar_cb), comp, sensitive);
+	add_popup_menu_item (menu, _("Rename"), NULL, G_CALLBACK (rename_calendar_cb), comp, sensitive);
 }
 
 static void
