@@ -1,3 +1,10 @@
+2004-02-05  Rodney Dawes  <dobey@ximian.com>
+
+	* em-message-browser.c (emmb_list_message_selected): Grab focus on
+	the HTML widget when we display
+
+	Fixes #52942
+
 2004-02-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-message-browser.c (emmb_list_message_selected): Set the new

@@ -162,6 +162,7 @@ emmb_list_message_selected (struct _MessageList *ml, const char *uid, EMMessageB
 	
 	if ((info = camel_folder_get_message_info (emfv->folder, uid))) {
 		gtk_window_set_title ((GtkWindow *) emmb->window, camel_message_info_subject (info));
+		gtk_widget_grab_focus ((GtkWidget *) (emmb->view.preview->formathtml.html));
 		camel_folder_free_message_info (emfv->folder, info);
 	}
 }
