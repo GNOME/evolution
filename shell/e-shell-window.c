@@ -30,20 +30,27 @@
 #include "e-shell-window-commands.h"
 #include "e-shell-marshal.h"
 #include "e-sidebar.h"
+#include "e-task-bar.h"
 
 #include "e-util/e-lang-utils.h"
 
 #include <gal/util/e-util.h>
 
 #include <gtk/gtkbutton.h>
+#include <gtk/gtkhbox.h>
 #include <gtk/gtkhpaned.h>
+#include <gtk/gtkimage.h>
+#include <gtk/gtklabel.h>
 #include <gtk/gtknotebook.h>
+#include <gtk/gtktooltips.h>
 #include <gtk/gtkvbox.h>
 
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <bonobo/bonobo-widget.h>
+
+#include <libgnome/gnome-i18n.h>
 
 #include <gconf/gconf-client.h>
 
@@ -89,6 +96,16 @@ struct _EShellWindowPrivate {
 
 	/* The current view (can be NULL initially).  */
 	ComponentView *current_view;
+
+	/* Tooltips.  */
+	GtkTooltips *tooltips;
+
+	/* The status bar widgetry.  */
+	GtkWidget *status_bar;
+	GtkWidget *offline_toggle;
+	GtkWidget *offline_toggle_image;
+	GtkWidget *menu_hint_label;
+	GtkWidget *task_bar;
 };
 
 
@@ -98,6 +115,15 @@ enum {
 };
 
 static guint signals[LAST_SIGNAL] = { 0 };
+
+
+/* The icons for the offline/online status.  */
+
+static GdkPixmap *offline_pixmap = NULL;
+static GdkBitmap *offline_mask = NULL;
+
+static GdkPixmap *online_pixmap = NULL;
+static GdkBitmap *online_mask = NULL;
 
 
 /* ComponentView handling.  */
@@ -267,6 +293,63 @@ switch_view (EShellWindow *window, ComponentView *component_view)
 }
 
 
+/* Functions to update the sensitivity of buttons and menu items depending on the status.  */
+
+static void
+update_offline_toggle_status (EShellWindow *window)
+{
+	EShellWindowPrivate *priv;
+	GdkPixmap *icon_pixmap;
+	GdkBitmap *icon_mask;
+	const char *tooltip;
+	gboolean sensitive;
+
+	priv = window->priv;
+
+	switch (e_shell_get_line_status (priv->shell)) {
+	case E_SHELL_LINE_STATUS_ONLINE:
+		icon_pixmap = online_pixmap;
+		icon_mask   = online_mask;
+		sensitive   = TRUE;
+		tooltip     = _("Ximian Evolution is currently online.  "
+				"Click on this button to work offline.");
+		break;
+	case E_SHELL_LINE_STATUS_GOING_OFFLINE:
+		icon_pixmap = online_pixmap;
+		icon_mask   = online_mask;
+		sensitive   = FALSE;
+		tooltip     = _("Ximian Evolution is in the process of going offline.");
+		break;
+	case E_SHELL_LINE_STATUS_OFFLINE:
+		icon_pixmap = offline_pixmap;
+		icon_mask   = offline_mask;
+		sensitive   = TRUE;
+		tooltip     = _("Ximian Evolution is currently offline.  "
+				"Click on this button to work online.");
+		break;
+	default:
+		g_assert_not_reached ();
+		return;
+	}
+
+	gtk_image_set_from_pixmap (GTK_IMAGE (priv->offline_toggle_image), icon_pixmap, icon_mask);
+	gtk_widget_set_sensitive (priv->offline_toggle, sensitive);
+	gtk_tooltips_set_tip (priv->tooltips, priv->offline_toggle, tooltip, NULL);
+}
+
+static void
+update_send_receive_sensitivity (EShellWindow *window)
+{
+	if (e_shell_get_line_status (window->priv->shell) == E_SHELL_LINE_STATUS_OFFLINE)
+		bonobo_ui_component_set_prop (window->priv->ui_component,
+					      "/commands/SendReceive",
+					      "sensitive", "0", NULL);
+	else
+		bonobo_ui_component_set_prop (window->priv->ui_component,
+					      "/commands/SendReceive",
+					      "sensitive", "1", NULL);
+}
+
 
 /* Callbacks.  */
 
@@ -294,8 +377,157 @@ sidebar_button_selected_callback (ESidebar *sidebar,
 	switch_view (window, component_view);
 }
 
+static void
+offline_toggle_clicked_callback (GtkButton *button,
+				 EShellWindow *window)
+{
+	EShellWindowPrivate *priv = window->priv;
 
-/* Widget layout.  */
+	switch (e_shell_get_line_status (priv->shell)) {
+	case E_SHELL_LINE_STATUS_ONLINE:
+		e_shell_go_offline (priv->shell, window);
+		break;
+	case E_SHELL_LINE_STATUS_OFFLINE:
+		e_shell_go_online (priv->shell, window);
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+}
+
+static void
+shell_line_status_changed_callback (EShell *shell,
+				    EShellLineStatus new_status,
+				    EShellWindow *window)
+{
+	update_offline_toggle_status (window);
+	update_send_receive_sensitivity (window);
+}
+
+static void
+ui_engine_add_hint_callback (BonoboUIEngine *engine,
+			     const char *hint,
+			     EShellWindow *window)
+{
+	gtk_label_set_text (GTK_LABEL (window->priv->menu_hint_label), hint);
+	gtk_widget_show (window->priv->menu_hint_label);
+	gtk_widget_hide (window->priv->task_bar);
+}
+
+static void
+ui_engine_remove_hint_callback (BonoboUIEngine *engine,
+				EShellWindow *window)
+{
+	gtk_widget_hide (window->priv->menu_hint_label);
+	gtk_widget_show (window->priv->task_bar);
+}
+
+
+/* Widgetry.  */
+
+static void
+load_icons (void)
+{
+	GdkPixbuf *pixbuf;
+
+	pixbuf = gdk_pixbuf_new_from_file (EVOLUTION_IMAGES "/offline.png", NULL);
+	if (pixbuf == NULL) {
+		g_warning ("Cannot load `%s'", EVOLUTION_IMAGES "/offline.png");
+	} else {
+		gdk_pixbuf_render_pixmap_and_mask (pixbuf, &offline_pixmap, &offline_mask, 128);
+		g_object_unref (pixbuf);
+	}
+
+	pixbuf = gdk_pixbuf_new_from_file (EVOLUTION_IMAGES "/online.png", NULL);
+	if (pixbuf == NULL) {
+		g_warning ("Cannot load `%s'", EVOLUTION_IMAGES "/online.png");
+	} else {
+		gdk_pixbuf_render_pixmap_and_mask (pixbuf, &online_pixmap, &online_mask, 128);
+		g_object_unref (pixbuf);
+	}
+}
+
+static void
+setup_offline_toggle (EShellWindow *window)
+{
+	EShellWindowPrivate *priv;
+	GtkWidget *toggle;
+	GtkWidget *image;
+
+	priv = window->priv;
+
+	toggle = gtk_button_new ();
+	GTK_WIDGET_UNSET_FLAGS (toggle, GTK_CAN_FOCUS);
+	gtk_button_set_relief (GTK_BUTTON (toggle), GTK_RELIEF_NONE);
+
+	g_signal_connect (toggle, "clicked",
+			  G_CALLBACK (offline_toggle_clicked_callback), window);
+
+	image = gtk_image_new_from_pixmap (offline_pixmap, offline_mask);
+
+	gtk_container_add (GTK_CONTAINER (toggle), image);
+
+	gtk_widget_show (toggle);
+	gtk_widget_show (image);
+
+	priv->offline_toggle       = toggle;
+	priv->offline_toggle_image = image;
+
+	update_offline_toggle_status (window);
+
+	g_assert (priv->status_bar != NULL);
+
+	gtk_box_pack_start (GTK_BOX (priv->status_bar), priv->offline_toggle, FALSE, TRUE, 0);
+}
+
+static void
+setup_menu_hint_label (EShellWindow *window)
+{
+	EShellWindowPrivate *priv;
+
+	priv = window->priv;
+
+	priv->menu_hint_label = gtk_label_new ("");
+	gtk_misc_set_alignment (GTK_MISC (priv->menu_hint_label), 0.0, 0.5);
+
+	gtk_box_pack_start (GTK_BOX (priv->status_bar), priv->menu_hint_label, TRUE, TRUE, 0);
+}
+
+static void
+setup_task_bar (EShellWindow *window)
+{
+	EShellWindowPrivate *priv;
+
+	priv = window->priv;
+
+	priv->task_bar = e_task_bar_new ();
+
+	g_assert (priv->status_bar != NULL);
+
+	gtk_box_pack_start (GTK_BOX (priv->status_bar), priv->task_bar, TRUE, TRUE, 0);
+	gtk_widget_show (priv->task_bar);
+}
+
+static void
+setup_status_bar (EShellWindow *window)
+{
+	EShellWindowPrivate *priv;
+	BonoboUIEngine *ui_engine;
+
+	priv = window->priv;
+
+	priv->status_bar = gtk_hbox_new (FALSE, 2);
+	gtk_widget_show (priv->status_bar);
+
+	setup_offline_toggle (window);
+	setup_menu_hint_label (window);
+	setup_task_bar (window);
+
+	ui_engine = bonobo_window_get_ui_engine (BONOBO_WINDOW (window));
+ 
+	g_signal_connect (ui_engine, "add_hint", G_CALLBACK (ui_engine_add_hint_callback), window);
+	g_signal_connect (ui_engine, "remove_hint", G_CALLBACK (ui_engine_remove_hint_callback), window);
+}
 
 static void
 setup_widgets (EShellWindow *window)
@@ -303,11 +535,11 @@ setup_widgets (EShellWindow *window)
 	EShellWindowPrivate *priv = window->priv;
 	EComponentRegistry *registry = e_shell_peek_component_registry (priv->shell);
 	GtkWidget *paned;
+	GtkWidget *contents_vbox;
 	GSList *p;
 	int button_id;
 
 	paned = gtk_hpaned_new ();
-	bonobo_window_set_contents (BONOBO_WINDOW (window), paned);
 
 	priv->sidebar = e_sidebar_new ();
 	g_signal_connect (priv->sidebar, "button_selected",
@@ -337,7 +569,14 @@ setup_widgets (EShellWindow *window)
 		button_id ++;
 	}
 
-	gtk_widget_show_all (paned);
+	setup_status_bar (window);
+
+	contents_vbox = gtk_vbox_new (FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (contents_vbox), paned, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (contents_vbox), priv->status_bar, FALSE, TRUE, 0);
+	gtk_widget_show_all (contents_vbox);
+
+	bonobo_window_set_contents (BONOBO_WINDOW (window), contents_vbox);
 }
 
 
@@ -356,6 +595,11 @@ impl_dispose (GObject *object)
 	if (priv->ui_component != NULL) {
 		bonobo_object_unref (BONOBO_OBJECT (priv->ui_component));
 		priv->ui_component = NULL;
+	}
+
+	if (priv->tooltips != NULL) {
+		g_object_unref (priv->tooltips);
+		priv->tooltips = NULL;
 	}
 
 	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
@@ -394,12 +638,16 @@ class_init (EShellWindowClass *class)
 						   NULL, NULL,
 						   e_shell_marshal_NONE__NONE,
 						   G_TYPE_NONE, 0);
+
+	load_icons ();
 }
 
 static void
 init (EShellWindow *shell_window)
 {
 	EShellWindowPrivate *priv = g_new0 (EShellWindowPrivate, 1);
+
+	priv->tooltips = gtk_tooltips_new ();
 
 	shell_window->priv = priv;
 }
@@ -443,6 +691,8 @@ e_shell_window_new (EShell *shell,
 	e_shell_window_commands_setup (window);
 
 	setup_widgets (window);
+
+	g_signal_connect_object (shell, "line_status_changed", G_CALLBACK (shell_line_status_changed_callback), window, 0);
 
 	gtk_window_set_default_size (GTK_WINDOW (window), 640, 480);
 

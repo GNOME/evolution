@@ -1,3 +1,26 @@
+2003-11-19  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-window.c (struct _EShellWindowPrivate): New members
+	status_bar, offline_toggle, offline_toggle_image, menu_hint_label,
+	task_bar, tooltips.
+	(init): Initialize ->tooltips.
+	(impl_dispose): Unref ->tooltips.
+	(offline_toggle_clicked_callback): New.
+	(e_shell_window_new): Connect shell_line_status_changed_callback()
+	to the shell's "line_status_changed" signal.
+	(shell_line_status_changed_cb): New.
+	(setup_offline_toggle): New.
+	(setup_menu_hint_label): New.
+	(setup_task_bar): New.
+	(setup_status_bar): New.
+	(setup_widgets): Call setup_status_bar() and add add the status
+	bar to the window.
+	(update_offline_toggle_status): New.
+	(update_send_receive_sensitivity): New.
+	(load_icons): New.
+	(class_init): Call load_icons().
+	(ui_engine_remove_hint_callback): New.
+
 2003-11-17  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-window-commands.c: Add a pixmap for the toolbar
