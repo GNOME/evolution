@@ -51,9 +51,10 @@ e_summary_offline_handler_create_connection_list (ESummary *summary)
 
 	list = GNOME_Evolution_ConnectionList__alloc ();
 	list->_length = 0;
-	list->_maximum = e_summary_count_connections (summary);
+	list->_maximum = e_summary_count_connections (summary) + 1;
 	list->_buffer = CORBA_sequence_GNOME_Evolution_Connection_allocbuf (list->_maximum);
 
+	g_print ("_length: %d\n_maximum: %d\n", list->_length, list->_maximum);
 	connections = e_summary_add_connections (summary);
 	for (p = connections; p; p = p->next) {
 		ESummaryConnectionData *data;
@@ -116,13 +117,13 @@ went_offline (ESummary *summary,
 	CORBA_exception_init (&ev);
 
 	g_warning ("Went offline");
-	GNOME_Evolution_OfflineProgressListener_updateProgress (priv->listener_interface, connection_list, &ev);
-	if (BONOBO_EX (&ev)) {
-		g_warning ("Error updating offline progress: %s",
-			   CORBA_exception_id (&ev));
-	}
+  	GNOME_Evolution_OfflineProgressListener_updateProgress (priv->listener_interface, connection_list, &ev); 
+  	if (BONOBO_EX (&ev)) { 
+  		g_warning ("Error updating offline progress: %s", 
+  			   CORBA_exception_id (&ev)); 
+  	} 
 
-	CORBA_exception_free (&ev);
+  	CORBA_exception_free (&ev);
 }
 
 static void

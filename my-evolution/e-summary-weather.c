@@ -353,6 +353,7 @@ open_callback (GnomeVFSAsyncHandle *handle,
 			w->html = g_strdup ("<dd> </dd>");
 		}
 
+		w->handle = NULL;
 		e_summary_draw (w->summary);
 		return;
 	}
@@ -590,6 +591,7 @@ e_summary_weather_set_online (ESummary *summary,
 			      void *data)
 {
 	ESummaryWeather *weather;
+	GList *p;
 
 	weather = summary->weather;
 	if (weather->online == online) {
@@ -602,6 +604,16 @@ e_summary_weather_set_online (ESummary *summary,
 						    (GtkFunction) e_summary_weather_update,
 						    summary);
 	} else {
+		for (p = weather->weathers; p; p = p->next) {
+			Weather *w;
+
+			w = p->data;
+			if (w->handle) {
+				gnome_vfs_async_cancel (w->handle);
+				w->handle = NULL;
+			}
+		}
+
 		gtk_timeout_remove (weather->timeout);
 		weather->timeout = 0;
 	}

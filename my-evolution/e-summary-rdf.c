@@ -411,6 +411,7 @@ open_callback (GnomeVFSAsyncHandle *handle,
 	if (result != GNOME_VFS_OK) {
 		char *str;
 
+		r->handle = NULL;
 		g_free (r->html);
 		str = g_strdup_printf ("<b>%s:</b><br>%s", _("Error downloading RDF"),
 				       r->uri);
@@ -456,6 +457,7 @@ e_summary_rdf_update (ESummary *summary)
 			rdf->string = NULL;
 		}
 
+		g_warning ("Opening %s", rdf->uri);
 		gnome_vfs_async_open (&rdf->handle, rdf->uri, 
 				      GNOME_VFS_OPEN_READ,
 				      (GnomeVFSAsyncOpenCallback) open_callback, rdf);
@@ -581,6 +583,7 @@ e_summary_rdf_set_online (ESummary *summary,
 			  void *data)
 {
 	ESummaryRDF *rdf;
+	GList *p;
 
 	rdf = summary->rdf;
 	if (rdf->online == online) {
@@ -593,6 +596,16 @@ e_summary_rdf_set_online (ESummary *summary,
 						(GtkFunction) e_summary_rdf_update,
 						summary);
 	} else {
+		for (p = rdf->rdfs; p; p = p->next) {
+			RDF *r;
+
+			r = p->data;
+			if (r->handle) {
+				gnome_vfs_async_cancel (r->handle);
+				r->handle = NULL;
+			}
+		}
+
 		gtk_timeout_remove (rdf->timeout);
 		rdf->timeout = 0;
 	}

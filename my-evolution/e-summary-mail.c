@@ -564,6 +564,10 @@ e_summary_mail_free (ESummary *summary)
 
 	mail = summary->mail;
 	bonobo_object_release_unref (mail->folder_info, NULL);
+	mail->folder_info = CORBA_OBJECT_NIL;
+
+	gtk_signal_disconnect_by_func (GTK_OBJECT (mail->listener),
+				       GTK_SIGNAL_FUNC (mail_change_notify), summary);
 	bonobo_object_unref (BONOBO_OBJECT (mail->listener));
 
 	g_hash_table_foreach (mail->folders, free_folder, NULL);

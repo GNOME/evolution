@@ -777,6 +777,7 @@ e_summary_count_connections (ESummary *summary)
 		count += c->count (summary, c->closure);
 	}
 
+	g_print ("Count: %d", count);
 	return count;
 }
 
@@ -824,6 +825,11 @@ e_summary_set_online (ESummary *summary,
 		c->callback_closure = closure;
 
 		c->set_online (summary, progress, online, c->closure);
+		g_print ("Setting %s\n", online ? "online" : "offline");
+
+		if (callback != NULL) {
+			callback (summary, closure);
+		}
 	}
 }
 
