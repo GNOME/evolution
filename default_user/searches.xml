@@ -2,23 +2,31 @@
 <filteroptions>
   <ruleset>
     <rule grouping="any" source="demand">
-      <title>Body or subject contains</title>
+      <title>Sender contains</title>
       <partset>
-        <part name="subject">
-          <value name="subject-type" type="option" value="contains"/>
-          <value name="subject" type="string">
-            <string>crap</string>
-          </value>
-        </part>
-        <part name="body">
-          <value name="body-type" type="option" value="contains"/>
-          <value name="word" type="string">
-            <string>crap</string>
-          </value>
+        <part name="sender">
+          <value name="sender-type" type="option" value="contains"/>
+          <value name="sender" type="string"/>
         </part>
       </partset>
       <sources/>
     </rule>
+
+    <rule grouping="any" source="demand">
+      <title>Body or subject contains</title>
+      <partset>
+        <part name="subject">
+          <value name="subject-type" type="option" value="contains"/>
+          <value name="subject" type="string"/>
+        </part>
+        <part name="body">
+          <value name="body-type" type="option" value="contains"/>
+          <value name="word" type="string"/>
+        </part>
+      </partset>
+      <sources/>
+    </rule>
+
     <rule grouping="any" source="demand">
       <title>Body contains</title>
       <partset>
@@ -29,6 +37,7 @@
       </partset>
       <sources/>
     </rule>
+
     <rule grouping="any" source="demand">
       <title>Subject contains</title>
       <partset>
@@ -39,6 +48,7 @@
       </partset>
       <sources/>
     </rule>
+
     <rule grouping="any" source="demand">
       <title>Body does not contain</title>
       <partset>
@@ -49,6 +59,7 @@
       </partset>
       <sources/>
     </rule>
+
     <rule grouping="any" source="demand">
       <title>Subject does not contain</title>
       <partset>
@@ -59,12 +70,13 @@
       </partset>
       <sources/>
     </rule>
+
     <rule grouping="any" source="demand">
-      <title>Sender contains</title>
+      <title>Recipients contain</title>
       <partset>
-        <part name="sender">
-          <value name="sender-type" type="option" value="contains"/>
-          <value name="sender" type="string"/>
+        <part name="recipients">
+          <value name="recipient-type" type="option" value="contains"/>
+          <value name="recipient" type="string"/>
         </part>
       </partset>
       <sources/>
