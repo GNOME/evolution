@@ -99,7 +99,6 @@ ets_sort_idle(ETableSorted *ets)
 	return FALSE;
 }
 
-#if 0
 static gboolean
 ets_insert_idle(ETableSorted *ets)
 {
@@ -107,125 +106,6 @@ ets_insert_idle(ETableSorted *ets)
 	ets->insert_idle_id = 0;
 	return FALSE;
 }
-#endif
-
-#if 0
-/* This takes source rows. */
-static int
-ets_compare(ETableSorted *ets, int row1, int row2)
-{
-	int j;
-	int sort_count = e_table_sort_info_sorting_get_count(ets->sort_info);
-	int comp_val = 0;
-	int ascending = 1;
-	ETableSubset *etss = E_TABLE_SUBSET(ets);
-
-	for (j = 0; j < sort_count; j++) {
-		ETableSortColumn column = e_table_sort_info_sorting_get_nth(ets->sort_info, j);
-		ETableCol *col;
-		col = e_table_header_get_column_by_col_idx(ets->full_header, column.column);
-		if (col == NULL)
-			col = e_table_header_get_column (ets->full_header, e_table_header_count (ets->full_header) - 1);
-		comp_val = (*col->compare)(e_table_model_value_at (etss->source, col->col_idx, row1),
-					   e_table_model_value_at (etss->source, col->col_idx, row2));
-		ascending = column.ascending;
-		if (comp_val != 0)
-			break;
-	}
-	if (comp_val == 0) {
-		if (row1 < row2)
-			comp_val = -1;
-		if (row1 > row2)
-			comp_val = 1;
-	}
-	if (!ascending)
-		comp_val = -comp_val;
-	return comp_val;
-}
-
-static void
-ets_add       (ETableSorted *ets
-	       gint          row)
-{
-	ETableModel *etm = E_TABLE_MODEL(etssv);
-	ETableSubset *etss = E_TABLE_SUBSET(etssv);
-	ETableSorted *ets = E_TABLE_SORTED (etssv);
-	int i;
-
-	if (etss->n_map + 1 > etssv->n_vals_allocated) {
-		etssv->n_vals_allocated += INCREMENT_AMOUNT;
-		etss->map_table = g_realloc (etss->map_table, (etssv->n_vals_allocated) * sizeof(int));
-	}
-	i = etss->n_map;
-	if (ets->sort_idle_id == 0) {
-		/* this is to see if we're inserting a lot of things between idle loops.
-		   If we are, we're busy, its faster to just append and perform a full sort later */
-		ets->insert_count++;
-		if (ets->insert_count > ETS_INSERT_MAX) {
-			/* schedule a sort, and append instead */
-			ets->sort_idle_id = g_idle_add_full(50, (GSourceFunc) ets_sort_idle, ets, NULL);
-		} else {
-			/* make sure we have an idle handler to reset the count every now and then */
-			if (ets->insert_idle_id == 0) {
-				ets->insert_idle_id = g_idle_add_full(40, (GSourceFunc) ets_insert_idle, ets, NULL);
-			}
-			i = 0;
-			/* handle insertions when we have a 'sort group' */
-			if (e_table_model_has_sort_group(etss->source)) {
-				/* find the row this row maps to */
-				char *group = g_strdup(e_table_model_row_sort_group(etss->source, row));
-				const char *newgroup;
-				int cmp, grouplen, newgrouplen;
-				
-				newgroup = strrchr(group, '/');
-				grouplen = strlen(group);
-				if (newgroup)
-					cmp = newgroup-group;
-				else
-					cmp = grouplen;
-				
-				/* find first common parent */
-				while (i<etss->n_map) {
-					newgroup = e_table_model_row_sort_group(etss->source, etss->map_table[i]);
-					if (strncmp(newgroup, group, cmp) == 0) {
-						break;
-					}
-					i++;
-				}
-
-				/* check matching records */
-				while (i<etss->n_map) {
-					newgroup = e_table_model_row_sort_group(etss->source, etss->map_table[i]);
-					newgrouplen = strlen(newgroup);
-					if (strncmp(newgroup, group, cmp) == 0) {
-						/* common parent, check for same level */
-						if (grouplen == newgrouplen) {
-							if (ets_compare(ets, etss->map_table[i], row) >= 0)
-								break;
-						} else if (strncmp(newgroup + cmp, group + cmp, grouplen - cmp) == 0)
-							/* Found a child of the inserted node.  Insert here. */
-							break;
-					} else {
-						/* ran out of common parents, insert here */
-						break;
-					}
-					i++;
-				}
-				g_free(group);
-			} else {
-				while (i < etss->n_map && ets_compare(ets, etss->map_table[i], row) < 0)
-					i++;
-			}
-			memmove(etss->map_table + i + 1, etss->map_table + i, (etss->n_map - i) * sizeof(int));
-		}
-	}
-	etss->map_table[i] = row;
-	etss->n_map++;
-
-	e_table_model_row_inserted (etm, i);
-}
-
-#endif
 
 ETableModel *
 e_table_sorted_new (ETableModel *source, ETableHeader *full_header, ETableSortInfo *sort_info)
@@ -283,6 +163,9 @@ ets_proxy_model_row_changed (ETableSubset *subset, ETableModel *source, int row)
 {
 	if (!E_TABLE_SORTED(subset)->sort_idle_id)
 		E_TABLE_SORTED(subset)->sort_idle_id = g_idle_add_full(50, (GSourceFunc) ets_sort_idle, subset, NULL);
+	
+	if (ets_parent_class->proxy_model_row_changed)
+		(ets_parent_class->proxy_model_row_changed) (subset, source, row);
 }
 
 static void
@@ -290,23 +173,81 @@ ets_proxy_model_cell_changed (ETableSubset *subset, ETableModel *source, int col
 {
 	ETableSorted *ets = E_TABLE_SORTED(subset);
 	if (e_table_sorting_utils_affects_sort(source, ets->sort_info, ets->full_header, col))
-		ets_proxy_model_row_changed(subset, source, row); 
-	else if (ets_parent_class->proxy_model_cell_changed) {
+		ets_proxy_model_row_changed(subset, source, row);
+	else if (ets_parent_class->proxy_model_cell_changed)
 		(ets_parent_class->proxy_model_cell_changed) (subset, source, col, row);
+}
+
+static void
+ets_proxy_model_row_inserted (ETableSubset *etss, ETableModel *source, int row)
+{
+ 	ETableModel *etm = E_TABLE_MODEL(etss);
+	ETableSorted *ets = E_TABLE_SORTED(etss);
+	int i;
+
+	e_table_model_pre_change (etm);
+
+	for (i = 0; i < etss->n_map; i++) {
+		if (etss->map_table[i] >= row)
+			etss->map_table[i] ++;
 	}
-		
+
+	etss->map_table = g_realloc (etss->map_table, (etss->n_map + 1) * sizeof(int));
+
+	i = etss->n_map;
+	if (ets->sort_idle_id == 0) {
+		/* this is to see if we're inserting a lot of things between idle loops.
+		   If we are, we're busy, its faster to just append and perform a full sort later */
+		ets->insert_count++;
+		if (ets->insert_count > ETS_INSERT_MAX) {
+			/* schedule a sort, and append instead */
+			ets->sort_idle_id = g_idle_add_full(50, (GSourceFunc) ets_sort_idle, ets, NULL);
+		} else {
+			/* make sure we have an idle handler to reset the count every now and then */
+			if (ets->insert_idle_id == 0) {
+				ets->insert_idle_id = g_idle_add_full(40, (GSourceFunc) ets_insert_idle, ets, NULL);
+			}
+			i = e_table_sorting_utils_insert(etss->source, ets->sort_info, ets->full_header, etss->map_table, etss->n_map, row);
+			memmove(etss->map_table + i + 1, etss->map_table + i, (etss->n_map - i) * sizeof(int));
+		}
+	}
+	etss->map_table[i] = row;
+	etss->n_map++;
+
+	e_table_model_row_inserted (etm, i);
+	d(g_print("inserted row %d", row));
+	d(e_table_subset_print_debugging(etss));
 }
 
 static void
-ets_proxy_model_row_inserted (ETableSubset *subset, ETableModel *source, int row)
+ets_proxy_model_row_deleted (ETableSubset *etss, ETableModel *source, int row)
 {
-	ets_proxy_model_changed(subset, source);
-}
+	ETableModel *etm = E_TABLE_MODEL(etss);
+	int i;
+	gboolean shift;
 
-static void
-ets_proxy_model_row_deleted (ETableSubset *subset, ETableModel *source, int row)
-{
-	ets_proxy_model_changed(subset, source);
+	shift = row == etss->n_map - 1;
+	
+	for (i = 0; i < etss->n_map; i++){
+		if (etss->map_table[i] == row) {
+			e_table_model_pre_change (etm);
+			memmove (etss->map_table + i, etss->map_table + i + 1, (etss->n_map - i - 1) * sizeof(int));
+			etss->n_map --;
+			if (shift)
+				e_table_model_row_deleted (etm, i);
+		}
+	}
+	if (!shift) {
+		for (i = 0; i < etss->n_map; i++) {
+			if (etss->map_table[i] >= row)
+				etss->map_table[i] --;
+		}
+
+		e_table_model_changed (etm);
+	}
+
+	d(g_print("deleted row %d", row));
+	d(e_table_subset_print_debugging(etss));
 }
 
 static void

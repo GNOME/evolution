@@ -146,8 +146,6 @@ pixbuf_event (ECellView *ecell_view, GdkEvent *event,
               int model_col, int view_col, int row,
               ECellFlags flags, ECellActions *actions)
 {
-    ECellPixbufView *pixbuf_view = (ECellPixbufView *) ecell_view;
-
     /* noop */
 
     return FALSE;
@@ -156,7 +154,6 @@ pixbuf_event (ECellView *ecell_view, GdkEvent *event,
 static gint
 pixbuf_height (ECellView *ecell_view, int model_col, int view_col, int row)
 {
-    ECellPixbufView *pixbuf_view = (ECellPixbufView *) ecell_view;
     GdkPixbuf *pixbuf;
 
     pixbuf = (GdkPixbuf *) e_table_model_value_at (ecell_view->e_table_model, model_col, row);
@@ -173,7 +170,6 @@ pixbuf_height (ECellView *ecell_view, int model_col, int view_col, int row)
 static gint
 pixbuf_max_width (ECellView *ecell_view, int model_col, int view_col)
 {
-    ECellPixbufView *pixbuf_view = (ECellPixbufView *) ecell_view;
     gint num_rows, i;
     gint max_width = -1;
 

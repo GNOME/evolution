@@ -100,39 +100,6 @@ etsv_insert_idle(ETableSortedVariable *etsv)
 	return FALSE;
 }
 
-/* This takes source rows. */
-static int
-etsv_compare(ETableSortedVariable *etsv, int row1, int row2)
-{
-	int j;
-	int sort_count = e_table_sort_info_sorting_get_count(etsv->sort_info);
-	int comp_val = 0;
-	int ascending = 1;
-	ETableSubset *etss = E_TABLE_SUBSET(etsv);
-
-	for (j = 0; j < sort_count; j++) {
-		ETableSortColumn column = e_table_sort_info_sorting_get_nth(etsv->sort_info, j);
-		ETableCol *col;
-		col = e_table_header_get_column_by_col_idx(etsv->full_header, column.column);
-		if (col == NULL)
-			col = e_table_header_get_column (etsv->full_header, e_table_header_count (etsv->full_header) - 1);
-		comp_val = (*col->compare)(e_table_model_value_at (etss->source, col->col_idx, row1),
-					   e_table_model_value_at (etss->source, col->col_idx, row2));
-		ascending = column.ascending;
-		if (comp_val != 0)
-			break;
-	}
-	if (comp_val == 0) {
-		if (row1 < row2)
-			comp_val = -1;
-		if (row1 > row2)
-			comp_val = 1;
-	}
-	if (!ascending)
-		comp_val = -comp_val;
-	return comp_val;
-}
-
 
 static void
 etsv_add       (ETableSubsetVariable *etssv,
@@ -160,53 +127,7 @@ etsv_add       (ETableSubsetVariable *etssv,
 			if (etsv->insert_idle_id == 0) {
 				etsv->insert_idle_id = g_idle_add_full(40, (GSourceFunc) etsv_insert_idle, etsv, NULL);
 			}
-			i = 0;
-			/* handle insertions when we have a 'sort group' */
-			if (e_table_model_has_sort_group(etss->source)) {
-				/* find the row this row maps to */
-				char *group = g_strdup(e_table_model_row_sort_group(etss->source, row));
-				const char *newgroup;
-				int cmp, grouplen, newgrouplen;
-				
-				newgroup = strrchr(group, '/');
-				grouplen = strlen(group);
-				if (newgroup)
-					cmp = newgroup-group;
-				else
-					cmp = grouplen;
-				
-				/* find first common parent */
-				while (i<etss->n_map) {
-					newgroup = e_table_model_row_sort_group(etss->source, etss->map_table[i]);
-					if (strncmp(newgroup, group, cmp) == 0) {
-						break;
-					}
-					i++;
-				}
-
-				/* check matching records */
-				while (i<etss->n_map) {
-					newgroup = e_table_model_row_sort_group(etss->source, etss->map_table[i]);
-					newgrouplen = strlen(newgroup);
-					if (strncmp(newgroup, group, cmp) == 0) {
-						/* common parent, check for same level */
-						if (grouplen == newgrouplen) {
-							if (etsv_compare(etsv, etss->map_table[i], row) >= 0)
-								break;
-						} else if (strncmp(newgroup + cmp, group + cmp, grouplen - cmp) == 0)
-							/* Found a child of the inserted node.  Insert here. */
-							break;
-					} else {
-						/* ran out of common parents, insert here */
-						break;
-					}
-					i++;
-				}
-				g_free(group);
-			} else {
-				while (i < etss->n_map && etsv_compare(etsv, etss->map_table[i], row) < 0)
-					i++;
-			}
+			i = e_table_sorting_utils_insert(etss->source, etsv->sort_info, etsv->full_header, etss->map_table, etss->n_map, row);
 			memmove(etss->map_table + i + 1, etss->map_table + i, (etss->n_map - i) * sizeof(int));
 		}
 	}

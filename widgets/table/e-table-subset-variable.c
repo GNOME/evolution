@@ -32,8 +32,8 @@ etssv_add       (ETableSubsetVariable *etssv,
 	e_table_model_pre_change(etm);
 
 	if (etss->n_map + 1 > etssv->n_vals_allocated){
-		etss->map_table = g_realloc (etss->map_table, (etssv->n_vals_allocated + INCREMENT_AMOUNT) * sizeof(int));
 		etssv->n_vals_allocated += INCREMENT_AMOUNT;
+		etss->map_table = g_realloc (etss->map_table, etssv->n_vals_allocated * sizeof(int));
 	}
 
 	etss->map_table[etss->n_map++] = row;

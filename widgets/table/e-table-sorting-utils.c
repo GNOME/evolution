@@ -5,6 +5,38 @@
 
 #define d(x)
 
+/* This takes source rows. */
+static int
+etsu_compare(ETableModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, int row1, int row2)
+{
+	int j;
+	int sort_count = e_table_sort_info_sorting_get_count(sort_info);
+	int comp_val = 0;
+	int ascending = 1;
+
+	for (j = 0; j < sort_count; j++) {
+		ETableSortColumn column = e_table_sort_info_sorting_get_nth(sort_info, j);
+		ETableCol *col;
+		col = e_table_header_get_column_by_col_idx(full_header, column.column);
+		if (col == NULL)
+			col = e_table_header_get_column (full_header, e_table_header_count (full_header) - 1);
+		comp_val = (*col->compare)(e_table_model_value_at (source, col->col_idx, row1),
+					   e_table_model_value_at (source, col->col_idx, row2));
+		ascending = column.ascending;
+		if (comp_val != 0)
+			break;
+	}
+	if (comp_val == 0) {
+		if (row1 < row2)
+			comp_val = -1;
+		if (row1 > row2)
+			comp_val = 1;
+	}
+	if (!ascending)
+		comp_val = -comp_val;
+	return comp_val;
+}
+
 static ETableSortInfo *sort_info_closure;
 
 static void **vals_closure;
@@ -319,12 +351,6 @@ e_table_sorting_utils_sort(ETableModel *source, ETableSortInfo *sort_info, ETabl
 		if (col == NULL)
 			col = e_table_header_get_column (full_header, e_table_header_count (full_header) - 1);
 		for (i = 0; i < rows; i++) {
-#if 0
-			if( !(i & 0xff) ) {
-				while(gtk_events_pending())
-					gtk_main_iteration();
-			}
-#endif
 			vals_closure[map_table[i] * cols + j] = e_table_model_value_at (source, col->col_idx, map_table[i]);
 		}
 		compare_closure[j] = col->compare;
@@ -370,3 +396,133 @@ e_table_sorting_utils_affects_sort  (ETableModel    *source,
 	}
 	return FALSE;
 }
+
+
+int
+e_table_sorting_utils_insert(ETableModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, int *map_table, int rows, int row)
+{
+	int i;
+
+	i = 0;
+	/* handle insertions when we have a 'sort group' */
+	if (e_table_model_has_sort_group(source)) {
+		/* find the row this row maps to */
+		char *group = g_strdup(e_table_model_row_sort_group(source, row));
+		const char *newgroup;
+		int cmp, grouplen, newgrouplen;
+			
+		newgroup = strrchr(group, '/');
+		grouplen = strlen(group);
+		if (newgroup)
+			cmp = newgroup-group;
+		else
+			cmp = grouplen;
+				
+		/* find first common parent */
+		while (i < rows) {
+			newgroup = e_table_model_row_sort_group(source, map_table[i]);
+			if (strncmp(newgroup, group, cmp) == 0) {
+				break;
+			}
+			i++;
+		}
+
+				/* check matching records */
+		while (i<row) {
+			newgroup = e_table_model_row_sort_group(source, map_table[i]);
+			newgrouplen = strlen(newgroup);
+			if (strncmp(newgroup, group, cmp) == 0) {
+				/* common parent, check for same level */
+				if (grouplen == newgrouplen) {
+					if (etsu_compare(source, sort_info, full_header, map_table[i], row) >= 0)
+						break;
+				} else if (strncmp(newgroup + cmp, group + cmp, grouplen - cmp) == 0)
+					/* Found a child of the inserted node.  Insert here. */
+					break;
+			} else {
+				/* ran out of common parents, insert here */
+				break;
+			}
+			i++;
+		}
+		g_free(group);
+	} else {
+		while (i < rows && etsu_compare(source, sort_info, full_header, map_table[i], row) < 0)
+			i++;
+	}
+
+	return i;
+}
+
+#if 0
+void *bsearch(const void *key, const void *base, size_t nmemb,
+              size_t size, int (*compar)(const void *, const void *, void *), gpointer user_data)
+{
+	
+}
+
+int
+e_table_sorting_utils_check_position (ETableModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, int *map_table, int rows, int view_row)
+{
+	int i;
+	int row;
+
+	i = view_row;
+	row = map_table[i];
+	/* handle insertions when we have a 'sort group' */
+	if (e_table_model_has_sort_group(source)) {
+		/* find the row this row maps to */
+		char *group = g_strdup(e_table_model_row_sort_group(source, row));
+		const char *newgroup;
+		int cmp, grouplen, newgrouplen;
+			
+		newgroup = strrchr(group, '/');
+		grouplen = strlen(group);
+		if (newgroup)
+			cmp = newgroup-group;
+		else
+			cmp = grouplen;
+				
+		/* find first common parent */
+		while (i < rows) {
+			newgroup = e_table_model_row_sort_group(source, map_table[i]);
+			if (strncmp(newgroup, group, cmp) == 0) {
+				break;
+			}
+			i++;
+		}
+
+		/* check matching records */
+		while (i < row) {
+			newgroup = e_table_model_row_sort_group(source, map_table[i]);
+			newgrouplen = strlen(newgroup);
+			if (strncmp(newgroup, group, cmp) == 0) {
+				/* common parent, check for same level */
+				if (grouplen == newgrouplen) {
+					if (etsu_compare(source, sort_info, full_header, map_table[i], row) >= 0)
+						break;
+				} else if (strncmp(newgroup + cmp, group + cmp, grouplen - cmp) == 0)
+					/* Found a child of the inserted node.  Insert here. */
+					break;
+			} else {
+				/* ran out of common parents, insert here */
+				break;
+			}
+			i++;
+		}
+		g_free(group);
+	} else {
+		i = view_row;
+		if (i < rows && etsu_compare(source, sort_info, full_header, map_table[i + 1], row) < 0) {
+			i ++;
+			while (i < rows - 1 && etsu_compare(source, sort_info, full_header, map_table[i], row) < 0)
+				i ++;
+		} else if (i > 0 && etsu_compare(source, sort_info, full_header, map_table[i - 1], row) > 0) {
+			i --;
+			while (i > 0 && etsu_compare(source, sort_info, full_header, map_table[i], row) > 0)
+				i --;
+		}
+	}
+	return i;
+}
+#endif

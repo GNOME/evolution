@@ -379,3 +379,12 @@ e_table_subset_get_toplevel (ETableSubset *table)
 	else
 		return table->source;
 }
+
+void
+e_table_subset_print_debugging  (ETableSubset *table_model)
+{
+	int i;
+	for (i = 0; i < table_model->n_map; i++) {
+		g_print("%8d\n", table_model->map_table[i]);
+	}
+}

@@ -21,6 +21,12 @@ gboolean  e_table_sorting_utils_affects_sort  (ETableModel    *source,
 					       ETableHeader   *full_header,
 					       int             col);
 
+int       e_table_sorting_utils_insert        (ETableModel    *source,
+					       ETableSortInfo *sort_info, 
+					       ETableHeader   *full_header,
+					       int     	      *map_table, 
+					       int     	       rows, 
+					       int     	       row);
 
 #ifdef __cplusplus
 }
