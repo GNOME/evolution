@@ -277,7 +277,7 @@ impl_StorageRegistry_removeListener (PortableServer_Servant servant,
 	ECorbaStorageRegistry *storage_registry;
 	ECorbaStorageRegistryPrivate *priv;
 	CORBA_Environment ev2;
-	GList *p;
+	GSList *p;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	storage_registry = E_CORBA_STORAGE_REGISTRY (bonobo_object);
@@ -296,7 +296,7 @@ impl_StorageRegistry_removeListener (PortableServer_Servant servant,
 	CORBA_exception_free (&ev2);
 	
 	priv->listeners = g_slist_remove_link (priv->listeners, p);
-	g_list_free (p);
+	g_slist_free (p);
 }
 
 

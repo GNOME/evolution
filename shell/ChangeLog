@@ -1,3 +1,13 @@
+2002-03-06  Dan Winship  <danw@ximian.com>
+
+	* e-corba-storage-registry.c
+	(impl_StorageRegistry_removeListener): Fix up GList/GSList
+	confusion.
+
+	* e-shell-user-creatable-items-handler.c
+	(get_default_action_for_view): Don't look into the types list if
+	it's empty.
+
 2002-03-06  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-about-box.c: Reduce width of the copyright message so it

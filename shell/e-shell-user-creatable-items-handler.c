@@ -289,6 +289,9 @@ get_default_action_for_view (EShellUserCreatableItemsHandler *handler,
 		const char *component_id;
 
 		component = (const Component *) p->data;
+		if (component->type_list->_length == 0)
+			continue;
+
 		type = & component->type_list->_buffer[0];
 		component_id = evolution_shell_component_client_get_id (component->component_client);
 
