@@ -148,6 +148,8 @@ camel_imapp_folder_new(CamelStore *store, const char *path)
 	return folder;
 }
 
+#if 0
+/* experimental interfaces */
 void
 camel_imapp_folder_open(CamelIMAPPFolder *folder, CamelException *ex)
 {
@@ -168,6 +170,7 @@ void
 camel_imapp_folder_close(CamelIMAPPFolder *folder, CamelException *ex)
 {
 }
+#endif
 
 static void 
 imap_refresh_info (CamelFolder *folder, CamelException *ex)

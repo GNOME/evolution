@@ -153,7 +153,6 @@ camel_imapp_driver_login(CamelIMAPPDriver *id)
 void
 camel_imapp_driver_select(CamelIMAPPDriver *id, struct _CamelIMAPPFolder *folder)
 {
-	CamelIMAPPSelectResponse *sr;
 	CamelIMAPPCommand * volatile ic = NULL;
 	CamelIMAPPCommand * volatile ic2 = NULL;
 	guint32 count;
@@ -404,8 +403,6 @@ camel_imapp_driver_sync(CamelIMAPPDriver *id, gboolean expunge, CamelIMAPPFolder
 
 		/* success (no exception), make sure we match what we're supposed to */
 		for (i=0;i<count;i++) {
-			guint32 flags, sflags;
-
 			info = (CamelIMAPPMessageInfo *)camel_folder_summary_index(summary, i);
 			if (info == NULL)
 				continue;

@@ -438,7 +438,7 @@ iterate_untagged(CamelIMAPPEngine *imap)
 
 /* handle any continuation requests
    either data continuations, or auth continuation */
-int
+static int
 iterate_continuation(CamelIMAPPEngine *imap)
 {
 	CamelIMAPPCommand *ic;
@@ -520,7 +520,7 @@ iterate_continuation(CamelIMAPPEngine *imap)
 }
 
 /* handle a completion line */
-int
+static int
 iterate_completion(CamelIMAPPEngine *imap, unsigned char *token)
 {
 	CamelIMAPPCommand *ic;
@@ -910,6 +910,7 @@ imap_engine_command_add_part(CamelIMAPPEngine *imap, CamelIMAPPCommand *ic, came
 	e_dlist_addtail(&ic->parts, (EDListNode *)cp);
 }
 
+#if c(!)0
 static int len(EDList *list)
 {
 	int count = 0;
@@ -921,6 +922,7 @@ static int len(EDList *list)
 	}
 	return count;
 }
+#endif
 
 static void
 imap_engine_command_complete(CamelIMAPPEngine *imap, CamelIMAPPCommand *ic)

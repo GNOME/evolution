@@ -71,6 +71,8 @@ CamelServiceAuthType camel_imapp_password_authtype = {
 	TRUE
 };
 
+void camel_imapp_module_init(void);
+
 void
 camel_imapp_module_init(void)
 {

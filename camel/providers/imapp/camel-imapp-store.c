@@ -80,8 +80,6 @@ static void imap_delete_folder(CamelStore *store, const char *folder_name, Camel
 static void imap_rename_folder(CamelStore *store, const char *old, const char *new, CamelException *ex);
 static CamelFolderInfo *imap_create_folder(CamelStore *store, const char *parent_name, const char *folder_name, CamelException *ex);
 
-static int store_resp_list(CamelIMAPPEngine *ie, guint32 id, void *data);
-
 /* yet to see if this should go global or not */
 void camel_imapp_store_folder_selected(CamelIMAPPStore *store, CamelIMAPPFolder *folder, CamelIMAPPSelectResponse *select);
 
@@ -113,7 +111,7 @@ camel_imapp_store_class_init (CamelIMAPPStoreClass *camel_imapp_store_class)
 static void
 camel_imapp_store_init (gpointer object, gpointer klass)
 {
-	CamelIMAPPStore *istore = object;
+	/*CamelIMAPPStore *istore = object;*/
 }
 
 CamelType
