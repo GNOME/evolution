@@ -2608,7 +2608,7 @@ header_decode_address(const char **in, const char *charset)
 }
 
 static char *
-camel_header_msgid_decode_internal(const char **in)
+header_msgid_decode_internal(const char **in)
 {
 	const char *inptr = *in;
 	char *msgid = NULL;
@@ -2644,7 +2644,7 @@ camel_header_msgid_decode(const char *in)
 	if (in == NULL)
 		return NULL;
 
-	return camel_header_msgid_decode_internal(&in);
+	return header_msgid_decode_internal(&in);
 }
 
 char *
@@ -2752,7 +2752,7 @@ camel_header_references_list_clear(struct _camel_header_references **list)
 }
 
 static void
-camel_header_references_decode_single (const char **in, struct _camel_header_references **head)
+header_references_decode_single (const char **in, struct _camel_header_references **head)
 {
 	struct _camel_header_references *ref;
 	const char *inptr = *in;
@@ -2761,7 +2761,7 @@ camel_header_references_decode_single (const char **in, struct _camel_header_ref
 	while (*inptr) {
 		header_decode_lwsp (&inptr);
 		if (*inptr == '<') {
-			id = camel_header_msgid_decode_internal (&inptr);
+			id = header_msgid_decode_internal (&inptr);
 			if (id) {
 				ref = g_malloc (sizeof (struct _camel_header_references));
 				ref->next = *head;
@@ -2789,7 +2789,7 @@ camel_header_references_inreplyto_decode (const char *in)
 	if (in == NULL || in[0] == '\0')
 		return NULL;
 	
-	camel_header_references_decode_single (&in, &ref);
+	header_references_decode_single (&in, &ref);
 	
 	return ref;
 }
@@ -2804,7 +2804,7 @@ camel_header_references_decode (const char *in)
 		return NULL;
 	
 	while (*in)
-		camel_header_references_decode_single (&in, &refs);
+		header_references_decode_single (&in, &refs);
 	
 	return refs;
 }
@@ -2996,7 +2996,7 @@ camel_header_param_list_decode(const char *in)
 
 
 static char *
-camel_header_encode_param (const unsigned char *in, gboolean *encoded)
+header_encode_param (const unsigned char *in, gboolean *encoded)
 {
 	register const unsigned char *inptr = in;
 	unsigned char *outbuf = NULL;
@@ -3124,7 +3124,7 @@ camel_header_param_list_format_append (GString *out, struct _camel_header_param 
 			continue;
 		}
 		
-		value = camel_header_encode_param (p->value, &encoded);
+		value = header_encode_param (p->value, &encoded);
 		if (!value) {
 			w(g_warning ("appending parameter %s=%s violates rfc2184", p->name, p->value));
 			value = g_strdup (p->value);
@@ -3684,7 +3684,7 @@ camel_header_raw_append(struct _camel_header_raw **list, const char *name, const
 }
 
 static struct _camel_header_raw *
-camel_header_raw_find_node(struct _camel_header_raw **list, const char *name)
+header_raw_find_node(struct _camel_header_raw **list, const char *name)
 {
 	struct _camel_header_raw *l;
 
@@ -3702,7 +3702,7 @@ camel_header_raw_find(struct _camel_header_raw **list, const char *name, int *of
 {
 	struct _camel_header_raw *l;
 
-	l = camel_header_raw_find_node(list, name);
+	l = header_raw_find_node(list, name);
 	if (l) {
 		if (offset)
 			*offset = l->offset;
@@ -3726,7 +3726,7 @@ camel_header_raw_find_next(struct _camel_header_raw **list, const char *name, in
 }
 
 static void
-camel_header_raw_free(struct _camel_header_raw *l)
+header_raw_free(struct _camel_header_raw *l)
 {
 	g_free(l->name);
 	g_free(l->value);
@@ -3744,7 +3744,7 @@ camel_header_raw_remove(struct _camel_header_raw **list, const char *name)
 	while (l) {
 		if (!strcasecmp(l->name, name)) {
 			p->next = l->next;
-			camel_header_raw_free(l);
+			header_raw_free(l);
 			l = p->next;
 		} else {
 			p = l;
@@ -3767,7 +3767,7 @@ camel_header_raw_clear(struct _camel_header_raw **list)
 	l = *list;
 	while (l) {
 		n = l->next;
-		camel_header_raw_free(l);
+		header_raw_free(l);
 		l = n;
 	}
 	*list = NULL;
@@ -4031,7 +4031,7 @@ camel_header_address_list_clear(struct _camel_header_address **l)
 /* if encode is true, then the result is suitable for mailing, otherwise
    the result is suitable for display only (and may not even be re-parsable) */
 static void
-camel_header_address_list_encode_append (GString *out, int encode, struct _camel_header_address *a)
+header_address_list_encode_append (GString *out, int encode, struct _camel_header_address *a)
 {
 	char *text;
 	
@@ -4055,7 +4055,7 @@ camel_header_address_list_encode_append (GString *out, int encode, struct _camel
 			else
 				text = a->name;
 			g_string_append_printf (out, "%s: ", text);
-			camel_header_address_list_encode_append (out, encode, a->v.members);
+			header_address_list_encode_append (out, encode, a->v.members);
 			g_string_append_printf (out, ";");
 			if (encode)
 				g_free (text);
@@ -4080,7 +4080,7 @@ camel_header_address_list_encode (struct _camel_header_address *a)
 		return NULL;
 	
 	out = g_string_new ("");
-	camel_header_address_list_encode_append (out, TRUE, a);
+	header_address_list_encode_append (out, TRUE, a);
 	ret = out->str;
 	g_string_free (out, FALSE);
 	
@@ -4098,7 +4098,7 @@ camel_header_address_list_format (struct _camel_header_address *a)
 	
 	out = g_string_new ("");
 	
-	camel_header_address_list_encode_append (out, FALSE, a);
+	header_address_list_encode_append (out, FALSE, a);
 	ret = out->str;
 	g_string_free (out, FALSE);
 	
