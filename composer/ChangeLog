@@ -1,5 +1,8 @@
 2002-08-12  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* e-msg-composer-select-file.c (create_file_selection): Set the
+	file-selection window icon. Fixes the mailer part of bug #7368.
+
 	* e-msg-composer-attachment.c (e_msg_composer_attachment_new):
 	Don't call new_from_mime_part() since that function now does some
 	copying of the mime part rather than simply reffing it.

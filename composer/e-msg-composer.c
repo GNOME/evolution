@@ -1136,8 +1136,7 @@ show_attachments (EMsgComposer *composer,
 }
 
 static void
-save (EMsgComposer *composer,
-      const char *file_name)
+save (EMsgComposer *composer, const char *file_name)
 {
 	CORBA_Environment ev;
 	char *my_file_name;

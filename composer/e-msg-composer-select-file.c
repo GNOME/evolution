@@ -1,25 +1,26 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-/* e-msg-composer-select-file.c
+/*
+ *  Authors: Ettore Perazzoli <ettore@ximian.com>
+ *           Jeffrey Stedfast <fejj@ximian.com>
  *
- * Copyright (C) 2000 Ximian, Inc.
+ *  Copyright 2002 Ximian, Inc. (www.ximian.com)
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of version 2 of the GNU General Public
- * published by the Free Software Foundation; either version 2 of the
- * License as published by the Free Software Foundation.
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * General Public License for more details.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public
- * License along with this program; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  *
- * Author: Ettore Perazzoli
  */
+
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -31,6 +32,11 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>
 #include <gal/widgets/e-file-selection.h>
+
+#include <libgnome/gnome-defs.h>
+#include <libgnomeui/gnome-uidefs.h>
+#include <libgnomeui/gnome-window-icon.h>
+
 #include "e-msg-composer-select-file.h"
 
 
@@ -48,7 +54,7 @@ confirm (FileSelectionInfo *info)
 	int i;
 
 	file_list = e_file_selection_get_filenames (E_FILE_SELECTION (info->widget));
-
+	
 	if (!info->selected_files)
 		info->selected_files = g_ptr_array_new ();
 
@@ -130,15 +136,16 @@ create_file_selection (EMsgComposer *composer, gboolean multiple)
 	info = g_new (FileSelectionInfo, 1);
 	
 	widget = e_file_selection_new (NULL);
+	gtk_window_set_wmclass (GTK_WINDOW (widget), "fileselection", 
+				"Evolution:composer");
+	gnome_window_icon_set_from_file (GTK_WINDOW (widget), EVOLUTION_DATADIR
+					 "/images/evolution/compose-message.png");
+	
 	path = g_strdup_printf ("%s/", g_get_home_dir ());
 	gtk_file_selection_set_filename (GTK_FILE_SELECTION (widget), path);
 	g_free (path);
-	gtk_window_set_wmclass (GTK_WINDOW (widget), "fileselection", 
-				"Evolution:composer");
 	
-	gtk_object_set (GTK_OBJECT (widget),
-			"multiple", multiple,
-			NULL);
+	gtk_object_set (GTK_OBJECT (widget), "multiple", multiple, NULL);
 	
 	ok_button     = GTK_FILE_SELECTION (widget)->ok_button;
 	cancel_button = GTK_FILE_SELECTION (widget)->cancel_button;
