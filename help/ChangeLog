@@ -1,5 +1,7 @@
 2002-12-10  Aaron Weber  <aaron@ximian.com>
 
+	* C/config-prefs.xml: change directory server description.
+
 	* C/preface.xml: typo (bug 35362, "Resend" instead of "Redirect).
 	This whole section will need to be redone at some point.
 	
