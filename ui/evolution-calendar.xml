@@ -10,15 +10,19 @@
 
 			</submenu>
 
-			<submenu name="Open" _label="_Open">
+			<placeholder name="FileOps">
+				<submenu name="Open" _label="_Open">
 
-				<menuitem name="CalendarOpen" verb=""
-				_label="_Open Calendar" _descr="Open a calendar"/>
+					<menuitem name="CalendarOpen" verb=""
+					_label="_Open Calendar" _descr="Open a calendar"/>
 
-			</submenu>
+				</submenu>
 
-			<menuitem name="CalendarSaveAs" verb=""
-				_label="_Save Calendar As" _descr="Save calendar As something else"/>
+				<menuitem name="CalendarSaveAs" verb=""
+				_label="_Save Calendar As"
+				_descr="Save calendar As something else"/>
+
+			</placeholder>
 
 			<placeholder name="Print">
 

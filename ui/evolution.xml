@@ -33,6 +33,8 @@
 				accel="*Control**Shift*t"/>
 			</submenu>
 
+			<placeholder name="FileOps"/>
+
 			<menuitem/>
 
 			<menuitem name="FileGoToFolder" verb=""

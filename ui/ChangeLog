@@ -1,0 +1,17 @@
+2000-10-04  Michael Meeks  <michael@helixcode.com>
+
+	* evolution-calendar.xml: move Open, Save into FileOps
+
+	* evolution.xml: add FileOps placeholder.
+
+2000-09-15  Michael Meeks  <michael@helixcode.com>
+
+	* *.xml: Update to new keybinding syntax.
+
+2000-09-14  Michael Meeks  <michael@helixcode.com>
+
+	* evolution-mail.xml: remove stock icons on toolbar.
+	add back 2 stocks I lost somewhere.
+
+	* ui/evolution.xml: Add status bar
+
