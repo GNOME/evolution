@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.1\n"
-"POT-Creation-Date: 2000-05-06 12:28+0200\n"
-"PO-Revision-Date: 2000-05-06 12:31+02:00\n"
+"POT-Creation-Date: 2000-05-07 12:58+0200\n"
+"PO-Revision-Date: 2000-05-07 13:00+02:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -91,31 +91,31 @@ msgstr "Legg en fil ved meldingen"
 msgid "Select attachment"
 msgstr "Velg vedlegg"
 
-#: composer/e-msg-composer-hdrs.c:88
+#: composer/e-msg-composer-hdrs.c:89
 msgid "Click here for the address book"
 msgstr "Klikk her for å få opp adresseboken"
 
-#: composer/e-msg-composer-hdrs.c:123
+#: composer/e-msg-composer-hdrs.c:124
 msgid "To:"
 msgstr "Til:"
 
-#: composer/e-msg-composer-hdrs.c:124
+#: composer/e-msg-composer-hdrs.c:125
 msgid "Enter the recipients of the message"
 msgstr "Skriv inn mottakerene for meldingen"
 
-#: composer/e-msg-composer-hdrs.c:128
+#: composer/e-msg-composer-hdrs.c:129
 msgid "Cc:"
 msgstr "Cc:"
 
-#: composer/e-msg-composer-hdrs.c:129
+#: composer/e-msg-composer-hdrs.c:130
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "Skriv inn adressene som skal motta en kopi av meldingen"
 
-#: composer/e-msg-composer-hdrs.c:134
+#: composer/e-msg-composer-hdrs.c:135
 msgid "Bcc:"
 msgstr "Bcc:"
 
-#: composer/e-msg-composer-hdrs.c:135
+#: composer/e-msg-composer-hdrs.c:136
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
@@ -123,11 +123,11 @@ msgstr ""
 "Skriv inn adressene som skal motta en kopi av meldingen uten å komme til "
 "syne i mottakerlisten for meldingen."
 
-#: composer/e-msg-composer-hdrs.c:141
+#: composer/e-msg-composer-hdrs.c:142
 msgid "Subject:"
 msgstr "Emne:"
 
-#: composer/e-msg-composer-hdrs.c:142
+#: composer/e-msg-composer-hdrs.c:143
 msgid "Enter the subject of the mail"
 msgstr "Skriv inn emnet for meldingen"
 
@@ -140,7 +140,7 @@ msgid "Save the message in a specified folder"
 msgstr "Lagre meldingen i en spesifisert mappe"
 
 #: composer/e-msg-composer.c:413 composer/e-msg-composer.c:450
-#: mail/folder-browser-factory.c:115
+#: mail/folder-browser-factory.c:113
 msgid "Send"
 msgstr "Send"
 
@@ -188,14 +188,15 @@ msgstr "Legg ved"
 msgid "Attach a file"
 msgstr "Legg ved en fil"
 
-#: mail/folder-browser-factory.c:88
+#: mail/folder-browser-factory.c:85
 msgid ""
 "This is a development version of Evolution.\n"
 "Using the mail component on your mail files\n"
 "is extremely hazardous.\n"
 "\n"
-"Do not run this program on your real mail\n"
-" and do not give it access to your real mail server.\n"
+"Do not run this program on your real mail,\n"
+"do not give it access to your real mail server,\n"
+"and do not send mail to real people with it.\n"
 "\n"
 "You have been warned\n"
 msgstr ""
@@ -204,91 +205,92 @@ msgstr ""
 "er ekstremt farefullt.\n"
 "\n"
 "Ikke kjør dette programmet for å lese din e-post,\n"
-" og ikke gi det tilgang til din e-post tjener.\n"
+"ikke gi det tilgang til din e-post tjener, og ikke\n"
+"send e-post til andre med det.\n"
 "\n"
 "Du er herved advart\n"
 
-#: mail/folder-browser-factory.c:114
+#: mail/folder-browser-factory.c:112
 msgid "New mail"
 msgstr "Nye e-post"
 
-#: mail/folder-browser-factory.c:114
+#: mail/folder-browser-factory.c:112
 msgid "Check for new mail"
 msgstr "Sjekk etter ny e-post"
 
-#: mail/folder-browser-factory.c:115
+#: mail/folder-browser-factory.c:113
 msgid "Send a new message"
 msgstr "Send en ny melding"
 
-#: mail/folder-browser-factory.c:116
+#: mail/folder-browser-factory.c:114
 msgid "Find"
 msgstr "Finn"
 
-#: mail/folder-browser-factory.c:116
+#: mail/folder-browser-factory.c:114
 msgid "Find messages"
 msgstr "Finn meldinger"
 
-#: mail/folder-browser-factory.c:120
+#: mail/folder-browser-factory.c:118
 msgid "Reply"
 msgstr "Svar"
 
-#: mail/folder-browser-factory.c:120
+#: mail/folder-browser-factory.c:118
 msgid "Reply to the sender of this message"
 msgstr "Svar til avsender av denne meldingen"
 
-#: mail/folder-browser-factory.c:121
+#: mail/folder-browser-factory.c:119
 msgid "Reply to All"
 msgstr "Svar til alle"
 
-#: mail/folder-browser-factory.c:121
+#: mail/folder-browser-factory.c:119
 msgid "Reply to all recipients of this message"
 msgstr "Svar til alle mottakere av denne meldingen"
 
-#: mail/folder-browser-factory.c:123
+#: mail/folder-browser-factory.c:121
 msgid "Forward"
 msgstr "Videresend"
 
-#: mail/folder-browser-factory.c:123
+#: mail/folder-browser-factory.c:121
 msgid "Forward this message"
 msgstr "Videresend denne meldingen"
 
-#: mail/folder-browser-factory.c:127
+#: mail/folder-browser-factory.c:125
 msgid "Print"
 msgstr "Skriv ut"
 
-#: mail/folder-browser-factory.c:127
+#: mail/folder-browser-factory.c:125
 msgid "Print the selected message"
 msgstr "Skriv ut den valgte meldingen"
 
-#: mail/folder-browser-factory.c:129
+#: mail/folder-browser-factory.c:127
 msgid "Delete"
 msgstr "Slett"
 
-#: mail/folder-browser-factory.c:129
+#: mail/folder-browser-factory.c:127
 msgid "Delete this message"
 msgstr "Slett denne meldingen"
 
-#: mail/folder-browser-factory.c:146
+#: mail/folder-browser-factory.c:144
 msgid "_Mail"
 msgstr "_E-post"
 
-#: mail/folder-browser-factory.c:151
+#: mail/folder-browser-factory.c:149
 msgid "_Expunge"
 msgstr "_Fjern"
 
-#: mail/folder-browser-factory.c:275
+#: mail/folder-browser-factory.c:271
 msgid "We are sorry, Evolution's Folder Browser can not be initialized."
 msgstr "Vi beklager, Evolution's mappeutforsker kan ikke initialiseres."
 
-#: mail/folder-browser.c:189
+#: mail/folder-browser.c:196
 msgid "The URI that the Folder Browser will display"
 msgstr "URIen som mappeutforskeren vil vise"
 
-#: mail/folder-browser.c:192
+#: mail/folder-browser.c:199
 msgid "Whether a message preview should be shown"
 msgstr "Om forhåndsvisning av meldinger skal brukes"
 
-#: mail/mail-component.c:30 mail/main.c:55
+#: mail/mail-component.c:30 mail/main.c:54
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "E-post komponent: Kunne ikke initialisere Bonobo"
 
@@ -320,251 +322,108 @@ msgstr "Til"
 msgid "Size"
 msgstr "Størrelse"
 
-#: shell/e-folder.c:150
-msgid "A folder containing mail items"
-msgstr "En mappe som inneholder e-post oppføringer"
-
-#: shell/e-folder.c:153
-msgid "A folder containing contacts"
-msgstr "En mappe med kontakter"
-
-#: shell/e-folder.c:156
-msgid "A folder containing calendar entries"
-msgstr "En mappe med kalenderoppføringer"
-
-#: shell/e-folder.c:159
-msgid "A folder containing tasks"
-msgstr "En mappe med oppgaver"
-
-#: shell/e-init.c:25
-msgid "Evolution can not create its local folders"
-msgstr "Evolution kan ikke opprette sine lokale mapper"
-
-#: shell/e-shell-shortcut.c:99
-msgid "Large Icons"
-msgstr "Store ikoner"
-
-#: shell/e-shell-shortcut.c:100
-msgid "Small Icons"
-msgstr "Små ikoner"
-
-#: shell/e-shell-shortcut.c:102
-msgid "Add New Group"
-msgstr "Legg til ny gruppe"
-
-#: shell/e-shell-shortcut.c:103
-msgid "Remove Group"
-msgstr "Fjern gruppe"
-
-#: shell/e-shell-shortcut.c:104
-msgid "Rename Group"
-msgstr "Gi nytt navn til gruppe"
-
-#: shell/e-shell-shortcut.c:106
-msgid "Add Shortcut"
-msgstr "Legg til snarvei"
-
-#: shell/e-shell-shortcut.c:208
-msgid "Open Folder"
-msgstr "Åpne mappe"
-
-#: shell/e-shell-shortcut.c:209
-msgid "Open in New Window"
-msgstr "Åpne i et nytt vindu"
-
-#: shell/e-shell-shortcut.c:210
-msgid "Advanced Find"
-msgstr "Avansert søk"
-
-#: shell/e-shell-shortcut.c:212
-msgid "Remove From Shortcut Bar"
-msgstr "Fjern fra snarveilinjen"
-
-#: shell/e-shell-shortcut.c:213
-msgid "Rename Shortcut"
-msgstr "Gi nytt navn til snarvei"
-
-#: shell/e-shell-shortcut.c:215
-msgid "Properties"
-msgstr "Egenskaper"
-
-#: shell/e-shell-view-menu.c:118 shell/e-shell-view-menu.c:184
+#: shell/e-shell-view-menu.c:82 shell/e-shell-view-menu.c:148
 msgid "_Folder"
 msgstr "_Mappe"
 
-#: shell/e-shell-view-menu.c:122
+#: shell/e-shell-view-menu.c:86
 msgid "Evolution _Bar Shortcut"
 msgstr "Evolution s_narveilinje"
 
-#: shell/e-shell-view-menu.c:128
+#: shell/e-shell-view-menu.c:92
 msgid "_Mail message"
 msgstr "E-post _melding"
 
-#: shell/e-shell-view-menu.c:129 shell/e-shell-view-menu.c:132
+#: shell/e-shell-view-menu.c:93 shell/e-shell-view-menu.c:96
 msgid "Composes a new mail message"
 msgstr "Lager en ny e-post melding"
 
-#: shell/e-shell-view-menu.c:131
+#: shell/e-shell-view-menu.c:95
 msgid "_Appointment"
 msgstr "_Avtale"
 
-#: shell/e-shell-view-menu.c:134
+#: shell/e-shell-view-menu.c:98
 msgid "Meeting Re_quest"
 msgstr "Møteforesp_ørsel"
 
-#: shell/e-shell-view-menu.c:137
+#: shell/e-shell-view-menu.c:101
 msgid "_Contact"
 msgstr "_Kontakt"
 
-#: shell/e-shell-view-menu.c:140
+#: shell/e-shell-view-menu.c:104
 msgid "_Task"
 msgstr "_Oppgave"
 
-#: shell/e-shell-view-menu.c:143
+#: shell/e-shell-view-menu.c:107
 msgid "Task _Request"
 msgstr "Oppgavefo_respørsel"
 
-#: shell/e-shell-view-menu.c:146
+#: shell/e-shell-view-menu.c:110
 msgid "_Journal Entry"
 msgstr "_Journaloppføring"
 
-#: shell/e-shell-view-menu.c:149
+#: shell/e-shell-view-menu.c:113
 msgid "_Note"
 msgstr "_Notat"
 
-#: shell/e-shell-view-menu.c:159
+#: shell/e-shell-view-menu.c:123
 msgid "_Selected Items"
 msgstr "_Valgte oppføringer"
 
-#: shell/e-shell-view-menu.c:167
+#: shell/e-shell-view-menu.c:131
 msgid "_New Folder"
 msgstr "_Ny mappe"
 
-#: shell/e-shell-view-menu.c:175
+#: shell/e-shell-view-menu.c:139
 msgid "_New"
 msgstr "_Ny"
 
-#: shell/e-shell-view-menu.c:176
+#: shell/e-shell-view-menu.c:140
 msgid "_Open"
 msgstr "_Åpne"
 
-#: shell/e-shell-view-menu.c:177
+#: shell/e-shell-view-menu.c:141
 msgid "Clos_e All Items"
 msgstr "Lukk all_e oppføringer"
 
-#: shell/e-shell-view-menu.c:177
+#: shell/e-shell-view-menu.c:141
 msgid "Closes all the open items"
 msgstr "Lukker alle åpne oppføringer"
 
-#: shell/e-shell-view-menu.c:198
+#: shell/e-shell-view-menu.c:162
 msgid "_Toggle Shortcut Bar"
 msgstr "_Slå av/på snarveilinje"
 
-#: shell/e-shell-view-menu.c:199
+#: shell/e-shell-view-menu.c:163
 msgid "Toggles the shortcut bar"
 msgstr "Slår av/på snarveilinjen"
 
-#: shell/e-shell-view-menu.c:201
+#: shell/e-shell-view-menu.c:165
 msgid "_Toggle Treeview"
 msgstr "_Slå av/på trevisning"
 
-#: shell/e-shell-view-menu.c:202
+#: shell/e-shell-view-menu.c:166
 msgid "Toggles the tree view"
 msgstr "Slår av/på trevisning"
 
 #. FIXME: add Favorites here
-#: shell/e-shell-view-menu.c:222
+#: shell/e-shell-view-menu.c:189
 msgid "_Tools"
 msgstr "_Verktøy"
 
-#: shell/e-shell-view-menu.c:223
+#: shell/e-shell-view-menu.c:190
 msgid "_Actions"
 msgstr "H_andlinger"
 
-#: shell/e-shell.c:257
-msgid "Today"
-msgstr "I dag"
+#: shell/e-shell.c:83
+#, c-format
+msgid "Cannot set up local storage -- %s"
+msgstr "Kan ikke sette opp lokal lagring -- %s"
 
-#: shell/e-shell.c:257
-msgid "Executive Summary"
-msgstr "Sammendrag"
+#: shell/main.c:86
+msgid "Cannot initialize the Bonobo component system."
+msgstr "Kunne ikke initialisere Bonobo komponentsystemet."
 
-#: shell/e-shell.c:260
-msgid "Inbox"
-msgstr "Innboks"
-
-#: shell/e-shell.c:260
-msgid "New mail messages"
-msgstr "Nye e-post meldinger"
-
-#: shell/e-shell.c:263
-msgid "Sent messages"
-msgstr "Sendte meldinger"
-
-#: shell/e-shell.c:263
-msgid "Sent mail messages"
-msgstr "Sendte e-post meldinger"
-
-#: shell/e-shell.c:266
-msgid "Drafts"
-msgstr "Skisser"
-
-#: shell/e-shell.c:266
-msgid "Draft mail messages"
-msgstr "Skisser av e-post meldinger"
-
-#: shell/e-shell.c:269
-msgid "Calendar"
-msgstr "Kalender"
-
-#: shell/e-shell.c:269
-msgid "Your calendar"
-msgstr "Din kalender"
-
-#: shell/e-shell.c:272
-msgid "Contacts"
-msgstr "Kontakter"
-
-#: shell/e-shell.c:272
-msgid "Your contacts list"
-msgstr "Din kontaktliste"
-
-#: shell/e-shell.c:275
-msgid "Tasks"
-msgstr "Oppgaver"
-
-#: shell/e-shell.c:275
-msgid "Tasks list"
-msgstr "Oppgaveliste"
-
-#: shell/e-shell.c:284
-msgid "Main Shortcuts"
-msgstr "Hovedsnarveier"
-
-#: shell/e-shell.c:299
-msgid "Other Shortcuts"
-msgstr "Andre snarveier"
-
-#: shell/e-shortcut.c:467
-msgid "New group"
-msgstr "Ny gruppe"
-
-#: shell/main.c:36
-msgid "Enables some debugging functions"
-msgstr "Slår på noen feilsøkingsfunksjoner"
-
-#: shell/main.c:36
-msgid "LEVEL"
-msgstr "NIVÅ"
-
-#: shell/main.c:74
-msgid "Failed to initialize the Bonobo component system"
-msgstr "Kunne ikke initialisere Bonobo komponentsystemet"
-
-#: shell/main.c:104
-msgid ""
-"It was not possible to setup the Evolution startup files.  Please\n"
-"fix the problem, and restart Evolution"
-msgstr ""
-"Det var ikke mulig å klargjøre oppstartfilene for Evolution. Vennligst\n"
-"rett opp problemet og start Evolution på nytt"
+#: shell/main.c:101
+msgid "Cannot initialize the Evolution shell."
+msgstr "Kan ikke initialisere Evolution skallet."
