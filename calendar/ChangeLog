@@ -1,4 +1,10 @@
 2005-04-06  Chenthill Palanisamy  <pchenthill@novell.com>
+	
+	Fixes #73508
+	* gui/dialogs/meeting-page.c: (meeting_page_fill_widgets): Set the 
+	organizers status as NEEDS ACTION, checking for the static capability.
+
+2005-04-06  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #73969
 	* gui/e-calendar-view.c: (delete_event): Remove the
