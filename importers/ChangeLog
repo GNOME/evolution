@@ -1,3 +1,9 @@
+2001-08-29  Iain Holmes  <iain@ximian.com>
+
+	* netscape-importer.c (create_importer_gui): Create a progress GUI.
+	(importer_cb): Update GUI.
+	(netscape_import_file): Update GUI.
+
 2001-08-21  Iain Holmes  <iain@ximian.com>
 
 	* pine-importer.c (scan_dir): Don't add a directory to the list of files

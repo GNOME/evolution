@@ -88,9 +88,32 @@ typedef struct {
 	gboolean do_settings;
 
 	Bonobo_ConfigDatabase db;
+
+	/* GUI */
+	GtkWidget *dialog;
+	GtkWidget *label;
+	GtkWidget *progressbar;
 } NetscapeImporter;
 
 static void import_next (NetscapeImporter *importer);
+
+static GtkWidget *
+create_importer_gui (NetscapeImporter *importer)
+{
+	GtkWidget *dialog;
+
+	dialog = gnome_message_box_new ("", GNOME_MESSAGE_BOX_INFO, NULL);
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Importing..."));
+
+	importer->label = gtk_label_new (_("Please wait"));
+	importer->progressbar = gtk_progress_bar_new ();
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox),
+			    importer->label, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox),
+			    importer->progressbar, FALSE, FALSE, 0);
+
+	return dialog;
+}
 
 static void
 netscape_store_settings (NetscapeImporter *importer)
@@ -545,10 +568,7 @@ importer_cb (EvolutionImporterListener *listener,
 	CORBA_Object objref;
 	CORBA_Environment ev;
 
-	g_print ("Processed....\n");
 	if (more_items) {
-		g_print ("Processing...\n");
-		
 		CORBA_exception_init (&ev);
 		objref = bonobo_object_corba_objref (BONOBO_OBJECT (importer->listener));
 		GNOME_Evolution_Importer_processItem (importer->importer,
@@ -561,6 +581,8 @@ importer_cb (EvolutionImporterListener *listener,
 		CORBA_exception_free (&ev);
 		return;
 	}
+
+	gtk_progress_set_value (GTK_PROGRESS (importer->progressbar), 1);
 
 	if (importer->dir_list) {
 		import_next (importer);
@@ -577,12 +599,20 @@ netscape_import_file (NetscapeImporter *importer,
 	CORBA_boolean result;
 	CORBA_Environment ev;
 	CORBA_Object objref;
+	char *str;
 
 	/* Do import */
 	d(g_warning ("Importing %s as %s\n", path, folderpath));
 
 	CORBA_exception_init (&ev);
 	
+	str = g_strdup_printf (_("Importing %s as %s"), path, folderpath);
+	gtk_label_set_text (GTK_LABEL (importer->label), str);
+	g_free (str);
+	while (gtk_events_pending ()) {
+		gtk_main_iteration ();
+	}
+
 	result = GNOME_Evolution_Importer_loadFile (importer->importer, path, 
 						    folderpath, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION || result == FALSE) {
@@ -660,6 +690,7 @@ scan_dir (NetscapeImporter *importer,
 	DIR *nsmail;
 	struct stat buf;
 	struct dirent *current;
+	char *str;
 
 	nsmail = opendir (dirname);
 	if (nsmail == NULL) {
@@ -667,7 +698,15 @@ scan_dir (NetscapeImporter *importer,
 			     dirname, g_strerror (errno)));
 		return;
 	}
-	
+
+	str = g_strdup_printf (_("Scanning %s"), dirname);
+	gtk_label_set_text (GTK_LABEL (importer->label), str);
+	g_free (str);
+
+	while (gtk_events_pending ()) {
+		gtk_main_iteration ();
+	}
+
 	current = readdir (nsmail);
 	while (current) {
 		char *fullname, *foldername;
@@ -744,6 +783,13 @@ netscape_create_structure (EvolutionIntelligentImporter *ii,
 
 	netscape_store_settings (importer);
 
+	/* Create a dialog */
+	importer->dialog = create_importer_gui (importer);
+	gtk_widget_show_all (importer->dialog);
+	while (gtk_events_pending ()) {
+		gtk_main_iteration ();
+	}
+
 	if (importer->do_settings == TRUE) {
 		bonobo_config_set_boolean (importer->db, 
                 "/Importer/Netscape/settings-imported", TRUE, NULL);
@@ -755,9 +801,20 @@ netscape_create_structure (EvolutionIntelligentImporter *ii,
                 "/Importer/Netscape/mail-imported", TRUE, NULL);
 		/* Scan the nsmail folder and find out what folders 
 		   need to be imported */
+		gtk_label_set_text (GTK_LABEL (importer->label), 
+				    _("Scanning directory"));
+		while (gtk_events_pending ()) {
+			gtk_main_iteration ();
+		}
+
 		scan_dir (importer, "/", nsmail_dir);
 		
 		/* Import them */
+		gtk_label_set_text (GTK_LABEL (importer->label),
+				    _("Starting import"));
+		while (gtk_events_pending ()) {
+			gtk_main_iteration ();
+		}
 		import_next (importer);
 	}
 
