@@ -1655,7 +1655,6 @@ menu_changed_charset_cb (BonoboUIComponent           *component,
 		/* Charset menu names are "Charset-%s" where %s is the charset name */
 		g_free (E_MSG_COMPOSER (user_data)->charset);
 		E_MSG_COMPOSER (user_data)->charset = g_strdup (path + strlen ("Charset-"));
-		g_warning ("Set charset to %s", E_MSG_COMPOSER (user_data)->charset);
 	}
 }
 

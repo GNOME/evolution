@@ -1,3 +1,8 @@
+2001-07-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (menu_changed_charset_cb): Removed a warning
+	that I don't need anymore. This code is working wonderfully ;-)
+
 2001-07-10  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-msg-composer.c: Fix typo. s/sesiion/session/
