@@ -44,6 +44,9 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <dirent.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-uidefs.h>
@@ -684,28 +687,70 @@ read_file_content (gint fd)
 }
 
 static char *
-get_file_content (const gchar *file_name, gboolean convert, guint flags)
+executed_file_output (const char *file_name)
 {
+	GByteArray *contents;
+	FILE *in;
+	char buf[4096];
+	int n;
+	char *body;
+
+	g_return_val_if_fail (file_name && *file_name, NULL);
+
+	in = popen (file_name, "r");
+	if (in == NULL)
+		return NULL;
+	
+	contents = g_byte_array_new ();
+	while ((n = fread (buf, 1, 4096, in)) > 0) {
+		g_byte_array_append (contents, buf, n);
+	}
+	g_byte_array_append (contents, "\0", 1);
+
+	body = (n < 0) ? NULL : (char *) contents->data;
+	g_byte_array_free (contents, (n < 0));
+
+	pclose (in);
+
+	return body;
+}
+
+static char *
+get_file_content (const char *file_name, gboolean convert, guint flags)
+{
+	struct stat statbuf;
 	gint fd;
 	char *raw;
 	char *html;
+	char *msg = NULL;
+
+	if (stat (file_name, &statbuf) == -1)
+		return g_strdup ("");
+
+	if (statbuf.st_mode & S_IXUSR) {
+
+		raw = executed_file_output (file_name);
+		if (raw == NULL) {
+			msg = g_strdup_printf (_("Error while executing file %s:\n"
+						 "%s"), file_name, g_strerror (errno));
+		}
 	
-	fd = open (file_name, O_RDONLY | O_CREAT, 0775);
-	
-	raw = read_file_content (fd);
-	
-	if (raw == NULL) {
-		char *msg;
+	} else {
 		
-		msg = g_strdup_printf (_("Error while reading file %s:\n"
-					 "%s"), file_name, g_strerror (errno));
+		fd = open (file_name, O_RDONLY | O_CREAT, 0775);
+		raw = read_file_content (fd);
+		if (raw == NULL) {
+			msg = g_strdup_printf (_("Error while reading file %s:\n"
+						 "%s"), file_name, g_strerror (errno));
+		}
+		close (fd);
+	}
 		
+	if (msg != NULL) {
 		gnome_error_dialog (msg);
 		g_free (msg);
-		close (fd);
 		return g_strdup ("");
 	}
-	close (fd);
 	
 	html = convert ? e_text_to_html (raw, flags) : raw;
 	

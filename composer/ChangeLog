@@ -1,3 +1,11 @@
+2001-12-06  Jon Trowbridge  <trow@ximian.com>
+
+	* e-msg-composer.c (executed_file_output): Added.  Executes the
+	given file and returns its output as a string.
+	(get_file_content): Stats the file to see if it is executable.
+	If it is, execute it and return the string.  If not, just read
+	the file and return the contents.
+
 2001-11-30  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (setup_ui): Change the FileSend tooltip the be
