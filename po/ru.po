@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: E-volution\n"
+"Project-Id-Version: Evolution\n"
 "POT-Creation-Date: 2001-09-21 18:31-0400\n"
-"PO-Revision-Date: 2001-08-10 17:53+0400\n"
+"PO-Revision-Date: 2001-10-02 00:21+0400\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -26,14 +26,12 @@ msgid "File As"
 msgstr "Файл как"
 
 #: addressbook/backend/ebook/e-card-simple.c:59
-#, fuzzy
 msgid "Name"
-msgstr "Имя:"
+msgstr "Имя"
 
 #: addressbook/backend/ebook/e-card-simple.c:60
-#, fuzzy
 msgid "Family Name"
-msgstr "Полное имя:"
+msgstr "Фамилия"
 
 #: addressbook/backend/ebook/e-card-simple.c:61
 #: addressbook/gui/widgets/e-addressbook-view.c:870
@@ -46,7 +44,6 @@ msgid "Primary"
 msgstr "Первый"
 
 #: addressbook/backend/ebook/e-card-simple.c:62
-#, fuzzy
 msgid "Prim"
 msgstr "Первый"
 
@@ -81,9 +78,8 @@ msgid "Company"
 msgstr "Компания"
 
 #: addressbook/backend/ebook/e-card-simple.c:66
-#, fuzzy
 msgid "Comp"
-msgstr "Скопировать"
+msgstr "Компания"
 
 #: addressbook/backend/ebook/e-card-simple.c:67
 #: addressbook/backend/ebook/e-card-simple.c:70
@@ -98,11 +94,8 @@ msgid "Organization"
 msgstr "Организация"
 
 #: addressbook/backend/ebook/e-card-simple.c:68
-#, fuzzy
 msgid "Org"
-msgstr ""
-"\n"
-"Орг.:"
+msgstr "Орг."
 
 #: addressbook/backend/ebook/e-card-simple.c:71
 #: addressbook/gui/contact-editor/e-contact-editor.c:1605
@@ -121,9 +114,8 @@ msgid "Business Fax"
 msgstr "Рабочий факс"
 
 #: addressbook/backend/ebook/e-card-simple.c:73
-#, fuzzy
 msgid "Bus Fax"
-msgstr "Рабочий факс"
+msgstr "Раб. факс"
 
 #: addressbook/backend/ebook/e-card-simple.c:74
 #: addressbook/gui/contact-editor/e-contact-editor.c:1603
@@ -137,9 +129,8 @@ msgid "Business 2"
 msgstr "Рабочий 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:75
-#, fuzzy
 msgid "Bus 2"
-msgstr "Занят"
+msgstr "Раб. 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:76
 #: addressbook/gui/contact-editor/e-contact-editor.c:1602
@@ -227,7 +218,6 @@ msgid "Office"
 msgstr "Офис"
 
 #: addressbook/backend/ebook/e-card-simple.c:89
-#, fuzzy
 msgid "Off"
 msgstr "Офис"
 
@@ -265,7 +255,6 @@ msgid "Nickname"
 msgstr "Псевдоним"
 
 #: addressbook/backend/ebook/e-card-simple.c:94
-#, fuzzy
 msgid "Nick"
 msgstr "Псевдоним"
 
@@ -280,9 +269,8 @@ msgid "Note"
 msgstr "Заметка"
 
 #: addressbook/backend/ebook/e-card-simple.c:97
-#, fuzzy
 msgid "Calendar URI"
-msgstr "Календарь"
+msgstr "URI календаря"
 
 #: addressbook/backend/ebook/e-card-simple.c:97
 msgid "CALUri"
@@ -298,7 +286,6 @@ msgid "FBUrl"
 msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:99
-#, fuzzy
 msgid "Anniversary"
 msgstr "Годовщина:"
 
@@ -307,19 +294,13 @@ msgid "Anniv"
 msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:100
-#, fuzzy
 msgid "Birth Date"
-msgstr ""
-"\n"
-"Дата рождения: "
+msgstr "Дата рождения"
 
 #: addressbook/backend/ebook/e-card-simple.c:103
 #: calendar/gui/e-calendar-table.etspec.h:4
-#, fuzzy
 msgid "Categories"
-msgstr ""
-"\n"
-"Категории: "
+msgstr "Категории"
 
 #: addressbook/backend/ebook/e-card.c:3564
 msgid "Card: "
@@ -630,54 +611,41 @@ msgstr "Не удалось инициализировать Bonobo"
 
 #: addressbook/backend/pas/pas-backend-file.c:257
 #: addressbook/backend/pas/pas-backend-ldap.c:2047
-#, fuzzy
 msgid "Searching..."
-msgstr "Поиск"
+msgstr "Поиск..."
 
 #: addressbook/backend/pas/pas-backend-file.c:259
-#, fuzzy
 msgid "Loading..."
-msgstr "Ожидание..."
+msgstr "Загрузка..."
 
 #. need a different error message here.
 #: addressbook/backend/pas/pas-backend-file.c:268
-#, fuzzy
 msgid "Error in search expression."
-msgstr ""
-"Ошибка при выполнении выражения поиска \"%s\":\n"
-"%s"
+msgstr "Ошибка в выражении поиска."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:467
-#, fuzzy
 msgid "Connecting to LDAP server..."
-msgstr "Подключение к серверу..."
+msgstr "Подключение к серверу LDAP..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:477
-#, fuzzy
 msgid "Unable to connect to LDAP server."
-msgstr ""
-"Невозможно идентифицироваться на сервере IMAP.\n"
-"%s\n"
-"\n"
+msgstr "Невозможно подключиться к серверу LDAP."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:493
-#, fuzzy
 msgid "Waiting for connection to LDAP server..."
-msgstr "Подключение к серверу..."
+msgstr "Ожидание подключения к серверу LDAP..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:862
-#, fuzzy
 msgid "Adding card to LDAP server..."
-msgstr "Подключение к серверу..."
+msgstr "Добавление карточки к серверу LDAP..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:959
-#, fuzzy
 msgid "Removing card from LDAP server..."
-msgstr "Удаление карточек..."
+msgstr "Удаление карточки с сервера LDAP..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:1064
 msgid "Modifying card from LDAP server..."
-msgstr ""
+msgstr "Изменение карточки на сервере LDAP..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:1992
 msgid "Receiving LDAP search results..."
@@ -685,7 +653,7 @@ msgstr ""
 
 #: addressbook/backend/pas/pas-backend-ldap.c:1997
 msgid "Restarting search."
-msgstr ""
+msgstr "Перезапуск поиска."
 
 #: addressbook/conduit/address-conduit.c:204
 msgid "Cursor could not be loaded\n"
@@ -762,16 +730,12 @@ msgid "Contacts"
 msgstr "Контакты"
 
 #: addressbook/gui/component/addressbook-component.c:66
-#, fuzzy
 msgid "Folder containing contact information"
-msgstr ""
-"Ошибка при загрузке информации фильтра:\n"
-"%s"
+msgstr "Папка содержащая контактную информацию"
 
 #: addressbook/gui/component/addressbook-component.c:68
-#, fuzzy
 msgid "LDAP Server"
-msgstr "Сервер NNTP"
+msgstr "Сервер LDAP"
 
 #: addressbook/gui/component/addressbook-component.c:68
 #, fuzzy
@@ -782,24 +746,20 @@ msgstr ""
 
 #: addressbook/gui/component/addressbook-component.c:386
 #: ui/evolution-addressbook.xml.h:11
-#, fuzzy
 msgid "New Contact"
-msgstr "Новый контакт:"
+msgstr "Новый контакт"
 
 #: addressbook/gui/component/addressbook-component.c:386
-#, fuzzy
 msgid "New _Contact"
-msgstr "Новый контакт:"
+msgstr "Новый контакт"
 
 #: addressbook/gui/component/addressbook-component.c:387
-#, fuzzy
 msgid "New Contact List"
-msgstr "Список контакты"
+msgstr "Новый список контактов"
 
 #: addressbook/gui/component/addressbook-component.c:387
-#, fuzzy
 msgid "New Contact _List"
-msgstr "Список контакты"
+msgstr "Новый список контактов"
 
 #: addressbook/gui/component/addressbook-config.c:188
 msgid "Edit Addressbook"
@@ -818,7 +778,6 @@ msgid "Add Addressbook"
 msgstr "Добавить адресную книгу"
 
 #: addressbook/gui/component/addressbook-config.glade.h:4
-#, fuzzy
 msgid "Addressbook Sources"
 msgstr "Источники адресных книг..."
 
@@ -1013,9 +972,8 @@ msgstr "Расширенные..."
 #. All, unmatched, separator
 #: addressbook/gui/component/addressbook.c:883
 #: calendar/gui/cal-search-bar.c:412
-#, fuzzy
 msgid "Any Category"
-msgstr "Категории:"
+msgstr "Любая категория"
 
 #: addressbook/gui/component/addressbook.c:925
 msgid "The URI that the Folder Browser will display"
@@ -1102,14 +1060,12 @@ msgid "Send HTML Mail?"
 msgstr "Отправка эл.почты в HTML?"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:406
-#, fuzzy
 msgid "Edit Contact List"
-msgstr "Список контакты"
+msgstr "Правка списка контактов"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:424
-#, fuzzy
 msgid "Unnamed Contact List"
-msgstr "Неназванный контакт"
+msgstr "Неназванный список контактов"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:441
 #, c-format
@@ -1138,9 +1094,8 @@ msgid "C_ontaining:"
 msgstr "Содержит:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:2
-#, fuzzy
 msgid "Co_ntacts:"
-msgstr "Контакты"
+msgstr "Контакты:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:3
 msgid "F_ind"
@@ -1163,9 +1118,8 @@ msgid "_Folder:"
 msgstr "Папка:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:8
-#, fuzzy
 msgid "_Message Recipients:"
-msgstr "Получатели сообщения"
+msgstr "Получатели сообщения:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid "Anni_versary:"
@@ -1201,7 +1155,6 @@ msgid "Details"
 msgstr "Детали"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:8
-#, fuzzy
 msgid "File A_s:"
 msgstr "Файл как:"
 
@@ -1246,9 +1199,8 @@ msgid "_Business"
 msgstr "Рабочий"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:21
-#, fuzzy
 msgid "_Calendar Information:"
-msgstr "информация календаря"
+msgstr "Информация календаря:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:22
 #: calendar/gui/dialogs/event-page.glade.h:12
@@ -1315,16 +1267,16 @@ msgid "_This is the mailing address"
 msgstr "Это почтовый адрес"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:36
-#, fuzzy
 msgid "_Web page address:"
 msgstr "Адрес web-страницы:"
 
 #: addressbook/gui/contact-editor/e-contact-editor-confirm-delete.glade.h:1
-#, fuzzy
 msgid ""
 "Are you sure you want\n"
 "to delete this contact?"
-msgstr "Вы уверены что хотите удалить этот счет?"
+msgstr ""
+"Вы уверены, в том что хотите\n"
+"удалить этот контакт?"
 
 #: addressbook/gui/contact-editor/e-contact-editor-confirm-delete.glade.h:3
 msgid "Delete Contact?"
@@ -1339,9 +1291,9 @@ msgid "TTY/TDD"
 msgstr "TTY/TDD"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2234
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find widget for a field: `%s'"
-msgstr "Не удалось удалить итоговый файл папки \"%s\": %s"
+msgstr "Не удалось удалить найти виджет для поля: \"%s\""
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:283
 msgid "Contact Quick-Add"
@@ -1372,130 +1324,124 @@ msgid "Address _2:"
 msgstr "Адрес 2:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:2
-#, fuzzy
 msgid "Afghanistan"
-msgstr "Помощник"
+msgstr "Афганистан"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:3
 msgid "Albania"
-msgstr ""
+msgstr "Албания"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:4
 msgid "Algeria"
-msgstr ""
+msgstr "Алжир"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:5
 msgid "American Samoa"
-msgstr ""
+msgstr "Американское Самоа"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:6
 msgid "Andorra"
-msgstr ""
+msgstr "Андорра"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:7
 msgid "Angola"
-msgstr ""
+msgstr "Ангола"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:8
 msgid "Anguilla"
-msgstr ""
+msgstr "Ангилья"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:9
-#, fuzzy
 msgid "Antarctica"
-msgstr "Автоматическое"
+msgstr "Антарктика"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:10
 msgid "Antigua And Barbuda"
-msgstr ""
+msgstr "Антигуа и Барбуда"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:11
-#, fuzzy
 msgid "Argentina"
-msgstr "Ориентация"
+msgstr "Аргентина"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:12
 msgid "Armenia"
-msgstr ""
+msgstr "Армения"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:13
 msgid "Aruba"
-msgstr ""
+msgstr "Аруба"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:14
 msgid "Australia"
-msgstr ""
+msgstr "Австралия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:15
-#, fuzzy
 msgid "Austria"
-msgstr "Август"
+msgstr "Австрия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:16
 msgid "Azerbaijan"
-msgstr ""
+msgstr "Азербайджан"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:17
 msgid "Bahamas"
-msgstr ""
+msgstr "Багамы"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:18
 msgid "Bahrain"
-msgstr ""
+msgstr "Бахрейн"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:19
 msgid "Bangladesh"
-msgstr ""
+msgstr "Бангладеш"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:20
 msgid "Barbados"
-msgstr ""
+msgstr "Барбадос"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:21
-#, fuzzy
 msgid "Belarus"
-msgstr "годы"
+msgstr "Беларусь"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:22
 msgid "Belgium"
-msgstr ""
+msgstr "Бельгия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:23
 msgid "Belize"
-msgstr ""
+msgstr "Белиз"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:24
 msgid "Benin"
-msgstr ""
+msgstr "Бенин"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:25
 msgid "Bermuda"
-msgstr ""
+msgstr "Бермуда"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:26
 msgid "Bhutan"
-msgstr ""
+msgstr "Бутан"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:27
 msgid "Bolivia"
-msgstr ""
+msgstr "Боливия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:28
 msgid "Bosnia And Herzegowina"
-msgstr ""
+msgstr "Босния и Герцеговина"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:29
 msgid "Botswana"
-msgstr ""
+msgstr "Ботсвана"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:30
 msgid "Bouvet Island"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:31
-#, fuzzy
 msgid "Brazil"
-msgstr "Эл.адрес"
+msgstr "Бразилия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:32
 msgid "British Indian Ocean Territory"
@@ -1503,7 +1449,7 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:33
 msgid "British Virgin Islands"
-msgstr ""
+msgstr "О-ва Британской Вирджинии"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:34
 msgid "Brunei Darussalam"
@@ -1511,23 +1457,23 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:35
 msgid "Bulgaria"
-msgstr ""
+msgstr "Болгария"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:36
 msgid "Burkina Faso"
-msgstr ""
+msgstr "Буркина Фасо"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:37
 msgid "Burundi"
-msgstr ""
+msgstr "Бурунди"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:38
 msgid "Cambodia"
-msgstr ""
+msgstr "Кажбоджа"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:39
 msgid "Cameroon"
-msgstr ""
+msgstr "Камерун"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:40
 msgid "Canada"
@@ -1539,34 +1485,31 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:42
 msgid "Cayman Islands"
-msgstr ""
+msgstr "Каймановы о-ва"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:43
 msgid "Central African Republic"
-msgstr ""
+msgstr "Центральная Африканская Республика"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:44
-#, fuzzy
 msgid "Chad"
-msgstr "Председатель"
+msgstr "Чад"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:45
 msgid "Check Address"
 msgstr "Проверить адрес"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:46
-#, fuzzy
 msgid "Chile"
-msgstr "Китайский"
+msgstr "Чили"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:47
-#, fuzzy
 msgid "China"
-msgstr "Китайский"
+msgstr "Китай"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:48
 msgid "Christmas Island"
-msgstr ""
+msgstr "О-в Рождества"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:49
 msgid "Cocos (Keeling) Islands"
@@ -1574,25 +1517,23 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:50
 msgid "Colombia"
-msgstr ""
+msgstr "Колумбия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:51
-#, fuzzy
 msgid "Comoros"
-msgstr "Создать"
+msgstr "Коморос"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:52
-#, fuzzy
 msgid "Congo"
-msgstr "Копирование"
+msgstr "Конго"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:53
 msgid "Cook Islands"
-msgstr ""
+msgstr "О-ва Кука"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:54
 msgid "Costa Rica"
-msgstr ""
+msgstr "Коста-Рика"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:55
 msgid "Cote d'Ivoire"
@@ -1604,71 +1545,71 @@ msgstr "Страна:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:57
 msgid "Croatia"
-msgstr ""
+msgstr "Хорватия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:58
 msgid "Cuba"
-msgstr ""
+msgstr "Куба"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:59
 msgid "Cyprus"
-msgstr ""
+msgstr "Кипр"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:60
 msgid "Czech Republic"
-msgstr ""
+msgstr "Чешская республика"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:61
 msgid "Denmark"
-msgstr ""
+msgstr "Дания"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:62
 msgid "Djibouti"
-msgstr ""
+msgstr "Джибути"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:63
 msgid "Dominica"
-msgstr ""
+msgstr "Доминика"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:64
 msgid "Dominican Republic"
-msgstr ""
+msgstr "Доминиканская республика"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:65
 msgid "East Timor"
-msgstr ""
+msgstr "Восточный Тимор"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:66
 msgid "Ecuador"
-msgstr ""
+msgstr "Эквадор"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:67
 msgid "Egypt"
-msgstr ""
+msgstr "Египет"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:68
 msgid "El Salvador"
-msgstr ""
+msgstr "Сальвадор"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:69
 msgid "Equatorial Guinea"
-msgstr ""
+msgstr "Экваториальная Гвинея"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:70
 msgid "Eritrea"
-msgstr ""
+msgstr "Эритрея"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:71
 msgid "Estonia"
-msgstr ""
+msgstr "Эстония"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:72
 msgid "Ethiopia"
-msgstr ""
+msgstr "Эфиопия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:73
 msgid "Falkland Islands"
-msgstr ""
+msgstr "Фолклендские о-ва"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:74
 msgid "Faroe Islands"
@@ -1676,24 +1617,23 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:75
 msgid "Fiji"
-msgstr ""
+msgstr "Фиджи"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:76
 msgid "Finland"
 msgstr "Финляндия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:77
-#, fuzzy
 msgid "France"
-msgstr "Отмена"
+msgstr "Франция"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:78
 msgid "French Guiana"
-msgstr ""
+msgstr "Французская Гвиана"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:79
 msgid "French Polynesia"
-msgstr ""
+msgstr "Французская Полинезия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:80
 msgid "French Southern Territories"
@@ -1705,69 +1645,63 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:82
 msgid "Gambia"
-msgstr ""
+msgstr "Гамбия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:83
 msgid "Georgia"
-msgstr ""
+msgstr "Грузия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:84
 msgid "Germany"
-msgstr ""
+msgstr "Германия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:85
 msgid "Ghana"
-msgstr ""
+msgstr "Гана"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:86
 msgid "Gibraltar"
-msgstr ""
+msgstr "Гибралтар"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:87
-#, fuzzy
 msgid "Greece"
-msgstr "Греческий"
+msgstr "Греция"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:88
-#, fuzzy
 msgid "Greenland"
-msgstr "Финляндия"
+msgstr "Гренландия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:89
-#, fuzzy
 msgid "Grenada"
-msgstr "Канада"
+msgstr "Гренада"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:90
 msgid "Guadeloupe"
-msgstr ""
+msgstr "Гваделупа"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:91
-#, fuzzy
 msgid "Guam"
-msgstr "д.п."
+msgstr "Гуам"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:92
 msgid "Guatemala"
-msgstr ""
+msgstr "Гватемала"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:93
-#, fuzzy
 msgid "Guinea"
-msgstr "Общее"
+msgstr "Гвинея"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:94
 msgid "Guinea-bissau"
-msgstr ""
+msgstr "Гвинея-Биссау"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:95
 msgid "Guyana"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:96
-#, fuzzy
 msgid "Haiti"
-msgstr "Эл.адрес"
+msgstr "Гаити"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:97
 msgid "Heard And McDonald Islands"
@@ -1778,166 +1712,152 @@ msgid "Holy See"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:99
-#, fuzzy
 msgid "Honduras"
-msgstr "часы"
+msgstr "Гондурас"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:100
 msgid "Hong Kong"
-msgstr ""
+msgstr "Гонгконг"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:101
-#, fuzzy
 msgid "Hungary"
-msgstr "Воскресенье"
+msgstr "Венгрия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:102
 msgid "Iceland"
-msgstr ""
+msgstr "Исландия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:103
-#, fuzzy
 msgid "India"
-msgstr "Индивидуальное"
+msgstr "Индия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:104
 msgid "Indonesia"
-msgstr ""
+msgstr "Индонезия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:105
-#, fuzzy
 msgid "Ireland"
-msgstr "Корейский"
+msgstr "Ирландия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:106
 msgid "Israel"
-msgstr ""
+msgstr "Израиль"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:107
 msgid "Italy"
-msgstr ""
+msgstr "Италия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:108
 msgid "Jamaica"
-msgstr ""
+msgstr "Ямайка"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:109
-#, fuzzy
 msgid "Japan"
-msgstr "Японский"
+msgstr "Япония"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:110
-#, fuzzy
 msgid "Jordan"
-msgstr "Корейский"
+msgstr "Иордания"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:111
 msgid "Kazakhstan"
-msgstr ""
+msgstr "Казахстан"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:112
 msgid "Kenya"
-msgstr ""
+msgstr "Кения"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:113
 msgid "Kiribati"
-msgstr ""
+msgstr "Кирибати"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:114
 msgid "Kuwait"
-msgstr ""
+msgstr "Кувейт"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:115
 msgid "Kyrgyzstan"
-msgstr ""
+msgstr "Киргизстан"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:116
-#, fuzzy
 msgid "Laos"
-msgstr "Самый низкий"
+msgstr "Лаос"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:117
 msgid "Latvia"
-msgstr ""
+msgstr "Латвия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:118
 msgid "Lebanon"
-msgstr ""
+msgstr "Лебанон"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:119
-#, fuzzy
 msgid "Lesotho"
-msgstr "Самый низкий"
+msgstr "Лесото"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:120
-#, fuzzy
 msgid "Liberia"
-msgstr "Апрель"
+msgstr "Либерия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:121
 msgid "Liechtenstein"
-msgstr ""
+msgstr "Лихтенштейн"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:122
 msgid "Lithuania"
-msgstr ""
+msgstr "Литва"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:123
 msgid "Luxembourg"
-msgstr ""
+msgstr "Люксембург"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:124
-#, fuzzy
 msgid "Macau"
-msgstr "Март"
+msgstr "Макау"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:125
 msgid "Macedonia"
-msgstr ""
+msgstr "Македония"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:126
 msgid "Madagascar"
-msgstr ""
+msgstr "Мадагаскар"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:127
-#, fuzzy
 msgid "Malawi"
-msgstr "Почта"
+msgstr "Малави"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:128
 msgid "Malaysia"
-msgstr ""
+msgstr "Малайзия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:129
 msgid "Maldives"
-msgstr ""
+msgstr "Мальдивы"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:130
-#, fuzzy
 msgid "Mali"
-msgstr "Почта"
+msgstr "Мали"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:131
-#, fuzzy
 msgid "Malta"
-msgstr "Почта"
+msgstr "Мальта"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:132
 msgid "Marshall Islands"
-msgstr ""
+msgstr "Маршаловы о-ва"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:133
 msgid "Martinique"
-msgstr ""
+msgstr "Мартиника"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:134
 msgid "Mauritania"
-msgstr ""
+msgstr "Мавритания"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:135
-#, fuzzy
 msgid "Mauritius"
-msgstr "Поля"
+msgstr "Мавритиус"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:136
 #, fuzzy
@@ -1946,167 +1866,151 @@ msgstr "Май"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:137
 msgid "Mexico"
-msgstr ""
+msgstr "Мексика"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:138
 msgid "Micronesia"
-msgstr ""
+msgstr "Микронезия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:139
-#, fuzzy
 msgid "Monaco"
-msgstr "Понедельник"
+msgstr "Монако"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:140
 msgid "Mongolia"
-msgstr ""
+msgstr "Монголия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:141
 msgid "Montserrat"
-msgstr ""
+msgstr "Монтсерат"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:142
 msgid "Morocco"
-msgstr ""
+msgstr "Морокко"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:143
-#, fuzzy
 msgid "Mozambique"
-msgstr "Мобильный"
+msgstr "Мозамбик"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:144
-#, fuzzy
 msgid "Myanmar"
-msgstr "Управляющий"
+msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:145
 msgid "Namibia"
-msgstr ""
+msgstr "Намибия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:146
 msgid "Nauru"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:147
-#, fuzzy
 msgid "Nepal"
-msgstr "Ответить"
+msgstr "Непал"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:148
-#, fuzzy
 msgid "Netherlands"
-msgstr "Следующая подшивка"
+msgstr "Нидерланды"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:149
 msgid "Netherlands Antilles"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:150
-#, fuzzy
 msgid "New Caledonia"
-msgstr "Новый контакт:"
+msgstr "Новая Каледония"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:151
 msgid "New Zealand"
-msgstr ""
+msgstr "Новая Зеландия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:152
 msgid "Nicaragua"
-msgstr ""
+msgstr "Никарагуа"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:153
-#, fuzzy
 msgid "Niger"
-msgstr "Высокий"
+msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:154
-#, fuzzy
 msgid "Nigeria"
-msgstr "Апрель"
+msgstr "Нигерия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:155
-#, fuzzy
 msgid "Niue"
-msgstr "минута"
+msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:156
 msgid "Norfolk Island"
-msgstr ""
+msgstr "Норфолкские о-ва"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:157
 msgid "Northern Mariana Islands"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:158
-#, fuzzy
 msgid "Norway"
-msgstr "Сейчас"
+msgstr "Норвегия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:159
 msgid "Oman"
-msgstr ""
+msgstr "Оман"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:160
-#, fuzzy
 msgid "Pakistan"
-msgstr "Вставить"
+msgstr "Пакистан"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:161
 msgid "Palau"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:162
-#, fuzzy
 msgid "Panama"
-msgstr "Канада"
+msgstr "Панама"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:163
 msgid "Papua New Guinea"
-msgstr ""
+msgstr "Папуа Новая Гвинея"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:164
 msgid "Paraguay"
-msgstr ""
+msgstr "Парагвай"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:165
-#, fuzzy
 msgid "Peru"
-msgstr "Бумага"
+msgstr "Перу"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:166
 msgid "Philippines"
-msgstr ""
+msgstr "Филиппины"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:167
 msgid "Pitcairn"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:168
-#, fuzzy
 msgid "Poland"
-msgstr "Финляндия"
+msgstr "Польша"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:169
-#, fuzzy
 msgid "Portugal"
-msgstr "Портрет"
+msgstr "Португалия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:170
 msgid "Puerto Rico"
-msgstr ""
+msgstr "Пуэрто-Рико"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:171
-#, fuzzy
 msgid "Qatar"
-msgstr "после"
+msgstr "Кутар"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:172
 msgid "Republic Of Korea"
-msgstr ""
+msgstr "Республика Корея"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:173
 msgid "Republic Of Moldova"
-msgstr ""
+msgstr "Республика Молдова"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:174
 #, fuzzy
@@ -2115,16 +2019,15 @@ msgstr "Разделы:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:175
 msgid "Romania"
-msgstr ""
+msgstr "Румыния"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:176
 msgid "Russian Federation"
-msgstr ""
+msgstr "Российская Федерация"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:177
-#, fuzzy
 msgid "Rwanda"
-msgstr "Канада"
+msgstr "Руанда"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:178
 msgid "Saint Kitts And Nevis"
@@ -2132,20 +2035,19 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:179
 msgid "Saint Lucia"
-msgstr ""
+msgstr "Санта Лючия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:180
 msgid "Saint Vincent And The Grena-dines"
-msgstr ""
+msgstr "Сент Винсент и Гренадины"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:181
-#, fuzzy
 msgid "Samoa"
-msgstr "Дым"
+msgstr "Самоа"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:182
 msgid "San Marino"
-msgstr ""
+msgstr "Сан-Марино"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:183
 msgid "Sao Tome And Principe"
@@ -2153,61 +2055,55 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:184
 msgid "Saudi Arabia"
-msgstr ""
+msgstr "Саудовская Аравия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:185
-#, fuzzy
 msgid "Senegal"
-msgstr "Общее"
+msgstr "Сенегал"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:186
-#, fuzzy
 msgid "Seychelles"
-msgstr ""
-"Вставить встречу\n"
-"в расписание"
+msgstr "Сейшеллы"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:187
 msgid "Sierra Leone"
-msgstr ""
+msgstr "Сьерра-Леоне"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:188
 msgid "Singapore"
-msgstr ""
+msgstr "Сингапур"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:189
 msgid "Slovakia"
-msgstr ""
+msgstr "Словакия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:190
 msgid "Slovenia"
-msgstr ""
+msgstr "Словения"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:191
 msgid "Solomon Islands"
-msgstr ""
+msgstr "Соломоновы о-ва"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:192
-#, fuzzy
 msgid "Somalia"
-msgstr "Нормальный"
+msgstr "Сомали"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:193
 msgid "South Africa"
-msgstr ""
+msgstr "Южная Африка"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:194
 msgid "South Georgia And The South Sandwich Islands"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:195
-#, fuzzy
 msgid "Spain"
-msgstr "Отправить"
+msgstr "Испания"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:196
 msgid "Sri Lanka"
-msgstr ""
+msgstr "Шри Ланка"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:197
 msgid "St. Helena"
@@ -2218,79 +2114,68 @@ msgid "St. Pierre And Miquelon"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:199
-#, fuzzy
 msgid "Sudan"
-msgstr "Вск"
+msgstr "Судан"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:200
-#, fuzzy
 msgid "Suriname"
-msgstr "Псевдоним"
+msgstr "Суринам"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:201
 msgid "Svalbard And Jan Mayen Islands"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:202
-#, fuzzy
 msgid "Swaziland"
-msgstr "Финляндия"
+msgstr "Свазилэнд"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:203
-#, fuzzy
 msgid "Sweden"
-msgstr "Прочитанное"
+msgstr "Швеция"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:204
 msgid "Switzerland"
-msgstr ""
+msgstr "Щвейцария"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:205
-#, fuzzy
 msgid "Taiwan"
-msgstr "Дождь"
+msgstr "Тайвань"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:206
-#, fuzzy
 msgid "Tajikistan"
-msgstr "Список заданий"
+msgstr "Таджикистан"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:207
-#, fuzzy
 msgid "Thailand"
-msgstr "Финляндия"
+msgstr "Таиланд"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:208
-#, fuzzy
 msgid "Togo"
-msgstr "Кому"
+msgstr "Того"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:209
 msgid "Tokelau"
-msgstr ""
+msgstr "Токелау"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:210
-#, fuzzy
 msgid "Tonga"
-msgstr "Торнадо"
+msgstr "Тонга"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:211
 msgid "Trinidad And Tobago"
-msgstr ""
+msgstr "Тринидад и Тобаго"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:212
 msgid "Tunisia"
-msgstr ""
+msgstr "Тунис"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:213
-#, fuzzy
 msgid "Turkey"
-msgstr "Втр"
+msgstr "Турция"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:214
-#, fuzzy
 msgid "Turkmenistan"
-msgstr "Турецкий"
+msgstr "Туркменистан"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:215
 msgid "Turks And Caicos Islands"
@@ -2305,31 +2190,28 @@ msgid "U.S. Virgin Islands"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:218
-#, fuzzy
 msgid "Uganda"
-msgstr "Канада"
+msgstr "Уганда"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:219
-#, fuzzy
 msgid "Ukraine"
-msgstr "Украинский"
+msgstr "Украина"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:220
 msgid "United Arab Emirates"
-msgstr ""
+msgstr "Объединённые Арабские Эмираты"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:221
 msgid "United Kingdom"
-msgstr ""
+msgstr "Соединённое Королевство"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:222
 msgid "United Republic Of Tanzania"
-msgstr ""
+msgstr "Соединённая Республика Танзания"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:223
-#, fuzzy
 msgid "United States"
-msgstr "Неозаглавленное сообщение"
+msgstr "Соединённые Штаты"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:224
 msgid "United States Minor Outlying Islands"
@@ -2337,50 +2219,47 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:225
 msgid "Uruguay"
-msgstr ""
+msgstr "Уругвай"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:226
 msgid "Uzbekistan"
-msgstr ""
+msgstr "Узбекистан"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:227
 msgid "Vanuatu"
-msgstr ""
+msgstr "Вануату"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:228
 msgid "Venezuela"
-msgstr ""
+msgstr "Венесуэла"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:229
-#, fuzzy
 msgid "Viet Nam"
-msgstr "Выбрать имена"
+msgstr "Вьетнам"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:230
 msgid "Wallis And Futuna Islands"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:231
-#, fuzzy
 msgid "Western Sahara"
-msgstr "Западноевропейский"
+msgstr "Западная Сахара"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:232
-#, fuzzy
 msgid "Yemen"
-msgstr "Прочитанное"
+msgstr "Йемен"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:233
 msgid "Yugoslavia"
-msgstr ""
+msgstr "Югославия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:234
 msgid "Zambia"
-msgstr ""
+msgstr "Замбия"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:235
 msgid "Zimbabwe"
-msgstr ""
+msgstr "Зимбабве"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:236
 msgid "_Address:"
@@ -2524,7 +2403,6 @@ msgid ""
 msgstr ""
 
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:1
-#, fuzzy
 msgid "Change Anyway"
 msgstr "Изменить в любом случае"
 
@@ -2553,19 +2431,17 @@ msgid "Search"
 msgstr "Поиск"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:121
-#, fuzzy
 msgid "No cards"
-msgstr "Не начато"
+msgstr "Нет карточек"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:124
-#, fuzzy
 msgid "1 card"
-msgstr "Напечатать календарь"
+msgstr "1 карточка"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:127
-#, fuzzy, c-format
+#, c-format
 msgid "%d cards"
-msgstr "%d секунд"
+msgstr "%d карточек"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:138
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:267
@@ -2584,13 +2460,11 @@ msgstr "Открыть"
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:268
 #: addressbook/gui/widgets/e-addressbook-view.c:754
 #: ui/evolution-addressbook.xml.h:10
-#, fuzzy
 msgid "Forward Contact"
-msgstr "Переслать вложенное"
+msgstr "Переслать контакт"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:269
 #: addressbook/gui/widgets/e-addressbook-view.c:755
-#, fuzzy
 msgid "Send Message to Contact"
 msgstr "Послать сообщение к контакту"
 
@@ -2952,19 +2826,16 @@ msgid "_Font..."
 msgstr "Шрифт..."
 
 #: addressbook/printing/e-contact-print.c:1092
-#, fuzzy
 msgid "Print cards"
-msgstr "Напечатать календарь"
+msgstr "Напечатать карточки"
 
 #: addressbook/printing/e-contact-print.c:1112
 #: addressbook/printing/e-contact-print.c:1134
-#, fuzzy
 msgid "Print card"
-msgstr "Напечатать календарь"
+msgstr "Напечатать карточку"
 
 #: addressbook/printing/e-contact-print-envelope.c:216
 #: addressbook/printing/e-contact-print-envelope.c:237
-#, fuzzy
 msgid "Print envelope"
 msgstr "Печать конверта"
 
@@ -3388,7 +3259,6 @@ msgid "Create a new task"
 msgstr "Создать новое задание"
 
 #: calendar/gui/component-factory.c:600
-#, fuzzy
 msgid "New _Task"
 msgstr "Новое задание"
 
@@ -3629,13 +3499,12 @@ msgid "60 minutes"
 msgstr "60 минут"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6
-#, fuzzy
 msgid "Calendar and Tasks Settings"
-msgstr "Установки календаря..."
+msgstr "Установки календаря и заданий..."
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 msgid "Color for overdue tasks"
-msgstr ""
+msgstr "Цвет для просроченных заданий"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
 msgid "Color for tasks due today"
@@ -3647,12 +3516,10 @@ msgid "Create new appointments with a default _reminder"
 msgstr "Создать новую встречу"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
-#, fuzzy
 msgid "Days"
-msgstr "дни"
+msgstr "Дни"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
-#, fuzzy
 msgid "First day of wee_k:"
 msgstr "Первый день недели:"
 
@@ -3662,14 +3529,12 @@ msgid "Friday"
 msgstr "Пятница"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
-#, fuzzy
 msgid "Hours"
-msgstr "часы"
+msgstr "Часы"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
-#, fuzzy
 msgid "Minutes"
-msgstr "минуты"
+msgstr "Минуты"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 #: calendar/gui/dialogs/recurrence-page.c:951
@@ -3677,9 +3542,8 @@ msgid "Monday"
 msgstr "Понедельник"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
-#, fuzzy
 msgid "O_verdue tasks:"
-msgstr "Просроченные задания"
+msgstr "Просроченные задания:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 #: calendar/gui/dialogs/recurrence-page.c:956
@@ -3697,12 +3561,10 @@ msgid "Show week _numbers in date navigator"
 msgstr "Показать номера недель"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
-#, fuzzy
 msgid "Sta_rt of day:"
 msgstr "Начало дня:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
-#, fuzzy
 msgid "Su_n"
 msgstr "Вск"
 
@@ -3712,12 +3574,10 @@ msgid "Sunday"
 msgstr "Воскресенье"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
-#, fuzzy
 msgid "T_hu"
 msgstr "Чтв"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
-#, fuzzy
 msgid "T_ue"
 msgstr "Втр"
 
@@ -3736,12 +3596,10 @@ msgid "Time"
 msgstr "Время"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
-#, fuzzy
 msgid "Time _zone:"
 msgstr "Часовой пояс: "
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
-#, fuzzy
 msgid "Time di_visions:"
 msgstr "Разделители времени:"
 
@@ -3765,12 +3623,10 @@ msgid "Work Week"
 msgstr "Рабочая неделя"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
-#, fuzzy
 msgid "_12 hour (AM/PM)"
 msgstr "12-часовой (ДП/ПП)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
-#, fuzzy
 msgid "_24 hour"
 msgstr "24-часовой"
 
@@ -3779,62 +3635,50 @@ msgid "_Ask for confirmation when deleting items"
 msgstr ""
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
-#, fuzzy
 msgid "_Compress weekends in month view"
 msgstr "Сжать выходные дни в просмотре месяца"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
-#, fuzzy
 msgid "_Display"
 msgstr "Отобразить"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
-#, fuzzy
 msgid "_End of day:"
 msgstr "Конец дня:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
-#, fuzzy
 msgid "_Fri"
 msgstr "Пят"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
-#, fuzzy
 msgid "_General"
 msgstr "Общее"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
-#, fuzzy
 msgid "_Hide completed tasks after"
-msgstr "Скрыть удаленные сообщения"
+msgstr "Скрыть выполненные задания через"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
-#, fuzzy
 msgid "_Mon"
 msgstr "Пон"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
-#, fuzzy
 msgid "_Other"
 msgstr "Другой"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
-#, fuzzy
 msgid "_Sat"
 msgstr "Суб"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
-#, fuzzy
 msgid "_Task List"
 msgstr "Список заданий"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
-#, fuzzy
 msgid "_Wed"
 msgstr "Срд"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
-#, fuzzy
 msgid "before the start of the appointment"
 msgstr "до начала встречи"
 
@@ -4008,9 +3852,8 @@ msgid "Are you sure you want to delete %d journal entries?"
 msgstr "Вы уверены в том, что хотите удалить %d журнальных записей?"
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:1
-#, fuzzy
 msgid "Addressbook..."
-msgstr "Адресная книга"
+msgstr "Адресная книга..."
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:2
 #, fuzzy
@@ -4169,15 +4012,13 @@ msgstr "Удаленное"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:6
 #: calendar/gui/e-meeting-time-sel.etspec.h:6
-#, fuzzy
 msgid "Language"
-msgstr "Управляющий"
+msgstr "Язык"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:7
 #: calendar/gui/e-meeting-time-sel.etspec.h:7
-#, fuzzy
 msgid "Member"
-msgstr "Члены"
+msgstr "Член"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:8
 #: calendar/gui/e-meeting-time-sel.etspec.h:8
@@ -4186,9 +4027,8 @@ msgstr ""
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:9
 #: calendar/gui/e-meeting-time-sel.etspec.h:9
-#, fuzzy
 msgid "Role"
-msgstr "Правила"
+msgstr "Роль"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:10
 #: calendar/gui/e-calendar-table.etspec.h:15
@@ -4479,9 +4319,8 @@ msgstr "Удалить выбранные задания"
 
 #: calendar/gui/e-calendar-table.c:1130
 #: calendar/gui/e-calendar-table.etspec.h:6
-#, fuzzy
 msgid "Click to add a task"
-msgstr "Щелкните здесь для добавления задачи"
+msgstr "Щелкните для добавления задачи"
 
 #: calendar/gui/e-calendar-table.etspec.h:3
 msgid "Alarms"
@@ -4512,23 +4351,20 @@ msgid "Geographical Position"
 msgstr ""
 
 #: calendar/gui/e-calendar-table.etspec.h:12
-#, fuzzy
 msgid "Priority"
-msgstr "Приоритет:"
+msgstr "Приоритет"
 
 #: calendar/gui/e-calendar-table.etspec.h:14
-#, fuzzy
 msgid "Start Date"
-msgstr "Дата начала:"
+msgstr "Дата начала"
 
 #. FIXME: Inbox shortcut should point to something else for
 #. people who won't care about using /Local Folders/Inbox
 #: calendar/gui/e-calendar-table.etspec.h:16
 #: my-evolution/component-factory.c:30 shell/e-shortcuts.c:1050
 #: shell/e-storage-set-view.c:1424 shell/e-summary-storage.c:80
-#, fuzzy
 msgid "Summary"
-msgstr "Итог:"
+msgstr "Итог"
 
 #: calendar/gui/e-calendar-table.etspec.h:17
 #, fuzzy
@@ -4536,9 +4372,8 @@ msgid "Task sort"
 msgstr "Список заданий"
 
 #: calendar/gui/e-calendar-table.etspec.h:19
-#, fuzzy
 msgid "URL"
-msgstr "URL:"
+msgstr "URL"
 
 #: calendar/gui/e-day-view-time-item.c:519
 #, c-format
@@ -4617,9 +4452,9 @@ msgid "<i>None</i>"
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:674
-#, fuzzy, c-format
+#, c-format
 msgid "<b>Description:</b> %s"
-msgstr "Описание:"
+msgstr "<b>Описание:</b> %s"
 
 #: calendar/gui/e-itip-control.c:710
 #, c-format
@@ -4627,9 +4462,8 @@ msgid "<b>%s</b> has published meeting information."
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:711
-#, fuzzy
 msgid "Meeting Information"
-msgstr "Дополнительная информация"
+msgstr "Информация о встрече"
 
 #: calendar/gui/e-itip-control.c:715
 #, c-format
@@ -10150,11 +9984,11 @@ msgid "Executive summary component could not initialize Bonobo.\n"
 msgstr "init_bonobo(): Не удалось инициализировать Bonobo"
 
 #: my-evolution/metar.c:29
-msgid "╟F"
+msgid " F"
 msgstr ""
 
 #: my-evolution/metar.c:29
-msgid "╟C"
+msgid " C"
 msgstr ""
 
 #: my-evolution/metar.c:33
