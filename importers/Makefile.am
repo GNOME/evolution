@@ -30,9 +30,9 @@ evolution_netscape_importer_SOURCES =	\
 	netscape-importer.c
 
 evolution_netscape_importer_LDADD =				\
-	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/shell/importer/libevolution-importer.la \
 	$(DB3_LDADD)						\
+	$(top_builddir)/e-util/libeutil.la			\
 	$(BONOBO_GNOME_LIBS)					\
 	$(EXTRA_GNOME_LIBS)
 
@@ -40,9 +40,9 @@ evolution_elm_importer_SOURCES =	\
 	elm-importer.c
 
 evolution_elm_importer_LDADD =					\
-	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/shell/importer/libevolution-importer.la \
 	$(DB3_LDADD)						\
+	$(top_builddir)/e-util/libeutil.la			\
 	$(BONOBO_GNOME_LIBS)					\
 	$(EXTRA_GNOME_LIBS)
 

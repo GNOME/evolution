@@ -1,3 +1,13 @@
+2001-06-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	Fix Radek's fix.  $(DB3_LDADD) must always come *before*
+	`libeutil.la'.
+
+	* Makefile.am (evolution_netscape_importer_LDADD): Move
+	`libevolution-importer.la' on top, then put `$(DB3_LDADD)', then
+	libeutil.la, then the Bonobo and GNOME libs.
+	(evolution_elm_importer_LDADD): Likewise.
+
 2001-06-04  Radek Doulik  <rodo@ximian.com>
 
 	* Makefile.am: move DB3_LDADD down to fix linkage
