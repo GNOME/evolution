@@ -924,16 +924,20 @@ camel_summary_format_address(struct _header_raw *h, const char *name)
 {
 	struct _header_address *addr;
 	const char *text;
-	char *ret;
+	char *ret, *tmp;
 
-	text = header_raw_find(&h, name, NULL);
-	addr = header_address_decode(text);
+	text = header_raw_find (&h, name, NULL);
+	addr = header_address_decode (text);
 	if (addr) {
-		ret = header_address_list_format(addr);
-		header_address_list_clear(&addr);
+		/* FIXME: perhaps decoding would be best done in header_address_list_format */
+		tmp = header_address_list_format (addr);
+		ret = header_decode_string (tmp);
+		g_free (tmp);
+		header_address_list_clear (&addr);
 	} else {
-		ret = g_strdup(text);
+		ret = g_strdup (text);
 	}
+	
 	return ret;
 }
 

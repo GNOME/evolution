@@ -1,3 +1,8 @@
+2000-10-06  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* camel-folder-summary.c (camel_summary_format_address): Decode
+	the resulting string.
+
 2000-10-06  Chris Toshok  <toshok@helixcode.com>
 
 	* providers/nntp/camel-nntp-grouplist.c: new file.
