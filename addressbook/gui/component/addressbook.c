@@ -616,16 +616,6 @@ static ESearchBarItem addressbook_search_menu_items[] = {
 	{ NULL, -1, NULL },
 };
 
-static void
-addressbook_menu_activated (ESearchBar *esb, int id, AddressbookView *view)
-{
-	switch (id) {
-	case E_FILTERBAR_RESET_ID:
-		e_addressbook_view_show_all(view->view);
-		break;
-	}
-}
-
 enum {
 	ESB_ANY,
 	ESB_FULL_NAME,
@@ -643,11 +633,33 @@ static ESearchBarItem addressbook_search_option_items[] = {
 	{ NULL, -1, NULL }
 };
 
-static ECategoriesMasterList *category_list = NULL;
+static void
+addressbook_menu_activated (ESearchBar *esb, int id, AddressbookView *view)
+{
+	switch (id) {
+	case E_FILTERBAR_RESET_ID:
+		/* e_addressbook_view_show_all(view->view); */
+
+		/* Fix option menu if we are using "Category is" */
+		if (e_search_bar_get_item_id (esb) == ESB_CATEGORY) {
+
+			e_search_bar_set_subitem_id (esb, G_MAXINT);
+
+		} else {
+
+			e_search_bar_set_text (esb, "");
+
+		}
+
+		break;
+	}
+}
 
 static ECategoriesMasterList *
 get_master_list (void)
 {
+	static ECategoriesMasterList *category_list = NULL;
+
 	if (category_list == NULL)
 		category_list = e_categories_master_list_wombat_new ();
 	return category_list;
@@ -659,11 +671,11 @@ addressbook_query_changed (ESearchBar *esb, AddressbookView *view)
 	ECategoriesMasterList *master_list;
 	char *search_word, *search_query;
 	const char *category_name;
-	int search_type, subopt;
+	int search_type, subid;
 
 	gtk_object_get(GTK_OBJECT(esb),
 		       "text", &search_word,
-		       "option_choice", &search_type,
+		       "item_id", &search_type,
 		       NULL);
 
 	if (search_type == ESB_ADVANCED) {
@@ -685,17 +697,15 @@ addressbook_query_changed (ESearchBar *esb, AddressbookView *view)
 								search_word);
 				break;
 			case ESB_CATEGORY:
-				subopt = e_search_bar_get_suboption_choice (esb);
-				g_message ("subopt: %d", subopt);
-				if (subopt >= 0) {
-					if (subopt == G_MAXINT) {
-						/* match everything */
-						search_query = g_strdup ("(contains \"full_name\" \"\")");
-					} else {
-						master_list = get_master_list ();
-						category_name = e_categories_master_list_nth (master_list, subopt);
-						search_query = g_strdup_printf ("(contains \"category\" \"%s\")", category_name);
-					}
+				subid = e_search_bar_get_subitem_id (esb);
+
+				if (subid < 0 || subid == G_MAXINT) {
+					/* match everything */
+					search_query = g_strdup ("(contains \"full_name\" \"\")");
+				} else {
+					master_list = get_master_list ();
+					category_name = e_categories_master_list_nth (master_list, subid);
+					search_query = g_strdup_printf ("(contains \"category\" \"%s\")", category_name);
 				}
 				break;
 			default:
@@ -705,9 +715,10 @@ addressbook_query_changed (ESearchBar *esb, AddressbookView *view)
 		} else
 			search_query = g_strdup ("(contains \"full_name\" \"\")");
 
-		gtk_object_set (GTK_OBJECT(view->view),
-				"query", search_query,
-				NULL);
+		if (search_query)
+			gtk_object_set (GTK_OBJECT(view->view),
+					"query", search_query,
+					NULL);
 
 		g_free (search_query);
 		g_free (search_word);

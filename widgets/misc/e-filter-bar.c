@@ -146,8 +146,8 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 	case E_FILTERBAR_RESET_ID:
 		d(printf("Reset menu\n"));
 		efb->current_query = NULL;
-		gtk_object_set (GTK_OBJECT (esb), "option_choice", efb->option_base, NULL);
-		gtk_object_set (GTK_OBJECT (esb), "text", NULL, NULL);
+		e_search_bar_set_item_id (esb, efb->option_base);
+		e_search_bar_set_text (esb, NULL);
 		gtk_widget_set_sensitive (esb->entry, TRUE);
 		break;
 	case E_FILTERBAR_EDIT_ID:
@@ -203,7 +203,8 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 			
 			efb->current_query = (FilterRule *)efb->menu_rules->pdata[id - efb->menu_base];
 			efb->setquery = TRUE;
-			gtk_object_set (GTK_OBJECT (esb), "option_choice", E_FILTERBAR_ADVANCED_ID, NULL);
+
+			e_search_bar_set_item_id (esb, E_FILTERBAR_ADVANCED_ID);
 			
 			gtk_widget_set_sensitive (esb->entry, FALSE);
 		} else {
@@ -219,7 +220,7 @@ static void
 option_changed (ESearchBar *esb, void *data)
 {
 	EFilterBar *efb = (EFilterBar *)esb;
-	int id = esb->option_choice;
+	int id = e_search_bar_get_item_id (esb);
 	char *query;
 	
 	d(printf("option changed, id = %d\n", id));

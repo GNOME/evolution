@@ -1,3 +1,8 @@
+2001-08-16  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/cal-search-bar.c: Changed to reflect my renaming of some of
+	the more hideously-named functions in the ESearchBar API.
+
 2001-08-15  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/comp-editor.c (save_comp): only fill the component

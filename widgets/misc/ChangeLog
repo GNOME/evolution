@@ -1,3 +1,12 @@
+2001-08-16  Jon Trowbridge  <trow@ximian.com>
+
+	* e-filter-bar.c (option_changed): Adjusted for renamed ESearchBar
+	functions.
+	(menubar_activated): Adjusted for renamed ESearchBar functions.
+
+	* e-search-bar.c: Renames some of the horrible function names:
+	s/option_choice/item_id/, s/suboption_choice/subitem_id/.
+
 2001-08-14  Federico Mena Quintero  <federico@ximian.com>
 
 	* e-cell-date-edit.c (e_cell_date_edit_destroy): Destroy, do not

@@ -34,7 +34,8 @@ extern "C" {
  *
  * name		 type		read/write	description
  * ---------------------------------------------------------------------------------
- * option_choice int            RW              Which option choice is currently selected.
+ * item_id       int            RW              Which option item is currently selected.
+ * subitem_id    int            RW              Which option subitem is currently selected.
  * text          string         RW              Text in the entry box.
  */
 
@@ -79,8 +80,9 @@ struct _ESearchBar
 	GtkWidget *entry_box;
 	guint      pending_change;
 
-	int        option_choice;
-	int        suboption_choice; /* < 0 if the entry widget is active */
+	/* The currently-selected item & subitem */
+	int        item_id;
+	int        subitem_id; /* < 0 if the entry widget is active */
 };
 
 struct _ESearchBarClass
@@ -111,11 +113,11 @@ GtkWidget *e_search_bar_new        (ESearchBarItem *menu_items,
 
 void       e_search_bar_set_menu_sensitive(ESearchBar *search_bar, int id, gboolean state);
 
-void       e_search_bar_set_option_choice    (ESearchBar *search_bar, int id);
-int        e_search_bar_get_option_choice    (ESearchBar *search_bar);
+void       e_search_bar_set_item_id    (ESearchBar *search_bar, int id);
+int        e_search_bar_get_item_id    (ESearchBar *search_bar);
 
-void       e_search_bar_set_suboption_choice (ESearchBar *search_bar, int id);
-int        e_search_bar_get_suboption_choice (ESearchBar *search_bar);
+void       e_search_bar_set_subitem_id (ESearchBar *search_bar, int id);
+int        e_search_bar_get_subitem_id (ESearchBar *search_bar);
 
 void       e_search_bar_set_text             (ESearchBar *search_bar, const char *text);
 char      *e_search_bar_get_text             (ESearchBar *search_bar);

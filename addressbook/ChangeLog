@@ -1,3 +1,22 @@
+2001-08-16  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names-completion.c
+	(match_nickname): Boost scoring on an exact nickname match.
+	Manually addressify match.
+	(match_name): Manually addressify matches.
+	(book_query_score): Remove automatic addressification.
+
+	* gui/component/addressbook.c (addressbook_query_changed): Minor
+	tweak to avoid a crash if we have a negative subid with id
+	ESB_CATEGORY.  This should never happen.
+	(addressbook_menu_activated): Reset the entry/option when we
+	select "Clear".
+	Some changes to reflect renaming in ESearchBar.
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(entry_set_property_fn): Cardify after importing destinations.
+	This might fix a problem that Damon is having.
+ 
 2001-08-15  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-config.glade: set title of initial

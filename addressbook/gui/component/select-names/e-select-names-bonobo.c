@@ -149,6 +149,7 @@ entry_set_property_fn (BonoboPropertyBag *bag,
 			g_assert (model != NULL);
 
 			e_select_names_model_import_destinationv (model, BONOBO_ARG_GET_STRING (arg));
+			e_select_names_model_cardify_all (model, NULL, 0);
 			break;
 		}
 

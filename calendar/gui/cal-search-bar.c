@@ -234,25 +234,25 @@ static const char *
 get_current_category (CalSearchBar *cal_search)
 {
 	CalSearchBarPrivate *priv;
-	int option, suboption;
+	int id, subid;
 
 	priv = cal_search->priv;
 
 	g_assert (priv->categories != NULL);
 
-	option = e_search_bar_get_option_choice (E_SEARCH_BAR (cal_search));
-	if (option != SEARCH_CATEGORY_IS)
+	id = e_search_bar_get_item_id (E_SEARCH_BAR (cal_search));
+	if (id != SEARCH_CATEGORY_IS)
 		return NULL;
 
-	suboption = e_search_bar_get_suboption_choice (E_SEARCH_BAR (cal_search));
-	if (suboption == CATEGORIES_ALL)
+	subid = e_search_bar_get_subitem_id (E_SEARCH_BAR (cal_search));
+	if (subid == CATEGORIES_ALL)
 		return (const char *) 1;
-	else if (suboption == CATEGORIES_UNMATCHED)
+	else if (subid == CATEGORIES_UNMATCHED)
 		return NULL;
 	else {
 		int i;
 
-		i = suboption - CATEGORIES_OFFSET;
+		i = subid - CATEGORIES_OFFSET;
 		g_assert (i >= 0 && i < priv->categories->len);
 
 		return priv->categories->pdata[i];
@@ -317,18 +317,18 @@ static void
 regen_query (CalSearchBar *cal_search)
 {
 	CalSearchBarPrivate *priv;
-	int item;
+	int id;
 	const char *category;
 
 	priv = cal_search->priv;
 
 	/* Fetch the data from the ESearchBar's entry widgets */
 
-	item = e_search_bar_get_option_choice (E_SEARCH_BAR (cal_search));
+	id = e_search_bar_get_item_id (E_SEARCH_BAR (cal_search));
 
 	/* Generate the different types of queries */
 
-	switch (item) {
+	switch (id) {
 	case SEARCH_ANY_FIELD_CONTAINS:
 		notify_query_contains (cal_search, "any");
 		break;
