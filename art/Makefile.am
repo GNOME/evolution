@@ -45,6 +45,7 @@ images_DATA = \
 	evolution-trash.png 		\
 	executive-summary-bg.png	\
 	executive-summary-curve.png	\
+	info-bulb.png			\
 	faq-16.png			\
 	fetch-mail.png			\
 	find_contact.xpm		\
