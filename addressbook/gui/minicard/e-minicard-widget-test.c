@@ -83,9 +83,7 @@ int main( int argc, char *argv[] )
 {
   GtkWidget *app;
   GtkWidget *minicard;
-  int i;
   ECard *card;
-  char *vcard;
 
   /*  bindtextdomain (PACKAGE, GNOMELOCALEDIR);
       textdomain (PACKAGE);*/

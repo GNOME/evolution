@@ -1,3 +1,7 @@
+2000-07-26  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/minicard/e-minicard-widget-test.c: Fixed a warning.
+
 2000-07-26  Chris Toshok  <toshok@helixcode.com>
 
 	* backend/pas/pas-backend-ldap.c (view_destroy): wait to free the
