@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-14 03:30+0200\n"
-"PO-Revision-Date: 2004-08-05 20:10+0530\n"
+"PO-Revision-Date: 2004-08-06 18:04+0530\n"
 "Last-Translator: Ankit Patel <ankit@redhat.com>\n"
 "Language-Team: Gujarati\n"
 "MIME-Version: 1.0\n"
@@ -12377,6 +12377,10 @@ msgid ""
 "sent is read, and to specify what Evolution should do when someone requests "
 "a receipt from you.</small>"
 msgstr ""
+"<small>આ પાનું તમને જો તમને વાંચવાની રસીદ દ્વારા સૂચવવામાં "
+"આવે જ્યારે તમે મોકલેલો સંદેશો\n"
+"વાંચવા માટે હોય તેની પરવાનગી આપે છે, અને જ્યારે કોઈ તમારા તરફથી "
+"રસીદની માંગણી કરે ત્યારે ઈવોલ્યુશન શું કરે તે સ્પષ્ટ કરે છે.</small>"
 
 #: designs/read_receipts/read.glade.h:6
 msgid "Always send back a read reciept"
@@ -14019,6 +14023,8 @@ msgid ""
 "any mime-types appearing in this list which map to a bonobo-component viewer "
 "in GNOME's mime-type database may be used for displaying content."
 msgstr ""
+"જો ત્યાં કોઈ આંતરિક દર્શક કોઈ ચોક્કસ પ્રકારના mime કે જે ઈવોલ્યુશનની "
+"અંદર હોય, અને કોઈ પ્રકારના mime"
 
 #: mail/evolution-mail.schemas.in.in.h:28
 msgid "Last time empty trash was run"
@@ -15459,44 +15465,44 @@ msgstr ""
 
 #: mail/mail-dialogs.glade.h:25
 msgid "Tick this to accept the license agreement"
-msgstr ""
+msgstr "લાઈસન્સની મંજૂરી માટે આને ચિહ્નિત કરો"
 
 #: mail/mail-dialogs.glade.h:26 mail/message-tags.glade.h:6
 msgid "_Due By:"
-msgstr ""
+msgstr "દ્વારા છેલ્લે: (_D)"
 
 #: mail/mail-dialogs.glade.h:27 mail/message-tags.glade.h:7
 msgid "_Flag:"
-msgstr ""
+msgstr "ઝંડો (_F):"
 
 #: mail/mail-dialogs.glade.h:28
 msgid "_Subscribe"
-msgstr ""
+msgstr "ઉમેદવારી કરો (_S)"
 
 #: mail/mail-dialogs.glade.h:29
 msgid "_Unsubscribe"
-msgstr ""
+msgstr "ઉમેદવારી દૂર કરો (_U)"
 
 #: mail/mail-dialogs.glade.h:30
 msgid "specific folders only"
-msgstr ""
+msgstr "માત્ર અમુક ચોક્કસ ફોલ્ડરોમાં જ"
 
 #: mail/mail-dialogs.glade.h:31
 msgid "with all active remote folders"
-msgstr ""
+msgstr "બીજા બધા ક્રિયાશીલ દૂરસ્થ ફોલ્ડરો સાથે"
 
 #: mail/mail-dialogs.glade.h:32
 msgid "with all local and active remote folders"
-msgstr ""
+msgstr "બીજા બધા સ્થાનિક અને ક્રિયાશીલ દૂરસ્થ ફોલ્ડરો સાથે"
 
 #: mail/mail-dialogs.glade.h:33
 msgid "with all local folders"
-msgstr ""
+msgstr "બધા સ્થાનિક ફોલ્ડરો સાથે"
 
 #. mail:camel-service-auth-invalid primary
 #: mail/mail-errors.xml.h:2
 msgid "Invalid authentication"
-msgstr ""
+msgstr "અયોગ્ય સત્તાધિકરણ"
 
 #. mail:camel-service-auth-invalid secondary
 #: mail/mail-errors.xml.h:4
@@ -15504,11 +15510,13 @@ msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
 msgstr ""
+"આ સર્વર આ પ્રકારના સત્તાધિકરણને આધાર આપતું નથી અને તે કદાચ "
+"બધાનું સત્તાધિકરણને આધાર આપતું નથી."
 
 #. mail:camel-service-auth-failed primary
 #: mail/mail-errors.xml.h:6
 msgid "Your login to your server \"{0}\" as \"{0}\" failed."
-msgstr ""
+msgstr "તમારા સર્વર પરનો તમારો પ્રવેશ \"{0}\" નો \"{0}\" તરીકે નિષ્ફળ."
 
 #. mail:camel-service-auth-failed secondary
 #: mail/mail-errors.xml.h:8
@@ -15516,11 +15524,14 @@ msgid ""
 "Check to make sure your password is spelled correctly.  Remember that many "
 "passwords are case sensitive; your caps lock might be on."
 msgstr ""
+"તમારો પાસવર્ડ યોગ્ય રીતે લખાયેલો છે કે તે ચકાસવા માટે ખાતરી કરો. યાદ "
+"રાખો કે ઘણા પાસવર્ડો કેસ પ્રત્યે સંવેદનશીલ હોય છે; તમારી કેપ્સ લોક કી કદાચ "
+"ચાલુ હશે."
 
 #. mail:ask-send-html primary
 #: mail/mail-errors.xml.h:10
 msgid "Are you sure you want to send a message in HTML format?"
-msgstr ""
+msgstr "શું તમે ખરેખર સંદેશાને HTML બંધારણમાં મોકલવા માંગો છો?"
 
 #. mail:ask-send-html secondary
 #: mail/mail-errors.xml.h:12
@@ -15530,16 +15541,20 @@ msgid ""
 "{0}\n"
 "Send anyway?"
 msgstr ""
+"મહેરબાની કરીને ખાતરી કરો કે નીચેના મેળવનારાઓ HTML ઈ-મેઈલ મેળવવા "
+"માંગે છે અને સમર્થ છે ને:\n"
+"{0}\n"
+"કોઈ પણ રીતે મોકલવું છે?"
 
 #: mail/mail-errors.xml.h:15 mail/mail-errors.xml.h:20
 #: mail/mail-errors.xml.h:27 mail/mail-errors.xml.h:32
 msgid "_Send"
-msgstr ""
+msgstr "મોકલો (_S)"
 
 #. mail:ask-send-no-subject primary
 #: mail/mail-errors.xml.h:17
 msgid "Are you sure you want to send a message without a subject?"
-msgstr ""
+msgstr "શું તમે ચોક્કસ છો કે તમે સંદેશાને વિષય વિના મોકલવા માંગો છો?"
 
 #. mail:ask-send-no-subject secondary
 #: mail/mail-errors.xml.h:19
@@ -15547,12 +15562,16 @@ msgid ""
 "Adding a meaningful Subject line to your messages will give your recipients "
 "an idea of what your mail is about."
 msgstr ""
+"અર્થવાળો વિષય તમારા સંદેશાને આપવાથી તમારા મેળવનારાઓને "
+"તમારો મેઈલ શેના વિશે છે તેની સમજ આપે છે."
 
 #. mail:ask-send-only-bcc-contact primary
 #. mail:ask-send-only-bcc primary
 #: mail/mail-errors.xml.h:22 mail/mail-errors.xml.h:29
 msgid "Are you sure you want to send a message with only BCC recipients?"
 msgstr ""
+"શું તમે ચોક્કસ છો કે તમે માત્ર ખબર વિના આને પણ મેળવનારા સાથે "
+"જ સંદેશો મોકલવા માંગો છો?"
 
 #. mail:ask-send-only-bcc-contact secondary
 #: mail/mail-errors.xml.h:24
@@ -15564,6 +15583,14 @@ msgid ""
 "your message. To avoid this, you should add at least one To: or CC: "
 "recipient. "
 msgstr ""
+"સંપર્ક યાદી કે જે તમે મોકલી રહ્યા છો તે મેળવનારોની યાદી છુપાવો "
+"એ રીતે રુપરેખાંકિત થયેલ છે.\n"
+"\n"
+"ઘણી સિસ્ટમો જાતે જ સંદેશાને પ્રતિ હેડર ઉમેરી દે છે જે સંદેશાઓને માત્ર "
+"ખબર પડ્યા વિના આને પણ હેડર હોય. જો આ હેડર ઉમેરાશે, તો તે "
+"તમારા સંદેશા મેળવનરા બધાનેે યાદીત કરે છે. આની અવગણના કરવા "
+"માટે, તમારે ઓછામાં ઓછું એક પ્રતિ અથવા આને પણ હેડર દાખલ કરી દેવું "
+"જોઈએ. "
 
 #. mail:ask-send-only-bcc secondary
 #: mail/mail-errors.xml.h:31
@@ -15573,11 +15600,16 @@ msgid ""
 "your message anyway. To avoid this, you should add at least one To: or CC: "
 "recipient."
 msgstr ""
+"ઘણી સિસ્ટમો જાતે જ સંદેશાને પ્રતિ હેડર ઉમેરી દે છે જે સંદેશાઓને માત્ર "
+"ખબર પડ્યા વિના આને પણ હેડર હોય. જો આ હેડર ઉમેરાશે, તો તે "
+"તમારા સંદેશા મેળવનરા બધાનેે યાદીત કરે છે. આની અવગણના કરવા "
+"માટે, તમારે ઓછામાં ઓછું એક પ્રતિ અથવા આને પણ હેડર દાખલ કરી દેવું "
+"જોઈએ."
 
 #. mail:send-no-recipients primary
 #: mail/mail-errors.xml.h:34
 msgid "This message cannot be sent because you have not specified any Recipients"
-msgstr ""
+msgstr "આ સંદેશો મોકલી શકાયો નથી કારણકે તમે કોઈ મેળવનારો સ્પષ્ટ કર્યો નથી"
 
 #. mail:send-no-recipients secondary
 #: mail/mail-errors.xml.h:36
@@ -15585,11 +15617,14 @@ msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
 msgstr ""
+"મહેરબાની કરીને માન્ય ઈ-મેઈલ સરનામું પ્રતિ ક્ષેત્રમાં દાખલ કરો. તમે પ્રતિ "
+"પર ક્લિક કરીને ઈ-મેઈલ સરનામું શોધી શકો છો કે જે પ્રવેશ બોક્સ પછી "
+"તરતનું બટન છે."
 
 #. mail:ask-default-drafts primary
 #: mail/mail-errors.xml.h:38
 msgid "Use default drafts folder?"
-msgstr ""
+msgstr "શું મૂળભુત ડ્રાફ્ટ ફોલ્ડર વાપરવું છે?"
 
 #. mail:ask-default-drafts secondary
 #: mail/mail-errors.xml.h:40
@@ -15597,10 +15632,12 @@ msgid ""
 "Unable to open the drafts folder for this account.  Use the system drafts "
 "folder instead?"
 msgstr ""
+"આ ખાતા માટે ડ્રાફ્ટ ફોલ્ડર ખોલવા સમર્થ નથી. સિસ્ટમ ડ્રાફ્ટ ફોલ્ડરો "
+"જ તેની જગ્યાએ વાપરવા છે?"
 
 #: mail/mail-errors.xml.h:41
 msgid "Use _Default"
-msgstr ""
+msgstr "મૂળભુત વાપરો (_D)"
 
 #. mail:ask-expunge primary
 #: mail/mail-errors.xml.h:43
@@ -15608,16 +15645,20 @@ msgid ""
 "Are you sure you want to permanently remove all the deleted message in "
 "folder \"{0}\"?"
 msgstr ""
+"શું તમે ચોક્કસ છો તમે કાયમી રીતે તમારા \"{0}\" ફોલ્ડરમાંના સંદેશાને દૂર "
+"કરવા માંગો છો?"
 
 #. mail:ask-expunge secondary
 #. mail:ask-empty-trash secondary
 #: mail/mail-errors.xml.h:45 mail/mail-errors.xml.h:50
 msgid "If you continue, you will not be able to recover these messages."
 msgstr ""
+"જો તમે ચાલુ રાખો, તો તમે આ સંદેશાઓને પાછા મેળવવા માટે સમર્થ "
+"નહિં હોય."
 
 #: mail/mail-errors.xml.h:46
 msgid "_Expunge"
-msgstr ""
+msgstr "સંપૂર્ણપણે કાઢી નાંખો (_E)"
 
 #. mail:ask-empty-trash primary
 #: mail/mail-errors.xml.h:48
@@ -15625,15 +15666,17 @@ msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
 msgstr ""
+"શું તમે બધા કાઢી નંખાયેલા સંદેશાઓને બધા ફોલ્ડરોમાંથી કાયમી રીતે "
+"દૂર કરવા માંગો છો?"
 
 #: mail/mail-errors.xml.h:51
 msgid "_Empty Trash"
-msgstr ""
+msgstr "કચરાપેટી ખાલી કરો (_E)"
 
 #. mail:exit-unsaved primary
 #: mail/mail-errors.xml.h:53
 msgid "You have unsent messages, do you wish to quit anyway?"
-msgstr ""
+msgstr "તમે સંદેશાઓ સુયોજિત કર્યા નથી, શું તમે કોઈપણ રીતે ચાલુ રાખવા માંગો છો?"
 
 #. mail:exit-unsaved secondary
 #: mail/mail-errors.xml.h:55
@@ -15641,11 +15684,13 @@ msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
 msgstr ""
+"જો તમે બહાર નીકળો, આ સંદેશાઓ જ્યાં સુધી ઈવોલ્યુશન શરુ થાય નહિં "
+"ત્યાં સુધી મોકલાશે નહિં."
 
 #. mail:camel-exception primary
 #: mail/mail-errors.xml.h:57
 msgid "Your message with the subject \"{0}\" was not delivered."
-msgstr ""
+msgstr "તમારો \"{0}\" વિષયવાળો સંદેશો પહોંચ્યો નથી."
 
 #. mail:camel-exception secondary
 #: mail/mail-errors.xml.h:59
@@ -15655,41 +15700,45 @@ msgid ""
 "The message is stored in the Outbox folder.  Check the message for errors "
 "and resend."
 msgstr ""
+"બાહ્ય કાર્યક્રમ \"મેઈલમોકલો\" દ્વારા મોકલાયેલ સંદેશો પહોંચી ગયો. મેઈલમોકલો "
+"નીચેની ભૂલોનો અહેવાલ આપે છે: સ્થિતિ ૬૭: મેઈલ મોકલાયો નથી.\n"
+"સંદેશો આઉટબોક્સ ફોલ્ડરમાં સંગ્રહાયેલો છે. સંદેશાને ભૂલો અને ફરીથી "
+"મોકલવા માટે ચકાસો."
 
 #. mail:async-error primary
 #: mail/mail-errors.xml.h:62
 msgid "Error while {0}."
-msgstr ""
+msgstr "{0} વખતે ભૂલ આવી."
 
 #. mail:async-error secondary
 #: mail/mail-errors.xml.h:64
 msgid "{1}."
-msgstr ""
+msgstr "{1}."
 
 #. mail:async-error-nodescribe primary
 #: mail/mail-errors.xml.h:66
 msgid "Error while performing operation."
-msgstr ""
+msgstr "પ્રક્રિયા કરવામાં ભૂલ આવી હતી."
 
 #. mail:async-error-nodescribe secondary
 #: mail/mail-errors.xml.h:68
 msgid "{0}."
-msgstr ""
+msgstr "{0}."
 
 #. mail:ask-session-password primary
 #: mail/mail-errors.xml.h:82
 msgid "Enter password."
-msgstr ""
+msgstr "પાસવર્ડ દાખલ કરો."
 
 #. mail:filter-load-error primary
 #: mail/mail-errors.xml.h:86
 msgid "Error loading filter definitions."
-msgstr ""
+msgstr "ગાળક વ્યાખ્યાઓ લાવતી વખતે ભૂલ આવી."
 
 #. mail:no-save-path primary
 #: mail/mail-errors.xml.h:90
 msgid "Cannot save to directory \"{0}\"."
-msgstr ""
+msgstr "ડિરેક્ટરી \"{0}\" માં સંગ્રહી શકાતું નથી."
 
 #. mail:no-create-path primary
 #. mail:no-write-path-exists primary
@@ -15697,37 +15746,37 @@ msgstr ""
 #: mail/mail-errors.xml.h:94 mail/mail-errors.xml.h:102
 #: mail/mail-errors.xml.h:106
 msgid "Cannot save to file \"{0}\"."
-msgstr ""
+msgstr "ફાઈલ \"{0}\" માં સંગ્રહી શકાતું નથી."
 
 #. mail:no-create-path secondary
 #: mail/mail-errors.xml.h:96
 msgid "Cannot create the save directory, because \"{1}\""
-msgstr ""
+msgstr "સંગ્રહ ડિરેક્ટરી બનાવી શકતા નથી, કારણ \"{1}\""
 
 #. mail:no-create-tmp-path primary
 #: mail/mail-errors.xml.h:98
 msgid "Cannot create temporary save directory."
-msgstr ""
+msgstr "કામચલાઉ સંગ્રહ ડિરેક્ટરી બનાવી શકતા નથી."
 
 #. mail:no-write-path-exists secondary
 #: mail/mail-errors.xml.h:104
 msgid "File exists but cannot overwrite it."
-msgstr ""
+msgstr "ફાઈલ હાજર છે પરંતુ તેના પર ફરીથી લખી શકતા નથી."
 
 #. mail:no-write-path-notfile secondary
 #: mail/mail-errors.xml.h:108
 msgid "File exists but is not a regular file."
-msgstr ""
+msgstr "ફાઈલ હાજર છે, પરંતુ તે નિયમિત ફાઈલ નથી."
 
 #. mail:no-delete-folder primary
 #: mail/mail-errors.xml.h:110
 msgid "Cannot delete folder \"{0}\"."
-msgstr ""
+msgstr "ફોલ્ડર \"{0}\" કાઢી શકતા નથી."
 
 #. mail:no-delete-spethal-folder primary
 #: mail/mail-errors.xml.h:114
 msgid "Cannot delete system folder \"{0}\"."
-msgstr ""
+msgstr "સિસ્ટમ ફોલ્ડર \"{0}\" કાઢી શકતા નથી."
 
 #. mail:no-delete-spethal-folder secondary
 #. mail:no-rename-spethal-folder secondary
@@ -15736,21 +15785,24 @@ msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
 "cannot be renamed, moved, or deleted."
 msgstr ""
+"સિસ્ટમ ફોલ્ડરોને Ximian ઈવોલ્યુશન ને યોગ્ય રીતે કામ કરવાની જરુર છે "
+"અને તેનું નામ બદલી શકાતું નથી, ખસેડી શકાતી નથી, અથવા કાઢી શકાતું "
+"નથી."
 
 #. mail:no-rename-spethal-folder primary
 #: mail/mail-errors.xml.h:118
 msgid "Cannot rename or move system folder \"{0}\"."
-msgstr ""
+msgstr "સિસ્ટમ ફોલ્ડર \"{0}\" નું નામ બદલી શકાતું નથી અથવા કાઢી શકાતું નથી."
 
 #. mail:ask-delete-folder title
 #: mail/mail-errors.xml.h:122
 msgid "Delete \"{0}\"?"
-msgstr ""
+msgstr "\"{0}\" કાઢી નાંખવું છે?"
 
 #. mail:ask-delete-folder primary
 #: mail/mail-errors.xml.h:124
 msgid "Really delete folder \"{0}\" and all of its subfolders?"
-msgstr ""
+msgstr "શું ખરેખર ફોલ્ડર \"{0}\" અને તેની બધી ઉપડિરેક્ટરીઓ કાઢી નાંખવી છે?"
 
 #. mail:ask-delete-folder secondary
 #: mail/mail-errors.xml.h:126
@@ -15758,136 +15810,140 @@ msgid ""
 "If you delete the folder, all of its contents and its subfolders contents "
 "will be deleted permanently."
 msgstr ""
+"જો તમે ફોલ્ડર કાઢી નાંખો, તો તેના બધા સમાવિષ્ટો અને તેના ઉપફોલ્ડરના "
+"સમાવિષ્ટો કાયમી રીતે કાઢી નંખાશે."
 
 #. mail:no-rename-folder-exists primary
 #. mail:no-rename-folder primary
 #: mail/mail-errors.xml.h:128 mail/mail-errors.xml.h:132
 msgid "Cannot rename \"{0}\" to \"{1}\"."
-msgstr ""
+msgstr "\"{0}\" ને \"{1}\" નામમાં બદલી શકાતી નથી."
 
 #. mail:no-rename-folder-exists secondary
 #. mail:vfolder-notunique secondary
 #: mail/mail-errors.xml.h:130 mail/mail-errors.xml.h:192
 msgid "A folder named \"{1}\" already exists. Please use a different name."
 msgstr ""
+"\"{1}\" નામવાળું ફોલ્ડર પહેલાથી જ હાજર છે. મહેરબાની કરીને બીજું "
+"અલગ નામ વાપરો."
 
 #. mail:no-rename-folder secondary
 #: mail/mail-errors.xml.h:134
 msgid "Because \"{2}\"."
-msgstr ""
+msgstr "\"{2}\" ના કારણે."
 
 #. mail:no-move-folder-nostore primary
 #. mail:no-move-folder-to-nostore primary
 #: mail/mail-errors.xml.h:136 mail/mail-errors.xml.h:140
 msgid "Cannot move folder \"{0}\" to \"{1}\"."
-msgstr ""
+msgstr "ફોલ્ડર \"{0}\" ને \"{1}\" માં ખસેડી શકાતું નથી."
 
 #. mail:no-move-folder-nostore secondary
 #. mail:no-copy-folder-nostore secondary
 #: mail/mail-errors.xml.h:138 mail/mail-errors.xml.h:146
 msgid "Cannot open source \"{2}\"."
-msgstr ""
+msgstr "\"{2}\" નો સ્રોત ખોલી શકાતો નથી."
 
 #. mail:no-move-folder-to-nostore secondary
 #. mail:no-copy-folder-to-nostore secondary
 #: mail/mail-errors.xml.h:142 mail/mail-errors.xml.h:150
 msgid "Cannot open target \"{2}\"."
-msgstr ""
+msgstr "લક્ષ્ય \"{2}\" ને ખોલી શકાતો નથી."
 
 #. mail:no-copy-folder-nostore primary
 #. mail:no-copy-folder-to-nostore primary
 #: mail/mail-errors.xml.h:144 mail/mail-errors.xml.h:148
 msgid "Cannot copy folder \"{0}\" to \"{1}\"."
-msgstr ""
+msgstr "ફોલ્ડર \"{0}\" ને \"{1}\" માં નકલ કરી શકાતું નથી."
 
 #. mail:no-create-folder-nostore primary
 #: mail/mail-errors.xml.h:152
 msgid "Cannot create folder \"{0}\"."
-msgstr ""
+msgstr "ફોલ્ડર \"{0}\" બનાવી શકાતું નથી."
 
 #. mail:no-create-folder-nostore secondary
 #: mail/mail-errors.xml.h:154
 msgid "Cannot open source \"{1}\""
-msgstr ""
+msgstr "\"{1}\" નો સ્રોત ખોલી શકાતો નથી"
 
 #. mail:account-incomplete primary
 #. mail:account-notunique primary
 #: mail/mail-errors.xml.h:156 mail/mail-errors.xml.h:160
 msgid "Cannot save changes to account."
-msgstr ""
+msgstr "ખાતામાં બદલાવો સંગ્રહી શકાતા નથી."
 
 #. mail:account-incomplete secondary
 #: mail/mail-errors.xml.h:158
 msgid "You have not filled in all of the required information."
-msgstr ""
+msgstr "તમે બધી જરુરી જાણકારી ભરી નથી."
 
 #. mail:account-notunique secondary
 #: mail/mail-errors.xml.h:162
 msgid "You may not create two accounts with the same name."
-msgstr ""
+msgstr "તમે એક જ નામથી બે ખાતાઓ બનાવી શકશો નહિં."
 
 #. mail:ask-delete-account title
 #: mail/mail-errors.xml.h:164
 msgid "Delete account?"
-msgstr ""
+msgstr "ખાતું કાઢી નાંખવું છે?"
 
 #. mail:ask-delete-account primary
 #: mail/mail-errors.xml.h:166
 msgid "Are you sure you want to delete this account?"
-msgstr ""
+msgstr "શું તમે ખરેખર આ ખાતું કાઢી નાંખવા માંગો છો?"
 
 #. mail:ask-delete-account secondary
 #: mail/mail-errors.xml.h:168
 msgid "If you proceed, the account information will be deleted permanently."
-msgstr ""
+msgstr "જો તમે પ્રક્રિયા કરો, તો ખાતાની જાણકારી કાયમી રીતે કાઢી નંખાશે."
 
 #: mail/mail-errors.xml.h:169
 msgid "Don't delete"
-msgstr ""
+msgstr "કાઢો નંહિ"
 
 #. mail:no-save-signature primary
 #: mail/mail-errors.xml.h:171
 msgid "Could not save signature file."
-msgstr ""
+msgstr "સહીની ફાઈલ સંગ્રહી શક્યા નહિં."
 
 #. mail:no-save-signature secondary
 #: mail/mail-errors.xml.h:173
 msgid "Because \"{0}\"."
-msgstr ""
+msgstr "\"{0}\" ના કારણે."
 
 #. mail:signature-notscript primary
 #: mail/mail-errors.xml.h:175
 msgid "Cannot set signature script \"{0}\"."
-msgstr ""
+msgstr "સહી સ્ક્રિપ્ટ \"{0}\" સુયોજિત કરી શકતા નથી."
 
 #. mail:signature-notscript secondary
 #: mail/mail-errors.xml.h:177
 msgid "The script file must exist and be executable."
-msgstr ""
+msgstr "સ્ક્રિપ્ટ ફાઈલ હાજર હોવી જ જોઈએ અને તે ચલાવી શકાય તેવી હોવી જોઈએ."
 
 #. mail:ask-signature-changed title
 #: mail/mail-errors.xml.h:179
 msgid "Discard changed?"
-msgstr ""
+msgstr "બદલાવો અવગણવા માંગો છો?"
 
 #. mail:ask-signature-changed primary
 #: mail/mail-errors.xml.h:181
 msgid "Do you wish to save your changes?"
-msgstr ""
+msgstr "શું તમે તમારા બદલાવો સંગ્રહવા માંગો છો?"
 
 #. mail:ask-signature-changed secondary
 #: mail/mail-errors.xml.h:183
 msgid "This signature has been changed, but has not been saved."
-msgstr ""
+msgstr "સહી બદલાઈ ગયેલ છે, પરંતુ તે સંગ્રહાયેલ નથી."
 
 #: mail/mail-errors.xml.h:184
 msgid "_Discard changes"
-msgstr ""
+msgstr "બદલાવો અવગણો (_D)"
 
 #. mail:vfolder-notexist primary
 #: mail/mail-errors.xml.h:186
 msgid "Cannot edit vFolder \"{0}\" as it does not exist."
-msgstr ""
+msgstr "vફોલ્ડર \"{0}\" ફેરફાર કરી શકતા નથી કારણકે તે અસ્તિત્વમાં જ નથી."
 
 #. mail:vfolder-notexist secondary
 #: mail/mail-errors.xml.h:188
@@ -15895,16 +15951,18 @@ msgid ""
 "This folder may have been added implictly, go to the virtual folder editor "
 "to add it explictly, if required."
 msgstr ""
+"આ ફોલ્ડર આંતરિક રીતે ઉમેરાયેલ છે, તેને બાહ્ય રીતે ઉમેરવા માટે વર્ચ્યુઅલ "
+"ફોલ્ડર સંપાદકમાં જાઓ, જો જરુરી હોય."
 
 #. mail:vfolder-notunique primary
 #: mail/mail-errors.xml.h:190
 msgid "Cannot add vFolder \"{0}\"."
-msgstr ""
+msgstr "vફોલ્ડર \"{0}\" ઉમેરી શકતા નથી."
 
 #. mail:vfolder-updated primary
 #: mail/mail-errors.xml.h:194
 msgid "vFolders automatically updated."
-msgstr ""
+msgstr "vફોલ્ડરો આપોઆપ સુધારાઈ ગયા."
 
 #. mail:vfolder-updated secondary
 #: mail/mail-errors.xml.h:196
@@ -15915,11 +15973,16 @@ msgid ""
 "    \"{1}\"\n"
 "And have been updated."
 msgstr ""
+"નીચેના vફોલ્ડરો:\n"
+"{0}\n"
+"હમણાં દૂર કરાયેલ ફોલ્ડરો વાપર્યા છે:\n"
+"    \"{1}\"\n"
+"અને હવે સુધારાઈ ગયું."
 
 #. mail:filter-updated primary
 #: mail/mail-errors.xml.h:202
 msgid "Mail filters automatically updated."
-msgstr ""
+msgstr "મેઈલ ગાળકો આપોઆપ સુધારાઈ ગયા."
 
 #. mail:filter-updated secondary
 #: mail/mail-errors.xml.h:204
@@ -15930,26 +15993,31 @@ msgid ""
 "    \"{1}\"\n"
 "And have been updated."
 msgstr ""
+"નીચેના ગાળકના નિયમો:\n"
+"{0}\n"
+"હમણાં દૂર થયેલ ફોલ્ડર વપરાયેલ છે:\n"
+"    \"{1}\"\n"
+"અને હવે સુધારાઈ ગયેલ છે."
 
 #. mail:no-folder primary
 #: mail/mail-errors.xml.h:210
 msgid "Missing folder."
-msgstr ""
+msgstr "ખોવાયેલ ફોલ્ડર."
 
 #. mail:no-folder secondary
 #: mail/mail-errors.xml.h:212
 msgid "You must specify a folder."
-msgstr ""
+msgstr "તમારે ફોલ્ડર સ્પષ્ટ કરવું જ પડશે."
 
 #. mail:no-name-vfolder secondary
 #: mail/mail-errors.xml.h:216
 msgid "You must name this vFolder."
-msgstr ""
+msgstr "તમારે આ vફોલ્ડરનું નામ આપવું જ પડશે."
 
 #. mail:vfolder-no-source primary
 #: mail/mail-errors.xml.h:218
 msgid "No sources selected."
-msgstr ""
+msgstr "કોઈ સ્રોતો પસંદ થયેલ નથી."
 
 #. mail:vfolder-no-source secondary
 #: mail/mail-errors.xml.h:220
@@ -15958,11 +16026,14 @@ msgid ""
 "Either by selecting the folders individually, and/or by selecting\n"
 "all local folders, all remote folders, or both."
 msgstr ""
+"તમારે ઓછામાં ઓછું એક ફોલ્ડર સ્રોત તરીકે સ્પષ્ટ કરવું પડે છે.\n"
+"ક્યાં તો ફોલ્ડરોને અંગત રીતે પસંદ કરીને, અને/અથવા બધા\n"
+"સ્થાનિક ફોલ્ડરો, બધા દૂરસ્થ ફોલ્ડરો, અથવા બંને પસંદ કરીને."
 
 #. mail:ask-migrate-existing primary
 #: mail/mail-errors.xml.h:224
 msgid "Problem migrating old mail folder \"{0}\"."
-msgstr ""
+msgstr "જૂના મેઈલ ફોલ્ડર \"{0}\" ને ખસેડવામાં સમસ્યા છે."
 
 #. mail:ask-migrate-existing secondary
 #: mail/mail-errors.xml.h:226
@@ -15972,36 +16043,41 @@ msgid ""
 "You can choose to ignore this folder, overwrite or append its contents, or "
 "quit.\n"
 msgstr ""
+"\"{1}\" જગ્યાએ ખાલી નહિં હોય એવું ફોલ્ડર હાજર છે.\n"
+"\n"
+"તમે આ ફોલ્ડરને અવગણવા માટે પસંદ કરી શકો છો, તેના સમાવષ્ટો પર "
+"ફરીથી લખવા માંગો છો અથવા તેમાં ઉમેરવા માંગો છો, અથવા બહાર નીકળવા "
+"માંગો છો.\n"
 
 #: mail/mail-errors.xml.h:230
 msgid "Ignore"
-msgstr ""
+msgstr "અવગણો"
 
 #: mail/mail-errors.xml.h:231 widgets/misc/e-system-errors.xml.h:7
 msgid "_Overwrite"
-msgstr ""
+msgstr "ની ઉપર ફરીથી લખવું (_O)"
 
 #: mail/mail-errors.xml.h:232
 msgid "_Append"
-msgstr ""
+msgstr "ઉમેરો (_A)"
 
 #: mail/mail-folder-cache.c:785
 #, c-format
 msgid "Pinging %s"
-msgstr ""
+msgstr "%s ને ચકાસી રહ્યા છીએ"
 
 #: mail/mail-ops.c:98
 msgid "Filtering Folder"
-msgstr ""
+msgstr "ફોલ્ડરો ગાળી રહ્યા છીએ"
 
 #: mail/mail-ops.c:259
 msgid "Fetching Mail"
-msgstr ""
+msgstr "મેઈલ મેળવી રહ્યા છીએ"
 
 #: mail/mail-ops.c:542
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
-msgstr ""
+msgstr "જતા ગાળકો અમલમાં મૂકવામાં નિષ્ફળ: %s"
 
 #: mail/mail-ops.c:567
 #, c-format
@@ -16009,114 +16085,116 @@ msgid ""
 "Failed to append to %s: %s\n"
 "Appending to local `Sent' folder instead."
 msgstr ""
+"%s માં ઉમેરવામાં નિષ્ફળ: %s\n"
+"એની જગ્યાએ `મોકલો' ફોલ્ડરમાં ઉમેરી રહ્યા છીએ."
 
 #: mail/mail-ops.c:576
 #, c-format
 msgid "Failed to append to local `Sent' folder: %s"
-msgstr ""
+msgstr "સ્થાનિક `મોકલો' ફોલ્ડરમાં ઉમેરવામાં નિષ્ફળ: %s"
 
 #: mail/mail-ops.c:672
 #, c-format
 msgid "Sending message %d of %d"
-msgstr ""
+msgstr "%d માંના %d સંદેશાને મોકલી રહ્યા છીએ"
 
 #: mail/mail-ops.c:703
 #, c-format
 msgid "Failed to send %d of %d messages"
-msgstr ""
+msgstr "%d માંના %d સંદેશાઓને મોકલવામાં નિષ્ફળ"
 
 #: mail/mail-ops.c:707
 msgid "Complete."
-msgstr ""
+msgstr "પૂર્ણ."
 
 #: mail/mail-ops.c:804
 msgid "Saving message to folder"
-msgstr ""
+msgstr "સંદેશાને ફોલ્ડરમાં સંગ્રહી રહ્યા છીએ"
 
 #: mail/mail-ops.c:889
 #, c-format
 msgid "Moving messages to %s"
-msgstr ""
+msgstr "સંદેશાઓને %s માં ખસેડી રહ્યા છીએ"
 
 #: mail/mail-ops.c:889
 #, c-format
 msgid "Copying messages to %s"
-msgstr ""
+msgstr "સંદેશાઓને %s માં નકલ કરી રહ્યા છીએ"
 
 #: mail/mail-ops.c:1002
 #, c-format
 msgid "Scanning folders in \"%s\""
-msgstr ""
+msgstr "\"%s\" માં ફોલ્ડરો ચકાસી રહ્યા છીએ"
 
 #: mail/mail-ops.c:1115
 msgid "Forwarded messages"
-msgstr ""
+msgstr "આગળ ધપાવાયેલ સંદેશાઓ"
 
 #: mail/mail-ops.c:1158
 #, c-format
 msgid "Opening folder %s"
-msgstr ""
+msgstr "ફોલ્ડર %s ખોલી રહ્યા છીએ"
 
 #: mail/mail-ops.c:1230
 #, c-format
 msgid "Opening store %s"
-msgstr ""
+msgstr "સ્ટોર %s ખોલી રહ્યા છીએ"
 
 #: mail/mail-ops.c:1308
 #, c-format
 msgid "Removing folder %s"
-msgstr ""
+msgstr "ફોલ્ડર %s દૂર કરી રહ્યા છીએ"
 
 #: mail/mail-ops.c:1402
 #, c-format
 msgid "Storing folder '%s'"
-msgstr ""
+msgstr "ફોલ્ડર '%s' સંગ્રહી રહ્યા છીએ"
 
 #: mail/mail-ops.c:1467
 #, c-format
 msgid "Expunging and storing account '%s'"
-msgstr ""
+msgstr "ખાતું '%s' સંપૂર્ણપણે દૂર કરી રહ્યા છીએ અને સંગ્રહી રહ્યા છીએ"
 
 #: mail/mail-ops.c:1468
 #, c-format
 msgid "Storing account '%s'"
-msgstr ""
+msgstr "ખાતુ '%s' સંગ્રહી રહ્યા છીએ"
 
 #: mail/mail-ops.c:1523
 msgid "Refreshing folder"
-msgstr ""
+msgstr "ફોલ્ડર ફરીથી તાજું કરી રહ્યા છીએ"
 
 #: mail/mail-ops.c:1559 mail/mail-ops.c:1610
 msgid "Expunging folder"
-msgstr ""
+msgstr "ફોલ્ડર સંપૂર્ણપણે દૂર કરી રહ્યા છીએ"
 
 #: mail/mail-ops.c:1607
 #, c-format
 msgid "Emptying trash in '%s'"
-msgstr ""
+msgstr "કચરાપેટીને '%s' માં ખાલી કરી રહ્યા છીએ"
 
 #: mail/mail-ops.c:1608
 msgid "Local Folders"
-msgstr ""
+msgstr "સ્થાનિક ફોલ્ડરો"
 
 #: mail/mail-ops.c:1691
 #, c-format
 msgid "Retrieving message %s"
-msgstr ""
+msgstr "સંદેશો %s મેળવી રહ્યા છીએ"
 
 #: mail/mail-ops.c:1763
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d સંદેશો મેળવી રહ્યા છીએ"
+msgstr[1] "%d સંદેશાઓ મેળવી રહ્યા છીએ"
 
 #: mail/mail-ops.c:1849
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messsages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d સંદેશાનો સંગ્રહ કરી રહ્યા છીએ"
+msgstr[1] "%d સંદેશાઓ સંગ્રહી રહ્યા છીએ"
 
 #: mail/mail-ops.c:1899
 #, c-format
@@ -16124,6 +16202,8 @@ msgid ""
 "Unable to create output file: %s\n"
 " %s"
 msgstr ""
+"આઉટપુટ ફાઈલ બનાવવા સમર્થ નથી: %s\n"
+" %s"
 
 #: mail/mail-ops.c:1927
 #, c-format
@@ -16131,10 +16211,12 @@ msgid ""
 "Error saving messages to: %s:\n"
 " %s"
 msgstr ""
+"માં સંદેશાઓ સંગ્રહતી વખતે ભૂલ: %s:\n"
+" %s"
 
 #: mail/mail-ops.c:1998
 msgid "Saving attachment"
-msgstr ""
+msgstr "જોડાણ સંગ્રહી રહ્યા છીએ"
 
 #: mail/mail-ops.c:2010
 #, c-format
@@ -16142,388 +16224,396 @@ msgid ""
 "Cannot create output file: %s:\n"
 " %s"
 msgstr ""
+"આઉટપુટ ફાઈલ બનાવી શકતા નથી: %s:\n"
+" %s"
 
 #: mail/mail-ops.c:2020
 #, c-format
 msgid "Could not write data: %s"
-msgstr ""
+msgstr "માહિતી લખી શક્યા નહિં: %s"
 
 #: mail/mail-ops.c:2168
 #, c-format
 msgid "Disconnecting from %s"
-msgstr ""
+msgstr "%sમાંથી સંપર્ક તોડી રહ્યા છીએ"
 
 #: mail/mail-ops.c:2168
 #, c-format
 msgid "Reconnecting to %s"
-msgstr ""
+msgstr "%s સાથે ફરીથી જોડાઈ રહ્યા છીએ"
 
 #: mail/mail-send-recv.c:157
 msgid "Cancelling..."
-msgstr ""
+msgstr "રદ કરી રહ્યા છીએ..."
 
 #: mail/mail-send-recv.c:264
 #, c-format
 msgid "Server: %s, Type: %s"
-msgstr ""
+msgstr "સર્વર: %s, પ્રકાર: %s"
 
 #: mail/mail-send-recv.c:266
 #, c-format
 msgid "Path: %s, Type: %s"
-msgstr ""
+msgstr "પથ: %s, પ્રકાર: %s"
 
 #: mail/mail-send-recv.c:268
 #, c-format
 msgid "Type: %s"
-msgstr ""
+msgstr "પ્રકાર: %s"
 
 #: mail/mail-send-recv.c:320
 msgid "Send & Receive Mail"
-msgstr ""
+msgstr "મેઈલ મોકલો અને મેળવો"
 
 #: mail/mail-send-recv.c:323
 msgid "Cancel _All"
-msgstr ""
+msgstr "બધું નકારો (_A)"
 
 #: mail/mail-send-recv.c:412
 msgid "Updating..."
-msgstr ""
+msgstr "સુધારી રહ્યા છીએ..."
 
 #: mail/mail-send-recv.c:412 mail/mail-send-recv.c:466
 msgid "Waiting..."
-msgstr ""
+msgstr "રાહ જોઈ રહ્યા છીએ..."
 
 #: mail/mail-session.c:240
 msgid "User canceled operation."
-msgstr ""
+msgstr "વપરાશકર્તાએ પ્રક્રિયા નકારી કાઢી."
 
 #: mail/mail-session.c:274
 #, c-format
 msgid "Enter Password for %s"
-msgstr ""
+msgstr "%s માટે પાસવર્ડ દાખલ કરો"
 
 #: mail/mail-session.c:276
 msgid "Enter Password"
-msgstr ""
+msgstr "પાસવર્ડ દાખલ કરો"
 
 #: mail/mail-session.c:304
 msgid "_Remember this password"
-msgstr ""
+msgstr "આ પાસવર્ડ યાદ રાખો (_R)"
 
 #: mail/mail-session.c:305
 msgid "_Remember this password for the remainder of this session"
-msgstr ""
+msgstr "આ સત્ર માટે યાદ રાખવા માટે પાસવર્ડ યાદ રાખો (_R)"
 
 #: mail/mail-signature-editor.c:371
 msgid "Edit signature"
-msgstr ""
+msgstr "સહીમાં ફેરફાર કરો"
 
 #: mail/mail-signature-editor.c:411
 msgid "Enter a name for this signature."
-msgstr ""
+msgstr "આ સહી માટે નામ દાખલ કરો."
 
 #: mail/mail-signature-editor.c:414
 msgid "Name:"
-msgstr ""
+msgstr "નામ:"
 
 #: mail/mail-tools.c:114
 #, c-format
 msgid "Could not create spool directory `%s': %s"
-msgstr ""
+msgstr "સ્પુલ ડિરેક્ટરી `%s' બનાવી શક્યા નહિં: %s"
 
 #: mail/mail-tools.c:141
 #, c-format
 msgid "Trying to movemail a non-mbox source `%s'"
-msgstr ""
+msgstr "મેઈલબોક્સ સ્રોત ના હોય તેવા `%s' માં મેઈલને ખસેડવાનો પ્રયત્ન કરી રહ્યા છીએ"
 
 #: mail/mail-tools.c:276
 #, c-format
 msgid "Forwarded message - %s"
-msgstr ""
+msgstr "આગળ ધપાવાયેલ સંદેશો - %s"
 
 #: mail/mail-tools.c:278
 msgid "Forwarded message"
-msgstr ""
+msgstr "આગળ ધપાવાયેલ સંદેશો"
 
 #: mail/mail-tools.c:319
 #, c-format
 msgid "Invalid folder: `%s'"
-msgstr ""
+msgstr "અયોગ્ય ફોલ્ડર: `%s'"
 
 #: mail/mail-vfolder.c:87
 #, c-format
 msgid "Setting up vfolder: %s"
-msgstr ""
+msgstr "vફોલ્ડર સુયોજિત કરી રહ્યા છીએ: %s"
 
 #: mail/mail-vfolder.c:235
 #, c-format
 msgid "Updating vFolders for '%s:%s'"
-msgstr ""
+msgstr "'%s:%s' માટે vફોલ્ડરો સુધારી રહ્યા છીએ"
 
 #: mail/mail-vfolder.c:242
 #, c-format
 msgid "Updating vFolders for '%s'"
-msgstr ""
+msgstr "'%s' માટે vફોલ્ડરો સુધારી રહ્યા છીએ"
 
 #: mail/mail-vfolder.c:942
 msgid "vFolders"
-msgstr ""
+msgstr "vફોલ્ડરો"
 
 #: mail/mail-vfolder.c:981
 msgid "Edit VFolder"
-msgstr ""
+msgstr "Vફોલ્ડરોમાં ફેરફાર કરી રહ્યા છીએ"
 
 #: mail/mail-vfolder.c:1065
 msgid "New VFolder"
-msgstr ""
+msgstr "નવું Vફોલ્ડર"
 
 #: mail/message-list.c:948
 msgid "Unseen"
-msgstr ""
+msgstr "જોયેલ નથી"
 
 #: mail/message-list.c:949
 msgid "Seen"
-msgstr ""
+msgstr "જોયેલ છે"
 
 #: mail/message-list.c:950
 msgid "Answered"
-msgstr ""
+msgstr "જવાબ અપાયેલ છે"
 
 #: mail/message-list.c:951
 msgid "Multiple Unseen Messages"
-msgstr ""
+msgstr "ઘણા બધા નહિં જોયેલા સંદેશાઓ"
 
 #: mail/message-list.c:952
 msgid "Multiple Messages"
-msgstr ""
+msgstr "ઘણા બધા સંદેશાઓ"
 
 #: mail/message-list.c:956
 msgid "Lowest"
-msgstr ""
+msgstr "નીચામાં નીચું"
 
 #: mail/message-list.c:957
 msgid "Lower"
-msgstr ""
+msgstr "થી નીચું"
 
 #: mail/message-list.c:961
 msgid "Higher"
-msgstr ""
+msgstr "થી ઊંચું"
 
 #: mail/message-list.c:962
 msgid "Highest"
-msgstr ""
+msgstr "ઊંચામાં ઊંચુ"
 
 #: mail/message-list.c:1285
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #: mail/message-list.c:1292
 msgid "Today %l:%M %p"
-msgstr ""
+msgstr "આજે %l:%M %p"
 
 #: mail/message-list.c:1301
 msgid "Yesterday %l:%M %p"
-msgstr ""
+msgstr "ગઈકાલે %l:%M %p"
 
 #: mail/message-list.c:1313
 msgid "%a %l:%M %p"
-msgstr ""
+msgstr "%a %l:%M %p"
 
 #: mail/message-list.c:1321
 msgid "%b %d %l:%M %p"
-msgstr ""
+msgstr "%b %d %l:%M %p"
 
 #: mail/message-list.c:1323
 msgid "%b %d %Y"
-msgstr ""
+msgstr "%b %d %Y"
 
 #: mail/message-list.c:3324
 msgid "Generating message list"
-msgstr ""
+msgstr "સંદેશા યાદી બનાવી રહ્યા છીએ"
 
 #: mail/message-list.etspec.h:3
 msgid "Due By"
-msgstr ""
+msgstr "તારીખ પૂરી થઈ ગઈ"
 
 #: mail/message-list.etspec.h:4
 msgid "Flag Status"
-msgstr ""
+msgstr "નિશાની સ્થિતિ"
 
 #: mail/message-list.etspec.h:5
 msgid "Flagged"
-msgstr ""
+msgstr "નિશાનિત"
 
 #: mail/message-list.etspec.h:6
 msgid "Follow Up Flag"
-msgstr ""
+msgstr "નિશાનીને અનુસરો"
 
 #: mail/message-list.etspec.h:8
 msgid "Original Location"
-msgstr ""
+msgstr "મૂળ જગ્યા"
 
 #: mail/message-list.etspec.h:9
 msgid "Received"
-msgstr ""
+msgstr "મેળવેલ છે"
 
 #: mail/message-list.etspec.h:11
 msgid "Size"
-msgstr ""
+msgstr "માપ"
 
 #: mail/message-tag-followup.c:73
 msgid "Call"
-msgstr ""
+msgstr "બોલાવો"
 
 #: mail/message-tag-followup.c:74
 msgid "Do Not Forward"
-msgstr ""
+msgstr "આગળ ધપાવો નહિં"
 
 #: mail/message-tag-followup.c:75
 msgid "Follow-Up"
-msgstr ""
+msgstr "ને અનુસરો"
 
 #: mail/message-tag-followup.c:76
 msgid "For Your Information"
-msgstr ""
+msgstr "તમારી જાણકારી માટે"
 
 #: mail/message-tag-followup.c:77 ui/evolution-mail-message.xml.h:42
 msgid "Forward"
-msgstr ""
+msgstr "આગળ ધપાવો"
 
 #: mail/message-tag-followup.c:78
 msgid "No Response Necessary"
-msgstr ""
+msgstr "કોઈ જવાબ જરુરી નથી"
 
 #: mail/message-tag-followup.c:80 ui/evolution-mail-message.xml.h:85
 msgid "Reply"
-msgstr ""
+msgstr "વળતો જવાબ"
 
 #: mail/message-tag-followup.c:81 ui/evolution-mail-message.xml.h:86
 msgid "Reply to All"
-msgstr ""
+msgstr "બધાને વળતો જવાબ આપો"
 
 #: mail/message-tag-followup.c:82
 msgid "Review"
-msgstr ""
+msgstr "ઉપરછલ્લી સમજ"
 
 #: mail/searchtypes.xml.h:1
 msgid "Body contains"
-msgstr ""
+msgstr "ભાગના સમાવિષ્ટો"
 
 #: mail/searchtypes.xml.h:2
 msgid "Body does not contain"
-msgstr ""
+msgstr "ભાગ આ સમાવતું નથી"
 
 #: mail/searchtypes.xml.h:3
 msgid "Body or subject contains"
-msgstr ""
+msgstr "ભાગ અથવા વિષય સમાવે છે"
 
 #: mail/searchtypes.xml.h:4
 msgid "Message contains"
-msgstr ""
+msgstr "સંદેશો સમાવે છે"
 
 #: mail/searchtypes.xml.h:5
 msgid "Recipients contain"
-msgstr ""
+msgstr "મેળવનારો આ સમાવે છે"
 
 #: mail/searchtypes.xml.h:6
 msgid "Sender contains"
-msgstr ""
+msgstr "મોકલનાર આ સમાવે છે"
 
 #: mail/searchtypes.xml.h:7
 msgid "Subject contains"
-msgstr ""
+msgstr "વિષય આ સમાવે છે"
 
 #: mail/searchtypes.xml.h:8
 msgid "Subject does not contain"
-msgstr ""
+msgstr "વિષય આ સમાવતો નથી"
 
 #: shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Evolution Shell"
-msgstr ""
+msgstr "ઈવોલ્યુશન શેલ"
 
 #: shell/GNOME_Evolution_Test.server.in.in.h:1
 msgid "Evolution Test"
-msgstr ""
+msgstr "ઈવોલ્યુશન ચકાસણી"
 
 #: shell/GNOME_Evolution_Test.server.in.in.h:2
 msgid "Evolution Test component"
-msgstr ""
+msgstr "ઈવોલ્યુશન ચકાસણી ભાગ"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:1
 msgid "480"
-msgstr ""
+msgstr "૪૮૦"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:2
 msgid "Default width of the folder bar pane"
-msgstr ""
+msgstr "ફોલ્ડર પટ્ટી તકતીની મૂળભુત પહોળાઈ"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:3
 msgid "Default window height"
-msgstr ""
+msgstr "મૂળભુત વિન્ડો ઊંચાઈ"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:4
 msgid "Default window width"
-msgstr ""
+msgstr "મૂળભુત વિન્ડો પહોળાઈ"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:5
 msgid "Evolution configuration version"
-msgstr ""
+msgstr "ઈવોલ્યુશન રુપરેખાંકન આવૃત્તિ"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:6
 msgid "ID or alias of the component to be shown by default at start-up."
-msgstr ""
+msgstr "શરુઆતમાં ભાગનું ID અથવા ઉપનામ મૂળભુત રીતે દેખાય છે."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:7
 msgid ""
 "If set to true, Evolution will start up in offline mode instead of online "
 "mode."
 msgstr ""
+"જો સાચું સુયોજિત હોય, તો ઈવોલ્યુશન ઓનલાઈન સ્થિતિની જગ્યાએ ઓફલાઈન "
+"સ્થિતિમાં ચાલુ થશે."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:8
 msgid ""
 "If set to true, the warning dialog in development versions of Evolution is "
 "not displayed."
 msgstr ""
+"જો સાચું સુયોજિત હોય, તો ઈવોલ્યુશનની વિકાસ આવૃત્તિ ચેતવણી સંવાદમાં "
+"પ્રદર્શિત કરી શકાતું નથી."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:9
 msgid "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
+"ફોલ્ડરો માટે યાદીના પથો કે જે ઓફલાઈન વપરાશ માટે ડિસ્ક સાથે સુમેળ "
+"કરવાના છે"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:10
 msgid "Toolbar is visible"
-msgstr ""
+msgstr "સાધનપટ્ટી દ્રશ્યમાન છે"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:11
 msgid "Whether Evolution should start up in offline mode"
-msgstr ""
+msgstr "શું ઈવોલ્યુશન ઓફલાઈન સ્થિતિમાં શરુ થશે"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:12
 msgid "Whether the toolbar should be visible."
-msgstr ""
+msgstr "શું સાધનપટ્ટી દ્રશ્યમાન થશે."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:13
 msgid "Whether to skip the development warning dialog"
-msgstr ""
+msgstr "શું વિકાસ ચેતવણી સંવાદ રદ કરવો"
 
 #: shell/e-active-connection-dialog.glade.h:1
 msgid "<b>Active Connections</b>"
-msgstr ""
+msgstr "<b>સક્રિય જોડાણો</b>"
 
 #: shell/e-active-connection-dialog.glade.h:2
 msgid "Active Connections"
-msgstr ""
+msgstr "સક્રિય જોડાણો"
 
 #: shell/e-active-connection-dialog.glade.h:3
 msgid "Click OK to close these connections and go offline"
-msgstr ""
+msgstr "આ જોડાણો બંધ કરવા માટે બરાબર પર ક્લિક કરો અને ઓફલાઈન થાઓ"
 
 #: shell/e-shell-folder-title-bar.c:592 shell/e-shell-folder-title-bar.c:593
 msgid "(Untitled)"
-msgstr ""
+msgstr "(શીર્ષક વગરનું)"
 
 #: shell/e-shell-importer.c:146
 msgid "Choose the type of importer to run:"
-msgstr ""
+msgstr "ચલાવવા માટે આયાત કરનારનો પ્રકાર પસંદ કરો:"
 
 #: shell/e-shell-importer.c:149
 msgid ""
@@ -16533,14 +16623,19 @@ msgid ""
 "You can select \"Automatic\" if you do not know, and Evolution will attempt "
 "to work it out."
 msgstr ""
+"ફાઈલ કે જે તમે ઈવોલ્યુશનમાં આયાત કરવા માંગો તે પસંદ કરો, અને તે "
+"યાદીમાંથી કયા પ્રકારની ફાઈલ છે તે પસંદ કરો.\n"
+"\n"
+"જો તમે જાણતા ના હોય તો તમે \"આપોઆપ\" પસંદ કરી શકો છો, અને "
+"ઈવોલ્યુશન તેને કામ કરવા માટે લઈ લેશે."
 
 #: shell/e-shell-importer.c:155
 msgid "Choose the destination for this import"
-msgstr ""
+msgstr "આ આયાત માટે અંતિમ મુકામ પસંદ કરો"
 
 #: shell/e-shell-importer.c:158 shell/e-shell-startup-wizard.c:748
 msgid "Please select the information that you would like to import:"
-msgstr ""
+msgstr "મહેરબાની કરીને તમે જેની આયાત કરવા માંગો તે જાણકારી પસંદ કરો:"
 
 #: shell/e-shell-importer.c:161
 msgid ""
@@ -16549,6 +16644,10 @@ msgid ""
 "that could be imported where found. If you would like to\n"
 "try again, please click the \"Back\" button.\n"
 msgstr ""
+"નીચેના કાર્યક્રમોમાંથી આયાત કરવા માટે ઈવોલ્યુશન ચકાસાઈ\n"
+"ગયું: પાઈન, નેટસ્કેપ, Elm, iકેલેન્ડર. કોઈ સુયોજનો કે આયાત\n"
+"કરી શકાયા હોય એમ મળ્યા નથી. જો તમે ફરીથી પ્રયત્ન કરવા\n"
+"માંગતા હોય, તો મહેરબાની કરીને \"પાછા જાઓ\" બટન ક્લિક કરો.\n"
 
 #: shell/e-shell-importer.c:229 shell/e-shell-importer.c:260
 #, c-format
@@ -16556,29 +16655,31 @@ msgid ""
 "Importing %s\n"
 "Importing item %d."
 msgstr ""
+"%s આયાત કરી રહ્યા છીએ\n"
+"વસ્તુ %d આયાત કરી રહ્યા છીએ."
 
 #: shell/e-shell-importer.c:333
 msgid "Select importer"
-msgstr ""
+msgstr "આયાત કરનાર પસંદ કરો"
 
 #: shell/e-shell-importer.c:451 shell/e-shell-importer.c:1055
 #, c-format
 msgid "File %s does not exist"
-msgstr ""
+msgstr "ફાઈલ %s અસ્તિત્વમાં નથી"
 
 #: shell/e-shell-importer.c:459
 msgid "Importing"
-msgstr ""
+msgstr "આયાત કરી રહ્યા છીએ"
 
 #: shell/e-shell-importer.c:467
 #, c-format
 msgid "Importing %s.\n"
-msgstr ""
+msgstr "%s ની આયાત કરી રહ્યા છીએ.\n"
 
 #: shell/e-shell-importer.c:477 shell/e-shell-importer.c:478
 #, c-format
 msgid "Error loading %s"
-msgstr ""
+msgstr "%s લાવવામાં ભૂલ થઈ"
 
 #: shell/e-shell-importer.c:495
 #, c-format
@@ -16586,70 +16687,74 @@ msgid ""
 "Importing %s\n"
 "Importing item 1."
 msgstr ""
+"%s ની આયાત કરી રહ્યા છીએ\n"
+"વસ્તુ ૧ ની આયાત કરી રહ્યા છીએ."
 
 #: shell/e-shell-importer.c:570
 msgid "Automatic"
-msgstr ""
+msgstr "આપોઆપ"
 
 #: shell/e-shell-importer.c:626
 msgid "F_ilename:"
-msgstr ""
+msgstr "ફાઈલનું નામ (_i):"
 
 #: shell/e-shell-importer.c:631
 msgid "Select a file"
-msgstr ""
+msgstr "ફાઈલ પસંદ કરો"
 
 #: shell/e-shell-importer.c:642
 msgid "File _type:"
-msgstr ""
+msgstr "ફાઈલનો પ્રકાર (_t):"
 
 #: shell/e-shell-importer.c:681
 msgid "Import data and settings from _older programs"
-msgstr ""
+msgstr "જૂના કાર્યક્રમોમાંથી માહિતી અને સુયોજનો આયાત કરો (_o)"
 
 #: shell/e-shell-importer.c:684
 msgid "Import a _single file"
-msgstr ""
+msgstr "એક ફાઈલ જ આયાત કરો (_s)"
 
 #: shell/e-shell-importer.c:752 shell/e-shell-startup-wizard.c:571
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
 msgstr ""
+"મહેરબાની કરીને રાહ જુઓ...\n"
+"વર્તમાન સુયોજનો માટે ચકાસી રહ્યા છીએ"
 
 #: shell/e-shell-importer.c:756
 msgid "Starting Intelligent Importers"
-msgstr ""
+msgstr "સમજુ આયાત કરનારાઓ શરુ કરી રહ્યા છીએ"
 
 #: shell/e-shell-importer.c:882 shell/e-shell-startup-wizard.c:698
 #, c-format
 msgid "From %s:"
-msgstr ""
+msgstr "%s માંથી:"
 
 #: shell/e-shell-importer.c:1073
 #, c-format
 msgid "No importer available for file %s"
-msgstr ""
+msgstr "ફાઈલ %s માટે કોઈ આયાત કરનાર ઉપ્લબ્ધ નથી"
 
 #: shell/e-shell-importer.c:1085
 msgid "Unable to execute importer"
-msgstr ""
+msgstr "આયાત કરનાર ચલાવવા સમર્થ નથી"
 
 #: shell/e-shell-importer.c:1199
 msgid "_Import"
-msgstr ""
+msgstr "આયાત (_I)"
 
 #: shell/e-shell-offline-handler.c:594
 msgid "Closing connections..."
-msgstr ""
+msgstr "જોડાણો બંધ કરી રહ્યા છે..."
 
 #: shell/e-shell-settings-dialog.c:326
 msgid "Evolution Settings"
-msgstr ""
+msgstr "ઈવોલ્યુશન સુયોજનો"
 
 #: shell/e-shell-startup-wizard.c:575
 msgid "Starting import"
-msgstr ""
+msgstr "આયાત શરુ કરી રહ્યા છીએ"
 
 #: shell/e-shell-startup-wizard.c:795
 msgid ""
@@ -16659,121 +16764,130 @@ msgid ""
 "\n"
 "Do you want to quit using the Assistant now?"
 msgstr ""
+"જો તમે ઈવોલ્યુશન સેટઅપ મદદનીશ હમણાં બંધ કરવા માંગો, તો તમે "
+"દાખલ કરેલ બધી જાણકારી ભૂલી જવાશે. તમને આ મદદનીશ ઈવોલ્યુશન "
+"વાપર્યા પહેલાં ચલાવવાની જરુર છે.\n"
+"\n"
+"શું તમે મદદનીશ હમણાં બંધ કરવા માંગો છો?"
 
 #: shell/e-shell-utils.c:116
 msgid "No folder name specified."
-msgstr ""
+msgstr "કોઈ ફોલ્ડર નામ સ્પષ્ટ કરેલ નથી."
 
 #: shell/e-shell-utils.c:123
 msgid "Folder name cannot contain the Return character."
-msgstr ""
+msgstr "ફોલ્ડર નામ રીટર્ન અક્ષર ધરાવતું નથી."
 
 #: shell/e-shell-utils.c:129
 msgid "Folder name cannot contain the character \"/\"."
-msgstr ""
+msgstr "ફોલ્ડર નામ \"/\" અક્ષર ધરાવતું નથી."
 
 #: shell/e-shell-utils.c:135
 msgid "Folder name cannot contain the character \"#\"."
-msgstr ""
+msgstr "ફોલ્ડર નામ \"#\" અક્ષર ધરાવતું નથી."
 
 #: shell/e-shell-utils.c:141
 msgid "'.' and '..' are reserved folder names."
-msgstr ""
+msgstr "'.' અને '..' એ ફોલ્ડર નામો માટે આરક્ષિત છે."
 
 #: shell/e-shell-window-commands.c:66
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
-msgstr ""
+msgstr "જીનોમ પાયલોટ સાધનો આ સિસ્ટમ પર સ્થાપિત થયા હોય એમ લાગતું નથી."
 
 #: shell/e-shell-window-commands.c:74
 #, c-format
 msgid "Error executing %s."
-msgstr ""
+msgstr "%s ચલાવવામાં ભૂલ."
 
 #: shell/e-shell-window-commands.c:123
 msgid "Bug buddy is not installed."
-msgstr ""
+msgstr "બગ બડી સ્થાપિત નથી."
 
 #: shell/e-shell-window-commands.c:131
 msgid "Bug buddy could not be run."
-msgstr ""
+msgstr "બગ બડ્ડી ચલાવી શકાયું નહિં."
 
 #: shell/e-shell-window-commands.c:322
 msgid "Groupware Suite"
-msgstr ""
+msgstr "ગ્રુપવેર સ્યુટ."
 
 #: shell/e-shell-window-commands.c:562
 msgid "_Work Online"
-msgstr ""
+msgstr "ઓનલાઈન કામ કરો (_W)"
 
 #: shell/e-shell-window-commands.c:575 ui/evolution.xml.h:39
 msgid "_Work Offline"
-msgstr ""
+msgstr "ઓફલાઈન કામ કરો (_W)"
 
 #: shell/e-shell-window-commands.c:588 ui/evolution.xml.h:25
 msgid "Work Offline"
-msgstr ""
+msgstr "ઓફલાઈન કામ કરો"
 
 #: shell/e-shell-window.c:337
 msgid "Evolution is currently online.  Click on this button to work offline."
 msgstr ""
+"ઈવોલ્યુશન વર્તમાનમાં ઓનલાઈન છે. ઓફલાઈન કામ કરવા માટે આ "
+"બટન પર ક્લિક કરો."
 
 #: shell/e-shell-window.c:344
 msgid "Evolution is in the process of going offline."
-msgstr ""
+msgstr "ઈવોલ્યુશન પ્રક્રિયાને ઓફલાઈન કામ કરવાની પ્રક્રિયામાં છે."
 
 #: shell/e-shell-window.c:350
 msgid "Evolution is currently offline.  Click on this button to work online."
 msgstr ""
+"ઈવોલ્યુશન વર્તમાનમાં ઓફલાઈન છે. ઓનલાઈન કામ કરવા માટે આ બટન "
+"પર ક્લિક કરો."
 
 #: shell/e-shell-window.c:637
 #, c-format
 msgid "Switch to %s"
-msgstr ""
+msgstr "%s માં બદલો"
 
 #: shell/e-shell.c:588 shell/e-shell.c:589
 #, c-format
 msgid "%ld KB"
-msgstr ""
+msgstr "%ld KB"
 
 #: shell/e-shell.c:774
 msgid "Uknown system error."
-msgstr ""
+msgstr "અજ્ઞાત સિસ્ટમ ભૂલ."
 
 #: shell/e-shell.c:1131
 msgid "Invalid arguments"
-msgstr ""
+msgstr "અયોગ્ય દલીલો"
 
 #: shell/e-shell.c:1133
 msgid "Cannot register on OAF"
-msgstr ""
+msgstr "OAF પર નોંધ કરાવી શકતા નથી"
 
 #: shell/e-shell.c:1135
 msgid "Configuration Database not found"
-msgstr ""
+msgstr "રુપરેખાંકન ડેટાબેઝ મળ્યો નથી"
 
 #: shell/e-shell.c:1137
 msgid "Generic error"
-msgstr ""
+msgstr "સામાન્ય ભૂલ"
 
 #: shell/e-user-creatable-items-handler.c:691
 msgid "New"
-msgstr ""
+msgstr "નવું"
 
 #: shell/evolution-startup-wizard.glade.h:2
 msgid "Evolution Setup Assistant"
-msgstr ""
+msgstr "ઈવોલ્યુશન સેટઅપ મદદનીશ"
 
 #: shell/evolution-startup-wizard.glade.h:3
 msgid "Importing Files"
-msgstr ""
+msgstr "ફાઈલો આયાત કરી રહ્યા છીએ"
 
 #: shell/evolution-startup-wizard.glade.h:4
 msgid "Timezone "
-msgstr ""
+msgstr "ટાઈમઝોન "
 
 #: shell/evolution-startup-wizard.glade.h:5
 msgid "Welcome"
-msgstr ""
+msgstr "સ્વાગત"
 
 #: shell/evolution-startup-wizard.glade.h:6
 msgid ""
@@ -16783,6 +16897,11 @@ msgid ""
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
+"ઈવોલ્યુશનમાં તમારું સ્વાગત છે. પછીની અમુક સ્ક્રીનો તમને\n"
+"ઈવોલ્યુશનને તમારા ઈ-મેઈલ ખાતાઓ સાથે જોડાવા માટે\n"
+"પરવાનગી આપે છે, અને બીજા કાર્યક્રમોમાંથી આયાત કરવા દે છે.\n"
+"\n"
+"મહેરબાની કરીને \"આગળ ધપાવો\" બટન પર ક્લિ કરીને ચાલુ રાખો. "
 
 #: shell/evolution-startup-wizard.glade.h:11
 msgid ""
@@ -16791,46 +16910,50 @@ msgid ""
 "\n"
 "Click the \"Apply\" button to save your settings. "
 msgstr ""
+"તમે તમારા ઈવોલ્યુશનના સુયોજન માટે જરુરી બધી\n"
+"જાણકારી સફળતાપૂર્વક દાખલ કરેલ છે. \n"
+"\n"
+"તમારા સુયોજનો સંગ્રહવા માટે \"અમલમાં મૂકો\" બટન પર ક્લિક કરો. "
 
 #: shell/evolution-test-component.c:140
 msgid "New Test"
-msgstr ""
+msgstr "નવી ચકાસણી"
 
 #: shell/evolution-test-component.c:141
 msgid "_Test"
-msgstr ""
+msgstr "ચકાસણી (_T)"
 
 #: shell/evolution-test-component.c:142
 msgid "Create a new test item"
-msgstr ""
+msgstr "નવી ચકાસણી વસ્તુ બનાવો"
 
 #: shell/importer/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
-msgstr ""
+msgstr "ઈવોલ્યુશનમાં ફાઈલ આયાત કરવા માટે \"આયાત કરો\" બટન પર ક્લિક કરો."
 
 #: shell/importer/import.glade.h:2
 msgid "Evolution Import Assistant"
-msgstr ""
+msgstr "ઈવોલ્યુશન આયાત મદદનીશ"
 
 #: shell/importer/import.glade.h:3
 msgid "Import File"
-msgstr ""
+msgstr "ફાઈલ આયાત કરો"
 
 #: shell/importer/import.glade.h:4
 msgid "Import Location"
-msgstr ""
+msgstr "જગ્યા આયાત કરો"
 
 #: shell/importer/import.glade.h:5
 msgid "Importer Type"
-msgstr ""
+msgstr "આયાત કરનારનો પ્રકાર"
 
 #: shell/importer/import.glade.h:6
 msgid "Select Importers"
-msgstr ""
+msgstr "આયાત કરનારાઓ પસંદ કરો"
 
 #: shell/importer/import.glade.h:7
 msgid "Select a File"
-msgstr ""
+msgstr "ફાઈલ પસંદ કરો"
 
 #: shell/importer/import.glade.h:8
 msgid ""
@@ -16838,26 +16961,29 @@ msgid ""
 "With this assistant you will be guided through the process of\n"
 "importing external files into Evolution."
 msgstr ""
+"ઈવોલ્યુશન આયાત મદદનીશમાં તમારુ સ્વાગત છે.\n"
+"આ મદદનીશની મદદથી તમને બાહ્ય ફાઈલોને ઈવોલ્યુશનમાં \n"
+"કેવી રીતે આયાત કરવી તે પ્રક્રિયાનું માર્ગદર્શન આપવામાં આવેલ છે."
 
 #: shell/importer/intelligent.c:193
 msgid "Importers"
-msgstr ""
+msgstr "આયાત કરનારાઓ"
 
 #: shell/importer/intelligent.c:195 smime/gui/smime-ui.glade.h:28
 msgid "Import"
-msgstr ""
+msgstr "આયાત"
 
 #: shell/importer/intelligent.c:199
 msgid "Don't import"
-msgstr ""
+msgstr "આયાત કરો નહિં"
 
 #: shell/importer/intelligent.c:203
 msgid "Don't ask me again"
-msgstr ""
+msgstr "મને ફરી વાર પૂછો નહિં"
 
 #: shell/importer/intelligent.c:211
 msgid "Evolution can import data from the following files:"
-msgstr ""
+msgstr "ઈવોલ્યુશન નીચેની ફાઈલોમાંથી માહિતી આયાત કરશે:"
 
 #. Preview/Alpha/Beta version warning message
 #: shell/main.c:225
@@ -16879,44 +17005,61 @@ msgid ""
 "We hope that you enjoy the results of our hard work, and we\n"
 "eagerly await your contributions!\n"
 msgstr ""
+"કેમ છો.  ઈવોલ્યુશન ગ્રુપવેર સ્યુટની આ પૂર્વદર્શન પ્રકાશન ડાઉનલોડ કરવા માટે\n"
+"સમય લેવા માટે તમારો ખૂબ આભાર\n"
+"\n"
+"ઈવોલ્યુશનની આ આવૃત્તિ હજુ સુધી પૂર્ણ નથી. તે બંધ થવા જઈ રહી છે,\n"
+"પરંતુ અમુક વસ્તુઓ હજુ પૂર્ણ થયેલ નથી અથવા યોગ્ય રીતે કામ કરતા નથી.\n"
+"\n"
+"જો તમને ઈવોલ્યુશનની સ્થાઈ આવૃત્તિની જરુર હોય, અમે તમને આ આવૃત્તિ\n"
+"નું સ્થાપન દૂર કરવા દઈએ, અને આવૃત્તિ %s તેની જગ્યાએ સ્થાપિત કરવા દઈએ.\n"
+"\n"
+"જો તમને ભૂલો મળે, તો મહેરબાની કરીને bugzilla.ximian.com પર અહેવાલ આપો.\n"
+"આ ઉત્પાદન કોઈ વોરંટી સાથે આવી નથી અને તે અંગત વપરાશ\n"
+"માટે જ છે.\n"
+"\n"
+"અમે એવી આશા રાખીએ છીએ કે તમે અમારી સખ્ત મહેનતના પરિણામને માણી રહ્યા હશો, અને અમે\n"
+"તમારા ફાળાની આતુરતાથી રાહ જોઈ રહ્યા છીએ!\n"
 
 #: shell/main.c:249
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
 msgstr ""
+"આભાર\n"
+"ઈવોલ્યુશન ટુકડી\n"
 
 #: shell/main.c:256
 msgid "Don't tell me again"
-msgstr ""
+msgstr "મને ફરી વાર કહો નહિં"
 
 #: shell/main.c:461
 msgid "Start Evolution activating the specified component"
-msgstr ""
+msgstr "સ્પષ્ટ કરેલ કમ્પોનન્ટ ક્રિયાશીલ કરવા માટે ઈવોલ્યુશન શરુ કરો"
 
 #: shell/main.c:463
 msgid "Start in offline mode"
-msgstr ""
+msgstr "ઓફલાઈન સ્થિતિમાં શરુ કરો"
 
 #: shell/main.c:465
 msgid "Start in online mode"
-msgstr ""
+msgstr "ઓનલાઈન સ્થિતિમાં શરુ કરો"
 
 #: shell/main.c:468
 msgid "Forcibly shut down all evolution components"
-msgstr ""
+msgstr "દબાણપૂર્વક ઈવોલ્યુશનના બધા કમ્પોનન્ટો બંધ કરી દો"
 
 #: shell/main.c:472
 msgid "Forcibly re-migrate from Evolution 1.4"
-msgstr ""
+msgstr "ઈવોલ્યુશન ૧.૪ માંથી દબાણપૂર્વક ફેરવો"
 
 #: shell/main.c:475
 msgid "Send the debugging output of all components to a file."
-msgstr ""
+msgstr "ફાઈલના બધા કમ્પોનન્ટો માટે ભૂલ શોધવા માટેનું આઉટપુટ મોકલો."
 
 #: shell/main.c:502
 msgid "Evolution"
-msgstr ""
+msgstr "ઈવોલ્યુશન"
 
 #: shell/main.c:506
 #, c-format
@@ -16924,11 +17067,13 @@ msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Use %s --help for more information.\n"
 msgstr ""
+"%s: --online અને --offline બંને સાથે વાપરી શકાતા નથી.\n"
+"  વધુ જાણકારી માટે %s --help વાપરો.\n"
 
 #. shell:upgrade-nospace primary
 #: shell/shell-errors.xml.h:2
 msgid "Insufficient disk space for upgrade."
-msgstr ""
+msgstr "સુધારા માટે અપૂરતી ડિસ્ક જગ્યા."
 
 #. shell:upgrade-nospace secondary
 #: shell/shell-errors.xml.h:4
@@ -16939,6 +17084,10 @@ msgid ""
 "You will need to make more space available in your home directory before you "
 "can continue."
 msgstr ""
+"તમારી માહિતી અને સુયોજનો સુધારવાનું ડિસ્કની જગ્યાની {0} જરુરી છે, પરંતુ "
+"તમારી પાસે માત્ર {1} ઉપ્લબ્ધ છે.\n"
+"\n"
+"તમને તમારી ગર ડિરેક્ટરીમાં વધુ ઉપ્લબ્ધ જગ્યા બનાવવાની જરુર છે તમે ચાલુ રાખો એ પહેલાં."
 
 #. shell:upgrade-failed primary
 #: shell/shell-errors.xml.h:8
@@ -16946,6 +17095,8 @@ msgid ""
 "Upgrade from previous version failed:\n"
 "{0}"
 msgstr ""
+"પહેલાની આવૃત્તિની નિષ્ફળતામાંથી સુધારો:\n"
+"{0}"
 
 #. shell:upgrade-failed secondary
 #: shell/shell-errors.xml.h:11
@@ -16955,22 +17106,26 @@ msgid ""
 "If you choose to continue, you may not have access to some of your old "
 "data.\n"
 msgstr ""
+"{1}\n"
+"\n"
+"જો તમે ચાલુ રાખવાનું પસંદ કરો, તો તમને તમારી જૂની માહિતીના અમુક "
+"ભાગોને ચલાવવાની પરવાનગી નથી.\n"
 
 #: shell/shell-errors.xml.h:15
 msgid "Continue"
-msgstr ""
+msgstr "ચાલુ રાખો"
 
 #. shell:noshell title
 #. shell:noshell-reason title
 #: shell/shell-errors.xml.h:17 shell/shell-errors.xml.h:25
 msgid "Cannot start Evolution"
-msgstr ""
+msgstr "ઈવોલ્યુશન શરુ કરી શકાતું નથી"
 
 #. shell:noshell primary
 #. shell:noshell-reason primary
 #: shell/shell-errors.xml.h:19 shell/shell-errors.xml.h:27
 msgid "Evolution can not start."
-msgstr ""
+msgstr "ઈવોલ્યુશન શરુ કરી શકાતું નથી."
 
 #. shell:noshell secondary
 #: shell/shell-errors.xml.h:21
@@ -16979,6 +17134,9 @@ msgid ""
 "\n"
 "Click help for details"
 msgstr ""
+"તમારી સિસ્ટમનું રુપરેખાંકન તમારા ઈવોલ્યુશનના રુપરેખાંકન સાથે બંધબેસતું નથી.\n"
+"\n"
+"વિગતો માટે મદદ પર ક્લિક કરો"
 
 #. shell:noshell-reason secondary
 #: shell/shell-errors.xml.h:29
@@ -16989,6 +17147,10 @@ msgid ""
 "\n"
 "Click help for details."
 msgstr ""
+"તમારી સિસ્ટમનું રુપરેખાંકન તમારા ઈવોલ્યુશનના રુપરેખાંકન સાથે બંધબેસતું નથી.\n"
+"{0}\n"
+"\n"
+"વિગતો માટે મદદ પર ક્લિક કરો"
 
 #: smime/gui/ca-trust-dialog.c:91
 #, c-format
@@ -16997,6 +17159,9 @@ msgid ""
 "\n"
 "Edit trust settings:"
 msgstr ""
+"પ્રમાણપત્ર '%s' એ CA પ્રમાણપત્ર છે.\n"
+"\n"
+"વિશ્વાસુ સુયોજનોમાં ફેરફાર કરો:"
 
 #: smime/gui/cert-trust-dialog.c:145
 msgid ""
@@ -17004,6 +17169,10 @@ msgid ""
 "then you trust the authenticity of this certificate unless otherwise "
 "indicated here"
 msgstr ""
+"તમે પ્રમાણપત્રના સ્તાધિકાર કે જે તમને પ્રમાણપત્ર અદા કરે તેનો "
+"વિશ્વાસ કરો એટેલે, "
+"ત્યાર પછી તમે આ પ્રમાણપત્રની સત્તાધિકર પર વિશ્વાસ કરો જ્યાં સુધી "
+"તે સૂચવાયેલ નહિં હોય"
 
 #: smime/gui/cert-trust-dialog.c:149
 msgid ""
@@ -17011,52 +17180,55 @@ msgid ""
 "certificate, then you do not trust the authenticity of this certificate "
 "unless otherwise indicated here"
 msgstr ""
+"તમે પ્રમાણપત્રના સ્તાધિકાર કે જે તમને પ્રમાણપત્ર અદા કરે તેનો "
+"વિશ્વાસ નહિં કરો એટેલે, ત્યાર પછી તમે આ પ્રમાણપત્રની સત્તાધિકર પર "
+"વિશ્વાસ કરો નહિં જ્યાં સુધી તે સૂચવાયેલ નહિં હોય"
 
 #: smime/gui/certificate-manager.c:130 smime/gui/certificate-manager.c:353
 #: smime/gui/certificate-manager.c:556
 msgid "Select a cert to import..."
-msgstr ""
+msgstr "આયાત કરવા માટે પ્રમાણપત્ર પસંદ કરો..."
 
 #: smime/gui/certificate-manager.c:245 smime/gui/certificate-manager.c:437
 #: smime/gui/certificate-manager.c:638
 msgid "Certificate Name"
-msgstr ""
+msgstr "પ્રમાણપત્ર નામ"
 
 #: smime/gui/certificate-manager.c:254 smime/gui/certificate-manager.c:455
 msgid "Purposes"
-msgstr ""
+msgstr "હેતુઓ"
 
 #: smime/gui/certificate-manager.c:263 smime/gui/smime-ui.glade.h:36
 #: smime/lib/e-cert.c:569
 msgid "Serial Number"
-msgstr ""
+msgstr "શ્રેણી સંખ્યા"
 
 #: smime/gui/certificate-manager.c:271
 msgid "Expires"
-msgstr ""
+msgstr "મુદત પુરી થાય છે"
 
 #: smime/gui/certificate-manager.c:446
 msgid "E-Mail Address"
-msgstr ""
+msgstr "ઈ-મેઈલ સરનામુ"
 
 #: smime/gui/certificate-viewer.c:334
 #, c-format
 msgid "Certificate Viewer: %s"
-msgstr ""
+msgstr "પ્રમાણપત્ર દર્શક: %s"
 
 #: smime/gui/component.c:45
 #, c-format
 msgid "Enter the password for `%s'"
-msgstr ""
+msgstr "`%s' માટે પાસવર્ડ દાખલ કરો"
 
 #. we're setting the password initially
 #: smime/gui/component.c:68
 msgid "Enter new password for certificate database"
-msgstr ""
+msgstr "પ્રમાણપત્ર ડેટાબેઝ માટે નવો પાસવર્ડ દાખલ કરો"
 
 #: smime/gui/component.c:70
 msgid "Enter new password"
-msgstr ""
+msgstr "નવો પાસવર્ડ દાખલ કરો"
 
 #. FIXME: add serial no, validity date, uses
 #: smime/gui/e-cert-selector.c:121
@@ -17065,6 +17237,8 @@ msgid ""
 "Issued to:\n"
 "  Subject: %s\n"
 msgstr ""
+"ને અદા થયેલ છે:\n"
+"  વિષય: %s\n"
 
 #: smime/gui/e-cert-selector.c:122
 #, c-format
@@ -17072,420 +17246,426 @@ msgid ""
 "Issued by:\n"
 "  Subject: %s\n"
 msgstr ""
+"દ્વારા અદા થયેલ:\n"
+"  વિષય: %s\n"
 
 #: smime/gui/e-cert-selector.c:169
 msgid "Select certificate"
-msgstr ""
+msgstr "પ્રમાણપત્ર પસંદ કરો"
 
 #: smime/gui/smime-ui.glade.h:1
 msgid "<Not Part of Certificate>"
-msgstr ""
+msgstr "<પ્રમાણપત્રનો ભાગ નથી>"
 
 #: smime/gui/smime-ui.glade.h:2
 msgid "<b>Certificate Fields</b>"
-msgstr ""
+msgstr "<b>પ્રમાણપત્રના ક્ષેત્રો</b>"
 
 #: smime/gui/smime-ui.glade.h:3
 msgid "<b>Certificate Hierarchy</b>"
-msgstr ""
+msgstr "<b>પ્રમાણપત્ર વંશવેલો</b>"
 
 #: smime/gui/smime-ui.glade.h:4
 msgid "<b>Field Value</b>"
-msgstr ""
+msgstr "<b>ક્ષેત્રની કિંમત</b>"
 
 #: smime/gui/smime-ui.glade.h:5
 msgid "<b>Fingerprints</b>"
-msgstr ""
+msgstr "<b>આંગળીની છાપો</b>"
 
 #: smime/gui/smime-ui.glade.h:6
 msgid "<b>Issued By</b>"
-msgstr ""
+msgstr "<b>દ્વારા અદા થયેલ</b>"
 
 #: smime/gui/smime-ui.glade.h:7
 msgid "<b>Issued To</b>"
-msgstr ""
+msgstr "<b>ને અદા થયેલ</b>"
 
 #: smime/gui/smime-ui.glade.h:8
 msgid "<b>This certificate has been verified for the following uses:</b>"
-msgstr ""
+msgstr "<b>આ પ્રમાણપત્ર નીચેના વપરાશોને લીધે ચકાસાયેલ છે:</b>"
 
 #: smime/gui/smime-ui.glade.h:9
 msgid "<b>Validity</b>"
-msgstr ""
+msgstr "<b>માન્યતા</b>"
 
 #: smime/gui/smime-ui.glade.h:10
 msgid "Authorities"
-msgstr ""
+msgstr "સત્તાધિકારો"
 
 #: smime/gui/smime-ui.glade.h:11
 msgid "Backup"
-msgstr ""
+msgstr "બેકઅપ"
 
 #: smime/gui/smime-ui.glade.h:12
 msgid "Backup All"
-msgstr ""
+msgstr "બધું બેકઅપ"
 
 #: smime/gui/smime-ui.glade.h:13
 msgid ""
 "Before trusting this CA for any purpose, you should examine its certificate "
 "and its policy and procedures (if available)."
 msgstr ""
+"આ CA નો કોઈ હેતુ વગર વિશ્વાસ કર્યા પહેલાં, તમારે આ પ્રમાણપત્રની "
+"પરીક્ષા કરવી જોઈએ અને તેની પોલિસી અને પ્રક્રિયાઓ (જો ઉપ્લબ્ધ હોય)."
 
 #: smime/gui/smime-ui.glade.h:14 smime/lib/e-cert.c:1076
 msgid "Certificate"
-msgstr ""
+msgstr "પ્રમાણપત્ર"
 
 #: smime/gui/smime-ui.glade.h:15
 msgid "Certificate Authority Trust"
-msgstr ""
+msgstr "પ્રમાણપત્ર સત્તાધિકાર વિશ્વાસ"
 
 #: smime/gui/smime-ui.glade.h:16
 msgid "Certificate details"
-msgstr ""
+msgstr "પ્રમાણપત્ર વિગતો"
 
 #: smime/gui/smime-ui.glade.h:17
 msgid "Common Name (CN)"
-msgstr ""
+msgstr "સામાન્ય નામ (CN)"
 
 #: smime/gui/smime-ui.glade.h:18
 msgid "Contact Certificates"
-msgstr ""
+msgstr "સંપર્ક પ્રમાણપત્રો"
 
 #: smime/gui/smime-ui.glade.h:20
 msgid "Do not trust the authenticity of this certificate"
-msgstr ""
+msgstr "આ પ્રમાણપત્રના સત્તાધિકારનો વિશ્વાસ કરો નહિં"
 
 #: smime/gui/smime-ui.glade.h:21
 msgid "Dummy window only"
-msgstr ""
+msgstr "માત્ર નકલી વિન્ડો"
 
 #: smime/gui/smime-ui.glade.h:22
 msgid "Edit"
-msgstr ""
+msgstr "ફેરફાર કરો"
 
 #: smime/gui/smime-ui.glade.h:23
 msgid "Email Certificate Trust Settings"
-msgstr ""
+msgstr "ઈ-મેઈલ પ્રમાણપત્ર વિશ્વાસ સુયોજનો"
 
 #: smime/gui/smime-ui.glade.h:24
 msgid "Email Recipient Certificate"
-msgstr ""
+msgstr "ઈ-મેઈલ રસીદ પ્રમાણપત્ર"
 
 #: smime/gui/smime-ui.glade.h:25
 msgid "Email Signer Certificate"
-msgstr ""
+msgstr "ઈ-મેઈલ સહી કરનાર પ્રમાણપત્ર"
 
 #: smime/gui/smime-ui.glade.h:26
 msgid "Expires On"
-msgstr ""
+msgstr "આ વખતે મુદત પુરી થાય છે"
 
 #: smime/gui/smime-ui.glade.h:29
 msgid "Issued On"
-msgstr ""
+msgstr "આ વખતે અદા થાય છે"
 
 #: smime/gui/smime-ui.glade.h:30
 msgid "MD5 Fingerprint"
-msgstr ""
+msgstr "MD5 આંગળીની છાપ"
 
 #: smime/gui/smime-ui.glade.h:31
 msgid "Organization (O)"
-msgstr ""
+msgstr "સંસ્થા (O)"
 
 #: smime/gui/smime-ui.glade.h:32
 msgid "Organizational Unit (OU)"
-msgstr ""
+msgstr "સંસ્થા એકમ (OU)"
 
 #: smime/gui/smime-ui.glade.h:33
 msgid "SHA1 Fingerprint"
-msgstr ""
+msgstr "SHA1 આંગળીની છાપ"
 
 #: smime/gui/smime-ui.glade.h:34 smime/lib/e-cert.c:818
 msgid "SSL Client Certificate"
-msgstr ""
+msgstr "SSL ક્લાઈન્ટ પ્રમાણપત્ર"
 
 #: smime/gui/smime-ui.glade.h:35 smime/lib/e-cert.c:822
 msgid "SSL Server Certificate"
-msgstr ""
+msgstr "SSL સર્વર પ્રમાણપત્ર"
 
 #: smime/gui/smime-ui.glade.h:37
 msgid "Trust the authenticity of this certificate"
-msgstr ""
+msgstr "આ પ્રમાણપત્રના સત્તાધિકાર પર વિશ્વાસ કરો"
 
 #: smime/gui/smime-ui.glade.h:38
 msgid "Trust this CA to identify email users."
-msgstr ""
+msgstr "ઈ-મેઈલ વપરાશકર્તાઓને ઓળખવા માટે આ CA નો વિશ્વાસ કરો."
 
 #: smime/gui/smime-ui.glade.h:39
 msgid "Trust this CA to identify software developers."
-msgstr ""
+msgstr "સોફ્ટવેરનો વિકાસ કરનારાઓને ઓળખવા માટે આ CA નો વિશ્વાસ કરો."
 
 #: smime/gui/smime-ui.glade.h:40
 msgid "Trust this CA to identify web sites."
-msgstr ""
+msgstr "વેબ સાઈટોને ઓળખવા માટે આ CA નો વિશ્વાસ કરો."
 
 #: smime/gui/smime-ui.glade.h:41
 msgid "View"
-msgstr ""
+msgstr "દેખાવ"
 
 #: smime/gui/smime-ui.glade.h:42
 msgid "You have certificates from these organizations that identify you:"
-msgstr ""
+msgstr "તમારી પાસે આ સંસ્થાના પ્રમાણપત્રો છે જે તમારી ઓળખ આપે:"
 
 #: smime/gui/smime-ui.glade.h:43
 msgid "You have certificates on file that identify these certificate authorities:"
 msgstr ""
+"તમારી પાસે પ્રમાણપત્રોની ફાઈલ છે જે આ પ્રમાણપત્રોના સત્તાધિકારની "
+"ઓળખ આપે:"
 
 #: smime/gui/smime-ui.glade.h:44
 msgid "You have certificates on file that identify these people:"
-msgstr ""
+msgstr "તમારી પાસે ફાઈલ પર પ્રમાણપત્રો છે જે આ વ્યક્તિઓને ઓળખાવે:"
 
 #: smime/gui/smime-ui.glade.h:45
 msgid "Your Certificates"
-msgstr ""
+msgstr "તમારા પ્રમાણપત્રો"
 
 #: smime/gui/smime-ui.glade.h:46
 msgid "_Edit CA Trust"
-msgstr ""
+msgstr "CA વિશ્વાસમાં ફેરફાર કરો (_E)"
 
 #. XXX we shouldn't be popping up dialogs in this code.
 #: smime/lib/e-cert-db.c:612
 msgid "Certificate already exists"
-msgstr ""
+msgstr "પ્રમાણપત્ર પહેલાથી જ હાજર છે"
 
 #: smime/lib/e-cert.c:238 smime/lib/e-cert.c:248
 msgid "%d/%m/%Y"
-msgstr ""
+msgstr "%d/%m/%Y"
 
 #. x509 certificate usage types
 #: smime/lib/e-cert.c:424
 msgid "Sign"
-msgstr ""
+msgstr "સહી"
 
 #: smime/lib/e-cert.c:425
 msgid "Encrypt"
-msgstr ""
+msgstr "એનક્રિપ્ટ"
 
 #: smime/lib/e-cert.c:530
 msgid "Version"
-msgstr ""
+msgstr "આવૃત્તિ"
 
 #: smime/lib/e-cert.c:545
 msgid "Version 1"
-msgstr ""
+msgstr "આવૃત્તિ ૧"
 
 #: smime/lib/e-cert.c:548
 msgid "Version 2"
-msgstr ""
+msgstr "આવૃત્તિ ૨"
 
 #: smime/lib/e-cert.c:551
 msgid "Version 3"
-msgstr ""
+msgstr "આવૃત્તિ ૩"
 
 #: smime/lib/e-cert.c:633
 msgid "PKCS #1 MD2 With RSA Encryption"
-msgstr ""
+msgstr "PKCS #1 MD2 એ RSA એનક્રિપ્શન સાથે"
 
 #: smime/lib/e-cert.c:636
 msgid "PKCS #1 MD5 With RSA Encryption"
-msgstr ""
+msgstr "PKCS #1 MD5 એ RSA એનક્રિપ્શન સાથે"
 
 #: smime/lib/e-cert.c:639
 msgid "PKCS #1 SHA-1 With RSA Encryption"
-msgstr ""
+msgstr "PKCS #1 SHA-1 એ RSA એનક્રિપ્શન સાથે"
 
 #: smime/lib/e-cert.c:642
 msgid "C"
-msgstr ""
+msgstr "C"
 
 #: smime/lib/e-cert.c:645
 msgid "CN"
-msgstr ""
+msgstr "CN"
 
 #: smime/lib/e-cert.c:648
 msgid "OU"
-msgstr ""
+msgstr "OU"
 
 #: smime/lib/e-cert.c:651
 msgid "O"
-msgstr ""
+msgstr "O"
 
 #: smime/lib/e-cert.c:654
 msgid "L"
-msgstr ""
+msgstr "L"
 
 #: smime/lib/e-cert.c:657
 msgid "DN"
-msgstr ""
+msgstr "DN"
 
 #: smime/lib/e-cert.c:660
 msgid "DC"
-msgstr ""
+msgstr "DC"
 
 #: smime/lib/e-cert.c:663
 msgid "ST"
-msgstr ""
+msgstr "ST"
 
 #: smime/lib/e-cert.c:666
 msgid "PKCS #1 RSA Encryption"
-msgstr ""
+msgstr "PKCS #1 RSA એનક્રિપ્શન"
 
 #: smime/lib/e-cert.c:669
 msgid "Certificate Key Usage"
-msgstr ""
+msgstr "પ્રમાણપત્ર કી વપરાશ"
 
 #: smime/lib/e-cert.c:672
 msgid "Netscape Certificate Type"
-msgstr ""
+msgstr "નેટસ્કેપ પ્રમાણપત્ર પ્રકાર"
 
 #: smime/lib/e-cert.c:675
 msgid "Certificate Authority Key Identifier"
-msgstr ""
+msgstr "પ્રમાણપત્ર સત્તાધિકાર કી ઓળખનાર"
 
 #: smime/lib/e-cert.c:678
 msgid "UID"
-msgstr ""
+msgstr "UID"
 
 #: smime/lib/e-cert.c:687
 #, c-format
 msgid "Object Identifier (%s)"
-msgstr ""
+msgstr "ઓબ્જેક્ટ ઓળખનાર (%s)"
 
 #: smime/lib/e-cert.c:738
 msgid "Algorithm Identifier"
-msgstr ""
+msgstr "અલગોરિધમ ઓળખનાર"
 
 #: smime/lib/e-cert.c:746
 msgid "Algorithm Parameters"
-msgstr ""
+msgstr "અલગોરિધમ પરિમાણો"
 
 #: smime/lib/e-cert.c:768
 msgid "Subject Public Key Info"
-msgstr ""
+msgstr "વિષય જાહેર કી જાણકારી"
 
 #: smime/lib/e-cert.c:773
 msgid "Subject Public Key Algorithm"
-msgstr ""
+msgstr "વિષય જાહેર કી અલગોરિધમ"
 
 #: smime/lib/e-cert.c:788
 msgid "Subject's Public Key"
-msgstr ""
+msgstr "વિષયની જાહેર કી"
 
 #: smime/lib/e-cert.c:809 smime/lib/e-cert.c:858
 msgid "Error: Unable to process extension"
-msgstr ""
+msgstr "ભૂલ: વિસ્તારક સાથે પ્રક્રિયા કરવા સમર્થ નથી"
 
 #: smime/lib/e-cert.c:830 smime/lib/e-cert.c:842
 msgid "Object Signer"
-msgstr ""
+msgstr "ઓબ્જેક્ટ સહી કરનાર"
 
 #: smime/lib/e-cert.c:834
 msgid "SSL Certificate Authority"
-msgstr ""
+msgstr "SSL પ્રમાણપત્ર સત્તાધિકાર"
 
 #: smime/lib/e-cert.c:838
 msgid "Email Certificate Authority"
-msgstr ""
+msgstr "ઈ-મેઈલ પ્રમાણપત્ર સત્તાધિકાર"
 
 #: smime/lib/e-cert.c:866
 msgid "Signing"
-msgstr ""
+msgstr "સહી કરી રહ્યા છીએ"
 
 #: smime/lib/e-cert.c:870
 msgid "Non-repudiation"
-msgstr ""
+msgstr "વિશ્વાસ છીનવો નહિં"
 
 #: smime/lib/e-cert.c:874
 msgid "Key Encipherment"
-msgstr ""
+msgstr "કી એનસાયફરમેન્ટ"
 
 #: smime/lib/e-cert.c:878
 msgid "Data Encipherment"
-msgstr ""
+msgstr "માહિતી એનસાયફરમેન્ટ"
 
 #: smime/lib/e-cert.c:882
 msgid "Key Agreement"
-msgstr ""
+msgstr "કી મંજૂરી"
 
 #: smime/lib/e-cert.c:886
 msgid "Certificate Signer"
-msgstr ""
+msgstr "પ્રમાણપત્ર સહી કરનાર"
 
 #: smime/lib/e-cert.c:890
 msgid "CRL Signer"
-msgstr ""
+msgstr "CRL સહી કરનાર"
 
 #: smime/lib/e-cert.c:938
 msgid "Critical"
-msgstr ""
+msgstr "જટિલ"
 
 #: smime/lib/e-cert.c:940 smime/lib/e-cert.c:943
 msgid "Not Critical"
-msgstr ""
+msgstr "જટિલ નથી"
 
 #: smime/lib/e-cert.c:964
 msgid "Extensions"
-msgstr ""
+msgstr "વિસ્તારકો"
 
 #: smime/lib/e-cert.c:1035
 #, c-format
 msgid "%s = %s"
-msgstr ""
+msgstr "%s = %s"
 
 #: smime/lib/e-cert.c:1091 smime/lib/e-cert.c:1211
 msgid "Certificate Signature Algorithm"
-msgstr ""
+msgstr "પ્રમાણપત્ર સહી અલગોરિધમ"
 
 #: smime/lib/e-cert.c:1100
 msgid "Issuer"
-msgstr ""
+msgstr "અદા કરનાર"
 
 #: smime/lib/e-cert.c:1154
 msgid "Issuer Unique ID"
-msgstr ""
+msgstr "અદા કરનાર અનન્ય ID"
 
 #: smime/lib/e-cert.c:1173
 msgid "Subject Unique ID"
-msgstr ""
+msgstr "વિષય અનન્ય ID"
 
 #: smime/lib/e-cert.c:1216
 msgid "Certificate Signature Value"
-msgstr ""
+msgstr "પ્રમાણપત્ર સહી કિંમત"
 
 #: smime/lib/e-pkcs12.c:266
 msgid "PKCS12 File Password"
-msgstr ""
+msgstr "PKCS12 ફાઈલ પાસવર્ડ"
 
 #: smime/lib/e-pkcs12.c:266
 msgid "Enter password for PKCS12 file:"
-msgstr ""
+msgstr "PKCS12 ફાઈલ માટે પાસવર્ડ દાખલ કરો:"
 
 #: smime/lib/e-pkcs12.c:365
 msgid "Imported Certificate"
-msgstr ""
+msgstr "મહત્વના પ્રમાણપત્ર"
 
 #: tools/evolution-launch-composer.c:324
 msgid "An attachment to add."
-msgstr ""
+msgstr "ઉમેરા સાથેનું જોડાણ."
 
 #: tools/evolution-launch-composer.c:325
 msgid "Content type of the attachment."
-msgstr ""
+msgstr "સમાવિષ્ટ પ્રકારનું જોડાણ."
 
 #: tools/evolution-launch-composer.c:326
 msgid "The filename to display in the mail."
-msgstr ""
+msgstr "મેઈલમાં પ્રદર્શિત કરવા માટેની ફાઈલનું નામ."
 
 #: tools/evolution-launch-composer.c:327
 msgid "Description of the attachment."
-msgstr ""
+msgstr "જોડાણનું વર્ણન."
 
 #: tools/evolution-launch-composer.c:328
 msgid "Mark attachment to be shown inline by default."
-msgstr ""
+msgstr "મૂળભુત રીતે જોડાણને લીટીમાં હોય એમ ચિહ્નિત બતાવો."
 
 #: tools/evolution-launch-composer.c:329
 msgid "Default subject for the message."
-msgstr ""
+msgstr "સંદેશા માટે મૂળભુત વિષય."
 
 #. This most likely means that KILL_PROCESS_CMD wasn't
 #. * found, so just bail completely.
@@ -17493,98 +17673,98 @@ msgstr ""
 #: tools/killev.c:61
 #, c-format
 msgid "Could not execute '%s': %s\n"
-msgstr ""
+msgstr "'%s' ચલાવી શક્યા નહિં: %s\n"
 
 #: tools/killev.c:76
 #, c-format
 msgid "Shutting down %s (%s)\n"
-msgstr ""
+msgstr "%s (%s) બંધ કરી રહ્યા છીએ\n"
 
 #: ui/evolution-addressbook.xml.h:3
 msgid "Copy Contact(s) to Another Folder..."
-msgstr ""
+msgstr "સંપર્કોને બીજા ફોલ્ડરમાં નકલ કરી રહ્યા છીએ..."
 
 #: ui/evolution-addressbook.xml.h:4 ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
-msgstr ""
+msgstr "પસંદગીની નકલ કરો"
 
 #: ui/evolution-addressbook.xml.h:5
 msgid "Copy to Folder..."
-msgstr ""
+msgstr "આ ફોલ્ડરમાં નકલ કરો..."
 
 #: ui/evolution-addressbook.xml.h:7 ui/evolution-calendar.xml.h:3
 msgid "Cut the selection"
-msgstr ""
+msgstr "પસંદગી કાપો"
 
 #: ui/evolution-addressbook.xml.h:9
 msgid "Delete selected contacts"
-msgstr ""
+msgstr "પસંદ કરેલ સંપર્કો કાઢી નાંખો"
 
 #: ui/evolution-addressbook.xml.h:11
 msgid "Move Contact(s) to Another Folder..."
-msgstr ""
+msgstr "સંપર્કોને બીજા ફોલ્ડરમાં ખસેડો..."
 
 #: ui/evolution-addressbook.xml.h:12
 msgid "Move to Folder..."
-msgstr ""
+msgstr "ફોલ્ડરમાં ખસેડો..."
 
 #: ui/evolution-addressbook.xml.h:14 ui/evolution-calendar.xml.h:16
 msgid "Paste the clipboard"
-msgstr ""
+msgstr "ક્લિપબોર્ડમાં ચોંટાડો"
 
 #: ui/evolution-addressbook.xml.h:15
 msgid "Previews the contacts to be printed"
-msgstr ""
+msgstr "સંપર્કોને છાપવા માટે પૂર્વદર્શન બતાવે છે"
 
 #: ui/evolution-addressbook.xml.h:17 ui/evolution-calendar.xml.h:20
 #: ui/evolution-comp-editor.xml.h:9 ui/evolution-mail-message.xml.h:81
 #: ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
-msgstr ""
+msgstr "છાપનનું પૂર્વદર્શન (_v)"
 
 #: ui/evolution-addressbook.xml.h:18
 msgid "Print selected contacts"
-msgstr ""
+msgstr "પસંદ કરેલ સંપર્કોને છાપો"
 
 #: ui/evolution-addressbook.xml.h:20
 msgid "Save selected contacts as a VCard."
-msgstr ""
+msgstr "પસંદ કરેલ સંપર્કોને VCard તરીકે સંગ્રહો."
 
 #: ui/evolution-addressbook.xml.h:21
 msgid "Select All"
-msgstr ""
+msgstr "બધું પસંદ કરો"
 
 #: ui/evolution-addressbook.xml.h:22
 msgid "Select all contacts"
-msgstr ""
+msgstr "બધા સંપર્કો પસંદ કરો"
 
 #: ui/evolution-addressbook.xml.h:23
 msgid "Send a message to the selected contacts."
-msgstr ""
+msgstr "પસંદ કરેલ સંપર્કોને સંદેશો મોકલો."
 
 #: ui/evolution-addressbook.xml.h:24
 msgid "Send message to contact"
-msgstr ""
+msgstr "સંપર્કને સંદેશો મોકલો"
 
 #: ui/evolution-addressbook.xml.h:25
 msgid "Send selected contacts to another person."
-msgstr ""
+msgstr "પસંદ કરેલ સંપર્કો બીજી વ્યક્તિને મોકલો."
 
 #: ui/evolution-addressbook.xml.h:26
 msgid "Show contact preview window"
-msgstr ""
+msgstr "સંપર્ક પૂર્વદર્શન વિન્ડો બતાવો"
 
 #: ui/evolution-addressbook.xml.h:27
 msgid "Stop"
-msgstr ""
+msgstr "અટકાવો"
 
 #: ui/evolution-addressbook.xml.h:28
 msgid "Stop Loading"
-msgstr ""
+msgstr "લાવવાનું અટકાવો"
 
 #: ui/evolution-addressbook.xml.h:29
 msgid "View the current contact"
-msgstr ""
+msgstr "વર્તમાન સંપર્ક જુઓ"
 
 #: ui/evolution-addressbook.xml.h:30 ui/evolution-calendar.xml.h:38
 #: ui/evolution-comp-editor.xml.h:16 ui/evolution-contact-editor.xml.h:13
@@ -17594,158 +17774,158 @@ msgstr ""
 #: ui/evolution-mail-messagedisplay.xml.h:4 ui/evolution-task-editor.xml.h:9
 #: ui/evolution-tasks.xml.h:19 ui/evolution.xml.h:27
 msgid "_Actions"
-msgstr ""
+msgstr "ક્રિયાઓ (_A)"
 
 #: ui/evolution-addressbook.xml.h:35 ui/evolution-contact-editor.xml.h:16
 msgid "_Forward Contact..."
-msgstr ""
+msgstr "સંપર્ક આગળ ધપાવો (_F)..."
 
 #: ui/evolution-addressbook.xml.h:36
 msgid "_Move to Folder..."
-msgstr ""
+msgstr "ફોલ્ડરમાં ખસેડો (_M)..."
 
 #: ui/evolution-addressbook.xml.h:39 ui/evolution-mail-global.xml.h:17
 msgid "_Preview Pane"
-msgstr ""
+msgstr "પૂર્વદર્શન તકતી (_P)"
 
 #: ui/evolution-addressbook.xml.h:41
 msgid "_Save as VCard..."
-msgstr ""
+msgstr "VCard તરીકે સંગ્રહો (_S)..."
 
 #: ui/evolution-addressbook.xml.h:42
 msgid "_Select All"
-msgstr ""
+msgstr "બધું પસંદ કરો (_S)"
 
 #: ui/evolution-addressbook.xml.h:43
 msgid "_Send Message to Contact..."
-msgstr ""
+msgstr "સંદેશાને સંપર્કને મોકલો (_S)..."
 
 #: ui/evolution-calendar.xml.h:4
 msgid "Day"
-msgstr ""
+msgstr "દિવસ"
 
 #: ui/evolution-calendar.xml.h:6
 msgid "Delete All Occurrences"
-msgstr ""
+msgstr "બધા વારાઓ કાઢી નાંખો"
 
 #: ui/evolution-calendar.xml.h:7
 msgid "Delete the appointment"
-msgstr ""
+msgstr "મુલાકાત કાઢી નાંખો"
 
 #: ui/evolution-calendar.xml.h:8
 msgid "Delete this Occurrence"
-msgstr ""
+msgstr "આ વારાને કાઢી નાંખો"
 
 #: ui/evolution-calendar.xml.h:9
 msgid "Delete this occurrence"
-msgstr ""
+msgstr "આ વારાને કાઢી નાંખો"
 
 #: ui/evolution-calendar.xml.h:10
 msgid "Go To"
-msgstr ""
+msgstr "પર જાઓ"
 
 #: ui/evolution-calendar.xml.h:11
 msgid "Go back"
-msgstr ""
+msgstr "પાછા જાઓ"
 
 #: ui/evolution-calendar.xml.h:12
 msgid "Go forward"
-msgstr ""
+msgstr "આગળ જાઓ"
 
 #: ui/evolution-calendar.xml.h:13
 msgid "List"
-msgstr ""
+msgstr "યાદી"
 
 #: ui/evolution-calendar.xml.h:14
 msgid "Month"
-msgstr ""
+msgstr "મહિનો"
 
 #: ui/evolution-calendar.xml.h:15 ui/evolution-mail-message.xml.h:65
 msgid "Next"
-msgstr ""
+msgstr "આગળ વધો"
 
 #: ui/evolution-calendar.xml.h:17
 msgid "Previews the calendar to be printed"
-msgstr ""
+msgstr "કેલેન્ડરનું છાપન માટે પૂર્વદર્શન આપે છે"
 
 #: ui/evolution-calendar.xml.h:18 ui/evolution-mail-message.xml.h:79
 msgid "Previous"
-msgstr ""
+msgstr "પહેલાનું"
 
 #: ui/evolution-calendar.xml.h:21
 msgid "Print this calendar"
-msgstr ""
+msgstr "આ કેલેન્ડરને છાપો"
 
 #: ui/evolution-calendar.xml.h:22
 msgid "Publish Free/Busy information for this calendar"
-msgstr ""
+msgstr "આ કેલેન્ડર માટે મુક્ત/વ્યસ્ત જાણકારી પ્રકાશિત કરો"
 
 #: ui/evolution-calendar.xml.h:23 ui/evolution-tasks.xml.h:17
 msgid "Purg_e"
-msgstr ""
+msgstr "કામ વગરનું બનાવો (_e)"
 
 #: ui/evolution-calendar.xml.h:24
 msgid "Purge old appointments and meetings"
-msgstr ""
+msgstr "જૂની મુલાકાતો અને મંત્રણાઓને કામ વગરની બનાવો"
 
 #: ui/evolution-calendar.xml.h:25
 msgid "Select _Date"
-msgstr ""
+msgstr "તારીખ પસંદ કરો (_D)"
 
 #: ui/evolution-calendar.xml.h:27
 msgid "Select a specific date"
-msgstr ""
+msgstr "સ્પષ્ટ તારીખ પસંદ કરો"
 
 #: ui/evolution-calendar.xml.h:28
 msgid "Select today"
-msgstr ""
+msgstr "આજનો દિવસ પસંદ કરો"
 
 #: ui/evolution-calendar.xml.h:29
 msgid "Show as list"
-msgstr ""
+msgstr "યાદી તરીકે બતાવો"
 
 #: ui/evolution-calendar.xml.h:30
 msgid "Show one day"
-msgstr ""
+msgstr "એક દિવસ બતાવો"
 
 #: ui/evolution-calendar.xml.h:31
 msgid "Show one month"
-msgstr ""
+msgstr "એક મહિનો બતાવો"
 
 #: ui/evolution-calendar.xml.h:32
 msgid "Show one week"
-msgstr ""
+msgstr "એક અઠવાડિયું બતાવો"
 
 #: ui/evolution-calendar.xml.h:33
 msgid "Show the working week"
-msgstr ""
+msgstr "કામ કરવાનું અઠવાડિયું બતાવો"
 
 #: ui/evolution-calendar.xml.h:34 widgets/misc/e-cell-date-edit.c:249
 #: widgets/misc/e-dateedit.c:435
 msgid "Today"
-msgstr ""
+msgstr "આજે"
 
 #: ui/evolution-calendar.xml.h:35
 msgid "View the current appointment"
-msgstr ""
+msgstr "વર્તમાન મુલાકાત જુઓ"
 
 #: ui/evolution-calendar.xml.h:36
 msgid "Week"
-msgstr ""
+msgstr "અઠવાડિયુ"
 
 #: ui/evolution-calendar.xml.h:37
 msgid "Work Week"
-msgstr ""
+msgstr "કામ કરવાનું અઠવાડિયુ"
 
 #: ui/evolution-calendar.xml.h:42
 msgid "_Open Appointment"
-msgstr ""
+msgstr "મુલાકાત ખોલો (_O)"
 
 #: ui/evolution-comp-editor.xml.h:1 ui/evolution-contact-editor.xml.h:1
 #: ui/evolution-contact-list-editor.xml.h:1
 #: ui/evolution-signature-editor.xml.h:1
 msgid "C_lose"
-msgstr ""
+msgstr "બંધ કરો (_l)"
 
 #: ui/evolution-comp-editor.xml.h:2 ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2
@@ -17753,54 +17933,54 @@ msgstr ""
 #: ui/evolution-message-composer.xml.h:3 ui/evolution-signature-editor.xml.h:2
 #: ui/evolution.xml.h:4
 msgid "Close"
-msgstr ""
+msgstr "બંધ કરો"
 
 #: ui/evolution-comp-editor.xml.h:3
 msgid "Close this item"
-msgstr ""
+msgstr "આ વસ્તુને બંધ કરો"
 
 #: ui/evolution-comp-editor.xml.h:5 ui/evolution-contact-editor.xml.h:4
 msgid "Delete this item"
-msgstr ""
+msgstr "આ વસ્તુને કાઢી નાંખો"
 
 #: ui/evolution-comp-editor.xml.h:6 ui/evolution-event-editor.xml.h:5
 #: ui/evolution-mail-messagedisplay.xml.h:3 ui/evolution.xml.h:13
 msgid "Main toolbar"
-msgstr ""
+msgstr "મુખ્ય સાધનપટ્ટી"
 
 #: ui/evolution-comp-editor.xml.h:7
 msgid "Preview the printed item"
-msgstr ""
+msgstr "છપાયેલ વસ્તુનું પૂર્વદર્શન કરો"
 
 #: ui/evolution-comp-editor.xml.h:10 ui/evolution-contact-editor.xml.h:7
 msgid "Print this item"
-msgstr ""
+msgstr "આ વસ્તુને છાપો"
 
 #: ui/evolution-comp-editor.xml.h:11 ui/evolution-contact-editor.xml.h:8
 #: ui/evolution-contact-list-editor.xml.h:5
 #: ui/evolution-message-composer.xml.h:18
 msgid "Save _As..."
-msgstr ""
+msgstr "આ રીતે સંગ્રહો (_A)..."
 
 #: ui/evolution-comp-editor.xml.h:12 ui/evolution-contact-editor.xml.h:9
 #: ui/evolution-contact-list-editor.xml.h:6
 #: ui/evolution-signature-editor.xml.h:7
 msgid "Save and Close"
-msgstr ""
+msgstr "સંગ્રહો અને બંધ કરો"
 
 #: ui/evolution-comp-editor.xml.h:13 ui/evolution-contact-editor.xml.h:10
 #: ui/evolution-contact-list-editor.xml.h:7
 #: ui/evolution-signature-editor.xml.h:8
 msgid "Save and _Close"
-msgstr ""
+msgstr "સંગ્રહો અને બંધ કરો (_C)"
 
 #: ui/evolution-comp-editor.xml.h:14
 msgid "Save the item and close the dialog box"
-msgstr ""
+msgstr "વસ્તુ સંગ્રહો અને સંવાદબોક્સ બંધ કરો"
 
 #: ui/evolution-comp-editor.xml.h:15
 msgid "Save this item to disk"
-msgstr ""
+msgstr "આ વસ્તુને ડિસ્કમાં સંગ્રહો"
 
 #: ui/evolution-comp-editor.xml.h:18 ui/evolution-contact-editor.xml.h:15
 #: ui/evolution-contact-list-editor.xml.h:13
@@ -17809,1109 +17989,1109 @@ msgstr ""
 #: ui/evolution-signature-editor.xml.h:13 ui/evolution-subscribe.xml.h:11
 #: ui/evolution.xml.h:29
 msgid "_File"
-msgstr ""
+msgstr "ફાઈલ (_F)"
 
 #: ui/evolution-composer-entries.xml.h:1
 msgid "Copy selected text to the clipboard"
-msgstr ""
+msgstr "પસંદ કરેલ લખાણને ક્લિપબોર્ડમાં નકલ કરો"
 
 #: ui/evolution-composer-entries.xml.h:2 ui/evolution-mail-message.xml.h:21
 msgid "Cu_t"
-msgstr ""
+msgstr "કાપો (_t)"
 
 #: ui/evolution-composer-entries.xml.h:3
 msgid "Cut selected text to the clipboard"
-msgstr ""
+msgstr "પસંદ કરેલ લખાણને ક્લિપબોર્ડમાં કાપો"
 
 #: ui/evolution-composer-entries.xml.h:4
 msgid "Paste text from the clipboard"
-msgstr ""
+msgstr "ક્લિપબોર્ડમાંથી લખાણ ચોંટાડો"
 
 #: ui/evolution-composer-entries.xml.h:5 ui/evolution-mail-list.xml.h:13
 #: ui/evolution-subscribe.xml.h:6
 msgid "Select _All"
-msgstr ""
+msgstr "બધું પસંદ કરો (_A)"
 
 #: ui/evolution-composer-entries.xml.h:6
 msgid "Select all text"
-msgstr ""
+msgstr "બધું લખાણ પસંદ કરો"
 
 #: ui/evolution-contact-editor.xml.h:6
 msgid "Print En_velope..."
-msgstr ""
+msgstr "કવર છાપો (_v)..."
 
 #: ui/evolution-contact-editor.xml.h:11
 msgid "Save the contact and close the dialog box"
-msgstr ""
+msgstr "સંપર્ક સંગ્રહો અને સંવાદ બોક્સ બંધ કરો"
 
 #: ui/evolution-contact-editor.xml.h:12
 msgid "Send _Message to Contact..."
-msgstr ""
+msgstr "સંપર્કોને સંદેશો મોકલો (_M)..."
 
 #: ui/evolution-contact-editor.xml.h:18
 #: ui/evolution-contact-list-editor.xml.h:14
 #: ui/evolution-message-composer.xml.h:50
 #: ui/evolution-signature-editor.xml.h:15
 msgid "_Save"
-msgstr ""
+msgstr "સંગ્રહો (_S)"
 
 #: ui/evolution-contact-list-editor.xml.h:4
 msgid "Delete this list"
-msgstr ""
+msgstr "આ યાદી કાઢી નાંખો"
 
 #: ui/evolution-contact-list-editor.xml.h:8
 msgid "Save the list and close the dialog box"
-msgstr ""
+msgstr "આ યાદી સંગ્રહો અને સંવાદ બોક્સ બંધ કરો"
 
 #: ui/evolution-contact-list-editor.xml.h:9
 msgid "Se_nd list to other..."
-msgstr ""
+msgstr "યાદી બીજાને મોકલો (_n)..."
 
 #: ui/evolution-contact-list-editor.xml.h:10
 msgid "Send _message to list..."
-msgstr ""
+msgstr "યાદીને સંદેશો મોકલો (_m)..."
 
 #: ui/evolution-contact-list-editor.xml.h:12
 msgid "_Delete..."
-msgstr ""
+msgstr "કાઢી નાંખો (_D)..."
 
 #: ui/evolution-event-editor.xml.h:1
 msgid "Cancel Mee_ting"
-msgstr ""
+msgstr "મંત્રણા રદ કરો (_t)"
 
 #: ui/evolution-event-editor.xml.h:2
 msgid "Cancel the meeting for this item"
-msgstr ""
+msgstr "આ વસ્તુ માટે મંત્રણા રદ કરો"
 
 #: ui/evolution-event-editor.xml.h:3 ui/evolution-task-editor.xml.h:5
 msgid "Forward as i_Calendar"
-msgstr ""
+msgstr "iકેલેન્ડર તરીકે આગળ ધપાવો (_C)"
 
 #: ui/evolution-event-editor.xml.h:4 ui/evolution-task-editor.xml.h:6
 msgid "Forward this item via email"
-msgstr ""
+msgstr "આ વસ્તુને ઈ-મેઈલ દ્વારા આગળ ધપાવો"
 
 #: ui/evolution-event-editor.xml.h:7
 msgid "Obtain the latest meeting information"
-msgstr ""
+msgstr "મંત્રણાની તાજી જાણકારી મેળવો"
 
 #: ui/evolution-event-editor.xml.h:8
 msgid "Re_fresh Meeting"
-msgstr ""
+msgstr "મંત્રણા ફરી તાજી કરો (_f)"
 
 #: ui/evolution-event-editor.xml.h:9
 msgid "Schedule _Meeting"
-msgstr ""
+msgstr "મંત્રણાને સમયક્રમ (_M)"
 
 #: ui/evolution-event-editor.xml.h:10
 msgid "Schedule a meeting for this item"
-msgstr ""
+msgstr "આ વસ્તુ માટે મંત્રણાનો સમયક્રમ નક્કી કરો"
 
 #: ui/evolution-executive-summary.xml.h:1
 msgid "Customize My Evolution"
-msgstr ""
+msgstr "મારુ ઈવોલ્યુશન કસ્ટમાઈઝ કરો"
 
 #: ui/evolution-mail-global.xml.h:2
 msgid "Cancel the current mail operation"
-msgstr ""
+msgstr "વર્તમાન મેઈલ પ્રક્રિયા રદ કરો"
 
 #: ui/evolution-mail-global.xml.h:3
 msgid "Compose _New Message"
-msgstr ""
+msgstr "નવો સંદેશો કમ્પોઝ કરો (_N)"
 
 #: ui/evolution-mail-global.xml.h:4
 msgid "Create or edit rules for filtering new mail"
-msgstr ""
+msgstr "નવા મેઈલ ગાળવા માટે નિયમો બનાવો અથવા ફેરફાર કરો"
 
 #: ui/evolution-mail-global.xml.h:5
 msgid "Create or edit virtual folder definitions"
-msgstr ""
+msgstr "વર્ચ્યુઅલ ફોલ્ડર વ્યાખ્યાઓ બનાવો અથવા ફેરફાર કરો"
 
 #: ui/evolution-mail-global.xml.h:6
 msgid "Empty _Trash"
-msgstr ""
+msgstr "કચરાપેટી ખાલી કરો (_T)"
 
 #: ui/evolution-mail-global.xml.h:7
 msgid "Open a window for composing a mail message"
-msgstr ""
+msgstr "મેઈલ સંદેશો કમ્પોઝ કરવા માટે વિન્ડો ખોલો"
 
 #: ui/evolution-mail-global.xml.h:8
 msgid "Permanently remove all deleted messages from all folders"
-msgstr ""
+msgstr "બધા ફોલ્ડરોમાંથી બધા કાઢી નંખાયેલા સંદેશાઓ કાયમી રીતે કાઢી નાંખો"
 
 #: ui/evolution-mail-global.xml.h:9
 msgid "Post Ne_w Message"
-msgstr ""
+msgstr "નવો સંદેશો પોસ્ટ કરો (_w)"
 
 #: ui/evolution-mail-global.xml.h:10
 msgid "Post a message to a Public folder"
-msgstr ""
+msgstr "સંદેશાને જાહેર ફોલ્ડરમાં પોસ્ટ કરો"
 
 #: ui/evolution-mail-global.xml.h:11
 msgid "S_ubscribe to Folders..."
-msgstr ""
+msgstr "ફોલ્ડરોની ઉમેદવારી નોંધાવો (_u)..."
 
 #: ui/evolution-mail-global.xml.h:12
 msgid "Show message preview window"
-msgstr ""
+msgstr "સંદેશા પૂર્વદર્શન વિન્ડો બતાવો"
 
 #: ui/evolution-mail-global.xml.h:13
 msgid "Subscribe or unsubscribe to folders on remote servers"
-msgstr ""
+msgstr "દૂરસ્થ સર્વરો પર ફોલ્ડરોની ઉમેદવારી કરો અથવા દૂર કરો"
 
 #: ui/evolution-mail-global.xml.h:14
 msgid "Virtual Folder _Editor..."
-msgstr ""
+msgstr "વર્ચ્યુઅલ ફોલ્ડર સંપાદક (_E)..."
 
 #: ui/evolution-mail-global.xml.h:16
 msgid "_Filters..."
-msgstr ""
+msgstr "ગાળકો (_F)..."
 
 #: ui/evolution-mail-list.xml.h:1
 msgid "Change the properties of this folder"
-msgstr ""
+msgstr "આ ફોલ્ડરના ગુણધર્મો બદલો"
 
 #: ui/evolution-mail-list.xml.h:2 ui/evolution-mail-message.xml.h:10
 msgid "Copy selected message(s) to the clipboard"
-msgstr ""
+msgstr "પસંદ કરેલ સંદેશાઓને ક્લિપબોર્ડમાં નકલ કરો"
 
 #: ui/evolution-mail-list.xml.h:3 ui/evolution-mail-message.xml.h:22
 msgid "Cut selected message(s) to the clipboard"
-msgstr ""
+msgstr "પસંદ કરેલ સંદેશાઓને ક્લિપબોર્ડમાં નકલ કરો"
 
 #: ui/evolution-mail-list.xml.h:4
 msgid "E_xpunge"
-msgstr ""
+msgstr "સંપૂર્ણપણે દૂર કરો (_x)"
 
 #: ui/evolution-mail-list.xml.h:5
 msgid "Hide S_elected Messages"
-msgstr ""
+msgstr "પસંદ કરેલ સંદેશાઓને છુપાવો (_e)"
 
 #: ui/evolution-mail-list.xml.h:6
 msgid "Hide _Deleted Messages"
-msgstr ""
+msgstr "કાઢી નંખાયેલ સંદેશાઓને છુપાવો (_D)"
 
 #: ui/evolution-mail-list.xml.h:7
 msgid "Hide _Read Messages"
-msgstr ""
+msgstr "વંચાયેલા સંદેશાઓને છુપાવો (_R)"
 
 #: ui/evolution-mail-list.xml.h:8
 msgid "Hide deleted messages rather than displaying them with a line through them"
-msgstr ""
+msgstr "કાઢી નંખાયેલ સંદેશાઓને પ્રદર્શિત કરવાને બદલે છુપાવો"
 
 #: ui/evolution-mail-list.xml.h:9
 msgid "Mark All as _Read"
-msgstr ""
+msgstr "બધું વાંચ્યુ હોય એમ ચિહ્નિત કરો (_R)"
 
 #: ui/evolution-mail-list.xml.h:10
 msgid "Mark all visible messages as read"
-msgstr ""
+msgstr "બધા દ્રશ્યમાન સંદેશાઓને વાંચ્યા હોય એમ ચિહ્નિત કરો"
 
 #: ui/evolution-mail-list.xml.h:11 ui/evolution-mail-message.xml.h:74
 msgid "Paste message(s) from the clipboard"
-msgstr ""
+msgstr "ક્લિપબોર્ડમાંથી સંદેશાઓ ચોંટાડો"
 
 #: ui/evolution-mail-list.xml.h:12
 msgid "Permanently remove all deleted messages from this folder"
-msgstr ""
+msgstr "આ ફોલ્ડરમાંથી બધા કાઢી નંખાયેલ સંદેશાઓ કાયમી રીતે કાઢી નાંખો"
 
 #: ui/evolution-mail-list.xml.h:14
 msgid "Select _Thread"
-msgstr ""
+msgstr "થ્રેડ પસંદ કરો (_T)"
 
 #: ui/evolution-mail-list.xml.h:15
 msgid "Select all and only the messages that are not currently selected"
-msgstr ""
+msgstr "બધા સંદેશાઓ કે જે વર્તમાનમાં પસંદ કરેલ નથી તેને પસંદ કરો"
 
 #: ui/evolution-mail-list.xml.h:16
 msgid "Select all messages in the same thread as the selected message"
-msgstr ""
+msgstr "આ જ થ્રેડમાં બધા સંદેશાઓને પસંદ કરેલ સંદેશાઓને સંદેશા તરીકે પસંદ કરો"
 
 #: ui/evolution-mail-list.xml.h:17
 msgid "Select all visible messages"
-msgstr ""
+msgstr "બધા દ્રશ્યમાન સંદેશાઓને પસંદ કરો"
 
 #: ui/evolution-mail-list.xml.h:18
 msgid "Sh_ow Hidden Messages"
-msgstr ""
+msgstr "છુપા સંદેશાઓને બતાવો (_o)"
 
 #: ui/evolution-mail-list.xml.h:19
 msgid "Show messages that have been temporarily hidden"
-msgstr ""
+msgstr "સંદેશાઓ બતાવો કે જે ક્ષણિક છુપાયેલા છે"
 
 #: ui/evolution-mail-list.xml.h:20
 msgid "Temporarily hide all messages that have already been read"
-msgstr ""
+msgstr "જે સંદેશાઓ વંચાઈ ગયા હોય તે સંદેશાઓને ક્ષણિક છુપાવો"
 
 #: ui/evolution-mail-list.xml.h:21
 msgid "Temporarily hide the selected messages"
-msgstr ""
+msgstr "પસંદ કરેલ સંદેશાઓને કામચલાઉ છુપાવો"
 
 #: ui/evolution-mail-list.xml.h:22
 msgid "Threaded Message list"
-msgstr ""
+msgstr "થ્રેડેડ સંદેશા યાદી"
 
 #: ui/evolution-mail-list.xml.h:25
 msgid "_Folder"
-msgstr ""
+msgstr "ફોલ્ડર (_F)"
 
 #: ui/evolution-mail-list.xml.h:26 ui/evolution-subscribe.xml.h:12
 msgid "_Invert Selection"
-msgstr ""
+msgstr "પસંદગી ઊંધી કરો (_I)"
 
 #: ui/evolution-mail-list.xml.h:28
 msgid "_Threaded Message List"
-msgstr ""
+msgstr "થ્રેડવાળા સંદેશાની યાદી (_T)"
 
 #: ui/evolution-mail-message.xml.h:1
 msgid "A_dd Sender to Address Book"
-msgstr ""
+msgstr "સરનામાપોથીમાં મોકલનાર ઉમેરો (_d)"
 
 #: ui/evolution-mail-message.xml.h:2
 msgid "A_pply Filters"
-msgstr ""
+msgstr "ગાળકો અમલમાં મૂકો (_p)"
 
 #: ui/evolution-mail-message.xml.h:3
 msgid "Add Sender to Address Book"
-msgstr ""
+msgstr "સરનામાપોથીમાં મોકલનાર ઉમેરો"
 
 #: ui/evolution-mail-message.xml.h:4
 msgid "Apply filter rules to the selected messages"
-msgstr ""
+msgstr "પસંદ કરેલ સંદેશાઓ માટે ગાળક નિયમો લાગુ કરો"
 
 #: ui/evolution-mail-message.xml.h:5
 msgid "Caret _Mode"
-msgstr ""
+msgstr "કેરેટ સ્થિતિ (_M)"
 
 #: ui/evolution-mail-message.xml.h:6
 msgid "Compose a reply to all of the recipients of the selected message"
-msgstr ""
+msgstr "પસંદ કરેલ સંદેશા માટે બધા મેળવનારાઓને વળતો જવાબ કમ્પોઝ કરો"
 
 #: ui/evolution-mail-message.xml.h:7
 msgid "Compose a reply to the mailing list of the selected message"
-msgstr ""
+msgstr "પસંદ કરેલ સંદેશા માટે મેઈલીંગ યાદીનો વળતો જવાબ કમ્પોઝ કરો"
 
 #: ui/evolution-mail-message.xml.h:8
 msgid "Compose a reply to the sender of the selected message"
-msgstr ""
+msgstr "પસંદ કરેલ સંદેશાના મોકલનારને વળતો જવાબ કમ્પોઝ કરો"
 
 #: ui/evolution-mail-message.xml.h:11
 msgid "Copy selected messages to another folder"
-msgstr ""
+msgstr "પસંદ કરેલ સંદેશાઓને બીજા ફોલ્ડરમાં નકલ કરો"
 
 #: ui/evolution-mail-message.xml.h:12
 msgid "Create _Virtual Folder From Message"
-msgstr ""
+msgstr "સંદેશામાંથી વર્ચ્યુઅલ ફોલ્ડર બનાવો (_V)"
 
 #: ui/evolution-mail-message.xml.h:13
 msgid "Create a rule to filter messages from this sender"
-msgstr ""
+msgstr "આ મોકલનારમાંથી સંગેશા ગાળક માટે નિયમ બનાવો"
 
 #: ui/evolution-mail-message.xml.h:14
 msgid "Create a rule to filter messages to these recipients"
-msgstr ""
+msgstr "આ મેળવનારાઓ માટે સંદેશાઓના ગાળક માટે નિયમ બનાવો"
 
 #: ui/evolution-mail-message.xml.h:15
 msgid "Create a rule to filter messages to this mailing list"
-msgstr ""
+msgstr "આ મેઈલીંગ યાદીમાંથી સંદેશાઓ ગાળવા માટે નિયમ બનાવો"
 
 #: ui/evolution-mail-message.xml.h:16
 msgid "Create a rule to filter messages with this subject"
-msgstr ""
+msgstr "આ વિષય સાતે સંદેશાઓ ગાળવા માટે નિયમ બનાવો"
 
 #: ui/evolution-mail-message.xml.h:17
 msgid "Create a virtual folder for these recipients"
-msgstr ""
+msgstr "આ મેળવનારાઓ માટે વર્ચ્યુઅલ ફોલ્ડર બનાવો"
 
 #: ui/evolution-mail-message.xml.h:18
 msgid "Create a virtual folder for this mailing list"
-msgstr ""
+msgstr "આ મેઈલીંગ યાદી માટે વર્ચ્યુઅલ ફોલ્ડર બનાવો"
 
 #: ui/evolution-mail-message.xml.h:19
 msgid "Create a virtual folder for this sender"
-msgstr ""
+msgstr "આ મોકલનાર માટે વર્ચ્યુઅલ ફોલ્ડર બનાવો"
 
 #: ui/evolution-mail-message.xml.h:20
 msgid "Create a virtual folder for this subject"
-msgstr ""
+msgstr "આ વિષય માટે વર્ચ્યુઅલ ફોલ્ડર બનાવો"
 
 #: ui/evolution-mail-message.xml.h:23
 msgid "Decrease the text size"
-msgstr ""
+msgstr "લખાણ માપ ઘટાડો"
 
 #: ui/evolution-mail-message.xml.h:25
 msgid "Display the next important message"
-msgstr ""
+msgstr "પછીનો મહત્વનો સંદેસો પ્રદર્શિત કરો"
 
 #: ui/evolution-mail-message.xml.h:26
 msgid "Display the next message"
-msgstr ""
+msgstr "પછીનો સંદેશો પ્રદર્શિત કરો"
 
 #: ui/evolution-mail-message.xml.h:27
 msgid "Display the next unread message"
-msgstr ""
+msgstr "પછીનો નહિં વાંચેલો સંદેશો પ્રદર્શિત કરો"
 
 #: ui/evolution-mail-message.xml.h:28
 msgid "Display the next unread thread"
-msgstr ""
+msgstr "પછીનો નહિં વાંચેલો થ્રેડ પ્રદર્શિત કરો"
 
 #: ui/evolution-mail-message.xml.h:29
 msgid "Display the previous important message"
-msgstr ""
+msgstr "પહેલાનો મહત્વનો સંદેશો પ્રદર્શિત કરો"
 
 #: ui/evolution-mail-message.xml.h:30
 msgid "Display the previous message"
-msgstr ""
+msgstr "પહેલાનો સંદેશો પ્રદર્શિત કરો"
 
 #: ui/evolution-mail-message.xml.h:31
 msgid "Display the previous unread message"
-msgstr ""
+msgstr "પહેલાનો નહિં વાંચેલો સંદેશો પ્રદર્શિત કરો"
 
 #: ui/evolution-mail-message.xml.h:32
 msgid "F_orward As..."
-msgstr ""
+msgstr "આ રીતે આગળ ધપાવો (_o)..."
 
 #: ui/evolution-mail-message.xml.h:33
 msgid "Filter _Junk"
-msgstr ""
+msgstr "બગડેલું ગાળો (_J)"
 
 #: ui/evolution-mail-message.xml.h:34
 msgid "Filter on Mailing _List..."
-msgstr ""
+msgstr "મેઈલીંગ યાદી પર ગાળો (_L)..."
 
 #: ui/evolution-mail-message.xml.h:35
 msgid "Filter on Se_nder..."
-msgstr ""
+msgstr "મોકલનાર પર ગાળો (_n)..."
 
 #: ui/evolution-mail-message.xml.h:36
 msgid "Filter on _Recipients..."
-msgstr ""
+msgstr "મેળવનારાઓ પર ગાળો (_R)..."
 
 #: ui/evolution-mail-message.xml.h:37
 msgid "Filter on _Subject..."
-msgstr ""
+msgstr "વિષય પર ગાળો (_S)..."
 
 #: ui/evolution-mail-message.xml.h:38
 msgid "Filter the selected messages for junk status"
-msgstr ""
+msgstr "ખરાબ સ્થિતિ માટે પસંદ કરેલ સંદેશાઓ ગાળો"
 
 #: ui/evolution-mail-message.xml.h:39
 msgid "Flag selected message(s) for follow-up"
-msgstr ""
+msgstr "નિશાનિત પસંદ કરેલ સંદેશાઓને અનુસરો"
 
 #: ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
-msgstr ""
+msgstr "ને અનુસરો (_U)..."
 
 #: ui/evolution-mail-message.xml.h:41
 msgid "Force images in HTML mail to be loaded"
-msgstr ""
+msgstr "ચિત્રોને HTML મેઈલ તરીકે લાવવા માટે દબાણ કરો"
 
 #: ui/evolution-mail-message.xml.h:43
 msgid "Forward the selected message in the body of a new message"
-msgstr ""
+msgstr "પસંદ કરેલ સંદેશાને નવા સંદેશાના ભાગ તરીકે આગળ ધપાવો"
 
 #: ui/evolution-mail-message.xml.h:44
 msgid "Forward the selected message quoted like a reply"
-msgstr ""
+msgstr "પસંદ કરેલ સંદેશાને વળતા જવાબ તરીકે અવતરિત કરીને આગળ ધપાવો"
 
 #: ui/evolution-mail-message.xml.h:45
 msgid "Forward the selected message to someone"
-msgstr ""
+msgstr "પસંદ કરેલ સંદેશાને કોઈકને આગળ ધપાવો"
 
 #: ui/evolution-mail-message.xml.h:46
 msgid "Forward the selected message to someone as an attachment"
-msgstr ""
+msgstr "પસંદ કરેલ સંદેશાને કોઈકને જોડાણ તરીકે આગળ ધપાવો"
 
 #: ui/evolution-mail-message.xml.h:47
 msgid "Increase the text size"
-msgstr ""
+msgstr "લખાણનું માપ વધારો"
 
 #: ui/evolution-mail-message.xml.h:49
 msgid "Load _Images"
-msgstr ""
+msgstr "ચિત્રો લાવો (_I)"
 
 #: ui/evolution-mail-message.xml.h:51
 msgid "Mark as I_mportant"
-msgstr ""
+msgstr "મહત્વનું છે એમ ચિહ્નિત કરો (_m)"
 
 #: ui/evolution-mail-message.xml.h:52
 msgid "Mark as U_nread"
-msgstr ""
+msgstr "નહિં વાંચેલ છે એમ ચિહ્નિત કરો (_n)"
 
 #: ui/evolution-mail-message.xml.h:53
 msgid "Mark as Unimp_ortant"
-msgstr ""
+msgstr "મહત્વનો નથી એમ ચિહ્નિત કરો (_o)"
 
 #: ui/evolution-mail-message.xml.h:56
 msgid "Mark the selected message(s) as having been read"
-msgstr ""
+msgstr "પસંદ કરેલ સંદેશાઓને વંચાઈ ગયેલ છે એમ ચિહ્નિત કરો"
 
 #: ui/evolution-mail-message.xml.h:57
 msgid "Mark the selected message(s) as important"
-msgstr ""
+msgstr "પસંદ કરેલ સંદેશાઓને મહત્વના તરીકે ચિહ્નિત કરો"
 
 #: ui/evolution-mail-message.xml.h:58
 msgid "Mark the selected message(s) as junk"
-msgstr ""
+msgstr "પસંદ કરેલ સંદેશાઓને બગડેલા તરીકે ચિહ્નિત કરો"
 
 #: ui/evolution-mail-message.xml.h:59
 msgid "Mark the selected message(s) as not being junk"
-msgstr ""
+msgstr "પસંદ કરેલ સંદેશાઓને બગડી ગયેલા છે એમ ચિહ્નિત કરો"
 
 #: ui/evolution-mail-message.xml.h:60
 msgid "Mark the selected message(s) as not having been read"
-msgstr ""
+msgstr "પસંદ કરેલ સંદેશાઓને વંચાઈ ગયેલ છે એમ ચિહ્નિત કરો"
 
 #: ui/evolution-mail-message.xml.h:61
 msgid "Mark the selected message(s) as unimportant"
-msgstr ""
+msgstr "પસંદ કરેલા સંદેશાઓને મહત્વના નથી એમ ચિહ્નિત કરો"
 
 #: ui/evolution-mail-message.xml.h:62
 msgid "Mark the selected messages for deletion"
-msgstr ""
+msgstr "પસદં કરેલા સંદેશાઓને કાઢી નાંખવા માટે ચિહ્નિત કરો"
 
 #: ui/evolution-mail-message.xml.h:63
 msgid "Move"
-msgstr ""
+msgstr "ખસેડો"
 
 #: ui/evolution-mail-message.xml.h:64
 msgid "Move selected message(s) to another folder"
-msgstr ""
+msgstr "પસંદ કરેલ સંદેશાઓને બીજા ફોલ્ડરમાં ખસેડો"
 
 #: ui/evolution-mail-message.xml.h:66
 msgid "Next _Important Message"
-msgstr ""
+msgstr "પછીનો મહત્વનો સંદેશો (_I)"
 
 #: ui/evolution-mail-message.xml.h:67
 msgid "Next _Thread"
-msgstr ""
+msgstr "પછીનો થ્રેડ (_T)"
 
 #: ui/evolution-mail-message.xml.h:68
 msgid "Next _Unread Message"
-msgstr ""
+msgstr "પછીનો નહિં વાંચેલો સંદેશો (_U)"
 
 #: ui/evolution-mail-message.xml.h:69
 msgid "Not Junk"
-msgstr ""
+msgstr "બગડેલ નથી"
 
 #: ui/evolution-mail-message.xml.h:70
 msgid "Open the selected message in a new window"
-msgstr ""
+msgstr "પસંદ કરેલ સંદેશાને નવી વિન્ડોમાં ખોલો"
 
 #: ui/evolution-mail-message.xml.h:71
 msgid "Open the selected message in the composer for editing"
-msgstr ""
+msgstr "પસંદ કરેલ સંદેશાને કમ્પોઝર વિન્ડોમાં ફેરફાર કરવા માટે ખોલો"
 
 #: ui/evolution-mail-message.xml.h:72
 msgid "Original Si_ze"
-msgstr ""
+msgstr "મૂળ માપ (_z)"
 
 #: ui/evolution-mail-message.xml.h:73
 msgid "P_revious Unread Message"
-msgstr ""
+msgstr "પહેલાનો નહિં વાંચેલ સંદેશો (_r)"
 
 #: ui/evolution-mail-message.xml.h:75
 msgid "Post a Repl_y"
-msgstr ""
+msgstr "વળતો જવાબ પોસ્ટ કરો (_y)"
 
 #: ui/evolution-mail-message.xml.h:76
 msgid "Post a reply to a message in a Public folder"
-msgstr ""
+msgstr "સંદેશાનો વળતો જવાબ જાહેર ફોલ્ડરમાં પોસ્ટ કરો"
 
 #: ui/evolution-mail-message.xml.h:77
 msgid "Pr_evious Important Message"
-msgstr ""
+msgstr "પહેલાનો મહત્વનો સંદેશો (_e)"
 
 #: ui/evolution-mail-message.xml.h:78
 msgid "Preview the message to be printed"
-msgstr ""
+msgstr "છાપવા માટે સંદેશાનું પૂર્વદર્શન કરો"
 
 #: ui/evolution-mail-message.xml.h:82
 msgid "Print this message"
-msgstr ""
+msgstr "આ સંદેશાને છાપો"
 
 #: ui/evolution-mail-message.xml.h:83
 msgid "Re_direct"
-msgstr ""
+msgstr "દિશા બદલો (_d)"
 
 #: ui/evolution-mail-message.xml.h:84
 msgid "Redirect (bounce) the selected message to someone"
-msgstr ""
+msgstr "પસંદ કરેલ સંદેશાઓની કોઈ બીજા તરફ દિશા બદલો"
 
 #: ui/evolution-mail-message.xml.h:89
 msgid "Reset the text to its original size"
-msgstr ""
+msgstr "લખાણને તેના મૂળ માપમાં ફરીથી સુયોજિત કરો"
 
 #: ui/evolution-mail-message.xml.h:90
 msgid "S_earch in Message..."
-msgstr ""
+msgstr "સંદેશામાં શોધો (_e)..."
 
 #: ui/evolution-mail-message.xml.h:91
 msgid "S_maller"
-msgstr ""
+msgstr "નાનું (_m)"
 
 #: ui/evolution-mail-message.xml.h:92
 msgid "Save the message as a text file"
-msgstr ""
+msgstr "સંદેશાને લખાણ ફાઈલ તરીકે સંગ્રહો"
 
 #: ui/evolution-mail-message.xml.h:93
 msgid "Search for text in the body of the displayed message"
-msgstr ""
+msgstr "પ્રદર્શિત સંદેશાના ભાગમાં લખાણ માટે શોધ કરો"
 
 #: ui/evolution-mail-message.xml.h:94
 msgid "Set up the page settings for your current printer"
-msgstr ""
+msgstr "તમારા વર્તમાન પ્રિન્ટર માટે પાનાના સુયોજનો સુયોજિત કરો"
 
 #: ui/evolution-mail-message.xml.h:95
 msgid "Show Email _Source"
-msgstr ""
+msgstr "ઈમેઈલ સ્રોત બતાવો (_S)"
 
 #: ui/evolution-mail-message.xml.h:96
 msgid "Show Full _Headers"
-msgstr ""
+msgstr "પૂર્ણ હેડરો બતાવો (_H)"
 
 #: ui/evolution-mail-message.xml.h:97
 msgid "Show a blinking cursor in the body of displayed messages"
-msgstr ""
+msgstr "પ્રદર્શિત સંદેશાઓના ભાગમાં ઝબૂકતું કર્સર બતાવો"
 
 #: ui/evolution-mail-message.xml.h:98
 msgid "Show message in the normal style"
-msgstr ""
+msgstr "સામાન્ય શૈલીમાં સંદેશાને બતાવો"
 
 #: ui/evolution-mail-message.xml.h:99
 msgid "Show message with all email headers"
-msgstr ""
+msgstr "સંદેશાને બધા ઈ-મેઈલ હેડરો સાથે બતાવો"
 
 #: ui/evolution-mail-message.xml.h:100
 msgid "Show the raw email source of the message"
-msgstr ""
+msgstr "સંદેશાના ખરાબ ઈ-મેઈલ સ્રોતને બતાવો"
 
 #: ui/evolution-mail-message.xml.h:101
 msgid "Text Si_ze"
-msgstr ""
+msgstr "લખાણ માપ (_z)"
 
 #: ui/evolution-mail-message.xml.h:102
 msgid "Un-delete the selected messages"
-msgstr ""
+msgstr "પસંદ કરેલ સંદેશાઓને કાઢો નહિં"
 
 #: ui/evolution-mail-message.xml.h:103
 msgid "VFolder on Mailing _List..."
-msgstr ""
+msgstr "મેઈલીંગ યાદી પર Vફોલ્ડર (_L)..."
 
 #: ui/evolution-mail-message.xml.h:104
 msgid "VFolder on Se_nder..."
-msgstr ""
+msgstr "મોકલનાર પર Vફોલ્ડર (_n)..."
 
 #: ui/evolution-mail-message.xml.h:105
 msgid "VFolder on _Recipients..."
-msgstr ""
+msgstr "મેળવનારાઓ પર Vફોલ્ડર (_R)..."
 
 #: ui/evolution-mail-message.xml.h:106
 msgid "VFolder on _Subject..."
-msgstr ""
+msgstr "વિષય પર Vફોલ્ડર (_S)..."
 
 #: ui/evolution-mail-message.xml.h:108
 msgid "_Attached"
-msgstr ""
+msgstr "જોડાયેલ છે (_A)"
 
 #: ui/evolution-mail-message.xml.h:111
 msgid "_Create Filter From Message"
-msgstr ""
+msgstr "સંદેશામાંથી ગાળક બનાવો (_C)"
 
 #: ui/evolution-mail-message.xml.h:115
 msgid "_Go To"
-msgstr ""
+msgstr "પર જાઓ (_G)"
 
 #: ui/evolution-mail-message.xml.h:116
 msgid "_Inline"
-msgstr ""
+msgstr "વાક્યની અંદર (_I)"
 
 #: ui/evolution-mail-message.xml.h:117
 msgid "_Larger"
-msgstr ""
+msgstr "કરતાં મોટું (_L)"
 
 #: ui/evolution-mail-message.xml.h:118
 msgid "_Message Display"
-msgstr ""
+msgstr "સંદેશા ડિસ્પ્લે (_M)"
 
 #: ui/evolution-mail-message.xml.h:120
 msgid "_Next Message"
-msgstr ""
+msgstr "પછીનો સંદેશો (_N)"
 
 #: ui/evolution-mail-message.xml.h:121
 msgid "_Normal Display"
-msgstr ""
+msgstr "સામાન્ય ડિસ્પ્લે (_N)"
 
 #: ui/evolution-mail-message.xml.h:122
 msgid "_Open Message"
-msgstr ""
+msgstr "સંદેશો ખોલો (_O)"
 
 #: ui/evolution-mail-message.xml.h:124
 msgid "_Previous Message"
-msgstr ""
+msgstr "પહેલાનો સંદેશો (_P)"
 
 #: ui/evolution-mail-message.xml.h:126
 msgid "_Quoted"
-msgstr ""
+msgstr "અવતરિત (_Q)"
 
 #: ui/evolution-mail-message.xml.h:129 ui/evolution.xml.h:36
 msgid "_Tools"
-msgstr ""
+msgstr "સાધનો (_T)"
 
 #: ui/evolution-mail-message.xml.h:130
 msgid "_Undelete"
-msgstr ""
+msgstr "કાઢો નહિં (_U)"
 
 #: ui/evolution-mail-messagedisplay.xml.h:2 ui/evolution.xml.h:5
 msgid "Close this window"
-msgstr ""
+msgstr "આ વિન્ડો બંધ કરો"
 
 #: ui/evolution-mail-messagedisplay.xml.h:5
 #: ui/evolution-message-composer.xml.h:41 ui/evolution-subscribe.xml.h:9
 #: ui/evolution.xml.h:28
 msgid "_Close"
-msgstr ""
+msgstr "બંધ કરો (_C)"
 
 #: ui/evolution-message-composer.xml.h:1
 msgid "Attach"
-msgstr ""
+msgstr "જોડો"
 
 #: ui/evolution-message-composer.xml.h:2
 msgid "Attach a file"
-msgstr ""
+msgstr "ફાઈલ જોડો"
 
 #: ui/evolution-message-composer.xml.h:4 ui/evolution-signature-editor.xml.h:3
 msgid "Close the current file"
-msgstr ""
+msgstr "વર્તમાન ફાઈલ બંધ કરો"
 
 #: ui/evolution-message-composer.xml.h:5
 msgid "Delete all but signature"
-msgstr ""
+msgstr "બધી સહીઓ કાઢી નાંખો"
 
 #: ui/evolution-message-composer.xml.h:6
 msgid "Encrypt this message with PGP"
-msgstr ""
+msgstr "આ સંદેશાને PGP સાથે એનક્રિપ્ટ કરો"
 
 #: ui/evolution-message-composer.xml.h:7
 msgid "Encrypt this message with your S/MIME Encryption Cetificate"
-msgstr ""
+msgstr "આ સંદેશાને તમારા S/MIME એનક્રિપ્શન પ્રમાણપત્ર સાથે એનક્રિપ્ટ કરો"
 
 #: ui/evolution-message-composer.xml.h:8 ui/evolution-signature-editor.xml.h:4
 msgid "For_mat"
-msgstr ""
+msgstr "બંધારણ ઘડો (_m)"
 
 #: ui/evolution-message-composer.xml.h:9
 msgid "HT_ML"
-msgstr ""
+msgstr "HT_ML"
 
 #: ui/evolution-message-composer.xml.h:11
 msgid "Open a file"
-msgstr ""
+msgstr "ફાઈલ ખોલો"
 
 #: ui/evolution-message-composer.xml.h:12
 msgid "PGP Encrypt"
-msgstr ""
+msgstr "PGP એનક્રિપ્ટ"
 
 #: ui/evolution-message-composer.xml.h:13
 msgid "PGP Sign"
-msgstr ""
+msgstr "PGP સહી"
 
 #: ui/evolution-message-composer.xml.h:14
 msgid "S/MIME Encrypt"
-msgstr ""
+msgstr "S/MIME એનક્રિપ્ટ"
 
 #: ui/evolution-message-composer.xml.h:15
 msgid "S/MIME Sign"
-msgstr ""
+msgstr "S/MIME સહી"
 
 #: ui/evolution-message-composer.xml.h:16
 #: ui/evolution-signature-editor.xml.h:6
 msgid "Save"
-msgstr ""
+msgstr "સંગ્રહો"
 
 #: ui/evolution-message-composer.xml.h:17
 msgid "Save As"
-msgstr ""
+msgstr "આ રીતે સંગ્રહો"
 
 #: ui/evolution-message-composer.xml.h:19
 msgid "Save _Draft"
-msgstr ""
+msgstr "ડ્રાફ્ટ સંગ્રહો (_D)"
 
 #: ui/evolution-message-composer.xml.h:20
 msgid "Save in folder..."
-msgstr ""
+msgstr "ફોલ્ડરમાં સંગ્રહો..."
 
 #: ui/evolution-message-composer.xml.h:21
 #: ui/evolution-signature-editor.xml.h:9
 msgid "Save the current file"
-msgstr ""
+msgstr "વર્તમાન ફાઈલ સંગ્રહો"
 
 #: ui/evolution-message-composer.xml.h:22
 msgid "Save the current file with a different name"
-msgstr ""
+msgstr "વર્તમાન ફાઈલ અલગ નામથી સંગ્રહો"
 
 #: ui/evolution-message-composer.xml.h:23
 msgid "Save the message in a specified folder"
-msgstr ""
+msgstr "સ્પષ્ટ કરેલ ફોલ્ડરમાં સંદેશાને સંગ્રહો"
 
 #: ui/evolution-message-composer.xml.h:25
 #: ui/evolution-signature-editor.xml.h:11
 msgid "Send the mail in HTML format"
-msgstr ""
+msgstr "મેઈલને HTML બંધારણમાં મોકલો"
 
 #: ui/evolution-message-composer.xml.h:26
 msgid "Send this message"
-msgstr ""
+msgstr "આ સંંદેશાને મોકલો"
 
 #: ui/evolution-message-composer.xml.h:27
 msgid "Show / hide attachments"
-msgstr ""
+msgstr "જોડાણો બતાવો / છુપાવો"
 
 #: ui/evolution-message-composer.xml.h:28
 msgid "Show _attachments"
-msgstr ""
+msgstr "જોડાણો બતાવો (_a)"
 
 #: ui/evolution-message-composer.xml.h:29
 msgid "Show attachments"
-msgstr ""
+msgstr "જોડાણો બતાવો"
 
 #: ui/evolution-message-composer.xml.h:30
 msgid "Sign this message with your PGP key"
-msgstr ""
+msgstr "આ સંદેશાને તમારી PGP કી સાથે સહી કરો"
 
 #: ui/evolution-message-composer.xml.h:31
 msgid "Sign this message with your S/MIME Signature Certificate"
-msgstr ""
+msgstr "આ સંદેશાને તમારી S/MIME સહી પ્રમાણપત્ર સાથે સહી કરો"
 
 #: ui/evolution-message-composer.xml.h:32
 msgid "Toggles whether the BCC field is displayed"
-msgstr ""
+msgstr "આને પણ ખબર વિના ક્ષેત્ર પ્રદર્શિત છે કે નહિં તે ફેરબદલી કરો"
 
 #: ui/evolution-message-composer.xml.h:33
 msgid "Toggles whether the CC field is displayed"
-msgstr ""
+msgstr "આને પણ ક્ષેત્ર પ્રદર્શિત છે કે નહિં તે ફેરબદલી કરો"
 
 #: ui/evolution-message-composer.xml.h:34
 msgid "Toggles whether the From chooser is displayed"
-msgstr ""
+msgstr "શું તરફથી પસંદ કરનાર પ્રદર્શિત છે તે ફેરબદલી કરો"
 
 #: ui/evolution-message-composer.xml.h:35
 msgid "Toggles whether the Post-To field is displayed"
-msgstr ""
+msgstr "શું ને પોસ્ટ કરો ક્ષેત્ર પ્રદર્શિત છે કે નહિં તે ફેરબદલી કરો"
 
 #: ui/evolution-message-composer.xml.h:36
 msgid "Toggles whether the Reply-To field is displayed"
-msgstr ""
+msgstr "શું ને વળતો જવાબ આપો ક્ષેત્ર પ્રદર્શિત છે કે નહિં તે ફેરબદલી કરો"
 
 #: ui/evolution-message-composer.xml.h:37
 msgid "Toggles whether the To field is displayed"
-msgstr ""
+msgstr "શું પ્રતિ ક્ષેત્ર પ્રદર્શિત છે કે નહિં તે ફેરબદલી કરો"
 
 #: ui/evolution-message-composer.xml.h:38
 msgid "_Attachment..."
-msgstr ""
+msgstr "જોડાણ (_A)..."
 
 #: ui/evolution-message-composer.xml.h:39
 msgid "_Bcc Field"
-msgstr ""
+msgstr "આને પણ ખબર વિના ક્ષેત્ર (_B)"
 
 #: ui/evolution-message-composer.xml.h:40
 msgid "_Cc Field"
-msgstr ""
+msgstr "આને પણ ક્ષેત્ર (_C)"
 
 #: ui/evolution-message-composer.xml.h:42
 msgid "_Delete all"
-msgstr ""
+msgstr "બધું કાઢી નાંખો (_D)"
 
 #: ui/evolution-message-composer.xml.h:45
 msgid "_From Field"
-msgstr ""
+msgstr "તરફથી ક્ષેત્ર (_F)"
 
 #: ui/evolution-message-composer.xml.h:46
 #: ui/evolution-signature-editor.xml.h:14
 msgid "_Insert"
-msgstr ""
+msgstr "દાખલ કરો (_I)"
 
 #: ui/evolution-message-composer.xml.h:47
 msgid "_Open..."
-msgstr ""
+msgstr "ખોલો (_O)..."
 
 #: ui/evolution-message-composer.xml.h:48
 msgid "_Post-To Field"
-msgstr ""
+msgstr "ને પોસ્ટ કરો ક્ષેત્ર (_P)"
 
 #: ui/evolution-message-composer.xml.h:49
 msgid "_Reply-To Field"
-msgstr ""
+msgstr "ને વળતો જવાબ આપો ક્ષેત્ર (_R)"
 
 #: ui/evolution-message-composer.xml.h:51
 msgid "_Security"
-msgstr ""
+msgstr "સુરક્ષા (_S)"
 
 #: ui/evolution-message-composer.xml.h:52
 msgid "_To Field"
-msgstr ""
+msgstr "પ્રતિ ક્ષેત્ર (_T)"
 
 #: ui/evolution-signature-editor.xml.h:5
 msgid "H_TML"
-msgstr ""
+msgstr "H_TML"
 
 #: ui/evolution-signature-editor.xml.h:10
 msgid "Save the current file and close the window"
-msgstr ""
+msgstr "વર્તમાન ફાઈલ સંગ્રહો અને વિન્ડો બંધ કરો"
 
 #: ui/evolution-subscribe.xml.h:1
 msgid "Add folder to your list of subscribed folders"
-msgstr ""
+msgstr "તમારા ઉમેદવારી ફોલ્ડોરોની યાદીમાં ફોલ્ડર ઉમેરો"
 
 #: ui/evolution-subscribe.xml.h:2
 msgid "F_older"
-msgstr ""
+msgstr "ફોલ્ડર (_o)"
 
 #: ui/evolution-subscribe.xml.h:3
 msgid "Refresh List"
-msgstr ""
+msgstr "યાદી ફરીથી તાજી કરો"
 
 #: ui/evolution-subscribe.xml.h:4
 msgid "Refresh List of Folders"
-msgstr ""
+msgstr "ફોલ્ડરોની યાદી ફરીથી તાજી કરો"
 
 #: ui/evolution-subscribe.xml.h:5
 msgid "Remove folder from your list of subscribed folders"
-msgstr ""
+msgstr "તમારા ઉમેદવારી ફોલ્ડરોની યાદીમાંથી ફોલ્ડર દૂર કરો"
 
 #: ui/evolution-subscribe.xml.h:7
 msgid "Subscribe"
-msgstr ""
+msgstr "ઉમેદવારી કરો"
 
 #: ui/evolution-subscribe.xml.h:8
 msgid "Unsubscribe"
-msgstr ""
+msgstr "ઉમેદવારી દૂર કરો"
 
 #: ui/evolution-task-editor.xml.h:1
 msgid "Assign Task"
-msgstr ""
+msgstr "બાબત સોંપો"
 
 #: ui/evolution-task-editor.xml.h:2
 msgid "Assign this task to others"
-msgstr ""
+msgstr "આ બાબત બીજાને સોંપો"
 
 #: ui/evolution-task-editor.xml.h:3
 msgid "Cancel Task"
-msgstr ""
+msgstr "બાબત રદ કરો"
 
 #: ui/evolution-task-editor.xml.h:4
 msgid "Cancel this task"
-msgstr ""
+msgstr "આ બાબત રદ કરો"
 
 #: ui/evolution-task-editor.xml.h:7
 msgid "Obtain the latest task information"
-msgstr ""
+msgstr "બાબતની તાજી જાણકારી મેળવો"
 
 #: ui/evolution-task-editor.xml.h:8
 msgid "Re_fresh Task"
-msgstr ""
+msgstr "બાબત ફરીથી તાજી કરો (_f)"
 
 #: ui/evolution-tasks.xml.h:3
 msgid "Copy selected task"
-msgstr ""
+msgstr "પસંદ કરેલ બાબત નકલ કરો"
 
 #: ui/evolution-tasks.xml.h:5
 msgid "Cut selected task"
-msgstr ""
+msgstr "પસંદ કરેલ બાબત કાપો"
 
 #: ui/evolution-tasks.xml.h:7
 msgid "Delete completed tasks"
-msgstr ""
+msgstr "પૂર્ણ થયેલ બાબતો કાઢી નાંખો"
 
 #: ui/evolution-tasks.xml.h:8
 msgid "Delete selected tasks"
-msgstr ""
+msgstr "પસંદ કરેલ બાબતો કાઢી નાંખો"
 
 #: ui/evolution-tasks.xml.h:9
 msgid "Mar_k as Complete"
-msgstr ""
+msgstr "પૂર્ણ થયેલ હોય એમ ચિહ્નિત કરો (_k)"
 
 #: ui/evolution-tasks.xml.h:10
 msgid "Mark selected tasks as complete"
-msgstr ""
+msgstr "પસંદ કરેલ બાબતોને પૂર્ણ થયેલ એમ ચિહ્નિત કરો"
 
 #: ui/evolution-tasks.xml.h:12
 msgid "Paste task from the clipboard"
-msgstr ""
+msgstr "ક્લિપબોર્ડમાંથી બાબત ચોંટાડો"
 
 #: ui/evolution-tasks.xml.h:13
 msgid "Previews the list of tasks to be printed"
-msgstr ""
+msgstr "છાપવા માટેની બાબતોની યાદીનું પૂર્વદર્શન કરો"
 
 #: ui/evolution-tasks.xml.h:16
 msgid "Print the list of tasks"
-msgstr ""
+msgstr "બાબતોની યાદી છાપો"
 
 #: ui/evolution-tasks.xml.h:18
 msgid "View the selected task"
-msgstr ""
+msgstr "પસંદ કરેલ બાબત જુઓ"
 
 #: ui/evolution-tasks.xml.h:23
 msgid "_Open Task"
-msgstr ""
+msgstr "બાબત ખોલો (_O)"
 
 #: ui/evolution.xml.h:1
 msgid "About Evolution..."
-msgstr ""
+msgstr "ઈવોલ્યુશન વિશે..."
 
 #: ui/evolution.xml.h:2
 msgid "Change Evolution's settings"
-msgstr ""
+msgstr "ઈવોલ્યુશનના સુયોજનો બદલો"
 
 #: ui/evolution.xml.h:3
 msgid "Change the visibility of the toolbar"
-msgstr ""
+msgstr "સાધનપટ્ટીની દ્રશ્યમાનતા બદલો"
 
 #: ui/evolution.xml.h:6
 msgid "Create a new window displaying this folder"
-msgstr ""
+msgstr "આ ફોલ્ડરને બતાવતી નવી વિન્ડો બતાવો"
 
 #: ui/evolution.xml.h:7
 msgid "E_xit"
-msgstr ""
+msgstr "બહાર નીકળો (_x)"
 
 #: ui/evolution.xml.h:8
 msgid "Evolution _FAQ"
-msgstr ""
+msgstr "ઈવોલ્યુશન _FAQ"
 
 #: ui/evolution.xml.h:9
 msgid "Exit the program"
-msgstr ""
+msgstr "કાર્યક્રમમાંથી બહાર નીકળો"
 
 #: ui/evolution.xml.h:10
 msgid "Forget _Passwords"
-msgstr ""
+msgstr "પાસવર્ડો ભૂલી ગયા (_P)"
 
 #: ui/evolution.xml.h:11
 msgid "Forget remembered passwords so you will be prompted for them again"
-msgstr ""
+msgstr "યાદ રાખેલા પાસવર્ડો ભૂલી ગયા તેથી તમને તેના માટે ફરીથી પૂછવામાં આવશે"
 
 #: ui/evolution.xml.h:12
 msgid "Import data from other programs"
-msgstr ""
+msgstr "બીજા કાર્યક્રમોમાંથી માહિતી આયાત કરો"
 
 #: ui/evolution.xml.h:14
 msgid "New _Window"
-msgstr ""
+msgstr "નવી વિન્ડો (_W)"
 
 #: ui/evolution.xml.h:15
 msgid "Pi_lot Settings..."
-msgstr ""
+msgstr "પાયલોટ સુયોજનો (_l)..."
 
 #: ui/evolution.xml.h:16
 msgid "Send / Receive"
-msgstr ""
+msgstr "મોકલો / મેળવો"
 
 #: ui/evolution.xml.h:17
 msgid "Send queued items and retrieve new items"
-msgstr ""
+msgstr "કતારમાં રહેલી વસ્તુઓ મોકલો અને નવી વસ્તુઓ મેળવો"
 
 #: ui/evolution.xml.h:18
 msgid "Set up Pilot configuration"
-msgstr ""
+msgstr "પાયલોટ રુપરેખાંકન સુયોજિત કરો"
 
 #: ui/evolution.xml.h:19
 msgid "Show information about Evolution"
-msgstr ""
+msgstr "ઈવોલ્યુશન વિશે જાણકારી બતાવો"
 
 #: ui/evolution.xml.h:20
 msgid "Submit Bug Report"
-msgstr ""
+msgstr "ભૂલનો અહેવાલ રજૂ કરો"
 
 #: ui/evolution.xml.h:21
 msgid "Submit _Bug Report"
-msgstr ""
+msgstr "ભૂલનો અહેવાલ રજૂ કરો (_B)"
 
 #: ui/evolution.xml.h:22
 msgid "Submit a bug report using Bug Buddy"
-msgstr ""
+msgstr "બગ બડીની મદદથી ભૂલનો અહેવાલ રજૂ કરો"
 
 #: ui/evolution.xml.h:23
 msgid "T_oolbar"
-msgstr ""
+msgstr "સાધનપટ્ટી (_o)"
 
 #: ui/evolution.xml.h:24
 msgid "Toggle whether we are working offline."
-msgstr ""
+msgstr "શું આપણે ઓફલાઈન કામ કરી રહ્યા છીએ એ ફેરબદલી કરો."
 
 #: ui/evolution.xml.h:26
 msgid "_About Evolution..."
-msgstr ""
+msgstr "ઈવોલ્યુશન વિશે (_A)..."
 
 #: ui/evolution.xml.h:30
 msgid "_Help"
-msgstr ""
+msgstr "મદદ (_H)"
 
 #: ui/evolution.xml.h:31
 msgid "_Import..."
-msgstr ""
+msgstr "આયાત કરો (_I)..."
 
 #: ui/evolution.xml.h:32
 msgid "_New"
-msgstr ""
+msgstr "નવું (_N)"
 
 #: ui/evolution.xml.h:33
 msgid "_Quick Reference"
-msgstr ""
+msgstr "ઝડપી સંદર્ભ (_Q)"
 
 #: ui/evolution.xml.h:34
 msgid "_Send / Receive"
-msgstr ""
+msgstr "મોકલો / મેળવો (_S)"
 
 #: ui/evolution.xml.h:38
 msgid "_Window"
-msgstr ""
+msgstr "વિન્ડો (_W)"
 
 #: views/addressbook/galview.xml.h:1
 msgid "By _Company"
-msgstr ""
+msgstr "કંપની દ્વારા (_C)"
 
 #: views/addressbook/galview.xml.h:2
 msgid "_Address Cards"
-msgstr ""
+msgstr "સરનામા કાર્ડો (_A)"
 
 #: views/addressbook/galview.xml.h:3
 msgid "_Phone List"
-msgstr ""
+msgstr "ફોન યાદી (_P)"
 
 #: views/calendar/galview.xml.h:1
 msgid "W_eek View"
-msgstr ""
+msgstr "અઠવાડિયાનો દેખાવ (_e)"
 
 #: views/calendar/galview.xml.h:2
 msgid "_Day View"
-msgstr ""
+msgstr "દિવસનો દેખાવ (_D)"
 
 #: views/calendar/galview.xml.h:3
 msgid "_List View"
-msgstr ""
+msgstr "યાદીનો દેખાવ (_L)"
 
 #: views/calendar/galview.xml.h:4
 msgid "_Month View"
-msgstr ""
+msgstr "મહિનાનો દેખાવ (_M)"
 
 #: views/calendar/galview.xml.h:5
 msgid "_Work Week View"
-msgstr ""
+msgstr "કામ કરવાના અઠવાડિયાનો દેખાવ (_W)"
 
 #: views/mail/galview.xml.h:1
 msgid "As _Sent Folder"
-msgstr ""
+msgstr "મોકલેલા ફોલ્ડર તરીકે (_S)"
 
 #: views/mail/galview.xml.h:2
 msgid "By S_tatus"
-msgstr ""
+msgstr "સ્થિતિ દ્વારા (_t)"
 
 #: views/mail/galview.xml.h:3
 msgid "By Se_nder"
-msgstr ""
+msgstr "મોકલનાર દ્વારા (_n)"
 
 #: views/mail/galview.xml.h:4
 msgid "By Su_bject"
@@ -18956,6 +19136,9 @@ msgid ""
 "zone.\n"
 "Use the right mouse button to zoom out."
 msgstr ""
+"નકશાના અમુક વિસ્તારને મોટો કરવા માટે તેના ઉપર માઉસનું ડાબુ "
+"ક્લિક કરો અને ટાઈમઝોન પસંદ કરો.\n"
+"તેને નાનું કરવા માટે જમણું માઉસ બટન વાપરો."
 
 #: widgets/menus/gal-view-menus.c:292
 msgid "_Current View"
