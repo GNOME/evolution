@@ -18,6 +18,7 @@
 #include <gtk/gtkmenu.h>
 #include <gtk/gtkwidget.h>
 #include <libgnome/gnome-defs.h>
+#include <gnome-xml/tree.h>
 
 BEGIN_GNOME_DECLS
 
@@ -80,6 +81,9 @@ gchar * e_utf8_xml1_encode (const gchar *text);
 
 gint e_unichar_to_utf8 (gint c, gchar *outbuf);
 guint32 gdk_keyval_to_unicode (guint keysym);
+
+gchar    *e_xml_get_translated_utf8_string_prop_by_name   (const xmlNode *parent,
+							   const xmlChar *prop_name);
 
 END_GNOME_DECLS
 

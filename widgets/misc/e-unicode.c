@@ -9,6 +9,10 @@
  */
 
 #include <config.h>
+
+#include "e-unicode.h"
+
+#include "gal/util/e-i18n.h"
 #include <ctype.h>
 #include <string.h>
 #include <stdio.h>
@@ -18,8 +22,8 @@
 #include <gdk/gdkx.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkmenuitem.h>
-#include "e-unicode.h"
 #include "e-font.h"
+#include <gnome-xml/xmlmemory.h>
 
 #define FONT_TESTING
 #define MAX_DECOMP 8
@@ -2959,4 +2963,32 @@ e_stripped_char (unicode_char_t ch)
 	}
 
 	return 0;
+}
+
+gchar *
+e_xml_get_translated_utf8_string_prop_by_name (const xmlNode *parent, const xmlChar *prop_name)
+{
+	xmlChar *prop;
+	gchar *ret_val = NULL;
+	gchar *combined_name;
+
+	g_return_val_if_fail (parent != NULL, 0);
+	g_return_val_if_fail (prop_name != NULL, 0);
+
+	prop = xmlGetProp ((xmlNode *) parent, prop_name);
+	if (prop != NULL) {
+		ret_val = e_utf8_from_locale_string (prop);
+		xmlFree (prop);
+		return ret_val;
+	}
+
+	combined_name = g_strdup_printf("_%s", prop_name);
+	prop = xmlGetProp ((xmlNode *) parent, combined_name);
+	if (prop != NULL) {
+		ret_val = e_utf8_from_locale_string (gettext (prop));
+		xmlFree (prop);
+	}
+	g_free(combined_name);
+
+	return ret_val;
 }

@@ -52,7 +52,9 @@ e_xml_get_child_by_name (const xmlNode *parent, const xmlChar *child_name)
  * child with the name child_name and no "lang" attribute.
  */
 xmlNode *
-e_xml_get_child_by_name_by_lang (const xmlNode *parent, const xmlChar *child_name, const gchar *lang)
+e_xml_get_child_by_name_by_lang (const xmlNode *parent,
+				 const xmlChar *child_name,
+				 const gchar *lang)
 {
 	xmlNode *child;
 	/* This is the default version of the string. */
@@ -82,7 +84,10 @@ e_xml_get_child_by_name_by_lang (const xmlNode *parent, const xmlChar *child_nam
 }
 
 static xmlNode *
-e_xml_get_child_by_name_by_lang_list_with_score (const xmlNode *parent, const gchar *name, GList *lang_list, gint *best_lang_score)
+e_xml_get_child_by_name_by_lang_list_with_score (const xmlNode *parent,
+						 const gchar *name,
+						 GList *lang_list,
+						 gint *best_lang_score)
 {
 	xmlNodePtr best_node = NULL, node;
 
@@ -97,7 +102,9 @@ e_xml_get_child_by_name_by_lang_list_with_score (const xmlNode *parent, const gc
 			GList *l;
 			gint i;
 
-			for (l = lang_list, i = 0; l != NULL && i < *best_lang_score; l = l->next, i++) {
+			for (l = lang_list, i = 0;
+			     l != NULL && i < *best_lang_score;
+			     l = l->next, i++) {
 				if (strcmp ((gchar *) l->data, lang) == 0) {
 					best_node = node;
 					*best_lang_score = i;
@@ -122,7 +129,9 @@ e_xml_get_child_by_name_by_lang_list_with_score (const xmlNode *parent, const gc
  *
  */
 xmlNode *
-e_xml_get_child_by_name_by_lang_list (const xmlNode *parent, const gchar *name, GList *lang_list)
+e_xml_get_child_by_name_by_lang_list (const xmlNode *parent,
+				      const gchar *name,
+				      GList *lang_list)
 {
 	gint best_lang_score = INT_MAX;
 
@@ -132,7 +141,10 @@ e_xml_get_child_by_name_by_lang_list (const xmlNode *parent, const gchar *name, 
 	if (lang_list == NULL) {
 		lang_list = gnome_i18n_get_language_list ("LC_MESSAGES");
 	}
-	return e_xml_get_child_by_name_by_lang_list_with_score (parent, name, lang_list, &best_lang_score);
+	return e_xml_get_child_by_name_by_lang_list_with_score
+		(parent,name,
+		 lang_list,
+		 &best_lang_score);
 }
 
 /*
@@ -173,7 +185,9 @@ e_xml_get_integer_prop_by_name (const xmlNode *parent, const xmlChar *prop_name)
 }
 
 gint
-e_xml_get_integer_prop_by_name_with_default (const xmlNode *parent, const xmlChar *prop_name, gint def)
+e_xml_get_integer_prop_by_name_with_default (const xmlNode *parent,
+					     const xmlChar *prop_name,
+					     gint def)
 {
 	xmlChar *prop;
 	gint ret_val = def;
@@ -190,7 +204,9 @@ e_xml_get_integer_prop_by_name_with_default (const xmlNode *parent, const xmlCha
 }
 
 void
-e_xml_set_integer_prop_by_name (xmlNode *parent, const xmlChar *prop_name, gint value)
+e_xml_set_integer_prop_by_name (xmlNode *parent,
+				const xmlChar *prop_name,
+				gint value)
 {
 	gchar *valuestr;
 
@@ -212,7 +228,9 @@ e_xml_get_uint_prop_by_name (const xmlNode *parent, const xmlChar *prop_name)
 }
 
 guint
-e_xml_get_uint_prop_by_name_with_default (const xmlNode *parent, const xmlChar *prop_name, guint def)
+e_xml_get_uint_prop_by_name_with_default (const xmlNode *parent,
+					  const xmlChar *prop_name,
+					  guint def)
 {
 	xmlChar *prop;
 	guint ret_val = def;
@@ -229,7 +247,9 @@ e_xml_get_uint_prop_by_name_with_default (const xmlNode *parent, const xmlChar *
 }
 
 void
-e_xml_set_uint_prop_by_name (xmlNode *parent, const xmlChar *prop_name, guint value)
+e_xml_set_uint_prop_by_name (xmlNode *parent,
+			     const xmlChar *prop_name,
+			     guint value)
 {
 	gchar *valuestr;
 
@@ -242,16 +262,21 @@ e_xml_set_uint_prop_by_name (xmlNode *parent, const xmlChar *prop_name, guint va
 }
 
 gboolean
-e_xml_get_bool_prop_by_name (const xmlNode *parent, const xmlChar *prop_name)
+e_xml_get_bool_prop_by_name (const xmlNode *parent,
+			     const xmlChar *prop_name)
 {
 	g_return_val_if_fail (parent != NULL, 0);
 	g_return_val_if_fail (prop_name != NULL, 0);
 
-	return e_xml_get_bool_prop_by_name_with_default (parent, prop_name, FALSE);
+	return e_xml_get_bool_prop_by_name_with_default (parent,
+							 prop_name,
+							 FALSE);
 }
 
 gboolean
-e_xml_get_bool_prop_by_name_with_default(const xmlNode *parent, const xmlChar *prop_name, gboolean def)
+e_xml_get_bool_prop_by_name_with_default(const xmlNode *parent,
+					 const xmlChar *prop_name,
+					 gboolean def)
 {
 	xmlChar *prop;
 	gboolean ret_val = def;
@@ -371,14 +396,25 @@ e_xml_get_translated_string_prop_by_name (const xmlNode *parent, const xmlChar *
 {
 	xmlChar *prop;
 	gchar *ret_val = NULL;
+	gchar *combined_name;
 
 	g_return_val_if_fail (parent != NULL, 0);
 	g_return_val_if_fail (prop_name != NULL, 0);
 
 	prop = xmlGetProp ((xmlNode *) parent, prop_name);
 	if (prop != NULL) {
-		ret_val = g_strdup (_(prop));
+		ret_val = g_strdup (prop);
+		xmlFree (prop);
+		return ret_val;
+	}
+
+	combined_name = g_strdup_printf("_%s", prop_name);
+	prop = xmlGetProp ((xmlNode *) parent, combined_name);
+	if (prop != NULL) {
+		ret_val = g_strdup (gettext(prop));
 		xmlFree (prop);
 	}
+	g_free(combined_name);
+
 	return ret_val;
 }
