@@ -1,5 +1,5 @@
-#ifndef CURSORS_H
-#define CURSORS_H
+#ifndef GNUMERIC_CURSORS_H
+#define GNUMERIC_CURSORS_H
 
 typedef struct {
 	GdkCursor *cursor;
@@ -22,4 +22,4 @@ void    cursors_shutdown  (void);
 #define cursor_set_widget(w,c) \
 	gdk_window_set_cursor (GTK_WIDGET (w)->window, gnumeric_cursors [c].cursor)
 
-#endif
+#endif /* GNUMERIC_CURSORS_H */

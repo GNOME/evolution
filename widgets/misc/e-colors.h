@@ -1,5 +1,5 @@
-#ifndef COLOR_H
-#define COLOR_H
+#ifndef GNUMERIC_COLOR_H
+#define GNUMERIC_COLOR_H
 
 void     color_init      (void);
 
@@ -11,4 +11,4 @@ void     color_alloc_gdk  (GdkColor *color);
 /* Colors used by any GnumericSheet item */
 extern GdkColor gs_white, gs_light_gray, gs_dark_gray, gs_black, gs_red;
 
-#endif
+#endif /* GNUMERIC_COLOR_H */
