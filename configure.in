@@ -483,4 +483,6 @@ default_user/local/Inbox/Makefile
 default_user/local/Outbox/Makefile
 default_user/local/Trash/Makefile
 tools/Makefile
+doc/Makefile
+doc/C/Makefile
 ])

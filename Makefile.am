@@ -30,7 +30,8 @@ SUBDIRS =			\
 	art			\
 	default_user		\
 	tools			\
-	po
+	po			\
+	doc
 
 dist-hook: evolution.spec
 	cp evolution.spec $(distdir)

@@ -1,3 +1,12 @@
+2000-06-01  Dan Winship  <danw@helixcode.com>
+
+	* Makefile.am: recurse into the C directory
+
+	* C/Makefile.am: Rules to build and install the docs. Mostly
+	stolen from gnomecal. Only works if you have GDP stuff
+	(http://www.gnome.org/gdp/) set up on your machine, but won't make
+	the build fail if you don't.
+
 2000-05-29  Aaron Weber  <aaron@helixcode.com>
 
 	* C/usage-contact.sgml: incorporated kevins notes.
