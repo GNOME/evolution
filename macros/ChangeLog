@@ -1,3 +1,8 @@
+1999-08-02  Peter Teichman  <pat4@acpub.duke.edu>
+
+	* removed gnome-conduit-check.m4 - it should be distributed with
+	gnome-pilot
+
 1999-07-30  Peter Teichman  <pat4@acpub.duke.edu>
 
 	* gnome-conduit-check.m4: added new file of checks. anything that
