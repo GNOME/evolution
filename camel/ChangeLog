@@ -1,5 +1,11 @@
 2000-05-04  Dan Winship  <danw@helixcode.com>
 
+	* providers/pop3/camel-pop3-store.c (pop3_connect): Don't fall
+	back to plaintext passwords if APOP fails, since it should also
+	fail.
+
+2000-05-04  Dan Winship  <danw@helixcode.com>
+
 	* camel-session.c (camel_session_list_providers): New function to
 	replace camel_provider_scan. Returns a list of either (a) all
 	currently-loaded providers, or (b) all available providers.

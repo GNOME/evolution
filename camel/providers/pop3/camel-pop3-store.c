@@ -284,7 +284,7 @@ pop3_connect (CamelService *service, CamelException *ex)
 	struct hostent *h;
 	struct sockaddr_in sin;
 	int fd, status;
-	char *buf, *apoptime, *apopend;
+	char *buf, *apoptime, *apopend, *msg;
 	CamelPop3Store *store = CAMEL_POP3_STORE (service);
 #ifdef HAVE_KRB4
 	gboolean kpop = (service->url->authmech &&
@@ -387,7 +387,6 @@ pop3_connect (CamelService *service, CamelException *ex)
 	g_free (buf);
 
 	/* Authenticate via APOP if we can, USER/PASS if we can't. */
-	status = CAMEL_POP3_FAIL;
 	if (apoptime) {
 		char *secret, md5asc[32], *d;
 		unsigned char md5sum[16], *s;
@@ -401,13 +400,9 @@ pop3_connect (CamelService *service, CamelException *ex)
 		for (s = md5sum, d = md5asc; d < md5asc + 32; s++, d += 2)
 			sprintf (d, "%.2x", *s);
 
-		status = camel_pop3_command (store, NULL, "APOP %s %s",
+		status = camel_pop3_command (store, &msg, "APOP %s %s",
 					     service->url->user, md5asc);
-	}
-
-	if (status != CAMEL_POP3_OK ) {
-		char *msg;
-
+	} else {
 		status = camel_pop3_command (store, &msg, "USER %s",
 					     service->url->user);
 		if (status != CAMEL_POP3_OK) {
@@ -423,16 +418,17 @@ pop3_connect (CamelService *service, CamelException *ex)
 
 		status = camel_pop3_command(store, &msg, "PASS %s",
 					    service->url->passwd);
-		if (status != CAMEL_POP3_OK) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
-					      "Unable to authenticate to POP "
-					      "server. Error sending password:"
-					      " %s", msg ? msg : "(Unknown)");
-			g_free (msg);
-			camel_stream_close (store->ostream);
-			camel_stream_close (store->istream);
-			return FALSE;
-		}
+	}
+
+	if (status != CAMEL_POP3_OK) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
+				      "Unable to authenticate to POP "
+				      "server. Error sending password:"
+				      " %s", msg ? msg : "(Unknown)");
+		g_free (msg);
+		camel_stream_close (store->ostream);
+		camel_stream_close (store->istream);
+		return FALSE;
 	}
 
 	service_class->connect (service, ex);
