@@ -37,7 +37,7 @@
 
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-generic-factory.h>
-#include <bonobo/bonobo-running-context.h>
+#include <bonobo/bonobo-context.h>
 
 #include <gal/util/e-util.h>
 #include <e-util/e-html-utils.h>

@@ -1,3 +1,8 @@
+2001-05-10  Jon Trowbridge  <trow@ximian.com>
+
+	* mail-config.c: No, we don't want to include
+	bonobo-running-context.h... just bonobo-context.h.
+
 2001-05-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c: Fix some compiler warnings by including the
