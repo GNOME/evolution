@@ -14,6 +14,7 @@ BUILT_SOURCES = $(IDL_GENERATED)
 INCLUDES = 								\
 	-DG_LOG_DOMAIN=\"calendar-gui\"					\
 	-I$(top_srcdir)							\
+	-I$(top_builddir)						\
 	-I$(top_srcdir)/calendar					\
 	-I$(top_srcdir)/calendar/cal-client				\
 	-I$(top_builddir)/calendar/cal-client				\

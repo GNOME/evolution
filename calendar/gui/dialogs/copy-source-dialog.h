@@ -22,8 +22,10 @@
 #define COPY_SOURCE_DIALOG_H
 
 #include <gtk/gtkwindow.h>
-#include <e-util/e-source.h>
+#include <libedataserver/e-source.h>
+#include <libecal/e-cal.h>
+#include <libecal/e-cal-util.h>
 
-gboolean copy_source_dialog (GtkWindow *parent, ESource *source);
+gboolean copy_source_dialog (GtkWindow *parent, ESource *source, CalObjType obj_type);
 
 #endif

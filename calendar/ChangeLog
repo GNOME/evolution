@@ -1,5 +1,11 @@
 2003-11-23  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/dialogs/copy-dialog-source.[ch]: fixed compilation errors.
+
+	* gui/dialogs/Makefile.am: added missing header directories.
+
+2003-11-23  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/dialogs/new-calendar.[ch]: fixed copyright notices.
 
 	* gui/dialogs/copy-source-dialog.[ch]: implementation of the
