@@ -1342,41 +1342,41 @@ try_inline_pgp (char *start, CamelMimePart *mime_part,
 	CamelMimePart *part;
 	CamelMultipart *multipart;
 	char *end;
-
-	end = strstr (start, "-----END PGP MESSAGE-----");
+	
+	end = strstr (start, "\n-----END PGP MESSAGE-----\n");
 	if (!end)
 		return start;
-
-	end += sizeof ("-----END PGP MESSAGE-----") - 1;
+	
+	end += sizeof ("\n-----END PGP MESSAGE-----\n") - 1;
 	
 	multipart = camel_multipart_new ();
 	camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (multipart),
 					  "multipart/encrypted; "
 					  "protocol=\"application/pgp-encrypted\"");
-
+	
 	part = fake_mime_part_from_data ("Version: 1\n",
 					 sizeof ("Version: 1\n") - 1,
 					 "application/pgp-encrypted",
 					 offset + 1, md);
 	camel_multipart_add_part (multipart, part);
 	camel_object_unref (CAMEL_OBJECT (part));
-
+	
 	part = fake_mime_part_from_data (start, end - start + 1,
 					 "application/octet-stream",
 					 offset, md);
 	camel_multipart_add_part (multipart, part);
 	camel_object_unref (CAMEL_OBJECT (part));
-
+	
 	part = camel_mime_part_new ();
 	camel_medium_set_content_object (CAMEL_MEDIUM (part),
 					 CAMEL_DATA_WRAPPER (multipart));
-
+	
 	camel_object_hook_event (CAMEL_OBJECT (md->current_message),
 				 "finalize", destroy_part, part);
-
+	
 	write_hr (md);
 	format_mime_part (part, md);
-
+	
 	return end;
 }
 
@@ -1390,10 +1390,8 @@ try_inline_pgp_sig (char *start, CamelMimePart *mime_part,
 	CamelContentType *type;
 	char *type_str;
 	
-	/* We know start points to "-----BEGIN PGP SIGNED MESSAGE-----" */
-	msg_start = start + sizeof ("-----BEGIN PGP SIGNED MESSAGE-----") - 1;
-	if (*msg_start++ != '\n')
-		return start;
+	/* We know start points to "-----BEGIN PGP SIGNED MESSAGE-----\n" */
+	msg_start = start + sizeof ("-----BEGIN PGP SIGNED MESSAGE-----\n") - 1;
 	/* Skip 'One or more "Hash" Armor Headers' followed by
 	 * 'Exactly one empty line'.
 	 */
@@ -1401,16 +1399,16 @@ try_inline_pgp_sig (char *start, CamelMimePart *mime_part,
 	if (!msg_start)
 		return start;
 	msg_start += 2;
-	msg_end = strstr (msg_start, "-----BEGIN PGP SIGNATURE-----");
+	msg_end = strstr (msg_start, "\n-----BEGIN PGP SIGNATURE-----\n");
 	if (!msg_end)
 		return start;
 	msg_end--;
 	
 	sig_start = msg_end;
-	sig_end = strstr (sig_start, "-----END PGP SIGNATURE-----");
+	sig_end = strstr (sig_start, "\n-----END PGP SIGNATURE-----\n");
 	if (!sig_end)
 		return start;
-	sig_end += sizeof ("-----END PGP SIGNATURE-----") - 1;
+	sig_end += sizeof ("\n-----END PGP SIGNATURE-----\n") - 1;
 	
 	multipart = camel_multipart_new ();
 	camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (multipart),
