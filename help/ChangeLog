@@ -1,3 +1,7 @@
+2001-10-19  Kevin Breit  <mrproper@ximian.com>
+
+	* C/usage-mail.sgml: Added in import dialogue documentation
+
 2001-10-07  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* C/usage-mail-org.sgml: Add a missing </orderedlist>
