@@ -16,6 +16,9 @@
 	confused side. This might work but I wouldn't hold my breath. The
 	sign/clearsign should be close if not correct, but this one...god
 	only knows.
+	(pkcs7_decrypt): Implemented.
+	(pkcs7_encrypt): Implemented (mostly, still need to handle when
+	'sign' is TRUE).
 
 2001-04-18  Dan Winship  <danw@ximian.com>
 

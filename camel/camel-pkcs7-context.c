@@ -29,6 +29,7 @@
 #include "camel-stream-fs.h"
 #include "camel-stream-mem.h"
 
+#include <nss.h>
 #include <cert.h>
 #include <secpkcs7.h>
 
@@ -283,7 +284,7 @@ pkcs7_digest (SECItem *data, char *digestdata, unsigned int *len, unsigned int m
 }
 
 static void
-sign_encode_cb (void *arg, const char *buf, unsigned long len)
+sec_output_cb (void *arg, const char *buf, unsigned long len)
 {
 	CamelStream *stream;
 	
@@ -300,6 +301,7 @@ pkcs7_sign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
 	SEC_PKCS7ContentInfo *cinfo;
 	SECItem data2sign, digest;
 	HASH_HashType hash_type;
+	CERTCertificate *cert;
 	guchar digestdata[32];
 	CamelStream *stream;
 	GByteArray *buf;
@@ -341,7 +343,7 @@ pkcs7_sign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
 	data->userid = userid;
 	data->ex = ex;
 	
-	SEC_PKCS7Encode (cinfo, sign_encode_cb, ostream, NULL, get_password, data);
+	SEC_PKCS7Encode (cinfo, sec_output_cb, ostream, NULL, get_password, data);
 	
 	g_free (data);
 	
@@ -358,9 +360,10 @@ pkcs7_clearsign (CamelCipherContext *ctx, const char *userid, CamelCipherHash ha
 	CamelPkcs7Context *context = CAMEL_PKCS7_CONTEXT (ctx);
 	struct _GetPasswdData *data;
 	SEC_PKCS7ContentInfo *cinfo;
-	SECItem data2sign;
 	HASH_HashType hash_type;
+	CERTCertificate *cert;
 	CamelStream *stream;
+	SECItem data2sign;
 	GByteArray *buf;
 	
 	g_return_val_if_fail (userid != NULL, -1);
@@ -397,7 +400,7 @@ pkcs7_clearsign (CamelCipherContext *ctx, const char *userid, CamelCipherHash ha
 	data->userid = userid;
 	data->ex = ex;
 	
-	SEC_PKCS7Encode (cinfo, sign_encode_cb, ostream, NULL, get_password, data);
+	SEC_PKCS7Encode (cinfo, sec_output_cb, ostream, NULL, get_password, data);
 	
 	g_free (data);
 	
@@ -509,22 +512,170 @@ pkcs7_verify (CamelCipherContext *ctx, CamelCipherHash hash, CamelStream *istrea
 	return valid;
 }
 
-
+/* FIXME: we need to respect the 'sign' argument... */
 static int
 pkcs7_encrypt (CamelCipherContext *ctx, gboolean sign, const char *userid, GPtrArray *recipients,
 	       CamelStream *istream, CamelStream *ostream, CamelException *ex)
 {
 	CamelPkcs7Context *context = CAMEL_PKCS7_CONTEXT (ctx);
+	const char *invalid_userkey = NULL;
+	SEC_PKCS7ContentInfo *cinfo = NULL;
+	CERTCertificate *cert, *usercert;
+	SEC_PKCS7EncoderContext *ecx;
+	struct _GetPasswdData *data;
+	CamelStream *stream = NULL;
+	SECItem secdata;
+	GByteArray *buf;
+	int i = 0;
+	
+	g_return_val_if_fail (userid != NULL, -1);
+	g_return_val_if_fail (recipients != NULL, -1);
+	g_return_val_if_fail (recipients->len != 0, -1);
+	g_return_val_if_fail (istream != NULL, -1);
+	g_return_val_if_fail (ostream != NULL, -1);
+
+#if 0
+	/* this isn't needed until we respect the 'sign' argument... */
+	usercert = CERT_FindCertByNickname (context->priv->certdb, userid);
+	if (!usercert) {
+		invalid_userkey = userid;
+		goto exception;
+	}
+#endif
+	
+	cert = CERT_FindCertByNickname (context->priv->certdb, recipients->pdata[i]);
+	if (!cert) {
+		invalid_userkey = recipients->pdata[i];
+		goto exception;
+	}
+	
+	cinfo = SEC_PKCS7CreateEnvelopedData (cert, certUsageEmailRecipient,
+					      NULL, SEC_OID_DES_EDE3_CBC, 0, 
+					      NULL, NULL);
+	if (!cinfo) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Could not encrypt: failed to create enveloped data."));
+		goto exception;
+	}
+	
+	for (i++; i < recipients->len; i++) {
+		SECStatus retval;
+		
+		cert = CERT_FindCertByNickname (context->priv->certdb, recipients->pdata[i]);
+		if (!cert) {
+			invalid_userkey = recipients->pdata[i];
+			goto exception;
+		}
+		
+		retval = SEC_PKCS7AddRecipient (cinfo, cert, certUsageEmailRecipient, NULL);
+		if (retval != SECSuccess) {
+			invalid_userkey = recipients->pdata[i];
+			goto exception;
+		}
+	}
+	
+	ecx = SEC_PKCS7EncoderStart (cinfo, sec_output_cb, ostream, NULL);
+	if (ecx == NULL) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Could not encrypt: failed to create encryption context."));
+		goto exception;
+	}
+	
+	stream = camel_stream_mem_new ();
+	camel_stream_write_to_stream (istream, stream);
+	buf = CAMEL_STREAM_MEM (stream)->buffer;
+	if (SEC_PKCS7EncoderUpdate (ecx, buf->data, buf->len) != SECSuccess)
+		goto exception;
+	
+	camel_object_unref (CAMEL_OBJECT (stream));
+	stream = NULL;
+	
+	if (SEC_PKCS7EncoderFinish (ecx, NULL, NULL) != SECSuccess)
+		goto exception;
+	
+	SEC_PKCS7DestroyContentInfo (cinfo);
+	
+	return 0;
+	
+ exception:
+	
+	if (stream)
+		camel_object_unref (CAMEL_OBJECT (stream));
+	
+	if (cinfo)
+		SEC_PKCS7DestroyContentInfo (cinfo);
+	
+	if (invalid_userkey) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Could not encrypt data: invalid user key: \"%s\"."),
+				      invalid_userkey);
+	}
+	
+	if (!camel_exception_is_set (ex)) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Could not encrypt: encoding failed."));
+	}
 	
 	return -1;
 }
 
+static PRBool
+decryption_allowed (SECAlgorithmID *algid, PK11SymKey *key)
+{
+	return PR_TRUE;
+}
 
 static int
 pkcs7_decrypt (CamelCipherContext *ctx, CamelStream *istream,
 	       CamelStream *ostream, CamelException *ex)
 {
 	CamelPkcs7Context *context = CAMEL_PKCS7_CONTEXT (ctx);
+	struct _GetPasswdData *data;
+	SEC_PKCS7DecoderContext *dcx;
+	SEC_PKCS7ContentInfo *cinfo;
+	CamelStream *stream = NULL;
+	SECItem secdata;
+	GByteArray *buf;
+	
+	g_return_val_if_fail (istream != NULL, -1);
+	g_return_val_if_fail (ostream != NULL, -1);
+	
+	stream = camel_stream_mem_new ();
+	camel_stream_write_to_stream (istream, stream);
+	buf = CAMEL_STREAM_MEM (stream)->buffer;
+	secdata.data = buf->data;
+	secdata.len = buf->len;
+	
+	data = g_new (struct _GetPasswdData, 1);
+	data->session = ctx->session;
+	data->userid = NULL;
+	data->ex = ex;
+	
+	dcx = SEC_PKCS7DecoderStart (sec_output_cb, ostream, get_password, data,
+				     NULL, NULL, decryption_allowed);
+	if (dcx == NULL)
+		goto exception;
+	
+	SEC_PKCS7DecoderUpdate (dcx, secdata.data, secdata.len);
+	cinfo = SEC_PKCS7DecoderFinish (dcx);
+	
+	camel_object_unref (CAMEL_OBJECT (stream));
+	g_free (data);
+	
+	if (cinfo == NULL) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Failed to decrypt: Unknown"));
+		return -1;
+	}
+	
+	SEC_PKCS7DestroyContentInfo (cinfo);
+	
+	return 0;
+	
+ exception:
+	
+	if (stream)
+		camel_object_unref (CAMEL_OBJECT (stream));
 	
 	return -1;
 }
