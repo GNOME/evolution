@@ -115,8 +115,8 @@ cram_md5_challenge (CamelSasl *sasl, const char *token, CamelException *ex)
 {
 	CamelSaslCramMd5 *sasl_cram = CAMEL_SASL_CRAM_MD5 (sasl);
 	struct _CamelSaslCramMd5Private *priv = sasl_cram->priv;
-	char *timestamp, *passwd, *buf, *enc;
 	guchar digest[16], md5asc[33], *s, *p;
+	char *timestamp, *passwd, *buf;
 	GByteArray *ret = NULL;
 	guchar ipad[64];
 	guchar opad[64];
@@ -163,12 +163,10 @@ cram_md5_challenge (CamelSasl *sasl, const char *token, CamelException *ex)
 			sprintf (p, "%.2x", *s);
 		
 		buf = g_strdup_printf ("%s %s", sasl_cram->username, md5asc);
-		enc = base64_encode_simple (buf, strlen (buf));
-		g_free (buf);
 		
 		ret = g_byte_array_new ();
-		g_byte_array_append (ret, enc, strlen (enc));
-		g_free (enc);
+		g_byte_array_append (ret, buf, strlen (buf));
+		g_free (buf);
 		
 		break;
 	case STATE_FINAL:

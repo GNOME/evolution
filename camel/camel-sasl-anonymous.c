@@ -126,7 +126,7 @@ anon_challenge (CamelSasl *sasl, const char *token, CamelException *ex)
 				return NULL;
 			}
 			camel_object_unref (CAMEL_OBJECT (cia));
-			buf = base64_encode_simple (sasl_anon->trace_info, strlen (sasl_anon->trace_info));
+			buf = sasl_anon->trace_info;
 			break;
 		case CAMEL_SASL_ANON_TRACE_OPAQUE:
 			if (strchr (sasl_anon->trace_info, '@')) {
@@ -135,10 +135,10 @@ anon_challenge (CamelSasl *sasl, const char *token, CamelException *ex)
 						      sasl_anon->trace_info);
 				return NULL;
 			}
-			buf = base64_encode_simple (sasl_anon->trace_info, strlen (sasl_anon->trace_info));
+			buf = sasl_anon->trace_info;
 			break;
 		case CAMEL_SASL_ANON_TRACE_EMPTY:
-			buf = g_strdup ("=");
+			buf = "";
 			break;
 		default:
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
@@ -158,7 +158,6 @@ anon_challenge (CamelSasl *sasl, const char *token, CamelException *ex)
 	if (buf) {
 		ret = g_byte_array_new ();
 		g_byte_array_append (ret, buf, strlen (buf));
-		g_free (buf);
 	}
 	
 	return ret;
