@@ -1,3 +1,8 @@
+2001-01-11  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* evolution-message-composer.xml: Added SaveDraft bonobo menu verb
+	thingy.
+
 2001-01-08  Damon Chaplin  <damon@helixcode.com>
 
 	* evolution-tasks.xml: new file for the Tasks controls.

@@ -63,6 +63,8 @@
 
 			<menuitem name="FileSaveAs" verb="" _label="Save _As..."/>
 
+                        <menuitem name="FileSaveDraft" verb="" _label="Save _Draft"/>
+
 			<menuitem name="FileSaveInFolder" verb="" _label="Save in _folder... (FIXME)"/>
 
 			<placeholder name="Print" delimit="top"/>
