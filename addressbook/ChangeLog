@@ -1,3 +1,33 @@
+2001-05-23  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/e-addressbook-model.h: add sequence_complete_id to
+	EAddressbookModel and stop_state_changed to
+	EAddressbookModelClass.  also, add prototype for
+	e_addressbook_model_can_stop.
+
+	* gui/widgets/e-addressbook-model.c (remove_book_view): disconnect
+	from "sequence_complete", and set search_in_progress to FALSE.
+	(sequence_complete): set search_in_progress to FALSE and emit
+	"stop_state_changed."
+	(e_addressbook_model_class_init): create the "stop_state_changed"
+	signal.
+	(e_addressbook_model_init): init stuff.
+	(book_view_loaded): connect to "sequence_complete" signal.
+	(book_view_loaded): set search_in_progress to TRUE and emit
+	"stop_state_changed"
+	(e_addressbook_model_stop): set search_in_progress to false, emit
+	"stop_state_changed", and set our status to "Search Interrupted."
+	(e_addressbook_model_can_stop): return search_in_progress.
+
+	* gui/widgets/e-addressbook-view.c (e_addressbook_view_init):
+	connect to the stop_state_changed signal on EAddressbookModel.
+	(stop_state_changed): new function.
+	(e_addressbook_view_can_stop): call e_addressbook_model_can_stop.
+
+	* gui/component/addressbook.c (update_command_state): use
+	e_addressbook_view_can_stop to set the sensitivity of the stop
+	button.
+
 2001-05-22  Dan Winship  <danw@ximian.com>
 
 	* backend/ebook/e-book-listener.c (e_book_listener_check_queue):
@@ -157,7 +187,6 @@
 	(addressbook_factory_new_control): register command_state_change
 	to update the commands.
 
->>>>>>> 1.504
 2001-05-15  Chris Toshok  <toshok@ximian.com>
 
 	* gui/search/e-addressbook-search-dialog.c

@@ -39,6 +39,7 @@ enum {
 	CARD_REMOVED,
 	CARD_CHANGED,
 	MODEL_CHANGED,
+	STOP_STATE_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -61,11 +62,17 @@ remove_book_view(EAddressbookModel *model)
 	if (model->book_view && model->status_message_id)
 		gtk_signal_disconnect(GTK_OBJECT (model->book_view),
 				      model->status_message_id);
+	if (model->book_view && model->sequence_complete_id)
+		gtk_signal_disconnect(GTK_OBJECT (model->book_view),
+				      model->sequence_complete_id);
 
 	model->create_card_id = 0;
 	model->remove_card_id = 0;
 	model->modify_card_id = 0;
 	model->status_message_id = 0;
+	model->sequence_complete_id = 0;
+
+	model->search_in_progress = FALSE;
 
 	if (model->book_view)
 		gtk_object_unref(GTK_OBJECT(model->book_view));
@@ -174,6 +181,15 @@ status_message (EBookView *book_view,
 }
 
 static void
+sequence_complete (EBookView *book_view,
+		   EAddressbookModel *model)
+{
+	model->search_in_progress = FALSE;
+	gtk_signal_emit (GTK_OBJECT (model),
+			 e_addressbook_model_signals [STOP_STATE_CHANGED]);
+}
+
+static void
 writable_status (EBook *book,
 		 gboolean writable,
 		 EAddressbookModel *model)
@@ -249,6 +265,14 @@ e_addressbook_model_class_init (GtkObjectClass *object_class)
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
+	e_addressbook_model_signals [STOP_STATE_CHANGED] =
+		gtk_signal_new ("stop_state_changed",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EAddressbookModelClass, stop_state_changed),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+
 	gtk_object_class_add_signals (object_class, e_addressbook_model_signals, LAST_SIGNAL);
 }
 
@@ -265,9 +289,11 @@ e_addressbook_model_init (GtkObject *object)
 	model->modify_card_id = 0;
 	model->status_message_id = 0;
 	model->writable_status_id = 0;
+	model->sequence_complete_id = 0;
 	model->data = NULL;
 	model->data_count = 0;
 	model->allocated_count = 0;
+	model->search_in_progress = FALSE;
 	model->editable = FALSE;
 	model->first_get_view = TRUE;
 }
@@ -297,6 +323,10 @@ book_view_loaded (EBook *book, EBookStatus status, EBookView *book_view, gpointe
 						      "status_message",
 						      GTK_SIGNAL_FUNC(status_message),
 						      model);
+	model->sequence_complete_id = gtk_signal_connect(GTK_OBJECT(model->book_view),
+							 "sequence_complete",
+							 GTK_SIGNAL_FUNC(sequence_complete),
+							 model);
 
 	for ( i = 0; i < model->data_count; i++ ) {
 		gtk_object_unref(GTK_OBJECT(model->data[i]));
@@ -306,8 +336,11 @@ book_view_loaded (EBook *book, EBookStatus status, EBookView *book_view, gpointe
 	model->data = NULL;
 	model->data_count = 0;
 	model->allocated_count = 0;
+	model->search_in_progress = TRUE;
 	gtk_signal_emit (GTK_OBJECT (model),
 			 e_addressbook_model_signals [MODEL_CHANGED]);
+	gtk_signal_emit (GTK_OBJECT (model),
+			 e_addressbook_model_signals [STOP_STATE_CHANGED]);
 }
 
 static gboolean
@@ -443,6 +476,18 @@ e_addressbook_model_new (void)
 void   e_addressbook_model_stop    (EAddressbookModel *model)
 {
 	remove_book_view(model);
+	model->search_in_progress = FALSE;
+	gtk_signal_emit (GTK_OBJECT (model),
+			 e_addressbook_model_signals [STOP_STATE_CHANGED]);
+	gtk_signal_emit (GTK_OBJECT (model),
+			 e_addressbook_model_signals [STATUS_MESSAGE],
+			 "Search Interrupted.");
+}
+
+gboolean
+e_addressbook_model_can_stop (EAddressbookModel *model)
+{
+	return model->search_in_progress;
 }
 
 int

@@ -663,7 +663,8 @@ set_status_message (EAddressbookView *eav, const char *message, AddressbookView 
 	else {
 		printf ("setting message %s\n", message);
 		GNOME_Evolution_ShellView_setMessage (shell_view_interface,
-						      message, 0 /* XXX */, &ev);
+						      message,
+						      e_addressbook_view_can_stop (view->view), &ev);
 	}
 
 	CORBA_exception_free (&ev);

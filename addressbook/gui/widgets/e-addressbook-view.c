@@ -62,6 +62,7 @@ static void e_addressbook_view_destroy (GtkObject *object);
 static void change_view_type (EAddressbookView *view, EAddressbookViewType view_type);
 
 static void status_message (GtkObject *object, const gchar *status, EAddressbookView *eav);
+static void stop_state_changed (GtkObject *object, EAddressbookView *eav);
 static void writable_status (GtkObject *object, gboolean writable, EAddressbookView *eav);
 static void command_state_change (EAddressbookView *eav);
 
@@ -165,6 +166,11 @@ e_addressbook_view_init (EAddressbookView *eav)
 	gtk_signal_connect (GTK_OBJECT(eav->model),
 			    "status_message",
 			    GTK_SIGNAL_FUNC (status_message),
+			    eav);
+
+	gtk_signal_connect (GTK_OBJECT(eav->model),
+			    "stop_state_changed",
+			    GTK_SIGNAL_FUNC (stop_state_changed),
 			    eav);
 
 	gtk_signal_connect (GTK_OBJECT(eav->model),
@@ -681,6 +687,12 @@ status_message (GtkObject *object, const gchar *status, EAddressbookView *eav)
 }
 
 static void
+stop_state_changed (GtkObject *object, EAddressbookView *eav)
+{
+	command_state_change (eav);
+}
+
+static void
 writable_status (GtkObject *object, gboolean writable, EAddressbookView *eav)
 {
 	command_state_change (eav);
@@ -1097,6 +1109,6 @@ e_addressbook_view_can_delete (EAddressbookView  *view)
 gboolean
 e_addressbook_view_can_stop (EAddressbookView  *view)
 {
-	return FALSE;
+	return e_addressbook_model_can_stop (view->model);
 }
 

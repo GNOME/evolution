@@ -29,8 +29,9 @@ struct _EAddressbookModel {
 	int data_count;
 	int allocated_count;
 
-	int create_card_id, remove_card_id, modify_card_id, status_message_id, writable_status_id;
+	int create_card_id, remove_card_id, modify_card_id, status_message_id, writable_status_id, sequence_complete_id;
 
+	guint search_in_progress : 1;
 	guint editable : 1;
 	guint first_get_view : 1;
 };
@@ -42,12 +43,13 @@ struct _EAddressbookModelClass {
 	/*
 	 * Signals
 	 */
-	void (*writable_status) (EAddressbookModel *model, gboolean writable);
-	void (*status_message)  (EAddressbookModel *model, const gchar *message);
-	void (*card_added)      (EAddressbookModel *model, gint index, gint count);
-	void (*card_removed)    (EAddressbookModel *model, gint index);
-	void (*card_changed)    (EAddressbookModel *model, gint index);
-	void (*model_changed)   (EAddressbookModel *model);
+	void (*writable_status)    (EAddressbookModel *model, gboolean writable);
+	void (*status_message)     (EAddressbookModel *model, const gchar *message);
+	void (*card_added)         (EAddressbookModel *model, gint index, gint count);
+	void (*card_removed)       (EAddressbookModel *model, gint index);
+	void (*card_changed)       (EAddressbookModel *model, gint index);
+	void (*model_changed)      (EAddressbookModel *model);
+	void (*stop_state_changed) (EAddressbookModel *model);
 };
 
 
@@ -59,8 +61,8 @@ ECard *e_addressbook_model_get_card  (EAddressbookModel *model,
 				      int                row);
 EBook *e_addressbook_model_get_ebook (EAddressbookModel *model);
 
-void   e_addressbook_model_stop      (EAddressbookModel *model);
-
+void     e_addressbook_model_stop      (EAddressbookModel *model);
+gboolean e_addressbook_model_can_stop (EAddressbookModel *model);
 
 int          e_addressbook_model_card_count (EAddressbookModel *model);
 ECard       *e_addressbook_model_card_at    (EAddressbookModel *model, int index);
