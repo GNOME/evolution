@@ -32,17 +32,10 @@ wombat_LDADD =							\
 
 wombat_LDFLAGS = `gnome-config --libs gnorba` 
 
-if USING_OAF
 oafdir = $(datadir)/oaf
 oaf_DATA = wombat.oafinfo
-else
-gnorbadir = $(sysconfdir)/CORBA/servers
-gnorba_DATA = wombat.gnorba
-endif
 
-EXTRA_DIST =		\
-	wombat.gnorba	\
-	wombat.oafinfo
+EXTRA_DIST = wombat.oafinfo
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
