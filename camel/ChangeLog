@@ -1,3 +1,12 @@
+2002-07-15  Not Zed  <NotZed@Ximian.com>
+
+	* camel-filter-search.c (get_label): Removed.
+	(get_score): Removed.  Labels & scores are stored in tags, we
+	already have a function to get tags.
+	(user_tag): Fail if we dont get valid arguments, it must be a
+	string type.
+	(system_flag): Same here.
+
 2002-07-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.c (header_msgid_generate): Try to get the FQDN

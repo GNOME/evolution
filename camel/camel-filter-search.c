@@ -90,11 +90,9 @@ static ESExpResult *system_flag (struct _ESExp *f, int argc, struct _ESExpResult
 static ESExpResult *get_sent_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *get_received_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *get_current_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
-static ESExpResult *get_score (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *get_source (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *get_size (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *shell_exec (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
-static ESExpResult *get_label (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 
 /* builtin functions */
 static struct {
@@ -120,11 +118,9 @@ static struct {
 	{ "get-sent-date",      (ESExpFunc *) get_sent_date,      0 },
 	{ "get-received-date",  (ESExpFunc *) get_received_date,  0 },
 	{ "get-current-date",   (ESExpFunc *) get_current_date,   0 },
-	{ "get-score",          (ESExpFunc *) get_score,          0 },
 	{ "get-source",         (ESExpFunc *) get_source,         0 },
 	{ "get-size",           (ESExpFunc *) get_size,           0 },
 	{ "shell-exec",         (ESExpFunc *) shell_exec,         0 },
-	{ "get-label",          (ESExpFunc *) get_label,          0 },
 };
 
 
@@ -383,13 +379,12 @@ static ESExpResult *
 system_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
 {
 	ESExpResult *r;
-	gboolean truth = FALSE;
 	
-	if (argc == 1)
-		truth = camel_system_flag_get (fms->info->flags, argv[0]->value.string);
+	if (argc != 1 || argv[0]->type != ESEXP_RES_STRING)
+		e_sexp_fatal_error(f, _("Invalid arguments to (system-flag)"));
 	
 	r = e_sexp_result_new (f, ESEXP_RES_BOOL);
-	r->value.bool = truth;
+	r->value.bool = camel_system_flag_get (fms->info->flags, argv[0]->value.string);
 	
 	return r;
 }
@@ -399,6 +394,9 @@ user_tag (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageS
 {
 	ESExpResult *r;
 	const char *tag;
+
+	if (argc != 1 || argv[0]->type != ESEXP_RES_STRING)
+		e_sexp_fatal_error(f, _("Invalid arguments to (user-tag)"));
 	
 	tag = camel_tag_get (&fms->info->user_tags, argv[0]->value.string);
 	
@@ -441,23 +439,6 @@ get_current_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, Filter
 	
 	r = e_sexp_result_new (f, ESEXP_RES_INT);
 	r->value.number = time (NULL);
-	
-	return r;
-}
-
-static ESExpResult *
-get_score (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
-{
-	ESExpResult *r;
-	const char *tag;
-	
-	tag = camel_tag_get (&fms->info->user_tags, "score");
-	
-	r = e_sexp_result_new (f, ESEXP_RES_INT);
-	if (tag)
-		r->value.number = atoi (tag);
-	else
-		r->value.number = 0;
 	
 	return r;
 }
@@ -510,17 +491,6 @@ get_size (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageS
 	r = e_sexp_result_new(f, ESEXP_RES_INT);
 	r->value.number = fms->info->size / 1024;
 
-	return r;
-}
-
-static ESExpResult *
-get_label (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
-{
-	ESExpResult *r;
-	
-	r = e_sexp_result_new (f, ESEXP_RES_INT);
-	r->value.number = atoi (camel_tag_get (&fms->info->user_tags, "label"));
-	
 	return r;
 }
 
