@@ -4,20 +4,20 @@
 	 accel="*Control*n"/>
     <cmd name="CalendarNewEvent" _tip="Create an event for the whole day"/>
 
-    <cmd name="CalendarPrint" _tip="Print this Calendar" pixtype="pixbuf" 
+    <cmd name="CalendarPrint" _tip="Print this calendar" pixtype="pixbuf" 
 	 accel="*Control*p"/>
     <cmd name="CalendarPrintPreview" _tip="Previews the calendar to be printed" pixtype="pixbuf"/>
     <cmd name="CalendarSettings" _tip="Configure the calendar's settings"/>
 
-    <cmd name="CalendarPrev" _tip="Go back in time" pixtype="stock" pixname="Back"/>
-    <cmd name="CalendarToday" _tip="Go to present time" pixtype="stock" pixname="Home"/>
-    <cmd name="CalendarNext" _tip="Go forward in time" pixtype="stock" pixname="Forward"/>
+    <cmd name="CalendarPrev" _tip="Go back" pixtype="stock" pixname="Back"/>
+    <cmd name="CalendarToday" _tip="Go to today" pixtype="stock" pixname="Home"/>
+    <cmd name="CalendarNext" _tip="Go forward" pixtype="stock" pixname="Forward"/>
     <cmd name="CalendarGoto" _tip="Go to a specific date" pixtype="stock" pixname="Jump To"/>
 
-    <cmd name="ShowDayView" _tip="Show 1 day" pixtype="pixbuf"/>
-    <cmd name="ShowWorkWeekView" _tip="Show the working week" pixtype="pixbuf"/>
-    <cmd name="ShowWeekView" _tip="Show 1 week" pixtype="pixbuf"/>
-    <cmd name="ShowMonthView" _tip="Show 1 month" pixtype="pixbuf"/>
+    <cmd name="ShowDayView" _tip="Show one day" pixtype="pixbuf"/>
+    <cmd name="ShowWorkWeekView" _tip="Show work week" pixtype="pixbuf"/>
+    <cmd name="ShowWeekView" _tip="Show one week" pixtype="pixbuf"/>
+    <cmd name="ShowMonthView" _tip="Show one month" pixtype="pixbuf"/>
 
     <cmd name="CutEvent" _tip="Cut the selection" pixtype="stock"
 	 pixname="Cut" accel="*Control*x"/>
