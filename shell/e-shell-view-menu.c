@@ -105,6 +105,7 @@ command_about_box (GtkWidget *menuitem, gpointer data)
 			"Chris Toshok",
 			"Dan Winship",
 			"Michael Zucchi",
+			"Jeffrey Stedfast",
 			NULL};
 
 		about_box = gnome_about_new(_("Evolution"),
