@@ -260,6 +260,7 @@ dialog_to_source (AddressbookSourceDialog *dialog, ESource *source, gboolean tem
                         property_value = e_source_get_property (existing_source, "user");
                         e_source_set_property (source, "user", property_value);
                 }
+                e_source_set_property (source, "auth-domain", "Groupwise");
                 str = g_strconcat (";", gtk_entry_get_text (GTK_ENTRY (dialog->display_name)), NULL);
                 e_source_set_relative_uri (source, str);
                 g_free (str);
