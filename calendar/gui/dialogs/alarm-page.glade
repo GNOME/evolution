@@ -191,7 +191,7 @@
 			  <child>
 			    <widget class="GtkMenuItem" id="convertwidget2">
 			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Display a message</property>
+			      <property name="label" translatable="yes">Pop up an alert</property>
 			      <property name="use_underline">True</property>
 			    </widget>
 			  </child>

@@ -445,7 +445,7 @@ get_alarm_string (ECalComponentAlarm *alarm)
 		break;
 
 	case E_CAL_COMPONENT_ALARM_DISPLAY:
-		base = _("Display a message");
+		base = _("Pop up an alert");
 		break;
 
 	case E_CAL_COMPONENT_ALARM_EMAIL:
