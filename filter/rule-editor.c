@@ -41,8 +41,9 @@ static void set_sensitive(RuleEditor *re);
 static FilterRule *create_rule(RuleEditor *re);
 
 static void rule_editor_class_init(RuleEditorClass *class);
-static void rule_editor_init(RuleEditor *gspaper);
-static void rule_editor_finalise(GtkObject *obj);
+static void rule_editor_init (RuleEditor *gspaper);
+static void rule_editor_finalise (GtkObject *obj);
+static void rule_editor_destroy (GtkObject *obj);
 
 #define _PRIVATE(x)(((RuleEditor *)(x))->priv)
 
@@ -98,6 +99,7 @@ rule_editor_class_init (RuleEditorClass *class)
 	parent_class = gtk_type_class(gnome_dialog_get_type());
 	
 	object_class->finalize = rule_editor_finalise;
+	object_class->destroy = rule_editor_destroy;
 	
 	/* override methods */
 	class->set_source = set_source;
@@ -118,13 +120,24 @@ rule_editor_init (RuleEditor *o)
 static void
 rule_editor_finalise (GtkObject *obj)
 {
-	RuleEditor *o = (RuleEditor *)obj;
-
-	gtk_object_unref (GTK_OBJECT (o->context));
+	RuleEditor *re = (RuleEditor *)obj;
 	
-	g_free (o->priv);
+	gtk_object_unref (GTK_OBJECT (re->context));
+	
+	g_free (re->priv);
 	
 	((GtkObjectClass *)(parent_class))->finalize (obj);
+}
+
+static void
+rule_editor_destroy (GtkObject *obj)
+{
+	RuleEditor *re = (RuleEditor *) obj;
+	
+	if (re->dialog)
+		gtk_widget_destroy (GTK_WIDGET (re->dialog));
+	
+	((GtkObjectClass *)(parent_class))->destroy (obj);
 }
 
 /**
@@ -222,6 +235,8 @@ add_editor_clicked (GtkWidget *dialog, int button, RuleEditor *re)
 		gtk_object_unref (GTK_OBJECT (re->edit));
 		re->edit = NULL;
 		
+		re->dialog = NULL;
+		
 		rule_editor_set_sensitive (re);
 	}
 }
@@ -229,27 +244,27 @@ add_editor_clicked (GtkWidget *dialog, int button, RuleEditor *re)
 static void
 rule_add (GtkWidget *widget, RuleEditor *re)
 {
-	GtkWidget *dialog;
 	GtkWidget *rules;
 	
-	d(printf ("add rule\n"));
+	if (re->edit != NULL)
+		return;
 	
 	re->edit = rule_editor_create_rule (re);
 	filter_rule_set_source (re->edit, re->source);
 	rules = filter_rule_get_widget (re->edit, re->context);
 	
-	dialog = gnome_dialog_new (_("Add Rule"),
-				   GNOME_STOCK_BUTTON_OK,
-				   GNOME_STOCK_BUTTON_CANCEL,
-				   NULL);
+	re->dialog = gnome_dialog_new (_("Add Rule"),
+				       GNOME_STOCK_BUTTON_OK,
+				       GNOME_STOCK_BUTTON_CANCEL,
+				       NULL);
 	
-	gtk_window_set_default_size (GTK_WINDOW (dialog), 600, 400);
-	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
-	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), rules, TRUE, TRUE, 0);
-	gtk_signal_connect (GTK_OBJECT (dialog), "clicked", add_editor_clicked, re);
+	gtk_window_set_default_size (GTK_WINDOW (re->dialog), 600, 400);
+	gtk_window_set_policy (GTK_WINDOW (re->dialog), FALSE, TRUE, FALSE);
+	gtk_widget_set_parent_window (GTK_WIDGET (re->dialog), GTK_WIDGET (re)->window);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (re->dialog)->vbox), rules, TRUE, TRUE, 0);
+	gtk_signal_connect (GTK_OBJECT (re->dialog), "clicked", add_editor_clicked, re);
 	
-	gtk_widget_show (dialog);
+	gtk_widget_show (re->dialog);
 }
 
 static void
@@ -283,6 +298,8 @@ edit_editor_clicked (GtkWidget *dialog, int button, RuleEditor *re)
 		gtk_object_unref (GTK_OBJECT (re->edit));
 		re->edit = NULL;
 		
+		re->dialog = NULL;
+		
 		rule_editor_set_sensitive (re);
 	}
 }
@@ -290,27 +307,26 @@ edit_editor_clicked (GtkWidget *dialog, int button, RuleEditor *re)
 static void
 rule_edit (GtkWidget *widget, RuleEditor *re)
 {
-	GtkWidget *dialog;
 	GtkWidget *rules;
 	
-	if (re->current == NULL)
+	if (re->current == NULL || re->edit != NULL)
 		return;
 	
 	re->edit = filter_rule_clone (re->current);
 	
 	rules = filter_rule_get_widget (re->edit, re->context);
-	dialog = gnome_dialog_new (_("Edit Rule"),
-				   GNOME_STOCK_BUTTON_OK,
-				   GNOME_STOCK_BUTTON_CANCEL,
-				   NULL);
+	re->dialog = gnome_dialog_new (_("Edit Rule"),
+				       GNOME_STOCK_BUTTON_OK,
+				       GNOME_STOCK_BUTTON_CANCEL,
+				       NULL);
 	
-	gtk_window_set_default_size (GTK_WINDOW (dialog), 600, 400);
-	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
-	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), rules, TRUE, TRUE, 0);
-	gtk_signal_connect (GTK_OBJECT (dialog), "clicked", edit_editor_clicked, re);
+	gtk_window_set_default_size (GTK_WINDOW (re->dialog), 600, 400);
+	gtk_window_set_policy (GTK_WINDOW (re->dialog), FALSE, TRUE, FALSE);
+	gtk_widget_set_parent (re->dialog, GTK_WIDGET (re));
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (re->dialog)->vbox), rules, TRUE, TRUE, 0);
+	gtk_signal_connect (GTK_OBJECT (re->dialog), "clicked", edit_editor_clicked, re);
 	
-	gtk_widget_show (dialog);
+	gtk_widget_show (re->dialog);
 }
 
 static void

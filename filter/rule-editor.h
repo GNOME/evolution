@@ -38,7 +38,9 @@ struct _RuleEditor {
 	struct _RuleContext *context;
 	struct _FilterRule *current;
 	struct _FilterRule *edit;	/* for editing/adding rules, so we only do 1 at a time */
-
+	
+	GtkWidget *dialog;
+	
 	char *source;
 
 	struct _RuleEditorPrivate *priv;
