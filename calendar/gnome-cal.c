@@ -4,7 +4,7 @@
  *
  * Author: Miguel de Icaza (miguel@kernel.org)
  */
-
+#include <config.h>
 #include <gnome.h>
 #include <unistd.h>
 #include <signal.h>
