@@ -313,7 +313,7 @@ folder_browser_gui_init (FolderBrowser *fb)
 	fb->search_entry = gtk_entry_new();
 	gtk_widget_show(fb->search_entry);
 	gtk_signal_connect(fb->search_entry, "activate", search_activate, fb);
-	gtk_signal_connect(fb->search_entry, "changed", search_activate, fb);
+	/* gtk_signal_connect(fb->search_entry, "changed", search_activate, fb); */
 	label = gtk_label_new("Search");
 	gtk_widget_show(label);
 	fb->search_menu = create_option_menu(search_options, 0, fb);
