@@ -1,3 +1,10 @@
+2001-08-09  Anna Marie Dirks <anna@ximian.com>
+
+	Fixes bug #6918
+	
+	* folder-browser.c: Changed the "Store search as vFolder"
+	menu item to "Create vFolder from Search".
+
 2001-08-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fixes bug #6722
