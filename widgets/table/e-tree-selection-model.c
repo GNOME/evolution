@@ -1294,14 +1294,14 @@ e_tree_selection_model_class_init (ETreeSelectionModelClass *klass)
 	g_object_class_install_property (object_class, PROP_MODEL, 
 					 g_param_spec_object ("model",
 							      _("Model"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "XXX blurb",
 							      E_TREE_MODEL_TYPE,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_ETTA, 
 					 g_param_spec_object ("etta",
-							      _("ETTA"),
-							      /*_( */"XXX blurb" /*)*/,
+							      "ETTA",
+							      "XXX blurb",
 							      E_TREE_TABLE_ADAPTER_TYPE,
 							      G_PARAM_READWRITE));
 
