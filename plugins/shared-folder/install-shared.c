@@ -39,6 +39,7 @@
 #include <camel/camel-session.h>
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-data-wrapper.h>
+#include <camel/camel-multipart.h>
 #include <mail/em-folder-tree.h>
 #include <mail/mail-config.h>
 #include <mail/em-folder-selector.h>
@@ -172,6 +173,7 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 	CamelStreamMem *content ;
 	CamelDataWrapper *dw ;
 	CamelMimePart *mime_part ;
+	CamelMultipart *mp ;
 	char *notification;
 	char *start_message;
 	char *buffer = NULL;
@@ -189,23 +191,31 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 	notification = (char *)camel_medium_get_header (CAMEL_MEDIUM(msg),"X-notification") ;
 	if (!notification) {
 		return ;
-	}
-
-	else {
+	} else {
+		mp = (CamelMultipart *) camel_medium_get_content_object (CAMEL_MEDIUM (msg)) ;
 		dw = camel_data_wrapper_new () ;
-		camel_medium_remove_header (CAMEL_MEDIUM (mime_part), "Content-Transfer-Encoding") ;
-		camel_medium_remove_header (CAMEL_MEDIUM (mime_part), "Content-Type") ;
-		dw = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
 		content = (CamelStreamMem *)camel_stream_mem_new();
-		camel_data_wrapper_write_to_stream(dw, (CamelStream *)content);
-		buffer = g_malloc0 (content->buffer->len+1) ;
-		buffer = memcpy (buffer, content->buffer->data, content->buffer->len) ;
-/*		buffer = camel_mime_message_build_mbox_from ( (CamelMimeMessage *)target->message) ;*/
+		if (!mp)
+			return ;
+		if (CAMEL_IS_MULTIPART (mp)) {
+			mime_part = camel_multipart_get_part (mp, 0) ;
+			dw = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part)) ;
+			camel_data_wrapper_write_to_stream(dw, (CamelStream *)content) ;
+			buffer = g_malloc0 (content->buffer->len+1) ;
+			buffer = memcpy (buffer, content->buffer->data, content->buffer->len) ;
+
+		} else {
+			dw = camel_medium_get_content_object (CAMEL_MEDIUM (msg)) ;
+			camel_data_wrapper_write_to_stream(dw, (CamelStream *)content) ;
+			buffer = g_malloc0 (content->buffer->len+1) ;
+			buffer = memcpy (buffer, content->buffer->data, content->buffer->len) ;
+		}
+
 		from_addr = camel_mime_message_get_from ((CamelMimeMessage *)target->message);
 		if (camel_internet_address_get (from_addr,0, &name, &email))
 		subject = camel_mime_message_get_subject (target->message) ;
 
-		start_message = g_strconcat (" The User ", "'", name, "'" ," has shared a folder with you\n\n", " Message from ", "'" , name, "'\n", buffer, "Click 'Forward' to install the shared folder\n\n",NULL);
+		start_message = g_strconcat (" The User ", "'", name, "'" ," has shared a folder with you\n\n", " Message from ", "'" , name, "'\n", buffer, "\n", "Click 'Forward' to install the shared folder\n\n",NULL);
 
 		title_page = GNOME_DRUID_PAGE_EDGE (gnome_druid_page_edge_new_with_vals(GNOME_EDGE_START, TRUE, "Install the shared folder", start_message, NULL, NULL, NULL));
 		middle_page = g_object_new (GNOME_TYPE_DRUID_PAGE_STANDARD, "title", "vivek", NULL);
@@ -228,6 +238,8 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 		item_id = camel_mime_message_get_message_id (msg);
 		g_signal_connect (title_page, "next", G_CALLBACK(accept_clicked), item_id);
 
+		g_free (buffer) ;
+		g_free (start_message) ;
 	}
 }
 
