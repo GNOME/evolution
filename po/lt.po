@@ -1,6 +1,6 @@
 # Lithuanian translation of Evolution
 # Copyright (C) 2000-2004 Free Software Foundation, Inc.
-# Gediminas Paulauskas <menesis@delfi.lt>, 2000-2001.
+# Gediminas Paulauskas <menesis@chatsubo.lt>, 2000-2004.
 # Tomas Kuliavas <tokul@users.sourceforge.net>, 2004
 # Žygimantas Beručka <uid0@akl.lt>, 2004.
 # 
@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-11-22 22:42+0200\n"
-"PO-Revision-Date: 2004-11-23 00:19+0200\n"
+"PO-Revision-Date: 2004-11-23 16:05+0200\n"
 "Last-Translator: Žygimantas Beručka <uid0@akl.lt>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "MIME-Version: 1.0\n"
@@ -3584,7 +3584,7 @@ msgstr "Bevardis Sąrašas"
 #. calendar:prompt-cancel-task primary
 #: calendar/calendar-errors.xml.h:2 calendar/calendar-errors.xml.h:12
 msgid "Would you like to send all the participants a cancellation notice?"
-msgstr ""
+msgstr "Ar norite išsiųsti visiems dalyviams perspėjimą apie atšaukimą?"
 
 #. calendar:prompt-cancel-meeting secondary
 #: calendar/calendar-errors.xml.h:4
@@ -3592,6 +3592,8 @@ msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the meeting is canceled."
 msgstr ""
+"Jeigu neišsiųsite perspėjimo apie atšaukimą, kiti dalyviai gali nežinoti, "
+"kad susitikimas yra atšauktas."
 
 #: calendar/calendar-errors.xml.h:5 calendar/calendar-errors.xml.h:15
 #: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:87
@@ -3615,6 +3617,7 @@ msgstr "Ar tikrai norite pašalinti šį susitikimą?"
 msgid ""
 "All information on this meeting will be deleted and can not be restored."
 msgstr ""
+"Visa informacija apie šį susitikimą bus ištrinta ir negalės būti atkurta."
 
 #. calendar:prompt-cancel-task secondary
 #: calendar/calendar-errors.xml.h:14
@@ -3622,6 +3625,8 @@ msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the task has been deleted."
 msgstr ""
+"Jeigu neišsiųsite įspėjimo apie atšaukimą, kiti dalyviai gali nežinoti, kad "
+"ši užduotis buvo ištrinta."
 
 #. calendar:prompt-delete-task primary
 #: calendar/calendar-errors.xml.h:18 calendar/calendar-errors.xml.h:44
@@ -3634,7 +3639,7 @@ msgstr "Ar tikrai norite pašalinti šią užduotį?"
 #: calendar/calendar-errors.xml.h:20 calendar/calendar-errors.xml.h:42
 #: calendar/calendar-errors.xml.h:46
 msgid "All information on this task will be deleted and can not be restored."
-msgstr ""
+msgstr "Visa šios užduoties informacija bus ištrinta ir negalės būti atkurta."
 
 #. calendar:prompt-cancel-journal primary
 #: calendar/calendar-errors.xml.h:22
@@ -3647,6 +3652,8 @@ msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the journal has been deleted."
 msgstr ""
+"Jeigu neišsiųsite įspėjimo apie atšaukimą, kiti dalyviai gali nežinoti, kad "
+"šis žurnalas buvo ištrintas."
 
 #. calendar:prompt-delete-journal primary
 #: calendar/calendar-errors.xml.h:28 calendar/calendar-errors.xml.h:52
@@ -3659,12 +3666,12 @@ msgid ""
 "All information on this journal entry will be deleted and can not be "
 "restored."
 msgstr ""
+"Visa šio žurnalo informacija bus ištrinta ir negalės būti atkurta."
 
 #. calendar:prompt-delete-titled-appointment primary
 #: calendar/calendar-errors.xml.h:32
-#, fuzzy
 msgid "Are you sure you want to delete the appointment titled '{0}'?"
-msgstr "Ar tu tikrai nori ištrinti įvykį „%s“?"
+msgstr "Ar tikrai norite ištrinti įvykį „{0}“?"
 
 #. calendar:prompt-delete-titled-appointment secondary
 #. calendar:prompt-delete-appointment secondary
@@ -3672,6 +3679,7 @@ msgstr "Ar tu tikrai nori ištrinti įvykį „%s“?"
 msgid ""
 "All information on this appointment will be deleted and can not be restored."
 msgstr ""
+"Visa šio įvykio informacija bus ištrinta ir negalės būti atkurta."
 
 #. calendar:prompt-delete-appointment primary
 #: calendar/calendar-errors.xml.h:36
@@ -3680,15 +3688,13 @@ msgstr "Ar tikrai norite pašalinti šį susitikimą?"
 
 #. calendar:prompt-delete-named-task primary
 #: calendar/calendar-errors.xml.h:40
-#, fuzzy
 msgid "Are you sure you want to delete the '{0}' task?"
-msgstr "Ar tu tikrai nori ištrinti užduotį „%s“?"
+msgstr "Ar tikrai norite ištrinti užduotį „{0}“?"
 
 #. calendar:prompt-delete-named-journal primary
 #: calendar/calendar-errors.xml.h:48
-#, fuzzy
 msgid "Are you sure you want to delete the journal entry '{0}'?"
-msgstr "Ar tu tikrai nori ištrinti žurnalo įrašą „%s“?"
+msgstr "Ar tikrai norite ištrinti žurnalo įrašą „{0}“?"
 
 #. calendar:prompt-delete-named-journal secondary
 #. calendar:prompt-delete-journal secondary
@@ -3696,12 +3702,12 @@ msgstr "Ar tu tikrai nori ištrinti žurnalo įrašą „%s“?"
 msgid ""
 "All information in this journal will be deleted and can not be restored."
 msgstr ""
+"Visa informacija šiame žurnale bus ištrinta ir negalės būti atkurta."
 
 #. calendar:prompt-delete-appointments primary
 #: calendar/calendar-errors.xml.h:56
-#, fuzzy
 msgid "Are you sure you want to delete these {0} appointments?"
-msgstr "Ar tu tikrai nori ištrinti įvykį „%s“?"
+msgstr "Ar tikrai norite ištrinti šiuos {0} įvykius?"
 
 #. calendar:prompt-delete-appointments secondary
 #: calendar/calendar-errors.xml.h:58
@@ -3709,23 +3715,23 @@ msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
 msgstr ""
+"Visa informacija apie šiuos įvykius bus ištrinta ir negalės būti atkurta."
 
 #. calendar:prompt-delete-tasks primary
 #: calendar/calendar-errors.xml.h:60
-#, fuzzy
 msgid "Are you sure you want to delete these {0} tasks?"
-msgstr "Ar tu tikrai nori ištrinti užduotį „%s“?"
+msgstr "Ar tikrai norite ištrinti šias {0} užduotis?"
 
 #. calendar:prompt-delete-tasks secondary
 #: calendar/calendar-errors.xml.h:62
 msgid "All information on these tasks will be deleted and can not be restored."
 msgstr ""
+"Visa informacija apie šias užduotis bus ištrina ir negalės būti atkurta."
 
 #. calendar:prompt-delete-journals primary
 #: calendar/calendar-errors.xml.h:64
-#, fuzzy
 msgid "Are you sure you want to delete these {0} journal entries?"
-msgstr "Ar tu tikrai nori ištrinti žurnalo įrašą „%s“?"
+msgstr "Ar tikrai norite ištrinti šiuos {0} žurnalo įrašus?"
 
 #. calendar:prompt-delete-journals secondary
 #: calendar/calendar-errors.xml.h:66
@@ -3733,30 +3739,27 @@ msgid ""
 "All information in these journal entries will be deleted and can not be "
 "restored."
 msgstr ""
+"Visa žurnalo įrašuose esanti informacija bus ištrinta ir negalės būti "
+"atkurta."
 
 #. calendar:prompt-save-appointment title
 #: calendar/calendar-errors.xml.h:68
-#, fuzzy
 msgid "Save Appointment"
-msgstr "Įvykis"
+msgstr "Išsaugoti įvykį"
 
 #. calendar:prompt-save-appointment primary
 #: calendar/calendar-errors.xml.h:70
-#, fuzzy
 msgid "Would you like to save your changes to this appointment?"
-msgstr "Ar nori išsaugoti pakeitimus?"
+msgstr "Ar norite išsaugoti pakeitimus atliktus šiam įvykiui?"
 
 #. calendar:prompt-save-appointment secondary
 #: calendar/calendar-errors.xml.h:72
-#, fuzzy
 msgid "You have made changes to this appointment, but not yet saved them."
-msgstr ""
-"%s  Tu kažką pakeitei. Užmiršti tuos pakeitimus ir atnaujinti redaktorių?"
+msgstr "Jūs pakeitėte šį įvykį, bet pakeitimų dar neišsaugojote."
 
 #: calendar/calendar-errors.xml.h:73 calendar/calendar-errors.xml.h:81
-#, fuzzy
 msgid "Discard Changes"
-msgstr "_Atsikratyti Pakeitimų"
+msgstr "Atsisakyti pakeitimų"
 
 #: calendar/calendar-errors.xml.h:74 calendar/calendar-errors.xml.h:82
 msgid "Save Changes"
@@ -3769,27 +3772,25 @@ msgstr "Išsaugoti užduotį"
 
 #. calendar:prompt-save-task primary
 #: calendar/calendar-errors.xml.h:78
-#, fuzzy
 msgid "Would you like to save your changes to this task?"
-msgstr "Ar nori išsaugoti pakeitimus?"
+msgstr "Ar norite išsaugoti pakeitimus atliktus šiai užduočiai?"
 
 #. calendar:prompt-save-task secondary
 #: calendar/calendar-errors.xml.h:80
-#, fuzzy
 msgid "You have made changes to this task, but not yet saved them."
-msgstr ""
-"%s  Tu kažką pakeitei. Užmiršti tuos pakeitimus ir atnaujinti redaktorių?"
+msgstr "Jūs pakeitėte šią užduotį, bet pakeitimų dar neišsaugojote."
 
 #. calendar:prompt-meeting-invite primary
 #: calendar/calendar-errors.xml.h:84
 msgid "Would you like to send meeting invitations to participants?"
-msgstr ""
+msgstr "Ar norite išsiųsti susitikimo dalyviams pakvietimus?"
 
 #. calendar:prompt-meeting-invite secondary
 #: calendar/calendar-errors.xml.h:86
 msgid ""
 "Email invitations will be sent to all participants and allow them to RSVP."
 msgstr ""
+"El. pašto pakvietimai bus išsiųsti visiems dalyviams ir leis jiems RSVP."
 
 #: calendar/calendar-errors.xml.h:88 calendar/calendar-errors.xml.h:94
 #: calendar/calendar-errors.xml.h:100 calendar/calendar-errors.xml.h:106
@@ -3800,7 +3801,7 @@ msgstr "Siųsti"
 #. calendar:prompt-send-updated-meeting-info primary
 #: calendar/calendar-errors.xml.h:90
 msgid "Would you like to send updated meeting information to participants?"
-msgstr ""
+msgstr "Ar norite dalyviams išsiųsti atnaujintą susitikimo informaciją?"
 
 #. calendar:prompt-send-updated-meeting-info secondary
 #: calendar/calendar-errors.xml.h:92
@@ -3808,11 +3809,13 @@ msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
 msgstr ""
+"Atnaujintos informacijos išsiuntimas leidžia kitiems dalyviams turėti "
+"jų kalendorius atnaujintus."
 
 #. calendar:prompt-send-task primary
 #: calendar/calendar-errors.xml.h:96
 msgid "Would you like to send this task to participants?"
-msgstr ""
+msgstr "Ar norite dalyviams išsiųsti šią užduotį?"
 
 #. calendar:prompt-send-task secondary
 #: calendar/calendar-errors.xml.h:98
@@ -3820,11 +3823,13 @@ msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
 msgstr ""
+"El. pašto pakvietimai bus išsiųsti kitiems dalyviams ir įgalins juos priimti "
+"šią užduotį."
 
 #. calendar:prompt-send-updated-task-info primary
 #: calendar/calendar-errors.xml.h:102
 msgid "Would you like to send updated task information to participants?"
-msgstr ""
+msgstr "Ar norite dalyviams išsiųsti atnaujintą užduoties informaciją?"
 
 #. calendar:prompt-send-updated-task-info secondary
 #: calendar/calendar-errors.xml.h:104
@@ -3832,27 +3837,28 @@ msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
 msgstr ""
+"Atnaujintos informacijos išsiuntimas leidžia kitiems dalyviams turėti "
+"jų užduočių sąrašus atnaujintus."
 
 #. calendar:tasks-crashed primary
 #: calendar/calendar-errors.xml.h:108
 msgid "The Evolution tasks have quit unexpectedly."
-msgstr ""
+msgstr "Evolution užduotys netikėtai užsidarė."
 
 #. calendar:tasks-crashed secondary
 #: calendar/calendar-errors.xml.h:110
 msgid "Your tasks will not be available until Evolution is restarted."
-msgstr ""
+msgstr "Jūsų užduotys nebus prieinamos kol Evolution nebus paleista iš naujo."
 
 #. calendar:calendar-crashed primary
 #: calendar/calendar-errors.xml.h:112
-#, fuzzy
 msgid "The Evolution calendar has quit unexpectedly."
-msgstr "Evolution vCalendar importas"
+msgstr "Evolution kalendorius netikėtai užsidarė."
 
 #. calendar:calendar-crashed secondary
 #: calendar/calendar-errors.xml.h:114
 msgid "Your calendars will not be available until Evolution is restarted."
-msgstr ""
+msgstr "Jūsų kalendoriai bus neprieinami kol Evolution nebus paleista iš naujo."
 
 #. calendar:prompt-delete-calendar primary
 #: calendar/calendar-errors.xml.h:116
@@ -3862,18 +3868,17 @@ msgstr "Ištrinti kalendorių „{0}“?"
 #. calendar:prompt-delete-calendar secondary
 #: calendar/calendar-errors.xml.h:118
 msgid "This calendar will be removed permanently."
-msgstr ""
+msgstr "Šis kalendorius bus ištrintas visam laikui."
 
 #. calendar:prompt-delete-task-list primary
 #: calendar/calendar-errors.xml.h:120
-#, fuzzy
 msgid "Delete task list '{0}'?"
-msgstr "Ištrinti šį sąrašą"
+msgstr "Ištrinti užduočių sąrašą '{0}'"
 
 #. calendar:prompt-delete-task-list secondary
 #: calendar/calendar-errors.xml.h:122
 msgid "This task list will be removed permanently."
-msgstr ""
+msgstr "Šis užduočių sąrašas bus ištrintas visam laikui."
 
 #: calendar/common/authentication.c:49 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
@@ -3882,13 +3887,12 @@ msgstr "Įveskite slaptažodį"
 
 #: calendar/conduits/calendar/calendar-conduit.c:246
 msgid "Split Multi-Day Events:"
-msgstr "Išskaidyti Kelių Dienų Įvykius:"
+msgstr "Išskaidyti kelių dienų įvykius:"
 
 #: calendar/conduits/calendar/calendar-conduit.c:1359
 #: calendar/conduits/calendar/calendar-conduit.c:1360
 #: calendar/conduits/todo/todo-conduit.c:879
 #: calendar/conduits/todo/todo-conduit.c:880
-#, fuzzy
 msgid "Could not start evolution-data-server"
 msgstr "Nepavyko paleisti evolution-data-server"
 
@@ -4108,7 +4112,7 @@ msgstr "Intervalai rodomi Dienos ir Darbo Savaitės rodiniuose"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
 msgid "List of urls for free/busy publishing"
-msgstr ""
+msgstr "Adresų sąrašas reikalingas „laisvas/užsiėmęs“ informacijos skelbimui"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
 msgid "Minute the workday ends on"
@@ -4172,7 +4176,7 @@ msgstr "Savaitės pradžios diena yra"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
 msgid "Whether or not to use the notification tray for display alarms"
-msgstr ""
+msgstr "Ar aliarmų rodymui naudoti pranešimų vietą"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
 msgid "Whether to ask for confirmation on appointment deletion"
@@ -4439,7 +4443,7 @@ msgstr "Groti garsą"
 #: calendar/gui/dialogs/alarm-dialog.glade.h:10
 #: calendar/gui/e-alarm-list.c:448
 msgid "Pop up an alert"
-msgstr ""
+msgstr "Parodyti perspėjimą"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:11
 #: calendar/gui/e-alarm-list.c:456
@@ -4507,21 +4511,20 @@ msgstr "minutę(es)"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:28
 msgid "option menu to choose alarm action"
-msgstr ""
+msgstr "perspėjimo veiksmo pasirinkimo meniu"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:29
 #, fuzzy
 msgid "option menu to choose alarm relative"
-msgstr "Jūs turite pasirinkti datą."
+msgstr ""
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:30
-#, fuzzy
 msgid "option menu to choose alarm time"
-msgstr "Jūs turite pasirinkti datą."
+msgstr "perspėjimo laiko pasirinkimo meniu"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:31
 msgid "option menu to choose alarm value units"
-msgstr ""
+msgstr "perspėjimo reikšmių vienetų pasirinkimo meniu"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:32
 msgid "start of appointment"
@@ -4529,7 +4532,7 @@ msgstr "įvykio pradžią"
 
 #: calendar/gui/dialogs/alarm-list-dialog.c:192
 msgid "Action/Trigger"
-msgstr "Veiksmas/Jungiklis"
+msgstr "Veiksmas/jungiklis"
 
 #: calendar/gui/dialogs/alarm-list-dialog.glade.h:1
 msgid "A_dd"
@@ -4810,11 +4813,11 @@ msgstr "prieš kiekvieną paskyrimą"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
 msgid "option menu to choose reminder units"
-msgstr ""
+msgstr "priminimo vienetų pasirinkimo meniu"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
 msgid "option menu to choose time units"
-msgstr ""
+msgstr "laiko vienetų pasirinkimo meniu"
 
 #: calendar/gui/dialogs/calendar-setup.c:299
 #: calendar/gui/dialogs/calendar-setup.glade.h:4
@@ -4980,18 +4983,16 @@ msgid "Unable to use current version!"
 msgstr "Nepavyko paleisti turimos versijos!"
 
 #: calendar/gui/dialogs/copy-source-dialog.c:61
-#, fuzzy
 msgid "Could not open source"
-msgstr "Nepavyko atidaryti „%s“: %s"
+msgstr "Nepavyko atidaryti šaltinio"
 
 #: calendar/gui/dialogs/copy-source-dialog.c:69
-#, fuzzy
 msgid "Could not open destination"
-msgstr "Paskirties vieta"
+msgstr "Nepavyko atidaryti paskirties vietos"
 
 #: calendar/gui/dialogs/copy-source-dialog.c:78
 msgid "Destination is read only"
-msgstr ""
+msgstr "Paskirties vieta yra tik skaitoma"
 
 #: calendar/gui/dialogs/delete-error.c:54
 msgid "The event could not be deleted due to a corba error"
@@ -5175,9 +5176,8 @@ msgid "Confidential"
 msgstr "Konfidencialus"
 
 #: calendar/gui/dialogs/event-page.glade.h:13
-#, fuzzy
 msgid "Event Description"
-msgstr "Aprašymas:"
+msgstr "Įvykio aprašymas"
 
 #: calendar/gui/dialogs/event-page.glade.h:14
 msgid "Locat_ion:"
@@ -5207,7 +5207,7 @@ msgstr "S_uvestinė:"
 
 #: calendar/gui/dialogs/event-page.glade.h:19
 msgid "This appointment has customized alarms"
-msgstr ""
+msgstr "Šiam įvykiui yra priskirti tinkinti perspėjimai"
 
 #: calendar/gui/dialogs/event-page.glade.h:20
 msgid "_Alarm"
@@ -5606,14 +5606,12 @@ msgid "Unable to open tasks in '%s'."
 msgstr "Nepavyko atverti „%s“ užduočių."
 
 #: calendar/gui/dialogs/task-page.glade.h:2
-#, fuzzy
 msgid "<span weight=\"bold\">Basics</span>"
-msgstr "<b>Rodomas Pranešimas</b>"
+msgstr "<span weight=\"bold\">Pagrindai</span>"
 
 #: calendar/gui/dialogs/task-page.glade.h:3
-#, fuzzy
 msgid "<span weight=\"bold\">Date and Time</span>"
-msgstr "<b>Rodomas Pranešimas</b>"
+msgstr "<span weight=\"bold\">Data ir laikas</span>"
 
 #: calendar/gui/dialogs/task-page.glade.h:8
 msgid "D_escription:"
@@ -6057,14 +6055,12 @@ msgid "Task sort"
 msgstr "Užduočių rikiavimas"
 
 #: calendar/gui/e-calendar-view.c:1166
-#, fuzzy
 msgid "Moving items"
-msgstr "Perkeliami laiškai"
+msgstr "Perkeliami elementai"
 
 #: calendar/gui/e-calendar-view.c:1168
-#, fuzzy
 msgid "Copying items"
-msgstr "Kopijuojami pranešimai"
+msgstr "Kopijuojami elementai"
 
 #: calendar/gui/e-calendar-view.c:1348
 msgid "New _Appointment..."
@@ -6076,7 +6072,7 @@ msgstr "Naujas visos _dienos įvykis"
 
 #: calendar/gui/e-calendar-view.c:1350
 msgid "New Meeting"
-msgstr "Naujas Susitikimas"
+msgstr "Naujas susitikimas"
 
 #: calendar/gui/e-calendar-view.c:1351
 msgid "New Task"
@@ -6088,9 +6084,8 @@ msgid "Current View"
 msgstr "Esamas vaizdas"
 
 #: calendar/gui/e-calendar-view.c:1363 ui/evolution-calendar.xml.h:26
-#, fuzzy
 msgid "Select _Today"
-msgstr "Pažymėti _giją"
+msgstr "Pažymė_ti šiandieną"
 
 #: calendar/gui/e-calendar-view.c:1364
 msgid "_Select Date..."
@@ -6106,22 +6101,20 @@ msgid "Cop_y to Calendar..."
 msgstr "Kopi_juoti į kalendorių..."
 
 #: calendar/gui/e-calendar-view.c:1386
-#, fuzzy
 msgid "Mo_ve to Calendar..."
-msgstr "Perkelti į Aplanką..."
+msgstr "Per_kelti į kalendorių..."
 
 #: calendar/gui/e-calendar-view.c:1387
 msgid "_Schedule Meeting..."
-msgstr "_Suplanuoti Susitikimą..."
+msgstr "_Suplanuoti susitikimą..."
 
 #: calendar/gui/e-calendar-view.c:1388
 msgid "_Forward as iCalendar..."
 msgstr "_Persiųsti kaip iCalendar..."
 
 #: calendar/gui/e-calendar-view.c:1393
-#, fuzzy
 msgid "Make this Occurrence _Movable"
-msgstr "Ištrinti šį pasitaikymą"
+msgstr "Padaryti šį pasitaikymą perkelia_mu"
 
 #: calendar/gui/e-calendar-view.c:1394
 msgid "Delete this _Occurrence"
@@ -6211,12 +6204,12 @@ msgstr[1] "Kas %d savaites"
 msgstr[2] "Kas %d savaičių"
 
 #: calendar/gui/e-itip-control.c:779
-#, fuzzy, c-format
+#, c-format
 msgid "Every week on "
 msgid_plural "Every %d weeks on "
 msgstr[0] "Kiekvienos savaitės dieną"
-msgstr[1] "Kiekvienos savaitės dieną"
-msgstr[2] "Kiekvienos savaitės dieną"
+msgstr[1] "Kiekvienos %d savaitės dieną"
+msgstr[2] "Kiekvienos %d savaitės dieną"
 
 #: calendar/gui/e-itip-control.c:787
 msgid " and "
@@ -6233,20 +6226,20 @@ msgid "The %s %s of "
 msgstr "%s %s iš "
 
 #: calendar/gui/e-itip-control.c:814
-#, fuzzy, c-format
+#, c-format
 msgid "every month"
 msgid_plural "every %d months"
 msgstr[0] "kiekvieną mėnesį"
-msgstr[1] "kiekvieną mėnesį"
-msgstr[2] "kiekvieną mėnesį"
+msgstr[1] "kas %d mėnesius"
+msgstr[2] "kas %d mėnesių"
 
 #: calendar/gui/e-itip-control.c:818
-#, fuzzy, c-format
+#, c-format
 msgid "Every year"
 msgid_plural "Every %d years"
 msgstr[0] "Kasmet"
-msgstr[1] "Kasmet"
-msgstr[2] "Kasmet"
+msgstr[1] "Kas %d matus"
+msgstr[2] "Kas %d metų"
 
 #: calendar/gui/e-itip-control.c:829
 #, fuzzy, c-format
@@ -6261,27 +6254,25 @@ msgid ", ending on "
 msgstr ", pabaigiant "
 
 #: calendar/gui/e-itip-control.c:862
-#, fuzzy
 msgid "Starts"
-msgstr "Būsena"
+msgstr "Prasideda"
 
 #: calendar/gui/e-itip-control.c:875
 msgid "Ends"
-msgstr ""
+msgstr "Baigiasi"
 
 #: calendar/gui/e-itip-control.c:909
-#, fuzzy
 msgid "Due"
 msgstr "Iki"
 
 #: calendar/gui/e-itip-control.c:949 calendar/gui/e-itip-control.c:1006
 msgid "iCalendar Information"
-msgstr "iCalendar Informacija"
+msgstr "iCalendar informacija"
 
 #. Title
 #: calendar/gui/e-itip-control.c:966
 msgid "iCalendar Error"
-msgstr "iCalendar Klaida"
+msgstr "iCalendar klaida"
 
 #: calendar/gui/e-itip-control.c:1038 calendar/gui/e-itip-control.c:1054
 #: calendar/gui/e-itip-control.c:1065 calendar/gui/e-itip-control.c:1082
@@ -6309,7 +6300,7 @@ msgstr "Priimtas"
 
 #: calendar/gui/e-itip-control.c:1141 calendar/gui/itip-utils.c:424
 msgid "Tentatively Accepted"
-msgstr "Negalutinis Sutikimas"
+msgstr "Negalutinis sutikimas"
 
 #: calendar/gui/e-itip-control.c:1145 calendar/gui/e-meeting-list-view.c:160
 #: calendar/gui/e-meeting-store.c:182 calendar/gui/e-meeting-store.c:205
@@ -6322,11 +6313,13 @@ msgid ""
 "The meeting has been cancelled, however it could not be found in your "
 "calendars"
 msgstr ""
+"Šis susitikimas buvo atšauktas, tačiau jo Jūsų kalendoriuose nėra"
 
 #: calendar/gui/e-itip-control.c:1231
 msgid ""
 "The task has been cancelled, however it could not be found in your task lists"
 msgstr ""
+"Ši užduotis buvo atšaukta, tačiau jos Jūsų kalendoriuose nėra"
 
 #: calendar/gui/e-itip-control.c:1310
 #, c-format
@@ -6349,7 +6342,7 @@ msgstr "<b>%s</b> norėtų, kad Jūs dalyvautumėte susitikime."
 
 #: calendar/gui/e-itip-control.c:1320
 msgid "Meeting Proposal"
-msgstr "Susitikimo Pasiūlymas"
+msgstr "Susitikimo pasiūlymas"
 
 #. FIXME Whats going on here?
 #: calendar/gui/e-itip-control.c:1326
@@ -6359,7 +6352,7 @@ msgstr "<b>%s</b> nori papildyti esamą susitikimą."
 
 #: calendar/gui/e-itip-control.c:1327
 msgid "Meeting Update"
-msgstr "Susitikimo Atnaujinimas"
+msgstr "Susitikimo atnaujinimas"
 
 #: calendar/gui/e-itip-control.c:1331
 #, c-format
@@ -6368,7 +6361,7 @@ msgstr "<b>%s</b> norėtų gauti paskutinę informaciją apie susitikimą."
 
 #: calendar/gui/e-itip-control.c:1332
 msgid "Meeting Update Request"
-msgstr "Prašymas Pakeisti Susitikimo Informaciją"
+msgstr "Prašymas pakeisti susitikimo informaciją"
 
 #: calendar/gui/e-itip-control.c:1339
 #, c-format
@@ -6377,7 +6370,7 @@ msgstr "<b>%s</b> atsakė į susitikimo užklausą."
 
 #: calendar/gui/e-itip-control.c:1340
 msgid "Meeting Reply"
-msgstr "Susitikimo Atsakas"
+msgstr "Susitikimo atsakas"
 
 #: calendar/gui/e-itip-control.c:1347
 #, c-format
@@ -6386,7 +6379,7 @@ msgstr "<b>%s</b> atšaukė susitikimą."
 
 #: calendar/gui/e-itip-control.c:1348
 msgid "Meeting Cancellation"
-msgstr "Susitikimo Atšaukimas"
+msgstr "Susitikimo atšaukimas"
 
 #: calendar/gui/e-itip-control.c:1358 calendar/gui/e-itip-control.c:1435
 #: calendar/gui/e-itip-control.c:1475
@@ -6396,7 +6389,7 @@ msgstr "<b>%s</b> atsiuntė nesuprantamą atsakymą į užklausimą."
 
 #: calendar/gui/e-itip-control.c:1359
 msgid "Bad Meeting Message"
-msgstr "Blogas Susitikimo Pranešimas"
+msgstr "Blogas susitikimo pranešimas"
 
 #: calendar/gui/e-itip-control.c:1386
 #, c-format
@@ -6419,7 +6412,7 @@ msgstr "<b>%s</b> prašo Jus atlikti užduotį."
 
 #: calendar/gui/e-itip-control.c:1397
 msgid "Task Proposal"
-msgstr "Užduoties Pasiūlymas"
+msgstr "Užduoties pasiūlymas"
 
 #. FIXME Whats going on here?
 #: calendar/gui/e-itip-control.c:1403
@@ -6429,7 +6422,7 @@ msgstr "<b>%s</b> nori papildyti esamą užduotį."
 
 #: calendar/gui/e-itip-control.c:1404
 msgid "Task Update"
-msgstr "Užduoties Atnaujinimas"
+msgstr "Užduoties atnaujinimas"
 
 #: calendar/gui/e-itip-control.c:1408
 #, c-format
@@ -6438,7 +6431,7 @@ msgstr "<b>%s</b> nori gauti paskutinę užduoties informaciją."
 
 #: calendar/gui/e-itip-control.c:1409
 msgid "Task Update Request"
-msgstr "Užduoties Atnaujinimo Užklausa"
+msgstr "Užduoties atnaujinimo užklausa"
 
 #: calendar/gui/e-itip-control.c:1416
 #, c-format
@@ -6447,7 +6440,7 @@ msgstr "<b>%s</b> atsakė į užduoties priskyrimą."
 
 #: calendar/gui/e-itip-control.c:1417
 msgid "Task Reply"
-msgstr "Užduoties Atsakas"
+msgstr "Užduoties atsakas"
 
 #: calendar/gui/e-itip-control.c:1424
 #, c-format
@@ -6456,11 +6449,11 @@ msgstr "<b>%s</b> atšaukė užduotį."
 
 #: calendar/gui/e-itip-control.c:1425
 msgid "Task Cancellation"
-msgstr "Užduoties Atšaukimas"
+msgstr "Užduoties atšaukimas"
 
 #: calendar/gui/e-itip-control.c:1436
 msgid "Bad Task Message"
-msgstr "Blogas Užduoties Pranešimas"
+msgstr "Blogas užduoties pranešimas"
 
 #: calendar/gui/e-itip-control.c:1460
 #, c-format
@@ -6469,7 +6462,7 @@ msgstr "<b>%s</b> paskelbė laisvas/užimtas informaciją."
 
 #: calendar/gui/e-itip-control.c:1461
 msgid "Free/Busy Information"
-msgstr "Laisvas/Užimtas Informacija"
+msgstr "Laisvas/užimtas informacija"
 
 #: calendar/gui/e-itip-control.c:1465
 #, c-format
@@ -6478,7 +6471,7 @@ msgstr "<b>%s</b> paprašė Jūsų pateikti laisvas/užimtas informaciją."
 
 #: calendar/gui/e-itip-control.c:1466
 msgid "Free/Busy Request"
-msgstr "Laisvas/Užimtas Prašymas"
+msgstr "Informacijos „laisvas/užimtas“ prašymas"
 
 #: calendar/gui/e-itip-control.c:1470
 #, c-format
@@ -6487,11 +6480,11 @@ msgstr "<b>%s</b> atsakė į laisvas/užimtas prašymą."
 
 #: calendar/gui/e-itip-control.c:1471
 msgid "Free/Busy Reply"
-msgstr "Laisvas/Užimtas Atsakas"
+msgstr "Laisvas/užimtas atsakas"
 
 #: calendar/gui/e-itip-control.c:1476
 msgid "Bad Free/Busy Message"
-msgstr "Blogas Laisvas/Užimtas Pranešimas"
+msgstr "Blogas informacijos „laisvas/užimtas“ pranešimas"
 
 #: calendar/gui/e-itip-control.c:1551
 msgid "The message does not appear to be properly formed"
@@ -7022,19 +7015,19 @@ msgstr "Tinkle"
 #. FIXME: set proper domain/code
 #: calendar/gui/migration.c:735 calendar/gui/migration.c:887
 msgid "Unable to migrate old settings from evolution/config.xmldb"
-msgstr ""
+msgstr "Nepavyko perkelti senų nustatymų iš evolution/config.xmldb"
 
 #. FIXME: domain/code
 #: calendar/gui/migration.c:764
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to migrate calendar `%s'"
-msgstr "Nepavyko atidaryti kalendoriaus „%s“."
+msgstr "Nepavyko perkelti kalendoriaus „%s“"
 
 #. FIXME: domain/code
 #: calendar/gui/migration.c:916
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to migrate tasks `%s'"
-msgstr "Nepavyko atverti „%s“ užduočių."
+msgstr "Nepavyko perkelti „%s“ užduočių"
 
 #: calendar/gui/print.c:492
 msgid "1st"
@@ -9146,21 +9139,20 @@ msgstr "(match-all) reikalauja vienintelio loginio rezultato"
 
 #: camel/camel-folder-search.c:756
 msgid "(match-threads) not allowed inside match-all"
-msgstr ""
+msgstr "(match-threads) neleistinas match-all viduje"
 
 #: camel/camel-folder-search.c:759 camel/camel-folder-search.c:763
 msgid "(match-threads) requires a match type string"
-msgstr ""
+msgstr "(match-threads) reikalauja atitikties tipo eilutės"
 
 #: camel/camel-folder-search.c:785
-#, fuzzy
 msgid "(match-threads) expects an array result"
-msgstr "(match-all) reikalauja vienintelio loginio rezultato"
+msgstr "(match-threads) tikisi masyvinio rezultato"
 
 #: camel/camel-folder-search.c:791
 #, fuzzy
 msgid "(match-threads) requires the folder set"
-msgstr "(match-all) reikalauja vienintelio loginio rezultato"
+msgstr "(match-threads) reikalauja aplankų rinkinio"
 
 #: camel/camel-folder-search.c:880
 #, c-format
@@ -9708,12 +9700,11 @@ msgstr "URL „%s“ turi būti su hostu"
 #: camel/camel-service.c:282
 #, c-format
 msgid "URL '%s' needs a path component"
-msgstr "URL „%s“ turi būti su keliu"
+msgstr "URL „%s“ turi būti su nurodytu keliu"
 
 #: camel/camel-service.c:743
-#, fuzzy
 msgid "cannot create thread"
-msgstr "Negaliu atidaryti laiško"
+msgstr "negali sukurti gijos"
 
 #: camel/camel-service.c:890
 #, c-format
@@ -9723,12 +9714,12 @@ msgstr "Atpažystamas: %s"
 #: camel/camel-service.c:912
 #, fuzzy
 msgid "Host lookup failed"
-msgstr "Adreso atpažinimo klaida: nežinoma priežastis"
+msgstr "Hosto atpažinimo klaida"
 
 #: camel/camel-service.c:914
-#, fuzzy, c-format
+#, c-format
 msgid "Host lookup failed: %s: %s"
-msgstr "Adreso atpažinimo klaida: %s: adresas nerastas"
+msgstr "Hosto atpažinimo klaida: %s: %s"
 
 #: camel/camel-service.c:1023
 msgid "Resolving address"
@@ -9736,12 +9727,12 @@ msgstr "Atpažystamas adresas"
 
 #: camel/camel-service.c:1043
 msgid "Name lookup failed"
-msgstr ""
+msgstr "Vardo atpažinimo klaida"
 
 #: camel/camel-service.c:1046
-#, fuzzy, c-format
+#, c-format
 msgid "Name lookup failed: %s"
-msgstr "NNTP komandos klaida: %s"
+msgstr "Vardo atpažinimo klaida: %s"
 
 #: camel/camel-session.c:283
 #, c-format
@@ -9749,7 +9740,7 @@ msgid ""
 "Could not create directory %s:\n"
 "%s"
 msgstr ""
-"Negalėjau sukurti katalogo %s:\n"
+"Nepavyko sukurti aplanko %s:\n"
 "%s"
 
 #: camel/camel-smime-context.c:105
@@ -9758,82 +9749,70 @@ msgid "Enter security pass-phrase for `%s'"
 msgstr "Įveskite „%s“ saugumo slaptažodį"
 
 #: camel/camel-smime-context.c:262
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot find certificate for '%s'"
-msgstr "Negalima sukurti aplanko: %s: %s"
+msgstr "Nepavyko rasti „%s“ sertifikato"
 
 #: camel/camel-smime-context.c:268
-#, fuzzy
 msgid "Cannot create CMS message"
-msgstr "Negaliu atidaryti laiško"
+msgstr "Nepavyko sukurti CMS žinutės"
 
 #: camel/camel-smime-context.c:273
-#, fuzzy
 msgid "Cannot create CMS signed data"
-msgstr "Negalėjau prisegti bylos %s: %s"
+msgstr "Nepavyko sukurti CMS pasirašytų duomenų"
 
 #: camel/camel-smime-context.c:279
-#, fuzzy
 msgid "Cannot attach CMS signed data"
-msgstr "Negalėjau prisegti bylos %s: %s"
+msgstr "Nepavyko prisegti CMS pasirašytų duomenų"
 
 #: camel/camel-smime-context.c:286
-#, fuzzy
 msgid "Cannot attach CMS data"
-msgstr "Negalėjau prisegti bylos %s: %s"
+msgstr "Nepavyko prisegti CMS duomenų"
 
 #: camel/camel-smime-context.c:292
-#, fuzzy
 msgid "Cannot create CMS Signer information"
-msgstr "Negaliu atidaryti laiško"
+msgstr "Nepavyko sukurti CMS pasirašytojo informacijos"
 
 #: camel/camel-smime-context.c:298
-#, fuzzy
 msgid "Cannot find certificate chain"
-msgstr "Negalima sukurti aplanko: %s: %s"
+msgstr "Nepavyko rasti sertifikatų grandinės"
 
 #: camel/camel-smime-context.c:304
-#, fuzzy
 msgid "Cannot add CMS Signing time"
-msgstr "Negalėjau prisegti bylos %s: %s"
+msgstr "Nepavyko pridėti CMS pasirašymo laiko"
 
 #: camel/camel-smime-context.c:326 camel/camel-smime-context.c:338
-#, fuzzy, c-format
+#, c-format
 msgid "Encryption certificate for '%s' does not exist"
-msgstr "Nėra tokio aplanko „%s“."
+msgstr "„%s“ šifravimo sertifikatas neegzistuoja"
 
 #: camel/camel-smime-context.c:345
 msgid "Cannot add SMIMEEncKeyPrefs attribute"
-msgstr ""
+msgstr "Nepavyko pridėti SMIMEEncKeyPrefs atributo"
 
 #: camel/camel-smime-context.c:350
 msgid "Cannot add MS SMIMEEncKeyPrefs attribute"
-msgstr ""
+msgstr "Nepavyko pridėti MS SMIMEEncKeyPrefs atributo"
 
 #: camel/camel-smime-context.c:355
-#, fuzzy
 msgid "Cannot add encryption certificate"
-msgstr "Kodavimo sertifikatas:"
+msgstr "Nepavyko pridėti šifravimo sertifikato"
 
 #: camel/camel-smime-context.c:361
-#, fuzzy
 msgid "Cannot add CMS Signer information"
-msgstr "Kalendoriaus informacija"
+msgstr "Nepavyko pridėti CMS pasirašytojo informacijos"
 
 #: camel/camel-smime-context.c:431 camel/camel-smime-context.c:879
-#, fuzzy
 msgid "Cannot create encoder context"
-msgstr "Negaliu sukurti aplanko užrakto ant %s: %s"
+msgstr "Nepavyko sukurti koduotojo konteksto"
 
 #: camel/camel-smime-context.c:437
-#, fuzzy
 msgid "Failed to add data to CMS encoder"
-msgstr "Nepavyko įrašyti laiško į „Išsiųstų“ aplanką: %s"
+msgstr "Nepavyko pridėti duomenų į CMS koduotoją"
 
 #: camel/camel-smime-context.c:442 camel/camel-smime-context.c:896
-#, fuzzy
 msgid "Failed to encode data"
-msgstr "Autorizacija nepavyko.\n"
+msgstr "Kodavimas nepavyko"
 
 #: camel/camel-smime-context.c:515
 msgid "Unverified"
@@ -9864,9 +9843,8 @@ msgid "Signature algorithm unknown"
 msgstr "Nežinomas parašo algoritmas"
 
 #: camel/camel-smime-context.c:529
-#, fuzzy
 msgid "Signature algorithm unsupported"
-msgstr "Nepalaikomas parašo algoritmas"
+msgstr "Parašo algoritmas nepalaikomas"
 
 #: camel/camel-smime-context.c:531
 msgid "Malformed signature"
@@ -9877,41 +9855,36 @@ msgid "Processing error"
 msgstr "Apdorojimo klaida"
 
 #: camel/camel-smime-context.c:570
-#, fuzzy
 msgid "No signed data in signature"
-msgstr "Pridėti parašo scenarijų"
+msgstr "Paraše nėra pasirašytų duomenų"
 
 #: camel/camel-smime-context.c:577
 msgid "Digests missing from enveloped data"
 msgstr ""
 
 #: camel/camel-smime-context.c:590 camel/camel-smime-context.c:600
-#, fuzzy
 msgid "Cannot calculate digests"
-msgstr "Negalima sukurti aplanko: %s: %s"
+msgstr ""
 
 #: camel/camel-smime-context.c:605
-#, fuzzy
 msgid "Cannot set message digests"
-msgstr "Nepavyko gauti laiško %s: %s"
+msgstr ""
 
 #: camel/camel-smime-context.c:615 camel/camel-smime-context.c:620
-#, fuzzy
 msgid "Certificate import failed"
-msgstr "Sertifikato parašo klaida"
+msgstr "Sertifikato importuoti nepavyko"
 
 #: camel/camel-smime-context.c:630
 msgid "Certificate is the only message, cannot verify certificates"
-msgstr ""
+msgstr "Sertifikatas yra vienintelė žinutė, negalima patikrinti sertifikatų"
 
 #: camel/camel-smime-context.c:633
 msgid "Certificate is the only message, certificates imported and verified"
-msgstr ""
+msgstr "Sertifikatas yra vienintelė žinutė, sertifikatai importuoti ir patikrinti"
 
 #: camel/camel-smime-context.c:637
-#, fuzzy
 msgid "Cannot find signature digests"
-msgstr "Tvarkingas parašas"
+msgstr ""
 
 #: camel/camel-smime-context.c:653
 #, c-format
@@ -9919,14 +9892,13 @@ msgid "Signer: %s <%s>: %s\n"
 msgstr "Pasirašė: %s <%s>: %s\n"
 
 #: camel/camel-smime-context.c:754
-#, fuzzy
 msgid "Decoder failed"
-msgstr "Nepavyko IMAP komanda: %s"
+msgstr "Iškoduoti nepavyko"
 
 #: camel/camel-smime-context.c:806
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot find certificate for `%s'"
-msgstr "Negalima sukurti aplanko: %s: %s"
+msgstr "Nepavyko rasti „%s“ sertifikato"
 
 #: camel/camel-smime-context.c:813
 msgid "Cannot find common bulk encryption algorithm"
@@ -9938,39 +9910,33 @@ msgid "Cannot allocate slot for encryption bulk key"
 msgstr ""
 
 #: camel/camel-smime-context.c:833
-#, fuzzy
 msgid "Cannot create CMS Message"
-msgstr "Negaliu atidaryti laiško"
+msgstr "Nepavyko sukurti CMS žinutės"
 
 #: camel/camel-smime-context.c:839
 #, fuzzy
 msgid "Cannot create CMS Enveloped data"
-msgstr "Negaliu atidaryti laiško"
+msgstr "Nepavyko sukurti CMS Enveloped duomenų"
 
 #: camel/camel-smime-context.c:845
-#, fuzzy
 msgid "Cannot attach CMS Enveloped data"
-msgstr "Negalėjau prisegti bylos %s: %s"
+msgstr ""
 
 #: camel/camel-smime-context.c:851
-#, fuzzy
 msgid "Cannot attach CMS data object"
-msgstr "Negalėjau prisegti bylos %s: %s"
+msgstr "Nepavyko prisegti CMS duomenų objekto"
 
 #: camel/camel-smime-context.c:860
-#, fuzzy
 msgid "Cannot create CMS Recipient information"
-msgstr "Negaliu atidaryti laiško"
+msgstr "Nepavyko sukurti CMS gavėjo informacijos"
 
 #: camel/camel-smime-context.c:865
-#, fuzzy
 msgid "Cannot add CMS Recipient information"
-msgstr "Negaliu atidaryti laiško"
+msgstr "Nepavyko pridėti CMS gavėjo informacijos"
 
 #: camel/camel-smime-context.c:890
-#, fuzzy
 msgid "Failed to add data to encoder"
-msgstr "Nepavyko serveriui nusiųsti vartotojo vardo"
+msgstr "Nepavyko pridėti duomenų į koduotoją"
 
 #: camel/camel-smime-context.c:977
 #, c-format
@@ -9979,12 +9945,11 @@ msgstr ""
 
 #: camel/camel-smime-context.c:984
 msgid "S/MIME Decrypt: No encrypted content found"
-msgstr ""
+msgstr "S/MIME iššifravimas: nerasta užšifruotų duomenų"
 
 #: camel/camel-smime-context.c:1011
-#, fuzzy
 msgid "import keys: unimplemented"
-msgstr "Komanda neįgyvendinta"
+msgstr ""
 
 #: camel/camel-smime-context.c:1019
 msgid "export keys: unimplemented"
@@ -9995,29 +9960,29 @@ msgid "Cannot get folder: Invalid operation on this store"
 msgstr "Nepavyko pasiekti aplanko: Neleistina šios saugyklos operacija"
 
 #: camel/camel-store.c:244
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create folder `%s': folder exists"
-msgstr "Negalima sukurti aplanko: %s: %s"
+msgstr "Nepavyko sukurti aplanko „%s“: "
 
 #: camel/camel-store.c:298
 msgid "Cannot create folder: Invalid operation on this store"
-msgstr "Nepavyko sukurti aplanko: Neleistina šios saugyklos operacija"
+msgstr "Nepavyko sukurti aplanko: neleistina šios saugyklos operacija"
 
 #: camel/camel-store.c:326
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create folder: %s: folder exists"
-msgstr "Negalima sukurti aplanko: %s: %s"
+msgstr "Nepavyko sukurti aplanko: %s: aplankas jau egzistuoja"
 
 #: camel/camel-store.c:390 camel/camel-vee-store.c:367
 #, c-format
 msgid "Cannot delete folder: %s: Invalid operation"
-msgstr "Negaliu ištrinti aplanko: %s: Bloga operacija"
+msgstr "Nepavyko ištrinti aplanko: %s: netinkama operacija"
 
 #: camel/camel-store.c:440 camel/camel-vee-store.c:404
 #: camel/providers/local/camel-maildir-store.c:233
 #, c-format
 msgid "Cannot rename folder: %s: Invalid operation"
-msgstr "Negaliu pervadinti aplanko: %s: Bloga operacija"
+msgstr "Nepavyko pervadinti aplanko: %s: netinkama operacija"
 
 #: camel/camel-store.c:778
 msgid "Trash"
@@ -10310,9 +10275,8 @@ msgid "Automatically synchronize account locally"
 msgstr "Automatiškai sulyginti nutolusį ir vietinį paštą"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:72
-#, fuzzy
 msgid "Address Book and Calendar"
-msgstr "Adresų _Knyga:"
+msgstr "Adresų knyga ir kalendorius"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:75
 msgid "Post Office Agent:"
@@ -10323,16 +10287,14 @@ msgid "Post Office Agent SOAP Port:"
 msgstr ""
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:81
-#, fuzzy
 msgid "Use Secure Connection (SSL)"
-msgstr "Na_udoti saugią jungtį (SSL):"
+msgstr "Naudoti saugią jungtį (SSL):"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:94
 msgid "Novell GroupWise"
 msgstr "Novell GroupWise"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:96
-#, fuzzy
 msgid "For accessing Novell Groupwise servers"
 msgstr "Skirtas pasiekti Novel Groupwise serverius"
 
@@ -10350,8 +10312,8 @@ msgstr "Slaptažodis"
 #: camel/providers/imapp/camel-imapp-provider.c:68
 msgid "This option will connect to the IMAP server using a plaintext password."
 msgstr ""
-"Su šia parinktimi jungiantis prie IMAP serverio bus naudojamas paprasto "
-"teksto slaptažodis."
+"Naudojant šią parinktį jungiantis prie IMAP serverio bus naudojamas paprasto "
+"teksto pavidalo slaptažodis."
 
 #: camel/providers/groupwise/camel-gw-listener.c:436
 #, fuzzy
@@ -10435,7 +10397,7 @@ msgid ""
 "Cannot get message: %s\n"
 "  %s"
 msgstr ""
-"Negaliu gauti laiško: %s\n"
+"Nepavyko gauti laiško: %s\n"
 "  %s"
 
 #: camel/providers/imap/camel-imap-folder.c:1979
@@ -10459,27 +10421,28 @@ msgstr "Atsiunčiama naujų laiškų santrauka"
 #: camel/providers/imap/camel-imap-folder.c:2464
 #, c-format
 msgid "Incomplete server response: no information provided for message %d"
-msgstr ""
+msgstr "Nepilnas serverio atsakas: nesuteikta informacija apie žinutę %d"
 
 #: camel/providers/imap/camel-imap-folder.c:2472
 #, c-format
 msgid "Incomplete server response: no UID provided for message %d"
-msgstr ""
+msgstr "Nepilnas serverio atsakas: nesuteiktas UID žinutei %d"
 
 #: camel/providers/imap/camel-imap-folder.c:2485
 #, c-format
 msgid ""
 "Unexpected server response: Identical UIDs provided for messages %d and %d"
 msgstr ""
+"Netikėtas serverio atsakas: žinutėms %d ir %d suteikti vienodi UID"
 
 #: camel/providers/imap/camel-imap-folder.c:2661
 msgid "Could not find message body in FETCH response."
-msgstr "Negalėjau rasti laiško teksto FETCH atsakyme"
+msgstr "Nepavyko rasti laiško teksto FETCH atsakyme"
 
 #: camel/providers/imap/camel-imap-message-cache.c:156
 #, c-format
 msgid "Could not open cache directory: %s"
-msgstr "Negalėjau atidaryti kešo katalogo: %s"
+msgstr "Nepavyko atidaryti podėlio aplanko: %s"
 
 #: camel/providers/imap/camel-imap-message-cache.c:253
 #: camel/providers/imap/camel-imap-message-cache.c:310
@@ -10495,17 +10458,16 @@ msgid "Failed to cache %s: %s"
 msgstr "Nepavyko patalpinti į podėlį %s: %s"
 
 #: camel/providers/imap/camel-imap-provider.c:44
-#, fuzzy
 msgid "Checking for New Mail"
 msgstr "Tikrinama, ar yra naujų laiškų"
 
 #: camel/providers/imap/camel-imap-provider.c:49
 msgid "Connection to Server"
-msgstr "Jungtis prie Serverio"
+msgstr "Jungtis į serverį"
 
 #: camel/providers/imap/camel-imap-provider.c:51
 msgid "Use custom command to connect to server"
-msgstr "Naudoti specialią jungties prie serverio komandą"
+msgstr "Naudoti specialią jungties į serverį komandą"
 
 #: camel/providers/imap/camel-imap-provider.c:53
 msgid "Command:"
@@ -10572,9 +10534,9 @@ msgstr "IMAP tarnyba, skirta %s tarp %s"
 #: camel/providers/pop3/camel-pop3-store.c:181
 #: camel/providers/smtp/camel-smtp-transport.c:254
 #: camel/providers/smtp/camel-smtp-transport.c:269
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to %s: %s"
-msgstr "Negalėjau prisijungti prie %s (prievadas %d): %s"
+msgstr "Nepavyko prisijungti prie %s: %s"
 
 #: camel/providers/imap/camel-imap-store.c:535
 #: camel/providers/imap4/camel-imap4-store.c:235
@@ -10605,9 +10567,8 @@ msgstr "Nepavyko prisijungti prie IMAP serverio %s saugiu režimu: %s"
 
 #: camel/providers/imap/camel-imap-store.c:654
 #: camel/providers/smtp/camel-smtp-transport.c:322
-#, fuzzy
 msgid "STARTTLS not supported"
-msgstr "SSL/TLS išplėtimas nepalaikomas."
+msgstr "STARTTLS nepalaikomas"
 
 #: camel/providers/imap/camel-imap-store.c:676
 #: camel/providers/imap4/camel-imap4-store.c:274
@@ -10635,11 +10596,11 @@ msgstr "Nepalaikoma %s tipo autentikacija"
 #: camel/providers/imapp/camel-imapp-store.c:363
 #, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
-msgstr "%sPrašom įvesti IMAP slaptažodį dėl %s@%s"
+msgstr "%sPrašom įvesti %s@%s IMAP slaptažodį"
 
 #: camel/providers/imap/camel-imap-store.c:1293
 msgid "You didn't enter a password."
-msgstr "Tu neįvedei slaptažodžio."
+msgstr "Jūs neįvedėte slaptažodžio."
 
 #: camel/providers/imap/camel-imap-store.c:1322
 #, c-format
@@ -10648,7 +10609,7 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
-"Negalėjau autentikuotis į IMAP serverį.\n"
+"Nepavyko autentikuotis į IMAP serverį.\n"
 "%s\n"
 
 #: camel/providers/imap/camel-imap-store.c:1844
@@ -10660,7 +10621,7 @@ msgstr "Nėra tokio aplanko %s"
 #: camel/providers/imap/camel-imap-store.c:1862
 #: camel/providers/imap/camel-imap-store.c:2240
 #: camel/providers/imap4/camel-imap4-store.c:758
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The folder name \"%s\" is invalid because it contains the character \"%c\""
 msgstr "Aplanko vardas „%s“ yra neleistinas, kadangi jame yra simbolis „%c“"
@@ -10668,15 +10629,15 @@ msgstr "Aplanko vardas „%s“ yra neleistinas, kadangi jame yra simbolis „%c
 #: camel/providers/imap/camel-imap-store.c:1920
 #: camel/providers/imap/camel-imap-store.c:2301
 msgid "The parent folder is not allowed to contain subfolders"
-msgstr "Tėvinis aplankas negali turėti vaikinių aplankų"
+msgstr "Aukštesniąjam aplankui neleistina turėti žemesniųjų aplankų"
 
 #: camel/providers/imap/camel-imap-store.c:1975
 #: camel/providers/local/camel-maildir-store.c:140
 #: camel/providers/local/camel-mbox-store.c:210
 #: camel/providers/local/camel-mh-store.c:237
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create folder `%s': folder exists."
-msgstr "Negalima sukurti aplanko: %s: %s"
+msgstr "Nepavyko sukurti aplanko „%s“: aplankas egzistuoja."
 
 #: camel/providers/imap/camel-imap-store.c:2251
 #, c-format
@@ -10685,62 +10646,62 @@ msgstr "Nežinomas aukštesnysis aplankas: %s"
 
 #: camel/providers/imap4/camel-imap4-command.c:551
 #: camel/providers/imap4/camel-imap4-command.c:558
-#, fuzzy, c-format
+#, c-format
 msgid "Failed sending command to IMAP server %s: %s"
-msgstr "Autentifikacija su POP serveriu %s nepavyko: %s"
+msgstr "Nepavyko išsiųsti komandos į IMAP serverį %s: %s"
 
 #: camel/providers/imap4/camel-imap4-command.c:661
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected response from IMAP4 server %s: %s"
-msgstr "Netikėtas atsakymas iš IMAP serverio: %s"
+msgstr "Netikėtas atsakymas iš IMAP4 serverio %s: %s"
 
 #: camel/providers/imap4/camel-imap4-engine.c:216
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected greeting from IMAP server %s."
-msgstr "Netikėtas atsakymas iš IMAP serverio: %s"
+msgstr "Netikėtas pasveikinimas iš IMAP serverio: %s."
 
 #: camel/providers/imap4/camel-imap4-engine.c:410
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot select folder `%s': Invalid mailbox name"
-msgstr "Negaliu ištrinti aplanko: %s: Bloga operacija"
+msgstr "Nepavyko pasirinkti aplanko „%s“: netinkamas paštadėžės pavadinimas"
 
 #: camel/providers/imap4/camel-imap4-engine.c:416
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot select folder `%s': Bad command"
-msgstr "Negalėjau gauti aplanko „%s“: %s"
+msgstr "Nepavyko pasirinkti aplanko „%s“: bloga komanda"
 
 #: camel/providers/imap4/camel-imap4-engine.c:1464
 #: camel/providers/imap4/camel-imap4-engine.c:1503
 #: camel/providers/imap4/camel-imap4-engine.c:1548
 #: camel/providers/imap4/camel-imap4-engine.c:1604
-#, fuzzy, c-format
+#, c-format
 msgid "IMAP4 server %s unexpectedly disconnected: %s"
-msgstr "Serveris netikėtai atsijungė: %s"
+msgstr "IMAP4 serveris %s netikėtai atsijungė: %s"
 
 #: camel/providers/imap4/camel-imap4-folder.c:359
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot access folder `%s': %s"
-msgstr "Negalėjau gauti aplanko „%s“: %s"
+msgstr "Nepavyko pasiekti aplanko „%s“: %s"
 
 #: camel/providers/imap4/camel-imap4-folder.c:418
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot sync flags to folder `%s': Unknown"
-msgstr "Negalėjau gauti aplanko „%s“: %s"
+msgstr ""
 
 #: camel/providers/imap4/camel-imap4-folder.c:424
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot sync flags to folder `%s': Bad command"
-msgstr "Negalima sukurti aplanko: %s: %s"
+msgstr ""
 
 #: camel/providers/imap4/camel-imap4-folder.c:565
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot expunge folder `%s': Unknown"
-msgstr "Negalėjau gauti aplanko „%s“: %s"
+msgstr "Nepavyko išbraukti aplanko „%s“: nežinomas"
 
 #: camel/providers/imap4/camel-imap4-folder.c:570
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot expunge folder `%s': Bad command"
-msgstr "Negalėjau gauti aplanko „%s“: %s"
+msgstr "Nepavyko išbraukti aplanko „%s“: bloga komanda"
 
 #: camel/providers/imap4/camel-imap4-folder.c:749
 #: camel/providers/nntp/camel-nntp-folder.c:157
@@ -10767,177 +10728,158 @@ msgid "Cannot get message %s: %s"
 msgstr "Nepavyko gauti laiško %s: %s"
 
 #: camel/providers/imap4/camel-imap4-folder.c:772
-#, fuzzy
 msgid "This message is not available in offline mode."
-msgstr "Šis laiškas šiuo metu nepasiekiamas"
+msgstr "Ši žinutė neprieinama atsijungimo režime."
 
 #: camel/providers/imap4/camel-imap4-folder.c:826
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get message %s from folder `%s': No such message"
-msgstr ""
-"Negaliu gauti laiško: %s iš aplanko %s\n"
-"  %s"
+msgstr "Nepavyko gauti žinutės %s iš aplanko „%s“: nėra tokios žinutės"
 
 #: camel/providers/imap4/camel-imap4-folder.c:831
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get message %s from folder `%s': Bad command"
-msgstr ""
-"Negaliu gauti laiško: %s iš aplanko %s\n"
-"  %s"
+msgstr "Nepavyko gauti žinutės %s iš aplanko „%s“: bloga komanda"
 
 #: camel/providers/imap4/camel-imap4-folder.c:873
-#, fuzzy
 msgid "Cannot append messages to IMAP folders in offline mode."
-msgstr "Negalėjau pridurti laiško prie mh aplanko: %s: %s"
+msgstr "Negalima pridurti žinutės prie IMAP aplankų esant atsijungimo režime."
 
 #: camel/providers/imap4/camel-imap4-folder.c:966
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot append message to folder `%s': Unknown error"
-msgstr "Negalėjau pridurti laiško prie mh aplanko: %s: %s"
+msgstr "Nepavyko pridurti žinutės prie aplanko „%s“: nežinoma klaida"
 
 #: camel/providers/imap4/camel-imap4-folder.c:995
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot append message to folder `%s': Bad command"
-msgstr "Negalėjau pridurti laiško prie mh aplanko: %s: %s"
+msgstr "Nepavyko pridurti žinutės prie aplanko „%s“: bloga komanda"
 
 #: camel/providers/imap4/camel-imap4-folder.c:1038
-#, fuzzy
 msgid "Cannot move messages to or from IMAP folders in offline mode."
 msgstr ""
-"Negaliu gauti laiško: %s iš aplanko %s\n"
-"  %s"
+"Negalima perkelti žinučių į arba iš IMAP aplankų esant atsijungimo "
+"režime."
 
 #: camel/providers/imap4/camel-imap4-folder.c:1041
-#, fuzzy
 msgid "Cannot copy messages to or from IMAP folders in offline mode."
 msgstr ""
-"Negaliu gauti laiško: %s iš aplanko %s\n"
-"  %s"
+"Negalima kopijuoti žinučių į arba iš IMAP aplankų esant atsijungimo režime."
 
 #: camel/providers/imap4/camel-imap4-folder.c:1086
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot move messages from folder `%s' to folder `%s': Unknown"
 msgstr ""
-"Negaliu gauti laiško: %s iš aplanko %s\n"
-"  %s"
+"Nepavyko perkelti žinučių iš aplanko „%s“ į aplanką „%s“: nežinomas"
 
 #: camel/providers/imap4/camel-imap4-folder.c:1090
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot copy messages from folder `%s' to folder `%s': Unknown"
 msgstr ""
-"Negaliu gauti laiško: %s iš aplanko %s\n"
-"  %s"
+"Nepavyko nukopijuoti žinučių iš aplanko „%s“ į aplanką „%s“: nežinomas"
 
 #: camel/providers/imap4/camel-imap4-folder.c:1098
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot move messages from folder `%s' to folder `%s': Bad command"
 msgstr ""
-"Negaliu gauti laiško: %s iš aplanko %s\n"
-"  %s"
+"Nepavyko perkelti žinučių iš aplanko „%s“ į aplanką „%s“: bloga komanda"
 
 #: camel/providers/imap4/camel-imap4-folder.c:1102
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot copy messages from folder `%s' to folder `%s': Bad command"
 msgstr ""
-"Negaliu gauti laiško: %s iš aplanko %s\n"
-"  %s"
+"Nepavyko nukopijuoti žinučių iš aplanko „%s“ į aplanką „%s“: bloga komanda"
 
 #: camel/providers/imap4/camel-imap4-provider.c:64
-#, fuzzy
 msgid "IMAPv4rev1"
-msgstr "IMAPv4 "
+msgstr "IMAPv4rev1 "
 
 #: camel/providers/imap4/camel-imap4-provider.c:66
-#, fuzzy
 msgid "For reading and storing mail on IMAPv4rev1 servers. EXPERIMENTAL !!"
-msgstr "Pašto skaitymui ir rašymui IMAP serveriuose."
+msgstr "Pašto skaitymui ir saugojimui IMAPc4rev1 serveriuose. EKSPERIMENTINIS!!"
 
 #: camel/providers/imap4/camel-imap4-provider.c:83
-#, fuzzy
 msgid ""
 "This option will connect to the IMAPv4rev1 server using a plaintext password."
 msgstr ""
-"Su šia parinktimi jungiantis prie IMAP serverio bus naudojamas paprasto "
-"teksto slaptažodis."
+"Naudojant šią parinktį prie IMAP serverio bus jungiamasi naudojant paprasto "
+"teksto pavidalo slaptažodį."
 
 #: camel/providers/imap4/camel-imap4-store.c:377
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot authenticate to IMAP server %s using the %s authentication mechanism"
 msgstr ""
-"Nepavyko prisijungti prie POP serverio %s. Nepalaikomas reikiamas "
-"autentifikacijos mechanizmas."
+"Nepavyko autentikuotis prie IMAP serverio %s naudojant %s autentikacijos "
+"mechanizmą."
 
 #: camel/providers/imap4/camel-imap4-store.c:422
-#, fuzzy, c-format
+#, c-format
 msgid "%sPlease enter the IMAP password for %s on host %s"
-msgstr "%sPrašom įvesti SMTP slaptažodį dėl %s@%s"
+msgstr "%sPrašom įvesti %s hoste %s IMAP slaptažodį"
 
 #: camel/providers/imap4/camel-imap4-store.c:492
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot authenticate to IMAP server %s using %s"
-msgstr "Autentifikacija su POP serveriu %s nepavyko: %s"
+msgstr "Nepavyko autentikuotis į IMAP serverį %s naudojant %s"
 
 #: camel/providers/imap4/camel-imap4-store.c:655
 #: camel/providers/imap4/camel-imap4-store.c:768
-#, fuzzy
 msgid "Cannot create IMAP folders in offline mode."
-msgstr "Negalima sukurti aplanko su tokiu vardu"
+msgstr "Negalima kurti IMAP aplankų esant atsijungimo režime."
 
 #: camel/providers/imap4/camel-imap4-store.c:694
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get folder `%s' on IMAP server %s: Unknown"
-msgstr "Negalėjau gauti aplanko „%s“: %s"
+msgstr "Nepavyko gauti aplanko „%s“ IMAP serveryje %s: nežinomas"
 
 #: camel/providers/imap4/camel-imap4-store.c:816
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create folder `%s': Invalid mailbox name"
-msgstr "Negaliu pervadinti aplanko: %s: Bloga operacija"
+msgstr "Nepavyko sukurti aplanko „%s“: blogas paštadėžės pavadinimas"
 
 #: camel/providers/imap4/camel-imap4-store.c:822
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create folder `%s': Bad command"
-msgstr "Negalima sukurti aplanko: %s: %s"
+msgstr "Nepavyko sukurti aplanko „%s“: bloga komanda"
 
 #: camel/providers/imap4/camel-imap4-store.c:854
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot delete folder `%s': Special folder"
-msgstr "Negaliu ištrinti aplanko: %s: Nėra tokio aplanko"
+msgstr "Nepavyko ištrinti aplanko „%s“: specialus aplankas"
 
 #: camel/providers/imap4/camel-imap4-store.c:861
-#, fuzzy
 msgid "Cannot delete IMAP folders in offline mode."
-msgstr "Negaliu ištrinti aplanko: %s: Nėra tokio aplanko"
+msgstr "Negalima trinti IMAP aplankų esant atsijungimo režime."
 
 #: camel/providers/imap4/camel-imap4-store.c:920
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot delete folder `%s': Invalid mailbox name"
-msgstr "Negaliu ištrinti aplanko: %s: Bloga operacija"
+msgstr "Nepavyko ištrinti aplanko „%s“: blogas paštadėžės pavadinimas"
 
 #: camel/providers/imap4/camel-imap4-store.c:925
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot delete folder `%s': Bad command"
-msgstr "Negaliu ištrinti aplanko: %s: Bloga operacija"
+msgstr "Nepavyko ištrinti aplanko „%s“: bloga komanda"
 
 #: camel/providers/imap4/camel-imap4-store.c:946
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot rename folder `%s' to `%s': Special folder"
-msgstr "Negaliu ištrinti aplanko: %s: Nėra tokio aplanko"
+msgstr "Nepavyko pervadinti aplanko „%s“ į „%s“: specialus aplankas"
 
 #: camel/providers/imap4/camel-imap4-store.c:953
-#, fuzzy
 msgid "Cannot rename IMAP folders in offline mode."
-msgstr "Negalima sukurti aplanko su tokiu vardu"
+msgstr "Negalima pervadinti IMAP aplankų esant atsijungimo režime."
 
 #: camel/providers/imap4/camel-imap4-store.c:984
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot rename folder `%s' to `%s': Invalid mailbox name"
-msgstr "Negaliu pervadinti aplanko: %s: Bloga operacija"
+msgstr "Nepavyko pervadinti aplanko „%s“ į „%s“: blogas paštadėžės pavadinimas"
 
 #: camel/providers/imap4/camel-imap4-store.c:989
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot rename folder `%s' to `%s': Bad command"
-msgstr "Negalima sukurti aplanko: %s: %s"
+msgstr "Nepavyko pervadinti aplanko „%s“ į „%s“: bloga komanda"
 
 #: camel/providers/imap4/camel-imap4-store.c:1238
 #, c-format
@@ -10945,54 +10887,50 @@ msgid "Cannot get %s information for pattern `%s' on IMAP server %s: %s"
 msgstr ""
 
 #: camel/providers/imap4/camel-imap4-store.c:1240
-#, fuzzy
 msgid "Bad command"
-msgstr "Komanda:"
+msgstr "Bloga komanda"
 
 #: camel/providers/imap4/camel-imap4-store.c:1279
-#, fuzzy
 msgid "Cannot subscribe to IMAP folders in offline mode."
-msgstr "Negalima sukurti aplanko: %s: %s"
+msgstr "Negalima užsisakyti IMAP aplankų esant atsijungimo ekrane."
 
 #: camel/providers/imap4/camel-imap4-store.c:1324
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot subscribe to folder `%s': Invalid mailbox name"
-msgstr "Negaliu ištrinti aplanko: %s: Bloga operacija"
+msgstr "Nepavyko užsisakyti aplanko „%s“: blogas paštadėžės pavadinimas"
 
 #: camel/providers/imap4/camel-imap4-store.c:1329
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot subscribe to folder `%s': Bad command"
-msgstr "Negalima sukurti aplanko: %s: %s"
+msgstr "Nepavyko užsisakyti aplanko „%s“: bloga komanda"
 
 #: camel/providers/imap4/camel-imap4-store.c:1352
-#, fuzzy
 msgid "Cannot unsubscribe from IMAP folders in offline mode."
-msgstr "Negalima sukurti aplanko: %s: %s"
+msgstr "Negalima atsisakyti IMAP aplankų esant atsijungimo režime."
 
 #: camel/providers/imap4/camel-imap4-store.c:1397
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot unsubscribe from folder `%s': Invalid mailbox name"
-msgstr "Negaliu pervadinti aplanko: %s: Bloga operacija"
+msgstr "Nepavyko atsisakyti aplanko „%s“: blogas paštadėžės pavadinimas"
 
 #: camel/providers/imap4/camel-imap4-store.c:1402
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot unsubscribe from folder `%s': Bad command"
-msgstr "Negalima sukurti aplanko: %s: %s"
+msgstr "Nepavyko atsisakyti aplanko „%s“: bloga komanda"
 
 #: camel/providers/imap4/camel-imap4-utils.c:367
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected token in response from IMAP server %s: "
-msgstr "Netikėtas atsakymas iš IMAP serverio: %s"
+msgstr "Netikėtas žymė atsakyme iš IMAP serverio: %s"
 
 #: camel/providers/imap4/camel-imap4-utils.c:390
-#, fuzzy
 msgid "No data"
-msgstr "Nepateikta jokių duomenų"
+msgstr "Nėra duomenų"
 
 #: camel/providers/imap4/camel-imap4-utils.c:573
-#, fuzzy, c-format
+#, c-format
 msgid "IMAP server %s unexpectedly disconnected: %s"
-msgstr "Serveris netikėtai atsijungė: %s"
+msgstr "IMAP serveris %s netikėtai atsijungė: %s"
 
 #: camel/providers/imapp/camel-imapp-provider.c:40
 #: camel/providers/pop3/camel-pop3-provider.c:39
@@ -11017,9 +10955,9 @@ msgstr ""
 " !!! NENAUDOTI DARBINIO PAŠTO APLINKOJE !!!\n"
 
 #: camel/providers/imapp/camel-imapp-store.c:250
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to %s (port %s): %s"
-msgstr "Negalėjau prisijungti prie %s (prievadas %d): %s"
+msgstr "Nepavyko prisijungti prie %s (prievadas %s): %s"
 
 #: camel/providers/imapp/camel-imapp-store.c:347
 #, c-format
@@ -11055,11 +10993,11 @@ msgstr "Naudoti „.folders“ aplankų santraukos bylą (exmh)"
 
 #: camel/providers/local/camel-local-provider.c:52
 msgid "MH-format mail directories"
-msgstr "MH formato pašto katalogai"
+msgstr "MH formato pašto aplankai"
 
 #: camel/providers/local/camel-local-provider.c:53
 msgid "For storing local mail in MH-like mail directories."
-msgstr "Vietinio pašto laikymui MH tipo pašto kataloguose."
+msgstr "Vietinio pašto laikymui MH tipo pašto aplankuose."
 
 #: camel/providers/local/camel-local-provider.c:68
 msgid "Local delivery"
@@ -11080,11 +11018,11 @@ msgstr "Pritaikyti filtrus naujiems laiškams INBOX aplanke"
 
 #: camel/providers/local/camel-local-provider.c:88
 msgid "Maildir-format mail directories"
-msgstr "Maildir formato pašto katalogai"
+msgstr "Maildir formato pašto aplankai"
 
 #: camel/providers/local/camel-local-provider.c:89
 msgid "For storing local mail in maildir directories."
-msgstr "Vietinio pašto laikymui maildir kataloguose."
+msgstr "Vietinio pašto laikymui maildir aplankuose."
 
 #: camel/providers/local/camel-local-provider.c:101
 msgid "Store status headers in Elm/Pine/Mutt format"
@@ -11092,7 +11030,7 @@ msgstr "Saugoti būsenos antraštes Elm/Pine/Mutt formatu"
 
 #: camel/providers/local/camel-local-provider.c:108
 msgid "Standard Unix mbox spool or directory"
-msgstr "Standartinis Unix mbox konteineris arba katalogas"
+msgstr "Standartinis Unix mbox konteineris arba aplankas"
 
 #: camel/providers/local/camel-local-provider.c:109
 msgid ""
@@ -11115,7 +11053,7 @@ msgstr "Saugyklos šaknis %s nėra absoliutus kelias"
 #: camel/providers/local/camel-local-store.c:150
 #, c-format
 msgid "Store root %s is not a regular directory"
-msgstr "Saugyklos šaknis %s nėra nėra paprastas katalogas"
+msgstr "Saugyklos šaknis %s nėra nėra įprastas aplankas"
 
 #: camel/providers/local/camel-local-store.c:159
 #: camel/providers/local/camel-local-store.c:167
@@ -11582,32 +11520,32 @@ msgstr "Vidinė klaida: uid yra netinkamame formate: %s"
 #: camel/providers/nntp/camel-nntp-folder.c:332
 #: camel/providers/nntp/camel-nntp-folder.c:374
 #: camel/providers/nntp/camel-nntp-folder.c:376
-#, fuzzy, c-format
+#, c-format
 msgid "Posting failed: %s"
-msgstr "Operacijos klaida: %s"
+msgstr "Rašymas nepavyko: %s"
 
 #: camel/providers/nntp/camel-nntp-folder.c:394
 msgid "You cannot post NNTP messages while working offline!"
-msgstr "Jūs negalit siųsti NNTP žinučių  kol dirbate atsijungęs!"
+msgstr "Jūs negalit siųsti NNTP žinučių, kol dirbate atsijungę!"
 
 #: camel/providers/nntp/camel-nntp-folder.c:405
 msgid "You cannot copy messages from a NNTP folder!"
-msgstr ""
+msgstr "Jūs negalite kopijuoti žinučių iš NNTP aplanko!"
 
 #: camel/providers/nntp/camel-nntp-grouplist.c:44
 msgid "Could not get group list from server."
-msgstr "Negalėjau gauti grupių sąrašo iš serverio."
+msgstr "Nepavyko iš serverio gauti grupių sąrašo."
 
 #: camel/providers/nntp/camel-nntp-grouplist.c:97
 #: camel/providers/nntp/camel-nntp-grouplist.c:106
 #, c-format
 msgid "Unable to load grouplist file for %s: %s"
-msgstr "Negaliu įkelti grupių sąrašo bylos dėl %s: %s"
+msgstr "Nepavyko įkelti grupių sąrašo bylos dėl %s: %s"
 
 #: camel/providers/nntp/camel-nntp-grouplist.c:157
 #, c-format
 msgid "Unable to save grouplist file for %s: %s"
-msgstr "Negaliu išsaugoti grupių sąrašo bylos dėl %s: %s"
+msgstr "Nepavyko išsaugoti grupių sąrašo bylos dėl %s: %s"
 
 #: camel/providers/nntp/camel-nntp-provider.c:44
 msgid ""
@@ -11632,8 +11570,8 @@ msgid ""
 "This option will authenticate with the NNTP server using a plaintext "
 "password."
 msgstr ""
-"Su šia parinktimi NNTP serveryje bus autentikuojamasi paprasto teksto "
-"slaptažodžiu."
+"Naudojant šią parinktį, autentikuotis su NNTP serveriu bus naudojamas "
+"paprasto teksto pavidalo slaptažodis."
 
 #: camel/providers/nntp/camel-nntp-store.c:231
 #, c-format
@@ -11657,7 +11595,7 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
-"Klaida gaunant naujienų grupes:\n"
+"Įvyko klaida gaunant naujienų grupes:\n"
 "\n"
 "%s"
 
@@ -11667,6 +11605,10 @@ msgid ""
 "\n"
 "No such newsgroup. The selected item is a probably a parent folder."
 msgstr ""
+"Jūs negalite užsisakyti šios naujienų grupės:\n"
+"\n"
+"Nėra tokios naujienų grupės. Pasirinktas elementas greičiausiai yra "
+"aukštesnysis aplankas."
 
 #: camel/providers/nntp/camel-nntp-store.c:924
 msgid ""
@@ -11674,28 +11616,30 @@ msgid ""
 "\n"
 "newsgroup does not exist!"
 msgstr ""
+"Jūs negalite atsisakyti šios naujienų grupės:\n"
+"\n"
+"naujienų grupė neegzistuoja!"
 
 #: camel/providers/nntp/camel-nntp-store.c:949
 msgid "You cannot create a folder in a News store: subscribe instead."
-msgstr ""
+msgstr "Jūs negalite sukurti aplanko naujienų saugykloje - vietoj to užsisakykit."
 
 #: camel/providers/nntp/camel-nntp-store.c:957
 msgid "You cannot rename a folder in a News store."
-msgstr ""
+msgstr "Jūs negalite pervadinti aplanko naujienų saugykloje."
 
 #: camel/providers/nntp/camel-nntp-store.c:965
 msgid "You cannot remove a folder in a News store: unsubscribe instead."
-msgstr ""
+msgstr "Jūs negalite pašalinti aplanko naujienų saugykloje - vietoj to atsisakykite."
 
 #: camel/providers/nntp/camel-nntp-store.c:1135
-#, fuzzy
 msgid "Authentication requested but no username provided"
-msgstr "Autentikacija būtina"
+msgstr "Reikalaujama autentikacija, bet nėra nurodyto naudojo vardo"
 
 #: camel/providers/nntp/camel-nntp-store.c:1147
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot authenticate to server: %s"
-msgstr "Autentifikacija su POP serveriu %s nepavyko: %s"
+msgstr "Nepavyko autentikuotis su serveriu: %s"
 
 #: camel/providers/nntp/camel-nntp-store.c:1263
 #, c-format
@@ -11703,9 +11647,8 @@ msgid "NNTP Command failed: %s"
 msgstr "NNTP komandos klaida: %s"
 
 #: camel/providers/nntp/camel-nntp-store.c:1319
-#, fuzzy
 msgid "Not connected."
-msgstr "Nėra kontaktų"
+msgstr "Neprisijungta."
 
 #: camel/providers/nntp/camel-nntp-store.c:1372
 #, c-format
@@ -11719,14 +11662,14 @@ msgid "%s: Scanning new messages"
 msgstr "%s: Ieškoma naujų laiškų"
 
 #: camel/providers/nntp/camel-nntp-summary.c:228
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected server response from xover: %s"
-msgstr "Netikėtas atsakymas iš IMAP serverio: %s"
+msgstr "Netikėtas serverio atsakymas iš xover: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:331
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected server response from head: %s"
-msgstr "Netikėtas atsakymas iš GnuPG: %s"
+msgstr "Netikėtas serverio atsakymas iš head: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:371
 msgid "Use cancel"
@@ -11808,9 +11751,9 @@ msgstr ""
 "serveriuose, kurie teigia, jog jį palaiko."
 
 #: camel/providers/pop3/camel-pop3-store.c:201
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to read a valid greeting from POP server %s"
-msgstr "Autentifikacija su POP serveriu %s nepavyko: %s"
+msgstr "Nepavyko perskaityti teisingo pasveikinimo iš POP serverio %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:214
 #: camel/providers/pop3/camel-pop3-store.c:231
@@ -11820,9 +11763,8 @@ msgid "Failed to connect to POP server %s in secure mode: %s"
 msgstr "Nepavyko prisijungti prie POP serverio %s saugiu režimu: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:215
-#, fuzzy
 msgid "STLS not supported"
-msgstr "SSL/TLS išplėtimas nepalaikomas."
+msgstr "STLS nepalaikomas"
 
 #: camel/providers/pop3/camel-pop3-store.c:353
 #, c-format
@@ -11837,7 +11779,7 @@ msgid ""
 "mechanism."
 msgstr ""
 "Nepavyko prisijungti prie POP serverio %s. Nepalaikomas reikiamas "
-"autentifikacijos mechanizmas."
+"autentikacijos mechanizmas."
 
 #: camel/providers/pop3/camel-pop3-store.c:410
 #, c-format
@@ -11855,9 +11797,9 @@ msgid "Failed to authenticate on POP server %s: %s"
 msgstr "Autentifikacija su POP serveriu %s nepavyko: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:467
-#, fuzzy, c-format
+#, c-format
 msgid "%sPlease enter the POP password for %s on host %s"
-msgstr "%sĮveskite POP slaptažodį, skirtą %s@%s"
+msgstr "%sĮveskite %s hoste %s POP slaptažodį"
 
 #: camel/providers/pop3/camel-pop3-store.c:522
 #: camel/providers/pop3/camel-pop3-store.c:535
@@ -11867,16 +11809,16 @@ msgid ""
 "Error sending password: %s"
 msgstr ""
 "Nepavyko prisijungti prie POP serverio %s.\n"
-"Klaida siunčiant slaptažodį: %s"
+"Įvyko klaida siunčiant slaptažodį: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:529
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to connect to POP server %s.\n"
 "Error sending username: %s"
 msgstr ""
 "Nepavyko prisijungti prie POP serverio %s.\n"
-"Klaida siunčiant slaptažodį: %s"
+"Įvyko klaida siunčiant naudotojo vardą: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:634
 #, c-format
@@ -11901,7 +11843,7 @@ msgstr "Nepavyko apdoroti gavėjų sąrašo"
 #: camel/providers/sendmail/camel-sendmail-transport.c:145
 #, c-format
 msgid "Could not create pipe to sendmail: %s: mail not sent"
-msgstr "Negalėjau sukurti pipe į sendmail: %s: paštas neišsiųstas"
+msgstr "Nepavyko sukurti konvejerio į sendmail: %s: paštas neišsiųstas"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:166
 #, c-format
@@ -11911,12 +11853,12 @@ msgstr "Nepavyko paleisti atskiro sendmail proceso: %s: paštas neišsiųstas"
 #: camel/providers/sendmail/camel-sendmail-transport.c:206
 #, c-format
 msgid "Could not send message: %s"
-msgstr "Negalėjau išsiųsti laiško: %s"
+msgstr "Nepavyko išsiųsti laiško: %s"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:234
 #, c-format
 msgid "sendmail exited with signal %s: mail not sent."
-msgstr "sendmail'as baigė darbą signalu %s: paštas neišsiųstas."
+msgstr "sendmail baigė darbą signalu %s: paštas neišsiųstas."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:241
 #, c-format
@@ -11941,11 +11883,10 @@ msgid "SMTP"
 msgstr "SMTP"
 
 #: camel/providers/smtp/camel-smtp-provider.c:40
-#, fuzzy
 msgid "For delivering mail by connecting to a remote mailhub using SMTP."
 msgstr ""
 "Pašto siuntimui, prisijungiant prie nutolusio pašto serverio naudojant "
-"SMTP.\n"
+"SMTP."
 
 #: camel/providers/smtp/camel-smtp-transport.c:164
 msgid "Syntax error, command unrecognized"
@@ -12058,14 +11999,13 @@ msgid "Failed to connect to SMTP server %s in secure mode: %s"
 msgstr "Nepavyko prisijungti prie SMTP serverio %s saugiu režimu: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:330
-#, fuzzy, c-format
+#, c-format
 msgid "STARTTLS command failed: %s"
-msgstr "Nepavyko IMAP komanda: %s"
+msgstr "STARTTLS komanda nepavyko: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:345
-#, fuzzy
 msgid "STARTTLS command failed"
-msgstr "Nepavyko IMAP komanda: %s"
+msgstr "STARTTLS komanda nepavyko"
 
 #: camel/providers/smtp/camel-smtp-transport.c:478
 #, c-format
@@ -12073,9 +12013,9 @@ msgid "SMTP server %s does not support requested authentication type %s."
 msgstr "SMTP serveris %s nepalaiko prašyto autentikacijos tipo %s."
 
 #: camel/providers/smtp/camel-smtp-transport.c:516
-#, fuzzy, c-format
+#, c-format
 msgid "%sPlease enter the SMTP password for %s on host %s"
-msgstr "%sPrašom įvesti SMTP slaptažodį dėl %s@%s"
+msgstr "%sPrašom įvesti %s hoste %s SMTP slaptažodį"
 
 #: camel/providers/smtp/camel-smtp-transport.c:535
 #, c-format
@@ -12084,7 +12024,7 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
-"Negalėjau autentikuotis į SMTP serverį.\n"
+"Nepavyko autentikuotis su SMTP serveriu.\n"
 "%s\n"
 
 #: camel/providers/smtp/camel-smtp-transport.c:659
@@ -12098,13 +12038,12 @@ msgid "SMTP mail delivery via %s"
 msgstr "SMTP pašto siuntimas per %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:679
-#, fuzzy
 msgid "Cannot send message: service not connected."
-msgstr "Negaliu siųsti laiško: neapibrėžti jokie gavėjai."
+msgstr "Nepavyko išsiųsti laiško: paslauga neprisijungus."
 
 #: camel/providers/smtp/camel-smtp-transport.c:685
 msgid "Cannot send message: sender address not valid."
-msgstr "Negaliu siųsti laiško: siuntėjo adresas neteisingas."
+msgstr "Nepavyko išsiųsti laiško: siuntėjo adresas neteisingas."
 
 #: camel/providers/smtp/camel-smtp-transport.c:689
 msgid "Sending message"
@@ -12112,7 +12051,7 @@ msgstr "Siunčiamas laiškas"
 
 #: camel/providers/smtp/camel-smtp-transport.c:704
 msgid "Cannot send message: no recipients defined."
-msgstr "Negaliu siųsti laiško: neapibrėžti jokie gavėjai."
+msgstr "Nepavyko išsiųsti laiško: neapibrėžti jokie gavėjai."
 
 #: camel/providers/smtp/camel-smtp-transport.c:715
 msgid "Cannot send message: one or more invalid recipients"
@@ -12123,14 +12062,13 @@ msgid "SMTP Greeting"
 msgstr "SMTP pasveikinimas"
 
 #: camel/providers/smtp/camel-smtp-transport.c:904
-#, fuzzy, c-format
+#, c-format
 msgid "HELO command failed: %s"
-msgstr "Nepavyko IMAP komanda: %s"
+msgstr "Nepavyko HELO komanda: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:921
-#, fuzzy
 msgid "HELO command failed"
-msgstr "Nepavyko IMAP komanda: %s"
+msgstr "Nepavyko HELO komanda"
 
 #: camel/providers/smtp/camel-smtp-transport.c:987
 msgid "SMTP Authentication"
@@ -12142,33 +12080,31 @@ msgstr "Klaida sukuriant SASL autentikacijos objektą."
 
 #: camel/providers/smtp/camel-smtp-transport.c:1010
 #: camel/providers/smtp/camel-smtp-transport.c:1021
-#, fuzzy, c-format
+#, c-format
 msgid "AUTH command failed: %s"
-msgstr "Nepavyko IMAP komanda: %s"
+msgstr "Nepavyko AUTH komanda: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1027
-#, fuzzy
 msgid "AUTH command failed"
-msgstr "Nepavyko IMAP komanda: %s"
+msgstr "Nepavyko AUTH komanda"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1089
 msgid "Bad authentication response from server.\n"
 msgstr "Blogas autentikacijos atsakymas iš serverio.\n"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1114
-#, fuzzy, c-format
+#, c-format
 msgid "MAIL FROM command failed: %s: mail not sent"
-msgstr "Baigėsi MAIL FROM užklausos laiko riba: %s: paštas neišsiųstas"
+msgstr "Nepavyko MAIL FROM komanda: %s: paštas neišsiųstas"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1131
-#, fuzzy
 msgid "MAIL FROM command failed"
-msgstr "Nepavyko IMAP komanda: %s"
+msgstr "Nepavyko MAIL FROM komanda"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1155
-#, fuzzy, c-format
+#, c-format
 msgid "RCPT TO command failed: %s: mail not sent"
-msgstr "Baigėsi RCPT TO užklausos laiko riba: %s: paštas neišsiųstas"
+msgstr "Nepavyko RCPT TO komanda: %s: paštas neišsiųstas"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1174
 #, c-format
@@ -12178,38 +12114,35 @@ msgstr "RCPT TO <%s> klaida"
 #: camel/providers/smtp/camel-smtp-transport.c:1213
 #: camel/providers/smtp/camel-smtp-transport.c:1271
 #: camel/providers/smtp/camel-smtp-transport.c:1290
-#, fuzzy, c-format
+#, c-format
 msgid "DATA command failed: %s: mail not sent"
-msgstr "Baigėsi DATA užklausos laiko riba: %s: paštas neišsiųstas"
+msgstr "DATA komanda nepavyko: %s: paštas neišsiųstas"
 
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
 #: camel/providers/smtp/camel-smtp-transport.c:1230
 #: camel/providers/smtp/camel-smtp-transport.c:1306
-#, fuzzy
 msgid "DATA command failed"
-msgstr "Nepavyko IMAP komanda: %s"
+msgstr "Nepavyko DATA komanda"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1329
-#, fuzzy, c-format
+#, c-format
 msgid "RSET command failed: %s"
-msgstr "Nepavyko IMAP komanda: %s"
+msgstr "Nepavyko RSET komanda: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1345
-#, fuzzy
 msgid "RSET command failed"
-msgstr "Nepavyko IMAP komanda: %s"
+msgstr "Nepavyko RSET komanda"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1368
-#, fuzzy, c-format
+#, c-format
 msgid "QUIT command failed: %s"
-msgstr "Nepavyko IMAP komanda: %s"
+msgstr "Nepavyko QUIT komanda: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1382
-#, fuzzy
 msgid "QUIT command failed"
-msgstr "Nepavyko IMAP komanda: %s"
+msgstr "Nepavyko QUIT komanda"
 
 #: composer/e-msg-composer-attachment-bar.c:101
 #, c-format
@@ -12236,9 +12169,8 @@ msgid "_Properties"
 msgstr "_Savybės"
 
 #: composer/e-msg-composer-attachment-bar.c:443
-#, fuzzy
 msgid "_Add attachment..."
-msgstr "Prisegti priedą..."
+msgstr "_Prisegti priedą..."
 
 #: composer/e-msg-composer-attachment.c:174
 #: composer/e-msg-composer-attachment.c:190
@@ -12289,64 +12221,57 @@ msgstr "Paspausk čia, jei reikia adresų knygelės"
 #. * expects the reply_to fields to be initialized.
 #.
 #: composer/e-msg-composer-hdrs.c:578
-#, fuzzy
 msgid "_Reply-To:"
-msgstr "Atsakyti-kam:"
+msgstr "_Atsakyti-kam:"
 
 #.
 #. * From
 #.
 #: composer/e-msg-composer-hdrs.c:585
-#, fuzzy
 msgid "Fr_om:"
-msgstr "Nuo:"
+msgstr "Nu_o:"
 
 #.
 #. * Subject
 #.
 #: composer/e-msg-composer-hdrs.c:592
-#, fuzzy
 msgid "S_ubject:"
-msgstr "Tema:"
+msgstr "_Tema:"
 
 #: composer/e-msg-composer-hdrs.c:602
-#, fuzzy
 msgid "_To:"
-msgstr "Kam:"
+msgstr "_Kam:"
 
 #: composer/e-msg-composer-hdrs.c:603
 msgid "Enter the recipients of the message"
-msgstr "Įvesk laiško gavėjus"
+msgstr "Įveskite laiško gavėjus"
 
 #: composer/e-msg-composer-hdrs.c:606
-#, fuzzy
 msgid "_Cc:"
-msgstr "Cc:"
+msgstr "_Cc:"
 
 #: composer/e-msg-composer-hdrs.c:607
 msgid "Enter the addresses that will receive a carbon copy of the message"
-msgstr "Įvesk adresus, kurie gaus šio laiško carbon copy"
+msgstr "Įveskite adresus, kuriais bus išsiųsta šio laiško kopiją"
 
 #: composer/e-msg-composer-hdrs.c:610
-#, fuzzy
 msgid "_Bcc:"
-msgstr "Bcc:"
+msgstr "_Bcc:"
 
 #: composer/e-msg-composer-hdrs.c:611
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
 msgstr ""
-"Įvesk adresus, kurie gaus šio laiško carbon copy, bet jų nesimatys laiško "
+"Įveskite adresus, kuriais bus išsiųsta šio laiško kopija, bet jų nesimatys laiško "
 "gavėjų sąraše."
 
 #.
 #. * Post-To
 #.
 #: composer/e-msg-composer-hdrs.c:618
-#, fuzzy
 msgid "_Post To:"
-msgstr "Skelbti į:"
+msgstr "_Skelbti į:"
 
 #: composer/e-msg-composer-hdrs.c:623
 msgid "Click here to select folders to post to"
@@ -12361,24 +12286,21 @@ msgid "Attach file(s)"
 msgstr "Prisegti bylą(as)"
 
 #: composer/e-msg-composer.c:719
-#, fuzzy
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
-"Negalima pasirašyti išsiunčiamo laiško: Nenustatytas šios sąskaitos parašo "
+"Nepavyko pasirašyti išsiunčiamo laiško: Nenustatytas šio abonento parašo "
 "sertifikatas"
 
 #: composer/e-msg-composer.c:726
-#, fuzzy
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
 msgstr ""
-"Negalima užkoduoti išsiunčiamo laiško: Nenustatytas šios sąskaitos kodavimo "
+"Nepavyko užšifruoti išsiunčiamo laiško: Nenustatytas šio abonento šifravimo "
 "sertifikatas"
 
 #: composer/e-msg-composer.c:1283
-#, fuzzy
 msgid "Could not open file"
 msgstr "Nepavyko atidaryti bylos"
 
@@ -12387,9 +12309,8 @@ msgid "Unable to retrieve message from editor"
 msgstr "Nepavyko gauti laiško iš redaktoriaus"
 
 #: composer/e-msg-composer.c:1561
-#, fuzzy
 msgid "Untitled Message"
-msgstr "Keletas laiškų"
+msgstr "Neužvardintas laiškas"
 
 #: composer/e-msg-composer.c:1591
 msgid "Open file"
@@ -12400,17 +12321,16 @@ msgid "Autogenerated"
 msgstr "Autogeneruotas"
 
 #: composer/e-msg-composer.c:2097
-#, fuzzy
 msgid "Si_gnature:"
-msgstr "Parašas:"
+msgstr "Pa_rašas:"
 
 #: composer/e-msg-composer.c:2300
 #, c-format
 msgid "<b>%d</b> File Attached"
 msgid_plural "<b>%d</b> Files Attached"
-msgstr[0] "<b>%d</b> Prikabinta byla"
-msgstr[1] "<b>%d</b> Prikabintos bylos"
-msgstr[2] "<b>%d</b> Prikabintų bylų"
+msgstr[0] "<b>%d</b> prikabinta byla"
+msgstr[1] "<b>%d</b> prikabintos bylos"
+msgstr[2] "<b>%d</b> prikabintų bylų"
 
 #: composer/e-msg-composer.c:2329
 msgid "Hide _Attachment Bar (drop attachments here)"
@@ -12482,9 +12402,8 @@ msgstr ""
 
 #. mail-composer:attach-nomessages primary
 #: composer/mail-composer-errors.xml.h:12
-#, fuzzy
 msgid "Could not retrieve messages to attach from {0}."
-msgstr "Negalėjau sukurti pipe: %s"
+msgstr "Nepavyko gauti žinučių prisegimui iš {0}."
 
 #. mail-composer:attach-nomessages secondary
 #. mail-composer:no-sig-file secondary
@@ -12496,20 +12415,19 @@ msgstr "Negalėjau sukurti pipe: %s"
 #: composer/mail-composer-errors.xml.h:42 mail/mail-errors.xml.h:100
 #: mail/mail-errors.xml.h:112 widgets/misc/e-system-errors.xml.h:11
 #: widgets/misc/e-system-errors.xml.h:15
+#, fuzzy
 msgid "Because \"{1}\"."
-msgstr ""
+msgstr "Dėl „{1}“."
 
 #. mail-composer:recover-autosave title
 #: composer/mail-composer-errors.xml.h:16
-#, fuzzy
 msgid "Unfinished messages found"
-msgstr "Neskaitytos žinutės"
+msgstr "Rastos nebaigtos žinutės"
 
 #. mail-composer:recover-autosave primary
 #: composer/mail-composer-errors.xml.h:18
-#, fuzzy
 msgid "Do you want to recover unfinished messages?"
-msgstr "Ar nori išsaugoti pakeitimus?"
+msgstr "Ar norite atkurti nebaigtas žinutes?"
 
 #. mail-composer:recover-autosave secondary
 #: composer/mail-composer-errors.xml.h:20
@@ -12517,16 +12435,16 @@ msgid ""
 "Evolution quit unexpectedly while you were composing a new message. "
 "Recovering the message will allow you to continue where you left off."
 msgstr ""
+"Jums rašant naują žinutę, Evolution netikėtai užsidarė. Žinutės "
+"atkūrimas leis Jums tęsti žinutės rašymą nuo ten, kur baigėte."
 
 #: composer/mail-composer-errors.xml.h:21
-#, fuzzy
 msgid "Don't Recover"
-msgstr "Neimportuoti"
+msgstr "Neatkurti"
 
 #: composer/mail-composer-errors.xml.h:22
-#, fuzzy
 msgid "Recover"
-msgstr "Pašalinti"
+msgstr "Atkurti"
 
 #. mail-composer:no-autosave primary
 #: composer/mail-composer-errors.xml.h:24
@@ -12543,15 +12461,15 @@ msgstr "Klaida išsaugant trumpes."
 #. mail-composer:exit-unsaved title
 #: composer/mail-composer-errors.xml.h:28
 msgid "Warning: Modified Message"
-msgstr "Įspėjimas: Pakeistas laiškas"
+msgstr "Įspėjimas: laiškas pakeistas"
 
 #. mail-composer:exit-unsaved primary
 #: composer/mail-composer-errors.xml.h:30
-#, fuzzy
 msgid ""
 "Are you sure you want to discard the message, titled '{0}', you are "
 "composing?"
-msgstr "Ar tu tikrai nori ištrinti šį bevardį įvykį?"
+msgstr ""
+"Ar tikrai norite atsisakyti Jūsų rašomos žinutės, pavadintos „{0}?"
 
 #. mail-composer:exit-unsaved secondary
 #: composer/mail-composer-errors.xml.h:32
@@ -12562,20 +12480,17 @@ msgid ""
 msgstr ""
 
 #: composer/mail-composer-errors.xml.h:33
-#, fuzzy
 msgid "_Discard Changes"
-msgstr "_Atsikratyti Pakeitimų"
+msgstr "_Atsisakyti pakeitimų"
 
 #: composer/mail-composer-errors.xml.h:34
-#, fuzzy
 msgid "_Save Message"
-msgstr "Išsaugoti Laišką..."
+msgstr "Iš_saugoti laišką"
 
 #. mail-composer:no-build-message primary
 #: composer/mail-composer-errors.xml.h:36
-#, fuzzy
 msgid "Could not create message."
-msgstr "Negalėjau sukurti pipe: %s"
+msgstr "Nepavyko sukurti žinutės."
 
 #. mail-composer:no-build-message secondary
 #: composer/mail-composer-errors.xml.h:38
@@ -17185,6 +17100,12 @@ msgstr "Bug buddy negalėjo būti paleistas."
 #: shell/e-shell-window-commands.c:425
 msgid "translator-credits"
 msgstr ""
+"Dabartinis vertėjas:\n"
+"Žygimantas Beručka <uid0@akl.lt>\n"
+"\n"
+"Ankstesni vertėjai:\n"
+"Gediminas Paulauskas <menesis@chatsubo.lt>,\n"
+"Tomas Kuliavas <tokul@users.sf.net>"
 
 #: shell/e-shell-window-commands.c:439
 msgid "Groupware Suite"
