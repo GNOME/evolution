@@ -1,3 +1,7 @@
+2002-05-13  Christophe Merlet  <christophe@merlet.net>
+
+	* fr.po: Updated French translation.
+
 2002-05-11  Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>
 
 	* sk.po: Updated Slovak translation.
@@ -21,11 +25,11 @@
 	* Updated Bulgarian translation by 
 	Borislav Aleksandrov <B.Aleksandrov@cnsys.bg>
 
-2002-04-17  Christophe Merlet  <redfox@eikonex.org>
+2002-04-17  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation.
 
-2002-04-16  Christophe Merlet  <redfox@eikonex.org>
+2002-04-16  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation.
 
@@ -34,11 +38,11 @@
 	* ko.po: Updated Korean translation from Young-Ho Cha
 	<ganadist@chollian.net>.
 
-2002-04-13  Christophe Merlet  <redfox@eikonex.org>
+2002-04-13  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation.
 
-2002-04-08  Christophe Merlet  <redfox@eikonex.org>
+2002-04-08  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation from work of
 	Frederic Riss <frederic.riss@laposte.net>.
@@ -60,7 +64,7 @@
 
 	* fi.po: Updated Finnish translation (part 1/2).
 
-2002-03-12  Christophe Merlet  <redfox@eikonex.org>
+2002-03-12  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation with report from
 	Stéphane Raimbault <stephane.raimbault@deesse.univ-lemans.fr>.
@@ -95,7 +99,7 @@
 
 	* no.po: Updated Norwegian (bokmål) translation.
 
-2002-02-13  Christophe Merlet  <redfox@eikonex.org>
+2002-02-13  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation.
 
@@ -103,7 +107,7 @@
 
 	* ja.po: fixed typo.
 
-2002-02-11  Christophe Merlet  <redfox@eikonex.org>
+2002-02-11  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation.
 
@@ -119,7 +123,7 @@
 
 	* pt_BR.po: Updated Brazilian Portuguese translation.
 
-2002-01-30  Christophe Merlet  <redfox@eikonex.org>
+2002-01-30  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation from work of
 	Frederic Riss <frederic.riss@laposte.net>.
@@ -129,7 +133,7 @@
 	* nn.po: Updated Norwegian (nynorsk) translation
 	* ChangeLog: removed gettext-entries
 
-2002-01-29  Christophe Merlet  <redfox@eikonex.org>
+2002-01-29  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation.
 
@@ -202,7 +206,7 @@
 	* el.po: Minor fixes.
 	* el.po: Updated Greek translation by Panayotis Pakos.
 
-2002-01-04  Christophe Merlet  <redfox@eikonex.org>
+2002-01-04  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation.
 
@@ -337,7 +341,7 @@
 
 	* de.po: Updated German translation for release.
 
-2001-11-25  Christophe Merlet  <redfox@eikonex.org>
+2001-11-25  Christophe Merlet  <christophe@merlet.net>
 	
 	* fr.po: Updated French translation from work of
 	Frederic Riss <frederic.riss@laposte.net>.
@@ -506,7 +510,7 @@
 
 	* sv.po: Updated Swedish translation.
 
-2001-11-01  Christophe Merlet  <redfox@eikonex.org>
+2001-11-01  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation from work of
 	Frederic Riss <frederic.riss@laposte.net>.
@@ -634,7 +638,7 @@
 
         * es.po: Updated Spanish translation.
 	
-2001-10-23  Christophe Merlet  <redfox@eikonex.org>
+2001-10-23  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation from work of
 	Frederic Riss <frederic.riss@laposte.net>.
@@ -653,7 +657,7 @@
 	* POTFILES.in: added calendar/gui/e-cell-date-edit-text.c and
 	widgets/misc/e-cell-percent.c.
 
-2001-10-22  Christophe Merlet  <redfox@eikonex.org>
+2001-10-22  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation from work of
 	Frederic Riss <frederic.riss@laposte.net>.
@@ -678,7 +682,7 @@
 
 	* ro.po: updated
 
-2001-10-21  Christophe Merlet  <redfox@eikonex.org>
+2001-10-21  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation.
 
@@ -802,7 +806,7 @@
 
 	* no.po: Updated Norwegian (bokmål) translation.
 	
-2001-10-05  Christophe Merlet  <redfox@eikonex.org>
+2001-10-05  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation.
 
@@ -898,7 +902,7 @@
 
 	* sk.po: Updated Slovak translation.
 
-2001-09-24  Christophe Merlet  <redfox@eikonex.org>
+2001-09-24  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation with contributions from
 	Jean-Noël Guiheneuf <jean-noel.guiheneuf@wanadoo.fr>.
@@ -1011,7 +1015,7 @@
 
 	* de.po: Updated German translation.
 
-2001-09-08  Christophe Merlet  <redfox@eikonex.org>
+2001-09-08  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation with contributions from
 	Jean-Noël Guiheneuf <jean-noel.guiheneuf@wanadoo.fr>.
@@ -1060,7 +1064,7 @@
 
 	* pl.po: Updated Polish translation.
 
-2001-09-02  Christophe Merlet  <redfox@eikonex.org>
+2001-09-02  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation from contribution of
 	Jean-Noël Guiheneuf <jean-noel.guiheneuf@wanadoo.fr>.
@@ -1073,7 +1077,7 @@
 
 	* pl.po: Updated Polish translation.
 
-2001-08-31  Christophe Merlet  <redfox@eikonex.org>
+2001-08-31  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation from contribution of
 	Jean-Noël Guiheneuf <jean-noel.guiheneuf@wanadoo.fr>.
@@ -1086,7 +1090,7 @@
 
 	* no.po: Updated Norwegian (bokmål) translation.
 	
-2001-08-28  Christophe Merlet  <redfox@eikonex.org>
+2001-08-28  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation from contribution of
 	Jean-Noël Guiheneuf <jean-noel.guiheneuf@wanadoo.fr>.
@@ -1103,7 +1107,7 @@
 
 	* POTFILES.in: Added shell/glade/evolution-startup-wizard.glade
 
-2001-08-26  Christophe Merlet  <redfox@eikonex.org>
+2001-08-26  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation from contribution of
 	Jean-Noël Guiheneuf <jean-noel.guiheneuf@wanadoo.fr>.
@@ -2176,7 +2180,7 @@
 
 	* sk.po: Updated Slovak translation.
 
-2001-02-13  Christophe Merlet  <redfox@eikonex.org>
+2001-02-13  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation.
 
@@ -2214,7 +2218,7 @@
 
 	* sl.po: Add \n to fix a compile error.
 
-2001-02-09  Christophe Merlet  <redfox@eikonex.org>
+2001-02-09  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation.
 
@@ -2372,7 +2376,7 @@
 
 	* ja.po: Updated Japanese translation.
 
-2001-01-10  Christophe Merlet  <redfox@eikonex.org>
+2001-01-10  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation.
 
@@ -2402,7 +2406,7 @@
 
 	* de.po: Updated German translation
 
-2001-01-07  Christophe Merlet  <redfox@eikonex.org>
+2001-01-07  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation.
 

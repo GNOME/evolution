@@ -1,3 +1,8 @@
+2002-05-13  Christophe Merlet  <christophe@merlet.net>
+
+	* Locations: Fixed some little typos.
+	* Locations.h: Updated.
+
 2002-04-16  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-preferences.c: Change the kde url.
