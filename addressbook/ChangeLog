@@ -1,3 +1,11 @@
+2001-08-09  Anna Marie Dirks <anna@ximian.com>
+        * gui/component/select-names/select-names.glade: redesigned
+        this dialog to fix bug #6815. 
+
+	*gui/component/select-names/e-select-names.c: connected the
+	widgets (or one of them anyway. clahey did the rest) for my
+	new and lovely glade file.
+	
 2001-08-09  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook.c: remove passwd_cb.

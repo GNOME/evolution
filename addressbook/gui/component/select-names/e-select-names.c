@@ -457,7 +457,7 @@ static void
 e_select_names_init (ESelectNames *e_select_names)
 {
 	GladeXML *gui;
-	GtkWidget *widget;
+	GtkWidget *widget, *button;
 
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/select-names.glade", NULL);
 	e_select_names->gui = gui;
@@ -502,6 +502,11 @@ e_select_names_init (ESelectNames *e_select_names)
 				   GTK_SIGNAL_FUNC(update_query), e_select_names);
 	if (e_select_names->categories_entry)
 		gtk_signal_connect(GTK_OBJECT(e_select_names->categories_entry), "changed",
+				   GTK_SIGNAL_FUNC(update_query), e_select_names);
+
+	button  = glade_xml_get_widget (gui, "button-find");
+	if (button)
+		gtk_signal_connect(GTK_OBJECT(button), "clicked",
 				   GTK_SIGNAL_FUNC(update_query), e_select_names);
 
 	e_select_names->folders = g_hash_table_new(g_str_hash, g_str_equal);
