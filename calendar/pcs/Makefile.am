@@ -31,12 +31,12 @@ $(CORBA_GENERATED): $(idls)
 pcsincludedir = $(includedir)/evolution/pcs
 
 privlib_LIBRARIES = libpcs.a
+noinst_LIBRARIES = libpcsfile.a
 
 pcsinclude_HEADERS = 		\
 	$(CORBA_GENERATED_H)	\
 	cal.h			\
 	cal-backend.h		\
-	cal-backend-file.h	\
 	cal-backend-util.h	\
 	cal-common.h		\
 	cal-factory.h		\
@@ -48,11 +48,14 @@ libpcs_a_SOURCES =		\
 	$(CORBA_GENERATED_C)	\
 	cal.c			\
 	cal-backend.c		\
-	cal-backend-file.c	\
 	cal-backend-util.c	\
 	cal-factory.c		\
 	job.c			\
 	query.c
+
+libpcsfile_a_SOURCES =		\
+	cal-backend-file.c	\
+	cal-backend-file.h
 
 BUILT_SOURCES = $(CORBA_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)

@@ -1,3 +1,11 @@
+2002-07-22  Dan Winship  <danw@ximian.com>
+
+	* pcs/Makefile.am: Split pcs-backend-file out of libpcs and build
+	it as a separate (noinst) library libpcsfile.a. This gets the db3
+	dependencies out of libpcs, and people trying to create a calendar
+	backend shouldn't be calling functions from the existing backends
+	anyway so there's no reason to install them.
+
 2002-07-18  Rodrigo Moya <rodrigo@ximian.com>
 
 	* importers/icalendar-importer.c (get_uri_from_folder_path): if
