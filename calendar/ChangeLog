@@ -1,3 +1,8 @@
+2000-08-09  Christopher James Lahey  <clahey@helixcode.com>
+
+	* cal-client/cal-client.c, gui/e-calendar-table.c, pcs/cal.c:
+	Fixed some warnings.
+
 2000-08-08  Federico Mena Quintero  <federico@helixcode.com>
 
 	* idl/evolution-calendar.idl (Cal): Added a get_objects_in_range()

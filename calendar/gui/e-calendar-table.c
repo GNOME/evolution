@@ -36,6 +36,7 @@
 #include <e-table/e-cell-text.h>
 #include "e-calendar-table.h"
 #include "calendar-model.h"
+#include "gncal-todo.h"
 
 /* Pixmaps. */
 #include "task.xpm"

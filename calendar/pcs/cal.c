@@ -720,7 +720,7 @@ cal_notify_update (Cal *cal, const char *uid)
 	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
 
 	CORBA_exception_init (&ev);
-	Evolution_Calendar_Listener_obj_updated (priv->listener, uid, &ev);
+	Evolution_Calendar_Listener_obj_updated (priv->listener, (char *) uid, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION)
 		g_message ("cal_notify_update(): could not notify the listener "
@@ -751,7 +751,7 @@ cal_notify_remove (Cal *cal, const char *uid)
 	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
 
 	CORBA_exception_init (&ev);
-	Evolution_Calendar_Listener_obj_removed (priv->listener, uid, &ev);
+	Evolution_Calendar_Listener_obj_removed (priv->listener, (char *) uid, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION)
 		g_message ("cal_notify_remove(): could not notify the listener "

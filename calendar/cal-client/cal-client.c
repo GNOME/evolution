@@ -629,7 +629,7 @@ cal_client_get_object (CalClient *client, const char *uid, CalComponent **comp)
 	*comp = NULL;
 
 	CORBA_exception_init (&ev);
-	calobj_str = Evolution_Calendar_Cal_get_object (priv->cal, uid, &ev);
+	calobj_str = Evolution_Calendar_Cal_get_object (priv->cal, (char *) uid, &ev);
 
 	if (ev._major == CORBA_USER_EXCEPTION
 	    && strcmp (CORBA_exception_id (&ev), ex_Evolution_Calendar_Cal_NotFound) == 0)
@@ -1011,7 +1011,7 @@ cal_client_get_alarms_for_object (CalClient *client, const char *uid,
 
 	CORBA_exception_init (&ev);
 
-	seq = Evolution_Calendar_Cal_get_alarms_for_object (priv->cal, uid, start, end, &ev);
+	seq = Evolution_Calendar_Cal_get_alarms_for_object (priv->cal, (char *) uid, start, end, &ev);
 	if (ev._major == CORBA_USER_EXCEPTION
 	    && strcmp (CORBA_exception_id (&ev), ex_Evolution_Calendar_Cal_NotFound) == 0)
 		goto out;
@@ -1103,7 +1103,7 @@ cal_client_remove_object (CalClient *client, const char *uid)
 	retval = FALSE;
 
 	CORBA_exception_init (&ev);
-	Evolution_Calendar_Cal_remove_object (priv->cal, uid, &ev);
+	Evolution_Calendar_Cal_remove_object (priv->cal, (char *) uid, &ev);
 
 	if (ev._major == CORBA_USER_EXCEPTION &&
 	    strcmp (CORBA_exception_id (&ev), ex_Evolution_Calendar_Cal_NotFound) == 0)
