@@ -37,12 +37,12 @@
 
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-messagebox.h>
 
-#include <gtk/gtklabel.h>
-#include <gtk/gtksignal.h>
 #include <gtk/gtkentry.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkmessagedialog.h>
+#include <gtk/gtksignal.h>
+#include <gtk/gtkstock.h>
 
 #include <string.h>
 
@@ -166,7 +166,7 @@ folder_selection_dialog_folder_selected_callback (EShellFolderSelectionDialog *f
 	folder_command_data = (FolderCommandData *) data;
 
 	base_name = g_path_get_basename (folder_command_data->source_path);
-	folder_command_data->destination_path = g_concat_dir_and_file (path, base_name);
+	folder_command_data->destination_path = g_build_filename (path, base_name, NULL);
 	g_free (base_name);
 
 	switch (folder_command_data->command) {
@@ -392,29 +392,32 @@ delete_cb (EStorageSet *storage_set,
 			  _("Cannot delete folder:\n%s"), e_storage_result_to_string (result));
 }
 
-static int
+static GtkResponseType
 delete_dialog (EShellView *shell_view, const char *folder_name)
 {
 	GtkWidget *dialog;
+	GtkResponseType response;
 	char *title;
-	char *question;
+
+	dialog = gtk_message_dialog_new (GTK_WINDOW (shell_view),
+					 GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL | GTK_DIALOG_NO_SEPARATOR,
+					 GTK_MESSAGE_QUESTION,
+					 GTK_BUTTONS_NONE,
+					 _("Really delete folder \"%s\"?"), folder_name);
+
+	gtk_dialog_add_button (GTK_DIALOG (dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+	gtk_dialog_add_button (GTK_DIALOG (dialog), GTK_STOCK_DELETE, GTK_RESPONSE_OK);
+
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 
 	title = g_strdup_printf (_("Delete \"%s\""), folder_name);
-	question = g_strdup_printf (_("Really delete folder \"%s\"?"), folder_name);
-
-	dialog = gnome_message_box_new (question,
-					GNOME_MESSAGE_BOX_QUESTION,
-					_("Delete"),
-					GNOME_STOCK_BUTTON_CANCEL,
-					NULL);
 	gtk_window_set_title (GTK_WINDOW (dialog), title);
-	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (shell_view));
-	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
-
 	g_free (title);
-	g_free (question);
 
-	return gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+	response = gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
+
+	return response;
 }
 
 void
@@ -435,7 +438,7 @@ e_shell_command_delete_folder (EShell *shell,
 	if (folder_path == NULL)
 		folder_path = e_shell_view_get_current_path (shell_view);
 
-	if (delete_dialog (shell_view, get_folder_name (shell, folder_path)) == 0)
+	if (delete_dialog (shell_view, get_folder_name (shell, folder_path)) == GTK_RESPONSE_OK)
 		e_storage_set_async_remove_folder (storage_set, folder_path, delete_cb, shell_view);
 }
 
@@ -555,7 +558,7 @@ e_shell_command_rename_folder (EShell *shell,
 	}
 
 	old_base_path = g_path_get_dirname (folder_path);
-	new_path = g_concat_dir_and_file (old_base_path, new_name);
+	new_path = g_build_filename (old_base_path, new_name, NULL);
 
 	callback_data = rename_callback_data_new (shell_view, new_path);
 	e_storage_set_async_xfer_folder (storage_set, folder_path, new_path, TRUE, rename_cb, callback_data);

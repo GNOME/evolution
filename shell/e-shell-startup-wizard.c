@@ -639,10 +639,12 @@ prepare_importer_page (GnomeDruidPage *page,
 
 	data->import_page->prepared = TRUE;
 
-	dialog = gnome_message_box_new (_("Please wait...\nScanning for existing setups"), GNOME_MESSAGE_BOX_INFO, NULL);
+	dialog = gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_INFO,
+					 GTK_BUTTONS_NONE,
+					 _("Please wait...\nScanning for existing setups"));
 	e_make_widget_backing_stored (dialog);
 
-	gtk_window_set_title (GTK_WINDOW (dialog), _("Starting Intelligent Importers"));
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Starting import"));
 	gtk_widget_show_all (dialog);
 	gtk_widget_show_now (dialog);
 

@@ -55,8 +55,6 @@
 #include <libgnome/gnome-url.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-about.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
 
 #include <gal/widgets/e-gui-utils.h>
 
@@ -85,7 +83,7 @@ launch_pilot_settings (const char *extra_arg)
         };
         int pid;
 
-        args[0] = gnome_is_program_in_path ("gpilotd-control-applet");
+        args[0] = g_find_program_in_path ("gpilotd-control-applet");
         if (!args[0]) {
 		e_notice (NULL, GTK_MESSAGE_ERROR,
 			  _("The GNOME Pilot tools do not appear to be installed on this system."));
@@ -190,9 +188,9 @@ command_submit_bug (BonoboUIComponent *uih,
                 NULL
         };
 
-        args[0] = gnome_is_program_in_path ("bug-buddy");
+        args[0] = g_find_program_in_path ("bug-buddy");
         if (!args[0]) {
-                gnome_error_dialog (_("Bug buddy was not found in your $PATH."));
+                e_notice (NULL, GTK_MESSAGE_ERROR, _("Bug buddy is not installed."));
 		return;
         }
 
@@ -200,7 +198,7 @@ command_submit_bug (BonoboUIComponent *uih,
         g_free (args[0]);
 
         if (pid == -1)
-                gnome_error_dialog (_("Bug buddy could not be run."));
+                e_notice (NULL, GTK_MESSAGE_ERROR, _("Bug buddy could not be run."));
 }
 
 static int

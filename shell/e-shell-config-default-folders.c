@@ -162,7 +162,6 @@ setup_folder_selector (EvolutionDefaultFolderConfig *dfc,
 GtkWidget*
 e_shell_config_default_folders_create_widget (EShell *shell, EvolutionConfigControl *config_control)
 {
-	CORBA_Environment ev;
 	EvolutionDefaultFolderConfig *dfc;
 	GtkWidget *widget;
 

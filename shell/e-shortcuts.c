@@ -242,7 +242,7 @@ update_shortcut_and_emit_signal (EShortcuts *shortcuts,
 
 	shortcut_changed = shortcut_item_update (shortcut_item, uri, name, unread_count, type, custom_icon_name);
 	if (shortcut_changed) {
-		gtk_signal_emit (GTK_OBJECT (shortcuts), signals[UPDATE_SHORTCUT], group_num, num);
+		g_signal_emit (shortcuts, signals[UPDATE_SHORTCUT], 0, group_num, num);
 		return TRUE;
 	}
 

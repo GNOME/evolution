@@ -353,6 +353,8 @@ choose_importer_from_list (GList *importer_list)
 					     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					     GTK_STOCK_OK, GTK_RESPONSE_OK,
 					     NULL);
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
+
 	clist = gtk_clist_new (1);
 	for (p = importer_list; p; p = p->next) {
 		struct _IIDInfo *iid;

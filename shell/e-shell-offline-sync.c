@@ -39,8 +39,8 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtkprogressbar.h>
 #include <gtk/gtksignal.h>
+#include <gtk/gtkstock.h>
 
-#include <libgnomeui/gnome-dialog.h>
 #include <libgnome/gnome-i18n.h>
 
 #include <bonobo/bonobo-main.h>
@@ -58,6 +58,9 @@ struct _SyncFolderProgressListenerServant {
 struct _SyncData {
 	/* The shell.  */
 	EShell *shell;
+
+	/* Parent view.  */
+	GtkWindow *parent_window;
 
 	/* The progress dialog.  */
 	GtkWidget *dialog;
@@ -212,19 +215,10 @@ setup_progress_listener (SyncData *sync_data)
 
 /* Setting up the progress dialog.  */
 
-static int
-progress_dialog_close_callback (GnomeDialog *dialog,
-				void *data)
-{
-	/* Don't allow the dialog to be closed through the window manager close
-	   command.  */
-	return TRUE;
-}
-
 static void
-progress_dialog_clicked_callback (GnomeDialog *dialog,
-				  int button_num,
-				  void *data)
+progress_dialog_response_callback (GtkDialog *dialog,
+				   int response_id,
+				   void *data)
 {
 	SyncData *sync_data;
 
@@ -235,21 +229,23 @@ progress_dialog_clicked_callback (GnomeDialog *dialog,
 static void
 setup_dialog (SyncData *sync_data)
 {
-	sync_data->dialog = gnome_dialog_new (_("Syncing Folder"), GNOME_STOCK_BUTTON_CANCEL, NULL);
+	sync_data->dialog = gtk_dialog_new_with_buttons (_("Syncing Folder"),
+							 sync_data->parent_window,
+							 0,
+							 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+							 NULL);
 	gtk_widget_set_size_request (sync_data->dialog, 300, -1);
 	gtk_window_set_resizable (GTK_WINDOW (sync_data->dialog), FALSE);
 
-	g_signal_connect (sync_data->dialog, "close",
-			  G_CALLBACK (progress_dialog_close_callback), sync_data);
-	g_signal_connect (sync_data->dialog, "clicked",
-			  G_CALLBACK (progress_dialog_clicked_callback), sync_data);
+	g_signal_connect (sync_data->dialog, "response",
+			  G_CALLBACK (progress_dialog_response_callback), sync_data);
 
 	sync_data->label = gtk_label_new ("");
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (sync_data->dialog)->vbox),
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (sync_data->dialog)->vbox),
 			    sync_data->label, FALSE, TRUE, 0);
 
 	sync_data->progress_bar = gtk_progress_bar_new ();
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (sync_data->dialog)->vbox),
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (sync_data->dialog)->vbox),
 			    sync_data->progress_bar, FALSE, TRUE, 0);
 
 	gtk_widget_show_all (sync_data->dialog);
@@ -346,7 +342,8 @@ sync_folder (SyncData *sync_data,
 
 		/* Check if the user clicked the Cancel button.  */
 		if (sync_data->cancel) {
-			gnome_dialog_set_sensitive (GNOME_DIALOG (sync_data->dialog), 0, FALSE);
+			gtk_dialog_set_response_sensitive (GTK_DIALOG (sync_data->dialog),
+							   GTK_RESPONSE_CANCEL, FALSE);
 
 			GNOME_Evolution_Offline_cancelSyncFolder (offline_interface, corba_folder, &ev);
 
@@ -403,6 +400,7 @@ e_shell_offline_sync_all_folders (EShell *shell,
 
 	sync_data = g_new0 (SyncData, 1);
 	sync_data->shell = shell;
+	sync_data->parent_window = parent_window;
 
 	/* Initialize everything, then go ahead and sync.  */
 

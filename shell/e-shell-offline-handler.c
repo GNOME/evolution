@@ -34,6 +34,7 @@
 #include "e-shell-marshal.h"
 
 #include <gtk/gtkclist.h>
+#include <gtk/gtkdialog.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtktypeutils.h>
@@ -41,7 +42,6 @@
 
 #include <gal/util/e-util.h>
 
-#include <libgnomeui/gnome-dialog.h>
 #include <libgnome/gnome-i18n.h>
 
 #include <glade/glade-xml.h>
@@ -569,7 +569,7 @@ update_dialog_clist (EShellOfflineHandler *offline_handler)
 }
 
 static void
-dialog_handle_ok (GnomeDialog *dialog,
+dialog_handle_ok (GtkDialog *dialog,
 		  EShellOfflineHandler *offline_handler)
 {
 	EShellOfflineHandlerPrivate *priv;
@@ -577,7 +577,7 @@ dialog_handle_ok (GnomeDialog *dialog,
 
 	priv = offline_handler->priv;
 
-	gnome_dialog_set_sensitive (dialog, 0, FALSE);
+	gtk_dialog_set_response_sensitive (dialog, GTK_RESPONSE_OK, FALSE);
 
 	instruction_label = glade_xml_get_widget (priv->dialog_gui, "instruction_label");
 	g_assert (instruction_label != NULL);
@@ -591,7 +591,7 @@ dialog_handle_ok (GnomeDialog *dialog,
 }
 
 static void
-dialog_handle_cancel (GnomeDialog *dialog,
+dialog_handle_cancel (GtkDialog *dialog,
 		      EShellOfflineHandler *offline_handler)
 {
 	EShellOfflineHandlerPrivate *priv;
@@ -607,20 +607,20 @@ dialog_handle_cancel (GnomeDialog *dialog,
 }
 
 static void
-dialog_clicked_cb (GnomeDialog *dialog,
-		   int button_number,
-		   void *data)
+dialog_response_cb (GtkDialog *dialog,
+		    int response_id,
+		    void *data)
 {
 	EShellOfflineHandler *offline_handler;
 
 	offline_handler = E_SHELL_OFFLINE_HANDLER (data);
 
-	switch (button_number) {
-	case 0:			/* OK */
+	switch (response_id) {
+	case GTK_RESPONSE_OK:
 		dialog_handle_ok (dialog, offline_handler);
 		break;
 
-	case 1:			/* Cancel */
+	case GTK_RESPONSE_CANCEL:
 		dialog_handle_cancel (dialog, offline_handler);
 		break;
 
@@ -653,12 +653,9 @@ pop_up_confirmation_dialog (EShellOfflineHandler *offline_handler)
 	/* gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (priv->parent_shell_view)); */
 	/* gtk_window_set_modal (GTK_WINDOW (dialog), TRUE); */
 
-	gnome_dialog_set_default (GNOME_DIALOG (dialog), 1);
-
 	update_dialog_clist (offline_handler);
 
-	g_signal_connect (dialog, "clicked",
-			  G_CALLBACK (dialog_clicked_cb), offline_handler);
+	g_signal_connect (dialog, "response", G_CALLBACK (dialog_response_cb), offline_handler);
 
 	gtk_widget_show (dialog);
 }

@@ -363,7 +363,7 @@ create_folder_directory (ELocalStorage *local_storage,
 		subfolders_directory_physical_path = e_path_to_physical (priv->base_path, parent_path);
 		g_free (parent_path);
 
-		if (! g_file_exists (subfolders_directory_physical_path)) {
+		if (! g_file_test (subfolders_directory_physical_path, G_FILE_TEST_EXISTS)) {
 			if (mkdir (subfolders_directory_physical_path, 0700) == -1) {
 				g_free (subfolders_directory_physical_path);
 				return errno_to_storage_result ();
@@ -484,7 +484,7 @@ remove_folder_directory (ELocalStorage *local_storage,
 
 	/* Delete the metadata file associated with this folder.  */
 	physical_path = e_path_to_physical (priv->base_path, path);
-	file_name = g_concat_dir_and_file (physical_path, E_LOCAL_FOLDER_METADATA_FILE_NAME);
+	file_name = g_build_filename (physical_path, E_LOCAL_FOLDER_METADATA_FILE_NAME, NULL);
 	unlink (file_name);
 	g_free (file_name);
 
@@ -804,7 +804,7 @@ append_xfer_item_list (EStorage *storage,
 
 		source_subpath = g_strdup ((const char *) p->data);
 		base_name = g_path_get_basename (source_subpath);
-		destination_subpath = g_concat_dir_and_file (destination_path, base_name);
+		destination_subpath = g_build_filename (destination_path, base_name, NULL);
 		append_xfer_item_list (storage, source_subpath, destination_subpath, list);
 		g_free (base_name);
 	}

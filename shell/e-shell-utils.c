@@ -43,9 +43,9 @@ get_icon_path (const char *icon_name)
 	if (g_path_is_absolute (icon_name))
 		icon_path = g_strdup (icon_name);
 	else
-		icon_path = g_concat_dir_and_file (EVOLUTION_IMAGES, icon_name);
+		icon_path = g_build_filename (EVOLUTION_IMAGES, icon_name, NULL);
 
-	if (g_file_exists (icon_path)) {
+	if (g_file_test (icon_path, G_FILE_TEST_EXISTS)) {
 		return icon_path;
 	} else {
 		g_free (icon_path);

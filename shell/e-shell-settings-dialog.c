@@ -207,7 +207,7 @@ load_pages (EShellSettingsDialog *dialog)
 			} else {
 				char *real_icon_path;
 
-				real_icon_path = g_concat_dir_and_file (EVOLUTION_IMAGES, icon_path);
+				real_icon_path = g_build_filename (EVOLUTION_IMAGES, icon_path, NULL);
 				icon = gdk_pixbuf_new_from_file (real_icon_path, NULL);
 				g_free (real_icon_path);
 			}

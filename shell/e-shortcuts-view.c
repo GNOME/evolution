@@ -42,10 +42,11 @@
 
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-app-helper.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-messagebox.h>
 #include <libgnomeui/gnome-popup-menu.h>
 #include <libgnomeui/gnome-uidefs.h>
+
+#include <gtk/gtkmessagedialog.h>
+#include <gtk/gtkstock.h>
 
 #include <gal/util/e-util.h>
 
@@ -163,7 +164,8 @@ destroy_group_cb (GtkWidget *widget,
 	EShortcuts *shortcuts;
 	EShortcutsView *shortcuts_view;
 	EShortcutsViewPrivate *priv;
-	GtkWidget *message_box;
+	GtkWidget *message_dialog;
+	GtkResponseType response;
 	char *question;
 
 	menu_data = (RightClickMenuData *) data;
@@ -171,20 +173,25 @@ destroy_group_cb (GtkWidget *widget,
 	priv = shortcuts_view->priv;
 	shortcuts = priv->shortcuts;
 
-	question = g_strdup_printf (_("Do you really want to remove group\n"
-	                              "`%s' from the shortcut bar?"),
-				    e_shortcuts_get_group_title (shortcuts, menu_data->group_num));
+	message_dialog = gtk_message_dialog_new (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (menu_data->shortcuts_view))),
+						 GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL,
+						 GTK_MESSAGE_QUESTION,
+						 GTK_BUTTONS_NONE,
+						 _("Do you really want to remove group "
+						   "\"%s\" from the shortcut bar?"),
+						 e_shortcuts_get_group_title (shortcuts, menu_data->group_num));
 
-	message_box = gnome_message_box_new (question, GNOME_MESSAGE_BOX_QUESTION,
-					     _("Remove"), _("Don't remove"), NULL);
-	gnome_dialog_set_parent (GNOME_DIALOG (message_box),
-				 GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (shortcuts_view))));
-	g_free (question);
+	gtk_dialog_add_buttons (GTK_DIALOG (message_dialog),
+				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				GTK_STOCK_DELETE, GTK_RESPONSE_OK,
+				NULL);
+	gtk_dialog_set_default_response (GTK_DIALOG (message_dialog), GTK_RESPONSE_OK);
 
-	if (gnome_dialog_run_and_close (GNOME_DIALOG (message_box)) != 0)
-		return;
+	response = gtk_dialog_run (GTK_DIALOG (message_dialog));
+	gtk_widget_destroy (message_dialog);
 
-	e_shortcuts_remove_group (shortcuts, menu_data->group_num);
+	if (response == GTK_RESPONSE_OK)
+		e_shortcuts_remove_group (shortcuts, menu_data->group_num);
 }
 
 static void

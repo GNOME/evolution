@@ -27,7 +27,6 @@
 #include <glib.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
-#include <libgnomeui/gnome-dialog.h>
 
 #include <gtk/gtkentry.h>
 #include <gtk/gtkdialog.h>
@@ -138,7 +137,7 @@ async_create_cb (EStorageSet *storage_set,
 /* Dialog signal callbacks.  */
 
 static void
-dialog_response_cb (GnomeDialog *dialog,
+dialog_response_cb (GtkDialog *dialog,
 		    int response_id,
 		    void *data)
 {
@@ -183,7 +182,7 @@ dialog_response_cb (GnomeDialog *dialog,
 		return;
 	}
 
-	path = g_concat_dir_and_file (parent_path, folder_name);
+	path = g_build_filename (parent_path, folder_name, NULL);
 
 	storage_set = e_shell_get_storage_set (dialog_data->shell);
 

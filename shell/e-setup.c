@@ -41,7 +41,6 @@
 
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
-#include <libgnomeui/gnome-messagebox.h>
 
 #include <errno.h>
 #include <sys/stat.h>
@@ -84,10 +83,8 @@ check_dir_recur (const char *evolution_directory,
 			continue;
 		}
 
-		fullname = g_concat_dir_and_file (evolution_directory,
-						  current->d_name);
-		fulldefaultname = g_concat_dir_and_file (current_directory,
-							 current->d_name);
+		fullname = g_build_filename (evolution_directory, current->d_name, NULL);
+		fulldefaultname = g_build_filename (current_directory, current->d_name, NULL);
 
 		if (stat (fullname, &buf) == -1) {
 			char *name;
@@ -114,38 +111,13 @@ check_dir_recur (const char *evolution_directory,
 static gboolean
 check_evolution_directory (const char *evolution_directory)
 {
-	GtkWidget *dialog;
-	GtkWidget *label1, *label2;
 	gboolean retval;
 	GList *newfiles, *l;
-	int result;
 
 	newfiles = g_list_concat (NULL, check_dir_recur (evolution_directory, DEFAULT_USER_PATH));
 
 	if (newfiles == NULL) {
 		retval = TRUE;
-		goto out;
-	}
-
-	dialog = gnome_dialog_new (_("Evolution installation"),
-				   GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL,
-				   NULL);
-
-	label1 = gtk_label_new (_("This new version of Evolution needs to install additional files\ninto your personal Evolution directory"));
-	label2 = gtk_label_new (_("Please click \"OK\" to install the files, or \"Cancel\" to exit."));
-
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label1, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label2, TRUE, TRUE, 0);
-
-	gtk_widget_show (label1);
-	gtk_widget_show (label2);
-
-	gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
-
-	result = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
-
-	if (result != 0) {
-		retval = FALSE;
 		goto out;
 	}
 
@@ -245,7 +217,7 @@ e_shell_rm_dir (const char *path)
 				continue;
 			}
 
-			fullpath = g_concat_dir_and_file (path, contents->d_name);
+			fullpath = g_build_filename (path, contents->d_name, NULL);
 			e_shell_rm_dir (fullpath);
 			g_free (fullpath);
 
@@ -265,7 +237,7 @@ setup_bonobo_conf_private_directory (const char *evolution_directory)
 	char *name;
 	struct stat buf;
 
-	name = g_concat_dir_and_file (evolution_directory, "private");
+	name = g_build_filename (evolution_directory, "private", NULL);
 	if (stat (name, &buf) == -1) {
 		if (mkdir (name, 0700) != 0) {
 			e_notice (NULL, GTK_MESSAGE_ERROR,
@@ -321,36 +293,6 @@ e_setup (const char *evolution_directory)
 			    "of the Evolution user files."));
 		return FALSE;
 	}
-
-	/* Make sure this is really our directory, not an Evolution
-	 * build tree or something like that.
-	 */
-	file = g_strdup_printf ("%s/local/Executive-Summary", evolution_directory);
-	if (stat (file, &statinfo) == 0) {
-		if (S_ISDIR (statinfo.st_mode)) {
-			GtkWidget *dialog;
-
-			dialog = gnome_message_box_new (_("Evolution has detected an old\n"
-							  "Executive-Summary directory.\n"
-							  "This needs to be removed before\n"
-							  "Evolution will run.\n"
-							  "Do you want me to remove this directory?"),
-							GNOME_MESSAGE_BOX_INFO,
-							GNOME_STOCK_BUTTON_YES,
-							GNOME_STOCK_BUTTON_NO,
-							NULL);
-			switch (gnome_dialog_run_and_close (GNOME_DIALOG (dialog))) {
-			case 0:
-				e_shell_rm_dir (file);
-				break;
-
-			default:
-				return FALSE;
-			}
-		}
-	}
-
-	g_free (file);
 
 	file = g_strdup_printf ("%s/searches.xml", evolution_directory);
 	if (stat (file, &statinfo) != 0) {

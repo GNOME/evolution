@@ -78,6 +78,8 @@
 
 #include <gconf/gconf-client.h>
 
+#include <string.h>
+
 #include "Evolution.h"
 
 
@@ -748,7 +750,7 @@ setup_local_storage (EShell *shell)
 	g_assert (priv->folder_type_registry != NULL);
 	g_assert (priv->local_storage == NULL);
 
-	local_storage_path = g_concat_dir_and_file (priv->local_directory, LOCAL_STORAGE_DIRECTORY);
+	local_storage_path = g_build_filename (priv->local_directory, LOCAL_STORAGE_DIRECTORY, NULL);
 	local_storage = e_local_storage_open (priv->folder_type_registry, local_storage_path);
 	if (local_storage == NULL) {
 		g_warning (_("Cannot set up local storage -- %s"), local_storage_path);
@@ -783,7 +785,8 @@ get_icon_path_for_component_info (const Bonobo_ServerInfo *info)
 						 "evolution:shell_component_icon");
 
 	if (property == NULL || property->v._d != Bonobo_ACTIVATION_P_STRING)
-		return gnome_pixmap_file ("gnome-question.png");
+		return gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP, "gnome-question.png",
+						  TRUE, NULL);
 
 	shell_component_icon_value = property->v._u.value_string;
 
@@ -791,7 +794,7 @@ get_icon_path_for_component_info (const Bonobo_ServerInfo *info)
 		return g_strdup (shell_component_icon_value);
 
 	else
-		return g_concat_dir_and_file (EVOLUTION_IMAGES, shell_component_icon_value);
+		return g_build_filename (EVOLUTION_IMAGES, shell_component_icon_value, NULL);
 }
 
 static void
@@ -1146,7 +1149,8 @@ impl_finalize (GObject *object)
 	priv = shell->priv;
 
 	if (priv->iid != NULL)
-		bonobo_activation_active_server_unregister (priv->iid, bonobo_object_corba_objref (BONOBO_OBJECT (shell)));
+		bonobo_activation_unregister_active_server (priv->iid,
+							    bonobo_object_corba_objref (BONOBO_OBJECT (shell)));
 
 	g_free (priv->local_directory);
 
@@ -1315,7 +1319,7 @@ e_shell_construct (EShell *shell,
 	
 	/* FIXME: Multi-display stuff.  */
 	corba_object = bonobo_object_corba_objref (BONOBO_OBJECT (shell));
-	if (bonobo_activation_active_server_register (iid, corba_object) != Bonobo_ACTIVATION_REG_SUCCESS)
+	if (bonobo_activation_register_active_server (iid, corba_object, NULL) != Bonobo_ACTIVATION_REG_SUCCESS)
 		return E_SHELL_CONSTRUCT_RESULT_CANNOTREGISTER;
 
 	if (! show_splash) {
@@ -1339,7 +1343,7 @@ e_shell_construct (EShell *shell,
 	
 	/* Set up the shortcuts.  */
 	
-	shortcut_path = g_concat_dir_and_file (local_directory, "shortcuts.xml");
+	shortcut_path = g_build_filename (local_directory, "shortcuts.xml", NULL);
 	priv->shortcuts = e_shortcuts_new_from_file (shell, shortcut_path);
 	g_assert (priv->shortcuts != NULL);
 	

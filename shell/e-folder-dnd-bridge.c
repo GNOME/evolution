@@ -362,7 +362,7 @@ handle_data_received_path (GdkDragContext *context,
 		return FALSE;
 
 	base_name = g_path_get_basename (source_path);
-	destination_path = g_concat_dir_and_file (path, base_name);
+	destination_path = g_build_filename (path, base_name, NULL);
 	g_free (base_name);
 
 	switch (context->action) {

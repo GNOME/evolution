@@ -1,5 +1,104 @@
 2003-01-27  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-importer.c (choose_importer_from_list): Set
+	GTK_RESPONSE_OK as the default response.
+
+	* Makefile.am (INCLUDES): Add -DGNOME_DISABLE_DEPRECATED,
+	-DBONOBO_DISABLE_DEPRECATED.
+
+	* e-shortcuts.c (update_shortcut_and_emit_signal): Use
+	g_signal_emit() instead of gtk_signal_emit().
+
+	* e-shortcuts-view.c (destroy_group_cb): Port from GnomeMessageBox
+	to GtkMessageDialog.
+
+	* e-shell.c (get_icon_path_for_component_info): Use
+	gnome_program_locate_file() instead of gnome_pixmap_file().
+	(impl_finalize): Use bonobo_activation_unregister_active_server()
+	instead of bonobo_activation_active_server_register().
+	(e_shell_construct): Use
+	bonobo_activation_register_active_server() instead of
+	bonobo_activation_active_server_register().
+
+	* e-shell-view-menu.c (command_submit_bug): Use e_notice().
+	(launch_pilot_settings): Use g_find_program_in_path() instead of
+	gnome_is_program_in_path().
+	(command_submit_bug): Likewise.
+
+	* e-shell-utils.c (get_icon_path): Use g_file_test() instead of
+	g_file_exists().
+
+	* e-shell-startup-wizard.c (prepare_importer_page): Port from
+	GnomeMessageBox to GtkMessageDialog.
+
+	* e-shell-shared-folder-picker-dialog.c (show_dialog): Update for
+	GtkDialog.
+	(progress_dialog_close_callback): Removed.
+	(progress_dialog_clicked_callback): Removed.
+	(progress_dialog_response_callback): New.
+	(create_progress_dialog): Ported to GnomeDialog.
+
+	* e-shell-offline-sync.c: Add member parent_window to struct
+	SyncData.
+	(e_shell_offline_sync_all_folders): Set it from the parent_window
+	arg.
+	(progress_dialog_close_callback): Removed.
+	(progress_dialog_clicked_callback): Removed.
+	(progress_dialog_response_callback): New.
+	(setup_dialog): Create a GtkDialog instead of a GnomeDialog.
+	(sync_folder): Updated for GtkDialog.
+
+	* e-shell-offline-handler.c (dialog_handle_ok): Make it get a
+	GtkDialog instead of a GnomeDialog.
+	(dialog_handle_cancel): Likewise.
+	(dialog_clicked_cb): Removed.
+	(dialog_response_cb): New.
+	(pop_up_confirmation_dialog): Connect the new dialog_response_cb()
+	instead of the old dialog_clicked_cb().  Removed
+	gnome_dialog_set_default() call.
+
+	* e-shell-folder-creation-dialog.c (dialog_response_cb): Make
+	first arg a GtkDialog, not a GnomeDialog.
+
+	* e-shell-folder-commands.c (e_shell_command_delete_folder):
+	Expect delete_dialog() to return a GtkResponseType.
+	(delete_dialog): Ported to GtkMessageDialog; Return a
+	GtkResponseType.
+
+	* e-shell-config-default-folders.c
+	(e_shell_config_default_folders_create_widget): Removed unused
+	variable.
+
+	* e-setup.c (check_evolution_directory): Remove Evolution
+	directory installation message.
+	(e_setup): Remove check for the Executive-Summary directory.
+
+	* e-local-storage.c (create_folder_directory): Use g_file_test()
+	instead of g_file_exists().
+
+	* evolution-shell-component-utils.c (e_pixmaps_update): Use
+	g_build_filename() of g_concat_dir_and_file().
+	* e-folder-dnd-bridge.c (handle_data_received_path): Likewise.
+	* e-local-folder.c (construct_loading_metadata): Likewise.
+	(save_metadata): Likewise.
+	* e-local-storage.c (remove_folder_directory): Likewise.
+	(append_xfer_item_list): Likewise.
+	* e-setup.c (check_dir_recur): Likewise.
+	(e_shell_rm_dir): Likewise.
+	(setup_bonobo_conf_private_directory): Likewise.
+	* e-shell-folder-commands.c
+	(folder_selection_dialog_folder_selected_callback): Likewise.
+	(e_shell_command_rename_folder): Likewise.
+	* e-shell-folder-creation-dialog.c (dialog_response_cb): Likewise.
+	* e-shell-settings-dialog.c (load_pages): Likewise.
+	* e-shell-utils.c (get_icon_path): Likewise.
+	* e-shell.c (setup_local_storage): Likewise.
+	(get_icon_path_for_component_info): Likewise.
+	(e_shell_construct): Likewise.
+	* main.c (main): Likewise.
+
+2003-01-27  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-about-box.c (timeout_callback): Pass a the context's
 	language to pango_context_get_metrics() instead of NULL, so the
 	heights are computed correctly.

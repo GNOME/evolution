@@ -54,8 +54,7 @@ void e_pixmaps_update (BonoboUIComponent *uic, EPixmap *pixcache)
 			char *path;
 			GdkPixbuf *pixbuf;
 
-			path = g_concat_dir_and_file (EVOLUTION_IMAGES,
-						      pixcache [i].fname);
+			path = g_build_filename (EVOLUTION_IMAGES, pixcache [i].fname, NULL);
 
 			pixbuf = gdk_pixbuf_new_from_file (path, NULL);
 			if (pixbuf == NULL) {

@@ -35,7 +35,6 @@
 
 #include <gal/widgets/e-gui-utils.h>
 
-#include <libgnomeui/gnome-dialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 
@@ -219,7 +218,7 @@ show_dialog (EShell *shell,
 	GtkWidget *dialog;
 	GtkWidget *name_selector_widget;
 	GtkWidget *folder_name_entry;
-	int button_num;
+	int response;
 
 	glade_xml = glade_xml_new (EVOLUTION_GLADEDIR "/e-shell-shared-folder-picker-dialog.glade",
 				   NULL, NULL);
@@ -235,10 +234,8 @@ show_dialog (EShell *shell,
 	dialog = glade_xml_get_widget (glade_xml, "dialog");
 	g_assert (dialog != NULL);
 
-	gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
-
-	button_num = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
-	if (button_num == 1) {	/* Cancel */
+	response = gtk_dialog_run (GTK_DIALOG (dialog));
+	if (response == GTK_RESPONSE_CANCEL) {
 		g_free (*storage_name_return);
 		*storage_name_return = NULL;
 		gtk_widget_destroy (dialog);
@@ -301,19 +298,10 @@ progress_bar_weak_notify (void *data,
 	g_source_remove (timeout_id);
 }
 
-static int
-progress_dialog_close_callback (GnomeDialog *dialog,
-				void *data)
-{
-	/* Don't allow the dialog to be closed through the window manager close
-	   command.  */
-	return TRUE;
-}
-
 /* This is invoked if the "Cancel" button is clicked.  */
 static void
-progress_dialog_clicked_callback (GnomeDialog *dialog,
-				  int button_number,
+progress_dialog_clicked_callback (GtkDialog *dialog,
+				  int response,
 				  void *data)
 {
 	DiscoveryData *discovery_data;
@@ -349,25 +337,24 @@ create_progress_dialog (EShell *shell,
 	int timeout_id;
 	char *text;
 
-	dialog = gnome_dialog_new (_("Opening Folder"), GNOME_STOCK_BUTTON_CANCEL, NULL);
+	dialog = gtk_dialog_new_with_buttons (_("Opening Folder"), NULL, 0,
+					      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					      NULL);
 	gtk_widget_set_size_request (dialog, 300, -1);
 	gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
 
-	g_signal_connect (dialog, "close",
-			  G_CALLBACK (progress_dialog_close_callback), NULL);
-
 	text = g_strdup_printf (_("Opening Folder \"%s\""), folder_name);
 	label = gtk_label_new (text);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label, FALSE, TRUE, 0);
 	g_free (text);
 
 	text = g_strdup_printf (_("in \"%s\" ..."), e_storage_get_name (storage));
 	label = gtk_label_new (text);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label, FALSE, TRUE, 0);
 	g_free (text);
 
 	progress_bar = gtk_progress_bar_new ();
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), progress_bar, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), progress_bar, FALSE, TRUE, 0);
 
 	timeout_id = g_timeout_add (50, progress_bar_timeout_callback, progress_bar);
 	g_object_weak_ref (G_OBJECT (progress_bar), progress_bar_weak_notify, GINT_TO_POINTER (timeout_id));

@@ -499,7 +499,7 @@ main (int argc, char **argv)
 	gnome_window_icon_set_default_from_file (EVOLUTION_IMAGES "/evolution-inbox.png");
 
 	/* FIXME */
-	evolution_directory = g_concat_dir_and_file (g_get_home_dir (), "evolution");
+	evolution_directory = g_build_filename (g_get_home_dir (), "evolution", NULL);
 
 	if (! e_setup (evolution_directory))
 		exit (1);
