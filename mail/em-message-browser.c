@@ -237,8 +237,10 @@ emmb_set_message(EMFolderView *emfv, const char *uid, int nomarkseen)
 	
 	emmb_parent->set_message(emfv, uid, nomarkseen);
 	
-	if (uid == NULL)
+	if (uid == NULL) {
+		gtk_widget_destroy((GtkWidget *)emfv);
 		return;
+	}
 	
 	if ((info = camel_folder_get_message_info (emfv->folder, uid))) {
 		gtk_window_set_title ((GtkWindow *) emmb->window, camel_message_info_subject (info));

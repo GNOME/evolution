@@ -1,5 +1,8 @@
 2004-05-17  Not Zed  <NotZed@Ximian.com>
 
+	* em-folder-view.c (em_folder_view_open_selected): keep the hide
+	deleted status.  Makes #51082 work at last.
+
 	** Bug #6556.
 
 	* message-list.c (ml_drop_async_desc, ml_drop_async_drop)
