@@ -33,6 +33,8 @@
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-persist-stream.h>
 #include <bonobo/bonobo-stream-client.h>
+#include <bonobo/bonobo-running-context.h>
+
 #include <glade/glade.h>
 #include <ical.h>
 #include <Evolution-Composer.h>
@@ -1075,7 +1077,8 @@ e_itip_control_factory_init (void)
 	factory = bonobo_generic_factory_new (
 		"OAFIID:GNOME_Evolution_Calendar_iTip_ControlFactory",
 		e_itip_control_factory, NULL);
-
+	bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));;
+	
 	if (factory == NULL)
 		g_error ("I could not register an iTip control factory.");
 }

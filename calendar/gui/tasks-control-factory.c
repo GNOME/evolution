@@ -25,6 +25,7 @@
 #include <config.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-generic-factory.h>
+#include <bonobo/bonobo-running-context.h>
 
 #include <liboaf/liboaf.h>
 
@@ -53,6 +54,7 @@ tasks_control_factory_init		(void)
 
 	factory = bonobo_generic_factory_new (TASKS_CONTROL_FACTORY_ID,
 					      tasks_control_factory_fn, NULL);
+	bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
 
 	if (factory == NULL)
 		g_error ("I could not register a Tasks control factory.");
