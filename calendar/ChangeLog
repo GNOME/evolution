@@ -1,5 +1,10 @@
 2003-10-24  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/tasks-component.c (tasks_component_init): initialize private
+	structure on TasksComponent.
+
+2003-10-24  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/calendar-component.c (calendar_component_class_init): removed
 	repeated initialization.
 	(calendar_component_peek): use G_STRLOC for g_warning's.

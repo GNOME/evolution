@@ -315,6 +315,8 @@ tasks_component_init (TasksComponent *component, TasksComponentClass *klass)
 		g_free (new_dir);
 		g_free (base_uri);
 	}
+
+	component->priv = priv;
 }
 
 /* Public API */
