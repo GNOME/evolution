@@ -1,3 +1,11 @@
+2002-03-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-accounts.c (mail_accounts_tab_construct): Use
+	gtk_container_add() to put the toplevel in the parent widget,
+	instead of just gtk_widget_set_parent().
+	* mail-preferences.c (mail_preferences_construct): Likewise.
+	* mail-composer-prefs.c (mail_composer_prefs_construct): Likewise.
+
 2002-03-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (mail_generate_reply): Updated to respect the

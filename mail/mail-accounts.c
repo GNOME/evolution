@@ -364,6 +364,8 @@ mail_accounts_etable_new (char *widget_name, char *string1, char *string2, int i
 		E_TABLE_MEMORY_STORE_STRING,
 		E_TABLE_MEMORY_STORE_TERMINATOR,
 	};
+
+	return NULL;
 	
 	extras = e_table_extras_new ();
 	
@@ -392,8 +394,8 @@ mail_accounts_tab_construct (MailAccountsTab *prefs)
 	
 	/* reparent */
 	gtk_widget_ref (toplevel);
-	gtk_widget_unparent (toplevel);
-	gtk_widget_set_parent (toplevel, GTK_WIDGET (prefs));
+	gtk_container_remove (GTK_CONTAINER (toplevel->parent), toplevel);
+	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
 	gtk_widget_unref (toplevel);
 	
 	prefs->table = E_TABLE (glade_xml_get_widget (gui, "etableMailAccounts"));
