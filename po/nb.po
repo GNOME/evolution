@@ -1110,7 +1110,7 @@ msgstr "<b>Telefon</b> "
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:9
 msgid "<b>Web Addresses</b>"
-msgstr "<b>Nettaddresser</b>"
+msgstr "<b>Nettadresser</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:10
 msgid "<b>Work</b>"
