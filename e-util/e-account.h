@@ -72,9 +72,11 @@ typedef struct {
 	gboolean pgp_no_imip_sign;
 	gboolean pgp_always_trust;
 
-	char *smime_key;
+	char *smime_sign_key;
+	char *smime_encrypt_key;
+	gboolean smime_sign_default;
 	gboolean smime_encrypt_to_self;
-	gboolean smime_always_sign;
+	gboolean smime_encrypt_default;
 } EAccount;
 
 typedef struct {

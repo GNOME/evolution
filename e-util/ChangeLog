@@ -1,3 +1,8 @@
+2003-10-31  Not Zed  <NotZed@Ximian.com>
+
+	* e-account.c (e_account_(sg)et_from_xml): add encrypt_key id, and
+	change some of the names around to be more meaningful.
+
 2003-10-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-host-utils.c (e_gethostbyname_r): If the system defines

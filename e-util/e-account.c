@@ -98,7 +98,8 @@ finalize (GObject *object)
 	g_free (account->bcc_addrs);
 
 	g_free (account->pgp_key);
-	g_free (account->smime_key);
+	g_free (account->smime_sign_key);
+	g_free (account->smime_encrypt_key);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -339,13 +340,16 @@ e_account_set_from_xml (EAccount *account, const char *xml)
 				}
 			}
 		} else if (!strcmp (node->name, "smime")) {
+			changed |= xml_set_bool (node, "sign-default", &account->smime_sign_default);
 			changed |= xml_set_bool (node, "encrypt-to-self", &account->smime_encrypt_to_self);
-			changed |= xml_set_bool (node, "always-sign", &account->smime_always_sign);
+			changed |= xml_set_bool (node, "encrypt-default", &account->smime_encrypt_default);
 
 			if (node->children) {
 				for (cur = node->children; cur; cur = cur->next) {
-					if (!strcmp (cur->name, "key-id")) {
-						changed |= xml_set_content (cur, &account->smime_key);
+					if (!strcmp (cur->name, "sign-key-id")) {
+						changed |= xml_set_content (cur, &account->smime_sign_key);
+					} else if (!strcmp (cur->name, "encrypt-key-id")) {
+						changed |= xml_set_content (cur, &account->smime_encrypt_key);
 						break;
 					}
 				}
@@ -417,10 +421,14 @@ e_account_import (EAccount *dest, EAccount *src)
 	dest->pgp_no_imip_sign = src->pgp_no_imip_sign;
 	dest->pgp_always_trust = src->pgp_always_trust;
 	
-	g_free (dest->smime_key);
-	dest->smime_key = g_strdup (src->smime_key);
+	dest->smime_sign_default = src->smime_sign_default;
+	g_free (dest->smime_sign_key);
+	dest->smime_sign_key = g_strdup (src->smime_sign_key);
+
+	dest->smime_encrypt_default = src->smime_encrypt_default;
 	dest->smime_encrypt_to_self = src->smime_encrypt_to_self;
-	dest->smime_always_sign = src->smime_always_sign;
+	g_free (dest->smime_encrypt_key);
+	dest->smime_encrypt_key = g_strdup (src->smime_encrypt_key);
 }
 
 
@@ -500,10 +508,13 @@ e_account_to_xml (EAccount *account)
 		xmlNewTextChild (node, NULL, "key-id", account->pgp_key);
 
 	node = xmlNewChild (root, NULL, "smime", NULL);
+	xmlSetProp (node, "sign-default", account->smime_sign_default ? "true" : "false");
+	xmlSetProp (node, "encrypt-default", account->smime_encrypt_default ? "true" : "false");
 	xmlSetProp (node, "encrypt-to-self", account->smime_encrypt_to_self ? "true" : "false");
-	xmlSetProp (node, "always-sign", account->smime_always_sign ? "true" : "false");
-	if (account->smime_key)
-		xmlNewTextChild (node, NULL, "key-id", account->smime_key);
+	if (account->smime_sign_key)
+		xmlNewTextChild (node, NULL, "sign-key-id", account->smime_sign_key);
+	if (account->smime_encrypt_key)
+		xmlNewTextChild (node, NULL, "encrypt-key-id", account->smime_encrypt_key);
 
 	xmlDocDumpMemory (doc, &xmlbuf, &n);
 	xmlFreeDoc (doc);
