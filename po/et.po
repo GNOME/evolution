@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Evolution CVS HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-13 14:55-0400\n"
-"PO-Revision-Date: 2005-01-14 16:23+0200\n"
+"PO-Revision-Date: 2005-01-15 19:15+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -426,11 +426,11 @@ msgstr "Aadress '{0}' on juba olemas"
 
 #. addressbook:ask-list-add-exists secondary
 #: addressbook/addressbook-errors.xml.h:61
-#, fuzzy
-msgid "A contact already exists with this address.  Would you like to add a new card with the same address anyway?"
+msgid ""
+"A contact already exists with this address.  Would you like to add a new "
+"card with the same address anyway?"
 msgstr ""
-"Selle kontakti nimi või e-posti aadress juba eksisteerib\n"
-"antud kaustas. Kas sa soovid seda ikka lisada?"
+"Sellise aadressiga kontakt on juba olemas.  Kas sa soovid uut lisada?"
 
 #: addressbook/addressbook-errors.xml.h:62
 #: mail/em-vfolder-rule.c:494
@@ -534,14 +534,12 @@ msgid "Addressbook"
 msgstr "Aadressiraamat"
 
 #: addressbook/gui/component/addressbook-config.c:909
-#, fuzzy
 msgid "Server Information"
-msgstr "<b>Serveri info</b>"
+msgstr "Serveri teave"
 
 #: addressbook/gui/component/addressbook-config.c:911
-#, fuzzy
 msgid "Authentication"
-msgstr "SMTP autentimine"
+msgstr "Autentimine"
 
 #: addressbook/gui/component/addressbook-config.c:914
 #: addressbook/gui/component/ldap-config.glade.h:18
@@ -551,14 +549,12 @@ msgid "Details"
 msgstr "Täpsustused"
 
 #: addressbook/gui/component/addressbook-config.c:915
-#, fuzzy
 msgid "Searching"
-msgstr "Jaotus"
+msgstr "Otsing"
 
 #: addressbook/gui/component/addressbook-config.c:917
-#, fuzzy
 msgid "Downloading"
-msgstr "<b>Allalaadimine</b>"
+msgstr "Allalaadimine"
 
 #: addressbook/gui/component/addressbook-config.c:1114
 #: addressbook/gui/component/ldap-config.glade.h:14
@@ -2317,9 +2313,8 @@ msgid "Writable Fields"
 msgstr "Muudetavad väljad"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:293
-#, fuzzy
 msgid "Required Fields"
-msgstr "_Vajalikud inimesed"
+msgstr "Vajalikud väljad"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:307
 msgid "Changed"
@@ -2571,7 +2566,7 @@ msgstr "On uus nimekiri"
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:712
 #, fuzzy
 msgid "Contact List Members"
-msgstr "Nimekirja liikmed"
+msgstr "Kontaktiloendi liikmed"
 
 #: addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:1
 msgid "Changed Contact:"
@@ -3978,9 +3973,8 @@ msgstr ""
 
 #. calendar:prompt-delete-calendar primary
 #: calendar/calendar-errors.xml.h:116
-#, fuzzy
 msgid "Delete calendar '{0}'?"
-msgstr "Kustuta \"{0}\"?"
+msgstr "Kustutada kalender '{0}'?"
 
 #. calendar:prompt-delete-calendar secondary
 #: calendar/calendar-errors.xml.h:118
@@ -4092,9 +4086,8 @@ msgid "Location:"
 msgstr "Asukoht:"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:5
-#, fuzzy
 msgid "Snooze _time:"
-msgstr "_Edasilükkamise aeg (minutites):"
+msgstr "_Edasilükkamise aeg:"
 
 #. Start time
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:6
@@ -4149,9 +4142,8 @@ msgid "Dismiss All"
 msgstr "Tühista kõik"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:947
-#, fuzzy
 msgid "No summary available."
-msgstr "Kirjeldus puudub."
+msgstr "Kokkuvõte puudub."
 
 #: calendar/gui/alarm-notify/alarm-queue.c:956
 #: calendar/gui/alarm-notify/alarm-queue.c:958
@@ -4525,9 +4517,8 @@ msgstr "Tundmatu viga"
 #  and now for the action area
 #  and now for the action area
 #: calendar/gui/dialogs/alarm-dialog.glade.h:2
-#, fuzzy
 msgid "<b>Alarm</b>"
-msgstr "<b>Alarmid</b>"
+msgstr "<b>Alarm</b>"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:3
 msgid "<b>Options</b>"
@@ -5324,9 +5315,8 @@ msgstr "<b>Kuupäev ja kellaaeg</b>"
 
 #: calendar/gui/dialogs/event-page.glade.h:7
 #: calendar/gui/dialogs/task-page.glade.h:2
-#, fuzzy
 msgid "<b>Send Options</b>"
-msgstr "<b>Ülesandeloetelu seaded</b>"
+msgstr "<b>Saatmise valikud</b>"
 
 #: calendar/gui/dialogs/event-page.glade.h:8
 msgid "A_ll day event"
@@ -5365,7 +5355,7 @@ msgstr "Salajane"
 #: calendar/gui/dialogs/event-page.glade.h:15
 #, fuzzy
 msgid "Event Description"
-msgstr "Kirjeldus:"
+msgstr "Kirjeldus"
 
 #: calendar/gui/dialogs/event-page.glade.h:16
 msgid "Locat_ion:"
@@ -10708,9 +10698,8 @@ msgid "Cannot get message %s: %s"
 msgstr "Sõnumit %s ei saadud: %s"
 
 #: camel/providers/imap4/camel-imap4-folder.c:772
-#, fuzzy
 msgid "This message is not available in offline mode."
-msgstr "See sõnum ei ole hetkel kättesaadav"
+msgstr "See sõnum ei ole autonoomses režiimis kättesaadav."
 
 #: camel/providers/imap4/camel-imap4-folder.c:826
 #, c-format
@@ -10723,9 +10712,8 @@ msgid "Cannot get message %s from folder `%s': Bad command"
 msgstr "Ei saa võtta sõnumit %s kaustast `%s': Vigane käsk"
 
 #: camel/providers/imap4/camel-imap4-folder.c:873
-#, fuzzy
 msgid "Cannot append messages to IMAP folders in offline mode."
-msgstr "Sõnumeid ei saa lisada `%s' kausta: Tundmatu viga"
+msgstr "IMAP kausta ei saa autonoomses režiimis sõnumeid lisada."
 
 #: camel/providers/imap4/camel-imap4-folder.c:966
 #, c-format
@@ -11210,9 +11198,8 @@ msgstr "E-posti loetakse ja hoitakse IMAP serveris."
 
 #: camel/providers/imap/camel-imap-store.c:653
 #: camel/providers/smtp/camel-smtp-transport.c:323
-#, fuzzy
 msgid "STARTTLS not supported"
-msgstr "SSL/TLS laiend ei ole toetatud."
+msgstr "STARTTLS ei ole toetatud."
 
 #: camel/providers/imap/camel-imap-store.c:811
 #, c-format
@@ -12085,9 +12072,8 @@ msgid "Failed to connect to POP server %s in secure mode: %s"
 msgstr "Tõrge turvalisel ühendumisel POP serverisse %s: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:216
-#, fuzzy
 msgid "STLS not supported"
-msgstr "SSL/TLS laiend ei ole toetatud."
+msgstr "STLS ei ole toetatud."
 
 #: camel/providers/pop3/camel-pop3-store.c:354
 #, c-format
@@ -17524,44 +17510,37 @@ msgid "Enable and disable plugins"
 msgstr ""
 
 #: plugins/plugin-manager/org-gnome-plugin-manager.xml.h:2
-#, fuzzy
 msgid "Manage Plugins..."
-msgstr "Katkestan..."
+msgstr ""
 
 #: plugins/plugin-manager/plugin-manager.c:45
-#, fuzzy
 msgid "Author(s)"
-msgstr "tund(i)"
+msgstr "Autor(id)"
 
 #: plugins/plugin-manager/plugin-manager.c:46
-#, fuzzy
 msgid "Id"
-msgstr "I"
+msgstr ""
 
 #: plugins/plugin-manager/plugin-manager.c:47
-#, fuzzy
 msgid "Path"
-msgstr "_Otsingutee:"
+msgstr "Otsingutee"
 
 #: plugins/plugin-manager/plugin-manager.c:48
-#, fuzzy
 msgid "Description"
-msgstr "Kirjeldus:"
+msgstr "Kirjeldus"
 
 #. Setup the ui
 #: plugins/plugin-manager/plugin-manager.c:188
-#, fuzzy
 msgid "Plugin Manager"
-msgstr "Juht"
+msgstr ""
 
 #: plugins/plugin-manager/plugin-manager.c:201
 msgid "Note: Some changes will not take effect until restart"
 msgstr ""
 
 #: plugins/plugin-manager/plugin-manager.c:210
-#, fuzzy
 msgid "Plugin"
-msgstr "Puhastamine"
+msgstr ""
 
 #: plugins/prefer-plain/prefer-plain.c:105
 msgid "Show HTML if present"
@@ -17581,14 +17560,12 @@ msgid "HTML Mode"
 msgstr "HTML post"
 
 #: plugins/save-attachments/org-gnome-save-attachments.xml.h:1
-#, fuzzy
 msgid "Save Attachments ..."
-msgstr "_Manus..."
+msgstr "Salvesta manused..."
 
 #: plugins/save-attachments/org-gnome-save-attachments.xml.h:2
-#, fuzzy
 msgid "Save all attachments"
-msgstr "Manuse salvestamine"
+msgstr "Salvestab kõik manused"
 
 #: plugins/save-attachments/save-attachments.c:331
 #, fuzzy
@@ -17596,9 +17573,8 @@ msgid "Select save base name"
 msgstr "Vali ajavöönd"
 
 #: plugins/save-attachments/save-attachments.c:351
-#, fuzzy
 msgid "MIME Type"
-msgstr "MIME tüüp:"
+msgstr "MIME tüüp"
 
 #: plugins/save-attachments/save-attachments.c:359
 #: ui/evolution-message-composer.xml.h:16
@@ -17624,11 +17600,9 @@ msgstr ""
 msgid "Prepend a header"
 msgstr ""
 
-# !PARANDA! - no kuidas siis tõlkida?
 #: plugins/save-calendar/csv-format.c:535
-#, fuzzy
 msgid "Value delimiter:"
-msgstr "Kohalik postijagaja"
+msgstr "Väljaeraldaja:"
 
 #: plugins/save-calendar/csv-format.c:541
 msgid "Record delimiter:"
@@ -17643,9 +17617,8 @@ msgid "Comma separated value format (.csv)"
 msgstr ""
 
 #: plugins/save-calendar/ical-format.c:120
-#, fuzzy
 msgid "iCalendar format (.ics)"
-msgstr "iKalendri failid (.ics)"
+msgstr "iKalendri vorming (.ics)"
 
 #: plugins/save-calendar/rdf-format.c:390
 msgid "RDF format (.rdf)"
@@ -17653,9 +17626,8 @@ msgstr "RDF vorming (.rdf)"
 
 #: plugins/save-calendar/save-calendar.c:172
 #: plugins/save-calendar/save-calendar.c:182
-#, fuzzy
 msgid "Select destination file"
-msgstr "Vali sihtkoht"
+msgstr "Vali sihtfail"
 
 #: plugins/save-calendar/save-calendar.c:217
 #, c-format
