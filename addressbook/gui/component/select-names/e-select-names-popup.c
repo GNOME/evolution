@@ -205,6 +205,40 @@ init_html_mail (GnomeUIInfo *uiinfo, PopupInfo *info)
 
 }
 
+/* Duplicate the string, mapping _ to __.  This is to make sure that underscores in
+   e-mail addresses don't get mistaken for keyboard accelerators. */
+static gchar *
+quote_label (const gchar *str)
+{
+	gint len = str ? strlen (str) : -1;
+	const gchar *c = str;
+	gchar *d, *q;
+
+	if (len < 0)
+		return NULL;
+
+	while (*c) {
+		if (*c == '_')
+			++len;
+		++c;
+	}
+
+	q = g_new (gchar, len+1);
+	c = str;
+	d = q;
+	while (*c) {
+		*d = *c;
+		if (*c == '_') {
+			++d;
+			*d = '_';
+		}
+		++c;
+		++d;
+	}
+	*d = '\0';
+	return q;
+}
+
 #define ARBITRARY_UIINFO_LIMIT 64
 static GtkWidget *
 popup_menu_card (PopupInfo *info)
@@ -217,6 +251,7 @@ popup_menu_card (PopupInfo *info)
 	GtkWidget *pop;
 	EIterator *iterator;
 	gint html_toggle;
+	gchar *name_label;
 
 	/*
 	 * Build up our GnomeUIInfo array.
@@ -228,7 +263,8 @@ popup_menu_card (PopupInfo *info)
 	card = e_destination_get_card (info->dest);
 
 	uiinfo[i].type = GNOME_APP_UI_ITEM;
-	uiinfo[i].label = (gchar *) e_destination_get_name (info->dest); 
+	name_label = quote_label (e_destination_get_name (info->dest));
+	uiinfo[i].label = name_label;
 	++i;
 
 	uiinfo[i].type = GNOME_APP_UI_SEPARATOR;
@@ -301,6 +337,8 @@ popup_menu_card (PopupInfo *info)
 
 	init_html_mail (&(uiinfo[html_toggle]), info);
 
+	g_free (name_label);
+
 	return pop;
 }
 
@@ -318,16 +356,20 @@ popup_menu_nocard (PopupInfo *info)
 	gint i=0;
 	GtkWidget *pop;
 	const gchar *str;
+	gchar *name_label;
 	gint html_toggle;
 
 	memset (uiinfo, 0, sizeof (uiinfo));
 
 	str = e_destination_get_name (info->dest);
 	if (str == NULL)
+		str = e_destination_get_email (info->dest);
+	if (str == NULL)
 		str = _("Unnamed Contact");
+	name_label = quote_label (str);
 
 	uiinfo[i].type = GNOME_APP_UI_ITEM;
-	uiinfo[i].label = (gchar *) str;
+	uiinfo[i].label = name_label;
 	++i;
 
 	uiinfo[i].type = GNOME_APP_UI_SEPARATOR;
@@ -353,6 +395,8 @@ popup_menu_nocard (PopupInfo *info)
 	pop = gnome_popup_menu_new (uiinfo);
 
 	init_html_mail (&(uiinfo[html_toggle]), info);
+	
+	g_free (name_label);
 	
 	return pop;
 }

@@ -1,3 +1,7 @@
+2001-08-02  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/Makefile.am: Added camel dependency (now needed by ebook).
+
 2001-08-01  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/calendar-model.c (calendar_model_value_is_empty): If the

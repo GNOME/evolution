@@ -26,6 +26,7 @@ INCLUDES =						\
         -DGNOMELOCALEDIR=\""$(localedir)"\"        \
 	-DG_LOG_DOMAIN=\"EBook\"			\
 	-I$(top_srcdir) 				\
+	-I$(top_srcdir)/camel				\
 	-I$(top_srcdir)/addressbook/backend		\
 	-I$(top_srcdir)/addressbook/ename		\
 	-I$(top_builddir)/addressbook/backend		\
@@ -80,8 +81,11 @@ test_client_SOURCES =					\
 
 test_client_LDADD =					\
 	libebook.la					\
+	$(BONOBO_CONF_LIBS)				\
 	$(BONOBO_GNOME_LIBS)				\
 	$(EXTRA_GNOME_LIBS)				\
+	$(top_builddir)/camel/libcamel.la		\
+	$(top_builddir)/libibex/libibex.la		\
 	$(top_builddir)/libversit/libversit.la		\
 	$(top_builddir)/e-util/ename/libename.la	\
 	$(top_builddir)/e-util/libeutil.la
@@ -91,8 +95,11 @@ test_client_list_SOURCES =				\
 
 test_client_list_LDADD =				\
 	libebook.la					\
+	$(BONOBO_CONF_LIBS)				\
 	$(BONOBO_GNOME_LIBS)				\
 	$(EXTRA_GNOME_LIBS)				\
+	$(top_builddir)/camel/libcamel.la		\
+	$(top_builddir)/libibex/libibex.la		\
 	$(top_builddir)/e-util/ename/libename.la	\
 	$(top_builddir)/libversit/libversit.la		\
 	$(top_builddir)/e-util/libeutil.la
@@ -102,8 +109,11 @@ test_card_SOURCES =					\
 
 test_card_LDADD =					\
 	libebook.la					\
+	$(BONOBO_CONF_LIBS)				\
 	$(BONOBO_GNOME_LIBS)				\
 	$(EXTRA_GNOME_LIBS)				\
+	$(top_builddir)/camel/libcamel.la		\
+	$(top_builddir)/libibex/libibex.la		\
 	$(top_builddir)/e-util/ename/libename.la	\
 	$(top_builddir)/libversit/libversit.la		\
 	$(top_builddir)/e-util/libeutil.la
@@ -115,6 +125,8 @@ evolution_vcard_importer_LDADD =				\
 	$(BONOBO_CONF_LIBS)					\
 	$(BONOBO_GNOME_LIBS)					\
 	$(EXTRA_GNOME_LIBS)					\
+	$(top_builddir)/camel/libcamel.la			\
+	$(top_builddir)/libibex/libibex.la		\
 	$(top_builddir)/shell/importer/libevolution-importer.la \
 	$(DB3_LDADD)						\
 	$(top_builddir)/e-util/ename/libename.la		\
@@ -126,8 +138,11 @@ load_pine_addressbook_SOURCES =				\
 
 load_pine_addressbook_LDADD =				\
 	libebook.la					\
+	$(BONOBO_CONF_LIBS)				\
 	$(BONOBO_GNOME_LIBS)				\
 	$(EXTRA_GNOME_LIBS)				\
+	$(top_builddir)/camel/libcamel.la		\
+	$(top_builddir)/libibex/libibex.la		\
 	$(top_builddir)/e-util/ename/libename.la	\
 	$(top_builddir)/libversit/libversit.la		\
 	$(top_builddir)/e-util/libeutil.la
@@ -138,8 +153,11 @@ load_gnomecard_addressbook_SOURCES =			\
 
 load_gnomecard_addressbook_LDADD =			\
 	libebook.la					\
+	$(BONOBO_CONF_LIBS)				\
 	$(BONOBO_GNOME_LIBS)				\
 	$(EXTRA_GNOME_LIBS)				\
+	$(top_builddir)/camel/libcamel.la		\
+	$(top_builddir)/libibex/libibex.la		\
 	$(top_builddir)/e-util/ename/libename.la	\
 	$(top_builddir)/libversit/libversit.la		\
 	$(top_builddir)/e-util/libeutil.la

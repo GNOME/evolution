@@ -71,7 +71,6 @@ void           e_destination_set_card_uri       (EDestination *, const gchar *ur
 void           e_destination_set_name           (EDestination *, const gchar *name);
 void           e_destination_set_email          (EDestination *, const gchar *email);
 
-void           e_destination_set_string         (EDestination *, const gchar *string);
 void           e_destination_set_html_mail_pref (EDestination *, gboolean);
 
 gboolean       e_destination_contains_card      (const EDestination *);
@@ -87,6 +86,7 @@ const gchar   *e_destination_get_name           (const EDestination *);  /* "Jan
 const gchar   *e_destination_get_email          (const EDestination *);  /* "jane@assbarn.com" */
 const gchar   *e_destination_get_address        (const EDestination *);  /* "Jane Smith <jane@assbarn.com>" (or a comma-sep set of such for a list) */
 
+void           e_destination_set_raw            (EDestination *, const gchar *free_form_string);
 const gchar   *e_destination_get_textrep        (const EDestination *);  /* "Jane Smith" or "jane@assbarn.com" */
 
 gboolean       e_destination_is_evolution_list  (const EDestination *);

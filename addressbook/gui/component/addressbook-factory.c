@@ -18,6 +18,8 @@
 #include <glade/glade.h>
 #include <gal/widgets/e-cursors.h>
 
+#include <camel/camel.h>
+
 #ifdef GTKHTML_HAVE_GCONF
 #include <gconf/gconf.h>
 #endif
@@ -60,7 +62,6 @@ main (int argc, char **argv)
 	
 	init_corba (&argc, argv);
 
-	
 	init_bonobo (argc, argv);
 
 	/* FIXME: Messy names here.  This file should be `main.c'.  `addressbook.c' should
@@ -83,6 +84,9 @@ main (int argc, char **argv)
 #if 0
 	g_log_set_always_fatal (G_LOG_LEVEL_CRITICAL | G_LOG_LEVEL_WARNING);
 #endif
+
+	g_thread_init (NULL);
+	camel_type_init ();
 
 	bonobo_main ();
 

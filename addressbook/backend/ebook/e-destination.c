@@ -39,8 +39,11 @@
 #include <gal/widgets/e-unicode.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
+#include <camel/camel-internet-address.h>
 
 struct _EDestinationPrivate {
+
+	gchar *raw;
 
 	gchar *card_uri;
 	ECard *card;
@@ -168,6 +171,9 @@ e_destination_clear_card (EDestination *dest)
 static void
 e_destination_clear_strings (EDestination *dest)
 {
+	g_free (dest->priv->raw);
+	dest->priv->raw = NULL;
+		
 	g_free (dest->priv->name);
 	dest->priv->name = NULL;
 
@@ -196,6 +202,7 @@ e_destination_is_empty (const EDestination *dest)
 
 	return !(p->card != NULL
 		 || (p->card_uri && *p->card_uri)
+		 || (p->raw && *p->raw)
 		 || (p->name && *p->name)
 		 || (p->email && *p->email)
 		 || (p->addr && *p->addr)
@@ -243,7 +250,7 @@ e_destination_set_name (EDestination *dest, const gchar *name)
 	g_free (dest->priv->name);
 	dest->priv->name = g_strdup (name);
 
-	if (dest->priv->addr) {
+	if (dest->priv->addr != NULL) {
 		g_free (dest->priv->addr);
 		dest->priv->addr = NULL;
 	}
@@ -258,23 +265,10 @@ e_destination_set_email (EDestination *dest, const gchar *email)
 	g_free (dest->priv->email);
 	dest->priv->email = g_strdup (email);
 
-	if (dest->priv->addr) {
+	if (dest->priv->addr != NULL) {
 		g_free (dest->priv->addr);
 		dest->priv->addr = NULL;
 	}
-}
-
-
-/* This function takes a free-form string and tries to do something
-   intelligent with it. */
-void
-e_destination_set_string (EDestination *dest, const gchar *str)
-{
-	g_return_if_fail (dest && E_IS_DESTINATION (dest));
-	g_return_if_fail (str != NULL);
-
-	/* Default: Just treat it as a name address. */
-	e_destination_set_name (dest, str);
 }
 
 void
@@ -334,13 +328,13 @@ e_destination_use_card (EDestination *dest, EDestinationCardCallback cb, gpointe
 {
 	g_return_if_fail (dest && E_IS_DESTINATION (dest));
 
-	if (dest->priv->card) {
+	if (dest->priv->card != NULL) {
 
 		if (cb) {
 			cb (dest, dest->priv->card, closure);
 		}
 
-	} else if (dest->priv->card_uri) {
+	} else if (dest->priv->card_uri != NULL) {
 
 		UseCard *uc = g_new (UseCard, 1);
 		uc->dest = dest;
@@ -393,18 +387,33 @@ e_destination_get_name (const EDestination *dest)
 
 	priv = (struct _EDestinationPrivate *)dest->priv; /* cast out const */
 	
-	if (priv->name == NULL && priv->card != NULL) {
-		
-		priv->name = e_card_name_to_string (priv->card->name);
-		
-		if (priv->name == NULL || *priv->name == '\0') {
-			g_free (priv->name);
-			priv->name = g_strdup (priv->card->file_as);
-		}
+	if (priv->name == NULL) {
 
-		if (priv->name == NULL || *priv->name == '\0') {
-			g_free (priv->name);
-			priv->name = g_strdup (e_destination_get_email (dest));
+		if (priv->card != NULL) {
+		
+			priv->name = e_card_name_to_string (priv->card->name);
+		
+			if (priv->name == NULL || *priv->name == '\0') {
+				g_free (priv->name);
+				priv->name = g_strdup (priv->card->file_as);
+			}
+
+			if (priv->name == NULL || *priv->name == '\0') {
+				g_free (priv->name);
+				priv->name = g_strdup (e_destination_get_email (dest));
+			}
+
+		} else if (priv->raw != NULL) {
+
+			CamelInternetAddress *addr = camel_internet_address_new ();
+
+			if (camel_address_unformat (CAMEL_ADDRESS (addr), priv->raw)) {
+				const gchar *camel_name = NULL;
+				camel_internet_address_get (addr, 0, &camel_name, NULL);
+				priv->name = g_strdup (camel_name);
+			}
+
+			camel_object_unref (CAMEL_OBJECT (addr));
 		}
 	}
 	
@@ -412,7 +421,6 @@ e_destination_get_name (const EDestination *dest)
 	
 }
 
-/* FIXME: not utf-8 safe */
 const gchar *
 e_destination_get_email (const EDestination *dest)
 {
@@ -424,7 +432,7 @@ e_destination_get_email (const EDestination *dest)
 
 	if (priv->email == NULL) {
 
-		if (priv->card) { /* Pull the address out of the card. */
+		if (priv->card != NULL) { /* Pull the address out of the card. */
 
 			EIterator *iter = e_list_get_iterator (priv->card->email);
 			gint n = priv->card_email_num;
@@ -441,70 +449,21 @@ e_destination_get_email (const EDestination *dest)
 				}
 			}
 
-		} else if (priv->name) {
-			gchar *lt = strchr (priv->name, '<');
-			gchar *gt = strchr (priv->name, '>');
-			
-			if (lt && gt && lt+1 < gt) {
-				priv->email = g_strndup (lt+1, gt-lt-1);
+		} else if (priv->raw != NULL) {
+
+			CamelInternetAddress *addr = camel_internet_address_new ();
+
+			if (camel_address_unformat (CAMEL_ADDRESS (addr), priv->raw)) {
+				const gchar *camel_email = NULL;
+				camel_internet_address_get (addr, 0, NULL, &camel_email);
+				priv->email = g_strdup (camel_email);
 			}
+			
+			camel_object_unref (CAMEL_OBJECT (addr));
 		}
 	}
 
 	return priv->email;
-}
-
-#define NEEDS_QUOTING(c) ((c) == '.' || (c) == ',' || (c) == '<' || (c) == '>')
-
-/* FIXME: not utf-8 safe */
-static gboolean
-needs_quotes (const gchar *str)
-{
-	gboolean in_quote = FALSE;
-	
-	while (*str) {
-		if (*str == '"')
-			in_quote = !in_quote;
-		else if (NEEDS_QUOTING (*str) && !in_quote) {
-			return TRUE;
-		}
-		++str;
-	}
-	return FALSE;
-}
-
-/* FIXME: not utf-8 safe */
-static gchar *
-quote_string (const gchar *str)
-{
-	gchar *new_str, *t;
-	const gchar *s;
-	if (strchr (str, '\"') == NULL) {
-
-		new_str =  g_strdup_printf ("\"%s\"", str);
-
-	} else {
-
-		new_str = t = g_malloc (strlen (str)+3);
-		*t = '\"';
-		++t;
-		
-		s = str;
-		while (*s) {
-			if (*s != '"') {
-				*t = *s;
-				++t;
-			}
-			++s;
-		}
-		
-		*t = '\"';
-		++t;
-		*t = '\0';
-
-	}
-		
-	return new_str;
 }
 
 const gchar *
@@ -517,61 +476,54 @@ e_destination_get_address (const EDestination *dest)
 	priv = (struct _EDestinationPrivate *)dest->priv; /* cast out const */
 
 	if (priv->addr == NULL) {
+		CamelInternetAddress *addr = camel_internet_address_new ();
+
 		if (e_destination_is_evolution_list (dest)) {
-			gchar **strv = g_new0 (gchar *, g_list_length (priv->list_dests) + 1);
-			gint i = 0;
 			GList *iter = dest->priv->list_dests;
 			
 			while (iter) {
 				EDestination *list_dest = E_DESTINATION (iter->data);
 				if (!e_destination_is_empty (list_dest)) {
-					strv[i++] = (gchar *) e_destination_get_address (list_dest);
+					camel_internet_address_add (addr, 
+								    e_destination_get_name (list_dest),
+								    e_destination_get_email (list_dest));
 				}
 				iter = g_list_next (iter);
 			}
 			
-			priv->addr = g_strjoinv (", ", strv);
-			
-			g_free (strv);
-		} else {
-			const gchar *name     = e_destination_get_name (dest);
-			const gchar *email    = e_destination_get_email (dest);
-			
-			/* If this isn't set, we return NULL */
-			if (email) {
-				if (name) {
-					const gchar *lt = strchr (name, '<');
-					gchar *namestrip = lt ? g_strndup (name, lt-name) : g_strdup (name);
-					gchar *namecopy;
-					
-					g_strstrip (namestrip);
-					if (needs_quotes (namestrip)) {
-						namecopy = quote_string (namestrip);
-					} else {
-						namecopy = namestrip;
-						namestrip = NULL;
-					}
-					if (namestrip)
-						g_free (namestrip);
-					
-					priv->addr = g_strdup_printf ("%s <%s>", namecopy, email);
-					g_free (namecopy);
+			priv->addr = camel_address_encode (CAMEL_ADDRESS (addr));
 
-				} else {
-					priv->addr = g_strdup (email);
-				}
-			} else {
-				/* Just use the name, which is the best we can do. */
-				if (needs_quotes (name)) {
-					priv->addr = quote_string (name);
-				} else {
-					priv->addr = g_strdup (name);
-				}
+		} else if (priv->raw) {
+
+			if (camel_address_unformat (CAMEL_ADDRESS (addr), priv->raw)) {
+				priv->addr = camel_address_encode (CAMEL_ADDRESS (addr));
 			}
+
+		} else {
+			
+			camel_internet_address_add (addr,
+						    e_destination_get_name (dest),
+						    e_destination_get_email (dest));
+
+			priv->addr = camel_address_encode (CAMEL_ADDRESS (addr));
 		}
+
+		camel_object_unref (CAMEL_OBJECT (addr));
 	}
 
 	return priv->addr;
+}
+
+void
+e_destination_set_raw (EDestination *dest, const gchar *raw)
+{
+	g_return_if_fail (E_IS_DESTINATION (dest));
+	g_return_if_fail (raw != NULL);
+
+	e_destination_clear (dest);
+
+	dest->priv->raw = g_strdup (raw);
+
 }
 
 const gchar *
@@ -581,12 +533,15 @@ e_destination_get_textrep (const EDestination *dest)
 
 	g_return_val_if_fail (dest && E_IS_DESTINATION (dest), NULL);
 
+	if (dest->priv->raw)
+		return dest->priv->raw;
+
 	txt = e_destination_get_name (dest);
-	if (txt)
+	if (txt != NULL)
 		return txt;
 
 	txt = e_destination_get_email (dest);
-	if (txt)
+	if (txt != NULL)
 		return txt;
 
 	return "";

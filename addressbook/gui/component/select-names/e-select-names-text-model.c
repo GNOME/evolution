@@ -371,8 +371,8 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 				gchar *str2 = g_strdup (str+offset);
 				EDestination *d1 = e_destination_new (), *d2 = e_destination_new ();
 
-				e_destination_set_string (d1, str1);
-				e_destination_set_string (d2, str2);
+				e_destination_set_raw (d1, str1);
+				e_destination_set_raw (d2, str2);
 
 				e_select_names_model_replace (source, index, d1);
 				e_select_names_model_insert (source, index+1, d2);
@@ -422,7 +422,7 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 			if (new_str) {
 
 				EDestination *dest = e_destination_new ();
-				e_destination_set_string (dest, new_str);
+				e_destination_set_raw (dest, new_str);
 
 				e_select_names_model_replace (source, index, dest);
 
@@ -528,7 +528,7 @@ e_select_names_text_model_delete (ETextModel *model, gint pos, gint length)
 			e_select_names_model_delete (source, index+1);
 
 			new_dest = e_destination_new ();
-			e_destination_set_string (new_dest, new_str);
+			e_destination_set_raw (new_dest, new_str);
 			e_select_names_model_replace (source, index, new_dest);
 			g_free (new_str);
 
@@ -604,7 +604,7 @@ e_select_names_text_model_delete (ETextModel *model, gint pos, gint length)
 			EDestination *dest;
 
 			dest = e_destination_new ();
-			e_destination_set_string (dest, new_str);
+			e_destination_set_raw (dest, new_str);
 			e_select_names_model_replace (source, index, dest);
 			
 			if (out)

@@ -128,14 +128,19 @@ emailify_match (ECompletionMatch *match)
 	const gchar *email = e_destination_get_email (dest);
 	const gchar *menu_txt = e_completion_match_get_menu_text (match);
 	
-	if (card && card->email && e_list_length (card->email) > 1 && !e_card_evolution_list (card)) {
+	if (card && email && !e_card_evolution_list (card)) {
 		
-		if (email && strstr (menu_txt, email) == NULL) {
+		if (email
+		    && menu_txt
+		    && *menu_txt
+		    && *menu_txt != '<'
+		    && strstr (menu_txt, email) == NULL
+		    && menu_txt[strlen(menu_txt)-1] != '>') {
 			gchar *tmp = g_strdup_printf ("%s <%s>", menu_txt, email);
-			e_completion_match_set_text (match,
-						     e_completion_match_get_match_text (match),
-						     tmp);
+			gchar *tmp2 = g_strdup (e_completion_match_get_match_text (match));
+			e_completion_match_set_text (match, tmp2, tmp);
 			g_free (tmp);
+			g_free (tmp2);
 		}
 
 		match->sort_minor = e_destination_get_email_num (dest);
@@ -412,6 +417,7 @@ match_name (ESelectNamesCompletion *comp, EDestination *dest)
 	}
 
 	if (menu_text) {
+		g_strstrip (menu_text);
 		final_match = make_match (dest, menu_text, score);
 		g_free (menu_text);
 	}
@@ -534,6 +540,13 @@ book_query_score (ESelectNamesCompletion *comp, EDestination *dest)
 		emailify_match (best_match);
 
 	return best_match;
+}
+
+static void
+hash_cleanup_fn (gpointer key, gpointer val, gpointer closure)
+{
+	g_free (key);
+	g_free (val);
 }
 
 static void

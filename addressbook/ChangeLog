@@ -1,3 +1,43 @@
+2001-08-02  Jon Trowbridge  <trow@ximian.com>
+
+	* printing/Makefile.am (ecpsdir): Add camel dependency.
+
+	* gui/component/Makefile.am: Add camel dependency.
+
+	* backend/ebook/Makefile.am: Add camel dependency.
+
+	* gui/component/addressbook-factory.c (main): Properly init camel.
+
+	* backend/ebook/e-destination.c (e_destination_clear_strings):
+	Clear ->raw.
+	(e_destination_is_empty): We aren't empty if ->raw is set..
+	(e_destination_set_raw): Replaces e_destination_set_string.
+	(e_destination_get_name): Use camel's parser to extract the name
+	from ->raw.
+	(e_destination_get_email): Use camel's parser to extract the email
+	address from ->raw.
+	(e_destination_get_address): Use camel to produce properly quoted,
+	RFC-compliant addresses.  Thanks camel! (Bug #5860)
+
+	* gui/component/select-names/e-select-names-completion.c
+	(emailify_match): Always append an e-mail address, as long as it
+	doesn't have one already at it's beginning or end.  Don't limit
+	self to just emailifying entries tied to cards with multiple
+	addresses.  (I didn't really want to do this, but people seem to
+	like keeping multiple cards for the same person, and other
+	solutions (like scanning all matches for duplicate names, and only
+	emailifying those) just seemed like way too much work for such a
+	limited payoff.)
+
+	* gui/component/select-names/e-select-names-text-model.c:
+	s/e_destination_set_string/e_destination_set_raw/.
+
+	* gui/component/select-names/e-select-names-popup.c
+	(popup_menu_card): Quote _'s in our popup menus, so that "foo_bar"
+	doesn't get displayed as "foobar" w/ the 'b' underlined. (Bug
+	#5558)
+	(popup_menu_nocard): Ditto.
+
 2001-08-02  Jason Leach  <jleach@ximian.com>
 
 	* gui/component/addressbook.c (addressbook_factory_new_control):
