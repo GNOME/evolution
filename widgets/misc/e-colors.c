@@ -65,7 +65,7 @@ color_init (void)
 	gdk_color_white (colormap, &gs_white);
 	gdk_color_black (colormap, &gs_black);
 
-	color_alloc_name ("gray60", &gs_light_gray);
+	color_alloc_name ("gray78", &gs_light_gray);
 	color_alloc_name ("gray20", &gs_dark_gray);
 	color_alloc_name ("red",   &gs_red);
 
