@@ -1,8 +1,18 @@
 2000-08-11  Not Zed  <NotZed@HelixCode.com>
 
-	* camel-folder.c (move_message_to): Yay so lets fix an already fixed fix, again.
+	* providers/mh/camel-mh-folder.c (mh_set_message_user_tag):
+	Implement.
+	(mh_get_message_user_tag): Implement.
+
+	* providers/mbox/camel-mbox-folder.c (mbox_get_message_user_tag):
+	(mbox_set_message_user_tag): Implement.
+
+	* camel-folder.c (move_message_to): Yay so lets fix an already
+	fixed fix, again.
 	(copy_message_to): and here too ... update for api change to append().
 	And removed another warning.
+	(camel_folder_set_message_user_tag): Routine to set message tags.
+	(camel_folder_get_message_user_tag): And accessor.
 
 2000-08-10  Christopher James Lahey  <clahey@helixcode.com>
 

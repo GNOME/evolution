@@ -127,6 +127,14 @@ typedef struct {
 					   const char *name,
 					   gboolean value);
 
+	const char * (*get_message_user_tag) (CamelFolder *folder,
+					      const char *uid,
+					      const char *name);
+	void     (*set_message_user_tag) (CamelFolder *folder,
+					  const char *uid,
+					  const char *name,
+					  const char *value);
+
 	CamelMimeMessage * (*get_message)  (CamelFolder *folder, 
 					    const gchar *uid, 
 					    CamelException *ex);
@@ -223,6 +231,14 @@ void		   camel_folder_set_message_user_flag  (CamelFolder *folder,
 							const char *uid,
 							const char *name,
 							gboolean value);
+const char *	   camel_folder_get_message_user_tag  (CamelFolder *folder,
+						       const char *uid,
+						       const char *name);
+
+void		   camel_folder_set_message_user_tag  (CamelFolder *folder,
+						       const char *uid,
+						       const char *name,
+						       const char *value);
 
 
 

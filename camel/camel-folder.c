@@ -58,11 +58,11 @@ static guint32 get_permanent_flags (CamelFolder *folder);
 static guint32 get_message_flags (CamelFolder *folder, const char *uid);
 static void set_message_flags (CamelFolder *folder, const char *uid,
 			       guint32 flags, guint32 set);
-static gboolean get_message_user_flag (CamelFolder *folder, const char *uid,
-				       const char *name);
+static gboolean get_message_user_flag (CamelFolder *folder, const char *uid, const char *name);
 static void set_message_user_flag (CamelFolder *folder, const char *uid,
 				   const char *name, gboolean value);
-
+static const char *get_message_user_tag(CamelFolder *folder, const char *uid, const char *name);
+static void set_message_user_tag(CamelFolder *folder, const char *uid, const char *name, const char *value);
 
 static GPtrArray *get_subfolder_names (CamelFolder *folder);
 static void      free_subfolder_names (CamelFolder *folder,
@@ -152,6 +152,8 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->set_message_flags = set_message_flags;
 	camel_folder_class->get_message_user_flag = get_message_user_flag;
 	camel_folder_class->set_message_user_flag = set_message_user_flag;
+	camel_folder_class->get_message_user_tag = get_message_user_tag;
+	camel_folder_class->set_message_user_tag = set_message_user_tag;
 	camel_folder_class->get_message = get_message;
 	camel_folder_class->get_uids = get_uids;
 	camel_folder_class->free_uids = free_uids;
@@ -719,6 +721,56 @@ camel_folder_set_message_user_flag (CamelFolder *folder, const char *uid,
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
 	CF_CLASS (folder)->set_message_user_flag (folder, uid, name, value);
+}
+
+static const char *get_message_user_tag(CamelFolder *folder, const char *uid, const char *name)
+{
+	g_warning ("CamelFolder::get_message_user_tag not implemented "
+		   "for `%s'", camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
+	return NULL;
+}
+
+/**
+ * camel_folder_get_message_user_tag:
+ * @folder: a CamelFolder
+ * @uid: the UID of a message in @folder
+ * @name: the name of a user tag
+ *
+ * Return value: Returns the value of the user tag.
+ **/
+const char *
+camel_folder_get_message_user_tag (CamelFolder *folder, const char *uid,  const char *name)
+{
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), 0);
+
+	return CF_CLASS (folder)->get_message_user_tag (folder, uid, name);
+}
+
+
+static void
+set_message_user_tag(CamelFolder *folder, const char *uid, const char *name, const char *value)
+{
+	g_warning ("CamelFolder::set_message_user_tag not implemented "
+		   "for `%s'", camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
+}
+
+/**
+ * camel_folder_set_message_user_tag:
+ * @folder: a CamelFolder
+ * @uid: the UID of a message in @folder
+ * @name: the name of the user tag to set
+ * @value: the value to set it to
+ *
+ * Sets the user tag specified by @name to the value specified by @value
+ * on the indicated message. (This may or may not persist after the
+ * folder or store is closed. See camel_folder_get_permanent_flags().)
+ **/
+void
+camel_folder_set_message_user_tag (CamelFolder *folder, const char *uid, const char *name, const char *value)
+{
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+
+	CF_CLASS (folder)->set_message_user_tag (folder, uid, name, value);
 }
 
 

@@ -77,6 +77,8 @@ static guint32 mh_get_message_flags(CamelFolder * folder, const char *uid);
 static void mh_set_message_flags(CamelFolder * folder, const char *uid, guint32 flags, guint32 set);
 static gboolean mh_get_message_user_flag(CamelFolder * folder, const char *uid, const char *name);
 static void mh_set_message_user_flag(CamelFolder * folder, const char *uid, const char *name, gboolean value);
+static const char *mh_get_message_user_tag(CamelFolder *folder, const char *uid, const char *name);
+static void mh_set_message_user_tag(CamelFolder *folder, const char *uid, const char *name, const char *value);
 
 static void mh_finalize(CamelObject * object);
 
@@ -113,6 +115,8 @@ static void camel_mh_folder_class_init(CamelObjectClass * camel_mh_folder_class)
 	camel_folder_class->set_message_flags = mh_set_message_flags;
 	camel_folder_class->get_message_user_flag = mh_get_message_user_flag;
 	camel_folder_class->set_message_user_flag = mh_set_message_user_flag;
+	camel_folder_class->get_message_user_flag = mh_get_message_user_tag;
+	camel_folder_class->set_message_user_flag = mh_set_message_user_tag;
 }
 
 static void mh_finalize(CamelObject * object)
@@ -496,4 +500,29 @@ static void mh_set_message_user_flag(CamelFolder * folder, const char *uid, cons
 	info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED;
 	camel_folder_summary_touch(CAMEL_FOLDER_SUMMARY(mf->summary));
 	camel_object_trigger_event (CAMEL_OBJECT(folder), "message_changed", (char *) uid);
+}
+
+static const char *mh_get_message_user_tag(CamelFolder *folder, const char *uid, const char *name)
+{
+	CamelMessageInfo *info;
+	CamelMhFolder *mf = CAMEL_MH_FOLDER(folder);
+
+	info = camel_folder_summary_uid(CAMEL_FOLDER_SUMMARY(mf->summary), uid);
+	g_return_val_if_fail(info != NULL, FALSE);
+
+	return camel_tag_get(&info->user_tags, name);
+}
+
+static void mh_set_message_user_tag(CamelFolder *folder, const char *uid, const char *name, const char *value)
+{
+	CamelMessageInfo *info;
+	CamelMhFolder *mf = CAMEL_MH_FOLDER(folder);
+
+	info = camel_folder_summary_uid(CAMEL_FOLDER_SUMMARY(mf->summary), uid);
+	g_return_if_fail(info != NULL);
+
+	camel_tag_set(&info->user_tags, name, value);
+	info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED;
+	camel_folder_summary_touch(CAMEL_FOLDER_SUMMARY(mf->summary));
+	camel_object_trigger_event(CAMEL_OBJECT(folder), "message_changed", (char *) uid);
 }
