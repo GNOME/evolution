@@ -59,6 +59,7 @@
 #include "art/score-high.xpm"
 #include "art/score-higher.xpm"
 #include "art/score-highest.xpm"
+#include "art/flag-for-followup.xpm"
 
 /*#define TIMEIT */
 
@@ -152,7 +153,7 @@ static struct {
 	{ score_high_xpm,       NULL },
 	{ score_higher_xpm,     NULL },
 	{ score_highest_xpm,    NULL },
-	{ priority_high_xpm,    NULL },  /* FIXME: replace with a flag icon */
+	{ flag_for_followup_xpm,NULL },
 	{ NULL,			NULL }
 };
 

@@ -1,3 +1,18 @@
+2002-02-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser-ui.c: Set the followup icon to use the new flag
+	icon rather than the exclamation mark icon.
+
+	* mail-callbacks.c (flag_for_followup): Append the selected
+	messages to the clist in the followp editor.
+
+	* message-list.c: Include the new flag-for-followup icon.
+
+	* message-tag-followup.c (message_tag_followup_append_message):
+	New method to add a message to the message-list.
+	(construct): Get the message_list widget and load the flag icon
+	pixmap.
+
 2002-02-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-tag-followup.c (set_widget_values): Fixed a bug.

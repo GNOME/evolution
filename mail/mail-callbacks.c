@@ -1873,6 +1873,7 @@ flag_for_followup (BonoboUIComponent *uih, void *user_data, const char *path)
 	struct _tag_editor_data *data;
 	GtkWidget *editor;
 	GPtrArray *uids;
+	int i;
 	
 	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return;
@@ -1887,6 +1888,15 @@ flag_for_followup (BonoboUIComponent *uih, void *user_data, const char *path)
 	gtk_widget_ref (GTK_WIDGET (fb));
 	data->fb = fb;
 	data->uids = uids;
+	
+	for (i = 0; i < uids->len; i++) {
+		CamelMessageInfo *info;
+		
+		info = camel_folder_get_message_info (fb->folder, uids->pdata[i]);
+		message_tag_followup_append_message (MESSAGE_TAG_FOLLOWUP (editor),
+						     camel_message_info_from (info),
+						     camel_message_info_subject (info));
+	}
 	
 	gnome_dialog_button_connect (GNOME_DIALOG (editor), 0, tag_editor_ok, data);
 	gnome_dialog_button_connect (GNOME_DIALOG (editor), 1, tag_editor_cancel, data);

@@ -135,7 +135,7 @@ static EPixmap message_pixcache [] = {
 	E_PIXMAP ("/commands/MessageMarkAsRead", "mail-read.xpm"),
 	E_PIXMAP ("/commands/MessageMarkAsUnRead", "mail-new.xpm"),
 	E_PIXMAP ("/commands/MessageMarkAsImportant", "priority-high.xpm"),
-	E_PIXMAP ("/commands/MessageFollowUpFlag", "priority-high.xpm"),
+	E_PIXMAP ("/commands/MessageFollowUpFlag", "flag-for-followup-16.png"),
 	
 	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageReplySender", "buttons/reply.png"),
 	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageReplyAll", "buttons/reply-to-all.png"),

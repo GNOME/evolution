@@ -31,6 +31,8 @@
 
 #include <glade/glade.h>
 
+#include <libgnomeui/gnome-pixmap.h>
+
 #include "message-tag-followup.h"
 
 static void message_tag_followup_class_init (MessageTagFollowUpClass *class);
@@ -311,6 +313,11 @@ construct (MessageTagEditor *editor)
 	/* reparent */
 	gtk_widget_reparent (widget, GNOME_DIALOG (editor)->vbox);
 	
+	widget = glade_xml_get_widget (gui, "pixmap");
+	gnome_pixmap_load_file (GNOME_PIXMAP (widget), EVOLUTION_GLADEDIR "/flag-for-followup-48.png");
+	
+	followup->message_list = GTK_CLIST (glade_xml_get_widget (gui, "message_list"));
+	
 	followup->type = GTK_OPTION_MENU (glade_xml_get_widget (gui, "followup_type"));
 	gtk_option_menu_remove_menu (followup->type);
 	menu = gtk_menu_new ();
@@ -353,4 +360,20 @@ message_tag_followup_new (void)
 	construct (editor);
 	
 	return editor;
+}
+
+void
+message_tag_followup_append_message (MessageTagFollowUp *editor,
+				     const char *from,
+				     const char *subject)
+{
+	char *text[3];
+	
+	g_return_if_fail (IS_MESSAGE_TAG_FOLLOWUP (editor));
+	
+	text[0] = (char *) from;
+	text[1] = (char *) subject;
+	text[2] = NULL;
+	
+	gtk_clist_append (editor->message_list, text);
 }

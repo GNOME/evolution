@@ -69,6 +69,8 @@ struct _MessageTagFollowUp {
 	struct _FollowUpTag *tag;
 	char *value;
 	
+	GtkCList *message_list;
+	
 	GtkOptionMenu *type;
 	GtkWidget *none;
 	
@@ -93,6 +95,10 @@ char *message_tag_followup_encode (struct _FollowUpTag *followup);
 const char *message_tag_followup_i18n_name (int type);
 
 MessageTagEditor *message_tag_followup_new (void);
+
+void message_tag_followup_append_message (MessageTagFollowUp *editor,
+					  const char *from,
+					  const char *subject);
 
 #ifdef __cplusplus
 }
