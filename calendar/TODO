@@ -1,9 +1,13 @@
 Gnome date selection widget:
 
+- Fix the signals.
+
 - The date selected in the popup calendar does not match the displayed
   date in the entry.
 
 - Make the calendar a `real' popup window like in GtkCombo.
+
+- Make the displayed date be localized properly -- use strftime().
 
 Event editor dialog:
 
