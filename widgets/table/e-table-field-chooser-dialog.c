@@ -21,8 +21,9 @@
  */
 
 #include <config.h>
-#include <libgnomeui/gnome-stock.h>
 #include "e-table-field-chooser-dialog.h"
+#include <libgnomeui/gnome-stock.h>
+#include "gal/util/e-i18n.h"
 
 static void e_table_field_chooser_dialog_init		(ETableFieldChooserDialog		 *card);
 static void e_table_field_chooser_dialog_class_init	(ETableFieldChooserDialogClass	 *klass);
@@ -49,6 +50,7 @@ e_table_field_chooser_dialog_get_type (void)
 		{
 			static const GtkTypeInfo table_field_chooser_dialog_info =
 			{
+
 				"ETableFieldChooserDialog",
 				sizeof (ETableFieldChooserDialog),
 				sizeof (ETableFieldChooserDialogClass),
@@ -115,6 +117,8 @@ e_table_field_chooser_dialog_init (ETableFieldChooserDialog *e_table_field_choos
 			   widget, TRUE, TRUE, 0);
 
 	gtk_widget_show(GTK_WIDGET(widget));
+
+	gtk_window_set_title (GTK_WINDOW (e_table_field_chooser_dialog), _("Add a column..."));
 }
 
 GtkWidget*
