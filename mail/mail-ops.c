@@ -1330,8 +1330,6 @@ setup_create_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 				     "No type passed to create_folder");
 		return;
 	}
-
-	/* FIXME: reference listener somehow? */
 }
 
 static void
@@ -1378,12 +1376,12 @@ cleanup_create_folder (gpointer in_data, gpointer op_data,
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
 				     "Exception while reporting result to shell "
 				     "component listener.");
-	CORBA_exception_free (&ev);
-
-	/* FIXME: unref listener somehow? */
+	CORBA_free (input->listener);
 
 	g_free (input->uri);
 	g_free (input->type);
+
+	CORBA_exception_free (&ev);
 }
 
 static const mail_operation_spec op_create_folder = {
@@ -1398,12 +1396,17 @@ void
 mail_do_create_folder (const Evolution_ShellComponentListener listener,
 		       const char *uri, const char *type)
 {
+	CORBA_Environment ev;
 	create_folder_input_t *input;
 
+	CORBA_exception_init (&ev);
+
 	input = g_new (create_folder_input_t, 1);
-	input->listener = listener;
+	input->listener = CORBA_Object_duplicate (listener, &ev);
 	input->uri = g_strdup (uri);
 	input->type = g_strdup (type);
+
+	CORBA_exception_free (&ev);
 
 	mail_operation_queue (&op_create_folder, input, FALSE);
 }
