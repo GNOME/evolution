@@ -1,3 +1,14 @@
+2001-07-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix a problem with not being able to save a newly created
+	`shortcuts.xml' file, and another bug that caused the default
+	group to be added at every start-up, even there were groups
+	already.]
+
+	* e-shortcuts.c (e_shortcuts_new): If loading the shortcuts fails,
+	set the file_name.
+	(load_shortcuts): Update `num_groups'.
+
 2001-07-03  Iain Holmes  <iain@ximian.com>
 
 	* importer/Makefile.am: Add bonobo-conf stuff

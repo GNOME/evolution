@@ -339,9 +339,11 @@ load_shortcuts (EShortcuts *shortcuts,
 			if (type != NULL)
 				xmlFree (type);
 		}
+
 		shortcut_group->shortcuts = g_slist_reverse (shortcut_group->shortcuts);
 
 		priv->groups = g_slist_prepend (priv->groups, shortcut_group);
+		priv->num_groups ++;
 	}
 
 	priv->groups = g_slist_reverse (priv->groups);
@@ -735,7 +737,8 @@ e_shortcuts_new (EStorageSet *storage_set,
 	new = gtk_type_new (e_shortcuts_get_type ());
 	e_shortcuts_construct (new, storage_set, folder_type_registry);
 
-	e_shortcuts_load (new, file_name);
+	if (! e_shortcuts_load (new, file_name))
+		new->priv->file_name = g_strdup (file_name);
 
 	return new;
 }
