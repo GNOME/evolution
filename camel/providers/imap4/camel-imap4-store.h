@@ -43,6 +43,7 @@ struct _CamelIMAP4Engine;
 struct _CamelIMAP4Store {
 	CamelStore parent_object;
 	
+	struct _CamelIMAP4StoreSummary *summary;
 	struct _CamelIMAP4Engine *engine;
 	char *storage_path;
 };

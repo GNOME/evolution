@@ -1,3 +1,45 @@
+2004-10-26  Jeffrey Stedfast  <fejj@novell.com>
+
+	* providers/imap4/camel-imap4-store-summary.[c,h]: New files
+	implementing a folder-info cache for offline mode (and faster
+	startup I guess).
+
+	* providers/imap4/camel-imap4-store.c (imap4_build_folder_info):
+	Cache the folder-info for later use in offline mode.
+
+	* providers/imap4/camel-imap4-utils.c
+	(camel_imap4_get_path_delim): Instead of assigning top = "INBOX",
+	do strcpy (top, "INBOX") so that we can later modify the
+	string. Fixes bug #68814.
+
+2004-10-25  Jeffrey Stedfast  <fejj@novell.com>
+
+	* providers/imap4/camel-imap4-engine.c (engine_parse_namespace):
+	Updated to use the public function in camel-imap4-utils.c
+	(camel_imap4_engine_finalize): Same.
+
+	* providers/imap4/camel-imap4-store.c (imap4_construct): Setup and
+	load the store summary.
+	(camel_imap4_store_finalize): Unref the store summary.
+	(imap4_get_folder): Implemented offline support.
+	(imap4_folder_utf7_name): Pass the summary to get_delim rather
+	than the engine.
+	(imap4_create_folder): Same.
+	(imap4_reconnect): Update the namespaces on the store summary.
+	(connect_to_server): Update the store summary capabilities.
+
+	* providers/imap4/camel-imap4-utils.c
+	(camel_imap4_get_path_delim): Now takes a store-summary rather
+	than an engine so that it will work in offline mode.
+	(camel_imap4_namespace_clear): Moved here from
+	camel-imap4-engine.c
+	(camel_imap4_namespace_list_copy): New convenience function.
+	(camel_imap4_namespace_list_free): New.
+
+	* providers/imap4/camel-imap4-folder.c (camel_imap4_folder_new):
+	Check the return value of summary loading in offline mode (if it
+	fails, we can't get the folder).
+
 2004-10-21  Jeffrey Stedfast  <fejj@novell.com>
 
 	* camel-sasl-gssapi.c: #include "camel-i18n.h"

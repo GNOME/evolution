@@ -217,7 +217,7 @@ camel_imap4_folder_new (CamelStore *store, const char *full_name, CamelException
 	utf7_name = g_alloca (strlen (full_name) + 1);
 	strcpy (utf7_name, full_name);
 	
-	sep = camel_imap4_get_path_delim (((CamelIMAP4Store *) store)->engine, full_name);
+	sep = camel_imap4_get_path_delim (((CamelIMAP4Store *) store)->summary, full_name);
 	if (sep != '/') {
 		p = utf7_name;
 		while (*p != '\0') {
@@ -229,7 +229,7 @@ camel_imap4_folder_new (CamelStore *store, const char *full_name, CamelException
 	
 	utf7_name = camel_utf8_utf7 (utf7_name);
 	
-	folder = (CamelFolder *) (imap_folder = (CamelIMAP4Folder *)camel_object_new (CAMEL_TYPE_IMAP4_FOLDER));
+	folder = (CamelFolder *) (imap_folder = (CamelIMAP4Folder *) camel_object_new (CAMEL_TYPE_IMAP4_FOLDER));
 	camel_folder_construct (folder, store, full_name, name);
 	imap_folder->utf7_name = utf7_name;
 	
@@ -241,23 +241,35 @@ camel_imap4_folder_new (CamelStore *store, const char *full_name, CamelException
 	camel_folder_summary_set_filename (folder->summary, path);
 	g_free (path);
 	
-	camel_folder_summary_load (folder->summary);
-	
 	imap_folder->search = camel_imap4_search_new (((CamelIMAP4Store *) store)->engine, imap_folder->cachedir);
 	
-	if (camel_imap4_engine_select_folder (((CamelIMAP4Store *) store)->engine, folder, ex) == -1) {
-		camel_object_unref (folder);
-		folder = NULL;
-	}
-	
-	if (folder && camel_imap4_summary_flush_updates (folder->summary, ex) == -1) {
-		camel_object_unref (folder);
-		folder = NULL;
+	if (camel_session_is_online (((CamelService *) store)->session)) {
+		/* we don't care if the summary loading fails here */
+		camel_folder_summary_load (folder->summary);
+		
+		if (camel_imap4_engine_select_folder (((CamelIMAP4Store *) store)->engine, folder, ex) == -1) {
+			camel_object_unref (folder);
+			folder = NULL;
+		}
+		
+		if (folder && camel_imap4_summary_flush_updates (folder->summary, ex) == -1) {
+			camel_object_unref (folder);
+			folder = NULL;
+		}
+	} else {
+		/* we *do* care if summary loading fails here though */
+		if (camel_folder_summary_load (folder->summary) == -1) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID_PATH,
+					      _("Cannot access folder `%s': %s"),
+					      full_name, g_strerror (ENOENT));
+			
+			camel_object_unref (folder);
+			folder = NULL;
+		}
 	}
 	
 	return folder;
 }
-
 
 const char *
 camel_imap4_folder_utf7_name (CamelIMAP4Folder *folder)
@@ -634,6 +646,23 @@ imap4_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 	 * that fails and we are offline, we're done. else do the
 	 * following code */
 	
+	/* Note: While some hard-core IMAP extremists are probably
+	 * going to flame me for fetching entire messages here, it's
+	 * the *only* sure-fire way of working with all IMAP
+	 * servers. There are numerous problems with fetching
+	 * individual MIME parts from a good handful of IMAP servers
+	 * which makes this a pain to do the Right Way (tm). For
+	 * example: Courier-IMAP has "issues" parsing some multipart
+	 * messages apparently, because BODY responses are often
+	 * inaccurate. I'm also not very trusting of the free German
+	 * IMAP hosting either (such as mail.gmx.net and imap.web.de)
+	 * as they have proven themselves to be quite flakey wrt FETCH
+	 * requests (they seem to be written exclusively for
+	 * Outlook). Also, some IMAP servers such as GroupWise don't
+	 * store mail in MIME format and so must re-construct the
+	 * entire message in order to extract the requested part, so
+	 * it is *mush* more efficient (generally) to just request the
+	 * entire message anyway. */
 	ic = camel_imap4_engine_queue (engine, folder, "UID FETCH %s BODY.PEEK[]\r\n", uid);
 	camel_imap4_command_register_untagged (ic, "FETCH", untagged_fetch);
 	ic->user_data = stream = camel_stream_mem_new ();

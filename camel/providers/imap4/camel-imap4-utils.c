@@ -33,6 +33,7 @@
 #include "camel-imap4-engine.h"
 #include "camel-imap4-stream.h"
 #include "camel-imap4-command.h"
+#include "camel-imap4-store-summary.h"
 
 #include "camel-imap4-utils.h"
 
@@ -75,8 +76,68 @@ camel_imap4_merge_flags (guint32 original, guint32 local, guint32 server)
 }
 
 
+void
+camel_imap4_namespace_clear (CamelIMAP4Namespace **ns)
+{
+	CamelIMAP4Namespace *node, *next;
+	
+	node = *ns;
+	while (node != NULL) {
+		next = node->next;
+		g_free (node->path);
+		g_free (node);
+		node = next;
+	}
+	
+	*ns = NULL;
+}
+
+static CamelIMAP4Namespace *
+imap4_namespace_copy (const CamelIMAP4Namespace *ns)
+{
+	CamelIMAP4Namespace *list, *node, *tail;
+	
+	list = NULL;
+	tail = (CamelIMAP4Namespace *) &list;
+	
+	while (ns != NULL) {
+		tail->next = node = g_malloc (sizeof (CamelIMAP4Namespace));
+		node->path = g_strdup (ns->path);
+		node->sep = ns->sep;
+		ns = ns->next;
+		tail = node;
+	}
+	
+	tail->next = NULL;
+	
+	return list;
+}
+
+CamelIMAP4NamespaceList *
+camel_imap4_namespace_list_copy (const CamelIMAP4NamespaceList *nsl)
+{
+	CamelIMAP4NamespaceList *new;
+	
+	new = g_malloc (sizeof (CamelIMAP4NamespaceList));
+	new->personal = imap4_namespace_copy (nsl->personal);
+	new->other = imap4_namespace_copy (nsl->other);
+	new->shared = imap4_namespace_copy (nsl->shared);
+	
+	return new;
+}
+
+void
+camel_imap4_namespace_list_free (CamelIMAP4NamespaceList *nsl)
+{
+	camel_imap4_namespace_clear (&nsl->personal);
+	camel_imap4_namespace_clear (&nsl->shared);
+	camel_imap4_namespace_clear (&nsl->other);
+	g_free (nsl);
+}
+
+
 char
-camel_imap4_get_path_delim (CamelIMAP4Engine *engine, const char *full_name)
+camel_imap4_get_path_delim (CamelIMAP4StoreSummary *s, const char *full_name)
 {
 	CamelIMAP4Namespace *namespace;
 	const char *slash;
@@ -93,24 +154,24 @@ camel_imap4_get_path_delim (CamelIMAP4Engine *engine, const char *full_name)
 	top[len] = '\0';
 	
 	if (!g_ascii_strcasecmp (top, "INBOX"))
-		top = "INBOX";
+		strcpy (top, "INBOX");
 	
  retry:
-	namespace = engine->namespaces.personal;
+	namespace = s->namespaces->personal;
 	while (namespace != NULL) {
 		if (!strcmp (namespace->path, top))
 			return namespace->sep;
 		namespace = namespace->next;
 	}
 	
-	namespace = engine->namespaces.other;
+	namespace = s->namespaces->other;
 	while (namespace != NULL) {
 		if (!strcmp (namespace->path, top))
 			return namespace->sep;
 		namespace = namespace->next;
 	}
 	
-	namespace = engine->namespaces.shared;
+	namespace = s->namespaces->shared;
 	while (namespace != NULL) {
 		if (!strcmp (namespace->path, top))
 			return namespace->sep;

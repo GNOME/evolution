@@ -115,22 +115,6 @@ camel_imap4_engine_init (CamelIMAP4Engine *engine, CamelIMAP4EngineClass *klass)
 }
 
 static void
-imap4_namespace_clear (CamelIMAP4Namespace **namespace)
-{
-	CamelIMAP4Namespace *node, *next;
-	
-	node = *namespace;
-	while (node != NULL) {
-		next = node->next;
-		g_free (node->path);
-		g_free (node);
-		node = next;
-	}
-	
-	*namespace = NULL;
-}
-
-static void
 camel_imap4_engine_finalize (CamelObject *object)
 {
 	CamelIMAP4Engine *engine = (CamelIMAP4Engine *) object;
@@ -145,9 +129,9 @@ camel_imap4_engine_finalize (CamelObject *object)
 	g_hash_table_foreach (engine->authtypes, (GHFunc) g_free, NULL);
 	g_hash_table_destroy (engine->authtypes);
 	
-	imap4_namespace_clear (&engine->namespaces.personal);
-	imap4_namespace_clear (&engine->namespaces.other);
-	imap4_namespace_clear (&engine->namespaces.shared);
+	camel_imap4_namespace_clear (&engine->namespaces.personal);
+	camel_imap4_namespace_clear (&engine->namespaces.other);
+	camel_imap4_namespace_clear (&engine->namespaces.shared);
 	
 	if (engine->folder)
 		camel_object_unref (engine->folder);
@@ -565,9 +549,9 @@ engine_parse_namespace (CamelIMAP4Engine *engine, CamelException *ex)
 	camel_imap4_token_t token;
 	int i, n = 0;
 	
-	imap4_namespace_clear (&engine->namespaces.personal);
-	imap4_namespace_clear (&engine->namespaces.other);
-	imap4_namespace_clear (&engine->namespaces.shared);
+	camel_imap4_namespace_clear (&engine->namespaces.personal);
+	camel_imap4_namespace_clear (&engine->namespaces.other);
+	camel_imap4_namespace_clear (&engine->namespaces.shared);
 	
 	if (camel_imap4_engine_next_token (engine, &token, ex) == -1)
 		return -1;
@@ -674,7 +658,7 @@ engine_parse_namespace (CamelIMAP4Engine *engine, CamelException *ex)
  exception:
 	
 	for (i = 0; i <= n; i++)
-		imap4_namespace_clear (&namespaces[i]);
+		camel_imap4_namespace_clear (&namespaces[i]);
 	
 	return -1;
 }

@@ -157,7 +157,7 @@ void camel_store_summary_clear(CamelStoreSummary *s);
 /* lookup functions */
 int camel_store_summary_count(CamelStoreSummary *);
 CamelStoreInfo *camel_store_summary_index(CamelStoreSummary *, int);
-CamelStoreInfo *camel_store_summary_path(CamelStoreSummary *, const char *uid);
+CamelStoreInfo *camel_store_summary_path(CamelStoreSummary *, const char *path);
 GPtrArray *camel_store_summary_array(CamelStoreSummary *s);
 void camel_store_summary_array_free(CamelStoreSummary *s, GPtrArray *array);
 
