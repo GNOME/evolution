@@ -26,7 +26,9 @@
 #include <config.h>
 #endif
 
+#include <gtk/gtklayout.h>
 #include <gtk/gtksignal.h>
+#include <gtk/gtkwidget.h>
 
 #include <gdk/gdkx.h>
 
@@ -119,10 +121,15 @@ widget_realize_callback_for_backing_store (GtkWidget *widget,
 					   void *data)
 {
 	XSetWindowAttributes attributes;
+	GdkWindow *window;
+
+	if (GTK_IS_LAYOUT (widget))
+		window = GTK_LAYOUT (widget)->bin_window;
+	else
+		window = widget->window;
 
 	attributes.backing_store = Always;
-	XChangeWindowAttributes (GDK_WINDOW_XDISPLAY (widget->window),
-				 GDK_WINDOW_XWINDOW (widget->window),
+	XChangeWindowAttributes (GDK_WINDOW_XDISPLAY (window), GDK_WINDOW_XWINDOW (window),
 				 CWBackingStore, &attributes);
 }
 

@@ -1,3 +1,8 @@
+2001-09-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-gtk-utils.c (widget_realize_callback_for_backing_store): Use
+	->bin_window [instead of ->window] if the widget is a GtkLayout.
+
 2001-09-17  Damon Chaplin  <damon@ximian.com>
 
 	* e-time-utils.c (e_time_parse_date): only use 1 format, so we are
