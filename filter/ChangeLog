@@ -1,3 +1,12 @@
+2001-07-02  Anna Marie Dirks <anna@ximian.com> 
+
+	* filter-rule.c (get_widget): Changed "Add criterion" button to have 
+	normal button relief in response to complaints of it not appearing 
+	clickable.
+
+	* filter-filter.c: Changed "Add action" button to have normal button
+	relief in response to complaints of it not appearing clickable.
+
 2001-06-29  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* rule-editor.c (rule_editor_construct): Set the filter-rule

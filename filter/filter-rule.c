@@ -682,7 +682,6 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	
 	pixmap = gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_ADD);
 	add = gnome_pixmap_button (pixmap, _("Add criterion"));
-	gtk_button_set_relief (GTK_BUTTON (add), GTK_RELIEF_NONE);
 	gtk_signal_connect (GTK_OBJECT (add), "clicked", more_parts, data);
 	gtk_box_pack_start (GTK_BOX (hbox), add, FALSE, FALSE, 3);
 	
