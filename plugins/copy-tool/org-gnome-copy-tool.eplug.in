@@ -9,7 +9,7 @@
 
     <!-- hook into the uri popup menu -->
     <hook class="org.gnome.evolution.mail.popup:1.0">
-      <menu id="org.gnome.evolution.mail.folderview.popup.uri" target="uri">
+      <menu id="org.gnome.evolution.mail.folderview.popup" target="uri">
 	<item
 	  type="item"
 	  path="80.test"

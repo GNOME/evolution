@@ -1,3 +1,7 @@
+2004-10-28  Not Zed  <NotZed@Ximian.com>
+
+	* org-gnome-copy-tool.eplug.in: fix folderview popup hook id.
+
 2004-10-21  JP Rosevear  <jpr@novell.com>
 
 	* org-gnome-copy-tool.eplug.in: s/image/icon/
