@@ -36,8 +36,24 @@
 #include "mail.h"
 #include "mail-config.h"
 
+typedef struct 
+{
+	gboolean configured;
+	GSList *ids;
+	GSList *sources;
+	GSList *news;
+	MailConfigService *transport;
+
+	gboolean thread_list;
+	gint paned_size;
+	gboolean send_html;
+} MailConfig;
+
 static const char GCONFPATH[] = "/apps/Evolution/Mail";
 static MailConfig *config = NULL;
+
+/* Prototypes */
+static void config_read (void);
 
 /* Identity struct */
 MailConfigIdentity *
@@ -121,7 +137,7 @@ mail_config_init ()
 	config->sources = NULL;
 	config->transport = NULL;
 
-	mail_config_read ();
+	config_read ();
 }
 
 void
@@ -144,10 +160,16 @@ mail_config_clear ()
 	
 	service_destroy (config->transport);
 	config->transport = NULL;
+
+	if (config->news) {
+		g_slist_foreach (config->news, service_destroy_each, NULL);
+		g_slist_free (config->news);
+		config->news = NULL;
+	}
 }
 
-void
-mail_config_read ()
+static void
+config_read ()
 {
 	gchar *str;
 	gint len, i;
@@ -382,42 +404,6 @@ mail_config_is_configured ()
 	return config->configured;
 }
 
-MailConfigIdentity *
-mail_config_get_default_identity ()
-{
-	if (!config->ids)
-		return NULL;
-	
-	return (MailConfigIdentity *)config->ids->data;
-}
-
-GSList *
-mail_config_get_identities ()
-{
-	return config->ids;
-}
-
-MailConfigService *
-mail_config_get_default_source ()
-{
-	if (!config->sources)
-		return NULL;
-	
-	return (MailConfigService *)config->sources->data;
-}
-
-MailConfigService *
-mail_config_get_transport ()
-{
-	return config->transport;
-}
-
-gboolean
-mail_config_send_html ()
-{
-	return config->send_html;
-}
-
 gboolean
 mail_config_thread_list ()
 {
@@ -442,10 +428,96 @@ mail_config_set_paned_size (gint value)
 	config->paned_size = value;
 }
 
-MailConfig *
-mail_config_fetch (void)
+gboolean
+mail_config_send_html ()
 {
-	return config;
+	return config->send_html;
 }
+
+void
+mail_config_set_send_html (gboolean send_html)
+{
+	config->send_html = send_html;
+}
+
+MailConfigIdentity *
+mail_config_get_default_identity ()
+{
+	if (!config->ids)
+		return NULL;
+	
+	return (MailConfigIdentity *)config->ids->data;
+}
+
+GSList *
+mail_config_get_identities ()
+{
+	return config->ids;
+}
+
+void
+mail_config_add_identity (MailConfigIdentity *id)
+{
+	config->ids = g_slist_append (config->ids, id);
+}
+
+MailConfigService *
+mail_config_get_default_source ()
+{
+	if (!config->sources)
+		return NULL;
+	
+	return (MailConfigService *)config->sources->data;
+}
+
+GSList *
+mail_config_get_sources ()
+{
+	return config->sources;
+}
+
+void
+mail_config_add_source (MailConfigService *source) 
+{
+	config->sources = g_slist_append (config->sources, source);
+}
+
+MailConfigService *
+mail_config_get_transport ()
+{
+	return config->transport;
+}
+
+void
+mail_config_set_transport (MailConfigService *transport)
+{
+	if (config->transport)
+		service_destroy (config->transport);
+
+	config->transport = transport;
+}
+
+MailConfigService *
+mail_config_get_default_news ()
+{
+	if (!config->sources)
+		return NULL;
+	
+	return (MailConfigService *)config->sources->data;
+}
+
+GSList *
+mail_config_get_news ()
+{
+	return config->news;
+}
+
+void
+mail_config_add_news (MailConfigService *news) 
+{
+	config->news = g_slist_append (config->news, news);
+}
+
+
 
 

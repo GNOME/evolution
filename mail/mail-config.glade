@@ -327,7 +327,7 @@
 
 	<widget>
 	  <class>GtkCList</class>
-	  <name>clistNewsServers</name>
+	  <name>clistNews</name>
 	  <can_focus>True</can_focus>
 	  <columns>1</columns>
 	  <column_widths>80</column_widths>

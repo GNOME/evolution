@@ -162,7 +162,7 @@ typedef struct
 	GtkWidget *clistSources;
 	gint srow;
 	gint maxsrow;
-	GtkWidget *clistNewsServers;
+	GtkWidget *clistNews;
 	gint nrow;
 	gint maxnrow;
 	MailDialogTransportPage *page;
@@ -745,7 +745,7 @@ service_acceptable (MailDialogServicePage *page)
 	
 	if (camel_service_connect (service, ex)) {
 		camel_service_disconnect (service, ex);
-		gtk_object_unref (GTK_OBJECT (service));
+		camel_object_unref (CAMEL_OBJECT (service));
 		camel_exception_free (ex);
 		
 		info_dialog (page->vbox, "Connection successful!");
@@ -1216,8 +1216,9 @@ identity_dialog (const MailConfigIdentity *id, GtkWidget *parent)
 		iddialog->dialog = gnome_dialog_new (_("Add Identity"), NULL);
 
 	gtk_window_set_modal (GTK_WINDOW (iddialog->dialog), TRUE);
+	gtk_window_set_default_size (GTK_WINDOW (sdialog->dialog), 380, 450);
 	gtk_window_set_policy (GTK_WINDOW (iddialog->dialog), 
-			       TRUE, TRUE, FALSE);
+			       FALSE, TRUE, FALSE);
 	gnome_dialog_set_parent (GNOME_DIALOG (iddialog->dialog),
 				 GTK_WINDOW (parent));
 
@@ -1313,7 +1314,7 @@ source_dialog (MailConfigService *source, GtkWidget *parent)
 
 	gtk_window_set_modal (GTK_WINDOW (sdialog->dialog), TRUE);
 	gtk_window_set_policy (GTK_WINDOW (sdialog->dialog), 
-			       TRUE, TRUE, FALSE);
+			       FALSE, FALSE, FALSE);
 	gtk_window_set_default_size (GTK_WINDOW (sdialog->dialog), 380, 450);
 	gnome_dialog_set_parent (GNOME_DIALOG (sdialog->dialog),
 				 GTK_WINDOW (parent));
@@ -1546,23 +1547,23 @@ static void
 mail_druid_finish (GnomeDruidPage *page, GnomeDruid *druid, 
 		   MailDruidDialog *dialog)
 {
-	MailConfig *config;
 	MailConfigIdentity *id;
 	MailConfigService *source;
+	MailConfigService *transport;
 	
 	mail_config_clear ();
-	config = mail_config_fetch ();
 	
 	/* Identity */
 	id = identity_page_extract (dialog->idpage);
-	config->ids = g_slist_append (config->ids, id);
+	mail_config_add_identity (id);
 
 	/* Source */
 	source = service_page_extract (dialog->spage->page);
-	config->sources = g_slist_append (config->sources, source);
+	mail_config_add_source (source);
 	
 	/* Transport */
-	config->transport = service_page_extract (dialog->tpage->page);
+	transport = service_page_extract (dialog->tpage->page);
+	mail_config_set_transport (transport);
 
 	mail_config_write ();
 	
@@ -1572,7 +1573,6 @@ mail_druid_finish (GnomeDruidPage *page, GnomeDruid *druid,
 void
 mail_config_druid (void)
 {
-	MailConfig *config;
 	MailDruidDialog *dialog;
 	GnomeDruidPageStart *spage;
 	GnomeDruidPageFinish *fpage;
@@ -1580,9 +1580,6 @@ mail_config_druid (void)
 	GSList *sources, *news, *transports;
 	GdkImlibImage *mail_logo, *identity_logo;
 	GdkImlibImage *source_logo, *transport_logo;
-
-	mail_config_read ();
-	config = mail_config_fetch ();
 
 	provider_list (&sources, &news, &transports);
 
@@ -1858,7 +1855,7 @@ news_add_clicked (GtkWidget *widget, MailDialog *dialog)
 
 	news = news_dialog (NULL, dialog->dialog);
 	if (news) {
-		GtkCList *clist = GTK_CLIST (dialog->clistNewsServers);
+		GtkCList *clist = GTK_CLIST (dialog->clistNews);
 		gchar *text[1];
 		gint row = 0;
 		
@@ -1867,7 +1864,7 @@ news_add_clicked (GtkWidget *widget, MailDialog *dialog)
 		row = gtk_clist_append (clist, text);
 		gtk_clist_set_row_data (clist, row, news);
 		gtk_clist_select_row (clist, row, 0);
-		dialog->maxsrow++;
+		dialog->maxnrow++;
 		
 		gnome_property_box_changed (GNOME_PROPERTY_BOX (dialog->dialog));
 	}
@@ -1878,15 +1875,15 @@ news_edit_clicked (GtkWidget *widget, MailDialog *dialog)
 {
 	MailConfigService *news, *news2;
 
-	if (dialog->srow < 0)
+	if (dialog->nrow < 0)
 		return;
 
-	news = gtk_clist_get_row_data (GTK_CLIST (dialog->clistNewsServers),
+	news = gtk_clist_get_row_data (GTK_CLIST (dialog->clistNews),
 				       dialog->srow);
 	
 	news2 = source_dialog (news, dialog->dialog);
 	if (news2) {
-		GtkCList *clist = GTK_CLIST (dialog->clistNewsServers);
+		GtkCList *clist = GTK_CLIST (dialog->clistNews);
 		
 		gtk_clist_set_text (clist, dialog->nrow, 0, news2->url);
 		gtk_clist_set_row_data (clist, dialog->nrow, news2);
@@ -1904,7 +1901,7 @@ news_delete_clicked (GtkWidget *widget, MailDialog *dialog)
 	if (dialog->nrow == -1)
 		return;
 	
-	clist = GTK_CLIST (dialog->clistNewsServers);
+	clist = GTK_CLIST (dialog->clistNews);
 
 	gtk_clist_remove (clist, dialog->nrow);
 	dialog->maxnrow--;
@@ -1940,10 +1937,14 @@ format_toggled (GtkWidget *widget, MailDialog *dialog)
 }
 
 static void
-mail_config_apply_clicked (GnomePropertyBox *property_box, gint page_num,
+mail_config_apply_clicked (GnomePropertyBox *property_box, 
+			   gint page_num,
 			   MailDialog *dialog)
 {
-	MailConfig *config;
+	GtkCList *clist;
+	GtkToggleButton *chk;
+	MailConfigService *t;
+	gboolean send_html;
 	gpointer data;
 	int i;
 	
@@ -1951,25 +1952,39 @@ mail_config_apply_clicked (GnomePropertyBox *property_box, gint page_num,
 		return;
 
 	mail_config_clear ();
-	config = mail_config_fetch ();
 
 	/* Identities */
 	for (i = 0; i <= dialog->maxidrow; i++) {	
-		data = gtk_clist_get_row_data (GTK_CLIST (dialog->clistIdentities), i);
-		config->ids = g_slist_append (config->ids, data);
+		clist = GTK_CLIST (dialog->clistIdentities);
+		
+		data = gtk_clist_get_row_data (clist, i);
+		mail_config_add_identity ((MailConfigIdentity *) data);
 	}
 
 	/* Sources */
 	for (i = 0; i <= dialog->maxsrow; i++) {	
-		data = gtk_clist_get_row_data (GTK_CLIST (dialog->clistSources), i);
-		config->sources = g_slist_append (config->sources, data);
+		clist = GTK_CLIST (dialog->clistSources);
+
+		data = gtk_clist_get_row_data (clist, i);
+		mail_config_add_source ((MailConfigService *) data);
 	}
 
 	/* Transport */
-	config->transport = service_page_extract (dialog->page->page);
+	t = service_page_extract (dialog->page->page);
+	mail_config_set_transport (t);
+
+	/* News */
+	for (i = 0; i <= dialog->maxnrow; i++) {	
+		clist = GTK_CLIST (dialog->clistNews);
+
+		data = gtk_clist_get_row_data (clist, i);
+		mail_config_add_news ((MailConfigService *) data);
+	}
 	
 	/* Format */
-	config->send_html = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->chkFormat));
+	chk = GTK_TOGGLE_BUTTON (dialog->chkFormat);
+	send_html = gtk_toggle_button_get_active (chk);
+	mail_config_set_send_html (send_html);
 
 	mail_config_write ();
 }
@@ -1977,16 +1992,12 @@ mail_config_apply_clicked (GnomePropertyBox *property_box, gint page_num,
 void
 mail_config (void)
 {
-	MailConfig *config;
 	MailDialog *dialog;
 	GladeXML *gui;
+	MailConfigService *transport;
 	GtkCList *clist;
 	GtkWidget *button, *tvbox;
-	GSList *sources, *news, *transports;
-	gint len, row;
-
-	mail_config_read ();
-	config = mail_config_fetch ();
+	GSList *l, *sources, *news, *transports;
 
 	provider_list (&sources, &news, &transports);
 
@@ -2002,25 +2013,27 @@ mail_config (void)
 	clist = GTK_CLIST (dialog->clistIdentities);
 	gtk_clist_set_column_width (clist, 0, 80);
 
-	len = g_slist_length (config->ids);	
-	for (row = 0; row < len; row++) {
+	l = mail_config_get_identities ();
+
+	dialog->maxidrow = g_slist_length (l) - 1;
+	dialog->idrow = -1;
+
+	for (; l != NULL; l = l->next) {
 		MailConfigIdentity *id;
+		gint row;
 		gchar *text[4];
 		
-		id = identity_copy ((MailConfigIdentity *)
-				    g_slist_nth_data (config->ids, row));
+		id = identity_copy ((MailConfigIdentity *)l->data);
 		
 		text[0] = id->name;
 		text[1] = id->address;
 		text[2] = id->org;
 		text[3] = id->sig;
 		
-	 	gtk_clist_append (clist, text);
+	 	row = gtk_clist_append (clist, text);
 		gtk_clist_set_row_data (clist, row, id);
 	}
 
-	dialog->maxidrow = len - 1;
-	dialog->idrow = -1;
 	gtk_signal_connect (GTK_OBJECT (clist), "select_row",
 			    GTK_SIGNAL_FUNC (identities_select_row),
 			    dialog);
@@ -2043,21 +2056,24 @@ mail_config (void)
 	clist = GTK_CLIST (dialog->clistSources);
 	gtk_clist_set_column_width (clist, 0, 80);
 
-	len = g_slist_length (config->sources);	
-	for (row = 0; row < len; row++) {
+	l = mail_config_get_sources ();	
+
+	dialog->maxsrow = g_slist_length (l) - 1;
+	dialog->srow = -1;
+
+	for (; l != NULL; l = l->next) {
 		MailConfigService *source;
+		gint row;
 		gchar *text[1];
 		
-		source = service_copy ((MailConfigService *)g_slist_nth_data (config->sources, row));
+		source = service_copy ((MailConfigService *)l->data);
 		
 		text[0] = source->url;
 
-	 	gtk_clist_append (clist, text);
+	 	row = gtk_clist_append (clist, text);
 		gtk_clist_set_row_data (clist, row, source);
 	}
 
-	dialog->maxsrow = len - 1;
-	dialog->srow = -1;
 	gtk_signal_connect (GTK_OBJECT (clist), "select_row",
 			    GTK_SIGNAL_FUNC (sources_select_row),
 			    dialog);
@@ -2076,26 +2092,28 @@ mail_config (void)
 			    dialog);
 
 	/* News Page */
-	dialog->clistNewsServers = glade_xml_get_widget (gui, "clistNewsServers");
-	clist = GTK_CLIST (dialog->clistNewsServers);
+	dialog->clistNews = glade_xml_get_widget (gui, "clistNews");
+	clist = GTK_CLIST (dialog->clistNews);
 	gtk_clist_set_column_width (clist, 0, 80);
 
-	len = g_slist_length (config->news);	
-	for (row=0; row<len; row++) {
+	l = mail_config_get_news ();	
+
+	dialog->maxnrow = g_slist_length (l) - 1;
+	dialog->nrow = -1;
+
+	for (; l != NULL; l = l->next) {
 		MailConfigService *news;
+		gint row;
 		gchar *text[1];
 		
-		news = service_copy ((MailConfigService *)
-				     g_slist_nth_data (config->news, row));
+		news = service_copy ((MailConfigService *)l->data);
 		
 		text[0] = news->url;
 
-	 	gtk_clist_append (clist, text);
+	 	row = gtk_clist_append (clist, text);
 		gtk_clist_set_row_data (clist, row, news);
 	}
 
-	dialog->maxnrow = len - 1;
-	dialog->nrow = -1;
 	gtk_signal_connect (GTK_OBJECT (clist), "select_row",
 			    GTK_SIGNAL_FUNC (news_select_row),
 			    dialog);
@@ -2116,7 +2134,8 @@ mail_config (void)
 	/* Transport Page */
 	tvbox = glade_xml_get_widget (gui, "transport_vbox");
 	dialog->page = transport_page_new (transports);
-	service_page_set_url (dialog->page->page, config->transport);
+	transport = mail_config_get_transport ();
+	service_page_set_url (dialog->page->page, transport);
 	service_page_set_changed_cb (dialog->page->page,
 				     mail_config_tpage_changed, dialog);
 	service_page_set_done_cb (dialog->page->page, 
@@ -2128,7 +2147,7 @@ mail_config (void)
 	/* Other Page */
 	dialog->chkFormat = glade_xml_get_widget (gui, "chkFormat");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->chkFormat), 
-				      config->send_html);
+				      mail_config_send_html ());
 	gtk_signal_connect (GTK_OBJECT (dialog->chkFormat), "toggled",
 			    GTK_SIGNAL_FUNC (format_toggled),
 			    dialog);

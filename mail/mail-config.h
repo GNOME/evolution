@@ -39,51 +39,46 @@ typedef struct
 	gboolean keep_on_server;
 } MailConfigService;
 
-typedef struct 
-{
-	gboolean configured;
-	GSList *ids;
-	GSList *sources;
-	GSList *news;
-	MailConfigService *transport;
-	gboolean send_html;
-	gboolean thread_list;
-	gint paned_size;
-} MailConfig;
-
 /* Identities */
 MailConfigIdentity *identity_copy (MailConfigIdentity *id);
-void identity_destroy (MailConfigIdentity *id);
-void identity_destroy_each (gpointer item, gpointer data);
+void                identity_destroy (MailConfigIdentity *id);
+void                identity_destroy_each (gpointer item, gpointer data);
 
 /* Services */
 MailConfigService *service_copy (MailConfigService *source);
-void service_destroy (MailConfigService *source);
-void service_destroy_each (gpointer item, gpointer data);
+void               service_destroy (MailConfigService *source);
+void               service_destroy_each (gpointer item, gpointer data);
 
 /* Configuration */
 void mail_config_init (void);
 void mail_config_clear (void);
-void mail_config_read (void);
 void mail_config_write (void);
 void mail_config_write_on_exit (void);
 
 /* General Accessor functions */
 gboolean       mail_config_is_configured   (void);
-MailConfig     *mail_config_fetch          (void);
-gboolean       mail_config_send_html       (void);
 gboolean       mail_config_thread_list     (void);
 gint           mail_config_paned_size      (void);
 void           mail_config_set_thread_list (gboolean value);
 void           mail_config_set_paned_size  (gint size);
+gboolean       mail_config_send_html (void);
+void           mail_config_set_send_html (gboolean send_html);
+
 
 /* Identity Accessor functions */
 MailConfigIdentity *mail_config_get_default_identity (void);
+void                mail_config_add_identity (MailConfigIdentity *id);
 GSList             *mail_config_get_identities       (void);
 
 /* Service Accessor functions */
-MailConfigService *mail_config_get_default_source (void);
-MailConfigService *mail_config_get_transport      (void);
+MailConfigService  *mail_config_get_default_source (void);
+void                mail_config_add_source (MailConfigService *source);
+
+MailConfigService  *mail_config_get_transport (void);
+void                mail_config_set_transport (MailConfigService *transport);
+
+MailConfigService  *mail_config_get_default_news (void);
+void                mail_config_add_news (MailConfigService *source);
 
 #endif
 

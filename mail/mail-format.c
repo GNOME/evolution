@@ -1641,7 +1641,6 @@ mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean *is
 EMsgComposer *
 mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 {
-	const MailConfig *config;
 	CamelDataWrapper *contents;
 	char *text, *subject;
 	EMsgComposer *composer;
@@ -1649,8 +1648,7 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	const char *repl_to, *message_id, *references;
 	GList *to, *cc;
 
-	config = mail_config_fetch ();
-	want_plain = !config->send_html;
+	want_plain = !mail_config_send_html ();
 
 	contents = camel_medium_get_content_object (CAMEL_MEDIUM (message));
 	text = mail_get_message_body (contents, want_plain, &is_html);

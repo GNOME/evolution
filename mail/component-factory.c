@@ -189,18 +189,15 @@ create_vfolder_storage (EvolutionShellComponent *shell_component)
 static void
 create_imap_storage (EvolutionShellComponent *shell_component)
 {
-	const MailConfig *config;
+	const MailConfigService *s;
 	EvolutionShellClient *shell_client;
 	Evolution_Shell corba_shell;
 	EvolutionStorage *storage;
 	char *source = NULL, *server, *p;
-
-	config = mail_config_fetch ();
-	if (config->sources) {
-		const MailConfigService *s;
-		s = (MailConfigService *)config->sources->data;
+	
+	s = mail_config_get_default_source ();
+	if (s)
 		source = s->url;
-	}
 
 	if (!source || g_strncasecmp (source, "imap://", 7))
 		return;
@@ -238,18 +235,15 @@ create_imap_storage (EvolutionShellComponent *shell_component)
 static void
 create_news_storage (EvolutionShellComponent *shell_component)
 {
-	const MailConfig *config;
+	const MailConfigService *s;
 	EvolutionShellClient *shell_client;
 	Evolution_Shell corba_shell;
 	EvolutionStorage *storage;
 	char *source=NULL, *server, *p;
 
-	config = mail_config_fetch ();
-	if (config->news) {
-		const MailConfigService *s;
-		s = (MailConfigService *)config->news->data;
+	s = mail_config_get_default_news ();
+	if (s)
 		source = s->url;
-	}
 
 	if (!source || g_strncasecmp (source, "news://", 7))
 		return;

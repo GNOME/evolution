@@ -1,3 +1,8 @@
+2000-08-11  JP Rosevear  <jpr@helixcode.com>
+
+	* e-msg-composer.c (e_msg_composer_new_with_message): Use
+	new config accessors
+
 2000-08-10  Dan Winship  <danw@helixcode.com>
 
 	* e-msg-composer.c: Remove unneeded e-setup.h include
