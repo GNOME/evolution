@@ -1,3 +1,10 @@
+2004-01-12  JP Rosevear <jpr@ximian.com>
+
+	* evolution-test-component.[hc]: Complete rewrite to match current
+	component api
+
+	* Makefile.am: conditionally build the test component
+	
 2004-01-11  JP Rosevear <jpr@ximian.com>
 
 	* e-sidebar.c (button_new): track hbox and label widget

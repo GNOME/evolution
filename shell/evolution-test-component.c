@@ -26,6 +26,7 @@
 
 #include <errno.h>
 #include <string.h>
+#include <bonobo/bonobo-shlib-factory.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-i18n.h>
 #include <bonobo/bonobo-exception.h>
@@ -34,6 +35,8 @@
 #include "evolution-test-component.h"
 
 
+#define FACTORY_ID "OAFIID:GNOME_Evolution_Test_Factory:" BASE_VERSION
+#define TEST_COMPONENT_ID  "OAFIID:GNOME_Evolution_Test_Component:" BASE_VERSION
 #define CREATE_TEST_ID      "test"
 
 #define PARENT_TYPE bonobo_object_get_type ()
@@ -96,12 +99,24 @@ impl_createControls (PortableServer_Servant servant,
 {
 	EvolutionTestComponent *component = EVOLUTION_TEST_COMPONENT (bonobo_object_from_servant (servant));
 	EvolutionTestComponentPrivate *priv;
+	GtkWidget *label, *bar;
 	
 	priv = component->priv;
 
-	priv->sidebar_control = bonobo_control_new (gtk_label_new ("Side Bar Control"));
- 	priv->view_control = bonobo_control_new (gtk_label_new ("View Control"));
-	priv->status_control = bonobo_control_new (e_task_bar_new ());
+	/* Sidebar */
+	label = gtk_label_new ("Side Bar Control");
+	gtk_widget_show (label);
+	priv->sidebar_control = bonobo_control_new (label);
+
+	/* View */
+	label = gtk_label_new ("View Control");
+	gtk_widget_show (label);
+ 	priv->view_control = bonobo_control_new (label);
+
+	/* Status bar */
+	bar = e_task_bar_new ();
+	gtk_widget_show (bar);	
+	priv->status_control =  bonobo_control_new (bar);
 
 	/* Return the controls */
 	*corba_sidebar_control = CORBA_Object_duplicate (BONOBO_OBJREF (priv->sidebar_control), ev);
@@ -179,3 +194,21 @@ evolution_test_component_init (EvolutionTestComponent *component, EvolutionTestC
 }
 
 BONOBO_TYPE_FUNC_FULL (EvolutionTestComponent, GNOME_Evolution_Component, PARENT_TYPE, evolution_test_component)
+
+static BonoboObject *
+factory (BonoboGenericFactory *factory,
+	 const char *component_id,
+	 void *closure)
+{
+	if (strcmp (component_id, TEST_COMPONENT_ID) == 0) {
+		BonoboObject *object = BONOBO_OBJECT (g_object_new (EVOLUTION_TEST_TYPE_COMPONENT, NULL));
+		bonobo_object_ref (object);
+		return object;
+	}
+	
+	g_warning (FACTORY_ID ": Don't know what to do with %s", component_id);
+
+	return NULL;
+}
+
+BONOBO_ACTIVATION_SHLIB_FACTORY (FACTORY_ID, "Evolution Calendar component factory", factory, NULL)
