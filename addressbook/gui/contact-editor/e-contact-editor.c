@@ -387,7 +387,7 @@ set_entry_changed_signals(EContactEditor *editor)
 				   email_entry_changed, editor);
 	}
 	widget = glade_xml_get_widget(editor->gui, "text-address");
-	if (widget && GTK_IS_ENTRY(widget)) {
+	if (widget && GTK_IS_TEXT(widget)) {
 		gtk_signal_connect(GTK_OBJECT(widget), "changed",
 				   address_text_changed, editor);
 	}
