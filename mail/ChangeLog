@@ -1,3 +1,7 @@
+2001-04-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* openpgp-utils.c (openpgp_encrypt): Add --no-tty argument to gpg.
+
 2001-04-03  Dan Winship  <danw@ximian.com>
 
 	* folder-browser-factory.c (control_activate): Sync the folder on

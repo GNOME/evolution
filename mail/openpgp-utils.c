@@ -505,6 +505,7 @@ openpgp_decrypt (const gchar *ciphertext, gint cipherlen, gint *outlen, CamelExc
 		putenv (passwd_fd);
 		break;
 	default:
+		g_assert_not_reached ();
 		break;
 	}
 	
@@ -617,6 +618,7 @@ openpgp_encrypt (const gchar *in, gint inlen, const GPtrArray *recipients,
 		g_ptr_array_add (argv, "--verbose");
 		g_ptr_array_add (argv, "--yes");
 		g_ptr_array_add (argv, "--batch");
+		g_ptr_array_add (argv, "--no-tty");
 		
 		g_ptr_array_add (argv, "--armor");
 		
@@ -701,6 +703,7 @@ openpgp_encrypt (const gchar *in, gint inlen, const GPtrArray *recipients,
 		}
 		break;
 	default:
+		g_assert_not_reached ();
 		break;
 	}
 	
@@ -860,6 +863,7 @@ openpgp_clearsign (const gchar *plaintext, const gchar *userid,
 		putenv (passwd_fd);
 		break;
 	default:
+		g_assert_not_reached ();
 		break;
 	}
 	
@@ -1012,6 +1016,7 @@ openpgp_sign (const gchar *in, gint inlen, const gchar *userid,
 		putenv (passwd_fd);
 		break;
 	default:
+		g_assert_not_reached ();
 		break;
 	}
 	
@@ -1132,6 +1137,7 @@ openpgp_verify (const gchar *in, gint inlen, const gchar *sigin, gint siglen, Ca
 		
 		break;
 	default:
+		g_assert_not_reached ();
 		break;
 	}
 	
