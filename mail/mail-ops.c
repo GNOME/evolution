@@ -954,9 +954,19 @@ transfer_messages_transfer (struct _mail_msg *mm)
 
 	camel_folder_freeze (m->source);
 	camel_folder_freeze (dest);
-	
+
 	camel_folder_transfer_messages_to (m->source, m->uids, dest, NULL, m->delete, &mm->ex);
-	
+
+	/* make sure all deleted messages are marked as seen */
+
+	if (m->delete) {
+		int i;
+
+		for (i = 0; i < m->uids->len; i++)
+			camel_folder_set_message_flags (m->source, m->uids->pdata[i], 
+							CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
+	}
+
 	camel_folder_thaw (m->source);
 	camel_folder_thaw (dest);
 	camel_folder_sync (dest, FALSE, NULL);
