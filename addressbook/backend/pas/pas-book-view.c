@@ -167,6 +167,22 @@ pas_book_view_construct (PASBookView                *book_view,
 		return FALSE;
 	}
 
+	CORBA_Object_duplicate (listener, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning("Unable to duplicate listener object in pas-book-view.c\n");
+		CORBA_exception_free (&ev);
+
+		return FALSE;
+	}
+
+	Evolution_BookViewListener_ref (listener, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning("Unable to ref listener object in pas-book-view.c\n");
+		CORBA_exception_free (&ev);
+
+		return FALSE;
+	}
+
 	CORBA_exception_free (&ev);
 
 	obj = bonobo_object_activate_servant (BONOBO_OBJECT (book_view), servant);
@@ -208,6 +224,27 @@ static void
 pas_book_view_destroy (GtkObject *object)
 {
 	PASBookView *book_view = PAS_BOOK_VIEW (object);
+	CORBA_Environment   ev;
+
+	CORBA_exception_init (&ev);
+
+	Evolution_BookViewListener_unref (book_view->priv->listener, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning("Unable to unref listener object in pas-book-view.c\n");
+		CORBA_exception_free (&ev);
+
+		return;
+	}
+
+	CORBA_Object_release (book_view->priv->listener, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning("Unable to release listener object in pas-book-view.c\n");
+		CORBA_exception_free (&ev);
+
+		return;
+	}
+
+	CORBA_exception_free (&ev);
 
 	g_free (book_view->priv);
 

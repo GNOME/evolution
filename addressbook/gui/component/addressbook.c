@@ -17,10 +17,9 @@
 #include "addressbook.h"
 
 #include <ebook/e-book.h>
-#include <e-util/e-canvas.h>
 #include <e-util/e-util.h>
 #include <e-util/e-popup-menu.h>
-#include "e-minicard-view.h"
+#include "e-minicard-view-widget.h"
 
 #include <e-table.h>
 #include <e-cell-text.h>
@@ -61,9 +60,7 @@ typedef struct {
 	EBook *book;
 	GtkWidget *vbox;
 	GtkWidget *minicard_hbox;
-	GtkWidget *canvas;
-	GnomeCanvasItem *view;
-	GnomeCanvasItem *rect;
+	GtkWidget *minicard_view;
 	GtkWidget *table;
 	ETableModel *model;
 	ECardSimple *simple;
@@ -154,8 +151,8 @@ new_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 
 	card = e_card_new("");
 
-	if (view->view)
-		object = GTK_OBJECT(view->view);
+	if (view->minicard_view)
+		object = GTK_OBJECT(view->minicard_view);
 	else
 		object = GTK_OBJECT(view->model);
 
@@ -210,8 +207,8 @@ new_server_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 	server->uri = g_strdup_printf ("ldap://%s:%s/%s", server->host, server->port, server->rootdn);
 	e_ldap_server_editor_show (server);
 
-	if (view->view)
-		object = GTK_OBJECT(view->view);
+	if (view->minicard_view)
+		object = GTK_OBJECT(view->minicard_view);
 	else
 		object = GTK_OBJECT(view->model);
 	gtk_object_get(object, "book", &book, NULL);
@@ -234,8 +231,8 @@ get_query (AddressbookView *view)
 	GtkObject *object;
 	char *query = NULL;
 
-	if (view->view)
-		object = GTK_OBJECT(view->view);
+	if (view->minicard_view)
+		object = GTK_OBJECT(view->minicard_view);
 	else
 		object = GTK_OBJECT(view->model);
 
@@ -250,8 +247,8 @@ set_query (AddressbookView *view, char *query)
 {
 	GtkObject *object;
 
-	if (view->view)
-		object = GTK_OBJECT(view->view);
+	if (view->minicard_view)
+		object = GTK_OBJECT(view->minicard_view);
 	else
 		object = GTK_OBJECT(view->model);
 
@@ -264,7 +261,7 @@ static void
 set_book(AddressbookView *view)
 {
 	if (view->book)
-		gtk_object_set(view->view ? GTK_OBJECT(view->view) : GTK_OBJECT(view->model),
+		gtk_object_set(view->minicard_view ? GTK_OBJECT(view->minicard_view) : GTK_OBJECT(view->model),
 			       "book", view->book,
 			       NULL);
 }
@@ -310,8 +307,8 @@ static void
 delete_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
-	if (view->view)
-		e_minicard_view_remove_selection (E_MINICARD_VIEW(view->view), card_deleted_cb, NULL);
+	if (view->minicard_view)
+		e_minicard_view_widget_remove_selection (E_MINICARD_VIEW_WIDGET(view->minicard_view), card_deleted_cb, NULL);
 }
 
 static void
@@ -389,7 +386,7 @@ static void
 print_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
-	if (view->view) {
+	if (view->minicard_view) {
 		char *query = get_query(view);
 		GtkWidget *print = e_contact_print_dialog_new(view->book, query);
 		g_free(query);
@@ -638,43 +635,6 @@ static void destroy_callback(GtkWidget *widget, gpointer data)
 	addressbook_view_free(view);
 }
 
-static void allocate_callback(GtkWidget *canvas, GtkAllocation *allocation, gpointer data)
-{
-	double width;
-	AddressbookView *view = data;
-	view->last_alloc = *allocation;
-	gnome_canvas_item_set( view->view,
-			       "height", (double) allocation->height,
-			       NULL );
-	gnome_canvas_item_set( view->view,
-			       "minimum_width", (double) allocation->width,
-			       NULL );
-	gtk_object_get(GTK_OBJECT(view->view),
-		       "width", &width,
-		       NULL);
-	width = MAX(width, allocation->width);
-	gnome_canvas_set_scroll_region(GNOME_CANVAS( view->canvas ), 0, 0, width - 1, allocation->height - 1);
-	gnome_canvas_item_set( view->rect,
-			       "x2", (double) width,
-			       "y2", (double) allocation->height,
-			       NULL );
-}
-
-static void resize(GnomeCanvas *canvas, gpointer data)
-{
-	double width;
-	AddressbookView *view = data;
-	gtk_object_get(GTK_OBJECT(view->view),
-		       "width", &width,
-		       NULL);
-	width = MAX(width, view->last_alloc.width);
-	gnome_canvas_set_scroll_region(GNOME_CANVAS(view->canvas), 0, 0, width - 1, view->last_alloc.height - 1);
-	gnome_canvas_item_set( view->rect,
-			       "x2", (double) width,
-			       "y2", (double) view->last_alloc.height,
-			       NULL );	
-}
-
 static void
 get_prop (BonoboPropertyBag *bag,
 	  BonoboArg         *arg,
@@ -757,16 +717,13 @@ set_prop (BonoboPropertyBag *bag,
 static void
 teardown_minicard_view (AddressbookView *view)
 {
-	if (view->view) {
-		gtk_object_destroy(GTK_OBJECT(view->view));
-		view->view = NULL;
+	if (view->minicard_view) {
+		view->minicard_view = NULL;
 	}
 	if (view->minicard_hbox) {
 		gtk_widget_destroy(view->minicard_hbox);
 		view->minicard_hbox = NULL;
 	}
-
-	view->canvas = NULL;
 }
 
 typedef struct {
@@ -777,8 +734,8 @@ typedef struct {
 static void
 jump_to_letter(GtkWidget *button, LetterClosure *closure)
 {
-	if (closure->view->view)
-		e_minicard_view_jump_to_letter(E_MINICARD_VIEW(closure->view->view), closure->letter);
+	if (closure->view->minicard_view)
+		e_minicard_view_widget_jump_to_letter(E_MINICARD_VIEW_WIDGET(closure->view->minicard_view), closure->letter);
 }
 
 static void
@@ -839,39 +796,15 @@ create_minicard_view (AddressbookView *view, char *initial_query)
 
 	view->minicard_hbox = gtk_hbox_new(FALSE, 0);
 
-	view->canvas = e_canvas_new();
-	view->rect = gnome_canvas_item_new(
-		gnome_canvas_root( GNOME_CANVAS( view->canvas ) ),
-		gnome_canvas_rect_get_type(),
-		"x1", (double) 0,
-		"y1", (double) 0,
-		"x2", (double) 100,
-		"y2", (double) 100,
-		"fill_color", "white",
-		NULL );
-
-	view->view = gnome_canvas_item_new(
-		gnome_canvas_root( GNOME_CANVAS( view->canvas ) ),
-		e_minicard_view_get_type(),
-		"height", (double) 100,
-		"minimum_width", (double) 100,
-		NULL );
-
-	gtk_signal_connect( GTK_OBJECT( view->canvas ), "reflow",
-			    GTK_SIGNAL_FUNC( resize ),
-			    view);
-
-	gnome_canvas_set_scroll_region ( GNOME_CANVAS( view->canvas ),
-					 0, 0,
-					 100, 100 );
+	view->minicard_view = e_minicard_view_widget_new();
 
 	scrollframe = e_scroll_frame_new (NULL, NULL);
 	e_scroll_frame_set_policy (E_SCROLL_FRAME (scrollframe),
 				   GTK_POLICY_AUTOMATIC,
 				   GTK_POLICY_NEVER);
-	
-	gtk_container_add (GTK_CONTAINER (scrollframe), view->canvas);
-	
+
+	gtk_container_add (GTK_CONTAINER (scrollframe), view->minicard_view);
+
 	gtk_box_pack_start(GTK_BOX(view->minicard_hbox), scrollframe, TRUE, TRUE, 0);
 
 	alphabet = create_alphabet(view);
@@ -885,11 +818,6 @@ create_minicard_view (AddressbookView *view, char *initial_query)
 	gtk_box_pack_start(GTK_BOX(view->vbox), view->minicard_hbox, TRUE, TRUE, 0);
 
 	gtk_widget_show_all( GTK_WIDGET(view->minicard_hbox) );
-
-	/* Connect the signals */
-	gtk_signal_connect( GTK_OBJECT( view->canvas ), "size_allocate",
-			    GTK_SIGNAL_FUNC( allocate_callback ),
-			    ( gpointer ) view );
 
 #if 0
 	gdk_window_set_back_pixmap(
@@ -1085,7 +1013,7 @@ addressbook_factory_new_control (void)
 	view->control = bonobo_control_new(view->vbox);
 
 	view->model = NULL;
-	view->view = NULL;
+	view->minicard_view = NULL;
 
 	/* create the initial view */
 	change_view_type (view, ADDRESSBOOK_VIEW_MINICARD);

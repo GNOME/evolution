@@ -1,3 +1,20 @@
+2000-08-12  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/pas/pas-book-view.c: Ref our book view listener.
+
+	* gui/component/addressbook.c: Updated to use new minicard view
+	widget.
+
+	* gui/minicard/Makefile.am: Added e-minicard-view-widget.c and
+	e-minicard-view-widget.h.
+
+	* gui/minicard/e-minicard-view-widget.c,
+	gui/minicard/e-minicard-view-widget.h: New class that's just a
+	minicard view in an ECanvas.
+
+	* gui/search/e-addressbook-search-dialog.c: New file for
+	implementing a search dialog.
+
 2000-08-11  Chris Toshok  <toshok@helixcode.com>
 
 	* conduit/address-conduit.c (transmit): implement code to encode

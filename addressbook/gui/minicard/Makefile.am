@@ -16,6 +16,8 @@ libeminicard_a_SOURCES =			\
 	e-minicard-control.h			\
 	e-minicard-label.c			\
 	e-minicard-label.h			\
+	e-minicard-view-widget.c		\
+	e-minicard-view-widget.h		\
 	e-minicard-view.c			\
 	e-minicard-view.h			\
 	e-minicard-widget.c			\
