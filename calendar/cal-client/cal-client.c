@@ -606,9 +606,6 @@ cal_client_get_object (CalClient *client, const char *uid, iCalObject **ico)
 	Evolution_Calendar_CalObj calobj;
 	char *obj_str = NULL;
 
-	icalcomponent* comp = NULL;
-	icalcomponent *subcomp;
-	iCalObject    *ical;
 
 	g_return_val_if_fail (client != NULL, CAL_CLIENT_GET_SYNTAX_ERROR);
 	g_return_val_if_fail (IS_CAL_CLIENT (client), CAL_CLIENT_GET_SYNTAX_ERROR);
@@ -637,6 +634,11 @@ cal_client_get_object (CalClient *client, const char *uid, iCalObject **ico)
  decode:
 	CORBA_exception_free (&ev);
 
+#if 0
+	icalcomponent* comp = NULL;
+	icalcomponent *subcomp;
+	iCalObject    *ical;
+
 	/* convert the string into an iCalObject */
 	(*ico) = NULL;
 	if (obj_str == NULL) return CAL_CLIENT_GET_SYNTAX_ERROR;
@@ -662,6 +664,10 @@ cal_client_get_object (CalClient *client, const char *uid, iCalObject **ico)
 		subcomp = icalcomponent_get_next_component (comp,
 							   ICAL_ANY_COMPONENT);
 	}
+# else /* 0 */
+	ical_object_find_in_string (uid, obj_str, ico);
+
+# endif /* 0 */
 
 	return CAL_CLIENT_GET_NOT_FOUND;
 }
