@@ -6,6 +6,9 @@
 	and libs from all CFLAGS and LIBS variables. Add GAL_LIBS for
 	things that need to depend on just gal (for gunicode).
 
+	* configure.in: Check for gethostbyname_r so e_gethostbyname_r
+	will DTRT.
+	
 2001-04-24  Dan Winship  <danw@ximian.com>
 
 	* configure.in: Bump up the gal requirement

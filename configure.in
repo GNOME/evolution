@@ -154,6 +154,7 @@ dnl **************************************************
 dnl gethostbyname_r prototype
 dnl **************************************************
 
+AC_CHECK_FUNCS(gethostbyname_r,[
 AC_CACHE_CHECK([if gethostbyname_r wants five arguments], ac_cv_gethostbyname_r_five_args,
 [
 	AC_TRY_COMPILE([
@@ -176,7 +177,7 @@ AC_CACHE_CHECK([if gethostbyname_r wants five arguments], ac_cv_gethostbyname_r_
 	],[
 		ac_cv_gethostbyname_r_five_args=no
 	])
-])
+])])
 	
 if test x"$ac_cv_gethostbyname_r_five_args" = xyes ; then
 	AC_DEFINE(GETHOSTBYNAME_R_FIVE_ARGS)
