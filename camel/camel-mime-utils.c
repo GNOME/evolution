@@ -2213,10 +2213,6 @@ header_param_list_format_append(GString *out, struct _header_param *p)
 
 		g_string_sprintfa(out, " ; %s=", p->name);
 
-		/* Outlook will not recognize an iTIP attachment with
-		 * eg 'method="request"'. It must be 'method=request'.
-		 * So only quote if we need to. (Sigh)
-		 */
 		for (ch = p->value; *ch; ch++) {
 			if (is_tspecial(*ch))
 				break;
