@@ -20,6 +20,9 @@
 #include <gtk/gtksignal.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
+
+#include "widgets/misc/e-scroll-frame.h"
+
 #include "e-util/e-util.h"
 #include "e-util/e-xml-utils.h"
 #include "e-util/e-canvas.h"
@@ -447,7 +450,7 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	int no_header;
 	int row = 0;
 	
-	GtkWidget *scrolledwindow;
+	GtkWidget *scrollframe;
 
 	xmlRoot = xmlDocGetRootElement (xmlSpec);
 	xmlColumns = e_xml_get_child_by_name (xmlRoot, "columns-shown");
@@ -480,23 +483,26 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	e_table_setup_table (e_table, full_header, e_table->header, etm);
 	e_table_fill_table (e_table, etm);
 
-	scrolledwindow = gtk_scrolled_window_new (
+	scrollframe = e_scroll_frame_new (
 		gtk_layout_get_hadjustment (GTK_LAYOUT (e_table->table_canvas)),
 		gtk_layout_get_vadjustment (GTK_LAYOUT (e_table->table_canvas)));
 
 	gtk_layout_get_vadjustment (GTK_LAYOUT (e_table->table_canvas))->step_increment = 20;
 	gtk_adjustment_changed(gtk_layout_get_vadjustment (GTK_LAYOUT (e_table->table_canvas)));
+
+	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (scrollframe),
+					GTK_SHADOW_IN);
 			       
 	
-	gtk_scrolled_window_set_policy (
-		GTK_SCROLLED_WINDOW (scrolledwindow),
+	e_scroll_frame_set_policy (
+		E_SCROLL_FRAME (scrollframe),
 		GTK_POLICY_AUTOMATIC,
 		GTK_POLICY_AUTOMATIC);
 	
 	gtk_container_add (
-		GTK_CONTAINER (scrolledwindow),
+		GTK_CONTAINER (scrollframe),
 		GTK_WIDGET (e_table->table_canvas));
-	gtk_widget_show (scrolledwindow);
+	gtk_widget_show (scrollframe);
 	
 	if (!no_header) {
 		/*
@@ -513,7 +519,7 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	 * The body
 	 */
 	gtk_table_attach (
-		GTK_TABLE (e_table), GTK_WIDGET (scrolledwindow),
+		GTK_TABLE (e_table), GTK_WIDGET (scrollframe),
 		0, 1, 0 + row, 1 + row,
 		GTK_FILL | GTK_EXPAND,
 		GTK_FILL | GTK_EXPAND, 0, 0);

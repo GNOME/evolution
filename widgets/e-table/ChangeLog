@@ -1,3 +1,16 @@
+2000-06-11  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* Makefile.am (table_test_LDADD): Link with libemiscwidgets.a.
+	(table_size_test_LDADD): Likewise.
+	(table_example_1_LDADD): Likewise.
+	(table_example_2_LDADD): Likewise.
+	(tree_example_1_LDADD): Likewise.
+
+2000-06-10  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-table.c (et_real_construct): EScrollFrame instead of
+	GtkScrolledWindow.
+
 2000-06-10  Christopher James Lahey  <clahey@helixcode.com>
 
 	* Makefile.am: Added $(GNOME_PRINT_LIBS) to all of the LDADDs.

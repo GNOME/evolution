@@ -95,6 +95,7 @@ table_test_LDADD =				\
 	libetable.a				\
 	$(EXTRA_GNOME_LIBS)			\
 	$(top_builddir)/widgets/e-text/libetext.a \
+	$(top_builddir)/widgets/misc/libemiscwidgets.a \
 	$(top_builddir)/e-util/libeutil.la	\
 	$(GNOME_PRINT_LIBS)
 
@@ -107,6 +108,7 @@ table_size_test_LDADD =				\
 	libetable.a				\
 	$(EXTRA_GNOME_LIBS)			\
 	$(top_builddir)/widgets/e-text/libetext.a \
+	$(top_builddir)/widgets/misc/libemiscwidgets.a \
 	$(top_builddir)/e-util/libeutil.la	\
 	$(GNOME_PRINT_LIBS)
 
@@ -119,6 +121,7 @@ table_example_1_LDADD =				\
 	libetable.a				\
 	$(EXTRA_GNOME_LIBS)			\
 	$(top_builddir)/widgets/e-text/libetext.a \
+	$(top_builddir)/widgets/misc/libemiscwidgets.a \
 	$(top_builddir)/e-util/libeutil.la	\
 	$(GNOME_PRINT_LIBS)
 
@@ -131,6 +134,7 @@ table_example_2_LDADD =				\
 	libetable.a				\
 	$(EXTRA_GNOME_LIBS)			\
 	$(top_builddir)/widgets/e-text/libetext.a \
+	$(top_builddir)/widgets/misc/libemiscwidgets.a \
 	$(top_builddir)/e-util/libeutil.la	\
 	$(GNOME_PRINT_LIBS)
 
@@ -145,6 +149,7 @@ tree_example_1_LDADD =				\
 	libetable.a				\
 	$(EXTRA_GNOME_LIBS)			\
 	$(top_builddir)/widgets/e-text/libetext.a \
+	$(top_builddir)/widgets/misc/libemiscwidgets.a \
 	$(top_builddir)/e-util/libeutil.la	\
 	$(GNOME_PRINT_LIBS)
 

@@ -38,6 +38,7 @@ contact_editor_test_LDADD =					\
 	$(GNOMEGNORBA_LIBS)					\
 	$(BONOBO_GNOME_LIBS)				\
 	$(top_builddir)/widgets/e-table/libetable.a		\
+	$(top_builddir)/widgets/misc/libemiscwidgets.a \
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/widgets/e-text/libetext.a		\
 	$(EXTRA_GNOME_LIBS)
