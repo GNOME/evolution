@@ -686,9 +686,17 @@ addressbook_query_changed (ESearchBar *esb, AddressbookView *view)
 				break;
 			case ESB_CATEGORY:
 				subopt = e_search_bar_get_suboption_choice (esb);
-				master_list = get_master_list ();
-				category_name = e_categories_master_list_nth (master_list, subopt);
-				search_query = g_strdup_printf ("(contains \"category\" \"%s\")", category_name);
+				g_message ("subopt: %d", subopt);
+				if (subopt >= 0) {
+					if (subopt == G_MAXINT) {
+						/* match everything */
+						search_query = g_strdup ("(contains \"full_name\" \"\")");
+					} else {
+						master_list = get_master_list ();
+						category_name = e_categories_master_list_nth (master_list, subopt);
+						search_query = g_strdup_printf ("(contains \"category\" \"%s\")", category_name);
+					}
+				}
 				break;
 			default:
 				search_query = g_strdup ("(contains \"full_name\" \"\")");
@@ -796,14 +804,17 @@ addressbook_factory_new_control (void)
 
 		master_list = get_master_list ();
 		N = e_categories_master_list_count (master_list);
-		addressbook_search_option_items[ESB_CATEGORY].subitems = subitems = g_new (ESearchBarSubitem, N+1);
+		addressbook_search_option_items[ESB_CATEGORY].subitems = subitems = g_new (ESearchBarSubitem, N+2);
+
+		subitems[0].id = G_MAXINT;
+		subitems[0].text = g_strdup (_("Any Category"));
 
 		for (i=0; i<N; ++i) {
-			subitems[i].id = i;
-			subitems[i].text = (char *) e_categories_master_list_nth (master_list, i);
+			subitems[i+1].id = i;
+			subitems[i+1].text = (char *) e_categories_master_list_nth (master_list, i);
 		}
-		subitems[N].id = -1;
-		subitems[N].text = NULL;
+		subitems[N+1].id = -1;
+		subitems[N+1].text = NULL;
 	}
 
 	view->search = E_SEARCH_BAR(e_search_bar_new(addressbook_search_menu_items,

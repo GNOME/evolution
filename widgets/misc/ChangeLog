@@ -1,3 +1,8 @@
+2001-08-14  Jon Trowbridge  <trow@ximian.com>
+
+	* e-search-bar.c (activate_by_subitems): Oops... initial
+	suboption_choice should be subitems[0].id, not 0.
+
 2001-08-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-search-bar.c (impl_destroy): Oops, we didn't need to unref all

@@ -185,7 +185,7 @@ activate_by_subitems (ESearchBar *esb, gint item_id, ESearchBarSubitem *subitems
 
 		gtk_container_add (GTK_CONTAINER (esb->entry_box), esb->suboption);
 	
-		esb->suboption_choice = 0;
+		esb->suboption_choice = subitems[0].id;
 	}
 
 	if (esb->activate_button) {

@@ -1,3 +1,10 @@
+2001-08-14  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/addressbook.c (addressbook_factory_new_control):
+	Add "Any Category" option for category searches.
+	(addressbook_query_changed): Do the right thing on an
+	"Any Category" search.
+
 2001-08-14  Dan Winship  <danw@ximian.com>
 
 	* backend/pas/pas-backend-ldap.c: Fix up to match the
