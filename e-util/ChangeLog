@@ -1,3 +1,9 @@
+2001-10-28  JP Rosevear  <jpr@ximian.com>
+
+	* e-pilot-map.c (e_pilot_map_remove_by_pid): make sure to free the
+	keys as well
+	(e_pilot_map_remove_by_uid): ditto
+
 2001-10-27  JP Rosevear  <jpr@ximian.com>
 
 	* e-pilot-map.h: update proto

@@ -216,20 +216,25 @@ e_pilot_map_insert (EPilotMap *map, guint32 pid, const char *uid, gboolean archi
 void 
 e_pilot_map_remove_by_pid (EPilotMap *map, guint32 pid)
 {
-	EPilotMapPidNode *pnode;
-	EPilotMapUidNode *unode;
-
+	EPilotMapPidNode *pnode = NULL;
+	EPilotMapUidNode *unode = NULL;
+	gpointer pkey, ukey;
+	
 	g_return_if_fail (map != NULL);
 
-	pnode = g_hash_table_lookup (map->pid_map, &pid);
-	if (!pnode)
+	if (!g_hash_table_lookup_extended (map->pid_map, &pid, 
+					   &pkey, (gpointer *)&pnode))
 		return;
 	
-	unode = g_hash_table_lookup (map->uid_map, pnode->uid);
-
+	g_hash_table_lookup_extended (map->uid_map, pnode->uid, &ukey,
+				      (gpointer *)&unode);
+	g_assert (unode != NULL);
+	
 	g_hash_table_remove (map->pid_map, &pid);
 	g_hash_table_remove (map->uid_map, pnode->uid);
 
+	g_free (pkey);
+	g_free (ukey);
 	g_free (pnode);
 	g_free (unode);
 }
@@ -239,21 +244,23 @@ e_pilot_map_remove_by_uid (EPilotMap *map, const char *uid)
 {
 	EPilotMapPidNode *pnode;
 	EPilotMapUidNode *unode;
-
+	gpointer pkey, ukey;
+	
 	g_return_if_fail (map != NULL);
 	g_return_if_fail (uid != NULL);
 
-	unode = g_hash_table_lookup (map->uid_map, uid);
-	if (!unode)
+	if (!g_hash_table_lookup_extended (map->uid_map, uid, &ukey, (gpointer *)&unode))
 		return;
 	
-	pnode = g_hash_table_lookup (map->pid_map, &unode->pid);
+	g_hash_table_lookup_extended (map->pid_map, &unode->pid, &pkey, (gpointer *)&pnode);
 
 	g_hash_table_remove (map->uid_map, uid);
 	g_hash_table_remove (map->pid_map, &unode->pid);
 
-	g_free (unode);
+	g_free (pkey);
+	g_free (ukey);
 	g_free (pnode);
+	g_free (unode);
 }
 
 
