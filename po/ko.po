@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: evolution 1.5.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-13 22:03+0900\n"
-"PO-Revision-Date: 2004-08-13 22:04+0900\n"
+"PO-Revision-Date: 2004-08-14 00:14+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: GNOME Korea <gnome-kr-hackers@lists.kldp.net>\n"
 "MIME-Version: 1.0\n"
@@ -18646,7 +18646,7 @@ msgstr "인쇄할 메시지를 미리봅니다"
 
 #: ui/evolution-mail-message.xml.h:82
 msgid "Print this message"
-msgstr "이 메세지 인쇄"
+msgstr "이 메세지를 인쇄합니다"
 
 #: ui/evolution-mail-message.xml.h:83
 msgid "Re_direct"
