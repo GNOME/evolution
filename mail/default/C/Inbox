@@ -1,24 +1,24 @@
-From evolve@ximian.com Tue Sep 25 07:45:12 2001
-Return-Path: <evolve@ximian.com>
+From evolution@ximian.com Tue Sep 25 07:45:12 2001
+Return-Path: <evolution@ximian.com>
 Received: from pop.ximian.com (IDENT:mail@localhost [127.0.0.1]) by
 	pop.ximian.com (8.9.3/8.9.3) with ESMTP id HAA20680; Tue, 25 Sep 2001
 	07:45:12 -0400
 Received: from smtp.ximian.com (smtp.ximian.com [141.154.95.10]) by
 	pop.ximian.com (8.9.3/8.9.3) with ESMTP id HAA20659 for
-	<evolve@ximian.com>; Tue, 25 Sep 2001 07:45:10 -0400
+	<evolution@ximian.com>; Tue, 25 Sep 2001 07:45:10 -0400
 Received: (qmail 5610 invoked from network); 25 Sep 2001 11:45:02 -0000
 Received: from smtp.ximian.com (HELO localhost) (141.154.95.10) by
 	pop.ximian.com with SMTP; 25 Sep 2001 11:45:02 -0000
-From: "Ximian, Inc." <evolve@ximian.com>
-To: Ximian Evolution Users <evolve@ximian.com>
+From: "The Evolution Team" <evolution@ximian.com>
+To: Evolution Users <evolution@ximian.com>
 Content-Type: multipart/related; type="multipart/alternative"; boundary="=-t4dRE6cqcdSBHOrMdTQ1"
 X-Mailer: Evolution/1.1.99 (Preview Release)
 Date: 25 June 2002 14:45:00 +0300
 Message-Id: <1001418302.27070.20.camel@spectrolite>
 Mime-Version: 1.0
-Subject: Welcome to Ximian Evolution!
-Sender: evolve@ximian.com
-Errors-To: evolve@ximian.com
+Subject: Welcome to Evolution!
+Sender: evolution@ximian.com
+Errors-To: evolution@ximian.com
 X-Mailman-Version: 1.1
 Status:   
 X-Evolution-Source: pop://rupert@pop.ximian.com/inbox
@@ -34,55 +34,44 @@ Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
 
-Ximian is proud to welcome you to Ximian Evolution, a complete system
+The Evolution Team is proud to welcome you to Evolution, a complete system
 for managing your communications and personal information.
 
 
 Getting Started
 
-	On the left of the Ximian Evolution window is is the folder
-	bar, with shortcuts to all your available folders.  Below
-	that, you'll find buttons for your calendar, address book,
-	tasks, and email Inbox. 
+	On the left of the Evolution window is the side bar, with
+	shortcuts to all your mail folders.  Below that, you'll find
+	buttons for your calendars, contacts, tasks, mail.
 
-	For a complete guide to Ximian Evolution, select "Table of
+	For a complete guide to Evolution, select "Table of
 	Contents" from the "Help" menu, or press the F1 key. 
 
-New: Junk Mail Filter
+New Features
 
-	The junk mail tool will mark messages it thinks are junk mail
-	and put them in the "Junk" folder. Check to make sure that it
-	is correct, and mark mistakes with the "Junk" or "Not Junk"
-	buttons. The more you correct it, the more accurate it will
-	become.	
+	Evolution 2.0 adds new support for connecting to Novell
+	GroupWise servers (6.5.3 or newer) and support for Exchange
+	2000/2003.  Other new features in Evolution 2.0 include junk mail
+	filtering, S/MIME security, improved offline IMAP, NNTP (news)
+	support, web calendar display, overlayed calendars and new developer
+	APIs for accessing contact, calendar and task data.
 
-	Other new features in Evolution 1.5 and 2.0 include S/MIME
-	security, improved offline IMAP performance, and new developer
-	APIs. Check the manual or the Evolution home page at
-	www.ximian.com for details.
+Bug Reporting
 
-Learn More, Do More
+	Bugs should be reported to http://bugzilla.ximian.com
 
-	The Novell Ximian Group offers a range of products and
-	services for you and for your business. Learn more about how
-	we can help you be more productive at ximian.com.
+More Information
 
+	You can subscribe to the Evolution users mailing list at
+	http://lists.ximian.com/mailman/listinfo/evolution.
 
-Questions? Comments? Suggestions?
-
-	To learn the answers to frequently asked questions (FAQs), such
-	as how to make Evolution use your preferred web browser to
-	open links in email, or how to use Evolution to open mailto:
-	links in web pages, select Ximian Evolution FAQ from the Help menu.
-
-	If your question isn't there, or if you'd like to send us some
-    	comments, consider subscribing to the Evolution users mailing	
-	list, available at lists.ximian.com.
+	Information on the Evolution project is available at
+	http://www.gnome.org/projects/evolution.
 
 
 Yours Sincerely,
-The Ximian Evolution Team
-evolve@ximian.com
+The Evolution Team
+evolution@ximian.com
 
 
 --=-2gZ1roA/HoYrlRDVGyiM
@@ -119,11 +108,11 @@ Content-Type: text/html; charset=utf-8
 <TD>
 </TD>
 <TD>
-<FONT COLOR="#f8fcf8"><FONT SIZE="4"><B>Ximian</FONT></B></FONT SIZE="4"><FONT COLOR="#f8fcf8"><FONT SIZE="4"> is proud to welcome you to </FONT></FONT SIZE="4"><FONT COLOR="#f8fcf8"><FONT SIZE="4"><B>Ximian Evolution</FONT></B></FONT SIZE="4"><FONT COLOR="#f8fcf8"><FONT SIZE="4">, a complete system for managing your communications and personal information.</FONT></FONT SIZE="4"></TD>
+<FONT COLOR="#f8fcf8"><FONT SIZE="4"><B>The Evolution Team</FONT></B></FONT SIZE="4"><FONT COLOR="#f8fcf8"><FONT SIZE="4"> is proud to welcome you to </FONT></FONT SIZE="4"><FONT COLOR="#f8fcf8"><FONT SIZE="4"><B>Evolution</FONT></B></FONT SIZE="4"><FONT COLOR="#f8fcf8"><FONT SIZE="4">, a complete system for managing your communications and personal information.</FONT></FONT SIZE="4"></TD>
 <TD>
 </TD>
 <TD>
-<IMG SRC="cid:1001418096.27019.14.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="48" HEIGHT="48"></TD>
+<IMG SRC="cid:1001417989.27019.11.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="48" HEIGHT="48"></TD>
 <TD>
 </TD>
 </TR>
@@ -149,57 +138,44 @@ Content-Type: text/html; charset=utf-8
 <h2>Getting Started</h2>
 
 <blockquote>
-
-	On the left of the Ximian Evolution window is is the folder
-	bar, with shortcuts to all your available folders.  Below
-	that, you'll find buttons for your calendar, address book, and
-	email Inbox.
+	On the left of the Evolution window is the side bar, with
+	shortcuts to all your mail folders.  Below that, you'll find
+	buttons for your calendars, contacts, tasks, mail.
 <br><br>
-    For a complete guide to using Ximian Evolution, select <b>Table of
+    For a complete guide to using Evolution, select <b>Table of
     Contents</b> in the <b>Help</b> menu, or press the <b>F1</b> key.
 
 </blockquote>
 
-<h2>New: Junk Mail Filter</h2>
+<h2>New Features</h2>
 <blockquote>
-	The junk mail tool will mark messages it thinks are junk mail
-	and put them in the "Junk" folder. Check to make sure that it
-	is correct, and mark mistakes with the <b>Junk</b> or <b>Not
-	Junk</b> buttons. The more you correct it, the more accurate
-	it will become.
- <br><br>
-	Other new features in Evolution 1.5 and 2.0 include S/MIME
-	security, improved offline IMAP performance, and new developer
-	APIs. See <a href="http://ximian.com/products/evolution">the
-	Evolution home page</a> or the manual for details.
+	Evolution 2.0 adds new support for connecting to Novell
+	GroupWise servers (6.5.3 or newer) and support for Exchange
+	2000/2003.  Other new features in Evolution 2.0 include junk mail
+	filtering, S/MIME security, improved offline IMAP, NNTP (news)
+	support, web calendar display, overlayed calendars and new developer
+	APIs for accessing contact, calendar and task data.
 </blockquote>
 
-<h2>Learn More, Do More</h2>
+<h2>Bug Reporting</h2>
 <blockquote>
-	The Novell Ximian Group offers a range of products and
-	services for you and for your business. Learn more about how
-	Ximian can help you be more productive at <A
-	HREF="http://www.ximian.com">Ximian.com</A>.
+	Bugs should be reported to <a href="http://bugzilla.ximian.com">http://bugzilla.ximian.com</a>
 </blockquote> 
 
-<h2>Questions? Comments? Suggestions?</h2>
+<h2>More Information</h2>
 
 <blockquote>
-	To learn the answers to frequently asked questions (FAQs), such
-	as how to make Evolution use your preferred web browser to
-	open links in email, or how to use Evolution to open mailto:
-	links in web pages, select <b>Ximian Evolution FAQ</b> from the Help menu.
-<br><br>
-	If your question isn't there, or if you'd like to send us some
-    	comments, consider subscribing to the <a
-	href="http://lists.ximian.com/mailman/listinfo/evolution">Evolution
-	users mailing list.</a>
+	You can subscribe to the Evolution users mailing list at
+	<a href="http://lists.ximian.com/mailman/listinfo/evolution">http://lists.ximian.com/mailman/listinfo/evolution</a>.
+
+	Information on the Evolution project is available at
+	<a href="http://www.gnome.org/projects/evolution">http://www.gnome.org/projects/evolution</a>.
  </blockquote>
 
 
 Yours Sincerely,<br>
-The Ximian Evolution Team<br>
-<a href="mailto:evolve@ximian.com">evolve@ximian.com</a>
+The Evolution Team<br>
+<a href="mailto:evolution@ximian.com">evolution@ximian.com</a>
 
 </BODY>
 </HTML>
@@ -361,100 +337,3 @@ wAMI8AACPIAADyDAAwjwAAI8gAAPIMADCPAAAjyAAA8gwAMI8AACPIAADyDAAwjwAAI8gAAPIMAD
 CPAAAjyAAA8gwAMIOL8fcegyqOBdwTkAAAAASUVORK5CYII=
 
 --=-t4dRE6cqcdSBHOrMdTQ1
-Content-Type: image/png
-Content-ID: <1001418096.27019.14.camel@spectrolite>
-Content-Disposition: attachment; filename=ximian-update.png
-Content-Transfer-Encoding: base64
-
-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
-
---=-t4dRE6cqcdSBHOrMdTQ1--
-
-
