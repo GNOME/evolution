@@ -1,7 +1,6 @@
 /* Miscellaneous time-related utilities
  *
- * Copyright (C) 1998 The Free Software Foundation
- * Copyright (C) 2000 Ximian, Inc.
+ * Copyright (C) 2000, 2001 Ximian, Inc.
  *
  * Authors: Federico Mena <federico@ximian.com>
  *          Miguel de Icaza <miguel@ximian.com>
@@ -38,16 +37,6 @@ static const int days_in_month[12] = {
  * icaltimetype values rather than time_t values wherever possible.
  **************************************************************************/
 
-static void
-print_time_t (time_t t)
-{
-	struct tm *tm = localtime (&t);
-	
-	printf ("%d/%02d/%02d %02d:%02d:%02d",
-		1900 + tm->tm_year, tm->tm_mon+1, tm->tm_mday,
-		tm->tm_hour, tm->tm_min, tm->tm_sec);
-}
-
 /* Adds a day onto the time, using local time.
    Note that if clocks go forward due to daylight savings time, there are
    some non-existent local times, so the hour may be changed to make it a
@@ -58,21 +47,13 @@ print_time_t (time_t t)
 time_t
 time_add_day (time_t time, int days)
 {
-	struct tm *tm = localtime (&time);
-	time_t new_time;
+	struct tm *tm;
 
+	tm = localtime (&time);
 	tm->tm_mday += days;
 	tm->tm_isdst = -1;
 
-	if ((new_time = mktime (tm)) == -1) {
-		g_message ("time_add_day(): mktime() could not handling adding %d days with\n",
-			   days);
-		print_time_t (time);
-		printf ("\n");
-		return time;
-	}
-
-	return new_time;
+	return mktime (tm);
 }
 
 time_t
@@ -88,9 +69,7 @@ time_day_begin (time_t t)
 	struct tm tm;
 
 	tm = *localtime (&t);
-	tm.tm_hour = 0;
-	tm.tm_min  = 0;
-	tm.tm_sec  = 0;
+	tm.tm_hour = tm.tm_min = tm.tm_sec = 0;
 	tm.tm_isdst = -1;
 
 	return mktime (&tm);
@@ -103,10 +82,8 @@ time_day_end (time_t t)
 	struct tm tm;
 
 	tm = *localtime (&t);
+	tm.tm_hour = tm.tm_min = tm.tm_sec = 0;
 	tm.tm_mday++;
-	tm.tm_hour = 0;
-	tm.tm_min  = 0;
-	tm.tm_sec  = 0;
 	tm.tm_isdst = -1;
 
 	return mktime (&tm);
@@ -454,12 +431,12 @@ time_leap_years_up_to (int year)
 char *
 isodate_from_time_t (time_t t)
 {
-	struct tm *tm;
-	char isotime[40];
+	gchar *ret;
 
-	tm = gmtime (&t);
-	strftime (isotime, sizeof (isotime)-1, "%Y%m%dT%H%M%SZ", tm);
-	return g_strdup (isotime);
+	ret = g_malloc (17); /* 4+2+2+1+2+2+2+1 + 1 */
+	strftime (ret, 17, "%Y%m%dT%H%M%SZ", gmtime (&t));
+
+	return ret;
 }
 
 /**
