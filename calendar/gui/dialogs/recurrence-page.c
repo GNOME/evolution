@@ -1695,6 +1695,7 @@ recurrence_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 	RecurrencePagePrivate *priv;
 	CalComponentDateTime dt;
 	struct icaltimetype icaltime;
+	guint8 mask;
 
 	rpage = RECURRENCE_PAGE (page);
 	priv = rpage->priv;
@@ -1716,6 +1717,19 @@ recurrence_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 		*dt.value = icaltime_from_timet (dates->end, FALSE);
 		cal_component_set_dtend (priv->comp, &dt);
 	}
+
+	/* Update the weekday picker if necessary */
+	mask = get_start_weekday_mask (priv->comp);
+	if (mask == priv->weekday_blocked_day_mask)
+		return;
+
+	priv->weekday_day_mask = priv->weekday_day_mask | mask;
+	priv->weekday_blocked_day_mask = mask;
+
+	weekday_picker_set_days (priv->weekday_picker,
+				 priv->weekday_day_mask);
+	weekday_picker_set_blocked_days (priv->weekday_picker,
+					 priv->weekday_blocked_day_mask);
 }
 
 

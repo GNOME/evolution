@@ -1,3 +1,11 @@
+2001-06-04  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/recurrence-page.c (recurrence_page_set_dates):
+	update the blocked/selected days if the starting day of the
+	appointment changes, fixes #2188
+
+	* gui/dialogs/task-details-page.h: tidy proto
+
 2001-06-03  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/e-itip-control.c: #include <bonobo/bonobo-context.h> instead
