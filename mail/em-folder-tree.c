@@ -551,7 +551,7 @@ tree_drag_data_get (GtkWidget *widget, GdkDragContext *context, GtkSelectionData
 	if (!priv->drag_row || !(path = gtk_tree_row_reference_get_path (priv->drag_row)))
 		return;
 	
-	em_folder_tree_model_drag_data_get (priv->model, path, selection, info);
+	em_folder_tree_model_drag_data_get (priv->model, context, path, selection, info);
 	gtk_tree_path_free (path);
 }
 
@@ -562,17 +562,11 @@ tree_drag_data_received (GtkWidget *widget, GdkDragContext *context, int x, int 
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	GtkTreeViewDropPosition pos;
 	GtkTreePath *path;
-	gboolean success;
-	gboolean moved;
-	gboolean move;
 	
 	if (!gtk_tree_view_get_dest_row_at_pos (priv->treeview, x, y, &path, &pos))
 		return;
 	
-	move = context->action == GDK_ACTION_MOVE;
-	success = em_folder_tree_model_drag_data_received (priv->model, path, selection, info, move, &moved);
-	
-	gtk_drag_finish (context, success, success && move && !moved, time);
+	em_folder_tree_model_drag_data_received (priv->model, context, path, selection, info);
 }
 
 static gboolean

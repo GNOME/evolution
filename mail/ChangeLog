@@ -1,3 +1,15 @@
+2004-02-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-tree.c (tree_drag_data_received): Modified
+	slightly. The model now calls gtk_drag_finish() for us when it is
+	done.
+
+	* em-folder-tree-model.c
+	(em_folder_tree_model_drag_data_received): Make this perform camel
+	operations in another thread so we don't block.
+	(em_folder_tree_model_drag_data_get): Updated args to be
+	consistant with drag_data_received.
+
 2004-02-03  Radek Doulik  <rodo@ximian.com>
 
 	* em-junk-filter.c: handle the sa prefs here, have own gconf

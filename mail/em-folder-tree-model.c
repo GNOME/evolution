@@ -1030,31 +1030,31 @@ drop_uid_list (CamelFolder *dest, GtkSelectionData *selection, gboolean move, gb
 }
 
 static void
-drop_folder (CamelStore *dest_store, const char *dest_name, GtkSelectionData *selection, gboolean move, gboolean *moved, CamelException *ex)
+drop_folder (CamelStore *dest_store, const char *name, GtkSelectionData *selection, gboolean move, gboolean *moved, CamelException *ex)
 {
 	CamelFolder *src;
 	char *new_name;
 	
 	*moved = FALSE;
-
+	
 	/* FIXME: all this stuff needs to run asynchronous */
-
+	
 	if (!(src = mail_tool_uri_to_folder (selection->data, 0, ex)))
 		return;
-
+	
 	/* handles dropping to the root properly */
-	if (dest_name[0])
-		new_name = g_strdup_printf ("%s/%s", dest_name, src->name);
+	if (name[0])
+		new_name = g_strdup_printf ("%s/%s", name, src->name);
 	else
-		new_name = g_strdup(src->name);
-
+		new_name = g_strdup (src->name);
+	
 	if (src->parent_store == dest_store && move) {
 		/* simple case, rename */
 		camel_store_rename_folder (dest_store, src->full_name, new_name, ex);
 		*moved = !camel_exception_is_set (ex);
 	} else {
 		CamelFolder *dest;
-
+		
 		/* copy the folder to the new location */
 		if ((dest = camel_store_get_folder (dest_store, new_name, CAMEL_STORE_FOLDER_CREATE, ex))) {
 			GPtrArray *uids;
@@ -1066,8 +1066,8 @@ drop_folder (CamelStore *dest_store, const char *dest_name, GtkSelectionData *se
 			camel_object_unref (dest);
 		}
 	}
-
-	g_free(new_name);
+	
+	g_free (new_name);
 	camel_object_unref (src);
 }
 
@@ -1170,26 +1170,107 @@ drop_text_uri_list (CamelFolder *dest, GtkSelectionData *selection, CamelExcepti
 	g_free (urls);
 }
 
-gboolean
-em_folder_tree_model_drag_data_received (EMFolderTreeModel *model, GtkTreePath *dest_path, GtkSelectionData *selection,
-					 guint info, gboolean move, gboolean *moved)
-{
-	const char *full_name;
-	CamelFolder *folder;
+struct _DragDataReceivedAsync {
+	struct _mail_msg msg;
+	
+	/* input data */
+	GdkDragContext *context;
+	GtkSelectionData *selection;
 	CamelStore *store;
-	CamelException ex;
+	char *full_name;
+	gboolean move;
+	guint info;
+	
+	/* output data */
+	gboolean moved;
+};
+
+static void
+emftm_drag_data_received_async__drop (struct _mail_msg *mm)
+{
+	struct _DragDataReceivedAsync *m = (struct _DragDataReceivedAsync *) mm;
+	CamelFolder *folder;
+	
+	/* for types other than folder, we can't drop to the root path */
+	if (m->info == DND_DROP_TYPE_FOLDER) {
+		/* copy or move (aka rename) a folder */
+		drop_folder (m->store, m->full_name, m->selection, m->move, &m->moved, &mm->ex);
+		d(printf ("\t* dropped a x-folder ('%s' into '%s')\n", m->selection->data, m->full_name));
+	} else if (m->full_name[0] == 0) {
+		camel_exception_set (&mm->ex, CAMEL_EXCEPTION_SYSTEM,
+				     _("Cannot drop message(s) into toplevel store"));
+	} else if ((folder = camel_store_get_folder (m->store, m->full_name, 0, &mm->ex))) {
+		switch (m->info) {
+		case DND_DROP_TYPE_UID_LIST:
+			/* import a list of uids from another evo folder */
+			drop_uid_list (folder, m->selection, m->move, &m->moved, &mm->ex);
+			d(printf ("\t* dropped a x-uid-list\n"));
+			break;
+		case DND_DROP_TYPE_MESSAGE_RFC822:
+			/* import a message/rfc822 stream */
+			drop_message_rfc822 (folder, m->selection, &mm->ex);
+			d(printf ("\t* dropped a message/rfc822\n"));
+			break;
+		case DND_DROP_TYPE_TEXT_URI_LIST:
+			/* import an mbox, maildir, or mh folder? */
+			drop_text_uri_list (folder, m->selection, &mm->ex);
+			d(printf ("\t* dropped a text/uri-list\n"));
+			break;
+		default:
+			g_assert_not_reached ();
+		}
+	}
+}
+
+static void
+emftm_drag_data_received_async__done (struct _mail_msg *mm)
+{
+	struct _DragDataReceivedAsync *m = (struct _DragDataReceivedAsync *) mm;
+	gboolean success, delete;
+	
+	success = !camel_exception_is_set (&mm->ex);
+	delete = success && m->move && !m->moved;
+	
+	gtk_drag_finish (m->context, success, delete, GDK_CURRENT_TIME);
+}
+
+static void
+emftm_drag_data_received_async__free (struct _mail_msg *mm)
+{
+	struct _DragDataReceivedAsync *m = (struct _DragDataReceivedAsync *) mm;
+	
+	g_object_unref (m->context);
+	g_object_unref (m->selection);
+	camel_object_unref (m->store);
+	g_free (m->full_name);
+}
+
+static struct _mail_msg_op drag_data_received_async_op = {
+	NULL,
+	emftm_drag_data_received_async__drop,
+	emftm_drag_data_received_async__done,
+	emftm_drag_data_received_async__free,
+};
+
+void
+em_folder_tree_model_drag_data_received (EMFolderTreeModel *model, GdkDragContext *context, GtkTreePath *dest_path,
+					 GtkSelectionData *selection, guint info)
+{
+	struct _DragDataReceivedAsync *m;
+	const char *full_name;
+	CamelStore *store;
 	GtkTreeIter iter;
 	char *path;
 	
-	*moved = FALSE;
-	
 	/* this means we are receiving no data */
-	if (!selection->data || selection->length == -1)
-		return FALSE;
+	if (!selection->data || selection->length == -1) {
+		gtk_drag_finish (context, FALSE, FALSE, GDK_CURRENT_TIME);
+		return;
+	}
 	
 	if (!gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, dest_path)) {
-		d(printf ("\tfailed to get row\n"));
-		return FALSE;
+		gtk_drag_finish (context, FALSE, FALSE, GDK_CURRENT_TIME);
+		return;
 	}
 	
 	gtk_tree_model_get ((GtkTreeModel *) model, &iter,
@@ -1198,50 +1279,25 @@ em_folder_tree_model_drag_data_received (EMFolderTreeModel *model, GtkTreePath *
 	
 	/* make sure user isn't try to drop on a placeholder row */
 	if (path == NULL) {
-		d(printf ("\tdropped on a placeholder row?\n"));
-		return FALSE;
+		gtk_drag_finish (context, FALSE, FALSE, GDK_CURRENT_TIME);
+		return;
 	}
-
+	
 	full_name = path[0] == '/' ? path + 1 : path;
-	camel_exception_init (&ex);
-
-	/* for types other than folder, we can't drop to the root path */
-	if (info == DND_DROP_TYPE_FOLDER) {
-		/* copy or move (aka rename) a folder */
-		drop_folder(store, full_name, selection, move, moved, &ex);
-		d(printf ("\t* dropped a x-folder ('%s' into '%s')\n", selection->data, full_name));
-	} else if (full_name[0] == 0) {
-		return FALSE;
-	} else if ((folder = camel_store_get_folder (store, full_name, 0, &ex))) {
-		switch (info) {
-		case DND_DROP_TYPE_UID_LIST:
-			/* import a list of uids from another evo folder */
-			drop_uid_list (folder, selection, move, moved, &ex);
-			d(printf ("\t* dropped a x-uid-list\n"));
-			break;
-		/* case DND_DROP_TYPE_FOLDER: handled above special case */
-		case DND_DROP_TYPE_MESSAGE_RFC822:
-			/* import a message/rfc822 stream */
-			drop_message_rfc822 (folder, selection, &ex);
-			d(printf ("\t* dropped a message/rfc822\n"));
-			break;
-		case DND_DROP_TYPE_TEXT_URI_LIST:
-			/* import an mbox, maildir, or mh folder? */
-			drop_text_uri_list (folder, selection, &ex);
-			d(printf ("\t* dropped a text/uri-list\n"));
-			break;
-		default:
-			g_assert_not_reached ();
-		}
-	}
 	
-	if (camel_exception_is_set (&ex)) {
-		printf ("\t* exception: %s\n", ex.desc);
-		camel_exception_clear (&ex);
-		return FALSE;
-	}
+	g_object_ref (context);
+	g_object_ref (selection);
+	camel_object_ref (store);
 	
-	return TRUE;
+	m = mail_msg_new (&drag_data_received_async_op, NULL, sizeof (struct _DragDataReceivedAsync));
+	m->context = context;
+	m->selection = selection;
+	m->store = store;
+	m->full_name = g_strdup (full_name);
+	m->move = context->action == GDK_ACTION_MOVE;
+	m->info = info;
+	
+	e_thread_put (mail_thread_new, (EMsg *) m);
 }
 
 
@@ -1383,9 +1439,8 @@ drag_text_uri_list (CamelFolder *src, GtkSelectionData *selection, CamelExceptio
 	g_string_free (url, TRUE);
 }
 
-
-gboolean
-em_folder_tree_model_drag_data_get (EMFolderTreeModel *model, GtkTreePath *src_path, GtkSelectionData *selection, guint info)
+void
+em_folder_tree_model_drag_data_get (EMFolderTreeModel *model, GdkDragContext *context, GtkTreePath *src_path, GtkSelectionData *selection, guint info)
 {
 	const char *full_name;
 	CamelFolder *folder;
@@ -1405,25 +1460,22 @@ em_folder_tree_model_drag_data_get (EMFolderTreeModel *model, GtkTreePath *src_p
 			    COL_STRING_URI, &uri, -1);
 	
 	/* make sure user isn't try to drag on a placeholder row */
-	if (path == NULL) {
-		printf ("model_drag_data_get failed to get path\n");
+	if (path == NULL)
 		return FALSE;
-	}
 	
 	full_name = path[0] == '/' ? path + 1 : path;
-	
-	camel_exception_init (&ex);
 	
 	switch (info) {
 	case DND_DRAG_TYPE_FOLDER:
 		/* dragging to a new location in the folder tree */
 		gtk_selection_data_set (selection, drag_atoms[info], 8, uri, strlen (uri) + 1);
-		printf ("model_drag_data_get setting x-folder data\n");
 		break;
 	case DND_DRAG_TYPE_TEXT_URI_LIST:
 		/* dragging to nautilus or something, probably */
+		/* Note: this doesn't need to be done in another
+		 * thread because the folder should already be
+		 * cached */
 		if ((folder = camel_store_get_folder (store, full_name, 0, &ex))) {
-			printf ("model_drag_data_get setting text/uri-list data\n");
 			drag_text_uri_list (folder, selection, &ex);
 			camel_object_unref (folder);
 		}
@@ -1433,7 +1485,6 @@ em_folder_tree_model_drag_data_get (EMFolderTreeModel *model, GtkTreePath *src_p
 	}
 	
 	if (camel_exception_is_set (&ex)) {
-		printf ("model_drag_data_get failed: %s\n", ex.desc);
 		camel_exception_clear (&ex);
 		return FALSE;
 	}
