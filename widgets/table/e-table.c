@@ -2760,7 +2760,7 @@ do_drag_motion(ETable *et,
 	       guint time)
 {
 	gboolean ret_val;
-	int row, col;
+	int row = -1, col = -1;
 	GtkWidget *widget;
 
 	widget = GTK_WIDGET (et);
