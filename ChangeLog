@@ -1,3 +1,10 @@
+2004-01-08  Rodney Dawes  <dobey@ximian.com>
+
+	* configure.in: Add BONOBOUI_REQUIRED variable and depend on
+	libbonoboui >= 2.4.3, add an AC_SUBST() for EDS_REQUIRED also
+	* evolution-shell.pc.in: Require the same version of bonoboui that we
+	do in configure.in
+
 2004-01-08 Sivaiah Nallagatla <snallagatla@novell.com>
 	
 	* configure.in : add camel/providers/groupwise/Makefile to AC_OUTPUT section	
