@@ -5,14 +5,19 @@
 <requires lib="gnome"/>
 
 <widget class="GtkWindow" id="add-calendar-window">
-  <property name="width_request">450</property>
-  <property name="height_request">300</property>
   <property name="title" translatable="yes">Add Calendar</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
+  <property name="default_width">320</property>
+  <property name="default_height">240</property>
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>
+  <property name="decorated">True</property>
+  <property name="skip_taskbar_hint">False</property>
+  <property name="skip_pager_hint">False</property>
+  <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
+  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
 
   <child>
     <widget class="GtkVBox" id="vbox1">
@@ -106,6 +111,10 @@
 	      <property name="yalign">0.5</property>
 	      <property name="xscale">0</property>
 	      <property name="yscale">1</property>
+	      <property name="top_padding">0</property>
+	      <property name="bottom_padding">0</property>
+	      <property name="left_padding">0</property>
+	      <property name="right_padding">0</property>
 
 	      <child>
 		<widget class="GtkHBox" id="hbox2">
@@ -335,6 +344,7 @@
 	      <property name="dither">True</property>
 	      <property name="use_alpha">False</property>
 	      <property name="title" translatable="yes">Pick a color</property>
+	      <property name="focus_on_click">True</property>
 	    </widget>
 	    <packing>
 	      <property name="left_attach">1</property>
@@ -367,6 +377,7 @@
 	      <property name="label">gtk-cancel</property>
 	      <property name="use_stock">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
+	      <property name="focus_on_click">True</property>
 	    </widget>
 	  </child>
 
@@ -376,6 +387,7 @@
 	      <property name="can_default">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
+	      <property name="focus_on_click">True</property>
 
 	      <child>
 		<widget class="GtkAlignment" id="alignment1">
@@ -384,6 +396,10 @@
 		  <property name="yalign">0.5</property>
 		  <property name="xscale">0</property>
 		  <property name="yscale">0</property>
+		  <property name="top_padding">0</property>
+		  <property name="bottom_padding">0</property>
+		  <property name="left_padding">0</property>
+		  <property name="right_padding">0</property>
 
 		  <child>
 		    <widget class="GtkHBox" id="hbox1">
@@ -446,14 +462,19 @@
 </widget>
 
 <widget class="GtkWindow" id="add-task-list-window">
-  <property name="width_request">450</property>
-  <property name="height_request">300</property>
   <property name="title" translatable="yes">Add Tasks Group</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
+  <property name="default_width">320</property>
+  <property name="default_height">240</property>
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>
+  <property name="decorated">True</property>
+  <property name="skip_taskbar_hint">False</property>
+  <property name="skip_pager_hint">False</property>
+  <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
+  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
 
   <child>
     <widget class="GtkVBox" id="vbox87">
@@ -572,6 +593,7 @@
 	      <property name="dither">True</property>
 	      <property name="use_alpha">False</property>
 	      <property name="title" translatable="yes">Pick a color</property>
+	      <property name="focus_on_click">True</property>
 	    </widget>
 	    <packing>
 	      <property name="left_attach">1</property>
@@ -696,6 +718,10 @@
 	      <property name="yalign">0.5</property>
 	      <property name="xscale">0</property>
 	      <property name="yscale">1</property>
+	      <property name="top_padding">0</property>
+	      <property name="bottom_padding">0</property>
+	      <property name="left_padding">0</property>
+	      <property name="right_padding">0</property>
 
 	      <child>
 		<widget class="GtkHBox" id="hbox130">
@@ -809,6 +835,7 @@
 	      <property name="label">gtk-cancel</property>
 	      <property name="use_stock">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
+	      <property name="focus_on_click">True</property>
 	    </widget>
 	  </child>
 
@@ -818,6 +845,7 @@
 	      <property name="can_default">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
+	      <property name="focus_on_click">True</property>
 
 	      <child>
 		<widget class="GtkAlignment" id="alignment48">
@@ -826,6 +854,10 @@
 		  <property name="yalign">0.5</property>
 		  <property name="xscale">0</property>
 		  <property name="yscale">0</property>
+		  <property name="top_padding">0</property>
+		  <property name="bottom_padding">0</property>
+		  <property name="left_padding">0</property>
+		  <property name="right_padding">0</property>
 
 		  <child>
 		    <widget class="GtkHBox" id="hbox129">

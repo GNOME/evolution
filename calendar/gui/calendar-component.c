@@ -571,11 +571,23 @@ config_primary_selection_changed_cb (GConfClient *client, guint id, GConfEntry *
 }
 
 static void
+config_calendars_selection_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
+{
+	update_selection (data);
+}
+
+static void
 config_tasks_selection_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
 {
 	update_task_selection (data);
 }
 
+
+static void
+config_primary_calendar_selection_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
+{
+	update_primary_selection (data);
+}
 
 static void
 config_primary_tasks_selection_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
@@ -1113,6 +1125,15 @@ create_component_view (CalendarComponent *calendar_component)
 	update_primary_selection (component_view);
 	update_task_selection (component_view);
 	update_primary_task_selection (component_view);
+
+	/* If the calendar selection changes elsewhere, update it */
+	not = calendar_config_add_notification_calendars_selected (config_calendars_selection_changed_cb, 
+							       component_view);
+	component_view->notifications = g_list_prepend (component_view->notifications, GUINT_TO_POINTER (not));
+
+	not = calendar_config_add_notification_primary_calendar (config_primary_calendar_selection_changed_cb, 
+							      component_view);
+	component_view->notifications = g_list_prepend (component_view->notifications, GUINT_TO_POINTER (not));
 
 	/* If the task selection changes elsewhere, update it */
 	not = calendar_config_add_notification_tasks_selected (config_tasks_selection_changed_cb, 
