@@ -623,12 +623,10 @@ static void
 local_folder_changed (CamelObject *object, gpointer event_data,
 		      gpointer user_data)
 {
-	CamelFolder *folder = CAMEL_FOLDER (object);
 	MailLocalFolder *local_folder = user_data;
-	int unread;
+	int unread = GPOINTER_TO_INT (event_data);
 	char *display;
 
-	unread = camel_folder_get_unread_message_count (folder);
 	if (unread != local_folder->last_unread) {
 		CORBA_Environment ev;
 
@@ -650,6 +648,18 @@ local_folder_changed (CamelObject *object, gpointer event_data,
 
 		local_folder->last_unread = unread;
 	}
+}
+
+static void
+local_folder_changed_proxy (CamelObject *object, gpointer event_data,
+			    gpointer user_data)
+{
+	CamelFolder *folder = CAMEL_FOLDER (object);
+	int unread;
+
+	unread = camel_folder_get_unread_message_count (folder);
+	mail_op_forward_event (local_folder_changed, object,
+			       GINT_TO_POINTER (unread), user_data);
 }
 
 static char *
@@ -686,6 +696,8 @@ do_register_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 	if (meta->indexed)
 		flags |= CAMEL_STORE_FOLDER_BODY_INDEX;
 	local_folder->folder = camel_store_get_folder (store, meta->name, flags, ex);
+	local_folder->last_unread = camel_folder_get_unread_message_count (
+		local_folder->folder);
 	camel_object_unref (CAMEL_OBJECT (store));
 	free_metainfo (meta);
 }
@@ -704,10 +716,9 @@ cleanup_register_folder (gpointer in_data, gpointer op_data,
 	g_hash_table_insert (local_folder->local_store->folders,
 			     local_folder->name, local_folder->folder);
 	local_folder->name = strrchr (local_folder->path, '/') + 1;
-	local_folder->last_unread = 0;
 
 	camel_object_hook_event (CAMEL_OBJECT (local_folder->folder),
-				 "folder_changed", local_folder_changed,
+				 "folder_changed", local_folder_changed_proxy,
 				 local_folder);
 	local_folder_changed (CAMEL_OBJECT (local_folder->folder),
 			      NULL, local_folder);

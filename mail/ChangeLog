@@ -1,3 +1,9 @@
+2000-11-27  Dan Winship  <danw@helixcode.com>
+
+	* mail-local.c (local_folder_changed): This needs to run from the
+	main thread, not the camel thread, so add a proxy signal handler
+	to call mail_op_forward_event. Fixes hangs (eg bugzilla #909).
+
 2000-11-27  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-display.c: Removed some unecessary debugging printf's
