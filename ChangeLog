@@ -1,3 +1,7 @@
+2001-08-19  Aaron Weber  <aaron@ximian.com>
+
+	*Makefile.am: added "help" to subdirs.
+	
 2001-08-19  Chris Toshok  <toshok@ximian.com>
 
 	* omf-install/Makefile.am (scrollkeeper_localstate_dir) use

@@ -39,6 +39,7 @@ SUBDIRS =			\
 	views			\
         tools                   \
 	doc			\
+	help			\
         po			\
 	omf-install
 

@@ -664,7 +664,6 @@
       </para>
     </tip>
 -->
-
 	<para>
 	  Any time new information arrives in a mail folder, that folder label
 	  is displayed in bold text, along with the number of new messages in
@@ -762,4 +761,7 @@
   </sect1>
  
 </chapter>
+
+
+
 
