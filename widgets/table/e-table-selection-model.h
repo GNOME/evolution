@@ -32,6 +32,8 @@ typedef struct {
 	guint frozen : 1;
 	guint selection_model_changed : 1;
 	guint group_info_changed : 1;
+
+	GtkSelectionMode mode;
 } ETableSelectionModel;
 
 typedef struct {

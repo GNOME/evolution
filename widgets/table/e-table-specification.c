@@ -62,6 +62,7 @@ etsp_init (ETableSpecification *etsp)
 	etsp->click_to_add          = FALSE;
 	etsp->draw_grid             = FALSE;
 	etsp->cursor_mode           = E_TABLE_CURSOR_SIMPLE;
+	etsp->selection_mode        = GTK_SELECTION_MULTIPLE;
 
 	etsp->click_to_add_message_ = NULL;
 }
@@ -116,6 +117,17 @@ e_table_specification_load_from_node    (ETableSpecification *specification,
 	specification->no_headers = e_xml_get_bool_prop_by_name(node, "no-headers");
 	specification->click_to_add = e_xml_get_bool_prop_by_name(node, "click-to-add");
 	specification->draw_grid = e_xml_get_bool_prop_by_name(node, "draw-grid");
+
+	specification->selection_mode = GTK_SELECTION_MULTIPLE;
+	temp = e_xml_get_string_prop_by_name(node, "selection-mode");
+	if (temp && !strcasecmp(temp, "single")) {
+		specification->selection_mode = GTK_SELECTION_SINGLE;
+	} else if (temp && !strcasecmp(temp, "browse")) {
+		specification->selection_mode = GTK_SELECTION_BROWSE;
+	} else if (temp && !strcasecmp(temp, "extended")) {
+		specification->selection_mode = GTK_SELECTION_EXTENDED;
+	}
+	g_free(temp);
 
 	specification->cursor_mode = E_TABLE_CURSOR_SIMPLE;
 	temp = e_xml_get_string_prop_by_name(node, "cursor-mode");

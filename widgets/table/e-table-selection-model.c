@@ -40,6 +40,7 @@ enum {
 	ARG_SORTER,
 	ARG_CURSOR_ROW,
 	ARG_CURSOR_COL,
+	ARG_SELECTION_MODE,
 };
 
 static void
@@ -204,6 +205,10 @@ etsm_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_CURSOR_COL:
 		GTK_VALUE_INT(*arg) = etsm->cursor_col;
 		break;
+
+	case ARG_SELECTION_MODE:
+		GTK_VALUE_ENUM(*arg) = etsm->mode;
+		break;
 	}
 }
 
@@ -230,6 +235,13 @@ etsm_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_CURSOR_COL:
 		e_table_selection_model_do_something(etsm, etsm->cursor_row, GTK_VALUE_INT(*arg), 0);
 		break;
+
+	case ARG_SELECTION_MODE:
+		etsm->mode = GTK_VALUE_ENUM(*arg);
+		if (etsm->mode == GTK_SELECTION_SINGLE) {
+			e_table_selection_model_do_something(etsm, etsm->cursor_row, etsm->cursor_col, 0);
+		}
+		break;
 	}
 }
 
@@ -242,6 +254,7 @@ e_table_selection_model_init (ETableSelectionModel *selection)
 	selection->selection_start_row = 0;
 	selection->cursor_row = -1;
 	selection->cursor_col = -1;
+	selection->mode = GTK_SELECTION_MULTIPLE;
 }
 
 static void
@@ -286,6 +299,8 @@ e_table_selection_model_class_init (ETableSelectionModelClass *klass)
 				 GTK_ARG_READWRITE, ARG_CURSOR_ROW);
 	gtk_object_add_arg_type ("ETableSelectionModel::cursor_col", GTK_TYPE_INT,
 				 GTK_ARG_READWRITE, ARG_CURSOR_COL);
+	gtk_object_add_arg_type ("ETableSelectionModel::selection_mode", GTK_TYPE_ENUM,
+				 GTK_ARG_READWRITE, ARG_SELECTION_MODE);
 }
 
 E_MAKE_TYPE(e_table_selection_model, "ETableSelectionModel", ETableSelectionModel,
@@ -368,6 +383,70 @@ change_selection(ETableSelectionModel *selection, int start, int end, gboolean g
 	}
 }
 
+static void
+etsm_select_single_row (ETableSelectionModel *selection, int row)
+{
+	int i;
+	for (i = 0; i < ((selection->row_count + 31) / 32); i++) {
+		if (!((i == BOX(row) && selection->selection[i] == BITMASK(row)) ||
+		      (i != BOX(row) && selection->selection[i] == 0))) {
+			g_free(selection->selection);
+			selection->selection = g_new0(gint, (selection->row_count + 31) / 32);
+			selection->selection[BOX(row)] = BITMASK(row);
+
+			gtk_signal_emit(GTK_OBJECT(selection),
+					e_table_selection_model_signals [SELECTION_CHANGED]);
+			break;
+		}
+	}
+}
+
+static void
+etsm_toggle_single_row (ETableSelectionModel *selection, int row)
+{
+	if (selection->selection[BOX(row)] & BITMASK(row))
+		selection->selection[BOX(row)] &= ~BITMASK(row);
+	else
+		selection->selection[BOX(row)] |= BITMASK(row);
+	gtk_signal_emit(GTK_OBJECT(selection),
+			e_table_selection_model_signals [SELECTION_CHANGED]);
+}
+
+static void
+etsm_move_selection_end (ETableSelectionModel *selection, int row)
+{
+	int old_start;
+	int old_end;
+	int new_start;
+	int new_end;
+	if (selection->sorter && e_table_sorter_needs_sorting(selection->sorter)) {
+		old_start = MIN (e_table_sorter_model_to_sorted(selection->sorter, selection->selection_start_row),
+				 e_table_sorter_model_to_sorted(selection->sorter, selection->cursor_row));
+		old_end = MAX (e_table_sorter_model_to_sorted(selection->sorter, selection->selection_start_row),
+			       e_table_sorter_model_to_sorted(selection->sorter, selection->cursor_row)) + 1;
+		new_start = MIN (e_table_sorter_model_to_sorted(selection->sorter, selection->selection_start_row),
+				 e_table_sorter_model_to_sorted(selection->sorter, row));
+		new_end = MAX (e_table_sorter_model_to_sorted(selection->sorter, selection->selection_start_row),
+			       e_table_sorter_model_to_sorted(selection->sorter, row)) + 1;
+	} else {
+		old_start = MIN (selection->selection_start_row, selection->cursor_row);
+		old_end = MAX (selection->selection_start_row, selection->cursor_row) + 1;
+		new_start = MIN (selection->selection_start_row, row);
+		new_end = MAX (selection->selection_start_row, row) + 1;
+	}
+	/* This wouldn't work nearly so smoothly if one end of the selection weren'theld in place. */
+	if (old_start < new_start)
+		change_selection(selection, old_start, new_start, FALSE);
+	if (new_start < old_start)
+		change_selection(selection, new_start, old_start, TRUE);
+	if (old_end < new_end)
+		change_selection(selection, old_end, new_end, TRUE);
+	if (new_end < old_end)
+		change_selection(selection, new_end, old_end, FALSE);
+	gtk_signal_emit(GTK_OBJECT(selection),
+			e_table_selection_model_signals [SELECTION_CHANGED]);
+}
+
 void             e_table_selection_model_do_something      (ETableSelectionModel *selection,
 							    guint                 row,
 							    guint                 col,
@@ -383,61 +462,25 @@ void             e_table_selection_model_do_something      (ETableSelectionModel
 		}
 	}
 	if (selection->row_count >= 0 && row < selection->row_count) {
-		if (shift_p) {
-			int old_start;
-			int old_end;
-			int new_start;
-			int new_end;
-			if (selection->sorter && e_table_sorter_needs_sorting(selection->sorter)) {
-				old_start = MIN (e_table_sorter_model_to_sorted(selection->sorter, selection->selection_start_row),
-						 e_table_sorter_model_to_sorted(selection->sorter, selection->cursor_row));
-				old_end = MAX (e_table_sorter_model_to_sorted(selection->sorter, selection->selection_start_row),
-					       e_table_sorter_model_to_sorted(selection->sorter, selection->cursor_row)) + 1;
-				new_start = MIN (e_table_sorter_model_to_sorted(selection->sorter, selection->selection_start_row),
-						 e_table_sorter_model_to_sorted(selection->sorter, row));
-				new_end = MAX (e_table_sorter_model_to_sorted(selection->sorter, selection->selection_start_row),
-					       e_table_sorter_model_to_sorted(selection->sorter, row)) + 1;
-			} else {
-				old_start = MIN (selection->selection_start_row, selection->cursor_row);
-				old_end = MAX (selection->selection_start_row, selection->cursor_row) + 1;
-				new_start = MIN (selection->selection_start_row, row);
-				new_end = MAX (selection->selection_start_row, row) + 1;
-			}
-			/* This wouldn't work nearly so smoothly if one end of the selection held in place. */
-			if (old_start < new_start)
-				change_selection(selection, old_start, new_start, FALSE);
-			if (new_start < old_start)
-				change_selection(selection, new_start, old_start, TRUE);
-			if (old_end < new_end)
-				change_selection(selection, old_end, new_end, TRUE);
-			if (new_end < old_end)
-				change_selection(selection, new_end, old_end, FALSE);
-			gtk_signal_emit(GTK_OBJECT(selection),
-					e_table_selection_model_signals [SELECTION_CHANGED]);
-		} else {
-			if (ctrl_p) {
-				if (selection->selection[BOX(row)] & BITMASK(row))
-					selection->selection[BOX(row)] &= ~BITMASK(row);
-				else
-					selection->selection[BOX(row)] |= BITMASK(row);
-				gtk_signal_emit(GTK_OBJECT(selection),
-						e_table_selection_model_signals [SELECTION_CHANGED]);
-			} else {
-				int i;
-				for (i = 0; i < ((selection->row_count + 31) / 32); i++) {
-					if (!((i == BOX(row) && selection->selection[i] == BITMASK(row)) ||
-					      (i != BOX(row) && selection->selection[i] == 0))) {
-						g_free(selection->selection);
-						selection->selection = g_new0(gint, (selection->row_count + 31) / 32);
-						selection->selection[BOX(row)] = BITMASK(row);
-
-						gtk_signal_emit(GTK_OBJECT(selection),
-								e_table_selection_model_signals [SELECTION_CHANGED]);
-						break;
-					}
-				}
-			}
+		switch (selection->mode) {
+		case GTK_SELECTION_SINGLE:
+			etsm_select_single_row (selection, row);
 			selection->selection_start_row = row;
+			break;
+		case GTK_SELECTION_BROWSE:
+		case GTK_SELECTION_MULTIPLE:
+		case GTK_SELECTION_EXTENDED:
+			if (shift_p) {
+				etsm_move_selection_end (selection, row);
+			} else {
+				if (ctrl_p) {
+					etsm_toggle_single_row (selection, row);
+				} else {
+					etsm_select_single_row (selection, row);
+				}
+				selection->selection_start_row = row;
+			}
+			break;
 		}
 		if (selection->cursor_row != row ||
 		    selection->cursor_col != col) {
