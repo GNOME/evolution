@@ -20,7 +20,6 @@
  *
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -74,8 +73,8 @@ static int local_setv(CamelObject *object, CamelException *ex, CamelArgV *args);
 static int local_lock(CamelLocalFolder *lf, CamelLockType type, CamelException *ex);
 static void local_unlock(CamelLocalFolder *lf);
 
-static char *local_get_full_path(const char *toplevel_dir, const char *full_name);
-static char *local_get_meta_path(const char *toplevel_dir, const char *full_name, const char *ext);
+static char *local_get_full_path(CamelLocalFolder *lf, const char *toplevel_dir, const char *full_name);
+static char *local_get_meta_path(CamelLocalFolder *lf, const char *toplevel_dir, const char *full_name, const char *ext);
 
 static void local_refresh_info(CamelFolder *folder, CamelException *ex);
 
@@ -246,10 +245,10 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 		lf->index_path = g_strdup_printf("%s.ibex", tmp);
 		statepath = g_strdup_printf("%s.cmeta", tmp);
 	} else {
-		lf->folder_path = CLOCALF_CLASS(lf)->get_full_path(root_dir_path, full_name);
-		lf->summary_path = CLOCALF_CLASS(lf)->get_meta_path(root_dir_path, full_name, ".ev-summary");
-		lf->index_path = CLOCALF_CLASS(lf)->get_meta_path(root_dir_path, full_name, ".ibex");
-		statepath = CLOCALF_CLASS(lf)->get_meta_path(root_dir_path, full_name, ".cmeta");
+		lf->folder_path = CLOCALF_CLASS(lf)->get_full_path(lf, root_dir_path, full_name);
+		lf->summary_path = CLOCALF_CLASS(lf)->get_meta_path(lf, root_dir_path, full_name, ".ev-summary");
+		lf->index_path = CLOCALF_CLASS(lf)->get_meta_path(lf, root_dir_path, full_name, ".ibex");
+		statepath = CLOCALF_CLASS(lf)->get_meta_path(lf, root_dir_path, full_name, ".cmeta");
 	}
 	camel_object_set(lf, NULL, CAMEL_OBJECT_STATE_FILE, statepath, NULL);
 	g_free(statepath);
@@ -300,7 +299,7 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 		forceindex = FALSE;
 	}
 
-	folder->summary = (CamelFolderSummary *)CLOCALF_CLASS(lf)->create_summary(lf->summary_path, lf->folder_path, lf->index);
+	folder->summary = (CamelFolderSummary *)CLOCALF_CLASS(lf)->create_summary(lf, lf->summary_path, lf->folder_path, lf->index);
 	if (camel_local_summary_load((CamelLocalSummary *)folder->summary, forceindex, NULL) == -1) {
 		/* ? */
 	}
@@ -464,15 +463,15 @@ local_setv(CamelObject *object, CamelException *ex, CamelArgV *args)
 }
 
 static char *
-local_get_full_path (const char *toplevel_dir, const char *full_name)
+local_get_full_path(CamelLocalFolder *lf, const char *toplevel_dir, const char *full_name)
 {
-	return g_strdup_printf ("%s/%s", toplevel_dir, full_name);
+	return g_strdup_printf("%s/%s", toplevel_dir, full_name);
 }
 
 static char *
-local_get_meta_path (const char *toplevel_dir, const char *full_name, const char *ext)
+local_get_meta_path(CamelLocalFolder *lf, const char *toplevel_dir, const char *full_name, const char *ext)
 {
-	return g_strdup_printf ("%s/%s%s", toplevel_dir, full_name, ext);
+	return g_strdup_printf("%s/%s%s", toplevel_dir, full_name, ext);
 }
 
 static int
@@ -559,10 +558,10 @@ local_rename(CamelFolder *folder, const char *newname)
 	g_free(lf->summary_path);
 	g_free(lf->index_path);
 
-	lf->folder_path = CLOCALF_CLASS(lf)->get_full_path(lf->base_path, newname);
-	lf->summary_path = CLOCALF_CLASS(lf)->get_meta_path(lf->base_path, newname, ".ev-summary");
-	lf->index_path = CLOCALF_CLASS(lf)->get_meta_path(lf->base_path, newname, ".ibex");
-	statepath = CLOCALF_CLASS(lf)->get_meta_path(lf->base_path, newname, ".cmeta");
+	lf->folder_path = CLOCALF_CLASS(lf)->get_full_path(lf, lf->base_path, newname);
+	lf->summary_path = CLOCALF_CLASS(lf)->get_meta_path(lf, lf->base_path, newname, ".ev-summary");
+	lf->index_path = CLOCALF_CLASS(lf)->get_meta_path(lf, lf->base_path, newname, ".ibex");
+	statepath = CLOCALF_CLASS(lf)->get_meta_path(lf, lf->base_path, newname, ".cmeta");
 	camel_object_set(lf, NULL, CAMEL_OBJECT_STATE_FILE, statepath, NULL);
 	g_free(statepath);
 

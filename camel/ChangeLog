@@ -1,3 +1,26 @@
+2004-09-27  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-spool-folder.c (camel_spool_folder_new):
+	make sure body indexing is turned off always, missed the ~ bit.
+
+	* providers/local/camel-spool-store.c (camel_folder_info_new):
+	dont take unread count.
+	(spool_fill_fi): copied from mbox more or less.
+	(scan_dir): use fill_fi to setup counts.
+	(spool_new_fi): replace camel_foldeR_info_new with one that does
+	most of the work, also generates uri's properly.
+	(get_folder_info_mbox): make the 'system' inbox name translatable.
+
+	* providers/local/camel-mbox-folder.h: make the
+	camel_mbox_folder_get* functions properly public.
+
+	* providers/local/camel-local-folder.h: pass the object to the
+	virtual methods now, fix all callers.
+
+	* providers/local/camel-spool-folder.c (spool_get_full_path)
+	(spool_get_meta_path): implement, this needs to work differnetly
+	to the parent classes implementations :-/.
+
 2004-09-22  Jeffrey Stedfast  <fejj@novell.com>
 
 	* providers/imap/camel-imap-store.c (connect_to_server): Instead

@@ -53,9 +53,6 @@ static CamelLocalFolderClass *parent_class = NULL;
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 #define CMBOXS_CLASS(so) CAMEL_STORE_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
-char *camel_mbox_folder_get_full_path (const char *toplevel_dir, const char *full_name);
-char *camel_mbox_folder_get_meta_path (const char *toplevel_dir, const char *full_name, const char *ext);
-
 static int mbox_lock(CamelLocalFolder *lf, CamelLockType type, CamelException *ex);
 static void mbox_unlock(CamelLocalFolder *lf);
 
@@ -68,7 +65,7 @@ static void mbox_set_message_user_tag(CamelFolder *folder, const char *uid, cons
 
 static void mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const CamelMessageInfo * info,	char **appended_uid, CamelException *ex);
 static CamelMimeMessage *mbox_get_message(CamelFolder *folder, const gchar * uid, CamelException *ex);
-static CamelLocalSummary *mbox_create_summary(const char *path, const char *folder, CamelIndex *index);
+static CamelLocalSummary *mbox_create_summary(CamelLocalFolder *lf, const char *path, const char *folder, CamelIndex *index);
 
 static void mbox_finalise(CamelObject * object);
 
@@ -148,7 +145,7 @@ camel_mbox_folder_new(CamelStore *parent_store, const char *full_name, guint32 f
 }
 
 char *
-camel_mbox_folder_get_full_path (const char *toplevel_dir, const char *full_name)
+camel_mbox_folder_get_full_path (CamelLocalFolder *lf, const char *toplevel_dir, const char *full_name)
 {
 	const char *inptr = full_name;
 	int subdirs = 0;
@@ -184,7 +181,7 @@ camel_mbox_folder_get_full_path (const char *toplevel_dir, const char *full_name
 }
 
 char *
-camel_mbox_folder_get_meta_path (const char *toplevel_dir, const char *full_name, const char *ext)
+camel_mbox_folder_get_meta_path (CamelLocalFolder *lf, const char *toplevel_dir, const char *full_name, const char *ext)
 {
 /*#define USE_HIDDEN_META_FILES*/
 #ifdef USE_HIDDEN_META_FILES
@@ -196,11 +193,11 @@ camel_mbox_folder_get_meta_path (const char *toplevel_dir, const char *full_name
 	else
 		sprintf (name, ".%s%s", full_name, ext);
 	
-	return camel_mbox_folder_get_full_path (toplevel_dir, name);
+	return camel_mbox_folder_get_full_path (lf, toplevel_dir, name);
 #else
 	char *full_path, *path;
 	
-	full_path = camel_mbox_folder_get_full_path (toplevel_dir, full_name);
+	full_path = camel_mbox_folder_get_full_path (lf, toplevel_dir, full_name);
 	path = g_strdup_printf ("%s%s", full_path, ext);
 	g_free (full_path);
 	
@@ -208,7 +205,7 @@ camel_mbox_folder_get_meta_path (const char *toplevel_dir, const char *full_name
 #endif
 }
 
-static CamelLocalSummary *mbox_create_summary(const char *path, const char *folder, CamelIndex *index)
+static CamelLocalSummary *mbox_create_summary(CamelLocalFolder *lf, const char *path, const char *folder, CamelIndex *index)
 {
 	return (CamelLocalSummary *)camel_mbox_summary_new(path, folder, index);
 }

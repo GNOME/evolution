@@ -50,7 +50,7 @@ static CamelLocalFolderClass *parent_class = NULL;
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 #define CMAILDIRS_CLASS(so) CAMEL_STORE_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
-static CamelLocalSummary *maildir_create_summary(const char *path, const char *folder, CamelIndex *index);
+static CamelLocalSummary *maildir_create_summary(CamelLocalFolder *lf, const char *path, const char *folder, CamelIndex *index);
 
 static void maildir_append_message(CamelFolder * folder, CamelMimeMessage * message, const CamelMessageInfo *info, char **appended_uid, CamelException * ex);
 static CamelMimeMessage *maildir_get_message(CamelFolder * folder, const gchar * uid, CamelException * ex);
@@ -151,7 +151,7 @@ camel_maildir_folder_new(CamelStore *parent_store, const char *full_name, guint3
 	return folder;
 }
 
-static CamelLocalSummary *maildir_create_summary(const char *path, const char *folder, CamelIndex *index)
+static CamelLocalSummary *maildir_create_summary(CamelLocalFolder *lf, const char *path, const char *folder, CamelIndex *index)
 {
 	return (CamelLocalSummary *)camel_maildir_summary_new(path, folder, index);
 }
