@@ -44,7 +44,7 @@ contact_list_set_value_at (ETableModel *etc, int col, int row, const void *val)
 static gboolean
 contact_list_is_cell_editable (ETableModel *etc, int col, int row)
 {
-	return TRUE;
+	return FALSE;
 }
 
 /* This function duplicates the value passed to it. */

@@ -1,3 +1,8 @@
+2004-06-07  Jon Oberheide  <jon@focalhost.com>
+
+	* gui/contact-list-editor/e-contact-list-model.c: disable editing
+	of cells in the contact table.
+
 2004-06-07  Hans Petter Jansson  <hpj@ximian.com>
 
 	Fixes #57795.
