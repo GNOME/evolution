@@ -1,3 +1,8 @@
+2002-10-11  JP Rosevear  <jpr@ximian.com>
+
+	* e-calendar-item.c (e_calendar_item_ensure_days_visible): check
+	if the selection fits in the leftover days
+
 2002-09-30  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Add a small delay to the switching of pages in the multi-config

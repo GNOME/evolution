@@ -2149,7 +2149,7 @@ e_calendar_item_set_first_month(ECalendarItem	*calitem,
 			calitem->month = new_month;
 		} else {
 			old_days_in_selection = e_calendar_item_get_inclusive_days (calitem, calitem->selection_start_month_offset, calitem->selection_start_day, calitem->selection_end_month_offset, calitem->selection_end_day);
-
+			
 			/* Make sure the selection will be displayed. */
 			if (calitem->selection_start_month_offset < 0
 			    || calitem->selection_start_month_offset >= num_months) {
@@ -2705,9 +2705,28 @@ e_calendar_item_ensure_days_visible	(ECalendarItem	*calitem,
 	if (end_year > current_end_year
 	    || (end_year == current_end_year
 		&& end_month > current_end_month)) {
-		need_update = TRUE;
-		calitem->year = end_year;
-		calitem->month = end_month - months_shown + 1;
+		
+		/* First we see if the end of the selection will fit in the
+		   leftover days of the month after the last one shown. */
+		calitem->month += (months_shown - 1);
+		e_calendar_item_normalize_date (calitem, &calitem->year,
+						&calitem->month);
+		
+		e_calendar_item_get_month_info (calitem, 0, 0,
+						&first_day_offset,
+						&days_in_month,
+						&days_in_prev_month);
+		
+		if (end_day >= E_CALENDAR_ROWS_PER_MONTH * E_CALENDAR_COLS_PER_MONTH - 
+		    first_day_offset - days_in_month) {
+			need_update = TRUE;
+
+			calitem->year = end_year;
+			calitem->month = end_month - months_shown + 1;
+		} else {
+			calitem->month -= (months_shown - 1);
+		}
+		
 		e_calendar_item_normalize_date (calitem, &calitem->year,
 						&calitem->month);
 	}
