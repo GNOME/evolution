@@ -1,5 +1,8 @@
 2003-02-24  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/pop3/camel-pop3-stream.c (stream_write): Don't write
+	the passwd, fixes "bug" #38601.
+
 	* camel-iconv.c: Make bucket->refcount 31 bits and bucket->used 1
 	bit instead of having each use their own 32bit int.
 	(iconv_cache_bucket_expire): Use g_iconv_close() here, missed this

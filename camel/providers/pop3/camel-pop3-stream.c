@@ -148,9 +148,12 @@ static ssize_t
 stream_write(CamelStream *stream, const char *buffer, size_t n)
 {
 	CamelPOP3Stream *is = (CamelPOP3Stream *)stream;
-
-	dd(printf("POP3_STREAM_WRITE(%d):\n%.*s\n", n, (int)n, buffer));
-
+	
+	if (strncmp (buffer, "PASS ", 5) != 0)
+		dd(printf("POP3_STREAM_WRITE(%d):\n%.*s\n", n, (int)n, buffer));
+	else
+		dd(printf("POP3_STREAM_WRITE(%d):\nPASS xxxxxxxx\n", n));
+	
 	return camel_stream_write(is->source, buffer, n);
 }
 
