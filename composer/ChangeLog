@@ -1,3 +1,8 @@
+2003-07-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (autosave_load_draft): Connect to the
+	save-draft signal too. Fixes bug #45531.
+
 2003-06-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (build_message): Set the rawtext bits for the
