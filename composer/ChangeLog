@@ -1,3 +1,8 @@
+2001-07-26  Peter Williams  <peterw@ximian.com>
+
+	* e-msg-composer.c (get_signature_html): Correct our manually inserted
+	signature dash thingie (it was missing the space).
+
 2001-07-26  Jon Trowbridge  <trow@ximian.com>
 
 	* e-msg-composer-hdrs.c (set_recipients): Get "destinations",

@@ -763,12 +763,16 @@ get_signature_html (EMsgComposer *composer)
 	
 	text = e_msg_composer_get_sig_file_content (sig_file, format_html);
 	if (text) {
+		/* The signature dash convention ("-- \n") is specified in the
+		 * "Son of RFC 1036": http://www.chemie.fu-berlin.de/outerspace/netnews/son-of-1036.html,
+		 * section 4.3.2.
+		 */
 		html = g_strdup_printf ("<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature\" value=\"1\">-->"
 					"<TABLE WIDTH=\"100%%\" CELLSPACING=\"0\" CELLPADDING=\"0\"><TR><TD>"
 					"%s%s%s%s"
 					"</TD></TR></TABLE>",
 					format_html ? "" : "<PRE>\n",
-					format_html || !strncmp ("-- \n", text, 3) ? "" : "--\n",
+					format_html || !strncmp ("-- \n", text, 3) ? "" : "-- \n",
 					text,
 					format_html ? "" : "</PRE>\n");
 		g_free (text);
