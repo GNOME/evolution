@@ -1,3 +1,10 @@
+2004-02-01  Bill Zhu <bill.zhu@sun.com>
+                                                                                
+        Fixes for bug #53530
+                                                                                
+        * mail-callbacks.c (do_redirect): Removed the duplicate
+        adding of attachments
+
 2003-12-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (mail_config_signature_run_script): Use fcntl() to
