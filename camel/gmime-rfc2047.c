@@ -122,7 +122,7 @@ build_base64_rank_table (void)
 }
 
 
-gchar *
+static gchar *
 rfc2047_decode_word (const gchar *data, const gchar *into_what) 
 {
 	const char *charset = strstr (data, "=?"), *encoding, *text, *end;
@@ -161,7 +161,7 @@ rfc2047_decode_word (const gchar *data, const gchar *into_what)
 		char *cook_2 = cooked_data;
 		int cook_len = strlen (cook_2);
 		int b_len = 4096;
-		iconv_t i;
+		unicode_iconv_t i;
 		strncpy (q, charset, c - charset);
 		q[c - charset] = 0;
 		i = unicode_iconv_open (into_what, q);
@@ -237,10 +237,10 @@ gmime_rfc2047_decode (const gchar *data, const gchar *into_what)
 #define isnt_ascii(a) ((a) <= 0x1f || (a) >= 0x7f)
 
 static int 
-rfc2047_clean (const gchar *string) {
-	if (strstr (string, "?=")) return 1;
-	while (*string) {
-		if (!isnt_ascii ((unsigned char)*string))
+rfc2047_clean (const gchar *string, const gchar *max) {
+	//	if (strstr (string, "?=")) return 1;
+	while (string < max) {
+		if (isnt_ascii ((unsigned char)*string))
 			return 0;
 		string++;
 	}
@@ -248,15 +248,17 @@ rfc2047_clean (const gchar *string) {
 }
 
 static gchar *
-encode_word (const gchar *string, const gchar *said_charset) 
+encode_word (const gchar *string, int length, const gchar *said_charset) 
 {
-	if (rfc2047_clean(string)) 
+	const gchar *max = string + length;
+	if (rfc2047_clean(string, max)) {
 		/* don't bother encoding it if it has no odd characters in it */
-		return g_strdup (string);
+		return g_strndup (string, length);
+	}
 	{
-		char *temp = malloc (strlen(string) * 4 + 1), *t = temp;
+		char *temp = malloc (length * 4 + 1), *t = temp;
 		t += sprintf (t, "=?%s?q?", said_charset);
-		while (*string) {
+		while (string < max) {
 			if (*string == ' ')
 				*(t++) = '_';
 			else if ((*string <= 0x1f) || (*string >= 0x7f) || (*string == '=') || (*string == '?')) 
@@ -272,16 +274,112 @@ encode_word (const gchar *string, const gchar *said_charset)
 	}
 }
 
+static int
+words_in(char *a) 
+{
+	int words = 1;
+	while (*a) {
+		if (*(a++)==' ')
+			words++;
+	}
+	return words;
+}
+
+struct word_data {
+	const char *word;
+	int word_length;
+	const char *to_encode_in;
+	char *encoded;
+	enum {
+		wt_None,
+		wt_Address,
+	} type;
+};
+
+static int string_can_fit_in(const char *a, int length, const char *charset) 
+{
+	while (length--) {
+		if (*a < 0x1f || *a >= 0x7f) return 0;
+		a++;
+	}
+	return 1;
+}
+
+static void
+show_entry(struct word_data *a) 
+{
+	a->type = wt_None;
+	
+	if (string_can_fit_in(a->word, a->word_length, "US-ASCII"))
+		a->to_encode_in = "US-ASCII";
+
+	if (a->word[0]=='<' && a->word[a->word_length-1]=='>') {
+		a->type = wt_Address;
+	}
+}
+
+static void
+break_into_words(const char *string, struct word_data *a, int words) 
+{
+	int i;
+	for (i=0;i<words;i++) {
+		
+		char *next_space = strchr(string, ' ');
+
+		if (!next_space) {
+			a[i].word = string;
+			a[i].word_length = strlen(string);
+			a[i].to_encode_in = NULL; /* i.e. the default */
+
+			show_entry(a+i);
+
+			return;
+		}
+
+		a[i].word = string;
+		a[i].word_length = next_space - string;
+		a[i].to_encode_in = NULL;
+
+		show_entry(a+i);
+
+		string = next_space + 1;
+
+	}
+}
+
+static void
+join_words(struct word_data *a, int words)
+{
+	int i;
+	for (i=(words-1);i>0;i--) {
+		if (a[i].to_encode_in == a[i-1].to_encode_in) {
+			a[i-1].word_length += 1 + a[i].word_length;
+			a[i].word = 0;
+			a[i].word_length = 0;
+		}
+
+	}
+}
+
+static void show_words(struct word_data *words, int count) 
+{
+	int i;
+	for (i=0;i<count;i++)
+		if (words[i].word)
+			show_entry(words+i);
+}
+
 gchar *
 gmime_rfc2047_encode (const gchar *string, const gchar *charset) 
 {
-	int temp_len = strlen (string)*4 + 1;
+	int temp_len = strlen (string)*4 + 1, word_count;
 	char *temp = g_malloc (temp_len), *temp_2 = temp;
 	int string_length = strlen (string);
-	char *encoded = NULL;
+	char *encoded = NULL, *p;
+	struct word_data *words;
 
 	/* first, let us convert to UTF-8 */
-	iconv_t i = unicode_iconv_open ("UTF-8", charset);
+	unicode_iconv_t i = unicode_iconv_open ("UTF-8", charset);
 	unicode_iconv (i, &string, &string_length, &temp_2, &temp_len);
 	unicode_iconv_close (i);
 	
@@ -289,8 +387,43 @@ gmime_rfc2047_encode (const gchar *string, const gchar *charset)
 	*temp_2 = 0;
 
 	/* now encode it as if it were a single word */
-	encoded = encode_word (temp, "UTF-8");
 	
+	word_count = words_in ( temp );
+
+        words = g_malloc(sizeof (struct word_data) * word_count);
+	break_into_words(temp, words, word_count);
+	
+	join_words(words, word_count);
+
+	show_words(words, word_count);
+
+	{
+		size_t len = 0;
+		int c = 0;
+		for (c = 0;c<word_count;c++) {
+			if (words[c].word)
+				{
+					words[c].encoded = encode_word(words[c].word, words[c].word_length, 
+							      words[c].to_encode_in ? words[c].to_encode_in :
+							      "UTF-8");
+					len += strlen(words[c].encoded) + 1;
+				}
+		}
+
+		{ 
+		        encoded = g_malloc(len+1);
+			p = encoded;
+			for (c = 0; c < word_count;c++) if (words[c].word) {
+				strcpy(p, words[c].encoded);
+				p += strlen(p);
+				strcpy(p, " ");
+				p++;
+			}
+			*p = 0;
+		}
+	}
+
+
 	/*
 	  
 	  real algorithm :
@@ -339,8 +472,15 @@ gmime_rfc2047_encode (const gchar *string, const gchar *charset)
 	  the text is just in US-ASCII : like 99% of the text that will
 	  pass through it)
 	  
+
+
+	  current status :
+
+	    Algorithm now partially implemented.
+
 	*/
-	
+
+	g_free(words);
         g_free(temp);
 	
 	return encoded;

@@ -1,3 +1,7 @@
+1999-08-18  Robert Brady  <rwb197@ecs.soton.ac.uk>
+
+	* camel/gmime-rfc2047.c: more work on encoder.
+
 1999-08-17  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-stream.c (camel_stream_read): 
