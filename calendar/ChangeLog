@@ -1,4 +1,9 @@
 2003-05-22  JP Rosevear  <jpr@ximian.com>
+ 
+ 	* gui/dialogs/comp-editor-page.c (comp_editor_page_destroy): unref
+ 	not ref the client
+	
+2003-05-22  JP Rosevear  <jpr@ximian.com>
 
 	Fixes #41329
 	

@@ -166,7 +166,7 @@ comp_editor_page_destroy (GtkObject *object)
 	page = COMP_EDITOR_PAGE (object);
 
 	if (page->client) {
-		g_object_ref((page->client));
+		g_object_unref (page->client);
 		page->client = NULL;
 	}
 
