@@ -1,3 +1,9 @@
+2004-06-17 Sivaiah Nallagatla <snallagatla@novell.com>
+
+        * gui/itip-utils.c (itip_publish_comp) : check for
+        host being non-NULL in soup uri. host can be null
+        for uri's of the form file:/foo or http:/foo etc
+
 2004-06-17  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #60309

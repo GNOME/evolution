@@ -1153,7 +1153,7 @@ itip_publish_comp (ECal *client, gchar *uri, gchar *username,
 	session = soup_session_async_new ();
 
 	real_uri = soup_uri_new (uri);
-	if (!real_uri) {
+	if (!real_uri || !real_uri->host) {
 		g_warning (G_STRLOC ": Invalid URL: %s", uri);
 		g_object_unref (session);
 		return FALSE;
