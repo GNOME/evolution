@@ -54,6 +54,7 @@
 #include <camel/camel-multipart.h>
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-url.h>
+#include <camel/camel-vee-folder.h>
 
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-object.h>
@@ -93,6 +94,7 @@
 #include "mail-autofilter.h"
 #include "mail-vfolder.h"
 #include "mail-component.h"
+#include "mail-tools.h"
 
 #include "evolution-shell-component-utils.h" /* Pixmap stuff, sigh */
 
@@ -365,7 +367,7 @@ em_folder_view_mark_selected(EMFolderView *emfv, guint32 mask, guint32 set)
 int
 em_folder_view_open_selected(EMFolderView *emfv)
 {
-	GPtrArray *uids;
+	GPtrArray *uids, *views;
 	int i = 0;
 	
 	uids = message_list_get_selected(emfv->list);
@@ -384,26 +386,57 @@ em_folder_view_open_selected(EMFolderView *emfv)
 		}
 	}
 
-	if (em_utils_folder_is_drafts(emfv->folder, emfv->folder_uri)
+        if (em_utils_folder_is_drafts(emfv->folder, emfv->folder_uri)
 	    || em_utils_folder_is_outbox(emfv->folder, emfv->folder_uri)) {
 		em_utils_edit_messages(emfv->folder, uids, TRUE);
-	} else {
-		/* TODO: have an em_utils_open_messages call? */
-		for (i=0; i<uids->len; i++) {
-			EMMessageBrowser *emmb;
-
-			emmb = (EMMessageBrowser *)em_message_browser_window_new();
-			message_list_set_threaded(((EMFolderView *)emmb)->list, emfv->list->threaded);
-			em_folder_view_set_hide_deleted((EMFolderView *)emmb, emfv->hide_deleted);
-			/* FIXME: session needs to be passed easier than this */
-			em_format_set_session((EMFormat *)((EMFolderView *)emmb)->preview, ((EMFormat *)emfv->preview)->session);
-			em_folder_view_set_folder((EMFolderView *)emmb, emfv->folder, emfv->folder_uri);
-			em_folder_view_set_message((EMFolderView *)emmb, uids->pdata[i], FALSE);
-			gtk_widget_show(emmb->window);
-		}
-
-		message_list_free_uids(emfv->list, uids);
+		return uids->len;
 	}
+
+	/* for vfolders we need to edit the *original*, not the vfolder copy */
+	views = g_ptr_array_new();
+	for (i=0;i<uids->len;i++) {
+		if (camel_object_is((CamelObject *)emfv->folder, camel_vee_folder_get_type())) {
+			CamelVeeMessageInfo *vinfo = (CamelVeeMessageInfo *)camel_folder_get_message_info(emfv->folder, uids->pdata[i]);
+
+			if (vinfo) {
+				char *uid;
+				/* TODO: get_location shouldn't strdup the uid */
+				CamelFolder *f = camel_vee_folder_get_location((CamelVeeFolder *)emfv->folder, vinfo, &uid);
+				char *uri = mail_tools_folder_to_url(f);
+
+				if (em_utils_folder_is_drafts(f, uri) || em_utils_folder_is_outbox(f, uri)) {
+					GPtrArray *edits = g_ptr_array_new();
+
+					g_ptr_array_add(edits, uid);
+					em_utils_edit_messages(f, edits, TRUE);
+				} else {
+					g_free(uid);
+					g_ptr_array_add(views, g_strdup(uids->pdata[i]));
+				}
+				g_free(uri);
+			}
+		} else {
+			g_ptr_array_add(views, g_strdup(uids->pdata[i]));
+		}
+	}
+
+	/* TODO: have an em_utils_open_messages call? */
+	for (i=0; i<views->len; i++) {
+		EMMessageBrowser *emmb;
+
+		emmb = (EMMessageBrowser *)em_message_browser_window_new();
+		message_list_set_threaded(((EMFolderView *)emmb)->list, emfv->list->threaded);
+		em_folder_view_set_hide_deleted((EMFolderView *)emmb, emfv->hide_deleted);
+		/* FIXME: session needs to be passed easier than this */
+		em_format_set_session((EMFormat *)((EMFolderView *)emmb)->preview, ((EMFormat *)emfv->preview)->session);
+		em_folder_view_set_folder((EMFolderView *)emmb, emfv->folder, emfv->folder_uri);
+		em_folder_view_set_message((EMFolderView *)emmb, views->pdata[i], FALSE);
+		gtk_widget_show(emmb->window);
+		g_free(views->pdata[i]);
+	}
+	g_ptr_array_free(views, TRUE);
+
+	message_list_free_uids(emfv->list, uids);
 
 	return i;
 }
