@@ -3,11 +3,12 @@
 # Kenneth Christiansen <kenneth@gnome.dk>, 2000.
 # Keld Simonsen <keld@dkuug.dk>, 2000.
 #
+#: camel/providers/smtp/camel-smtp-transport.c:287
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution beta\n"
 "POT-Creation-Date: 2000-12-13 16:26-0600\n"
-"PO-Revision-Date: 2000-12-14 00:38+0100\n"
+"PO-Revision-Date: 2000-12-19 00:38+0100\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -851,18 +852,18 @@ msgstr ""
 "Dobbelt-klik her for at oprette en ny kontakt."
 
 #. String to use in 12-hour time format for times in the morning.
-#: calendar/cal-util/timeutil.c:98 calendar/gui/e-day-view.c:551
+#: calendar/cal-util/timeutil.c:64 calendar/gui/e-day-view.c:551
 #: calendar/gui/e-week-view.c:288 calendar/gui/print.c:605
 msgid "am"
 msgstr " "
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: calendar/cal-util/timeutil.c:98 calendar/gui/e-day-view.c:554
+#: calendar/cal-util/timeutil.c:64 calendar/gui/e-day-view.c:554
 #: calendar/gui/e-week-view.c:291 calendar/gui/print.c:604
 msgid "pm"
 msgstr " "
 
-#: calendar/cal-util/timeutil.c:100
+#: calendar/cal-util/timeutil.c:66
 msgid "h"
 msgstr "h"
 
@@ -1022,7 +1023,7 @@ msgstr ""
 #. strptime format for a date.
 #: calendar/gui/calendar-model.c:846 calendar/gui/calendar-model.c:894
 #: widgets/meeting-time-sel/e-meeting-time-sel-item.c:471
-#: widgets/misc/e-dateedit.c:1274 widgets/misc/e-dateedit.c:1455
+#: widgets/misc/e-dateedit.c:1273 widgets/misc/e-dateedit.c:1454
 msgid "%m/%d/%Y"
 msgstr "%Y-%m-%d"
 
@@ -1082,6 +1083,28 @@ msgstr "Besked om din aftale på %A %d %b %Y %H:%M"
 msgid "No summary available."
 msgstr "Intet sammendrag."
 
+#: calendar/gui/dialogs/delete-comp.c:57
+msgid "appointment"
+msgstr "aftale"
+
+#: calendar/gui/dialogs/delete-comp.c:61
+msgid "task"
+msgstr "opgave"
+
+#: calendar/gui/dialogs/delete-comp.c:65
+msgid "journal entry"
+msgstr "journalpunkt"
+
+#: calendar/gui/dialogs/delete-comp.c:74
+#, c-format
+msgid "Are you sure you want to delete the %s `%s'?"
+msgstr "Er du sikker på at du vil slette %s '%s'?"
+
+#: calendar/gui/dialogs/delete-comp.c:77
+#, c-format
+msgid "Are you sure you want to delete this %s?"
+msgstr "Er du sikker på at du vil slette denne %s?"
+
 #: calendar/gui/dialogs/task-editor.c:681
 msgid "Edit Task"
 msgstr "Redigér opgave"
@@ -1105,7 +1128,7 @@ msgstr "Opgave - %s"
 msgid "Journal entry - %s"
 msgstr "Journalpunkt - %s"
 
-#: calendar/gui/dialogs/task-editor.c:1275 calendar/gui/event-editor.c:3277
+#: calendar/gui/dialogs/task-editor.c:1275 calendar/gui/event-editor.c:3254
 msgid "Do you want to save changes?"
 msgstr "Ønsker du at gemme ændringer?"
 
@@ -1126,7 +1149,7 @@ msgid "Mark the task complete"
 msgstr "Markér opgaven som fuldført"
 
 #: calendar/gui/e-calendar-table.c:342 filter/libfilter-i18n.h:7
-#: mail/folder-browser.c:479 mail/mail-view.c:165
+#: mail/folder-browser.c:608 mail/mail-view.c:165
 msgid "Delete"
 msgstr "Slet"
 
@@ -1202,8 +1225,7 @@ msgstr "Redigér aftale"
 msgid "on"
 msgstr "på"
 
-#: calendar/gui/event-editor.c:432 calendar/gui/getdate.y:424
-#: filter/filter-datespec.c:65
+#: calendar/gui/event-editor.c:432 filter/filter-datespec.c:65
 msgid "day"
 msgstr "dag"
 
@@ -1243,228 +1265,18 @@ msgstr "den"
 msgid "th"
 msgstr "."
 
-#: calendar/gui/event-editor.c:722
+#: calendar/gui/event-editor.c:720
 msgid "occurrences"
 msgstr "hændelser"
 
-#: calendar/gui/event-editor.c:839
+#: calendar/gui/event-editor.c:837
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "Denne aftale indeholder gentagelser som Evolution ikke kan redigere."
 
-#: calendar/gui/event-editor.c:3079 calendar/gui/print.c:1085
+#: calendar/gui/event-editor.c:3077 calendar/gui/print.c:1085
 #: calendar/gui/print.c:1087 calendar/gui/print.c:1088
 msgid "%a %b %d %Y"
 msgstr "%a %d %b %Y"
-
-#: calendar/gui/getdate.y:391
-msgid "january"
-msgstr "januar"
-
-#: calendar/gui/getdate.y:392
-msgid "february"
-msgstr "februar"
-
-#: calendar/gui/getdate.y:393
-msgid "march"
-msgstr "marts"
-
-#: calendar/gui/getdate.y:394
-msgid "april"
-msgstr "april"
-
-#: calendar/gui/getdate.y:395
-msgid "may"
-msgstr "maj"
-
-#: calendar/gui/getdate.y:396
-msgid "june"
-msgstr "juni"
-
-#: calendar/gui/getdate.y:397
-msgid "july"
-msgstr "juli"
-
-#: calendar/gui/getdate.y:398
-msgid "august"
-msgstr "august"
-
-#: calendar/gui/getdate.y:399
-msgid "september"
-msgstr "september"
-
-#: calendar/gui/getdate.y:400
-msgid "sept"
-msgstr "sept"
-
-#: calendar/gui/getdate.y:401
-msgid "october"
-msgstr "oktober"
-
-#: calendar/gui/getdate.y:402
-msgid "november"
-msgstr "november"
-
-#: calendar/gui/getdate.y:403
-msgid "december"
-msgstr "december"
-
-#: calendar/gui/getdate.y:404
-msgid "sunday"
-msgstr "søndag"
-
-#: calendar/gui/getdate.y:405
-msgid "monday"
-msgstr "mandag"
-
-#: calendar/gui/getdate.y:406
-msgid "tuesday"
-msgstr "tirsdag"
-
-#: calendar/gui/getdate.y:407
-msgid "tues"
-msgstr "tirs"
-
-#: calendar/gui/getdate.y:408
-msgid "wednesday"
-msgstr "onsdag"
-
-#: calendar/gui/getdate.y:409
-msgid "wednes"
-msgstr "ons"
-
-#: calendar/gui/getdate.y:410
-msgid "thursday"
-msgstr "torsdag"
-
-#: calendar/gui/getdate.y:411
-msgid "thur"
-msgstr "tor"
-
-#: calendar/gui/getdate.y:412
-msgid "thurs"
-msgstr "tors"
-
-#: calendar/gui/getdate.y:413
-msgid "friday"
-msgstr "fredag"
-
-#: calendar/gui/getdate.y:414
-msgid "saturday"
-msgstr "lørdag"
-
-#: calendar/gui/getdate.y:420 filter/filter-datespec.c:62
-msgid "year"
-msgstr "år"
-
-#: calendar/gui/getdate.y:421 filter/filter-datespec.c:63
-msgid "month"
-msgstr "måned"
-
-#: calendar/gui/getdate.y:422
-msgid "fortnight"
-msgstr "14-dage"
-
-#: calendar/gui/getdate.y:423 filter/filter-datespec.c:64
-msgid "week"
-msgstr "uge"
-
-#: calendar/gui/getdate.y:425 filter/filter-datespec.c:66
-msgid "hour"
-msgstr "time"
-
-#: calendar/gui/getdate.y:426 filter/filter-datespec.c:67
-msgid "minute"
-msgstr "minut"
-
-#: calendar/gui/getdate.y:427
-msgid "min"
-msgstr "min"
-
-#: calendar/gui/getdate.y:428 filter/filter-datespec.c:68
-msgid "second"
-msgstr "sekund"
-
-#: calendar/gui/getdate.y:429
-msgid "sec"
-msgstr "sek"
-
-#: calendar/gui/getdate.y:435
-msgid "tomorrow"
-msgstr "imorgen"
-
-#: calendar/gui/getdate.y:436
-msgid "yesterday"
-msgstr "igår"
-
-#: calendar/gui/getdate.y:437
-msgid "today"
-msgstr "idag"
-
-#: calendar/gui/getdate.y:438 filter/filter-datespec.c:533
-#: filter/filter-datespec.c:693
-msgid "now"
-msgstr "nu"
-
-#: calendar/gui/getdate.y:439
-msgid "last"
-msgstr "forrige"
-
-#: calendar/gui/getdate.y:440
-msgid "this"
-msgstr "denne"
-
-#: calendar/gui/getdate.y:441
-msgid "next"
-msgstr "næste"
-
-#: calendar/gui/getdate.y:442
-msgid "first"
-msgstr "første"
-
-#. { N_("second"),		tUNUMBER,	2 },
-#: calendar/gui/getdate.y:444
-msgid "third"
-msgstr "tredje"
-
-#: calendar/gui/getdate.y:445
-msgid "fourth"
-msgstr "fjerde"
-
-#: calendar/gui/getdate.y:446
-msgid "fifth"
-msgstr "femte"
-
-#: calendar/gui/getdate.y:447
-msgid "sixth"
-msgstr "sjette"
-
-#: calendar/gui/getdate.y:448
-msgid "seventh"
-msgstr "syvende"
-
-#: calendar/gui/getdate.y:449
-msgid "eighth"
-msgstr "ottende"
-
-#: calendar/gui/getdate.y:450
-msgid "ninth"
-msgstr "niende"
-
-#: calendar/gui/getdate.y:451
-msgid "tenth"
-msgstr "tiende"
-
-#: calendar/gui/getdate.y:452
-msgid "eleventh"
-msgstr "elvte"
-
-#: calendar/gui/getdate.y:453
-msgid "twelfth"
-msgstr "tolvte"
-
-#: calendar/gui/getdate.y:454
-msgid "ago"
-msgstr "siden"
 
 #: calendar/gui/gnome-cal.c:718 calendar/gui/gnome-cal.c:1474
 #: calendar/gui/gnome-cal.c:1530
@@ -1740,13 +1552,7 @@ msgstr "Udskriv kalender"
 msgid "Print Preview"
 msgstr "Forhåndsvisning af udskrift"
 
-#. Translators: These are the first characters of each day of the
-#. week, 'M' for 'Monday', 'T' for Tuesday etc.
-#: calendar/gui/weekday-picker.c:351 widgets/misc/e-calendar-item.c:416
-msgid "MTWTFSS"
-msgstr "mtotfls"
-
-#: calendar/gui/weekday-picker.c:353 calendar/gui/weekday-picker.c:443
+#: calendar/gui/weekday-picker.c:311 calendar/gui/weekday-picker.c:406
 msgid "SMTWTFS"
 msgstr "SMTOTFL"
 
@@ -1847,6 +1653,7 @@ msgid "%s service for %s on %s"
 msgstr "%s-tjeneste for %s på %s"
 
 #: camel/camel-remote-store.c:227
+#: camel/providers/smtp/camel-smtp-transport.c:162
 #, c-format
 msgid "Could not connect to %s (port %d): %s"
 msgstr "Kunne ikke koble til %s (port %d): %s"
@@ -1926,30 +1733,30 @@ msgstr ""
 msgid "Bad authentication response from server."
 msgstr "Forkert autoriseringsbesked fra server."
 
-#: camel/providers/imap/camel-imap-command.c:216
+#: camel/providers/imap/camel-imap-command.c:226
 #, c-format
 msgid "Unexpected response from IMAP server: %s"
 msgstr "Uventet svar fra IMAP-tjener: %s"
 
-#: camel/providers/imap/camel-imap-command.c:224
+#: camel/providers/imap/camel-imap-command.c:234
 #, c-format
 msgid "IMAP command failed: %s"
 msgstr "IMAP-kommando mislykkedes: %s"
 
-#: camel/providers/imap/camel-imap-command.c:225 shell/e-storage.c:411
+#: camel/providers/imap/camel-imap-command.c:235 shell/e-storage.c:411
 msgid "Unknown error"
 msgstr "Ukendt fejl"
 
-#: camel/providers/imap/camel-imap-command.c:271
+#: camel/providers/imap/camel-imap-command.c:281
 msgid "Server response ended too soon."
 msgstr "Serversvar afsluttet for tidligt."
 
-#: camel/providers/imap/camel-imap-command.c:407
+#: camel/providers/imap/camel-imap-command.c:417
 #, c-format
 msgid "IMAP server response did not contain %s information"
 msgstr "Svar fra IMAP-tjener indeholdt ikke %s-information"
 
-#: camel/providers/imap/camel-imap-command.c:443
+#: camel/providers/imap/camel-imap-command.c:453
 #, c-format
 msgid "Unexpected OK response from IMAP server: %s"
 msgstr "Uventet svar 'OK' fra IMAP-tjener: %s"
@@ -2535,13 +2342,135 @@ msgid "For delivering mail by connecting to a remote mailhub using SMTP."
 msgstr ""
 "For levering af e-post ved at koble til en ekstern e-posttjener med SMTP."
 
+#: camel/providers/smtp/camel-smtp-transport.c:187
+#, c-format
+msgid "Welcome response error: %s: possibly non-fatal"
+msgstr "Velkomst fejl ved svar: %s: formentlig ikke-fatal"
+
+#: camel/providers/smtp/camel-smtp-transport.c:281
+msgid "No authentication required"
+msgstr "Ingen autentisering krævet"
+
+#: camel/providers/smtp/camel-smtp-transport.c:283
+msgid ""
+"This option will connect to the SMTP server without using any kind of "
+"authentication. This should be fine for connecting to most SMTP servers."
+msgstr ""
+"Dette alternativ lader dig koble til SMTP-tjeneren uden brug af nogen form for "
+"autentificering. Dette burde virke for opkobling til de fleste SMTP-servere."
+
+#: camel/providers/smtp/camel-smtp-transport.c:292
+#: camel/providers/smtp/camel-smtp-transport.c:297
+msgid "CRAM-MD5"
+msgstr "CRAM-MD5"
+
+#: camel/providers/smtp/camel-smtp-transport.c:294
+msgid ""
+"This option will connect to the SMTP server using CRAM-MD5 authentication."
+msgstr ""
+"Dette lader dig koble til SMTP-serveren ved at bruge CRAM-MD5"
+"autenticering."
+
+#: camel/providers/smtp/camel-smtp-transport.c:332
+#, c-format
+msgid "SMTP server %s"
+msgstr "SMTP-tjener %s"
+
+#: camel/providers/smtp/camel-smtp-transport.c:334
+#, c-format
+msgid "SMTP mail delivery via %s"
+msgstr "SMTP-levering af e-post via %s"
+
+#: camel/providers/smtp/camel-smtp-transport.c:359
+msgid "Cannot send message: sender address not defined."
+msgstr "Kan ikke sende besked: afsenderadresse ikke defineret."
+
+#: camel/providers/smtp/camel-smtp-transport.c:366
+msgid "Cannot send message: sender address not valid."
+msgstr "Kan ikke sende besked: afsenderadresse ikke gyldig."
+
+#: camel/providers/smtp/camel-smtp-transport.c:380
+msgid "Cannot send message: no recipients defined."
+msgstr "Kan ikke sende besked: ingen modtagere defineret."
+
+#: camel/providers/smtp/camel-smtp-transport.c:474
+#, c-format
+msgid "HELO request timed out: %s: non-fatal"
+msgstr "HELO anmodning overskred tid: %s: ikke-fatal"
+
+#: camel/providers/smtp/camel-smtp-transport.c:490
+#, c-format
+msgid "HELO response error: %s: non-fatal"
+msgstr "HELO fejl ved svar: %s: ikke-fatal"
+
+#: camel/providers/smtp/camel-smtp-transport.c:529
+#, c-format
+msgid "MAIL FROM request timed out: %s: mail not sent"
+msgstr "MAIL FROM anmodning overskred tid: %s: besked ikke sendt"
+
+#: camel/providers/smtp/camel-smtp-transport.c:545
+#, c-format
+msgid "MAIL FROM response error: %s: mail not sent"
+msgstr "MAIL FROM fejl ved svar: %s: besked ikke sendt"
+
+#: camel/providers/smtp/camel-smtp-transport.c:570
+#, c-format
+msgid "RCPT TO request timed out: %s: mail not sent"
+msgstr "RCPT TO anmodning overskred tid: %s: besked ikke sendt"
+
+#: camel/providers/smtp/camel-smtp-transport.c:586
+#, c-format
+msgid "RCPT TO response error: %s: mail not sent"
+msgstr "RCPT TO fejl ved svar: %s: besked ikke sendt"
+
+#: camel/providers/smtp/camel-smtp-transport.c:617
+#, c-format
+msgid "DATA request timed out: %s: mail not sent"
+msgstr "DATA anmodning overskred tid: %s: besked ikke sendt"
+
+#: camel/providers/smtp/camel-smtp-transport.c:633
+#, c-format
+msgid "DATA response error: %s: mail not sent"
+msgstr "DATA fejl ved svar: %s: besked ikke sendt"
+
+#: camel/providers/smtp/camel-smtp-transport.c:648
+#: camel/providers/smtp/camel-smtp-transport.c:666
+#, c-format
+msgid "DATA send timed out: message termination: %s: mail not sent"
+msgstr "DATA sending overskred tid: Besked afbrudt: %s: besked ikke sendt"
+
+#: camel/providers/smtp/camel-smtp-transport.c:682
+#, c-format
+msgid "DATA response error: message termination: %s: mail not sent"
+msgstr "DATA fejl ved svar: Besked afbrudt: %s: besked ikke sendt"
+
+#: camel/providers/smtp/camel-smtp-transport.c:706
+#, c-format
+msgid "RSET request timed out: %s"
+msgstr "RSET-anmodning overskred tid: %s"
+
+#: camel/providers/smtp/camel-smtp-transport.c:722
+#, c-format
+msgid "RSET response error: %s"
+msgstr "RSET fejl ved svar: %s"
+
+#: camel/providers/smtp/camel-smtp-transport.c:745
+#, c-format
+msgid "QUIT request timed out: %s: non-fatal"
+msgstr "QUIT-anmodning overskred tid: %s: ikke-fatal"
+
+#: camel/providers/smtp/camel-smtp-transport.c:761
+#, c-format
+msgid "QUIT response error: %s: non-fatal"
+msgstr "QUIT fejl ved svar: %s: ikke-fatal"
+
 #: camel/providers/vee/camel-vee-provider.c:30
 msgid "Virtual folder email provider"
 msgstr "E-post-udbyder for virtuelle mapper"
 
 #: camel/providers/vee/camel-vee-provider.c:32
 msgid "For reading mail as a query of another set of folders"
-msgstr "For læsning af e-post som en forespørgsel på et andet sæt af mapper"
+msgstr "For læsning af e-post som en anmodning på et andet sæt af mapper"
 
 #: composer/e-msg-composer-attachment-bar.c:87
 msgid "1 byte"
@@ -2568,7 +2497,7 @@ msgid "%.1fG"
 msgstr "%.1fG"
 
 #. This is a filename. Translators take note.
-#: composer/e-msg-composer-attachment-bar.c:331 mail/mail-display.c:144
+#: composer/e-msg-composer-attachment-bar.c:331 mail/mail-display.c:149
 msgid "attachment"
 msgstr "bilag"
 
@@ -2593,8 +2522,8 @@ msgstr "Vedhæft bilag..."
 msgid "Attach a file to the message"
 msgstr "Vedhæft bilag til meddelelsen"
 
-#: composer/e-msg-composer-hdrs.c:137 composer/e-msg-composer-hdrs.c:290
-#: mail/mail-format.c:621
+#: composer/e-msg-composer-hdrs.c:137 composer/e-msg-composer-hdrs.c:291
+#: mail/mail-format.c:626
 msgid "From:"
 msgstr "Fra:"
 
@@ -2602,31 +2531,31 @@ msgstr "Fra:"
 msgid "Click here for the address book"
 msgstr "Klik her for adressebogen"
 
-#: composer/e-msg-composer-hdrs.c:291
+#: composer/e-msg-composer-hdrs.c:292
 msgid "Enter the identity you wish to send this message from"
 msgstr "Indtast identiteten du ønsker at bruge ved sending af denne besked"
 
-#: composer/e-msg-composer-hdrs.c:295 mail/mail-format.c:625
+#: composer/e-msg-composer-hdrs.c:296 mail/mail-format.c:630
 msgid "To:"
 msgstr "Til:"
 
-#: composer/e-msg-composer-hdrs.c:296
+#: composer/e-msg-composer-hdrs.c:297
 msgid "Enter the recipients of the message"
 msgstr "Indtast modtagerne for meddelelsen"
 
-#: composer/e-msg-composer-hdrs.c:300 mail/mail-format.c:627
+#: composer/e-msg-composer-hdrs.c:301 mail/mail-format.c:632
 msgid "Cc:"
 msgstr "Cc:"
 
-#: composer/e-msg-composer-hdrs.c:301
+#: composer/e-msg-composer-hdrs.c:302
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "Indtast adresserne som skal modtage en kopi af meddelelsen"
 
-#: composer/e-msg-composer-hdrs.c:306
+#: composer/e-msg-composer-hdrs.c:307
 msgid "Bcc:"
 msgstr "Bcc:"
 
-#: composer/e-msg-composer-hdrs.c:307
+#: composer/e-msg-composer-hdrs.c:308
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
@@ -2634,15 +2563,15 @@ msgstr ""
 "Indtast adresserne som skal modtage en kopi af meddelelsen uden at komme til "
 "syne i meddelelsens modtagerliste."
 
-#: composer/e-msg-composer-hdrs.c:313 mail/mail-format.c:629
+#: composer/e-msg-composer-hdrs.c:314 mail/mail-format.c:634
 msgid "Subject:"
 msgstr "Emne:"
 
-#: composer/e-msg-composer-hdrs.c:314
+#: composer/e-msg-composer-hdrs.c:315
 msgid "Enter the subject of the mail"
 msgstr "Indtast emnet for meddelelsen"
 
-#: composer/e-msg-composer.c:429
+#: composer/e-msg-composer.c:430
 #, c-format
 msgid ""
 "Could not open signature file %s:\n"
@@ -2651,38 +2580,38 @@ msgstr ""
 "Kunne ikke åbne signaturfilen %s:\n"
 "%s"
 
-#: composer/e-msg-composer.c:599
+#: composer/e-msg-composer.c:600
 msgid "Save as..."
 msgstr "Gem som..."
 
-#: composer/e-msg-composer.c:610
+#: composer/e-msg-composer.c:611
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Fejl ved gemning af fil: %s"
 
-#: composer/e-msg-composer.c:630
+#: composer/e-msg-composer.c:631
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Fejl ved indlæsning af fil: %s"
 
-#: composer/e-msg-composer.c:652
+#: composer/e-msg-composer.c:653
 msgid "Saving changes to message..."
 msgstr "Gem ændringer til meddelelse..."
 
-#: composer/e-msg-composer.c:654
+#: composer/e-msg-composer.c:655
 msgid "Save changes to message..."
 msgstr "Gem ændringer til beskeden..."
 
-#: composer/e-msg-composer.c:695
+#: composer/e-msg-composer.c:696
 #, c-format
 msgid "Error saving composition to 'Drafts': %s"
 msgstr "Fejl ved gemning af brevet i 'Skitser': %s"
 
-#: composer/e-msg-composer.c:739 shell/e-shell-view-menu.c:170
+#: composer/e-msg-composer.c:740 shell/e-shell-view-menu.c:170
 msgid "Evolution"
 msgstr "Evolution"
 
-#: composer/e-msg-composer.c:745
+#: composer/e-msg-composer.c:746
 msgid ""
 "This message has not been sent.\n"
 "\n"
@@ -2692,27 +2621,27 @@ msgstr ""
 "\n"
 "Vil du gemme ændringene?"
 
-#: composer/e-msg-composer.c:767
+#: composer/e-msg-composer.c:768
 msgid "Open file"
 msgstr "Åbn fil"
 
-#: composer/e-msg-composer.c:893
+#: composer/e-msg-composer.c:894
 msgid "That file does not exist."
 msgstr "Den fil eksisterer ikke."
 
-#: composer/e-msg-composer.c:903
+#: composer/e-msg-composer.c:904
 msgid "That is not a regular file."
 msgstr "Dette er ikke en almindelig fil."
 
-#: composer/e-msg-composer.c:913
+#: composer/e-msg-composer.c:914
 msgid "That file exists but is not readable."
 msgstr "Den fil eksisterer men kan ikke læses."
 
-#: composer/e-msg-composer.c:923
+#: composer/e-msg-composer.c:924
 msgid "That file appeared accesible but open(2) failed."
 msgstr "Den fil så ud til at være tilgængelig, men open(2) fejlede."
 
-#: composer/e-msg-composer.c:945
+#: composer/e-msg-composer.c:946
 msgid ""
 "The file is very large (more than 100K).\n"
 "Are you sure you wish to insert it?"
@@ -2720,15 +2649,15 @@ msgstr ""
 "Filen er meget stor (mere end 100 k).\n"
 "Er du sikker på at du ønsker at indsætte den?"
 
-#: composer/e-msg-composer.c:966
+#: composer/e-msg-composer.c:967
 msgid "An error occurred while reading the file."
 msgstr "En fejl skete ved læsning af filen."
 
-#: composer/e-msg-composer.c:1343
+#: composer/e-msg-composer.c:1346
 msgid "Compose a message"
 msgstr "Skriv en meddelelse"
 
-#: composer/e-msg-composer.c:1420
+#: composer/e-msg-composer.c:1423
 msgid "Could not create composer window."
 msgstr "Kan ikke oprette komponeringsvinduet."
 
@@ -2741,12 +2670,24 @@ msgid "Sear_ch"
 msgstr "_Søg..."
 
 #: filter/filter-datespec.c:62
+msgid "year"
+msgstr "år"
+
+#: filter/filter-datespec.c:62
 msgid "years"
 msgstr "år"
 
 #: filter/filter-datespec.c:63
+msgid "month"
+msgstr "måned"
+
+#: filter/filter-datespec.c:63
 msgid "months"
 msgstr "måneder"
+
+#: filter/filter-datespec.c:64
+msgid "week"
+msgstr "uge"
 
 #: filter/filter-datespec.c:64
 msgid "weeks"
@@ -2757,12 +2698,24 @@ msgid "days"
 msgstr "dage"
 
 #: filter/filter-datespec.c:66
+msgid "hour"
+msgstr "time"
+
+#: filter/filter-datespec.c:66
 msgid "hours"
 msgstr "timer"
 
 #: filter/filter-datespec.c:67
+msgid "minute"
+msgstr "minut"
+
+#: filter/filter-datespec.c:67
 msgid "minutes"
 msgstr "minutter"
+
+#: filter/filter-datespec.c:68
+msgid "second"
+msgstr "sekund"
 
 #: filter/filter-datespec.c:68
 msgid "seconds"
@@ -2821,6 +2774,10 @@ msgstr "et tidspunkt relativt til den aktuelle tid"
 #: filter/filter-datespec.c:416
 msgid "Compare against"
 msgstr "Sammenlign med"
+
+#: filter/filter-datespec.c:533 filter/filter-datespec.c:693
+msgid "now"
+msgstr "nu"
 
 #: filter/filter-datespec.c:690
 msgid "<click here to select a date>"
@@ -2930,6 +2887,26 @@ msgstr "Tilføj kriterie"
 #: filter/filter-rule.c:583
 msgid "Remove criterion"
 msgstr "Fjern kriterie"
+
+#: filter/filter-system-flag.c:63
+msgid "Replied to"
+msgstr "Svaret til"
+
+#: filter/filter-system-flag.c:64
+msgid "Deleted"
+msgstr "Slettet"
+
+#: filter/filter-system-flag.c:65
+msgid "Draft"
+msgstr "Skitse"
+
+#: filter/filter-system-flag.c:66
+msgid "Important"
+msgstr "Vigtig"
+
+#: filter/filter-system-flag.c:67
+msgid "Read"
+msgstr "Læst"
 
 #. Automatically generated. Do not edit.
 #: filter/libfilter-i18n.h:2
@@ -3152,100 +3129,139 @@ msgstr "Krop indeholder ikke"
 msgid "Subject does not contain"
 msgstr "Emne indeholder ikke"
 
-#: mail/folder-browser.c:453
+#: mail/folder-browser.c:566
 msgid "VFolder on Subject"
 msgstr "VFolder for emne"
 
-#: mail/folder-browser.c:454
+#: mail/folder-browser.c:567
 msgid "VFolder on Sender"
 msgstr "VFolder for afsender"
 
-#: mail/folder-browser.c:455
+#: mail/folder-browser.c:568
 msgid "VFolder on Recipients"
 msgstr "VFolder for modtagere"
 
-#: mail/folder-browser.c:457
+#: mail/folder-browser.c:570
 msgid "Filter on Subject"
 msgstr "Filtrér efter emne"
 
-#: mail/folder-browser.c:458
+#: mail/folder-browser.c:571
 msgid "Filter on Sender"
 msgstr "Filtrér efter afsender"
 
-#: mail/folder-browser.c:459
+#: mail/folder-browser.c:572
 msgid "Filter on Recipients"
 msgstr "Filtrér efter modtager"
 
-#: mail/folder-browser.c:460 mail/folder-browser.c:544
+#: mail/folder-browser.c:573 mail/folder-browser.c:690
 msgid "Filter on Mailing List"
 msgstr "Filtrér efter epostliste"
 
-#: mail/folder-browser.c:464
+#: mail/folder-browser.c:578
+msgid "Show all hidden"
+msgstr "Vis alle skjulte"
+
+#: mail/folder-browser.c:580
+msgid "Hide selected"
+msgstr "Skjul valgte"
+
+#. could use another mask, but not enough api do to it
+#: mail/folder-browser.c:583
+msgid "Hide read"
+msgstr "Skjul læste"
+
+#: mail/folder-browser.c:584
+msgid "Hide deleted"
+msgstr "Skjul slettede"
+
+#: mail/folder-browser.c:586 mail/folder-browser.c:701
+msgid "Hide Subject"
+msgstr "Skjul emne"
+
+#: mail/folder-browser.c:588 mail/folder-browser.c:707
+msgid "Hide from Sender"
+msgstr "Skjul for afsender"
+
+#: mail/folder-browser.c:593
 msgid "Open"
 msgstr "Åbn"
 
-#: mail/folder-browser.c:465
+#: mail/folder-browser.c:594
 msgid "Edit"
 msgstr "Redigér"
 
-#: mail/folder-browser.c:466
+#: mail/folder-browser.c:595
 msgid "Save As..."
 msgstr "Gem som..."
 
-#: mail/folder-browser.c:467 mail/mail-view.c:163
+#: mail/folder-browser.c:596 mail/mail-view.c:163
 msgid "Print"
 msgstr "Udskriv"
 
-#: mail/folder-browser.c:469
+#: mail/folder-browser.c:598
 msgid "Reply to Sender"
 msgstr "Svar til afsender"
 
-#: mail/folder-browser.c:470 mail/mail-view.c:156
+#: mail/folder-browser.c:599 mail/mail-view.c:156
 msgid "Reply to All"
 msgstr "Svar til alle"
 
-#: mail/folder-browser.c:471 mail/mail-view.c:159
+#: mail/folder-browser.c:600 mail/mail-view.c:159
 msgid "Forward"
 msgstr "Videresend"
 
-#: mail/folder-browser.c:472
+#: mail/folder-browser.c:601
 msgid "Forward inline"
 msgstr "Vidersend mellem linjerne"
 
-#: mail/folder-browser.c:474
+#: mail/folder-browser.c:603
 msgid "Mark as Read"
 msgstr "Mærk som _læst"
 
-#: mail/folder-browser.c:475
+#: mail/folder-browser.c:604
 msgid "Mark as Unread"
 msgstr "Mærk som ulæst"
 
-#: mail/folder-browser.c:477
+#: mail/folder-browser.c:606
 msgid "Move to Folder..."
 msgstr "Flyt til mappe..."
 
-#: mail/folder-browser.c:478
+#: mail/folder-browser.c:607
 msgid "Copy to Folder..."
 msgstr "Kopiér til mappe..."
 
-#: mail/folder-browser.c:480
+#: mail/folder-browser.c:609
 msgid "Undelete"
 msgstr "Fortryd sletning"
 
 #. { _("Add Sender to Address Book"), NULL, GTK_SIGNAL_FUNC (addrbook_sender),   NULL,  0 },
 #. { "",                              NULL, GTK_SIGNAL_FUNC (NULL),              NULL,  0 },
-#: mail/folder-browser.c:484
+#: mail/folder-browser.c:613
 msgid "Apply Filters"
 msgstr "Anvend filtre"
 
-#: mail/folder-browser.c:486
+#: mail/folder-browser.c:615
 msgid "Create Rule From Message"
 msgstr "Skab regel fra besked"
 
-#: mail/folder-browser.c:546
+#: mail/folder-browser.c:616
+msgid "Hide Messages"
+msgstr "Skjul beskeder"
+
+#: mail/folder-browser.c:692
 #, c-format
 msgid "Filter on Mailing List (%s)"
 msgstr "Filtrér efter epostliste (%s)"
+
+#: mail/folder-browser.c:698
+#, c-format
+msgid "Hide Subject \"%s\""
+msgstr "Shjul emne %s"
+
+#: mail/folder-browser.c:704
+#, c-format
+msgid "Hide from Sender <%s>"
+msgstr "Skjul for afsender <%s>"
 
 #: mail/mail-autofilter.c:71
 #, c-format
@@ -3335,11 +3351,11 @@ msgstr ""
 "Du kan kun redigere beskeder lagret\n"
 "i Skitser-kataloget."
 
-#: mail/mail-callbacks.c:699 mail/mail-display.c:72
+#: mail/mail-callbacks.c:699 mail/mail-display.c:73
 msgid "Overwrite file?"
 msgstr "Overskriv fil?"
 
-#: mail/mail-callbacks.c:703 mail/mail-display.c:76
+#: mail/mail-callbacks.c:703 mail/mail-display.c:77
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
@@ -3522,24 +3538,32 @@ msgstr "Forespørger autorisations-muligheder for '%s'"
 msgid "Query authorization at \"%s\""
 msgstr "Forespørg autorisation for '%s'"
 
-#: mail/mail-crypto.c:350 mail/mail-crypto.c:452 mail/mail-crypto.c:629
+#: mail/mail-crypto.c:353 mail/mail-crypto.c:458 mail/mail-crypto.c:635
+#: mail/mail-crypto.c:781
 msgid "Please enter your PGP/GPG passphrase."
 msgstr "Indtast venligst din PGP/GPG adgangsfrase"
 
-#: mail/mail-crypto.c:354 mail/mail-crypto.c:456 mail/mail-crypto.c:634
+#: mail/mail-crypto.c:357 mail/mail-crypto.c:462 mail/mail-crypto.c:640
+#: mail/mail-crypto.c:785
 msgid "No password provided."
 msgstr "Ingen adgangskode oplyst."
 
-#: mail/mail-crypto.c:360 mail/mail-crypto.c:463 mail/mail-crypto.c:640
+#: mail/mail-crypto.c:363 mail/mail-crypto.c:469 mail/mail-crypto.c:646
+#: mail/mail-crypto.c:792 mail/mail-crypto.c:923
 #, c-format
 msgid "Couldn't create pipe to GPG/PGP: %s"
 msgstr "Kunne ikke oprette rør til GPG/PGP: %s"
 
-#: mail/mail-crypto.c:625
+#: mail/mail-crypto.c:631 mail/mail-crypto.c:777 mail/mail-crypto.c:917
 msgid "No GPG/PGP program available."
 msgstr "GPG/PGP-program ikke tilgængelig."
 
-#: mail/mail-display.c:90
+#: mail/mail-crypto.c:945
+#, c-format
+msgid "Couldn't create temp file: %s"
+msgstr "Kunne ikke oprette midlertidig fil: %s"
+
+#: mail/mail-display.c:92
 #, c-format
 msgid ""
 "Could not open file %s:\n"
@@ -3548,127 +3572,127 @@ msgstr ""
 "Kan ikke åbne fil %s:\n"
 "%s"
 
-#: mail/mail-display.c:113
+#: mail/mail-display.c:125
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Kan ikke skrive data: %s"
 
-#: mail/mail-display.c:218
+#: mail/mail-display.c:223
 msgid "Save Attachment"
 msgstr "Gem bilag"
 
-#: mail/mail-display.c:258
+#: mail/mail-display.c:263
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Kunne ikke oprette midlertidig katalog: %s"
 
-#: mail/mail-display.c:300
+#: mail/mail-display.c:305
 msgid "Save to Disk..."
 msgstr "Gem på disk..."
 
-#: mail/mail-display.c:302
+#: mail/mail-display.c:307
 #, c-format
 msgid "Open in %s..."
 msgstr "Åbn i %s..."
 
-#: mail/mail-display.c:304
+#: mail/mail-display.c:309
 msgid "View Inline"
 msgstr "Vis \"inline\""
 
-#: mail/mail-display.c:328
+#: mail/mail-display.c:333
 msgid "External Viewer"
 msgstr "Ekstern visning"
 
-#: mail/mail-display.c:351
+#: mail/mail-display.c:356
 #, c-format
 msgid "View Inline (via %s)"
 msgstr "Vis \"inline\" (via %s)"
 
-#: mail/mail-display.c:355
+#: mail/mail-display.c:360
 msgid "Hide"
 msgstr "Skjul"
 
-#: mail/mail-format.c:500
+#: mail/mail-format.c:505
 #, c-format
 msgid "%s attachment"
 msgstr "%s-bilag"
 
-#: mail/mail-format.c:623
+#: mail/mail-format.c:628
 msgid "Reply-To:"
 msgstr "Svar-til:"
 
-#: mail/mail-format.c:845
+#: mail/mail-format.c:851
 msgid "No GPG/PGP support available in this copy of Evolution."
 msgstr "Ingen GPG/PGP-støtte tilgængelig i denne version af Evolution."
 
-#: mail/mail-format.c:857
+#: mail/mail-format.c:863
 msgid "Encrypted message not displayed"
 msgstr "Krypteret besked ikke vist"
 
-#: mail/mail-format.c:863
+#: mail/mail-format.c:869
 msgid "Encrypted message"
 msgstr "Krypteret besked"
 
-#: mail/mail-format.c:864
+#: mail/mail-format.c:870
 msgid "Click icon to decrypt."
 msgstr "Klik på ikonen for at dekryptere."
 
-#: mail/mail-format.c:1470
+#: mail/mail-format.c:1450
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Peger til FTP-tjener (%s)"
 
-#: mail/mail-format.c:1482
+#: mail/mail-format.c:1462
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Peger til lokal fil (%s) gyldig på netsted \"%s\""
 
-#: mail/mail-format.c:1486
+#: mail/mail-format.c:1466
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Peger til lokal fil (%s)"
 
-#: mail/mail-format.c:1520
+#: mail/mail-format.c:1500
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Peger til ukendt eksternt data (\"%s\"-type)"
 
-#: mail/mail-format.c:1525
+#: mail/mail-format.c:1505
 msgid "Malformed external-body part."
 msgstr "Fejludformet del for ekstern-krop."
 
-#: mail/mail-format.c:1695
+#: mail/mail-format.c:1675
 #, c-format
 msgid "On %s, %s wrote:\n"
 msgstr "Den %s skrev %s:\n"
 
-#: mail/mail-local.c:202
+#: mail/mail-local.c:203
 #, c-format
 msgid "Changing folder \"%s\" to \"%s\" format"
 msgstr "Ændrer mappe \"%s\" til \"%s\" format"
 
-#: mail/mail-local.c:206
+#: mail/mail-local.c:207
 #, c-format
 msgid "Change folder \"%s\" to \"%s\" format"
 msgstr "Ændr mappe \"%s\" til \"%s\" format"
 
-#: mail/mail-local.c:261
+#: mail/mail-local.c:262
 msgid "Closing current folder"
 msgstr "Lukker aktiv mappe"
 
-#: mail/mail-local.c:293
+#: mail/mail-local.c:294
 msgid "Renaming old folder and opening"
 msgstr "Ændrer navn på gammel mappe og genåbner"
 
-#: mail/mail-local.c:314
+#: mail/mail-local.c:315
 msgid "Creating new folder"
 msgstr "Opretter en ny mappe"
 
-#: mail/mail-local.c:329
+#: mail/mail-local.c:330
 msgid "Copying messages"
 msgstr "Kopierer beskeder"
 
-#: mail/mail-local.c:341
+#: mail/mail-local.c:342
 #, c-format
 msgid ""
 "Cannot save folder metainfo; you'll probably find you can't\n"
@@ -3677,7 +3701,7 @@ msgstr ""
 "Kan ikke gemme metainformation for mappe; du vil sandsynligvis\n"
 "ikke kunne åbne denne mappe igen: %s"
 
-#: mail/mail-local.c:372
+#: mail/mail-local.c:373
 msgid ""
 "If you can no longer open this mailbox, then\n"
 "you may need to repair it manually."
@@ -3685,11 +3709,11 @@ msgstr ""
 "Hvis du ikke kan åbne denne postboks igen skal\n"
 "du reparere den manuelt."
 
-#: mail/mail-local.c:781
+#: mail/mail-local.c:782
 msgid "Registering local folder"
 msgstr "Registrerer lokal mappe"
 
-#: mail/mail-local.c:783
+#: mail/mail-local.c:784
 msgid "Register local folder"
 msgstr "Registrér lokal mappe"
 
@@ -3710,11 +3734,11 @@ msgstr "Ingen ny epost på %s."
 
 #: mail/mail-ops.c:401
 msgid "Filtering email on demand"
-msgstr "Fi_ltrerer epost på forespørgsel"
+msgstr "Fi_ltrerer epost på anmodning"
 
 #: mail/mail-ops.c:403
 msgid "Filter email on demand"
-msgstr "Fi_ltrér epost på forespørgsel"
+msgstr "Fi_ltrér epost på anmodning"
 
 #: mail/mail-ops.c:538
 #, c-format
@@ -3953,22 +3977,22 @@ msgstr "Viser beskeder fra mappe \"%s\""
 msgid "View messages from \"%s\""
 msgstr "Vis beskeder fra \"%s\""
 
-#: mail/mail-ops.c:2339
+#: mail/mail-ops.c:2346
 #, c-format
 msgid "Retrieving message %d of %d (uid \"%s\")"
 msgstr "Henter besked %d af %d (uid \"%s\")"
 
-#: mail/mail-ops.c:2428
+#: mail/mail-ops.c:2437
 #, c-format
 msgid "Saving messages from folder \"%s\""
 msgstr "Gemmer beskeder fra mappe '%s'"
 
-#: mail/mail-ops.c:2431
+#: mail/mail-ops.c:2440
 #, c-format
 msgid "Save messages from folder \"%s\""
 msgstr "Gem beskeder fra mappe '%s'"
 
-#: mail/mail-ops.c:2474
+#: mail/mail-ops.c:2483
 #, c-format
 msgid "Saving message %d of %d (uid \"%s\")"
 msgstr "Gemmer besked %d af %d (uid \"%s\")"
@@ -3977,11 +4001,11 @@ msgstr "Gemmer besked %d af %d (uid \"%s\")"
 msgid "Cancel"
 msgstr "Annullér"
 
-#: mail/mail-summary.c:105 mail/mail-threads.c:728
+#: mail/mail-summary.c:105 mail/mail-threads.c:729
 msgid "Incomplete message written on pipe!"
 msgstr "Ufuldstændig meddelse skrevet til rør!"
 
-#: mail/mail-threads.c:301
+#: mail/mail-threads.c:302
 #, c-format
 msgid ""
 "Error while preparing to %s:\n"
@@ -3990,7 +4014,7 @@ msgstr ""
 "Fejl under forberedelser til %s:\n"
 "%s"
 
-#: mail/mail-threads.c:675
+#: mail/mail-threads.c:676
 #, c-format
 msgid ""
 "Error while `%s':\n"
@@ -3999,21 +4023,21 @@ msgstr ""
 "Fejl under `%s':\n"
 "%s"
 
-#: mail/mail-threads.c:732
+#: mail/mail-threads.c:733
 msgid "Error reading commands from dispatching thread."
 msgstr "Fejl ved læsning af kommandoer fra indgangstråd"
 
-#: mail/mail-threads.c:797
+#: mail/mail-threads.c:798
 msgid "Corrupted message from dispatching thread?"
 msgstr "Beskadiget meddelse fra indgangstråd?"
 
-#: mail/mail-threads.c:916
+#: mail/mail-threads.c:917
 msgid "Could not create dialog box."
 msgstr "Kunne ikke oprette dialogboks."
 
-#: mail/mail-threads.c:927
+#: mail/mail-threads.c:928
 msgid "User cancelled query."
-msgstr "Bruger annullerede forespørgsel."
+msgstr "Bruger annullerede anmodning."
 
 #: mail/mail-tools.c:189
 #, c-format
@@ -4021,12 +4045,12 @@ msgid "Couldn't create temporary mbox `%s': %s"
 msgstr "Kunne ikke oprette midlertidig mbox '%s': %s"
 
 #. Get all uids of source
-#: mail/mail-tools.c:239
+#: mail/mail-tools.c:240
 #, c-format
 msgid "Examining %s"
 msgstr "Undersøger %s"
 
-#: mail/mail-tools.c:269
+#: mail/mail-tools.c:270
 #, c-format
 msgid ""
 "Could not read UID cache file \"%s\". You may receive duplicate messages."
@@ -4034,42 +4058,41 @@ msgstr ""
 "Kunne ikke læse bufferfil for UID \"%s\". Du kan muligvis modtage "
 "duplikerede beskeder."
 
-#. Info
-#: mail/mail-tools.c:290
+#: mail/mail-tools.c:299
 #, c-format
 msgid "Retrieving message %d of %d"
 msgstr "Henter besked %d af %d"
 
 #. Append it to dest
-#: mail/mail-tools.c:303
+#: mail/mail-tools.c:314
 #, c-format
 msgid "Writing message %d of %d"
 msgstr "Skriver besked %d af %d"
 
-#: mail/mail-tools.c:332
+#: mail/mail-tools.c:343
 #, c-format
 msgid "Saving changes to %s"
 msgstr "gemmer ændringer til %s"
 
-#: mail/mail-tools.c:369
+#: mail/mail-tools.c:380
 #, c-format
 msgid "[%s] (forwarded message)"
 msgstr "[%s] (videresendt meddelelse)"
 
-#: mail/mail-tools.c:379
+#: mail/mail-tools.c:390
 msgid "Fwd: (no subject)"
 msgstr "Fwd: (uden emne)"
 
-#: mail/mail-tools.c:418
+#: mail/mail-tools.c:429
 #, c-format
 msgid "Forwarded message - %s"
 msgstr "Videresendt meddelelse - %s"
 
-#: mail/mail-tools.c:420
+#: mail/mail-tools.c:431
 msgid "Forwarded message (no subject)"
 msgstr "Videresendt meddelelse (intet emne)"
 
-#: mail/mail-tools.c:523
+#: mail/mail-tools.c:534
 #, c-format
 msgid ""
 "Cannot open location `%s':\n"
@@ -4112,38 +4135,38 @@ msgstr "Udskriv den valgte meddelelse"
 msgid "Delete this message"
 msgstr "Slet denne meddelelse"
 
-#: mail/message-list.c:572
+#: mail/message-list.c:575
 msgid "Unseen"
 msgstr "Ulæst"
 
-#: mail/message-list.c:575
+#: mail/message-list.c:578
 msgid "Seen"
 msgstr "Læst"
 
-#: mail/message-list.c:578
+#: mail/message-list.c:581
 msgid "Answered"
 msgstr "Besvaret"
 
-#: mail/message-list.c:846
+#: mail/message-list.c:849
 #, c-format
 msgid "[ %s ]"
 msgstr "[ %s ]"
 
 #. well, we could scan more children, build up a (more accurate) list, but this should do ok
-#: mail/message-list.c:858 mail/message-list.c:873
+#: mail/message-list.c:861 mail/message-list.c:876
 #, c-format
 msgid "%s, et al."
 msgstr "%s m.fl."
 
-#: mail/message-list.c:860 mail/message-list.c:875
+#: mail/message-list.c:863 mail/message-list.c:878
 msgid "<unknown>"
 msgstr "<ukendt>"
 
-#: mail/message-list.c:2068
+#: mail/message-list.c:2253
 msgid "Rebuilding message view"
 msgstr "Opbygger beskedsvisningen igen"
 
-#: mail/message-list.c:2070
+#: mail/message-list.c:2255
 msgid "Rebuild message view"
 msgstr "Genopbyg beskedsvisningen"
 
@@ -4282,7 +4305,7 @@ msgstr ""
 "Typen på den valgte mappe er ikke gyldig til\n"
 "den ønskede operation."
 
-#: shell/e-shell-folder-selection-dialog.c:291
+#: shell/e-shell-folder-selection-dialog.c:297
 msgid "New..."
 msgstr "Ny..."
 
@@ -4330,8 +4353,8 @@ msgstr "Mapper"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
-#: shell/e-shell-view.c:1073 widgets/misc/e-dateedit.c:422
-#: widgets/misc/e-dateedit.c:1331 widgets/misc/e-dateedit.c:1446
+#: shell/e-shell-view.c:1073 widgets/misc/e-dateedit.c:421
+#: widgets/misc/e-dateedit.c:1330 widgets/misc/e-dateedit.c:1445
 msgid "None"
 msgstr "Ingen"
 
@@ -4484,8 +4507,8 @@ msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Evolution groupware suite.\n"
 "\n"
-"Over the last month and a half, our focus has been on making\n"
-"Evolution usable. Many of the Evolution developers are now using\n"
+"Over the time since the past release, our focus has been on making\n"
+"Evolution usable.  Many of the Evolution developers are now using\n"
 "Evolution to read their mail full time. You could too. (Just\n"
 "be sure to keep a backup.)\n"
 "\n"
@@ -4503,14 +4526,14 @@ msgstr ""
 "Hejsa. Tak for at du har taget tid til at hente denne smugkigsudgave \n"
 "af gruppevare-samlingen Evolution.\n"
 "\n"
-"I løbet af den sidste måneds tid har vores fokus været på at gøre\n"
+"I løbet af tiden siden sidste udgivelse har vores fokus været på at gøre\n"
 "Evolution brugbar. Mange af Evolutions udviklere bruger nu Evolution\n"
 "til altid at læse deres post. Det kunne du også gøre. (Blot husk\n"
 "at have en sikkerhedskopi.)\n"
 "\n"
 "Men selvom vi har ordnet mange fejl omkring stabilitet og sikkerhed,\n"
 "er der stadig en ansvarsfraskrivelse. Evolution vil: gå ned,\n"
-"tabe din post selv om  du ikke ønsker det, nægte at slette din post når\n"
+"tabe din post selv om du ikke ønsker det, nægte at slette din post når\n"
 "du ønsker det, efterlade vildfarne kørende processer, bruge 100 % Cpu,\n"
 "fastlåse, sende Html til tilfældige postlister, og ydmyge dig overfor dine\n"
 "venner og kolleger. Benyt det på eget ansvar.\n"
@@ -4873,6 +4896,12 @@ msgstr "Tid for mødets slutning:"
 msgid "All Attendees"
 msgstr "Alle deltagere"
 
+#. Translators: These are the first characters of each day of the
+#. week, 'M' for 'Monday', 'T' for Tuesday etc.
+#: widgets/misc/e-calendar-item.c:416
+msgid "MTWTFSS"
+msgstr "mtotfls"
+
 #. This is a strftime() format. %B = Month name, %Y = Year.
 #: widgets/misc/e-calendar-item.c:1040 widgets/misc/e-calendar-item.c:2671
 msgid "%B %Y"
@@ -4882,23 +4911,23 @@ msgstr "%B %Y"
 msgid "..."
 msgstr "..."
 
-#: widgets/misc/e-dateedit.c:408
+#: widgets/misc/e-dateedit.c:407
 msgid "Now"
 msgstr "nu"
 
-#: widgets/misc/e-dateedit.c:414
+#: widgets/misc/e-dateedit.c:413
 msgid "Today"
 msgstr "I dag"
 
 #. This is a strftime() format. %H = hour (0-23), %M = minute.
-#: widgets/misc/e-dateedit.c:1249 widgets/misc/e-dateedit.c:1308
-#: widgets/misc/e-dateedit.c:1487
+#: widgets/misc/e-dateedit.c:1248 widgets/misc/e-dateedit.c:1307
+#: widgets/misc/e-dateedit.c:1486
 msgid "%H:%M"
 msgstr "%H:%M"
 
 #. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
-#: widgets/misc/e-dateedit.c:1252 widgets/misc/e-dateedit.c:1311
-#: widgets/misc/e-dateedit.c:1490
+#: widgets/misc/e-dateedit.c:1251 widgets/misc/e-dateedit.c:1310
+#: widgets/misc/e-dateedit.c:1489
 msgid "%I:%M %p"
 msgstr " "
 
@@ -4906,6 +4935,141 @@ msgstr " "
 #, c-format
 msgid "Group %i"
 msgstr "Gruppe %i"
+
+#~ msgid "january"
+#~ msgstr "januar"
+
+#~ msgid "february"
+#~ msgstr "februar"
+
+#~ msgid "march"
+#~ msgstr "marts"
+
+#~ msgid "april"
+#~ msgstr "april"
+
+#~ msgid "may"
+#~ msgstr "maj"
+
+#~ msgid "june"
+#~ msgstr "juni"
+
+#~ msgid "july"
+#~ msgstr "juli"
+
+#~ msgid "august"
+#~ msgstr "august"
+
+#~ msgid "september"
+#~ msgstr "september"
+
+#~ msgid "sept"
+#~ msgstr "sept"
+
+#~ msgid "october"
+#~ msgstr "oktober"
+
+#~ msgid "november"
+#~ msgstr "november"
+
+#~ msgid "december"
+#~ msgstr "december"
+
+#~ msgid "sunday"
+#~ msgstr "søndag"
+
+#~ msgid "monday"
+#~ msgstr "mandag"
+
+#~ msgid "tuesday"
+#~ msgstr "tirsdag"
+
+#~ msgid "tues"
+#~ msgstr "tirs"
+
+#~ msgid "wednesday"
+#~ msgstr "onsdag"
+
+#~ msgid "wednes"
+#~ msgstr "ons"
+
+#~ msgid "thursday"
+#~ msgstr "torsdag"
+
+#~ msgid "thur"
+#~ msgstr "tor"
+
+#~ msgid "thurs"
+#~ msgstr "tors"
+
+#~ msgid "friday"
+#~ msgstr "fredag"
+
+#~ msgid "saturday"
+#~ msgstr "lørdag"
+
+#~ msgid "fortnight"
+#~ msgstr "14-dage"
+
+#~ msgid "min"
+#~ msgstr "min"
+
+#~ msgid "sec"
+#~ msgstr "sek"
+
+#~ msgid "tomorrow"
+#~ msgstr "imorgen"
+
+#~ msgid "yesterday"
+#~ msgstr "igår"
+
+#~ msgid "today"
+#~ msgstr "idag"
+
+#~ msgid "last"
+#~ msgstr "forrige"
+
+#~ msgid "this"
+#~ msgstr "denne"
+
+#~ msgid "next"
+#~ msgstr "næste"
+
+#~ msgid "first"
+#~ msgstr "første"
+
+#~ msgid "third"
+#~ msgstr "tredje"
+
+#~ msgid "fourth"
+#~ msgstr "fjerde"
+
+#~ msgid "fifth"
+#~ msgstr "femte"
+
+#~ msgid "sixth"
+#~ msgstr "sjette"
+
+#~ msgid "seventh"
+#~ msgstr "syvende"
+
+#~ msgid "eighth"
+#~ msgstr "ottende"
+
+#~ msgid "ninth"
+#~ msgstr "niende"
+
+#~ msgid "tenth"
+#~ msgstr "tiende"
+
+#~ msgid "eleventh"
+#~ msgstr "elvte"
+
+#~ msgid "twelfth"
+#~ msgstr "tolvte"
+
+#~ msgid "ago"
+#~ msgstr "siden"
 
 #~ msgid "Delete Contact?"
 #~ msgstr "Slet kontakt?"
@@ -5344,9 +5508,6 @@ msgstr "Gruppe %i"
 
 #~ msgid "Sta_rt Date:"
 #~ msgstr "Sta_rt dato:"
-
-#~ msgid "Task"
-#~ msgstr "Opgave"
 
 #~ msgid "URL:"
 #~ msgstr "URL:"
@@ -5814,9 +5975,6 @@ msgstr "Gruppe %i"
 #~ msgid "Properties"
 #~ msgstr "Egenskaber"
 
-#~ msgid "Redo"
-#~ msgstr "Genopret"
-
 #~ msgid "Redo the undone action"
 #~ msgstr "Genopret fortrudt handling"
 
@@ -6198,9 +6356,6 @@ msgstr "Gruppe %i"
 #~ msgid "Could not create summary"
 #~ msgstr "Kunne ikke oprette sammendrag"
 
-#~ msgid "Cannot append message to mbox file: %s"
-#~ msgstr "Kan ikke tilføje besked i mbox-filen: %s"
-
 #~ msgid "Cannot get message: %s"
 #~ msgstr "Kan ikke hente besked: %s"
 
@@ -6267,12 +6422,6 @@ msgstr "Gruppe %i"
 
 #~ msgid "Sets something as bold"
 #~ msgstr "Sætter noget til fed"
-
-#~ msgid "Deleted"
-#~ msgstr "Slettet"
-
-#~ msgid "Draft"
-#~ msgstr "Skitse"
 
 #~ msgid "Flagged"
 #~ msgstr "Mærket"
