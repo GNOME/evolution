@@ -1,3 +1,20 @@
+2001-03-30  Dan Winship  <danw@ximian.com>
+
+	* Evolution-ShellComponent.idl: add a "debug" method to tell a
+	component to output debugging messages to a given file.
+
+	* main.c (main): Add a "--debug filename" argument, to direct
+	debugging output for all components to a file. Redirect the
+	shell's stdout/stderr to that file if this argument is used.
+
+	* evolution-shell-component-client.c
+	(evolution_shell_component_client_set_owner): If debug_log is set,
+	call the component's debug method as well.
+
+	* evolution-shell-component.c (impl_ShellComponent_debug):
+	redirect stdout/stderr to the named file and emit a "debug"
+	signal.
+
 2001-03-29  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-component-registry.c: Remove/replace  unneeded includes and

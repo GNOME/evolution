@@ -40,6 +40,8 @@ module Evolution {
 		void unsetOwner ()
 			raises (NotOwned);
 
+		void debug (in string log_path);
+
 		/* FIXME: We might want more exceptions here.  */
 		exception NotFound {};
 		exception UnsupportedType {};

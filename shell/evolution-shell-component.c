@@ -25,6 +25,8 @@
 #include <config.h>
 #endif
 
+#include <fcntl.h>
+
 #include <gtk/gtksignal.h>
 #include <bonobo/bonobo-object.h>
 
@@ -57,6 +59,7 @@ struct _EvolutionShellComponentPrivate {
 enum {
 	OWNER_SET,
 	OWNER_UNSET,
+	DEBUG,
 	LAST_SIGNAL
 };
 
@@ -213,6 +216,29 @@ impl_ShellComponent_unset_owner (PortableServer_Servant servant,
 	priv->owner_client = NULL;
 
 	gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_UNSET]);
+}
+
+static void
+impl_ShellComponent_debug (PortableServer_Servant servant,
+			   const CORBA_char *log_path,
+			   CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	EvolutionShellComponent *shell_component;
+	int fd;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object);
+
+	fd = open (log_path, O_WRONLY | O_APPEND);
+	if (!fd)
+		return;
+
+	dup2 (fd, STDOUT_FILENO);
+	dup2 (fd, STDERR_FILENO);
+	close (fd);
+
+	gtk_signal_emit (GTK_OBJECT (shell_component), signals[DEBUG]);
 }
 
 static Bonobo_Control
@@ -436,6 +462,14 @@ class_init (EvolutionShellComponentClass *klass)
 				  gtk_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
 
+	signals[DEBUG]
+		= gtk_signal_new ("debug",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EvolutionShellComponentClass, debug),
+				  gtk_marshal_NONE__NONE,
+				  GTK_TYPE_NONE, 0);
+
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 
 	parent_class = gtk_type_class (PARENT_TYPE);
@@ -443,6 +477,7 @@ class_init (EvolutionShellComponentClass *klass)
 	epv->_get_supported_types      = impl_ShellComponent__get_supported_types;
 	epv->setOwner                  = impl_ShellComponent_set_owner;
 	epv->unsetOwner                = impl_ShellComponent_unset_owner;
+	epv->debug                     = impl_ShellComponent_debug;
 	epv->createView                = impl_ShellComponent_create_view;
 	epv->createFolderAsync         = impl_ShellComponent_async_create_folder;
 	epv->removeFolderAsync         = impl_ShellComponent_async_remove_folder;
