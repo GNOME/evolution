@@ -4,7 +4,7 @@ scrollkeeper_localstate_dir = $(SCROLLKEEPER_LOCALSTATE_DIR)
 install-data-local:
 	$(mkinstalldirs) $(DESTDIR)$(omf_dest_dir)
 	-for file in $(srcdir)/*.omf; do 			\
-		$(INSTALL_DATA) $(srcdir)/$$file $(DESTDIR)$(omf_dest_dir); \
+		$(INSTALL_DATA) $$file $(DESTDIR)$(omf_dest_dir); \
 	done
 	-scrollkeeper-update -p $(scrollkeeper_localstate_dir) 
 

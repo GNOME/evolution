@@ -1,3 +1,8 @@
+2001-09-04  Peter Williams  <peterw@ximian.com>
+
+	* omf-install/Makefile.am (install-data-local): Don't put
+	$(srcdir) in the file path twice.
+
 2001-09-01  Christopher James Lahey  <clahey@ximian.com>
 
 	* configure.in: Bumped the required version of gal to 0.11.99.2.
