@@ -28,11 +28,6 @@ Evolution to connect to your email accounts, and to import
 files from other applications. 
 
 Please click the &quot;Forward&quot; button to continue. </property>
-	  <property name="title_color">#ffffffffffff</property>
-	  <property name="text_color">#000000000000</property>
-	  <property name="background_color">#000000000000</property>
-	  <property name="logo_background_color">#000000000000</property>
-	  <property name="textbox_color">#ffffffffffff</property>
 	</widget>
       </child>
 
@@ -40,9 +35,6 @@ Please click the &quot;Forward&quot; button to continue. </property>
 	<widget class="GnomeDruidPageStandard" id="timezone-page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Timezone </property>
-	  <property name="title_foreground">#ffffffffffff</property>
-	  <property name="background">#000000000000</property>
-	  <property name="logo_background">#000000000000</property>
 	  <property name="logo">timezone-48.png</property>
 
 	  <child internal-child="vbox">
@@ -64,9 +56,6 @@ Please click the &quot;Forward&quot; button to continue. </property>
 	<widget class="GnomeDruidPageStandard" id="import-page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Importing Files</property>
-	  <property name="title_foreground">#ffffffffffff</property>
-	  <property name="background">#000000000000</property>
-	  <property name="logo_background">#000000000000</property>
 	  <property name="logo">import.png</property>
 
 	  <child internal-child="vbox">
@@ -93,11 +82,6 @@ Please click the &quot;Forward&quot; button to continue. </property>
 needed to set up Evolution. 
 
 Click the &quot;Apply&quot; button to save your settings. </property>
-	  <property name="title_color">#ffffffffffff</property>
-	  <property name="text_color">#000000000000</property>
-	  <property name="background_color">#000000000000</property>
-	  <property name="logo_background_color">#000000000000</property>
-	  <property name="textbox_color">#ffffffffffff</property>
 	</widget>
       </child>
     </widget>

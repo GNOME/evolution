@@ -26,11 +26,6 @@ importing external files into Evolution.</property>
             <property name="logo_image">import.png</property>
             <property name="position">GNOME_EDGE_START</property>
             <property name="visible">yes</property>
-            <property name="title_color">#ffffff</property>
-            <property name="text_color">#000000</property>
-            <property name="background_color">#010101</property>
-            <property name="logo_background_color">#010101</property>
-            <property name="textbox_color">#ffffff</property>
           </widget>
         </child>
 
@@ -39,9 +34,6 @@ importing external files into Evolution.</property>
             <property name="title" translatable="yes">Importer Type (step 1 of 3)</property>
             <property name="logo">import.png</property>
             <property name="visible">yes</property>
-            <property name="title_foreground">#ffffff</property>
-            <property name="background">#000001</property>
-            <property name="logo_background">#010101</property>
 
             <child internal-child="vbox">
               <widget class="GtkVBox" id="druid-vbox2">
@@ -67,9 +59,6 @@ importing external files into Evolution.</property>
             <property name="title" translatable="yes">Select a File (step 2 of 3)</property>
             <property name="logo">import.png</property>
             <property name="visible">yes</property>
-            <property name="title_foreground">#ffffff</property>
-            <property name="background">#010101</property>
-            <property name="logo_background">#010101</property>
 
             <child internal-child="vbox">
               <widget class="GtkVBox" id="druid-vbox1">
@@ -95,9 +84,6 @@ importing external files into Evolution.</property>
             <property name="title" translatable="yes">Select Importers (step 2 of 3)</property>
             <property name="logo">import.png</property>
             <property name="visible">yes</property>
-            <property name="title_foreground">#ffffff</property>
-            <property name="background">#000001</property>
-            <property name="logo_background">#010101</property>
 
             <child internal-child="vbox">
               <widget class="GtkVBox" id="druid-vbox3">
@@ -125,11 +111,6 @@ importing external files into Evolution.</property>
             <property name="logo_image">import.png</property>
             <property name="position">GNOME_EDGE_FINISH</property>
             <property name="visible">yes</property>
-            <property name="title_color">#ffffff</property>
-            <property name="text_color">#000000</property>
-            <property name="background_color">#010101</property>
-            <property name="logo_background_color">#010101</property>
-            <property name="textbox_color">#ffffff</property>
           </widget>
         </child>
       </widget>
