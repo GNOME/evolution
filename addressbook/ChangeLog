@@ -1,3 +1,8 @@
+2001-01-23  JP Rosevear  <jpr@ximian.com>
+
+	* conduit/address-conduit.c (local_record_from_ecard): properly ref
+	the ecard. still need to kill some memory leaks.
+
 2001-01-22  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/Makefile.am: remove vfs dependency

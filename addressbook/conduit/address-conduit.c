@@ -343,6 +343,7 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 	g_return_if_fail (ecard != NULL);
 
 	local->ecard = ecard;
+	gtk_object_ref (GTK_OBJECT (ecard));
 	simple = e_card_simple_new (ecard);
 	
 	local->local.ID = e_pilot_map_lookup_pid (ctxt->map, ecard->id);
