@@ -6,6 +6,7 @@
  *   Miguel de Icaza (miguel@gnu.org)
  *   Federico Mena (quartic@gimp.org)
  */
+#include <config.h>
 #include <string.h>
 #include <glib.h>
 #include <ctype.h>
