@@ -211,8 +211,6 @@ alarm_add (time_t trigger, AlarmFunction alarm_fn, gpointer data,
 
 	queue_alarm (ar);
 
-	g_print ("alarm_add(): Adding alarm %p for %s\n", ar, ctime (&trigger));
-
 	return ar;
 }
 
