@@ -1,3 +1,8 @@
+2001-08-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-timezone-dialog/e-timezone-dialog.h
+	(e_timezone_dialog_reparent): New prototype here.
+
 2001-08-27  Iain Holmes  <iain@ximian.com>
 
 	* e-timezone-dialog/e-timezone.h: Add a prototype for 
