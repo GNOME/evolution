@@ -1,3 +1,17 @@
+2000-09-01  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/gnome-cal.c (gnome_calendar_new): Use
+	gnome_calendar_construct() so that we can check for proper
+	creation of the client.
+	(gnome_calendar_destroy): Check that the client exists before we
+	unref it.
+	(gnome_calendar_construct): Do the CalClient creation here.  Bind
+	the views to it here as well instead of in setup_widgets().
+	(gnome_calendar_init): Call setup_widgets() here.
+
+	* gui/e-calendar-table.c (e_calendar_table_destroy): Unref the
+	model.
+
 2000-09-01  JP Rosevear  <jpr@helixcode.com>
 
 	* conduits/todo/todo-conduit.c: Update for new libical.

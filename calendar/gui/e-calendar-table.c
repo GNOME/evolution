@@ -285,7 +285,8 @@ e_calendar_table_destroy (GtkObject *object)
 
 	cal_table = E_CALENDAR_TABLE (object);
 
-
+	gtk_object_unref (GTK_OBJECT (cal_table->model));
+	cal_table->model = NULL;
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }

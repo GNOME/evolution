@@ -109,7 +109,10 @@ typedef enum {
 } GnomeCalendarOpenMode;
 
 guint      gnome_calendar_get_type         	(void);
+GtkWidget *gnome_calendar_construct		(GnomeCalendar *gcal);
+
 GtkWidget *gnome_calendar_new			(char *title);
+
 int        gnome_calendar_open                  (GnomeCalendar *gcal,
 						 char *file,
 						 GnomeCalendarOpenMode gcom);

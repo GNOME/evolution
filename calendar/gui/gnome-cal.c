@@ -106,81 +106,6 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 	object_class->destroy = gnome_calendar_destroy;
 }
 
-/* Object initialization function for the gnome calendar */
-static void
-gnome_calendar_init (GnomeCalendar *gcal)
-{
-	gcal->object_editor_hash = g_hash_table_new (g_str_hash, g_str_equal);
-	gcal->alarms = g_hash_table_new (g_str_hash, g_str_equal);
-
-	gcal->current_view_type = GNOME_CALENDAR_VIEW_NOT_SET;
-	gcal->range_selected = FALSE;
-
-	/* Set the default pane positions. These will eventually come from
-	   gconf settings. They are multiples of calendar month widths &
-	   heights in the date navigator. */
-	gcal->hpane_pos = 1.0;
-	gcal->vpane_pos = 1.0;
-	gcal->hpane_pos_month_view = 0.0;
-	gcal->vpane_pos_month_view = 1.0;
-
-	gcal->ignore_view_button_clicks = FALSE;
-}
-
-/* Used from g_hash_table_foreach(); frees an object alarms entry */
-static void
-free_object_alarms (gpointer key, gpointer value, gpointer data)
-{
-	ObjectAlarms *oa;
-
-	oa = value;
-
-	g_assert (oa->uid != NULL);
-	g_free (oa->uid);
-	oa->uid = NULL;
-
-	g_assert (oa->alarm_ids != NULL);
-	g_list_free (oa->alarm_ids);
-	oa->alarm_ids = NULL;
-
-	g_free (oa);
-}
-
-/* Used from g_hash_table_foreach(); frees an UID string */
-static void
-free_uid (gpointer key, gpointer value, gpointer data)
-{
-	char *uid;
-
-	uid = key;
-	g_free (uid);
-}
-
-static void
-gnome_calendar_destroy (GtkObject *object)
-{
-	GnomeCalendar *gcal;
-
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (GNOME_IS_CALENDAR (object));
-
-	gcal = GNOME_CALENDAR (object);
-
-	gtk_object_unref (GTK_OBJECT (gcal->client));
-
-	g_hash_table_foreach (gcal->alarms, free_object_alarms, NULL);
-	g_hash_table_destroy (gcal->alarms);
-	gcal->alarms = NULL;
-
-	g_hash_table_foreach (gcal->object_editor_hash, free_uid, NULL);
-	g_hash_table_destroy (gcal->object_editor_hash);
-	gcal->object_editor_hash = NULL;
-
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
-}
-
-
 static void
 setup_widgets (GnomeCalendar *gcal)
 {
@@ -230,14 +155,10 @@ setup_widgets (GnomeCalendar *gcal)
 	gcal->todo = e_calendar_table_new ();
 	e_paned_pack2 (E_PANED (gcal->vpane), gcal->todo, TRUE, TRUE);
 	gtk_widget_show (gcal->todo);
-	e_calendar_table_set_cal_client (E_CALENDAR_TABLE (gcal->todo),
-					 gcal->client);
-
 
 	/* The Day View. */
 	gcal->day_view = e_day_view_new ();
 	e_day_view_set_calendar (E_DAY_VIEW (gcal->day_view), gcal);
-	e_day_view_set_cal_client (E_DAY_VIEW (gcal->day_view), gcal->client);
 	gtk_widget_show (gcal->day_view);
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook),
 				  gcal->day_view, gtk_label_new (""));
@@ -248,7 +169,6 @@ setup_widgets (GnomeCalendar *gcal)
 				       TRUE);
 	e_day_view_set_days_shown (E_DAY_VIEW (gcal->work_week_view), 5);
 	e_day_view_set_calendar (E_DAY_VIEW (gcal->work_week_view), gcal);
-	e_day_view_set_cal_client (E_DAY_VIEW (gcal->work_week_view), gcal->client);
 	gtk_widget_show (gcal->work_week_view);
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook),
 				  gcal->work_week_view, gtk_label_new (""));
@@ -256,7 +176,6 @@ setup_widgets (GnomeCalendar *gcal)
 	/* The Week View. */
 	gcal->week_view = e_week_view_new ();
 	e_week_view_set_calendar (E_WEEK_VIEW (gcal->week_view), gcal);
-	e_week_view_set_cal_client (E_WEEK_VIEW (gcal->week_view), gcal->client);
 	gtk_widget_show (gcal->week_view);
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook),
 				  gcal->week_view, gtk_label_new (""));
@@ -265,10 +184,91 @@ setup_widgets (GnomeCalendar *gcal)
 	gcal->month_view = e_week_view_new ();
 	e_week_view_set_calendar (E_WEEK_VIEW (gcal->month_view), gcal);
 	e_week_view_set_multi_week_view (E_WEEK_VIEW (gcal->month_view), TRUE);
-	e_week_view_set_cal_client (E_WEEK_VIEW (gcal->month_view), gcal->client);
 	gtk_widget_show (gcal->month_view);
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook),
 				  gcal->month_view, gtk_label_new (""));
+}
+
+/* Object initialization function for the gnome calendar */
+static void
+gnome_calendar_init (GnomeCalendar *gcal)
+{
+	gcal->object_editor_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	gcal->alarms = g_hash_table_new (g_str_hash, g_str_equal);
+
+	gcal->current_view_type = GNOME_CALENDAR_VIEW_NOT_SET;
+	gcal->range_selected = FALSE;
+
+	gcal->selection_start_time = time_day_begin (time (NULL));
+	gcal->selection_end_time = time_add_day (gcal->selection_start_time, 1);
+
+	/* Set the default pane positions. These will eventually come from
+	   gconf settings. They are multiples of calendar month widths &
+	   heights in the date navigator. */
+	gcal->hpane_pos = 1.0;
+	gcal->vpane_pos = 1.0;
+	gcal->hpane_pos_month_view = 0.0;
+	gcal->vpane_pos_month_view = 1.0;
+
+	gcal->ignore_view_button_clicks = FALSE;
+
+	setup_widgets (gcal);
+}
+
+/* Used from g_hash_table_foreach(); frees an object alarms entry */
+static void
+free_object_alarms (gpointer key, gpointer value, gpointer data)
+{
+	ObjectAlarms *oa;
+
+	oa = value;
+
+	g_assert (oa->uid != NULL);
+	g_free (oa->uid);
+	oa->uid = NULL;
+
+	g_assert (oa->alarm_ids != NULL);
+	g_list_free (oa->alarm_ids);
+	oa->alarm_ids = NULL;
+
+	g_free (oa);
+}
+
+/* Used from g_hash_table_foreach(); frees an UID string */
+static void
+free_uid (gpointer key, gpointer value, gpointer data)
+{
+	char *uid;
+
+	uid = key;
+	g_free (uid);
+}
+
+static void
+gnome_calendar_destroy (GtkObject *object)
+{
+	GnomeCalendar *gcal;
+
+	g_return_if_fail (object != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR (object));
+
+	gcal = GNOME_CALENDAR (object);
+
+	if (gcal->client) {
+		gtk_object_unref (GTK_OBJECT (gcal->client));
+		gcal->client = NULL;
+	}
+
+	g_hash_table_foreach (gcal->alarms, free_object_alarms, NULL);
+	g_hash_table_destroy (gcal->alarms);
+	gcal->alarms = NULL;
+
+	g_hash_table_foreach (gcal->object_editor_hash, free_uid, NULL);
+	g_hash_table_destroy (gcal->object_editor_hash);
+	gcal->object_editor_hash = NULL;
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 static GtkWidget *
@@ -991,29 +991,47 @@ gnome_calendar_object_removed_cb (GtkWidget *cal_client,
 
 
 GtkWidget *
-gnome_calendar_new (char *title)
+gnome_calendar_construct (GnomeCalendar *gcal)
 {
-	GtkWidget      *retval;
-	GnomeCalendar  *gcal;
+	g_return_val_if_fail (gcal != NULL, NULL);
+	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
 
-	retval = gtk_type_new (gnome_calendar_get_type ());
-
-	gcal = GNOME_CALENDAR (retval);
-
-	gcal->selection_start_time = time_day_begin (time (NULL));
-	gcal->selection_end_time = time_add_day (gcal->selection_start_time, 1);
 	gcal->client = cal_client_new ();
-
-	setup_widgets (gcal);
-
-	gnome_calendar_set_view (gcal, "dayview", FALSE);
+	if (!gcal->client)
+		return NULL;
 
 	gtk_signal_connect (GTK_OBJECT (gcal->client), "obj_updated",
 			    gnome_calendar_object_updated_cb, gcal);
 	gtk_signal_connect (GTK_OBJECT (gcal->client), "obj_removed",
 			    gnome_calendar_object_removed_cb, gcal);
 
-	return retval;
+	e_calendar_table_set_cal_client (E_CALENDAR_TABLE (gcal->todo),
+					 gcal->client);
+
+	e_day_view_set_cal_client (E_DAY_VIEW (gcal->day_view), gcal->client);
+	e_day_view_set_cal_client (E_DAY_VIEW (gcal->work_week_view), gcal->client);
+	e_week_view_set_cal_client (E_WEEK_VIEW (gcal->week_view), gcal->client);
+	e_week_view_set_cal_client (E_WEEK_VIEW (gcal->month_view), gcal->client);
+
+	gnome_calendar_set_view (gcal, "dayview", FALSE);
+
+	return GTK_WIDGET (gcal);
+}
+
+GtkWidget *
+gnome_calendar_new (char *title)
+{
+	GnomeCalendar *gcal;
+
+	gcal = gtk_type_new (gnome_calendar_get_type ());
+
+	if (!gnome_calendar_construct (gcal)) {
+		g_message ("gnome_calendar_new(): Could not construct the calendar GUI");
+		gtk_object_unref (GTK_OBJECT (gcal));
+		return NULL;
+	}
+
+	return GTK_WIDGET (gcal);
 }
 
 typedef struct
