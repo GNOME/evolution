@@ -150,6 +150,45 @@ Other non-GNOME Dependencies:
    db3 is available from http://www.sleepycat.com. Make sure to get
    3.1.17, it isn't the latest version.
 
+     --- IMPORTANT WARNING ---
+
+     The on-disk format of DB files has been changing between versions
+     2, 3 and 4.  Also, because of the libdb API, there is no way to
+     easily handle the different formats from within the application.
+     For this reason, Evolution has chosen to use one specific version
+     of the library (version 3) and stick to it, so that users do not
+     need to convert their addressbook files to use them with
+     different version of Evolution.
+
+     That's why Evolution REQUIRES libdb 3.1.17, and NO OTHER VERSION.
+
+     If you force the check to accept a version different from 3.1.17,
+     your binary of Evolution will be using a different format from
+     the chosen one; this means that it will not be able to read
+     addressbook databases created by other versions of Evolution
+     which were compiled in the standard way.  Also, we DO NOT
+     GUARRANTEE that Evolution will work with different versions of
+     libdb at all, even if it can be trivially made to compile against
+     them.
+
+     SPECIAL NOTE FOR BINARY PACKAGERS:
+
+     If you are making binary packages for end-users (e.g. if you are
+     a distribution vendor), please statically link Evolution to
+     Berkeley DB 3.1.17, as mandated by the configure.in check.  DO
+     NOT patch configure.in to work around the check.  Forcing the
+     check to link to a different version of the library will only
+     give headaches and pain to your users, who will see their
+     addressbook disappear and will complain to us (the Evolution
+     team) about losing their data.
+
+     Besides, libdb will be linked statically, which means that your
+     distribution doesn't actually need to ship DB 3.1.17 itself
+     separately.
+
+     The Evolution team will be infinitely grateful for your
+     co-operation.  Thanks.
+
 
 COMPILING BERKELEY DB
 ---------------------
