@@ -25,6 +25,9 @@
 
 #include <config.h>
 
+#include <math.h>
+#include <sys/types.h>
+
 /* We need this for strptime. */
 #define _XOPEN_SOURCE 500
 #define __USE_XOPEN
@@ -33,7 +36,6 @@
 #undef _XOPEN_SOURCE
 #undef __USE_XOPEN
 
-#include <math.h>
 #include <ctype.h>
 #include <glib.h>
 #include <libgnome/gnome-defs.h>
