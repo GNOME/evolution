@@ -427,7 +427,7 @@ message_list_select (MessageList               *message_list,
 			message_list_select (message_list, 0,
 					     direction, flags, mask, FALSE);
 		else
-			message_list_select (message_list, e_tree_row_count (et) - 1,
+			message_list_select (message_list, e_tree_row_count (et),
 					     direction, flags, mask, FALSE);
 	}
 }
