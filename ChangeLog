@@ -1,3 +1,23 @@
+2001-03-20  Jakub Steiner <jimmac@ximian.com>
+
+	* art/48_send-receive.png: send-receive for the s/r dialog
+	* art/24_send-receive.png: send-receive to replace the
+	fetch-mail-doggie
+	* art/16_send-receive.xpm: send-receive for (future) menu
+	item
+	* art/16_import.xpm: for the file menu
+	* art/16_work_offline.xpm: for the file menu
+	* AUTHORS: so I can show off
+	* art/splash.png: making radek famous ;)
+	* art/envelope.png, evolution-calendar.png, evolution-contacts.png, 
+	evolution-tasks.png, evolution-today.png: 
+	 new concept of color coded apps:
+	    - mailer: 		#efb43e
+	    - calendar:		#bab5ab
+	    - contacts: 	#9794ab
+	    - tasks:		#6e9e6e
+	    - exec. summary:	#c4757e
+	
 2001-03-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in: Fix ettore's fix ;-)
