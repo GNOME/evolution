@@ -1,5 +1,33 @@
 2003-12-16  Hans Petter Jansson  <hpj@ximian.com>
 
+	* gui/component/addressbook.c (addressbook_show_load_error_dialog):
+	Make a public function that shows an error dialog, which can be used
+	when a source fails to load.
+	(book_open_cb): Call addressbook_show_load_error_dialog () on error.
+	(set_prop): Don't reuse the book when loading a new source. This was
+	confusing the contact-editor, which gets the book passed in.
+
+	* gui/contact-editor/e-contact-editor.c (e_contact_editor_class_init):
+	Make "source_book" and "target_book" distinct properties.
+	(new_target_cb): Implement.
+	(source_selected): Implement.
+	(contact_moved_cb): Implement.
+	(contact_added_cb): Handle the case where source_book != target_book as
+	a move - if the add was successful, remove contact from source book.
+	(save_contact): Handle case where source_book != target_book.
+	(delete_cb): "book" renamed to "source_book".
+	(e_contact_editor_init): Set up source_selected signal.
+	(e_contact_editor_dispose): Dispose of both source and target books.
+	(e_contact_editor_new): "book" renamed to "source_book".
+	(e_contact_editor_set_property): If a source book is set, and we don't
+	have a target book, make target_book == source_book. Allow setting
+	target book, and base editability on that. If we're editing an existing
+	contact, treat book change as a change, and update command state.
+	(e_contact_editor_get_property): Allow getting target book.
+	(set_source_field): Indicate the selected book.
+
+2003-12-16  Hans Petter Jansson  <hpj@ximian.com>
+
 	* gui/contact-editor/e-contact-editor.c (set_source_field): Implement.
 	Makes the source menu reflect the source for the current book.
 

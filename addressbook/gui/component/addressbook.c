@@ -473,6 +473,69 @@ addressbook_view_unref (AddressbookView *view)
 	}
 }
 
+void
+addressbook_show_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
+{
+	char *label_string;
+	GtkWidget *warning_dialog;
+	GtkWidget *href = NULL;
+	gchar *uri;
+
+	g_return_if_fail (source != NULL);
+
+	uri = e_source_get_uri (source);
+
+	if (!strncmp (uri, "file:", 5)) {
+		label_string = 
+			_("We were unable to open this addressbook.  Please check that the\n"
+			  "path exists and that you have permission to access it.");
+	}
+	else if (!strncmp (uri, "ldap:", 5)) {
+		/* special case for ldap: contact folders so we can tell the user about openldap */
+#if HAVE_LDAP
+		label_string = 
+			_("We were unable to open this addressbook.  This either\n"
+			  "means you have entered an incorrect URI, or the LDAP server\n"
+			  "is unreachable.");
+#else
+		label_string =
+			_("This version of Evolution does not have LDAP support\n"
+			  "compiled in to it.  If you want to use LDAP in Evolution\n"
+			  "you must compile the program from the CVS sources after\n"
+			  "retrieving OpenLDAP from the link below.\n");
+		href = gnome_href_new ("http://www.openldap.org/", "OpenLDAP at http://www.openldap.org/");
+#endif
+	} else {
+		/* other network folders */
+		label_string =
+			_("We were unable to open this addressbook.  This either\n"
+			  "means you have entered an incorrect URI, or the server\n"
+			  "is unreachable.");
+	}
+
+	warning_dialog = gtk_message_dialog_new (parent ? GTK_WINDOW (parent) : NULL,
+						 0,
+						 GTK_MESSAGE_WARNING,
+						 GTK_BUTTONS_CLOSE, 
+						 label_string,
+						 NULL);
+
+	g_signal_connect (warning_dialog, 
+			  "response", 
+			  G_CALLBACK (gtk_widget_destroy),
+			  warning_dialog);
+
+	gtk_window_set_title (GTK_WINDOW (warning_dialog), _("Unable to open addressbook"));
+
+	if (href)
+		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (warning_dialog)->vbox), 
+				    href, FALSE, FALSE, 0);
+
+	gtk_widget_show_all (warning_dialog);
+
+	g_free (uri);
+}
+
 static void
 book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 {
@@ -486,65 +549,8 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 		view->book = book;
 	}
 	else {
-		char *label_string;
-		GtkWidget *warning_dialog;
-		GtkWidget *href = NULL;
-		gchar *uri;
-
 		view->failed_to_load = TRUE;
-
-		uri = e_source_get_uri (view->source);
-
-		if (!strncmp (uri, "file:", 5)) {
-			label_string = 
-				_("We were unable to open this addressbook.  Please check that the\n"
-				  "path exists and that you have permission to access it.");
-		}
-		else if (!strncmp (uri, "ldap:", 5)) {
-			/* special case for ldap: contact folders so we can tell the user about openldap */
-#if HAVE_LDAP
-			label_string = 
-				_("We were unable to open this addressbook.  This either\n"
-				  "means you have entered an incorrect URI, or the LDAP server\n"
-				  "is unreachable.");
-#else
-			label_string =
-				_("This version of Evolution does not have LDAP support\n"
-				  "compiled in to it.  If you want to use LDAP in Evolution\n"
-				  "you must compile the program from the CVS sources after\n"
-				  "retrieving OpenLDAP from the link below.\n");
-			href = gnome_href_new ("http://www.openldap.org/", "OpenLDAP at http://www.openldap.org/");
-#endif
-		} else {
-			/* other network folders */
-			label_string =
-				_("We were unable to open this addressbook.  This either\n"
-				  "means you have entered an incorrect URI, or the server\n"
-				  "is unreachable.");
-		}
-
-        	warning_dialog = gtk_message_dialog_new (
-			 NULL /* XXX */,
-			 0,
-			 GTK_MESSAGE_WARNING,
-			 GTK_BUTTONS_CLOSE, 
-			 label_string,
-			 NULL);
-
-		g_signal_connect (warning_dialog, 
-				  "response", 
-				  G_CALLBACK (gtk_widget_destroy),
-				  warning_dialog);
-
-		gtk_window_set_title (GTK_WINDOW (warning_dialog), _("Unable to open addressbook"));
-
-		if (href)
-			gtk_box_pack_start (GTK_BOX (GTK_DIALOG (warning_dialog)->vbox), 
-					    href, FALSE, FALSE, 0);
-
-		gtk_widget_show_all (warning_dialog);
-
-		g_free (uri);
+		addressbook_show_load_error_dialog (NULL /* XXX */, view->source, status);
 	}
 }
 
@@ -765,12 +771,11 @@ set_prop (BonoboPropertyBag *bag,
 
 	case PROPERTY_SOURCE_UID_IDX:
 		if (view->book) {
-			/* we've already had a uri set on this view, so unload it */
-			e_book_async_unload_uri (view->book); 
+			g_object_unref (view->book);
 			view->source = NULL;
-		} else {
-			view->book = e_book_new ();
 		}
+
+		view->book = e_book_new ();
 
 		view->failed_to_load = FALSE;
 

@@ -49,6 +49,7 @@
 
 #include <e-util/e-categories-master-list-wombat.h>
 
+#include "addressbook/gui/component/addressbook.h"
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/printing/e-contact-print-envelope.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
@@ -105,7 +106,8 @@ static guint contact_editor_signals[LAST_SIGNAL];
 /* The arguments we take */
 enum {
 	PROP_0,
-	PROP_BOOK,
+	PROP_SOURCE_BOOK,
+	PROP_TARGET_BOOK,
 	PROP_CONTACT,
 	PROP_IS_NEW_CONTACT,
 	PROP_EDITABLE,
@@ -184,9 +186,16 @@ e_contact_editor_class_init (EContactEditorClass *klass)
   object_class->get_property = e_contact_editor_get_property;
   object_class->dispose = e_contact_editor_dispose;
 
-  g_object_class_install_property (object_class, PROP_BOOK, 
-				   g_param_spec_object ("book",
-							_("Book"),
+  g_object_class_install_property (object_class, PROP_SOURCE_BOOK, 
+				   g_param_spec_object ("source_book",
+							_("Source Book"),
+							/*_( */"XXX blurb" /*)*/,
+							E_TYPE_BOOK,
+							G_PARAM_READWRITE));
+
+  g_object_class_install_property (object_class, PROP_TARGET_BOOK, 
+				   g_param_spec_object ("target_book",
+							_("Target Book"),
 							/*_( */"XXX blurb" /*)*/,
 							E_TYPE_BOOK,
 							G_PARAM_READWRITE));
@@ -503,6 +512,41 @@ address_mailing_changed (GtkWidget *widget, EContactEditor *editor)
 #endif
 }
 
+static void
+new_target_cb (EBook *new_book, EBookStatus status, EContactEditor *editor)
+{
+	if (status != E_BOOK_ERROR_OK || new_book == NULL) {
+		GtkWidget *source_option_menu;
+
+		addressbook_show_load_error_dialog (NULL, e_book_get_source (new_book), status);
+
+		source_option_menu = glade_xml_get_widget (editor->gui, "source-option-menu-source");
+		e_source_option_menu_select (E_SOURCE_OPTION_MENU (source_option_menu),
+					     e_book_get_source (editor->target_book));
+		g_object_unref (new_book);
+		return;
+	}
+
+	g_object_set (editor, "target_book", new_book, NULL);
+	g_object_unref (new_book);
+}
+
+static void
+source_selected (GtkWidget *source_option_menu, ESource *source, EContactEditor *editor)
+{
+	EBook *new_book;
+
+	if (e_source_equal (e_book_get_source (editor->target_book), source))
+		return;
+
+	if (e_source_equal (e_book_get_source (editor->source_book), source)) {
+		g_object_set (editor, "target_book", editor->source_book, NULL);
+		return;
+	}
+
+	new_book = e_book_new ();
+	addressbook_load_source (new_book, source, (EBookCallback) new_target_cb, editor);
+}
 
 /* This function tells you whether name_to_style will make sense.  */
 static gboolean
@@ -961,10 +1005,11 @@ categories_clicked(GtkWidget *button, EContactEditor *editor)
 typedef struct {
 	EContactEditor *ce;
 	gboolean should_close;
+	gchar *new_id;
 } EditorCloseStruct;
 
 static void
-contact_added_cb (EBook *book, EBookStatus status, const char *id, EditorCloseStruct *ecs)
+contact_moved_cb (EBook *book, EBookStatus status, EditorCloseStruct *ecs)
 {
 	EContactEditor *ce = ecs->ce;
 	gboolean should_close = ecs->should_close;
@@ -972,7 +1017,47 @@ contact_added_cb (EBook *book, EBookStatus status, const char *id, EditorCloseSt
 	gtk_widget_set_sensitive (ce->app, TRUE);
 	ce->in_async_call = FALSE;
 
-	e_contact_set (ce->contact, E_CONTACT_UID, (char*)id);
+	e_contact_set (ce->contact, E_CONTACT_UID, ecs->new_id);
+
+	g_signal_emit (ce, contact_editor_signals[CONTACT_DELETED], 0,
+		       status, ce->contact);
+
+	ce->is_new_contact = FALSE;
+
+	if (should_close) {
+		close_dialog (ce);
+	}
+	else {
+		ce->changed = FALSE;
+
+		g_object_ref (ce->target_book);
+		g_object_unref (ce->source_book);
+		ce->source_book = ce->target_book;
+
+		command_state_changed (ce);
+	}
+
+	g_object_unref (ce);
+	g_free (ecs->new_id);
+	g_free (ecs);
+}
+
+static void
+contact_added_cb (EBook *book, EBookStatus status, const char *id, EditorCloseStruct *ecs)
+{
+	EContactEditor *ce = ecs->ce;
+	gboolean should_close = ecs->should_close;
+
+	if (ce->source_book != ce->target_book && status == E_BOOK_ERROR_OK &&
+	    ce->is_new_contact == FALSE) {
+		ecs->new_id = g_strdup (id);
+		e_book_async_remove_contact (ce->source_book, ce->contact,
+					     (EBookCallback) contact_moved_cb, ecs);
+		return;
+	}
+
+	gtk_widget_set_sensitive (ce->app, TRUE);
+	ce->in_async_call = FALSE;
 
 	g_signal_emit (ce, contact_editor_signals[CONTACT_ADDED], 0,
 		       status, ce->contact);
@@ -1023,23 +1108,31 @@ contact_modified_cb (EBook *book, EBookStatus status, EditorCloseStruct *ecs)
 static void
 save_contact (EContactEditor *ce, gboolean should_close)
 {
+	EditorCloseStruct *ecs = g_new(EditorCloseStruct, 1);
+
 	extract_info (ce);
+	if (!ce->target_book)
+		return;
 
-	if (ce->book) {
-		EditorCloseStruct *ecs = g_new(EditorCloseStruct, 1);
-		
-		ecs->ce = ce;
-		g_object_ref (ecs->ce);
+	ecs->ce = ce;
+	g_object_ref (ecs->ce);
 
-		ecs->should_close = should_close;
+	ecs->should_close = should_close;
 
-		gtk_widget_set_sensitive (ce->app, FALSE);
-		ce->in_async_call = TRUE;
+	gtk_widget_set_sensitive (ce->app, FALSE);
+	ce->in_async_call = TRUE;
 
+	if (ce->source_book != ce->target_book) {
+		/* Two-step move; add to target, then remove from source */
+		eab_merging_book_add_contact (ce->target_book, ce->contact,
+					      (EBookIdCallback) contact_added_cb, ecs);
+	} else {
 		if (ce->is_new_contact)
-			eab_merging_book_add_contact (ce->book, ce->contact, (EBookIdCallback)contact_added_cb, ecs);
+			eab_merging_book_add_contact (ce->target_book, ce->contact,
+						      (EBookIdCallback) contact_added_cb, ecs);
 		else
-			eab_merging_book_commit_contact (ce->book, ce->contact, (EBookCallback)contact_modified_cb, ecs);
+			eab_merging_book_commit_contact (ce->target_book, ce->contact,
+							 (EBookCallback) contact_modified_cb, ecs);
 	}
 }
 
@@ -1192,11 +1285,11 @@ delete_cb (GtkWidget *widget, gpointer data)
 
 		extract_info (ce);
 		
-		if (!ce->is_new_contact && ce->book) {
+		if (!ce->is_new_contact && ce->source_book) {
 			gtk_widget_set_sensitive (ce->app, FALSE);
 			ce->in_async_call = TRUE;
 
-			e_book_async_remove_contact (ce->book, contact, (EBookCallback)contact_deleted_cb, ce);
+			e_book_async_remove_contact (ce->source_book, contact, (EBookCallback)contact_deleted_cb, ce);
 		}
 	}
 
@@ -1415,6 +1508,10 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	if (widget && GTK_IS_BUTTON(widget))
 		g_signal_connect (widget, "clicked",
 				  G_CALLBACK (categories_clicked), e_contact_editor);
+	widget = glade_xml_get_widget (e_contact_editor->gui, "source-option-menu-source");
+	if (widget && E_IS_SOURCE_OPTION_MENU (widget))
+		g_signal_connect (widget, "source_selected",
+				  G_CALLBACK (source_selected), e_contact_editor);
 
 	/* Construct the app */
 	bonobo_win = bonobo_window_new ("contact-editor-dialog", _("Contact Editor"));
@@ -1520,9 +1617,14 @@ e_contact_editor_dispose (GObject *object) {
 		e_contact_editor->contact = NULL;
 	}
 	
-	if (e_contact_editor->book) {
-		g_object_unref(e_contact_editor->book);
-		e_contact_editor->book = NULL;
+	if (e_contact_editor->source_book) {
+		g_object_unref(e_contact_editor->source_book);
+		e_contact_editor->source_book = NULL;
+	}
+
+	if (e_contact_editor->target_book) {
+		g_object_unref(e_contact_editor->target_book);
+		e_contact_editor->target_book = NULL;
 	}
 
 	if (e_contact_editor->name) {
@@ -1605,7 +1707,7 @@ e_contact_editor_new (EBook *book,
 	gtk_object_sink (GTK_OBJECT (ce));
 
 	g_object_set (ce,
-		      "book", book,
+		      "source_book", book,
 		      "contact", contact,
 		      "is_new_contact", is_new_contact,
 		      "editable", editable,
@@ -1625,11 +1727,33 @@ e_contact_editor_set_property (GObject *object, guint prop_id, const GValue *val
 	editor = E_CONTACT_EDITOR (object);
 	
 	switch (prop_id){
-	case PROP_BOOK:
-		if (editor->book)
-			g_object_unref(editor->book);
-		editor->book = E_BOOK(g_value_get_object (value));
-		g_object_ref (editor->book);
+	case PROP_SOURCE_BOOK:
+		if (editor->source_book)
+			g_object_unref(editor->source_book);
+		editor->source_book = E_BOOK (g_value_get_object (value));
+		g_object_ref (editor->source_book);
+
+		if (!editor->target_book) {
+			editor->target_book = editor->source_book;
+			g_object_ref (editor->target_book);
+		}
+
+		/* XXX more here about editable/etc. */
+		break;
+	case PROP_TARGET_BOOK:
+		if (editor->target_book)
+			g_object_unref(editor->target_book);
+		editor->target_book = E_BOOK (g_value_get_object (value));
+		g_object_ref (editor->target_book);
+
+		e_book_async_get_supported_fields (editor->target_book,
+						   (EBookFieldsCallback) supported_fields_cb, editor);
+
+		if (!editor->changed && !editor->is_new_contact) {
+			editor->changed = TRUE;
+			command_state_changed (editor);
+		}
+
 		/* XXX more here about editable/etc. */
 		break;
 	case PROP_CONTACT:
@@ -1691,8 +1815,12 @@ e_contact_editor_get_property (GObject *object, guint prop_id, GValue *value, GP
 	e_contact_editor = E_CONTACT_EDITOR (object);
 
 	switch (prop_id) {
-	case PROP_BOOK:
-		g_value_set_object (value, e_contact_editor->book);
+	case PROP_SOURCE_BOOK:
+		g_value_set_object (value, e_contact_editor->source_book);
+		break;
+
+	case PROP_TARGET_BOOK:
+		g_value_set_object (value, e_contact_editor->target_book);
 		break;
 
 	case PROP_CONTACT:
@@ -2041,8 +2169,11 @@ set_source_field (EContactEditor *editor)
 	GtkWidget *source_menu;
 	ESource   *source;
 
+	if (!editor->target_book)
+		return;
+
 	source_menu = glade_xml_get_widget (editor->gui, "source-option-menu-source");
-	source = e_book_get_source (editor->book);
+	source = e_book_get_source (editor->target_book);
 
 	e_source_option_menu_select (E_SOURCE_OPTION_MENU (source_menu), source);
 }

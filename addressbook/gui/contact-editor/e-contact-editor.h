@@ -54,7 +54,8 @@ struct _EContactEditor
 	GtkObject object;
 	
 	/* item specific fields */
-	EBook *book;
+	EBook *source_book;
+	EBook *target_book;
 	EContact *contact;
 
 	/* UI handler */
