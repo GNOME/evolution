@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.evolution-1-4-branch\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-08-21 11:30+0200\n"
-"PO-Revision-Date: 2003-08-26 20:14+0200\n"
+"POT-Creation-Date: 2003-08-27 03:29+0200\n"
+"PO-Revision-Date: 2003-08-27 06:54+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@arrakis.es>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -455,7 +455,7 @@ msgstr "Usar puntuación"
 
 #: addressbook/backend/ebook/test-client-list.c:15
 #: addressbook/backend/ebook/test-client.c:33
-#: calendar/gui/alarm-notify/notify-main.c:172
+#: calendar/gui/alarm-notify/notify-main.c:173
 msgid "Could not initialize Bonobo"
 msgstr "No se pudo inicializar Bonobo"
 
@@ -3752,11 +3752,11 @@ msgstr ""
 msgid "Do not ask me about this program again."
 msgstr "No me preguntes otra vez sobre este programa."
 
-#: calendar/gui/alarm-notify/notify-main.c:175
+#: calendar/gui/alarm-notify/notify-main.c:176
 msgid "Could not initialize gnome-vfs"
 msgstr "No se pudo inicializar gnome-vfs"
 
-#: calendar/gui/alarm-notify/notify-main.c:184
+#: calendar/gui/alarm-notify/notify-main.c:185
 msgid "Could not create the alarm notify service factory"
 msgstr "No se pudo crear la fábrica del servicio de la alarma de notificación"
 
@@ -3772,7 +3772,7 @@ msgstr "La descripción contiene"
 msgid "Comment contains"
 msgstr "El comentario contiene"
 
-#: calendar/gui/cal-search-bar.c:358 mail/mail-ops.c:1106
+#: calendar/gui/cal-search-bar.c:358 mail/mail-ops.c:1130
 msgid "Unmatched"
 msgstr "No coincidente"
 
@@ -10308,7 +10308,7 @@ msgstr "Envío de correo SMTP vía %s"
 msgid "Cannot send message: sender address not valid."
 msgstr "No se pudo enviar el mensaje: dirección del remitente no válida."
 
-#: camel/providers/smtp/camel-smtp-transport.c:691 mail/mail-ops.c:613
+#: camel/providers/smtp/camel-smtp-transport.c:691 mail/mail-ops.c:637
 msgid "Sending message"
 msgstr "Enviando mensaje"
 
@@ -11657,7 +11657,7 @@ msgstr "Evolution está importando su información antigua de Netscape"
 
 #. Fill in the new fields
 #: importers/netscape-importer.c:1872 mail/importers/netscape-importer.c:1842
-#: mail/mail-ops.c:1092 shell/e-local-storage.c:184
+#: mail/mail-ops.c:1116 shell/e-local-storage.c:184
 msgid "Trash"
 msgstr "Papelera"
 
@@ -12409,7 +12409,7 @@ msgstr "Imprimir mensaje"
 msgid "Printing of message failed"
 msgstr "Ha fallado la impresión del mensaje"
 
-#: mail/mail-callbacks.c:3147
+#: mail/mail-callbacks.c:3149
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "¿Seguro que quiere abrir %d mensajes en ventanas separadas?"
@@ -13350,106 +13350,121 @@ msgstr "Filtrando carpeta"
 msgid "Fetching Mail"
 msgstr "Obteniendo mensajes"
 
-#: mail/mail-ops.c:550 mail/mail-ops.c:579
-msgid "However, the message was successfully sent."
-msgstr "Aun así, este mensaje fue enviado correctamente."
+#: mail/mail-ops.c:563
+#, c-format
+msgid "Failed to apply outgoing filters: %s"
+msgstr "Falló al apliacar los filtros al correo saliente: %s"
 
-#: mail/mail-ops.c:611
+#: mail/mail-ops.c:584
+#, c-format
+msgid ""
+"Failed to append to %s: %s\n"
+"Appending to local `Sent' folder instead."
+msgstr ""
+"Falló al anexar a %s: %s\n"
+"Anexando a la carpeta local «Correo enviado» en su lugar."
+
+#: mail/mail-ops.c:593
+#, c-format
+msgid "Failed to append to local `Sent' folder: %s"
+msgstr "Falló al anexar a la carpeta local «Correo enviado»: %s"
+
+#: mail/mail-ops.c:635
 #, c-format
 msgid "Sending \"%s\""
 msgstr "Enviando «%s»"
 
-#: mail/mail-ops.c:729
+#: mail/mail-ops.c:753
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Enviando mensaje %d de %d"
 
-#: mail/mail-ops.c:748
+#: mail/mail-ops.c:772
 #, c-format
 msgid "Failed on message %d of %d"
 msgstr "Error en mensaje %d de %d"
 
-#: mail/mail-ops.c:750 mail/mail-send-recv.c:581
+#: mail/mail-ops.c:774 mail/mail-send-recv.c:581
 msgid "Complete."
 msgstr "Completado."
 
-#: mail/mail-ops.c:844
+#: mail/mail-ops.c:868
 msgid "Saving message to folder"
 msgstr "Guardando mensajes en la carpeta"
 
-#: mail/mail-ops.c:925
+#: mail/mail-ops.c:949
 #, c-format
 msgid "Moving messages to %s"
 msgstr "Moviendo mensajes a %s"
 
-#: mail/mail-ops.c:925
+#: mail/mail-ops.c:949
 #, c-format
 msgid "Copying messages to %s"
 msgstr "Copiando mensajes a %s"
 
-#: mail/mail-ops.c:1042
+#: mail/mail-ops.c:1066
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Analizando carpetas en «%s»"
 
-#: mail/mail-ops.c:1230
+#: mail/mail-ops.c:1254
 msgid "Forwarded messages"
 msgstr "Mensaje reenviados"
 
-#: mail/mail-ops.c:1273
+#: mail/mail-ops.c:1297
 #, c-format
 msgid "Opening folder %s"
 msgstr "Abriendo carpeta %s"
 
-#: mail/mail-ops.c:1345
+#: mail/mail-ops.c:1369
 #, c-format
 msgid "Opening store %s"
 msgstr "Abriendo sitio %s"
 
-#: mail/mail-ops.c:1423
+#: mail/mail-ops.c:1447
 #, c-format
 msgid "Removing folder %s"
 msgstr "Eliminando carpeta %s"
 
-#: mail/mail-ops.c:1517
+#: mail/mail-ops.c:1541
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Guardando carpeta «%s»"
 
-#: mail/mail-ops.c:1568
+#: mail/mail-ops.c:1592
 msgid "Refreshing folder"
 msgstr "Actualizando carpeta"
 
-#: mail/mail-ops.c:1604 mail/mail-ops.c:1655
+#: mail/mail-ops.c:1628 mail/mail-ops.c:1679
 msgid "Expunging folder"
 msgstr "Purgando carpeta"
 
-#: mail/mail-ops.c:1652
+#: mail/mail-ops.c:1676
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Vaciando papelera en «%s»"
 
-#: mail/mail-ops.c:1653 my-evolution/e-summary-mail.c:483
+#: mail/mail-ops.c:1677 my-evolution/e-summary-mail.c:483
 #: shell/e-local-storage.c:1151
 msgid "Local Folders"
 msgstr "Carpetas locales"
 
-#: mail/mail-ops.c:1728
+#: mail/mail-ops.c:1752
 #, c-format
 msgid "Retrieving message %s"
 msgstr "Obteniendo mensaje %s"
 
-#: mail/mail-ops.c:1800
+#: mail/mail-ops.c:1824
 #, c-format
 msgid "Retrieving %d message(s)"
 msgstr "Obteniendo %d mensajes(s)"
 
-#: mail/mail-ops.c:1886
+#: mail/mail-ops.c:1910
 #, c-format
 msgid "Saving %d messsage(s)"
 msgstr "Guardando %d mensaje(s)"
 
-#: mail/mail-ops.c:1934
+#: mail/mail-ops.c:1958
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -13458,7 +13473,7 @@ msgstr ""
 "No se pudo crear el archivo de salida: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1962
+#: mail/mail-ops.c:1986
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -13467,11 +13482,11 @@ msgstr ""
 "Error guardando mensajes en: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2036
+#: mail/mail-ops.c:2060
 msgid "Saving attachment"
 msgstr "Guardando adjunto"
 
-#: mail/mail-ops.c:2053
+#: mail/mail-ops.c:2077
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -13480,17 +13495,17 @@ msgstr ""
 "No se pudo crear el archivo de salida: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2083
+#: mail/mail-ops.c:2107
 #, c-format
 msgid "Could not write data: %s"
 msgstr "No se pudo escribir datos: %s"
 
-#: mail/mail-ops.c:2231
+#: mail/mail-ops.c:2255
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Desconectando de %s"
 
-#: mail/mail-ops.c:2231
+#: mail/mail-ops.c:2255
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "Reconectar a %s"
@@ -27980,515 +27995,533 @@ msgstr "Motor de agenda en archivo local de Evolution"
 msgid "Evolution Addressbook local file backend"
 msgstr "Motor para libretas de direcciones en archivo local de Evolution"
 
-msgid "Hey you, dunce. You need an account to send mail doncha know."
-msgstr "Necesita una cuenta para enviar correo."
+#~ msgid "However, the message was successfully sent."
+#~ msgstr "Aun así, este mensaje fue enviado correctamente."
 
-msgid "Save As..."
-msgstr "Guardar como..."
+#~ msgid "Hey you, dunce. You need an account to send mail doncha know."
+#~ msgstr "Necesita una cuenta para enviar correo."
 
-msgid "ping_timeout_callback: could not determine if the CORBA object is nil or not"
-msgstr "ping_timeout_calbak: no se pudo determinar si el objeto CORBA es nil o no"
+#~ msgid "Save As..."
+#~ msgstr "Guardar como..."
 
-msgid "Search"
-msgstr "Buscar"
+#~ msgid ""
+#~ "ping_timeout_callback: could not determine if the CORBA object is nil or "
+#~ "not"
+#~ msgstr ""
+#~ "ping_timeout_calbak: no se pudo determinar si el objeto CORBA es nil o no"
 
-msgid "Automatically _detect links"
-msgstr "_Detectar enlaces automáticamente"
+#~ msgid "Search"
+#~ msgstr "Buscar"
 
-msgid "Emacs"
-msgstr "Emacs"
+#~ msgid "Automatically _detect links"
+#~ msgstr "_Detectar enlaces automáticamente"
 
-msgid "Microsoft"
-msgstr "Microsoft"
+#~ msgid "Emacs"
+#~ msgstr "Emacs"
 
-msgid "Shortcuts _type:"
-msgstr "_Tipo de combinaciones de teclas:"
+#~ msgid "Microsoft"
+#~ msgstr "Microsoft"
 
-msgid "XEmacs"
-msgstr "XEmacs"
+#~ msgid "Shortcuts _type:"
+#~ msgstr "_Tipo de combinaciones de teclas:"
 
-msgid "Force upgrading of configuration files from Evolution 1.0.x"
-msgstr "Forzar la actualización de los archivos de configuración de Evolution 1.0.x"
+#~ msgid "XEmacs"
+#~ msgstr "XEmacs"
 
-msgid "Email Address:"
-msgstr "Dirección de correo-e:"
+#~ msgid "Force upgrading of configuration files from Evolution 1.0.x"
+#~ msgstr ""
+#~ "Forzar la actualización de los archivos de configuración de Evolution 1.0."
+#~ "x"
 
-msgid "Check Full Name"
-msgstr "Comprobar nombre completo"
+#~ msgid "Email Address:"
+#~ msgstr "Dirección de correo-e:"
 
-msgid "Add Anyway"
-msgstr "Añadir de todos modos"
+#~ msgid "Check Full Name"
+#~ msgstr "Comprobar nombre completo"
 
-msgid "Change Anyway"
-msgstr "Cambiar de todos modos"
+#~ msgid "Add Anyway"
+#~ msgstr "Añadir de todos modos"
 
-msgid "Configure the fonts used by Evolution here"
-msgstr "Configure las tipografías usadas por Evolution aquí"
+#~ msgid "Change Anyway"
+#~ msgstr "Cambiar de todos modos"
 
-msgid "Evolution Mail font configuration control"
-msgstr "Interfaz de configuración de la tipografía del correo de Evolution"
+#~ msgid "Configure the fonts used by Evolution here"
+#~ msgstr "Configure las tipografías usadas por Evolution aquí"
 
-msgid "Font Preferences"
-msgstr "Configuración de tipografías"
+#~ msgid "Evolution Mail font configuration control"
+#~ msgstr "Interfaz de configuración de la tipografía del correo de Evolution"
 
-msgid "Add a news feed"
-msgstr "Añadir una proveedor de noticias"
+#~ msgid "Font Preferences"
+#~ msgstr "Configuración de tipografías"
 
-msgid "Enter the URL of the news feed you wish to add"
-msgstr "Escriba el URL del proveedor de noticias que quiere añadir"
+#~ msgid "Add a news feed"
+#~ msgstr "Añadir una proveedor de noticias"
 
-msgid "Add n_ews feed"
-msgstr "Añadir proveedor de _noticias"
+#~ msgid "Enter the URL of the news feed you wish to add"
+#~ msgstr "Escriba el URL del proveedor de noticias que quiere añadir"
 
-msgid "Delete news feed"
-msgstr "Borrar proveedor de noticias"
+#~ msgid "Add n_ews feed"
+#~ msgstr "Añadir proveedor de _noticias"
 
-msgid "_Mail"
-msgstr "_Correo"
+#~ msgid "Delete news feed"
+#~ msgstr "Borrar proveedor de noticias"
 
-msgid "_Weather"
-msgstr "_Meteorología"
+#~ msgid "_Mail"
+#~ msgstr "_Correo"
 
-msgid "De_lete"
-msgstr "Bo_rrar"
+#~ msgid "_Weather"
+#~ msgstr "_Meteorología"
 
-msgid "_Meeting"
-msgstr "_Reunión"
+#~ msgid "De_lete"
+#~ msgstr "Bo_rrar"
 
-msgid "_every"
-msgstr "_cada"
+#~ msgid "_Meeting"
+#~ msgstr "_Reunión"
 
-msgid "Create _New Folder..."
-msgstr "Crear una carpeta _nueva..."
+#~ msgid "_every"
+#~ msgstr "_cada"
 
-msgid "Check Address"
-msgstr "Comprobar dirección"
+#~ msgid "Create _New Folder..."
+#~ msgstr "Crear una carpeta _nueva..."
 
-msgid "_Clear Flag"
-msgstr "_Quitar señal"
+#~ msgid "Check Address"
+#~ msgstr "Comprobar dirección"
 
-msgid "S_elect server: "
-msgstr "S_eleccione un servidor: "
+#~ msgid "_Clear Flag"
+#~ msgstr "_Quitar señal"
 
-msgid "Add"
-msgstr "Añadir"
+#~ msgid "S_elect server: "
+#~ msgstr "S_eleccione un servidor: "
 
-msgid "_Signature editor"
-msgstr "Editor de _firmas"
+#~ msgid "Add"
+#~ msgstr "Añadir"
 
-msgid "_Contacts..."
-msgstr "_Contactos..."
+#~ msgid "_Signature editor"
+#~ msgstr "Editor de _firmas"
 
-msgid "Factory to import LDIF files into Evolution."
-msgstr "Fábrica para importar archivos LDIF en Evolution."
+#~ msgid "_Contacts..."
+#~ msgstr "_Contactos..."
 
-msgid "Imports LDIF files into Evolution."
-msgstr "Importa archivos LDIF en Evolution."
+#~ msgid "Factory to import LDIF files into Evolution."
+#~ msgstr "Fábrica para importar archivos LDIF en Evolution."
 
-msgid "Factory to import VCard files into Evolution."
-msgstr "Fábrica para importar archivos VCard en Evolution."
+#~ msgid "Imports LDIF files into Evolution."
+#~ msgstr "Importa archivos LDIF en Evolution."
 
-msgid "Imports VCard files into Evolution."
-msgstr "Importa archivos VCard en Evolution."
+#~ msgid "Factory to import VCard files into Evolution."
+#~ msgstr "Fábrica para importar archivos VCard en Evolution."
 
-msgid "A Bonobo control for an address popup."
-msgstr "Un control Bonobo para una ventana emergente de dirección."
+#~ msgid "Imports VCard files into Evolution."
+#~ msgstr "Importa archivos VCard en Evolution."
 
-msgid "A Bonobo control for displaying an address."
-msgstr "Un control Bonobo para mostrar una dirección."
+#~ msgid "A Bonobo control for an address popup."
+#~ msgstr "Un control Bonobo para una ventana emergente de dirección."
 
-msgid "A sample Bonobo control which displays an addressbook."
-msgstr "Un control Bonobo de ejemplo que muestra una libreta de direcciones."
+#~ msgid "A Bonobo control for displaying an address."
+#~ msgstr "Un control Bonobo para mostrar una dirección."
 
-msgid "Configuration control for the Evolution Addressbook Storages."
-msgstr "Control de configuración para los Almacenes de la Libreta de Evolution."
+#~ msgid "A sample Bonobo control which displays an addressbook."
+#~ msgstr ""
+#~ "Un control Bonobo de ejemplo que muestra una libreta de direcciones."
 
-msgid "Control that displays an Evolution addressbook minicard."
-msgstr "Control que muestra minitarjetas de direcciones en Evolution."
+#~ msgid "Configuration control for the Evolution Addressbook Storages."
+#~ msgstr ""
+#~ "Control de configuración para los Almacenes de la Libreta de Evolution."
 
-msgid "Evolution component for handling contacts."
-msgstr "Componente de Evolution para manejar contactos."
+#~ msgid "Control that displays an Evolution addressbook minicard."
+#~ msgstr "Control que muestra minitarjetas de direcciones en Evolution."
 
-msgid "Factory for the controls exported by the Evolution Addressbook"
-msgstr ""
-"Fábrica para los controles exportados por la Libreta de Direcciones de "
-"Evolution"
+#~ msgid "Evolution component for handling contacts."
+#~ msgstr "Componente de Evolution para manejar contactos."
 
-msgid "Factory for the Addressbook's name selection interface"
-msgstr "Fábrica para el interfaz de selección de nombre de la Libreta de Direcciones"
+#~ msgid "Factory for the controls exported by the Evolution Addressbook"
+#~ msgstr ""
+#~ "Fábrica para los controles exportados por la Libreta de Direcciones de "
+#~ "Evolution"
 
-msgid "Unnamed Contact List"
-msgstr "Lista de contactos anónima"
+#~ msgid "Factory for the Addressbook's name selection interface"
+#~ msgstr ""
+#~ "Fábrica para el interfaz de selección de nombre de la Libreta de "
+#~ "Direcciones"
 
-msgid "(%d not shown)"
-msgstr "(%d no mostrado)"
+#~ msgid "Unnamed Contact List"
+#~ msgstr "Lista de contactos anónima"
 
-msgid "A Bonobo control which displays a task list."
-msgstr "Un control bonobo que muestra una lista de tareas."
+#~ msgid "(%d not shown)"
+#~ msgstr "(%d no mostrado)"
 
-msgid "A sample Bonobo control which displays an calendar."
-msgstr "Un control bonobo de ejemplo que muestra una agenda."
+#~ msgid "A Bonobo control which displays a task list."
+#~ msgstr "Un control bonobo que muestra una lista de tareas."
 
-msgid "Configuration control for the Evolution Calendar."
-msgstr "Control de configuración de la Agenda de Evolution."
+#~ msgid "A sample Bonobo control which displays an calendar."
+#~ msgstr "Un control bonobo de ejemplo que muestra una agenda."
 
-msgid "Evolution component for handling the calendar."
-msgstr "Componente de Evolution para manejar la agenda."
+#~ msgid "Configuration control for the Evolution Calendar."
+#~ msgstr "Control de configuración de la Agenda de Evolution."
 
-msgid "Factory for the Evolution Calendar objects"
-msgstr "Fábrica para objetos de Evolution Calendar"
+#~ msgid "Evolution component for handling the calendar."
+#~ msgstr "Componente de Evolution para manejar la agenda."
 
-msgid "Factory to centralize calendar component editor dialogs"
-msgstr "Fábrica para centralizar el componente del editor de diálogos de la agenda"
+#~ msgid "Factory for the Evolution Calendar objects"
+#~ msgstr "Fábrica para objetos de Evolution Calendar"
 
-msgid "Alarm notification service"
-msgstr "Servicio de alarmas de notificación"
+#~ msgid "Factory to centralize calendar component editor dialogs"
+#~ msgstr ""
+#~ "Fábrica para centralizar el componente del editor de diálogos de la agenda"
 
-msgid "Factory to import iCalendar files into Evolution"
-msgstr "Fábrica para importar archivos iCalendar en Evolution"
+#~ msgid "Alarm notification service"
+#~ msgstr "Servicio de alarmas de notificación"
 
-msgid "Imports iCalendar files into Evolution"
-msgstr "Importa archivos iCalendar en Evolution"
+#~ msgid "Factory to import iCalendar files into Evolution"
+#~ msgstr "Fábrica para importar archivos iCalendar en Evolution"
 
-msgid "Imports vCalendar files into Evolution"
-msgstr "Importa archivos vCalendar en Evolution"
+#~ msgid "Imports iCalendar files into Evolution"
+#~ msgstr "Importa archivos iCalendar en Evolution"
 
-msgid "Configuration control for the Evolution Display Fonts."
-msgstr "Control de configuración de visualización de tipografías de Evolution."
+#~ msgid "Imports vCalendar files into Evolution"
+#~ msgstr "Importa archivos vCalendar en Evolution"
 
-msgid "Configuration control for the Evolution Mail Accounts."
-msgstr "Control de configuración para las cuentas de correo de Evolution."
+#~ msgid "Configuration control for the Evolution Display Fonts."
+#~ msgstr ""
+#~ "Control de configuración de visualización de tipografías de Evolution."
 
-msgid "Configuration control for the Evolution Mailer."
-msgstr "Control de Configuración para el envío de correo de Evolution."
+#~ msgid "Configuration control for the Evolution Mail Accounts."
+#~ msgstr "Control de configuración para las cuentas de correo de Evolution."
 
-msgid "Configuration control for the Evolution Message Composer."
-msgstr "Control de configuración para el editor de correo de Evolution."
+#~ msgid "Configuration control for the Evolution Mailer."
+#~ msgstr "Control de Configuración para el envío de correo de Evolution."
 
-msgid "Evolution component for handling mail."
-msgstr "Componente Evolution para manejar el correo."
+#~ msgid "Configuration control for the Evolution Message Composer."
+#~ msgstr "Control de configuración para el editor de correo de Evolution."
 
-msgid "Factory for the controls exported by the Evolution Mailer"
-msgstr "Fábrica para los controles exportados por Evolution Mailer"
+#~ msgid "Evolution component for handling mail."
+#~ msgstr "Componente Evolution para manejar el correo."
 
-msgid "Factory to import mbox into Evolution"
-msgstr "Fábrica para importar archivos mbox a Evolution"
+#~ msgid "Factory for the controls exported by the Evolution Mailer"
+#~ msgstr "Fábrica para los controles exportados por Evolution Mailer"
 
-msgid "Imports mbox files into Evolution"
-msgstr "Importa archivos mbox a Evolution"
+#~ msgid "Factory to import mbox into Evolution"
+#~ msgstr "Fábrica para importar archivos mbox a Evolution"
 
-msgid "Factory to import Outlook Express 4 mails into Evolution"
-msgstr "Fábrica para importar mensajes de Outlook Express 4 a Evolution"
+#~ msgid "Imports mbox files into Evolution"
+#~ msgstr "Importa archivos mbox a Evolution"
 
-msgid "Imports Outlook Express 4 files into Evolution"
-msgstr "Importa archivos de Outlook Express 4 a Evolution"
+#~ msgid "Factory to import Outlook Express 4 mails into Evolution"
+#~ msgstr "Fábrica para importar mensajes de Outlook Express 4 a Evolution"
 
-msgid "On Screen fonts"
-msgstr "Fuentes en pantalla"
+#~ msgid "Imports Outlook Express 4 files into Evolution"
+#~ msgstr "Importa archivos de Outlook Express 4 a Evolution"
 
-msgid "_Fixed-width:"
-msgstr "_Anchura fija:"
+#~ msgid "On Screen fonts"
+#~ msgstr "Fuentes en pantalla"
 
-msgid "_Variable-width:"
-msgstr "Anchura _variable:"
+#~ msgid "_Fixed-width:"
+#~ msgstr "_Anchura fija:"
 
-msgid "Configuration control for the Evolution Summary."
-msgstr "Control de configuración para el resumen de Evolution."
+#~ msgid "_Variable-width:"
+#~ msgstr "Anchura _variable:"
 
-msgid "Configuration control for Evolution folder settings."
-msgstr "Control de configuración para la configuración de carpetas de Evolution."
+#~ msgid "Configuration control for the Evolution Summary."
+#~ msgstr "Control de configuración para el resumen de Evolution."
 
-msgid ""
-"Evolution could not create directory\n"
-"%s:\n"
-"%s"
-msgstr ""
-"Evolution no puede crear el directorio\n"
-"%s:\n"
-"%s"
+#~ msgid "Configuration control for Evolution folder settings."
+#~ msgstr ""
+#~ "Control de configuración para la configuración de carpetas de Evolution."
 
-msgid ""
-"Directory %s\n"
-"does not have the right permissions. Please make it\n"
-"readable and executable and restart Evolution."
-msgstr ""
-"El directorio %s\n"
-"no tiene los permisos adecuados. Por favor\n"
-"dele permisos de lectura y ejecución y reinicie Evolution."
+#~ msgid ""
+#~ "Evolution could not create directory\n"
+#~ "%s:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Evolution no puede crear el directorio\n"
+#~ "%s:\n"
+#~ "%s"
 
-msgid ""
-"File %s\n"
-"should be removed to allow Evolution to work correctly.\n"
-"Please remove this file and restart Evolution."
-msgstr ""
-"El archivo %s\n"
-"debería ser eliminado para que Evolution funcione correctamente.\n"
-"Por favor elimine este archivo y reinicie Evolution."
+#~ msgid ""
+#~ "Directory %s\n"
+#~ "does not have the right permissions. Please make it\n"
+#~ "readable and executable and restart Evolution."
+#~ msgstr ""
+#~ "El directorio %s\n"
+#~ "no tiene los permisos adecuados. Por favor\n"
+#~ "dele permisos de lectura y ejecución y reinicie Evolution."
 
-msgid "Output File"
-msgstr "Archivo de salida"
+#~ msgid ""
+#~ "File %s\n"
+#~ "should be removed to allow Evolution to work correctly.\n"
+#~ "Please remove this file and restart Evolution."
+#~ msgstr ""
+#~ "El archivo %s\n"
+#~ "debería ser eliminado para que Evolution funcione correctamente.\n"
+#~ "Por favor elimine este archivo y reinicie Evolution."
 
-msgid "The Personal Addressbook Server"
-msgstr "El servidor de libretas de direcciones personales"
+#~ msgid "Output File"
+#~ msgstr "Archivo de salida"
 
-msgid "The Personal Calendar Server; calendar factory"
-msgstr "El servidor de agendas personales. Fábrica de agendas"
+#~ msgid "The Personal Addressbook Server"
+#~ msgstr "El servidor de libretas de direcciones personales"
 
-msgid "Wombat InterfaceCheck interface"
-msgstr "Interfaz wombat InterfaceCheck"
+#~ msgid "The Personal Calendar Server; calendar factory"
+#~ msgstr "El servidor de agendas personales. Fábrica de agendas"
 
-msgid "1234"
-msgstr "1234"
+#~ msgid "Wombat InterfaceCheck interface"
+#~ msgstr "Interfaz wombat InterfaceCheck"
 
-msgid "380"
-msgstr "380"
+#~ msgid "1234"
+#~ msgstr "1234"
 
-msgid "666"
-msgstr "666"
+#~ msgid "380"
+#~ msgstr "380"
 
-msgid "<- _Remove"
-msgstr "<- Elimina_r"
+#~ msgid "666"
+#~ msgstr "666"
 
-msgid "<< Fewer Options"
-msgstr "<< Menos opciones"
+#~ msgid "<- _Remove"
+#~ msgstr "<- Elimina_r"
 
-msgid "Add (or Edit) Attribute Mappings"
-msgstr "Añadir (o editar) mapeos de atributos"
+#~ msgid "<< Fewer Options"
+#~ msgstr "<< Menos opciones"
 
-msgid "DN Customization"
-msgstr "Personalización de ND"
+#~ msgid "Add (or Edit) Attribute Mappings"
+#~ msgstr "Añadir (o editar) mapeos de atributos"
 
-msgid "Mappings"
-msgstr "Mapeos"
+#~ msgid "DN Customization"
+#~ msgstr "Personalización de ND"
 
-msgid "Objectclasses"
-msgstr "Objectclasses"
+#~ msgid "Mappings"
+#~ msgstr "Mapeos"
 
-msgid "Objectclasses Used in Evolution:"
-msgstr "Objectclasses usadas en Evolution:"
+#~ msgid "Objectclasses"
+#~ msgstr "Objectclasses"
 
-msgid "Objectclasses Used on Server:"
-msgstr "Objectclasses usadas en el Servidor:"
+#~ msgid "Objectclasses Used in Evolution:"
+#~ msgstr "Objectclasses usadas en Evolution:"
 
-msgid ""
-"Please select an Evolution attribute and an\n"
-"LDAP attribute to associate with it."
-msgstr ""
-"Por favor, seleccione un atributo de Evolution y un \n"
-"atributo del LDAP para asociarlos entre sí."
+#~ msgid "Objectclasses Used on Server:"
+#~ msgstr "Objectclasses usadas en el Servidor:"
 
-msgid "R_estore Defaults"
-msgstr "R_establecer predeterminados"
+#~ msgid ""
+#~ "Please select an Evolution attribute and an\n"
+#~ "LDAP attribute to associate with it."
+#~ msgstr ""
+#~ "Por favor, seleccione un atributo de Evolution y un \n"
+#~ "atributo del LDAP para asociarlos entre sí."
 
-msgid "Re_store Defaults"
-msgstr "Re_stablecer predeterminados"
+#~ msgid "R_estore Defaults"
+#~ msgstr "R_establecer predeterminados"
 
-msgid ""
-"To add an attribute to the DN, select it from the list and click the \"Add "
-"Attribute\" button.\n"
-"Any values that you add to the DN will become required values for any new "
-"contacts\n"
-"that you add to the directory on the LDAP server. "
-msgstr ""
-"Para añadir un atributo al ND, selecciónelo de la lista y pulse el botón "
-"«Añadir Atributo». Cualquier valor que añada al ND se convertirá en valores "
-"requeridos para cualquier contacto nuevo que añada al directorio en el "
-"servidor LDAP."
+#~ msgid "Re_store Defaults"
+#~ msgstr "Re_stablecer predeterminados"
 
-msgid "_Add ->"
-msgstr "_Añadir ->"
+#~ msgid ""
+#~ "To add an attribute to the DN, select it from the list and click the "
+#~ "\"Add Attribute\" button.\n"
+#~ "Any values that you add to the DN will become required values for any new "
+#~ "contacts\n"
+#~ "that you add to the directory on the LDAP server. "
+#~ msgstr ""
+#~ "Para añadir un atributo al ND, selecciónelo de la lista y pulse el botón "
+#~ "«Añadir Atributo». Cualquier valor que añada al ND se convertirá en "
+#~ "valores requeridos para cualquier contacto nuevo que añada al directorio "
+#~ "en el servidor LDAP."
 
-msgid "_Add Mapping"
-msgstr "Añadir _mapeo"
+#~ msgid "_Add ->"
+#~ msgstr "_Añadir ->"
 
-msgid "_Add to DN"
-msgstr "Aña_dir a ND"
+#~ msgid "_Add Mapping"
+#~ msgstr "Añadir _mapeo"
 
-msgid "_Always"
-msgstr "_Siempre"
+#~ msgid "_Add to DN"
+#~ msgstr "Aña_dir a ND"
 
-msgid "_Delete Mapping"
-msgstr "_Borrar mapeo"
+#~ msgid "_Always"
+#~ msgstr "_Siempre"
 
-msgid "_Distinguished Name (DN):"
-msgstr "Nombre _Distintivo (ND):"
+#~ msgid "_Delete Mapping"
+#~ msgstr "_Borrar mapeo"
 
-msgid "_Don't use SSL/TLS"
-msgstr "_No usar SSL/TLS"
+#~ msgid "_Distinguished Name (DN):"
+#~ msgstr "Nombre _Distintivo (ND):"
 
-msgid "_Edit Mapping"
-msgstr "_Editar mapeo"
+#~ msgid "_Don't use SSL/TLS"
+#~ msgstr "_No usar SSL/TLS"
 
-msgid "_Evolution attribute:"
-msgstr "Atributo de _Evolution:"
+#~ msgid "_Edit Mapping"
+#~ msgstr "_Editar mapeo"
 
-msgid "_If necessary "
-msgstr "S_i es necesario "
+#~ msgid "_Evolution attribute:"
+#~ msgstr "Atributo de _Evolution:"
 
-msgid "_LDAP attribute:"
-msgstr "Atributo _LDAP:"
+#~ msgid "_If necessary "
+#~ msgstr "S_i es necesario "
 
-msgid "_LDAP attributes:"
-msgstr "Atributos _LDAP:"
+#~ msgid "_LDAP attribute:"
+#~ msgstr "Atributo _LDAP:"
 
-msgid "_More Options >>"
-msgstr "_Más opciones >>"
+#~ msgid "_LDAP attributes:"
+#~ msgstr "Atributos _LDAP:"
 
-msgid "_Restore Defaults"
-msgstr "_Restablecer predeterminados"
+#~ msgid "_More Options >>"
+#~ msgstr "_Más opciones >>"
 
-msgid "account-druid"
-msgstr "Asistente de cuentas"
+#~ msgid "_Restore Defaults"
+#~ msgstr "_Restablecer predeterminados"
 
-msgid "account-editor"
-msgstr "Editor de cuentas"
+#~ msgid "account-druid"
+#~ msgstr "Asistente de cuentas"
 
-msgid "dn-customization-tab"
-msgstr "Solapa de personalización de ND"
+#~ msgid "account-editor"
+#~ msgstr "Editor de cuentas"
 
-msgid "edit_server_window_simple"
-msgstr "edit_server_window_simple"
+#~ msgid "dn-customization-tab"
+#~ msgstr "Solapa de personalización de ND"
 
-msgid "mappings-tab"
-msgstr "Solapa de planificación"
+#~ msgid "edit_server_window_simple"
+#~ msgstr "edit_server_window_simple"
 
-msgid "objectclasses-tab"
-msgstr "objectclassses-tab"
+#~ msgid "mappings-tab"
+#~ msgstr "Solapa de planificación"
 
-msgid ""
-"Evolution has taken the tasks that were in your calendar folder and "
-"automatically migrated them to the new tasks folder."
-msgstr ""
-"Evolution ha tomado las tareas que estaban en su carpeta de agenda y las ha "
-"migrado automáticamente a la carpeta de tareas nueva."
+#~ msgid "objectclasses-tab"
+#~ msgstr "objectclassses-tab"
 
-msgid ""
-"Evolution has tried to take the tasks that were in your calendar folder and "
-"migrate them to the new tasks folder.\n"
-"Some of the tasks could not be migrated, so this process may be attempted "
-"again in the future."
-msgstr ""
-"Evolution ha intentado tomar las tareas que estaban en su carpeta de agenda "
-"y migrarlas automáticamente a la carpeta de tareas nueva.\n"
-"Algunas tareas no han podido ser migradas, así que este proceso puede que "
-"sea reintentado otra vez en el futuro."
+#~ msgid ""
+#~ "Evolution has taken the tasks that were in your calendar folder and "
+#~ "automatically migrated them to the new tasks folder."
+#~ msgstr ""
+#~ "Evolution ha tomado las tareas que estaban en su carpeta de agenda y las "
+#~ "ha migrado automáticamente a la carpeta de tareas nueva."
 
-msgid ""
-"Could not open `%s'; no items from the calendar folder will be migrated to "
-"the tasks folder."
-msgstr ""
-"No se pudo abrir «%s»; no se migrarán elementos de la carpeta de agenda a la "
-"carpeta de tareas."
+#~ msgid ""
+#~ "Evolution has tried to take the tasks that were in your calendar folder "
+#~ "and migrate them to the new tasks folder.\n"
+#~ "Some of the tasks could not be migrated, so this process may be attempted "
+#~ "again in the future."
+#~ msgstr ""
+#~ "Evolution ha intentado tomar las tareas que estaban en su carpeta de "
+#~ "agenda y migrarlas automáticamente a la carpeta de tareas nueva.\n"
+#~ "Algunas tareas no han podido ser migradas, así que este proceso puede que "
+#~ "sea reintentado otra vez en el futuro."
 
-msgid ""
-"The method required to load `%s' is not supported; no items from the "
-"calendar folder will be migrated to the tasks folder."
-msgstr ""
-"El método requerido para cargar «%s» no está implementado. No se migrarán "
-"elementos de la carpeta de agenda a la carpeta de tareas."
+#~ msgid ""
+#~ "Could not open `%s'; no items from the calendar folder will be migrated "
+#~ "to the tasks folder."
+#~ msgstr ""
+#~ "No se pudo abrir «%s»; no se migrarán elementos de la carpeta de agenda a "
+#~ "la carpeta de tareas."
 
-msgid "Can't get storage list from registry: %s"
-msgstr "No se pudo obtener lista de almacenamiento del registro: %s"
+#~ msgid ""
+#~ "The method required to load `%s' is not supported; no items from the "
+#~ "calendar folder will be migrated to the tasks folder."
+#~ msgstr ""
+#~ "El método requerido para cargar «%s» no está implementado. No se migrarán "
+#~ "elementos de la carpeta de agenda a la carpeta de tareas."
 
-msgid "Can't call getFolderAtPath on storage: %s"
-msgstr "No se pudo llamar a getFolderAtPath en el almacén: %s"
+#~ msgid "Can't get storage list from registry: %s"
+#~ msgstr "No se pudo obtener lista de almacenamiento del registro: %s"
 
-msgid "minute"
-msgstr "minuto"
+#~ msgid "Can't call getFolderAtPath on storage: %s"
+#~ msgstr "No se pudo llamar a getFolderAtPath en el almacén: %s"
 
-msgid "hour"
-msgstr "hora"
+#~ msgid "minute"
+#~ msgstr "minuto"
 
-msgid "week"
-msgstr "semana"
+#~ msgid "hour"
+#~ msgstr "hora"
 
-msgid "year"
-msgstr "año"
+#~ msgid "week"
+#~ msgstr "semana"
 
-msgid "All folders"
-msgstr "Todas las carpetas"
+#~ msgid "year"
+#~ msgstr "año"
 
-msgid "Display Options"
-msgstr "Mostrar opciones"
+#~ msgid "All folders"
+#~ msgstr "Todas las carpetas"
 
-msgid "Folders whose names begin with:"
-msgstr "Carpetas cuyos nombres comiencen por:"
+#~ msgid "Display Options"
+#~ msgstr "Mostrar opciones"
 
-msgid "Pilot Con_duit Settings..."
-msgstr "Configuración del con_ducto de Pilot..."
+#~ msgid "Folders whose names begin with:"
+#~ msgstr "Carpetas cuyos nombres comiencen por:"
 
-msgid "Set up Pilot conduit configuration"
-msgstr "Establecer la configuración del conducto del Pilot"
+#~ msgid "Pilot Con_duit Settings..."
+#~ msgstr "Configuración del con_ducto de Pilot..."
 
-msgid "Edit Contact List"
-msgstr "Editar lista de contactos"
+#~ msgid "Set up Pilot conduit configuration"
+#~ msgstr "Establecer la configuración del conducto del Pilot"
 
-msgid ""
-"Evolution does not yet support email notification for reminders.  You will "
-"not be able to edit the options for this reminder."
-msgstr ""
-"Evolution todavía no implementa notificación por correo-e para los "
-"recordatorios.  No podrá editar las opciones de este recordatorio."
+#~ msgid "Edit Contact List"
+#~ msgstr "Editar lista de contactos"
 
-msgid ""
-"Could not create composer window, because you have not yet\n"
-"configured any identities in the mail component."
-msgstr ""
-"No se pudo crear una ventana de edición, porque no ha configurado\n"
-"todavía ninguna identidad en el componente de correo."
+#~ msgid ""
+#~ "Evolution does not yet support email notification for reminders.  You "
+#~ "will not be able to edit the options for this reminder."
+#~ msgstr ""
+#~ "Evolution todavía no implementa notificación por correo-e para los "
+#~ "recordatorios.  No podrá editar las opciones de este recordatorio."
 
-msgid "Cannot initialize the Evolution composer."
-msgstr "No se pudo inicializar el editor de correo de Evolution."
+#~ msgid ""
+#~ "Could not create composer window, because you have not yet\n"
+#~ "configured any identities in the mail component."
+#~ msgstr ""
+#~ "No se pudo crear una ventana de edición, porque no ha configurado\n"
+#~ "todavía ninguna identidad en el componente de correo."
 
-msgid "Cannot initialize the Evolution mail component."
-msgstr "No se pudo inicializar el componente de correo de Evolution."
+#~ msgid "Cannot initialize the Evolution composer."
+#~ msgstr "No se pudo inicializar el editor de correo de Evolution."
 
-msgid "Cannot initialize Evolution's mail config component."
-msgstr "No se pudo inicializar el componente de configuración de correo de Evolution."
+#~ msgid "Cannot initialize the Evolution mail component."
+#~ msgstr "No se pudo inicializar el componente de correo de Evolution."
 
-msgid "Cannot initialize Evolution's folder info component."
-msgstr ""
-"No se pudo inicializar el componente de información sobre carpetas de "
-"Evolution."
+#~ msgid "Cannot initialize Evolution's mail config component."
+#~ msgstr ""
+#~ "No se pudo inicializar el componente de configuración de correo de "
+#~ "Evolution."
 
-msgid ""
-"Please specify signature filename\n"
-"in Advanced section of signature settings."
-msgstr ""
-"Por favor especifique el nombre del archivo de la firma\n"
-"en la sección «Avanzada» de la configuración de firmas."
+#~ msgid "Cannot initialize Evolution's folder info component."
+#~ msgstr ""
+#~ "No se pudo inicializar el componente de información sobre carpetas de "
+#~ "Evolution."
 
-msgid ""
-"Could not start the Evolution Mailer Assistant interface\n"
-"(%s)"
-msgstr ""
-"No se pudo iniciar el interfaz del  Asistente de Correo de Evolution\n"
-"(%s)"
+#~ msgid ""
+#~ "Please specify signature filename\n"
+#~ "in Advanced section of signature settings."
+#~ msgstr ""
+#~ "Por favor especifique el nombre del archivo de la firma\n"
+#~ "en la sección «Avanzada» de la configuración de firmas."
 
-msgid "Could not start the Evolution Mailer Assistant interface\n"
-msgstr "No se pudo iniciar el interfaz del Asistente de Correo de Evolution\n"
+#~ msgid ""
+#~ "Could not start the Evolution Mailer Assistant interface\n"
+#~ "(%s)"
+#~ msgstr ""
+#~ "No se pudo iniciar el interfaz del  Asistente de Correo de Evolution\n"
+#~ "(%s)"
 
-msgid "Folder name cannot contain slashes."
-msgstr "El nombre de la carpeta no puede contener barras (/)."
+#~ msgid "Could not start the Evolution Mailer Assistant interface\n"
+#~ msgstr ""
+#~ "No se pudo iniciar el interfaz del Asistente de Correo de Evolution\n"
 
-msgid "Host"
-msgstr "Host"
+#~ msgid "Folder name cannot contain slashes."
+#~ msgstr "El nombre de la carpeta no puede contener barras (/)."
 
-msgid "st"
-msgstr "º"
+#~ msgid "Host"
+#~ msgstr "Host"
 
-msgid "nd"
-msgstr "º"
+#~ msgid "st"
+#~ msgstr "º"
 
-msgid "rd"
-msgstr "º"
+#~ msgid "nd"
+#~ msgstr "º"
 
-msgid "th"
-msgstr "º"
+#~ msgid "rd"
+#~ msgstr "º"
 
-msgid "Apri file"
-msgstr "Archivo Apri"
+#~ msgid "th"
+#~ msgstr "º"
 
-msgid "Salve file"
-msgstr "Archivo Salve"
+#~ msgid "Apri file"
+#~ msgstr "Archivo Apri"
+
+#~ msgid "Salve file"
+#~ msgstr "Archivo Salve"
 
