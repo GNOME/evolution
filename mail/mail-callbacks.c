@@ -3007,7 +3007,9 @@ footer_print_cb (GtkHTML *html, GnomePrintContext *print_context,
 
 	if (info->local_font) {
 		gchar *text = g_strdup_printf (_("Page %d of %d"), info->page_num, info->pages);
-		gdouble tw = gnome_font_get_width_string (info->local_font, text);
+		/*gdouble tw = gnome_font_get_width_string (info->local_font, text);*/
+		/* FIXME: work out how to measure this */
+		gdouble tw = strlen(text) * 8;
 
 		gnome_print_gsave       (print_context);
 		gnome_print_newpath     (print_context);

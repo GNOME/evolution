@@ -697,8 +697,8 @@ fe_sort_folder (ETreeMemory *etmm, ETreePath left, ETreePath right, gpointer use
 	n_left = e_tree_memory_node_get_data (etmm, left);
 	n_right = e_tree_memory_node_get_data (etmm, right);
 
-	/* TODO: not localised */
-	return g_utf8_strcasecmp (ftree_node_get_name (n_left), ftree_node_get_name (n_right));
+	/* if in utf8 locale ? */
+	return strcasecmp (ftree_node_get_name (n_left), ftree_node_get_name (n_right));
 }
 
 /* scanning */

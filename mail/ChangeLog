@@ -1,5 +1,16 @@
 2002-11-13  Not Zed  <NotZed@Ximian.com>
 
+	* component-factory.c (owner_set_cb): destroy->weak ref.
+	(owner_set_cb): shell client changes.
+
+	* mail-signature-editor.c (mail_signature_editor): bonobo api changes.
+
+	* mail-local.c (save_metainfo): go back to using xmlSaveFile.
+
+	* Makefile.am: Removed libevolution-importer from mail.
+
+2002-11-13  Not Zed  <NotZed@Ximian.com>
+
 	* GNOME_Evolution_Mail.server.in.in: Added to cvs.  Currently
 	contains no configurable stuff, but maybe it will one day.
 

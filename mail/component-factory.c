@@ -752,7 +752,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	
 	/* FIXME: should we ref this? */
 	global_shell_client = shell_client;
-	g_signal_connect(shell_client, "destroy", G_CALLBACK(shell_client_destroy), NULL);
+	g_object_weak_ref(G_OBJECT(shell_client), (GWeakNotify *)shell_client_destroy, NULL);
 	
 	evolution_dir = g_strdup (evolution_homedir);
 	mail_session_init ();
@@ -761,7 +761,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 
 	storages_hash = g_hash_table_new (NULL, NULL);
 	
-	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
+	corba_shell = evolution_shell_client_corba_objref(shell_client);
 
 	for (i = 0; i < sizeof (standard_folders) / sizeof (standard_folders[0]); i++)
 		*standard_folders[i].uri = g_strdup_printf ("file://%s/local/%s", evolution_dir, standard_folders[i].name);
