@@ -26,7 +26,8 @@
  */
 
 #include <config.h>
-#include <gtk/gtk.h>
+#include <string.h>
+#include <gtk/gtkobject.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include "e-destination.h"

@@ -1,4 +1,6 @@
-#include <gnome.h>
+#include <string.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnomeui/gnome-init.h>
 #include "e-card.h"
 
 #define TEST_VCARD                   \

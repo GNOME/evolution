@@ -1,10 +1,14 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #include <config.h>
-#include <bonobo.h>
+#include <glib.h>
+#include <gtk/gtkmain.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-init.h>
+#include <bonobo/bonobo-main.h>
 #include <liboaf/liboaf.h>
-#include <gnome.h>
 
-#include <e-book.h>
+#include "e-book.h"
 
 #define TEST_VCARD                   \
 "BEGIN:VCARD

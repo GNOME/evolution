@@ -10,18 +10,16 @@
 
 #include <config.h>
 
-#include <gnome.h>
-#include <bonobo.h>
-
-#include "addressbook.h"
-
-#include <ebook/e-book.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-app.h>
+#include <libgnomeui/gnome-stock.h>
+#include <libgnomeui/gnome-uidefs.h>
+#include <bonobo/bonobo-generic-factory.h>
+#include <bonobo/bonobo-ui-util.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
-#include "addressbook/gui/search/e-addressbook-search-dialog.h"
-
-#include "addressbook/gui/widgets/e-addressbook-view.h"
-#include <widgets/misc/e-search-bar.h>
 
 #include <select-names/e-select-names.h>
 #include <select-names/e-select-names-manager.h>
@@ -29,8 +27,13 @@
 #include "e-contact-editor.h"
 #include "e-contact-save-as.h"
 #include "addressbook-config.h"
-
+#include "addressbook.h"
+#include "addressbook/gui/search/e-addressbook-search-dialog.h"
+#include "addressbook/gui/widgets/e-addressbook-view.h"
 #include <addressbook/printing/e-contact-print.h>
+
+#include <ebook/e-book.h>
+#include <widgets/misc/e-search-bar.h>
 
 #define PROPERTY_FOLDER_URI          "folder_uri"
 

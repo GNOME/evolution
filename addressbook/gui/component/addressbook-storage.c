@@ -50,23 +50,23 @@
 #include <config.h>
 #endif
 
-#include <bonobo.h>
-
-#include "evolution-shell-component.h"
-#include "evolution-storage.h"
-
-#include <gnome-xml/parser.h>
-#include <gnome-xml/xmlmemory.h>
-
-#include "addressbook-storage.h"
-
-#include <gal/util/e-util.h>
-#include <gal/util/e-xml-utils.h>
-
 #include <sys/types.h>
 #include <sys/fcntl.h>
 #include <sys/stat.h>
 #include <errno.h>
+
+#include <gnome-xml/parser.h>
+#include <gnome-xml/xmlmemory.h>
+
+#include <bonobo/bonobo-object.h>
+
+#include <gal/util/e-util.h>
+#include <gal/util/e-xml-utils.h>
+
+#include "evolution-shell-component.h"
+#include "evolution-storage.h"
+
+#include "addressbook-storage.h"
 
 #define ADDRESSBOOK_SOURCES_XML "addressbook-sources.xml"
 

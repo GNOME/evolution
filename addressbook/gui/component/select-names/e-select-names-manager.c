@@ -7,10 +7,12 @@
  */
 
 #include <config.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <gtk/gtk.h>
+
+#include <gal/e-text/e-entry.h>
 
 #include "e-select-names-manager.h"
 #include "e-select-names-model.h"
@@ -18,7 +20,6 @@
 #include "e-select-names.h"
 #include "e-select-names-completion.h"
 #include "e-select-names-popup.h"
-#include <gal/e-text/e-entry.h>
 #include <addressbook/backend/ebook/e-destination.h>
 
 /* Object argument IDs */

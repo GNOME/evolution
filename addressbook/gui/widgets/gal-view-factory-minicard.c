@@ -8,10 +8,11 @@
  * (C) 2000, 2001 Ximian, Inc.
  */
 #include <config.h>
-#include "gal-view-factory-minicard.h"
-#include "gal-view-minicard.h"
+#include <glib.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
+#include "gal-view-factory-minicard.h"
+#include "gal-view-minicard.h"
 
 #define GVFE_CLASS(e) ((GalViewFactoryMinicardClass *)((GtkObject *)e)->klass)
 

@@ -21,7 +21,6 @@
  */
 
 #include <config.h>
-#include <gnome.h>
 #include "e-minicard-widget.h"
 #include "e-minicard.h"
 

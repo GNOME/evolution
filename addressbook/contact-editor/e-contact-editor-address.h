@@ -21,7 +21,7 @@
 #ifndef __E_CONTACT_EDITOR_ADDRESS_H__
 #define __E_CONTACT_EDITOR_ADDRESS_H__
 
-#include <gnome.h>
+#include <libgnomeui/gnome-dialog.h>
 #include <glade/glade.h>
 #include <ebook/e-card.h>
 

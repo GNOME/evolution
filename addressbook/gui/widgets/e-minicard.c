@@ -21,20 +21,19 @@
  */
 
 #include <config.h>
-#include <gnome.h>
-#include "e-minicard.h"
-#include "e-minicard-label.h"
-#include "addressbook/backend/ebook/e-book.h"
 #include <gal/e-text/e-text.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-canvas-utils.h>
 #include <gal/widgets/e-canvas.h>
 #include <gal/widgets/e-popup-menu.h>
+#include "addressbook/backend/ebook/e-book.h"
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/printing/e-contact-print-envelope.h"
+#include "e-minicard.h"
+#include "e-minicard-label.h"
+#include "e-minicard-view.h"
 #include "e-contact-editor.h"
 #include "e-contact-save-as.h"
-#include "e-minicard-view.h"
 
 static void e_minicard_init		(EMinicard		 *card);
 static void e_minicard_class_init	(EMinicardClass	 *klass);

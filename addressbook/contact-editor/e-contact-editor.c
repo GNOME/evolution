@@ -21,19 +21,21 @@
  */
 
 #include <config.h>
-#include <gnome.h>
-#include "e-contact-editor.h"
-#include <e-contact-editor-fullname.h>
-#include <e-contact-editor-address.h>
+#include <bonobo/bonobo-ui-container.h>
+#include <bonobo/bonobo-ui-util.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
-#include "e-util/e-gui-utils.h"
 #include <gal/widgets/e-categories.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
-#include <e-contact-save-as.h>
-#include "addressbook/printing/e-contact-print.h"
-#include "addressbook/printing/e-contact-print-envelope.h"
+#include <addressbook/printing/e-contact-print.h>
+#include <addressbook/printing/e-contact-print-envelope.h>
+#include <e-util/e-gui-utils.h>
+
+#include "e-contact-editor.h"
+#include "e-contact-editor-fullname.h"
+#include "e-contact-editor-address.h"
+#include "e-contact-save-as.h"
 
 /* Signal IDs */
 enum {

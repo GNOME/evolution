@@ -20,10 +20,12 @@
  */
 
 #include <config.h>
-#include <e-contact-save-as.h>
-#include <gal/util/e-util.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <gtk/gtkfilesel.h>
+#include <gtk/gtksignal.h>
+#include <gal/util/e-util.h>
+#include "e-contact-save-as.h"
 
 typedef struct {
 	GtkFileSelection *filesel;

@@ -22,7 +22,7 @@
 #ifndef __E_CONTACT_PRINT_STYLE_EDITOR_H__
 #define __E_CONTACT_PRINT_STYLE_EDITOR_H__
 
-#include <gnome.h>
+#include <gtk/gtkvbox.h>
 #include <glade/glade.h>
 
 #ifdef __cplusplus

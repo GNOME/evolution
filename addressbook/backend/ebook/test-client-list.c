@@ -1,8 +1,13 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #include <config.h>
-#include <bonobo.h>
-#include <gnome.h>
+
+#include <glib.h>
+#include <gtk/gtkmain.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-init.h>
 #include <liboaf/liboaf.h>
+#include <bonobo/bonobo-main.h>
 
 #include "e-book.h"
 

@@ -23,7 +23,6 @@
 #ifndef E_CONTACT_PRINT_H
 #define E_CONTACT_PRINT_H
 
-#include <gnome.h>
 #include <addressbook/backend/ebook/e-book.h>
 #include "e-contact-print-types.h"
 

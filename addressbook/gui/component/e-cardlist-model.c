@@ -8,11 +8,10 @@
  */
 
 #include <config.h>
-#include "e-cardlist-model.h"
 #include <gnome-xml/tree.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
-#include <gnome.h>
+#include "e-cardlist-model.h"
 
 #define PARENT_TYPE e_table_model_get_type()
 

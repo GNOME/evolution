@@ -21,9 +21,9 @@
  */
 
 #include <config.h>
-#include <gnome.h>
+#include <libgnomeui/gnome-stock.h>
 #include <gal/widgets/e-unicode.h>
-#include <e-contact-editor-fullname.h>
+#include "e-contact-editor-fullname.h"
 
 static void e_contact_editor_fullname_init		(EContactEditorFullname		 *card);
 static void e_contact_editor_fullname_class_init	(EContactEditorFullnameClass	 *klass);

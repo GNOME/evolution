@@ -49,7 +49,6 @@
 
 #include "config.h"
 
-#include <gnome.h>
 #include "e-minicard-widget.h"
 
 /* This is a horrible thing to do, but it is just a test. */

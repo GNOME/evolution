@@ -9,14 +9,16 @@
  */
 
 #include <config.h>
-#include <gnome.h>
-#include <bonobo.h>
 
-#include "addressbook/backend/ebook/e-book.h"
+#include <bonobo/bonobo-generic-factory.h>
+#include <bonobo/bonobo-persist.h>
+#include <bonobo/bonobo-persist-stream.h>
+#include <bonobo/bonobo-stream-client.h>
+#include <addressbook/backend/ebook/e-book.h>
+#include <addressbook/backend/ebook/e-card.h>
 
 #include "e-minicard-control.h"
 #include "e-minicard-widget.h"
-#include "addressbook/backend/ebook/e-card.h"
 
 #if 0
 enum {

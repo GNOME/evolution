@@ -21,7 +21,6 @@
 #ifndef __E_ADDRESSBOOK_SEARCH_DIALOG_H__
 #define __E_ADDRESSBOOK_SEARCH_DIALOG_H__
 
-#include <gnome.h>
 #include <ebook/e-book.h>
 
 #include "filter/rule-context.h"
@@ -31,6 +30,8 @@
 extern "C" {
 #pragma }
 #endif /* __cplusplus */
+
+#include <libgnomeui/gnome-dialog.h>
 
 #define E_ADDRESSBOOK_SEARCH_DIALOG_TYPE			(e_addressbook_search_dialog_get_type ())
 #define E_ADDRESSBOOK_SEARCH_DIALOG(obj)			(GTK_CHECK_CAST ((obj), E_ADDRESSBOOK_SEARCH_DIALOG_TYPE, EAddressbookSearchDialog))

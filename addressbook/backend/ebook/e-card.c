@@ -13,17 +13,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <gtk/gtk.h>
 
-#include <libversit/vcc.h>
-#include "e-card.h"
-#include "e-card-pairs.h"
-#include <e-util/ename/e-name-western.h>
-#include <e-util/ename/e-address-western.h>
-
+#include <gtk/gtkobject.h>
+#include <bonobo/bonobo-object-client.h>
 #include <gal/util/e-util.h>
 
-#include <bonobo/bonobo-object-client.h>
+#include <libversit/vcc.h>
+#include "e-util/ename/e-name-western.h"
+#include "e-util/ename/e-address-western.h"
+
+#include "e-card.h"
+#include "e-card-pairs.h"
 
 #define is_a_prop_of(obj,prop) (isAPropertyOf ((obj),(prop)))
 #define str_val(obj) (the_str = (vObjectValueType (obj))? fakeCString (vObjectUStringZValue (obj)) : calloc (1, 1))

@@ -20,8 +20,8 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <gnome.h>
 #include "e-contact-print-style-editor.h"
+
 static void e_contact_print_style_editor_init		(EContactPrintStyleEditor		 *card);
 static void e_contact_print_style_editor_class_init	(EContactPrintStyleEditorClass	 *klass);
 static void e_contact_print_style_editor_set_arg        (GtkObject *o, GtkArg *arg, guint arg_id);

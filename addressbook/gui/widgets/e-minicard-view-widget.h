@@ -21,10 +21,9 @@
 #ifndef __E_MINICARD_VIEW_WIDGET_H__
 #define __E_MINICARD_VIEW_WIDGET_H__
 
-#include <gnome.h>
-#include "e-minicard-view.h"
 #include <gal/widgets/e-canvas.h>
 #include "addressbook/backend/ebook/e-book.h"
+#include "e-minicard-view.h"
 
 #ifdef __cplusplus
 extern "C" {

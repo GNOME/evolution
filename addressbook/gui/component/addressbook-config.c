@@ -2,11 +2,16 @@
 
 #include <config.h>
 
-#include <gnome.h>
-#include <gtkhtml/gtkhtml.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-propertybox.h>
+#include <libgnomeui/gnome-stock.h>
 #include <glade/glade.h>
 #include <gal/widgets/e-unicode.h>
-#include "e-util/e-html-utils.h"
+#include <gtkhtml/gtkhtml.h>
+#include <e-util/e-html-utils.h>
 #include "addressbook-config.h"
 #include "addressbook-storage.h"
 

@@ -28,7 +28,7 @@
 #ifndef __E_DESTINATION_H__
 #define __E_DESTINATION_H__
 
-#include <gtk/gtk.h>
+#include <gtk/gtkobject.h>
 #include <addressbook/backend/ebook/e-card.h>
 
 #define E_TYPE_DESTINATION        (e_destination_get_type ())

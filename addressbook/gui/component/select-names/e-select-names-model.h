@@ -12,7 +12,7 @@
 #define __E_SELECT_NAMES_MODEL_H__
 
 #include <time.h>
-#include <gtk/gtk.h>
+#include <gtk/gtkobject.h>
 #include <stdio.h>
 #include <e-util/e-list.h>
 #include <addressbook/backend/ebook/e-card.h>

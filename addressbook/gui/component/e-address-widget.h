@@ -28,7 +28,10 @@
 #ifndef __E_ADDRESS_WIDGET_H__
 #define __E_ADDRESS_WIDGET_H__
 
-#include <gtk/gtk.h>
+#include <gtk/gtkeventbox.h>
+#include <gtk/gtkhbox.h>
+#include <gtk/gtkobject.h>
+#include <gtk/gtkwidget.h>
 #include <libgnome/gnome-defs.h>
 #include <addressbook/backend/ebook/e-book.h>
 #include <addressbook/backend/ebook/e-book-util.h>

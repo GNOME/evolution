@@ -7,7 +7,6 @@
  */
 
 #include <config.h>
-#include <bonobo.h>
 #include "addressbook.h"
 #include "pas-card-cursor.h"
 

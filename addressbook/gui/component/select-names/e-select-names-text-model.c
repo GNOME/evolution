@@ -8,13 +8,14 @@
  */
 
 #include <config.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include <gtk/gtk.h>
 
 #include <gal/e-text/e-text-model-repos.h>
+
 #include <addressbook/contact-editor/e-contact-editor.h>
 #include "e-select-names-text-model.h"
 

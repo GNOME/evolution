@@ -9,9 +9,9 @@
 #ifndef __E_SELECT_NAMES_MANAGER_H__
 #define __E_SELECT_NAMES_MANAGER_H__
 
-#include <time.h>
-#include <gtk/gtk.h>
 #include <stdio.h>
+#include <time.h>
+#include <gtk/gtkobject.h>
 #include <e-util/e-list.h>
 #include "e-select-names.h"
 

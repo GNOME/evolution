@@ -21,11 +21,12 @@
  */
 
 #include <config.h>
-#include <gnome.h>
+
 #include <gal/widgets/e-canvas.h>
 #include "e-minicard-view.h"
 #include "e-minicard.h"
 #include "e-contact-editor.h"
+
 static void e_minicard_view_init		(EMinicardView		 *reflow);
 static void e_minicard_view_class_init	(EMinicardViewClass	 *klass);
 static void e_minicard_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);

@@ -19,7 +19,11 @@
 
 #include "config.h"
 
-#include <gnome.h>
+#include <gtk/gtkmain.h>
+#include <libgnomeui/gnome-app.h>
+#include <libgnomeui/gnome-init.h>
+#include <libgnomeui/gnome-canvas-rect-ellipse.h>
+
 #include "e-minicard.h"
 
 /* This is a horrible thing to do, but it is just a test. */

@@ -21,7 +21,6 @@
 #ifndef __E_MINICARD_VIEW_H__
 #define __E_MINICARD_VIEW_H__
 
-#include <gnome.h>
 #include <gal/widgets/e-reflow-sorted.h>
 #include <gal/widgets/e-selection-model-simple.h>
 #include "addressbook/backend/ebook/e-book.h"

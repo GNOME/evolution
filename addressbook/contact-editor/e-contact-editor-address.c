@@ -21,7 +21,7 @@
  */
 
 #include <config.h>
-#include <gnome.h>
+#include <libgnomeui/gnome-stock.h>
 #include <gal/widgets/e-unicode.h>
 #include <e-contact-editor-address.h>
 

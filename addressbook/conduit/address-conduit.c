@@ -40,11 +40,11 @@
 
 #define ADDR_CONFIG_LOAD 1
 #define ADDR_CONFIG_DESTROY 1
-#include <address-conduit-config.h>
+#include "address-conduit-config.h"
 #undef ADDR_CONFIG_LOAD
 #undef ADDR_CONFIG_DESTROY
 
-#include <address-conduit.h>
+#include "address-conduit.h"
 
 GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);

@@ -28,7 +28,6 @@
 #ifndef __E_CONTACT_QUICK_ADD_H__
 #define __E_CONTACT_QUICK_ADD_H__
 
-#include <gtk/gtk.h>
 #include <addressbook/backend/ebook/e-card.h>
 
 typedef void (*EContactQuickAddCallback) (ECard *new_card, gpointer user_data);

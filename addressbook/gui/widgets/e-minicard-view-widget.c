@@ -21,9 +21,11 @@
  */
 
 #include <config.h>
-#include <gnome.h>
+
 #include <gal/widgets/e-canvas.h>
+
 #include "e-minicard-view-widget.h"
+
 static void e_minicard_view_widget_init		 (EMinicardViewWidget		 *widget);
 static void e_minicard_view_widget_class_init	 (EMinicardViewWidgetClass	 *klass);
 static void e_minicard_view_widget_set_arg       (GtkObject *o, GtkArg *arg, guint arg_id);

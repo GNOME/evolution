@@ -26,7 +26,8 @@
  */
 
 #include <config.h>
-#include <gtk/gtk.h>
+#include <gtk/gtkobject.h>
+#include <gtk/gtksignal.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-util.h>
 #include "e-book-util.h"
@@ -155,6 +156,8 @@ simple_query_free (SimpleQueryInfo *sq)
 	book_remove_simple_query (sq->book, sq);
 
 #ifdef USE_WORKAROUND
+	Glist *i;
+	
 	/* If we are still in the queue, remove ourselves. */
 	for (i = WORKAROUND_sq_queue; i != NULL; i = g_list_next (i)) {
 		if (i->data == sq) {

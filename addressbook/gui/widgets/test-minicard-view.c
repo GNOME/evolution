@@ -17,9 +17,7 @@
 
 #include "config.h"
 
-#include <gnome.h>
 #include <libgnorba/gnorba.h>
-#include <bonobo.h>
 #include <e-util/e-canvas.h>
 #include "e-minicard-view.h"
 

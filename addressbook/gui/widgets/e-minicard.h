@@ -21,7 +21,7 @@
 #ifndef __E_MINICARD_H__
 #define __E_MINICARD_H__
 
-#include <gnome.h>
+#include <libgnomeui/gnome-canvas.h>
 #include "addressbook/contact-editor/e-contact-editor.h"
 #include "addressbook/backend/ebook/e-card.h"
 #include "addressbook/backend/ebook/e-card-simple.h"

@@ -21,14 +21,18 @@
 #ifndef __E_SELECT_NAMES_H__
 #define __E_SELECT_NAMES_H__
 
-#include <gnome.h>
+#include <glib.h>
+#include <gtk/gtkwidget.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-util.h>
+#include <libgnomeui/gnome-dialog.h>
 #include <glade/glade.h>
-#include <e-util/e-list.h>
 #include <gal/e-table/e-table.h>
 #include <gal/e-table/e-table-scrolled.h>
-#include "e-select-names-model.h"
 
-#include <shell/evolution-storage-listener.h>
+#include "e-select-names-model.h"
+#include "e-util/e-list.h"
+#include "shell/evolution-storage-listener.h"
 
 #ifdef __cplusplus
 extern "C" {

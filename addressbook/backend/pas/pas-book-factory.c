@@ -9,9 +9,9 @@
 
 #include <config.h>
 #include <ctype.h>
-#include <gnome.h>
-#include <liboaf/liboaf.h>
 
+#include <gtk/gtksignal.h>
+#include <liboaf/liboaf.h>
 #include "addressbook.h"
 #include "pas-book-factory.h"
 

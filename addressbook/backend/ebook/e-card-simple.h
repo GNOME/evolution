@@ -13,8 +13,8 @@
 #define __E_CARD_SIMPLE_H__
 
 #include <time.h>
-#include <gtk/gtk.h>
 #include <stdio.h>
+#include <gtk/gtkobject.h>
 #include <addressbook/backend/ebook/e-card.h>
 #include <addressbook/backend/ebook/e-card-types.h>
 #include <e-util/e-list.h>

@@ -26,10 +26,14 @@
  */
 
 #include <config.h>
+#include <ctype.h>
 #include <stdio.h>
 #include <string.h>
-#include <ctype.h>
-#include <gnome.h>
+
+#include <gtk/gtksignal.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-util.h>
+
 #include <addressbook/backend/ebook/e-book-util.h>
 #include <addressbook/backend/ebook/e-destination.h>
 #include "e-select-names-completion.h"

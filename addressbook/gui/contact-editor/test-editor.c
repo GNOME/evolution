@@ -22,7 +22,10 @@
 
 #include "config.h"
 
-#include <gnome.h>
+#include <stdlib.h>
+#include <gtk/gtkmain.h>
+#include <libgnomeui/gnome-app.h>
+#include <libgnomeui/gnome-init.h>
 #include <glade/glade.h>
 #include "e-contact-editor.h"
 

@@ -25,7 +25,7 @@
 #include <config.h>
 #endif
 
-#include <bonobo.h>
+#include <bonobo/bonobo-generic-factory.h>
 
 #include "evolution-shell-component.h"
 #include "evolution-storage.h"

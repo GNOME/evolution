@@ -21,7 +21,6 @@
 #ifndef __E_CONTACT_SAVE_AS_H__
 #define __E_CONTACT_SAVE_AS_H__
 
-#include <gnome.h>
 #include <glade/glade.h>
 #include "addressbook/backend/ebook/e-card.h"
 #include "addressbook/backend/ebook/e-card-simple.h"

@@ -118,7 +118,7 @@ guint     e_book_get_cursor               (EBook                 *book,
 					   gpointer               closure);
 
 guint     e_book_get_book_view            (EBook                 *book,
-					   char                  *query,
+					   const gchar           *query,
 					   EBookBookViewCallback  cb,
 					   gpointer               closure);
 

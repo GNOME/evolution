@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <gtk/gtk.h>
+#include <gtk/gtkobject.h>
 
 #include <libversit/vcc.h>
 #include "e-card-simple.h"

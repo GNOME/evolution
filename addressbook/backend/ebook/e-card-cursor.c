@@ -7,7 +7,7 @@
  */
 
 #include <config.h>
-#include <gtk/gtk.h>
+#include <gtk/gtkobject.h>
 #include "addressbook.h"
 #include "e-card-cursor.h"
 

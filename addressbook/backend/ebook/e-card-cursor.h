@@ -10,8 +10,8 @@
 #ifndef __E_CARD_CURSOR_H__
 #define __E_CARD_CURSOR_H__
 
+#include <gtk/gtkobject.h>
 #include <libgnome/gnome-defs.h>
-#include <gtk/gtk.h>
 #include <addressbook/backend/ebook/addressbook.h>
 #include <addressbook/backend/ebook/e-card.h>
 

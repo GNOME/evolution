@@ -7,9 +7,7 @@
  */
 
 #include "config.h"  
-#include <gtk/gtksignal.h>
 #include <stdio.h>
-#include <gnome.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <time.h>
@@ -23,14 +21,18 @@
 #endif
 #endif
 
-#include "pas-backend-file.h"
-#include "pas-book.h"
-#include "pas-card-cursor.h"
+#include <gtk/gtksignal.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-util.h>
+#include <gal/util/e-util.h>
+#include <gal/widgets/e-unicode.h>
+
 #include <ebook/e-card-simple.h>
 #include <e-util/e-sexp.h>
 #include <e-util/e-dbhash.h>
-#include <gal/util/e-util.h>
-#include <gal/widgets/e-unicode.h>
+#include "pas-backend-file.h"
+#include "pas-book.h"
+#include "pas-card-cursor.h"
 
 #define PAS_BACKEND_FILE_VERSION_NAME "PAS-DB-VERSION"
 #define PAS_BACKEND_FILE_VERSION "0.1"

@@ -23,7 +23,7 @@
 #ifndef E_CONTACT_PRINT_TYPES_H
 #define E_CONTACT_PRINT_TYPES_H
 
-#include <gnome.h>
+#include <glib.h>
 #include <libgnomeprint/gnome-font.h>
 
 typedef struct _EContactPrintStyle EContactPrintStyle;

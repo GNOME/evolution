@@ -1,3 +1,8 @@
+2001-03-29  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* *.*: Clean up #includes. Replace <gnome.h>, <bonobo.h> and
+	<gtk/gtk.h> with more finegrained headers where needed.
+
 2001-03-28  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/ebook/e-card.c (e_card_set_arg): Fixed some crashes.

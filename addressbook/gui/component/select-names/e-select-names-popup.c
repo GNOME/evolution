@@ -26,8 +26,18 @@
  */
 
 #include <config.h>
+
 #include <stdio.h>
-#include <gnome.h>
+#include <string.h>
+
+#include <glib.h>
+#include <gtk/gtkcheckmenuitem.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-app.h>
+#include <libgnomeui/gnome-app-helper.h>
+#include <libgnomeui/gnome-popup-menu.h>
+
 #include <addressbook/contact-editor/e-contact-quick-add.h>
 #include "e-select-names-popup.h"
 

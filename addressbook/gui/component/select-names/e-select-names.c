@@ -20,17 +20,23 @@
  */
 
 #include <config.h>
-#include <gnome.h>
-#include "e-select-names.h"
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-stock.h>
+
 #include <gal/e-table/e-table-simple.h>
+#include <gal/widgets/e-font.h>
+
 #include <addressbook/gui/widgets/e-addressbook-model.h>
 #include <addressbook/gui/component/e-cardlist-model.h>
 #include <addressbook/backend/ebook/e-book.h>
+#include <addressbook/gui/component/addressbook-component.h>
+#include <shell/evolution-shell-client.h>
+
+#include "e-select-names.h"
 #include <addressbook/backend/ebook/e-card-simple.h>
 #include "e-select-names-table-model.h"
-#include <shell/evolution-shell-client.h>
-#include <addressbook/gui/component/addressbook-component.h>
-#include <gal/widgets/e-font.h>
 
 static void e_select_names_init		(ESelectNames		 *card);
 static void e_select_names_class_init	(ESelectNamesClass	 *klass);

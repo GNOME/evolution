@@ -25,10 +25,9 @@
 #include <config.h>
 #endif
 
-#include <bonobo.h>
+#include <bonobo/bonobo-generic-factory.h>
 
 #include "e-select-names-bonobo.h"
-
 #include "e-select-names-factory.h"
 
 

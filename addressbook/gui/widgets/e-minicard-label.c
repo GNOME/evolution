@@ -21,12 +21,11 @@
  */
 
 #include <config.h>
-#include <gnome.h>
-#include "e-minicard-label.h"
 #include <gal/util/e-util.h>
 #include <gal/e-text/e-text.h>
 #include <gal/widgets/e-canvas.h>
 #include <gal/widgets/e-canvas-utils.h>
+#include "e-minicard-label.h"
 
 static void e_minicard_label_init		(EMinicardLabel		 *card);
 static void e_minicard_label_class_init	(EMinicardLabelClass	 *klass);
