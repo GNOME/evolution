@@ -1213,7 +1213,7 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 		if (view->model)
 			eab_model_force_folder_bar_message (view->model);
 	}
-	else {
+	else if (status != E_BOOK_ERROR_CANCELLED) {
 		eab_load_error_dialog (NULL /* XXX */, source, status);
 	}
 

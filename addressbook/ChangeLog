@@ -1,3 +1,12 @@
+2004-08-12  Sivaiah Nallagatla <snallagatla@novell.com>
+	
+	* gui/component/addresbook.c (load_source_auth_cb) :
+	when user cancels auth dialog send the anonoymous query
+	only in case of ldap 
+	*gui/component/addresbook-view.c (book_open_cb) : no need to
+	display the error dialog when user cancels that
+
+
 2004-08-04  Rodney Dawes  <dobey@novell.com>
 
 	* gui/widgets/eab-popup-control.c: #include <gtk/gtkvbox.h>

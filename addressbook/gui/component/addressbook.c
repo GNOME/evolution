@@ -79,9 +79,18 @@ load_source_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 	}
 
 	if (status != E_BOOK_ERROR_OK) {
+
+		/* the user clicked cancel in the password dialog */
 		if (status == E_BOOK_ERROR_CANCELLED) {
-			/* the user clicked cancel in the password dialog */
+				
+			if (e_book_check_static_capability (book, "anon-access")) {
+			
 			GtkWidget *dialog;
+
+			/* XXX "LDAP" has to be removed from the folowing message
+			   so that it wil valid for other servers which provide 
+			   anonymous access*/
+
 			dialog = gtk_message_dialog_new (NULL,
 							 0,
 							 GTK_MESSAGE_WARNING,
@@ -92,6 +101,7 @@ load_source_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 			data->cb (book, E_BOOK_ERROR_OK, data->closure);
 			free_load_source_data (data);
 			return;
+			}
 		}
 		else {
 			gchar *uri = e_source_get_uri (data->source);
@@ -180,7 +190,7 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 					  failed_auth, e_source_peek_name (source), user);
 
 		remember = get_remember_password (source);
-		pass_dup = e_passwords_ask_password (prompt, component_name, uri, prompt, TRUE,
+		pass_dup = e_passwords_ask_password (prompt, component_name, uri, prompt,
 						     E_PASSWORDS_REMEMBER_FOREVER, &remember,
 						     NULL);
 		if (remember != get_remember_password (source))
