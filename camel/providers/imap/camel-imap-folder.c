@@ -1072,7 +1072,6 @@ imap_update_summary (CamelFolder *folder,
 	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
 	CamelImapResponse *response;
 	GPtrArray *lines, *messages;
-	const char *summary_specifier;
 	char *p, *uid;
 	int i, seq, first, exists = 0;
 	CamelMimeMessage *msg;
@@ -1081,7 +1080,6 @@ imap_update_summary (CamelFolder *folder,
 	CamelStream *stream;
 
 	first = camel_folder_summary_count (folder->summary) + 1;
-	summary_specifier = imap_protocol_get_summary_specifier (store);
 
 	/* We already have the command lock */
 	response = camel_imap_command (store, folder, ex, "FETCH %d:* (UID FLAGS RFC822.SIZE)", first);
