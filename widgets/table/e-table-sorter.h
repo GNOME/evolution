@@ -21,6 +21,7 @@ typedef struct {
 	ETableHeader   *full_header;
 	ETableSortInfo *sort_info;
 
+	/* If needs_sorting is 0, then model_to_sorted and sorted_to_model are no-ops. */
 	int             needs_sorting;
 
 	int            *sorted;

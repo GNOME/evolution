@@ -243,32 +243,6 @@ struct _subinfo {
 	GArray *rowsort;	/* an array of row info's */
 };
 
-static int
-qsort_callback_complex(const void *data1, const void *data2)
-{
-	gint row1 = ((struct _rowinfo *)data1)->row;
-	gint row2 = ((struct _rowinfo *)data2)->row;
-	int j;
-	int sort_count = e_table_sort_info_sorting_get_count(ets_closure->sort_info);
-	int comp_val = 0;
-	int ascending = 1;
-	for (j = 0; j < sort_count; j++) {
-		comp_val = (*(compare_closure[j]))(vals_closure[cols_closure * row1 + j], vals_closure[cols_closure * row2 + j]);
-		ascending = ascending_closure[j];
-		if (comp_val != 0)
-			break;
-	}
-	if (comp_val == 0) {
-		if (row1 < row2)
-			comp_val = -1;
-		if (row1 > row2)
-			comp_val = 1;
-	}
-	if (!ascending)
-		comp_val = -comp_val;
-	return comp_val;
-}
-
 /* builds the info needed to sort everything */
 static struct _subinfo *
 ets_sort_build_subset(ETableSorter *ets, struct _group_info *groupinfo, int start, int *end)
@@ -340,7 +314,7 @@ ets_sort_subset(ETableSorter *ets, struct _subinfo *subinfo, int startoffset)
 	d(printf("sorting subset start %d rows %d\n", startoffset, rowsort->len));
 
 	/* first, sort the actual data */
-	qsort(rowsort->data, rowsort->len, sizeof(struct _rowinfo), qsort_callback_complex);
+	qsort(rowsort->data, rowsort->len, sizeof(struct _rowinfo), qsort_callback);
 
 	/* then put it back in the map table, where appropriate */
 	offset = startoffset;
@@ -401,7 +375,7 @@ ets_sort_by_group (ETableSorter *ets)
 		return;
 
 	/* get all the rows' sort groups */
-	groups = g_malloc(sizeof(struct _group_info) * rows);
+	groups = g_new(struct _group_info, rows);
 	for (i=0;i<rows;i++) {
 		groups[i].row = i;
 		groups[i].group = g_strdup(e_table_model_row_sort_group(ets->source, groups[i].row));
@@ -436,8 +410,6 @@ ets_sort(ETableSorter *ets)
 
 	if (ets->sorted)
 		return;
-
-	ets->needs_sorting = 0;
 
 	rows = e_table_model_row_count(ets->source);
 	group_cols = e_table_sort_info_grouping_get_count(ets->sort_info);
