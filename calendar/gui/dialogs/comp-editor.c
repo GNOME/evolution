@@ -85,8 +85,6 @@ struct _CompEditorPrivate {
  	gboolean user_org;
 	
  	gboolean warned;
- 	
-	gboolean updating;
 };
 
 
@@ -111,7 +109,6 @@ static void page_client_changed_cb (GtkObject *obj, ECal *client, gpointer data)
 static void obj_modified_cb (ECal *client, GList *objs, gpointer data);
 static void obj_removed_cb (ECal *client, GList *uids, gpointer data);
 
-static void save_cmd (GtkWidget *widget, gpointer data);
 static void save_close_cmd (GtkWidget *widget, gpointer data);
 static void save_as_cmd (GtkWidget *widget, gpointer data);
 static void delete_cmd (GtkWidget *widget, gpointer data);
@@ -141,7 +138,6 @@ static EPixmap pixmaps [] =
 };
 
 static BonoboUIVerb verbs [] = {
-	BONOBO_UI_UNSAFE_VERB ("FileSave", save_cmd),
 	BONOBO_UI_UNSAFE_VERB ("FileSaveAndClose", save_close_cmd),
 	BONOBO_UI_UNSAFE_VERB ("FileSaveAs", save_as_cmd),
 	BONOBO_UI_UNSAFE_VERB ("FileDelete", delete_cmd),
@@ -378,6 +374,18 @@ save_comp (CompEditor *editor)
 	if (!priv->changed)
 		return TRUE;
 
+	/* Stop listening because we are about to change things */
+	if (priv->view) {
+		g_signal_handlers_disconnect_matched (G_OBJECT (priv->view),
+						      G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL,
+						      editor);
+
+		g_object_unref (priv->view);
+		priv->view = NULL;
+	}
+
+	/* Update on the server */
 	timezones = g_hash_table_new (g_str_hash, g_str_equal);
 
 	clone = e_cal_component_clone (priv->comp);
@@ -401,8 +409,6 @@ save_comp (CompEditor *editor)
 
 	g_object_unref (priv->comp);
 	priv->comp = clone;
-
-	priv->updating = TRUE;
 
 	e_cal_component_get_uid (priv->comp, &orig_uid);
 
@@ -450,8 +456,6 @@ save_comp (CompEditor *editor)
 		priv->changed = FALSE;
 	}
 
-	priv->updating = FALSE;
-
 	return TRUE;
 }
 
@@ -465,9 +469,11 @@ save_comp_with_send (CompEditor *editor)
 
 	send = priv->changed && priv->needs_send;
 
+	g_message ("Save and Send");
 	if (!save_comp (editor))
 		return FALSE;
 
+	g_message ("Send dialog");
  	if (send && send_component_dialog ((GtkWindow *) editor, priv->client, priv->comp, !priv->existing_org)) {
  		if (itip_organizer_is_user (priv->comp, priv->client))
  			return comp_editor_send_comp (editor, E_CAL_COMPONENT_METHOD_REQUEST);
@@ -487,9 +493,7 @@ delete_comp (CompEditor *editor)
 	priv = editor->priv;
 
 	e_cal_component_get_uid (priv->comp, &uid);
-	priv->updating = TRUE;
 	e_cal_remove_object (priv->client, uid, NULL);
-	priv->updating = FALSE;
 	close_dialog (editor);
 }
 
@@ -1332,30 +1336,13 @@ comp_editor_focus (CompEditor *editor)
 
 /* Menu Commands */
 static void
-save_cmd (GtkWidget *widget, gpointer data)
-{
-	CompEditor *editor = COMP_EDITOR (data);
-	CompEditorPrivate *priv;
-	
-	priv = editor->priv;
-
-	commit_all_fields (editor);
-
-	if (e_cal_component_is_instance (priv->comp))
-		if (!recur_component_dialog (priv->client, priv->comp, &priv->mod, GTK_WINDOW (editor)))
-			return;
-
-	save_comp_with_send (editor);
-}
-
-static void
 save_close_cmd (GtkWidget *widget, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
 	CompEditorPrivate *priv;
 	
 	priv = editor->priv;
-	
+
 	commit_all_fields (editor);
 
 	if (e_cal_component_is_instance (priv->comp))
@@ -1559,9 +1546,6 @@ obj_modified_cb (ECal *client, GList *objects, gpointer data)
 	priv = editor->priv;
 
 	/* We queried based on a specific UID so we definitely changed */
-	if (priv->updating)
-		return;
-
 	if (changed_component_dialog ((GtkWindow *) editor, priv->comp, FALSE, priv->changed)) {
 		icalcomponent *icalcomp = icalcomponent_new_clone (objects->data);
 
@@ -1587,9 +1571,6 @@ obj_removed_cb (ECal *client, GList *uids, gpointer data)
 	CompEditorPrivate *priv;
 
 	priv = editor->priv;
-
-	if (priv->updating)
-		return;
 
 	if (changed_component_dialog ((GtkWindow *) editor, priv->comp, TRUE, priv->changed))
 		close_dialog (editor);
