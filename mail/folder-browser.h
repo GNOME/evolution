@@ -91,6 +91,10 @@ void       folder_browser_set_message_preview  (FolderBrowser         *folder_br
 						gboolean               show_message_preview);
 void       folder_browser_clear_search         (FolderBrowser         *fb);
 
+void       folder_browser_cut                  (GtkWidget *widget, FolderBrowser *fb);
+void       folder_browser_copy                 (GtkWidget *widget, FolderBrowser *fb);
+void       folder_browser_paste                (GtkWidget *widget, FolderBrowser *fb);
+
 /* callbacks for functions on the folder-browser */
 void vfolder_subject   (GtkWidget *w, FolderBrowser *fb);
 void vfolder_sender    (GtkWidget *w, FolderBrowser *fb);

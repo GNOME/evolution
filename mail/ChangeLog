@@ -1,3 +1,22 @@
+2001-06-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser.c (folder_browser_destroy): Unref the invisible
+	window that we use for slections.
+	(folder_browser_class_init): Init the clipboard_atam type.
+	(selection_get): New
+	(selection_clear_event): New
+	(selection_received): New
+	(folder_browser_copy): New function to copy the message-list
+	selection.
+	(folder_browser_cut): New function to cut the message-list
+	selection.
+	(folder_browser_paste): New function to paste the message-list
+	selection.
+	(my_folder_browser_init): Initialize `invisible` if it's NULL else
+	ref it - also set some signals on it.
+
+	* folder-browser-factory.c: Added verbs for cut/copy/paste.
+
 2001-06-23  Jason Leach  <jleach@ximian.com>
 
 	* mail-local.c (local_storage_removed_folder_cb): Fixes here for

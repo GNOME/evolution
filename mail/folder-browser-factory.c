@@ -47,6 +47,9 @@ static EList *control_list = NULL;
  * Add with 'folder_browser'
  */
 BonoboUIVerb verbs [] = {
+	BONOBO_UI_UNSAFE_VERB ("EditCut", folder_browser_cut),
+	BONOBO_UI_UNSAFE_VERB ("EditCopy", folder_browser_copy),
+	BONOBO_UI_UNSAFE_VERB ("EditPaste", folder_browser_paste),
 	BONOBO_UI_UNSAFE_VERB ("EditInvertSelection", invert_selection),
 	BONOBO_UI_UNSAFE_VERB ("EditSelectAll", select_all),
 /*	BONOBO_UI_UNSAFE_VERB ("EditSelectThread", select_thread),	*/

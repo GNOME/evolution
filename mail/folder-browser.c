@@ -15,6 +15,7 @@
 #include <ctype.h>
 
 #include <gdk/gdkkeysyms.h>
+#include <gtk/gtkinvisible.h>
 #include <gal/e-paned/e-vpaned.h>
 #include <gal/e-table/e-table.h>
 #include <gal/util/e-util.h>
@@ -72,6 +73,10 @@ static GtkTargetEntry drag_types[] = {
 
 static const int num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
 
+static GdkAtom clipboard_atom = GDK_NONE;
+static GByteArray *clipboard_selection = NULL;
+static GtkWidget *invisible = NULL;
+
 static void fb_resize_cb (GtkWidget *w, GtkAllocation *a);
 static void update_unread_count (CamelObject *, gpointer, gpointer);
 
@@ -84,6 +89,13 @@ enum {
 };
 
 static guint folder_browser_signals [LAST_SIGNAL] = {0, };
+
+static void
+invisible_destroyed (GtkObject *invisible)
+{
+	g_byte_array_free (clipboard_selection, TRUE);
+	clipboard_selection = NULL;
+}
 
 static void
 folder_browser_destroy (GtkObject *object)
@@ -106,7 +118,7 @@ folder_browser_destroy (GtkObject *object)
 	if (folder_browser->folder) {
 		CamelObject *folder = CAMEL_OBJECT (folder_browser->folder);
 		EvolutionStorage *storage;
-
+		
 		if ((storage = mail_lookup_storage (folder_browser->folder->parent_store))) {
 			gtk_object_unref (GTK_OBJECT (storage));
 			camel_object_unhook_event (folder, "message_changed",
@@ -116,7 +128,7 @@ folder_browser_destroy (GtkObject *object)
 						   update_unread_count,
 						   folder_browser);
 		}
-
+		
 		mail_sync_folder (folder_browser->folder, NULL, NULL);
 		camel_object_unref (folder);
 	}
@@ -133,12 +145,14 @@ folder_browser_destroy (GtkObject *object)
 		gtk_object_unref (GTK_OBJECT (folder_browser->view_collection));
 		folder_browser->view_collection = NULL;
 	}
-
+	
 	if (folder_browser->view_menus) {
 		gtk_object_unref (GTK_OBJECT (folder_browser->view_menus));
 		folder_browser->view_menus = NULL;
 	}
-
+	
+	gtk_object_unref (GTK_OBJECT (invisible));
+	
 	folder_browser_parent_class->destroy (object);
 }
 
@@ -166,6 +180,10 @@ folder_browser_class_init (GtkObjectClass *object_class)
 				GTK_TYPE_NONE, 1, GTK_TYPE_STRING);
 	
 	gtk_object_class_add_signals (object_class, folder_browser_signals, LAST_SIGNAL);
+	
+	/* clipboard atom */
+	if (!clipboard_atom)
+		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
 }
 
 static void
@@ -175,14 +193,14 @@ update_unread_count_main(CamelObject *object, gpointer event_data, gpointer user
 	FolderBrowser *fb = user_data;
 	EvolutionStorage *storage;
 	char *name;
-
+	
 	storage = mail_lookup_storage (folder->parent_store);
-
+	
 	if (fb->unread_count == 0)
 		name = g_strdup (camel_folder_get_name (folder));
 	else
 		name = g_strdup_printf ("%s (%d)", camel_folder_get_name (folder), fb->unread_count);
-
+	
 	evolution_storage_update_folder_by_uri (storage, fb->uri, name, fb->unread_count != 0);
 	g_free (name);
 	gtk_object_unref (GTK_OBJECT (storage));
@@ -194,7 +212,7 @@ update_unread_count (CamelObject *object, gpointer event_data, gpointer user_dat
 	CamelFolder *folder = (CamelFolder *)object;
 	FolderBrowser *fb = user_data;
 	int unread;
-
+	
 	unread = camel_folder_get_unread_message_count (folder);
 	if (unread == fb->unread_count)
 		return;
@@ -359,6 +377,142 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 		g_ptr_array_free (uids, TRUE);
 		break;
 	}
+}
+
+static void
+selection_get (GtkWidget *widget, GtkSelectionData *selection_data,
+	       guint info, guint time_stamp, FolderBrowser *fb)
+{
+	if (clipboard_selection != NULL) {
+		gtk_selection_data_set (selection_data,
+					GDK_SELECTION_TYPE_STRING,
+					8,
+					clipboard_selection->data,
+					clipboard_selection->len);
+	}
+}
+
+static void
+selection_clear_event (GtkWidget *widget, GdkEventSelection *event, FolderBrowser *fb)
+{
+	if (clipboard_selection != NULL) {
+		g_byte_array_free (clipboard_selection, TRUE);
+		clipboard_selection = NULL;
+	}
+}
+
+static void
+selection_received (GtkWidget *widget, GtkSelectionData *selection_data,
+		    guint time, FolderBrowser *fb)
+{
+	char *url, *name, *in, *inptr, *inend;
+	CamelFolder *source;
+	GPtrArray *uids;
+	
+	/* format: "url folder_name uid1\0uid2\0uid3\0...\0uidn" */
+	
+	in = selection_data->data;
+	inend = in + selection_data->length;
+	
+	inptr = strchr (in, ' ');
+	url = g_strndup (in, inptr - in);
+	
+	name = inptr + 1;
+	inptr = strchr (name, ' ');
+	name = g_strndup (name, inptr - name);
+	
+	source = mail_tool_get_folder_from_urlname (url, name, 0, NULL);
+	g_free (name);
+	g_free (url);
+	
+	if (!source)
+		return;
+	
+	/* split the uids */
+	inptr++;
+	uids = g_ptr_array_new ();
+	while (inptr < inend) {
+		char *start = inptr;
+		
+		while (inptr < inend && *inptr)
+			inptr++;
+		
+		g_ptr_array_add (uids, g_strndup (start, inptr - start));
+		inptr++;
+	}
+	
+	mail_do_transfer_messages (source, uids, FALSE, fb->uri);
+	
+	camel_object_unref (CAMEL_OBJECT (source));
+}
+
+void
+folder_browser_copy (GtkWidget *menuitem, FolderBrowser *fb)
+{
+	GPtrArray *uids = NULL;
+	GByteArray *bytes;
+	gboolean cut;
+	char *url;
+	int i;
+	
+	cut = menuitem == NULL;
+	
+	if (clipboard_selection) {
+		g_byte_array_free (clipboard_selection, TRUE);
+		clipboard_selection = NULL;
+	}
+	
+	uids = g_ptr_array_new ();
+	message_list_foreach (fb->message_list, add_uid, uids);
+	
+	/* format: "url folder_name uid1\0uid2\0uid3\0...\0uidn" */
+	
+	url = camel_url_to_string (CAMEL_SERVICE (camel_folder_get_parent_store (fb->folder))->url, 0);
+	
+	/* write the url portion */
+	bytes = g_byte_array_new ();
+	g_byte_array_append (bytes, url, strlen (url));
+	g_byte_array_append (bytes, " ", 1);
+	g_free (url);
+	
+	/* write the folder_name portion */
+	g_byte_array_append (bytes, fb->folder->name, strlen (fb->folder->name));
+	g_byte_array_append (bytes, " ", 1);
+	
+	/* write the uids */
+	for (i = 0; i < uids->len; i++) {
+		if (cut) {
+			camel_folder_set_message_flags (fb->folder, uids->pdata[i],
+							CAMEL_MESSAGE_DELETED,
+							CAMEL_MESSAGE_DELETED);
+		}
+		g_byte_array_append (bytes, uids->pdata[i], strlen (uids->pdata[i]));
+		g_free (uids->pdata[i]);
+		
+		if (i + 1 < uids->len)
+			g_byte_array_append (bytes, "", 1);
+	}
+	
+	g_ptr_array_free (uids, TRUE);
+	
+	clipboard_selection = bytes;
+	
+	gtk_selection_owner_set (invisible, clipboard_atom, GDK_CURRENT_TIME);
+}
+
+void
+folder_browser_cut (GtkWidget *menuitem, FolderBrowser *fb)
+{
+	folder_browser_copy (NULL, fb);
+}
+
+void
+folder_browser_paste (GtkWidget *menuitem, FolderBrowser *fb)
+{
+	gtk_selection_convert (invisible,
+			       clipboard_atom,
+			       GDK_SELECTION_TYPE_STRING,
+			       GDK_CURRENT_TIME);
 }
 
 static void
@@ -1346,35 +1500,35 @@ static void
 my_folder_browser_init (GtkObject *object)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (object);
-
+	
 	fb->view_collection = NULL;
 	fb->view_menus = NULL;
-
+	
 	/*
 	 * Setup parent class fields.
 	 */ 
 	GTK_TABLE (fb)->homogeneous = FALSE;
 	gtk_table_resize (GTK_TABLE (fb), 1, 2);
-
+	
 	/*
 	 * Our instance data
 	 */
 	fb->message_list = (MessageList *)message_list_new ();
 	fb->mail_display = (MailDisplay *)mail_display_new ();
-
+	
 	e_scroll_frame_set_policy(E_SCROLL_FRAME(fb->message_list),
 				  GTK_POLICY_NEVER,
 				  GTK_POLICY_ALWAYS);
 	
 	gtk_signal_connect (GTK_OBJECT (fb->mail_display->html),
 			    "key_press_event", GTK_SIGNAL_FUNC (on_key_press), fb);
-
+	
 	gtk_signal_connect (GTK_OBJECT (fb->message_list->tree),
 			    "key_press", GTK_SIGNAL_FUNC (etree_key), fb);
-
+	
 	gtk_signal_connect (GTK_OBJECT (fb->message_list->tree),
 			    "right_click", GTK_SIGNAL_FUNC (on_right_click), fb);
-
+	
 	gtk_signal_connect (GTK_OBJECT (fb->message_list->tree),
 			    "double_click", GTK_SIGNAL_FUNC (on_double_click), fb);
 	
@@ -1388,6 +1542,34 @@ my_folder_browser_init (GtkObject *object)
 	gtk_signal_connect (GTK_OBJECT (fb->message_list->tree), "tree_drag_data_get",
 			    GTK_SIGNAL_FUNC (message_list_drag_data_get), fb);
 	
+	/* cut, copy & paste */
+	if (!invisible) {
+		invisible = gtk_invisible_new ();
+		
+		gtk_signal_connect (GTK_OBJECT (invisible), "destroy",
+				    GTK_SIGNAL_FUNC (invisible_destroyed),
+				    NULL);
+		
+		gtk_selection_add_target (invisible,
+					  clipboard_atom,
+					  GDK_SELECTION_TYPE_STRING,
+					  0);
+	} else
+		gtk_object_ref (GTK_OBJECT (invisible));
+	
+	gtk_signal_connect (GTK_OBJECT (invisible),
+			    "selection_get",
+			    GTK_SIGNAL_FUNC (selection_get),
+			    (gpointer) fb);
+	gtk_signal_connect (GTK_OBJECT (invisible),
+			    "selection_clear_event",
+			    GTK_SIGNAL_FUNC (selection_clear_event),
+			    (gpointer) fb);
+	gtk_signal_connect (GTK_OBJECT (invisible),
+			    "selection_received",
+			    GTK_SIGNAL_FUNC (selection_received),
+			    (gpointer) fb);
+	
 	folder_browser_gui_init (fb);
 }
 
@@ -1396,7 +1578,7 @@ folder_browser_new (const GNOME_Evolution_Shell shell)
 {
 	CORBA_Environment ev;
 	FolderBrowser *folder_browser;
-
+	
 	CORBA_exception_init (&ev);
 
 	folder_browser = gtk_type_new (folder_browser_get_type ());
