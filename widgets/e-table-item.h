@@ -19,7 +19,6 @@ typedef struct {
 	int              x1, y1;
 	int              width, height;
 
-	int              top_item;
 	int              cols, rows;
 	
 	/*
@@ -36,6 +35,7 @@ typedef struct {
 
 	unsigned int     draw_grid:1;
 	unsigned int     draw_focus:1;
+	unsigned int     mode_spreadsheet:1;
 	
 	int              focused_col, focused_row;
 

@@ -82,6 +82,8 @@ ect_stop_editing (ECellTextView *text_view)
 	g_free (edit);
 	
 	text_view->edit = NULL;
+
+	e_table_item_leave_edit (text_view->eti);
 }
 
 /*
@@ -166,8 +168,6 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	if (text_view->edit){
 		CellEdit *edit = text_view->edit;
 		
-		printf ("We are editing a cell [%d %d %d %d]\n", col, row, edit->col, edit->row);
-		
 		if ((edit->col == col) && (edit->row == row))
 			edit_display = TRUE;
 	}
@@ -192,11 +192,6 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		text_wc [text_wc_len] = 0;
 		
 		/*
-		 * Find a good spot for painting
-		 */
-		xoff = 0;
-		
-		/*
 		 * Paint
 		 */
 		gdk_gc_set_foreground (text_view->gc, &w->style->base [GTK_STATE_NORMAL]);
@@ -208,11 +203,23 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 			GdkGC *gc = text_view->gc;
 			const int y = y2 - font->descent - ((y2-y1-height)/2);
 			int px, i;
+
+			/*
+			 * Border
+			 */
+			x1 += 2;
+			x2--;
 			
 			px = x1;
 
-			printf ("Cursor at: %d\n", cursor_pos);
-			
+			/*
+			 * If the cursor is outside the visible range
+			 *
+			 * FIXME: we really want a better behaviour.
+			 */
+			if ((px + left_len) > x2)
+				px -= left_len - (x2-x1);
+				
 			for (i = 0; *text_wc; text_wc++, i++){
 				gdk_draw_text_wc (
 					drawable, font, gc, px, y, text_wc, 1);
@@ -240,6 +247,12 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		 */
 		GdkColor *background, *foreground;
 		int width;
+
+		/*
+		 * Border
+		 */
+		x1++;
+		x2--;
 		
 		/*
 		 * Compute draw mode
@@ -285,6 +298,17 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 }
 
 /*
+ * Selects the entire string
+ */
+static void
+ect_edit_select_all (ECellTextView *text_view)
+{
+	g_assert (text_view->edit);
+	
+	gtk_editable_select_region (GTK_EDITABLE (text_view->edit->entry), 0, -1);
+}
+
+/*
  * ECell::event method
  */
 static gint
@@ -294,6 +318,12 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int col, int row)
 	
 	switch (event->type){
 	case GDK_BUTTON_PRESS:
+		/*
+		 * Adjust for the border we use
+		 */
+		event->button.x++;
+		
+		printf ("Button pressed at %g %g\n", event->button.x, event->button.y);
 		if (text_view->edit){
 			printf ("FIXME: Should handle click here\n");
 		} else 
@@ -301,6 +331,11 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int col, int row)
 		break;
 
 	case GDK_BUTTON_RELEASE:
+		/*
+		 * Adjust for the border we use
+		 */
+		event->button.x++;
+		printf ("Button released at %g %g\n", event->button.x, event->button.y);
 		return TRUE;
 
 	case GDK_KEY_PRESS:
@@ -309,8 +344,10 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int col, int row)
 			return TRUE;
 		}
 		
-		if (!text_view->edit)
+		if (!text_view->edit){
 			e_table_item_enter_edit (text_view->eti, col, row);
+			ect_edit_select_all (text_view);
+		}
 
 		gtk_widget_event (GTK_WIDGET (text_view->edit->entry), event);
 		ect_queue_redraw (text_view, col, row);
@@ -355,10 +392,11 @@ ect_enter_edit (ECellView *ecell_view, int col, int row)
 	const char *str = e_table_model_value_at (ecell_view->ecell->table_model, col, row);
 	CellEdit *edit;
 
-	printf ("Entering edit mode! [%d %d]\n", col, row);
-	
 	edit = g_new (CellEdit, 1);
 	text_view->edit = edit;
+
+	edit->col = col;
+	edit->row = row;
 	
 	edit->entry = (GtkEntry *) gtk_entry_new ();
 	gtk_entry_set_text (edit->entry, str);
@@ -387,10 +425,14 @@ ect_leave_edit (ECellView *ecell_view, int col, int row, void *edit_context)
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
 
-	printf ("Leaving edit mode!\n");
-	
-	ect_accept_edits (text_view);
-	ect_stop_editing (text_view);
+	if (text_view->edit){
+		ect_accept_edits (text_view);
+		ect_stop_editing (text_view);
+	} else {
+		/*
+		 * We did invoke this leave edit internally
+		 */
+	}
 }
 
 /*

@@ -1,3 +1,26 @@
+1999-11-29  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-cell-toggle.c, e-cell-toggle.h: New file.  Implement a
+	multi-state image toggle cell object.
+
+	* e-cell-text.c (ect_leave_edit): Handle the case of us calling
+	leave edit manually.
+	(ect_stop_editing): Leave manually editing here.
+	(ect_draw): Add one pixel to the border for left and right;
+	Handle off-screen cursor (must be improved).
+	(ect_edit_select_all): New function.
+	(ect_event): Select all text on editing start
+
+	* e-table-item.c (eti_event): Map mouse events and dispatch them.
+	(eti_event): Add spreadsheet mode for editing; Enter editing only
+	with visual characters;
+	Leave editing mode when a different row has been selected.
+	(eti_get_height): Fix the computation for this; Fix logic for the
+	length_threshold.
+
+	(eti_draw): Add borders on all sides of the box;   
+	Only draw focus if the cell is not being edited.
+	
 1999-11-28  Miguel de Icaza  <miguel@gnu.org>
 
 	* e-table-item.c (eti_draw): Focus inside, not outside.

@@ -237,6 +237,7 @@ main (int argc, char *argv [])
 		"y",  30,
 		"drawgrid", TRUE,
 		"drawfocus", TRUE,
+		"spreadsheet", TRUE,
 		NULL);
 	gtk_main ();
 

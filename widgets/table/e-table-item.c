@@ -38,8 +38,18 @@ enum {
 	ARG_TABLE_Y,
 	ARG_TABLE_DRAW_GRID,
 	ARG_TABLE_DRAW_FOCUS,
+	ARG_MODE_SPREADSHEET,
 	ARG_LENGHT_THRESHOLD
 };
+
+static gboolean
+eti_editing (ETableItem *eti)
+{
+	if (eti->editing_col == -1)
+		return FALSE;
+	else
+		return TRUE;
+}
 
 /*
  * During realization, we have to invoke the per-ecell realize routine
@@ -186,23 +196,26 @@ eti_get_height (ETableItem *eti)
 {
 	const int rows = eti->rows;
 	int row;
-	int height = 0;
+	int height;
 
 	if (rows == 0)
 		return 0;
-	
-	if (rows > eti->length_threshold){
-		height = eti_row_height (eti, 0) * rows;
 
-		return height;
+	if (eti->length_threshold != -1){
+		if (rows > eti->length_threshold){
+			height = (eti_row_height (eti, 0) + 1) * rows;
+
+			/*
+			 * 1 pixel at the top
+			 */
+			return height + 1;
+		}
 	}
-	
-	for (row = 0; row < rows; row++)
-		height += eti_row_height (eti, row);
 
-	/* Add division lines pixels */
-	height += rows;
-	
+	height = 1;
+	for (row = 0; row < rows; row++)
+		height += eti_row_height (eti, row) + 1;
+
 	return height;
 }
 
@@ -434,6 +447,10 @@ eti_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_TABLE_DRAW_FOCUS:
 		eti->draw_focus = GTK_VALUE_BOOL (*arg);
 		break;
+
+	case ARG_MODE_SPREADSHEET:
+		eti->mode_spreadsheet = GTK_VALUE_BOOL (*arg);
+		break;
 	}
 	eti_update (item, NULL, NULL, 0);
 }
@@ -445,6 +462,8 @@ eti_init (GnomeCanvasItem *item)
 
 	eti->focused_col = -1;
 	eti->focused_row = -1;
+	eti->editing_col = -1;
+	eti->editing_row = -1;
 	eti->height = 0;
 	
 	eti->length_threshold = -1;
@@ -476,8 +495,12 @@ eti_realize (GnomeCanvasItem *item)
 	gdk_gc_ref (canvas_widget->style->white_gc);
 
 	eti->grid_gc = gdk_gc_new (window);
-	gdk_gc_set_foreground (eti->grid_gc, &canvas_widget->style->bg [GTK_STATE_NORMAL]);
-
+#if 0
+	/* This sets it to gray */
+/*	gdk_gc_set_foreground (eti->grid_gc, &canvas_widget->style->bg [GTK_STATE_NORMAL]); */
+#else
+	gdk_gc_set_foreground (eti->grid_gc, &canvas_widget->style->black);
+#endif
 	eti->focus_gc = gdk_gc_new (window);
 	gdk_gc_set_foreground (eti->focus_gc, &canvas_widget->style->bg [GTK_STATE_NORMAL]);
 	gdk_gc_set_background (eti->focus_gc, &canvas_widget->style->fg [GTK_STATE_NORMAL]);
@@ -560,9 +583,11 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 	/*
 	 * Clear the background
 	 */
+#if 0
 	gdk_draw_rectangle (
 		drawable, eti->fill_gc, TRUE,
 		eti->x1 - x, eti->y1 - y, eti->width, eti->height);
+#endif
 	
 	/*
 	 * First column to draw, last column to draw
@@ -597,8 +622,8 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 	 */
 	first_row = -1;
 	y_offset = 0;
-	y1 = y2 = eti->y1;
-	for (row = eti->top_item; row < rows; row++, y1 = y2){
+	y1 = y2 = eti->y1 + 1;
+	for (row = 0; row < rows; row++, y1 = y2){
 
 		y2 += eti_row_height (eti, row) + 1;
 
@@ -624,6 +649,14 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 	yd = y_offset;
 	f_x1 = f_x2 = f_y1 = f_y2 = -1;
 	f_found = FALSE;
+
+	if (eti->draw_grid && first_row == 0){
+		gdk_draw_line (
+			drawable, eti->grid_gc,
+				eti->x1 - x, yd, eti->x1 + eti->width - x, yd);
+	}
+	yd++;
+	
 	for (row = first_row; row < last_row; row++){
 		int xd, height;
 		gboolean selected;
@@ -650,25 +683,30 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 
 			xd += ecol->width;
 		}
-		yd += height + 1;
+		yd += height;
 
 		if (eti->draw_grid)
 			gdk_draw_line (
 				drawable, eti->grid_gc,
-				eti->x1 - x, yd -1, eti->x1 + eti->width - x, yd -1);
+				eti->x1 - x, yd, eti->x1 + eti->width - x, yd);
+		yd++;
 	}
 
 	if (eti->draw_grid){
 		int xd = x_offset;
 		
-		for (col = first_col; col < last_col; col++){
+		for (col = first_col; col <= last_col; col++){
 			ETableCol *ecol = e_table_header_get_column (eti->header, col);
 
 			gdk_draw_line (
 				drawable, eti->grid_gc,
-				xd, y_offset, xd, yd);
+				xd, y_offset, xd, yd - 1);
 
-			xd += ecol->width;
+			/*
+			 * This looks wierd, but it is to draw the last line
+			 */
+			if (ecol)
+				xd += ecol->width;
 		}
 	}
 	
@@ -676,9 +714,11 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 	 * Draw focus
 	 */
 	if (f_found && eti->draw_focus){
-		gdk_draw_rectangle (
-			drawable, eti->focus_gc, FALSE,
-			f_x1 + 1, f_y1, f_x2 - f_x1 - 2, f_y2 - f_y1 - 1);
+
+		if (!eti_editing (eti))
+			gdk_draw_rectangle (
+				drawable, eti->focus_gc, FALSE,
+				f_x1 + 1, f_y1, f_x2 - f_x1 - 2, f_y2 - f_y1 - 1);
 	}
 }
 
@@ -692,14 +732,14 @@ eti_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 }
 
 static gboolean
-find_cell (ETableItem *eti, double x, double y, int *col_res, int *row_res)
+find_cell (ETableItem *eti, double x, double y, int *col_res, int *row_res, gdouble *x1_res, gdouble *y1_res)
 {
 	const int cols = eti->cols;
 	const int rows = eti->rows;
 	gdouble x1, y1, x2, y2;
 	int col, row;
 	
-	/* FIXME: inneficient, fix later */
+	/* FIXME: this routine is inneficient, fix later */
 
 	x -= eti->x1;
 	y -= eti->y1;
@@ -717,6 +757,8 @@ find_cell (ETableItem *eti, double x, double y, int *col_res, int *row_res)
 			continue;
 
 		*col_res = col;
+		if (x1_res)
+			*x1_res = x - x1;
 		break;
 	}
 
@@ -731,6 +773,8 @@ find_cell (ETableItem *eti, double x, double y, int *col_res, int *row_res)
 			continue;
 
 		*row_res = row;
+		if (y1_res)
+			*y1_res = y - y1;
 		break;
 	}
 
@@ -748,63 +792,113 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	case GDK_BUTTON_RELEASE:
 	case GDK_2BUTTON_PRESS: {
 		int col, row;
+		gdouble x1, y1;
 
-		if (!find_cell (eti, e->button.x, e->button.y, &col, &row))
+		if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
 			return TRUE;
 
 		if (eti->focused_row == row && eti->focused_col == col){
 			ecell_view = eti->cell_views [col];
 
+			/*
+			 * Adjust the event positions
+			 */
+			e->button.x = x1; 
+			e->button.y = y1;
+			
 			e_cell_event (ecell_view, e, col, row);
 		} else {
 			/*
 			 * Focus the cell, and select the row
 			 */
+			e_table_item_leave_edit (eti);
 			e_table_item_focus (eti, col, row);
 			e_table_item_select_row (eti, row);
 		}
 		break;
 	}
+
+	case GDK_MOTION_NOTIFY: {
+		int col, row;
+		double x1, y1;
+
+		if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
+			return TRUE;
+
+		if (eti->focused_row == row && eti->focused_col == col){
+			ecell_view = eti->cell_views [col];
+
+			/*
+			 * Adjust the event positions
+			 */
+			e->button.x -= (x1 + eti->x1);
+			e->button.y -= (y1 + eti->y1);
+			
+			e_cell_event (ecell_view, e, col, row);
+		}
+		break;
+	}
 		
 	case GDK_KEY_PRESS:
-		printf ("KEYPRESS!\n");
-		
 		if (eti->focused_col == -1)
 			return FALSE;
 
 		switch (e->key.keyval){
 		case GDK_Left:
-			if (eti->focused_col > 0)
+			if (!eti->mode_spreadsheet && eti_editing (eti))
+				break;
+			
+			if (eti->focused_col > 0){
+				e_table_item_leave_edit (eti);
 				e_table_item_focus (eti, eti->focused_col - 1, eti->focused_row);
-			break;
+			}
+			return TRUE;
 
 		case GDK_Right:
-			if ((eti->focused_col + 1) < eti->cols)
+			if (!eti->mode_spreadsheet && eti_editing (eti))
+				break;
+			
+			if ((eti->focused_col + 1) < eti->cols){
+				e_table_item_leave_edit (eti);
 				e_table_item_focus (eti, eti->focused_col + 1, eti->focused_row);
-			break;
+			}
+			return TRUE;
 
 		case GDK_Up:
-			if (eti->focused_row > 0)
+			if (eti->focused_row > 0){
+				e_table_item_leave_edit (eti);
 				e_table_item_focus (eti, eti->focused_col, eti->focused_row - 1);
-			break;
+			}
+			return TRUE;
 			
 		case GDK_Down:
-			if ((eti->focused_row + 1) < eti->rows)
+			if ((eti->focused_row + 1) < eti->rows){
+				e_table_item_leave_edit (eti);
 				e_table_item_focus (eti, eti->focused_col, eti->focused_row + 1);
-			break;
-			
+			}
+			return TRUE;
 		default:
+			if (!eti_editing (eti)){
+				if ((e->key.state & (GDK_MOD1_MASK | GDK_CONTROL_MASK)) != 0)
+					return 0;
+
+				if (!(e->key.keyval >= 0x20 && e->key.keyval <= 0xff))
+					return 0;
+			}
 		}
+
 		ecell_view = eti->cell_views [eti->focused_col];
 		e_cell_event (ecell_view, e, eti->focused_col, eti->focused_row);
 		break;
-		
+
 	case GDK_KEY_RELEASE:
 		if (eti->focused_col == -1)
 			return FALSE;
 
-		ecell_view = eti->cell_views [eti->focused_col];
-		e_cell_event (ecell_view, e, eti->focused_col, eti->focused_row);
+		if (eti_editing (eti)){
+			ecell_view = eti->cell_views [eti->editing_col];
+			e_cell_event (ecell_view, e, eti->editing_col, eti->editing_row);
+		}
 		break;
 
 	default:
@@ -860,6 +954,8 @@ eti_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_GRID);
 	gtk_object_add_arg_type ("ETableItem::drawfocus", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_FOCUS);
+	gtk_object_add_arg_type ("ETableItem::spreadsheet", GTK_TYPE_BOOL,
+				 GTK_ARG_WRITABLE, ARG_MODE_SPREADSHEET);
 
 	eti_signals [ROW_SELECTION] =
 		gtk_signal_new ("row_selection",
@@ -1044,6 +1140,9 @@ e_table_item_leave_edit (ETableItem *eti)
 	g_return_if_fail (eti != NULL);
 	g_return_if_fail (E_IS_TABLE_ITEM (eti));
 
+	if (!eti_editing (eti))
+		return;
+	
 	e_cell_leave_edit (eti->cell_views [eti->editing_col], eti->editing_col, eti->editing_row, eti->edit_ctx);
 	eti->editing_col = -1;
 	eti->editing_row = -1;
