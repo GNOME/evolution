@@ -3,8 +3,6 @@ addressbook/gui/component/select-names/recipient.glade
 addressbook/gui/widgets/test-minicard-view.c
 calendar/gui/alarm-notify.c
 calendar/gui/getdate.c
-calendar/gui/alarm-notify/alarm-queue.c
-calendar/gui/alarm-notify/notify-main.c
 camel/providers/local/camel-mbox-provider.c
 cmdline/compose.c
 notes/component-factory.c

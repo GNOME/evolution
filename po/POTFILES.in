@@ -27,6 +27,7 @@ addressbook/gui/widgets/e-addressbook-view.c
 addressbook/gui/widgets/e-minicard-control.c
 addressbook/gui/widgets/e-minicard-view.c
 addressbook/gui/widgets/e-minicard.c
+addressbook/gui/widgets/gal-view-factory-minicard.c
 addressbook/printing/e-contact-print.glade
 calendar/cal-util/timeutil.c
 calendar/conduits/calendar/calendar-conduit-control-applet.c
@@ -35,11 +36,14 @@ calendar/conduits/calendar/e-calendar-conduit-control-applet.desktop.in
 calendar/conduits/todo/e-todo-conduit-control-applet.desktop.in
 calendar/conduits/todo/todo-conduit-control-applet.c
 calendar/conduits/todo/todo-conduit.c
-calendar/gui/alarm-notify.c
+#calendar/gui/alarm-notify.c
 calendar/gui/calendar-commands.c
 calendar/gui/calendar-model.c
 calendar/gui/calendar-summary.c
 calendar/gui/control-factory.c
+calendar/gui/alarm-notify/alarm-queue.c
+calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.oaf.in
+calendar/gui/alarm-notify/notify-main.c
 calendar/gui/dialogs/alarm-notify-dialog.c
 calendar/gui/dialogs/alarm-notify.glade
 calendar/gui/dialogs/cal-prefs-dialog.glade
@@ -66,6 +70,7 @@ calendar/gui/goto-dialog.glade
 calendar/gui/main.c
 calendar/gui/print.c
 calendar/gui/tasks-control.c
+calendar/gui/tasks-migrate.c
 calendar/gui/weekday-picker.c
 camel/camel-filter-driver.c
 camel/camel-filter-search.c
@@ -76,12 +81,14 @@ camel/camel-provider.c
 camel/camel-remote-store.c
 camel/camel-sasl-anonymous.c
 camel/camel-sasl-cram-md5.c
+camel/camel-sasl-digest-md5.c
 camel/camel-sasl-kerberos4.c
 camel/camel-sasl-plain.c
 camel/camel-search-private.c
 camel/camel-service.c
 camel/camel-session.c
 camel/camel-url.c
+camel/camel-vee-folder.c
 camel/providers/imap/camel-imap-command.c
 camel/providers/imap/camel-imap-folder.c
 camel/providers/imap/camel-imap-provider.c
@@ -164,6 +171,7 @@ mail/mail-summary.c
 mail/mail-tools.c
 mail/mail-vfolder.c
 mail/mail-view.c
+mail/mail-vtrash.c
 mail/message-list.c
 mail/openpgp-utils.c
 mail/subscribe-dialog.c
@@ -201,6 +209,8 @@ widgets/misc/e-calendar.c
 widgets/misc/e-cell-date-edit.c
 widgets/misc/e-clipped-label.c
 widgets/misc/e-dateedit.c
+widgets/misc/e-filter-bar.c
+widgets/misc/e-filter-bar.h
 widgets/misc/e-messagebox.c
 widgets/misc/e-search-bar.c
 wombat/GNOME_Evolution_Wombat.oaf.in
