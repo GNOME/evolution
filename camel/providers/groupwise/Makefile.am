@@ -25,6 +25,7 @@ libcamelgroupwise_la_SOURCES = 			\
 	camel-groupwise-provider.c		\
 	camel-gw-listener.c 		\
 	camel-gw-listener.h		
+libcamelgroupwise_la_LIBADD = $(CAMEL_LIBS)
 
 libcamelgroupwise_la_LDFLAGS = -avoid-version -module
 

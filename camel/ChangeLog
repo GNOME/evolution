@@ -1,3 +1,12 @@
+2004-04-21  Sivaiah Nallagatla <snallagatla@novell.com>
+	
+	* providers/groupwise/Makefile.am : added CAMEL_LIBS to LIBADD
+	* providers/groupwise/camel-gw-listener.c  (get_addressbook_names_from_server):
+	 added new function to get addres book names from server.
+	 (add_addressbook_sources) (modify_addressbook_sources) : changed the implementation
+	to use address book returned form above call while creating e-sources 
+
+
 2004-04-21  Not Zed  <NotZed@Ximian.com>
 
 	* providers/nntp/camel-nntp-folder.c (camel_nntp_folder_new): set
