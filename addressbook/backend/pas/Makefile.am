@@ -20,8 +20,12 @@ INCLUDES =						\
 	-I$(top_builddir)/addressbook/backend		\
         $(BONOBO_GNOME_CFLAGS)
 
+LDAP_BACKEND_SOURCES = pas-backend-ldap.c pas-backend-ldap.h
+
 if ENABLE_LDAP
-LDAP_BACKEND = pas-backend-ldap.c pas-backend-ldap.h
+LDAP_BACKEND = $(LDAP_BACKEND_SOURCES)
+else
+LDAP_BACKEND = 
 endif
 
 noinst_LIBRARIES = libpas.a
@@ -44,3 +48,5 @@ libpas_a_SOURCES =					\
 
 BUILT_SOURCES = $(CORBA_SOURCE)
 CLEANFILES   += $(BUILT_SOURCES)
+
+EXTRA_DIST = $(LDAP_BACKEND_SOURCES)

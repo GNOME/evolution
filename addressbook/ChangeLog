@@ -1,3 +1,9 @@
+2000-07-28  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* backend/pas/Makefile.am: Add `pas-backend-ldap.c' and
+	`pas-backend-ldap.h' to `EXTRA_DIST' so they get distributed even
+	if the OpenLDAP support is not enabled.
+
 2000-07-27  Christopher James Lahey  <clahey@helixcode.com>
 
 	* backend/ebook/load-pine-addressbook.c: Changed the URI to load
