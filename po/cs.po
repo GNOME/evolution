@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "POT-Creation-Date: 2003-06-02 15:28-0400\n"
-"PO-Revision-Date: 2003-05-21 10:48+0200\n"
+"PO-Revision-Date: 2003-06-04 16:46+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -58,11 +58,11 @@ msgstr "E-mail"
 #: addressbook/backend/ebook/e-card-simple.c:63
 #: addressbook/gui/contact-editor/e-contact-editor.c:1747
 msgid "Primary"
-msgstr "Hlavní"
+msgstr "Primární"
 
 #: addressbook/backend/ebook/e-card-simple.c:63
 msgid "Prim"
-msgstr "Hl."
+msgstr "Prim"
 
 #: addressbook/backend/ebook/e-card-simple.c:64
 #: addressbook/backend/ebook/e-card-simple.c:94
@@ -790,7 +790,7 @@ msgstr "(žádný)"
 #: addressbook/gui/component/e-address-popup.c:478
 #: addressbook/gui/contact-editor/e-contact-editor.c:1776
 msgid "Primary Email"
-msgstr "Hlavní e-mail"
+msgstr "Primární e-mail"
 
 #: addressbook/gui/component/e-address-popup.c:614
 msgid "Select an Action"
@@ -841,7 +841,7 @@ msgstr "\n"
 
 #: addressbook/gui/component/ldap-config.glade.h:3
 msgid "  S_how Supported Bases "
-msgstr "  Zo_brazit podporované základny "
+msgstr "  Zo_brazit podporované základy "
 
 #: addressbook/gui/component/ldap-config.glade.h:4
 #: addressbook/gui/component/select-names/select-names.glade.h:1
@@ -909,11 +909,11 @@ msgid ""
 "Please click the \"Finish\" button to save the settings you have entered "
 "here."
 msgstr ""
-"Gratulujeme, ukončil(-a) jste nastavení tohoto LDAP serveru.\n"
+"Gratulujeme, ukončili jste nastavení tohoto LDAP serveru.\n"
 "Nyní máte přístup k tomuto adresáři.\n"
 "\n"
-"Pro uložení nastavení, které jste zde uvedl(-a), klikněte\n"
-"na tlačítko \"Dokončit\""
+"Pro uložení nastavení, které jste zde uvedli, klikněte\n"
+"na tlačítko \"Použít\""
 
 #: addressbook/gui/component/ldap-config.glade.h:19
 msgid "Connecting"
@@ -1013,7 +1013,8 @@ msgid ""
 "is already\n"
 "secure."
 msgstr ""
-"Po výběru této volby bude Evolution používat SSL/TLS jen pokud se nacházíte\n"
+"Po výběru této volby bude Evolution používat SSL/TLS, jen pokud se "
+"nacházíte\n"
 "v nezabezpečeném prostředí. Pokud se například nacházíte vy a váš LDAP "
 "server\n"
 "v práci za firewallem, není třeba použít SSL/TLS, protože spojení je již "
@@ -1120,8 +1121,8 @@ msgstr ""
 "provádět.\n"
 "Rozsah vyhledávání \"sub\" zahrnuje všechny záznamy pod základem "
 "vyhledávání.\n"
-"Rozsah vyhledávání \"jeden\" zahrnuje záznamy jednu úroveň pod vyhledávací "
-"základnou.\n"
+"Rozsah vyhledávání \"jeden\" zahrnuje záznamy jednu úroveň pod základem "
+"vyhledávání.\n"
 
 #: addressbook/gui/component/ldap-config.glade.h:65
 msgid ""
@@ -1208,7 +1209,7 @@ msgstr "Kdykoliv je možné"
 
 #: addressbook/gui/component/ldap-config.glade.h:83
 msgid "_Display name:"
-msgstr "_Zobrazit jméno:"
+msgstr "_Zobrazovaný název:"
 
 #: addressbook/gui/component/ldap-config.glade.h:84
 msgid "_Download limit:"
@@ -1222,7 +1223,7 @@ msgstr "_Omezení stahování:"
 #: ui/evolution-signature-editor.xml.h:11 ui/evolution-subscribe.xml.h:10
 #: ui/evolution-tasks.xml.h:17
 msgid "_Edit"
-msgstr "_Úpravy"
+msgstr "_Upravit"
 
 #: addressbook/gui/component/ldap-config.glade.h:86
 msgid "_Log in method:"
@@ -1302,11 +1303,11 @@ msgstr "Vyberte kontakty z adresáře"
 
 #: addressbook/gui/component/select-names/e-select-names.c:650
 msgid "Find contact in"
-msgstr "Najít kontakt v"
+msgstr "Hledat kontakt v"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:2
 msgid "Find"
-msgstr "Najít"
+msgstr "Hledat"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:3
 msgid "Select Names"
@@ -2592,7 +2593,7 @@ msgstr "Rychlé přidání kontaktu"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:301
 msgid "_Edit Full"
-msgstr "Celé _upravit"
+msgstr "_Upravit celé"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:319
 msgid "_Full Name:"
@@ -2708,11 +2709,11 @@ msgstr "P."
 
 #: addressbook/gui/contact-editor/fullname.glade.h:14
 msgid "_First:"
-msgstr "P_rvní:"
+msgstr "_Křestní:"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:15
 msgid "_Last:"
-msgstr "Po_slední:"
+msgstr "_Příjmení:"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:16
 msgid "_Middle:"
@@ -3009,7 +3010,7 @@ msgstr "Importovat..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:878
 msgid "Search for Contacts..."
-msgstr "Vyhledat kontakty..."
+msgstr "Hledat kontakty..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:879
 msgid "Addressbook Sources..."
@@ -3026,7 +3027,7 @@ msgstr "Přeposlat kontakt"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:886
 msgid "Send Message to Contact"
-msgstr "Poslat zprávu pro kontakt"
+msgstr "Poslat kontaktu zprávu"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:887 calendar/gui/print.c:2441
 #: ui/evolution-addressbook.xml.h:16 ui/evolution-comp-editor.xml.h:8
@@ -3160,7 +3161,7 @@ msgstr "Další telefon"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 msgid "Primary Phone"
-msgstr "Hlavní telefon"
+msgstr "Primární telefon"
 
 #: addressbook/gui/widgets/e-minicard-control.c:204
 #, c-format
@@ -4094,7 +4095,7 @@ msgstr "hodinu/-y"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:14 filter/filter.glade.h:19
 msgid "minutes"
-msgstr "minut(-u,-y)"
+msgstr "minut"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:1
 #: calendar/gui/dialogs/recurrence-page.glade.h:2
@@ -4217,11 +4218,11 @@ msgstr "pátek"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
 msgid "Hours"
-msgstr "hodin(-u,-y)"
+msgstr "hodin"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
 msgid "Minutes"
-msgstr "minut(-u,-y)"
+msgstr "minut"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 #: calendar/gui/dialogs/recurrence-page.c:1036
@@ -4563,17 +4564,17 @@ msgstr "Opravdu chcete smazat tento neoznačený zápis v deníku?"
 #: calendar/gui/dialogs/delete-comp.c:132
 #, c-format
 msgid "Are you sure you want to delete %d appointments?"
-msgstr "Opravdu chcete smazat %d událost(-i/-í)?"
+msgstr "Opravdu chcete smazat %d událostí?"
 
 #: calendar/gui/dialogs/delete-comp.c:137
 #, c-format
 msgid "Are you sure you want to delete %d tasks?"
-msgstr "Opravdu chcete smazat %d úkol(-y/-ů)?"
+msgstr "Opravdu chcete smazat %d úkolů?"
 
 #: calendar/gui/dialogs/delete-comp.c:142
 #, c-format
 msgid "Are you sure you want to delete %d journal entries?"
-msgstr "Opravdu chcete smazat %d zápis(-y/-ů) v deníku?"
+msgstr "Opravdu chcete smazat %d zápisů v deníku?"
 
 #: calendar/gui/dialogs/delete-error.c:50
 msgid "The event could not be deleted due to a corba error"
@@ -4902,7 +4903,7 @@ msgstr "P_řidat"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:4
 msgid "Every"
-msgstr "Každý(-é/-ých)"
+msgstr "Každých"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:5
 msgid "Exceptions"
@@ -5073,7 +5074,7 @@ msgstr "1 týden"
 #: calendar/gui/e-alarm-list.c:409
 #, c-format
 msgid "%d hours"
-msgstr "%d hodin(-y)"
+msgstr "%d hodin"
 
 #: calendar/gui/e-alarm-list.c:412
 msgid "1 hour"
@@ -5082,7 +5083,7 @@ msgstr "1 hodinu"
 #: calendar/gui/e-alarm-list.c:417
 #, c-format
 msgid "%d minutes"
-msgstr "%d minut(-y)"
+msgstr "%d minut"
 
 #: calendar/gui/e-alarm-list.c:420
 msgid "1 minute"
@@ -5091,7 +5092,7 @@ msgstr "1 minutu"
 #: calendar/gui/e-alarm-list.c:425
 #, c-format
 msgid "%d seconds"
-msgstr "%d vteřin(-y)"
+msgstr "%d vteřin"
 
 #: calendar/gui/e-alarm-list.c:428
 msgid "1 second"
@@ -5406,7 +5407,7 @@ msgstr "_Uložit jako..."
 
 #: calendar/gui/e-day-view.c:3725 calendar/gui/e-week-view.c:3611
 msgid "_Schedule Meeting..."
-msgstr "Naplánovat _Schůzku..."
+msgstr "Naplánovat _schůzku..."
 
 #: calendar/gui/e-day-view.c:3726 calendar/gui/e-week-view.c:3612
 msgid "_Forward as iCalendar..."
@@ -5602,7 +5603,7 @@ msgstr "Předběžně akceptovat"
 
 #: calendar/gui/e-itip-control.c:1178
 msgid "Decline"
-msgstr "Pokles"
+msgstr "Odmítnout"
 
 #: calendar/gui/e-itip-control.c:1202
 msgid "Send Free/Busy Information"
@@ -5708,7 +5709,7 @@ msgstr "<b>%s</b> žádá %s o vypracování úkolu."
 #: calendar/gui/e-itip-control.c:1397
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
-msgstr "<b>%s</b> vás žádá, abyste vypracoval(-a) úkol."
+msgstr "<b>%s</b> vás žádá, abyste vypracovali úkol."
 
 #: calendar/gui/e-itip-control.c:1398
 msgid "Task Proposal"
@@ -6365,7 +6366,7 @@ msgstr "Kontakty: "
 #: calendar/gui/tasks-control.c:571 mail/mail-callbacks.c:2949
 #: my-evolution/e-summary.c:649
 msgid "Print Preview"
-msgstr "Prohlížení před tiskem"
+msgstr "Náhled před tiskem"
 
 #: calendar/gui/print.c:2554
 msgid "Print Item"
@@ -11183,7 +11184,7 @@ msgstr "měsíce/-ů"
 
 #: filter/filter.glade.h:21 mail/mail-config.glade.h:174
 msgid "seconds"
-msgstr "vteřině(-ách)"
+msgstr "vteřinách"
 
 #: filter/filter.glade.h:22
 msgid "specific folders only"
@@ -12542,7 +12543,7 @@ msgstr "Kontrolovat pravopis během _psaní"
 
 #: mail/mail-config.glade.h:28
 msgid "Checking for New Mail"
-msgstr "Kontroluje se nová pošta"
+msgstr "Kontrola nové pošty"
 
 #: mail/mail-config.glade.h:29
 msgid "Color for _misspelled words:"
@@ -12953,7 +12954,7 @@ msgstr "_Načíst obrázky, pokud je odesílatel v adresáři"
 
 #: mail/mail-config.glade.h:152
 msgid "_Make this my default account"
-msgstr "Použít tento jako _výchozí účet"
+msgstr "Použít tento účet jako _výchozí"
 
 #: mail/mail-config.glade.h:153
 msgid "_Mark messages as read after"
@@ -13459,11 +13460,11 @@ msgstr "Prázdná zpráva"
 
 #: mail/mail-search.c:285
 msgid "Find in Message"
-msgstr "Najít ve zprávě"
+msgstr "Hledat ve zprávě"
 
 #: mail/mail-search.c:288
 msgid "Search"
-msgstr "Vyhledat"
+msgstr "Hledat"
 
 #: mail/mail-search.c:316
 msgid "Case Sensitive"
@@ -13475,7 +13476,7 @@ msgstr "Hledat dopředu"
 
 #: mail/mail-search.c:338
 msgid "Find:"
-msgstr "Najít:"
+msgstr "Hledat:"
 
 #: mail/mail-search.c:342
 msgid "Matches:"
@@ -24976,7 +24977,7 @@ msgstr "Ukázat _dnešní úkoly"
 
 #: my-evolution/my-evolution.glade.h:14
 msgid "Show temperatures in:"
-msgstr "Zobrazit teplotu ve stupních"
+msgstr "Zobrazovat teplotu ve stupních"
 
 #: my-evolution/my-evolution.glade.h:15
 msgid "Tasks "
@@ -25012,7 +25013,7 @@ msgstr "_Jeden den"
 
 #: my-evolution/my-evolution.glade.h:24
 msgid "_Show full path for folders"
-msgstr "Zobrazovat _celé cesty k adresářům"
+msgstr "Zobrazovat _celé cesty ke složkám"
 
 #: shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Configure special folders and offline folder behavior here"
@@ -26000,7 +26001,7 @@ msgstr ""
 
 #: shell/importer/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
-msgstr "Klikněte na \"Import\" a spustíte import souboru do Evolution."
+msgstr "Spusťte import souboru do Evolution kliknutím na \"Import\"."
 
 #: shell/importer/import.glade.h:2
 msgid "Evolution Import Assistant"
@@ -26008,19 +26009,19 @@ msgstr "Nástroj Evolution pro import"
 
 #: shell/importer/import.glade.h:3
 msgid "Import File (step 3 of 3)"
-msgstr "Import souboru (krok 3. ze 3)"
+msgstr "Import souboru (krok 3 ze 3)"
 
 #: shell/importer/import.glade.h:4
 msgid "Importer Type (step 1 of 3)"
-msgstr "Typ importu (krok 1. ze 3)"
+msgstr "Typ importu (krok 1 ze 3)"
 
 #: shell/importer/import.glade.h:5
 msgid "Select Importers (step 2 of 3)"
-msgstr "Vyberte importér (krok 2. ze 3)"
+msgstr "Vyberte importér (krok 2 ze 3)"
 
 #: shell/importer/import.glade.h:6
 msgid "Select a File (step 2 of 3)"
-msgstr "Vyberte soubor (krok 2. ze 3)"
+msgstr "Vyberte soubor (krok 2 ze 3)"
 
 #: shell/importer/import.glade.h:7
 msgid ""
@@ -26234,7 +26235,7 @@ msgstr "Náhled kontaktů před tiskem"
 #: ui/evolution-comp-editor.xml.h:9 ui/evolution-mail-message.xml.h:68
 #: ui/evolution-tasks.xml.h:12
 msgid "Print Pre_view"
-msgstr "_Prohlížení před tiskem"
+msgstr "_Náhled před tiskem"
 
 #: ui/evolution-addressbook.xml.h:18
 msgid "Print selected contacts"
@@ -26300,7 +26301,7 @@ msgstr "_Uložit jako V-kartu"
 
 #: ui/evolution-addressbook.xml.h:40
 msgid "_Search for Contacts"
-msgstr "_Vyhledat kontakty"
+msgstr "_Hledat kontakty"
 
 #: ui/evolution-addressbook.xml.h:41
 msgid "_Select All"
@@ -26413,7 +26414,7 @@ msgstr "Hlavní nástrojová lišta"
 
 #: ui/evolution-comp-editor.xml.h:7
 msgid "Preview the printed item"
-msgstr "Prohlížení položky před tiskem"
+msgstr "Náhled položky před tiskem"
 
 #: ui/evolution-comp-editor.xml.h:10 ui/evolution-contact-editor.xml.h:6
 msgid "Print this item"
@@ -26969,7 +26970,7 @@ msgstr "př_edchozí důležitou zprávu"
 
 #: ui/evolution-mail-message.xml.h:65
 msgid "Preview the message to be printed"
-msgstr "Prohlížení zprávy před tiskem"
+msgstr "Náhled zprávy před tiskem"
 
 #: ui/evolution-mail-message.xml.h:66
 msgid "Previous"
@@ -27005,7 +27006,7 @@ msgstr "Uložit tuto zprávu jako textový soubor"
 
 #: ui/evolution-mail-message.xml.h:80
 msgid "Search for text in the body of the displayed message"
-msgstr "Vyhledat text v těle zobrazené zprávy"
+msgstr "Hledat text v těle zobrazené zprávy"
 
 #: ui/evolution-mail-message.xml.h:81
 msgid "Set up the page settings for your current printer"
@@ -27057,7 +27058,7 @@ msgstr "V-složku podle pře_dmětu..."
 
 #: ui/evolution-mail-message.xml.h:94
 msgid "_Attached"
-msgstr "_Přiloženo"
+msgstr "_Přiložené"
 
 #: ui/evolution-mail-message.xml.h:95
 msgid "_Copy to Folder"
@@ -27792,11 +27793,11 @@ msgstr "Západní Evropa"
 
 #: widgets/misc/e-charset-picker.c:88
 msgid "Traditional"
-msgstr "Tradiční"
+msgstr "tradiční"
 
 #: widgets/misc/e-charset-picker.c:89 widgets/misc/e-charset-picker.c:90
 msgid "Simplified"
-msgstr "Zjednodušené"
+msgstr "zjednodušené"
 
 #: widgets/misc/e-charset-picker.c:94
 msgid "Ukrainian"
@@ -27804,7 +27805,7 @@ msgstr "Ukrajinské"
 
 #: widgets/misc/e-charset-picker.c:97
 msgid "Visual"
-msgstr "Vizuální"
+msgstr "vizuální"
 
 #: widgets/misc/e-charset-picker.c:185
 #, c-format
@@ -27870,7 +27871,7 @@ msgstr "_Vyhledávání"
 
 #: widgets/misc/e-search-bar.c:537
 msgid "_Find Now"
-msgstr "_Vyhledat"
+msgstr "_Hledat"
 
 #: widgets/misc/e-search-bar.c:538
 msgid "_Clear"
@@ -27894,7 +27895,7 @@ msgstr "Zrušit filtr"
 
 #: widgets/misc/e-search-bar.c:930
 msgid "Find Now"
-msgstr "Vyhledat"
+msgstr "Hledat"
 
 #: wombat/GNOME_Evolution_WombatLDAP.server.in.in.h:1
 msgid "Evolution Addressbook local/LDAP backend"
@@ -27908,6 +27909,3 @@ msgstr "Obsluha místního souboru kalendáře Evolution"
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:1
 msgid "Evolution Addressbook local file backend"
 msgstr "Obsluha místního souboru adresáře Evolution"
-
-#~ msgid "Automatically _detect links"
-#~ msgstr "Automaticky _zjišťovat odkazy"
