@@ -914,6 +914,28 @@ g_string_append_len(GString *st, const char *s, int l)
 	return g_string_append(st, tmp);
 }
 
+/* ok, a lot of mailers are BROKEN, and send iso-latin1 encoded
+   headers, when they should just be sticking to US-ASCII
+   according to the rfc's.  Anyway, since the conversion to utf-8
+   is trivial, just do it here without iconv */
+static GString *
+append_latin1(GString *out, const char *in, int len)
+{
+	unsigned int c;
+
+	while (len) {
+		c = (unsigned int)*in++;
+		len--;
+		if (c & 0x80) {
+			out = g_string_append_c(out, 0xc0 | (c>>6));		/* 110000xx */
+			out = g_string_append_c(out, 0x80 | (c&0x3f)); 	/* 10xxxxxx */
+		} else {
+			out = g_string_append_c(out, c);
+		}
+	}
+	return out;
+}
+
 /* decodes a simple text, rfc822 */
 static char *
 header_decode_text(const char *in, int inlen)
@@ -934,11 +956,11 @@ header_decode_text(const char *in, int inlen)
 			out = g_string_append_len(out, decword, strlen(decword));
 			g_free (decword);
 		} else {
-			out = g_string_append_len(out, inptr, encend-inptr+2);
+			out = append_latin1(out, inptr, encend-inptr+2);
 		}
 		inptr = encend+2;
 	}
-	out = g_string_append_len(out, inptr, inend-inptr);
+	out = append_latin1(out, inptr, inend-inptr);
 
 	encstart = out->str;
 	g_string_free(out, FALSE);
