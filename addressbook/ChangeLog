@@ -5,7 +5,7 @@
 	object be a HIG-compliant dialog, change "Folder" to be "Address Book",
 	and fix a mnemonic conflict with "Category" and "Cancel"
 
-	Fixes #50660
+	Fixes #51966
 
 2004-01-07  Rodney Dawes  <dobey@ximian.com>
 
