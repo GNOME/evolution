@@ -74,6 +74,9 @@ main (int argc,
 	glade_gnome_init ();
 	gnome_vfs_init ();
 
+	gtk_widget_push_visual (gdk_rgb_get_visual ());
+	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
+
 	/* Start our component */
 	component_factory_init ();
 

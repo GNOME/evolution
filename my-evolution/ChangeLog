@@ -1,3 +1,9 @@
+2001-12-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fixes #17377, Evolution doesn't work on multi-depth displays.]
+
+	* main.c (main): Push GdkRGB visual and colormap.
+
 2001-12-14  Iain Holmes  <iain@ximian.com>
 
 	* Location-translation-script: shell script to convert Locations to
