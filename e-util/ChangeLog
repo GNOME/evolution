@@ -1,3 +1,8 @@
+2001-03-07  Dan Winship  <danw@ximian.com>
+
+	* e-html-utils.c (url_extract): Fix an off-by-one in the "is this
+	for real?" check so that "http:// " won't get URLified
+
 2001-03-04  Damon Chaplin  <damon@ximian.com>
 
 	* e-time-utils.[hc]: new files to contain functions to parse and

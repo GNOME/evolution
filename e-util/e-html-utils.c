@@ -55,7 +55,7 @@ url_extract (const unsigned char **text, gboolean check)
 	if (check) {
 		/* Make sure we weren't fooled. */
 		p = memchr (*text, ':', end - *text);
-		if (!p || end - p < 3)
+		if (!p || end - p < 4)
 			return NULL;
 	}
 
