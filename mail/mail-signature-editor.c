@@ -219,11 +219,22 @@ menu_file_save_close_cb (BonoboUIComponent *uic, gpointer data, const gchar *pat
 	destroy_editor (editor);
 }
 
+static void
+menu_help (BonoboUIComponent *uih, void *data, const char *path)
+{
+	GnomeHelpMenuEntry he;
+
+	he.name = PACKAGE;
+	he.path = "usage-mail-getnsend-send.html#HTML-SIGNATURE-HOWTO";
+	gnome_help_display (NULL, &he);
+}
+
 static BonoboUIVerb verbs [] = {
 
 	BONOBO_UI_VERB ("FileSave",       menu_file_save_cb),
 	BONOBO_UI_VERB ("FileClose",      menu_file_close_cb),
 	BONOBO_UI_VERB ("FileSaveClose",  menu_file_save_close_cb),
+	BONOBO_UI_VERB ("HelpSigEditor",  menu_help),
 
 	BONOBO_UI_VERB_END
 };
@@ -393,15 +404,16 @@ mail_signature_editor (MailConfigSignature *sig)
 		gtk_box_pack_start (GTK_BOX (hbox), pixmap, FALSE, TRUE, 0);
 
 		vbox1 = gtk_vbox_new (FALSE, 3);
-		label = gtk_label_new (_("If you would like to use old signature, "
+		label = gtk_label_new (_("If you would like to use an old signature, "
 					 "you may import it by opening the \"Insert\" "
 					 "menu, and select either the \"Text file\" "
 					 "or the \"HTML file\" item."));
+		gtk_widget_set_usize (label, 500, -2);
 		gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
 		gtk_misc_set_alignment (GTK_MISC (label), 0, 0);
 		gtk_box_pack_start (GTK_BOX (vbox1), label, FALSE, TRUE, 0);
 		gtk_box_pack_start_defaults (GTK_BOX (hbox), vbox1);
-		check = gtk_check_button_new_with_label (_("Hide signature hints"));
+		check = gtk_check_button_new_with_label (_("Hide signature hint"));
 		gtk_signal_connect (GTK_OBJECT (check), "toggled", check_hide_info_toggled, editor);
 		gtk_box_pack_end (GTK_BOX (vbox1), check, FALSE, TRUE, 3);
 
