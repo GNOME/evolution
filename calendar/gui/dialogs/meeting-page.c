@@ -35,7 +35,6 @@
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <libgnomeui/gnome-stock-icons.h>
-#include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <widgets/misc/e-dateedit.h>
 #include <e-util/e-dialog-utils.h>
@@ -94,8 +93,6 @@ struct _MeetingPagePrivate {
 
 
 
-static void meeting_page_class_init (MeetingPageClass *class);
-static void meeting_page_init (MeetingPage *mpage);
 static void meeting_page_finalize (GObject *object);
 
 static GtkWidget *meeting_page_get_widget (CompEditorPage *page);
@@ -103,21 +100,7 @@ static void meeting_page_focus_main_widget (CompEditorPage *page);
 static gboolean meeting_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
 static gboolean meeting_page_fill_component (CompEditorPage *page, ECalComponent *comp);
 
-static CompEditorPageClass *parent_class = NULL;
-
-
-
-/**
- * meeting_page_get_type:
- * 
- * Registers the #MeetingPage class if necessary, and returns the type ID
- * associated to it.
- * 
- * Return value: The type ID of the #MeetingPage class.
- **/
-
-E_MAKE_TYPE (meeting_page, "MeetingPage", MeetingPage, meeting_page_class_init, meeting_page_init,
-	     TYPE_COMP_EDITOR_PAGE);
+G_DEFINE_TYPE (MeetingPage, meeting_page, TYPE_COMP_EDITOR_PAGE);
 
 /* Class initialization function for the task page */
 static void
@@ -128,8 +111,6 @@ meeting_page_class_init (MeetingPageClass *class)
 
 	editor_page_class = (CompEditorPageClass *) class;
 	object_class = (GObjectClass *) class;
-
-	parent_class = g_type_class_ref (TYPE_COMP_EDITOR_PAGE);
 
 	editor_page_class->get_widget = meeting_page_get_widget;
 	editor_page_class->focus_main_widget = meeting_page_focus_main_widget;
@@ -271,8 +252,8 @@ meeting_page_finalize (GObject *object)
 	g_free (priv);
 	mpage->priv = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	if (G_OBJECT_CLASS (meeting_page_parent_class)->finalize)
+		(* G_OBJECT_CLASS (meeting_page_parent_class)->finalize) (object);
 }
 
 
@@ -324,7 +305,7 @@ clear_widgets (MeetingPage *mpage)
 static void
 sensitize_widgets (MeetingPage *mpage)
 {
-	gboolean read_only, user_org;
+	gboolean read_only;
 	MeetingPagePrivate *priv = mpage->priv;
 
 	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (mpage)->client, &read_only, NULL))
@@ -939,8 +920,7 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
 	gtk_box_pack_start (GTK_BOX (priv->list_box), sw, TRUE, TRUE, 0);
 	
 	/* Set the mnemonic widget for the Attendees label */
-	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->att_label),
-				       priv->list_view);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->att_label), GTK_WIDGET (priv->list_view));
 
 	/* Init the widget signals */
 	init_widgets (mpage);

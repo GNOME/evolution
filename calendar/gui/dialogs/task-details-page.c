@@ -87,8 +87,6 @@ static const int priority_map[] = {
 
 
 
-static void task_details_page_class_init (TaskDetailsPageClass *class);
-static void task_details_page_init (TaskDetailsPage *tdpage);
 static void task_details_page_finalize (GObject *object);
 
 static GtkWidget *task_details_page_get_widget (CompEditorPage *page);
@@ -97,21 +95,7 @@ static gboolean task_details_page_fill_widgets (CompEditorPage *page, ECalCompon
 static gboolean task_details_page_fill_component (CompEditorPage *page, ECalComponent *comp);
 static gboolean task_details_page_fill_timezones (CompEditorPage *page, GHashTable *timezones);
 
-static CompEditorPageClass *parent_class = NULL;
-
-
-
-/**
- * task_details_page_get_type:
- * 
- * Registers the #TaskDetailsPage class if necessary, and returns the type ID
- * associated to it.
- * 
- * Return value: The type ID of the #TaskDetailsPage class.
- **/
-
-E_MAKE_TYPE (task_details_page, "TaskDetailsPage", TaskDetailsPage, task_details_page_class_init,
-	     task_details_page_init, TYPE_COMP_EDITOR_PAGE);
+G_DEFINE_TYPE (TaskDetailsPage, task_details_page, TYPE_COMP_EDITOR_PAGE);
 
 /* Class initialization function for the task page */
 static void
@@ -122,8 +106,6 @@ task_details_page_class_init (TaskDetailsPageClass *class)
 
 	editor_page_class = (CompEditorPageClass *) class;
 	object_class = (GObjectClass *) class;
-
-	parent_class = g_type_class_ref(TYPE_COMP_EDITOR_PAGE);
 
 	editor_page_class->get_widget = task_details_page_get_widget;
 	editor_page_class->focus_main_widget = task_details_page_focus_main_widget;
@@ -185,8 +167,8 @@ task_details_page_finalize (GObject *object)
 	g_free (priv);
 	tdpage->priv = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	if (G_OBJECT_CLASS (task_details_page_parent_class)->finalize)
+		(* G_OBJECT_CLASS (task_details_page_parent_class)->finalize) (object);
 }
 
 
@@ -293,7 +275,7 @@ sensitize_widgets (TaskDetailsPage *tdpage)
 	gtk_widget_set_sensitive (priv->percent_complete, !read_only);
 	gtk_widget_set_sensitive (priv->completed_date, !read_only);
 	gtk_widget_set_sensitive (priv->url_label, !read_only);
-	gtk_entry_set_editable (GTK_ENTRY (e_url_entry_get_entry (priv->url_entry)), !read_only);
+	gtk_entry_set_editable (GTK_ENTRY (e_url_entry_get_entry (E_URL_ENTRY (priv->url_entry))), !read_only);
 }
 
 /* fill_widgets handler for the task page */

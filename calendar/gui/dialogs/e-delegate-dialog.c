@@ -19,7 +19,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-exception.h>
@@ -31,7 +34,6 @@
 #include <gnome.h>
 #include <libical/ical.h>
 #include <glade/glade.h>
-#include <gal/util/e-util.h>
 #include <widgets/misc/e-map.h>
 #include <addressbook/util/e-destination.h>
 #include "Evolution-Addressbook-SelectNames.h"
@@ -56,17 +58,12 @@ struct _EDelegateDialogPrivate {
 #define SELECT_NAMES_OAFID "OAFIID:GNOME_Evolution_Addressbook_SelectNames:" BASE_VERSION
 static const char *section_name = "Delegate To";
 
-static void e_delegate_dialog_class_init	(EDelegateDialogClass *class);
-static void e_delegate_dialog_init		(EDelegateDialog      *edd);
 static void e_delegate_dialog_finalize		(GObject	*object);
 
 static gboolean get_widgets			(EDelegateDialog *edd);
 static void addressbook_clicked_cb              (GtkWidget *widget, gpointer data);
 
-static GtkObjectClass *parent_class;
-
-E_MAKE_TYPE (e_delegate_dialog, "EDelegateDialog", EDelegateDialog, e_delegate_dialog_class_init,
-	     e_delegate_dialog_init, G_TYPE_OBJECT);
+G_DEFINE_TYPE (EDelegateDialog, e_delegate_dialog, G_TYPE_OBJECT);
 
 /* Class initialization function for the event editor */
 static void
@@ -75,8 +72,6 @@ e_delegate_dialog_class_init (EDelegateDialogClass *class)
 	GObjectClass *gobject_class;
 
 	gobject_class = (GObjectClass *) class;
-
-	parent_class = g_type_class_ref (G_TYPE_OBJECT);
 
 	gobject_class->finalize = e_delegate_dialog_finalize;
 }
@@ -117,8 +112,8 @@ e_delegate_dialog_finalize (GObject *object)
 	g_free (priv);
 	edd->priv = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	if (G_OBJECT_CLASS (e_delegate_dialog_parent_class)->finalize)
+		(* G_OBJECT_CLASS (e_delegate_dialog_parent_class)->finalize) (object);
 }
 
 

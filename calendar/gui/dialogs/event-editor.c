@@ -23,10 +23,12 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <string.h>
 #include <glade/glade.h>
-#include <gal/util/e-util.h>
 #include <libgnome/gnome-i18n.h>
 #include <widgets/misc/e-dateedit.h>
 #include <e-util/e-icon-factory.h>
@@ -52,8 +54,6 @@ struct _EventEditorPrivate {
 
 
 
-static void event_editor_class_init (EventEditorClass *class);
-static void event_editor_init (EventEditor *ee);
 static void event_editor_set_e_cal (CompEditor *editor, ECal *client);
 static void event_editor_edit_comp (CompEditor *editor, ECalComponent *comp);
 static gboolean event_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method);
@@ -68,21 +68,7 @@ static void model_row_change_insert_cb (GtkTreeModel *model, GtkTreePath *path, 
 static void model_row_delete_cb (GtkTreeModel *model, GtkTreePath *path, gpointer data);
 
 
-static CompEditorClass *parent_class;
-
-
-
-/**
- * event_editor_get_type:
- *
- * Registers the #EventEditor class if necessary, and returns the type ID
- * associated to it.
- *
- * Return value: The type ID of the #EventEditor class.
- **/
-
-E_MAKE_TYPE (event_editor, "EventEditor", EventEditor, event_editor_class_init,
-	     event_editor_init, TYPE_COMP_EDITOR);
+G_DEFINE_TYPE (EventEditor, event_editor, TYPE_COMP_EDITOR);
 
 /* Class initialization function for the event editor */
 static void
@@ -93,8 +79,6 @@ event_editor_class_init (EventEditorClass *klass)
 	
 	gobject_class = (GObjectClass *) klass;
 	editor_class = (CompEditorClass *) klass;
-
-	parent_class = g_type_class_ref(TYPE_COMP_EDITOR);
 
 	editor_class->set_e_cal = event_editor_set_e_cal;
 	editor_class->edit_comp = event_editor_edit_comp;
@@ -194,8 +178,8 @@ event_editor_set_e_cal (CompEditor *editor, ECal *client)
 
 	e_meeting_store_set_e_cal (priv->model, client);
 	
-	if (parent_class->set_e_cal)
-		parent_class->set_e_cal (editor, client);	
+	if (COMP_EDITOR_CLASS (event_editor_parent_class)->set_e_cal)
+		COMP_EDITOR_CLASS (event_editor_parent_class)->set_e_cal (editor, client);	
 }
 
 static void
@@ -212,8 +196,8 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	
 	priv->updating = TRUE;
 	
-	if (parent_class->edit_comp)
-		parent_class->edit_comp (editor, comp);
+	if (COMP_EDITOR_CLASS (event_editor_parent_class)->edit_comp)
+		COMP_EDITOR_CLASS (event_editor_parent_class)->edit_comp (editor, comp);
 
 	client = comp_editor_get_e_cal (COMP_EDITOR (editor));
 
@@ -318,8 +302,8 @@ event_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 	}
 
  parent:
-	if (parent_class->send_comp)
-		return parent_class->send_comp (editor, method);
+	if (COMP_EDITOR_CLASS (event_editor_parent_class)->send_comp)
+		return COMP_EDITOR_CLASS (event_editor_parent_class)->send_comp (editor, method);
 
 	return FALSE;
 }
@@ -346,8 +330,8 @@ event_editor_finalize (GObject *object)
 
 	g_free (priv);
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	if (G_OBJECT_CLASS (event_editor_parent_class)->finalize)
+		(* G_OBJECT_CLASS (event_editor_parent_class)->finalize) (object);
 }
 
 /**

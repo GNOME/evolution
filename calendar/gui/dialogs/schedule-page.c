@@ -67,8 +67,6 @@ struct _SchedulePagePrivate {
 
 
 
-static void schedule_page_class_init (SchedulePageClass *class);
-static void schedule_page_init (SchedulePage *spage);
 static void schedule_page_finalize (GObject *object);
 
 static GtkWidget *schedule_page_get_widget (CompEditorPage *page);
@@ -79,21 +77,7 @@ static void schedule_page_set_dates (CompEditorPage *page, CompEditorPageDates *
 
 static void times_changed_cb (GtkWidget *widget, gpointer data);
 
-static CompEditorPageClass *parent_class = NULL;
-
-
-
-/**
- * schedule_page_get_type:
- * 
- * Registers the #SchedulePage class if necessary, and returns the type ID
- * associated to it.
- * 
- * Return value: The type ID of the #SchedulePage class.
- **/
-
-E_MAKE_TYPE (schedule_page, "SchedulePage", SchedulePage, schedule_page_class_init,
-	     schedule_page_init, TYPE_COMP_EDITOR_PAGE);
+G_DEFINE_TYPE (SchedulePage, schedule_page, TYPE_COMP_EDITOR_PAGE);
 
 /* Class initialization function for the schedule page */
 static void
@@ -104,8 +88,6 @@ schedule_page_class_init (SchedulePageClass *class)
 
 	editor_page_class = (CompEditorPageClass *) class;
 	object_class = (GObjectClass *) class;
-
-	parent_class = g_type_class_ref (TYPE_COMP_EDITOR_PAGE);
 
 	editor_page_class->get_widget = schedule_page_get_widget;
 	editor_page_class->focus_main_widget = schedule_page_focus_main_widget;
@@ -161,8 +143,8 @@ schedule_page_finalize (GObject *object)
 	g_free (priv);
 	spage->priv = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	if (G_OBJECT_CLASS (schedule_page_parent_class)->finalize)
+		(* G_OBJECT_CLASS (schedule_page_parent_class)->finalize) (object);
 }
 
 
@@ -202,7 +184,7 @@ sensitize_widgets (SchedulePage *spage)
 	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (spage)->client, &read_only, NULL))
 		read_only = TRUE;
 
-	e_meeting_time_selector_set_read_only (GTK_WIDGET (priv->sel), read_only);
+	e_meeting_time_selector_set_read_only (priv->sel, read_only);
 }
 
 static void

@@ -52,10 +52,10 @@ primary_selection_changed_cb (ESourceSelector *selector, gpointer user_data)
 	if (*our_selection) {
 		g_object_ref (*our_selection);
 		gtk_dialog_set_response_sensitive (
-			GTK_DIALOG (gtk_widget_get_toplevel (selector)), GTK_RESPONSE_OK, TRUE);
+			GTK_DIALOG (gtk_widget_get_toplevel (GTK_WIDGET (selector))), GTK_RESPONSE_OK, TRUE);
 	} else {
 		gtk_dialog_set_response_sensitive (
-			GTK_DIALOG (gtk_widget_get_toplevel (selector)), GTK_RESPONSE_OK, FALSE);
+			GTK_DIALOG (gtk_widget_get_toplevel (GTK_WIDGET (selector))), GTK_RESPONSE_OK, FALSE);
 	}
 }
 

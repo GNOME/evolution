@@ -1,3 +1,24 @@
+2004-10-14  JP Rosevear  <jpr@novell.com>
+
+	* gui/dialogs/comp-editor.c: conver to G_DEFINE_TYPE
+	
+	* gui/dialogs/meeting-page.c: ditto
+
+	* gui/dialogs/recurrence-page.c: ditto
+
+	* gui/dialogs/schedule-page.c: ditto
+
+	* gui/dialogs/e-delegate-dialog.c: ditto
+
+	* gui/dialogs/event-editor.c: ditto
+
+	* gui/dialogs/task-editor.c: ditto
+
+	* gui/dialogs/task-details-page.c: ditto
+
+	* gui/dialogs/select-source-dialog.c
+	(primary_selection_changed_cb): fix warning
+	
 2004-10-13  JP Rosevear  <jpr@novell.com>
 
 	* gui/dialogs/task-page.c: ditto

@@ -82,8 +82,6 @@ struct _CompEditorPrivate {
 
 
 
-static void comp_editor_class_init (CompEditorClass *class);
-static void comp_editor_init (CompEditor *editor);
 static gint comp_editor_key_press_event (GtkWidget *d, GdkEventKey *e);
 static void comp_editor_finalize (GObject *object);
 
@@ -102,12 +100,7 @@ static void page_dates_changed_cb (GtkObject *obj, CompEditorPageDates *dates, g
 static void obj_modified_cb (ECal *client, GList *objs, gpointer data);
 static void obj_removed_cb (ECal *client, GList *uids, gpointer data);
 
-static GtkObjectClass *parent_class;
-
-
-
-E_MAKE_TYPE (comp_editor, "CompEditor", CompEditor, comp_editor_class_init, comp_editor_init,
-	     GTK_TYPE_DIALOG);
+G_DEFINE_TYPE (CompEditor, comp_editor, GTK_TYPE_DIALOG);
 
 /* Class initialization function for the calendar component editor */
 static void
@@ -116,7 +109,6 @@ comp_editor_class_init (CompEditorClass *klass)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	object_class = G_OBJECT_CLASS (klass);
 	widget_class = GTK_WIDGET_CLASS (klass);
 
@@ -435,8 +427,8 @@ comp_editor_key_press_event (GtkWidget *d, GdkEventKey *e)
 	}
 #endif
 
-	if (GTK_WIDGET_CLASS (parent_class)->key_press_event)
-		return (* GTK_WIDGET_CLASS (parent_class)->key_press_event) (d, e);
+	if (GTK_WIDGET_CLASS (comp_editor_parent_class)->key_press_event)
+		return (* GTK_WIDGET_CLASS (comp_editor_parent_class)->key_press_event) (d, e);
 
 	return FALSE;
 }
@@ -486,8 +478,8 @@ comp_editor_finalize (GObject *object)
 	g_free (priv);
 	editor->priv = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	if (G_OBJECT_CLASS (comp_editor_parent_class)->finalize)
+		(* G_OBJECT_CLASS (comp_editor_parent_class)->finalize) (object);
 }
 
 
