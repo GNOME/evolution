@@ -37,6 +37,8 @@
 #include <fcntl.h>
 #include <ctype.h>
 
+#include "e-util/e-path.h"
+
 #include "camel-imap-folder.h"
 #include "camel-imap-command.h"
 #include "camel-imap-message-cache.h"
@@ -74,6 +76,7 @@ static void imap_expunge_uids_online (CamelFolder *folder, GPtrArray *uids, Came
 static void imap_expunge_uids_offline (CamelFolder *folder, GPtrArray *uids, CamelException *ex);
 static void imap_expunge_uids_resyncing (CamelFolder *folder, GPtrArray *uids, CamelException *ex);
 static void imap_cache_message (CamelDiscoFolder *disco_folder, const char *uid, CamelException *ex);
+static void imap_rename (CamelFolder *folder, const char *new);
 
 /* message manipulation */
 static CamelMimeMessage *imap_get_message (CamelFolder *folder, const gchar *uid,
@@ -114,6 +117,7 @@ camel_imap_folder_class_init (CamelImapFolderClass *camel_imap_folder_class)
 	/* virtual method overload */
 	camel_folder_class->get_message = imap_get_message;
 	camel_folder_class->move_messages_to = imap_move_messages_to;
+	camel_folder_class->rename = imap_rename;
 	camel_folder_class->search_by_expression = imap_search_by_expression;
 	camel_folder_class->search_by_uids = imap_search_by_uids;
 	camel_folder_class->search_free = imap_search_free;
@@ -365,6 +369,28 @@ imap_finalize (CamelObject *object)
 	e_mutex_destroy(imap_folder->priv->cache_lock);
 #endif
 	g_free(imap_folder->priv);
+}
+
+static void
+imap_rename(CamelFolder *folder, const char *new)
+{
+	CamelImapFolder *imap_folder = (CamelImapFolder *)folder;
+	CamelImapStore *imap_store = (CamelImapStore *)folder->parent_store;
+	char *folder_dir, *summary_path;
+
+	folder_dir = e_path_to_physical (imap_store->storage_path, new);
+	summary_path = g_strdup_printf("%s/summary", folder_dir);
+
+	CAMEL_IMAP_FOLDER_LOCK (folder, cache_lock);
+	camel_imap_message_cache_set_path(imap_folder->cache, folder_dir);
+	CAMEL_IMAP_FOLDER_UNLOCK (folder, cache_lock);
+
+	camel_folder_summary_set_filename(folder->summary, summary_path);
+
+	g_free(summary_path);
+	g_free(folder_dir);
+
+	((CamelFolderClass *)disco_folder_class)->rename(folder, new);
 }
 
 static void

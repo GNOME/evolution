@@ -63,6 +63,9 @@ CamelImapMessageCache *camel_imap_message_cache_new (const char *path,
 						     CamelFolderSummary *summ,
 						     CamelException *ex);
 
+void camel_imap_message_cache_set_path (CamelImapMessageCache *cache,
+					const char *path);
+
 guint32     camel_imap_message_cache_max_uid (CamelImapMessageCache *cache);
 
 CamelStream *camel_imap_message_cache_insert (CamelImapMessageCache *cache,

@@ -79,8 +79,7 @@ static CamelFolder *get_folder_online (CamelStore *store, const char *folder_nam
 static CamelFolder *get_folder_offline (CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex);
 static CamelFolderInfo *create_folder (CamelStore *store, const char *parent_name, const char *folder_name, CamelException *ex);
 static void             delete_folder (CamelStore *store, const char *folder_name, CamelException *ex);
-static void             rename_folder (CamelStore *store, const char *old_name,
-				       const char *new_name, CamelException *ex);
+static void             rename_folder (CamelStore *store, const char *old_name, const char *new_name, CamelException *ex);
 static CamelFolderInfo *get_folder_info_online (CamelStore *store,
 						const char *top,
 						guint32 flags,
@@ -1103,11 +1102,41 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 	}
 }
 
+struct _fix_subscribe {
+	char dir_sep;
+
+	const char *old_name;
+	const char *new_name;
+
+	GPtrArray *old;
+	GPtrArray *new;
+};
+
+/* Fixes subscribed names to take into account a rename */
+static void
+fix_subscribed(char *key, void *val, struct _fix_subscribe *data)
+{
+	int oldlen, namelen;
+
+	namelen = strlen(key);
+	oldlen = strlen(data->old_name);
+
+	if ((namelen == oldlen &&
+	     strcmp(data->old_name, key) == 0)
+	    || ((namelen > oldlen)
+		&& strncmp(data->old_name, key, oldlen) == 0
+		&& key[oldlen] == data->dir_sep)) {
+		g_ptr_array_add(data->old, key);
+		g_ptr_array_add(data->new, g_strdup_printf("%s%s", data->new_name, key+oldlen));
+	}
+}
+
 static void
 rename_folder (CamelStore *store, const char *old_name, const char *new_name, CamelException *ex)
 {
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
 	CamelImapResponse *response;
+	char *oldpath, *newpath;
 
 	if (!camel_disco_store_check_online (CAMEL_DISCO_STORE (store), ex))
 		return;
@@ -1130,6 +1159,43 @@ rename_folder (CamelStore *store, const char *old_name, const char *new_name, Ca
 	
 	if (response)
 		camel_imap_response_free (imap_store, response);
+
+	if (camel_exception_is_set(ex))
+		return;
+
+	/* Fix up the subscriptions table */
+	if (store->flags & CAMEL_STORE_SUBSCRIPTIONS) {
+		struct _fix_subscribe data;
+		int i;
+
+		data.dir_sep = imap_store->dir_sep;
+		data.old_name = old_name;
+		data.new_name = new_name;
+		data.old = g_ptr_array_new();
+		data.new = g_ptr_array_new();
+		g_hash_table_foreach(imap_store->subscribed_folders, (GHFunc)fix_subscribed, &data);
+
+		for (i=0;i<data.old->len;i++) {
+			printf("moving subscribed folder from '%s' to '%s'\n", (char *)data.old->pdata[i], (char *)data.new->pdata[i]);
+			g_hash_table_remove(imap_store->subscribed_folders, data.old->pdata[i]);
+			g_free(data.old->pdata[i]);
+			g_hash_table_insert(imap_store->subscribed_folders, data.new->pdata[i], (void *)1);
+		}
+
+		g_ptr_array_free(data.old, TRUE);
+		g_ptr_array_free(data.new, TRUE);
+	}
+
+	oldpath = e_path_to_physical (imap_store->storage_path, old_name);
+	newpath = e_path_to_physical (imap_store->storage_path, new_name);
+
+	/* So do we care if this didn't work?  Its just a cache? */
+	if (rename(oldpath, newpath) == -1) {
+		g_warning("Could not rename message cache '%s' to '%s': %s: cache reset", oldpath, newpath, strerror(errno));
+	}
+	
+	g_free(oldpath);
+	g_free(newpath);
 }
 
 static CamelFolderInfo *
@@ -1646,7 +1712,7 @@ subscribe_folder (CamelStore *store, const char *folder_name,
 	
 	g_hash_table_insert (imap_store->subscribed_folders,
 			     g_strdup (folder_name), GUINT_TO_POINTER (1));
-	
+
 	name = strrchr (folder_name, imap_store->dir_sep);
 	if (name)
 		name++;
@@ -1695,7 +1761,7 @@ unsubscribe_folder (CamelStore *store, const char *folder_name,
 				      folder_name, &key, &value);
 	g_hash_table_remove (imap_store->subscribed_folders, folder_name);
 	g_free (key);
-	
+
 	name = strrchr (folder_name, imap_store->dir_sep);
 	if (name)
 		name++;

@@ -1349,7 +1349,7 @@ folder_rename (CamelFolder *folder, const char *new)
 	g_free(folder->full_name);
 	folder->full_name = g_strdup(new);
 	g_free(folder->name);
-	tmp = strrchr(new, '/');
+	tmp = strrchr(new, folder->parent_store->dir_sep);
 	folder->name = g_strdup(tmp?tmp+1:new);
 }
 

@@ -209,6 +209,20 @@ camel_imap_message_cache_max_uid (CamelImapMessageCache *cache)
 	return cache->max_uid;
 }
 
+/**
+ * camel_imap_message_cache_set_path:
+ * @cache: 
+ * @path: 
+ * 
+ * Set the path used for the message cache.
+ **/
+void
+camel_imap_message_cache_set_path (CamelImapMessageCache *cache, const char *path)
+{
+	g_free(cache->path);
+	cache->path = g_strdup(path);
+}
+
 static void
 stream_finalize (CamelObject *stream, gpointer event_data, gpointer user_data)
 {

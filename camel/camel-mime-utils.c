@@ -72,7 +72,7 @@ int free_count = 0;
 #endif
 
 /* for all warnings ... */
-#define w(x) x
+#define w(x) 
 
 #define d(x)
 #define d2(x)
@@ -2959,7 +2959,7 @@ header_param_list_format_append (GString *out, struct _header_param *p)
 		
 		value = header_encode_param (p->value, &encoded);
 		if (!value) {
-			g_warning ("appending parameter %s=%s violates rfc2184", p->name, p->value);
+			w(g_warning ("appending parameter %s=%s violates rfc2184", p->name, p->value));
 			value = g_strdup (p->value);
 		}
 		

@@ -1,5 +1,18 @@
 2001-10-29    <NotZed@Ximian.com>
 
+	* camel-mime-utils.c: Turn off w() -> warnings.
+
+	* providers/imap/camel-imap-store.c (rename_folder): Also rename
+	the message cache.
+	(rename_folder): Fix subscribed folders table with rename(s).
+
+	* providers/imap/camel-imap-folder.c (imap_rename): Implement,
+	rename the cache dir pointer.
+
+	* providers/imap/camel-imap-message-cache.c
+	(camel_imap_message_cache_set_path): New method to set the path
+	used by a message cache.
+
 	* camel-vee-store.c (build_info): Fix the 'is this a matching
 	subfolder or subfolder'' logic to match camel-store
 	get_subfolders'.
