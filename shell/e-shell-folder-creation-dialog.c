@@ -400,21 +400,11 @@ add_folder_types (GtkWidget *dialog,
 	GList *types_with_display_names;
 	GList *p;
 	int default_item;
-	int i;
+	int i, len;
 
 	folder_type_option_menu = glade_xml_get_widget (gui, "folder_type_option_menu");
 
-	/* KLUDGE.  So, GtkOptionMenu is badly broken.  It calculates its size
-           in `gtk_option_menu_set_menu()' instead of using `size_request()' as
-           any sane widget would do.  So, in order to avoid the "narrow
-           GtkOptionMenu" bug, we have to destroy the existing associated menu
-           and create a new one.  Life sucks.  */
-
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (folder_type_option_menu));
-	g_assert (menu != NULL);
-	gtk_widget_destroy (menu);
-
-	menu = gtk_menu_new ();
 
 	folder_type_registry = e_shell_get_folder_type_registry (shell);
 	g_assert (folder_type_registry != NULL);
@@ -438,7 +428,7 @@ add_folder_types (GtkWidget *dialog,
 
 	/* FIXME: Add icon (I don't feel like writing an alpha-capable thingie again).  */
 
-	default_item = 0;
+	default_item = -1;
 	i = 0;
 	for (p = types_with_display_names; p != NULL; p = p->next) {
 		const TypeWithDisplayName *type;
@@ -455,11 +445,19 @@ add_folder_types (GtkWidget *dialog,
 
 		g_object_set_data_full (G_OBJECT (menu_item), "folder_type", g_strdup (type->type), g_free);
 
-		if (strcmp (type->type, default_type ? default_type : "mail") == 0)
+		if (strcmp (type->type, default_type) == 0)
 			default_item = i;
+		else if (default_item == -1) {
+			len = strlen (type->type);
+			if (strncmp (type->type, default_type, len) == 0 &&
+			    default_type[len] == '/')
+				default_item = i;
+		}
 
 		i ++;
 	}
+	if (default_item == -1)
+		default_item = 0;
 
 	for (p = types_with_display_names; p != NULL; p = p->next)
 		g_free (p->data);
