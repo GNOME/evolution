@@ -13,6 +13,25 @@
 
 </oaf_server>
 
+<oaf_server iid="OAFIID:e_minicard_factory:f9542709-fb31-4c6a-bc00-d462ba41e4b9"
+            type="factory"
+            location="OAFIID:control-factory:addressbook:3e10597b-0591-4d45-b082-d781b7aa6e17">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/Control:1.0"/>
+	        <item value="IDL:Bonobo/PersistStream:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="bonobo:supported_mime_types" type="stringv">
+		<item value="text/vCard"/>
+		<item value="text/x-vCard"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string"
+	               value="Factory for the Evolution addressbook minicard control."/>
+
+</oaf_server>
+
 <oaf_server iid="OAFIID:control:addressbook:851f883b-2fe7-4c94-a1e3-a1f2a7a03c49"
             type="factory"
             location="OAFIID:control-factory:addressbook:3e10597b-0591-4d45-b082-d781b7aa6e17">

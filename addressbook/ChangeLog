@@ -1,3 +1,17 @@
+2000-07-20  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/component/addressbook.oafinfo: Fixed the oaf info.
+
+	* gui/minicard/.cvsignore, gui/minicard/Makefile.am: Added a test
+	for the minicard widget.
+
+	* gui/minicard/e-minicard-control.c: Fixed the mime type.
+
+	* gui/minicard/e-minicard.c: Fixed some crashes if your parent
+	isn't a minicard view.
+
+	* gui/minicard/e-minicard-control.oafinfo: Removed.
+
 2000-07-20  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/component/addressbook-component.c (factory_fn): Update for
