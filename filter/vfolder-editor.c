@@ -110,7 +110,7 @@ vfolder_editor_new (VfolderContext *vc)
 	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "rule_editor", NULL);
 	rule_editor_construct ((RuleEditor *) ve, (RuleContext *) vc, gui, NULL);
 	
-        w = glade_xml_get_widget (gui, "rule_frame");
+	w = glade_xml_get_widget (gui, "rule_frame");
 	gtk_frame_set_label ((GtkFrame *) w, _("Virtual Folders"));
 	
 	g_object_unref (gui);

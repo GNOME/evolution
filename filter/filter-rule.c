@@ -772,6 +772,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	frame = gtk_frame_new (_("If"));
 	inframe = gtk_vbox_new (FALSE, 3);
 	gtk_container_add (GTK_CONTAINER (frame), inframe);
+	gtk_container_set_border_width (GTK_CONTAINER (inframe), 6);
 	
 	/* this is the parts table, it should probably be inside a scrolling list */
 	rows = g_list_length (fr->parts);
@@ -793,12 +794,12 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	
 	item = gtk_menu_item_new_with_label (_("if all criteria are met"));
 	g_signal_connect (item, "activate", G_CALLBACK (match_all), fr);
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	gtk_widget_show (item);
 	
 	item = gtk_menu_item_new_with_label (_("if any criteria are met"));
 	g_signal_connect (item, "activate", G_CALLBACK (match_any), fr);
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	gtk_widget_show (item);
 	
 	omenu = gtk_option_menu_new ();
@@ -808,12 +809,12 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	
 	add = gtk_button_new_from_stock (GTK_STOCK_ADD);
 	g_signal_connect (add, "clicked", G_CALLBACK (more_parts), data);
-	gtk_box_pack_start (GTK_BOX (hbox), add, FALSE, FALSE, 3);
+	gtk_box_pack_start (GTK_BOX (hbox), add, FALSE, FALSE, 0);
 	
 	gtk_box_pack_end (GTK_BOX (hbox), omenu, FALSE, FALSE, 0);
 	gtk_box_pack_end (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 	
-	gtk_box_pack_start (GTK_BOX (inframe), hbox, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (inframe), hbox, FALSE, FALSE, 3);
 	
 	l = fr->parts;
 	while (l) {
@@ -833,7 +834,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	
 	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolledwindow), parts);
 	
-	gtk_box_pack_start (GTK_BOX (inframe), scrolledwindow, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (inframe), scrolledwindow, TRUE, TRUE, 3);
 	
 	/*gtk_box_pack_start (GTK_BOX (inframe), parts, FALSE, FALSE, 3); */
 	

@@ -710,5 +710,10 @@
   <code>(shell "/bin/sh" "-c" ${command})</code>
   <input type="command" name="command"/>
  </part>
+ <part name="pipe">
+  <title>Pipe Message to Shell Command</title>
+  <code>(pipe-message "/bin/sh" "-c" ${command})</code>
+  <input type="command" name="command"/>
+ </part>
 </actionset>
 </filterdescription>

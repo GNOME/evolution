@@ -491,6 +491,7 @@ get_widget (FilterRule *fr, RuleContext *rc)
 	frame = gtk_frame_new (_("Then"));
 	inframe = gtk_vbox_new (FALSE, 3);
 	gtk_container_add (GTK_CONTAINER (frame), inframe);
+	gtk_container_set_border_width (GTK_CONTAINER (inframe), 6);
 	
 	rows = g_list_length (ff->actions);
 	parts = gtk_table_new (rows, 2, FALSE);
@@ -504,7 +505,7 @@ get_widget (FilterRule *fr, RuleContext *rc)
 	add = gtk_button_new_from_stock (GTK_STOCK_ADD);
 	/* gtk_button_set_relief (GTK_BUTTON (add), GTK_RELIEF_NONE); */
 	g_signal_connect (add, "clicked", G_CALLBACK (more_parts), data);
-	gtk_box_pack_start (GTK_BOX (hbox), add, FALSE, FALSE, 3);
+	gtk_box_pack_start (GTK_BOX (hbox), add, FALSE, FALSE, 0);
 	
 	gtk_box_pack_start (GTK_BOX (inframe), hbox, FALSE, FALSE, 3);
 	

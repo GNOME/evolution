@@ -292,8 +292,9 @@ rule_add (GtkWidget *widget, RuleEditor *re)
 	gtk_window_set_default_size (GTK_WINDOW (re->dialog), 650, 400);
 	gtk_window_set_resizable (GTK_WINDOW (re->dialog), TRUE);
 	gtk_window_set_transient_for ((GtkWindow *) re->dialog, (GtkWindow *) re);
+	gtk_container_set_border_width ((GtkContainer *) re->dialog, 6);
 	
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (re->dialog)->vbox), rules, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (re->dialog)->vbox), rules, TRUE, TRUE, 3);
 	
 	g_signal_connect (re->dialog, "response", G_CALLBACK (add_editor_response), re);
 	g_object_weak_ref ((GObject *) re->dialog, (GWeakNotify) editor_destroy, re);
@@ -373,8 +374,9 @@ rule_edit (GtkWidget *widget, RuleEditor *re)
 	gtk_window_set_default_size (GTK_WINDOW (re->dialog), 650, 400);
 	gtk_window_set_resizable (GTK_WINDOW (re->dialog), TRUE);
 	gtk_widget_set_parent_window (GTK_WIDGET (re->dialog), GTK_WIDGET (re)->window);
+	gtk_container_set_border_width ((GtkContainer *) re->dialog, 6);
 	
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (re->dialog)->vbox), rules, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (re->dialog)->vbox), rules, TRUE, TRUE, 3);
 	
 	g_signal_connect (re->dialog, "response", G_CALLBACK (edit_editor_response), re);
 	g_object_weak_ref ((GObject *) re->dialog, (GWeakNotify) editor_destroy, re);
@@ -714,9 +716,10 @@ rule_editor_construct (RuleEditor *re, RuleContext *context, GladeXML *gui, cons
 	
 	gtk_window_set_resizable ((GtkWindow *) re, TRUE);
 	gtk_window_set_default_size ((GtkWindow *) re, 350, 400);
+	gtk_container_set_border_width ((GtkContainer *) re, 6);
 	
         w = glade_xml_get_widget (gui, "rule_editor");
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (re)->vbox), w, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (re)->vbox), w, TRUE, TRUE, 3);
 	
 	for (i = 0; i < BUTTON_LAST; i++) {
 		re->priv->buttons[i] = (GtkButton *) w = glade_xml_get_widget (gui, edit_buttons[i].name);

@@ -110,7 +110,7 @@ filter_editor_new (FilterContext *fc, const char **source_names)
 	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "rule_editor", NULL);
 	filter_editor_construct (fe, fc, gui, source_names);
 	
-        w = glade_xml_get_widget (gui, "rule_frame");
+	w = glade_xml_get_widget (gui, "rule_frame");
 	gtk_frame_set_label (GTK_FRAME (w), _("Filter Rules"));
 	
 	g_object_unref (gui);

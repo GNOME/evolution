@@ -1,3 +1,20 @@
+2003-04-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fixes for bugs: #41149, #41150, #41151, #41152, #41153, #41155 and
+	#41156.
+
+	* filter-filter.c (get_widget): Same as with filter-rule.
+
+	* filter-rule.c (get_widget): Changed border widths of frame
+	vboxes and other padding to comply with the HIG.
+
+	* rule-editor.c (rule_add): Change window border and padding
+	around the 'rules' widget to comply with the HIG.
+	(rule_edit): Same.
+	(rule_editor_construct): Same here as well.
+
+	* filter.glade: Many HIG compliance fixes.
+
 2003-03-28  Not Zed  <NotZed@Ximian.com>
 
 	* filter-datespec.c (button_clicked): cast warning.
