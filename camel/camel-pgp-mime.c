@@ -54,7 +54,7 @@ camel_pgp_mime_is_rfc2015_signed (CamelMimePart *mime_part)
 	if (!header_content_type_is (type, "multipart", "signed"))
 		return FALSE;
 	
-	/* check that we have a protocol param with the value: "application/pgp-signed" */
+	/* check that we have a protocol param with the value: "application/pgp-signature" */
 	param = header_content_type_param (type, "protocol");
 	if (!param || g_strcasecmp (param, "application/pgp-signature"))
 		return FALSE;

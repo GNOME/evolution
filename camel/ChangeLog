@@ -1,3 +1,9 @@
+2001-05-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c (header_set_param): Use g_strcasecmp()
+	because some systems don't have strcasecmp(). Also, when removing
+	a param, make sure to free the param->name too.
+
 2001-05-27  Dan Winship  <danw@ximian.com>
 
 	* tests/lib/messages.c (test_message_read_file): Fix an fd leak

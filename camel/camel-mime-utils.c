@@ -1778,13 +1778,14 @@ header_set_param(struct _header_param **l, const char *name, const char *value)
 
 	while (p->next) {
 		pn = p->next;
-		if (!strcasecmp(pn->name, name)) {
-			g_free(pn->value);
+		if (!g_strcasecmp (pn->name, name)) {
+			g_free (pn->value);
 			if (value) {
 				pn->value = g_strdup(value);
 				return pn;
 			} else {
 				p->next = pn->next;
+				g_free (pn->name);
 				g_free(pn);
 				return NULL;
 			}
