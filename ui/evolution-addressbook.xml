@@ -53,6 +53,11 @@
     <cmd name="ContactsMoveToFolder" _label="Move to Folder..."
 	 _tip="Move Contact(s) to Another Folder..."
 	 accel="*Control**Shift*v"/>
+
+    <cmd name="ContactsViewPreview" _label="_Preview Pane"
+	 _tip="Show contact preview window"
+	 accel="grave"
+	 type="toggle"/>
   </commands>
 
   <menu>
@@ -74,6 +79,11 @@
 		  pixtype="pixbuf"/>
       </placeholder>
 
+    </submenu>
+
+    <submenu name="View" _label="_View">
+      <menuitem name="ContactsViewPreview" verb="" _label="_Preview Pane"/>
+      <separator f="" name="addressbookglobal"/>
     </submenu>
 
     <placeholder name="EditPlaceholder">
@@ -142,6 +152,7 @@
   </dockitem>
 
   <keybindings>
+    <accel name="*Shift*grave" verb="ContactViewPreview"/>
     <accel name="Delete" verb="ContactDelete"/>
     <accel name="BackSpace" verb="ContactDelete"/>
   </keybindings>

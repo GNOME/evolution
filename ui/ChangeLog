@@ -1,3 +1,9 @@
+2003-12-17  Chris Toshok  <toshok@ximian.com>
+
+	* evolution-addressbook.xml: add ContactsViewPreview command, a
+	"Preview Pane" menu item, and a keybinding for it - same placement
+	as the mailer's item.
+
 2003-12-17  Rodrigo Moya <rodrigo@ximian.com>
 
 	* evolution-calendar.xml: removed the 'NewCalendar' verb.
