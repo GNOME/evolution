@@ -1,7 +1,7 @@
 2003-04-11  Jeffrey Stedfast  <fejj@ximian.com>
 
-	Fixes for bugs: #41149, #41150, #41151, #41152, #41153, #41155 and
-	#41156.
+	Fixes for bugs: #41149, #41150, #41151, #41152, #41153, #41155,
+	#41156 and #41205.
 
 	* filter-filter.c (get_widget): Same as with filter-rule.
 
