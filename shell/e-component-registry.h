@@ -45,13 +45,13 @@ typedef struct _EComponentRegistryClass   EComponentRegistryClass;
 #include "evolution-shell-component-client.h"
 
 struct _EComponentRegistry {
-	GtkObject parent;
+	GObject parent;
 
 	EComponentRegistryPrivate *priv;
 };
 
 struct _EComponentRegistryClass {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 };
 
 

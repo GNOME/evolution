@@ -82,7 +82,7 @@ impl_ShellView_change_current_view (PortableServer_Servant servant,
 	BonoboObject *bonobo_object;
 
 	bonobo_object = bonobo_object_from_servant (servant);
-	g_signal_emit (GTK_OBJECT (bonobo_object), signals[CHANGE_VIEW], 0, uri);
+	g_signal_emit (bonobo_object, signals[CHANGE_VIEW], 0, uri);
 }
 
 static void
@@ -93,7 +93,7 @@ impl_ShellView_set_title (PortableServer_Servant servant,
 	BonoboObject *bonobo_object;
 
 	bonobo_object = bonobo_object_from_servant (servant);
-	g_signal_emit (GTK_OBJECT (bonobo_object), signals[SET_TITLE], 0, title);
+	g_signal_emit (bonobo_object, signals[SET_TITLE], 0, title);
 }
 
 static void
@@ -104,7 +104,7 @@ impl_ShellView_set_folder_bar_label (PortableServer_Servant servant,
 	BonoboObject *bonobo_object;
 
 	bonobo_object = bonobo_object_from_servant (servant);
-	g_signal_emit (GTK_OBJECT (bonobo_object), signals[SET_FOLDER_BAR_LABEL], 0, text);
+	g_signal_emit (bonobo_object, signals[SET_FOLDER_BAR_LABEL], 0, text);
 }
 
 static void
@@ -114,7 +114,7 @@ impl_ShellView_show_settings (PortableServer_Servant servant,
 	BonoboObject *bonobo_object;
 
 	bonobo_object = bonobo_object_from_servant (servant);
-	g_signal_emit (GTK_OBJECT (bonobo_object), signals[SHOW_SETTINGS], 0);
+	g_signal_emit (bonobo_object, signals[SHOW_SETTINGS], 0);
 }
 
 

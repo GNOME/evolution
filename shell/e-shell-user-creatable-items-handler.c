@@ -47,8 +47,8 @@
 #include <string.h>
 
 
-#define PARENT_TYPE gtk_object_get_type ()
-static GtkObjectClass *parent_class = NULL;
+#define PARENT_TYPE G_TYPE_OBJECT
+static GObjectClass *parent_class = NULL;
 
 
 #define VERB_PREFIX "ShellUserCreatableItemVerb"

@@ -39,8 +39,8 @@
 #include "evolution-shell-component-client.h"
 
 
-#define PARENT_TYPE GTK_TYPE_OBJECT
-static GtkObjectClass *parent_class = NULL;
+#define PARENT_TYPE G_TYPE_OBJECT
+static GObjectClass *parent_class = NULL;
 
 typedef struct _Component Component;
 
@@ -348,7 +348,7 @@ class_init (EComponentRegistryClass *klass)
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
 
-	parent_class = gtk_type_class (gtk_object_get_type ());
+	parent_class = gtk_type_class (PARENT_TYPE);
 }
 
 

@@ -25,7 +25,7 @@
 
 #include "evolution-shell-component-client.h"
 
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 #include <bonobo/bonobo-ui-component.h>
 
 #ifdef __cplusplus
@@ -47,13 +47,13 @@ typedef struct _EShellUserCreatableItemsHandlerClass   EShellUserCreatableItemsH
 #include "e-shell-view.h"
 
 struct _EShellUserCreatableItemsHandler {
-	GtkObject parent;
+	GObject parent;
 
 	EShellUserCreatableItemsHandlerPrivate *priv;
 };
 
 struct _EShellUserCreatableItemsHandlerClass {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 };
 
 

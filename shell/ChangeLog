@@ -1,5 +1,19 @@
 2002-11-14  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-user-creatable-items-handler.c,
+	* e-shell-user-creatable-items-handler.c: Changed into a GObject
+	subclass instead of a GtkObject subclass.
+
+	* e-component-registry.c,
+	* e-component-registri.h: Changed into a GObject subclass instead
+	of a GtkObject subclass.
+
+	* evolution-shell-view.c (impl_ShellView_set_message): Remove
+	bogus GTK_OBJECT() cast in call to g_signal_emit().
+	(impl_ShellView_unset_message): Likewise.
+	(impl_ShellView_change_current_view): Likewise.
+	(impl_ShellView_set_title): Likewise.
+
 	* e-shell-view.c (init): Ref/sink the GtkTooltips.
 
 	* e-uri-schema-registry.c (schema_handler_free): g_object_unref()
