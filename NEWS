@@ -93,6 +93,8 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
              several duplicates  (Jeff)
     #43214 - changing server settings enables the account  (Jeff)
     #43234 - crash reading mail  (Michael)
+    #42748 - Check spelling while I type - broken (Larry)
+    #42749 - Composer ignores color for misspelled words (Larry)
     #43392 - Reproducible crash after searching mail w/ attachment and
              closing (Jeff)
     #43406 - Evo crashed during POP download/filtering  (Jeff)
@@ -141,6 +143,8 @@ Other bugs:
     - Make Ok the default response on the password dialog  (Ettore)
     - Crash in SMTP if unable to resolve the remote host name  (Jeff)
     - Fix an automake 1.6 issues with camel-lock-helper  (Dan)
+    - Reload page if citation color changes (Larry)
+    - Made all the composer preferences work (Larry)
 
   * Shell
 
