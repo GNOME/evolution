@@ -81,6 +81,11 @@ ca_trust_dialog_show (ECert *cert, gboolean importing)
 	ctd_data->gui = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, NULL, NULL);
 
 	ctd_data->dialog = glade_xml_get_widget (ctd_data->gui, "ca-trust-dialog");
+
+	gtk_widget_ensure_style (ctd_data->dialog);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (ctd_data->dialog)->vbox), 0);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (ctd_data->dialog)->action_area), 12);
+
 	ctd_data->cert = g_object_ref (cert);
 
 	ctd_data->ssl_checkbutton = glade_xml_get_widget (ctd_data->gui, "ssl_trust_checkbutton");
