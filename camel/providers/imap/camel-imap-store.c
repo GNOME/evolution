@@ -1774,7 +1774,7 @@ get_folder_online (CamelStore *store, const char *folder_name, guint32 flags, Ca
 	}
 	response = camel_imap_command (imap_store, NULL, ex, "SELECT %F", folder_name);
 	if (!response) {
-		char *folder_real;
+		char *folder_real, *parent_name, *parent_real;
 		const char *c;
 		
 		if (camel_exception_get_id(ex) == CAMEL_EXCEPTION_USER_CANCEL) {
@@ -1784,7 +1784,7 @@ get_folder_online (CamelStore *store, const char *folder_name, guint32 flags, Ca
 		
 		camel_exception_clear (ex);
 		
-		if (!flags & CAMEL_STORE_FOLDER_CREATE) {
+		if (!(flags & CAMEL_STORE_FOLDER_CREATE)) {
 			CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
 			camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
 					      _("No such folder %s"), folder_name);
@@ -1803,10 +1803,105 @@ get_folder_online (CamelStore *store, const char *folder_name, guint32 flags, Ca
 			return NULL;
 		}
 		
+		if ((parent_name = strrchr (folder_name, '/'))) {
+			parent_name = g_strndup (folder_name, parent_name - folder_name);
+			parent_real = camel_imap_store_summary_path_to_full (imap_store->summary, parent_name, store->dir_sep);
+		} else {
+			parent_real = NULL;
+		}
+		
+		if (parent_real != NULL) {
+			gboolean need_convert = FALSE;
+			char *resp, *thisone;
+			guint32 flags;
+			int i;
+			
+			if (!(response = camel_imap_command (imap_store, NULL, ex, "LIST \"\" %S", parent_real))) {
+				CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
+				g_free (parent_name);
+				g_free (parent_real);
+				return NULL;
+			}
+			
+			/* FIXME: does not handle unexpected circumstances very well */
+			for (i = 0; i < response->untagged->len; i++) {
+				resp = response->untagged->pdata[i];
+				
+				if (!imap_parse_list_response (imap_store, resp, &flags, NULL, &thisone))
+					continue;
+				
+				if (!strcmp (parent_name, thisone)) {
+					if (flags & CAMEL_FOLDER_NOINFERIORS)
+						need_convert = TRUE;
+				}
+				
+				g_free (thisone);
+			}
+			
+			camel_imap_response_free (imap_store, response);
+			
+			/* if not, check if we can delete it and recreate it */
+			if (need_convert) {
+				struct imap_status_item *items, *item;
+				guint32 messages = 0;
+				CamelException lex;
+				char *name;
+				
+				item = items = get_folder_status (imap_store, parent_name, "MESSAGES");
+				while (item != NULL) {
+					if (!g_ascii_strcasecmp (item->name, "MESSAGES")) {
+						messages = item->value;
+						break;
+					}
+					
+					item = item->next;
+				}
+				
+				imap_status_item_free (items);
+				
+				if (messages > 0) {
+					camel_exception_set (ex, CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
+							     _("The parent folder is not allowed to contain subfolders"));
+					CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
+					g_free (parent_name);
+					g_free (parent_real);
+					return NULL;
+				}
+				
+				/* delete the old parent and recreate it */
+				camel_exception_init (&lex);
+				delete_folder (store, parent_name, &lex);
+				if (camel_exception_is_set (&lex)) {
+					CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
+					camel_exception_xfer (ex, &lex);
+					g_free (parent_name);
+					g_free (parent_real);
+					return NULL;
+				}
+				
+				/* add the dirsep to the end of parent_name */
+				name = g_strdup_printf ("%s%c", parent_real, imap_store->dir_sep);
+				response = camel_imap_command (imap_store, NULL, ex, "CREATE %S",
+							       name);
+				g_free (name);
+				
+				if (!response) {
+					CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
+					g_free (parent_name);
+					g_free (parent_real);
+					return NULL;
+				} else
+					camel_imap_response_free (imap_store, response);
+			}
+			
+			g_free (parent_real);
+		}
+		
+		g_free (parent_name);
+		
 		folder_real = camel_imap_store_summary_path_to_full(imap_store->summary, folder_name, store->dir_sep);
-
 		response = camel_imap_command (imap_store, NULL, ex, "CREATE %S", folder_real);
-
+		
 		if (response) {
 			camel_imap_store_summary_add_from_full(imap_store->summary, folder_real, store->dir_sep);
 
