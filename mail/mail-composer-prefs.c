@@ -30,6 +30,8 @@
 
 #include <bonobo/bonobo-generic-factory.h>
 
+#include <gal/widgets/e-gui-utils.h>
+
 #include "widgets/misc/e-charset-picker.h"
 
 #include "mail-config.h"
