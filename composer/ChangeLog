@@ -1,5 +1,8 @@
 2001-10-30  Dan Winship  <danw@ximian.com>
 
+	* e-msg-composer.c (build_message): Add back the "remove
+	Content-Disposition when sending itip" hack.
+
 	* Evolution-Composer.idl (setMultipartType): New.
 
 	* evolution-composer.c (impl_Composer_set_multipart_type): Allow

@@ -416,6 +416,15 @@ build_message (EMsgComposer *composer)
 		
 		e_msg_composer_attachment_bar_to_multipart (attachment_bar, multipart, composer->charset);
 		
+		if (composer->is_alternative) {
+			int i;
+
+			for (i = camel_multipart_get_number (multipart); i > 1; i--) {
+				part = camel_multipart_get_part (multipart, i - 1);
+				camel_medium_remove_header (CAMEL_MEDIUM (part), "Content-Disposition");
+			}
+		}
+
 		current = CAMEL_DATA_WRAPPER (multipart);
 	}
 
