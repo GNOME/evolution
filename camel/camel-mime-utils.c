@@ -1996,8 +1996,7 @@ header_decode_param (const char **in, char **paramp, char **valuep, int *is_rfc2
 			 */
 			char *val;
 			
-			val = rfc2047_decode_word (value, strlen (value));
-			if (val) {
+			if ((val = header_decode_text (value, strlen (value), NULL))) {
 				g_free (value);
 				value = val;
 			}
