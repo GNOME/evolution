@@ -1,3 +1,8 @@
+2001-08-27  Jon Trowbridge  <trow@ximian.com>
+
+	* backend/ebook/e-card.c (e_card_list_send): Do the right thing if
+	the card we are trying to send to is a contact list. (Bug #6580)
+
 2001-08-27  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* gui/widgets/e-addressbook-util.c (e_addressbook_error_dialog):

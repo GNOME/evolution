@@ -29,6 +29,7 @@
 #include "e-util/ename/e-name-western.h"
 #include "e-util/ename/e-address-western.h"
 #include "e-book.h"
+#include "e-destination.h"
 
 #define is_a_prop_of(obj,prop) (isAPropertyOf ((obj),(prop)))
 #define str_val(obj) (the_str = (vObjectValueType (obj))? fakeCString (vObjectUStringZValue (obj)) : calloc (1, 1))
@@ -3967,47 +3968,109 @@ e_card_list_send (GList *cards, ECardDisposition disposition)
 	if (disposition == E_CARD_DISPOSITION_AS_TO) {
 		GNOME_Evolution_Composer_RecipientList *to_list, *cc_list, *bcc_list;
 		CORBA_char *subject;
-		int length;
-		int i;
+		int to_i, bcc_i;
+		GList *iter;
+		gint to_length = 0, bcc_length = 0;
 
-		length = g_list_length (cards);
+		/* Figure out how many addresses of each kind we have. */
+		for (iter = cards; iter != NULL; iter = g_list_next (iter)) {
+			ECard *card = E_CARD (iter->data);
+			if (e_card_evolution_list (card)) {
+				gint len = card->email ? e_list_length (card->email) : 0;
+				if (e_card_evolution_list_show_addresses (card))
+					to_length += len;
+				else
+					bcc_length += len;
+			} else {
+				++to_length;
+			}
+		}
+		g_message ("to_length=%d bcc_length=%d", to_length, bcc_length);
 
-		/* Now I have to make a CORBA sequence that represents a recipient list with
-		   one item, for the card. */
+		/* Now I have to make a CORBA sequences that represents a recipient list with
+		   the right number of entries, for the cards. */
 		to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-		to_list->_maximum = length;
-		to_list->_length = length;
-		to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (length);
+		to_list->_maximum = to_length;
+		to_list->_length = to_length;
+		to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (to_length);
 
-		for (i = 0;
-		     cards;
-		     i++, cards = cards->next) {
+		cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+		cc_list->_maximum = cc_list->_length = 0;
+
+		bcc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+		bcc_list->_maximum = bcc_length;
+		bcc_list->_length = bcc_length;
+		bcc_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (bcc_length);
+
+		to_i = 0;
+		bcc_i = 0;
+		while (cards != NULL) {
 			ECard *card = cards->data;
 			EIterator *iterator;
+			const gchar *name, *addr;
 			char *file_as;
+			gboolean is_list, is_hidden, free_name_addr;
 			EList *email;
 			GNOME_Evolution_Composer_Recipient *recipient;
 
-			recipient = &(to_list->_buffer[i]);
 			gtk_object_get (GTK_OBJECT (card),
 				       "file_as", &file_as,
 				       "email", &email,
 				       NULL);
 
-			iterator = e_list_get_iterator (email);
-			if (e_iterator_is_valid (iterator)) {
-				recipient->address = CORBA_string_dup (e_iterator_get (iterator));
-			} else {  
-				recipient->address = CORBA_string_dup("");
+			is_list = e_card_evolution_list (card);
+			is_hidden = is_list && !e_card_evolution_list_show_addresses (card);
+
+			for (iterator = e_list_get_iterator (email); e_iterator_is_valid (iterator); e_iterator_next (iterator)) {
+
+				if (is_hidden) {
+					recipient = &(bcc_list->_buffer[bcc_i]);
+					++bcc_i;
+				} else {
+					recipient = &(to_list->_buffer[to_i]);
+					++to_i;
+				}
+   
+				name = "";
+				addr = "";
+				free_name_addr = FALSE;
+				if (e_iterator_is_valid (iterator)) {
+				
+					if (is_list) {
+						/* We need to decode the list entries, which are XMLified EDestinations. */
+						EDestination *dest = e_destination_import (e_iterator_get (iterator));
+						if (dest != NULL) {
+							name = g_strdup (e_destination_get_name (dest));
+							addr = g_strdup (e_destination_get_email (dest));
+							free_name_addr = TRUE;
+							gtk_object_unref (GTK_OBJECT (dest));
+						}
+						
+					} else { /* is just a plain old card */
+						name = file_as;
+						addr = e_iterator_get (iterator);
+					}
+				}
+
+				g_message ("sending to [%s][%s]", name, addr);
+				recipient->name    = CORBA_string_dup (name ? name : "");
+				recipient->address = CORBA_string_dup (addr ? addr : "");
+
+				if (free_name_addr) {
+					g_free (name);
+					g_free (addr);
+				}
+				
+				/* If this isn't a list, we quit after the first (i.e. the default) address. */
+				if (!is_list)
+					break;
+
 			}
 			gtk_object_unref (GTK_OBJECT (iterator));
-			recipient->name = CORBA_string_dup (file_as);
+
+			cards = g_list_next (cards);
 		}
 
-		cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-		cc_list->_maximum = cc_list->_length = 0;
-		bcc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-		bcc_list->_maximum = bcc_list->_length = 0;
 
 		subject = CORBA_string_dup ("");
 
