@@ -40,7 +40,8 @@ termination_handler (gpointer data)
 {
 	/* FIXME: add the test for the PAS as well */
 
-	if (cal_factory_get_n_backends (cal_factory) == 0)
+	if (cal_factory_get_n_backends (cal_factory) == 0
+	    && pas_book_factory_get_n_backends (pas_book_factory) == 0)
 		gtk_main_quit ();
 
 	termination_handler_id = 0;
@@ -60,6 +61,12 @@ queue_termination (void)
 
 
 static void
+last_book_gone_cb (PASBookFactory *factory, gpointer data)
+{
+	queue_termination ();
+}
+
+static void
 setup_pas (int argc, char **argv)
 {
 	pas_book_factory = pas_book_factory_new ();
@@ -71,6 +78,11 @@ setup_pas (int argc, char **argv)
 	pas_book_factory_register_backend (
 		pas_book_factory, "ldap", pas_backend_ldap_new);
 #endif
+
+	gtk_signal_connect (GTK_OBJECT (pas_book_factory),
+			    "last_book_gone",
+			    GTK_SIGNAL_FUNC (last_book_gone_cb),
+			    NULL);
 
 	pas_book_factory_activate (pas_book_factory);
 }

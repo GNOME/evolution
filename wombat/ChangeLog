@@ -1,3 +1,11 @@
+2000-04-30  Federico Mena Quintero  <federico@helixcode.com>
+
+	* wombat.c (setup_pas): Connect to the "last_book_gone" signal of
+	the book factory.
+	(last_book_gone_cb): Handle the "last_book_gone" signal.
+	(termination_handler): Check if the book factory has zero running
+	backends.
+
 2000-04-30  Christopher James Lahey  <clahey@helixcode.com>
 
 	* Makefile.am: Added ename libs to LDADD. 
