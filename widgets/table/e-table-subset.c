@@ -64,7 +64,6 @@ etss_get_view_row (ETableSubset *etss, int row)
 
 	for (i = initial - 1; i >= start; i--) {
 		if (map_table [i] == row){
-			e_table_model_row_changed (E_TABLE_MODEL (etss), i);
 			d(g_print("b) Found %d from %d\n", i, etss->last_access));
 			etss->last_access = i;
 			return i;
@@ -73,7 +72,6 @@ etss_get_view_row (ETableSubset *etss, int row)
 
 	for (i = 0; i < n; i++){
 		if (map_table [i] == row){
-			e_table_model_row_changed (E_TABLE_MODEL (etss), i);
 			d(g_print("c) Found %d from %d\n", i, etss->last_access));
 			etss->last_access = i;
 			return i;
