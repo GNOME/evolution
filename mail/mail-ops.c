@@ -1501,16 +1501,18 @@ remove_folder_get (struct _mail_msg *mm)
 	g_free (full_name);
 	m->removed = !camel_exception_is_set (&mm->ex);
 	camel_object_unref (CAMEL_OBJECT (store));
-
-	/* Remove this folder from the folder cache */
-	mail_folder_cache_remove_folder (m->uri);
 }
 
 static void
 remove_folder_got (struct _mail_msg *mm)
 {
 	struct _remove_folder_msg *m = (struct _remove_folder_msg *)mm;
-	
+
+	if (m->removed) {
+		/* Remove this folder from the folder cache */
+		mail_folder_cache_remove_folder (m->uri);
+	}
+
 	if (m->done)
 		m->done (m->uri, m->removed, m->data);
 }
