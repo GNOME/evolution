@@ -1,3 +1,10 @@
+2002-03-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/smtp/camel-smtp-transport.c (smtp_auth): Added a
+	work-around for SMTP servers that can't read the RFCs and thus
+	implement SASL incorrectly. Oh well, that's life in the world of
+	mail clients I guess.
+
 2002-03-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-digest-store.c (camel_digest_store_new): Now takes a url

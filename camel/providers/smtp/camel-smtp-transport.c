@@ -970,6 +970,7 @@ static gboolean
 smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 {
 	char *cmdbuf, *respbuf = NULL, *challenge;
+	gboolean auth_challenge = FALSE;
 	CamelSasl *sasl = NULL;
 	
 	camel_operation_start_transient (NULL, _("SMTP Authentication"));
@@ -984,10 +985,12 @@ smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 	
 	challenge = camel_sasl_challenge_base64 (sasl, NULL, ex);
 	if (challenge) {
+		auth_challenge = TRUE;
 		cmdbuf = g_strdup_printf ("AUTH %s %s\r\n", mech, challenge);
 		g_free (challenge);
-	} else
+	} else {
 		cmdbuf = g_strdup_printf ("AUTH %s\r\n", mech);
+	}
 	
 	d(fprintf (stderr, "sending : %s", cmdbuf));
 	if (camel_stream_write (transport->ostream, cmdbuf, strlen (cmdbuf)) == -1) {
@@ -1018,6 +1021,15 @@ smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 			goto lose;
 		}
 		
+		if (FALSE) {
+		broken_smtp_server:
+			d(fprintf (stderr, "Your SMTP server's implementation of the %s SASL\n"
+				   "authentication mechanism is broken. Please report this to the\n"
+				   "appropriate vendor and suggest that they re-read rfc2222 again\n"
+				   "for the first time (specifically Section 4, paragraph 2).\n",
+				   mech));
+		}
+		
 		/* eat whtspc */
 		for (challenge = respbuf + 4; isspace (*challenge); challenge++);
 		
@@ -1043,6 +1055,10 @@ smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 	
 	/* check that the server says we are authenticated */
 	if (!respbuf || strncmp (respbuf, "235", 3)) {
+		if (respbuf && auth_challenge && !strncmp (respbuf, "334", 3)) {
+			/* broken server, but lets try and work around it anyway... */
+			goto broken_smtp_server;
+		}
 		g_free (respbuf);
 		goto lose;
 	}
