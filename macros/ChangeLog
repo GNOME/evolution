@@ -1,3 +1,11 @@
+1998-09-09  Martin Baulig  <baulig@merkur.uni-trier.de>
+
+	* gnome-libgtop-sysdeps.m4: Added check for SMP support.
+	(--with-libgtop-smp): New parameter, default is to enable
+	it only if you're running configure on a SMP system.
+	Added (AC_DEFINE): `HAVE_LIBGTOP_SMP' if enabled.
+	(LIBGTOP_SMP): New automake conditional.
+
 1998-09-02  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* gnome-support.m4: Remove check for `canonicalize_file_name'.

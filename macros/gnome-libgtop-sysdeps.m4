@@ -66,6 +66,35 @@ main (void)
 
 	AM_CONDITIONAL(LINUX_TABLE, test $linux_table = yes)
 
+	AC_ARG_WITH(libgtop-smp,
+	[  --with-libgtop-smp      Enable SMP support (default-auto)],[
+	libgtop_smp="$withval"],[libgtop_smp=auto])
+
+	if test $libgtop_smp = auto ; then
+	  AC_MSG_CHECKING(whether to enable SMP support)
+	  AC_TRY_RUN([
+#include <sys/utsname.h>
+#include <string.h>
+
+int
+main (void)
+{
+	struct utsname name;
+
+	if (uname (&name)) exit (1);
+
+	exit (strstr (name.version, "SMP") ? 0 : 1);
+}
+], libgtop_smp=yes, libgtop_smp=no, libgtop_smp=no)
+	  AC_MSG_RESULT($libgtop_smp)
+	fi
+
+	if test $libgtop_smp = yes ; then
+	  AC_DEFINE(HAVE_LIBGTOP_SMP)
+	fi
+
+	AM_CONDITIONAL(LIBGTOP_SMP, test $libgtop_smp = yes)
+
 	AC_MSG_CHECKING(for libgtop sysdeps directory)
 
 	case "$host_os" in
