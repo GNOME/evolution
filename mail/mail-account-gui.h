@@ -39,6 +39,8 @@ extern "C" {
 #include "em-account-prefs.h"
 
 typedef struct {
+	GtkWidget *container;
+
 	GtkOptionMenu *type;
 	GtkLabel *description;
 	GtkEntry *hostname;

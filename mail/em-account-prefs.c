@@ -402,8 +402,9 @@ account_cursor_change (GtkTreeSelection *selection, EMAccountPrefs *prefs)
 		} else {
 			gtk_widget_grab_focus (GTK_WIDGET (prefs->mail_add));
 		}
+		gtk_widget_set_sensitive (GTK_WIDGET (prefs), TRUE);
 	} else {
-		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_add), FALSE);
+		gtk_widget_set_sensitive (GTK_WIDGET (prefs), FALSE);
 	}
 
 	gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_edit), state);

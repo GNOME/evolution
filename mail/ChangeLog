@@ -1,11 +1,14 @@
 2004-03-18  Not Zed  <NotZed@Ximian.com>
 
-	* mail-config.c (mail_config_writable): started writing this, but
-	i couldn't be fucked right now - apparently gnome is supposed to
-	use the gconf thing which just doens't work.  i'll waste a few
-	hours trying to get it to work again first before i keep going
-	with this.
- 
+	* mail-account-gui.c (mail_account_gui_new): save the source and
+	transport vbox's to enable/disable the whole lot easier.
+	(mail_account_gui_setup): enable above based on perms.
+	(mail_account_gui_build_extra_conf): also disable extra page, as
+	above.
+
+	* em-account-prefs.c (account_cursor_change): disable the whole
+	account editor if accounts are ro.
+
 2004-03-17  Not Zed  <NotZed@Ximian.com>
 
 	* em-format-html.c (efh_message_deliverystatus): format as plain

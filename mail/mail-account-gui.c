@@ -806,7 +806,7 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 			camel_url_free (url);
 		return;
 	} else
-		gtk_widget_set_sensitive (GTK_WIDGET (main_table), TRUE);
+		gtk_widget_set_sensitive(GTK_WIDGET(main_table), e_account_writable(gui->account, E_ACCOUNT_SOURCE_URL));
 	
 	/* Set up our hash table. */
 	if (gui->extra_config)
@@ -1521,7 +1521,6 @@ MailAccountGui *
 mail_account_gui_new (EAccount *account, EMAccountPrefs *dialog)
 {
 	MailAccountGui *gui;
-	GtkWidget *button;
 	
 	g_object_ref (account);
 	
@@ -1538,7 +1537,7 @@ mail_account_gui_new (EAccount *account, EMAccountPrefs *dialog)
 	if (!mail_config_get_default_account ()
 	    || (account == mail_config_get_default_account ()))
 		gtk_toggle_button_set_active (gui->default_account, TRUE);
-	
+
 	/* Identity */
 	gui->full_name = GTK_ENTRY (glade_xml_get_widget (gui->xml, "identity_full_name"));
 	gui->email_address = GTK_ENTRY (glade_xml_get_widget (gui->xml, "identity_address"));
@@ -1560,6 +1559,7 @@ mail_account_gui_new (EAccount *account, EMAccountPrefs *dialog)
 	
 	/* Source */
 	gui->source.provider_type = CAMEL_PROVIDER_STORE;
+	gui->source.container = glade_xml_get_widget(gui->xml, "source_vbox");
 	gui->source.type = GTK_OPTION_MENU (glade_xml_get_widget (gui->xml, "source_type_omenu"));
 	gui->source.description = GTK_LABEL (glade_xml_get_widget (gui->xml, "source_description"));
 	gui->source.hostname = GTK_ENTRY (glade_xml_get_widget (gui->xml, "source_host"));
@@ -1585,6 +1585,7 @@ mail_account_gui_new (EAccount *account, EMAccountPrefs *dialog)
 	
 	/* Transport */
 	gui->transport.provider_type = CAMEL_PROVIDER_TRANSPORT;
+	gui->transport.container = glade_xml_get_widget(gui->xml, "transport_vbox");
 	gui->transport.type = GTK_OPTION_MENU (glade_xml_get_widget (gui->xml, "transport_type_omenu"));
 	gui->transport.description = GTK_LABEL (glade_xml_get_widget (gui->xml, "transport_description"));
 	gui->transport.hostname = GTK_ENTRY (glade_xml_get_widget (gui->xml, "transport_host"));
@@ -1625,7 +1626,7 @@ mail_account_gui_new (EAccount *account, EMAccountPrefs *dialog)
 	em_folder_selection_button_set_selection((EMFolderSelectionButton *)gui->sent_folder_button, gui->sent_folder_uri);
 	
 	/* Special Folders "Reset Defaults" button */
-	gui->restore_folders_button = glade_xml_get_widget (gui->xml, "default_folders_button");
+	gui->restore_folders_button = (GtkButton *)glade_xml_get_widget (gui->xml, "default_folders_button");
 	g_signal_connect (gui->restore_folders_button, "clicked", G_CALLBACK (default_folders_clicked), gui);
 	
 	/* Always Cc */
@@ -1880,13 +1881,24 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 	}
 
 	/* FIXME: drive by table?? */
-	if (gui->source.provider) {
+	if (gui->source.provider == NULL
+	    || !e_account_writable(gui->account, E_ACCOUNT_SOURCE_URL)) {
+		gtk_widget_set_sensitive(gui->source.container, FALSE);
+	} else {
+		gtk_widget_set_sensitive(gui->source.container, TRUE);
 		gtk_widget_set_sensitive((GtkWidget *)gui->source.authtype, e_account_writable_option(gui->account, gui->source.provider->protocol, "auth"));
+		gtk_widget_set_sensitive((GtkWidget *)gui->source.check_supported, e_account_writable_option(gui->account, gui->source.provider->protocol, "auth"));
 		gtk_widget_set_sensitive((GtkWidget *)gui->source.use_ssl, e_account_writable_option(gui->account, gui->source.provider->protocol, "use_ssl"));
+		gtk_widget_set_sensitive((GtkWidget *)gui->source.remember, e_account_writable(gui->account, E_ACCOUNT_SOURCE_SAVE_PASSWD));
 	}
-	if (gui->transport.provider) {
+	if (gui->transport.provider == NULL
+		|| !e_account_writable(gui->account, E_ACCOUNT_TRANSPORT_URL)) {
+		gtk_widget_set_sensitive(gui->transport.container, FALSE);
+	} else {
 		gtk_widget_set_sensitive((GtkWidget *)gui->transport.authtype, e_account_writable_option(gui->account, gui->transport.provider->protocol, "auth"));
+		gtk_widget_set_sensitive((GtkWidget *)gui->transport.check_supported, e_account_writable_option(gui->account, gui->transport.provider->protocol, "auth"));
 		gtk_widget_set_sensitive((GtkWidget *)gui->transport.use_ssl, e_account_writable_option(gui->account, gui->transport.provider->protocol, "use_ssl"));
+		gtk_widget_set_sensitive((GtkWidget *)gui->transport.remember, e_account_writable(gui->account, E_ACCOUNT_TRANSPORT_SAVE_PASSWD));
 	}
 
 	gtk_widget_set_sensitive((GtkWidget *)gui->drafts_folder_button, e_account_writable(gui->account, E_ACCOUNT_DRAFTS_FOLDER_URI));
@@ -1894,9 +1906,10 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 	gtk_widget_set_sensitive((GtkWidget *)gui->restore_folders_button,
 				 e_account_writable(gui->account, E_ACCOUNT_SENT_FOLDER_URI)
 				 || e_account_writable(gui->account, E_ACCOUNT_DRAFTS_FOLDER_URI));
-	gtk_widget_set_sensitive((GtkWidget *)gui->source.remember, e_account_writable(gui->account, E_ACCOUNT_SOURCE_SAVE_PASSWD));
-	gtk_widget_set_sensitive((GtkWidget *)gui->transport.remember, e_account_writable(gui->account, E_ACCOUNT_TRANSPORT_SAVE_PASSWD));
 	gtk_widget_set_sensitive((GtkWidget *)gui->sig_option_menu, e_account_writable(gui->account, E_ACCOUNT_ID_DEF_SIGNATURE));
+	gtk_widget_set_sensitive(glade_xml_get_widget(gui->xml, "sigAddNew"),
+				 gconf_client_key_is_writable(mail_config_get_gconf_client(),
+							      "/apps/evolution/mail/signatures", NULL));
 	gtk_widget_set_sensitive((GtkWidget *)gui->source_auto_check, e_account_writable(gui->account, E_ACCOUNT_SOURCE_AUTO_CHECK));
 	gtk_widget_set_sensitive((GtkWidget *)gui->source_auto_check_min, e_account_writable(gui->account, E_ACCOUNT_SOURCE_AUTO_CHECK_TIME));
 }
