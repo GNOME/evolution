@@ -142,7 +142,7 @@ get_intelligent_importers (void)
 	int i;
 
 	CORBA_exception_init (&ev);
-	info_list = bonobo_activation_query ("repo_ids.has ('IDL:GNOME/Evolution/IntelligentImporter:1.0')", NULL, &ev);
+	info_list = bonobo_activation_query ("repo_ids.has ('IDL:GNOME/Evolution/IntelligentImporter:" BASE_VERSION "')", NULL, &ev);
 	CORBA_exception_free (&ev);
 
 	for (i = 0; i < info_list->_length; i++) {
