@@ -38,19 +38,17 @@ struct _FilterDriver {
 	GtkObject parent;
 
 	struct _FilterDriverPrivate *priv;
-
-	CamelSession *session;
 };
 
 struct _FilterDriverClass {
 	GtkObjectClass parent_class;
 };
 
-guint		filter_driver_get_type	(void);
-FilterDriver      *filter_driver_new	(void);
+typedef CamelFolder *(*FilterFolderFetcher) (const char *uri);
 
-void filter_driver_set_session(FilterDriver *, CamelSession *);
-int filter_driver_set_rules(FilterDriver *, const char *system, const char *filter);
+guint		filter_driver_get_type	(void);
+FilterDriver      *filter_driver_new	(const char *system, const char *user, FilterFolderFetcher fetcher);
+
 void filter_driver_set_global(FilterDriver *, const char *name, const char *value);
 
 /* apply rules to a folder, unmatched messages goto inbox, if not NULL */

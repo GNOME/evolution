@@ -1,3 +1,13 @@
+2000-07-02  Dan Winship  <danw@helixcode.com>
+
+	* filter-driver.c (filter_driver_new): kill
+	filter_driver_set_session and filter_driver_set_rules and instead
+	make filter_driver_new take the rules and a callback function it
+	can use to turn URIs into folders.
+	(open_folder): Use the callback function rather than calling camel
+	directly: some URIs need special handling to turn them into stores
+	and folders correctly, so let the mailer do that.
+
 2000-07-01  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* filter-arg-types.c (arg_folder_edit_value): Only allow type

@@ -39,6 +39,7 @@
 struct _FilterDriverPrivate {
 	GList *rules, *options;
 	GHashTable *globals;	/* global variables */
+	FilterFolderFetcher fetcher;
 
 	/* run-time data */
 	GHashTable *folders;	/* currently open folders */
@@ -172,42 +173,35 @@ filter_driver_finalise (GtkObject *obj)
 
 /**
  * filter_driver_new:
+ * @system: path to system rules
+ * @user: path to user rules
+ * @fetcher: function to call to fetch folders
  *
  * Create a new FilterDriver object.
  * 
  * Return value: A new FilterDriver widget.
  **/
 FilterDriver *
-filter_driver_new (void)
+filter_driver_new (const char *system, const char *user, FilterFolderFetcher fetcher)
 {
-	FilterDriver *new = FILTER_DRIVER (gtk_type_new (filter_driver_get_type ()));
-	return new;
-}
-
-
-void filter_driver_set_session(FilterDriver *d, CamelSession *s)
-{
-	if (d->session)
-		gtk_object_unref((GtkObject *)s);
-	d->session = s;
-	if (s)
-		gtk_object_ref((GtkObject *)s);
-}
-
-int filter_driver_set_rules(FilterDriver *d, const char *description, const char *filter)
-{
-	struct _FilterDriverPrivate *p = _PRIVATE(d);
+	FilterDriver *new;
+	struct _FilterDriverPrivate *p;
 	xmlDocPtr desc, filt;
 
-	printf("Loading system '%s'\nLoading user '%s'\n", description, filter);
+	new = FILTER_DRIVER (gtk_type_new (filter_driver_get_type ()));
+	p = _PRIVATE(new);
+
+	p->fetcher = fetcher;
+
+	printf("Loading system '%s'\nLoading user '%s'\n", system, user);
 
 #warning "fix leaks, free xml docs here"
-	desc = xmlParseFile(description);
+	desc = xmlParseFile(system);
 	p->rules = filter_load_ruleset(desc);
 
-	filt = xmlParseFile(filter);
-	if( filt == NULL ) {
-		g_warning( "Couldn't load filter file %s!", filter );
+	filt = xmlParseFile(user);
+	if (filt == NULL) {
+		g_warning("Couldn't load filter file %s!", user);
 		p->options = NULL;
 	} else
 		p->options = filter_load_optionset(filt, p->rules);
@@ -215,9 +209,10 @@ int filter_driver_set_rules(FilterDriver *d, const char *description, const char
 #warning "Zucchi: is this safe? Doesn't seem to cause problems..."
 	filter_load_ruleset_free (p->rules);
 	xmlFreeDoc (desc);
-	
-	return 0;
+
+	return new;
 }
+
 
 void filter_driver_set_global(FilterDriver *d, const char *name, const char *value)
 {
@@ -454,8 +449,6 @@ do_stop(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *d)
 static CamelFolder *
 open_folder(FilterDriver *d, const char *folder_url)
 {
-	char *folder, *store;
-	CamelStore *camelstore;
 	CamelFolder *camelfolder;
 	struct _FilterDriverPrivate *p = _PRIVATE(d);
 
@@ -464,35 +457,11 @@ open_folder(FilterDriver *d, const char *folder_url)
 	if (camelfolder)
 		return camelfolder;
 
-	store = g_strdup(folder_url);
-	folder = strrchr(store, '/');
-	if (folder == NULL || folder == store || folder[1]==0)
-		goto fail;
-
-	*folder++ = 0;
-	camelstore = camel_session_get_store (d->session, store, p->ex);
-	if (camel_exception_get_id (p->ex)) {
-		printf ("Could not open store: %s: %s", store, camel_exception_get_description (p->ex));
-		goto fail;
-	}
-
-	camelfolder = camel_store_get_folder (camelstore, folder, TRUE, p->ex);
-	if (camel_exception_get_id (p->ex)) {
-		printf ("Could not open folder: %s: %s", folder, camel_exception_get_description (p->ex));
-		goto fail;
-	}
-
-	printf("opening folder: %s\n", folder_url);
-
-	g_free(store);
-
-	g_hash_table_insert(p->folders, g_strdup(folder_url), camelfolder);
+	camelfolder = p->fetcher(folder_url);
+	if (camelfolder)
+		g_hash_table_insert(p->folders, g_strdup(folder_url), camelfolder);
 
 	return camelfolder;
-
-fail:
-	g_free(store);
-	return NULL;
 }
 
 static void
