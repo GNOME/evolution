@@ -1,5 +1,12 @@
 2000-07-25  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-table-selection-model.c, e-table-selection-model.h: Replaced
+	get_selection_list with foreach.
+
+	* e-table.h: Add a ETableSelectionModel.
+
+2000-07-25  Christopher James Lahey  <clahey@helixcode.com>
+
 	* Makefile.am: Added e-table-selection-model.c and
 	e-table-selection-model.h.
 

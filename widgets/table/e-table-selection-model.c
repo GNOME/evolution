@@ -196,7 +196,7 @@ e_table_selection_model_new (void)
 
 gboolean
 e_table_selection_model_is_row_selected (ETableSelectionModel *selection,
-					 int                   n)
+					 guint                 n)
 {
 	if (selection->row_count < n)
 		return 0;
@@ -204,25 +204,22 @@ e_table_selection_model_is_row_selected (ETableSelectionModel *selection,
 		return ((selection->selection[n / 32]) >> (31 - (n % 32))) & 0x1;
 }
 
-GList *
-e_table_selection_model_get_selection_list (ETableSelectionModel *selection)
+void 
+e_table_selection_model_foreach     (ETableSelectionModel *selection,
+				     ETableForeachFunc callback,
+				     gpointer closure)
 {
 	int i;
-	GList *list = NULL;
-	if (selection->row_count < 0)
-		return NULL;
 	for (i = selection->row_count / 32; i >= 0; i--) {
 		if (selection->selection[i]) {
 			int j;
 			guint32 value = selection->selection[i];
 			for (j = 31; j >= 0; j--) {
 				if (value & 0x1) {
-					list = g_list_prepend(list, (void *) (i * 32 + j));
+					callback(i * 32 + j, closure);
 				}
 				value >>= 1;
 			}
 		}
 	}
-
-	return NULL;
 }

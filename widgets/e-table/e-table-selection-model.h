@@ -4,6 +4,7 @@
 
 #include <gtk/gtkobject.h>
 #include "widgets/e-table/e-table-model.h"
+#include "widgets/e-table/e-table-defines.h"
 
 #define E_TABLE_SELECTION_MODEL_TYPE        (e_table_selection_model_get_type ())
 #define E_TABLE_SELECTION_MODEL(o)          (GTK_CHECK_CAST ((o), E_TABLE_SELECTION_MODEL_TYPE, ETableSelectionModel))
@@ -45,8 +46,10 @@ typedef struct {
 GtkType      	 e_table_selection_model_get_type (void);
 
 gboolean         e_table_selection_model_is_row_selected    (ETableSelectionModel *selection,
-							     int                   n);
-GList           *e_table_selection_model_get_selection_list (ETableSelectionModel *selection);
+							     guint                 n);
+void             e_table_selection_model_foreach     (ETableSelectionModel *selection,
+						      ETableForeachFunc callback,
+						      gpointer closure);
 
 ETableSelectionModel  *e_table_selection_model_new                (void);
 

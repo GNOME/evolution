@@ -10,6 +10,7 @@
 #include "e-table-group.h"
 #include "e-table-sort-info.h"
 #include "e-table-item.h"
+#include "e-table-selection-model.h"
 #include "e-util/e-printable.h"
 
 BEGIN_GNOME_DECLS
@@ -31,6 +32,8 @@ typedef struct {
 	ETableGroup  *group;
 
 	ETableSortInfo *sort_info;
+
+	ETableSelectionModel *selection;
 
 	int table_model_change_id;
 	int table_row_change_id;
