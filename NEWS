@@ -9,6 +9,8 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
              start date (Harry Lu)
     #44972 - Appointment Notification List not translated (to German)
              (Lorenzo Gil)
+    #46130 - evolution fails to build with error undefined reference to
+             `ORBIT_SERVANT_SET_CLASSINFO' (egallego@telefonica.net)
 
   * Mail
 
