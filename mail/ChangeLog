@@ -1,3 +1,8 @@
+2004-06-08  Karsten Bräckelmann  <guenther@rudersport.de>
+
+	* em-format-html-display.c (smime_encrypt_table[4]): minor typo,
+	uppercase 'the' corrected.
+
 2004-08-03  Jeffrey Stedfast  <fejj@novell.com>
 
 	* em-composer-utils.c (format_sender): If type="{Sender}" and name

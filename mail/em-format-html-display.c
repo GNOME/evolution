@@ -647,7 +647,7 @@ static const struct {
 static const struct {
 	const char *icon, *shortdesc, *description;
 } smime_encrypt_table[4] = {
-	{ "stock_lock-broken", N_("Unencrypted"), N_("This message is not encrypted.  Its content may be viewed in transit across The Internet.") },
+	{ "stock_lock-broken", N_("Unencrypted"), N_("This message is not encrypted.  Its content may be viewed in transit across the Internet.") },
 	{ "stock_lock-ok", N_("Encrypted, weak"), N_("This message is encrypted, but with a weak encryption algorithm.  It would be difficult, but not impossible for an outsider to view the content of this message in a practical amount of time.") },
 	{ "stock_lock-ok", N_("Encrypted"), N_("This message is encrypted.  It would be difficult for an outsider to view the content of this message.") },
 	{ "stock_lock-ok", N_("Encrypted, strong"), N_("This message is encrypted, with a strong encryption algorithm.  It would be very difficult for an outsider to view the content of this message in a practical amount of time.") },
@@ -1373,7 +1373,13 @@ efhd_bonobo_object(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *
 	/* Write the data to a CamelStreamMem... */
 	cstream = (CamelStreamMem *)camel_stream_mem_new();
 	wrapper = camel_medium_get_content_object((CamelMedium *)pobject->part);
- 	camel_data_wrapper_decode_to_stream(wrapper, (CamelStream *)cstream);
+	if (FALSE && !g_ascii_strncasecmp (eb->type, "text/", 5)) {
+		/* do charset conversion, etc */
+		printf ("performing charset conversion for %s component\n", eb->type);
+		em_format_format_text ((EMFormat *) efh, (CamelStream *) cstream, wrapper);
+	} else {
+		camel_data_wrapper_decode_to_stream (wrapper, (CamelStream *) cstream);
+	}
 	
 	/* ...convert the CamelStreamMem to a BonoboStreamMem... */
 	bstream = bonobo_stream_mem_create(cstream->buffer->data, cstream->buffer->len, TRUE, FALSE);
