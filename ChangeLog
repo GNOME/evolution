@@ -1,3 +1,10 @@
+2003-05-22  Rodney Dawes  <dobey@ximian.com>
+
+	* camel.pc.in:
+	* evolution-addressbook.pc.in:
+	* evolution-calendar.pc.in:
+	* evolution-shell.pc.in: s/GAL_VERSION/GAL_REQUIRED/
+	
 2003-05-22  Dmitry G. Mastrukov  <dmitry@taurussoft.org>
 
 	* configure.in: Added Belarusian to ALL_LINGUAS.

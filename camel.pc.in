@@ -8,6 +8,6 @@ camel_providerdir=@camel_providerdir@
 Name: camel
 Description: the Evolution mail library
 Version: @VERSION@
-Requires: gal-2.0 >= @GAL_VERSION@
+Requires: gal-2.0 >= @GAL_REQUIRED@
 Libs: -L${libdir} -lcamel
 Cflags: -I${includedir}

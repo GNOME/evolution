@@ -12,6 +12,6 @@ privincludedir=@privincludedir@
 Name: evolution-addressbook
 Description: libraries needed for Evolution addressbook backends
 Version: @VERSION@
-Requires: gconf-2.0 libbonobo-2.0 gal-2.0 >= @GAL_VERSION@ libgnome-2.0 camel = @VERSION@
+Requires: gconf-2.0 libbonobo-2.0 gal-2.0 >= @GAL_REQUIRED@ libgnome-2.0 camel = @VERSION@
 Libs: -L${privlibdir} -lpas -lebook -lename -lversit
 Cflags: -I${privincludedir}
