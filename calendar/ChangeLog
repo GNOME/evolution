@@ -1,3 +1,9 @@
+2000-08-02  Joe Shaw  <joe@helixcode.com>
+
+	* pcs/cal-backend-file.c (cal_backend_file_update_pilot_id):
+	Fixed a g_return_if_fail that had two parameters and thus
+	wouldn't build.
+
 2000-08-03  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/calendar-model.c (calendar_model_append_row): updated to match

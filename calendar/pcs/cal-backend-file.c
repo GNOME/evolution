@@ -1032,7 +1032,7 @@ cal_backend_file_update_pilot_id (CalBackend *backend,
 	cbfile = CAL_BACKEND_FILE (backend);
 	priv = cbfile->priv;
 
-	g_return_if_fail (priv->icalcomp != NULL, FALSE);
+	g_return_if_fail (priv->icalcomp != NULL);
 
 	g_return_if_fail (uid != NULL);
 
