@@ -1,3 +1,8 @@
+2002-02-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-list.c (on_message_list_built): Removed, this wasn't
+	working as intended and seemed to break other features.
+
 2002-02-21  Ettore Perazzoli  <ettore@ximian.com>
 
 	* component-factory.c (create_component): Add an icon for the "New

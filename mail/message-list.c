@@ -109,7 +109,6 @@ typedef struct _EMailAddress EMailAddress;
 static ETreeScrolledClass *message_list_parent_class;
 
 static void on_cursor_activated_cmd (ETree *tree, int row, ETreePath path, gpointer user_data);
-static void on_message_list_built (MessageList *message_list, gpointer user_data);
 static gint on_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, MessageList *list);
 static char *filter_date (time_t date);
 static char *filter_size (int size);
@@ -1275,9 +1274,6 @@ message_list_construct (MessageList *message_list)
 	
 	gtk_signal_connect (GTK_OBJECT (message_list->tree), "click",
 			    GTK_SIGNAL_FUNC (on_click), message_list);
-	
-	gtk_signal_connect (GTK_OBJECT (message_list), "message_list_built",
-			    GTK_SIGNAL_FUNC (on_message_list_built), message_list);
 }
 
 GtkWidget *
@@ -2043,31 +2039,6 @@ on_cursor_activated_cmd (ETree *tree, int row, ETreePath path, gpointer user_dat
 		message_list->idle_id =
 			g_idle_add_full (G_PRIORITY_LOW, on_cursor_activated_idle,
 					 message_list, NULL);
-	}
-}
-
-static void
-on_message_list_built (MessageList *message_list, gpointer user_data)
-{
-	GtkWidget *widget = GTK_WIDGET (message_list);
-	
-	if (!GTK_WIDGET_VISIBLE (widget))
-		return;
-	
-	if (!GTK_WIDGET_HAS_FOCUS (widget))
-		gtk_widget_grab_focus (widget);
-	
-	if (!e_tree_get_cursor (message_list->tree)) {
-		CamelMessageInfo *info;
-		ETreePath node;
-		
-		node = e_tree_node_at_row (message_list->tree, 0);
-		e_tree_set_cursor (message_list->tree, node);
-		
-		info = e_tree_memory_node_get_data (E_TREE_MEMORY (message_list->model), node);
-		if (info && info->flags & CAMEL_MESSAGE_SEEN)
-			message_list_select (message_list, MESSAGE_LIST_SELECT_NEXT,
-					     0, CAMEL_MESSAGE_SEEN, FALSE);
 	}
 }
 
