@@ -548,7 +548,8 @@ format_date(time_t time, int flags, char *buffer, int bufflen)
 static gboolean 
 instance_cb (ECalComponent *comp, time_t instance_start, time_t instance_end, gpointer data)
 {
-	gboolean *found = data;
+	
+	gboolean *found = ((ECalModelGenerateInstancesData *) data)->cb_data;
 	
 	*found = TRUE;
 	
@@ -663,9 +664,9 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal, time_t month,
 				sprintf (buf, "%d", day);
 
 				/* this is a slow messy way to do this ... but easy ... */
-				e_cal_generate_instances (client, now, 
-							  time_day_end_with_zone (now, zone),
-							  instance_cb, &found);
+				e_cal_model_generate_instances (gnome_calendar_get_calendar_model (gcal), now, 
+								time_day_end_with_zone (now, zone),
+								instance_cb, &found);
 				
 				font = found ? font_bold : font_normal;
 
