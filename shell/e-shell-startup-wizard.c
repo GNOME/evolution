@@ -524,6 +524,12 @@ get_intelligent_importers (void)
 	query = g_strdup_printf ("repo_ids.has ('IDL:GNOME/Evolution/IntelligentImporter:%s'", BASE_VERSION);
 	info_list = bonobo_activation_query (query, NULL, &ev);
 	g_free (query);
+
+	if (BONOBO_EX (&ev) || info_list == CORBA_OBJECT_NIL) {
+		g_warning ("Cannot find importers -- %s", BONOBO_EX_REPOID (&ev));
+		CORBA_exception_free (&ev);
+		return NULL;
+	}
 	CORBA_exception_free (&ev);
 
 	for (i = 0; i < info_list->_length; i++) {
