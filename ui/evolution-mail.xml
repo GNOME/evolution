@@ -112,6 +112,9 @@
         <menuitem name="MessageCopy" verb=""
         _label="_Copy to Folder"/>
 
+        <menuitem name="MessageApplyFilters" verb=""
+        _label="_Apply Filters"/>
+
         <menuitem/>
 
         <menuitem name="MessageVFolderSubj" verb=""

@@ -1,5 +1,7 @@
 2000-10-25  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* evolution-mail.xml: Added a MessageApplyFilters menu item.
+
 	* evolution-subscribe.xml: Don't have a Unselect All, use Invert
 	Selection instead.
 

@@ -6,17 +6,15 @@
  * POTFILES.in. DO NOT compile it as part of your application.
  */
 
-gchar *s = N_("_File");
-gchar *s = N_("Close");
-gchar *s = N_("_Edit");
-gchar *s = N_("Select _All");
-gchar *s = N_("_Unselect All");
-gchar *s = N_("F_older");
-gchar *s = N_("Subscribe");
-gchar *s = N_("Unsubscribe");
-gchar *s = N_("Subscribe");
 gchar *s = N_("Add folder to your list of subscribed folders");
-gchar *s = N_("Unsubscribe");
-gchar *s = N_("Remove folder from your list of subscribed folders");
+gchar *s = N_("Close");
+gchar *s = N_("F_older");
 gchar *s = N_("Refresh List");
 gchar *s = N_("Refresh List of Folders");
+gchar *s = N_("Remove folder from your list of subscribed folders");
+gchar *s = N_("Select _All");
+gchar *s = N_("Subscribe");
+gchar *s = N_("Unsubscribe");
+gchar *s = N_("_Edit");
+gchar *s = N_("_File");
+gchar *s = N_("_Invert Selection");
