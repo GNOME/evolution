@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-14 03:06+0200\n"
+"POT-Creation-Date: 2004-08-18 11:10+0200\n"
 "PO-Revision-Date: 2004-08-14 16:37+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -178,8 +178,6 @@ msgid ""
 msgstr "您已对此联系人作出了修改。您想要保存这些更改吗？"
 
 #: addressbook/addressbook-errors.xml.h:43
-#: addressbook/gui/contact-editor/e-contact-editor.c:2803
-#: addressbook/gui/contact-editor/e-contact-editor.c:2827
 msgid "_Discard"
 msgstr "丢弃(_D)"
 
@@ -2125,20 +2123,6 @@ msgstr ""
 msgid "Invalid contact."
 msgstr "无效的联系人。"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2799
-msgid ""
-"The contact cannot be saved to the selected address book. Do you want to "
-"discard changes?"
-msgstr "联系人无法保存到选中的地址簿。您想要丢弃更改吗？"
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:2822
-msgid ""
-"You are moving the contact from one address book to another, but it cannot "
-"be removed from the source. Do you want to save a copy instead?"
-msgstr ""
-"您即将把联系人从一个地址簿移动到另外一个地址簿，但是无法从源地址簿删除该联系"
-"人。您想要换作复制联系人吗？"
-
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:280
 msgid "Contact Quick-Add"
 msgstr "快速添加联系人"
@@ -2368,7 +2352,7 @@ msgid ""
 "The changed email or name of this contact already\n"
 "exists in this folder.  Would you like to add it anyway?"
 msgstr ""
-"改变后的电子邮件或姓名已经在本文件夹中存在了。\n"
+"更改后的电子邮件或姓名已经在本文件夹中存在了。\n"
 "您一定要添加吗？"
 
 #: addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:2
@@ -3008,7 +2992,7 @@ msgid "Error adding list"
 msgstr "添加列表出错"
 
 #: addressbook/gui/widgets/eab-gui-util.c:170
-#: addressbook/gui/widgets/eab-gui-util.c:640
+#: addressbook/gui/widgets/eab-gui-util.c:643
 msgid "Error adding contact"
 msgstr "添加联系人出错"
 
@@ -3025,20 +3009,23 @@ msgid "Error removing list"
 msgstr "删除列表出错"
 
 #: addressbook/gui/widgets/eab-gui-util.c:193
-#: addressbook/gui/widgets/eab-gui-util.c:598
+#: addressbook/gui/widgets/eab-gui-util.c:601
 msgid "Error removing contact"
 msgstr "删除联系人出错"
 
 #: addressbook/gui/widgets/eab-gui-util.c:275
 #, c-format
 msgid ""
+"Opening %d contact will open %d new window as well.\n"
+"Do you really want to display this contact?"
+msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
-msgstr ""
+msgstr[0] ""
 "打开 %d 个联系人将同时打开 %d 个新窗口。\n"
 "您真的想要显示所有联系人吗？"
 
-#: addressbook/gui/widgets/eab-gui-util.c:301
+#: addressbook/gui/widgets/eab-gui-util.c:304
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -3047,44 +3034,44 @@ msgstr ""
 "%s 已经存在\n"
 "您打算覆盖它吗？"
 
-#: addressbook/gui/widgets/eab-gui-util.c:305
+#: addressbook/gui/widgets/eab-gui-util.c:308
 msgid "Overwrite"
 msgstr "覆盖"
 
 #. This is a filename. Translators take note.
-#: addressbook/gui/widgets/eab-gui-util.c:383
+#: addressbook/gui/widgets/eab-gui-util.c:386
 msgid "card.vcf"
 msgstr "card.vcf"
 
-#: addressbook/gui/widgets/eab-gui-util.c:545
+#: addressbook/gui/widgets/eab-gui-util.c:548
 msgid "list"
 msgstr "列表"
 
-#: addressbook/gui/widgets/eab-gui-util.c:694
+#: addressbook/gui/widgets/eab-gui-util.c:697
 msgid "Move contact to"
 msgstr "将联系人移动到"
 
-#: addressbook/gui/widgets/eab-gui-util.c:696
+#: addressbook/gui/widgets/eab-gui-util.c:699
 msgid "Copy contact to"
 msgstr "将联系人复制到"
 
-#: addressbook/gui/widgets/eab-gui-util.c:699
+#: addressbook/gui/widgets/eab-gui-util.c:702
 msgid "Move contacts to"
 msgstr "将联系人移动到"
 
-#: addressbook/gui/widgets/eab-gui-util.c:701
+#: addressbook/gui/widgets/eab-gui-util.c:704
 msgid "Copy contacts to"
 msgstr "将联系人复制到"
 
-#: addressbook/gui/widgets/eab-gui-util.c:704
+#: addressbook/gui/widgets/eab-gui-util.c:707
 msgid "Select target addressbook."
 msgstr "从地址簿中选择目标联系人。"
 
-#: addressbook/gui/widgets/eab-gui-util.c:927
+#: addressbook/gui/widgets/eab-gui-util.c:930
 msgid "Multiple VCards"
 msgstr "多个 VCard"
 
-#: addressbook/gui/widgets/eab-gui-util.c:930
+#: addressbook/gui/widgets/eab-gui-util.c:933
 #, c-format
 msgid "VCard for %s"
 msgstr "%s 的 VCard"
@@ -15402,9 +15389,9 @@ msgid ""
 msgstr ""
 "您即将发送的联系人列表配置为隐藏列表收件人。\n"
 "\n"
-"许多邮件系统会在只有 Bcc 收件人的信件中添加 Apparently-To 信头。如果添加了"
-"该信头，将在您的邮件中列出您的全部收件人。要避免此特性，您应该至少添加一个 "
-"To: 或 CC: 收件人。"
+"许多邮件系统会在只有 Bcc 收件人的信件中添加 Apparently-To 信头。如果添加了该"
+"信头，将在您的邮件中列出您的全部收件人。要避免此特性，您应该至少添加一个 To: "
+"或 CC: 收件人。"
 
 #. mail:ask-send-only-bcc secondary
 #: mail/mail-errors.xml.h:31
@@ -15414,9 +15401,9 @@ msgid ""
 "your message anyway. To avoid this, you should add at least one To: or CC: "
 "recipient."
 msgstr ""
-"许多邮件系统会在只有 Bcc 收件人的信件中添加 Apparently-To 信头。如果添加了"
-"该信头，将在您的邮件中列出您的全部收件人。要避免此特性，您应该至少添加一个 "
-"To: 或 CC: 收件人。"
+"许多邮件系统会在只有 Bcc 收件人的信件中添加 Apparently-To 信头。如果添加了该"
+"信头，将在您的邮件中列出您的全部收件人。要避免此特性，您应该至少添加一个 To: "
+"或 CC: 收件人。"
 
 #. mail:send-no-recipients primary
 #: mail/mail-errors.xml.h:34
@@ -16210,7 +16197,7 @@ msgstr "%m月%d日 %H:%M"
 msgid "%b %d %Y"
 msgstr "%Y年%m月%d日"
 
-#: mail/message-list.c:3376
+#: mail/message-list.c:3380
 msgid "Generating message list"
 msgstr "生成信件列表"
 
@@ -18767,7 +18754,7 @@ msgstr "更改 Evolution 的设置"
 
 #: ui/evolution.xml.h:3
 msgid "Change the visibility of the toolbar"
-msgstr "改变工具栏的可见性"
+msgstr "更改工具栏的可见性"
 
 #: ui/evolution.xml.h:6
 msgid "Create a new window displaying this folder"
@@ -19264,3 +19251,15 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 完成)"
+
+#~ msgid ""
+#~ "The contact cannot be saved to the selected address book. Do you want to "
+#~ "discard changes?"
+#~ msgstr "联系人无法保存到选中的地址簿。您想要丢弃更改吗？"
+
+#~ msgid ""
+#~ "You are moving the contact from one address book to another, but it "
+#~ "cannot be removed from the source. Do you want to save a copy instead?"
+#~ msgstr ""
+#~ "您即将把联系人从一个地址簿移动到另外一个地址簿，但是无法从源地址簿删除该联"
+#~ "系人。您想要换作复制联系人吗？"
