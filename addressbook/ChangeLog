@@ -1,3 +1,10 @@
+2001-02-07  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-ldap.c (check_for_evolve_person): flesh
+	out this check.  #ifdef the entire thing OPENLDAP2, as it only
+	works with the new schema stuff in openldap 2.x (both on server
+	and client, so upgrade your server.)
+	
 2001-02-07  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/widgets/e-addressbook-view.c: Added N_("* Click here to add

@@ -33,6 +33,10 @@
 #define LDAP_NAME_ERROR(x) NAME_ERROR(x)
 #endif
 
+#ifdef OPENLDAP2
+#include "ldap_schema.h"
+#endif
+
 #include "pas-backend-ldap.h"
 #include "pas-book.h"
 #include "pas-card-cursor.h"
@@ -265,9 +269,49 @@ view_destroy(GtkObject *object, gpointer data)
 static void
 check_for_evolve_person (PASBackendLDAP *bl)
 {
-	/* XXX for now, we don't have an evolve person */
+#ifdef OPENLDAP2
+	char *attrs[2];
+	LDAPMessage *resp;
+	LDAP *ldap = bl->priv->ldap;
+#endif
+
 	bl->priv->evolvePersonChecked = TRUE;
-	bl->priv->evolvePersonSupported = FALSE;
+
+#ifdef OPENLDAP2
+	attrs[0] = "objectClasses";
+	attrs[1] = NULL;
+
+	if (ldap_search_ext_s (ldap, "cn=Subschema", LDAP_SCOPE_BASE,
+			       "(objectClass=subschema)", attrs, 0,
+			       NULL, NULL, NULL, 0, &resp) == LDAP_SUCCESS) {
+		char **values;
+
+		values = ldap_get_values (ldap, resp, "objectClasses");
+
+		if (values) {
+			int i;
+			for (i = 0; values[i]; i ++) {
+				int j;
+				int code;
+				const char *err;
+				LDAPObjectClass *oc = ldap_str2objectclass (values[i], &code, &err, 0);
+				if (!oc)
+					continue;
+
+				for (j = 0; oc->oc_names[j]; j++)
+					if (!g_strcasecmp (oc->oc_names[j], EVOLVEPERSON)) {
+						g_print ("support found on ldap server for objectclass evolvePerson\n");
+						bl->priv->evolvePersonSupported = TRUE;
+						ldap_objectclass_free (oc);
+						goto done;
+					}
+
+				ldap_objectclass_free (oc);
+			}
+		done:
+		}
+	}
+#endif
 }
 
 static void
