@@ -808,7 +808,7 @@ e_book_get_static_capabilities (EBook *book)
 		g_warning ("e_book_get_static_capabilities: Exception "
 			   "during get_static_capabilities!\n");
 		CORBA_exception_free (&ev);
-		return NULL;
+		return g_strdup("");
 	}
 
 	ret_val = g_strdup(temp);
