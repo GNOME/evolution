@@ -1,3 +1,10 @@
+2001-08-11  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #7608, New - Phantom menu entry in Tasks.]
+
+	* evolution-tasks.xml: Put the Tools menu in the
+	ComponentToolsPlaceholder.
+
 2001-08-10  Jason Leach  <jleach@ximian.com>
 
 	* evolution-addressbook.xml: End a placeholder block with
