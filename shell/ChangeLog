@@ -1,3 +1,10 @@
+2001-07-24  Jason Leach  <jleach@ximian.com>
+
+	* e-storage-set-view.c (e_storage_set_view_construct): Add the
+	"/My Evolution" path to the path_to_etree_node hash so that
+	storage_set_view_set_current_folder() can select the My Evolution
+	node when it's the current one. Fixes #5114 and #3956.
+
 2001-07-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* main.c (development_warning): Only show the warning dialog

@@ -1436,7 +1436,10 @@ etree_value_at (ETreeModel *etree, ETreePath tree_path, int col, void *model_dat
 			return TRUE;
 	}
 
-	return _("My Evolution");
+	if (col == 0)
+		return _("My Evolution");
+	else
+		return TRUE;
 }
 
 static void
@@ -1842,7 +1845,9 @@ insert_storages (EStorageSetView *storage_set_view)
 
 		parent = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), priv->root_node,
 						    -1, path);
-		e_tree_memory_sort_node (E_TREE_MEMORY(priv->etree_model), priv->root_node, storage_sort_callback, storage_set_view);
+		e_tree_memory_sort_node (E_TREE_MEMORY(priv->etree_model),
+					 priv->root_node,
+					 storage_sort_callback, storage_set_view);
 
 		g_hash_table_insert (priv->path_to_etree_node, path, parent);
 
@@ -1895,7 +1900,10 @@ e_storage_set_view_construct (EStorageSetView   *storage_set_view,
 	e_tree_memory_set_node_destroy_func (E_TREE_MEMORY (priv->etree_model), (GFunc) g_free, NULL);
 	e_tree_memory_set_expanded_default (E_TREE_MEMORY (priv->etree_model), TRUE);
 
-	priv->root_node = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), NULL, -1, g_strdup ("/My Evolution"));
+	priv->root_node = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model),
+						     NULL, -1,
+						     g_strdup ("/My Evolution"));
+	add_node_to_hash (storage_set_view, "/My Evolution", priv->root_node);
 
 	extras = e_table_extras_new ();
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
@@ -1992,7 +2000,7 @@ e_storage_set_view_get_current_folder (EStorageSetView *storage_set_view)
 	etree_node = e_tree_get_cursor (E_TREE (storage_set_view));
 
 	if (etree_node == NULL)
-		return NULL;	/* Mmh? */
+		return NULL; /* Mmh? */
 
 	path = (char*)e_tree_memory_node_get_data(E_TREE_MEMORY(priv->etree_model), etree_node);
 
