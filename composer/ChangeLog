@@ -1,3 +1,9 @@
+2001-07-27  Jason Leach  <jleach@ximian.com>
+
+	* e-msg-composer.c (get_signature_html): "-- \n" is 4 chars long,
+	so when checking if it's already in the sig, strncmp should check
+	4 chars, not 3.
+
 2001-07-26  Peter Williams  <peterw@ximian.com>
 
 	* e-msg-composer.c (get_signature_html): Correct our manually inserted
