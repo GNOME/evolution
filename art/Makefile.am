@@ -5,6 +5,7 @@ images_DATA = \
 	configure_16_calendar.xpm	\
 	configure_16_folder.xpm		\
 	configure_16_mail.xpm		\
+	contact-is-a-list.png		\
 	copy_16_message.xpm		\
 	edit.xpm			\
 	empty.gif			\
