@@ -110,11 +110,9 @@ stream_read (Bonobo_Stream stream)
 		if (buffer->_length <= 0)
 			break;
 
-		data = g_realloc (data,
-				  length + buffer->_length);
+		data = g_realloc (data, length + buffer->_length + 1);
 
-		memcpy (data + length,
-			buffer->_buffer, buffer->_length);
+		memcpy (data + length, buffer->_buffer, buffer->_length);
 
 		length += buffer->_length;
 
@@ -124,8 +122,10 @@ stream_read (Bonobo_Stream stream)
 	CORBA_free (buffer);
 	CORBA_exception_free (&ev);
 
-	if (data == NULL)
-	  data = g_strdup("");
+	if (data)
+		data[length] = '\0';
+	else
+		data = g_strdup("");
 
 	return data;
 } /* stream_read */
