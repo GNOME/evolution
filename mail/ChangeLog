@@ -1,3 +1,10 @@
+2002-06-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-gui.c (mail_account_gui_save): Write the signature
+	after the account has been added.
+	(sig_new_html): Don't write the signatures at this time.
+	(sig_new_text): Same.
+
 2002-06-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-accounts.c (account_delete_clicked): Correctly get the

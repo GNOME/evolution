@@ -334,7 +334,7 @@ mail_account_gui_transport_complete (MailAccountGui *gui, GtkWidget **incomplete
 			*incomplete = GTK_WIDGET (gui->transport.type);
 		return FALSE;
 	}
-
+	
 	if (!service_complete (&gui->transport, NULL, incomplete))
 		return FALSE;
 	
@@ -467,7 +467,7 @@ source_type_changed (GtkWidget *widget, gpointer user_data)
 	CamelProvider *provider;
 	
 	provider = gtk_object_get_data (GTK_OBJECT (widget), "provider");
-
+	
 	/* If the previously-selected provider has a linked transport,
 	 * disable it.
 	 */
@@ -1318,17 +1318,6 @@ sig_switch_to_list (GtkWidget *w, MailAccountGui *gui)
 }
 
 static void
-sig_set_and_write (MailAccountGui *gui)
-{
-	gui->account->id->text_signature = gui->text_signature;
-	gui->account->id->text_random = gui->text_random;
-	gui->account->id->html_signature = gui->html_signature;
-	gui->account->id->html_random = gui->html_random;
-	
-	mail_config_write_account_sig (gui->account, -1);
-}
-
-static void
 sig_new_text (GtkWidget *w, MailAccountGui *gui)
 {
 	if (!gui->dialog)
@@ -1341,7 +1330,6 @@ sig_new_text (GtkWidget *w, MailAccountGui *gui)
 	
 	gtk_option_menu_set_history (GTK_OPTION_MENU (gui->sig_option_text), sig_get_index (gui->text_signature));
 	
-	sig_set_and_write (gui);
 	gtk_widget_set_sensitive (gui->sig_edit_text, TRUE);
 }
 
@@ -1358,7 +1346,6 @@ sig_new_html (GtkWidget *w, MailAccountGui *gui)
 	
 	gtk_option_menu_set_history (GTK_OPTION_MENU (gui->sig_option_html), sig_get_index (gui->html_signature));
 	
-	sig_set_and_write (gui);
 	gtk_widget_set_sensitive (gui->sig_edit_html, TRUE);
 }
 
@@ -2005,7 +1992,11 @@ mail_account_gui_save (MailAccountGui *gui)
 	account->id->reply_to = e_utf8_gtk_entry_get_text (gui->reply_to);
 	account->id->organization = e_utf8_gtk_entry_get_text (gui->organization);
 	
-	sig_set_and_write (gui);
+	/* signatures */
+	account->id->text_signature = gui->text_signature;
+	account->id->text_random = gui->text_random;
+	account->id->html_signature = gui->html_signature;
+	account->id->html_random = gui->html_random;
 	
 	old_enabled = account->source && account->source->enabled;
 	service_destroy (account->source);
@@ -2084,6 +2075,8 @@ mail_account_gui_save (MailAccountGui *gui)
 		mail_config_add_account (account);
 	if (gtk_toggle_button_get_active (gui->default_account))
 		mail_config_set_default_account (account);
+	
+	mail_config_write_account_sig (account, -1);
 	
 	mail_autoreceive_setup ();
 	
