@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-10 22:19+0100\n"
-"PO-Revision-Date: 2004-11-10 23:25+0100\n"
+"POT-Creation-Date: 2004-11-19 09:57+0100\n"
+"PO-Revision-Date: 2004-11-19 10:02+0100\n"
 "Last-Translator: Craig Jeffares <cjeffares@novell.com>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -80,11 +80,9 @@ msgstr "Questa rubrica non può essere aperta."
 #. addressbook:ldap-init secondary
 #: addressbook/addressbook-errors.xml.h:4
 msgid ""
-"This addressbook server might unreachable or the server name may be "
+"This addressbook server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
-msgstr ""
-"Questo server di rubriche potrebbe non essere raggiungibile, il nome "
-"potrebbe essere errato o la rete potrebbe non essere in funzione."
+msgstr "Questo server di rubriche potrebbe essere irraggiungibile, il nome del server potrebbe essere errato o la connessione di rete potrebbe non funzionare."
 
 #. addressbook:ldap-auth primary
 #: addressbook/addressbook-errors.xml.h:6
@@ -440,7 +438,7 @@ msgstr "Migrazione di `%s':"
 #: addressbook/gui/component/addressbook-migrate.c:493
 #: calendar/gui/migration.c:451 calendar/gui/migration.c:544
 #: mail/em-folder-tree-model.c:196 mail/em-folder-tree-model.c:198
-#: mail/mail-component.c:252 mail/mail-vfolder.c:218
+#: mail/mail-component.c:272 mail/mail-vfolder.c:218
 msgid "On This Computer"
 msgstr "Su questo computer"
 
@@ -515,7 +513,7 @@ msgstr ""
 #: addressbook/gui/component/addressbook-view.c:758
 #: addressbook/gui/widgets/e-addressbook-view.c:934
 #: calendar/gui/calendar-component.c:385 calendar/gui/tasks-component.c:330
-#: mail/em-filter-i18n.h:11 ui/evolution-addressbook.xml.h:8
+#: mail/em-filter-i18n.h:12 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-calendar.xml.h:5 ui/evolution-comp-editor.xml.h:4
 #: ui/evolution-contact-editor.xml.h:3
 #: ui/evolution-contact-list-editor.xml.h:3 ui/evolution-mail-message.xml.h:24
@@ -2980,8 +2978,8 @@ msgstr "Protocollo non supportato"
 #: calendar/gui/e-cal-model-tasks.c:347 calendar/gui/e-cal-model-tasks.c:650
 #: calendar/gui/e-calendar-table.c:457 calendar/gui/print.c:2352
 #: camel/camel-service.c:724 camel/camel-service.c:886
-#: camel/camel-service.c:1017 camel/providers/pop3/camel-pop3-store.c:435
-#: camel/providers/pop3/camel-pop3-store.c:516
+#: camel/camel-service.c:1017 camel/providers/pop3/camel-pop3-store.c:438
+#: camel/providers/pop3/camel-pop3-store.c:519
 msgid "Cancelled"
 msgstr "Annullato"
 
@@ -4407,10 +4405,10 @@ msgstr "Negato il permesso di aprire il calendario"
 #: calendar/gui/comp-editor-factory.c:437
 #: camel/providers/imap/camel-imap-command.c:303
 #: camel/providers/imap/camel-imap-command.c:400
-#: camel/providers/imap4/camel-imap4-store.c:286
-#: camel/providers/pop3/camel-pop3-store.c:522
-#: camel/providers/pop3/camel-pop3-store.c:529
-#: camel/providers/pop3/camel-pop3-store.c:535 shell/e-shell.c:1247
+#: camel/providers/imap4/camel-imap4-store.c:287
+#: camel/providers/pop3/camel-pop3-store.c:525
+#: camel/providers/pop3/camel-pop3-store.c:532
+#: camel/providers/pop3/camel-pop3-store.c:538 shell/e-shell.c:1247
 msgid "Unknown error"
 msgstr "Errore sconosciuto"
 
@@ -5257,7 +5255,7 @@ msgstr "_Ora di inizio:"
 #: composer/e-msg-composer.c:2114 filter/filter-rule.c:877
 #: mail/em-account-prefs.c:442 mail/em-folder-view.c:961
 #: mail/mail-account-gui.c:1578 mail/mail-account-gui.c:2023
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:193
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:190
 #: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:458
 #: widgets/misc/e-dateedit.c:1497 widgets/misc/e-dateedit.c:1651
 msgid "None"
@@ -5330,7 +5328,7 @@ msgstr "RSVP"
 #: calendar/gui/dialogs/task-editor.c:142
 #: calendar/gui/e-calendar-table.etspec.h:10
 #: calendar/gui/e-meeting-list-view.c:249
-#: calendar/gui/e-meeting-time-sel.etspec.h:10 mail/em-filter-i18n.h:62
+#: calendar/gui/e-meeting-time-sel.etspec.h:10 mail/em-filter-i18n.h:63
 #: mail/message-list.etspec.h:12
 msgid "Status"
 msgstr "Stato"
@@ -5886,14 +5884,14 @@ msgstr "No"
 #: calendar/gui/e-meeting-store.c:151 calendar/gui/e-meeting-store.c:216
 #: camel/camel-gpg-context.c:1767 camel/camel-gpg-context.c:1818
 #: camel/camel-tcp-stream-openssl.c:631
-#: camel/providers/imap4/camel-imap4-engine.c:1447
-#: camel/providers/imap4/camel-imap4-engine.c:1486
-#: camel/providers/imap4/camel-imap4-engine.c:1531
-#: camel/providers/imap4/camel-imap4-engine.c:1587
-#: camel/providers/imap4/camel-imap4-store.c:1250
-#: camel/providers/imap4/camel-imap4-utils.c:573
+#: camel/providers/imap4/camel-imap4-engine.c:1465
+#: camel/providers/imap4/camel-imap4-engine.c:1504
+#: camel/providers/imap4/camel-imap4-engine.c:1549
+#: camel/providers/imap4/camel-imap4-engine.c:1605
+#: camel/providers/imap4/camel-imap4-store.c:1240
+#: camel/providers/imap4/camel-imap4-utils.c:574
 #: camel/providers/smtp/camel-smtp-transport.c:162
-#: camel/providers/smtp/camel-smtp-transport.c:217 mail/em-utils.c:1155
+#: camel/providers/smtp/camel-smtp-transport.c:217 mail/em-utils.c:1157
 #: shell/e-component-registry.c:207 shell/e-component-registry.c:211
 #: widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
@@ -5974,7 +5972,7 @@ msgid "Open _Web Page"
 msgstr "Apri pagina _web"
 
 #: calendar/gui/e-calendar-table.c:1147 calendar/gui/e-calendar-view.c:1374
-#: mail/em-folder-view.c:929 mail/em-popup.c:496
+#: mail/em-folder-view.c:929 mail/em-popup.c:498
 #: ui/evolution-mail-message.xml.h:128
 msgid "_Save As..."
 msgstr "_Salva con nome..."
@@ -5995,7 +5993,7 @@ msgstr "_Taglia"
 
 #: calendar/gui/e-calendar-table.c:1153 calendar/gui/e-calendar-view.c:1380
 #: composer/e-msg-composer.c:2881 mail/em-folder-tree.c:1024
-#: mail/message-list.c:1707 ui/evolution-addressbook.xml.h:31
+#: mail/message-list.c:1712 ui/evolution-addressbook.xml.h:31
 #: ui/evolution-calendar.xml.h:39 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-message.xml.h:109 ui/evolution-tasks.xml.h:20
 msgid "_Copy"
@@ -7264,7 +7262,7 @@ msgid_plural "%d tasks"
 msgstr[0] "%d totale"
 msgstr[1] "%d totali"
 
-#: calendar/gui/tasks-component.c:406 mail/mail-component.c:516
+#: calendar/gui/tasks-component.c:406 mail/mail-component.c:536
 #, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
@@ -9150,40 +9148,40 @@ msgstr "(match-threads) richiede l'impostazione cartella"
 msgid "Performing query on unknown header: %s"
 msgstr "É stata effettuata una ricerca su un header sconosciuto: %s"
 
-#: camel/camel-folder.c:651
+#: camel/camel-folder.c:610
 #, c-format
 msgid "Unsupported operation: append message: for %s"
 msgstr "Impossibile aggiungere un messaggio a %s (operazione non supportata)"
 
-#: camel/camel-folder.c:1260
+#: camel/camel-folder.c:1200
 #, c-format
 msgid "Unsupported operation: search by expression: for %s"
 msgstr ""
 "Impossibile ricercare attraverso un'espressione in %s (operazione non "
 "supportata)"
 
-#: camel/camel-folder.c:1300
+#: camel/camel-folder.c:1240
 #, c-format
 msgid "Unsupported operation: search by uids: for %s"
 msgstr "Impossibile cercare attraverso l'uid in %s (operazione non supportata)"
 
-#: camel/camel-folder.c:1414
+#: camel/camel-folder.c:1352
 msgid "Moving messages"
 msgstr "Trasferimento dei messaggi in corso"
 
-#: camel/camel-folder.c:1414
+#: camel/camel-folder.c:1352
 msgid "Copying messages"
 msgstr "Copia messaggi in corso"
 
-#: camel/camel-folder.c:1663
+#: camel/camel-folder.c:1601
 msgid "Learning junk"
 msgstr "Apprendimento del materiale da scartare"
 
-#: camel/camel-folder.c:1680
+#: camel/camel-folder.c:1618
 msgid "Learning non-junk"
 msgstr "Apprendimento del materiale utile"
 
-#: camel/camel-folder.c:1699
+#: camel/camel-folder.c:1637
 msgid "Filtering new message(s)"
 msgstr "Filtraggio nuovi messaggi"
 
@@ -9217,8 +9215,8 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:804 camel/camel-gpg-context.c:1314
 #: camel/camel-gpg-context.c:1498 camel/camel-gpg-context.c:1589
-#: camel/camel-gpg-context.c:1701 camel/providers/nntp/camel-nntp-store.c:1253
-#: mail/mail-ops.c:717 mail/mail-send-recv.c:612
+#: camel/camel-gpg-context.c:1701 camel/providers/nntp/camel-nntp-store.c:1261
+#: mail/mail-ops.c:718 mail/mail-send-recv.c:612
 msgid "Cancelled."
 msgstr "Annullato."
 
@@ -9607,7 +9605,7 @@ msgstr "Le credenziali di riferimento sono scadute."
 #: camel/camel-sasl-gssapi.c:194 camel/camel-sasl-gssapi.c:242
 #: camel/camel-sasl-gssapi.c:278 camel/camel-sasl-gssapi.c:293
 #: camel/camel-sasl-kerberos4.c:226
-#: camel/providers/imap/camel-imap-store.c:1211
+#: camel/providers/imap/camel-imap-store.c:1214
 msgid "Bad authentication response from server."
 msgstr "Risposta di autenticazione dal server errata."
 
@@ -9991,7 +9989,7 @@ msgstr "Impossibile rinominare la cartella %s: operazione non valida"
 msgid "Trash"
 msgstr "Cestino"
 
-#: camel/camel-store.c:780 mail/em-filter-i18n.h:35
+#: camel/camel-store.c:780 mail/em-filter-i18n.h:36
 #: mail/mail-config.glade.h:90 ui/evolution-mail-message.xml.h:48
 msgid "Junk"
 msgstr "Da cestinare"
@@ -10208,17 +10206,17 @@ msgstr ""
 msgid "Could not parse URL `%s'"
 msgstr "Impossibile interpretare URL `%s'"
 
-#: camel/camel-vee-folder.c:604
+#: camel/camel-vee-folder.c:476
 #, c-format
 msgid "Error storing `%s': %s"
 msgstr "Errore durante la memorizzazione `%s': %s"
 
-#: camel/camel-vee-folder.c:646
+#: camel/camel-vee-folder.c:518
 #, c-format
 msgid "No such message %s in %s"
 msgstr "Non é presente il messaggio %s in %s"
 
-#: camel/camel-vee-folder.c:813 camel/camel-vee-folder.c:819
+#: camel/camel-vee-folder.c:643 camel/camel-vee-folder.c:649
 msgid "Cannot copy or move messages into a Virtual Folder"
 msgstr "Impossibile copiare o spostare messaggi in una cartella virtuale"
 
@@ -10232,11 +10230,11 @@ msgstr "Impossibile eliminare la cartella %s: cartella inesistente"
 msgid "Cannot rename folder: %s: No such folder"
 msgstr "Impossibile rinominare la cartella %s: cartella inesistente"
 
-#: camel/camel-vtrash-folder.c:45
+#: camel/camel-vtrash-folder.c:47
 msgid "Cannot copy messages to the Trash folder"
 msgstr "È impossibile copiare messaggi sulla cartella cestino"
 
-#: camel/camel-vtrash-folder.c:47
+#: camel/camel-vtrash-folder.c:49
 msgid "Cannot copy messages to the Junk folder"
 msgstr "È impossibile copiare messaggi sulla cartella messaggi da scartare"
 
@@ -10324,12 +10322,12 @@ msgstr "Elenco"
 #: camel/providers/imap/camel-imap-command.c:218
 #: camel/providers/imap/camel-imap-command.c:257
 #: camel/providers/imap/camel-imap-command.c:447
-#: camel/providers/imap/camel-imap-store.c:3195
+#: camel/providers/imap/camel-imap-store.c:3201
 msgid "Operation cancelled"
 msgstr "Operazione annullata"
 
 #: camel/providers/imap/camel-imap-command.c:302
-#: camel/providers/imap/camel-imap-store.c:3198
+#: camel/providers/imap/camel-imap-store.c:3204
 #, c-format
 msgid "Server unexpectedly disconnected: %s"
 msgstr "Il server si é disconnesso inaspettatamente: %s"
@@ -10403,13 +10401,13 @@ msgstr ""
 
 #: camel/providers/imap/camel-imap-folder.c:1979
 #: camel/providers/local/camel-maildir-folder.c:245
-#: camel/providers/local/camel-mbox-folder.c:416
+#: camel/providers/local/camel-mbox-folder.c:403
 #: camel/providers/local/camel-mh-folder.c:203
 msgid "No such message"
 msgstr "Messaggio assente"
 
 #: camel/providers/imap/camel-imap-folder.c:2021
-#: camel/providers/imap/camel-imap-folder.c:2624
+#: camel/providers/imap/camel-imap-folder.c:2623
 #: camel/providers/nntp/camel-nntp-folder.c:221
 msgid "This message is not currently available"
 msgstr "Questo messaggio non è al momento disponibile"
@@ -10419,28 +10417,28 @@ msgstr "Questo messaggio non è al momento disponibile"
 msgid "Fetching summary information for new messages"
 msgstr "Ricezione delle informazioni sul sommario per i nuovi messaggi"
 
-#: camel/providers/imap/camel-imap-folder.c:2465
+#: camel/providers/imap/camel-imap-folder.c:2464
 #, c-format
 msgid "Incomplete server response: no information provided for message %d"
 msgstr ""
 "Risposta del server incompleta: non è stata fornita nessuna informazione per "
 "il messaggio %d"
 
-#: camel/providers/imap/camel-imap-folder.c:2473
+#: camel/providers/imap/camel-imap-folder.c:2472
 #, c-format
 msgid "Incomplete server response: no UID provided for message %d"
 msgstr ""
 "Risposta del server incompleta: non è stato fornito nessun UID per il "
 "messaggio %d"
 
-#: camel/providers/imap/camel-imap-folder.c:2486
+#: camel/providers/imap/camel-imap-folder.c:2485
 #, c-format
 msgid ""
 "Unexpected server response: Identical UIDs provided for messages %d and %d"
 msgstr ""
 "Risposta del server inaspettata: UID identici forniti per i messaggi %d e %d"
 
-#: camel/providers/imap/camel-imap-folder.c:2662
+#: camel/providers/imap/camel-imap-folder.c:2661
 msgid "Could not find message body in FETCH response."
 msgstr "Impossibile trovare il corpo del messaggio nella risposta di FETCH."
 
@@ -10513,23 +10511,23 @@ msgid "For reading and storing mail on IMAP servers."
 msgstr "Per leggere e memorizzare la posta su server IMAP."
 
 #: camel/providers/imap/camel-imap-store.c:422
-#: camel/providers/imap4/camel-imap4-store.c:201
+#: camel/providers/imap4/camel-imap4-store.c:202
 #, c-format
 msgid "IMAP server %s"
 msgstr "IMAP server %s"
 
 #: camel/providers/imap/camel-imap-store.c:424
-#: camel/providers/imap4/camel-imap4-store.c:203
+#: camel/providers/imap4/camel-imap4-store.c:204
 #, c-format
 msgid "IMAP service for %s on %s"
 msgstr "servizio IMAP per %s su %s"
 
 #: camel/providers/imap/camel-imap-store.c:534
 #: camel/providers/imap/camel-imap-store.c:549
-#: camel/providers/imap4/camel-imap4-store.c:233
-#: camel/providers/imap4/camel-imap4-store.c:248
-#: camel/providers/nntp/camel-nntp-store.c:199
-#: camel/providers/nntp/camel-nntp-store.c:214
+#: camel/providers/imap4/camel-imap4-store.c:234
+#: camel/providers/imap4/camel-imap4-store.c:249
+#: camel/providers/nntp/camel-nntp-store.c:197
+#: camel/providers/nntp/camel-nntp-store.c:212
 #: camel/providers/pop3/camel-pop3-store.c:166
 #: camel/providers/pop3/camel-pop3-store.c:181
 #: camel/providers/smtp/camel-smtp-transport.c:254
@@ -10539,8 +10537,8 @@ msgid "Could not connect to %s: %s"
 msgstr "Impossibile connettersi a %s: %s"
 
 #: camel/providers/imap/camel-imap-store.c:535
-#: camel/providers/imap4/camel-imap4-store.c:234
-#: camel/providers/nntp/camel-nntp-store.c:200
+#: camel/providers/imap4/camel-imap4-store.c:235
+#: camel/providers/nntp/camel-nntp-store.c:198
 #: camel/providers/pop3/camel-pop3-store.c:167
 #: camel/providers/smtp/camel-smtp-transport.c:255
 msgid "SSL unavailable"
@@ -10548,10 +10546,10 @@ msgstr "SSL non disponibile"
 
 #: camel/providers/imap/camel-imap-store.c:546
 #: camel/providers/imap/camel-imap-store.c:809
-#: camel/providers/imap4/camel-imap4-store.c:245
+#: camel/providers/imap4/camel-imap4-store.c:246
 #: camel/providers/imapp/camel-imapp-store.c:247
-#: camel/providers/nntp/camel-nntp-store.c:211
-#: camel/providers/nntp/camel-nntp-store.c:230
+#: camel/providers/nntp/camel-nntp-store.c:209
+#: camel/providers/nntp/camel-nntp-store.c:228
 #: camel/providers/pop3/camel-pop3-store.c:178
 #: camel/providers/smtp/camel-smtp-transport.c:266
 msgid "Connection cancelled"
@@ -10559,8 +10557,8 @@ msgstr "Connessione annullata"
 
 #: camel/providers/imap/camel-imap-store.c:653
 #: camel/providers/imap/camel-imap-store.c:675
-#: camel/providers/imap4/camel-imap4-store.c:272
-#: camel/providers/imap4/camel-imap4-store.c:285
+#: camel/providers/imap4/camel-imap4-store.c:273
+#: camel/providers/imap4/camel-imap4-store.c:286
 #, c-format
 msgid "Failed to connect to IMAP server %s in secure mode: %s"
 msgstr "Impossibile connettersi al server IMAP.%s in modalità sicura: %s"
@@ -10571,8 +10569,8 @@ msgid "STARTTLS not supported"
 msgstr "STARTTLS non supportata"
 
 #: camel/providers/imap/camel-imap-store.c:676
-#: camel/providers/imap4/camel-imap4-store.c:273
-#: camel/providers/pop3/camel-pop3-store.c:244
+#: camel/providers/imap4/camel-imap4-store.c:274
+#: camel/providers/pop3/camel-pop3-store.c:242
 msgid "SSL negotiations failed"
 msgstr "Negoziazione SSL non riuscita"
 
@@ -10581,28 +10579,28 @@ msgstr "Negoziazione SSL non riuscita"
 msgid "Could not connect with command \"%s\": %s"
 msgstr "Impossibile connettersi con il comando \"%s\": %s"
 
-#: camel/providers/imap/camel-imap-store.c:1243
+#: camel/providers/imap/camel-imap-store.c:1246
 #, c-format
 msgid "IMAP server %s does not support requested authentication type %s"
 msgstr "Il server IMAP %s non supporta il tipo di autenticazione richiesto %s "
 
-#: camel/providers/imap/camel-imap-store.c:1253
+#: camel/providers/imap/camel-imap-store.c:1256
 #: camel/providers/smtp/camel-smtp-transport.c:488
 #, c-format
 msgid "No support for authentication type %s"
 msgstr "Nessun supporto per il tipo di autenticazione %s"
 
-#: camel/providers/imap/camel-imap-store.c:1276
+#: camel/providers/imap/camel-imap-store.c:1279
 #: camel/providers/imapp/camel-imapp-store.c:363
 #, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
 msgstr "%sInserire la password IMAP per %s@%s"
 
-#: camel/providers/imap/camel-imap-store.c:1290
+#: camel/providers/imap/camel-imap-store.c:1293
 msgid "You didn't enter a password."
 msgstr "Non è stata inserita la password."
 
-#: camel/providers/imap/camel-imap-store.c:1319
+#: camel/providers/imap/camel-imap-store.c:1322
 #, c-format
 msgid ""
 "Unable to authenticate to IMAP server.\n"
@@ -10613,15 +10611,15 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/imap/camel-imap-store.c:1838
-#: camel/providers/imap/camel-imap-store.c:2028
+#: camel/providers/imap/camel-imap-store.c:1844
+#: camel/providers/imap/camel-imap-store.c:2034
 #, c-format
 msgid "No such folder %s"
 msgstr "Non è presente la cartella %s"
 
-#: camel/providers/imap/camel-imap-store.c:1856
-#: camel/providers/imap/camel-imap-store.c:2234
-#: camel/providers/imap4/camel-imap4-store.c:752
+#: camel/providers/imap/camel-imap-store.c:1862
+#: camel/providers/imap/camel-imap-store.c:2240
+#: camel/providers/imap4/camel-imap4-store.c:758
 #, c-format
 msgid ""
 "The folder name \"%s\" is invalid because it contains the character \"%c\""
@@ -10629,12 +10627,12 @@ msgstr ""
 "Il nome della cartella \"%s\" non è valido perché contiene il carattere \"%c"
 "\""
 
-#: camel/providers/imap/camel-imap-store.c:1914
-#: camel/providers/imap/camel-imap-store.c:2295
+#: camel/providers/imap/camel-imap-store.c:1920
+#: camel/providers/imap/camel-imap-store.c:2301
 msgid "The parent folder is not allowed to contain subfolders"
 msgstr "Alla cartella madre non è permesso contenere sottocartelle"
 
-#: camel/providers/imap/camel-imap-store.c:1969
+#: camel/providers/imap/camel-imap-store.c:1975
 #: camel/providers/local/camel-maildir-store.c:140
 #: camel/providers/local/camel-mbox-store.c:210
 #: camel/providers/local/camel-mh-store.c:237
@@ -10642,7 +10640,7 @@ msgstr "Alla cartella madre non è permesso contenere sottocartelle"
 msgid "Cannot create folder `%s': folder exists."
 msgstr "Impossibile creare la cartella: `%s': la cartella esiste."
 
-#: camel/providers/imap/camel-imap-store.c:2245
+#: camel/providers/imap/camel-imap-store.c:2251
 #, c-format
 msgid "Unknown parent folder: %s"
 msgstr "Cartella madre sconosciuta: %s"
@@ -10674,10 +10672,10 @@ msgstr ""
 msgid "Cannot select folder `%s': Bad command"
 msgstr "Impossibile selezionare la cartella `%s': comando errato"
 
-#: camel/providers/imap4/camel-imap4-engine.c:1446
-#: camel/providers/imap4/camel-imap4-engine.c:1485
-#: camel/providers/imap4/camel-imap4-engine.c:1530
-#: camel/providers/imap4/camel-imap4-engine.c:1586
+#: camel/providers/imap4/camel-imap4-engine.c:1464
+#: camel/providers/imap4/camel-imap4-engine.c:1503
+#: camel/providers/imap4/camel-imap4-engine.c:1548
+#: camel/providers/imap4/camel-imap4-engine.c:1604
 #, c-format
 msgid "IMAP4 server %s unexpectedly disconnected: %s"
 msgstr "Il server IMAP4 %s si é disconnesso inaspettatamente: %s"
@@ -10746,51 +10744,54 @@ msgid "Cannot get message %s from folder `%s': Bad command"
 msgstr ""
 "Impossibile ricevere il messaggio %s dalla cartella `%s': comando errato"
 
-#: camel/providers/imap4/camel-imap4-folder.c:869
+#: camel/providers/imap4/camel-imap4-folder.c:873
 msgid "Cannot append messages to IMAP folders in offline mode."
-msgstr "Impossibile accodare messaggi alle cartelle IMAP in modalità non in linea."
+msgstr ""
+"Impossibile accodare messaggi alle cartelle IMAP in modalità non in linea."
 
-#: camel/providers/imap4/camel-imap4-folder.c:962
+#: camel/providers/imap4/camel-imap4-folder.c:966
 #, c-format
 msgid "Cannot append message to folder `%s': Unknown error"
 msgstr ""
 "Impossibile accodare il messaggio alla cartella `%s': errore sconosciuto"
 
-#: camel/providers/imap4/camel-imap4-folder.c:991
+#: camel/providers/imap4/camel-imap4-folder.c:995
 #, c-format
 msgid "Cannot append message to folder `%s': Bad command"
 msgstr "Impossibile accodare il messaggio alla cartella `%s': comando errato"
 
-#: camel/providers/imap4/camel-imap4-folder.c:1034
+#: camel/providers/imap4/camel-imap4-folder.c:1038
 msgid "Cannot move messages to or from IMAP folders in offline mode."
-msgstr "Impossibile spostare messaggi su o da cartelle IMAP in modalità non in linea."
+msgstr ""
+"Impossibile spostare messaggi su o da cartelle IMAP in modalità non in linea."
 
-#: camel/providers/imap4/camel-imap4-folder.c:1037
+#: camel/providers/imap4/camel-imap4-folder.c:1041
 msgid "Cannot copy messages to or from IMAP folders in offline mode."
-msgstr "Impossibile copiare messaggi su o da cartelle IMAP in modalità non in linea."
+msgstr ""
+"Impossibile copiare messaggi su o da cartelle IMAP in modalità non in linea."
 
-#: camel/providers/imap4/camel-imap4-folder.c:1082
+#: camel/providers/imap4/camel-imap4-folder.c:1086
 #, c-format
 msgid "Cannot move messages from folder `%s' to folder `%s': Unknown"
 msgstr ""
 "Impossibile spostare messaggi dalla cartella `%s' alla cartella `%s': motivo "
 "sconosciuto"
 
-#: camel/providers/imap4/camel-imap4-folder.c:1086
+#: camel/providers/imap4/camel-imap4-folder.c:1090
 #, c-format
 msgid "Cannot copy messages from folder `%s' to folder `%s': Unknown"
 msgstr ""
 "Impossibile copiare messaggi dalla cartella `%s' alla cartella `%s': motivo "
 "sconosciuto"
 
-#: camel/providers/imap4/camel-imap4-folder.c:1094
+#: camel/providers/imap4/camel-imap4-folder.c:1098
 #, c-format
 msgid "Cannot move messages from folder `%s' to folder `%s': Bad command"
 msgstr ""
 "Impossibile spostare messaggi dalla cartella `%s' alla cartella `%s': "
 "comando errato"
 
-#: camel/providers/imap4/camel-imap4-folder.c:1098
+#: camel/providers/imap4/camel-imap4-folder.c:1102
 #, c-format
 msgid "Cannot copy messages from folder `%s' to folder `%s': Bad command"
 msgstr ""
@@ -10813,7 +10814,7 @@ msgstr ""
 "Con questa opzione ci si connette al server IMAPv4rev1 usando una password "
 "in testo semplice."
 
-#: camel/providers/imap4/camel-imap4-store.c:373
+#: camel/providers/imap4/camel-imap4-store.c:377
 #, c-format
 msgid ""
 "Cannot authenticate to IMAP server %s using the %s authentication mechanism"
@@ -10821,130 +10822,130 @@ msgstr ""
 "Impossibile connettersi al server POP %s usando il meccanismo di "
 "autenticazione %s"
 
-#: camel/providers/imap4/camel-imap4-store.c:418
+#: camel/providers/imap4/camel-imap4-store.c:422
 #, c-format
 msgid "%sPlease enter the IMAP password for %s on host %s"
 msgstr "%sInserire la password IMAP per %s su host %s"
 
-#: camel/providers/imap4/camel-imap4-store.c:488
+#: camel/providers/imap4/camel-imap4-store.c:492
 #, c-format
 msgid "Cannot authenticate to IMAP server %s using %s"
 msgstr "Impossibile autenticarsi al server IMAP %s usando %s"
 
-#: camel/providers/imap4/camel-imap4-store.c:649
-#: camel/providers/imap4/camel-imap4-store.c:762
+#: camel/providers/imap4/camel-imap4-store.c:655
+#: camel/providers/imap4/camel-imap4-store.c:768
 msgid "Cannot create IMAP folders in offline mode."
 msgstr "Impossibile creare cartelle IMAP in modalità non in linea."
 
-#: camel/providers/imap4/camel-imap4-store.c:688
+#: camel/providers/imap4/camel-imap4-store.c:694
 #, c-format
 msgid "Cannot get folder `%s' on IMAP server %s: Unknown"
 msgstr ""
 "Impossibile ricevere la cartella `%s' sul server IMAP %s: motivo sconosciuto"
 
-#: camel/providers/imap4/camel-imap4-store.c:810
+#: camel/providers/imap4/camel-imap4-store.c:816
 #, c-format
 msgid "Cannot create folder `%s': Invalid mailbox name"
 msgstr "Impossibile creare la cartella `%s': nome casella di posta non valido"
 
-#: camel/providers/imap4/camel-imap4-store.c:816
+#: camel/providers/imap4/camel-imap4-store.c:822
 #, c-format
 msgid "Cannot create folder `%s': Bad command"
 msgstr "Impossibile creare la cartella `%s': comando errato"
 
-#: camel/providers/imap4/camel-imap4-store.c:848
+#: camel/providers/imap4/camel-imap4-store.c:854
 #, c-format
 msgid "Cannot delete folder `%s': Special folder"
 msgstr "Impossibile eliminare la cartella `%s': cartella speciale"
 
-#: camel/providers/imap4/camel-imap4-store.c:855
+#: camel/providers/imap4/camel-imap4-store.c:861
 msgid "Cannot delete IMAP folders in offline mode."
 msgstr "Impossibile eliminare cartelle IMAP in modalità non in linea."
 
-#: camel/providers/imap4/camel-imap4-store.c:914
+#: camel/providers/imap4/camel-imap4-store.c:920
 #, c-format
 msgid "Cannot delete folder `%s': Invalid mailbox name"
 msgstr ""
 "Impossibile eliminare la cartella `%s': nome casella di posta non valido"
 
-#: camel/providers/imap4/camel-imap4-store.c:919
+#: camel/providers/imap4/camel-imap4-store.c:925
 #, c-format
 msgid "Cannot delete folder `%s': Bad command"
 msgstr "Impossibile eliminare la cartella `%s': comando errato"
 
-#: camel/providers/imap4/camel-imap4-store.c:940
+#: camel/providers/imap4/camel-imap4-store.c:946
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Special folder"
 msgstr "Impossibile rinominare la cartella `%s' in `%s': cartella speciale"
 
-#: camel/providers/imap4/camel-imap4-store.c:947
+#: camel/providers/imap4/camel-imap4-store.c:953
 msgid "Cannot rename IMAP folders in offline mode."
 msgstr "Impossibile rinominare cartelle IMAP in modalità non in linea."
 
-#: camel/providers/imap4/camel-imap4-store.c:978
+#: camel/providers/imap4/camel-imap4-store.c:984
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Invalid mailbox name"
 msgstr ""
 "Impossibile rinominare la cartella `%s' in `%s': nome casella di posta non "
 "valido"
 
-#: camel/providers/imap4/camel-imap4-store.c:983
+#: camel/providers/imap4/camel-imap4-store.c:989
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Bad command"
 msgstr "Impossibile rinominare la cartella `%s' in `%s': comando errato"
 
-#: camel/providers/imap4/camel-imap4-store.c:1248
+#: camel/providers/imap4/camel-imap4-store.c:1238
 #, c-format
 msgid "Cannot get %s information for pattern `%s' on IMAP server %s: %s"
 msgstr ""
 "Impossibile ricevere %s informazioni per il pattern `%s' sul server IMAP %s: "
 "%s"
 
-#: camel/providers/imap4/camel-imap4-store.c:1250
+#: camel/providers/imap4/camel-imap4-store.c:1240
 msgid "Bad command"
 msgstr "Comando errato"
 
-#: camel/providers/imap4/camel-imap4-store.c:1289
+#: camel/providers/imap4/camel-imap4-store.c:1279
 msgid "Cannot subscribe to IMAP folders in offline mode."
 msgstr "Impossibile iscriversi a cartelle IMAP in modalità non in linea."
 
-#: camel/providers/imap4/camel-imap4-store.c:1334
+#: camel/providers/imap4/camel-imap4-store.c:1324
 #, c-format
 msgid "Cannot subscribe to folder `%s': Invalid mailbox name"
 msgstr ""
 "Impossibile iscriversi alla cartella `%s': nome casella di posta non valido"
 
-#: camel/providers/imap4/camel-imap4-store.c:1339
+#: camel/providers/imap4/camel-imap4-store.c:1329
 #, c-format
 msgid "Cannot subscribe to folder `%s': Bad command"
 msgstr "Impossibile iscriversi alla cartella: `%s': comando errato"
 
-#: camel/providers/imap4/camel-imap4-store.c:1362
+#: camel/providers/imap4/camel-imap4-store.c:1352
 msgid "Cannot unsubscribe from IMAP folders in offline mode."
 msgstr "Impossibile disiscriversi da cartelle IMAP in modalità non in linea."
 
-#: camel/providers/imap4/camel-imap4-store.c:1407
+#: camel/providers/imap4/camel-imap4-store.c:1397
 #, c-format
 msgid "Cannot unsubscribe from folder `%s': Invalid mailbox name"
 msgstr ""
 "Impossibile disiscriversi dalla cartella `%s': nome casella di posta non "
 "valido"
 
-#: camel/providers/imap4/camel-imap4-store.c:1412
+#: camel/providers/imap4/camel-imap4-store.c:1402
 #, c-format
 msgid "Cannot unsubscribe from folder `%s': Bad command"
 msgstr "Impossibile disiscriversi dalla cartella `%s': comando errato"
 
-#: camel/providers/imap4/camel-imap4-utils.c:366
+#: camel/providers/imap4/camel-imap4-utils.c:367
 #, c-format
 msgid "Unexpected token in response from IMAP server %s: "
 msgstr "Token inaspettato dalla risposta del server IMAP %s:"
 
-#: camel/providers/imap4/camel-imap4-utils.c:389
+#: camel/providers/imap4/camel-imap4-utils.c:390
 msgid "No data"
 msgstr "Nessun dato"
 
-#: camel/providers/imap4/camel-imap4-utils.c:572
+#: camel/providers/imap4/camel-imap4-utils.c:573
 #, c-format
 msgid "IMAP server %s unexpectedly disconnected: %s"
 msgstr "Il server IMAP %s si é disconnesso inaspettatamente: %s"
@@ -10982,7 +10983,7 @@ msgstr "Impossibile connettersi al server POP su %s"
 
 #: camel/providers/local/camel-local-folder.c:179
 msgid "Index message body data"
-msgstr "Indice messaggio corpo dati"
+msgstr "Indicizzare i dati nel corpo del messaggio"
 
 #. $HOME relative path + protocol string
 #: camel/providers/local/camel-local-folder.c:391
@@ -11119,7 +11120,7 @@ msgstr "Impossibile cancellare il sommario della cartella `%s': %s"
 msgid "Could not save summary: %s: %s"
 msgstr "Impossibile aggiornare il sommario: %s: %s"
 
-#: camel/providers/local/camel-local-summary.c:465
+#: camel/providers/local/camel-local-summary.c:464
 msgid "Unable to add message to summary: unknown reason"
 msgstr ""
 "Impossibile trovare messaggi da aggiungere al sommario: motivo sconosciuto"
@@ -11131,7 +11132,7 @@ msgstr ""
 #: camel/providers/local/camel-maildir-store.c:249
 #: camel/providers/local/camel-spool-store.c:452
 #: mail/em-folder-tree-model.c:212 mail/em-folder-tree-model.c:214
-#: mail/mail-component.c:136
+#: mail/mail-component.c:140
 msgid "Inbox"
 msgstr "In arrivo"
 
@@ -11147,10 +11148,10 @@ msgstr "Impossibile accodare il messaggio alla cartella maildir: %s: %s"
 #: camel/providers/local/camel-maildir-folder.c:244
 #: camel/providers/local/camel-maildir-folder.c:258
 #: camel/providers/local/camel-maildir-folder.c:267
-#: camel/providers/local/camel-mbox-folder.c:415
-#: camel/providers/local/camel-mbox-folder.c:434
-#: camel/providers/local/camel-mbox-folder.c:465
-#: camel/providers/local/camel-mbox-folder.c:473
+#: camel/providers/local/camel-mbox-folder.c:402
+#: camel/providers/local/camel-mbox-folder.c:421
+#: camel/providers/local/camel-mbox-folder.c:452
+#: camel/providers/local/camel-mbox-folder.c:460
 #: camel/providers/local/camel-mh-folder.c:202
 #: camel/providers/local/camel-mh-folder.c:213
 #: camel/providers/local/camel-mh-folder.c:222
@@ -11210,53 +11211,53 @@ msgstr "non è una directory maildir"
 msgid "Could not scan folder `%s': %s"
 msgstr "Impossibile esaminare la cartella `%s':%s"
 
-#: camel/providers/local/camel-maildir-summary.c:420
-#: camel/providers/local/camel-maildir-summary.c:551
+#: camel/providers/local/camel-maildir-summary.c:425
+#: camel/providers/local/camel-maildir-summary.c:556
 #, c-format
 msgid "Cannot open maildir directory path: %s: %s"
 msgstr "Impossibile aprire il percorso della directory maildir: %s: %s"
 
-#: camel/providers/local/camel-maildir-summary.c:544
+#: camel/providers/local/camel-maildir-summary.c:549
 msgid "Checking folder consistency"
 msgstr "Controllo consistenza cartelle"
 
-#: camel/providers/local/camel-maildir-summary.c:647
+#: camel/providers/local/camel-maildir-summary.c:652
 msgid "Checking for new messages"
 msgstr "Verifica nuovi messaggi"
 
-#: camel/providers/local/camel-maildir-summary.c:736
-#: camel/providers/local/camel-mbox-summary.c:370
-#: camel/providers/local/camel-mbox-summary.c:543
-#: camel/providers/local/camel-mbox-summary.c:634
-#: camel/providers/local/camel-spool-summary.c:138
+#: camel/providers/local/camel-maildir-summary.c:741
+#: camel/providers/local/camel-mbox-summary.c:416
+#: camel/providers/local/camel-mbox-summary.c:589
+#: camel/providers/local/camel-mbox-summary.c:680
+#: camel/providers/local/camel-spool-summary.c:140
 msgid "Storing folder"
 msgstr "Salvataggio della cartella in corso"
 
-#: camel/providers/local/camel-mbox-folder.c:223
+#: camel/providers/local/camel-mbox-folder.c:210
 #: camel/providers/local/camel-spool-folder.c:176
 #, c-format
 msgid "Cannot create folder lock on %s: %s"
 msgstr "Impossibile creare una cartella di lock in %s: %s"
 
-#: camel/providers/local/camel-mbox-folder.c:282
+#: camel/providers/local/camel-mbox-folder.c:269
 #, c-format
 msgid "Cannot open mailbox: %s: %s\n"
 msgstr "Impossibile aprire la casella di posta: %s: %s\n"
 
-#: camel/providers/local/camel-mbox-folder.c:342
+#: camel/providers/local/camel-mbox-folder.c:329
 msgid "Mail append cancelled"
 msgstr "Aggiunta di un messaggio annullata"
 
-#: camel/providers/local/camel-mbox-folder.c:345
+#: camel/providers/local/camel-mbox-folder.c:332
 #, c-format
 msgid "Cannot append message to mbox file: %s: %s"
 msgstr "Impossibile accodare il messaggio al file mbox: %s: %s"
 
-#: camel/providers/local/camel-mbox-folder.c:466
+#: camel/providers/local/camel-mbox-folder.c:453
 msgid "The folder appears to be irrecoverably corrupted."
 msgstr "La cartella appare irrimediabilmente corrotta."
 
-#: camel/providers/local/camel-mbox-folder.c:474
+#: camel/providers/local/camel-mbox-folder.c:461
 #: camel/providers/local/camel-mh-folder.c:223
 msgid "Message construction failed."
 msgstr "Costruzione del messaggio non riuscita."
@@ -11320,78 +11321,78 @@ msgstr "Impossibile rinominare `%s': `%s': %s"
 msgid "Could not rename '%s' to %s: %s"
 msgstr "Impossibile rinominare `%s' in %s: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:376
+#: camel/providers/local/camel-mbox-summary.c:422
 #, c-format
 msgid "Could not open folder: %s: %s"
 msgstr "Impossibile aprire la cartella %s: %s "
 
-#: camel/providers/local/camel-mbox-summary.c:424
+#: camel/providers/local/camel-mbox-summary.c:470
 #, c-format
 msgid "Fatal mail parser error near position %ld in folder %s"
 msgstr ""
 "Errore fatale di simistamento della posta vicino alla posizione %ld nella "
 "cartella %s"
 
-#: camel/providers/local/camel-mbox-summary.c:480
+#: camel/providers/local/camel-mbox-summary.c:526
 #, c-format
 msgid "Cannot check folder: %s: %s"
 msgstr "Impossibile controllare la cartella: %s: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:548
-#: camel/providers/local/camel-mbox-summary.c:639
-#: camel/providers/local/camel-spool-summary.c:143
+#: camel/providers/local/camel-mbox-summary.c:594
+#: camel/providers/local/camel-mbox-summary.c:685
+#: camel/providers/local/camel-spool-summary.c:145
 #, c-format
 msgid "Could not open file: %s: %s"
 msgstr "Impossibile aprire il file: %s: %s "
 
-#: camel/providers/local/camel-mbox-summary.c:560
-#: camel/providers/local/camel-spool-summary.c:163
+#: camel/providers/local/camel-mbox-summary.c:606
+#: camel/providers/local/camel-spool-summary.c:165
 #, c-format
 msgid "Cannot open temporary mailbox: %s"
 msgstr "Impossibile creare una mbox temporanea: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:573
-#: camel/providers/local/camel-mbox-summary.c:737
+#: camel/providers/local/camel-mbox-summary.c:619
+#: camel/providers/local/camel-mbox-summary.c:783
 #, c-format
 msgid "Could not close source folder %s: %s"
 msgstr "Impossibile chiudere la cartella sorgente %s: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:582
+#: camel/providers/local/camel-mbox-summary.c:628
 #, c-format
 msgid "Could not close temp folder: %s"
 msgstr "Impossibile chiudere la cartella temporanea: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:593
+#: camel/providers/local/camel-mbox-summary.c:639
 #, c-format
 msgid "Could not rename folder: %s"
 msgstr "Impossibile rinominare la cartella: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:677
-#: camel/providers/local/camel-mbox-summary.c:685
-#: camel/providers/local/camel-mbox-summary.c:878
-#: camel/providers/local/camel-mbox-summary.c:886
+#: camel/providers/local/camel-mbox-summary.c:723
+#: camel/providers/local/camel-mbox-summary.c:731
+#: camel/providers/local/camel-mbox-summary.c:925
+#: camel/providers/local/camel-mbox-summary.c:933
 msgid "Summary and folder mismatch, even after a sync"
 msgstr ""
 "Sommario e cartella non corrispondono, nemmeno dopo una sincronizzazione"
 
-#: camel/providers/local/camel-mbox-summary.c:812
-#: camel/providers/local/camel-spool-summary.c:335
+#: camel/providers/local/camel-mbox-summary.c:859
+#: camel/providers/local/camel-spool-summary.c:337
 #, c-format
 msgid "Unknown error: %s"
 msgstr "Errore sconosciuto: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:847
+#: camel/providers/local/camel-mbox-summary.c:894
 #, c-format
 msgid "Could not store folder: %s"
 msgstr "Impossibile memorizzare la cartella: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:941
-#: camel/providers/local/camel-mbox-summary.c:967
+#: camel/providers/local/camel-mbox-summary.c:988
+#: camel/providers/local/camel-mbox-summary.c:1014
 #, c-format
 msgid "Error writing to temp mailbox: %s"
 msgstr "Errore di scrittura nella casella di posta temporanea: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:958
+#: camel/providers/local/camel-mbox-summary.c:1005
 #, c-format
 msgid "Writing to tmp mailbox failed: %s: %s"
 msgstr "Scrittura su casella di posta temporanea %s non riuscita: %s"
@@ -11415,7 +11416,7 @@ msgstr "Impossibile creare la cartella `%s': %s"
 msgid "Cannot get folder `%s': not a directory."
 msgstr "Impossibile ricevere la cartella `%s': non è una cartella"
 
-#: camel/providers/local/camel-mh-summary.c:245
+#: camel/providers/local/camel-mh-summary.c:247
 #, c-format
 msgid "Cannot open MH directory path: %s: %s"
 msgstr "Impossibile aprire il percorso della directory MH: %s: %s"
@@ -11485,21 +11486,21 @@ msgstr "Le cartelle spool non possono essere rinominate"
 msgid "Spool folders cannot be deleted"
 msgstr "Le cartelle spool non possono essere cancellate"
 
-#: camel/providers/local/camel-spool-summary.c:176
-#: camel/providers/local/camel-spool-summary.c:186
-#: camel/providers/local/camel-spool-summary.c:196
+#: camel/providers/local/camel-spool-summary.c:178
+#: camel/providers/local/camel-spool-summary.c:188
+#: camel/providers/local/camel-spool-summary.c:198
 #, c-format
 msgid "Could not sync temporary folder %s: %s"
 msgstr "Impossibile sincronizzare cartella temporanea %s: %s"
 
-#: camel/providers/local/camel-spool-summary.c:212
+#: camel/providers/local/camel-spool-summary.c:214
 #, c-format
 msgid "Could not sync spool folder %s: %s"
 msgstr "Impossibile sincronizzare cartella spool %s: %s"
 
-#: camel/providers/local/camel-spool-summary.c:243
-#: camel/providers/local/camel-spool-summary.c:262
-#: camel/providers/local/camel-spool-summary.c:275
+#: camel/providers/local/camel-spool-summary.c:245
+#: camel/providers/local/camel-spool-summary.c:264
+#: camel/providers/local/camel-spool-summary.c:277
 #, c-format
 msgid ""
 "Could not sync spool folder %s: %s\n"
@@ -11509,7 +11510,7 @@ msgstr ""
 "La cartella potrebbe essere corrotta, copia salvata in `%s'"
 
 #: camel/providers/nntp/camel-nntp-auth.c:44
-#: camel/providers/nntp/camel-nntp-store.c:1145
+#: camel/providers/nntp/camel-nntp-store.c:1143
 #, c-format
 msgid "Please enter the NNTP password for %s@%s"
 msgstr "Inserire la password NNTP per %s@%s"
@@ -11593,28 +11594,22 @@ msgstr ""
 "Con questa opzione l'autenticazione con il server NNTP avviene usando una "
 "password in testo semplice."
 
-#: camel/providers/nntp/camel-nntp-store.c:115
-#: camel/providers/nntp/camel-nntp-store.c:1255
-#, c-format
-msgid "NNTP Command failed: %s"
-msgstr "Comando NNTP non riuscito: %s"
-
-#: camel/providers/nntp/camel-nntp-store.c:233
+#: camel/providers/nntp/camel-nntp-store.c:231
 #, c-format
 msgid "Could not read greeting from %s: %s"
 msgstr "Impossibile leggere i saluti da %s: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:245
+#: camel/providers/nntp/camel-nntp-store.c:243
 #, c-format
 msgid "NNTP server %s returned error code %d: %s"
 msgstr "Il server NNTP %s ha restituito il codice di errore %d: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:421
+#: camel/providers/nntp/camel-nntp-store.c:419
 #, c-format
 msgid "USENET News via %s"
 msgstr "USENET News via %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:800
+#: camel/providers/nntp/camel-nntp-store.c:798
 #, c-format
 msgid ""
 "Error retrieving newsgroups:\n"
@@ -11625,7 +11620,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/providers/nntp/camel-nntp-store.c:894
+#: camel/providers/nntp/camel-nntp-store.c:892
 msgid ""
 "You cannot subscribe to this newsgroup:\n"
 "\n"
@@ -11636,7 +11631,7 @@ msgstr ""
 "nessun newsgroup con tale nome. La voce selezionata è probabilmente una "
 "cartella genitore."
 
-#: camel/providers/nntp/camel-nntp-store.c:926
+#: camel/providers/nntp/camel-nntp-store.c:924
 msgid ""
 "You cannot unsubscribe to this newsgroup:\n"
 "\n"
@@ -11646,61 +11641,66 @@ msgstr ""
 "\n"
 "il newsgroup non esiste!"
 
-#: camel/providers/nntp/camel-nntp-store.c:951
+#: camel/providers/nntp/camel-nntp-store.c:949
 msgid "You cannot create a folder in a News store: subscribe instead."
 msgstr ""
 "Impossibile creare una cartella in un magazzino di news: puoi invece "
 "iscriverti."
 
-#: camel/providers/nntp/camel-nntp-store.c:959
+#: camel/providers/nntp/camel-nntp-store.c:957
 msgid "You cannot rename a folder in a News store."
 msgstr "Impossibile rinominare una cartella in un magazzino di news."
 
-#: camel/providers/nntp/camel-nntp-store.c:967
+#: camel/providers/nntp/camel-nntp-store.c:965
 msgid "You cannot remove a folder in a News store: unsubscribe instead."
 msgstr ""
 "Impossibile eliminare una cartella in un magazzino news: puoi invece "
 "disiscriverti."
 
-#: camel/providers/nntp/camel-nntp-store.c:1137
+#: camel/providers/nntp/camel-nntp-store.c:1135
 msgid "Authentication requested but no username provided"
 msgstr "Autenticazione richiesta ma non è stato fornito il nome utente"
 
-#: camel/providers/nntp/camel-nntp-store.c:1167
+#: camel/providers/nntp/camel-nntp-store.c:1147
 #, c-format
 msgid "Cannot authenticate to server: %s"
 msgstr "Impossibile autenticarsi al server: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:1311
+#: camel/providers/nntp/camel-nntp-store.c:1263
+#, c-format
+msgid "NNTP Command failed: %s"
+msgstr "Comando NNTP non riuscito: %s"
+
+#: camel/providers/nntp/camel-nntp-store.c:1319
 msgid "Not connected."
 msgstr "Non connesso."
 
-#: camel/providers/nntp/camel-nntp-store.c:1362
+#: camel/providers/nntp/camel-nntp-store.c:1372
 #, c-format
 msgid "No such folder: %s"
 msgstr "Non è presente la cartella: %s"
 
-#: camel/providers/nntp/camel-nntp-summary.c:219
-#: camel/providers/nntp/camel-nntp-summary.c:315
+#: camel/providers/nntp/camel-nntp-summary.c:221
+#: camel/providers/nntp/camel-nntp-summary.c:317
 #, c-format
 msgid "%s: Scanning new messages"
 msgstr "%s: Ricerca nuovi messaggi"
 
-#: camel/providers/nntp/camel-nntp-summary.c:226
+#: camel/providers/nntp/camel-nntp-summary.c:228
 #, c-format
 msgid "Unexpected server response from xover: %s"
 msgstr "Risposta server inaspettata dallo xover: %s"
 
-#: camel/providers/nntp/camel-nntp-summary.c:329
+#: camel/providers/nntp/camel-nntp-summary.c:331
 #, c-format
 msgid "Unexpected server response from head: %s"
 msgstr "Risposta server inaspettata dall'intestazione: %s"
 
-#: camel/providers/nntp/camel-nntp-summary.c:369
+#: camel/providers/nntp/camel-nntp-summary.c:371
 msgid "Use cancel"
 msgstr "Usa annulla"
 
-#: camel/providers/nntp/camel-nntp-summary.c:371
+#: camel/providers/nntp/camel-nntp-summary.c:373
 #, c-format
 msgid "Operation failed: %s"
 msgstr "Operazione non riuscita: %s"
@@ -11781,7 +11781,7 @@ msgstr "Impossibile leggere un greeting valido dal server POP %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:214
 #: camel/providers/pop3/camel-pop3-store.c:231
-#: camel/providers/pop3/camel-pop3-store.c:243
+#: camel/providers/pop3/camel-pop3-store.c:241
 #, c-format
 msgid "Failed to connect to POP server %s in secure mode: %s"
 msgstr "Impossibile connettersi al server POP %s in modalità sicura: %s"
@@ -11790,13 +11790,13 @@ msgstr "Impossibile connettersi al server POP %s in modalità sicura: %s"
 msgid "STLS not supported"
 msgstr "STLS non supportata"
 
-#: camel/providers/pop3/camel-pop3-store.c:350
+#: camel/providers/pop3/camel-pop3-store.c:353
 #, c-format
 msgid "Could not connect to POP server %s"
 msgstr "Impossibile connettersi al server POP %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:391
-#: camel/providers/pop3/camel-pop3-store.c:505
+#: camel/providers/pop3/camel-pop3-store.c:394
+#: camel/providers/pop3/camel-pop3-store.c:508
 #, c-format
 msgid ""
 "Unable to connect to POP server %s: No support for requested authentication "
@@ -11805,28 +11805,28 @@ msgstr ""
 "Impossibile connettersi al server POP %s: Non è presente il supporto per il "
 "meccanismo di autenticazione richiesto."
 
-#: camel/providers/pop3/camel-pop3-store.c:407
+#: camel/providers/pop3/camel-pop3-store.c:410
 #, c-format
 msgid "SASL `%s' Login failed for POP server %s: %s"
 msgstr "Registrazione `%s' SASL non riuscita per il server POP %s: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:419
+#: camel/providers/pop3/camel-pop3-store.c:422
 #, c-format
 msgid "Cannot login to POP server %s: SASL Protocol error"
 msgstr "Impossibile registrarsi al POP server %s: errore di protocollo SASL"
 
-#: camel/providers/pop3/camel-pop3-store.c:438
+#: camel/providers/pop3/camel-pop3-store.c:441
 #, c-format
 msgid "Failed to authenticate on POP server %s: %s"
 msgstr "Impossibile autenticarsi al server POP %s: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:464
+#: camel/providers/pop3/camel-pop3-store.c:467
 #, c-format
 msgid "%sPlease enter the POP password for %s on host %s"
 msgstr "%sInserire la password POP per %s su host %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:519
-#: camel/providers/pop3/camel-pop3-store.c:532
+#: camel/providers/pop3/camel-pop3-store.c:522
+#: camel/providers/pop3/camel-pop3-store.c:535
 #, c-format
 msgid ""
 "Unable to connect to POP server %s.\n"
@@ -11835,7 +11835,7 @@ msgstr ""
 "Impossibile connettersi al server POP.%s.\n"
 "Errore nell'invio della password: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:526
+#: camel/providers/pop3/camel-pop3-store.c:529
 #, c-format
 msgid ""
 "Unable to connect to POP server %s.\n"
@@ -11844,7 +11844,7 @@ msgstr ""
 "Impossibile connettersi al server POP.%s.\n"
 "Errore nell'invio del nome utente: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:631
+#: camel/providers/pop3/camel-pop3-store.c:634
 #, c-format
 msgid "No such folder `%s'."
 msgstr "Cartella `%s' non presente."
@@ -12390,12 +12390,12 @@ msgstr[1] "%d messaggi allegati"
 
 #: composer/e-msg-composer.c:2882 mail/em-folder-tree.c:1025
 #: mail/em-folder-tree.c:2243 mail/em-folder-view.c:823
-#: mail/message-list.c:1708
+#: mail/message-list.c:1713
 msgid "_Move"
 msgstr "_Sposta"
 
 #: composer/e-msg-composer.c:2884 mail/em-folder-tree.c:1027
-#: mail/message-list.c:1710
+#: mail/message-list.c:1715
 msgid "Cancel _Drag"
 msgstr "Annulla _trascinamento"
 
@@ -12942,7 +12942,7 @@ msgstr "Scegliere un'altro nome."
 msgid "Choose a file"
 msgstr "Scegli un file"
 
-#: filter/filter-label.c:121 mail/em-filter-i18n.h:26 mail/em-migrate.c:1011
+#: filter/filter-label.c:121 mail/em-filter-i18n.h:27 mail/em-migrate.c:1011
 #: mail/mail-config.c:76 mail/mail-config.glade.h:88
 msgid "Important"
 msgstr "Importante"
@@ -13130,8 +13130,8 @@ msgstr "Controllo delle preferenze della posta di Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:11 mail/em-folder-view.c:426
 #: mail/importers/elm-importer.c:418 mail/importers/netscape-importer.c:1902
-#: mail/importers/pine-importer.c:474 mail/mail-component.c:524
-#: mail/mail-component.c:575
+#: mail/importers/pine-importer.c:474 mail/mail-component.c:544
+#: mail/mail-component.c:595
 msgid "Mail"
 msgstr "Posta"
 
@@ -13211,242 +13211,246 @@ msgid "Adjust Score"
 msgstr "Imposta punteggio"
 
 #: mail/em-filter-i18n.h:3
+msgid "Always Match"
+msgstr "Corrisponde sempre"
+
+#: mail/em-filter-i18n.h:4
 msgid "Assign Color"
 msgstr "Assegna colore"
 
-#: mail/em-filter-i18n.h:4
+#: mail/em-filter-i18n.h:5
 msgid "Assign Score"
 msgstr "Assegna punteggio"
 
-#: mail/em-filter-i18n.h:5
+#: mail/em-filter-i18n.h:6
 msgid "Attachments"
 msgstr "Allegati"
 
-#: mail/em-filter-i18n.h:6
+#: mail/em-filter-i18n.h:7
 msgid "Beep"
 msgstr "Beep"
 
-#: mail/em-filter-i18n.h:7
+#: mail/em-filter-i18n.h:8
 msgid "contains"
 msgstr "contiene"
 
-#: mail/em-filter-i18n.h:8
+#: mail/em-filter-i18n.h:9
 msgid "Copy to Folder"
 msgstr "Copia nella cartella"
 
-#: mail/em-filter-i18n.h:9
+#: mail/em-filter-i18n.h:10
 msgid "Date received"
 msgstr "Ricevuto in data"
 
-#: mail/em-filter-i18n.h:10
+#: mail/em-filter-i18n.h:11
 msgid "Date sent"
 msgstr "Spedito in data"
 
-#: mail/em-filter-i18n.h:12
+#: mail/em-filter-i18n.h:13
 msgid "Deleted"
 msgstr "Eliminato"
 
-#: mail/em-filter-i18n.h:13
+#: mail/em-filter-i18n.h:14
 msgid "does not contain"
 msgstr "non contiene"
 
-#: mail/em-filter-i18n.h:14
+#: mail/em-filter-i18n.h:15
 msgid "does not end with"
 msgstr "non termina con"
 
-#: mail/em-filter-i18n.h:15
+#: mail/em-filter-i18n.h:16
 msgid "does not exist"
 msgstr "non esiste"
 
-#: mail/em-filter-i18n.h:16
+#: mail/em-filter-i18n.h:17
 msgid "does not return"
 msgstr "non ritorna"
 
-#: mail/em-filter-i18n.h:17
+#: mail/em-filter-i18n.h:18
 msgid "does not sound like"
 msgstr "non suona come"
 
-#: mail/em-filter-i18n.h:18
+#: mail/em-filter-i18n.h:19
 msgid "does not start with"
 msgstr "non comincia con"
 
-#: mail/em-filter-i18n.h:19
+#: mail/em-filter-i18n.h:20
 msgid "Do Not Exist"
 msgstr "Non esiste"
 
-#: mail/em-filter-i18n.h:20
+#: mail/em-filter-i18n.h:21
 msgid "Draft"
 msgstr "Bozza"
 
-#: mail/em-filter-i18n.h:21
+#: mail/em-filter-i18n.h:22
 msgid "ends with"
 msgstr "finisce per"
 
-#: mail/em-filter-i18n.h:22
+#: mail/em-filter-i18n.h:23
 msgid "Exist"
 msgstr "Esiste"
 
-#: mail/em-filter-i18n.h:23
+#: mail/em-filter-i18n.h:24
 msgid "exists"
 msgstr "esiste"
 
-#: mail/em-filter-i18n.h:24
+#: mail/em-filter-i18n.h:25
 msgid "Expression"
 msgstr "Espressione"
 
-#: mail/em-filter-i18n.h:25
+#: mail/em-filter-i18n.h:26
 msgid "Follow Up"
 msgstr "Segue"
 
-#: mail/em-filter-i18n.h:27
+#: mail/em-filter-i18n.h:28
 msgid "is"
 msgstr "è"
 
-#: mail/em-filter-i18n.h:28
+#: mail/em-filter-i18n.h:29
 msgid "is after"
 msgstr "è dopo di"
 
-#: mail/em-filter-i18n.h:29
+#: mail/em-filter-i18n.h:30
 msgid "is before"
 msgstr "è prima di"
 
-#: mail/em-filter-i18n.h:30
+#: mail/em-filter-i18n.h:31
 msgid "is Flagged"
 msgstr "è con segnalazione"
 
-#: mail/em-filter-i18n.h:31
+#: mail/em-filter-i18n.h:32
 msgid "is greater than"
 msgstr "è maggiore di"
 
-#: mail/em-filter-i18n.h:32
+#: mail/em-filter-i18n.h:33
 msgid "is less than"
 msgstr "è minore di"
 
-#: mail/em-filter-i18n.h:33
+#: mail/em-filter-i18n.h:34
 msgid "is not"
 msgstr "non è"
 
-#: mail/em-filter-i18n.h:34
+#: mail/em-filter-i18n.h:35
 msgid "is not Flagged"
 msgstr "è senza segnalazione"
 
-#: mail/em-filter-i18n.h:36
+#: mail/em-filter-i18n.h:37
 msgid "Junk Test"
 msgstr "test da scartare"
 
-#: mail/em-filter-i18n.h:37 mail/em-folder-view.c:960
+#: mail/em-filter-i18n.h:38 mail/em-folder-view.c:960
 #: widgets/misc/e-expander.c:189
 msgid "Label"
 msgstr "Etichetta"
 
-#: mail/em-filter-i18n.h:38
+#: mail/em-filter-i18n.h:39
 msgid "Mailing list"
 msgstr "Mailing list"
 
-#: mail/em-filter-i18n.h:39
+#: mail/em-filter-i18n.h:40
 msgid "Message Body"
 msgstr "Corpo del messaggio"
 
-#: mail/em-filter-i18n.h:40
+#: mail/em-filter-i18n.h:41
 msgid "Message Header"
 msgstr "Intestazione del messaggio"
 
-#: mail/em-filter-i18n.h:41
+#: mail/em-filter-i18n.h:42
 msgid "Message is Junk"
 msgstr "Il messaggio è da scartare"
 
-#: mail/em-filter-i18n.h:42
+#: mail/em-filter-i18n.h:43
 msgid "Message is not Junk"
 msgstr "Il messaggio non è da scartare"
 
-#: mail/em-filter-i18n.h:43
+#: mail/em-filter-i18n.h:44
 msgid "Move to Folder"
 msgstr "Sposta nella cartella"
 
-#: mail/em-filter-i18n.h:44
+#: mail/em-filter-i18n.h:45
 msgid "Pipe to Program"
 msgstr "In pipe al programma"
 
-#: mail/em-filter-i18n.h:45
+#: mail/em-filter-i18n.h:46
 msgid "Play Sound"
 msgstr "Emetti un suono"
 
-#: mail/em-filter-i18n.h:46 mail/message-tag-followup.c:80
+#: mail/em-filter-i18n.h:47 mail/message-tag-followup.c:80
 msgid "Read"
-msgstr "Leggi"
+msgstr "Letto"
 
-#: mail/em-filter-i18n.h:47
+#: mail/em-filter-i18n.h:48
 msgid "Recipients"
 msgstr "Destinatari"
 
-#: mail/em-filter-i18n.h:48
+#: mail/em-filter-i18n.h:49
 msgid "Regex Match"
 msgstr "Corrispondenza espressione regolare"
 
-#: mail/em-filter-i18n.h:49
+#: mail/em-filter-i18n.h:50
 msgid "Replied to"
 msgstr "In risposta a"
 
-#: mail/em-filter-i18n.h:50
+#: mail/em-filter-i18n.h:51
 msgid "returns"
 msgstr "ritorna"
 
-#: mail/em-filter-i18n.h:51
+#: mail/em-filter-i18n.h:52
 msgid "returns greater than"
 msgstr "ritorna maggiore di"
 
-#: mail/em-filter-i18n.h:52
+#: mail/em-filter-i18n.h:53
 msgid "returns less than"
 msgstr "ritorna minore di"
 
-#: mail/em-filter-i18n.h:53
+#: mail/em-filter-i18n.h:54
 msgid "Run Program"
 msgstr "Esegui programma"
 
-#: mail/em-filter-i18n.h:54 mail/message-list.etspec.h:10
+#: mail/em-filter-i18n.h:55 mail/message-list.etspec.h:10
 msgid "Score"
 msgstr "Punteggio"
 
-#: mail/em-filter-i18n.h:55
+#: mail/em-filter-i18n.h:56
 msgid "Sender"
 msgstr "Mittente"
 
-#: mail/em-filter-i18n.h:56
+#: mail/em-filter-i18n.h:57
 msgid "Set Status"
 msgstr "Imposta stato"
 
-#: mail/em-filter-i18n.h:57
+#: mail/em-filter-i18n.h:58
 msgid "Size (kB)"
 msgstr "Dimensione (kB)"
 
-#: mail/em-filter-i18n.h:58
+#: mail/em-filter-i18n.h:59
 msgid "sounds like"
 msgstr "suona come"
 
-#: mail/em-filter-i18n.h:59
+#: mail/em-filter-i18n.h:60
 msgid "Source Account"
 msgstr "Account sorgente"
 
-#: mail/em-filter-i18n.h:60
+#: mail/em-filter-i18n.h:61
 msgid "Specific header"
 msgstr "Intestazione specifica"
 
-#: mail/em-filter-i18n.h:61
+#: mail/em-filter-i18n.h:62
 msgid "starts with"
 msgstr "comincia con"
 
-#: mail/em-filter-i18n.h:63
+#: mail/em-filter-i18n.h:64
 msgid "Stop Processing"
 msgstr "Arresta l'elaborazione"
 
-#: mail/em-filter-i18n.h:64 mail/em-format-html.c:1522
-#: mail/em-format-quote.c:306 mail/em-format.c:850 mail/em-mailer-prefs.c:88
+#: mail/em-filter-i18n.h:65 mail/em-format-html.c:1522
+#: mail/em-format-quote.c:306 mail/em-format.c:853 mail/em-mailer-prefs.c:88
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:330
 #: smime/lib/e-cert.c:1131
 msgid "Subject"
 msgstr "Oggetto"
 
-#: mail/em-filter-i18n.h:65
+#: mail/em-filter-i18n.h:66
 msgid "Unset Status"
 msgstr "Stato non impostato"
 
@@ -13485,7 +13489,7 @@ msgid "Create New Folder"
 msgstr "Crea nuova cartella"
 
 #: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2459
-#: mail/mail-component.c:725
+#: mail/mail-component.c:745
 msgid "Specify where to create the folder:"
 msgstr "Specificare dove creare la cartella:"
 
@@ -13498,7 +13502,7 @@ msgid "Folder _name:"
 msgstr "_Nome della cartella:"
 
 #: mail/em-folder-tree-model.c:200 mail/em-folder-tree-model.c:202
-#: mail/mail-vfolder.c:872
+#: mail/mail-vfolder.c:880
 msgid "VFolders"
 msgstr "Cartelle virtuali"
 
@@ -13521,12 +13525,12 @@ msgstr "Spostamento cartella %s"
 msgid "Copying folder %s"
 msgstr "Copia cartella %s"
 
-#: mail/em-folder-tree.c:908 mail/message-list.c:1612
+#: mail/em-folder-tree.c:908 mail/message-list.c:1617
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Spostamento messaggii nella cartella %s"
 
-#: mail/em-folder-tree.c:910 mail/message-list.c:1614
+#: mail/em-folder-tree.c:910 mail/message-list.c:1619
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Copia messaggi nella cartella %s"
@@ -13543,7 +13547,7 @@ msgstr "_Copia nella cartella"
 msgid "_Move to Folder"
 msgstr "_Sposta nella cartella"
 
-#: mail/em-folder-tree.c:1722 mail/mail-ops.c:1014
+#: mail/em-folder-tree.c:1722 mail/mail-ops.c:1015
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Scansione delle cartelle in \"%s\" in corso"
@@ -13564,7 +13568,7 @@ msgstr "C_opia"
 msgid "Creating folder `%s'"
 msgstr "Creazione cartella `%s'"
 
-#: mail/em-folder-tree.c:2459 mail/mail-component.c:725
+#: mail/em-folder-tree.c:2459 mail/mail-component.c:745
 msgid "Create folder"
 msgstr "Crea cartella"
 
@@ -13616,17 +13620,17 @@ msgstr "S_tampa"
 msgid "_Reply to Sender"
 msgstr "_Rispondi al mittente"
 
-#: mail/em-folder-view.c:934 mail/em-popup.c:500
+#: mail/em-folder-view.c:934 mail/em-popup.c:502
 #: ui/evolution-mail-message.xml.h:88
 msgid "Reply to _List"
 msgstr "Rispondi alla _lista"
 
-#: mail/em-folder-view.c:935 mail/em-popup.c:501
+#: mail/em-folder-view.c:935 mail/em-popup.c:503
 #: ui/evolution-mail-message.xml.h:87
 msgid "Reply to _All"
 msgstr "Rispondi a _tutti"
 
-#: mail/em-folder-view.c:936 mail/em-popup.c:503
+#: mail/em-folder-view.c:936 mail/em-popup.c:505
 #: ui/evolution-mail-message.xml.h:114
 msgid "_Forward"
 msgstr "_Inoltra"
@@ -13928,28 +13932,28 @@ msgstr "Puntatore a dati esterni sconosciuti (tipo \"%s\")"
 msgid "Formatting message"
 msgstr "Formattazione messaggio in corso"
 
-#: mail/em-format-html.c:1413 mail/em-format-quote.c:193 mail/em-format.c:845
+#: mail/em-format-html.c:1413 mail/em-format-quote.c:193 mail/em-format.c:848
 #: mail/em-mailer-prefs.c:83 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:326
 msgid "From"
 msgstr "Da"
 
-#: mail/em-format-html.c:1413 mail/em-format-quote.c:193 mail/em-format.c:846
+#: mail/em-format-html.c:1413 mail/em-format-quote.c:193 mail/em-format.c:849
 #: mail/em-mailer-prefs.c:84
 msgid "Reply-To"
 msgstr "Rispondi-a"
 
-#: mail/em-format-html.c:1413 mail/em-format-quote.c:193 mail/em-format.c:847
+#: mail/em-format-html.c:1413 mail/em-format-quote.c:193 mail/em-format.c:850
 #: mail/em-mailer-prefs.c:85 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "A"
 
-#: mail/em-format-html.c:1413 mail/em-format-quote.c:193 mail/em-format.c:848
+#: mail/em-format-html.c:1413 mail/em-format-quote.c:193 mail/em-format.c:851
 #: mail/em-mailer-prefs.c:86
 msgid "Cc"
 msgstr "Cc"
 
-#: mail/em-format-html.c:1413 mail/em-format-quote.c:193 mail/em-format.c:849
+#: mail/em-format-html.c:1413 mail/em-format-quote.c:193 mail/em-format.c:852
 #: mail/em-mailer-prefs.c:87
 msgid "Bcc"
 msgstr "Bcc"
@@ -13970,42 +13974,42 @@ msgstr "<I> (%a, %R %Z)</I>"
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: mail/em-format-html.c:1566 mail/em-format-quote.c:322 mail/em-format.c:851
+#: mail/em-format-html.c:1566 mail/em-format-quote.c:322 mail/em-format.c:854
 #: mail/em-mailer-prefs.c:89 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Data"
 
-#: mail/em-format-html.c:1589 mail/em-format.c:852 mail/em-mailer-prefs.c:90
+#: mail/em-format-html.c:1589 mail/em-format.c:855 mail/em-mailer-prefs.c:90
 msgid "Newsgroups"
 msgstr "News"
 
-#: mail/em-format.c:1101
+#: mail/em-format.c:1104
 #, c-format
 msgid "%s attachment"
 msgstr "%s allegato"
 
-#: mail/em-format.c:1140 mail/em-format.c:1273
+#: mail/em-format.c:1143 mail/em-format.c:1276
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "Impossibile interpretare il messaggio S/MIME: errore sconosciuto"
 
-#: mail/em-format.c:1263
+#: mail/em-format.c:1266
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Crittografia non supportata per tipo multipart/encrypted"
 
-#: mail/em-format.c:1411
+#: mail/em-format.c:1414
 msgid "Could not parse MIME message. Displaying as source."
 msgstr ""
 "Impossibile interpretare il messaggio MIME.  Viene visualizzato il sorgente."
 
-#: mail/em-format.c:1430
+#: mail/em-format.c:1433
 msgid "Unsupported signature format"
 msgstr "Formato firma non supportato"
 
-#: mail/em-format.c:1438
+#: mail/em-format.c:1441
 msgid "Error verifying signature"
 msgstr "Errore di verifica della firma"
 
-#: mail/em-format.c:1438
+#: mail/em-format.c:1441
 msgid "Unknown error verifying signature"
 msgstr "Errore sconosciuto durante la verifica della firma"
 
@@ -14092,36 +14096,36 @@ msgstr ""
 "Impossibile leggere le impostazioni dalle installazioni precedenti di "
 "Evolution, `evolution/config.xmldb' non esiste o è danneggiato."
 
-#: mail/em-popup.c:384
+#: mail/em-popup.c:386
 msgid "Save As..."
 msgstr "Salva con nome..."
 
-#: mail/em-popup.c:403
+#: mail/em-popup.c:405
 #, c-format
 msgid "untitled_image.%s"
 msgstr "immagine_senzanome.%s"
 
-#: mail/em-popup.c:497
+#: mail/em-popup.c:499
 msgid "Set as _Background"
 msgstr "Imposta come _sfondo"
 
-#: mail/em-popup.c:499
+#: mail/em-popup.c:501
 msgid "_Reply to sender"
 msgstr "_Rispondi al mittente"
 
-#: mail/em-popup.c:551
+#: mail/em-popup.c:553
 msgid "_Open Link in Browser"
 msgstr "Apri il c_ollegamento nel navigatore"
 
-#: mail/em-popup.c:552
+#: mail/em-popup.c:554
 msgid "Se_nd message to..."
 msgstr "Invia un _messaggio a..."
 
-#: mail/em-popup.c:553
+#: mail/em-popup.c:555
 msgid "_Add to Addressbook"
 msgstr "_Aggiungi alla rubrica"
 
-#: mail/em-popup.c:684
+#: mail/em-popup.c:686
 #, c-format
 msgid "Open in %s..."
 msgstr "Apri in %s..."
@@ -14168,7 +14172,7 @@ msgid "Add address"
 msgstr "Aggiungi indirizzo"
 
 #. Drop filename for messages from a mailbox
-#: mail/em-utils.c:1053
+#: mail/em-utils.c:1055
 #, c-format
 msgid "Messages from %s"
 msgstr "Messaggi da %s"
@@ -14738,7 +14742,7 @@ msgstr "Importazione in corso di `%s'"
 msgid "Importing mailbox"
 msgstr "Importazione casella di posta"
 
-#: mail/importers/mail-importer.c:362
+#: mail/importers/mail-importer.c:364
 #, c-format
 msgid "Scanning %s"
 msgstr "Scansione di \"%s\""
@@ -14908,92 +14912,92 @@ msgstr "%s mailing list"
 msgid "Add Filter Rule"
 msgstr "Aggiungi una regola di filtro"
 
-#: mail/mail-component.c:137
+#: mail/mail-component.c:141
 msgid "Drafts"
 msgstr "Bozze"
 
-#: mail/mail-component.c:138
+#: mail/mail-component.c:142
 msgid "Outbox"
 msgstr "In uscita"
 
-#: mail/mail-component.c:139
+#: mail/mail-component.c:143
 msgid "Sent"
 msgstr "Inviata"
 
-#: mail/mail-component.c:477
+#: mail/mail-component.c:497
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%d eliminato"
 msgstr[1] "%d eliminati"
 
-#: mail/mail-component.c:479
+#: mail/mail-component.c:499
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d indesiderato"
 msgstr[1] "%d indesiderati"
 
-#: mail/mail-component.c:502
+#: mail/mail-component.c:522
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "%d bozza"
 msgstr[1] "%d bozze"
 
-#: mail/mail-component.c:504
+#: mail/mail-component.c:524
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%d spedito"
 msgstr[1] "%d spediti"
 
-#: mail/mail-component.c:506
+#: mail/mail-component.c:526
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d non spedito"
 msgstr[1] "%d non spediti"
 
-#: mail/mail-component.c:510
+#: mail/mail-component.c:530
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
 msgstr[0] "%d totale"
 msgstr[1] "%d totali"
 
-#: mail/mail-component.c:512
+#: mail/mail-component.c:532
 #, c-format
 msgid ", %d unread"
 msgid_plural ", %d unread"
 msgstr[0] ", %d non letto"
 msgstr[1] ", %d non letti"
 
-#: mail/mail-component.c:677
+#: mail/mail-component.c:697
 msgid "New Mail Message"
 msgstr "Nuovo messaggio di posta"
 
-#: mail/mail-component.c:678
+#: mail/mail-component.c:698
 msgid "_Mail Message"
 msgstr "Invia _messaggio"
 
-#: mail/mail-component.c:679
+#: mail/mail-component.c:699
 msgid "Compose a new mail message"
 msgstr "Componi un nuovo messaggio di posta"
 
-#: mail/mail-component.c:685
+#: mail/mail-component.c:705
 msgid "New Mail Folder"
 msgstr "Nuova cartella di posta"
 
-#: mail/mail-component.c:686
+#: mail/mail-component.c:706
 msgid "Mail _Folder"
 msgstr "Cartella di _posta"
 
-#: mail/mail-component.c:687
+#: mail/mail-component.c:707
 msgid "Create a new mail folder"
 msgstr "Crea una nuova cartella di posta"
 
-#: mail/mail-component.c:819
+#: mail/mail-component.c:839
 msgid "Failed upgrading Mail settings or folders."
 msgstr ""
 "Fallito l'aggiornamento delle impostazioni della posta o delle cartelle."
@@ -16382,105 +16386,105 @@ msgstr ""
 msgid "Failed to append to local `Sent' folder: %s"
 msgstr "Impossibile aggiungere nella cartella locale 'Sent': %s"
 
-#: mail/mail-ops.c:684
+#: mail/mail-ops.c:685
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Invio del messaggio %d di %d"
 
-#: mail/mail-ops.c:715
+#: mail/mail-ops.c:716
 #, c-format
 msgid "Failed to send %d of %d messages"
 msgstr "Fallita la spedizione di %d di %d messaggi"
 
-#: mail/mail-ops.c:719
+#: mail/mail-ops.c:720
 msgid "Complete."
 msgstr "Completato."
 
-#: mail/mail-ops.c:816
+#: mail/mail-ops.c:817
 msgid "Saving message to folder"
 msgstr "Salvataggio del messaggio nella cartella"
 
-#: mail/mail-ops.c:901
+#: mail/mail-ops.c:902
 #, c-format
 msgid "Moving messages to %s"
 msgstr "Sposta messaggii in %s"
 
-#: mail/mail-ops.c:901
+#: mail/mail-ops.c:902
 #, c-format
 msgid "Copying messages to %s"
 msgstr "Copia messaggi in %s"
 
-#: mail/mail-ops.c:1127
+#: mail/mail-ops.c:1128
 msgid "Forwarded messages"
 msgstr "Messaggio inoltrato"
 
-#: mail/mail-ops.c:1170
+#: mail/mail-ops.c:1171
 #, c-format
 msgid "Opening folder %s"
 msgstr "Lettura cartella %s"
 
-#: mail/mail-ops.c:1242
+#: mail/mail-ops.c:1243
 #, c-format
 msgid "Opening store %s"
 msgstr "Apertura store %s"
 
-#: mail/mail-ops.c:1320
+#: mail/mail-ops.c:1321
 #, c-format
 msgid "Removing folder %s"
 msgstr "Rimozione cartella %s"
 
-#: mail/mail-ops.c:1414
+#: mail/mail-ops.c:1415
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Archiviazione cartella '%s'"
 
-#: mail/mail-ops.c:1479
+#: mail/mail-ops.c:1480
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Pulizia e memorizzazione account '%s'"
 
-#: mail/mail-ops.c:1480
+#: mail/mail-ops.c:1481
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Archiviazione cartella '%s'"
 
-#: mail/mail-ops.c:1535
+#: mail/mail-ops.c:1536
 msgid "Refreshing folder"
 msgstr "Aggiornamento cartella"
 
-#: mail/mail-ops.c:1571 mail/mail-ops.c:1622
+#: mail/mail-ops.c:1572 mail/mail-ops.c:1623
 msgid "Expunging folder"
 msgstr "Eliminazione cartella"
 
-#: mail/mail-ops.c:1619
+#: mail/mail-ops.c:1620
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Svuotamento cestino in '%s'"
 
-#: mail/mail-ops.c:1620
+#: mail/mail-ops.c:1621
 msgid "Local Folders"
 msgstr "Cartelle Locali"
 
-#: mail/mail-ops.c:1703
+#: mail/mail-ops.c:1704
 #, c-format
 msgid "Retrieving message %s"
 msgstr "Scaricamento del messaggio %s"
 
-#: mail/mail-ops.c:1775
+#: mail/mail-ops.c:1776
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
 msgstr[0] "Ricezione di %d messaggio"
 msgstr[1] "Ricezione di %d messaggi"
 
-#: mail/mail-ops.c:1861
+#: mail/mail-ops.c:1862
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messsages"
 msgstr[0] "Salvataggio di %d messaggio"
 msgstr[1] "Salvataggio di %d messaggi"
 
-#: mail/mail-ops.c:1911
+#: mail/mail-ops.c:1912
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -16489,7 +16493,7 @@ msgstr ""
 "Impossibile creare il file di output: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1939
+#: mail/mail-ops.c:1940
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -16498,11 +16502,11 @@ msgstr ""
 "Errore nel salvare i messaggi in: %s\n"
 "%s"
 
-#: mail/mail-ops.c:2010
+#: mail/mail-ops.c:2011
 msgid "Saving attachment"
 msgstr "Salvataggio Allegati"
 
-#: mail/mail-ops.c:2022
+#: mail/mail-ops.c:2023
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -16511,22 +16515,22 @@ msgstr ""
 "Impossibile creare il file di output: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2032
+#: mail/mail-ops.c:2033
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Impossibile srivere i dati: %s"
 
-#: mail/mail-ops.c:2180
+#: mail/mail-ops.c:2181
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Disconnessione da %s"
 
-#: mail/mail-ops.c:2180
+#: mail/mail-ops.c:2181
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "Riconnessione a %s in corso"
 
-#: mail/mail-ops.c:2284
+#: mail/mail-ops.c:2285
 msgid "Checking Service"
 msgstr "Verifica servizi"
 
@@ -16629,15 +16633,15 @@ msgstr "Aggiornamento cartelle virtuali per '%s:%s' in corso"
 msgid "Updating vFolders for '%s'"
 msgstr "Aggiornamento cartelle virtuali per '%s' in corso"
 
-#: mail/mail-vfolder.c:942
+#: mail/mail-vfolder.c:950
 msgid "vFolders"
 msgstr "Cartelle virtuali"
 
-#: mail/mail-vfolder.c:981
+#: mail/mail-vfolder.c:989
 msgid "Edit VFolder"
 msgstr "Modifica cartella virtuale"
 
-#: mail/mail-vfolder.c:1065
+#: mail/mail-vfolder.c:1073
 msgid "New VFolder"
 msgstr "Nuova cartella virtuale"
 
@@ -16677,31 +16681,31 @@ msgstr "Più alto"
 msgid "Highest"
 msgstr "Il più alto"
 
-#: mail/message-list.c:1336
+#: mail/message-list.c:1341
 msgid "?"
 msgstr "?"
 
-#: mail/message-list.c:1343
+#: mail/message-list.c:1348
 msgid "Today %l:%M %p"
 msgstr "Oggi %I:%M %p"
 
-#: mail/message-list.c:1352
+#: mail/message-list.c:1357
 msgid "Yesterday %l:%M %p"
 msgstr "Ieri %l %M %p"
 
-#: mail/message-list.c:1364
+#: mail/message-list.c:1369
 msgid "%a %l:%M %p"
 msgstr "%a %I:%M %p"
 
-#: mail/message-list.c:1372
+#: mail/message-list.c:1377
 msgid "%b %d %l:%M %p"
 msgstr "%b %d %l:%M %p"
 
-#: mail/message-list.c:1374
+#: mail/message-list.c:1379
 msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
-#: mail/message-list.c:3391
+#: mail/message-list.c:3403
 msgid "Generating message list"
 msgstr "Generazione elenco messaggi"
 
@@ -17272,7 +17276,9 @@ msgid ""
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
-"Benvenuti a Evolution. Le schermate successive consentono di connettere Evolution al proprio conto e-mail e di importare file da altre applicazioni. \n"
+"Benvenuti a Evolution. Le schermate successive consentono di connettere "
+"Evolution al proprio conto e-mail e di importare file da altre "
+"applicazioni. \n"
 "\n"
 "Fare clic sul pulsante \"Avanti\" per continuare. "
 
@@ -17284,7 +17290,8 @@ msgid ""
 "\n"
 "Click the \"Apply\" button to save your settings. "
 msgstr ""
-"Le informazioni necessarie per la configurazione di Evolution sono state immesse correttamente. \n"
+"Le informazioni necessarie per la configurazione di Evolution sono state "
+"immesse correttamente. \n"
 "\n"
 "Fare clic sul pulsante \"Applica\" per salvare le impostazioni. "
 
@@ -19615,8 +19622,8 @@ msgstr "Con sca_denza"
 msgid "With _Status"
 msgstr "Con _stato"
 
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:198
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:640
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:195
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:637
 msgid "UTC"
 msgstr "UTC"
 
