@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.1\n"
-"POT-Creation-Date: 2000-05-27 20:01+0100\n"
+"POT-Creation-Date: 2000-06-05 18:34+0300\n"
 "PO-Revision-Date: 2000-04-04 15:25+0200\n"
 "Last-Translator: Yuri Syrota <rasta@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -19,145 +19,141 @@ msgstr ""
 #. * DO NOT compile it as part of your application.
 #.
 #: addressbook/contact-editor/e-contact-editor-strings.h:7
-#, fuzzy
 msgid "Contact Editor"
-msgstr "Контакт"
+msgstr "Редактор зв'язк╕в"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:8
 msgid "_Full Name..."
-msgstr ""
+msgstr "Повне ╕м'я..."
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:9
-#, fuzzy
-msgid "Company:"
-msgstr "Скоп╕ювати"
-
-#: addressbook/contact-editor/e-contact-editor-strings.h:10
 msgid "File As:"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:11
+#: addressbook/contact-editor/e-contact-editor-strings.h:10
 msgid "Web page address:"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:12
+#: addressbook/contact-editor/e-contact-editor-strings.h:11
 msgid "Wants to receive _HTML mail"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:13
+#: addressbook/contact-editor/e-contact-editor-strings.h:12
 msgid "Address:"
-msgstr ""
+msgstr "Адреса:"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:13
+msgid "_Business"
+msgstr "Робоча"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:14
-msgid "_Business"
-msgstr ""
+msgid "_Home"
+msgstr "Домашня"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:15
-#, fuzzy
-msgid "_Home"
-msgstr "Нотатка"
-
-#: addressbook/contact-editor/e-contact-editor-strings.h:16
 msgid "Business _Fax"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:17
-#, fuzzy
+#: addressbook/contact-editor/e-contact-editor-strings.h:16
 msgid "_Mobile"
-msgstr "Пошта"
+msgstr "Моб╕льний телефон"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:18
+#: addressbook/contact-editor/e-contact-editor-strings.h:17
 msgid "Primary Email"
 msgstr ""
 
+#: addressbook/contact-editor/e-contact-editor-strings.h:18
+msgid "B_usiness"
+msgstr ""
+
 #: addressbook/contact-editor/e-contact-editor-strings.h:19
-msgid "Business"
+msgid "_This is the mailing address"
 msgstr ""
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:20
-msgid "This is the _mailing address"
-msgstr ""
+msgid "C_ontacts..."
+msgstr "Зв'язки..."
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:21
-#, fuzzy
-msgid "_Contacts..."
-msgstr "Контакт"
+msgid "Ca_tegories..."
+msgstr "Категор╕╖..."
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:22
-msgid "Ca_tegories..."
-msgstr ""
+msgid "_Job title:"
+msgstr "Посада:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:23
-msgid "Job Title"
-msgstr ""
+msgid "_Company:"
+msgstr "Компан╕я:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:24
 msgid "General"
 msgstr ""
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:25
-msgid "Department:"
-msgstr ""
+msgid "_Department:"
+msgstr "В╕дд╕л:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:26
-msgid "Office:"
-msgstr ""
+msgid "_Office:"
+msgstr "Оф╕с:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:27
-msgid "Profession:"
-msgstr ""
+msgid "_Profession:"
+msgstr "Профес╕я:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:28
-msgid "Nickname:"
-msgstr ""
+msgid "_Nickname:"
+msgstr "Пр╕звисько:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:29
-msgid "Spouse:"
+msgid "_Spouse:"
 msgstr ""
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:30
-msgid "Birthday:"
-msgstr ""
+msgid "_Birthday:"
+msgstr "Дата народження:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:31
-msgid "Assistant's name:"
+msgid "_Assistant's name:"
 msgstr ""
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:32
-msgid "Manager's Name:"
+msgid "_Manager's Name:"
 msgstr ""
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:33
-msgid "Anniversary:"
+msgid "Anni_versary:"
 msgstr ""
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:34
-#, fuzzy
-msgid "Notes:"
-msgstr "Нотатка"
+msgid "No_tes:"
+msgstr "Нотатки:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:35
 msgid "Details"
-msgstr ""
+msgstr "Подробиц╕"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:36
-#: addressbook/contact-editor/e-contact-editor-strings.h:41
-msgid "Add"
-msgstr ""
+msgid "_Add"
+msgstr "Додати"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:37
-#: mail/folder-browser-factory.c:50
-msgid "Delete"
-msgstr ""
+msgid "_Delete"
+msgstr "Стерти"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:38
 msgid "Phone Types"
 msgstr ""
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:39
-#: addressbook/contact-editor/e-contact-editor-strings.h:40
+#: addressbook/contact-editor/e-contact-editor-strings.h:41
 msgid "New phone type"
 msgstr ""
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:40
+msgid "Add"
+msgstr "Додати"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -177,9 +173,8 @@ msgid "_First:"
 msgstr ""
 
 #: addressbook/contact-editor/fullname-strings.h:10
-#, fuzzy
 msgid "_Middle:"
-msgstr "Пошта"
+msgstr ""
 
 #: addressbook/contact-editor/fullname-strings.h:11
 msgid "_Last:"
@@ -196,6 +191,10 @@ msgid ""
 "Mrs.\n"
 "Dr.\n"
 msgstr ""
+"\n"
+"Пан\n"
+"Пан╕\n"
+"Доктор\n"
 
 #: addressbook/contact-editor/fullname-strings.h:18
 msgid ""
@@ -216,15 +215,15 @@ msgstr ""
 #: addressbook/gui/component/ldap-server-dialog.glade.h:7
 #: composer/e-msg-composer-attachment.glade.h:8
 msgid "Description:"
-msgstr ""
+msgstr "Опис:"
 
 #: addressbook/gui/component/ldap-server-dialog.glade.h:8
 msgid "LDAP Server:"
-msgstr ""
+msgstr "Сервер LDAP:"
 
 #: addressbook/gui/component/ldap-server-dialog.glade.h:9
 msgid "Port Number:"
-msgstr ""
+msgstr "Номер порта:"
 
 #: addressbook/gui/component/ldap-server-dialog.glade.h:10
 msgid "Root DN:"
@@ -241,25 +240,23 @@ msgstr ""
 
 #: addressbook/printing/e-contact-print.glade.h:8
 msgid "Style name:"
-msgstr ""
+msgstr "Назва стилю:"
 
 #: addressbook/printing/e-contact-print.glade.h:9
 msgid "Preview:"
-msgstr ""
+msgstr "Перегляд:"
 
 #: addressbook/printing/e-contact-print.glade.h:10
-#, fuzzy
 msgid "Options"
-msgstr "Д╕╖"
+msgstr "Параметри"
 
 #: addressbook/printing/e-contact-print.glade.h:11
 msgid "Include:"
 msgstr ""
 
 #: addressbook/printing/e-contact-print.glade.h:12
-#, fuzzy
 msgid "Sections:"
-msgstr "Д╕╖"
+msgstr ""
 
 #: addressbook/printing/e-contact-print.glade.h:13
 msgid "Immediately follow each other"
@@ -279,23 +276,22 @@ msgstr ""
 
 #: addressbook/printing/e-contact-print.glade.h:17
 msgid "Number of columns:"
-msgstr ""
+msgstr "К╕льк╕сть стовпчик╕в:"
 
 #: addressbook/printing/e-contact-print.glade.h:18
 msgid "Blank forms at end:"
 msgstr ""
 
 #: addressbook/printing/e-contact-print.glade.h:19
-#, fuzzy
 msgid "Fonts"
-msgstr "Контакти"
+msgstr "Шрифти"
 
 #: addressbook/printing/e-contact-print.glade.h:20
 #: addressbook/printing/e-contact-print.glade.h:21
 #: addressbook/printing/e-contact-print.glade.h:51
 #: addressbook/printing/e-contact-print.glade.h:54
 msgid "Font..."
-msgstr ""
+msgstr "Шрифт..."
 
 #: addressbook/printing/e-contact-print.glade.h:22
 msgid "Headings"
@@ -306,9 +302,8 @@ msgid "10 pt. Tahoma"
 msgstr ""
 
 #: addressbook/printing/e-contact-print.glade.h:24
-#, fuzzy
 msgid "Body"
-msgstr "Сьогодн╕"
+msgstr "Т╕ло"
 
 #: addressbook/printing/e-contact-print.glade.h:25
 msgid "8 pt. Tahoma"
@@ -323,19 +318,17 @@ msgid "Print using gray shading"
 msgstr ""
 
 #: addressbook/printing/e-contact-print.glade.h:28
-#, fuzzy
 msgid "Format"
-msgstr "В╕д"
+msgstr "Формат"
 
 #: addressbook/printing/e-contact-print.glade.h:29
 #: addressbook/printing/e-contact-print.glade.h:50
-#, fuzzy
 msgid "Paper"
-msgstr "Вставити"
+msgstr "Пап╕р"
 
 #: addressbook/printing/e-contact-print.glade.h:30
 msgid "Type:"
-msgstr ""
+msgstr "Тип:"
 
 #: addressbook/printing/e-contact-print.glade.h:31
 #: addressbook/printing/e-contact-print.glade.h:43
@@ -350,12 +343,12 @@ msgstr ""
 #: addressbook/printing/e-contact-print.glade.h:33
 #: addressbook/printing/e-contact-print.glade.h:45
 msgid "Width:"
-msgstr ""
+msgstr "Ширина:"
 
 #: addressbook/printing/e-contact-print.glade.h:34
 #: addressbook/printing/e-contact-print.glade.h:46
 msgid "Height:"
-msgstr ""
+msgstr "Висота:"
 
 #: addressbook/printing/e-contact-print.glade.h:35
 msgid "Paper source:"
@@ -366,9 +359,8 @@ msgid "Margins"
 msgstr ""
 
 #: addressbook/printing/e-contact-print.glade.h:37
-#, fuzzy
 msgid "Top:"
-msgstr "До:"
+msgstr ""
 
 #: addressbook/printing/e-contact-print.glade.h:38
 msgid "Bottom:"
@@ -383,31 +375,28 @@ msgid "Right:"
 msgstr ""
 
 #: addressbook/printing/e-contact-print.glade.h:41
-#, fuzzy
 msgid "Page"
-msgstr "Вставити"
+msgstr "Стор╕нка"
 
 #: addressbook/printing/e-contact-print.glade.h:42
-#, fuzzy
 msgid "Size:"
-msgstr "Розм╕р"
+msgstr "Розм╕р:"
 
 #: addressbook/printing/e-contact-print.glade.h:47
 msgid "Orientation"
-msgstr ""
+msgstr "Ор╕╓нтац╕я"
 
 #: addressbook/printing/e-contact-print.glade.h:48
-#, fuzzy
 msgid "Portrait"
-msgstr "Приор╕тет"
+msgstr "Книжна"
 
 #: addressbook/printing/e-contact-print.glade.h:49
 msgid "Landscape"
-msgstr ""
+msgstr "Альбомна"
 
 #: addressbook/printing/e-contact-print.glade.h:52
 msgid "Header"
-msgstr ""
+msgstr "Заголовок"
 
 #: addressbook/printing/e-contact-print.glade.h:53
 msgid "Footer:"
@@ -421,7 +410,7 @@ msgstr ""
 msgid "Header/Footer"
 msgstr ""
 
-#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:533
+#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:635
 msgid "Cut"
 msgstr "Вир╕зати"
 
@@ -429,7 +418,7 @@ msgstr "Вир╕зати"
 msgid "Cut selected item into clipboard"
 msgstr "Вир╕зати вибраний елемент в буфер обм╕ну"
 
-#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:534
+#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:636
 msgid "Copy"
 msgstr "Скоп╕ювати"
 
@@ -438,7 +427,7 @@ msgid "Copy selected item into clipboard"
 msgstr "Скоп╕ювати вибраний елемент в буфер обм╕ну"
 
 #: composer/e-msg-composer-address-dialog.c:191
-#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:535
+#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:637
 msgid "Paste"
 msgstr "Вставити"
 
@@ -462,43 +451,39 @@ msgstr ""
 
 #: composer/e-msg-composer-address-dialog.glade.h:8
 msgid "Name:"
-msgstr ""
+msgstr "╤м'я:"
 
 #: composer/e-msg-composer-address-dialog.glade.h:9
 msgid "Search..."
-msgstr ""
+msgstr "Пошук..."
 
 #: composer/e-msg-composer-address-dialog.glade.h:10
 msgid "Name"
-msgstr ""
+msgstr "╤м'я"
 
 #: composer/e-msg-composer-address-dialog.glade.h:11
 msgid "Address"
-msgstr ""
+msgstr "Адреса"
 
 #: composer/e-msg-composer-address-dialog.glade.h:12
-#, fuzzy
 msgid "Properties..."
-msgstr "Властивост╕"
+msgstr "Властивост╕..."
 
 #: composer/e-msg-composer-address-dialog.glade.h:13
 msgid "Add..."
-msgstr ""
+msgstr "Додати..."
 
 #: composer/e-msg-composer-address-dialog.glade.h:14
-#, fuzzy
 msgid "To: >>"
-msgstr "До:"
+msgstr "До: >>"
 
 #: composer/e-msg-composer-address-dialog.glade.h:15
-#, fuzzy
 msgid "Cc: >>"
-msgstr "Cc:"
+msgstr "Cc: >>"
 
 #: composer/e-msg-composer-address-dialog.glade.h:16
-#, fuzzy
 msgid "Bcc: >>"
-msgstr "Bcc:"
+msgstr "Bcc: >>"
 
 #: composer/e-msg-composer-address-dialog.glade.h:17
 msgid "label9"
@@ -566,21 +551,20 @@ msgstr "Вибрати долучення"
 #. * DO NOT compile it as part of your application.
 #.
 #: composer/e-msg-composer-attachment.glade.h:7
-#, fuzzy
 msgid "Attachment properties"
-msgstr "Долучення"
+msgstr "Властивост╕ долучення"
 
 #: composer/e-msg-composer-attachment.glade.h:9
 msgid "MIME type:"
-msgstr ""
+msgstr "Тип MIME:"
 
 #: composer/e-msg-composer-attachment.glade.h:10
 msgid "File name:"
-msgstr ""
+msgstr "Назва файлу:"
 
 #: composer/e-msg-composer-attachment.glade.h:11
 msgid "Browse..."
-msgstr ""
+msgstr "Переглянути..."
 
 #: composer/e-msg-composer-hdrs.c:89
 msgid "Click here for the address book"
@@ -622,60 +606,60 @@ msgstr "Тема:"
 msgid "Enter the subject of the mail"
 msgstr "Введ╕ть тему послання"
 
-#: composer/e-msg-composer.c:491
+#: composer/e-msg-composer.c:593
 msgid "Save in _folder..."
 msgstr "Зберегти у фолдер..."
 
-#: composer/e-msg-composer.c:491
+#: composer/e-msg-composer.c:593
 msgid "Save the message in a specified folder"
 msgstr "Зберегти пов╕домлення у вказаний фолдер"
 
-#: composer/e-msg-composer.c:494 composer/e-msg-composer.c:531
+#: composer/e-msg-composer.c:596 composer/e-msg-composer.c:633
 #: mail/folder-browser-factory.c:36
 msgid "Send"
 msgstr "В╕д╕слати"
 
-#: composer/e-msg-composer.c:494
+#: composer/e-msg-composer.c:596
 msgid "Send the message"
 msgstr "В╕д╕слати пов╕домлення"
 
-#: composer/e-msg-composer.c:502
+#: composer/e-msg-composer.c:604
 msgid "View _attachments"
 msgstr "Показати долучення"
 
-#: composer/e-msg-composer.c:502
+#: composer/e-msg-composer.c:604
 msgid "View/hide attachments"
 msgstr "Показати/прибрати долучення"
 
-#: composer/e-msg-composer.c:531
+#: composer/e-msg-composer.c:633
 msgid "Send this message"
 msgstr "В╕д╕слати це пов╕домлення"
 
-#: composer/e-msg-composer.c:533
+#: composer/e-msg-composer.c:635
 msgid "Cut selected region into the clipboard"
 msgstr "Вир╕зати вибрану частину у буфер обм╕ну"
 
-#: composer/e-msg-composer.c:534
+#: composer/e-msg-composer.c:636
 msgid "Copy selected region into the clipboard"
 msgstr "Скоп╕ювати вибрану частину у буфер обм╕ну"
 
-#: composer/e-msg-composer.c:535
+#: composer/e-msg-composer.c:637
 msgid "Paste selected region into the clipboard"
 msgstr "Вставити вибрану частину в буфер обм╕ну"
 
-#: composer/e-msg-composer.c:536
+#: composer/e-msg-composer.c:638
 msgid "Undo"
 msgstr "В╕дм╕нити"
 
-#: composer/e-msg-composer.c:536
+#: composer/e-msg-composer.c:638
 msgid "Undo last operation"
 msgstr "В╕дм╕нити останню операц╕ю"
 
-#: composer/e-msg-composer.c:538
+#: composer/e-msg-composer.c:640
 msgid "Attach"
 msgstr "Долучити"
 
-#: composer/e-msg-composer.c:538
+#: composer/e-msg-composer.c:640
 msgid "Attach a file"
 msgstr "Долучити файл"
 
@@ -703,63 +687,69 @@ msgstr "В╕д╕слан╕ пов╕домлення"
 
 #: mail/folder-browser-factory.c:41
 msgid "Reply"
-msgstr ""
+msgstr "В╕дпов╕сти"
 
 #: mail/folder-browser-factory.c:41
-#, fuzzy
 msgid "Reply to the sender of this message"
-msgstr "Введ╕ть адресат╕в пов╕домлення"
+msgstr ""
 
 #: mail/folder-browser-factory.c:42
 msgid "Reply to All"
-msgstr ""
+msgstr "В╕дпов╕сти вс╕м"
 
 #: mail/folder-browser-factory.c:42
-#, fuzzy
 msgid "Reply to all recipients of this message"
-msgstr "Введ╕ть адресат╕в пов╕домлення"
+msgstr ""
 
 #: mail/folder-browser-factory.c:44
 msgid "Forward"
-msgstr ""
+msgstr "Переслати"
 
 #: mail/folder-browser-factory.c:44
-#, fuzzy
 msgid "Forward this message"
-msgstr "В╕д╕слати це пов╕домлення"
+msgstr "Переслати це пов╕домлення"
 
 #: mail/folder-browser-factory.c:48
-#, fuzzy
 msgid "Print"
-msgstr "Приор╕тет"
+msgstr "Друкувати"
 
 #: mail/folder-browser-factory.c:48
-#, fuzzy
 msgid "Print the selected message"
-msgstr "Введ╕ть адресат╕в пов╕домлення"
+msgstr "Надрукувати вибране пов╕домлення"
 
 #: mail/folder-browser-factory.c:50
-#, fuzzy
+msgid "Delete"
+msgstr "Стерти"
+
+#: mail/folder-browser-factory.c:50
 msgid "Delete this message"
-msgstr "В╕д╕слати це пов╕домлення"
+msgstr "Стерти це пов╕домлення"
 
 #: mail/folder-browser-factory.c:67
 msgid "_Expunge"
 msgstr ""
 
 #: mail/folder-browser-factory.c:73
-msgid "_Filter Druid"
+msgid "_Filter Druid ..."
 msgstr ""
 
-#: mail/folder-browser-factory.c:186
+#: mail/folder-browser-factory.c:79
+msgid "_Virtual Folder Druid ..."
+msgstr ""
+
+#: mail/folder-browser-factory.c:85
+msgid "_Mail Configuration ..."
+msgstr ""
+
+#: mail/folder-browser-factory.c:207
 msgid "We are sorry, Evolution's Folder Browser can not be initialized."
 msgstr "Переглядач теки Evolution неможливо ╕н╕ц╕ал╕зувати."
 
-#: mail/folder-browser.c:208
+#: mail/folder-browser.c:249
 msgid "The URI that the Folder Browser will display"
 msgstr "URI теки, що буде в╕дображено переглядачем"
 
-#: mail/folder-browser.c:211
+#: mail/folder-browser.c:252
 msgid "Whether a message preview should be shown"
 msgstr "Коли ма╓ показуватись попередн╕й перегляд пов╕домлення"
 
@@ -767,169 +757,192 @@ msgstr "Коли ма╓ показуватись попередн╕й перегляд пов╕домлення"
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "Поштовий компонент: не вдалось ╕н╕ц╕ал╕зувати Bonobo"
 
-#: mail/message-list.c:464
+#: mail/message-list.c:527
+msgid "Online Status"
+msgstr "Стан на л╕н╕╖"
+
+#: mail/message-list.c:541
 msgid "Priority"
 msgstr "Приор╕тет"
 
-#: mail/message-list.c:478
+#: mail/message-list.c:555
 msgid "From"
 msgstr "В╕д"
 
-#: mail/message-list.c:485
+#: mail/message-list.c:562
 msgid "Subject"
 msgstr "Тема"
 
-#: mail/message-list.c:492
-msgid "Sent"
-msgstr "В╕д╕слано"
+#: mail/message-list.c:569
+msgid "Date"
+msgstr "Дата"
 
-#: mail/message-list.c:499
+#: mail/message-list.c:576
 msgid "Receive"
 msgstr "Отримано"
 
-#: mail/message-list.c:506
+#: mail/message-list.c:583
 msgid "To"
 msgstr "До"
 
-#: mail/message-list.c:513
+#: mail/message-list.c:590
 msgid "Size"
 msgstr "Розм╕р"
 
 #. you might have to call gnome_dialog_run() on the
 #. * dialog returned here, I don't remember...
 #.
-#: shell/e-shell-view-menu.c:62
+#: shell/e-shell-view-menu.c:106
 msgid "Bug buddy was not found in your $PATH."
 msgstr ""
 
 #. same as above
-#: shell/e-shell-view-menu.c:68
+#: shell/e-shell-view-menu.c:112
 msgid "Bug buddy could not be run."
-msgstr ""
+msgstr "Не вдалося запустити Bug buddy"
 
-#: shell/e-shell-view-menu.c:111
+#: shell/e-shell-view-menu.c:155
 msgid "Evolution"
-msgstr ""
+msgstr "Evolution"
 
-#: shell/e-shell-view-menu.c:113
+#: shell/e-shell-view-menu.c:157
 msgid "Copyright 1999, 2000 Helix Code, Inc."
-msgstr ""
+msgstr "Copyright 1999, 2000 Helix Code, Inc."
 
-#: shell/e-shell-view-menu.c:115
+#: shell/e-shell-view-menu.c:159
 msgid ""
 "Evolution is a suite of groupware applications\n"
 "for mail, calendaring, and contact management\n"
 "within the GNOME desktop environment."
 msgstr ""
 
-#: shell/e-shell-view-menu.c:185 shell/e-shell-view-menu.c:251
+#: shell/e-shell-view-menu.c:254 shell/e-shell-view-menu.c:320
 msgid "_Folder"
 msgstr "Фолдер"
 
-#: shell/e-shell-view-menu.c:189
+#: shell/e-shell-view-menu.c:258
 msgid "Evolution _Bar Shortcut"
 msgstr "Л╕н╕йка ярлик╕в Evolution"
 
-#: shell/e-shell-view-menu.c:195
+#: shell/e-shell-view-menu.c:264
 msgid "_Mail message"
 msgstr "В╕д╕слати пов╕домлення"
 
-#: shell/e-shell-view-menu.c:196 shell/e-shell-view-menu.c:199
+#: shell/e-shell-view-menu.c:265 shell/e-shell-view-menu.c:268
 msgid "Composes a new mail message"
 msgstr "П╕дготувати нове поштове пов╕домлення"
 
-#: shell/e-shell-view-menu.c:198
+#: shell/e-shell-view-menu.c:267
 msgid "_Appointment"
 msgstr "Зустр╕ч"
 
-#: shell/e-shell-view-menu.c:201
+#: shell/e-shell-view-menu.c:270
 msgid "Meeting Re_quest"
 msgstr "Запит зустр╕ч╕"
 
-#: shell/e-shell-view-menu.c:204
+#: shell/e-shell-view-menu.c:273
 msgid "_Contact"
 msgstr "Контакт"
 
-#: shell/e-shell-view-menu.c:207
+#: shell/e-shell-view-menu.c:276
 msgid "_Task"
 msgstr "Завдання"
 
-#: shell/e-shell-view-menu.c:210
+#: shell/e-shell-view-menu.c:279
 msgid "Task _Request"
 msgstr "Запит завдання"
 
-#: shell/e-shell-view-menu.c:213
+#: shell/e-shell-view-menu.c:282
 msgid "_Journal Entry"
 msgstr "Журнальний рядок"
 
-#: shell/e-shell-view-menu.c:216
+#: shell/e-shell-view-menu.c:285
 msgid "_Note"
 msgstr "Нотатка"
 
-#: shell/e-shell-view-menu.c:226
+#: shell/e-shell-view-menu.c:295
 msgid "_Selected Items"
 msgstr "Вибран╕ елементи"
 
-#: shell/e-shell-view-menu.c:234
+#: shell/e-shell-view-menu.c:303
 msgid "_New Folder"
 msgstr "Новий фолдер"
 
-#: shell/e-shell-view-menu.c:242
+#: shell/e-shell-view-menu.c:311
 msgid "_New"
 msgstr "Новий"
 
-#: shell/e-shell-view-menu.c:243
+#: shell/e-shell-view-menu.c:312
 msgid "_Open"
 msgstr "В╕дкрити"
 
-#: shell/e-shell-view-menu.c:244
+#: shell/e-shell-view-menu.c:313
 msgid "Clos_e All Items"
 msgstr "Закрити вс╕ елементи"
 
-#: shell/e-shell-view-menu.c:244
+#: shell/e-shell-view-menu.c:313
 msgid "Closes all the open items"
 msgstr "Закрива╓ вс╕ в╕дкрит╕ елементи"
 
-#: shell/e-shell-view-menu.c:265
-#, fuzzy
-msgid "Show _Shortcut Bar"
-msgstr "Вилучити з панел╕ л╕н╕йки"
-
-#: shell/e-shell-view-menu.c:266
-msgid "Shows the shortcut bar"
+#: shell/e-shell-view-menu.c:334
+msgid "Show _shortcut bar"
 msgstr ""
 
-#: shell/e-shell-view-menu.c:268
-msgid "Show _Treeview"
+#: shell/e-shell-view-menu.c:335
+msgid "Show the shortcut bar"
 msgstr ""
 
-#: shell/e-shell-view-menu.c:269
-msgid "Shows the tree view"
+#: shell/e-shell-view-menu.c:337
+msgid "Show _folder bar"
+msgstr "Показувати панель тек"
+
+#: shell/e-shell-view-menu.c:338
+msgid "Show the folder bar"
+msgstr "Показувати панель тек"
+
+#: shell/e-shell-view-menu.c:355
+msgid "Help _Index"
 msgstr ""
 
-#: shell/e-shell-view-menu.c:284
-msgid "_Submit bug"
+#: shell/e-shell-view-menu.c:358
+msgid "Getting _Started"
 msgstr ""
 
-#: shell/e-shell-view-menu.c:285
+#: shell/e-shell-view-menu.c:361
+msgid "Using the _Mailer"
+msgstr ""
+
+#: shell/e-shell-view-menu.c:364
+msgid "Using the _Calendar"
+msgstr ""
+
+#: shell/e-shell-view-menu.c:367
+msgid "Using the Cont_act Manager"
+msgstr ""
+
+#: shell/e-shell-view-menu.c:372
+msgid "_Submit bug report"
+msgstr "П╕дготувати зв╕т про помилку"
+
+#: shell/e-shell-view-menu.c:373
 msgid "Submit bug-report via bug-buddy"
-msgstr ""
+msgstr "П╕дготувати зв╕т про помилку в bug-buddy"
 
 #. FIXME: add Favorites here
-#: shell/e-shell-view-menu.c:300
+#: shell/e-shell-view-menu.c:388
 msgid "_Tools"
 msgstr "╤нструменти"
 
-#: shell/e-shell-view-menu.c:301
+#: shell/e-shell-view-menu.c:389
 msgid "_Actions"
 msgstr "Д╕╖"
 
-#: shell/e-shell.c:157
+#: shell/e-shell.c:176
 #, c-format
 msgid "Cannot set up local storage -- %s"
 msgstr ""
 
-#: shell/main.c:100
+#: shell/main.c:101
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release of\n"
 "the Evolution groupware suite.\n"
@@ -953,20 +966,19 @@ msgid ""
 "await your contributions!\n"
 msgstr ""
 
-#: shell/main.c:129
+#: shell/main.c:130
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
 msgstr ""
 
-#: shell/main.c:156
+#: shell/main.c:171
 msgid "Cannot initialize the Evolution shell."
-msgstr ""
+msgstr "Не вдалося ╕н╕ц╕ал╕зувати оболонку Evolutuion."
 
-#: shell/main.c:186
-#, fuzzy
+#: shell/main.c:206
 msgid "Cannot initialize the Bonobo component system."
-msgstr "Не вдалося ╕н╕ц╕ал╕зувати компонентну систему Bonobo"
+msgstr "Не вдалося ╕н╕ц╕ал╕зувати компонентну систему Bonobo."
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -975,20 +987,19 @@ msgstr "Не вдалося ╕н╕ц╕ал╕зувати компонентну систему Bonobo"
 #.
 #: widgets/e-table/e-table-config.glade.h:7
 msgid "Fields"
-msgstr ""
+msgstr "Поля"
 
 #: widgets/e-table/e-table-config.glade.h:8
 msgid "Grouping"
-msgstr ""
+msgstr "Групування"
 
 #: widgets/e-table/e-table-config.glade.h:9
 msgid "Sort"
-msgstr ""
+msgstr "Сортувати"
 
 #: widgets/e-table/e-table-config.glade.h:10
-#, fuzzy
 msgid "Filter"
-msgstr "Фолдер"
+msgstr "Ф╕льтр"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -997,175 +1008,28 @@ msgstr "Фолдер"
 #.
 #: widgets/e-table/e-table-group.glade.h:7
 msgid "window1"
-msgstr ""
+msgstr "в╕кно1"
 
 #: widgets/e-table/e-table-group.glade.h:8
 msgid "Available fields"
-msgstr ""
+msgstr "Доступн╕ поля"
 
 #: widgets/e-table/e-table-group.glade.h:9
 msgid "label1"
-msgstr ""
+msgstr "позначка1"
 
 #: widgets/e-table/e-table-group.glade.h:10
 msgid "Show in this order"
-msgstr ""
+msgstr "Показувати в цьому порядку"
 
 #: widgets/e-table/e-table-group.glade.h:11
 msgid "label2"
-msgstr ""
+msgstr "позначка2"
 
 #: widgets/e-table/e-table-group.glade.h:12
 msgid "Add >>"
-msgstr ""
+msgstr "Додати >>"
 
 #: widgets/e-table/e-table-group.glade.h:13
-#, fuzzy
 msgid "<< Remove"
-msgstr "Видалити"
-
-#~ msgid ""
-#~ "Evolution detected that the file `%s' is a not a directory.\n"
-#~ "\n"
-#~ "Evolution can rename the file, delete the file or shutdown and\n"
-#~ "let you fix the problem."
-#~ msgstr ""
-#~ "Програма Evolution виявила що файл \"%s\" не ╓ каталогом.\n"
-#~ "\n"
-#~ "Можна перейменувати файл, видалити його або в╕дключитися ╕\n"
-#~ "дозволити вам вир╕ш╕ти проблему."
-
-#~ msgid ""
-#~ "This is a development version of Evolution.\n"
-#~ " Using the mail component on your mail files\n"
-#~ " is extremely hazardous.\n"
-#~ "Please backup all your mails before trying\n"
-#~ " this program. \n"
-#~ "     You have been warned\n"
-#~ msgstr ""
-#~ "  Ця верс╕я Evolution знаходиться в розробц╕.\n"
-#~ "  Використання поштового компоненту на ваших файлах пошти\n"
-#~ "╓ дуже небезпечним.\n"
-#~ "  Зроб╕ть резервну коп╕ю вс╕╓╖ вашо╖ пошти перед випробуванням\n"
-#~ "ц╕╓╖ програми. \n"
-#~ "     Вас було попереджено\n"
-
-#~ msgid ""
-#~ "An exception occured while trying to load data into the component with "
-#~ "PersistStream"
-#~ msgstr ""
-#~ "На спроб╕ завантажити дан╕ в компонент з PersistStream виникло виключення"
-
-#~ msgid "The %s component doesn't support PersistStream!\n"
-#~ msgstr "Компонент %s не п╕дтриму╓ PersistStream!\n"
-
-#~ msgid "Online status"
-#~ msgstr "Стан на л╕н╕╖"
-
-#~ msgid "Message status"
-#~ msgstr "Стан пов╕домлення"
-
-#~ msgid "A folder containing mail items"
-#~ msgstr "Поштова тека"
-
-#~ msgid "A folder containing contacts"
-#~ msgstr "Тека з контактами"
-
-#~ msgid "A folder containing calendar entries"
-#~ msgstr "Тека з календарними записами"
-
-#~ msgid "A folder containing tasks"
-#~ msgstr "Тека ╕з завданнями"
-
-#~ msgid "Evolution can not create its local folders"
-#~ msgstr "Evolution не може створити цю локальну теку"
-
-#~ msgid "A service containing mail items"
-#~ msgstr "Поштова служба"
-
-#~ msgid "A service containing contacts"
-#~ msgstr "Служба контакт╕в"
-
-#~ msgid "A service containing calendar entries"
-#~ msgstr "Служба календарних запис╕в"
-
-#~ msgid "A service containing tasks"
-#~ msgstr "Служба завдань"
-
-#~ msgid "Large Icons"
-#~ msgstr "Велик╕ п╕ктограми"
-
-#~ msgid "Small Icons"
-#~ msgstr "Мал╕ п╕ктограми"
-
-#~ msgid "Add New Group"
-#~ msgstr "Додати нову групу"
-
-#~ msgid "Remove Group"
-#~ msgstr "Видалити групу"
-
-#~ msgid "Rename Group"
-#~ msgstr "Перейменувати групу"
-
-#~ msgid "Add Shortcut"
-#~ msgstr "Додати скорочення"
-
-#~ msgid "Open Folder"
-#~ msgstr "В╕дкрити фолдер"
-
-#~ msgid "Open in New Window"
-#~ msgstr "В╕дкрити в новому в╕кн╕"
-
-#~ msgid "Advanced Find"
-#~ msgstr "Розширений пошук"
-
-#~ msgid "Rename Shortcut"
-#~ msgstr "Пере╕менувати ярлик"
-
-#~ msgid "Executive Summary"
-#~ msgstr "Виконавче зведення"
-
-#~ msgid "Inbox"
-#~ msgstr "Вх╕дн╕"
-
-#~ msgid "New mail messages"
-#~ msgstr "Нов╕ поштов╕ пов╕домлення"
-
-#~ msgid "Sent mail messages"
-#~ msgstr "В╕д╕слан╕ поштов╕ пов╕домлення"
-
-#~ msgid "Drafts"
-#~ msgstr "Чорновики"
-
-#~ msgid "Draft mail messages"
-#~ msgstr "Чорновики поштових пов╕домлень"
-
-#~ msgid "Calendar"
-#~ msgstr "Календар"
-
-#~ msgid "Your calendar"
-#~ msgstr "Ваш календар"
-
-#~ msgid "Your contacts list"
-#~ msgstr "Ваш контактний список"
-
-#~ msgid "Tasks"
-#~ msgstr "Завдання"
-
-#~ msgid "Tasks list"
-#~ msgstr "Список завдань"
-
-#~ msgid "Main Shortcuts"
-#~ msgstr "Основн╕ скорочення"
-
-#~ msgid "Other Shortcuts"
-#~ msgstr "╤нш╕ скорочення"
-
-#~ msgid "New group"
-#~ msgstr "Нова група"
-
-#~ msgid "Enables some debugging functions"
-#~ msgstr "Вмика╓ деяк╕ функц╕╖ налагодження"
-
-#~ msgid "LEVEL"
-#~ msgstr "Р╤ВЕНЬ"
+msgstr "<< Видалити"
