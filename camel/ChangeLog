@@ -1,3 +1,10 @@
+2002-06-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/*: Revert the UID set patch, it seems to have
+	been slightly broken in the 1.0.6 release (missed a mutex_lock()
+	call) and so rather than risk further embarassment, we are just
+	removing it entirely. If you need this fix, use HEAD.
+
 2002-06-03  Not Zed  <NotZed@Ximian.com>
 
 	* camel-vee-folder.c (camel_vee_folder_add_folder):
