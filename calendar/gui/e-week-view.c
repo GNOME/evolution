@@ -2740,12 +2740,15 @@ e_week_view_on_new_appointment (GtkWidget *widget, gpointer data)
 	EWeekView *week_view;
 	CalComponent *comp;
 	CalComponentDateTime date;
+	struct icaltimetype itt;
+
 	week_view = E_WEEK_VIEW (data);
 
 	comp = cal_component_new ();
 	cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
 
-	date.value = g_new0 (struct icaltimetype, 1);
+	date.value = &itt;
+	date.tzid = NULL;
 
 	*date.value = 
 		icaltimetype_from_timet (week_view->day_starts[week_view->selection_start_day], 
@@ -2757,10 +2760,7 @@ e_week_view_on_new_appointment (GtkWidget *widget, gpointer data)
 					 FALSE);
 	cal_component_set_dtend (comp, &date);
 
-	g_free (date.value);
-
 	gnome_calendar_edit_object (week_view->calendar, comp);
-
 	gtk_object_unref (GTK_OBJECT (comp));
 }
 
