@@ -4173,11 +4173,10 @@ Baltic (ISO-8859-4)
       </widget>
 
       <widget>
-	<class>GtkFrame</class>
-	<name>frameSpellChecking</name>
-	<label>Spell Checking</label>
-	<label_xalign>0</label_xalign>
-	<shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
+	<class>GtkHBox</class>
+	<name>hbox164</name>
+	<homogeneous>False</homogeneous>
+	<spacing>3</spacing>
 	<child>
 	  <padding>0</padding>
 	  <expand>True</expand>
@@ -4185,93 +4184,30 @@ Baltic (ISO-8859-4)
 	</child>
 
 	<widget>
-	  <class>GtkVBox</class>
-	  <name>vboxSpellChecking</name>
-	  <homogeneous>False</homogeneous>
-	  <spacing>0</spacing>
+	  <class>GtkFrame</class>
+	  <name>frameSpellChecking</name>
+	  <label>Spell Checking</label>
+	  <label_xalign>0</label_xalign>
+	  <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>True</fill>
+	  </child>
 
 	  <widget>
-	    <class>GtkCheckButton</class>
-	    <name>chkEnableSpellChecking</name>
-	    <can_focus>True</can_focus>
-	    <label>_Enable spell checking</label>
-	    <active>False</active>
-	    <draw_indicator>True</draw_indicator>
-	    <child>
-	      <padding>0</padding>
-	      <expand>False</expand>
-	      <fill>False</fill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkHBox</class>
-	    <name>hboxSpellCheckColor</name>
-	    <border_width>3</border_width>
+	    <class>GtkVBox</class>
+	    <name>vbox157</name>
 	    <homogeneous>False</homogeneous>
-	    <spacing>3</spacing>
-	    <child>
-	      <padding>0</padding>
-	      <expand>False</expand>
-	      <fill>False</fill>
-	    </child>
+	    <spacing>0</spacing>
 
 	    <widget>
-	      <class>GtkLabel</class>
-	      <name>lblSpellCheckColor</name>
-	      <label>_Color for misspelled words: </label>
-	      <justify>GTK_JUSTIFY_CENTER</justify>
-	      <wrap>False</wrap>
-	      <xalign>0.5</xalign>
-	      <yalign>0.5</yalign>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <default_focus_target>colorpickerSpellCheckColor</default_focus_target>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GnomeColorPicker</class>
-	      <name>colorpickerSpellCheckColor</name>
+	      <class>GtkCheckButton</class>
+	      <name>chkEnableSpellChecking</name>
 	      <can_focus>True</can_focus>
-	      <dither>True</dither>
-	      <use_alpha>False</use_alpha>
-	      <title>Pick a color</title>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
-	  </widget>
-
-	  <widget>
-	    <class>GtkHBox</class>
-	    <name>hboxSpellCheckLanguage</name>
-	    <border_width>3</border_width>
-	    <homogeneous>False</homogeneous>
-	    <spacing>3</spacing>
-	    <child>
-	      <padding>0</padding>
-	      <expand>False</expand>
-	      <fill>False</fill>
-	    </child>
-
-	    <widget>
-	      <class>GtkLabel</class>
-	      <name>lblSpellCheckLanguage</name>
-	      <label>_Language:</label>
-	      <justify>GTK_JUSTIFY_CENTER</justify>
-	      <wrap>False</wrap>
-	      <xalign>0.5</xalign>
-	      <yalign>0.5</yalign>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <default_focus_target>entry30</default_focus_target>
+	      <label>_Enable spell checking</label>
+	      <active>False</active>
+	      <draw_indicator>True</draw_indicator>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
@@ -4280,33 +4216,94 @@ Baltic (ISO-8859-4)
 	    </widget>
 
 	    <widget>
-	      <class>GtkCombo</class>
-	      <name>cmboSpellCheckLanguage</name>
-	      <value_in_list>True</value_in_list>
-	      <ok_if_empty>False</ok_if_empty>
-	      <case_sensitive>False</case_sensitive>
-	      <use_arrows>True</use_arrows>
-	      <use_arrows_always>False</use_arrows_always>
-	      <items>Hulu
-Dari
-Afrikaans
-Arabic
-</items>
+	      <class>GtkHBox</class>
+	      <name>hboxSpellCheckColor</name>
+	      <border_width>3</border_width>
+	      <homogeneous>False</homogeneous>
+	      <spacing>3</spacing>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
-		<fill>False</fill>
+		<fill>True</fill>
 	      </child>
 
 	      <widget>
-		<class>GtkEntry</class>
-		<child_name>GtkCombo:entry</child_name>
-		<name>entry30</name>
+		<class>GnomeColorPicker</class>
+		<name>colorpickerSpellCheckColor</name>
 		<can_focus>True</can_focus>
-		<editable>True</editable>
-		<text_visible>True</text_visible>
-		<text_max_length>0</text_max_length>
-		<text>Hulu</text>
+		<dither>True</dither>
+		<use_alpha>False</use_alpha>
+		<title>Pick a color</title>
+		<child>
+		  <padding>0</padding>
+		  <expand>False</expand>
+		  <fill>False</fill>
+		</child>
+	      </widget>
+
+	      <widget>
+		<class>GtkLabel</class>
+		<name>lblSpellCheckColor</name>
+		<label>_Color for misspelled words</label>
+		<justify>GTK_JUSTIFY_CENTER</justify>
+		<wrap>False</wrap>
+		<xalign>0.5</xalign>
+		<yalign>0.5</yalign>
+		<xpad>0</xpad>
+		<ypad>0</ypad>
+		<child>
+		  <padding>0</padding>
+		  <expand>False</expand>
+		  <fill>False</fill>
+		</child>
+	      </widget>
+	    </widget>
+	  </widget>
+	</widget>
+
+	<widget>
+	  <class>GtkFrame</class>
+	  <name>frame5</name>
+	  <label>Spell Checking Languages</label>
+	  <label_xalign>0</label_xalign>
+	  <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
+	  <child>
+	    <padding>0</padding>
+	    <expand>True</expand>
+	    <fill>True</fill>
+	  </child>
+
+	  <widget>
+	    <class>GtkScrolledWindow</class>
+	    <name>scrolledwindow47</name>
+	    <border_width>3</border_width>
+	    <hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
+	    <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
+	    <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
+	    <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
+
+	    <widget>
+	      <class>GtkCList</class>
+	      <name>clist1</name>
+	      <height>80</height>
+	      <can_focus>True</can_focus>
+	      <columns>1</columns>
+	      <column_widths>80</column_widths>
+	      <selection_mode>GTK_SELECTION_SINGLE</selection_mode>
+	      <show_titles>False</show_titles>
+	      <shadow_type>GTK_SHADOW_IN</shadow_type>
+
+	      <widget>
+		<class>GtkLabel</class>
+		<child_name>CList:title</child_name>
+		<name>label447</name>
+		<label>label447</label>
+		<justify>GTK_JUSTIFY_CENTER</justify>
+		<wrap>False</wrap>
+		<xalign>0.5</xalign>
+		<yalign>0.5</yalign>
+		<xpad>0</xpad>
+		<ypad>0</ypad>
 	      </widget>
 	    </widget>
 	  </widget>
