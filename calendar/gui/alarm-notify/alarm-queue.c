@@ -79,13 +79,16 @@ typedef struct {
 
 	/* Instance from our parent CompQueuedAlarms->alarms->alarms list */
 	CalAlarmInstance *instance;
+
+	/* Whether this is a snoozed queued alarm or a normal one */
+	guint snooze : 1;
 } QueuedAlarm;
 
 /* Alarm ID for the midnight refresh function */
 static gpointer midnight_refresh_id = NULL;
 
-static void display_notification (time_t trigger, CalAlarmInstance *instance,
-				  CalComponent *comp, CalComponentAlarm *alarm);
+static void display_notification (time_t trigger, CompQueuedAlarms *cqa,
+				  gpointer alarm_id, CalComponentAlarm *alarm);
 
 
 
@@ -144,21 +147,12 @@ lookup_client (CalClient *client)
 	return g_hash_table_lookup (client_alarms_hash, client);
 }
 
-/* Callback used when an alarm triggers */
-static void
-alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
+/* Looks up a queued alarm based on its alarm ID */
+static QueuedAlarm *
+lookup_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id)
 {
-	CompQueuedAlarms *cqa;
-	CalComponent *comp;
 	GSList *l;
 	QueuedAlarm *qa;
-	CalComponentAlarm *alarm;
-	CalAlarmAction action;
-
-	cqa = data;
-	comp = cqa->alarms->comp;
-
-	/* Look for the queued alarm so that we can identify its occurrence */
 
 	qa = NULL;
 
@@ -168,58 +162,21 @@ alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
 			break;
 	}
 
-	g_assert (qa != NULL);
-
-	/* Decide what to do based on the alarm action.  We use the trigger that
-	 * is passed to us instead of the one from the instance structure
-	 * because this may be a snoozed alarm instead of an original
-	 * occurrence.
-	 */
-
-	alarm = cal_component_get_alarm (comp, qa->instance->auid);
-	g_assert (alarm != NULL);
-
-	cal_component_alarm_get_action (alarm, &action);
-
-	switch (action) {
-	case CAL_ALARM_AUDIO:
-		/* FIXME: audio_notification (); */
-		break;
-
-	case CAL_ALARM_DISPLAY:
-		display_notification (trigger, qa->instance, comp, alarm);
-		break;
-
-	case CAL_ALARM_EMAIL:
-		/* FIXME: mail_notification (); */
-		break;
-
-	case CAL_ALARM_PROCEDURE:
-		/* FIXME: procedure_notification (); */
-		break;
-
-	default:
-		g_assert_not_reached ();
-		break;
-	}
-
-	cal_component_alarm_free (alarm);
+	g_assert (l != NULL);
+	return qa;
 }
 
-/* Callback used when an alarm must be destroyed */
+/* Removes an alarm from the list of alarms of a component.  If the alarm was
+ * the last one listed for the component, it removes the component itself.
+ */
 static void
-alarm_destroy_cb (gpointer alarm_id, gpointer data)
+remove_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id)
 {
-	CompQueuedAlarms *cqa;
-	GSList *l;
 	QueuedAlarm *qa;
 	const char *uid;
+	GSList *l;
 
-	cqa = data;
-
-	qa = NULL; /* Keep GCC happy */
-
-	/* Find the alarm in the queued alarms */
+	qa = NULL;
 
 	for (l = cqa->queued_alarms; l; l = l->next) {
 		qa = l->data;
@@ -228,8 +185,6 @@ alarm_destroy_cb (gpointer alarm_id, gpointer data)
 	}
 
 	g_assert (l != NULL);
-
-	/* Remove it and free it */
 
 	cqa->queued_alarms = g_slist_remove_link (cqa->queued_alarms, l);
 	g_slist_free_1 (l);
@@ -251,6 +206,60 @@ alarm_destroy_cb (gpointer alarm_id, gpointer data)
 	cqa->alarms = NULL;
 
 	g_free (cqa);
+}
+
+/* Callback used when an alarm triggers */
+static void
+alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
+{
+	CompQueuedAlarms *cqa;
+	CalComponent *comp;
+	QueuedAlarm *qa;
+	CalComponentAlarm *alarm;
+	CalAlarmAction action;
+
+	cqa = data;
+	comp = cqa->alarms->comp;
+
+	qa = lookup_queued_alarm (cqa, alarm_id);
+
+	/* Decide what to do based on the alarm action.  We use the trigger that
+	 * is passed to us instead of the one from the instance structure
+	 * because this may be a snoozed alarm instead of an original
+	 * occurrence.
+	 */
+
+	alarm = cal_component_get_alarm (comp, qa->instance->auid);
+	g_assert (alarm != NULL);
+
+	cal_component_alarm_get_action (alarm, &action);
+
+	switch (action) {
+	case CAL_ALARM_AUDIO:
+		/* FIXME: audio_notification (); */
+		remove_queued_alarm (cqa, alarm_id);
+		break;
+
+	case CAL_ALARM_DISPLAY:
+		display_notification (trigger, cqa, alarm_id, alarm);
+		break;
+
+	case CAL_ALARM_EMAIL:
+		/* FIXME: mail_notification (); */
+		remove_queued_alarm (cqa, alarm_id);
+		break;
+
+	case CAL_ALARM_PROCEDURE:
+		/* FIXME: procedure_notification (); */
+		remove_queued_alarm (cqa, alarm_id);
+		break;
+
+	default:
+		g_assert_not_reached ();
+		break;
+	}
+
+	cal_component_alarm_free (alarm);
 }
 
 /* Adds the alarms in a CalComponentAlarms structure to the alarms queued for a
@@ -282,7 +291,7 @@ add_component_alarms (ClientAlarms *ca, CalComponentAlarms *alarms)
 
 		instance = l->data;
 
-		alarm_id = alarm_add (instance->trigger, alarm_trigger_cb, cqa, alarm_destroy_cb);
+		alarm_id = alarm_add (instance->trigger, alarm_trigger_cb, cqa, NULL);
 		if (!alarm_id) {
 			g_message ("add_component_alarms(): Could not schedule a trigger for "
 				   "%ld, discarding...", (long) instance->trigger);
@@ -292,6 +301,7 @@ add_component_alarms (ClientAlarms *ca, CalComponentAlarms *alarms)
 		qa = g_new (QueuedAlarm, 1);
 		qa->alarm_id = alarm_id;
 		qa->instance = instance;
+		qa->snooze = FALSE;
 
 		cqa->queued_alarms = g_slist_prepend (cqa->queued_alarms, qa);
 	}
@@ -442,13 +452,61 @@ obj_removed_cb (CalClient *client, const char *uid, gpointer data)
 
 /* Notification functions */
 
+/* Creates a snooze alarm based on an existing one.  The snooze offset is
+ * compued with respect to the current time.
+ */
+static void
+create_snooze (CompQueuedAlarms *cqa, gpointer alarm_id, int snooze_mins)
+{
+	QueuedAlarm *orig_qa, *qa;
+	CalAlarmInstance *instance;
+	time_t t;
+	gpointer new_id;
+
+	orig_qa = lookup_queued_alarm (cqa, alarm_id);
+
+	t = time (NULL);
+	t += snooze_mins * 60;
+
+	new_id = alarm_add (t, alarm_trigger_cb, cqa, NULL);
+	if (!new_id) {
+		g_message ("create_snooze(): Could not schedule a trigger for "
+			   "%ld, discarding...", (long) t);
+		return;
+	}
+
+	instance = g_new (CalAlarmInstance, 1);
+	instance->auid = orig_qa->instance->auid;
+	instance->trigger = t;
+	instance->occur_start = orig_qa->instance->occur_start;
+	instance->occur_end = orig_qa->instance->occur_end;
+
+	cqa->alarms->alarms = g_slist_prepend (cqa->alarms->alarms, instance);
+
+	qa = g_new (QueuedAlarm, 1);
+	qa->alarm_id = new_id;
+	qa->instance = instance;
+	qa->snooze = TRUE;
+
+	cqa->queued_alarms = g_slist_prepend (cqa->queued_alarms, qa);
+}
+
+struct notify_dialog_closure {
+	CompQueuedAlarms *cqa;
+	gpointer alarm_id;
+};
+
 /* Callback used from the alarm notify dialog */
 static void
 notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
 {
+	struct notify_dialog_closure *c;
+
+	c = data;
+
 	switch (result) {
 	case ALARM_NOTIFY_SNOOZE:
-		/* FIXME */
+		create_snooze (c->cqa, c->alarm_id, snooze_mins);
 		break;
 
 	case ALARM_NOTIFY_EDIT:
@@ -456,19 +514,30 @@ notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
 		break;
 
 	case ALARM_NOTIFY_CLOSE:
-	default:
+		/* Do nothing */
 		break;
+
+	default:
+		g_assert_not_reached ();
 	}
+
+	remove_queued_alarm (c->cqa, c->alarm_id);
+	g_free (c);
 }
 
 /* Performs notification of a display alarm */
 static void
-display_notification (time_t trigger, CalAlarmInstance *instance,
-		      CalComponent *comp, CalComponentAlarm *alarm)
+display_notification (time_t trigger, CompQueuedAlarms *cqa,
+		      gpointer alarm_id, CalComponentAlarm *alarm)
 {
+	CalComponent *comp;
 	CalComponentVType vtype;
 	CalComponentText text;
+	QueuedAlarm *qa;
 	const char *message;
+	struct notify_dialog_closure *c;
+
+	comp = cqa->alarms->comp;
 
 	vtype = cal_component_get_vtype (comp);
 
@@ -487,10 +556,16 @@ display_notification (time_t trigger, CalAlarmInstance *instance,
 			message = _("No description available.");
 	}
 
+	c = g_new (struct notify_dialog_closure, 1);
+	c->cqa = cqa;
+	c->alarm_id = alarm_id;
+
+	qa = lookup_queued_alarm (cqa, alarm_id);
+
 	if (!alarm_notify_dialog (trigger,
-				  instance->occur_start, instance->occur_end,
+				  qa->instance->occur_start, qa->instance->occur_end,
 				  vtype, message,
-				  notify_dialog_cb, comp))
+				  notify_dialog_cb, c))
 		g_message ("display_notification(): Could not create the alarm notify dialog");
 }
 

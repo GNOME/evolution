@@ -1,3 +1,14 @@
+2001-08-22  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/alarm-notify/alarm-queue.c (QueuedAlarm): Added a snooze
+	flag to differentiate snoozed alarms from real occurrences.
+	(add_component_alarms): Do not specify a destroy function for the
+	alarm trigger.  We handle this in the callbacks now.
+	(alarm_trigger_cb): Just remove the alarms for the unimplemented
+	notification types.
+	(create_snooze): Implemented snooze.
+	(notify_dialog_cb): Snooze as appropriate.
+
 2001-08-22  JP Rosevear  <jpr@ximian.com>
 
 	* gui/itip-utils.c (foreach_tzid_callback): call back to add

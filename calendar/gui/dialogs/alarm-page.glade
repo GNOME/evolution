@@ -221,7 +221,7 @@ Run a program
 	    <wrap>False</wrap>
 	    <value>1</value>
 	    <lower>0</lower>
-	    <upper>100</upper>
+	    <upper>999</upper>
 	    <step>1</step>
 	    <page>10</page>
 	    <page_size>10</page_size>
