@@ -34,6 +34,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-stock.h>
+#include <libgnomeui/gnome-uidefs.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <gal/util/e-unicode-i18n.h>
@@ -303,6 +304,7 @@ clean_up (EItipControl *itip)
 	priv->current = 0;
 	priv->total = 0;
 
+	g_free (priv->my_address);
 	priv->my_address = NULL;
 	g_free (priv->from_address);
 	priv->from_address = NULL;
@@ -341,44 +343,68 @@ find_my_address (EItipControl *itip, icalcomponent *ical_comp)
 {
 	EItipControlPrivate *priv;
 	icalproperty *prop;
-	const char *attendee;
-	char *text;
-	icalvalue *value;
-
+	char *my_alt_address = NULL;
+	
 	priv = itip->priv;
 
 	for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
 	     prop != NULL;
 	     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY))
 	{
+		icalvalue *value;
+		icalparameter *param;
+		const char *attendee, *name;
+		char *attendee_clean, *name_clean;
 		GList *l;
 
 		value = icalproperty_get_value (prop);
-		if (!value)
-			continue;
-
-		attendee = icalvalue_get_string (value);
-
-		text = g_strdup (itip_strip_mailto (attendee));
-		text = g_strstrip (text);
+		if (value != NULL) {
+			attendee = icalvalue_get_string (value);
+			attendee_clean = g_strdup (itip_strip_mailto (attendee));
+			attendee_clean = g_strstrip (attendee_clean);
+		} else {
+			attendee = NULL;
+			attendee_clean = NULL;
+		}
+		
+		param = icalproperty_get_first_parameter (prop, ICAL_CN_PARAMETER);
+		if (param != NULL) {
+			name = icalparameter_get_cn (param);
+			name_clean = g_strdup (name);
+			name_clean = g_strstrip (name_clean);
+		} else {
+			name = NULL;
+			name_clean = NULL;
+		}
+		
 		for (l = priv->addresses; l != NULL; l = l->next) {
 			ItipAddress *a = l->data;
-
-			if (!g_strcasecmp (a->address, text)) {
-				priv->my_address = a->address;
+			
+			/* Check for a matching address */
+			if (attendee_clean != NULL
+			    && !g_strcasecmp (a->address, attendee_clean)) {
+				priv->my_address = g_strdup (a->address);
+				g_free (attendee_clean);
+				g_free (name_clean);
 				return;
 			}
+			
+			/* Check for a matching cname to fall back on */
+			if (name_clean != NULL 
+			    && !g_strcasecmp (a->name, name_clean))
+				my_alt_address = g_strdup (attendee_clean);
 		}
-		g_free (text);
+		g_free (attendee_clean);
+		g_free (name_clean);
 	}
+
+	priv->my_address = my_alt_address;
 }
 
 static icalproperty *
 find_attendee (icalcomponent *ical_comp, const char *address)
 {
 	icalproperty *prop;
-	const char *attendee;
-	icalvalue *value;
 
 	if (address == NULL)
 		return NULL;
@@ -387,8 +413,10 @@ find_attendee (icalcomponent *ical_comp, const char *address)
 	     prop != NULL;
 	     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY))
 	{
+		icalvalue *value;
+		const char *attendee;
 		char *text;
-		
+
 		value = icalproperty_get_value (prop);
 		if (!value)
 			continue;
@@ -403,25 +431,8 @@ find_attendee (icalcomponent *ical_comp, const char *address)
 		}
 		g_free (text);
 	}
-
+	
 	return prop;
-}
-
-static icalparameter_partstat
-find_attendee_partstat (icalcomponent *ical_comp, const char *address)
-{
-	icalproperty *prop;
-
-	prop = find_attendee (ical_comp, address);
-	if (prop != NULL) {
-		icalparameter *param;
-
-		param = icalproperty_get_first_parameter (prop, ICAL_PARTSTAT_PARAMETER);
-		if (param != NULL)
-			return icalparameter_get_partstat (param);
-	}
-
-	return ICAL_PARTSTAT_NONE;
 }
 
 #if 0
@@ -1333,13 +1344,36 @@ change_status (icalcomponent *ical_comp, const char *address, icalparameter_part
 		param = icalparameter_new_partstat (status);
 		icalproperty_add_parameter (prop, param);
 	} else {
-		GtkWidget *dialog;
+		icalparameter *param;
 		
-		dialog = gnome_warning_dialog (_("Unable to find any of your identities "
-						 "in the attendees list!\n"));
-		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+		if (address != NULL) {
+			prop = icalproperty_new_attendee (address);
+			icalcomponent_add_property (ical_comp, prop);
 
-		return FALSE;
+			param = icalparameter_new_role (ICAL_ROLE_OPTPARTICIPANT);
+			icalproperty_add_parameter (prop, param);
+
+			param = icalparameter_new_partstat (status);
+			icalproperty_add_parameter (prop, param);
+		} else {
+			ItipAddress *a;
+
+			a = itip_addresses_get_default ();
+			
+			prop = icalproperty_new_attendee (a->address);
+			icalcomponent_add_property (ical_comp, prop);
+			
+			param = icalparameter_new_cn (a->name);
+			icalproperty_add_parameter (prop, param);	
+
+			param = icalparameter_new_role (ICAL_ROLE_REQPARTICIPANT);
+			icalproperty_add_parameter (prop, param);
+			
+			param = icalparameter_new_partstat (status);
+			icalproperty_add_parameter (prop, param);
+			
+			itip_address_free (a);
+		}
 	}
 
 	return TRUE;
@@ -1403,20 +1437,34 @@ update_attendee_status (EItipControl *itip)
 		cal_component_get_attendee_list (priv->comp, &attendees);
 		if (attendees != NULL) {
 			CalComponentAttendee *a = attendees->data;
-			icalparameter_partstat partstat;
+			icalproperty *prop;
 
-			partstat = find_attendee_partstat (priv->ical_comp, itip_strip_mailto (a->value));
-
-			if (partstat != ICAL_PARTSTAT_NONE) {
-				change_status (cal_component_get_icalcomponent (comp),
-					       itip_strip_mailto (a->value),
-					       partstat);
-				cal_component_rescan (comp);
-			} else {
+			prop = find_attendee (cal_component_get_icalcomponent (comp),
+					      itip_strip_mailto (a->value));
+			
+			if (prop == NULL) {
+				dialog = gnome_question_dialog_modal (_("This response is not from a current"
+									"attendee.  Add as an attendee?"),
+								      NULL, NULL);
+				if (gnome_dialog_run_and_close (GNOME_DIALOG (dialog)) == GNOME_YES) {
+					icalparameter *param;
+					change_status (cal_component_get_icalcomponent (comp),
+						       itip_strip_mailto (a->value),
+						       a->status);
+					cal_component_rescan (comp);
+				} else {
+					goto cleanup;
+				}
+			} else if (a->status == ICAL_PARTSTAT_NONE || a->status == ICAL_PARTSTAT_X) {
 				dialog = gnome_warning_dialog (_("Attendee status could "
 								 "not be updated because "
 								 "of an invalid status!\n"));
 				goto cleanup;
+			} else {
+				change_status (cal_component_get_icalcomponent (comp),
+					       itip_strip_mailto (a->value),
+					       a->status);
+				cal_component_rescan (comp);				
 			}
 		}
 
@@ -1679,60 +1727,61 @@ ok_clicked_cb (GtkHTML *html, const gchar *method, const gchar *url, const gchar
 	if (rsvp && status) {
 		CalComponent *comp = NULL;
 		CalComponentVType vtype;
+		icalcomponent *ical_comp;
+		icalproperty *prop;
+		icalvalue *value;
+		const char *attendee;
+		GSList *l, *list = NULL;
 		
 		comp = cal_component_clone (priv->comp);
 		if (comp == NULL)
 			return;
 		vtype = cal_component_get_vtype (comp);
 		
-		if (priv->my_address != NULL) {
-			icalcomponent *ical_comp;
-			icalproperty *prop;
-			icalvalue *value;
-			const char *attendee;
-			GSList *l, *list = NULL;
+		if (priv->my_address == NULL)
+			find_my_address (itip, priv->ical_comp);
+		g_assert (priv->my_address != NULL);
+		
+		ical_comp = cal_component_get_icalcomponent (comp);
+		
+		for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
+		     prop != NULL;
+		     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY))
+		{
+			char *text;
 			
-			ical_comp = cal_component_get_icalcomponent (comp);
-
-			for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
-			     prop != NULL;
-			     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY))
-			{
-				char *text;
-				
-				value = icalproperty_get_value (prop);
-				if (!value)
-					continue;
-
-				attendee = icalvalue_get_string (value);
-
-				text = g_strdup (itip_strip_mailto (attendee));
-				text = g_strstrip (text);
-				if (g_strcasecmp (priv->my_address, text))
-					list = g_slist_prepend (list, prop);
-				g_free (text);
-			}
-
-			for (l = list; l; l = l->next) {
-				prop = l->data;
-				icalcomponent_remove_property (ical_comp, prop);
-				icalproperty_free (prop);
-			}
-			g_slist_free (list);
-
-			cal_component_rescan (comp);
- 			switch (vtype) {
- 			case CAL_COMPONENT_EVENT:
- 				itip_send_comp (CAL_COMPONENT_METHOD_REPLY, comp,
- 						priv->event_client, priv->top_level);
- 				break;
- 			case CAL_COMPONENT_TODO:
- 				itip_send_comp (CAL_COMPONENT_METHOD_REPLY, comp,
- 						priv->task_client, priv->top_level);
- 				break;
- 			default:
- 				itip_send_comp (CAL_COMPONENT_METHOD_REPLY, comp, NULL, NULL);
- 			}
+			value = icalproperty_get_value (prop);
+			if (!value)
+				continue;
+			
+			attendee = icalvalue_get_string (value);
+			
+			text = g_strdup (itip_strip_mailto (attendee));
+			text = g_strstrip (text);
+			if (g_strcasecmp (priv->my_address, text))
+				list = g_slist_prepend (list, prop);
+			g_free (text);
+		}
+		
+		for (l = list; l; l = l->next) {
+			prop = l->data;
+			icalcomponent_remove_property (ical_comp, prop);
+			icalproperty_free (prop);
+		}
+		g_slist_free (list);
+		
+		cal_component_rescan (comp);
+		switch (vtype) {
+		case CAL_COMPONENT_EVENT:
+			itip_send_comp (CAL_COMPONENT_METHOD_REPLY, comp,
+					priv->event_client, priv->top_level);
+			break;
+		case CAL_COMPONENT_TODO:
+			itip_send_comp (CAL_COMPONENT_METHOD_REPLY, comp,
+					priv->task_client, priv->top_level);
+			break;
+		default:
+			itip_send_comp (CAL_COMPONENT_METHOD_REPLY, comp, NULL, NULL);
 		}
 		gtk_object_unref (GTK_OBJECT (comp));
 	}
