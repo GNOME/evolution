@@ -1066,7 +1066,6 @@ e_contact_editor_new (ECard *card,
 			"is_read_only", is_read_only,
 			NULL);
 
-	gtk_widget_show (ce->app);
 	return ce;
 }
 
@@ -2128,6 +2127,19 @@ e_contact_editor_raise (EContactEditor *editor)
 {
 	gdk_window_raise (GTK_WIDGET (editor->app)->window);
 }
+
+/**
+ * e_contact_editor_show:
+ * @ce: The %EContactEditor object.
+ *
+ * Shows the dialog associated with this %EContactEditor object.
+ */
+void
+e_contact_editor_show (EContactEditor *ce)
+{
+	gtk_widget_show (ce->app);
+}
+
 
 GtkWidget *
 e_contact_editor_create_date(gchar *name,

@@ -111,6 +111,7 @@ EContactEditor *e_contact_editor_new             (ECard          *card,
 						  EList          *writable_fields,
 						  gboolean        is_read_only);
 GtkType         e_contact_editor_get_type        (void);
+void            e_contact_editor_show            (EContactEditor *editor);
 void            e_contact_editor_raise           (EContactEditor *editor);
 
 

@@ -48,6 +48,7 @@
 
 #include "e-addressbook-view.h"
 #include "e-addressbook-model.h"
+#include "e-addressbook-util.h"
 #include "e-addressbook-table-adapter.h"
 #include "e-addressbook-reflow-adapter.h"
 #include "e-minicard-view-widget.h"
@@ -74,8 +75,6 @@ static void selection_received (GtkWidget *invisible, GtkSelectionData *selectio
 static void selection_get (GtkWidget *invisible, GtkSelectionData *selection_data,
 			   guint info, guint time_stamp, EAddressbookView *view);
 static void invisible_destroyed (GtkWidget *invisible, EAddressbookView *view);
-
-static void e_book_error_dialog (const gchar *msg, EBookStatus status);
 
 static GtkTableClass *parent_class = NULL;
 
@@ -467,97 +466,6 @@ create_minicard_view (EAddressbookView *view)
 	gtk_object_unref (GTK_OBJECT (adapter));
 }
 
-
-static void
-card_added_cb (EBook* book, EBookStatus status, const char *id,
-	    gpointer user_data)
-{
-	g_print ("%s: %s(): a card was added\n", __FILE__, __FUNCTION__);
-	if (status != E_BOOK_STATUS_SUCCESS)
-		e_book_error_dialog (_("Error adding card"), status);
-}
-
-static void
-card_modified_cb (EBook* book, EBookStatus status,
-		  gpointer user_data)
-{
-	g_print ("%s: %s(): a card was modified\n", __FILE__, __FUNCTION__);
-	if (status != E_BOOK_STATUS_SUCCESS)
-		e_book_error_dialog (_("Error modifying card"), status);
-}
-
-static void
-card_removed_cb (EBook* book, EBookStatus status,
-		 gpointer user_data)
-{
-	g_print ("%s: %s(): a card was removed\n", __FILE__, __FUNCTION__);
-	if (status != E_BOOK_STATUS_SUCCESS)
-		e_book_error_dialog (_("Error removing card"), status);
-}
-
-/* Callback for the add_card signal from the contact editor */
-static void
-add_card_cb (EContactEditor *ce, ECard *card, gpointer data)
-{
-	EBook *book;
-
-	book = E_BOOK (data);
-	e_book_add_card (book, card, card_added_cb, NULL);
-}
-
-/* Callback for the commit_card signal from the contact editor */
-static void
-commit_card_cb (EContactEditor *ce, ECard *card, gpointer data)
-{
-	EBook *book;
-
-	book = E_BOOK (data);
-	e_book_commit_card (book, card, card_modified_cb, NULL);
-}
-
-/* Callback for the delete_card signal from the contact editor */
-static void
-delete_card_cb (EContactEditor *ce, ECard *card, gpointer data)
-{
-	EBook *book;
-
-	book = E_BOOK (data);
-	e_book_remove_card (book, card, card_removed_cb, NULL);
-}
-
-/* Callback used when the contact editor is closed */
-static void
-editor_closed_cb (EContactEditor *ce, gpointer data)
-{
-	gtk_object_unref (GTK_OBJECT (ce));
-}
-
-typedef struct {
-	EAddressbookView *view;
-	ECard *card;
-} CardAndView;
-
-static void
-supported_fields_cb (EBook *book, EBookStatus status, EList *fields, CardAndView *card_and_view)
-{
-	EContactEditor *ce;
-
-	ce = e_contact_editor_new (card_and_view->card, FALSE, fields, !card_and_view->view->editable);
-
-	gtk_signal_connect (GTK_OBJECT (ce), "add_card",
-			    GTK_SIGNAL_FUNC (add_card_cb), book);
-	gtk_signal_connect (GTK_OBJECT (ce), "commit_card",
-			    GTK_SIGNAL_FUNC (commit_card_cb), book);
-	gtk_signal_connect (GTK_OBJECT (ce), "delete_card",
-			    GTK_SIGNAL_FUNC (delete_card_cb), book);
-	gtk_signal_connect (GTK_OBJECT (ce), "editor_closed",
-			    GTK_SIGNAL_FUNC (editor_closed_cb), NULL);
-
-	gtk_object_unref(GTK_OBJECT(card_and_view->card));
-
-	g_free (card_and_view);
-}
-
 static void
 table_double_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EAddressbookView *view)
 {
@@ -565,7 +473,6 @@ table_double_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, E
 		EAddressbookModel *model = view->model;
 		ECard *card = e_addressbook_model_get_card(model, row);
 		EBook *book;
-		CardAndView *card_and_view;
 
 		gtk_object_get(GTK_OBJECT(model),
 			       "book", &book,
@@ -573,10 +480,7 @@ table_double_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, E
 		
 		g_assert (E_IS_BOOK (book));
 
-		card_and_view = g_new (CardAndView, 1);
-		card_and_view->card = card;
-		card_and_view->view = view;
-		e_book_get_supported_fields (book, (EBookFieldsCallback)supported_fields_cb, card_and_view);
+		e_addressbook_show_contact_editor (book, card, view->editable);
 	}
 }
 
@@ -1174,7 +1078,7 @@ card_deleted_cb (EBook* book, EBookStatus status, gpointer user_data)
 	emit_status_message (view, _("Done."));
 
 	if (status != E_BOOK_STATUS_SUCCESS) {
-		e_book_error_dialog (_("Error removing card"), status);
+		e_addressbook_error_dialog (_("Error removing card"), status);
 	}
 }
 
@@ -1214,28 +1118,6 @@ static void
 invisible_destroyed (GtkWidget *invisible, EAddressbookView *view)
 {
 	view->invisible = NULL;
-}
-
-static void
-e_book_error_dialog (const gchar *msg, EBookStatus status)
-{
-	static char *status_to_string[] = {
-		N_("Success"),
-		N_("Unknown error"),
-		N_("Repository offline"),
-		N_("Permission denied"),
-		N_("Card not found"),
-		N_("Protocol not supported"),
-		N_("Canceled"),
-		N_("Other error")
-	};
-	char *error_msg;
-
-	error_msg = g_strdup_printf ("%s: %s", msg, status_to_string [status]);
-
-	gtk_widget_show (gnome_error_dialog (error_msg));
-
-	g_free (error_msg);
 }
 
 static void

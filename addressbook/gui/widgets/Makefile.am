@@ -23,6 +23,8 @@ libeminicard_a_SOURCES =			\
 	e-addressbook-table-adapter.h		\
 	e-addressbook-model.c			\
 	e-addressbook-model.h			\
+	e-addressbook-util.c			\
+	e-addressbook-util.h			\
 	e-addressbook-view.c			\
 	e-addressbook-view.h			\
 	e-minicard-control.c			\

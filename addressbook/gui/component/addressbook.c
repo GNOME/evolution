@@ -31,6 +31,7 @@
 #include "addressbook.h"
 #include "addressbook/gui/search/e-addressbook-search-dialog.h"
 #include "addressbook/gui/widgets/e-addressbook-view.h"
+#include "addressbook/gui/widgets/e-addressbook-util.h"
 #include "addressbook/printing/e-contact-print.h"
 
 #include <ebook/e-book.h>
@@ -52,79 +53,6 @@ typedef struct {
 } AddressbookView;
 
 static void
-card_added_cb (EBook* book, EBookStatus status, const char *id,
-	    gpointer user_data)
-{
-	g_print ("%s: %s(): a card was added\n", __FILE__, __FUNCTION__);
-}
-
-static void
-card_modified_cb (EBook* book, EBookStatus status,
-		  gpointer user_data)
-{
-	g_print ("%s: %s(): a card was modified\n", __FILE__, __FUNCTION__);
-}
-
-/* Callback for the add_card signal from the contact editor */
-static void
-add_card_cb (EContactEditor *ce, ECard *card, gpointer data)
-{
-	EBook *book;
-
-	book = E_BOOK (data);
-	e_book_add_card (book, card, card_added_cb, NULL);
-}
-
-/* Callback for the commit_card signal from the contact editor */
-static void
-commit_card_cb (EContactEditor *ce, ECard *card, gpointer data)
-{
-	EBook *book;
-
-	book = E_BOOK (data);
-	e_book_commit_card (book, card, card_modified_cb, NULL);
-}
-
-/* Callback for the delete_card signal from the contact editor */
-static void
-delete_card_cb (EContactEditor *ce, ECard *card, gpointer data)
-{
-	EBook *book;
-
-	book = E_BOOK (data);
-	e_book_remove_card (book, card, card_modified_cb, NULL);
-}
-
-/* Callback used when the contact editor is closed */
-static void
-editor_closed_cb (EContactEditor *ce, gpointer data)
-{
-	gtk_object_unref (GTK_OBJECT (ce));
-}
-
-static void
-supported_fields_cb (EBook *book, EBookStatus status, EList *fields, gpointer closure)
-{
-	EContactEditor *ce;
-	ECard *card;
-
-	card = e_card_new("");
-
-	ce = e_contact_editor_new (card, TRUE, fields, FALSE);
-
-	gtk_signal_connect (GTK_OBJECT (ce), "add_card",
-			    GTK_SIGNAL_FUNC (add_card_cb), book);
-	gtk_signal_connect (GTK_OBJECT (ce), "commit_card",
-			    GTK_SIGNAL_FUNC (commit_card_cb), book);
-	gtk_signal_connect (GTK_OBJECT (ce), "delete_card",
-			    GTK_SIGNAL_FUNC (delete_card_cb), book);
-	gtk_signal_connect (GTK_OBJECT (ce), "editor_closed",
-			    GTK_SIGNAL_FUNC (editor_closed_cb), NULL);
-
-	gtk_object_sink(GTK_OBJECT(card));
-}
-
-static void
 new_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	EBook *book;
@@ -136,7 +64,7 @@ new_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 
 	g_assert (E_IS_BOOK (book));
 
-	e_book_get_supported_fields (book, supported_fields_cb, view);
+	e_addressbook_show_contact_editor (book, NULL, e_addressbook_view_can_create (view->view));
 }
 
 static void

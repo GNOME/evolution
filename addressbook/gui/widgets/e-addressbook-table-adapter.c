@@ -3,6 +3,7 @@
 #include <config.h>
 #include "e-addressbook-model.h"
 #include "e-addressbook-table-adapter.h"
+#include "e-addressbook-util.h"
 #include <gnome-xml/tree.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
@@ -109,6 +110,14 @@ addressbook_value_at (ETableModel *etc, int col, int row)
 
 /* This function sets the value at a particular point in our ETableModel. */
 static void
+card_modified_cb (EBook* book, EBookStatus status,
+		  gpointer user_data)
+{
+	g_print ("%s: %s(): a card was modified\n", __FILE__, __FUNCTION__);
+	if (status != E_BOOK_STATUS_SUCCESS)
+		e_addressbook_error_dialog (_("Error modifying card"), status);
+}
+static void
 addressbook_set_value_at (ETableModel *etc, int col, int row, const void *val)
 {
 	EAddressbookTableAdapter *adapter = E_ADDRESSBOOK_TABLE_ADAPTER(etc);
@@ -127,7 +136,7 @@ addressbook_set_value_at (ETableModel *etc, int col, int row, const void *val)
 			       NULL);
 
 		e_book_commit_card(e_addressbook_model_get_ebook(priv->model),
-				   card, NULL, NULL);
+				   card, card_modified_cb, NULL);
 
 		/* XXX do we need this?  shouldn't the commit_card generate a changed signal? */
 		e_table_model_cell_changed(etc, col, row);

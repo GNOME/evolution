@@ -32,6 +32,7 @@
 #include <gal/widgets/e-canvas-utils.h>
 #include <gal/widgets/e-canvas.h>
 #include "addressbook/backend/ebook/e-book.h"
+#include "e-addressbook-util.h"
 #include "e-minicard.h"
 #include "e-minicard-label.h"
 #include "e-minicard-view.h"
@@ -427,45 +428,11 @@ e_minicard_unrealize (GnomeCanvasItem *item)
 }
 
 static void
-card_added_cb (EBook* book, EBookStatus status, const char *id, gpointer user_data)
+card_modified_cb (EBook* book, EBookStatus status, gpointer user_data)
 {
-	g_print ("%s: %s(): a card was added\n", __FILE__, __FUNCTION__);
-}
-
-static void
-card_changed_cb (EBook* book, EBookStatus status, gpointer user_data)
-{
-	g_print ("%s: %s(): a card was changed with status %d\n", __FILE__, __FUNCTION__, status);
-}
-
-/* Callback for the add_card signal from the contact editor */
-static void
-add_card_cb (EContactEditor *ce, ECard *card, gpointer data)
-{
-	EBook *book;
-
-	book = E_BOOK (data);
-	e_book_add_card (book, card, card_added_cb, NULL);
-}
-
-/* Callback for the commit_card signal from the contact editor */
-static void
-commit_card_cb (EContactEditor *ce, ECard *card, gpointer data)
-{
-	EBook *book;
-
-	book = E_BOOK (data);
-	e_book_commit_card (book, card, card_changed_cb, NULL);
-}
-
-/* Callback for the commit_card signal from the contact editor */
-static void
-delete_card_cb (EContactEditor *ce, ECard *card, gpointer data)
-{
-	EBook *book;
-
-	book = E_BOOK (data);
-	e_book_remove_card (book, card, card_changed_cb, NULL);
+	g_print ("%s: %s(): a card was modified\n", __FILE__, __FUNCTION__);
+	if (status != E_BOOK_STATUS_SUCCESS)
+		e_addressbook_error_dialog (_("Error modifying card"), status);
 }
 
 /* Callback used when the contact editor is closed */
@@ -475,24 +442,6 @@ editor_closed_cb (EContactEditor *ce, gpointer data)
 	EMinicard *minicard = data;
 	gtk_object_unref (GTK_OBJECT (ce));
 	minicard->editor = NULL;
-}
-
-static void
-supported_fields_cb (EBook *book, EBookStatus status, EList *fields, EMinicard *e_minicard)
-{
-	e_minicard->editor = e_contact_editor_new (e_minicard->card, FALSE, fields, !e_minicard->editable);
-
-	if (book != NULL) {
-		gtk_signal_connect (GTK_OBJECT (e_minicard->editor), "add_card",
-				    GTK_SIGNAL_FUNC (add_card_cb), book);
-		gtk_signal_connect (GTK_OBJECT (e_minicard->editor), "commit_card",
-				    GTK_SIGNAL_FUNC (commit_card_cb), book);
-		gtk_signal_connect (GTK_OBJECT (e_minicard->editor), "delete_card",
-				    GTK_SIGNAL_FUNC (delete_card_cb), book);
-	}
-
-	gtk_signal_connect (GTK_OBJECT (e_minicard->editor), "editor_closed",
-			    GTK_SIGNAL_FUNC (editor_closed_cb), e_minicard);
 }
 
 static gboolean
@@ -532,7 +481,7 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 						/* Add the card in the contact editor to our ebook */
 						e_book_commit_card (book,
 								    e_minicard->card,
-								    card_changed_cb,
+								    card_modified_cb,
 								    NULL);
 					} else {
 						remodel(e_minicard);
@@ -588,9 +537,12 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 				}
 
 				if (book != NULL) {
-					e_book_get_supported_fields (book,
-								     (EBookFieldsCallback)supported_fields_cb,
-								     e_minicard);
+					e_minicard->editor = e_addressbook_show_contact_editor (book, e_minicard->card, e_minicard->editable);  
+					gtk_object_ref (GTK_OBJECT (e_minicard->editor));
+
+					gtk_signal_connect (GTK_OBJECT (e_minicard->editor), "editor_closed",
+							    GTK_SIGNAL_FUNC (editor_closed_cb), e_minicard);
+
 				}
 			}
 			return TRUE;

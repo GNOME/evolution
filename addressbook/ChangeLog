@@ -1,3 +1,37 @@
+2001-06-08  Chris Toshok  <toshok@ximian.com>
+
+	* contact-editor/e-contact-editor.c (e_contact_editor_new): remove
+	the gtk_widget_show call...
+	(e_contact_editor_show): and put it here.
+
+	* contact-editor/e-contact-editor.h: add prototype for
+	e_contact_editor_show.
+
+	* gui/widgets/e-minicard.c (e_minicard_event): call
+	e_addressbook_show_contact_editor.
+	(card_modified_cb): call e_addressbook_error_dialog if status !=
+	SUCCESS.
+
+	* gui/widgets/e-minicard-view.c (e_minicard_view_event): call
+	e_addressbook_show_contact_editor.  also, use card_modified_cb as
+	the commit_card callback.
+
+	* gui/widgets/e-addressbook-view.c (table_double_click): clean
+	this area up alot, call e_addressbook_show_contact_editor.
+	(card_deleted_cb): call e_addressbook_error_dialog.
+
+	* gui/widgets/e-addressbook-table-adapter.c
+	(card_modified_cb): new function, call e_addressbook_error_dialog
+	if the status != SUCCESS.
+	(addressbook_set_value_at): use card_modified_cb as the callback
+	for e_book_commit_card.
+
+	* gui/widgets/Makefile.am (libeminicard_a_SOURCES): add
+	e-addressbook-util.[ch].
+
+	* gui/component/addressbook.c (new_contact_cb): use
+	e_addressbook_show_contact_editor here.
+
 2001-06-05  Christopher James Lahey  <clahey@ximian.com>
 
 	* contact-editor/e-contact-editor.c (categories_clicked): Remove

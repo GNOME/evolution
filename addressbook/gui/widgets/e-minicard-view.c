@@ -144,71 +144,6 @@ e_minicard_view_drag_begin (EAddressbookReflowAdapter *adapter, GdkEvent *event,
 }
 
 static void
-card_added_cb (EBook* book, EBookStatus status, const char *id,
-	    gpointer user_data)
-{
-	g_print ("%s: %s(): a card was added\n", __FILE__, __FUNCTION__);
-}
-
-static void
-card_changed_cb (EBook* book, EBookStatus status, gpointer user_data)
-{
-	g_print ("%s: %s(): a card was changed with status %d\n", __FILE__, __FUNCTION__, status);
-}
-
-/* Callback for the add_card signal from the contact editor */
-static void
-add_card_cb (EContactEditor *ce, ECard *card, gpointer data)
-{
-	EBook *book;
-
-	book = E_BOOK (data);
-	e_book_add_card (book, card, card_added_cb, NULL);
-}
-
-/* Callback for the commit_card signal from the contact editor */
-static void
-commit_card_cb (EContactEditor *ce, ECard *card, gpointer data)
-{
-	EBook *book;
-
-	book = E_BOOK (data);
-	e_book_commit_card (book, card, card_changed_cb, NULL);
-}
-
-/* Callback used when the contact editor is closed */
-static void
-editor_closed_cb (EContactEditor *ce, gpointer data)
-{
-	gtk_object_unref (GTK_OBJECT (ce));
-}
-
-static void
-supported_fields_cb (EBook *book, EBookStatus status, EList *fields, EMinicardView *view)
-{
-	ECard *card;
-	EContactEditor *ce;
-	gboolean editable;
-
-	card = e_card_new("");
-
-	gtk_object_get (GTK_OBJECT (view->adapter),
-			"editable", &editable,
-			NULL);
-
-	ce = e_contact_editor_new (card, TRUE, fields, !editable);
-
-	gtk_signal_connect (GTK_OBJECT (ce), "add_card",
-			    GTK_SIGNAL_FUNC (add_card_cb), book);
-	gtk_signal_connect (GTK_OBJECT (ce), "commit_card",
-			    GTK_SIGNAL_FUNC (commit_card_cb), book);
-	gtk_signal_connect (GTK_OBJECT (ce), "editor_closed",
-			    GTK_SIGNAL_FUNC (editor_closed_cb), NULL);
-
-	gtk_object_sink(GTK_OBJECT(card));
-}
-
-static void
 adapter_changed (EMinicardView *view)
 {
 	char *empty_message;
@@ -321,14 +256,14 @@ e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event)
 		if (((GdkEventButton *)event)->button == 1)
 		{
 			EBook *book;
+			gboolean editable;
 
 			gtk_object_get(GTK_OBJECT(view), "book", &book, NULL);
+			gtk_object_get(GTK_OBJECT(view->adapter), "editable", &editable, NULL);
 
 			g_assert (E_IS_BOOK (book));
 
-			e_book_get_supported_fields (book,
-						     (EBookFieldsCallback)supported_fields_cb,
-						     view);
+			e_addressbook_show_contact_editor (book, NULL, editable);
 		}
 		return TRUE;
 	default:
