@@ -242,7 +242,7 @@
       information it needs to check your email.
     </para>
     <para>
-      The druid will give you several dialogue boxes where you setup:
+      The druid will give you several dialog boxes where you setup:
       <itemizedlist>
 	<listitem>
 	  <para>
@@ -502,7 +502,7 @@
             long time to download.
         </para>
         <para>
-            When recieving a message that has an attached image,
+            When receiving a message that has an attached image,
             <application>Evolution</application> gives you the choice
             whether to view it or not.  You can choose to have it
             always shown, load images only if the sender is in your
@@ -661,7 +661,7 @@ with quoted materials and the relevant replies interspersed-->
             <title>Whats a Mailing List?</title>
             <para>
               Mailing Lists are one of the most popular ways in which group
-              collaboration on the internet works.  They allow people to send one
+              collaboration on the Internet works.  They allow people to send one
               message to one server.  The server then knows who is subscribed to the
               mailing list, and sends a copy of your email to all the people on the
               list.  As a matter of fact, mailing lists are one of the main ways in
@@ -1033,7 +1033,7 @@ with quoted materials and the relevant replies interspersed-->
             <listitem>
               <para>
                 ALL CAPS MEANS YOU'RE SHOUTING! Don't write a whole
-                messagge in capital letters.  It hurts people's ears.
+                message in capital letters.  It hurts people's ears.
               </para>
             </listitem>
 
@@ -1109,12 +1109,12 @@ with quoted materials and the relevant replies interspersed-->
 	  <title>Encryption Example</title>
 	  <para>
 	    Kevin orders an <application>Evolution</application> t-shirt from
-	    Ximian, Inc. over the internet.  He puts in his credit card number
+	    Ximian, Inc. over the Internet.  He puts in his credit card number
 	    which is 1234-567-8901.  For security, his computer encrypts the
-	    credit card number so it can be safely transmitted over the internet.
+	    credit card number so it can be safely transmitted over the Internet.
 	    The number now is @#$23ui7yr87#@!48970fsd, which holds no intentional
-	    resemblance to the inital number.  When the information gets to
-	    Ximian, Inc. it'll be decrypted into the inital number.
+	    resemblance to the initial number.  When the information gets to
+	    Ximian, Inc. it'll be decrypted into the initial number.
 	  </para>
 	</example>
 	Encryption can be used in email in two ways: to verify that the sender is
@@ -1152,7 +1152,7 @@ with quoted materials and the relevant replies interspersed-->
 	messages.  This can be any length, with any characters in it.  It is case
 	sensitive, which means that it does know the difference between capital
 	letters and lower-case.  Now your key is generated.  It is recommend you
-	surf the internet, read your email, or write a letter in a word
+	surf the Internet, read your email, or write a letter in a word
 	processor.  This help creates randomness in the key.
       </para>
       <para>
@@ -1200,7 +1200,7 @@ with quoted materials and the relevant replies interspersed-->
 	You can either sign or encrypt a message.  When you sign a message, verify
 	that you were the one who sent it, and that no one is forging your
 	identity.  Encrypting a message makes it impossible for someone with
-	prying eyes to view it while it's in tranmission.
+	prying eyes to view it while it's in transmission.
       </para>
     </sect2>
     
