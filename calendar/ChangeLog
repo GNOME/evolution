@@ -1,3 +1,7 @@
+2001-08-20  Damon Chaplin  <damon@ximian.com>
+
+	* gui/dialogs/comp-editor.c (pixmaps): use new delete icon for toolbar.
+
 2001-08-19  Damon Chaplin  <damon@ximian.com>
 
 	* gui/e-itip-control.c: fixed typo, 'send' -> 'sent'. Bug #7621.
