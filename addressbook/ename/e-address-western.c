@@ -20,8 +20,42 @@
 #else
 
 #include <ename/e-address-western.h>
+#include <e-util/e-util.h>
 
 #endif
+
+/* These are the keywords that will distinguish the start of an extended
+   address. */
+
+static char *extended_keywords[] = {
+	"apt", "apartment", "suite", NULL
+};
+
+
+static const gchar *
+e_address_western_strstrcase (const gchar *haystack, const gchar *needle)
+{
+        /* find the needle in the haystack neglecting case */
+        gchar *ptr;
+        guint len;
+
+        g_return_val_if_fail (haystack != NULL, NULL);
+        g_return_val_if_fail (needle != NULL, NULL);
+
+        len = strlen(needle);
+        if (len > strlen(haystack))
+                return NULL;
+
+        if (len == 0)
+                return (char *)haystack;
+
+        for (ptr = (char *)haystack; *(ptr + len - 1) != '\0'; ptr++)
+                if (!g_strncasecmp(ptr, needle, len))
+                        return ptr;
+
+        return NULL;
+}
+
 
 static gboolean
 e_address_western_is_line_blank (gchar *line)
@@ -86,7 +120,7 @@ e_address_western_remove_blank_lines (gchar *lines[], gint *linecntr)
 static gboolean
 e_address_western_is_po_box (gchar *line)
 {
-	gboolean retval = FALSE;
+	gboolean retval;
 
 	/* In which phase of processing are we? */
 	enum State { FIRSTCHAR, SECONDCHAR, WHITESPACE } state;
@@ -185,7 +219,19 @@ e_address_western_is_postal (gchar *line)
 static gchar *
 e_address_western_extract_po_box (gchar *line)
 {
-	return g_strdup (line);
+	/* Return everything from the beginning of the line to
+	   the end of the first word that contains a number. */
+	
+	int index;
+
+	index = 0;
+	while (!isdigit(line[index]))
+		index++;
+	
+	while (isgraph(line[index]))
+		index++;
+	
+	return g_strndup (line, index);
 }
 
 static gchar *
@@ -251,6 +297,33 @@ e_address_western_extract_postal_code (gchar *line)
 	return g_strndup ( (line+start), end-start);
 }
 
+
+
+void
+e_address_western_extract_street (gchar *line, gchar **street, gchar **extended)
+{
+	gchar *split = NULL;
+	gint cntr;
+
+	for (cntr = 0; extended_keywords[cntr] != NULL; cntr++) {
+		split = e_address_western_strstrcase (line, extended_keywords[cntr]);
+		if (split != NULL)
+			break;
+	}
+
+	if (split != NULL) {
+		*street = g_strndup (line, (split - line));
+		*extended = g_strdup (split);
+	}
+	else {
+		*street = g_strdup (line);
+		*extended = NULL;
+	}
+
+}
+
+
+
 EAddressWestern *
 e_address_western_parse (const gchar *in_address)
 {
@@ -261,9 +334,7 @@ e_address_western_parse (const gchar *in_address)
 	gboolean found_po_box, found_postal;
 
 	EAddressWestern *eaw;
-#ifndef NO_WARNINGS
 	gint start, end;  /* To be used to classify address lines. */
-#endif
 
 	if (in_address == NULL)
 		return NULL;
@@ -320,13 +391,17 @@ e_address_western_parse (const gchar *in_address)
 
    	for (cntr = 0; cntr < linecntr; cntr++)  {
 		if (e_address_western_is_po_box (lines[cntr])) {
-			eaw->po_box = e_address_western_extract_po_box (lines[cntr]);
+			if (eaw->po_box == NULL)
+				eaw->po_box = e_address_western_extract_po_box (lines[cntr]);
 			found_po_box = TRUE;
 		}
 		else if (e_address_western_is_postal (lines[cntr])) {
-			eaw->locality = e_address_western_extract_locality (lines[cntr]);
-			eaw->region = e_address_western_extract_region (lines[cntr]);
-			eaw->postal_code = e_address_western_extract_postal_code (lines[cntr]);
+			if (eaw->locality == NULL)
+				eaw->locality = e_address_western_extract_locality (lines[cntr]);
+			if (eaw->region == NULL)
+				eaw->region = e_address_western_extract_region (lines[cntr]);
+			if (eaw->postal_code == NULL)
+				eaw->postal_code = e_address_western_extract_postal_code (lines[cntr]);
 			found_postal = TRUE;
 		}
 		else {
@@ -342,7 +417,8 @@ e_address_western_parse (const gchar *in_address)
 			}
 			else {
 				if (eaw->street == NULL) {
-					eaw->street = g_strdup (lines[cntr]);
+					e_address_western_extract_street (lines[cntr], &eaw->street,
+										&eaw->extended );
 				}
 				else {
 					if (eaw->extended == NULL) {

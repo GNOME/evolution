@@ -1,3 +1,8 @@
+2000-09-11  Jesse Pavel <jpavel@helixcode.com>
+
+	* ename/e-address-western.c: fixed certain address parsing
+	problems.
+
 2000-09-11  Christopher James Lahey  <clahey@helixcode.com>
 
 	* contact-editor/fulladdr.glade: Made this a bit better balanced.
