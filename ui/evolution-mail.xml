@@ -227,6 +227,10 @@
      _tip="Show message in the normal style"
      type="radio" group="message_display"/>
 
+    <cmd name="ViewPreview"
+     _tip="Show message preview window"
+     type="toggle"  />
+
     <cmd name="ViewShowAll"
      _tip="Show messages that have been temporarily hidden"
      pixtype="pixbuf"/>
@@ -305,6 +309,7 @@
     </submenu>
 
     <submenu name="View">
+      <menuitem name="ViewPreview" verb="" _label="_Preview Pane"/>
       <separator/>
 
       <menuitem name="ViewThreaded" verb="" _label="_Threaded Message List"/>
