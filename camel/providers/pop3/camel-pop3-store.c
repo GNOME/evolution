@@ -459,7 +459,15 @@ pop3_connect (CamelService *service, CamelException *ex)
 		service->url->port = KPOP_PORT;
 	}
 #endif
-
+	
+	if (!g_strcasecmp (service->url->protocol, "pops")) {
+		CamelRemoteStore *rstore = CAMEL_REMOTE_STORE (service);
+		
+		/* FIXME: what should this port be?? */
+		rstore->default_port = 993;
+		rstore->use_ssl = TRUE;
+	}
+	
   	res = CAMEL_SERVICE_CLASS (parent_class)->connect (service, ex);
 
 #ifdef HAVE_KRB4

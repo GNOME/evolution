@@ -48,13 +48,45 @@ static CamelProvider pop3_provider = {
 	NULL
 };
 
+#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
+static CamelProvider pops_provider = {
+	"pops",
+	N_("Secure POP"),
+
+	N_("For connecting to POP servers over an SSL connection. The POP "
+	   "protocol can also be used to retrieve mail from certain web "
+	   "mail providers and proprietary email systems."),
+
+	"mail",
+
+	CAMEL_PROVIDER_IS_REMOTE | CAMEL_PROVIDER_IS_SOURCE,
+
+	CAMEL_URL_NEED_USER | CAMEL_URL_NEED_HOST | CAMEL_URL_ALLOW_AUTH,
+
+	{ 0, 0 },
+
+	NULL
+};
+#endif
+
 void
 camel_provider_module_init (CamelSession *session)
 {
 	pop3_provider.object_types[CAMEL_PROVIDER_STORE] =
-		camel_pop3_store_get_type();
-
+		camel_pop3_store_get_type ();
+#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
+	pops_provider.object_types[CAMEL_PROVIDER_STORE] =
+		camel_pop3_store_get_type ();
+#endif
+	
 	pop3_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
 	
+#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
+	pops_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
+#endif
+	
 	camel_session_register_provider (session, &pop3_provider);
+#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
+	camel_session_register_provider (session, &pops_provider);
+#endif
 }

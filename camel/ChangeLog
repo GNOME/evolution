@@ -1,5 +1,15 @@
 2001-03-14  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/pop3/camel-pop3-store.c (pop3_connect): Check to see
+	if we are using "pops" and then set the appropriate SSL settings.
+
+	* providers/pop3/libcamelpop3.urls: Add "pops"
+
+	* providers/pop3/camel-pop3-provider.c: Defined the pops provider.
+	(camel_provider_module_init): Register the pops provider.
+
+2001-03-14  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-tcp-stream-ssl.c (camel_tcp_stream_ssl_new): Ya know what?
 	Lets not ref the service because otherwise we'll start having the
 	same problems we had back with vtrash. Besides, since the store
