@@ -157,7 +157,7 @@ get_location (ECalModelComponent *comp_data)
 	if (prop)
 		return (void *) icalproperty_get_location (prop);
 
-	return NULL;
+	return "";
 }
 
 static void *
