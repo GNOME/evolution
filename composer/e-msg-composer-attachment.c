@@ -170,42 +170,47 @@ e_msg_composer_attachment_new (const gchar *file_name)
 	EMsgComposerAttachment *new;
 	CamelMimePart *part;
 	CamelDataWrapper *wrapper;
-	CamelStream *data;
+	CamelStream *stream;
 	struct stat statbuf;
 	gchar *mime_type;
-
+	
 	g_return_val_if_fail (file_name != NULL, NULL);
-
-	data = camel_stream_fs_new_with_name (file_name, O_RDONLY, 0);
-	if (!data)
+	
+	if (stat (file_name, &statbuf) < 0)
+		return;
+	
+	/* return if it's not a regular file */
+	if (!S_ISREG (statbuf.st_dev))
+		return;
+	
+	stream = camel_stream_fs_new_with_name (file_name, O_RDONLY, 0);
+	if (!stream)
 		return NULL;
 	wrapper = camel_data_wrapper_new ();
-	camel_data_wrapper_construct_from_stream (wrapper, data);
-	camel_object_unref (CAMEL_OBJECT (data));
+	camel_data_wrapper_construct_from_stream (wrapper, stream);
+	camel_object_unref (CAMEL_OBJECT (stream));
 	mime_type = get_mime_type (file_name);
 	if (mime_type) {
 		camel_data_wrapper_set_mime_type (wrapper, mime_type);
 		g_free (mime_type);
 	} else
 		camel_data_wrapper_set_mime_type (wrapper, "application/octet-stream");
-
+	
 	part = camel_mime_part_new ();
 	camel_medium_set_content_object (CAMEL_MEDIUM (part), wrapper);
 	camel_object_unref (CAMEL_OBJECT (wrapper));
-
+	
 	camel_mime_part_set_disposition (part, "attachment");
 	if (strchr (file_name, '/'))
 		camel_mime_part_set_filename (part, strrchr (file_name, '/') + 1);
 	else
 		camel_mime_part_set_filename (part, file_name);
-
+	
 	new = e_msg_composer_attachment_new_from_mime_part (part);
-	if (stat (file_name, &statbuf) < 0)
-		new->size = 0;
-	else
-		new->size = statbuf.st_size;
+	
+	new->size = statbuf.st_size;
 	new->guessed_type = TRUE;
-
+	
 	return new;
 }
 

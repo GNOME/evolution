@@ -1,3 +1,8 @@
+2000-11-03  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* e-msg-composer-attachment.c (e_msg_composer_attachment_new):
+	Don't allow attaching anything but regular files.
+
 2000-11-03  Federico Mena Quintero  <federico@helixcode.com>
 
 	* Makefile.am: Clean the idl-generated files properly.
