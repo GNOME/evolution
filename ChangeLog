@@ -1,3 +1,10 @@
+2000-04-12  Tuomas Kuosmanen  <tigert@gimp.org>
+
+	* art/house.png, art/malehead.png, art/cellphone.png, 
+	art/briefcase.png, art/envelope.png, art/globe.png:
+	New icons for the contact manager.. more to follow once I get 
+	around to do more artist work..
+
 2000-04-12  Chris Toshok  <toshok@helixcode.com>
 
 	* addressbook/backend/pas/pas-backend-ldap.c
