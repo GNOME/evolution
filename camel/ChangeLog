@@ -1,3 +1,16 @@
+2000-05-11    <notzed@helixcode.com>
+
+	* camel-folder-summary.c (camel_folder_summary_finalise): Free
+	summary items and charset filters.
+
+2000-05-10    <notzed@helixcode.com>
+
+	* camel-folder-summary.c (camel_folder_summary_finalise): Don't
+	free stuff in p, after we've free'd p.
+
+	* providers/mbox/camel-mbox-folder.c (mbox_append_message): Unref
+	the stream we created for appending.
+
 2000-05-10  Jeffrey Stedfast  <fejj@stampede.org>
 
 	* providers/smtp/camel-smtp-transport.c: (camel_smtp_transport_class_init):

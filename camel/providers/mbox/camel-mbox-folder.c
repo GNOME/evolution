@@ -1,4 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8; fill-column: 160 -*- */
 /* camel-mbox-folder.c : Abstract class for an email folder */
 
 /* 
@@ -744,15 +744,17 @@ mbox_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelExcept
 	filter_stream = (CamelStream *)camel_stream_filter_new_with_stream(output_stream);
 	filter_from = (CamelMimeFilter *)camel_mime_filter_from_new();
 	camel_stream_filter_add((CamelStreamFilter *)filter_stream, filter_from);
-	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message),
-					    filter_stream, ex);
+	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), filter_stream, ex);
 	if (!camel_exception_is_set (ex))
 		camel_stream_flush (filter_stream, ex);
 
 	if (camel_exception_is_set (ex))
 		goto fail;
 
+	/* filter stream ref's the output stream itself, so we need to unref it too */
+	gtk_object_unref (GTK_OBJECT (filter_from));
 	gtk_object_unref (GTK_OBJECT (filter_stream));
+	gtk_object_unref (GTK_OBJECT (output_stream));
 
 	/* force a summary update - will only update from the new position, if it can */
 	camel_mbox_summary_update(mbox_folder->summary, seek);
@@ -771,7 +773,8 @@ fail:
 	if (filter_stream) {
 		/*camel_stream_close (filter_stream);*/
 		gtk_object_unref ((GtkObject *)filter_stream);
-	} else if (output_stream)
+	}
+	if (output_stream)
 		gtk_object_unref ((GtkObject *)output_stream);
 
 	/* make sure the file isn't munged by us */

@@ -167,6 +167,12 @@ camel_folder_summary_init (CamelFolderSummary *s)
 	s->messages_uid = g_hash_table_new(g_str_hash, g_str_equal);
 }
 
+static void free_o_name(void *key, void *value, void *data)
+{
+	gtk_object_unref((GtkObject *)value);
+	g_free(key);
+}
+
 static void
 camel_folder_summary_finalise (GtkObject *obj)
 {
@@ -175,14 +181,12 @@ camel_folder_summary_finalise (GtkObject *obj)
 
 	p = _PRIVATE(obj);
 
-	/* FIXME: free contents */
+	camel_folder_summary_clear(s);
 	g_ptr_array_free(s->messages, TRUE);
-
 	g_hash_table_destroy(s->messages_uid);
 
-	/* FIXME: free contents */
+	g_hash_table_foreach(p->filter_charset, free_o_name, 0);
 	g_hash_table_destroy(p->filter_charset);
-	g_free(p);
 
 	if (p->filter_index)
 		gtk_object_unref ((GtkObject *)p->filter_index);
@@ -192,6 +196,8 @@ camel_folder_summary_finalise (GtkObject *obj)
 		gtk_object_unref ((GtkObject *)p->filter_qp);
 	if (p->filter_save)
 		gtk_object_unref ((GtkObject *)p->filter_save);
+
+	g_free(p);
 
 	((GtkObjectClass *)(camel_folder_summary_parent))->finalize((GtkObject *)obj);
 }
