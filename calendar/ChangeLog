@@ -1,3 +1,16 @@
+2003-05-19  Anna Marie Dirks  <anna@ximian.com>
+
+	* gui/e-meeting-time-sel.c:  (e_meeting_time_selector_construct): 
+	Added HIG-blessed padding to (some of) the widgets in the
+	dialog.
+
+	* gui/dialogs/meeting-page.glade: Added HIG-blessed border width
+	and spacing to the meeting page of the event editor.
+
+	* gui/dialogs/schedule-page.glade: Added HIG-blessed border width
+	to the schedule page on the event editor. 
+
+
 2003-05-19  JP Rosevear  <jpr@ximian.com>
 
 	Fixes #43103

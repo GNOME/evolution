@@ -411,7 +411,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 
 	separator = gtk_hseparator_new ();
 	gtk_table_attach (GTK_TABLE (mts), separator,
-			  0, 5, 4, 5, GTK_FILL, 0, 0, 0);
+			  0, 5, 4, 5, GTK_FILL, 0, 6, 6);
 	gtk_widget_show (separator);
 
 	/* Create the Invite Others & Options buttons on the left. */

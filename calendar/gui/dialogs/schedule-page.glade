@@ -13,7 +13,7 @@
 
   <child>
     <widget class="GtkVBox" id="schedule-page">
-      <property name="border_width">4</property>
+      <property name="border_width">12</property>
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
       <property name="spacing">6</property>
