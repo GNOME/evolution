@@ -159,7 +159,6 @@ mail/mail-view.c
 mail/message-list.c
 mail/openpgp-utils.c
 mail/subscribe-dialog.c
-mail/subscribe-dialog.glade
 shell/glade/e-shell-folder-creation-dialog.glade
 shell/importer/importer.c
 shell/importer/import.glade
