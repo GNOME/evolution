@@ -1,5 +1,18 @@
 2003-09-17  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/addressbook.c (addressbook_new_control): don't use
+	a GtkFrame.
+
+	* gui/widgets/eab-contact-display.c (on_url_requested): just use
+	EABContactDisplay* instead of passing a gpointer.
+	(on_link_clicked): new function, just call gnome_url_show for now.
+	(render_address): convert \n's to <br>'s in the case of address
+	labels, and stop using <pre>...</pre>.  also, _() strings.
+	(eab_contact_display_render): _() strings.
+	(eab_contact_display_new): un-ifdef the link_clicked signal.
+
+2003-09-17  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/ximian-vcard.h (XIMIAN_VCARD): quiet the compiler
 	warnings, and make the URL look like a real url, using http://..
 
