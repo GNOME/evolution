@@ -139,8 +139,6 @@ e_table_col_new (int col_idx, const char *text, double expansion, int min_width,
 	etc->ecell = ecell;
 	etc->compare = compare;
 
-	etc->arrow = E_TABLE_COL_ARROW_NONE;
-
 	etc->selected = 0;
 	etc->resizeable = resizable;
 
@@ -200,8 +198,6 @@ e_table_col_new_with_pixbuf (int col_idx, GdkPixbuf *pixbuf, double expansion, i
 	etc->ecell = ecell;
 	etc->compare = compare;
 
-	etc->arrow = E_TABLE_COL_ARROW_NONE;
-
 	etc->selected = 0;
 	etc->resizeable = resizable;
 
@@ -210,23 +206,3 @@ e_table_col_new_with_pixbuf (int col_idx, GdkPixbuf *pixbuf, double expansion, i
 
 	return etc;
 }
-
-void
-e_table_col_set_arrow (ETableCol *col, ETableColArrow arrow)
-{
-	g_return_if_fail (col != NULL);
-	g_return_if_fail (E_IS_TABLE_COL(col));
-
-	col->arrow = arrow;
-}
-
-ETableColArrow
-e_table_col_get_arrow (ETableCol *col)
-{
-	g_return_val_if_fail (col != NULL, E_TABLE_COL_ARROW_NONE);
-	g_return_val_if_fail (E_IS_TABLE_COL(col), E_TABLE_COL_ARROW_NONE);
-
-	return col->arrow;
-}
-
-

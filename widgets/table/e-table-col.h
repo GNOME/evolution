@@ -42,8 +42,6 @@ struct _ETableCol {
 
 	GtkJustification justification;
 
-	ETableColArrow arrow;
-
 	ECell         *ecell;
 };
 
@@ -61,8 +59,6 @@ ETableCol     *e_table_col_new_with_pixbuf (int col_idx, GdkPixbuf *pixbuf,
 					    ECell *ecell, GCompareFunc compare,
 					    gboolean resizable);
 void           e_table_col_destroy         (ETableCol *etc);
-void           e_table_col_set_arrow       (ETableCol *col, ETableColArrow arrow);
-ETableColArrow e_table_col_get_arrow       (ETableCol *col);
 
 
 #endif /* _E_TABLE_COL_H_ */
