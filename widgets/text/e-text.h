@@ -65,10 +65,6 @@ BEGIN_GNOME_DECLS
  * ellipsis             string                  RW              The characters to use as ellipsis.  NULL = "...".
  * line_wrap            boolean                 RW              Line wrap when not editing.
  * max_line_wrap        int                     RW              Number of lines possible when doing line wrap.
- *
- * These are not implemented yet:
- * background           boolean                 RW              Draw a background rectangle.
- * background_on_edit   boolean                 RW              Draw a background when editing.
  */
 
 #define E_TYPE_TEXT            (e_text_get_type ())
