@@ -237,6 +237,9 @@ impl_Shell_user_select_folder (PortableServer_Servant servant,
 		allowed_types[i] = corba_allowed_types->_buffer[i];
 	allowed_types[corba_allowed_types->_length] = NULL;
 
+	/* CORBA doesn't allow you to pass a NULL pointer. */
+	if (!*default_folder)
+		default_folder = NULL;
 	folder_selection_dialog = e_shell_folder_selection_dialog_new (shell, title, default_folder, allowed_types);
 
 	listener_duplicate = CORBA_Object_duplicate (listener, ev);
