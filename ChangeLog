@@ -1,3 +1,8 @@
+2002-11-20  Not Zed  <NotZed@Ximian.com>
+
+	* libibex/*: cvs removed it all.  Not much use having it around
+	anymore.
+
 2002-11-19  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: Check for gconftool-2, and added
