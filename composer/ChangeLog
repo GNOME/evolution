@@ -1,5 +1,9 @@
 2000-04-26  Dan Winship  <danw@helixcode.com>
 
+	* e-msg-composer.c (build_message): Only generate a multipart
+	message if there are attachments. Otherwise generate a single
+	part.
+
 	* Update for CamelMimeBodyPart -> CamelMimePart
 
 2000-04-26  Dan Winship  <danw@helixcode.com>
