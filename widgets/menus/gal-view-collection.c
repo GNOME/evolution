@@ -8,6 +8,8 @@
  * (C) 1999, 2000 Helix Code, Inc.
  */
 #include <config.h>
+
+#include <util/e-i18n.h>
 #include <ctype.h>
 #include <string.h>
 #include <gtk/gtksignal.h>
@@ -16,6 +18,7 @@
 #include <libgnome/gnome-util.h>
 #include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>
+#include <gal/widgets/e-unicode.h>
 #include "gal-view-collection.h"
 
 #define GVC_CLASS(e) ((GalViewCollectionClass *)((GtkObject *)e)->klass)
@@ -236,10 +239,11 @@ load_single_file (GalViewCollection *collection,
 	item->changed = FALSE;
 	item->built_in = !local;
 	item->id = e_xml_get_string_prop_by_name(node, "id");
-	item->title = e_xml_get_string_prop_by_name(node, "title");
 	item->filename = e_xml_get_string_prop_by_name(node, "filename");
+	item->title = e_xml_get_translated_utf8_string_prop_by_name(node, "title");
 	item->type = e_xml_get_string_prop_by_name(node, "type");
 	item->collection = collection;
+
 	if (item->filename) {
 		GalViewFactory *factory;
 		GList *factories;
