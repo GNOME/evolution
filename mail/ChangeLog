@@ -1,5 +1,9 @@
 2004-04-02  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-migrate.c (cp_r): Revert my "fix" from yesterday. We can't
+	necessarily show progress (progress window may have been destroyed
+	already).
+
 	Fixes bug #53851
 
 	* em-folder-view.c (emfv_popup_move_cb): Save the uri as the
