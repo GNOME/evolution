@@ -785,7 +785,7 @@ table_canvas_focus_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer d
 	canvas = GNOME_CANVAS (widget);
 	etable = E_TABLE (data);
 
-	if (!canvas->focused_item)
+	if (!canvas->focused_item && etable->group)
 		focus_first_etable_item (etable->group);
 
 	return TRUE;
