@@ -226,9 +226,9 @@ make_safe_filename (const char *prefix,CamelMimePart *part)
 	else
 		safe = g_strdup_printf ("%s/%s", prefix, name);
 	
-	p = strrchr (safe, '/') + 1;
+	p = strrchr (safe, '/');
 	if (p)
-		e_filename_make_safe (p);
+		e_filename_make_safe (p + 1);
 	
 	return safe;
 }

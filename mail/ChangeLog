@@ -1,5 +1,9 @@
 2002-08-28  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-display.c (make_safe_filename): Fix some broken logic here,
+	`p = strrchr (path, '/') + 1` will *never* be NULL!! If the
+	strrchr returns NULL, then that expression will evaluate to 0x1!!
+
 	* main.c (main): We now always need to init gconf for our later
 	call to e_proxy_init() which initialises the proxy settings for
 	soup to use.
