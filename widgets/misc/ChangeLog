@@ -1,3 +1,12 @@
+2001-10-29  Damon Chaplin  <damon@ximian.com>
+
+	* e-calendar-item.c (e_calendar_item_signal_emission_idle_cb): ref
+	the ECalendarItem and check if it gets destroyed, to try to avoid a
+	free memory write.
+
+	* e-dateedit.c (e_date_edit_set_time_of_day): allow setting the time
+	to empty by passing hour as -1.
+
 2001-10-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-filter-bar.c (rule_editor_clicked): Don't add the menu item

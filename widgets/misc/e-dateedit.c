@@ -758,7 +758,7 @@ e_date_edit_get_time_of_day		(EDateEdit	*dedit,
 /**
  * e_date_edit_set_time_of_day:
  * @dedit: an #EDateEdit widget.
- * @hour: the hour to set.
+ * @hour: the hour to set, or -1 to set the time to None (i.e. empty).
  * @minute: the minute to set.
  *
  * Description: Sets the time in the time field.
@@ -775,9 +775,15 @@ e_date_edit_set_time_of_day		(EDateEdit	*dedit,
 
 	priv = dedit->priv;
 
-	if (priv->time_set_to_none
-	    || priv->hour != hour
-	    || priv->minute != minute) {
+	if (hour == -1) {
+		gboolean allow_no_date_set = e_date_edit_get_allow_no_date_set (dedit);
+		g_return_if_fail (allow_no_date_set);
+		if (!priv->time_set_to_none) {
+			priv->time_set_to_none = TRUE;
+		}
+	} else if (priv->time_set_to_none
+		   || priv->hour != hour
+		   || priv->minute != minute) {
 		priv->time_set_to_none = FALSE;
 		priv->hour = hour;
 		priv->minute = minute;

@@ -114,6 +114,7 @@ void	   e_date_edit_set_date			(EDateEdit	*dedit,
 gboolean   e_date_edit_get_time_of_day		(EDateEdit	*dedit,
 						 gint		*hour,
 						 gint		*minute);
+/* Set the time. Pass -1 as hour to set to empty. */
 void       e_date_edit_set_time_of_day		(EDateEdit	*dedit,
 						 gint		 hour,
 						 gint		 minute);
