@@ -1536,7 +1536,7 @@ ethi_class_init (GtkObjectClass *object_class)
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ETableHeaderItemClass, button_pressed),
 				gtk_marshal_NONE__POINTER,
-				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
+				GTK_TYPE_NONE, 1, GTK_TYPE_GDK_EVENT);
 		
 	gtk_object_class_add_signals (object_class, ethi_signals, LAST_SIGNAL);
 }

@@ -210,6 +210,9 @@ set_header_canvas_width (ETree *e_tree)
 {
 	double oldwidth, oldheight, width;
 
+	if (!(e_tree->header_item && e_tree->header_canvas && e_tree->table_canvas))
+		return;
+
 	gnome_canvas_get_scroll_region (GNOME_CANVAS (e_tree->table_canvas),
 					NULL, NULL, &width, NULL);
 	gnome_canvas_get_scroll_region (GNOME_CANVAS (e_tree->header_canvas),
@@ -1893,7 +1896,7 @@ e_tree_class_init (ETreeClass *class)
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ETreeClass, double_click),
 				e_marshal_NONE__INT_POINTER_INT_POINTER,
-				GTK_TYPE_NONE, 4, GTK_TYPE_INT, GTK_TYPE_POINTER, GTK_TYPE_INT, GTK_TYPE_POINTER);
+				GTK_TYPE_NONE, 4, GTK_TYPE_INT, GTK_TYPE_POINTER, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
 
 	et_signals [RIGHT_CLICK] =
 		gtk_signal_new ("right_click",
@@ -1901,7 +1904,7 @@ e_tree_class_init (ETreeClass *class)
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ETreeClass, right_click),
 				e_marshal_INT__INT_POINTER_INT_POINTER,
-				GTK_TYPE_INT, 4, GTK_TYPE_INT, GTK_TYPE_POINTER, GTK_TYPE_INT, GTK_TYPE_POINTER);
+				GTK_TYPE_INT, 4, GTK_TYPE_INT, GTK_TYPE_POINTER, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
 
 	et_signals [CLICK] =
 		gtk_signal_new ("click",
@@ -1909,7 +1912,7 @@ e_tree_class_init (ETreeClass *class)
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ETreeClass, click),
 				e_marshal_INT__INT_POINTER_INT_POINTER,
-				GTK_TYPE_INT, 4, GTK_TYPE_INT, GTK_TYPE_POINTER, GTK_TYPE_INT, GTK_TYPE_POINTER);
+				GTK_TYPE_INT, 4, GTK_TYPE_INT, GTK_TYPE_POINTER, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
 
 	et_signals [KEY_PRESS] =
 		gtk_signal_new ("key_press",
@@ -1917,7 +1920,7 @@ e_tree_class_init (ETreeClass *class)
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ETreeClass, key_press),
 				e_marshal_INT__INT_POINTER_INT_POINTER,
-				GTK_TYPE_INT, 4, GTK_TYPE_INT, GTK_TYPE_POINTER, GTK_TYPE_INT, GTK_TYPE_POINTER);
+				GTK_TYPE_INT, 4, GTK_TYPE_INT, GTK_TYPE_POINTER, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
 
 	et_signals[TREE_DRAG_BEGIN] =
 		gtk_signal_new ("tree_drag_begin",

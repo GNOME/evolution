@@ -261,6 +261,9 @@ set_header_canvas_width (ETable *e_table)
 {
 	double oldwidth, oldheight, width;
 
+	if (!(e_table->header_item && e_table->header_canvas && e_table->table_canvas))
+		return;
+
 	gnome_canvas_get_scroll_region (GNOME_CANVAS (e_table->table_canvas),
 					NULL, NULL, &width, NULL);
 	gnome_canvas_get_scroll_region (GNOME_CANVAS (e_table->header_canvas),
@@ -2098,7 +2101,7 @@ e_table_class_init (ETableClass *class)
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ETableClass, double_click),
 				gtk_marshal_NONE__INT_INT_POINTER,
-				GTK_TYPE_NONE, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_POINTER);
+				GTK_TYPE_NONE, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
 
 	et_signals [RIGHT_CLICK] =
 		gtk_signal_new ("right_click",
@@ -2106,7 +2109,7 @@ e_table_class_init (ETableClass *class)
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ETableClass, right_click),
 				e_marshal_INT__INT_INT_POINTER,
-				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_POINTER);
+				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
 
 	et_signals [CLICK] =
 		gtk_signal_new ("click",
@@ -2114,7 +2117,7 @@ e_table_class_init (ETableClass *class)
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ETableClass, click),
 				e_marshal_INT__INT_INT_POINTER,
-				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_POINTER);
+				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
 
 	et_signals [KEY_PRESS] =
 		gtk_signal_new ("key_press",
@@ -2122,7 +2125,7 @@ e_table_class_init (ETableClass *class)
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ETableClass, key_press),
 				e_marshal_INT__INT_INT_POINTER,
-				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_POINTER);
+				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
 
 	et_signals[TABLE_DRAG_BEGIN] =
 		gtk_signal_new ("table_drag_begin",

@@ -2141,7 +2141,7 @@ eti_class_init (GtkObjectClass *object_class)
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ETableItemClass, double_click),
 				gtk_marshal_NONE__INT_INT_POINTER,
-				GTK_TYPE_NONE, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_POINTER);
+				GTK_TYPE_NONE, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
 
 	eti_signals [RIGHT_CLICK] =
 		gtk_signal_new ("right_click",
@@ -2149,7 +2149,7 @@ eti_class_init (GtkObjectClass *object_class)
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ETableItemClass, right_click),
 				e_marshal_INT__INT_INT_POINTER,
-				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_POINTER);
+				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
 
 	eti_signals [CLICK] =
 		gtk_signal_new ("click",
@@ -2157,7 +2157,7 @@ eti_class_init (GtkObjectClass *object_class)
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ETableItemClass, click),
 				e_marshal_INT__INT_INT_POINTER,
-				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_POINTER);
+				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
 
 	eti_signals [KEY_PRESS] =
 		gtk_signal_new ("key_press",
@@ -2165,7 +2165,7 @@ eti_class_init (GtkObjectClass *object_class)
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ETableItemClass, key_press),
 				e_marshal_INT__INT_INT_POINTER,
-				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_POINTER);
+				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
 
 	gtk_object_class_add_signals (object_class, eti_signals, LAST_SIGNAL);
 
