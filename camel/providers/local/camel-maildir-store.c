@@ -248,6 +248,11 @@ fill_fi(CamelStore *store, CamelFolderInfo *fi, guint32 flags)
 	CamelFolder *folder;
 
 	folder = camel_object_bag_get(store->folders, fi->full_name);
+
+	if (folder == NULL
+	    && (flags & CAMEL_STORE_FOLDER_INFO_FAST) == 0)
+		folder = camel_store_get_folder(store, fi->full_name, 0, NULL);
+
 	if (folder) {
 		if ((flags & CAMEL_STORE_FOLDER_INFO_FAST) == 0)
 			camel_folder_refresh_info(folder, NULL);

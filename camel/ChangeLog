@@ -1,5 +1,9 @@
 2004-05-18  Not Zed  <NotZed@Ximian.com>
 
+	* providers/local/camel-maildir-store.c (fill_fi): do the same
+	load of mailbox if we're in slow mode as we did for maildir.
+	#58294.
+
 	* camel-disco-folder.c (disco_expunge_uids): check for NULL
 	implementation before calling it.
 	(disco_sync): similar.  Fixes crash #58278.
