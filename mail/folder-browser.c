@@ -1906,7 +1906,7 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 					fdata->mlist = g_strdup(mname);
 					
 					/* Escape the mailing list name before showing it */
-					mlist = alloca (strlen (mname)+2);
+					mlist = alloca ((strlen (mname) * 2) + 1);
 					p = mname;
 					o = mlist;
 					while ((c = *p++)) {

@@ -1,5 +1,9 @@
 2002-07-02  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* folder-browser.c (on_right_click): Increase the size of the
+	escapped mlist buffer, we can't assume that there can only ever be
+	a single '_' in the mlist name afaik.
+
 	Fixes bug #27263.
 
 	* folder-browser.c (filter_subject): Decide the filter source type
