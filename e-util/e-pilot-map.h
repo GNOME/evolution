@@ -36,10 +36,12 @@ struct _EPilotMap
 	time_t since;
 };
 
-gboolean e_pilot_map_pid_is_archived (EPilotMap *map, guint32 pilot_id);
+gboolean e_pilot_map_pid_is_archived (EPilotMap *map, guint32 pid);
 gboolean e_pilot_map_uid_is_archived (EPilotMap *map, const char *uid);
 
 void e_pilot_map_insert (EPilotMap *map, guint32 pid, const char *uid, gboolean archived);
+guint32 e_pilot_map_lookup_pid (EPilotMap *map, const char *uid);
+const char * e_pilot_map_lookup_uid (EPilotMap *map, guint32 pid);
 
 int e_pilot_map_read (const char *filename, EPilotMap **map);
 int e_pilot_map_write (const char *filename, EPilotMap *map);

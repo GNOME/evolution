@@ -98,7 +98,7 @@ map_write_foreach (gpointer key, gpointer value, gpointer data)
 }
 
 gboolean 
-e_pilot_map_pid_is_archived (EPilotMap *map, guint32 pilot_id)
+e_pilot_map_pid_is_archived (EPilotMap *map, guint32 pid)
 {
 	return FALSE;
 }
@@ -120,6 +120,29 @@ e_pilot_map_insert (EPilotMap *map, guint32 pid, const char *uid, gboolean archi
 
 	g_hash_table_insert (map->pid_map, new_pid, new_uid);
 	g_hash_table_insert (map->uid_map, new_uid, new_pid);
+}
+
+guint32 
+e_pilot_map_lookup_pid (EPilotMap *map, const char *uid) 
+{
+	guint32 *pid;
+	
+	pid = g_hash_table_lookup (map->uid_map, uid);
+
+	if (pid == NULL)
+		return 0;
+	
+	return *pid;
+}
+
+const char *
+e_pilot_map_lookup_uid (EPilotMap *map, guint32 pid)
+{
+	const char *uid;
+	
+	uid = g_hash_table_lookup (map->pid_map, &pid);
+
+	return uid;
 }
 
 int 

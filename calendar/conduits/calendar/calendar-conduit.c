@@ -236,19 +236,6 @@ get_ical_day (int day)
 }
 
 static void
-compute_pid (ECalConduitContext *ctxt, ECalLocalRecord *local, const char *uid)
-{
-	guint32 *pid;
-	
-	pid = g_hash_table_lookup (ctxt->map->uid_map, uid);
-	
-	if (pid)
-		local->local.ID = *pid;
-	else
-		local->local.ID = 0;
-}
-
-static void
 compute_status (ECalConduitContext *ctxt, ECalLocalRecord *local, const char *uid)
 {
 	local->local.archived = FALSE;
@@ -314,7 +301,7 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 	local->comp = comp;
 
 	cal_component_get_uid (local->comp, &uid);
-	compute_pid (ctxt, local, uid);
+	local->local.ID = e_pilot_map_lookup_pid (ctxt->map, uid);
 	compute_status (ctxt, local, uid);
 
 	local->appt = g_new0 (struct Appointment,1);
@@ -403,7 +390,7 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 
 static void 
 local_record_from_uid (ECalLocalRecord *local,
-		       char *uid,
+		       const char *uid,
 		       ECalConduitContext *ctxt)
 {
 	CalComponent *comp;
@@ -651,7 +638,7 @@ pre_sync (GnomePilotConduit *conduit,
 		
 		switch (coc->type) {
 		case CALOBJ_UPDATED:
-			if (g_hash_table_lookup (ctxt->map->uid_map, coc->uid))
+			if (e_pilot_map_lookup_pid (ctxt->map, coc->uid) > 0)
 				g_hash_table_insert (ctxt->modified, coc->uid, coc);
 			else
 				g_hash_table_insert (ctxt->added, coc->uid, coc);
@@ -965,7 +952,7 @@ match (GnomePilotConduitSyncAbs *conduit,
        ECalLocalRecord **local,
        ECalConduitContext *ctxt)
 {
-	char *uid;
+	const char *uid;
 	
 	LOG ("match: looking for local copy of %s\n",
 	     print_remote (remote));	
@@ -974,7 +961,7 @@ match (GnomePilotConduitSyncAbs *conduit,
 	g_return_val_if_fail (remote != NULL, -1);
 
 	*local = NULL;
-	uid = g_hash_table_lookup (ctxt->map->pid_map, &remote->ID);
+	uid = e_pilot_map_lookup_uid (ctxt->map, remote->ID);
 	
 	if (!uid)
 		return 0;
