@@ -190,6 +190,7 @@ save_to_vcal (CalBackend *backend, char *fname)
 		writeVObject(fp, vcal);
 		fclose(fp);
 	}
+	cleanVObject (vcal);
 	cleanStrTbl ();
 }
 
@@ -223,6 +224,8 @@ save (CalBackend *backend)
 		/* FIX ME log */
 	        break;
 	}
+
+	g_free (str_uri);
 
 	printf ("cal-backend: '%s' saved\n", str_uri);
 }
@@ -755,6 +758,7 @@ cal_backend_load (CalBackend *backend, GnomeVFSURI *uri)
 	        vobject = Parse_MIME_FromFileName (str_uri);
 	
 		if (!vobject){
+			g_free (str_uri);
 			return CAL_BACKEND_LOAD_ERROR;
 		}
 	
@@ -766,6 +770,7 @@ cal_backend_load (CalBackend *backend, GnomeVFSURI *uri)
 		icalendar_calendar_load (backend, str_uri);
 		break;
 	default:
+		g_free (str_uri);
 	        return CAL_BACKEND_LOAD_ERROR;
 	}
 
