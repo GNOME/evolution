@@ -1,3 +1,8 @@
+2004-01-15  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am (images_DATA): added flag-for-followup-done-16.png
+	(glade_DATA): added flag-for-followup-done-48.png
+
 2003-01-11  Christian Hammond  <chipx86@gnupdate.org>
 
 	* art/im*.png, art/Makefile.am: Added IM png files from Gaim.

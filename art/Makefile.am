@@ -55,6 +55,7 @@ images_DATA = \
 	find_contact.xpm		\
 	find_message.xpm		\
 	flag-for-followup-16.png	\
+	flag-for-followup-done-16.png	\
 	folder-copy-16.png		\
 	folder-move-16.png		\
 	folder-settings.png		\
@@ -236,6 +237,7 @@ glade_DATA = 					\
 	evolution.png				\
 	import.png				\
 	flag-for-followup-48.png		\
+	flag-for-followup-done-48.png		\
 	mail-config-druid-account-name.png	\
 	mail-config-druid-identity.png		\
 	mail-config-druid.png			\
