@@ -394,7 +394,7 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 	fd = PR_OpenTCPSocket (host->h_addrtype);
 	ssl_fd = SSL_ImportFD (NULL, fd);
 
-	SSL_Enable (ssl_fd, SSL_SECURITY, PR_TRUE);
+	SSL_SetOption (ssl_fd, SSL_SECURITY, PR_TRUE);
 	SSL_SetURL (ssl_fd, ssl->priv->expected_host);
 	
 	if (ssl_fd == NULL || PR_Connect (ssl_fd, &netaddr, timeout) == PR_FAILURE) {
