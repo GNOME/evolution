@@ -1,3 +1,10 @@
+2004-12-14  Rodney Dawes  <dobey@novell.com>
+
+	* mail-account-gui.c: Remove this from CVS
+	
+	* mail-config.glade: Use em_account_editor_folder_selector_button_new
+	instead of mail_account_gui_folder_selector_button_new
+
 2004-12-14  JP Rosevear  <jpr@novell.com>
 
 	Fixes #68759

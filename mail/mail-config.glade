@@ -2586,10 +2586,10 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <child>
 				<widget class="Custom" id="sent_button">
 				  <property name="visible">True</property>
-				  <property name="creation_function">mail_account_gui_folder_selector_button_new</property>
+				  <property name="creation_function">em_account_editor_folder_selector_button_new</property>
 				  <property name="int1">0</property>
 				  <property name="int2">0</property>
-				  <property name="last_modification_time">Wed, 03 Apr 2002 23:03:59 GMT</property>
+				  <property name="last_modification_time">Tue, 14 Dec 2004 17:07:09 GMT</property>
 				</widget>
 				<packing>
 				  <property name="left_attach">1</property>
@@ -2604,10 +2604,10 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <child>
 				<widget class="Custom" id="drafts_button">
 				  <property name="visible">True</property>
-				  <property name="creation_function">mail_account_gui_folder_selector_button_new</property>
+				  <property name="creation_function">em_account_editor_folder_selector_button_new</property>
 				  <property name="int1">0</property>
 				  <property name="int2">0</property>
-				  <property name="last_modification_time">Wed, 03 Apr 2002 23:03:41 GMT</property>
+				  <property name="last_modification_time">Tue, 14 Dec 2004 17:07:02 GMT</property>
 				</widget>
 				<packing>
 				  <property name="left_attach">1</property>
