@@ -184,7 +184,7 @@ start_calendar_server_cb (CalClient *cal_client,
 }
 
 static CalClient *
-start_calendar_server (gchar *uri, gboolean tasks)
+start_calendar_server (gboolean tasks)
 {
 	CalClient *client;
 	char *cal_uri;
@@ -192,25 +192,17 @@ start_calendar_server (gchar *uri, gboolean tasks)
 
 	client = cal_client_new ();
 
-	if (uri)
-		cal_uri = g_strdup (uri);
-	else {
-		if (tasks)
-			cal_uri = g_concat_dir_and_file (
-				g_get_home_dir (),
-				"evolution/local/Tasks/tasks.ics");
-		else
-			cal_uri = g_concat_dir_and_file (
-				g_get_home_dir (),
-				"evolution/local/Calendar/calendar.ics");
-	}
-
 	gtk_signal_connect (GTK_OBJECT (client), "cal_opened",
 			    start_calendar_server_cb, &success);
 
-	if (!cal_client_open_calendar (client, cal_uri, FALSE))
-		return NULL;
-
+	if (tasks) {
+		if (!cal_client_open_default_tasks (client, FALSE))
+			goto error;
+	} else {
+		if (!cal_client_open_default_calendar (client, FALSE))
+			goto error;
+	}
+			
 	/* run a sub event loop to turn cal-client's async load
 	   notification into a synchronous call */
 	gtk_main ();
@@ -218,6 +210,9 @@ start_calendar_server (gchar *uri, gboolean tasks)
 	if (success)
 		return client;
 
+ error:
+	gtk_object_unref (GTK_OBJECT (client));
+	
 	return NULL;
 }
 
@@ -254,13 +249,11 @@ init (EItipControl *itip)
 #endif
 
 	/* Get the cal clients */
-	priv->event_client = start_calendar_server (
-		calendar_config_get_default_uri (), FALSE);
+	priv->event_client = start_calendar_server (FALSE);
 	if (priv->event_client == NULL)
 		g_warning ("Unable to start calendar client");
 
-	priv->task_client = start_calendar_server (
-		calendar_config_get_default_tasks_uri (), FALSE);
+	priv->task_client = start_calendar_server (TRUE);
 	if (priv->task_client == NULL)
 		g_warning ("Unable to start calendar client");
 

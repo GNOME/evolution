@@ -37,9 +37,11 @@
 #include <e-pilot-util.h>
 
 #define CAL_CONFIG_LOAD 1
+#define CAL_CONFIG_SAVE 1
 #define CAL_CONFIG_DESTROY 1
 #include <calendar-conduit-config.h>
 #undef CAL_CONFIG_LOAD
+#undef CAL_CONFIG_SAVE
 #undef CAL_CONFIG_DESTROY
 
 #include <calendar-conduit.h>
@@ -202,28 +204,21 @@ start_calendar_server_cb (CalClient *cal_client,
 static int
 start_calendar_server (ECalConduitContext *ctxt)
 {
-	char *calendar_file;
 	gboolean success = FALSE;
 	
 	g_return_val_if_fail (ctxt != NULL, -2);
 
 	ctxt->client = cal_client_new ();
 
-	/* FIX ME */
-	calendar_file = g_concat_dir_and_file (g_get_home_dir (),
-					       "evolution/local/"
-					       "Calendar/calendar.ics");
-
 	gtk_signal_connect (GTK_OBJECT (ctxt->client), "cal_opened",
 			    start_calendar_server_cb, &success);
 
-	if (!cal_client_open_calendar (ctxt->client, calendar_file, FALSE))
+	if (!cal_client_open_default_calendar (ctxt->client, FALSE))
 		return -1;
 
 	/* run a sub event loop to turn cal-client's async load
 	   notification into a synchronous call */
 	gtk_main ();
-	g_free (calendar_file);
 
 	if (success)
 		return 0;
@@ -1039,12 +1034,21 @@ check_for_slow_setting (GnomePilotConduit *c, ECalConduitContext *ctxt)
 {
 	GnomePilotConduitStandard *conduit = GNOME_PILOT_CONDUIT_STANDARD (c);
 	int map_count;
-
+	const char *uri;
+	
 	/* If there are objects but no log */
 	map_count = g_hash_table_size (ctxt->map->pid_map);
 	if (map_count == 0)
 		gnome_pilot_conduit_standard_set_slow (conduit, TRUE);
 
+	/* Or if the URI's don't match */
+	uri = cal_client_get_uri (ctxt->client);
+	LOG("  Current URI %s (%s)\n", uri, ctxt->cfg->last_uri ? ctxt->cfg->last_uri : "<NONE>");
+	if (ctxt->cfg->last_uri != NULL && strcmp (ctxt->cfg->last_uri, uri)) {
+		gnome_pilot_conduit_standard_set_slow (conduit, TRUE);
+		e_pilot_map_clear (ctxt->map);
+	}
+	
 	if (gnome_pilot_conduit_standard_get_slow (conduit)) {
 		ctxt->map->write_touched_only = TRUE;
 		LOG ("    doing slow sync\n");
@@ -1196,6 +1200,10 @@ post_sync (GnomePilotConduit *conduit,
 	
 	LOG ("post_sync: Calendar Conduit v.%s", CONDUIT_VERSION);
 
+	g_free (ctxt->cfg->last_uri);
+	ctxt->cfg->last_uri = g_strdup (cal_client_get_uri (ctxt->client));
+	calconduit_save_configuration (ctxt->cfg);
+	
 	filename = map_name (ctxt);
 	e_pilot_map_write (filename, ctxt->map);
 	g_free (filename);
