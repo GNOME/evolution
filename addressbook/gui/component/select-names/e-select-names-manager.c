@@ -210,6 +210,7 @@ GtkWidget                    *e_select_names_manager_create_entry              (
 			gtk_object_set(GTK_OBJECT(entry),
 				       "model", model,
 				       "editable", TRUE,
+				       "use_ellipsis", TRUE,
 				       NULL);
 			return entry;
 		}
