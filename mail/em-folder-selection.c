@@ -25,12 +25,14 @@
 #include <config.h>
 #endif
 
+#include <gtk/gtkdialog.h>
+#include <gtk/gtkstock.h>
+
+#include "em-folder-tree.h"
 #include "em-folder-selection.h"
 
 #include "mail-component.h"
 #include "mail-tools.h"
-
-#include "shell/e-folder-selection-dialog.h"
 
 
 CamelFolder *
@@ -39,133 +41,149 @@ em_folder_selection_run_dialog (GtkWindow *parent_window,
 				const char *caption,
 				CamelFolder *default_folder)
 {
-	EStorageSet *storage_set = mail_component_peek_storage_set (mail_component_peek ());
-	char *default_path = NULL;
-	CamelStore *default_store;
+	CamelFolder *selected_folder;
+	EMFolderTreeModel *model;
 	GtkWidget *dialog;
-	EFolder *selected_e_folder;
-	CamelFolder *selected_camel_folder;
+	GtkWidget *emft;
+	const char *uri;
 	int response;
-
-	default_store = camel_folder_get_parent_store (default_folder);
-	if (default_store != NULL) {
-		EStorage *storage = mail_component_lookup_storage (mail_component_peek (), default_store);
-
-		if (storage != NULL) {
-			default_path = g_strconcat ("/",
-						    e_storage_get_name (storage),
-						    "/",
-						    camel_folder_get_full_name (default_folder),
-						    NULL);
-		}
+	
+	dialog = gtk_dialog_new_with_buttons (title, parent_window, GTK_DIALOG_DESTROY_WITH_PARENT,
+					      GTK_STOCK_NEW, GTK_RESPONSE_APPLY,
+					      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					      GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+	
+	model = mail_component_get_tree_model (mail_component_peek ());
+	emft = em_folder_tree_new_with_model (model);
+	gtk_widget_show (emft);
+	
+	gtk_box_pack_start_defaults ((GtkBox *) ((GtkDialog *) dialog)->vbox, emft);
+	
+	if (default_folder) {
+		char *default_uri;
+		
+		default_uri = mail_tools_folder_to_url (default_folder);
+		em_folder_tree_set_selected ((EMFolderTree *) emft, default_uri);
+		g_free (default_uri);
 	}
-
-	/* EPFIXME: Allowed types?  */
-	dialog = e_folder_selection_dialog_new (storage_set, title, caption, default_path, NULL, FALSE);
-	g_free(default_path);
+	
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
-
+	
 	if (response != GTK_RESPONSE_OK) {
 		gtk_widget_destroy (dialog);
 		return NULL;
 	}
-
-	selected_e_folder = e_storage_set_get_folder (storage_set,
-						      e_folder_selection_dialog_get_selected_path (E_FOLDER_SELECTION_DIALOG (dialog)));
-	if (selected_e_folder == NULL) {
+	
+	if (!(uri = em_folder_tree_get_selected_uri ((EMFolderTree *) emft))) {
 		gtk_widget_destroy (dialog);
 		return NULL;
 	}
-
-	selected_camel_folder = mail_tool_uri_to_folder (e_folder_get_physical_uri (selected_e_folder), 0, NULL);
+	
+	selected_folder = mail_tool_uri_to_folder (uri, 0, NULL);
 	gtk_widget_destroy (dialog);
-
-	return selected_camel_folder;
+	
+	return selected_folder;
 }
 
 /* FIXME: This isn't the way to do it, but then neither is the above, really ... */
 char *
-em_folder_selection_run_dialog_uri(GtkWindow *parent_window,
-				   const char *title,
-				   const char *caption,
-				   const char *default_folder_uri)
+em_folder_selection_run_dialog_uri (GtkWindow *parent_window,
+				    const char *title,
+				    const char *caption,
+				    const char *default_uri)
 {
-	EStorageSet *storage_set = mail_component_peek_storage_set (mail_component_peek ());
-	char *default_path;
+	EMFolderTreeModel *model;
 	GtkWidget *dialog;
-	EFolder *selected_e_folder;
+	GtkWidget *emft;
+	const char *uri;
 	int response;
-
-	default_path = e_storage_set_get_path_for_physical_uri(storage_set, default_folder_uri);
-	dialog = e_folder_selection_dialog_new (storage_set, title, caption, default_path, NULL, FALSE);
-	g_free(default_path);
+	char *ret;
+	
+	dialog = gtk_dialog_new_with_buttons (title, parent_window, GTK_DIALOG_DESTROY_WITH_PARENT,
+					      GTK_STOCK_NEW, GTK_RESPONSE_APPLY,
+					      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					      GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+	
+	model = mail_component_get_tree_model (mail_component_peek ());
+	emft = em_folder_tree_new_with_model (model);
+	gtk_widget_show (emft);
+	
+	gtk_box_pack_start_defaults ((GtkBox *) ((GtkDialog *) dialog)->vbox, emft);
+	
+	if (default_uri)
+		em_folder_tree_set_selected ((EMFolderTree *) emft, default_uri);
+	
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
-
+	
 	if (response != GTK_RESPONSE_OK) {
 		gtk_widget_destroy (dialog);
 		return NULL;
 	}
-
-	selected_e_folder = e_storage_set_get_folder (storage_set,
-						      e_folder_selection_dialog_get_selected_path (E_FOLDER_SELECTION_DIALOG (dialog)));
-	gtk_widget_destroy (dialog);
-	if (selected_e_folder == NULL)
+	
+	if (!(uri = em_folder_tree_get_selected_uri ((EMFolderTree *) emft))) {
+		gtk_widget_destroy (dialog);
 		return NULL;
-
-	return g_strdup(e_folder_get_physical_uri(selected_e_folder));
+	}
+	
+	ret = g_strdup (uri);
+	gtk_widget_destroy (dialog);
+	
+	return ret;
 }
 
 
 struct _select_folder_data {
-	void (*done)(const char *uri, void *data);
+	void (*done) (const char *uri, void *data);
 	void *data;
 };
 
 static void
-emfs_folder_selected(GtkWidget *w, const char *path, struct _select_folder_data *d)
+emfs_response (GtkDialog *dialog, int response, struct _select_folder_data *d)
 {
-	const char *uri = NULL;
-	EStorageSet *storage_set = mail_component_peek_storage_set (mail_component_peek ());
-	EFolder *folder;
+	EMFolderTree *emft = g_object_get_data ((GObject *) dialog, "emft");
+	const char *uri;
 	
-	folder = e_storage_set_get_folder(storage_set, path);
-	if (folder)
-		uri = e_folder_get_physical_uri(folder);
-
-	gtk_widget_hide(w);
-
-	d->done(uri, d->data);
-
-	gtk_widget_destroy(w);
-}
-
-static void
-emfs_folder_cancelled(GtkWidget *w, struct _select_folder_data *d)
-{
-	gtk_widget_destroy(w);
+	gtk_widget_hide (dialog);
+	
+	if (response == GTK_RESPONSE_OK) {
+		uri = em_folder_tree_get_selected_uri (emft);
+		d->done (uri, d->data);
+	}
+	
+	gtk_widget_destroy (dialog);
 }
 
 void
-em_select_folder(GtkWindow *parent_window, const char *title, const char *text, const char *default_folder_uri, void (*done)(const char *uri, void *data), void *data)
+em_select_folder (GtkWindow *parent_window, const char *title, const char *text,
+		  const char *default_uri, void (*done) (const char *uri, void *user_data), void *user_data)
 {
-	EStorageSet *storage_set = mail_component_peek_storage_set (mail_component_peek ());
-	char *path;
-	GtkWidget *dialog;
 	struct _select_folder_data *d;
-
-	d = g_malloc0(sizeof(*d));
-	d->data = data;
+	EMFolderTreeModel *model;
+	GtkWidget *dialog;
+	GtkWidget *emft;
+	
+	dialog = gtk_dialog_new_with_buttons (title, parent_window, GTK_DIALOG_DESTROY_WITH_PARENT,
+					      GTK_STOCK_NEW, GTK_RESPONSE_APPLY,
+					      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					      GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+	
+	model = mail_component_get_tree_model (mail_component_peek ());
+	emft = em_folder_tree_new_with_model (model);
+	gtk_widget_show (emft);
+	
+	gtk_box_pack_start_defaults ((GtkBox *) ((GtkDialog *) dialog)->vbox, emft);
+	
+	if (default_uri)
+		em_folder_tree_set_selected ((EMFolderTree *) emft, default_uri);
+	
+	d = g_malloc0 (sizeof (*d));
+	d->data = user_data;
 	d->done = done;
-
-	if (default_folder_uri)
-		path = e_storage_set_get_path_for_physical_uri(storage_set, default_folder_uri);
-	else
-		path = NULL;
-	dialog = e_folder_selection_dialog_new(storage_set, title, text, path, NULL, TRUE);
-	g_free(path);
+	
 	/* ugh, painful api ... */
-	g_signal_connect(dialog, "folder_selected", G_CALLBACK(emfs_folder_selected), d);
-	g_signal_connect(dialog, "cancelled", G_CALLBACK(emfs_folder_cancelled), d);
-	g_object_set_data_full((GObject *)dialog, "emfs_data", d, g_free);
-	gtk_widget_show(dialog);
+	g_object_set_data ((GObject *) dialog, "emft", emft);
+	g_object_set_data_full ((GObject *) dialog, "emfs_data", d, g_free);
+	g_signal_connect (dialog, "response", G_CALLBACK (emfs_response), d);
+	
+	gtk_widget_show (dialog);
 }
