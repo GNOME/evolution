@@ -1,3 +1,8 @@
+2001-02-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* configure.in: Added hacks to check for Mozilla libs like nspr
+	and nss that we will need for SSL and S/MIME.
+
 2001-02-09  Michael Meeks  <michael@ximian.com>
 
 	* configure.in: depend on bonobo >= 0.36

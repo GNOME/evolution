@@ -564,6 +564,110 @@ AC_SUBST(KRB4_CFLAGS)
 AC_SUBST(KRB4_LDFLAGS)
 
 
+dnl ====================================
+dnl = security extension support (SSL, S/MIME, and SASL)
+dnl =
+dnl = The following voodoo does detection of mozilla libraries (nspr and nss) needed by
+dnl = Camel (SSL and SASL) and Evolution (S/MIME).
+dnl =
+dnl = The Evolution security extensions are only built if these libraries are found
+dnl =
+dnl = --enable-assbarn-security can be used to enable these features
+dnl ====================================
+assbarn_security_enabled="no"
+
+AC_ARG_ENABLE(,
+              [  --enable-assbarn-security     	Enable security extensions such as SSL and S/MIME],
+              ,
+              assbarn_security_enabled="yes")
+
+found_mozilla=false
+
+if test "x$assbarn_security_enabled" = "xyes"
+then 
+BUILD_MOZILLA=
+MOZILLA_CFLAGS=
+MOZILLA_LDFLAGS=
+MOZILLA_LIBS=
+
+mozilla_lib_path=/usr/lib/mozilla
+mozilla_include_path=/usr/include/mozilla
+
+dnl Add a flag to override the default mozilla lib dir
+AC_ARG_WITH(mozilla-lib-path,
+	[  --with-mozilla-lib-path		Set mozilla 'lib' path ],
+	[ mozilla_lib_path="$withval" ])
+
+dnl Add a flag to override the default mozilla include dir
+AC_ARG_WITH(mozilla-include-path,
+	[  --with-mozilla-include-path		Set mozilla 'include' path ],
+	[ mozilla_include_path="$withval" ])
+
+mozilla_nspr_libs=
+mozilla_plc_libs=
+mozilla_plds_libs=
+mozilla_nss_libs=
+
+dnl Save flags and compiler
+_save_cflags="$CFLAGS"
+_save_ldflags="$LDFLAGS"
+
+dnl Hack flags to find the mozilla stuff
+CFLAGS="$_save_cflags -I$mozilla_include_path"
+LDFLAGS="$_save_ldflags -L$mozilla_lib_path"
+
+dnl Check for nspr and friends
+AC_CHECK_LIB(nspr4, PR_Init, [mozilla_nspr_libs="-lnspr4"])
+LDFLAGS="$LDFLAGS $mozilla_nspr_libs"
+AC_CHECK_LIB(plc4, PL_strcmp, [mozilla_plc_libs="-lplc4"])
+AC_CHECK_LIB(plds4, PL_NewHashTable, [mozilla_plds_libs="-lplds4"])
+
+mozilla_all_nspr_flags="$mozilla_nspr_libs $mozilla_plc_libs $mozilla_plds_libs"
+
+dnl Check for nss
+AC_CHECK_LIB(nss, NSS_Init, [mozilla_nss_libs="-lnss"])
+
+dnl Restore the flags and compiler
+CFLAGS="$_save_cflags"
+LDFLAGS="$_save_ldflags"
+
+dnl Now make sure all the libraries are good
+AC_MSG_CHECKING(for Mozilla)
+
+if test -n "$mozilla_nspr_libs" -a \
+	-n "$mozilla_plc_libs" -a \
+	-n "$mozilla_plds_libs" -a \
+	-n "$mozilla_nss_libs"
+then
+	AC_MSG_RESULT(yes)
+	AC_PROG_CXX
+	found_mozilla=true
+
+	MOZILLA_RPATH_FLAGS="-Wl,-rpath=$mozilla_lib_path"
+	MOZILLA_CFLAGS="-I$mozilla_include_path -fno-rtti -fno-exceptions"
+	MOZILLA_LDFLAGS="-L$mozilla_lib_path"
+	MOZILLA_LIBS="$mozilla_nspr_libs \
+                      $mozilla_plc_libs \
+                      $mozilla_plds_libs \
+                      $mozilla_nss_libs"
+	AC_SUBST(MOZILLA_RPATH_FLAGS)
+	AC_SUBST(MOZILLA_CFLAGS)
+	AC_SUBST(MOZILLA_LDFLAGS)
+	AC_SUBST(MOZILLA_LIBS)
+else
+	AC_MSG_RESULT(no)
+	assbarn_security_enabled="no"
+	found_mozilla=false
+fi
+fi
+
+AM_CONDITIONAL(BUILD_MOZILLA, test "x$found_mozilla" = "xtrue")
+
+dnl ====================================
+dnl = End mozilla hacks
+dnl ====================================
+
+
 dnl ******************************
 dnl gtk-doc
 dnl ******************************
@@ -746,6 +850,7 @@ echo "
 	NNTP support:     $msg_nntp
 	Pilot conduits:   $msg_pilot
 	Kerberos 4/5:     $msg_krb4/$msg_krb5
+	SSL support:      $assbarn_security_enabled
 	Use movemail:	  $with_movemail
 	Dot Locking:	  $msg_dot
 	File Locking:	  $msg_file
