@@ -785,21 +785,6 @@ write_text_header (const char *name, const char *value, int flags, GtkHTML *html
 		g_free (encoded);
 }
 
-static gchar *
-elide_quotes (const gchar *str)
-{
-	gchar *cpy = g_strdup (str);
-	gchar *c = cpy;
-
-	if (c) {
-		while (*c) {
-			if (*c != '"')
-				++c;
-		}
-	}
-	return cpy;
-}
-
 static void
 write_address (MailDisplay *md, const CamelInternetAddress *addr, const char *field_name, int flags)
 {
@@ -817,8 +802,6 @@ write_address (MailDisplay *md, const CamelInternetAddress *addr, const char *fi
 		gchar *addr_txt, *addr_url;
 		gboolean have_name = name && *name;
 		gboolean have_email = email && *email;
-		gchar *name_arg = NULL;
-		gchar *email_arg = NULL;
 		gchar *name_disp = NULL;
 		gchar *email_disp = NULL;
 
@@ -833,7 +816,6 @@ write_address (MailDisplay *md, const CamelInternetAddress *addr, const char *fi
 		}
 		
 		if (have_email) {
-			email_arg = elide_quotes (email); /* should never be an issue */
 			email_disp = e_text_to_html (email, 0);
 		}
 		
@@ -842,7 +824,6 @@ write_address (MailDisplay *md, const CamelInternetAddress *addr, const char *fi
 		
 		if (have_email || have_name) {
 			if (!have_email) {
-				email_arg = g_strdup ("???");
 				email_disp = g_strdup ("???");
 			}
 			
@@ -864,8 +845,6 @@ write_address (MailDisplay *md, const CamelInternetAddress *addr, const char *fi
 			g_free (str);
 		}
 
-		g_free (name_arg);
-		g_free (email_arg);
 		g_free (name_disp);
 		g_free (email_disp);
 		g_free (addr_txt);

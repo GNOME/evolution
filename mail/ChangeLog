@@ -1,5 +1,13 @@
 2001-10-30    <NotZed@Ximian.com>
 
+	* mail-mt.c: Added exception strings to some of the op logging.
+	
+	* mail-format.c (elide_quotes): Remove, uh, what was this for, its
+	not used anywhere?  Also loops the instant it had a ", good one
+	trow! :)
+	(write_address): Remove name_arg/email_arg, these aren't used
+	anywhere.
+
 	* mail-mt.c (mail_msg_received): If we have a cancellation setup,
 	destroy it immediately, to save fd's.
 	(mail_msg_cancel): Check cancel != NULL.

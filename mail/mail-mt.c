@@ -187,7 +187,8 @@ void mail_msg_free(void *msg)
 
 #ifdef LOG_OPS
 	if (log_ops)
-		fprintf(log, "%p: Free\n", msg);
+		fprintf(log, "%p: Free  (exception `%s')\n", msg,
+			camel_exception_get_description(&m->ex)?camel_exception_get_description(&m->ex):"None");
 #endif
 	g_hash_table_remove(mail_msg_active_table, (void *)m->seq);
 	pthread_cond_broadcast(&mail_msg_cond);
@@ -382,7 +383,8 @@ mail_msgport_replied(GIOChannel *source, GIOCondition cond, void *d)
 
 #ifdef LOG_OPS
 		if (log_ops)
-			fprintf(log, "%p: Replied to GUI thread\n", m);
+			fprintf(log, "%p: Replied to GUI thread (exception `%s'\n", m,
+				camel_exception_get_description(&m->ex)?camel_exception_get_description(&m->ex):"None");
 #endif
 
 		if (m->ops->reply_msg)
