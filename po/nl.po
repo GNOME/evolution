@@ -16968,7 +16968,7 @@ msgstr "_Importeren"
 
 #: shell/e-shell-offline-handler.c:594
 msgid "Closing connections..."
-msgstr "Verbindeingen ophangen...."
+msgstr "Verbindingen ophangen...."
 
 #: shell/e-shell-settings-dialog.c:326
 msgid "Evolution Settings"
