@@ -1,3 +1,10 @@
+2005-03-08  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #73141
+	* gui/dialogs/comp-editor.c: 
+	(comp_editor_notify_client_changed):Assign the updated client
+	to priv->client and unref the old one.	
+
 2005-03-06  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/dialogs/recur-comp.c (recur_component_dialog): disable dialog for
@@ -21,6 +28,7 @@
 	(open_alarm_dialog): store the dialog returned by alarm_notify_dialog().
 	(tray_icon_destroyed_cb): destroy the dialog if still around.
 
+>>>>>>> 1.2682
 2005-02-28  Harish Krishnaswamy  <kharish@novell.com>
 
         Fixes #69556
