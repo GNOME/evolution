@@ -1,3 +1,11 @@
+2003-03-20  Dan Winship  <danw@ximian.com>
+
+	* filter-datespec.c (timespans, set_button): Change the strings in
+	the timespans array from "second" / "seconds" to "1 second ago" /
+	"%d seconds ago", etc, and update the code in set_button that uses
+	them. Fixes #36245, translation clash between the "second" here
+	and the one in the calendar (where it's used as "2nd").
+
 2003-03-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* rule-editor.c (rule_editor_set_sensitive): Don't return here -

@@ -62,13 +62,13 @@ typedef struct _timespan {
 } timespan;
 
 static const timespan timespans[] = {
-	{ 1, N_("second"), N_("seconds"), 59.0 },
-	{ 60, N_("minute"), N_("minutes"), 59.0 },
-	{ 3600, N_("hour"), N_("hours"), 23.0 },
-	{ 86400, N_("day"), N_("days"), 31.0 },
-	{ 604800, N_("week"), N_("weeks"), 52.0 },
-	{ 2419200, N_("month"), N_("months"), 12.0 },
-	{ 31557600, N_("year"), N_("years"), 1000.0 },
+	{ 1, N_("1 second ago"), N_("%d seconds ago"), 59.0 },
+	{ 60, N_("1 minute ago"), N_("%d minutes ago"), 59.0 },
+	{ 3600, N_("1 hour ago"), N_("%d hours ago"), 23.0 },
+	{ 86400, N_("1 day ago"), N_("%d days ago"), 31.0 },
+	{ 604800, N_("1 week ago"), N_("%d weeks ago"), 52.0 },
+	{ 2419200, N_("1 month ago"), N_("%d months ago"), 12.0 },
+	{ 31557600, N_("1 year ago"), N_("%d years ago"), 1000.0 },
 };
 
 #define DAY_INDEX 3
@@ -295,10 +295,10 @@ set_button (FilterDatespec *fds)
 			
 			if (count == 1)
 				/* 1 (minute|day|...) ago (singular time ago) */
-				sprintf(buf, _("%d %s ago"), count, timespans[span].singular);
+				strcpy(buf, _(timespans[span].singular));
 			else
 				/* N (minutes|days|...) ago (plural time ago) */
-				sprintf(buf, _("%d %s ago"), count, timespans[span].plural);
+				sprintf(buf, _(timespans[span].plural), count);
 		}
 		break;
 	}
