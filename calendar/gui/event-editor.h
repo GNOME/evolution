@@ -39,12 +39,13 @@
 
 typedef struct _EventEditor EventEditor;
 typedef struct _EventEditorClass EventEditorClass;
+typedef struct _EventEditorPrivate EventEditorPrivate;
 
 struct _EventEditor {
 	GtkObject object;
 
 	/* Private data */
-	gpointer priv;
+	EventEditorPrivate *priv;
 };
 
 struct _EventEditorClass {
@@ -58,6 +59,8 @@ EventEditor *event_editor_construct (EventEditor *ee);
 EventEditor *event_editor_new (void);
 
 void event_editor_set_cal_client (EventEditor *ee, CalClient *client);
+CalClient *event_editor_get_cal_client (EventEditor *ee);
+
 void event_editor_set_event_object (EventEditor *ee, CalComponent *comp);
 
 void event_editor_focus (EventEditor *ee);

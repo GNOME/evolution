@@ -2252,9 +2252,10 @@ cal_component_has_exrules (CalComponent *comp)
  * cal_component_has_exceptions:
  * @comp: A calendar component object
  * 
- * Queries whether a calendar component object has any exceptions defined
+ * Queries whether a calendar component object has any exception dates
+ * or exception rules.
  * 
- * Return value: TRUE if the component has exceptions, FALSE otherwise
+ * Return value: TRUE if the component has exceptions, FALSE otherwise.
  **/
 gboolean 
 cal_component_has_exceptions (CalComponent *comp)
@@ -2542,7 +2543,6 @@ cal_component_set_rdate_list (CalComponent *comp, GSList *period_list)
 
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (IS_CAL_COMPONENT (comp));
-	g_return_if_fail (period_list != NULL);
 
 	priv = comp->priv;
 	g_return_if_fail (priv->icalcomp != NULL);
@@ -2670,12 +2670,13 @@ cal_component_has_rrules (CalComponent *comp)
 }
 
 /**
- * cal_component_has_recurrence:
+ * cal_component_has_recurrences:
  * @comp: A calendar component object
  * 
- * Queries whether a calendar component object has any recurrences defined
+ * Queries whether a calendar component object has any recurrence dates or
+ * recurrence rules.
  * 
- * Return value: TRUE if the component has recurrences, FALSE otherwise
+ * Return value: TRUE if the component has recurrences, FALSE otherwise.
  **/
 gboolean 
 cal_component_has_recurrences (CalComponent *comp)

@@ -30,11 +30,11 @@
 #include <cal-util/timeutil.h>
 #include "event-editor.h"
 #include "e-meeting-edit.h"
-
+#include "weekday-picker.h"
 
 
 
-typedef struct {
+struct _EventEditorPrivate {
 	/* Glade XML data */
 	GladeXML *xml;
 
@@ -77,6 +77,25 @@ typedef struct {
 
 	GtkWidget *classification_radio;
 
+	GtkWidget *recurrence_summary;
+	GtkWidget *recurrence_starting_date;
+
+	GtkWidget *recurrence_none;
+	GtkWidget *recurrence_simple;
+	GtkWidget *recurrence_custom;
+	GtkWidget *recurrence_custom_warning;
+
+	GtkWidget *recurrence_params;
+	GtkWidget *recurrence_interval_value;
+	GtkWidget *recurrence_interval_unit;
+	GtkWidget *recurrence_special;
+	GtkWidget *recurrence_ending_menu;
+	GtkWidget *recurrence_ending_special;
+
+	/* For weekly recurrences, created by hand */
+	GtkWidget *recurrence_weekday_picker;
+	guint8 recurrence_weekday_day_mask;
+
 	GtkWidget *recurrence_rule_notebook;
 	GtkWidget *recurrence_rule_none;
 	GtkWidget *recurrence_rule_daily;
@@ -109,15 +128,14 @@ typedef struct {
 	GtkWidget *recurrence_ending_date_end_after;
 	GtkWidget *recurrence_ending_date_end_after_count;
 
-	GtkWidget *recurrence_exceptions_date;
-	GtkWidget *recurrence_exceptions_list;
-	GtkWidget *recurrence_exception_add;
-	GtkWidget *recurrence_exception_delete;
-	GtkWidget *recurrence_exception_change;
+	/* Widgets from the Glade file */
 
-	GtkWidget *exception_list;
-	GtkWidget *exception_date;
-} EventEditorPrivate;
+	GtkWidget *recurrence_exception_date;
+	GtkWidget *recurrence_exception_list;
+	GtkWidget *recurrence_exception_add;
+	GtkWidget *recurrence_exception_modify;
+	GtkWidget *recurrence_exception_delete;
+};
 
 
 
@@ -140,15 +158,14 @@ static void alarm_toggle (GtkWidget *toggle, EventEditor *ee);
 static void check_dates (EDateEdit *dedit, EventEditor *ee);
 static void check_times (EDateEdit *dedit, EventEditor *ee);
 static void recurrence_toggled (GtkWidget *radio, EventEditor *ee);
-static void recurrence_exception_added (GtkWidget *widget, EventEditor *ee);
-static void recurrence_exception_deleted (GtkWidget *widget, EventEditor *ee);
-static void recurrence_exception_changed (GtkWidget *widget, EventEditor *ee);
+static void recurrence_exception_add_cb (GtkWidget *widget, EventEditor *ee);
+static void recurrence_exception_modify_cb (GtkWidget *widget, EventEditor *ee);
+static void recurrence_exception_delete_cb (GtkWidget *widget, EventEditor *ee);
 
 
 
 /**
  * event_editor_get_type:
- * @void:
  *
  * Registers the #EventEditor class if necessary, and returns the type ID
  * associated to it.
@@ -236,7 +253,7 @@ event_editor_destroy (GtkObject *object)
 		priv->uic = NULL;
 	}
 
-	free_exception_clist_data (GTK_CLIST (priv->recurrence_exceptions_list));
+	free_exception_clist_data (GTK_CLIST (priv->recurrence_exception_list));
 
 	if (priv->app) {
 		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->app), ee);
@@ -302,6 +319,189 @@ make_title_from_comp (CalComponent *comp)
 	}
 }
 
+/* Creates the special contents for weekly recurrences */
+static void
+make_recur_weekly_special (EventEditor *ee)
+{
+	EventEditorPrivate *priv;
+	GtkWidget *hbox;
+	GtkWidget *label;
+	WeekdayPicker *wp;
+
+	priv = ee->priv;
+
+	g_assert (GTK_BIN (priv->recurrence_special)->child == NULL);
+	g_assert (priv->recurrence_weekday_picker == NULL);
+
+	/* Create the widgets */
+
+	hbox = gtk_hbox_new (FALSE, 4);
+	gtk_container_add (GTK_CONTAINER (priv->recurrence_special), hbox);
+
+	label = gtk_label_new (_("on"));
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+
+	wp = WEEKDAY_PICKER (weekday_picker_new ());
+
+	priv->recurrence_weekday_picker = GTK_WIDGET (wp);
+	gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (wp), FALSE, FALSE, 0);
+
+	gtk_widget_show_all (hbox);
+
+	/* Set the weekdays */
+
+	weekday_picker_set_week_starts_on_monday (wp, week_starts_on_monday);
+	weekday_picker_set_days (wp, priv->recurrence_weekday_day_mask);
+}
+
+/* Creates the special contents for monthly recurrences */
+static void
+make_recur_monthly_special (EventEditor *ee)
+{
+	/* FIXME: create the "on the" <nth> [day, Weekday, last Weekday] */
+}
+
+static const int recur_freq_map[] = {
+	ICAL_DAILY_RECURRENCE,
+	ICAL_WEEKLY_RECURRENCE,
+	ICAL_MONTHLY_RECURRENCE,
+	ICAL_YEARLY_RECURRENCE,
+	-1
+};
+
+/* Changes the recurrence-special widget to match the interval units.
+ *
+ * For daily recurrences: nothing.
+ * For weekly recurrences: weekday selector.
+ * For monthly recurrences: "on the" <nth> [day, Weekday, last Weekday]
+ * For yearly recurrences: nothing.
+ */
+static void
+make_recurrence_special (EventEditor *ee)
+{
+	EventEditorPrivate *priv;
+	icalrecurrencetype_frequency frequency;
+
+	priv = ee->priv;
+
+	if (GTK_BIN (priv->recurrence_special)->child != NULL) {
+		gtk_widget_destroy (GTK_BIN (priv->recurrence_special)->child);
+
+		priv->recurrence_weekday_picker = NULL;
+	}
+
+	frequency = e_dialog_option_menu_get (priv->recurrence_interval_unit, recur_freq_map);
+
+	switch (frequency) {
+	case ICAL_DAILY_RECURRENCE:
+		gtk_widget_hide (priv->recurrence_special);
+		break;
+
+	case ICAL_WEEKLY_RECURRENCE:
+		make_recur_weekly_special (ee);
+		gtk_widget_show (priv->recurrence_special);
+		break;
+
+	case ICAL_MONTHLY_RECURRENCE:
+		make_recur_monthly_special (ee);
+		gtk_widget_show (priv->recurrence_special);
+		break;
+
+	case ICAL_YEARLY_RECURRENCE:
+		gtk_widget_hide (priv->recurrence_special);
+		break;
+
+	default:
+		g_assert_not_reached ();
+	}
+}
+
+enum ending_type {
+	ENDING_FOR,
+	ENDING_UNTIL,
+	ENDING_FOREVER
+};
+
+static const int ending_types_map[] = {
+	ENDING_FOR,
+	ENDING_UNTIL,
+	ENDING_FOREVER,
+	-1
+};
+
+/* Changes the recurrence-ending-special widget to match the ending date option.
+ *
+ * For: <n> [days, weeks, months, years, occurrences]
+ * Until: <date selector>
+ * Forever: nothing.
+ */
+static void
+make_recurrence_ending_special (EventEditor *ee)
+{
+	/* FIXME */
+}
+
+enum recur_type {
+	RECUR_NONE,
+	RECUR_SIMPLE,
+	RECUR_CUSTOM
+};
+
+static const int recur_type_map[] = {
+	RECUR_NONE,
+	RECUR_SIMPLE,
+	RECUR_CUSTOM,
+	-1
+};
+	
+/* Callback used when one of the recurrence type radio buttons is toggled.  We
+ * enable or the recurrence parameters.
+ */
+static void
+recurrence_type_toggled_cb (GtkWidget *widget, gpointer data)
+{
+	EventEditor *ee;
+	EventEditorPrivate *priv;
+	enum recur_type type;
+
+	ee = EVENT_EDITOR (data);
+	priv = ee->priv;
+
+	type = e_dialog_radio_get (widget, recur_type_map);
+
+	switch (type) {
+	case RECUR_NONE:
+		gtk_widget_set_sensitive (priv->recurrence_params, FALSE);
+		gtk_widget_hide (priv->recurrence_custom_warning);
+		break;
+
+	case RECUR_SIMPLE:
+		gtk_widget_set_sensitive (priv->recurrence_params, TRUE);
+		gtk_widget_hide (priv->recurrence_custom_warning);
+		break;
+
+	case RECUR_CUSTOM:
+		gtk_widget_set_sensitive (priv->recurrence_params, FALSE);
+		gtk_widget_show (priv->recurrence_custom_warning);
+		break;
+
+	default:
+		g_assert_not_reached ();
+	}
+}
+
+/* Callback used when the recurrence interval option menu changes.  We need to
+ * change the contents of the recurrence special widget.
+ */
+static void
+recur_interval_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
+{
+	EventEditor *ee;
+
+	ee = EVENT_EDITOR (data);
+	make_recurrence_special (ee);
+}
+
 /* Gets the widgets from the XML file and returns if they are all available.
  * For the widgets whose values can be simply set with e-dialog-utils, it does
  * that as well.
@@ -343,6 +543,21 @@ get_widgets (EventEditor *ee)
 
 	priv->classification_radio = GW ("classification-radio");
 
+	priv->recurrence_summary = GW ("recurrence-summary");
+	priv->recurrence_starting_date = GW ("recurrence-starting-date");
+
+	priv->recurrence_none = GW ("recurrence-none");
+	priv->recurrence_simple = GW ("recurrence-simple");
+	priv->recurrence_custom = GW ("recurrence-custom");
+	priv->recurrence_custom_warning = GW ("recurrence-custom-warning");
+	priv->recurrence_params = GW ("recurrence-params");
+
+	priv->recurrence_interval_value = GW ("recurrence-interval-value");
+	priv->recurrence_interval_unit = GW ("recurrence-interval-unit");
+	priv->recurrence_special = GW ("recurrence-special");
+	priv->recurrence_ending_menu = GW ("recurrence-ending-menu");
+	priv->recurrence_ending_special = GW ("recurrence-ending-special");
+
 	priv->recurrence_rule_notebook = GW ("recurrence-rule-notebook");
 	priv->recurrence_rule_none = GW ("recurrence-rule-none");
 	priv->recurrence_rule_daily = GW ("recurrence-rule-daily");
@@ -375,14 +590,11 @@ get_widgets (EventEditor *ee)
 	priv->recurrence_ending_date_end_after = GW ("recurrence-ending-date-end-after");
 	priv->recurrence_ending_date_end_after_count = GW ("recurrence-ending-date-end-after-count");
 
-	priv->recurrence_exceptions_date = GW ("recurrence-exceptions-date");
-	priv->recurrence_exceptions_list = GW ("recurrence-exceptions-list");
-	priv->recurrence_exception_add = GW ("recurrence-exceptions-add");
-	priv->recurrence_exception_delete = GW ("recurrence-exceptions-delete");
-	priv->recurrence_exception_change = GW ("recurrence-exceptions-change");
-
-	priv->exception_list = GW ("recurrence-exceptions-list");
-	priv->exception_date = GW ("recurrence-exceptions-date");
+	priv->recurrence_exception_date = GW ("recurrence-exception-date");
+	priv->recurrence_exception_list = GW ("recurrence-exception-list");
+	priv->recurrence_exception_add = GW ("recurrence-exception-add");
+	priv->recurrence_exception_modify = GW ("recurrence-exception-modify");
+	priv->recurrence_exception_delete = GW ("recurrence-exception-delete");
 
 #undef GW
 
@@ -407,6 +619,19 @@ get_widgets (EventEditor *ee)
 		&& priv->alarm_mail_unit
 		&& priv->alarm_mail_mail_to
 		&& priv->classification_radio
+		&& priv->recurrence_summary
+		&& priv->recurrence_starting_date
+		&& priv->recurrence_none
+		&& priv->recurrence_simple
+		&& priv->recurrence_custom
+		&& priv->recurrence_custom_warning
+		&& priv->recurrence_params
+		&& priv->recurrence_interval_value
+		&& priv->recurrence_interval_unit
+		&& priv->recurrence_special
+		&& priv->recurrence_ending_menu
+		&& priv->recurrence_ending_special
+
 		&& priv->recurrence_rule_notebook
 		&& priv->recurrence_rule_none
 		&& priv->recurrence_rule_daily
@@ -427,16 +652,88 @@ get_widgets (EventEditor *ee)
 		&& priv->recurrence_ending_date_end_on_date
 		&& priv->recurrence_ending_date_end_after
 		&& priv->recurrence_ending_date_end_after_count
-		&& priv->recurrence_exceptions_date
-		&& priv->recurrence_exceptions_list
+
+		&& priv->recurrence_exception_date
+		&& priv->recurrence_exception_list
 		&& priv->recurrence_exception_add
-		&& priv->recurrence_exception_delete
-		&& priv->recurrence_exception_change
-		&& priv->exception_list
-		&& priv->exception_date);
+		&& priv->recurrence_exception_modify
+		&& priv->recurrence_exception_delete);
 }
 
+/* Hooks the widget signals */
+static void
+init_widgets (EventEditor *ee)
+{
+	EventEditorPrivate *priv;
+	GtkWidget *menu;
 
+	priv = ee->priv;
+
+	/* Start and end times */
+
+	gtk_signal_connect (GTK_OBJECT (priv->start_time), "date_changed",
+			    GTK_SIGNAL_FUNC (check_dates), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->start_time), "time_changed",
+			    GTK_SIGNAL_FUNC (check_times), ee);
+
+	gtk_signal_connect (GTK_OBJECT (priv->end_time), "date_changed",
+			    GTK_SIGNAL_FUNC (check_dates), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->end_time), "time_changed",
+			    GTK_SIGNAL_FUNC (check_times), ee);
+
+	gtk_signal_connect (GTK_OBJECT (priv->all_day_event), "toggled",
+			    GTK_SIGNAL_FUNC (set_all_day), ee);
+
+	/* Alarms */
+
+	gtk_signal_connect (GTK_OBJECT (priv->alarm_display), "toggled",
+			    GTK_SIGNAL_FUNC (alarm_toggle), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->alarm_program), "toggled",
+			    GTK_SIGNAL_FUNC (alarm_toggle), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->alarm_audio), "toggled",
+			    GTK_SIGNAL_FUNC (alarm_toggle), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->alarm_mail), "toggled",
+			    GTK_SIGNAL_FUNC (alarm_toggle), ee);
+
+	/* Recurrence types */
+
+	gtk_signal_connect (GTK_OBJECT (priv->recurrence_none), "toggled",
+			    GTK_SIGNAL_FUNC (recurrence_type_toggled_cb), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->recurrence_simple), "toggled",
+			    GTK_SIGNAL_FUNC (recurrence_type_toggled_cb), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->recurrence_custom), "toggled",
+			    GTK_SIGNAL_FUNC (recurrence_type_toggled_cb), ee);
+
+	/* Recurrence units */
+
+	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->recurrence_interval_unit));
+	g_assert (menu != NULL);
+
+	gtk_signal_connect (GTK_OBJECT (menu), "selection_done",
+			    GTK_SIGNAL_FUNC (recur_interval_selection_done_cb), ee);
+
+	/* Recurrence types */
+
+	gtk_signal_connect (GTK_OBJECT (priv->recurrence_rule_none), "toggled",
+			    GTK_SIGNAL_FUNC (recurrence_toggled), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->recurrence_rule_daily), "toggled",
+			    GTK_SIGNAL_FUNC (recurrence_toggled), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->recurrence_rule_weekly), "toggled",
+			    GTK_SIGNAL_FUNC (recurrence_toggled), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->recurrence_rule_monthly), "toggled",
+			    GTK_SIGNAL_FUNC (recurrence_toggled), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->recurrence_rule_yearly), "toggled",
+			    GTK_SIGNAL_FUNC (recurrence_toggled), ee);
+
+	/* Exception buttons */
+
+	gtk_signal_connect (GTK_OBJECT (priv->recurrence_exception_add), "clicked",
+			    GTK_SIGNAL_FUNC (recurrence_exception_add_cb), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->recurrence_exception_modify), "clicked",
+			    GTK_SIGNAL_FUNC (recurrence_exception_modify_cb), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->recurrence_exception_delete), "clicked",
+			    GTK_SIGNAL_FUNC (recurrence_exception_delete_cb), ee);
+}
 
 static const int classification_map[] = {
 	CAL_COMPONENT_CLASS_PUBLIC,
@@ -485,63 +782,6 @@ recur_options_get (GtkWidget *widget)
 static const int month_pos_map[] = { 0, 1, 2, 3, 4, -1 };
 static const int weekday_map[] = { 0, 1, 2, 3, 4, 5, 6, -1 };
 
-/* Hooks the widget signals */
-static void
-init_widgets (EventEditor *ee)
-{
-	EventEditorPrivate *priv;
-
-	priv = ee->priv;
-
-	/* Start and end times */
-
-	gtk_signal_connect (GTK_OBJECT (priv->start_time), "date_changed",
-			    GTK_SIGNAL_FUNC (check_dates), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->start_time), "time_changed",
-			    GTK_SIGNAL_FUNC (check_times), ee);
-
-	gtk_signal_connect (GTK_OBJECT (priv->end_time), "date_changed",
-			    GTK_SIGNAL_FUNC (check_dates), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->end_time), "time_changed",
-			    GTK_SIGNAL_FUNC (check_times), ee);
-
-	gtk_signal_connect (GTK_OBJECT (priv->all_day_event), "toggled",
-			    GTK_SIGNAL_FUNC (set_all_day), ee);
-
-	/* Alarms */
-
-	gtk_signal_connect (GTK_OBJECT (priv->alarm_display), "toggled",
-			    GTK_SIGNAL_FUNC (alarm_toggle), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->alarm_program), "toggled",
-			    GTK_SIGNAL_FUNC (alarm_toggle), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->alarm_audio), "toggled",
-			    GTK_SIGNAL_FUNC (alarm_toggle), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->alarm_mail), "toggled",
-			    GTK_SIGNAL_FUNC (alarm_toggle), ee);
-
-	/* Recurrence types */
-
-	gtk_signal_connect (GTK_OBJECT (priv->recurrence_rule_none), "toggled",
-			    GTK_SIGNAL_FUNC (recurrence_toggled), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->recurrence_rule_daily), "toggled",
-			    GTK_SIGNAL_FUNC (recurrence_toggled), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->recurrence_rule_weekly), "toggled",
-			    GTK_SIGNAL_FUNC (recurrence_toggled), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->recurrence_rule_monthly), "toggled",
-			    GTK_SIGNAL_FUNC (recurrence_toggled), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->recurrence_rule_yearly), "toggled",
-			    GTK_SIGNAL_FUNC (recurrence_toggled), ee);
-
-	/* Exception buttons */
-
-	gtk_signal_connect (GTK_OBJECT (priv->recurrence_exception_add), "clicked",
-			    GTK_SIGNAL_FUNC (recurrence_exception_added), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->recurrence_exception_delete), "clicked",
-			    GTK_SIGNAL_FUNC (recurrence_exception_deleted), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->recurrence_exception_change), "clicked",
-			    GTK_SIGNAL_FUNC (recurrence_exception_changed), ee);
-}
-
 /* Fills the widgets with default values */
 static void
 clear_widgets (EventEditor *ee)
@@ -573,7 +813,7 @@ clear_widgets (EventEditor *ee)
 
 	/* Alarms */
 
-	/* FIXMe: these should use configurable defaults */
+	/* FIXME: these should use configurable defaults */
 
 	e_dialog_toggle_set (priv->alarm_display, FALSE);
 	e_dialog_toggle_set (priv->alarm_program, FALSE);
@@ -597,10 +837,23 @@ clear_widgets (EventEditor *ee)
 
 	/* Classification */
 
-	e_dialog_radio_set (priv->classification_radio, 
+	e_dialog_radio_set (priv->classification_radio,
 			    CAL_COMPONENT_CLASS_PRIVATE, classification_map);
 
 	/* Recurrences */
+
+	priv->recurrence_weekday_day_mask = 0;
+
+	e_dialog_radio_set (priv->recurrence_none, RECUR_NONE, recur_type_map);
+
+	e_dialog_spin_set (priv->recurrence_interval_value, 1);
+	e_dialog_option_menu_set (priv->recurrence_interval_unit, ICAL_DAILY_RECURRENCE,
+				  recur_freq_map);
+
+	e_dialog_option_menu_set (priv->recurrence_ending_menu, ENDING_FOREVER,
+				  ending_types_map);
+
+	/* Old recurrences */
 
 	e_dialog_radio_set (priv->recurrence_rule_none, ICAL_NO_RECURRENCE, recur_options_map);
 
@@ -630,10 +883,197 @@ clear_widgets (EventEditor *ee)
 
 	/* Exceptions list */
 
-	free_exception_clist_data (GTK_CLIST (priv->recurrence_exceptions_list));
+	free_exception_clist_data (GTK_CLIST (priv->recurrence_exception_list));
 }
 
-/* Fills in the widgets with the proper values */
+/* Counts the number of elements in the by_xxx fields of an icalrecurrencetype */
+static int
+count_by_xxx (short *field, int max_elements)
+{
+	int i;
+
+	for (i = 0; i < max_elements; i++)
+		if (field[i] == SHRT_MAX)
+			break;
+
+	return i;
+}
+
+/* Fills in the recurrence widgets with the values from the calendar component.
+ * This function is particularly tricky because it has to discriminate between
+ * recurrences we support for editing and the ones we don't.  We only support at
+ * most one recurrence rule; no rdates or exrules (exdates are handled just fine
+ * elsewhere).
+ */
+static void
+fill_recurrence_widgets (EventEditor *ee)
+{
+	EventEditorPrivate *priv;
+	GSList *rrule_list;
+	int len;
+	struct icalrecurrencetype *r;
+	int n_by_second, n_by_minute, n_by_hour;
+	int n_by_day, n_by_month_day, n_by_year_day;
+	int n_by_week_no, n_by_month, n_by_set_pos;
+
+	priv = ee->priv;
+	g_assert (priv->comp != NULL);
+
+	/* No recurrences? */
+
+	if (!cal_component_has_rdates (priv->comp)
+	    && !cal_component_has_rrules (priv->comp)
+	    && !cal_component_has_exrules (priv->comp)) {
+		e_dialog_radio_set (priv->recurrence_none, RECUR_NONE, recur_type_map);
+		return;
+	}
+
+	/* See if it is a custom set we don't support */
+
+	cal_component_get_rrule_list (priv->comp, &rrule_list);
+	len = g_slist_length (rrule_list);
+
+	if (len > 1
+	    || cal_component_has_rdates (priv->comp)
+	    || cal_component_has_exrules (priv->comp))
+		goto custom;
+
+	/* Down to one rule, so test that one */
+
+	g_assert (len == 1);
+	r = rrule_list->data;
+
+	/* Any funky frequency? */
+
+	if (r->freq == ICAL_SECONDLY_RECURRENCE
+	    || r->freq == ICAL_MINUTELY_RECURRENCE
+	    || r->freq == ICAL_HOURLY_RECURRENCE)
+		goto custom;
+
+	/* Any funky shit? */
+
+#define N_HAS_BY(field) (count_by_xxx (field, sizeof (field) / sizeof (field[0])))
+
+	n_by_second = N_HAS_BY (r->by_second);
+	n_by_minute = N_HAS_BY (r->by_minute);
+	n_by_hour = N_HAS_BY (r->by_hour);
+	n_by_day = N_HAS_BY (r->by_day);
+	n_by_month_day = N_HAS_BY (r->by_month_day);
+	n_by_year_day = N_HAS_BY (r->by_year_day);
+	n_by_week_no = N_HAS_BY (r->by_week_no);
+	n_by_month = N_HAS_BY (r->by_month);
+	n_by_set_pos = N_HAS_BY (r->by_set_pos);
+
+	if (n_by_second != 0
+	    || n_by_minute != 0
+	    || n_by_hour != 0)
+		goto custom;
+
+	/* Filter the funky shit based on the frequency; if there is nothing
+	 * weird we can actually set the widgets.
+	 */
+
+	switch (r->freq) {
+	case ICAL_DAILY_RECURRENCE:
+		if (n_by_day != 0
+		    || n_by_month_day != 0
+		    || n_by_year_day != 0
+		    || n_by_week_no != 0
+		    || n_by_month != 0
+		    || n_by_set_pos != 0)
+			goto custom;
+
+		e_dialog_option_menu_set (priv->recurrence_interval_unit, ICAL_DAILY_RECURRENCE,
+					  recur_freq_map);
+		break;
+
+	case ICAL_WEEKLY_RECURRENCE: {
+		int i;
+		guint8 day_mask;
+
+		if (n_by_month_day != 0
+		    || n_by_year_day != 0
+		    || n_by_week_no != 0
+		    || n_by_month != 0
+		    || n_by_set_pos != 0)
+			goto custom;
+
+		day_mask = 0;
+
+		for (i = 0; i < 8 && r->by_day[i] != SHRT_MAX; i++) {
+			enum icalrecurrencetype_weekday weekday;
+			int pos;
+
+			weekday = icalrecurrencetype_day_day_of_week (r->by_day[i]);
+			pos = icalrecurrencetype_day_position (r->by_day[i]);
+
+			if (pos != 0)
+				goto custom;
+
+			switch (weekday) {
+			case ICAL_SUNDAY_WEEKDAY:
+				day_mask |= 1 << 0;
+				break;
+
+			case ICAL_MONDAY_WEEKDAY:
+				day_mask |= 1 << 1;
+				break;
+
+			case ICAL_TUESDAY_WEEKDAY:
+				day_mask |= 1 << 2;
+				break;
+
+			case ICAL_WEDNESDAY_WEEKDAY:
+				day_mask |= 1 << 3;
+				break;
+
+			case ICAL_THURSDAY_WEEKDAY:
+				day_mask |= 1 << 4;
+				break;
+
+			case ICAL_FRIDAY_WEEKDAY:
+				day_mask |= 1 << 5;
+				break;
+
+			case ICAL_SATURDAY_WEEKDAY:
+				day_mask |= 1 << 6;
+				break;
+
+			default:
+				break;
+			}
+		}
+
+		priv->recurrence_weekday_day_mask = day_mask;
+
+		e_dialog_option_menu_set (priv->recurrence_interval_unit, ICAL_WEEKLY_RECURRENCE,
+					  recur_freq_map);
+		break;
+	}
+
+	case ICAL_MONTHLY_RECURRENCE:
+
+	default:
+		goto custom;
+	}
+
+	/* If we got here it means it is a simple recurrence */
+
+	e_dialog_radio_set (priv->recurrence_simple, RECUR_SIMPLE, recur_type_map);
+	e_dialog_spin_set (priv->recurrence_interval_value, r->interval);
+
+	goto out;
+
+ custom:
+
+	e_dialog_radio_set (priv->recurrence_custom, RECUR_CUSTOM, recur_type_map);
+
+ out:
+
+	cal_component_free_recur_list (rrule_list);
+}
+
+/* Fills in the widgets with the value from the calendar component */
 static void
 fill_widgets (EventEditor *ee)
 {
@@ -728,6 +1168,11 @@ fill_widgets (EventEditor *ee)
 	}
 	
 	/* Recurrences */
+
+	fill_recurrence_widgets (ee);
+
+#if 0
+	
 #ifndef NO_WARNINGS
 #warning "FIX ME"
 #endif
@@ -843,12 +1288,12 @@ fill_widgets (EventEditor *ee)
 		cal_component_free_recur_list (list);
 	}
 
-	/* Exceptions list */
-#ifndef NO_WARNINGS
-#warning "FIX ME"
 #endif
-	/* Need to handle exception rules as well as dates */
+
+	/* Exceptions list */
+
 	cal_component_get_exdate_list (priv->comp, &list);
+
 	for (l = list; l; l = l->next) {
 		struct icaltimetype *t;
 		time_t ext;
@@ -857,16 +1302,25 @@ fill_widgets (EventEditor *ee)
 		ext = icaltime_as_timet (*t);
 		append_exception (ee, ext);
 	}
+
 	cal_component_free_exdate_list (list);
 }
 
 
-/* Tell the event editor to reread its widget values from the associated
-   CalComponent object. If one changes the CalComponent through a means other
-   than the GUI, one should call this function. */
+/**
+ * event_editor_update_widgets:
+ * @ee: An event editor.
+ * 
+ * Causes an event editor dialog to re-read the values of its calendar component
+ * object.  This function should be used if the #CalComponent is changed by
+ * external means while it is open in the editor.
+ **/
 void
 event_editor_update_widgets (EventEditor *ee)
 {
+	g_return_if_fail (ee != NULL);
+	g_return_if_fail (IS_EVENT_EDITOR (ee));
+
 	fill_widgets (ee);
 }
 
@@ -879,7 +1333,141 @@ classification_get (GtkWidget *widget)
 	return e_dialog_radio_get (widget, classification_map);
 }
 
-/* Get the values of the widgets in the event editor and put them in the iCalObject */
+/* Gets the simple recurrence data from the recurrence widgets and stores it in
+ * the calendar component object.
+ */
+static void
+simple_recur_to_comp_object (EventEditor *ee)
+{
+	EventEditorPrivate *priv;
+	struct icalrecurrencetype r;
+	guint8 day_mask;
+	int i;
+	GSList l;
+	enum ending_type ending_type;
+
+	priv = ee->priv;
+
+	icalrecurrencetype_clear (&r);
+
+	/* Frequency and interval */
+
+	r.freq = e_dialog_option_menu_get (priv->recurrence_interval_unit, recur_freq_map);
+	r.interval = e_dialog_spin_get_int (priv->recurrence_interval_value);
+
+	/* Frequency-specific data */
+
+	switch (r.freq) {
+	case ICAL_DAILY_RECURRENCE:
+		break;
+
+	case ICAL_WEEKLY_RECURRENCE:
+		g_assert (GTK_BIN (priv->recurrence_special)->child != NULL);
+		g_assert (GTK_BIN (priv->recurrence_special)->child
+			  == priv->recurrence_weekday_picker);
+		g_assert (IS_WEEKDAY_PICKER (priv->recurrence_weekday_picker));
+
+		day_mask = weekday_picker_get_days (WEEKDAY_PICKER (priv->recurrence_weekday_picker));
+
+		i = 0;
+
+		if (day_mask & (1 << 0))
+			r.by_day[i++] = ICAL_SUNDAY_WEEKDAY;
+
+		if (day_mask & (1 << 1))
+			r.by_day[i++] = ICAL_MONDAY_WEEKDAY;
+
+		if (day_mask & (1 << 2))
+			r.by_day[i++] = ICAL_TUESDAY_WEEKDAY;
+
+		if (day_mask & (1 << 3))
+			r.by_day[i++] = ICAL_WEDNESDAY_WEEKDAY;
+
+		if (day_mask & (1 << 4))
+			r.by_day[i++] = ICAL_THURSDAY_WEEKDAY;
+
+		if (day_mask & (1 << 5))
+			r.by_day[i++] = ICAL_FRIDAY_WEEKDAY;
+
+		if (day_mask & (1 << 6))
+			r.by_day[i++] = ICAL_SATURDAY_WEEKDAY;
+
+		break;
+
+	case ICAL_MONTHLY_RECURRENCE:
+		/* FIXME */
+		break;
+
+	case ICAL_YEARLY_RECURRENCE:
+		break;
+
+	default:
+		g_assert_not_reached ();
+	}
+
+	/* Ending date */
+
+	ending_type = e_dialog_option_menu_get (priv->recurrence_ending_menu, ending_types_map);
+
+	switch (ending_type) {
+	case ENDING_FOR:
+		/* FIXME */
+		break;
+
+	case ENDING_UNTIL:
+		/* FIXME */
+		break;
+
+	case ENDING_FOREVER:
+		break;
+
+	default:
+		g_assert_not_reached ();
+	}
+
+	/* Set the recurrence */
+
+	l.data = &r;
+	l.next = NULL;
+
+	cal_component_set_rrule_list (priv->comp, &l);
+}
+
+/* Gets the data from the recurrence widgets and stores it in the calendar
+ * component object.
+ */
+static void
+recur_to_comp_object (EventEditor *ee)
+{
+	EventEditorPrivate *priv;
+	enum recur_type recur_type;
+
+	priv = ee->priv;
+	g_assert (priv->comp != NULL);
+
+	recur_type = e_dialog_radio_get (priv->recurrence_none, recur_type_map);
+
+	switch (recur_type) {
+	case RECUR_NONE:
+		cal_component_set_rdate_list (priv->comp, NULL);
+		cal_component_set_rrule_list (priv->comp, NULL);
+		cal_component_set_exrule_list (priv->comp, NULL);
+		break;
+
+	case RECUR_SIMPLE:
+		simple_recur_to_comp_object (ee);
+		break;
+
+	case RECUR_CUSTOM:
+		/* We just keep whatever the component has currently */
+		break;
+
+	default:
+		g_assert_not_reached ();
+	}
+}
+
+/* Gets the data from the widgets and stores it in the calendar component object */
 static void
 dialog_to_comp_object (EventEditor *ee)
 {
@@ -887,14 +1475,15 @@ dialog_to_comp_object (EventEditor *ee)
 	CalComponent *comp;
 	CalComponentText *text;
 	CalComponentDateTime date;
-	struct icalrecurrencetype recur;
 	time_t t;
 	gboolean all_day_event;
 	GtkCList *exception_list;
 	GSList *list;
-	int i, pos = 0;
+	int i;
 	
 	priv = ee->priv;
+	g_assert (priv->comp != NULL);
+
 	comp = priv->comp;
 
 	text = g_new0 (CalComponentText, 1);
@@ -953,6 +1542,10 @@ dialog_to_comp_object (EventEditor *ee)
 	cal_component_set_classification (comp, classification_get (priv->classification_radio));
 
 	/* Recurrence information */
+
+	recur_to_comp_object (ee);
+
+#if 0
   	icalrecurrencetype_clear (&recur);
 	recur.freq = recur_options_get (priv->recurrence_rule_none);
 
@@ -967,7 +1560,9 @@ dialog_to_comp_object (EventEditor *ee)
 
 	case ICAL_WEEKLY_RECURRENCE:		
 		recur.interval = e_dialog_spin_get_int (priv->recurrence_rule_weekly_weeks);
-		
+
+		pos = 0;
+
 		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_sun))
 			recur.by_day[pos++] = ICAL_SUNDAY_WEEKDAY;		
 		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_mon))
@@ -1044,10 +1639,10 @@ dialog_to_comp_object (EventEditor *ee)
 		list = NULL;
 		cal_component_set_rrule_list (comp, list);		
 	}
-	
+#endif	
 	/* Set exceptions */
 	list = NULL;
-	exception_list = GTK_CLIST (priv->recurrence_exceptions_list);
+	exception_list = GTK_CLIST (priv->recurrence_exception_list);
 	for (i = 0; i < exception_list->rows; i++) {
 		struct icaltimetype *tt;
 		time_t *t;
@@ -1065,6 +1660,9 @@ dialog_to_comp_object (EventEditor *ee)
 	cal_component_commit_sequence (comp);
 }
 
+/* Fills the calendar component object from the data in the widgets and commits
+ * the component to the storage.
+ */
 static void
 save_event_object (EventEditor *ee)
 {
@@ -1194,7 +1792,6 @@ schedule_meeting_cb (GtkWidget *widget, gpointer data)
  * this and the task-editor.
  */
 static BonoboUIVerb verbs [] = {
-
 	BONOBO_UI_UNSAFE_VERB ("FileSave", file_save_cb),
 	BONOBO_UI_UNSAFE_VERB ("FileDelete", file_delete_cb),
 	BONOBO_UI_UNSAFE_VERB ("FileClose", file_close_cb),
@@ -1292,8 +1889,7 @@ event_editor_construct (EventEditor *ee)
 			priv->uic, bonobo_object_corba_objref (BONOBO_OBJECT (container)));
 	}
 
-	bonobo_ui_component_add_verb_list_with_data (
-		priv->uic, verbs, ee);
+	bonobo_ui_component_add_verb_list_with_data (priv->uic, verbs, ee);
 
 	bonobo_ui_util_set_ui (priv->uic, EVOLUTION_DATADIR,
 			       "evolution-event-editor.xml",
@@ -1421,6 +2017,14 @@ obj_removed_cb (CalClient *client, const char *uid, gpointer data)
 	raise_and_focus (priv->app);
 }
 
+/**
+ * event_editor_set_cal_client:
+ * @ee: An event editor.
+ * @client: Calendar client.
+ * 
+ * Sets the calendar client than an event editor will use for updating its
+ * calendar components.
+ **/
 void 
 event_editor_set_cal_client (EventEditor *ee, CalClient *client)
 {
@@ -1456,6 +2060,27 @@ event_editor_set_cal_client (EventEditor *ee, CalClient *client)
 		gtk_signal_connect (GTK_OBJECT (priv->client), "obj_removed",
 				    GTK_SIGNAL_FUNC (obj_removed_cb), ee);
 	}
+}
+
+/**
+ * event_editor_get_cal_client:
+ * @ee: An event editor.
+ * 
+ * Queries the calendar client that an event editor is using to update its
+ * calendar components.
+ * 
+ * Return value: A calendar client object.
+ **/
+CalClient *
+event_editor_get_cal_client (EventEditor *ee)
+{
+	EventEditorPrivate *priv;
+
+	g_return_val_if_fail (ee != NULL, NULL);
+	g_return_val_if_fail (IS_EVENT_EDITOR (ee), NULL);
+
+	priv = ee->priv;
+	return priv->client;
 }
 
 /**
@@ -1736,11 +2361,11 @@ recurrence_toggled (GtkWidget *radio, EventEditor *ee)
 	rf = e_dialog_radio_get (radio, recur_options_map);
 
 	/* This is a hack to get things working */
-	gtk_notebook_set_page (GTK_NOTEBOOK (priv->recurrence_rule_notebook), 
+	gtk_notebook_set_page (GTK_NOTEBOOK (priv->recurrence_rule_notebook),
 			       (int) (rf - ICAL_HOURLY_RECURRENCE));
 }
 
-
+/* Builds a static string out of an exception date */
 static char *
 get_exception_string (time_t t)
 {
@@ -1750,7 +2375,7 @@ get_exception_string (time_t t)
 	return buf;
 }
 
-
+/* Appends an exception date to the list */
 static void
 append_exception (EventEditor *ee, time_t t)
 {
@@ -1765,7 +2390,7 @@ append_exception (EventEditor *ee, time_t t)
 	tt = g_new (time_t, 1);
 	*tt = t;
 
-	clist = GTK_CLIST (priv->recurrence_exceptions_list);
+	clist = GTK_CLIST (priv->recurrence_exception_list);
 
 	c[0] = get_exception_string (t);
 	i = e_utf8_gtk_clist_append (clist, c);
@@ -1773,25 +2398,50 @@ append_exception (EventEditor *ee, time_t t)
 	gtk_clist_set_row_data (clist, i, tt);
 	gtk_clist_select_row (clist, i, 0);
 
-/*  	gtk_widget_set_sensitive (ee->recur_ex_vbox, TRUE); */
+	gtk_widget_set_sensitive (priv->recurrence_exception_modify, TRUE);
+	gtk_widget_set_sensitive (priv->recurrence_exception_delete, TRUE);
 }
 
 
+/* Callback for the "add exception" button */
 static void
-recurrence_exception_added (GtkWidget *widget, EventEditor *ee)
+recurrence_exception_add_cb (GtkWidget *widget, EventEditor *ee)
 {
 	EventEditorPrivate *priv;
 	time_t t;
 
 	priv = ee->priv;
 
-	t = e_date_edit_get_time (E_DATE_EDIT (priv->recurrence_exceptions_date));
+	t = e_date_edit_get_time (E_DATE_EDIT (priv->recurrence_exception_date));
 	append_exception (ee, t);
 }
 
-
+/* Callback for the "modify exception" button */
 static void
-recurrence_exception_deleted (GtkWidget *widget, EventEditor *ee)
+recurrence_exception_modify_cb (GtkWidget *widget, EventEditor *ee)
+{
+	EventEditorPrivate *priv;
+	GtkCList *clist;
+	time_t *t;
+	int sel;
+
+	priv = ee->priv;
+
+	clist = GTK_CLIST (priv->recurrence_exception_list);
+	if (!clist->selection)
+		return;
+
+	sel = GPOINTER_TO_INT (clist->selection->data);
+
+	t = gtk_clist_get_row_data (clist, sel);
+	*t = e_date_edit_get_time (E_DATE_EDIT (priv->recurrence_exception_date));
+
+	e_utf8_gtk_clist_set_text (clist, sel, 0, get_exception_string (*t));
+}
+
+/* Callback for the "delete exception" button */
+static void
+recurrence_exception_delete_cb (GtkWidget *widget, EventEditor *ee)
 {
 	EventEditorPrivate *priv;
 	GtkCList *clist;
@@ -1799,7 +2449,7 @@ recurrence_exception_deleted (GtkWidget *widget, EventEditor *ee)
 
 	priv = ee->priv;
 
-	clist = GTK_CLIST (priv->recurrence_exceptions_list);
+	clist = GTK_CLIST (priv->recurrence_exception_list);
 	if (!clist->selection)
 		return;
 
@@ -1811,30 +2461,12 @@ recurrence_exception_deleted (GtkWidget *widget, EventEditor *ee)
 	if (sel >= clist->rows)
 		sel--;
 
-	gtk_clist_select_row (clist, sel, 0);
-}
-
-
-static void
-recurrence_exception_changed (GtkWidget *widget, EventEditor *ee)
-{
-	EventEditorPrivate *priv;
-	GtkCList *clist;
-	time_t *t;
-	int sel;
-
-	priv = ee->priv;
-
-	clist = GTK_CLIST (priv->recurrence_exceptions_list);
-	if (!clist->selection)
-		return;
-
-	sel = GPOINTER_TO_INT (clist->selection->data);
-
-	t = gtk_clist_get_row_data (clist, sel);
-	*t = e_date_edit_get_time (E_DATE_EDIT (priv->recurrence_exceptions_date));
-
-	e_utf8_gtk_clist_set_text (clist, sel, 0, get_exception_string (*t));
+	if (clist->rows > 0)
+		gtk_clist_select_row (clist, sel, 0);
+	else {
+		gtk_widget_set_sensitive (priv->recurrence_exception_modify, FALSE);
+		gtk_widget_set_sensitive (priv->recurrence_exception_delete, FALSE);
+	}
 }
 
 
@@ -1881,9 +2513,6 @@ make_spin_button (int val, int low, int high)
 
 
 /* todo
-
-   build some of the recur stuff by hand to take into account
-   the start-on-monday preference?
 
    get the apply button to work right
 

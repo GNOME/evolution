@@ -1,3 +1,22 @@
+2000-10-26  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/event-editor.c (EventEditorPrivate): Integrate Anna's new
+	recurrence page.  Replace the old widget pointers with the new
+	ones.  Modified the relevant functions accordingly and added
+	plenty of new ones.
+	(event_editor_get_cal_client): New function.
+	(fill_recurrence_widgets): This is *THE* tricky function for you.
+	It has to discriminate whether we get a recurrence we support for
+	editing or not.  And this is not trivial.  Sigh.
+	(event_editor_update_widgets): Added preconditions and API docs.
+
+	* event-editor-dialog.glade: Fixed all the spacings/
+	paddings/packing options so that the widgets will look right if
+	the dialog box is resized.  Also fixes some misaligned widgets.
+
+	* cal-util/cal-component.c (cal_component_set_rdate_list): Removed
+	incorrect assertion.
+
 2000-10-26  Michael Meeks  <michael@helixcode.com>
 
 	* pcs/cal-factory.c (str_tolower): unsigned chars to isalpha

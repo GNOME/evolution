@@ -13,9 +13,6 @@ $(IDL_GENERATED): $(IDLS)
 	$(ORBIT_IDL) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`   \
                 -I . $(srcdir)/../../composer/Evolution-Composer.idl
 
-##
-
-
 SUBDIRS = dialogs
 
 help_base = $(datadir)/gnome/help/cal
@@ -114,7 +111,9 @@ evolution_calendar_SOURCES =			\
 	popup-menu.h				\
 	print.c					\
 	print.h					\
-	prop.c
+	prop.c					\
+	weekday-picker.c			\
+	weekday-picker.h
 
 evolution_calendar_LDADD =					\
 	$(top_builddir)/shell/libeshell.a			\
@@ -146,7 +145,6 @@ EXTRA_DIST =	 			\
 	yearview.xpm			\
 	calendar-control.oafinfo	\
 	evolution-calendar.oafinfo
-
 
 install-data-local:
 	$(mkinstalldirs) $(DESTDIR)$(help_base)/C

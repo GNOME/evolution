@@ -5,32 +5,28 @@
  */
 
 gchar *s = N_("event-editor-dialog");
-gchar *s = N_("_Summary:");
+gchar *s = N_("Su_mmary:");
 gchar *s = N_("Time");
-gchar *s = N_("Start time:");
-gchar *s = N_("End time:");
+gchar *s = N_("_Start time:");
+gchar *s = N_("_End time:");
 gchar *s = N_("A_ll day event");
 gchar *s = N_("Classification");
 gchar *s = N_("Pu_blic");
 gchar *s = N_("Pri_vate");
 gchar *s = N_("_Confidential");
 gchar *s = N_("General");
-gchar *s = N_("Minutes\n"
-              "Hours\n"
-              "Days\n"
-              "");
-gchar *s = N_("Minutes\n"
-              "Hours\n"
-              "Days\n"
-              "");
-gchar *s = N_("Minutes\n"
-              "Hours\n"
-              "Days\n"
-              "");
-gchar *s = N_("Minutes\n"
-              "Hours\n"
-              "Days\n"
-              "");
+gchar *s = N_("Minutes");
+gchar *s = N_("Hours");
+gchar *s = N_("Days");
+gchar *s = N_("Minutes");
+gchar *s = N_("Hours");
+gchar *s = N_("Days");
+gchar *s = N_("Minutes");
+gchar *s = N_("Hours");
+gchar *s = N_("Days");
+gchar *s = N_("Minutes");
+gchar *s = N_("Hours");
+gchar *s = N_("Days");
 gchar *s = N_("_Display");
 gchar *s = N_("_Audio");
 gchar *s = N_("_Program");
@@ -61,20 +57,18 @@ gchar *s = N_("label25");
 gchar *s = N_("Recur on the");
 gchar *s = N_("Recur on the");
 gchar *s = N_("th day of the month");
-gchar *s = N_("1st\n"
-              "2nd\n"
-              "3rd\n"
-              "4th\n"
-              "5th\n"
-              "");
-gchar *s = N_("Monday\n"
-              "Tuesday\n"
-              "Wednesday\n"
-              "Thursday\n"
-              "Friday\n"
-              "Saturday\n"
-              "Sunday\n"
-              "");
+gchar *s = N_("1st");
+gchar *s = N_("2nd");
+gchar *s = N_("3rd");
+gchar *s = N_("4th");
+gchar *s = N_("5th");
+gchar *s = N_("Monday");
+gchar *s = N_("Tuesday");
+gchar *s = N_("Wednesday");
+gchar *s = N_("Thursday");
+gchar *s = N_("Friday");
+gchar *s = N_("Saturday");
+gchar *s = N_("Sunday");
 gchar *s = N_("Every");
 gchar *s = N_("month(s)");
 gchar *s = N_("label26");
@@ -87,7 +81,33 @@ gchar *s = N_("End on ");
 gchar *s = N_("End after");
 gchar *s = N_("occurrence(s)");
 gchar *s = N_("Exceptions");
+gchar *s = N_("Recurrence");
+gchar *s = N_("Appointment Basics");
+gchar *s = N_("Su_mmary:");
+gchar *s = N_("_Starting date:");
+gchar *s = N_("Recurrence Rule");
+gchar *s = N_("No recurrence");
+gchar *s = N_("Simple recurrence");
+gchar *s = N_("Every");
+gchar *s = N_("day(s)");
+gchar *s = N_("week(s)");
+gchar *s = N_("month(s)");
+gchar *s = N_("year(s)");
+gchar *s = N_("for");
+gchar *s = N_("until");
+gchar *s = N_("forever");
+gchar *s = N_("days");
+gchar *s = N_("weeks");
+gchar *s = N_("months");
+gchar *s = N_("years");
+gchar *s = N_("iterations");
+gchar *s = N_("Custom recurrence");
+gchar *s = N_("Exceptions");
 gchar *s = N_("Add");
-gchar *s = N_("Change");
+gchar *s = N_("Modify");
 gchar *s = N_("Delete");
+gchar *s = N_("label21");
+gchar *s = N_("This appointment has custom recurrence rules that cannot be edited by Evolution.\n"
+              "\n"
+              "However, the appointment will recur at the appropriate time and be displayed in the calendar views.");
 gchar *s = N_("Recurrence");

@@ -238,10 +238,10 @@ colorize_items (WeekdayPicker *wp)
 	outline = &GTK_WIDGET (wp)->style->fg[GTK_WIDGET_STATE (wp)];
 
 	fill = &GTK_WIDGET (wp)->style->base[GTK_WIDGET_STATE (wp)];
-	text_fill = &GTK_WIDGET (wp)->style->fg_gc[GTK_WIDGET_STATE (wp)];
+	text_fill = &GTK_WIDGET (wp)->style->fg[GTK_WIDGET_STATE (wp)];
 
 	sel_fill = &GTK_WIDGET (wp)->style->bg[GTK_STATE_SELECTED];
-	sel_text_fill = &GTK_WIDGET (wp)->style->fg_gc[GTK_STATE_SELECTED];
+	sel_text_fill = &GTK_WIDGET (wp)->style->fg[GTK_STATE_SELECTED];
 
 	if (priv->week_starts_on_monday) {
 		GdkColor *f, *t;
