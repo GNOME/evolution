@@ -29,10 +29,11 @@ $(HTML_EDITOR_GENERATED): $(GTKHTML_DATADIR)/Editor.idl
 
 ##
 
-error_in_files = mail-composer-errors.xml.in
-error_DATA = $(error_in_files:.xml.in=.xml)
+error_DATA = mail-composer-errors.xml
+error_i18n = $(error_DATA:.xml=.xml.h)
 errordir = $(privdatadir)/errors
-@INTLTOOL_XML_RULE@
+%.xml.h: %.xml
+	$(top_builddir)/e-util/e-error-tool $^
 
 idl_DATA = $(IDLS)
 
@@ -82,12 +83,13 @@ libcomposer_la_SOURCES = 			\
 	listener.h
 
 EXTRA_DIST =					\
-	$(error_in_files)			\
+	$(error_DATA)				\
+	$(error_i18n)				\
 	$(glade_DATA)				\
 	$(IDLS)					\
 	ChangeLog.pre-1-4
 
-BUILT_SOURCES = $(IDL_GENERATED) $(HTML_EDITOR_GENERATED) $(error_DATA)
+BUILT_SOURCES = $(IDL_GENERATED) $(HTML_EDITOR_GENERATED) $(error_i18n)
 CLEANFILES = $(BUILT_SOURCES)
 
 dist-hook:
