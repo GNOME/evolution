@@ -30,7 +30,7 @@
 #include "config-data.h"
 #include "common/authentication.h"
 #include "e-util/e-url.h"
-
+#include "e-util/e-passwords.h"
 
 
 /* Private part of the AlarmNotify structure */
@@ -143,7 +143,7 @@ list_changed_cb (ESourceList *source_list, gpointer data)
 			uri = e_source_get_uri (source);
 			if (!g_hash_table_lookup (priv->uri_client_hash, uri)) {
 				g_message ("Adding %s", uri);
-				alarm_notify_add_calendar (an, source_type, uri, FALSE);
+				alarm_notify_add_calendar (an, source_type, source, FALSE);
 			}
 			g_free (uri);
 		}
@@ -189,7 +189,7 @@ load_calendars (AlarmNotify *an, ECalSourceType source_type)
 			
 			uri = e_source_get_uri (source);
 			g_message ("Loading %s", uri);
-			alarm_notify_add_calendar (an, source_type, uri, FALSE);
+			alarm_notify_add_calendar (an, source_type, source, FALSE);
 			g_free (uri);
 			
 		}
@@ -296,22 +296,32 @@ cal_opened_cb (ECal *client, ECalendarStatus status, gpointer user_data)
  * that it can be loaded in the future when the alarm daemon starts up.
  **/
 void
-alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type, const char *str_uri, gboolean load_afterwards)
+alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type,  ESource *source, gboolean load_afterwards)
 {
 	AlarmNotifyPrivate *priv;
 	ECal *client;
-
+	char *str_uri;
 	g_return_if_fail (an != NULL);
 	g_return_if_fail (IS_ALARM_NOTIFY (an));
-	g_return_if_fail (str_uri != NULL);
+	
 
 	priv = an->priv;
-
+	str_uri = e_source_get_uri (source);
 	/* See if we already know about this uri */
 	if (g_hash_table_lookup (priv->uri_client_hash, str_uri))
 		return;
 
-	client = auth_new_cal_from_uri (str_uri, source_type);
+	/* if loading of this requires password and password is not currently availble in e-password
+	   session skip this source loading. we do not really want to prompt for auth from alarm dameon*/
+
+	/*** FIXME we should run an idle loop to check for availbility of passwords for these sources 
+	    and  add them to the list once they are available */
+
+	if ((e_source_get_property (source, "auth") && 
+	     (!e_passwords_get_password (e_source_get_property(source, "auth-domain"), str_uri))))
+	     return;
+	
+	client = auth_new_cal_from_source (source, source_type);
 
 	if (client) {
 		g_hash_table_insert (priv->uri_client_hash, g_strdup (str_uri), client);
