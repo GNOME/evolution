@@ -1,3 +1,7 @@
+1999-04-19  bertrand <Bertrand.Guiheneuf@inria.fr>
+
+	* camel/README: added some (few) explanations.
+
 1999-04-18  bertrand <Bertrand.Guiheneuf@inria.fr>
 
 	* camel/camel-store.[ch]: started implementation
