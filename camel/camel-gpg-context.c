@@ -108,7 +108,6 @@ camel_gpg_context_init (CamelGpgContext *context)
 {
 	CamelCipherContext *cipher = (CamelCipherContext *) context;
 	
-	context->path = NULL;
 	context->always_trust = FALSE;
 	
 	cipher->sign_protocol = "application/pgp-signature";
@@ -118,32 +117,27 @@ camel_gpg_context_init (CamelGpgContext *context)
 static void
 camel_gpg_context_finalise (CamelObject *object)
 {
-	CamelGpgContext *ctx = (CamelGpgContext *) object;
-	
-	g_free (ctx->path);
+	;
 }
 
 
 /**
  * camel_gpg_context_new:
  * @session: session
- * @path: path to gpg binary
  *
  * Creates a new gpg cipher context object.
  *
  * Returns a new gpg cipher context object.
  **/
 CamelCipherContext *
-camel_gpg_context_new (CamelSession *session, const char *path)
+camel_gpg_context_new (CamelSession *session)
 {
 	CamelCipherContext *cipher;
 	CamelGpgContext *ctx;
 	
 	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
-	g_return_val_if_fail (path != NULL, NULL);
 	
 	ctx = (CamelGpgContext *) camel_object_new (camel_gpg_context_get_type ());
-	ctx->path = g_strdup (path);
 	
 	cipher = (CamelCipherContext *) ctx;
 	cipher->session = session;
@@ -227,7 +221,6 @@ struct _GpgCtx {
 	GHashTable *userid_hint;
 	pid_t pid;
 	
-	char *path;
 	char *userid;
 	char *sigfile;
 	GPtrArray *recipients;
@@ -271,7 +264,7 @@ struct _GpgCtx {
 };
 
 static struct _GpgCtx *
-gpg_ctx_new (CamelSession *session, const char *path)
+gpg_ctx_new (CamelSession *session)
 {
 	struct _GpgCtx *gpg;
 	
@@ -287,7 +280,6 @@ gpg_ctx_new (CamelSession *session, const char *path)
 	gpg->exit_status = 0;
 	gpg->exited = FALSE;
 	
-	gpg->path = g_strdup (path);
 	gpg->userid = NULL;
 	gpg->sigfile = NULL;
 	gpg->recipients = NULL;
@@ -413,8 +405,6 @@ gpg_ctx_free (struct _GpgCtx *gpg)
 	
 	g_hash_table_foreach (gpg->userid_hint, userid_hint_free, NULL);
 	g_hash_table_destroy (gpg->userid_hint);
-	
-	g_free (gpg->path);
 	
 	g_free (gpg->userid);
 	
@@ -555,10 +545,6 @@ gpg_ctx_get_argv (struct _GpgCtx *gpg, int status_fd, char **sfd, int passwd_fd,
 		break;
 	}
 	
-	for (i = 0; i < argv->len; i++)
-		printf ("%s ", argv->pdata[i]);
-	printf ("\n");
-	
 	g_ptr_array_add (argv, NULL);
 	
 	return argv;
@@ -570,13 +556,9 @@ gpg_ctx_op_start (struct _GpgCtx *gpg)
 	char *status_fd = NULL, *passwd_fd = NULL;
 	int i, maxfd, errnosave, fds[10];
 	GPtrArray *argv;
-	struct stat st;
 	
 	for (i = 0; i < 10; i++)
 		fds[i] = -1;
-	
-	if (stat (gpg->path, &st) == -1)
-		goto exception;
 	
 	maxfd = gpg->need_passwd ? 10 : 8;
 	for (i = 0; i < maxfd; i += 2) {
@@ -614,7 +596,7 @@ gpg_ctx_op_start (struct _GpgCtx *gpg)
 		}
 		
 		/* run gpg */
-		execvp (gpg->path, (char **) argv->pdata);
+		execvp ("gpg", (char **) argv->pdata);
 		_exit (255);
 	} else if (gpg->pid < 0) {
 		g_ptr_array_free (argv, TRUE);
@@ -1205,10 +1187,9 @@ static int
 gpg_sign (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
 	  CamelStream *istream, CamelStream *ostream, CamelException *ex)
 {
-	CamelGpgContext *ctx = (CamelGpgContext *) context;
 	struct _GpgCtx *gpg;
 	
-	gpg = gpg_ctx_new (context->session, ctx->path);
+	gpg = gpg_ctx_new (context->session);
 	gpg_ctx_set_mode (gpg, GPG_CTX_MODE_SIGN);
 	gpg_ctx_set_hash (gpg, hash);
 	gpg_ctx_set_armor (gpg, TRUE);
@@ -1299,7 +1280,6 @@ gpg_verify (CamelCipherContext *context, CamelCipherHash hash,
 	    CamelStream *istream, CamelStream *sigstream,
 	    CamelException *ex)
 {
-	CamelGpgContext *ctx = (CamelGpgContext *) context;
 	CamelCipherValidity *validity;
 	char *diagnostics = NULL;
 	struct _GpgCtx *gpg;
@@ -1319,7 +1299,7 @@ gpg_verify (CamelCipherContext *context, CamelCipherHash hash,
 		}
 	}
 	
-	gpg = gpg_ctx_new (context->session, ctx->path);
+	gpg = gpg_ctx_new (context->session);
 	gpg_ctx_set_mode (gpg, GPG_CTX_MODE_VERIFY);
 	gpg_ctx_set_hash (gpg, hash);
 	gpg_ctx_set_sigfile (gpg, sigfile);
@@ -1387,7 +1367,7 @@ gpg_encrypt (CamelCipherContext *context, gboolean sign, const char *userid,
 	struct _GpgCtx *gpg;
 	int i;
 	
-	gpg = gpg_ctx_new (context->session, ctx->path);
+	gpg = gpg_ctx_new (context->session);
 	gpg_ctx_set_mode (gpg, GPG_CTX_MODE_ENCRYPT);
 	gpg_ctx_set_armor (gpg, TRUE);
 	gpg_ctx_set_userid (gpg, userid);
@@ -1449,10 +1429,9 @@ static int
 gpg_decrypt (CamelCipherContext *context, CamelStream *istream,
 	     CamelStream *ostream, CamelException *ex)
 {
-	CamelGpgContext *ctx = (CamelGpgContext *) context;
 	struct _GpgCtx *gpg;
 	
-	gpg = gpg_ctx_new (context->session, ctx->path);
+	gpg = gpg_ctx_new (context->session);
 	gpg_ctx_set_mode (gpg, GPG_CTX_MODE_DECRYPT);
 	gpg_ctx_set_istream (gpg, istream);
 	gpg_ctx_set_ostream (gpg, ostream);

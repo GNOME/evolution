@@ -1,3 +1,19 @@
+2002-10-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-gpg-context.c (camel_gpg_context_new): No longer takes a
+	path argument.
+	(camel_gpg_context_fianlise): No need to free ctx->path.
+	(gpg_ctx_new): No longer takes a path argument either.
+	(gpg_ctx_free): No need to free ctx->path, it's no longer used.
+	(gpg_ctx_op_start): Don't stat the path anymore and change the
+	first arg to execvp to "gpg" so that we use the shell's
+	environment to find gpg.
+	(gpg_sign): Updated.
+	(gpg_verify): Updated.
+	(gpg_encrypt): Updated.
+	(gpg_decrypt): Updated.
+	(gpg_ctx_get_argv): Removed some debug printfs.
+
 2002-10-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-gpg-context.c (gpg_id_to_hash): If the hash id is NULL,
