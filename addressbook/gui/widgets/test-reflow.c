@@ -105,26 +105,6 @@ static void resize(GnomeCanvas *canvas, gpointer data)
 			       NULL );	
 }
 
-#if 0
-static void about_callback( GtkWidget *widget, gpointer data )
-{
-  
-  const gchar *authors[] =
-  {
-    "Christopher James Lahey <clahey@umich.edu>",
-    NULL
-  };
-
-  GtkWidget *about =
-    gnome_about_new ( _( "Reflow Test" ), VERSION,
-		      _( "Copyright (C) 2000, Ximian, Inc." ),
-		      authors,
-		      _( "This should test the reflow canvas item" ),
-		      NULL);
-  gtk_widget_show (about);                                            
-}
-#endif
-
 int main( int argc, char *argv[] )
 {
   GtkWidget *app;

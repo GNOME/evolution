@@ -1,5 +1,12 @@
 2004-12-21  JP Rosevear  <jpr@novell.com>
 
+	Fixes #61975
+	
+	* gui/widgets/test-reflow.c: kill translated strings that were #if
+	0'd anyhow
+
+2004-12-21  JP Rosevear  <jpr@novell.com>
+	
 	* gui/search/e-addressbook-search-dialog.c: convert to
 	G_DEFINE_TYPE
 	
