@@ -29,7 +29,7 @@
 #include "string-utils.h"
 #include "camel-log.h"
 #include <string.h>
-
+#include "hash-table-utils.h"
 
 /**
  * gmime_content_field_new: Creates a new GMimeContentField object
@@ -52,7 +52,7 @@ gmime_content_field_new (const gchar *type, const gchar *subtype)
 	ctf = g_new (GMimeContentField, 1);
 	ctf->type = g_strdup (type);
 	ctf->subtype = g_strdup (subtype);
-	ctf->parameters =  g_hash_table_new (g_str_hash, g_str_equal);
+	ctf->parameters =  g_hash_table_new (g_strcase_hash, g_strcase_equal);
 	ctf->ref = 1;
 
 	return ctf;

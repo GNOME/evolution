@@ -28,13 +28,12 @@
 
 #include "data-wrapper-repository.h"
 #include "camel-multipart.h"
-
-
+#include <string.h>
+#include "hash-table-utils.h"
 
 static DataWrapperRepository _repository;
 static _initialized = -1;
 GMimeContentField *_content_field;
-
 
 
 /**
@@ -49,7 +48,7 @@ gint
 data_wrapper_repository_init ()
 {
 	if (_initialized != -1) return -1;
-	_repository.mime_links = g_hash_table_new (g_str_hash, g_str_equal);
+	_repository.mime_links = g_hash_table_new (g_strcase_hash, g_strcase_equal);
 	data_wrapper_repository_set_data_wrapper_type ("multipart", camel_multipart_get_type());
 	_content_field = gmime_content_field_new (NULL, NULL);
 	_initialized = 1;
@@ -102,13 +101,16 @@ data_wrapper_repository_get_data_wrapper_type (const gchar *mime_type)
 	gboolean exists;
 	gchar *old_mime_type;
 	GtkType gtk_type;
-	
+
+	printf("looking up type '%s'\n", mime_type);
+
 	/* find if the complete mime type exists */
 	exists = g_hash_table_lookup_extended (_repository.mime_links, (gpointer)mime_type,
 						       (gpointer)&old_mime_type, (gpointer)&gtk_type);
-	if (exists) /* the complete mime type exists, return it */
+	if (exists) { /* the complete mime type exists, return it */
+		printf( "exists!\n");
 		return gtk_type;
-	else { 
+	} else { 
 		/* the complete mime type association does not exists */
 		/* is there an association for the main mime type ?   */
 		gmime_content_field_construct_from_string (_content_field, mime_type);

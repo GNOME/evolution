@@ -1,4 +1,18 @@
+2000-02-10  NotZed  <notzed@zedzone.helixcode.com>
+
+	* camel/hash-table-utils.c (g_strcase_hash): Removed a bizarre
+	comparison construct for converting case.
+
 2000-02-09  NotZed  <notzed@zedzone.helixcode.com>
+
+	* camel/data-wrapper-repository.c (data_wrapper_repository_init):
+	Uses case-insensitive compares.
+
+	* camel/gmime-content-field.c (gmime_content_field_new): Uses
+	case-insensitive compares.
+
+	* camel/data-wrapper-repository.c (data_wrapper_repository_init):
+	Use case-insensitive mime types.
 
 	* camel/camel-simple-data-wrapper-stream.c (read): Increment the
 	copy source address to match the data read offset.

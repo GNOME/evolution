@@ -62,12 +62,10 @@ g_strcase_hash (gconstpointer v)
 {
 	const char *s = (char*)v;
 	const char *p;
-	char c;
 	guint h=0, g;
 	
 	for(p = s; *p != '\0'; p += 1) {
-		c = isupper ((guchar)*p) ? tolower ((guchar)*p) : *p;
-		h = ( h << 4 ) + c;
+		h = ( h << 4 ) + toupper(*p);
 		if ( ( g = h & 0xf0000000 ) ) {
 			h = h ^ (g >> 24);
 			h = h ^ g;
