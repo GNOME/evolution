@@ -13,19 +13,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <gtk/gtkobject.h>
-#include <gal/util/e-unicode-i18n.h>
+#include <bonobo/bonobo-i18n.h>
 #include <gal/util/e-util.h>
 
 #include <libversit/vcc.h>
 #include "e-card-simple.h"
 
-/* Object argument IDs */
+/* Object property IDs */
 enum {
-	ARG_0,
-	ARG_CARD,
+	PROP_0,
+	PROP_CARD,
 };
 
+static GObjectClass *parent_class;
 
 typedef enum _ECardSimpleInternalType ECardSimpleInternalType;
 typedef struct _ECardSimpleFieldData ECardSimpleFieldData;
@@ -114,9 +114,9 @@ static int field_data_count = sizeof (field_data) / sizeof (field_data[0]);
 static void e_card_simple_init (ECardSimple *simple);
 static void e_card_simple_class_init (ECardSimpleClass *klass);
 
-static void e_card_simple_destroy (GtkObject *object);
-static void e_card_simple_set_arg (GtkObject *object, GtkArg *arg, guint arg_id);
-static void e_card_simple_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
+static void e_card_simple_dispose (GObject *object);
+static void e_card_simple_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
+static void e_card_simple_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
 
 static void fill_in_info(ECardSimple *simple);
 
@@ -207,24 +207,25 @@ char *address_names[] = {
  * 
  * Return value: The type ID of the &ECardSimple class.
  **/
-GtkType
+GType
 e_card_simple_get_type (void)
 {
-	static GtkType simple_type = 0;
+	static GType simple_type = 0;
 
 	if (!simple_type) {
-		GtkTypeInfo simple_info = {
-			"ECardSimple",
-			sizeof (ECardSimple),
+		static const GTypeInfo simple_info =  {
 			sizeof (ECardSimpleClass),
-			(GtkClassInitFunc) e_card_simple_class_init,
-			(GtkObjectInitFunc) e_card_simple_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
+			NULL,           /* base_init */
+			NULL,           /* base_finalize */
+			(GClassInitFunc) e_card_simple_class_init,
+			NULL,           /* class_finalize */
+			NULL,           /* class_data */
+			sizeof (ECardSimple),
+			0,             /* n_preallocs */
+			(GInstanceInitFunc) e_card_simple_init,
 		};
 
-		simple_type = gtk_type_unique (gtk_object_get_type (), &simple_info);
+		simple_type = g_type_register_static (G_TYPE_OBJECT, "ECardSimple", &simple_info, 0);
 	}
 
 	return simple_type;
@@ -239,10 +240,10 @@ e_card_simple_get_type (void)
 ECardSimple *
 e_card_simple_new (ECard *card)
 {
-	ECardSimple *simple = E_CARD_SIMPLE(gtk_type_new(e_card_simple_get_type()));
-	gtk_object_set(GTK_OBJECT(simple),
-		       "card", card,
-		       NULL);
+	ECardSimple *simple = g_object_new (E_TYPE_CARD_SIMPLE, NULL);
+	g_object_set(simple,
+		     "card", card,
+		     NULL);
 	return simple;
 }
 
@@ -318,16 +319,22 @@ e_card_simple_get_vcard_assume_utf8 (ECardSimple *simple)
 static void
 e_card_simple_class_init (ECardSimpleClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = GTK_OBJECT_CLASS(klass);
+	object_class = G_OBJECT_CLASS(klass);
 
-	gtk_object_add_arg_type ("ECardSimple::card",
-				 GTK_TYPE_OBJECT, GTK_ARG_READWRITE, ARG_CARD);
+	parent_class = g_type_class_ref (G_TYPE_OBJECT);
 
-	object_class->destroy = e_card_simple_destroy;
-	object_class->get_arg = e_card_simple_get_arg;
-	object_class->set_arg = e_card_simple_set_arg;
+	object_class->dispose = e_card_simple_dispose;
+	object_class->get_property = e_card_simple_get_property;
+	object_class->set_property = e_card_simple_set_property;
+
+	g_object_class_install_property (object_class, PROP_CARD, 
+					 g_param_spec_object ("card",
+							      _("ECard"),
+							      /*_( */"XXX blurb" /*)*/,
+							      E_TYPE_CARD,
+							      G_PARAM_READWRITE));
 }
 
 /*
@@ -335,7 +342,7 @@ e_card_simple_class_init (ECardSimpleClass *klass)
  */
 
 static void
-e_card_simple_destroy (GtkObject *object)
+e_card_simple_dispose (GObject *object)
 {
 	ECardSimple *simple;
 	int i;
@@ -343,7 +350,7 @@ e_card_simple_destroy (GtkObject *object)
 	simple = E_CARD_SIMPLE (object);
 
 	if (simple->card)
-		gtk_object_unref(GTK_OBJECT(simple->card));
+		g_object_unref(simple->card);
 	g_list_foreach(simple->temp_fields, (GFunc) g_free, NULL);
 	g_list_free(simple->temp_fields);
 	simple->temp_fields = NULL;
@@ -356,52 +363,61 @@ e_card_simple_destroy (GtkObject *object)
 		e_card_address_label_unref(simple->address[i]);
 	for(i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++)
 		e_card_delivery_address_unref(simple->delivery[i]);
+
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 
 /* Set_arg handler for the simple */
 static void
-e_card_simple_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+e_card_simple_set_property (GObject *object,
+			    guint prop_id,
+			    const GValue *value,
+			    GParamSpec *pspec)
 {
 	ECardSimple *simple;
 	
 	simple = E_CARD_SIMPLE (object);
 
-	switch (arg_id) {
-	case ARG_CARD:
+	switch (prop_id) {
+	case PROP_CARD:
 		if (simple->card)
-			gtk_object_unref(GTK_OBJECT(simple->card));
+			g_object_unref(simple->card);
 		g_list_foreach(simple->temp_fields, (GFunc) g_free, NULL);
 		g_list_free(simple->temp_fields);
 		simple->temp_fields = NULL;
-		if (GTK_VALUE_OBJECT(*arg))
-			simple->card = E_CARD(GTK_VALUE_OBJECT(*arg));
+		if (g_value_get_pointer (value))
+			simple->card = E_CARD(g_value_get_pointer (value));
 		else
 			simple->card = NULL;
 		if(simple->card)
-			gtk_object_ref(GTK_OBJECT(simple->card));
+			g_object_ref(simple->card);
 		fill_in_info(simple);
 		break;
 	default:
-		return;
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		break;
 	}
 }
 
 /* Get_arg handler for the simple */
 static void
-e_card_simple_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+e_card_simple_get_property (GObject *object,
+			    guint prop_id,
+			    GValue *value,
+			    GParamSpec *pspec)
 {
 	ECardSimple *simple;
 
 	simple = E_CARD_SIMPLE (object);
 
-	switch (arg_id) {
-	case ARG_CARD:
+	switch (prop_id) {
+	case PROP_CARD:
 		e_card_simple_sync_card(simple);
-		GTK_VALUE_OBJECT (*arg) = (GtkObject *) simple->card;
+		g_value_set_pointer (value, simple->card);
 		break;
 	default:
-		arg->type = GTK_TYPE_INVALID;
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }
@@ -443,12 +459,12 @@ fill_in_info(ECardSimple *simple)
 
 		EIterator *iterator;
 
-		gtk_object_get(GTK_OBJECT(card),
-			       "address_label", &address_list,
-			       "address",       &delivery_list,
-			       "phone",         &phone_list,
-			       "email",         &email_list,
-			       NULL);
+		g_object_get(card,
+			     "address_label", &address_list,
+			     "address",       &delivery_list,
+			     "phone",         &phone_list,
+			     "email",         &email_list,
+			     NULL);
 		for (i = 0; i < E_CARD_SIMPLE_PHONE_ID_LAST; i++) {
 			e_card_phone_unref(simple->phone[i]);
 			simple->phone[i] = NULL;
@@ -472,7 +488,7 @@ fill_in_info(ECardSimple *simple)
 				}
 			}
 		}
-		gtk_object_unref(GTK_OBJECT(iterator));
+		g_object_unref(iterator);
 
 		for (i = 0; i < E_CARD_SIMPLE_EMAIL_ID_LAST; i++) {
 			g_free(simple->email[i]);
@@ -487,7 +503,7 @@ fill_in_info(ECardSimple *simple)
 				}
 			}
 		}
-		gtk_object_unref(GTK_OBJECT(iterator));
+		g_object_unref(iterator);
 
 		for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++) {
 			e_card_address_label_unref(simple->address[i]);
@@ -502,7 +518,7 @@ fill_in_info(ECardSimple *simple)
 				}
 			}
 		}
-		gtk_object_unref(GTK_OBJECT(iterator));
+		g_object_unref(iterator);
 
 		for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++) {
 			e_card_delivery_address_unref(simple->delivery[i]);
@@ -517,7 +533,7 @@ fill_in_info(ECardSimple *simple)
 				}
 			}
 		}
-		gtk_object_unref(GTK_OBJECT(iterator));
+		g_object_unref(iterator);
 		e_card_free_empty_lists (card);
 	}
 }
@@ -539,12 +555,12 @@ e_card_simple_sync_card(ECardSimple *simple)
 
 		EIterator *iterator;
 
-		gtk_object_get(GTK_OBJECT(card),
-			       "address_label", &address_list,
-			       "address",       &delivery_list,
-			       "phone",         &phone_list,
-			       "email",         &email_list,
-			       NULL);
+		g_object_get(card,
+			     "address_label", &address_list,
+			     "address",       &delivery_list,
+			     "phone",         &phone_list,
+			     "email",         &email_list,
+			     NULL);
 
 		for (iterator = e_list_get_iterator(phone_list); e_iterator_is_valid(iterator); e_iterator_next(iterator) ) {
 			int i;
@@ -584,7 +600,7 @@ e_card_simple_sync_card(ECardSimple *simple)
 				}
 			}
 		}	
-		gtk_object_unref(GTK_OBJECT(iterator));
+		g_object_unref(iterator);
 		for (i = 0; i < E_CARD_SIMPLE_PHONE_ID_LAST; i ++) {
 			if (simple->phone[i]) {
 				simple->phone[i]->flags = phone_correspondences[i];
@@ -610,7 +626,7 @@ e_card_simple_sync_card(ECardSimple *simple)
 				}
 			}
 		}	
-		gtk_object_unref(GTK_OBJECT(iterator));
+		g_object_unref(iterator);
 		for (i = 0; i < E_CARD_SIMPLE_EMAIL_ID_LAST; i ++) {
 			if (simple->email[i]) {
 				e_list_append(email_list, simple->email[i]);
@@ -639,7 +655,7 @@ e_card_simple_sync_card(ECardSimple *simple)
 				}
 			}
 		}	
-		gtk_object_unref(GTK_OBJECT(iterator));
+		g_object_unref(iterator);
 		for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i ++) {
 			if (simple->address[i]) {
 				simple->address[i]->flags &= ~E_CARD_ADDR_MASK;
@@ -670,7 +686,7 @@ e_card_simple_sync_card(ECardSimple *simple)
 				}
 			}
 		}	
-		gtk_object_unref(GTK_OBJECT(iterator));
+		g_object_unref(iterator);
 		for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i ++) {
 			if (simple->delivery[i]) {
 				simple->delivery[i]->flags &= ~E_CARD_ADDR_MASK;
@@ -769,17 +785,17 @@ char     *e_card_simple_get            (ECardSimple          *simple,
 	switch(type) {
 	case E_CARD_SIMPLE_INTERNAL_TYPE_STRING:
 		if (simple->card) {
-			gtk_object_get(GTK_OBJECT(simple->card),
-				       field_data[field].ecard_field, &string,
-				       NULL);
+			g_object_get(simple->card,
+				     field_data[field].ecard_field, &string,
+				     NULL);
 			return g_strdup(string);
 		} else
 			return NULL;
 	case E_CARD_SIMPLE_INTERNAL_TYPE_DATE:
 		if (simple->card) {
-			gtk_object_get(GTK_OBJECT(simple->card),
-				       field_data[field].ecard_field, &date,
-				       NULL);
+			g_object_get(simple->card,
+				     field_data[field].ecard_field, &date,
+				     NULL);
 			if (date != NULL) {
 				char buf[26];
 				struct tm then;
@@ -817,9 +833,9 @@ char     *e_card_simple_get            (ECardSimple          *simple,
 	case E_CARD_SIMPLE_INTERNAL_TYPE_BOOL:
 		if (simple->card) {
 			gboolean boole;
-			gtk_object_get (GTK_OBJECT (simple->card),
-					field_data[field].ecard_field, &boole,
-					NULL);
+			g_object_get (simple->card,
+				      field_data[field].ecard_field, &boole,
+				      NULL);
 			if (boole)
 				return g_strdup("true");
 			else
@@ -833,19 +849,19 @@ char     *e_card_simple_get            (ECardSimple          *simple,
 			if (simple->card) {
 				gboolean is_list;
 
-				gtk_object_get(GTK_OBJECT(simple->card),
-					       "file_as", &string,
-					       NULL);
+				g_object_get(simple->card,
+					     "file_as", &string,
+					     NULL);
 				if (string && *string)
 					return g_strdup(string);
-				gtk_object_get(GTK_OBJECT(simple->card),
-					       "full_name", &string,
-					       NULL);
+				g_object_get(simple->card,
+					     "full_name", &string,
+					     NULL);
 				if (string && *string)
 					return g_strdup(string);
-				gtk_object_get(GTK_OBJECT(simple->card),
-					       "org", &string,
-					       NULL);
+				g_object_get(simple->card,
+					     "org", &string,
+					     NULL);
 				if (string && *string)
 					return g_strdup(string);
 				is_list = e_card_evolution_list (simple->card);
@@ -859,33 +875,33 @@ char     *e_card_simple_get            (ECardSimple          *simple,
 				return NULL;
 		case E_CARD_SIMPLE_FIELD_FAMILY_NAME:
 			if (simple->card) {
-				gtk_object_get (GTK_OBJECT(simple->card),
-						"name", &name,
-						NULL);
+				g_object_get (simple->card,
+					      "name", &name,
+					      NULL);
 				return g_strdup (name->family);
 			} else
 				return NULL;
 		case E_CARD_SIMPLE_FIELD_GIVEN_NAME:
 			if (simple->card) {
-				gtk_object_get (GTK_OBJECT(simple->card),
-						"name", &name,
-						NULL);
+				g_object_get (simple->card,
+					      "name", &name,
+					      NULL);
 				return g_strdup (name->given);
 			} else
 				return NULL;
 		case E_CARD_SIMPLE_FIELD_ADDITIONAL_NAME:
 			if (simple->card) {
-				gtk_object_get (GTK_OBJECT(simple->card),
-						"name", &name,
-						NULL);
+				g_object_get (simple->card,
+					      "name", &name,
+					      NULL);
 				return g_strdup (name->additional);
 			} else
 				return NULL;
 		case E_CARD_SIMPLE_FIELD_NAME_SUFFIX:
 			if (simple->card) {
-				gtk_object_get (GTK_OBJECT(simple->card),
-						"name", &name,
-						NULL);
+				g_object_get (simple->card,
+					      "name", &name,
+					      NULL);
 				return g_strdup (name->suffix);
 			} else
 				return NULL;
@@ -961,9 +977,9 @@ file_as_get_style (ECardSimple *simple)
 	if (!company)
 		company = g_strdup("");
 	if (filestring) {
-		gtk_object_get (GTK_OBJECT (simple->card),
-				"name", &name,
-				NULL);
+		g_object_get (simple->card,
+			      "name", &name,
+			      NULL);
 		
 		if (!name) {
 			goto end;
@@ -999,9 +1015,9 @@ file_as_set_style(ECardSimple *simple, int style)
 
 		if (!company)
 			company = g_strdup("");
-		gtk_object_get (GTK_OBJECT (simple->card),
-				"name", &name,
-				NULL);
+		g_object_get (simple->card,
+			      "name", &name,
+			      NULL);
 		if (name) {
 			string = name_to_style(name, company, style);
 			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_FILE_AS, string);
@@ -1024,17 +1040,17 @@ void            e_card_simple_set            (ECardSimple          *simple,
 	case E_CARD_SIMPLE_FIELD_FULL_NAME:
 	case E_CARD_SIMPLE_FIELD_ORG:
 		style = file_as_get_style(simple);
-		gtk_object_set(GTK_OBJECT(simple->card),
-			       field_data[field].ecard_field, data,
-			       NULL);
+		g_object_set(simple->card,
+			     field_data[field].ecard_field, data,
+			     NULL);
 		file_as_set_style(simple, style);
 		break;
 	default:
 		switch(type) {
 		case E_CARD_SIMPLE_INTERNAL_TYPE_STRING:
-			gtk_object_set(GTK_OBJECT(simple->card),
-				       field_data[field].ecard_field, data,
-				       NULL);
+			g_object_set(simple->card,
+				     field_data[field].ecard_field, data,
+				     NULL);
 			break;
 		case E_CARD_SIMPLE_INTERNAL_TYPE_DATE:
 			break; /* FIXME!!!! */
@@ -1068,9 +1084,9 @@ void            e_card_simple_set            (ECardSimple          *simple,
 					boole = FALSE;
 				else if (!strcasecmp (data, "false"))
 					boole = FALSE;
-				gtk_object_set (GTK_OBJECT (simple->card),
-						field_data[field].ecard_field, boole,
-						NULL);
+				g_object_set (simple->card,
+					      field_data[field].ecard_field, boole,
+					      NULL);
 			}
 			break;
 		}
@@ -1110,7 +1126,7 @@ const char     *e_card_simple_get_ecard_field (ECardSimple         *simple,
 const char     *e_card_simple_get_name       (ECardSimple          *simple,
 					      ECardSimpleField      field)
 {
-	return U_(field_data[field].name);
+	return _(field_data[field].name);
 }
 
 gboolean
@@ -1141,7 +1157,7 @@ e_card_simple_get_allow_newlines (ECardSimple          *simple,
 const char     *e_card_simple_get_short_name (ECardSimple          *simple,
 					      ECardSimpleField      field)
 {
-	return U_(field_data[field].short_name);
+	return _(field_data[field].short_name);
 }
 
 void                  e_card_simple_arbitrary_foreach (ECardSimple                  *simple,
@@ -1151,9 +1167,9 @@ void                  e_card_simple_arbitrary_foreach (ECardSimple              
 	if (simple->card) {
 		EList *list;
 		EIterator *iterator;
-		gtk_object_get(GTK_OBJECT(simple->card),
-			       "arbitrary", &list,
-			       NULL);
+		g_object_get(simple->card,
+			     "arbitrary", &list,
+			     NULL);
 		for (iterator = e_list_get_iterator(list); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
 			const ECardArbitrary *arbitrary = e_iterator_get(iterator);
 			if (callback)
@@ -1169,9 +1185,9 @@ const ECardArbitrary *e_card_simple_get_arbitrary     (ECardSimple          *sim
 	if (simple->card) {
 		EList *list;
 		EIterator *iterator;
-		gtk_object_get(GTK_OBJECT(simple->card),
-			       "arbitrary", &list,
-			       NULL);
+		g_object_get(simple->card,
+			     "arbitrary", &list,
+			     NULL);
 		for (iterator = e_list_get_iterator(list); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
 			const ECardArbitrary *arbitrary = e_iterator_get(iterator);
 			if (!strcasecmp(arbitrary->key, key))
@@ -1194,9 +1210,9 @@ void                  e_card_simple_set_arbitrary     (ECardSimple          *sim
 		EIterator *iterator;
 
 		simple->changed = TRUE;
-		gtk_object_get(GTK_OBJECT(simple->card),
-			       "arbitrary", &list,
-			       NULL);
+		g_object_get(simple->card,
+			     "arbitrary", &list,
+			     NULL);
 		for (iterator = e_list_get_iterator(list); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
 			const ECardArbitrary *arbitrary = e_iterator_get(iterator);
 			if (!strcasecmp(arbitrary->key, key)) {
@@ -1223,9 +1239,9 @@ e_card_simple_set_name (ECardSimple *simple, ECardName *name)
 {
 	int style;
 	style = file_as_get_style(simple);
-	gtk_object_set (GTK_OBJECT (simple->card),
-			"name", name,
-			NULL);
+	g_object_set (simple->card,
+		      "name", name,
+		      NULL);
 	file_as_set_style(simple, style);
 }
 

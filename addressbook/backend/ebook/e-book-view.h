@@ -11,12 +11,19 @@
 #ifndef __E_BOOK_VIEW_H__
 #define __E_BOOK_VIEW_H__
 
-#include <libgnome/gnome-defs.h>
-
+#include <glib.h>
+#include <glib-object.h>
 #include <ebook/e-card.h>
 #include <ebook/e-book-view-listener.h>
 
-BEGIN_GNOME_DECLS
+#define E_TYPE_BOOK_VIEW           (e_book_view_get_type ())
+#define E_BOOK_VIEW(o)             (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TYPE_BOOK_VIEW, EBookView))
+#define E_BOOK_VIEW_CLASS(k)       (G_TYPE_CHECK_CLASS_CAST((k), E_TYPE_BOOK_VIEW, EBookViewClass))
+#define E_IS_BOOK_VIEW(o)          (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TYPE_BOOK_VIEW))
+#define E_IS_BOOK_VIEW_CLASS(k)    (G_TYPE_CHECK_CLASS_TYPE ((k), E_TYPE_BOOK_VIEW))
+#define E_BOOK_VIEW_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), E_TYPE_BOOK_VIEW, EBookViewClass))
+
+G_BEGIN_DECLS
 
 typedef struct _EBookView        EBookView;
 typedef struct _EBookViewClass   EBookViewClass;
@@ -25,12 +32,12 @@ typedef struct _EBookViewPrivate EBookViewPrivate;
 struct _EBook;  /* Forward reference */
 
 struct _EBookView {
-	GtkObject     parent;
+	GObject     parent;
 	EBookViewPrivate *priv;
 };
 
 struct _EBookViewClass {
-	GtkObjectClass parent;
+	GObjectClass parent;
 
 	/*
 	 * Signals.
@@ -45,18 +52,12 @@ struct _EBookViewClass {
 /* Creating a new addressbook. */
 EBookView         *e_book_view_new                    (GNOME_Evolution_Addressbook_BookView corba_book_view, EBookViewListener *listener);
 
-GtkType            e_book_view_get_type               (void);
+GType              e_book_view_get_type               (void);
 
 void               e_book_view_set_book               (EBookView *book_view, struct _EBook *book);
 
 void               e_book_view_stop                   (EBookView *book_view);
 
-#define E_BOOK_VIEW_TYPE        (e_book_view_get_type ())
-#define E_BOOK_VIEW(o)          (GTK_CHECK_CAST ((o), E_BOOK_VIEW_TYPE, EBookView))
-#define E_BOOK_VIEW_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_BOOK_VIEW_TYPE, EBookViewClass))
-#define E_IS_BOOK_VIEW(o)       (GTK_CHECK_TYPE ((o), E_BOOK_VIEW_TYPE))
-#define E_IS_BOOK_VIEW_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_BOOK_VIEW_TYPE))
-
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* ! __E_BOOK_VIEW_H__ */

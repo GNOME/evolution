@@ -11,26 +11,34 @@
 #ifndef __E_BOOK_H__
 #define __E_BOOK_H__
 
-#include <libgnome/gnome-defs.h>
+#include <glib.h>
+#include <glib-object.h>
 
 #include <ebook/e-card.h>
 #include <ebook/e-card-cursor.h>
 #include <ebook/e-book-view.h>
 #include <ebook/e-book-types.h>
 
-BEGIN_GNOME_DECLS
+#define E_TYPE_BOOK        (e_book_get_type ())
+#define E_BOOK(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TYPE_BOOK, EBook))
+#define E_BOOK_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), E_TYPE_BOOK, EBookClass))
+#define E_IS_BOOK(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TYPE_BOOK))
+#define E_IS_BOOK_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TYPE_BOOK))
+#define E_BOOK_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), E_TYPE_BOOK, EBookClass))
+
+G_BEGIN_DECLS
 
 typedef struct _EBook        EBook;
 typedef struct _EBookClass   EBookClass;
 typedef struct _EBookPrivate EBookPrivate;
 
 struct _EBook {
-	GtkObject     parent;
+	GObject       parent;
 	EBookPrivate *priv;
 };
 
 struct _EBookClass {
-	GtkObjectClass parent;
+	GObjectClass parent;
 
 	/*
 	 * Signals.
@@ -145,14 +153,8 @@ void      e_book_cancel                   (EBook                 *book,
 /* Getting the name of the repository. */
 char     *e_book_get_name                 (EBook                 *book);
 
-GtkType   e_book_get_type                 (void);
+GType     e_book_get_type                 (void);
 
-#define E_BOOK_TYPE        (e_book_get_type ())
-#define E_BOOK(o)          (GTK_CHECK_CAST ((o), E_BOOK_TYPE, EBook))
-#define E_BOOK_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_BOOK_TYPE, EBookClass))
-#define E_IS_BOOK(o)       (GTK_CHECK_TYPE ((o), E_BOOK_TYPE))
-#define E_IS_BOOK_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_BOOK_TYPE))
-
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* ! __E_BOOK_H__ */

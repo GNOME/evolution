@@ -1,9 +1,9 @@
 noinst_PROGRAMS = test-card test-client test-client-list
 
-bin_PROGRAMS =	evolution-vcard-importer 	\
-		evolution-ldif-importer		\
-		load-pine-addressbook		\
-		load-gnomecard-addressbook
+#bin_PROGRAMS =	evolution-vcard-importer 	\
+#		evolution-ldif-importer		\
+#		load-pine-addressbook		\
+#		load-gnomecard-addressbook
 
 CORBA_SOURCE =				\
 	addressbook.h			\
@@ -19,10 +19,8 @@ idls =								\
 	$(srcdir)/../idl/addressbook.idl			\
 	$(srcdir)/../../../composer/Evolution-Composer.idl
 
-idl_flags = `$(GNOME_CONFIG) --cflags idl` -I $(datadir)/idl
-
 $(CORBA_SOURCE): $(idls)
-	$(ORBIT_IDL) -I $(srcdir) $(idls) $(idl_flags)
+	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(idls)
 
 INCLUDES =						\
         -DGNOMELOCALEDIR=\""$(localedir)"\"        	\
@@ -42,6 +40,7 @@ privlib_LTLIBRARIES = libebook.la libebook-static.la
 libebook_la_SOURCES =					\
 	$(CORBA_SOURCE)					\
 	e-book-listener.c				\
+	e-book-marshal.c				\
 	e-book-view-listener.c				\
 	e-book-view.c					\
 	e-book.c					\
@@ -49,8 +48,9 @@ libebook_la_SOURCES =					\
 	e-card-cursor.c					\
 	e-card-simple.c					\
 	e-card.c					\
-	e-card-compare.c				\
-	e-destination.c
+	e-card-compare.c
+
+#	e-destination.c
 
 libebookincludedir = $(includedir)/evolution/ebook
 
@@ -76,13 +76,26 @@ libebookinclude_HEADERS =				\
 libebook_static_la_SOURCES = $(libebook_la_SOURCES)
 libebook_static_la_LDFLAGS = -all-static
 
+# GLib marshalling cruft
+
+e-book-marshal.h: e-book-marshal.list
+	( @GLIB_GENMARSHAL@ --prefix=e_book_marshal e-book-marshal.list --header > e-book-marshal.tmp \
+	&& mv e-book-marshal.tmp e-book-marshal.h ) \
+	|| ( rm -f e-book-marshal.tmp && exit 1 )
+
+e-book-marshal.c: e-book-marshal.h
+	( @GLIB_GENMARSHAL@ --prefix=e_book_marshal e-book-marshal.list --body > e-book-marshal.tmp \
+	&& mv e-book-marshal.tmp e-book-marshal.c ) \
+	|| ( rm -f e-book-marshal.tmp && exit 1 )
+
+MARSHAL_GENERATED = e-book-marshal.c e-book-marshal.h
+
 test_client_SOURCES =					\
 	test-client.c
 
 test_client_LDADD =					\
 	libebook.la					\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
-	$(top_builddir)/camel/libcamel.la		\
 	$(top_builddir)/libversit/libversit.a		\
 	$(top_builddir)/e-util/ename/libename.la	\
 	$(top_builddir)/e-util/libeutil.la
@@ -93,7 +106,6 @@ test_client_list_SOURCES =				\
 test_client_list_LDADD =				\
 	libebook.la					\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
-	$(top_builddir)/camel/libcamel.la		\
 	$(top_builddir)/e-util/ename/libename.la	\
 	$(top_builddir)/libversit/libversit.a		\
 	$(top_builddir)/e-util/libeutil.la
@@ -104,62 +116,60 @@ test_card_SOURCES =					\
 test_card_LDADD =					\
 	libebook.la					\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
-	$(top_builddir)/camel/libcamel.la		\
 	$(top_builddir)/e-util/ename/libename.la	\
 	$(top_builddir)/libversit/libversit.a		\
 	$(top_builddir)/e-util/libeutil.la
 
-evolution_vcard_importer_SOURCES = \
-	evolution-vcard-importer.c
+# evolution_vcard_importer_SOURCES = \
+# 	evolution-vcard-importer.c
 
-evolution_vcard_importer_LDADD =				\
-	libebook.la						\
-	$(EVOLUTION_ADDRESSBOOK_LIBS)				\
-	$(top_builddir)/camel/libcamel.la			\
-	$(top_builddir)/shell/importer/libevolution-importer.la \
-	$(DB3_LDADD)						\
-	$(top_builddir)/e-util/ename/libename.la		\
-	$(top_builddir)/libversit/libversit.a			\
-	$(top_builddir)/e-util/libeutil.la
+# evolution_vcard_importer_LDADD =				\
+# 	libebook.la						\
+# 	$(EVOLUTION_ADDRESSBOOK_LIBS)				\
+# 	$(top_builddir)/camel/libcamel.la			\
+# 	$(top_builddir)/shell/importer/libevolution-importer.la \
+# 	$(DB3_LDADD)						\
+# 	$(top_builddir)/e-util/ename/libename.la		\
+# 	$(top_builddir)/libversit/libversit.a			\
+# 	$(top_builddir)/e-util/libeutil.la
 
-evolution_ldif_importer_SOURCES = \
-	evolution-ldif-importer.c
+# evolution_ldif_importer_SOURCES = \
+# 	evolution-ldif-importer.c
 
-evolution_ldif_importer_LDADD =					\
-	libebook.la						\
-	$(EVOLUTION_ADDRESSBOOK_LIBS)				\
-	$(top_builddir)/camel/libcamel.la			\
-	$(top_builddir)/shell/importer/libevolution-importer.la \
-	$(DB3_LDADD)						\
-	$(top_builddir)/e-util/ename/libename.la		\
-	$(top_builddir)/libversit/libversit.a			\
-	$(top_builddir)/e-util/libeutil.la
+# evolution_ldif_importer_LDADD =					\
+# 	libebook.la						\
+# 	$(EVOLUTION_ADDRESSBOOK_LIBS)				\
+# 	$(top_builddir)/camel/libcamel.la			\
+# 	$(top_builddir)/shell/importer/libevolution-importer.la \
+# 	$(DB3_LDADD)						\
+# 	$(top_builddir)/e-util/ename/libename.la		\
+# 	$(top_builddir)/libversit/libversit.a			\
+# 	$(top_builddir)/e-util/libeutil.la
 
-load_pine_addressbook_SOURCES =				\
-	load-pine-addressbook.c
+# load_pine_addressbook_SOURCES =				\
+# 	load-pine-addressbook.c
 
-load_pine_addressbook_LDADD =				\
-	libebook.la					\
-	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
-	$(top_builddir)/camel/libcamel.la		\
-	$(top_builddir)/e-util/ename/libename.la	\
-	$(top_builddir)/libversit/libversit.a		\
-	$(top_builddir)/e-util/libeutil.la
+# load_pine_addressbook_LDADD =				\
+# 	libebook.la					\
+# 	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
+# 	$(top_builddir)/camel/libcamel.la		\
+# 	$(top_builddir)/e-util/ename/libename.la	\
+# 	$(top_builddir)/libversit/libversit.a		\
+# 	$(top_builddir)/e-util/libeutil.la
+
+# load_gnomecard_addressbook_SOURCES =			\
+# 	load-gnomecard-addressbook.c
+
+# load_gnomecard_addressbook_LDADD =			\
+# 	libebook.la					\
+# 	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
+# 	$(top_builddir)/camel/libcamel.la		\
+# 	$(top_builddir)/e-util/ename/libename.la	\
+# 	$(top_builddir)/libversit/libversit.a		\
+# 	$(top_builddir)/e-util/libeutil.la
 
 
-load_gnomecard_addressbook_SOURCES =			\
-	load-gnomecard-addressbook.c
-
-load_gnomecard_addressbook_LDADD =			\
-	libebook.la					\
-	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
-	$(top_builddir)/camel/libcamel.la		\
-	$(top_builddir)/e-util/ename/libename.la	\
-	$(top_builddir)/libversit/libversit.a		\
-	$(top_builddir)/e-util/libeutil.la
-
-
-BUILT_SOURCES = $(CORBA_SOURCE)
+BUILT_SOURCES = $(CORBA_SOURCE) $(MARSHAL_GENERATED)
 CLEANFILES    = $(BUILT_SOURCES)
 
 dist-hook:
@@ -175,4 +185,4 @@ oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 # add this back when you add the file to the archive ;)
 #	GNOME_Evolution_Addressbook_Pine_Importer.oafinfo
 
-EXTRA_DIST = $(oaf_in_files) $(oaf_DATA)
+EXTRA_DIST = $(oaf_in_files) $(oaf_DATA) e-book-marshal.list

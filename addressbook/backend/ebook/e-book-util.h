@@ -27,13 +27,12 @@
 #ifndef __E_BOOK_UTIL_H__
 #define __E_BOOK_UTIL_H__
 
-#include <libgnome/gnome-defs.h>
 #include "e-book.h"
-#include <bonobo-conf/bonobo-config-database.h>
+#include "e-util/e-config-listener.h"
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-moniker-util.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 /* Callbacks for asynchronous functions. */
 typedef void (*EBookCommonCallback)      (EBook *book, gpointer closure);
@@ -58,8 +57,8 @@ gboolean               e_book_load_default_book         (EBook                  
 							 gpointer                  closure);
 char                  *e_book_get_default_book_uri      (void);
 
-/* Bonoboconf database interface. */
-Bonobo_ConfigDatabase  e_book_get_config_database       (CORBA_Environment        *ev);
+/* config database interface. */
+EConfigListener       *e_book_get_config_database       (void);
 
 /* Simple Query Interface. */
 guint                  e_book_simple_query              (EBook                    *book,
@@ -86,8 +85,7 @@ void                   e_book_query_address_default     (const gchar            
 							 EBookHaveAddressCallback  cb,
 							 gpointer                  closure);
 
-END_GNOME_DECLS
-
+G_END_DECLS
 
 #endif /* __E_BOOK_UTIL_H__ */
 

@@ -2,7 +2,6 @@
 #include <config.h>
 #include <stdio.h>
 
-#include <liboaf/liboaf.h>
 #include <bonobo/bonobo-context.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-main.h>
@@ -31,7 +30,7 @@ static void
 add_card_cb (EBook *book, EBookStatus status, const gchar *id, gpointer closure)
 {
 	ECard *card = E_CARD(closure);
-	gtk_object_unref(GTK_OBJECT(card));
+	g_object_unref(card);
 }
 
 static void
@@ -181,10 +180,10 @@ support_format_fn (EvolutionImporter *importer,
 }
 
 static void
-importer_destroy_cb (GtkObject *object,
+importer_destroy_cb (GObject *object,
 		     VCardImporter *gci)
 {
-	gtk_main_quit ();
+	g_main_quit ();
 }
 
 static gboolean
@@ -221,8 +220,8 @@ factory_fn (BonoboGenericFactory *_factory,
 	importer = evolution_importer_new (support_format_fn, load_file_fn, 
 					   process_item_fn, NULL, gci);
 	
-	gtk_signal_connect (GTK_OBJECT (importer), "destroy",
-			    GTK_SIGNAL_FUNC (importer_destroy_cb), gci);
+	g_signal_connect (importer, "destroy",
+			  G_CALLBACK (importer_destroy_cb), gci);
 	
 	return BONOBO_OBJECT (importer);
 }
@@ -252,8 +251,8 @@ main (int argc,
 	gnome_init_with_popt_table ("Evolution-VCard-Importer",
 				    PACKAGE, argc, argv, oaf_popt_options, 0,
 				    NULL);
-	orb = oaf_init (argc, argv);
-	if (bonobo_init (orb, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE) {
+	orb = bonobo_activation_init (argc, argv);
+	if (bonobo_init_full (&argc, argv, orb, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE) {
 		g_error ("Could not initialize Bonobo.");
 	}
 

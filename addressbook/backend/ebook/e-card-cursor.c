@@ -7,7 +7,6 @@
  */
 
 #include <config.h>
-#include <gtk/gtkobject.h>
 #include "addressbook.h"
 #include "e-card-cursor.h"
 
@@ -18,13 +17,13 @@ struct _ECardCursorPrivate {
 /*
  * A pointer to our parent object class
  */
-static GtkObjectClass *parent_class;
+static GObjectClass *parent_class;
 
 /*
- * Implemented GtkObject::destroy
+ * Implemented GObject::dispose
  */
 static void
-e_card_cursor_destroy (GtkObject *object)
+e_card_cursor_dispose (GObject *object)
 {
 	ECardCursor *cursor = E_CARD_CURSOR (object);
 	CORBA_Environment      ev;
@@ -52,7 +51,7 @@ e_card_cursor_destroy (GtkObject *object)
 	if ( cursor->priv )
 		g_free ( cursor->priv );
 
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 /**
@@ -129,11 +128,11 @@ e_card_cursor_get_nth (ECardCursor *cursor,
 static void
 e_card_cursor_class_init (ECardCursorClass *klass)
 {
-	GtkObjectClass *object_class = (GtkObjectClass *) klass;
+	GObjectClass *object_class = (GObjectClass *) klass;
 
-	parent_class = gtk_type_class (gtk_object_get_type ());
+	parent_class = g_type_class_ref (G_TYPE_OBJECT);
 
-	object_class->destroy = e_card_cursor_destroy;
+	object_class->dispose = e_card_cursor_dispose;
 }
 
 static void
@@ -143,24 +142,25 @@ e_card_cursor_init (ECardCursor *cursor)
 	cursor->priv->corba_cursor = CORBA_OBJECT_NIL;
 }
 
-GtkType
+GType
 e_card_cursor_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 
 	if (!type){
-		GtkTypeInfo info = {
-			"ECardCursor",
-			sizeof (ECardCursor),
+		static const GTypeInfo info =  {
 			sizeof (ECardCursorClass),
-			(GtkClassInitFunc) e_card_cursor_class_init,
-			(GtkObjectInitFunc) e_card_cursor_init,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
+			NULL,           /* base_init */
+			NULL,           /* base_finalize */
+			(GClassInitFunc) e_card_cursor_class_init,
+			NULL,           /* class_finalize */
+			NULL,           /* class_data */
+			sizeof (ECardCursor),
+			0,             /* n_preallocs */
+			(GInstanceInitFunc) e_card_cursor_init,
 		};
 
-		type = gtk_type_unique (gtk_object_get_type (), &info);
+		type = g_type_register_static (G_TYPE_OBJECT, "ECardCursor", &info, 0);
 	}
 
 	return type;
@@ -209,7 +209,7 @@ e_card_cursor_construct (ECardCursor          *cursor,
 	CORBA_exception_free (&ev);
 	
 	/*
-	 * Success: return the GtkType we were given
+	 * Success: return the GType we were given
 	 */
 	return cursor;
 }
@@ -228,7 +228,7 @@ e_card_cursor_new (GNOME_Evolution_Addressbook_CardCursor corba_cursor)
 {
 	ECardCursor *cursor;
 
-	cursor = gtk_type_new (e_card_cursor_get_type ());
+	cursor = g_object_new (E_TYPE_CARD_CURSOR, NULL);
 	
 	return e_card_cursor_construct (cursor,
 					corba_cursor);

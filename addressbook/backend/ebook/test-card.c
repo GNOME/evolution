@@ -1,7 +1,6 @@
 #include <string.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnomeui/gnome-init.h>
 #include "e-card.h"
+#include <libgnome/gnome-init.h>
 
 #define TEST_VCARD                     \
 "BEGIN:VCARD\r\n"                      \
@@ -67,7 +66,7 @@ main (int argc, char **argv)
 	EIterator *iterator;
 	ECardDate *bday;
 
-	gnome_init ("TestCard", "0.0", argc, argv);
+	gnome_program_init("test-card", "0.0", LIBGNOME_MODULE, argc, argv, NULL);
 
 	cardstr = NULL;
 	if (argc == 2)
@@ -81,26 +80,26 @@ main (int argc, char **argv)
 	  for ( i = 0; i < 100000; i++ ) {
 	    card = e_card_new (cardstr);
 	  
-	    gtk_object_unref (GTK_OBJECT (card));
+	    g_object_unref (card);
 	  }
 	}
 #endif
 	card = e_card_new_with_default_charset (cardstr, "ISO-8859-1");
-	gtk_object_get(GTK_OBJECT(card),
-		       "full_name",  &fname,
-		       "name",       &name,
-		       "address",    &address,
-		       "phone",      &phone,
-		       "email",      &email,
-		       "org",        &org,
-		       "org_unit",   &org_unit,
-		       "title",      &title,
-		       "role",       &role,
-		       "nickname",   &nickname,
-		       "fburl",      &fburl,
-		       "arbitrary",  &arbitrary,
-		       "birth_date", &bday,
-		       NULL);
+	g_object_get(card,
+		     "full_name",  &fname,
+		     "name",       &name,
+		     "address",    &address,
+		     "phone",      &phone,
+		     "email",      &email,
+		     "org",        &org,
+		     "org_unit",   &org_unit,
+		     "title",      &title,
+		     "role",       &role,
+		     "nickname",   &nickname,
+		     "fburl",      &fburl,
+		     "arbitrary",  &arbitrary,
+		     "birth_date", &bday,
+		     NULL);
 	if ( fname ) {
 	  printf("Name : %s\n", fname);
 	  g_free(fname);
@@ -142,7 +141,7 @@ main (int argc, char **argv)
             ECardArbitrary *arbitrary = (ECardArbitrary *) e_iterator_get(iterator);
 	    printf("Arbitrary : %s, %s\n", arbitrary->key, arbitrary->value);
 	  }
-	  gtk_object_unref(GTK_OBJECT(iterator));
+	  g_object_unref(iterator);
 	}
 	if ( bday ) {
 	  printf("BDay : %4d-%02d-%02d\n", bday->year, bday->month, bday->day);
@@ -152,7 +151,7 @@ main (int argc, char **argv)
 	  for (; e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
 	    printf("Email : %s\n", (char *) e_iterator_get(iterator));
 	  }
-	  gtk_object_unref(GTK_OBJECT(iterator));
+	  g_object_unref(iterator);
 	}
 	if ( phone ) {
 	  iterator = e_list_get_iterator(address);
@@ -160,7 +159,7 @@ main (int argc, char **argv)
 	    ECardPhone *e_card_phone = (ECardPhone *) e_iterator_get(iterator);
 	    printf("Phone ; %d : %s\n", e_card_phone->flags, e_card_phone->number);
 	  }
-	  gtk_object_unref(GTK_OBJECT(iterator));
+	  g_object_unref(iterator);
 	}
 	if ( address ) {
 	  iterator = e_list_get_iterator(address);
@@ -182,10 +181,10 @@ main (int argc, char **argv)
 	    if ( del_address->country )
 	      printf("  Country : %s\n", del_address->country);
 	  }
-	  gtk_object_unref(GTK_OBJECT(iterator));
+	  g_object_unref(iterator);
 	}
 	printf("%s", e_card_get_vcard_assume_utf8(card));
-	gtk_object_unref (GTK_OBJECT (card));
+	g_object_unref (card);
 
 	return 0;
 }

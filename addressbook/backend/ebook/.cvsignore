@@ -23,3 +23,5 @@ Evolution-Composer-common.c
 Evolution-Composer.h
 GNOME_Evolution_Addressbook_VCard_Importer.oaf
 GNOME_Evolution_Addressbook_LDIF_Importer.oaf
+e-book-marshal.c
+e-book-marshal.h

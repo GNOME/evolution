@@ -10,10 +10,11 @@
  */
 
 #include <config.h>
-#include <gtk/gtksignal.h>
+#include <bonobo/bonobo-main.h>
 #include "e-book-view-listener.h"
 #include "e-book-view.h"
 #include "e-card.h"
+#include "e-book-marshal.h"
 
 static EBookViewStatus e_book_view_listener_convert_status (GNOME_Evolution_Addressbook_BookViewListener_CallStatus status);
 
@@ -24,10 +25,13 @@ enum {
 
 static guint e_book_view_listener_signals [LAST_SIGNAL];
 
-static BonoboObjectClass          *e_book_view_listener_parent_class;
+static BonoboObjectClass          *parent_class;
 POA_GNOME_Evolution_Addressbook_BookViewListener__vepv  e_book_view_listener_vepv;
 
 struct _EBookViewListenerPrivate {
+	EBookViewListenerServant *servant;
+	GNOME_Evolution_Addressbook_BookViewListener corba_objref;
+
 	GList   *response_queue;
 	gint     timeout_id;
 
@@ -44,7 +48,7 @@ e_book_view_listener_check_queue (EBookViewListener *listener)
 	listener->priv->timeout_lock = TRUE;
 
 	if (listener->priv->response_queue != NULL && !listener->priv->stopped) {
-		gtk_signal_emit (GTK_OBJECT (listener), e_book_view_listener_signals [RESPONSES_QUEUED]);
+		g_signal_emit (listener, e_book_view_listener_signals [RESPONSES_QUEUED], 0);
 	}
 
 	if (listener->priv->response_queue == NULL || listener->priv->stopped) {
@@ -68,7 +72,7 @@ e_book_view_listener_queue_response (EBookViewListener         *listener,
 	if (listener->priv->stopped) {
 		/* Free response and return */
 		g_free (response->id);
-		g_list_foreach (response->cards, (GFunc) gtk_object_unref, NULL);
+		g_list_foreach (response->cards, (GFunc) g_object_unref, NULL);
 		g_list_free (response->cards);
 		g_free (response->message);
 		g_free (response);
@@ -215,7 +219,7 @@ impl_BookViewListener_notify_card_added (PortableServer_Servant servant,
 
 static void
 impl_BookViewListener_notify_card_removed (PortableServer_Servant servant,
-					   const GNOME_Evolution_Addressbook_CardId id,
+					   const CORBA_char* id,
 					   CORBA_Environment *ev)
 {
 	EBookViewListener *listener = E_BOOK_VIEW_LISTENER (bonobo_object_from_servant (servant));
@@ -327,41 +331,70 @@ e_book_view_listener_convert_status (const GNOME_Evolution_Addressbook_BookViewL
 	}
 }
 
-static EBookViewListener *
-e_book_view_listener_construct (EBookViewListener *listener)
+void
+e_book_view_listener_construct      (EBookViewListener *listener,
+				     GNOME_Evolution_Addressbook_BookViewListener corba_objref)
 {
-	POA_GNOME_Evolution_Addressbook_BookViewListener *servant;
-	CORBA_Environment           ev;
-	CORBA_Object                obj;
+	EBookViewListenerPrivate *priv;
 
-	g_assert (listener != NULL);
-	g_assert (E_IS_BOOK_VIEW_LISTENER (listener));
+	g_return_if_fail (listener != NULL);
+	g_return_if_fail (corba_objref != CORBA_OBJECT_NIL);
 
-	servant = (POA_GNOME_Evolution_Addressbook_BookViewListener *) g_new0 (BonoboObjectServant, 1);
-	servant->vepv = &e_book_view_listener_vepv;
+	priv = listener->priv;
+
+	g_return_if_fail (priv->corba_objref == CORBA_OBJECT_NIL);
+
+	priv->corba_objref = corba_objref;
+}
+
+static EBookViewListenerServant *
+create_servant (EBookViewListener *listener)
+{
+	EBookViewListenerServant *servant;
+	POA_GNOME_Evolution_Addressbook_BookViewListener *corba_servant;
+	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
 
-	POA_GNOME_Evolution_Addressbook_BookViewListener__init ((PortableServer_Servant) servant, &ev);
+	servant = g_new0 (EBookViewListenerServant, 1);
+	corba_servant = (POA_GNOME_Evolution_Addressbook_BookViewListener *) servant;
+
+	corba_servant->vepv = &e_book_view_listener_vepv;
+	POA_GNOME_Evolution_Addressbook_BookViewListener__init ((PortableServer_Servant) corba_servant, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_free (servant);
 		CORBA_exception_free (&ev);
-
 		return NULL;
+	}
+
+	servant->object = listener;
+
+	CORBA_exception_free (&ev);
+
+	return servant;
+}
+
+static GNOME_Evolution_Addressbook_BookViewListener
+activate_servant (EBookViewListener *listener,
+		  POA_GNOME_Evolution_Addressbook_BookViewListener *servant)
+{
+	GNOME_Evolution_Addressbook_BookViewListener corba_object;
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+
+	CORBA_free (PortableServer_POA_activate_object (bonobo_poa (), servant, &ev));
+
+	corba_object = PortableServer_POA_servant_to_reference (bonobo_poa(), servant, &ev);
+
+	if (ev._major == CORBA_NO_EXCEPTION && ! CORBA_Object_is_nil (corba_object, &ev)) {
+		CORBA_exception_free (&ev);
+		return corba_object;
 	}
 
 	CORBA_exception_free (&ev);
 
-	obj = bonobo_object_activate_servant (BONOBO_OBJECT (listener), servant);
-	if (obj == CORBA_OBJECT_NIL) {
-		g_free (servant);
-
-		return NULL;
-	}
-
-	bonobo_object_construct (BONOBO_OBJECT (listener), obj);
-
-	return listener;
+	return CORBA_OBJECT_NIL;
 }
 
 /**
@@ -376,26 +409,25 @@ EBookViewListener *
 e_book_view_listener_new ()
 {
 	EBookViewListener *listener;
-	EBookViewListener *retval;
+	EBookViewListenerPrivate *priv;
+	GNOME_Evolution_Addressbook_BookViewListener corba_objref;
 
-	listener = gtk_type_new (E_BOOK_VIEW_LISTENER_TYPE);
+	listener = g_object_new (E_TYPE_BOOK_VIEW_LISTENER, NULL);
+	priv = listener->priv;
 
-	retval = e_book_view_listener_construct (listener);
+	priv->servant = create_servant (listener);
+	corba_objref = activate_servant (listener, (POA_GNOME_Evolution_Addressbook_BookViewListener *) priv->servant);
 
-	if (retval == NULL) {
-		g_warning ("e_book_view_listener_new: Error constructing "
-			   "EBookViewListener!\n");
-		bonobo_object_unref (BONOBO_OBJECT (listener));
-		return NULL;
-	}
+	e_book_view_listener_construct (listener, corba_objref);
 
-	return retval;
+	return listener;
 }
 
 static void
 e_book_view_listener_init (EBookViewListener *listener)
 {
 	listener->priv                 = g_new0 (EBookViewListenerPrivate, 1);
+	listener->priv->corba_objref   = CORBA_OBJECT_NIL;
 	listener->priv->response_queue = NULL;
 	listener->priv->timeout_id     = 0;
 	listener->priv->timeout_lock   = FALSE;
@@ -410,7 +442,7 @@ e_book_view_listener_stop (EBookViewListener *listener)
 }
 
 static void
-e_book_view_listener_destroy (GtkObject *object)
+e_book_view_listener_dispose (GObject *object)
 {
 	EBookViewListener *listener = E_BOOK_VIEW_LISTENER (object);
 	GList *l;
@@ -427,7 +459,7 @@ e_book_view_listener_destroy (GtkObject *object)
 
 		g_free(resp->id);
 
-		g_list_foreach(resp->cards, (GFunc) gtk_object_unref, NULL);
+		g_list_foreach(resp->cards, (GFunc) g_object_unref, NULL);
 		g_list_free(resp->cards);
 		resp->cards = NULL;
 
@@ -440,76 +472,78 @@ e_book_view_listener_destroy (GtkObject *object)
 	
 	g_free (listener->priv);
 	listener->priv = NULL;
-	
-	GTK_OBJECT_CLASS (e_book_view_listener_parent_class)->destroy (object);
+
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
-POA_GNOME_Evolution_Addressbook_BookViewListener__epv *
-e_book_view_listener_get_epv (void)
+static void
+corba_class_init (void)
 {
+	POA_GNOME_Evolution_Addressbook_BookViewListener__vepv *vepv;
 	POA_GNOME_Evolution_Addressbook_BookViewListener__epv *epv;
+	PortableServer_ServantBase__epv *base_epv;
+
+	base_epv = g_new0 (PortableServer_ServantBase__epv, 1);
+	base_epv->_private    = NULL;
+	base_epv->finalize    = NULL;
+	base_epv->default_POA = NULL;
+
 
 	epv = g_new0 (POA_GNOME_Evolution_Addressbook_BookViewListener__epv, 1);
-
 	epv->notifyCardChanged      = impl_BookViewListener_notify_card_changed;
 	epv->notifyCardRemoved      = impl_BookViewListener_notify_card_removed;
 	epv->notifyCardAdded        = impl_BookViewListener_notify_card_added;
 	epv->notifySequenceComplete = impl_BookViewListener_notify_sequence_complete;
 	epv->notifyStatusMessage    = impl_BookViewListener_notify_status_message;
 
-	return epv;
-}
-
-static void
-e_book_view_listener_corba_class_init (void)
-{
-	e_book_view_listener_vepv.Bonobo_Unknown_epv          = bonobo_object_get_epv ();
-	e_book_view_listener_vepv.GNOME_Evolution_Addressbook_BookViewListener_epv = e_book_view_listener_get_epv ();
+	vepv = &e_book_view_listener_vepv;
+	vepv->_base_epv                                    = base_epv;
+	vepv->GNOME_Evolution_Addressbook_BookViewListener_epv = epv;
 }
 
 static void
 e_book_view_listener_class_init (EBookViewListenerClass *klass)
 {
-	GtkObjectClass *object_class = (GtkObjectClass *) klass;
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-	e_book_view_listener_parent_class = gtk_type_class (bonobo_object_get_type ());
+	parent_class = g_type_class_ref (BONOBO_TYPE_OBJECT);
 
 	e_book_view_listener_signals [RESPONSES_QUEUED] =
-		gtk_signal_new ("responses_queued",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EBookViewListenerClass, responses_queued),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("responses_queued",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EBookViewListenerClass, responses_queued),
+			      NULL, NULL,
+			      e_book_marshal_NONE__NONE,
+			      G_TYPE_NONE, 0);
 
-	gtk_object_class_add_signals (object_class, e_book_view_listener_signals, LAST_SIGNAL);
+	object_class->dispose = e_book_view_listener_dispose;
 
-	object_class->destroy = e_book_view_listener_destroy;
-
-	e_book_view_listener_corba_class_init ();
+	corba_class_init ();
 }
 
 /**
  * e_book_view_listener_get_type:
  */
-GtkType
+GType
 e_book_view_listener_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 
 	if (! type) {
-		GtkTypeInfo info = {
-			"EBookViewListener",
-			sizeof (EBookViewListener),
+		GTypeInfo info = {
 			sizeof (EBookViewListenerClass),
-			(GtkClassInitFunc)  e_book_view_listener_class_init,
-			(GtkObjectInitFunc) e_book_view_listener_init,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
+			NULL, /* base_class_init */
+			NULL, /* base_class_finalize */
+			(GClassInitFunc)  e_book_view_listener_class_init,
+			NULL, /* class_finalize */
+			NULL, /* class_data */
+			sizeof (EBookViewListener),
+			0,    /* n_preallocs */
+			(GInstanceInitFunc) e_book_view_listener_init
 		};
 
-		type = gtk_type_unique (bonobo_object_get_type (), &info);
+		type = g_type_register_static (G_TYPE_OBJECT, "EBookViewListener", &info, 0);
 	}
 
 	return type;

@@ -27,16 +27,18 @@
 #ifndef __E_DESTINATION_H__
 #define __E_DESTINATION_H__
 
-#include <gtk/gtkobject.h>
+#include <glib.h>
+#include <glib-object.h>
 #include <ebook/e-card.h>
 #include <ebook/e-book.h>
 #include <gnome-xml/tree.h>
 
-#define E_TYPE_DESTINATION        (e_destination_get_type ())
-#define E_DESTINATION(o)          (GTK_CHECK_CAST ((o), E_TYPE_DESTINATION, EDestination))
-#define E_DESTINATION_CLASS(k)    (GTK_CHECK_CLASS_CAST ((k), E_TYPE_DESTINATION, EDestinationClass))
-#define E_IS_DESTINATION(o)       (GTK_CHECK_TYPE ((o), E_TYPE_DESTINATION))
-#define E_IS_DESTINATION_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TYPE_DESTINATION))
+#define E_TYPE_DESTINATION           (e_destination_get_type ())
+#define E_DESTINATION(o)             (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TYPE_DESTINATION, EDestination))
+#define E_DESTINATION_CLASS(k)       (G_TYPE_CHECK_CLASS_CAST ((k), E_TYPE_DESTINATION, EDestinationClass))
+#define E_IS_DESTINATION(o)          (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TYPE_DESTINATION))
+#define E_IS_DESTINATION_CLASS(k)    (G_TYPE_CHECK_CLASS_TYPE ((k), E_TYPE_DESTINATION))
+#define E_DESTINATION_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), E_TYPE_DESTINATION, EDestinationClass))
 
 typedef struct _EDestination EDestination;
 typedef struct _EDestinationClass EDestinationClass;
@@ -46,19 +48,19 @@ typedef void (*EDestinationCardCallback) (EDestination *dest, ECard *card, gpoin
 struct _EDestinationPrivate;
 
 struct _EDestination {
-	GtkObject object;
+	GObject object;
 
 	struct _EDestinationPrivate *priv;
 };
 
 struct _EDestinationClass {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	void (*changed) (EDestination *dest);	
 	void (*cardified) (EDestination *dest);
 };
 
-GtkType e_destination_get_type (void);
+GType e_destination_get_type (void);
 
 
 EDestination  *e_destination_new                (void);

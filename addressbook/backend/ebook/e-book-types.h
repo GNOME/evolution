@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * A client-side GtkObject which exposes the
+ * A client-side GObject which exposes the
  * Evolution:BookListener interface.
  *
  * Author:
@@ -12,9 +12,9 @@
 #ifndef __E_BOOK_TYPES_H__
 #define __E_BOOK_TYPES_H__
 
-#include <libgnome/gnome-defs.h>
+#include <glib.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 typedef enum {
 	E_BOOK_STATUS_SUCCESS,
@@ -48,6 +48,6 @@ typedef enum {
 	E_BOOK_SIMPLE_QUERY_STATUS_OTHER_ERROR
 } EBookSimpleQueryStatus;
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* ! __E_BOOK_TYPES_H__ */

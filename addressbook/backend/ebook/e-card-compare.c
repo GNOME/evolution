@@ -26,7 +26,6 @@
 
 #include <config.h>
 #include <ctype.h>
-#include <gal/unicode/gunicode.h>
 #include "e-book-util.h"
 #include "e-card-compare.h"
 
@@ -80,7 +79,28 @@ static gchar *name_synonyms[][2] = {
 	/* We should add soundex here. */
 	{ NULL, NULL }
 };
-	
+
+static int
+utf8_casefold_collate_len (const gchar *str1, const gchar *str2, int len)
+{
+	gchar *s1 = g_utf8_casefold(str1, len);
+	gchar *s2 = g_utf8_casefold(str2, len);
+	int rv;
+
+	rv = g_utf8_collate (s1, s2);
+
+	g_free (s1);
+	g_free (s2);
+
+	return rv;
+}
+
+static int
+utf8_casefold_collate (const gchar *str1, const gchar *str2)
+{
+	return utf8_casefold_collate_len (str1, str2, -1);
+}
+
 static gboolean
 name_fragment_match (const gchar *a, const gchar *b, gboolean strict)
 {
@@ -102,7 +122,7 @@ name_fragment_match (const gchar *a, const gchar *b, gboolean strict)
 		len = MIN (g_utf8_strlen (a, -1), g_utf8_strlen (b, -1));
 	}
 
-	return !g_utf8_strncasecmp (a, b, len);
+	return !utf8_casefold_collate_len (a, b, len);
 }
 
 static gboolean
@@ -119,12 +139,12 @@ name_fragment_match_with_synonyms (const gchar *a, const gchar *b, gboolean stri
 	/* Check for nicknames.  Yes, the linear search blows. */
 	for (i=0; name_synonyms[i][0]; ++i) {
 
-		if (!g_utf8_strcasecmp (name_synonyms[i][0], a)
-		    && !g_utf8_strcasecmp (name_synonyms[i][1], b))
+		if (!utf8_casefold_collate (name_synonyms[i][0], a)
+		    && !utf8_casefold_collate (name_synonyms[i][1], b))
 			return TRUE;
 		
-		if (!g_utf8_strcasecmp (name_synonyms[i][0], b)
-		    && !g_utf8_strcasecmp (name_synonyms[i][1], a))
+		if (!utf8_casefold_collate (name_synonyms[i][0], b)
+		    && !utf8_casefold_collate (name_synonyms[i][1], a))
 			return TRUE;
 	}
 
@@ -221,7 +241,7 @@ e_card_compare_name_to_string_full (ECard *card, const gchar *str, gboolean allo
 			if (familyv && this_part_match == E_CARD_MATCH_PART_NONE) {
 				for (j = 0; familyv[j]; ++j) {
 					if (allow_partial_matches ? name_fragment_match_with_synonyms (familyv[j], namev[i], allow_partial_matches)
-					    : !g_utf8_strcasecmp (familyv[j], namev[i])) {
+					    : !utf8_casefold_collate (familyv[j], namev[i])) {
 
 						this_part_match = E_CARD_MATCH_PART_FAMILY_NAME;
 
@@ -310,7 +330,7 @@ e_card_compare_name (ECard *card1, ECard *card2)
 	if (a->family && b->family) {
 		++possible;
 		/* We don't allow "loose matching" (i.e. John vs. Jon) on family names */
-		if (! g_utf8_strcasecmp (a->family, b->family)) {
+		if (! utf8_casefold_collate (a->family, b->family)) {
 			++matches;
 			family_match = TRUE;
 		}
@@ -464,8 +484,8 @@ e_card_compare_email (ECard *card1, ECard *card2)
 		e_iterator_next (i1);
 	}
 
-	gtk_object_unref (GTK_OBJECT (i1));
-	gtk_object_unref (GTK_OBJECT (i2));
+	g_object_unref (i1);
+	g_object_unref (i2);
 
 	return match;
 }
@@ -522,11 +542,11 @@ static void
 match_search_info_free (MatchSearchInfo *info)
 {
 	if (info) {
-		gtk_object_unref (GTK_OBJECT (info->card));
+		g_object_unref (info->card);
 
 		/* This should already have been deallocated, but just in case... */
 		if (info->avoid) {
-			g_list_foreach (info->avoid, (GFunc) gtk_object_unref, NULL);
+			g_list_foreach (info->avoid, (GFunc) g_object_unref, NULL);
 			g_list_free (info->avoid);
 			info->avoid = NULL;
 		}
@@ -663,7 +683,7 @@ e_card_locate_match (ECard *card, ECardMatchQueryCallback cb, gpointer closure)
 
 	info = g_new (MatchSearchInfo, 1);
 	info->card = card;
-	gtk_object_ref (GTK_OBJECT (card));
+	g_object_ref (card);
 	info->cb = cb;
 	info->closure = closure;
 	info->avoid = NULL;
@@ -692,11 +712,11 @@ e_card_locate_match_full (EBook *book, ECard *card, GList *avoid, ECardMatchQuer
 
 	info = g_new (MatchSearchInfo, 1);
 	info->card = card;
-	gtk_object_ref (GTK_OBJECT (card));
+	g_object_ref (card);
 	info->cb = cb;
 	info->closure = closure;
 	info->avoid = g_list_copy (avoid);
-	g_list_foreach (info->avoid, (GFunc) gtk_object_ref, NULL);
+	g_list_foreach (info->avoid, (GFunc) g_object_ref, NULL);
 
 	if (book)
 		use_common_book_cb (book, info);

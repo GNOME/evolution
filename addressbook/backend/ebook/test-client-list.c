@@ -2,24 +2,16 @@
 #include <config.h>
 
 #include <glib.h>
-#include <gtk/gtkmain.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-init.h>
-#include <liboaf/liboaf.h>
+#include <bonobo/bonobo-i18n.h>
 #include <bonobo/bonobo-main.h>
+#include <libgnome/gnome-init.h>
 
 #include "e-book.h"
 
-CORBA_Environment ev;
-
 static void
-init_bonobo (int argc, char **argv)
+init_bonobo (int *argc, char **argv)
 {
-	gnome_init ("blah", "0.0", argc, argv);
-	oaf_init (argc, argv);
-
-	if (bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
+	if (bonobo_init (argc, argv) == FALSE)
 		g_error (_("Could not initialize Bonobo"));
 }
 
@@ -35,7 +27,7 @@ get_cursor_cb (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer cl
 		char *vcard = e_card_get_vcard_assume_utf8(card);
 		printf("[%s]\n", vcard);
 		g_free(vcard);
-		gtk_object_unref(GTK_OBJECT(card));
+		g_object_unref(card);
 	}
 }
 
@@ -46,8 +38,8 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 	e_book_get_cursor(book, "", get_cursor_cb, NULL);
 }
 
-static guint
-ebook_create (void)
+static gboolean
+ebook_create (gpointer data)
 {
 	EBook *book;
 	
@@ -64,11 +56,12 @@ ebook_create (void)
 int
 main (int argc, char **argv)
 {
+	gnome_program_init("test-client-list", "0.0", LIBGNOME_MODULE, argc, argv, NULL);
 
-	CORBA_exception_init (&ev);
-	init_bonobo (argc, argv);
+	bonobo_activation_init (argc, argv);
+	init_bonobo (&argc, argv);
 
-	gtk_idle_add ((GtkFunction) ebook_create, NULL);
+	g_idle_add (ebook_create, NULL);
 
 	bonobo_main ();
 

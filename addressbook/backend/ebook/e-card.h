@@ -13,16 +13,17 @@
 #define __E_CARD_H__
 
 #include <time.h>
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 #include <stdio.h>
 #include <ebook/e-card-types.h>
 #include <e-util/e-list.h>
 
 #define E_TYPE_CARD            (e_card_get_type ())
-#define E_CARD(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_CARD, ECard))
-#define E_CARD_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), E_TYPE_CARD, ECardClass))
-#define E_IS_CARD(obj)         (GTK_CHECK_TYPE ((obj), E_TYPE_CARD))
-#define E_IS_CARD_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), E_TYPE_CARD))
+#define E_CARD(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_CARD, ECard))
+#define E_CARD_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_CARD, ECardClass))
+#define E_IS_CARD(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_CARD))
+#define E_IS_CARD_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_CARD))
+#define E_CARD_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), E_TYPE_CARD, ECardClass))
 
 typedef struct _ECard ECard;
 typedef struct _ECardClass ECardClass;
@@ -30,7 +31,7 @@ typedef struct _ECardClass ECardClass;
 struct _EBook; /* Forward reference */
 
 struct _ECard {
-	GtkObject object;
+	GObject object;
 	char *id;
 
 	struct _EBook   *book;          /* The EBook this card is from.     */
@@ -111,7 +112,7 @@ struct _ECard {
 };
 
 struct _ECardClass {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 	GHashTable    *attribute_jump_table;
 };
 
@@ -212,7 +213,6 @@ void                  e_card_load_uri                       (const gchar        
 							     gpointer                    closure);
 
 
-/* Standard Gtk function */
-GtkType               e_card_get_type                       (void);
+GType               e_card_get_type                         (void);
 
 #endif /* ! __E_CARD_H__ */

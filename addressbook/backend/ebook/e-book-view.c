@@ -9,16 +9,15 @@
  */
 
 #include <config.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkmarshal.h>
 
 #include "addressbook.h"
 #include "e-card-cursor.h"
 #include "e-book-view-listener.h"
 #include "e-book-view.h"
 #include "e-book.h"
+#include "e-book-marshal.h"
 
-GtkObjectClass *e_book_view_parent_class;
+static GObjectClass *parent_class;
 
 struct _EBookViewPrivate {
 	GNOME_Evolution_Addressbook_BookView     corba_book_view;
@@ -57,10 +56,10 @@ e_book_view_do_added_event (EBookView                 *book_view,
 	if (book_view->priv->book)
 		g_list_foreach (resp->cards, add_book_iterator, book_view->priv->book);
 
-	gtk_signal_emit (GTK_OBJECT (book_view), e_book_view_signals [CARD_ADDED],
-			 resp->cards);
+	g_signal_emit (book_view, e_book_view_signals [CARD_ADDED], 0,
+		       resp->cards);
 
-	g_list_foreach (resp->cards, (GFunc) gtk_object_unref, NULL);
+	g_list_foreach (resp->cards, (GFunc) g_object_unref, NULL);
 	g_list_free (resp->cards);
 }
 
@@ -71,10 +70,10 @@ e_book_view_do_modified_event (EBookView                 *book_view,
 	if (book_view->priv->book)
 		g_list_foreach (resp->cards, add_book_iterator, book_view->priv->book);
 
-	gtk_signal_emit (GTK_OBJECT (book_view), e_book_view_signals [CARD_CHANGED],
-			 resp->cards);
+	g_signal_emit (book_view, e_book_view_signals [CARD_CHANGED], 0,
+		       resp->cards);
 
-	g_list_foreach (resp->cards, (GFunc) gtk_object_unref, NULL);
+	g_list_foreach (resp->cards, (GFunc) g_object_unref, NULL);
 	g_list_free (resp->cards);
 }
 
@@ -82,8 +81,8 @@ static void
 e_book_view_do_removed_event (EBookView                 *book_view,
 			      EBookViewListenerResponse *resp)
 {
-	gtk_signal_emit (GTK_OBJECT (book_view), e_book_view_signals [CARD_REMOVED],
-			 resp->id);
+	g_signal_emit (book_view, e_book_view_signals [CARD_REMOVED], 0,
+		       resp->id);
 
 	g_free(resp->id);
 }
@@ -92,15 +91,16 @@ static void
 e_book_view_do_complete_event (EBookView                 *book_view,
 			       EBookViewListenerResponse *resp)
 {
-	gtk_signal_emit (GTK_OBJECT (book_view), e_book_view_signals [SEQUENCE_COMPLETE], resp->status);
+	g_signal_emit (book_view, e_book_view_signals [SEQUENCE_COMPLETE], 0,
+		       resp->status);
 }
 
 static void
 e_book_view_do_status_message_event (EBookView                 *book_view,
 				     EBookViewListenerResponse *resp)
 {
-	gtk_signal_emit (GTK_OBJECT (book_view), e_book_view_signals [STATUS_MESSAGE],
-			 resp->message);
+	g_signal_emit (book_view, e_book_view_signals [STATUS_MESSAGE], 0,
+		       resp->message);
 	g_free(resp->message);
 }
 
@@ -170,8 +170,8 @@ e_book_view_construct (EBookView *book_view, GNOME_Evolution_Addressbook_BookVie
 	 * Create our local BookListener interface.
 	 */
 	book_view->priv->listener = listener;
-	book_view->priv->responses_queued_id = gtk_signal_connect (GTK_OBJECT (book_view->priv->listener), "responses_queued",
-								   e_book_view_check_listener_queue, book_view);
+	book_view->priv->responses_queued_id = g_signal_connect (book_view->priv->listener, "responses_queued",
+								 G_CALLBACK (e_book_view_check_listener_queue), book_view);
 
 	bonobo_object_ref(BONOBO_OBJECT(book_view->priv->listener));
 
@@ -186,10 +186,10 @@ e_book_view_new (GNOME_Evolution_Addressbook_BookView corba_book_view, EBookView
 {
 	EBookView *book_view;
 
-	book_view = gtk_type_new (E_BOOK_VIEW_TYPE);
+	book_view = g_object_new (E_TYPE_BOOK_VIEW, NULL);
 
 	if (! e_book_view_construct (book_view, corba_book_view, listener)) {
-		gtk_object_unref (GTK_OBJECT (book_view));
+		g_object_unref (book_view);
 		return NULL;
 	}
 
@@ -204,7 +204,7 @@ e_book_view_set_book (EBookView *book_view, EBook *book)
 	g_return_if_fail (book_view->priv->book == NULL);
 
 	book_view->priv->book = book;
-	gtk_object_ref (GTK_OBJECT (book));
+	g_object_ref (book);
 }
 
 void
@@ -226,13 +226,13 @@ e_book_view_init (EBookView *book_view)
 }
 
 static void
-e_book_view_destroy (GtkObject *object)
+e_book_view_dispose (GObject *object)
 {
 	EBookView             *book_view = E_BOOK_VIEW (object);
 	CORBA_Environment  ev;
 
 	if (book_view->priv->book) {
-		gtk_object_unref (GTK_OBJECT (book_view->priv->book));
+		g_object_unref (book_view->priv->book);
 	}
 
 	if (book_view->priv->corba_book_view) {
@@ -249,103 +249,99 @@ e_book_view_destroy (GtkObject *object)
 
 	if (book_view->priv->listener) {
 		if (book_view->priv->responses_queued_id)
-			gtk_signal_disconnect(GTK_OBJECT(book_view->priv->listener),
-					      book_view->priv->responses_queued_id);
+			g_signal_handler_disconnect(book_view->priv->listener,
+						    book_view->priv->responses_queued_id);
 		e_book_view_listener_stop (book_view->priv->listener);
 		bonobo_object_unref (BONOBO_OBJECT(book_view->priv->listener));
 	}
 
 	g_free (book_view->priv);
 
-	if (GTK_OBJECT_CLASS (e_book_view_parent_class)->destroy)
-		GTK_OBJECT_CLASS (e_book_view_parent_class)->destroy (object);
+	G_OBJECT_CLASS(parent_class)->dispose (object);
 }
 
 static void
 e_book_view_class_init (EBookViewClass *klass)
 {
-	GtkObjectClass *object_class = (GtkObjectClass *) klass;
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-	e_book_view_parent_class = gtk_type_class (gtk_object_get_type ());
+	parent_class = g_type_class_ref (G_TYPE_OBJECT);
 
 	e_book_view_signals [CARD_CHANGED] =
-		gtk_signal_new ("card_changed",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EBookViewClass, card_changed),
-				gtk_marshal_NONE__POINTER,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_POINTER);
+		g_signal_new ("card_changed",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EBookViewClass, card_changed),
+			      NULL, NULL,
+			      e_book_marshal_NONE__POINTER,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_POINTER);
 
 	e_book_view_signals [CARD_ADDED] =
-		gtk_signal_new ("card_added",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EBookViewClass, card_added),
-				gtk_marshal_NONE__STRING,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_STRING);
+		g_signal_new ("card_added",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EBookViewClass, card_added),
+			      NULL, NULL,
+			      e_book_marshal_NONE__STRING,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_STRING);
 
 	e_book_view_signals [CARD_REMOVED] =
-		gtk_signal_new ("card_removed",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EBookViewClass, card_removed),
-				gtk_marshal_NONE__POINTER,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_POINTER);
+		g_signal_new ("card_removed",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EBookViewClass, card_removed),
+			      NULL, NULL,
+			      e_book_marshal_NONE__POINTER,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_POINTER);
 
 	e_book_view_signals [SEQUENCE_COMPLETE] =
-		gtk_signal_new ("sequence_complete",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EBookViewClass, sequence_complete),
-				gtk_marshal_NONE__ENUM,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_ENUM);
+		g_signal_new ("sequence_complete",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EBookViewClass, sequence_complete),
+			      NULL, NULL,
+			      e_book_marshal_NONE__ENUM,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_ENUM);
 
 	e_book_view_signals [STATUS_MESSAGE] =
-		gtk_signal_new ("status_message",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EBookViewClass, status_message),
-				gtk_marshal_NONE__STRING,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_STRING);
+		g_signal_new ("status_message",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EBookViewClass, status_message),
+			      NULL, NULL,
+			      e_book_marshal_NONE__STRING,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_STRING);
 
-	gtk_object_class_add_signals (object_class, e_book_view_signals,
-				      LAST_SIGNAL);
-
-	klass->card_changed = NULL;
-	klass->card_added = NULL;
-	klass->card_removed = NULL;
-	klass->sequence_complete = NULL;
-	klass->status_message = NULL;
-
-	object_class->destroy = e_book_view_destroy;
+	object_class->dispose = e_book_view_dispose;
 }
 
 /**
  * e_book_view_get_type:
  */
-GtkType
+GType
 e_book_view_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 
 	if (! type) {
-		GtkTypeInfo info = {
-			"EBookView",
-			sizeof (EBookView),
+		GTypeInfo info = {
 			sizeof (EBookViewClass),
-			(GtkClassInitFunc)  e_book_view_class_init,
-			(GtkObjectInitFunc) e_book_view_init,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
+			NULL, /* base_class_init */
+			NULL, /* base_class_finalize */
+			(GClassInitFunc)  e_book_view_class_init,
+			NULL, /* class_finalize */
+			NULL, /* class_data */
+			sizeof (EBookView),
+			0,    /* n_preallocs */
+			(GInstanceInitFunc) e_book_view_init
 		};
 
-		type = gtk_type_unique (gtk_object_get_type (), &info);
+		type = g_type_register_static (G_TYPE_OBJECT, "EBookView", &info, 0);
 	}
 
 	return type;
