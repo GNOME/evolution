@@ -844,3 +844,28 @@ mail_vfolder_get_vfolder_storage (void)
 {
 	return mail_lookup_storage(vfolder_store);
 }
+
+
+static void
+vfolder_foreach_cb (gpointer key, gpointer data, gpointer user_data)
+{
+	CamelFolder *folder = CAMEL_FOLDER (data);
+	
+	if (folder)
+		camel_object_unref (CAMEL_OBJECT (folder));
+	
+	g_free (key);
+}
+
+void
+mail_vfolder_shutdown (void)
+{
+	g_hash_table_foreach (vfolder_hash, vfolder_foreach_cb, NULL);
+	g_hash_table_destroy (vfolder_hash);
+	
+	if (vfolder_store)
+		camel_object_unref (CAMEL_OBJECT (vfolder_store));
+	
+	if (context)
+		gtk_object_unref (GTK_OBJECT (context));
+}

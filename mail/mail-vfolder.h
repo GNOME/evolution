@@ -29,4 +29,6 @@ void mail_vfolder_remove_uri(CamelStore *store, const char *uri);
 
 EvolutionStorage *mail_vfolder_get_vfolder_storage (void);
 
+void mail_vfolder_shutdown (void);
+
 #endif

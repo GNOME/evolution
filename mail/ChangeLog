@@ -1,3 +1,14 @@
+2001-10-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* component-factory.c (owner_unset_cb): Call
+	mail_vfolder_shutdown.
+
+	* mail-vfolder.c (mail_vfolder_shutdown): Unref all of our
+	VFolders.
+
+	* mail-folder-cache.c (real_note_folder): Remember to unref the
+	folder before returning if we have already noted this folder.
+
 2001-10-15    <NotZed@Ximian.com>
 
 	* mail-session.c (get_password): Proxy get-password call to main

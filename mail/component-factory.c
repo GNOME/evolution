@@ -627,8 +627,16 @@ unref_standard_folders (void)
 	for (i = 0; i < sizeof (standard_folders) / sizeof (standard_folders[0]); i++) {
 		if (standard_folders[i].folder) {
 			CamelFolder *folder = *standard_folders[i].folder;
-
+			
 			*standard_folders[i].folder = NULL;
+			
+			if (CAMEL_OBJECT (folder)->ref_count == 1)
+				printf ("About to finalise folder %s\n", folder->full_name);
+			else
+				printf ("Folder %s still has %d extra ref%s on it\n", folder->full_name,
+					CAMEL_OBJECT (folder)->ref_count - 1,
+					CAMEL_OBJECT (folder)->ref_count - 1 == 1 ? "" : "s");
+			
 			camel_object_unref (CAMEL_OBJECT (folder));
 		}
 	}
@@ -782,15 +790,15 @@ static gboolean
 idle_quit (gpointer user_data)
 {
 	mail_msg_wait_all();
-
+	
 	if (e_list_length (folder_browser_factory_get_control_list ()))
 		return TRUE;
-
+	
 	g_hash_table_foreach (storages_hash, free_storage, NULL);
 	g_hash_table_destroy (storages_hash);
-
+	
 	gtk_main_quit ();
-
+	
 	return FALSE;
 }	
 
@@ -820,8 +828,10 @@ owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 
 	if (mail_config_get_empty_trash_on_exit ())
 		empty_trash (NULL, NULL, NULL);
-
+	
 	mail_msg_wait_all();
+	
+	mail_vfolder_shutdown ();
 	
 	unref_standard_folders ();
 	mail_importer_uninit ();

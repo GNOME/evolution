@@ -236,8 +236,10 @@ real_note_folder(CamelFolder *folder, void *event_data, void *data)
 	}
 
 	/* dont do anything if we already have this */
-	if (mfi->folder == folder)
+	if (mfi->folder == folder) {
+		camel_object_unref (CAMEL_OBJECT (folder));
 		return;
+	}
 
 	mfi->folder = folder;
 	update_1folder(mfi, NULL);
