@@ -1,3 +1,8 @@
+1998-12-16  Sebastian Wilhelmi  <wilhelmi@ira.uka.de>
+
+	* gnome-support.m4: Removed all the stuff for argp, that was
+	causing gnomesupport not to build.
+
 1998-12-15  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-gettext.m4: Add the hacked version of the gettext

@@ -15,29 +15,6 @@ AC_DEFUN([GNOME_SUPPORT_CHECKS],[
 
   AC_CHECK_FUNCS(getopt_long,,LIBOBJS="$LIBOBJS getopt.o getopt1.o")
 
-  # We check for argp_domain because we use it, and it appears only in 
-  # very recent versions of the argp library.
-  AC_CACHE_CHECK([for working argp code], gnome_cv_argp, [
-    AC_TRY_COMPILE([#include <argp.h>], [
-        struct argp foo;
-	extern char *foo2;
-	foo.argp_domain = foo2;],
-      gnome_cv_argp=yes,
-      gnome_cv_argp=no)
-
-    # It is possible to have the argp headers installed but not have
-    # the code in the C library.  At least, there have been reports of
-    # this happening.  So we check for this case explicitly.
-    if test "$gnome_cv_argp" = yes; then
-       AC_CHECK_FUNC(argp_parse,,gnome_cv_argp=no)
-    fi])
-
-  if test "$gnome_cv_argp" = no; then
-     LIBOBJS="$LIBOBJS argp-ba.o argp-eexst.o argp-fmtstream.o argp-fs-xinl.o argp-help.o argp-parse.o argp-pv.o argp-pvh.o argp-xinl.o"
-  fi
-
-  # This header enables some optimizations inside argp.  
-  AC_CHECK_HEADERS(linewrap.h)
   # for `scandir'
   AC_HEADER_DIRENT
 
