@@ -346,10 +346,10 @@ folder_browser_gui_init (FolderBrowser *fb)
 	gtk_widget_show(fb->search_entry);
 	gtk_signal_connect(GTK_OBJECT (fb->search_entry), "activate", search_activate, fb);
 	/* gtk_signal_connect(fb->search_entry, "changed", search_activate, fb); */
-	label = gtk_label_new("Search");
+	label = gtk_label_new(_("Search"));
 	gtk_widget_show(label);
 	fb->search_menu = create_option_menu(search_options, 0, fb);
-	button = (GtkButton *)gtk_button_new_with_label("Save");
+	button = (GtkButton *)gtk_button_new_with_label(_("Save"));
 	gtk_widget_show((GtkWidget *)button);
 	gtk_signal_connect((GtkObject *)button, "clicked", search_save, fb);
 	gtk_box_pack_end((GtkBox *)hbox, (GtkWidget *)button, FALSE, FALSE, 3);

@@ -7,18 +7,27 @@
  *
  * (C) 2000 Helix Code, Inc.
  */
+
 #include <config.h>
+
 #include <gnome.h>
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-control.h> 
+
 #include "e-util/e-util.h"
 #include "e-util/e-gui-utils.h"
+
+#include "folder-browser-factory.h"
+
 #include "folder-browser.h"
 #include "mail.h"
 #include "shell/Evolution.h"
 #include "mail-config.h"
+
+/* The active folder browser BonoboControls.  */
+static GList *active_controls = NULL;
 
 static GnomeUIInfo gnome_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("Get mail"), N_("Check for new mail"), fetch_mail, GNOME_STOCK_PIXMAP_MAIL_RCV),
@@ -51,6 +60,8 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 	GnomeDockItemBehavior behavior;
 	GtkWidget *toolbar, *toolbar_frame, *folder_browser;
 	char *toolbar_name = g_strdup_printf ("/Toolbar%d", fb->serial);
+
+	active_controls = g_list_prepend (active_controls, control);
 
 	remote_uih = bonobo_control_get_remote_ui_handler (control);
 	bonobo_ui_handler_set_container (uih, remote_uih);
@@ -165,10 +176,13 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 }
 
 static void
-control_deactivate (BonoboControl *control, BonoboUIHandler *uih,
+control_deactivate (BonoboControl *control,
+		    BonoboUIHandler *uih,
 		    FolderBrowser *fb)
 {
 	char *toolbar_name = g_strdup_printf ("/Toolbar%d", fb->serial);
+
+	active_controls = g_list_remove (active_controls, control);
 
 	bonobo_ui_handler_menu_remove (uih, "/File/<Print Placeholder>/separator1");
 	bonobo_ui_handler_menu_remove (uih, "/File/<Print Placeholder>/Print message...");
@@ -209,6 +223,8 @@ control_destroy_cb (BonoboControl *control,
 {
 	GtkWidget *folder_browser = user_data;
 
+	active_controls = g_list_remove (active_controls, control);
+
 	gtk_object_destroy (GTK_OBJECT (folder_browser));
 }
 
@@ -243,4 +259,10 @@ folder_browser_factory_new_control (const char *uri)
 			    control_destroy_cb, folder_browser);	
 
 	return control;
+}
+
+GList *
+folder_browser_factory_get_active_control_list (void)
+{
+	return active_controls;
 }

@@ -1,5 +1,4 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /*
  *  Copyright 2000, Helix Code, Inc. (http://www.helixcode.com)
  *
@@ -26,11 +25,6 @@
 #include "folder-browser.h"
 
 extern char *evolution_dir;
-
-/* FIXME FIXME FIXME this sucks sucks sucks sucks */
-/* folder-browser-factory */
-void           folder_browser_factory_init         (void);
-BonoboControl *folder_browser_factory_new_control  (const char *uri);
 
 /* mail-config */
 void mail_config_druid (void);

@@ -32,6 +32,7 @@
 #include "Evolution.h"
 #include "evolution-storage.h"
 
+#include "folder-browser-factory.h"
 #include "evolution-shell-component.h"
 #include "folder-browser.h"
 #include "mail.h"		/* YUCK FIXME */

@@ -1,3 +1,31 @@
+2000-08-13  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* folder-browser-factory.c (control_destroy_cb): Remove the
+	control from the active control list, if it's there.
+
+	* mail.h (folder_browser_factory_new_control): Removed prototype.
+	(folder_browser_factory_init): Removed prototype.
+
+	* folder-browser-factory.h: New.
+
+	* folder-browser-factory.c: New static variable `active_controls',
+	list of the currently active controls.
+	(control_activate): Add the control to it.
+	(control_deactivate): Remove the control from it.
+	(folder_browser_factory_get_active_control_list): New.
+
+	* mail-threads.c (mail_operations_get_status): New function.
+
+	* folder-browser.c (folder_browser_gui_init): Add i18n support for
+	the labels.
+
+	[The following is actually from a patch by Peter Williams
+	<peterw@helixcode.com>.]
+
+	* Removed types `PERCENTAGE', `HIDE_PBAR', `SHOW_PBAR'.  New
+	struct `block_info_s'.  Removed all the code to create and destroy
+	the progress window.
+
 2000-08-13  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* component-factory.c (create_news_storage): Updated to reflect

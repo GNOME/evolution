@@ -66,4 +66,7 @@ void mail_operation_wait_for_finish (void);
 gboolean mail_operations_are_executing (void);
 void mail_operations_terminate (void);
 
+void mail_operations_get_status (int *busy_return, const char **message_return);
+void mail_operations_update_status (void);
+
 #endif /* defined _MAIL_THREADS_H_ */
