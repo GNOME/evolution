@@ -870,9 +870,10 @@ get_file_content (EMsgComposer *composer, const char *file_name, gboolean want_h
 		camel_object_unref (stream);
 		
 		charset = composer ? composer->charset : composer_get_default_charset_setting ();
-		charenc = (CamelMimeFilter *) camel_mime_filter_charset_new_convert (charset, "utf-8");
-		camel_stream_filter_add (filtered_stream, charenc);
-		camel_object_unref (charenc);
+		if ((charenc = (CamelMimeFilter *) camel_mime_filter_charset_new_convert (charset, "utf-8"))) {
+			camel_stream_filter_add (filtered_stream, charenc);
+			camel_object_unref (charenc);
+		}
 		
 		camel_stream_write_to_stream ((CamelStream *) filtered_stream, (CamelStream *) memstream);
 		camel_object_unref (filtered_stream);
