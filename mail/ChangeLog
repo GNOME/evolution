@@ -1,3 +1,8 @@
+2001-05-11  Martha Burke  <martha@ximian.com>
+
+	* gui/Makefile.am: sanitize LD_ADDS and CFLAGS so the libtool
+        lines are shorter (fixes problem on solaries due to sed)
+
 2001-05-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-vfolder.c (vfolder_edit): Don't allow multiple copies of
