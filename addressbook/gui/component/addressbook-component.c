@@ -349,7 +349,6 @@ selector_tree_drag_drop (GtkWidget *widget,
 		return FALSE;
 	}
 	
-	gtk_drag_get_data (widget, context, gdk_atom_intern (VCARD_TYPE, FALSE), time);
 	gtk_tree_path_free (path);
 	return TRUE;
 }
@@ -360,35 +359,37 @@ selector_tree_drag_motion (GtkWidget *widget,
 			   int x,
 			   int y)
 {
-	GtkTreePath *path;
+	GtkTreePath *path = NULL;
+	gpointer data = NULL;
 	GtkTreeViewDropPosition pos;
-	gpointer data;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	
+	GdkDragAction action;
 	
 	if (!gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (widget),
 						x, y, &path, &pos))
-		return FALSE;
+		goto finish;
 	
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
 	
-	if (!gtk_tree_model_get_iter (model, &iter, path)) {
-		gtk_tree_path_free (path);
-		return FALSE;
-	}
+	if (!gtk_tree_model_get_iter (model, &iter, path))
+		goto finish;
 	
 	gtk_tree_model_get (model, &iter, 0, &data, -1);
 
-	if (E_IS_SOURCE_GROUP (data) || e_source_get_readonly (data)) {
-		g_object_unref (data);
-		gtk_tree_path_free (path);
-		return FALSE;
-	}	
+	if (E_IS_SOURCE_GROUP (data) || e_source_get_readonly (data))
+		goto finish;
 	
 	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW (widget), path, GTK_TREE_VIEW_DROP_INTO_OR_BEFORE);
-	
-	gtk_tree_path_free (path);
+	action = context->suggested_action;
+
+ finish:
+	if (path)
+		gtk_tree_path_free (path);
+	if (data)
+		g_object_unref (data);
+      
+	gdk_drag_status (context, action, time);
 	return TRUE;
 }
 
@@ -402,68 +403,59 @@ selector_tree_drag_data_received (GtkWidget *widget,
 				  guint time,
 				  gpointer user_data)
 {
-	GtkTreePath *path;
+	GtkTreePath *path = NULL;
 	GtkTreeViewDropPosition pos;
-	gpointer source;
+	gpointer source = NULL;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
+	gboolean success = FALSE;
+
+	EBook *book;
+	GList *contactlist;
+	GList *l;
 
 	if (!gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (widget),
 						x, y, &path, &pos))
-		return FALSE;
+		goto finish;
 	
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
 	
-	if (!gtk_tree_model_get_iter (model, &iter, path)) {
-		gtk_tree_path_free (path);
-		return FALSE;
-	}
+	if (!gtk_tree_model_get_iter (model, &iter, path))
+		goto finish;
 	
 	gtk_tree_model_get (model, &iter, 0, &source, -1);
 
-	if (E_IS_SOURCE_GROUP (source) || e_source_get_readonly (source)) {
-		g_object_unref (source);
-		gtk_tree_path_free (path);
+	if (E_IS_SOURCE_GROUP (source) || e_source_get_readonly (source))
+		goto finish;
+	
+	book = e_book_new ();
+	if (!book) {
+		g_message (G_STRLOC ":Couldn't create EBook.");
 		return FALSE;
-	}	
-	
-	
-	if ((data->length >= 0) && (data->format == 8)) {
-		gtk_drag_finish (context, FALSE, TRUE, time);
 	}
-
-	gtk_tree_path_free (path);
-	gtk_drag_finish (context, FALSE, FALSE, time);
-
-	printf ("got card\n%s", data->data);
+	e_book_load_source (book, source, TRUE, NULL);
+	contactlist = eab_contact_list_from_string (data->data);
 	
-	//e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (widget), source);
-	{
-		EBook *book;
-		GList *contactlist;
-		GList *l;
-
-		book = e_book_new ();
-		if (!book) {
-			g_message (G_STRLOC ":Couldn't create EBook.");
-			return FALSE;
-		}
-		e_book_load_source (book, source, TRUE, NULL);
-		contactlist = eab_contact_list_from_string (data->data);
+	for (l = contactlist; l; l = l->next) {
+		EContact *contact = l->data;
 		
-		for (l = contactlist; l; l = l->next) {
-			EContact *contact = l->data;
-			
-			/* XXX NULL for a callback /sigh */
-			if (contact)
-				eab_merging_book_add_contact (book, contact, NULL /* XXX */, NULL);
-		}
-
-		g_list_foreach (contactlist, (GFunc)g_object_unref, NULL);
-		g_list_free (contactlist);
-		
-		g_object_unref (book);
+		/* XXX NULL for a callback /sigh */
+		if (contact)
+			eab_merging_book_add_contact (book, contact, NULL /* XXX */, NULL);
+		success = TRUE;
 	}
+	
+	g_list_foreach (contactlist, (GFunc)g_object_unref, NULL);
+	g_list_free (contactlist);
+	g_object_unref (book);
+
+ finish:
+	if (path)
+		gtk_tree_path_free (path);
+	if (source)
+		g_object_unref (source);
+		       
+	gtk_drag_finish (context, success, context->action == GDK_ACTION_MOVE, time);
 
 	return TRUE;
 }	

@@ -1,3 +1,12 @@
+2004-03-29  Larry Ewing  <lewing@ximian.com>
+
+	* gui/calendar-component.c (selector_tree_drag_data_received):
+	deal with the action type a properly. in the normal case.
+	
+	* gui/calendar-component.c (selector_tree_drag_data_received):
+	call drag_finish properly, change the uid.
+	(selector_tree_drag_motion): set drag status properly.
+
 2004-03-29  William Jon McCann  <mccann@jhu.edu>
 
 	* gui/tasks-component.c (delete_task_list_cb): 

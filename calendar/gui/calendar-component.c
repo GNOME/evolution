@@ -627,7 +627,6 @@ selector_tree_drag_drop (GtkWidget *widget,
 		return FALSE;
 	}
 	
-	gtk_drag_get_data (widget, context, gdk_atom_intern (CALENDAR_TYPE, FALSE), time);
 	gtk_tree_path_free (path);
 	return TRUE;
 }
@@ -638,34 +637,37 @@ selector_tree_drag_motion (GtkWidget *widget,
 			   int x,
 			   int y)
 {
-	GtkTreePath *path;
+	GtkTreePath *path = NULL;
+	gpointer data = NULL;
 	GtkTreeViewDropPosition pos;
-	gpointer data;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
+	GdkDragAction action = GDK_ACTION_DEFAULT;
 	
 	if (!gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (widget),
 						x, y, &path, &pos))
-		return FALSE;
+		goto finish;
 	
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
 	
-	if (!gtk_tree_model_get_iter (model, &iter, path)) {
-		gtk_tree_path_free (path);
-		return FALSE;
-	}
+	if (!gtk_tree_model_get_iter (model, &iter, path))
+		goto finish;
 	
 	gtk_tree_model_get (model, &iter, 0, &data, -1);
 
-	if (E_IS_SOURCE_GROUP (data) || e_source_get_readonly (data)) {
-		g_object_unref (data);
-		gtk_tree_path_free (path);
-		return FALSE;
-	}	
+	if (E_IS_SOURCE_GROUP (data) || e_source_get_readonly (data))
+		goto finish;
 	
 	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW (widget), path, GTK_TREE_VIEW_DROP_INTO_OR_BEFORE);
-	
-	gtk_tree_path_free (path);
+	action = context->suggested_action;
+
+ finish:
+	if (path)
+		gtk_tree_path_free (path);
+	if (data)
+		g_object_unref (data);
+
+	gdk_drag_status (context, action, time);
 	return TRUE;
 }
 
@@ -723,7 +725,7 @@ update_objects (ECal *client, icalcomponent *icalcomp)
 	return TRUE;
 }
 
-static gboolean 
+static void
 selector_tree_drag_data_received (GtkWidget *widget, 
 				  GdkDragContext *context, 
 				  gint x, 
@@ -733,70 +735,63 @@ selector_tree_drag_data_received (GtkWidget *widget,
 				  guint time,
 				  gpointer user_data)
 {
-	GtkTreePath *path;
+	GtkTreePath *path = NULL;
 	GtkTreeViewDropPosition pos;
-	gpointer source;
+	gpointer source = NULL;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	gboolean ret = FALSE;
+	gboolean success = FALSE;
+	icalcomponent *icalcomp = NULL;
+	ECal *client = NULL;
 
 	if (!gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (widget),
 						x, y, &path, &pos))
-		return FALSE;
+		goto finish;
 	
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
 	
-	if (!gtk_tree_model_get_iter (model, &iter, path)) {
-		gtk_tree_path_free (path);
-		return FALSE;
-	}
+	if (!gtk_tree_model_get_iter (model, &iter, path))
+		goto finish;
+       
 	
 	gtk_tree_model_get (model, &iter, 0, &source, -1);
 
-	if (E_IS_SOURCE_GROUP (source) || e_source_get_readonly (source)) {
-		g_object_unref (source);
-		gtk_tree_path_free (path);
-		return FALSE;
-	}	
-	
-	
-	if ((data->length >= 0) && (data->format == 8)) {
-		gtk_drag_finish (context, FALSE, TRUE, time);
-	} else {
-		gtk_drag_finish (context, FALSE, FALSE, time);
-	}
-	gtk_tree_path_free (path);
+	if (E_IS_SOURCE_GROUP (source) || e_source_get_readonly (source))
+		goto finish;
 
+	icalcomp = icalparser_parse_string (data->data);
 	
-	//e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (widget), source);
-	{
-		icalcomponent *ical_comp = NULL;
-		icalvcal_defaults defaults = { 0 };
-		VObject *vcal;
-		ECal *client = NULL;
-			
-			
-		vcal = Parse_MIME (data->data, data->length);
-		if (vcal) {
-			ical_comp = icalvcal_convert_with_defaults (vcal, &defaults);
-			cleanVObject (vcal);
-			
-			if (ical_comp)
-				client = auth_new_cal_from_source (source, 
-								   E_CAL_SOURCE_TYPE_EVENT);
-			
-			if (client) {
-				if (e_cal_open (client, TRUE, NULL)) {
-					/* FIXME should the drag status be set here? */
-					update_objects (client, ical_comp);
-				}
+	if (icalcomp) {
+		char * uid;
 
-				g_object_unref (client);
-			}
+		/* FIXME deal with GDK_ACTION_ASK */
+		if (context->action == GDK_ACTION_COPY) {
+			uid = e_cal_component_gen_uid ();
+			icalcomponent_set_uid (icalcomp, uid);
 		}
+
+		client = auth_new_cal_from_source (source, 
+						   E_CAL_SOURCE_TYPE_EVENT);
+		
+		if (client) {
+			if (e_cal_open (client, TRUE, NULL)) {
+				success = TRUE;
+				update_objects (client, icalcomp);
+			}
+			
+			g_object_unref (client);
+		}
+		
+		icalcomponent_free (icalcomp);
 	}
 
-	return ret;
+ finish:
+	if (source)
+		g_object_unref (source);
+	if (path)
+		gtk_tree_path_free (path);
+
+	gtk_drag_finish (context, success, context->action == GDK_ACTION_MOVE, time);
 }	
 
 static void
