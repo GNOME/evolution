@@ -1,3 +1,19 @@
+2001-11-29  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-folder-search.c (search_body_contains): Don't use regex
+	matching. Fixes bug #16227.
+
+	* camel-mime-message.c (best_encoding): Check the content-object's
+	mime type, not the mime part types. Should fix bug #15843.
+
+2001-11-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (get_content): Return NULL if
+	construct_from_stream fails.
+	(get_message): Same.
+	(get_message_simple): Here too.
+	(add_message_from_data): And here.
+
 2001-11-14    <NotZed@Ximian.com>
 
 	* camel-vee-folder.c (folder_changed_remove_uid): Use the uid

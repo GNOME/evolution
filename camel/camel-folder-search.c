@@ -752,7 +752,7 @@ search_body_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, Cam
 			}
 		} else if (search->folder) {
 			/* we do a 'slow' direct search */
-			if (camel_search_build_match_regex(&pattern, CAMEL_SEARCH_MATCH_REGEX|CAMEL_SEARCH_MATCH_ICASE, argc, argv, search->priv->ex) == 0) {
+			if (camel_search_build_match_regex(&pattern, CAMEL_SEARCH_MATCH_ICASE, argc, argv, search->priv->ex) == 0) {
 				truth = match_message(search->folder, camel_message_info_uid(search->current), &pattern, search->priv->ex);
 				regfree(&pattern);
 			}
@@ -802,7 +802,7 @@ search_body_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, Cam
 		} else if (search->folder) {
 			/* do a slow search */
 			r->value.ptrarray = g_ptr_array_new();
-			if (camel_search_build_match_regex(&pattern, CAMEL_SEARCH_MATCH_REGEX|CAMEL_SEARCH_MATCH_ICASE, argc, argv, search->priv->ex) == 0) {
+			if (camel_search_build_match_regex(&pattern, CAMEL_SEARCH_MATCH_ICASE, argc, argv, search->priv->ex) == 0) {
 				if (search->summary) {
 					for (i=0;i<search->summary->len;i++) {
 						CamelMessageInfo *info = g_ptr_array_index(search->summary, i);
