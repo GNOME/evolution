@@ -2148,14 +2148,6 @@ wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for
 	integrated into your identity in
 	<application>Evolution</application>.
       </para>
-       <para>
-          You may also need to tell Evolution where to find the PGP or
-          GPG application. Under the <guibutton>Mail
-          Preferences</guibutton> section, select the
-          <guibutton>Security</guibutton> tab and enter the complete
-          path, usually <userinput>/usr/bin/gpg</userinput> for your
-          encryption tool.
-       </para>
       <note>
 	<title>What is my Key ID again?</title>
 	<para>
