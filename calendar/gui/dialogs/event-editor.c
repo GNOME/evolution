@@ -353,8 +353,9 @@ event_editor_new (void)
 }
 
 static void
-show_meeting (EventEditor *ee)
+schedule_meeting_cmd (GtkWidget *widget, gpointer data)
 {
+	EventEditor *ee = EVENT_EDITOR (data);
 	EventEditorPrivate *priv;
 
 	priv = ee->priv;
@@ -375,24 +376,6 @@ show_meeting (EventEditor *ee)
 	
 	comp_editor_show_page (COMP_EDITOR (ee),
 			       COMP_EDITOR_PAGE (priv->meet_page));
-}
-
-void
-event_editor_show_meeting (EventEditor *ee)
-{
-	g_return_if_fail (ee != NULL);
-	g_return_if_fail (IS_EVENT_EDITOR (ee));
-
-
-	show_meeting (ee);
-}
-
-static void
-schedule_meeting_cmd (GtkWidget *widget, gpointer data)
-{
-	EventEditor *ee = EVENT_EDITOR (data);
-
-	show_meeting (ee);
 }
 
 static void

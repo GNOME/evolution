@@ -40,7 +40,7 @@ libcamelimapinclude_HEADERS =			\
 	camel-imap-utils.h			\
 	camel-imap-wrapper.h
 
-libcamelimap_la_LDFLAGS = -avoid-version -module
+libcamelimap_la_LDFLAGS = -version-info 0:0:0
 
 noinst_HEADERS =				\
 	camel-imap-private.h

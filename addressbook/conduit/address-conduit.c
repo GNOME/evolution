@@ -28,23 +28,27 @@
 #include <gnome-xml/parser.h>
 #include <pi-source.h>
 #include <pi-socket.h>
+#include <pi-file.h>
 #include <pi-dlp.h>
-#include <pi-address.h>
 #include <ebook/e-book.h>
 #include <ebook/e-book-util.h>
 #include <ebook/e-card-types.h>
 #include <ebook/e-card-cursor.h>
 #include <ebook/e-card.h>
 #include <ebook/e-card-simple.h>
-#include <gpilotd/gnome-pilot-conduit.h>
-#include <gpilotd/gnome-pilot-conduit-sync-abs.h>
-#include <libgpilotdCM/gnome-pilot-conduit-management.h>
-#include <libgpilotdCM/gnome-pilot-conduit-config.h>
-#include <e-dialog-widgets.h>
-#include <e-pilot-map.h>
-#include <e-pilot-settings.h>
 #include <e-pilot-util.h>
 
+#define ADDR_CONFIG_LOAD 1
+#define ADDR_CONFIG_SAVE 1
+#define ADDR_CONFIG_DESTROY 1
+#include "address-conduit-config.h"
+#undef ADDR_CONFIG_LOAD
+#undef ADDR_CONFIG_SAVE
+#undef ADDR_CONFIG_DESTROY
+
+#include "address-conduit.h"
+
+static void free_local (EAddrLocalRecord *local);
 GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 
@@ -130,314 +134,6 @@ static int priority_label [] = {
 	-1
 };
 
-typedef struct _EAddrLocalRecord EAddrLocalRecord;
-typedef struct _EAddrConduitCfg EAddrConduitCfg;
-typedef struct _EAddrConduitGui EAddrConduitGui;
-typedef struct _EAddrConduitContext EAddrConduitContext;
-
-/* Local Record */
-struct _EAddrLocalRecord {
-	/* The stuff from gnome-pilot-conduit-standard-abs.h
-	   Must be first in the structure, or instances of this
-	   structure cannot be used by gnome-pilot-conduit-standard-abs.
-	*/
-	GnomePilotDesktopRecord local;
-
-	/* The corresponding ECard object */
-	ECard *ecard;
-
-        /* pilot-link address structure, used for implementing Transmit. */
-	struct Address *addr;
-};
-
-
-static void
-addrconduit_destroy_record (EAddrLocalRecord *local) 
-{
-	gtk_object_unref (GTK_OBJECT (local->ecard));
-	free_Address (local->addr);
-	g_free (local->addr);
-	g_free (local);
-}
-
-/* Configuration */
-struct _EAddrConduitCfg {
-	guint32 pilot_id;
-	GnomePilotConduitSyncType  sync_type;
-
-	gboolean secret;
-	ECardSimpleAddressId default_address;
-
-	gchar *last_uri;
-};
-
-static EAddrConduitCfg *
-addrconduit_load_configuration (guint32 pilot_id) 
-{
-	EAddrConduitCfg *c;
-	GnomePilotConduitManagement *management;
-	GnomePilotConduitConfig *config;
-	gchar *address, prefix[256];
-	g_snprintf (prefix, 255, "/gnome-pilot.d/e-address-conduit/Pilot_%u/",
-		    pilot_id);
-	
-	c = g_new0 (EAddrConduitCfg,1);
-	g_assert (c != NULL);
-
-	c->pilot_id = pilot_id;
-	management = gnome_pilot_conduit_management_new ("e_address_conduit", GNOME_PILOT_CONDUIT_MGMT_ID);
-	config = gnome_pilot_conduit_config_new (management, pilot_id);
-	if (!gnome_pilot_conduit_config_is_enabled (config, &c->sync_type))
-		c->sync_type = GnomePilotConduitSyncTypeNotSet;
-	gtk_object_unref (GTK_OBJECT (config));
-	gtk_object_unref (GTK_OBJECT (management));
-
-	/* Custom settings */
-	gnome_config_push_prefix (prefix);
-
-	c->secret = gnome_config_get_bool ("secret=FALSE");
-	address = gnome_config_get_string ("default_address=business");
-	if (!strcmp (address, "business"))
-		c->default_address = E_CARD_SIMPLE_ADDRESS_ID_BUSINESS;
-	else if (!strcmp (address, "home"))
-		c->default_address = E_CARD_SIMPLE_ADDRESS_ID_HOME;
-	else if (!strcmp (address, "other"))
-		c->default_address = E_CARD_SIMPLE_ADDRESS_ID_OTHER;
-	g_free (address);
-	c->last_uri = gnome_config_get_string ("last_uri");
-
-	gnome_config_pop_prefix ();
-
-	return c;
-}
-
-static void
-addrconduit_save_configuration (EAddrConduitCfg *c) 
-{
-	gchar prefix[256];
-
-	g_snprintf (prefix, 255, "/gnome-pilot.d/e-address-conduit/Pilot_%u/",
-		    c->pilot_id);
-
-	gnome_config_push_prefix (prefix);
-	gnome_config_set_bool ("secret", c->secret);
-	switch (c->default_address) {
-	case E_CARD_SIMPLE_ADDRESS_ID_BUSINESS:
-		gnome_config_set_string ("default_address", "business");
-		break;
-	case E_CARD_SIMPLE_ADDRESS_ID_HOME:
-		gnome_config_set_string ("default_address", "home");
-		break;
-	case E_CARD_SIMPLE_ADDRESS_ID_OTHER:
-		gnome_config_set_string ("default_address", "other");
-		break;
-	default:
-		g_warning ("Unknown default_address value");
-	}
-	gnome_config_set_string ("last_uri", c->last_uri);
-	gnome_config_pop_prefix ();
-
-	gnome_config_sync ();
-	gnome_config_drop_all ();
-}
-
-static EAddrConduitCfg*
-addrconduit_dupe_configuration (EAddrConduitCfg *c) 
-{
-	EAddrConduitCfg *retval;
-
-	g_return_val_if_fail (c != NULL, NULL);
-
-	retval = g_new0 (EAddrConduitCfg, 1);
-	retval->sync_type = c->sync_type;
-	retval->pilot_id = c->pilot_id;
-
-	retval->secret = c->secret;
-	retval->default_address = c->default_address;
-	retval->last_uri = g_strdup (c->last_uri);
-
-	return retval;
-}
-
-static void 
-addrconduit_destroy_configuration (EAddrConduitCfg *c) 
-{
-	g_return_if_fail (c != NULL);
-
-	g_free (c->last_uri);
-	g_free (c);
-}
-
-/* Gui */
-struct _EAddrConduitGui {
-	GtkWidget *default_address;
-};
-
-static EAddrConduitGui *
-e_addr_gui_new (EPilotSettings *ps) 
-{
-	EAddrConduitGui *gui;
-	GtkWidget *lbl, *menu;
-	gint rows, i;
-	static const char *items[] = {"Business", "Home", "Other", NULL};
-	
-	g_return_val_if_fail (ps != NULL, NULL);
-	g_return_val_if_fail (E_IS_PILOT_SETTINGS (ps), NULL);
-
-	gtk_table_resize (GTK_TABLE (ps), E_PILOT_SETTINGS_TABLE_ROWS + 1, 
-			  E_PILOT_SETTINGS_TABLE_COLS);
-
-	gui = g_new0 (EAddrConduitGui, 1);
-
-	rows = E_PILOT_SETTINGS_TABLE_ROWS;
-	lbl = gtk_label_new (_("Default Sync Address:"));
-	gtk_misc_set_alignment (GTK_MISC (lbl), 0.0, 0.5);
-	gui->default_address = gtk_option_menu_new ();
-	menu = gtk_menu_new ();
-	for (i = 0; items[i] != NULL; i++) {
-		GtkWidget *item;
-
-		item = gtk_menu_item_new_with_label (items[i]);
-		gtk_widget_show (item);
-		
-		gtk_menu_append (GTK_MENU (menu), item);
-	}
-	gtk_widget_show (menu);
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (gui->default_address), menu);
-	gtk_table_attach_defaults (GTK_TABLE (ps), lbl, 0, 1, rows, rows + 1);
-        gtk_table_attach_defaults (GTK_TABLE (ps), gui->default_address, 1, 2, rows, rows + 1);
-	gtk_widget_show (lbl);
-	gtk_widget_show (gui->default_address);
-	
-	return gui;
-}
-
-static const int default_address_map[] = {
-	E_CARD_SIMPLE_ADDRESS_ID_BUSINESS,
-	E_CARD_SIMPLE_ADDRESS_ID_HOME,
-	E_CARD_SIMPLE_ADDRESS_ID_OTHER,
-	-1
-};
-
-static void
-e_addr_gui_fill_widgets (EAddrConduitGui *gui, EAddrConduitCfg *cfg) 
-{
-	g_return_if_fail (gui != NULL);
-	g_return_if_fail (cfg != NULL);
-
-	e_dialog_option_menu_set (gui->default_address, 
-				  cfg->default_address, 
-				  default_address_map);
-}
-
-static void
-e_addr_gui_fill_config (EAddrConduitGui *gui, EAddrConduitCfg *cfg) 
-{
-	g_return_if_fail (gui != NULL);
-	g_return_if_fail (cfg != NULL);
-
-	cfg->default_address = e_dialog_option_menu_get (gui->default_address, 
-							 default_address_map);
-}
-
-static void
-e_addr_gui_destroy (EAddrConduitGui *gui) 
-{
-	g_free (gui);
-}
-
-/* Context */
-struct _EAddrConduitContext {
-	GnomePilotDBInfo *dbi;
-
-	EAddrConduitCfg *cfg;
-	EAddrConduitCfg *new_cfg;
-	EAddrConduitGui *gui;
-	GtkWidget *ps;
-	
-	struct AddressAppInfo ai;
-
-	EBook *ebook;
-	GList *cards;
-	GList *changed;
-	GHashTable *changed_hash;
-	GList *locals;
-	
-	gboolean address_load_tried;
-	gboolean address_load_success;
-
-	EPilotMap *map;
-};
-
-static EAddrConduitContext *
-e_addr_context_new (guint32 pilot_id) 
-{
-	EAddrConduitContext *ctxt = g_new0 (EAddrConduitContext, 1);
-
-	ctxt->cfg = addrconduit_load_configuration (pilot_id);
-	ctxt->new_cfg = addrconduit_dupe_configuration (ctxt->cfg);
-	ctxt->gui = NULL;
-	ctxt->ps = NULL;
-	ctxt->ebook = NULL;
-	ctxt->cards = NULL;
-	ctxt->changed_hash = NULL;
-	ctxt->changed = NULL;
-	ctxt->locals = NULL;
-	ctxt->map = NULL;
-
-	return ctxt;
-}
-
-static void
-e_addr_context_destroy (EAddrConduitContext *ctxt)
-{
-	GList *l;
-	
-	g_return_if_fail (ctxt != NULL);
-
-	if (ctxt->cfg != NULL)
-		addrconduit_destroy_configuration (ctxt->cfg);
-	if (ctxt->new_cfg != NULL)
-		addrconduit_destroy_configuration (ctxt->new_cfg);
-	if (ctxt->gui != NULL)
-		e_addr_gui_destroy (ctxt->gui);
-	
-	if (ctxt->ebook != NULL)
-		gtk_object_unref (GTK_OBJECT (ctxt->ebook));
-
-	if (ctxt->cards != NULL) {
-		for (l = ctxt->cards; l != NULL; l = l->next)
-			gtk_object_unref (GTK_OBJECT (l->data));
-		g_list_free (ctxt->cards);
-	}
-	
-	if (ctxt->changed_hash != NULL)
-		g_hash_table_destroy (ctxt->changed_hash);
-	
-	if (ctxt->changed != NULL) {
-		CardObjectChange *coc;
-		
-		for (l = ctxt->changed; l != NULL; l = l->next) {
-			coc = l->data;
-
-			gtk_object_unref (GTK_OBJECT (coc->card));
-			g_free (coc);
-		}
-		g_list_free (ctxt->changed);
-	}
-	
-	if (ctxt->locals != NULL) {
-		for (l = ctxt->locals; l != NULL; l = l->next)
-			addrconduit_destroy_record (l->data);
-		g_list_free (ctxt->locals);
-	}
-
-	if (ctxt->map != NULL)
-		e_pilot_map_destroy (ctxt->map);
-
-	g_free (ctxt);
-}
-
 /* Debug routines */
 static char *
 print_local (EAddrLocalRecord *local)
@@ -487,6 +183,70 @@ static char *print_remote (GnomePilotRecord *remote)
 	free_Address (&addr);
 
 	return buff;
+}
+
+/* Context Routines */
+static EAddrConduitContext *
+e_addr_context_new (guint32 pilot_id) 
+{
+	EAddrConduitContext *ctxt = g_new0 (EAddrConduitContext, 1);
+
+	addrconduit_load_configuration (&ctxt->cfg, pilot_id);
+
+	ctxt->ebook = NULL;
+	ctxt->cards = NULL;
+	ctxt->changed_hash = NULL;
+	ctxt->changed = NULL;
+	ctxt->locals = NULL;
+	ctxt->map = NULL;
+
+	return ctxt;
+}
+
+static void
+e_addr_context_destroy (EAddrConduitContext *ctxt)
+{
+	GList *l;
+	
+	g_return_if_fail (ctxt != NULL);
+
+	if (ctxt->cfg != NULL)
+		addrconduit_destroy_configuration (&ctxt->cfg);
+
+	if (ctxt->ebook != NULL)
+		gtk_object_unref (GTK_OBJECT (ctxt->ebook));
+
+	if (ctxt->cards != NULL) {
+		for (l = ctxt->cards; l != NULL; l = l->next)
+			gtk_object_unref (GTK_OBJECT (l->data));
+		g_list_free (ctxt->cards);
+	}
+	
+	if (ctxt->changed_hash != NULL)
+		g_hash_table_destroy (ctxt->changed_hash);
+	
+	if (ctxt->changed != NULL) {
+		CardObjectChange *coc;
+		
+		for (l = ctxt->changed; l != NULL; l = l->next) {
+			coc = l->data;
+
+			gtk_object_unref (GTK_OBJECT (coc->card));
+			g_free (coc);
+		}
+		g_list_free (ctxt->changed);
+	}
+	
+	if (ctxt->locals != NULL) {
+		for (l = ctxt->locals; l != NULL; l = l->next)
+			free_local (l->data);
+		g_list_free (ctxt->locals);
+	}
+
+	if (ctxt->map != NULL)
+		e_pilot_map_destroy (ctxt->map);
+
+	g_free (ctxt);
 }
 
 /* Addressbok Server routines */
@@ -857,6 +617,15 @@ compute_status (EAddrConduitContext *ctxt, EAddrLocalRecord *local, const char *
 	}
 }
 
+static void
+free_local (EAddrLocalRecord *local) 
+{
+	gtk_object_unref (GTK_OBJECT (local->ecard));
+	free_Address (local->addr);
+	g_free (local->addr);
+	g_free (local);
+}
+
 static GnomePilotRecord
 local_record_to_pilot_record (EAddrLocalRecord *local,
 			      EAddrConduitContext *ctxt)
@@ -886,7 +655,6 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 {
 	ECardSimple *simple;
 	const ECardDeliveryAddress *delivery;
-	ECardSimpleAddressId mailing_address;
 	int phone = entryPhone1;
 
 	gboolean syncable;
@@ -944,18 +712,7 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 	local->addr->entry[entryCompany] = e_pilot_utf8_to_pchar (ecard->org);
 	local->addr->entry[entryTitle] = e_pilot_utf8_to_pchar (ecard->title);
 
-	mailing_address = -1;
-	for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++) {
-		const ECardAddrLabel *address;
-		
-		address = e_card_simple_get_address(simple, i);
-		if (address && (address->flags & E_CARD_ADDR_DEFAULT))
-			mailing_address = i;
-	}
-	if (mailing_address == -1)
-		mailing_address = ctxt->cfg->default_address;
-
-	delivery = e_card_simple_get_delivery_address (simple, mailing_address);
+	delivery = e_card_simple_get_delivery_address (simple, E_CARD_SIMPLE_ADDRESS_ID_BUSINESS);
 	if (delivery) {
 		local->addr->entry[entryAddress] = e_pilot_utf8_to_pchar (delivery->street);
 		local->addr->entry[entryCity] = e_pilot_utf8_to_pchar (delivery->city);
@@ -1080,7 +837,6 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	ECardName *name;
 	ECardDeliveryAddress *delivery;
 	ECardAddrLabel *label;
-	ECardSimpleAddressId mailing_address;
 	char *txt;
 	ECardSimpleField next_mail, next_home, next_work, next_fax;
 	ECardSimpleField next_other, next_main, next_pager, next_mobile;
@@ -1123,19 +879,8 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	g_free (txt);
 
 	/* Address */
-	mailing_address = -1;
-	for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++) {
-		const ECardAddrLabel *addr;
-
-		addr = e_card_simple_get_address(simple, i);
-		if (addr && (addr->flags & E_CARD_ADDR_DEFAULT))
-			mailing_address = i;
-	}
-	if (mailing_address == -1)
-		mailing_address = ctxt->cfg->default_address;
-
 	delivery = e_card_delivery_address_new ();
-	delivery->flags |= E_CARD_ADDR_DEFAULT;
+	delivery->flags = E_CARD_ADDR_WORK;
 	delivery->street = get_entry_text (address, entryAddress);
 	delivery->city = get_entry_text (address, entryCity);
 	delivery->region = get_entry_text (address, entryState);
@@ -1143,12 +888,12 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	delivery->code = get_entry_text (address, entryZip);
 
 	label = e_card_address_label_new ();
-	label->flags |= E_CARD_ADDR_DEFAULT;
+	label->flags = E_CARD_ADDR_WORK;
 	label->data = e_card_delivery_address_to_string (delivery);
 
-	e_card_simple_set_address (simple, mailing_address, label);
-	e_card_simple_set_delivery_address (simple, mailing_address, delivery);
-	
+	e_card_simple_set_address (simple, E_CARD_SIMPLE_ADDRESS_ID_BUSINESS, label);
+	e_card_simple_set_delivery_address (simple, E_CARD_SIMPLE_ADDRESS_ID_BUSINESS, delivery);
+
 	e_card_delivery_address_unref (delivery);
 	e_card_address_label_unref (label);
 	
@@ -1754,7 +1499,7 @@ free_match (GnomePilotConduitSyncAbs *conduit,
 
 	g_return_val_if_fail (local != NULL, -1);
 
-	addrconduit_destroy_record (local);
+	free_local (local);
 
 	return 0;
 }
@@ -1770,63 +1515,6 @@ prepare (GnomePilotConduitSyncAbs *conduit,
 	*remote = local_record_to_pilot_record (local, ctxt);
 	
 	return 0;
-}
-
-/* Pilot Settings Callbacks */
-static void
-fill_widgets (EAddrConduitContext *ctxt)
-{
-	e_pilot_settings_set_secret (E_PILOT_SETTINGS (ctxt->ps),
-				     ctxt->cfg->secret);
-
-	e_addr_gui_fill_widgets (ctxt->gui, ctxt->cfg);
-}
-
-static gint
-create_settings_window (GnomePilotConduit *conduit,
-			GtkWidget *parent,
-			EAddrConduitContext *ctxt)
-{
-	LOG ("create_settings_window");
-
-	ctxt->ps = e_pilot_settings_new ();
-	ctxt->gui = e_addr_gui_new (E_PILOT_SETTINGS (ctxt->ps));
-
-	gtk_container_add (GTK_CONTAINER (parent), ctxt->ps);
-	gtk_widget_show (ctxt->ps);
-
-	fill_widgets (ctxt);
-	
-	return 0;
-}
-static void
-display_settings (GnomePilotConduit *conduit, EAddrConduitContext *ctxt)
-{
-	LOG ("display_settings");
-	
-	fill_widgets (ctxt);
-}
-
-static void
-save_settings    (GnomePilotConduit *conduit, EAddrConduitContext *ctxt)
-{
-	LOG ("save_settings");
-
-	ctxt->new_cfg->secret =
-		e_pilot_settings_get_secret (E_PILOT_SETTINGS (ctxt->ps));
-	e_addr_gui_fill_config (ctxt->gui, ctxt->new_cfg);
-
-	addrconduit_save_configuration (ctxt->new_cfg);
-}
-
-static void
-revert_settings  (GnomePilotConduit *conduit, EAddrConduitContext *ctxt)
-{
-	LOG ("revert_settings");
-
-	addrconduit_save_configuration (ctxt->cfg);
-	addrconduit_destroy_configuration (ctxt->new_cfg);
-	ctxt->new_cfg = addrconduit_dupe_configuration (ctxt->cfg);
 }
 
 static ORBit_MessageValidationResult
@@ -1887,12 +1575,6 @@ conduit_get_gpilot_conduit (guint32 pilot_id)
   	gtk_signal_connect (retval, "free_match", (GtkSignalFunc) free_match, ctxt);
 
   	gtk_signal_connect (retval, "prepare", (GtkSignalFunc) prepare, ctxt);
-
-	/* Gui Settings */
-	gtk_signal_connect (retval, "create_settings_window", (GtkSignalFunc) create_settings_window, ctxt);
-	gtk_signal_connect (retval, "display_settings", (GtkSignalFunc) display_settings, ctxt);
-	gtk_signal_connect (retval, "save_settings", (GtkSignalFunc) save_settings, ctxt);
-	gtk_signal_connect (retval, "revert_settings", (GtkSignalFunc) revert_settings, ctxt);
 
 	return GNOME_PILOT_CONDUIT (retval);
 }

@@ -50,8 +50,6 @@
 
 #include "camel-local-private.h"
 
-#include "camel-text-index.h"
-
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 
 #ifndef PATH_MAX
@@ -140,8 +138,9 @@ local_finalize(CamelObject * object)
 		camel_object_unref((CamelObject *)local_folder->search);
 	}
 
+	/* must free index after summary, since it isn't refcounted */
 	if (local_folder->index)
-		camel_object_unref((CamelObject *)local_folder->index);
+		ibex_close(local_folder->index);
 
 	while (local_folder->locked> 0)
 		camel_local_folder_unlock(local_folder);
@@ -212,20 +211,11 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 	
 	lf->changes = camel_folder_change_info_new();
 
-	/* TODO: Remove the following line, it is a temporary workaround to remove
-	   the old-format 'ibex' files that might be lying around */
-	unlink(lf->index_path);
-
-#if 0
-	forceindex = FALSE;
-#else
-	/* if we have no/invalid index file, force it */
-	forceindex = camel_text_index_check(lf->index_path) == -1;
+	/* if we have no index file, force it */
+	forceindex = stat(lf->index_path, &st) == -1;
 	if (flags & CAMEL_STORE_FOLDER_BODY_INDEX) {
-		int flag = O_RDWR|O_CREAT;
-		if (forceindex)
-			flag |= O_TRUNC;
-		lf->index = (CamelIndex *)camel_text_index_new(lf->index_path, flag);
+
+		lf->index = ibex_open(lf->index_path, O_CREAT | O_RDWR, 0600);
 		if (lf->index == NULL) {
 			/* yes, this isn't fatal at all */
 			g_warning("Could not open/create index file: %s: indexing not performed", strerror(errno));
@@ -234,12 +224,13 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 			flags &= ~CAMEL_STORE_FOLDER_BODY_INDEX;
 		}
 	} else {
-		/* if we do have an index file, remove it (?) */
-		if (forceindex == FALSE)
-			camel_text_index_remove(lf->index_path);
+		/* if we do have an index file, remove it */
+		if (forceindex == FALSE) {
+			unlink(lf->index_path);
+		}
 		forceindex = FALSE;
 	}
-#endif
+
 	lf->flags = flags;
 
 	folder->summary = (CamelFolderSummary *)CLOCALF_CLASS(lf)->create_summary(lf->summary_path, lf->folder_path, lf->index);
@@ -247,9 +238,7 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 		camel_exception_clear(ex);
 	}
 	
-	/*if (camel_local_summary_check((CamelLocalSummary *)folder->summary, lf->changes, ex) == -1) {*/
-	/* we sync here so that any hard work setting up the folder isn't lost */
-	if (camel_local_summary_sync((CamelLocalSummary *)folder->summary, FALSE, lf->changes, ex) == -1) {
+	if (camel_local_summary_check((CamelLocalSummary *)folder->summary, lf->changes, ex) == -1) {
 		camel_object_unref (CAMEL_OBJECT (folder));
 		return NULL;
 	}

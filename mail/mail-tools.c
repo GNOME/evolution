@@ -237,7 +237,6 @@ mail_tool_destroy_xevolution (XEvolution *xev)
 	g_free (xev->source);
 	g_free (xev->transport);
 	g_free (xev->account);
-	g_free (xev->format);
 	g_free (xev->fcc);
 	g_free (xev);
 }

@@ -56,7 +56,6 @@
 #include "evolution-shell-view.h"
 
 #include "e-gray-bar.h"
-#include "e-history.h"
 #include "e-shell-constants.h"
 #include "e-shell-folder-title-bar.h"
 #include "e-shell-utils.h"
@@ -89,9 +88,6 @@ struct _EShellViewPrivate {
 	/* The UI handler & container.  */
 	BonoboUIComponent *ui_component;
 	BonoboUIContainer *ui_container;
-
-	/* History of visited (evolution:) URIs. */
-	EHistory *history;
 
 	/* Currently displayed URI.  */
 	char *uri;
@@ -151,7 +147,6 @@ struct _EShellViewPrivate {
 enum {
 	SHORTCUT_BAR_VISIBILITY_CHANGED,
 	FOLDER_BAR_VISIBILITY_CHANGED,
-	VIEW_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -169,7 +164,7 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 /* URI to display when the currently displayed folder is removed from the
    storage.  */
-#define FALLBACK_URI E_SUMMARY_URI
+#define FALLBACK_URI "evolution:/local/Inbox"
 
 
 /* The icons for the offline/online status.  */
@@ -188,7 +183,6 @@ static const char *get_storage_set_path_from_uri  (const char *uri);
 
 /* Boo.  */
 static void new_folder_cb (EStorageSet *storage_set, const char *path, void *data);
-static gboolean display_uri (EShellView *shell_view, const char *uri, gboolean add_to_history);
 
 
 /* View handling.  */
@@ -318,42 +312,6 @@ setup_verb_sensitivity_for_folder (EShellView *shell_view,
 	bonobo_ui_component_set_prop (ui_component, "/commands/CopyFolder", "sensitive", prop, NULL);
 	bonobo_ui_component_set_prop (ui_component, "/commands/DeleteFolder", "sensitive", prop, NULL);
 	bonobo_ui_component_set_prop (ui_component, "/commands/RenameFolder", "sensitive", prop, NULL);
-}
-
-
-static void
-update_navigation_buttons (EShellView *shell_view)
-{
-	EShellViewPrivate *priv;
-
-	priv = shell_view->priv;
-
-	e_shell_folder_title_bar_update_navigation_buttons (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar),
-							    e_history_has_prev (priv->history),
-							    e_history_has_next (priv->history));
-}
-
-static int
-history_uri_matching_func (const void *a,
-			   const void *b)
-{
-	const char *s1, *s2;
-
-	s1 = (const char *) a;
-	s2 = (const char *) b;
-
-	return strcmp (s1, s2);
-}
-
-static void
-remove_uri_from_history (EShellView *shell_view,
-			 const char *uri)
-{
-	EShellViewPrivate *priv;
-
-	priv = shell_view->priv;
-	
-	e_history_remove_matching (priv->history, uri, history_uri_matching_func);
 }
 
 
@@ -496,16 +454,7 @@ storage_set_removed_folder_callback (EStorageSet *storage_set,
 	priv = shell_view->priv;
 
 	uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
-
-	remove_uri_from_history (shell_view, uri);
-	update_navigation_buttons (shell_view);
-
-	/* (Note that at this point the current URI in the history might have
-	   been changed and not match the current view.  But we catch this case
-	   when checking if this was the current view, below.)  */
-
 	view = g_hash_table_lookup (priv->uri_to_view, uri);
-
 	g_free (uri);
 
 	if (view == NULL)
@@ -873,6 +822,23 @@ folder_selected_cb (EStorageSetView *storage_set_view,
 	switch_on_folder_tree_click (shell_view, path);
 }
 
+/* Callback called when a storage in the tree view is clicked.  */
+static void
+storage_selected_cb (EStorageSetView *storage_set_view,
+		     const char *name,
+		     void *data)
+{
+	EShellView *shell_view;
+	char *path;
+
+	shell_view = E_SHELL_VIEW (data);
+
+	path = g_strconcat (G_DIR_SEPARATOR_S, name, NULL);
+	switch_on_folder_tree_click (shell_view, path);
+
+	g_free (path);
+}
+
 /* Callbacks for the folder context menu in the folder bar.  */
 
 static void
@@ -955,47 +921,6 @@ offline_toggle_clicked_cb (GtkButton *button,
 }
 
 
-/* Navigation button callbacks.  */
-
-static void
-back_clicked_callback (EShellFolderTitleBar *title_bar,
-		       void *data)
-{
-	EShellView *shell_view;
-	EShellViewPrivate *priv;
-	const char *new_uri;
-
-	shell_view = E_SHELL_VIEW (data);
-	priv = shell_view->priv;
-
-	if (! e_history_has_prev (priv->history))
-		return;
-
-	new_uri = (const char *) e_history_prev (priv->history);
-
-	display_uri (shell_view, new_uri, FALSE);
-}
-
-static void
-forward_clicked_callback (EShellFolderTitleBar *title_bar,
-			  void *data)
-{
-	EShellView *shell_view;
-	EShellViewPrivate *priv;
-	const char *new_uri;
-
-	shell_view = E_SHELL_VIEW (data);
-	priv = shell_view->priv;
-
-	if (! e_history_has_next (priv->history))
-		return;
-
-	new_uri = (const char *) e_history_next (priv->history);
-
-	display_uri (shell_view, new_uri, FALSE);
-}
-
-
 /* Widget setup.  */
 
 static void
@@ -1008,10 +933,12 @@ setup_storage_set_subwindow (EShellView *shell_view)
 
 	priv = shell_view->priv;
 
-	storage_set_view = e_storage_set_new_view (e_shell_get_storage_set (priv->shell),
+	storage_set_view = e_storage_set_view_new (e_shell_get_storage_set (priv->shell),
 						   priv->ui_container);
 	gtk_signal_connect (GTK_OBJECT (storage_set_view), "folder_selected",
 			    GTK_SIGNAL_FUNC (folder_selected_cb), shell_view);
+	gtk_signal_connect (GTK_OBJECT (storage_set_view), "storage_selected",
+			    GTK_SIGNAL_FUNC (storage_selected_cb), shell_view);
 	gtk_signal_connect (GTK_OBJECT (storage_set_view), "folder_context_menu_popping_up",
 			    GTK_SIGNAL_FUNC (folder_context_menu_popping_up_cb), shell_view);
 	gtk_signal_connect (GTK_OBJECT (storage_set_view), "folder_context_menu_popped_down",
@@ -1216,10 +1143,6 @@ setup_widgets (EShellView *shell_view)
 	priv->folder_title_bar = e_shell_folder_title_bar_new ();
 	gtk_signal_connect (GTK_OBJECT (priv->folder_title_bar), "title_toggled",
 			    GTK_SIGNAL_FUNC (title_bar_toggled_cb), shell_view);
-	gtk_signal_connect (GTK_OBJECT (priv->folder_title_bar), "back_clicked",
-			    GTK_SIGNAL_FUNC (back_clicked_callback), shell_view);
-	gtk_signal_connect (GTK_OBJECT (priv->folder_title_bar), "forward_clicked",
-			    GTK_SIGNAL_FUNC (forward_clicked_callback), shell_view);
 
 	priv->view_hpaned = e_hpaned_new ();
 	e_paned_pack1 (E_PANED (priv->view_hpaned), priv->storage_set_view_box, FALSE, FALSE);
@@ -1303,14 +1226,7 @@ destroy (GtkObject *object)
 	   storage set used for the delayed selection mechanism.  */
 	cleanup_delayed_selection (shell_view);
 
-	/* This is necessary to remove the signal handler for folder_new on the
-	   storage set used for the delayed selection mechanism.  */
-	cleanup_delayed_selection (shell_view);
-
 	gtk_object_unref (GTK_OBJECT (priv->tooltips));
-
-	if (priv->history != NULL)
-		gtk_object_unref (GTK_OBJECT (priv->history));
 
 	if (priv->shell != NULL)
 		bonobo_object_unref (BONOBO_OBJECT (priv->shell));
@@ -1382,18 +1298,6 @@ class_init (EShellViewClass *klass)
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_INT);
 
-	signals[VIEW_CHANGED]
-		= gtk_signal_new ("view_changed",
-				  GTK_RUN_FIRST,
-				  object_class->type,
-				  GTK_SIGNAL_OFFSET (EShellViewClass, view_changed),
-				  e_marshal_NONE__POINTER_POINTER_POINTER_POINTER,
-				  GTK_TYPE_NONE, 4,
-				  GTK_TYPE_STRING,
-				  GTK_TYPE_STRING,
-				  GTK_TYPE_STRING,
-				  GTK_TYPE_STRING);
-
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 
 	load_images ();
@@ -1409,7 +1313,6 @@ init (EShellView *shell_view)
 	priv->shell                   = NULL;
 	priv->corba_interface         = NULL;
 	priv->ui_component            = NULL;
-	priv->history                 = e_history_new ((EHistoryItemFreeFunc) g_free);
 	priv->uri                     = NULL;
 	priv->delayed_selection       = NULL;
 
@@ -1515,22 +1418,6 @@ corba_interface_set_folder_bar_label (EvolutionShellView *evolution_shell_view,
 
 	e_shell_folder_title_bar_set_folder_bar_label (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar),
 						       text);
-}
-
-static void
-corba_interface_show_settings (EvolutionShellView *evolution_shell_view,
-			       void *data)
-{
-	EShellView *shell_view;
-	EShellViewPrivate *priv;
-
-	g_return_if_fail (data != NULL);
-	g_return_if_fail (E_IS_SHELL_VIEW (data));
-
-	shell_view = E_SHELL_VIEW (data);
-	priv = shell_view->priv;
-
-	e_shell_view_show_settings (shell_view);
 }
 
 static void
@@ -1651,8 +1538,8 @@ e_shell_view_construct (EShellView *shell_view,
 					GTK_SIGNAL_FUNC (storage_set_removed_folder_callback), shell_view,
 					GTK_OBJECT (shell_view));
 
-	e_shell_user_creatable_items_handler_attach_menus (e_shell_get_user_creatable_items_handler (priv->shell),
-							   shell_view);
+	e_shell_user_creatable_items_handler_setup_menus (e_shell_get_user_creatable_items_handler (priv->shell),
+							  shell_view);
 
 	return view;
 }
@@ -1799,19 +1686,30 @@ update_for_current_uri (EShellView *shell_view)
 
 	path = get_storage_set_path_from_uri (priv->uri);
 
-	folder = NULL;
 	folder_name = NULL;
 	type = NULL;
 	unread_count = 0;
 
-	if (path != NULL) {
+	if (path == NULL) {
+		folder = NULL;
+	} else {
 		folder = e_storage_set_get_folder (e_shell_get_storage_set (priv->shell), path);
 
 		if (folder != NULL) {
 			folder_name = e_folder_get_name (folder);
 			type = e_folder_get_type_string (folder);
 			unread_count = e_folder_get_unread_count (folder);
-		}
+		} else if (path != NULL) {
+			EStorage *storage;
+
+			storage = e_storage_set_get_storage (e_shell_get_storage_set (priv->shell), path + 1);
+			unread_count = 0;
+
+			if (storage != NULL) {
+				folder_name = e_storage_get_display_name (storage);
+				type = e_storage_get_toplevel_node_type (storage);
+			}
+		} 
 	}
 
 	if (unread_count > 0)
@@ -1912,6 +1810,7 @@ set_current_notebook_page (EShellView *shell_view,
 
 	if (current_page != -1 && current_page != 0) {
 		current = gtk_notebook_get_nth_page (notebook, current_page);
+
 		old_control_frame = bonobo_widget_get_control_frame (BONOBO_WIDGET (current));
 		bonobo_control_frame_set_autoactivate (old_control_frame, FALSE);
 	}
@@ -1961,9 +1860,6 @@ setup_corba_interface (EShellView *shell_view,
 	gtk_signal_connect_while_alive (GTK_OBJECT (corba_interface), "set_folder_bar_label",
 					GTK_SIGNAL_FUNC (corba_interface_set_folder_bar_label),
 					shell_view, GTK_OBJECT (shell_view));
-	gtk_signal_connect_while_alive (GTK_OBJECT (corba_interface), "show_settings",
-					GTK_SIGNAL_FUNC (corba_interface_show_settings),
-					shell_view, GTK_OBJECT (shell_view));
 
 	bonobo_object_add_interface (BONOBO_OBJECT (control_frame),
 				     BONOBO_OBJECT (corba_interface));
@@ -2009,10 +1905,17 @@ socket_destroy_cb (GtkWidget *socket_widget, gpointer data)
 	path = get_storage_set_path_from_uri (uri);
 	folder = e_storage_set_get_folder (e_shell_get_storage_set (priv->shell), path);
 
-	if (folder != NULL)
+	if (folder != NULL) {
 		folder_type = e_folder_get_type_string (folder);
-	else
-		folder_type = NULL;
+	} else {
+		EStorage *storage;
+
+		storage = e_storage_set_get_storage (e_shell_get_storage_set (priv->shell), path + 1);
+		if (storage == NULL)
+			folder_type = NULL;
+		else
+			folder_type = e_storage_get_toplevel_node_type (storage);
+	}
 
 	/* See if we were actively viewing the uri for the socket that's being closed */
 	current_uri = e_shell_view_get_current_uri (shell_view);
@@ -2036,6 +1939,27 @@ socket_destroy_cb (GtkWidget *socket_widget, gpointer data)
 }
 
 
+static const char *
+get_type_for_storage (EShellView *shell_view,
+		      const char *name,
+		      const char **physical_uri_return)
+{
+	EShellViewPrivate *priv;
+	EStorageSet *storage_set;
+	EStorage *storage;
+
+	priv = shell_view->priv;
+
+	storage_set = e_shell_get_storage_set (priv->shell);
+	storage = e_storage_set_get_storage (storage_set, name);
+	if (!storage)
+		return NULL;
+
+	*physical_uri_return = e_storage_get_toplevel_node_uri (storage);
+
+	return e_storage_get_toplevel_node_type (storage);
+}
+
 static const char *
 get_type_for_folder (EShellView *shell_view,
 		     const char *path,
@@ -2061,8 +1985,7 @@ get_type_for_folder (EShellView *shell_view,
 /* Create a new view for @uri with @control.  It assumes a view for @uri does not exist yet.  */
 static View *
 get_view_for_uri (EShellView *shell_view,
-		  const char *uri,
-		  const char *view_info)
+		  const char *uri)
 {
 	EShellViewPrivate *priv;
 	CORBA_Environment ev;
@@ -2074,6 +1997,7 @@ get_view_for_uri (EShellView *shell_view,
 	GtkWidget *socket;
 	Bonobo_Control corba_control;
 	const char *path;
+	const char *slash;
 	const char *physical_uri;
 	const char *folder_type;
 	int destroy_connection_id;
@@ -2088,8 +2012,13 @@ get_view_for_uri (EShellView *shell_view,
 	if (*path == '\0')
 		return NULL;
 
-	folder_type = get_type_for_folder (shell_view, path, &physical_uri);
-	if (folder_type == NULL || physical_uri == NULL)
+	/* FIXME: This code needs to be made more robust.  */
+	slash = strchr (path + 1, G_DIR_SEPARATOR);
+	if (slash == NULL || slash[1] == '\0')
+		folder_type = get_type_for_storage (shell_view, path + 1, &physical_uri);
+	else
+		folder_type = get_type_for_folder (shell_view, path, &physical_uri);
+	if (folder_type == NULL)
 		return NULL;
 
 	folder_type_registry = e_shell_get_folder_type_registry (e_shell_view_get_shell (shell_view));
@@ -2102,7 +2031,7 @@ get_view_for_uri (EShellView *shell_view,
 
 	CORBA_exception_init (&ev);
 
-	corba_control = GNOME_Evolution_ShellComponent_createView (handler, physical_uri, folder_type, view_info, &ev);
+	corba_control = GNOME_Evolution_ShellComponent_createView (handler, physical_uri, folder_type, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		CORBA_exception_free (&ev);
@@ -2156,8 +2085,7 @@ show_existing_view (EShellView *shell_view,
 
 static gboolean
 create_new_view_for_uri (EShellView *shell_view,
-			 const char *uri,
-			 const char *view_info)
+			 const char *uri)
 {
 	View *view;
 	EShellViewPrivate *priv;
@@ -2165,7 +2093,7 @@ create_new_view_for_uri (EShellView *shell_view,
 
 	priv = shell_view->priv;
 
-	view = get_view_for_uri (shell_view, uri, view_info);
+	view = get_view_for_uri (shell_view, uri);
 	if (view == NULL)
 		return FALSE;
 
@@ -2185,24 +2113,18 @@ create_new_view_for_uri (EShellView *shell_view,
 	return TRUE;
 }
 
-static gboolean
-display_uri (EShellView *shell_view,
-	     const char *uri,
-	     gboolean add_to_history)
+gboolean
+e_shell_view_display_uri (EShellView *shell_view,
+			  const char *uri)
 {
 	EShellViewPrivate *priv;
 	View *view;
 	gboolean retval;
-	const char *view_info;
-	char *real_uri;
+
+	g_return_val_if_fail (shell_view != NULL, FALSE);
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
 
 	priv = shell_view->priv;
-
-	if (uri == NULL && priv->uri == NULL)
-		return TRUE;
-
-	if (priv->uri != NULL && uri != NULL && strcmp (priv->uri, uri) == 0)
-		return TRUE;
 
 	bonobo_window_freeze (BONOBO_WINDOW (shell_view));
 
@@ -2213,19 +2135,10 @@ display_uri (EShellView *shell_view,
 		set_current_notebook_page (shell_view, 0);
 
 		g_free (priv->uri);
-		priv->uri = real_uri = NULL;
+		priv->uri = NULL;
 
 		retval = TRUE;
 		goto end;
-	}
-
-	view_info = strchr (uri, '#');
-	if (view_info) {
-		real_uri = g_strndup (uri, view_info - uri);
-		view_info++;
-	} else {
-		view_info = "";
-		real_uri = g_strdup (uri);
 	}
 
 	if (strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) != 0) {
@@ -2233,12 +2146,12 @@ display_uri (EShellView *shell_view,
 		goto end;
 	}
 
-	view = g_hash_table_lookup (priv->uri_to_view, real_uri);
+	view = g_hash_table_lookup (priv->uri_to_view, uri);
 	if (view != NULL) {
-		show_existing_view (shell_view, real_uri, view);
-	} else if (! create_new_view_for_uri (shell_view, real_uri, view_info)) {
+		show_existing_view (shell_view, uri, view);
+	} else if (! create_new_view_for_uri (shell_view, uri)) {
 		cleanup_delayed_selection (shell_view);
-		priv->delayed_selection = g_strdup (real_uri);
+		priv->delayed_selection = g_strdup (uri);
 		gtk_signal_connect_full (GTK_OBJECT (e_shell_get_storage_set (priv->shell)),
 					 "new_folder", GTK_SIGNAL_FUNC (new_folder_cb), NULL,
 					 shell_view, NULL, FALSE, TRUE);
@@ -2249,13 +2162,6 @@ display_uri (EShellView *shell_view,
 	retval = TRUE;
 
  end:
-	g_free (real_uri);
-
-	if (add_to_history && retval == TRUE && priv->uri != NULL)
-		e_history_add (priv->history, g_strdup (priv->uri));
-
-	update_navigation_buttons (shell_view);
-
 	g_free (priv->set_folder_uri);
 	priv->set_folder_uri = NULL;
 
@@ -2268,23 +2174,7 @@ display_uri (EShellView *shell_view,
 
 	bonobo_window_thaw (BONOBO_WINDOW (shell_view));
 
-	gtk_signal_emit (GTK_OBJECT (shell_view), signals[VIEW_CHANGED],
-			 e_shell_view_get_current_path (shell_view),
-			 e_shell_view_get_current_uri (shell_view),
-			 e_shell_view_get_current_folder_type (shell_view),
-			 e_shell_view_get_current_component_id (shell_view));
-
 	return retval;
-}
-
-gboolean
-e_shell_view_display_uri (EShellView *shell_view,
-			  const char *uri)
-{
-	g_return_val_if_fail (shell_view != NULL, FALSE);
-	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
-
-	return display_uri (shell_view, uri, TRUE);
 }
 
 
@@ -2344,8 +2234,8 @@ e_shell_view_show_folder_bar (EShellView *shell_view,
 		e_title_bar_set_button_mode (E_TITLE_BAR (priv->storage_set_title_bar),
 					     E_TITLE_BAR_BUTTON_MODE_CLOSE);
 
-		e_shell_folder_title_bar_set_title_clickable (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar),
-							      FALSE);
+		e_shell_folder_title_bar_set_clickable (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar),
+							FALSE);
 	} else {
 		if (GTK_WIDGET_VISIBLE (priv->storage_set_view_box)) {
 			/* FIXME this is a private field!  */
@@ -2358,29 +2248,14 @@ e_shell_view_show_folder_bar (EShellView *shell_view,
 		e_title_bar_set_button_mode (E_TITLE_BAR (priv->storage_set_title_bar),
 					     E_TITLE_BAR_BUTTON_MODE_PIN);
 
-		e_shell_folder_title_bar_set_title_clickable (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar),
-							      TRUE);
+		e_shell_folder_title_bar_set_clickable (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar),
+							TRUE);
 	}
 
         priv->folder_bar_shown = !! show;
 
 	gtk_signal_emit (GTK_OBJECT (shell_view), signals[FOLDER_BAR_VISIBILITY_CHANGED],
 			 priv->folder_bar_shown);
-}
-
-void
-e_shell_view_show_settings (EShellView *shell_view)
-{
-	EShellViewPrivate *priv;	
-	const char *type;
-
-	g_return_if_fail (shell_view != NULL);
-	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
-	
-	priv = shell_view->priv;
-	
-	type = e_shell_view_get_current_folder_type (shell_view);
-	e_shell_show_settings (priv->shell, type, shell_view);
 }
 
 gboolean
@@ -2524,23 +2399,6 @@ e_shell_view_get_current_folder_type (EShellView *shell_view)
 	return get_type_for_folder (shell_view, current_path, NULL);
 }
 
-const char *
-e_shell_view_get_current_component_id (EShellView *shell_view)
-{
-	EShellViewPrivate *priv;
-	EFolderTypeRegistry *type_registry;
-	EvolutionShellComponentClient *component_client;
-	const char *current_folder_type;
-
-	priv = shell_view->priv;
-
-	type_registry = e_shell_get_folder_type_registry (priv->shell);
-	current_folder_type = e_shell_view_get_current_folder_type (shell_view);
-	component_client = e_folder_type_registry_get_handler_for_type (type_registry, current_folder_type);
-
-	return evolution_shell_component_client_get_id (component_client);
-}
-
 
 /**
  * e_shell_view_save_settings:
@@ -2670,7 +2528,6 @@ e_shell_view_load_settings (EShellView *shell_view,
 	int num_groups, group, val;
 	long width, height;
 	char *stringval, *prefix, *filename, *key;
-	CORBA_Environment ev;
 
 	g_return_val_if_fail (shell_view != NULL, FALSE);
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
@@ -2684,14 +2541,9 @@ e_shell_view_load_settings (EShellView *shell_view,
 
 	prefix = g_strdup_printf ("/Shell/Views/%d/", view_num);
 
-	CORBA_exception_init (&ev);
 	key = g_strconcat (prefix, "Width", NULL);
-	width = bonobo_config_get_long (db, key, &ev);
+	width = bonobo_config_get_long (db, key, NULL);
 	g_free (key);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		CORBA_exception_free (&ev);
-		return FALSE;
-	}
 
 	key = g_strconcat (prefix, "Height", NULL);
 	height = bonobo_config_get_long (db, key, NULL);
@@ -2728,18 +2580,16 @@ e_shell_view_load_settings (EShellView *shell_view,
 	priv->view_hpaned_position = val;
 	g_free (key);
 
-	if (priv->uri == NULL && priv->delayed_selection == NULL) {
-		key = g_strconcat (prefix, "DisplayedURI", NULL);
-		stringval = bonobo_config_get_string (db, key, NULL);
-		if (stringval) {
-			if (! e_shell_view_display_uri (shell_view, stringval))
-				e_shell_view_display_uri (shell_view, E_SHELL_VIEW_DEFAULT_URI);
-		} else
+	key = g_strconcat (prefix, "DisplayedURI", NULL);
+	stringval = bonobo_config_get_string (db, key, NULL);
+	if (stringval) {
+		if (! e_shell_view_display_uri (shell_view, stringval))
 			e_shell_view_display_uri (shell_view, E_SHELL_VIEW_DEFAULT_URI);
+	} else
+		e_shell_view_display_uri (shell_view, E_SHELL_VIEW_DEFAULT_URI);
 
-		g_free (stringval);
-		g_free (key);
-	}
+	g_free (stringval);
+	g_free (key);
 
 	num_groups = e_shortcut_model_get_num_groups (shortcut_bar->model);
 

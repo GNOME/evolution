@@ -55,7 +55,7 @@ typedef struct {
 
 struct _ESelectNamesCompletionPrivate {
 
-	ESelectNamesTextModel *text_model;
+	ESelectNamesModel *model;
 
 	GList *book_data;
 	gint books_not_ready;
@@ -739,8 +739,8 @@ e_select_names_completion_destroy (GtkObject *object)
 	ESelectNamesCompletion *comp = E_SELECT_NAMES_COMPLETION (object);
 	GList *l;
 
-	if (comp->priv->text_model)
-		gtk_object_unref (GTK_OBJECT (comp->priv->text_model));
+	if (comp->priv->model)
+		gtk_object_unref (GTK_OBJECT (comp->priv->model));
 
 	for (l = comp->priv->book_data; l; l = l->next) {
 		ESelectNamesCompletionBookData *book_data = l->data;
@@ -1142,10 +1142,8 @@ e_select_names_completion_handle_request (ECompletion *comp, const gchar *text, 
 		fprintf (out, "text=\"%s\" pos=%d limit=%d\n", text, pos, limit);
 	}
 
-	e_select_names_model_text_pos (selcomp->priv->text_model->source,
-				       selcomp->priv->text_model->seplen,
-				       pos, &index, NULL, NULL);
-	str = index >= 0 ? e_select_names_model_get_string (selcomp->priv->text_model->source, index) : NULL;
+	e_select_names_model_text_pos (selcomp->priv->model, pos, &index, NULL, NULL);
+	str = index >= 0 ? e_select_names_model_get_string (selcomp->priv->model, index) : NULL;
 
 	if (out)
 		fprintf (out, "index=%d str=\"%s\"\n", index, str);
@@ -1227,12 +1225,13 @@ e_select_names_completion_book_ready (EBook *book, EBookStatus status, ESelectNa
  */
 
 ECompletion *
-e_select_names_completion_new (EBook *book, ESelectNamesTextModel *text_model)
+e_select_names_completion_new (EBook *book, ESelectNamesModel *model)
 {
 	ESelectNamesCompletion *comp;
 
 	g_return_val_if_fail (book == NULL || E_IS_BOOK (book), NULL);
-	g_return_val_if_fail (E_IS_SELECT_NAMES_TEXT_MODEL (text_model), NULL);
+	g_return_val_if_fail (model, NULL);
+	g_return_val_if_fail (E_IS_SELECT_NAMES_MODEL (model), NULL);
 
 	comp = (ESelectNamesCompletion *) gtk_type_new (e_select_names_completion_get_type ());
 
@@ -1254,8 +1253,8 @@ e_select_names_completion_new (EBook *book, ESelectNamesTextModel *text_model)
 		e_select_names_completion_add_book (comp, book);
 	}
 		
-	comp->priv->text_model = text_model;
-	gtk_object_ref (GTK_OBJECT (text_model));
+	comp->priv->model = model;
+	gtk_object_ref (GTK_OBJECT (model));
 
 	return E_COMPLETION (comp);
 }

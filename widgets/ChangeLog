@@ -1,27 +1,7 @@
-2002-02-27  Larry Ewing  <lewing@ximian.com>
+2002-04-04  Ettore Perazzoli  <ettore@ximian.com>
 
-	* misc/e-combo-button.c (impl_button_press_event): make a right
-	click bring up the popup menu.
-
-2002-02-07  Christopher James Lahey  <clahey@ximian.com>
-
-	* menus/gal-view-menus.c, menus/gal-view-menus.h
-	(gal_view_menus_unmerge): New function to handle unmerging menus
-	at control deactivation time.
-	(d): Turned off debugging output here.
-	(build_menus): Gave the separators names and marked them with f=""
-	to make them work better with bonobo 1.
-
-2002-02-07  Christopher James Lahey  <clahey@ximian.com>
-
-	* menus/gal-view-menus.c, menus/gal-view-menus.h
-	(gal_view_menus_new): Made this take a GalViewInstance instead of
-	a GalViewCollection.  Reworked most of this to utilize the
-	interfaces provided by GalViewInstance.
-
-2002-01-27  Ettore Perazzoli  <ettore@ximian.com>
-
-	* menus/Makefile.am: Use `GNOME_FULL_CFLAGS'.
+	* e-timezone-dialog/e-timezone-dialog.c (e_timezone_dialog_init):
+	Make not floating.
 
 2002-01-11  Damon Chaplin  <damon@ximian.com>
 

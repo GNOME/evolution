@@ -30,15 +30,12 @@
 #include <gal/e-table/e-table-model.h>
 #include <gal/widgets/e-scroll-frame.h>
 #include <gal/widgets/e-popup-menu.h>
-#include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/menus/gal-view-factory-etable.h>
 #include <gal/menus/gal-view-etable.h>
 #include <gal/util/e-unicode-i18n.h>
-#include <gal/util/e-xml-utils.h>
 #include <gal/unicode/gunicode.h>
 #include <libgnomeui/gnome-dialog-util.h>
-#include <libgnomeui/gnome-stock.h>
 
 #include <libgnomeprint/gnome-print.h>
 #include <libgnomeprint/gnome-print-dialog.h>
@@ -64,13 +61,6 @@
 #include <gdk/gdkkeysyms.h>
 #include <ctype.h>
 
-#include <gnome-xml/tree.h>
-#include <gnome-xml/parser.h>
-
-#define SHOW_ALL_SEARCH "(contains \"x-evolution-any-field\" \"\")"
-
-#define d(x)
-
 static void e_addressbook_view_init		(EAddressbookView		 *card);
 static void e_addressbook_view_class_init	(EAddressbookViewClass	 *klass);
 static void e_addressbook_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
@@ -83,7 +73,6 @@ static void folder_bar_message (GtkObject *object, const gchar *status, EAddress
 static void stop_state_changed (GtkObject *object, EAddressbookView *eav);
 static void writable_status (GtkObject *object, gboolean writable, EAddressbookView *eav);
 static void command_state_change (EAddressbookView *eav);
-static void alphabet_state_change (EAddressbookView *eav, gunichar letter);
 
 static void selection_clear_event (GtkWidget *invisible, GdkEventSelection *event,
 				   EAddressbookView *view);
@@ -107,7 +96,6 @@ enum {
 	STATUS_MESSAGE,
 	FOLDER_BAR_MESSAGE,
 	COMMAND_STATE_CHANGE,
-	ALPHABET_STATE_CHANGE,
 	LAST_SIGNAL
 };
 
@@ -123,8 +111,6 @@ static const int num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
 static guint e_addressbook_view_signals [LAST_SIGNAL] = {0, };
 
 static GdkAtom clipboard_atom = GDK_NONE;
-
-static GalViewCollection *collection = NULL;
 
 GtkType
 e_addressbook_view_get_type (void)
@@ -196,14 +182,6 @@ e_addressbook_view_class_init (EAddressbookViewClass *klass)
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
-	e_addressbook_view_signals [ALPHABET_STATE_CHANGE] =
-		gtk_signal_new ("alphabet_state_change",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EAddressbookViewClass, alphabet_state_change),
-				gtk_marshal_NONE__UINT,
-				GTK_TYPE_NONE, 1, GTK_TYPE_UINT);
-
 	gtk_object_class_add_signals (object_class, e_addressbook_view_signals, LAST_SIGNAL);
 
 	if (!clipboard_atom)
@@ -239,15 +217,13 @@ e_addressbook_view_init (EAddressbookView *eav)
 
 	eav->editable = FALSE;
 	eav->book = NULL;
-	eav->query = g_strdup (SHOW_ALL_SEARCH);
+	eav->query = g_strdup("(contains \"x-evolution-any-field\" \"\")");
 
 	eav->object = NULL;
 	eav->widget = NULL;
 
-	eav->view_instance = NULL;
+	eav->view_collection = NULL;
 	eav->view_menus = NULL;
-	eav->uic = NULL;
-	eav->current_alphabet_widget = NULL;
 
 	eav->invisible = gtk_invisible_new ();
 
@@ -288,11 +264,9 @@ e_addressbook_view_destroy (GtkObject *object)
 	g_free(eav->query);
 	eav->query = NULL;
 
-	eav->uic = NULL;
-
-	if (eav->view_instance) {
-		gtk_object_unref (GTK_OBJECT (eav->view_instance));
-		eav->view_instance = NULL;
+	if (eav->view_collection) {
+		gtk_object_unref (GTK_OBJECT (eav->view_collection));
+		eav->view_collection = NULL;
 	}
 
 	if (eav->view_menus) {
@@ -323,176 +297,13 @@ e_addressbook_view_new (void)
 }
 
 static void
-writable_status (GtkObject *object, gboolean writable, EAddressbookView *eav)
+book_writable_cb (EBook *book, gboolean writable, EAddressbookView *eav)
 {
 	eav->editable = writable;
-	command_state_change (eav);
-}
-
-#ifdef JUST_FOR_TRANSLATORS
-static char *list [] = {
-	N_("* Click here to add a contact *"),
-	N_("File As"),
-	N_("Full Name"),
-	N_("Email"),
-	N_("Primary Phone"),
-	N_("Assistant Phone"),
-	N_("Business Phone"),
-	N_("Callback Phone"),
-	N_("Company Phone"),
-	N_("Home Phone"),
-	N_("Organization"),
-	N_("Business Address"),
-	N_("Home Address"),
-	N_("Mobile Phone"),
-	N_("Car Phone"),
-	N_("Business Fax"),
-	N_("Home Fax"),
-	N_("Business Phone 2"),
-	N_("Home Phone 2"),
-	N_("ISDN"),
-	N_("Other Phone"),
-	N_("Other Fax"),
-	N_("Pager"),
-	N_("Radio"),
-	N_("Telex"),
-	N_("TTY"),
-	N_("Other Address"),
-	N_("Email 2"),
-	N_("Email 3"),
-	N_("Web Site"),
-	N_("Department"),
-	N_("Office"),
-	N_("Title"),
-	N_("Profession"),
-	N_("Manager"),
-	N_("Assistant"),
-	N_("Nickname"),
-	N_("Spouse"),
-	N_("Note"),
-	N_("Free-busy URL"),
-};
-#endif
-
-#define SPEC "<?xml version=\"1.0\"?>      \
-<ETableSpecification click-to-add=\"true\" draw-grid=\"true\" _click-to-add-message=\"* Click here to add a contact *\">   \
-  <ETableColumn model_col= \"0\" _title=\"File As\"          expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col= \"1\" _title=\"Full Name\"        expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col= \"2\" _title=\"Email\"            expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col= \"3\" _title=\"Primary Phone\"    expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col= \"4\" _title=\"Assistant Phone\"  expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col= \"5\" _title=\"Business Phone\"   expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col= \"6\" _title=\"Callback Phone\"   expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col= \"7\" _title=\"Company Phone\"    expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col= \"8\" _title=\"Home Phone\"       expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col= \"9\" _title=\"Organization\"     expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"10\" _title=\"Business Address\" expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"11\" _title=\"Home Address\"     expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"12\" _title=\"Mobile Phone\"     expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"13\" _title=\"Car Phone\"        expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"14\" _title=\"Business Fax\"     expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"15\" _title=\"Home Fax\"         expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"16\" _title=\"Business Phone 2\" expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"17\" _title=\"Home Phone 2\"     expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"18\" _title=\"ISDN\"             expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"19\" _title=\"Other Phone\"      expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"20\" _title=\"Other Fax\"        expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"21\" _title=\"Pager\"            expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"22\" _title=\"Radio\"            expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"23\" _title=\"Telex\"            expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"24\" _title=\"TTY\"              expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"25\" _title=\"Other Address\"    expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"26\" _title=\"Email 2\"          expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"27\" _title=\"Email 3\"          expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"28\" _title=\"Web Site\"         expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"29\" _title=\"Department\"       expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"30\" _title=\"Office\"           expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"31\" _title=\"Title\"            expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"32\" _title=\"Profession\"       expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"33\" _title=\"Manager\"          expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"34\" _title=\"Assistant\"        expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"35\" _title=\"Nickname\"         expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"36\" _title=\"Spouse\"           expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"37\" _title=\"Note\"             expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"38\" _title=\"Free-busy URL\"    expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableState>                            \
-    <column source=\"0\"/>                 \
-    <column source=\"1\"/>                 \
-    <column source=\"5\"/>                 \
-    <column source=\"2\"/>                 \
-    <column source=\"3\"/>                 \
-    <grouping>                             \
-      <leaf column=\"0\" ascending=\"true\"/> \
-    </grouping>                            \
-  </ETableState>                           \
-</ETableSpecification>"
-
-static void
-init_collection (void)
-{
-	GalViewFactory *factory;
-	ETableSpecification *spec;
-	char *galview;
-
-	if (collection == NULL) {
-		collection = gal_view_collection_new();
-
-		galview = gnome_util_prepend_user_home("/evolution/views/addressbook/");
-		gal_view_collection_set_storage_directories
-			(collection,
-			 EVOLUTION_DATADIR "/evolution/views/addressbook/",
-			 galview);
-		g_free(galview);
-
-		spec = e_table_specification_new();
-		e_table_specification_load_from_string(spec, SPEC);
-
-		factory = gal_view_factory_etable_new (spec);
-		gtk_object_unref (GTK_OBJECT (spec));
-		gal_view_collection_add_factory (collection, factory);
-		gtk_object_unref (GTK_OBJECT (factory));
-
-		factory = gal_view_factory_minicard_new ();
-		gal_view_collection_add_factory (collection, factory);
-		gtk_object_unref (GTK_OBJECT (factory));
-
-		gal_view_collection_load(collection);
-	}
-}
-
-static void
-display_view(GalViewInstance *instance,
-	     GalView *view,
-	     gpointer data)
-{
-	EAddressbookView *address_view = data;
-	if (GAL_IS_VIEW_ETABLE(view)) {
-		change_view_type (address_view, E_ADDRESSBOOK_VIEW_TABLE);
-		gal_view_etable_attach_table (GAL_VIEW_ETABLE(view), e_table_scrolled_get_table(E_TABLE_SCROLLED(address_view->widget)));
-	} else if (GAL_IS_VIEW_MINICARD(view)) {
-		change_view_type (address_view, E_ADDRESSBOOK_VIEW_MINICARD);
-		gal_view_minicard_attach (GAL_VIEW_MINICARD(view), E_MINICARD_VIEW_WIDGET (address_view->object));
-	}
-	address_view->current_view = view;
-}
-
-static void
-setup_menus (EAddressbookView *view)
-{
-	if (view->book && view->view_instance == NULL) {
-		init_collection ();
-		view->view_instance = gal_view_instance_new (collection, e_book_get_uri (view->book));
-	}
-
-	if (view->view_instance && view->uic) {
-		view->view_menus = gal_view_menus_new(view->view_instance);
-		gal_view_menus_apply(view->view_menus, view->uic, NULL);
-
-		display_view (view->view_instance, gal_view_instance_get_current_view (view->view_instance), view);
-
-		gtk_signal_connect(GTK_OBJECT(view->view_instance), "display_view",
-				   display_view, view);
-	}
+	gtk_object_set (GTK_OBJECT (eav->model),
+			"editable", eav->editable,
+			NULL);
+	writable_status (GTK_OBJECT(book), writable, eav);
 }
 
 static void
@@ -508,41 +319,25 @@ e_addressbook_view_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		if (GTK_VALUE_OBJECT(*arg)) {
 			eav->book = E_BOOK(GTK_VALUE_OBJECT(*arg));
 			gtk_object_ref(GTK_OBJECT(eav->book));
+			gtk_signal_connect (GTK_OBJECT (eav->book),
+					    "writable_status",
+					    book_writable_cb, eav);
 		}
 		else
 			eav->book = NULL;
-
-		if (eav->view_instance) {
-			gtk_object_unref (GTK_OBJECT (eav->view_instance));
-			eav->view_instance = NULL;
-		}
-
 		gtk_object_set(GTK_OBJECT(eav->model),
 			       "book", eav->book,
 			       NULL);
 
-		setup_menus (eav);
-
 		break;
 	case ARG_QUERY:
-#if 0 /* This code will mess up ldap a bit.  We need to think about the ramifications of this more. */
-		if ((GTK_VALUE_STRING (*arg) == NULL && !strcmp (eav->query, SHOW_ALL_SEARCH)) ||
-		    (GTK_VALUE_STRING (*arg) != NULL && !strcmp (eav->query, GTK_VALUE_STRING (*arg))))
-			break;
-#endif
 		g_free(eav->query);
 		eav->query = g_strdup(GTK_VALUE_STRING(*arg));
 		if (!eav->query)
-			eav->query = g_strdup (SHOW_ALL_SEARCH);
+			eav->query = g_strdup("(contains \"x-evolution-any-field\" \"\")");
 		gtk_object_set(GTK_OBJECT(eav->model),
 			       "query", eav->query,
 			       NULL);
-		if (eav->current_alphabet_widget != NULL) {
-			GtkWidget *current = eav->current_alphabet_widget;
-
-			eav->current_alphabet_widget = NULL;
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (current), FALSE);
-		}
 		break;
 	case ARG_TYPE:
 		change_view_type(eav, GTK_VALUE_ENUM(*arg));
@@ -589,8 +384,6 @@ const char *button_letters = N_(",0,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,
 
 typedef struct {
 	EAddressbookView *view;
-	GtkWidget *button;
-	GtkWidget *vbox;
 	gunichar letter;
 } LetterClosure;
 
@@ -637,11 +430,11 @@ e_utf8_split (const char *utf8_str, gunichar delim)
 }
 
 static void
-jump_to_letter(EAddressbookView *view, gunichar letter)
+jump_to_letter(GtkWidget *button, LetterClosure *closure)
 {
 	char *query;
 
-	if (g_unichar_isdigit (letter)) {
+	if (g_unichar_isdigit (closure->letter)) {
 		const char *letters = U_(button_letters);
 		char **letter_v;
 		GString *gstr;
@@ -661,48 +454,18 @@ jump_to_letter(EAddressbookView *view, gunichar letter)
 	} else {
 		char s[6 + 1];
 
-		s [g_unichar_to_utf8 (letter, s)] = '\0';
+		s [g_unichar_to_utf8 (closure->letter, s)] = '\0';
 		query = g_strdup_printf ("(beginswith \"file_as\" \"%s\")", s);
 	}
-	gtk_object_set (GTK_OBJECT (view),
+	gtk_object_set (GTK_OBJECT (closure->view),
 			"query", query,
 			NULL);
 	g_free (query);
 }
 
 static void
-button_toggled(GtkWidget *button, LetterClosure *closure)
-{
-	EAddressbookView *view = closure->view;
-
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button))) {
-		GtkWidget *current = view->current_alphabet_widget;
-
-		view->current_alphabet_widget = NULL;
-		if (current && current != button)
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (current), FALSE);
-		jump_to_letter (view, closure->letter);
-		view->current_alphabet_widget = button;
-		alphabet_state_change (view, closure->letter);
-	} else {
-		if (view->current_alphabet_widget != NULL &&
-		    view->current_alphabet_widget == button) {
-			view->current_alphabet_widget = NULL;
-			gtk_object_set (GTK_OBJECT (view),
-					"query", NULL,
-					NULL);
-			alphabet_state_change (view, 0);
-		}
-	}
-}
-
-static void
 free_closure(GtkWidget *button, LetterClosure *closure)
 {
-	if (button != NULL &&
-	    button == closure->view->current_alphabet_widget) {
-		closure->view->current_alphabet_widget = NULL;
-	}
 	g_free(closure);
 }
 
@@ -741,17 +504,15 @@ create_alphabet (EAddressbookView *view)
 		char *label;
 
 		label = e_utf8_to_locale_string (*pl);
-		button = gtk_toggle_button_new_with_label (label);
+		button = gtk_button_new_with_label (label);
 		g_free (label);
 		gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
 
 		closure = g_new (LetterClosure, 1);
 		closure->view = view;
 		closure->letter = g_utf8_get_char (*pc);
-		closure->button = button;
-		closure->vbox = vbox;
-		gtk_signal_connect(GTK_OBJECT(button), "toggled",
-		                   GTK_SIGNAL_FUNC (button_toggled), closure);
+		gtk_signal_connect(GTK_OBJECT(button), "clicked",
+		                   GTK_SIGNAL_FUNC (jump_to_letter), closure);
 		gtk_signal_connect(GTK_OBJECT(button), "destroy",
 		                   GTK_SIGNAL_FUNC (free_closure), closure);
 
@@ -771,12 +532,6 @@ minicard_selection_change (EMinicardViewWidget *widget, EAddressbookView *view)
 }
 
 static void
-minicard_button_press (GtkWidget *widget, GdkEventButton *event, EAddressbookView *view)
-{
-	d(g_print ("Button %d pressed with event type %d\n", event->button, event->type));
-}
-
-static void
 create_minicard_view (EAddressbookView *view)
 {
 	GtkWidget *scrollframe;
@@ -793,14 +548,8 @@ create_minicard_view (EAddressbookView *view)
 	adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(e_addressbook_reflow_adapter_new (view->model));
 	minicard_view = e_minicard_view_widget_new(adapter);
 
-	/* A hack */
-	gtk_object_set_data (GTK_OBJECT (adapter), "view", view);
-
 	gtk_signal_connect(GTK_OBJECT(minicard_view), "selection_change",
 			   GTK_SIGNAL_FUNC(minicard_selection_change), view);
-
-	gtk_signal_connect(GTK_OBJECT(minicard_view), "button_press_event",
-			   GTK_SIGNAL_FUNC(minicard_button_press), view);
 
 
 	view->object = GTK_OBJECT(minicard_view);
@@ -912,12 +661,14 @@ static void
 save_as (GtkWidget *widget, CardAndBook *card_and_book)
 {
 	e_contact_save_as(_("Save as VCard"), card_and_book->card);
+	card_and_book_free(card_and_book);
 }
 
 static void
 send_as (GtkWidget *widget, CardAndBook *card_and_book)
 {
 	e_card_send(card_and_book->card, E_CARD_DISPOSITION_AS_ATTACHMENT);
+	card_and_book_free(card_and_book);
 }
 
 static void
@@ -925,12 +676,14 @@ send_to (GtkWidget *widget, CardAndBook *card_and_book)
 
 {
 	e_card_send(card_and_book->card, E_CARD_DISPOSITION_AS_TO);
+	card_and_book_free(card_and_book);
 }
 
 static void
 print (GtkWidget *widget, CardAndBook *card_and_book)
 {
 	gtk_widget_show(e_contact_print_card_dialog_new(card_and_book->card));
+	card_and_book_free(card_and_book);
 }
 
 #if 0 /* Envelope printing is disabled for Evolution 1.0. */
@@ -938,42 +691,9 @@ static void
 print_envelope (GtkWidget *widget, CardAndBook *card_and_book)
 {
 	gtk_widget_show(e_contact_print_envelope_dialog_new(card_and_book->card));
+	card_and_book_free(card_and_book);
 }
 #endif
-
-static void
-copy (GtkWidget *widget, CardAndBook *card_and_book)
-{
-#if 0
-	card_and_book->view->clipboard_cards = g_list_append (NULL, card_and_book->card);
-	gtk_object_ref (GTK_OBJECT (card_and_book->card));
-	gtk_selection_owner_set (card_and_book->view->invisible, clipboard_atom, GDK_CURRENT_TIME);
-#endif
-
-	e_addressbook_view_copy (card_and_book->view);
-}
-
-static void
-paste (GtkWidget *widget, CardAndBook *card_and_book)
-{
-	e_addressbook_view_paste (card_and_book->view);
-}
-
-static void
-cut (GtkWidget *widget, CardAndBook *card_and_book)
-{
-#if 0
-	/* copy */
-	card_and_book->view->clipboard_cards = g_list_append (NULL, card_and_book->card);
-	gtk_object_ref (GTK_OBJECT (card_and_book->card));
-	gtk_selection_owner_set (card_and_book->view->invisible, clipboard_atom, GDK_CURRENT_TIME);
-
-	/* delete */
-	e_book_remove_card (card_and_book->book, card_and_book->card, NULL, NULL);
-#endif
-
-	e_addressbook_view_cut (card_and_book->view);
-}
 
 static void
 delete (GtkWidget *widget, CardAndBook *card_and_book)
@@ -991,54 +711,26 @@ delete (GtkWidget *widget, CardAndBook *card_and_book)
 		}
 		e_free_object_list(list);
 	}
+	card_and_book_free(card_and_book);
 }
 
-static void
-copy_to_folder (GtkWidget *widget, CardAndBook *card_and_book)
-{
-	e_addressbook_view_copy_to_folder (card_and_book->view);
-}
-
-static void
-move_to_folder (GtkWidget *widget, CardAndBook *card_and_book)
-{
-	e_addressbook_view_move_to_folder (card_and_book->view);
-}
-
-static void
-free_popup_info (GtkWidget *w, CardAndBook *card_and_book)
-{
-	card_and_book_free (card_and_book);
-}
-
-#define POPUP_READONLY_MASK 0x1
 static gint
 table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EAddressbookView *view)
 {
 	if (E_IS_ADDRESSBOOK_TABLE_ADAPTER(view->object)) {
 		EAddressbookModel *model = view->model;
 		CardAndBook *card_and_book;
-		GtkMenu *popup;
 
 		EPopupMenu menu[] = {
-			E_POPUP_ITEM (N_("Save as VCard"), GTK_SIGNAL_FUNC(save_as), 0), 
-			E_POPUP_ITEM (N_("Forward Contact"), GTK_SIGNAL_FUNC(send_as), 0),
-			E_POPUP_ITEM (N_("Send Message to Contact"), GTK_SIGNAL_FUNC(send_to), 0),
-			E_POPUP_ITEM (N_("Print"), GTK_SIGNAL_FUNC(print), 0),
+			{N_("Save as VCard"), NULL, GTK_SIGNAL_FUNC(save_as), NULL, 0}, 
+			{N_("Forward Contact"), NULL, GTK_SIGNAL_FUNC(send_as), NULL, 0},
+			{N_("Send Message to Contact"), NULL, GTK_SIGNAL_FUNC(send_to), NULL, 0},
+			{N_("Print"), NULL, GTK_SIGNAL_FUNC(print), NULL, 0},
 #if 0 /* Envelope printing is disabled for Evolution 1.0. */
-			E_POPUP_ITEM (N_("Print Envelope"), GTK_SIGNAL_FUNC(print_envelope), 0),
+			{N_("Print Envelope"), NULL, GTK_SIGNAL_FUNC(print_envelope), NULL, 0},
 #endif
-			E_POPUP_SEPARATOR,
-
-			E_POPUP_ITEM (N_("Copy to folder..."), GTK_SIGNAL_FUNC(copy_to_folder), 0), 
-			E_POPUP_ITEM (N_("Move to folder..."), GTK_SIGNAL_FUNC(move_to_folder), POPUP_READONLY_MASK),
-			E_POPUP_SEPARATOR,
-
-			E_POPUP_ITEM (N_("Cut"), GTK_SIGNAL_FUNC (cut), POPUP_READONLY_MASK),
-			E_POPUP_ITEM (N_("Copy"), GTK_SIGNAL_FUNC (copy), 0),
-			E_POPUP_ITEM (N_("Paste"), GTK_SIGNAL_FUNC (paste), POPUP_READONLY_MASK),
-			E_POPUP_ITEM (N_("Delete"), GTK_SIGNAL_FUNC(delete), POPUP_READONLY_MASK),
-			E_POPUP_TERMINATOR
+			{N_("Delete"), NULL, GTK_SIGNAL_FUNC(delete), NULL, 0},
+			{NULL, NULL, NULL, NULL, 0}
 		};
 
 		card_and_book = g_new(CardAndBook, 1);
@@ -1052,71 +744,10 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
 		gtk_object_ref(GTK_OBJECT(card_and_book->book));
 		gtk_object_ref(GTK_OBJECT(card_and_book->view));
 
-		popup = e_popup_menu_create (menu,
-					     e_addressbook_model_editable (model) ? 0 : POPUP_READONLY_MASK,
-					     0, card_and_book);
-
-		gtk_signal_connect (GTK_OBJECT (popup), "selection-done",
-				    GTK_SIGNAL_FUNC (free_popup_info), card_and_book);
-		e_popup_menu (popup, event);
-
+		e_popup_menu_run (menu, event, 0, 0, card_and_book);
 		return TRUE;
 	} else
 		return FALSE;
-}
-
-static void
-new_card (GtkWidget *widget, CardAndBook *card_and_book)
-{
-	e_addressbook_show_contact_editor (card_and_book->book, e_card_new(""), TRUE, TRUE);
-}
-
-static void
-new_list (GtkWidget *widget, CardAndBook *card_and_book)
-{
-	e_addressbook_show_contact_list_editor (card_and_book->book, e_card_new(""), TRUE, TRUE);
-}
-
-static gint
-table_white_space_event(ETableScrolled *table, GdkEvent *event, EAddressbookView *view)
-{
-	if (event->type == GDK_BUTTON_PRESS && ((GdkEventButton *)event)->button == 3 &&
-	    E_IS_ADDRESSBOOK_TABLE_ADAPTER(view->object)) {
-		EAddressbookModel *model = view->model;
-		CardAndBook *card_and_book;
-		GtkMenu *popup;
-
-		EPopupMenu menu[] = {
-			E_POPUP_ITEM (N_("New Contact..."), GTK_SIGNAL_FUNC(new_card), POPUP_READONLY_MASK),
-			E_POPUP_ITEM (N_("New Contact List..."), GTK_SIGNAL_FUNC(new_list), POPUP_READONLY_MASK),
-			E_POPUP_SEPARATOR,
-			E_POPUP_ITEM (N_("Paste"), GTK_SIGNAL_FUNC (paste), POPUP_READONLY_MASK),
-			E_POPUP_TERMINATOR
-		};
-
-		card_and_book = g_new(CardAndBook, 1);
-		card_and_book->card = NULL;
-		card_and_book->widget = GTK_WIDGET(table);
-		card_and_book->view = view;
-		gtk_object_get(GTK_OBJECT(model),
-			       "book", &(card_and_book->book),
-			       NULL);
-
-		gtk_object_ref(GTK_OBJECT(card_and_book->book));
-		gtk_object_ref(GTK_OBJECT(card_and_book->view));
-
-		popup = e_popup_menu_create (menu,
-					     e_addressbook_model_editable (model) ? 0 : POPUP_READONLY_MASK,
-					     0, card_and_book);
-		
-		gtk_signal_connect (GTK_OBJECT (popup), "selection-done",
-				    GTK_SIGNAL_FUNC (free_popup_info), card_and_book);
-		e_popup_menu (popup, event);
-		
-		return TRUE;
-	} else {
-		return FALSE;
-	}
 }
 
 static void
@@ -1191,17 +822,116 @@ stop_state_changed (GtkObject *object, EAddressbookView *eav)
 }
 
 static void
-command_state_change (EAddressbookView *eav)
+writable_status (GtkObject *object, gboolean writable, EAddressbookView *eav)
 {
-	/* Reffing during emission is unnecessary.  Gtk automatically refs during an emission. */
-	gtk_signal_emit (GTK_OBJECT (eav), e_addressbook_view_signals [COMMAND_STATE_CHANGE]);
+	command_state_change (eav);
 }
 
 static void
-alphabet_state_change (EAddressbookView *eav, gunichar letter)
+command_state_change (EAddressbookView *eav)
 {
-	gtk_signal_emit (GTK_OBJECT (eav), e_addressbook_view_signals [ALPHABET_STATE_CHANGE], letter);
+	gtk_object_ref (GTK_OBJECT (eav)); /* who knows what might happen during this emission? */
+	gtk_signal_emit (GTK_OBJECT (eav), e_addressbook_view_signals [COMMAND_STATE_CHANGE]);
+	gtk_object_unref (GTK_OBJECT (eav));
 }
+
+#ifdef JUST_FOR_TRANSLATORS
+static char *list [] = {
+	N_("* Click here to add a contact *"),
+	N_("File As"),
+	N_("Full Name"),
+	N_("Email"),
+	N_("Primary Phone"),
+	N_("Assistant Phone"),
+	N_("Business Phone"),
+	N_("Callback Phone"),
+	N_("Company Phone"),
+	N_("Home Phone"),
+	N_("Organization"),
+	N_("Business Address"),
+	N_("Home Address"),
+	N_("Mobile Phone"),
+	N_("Car Phone"),
+	N_("Business Fax"),
+	N_("Home Fax"),
+	N_("Business Phone 2"),
+	N_("Home Phone 2"),
+	N_("ISDN"),
+	N_("Other Phone"),
+	N_("Other Fax"),
+	N_("Pager"),
+	N_("Radio"),
+	N_("Telex"),
+	N_("TTY"),
+	N_("Other Address"),
+	N_("Email 2"),
+	N_("Email 3"),
+	N_("Web Site"),
+	N_("Department"),
+	N_("Office"),
+	N_("Title"),
+	N_("Profession"),
+	N_("Manager"),
+	N_("Assistant"),
+	N_("Nickname"),
+	N_("Spouse"),
+	N_("Note"),
+	N_("Free-busy URL"),
+};
+#endif
+
+#define SPEC "<?xml version=\"1.0\"?>      \
+<ETableSpecification click-to-add=\"true\" draw-grid=\"true\" _click-to-add-message=\"* Click here to add a contact *\">   \
+  <ETableColumn model_col= \"0\" _title=\"File As\"          expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col= \"1\" _title=\"Full Name\"        expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col= \"2\" _title=\"Email\"            expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col= \"3\" _title=\"Primary Phone\"    expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col= \"4\" _title=\"Assistant Phone\"  expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col= \"5\" _title=\"Business Phone\"   expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col= \"6\" _title=\"Callback Phone\"   expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col= \"7\" _title=\"Company Phone\"    expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col= \"8\" _title=\"Home Phone\"       expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col= \"9\" _title=\"Organization\"     expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"10\" _title=\"Business Address\" expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"11\" _title=\"Home Address\"     expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"12\" _title=\"Mobile Phone\"     expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"13\" _title=\"Car Phone\"        expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"14\" _title=\"Business Fax\"     expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"15\" _title=\"Home Fax\"         expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"16\" _title=\"Business Phone 2\" expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"17\" _title=\"Home Phone 2\"     expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"18\" _title=\"ISDN\"             expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"19\" _title=\"Other Phone\"      expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"20\" _title=\"Other Fax\"        expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"21\" _title=\"Pager\"            expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"22\" _title=\"Radio\"            expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"23\" _title=\"Telex\"            expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"24\" _title=\"TTY\"              expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"25\" _title=\"Other Address\"    expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"26\" _title=\"Email 2\"          expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"27\" _title=\"Email 3\"          expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"28\" _title=\"Web Site\"         expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"29\" _title=\"Department\"       expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"30\" _title=\"Office\"           expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"31\" _title=\"Title\"            expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"32\" _title=\"Profession\"       expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"33\" _title=\"Manager\"          expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"34\" _title=\"Assistant\"        expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"35\" _title=\"Nickname\"         expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"36\" _title=\"Spouse\"           expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"37\" _title=\"Note\"             expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"38\" _title=\"Free-busy URL\"    expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableState>                            \
+    <column source=\"0\"/>                 \
+    <column source=\"1\"/>                 \
+    <column source=\"5\"/>                 \
+    <column source=\"2\"/>                 \
+    <column source=\"3\"/>                 \
+    <grouping>                             \
+      <leaf column=\"0\" ascending=\"true\"/> \
+    </grouping>                            \
+  </ETableState>                           \
+</ETableSpecification>"
 
 static void
 create_table_view (EAddressbookView *view)
@@ -1226,8 +956,6 @@ create_table_view (EAddressbookView *view)
 			   GTK_SIGNAL_FUNC(table_double_click), view);
 	gtk_signal_connect(GTK_OBJECT(e_table_scrolled_get_table(E_TABLE_SCROLLED(table))), "right_click",
 			   GTK_SIGNAL_FUNC(table_right_click), view);
-	gtk_signal_connect(GTK_OBJECT(e_table_scrolled_get_table(E_TABLE_SCROLLED(table))), "white_space_event",
-			   GTK_SIGNAL_FUNC(table_white_space_event), view);
 	gtk_signal_connect(GTK_OBJECT(e_table_scrolled_get_table(E_TABLE_SCROLLED(table))), "selection_change",
 			   GTK_SIGNAL_FUNC(table_selection_change), view);
 
@@ -1352,28 +1080,70 @@ e_contact_print_button(GnomeDialog *dialog, gint button, gpointer data)
 	}
 }
 
+static void
+display_view(GalViewCollection *collection,
+	     GalView *view,
+	     gpointer data)
+{
+	EAddressbookView *address_view = data;
+	if (GAL_IS_VIEW_ETABLE(view)) {
+		change_view_type (address_view, E_ADDRESSBOOK_VIEW_TABLE);
+		e_table_set_state_object(e_table_scrolled_get_table(E_TABLE_SCROLLED(address_view->widget)), GAL_VIEW_ETABLE(view)->state);
+	} else if (GAL_IS_VIEW_MINICARD(view)) {
+		change_view_type (address_view, E_ADDRESSBOOK_VIEW_MINICARD);
+	}
+}
+
 void
 e_addressbook_view_setup_menus (EAddressbookView *view,
 				BonoboUIComponent *uic)
 {
+	GalViewFactory *factory;
+	ETableSpecification *spec;
+	char *galview;
 
 	g_return_if_fail (view != NULL);
 	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (view));
 	g_return_if_fail (uic != NULL);
 	g_return_if_fail (BONOBO_IS_UI_COMPONENT (uic));
+	g_return_if_fail (view->view_collection == NULL);
 
-	init_collection ();
+	g_assert (view->view_collection == NULL);
+	g_assert (view->view_menus == NULL);
 
-	view->uic = uic;
+	view->view_collection = gal_view_collection_new();
 
-	setup_menus (view);
+	galview = gnome_util_prepend_user_home("/evolution/views/addressbook/");
+	gal_view_collection_set_storage_directories(view->view_collection,
+						    EVOLUTION_DATADIR "/evolution/views/addressbook/",
+						    galview);
+	g_free(galview);
+
+	spec = e_table_specification_new();
+	e_table_specification_load_from_string(spec, SPEC);
+
+	factory = gal_view_factory_etable_new (spec);
+	gtk_object_unref (GTK_OBJECT (spec));
+	gal_view_collection_add_factory (view->view_collection, factory);
+	gtk_object_unref (GTK_OBJECT (factory));
+
+	factory = gal_view_factory_minicard_new ();
+	gal_view_collection_add_factory (view->view_collection, factory);
+	gtk_object_unref (GTK_OBJECT (factory));
+
+	gal_view_collection_load(view->view_collection);
+
+	view->view_menus = gal_view_menus_new(view->view_collection);
+	gal_view_menus_apply(view->view_menus, uic, NULL);
+	gtk_signal_connect(GTK_OBJECT(view->view_collection), "display_view",
+			   display_view, view);
 }
 
 /**
  * e_addressbook_view_discard_menus:
  * @view: An addressbook view.
  * 
- * Makes an addressbook view discard its GAL view menus and its views instance
+ * Makes an addressbook view discard its GAL view menus and its views collection
  * objects.  This should be called when the corresponding Bonobo component is
  * deactivated.
  **/
@@ -1382,21 +1152,16 @@ e_addressbook_view_discard_menus (EAddressbookView *view)
 {
 	g_return_if_fail (view != NULL);
 	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (view));
-	g_return_if_fail (view->view_instance);
+	g_return_if_fail (view->view_collection);
 
-	if (view->view_menus) {
-		gal_view_menus_unmerge (view->view_menus, NULL);
+	g_assert (view->view_collection != NULL);
+	g_assert (view->view_menus != NULL);
 
-		gtk_object_unref (GTK_OBJECT (view->view_menus));
-		view->view_menus = NULL;
-	}
+	gtk_object_unref (GTK_OBJECT (view->view_collection));
+	view->view_collection = NULL;
 
-	if (view->view_instance) {
-		gtk_object_unref (GTK_OBJECT (view->view_instance));
-		view->view_instance = NULL;
-	}
-
-	view->uic = NULL;
+	gtk_object_unref (GTK_OBJECT (view->view_menus));
+	view->view_menus = NULL;
 }
 
 static ESelectionModel*
@@ -1624,96 +1389,13 @@ get_selected_cards (EAddressbookView *view)
 	return list;
 }
 
-#if 0
-void
-e_addressbook_view_save_state (EAddressbookView *view, const char *filename)
-{
-	xmlDoc *doc;
-	xmlNode *node;
-
-	doc = xmlNewDoc ("1.0");
-	node = xmlNewDocNode (doc, NULL, "addressbook-view", NULL);
-	xmlDocSetRootElement (doc, node);
-
-	switch (view->view_type) {
-	case E_ADDRESSBOOK_VIEW_MINICARD: {
-		int column_width;
-		e_xml_set_string_prop_by_name (node, "style", "minicard");
-		gtk_object_get (GTK_OBJECT (view->object),
-				"column_width", &column_width,
-				NULL);
-		e_xml_set_integer_prop_by_name (node, "column-width", column_width);
-		break;	
-	}
-	case E_ADDRESSBOOK_VIEW_TABLE: {
-		ETableState *state;
-		state = e_table_get_state_object (E_TABLE (view->widget));
-
-		e_xml_set_string_prop_by_name (node, "style", "table");
-		e_table_state_save_to_node (state, node);
-		gtk_object_unref (GTK_OBJECT (state));
-		break;
-	}
-	default:
-		xmlFreeDoc(doc);
-		return;
-	}
-	xmlSaveFile (filename, doc);
-	xmlFreeDoc(doc);
-}
-
-void
-e_addressbook_view_load_state (EAddressbookView *view, const char *filename)
-{
-	xmlDoc *doc;
-
-	doc = xmlParseFile (filename);
-	if (doc) {
-		xmlNode *node;
-		char *type;
-
-		node = xmlDocGetRootElement (doc);
-		type = e_xml_get_string_prop_by_name (node, "style");
-
-		if (!strcmp (type, "minicard")) {
-			int column_width;
-
-			change_view_type (view, E_ADDRESSBOOK_VIEW_MINICARD);
-
-			column_width = e_xml_get_integer_prop_by_name (node, "column-width");
-			gtk_object_set (GTK_OBJECT (view->object),
-					"column_width", column_width,
-					NULL);
-		} else if (!strcmp (type, "table")) {
-			ETableState *state;
-
-			change_view_type (view, E_ADDRESSBOOK_VIEW_TABLE);
-
-			state = e_table_state_new();
-			e_table_state_load_from_node (state, node->xmlChildrenNode);
-			e_table_set_state_object (E_TABLE (view->widget), state);
-			gtk_object_unref (GTK_OBJECT (state));
-		}
-		xmlFreeDoc(doc);
-	}
-}
-#endif
-
 void
 e_addressbook_view_save_as (EAddressbookView *view)
 {
 	GList *list = get_selected_cards (view);
 	if (list)
 		e_contact_list_save_as (_("Save as VCard"), list);
-	e_free_object_list(list);
-}
-
-void
-e_addressbook_view_view (EAddressbookView *view)
-{
-	GList *list = get_selected_cards (view);
-	e_addressbook_show_multiple_cards (view->book, list, view->editable);
-	e_free_object_list(list);
+	g_list_free (list);
 }
 
 void
@@ -1722,7 +1404,7 @@ e_addressbook_view_send (EAddressbookView *view)
 	GList *list = get_selected_cards (view);
 	if (list)
 		e_card_list_send (list, E_CARD_DISPOSITION_AS_ATTACHMENT);
-	e_free_object_list(list);
+	g_list_free (list);
 }
 
 void
@@ -1731,7 +1413,7 @@ e_addressbook_view_send_to (EAddressbookView *view)
 	GList *list = get_selected_cards (view);
 	if (list)
 		e_card_list_send (list, E_CARD_DISPOSITION_AS_TO);
-	e_free_object_list(list);
+	g_list_free (list);
 }
 
 void
@@ -1782,35 +1464,6 @@ e_addressbook_view_stop(EAddressbookView *view)
 		e_addressbook_model_stop (view->model);
 }
 
-static void
-view_transfer_cards (EAddressbookView *view, gboolean delete_from_source)
-{
-	EBook *book;
-	GList *cards;
-	GtkWindow *parent_window;
-
-	gtk_object_get(GTK_OBJECT(view->model), 
-		       "book", &book,
-		       NULL);
-	cards = get_selected_cards (view);
-	parent_window = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (view)));
-
-	e_addressbook_transfer_cards (book, cards, delete_from_source, parent_window);
-}
-
-void
-e_addressbook_view_copy_to_folder (EAddressbookView *view)
-{
-	view_transfer_cards (view, FALSE);
-}
-
-void
-e_addressbook_view_move_to_folder (EAddressbookView *view)
-{
-	view_transfer_cards (view, TRUE);
-}
-
-
 static gboolean
 e_addressbook_view_selection_nonempty (EAddressbookView  *view)
 {
@@ -1837,12 +1490,6 @@ e_addressbook_view_can_print (EAddressbookView  *view)
 
 gboolean
 e_addressbook_view_can_save_as (EAddressbookView  *view)
-{
-	return view ? e_addressbook_view_selection_nonempty (view) : FALSE;
-}
-
-gboolean
-e_addressbook_view_can_view (EAddressbookView  *view)
 {
 	return view ? e_addressbook_view_selection_nonempty (view) : FALSE;
 }
@@ -1895,14 +1542,3 @@ e_addressbook_view_can_stop (EAddressbookView  *view)
 	return view ? e_addressbook_model_can_stop (view->model) : FALSE;
 }
 
-gboolean
-e_addressbook_view_can_copy_to_folder (EAddressbookView *view)
-{
-	return view ? e_addressbook_view_selection_nonempty (view) : FALSE;
-}
-
-gboolean
-e_addressbook_view_can_move_to_folder (EAddressbookView *view)
-{
-	return view ? e_addressbook_view_selection_nonempty (view) && e_addressbook_model_editable (view->model) : FALSE;
-}

@@ -23,16 +23,13 @@
 #include <config.h>
 #endif
 
-#include <sys/types.h>
+#include <ctype.h>
 #include <sys/stat.h>
-#include <fcntl.h>
 #include <sys/uio.h>
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
 #include <stdlib.h>
-
-#include <ctype.h>
 
 #include "camel-spool-summary.h"
 #include "camel-mime-message.h"

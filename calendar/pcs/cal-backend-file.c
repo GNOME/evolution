@@ -95,9 +95,6 @@ static CalBackendOpenStatus cal_backend_file_open (CalBackend *backend,
 						   const char *uristr,
 						   gboolean only_if_exists);
 static gboolean cal_backend_file_is_loaded (CalBackend *backend);
-static Query *cal_backend_file_get_query (CalBackend *backend,
-					  GNOME_Evolution_Calendar_QueryListener ql,
-					  const char *sexp);
 
 static CalMode cal_backend_file_get_mode (CalBackend *backend);
 static void cal_backend_file_set_mode (CalBackend *backend, CalMode mode);
@@ -183,7 +180,6 @@ cal_backend_file_class_init (CalBackendFileClass *class)
 	backend_class->get_uri = cal_backend_file_get_uri;
 	backend_class->open = cal_backend_file_open;
 	backend_class->is_loaded = cal_backend_file_is_loaded;
-	backend_class->get_query = cal_backend_file_get_query;
 	backend_class->get_mode = cal_backend_file_get_mode;
 	backend_class->set_mode = cal_backend_file_set_mode;	
 	backend_class->get_n_objects = cal_backend_file_get_n_objects;
@@ -912,19 +908,6 @@ cal_backend_file_is_loaded (CalBackend *backend)
 	priv = cbfile->priv;
 
 	return (priv->icalcomp != NULL);
-}
-
-/* get_query handler for the file backend */
-static Query *
-cal_backend_file_get_query (CalBackend *backend,
-			    GNOME_Evolution_Calendar_QueryListener ql,
-			    const char *sexp)
-{
-	CalBackendFile *cbfile;
-
-	cbfile = CAL_BACKEND_FILE (backend);
-
-	return query_new (backend, ql, sexp);
 }
 
 /* is_remote handler for the file backend */

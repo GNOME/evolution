@@ -61,8 +61,6 @@ main (int argc, char **argv)
 {
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);
-
-	free (malloc (5));
 	
 	init_corba (&argc, argv);
 
@@ -99,8 +97,6 @@ main (int argc, char **argv)
 
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
-
-	g_print ("Evolution Addressbook up and running\n");
 
 	bonobo_main ();
 

@@ -12,8 +12,7 @@
   <sect1 id="importing-mail-and-settings">
     <title>Importing Your Old Email and Settings</title>
     <para>
-
-      <application>Evolution</application> allows you to import your old
+      <application>Evolution</application> allows you to import old
       email and data so that you don't need to worry about losing your
       old information.
     </para>
@@ -27,7 +26,7 @@
             <term>VCard (.vcf, gcrd):</term>
             <listitem>
               <para>
-                The addressbook format used by GNOME, KDE, and
+                The addressbook format used by the GNOME, KDE, and
                 many other contact management applications. You
                 should be able to export to VCard format from any
                 address book application.
@@ -74,16 +73,12 @@
         <orderedlist numeration="arabic">
           <listitem>
             <para>
-              Click <menuchoice>
-		<guimenu>File</guimenu>
-		<guimenuitem>Import</guimenuitem>
-	      </menuchoice>.
+              Click <menuchoice><guimenu>File</guimenu><guimenuitem>Import</guimenuitem></menuchoice>.
             </para>
           </listitem>
           <listitem>
             <para>
-              Click <guibutton>Next</guibutton> after reading the
-              Welcome screen.
+              Click <guibutton>Next</guibutton> after reading the Welcome screen.
             </para>
           </listitem>
           <listitem>
@@ -93,8 +88,7 @@
           </listitem>
           <listitem>
             <para>
-              Find the file that you wish to import into
-              <application>Evolution</application>.
+              Find the file that you wish to import into <application>Evolution</application>.
             </para>
           </listitem>
           <listitem>
@@ -118,11 +112,7 @@
         <orderedlist numeration="arabic">
           <listitem>
             <para>
-              Click 
-	      <menuchoice>
-		<guimenu>File</guimenu>
-		<guimenuitem>Import</guimenuitem>
-	      </menuchoice>.
+              Click <menuchoice><guimenu>File</guimenu><guimenuitem>Import</guimenuitem></menuchoice>.
             </para>
           </listitem>
           <listitem>
@@ -137,38 +127,34 @@
           </listitem>
           <listitem>
             <para>
-              The left-most column shows the application from which
-              your information will be imported from.  Then, select
+              The left-most column shows the application which your
+              information will be imported from.  You then select
               checkboxes on each component to import different
               properties of each application.
             </para>
           </listitem>
           <listitem>
             <para>
-              Click <guibutton>Next</guibutton>.
+              Click <guibutton>Next</guibutton>
             </para>
           </listitem>
           <listitem>
             <para>
-              Click <guibutton>Import</guibutton>.
+              Click <guibutton>Import</guibutton>
             </para>
           </listitem>
         </orderedlist>
       </para>
+
       <para>
 	<note>
 	  <title>Microsoft Outlook and Outlook Express Users</title>
 	  <para>
 	    Microsoft Outlook, and versions of Outlook Express after
-	    version 4, use proprietary formats that
-	    <application>Ximian Evolution</application> cannot read or
-	    import.  For contacts, you may wish to consider using
-	    OutPort, a third-party conversion tool.  Ximian does not
-	    support OutPort but you can find more information about it
-	    at <ulink
-	    url="http://www.cyberus.ca/~phoenix/outport/">the Outport
-	    homepage.</ulink> For email, there is a more simple
-	    workaround:
+	    version 4, use proprietary formats that <application>Ximian
+	      Evolution</application> cannot read or import.  For contacts,
+	    you may have to email them to yourself and import them that
+	    way.  For email, there is a simpler workaround:
 	    <orderedlist numeration="arabic">
 	      
 	      <listitem>
@@ -190,7 +176,7 @@
 		<para>
 		  Use the <application>Ximian Evolution</application> import
 		  tool to import the files.  There's more information about
-		  why this works, and how, at the <ulink url="http://support.ximian.com">Ximian support website</ulink>.
+		  why this works, and how, at the Ximian support website.
 		</para>
 	      </listitem>
 	    </orderedlist>
@@ -207,6 +193,7 @@
 	    the messages in your Trash folders.
 	  </para>
 	</note>     
+	
       </para>
       
     </sect2>
@@ -525,11 +512,11 @@
 		    looking for messages less than two days old.
 		  </para></listitem>
 		
-		<listitem><para> Date Received - This works the same
-		    way as the <guilabel>Date Sent</guilabel> option,
-		    except that it compares the time you got the
-		    message with the dates you specify.
-		    </para></listitem>
+		<listitem><para>
+		    Date Received - This works the same way as the <guilabel>Date Sent</guilabel> 
+		    option, except that it compares the time you got the message 
+		    with the dates you specify.
+		  </para></listitem>
 		
 		<listitem><para>
 		    Score - Emails have a standard priority range from -3 (least

@@ -42,7 +42,7 @@ struct _TaskEditorPrivate {
 
 	EMeetingModel *model;
 	
-	gboolean assignment_shown;
+	gboolean meeting_shown;
 	gboolean existing_org;
 	gboolean updating;	
 };
@@ -134,7 +134,7 @@ set_menu_sens (TaskEditor *te)
 	
 	priv = te->priv;
 
-	sens = priv->assignment_shown;
+	sens = priv->meeting_shown;
 	comp_editor_set_ui_prop (COMP_EDITOR (te), 
 				 "/commands/ActionAssignTask", 
 				 "sensitive", sens ? "0" : "1");
@@ -191,7 +191,7 @@ task_editor_init (TaskEditor *te)
 
 	comp_editor_merge_ui (COMP_EDITOR (te), "evolution-task-editor.xml", verbs);
 
-	priv->assignment_shown = TRUE;
+	priv->meeting_shown = TRUE;
 	priv->existing_org = FALSE;
 	priv->updating = FALSE;	
 
@@ -217,11 +217,11 @@ task_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 	e_meeting_model_remove_all_attendees (priv->model);
 	if (attendees == NULL) {
 		comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->meet_page));
-		priv->assignment_shown = FALSE;
+		priv->meeting_shown = FALSE;
 	} else {
 		GSList *l;
 
-		if (!priv->assignment_shown)
+		if (!priv->meeting_shown)
 			comp_editor_append_page (COMP_EDITOR (te),
 						 COMP_EDITOR_PAGE (priv->meet_page),
 						 _("Assignment"));
@@ -233,12 +233,12 @@ task_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 			e_meeting_model_add_attendee (priv->model, ia);
 			gtk_object_unref (GTK_OBJECT (ia));
 		}
-		priv->assignment_shown = TRUE;		
+		priv->meeting_shown = TRUE;		
 	}
 	cal_component_free_attendee_list (attendees);
 
 	set_menu_sens (te);
-	comp_editor_set_needs_send (COMP_EDITOR (te), priv->assignment_shown);
+	comp_editor_set_needs_send (COMP_EDITOR (te), priv->meeting_shown);
 
 	priv->updating = FALSE;
 	
@@ -312,42 +312,25 @@ task_editor_new (void)
 }
 
 static void
-show_assignment (TaskEditor *te)
+assign_task_cmd (GtkWidget *widget, gpointer data)
 {
+	TaskEditor *te = TASK_EDITOR (data);
 	TaskEditorPrivate *priv;
 
 	priv = te->priv;
 
-	if (!priv->assignment_shown) {
+	if (!priv->meeting_shown) {
 		comp_editor_append_page (COMP_EDITOR (te),
 					 COMP_EDITOR_PAGE (priv->meet_page),
 					 _("Assignment"));
-		priv->assignment_shown = TRUE;
+		priv->meeting_shown = TRUE;
 
 		set_menu_sens (te);
-		comp_editor_set_needs_send (COMP_EDITOR (te), priv->assignment_shown);
-		comp_editor_set_changed (COMP_EDITOR (te), TRUE);
+		comp_editor_set_needs_send (COMP_EDITOR (te), priv->meeting_shown);
 	}
 
 	comp_editor_show_page (COMP_EDITOR (te),
 			       COMP_EDITOR_PAGE (priv->meet_page));
-}
-
-void
-task_editor_show_assignment (TaskEditor *te)
-{
-	g_return_if_fail (te != NULL);
-	g_return_if_fail (IS_TASK_EDITOR (te));
-
-	show_assignment (te);
-}
-
-static void
-assign_task_cmd (GtkWidget *widget, gpointer data)
-{
-	TaskEditor *te = TASK_EDITOR (data);
-
-	show_assignment (te);
 }
 
 static void

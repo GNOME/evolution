@@ -10,26 +10,30 @@ bin_PROGRAMS =				\
 
 noinst_PROGRAMS = evolution-addressbook-abuse
 
-INCLUDES =						\
-	-DG_LOG_DOMAIN=\"evolution-tools\"		\
-	-I$(top_srcdir)					\
-	-I$(top_builddir)				\
-	-DEVOLUTION_BINDIR=\""$(bindir)"\"		\
-	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
-	-I$(top_srcdir)/addressbook			\
-	$(GNOME_FULL_CFLAGS)
+INCLUDES =							\
+	-DG_LOG_DOMAIN=\"evolution-tools\"			\
+	$(EXTRA_GNOME_CFLAGS)					\
+	$(GNOME_INCLUDEDIR)					\
+	-I$(top_srcdir)						\
+	-I$(top_builddir)					\
+	$(BONOBO_HTML_GNOME_CFLAGS)				\
+	-DEVOLUTION_BINDIR=\""$(bindir)"\"			\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
+	-I$(top_srcdir)/addressbook
 
 EXTRA_DIST = $(bin_SCRIPTS) verify-evolution-install.sh \
 	evolution-addressbook-clean.in
 
-evolution_addressbook_import_LDADD =				\
-	$(GNOME_FULL_LIBS)					\
-	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
-	$(top_builddir)/camel/libcamel.la			\
-	$(top_builddir)/libibex/libibex.la			\
-	$(top_builddir)/e-util/ename/libename.la		\
-	$(top_builddir)/libversit/libversit.a			\
-	$(top_builddir)/e-util/libeutil.la			\
+evolution_addressbook_import_LDADD =					\
+	$(EXTRA_GNOME_LIBS)						\
+	$(BONOBO_HTML_GNOME_LIBS)					\
+	$(BONOBO_CONF_LIBS)						\
+	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
+	$(top_builddir)/camel/libcamel.la				\
+	$(top_builddir)/libibex/libibex.la				\
+	$(top_builddir)/e-util/ename/libename.la			\
+	$(top_builddir)/libversit/libversit.la				\
+	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/widgets/menus/libmenus.la
 
 evolution_addressbook_export_LDADD =					\

@@ -796,7 +796,7 @@ static char *
 get_default_uri (gboolean tasks)
 {
 	Bonobo_ConfigDatabase db;
-	char *uri, *file_uri;
+	char *uri, *fall_back = NULL;
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
@@ -808,24 +808,19 @@ get_default_uri (gboolean tasks)
 		return NULL;
  	}
 
+	CORBA_exception_free (&ev);
+
+	fall_back = get_fall_back_uri (tasks);
 	if (tasks)
-		uri = bonobo_config_get_string (db, "/DefaultFolders/tasks_uri", &ev);
+		uri = bonobo_config_get_string_with_default (db, "/Calendar/DefaultTasksUri", 
+							     fall_back, NULL);
 	else
-		uri = bonobo_config_get_string (db, "/DefaultFolders/calendar_uri", &ev);
+		uri = bonobo_config_get_string_with_default (db, "/Calendar/DefaultUri",
+							     fall_back, NULL);
+	g_free (fall_back);
+	
 	bonobo_object_release_unref (db, NULL);
 
-	if (BONOBO_EX (&ev)) {
-		CORBA_exception_free (&ev);
-		uri = get_fall_back_uri (tasks);
-	} else if (!strncmp (uri, "file:", 5)) {
-		for (file_uri = uri + 5; *file_uri == '/'; file_uri++)
-			;
-		file_uri = g_strdup_printf ("/%s/%s.ics", file_uri,
-					    tasks ? "tasks" : "calendar");
-		g_free (uri);
-		uri = file_uri;
-	}
-	
 	return uri;
 }
 

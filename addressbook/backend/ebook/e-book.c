@@ -547,7 +547,7 @@ e_book_load_uri_step (EBook *book, EBookStatus status, EBookLoadURIData *data)
 {
 	/* iterate to the next possible CardFactory, or fail
 	   if it's the last one */
-	book->priv->iter = book->priv->iter->next;
+	book->priv->iter = book->priv->book_factories->next;
 	if (book->priv->iter) {
 		GNOME_Evolution_Addressbook_BookFactory factory = book->priv->iter->data;
 		e_book_load_uri_from_factory (book, factory, data);
@@ -643,8 +643,6 @@ activate_factories_for_uri (EBook *book, const char *uri)
 
 	if (info_list->_length == 0) {
 		g_warning ("Can't find installed BookFactory that handles protocol '%s'.", protocol);
-		g_free (protocol);
-		g_free (query);
 		CORBA_exception_free (&ev);
 		goto shutdown;
 	}
@@ -768,6 +766,7 @@ e_book_unload_uri (EBook *book)
 	CORBA_exception_init (&ev);
 
 	bonobo_object_release_unref  (book->priv->corba_book, &ev);
+
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_unload_uri: Exception releasing "
 			   "remote book interface!\n");
