@@ -52,7 +52,6 @@
 #define CREATE_EVENT_ID "event"
 #define CREATE_TASK_ID "task"
 
-static BonoboGenericFactory *factory = NULL;
 char *evolution_dir;
 
 static const EvolutionShellComponentFolderType folder_types[] = {
@@ -334,8 +333,6 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	static gboolean migrated = FALSE;
 	
 	evolution_dir = g_strdup (evolution_homedir);
-
-	calendar_config_init ();
 
 	if (!migrated) {
 		tasks_migrate ();

@@ -115,6 +115,8 @@ main (int argc, char **argv)
 				G_LOG_LEVEL_WARNING);
 #endif
 
+	calendar_config_init ();
+
 	control_factory_init ();
 	component_factory_init ();
 	itip_control_factory_init ();

@@ -1,5 +1,12 @@
 2001-09-17  Federico Mena Quintero  <federico@ximian.com>
 
+	* gui/component-factory.c (owner_set_cb): Do not call
+	calendar_config_init() here.
+
+	* gui/main.c (main): Call calendar_config_init() here.
+
+2001-09-17  Federico Mena Quintero  <federico@ximian.com>
+
 	* gui/alarm-notify/alarm.c (queue_alarm): Duh, only setup the
 	timeout if the list was empty.
 	(alarm_ready_cb): Notify with the ID of the original alarm.
