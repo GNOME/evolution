@@ -896,18 +896,7 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 	g_assert (msg_info != NULL);
 	
 	switch (col){
-	case COL_MESSAGE_STATUS: {
-		ETreePath child;
-		
-		/* if a tree is collapsed, then scan its insides for details */
-		child = e_tree_model_node_get_first_child(etm, path);
-		if (child && !e_tree_node_is_expanded(message_list->tree, path)) {
-			if (subtree_unread(message_list, child))
-				return GINT_TO_POINTER (4);
-			else
-				return GINT_TO_POINTER (3);
-		}
-		
+	case COL_MESSAGE_STATUS:
 		if (msg_info->flags & CAMEL_MESSAGE_ANSWERED)
 			return GINT_TO_POINTER (2);
 		else if (msg_info->flags & CAMEL_MESSAGE_SEEN)
@@ -915,7 +904,6 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		else
 			return GINT_TO_POINTER (0);
 		break;
-	}
 	case COL_FLAGGED:
 		return GINT_TO_POINTER ((msg_info->flags & CAMEL_MESSAGE_FLAGGED) != 0);
 	case COL_SCORE: {

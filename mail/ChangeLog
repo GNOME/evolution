@@ -1,3 +1,11 @@
+2003-06-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-list.c (ml_tree_value_at): Don't display an unread icon
+	for a parent message status if it has unread children but has been
+	read itself. Instead, show that we have unread children by just
+	making the message test bold (which it was already doing, so
+	yay... this was easy). Fixes bug #42630.
+
 2003-06-16  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #44609
