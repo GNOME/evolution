@@ -1,14 +1,15 @@
-# Evolution 1.0RC2 Bulgarian translation.
-# Copyright (C) 1999,2000,2001 Free Software Foundation, Inc.
+# Evolution 1.1.0.99 Bulgarian translation.
+# Copyright (C) 1999,2000,2001,2002 Free Software Foundation, Inc.
 # Nikolay Hristov <geroy@stemo.bg>
 # Alexander Shopov <al_shopov@web.bg>
+# Yanko Kaneti <yaneti@declera.com>
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.0RC2\n"
-"POT-Creation-Date: 2002-08-13 08:06-0400\n"
-"PO-Revision-Date: 2002-04-30 11:47GMT\n"
+"Project-Id-Version: 1.1\n"
+"POT-Creation-Date: 2002-08-15 23:47+0300\n"
+"PO-Revision-Date: 2002-08-16 02:00+0300\n"
 "Last-Translator: Borislav Aleksandrov <B.Aleksandrov@cnsys.bg>\n"
-"Language-Team: Bulgarian <bg@li.org>\n"
+"Language-Team: Bulgarian <dict@linux.zonebg.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CP1251\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -35,7 +36,7 @@ msgstr "Внася VCard файлове в Еволюшън."
 msgid "File As"
 msgstr "Файл като:"
 
-#: addressbook/backend/ebook/e-card-simple.c:61 mail/mail-config.glade.h:74
+#: addressbook/backend/ebook/e-card-simple.c:61 mail/mail-config.glade.h:75
 #: my-evolution/e-summary-table.c:59
 msgid "Name"
 msgstr "Име"
@@ -863,7 +864,7 @@ msgid "Mappings"
 msgstr "Полета"
 
 #: addressbook/gui/component/ldap-config.glade.h:37 mail/mail-account-gui.c:60
-#: mail/mail-config.glade.h:75
+#: mail/mail-config.glade.h:76
 #, fuzzy
 msgid "Never"
 msgstr "_всеки"
@@ -1107,7 +1108,7 @@ msgid "Using email address"
 msgstr "Това е пощен_ски адрес"
 
 #: addressbook/gui/component/ldap-config.glade.h:103
-#: mail/mail-account-gui.c:59 mail/mail-config.glade.h:134
+#: mail/mail-account-gui.c:59 mail/mail-config.glade.h:135
 msgid "Whenever Possible"
 msgstr ""
 
@@ -1115,7 +1116,7 @@ msgstr ""
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 #: calendar/gui/dialogs/alarm-page.glade.h:8 filter/filter.glade.h:14
-#: mail/mail-config.glade.h:137 shell/glade/e-folder-list.glade.h:1
+#: mail/mail-config.glade.h:138 shell/glade/e-folder-list.glade.h:1
 msgid "_Add"
 msgstr "Доб_ави"
 
@@ -1162,7 +1163,7 @@ msgid "_Download limit:"
 msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:114 filter/filter.glade.h:16
-#: mail/mail-config.glade.h:152 ui/evolution-addressbook.xml.h:33
+#: mail/mail-config.glade.h:153 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:28 ui/evolution-mail-list.xml.h:25
 #: ui/evolution-mail-messagedisplay.xml.h:6
 #: ui/evolution-message-composer.xml.h:41
@@ -1451,7 +1452,7 @@ msgstr "Желая да получавам _HTML mail"
 #: calendar/gui/dialogs/meeting-page.c:673
 #: calendar/gui/e-calendar-table.c:1006 calendar/gui/e-day-view.c:3649
 #: calendar/gui/e-week-view.c:3522 filter/filter.glade.h:15
-#: mail/folder-browser.c:1705 mail/mail-config.glade.h:150
+#: mail/folder-browser.c:1705 mail/mail-config.glade.h:151
 #: shell/glade/e-folder-list.glade.h:2 ui/evolution-addressbook.xml.h:32
 #: ui/evolution-calendar.xml.h:27 ui/evolution-mail-message.xml.h:97
 #: ui/evolution-tasks.xml.h:16 ui/evolution.xml.h:45
@@ -1515,7 +1516,7 @@ msgstr "Ангола"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:135
 msgid "Anguilla"
-msgstr ""
+msgstr "Ангуила"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:136
 msgid "Antarctica"
@@ -1894,11 +1895,11 @@ msgstr "Хаити"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:222
 msgid "Heard And McDonald Islands"
-msgstr ""
+msgstr "Острови Хърд и МакДоналд"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:223
 msgid "Holy See"
-msgstr ""
+msgstr "Свято море"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:224
 #: my-evolution/Locations.h:945
@@ -1971,7 +1972,6 @@ msgid "Kiribati"
 msgstr "Кирибати"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:239
-#, fuzzy
 msgid "Korea, Republic Of"
 msgstr "Корея, Република"
 
@@ -2071,7 +2071,7 @@ msgstr "Маурици"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:262
 msgid "Mayotte"
-msgstr ""
+msgstr "Майоте"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:263
 #: my-evolution/Locations.h:1386
@@ -2083,9 +2083,8 @@ msgid "Micronesia"
 msgstr "Микронезия"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:265
-#, fuzzy
 msgid "Moldova, Republic Of"
-msgstr "Корея, Република"
+msgstr "Република Молдова"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:266
 msgid "Monaco"
@@ -2157,7 +2156,7 @@ msgstr "Нигрия"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:282
 msgid "Niue"
-msgstr ""
+msgstr "Ниуе"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:283
 #: my-evolution/Locations.h:1573
@@ -2216,7 +2215,7 @@ msgstr "Филипини"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:295
 msgid "Pitcairn"
-msgstr ""
+msgstr "Питкеърн"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:296
 #: my-evolution/Locations.h:1763
@@ -2257,7 +2256,7 @@ msgstr "Руанда"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:304
 msgid "Saint Kitts And Nevis"
-msgstr ""
+msgstr "Сейнт Китс и Невис"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:305
 msgid "Saint Lucia"
@@ -2265,7 +2264,7 @@ msgstr "Санта Луция"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:306
 msgid "Saint Vincent And The Grena-dines"
-msgstr ""
+msgstr "Сейнт Винсънт и Гренадини"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:307
 msgid "Samoa"
@@ -2326,7 +2325,7 @@ msgstr "Южна Африка"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:320
 msgid "South Georgia And The South Sandwich Islands"
-msgstr ""
+msgstr "Острови Южна Джорджия и Южен Сандвичев"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:321
 #: my-evolution/Locations.h:2125
@@ -2343,7 +2342,7 @@ msgstr "Света Елена"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:324
 msgid "St. Pierre And Miquelon"
-msgstr ""
+msgstr "Свети Пиер и Микелон"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:325
 msgid "Sudan"
@@ -2356,7 +2355,7 @@ msgstr "Суринам"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:327
 msgid "Svalbard And Jan Mayen Islands"
-msgstr ""
+msgstr "Острови Свалбард и Жан Майен"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:328
 msgid "Swaziland"
@@ -2382,9 +2381,8 @@ msgid "Tajikistan"
 msgstr "Таджикистан"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:333
-#, fuzzy
 msgid "Tanzania, United Republic Of"
-msgstr "Танзания"
+msgstr "Обединена република Танзания"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:334
 msgid "Thailand"
@@ -2421,7 +2419,7 @@ msgstr "Туркменистан"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:342
 msgid "Turks And Caicos Islands"
-msgstr ""
+msgstr "Острови Туркс и Кайкос"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:343
 msgid "Tuvalu"
@@ -2447,7 +2445,7 @@ msgstr "Обединеното кралство"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:348
 msgid "United States Minor Outlying Islands"
-msgstr ""
+msgstr "Малки външни острови на САЩ"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:349
 #: my-evolution/Locations.h:2346
@@ -2473,18 +2471,16 @@ msgid "Viet Nam"
 msgstr "Виетнам"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:354
-#, fuzzy
 msgid "Virgin Islands, British"
-msgstr "Американски Вирджински острови"
+msgstr "Британски Вирджински острови"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:355
-#, fuzzy
 msgid "Virgin Islands, U.S."
 msgstr "Американски Вирджински острови"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:356
 msgid "Wallis And Futuna Islands"
-msgstr ""
+msgstr "Острови Уолис и Футуна"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:357
 msgid "Western Sahara"
@@ -3253,7 +3249,7 @@ msgstr "Полета"
 msgid "Number of columns:"
 msgstr "Брой колони:"
 
-#: addressbook/printing/e-contact-print.glade.h:23 mail/mail-config.glade.h:80
+#: addressbook/printing/e-contact-print.glade.h:23 mail/mail-config.glade.h:81
 msgid "Options"
 msgstr "Опций"
 
@@ -3337,7 +3333,7 @@ msgstr "Широчина:"
 msgid "_Font..."
 msgstr "_Шрифт..."
 
-#: calendar/cal-util/cal-component.c:1221
+#: calendar/cal-util/cal-component.c:1218
 msgid "Untitled appointment"
 msgstr "Неназовани срещи"
 
@@ -3499,7 +3495,7 @@ msgstr ""
 "да изпраща поща."
 
 #: calendar/gui/alarm-notify/alarm-queue.c:754
-#: calendar/gui/tasks-control.c:448 mail/mail-callbacks.c:2869
+#: calendar/gui/tasks-control.c:448 mail/mail-callbacks.c:2868
 #: widgets/misc/e-messagebox.c:159
 msgid "Warning"
 msgstr "Внимание"
@@ -3656,10 +3652,10 @@ msgstr ""
 
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1181 calendar/gui/dialogs/meeting-page.c:309
-#: calendar/gui/dialogs/meeting-page.glade.h:1 composer/e-msg-composer.c:2002
+#: calendar/gui/dialogs/meeting-page.glade.h:1 composer/e-msg-composer.c:2012
 #: mail/folder-browser.c:1667 mail/mail-account-gui.c:1229
-#: mail/mail-account-gui.c:1647 mail/mail-accounts.c:453
-#: mail/mail-accounts.c:462 mail/mail-config.glade.h:77
+#: mail/mail-account-gui.c:1649 mail/mail-accounts.c:453
+#: mail/mail-accounts.c:462 mail/mail-config.glade.h:78
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:204
 #: widgets/misc/e-cell-date-edit.c:250 widgets/misc/e-dateedit.c:452
 #: widgets/misc/e-dateedit.c:1488 widgets/misc/e-dateedit.c:1603
@@ -3714,8 +3710,8 @@ msgstr "Папката съдържа срещи и събития"
 #: calendar/gui/component-factory.c:74 calendar/gui/e-tasks.c:704
 #: calendar/gui/print.c:1777 calendar/gui/tasks-control.c:502
 #: calendar/importers/icalendar-importer.c:703
-#: importers/netscape-importer.c:1874 my-evolution/e-summary-tasks.c:299
-#: my-evolution/e-summary-tasks.c:316 shell/e-local-storage.c:182
+#: importers/netscape-importer.c:1874 my-evolution/e-summary-tasks.c:311
+#: my-evolution/e-summary-tasks.c:330 shell/e-local-storage.c:182
 #: shell/e-shortcuts.c:1063
 msgid "Tasks"
 msgstr "Задачи"
@@ -3987,7 +3983,7 @@ msgstr "Напомняне"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:7
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
-#: calendar/gui/e-itip-control.c:892 calendar/gui/e-itip-control.glade.h:11
+#: calendar/gui/e-itip-control.c:798 calendar/gui/e-itip-control.glade.h:11
 msgid "Summary:"
 msgstr "Обобщено:"
 
@@ -4016,7 +4012,7 @@ msgstr "край на среща"
 msgid "hour(s)"
 msgstr "час(ове)"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:16 mail/mail-config.glade.h:184
+#: calendar/gui/dialogs/alarm-page.glade.h:16 mail/mail-config.glade.h:185
 msgid "minute(s)"
 msgstr "минут(а/и)"
 
@@ -4194,7 +4190,7 @@ msgid "_Fri"
 msgstr "_Пет"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
-#: mail/mail-config.glade.h:157
+#: mail/mail-config.glade.h:158
 msgid "_General"
 msgstr "_Основен"
 
@@ -4377,7 +4373,7 @@ msgstr "Няма резюме"
 
 #: calendar/gui/dialogs/comp-editor.c:1213
 #: calendar/gui/e-calendar-table.c:1070 calendar/gui/e-day-view.c:3862
-#: calendar/gui/e-week-view.c:3754 composer/e-msg-composer.c:1148
+#: calendar/gui/e-week-view.c:3754 composer/e-msg-composer.c:1146
 msgid "Save as..."
 msgstr "Съхрани като..."
 
@@ -4588,7 +4584,7 @@ msgid "Member"
 msgstr "Член"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:8
-#: calendar/gui/e-itip-control.c:1010
+#: calendar/gui/e-itip-control.c:916
 #: calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "RSVP"
@@ -4842,7 +4838,7 @@ msgstr "Основни"
 msgid "Assignment"
 msgstr "Задача"
 
-#: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:941
+#: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:847
 #: calendar/gui/e-itip-control.glade.h:6
 #: composer/e-msg-composer-attachment.glade.h:2 mail/mail-config.glade.h:43
 msgid "Description:"
@@ -4857,57 +4853,46 @@ msgid "_Due Date:"
 msgstr "_Крайна Дата"
 
 #: calendar/gui/e-calendar-table.c:440
-#, c-format
 msgid "0%"
 msgstr "0%"
 
 #: calendar/gui/e-calendar-table.c:441
-#, c-format
 msgid "10%"
 msgstr "10%"
 
 #: calendar/gui/e-calendar-table.c:442
-#, c-format
 msgid "20%"
 msgstr "20%"
 
 #: calendar/gui/e-calendar-table.c:443
-#, c-format
 msgid "30%"
 msgstr "30%"
 
 #: calendar/gui/e-calendar-table.c:444
-#, c-format
 msgid "40%"
 msgstr "40%"
 
 #: calendar/gui/e-calendar-table.c:445
-#, c-format
 msgid "50%"
 msgstr "50%"
 
 #: calendar/gui/e-calendar-table.c:446
-#, c-format
 msgid "60%"
 msgstr "60%"
 
 #: calendar/gui/e-calendar-table.c:447
-#, c-format
 msgid "70%"
 msgstr "70%"
 
 #: calendar/gui/e-calendar-table.c:448
-#, c-format
 msgid "80%"
 msgstr "80%"
 
 #: calendar/gui/e-calendar-table.c:449
-#, c-format
 msgid "90%"
 msgstr "90%"
 
 #: calendar/gui/e-calendar-table.c:450
-#, c-format
 msgid "100%"
 msgstr "100%"
 
@@ -5173,57 +5158,57 @@ msgstr "Инструмента GNOME Pilot изглежда не е инсталиран на тази система"
 msgid "Error executing %s."
 msgstr "Грешка при изпълнение на %s"
 
-#: calendar/gui/e-itip-control.c:678
+#: calendar/gui/e-itip-control.c:584
 msgid "Meeting begins: <b>"
 msgstr "Начало на среща: <b>"
 
-#: calendar/gui/e-itip-control.c:683
+#: calendar/gui/e-itip-control.c:589
 msgid "Task begins: <b>"
 msgstr "Начало на задача: <b>"
 
-#: calendar/gui/e-itip-control.c:688
+#: calendar/gui/e-itip-control.c:594
 msgid "Free/Busy info begins: <b>"
 msgstr "Начало на информация Свободен/Зает: <b>"
 
-#: calendar/gui/e-itip-control.c:692
+#: calendar/gui/e-itip-control.c:598
 msgid "Begins: <b>"
 msgstr "Начало: <b>"
 
-#: calendar/gui/e-itip-control.c:704
+#: calendar/gui/e-itip-control.c:610
 msgid "Meeting ends: <b>"
 msgstr "Край на срещата:: <b>"
 
-#: calendar/gui/e-itip-control.c:707
+#: calendar/gui/e-itip-control.c:613
 msgid "Free/Busy info ends: <b>"
 msgstr "Край на информация Свободен/Зает: <b>"
 
-#: calendar/gui/e-itip-control.c:711
+#: calendar/gui/e-itip-control.c:617
 msgid "Ends: <b>"
 msgstr "Край: <b>"
 
-#: calendar/gui/e-itip-control.c:725
+#: calendar/gui/e-itip-control.c:631
 msgid "Task Completed: <b>"
 msgstr "Задачата Приключено: <b>"
 
-#: calendar/gui/e-itip-control.c:735
+#: calendar/gui/e-itip-control.c:641
 msgid "Task Due: <b>"
 msgstr "Приключена Задача: <b>"
 
-#: calendar/gui/e-itip-control.c:772 calendar/gui/e-itip-control.c:822
+#: calendar/gui/e-itip-control.c:678 calendar/gui/e-itip-control.c:728
 msgid "iCalendar Information"
 msgstr "iКалендарна информация"
 
 #. Title
-#: calendar/gui/e-itip-control.c:787
+#: calendar/gui/e-itip-control.c:693
 msgid "iCalendar Error"
 msgstr "iКалендар Грешка"
 
-#: calendar/gui/e-itip-control.c:853 calendar/gui/e-itip-control.c:869
+#: calendar/gui/e-itip-control.c:759 calendar/gui/e-itip-control.c:775
 msgid "An unknown person"
 msgstr "Неизвестна личност"
 
 #. Describe what the user can do
-#: calendar/gui/e-itip-control.c:876
+#: calendar/gui/e-itip-control.c:782
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
@@ -5231,38 +5216,38 @@ msgstr ""
 "<br> Моля, прегледайте следната информация и тогава изберете действие от "
 "долното меню."
 
-#: calendar/gui/e-itip-control.c:892
+#: calendar/gui/e-itip-control.c:798
 msgid "<i>None</i>"
 msgstr "<i>Без</i>"
 
-#: calendar/gui/e-itip-control.c:898
+#: calendar/gui/e-itip-control.c:804
 #, fuzzy
 msgid "Location:"
 msgstr "_Местонахождение: "
 
-#: calendar/gui/e-itip-control.c:910
+#: calendar/gui/e-itip-control.c:816
 #, fuzzy
 msgid "Status:"
 msgstr "_Статус:"
 
-#: calendar/gui/e-itip-control.c:915 calendar/gui/e-meeting-model.c:322
+#: calendar/gui/e-itip-control.c:821 calendar/gui/e-meeting-model.c:322
 #: calendar/gui/e-meeting-model.c:345 calendar/gui/e-meeting-model.c:864
-#: calendar/gui/itip-utils.c:490
+#: calendar/gui/itip-utils.c:462
 msgid "Accepted"
 msgstr "Приет"
 
-#: calendar/gui/e-itip-control.c:919 calendar/gui/itip-utils.c:493
+#: calendar/gui/e-itip-control.c:825 calendar/gui/itip-utils.c:465
 #, fuzzy
 msgid "Tentatively Accepted"
 msgstr "Временно приема"
 
-#: calendar/gui/e-itip-control.c:923 calendar/gui/e-meeting-model.c:324
+#: calendar/gui/e-itip-control.c:829 calendar/gui/e-meeting-model.c:324
 #: calendar/gui/e-meeting-model.c:347 calendar/gui/e-meeting-model.c:865
-#: calendar/gui/itip-utils.c:496 calendar/gui/itip-utils.c:522
+#: calendar/gui/itip-utils.c:468 calendar/gui/itip-utils.c:494
 msgid "Declined"
 msgstr "Отказан"
 
-#: calendar/gui/e-itip-control.c:927 calendar/gui/e-itip-control.c:1131
+#: calendar/gui/e-itip-control.c:833 calendar/gui/e-itip-control.c:1037
 #: calendar/gui/e-meeting-model.c:258 calendar/gui/e-meeting-model.c:293
 #: calendar/gui/e-meeting-model.c:358 calendar/gui/e-meeting-model.c:822
 #: calendar/gui/e-meeting-model.c:838 camel/camel-tcp-stream-openssl.c:629
@@ -5273,284 +5258,284 @@ msgstr "Отказан"
 msgid "Unknown"
 msgstr "Неизвестен"
 
-#: calendar/gui/e-itip-control.c:978 calendar/gui/e-itip-control.c:1006
-#: calendar/gui/e-itip-control.c:1032 calendar/gui/e-itip-control.c:1045
-#: calendar/gui/e-itip-control.c:1058 calendar/gui/e-itip-control.c:1071
+#: calendar/gui/e-itip-control.c:884 calendar/gui/e-itip-control.c:912
+#: calendar/gui/e-itip-control.c:938 calendar/gui/e-itip-control.c:951
+#: calendar/gui/e-itip-control.c:964 calendar/gui/e-itip-control.c:977
 msgid "Choose an action:"
 msgstr "Избери действие:"
 
-#: calendar/gui/e-itip-control.c:979
+#: calendar/gui/e-itip-control.c:885
 msgid "Update"
 msgstr "Обновява"
 
-#: calendar/gui/e-itip-control.c:980 calendar/gui/e-itip-control.c:1011
-#: calendar/gui/e-itip-control.c:1034 calendar/gui/e-itip-control.c:1047
-#: calendar/gui/e-itip-control.c:1060 calendar/gui/e-itip-control.c:1073
+#: calendar/gui/e-itip-control.c:886 calendar/gui/e-itip-control.c:917
+#: calendar/gui/e-itip-control.c:940 calendar/gui/e-itip-control.c:953
+#: calendar/gui/e-itip-control.c:966 calendar/gui/e-itip-control.c:979
 #: shell/e-shell.c:2120 widgets/misc/e-cell-date-edit.c:258
 msgid "OK"
 msgstr "OK"
 
-#: calendar/gui/e-itip-control.c:1007
+#: calendar/gui/e-itip-control.c:913
 msgid "Accept"
 msgstr "Приеми"
 
-#: calendar/gui/e-itip-control.c:1008
+#: calendar/gui/e-itip-control.c:914
 msgid "Tentatively accept"
 msgstr "Временно приема"
 
-#: calendar/gui/e-itip-control.c:1009
+#: calendar/gui/e-itip-control.c:915
 msgid "Decline"
 msgstr "Откажи"
 
-#: calendar/gui/e-itip-control.c:1033
+#: calendar/gui/e-itip-control.c:939
 msgid "Send Free/Busy Information"
 msgstr "Изпрати Информация Свободен/Зает"
 
-#: calendar/gui/e-itip-control.c:1046
+#: calendar/gui/e-itip-control.c:952
 msgid "Update respondent status"
 msgstr "Обновява статуса на отговарящият"
 
-#: calendar/gui/e-itip-control.c:1059
+#: calendar/gui/e-itip-control.c:965
 msgid "Send Latest Information"
 msgstr "Изпраща Последната Информация"
 
-#: calendar/gui/e-itip-control.c:1072 calendar/gui/itip-utils.c:510
+#: calendar/gui/e-itip-control.c:978 calendar/gui/itip-utils.c:482
 #: shell/evolution-shell-component.c:1092 ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Прекръсва"
 
-#: calendar/gui/e-itip-control.c:1150
+#: calendar/gui/e-itip-control.c:1056
 #, c-format
 msgid "<b>%s</b> has published meeting information."
 msgstr "<b>%s</b> публикува информация за среща."
 
-#: calendar/gui/e-itip-control.c:1151
+#: calendar/gui/e-itip-control.c:1057
 msgid "Meeting Information"
 msgstr "Информация за Среща"
 
-#: calendar/gui/e-itip-control.c:1155
+#: calendar/gui/e-itip-control.c:1061
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
 msgstr "<b>%s</b> изисква вашето присъствие на срещата."
 
-#: calendar/gui/e-itip-control.c:1156
+#: calendar/gui/e-itip-control.c:1062
 msgid "Meeting Proposal"
 msgstr "Предложение на срещата:"
 
-#: calendar/gui/e-itip-control.c:1160
+#: calendar/gui/e-itip-control.c:1066
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
 msgstr "<b>%s</b> желае да бъде добавен на съществуващата среща."
 
-#: calendar/gui/e-itip-control.c:1161
+#: calendar/gui/e-itip-control.c:1067
 msgid "Meeting Update"
 msgstr "Обновяване на срещата:"
 
-#: calendar/gui/e-itip-control.c:1165
+#: calendar/gui/e-itip-control.c:1071
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
 msgstr "<b>%s</b> желае да получи последната информация за срещата.."
 
-#: calendar/gui/e-itip-control.c:1166
+#: calendar/gui/e-itip-control.c:1072
 msgid "Meeting Update Request"
 msgstr "Заявка за Обновяване на срещата:"
 
-#: calendar/gui/e-itip-control.c:1173
+#: calendar/gui/e-itip-control.c:1079
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
 msgstr "<b>%s</b> отговори на запитване за срещата."
 
-#: calendar/gui/e-itip-control.c:1174
+#: calendar/gui/e-itip-control.c:1080
 msgid "Meeting Reply"
 msgstr "Отговор на Среща"
 
-#: calendar/gui/e-itip-control.c:1181
+#: calendar/gui/e-itip-control.c:1087
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
 msgstr "<b>%s</b> прекъсна срещата."
 
-#: calendar/gui/e-itip-control.c:1182
+#: calendar/gui/e-itip-control.c:1088
 msgid "Meeting Cancellation"
 msgstr "Прекъсване на срещата"
 
-#: calendar/gui/e-itip-control.c:1189 calendar/gui/e-itip-control.c:1250
-#: calendar/gui/e-itip-control.c:1285
+#: calendar/gui/e-itip-control.c:1095 calendar/gui/e-itip-control.c:1156
+#: calendar/gui/e-itip-control.c:1191
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
 msgstr "<b>%s</b> изпрати неразбираемо съобщение."
 
-#: calendar/gui/e-itip-control.c:1190
+#: calendar/gui/e-itip-control.c:1096
 msgid "Bad Meeting Message"
 msgstr "Лошо Съобщение за Среща"
 
-#: calendar/gui/e-itip-control.c:1211
+#: calendar/gui/e-itip-control.c:1117
 #, c-format
 msgid "<b>%s</b> has published task information."
 msgstr "<b>%s</b> публикува информация за задачата."
 
-#: calendar/gui/e-itip-control.c:1212
+#: calendar/gui/e-itip-control.c:1118
 msgid "Task Information"
 msgstr "Информация за задача"
 
-#: calendar/gui/e-itip-control.c:1216
+#: calendar/gui/e-itip-control.c:1122
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
 msgstr "<b>%s</b> изисква вашето участие в задача.."
 
-#: calendar/gui/e-itip-control.c:1217
+#: calendar/gui/e-itip-control.c:1123
 msgid "Task Proposal"
 msgstr "Предложение за Задача"
 
-#: calendar/gui/e-itip-control.c:1221
+#: calendar/gui/e-itip-control.c:1127
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task."
 msgstr "<b>%s</b> желае да бъде добавен към съществуваща задача.."
 
-#: calendar/gui/e-itip-control.c:1222
+#: calendar/gui/e-itip-control.c:1128
 msgid "Task Update"
 msgstr "Обновяване на Задача"
 
-#: calendar/gui/e-itip-control.c:1226
+#: calendar/gui/e-itip-control.c:1132
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
 msgstr "<b>%s</b> желае да получи последната информация за задача.."
 
-#: calendar/gui/e-itip-control.c:1227
+#: calendar/gui/e-itip-control.c:1133
 msgid "Task Update Request"
 msgstr "Заявка за Обновяване на задача"
 
-#: calendar/gui/e-itip-control.c:1234
+#: calendar/gui/e-itip-control.c:1140
 #, c-format
 msgid "<b>%s</b> has replied to a task assignment."
 msgstr "<b>%s</b> отговори на включване в задача."
 
-#: calendar/gui/e-itip-control.c:1235
+#: calendar/gui/e-itip-control.c:1141
 msgid "Task Reply"
 msgstr "Отговор на Задача"
 
-#: calendar/gui/e-itip-control.c:1242
+#: calendar/gui/e-itip-control.c:1148
 #, c-format
 msgid "<b>%s</b> has cancelled a task."
 msgstr "<b>%s</b> прекъсна задача."
 
-#: calendar/gui/e-itip-control.c:1243
+#: calendar/gui/e-itip-control.c:1149
 msgid "Task Cancellation"
 msgstr "Прекъсване на Задача"
 
-#: calendar/gui/e-itip-control.c:1251
+#: calendar/gui/e-itip-control.c:1157
 msgid "Bad Task Message"
 msgstr "Лошо Съобщение за Задача"
 
-#: calendar/gui/e-itip-control.c:1270
+#: calendar/gui/e-itip-control.c:1176
 #, c-format
 msgid "<b>%s</b> has published free/busy information."
 msgstr "<b>%s</b> публикува информация свободен/зает."
 
-#: calendar/gui/e-itip-control.c:1271
+#: calendar/gui/e-itip-control.c:1177
 msgid "Free/Busy Information"
 msgstr "Информация Свободен/Зает"
 
-#: calendar/gui/e-itip-control.c:1275
+#: calendar/gui/e-itip-control.c:1181
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
 msgstr "<b>%s</b> изисква от вас информация за свободен/зает."
 
-#: calendar/gui/e-itip-control.c:1276
+#: calendar/gui/e-itip-control.c:1182
 msgid "Free/Busy Request"
 msgstr "Заявка Свободен/Зает"
 
-#: calendar/gui/e-itip-control.c:1280
+#: calendar/gui/e-itip-control.c:1186
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
 msgstr "<b>%s</b> отговори на заявката свободен/зает."
 
-#: calendar/gui/e-itip-control.c:1281
+#: calendar/gui/e-itip-control.c:1187
 msgid "Free/Busy Reply"
 msgstr "Отговор Свободен/Зает"
 
-#: calendar/gui/e-itip-control.c:1286
+#: calendar/gui/e-itip-control.c:1192
 msgid "Bad Free/Busy Message"
 msgstr "Лошо Свободен/Зает Съобщение"
 
-#: calendar/gui/e-itip-control.c:1365
+#: calendar/gui/e-itip-control.c:1247
 msgid "The message does not appear to be properly formed"
 msgstr "Папката изглежда да е невъстановимо повредена."
 
-#: calendar/gui/e-itip-control.c:1384
+#: calendar/gui/e-itip-control.c:1266
 msgid "The message contains only unsupported requests."
 msgstr "Съобщението съдържа само неподържани заявки."
 
-#: calendar/gui/e-itip-control.c:1412 calendar/gui/e-itip-control.c:1418
+#: calendar/gui/e-itip-control.c:1294 calendar/gui/e-itip-control.c:1300
 msgid "The attachment does not contain a valid calendar message"
 msgstr "Прикаченото не съдържа валидно календар съобщение."
 
-#: calendar/gui/e-itip-control.c:1443
+#: calendar/gui/e-itip-control.c:1325
 msgid "The attachment has no viewable calendar items"
 msgstr "Прикаченото няма видими обекти на календар"
 
-#: calendar/gui/e-itip-control.c:1578 calendar/gui/e-itip-control.c:1670
+#: calendar/gui/e-itip-control.c:1476 calendar/gui/e-itip-control.c:1568
 msgid "Object is invalid and cannot be updated\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1581 calendar/gui/e-itip-control.c:1673
+#: calendar/gui/e-itip-control.c:1479 calendar/gui/e-itip-control.c:1571
 msgid "There was an error on the CORBA system\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1584 calendar/gui/e-itip-control.c:1676
+#: calendar/gui/e-itip-control.c:1482 calendar/gui/e-itip-control.c:1574
 #, fuzzy
 msgid "Object could not be found\n"
 msgstr "Обекта не може да бъде изпратен!\n"
 
-#: calendar/gui/e-itip-control.c:1587 calendar/gui/e-itip-control.c:1679
+#: calendar/gui/e-itip-control.c:1485 calendar/gui/e-itip-control.c:1577
 msgid "You don't have permissions to update the calendar\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1590
+#: calendar/gui/e-itip-control.c:1488
 msgid "Update complete\n"
 msgstr "Обновяването приключено\n"
 
-#: calendar/gui/e-itip-control.c:1593
+#: calendar/gui/e-itip-control.c:1491
 msgid "Calendar file could not be updated!\n"
 msgstr "Календарният файл не може да бъде зареден!\n"
 
-#: calendar/gui/e-itip-control.c:1622 calendar/gui/e-itip-control.c:1688
+#: calendar/gui/e-itip-control.c:1520 calendar/gui/e-itip-control.c:1586
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1643
+#: calendar/gui/e-itip-control.c:1541
 msgid "This response is not from a current attendee.  Add as an attendee?"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1655
+#: calendar/gui/e-itip-control.c:1553
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1682
+#: calendar/gui/e-itip-control.c:1580
 msgid "Attendee status updated\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1685
+#: calendar/gui/e-itip-control.c:1583
 msgid "Attendee status could not be updated!\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1720
+#: calendar/gui/e-itip-control.c:1618
 msgid "Removal Complete"
 msgstr "Преместването Приключено"
 
-#: calendar/gui/e-itip-control.c:1750 calendar/gui/e-itip-control.c:1800
+#: calendar/gui/e-itip-control.c:1648 calendar/gui/e-itip-control.c:1698
 msgid "Item sent!\n"
 msgstr "Обекта изпратен!\n"
 
-#: calendar/gui/e-itip-control.c:1752 calendar/gui/e-itip-control.c:1804
+#: calendar/gui/e-itip-control.c:1650 calendar/gui/e-itip-control.c:1702
 msgid "The item could not be sent!\n"
 msgstr "Обекта не може да бъде изпратен!\n"
 
-#: calendar/gui/e-itip-control.c:1907
+#: calendar/gui/e-itip-control.c:1775
 #, fuzzy
 msgid "Select Calendar Folder"
 msgstr "Избери Папка"
 
-#: calendar/gui/e-itip-control.c:1914
+#: calendar/gui/e-itip-control.c:1782
 #, fuzzy
 msgid "Select Tasks Folder"
 msgstr "Избери Папка"
@@ -5665,14 +5650,14 @@ msgstr "В Прогрес"
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:475
-#: calendar/gui/e-meeting-time-sel.c:2107
+#: calendar/gui/e-meeting-time-sel.c:2114
 msgid "%A, %B %d, %Y"
 msgstr "%A, %B %d, %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:479
-#: calendar/gui/e-meeting-time-sel.c:2137 e-util/e-time-utils.c:186
+#: calendar/gui/e-meeting-time-sel.c:2144 e-util/e-time-utils.c:186
 #: e-util/e-time-utils.c:276 e-util/e-time-utils.c:348
 msgid "%a %m/%d/%Y"
 msgstr "%a %m/%d/%Y"
@@ -5860,49 +5845,49 @@ msgstr "Октомври"
 msgid "September"
 msgstr "Септември"
 
-#: calendar/gui/itip-utils.c:383
+#: calendar/gui/itip-utils.c:355
 msgid "At least one attendee is necessary"
 msgstr "Необходим е поне един участник."
 
-#: calendar/gui/itip-utils.c:419
+#: calendar/gui/itip-utils.c:391
 msgid "An organizer must be set."
 msgstr "Трябва да бъде зададен организатор."
 
-#: calendar/gui/itip-utils.c:462
+#: calendar/gui/itip-utils.c:434
 msgid "Event information"
 msgstr "Информация за събитие"
 
-#: calendar/gui/itip-utils.c:464
+#: calendar/gui/itip-utils.c:436
 msgid "Task information"
 msgstr "Информация за задача"
 
-#: calendar/gui/itip-utils.c:466
+#: calendar/gui/itip-utils.c:438
 msgid "Journal information"
 msgstr "Информация за дневник"
 
-#: calendar/gui/itip-utils.c:468
+#: calendar/gui/itip-utils.c:440
 msgid "Free/Busy information"
 msgstr "Информация Свободен/Зает"
 
-#: calendar/gui/itip-utils.c:470
+#: calendar/gui/itip-utils.c:442
 msgid "Calendar information"
 msgstr "Календарна информация"
 
-#: calendar/gui/itip-utils.c:506
+#: calendar/gui/itip-utils.c:478
 #, fuzzy
 msgid "Updated"
 msgstr "Обновява"
 
-#: calendar/gui/itip-utils.c:514
+#: calendar/gui/itip-utils.c:486
 #, fuzzy
 msgid "Refresh"
 msgstr "Освежава Списък"
 
-#: calendar/gui/itip-utils.c:518
+#: calendar/gui/itip-utils.c:490
 msgid "Counter-proposal"
 msgstr ""
 
-#: calendar/gui/itip-utils.c:697
+#: calendar/gui/itip-utils.c:669
 msgid "You must be an attendee of the event."
 msgstr "Вие трябва да сте участни на събирието."
 
@@ -6138,7 +6123,7 @@ msgid "Print Calendar"
 msgstr "Отпечатай Календар"
 
 #: calendar/gui/print.c:2521 calendar/gui/print.c:2613
-#: calendar/gui/tasks-control.c:583 mail/mail-callbacks.c:3157
+#: calendar/gui/tasks-control.c:583 mail/mail-callbacks.c:3156
 #: my-evolution/e-summary.c:619
 msgid "Print Preview"
 msgstr "Печатен Преглед"
@@ -6175,8 +6160,8 @@ msgstr ""
 "\n"
 "Действително ли да изтрия съобщенията?"
 
-#: calendar/gui/tasks-control.c:463 mail/mail-callbacks.c:2641
-#: mail/mail-callbacks.c:2883
+#: calendar/gui/tasks-control.c:463 mail/mail-callbacks.c:2640
+#: mail/mail-callbacks.c:2882
 msgid "Do not ask me again."
 msgstr "Не показвай това съобщение отново."
 
@@ -8808,12 +8793,12 @@ msgstr "Не мога да преименувам папката %s Няма такава папка"
 #: camel/providers/imap/camel-imap-command.c:220
 #: camel/providers/imap/camel-imap-command.c:259
 #: camel/providers/imap/camel-imap-command.c:438
-#: camel/providers/imap/camel-imap-store.c:2404
+#: camel/providers/imap/camel-imap-store.c:2486
 msgid "Operation cancelled"
 msgstr "Действието прекратено"
 
 #: camel/providers/imap/camel-imap-command.c:304
-#: camel/providers/imap/camel-imap-store.c:2407
+#: camel/providers/imap/camel-imap-store.c:2489
 #, c-format
 msgid "Server unexpectedly disconnected: %s"
 msgstr "Сървъра неочаквано се откачи: %s"
@@ -8930,7 +8915,7 @@ msgstr "За четене и запазване на поща от IMAP сървъри"
 
 #: camel/providers/imap/camel-imap-provider.c:80
 #: camel/providers/nntp/camel-nntp-store.c:267
-#: camel/providers/pop3/camel-pop3-provider.c:69 mail/mail-config.glade.h:84
+#: camel/providers/pop3/camel-pop3-provider.c:69 mail/mail-config.glade.h:85
 msgid "Password"
 msgstr "Парола"
 
@@ -9019,19 +9004,19 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/imap/camel-imap-store.c:1426
-#: camel/providers/imap/camel-imap-store.c:1563
+#: camel/providers/imap/camel-imap-store.c:1432
+#: camel/providers/imap/camel-imap-store.c:1569
 #, c-format
 msgid "No such folder %s"
 msgstr "Няма такава папка %s"
 
-#: camel/providers/imap/camel-imap-store.c:1750
+#: camel/providers/imap/camel-imap-store.c:1756
 #, fuzzy, c-format
 msgid ""
 "The folder name \"%s\" is invalid because it containes the character \"%c\""
 msgstr "В името на папката не може да се съдържа символа 'Return'"
 
-#: camel/providers/imap/camel-imap-store.c:1788
+#: camel/providers/imap/camel-imap-store.c:1794
 msgid "The parent folder is not allowed to contain subfolders"
 msgstr "На бащината папка не е разрешено да има подпапки"
 
@@ -9628,7 +9613,7 @@ msgstr "Оставя пощата на сървъра"
 msgid "Delete after %s day(s)"
 msgstr "Изтрива след %s дни"
 
-#: camel/providers/pop3/camel-pop3-provider.c:52 mail/mail-config.glade.h:83
+#: camel/providers/pop3/camel-pop3-provider.c:52 mail/mail-config.glade.h:84
 msgid "POP"
 msgstr "POP"
 
@@ -9718,7 +9703,7 @@ msgid "No such folder `%s'."
 msgstr "Няма такава папка `%s'."
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:36
-#: mail/mail-config.glade.h:109
+#: mail/mail-config.glade.h:110
 msgid "Sendmail"
 msgstr "Sendmail"
 
@@ -9773,7 +9758,7 @@ msgstr "sendmail"
 msgid "Mail delivery via the sendmail program"
 msgstr "Изпращане на поща през програмата sendmail"
 
-#: camel/providers/smtp/camel-smtp-provider.c:37 mail/mail-config.glade.h:100
+#: camel/providers/smtp/camel-smtp-provider.c:37 mail/mail-config.glade.h:101
 msgid "SMTP"
 msgstr "SMTP"
 
@@ -10213,34 +10198,34 @@ msgstr ""
 "Грешка при четеен на файл: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1157
+#: composer/e-msg-composer.c:1155
 msgid "Warning!"
 msgstr "Внимание!"
 
-#: composer/e-msg-composer.c:1161
+#: composer/e-msg-composer.c:1159
 msgid "File exists, overwrite?"
 msgstr "Файла съществува. Да го презапиша?"
 
-#: composer/e-msg-composer.c:1183
+#: composer/e-msg-composer.c:1181
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Грешка при съхранението на файл: %s"
 
-#: composer/e-msg-composer.c:1203
+#: composer/e-msg-composer.c:1201
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Грешка при зареждането на файл: %s"
 
-#: composer/e-msg-composer.c:1236
+#: composer/e-msg-composer.c:1234
 #, c-format
 msgid "Error accessing file: %s"
 msgstr "Грешка при достъп на файл: %s"
 
-#: composer/e-msg-composer.c:1244
+#: composer/e-msg-composer.c:1242
 msgid "Unable to retrieve message from editor"
 msgstr "Не мога да получа съобщение от редактора"
 
-#: composer/e-msg-composer.c:1251
+#: composer/e-msg-composer.c:1249
 #, c-format
 msgid ""
 "Unable to seek on file: %s\n"
@@ -10249,7 +10234,7 @@ msgstr ""
 "Не мога да намеря във файл %s:\n"
 "%s"
 
-#: composer/e-msg-composer.c:1258
+#: composer/e-msg-composer.c:1256
 #, c-format
 msgid ""
 "Unable to truncate file: %s\n"
@@ -10258,7 +10243,7 @@ msgstr ""
 "Не мога да отрежа файл %s:\n"
 "%s"
 
-#: composer/e-msg-composer.c:1267
+#: composer/e-msg-composer.c:1265
 #, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -10267,7 +10252,7 @@ msgstr ""
 "Грешка при автоматичното запазване на файл: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1367
+#: composer/e-msg-composer.c:1365
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
@@ -10275,61 +10260,51 @@ msgstr ""
 "Ximian Evolution намери незапазени файлове от предишната сесия.\n"
 "Искате ли да се опитам да ги възстановя?"
 
-#: composer/e-msg-composer.c:1516
-msgid ""
-"This message has not been sent.\n"
-"\n"
-"Do you wish to save your changes?"
-msgstr ""
-"Това съобщение не е било изпратено.\n"
-"\n"
-"Искате ли да запазите промените?"
-
-#: composer/e-msg-composer.c:1523
+#: composer/e-msg-composer.c:1530
 msgid "Warning: Modified Message"
 msgstr "Предупреждение: Модифицирано Съобщение"
 
-#: composer/e-msg-composer.c:1553
+#: composer/e-msg-composer.c:1563
 msgid "Open file"
 msgstr "Отвори файл"
 
-#: composer/e-msg-composer.c:1925
+#: composer/e-msg-composer.c:1935
 msgid ""
 "Can't set default signature for this account. Maybe accounts were modified "
 "meanwhile?"
 msgstr ""
 
-#: composer/e-msg-composer.c:1962
+#: composer/e-msg-composer.c:1972
 #, fuzzy
 msgid "Signature:"
 msgstr "Запазва сигнатура"
 
-#: composer/e-msg-composer.c:2003 mail/mail-account-gui.c:1230
+#: composer/e-msg-composer.c:2013 mail/mail-account-gui.c:1230
 msgid "Autogenerated"
 msgstr ""
 
-#: composer/e-msg-composer.c:2015
+#: composer/e-msg-composer.c:2025
 #, fuzzy
 msgid "Set as default"
 msgstr " (по подразбиране)"
 
-#: composer/e-msg-composer.c:2192 composer/e-msg-composer.c:2797
+#: composer/e-msg-composer.c:2202 composer/e-msg-composer.c:2810
 msgid "Compose a message"
 msgstr "Напиши Съобщение"
 
-#: composer/e-msg-composer.c:2814
+#: composer/e-msg-composer.c:2827
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
 msgstr ""
 
-#: composer/e-msg-composer.c:2840 composer/e-msg-composer.c:2895
+#: composer/e-msg-composer.c:2853 composer/e-msg-composer.c:2908
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
 msgstr ""
 
-#: composer/e-msg-composer.c:3846
+#: composer/e-msg-composer.c:3859
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -10393,7 +10368,7 @@ msgstr "Темата съдържа"
 msgid "Subject does not contain"
 msgstr "Темата несъдържа"
 
-#: e-util/e-dialog-utils.c:228 mail/mail-callbacks.c:2508
+#: e-util/e-dialog-utils.c:228 mail/mail-callbacks.c:2507
 #: mail/mail-display.c:190
 msgid ""
 "A file by that name already exists.\n"
@@ -10506,7 +10481,7 @@ msgid "%I %p"
 msgstr "%I %p"
 
 #: filter/filter-datespec.c:70 filter/filter.glade.h:24
-#: mail/mail-config.glade.h:185
+#: mail/mail-config.glade.h:186
 msgid "seconds"
 msgstr "секунди"
 
@@ -10621,32 +10596,32 @@ msgstr ""
 "%s"
 
 #: filter/filter-label.c:136 filter/libfilter-i18n.h:26 mail/mail-config.c:75
-#: mail/mail-config.glade.h:62
+#: mail/mail-config.glade.h:63
 msgid "Important"
 msgstr "Важно"
 
 #. red
 #: filter/filter-label.c:137 mail/mail-config.c:76
-#: mail/mail-config.glade.h:135
+#: mail/mail-config.glade.h:136
 #, fuzzy
 msgid "Work"
 msgstr "Корк"
 
 #. orange
-#: filter/filter-label.c:138 mail/mail-config.c:77 mail/mail-config.glade.h:85
+#: filter/filter-label.c:138 mail/mail-config.c:77 mail/mail-config.glade.h:86
 #, fuzzy
 msgid "Personal"
 msgstr "Вернал"
 
 #. forest green
 #: filter/filter-label.c:139 mail/mail-config.c:78
-#: mail/mail-config.glade.h:126
+#: mail/mail-config.glade.h:127
 #, fuzzy
 msgid "To Do"
 msgstr "Того"
 
 #. blue
-#: filter/filter-label.c:140 mail/mail-config.c:79 mail/mail-config.glade.h:66
+#: filter/filter-label.c:140 mail/mail-config.c:79 mail/mail-config.glade.h:67
 #, fuzzy
 msgid "Later"
 msgstr "след"
@@ -10982,7 +10957,7 @@ msgstr "е по малко от"
 msgid "Score"
 msgstr ""
 
-#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1799
+#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1798
 msgid "Sender"
 msgstr "Изпращач:"
 
@@ -11265,7 +11240,7 @@ msgstr "_Няма повторение"
 msgid "Mail Accounts"
 msgstr "Акаунти"
 
-#: mail/GNOME_Evolution_Mail.oaf.in.h:15 mail/mail-config.glade.h:69
+#: mail/GNOME_Evolution_Mail.oaf.in.h:15 mail/mail-config.glade.h:70
 msgid "Mail Preferences"
 msgstr ""
 
@@ -11646,20 +11621,20 @@ msgstr "Вие не сте попълнили всичи полета за необходимата информация."
 msgid "Evolution Account Editor"
 msgstr "Редактор на Акаунти в Evolution"
 
-#: mail/mail-account-gui.c:742 mail/mail-config.glade.h:159
+#: mail/mail-account-gui.c:742 mail/mail-config.glade.h:160
 msgid "_Host:"
 msgstr "_Хост:"
 
-#: mail/mail-account-gui.c:746 mail/mail-config.glade.h:129
+#: mail/mail-account-gui.c:746 mail/mail-config.glade.h:130
 #, fuzzy
 msgid "User_name:"
 msgstr "_Потрбителско име:"
 
-#: mail/mail-account-gui.c:750 mail/mail-config.glade.h:167
+#: mail/mail-account-gui.c:750 mail/mail-config.glade.h:168
 msgid "_Path:"
 msgstr "_Път:"
 
-#: mail/mail-account-gui.c:1843
+#: mail/mail-account-gui.c:1845
 msgid "You may not create two accounts with the same name."
 msgstr "Вие не може да имате две сигнатури с едно име."
 
@@ -11688,7 +11663,7 @@ msgid "Enable"
 msgstr "Разрешава"
 
 #: mail/mail-accounts.c:531 mail/mail-accounts.etspec.h:2
-#: mail/mail-config.glade.h:53
+#: mail/mail-config.glade.h:54
 msgid "Enabled"
 msgstr "Разрешен"
 
@@ -11824,20 +11799,20 @@ msgstr "неизвестен изпрашач"
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
 msgstr "На %a, %Y-%m-%d в %H:%M, %%s записа:"
 
-#: mail/mail-callbacks.c:1680 mail/message-browser.c:132
+#: mail/mail-callbacks.c:1679 mail/message-browser.c:132
 msgid "Move message(s) to"
 msgstr "Премести съобщени(ето/ята) в"
 
-#: mail/mail-callbacks.c:1682 mail/message-browser.c:134
+#: mail/mail-callbacks.c:1681 mail/message-browser.c:134
 msgid "Copy message(s) to"
 msgstr "Копирай съобщени(ето/ята) в"
 
-#: mail/mail-callbacks.c:2352
+#: mail/mail-callbacks.c:2351
 #, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr "Сигурен ли сте, че искате да редактирате всички %d съобщения?"
 
-#: mail/mail-callbacks.c:2377
+#: mail/mail-callbacks.c:2376
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -11845,7 +11820,7 @@ msgstr ""
 "Можете да редактирате само съобщения записани\n"
 "в папката Drafts."
 
-#: mail/mail-callbacks.c:2416
+#: mail/mail-callbacks.c:2415
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
@@ -11853,39 +11828,39 @@ msgstr ""
 "Можете да изпращате отново само съобщения записани\n"
 "в папката Sent."
 
-#: mail/mail-callbacks.c:2430
+#: mail/mail-callbacks.c:2429
 #, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr "Сигурен ли сте, че искате да препратите всичките %d съобщения?"
 
-#: mail/mail-callbacks.c:2456
+#: mail/mail-callbacks.c:2455
 msgid "No Message Selected"
 msgstr "Няма Избрано Съобщение"
 
-#: mail/mail-callbacks.c:2501 mail/mail-display.c:186
+#: mail/mail-callbacks.c:2500 mail/mail-display.c:186
 msgid "Overwrite file?"
 msgstr "Презаписване на файл?"
 
-#: mail/mail-callbacks.c:2555
+#: mail/mail-callbacks.c:2554
 msgid "Save Message As..."
 msgstr "Съхрани Съобщението Като..."
 
-#: mail/mail-callbacks.c:2557
+#: mail/mail-callbacks.c:2556
 msgid "Save Messages As..."
 msgstr "Съхрани Съобщението Като..."
 
-#: mail/mail-callbacks.c:2626
+#: mail/mail-callbacks.c:2625
 #, fuzzy
 msgid "Go to next folder with unread messages?"
 msgstr "Показва следващото непрочетено съобщение"
 
-#: mail/mail-callbacks.c:2633
+#: mail/mail-callbacks.c:2632
 msgid ""
 "There are no more new messages in this folder.\n"
 "Would you like to go to the next folder?"
 msgstr ""
 
-#: mail/mail-callbacks.c:2876
+#: mail/mail-callbacks.c:2875
 msgid ""
 "This operation will permanently erase all messages marked as deleted. If you "
 "continue, you will not be able to recover these messages.\n"
@@ -11898,7 +11873,7 @@ msgstr ""
 "\n"
 "Действително ли да изтрия съобщенията?"
 
-#: mail/mail-callbacks.c:2989
+#: mail/mail-callbacks.c:2988
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -11907,28 +11882,28 @@ msgstr ""
 "Грешка при зареждане информацията за финтъра:\n"
 "%s"
 
-#: mail/mail-callbacks.c:3001
+#: mail/mail-callbacks.c:3000
 msgid "Filters"
 msgstr "Филтри"
 
-#: mail/mail-callbacks.c:3045
+#: mail/mail-callbacks.c:3044
 #, fuzzy, c-format
 msgid "Page %d of %d"
 msgstr "Получаване на съобщение номер %d от %d"
 
-#: mail/mail-callbacks.c:3098
+#: mail/mail-callbacks.c:3097
 msgid "Print Message"
 msgstr "Отпечатай Съобщението"
 
-#: mail/mail-callbacks.c:3125
+#: mail/mail-callbacks.c:3124
 msgid "US-Letter"
 msgstr "US-Писмо"
 
-#: mail/mail-callbacks.c:3164
+#: mail/mail-callbacks.c:3163
 msgid "Printing of message failed"
 msgstr "Отпечатването неуспешно"
 
-#: mail/mail-callbacks.c:3335
+#: mail/mail-callbacks.c:3334
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr ""
@@ -11950,7 +11925,7 @@ msgstr "Няма Описание"
 msgid "Please specify a valid script name"
 msgstr ""
 
-#: mail/mail-composer-prefs.c:317 mail/mail-config.c:2909
+#: mail/mail-composer-prefs.c:317 mail/mail-config.c:2919
 #, fuzzy
 msgid "Unnamed"
 msgstr "Неименуван Контакт"
@@ -12026,16 +12001,16 @@ msgstr ""
 msgid "Evolution Account Assistant"
 msgstr "Помощник на Evolution за Акаунти"
 
-#: mail/mail-config.c:632
+#: mail/mail-config.c:633
 #, c-format
 msgid "Account %d"
 msgstr "Акаунт %d"
 
-#: mail/mail-config.c:2629
+#: mail/mail-config.c:2639
 msgid "Checking Service"
 msgstr "Проверява Обслужване"
 
-#: mail/mail-config.c:2707 mail/mail-config.c:2711
+#: mail/mail-config.c:2717 mail/mail-config.c:2721
 msgid "Connecting to server..."
 msgstr "Свързване със сървъра..."
 
@@ -12212,317 +12187,321 @@ msgstr "Цифров IDs..."
 msgid "Do not quote original message"
 msgstr "Не мога да отворя съобщение"
 
-#: mail/mail-config.glade.h:46 shell/glade/evolution-startup-wizard.glade.h:2
+#: mail/mail-config.glade.h:46
+msgid "Don't sign _meeting requests (for Outlook compatibility)"
+msgstr ""
+
+#: mail/mail-config.glade.h:47 shell/glade/evolution-startup-wizard.glade.h:2
 msgid "Done"
 msgstr "Приключено"
 
-#: mail/mail-config.glade.h:47
+#: mail/mail-config.glade.h:48
 #, fuzzy
 msgid "Drafts _folder:"
 msgstr "Папки _Черова"
 
-#: mail/mail-config.glade.h:48
+#: mail/mail-config.glade.h:49
 msgid "E_nable"
 msgstr "Раз_решен"
 
-#: mail/mail-config.glade.h:49
+#: mail/mail-config.glade.h:50
 #, fuzzy
 msgid "Emacs"
 msgstr "Изток"
 
-#: mail/mail-config.glade.h:50
+#: mail/mail-config.glade.h:51
 #, fuzzy
 msgid "Email Accounts"
 msgstr "Адресът за ел. поща съдържа"
 
-#: mail/mail-config.glade.h:51
+#: mail/mail-config.glade.h:52
 #, fuzzy
 msgid "Email _address:"
 msgstr "Адрес на ел. поща"
 
-#: mail/mail-config.glade.h:52
+#: mail/mail-config.glade.h:53
 #, fuzzy
 msgid "Empty _trash folders on exit"
 msgstr "_Изпразва кошчето при излизане"
 
-#: mail/mail-config.glade.h:54
+#: mail/mail-config.glade.h:55
 #, fuzzy
 msgid "Execute Command..."
 msgstr "Изпълнява действия"
 
-#: mail/mail-config.glade.h:55
+#: mail/mail-config.glade.h:56
 #, fuzzy
 msgid "Fi_xed -width:"
 msgstr "завършва с"
 
-#: mail/mail-config.glade.h:56
+#: mail/mail-config.glade.h:57
 #, fuzzy
 msgid "Font Properties"
 msgstr "Свойства"
 
-#: mail/mail-config.glade.h:57
+#: mail/mail-config.glade.h:58
 #, fuzzy
 msgid "Format messages in _HTML"
 msgstr "Препратени съобщения"
 
-#: mail/mail-config.glade.h:58
+#: mail/mail-config.glade.h:59
 msgid "Get Digital ID..."
 msgstr "Получава Цифров ID..."
 
-#: mail/mail-config.glade.h:59
+#: mail/mail-config.glade.h:60
 #, fuzzy
 msgid "Highlight _quotations with"
 msgstr "_Подсветнато цитиране с"
 
-#: mail/mail-config.glade.h:60
+#: mail/mail-config.glade.h:61
 msgid "IMAPv4 "
 msgstr "IMAPv4 "
 
-#: mail/mail-config.glade.h:61 shell/glade/evolution-startup-wizard.glade.h:4
+#: mail/mail-config.glade.h:62 shell/glade/evolution-startup-wizard.glade.h:4
 msgid "Identity"
 msgstr "Потребител"
 
-#: mail/mail-config.glade.h:63
+#: mail/mail-config.glade.h:64
 msgid "Inline"
 msgstr ""
 
-#: mail/mail-config.glade.h:64
+#: mail/mail-config.glade.h:65
 msgid "Kerberos "
 msgstr "Kerberos "
 
-#: mail/mail-config.glade.h:65
+#: mail/mail-config.glade.h:66
 #, fuzzy
 msgid "Labels and Colors"
 msgstr "Съхрани и Затвори"
 
-#: mail/mail-config.glade.h:67
+#: mail/mail-config.glade.h:68
 #, fuzzy
 msgid "Loading Images"
 msgstr "Зарежда _Картинки"
 
-#: mail/mail-config.glade.h:68
+#: mail/mail-config.glade.h:69
 msgid "Mail Configuration"
 msgstr "Mail Конфигурация"
 
-#: mail/mail-config.glade.h:70
+#: mail/mail-config.glade.h:71
 msgid "Mailbox location"
 msgstr "Местоположение на Пощенската кутия"
 
-#: mail/mail-config.glade.h:71
+#: mail/mail-config.glade.h:72
 #, fuzzy
 msgid "Message Composer"
 msgstr "Съобщения"
 
-#: mail/mail-config.glade.h:72
+#: mail/mail-config.glade.h:73
 #, fuzzy
 msgid "Message Display"
 msgstr "Показване на _Съобщение"
 
-#: mail/mail-config.glade.h:73
+#: mail/mail-config.glade.h:74
 #, fuzzy
 msgid "Microsoft"
 msgstr "Микронезия"
 
-#: mail/mail-config.glade.h:76
+#: mail/mail-config.glade.h:77
 #, fuzzy
 msgid "New Mail Notification"
 msgstr "Mail Конфигурация"
 
-#: mail/mail-config.glade.h:78
+#: mail/mail-config.glade.h:79
 msgid "On Screen fonts"
 msgstr ""
 
-#: mail/mail-config.glade.h:79
+#: mail/mail-config.glade.h:80
 msgid "Optional Information"
 msgstr "Опционална Информация"
 
-#: mail/mail-config.glade.h:81
+#: mail/mail-config.glade.h:82
 #, fuzzy
 msgid "Or_ganization:"
 msgstr "Организа_ция:"
 
-#: mail/mail-config.glade.h:82
+#: mail/mail-config.glade.h:83
 #, fuzzy
 msgid "PGP/GPG _Key ID:"
 msgstr "PGP _Ключ ID:"
 
-#: mail/mail-config.glade.h:86
+#: mail/mail-config.glade.h:87
 msgid "Pick a color"
 msgstr "Избери цвят"
 
-#: mail/mail-config.glade.h:87
+#: mail/mail-config.glade.h:88
 #, fuzzy
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr "Пита когато се изпраща поща само с получатели в полето _Bcc"
 
-#: mail/mail-config.glade.h:88
+#: mail/mail-config.glade.h:89
 #, fuzzy
 msgid "Pretty Good Privacy (PGP/GPG)"
 msgstr "PGP"
 
-#: mail/mail-config.glade.h:89
+#: mail/mail-config.glade.h:90
 #, fuzzy
 msgid "Printed Fonts"
 msgstr "Отпечатай избраните контактите"
 
-#: mail/mail-config.glade.h:90
+#: mail/mail-config.glade.h:91
 msgid "Qmail maildir "
 msgstr "Пощенска директория Qmail"
 
-#: mail/mail-config.glade.h:91
+#: mail/mail-config.glade.h:92
 #, fuzzy
 msgid "Quote original message"
 msgstr "Не мога да отворя съобщение"
 
-#: mail/mail-config.glade.h:92
+#: mail/mail-config.glade.h:93
 msgid "Quoted"
 msgstr ""
 
-#: mail/mail-config.glade.h:93
+#: mail/mail-config.glade.h:94
 msgid "Re_member this password"
 msgstr "Запомни тази парол_а"
 
-#: mail/mail-config.glade.h:94
+#: mail/mail-config.glade.h:95
 #, fuzzy
 msgid "Re_ply-To:"
 msgstr "Отговор-До:"
 
-#: mail/mail-config.glade.h:95 shell/glade/evolution-startup-wizard.glade.h:6
+#: mail/mail-config.glade.h:96 shell/glade/evolution-startup-wizard.glade.h:6
 msgid "Receiving Email"
 msgstr "Получаване на Пощата"
 
-#: mail/mail-config.glade.h:96
+#: mail/mail-config.glade.h:97
 #, fuzzy
 msgid "Receiving _Options"
 msgstr "Опции на Получаване"
 
-#: mail/mail-config.glade.h:97
+#: mail/mail-config.glade.h:98
 #, fuzzy
 msgid "Remember this _password"
 msgstr "Запомни тази парола"
 
-#: mail/mail-config.glade.h:98
+#: mail/mail-config.glade.h:99
 msgid "Required Information"
 msgstr "изискана Информация"
 
-#: mail/mail-config.glade.h:99
+#: mail/mail-config.glade.h:100
 #, fuzzy
 msgid "Restore Defaults"
 msgstr "По подразбиране"
 
-#: mail/mail-config.glade.h:101
+#: mail/mail-config.glade.h:102
 #, fuzzy
 msgid "S_ecurity"
 msgstr "Сигурност"
 
-#: mail/mail-config.glade.h:102
+#: mail/mail-config.glade.h:103
 #, fuzzy
 msgid "Secure MIME (S/MIME)"
 msgstr "Защитен MIME"
 
-#: mail/mail-config.glade.h:103
+#: mail/mail-config.glade.h:104
 msgid "Select HTML fixed width font"
 msgstr ""
 
-#: mail/mail-config.glade.h:104
+#: mail/mail-config.glade.h:105
 msgid "Select HTML fixed width font for printing"
 msgstr ""
 
-#: mail/mail-config.glade.h:105
+#: mail/mail-config.glade.h:106
 msgid "Select HTML variable width font"
 msgstr ""
 
-#: mail/mail-config.glade.h:106
+#: mail/mail-config.glade.h:107
 msgid "Select HTML variable width font for printing"
 msgstr ""
 
-#: mail/mail-config.glade.h:107
+#: mail/mail-config.glade.h:108
 #, fuzzy
 msgid "Select PGP program"
 msgstr "Избери PGP програма"
 
-#: mail/mail-config.glade.h:108 shell/glade/evolution-startup-wizard.glade.h:7
+#: mail/mail-config.glade.h:109 shell/glade/evolution-startup-wizard.glade.h:7
 msgid "Sending Email"
 msgstr "Изпращане на Email"
 
-#: mail/mail-config.glade.h:110
+#: mail/mail-config.glade.h:111
 msgid "Sent _messages folder:"
 msgstr "Изпати _папка със съобщения:"
 
-#: mail/mail-config.glade.h:111
+#: mail/mail-config.glade.h:112
 msgid "Sent and Draft Messages"
 msgstr "Изпрати и Чернова Съобщение"
 
-#: mail/mail-config.glade.h:112
+#: mail/mail-config.glade.h:113
 msgid "Ser_ver requires authentication"
 msgstr "Сървърът изисква ото_ризация"
 
-#: mail/mail-config.glade.h:113
+#: mail/mail-config.glade.h:114
 msgid "Server Configuration"
 msgstr "Сървър Конфигурация"
 
-#: mail/mail-config.glade.h:114
+#: mail/mail-config.glade.h:115
 msgid "Server _Type: "
 msgstr "Тип С_ървър:"
 
-#: mail/mail-config.glade.h:115
+#: mail/mail-config.glade.h:116
 #, fuzzy
 msgid "Shortcuts _type:"
 msgstr "Препратки"
 
-#: mail/mail-config.glade.h:116
+#: mail/mail-config.glade.h:117
 #, fuzzy
 msgid "Signature #1"
 msgstr "Запазва сигнатура"
 
-#: mail/mail-config.glade.h:117
+#: mail/mail-config.glade.h:118
 #, fuzzy
 msgid "Signature #2"
 msgstr "Запазва сигнатура"
 
-#: mail/mail-config.glade.h:118
+#: mail/mail-config.glade.h:119
 #, fuzzy
 msgid "Specify _filename:"
 msgstr "Име на стил:"
 
-#: mail/mail-config.glade.h:119
+#: mail/mail-config.glade.h:120
 msgid "Spell Checking Language"
 msgstr ""
 
-#: mail/mail-config.glade.h:120
+#: mail/mail-config.glade.h:121
 msgid "Spell _Checking"
 msgstr ""
 
-#: mail/mail-config.glade.h:121
+#: mail/mail-config.glade.h:122
 msgid "Standard Unix mbox"
 msgstr "Стандартен Unix mbox"
 
-#: mail/mail-config.glade.h:122
+#: mail/mail-config.glade.h:123
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
 "for display purposes only. "
 msgstr ""
 
-#: mail/mail-config.glade.h:125
+#: mail/mail-config.glade.h:126
 msgid ""
 "This page allows you to configure spell checking behavior and language. The "
 "list of languages here reflects only the languages for which you have a "
 "dictionary installed."
 msgstr ""
 
-#: mail/mail-config.glade.h:127
+#: mail/mail-config.glade.h:128
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
 msgstr ""
 
-#: mail/mail-config.glade.h:130
+#: mail/mail-config.glade.h:131
 #, fuzzy
 msgid "V_ariable-width:"
 msgstr "Променливо"
 
-#: mail/mail-config.glade.h:131
+#: mail/mail-config.glade.h:132
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -12532,200 +12511,200 @@ msgstr ""
 "\n"
 "Кликнете на \"Следващ\" за да започнете."
 
-#: mail/mail-config.glade.h:136
+#: mail/mail-config.glade.h:137
 #, fuzzy
 msgid "XEmacs"
 msgstr "Изток"
 
-#: mail/mail-config.glade.h:138
+#: mail/mail-config.glade.h:139
 #, fuzzy
 msgid "_Add Signature"
 msgstr "_Файл с Подпис:"
 
-#: mail/mail-config.glade.h:139
+#: mail/mail-config.glade.h:140
 msgid "_Always load images off the net"
 msgstr "_Винаги отказва да зарежда картинки от мрежата"
 
-#: mail/mail-config.glade.h:140
+#: mail/mail-config.glade.h:141
 msgid "_Always sign outgoing messages when using this account"
 msgstr "В_инаги подписва изходящите съобщения когато използва този акаунт"
 
-#: mail/mail-config.glade.h:141
+#: mail/mail-config.glade.h:142
 msgid "_Authentication Type: "
 msgstr "Тип на Идентифика_ция:"
 
-#: mail/mail-config.glade.h:142
+#: mail/mail-config.glade.h:143
 #, fuzzy
 msgid "_Authentication type: "
 msgstr "Тип на Идентифика_ция:"
 
-#: mail/mail-config.glade.h:143
+#: mail/mail-config.glade.h:144
 msgid "_Automatically check for new mail"
 msgstr "_Автоматична проверка за нов email"
 
-#: mail/mail-config.glade.h:144
+#: mail/mail-config.glade.h:145
 #, fuzzy
 msgid "_Automatically insert smiley images"
 msgstr "_Автоматична проверка за нов email"
 
-#: mail/mail-config.glade.h:145
+#: mail/mail-config.glade.h:146
 msgid "_Beep when new mail arrives"
 msgstr ""
 
-#: mail/mail-config.glade.h:146
+#: mail/mail-config.glade.h:147
 msgid "_Certificate ID:"
 msgstr "_Сертифициран ID:"
 
-#: mail/mail-config.glade.h:147
+#: mail/mail-config.glade.h:148
 #, fuzzy
 msgid "_Confirm when expunging a folder"
 msgstr "Подтвърждение при редактиране на папка"
 
-#: mail/mail-config.glade.h:148
+#: mail/mail-config.glade.h:149
 #, fuzzy
 msgid "_Default signature:"
 msgstr "_HTML сигнатура:"
 
-#: mail/mail-config.glade.h:149
+#: mail/mail-config.glade.h:150
 #, fuzzy
 msgid "_Defaults"
 msgstr "По подразбиране"
 
-#: mail/mail-config.glade.h:151
+#: mail/mail-config.glade.h:152
 msgid "_Do not notify me when new mail arrives"
 msgstr ""
 
-#: mail/mail-config.glade.h:153
+#: mail/mail-config.glade.h:154
 #, fuzzy
 msgid "_Enable"
 msgstr "Разрешава"
 
-#: mail/mail-config.glade.h:154
+#: mail/mail-config.glade.h:155
 msgid "_Fixed-width:"
 msgstr ""
 
-#: mail/mail-config.glade.h:155
+#: mail/mail-config.glade.h:156
 #, fuzzy
 msgid "_Forward style:"
 msgstr "Препрати Като"
 
-#: mail/mail-config.glade.h:156
+#: mail/mail-config.glade.h:157
 #, fuzzy
 msgid "_Full name:"
 msgstr "_Пълно Име:"
 
-#: mail/mail-config.glade.h:158
+#: mail/mail-config.glade.h:159
 #, fuzzy
 msgid "_HTML Mail"
 msgstr "В HTML поща"
 
-#: mail/mail-config.glade.h:160
+#: mail/mail-config.glade.h:161
 #, fuzzy
 msgid "_Identity"
 msgstr "Потребител"
 
-#: mail/mail-config.glade.h:161
+#: mail/mail-config.glade.h:162
 msgid "_Load images if sender is in addressbook"
 msgstr "_Зарежда картинки ако изпращача е в адресната книга"
 
-#: mail/mail-config.glade.h:162
+#: mail/mail-config.glade.h:163
 #, fuzzy
 msgid "_Make this my default account"
 msgstr "Прави това моя подразбиращ се акаунт"
 
-#: mail/mail-config.glade.h:163
+#: mail/mail-config.glade.h:164
 #, fuzzy
 msgid "_Mark messages as read after"
 msgstr "Маркир_ай съобщенията като \"Прочетени\" след:"
 
-#: mail/mail-config.glade.h:164
+#: mail/mail-config.glade.h:165
 msgid "_Name:"
 msgstr "_Име:"
 
-#: mail/mail-config.glade.h:165
+#: mail/mail-config.glade.h:166
 msgid "_Never load images off the net"
 msgstr "_Никога не зарежда картинки от мрежата"
 
-#: mail/mail-config.glade.h:166
+#: mail/mail-config.glade.h:167
 msgid "_PGP binary path:"
 msgstr "_PGP път на изпълник:"
 
-#: mail/mail-config.glade.h:168
+#: mail/mail-config.glade.h:169
 msgid "_Play sound file when new mail arrives"
 msgstr ""
 
-#: mail/mail-config.glade.h:169
+#: mail/mail-config.glade.h:170
 #, fuzzy
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
 msgstr "Пита при изпращане на HTML съобщения до контакти които не я искат"
 
-#: mail/mail-config.glade.h:170
+#: mail/mail-config.glade.h:171
 #, fuzzy
 msgid "_Prompt when sending messages with an empty subject line"
 msgstr "Пита пр_и изпращане на поща без тема"
 
-#: mail/mail-config.glade.h:171
+#: mail/mail-config.glade.h:172
 #, fuzzy
 msgid "_Receiving Mail"
 msgstr "Получаване на Пощата"
 
-#: mail/mail-config.glade.h:172
+#: mail/mail-config.glade.h:173
 #, fuzzy
 msgid "_Reply style:"
 msgstr "Отговори на Всички"
 
-#: mail/mail-config.glade.h:173
+#: mail/mail-config.glade.h:174
 msgid "_Restore defaults"
 msgstr ""
 
-#: mail/mail-config.glade.h:174
+#: mail/mail-config.glade.h:175
 #, fuzzy
 msgid "_Script:"
 msgstr "_Сигурност"
 
-#: mail/mail-config.glade.h:175 ui/evolution-message-composer.xml.h:48
+#: mail/mail-config.glade.h:176 ui/evolution-message-composer.xml.h:48
 msgid "_Security"
 msgstr "_Сигурност"
 
-#: mail/mail-config.glade.h:176
+#: mail/mail-config.glade.h:177
 #, fuzzy
 msgid "_Sending Mail"
 msgstr "Изпращане на Email"
 
-#: mail/mail-config.glade.h:177
+#: mail/mail-config.glade.h:178
 #, fuzzy
 msgid "_Show animated images"
 msgstr "Покажи Времето Като"
 
-#: mail/mail-config.glade.h:178
+#: mail/mail-config.glade.h:179
 #, fuzzy
 msgid "_Signatures"
 msgstr "_Файл с Подпис:"
 
-#: mail/mail-config.glade.h:179
+#: mail/mail-config.glade.h:180
 #, fuzzy
 msgid "_Use secure connection (SSL):"
 msgstr "Изплзва криптирана връзка (_SSL)"
 
-#: mail/mail-config.glade.h:180
+#: mail/mail-config.glade.h:181
 #, fuzzy
 msgid "_Variable-width:"
 msgstr "Променливо"
 
-#: mail/mail-config.glade.h:181
+#: mail/mail-config.glade.h:182
 msgid "_every"
 msgstr "_всеки"
 
-#: mail/mail-config.glade.h:182
+#: mail/mail-config.glade.h:183
 #, fuzzy
 msgid "color"
 msgstr " цвят"
 
-#: mail/mail-config.glade.h:183
+#: mail/mail-config.glade.h:184
 msgid "description"
 msgstr "описание"
 
-#: mail/mail-config.glade.h:186
+#: mail/mail-config.glade.h:187
 msgid "xxxxxxxxxxxxxxxxxxxx"
 msgstr ""
 
@@ -13575,7 +13554,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1
 msgid "Aarhus"
-msgstr ""
+msgstr "Аархус"
 
 #: my-evolution/Locations.h:2
 msgid "Abakan"
@@ -13583,7 +13562,7 @@ msgstr "Абакан"
 
 #: my-evolution/Locations.h:3
 msgid "Abbotsford"
-msgstr ""
+msgstr "Абътсфорд"
 
 #: my-evolution/Locations.h:4
 msgid "Aberdeen"
@@ -13591,11 +13570,11 @@ msgstr "Абърдиин"
 
 #: my-evolution/Locations.h:5
 msgid "Abha"
-msgstr ""
+msgstr "Абха"
 
 #: my-evolution/Locations.h:6
 msgid "Abilene"
-msgstr ""
+msgstr "Абилейн"
 
 #: my-evolution/Locations.h:7
 msgid "Abingdon"
@@ -13607,11 +13586,11 @@ msgstr "Абу Даби"
 
 #: my-evolution/Locations.h:9
 msgid "Abu Dhabi - Bateen"
-msgstr ""
+msgstr "Абу Даби - Батийн"
 
 #: my-evolution/Locations.h:10
 msgid "Acajutla"
-msgstr ""
+msgstr "Акаютла"
 
 #: my-evolution/Locations.h:11
 msgid "Acapulco"
@@ -13619,7 +13598,7 @@ msgstr "Акапулко"
 
 #: my-evolution/Locations.h:12
 msgid "Acarigua"
-msgstr ""
+msgstr "Акаригуа"
 
 #: my-evolution/Locations.h:13
 msgid "Adak"
@@ -13627,11 +13606,11 @@ msgstr "Адак"
 
 #: my-evolution/Locations.h:14
 msgid "Adana"
-msgstr ""
+msgstr "Адана"
 
 #: my-evolution/Locations.h:15
 msgid "Adana/Incirlik"
-msgstr ""
+msgstr "Адана/Инчирлик"
 
 #: my-evolution/Locations.h:16
 msgid "Adelaide"
@@ -13647,11 +13626,11 @@ msgstr "Адрар"
 
 #: my-evolution/Locations.h:19
 msgid "Aeroparque"
-msgstr ""
+msgstr "Аеропарк"
 
 #: my-evolution/Locations.h:20
 msgid "Aeropuerto del Norte"
-msgstr ""
+msgstr "Аеропуерто дел Норте"
 
 #: my-evolution/Locations.h:21
 msgid "Afonsos"
@@ -13663,15 +13642,15 @@ msgstr "Африка"
 
 #: my-evolution/Locations.h:23
 msgid "Afyon"
-msgstr ""
+msgstr "Афйон"
 
 #: my-evolution/Locations.h:24
 msgid "Agen"
-msgstr ""
+msgstr "Аген"
 
 #: my-evolution/Locations.h:25
 msgid "Aguascaliantes"
-msgstr ""
+msgstr "Агуаскалиантeс"
 
 #: my-evolution/Locations.h:26
 msgid "Ahmadabad"
@@ -13683,19 +13662,19 @@ msgstr "Ахмаз"
 
 #: my-evolution/Locations.h:28
 msgid "Ainsworth"
-msgstr ""
+msgstr "Ейнсъурт"
 
 #: my-evolution/Locations.h:29
 msgid "Air Force"
-msgstr ""
+msgstr "Еър Форс"
 
 #: my-evolution/Locations.h:30
 msgid "Ajaccio/Campo dell'Oro"
-msgstr ""
+msgstr "Ажакио/Кампо дел Оро"
 
 #: my-evolution/Locations.h:31
 msgid "Akeno Ab"
-msgstr ""
+msgstr "Акено Аб"
 
 #: my-evolution/Locations.h:32
 msgid "Akita Airport"
@@ -13715,19 +13694,19 @@ msgstr "Алабама"
 
 #: my-evolution/Locations.h:36
 msgid "Al Ahsa"
-msgstr ""
+msgstr "Ал Ахса"
 
 #: my-evolution/Locations.h:37
 msgid "Al Ain"
-msgstr ""
+msgstr "Ал Аин"
 
 #: my-evolution/Locations.h:38
 msgid "Alamogordo"
-msgstr ""
+msgstr "Аламогордо"
 
 #: my-evolution/Locations.h:39
 msgid "Alamosa"
-msgstr ""
+msgstr "Аламоса"
 
 #: my-evolution/Locations.h:40
 msgid "Alaska"
@@ -13735,15 +13714,15 @@ msgstr "Аляска"
 
 #: my-evolution/Locations.h:41
 msgid "Al Baha"
-msgstr ""
+msgstr "Ал Баха"
 
 #: my-evolution/Locations.h:43
 msgid "Albany"
-msgstr ""
+msgstr "Олбъни"
 
 #: my-evolution/Locations.h:44
 msgid "Albenga"
-msgstr ""
+msgstr "Албенга"
 
 #: my-evolution/Locations.h:45
 msgid "Alberta"
@@ -13751,19 +13730,19 @@ msgstr "Алберта"
 
 #: my-evolution/Locations.h:46
 msgid "Alborg"
-msgstr ""
+msgstr "Алборг"
 
 #: my-evolution/Locations.h:47
 msgid "Albuquerque"
-msgstr ""
+msgstr "Албакърк"
 
 #: my-evolution/Locations.h:48
 msgid "Alderney"
-msgstr ""
+msgstr "Олдърни"
 
 #: my-evolution/Locations.h:49
 msgid "Alesund"
-msgstr ""
+msgstr "Алесунд"
 
 #: my-evolution/Locations.h:50
 msgid "Alexandria"
@@ -13771,11 +13750,11 @@ msgstr "Александрия"
 
 #: my-evolution/Locations.h:51
 msgid "Alexandria-Esler"
-msgstr ""
+msgstr "Александрия-Еслер"
 
 #: my-evolution/Locations.h:52
 msgid "Alexandria/Nouzha"
-msgstr ""
+msgstr "Александрия/Нуза"
 
 #: my-evolution/Locations.h:53
 msgid "Alexandroupolis"
@@ -13783,11 +13762,11 @@ msgstr "Александрополис"
 
 #: my-evolution/Locations.h:55
 msgid "Alghero"
-msgstr ""
+msgstr "Алгеро"
 
 #: my-evolution/Locations.h:56
 msgid "Algona"
-msgstr ""
+msgstr "Алгона"
 
 #: my-evolution/Locations.h:57
 msgid "Alicante"
@@ -13795,23 +13774,23 @@ msgstr "Аликанте"
 
 #: my-evolution/Locations.h:58
 msgid "Alice"
-msgstr ""
+msgstr "Алис"
 
 #: my-evolution/Locations.h:59
 msgid "Alice Springs"
-msgstr ""
+msgstr "Алис Спрингс"
 
 #: my-evolution/Locations.h:60
 msgid "Al-Jouf"
-msgstr ""
+msgstr "Ал-Джуф"
 
 #: my-evolution/Locations.h:61
 msgid "Allentown"
-msgstr ""
+msgstr "Алентаун"
 
 #: my-evolution/Locations.h:62
 msgid "Alliance"
-msgstr ""
+msgstr "Алайънс"
 
 #: my-evolution/Locations.h:63
 msgid "Alma"
@@ -13819,15 +13798,15 @@ msgstr "Алма"
 
 #: my-evolution/Locations.h:64
 msgid "Almeria"
-msgstr ""
+msgstr "Алмериа"
 
 #: my-evolution/Locations.h:65
 msgid "Alpena"
-msgstr ""
+msgstr "Алпена"
 
 #: my-evolution/Locations.h:66
 msgid "Al Qaysumah"
-msgstr ""
+msgstr "Ал Казума"
 
 #: my-evolution/Locations.h:67
 msgid "Alta"
@@ -13839,15 +13818,15 @@ msgstr "Алтамира"
 
 #: my-evolution/Locations.h:69
 msgid "Alton"
-msgstr ""
+msgstr "Алтон"
 
 #: my-evolution/Locations.h:70
 msgid "Altoona"
-msgstr ""
+msgstr "Алтуна"
 
 #: my-evolution/Locations.h:71
 msgid "Alturas"
-msgstr ""
+msgstr "Алтурас"
 
 #: my-evolution/Locations.h:72
 msgid "Altus"
@@ -13855,7 +13834,7 @@ msgstr "Алтус"
 
 #: my-evolution/Locations.h:73
 msgid "Amami Airport"
-msgstr ""
+msgstr "Летище Амами"
 
 #: my-evolution/Locations.h:74
 msgid "Amapala"
@@ -13867,7 +13846,7 @@ msgstr "Амарило"
 
 #: my-evolution/Locations.h:76
 msgid "Amasya"
-msgstr ""
+msgstr "Амася"
 
 #: my-evolution/Locations.h:77
 msgid "Ambler"
@@ -13879,11 +13858,11 @@ msgstr "Амелия"
 
 #: my-evolution/Locations.h:79
 msgid "Amendola"
-msgstr ""
+msgstr "Амендола"
 
 #: my-evolution/Locations.h:80
 msgid "Ames"
-msgstr ""
+msgstr "Амес"
 
 #: my-evolution/Locations.h:81
 msgid "Amritsar"
@@ -13899,7 +13878,7 @@ msgstr "Анадир"
 
 #: my-evolution/Locations.h:84
 msgid "Anaktuvuk"
-msgstr ""
+msgstr "Анактувик"
 
 #: my-evolution/Locations.h:85
 msgid "Anapa"
@@ -13907,19 +13886,19 @@ msgstr "Анапа"
 
 #: my-evolution/Locations.h:86
 msgid "Anchorage"
-msgstr ""
+msgstr "Анкоридж"
 
 #: my-evolution/Locations.h:87
 msgid "Anchorage - Elmendorf AFB"
-msgstr ""
+msgstr "Анкоридж - Елмендорф ВВБ"
 
 #: my-evolution/Locations.h:88
 msgid "Ancona"
-msgstr ""
+msgstr "Анкона"
 
 #: my-evolution/Locations.h:89
 msgid "Andahuayla"
-msgstr ""
+msgstr "Андауаля"
 
 #: my-evolution/Locations.h:90
 msgid "Anderson"
@@ -13927,7 +13906,7 @@ msgstr "Андерсън"
 
 #: my-evolution/Locations.h:91
 msgid "Andoya"
-msgstr ""
+msgstr "Андоя"
 
 #: my-evolution/Locations.h:92
 msgid "Andravida"
@@ -13935,23 +13914,23 @@ msgstr "Андравида"
 
 #: my-evolution/Locations.h:93
 msgid "Andrews AFB"
-msgstr ""
+msgstr "Андрюс ВВБ"
 
 #: my-evolution/Locations.h:94
 msgid "Angleton"
-msgstr ""
+msgstr "Ейнджълтън"
 
 #: my-evolution/Locations.h:95
 msgid "Aniak"
-msgstr ""
+msgstr "Аниак"
 
 #: my-evolution/Locations.h:96
 msgid "Ankara/Esenboga"
-msgstr ""
+msgstr "Анкара/Есенбога"
 
 #: my-evolution/Locations.h:97
 msgid "Ankara/Etimesgut"
-msgstr ""
+msgstr "Анкара/Етимесгут"
 
 #: my-evolution/Locations.h:98
 msgid "Annaba"
@@ -13959,19 +13938,19 @@ msgstr "Анаба"
 
 #: my-evolution/Locations.h:99
 msgid "Ann Arbor"
-msgstr ""
+msgstr "Ан Арбър"
 
 #: my-evolution/Locations.h:100
 msgid "Annette"
-msgstr ""
+msgstr "Анет"
 
 #: my-evolution/Locations.h:101
 msgid "Anniston"
-msgstr ""
+msgstr "Анистън"
 
 #: my-evolution/Locations.h:102
 msgid "Antalya"
-msgstr ""
+msgstr "Анталиа"
 
 #: my-evolution/Locations.h:103
 msgid "Antartica"
@@ -13991,7 +13970,7 @@ msgstr "Антигуа и Барбадоса"
 
 #: my-evolution/Locations.h:107
 msgid "Antofagasta"
-msgstr ""
+msgstr "Антофагаста"
 
 #: my-evolution/Locations.h:108
 msgid "Antwerpen/Deurne"
@@ -13999,7 +13978,7 @@ msgstr "Антверпен"
 
 #: my-evolution/Locations.h:109
 msgid "Aomori Airport"
-msgstr ""
+msgstr "Летище Аомори"
 
 #: my-evolution/Locations.h:110
 msgid "Apalachicola"
@@ -14007,43 +13986,43 @@ msgstr "Апалачикола"
 
 #: my-evolution/Locations.h:111
 msgid "Appleton"
-msgstr ""
+msgstr "Епълтън"
 
 #: my-evolution/Locations.h:112
 msgid "Aquadilla"
-msgstr ""
+msgstr "Акуадиля"
 
 #: my-evolution/Locations.h:113
 msgid "Aracaju"
-msgstr ""
+msgstr "Аракаю"
 
 #: my-evolution/Locations.h:114
 msgid "Arad"
-msgstr ""
+msgstr "Арад"
 
 #: my-evolution/Locations.h:115
 msgid "Arar"
-msgstr ""
+msgstr "Арар"
 
 #: my-evolution/Locations.h:116
 msgid "Araxos"
-msgstr ""
+msgstr "Араксос"
 
 #: my-evolution/Locations.h:117
 msgid "Arcata"
-msgstr ""
+msgstr "Арката"
 
 #: my-evolution/Locations.h:118
 msgid "Ardmore"
-msgstr ""
+msgstr "Ардмор"
 
 #: my-evolution/Locations.h:119
 msgid "Arequipa"
-msgstr ""
+msgstr "Арекипа"
 
 #: my-evolution/Locations.h:121
 msgid "Arica"
-msgstr ""
+msgstr "Арика"
 
 #: my-evolution/Locations.h:122
 msgid "Arizona"
@@ -14067,31 +14046,31 @@ msgstr "Артигас"
 
 #: my-evolution/Locations.h:127
 msgid "Asahikawa Ab"
-msgstr ""
+msgstr "Асахикава ВБ"
 
 #: my-evolution/Locations.h:128
 msgid "Asahikawa Airport"
-msgstr ""
+msgstr "Летище Асахикава"
 
 #: my-evolution/Locations.h:129
 msgid "Ashburnam"
-msgstr ""
+msgstr "Ашбърнам"
 
 #: my-evolution/Locations.h:130
 msgid "Asheville"
-msgstr ""
+msgstr "Ашвил"
 
 #: my-evolution/Locations.h:131
 msgid "Ashfield"
-msgstr ""
+msgstr "Ашфилд"
 
 #: my-evolution/Locations.h:132
 msgid "Ashiya Ab"
-msgstr ""
+msgstr "Ашя ВБ"
 
 #: my-evolution/Locations.h:133
 msgid "Ashland"
-msgstr ""
+msgstr "Ашланд"
 
 #: my-evolution/Locations.h:134
 msgid "Asia"
@@ -14123,11 +14102,11 @@ msgstr "Асонсион"
 
 #: my-evolution/Locations.h:141
 msgid "Athens"
-msgstr ""
+msgstr "Атина"
 
 #: my-evolution/Locations.h:142
 msgid "Athinai"
-msgstr ""
+msgstr "Атина"
 
 #: my-evolution/Locations.h:143
 msgid "Atlanta"
@@ -14143,19 +14122,19 @@ msgstr "Атлантик Сити"
 
 #: my-evolution/Locations.h:146
 msgid "Atsugi US NAS"
-msgstr ""
+msgstr "ВМ База Ацуги на САЩ"
 
 #: my-evolution/Locations.h:147
 msgid "Auburn"
-msgstr ""
+msgstr "Обърн"
 
 #: my-evolution/Locations.h:148
 msgid "Auckland"
-msgstr ""
+msgstr "Оклънд"
 
 #: my-evolution/Locations.h:149
 msgid "Augsburg"
-msgstr ""
+msgstr "Аугсбург"
 
 #: my-evolution/Locations.h:150
 msgid "Augusta"
@@ -14171,7 +14150,7 @@ msgstr "Остин"
 
 #: my-evolution/Locations.h:153
 msgid "Australasia"
-msgstr ""
+msgstr "Австралазия"
 
 #: my-evolution/Locations.h:156
 msgid "Avalon"
@@ -14183,47 +14162,47 @@ msgstr "Авиано"
 
 #: my-evolution/Locations.h:158
 msgid "Ayacucho"
-msgstr ""
+msgstr "Аякучо"
 
 #: my-evolution/Locations.h:159
 msgid "Bage"
-msgstr ""
+msgstr "Бейдж"
 
 #: my-evolution/Locations.h:160
 msgid "Bagotville"
-msgstr ""
+msgstr "Баготвил"
 
 #: my-evolution/Locations.h:162
 msgid "Bahia Blanca"
-msgstr ""
+msgstr "Бая Бланка"
 
 #: my-evolution/Locations.h:163
 msgid "Bahias de Huatulco"
-msgstr ""
+msgstr "Бая де Хатулко"
 
 #: my-evolution/Locations.h:165
 msgid "Baker City"
-msgstr ""
+msgstr "Бейкър сити"
 
 #: my-evolution/Locations.h:166
 msgid "Bakersfield"
-msgstr ""
+msgstr "Бейкърсфилд"
 
 #: my-evolution/Locations.h:167
 msgid "Bale-Mulhouse"
-msgstr ""
+msgstr "Бал-Мюлуз"
 
 #: my-evolution/Locations.h:168
 msgid "Balikesir"
-msgstr ""
+msgstr "Баликезир"
 
 #: my-evolution/Locations.h:169
 msgid "Balikesir/Bandirma"
-msgstr ""
+msgstr "Баликезир/Бандирма"
 
 #: my-evolution/Locations.h:170
 msgid "Ball Mountain"
-msgstr ""
+msgstr "Бол Маунтин"
 
 #: my-evolution/Locations.h:171
 msgid "Baltimore"
@@ -14231,7 +14210,7 @@ msgstr "Балтимор"
 
 #: my-evolution/Locations.h:172
 msgid "Baltimore-Glen Burnie"
-msgstr ""
+msgstr "Балтимор-Глен Бърни"
 
 #: my-evolution/Locations.h:173
 msgid "Banak"
@@ -14251,7 +14230,7 @@ msgstr "Баракао"
 
 #: my-evolution/Locations.h:177
 msgid "Barbers Point"
-msgstr ""
+msgstr "Барбърс Поинт"
 
 #: my-evolution/Locations.h:178
 msgid "Barcelona"
@@ -14259,11 +14238,11 @@ msgstr "Барселона"
 
 #: my-evolution/Locations.h:179
 msgid "Bardufoss"
-msgstr ""
+msgstr "Бардуфос"
 
 #: my-evolution/Locations.h:180
 msgid "Bar Harbor"
-msgstr ""
+msgstr "Бар Харбър"
 
 #: my-evolution/Locations.h:181
 msgid "Bari"
@@ -14271,7 +14250,7 @@ msgstr "Бари"
 
 #: my-evolution/Locations.h:182
 msgid "Bariloche"
-msgstr ""
+msgstr "Барилоче"
 
 #: my-evolution/Locations.h:183
 msgid "Barinas"
@@ -14279,39 +14258,39 @@ msgstr "Баринас"
 
 #: my-evolution/Locations.h:184
 msgid "Barking Sand"
-msgstr ""
+msgstr "Баркинг Санд"
 
 #: my-evolution/Locations.h:185
 msgid "Barksdale"
-msgstr ""
+msgstr "Барксдейл"
 
 #: my-evolution/Locations.h:186
 msgid "Barnaul"
-msgstr ""
+msgstr "Барнаул"
 
 #: my-evolution/Locations.h:187
 msgid "Barquisimeto"
-msgstr ""
+msgstr "Баркисимето"
 
 #: my-evolution/Locations.h:188
 msgid "Barranquilla/Ernestocortissoz"
-msgstr ""
+msgstr "Баранкила/Енрестокортизос"
 
 #: my-evolution/Locations.h:189
 msgid "Barrow"
-msgstr ""
+msgstr "Бароу"
 
 #: my-evolution/Locations.h:190
 msgid "Barter Island"
-msgstr ""
+msgstr "Остров Бартър"
 
 #: my-evolution/Locations.h:191
 msgid "Bartlesville"
-msgstr ""
+msgstr "Бартълсвил"
 
 #: my-evolution/Locations.h:192
 msgid "Bartow"
-msgstr ""
+msgstr "Бартоу"
 
 #: my-evolution/Locations.h:193
 msgid "Bastia"
@@ -14319,35 +14298,35 @@ msgstr "Бастия"
 
 #: my-evolution/Locations.h:194
 msgid "Batesville"
-msgstr ""
+msgstr "Бейтсвил"
 
 #: my-evolution/Locations.h:195
 msgid "Batman"
-msgstr ""
+msgstr "Батман"
 
 #: my-evolution/Locations.h:196
 msgid "Baton Rouge"
-msgstr ""
+msgstr "Батън Руж"
 
 #: my-evolution/Locations.h:197
 msgid "Battle Creek"
-msgstr ""
+msgstr "Батъл Крийк"
 
 #: my-evolution/Locations.h:198
 msgid "Battle Mountain"
-msgstr ""
+msgstr "Батъл Маунтин"
 
 #: my-evolution/Locations.h:199
 msgid "Bauru"
-msgstr ""
+msgstr "Бауру"
 
 #: my-evolution/Locations.h:200
 msgid "Bayamo"
-msgstr ""
+msgstr "Баямо"
 
 #: my-evolution/Locations.h:201
 msgid "Bayreuth"
-msgstr ""
+msgstr "Бейрот"
 
 #: my-evolution/Locations.h:202
 msgid "Beatrice"
@@ -14355,27 +14334,27 @@ msgstr "Беатрис"
 
 #: my-evolution/Locations.h:203
 msgid "Beaufort"
-msgstr ""
+msgstr "Бофорт"
 
 #: my-evolution/Locations.h:204
 msgid "Beaumont"
-msgstr ""
+msgstr "Бомонт"
 
 #: my-evolution/Locations.h:205
 msgid "Beaumont-Port Arthur"
-msgstr ""
+msgstr "Бомонт-Порт Артър"
 
 #: my-evolution/Locations.h:206
 msgid "Beauvais-Tille"
-msgstr ""
+msgstr "Буво-Тил"
 
 #: my-evolution/Locations.h:207
 msgid "Beauvechain"
-msgstr ""
+msgstr "Бовешан"
 
 #: my-evolution/Locations.h:208
 msgid "Beckley"
-msgstr ""
+msgstr "Бекли"
 
 #: my-evolution/Locations.h:209
 msgid "Bedford"
@@ -14383,7 +14362,7 @@ msgstr "Бедфорт"
 
 #: my-evolution/Locations.h:210
 msgid "Beijing"
-msgstr ""
+msgstr "Пекин"
 
 #: my-evolution/Locations.h:211
 msgid "Beirut"
@@ -14391,7 +14370,7 @@ msgstr "Бейрут"
 
 #: my-evolution/Locations.h:212
 msgid "Beja"
-msgstr ""
+msgstr "Бея"
 
 #: my-evolution/Locations.h:213
 msgid "Belem"
@@ -14399,11 +14378,11 @@ msgstr "Белем"
 
 #: my-evolution/Locations.h:214
 msgid "Belfast/Aldergrove"
-msgstr ""
+msgstr "Белфаст/Елдъргроув"
 
 #: my-evolution/Locations.h:215
 msgid "Belfast/Harbour"
-msgstr ""
+msgstr "Белфаст/Харбър"
 
 #: my-evolution/Locations.h:217
 msgid "Belgorod"
@@ -14411,15 +14390,15 @@ msgstr "Белгород"
 
 #: my-evolution/Locations.h:219
 msgid "Belleville"
-msgstr ""
+msgstr "Белвил"
 
 #: my-evolution/Locations.h:220
 msgid "Bellingham"
-msgstr ""
+msgstr "Белингам"
 
 #: my-evolution/Locations.h:221
 msgid "Belmar-Farmingdale"
-msgstr ""
+msgstr "Белмар-Фармингдейл"
 
 #: my-evolution/Locations.h:222
 msgid "Belo Horizonte"
@@ -14427,11 +14406,11 @@ msgstr "Бело Оризонте"
 
 #: my-evolution/Locations.h:223
 msgid "Belo Horizonte Apt"
-msgstr ""
+msgstr "Бело Оризонте Апт"
 
 #: my-evolution/Locations.h:224
 msgid "Bemidji"
-msgstr ""
+msgstr "Бемиджи"
 
 #: my-evolution/Locations.h:225
 msgid "Benbecula"
@@ -14443,7 +14422,7 @@ msgstr "Бенина"
 
 #: my-evolution/Locations.h:227
 msgid "Benton Harbor"
-msgstr ""
+msgstr "Бентън Харбър"
 
 #: my-evolution/Locations.h:228
 msgid "Bentonville"
@@ -14463,11 +14442,11 @@ msgstr "Берген"
 
 #: my-evolution/Locations.h:232
 msgid "Bergstrom AFB"
-msgstr ""
+msgstr "ВВБ Бергстрьом"
 
 #: my-evolution/Locations.h:233
 msgid "Berlevag"
-msgstr ""
+msgstr "Берлеваг"
 
 #: my-evolution/Locations.h:234
 msgid "Berlin"
@@ -14491,11 +14470,11 @@ msgstr "Бетел"
 
 #: my-evolution/Locations.h:239
 msgid "Bethlehem Airport"
-msgstr ""
+msgstr "Летище Бетълхем"
 
 #: my-evolution/Locations.h:240
 msgid "Bettles"
-msgstr ""
+msgstr "Бетълс"
 
 #: my-evolution/Locations.h:241
 msgid "Beverly"
@@ -14503,23 +14482,23 @@ msgstr "Бевърли"
 
 #: my-evolution/Locations.h:242
 msgid "Biarritz-Bayonne"
-msgstr ""
+msgstr "Биариц-Бейон"
 
 #: my-evolution/Locations.h:243
 msgid "Bicycle Lake"
-msgstr ""
+msgstr "Байсикъл Лейк"
 
 #: my-evolution/Locations.h:244
 msgid "Biggin Hill"
-msgstr ""
+msgstr "Бигин Хил"
 
 #: my-evolution/Locations.h:245
 msgid "Big Piney"
-msgstr ""
+msgstr "Биг Пини"
 
 #: my-evolution/Locations.h:246
 msgid "Big River Lake"
-msgstr ""
+msgstr "Биг Ривър Лейк"
 
 #: my-evolution/Locations.h:247
 msgid "Bilbao"
@@ -14531,11 +14510,11 @@ msgstr "Билингс"
 
 #: my-evolution/Locations.h:249
 msgid "Billund"
-msgstr ""
+msgstr "Билунд"
 
 #: my-evolution/Locations.h:250
 msgid "Binghamton"
-msgstr ""
+msgstr "Бингамтън"
 
 #: my-evolution/Locations.h:251
 msgid "Birmingham"
@@ -14543,7 +14522,7 @@ msgstr "Бирмингам"
 
 #: my-evolution/Locations.h:252
 msgid "Bisha"
-msgstr ""
+msgstr "Биша"
 
 #: my-evolution/Locations.h:253
 msgid "Bishop"
@@ -14563,15 +14542,15 @@ msgstr "Благовещенск"
 
 #: my-evolution/Locations.h:257
 msgid "Blanding"
-msgstr ""
+msgstr "Бландинг"
 
 #: my-evolution/Locations.h:258
 msgid "Block Island"
-msgstr ""
+msgstr "Блок Айлънд"
 
 #: my-evolution/Locations.h:259
 msgid "Bloemfontein J. B. M. Hertzog "
-msgstr ""
+msgstr "Блумфонтейн Дж. Б.М. Херцог"
 
 #: my-evolution/Locations.h:260
 msgid "Bloomington"
@@ -14579,19 +14558,19 @@ msgstr "Блумингтън"
 
 #: my-evolution/Locations.h:261
 msgid "Blue Canyon"
-msgstr ""
+msgstr "Блу Кениън"
 
 #: my-evolution/Locations.h:262
 msgid "Bluefield"
-msgstr ""
+msgstr "Блуфилд"
 
 #: my-evolution/Locations.h:263
 msgid "Bluefields"
-msgstr ""
+msgstr "Блуфилдс"
 
 #: my-evolution/Locations.h:264
 msgid "Blythe"
-msgstr ""
+msgstr "Блаит"
 
 #: my-evolution/Locations.h:265
 msgid "Boa Vista"
@@ -14611,7 +14590,7 @@ msgstr "Богота"
 
 #: my-evolution/Locations.h:269
 msgid "Boise"
-msgstr ""
+msgstr "Боа"
 
 #: my-evolution/Locations.h:271
 msgid "Bologna"
@@ -14627,7 +14606,7 @@ msgstr "Бомбай"
 
 #: my-evolution/Locations.h:274
 msgid "Boone"
-msgstr ""
+msgstr "Буун"
 
 #: my-evolution/Locations.h:275
 msgid "Bordeaux"
@@ -14639,11 +14618,11 @@ msgstr "Боргер"
 
 #: my-evolution/Locations.h:277
 msgid "Bornholm"
-msgstr ""
+msgstr "Борнхолм"
 
 #: my-evolution/Locations.h:278
 msgid "Boscombe Down"
-msgstr ""
+msgstr "Боскомб Даун"
 
 #: my-evolution/Locations.h:279
 msgid "Bosnia-Herzegovina"
@@ -14655,7 +14634,7 @@ msgstr "Бостън"
 
 #: my-evolution/Locations.h:281
 msgid "Boulmer"
-msgstr ""
+msgstr "Боулмър"
 
 #: my-evolution/Locations.h:282
 msgid "Bourges"
@@ -14663,11 +14642,11 @@ msgstr "Бургес"
 
 #: my-evolution/Locations.h:283
 msgid "Bournemouth"
-msgstr ""
+msgstr "Бърнемот"
 
 #: my-evolution/Locations.h:284
 msgid "Bowling Green"
-msgstr ""
+msgstr "Боулинг Грийн"
 
 #: my-evolution/Locations.h:285
 msgid "Bozeman"
@@ -14679,11 +14658,11 @@ msgstr "Брадфорт"
 
 #: my-evolution/Locations.h:287
 msgid "Bradshaw Field"
-msgstr ""
+msgstr "Брадшоу фийлд"
 
 #: my-evolution/Locations.h:288
 msgid "Brainerd"
-msgstr ""
+msgstr "Брейнърд"
 
 #: my-evolution/Locations.h:289
 msgid "Brasilia"
@@ -14691,7 +14670,7 @@ msgstr "Бразилия"
 
 #: my-evolution/Locations.h:290
 msgid "Brasschaat"
-msgstr ""
+msgstr "Брашат"
 
 #: my-evolution/Locations.h:291
 msgid "Bratislava"
@@ -14703,7 +14682,7 @@ msgstr "Братск"
 
 #: my-evolution/Locations.h:293
 msgid "Braunschweig"
-msgstr ""
+msgstr "Брауншвайг"
 
 #: my-evolution/Locations.h:295
 msgid "Bremen"
@@ -14711,7 +14690,7 @@ msgstr "Бремен"
 
 #: my-evolution/Locations.h:296
 msgid "Bremerton"
-msgstr ""
+msgstr "Бремертън"
 
 #: my-evolution/Locations.h:297
 msgid "Brest"
@@ -14743,15 +14722,15 @@ msgstr "Бърно"
 
 #: my-evolution/Locations.h:304
 msgid "Broadus"
-msgstr ""
+msgstr "Бродъс"
 
 #: my-evolution/Locations.h:305
 msgid "Broken Bow"
-msgstr ""
+msgstr "Броукън Боу"
 
 #: my-evolution/Locations.h:306
 msgid "Bronnoysund"
-msgstr ""
+msgstr "Бронойсунд"
 
 #: my-evolution/Locations.h:307
 msgid "Brookings"
@@ -14763,7 +14742,7 @@ msgstr "Бруксвил"
 
 #: my-evolution/Locations.h:309
 msgid "Broome"
-msgstr ""
+msgstr "Бруме"
 
 #: my-evolution/Locations.h:310
 msgid "Brownsville"
@@ -14771,7 +14750,7 @@ msgstr "Бронсвил"
 
 #: my-evolution/Locations.h:311
 msgid "Brunswick"
-msgstr ""
+msgstr "Брунсуик"
 
 #: my-evolution/Locations.h:312
 msgid "Brussels-National Airport"
@@ -14783,11 +14762,11 @@ msgstr "Брянск"
 
 #: my-evolution/Locations.h:314
 msgid "Bryce Canyon"
-msgstr ""
+msgstr "Брайс Кениън"
 
 #: my-evolution/Locations.h:315
 msgid "Bucaramanga/Palonegro"
-msgstr ""
+msgstr "Букараманга/Палонегро"
 
 #: my-evolution/Locations.h:316
 msgid "Bucuresti"
@@ -14823,7 +14802,7 @@ msgstr "Бурлей"
 
 #: my-evolution/Locations.h:325
 msgid "Burlington"
-msgstr ""
+msgstr "Бърлингтън"
 
 #: my-evolution/Locations.h:326
 msgid "Burnet"
@@ -14839,23 +14818,23 @@ msgstr "Бурса"
 
 #: my-evolution/Locations.h:329
 msgid "Burwell"
-msgstr ""
+msgstr "Бъруел"
 
 #: my-evolution/Locations.h:330
 msgid "Butte"
-msgstr ""
+msgstr "Бът"
 
 #: my-evolution/Locations.h:331
 msgid "Caen-Carpiquet"
-msgstr ""
+msgstr "Каен-Карпик"
 
 #: my-evolution/Locations.h:332
 msgid "Cagliari"
-msgstr ""
+msgstr "Каляри"
 
 #: my-evolution/Locations.h:333
 msgid "Cairns"
-msgstr ""
+msgstr "Кеърнс"
 
 #: my-evolution/Locations.h:334
 msgid "Cairo"
@@ -14871,7 +14850,7 @@ msgstr "Калкута"
 
 #: my-evolution/Locations.h:337
 msgid "Caldwell"
-msgstr ""
+msgstr "Колдуел"
 
 #: my-evolution/Locations.h:338
 msgid "Calgary"
@@ -14879,7 +14858,7 @@ msgstr "Калгари"
 
 #: my-evolution/Locations.h:339
 msgid "Cali/Alfonso Bonillaaragon"
-msgstr ""
+msgstr "Кали/Алфонсо Бониларгон"
 
 #: my-evolution/Locations.h:340
 msgid "Caliente"
@@ -14891,11 +14870,11 @@ msgstr "Калифорния"
 
 #: my-evolution/Locations.h:342
 msgid "Calvi-Ste-Catherine"
-msgstr ""
+msgstr "Калви-Катерин"
 
 #: my-evolution/Locations.h:343
 msgid "Camaguey"
-msgstr ""
+msgstr "Камагуа"
 
 #: my-evolution/Locations.h:344
 msgid "Camarillo"
@@ -14915,7 +14894,7 @@ msgstr "Камири"
 
 #: my-evolution/Locations.h:348
 msgid "Campeche"
-msgstr ""
+msgstr "Кампече"
 
 #: my-evolution/Locations.h:349
 msgid "Campinas"
@@ -14931,7 +14910,7 @@ msgstr "Кампо Гранде"
 
 #: my-evolution/Locations.h:352
 msgid "Camp Stanley/H-207"
-msgstr ""
+msgstr "Кемп Стенли/H-207"
 
 #: my-evolution/Locations.h:353
 msgid "Canaan"
@@ -14939,7 +14918,7 @@ msgstr "Канан"
 
 #: my-evolution/Locations.h:355
 msgid "Canarias/Fuerteventura"
-msgstr ""
+msgstr "Канрски/Фуертевентура"
 
 #: my-evolution/Locations.h:356
 msgid "Canarias/Gran Canaria"
@@ -14959,11 +14938,11 @@ msgstr "Канари/Ла Палма"
 
 #: my-evolution/Locations.h:360
 msgid "Canarias/Tenerife Norte"
-msgstr "Канари/Тенариф"
+msgstr "Канари/Тенариф Норте"
 
 #: my-evolution/Locations.h:361
 msgid "Canarias/Tenerife Sur"
-msgstr ""
+msgstr "Канари/Тенерифе Сур"
 
 #: my-evolution/Locations.h:362
 msgid "Canberra"
@@ -14975,39 +14954,39 @@ msgstr "Канкун"
 
 #: my-evolution/Locations.h:364
 msgid "Cannes-Mandelieu"
-msgstr ""
+msgstr "Кан-Мандельо"
 
 #: my-evolution/Locations.h:365
 msgid "Cantwell"
-msgstr ""
+msgstr "Кантуел"
 
 #: my-evolution/Locations.h:366
 msgid "Cape Girardeau"
-msgstr ""
+msgstr "Кейп Жирардо"
 
 #: my-evolution/Locations.h:367
 msgid "Cape Hatteras"
-msgstr ""
+msgstr "Кейп Хатерас"
 
 #: my-evolution/Locations.h:368
 msgid "Cape Lisburne"
-msgstr ""
+msgstr "Кейп Лисбърн"
 
 #: my-evolution/Locations.h:369
 msgid "Cape Newenham"
-msgstr ""
+msgstr "Кейп Нюенхам"
 
 #: my-evolution/Locations.h:370
 msgid "Cape Romanzoff"
-msgstr ""
+msgstr "Кейп Романцов"
 
 #: my-evolution/Locations.h:371
 msgid "Cape Town D. F. Malan "
-msgstr ""
+msgstr "Кейп Таун Д.Ф. Малан"
 
 #: my-evolution/Locations.h:372
 msgid "Capitan Corbeta"
-msgstr ""
+msgstr "Капитан Корбета"
 
 #: my-evolution/Locations.h:373
 msgid "Capo Mele"
@@ -15015,11 +14994,11 @@ msgstr "Капо Меле"
 
 #: my-evolution/Locations.h:374
 msgid "Caracas La Carlota"
-msgstr ""
+msgstr "Каракас Ла Карлота"
 
 #: my-evolution/Locations.h:375
 msgid "Caracas Maiquetia"
-msgstr ""
+msgstr "Каракас Маикетя"
 
 #: my-evolution/Locations.h:376
 msgid "Caravelas"
@@ -15027,7 +15006,7 @@ msgstr "Каравелас"
 
 #: my-evolution/Locations.h:377
 msgid "Carbondale"
-msgstr ""
+msgstr "Карбъндейл"
 
 #: my-evolution/Locations.h:378
 msgid "Cardiff"
@@ -15039,7 +15018,7 @@ msgstr "Карибу"
 
 #: my-evolution/Locations.h:380
 msgid "Carlisle"
-msgstr ""
+msgstr "Карлайл"
 
 #: my-evolution/Locations.h:381
 msgid "Carlsbad"
@@ -15051,7 +15030,7 @@ msgstr "Карол"
 
 #: my-evolution/Locations.h:383
 msgid "Cartagena/Rafael Nunez"
-msgstr ""
+msgstr "Картаген/Рафаел Нунез"
 
 #: my-evolution/Locations.h:384
 msgid "Casa Granda"
@@ -15059,7 +15038,7 @@ msgstr "Каса Гранда"
 
 #: my-evolution/Locations.h:385
 msgid "Cascade"
-msgstr ""
+msgstr "Каскейд"
 
 #: my-evolution/Locations.h:386
 msgid "Casper"
@@ -15067,7 +15046,7 @@ msgstr "Каспер"
 
 #: my-evolution/Locations.h:387
 msgid "Catacamas"
-msgstr ""
+msgstr "Катакамас"
 
 #: my-evolution/Locations.h:388
 msgid "Catania"
@@ -15075,23 +15054,23 @@ msgstr "Катаниа"
 
 #: my-evolution/Locations.h:390
 msgid "Cayo Largo del Sur"
-msgstr ""
+msgstr "Кайо Ларго дел Сур"
 
 #: my-evolution/Locations.h:391
 msgid "Cazaux"
-msgstr ""
+msgstr "Казо"
 
 #: my-evolution/Locations.h:392
 msgid "Cecil NAS"
-msgstr ""
+msgstr "ВМБ Сесил"
 
 #: my-evolution/Locations.h:393
 msgid "Cedar City"
-msgstr ""
+msgstr "Сидър Сити"
 
 #: my-evolution/Locations.h:394
 msgid "Cedar Rapids"
-msgstr ""
+msgstr "Сидър Рапидс"
 
 #: my-evolution/Locations.h:395
 msgid "Central and South America"
@@ -15099,7 +15078,7 @@ msgstr "Центална и Южна Америка"
 
 #: my-evolution/Locations.h:396
 msgid "Cervia"
-msgstr ""
+msgstr "Сервиа"
 
 #: my-evolution/Locations.h:397
 msgid "Chacarita"
@@ -15111,11 +15090,11 @@ msgstr "Шадрон"
 
 #: my-evolution/Locations.h:399
 msgid "Challis"
-msgstr ""
+msgstr "Чалис"
 
 #: my-evolution/Locations.h:400
 msgid "Chamberlain"
-msgstr ""
+msgstr "Чембърлейн"
 
 #: my-evolution/Locations.h:401
 msgid "Chambery"
@@ -15123,55 +15102,55 @@ msgstr "Чамбери"
 
 #: my-evolution/Locations.h:402
 msgid "Champaign"
-msgstr ""
+msgstr "Шампейн"
 
 #: my-evolution/Locations.h:403
 msgid "Chandalar Lake"
-msgstr ""
+msgstr "Чандлар Лейк"
 
 #: my-evolution/Locations.h:404
 msgid "Chandler"
-msgstr ""
+msgstr "Чандлър"
 
 #: my-evolution/Locations.h:405
 msgid "Chania"
-msgstr ""
+msgstr "Чаниа"
 
 #: my-evolution/Locations.h:406
 msgid "Chanute"
-msgstr ""
+msgstr "Шанут"
 
 #: my-evolution/Locations.h:407
 msgid "Chariton"
-msgstr ""
+msgstr "Чаритън"
 
 #: my-evolution/Locations.h:408
 msgid "Charleroi-Brussels South"
-msgstr ""
+msgstr "Шарлероа-Брюксел Юг"
 
 #: my-evolution/Locations.h:409
 msgid "Charles City"
-msgstr ""
+msgstr "Шарл Сити"
 
 #: my-evolution/Locations.h:410
 msgid "Charleston"
-msgstr "Чарлстон"
+msgstr "Чарлстън"
 
 #: my-evolution/Locations.h:411
 msgid "Charlotte"
-msgstr ""
+msgstr "Шарлът"
 
 #: my-evolution/Locations.h:412
 msgid "Charlottesville"
-msgstr ""
+msgstr "Шарлътсвил"
 
 #: my-evolution/Locations.h:413
 msgid "Chatham"
-msgstr ""
+msgstr "Чатъм"
 
 #: my-evolution/Locations.h:414
 msgid "Chattanooga"
-msgstr ""
+msgstr "Чатануга"
 
 #: my-evolution/Locations.h:415
 msgid "Cheboksary"
@@ -15179,7 +15158,7 @@ msgstr "Чебоксари"
 
 #: my-evolution/Locations.h:416
 msgid "Cheju"
-msgstr ""
+msgstr "Чежу"
 
 #: my-evolution/Locations.h:417
 msgid "Chelyabinsk"
@@ -15195,11 +15174,11 @@ msgstr "Шербург"
 
 #: my-evolution/Locations.h:420
 msgid "Cherry Point"
-msgstr ""
+msgstr "Чери Поинт"
 
 #: my-evolution/Locations.h:421
 msgid "Chetumal"
-msgstr ""
+msgstr "Шетумал"
 
 #: my-evolution/Locations.h:422
 msgid "Cheyenne"
@@ -15207,39 +15186,39 @@ msgstr "Чейен"
 
 #: my-evolution/Locations.h:423
 msgid "Chiang Kai Shek"
-msgstr ""
+msgstr "Чанг Каи Шек"
 
 #: my-evolution/Locations.h:424
 msgid "Chia Tung"
-msgstr ""
+msgstr "Чиа Тунг"
 
 #: my-evolution/Locations.h:425
 msgid "Chiayi"
-msgstr ""
+msgstr "Чиаюи"
 
 #: my-evolution/Locations.h:426
 msgid "Chicago-DuPage"
-msgstr ""
+msgstr "Чикаго-ДюПейдж"
 
 #: my-evolution/Locations.h:427
 msgid "Chicago-Lakefront"
-msgstr ""
+msgstr "Чикаго=Лейкфронт"
 
 #: my-evolution/Locations.h:428
 msgid "Chicago-Midway"
-msgstr ""
+msgstr "Чикаго-Мидуей"
 
 #: my-evolution/Locations.h:429
 msgid "Chicago-O'Hare"
-msgstr ""
+msgstr "Чикаго-О'Хеър"
 
 #: my-evolution/Locations.h:430
 msgid "Chichijima"
-msgstr ""
+msgstr "Чичиджима"
 
 #: my-evolution/Locations.h:431
 msgid "Chiclayo"
-msgstr ""
+msgstr "Чиклиайо"
 
 #: my-evolution/Locations.h:432
 msgid "Chico"
@@ -15247,35 +15226,35 @@ msgstr "Чико"
 
 #: my-evolution/Locations.h:433
 msgid "Chicopee Falls"
-msgstr ""
+msgstr "Чикъпи Фолс"
 
 #: my-evolution/Locations.h:434
 msgid "Chievres"
-msgstr ""
+msgstr "Шевре"
 
 #: my-evolution/Locations.h:435
 msgid "Chihhang"
-msgstr ""
+msgstr "Чихан"
 
 #: my-evolution/Locations.h:436
 msgid "Chihuahua"
-msgstr ""
+msgstr "Чихуахуа"
 
 #: my-evolution/Locations.h:437
 msgid "Childress"
-msgstr ""
+msgstr "Чилдрес"
 
 #: my-evolution/Locations.h:439
 msgid "China Lake"
-msgstr ""
+msgstr "Чайна Лейк"
 
 #: my-evolution/Locations.h:440
 msgid "Chinandega"
-msgstr ""
+msgstr "Чинандега"
 
 #: my-evolution/Locations.h:441
 msgid "Chinmem/Shatou"
-msgstr ""
+msgstr "Чинмем/Шату"
 
 #: my-evolution/Locations.h:442
 msgid "Chino"
@@ -15283,7 +15262,7 @@ msgstr "Чино"
 
 #: my-evolution/Locations.h:443
 msgid "Chippewa County"
-msgstr ""
+msgstr "Чипеуа Каунти"
 
 #: my-evolution/Locations.h:444
 msgid "Chita"
@@ -15291,67 +15270,67 @@ msgstr "Чита"
 
 #: my-evolution/Locations.h:445
 msgid "Chitose Ab"
-msgstr ""
+msgstr "ВБ Читоуз"
 
 #: my-evolution/Locations.h:446
 msgid "Chitose ASDF"
-msgstr ""
+msgstr "Читоуз ВСБ"
 
 #: my-evolution/Locations.h:447
 msgid "Chofu Airport"
-msgstr ""
+msgstr "Летище Чофу"
 
 #: my-evolution/Locations.h:448
 msgid "Choluteca"
-msgstr ""
+msgstr "Чолутека"
 
 #: my-evolution/Locations.h:449
 msgid "Chongju Ab"
-msgstr ""
+msgstr "ВБ Чонгджи"
 
 #: my-evolution/Locations.h:450
 msgid "Christchurch"
-msgstr ""
+msgstr "Крайстчърч"
 
 #: my-evolution/Locations.h:452
 msgid "Chulitna"
-msgstr ""
+msgstr "Чулитна"
 
 #: my-evolution/Locations.h:453
 msgid "Churchill"
-msgstr ""
+msgstr "Чърчил"
 
 #: my-evolution/Locations.h:454
 msgid "Churchill Falls"
-msgstr ""
+msgstr "Чърчил Фолс"
 
 #: my-evolution/Locations.h:455
 msgid "Cincinnati"
-msgstr "Цинцината"
+msgstr "Синсинати"
 
 #: my-evolution/Locations.h:456
 msgid "Circle City"
-msgstr ""
+msgstr "Съркъл Сити"
 
 #: my-evolution/Locations.h:457
 msgid "Ciudad Bolivar"
-msgstr ""
+msgstr "Сюдад Боливар"
 
 #: my-evolution/Locations.h:458
 msgid "Ciudad del Carmen"
-msgstr ""
+msgstr "Сюдад дел Кармен"
 
 #: my-evolution/Locations.h:459
 msgid "Ciudad Juarez"
-msgstr ""
+msgstr "Сюдад Хуарез"
 
 #: my-evolution/Locations.h:460
 msgid "Ciudad Obregon"
-msgstr ""
+msgstr "Сюдад Обрегон"
 
 #: my-evolution/Locations.h:461
 msgid "Ciudad Victoria"
-msgstr ""
+msgstr "Сюдад Викториа"
 
 #: my-evolution/Locations.h:462
 msgid "Clarinda"
@@ -15359,19 +15338,19 @@ msgstr "Кларинда"
 
 #: my-evolution/Locations.h:463
 msgid "Clarion"
-msgstr ""
+msgstr "Кларион"
 
 #: my-evolution/Locations.h:464
 msgid "Clarksburg"
-msgstr ""
+msgstr "Кларксбърг"
 
 #: my-evolution/Locations.h:465
 msgid "Clayton"
-msgstr ""
+msgstr "Клейтън"
 
 #: my-evolution/Locations.h:466
 msgid "Clayton Lake"
-msgstr ""
+msgstr "Клейтън Лейк"
 
 #: my-evolution/Locations.h:467
 msgid "Clermont-Ferrand"
@@ -15383,11 +15362,11 @@ msgstr "Кливлънд"
 
 #: my-evolution/Locations.h:469
 msgid "Cleveland/Cuyahoga"
-msgstr ""
+msgstr "Кливлънд/Каяхога"
 
 #: my-evolution/Locations.h:470
 msgid "Cleveland-Lakefront"
-msgstr ""
+msgstr "Кливлънд-Лейкфронт"
 
 #: my-evolution/Locations.h:471
 msgid "Clinton"
@@ -15395,11 +15374,11 @@ msgstr "Клинън"
 
 #: my-evolution/Locations.h:472
 msgid "Clovis-Cannon AFB"
-msgstr ""
+msgstr "ВВБ Кловис-Кенън"
 
 #: my-evolution/Locations.h:473
 msgid "Cobija"
-msgstr ""
+msgstr "Кобия"
 
 #: my-evolution/Locations.h:474
 msgid "Cochabamba"
@@ -15407,7 +15386,7 @@ msgstr "Кочабамба"
 
 #: my-evolution/Locations.h:475
 msgid "Cocoa Beach"
-msgstr ""
+msgstr "Кокоа Бийч"
 
 #: my-evolution/Locations.h:476
 msgid "Cocos Island"
@@ -15415,15 +15394,15 @@ msgstr "Кокосов остров"
 
 #: my-evolution/Locations.h:477
 msgid "Cody"
-msgstr ""
+msgstr "Коуди"
 
 #: my-evolution/Locations.h:478
 msgid "Coeur d'Alene"
-msgstr ""
+msgstr "Кор д'Ален"
 
 #: my-evolution/Locations.h:479
 msgid "Cold Bay"
-msgstr ""
+msgstr "Колд Бей"
 
 #: my-evolution/Locations.h:480
 msgid "Colima"
@@ -15431,11 +15410,11 @@ msgstr "Колима"
 
 #: my-evolution/Locations.h:481
 msgid "College Station"
-msgstr ""
+msgstr "Колидж Стейшън"
 
 #: my-evolution/Locations.h:482
 msgid "Colmar-Meyenheim"
-msgstr ""
+msgstr "Колмар-Майнхайм"
 
 #: my-evolution/Locations.h:484
 msgid "Colonia"
@@ -15455,43 +15434,43 @@ msgstr "Колумбия"
 
 #: my-evolution/Locations.h:488
 msgid "Columbia-McEntire"
-msgstr ""
+msgstr "Колумбия-Макинтайър"
 
 #: my-evolution/Locations.h:489
 msgid "Columbus"
-msgstr ""
+msgstr "Кълъмбъс"
 
 #: my-evolution/Locations.h:490
 msgid "Columbus-Fort Benning"
-msgstr ""
+msgstr "Кълъмбъс-Форт Бенинг"
 
 #: my-evolution/Locations.h:491
 msgid "Columbus-Gahanna"
-msgstr ""
+msgstr "Кълъмбъс-Гахана"
 
 #: my-evolution/Locations.h:492
 msgid "Columbus-OSU"
-msgstr ""
+msgstr "Кълъмбъс-OSU"
 
 #: my-evolution/Locations.h:493
 msgid "Columbus-W Point-Starkville"
-msgstr ""
+msgstr "Кълъмбъс-У Поинт-Старквил"
 
 #: my-evolution/Locations.h:494
 msgid "Colville"
-msgstr ""
+msgstr "Колвил"
 
 #: my-evolution/Locations.h:495
 msgid "Comodoro Rivadavia"
-msgstr ""
+msgstr "Комодоро Ривадавиа"
 
 #: my-evolution/Locations.h:496
 msgid "Comox"
-msgstr ""
+msgstr "Комокс"
 
 #: my-evolution/Locations.h:497
 msgid "Conceicao Do Araguaia"
-msgstr ""
+msgstr "Консейсао До Арагуая"
 
 #: my-evolution/Locations.h:498
 msgid "Concepcion"
@@ -15507,15 +15486,15 @@ msgstr "Конкордия"
 
 #: my-evolution/Locations.h:501
 msgid "Connaught"
-msgstr ""
+msgstr "Конот"
 
 #: my-evolution/Locations.h:502
 msgid "Connecticut"
-msgstr ""
+msgstr "Кънектикът"
 
 #: my-evolution/Locations.h:503
 msgid "Conroe"
-msgstr ""
+msgstr "Конроу"
 
 #: my-evolution/Locations.h:504
 msgid "Constantine"
@@ -15523,7 +15502,7 @@ msgstr "Константин"
 
 #: my-evolution/Locations.h:505
 msgid "Copper Harbor"
-msgstr ""
+msgstr "Копър Харбър"
 
 #: my-evolution/Locations.h:506
 msgid "Cordoba"
@@ -15539,7 +15518,7 @@ msgstr "Корк"
 
 #: my-evolution/Locations.h:509
 msgid "Coro"
-msgstr ""
+msgstr "Коро"
 
 #: my-evolution/Locations.h:510
 msgid "Corona"
@@ -15547,11 +15526,11 @@ msgstr "Корона"
 
 #: my-evolution/Locations.h:511
 msgid "Corpus Christi"
-msgstr ""
+msgstr "Корпус Кристи"
 
 #: my-evolution/Locations.h:512
 msgid "Corpus Christi NAS"
-msgstr ""
+msgstr "ВВБ Корпус Кристи"
 
 #: my-evolution/Locations.h:513
 msgid "Corrientes"
@@ -15559,7 +15538,7 @@ msgstr "Кориентес"
 
 #: my-evolution/Locations.h:514
 msgid "Corsicana"
-msgstr ""
+msgstr "Корсикана"
 
 #: my-evolution/Locations.h:515
 msgid "Cortez"
@@ -15575,7 +15554,7 @@ msgstr "Котула"
 
 #: my-evolution/Locations.h:519
 msgid "Council Bluffs"
-msgstr ""
+msgstr "Каунсил Блъфс"
 
 #: my-evolution/Locations.h:520
 msgid "Coventry"
@@ -15583,23 +15562,23 @@ msgstr "Ковънтри"
 
 #: my-evolution/Locations.h:521
 msgid "Covington"
-msgstr ""
+msgstr "Ковингтън"
 
 #: my-evolution/Locations.h:522
 msgid "Cozumel"
-msgstr ""
+msgstr "Козумел"
 
 #: my-evolution/Locations.h:523
 msgid "Craig"
-msgstr ""
+msgstr "Крейг"
 
 #: my-evolution/Locations.h:524
 msgid "Cranfield"
-msgstr ""
+msgstr "Кранфилд"
 
 #: my-evolution/Locations.h:525
 msgid "Crescent City"
-msgstr ""
+msgstr "Кресцент Сити"
 
 #: my-evolution/Locations.h:526
 msgid "Creston"
@@ -15607,11 +15586,11 @@ msgstr "Крестън"
 
 #: my-evolution/Locations.h:527
 msgid "Crestview"
-msgstr ""
+msgstr "Крествю"
 
 #: my-evolution/Locations.h:529
 msgid "Cross City"
-msgstr ""
+msgstr "Крос Сити"
 
 #: my-evolution/Locations.h:530
 msgid "Crossville"
@@ -15623,31 +15602,31 @@ msgstr "Кротон"
 
 #: my-evolution/Locations.h:533
 msgid "Cuba Awrs"
-msgstr ""
+msgstr "Кюба Орс"
 
 #: my-evolution/Locations.h:534
 msgid "Cuernavaca"
-msgstr ""
+msgstr "Куернавака"
 
 #: my-evolution/Locations.h:535
 msgid "Cuiaba"
-msgstr ""
+msgstr "Куияба"
 
 #: my-evolution/Locations.h:536
 msgid "Culdrose"
-msgstr ""
+msgstr "Кълдроуз"
 
 #: my-evolution/Locations.h:537
 msgid "Culiacan"
-msgstr ""
+msgstr "Кулякан"
 
 #: my-evolution/Locations.h:538
 msgid "Cumana"
-msgstr ""
+msgstr "Кумана"
 
 #: my-evolution/Locations.h:539
 msgid "Cumberland"
-msgstr ""
+msgstr "Къмбърленд"
 
 #: my-evolution/Locations.h:540
 msgid "Curitiba"
@@ -15655,19 +15634,19 @@ msgstr "Куритиба"
 
 #: my-evolution/Locations.h:541
 msgid "Curitiba Apt"
-msgstr ""
+msgstr "Куритиба Апт"
 
 #: my-evolution/Locations.h:542
 msgid "Custer"
-msgstr ""
+msgstr "Къстър"
 
 #: my-evolution/Locations.h:543
 msgid "Cut Bank"
-msgstr ""
+msgstr "Кът Банк"
 
 #: my-evolution/Locations.h:544
 msgid "Cuzco"
-msgstr ""
+msgstr "Куско"
 
 #: my-evolution/Locations.h:547
 msgid "Dagali"
@@ -15675,11 +15654,11 @@ msgstr "Дагалия"
 
 #: my-evolution/Locations.h:548
 msgid "Daggett"
-msgstr ""
+msgstr "Дагет"
 
 #: my-evolution/Locations.h:549
 msgid "Dalhart"
-msgstr ""
+msgstr "Долхарт"
 
 #: my-evolution/Locations.h:550
 msgid "Dalian"
@@ -15687,27 +15666,27 @@ msgstr "Далиан"
 
 #: my-evolution/Locations.h:551
 msgid "Dallas-Addison"
-msgstr ""
+msgstr "Далас-Адисън"
 
 #: my-evolution/Locations.h:552
 msgid "Dallas-Fort Worth"
-msgstr ""
+msgstr "Далас-Форт Уърт"
 
 #: my-evolution/Locations.h:553
 msgid "Dallas-Love Field"
-msgstr ""
+msgstr "Далас-Лав Фийлд"
 
 #: my-evolution/Locations.h:554
 msgid "Dallas-Redbird"
-msgstr ""
+msgstr "Далас-Редбърд"
 
 #: my-evolution/Locations.h:555
 msgid "Da Nang"
-msgstr ""
+msgstr "Да Нанг"
 
 #: my-evolution/Locations.h:556
 msgid "Danbury"
-msgstr "Данбури"
+msgstr "Данбъри"
 
 #: my-evolution/Locations.h:557
 msgid "Danville"
@@ -15715,7 +15694,7 @@ msgstr "Данвил"
 
 #: my-evolution/Locations.h:558
 msgid "Dar-El-Beida"
-msgstr ""
+msgstr "Дар-Ел-Бейда"
 
 #: my-evolution/Locations.h:559
 msgid "Davenport"
@@ -15727,7 +15706,7 @@ msgstr "Давид"
 
 #: my-evolution/Locations.h:561
 msgid "Dawadmi"
-msgstr ""
+msgstr "Давадми"
 
 #: my-evolution/Locations.h:562
 msgid "Dayton"
@@ -15735,43 +15714,43 @@ msgstr "Дайтон"
 
 #: my-evolution/Locations.h:563
 msgid "Daytona Beach"
-msgstr ""
+msgstr "Дейтона Бийч"
 
 #: my-evolution/Locations.h:564
 msgid "Dayton-Fairborn"
-msgstr ""
+msgstr "Дейтън-Феърборн"
 
 #: my-evolution/Locations.h:565
 msgid "Dayton-South Airport"
-msgstr ""
+msgstr "Дейтън-Саут Еърпорт"
 
 #: my-evolution/Locations.h:566
 msgid "Dead Horse"
-msgstr ""
+msgstr "Дед Хорс"
 
 #: my-evolution/Locations.h:567
 msgid "Deauville-Saint-Gatien"
-msgstr ""
+msgstr "Довил-Сейнт-Гатиен"
 
 #: my-evolution/Locations.h:568
 msgid "Decatur"
-msgstr ""
+msgstr "Дикатър"
 
 #: my-evolution/Locations.h:569
 msgid "Decimomannu"
-msgstr ""
+msgstr "Декимоману"
 
 #: my-evolution/Locations.h:570
 msgid "Decorah"
-msgstr ""
+msgstr "Декора"
 
 #: my-evolution/Locations.h:571
 msgid "Deelen"
-msgstr ""
+msgstr "Диилън"
 
 #: my-evolution/Locations.h:572
 msgid "Dekalb/Peachtree"
-msgstr ""
+msgstr "Декалб/Пийчтрии"
 
 #: my-evolution/Locations.h:573
 msgid "Delaware"
@@ -15791,11 +15770,11 @@ msgstr "Делта"
 
 #: my-evolution/Locations.h:577
 msgid "Deming"
-msgstr ""
+msgstr "Деминг"
 
 #: my-evolution/Locations.h:578
 msgid "Den Helder/De Kooy"
-msgstr ""
+msgstr "Ден Хелдер/Де Кой"
 
 #: my-evolution/Locations.h:579
 msgid "Denison"
@@ -15803,7 +15782,7 @@ msgstr "Денисон"
 
 #: my-evolution/Locations.h:581
 msgid "Denton"
-msgstr "Дентон"
+msgstr "Дентън"
 
 #: my-evolution/Locations.h:582
 msgid "Denver"
@@ -15811,23 +15790,23 @@ msgstr "Денвър"
 
 #: my-evolution/Locations.h:583
 msgid "Denver-Aurora"
-msgstr ""
+msgstr "Денвър-Аурора"
 
 #: my-evolution/Locations.h:584
 msgid "Denver-Broomfield"
-msgstr ""
+msgstr "Денвър-Брумфилд"
 
 #: my-evolution/Locations.h:585
 msgid "Denver-Cherry Knolls"
-msgstr ""
+msgstr "Денвър-Чери Нолс"
 
 #: my-evolution/Locations.h:586
 msgid "Desert Rock"
-msgstr ""
+msgstr "Дезърт Рок"
 
 #: my-evolution/Locations.h:587
 msgid "Des Moines"
-msgstr ""
+msgstr "ДеМойн"
 
 #: my-evolution/Locations.h:588
 msgid "Destin"
@@ -15843,19 +15822,19 @@ msgstr "Детройт Езерата"
 
 #: my-evolution/Locations.h:591
 msgid "Detroit-Taylor"
-msgstr ""
+msgstr "Детроит-Тейлър"
 
 #: my-evolution/Locations.h:592
 msgid "Detroit/Ypsilanti"
-msgstr ""
+msgstr "Детройт-Ипсиланти"
 
 #: my-evolution/Locations.h:593
 msgid "Devils Lake"
-msgstr ""
+msgstr "Девълс Лейк"
 
 #: my-evolution/Locations.h:594
 msgid "Devils Lake (2)"
-msgstr ""
+msgstr "Девълс Лейк (2)"
 
 #: my-evolution/Locations.h:595
 msgid "Dhahran"
@@ -15863,7 +15842,7 @@ msgstr "Дахран"
 
 #: my-evolution/Locations.h:596
 msgid "Dickinson"
-msgstr ""
+msgstr "Дикинсън"
 
 #: my-evolution/Locations.h:597
 msgid "Dijon"
@@ -15883,23 +15862,23 @@ msgstr "Динард"
 
 #: my-evolution/Locations.h:601
 msgid "District of Columbia"
-msgstr ""
+msgstr "Окръг Колумбия"
 
 #: my-evolution/Locations.h:602
 msgid "Diyarbakir"
-msgstr ""
+msgstr "Диарбекир"
 
 #: my-evolution/Locations.h:603
 msgid "Dnipropetrovsk"
-msgstr ""
+msgstr "Днепропетровск"
 
 #: my-evolution/Locations.h:604
 msgid "Dobbiaco"
-msgstr ""
+msgstr "Добиачо"
 
 #: my-evolution/Locations.h:605
 msgid "Dodge City"
-msgstr ""
+msgstr "Додж Сити"
 
 #: my-evolution/Locations.h:606
 msgid "Doha"
@@ -15907,36 +15886,35 @@ msgstr "Доха"
 
 #: my-evolution/Locations.h:607
 msgid "Dole"
-msgstr ""
+msgstr "Доул"
 
 #: my-evolution/Locations.h:609
-#, fuzzy
 msgid "Donetsk"
-msgstr "Приключено"
+msgstr "Донецк"
 
 #: my-evolution/Locations.h:610
 msgid "Dongsha"
-msgstr ""
+msgstr "Донгша"
 
 #: my-evolution/Locations.h:611
 msgid "Dongshi"
-msgstr ""
+msgstr "Донгши"
 
 #: my-evolution/Locations.h:612
 msgid "Don Torcuato"
-msgstr ""
+msgstr "Дон Торкуато"
 
 #: my-evolution/Locations.h:613
 msgid "Dortmund-Wickede"
-msgstr ""
+msgstr "Дортмунд-Викеде"
 
 #: my-evolution/Locations.h:614
 msgid "Dothan"
-msgstr ""
+msgstr "Дотан"
 
 #: my-evolution/Locations.h:615
 msgid "Douglas"
-msgstr ""
+msgstr "Дъглас"
 
 #: my-evolution/Locations.h:616
 msgid "Dover"
@@ -15948,7 +15926,7 @@ msgstr "Дрезден"
 
 #: my-evolution/Locations.h:618
 msgid "Drummond"
-msgstr ""
+msgstr "Дръмънд"
 
 #: my-evolution/Locations.h:619
 msgid "Dubai"
@@ -15964,7 +15942,7 @@ msgstr "Дъблин"
 
 #: my-evolution/Locations.h:622
 msgid "Du Bois"
-msgstr ""
+msgstr "ДюБоа"
 
 #: my-evolution/Locations.h:623
 msgid "Dubrovnik"
@@ -15972,15 +15950,15 @@ msgstr "Добровник"
 
 #: my-evolution/Locations.h:624
 msgid "Dubuque"
-msgstr ""
+msgstr "Дюбюк"
 
 #: my-evolution/Locations.h:625
 msgid "Dugway"
-msgstr ""
+msgstr "Дъгуей"
 
 #: my-evolution/Locations.h:626
 msgid "Duluth"
-msgstr ""
+msgstr "Дълът"
 
 #: my-evolution/Locations.h:627
 msgid "Dundee"
@@ -15992,15 +15970,15 @@ msgstr "Дуранго"
 
 #: my-evolution/Locations.h:629
 msgid "Durango Awrs"
-msgstr ""
+msgstr "Дуранго Орс"
 
 #: my-evolution/Locations.h:630
 msgid "Durazno"
-msgstr ""
+msgstr "Дуразно"
 
 #: my-evolution/Locations.h:631
 msgid "Durban Louis Botha "
-msgstr ""
+msgstr "Дърбан Луи Бота"
 
 #: my-evolution/Locations.h:632
 msgid "Dusseldorf"
@@ -16008,19 +15986,19 @@ msgstr "Дюселдорф"
 
 #: my-evolution/Locations.h:633
 msgid "Dutch Harbor"
-msgstr ""
+msgstr "Дъч Харбър"
 
 #: my-evolution/Locations.h:634
 msgid "Dyersburg"
-msgstr ""
+msgstr "Дайърсбърг"
 
 #: my-evolution/Locations.h:635
 msgid "Eagle"
-msgstr ""
+msgstr "Иигъл"
 
 #: my-evolution/Locations.h:636
 msgid "Eagle Range"
-msgstr ""
+msgstr "Иигъл Рейндж"
 
 #: my-evolution/Locations.h:637
 msgid "East London"
@@ -16028,15 +16006,15 @@ msgstr "Източен Лондон"
 
 #: my-evolution/Locations.h:638
 msgid "East Midlands"
-msgstr ""
+msgstr "Ийст Мидлендс"
 
 #: my-evolution/Locations.h:639
 msgid "East St Louis"
-msgstr ""
+msgstr "Иист Сейнт Луис"
 
 #: my-evolution/Locations.h:640
 msgid "Eau Claire"
-msgstr ""
+msgstr "О Клер"
 
 #: my-evolution/Locations.h:642
 msgid "Edinburgh"
@@ -23373,23 +23351,23 @@ msgstr "Цюрих"
 msgid "Folder containing the Evolution Summary"
 msgstr "Папката съдържа Обобщение на Evolution"
 
-#: my-evolution/e-summary-calendar.c:365 my-evolution/e-summary-calendar.c:383
+#: my-evolution/e-summary-calendar.c:367 my-evolution/e-summary-calendar.c:387
 msgid "Appointments"
 msgstr "Срещите"
 
-#: my-evolution/e-summary-calendar.c:366
+#: my-evolution/e-summary-calendar.c:368
 msgid "No appointments"
 msgstr "Няма срещи"
 
-#: my-evolution/e-summary-calendar.c:400
+#: my-evolution/e-summary-calendar.c:404
 msgid "%k:%M %d %B"
 msgstr "%k:%M %d %B"
 
-#: my-evolution/e-summary-calendar.c:402
+#: my-evolution/e-summary-calendar.c:406
 msgid "%l:%M %d %B"
 msgstr "%l:%M %d %B"
 
-#: my-evolution/e-summary-calendar.c:420
+#: my-evolution/e-summary-calendar.c:424
 msgid "No description"
 msgstr "Няма Описание"
 
@@ -23451,11 +23429,11 @@ msgstr "Д_обави"
 msgid "Shown"
 msgstr "Шелтън"
 
-#: my-evolution/e-summary-tasks.c:300
+#: my-evolution/e-summary-tasks.c:312
 msgid "No tasks"
 msgstr "Няма задачи"
 
-#: my-evolution/e-summary-tasks.c:343
+#: my-evolution/e-summary-tasks.c:357
 msgid "(No Description)"
 msgstr "(Без описание)"
 
@@ -27737,6 +27715,15 @@ msgstr "init_corba(): не мога да инициализирам GNOME"
 #: wombat/wombat.c:224
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): не мога да инициализирам Bonobo"
+
+#~ msgid ""
+#~ "This message has not been sent.\n"
+#~ "\n"
+#~ "Do you wish to save your changes?"
+#~ msgstr ""
+#~ "Това съобщение не е било изпратено.\n"
+#~ "\n"
+#~ "Искате ли да запазите промените?"
 
 #~ msgid ""
 #~ "Evolution is unable to get the addressbook local storage.\n"
