@@ -23,9 +23,8 @@
 
 #include <config.h>
 
-#include <liboaf/liboaf.h>
 #include <bonobo.h>
-#include <gnome-xml/parser.h>
+#include <libxml/parser.h>
 #include <pi-source.h>
 #include <pi-socket.h>
 #include <pi-dlp.h>
@@ -154,7 +153,7 @@ struct _EAddrLocalRecord {
 static void
 addrconduit_destroy_record (EAddrLocalRecord *local) 
 {
-	gtk_object_unref (GTK_OBJECT (local->ecard));
+	g_object_unref (local->ecard);
 	free_Address (local->addr);
 	g_free (local->addr);
 	g_free (local);
@@ -403,11 +402,11 @@ e_addr_context_destroy (EAddrConduitContext *ctxt)
 		e_addr_gui_destroy (ctxt->gui);
 	
 	if (ctxt->ebook != NULL)
-		gtk_object_unref (GTK_OBJECT (ctxt->ebook));
+		g_object_unref (ctxt->ebook);
 
 	if (ctxt->cards != NULL) {
 		for (l = ctxt->cards; l != NULL; l = l->next)
-			gtk_object_unref (GTK_OBJECT (l->data));
+			g_object_unref (l->data);
 		g_list_free (ctxt->cards);
 	}
 	
@@ -420,7 +419,7 @@ e_addr_context_destroy (EAddrConduitContext *ctxt)
 		for (l = ctxt->changed; l != NULL; l = l->next) {
 			coc = l->data;
 
-			gtk_object_unref (GTK_OBJECT (coc->card));
+			g_object_unref (coc->card);
 			g_free (coc);
 		}
 		g_list_free (ctxt->changed);
@@ -896,7 +895,7 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 	g_return_if_fail (ecard != NULL);
 
 	local->ecard = ecard;
-	gtk_object_ref (GTK_OBJECT (ecard));
+	g_object_ref (ecard);
 	simple = e_card_simple_new (ecard);
 	
 	local->local.ID = e_pilot_map_lookup_pid (ctxt->map, ecard->id, TRUE);
@@ -1037,7 +1036,7 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 	/* Note */
 	local->addr->entry[entryNote] = e_pilot_utf8_to_pchar (ecard->note);
 
-	gtk_object_unref (GTK_OBJECT (simple));
+	g_object_unref (simple);
 }
 
 static void 
@@ -1065,7 +1064,7 @@ local_record_from_uid (EAddrLocalRecord *local,
 		ecard = e_card_new ("");
 		e_card_set_id (ecard, uid);
 		local_record_from_ecard (local, ecard, ctxt);
-		gtk_object_unref (GTK_OBJECT (ecard));
+		g_object_unref (ecard);
 	}
 }
 
@@ -1195,7 +1194,7 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	g_free (txt);
 	
 	e_card_simple_sync_card (simple);
-	gtk_object_unref(GTK_OBJECT(simple));
+	g_object_unref(simple);
 
 	free_Address(&address);
 
@@ -1245,7 +1244,7 @@ card_added (EBookView *book_view, const GList *cards, EAddrConduitContext *ctxt)
 		coc->card = card;
 		coc->type = CARD_ADDED;
 
-		gtk_object_ref (GTK_OBJECT (coc->card));
+		g_object_ref (coc->card);
 		ctxt->changed = g_list_prepend (ctxt->changed, coc);
 		if (!e_pilot_map_uid_is_archived (ctxt->map, e_card_get_id (coc->card)))
 			g_hash_table_insert (ctxt->changed_hash, (gpointer)e_card_get_id (coc->card), coc);
@@ -1268,7 +1267,7 @@ card_changed (EBookView *book_view, const GList *cards, EAddrConduitContext *ctx
 		coc->card = E_CARD (l->data);
 		coc->type = CARD_MODIFIED;
 
-		gtk_object_ref (GTK_OBJECT (coc->card));
+		g_object_ref (coc->card);
 		ctxt->changed = g_list_prepend (ctxt->changed, coc);
 		if (!e_pilot_map_uid_is_archived (ctxt->map, e_card_get_id (coc->card)))
 			g_hash_table_insert (ctxt->changed_hash, (gpointer)e_card_get_id (coc->card), coc);
@@ -1304,8 +1303,11 @@ card_removed (EBookView *book_view, const char *id, EAddrConduitContext *ctxt)
 static void
 sequence_complete (EBookView *book_view, EBookViewStatus status, EAddrConduitContext *ctxt)
 {
-	gtk_signal_disconnect_by_data (GTK_OBJECT (book_view), ctxt);
-	gtk_object_unref (GTK_OBJECT (book_view));
+	g_signal_handlers_disconnect_matched(book_view,
+					     G_SIGNAL_MATCH_DATA,
+					     0, 0,
+					     NULL, NULL, ctxt);
+	g_object_unref (book_view);
   	gtk_main_quit ();
 }
 
@@ -1314,16 +1316,16 @@ view_cb (EBook *book, EBookStatus status, EBookView *book_view, gpointer data)
 {
 	EAddrConduitContext *ctxt = data;
 	
-	gtk_object_ref (GTK_OBJECT (book_view));
+	g_object_ref (book_view);
 	
-  	gtk_signal_connect (GTK_OBJECT (book_view), "card_added", 
-			    (GtkSignalFunc) card_added, ctxt);
-	gtk_signal_connect (GTK_OBJECT (book_view), "card_changed", 
-			    (GtkSignalFunc) card_changed, ctxt);
-	gtk_signal_connect (GTK_OBJECT (book_view), "card_removed", 
-			    (GtkSignalFunc) card_removed, ctxt);
-  	gtk_signal_connect (GTK_OBJECT (book_view), "sequence_complete", 
-			    (GtkSignalFunc) sequence_complete, ctxt);
+  	g_signal_connect (book_view, "card_added", 
+			  G_CALLBACK (card_added), ctxt);
+	g_signal_connect (book_view, "card_changed", 
+			  G_CALLBACK (card_changed), ctxt);
+	g_signal_connect (book_view, "card_removed", 
+			  G_CALLBACK (card_removed), ctxt);
+  	g_signal_connect (book_view, "sequence_complete", 
+			  G_CALLBACK (sequence_complete), ctxt);
 
 }
 
@@ -1614,7 +1616,7 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 	e_card_set_id (ecard, cons.id);
 	e_pilot_map_insert (ctxt->map, remote->ID, ecard->id, FALSE);
 
-	gtk_object_unref (GTK_OBJECT (ecard));
+	g_object_unref (ecard);
 
 	return retval;
 }
@@ -1641,7 +1643,7 @@ replace_record (GnomePilotConduitSyncAbs *conduit,
 	coc = g_hash_table_lookup (ctxt->changed_hash, old_id);
 	
 	new_ecard = ecard_from_remote_record (ctxt, remote, local->ecard);
-	gtk_object_unref (GTK_OBJECT (local->ecard));
+	g_object_unref (local->ecard);
 	local->ecard = new_ecard;
 
 	if (coc && coc->type == CARD_DELETED)
@@ -1661,8 +1663,8 @@ replace_record (GnomePilotConduitSyncAbs *conduit,
 		coc = g_hash_table_lookup (ctxt->changed_hash, old_id);
 		if (coc) {
 			g_hash_table_remove (ctxt->changed_hash, e_card_get_id (coc->card));
-			gtk_object_unref (GTK_OBJECT (coc->card));
-			gtk_object_ref (GTK_OBJECT (local->ecard));
+			g_object_unref (coc->card);
+			g_object_ref (local->ecard);
 			coc->card = local->ecard;
 			g_hash_table_insert (ctxt->changed_hash, (gpointer)e_card_get_id (coc->card), coc);
 		}
@@ -1829,16 +1831,6 @@ revert_settings  (GnomePilotConduit *conduit, EAddrConduitContext *ctxt)
 	ctxt->new_cfg = addrconduit_dupe_configuration (ctxt->cfg);
 }
 
-static ORBit_MessageValidationResult
-accept_all_cookies (CORBA_unsigned_long request_id,
-		    CORBA_Principal *principal,
-		    CORBA_char *operation)
-{
-	/* allow ALL cookies */
-	return ORBIT_MESSAGE_ALLOW_ALL;
-}
-
-
 GnomePilotConduit *
 conduit_get_gpilot_conduit (guint32 pilot_id)
 {
@@ -1846,21 +1838,6 @@ conduit_get_gpilot_conduit (guint32 pilot_id)
 	EAddrConduitContext *ctxt;
 
 	LOG ("in address's conduit_get_gpilot_conduit\n");
-
-	/* we need to find wombat with oaf, so make sure oaf
-	   is initialized here.  once the desktop is converted
-	   to oaf and gpilotd is built with oaf, this can go away */
-	if (!oaf_is_initialized ()) {
-		char *argv[ 1 ] = {"hi"};
-		oaf_init (1, argv);
-
-		if (bonobo_init (CORBA_OBJECT_NIL,
-				 CORBA_OBJECT_NIL,
-				 CORBA_OBJECT_NIL) == FALSE)
-			g_error (_("Could not initialize Bonobo"));
-
-		ORBit_set_request_validation_handler (accept_all_cookies);
-	}
 
 	retval = gnome_pilot_conduit_sync_abs_new ("AddressDB", 0x61646472);
 	g_assert (retval != NULL);
