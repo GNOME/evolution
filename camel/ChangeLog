@@ -1,5 +1,10 @@
 2003-03-27  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-sasl-gssapi.c (gssapi_challenge): Get rid of debug
+	printf's that are no longer needed. In the case of errors, don't
+	release the outbuf gss_buffer_t since it shouldn't be set. Also
+	g_free (str) when we are done with it.
+
 	* camel-mime-utils.c (header_encode_phrase_merge_words): When we
 	remove a node from the list, make sure to g_list_free_1().
 	(header_encode_phrase_merge_words): Don't use
