@@ -759,8 +759,6 @@ cal_client_open_calendar (CalClient *client, const char *str_uri, gboolean only_
 							  corba_listener, &ev);
 		if (!BONOBO_EX (&ev))
 			break;
-
-		CORBA_exception_free (&ev);
 	}
 
 	if (BONOBO_EX (&ev)) {

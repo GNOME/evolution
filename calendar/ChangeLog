@@ -1,3 +1,22 @@
+2001-10-03  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/component-factory.c:
+	* gui/calendar-offline-handler.c:
+	* gui/comp-editor-factory.c: replace use of gnome_vfs_uri with e_uri
+
+	* gui/e-meeting-model.c (start_addressbook_server): make it return void,
+	since the return value does not mind
+
+	* pcs/cal.c:
+	* pcs/cal-factory.c:
+	* pcs/cal-backend.[ch]: don't use GnomeVFS for URI management
+	
+	* pcs/cal-backend-file.c: ditto, only use GnomeVFS for internal
+	operations
+
+	* cal-client/cal-client.c (cal_client_open_calendar): don't CORBA_exception_free
+	before checking for exceptions
+
 2001-10-03  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/e-calendar-table.etspec: Added priorities to a bunch of

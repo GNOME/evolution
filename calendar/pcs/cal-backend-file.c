@@ -3,7 +3,8 @@
  * Copyright (C) 2000 Ximian, Inc.
  * Copyright (C) 2000 Ximian, Inc.
  *
- * Author: Federico Mena-Quintero <federico@ximian.com>
+ * Authors: Federico Mena-Quintero <federico@ximian.com>
+ *          Rodrigo Moya <rodrigo@ximian.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,6 +26,7 @@
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-moniker-util.h>
 #include <bonobo-conf/bonobo-config-database.h>
+#include <libgnomevfs/gnome-vfs.h>
 #include "e-util/e-dbhash.h"
 #include "cal-util/cal-recur.h"
 #include "cal-util/cal-util.h"
@@ -45,7 +47,7 @@ typedef struct {
 /* Private part of the CalBackendFile structure */
 struct _CalBackendFilePrivate {
 	/* URI where the calendar data is stored */
-	GnomeVFSURI *uri;
+	char *uri;
 
 	/* List of Cal objects with their listeners */
 	GList *clients;
@@ -86,8 +88,9 @@ static void cal_backend_file_class_init (CalBackendFileClass *class);
 static void cal_backend_file_init (CalBackendFile *cbfile);
 static void cal_backend_file_destroy (GtkObject *object);
 
-static GnomeVFSURI *cal_backend_file_get_uri (CalBackend *backend);
-static CalBackendOpenStatus cal_backend_file_open (CalBackend *backend, GnomeVFSURI *uri,
+static const char *cal_backend_file_get_uri (CalBackend *backend);
+static CalBackendOpenStatus cal_backend_file_open (CalBackend *backend,
+						   const char *uristr,
 						   gboolean only_if_exists);
 static gboolean cal_backend_file_is_loaded (CalBackend *backend);
 
@@ -254,6 +257,7 @@ static void
 save (CalBackendFile *cbfile)
 {
 	CalBackendFilePrivate *priv;
+	GnomeVFSURI *uri;
 	GnomeVFSHandle *handle = NULL;
 	GnomeVFSResult result;
 	GnomeVFSFileSize out;
@@ -264,8 +268,10 @@ save (CalBackendFile *cbfile)
 	g_assert (priv->uri != NULL);
 	g_assert (priv->icalcomp != NULL);
 
+	uri = gnome_vfs_uri_new (priv->uri);
+
 	/* Make a backup copy of the file if it exists */
-	tmp = gnome_vfs_uri_to_string (priv->uri, GNOME_VFS_URI_HIDE_NONE);
+	tmp = gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_NONE);
 	if (tmp) {
 		GnomeVFSURI *backup_uri;
 		gchar *backup_uristr;
@@ -273,7 +279,7 @@ save (CalBackendFile *cbfile)
 		backup_uristr = g_strconcat (tmp, "~", NULL);
 		backup_uri = gnome_vfs_uri_new (backup_uristr);
 		
-		result = gnome_vfs_move_uri (priv->uri, backup_uri, TRUE);
+		result = gnome_vfs_move_uri (uri, backup_uri, TRUE);
 		gnome_vfs_uri_unref (backup_uri);
 		
 		g_free (tmp);
@@ -281,7 +287,7 @@ save (CalBackendFile *cbfile)
 	}
 	
 	/* Now write the new file out */
-	result = gnome_vfs_create_uri (&handle, priv->uri, 
+	result = gnome_vfs_create_uri (&handle, uri, 
 				       GNOME_VFS_OPEN_WRITE,
 				       FALSE, 0666);
 	
@@ -295,6 +301,7 @@ save (CalBackendFile *cbfile)
 		goto error;
 
 	gnome_vfs_close (handle);
+	gnome_vfs_uri_unref (uri);
 
 	return;
 	
@@ -342,7 +349,7 @@ cal_backend_file_destroy (GtkObject *object)
 	/* Clean up */
 
 	if (priv->uri) {
-		gnome_vfs_uri_unref (priv->uri);
+	        g_free (priv->uri);
 		priv->uri = NULL;
 	}
 
@@ -404,7 +411,7 @@ lookup_component (CalBackendFile *cbfile, const char *uid)
 /* Calendar backend methods */
 
 /* Get_uri handler for the file backend */
-static GnomeVFSURI *
+static const char *
 cal_backend_file_get_uri (CalBackend *backend)
 {
 	CalBackendFile *cbfile;
@@ -416,7 +423,7 @@ cal_backend_file_get_uri (CalBackend *backend)
 	g_return_val_if_fail (priv->icalcomp != NULL, NULL);
 	g_assert (priv->uri != NULL);
 
-	return priv->uri;
+	return (const char *) priv->uri;
 }
 
 /* Used from g_hash_table_foreach(), adds a category name to the sequence */
@@ -768,7 +775,7 @@ parse_file (FILE *file)
 
 /* Parses an open iCalendar file and loads it into the backend */
 static CalBackendOpenStatus
-open_cal (CalBackendFile *cbfile, GnomeVFSURI *uri, FILE *file)
+open_cal (CalBackendFile *cbfile, const char *uristr, FILE *file)
 {
 	CalBackendFilePrivate *priv;
 	icalcomponent *icalcomp;
@@ -801,14 +808,13 @@ open_cal (CalBackendFile *cbfile, GnomeVFSURI *uri, FILE *file)
 	priv->comp_uid_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	scan_vcalendar (cbfile);
 
-	gnome_vfs_uri_ref (uri);
-	priv->uri = uri;
+	priv->uri = g_strdup (uristr);
 
 	return CAL_BACKEND_OPEN_SUCCESS;
 }
 
 static CalBackendOpenStatus
-create_cal (CalBackendFile *cbfile, GnomeVFSURI *uri)
+create_cal (CalBackendFile *cbfile, const char *uristr)
 {
 	CalBackendFilePrivate *priv;
 
@@ -820,8 +826,7 @@ create_cal (CalBackendFile *cbfile, GnomeVFSURI *uri)
 	/* Create our internal data */
 	priv->comp_uid_hash = g_hash_table_new (g_str_hash, g_str_equal);
 
-	gnome_vfs_uri_ref (uri);
-	priv->uri = uri;
+	priv->uri = g_strdup (uristr);
 
 	mark_dirty (cbfile);
 
@@ -830,12 +835,14 @@ create_cal (CalBackendFile *cbfile, GnomeVFSURI *uri)
 
 /* Open handler for the file backend */
 static CalBackendOpenStatus
-cal_backend_file_open (CalBackend *backend, GnomeVFSURI *uri, gboolean only_if_exists)
+cal_backend_file_open (CalBackend *backend, const char *uristr, gboolean only_if_exists)
 {
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;
-	char *str_uri;
 	FILE *file;
+	char *str_uri;
+	GnomeVFSURI *uri;
+	CalBackendOpenStatus status;
 
 	cbfile = CAL_BACKEND_FILE (backend);
 	priv = cbfile->priv;
@@ -846,8 +853,14 @@ cal_backend_file_open (CalBackend *backend, GnomeVFSURI *uri, gboolean only_if_e
 	g_assert (priv->uri == NULL);
 	g_assert (priv->comp_uid_hash == NULL);
 
-	if (!gnome_vfs_uri_is_local (uri))
+	uri = gnome_vfs_uri_new (uristr);
+	if (!uri)
 		return CAL_BACKEND_OPEN_ERROR;
+
+	if (!gnome_vfs_uri_is_local (uri)) {
+		gnome_vfs_uri_unref (uri);
+		return CAL_BACKEND_OPEN_ERROR;
+	}
 
 	str_uri = gnome_vfs_uri_to_string (uri,
 					   (GNOME_VFS_URI_HIDE_USER_NAME
@@ -858,16 +871,20 @@ cal_backend_file_open (CalBackend *backend, GnomeVFSURI *uri, gboolean only_if_e
 
 	/* Load! */
 	file = fopen (str_uri, "r");
-	g_free (str_uri);
 
 	if (file)
-		return open_cal (cbfile, uri, file);
+		status = open_cal (cbfile, str_uri, file);
 	else {
 		if (only_if_exists)
-			return CAL_BACKEND_OPEN_NOT_FOUND;
-
-		return create_cal (cbfile, uri);
+			status = CAL_BACKEND_OPEN_NOT_FOUND;
+		else
+			status = create_cal (cbfile, str_uri);
 	}
+
+	g_free (str_uri);
+	gnome_vfs_uri_unref (uri);
+
+	return status;
 }
 
 /* is_loaded handler for the file backend */

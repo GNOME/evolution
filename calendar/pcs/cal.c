@@ -40,7 +40,7 @@ struct _CalPrivate {
 	/* Listener on the client we notify */
 	GNOME_Evolution_Calendar_Listener listener;
 
-	/* and a reference to the WombatClient interface */
+	/* A reference to the WombatClient interface */
 	GNOME_Evolution_WombatClient wombat_client;
 };
 
@@ -52,17 +52,14 @@ impl_Cal_get_uri (PortableServer_Servant servant,
 {
 	Cal *cal;
 	CalPrivate *priv;
-	GnomeVFSURI *uri;
 	char *str_uri;
 	CORBA_char *str_uri_copy;
 
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
 
-	uri = cal_backend_get_uri (priv->backend);
-	str_uri = gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_NONE);
+	str_uri = cal_backend_get_uri (priv->backend);
 	str_uri_copy = CORBA_string_dup (str_uri);
-	g_free (str_uri);
 
 	return str_uri_copy;
 }

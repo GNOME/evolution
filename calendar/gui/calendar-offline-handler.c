@@ -30,9 +30,8 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>
 #include <bonobo/bonobo-exception.h>
-#include <libgnomevfs/gnome-vfs-types.h>
-#include <libgnomevfs/gnome-vfs-uri.h>
 #include <gal/util/e-util.h>
+#include "e-util/e-url.h"
 #include <cal-client/cal-client.h>
 #include "calendar-offline-handler.h"
 
@@ -50,18 +49,16 @@ struct _CalendarOfflineHandlerPrivate {
 static void
 add_connection (gpointer data, gpointer user_data)
 {
-	GnomeVFSURI *uri = gnome_vfs_uri_new (data);	
+	EUri *uri = e_uri_new (data);	
 	GNOME_Evolution_ConnectionList *list = user_data;
 
 	g_return_if_fail (uri != NULL);
 	
-	list->_buffer[list->_length].hostName 
-		= CORBA_string_dup (gnome_vfs_uri_get_host_name (uri));
-	list->_buffer[list->_length].type
-		= CORBA_string_dup (gnome_vfs_uri_get_scheme (uri));	
+	list->_buffer[list->_length].hostName = CORBA_string_dup (uri->host);
+	list->_buffer[list->_length].type = CORBA_string_dup (uri->protocol);	
 	list->_length++;
 
-	gnome_vfs_uri_unref (uri);	
+	e_uri_free (uri);
 }
 
 static GNOME_Evolution_ConnectionList *
@@ -72,7 +69,7 @@ create_connection_list (CalendarOfflineHandler *offline_handler)
 	GList *uris;
 
 	priv = offline_handler->priv;
-	
+
 	uris = cal_client_uri_list (priv->client, CAL_MODE_REMOTE);	
 
 	list = GNOME_Evolution_ConnectionList__alloc ();

@@ -147,7 +147,7 @@ book_open_cb (EBook *book, EBookStatus status, gpointer data)
 	}
 }
 
-static int
+static void
 start_addressbook_server (EMeetingModel *im)
 {
 	EMeetingModelPrivate *priv;

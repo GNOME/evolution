@@ -171,7 +171,7 @@ cal_backend_class_init (CalBackendClass *class)
  *
  * Return value: The URI where the calendar is stored.
  **/
-GnomeVFSURI *
+const char *
 cal_backend_get_uri (CalBackend *backend)
 {
 	g_return_val_if_fail (backend != NULL, NULL);
@@ -249,7 +249,7 @@ cal_backend_add_cal (CalBackend *backend, Cal *cal)
 /**
  * cal_backend_open:
  * @backend: A calendar backend.
- * @uri: URI that contains the calendar data.
+ * @uristr: URI that contains the calendar data.
  * @only_if_exists: Whether the calendar should be opened only if it already
  * exists.  If FALSE, a new calendar will be created when the specified @uri
  * does not exist.
@@ -260,16 +260,16 @@ cal_backend_add_cal (CalBackend *backend, Cal *cal)
  * Return value: An operation status code.
  **/
 CalBackendOpenStatus
-cal_backend_open (CalBackend *backend, GnomeVFSURI *uri, gboolean only_if_exists)
+cal_backend_open (CalBackend *backend, const char *uristr, gboolean only_if_exists)
 {
 	CalBackendOpenStatus result;
 
 	g_return_val_if_fail (backend != NULL, CAL_BACKEND_OPEN_ERROR);
 	g_return_val_if_fail (IS_CAL_BACKEND (backend), CAL_BACKEND_OPEN_ERROR);
-	g_return_val_if_fail (uri != NULL, CAL_BACKEND_OPEN_ERROR);
+	g_return_val_if_fail (uristr != NULL, CAL_BACKEND_OPEN_ERROR);
 
 	g_assert (CLASS (backend)->open != NULL);
-	result = (* CLASS (backend)->open) (backend, uri, only_if_exists);
+	result = (* CLASS (backend)->open) (backend, uristr, only_if_exists);
 
 	return result;
 }

@@ -35,11 +35,10 @@
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
-#include <libgnomevfs/gnome-vfs-types.h>
-#include <libgnomevfs/gnome-vfs-uri.h>
 #include <liboaf/liboaf.h>
 #include <gal/e-paned/e-hpaned.h>
 #include <gal/e-paned/e-vpaned.h>
+#include "e-util/e-url.h"
 #include <cal-util/timeutil.h>
 #include "widgets/menus/gal-view-menus.h"
 #include "dialogs/event-editor.h"
@@ -1657,7 +1656,7 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 	GnomeCalendarPrivate *priv;
 	char *tasks_uri;
 	gboolean success;
-	GnomeVFSURI *uri;
+	EUri *uri;
 
 	g_return_val_if_fail (gcal != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), FALSE);
@@ -1682,7 +1681,7 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 
 	/* Open the appropriate Tasks folder to show in the TaskPad */
 
-	uri = gnome_vfs_uri_new_private (str_uri, TRUE, TRUE, TRUE);
+	uri = e_uri_new (str_uri);
 	if (!uri) {
 		tasks_uri = g_strdup_printf ("%s/local/Tasks/tasks.ics", evolution_dir);
 		success = cal_client_open_calendar (priv->task_pad_client, tasks_uri, FALSE);
@@ -1691,7 +1690,7 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 		g_free (tasks_uri);
 	}
 	else {
-		if (!g_strcasecmp (uri->method_string, "file")) {
+		if (!g_strncasecmp (uri->protocol, "file", 4)) {
 			tasks_uri = g_strdup_printf ("%s/local/Tasks/tasks.ics", evolution_dir);
 			success = cal_client_open_calendar (priv->task_pad_client, tasks_uri, FALSE);
 
@@ -1719,7 +1718,7 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 			success = TRUE;
 		}
 
-		gnome_vfs_uri_unref (uri);
+		e_uri_free (uri);
 	}
 
 	if (!success) {

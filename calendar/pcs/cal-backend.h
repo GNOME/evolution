@@ -26,7 +26,6 @@
 #define CAL_BACKEND_H
 
 #include <libgnome/gnome-defs.h>
-#include <libgnomevfs/gnome-vfs.h>
 #include <cal-util/cal-util.h>
 #include <cal-util/cal-component.h>
 #include "evolution-calendar.h"
@@ -75,9 +74,9 @@ struct _CalBackendClass {
 	void (* obj_removed) (CalBackend *backend, const char *uid);
 
 	/* Virtual methods */
-	GnomeVFSURI *(* get_uri) (CalBackend *backend);
+	const char *(* get_uri) (CalBackend *backend);
 
-	CalBackendOpenStatus (* open) (CalBackend *backend, GnomeVFSURI *uri,
+	CalBackendOpenStatus (* open) (CalBackend *backend, const char *uristr,
 				       gboolean only_if_exists);
 
 	gboolean (* is_loaded) (CalBackend *backend);
@@ -118,11 +117,11 @@ struct _CalBackendClass {
 
 GtkType cal_backend_get_type (void);
 
-GnomeVFSURI *cal_backend_get_uri (CalBackend *backend);
+const char *cal_backend_get_uri (CalBackend *backend);
 
 void cal_backend_add_cal (CalBackend *backend, Cal *cal);
 
-CalBackendOpenStatus cal_backend_open (CalBackend *backend, GnomeVFSURI *uri,
+CalBackendOpenStatus cal_backend_open (CalBackend *backend, const char *uristr,
 				       gboolean only_if_exists);
 
 gboolean cal_backend_is_loaded (CalBackend *backend);
