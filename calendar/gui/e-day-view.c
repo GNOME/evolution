@@ -3730,6 +3730,7 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	ECal *client;
 	CalObjModType mod = CALOBJ_MOD_ALL;
 	GtkWindow *toplevel;
+	int is_date;
 	
 	event_num = day_view->resize_event_num;
 	event = &g_array_index (day_view->long_events, EDayViewEvent,
@@ -3744,18 +3745,24 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
 	date.value = &itt;
-	/* FIXME: Should probably keep the timezone of the original start
-	   and end times. */
-	date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+	date.tzid = NULL;
 
 	if (day_view->resize_drag_pos == E_CALENDAR_VIEW_POS_LEFT_EDGE) {
+		e_cal_component_get_dtstart (comp, &date);
+		is_date = date.value->is_date;
+		if (!is_date)
+			date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 		dt = day_view->day_starts[day_view->resize_start_row];
-		*date.value = icaltime_from_timet_with_zone (dt, FALSE,
+		*date.value = icaltime_from_timet_with_zone (dt, is_date,
 							     e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 		e_cal_component_set_dtstart (comp, &date);
 	} else {
+		e_cal_component_get_dtend (comp, &date);
+		is_date = date.value->is_date;
+		if (!is_date)
+			date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 		dt = day_view->day_starts[day_view->resize_end_row + 1];
-		*date.value = icaltime_from_timet_with_zone (dt, FALSE,
+		*date.value = icaltime_from_timet_with_zone (dt, is_date,
 							     e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 		e_cal_component_set_dtend (comp, &date);
 	}
@@ -3769,6 +3776,7 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	
 	toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
 	
+	e_cal_component_commit_sequence (comp);
 	e_calendar_view_modify_and_send (comp, client, mod, toplevel, TRUE);
 	
  out:
