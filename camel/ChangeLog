@@ -1,5 +1,12 @@
 2003-12-10  Not Zed  <NotZed@Ximian.com>
 
+	* camel-smime-context.c (sm_verify): also check
+	application/pkcs7-signature (bloody applemail).
+	(camel_smime_context_describe_part): as above, and fix the logic.
+	dont think its used anyway.  Bug #51750.
+
+2003-12-10  Not Zed  <NotZed@Ximian.com>
+
 	* Makefile.am (libcamel_la_SOURCES): put the
 	camel-smime-context.[ch] back in here, remove it from EXTRA_DIST,
 	and make it compile optinally the same way camel-tcp-stream-ssl.c

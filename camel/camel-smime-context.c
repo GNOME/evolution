@@ -159,7 +159,9 @@ camel_smime_context_describe_part(CamelSMIMEContext *context, CamelMimePart *par
 
 	if (camel_content_type_is(ct, "multipart", "signed")) {
 		tmp = camel_content_type_param(ct, "protocol");
-		if (tmp && g_ascii_strcasecmp(tmp, ((CamelCipherContext *)context)->sign_protocol))
+		if (tmp &&
+		    (g_ascii_strcasecmp(tmp, ((CamelCipherContext *)context)->sign_protocol) == 0
+		     || g_ascii_strcasecmp(tmp, "application/pkcs7-signature") == 0))
 			flags = CAMEL_SMIME_SIGNED;
 	} else if (camel_content_type_is(ct, "application", "x-pkcs7-mime")) {
 		CamelStreamMem *istream;
@@ -700,7 +702,8 @@ sm_verify(CamelCipherContext *context, CamelMimePart *ipart, CamelException *ex)
 		tmp = camel_content_type_param(ct, "protocol");
 		if (!CAMEL_IS_MULTIPART_SIGNED(mps)
 		    || tmp == NULL
-		    || g_ascii_strcasecmp(tmp, context->sign_protocol) != 0) {
+		    || (g_ascii_strcasecmp(tmp, context->sign_protocol) != 0
+			&& g_ascii_strcasecmp(tmp, "application/pkcs7-signature") != 0)) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("Cannot verify message signature: Incorrect message format"));
 			goto fail;
