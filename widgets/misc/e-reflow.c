@@ -31,6 +31,7 @@
 #include "e-canvas.h"
 #include "gal/e-text/e-text.h"
 #include "gal/util/e-util.h"
+#include "gal/util/e-i18n.h"
 #include "gal/widgets/e-unicode.h"
 #include <gtk/gtksignal.h>
 #include "e-selection-model-simple.h"
@@ -53,17 +54,18 @@ static void e_reflow_resize_children (GnomeCanvasItem *item);
 #define E_REFLOW_BORDER_WIDTH 7
 #define E_REFLOW_FULL_GUTTER (E_REFLOW_DIVIDER_WIDTH + E_REFLOW_BORDER_WIDTH * 2)
 
+#define PARENT_TYPE GNOME_TYPE_CANVAS_GROUP
 static GnomeCanvasGroupClass *parent_class = NULL;
 
 /* The arguments we take */
 enum {
-	ARG_0,
-	ARG_MINIMUM_WIDTH,
-	ARG_WIDTH,
-	ARG_HEIGHT,
-	ARG_EMPTY_MESSAGE,
-	ARG_MODEL,
-	ARG_COLUMN_WIDTH
+	PROP_0,
+	PROP_MINIMUM_WIDTH,
+	PROP_WIDTH,
+	PROP_HEIGHT,
+	PROP_EMPTY_MESSAGE,
+	PROP_MODEL,
+	PROP_COLUMN_WIDTH
 };
 
 enum {
@@ -508,10 +510,10 @@ disconnect_adjustment (EReflow *reflow)
 	if (reflow->adjustment == NULL)
 		return;
 
-	gtk_signal_disconnect (GTK_OBJECT (reflow->adjustment),
-			       reflow->adjustment_changed_id);
-	gtk_signal_disconnect (GTK_OBJECT (reflow->adjustment),
-			       reflow->adjustment_value_changed_id);
+	g_signal_handler_disconnect (reflow->adjustment,
+				     reflow->adjustment_changed_id);
+	g_signal_handler_disconnect (reflow->adjustment,
+				     reflow->adjustment_value_changed_id);
 
 	g_object_unref (reflow->adjustment);
 
@@ -531,11 +533,11 @@ connect_adjustment (EReflow *reflow, GtkAdjustment *adjustment)
 
 	reflow->adjustment = adjustment;
 	reflow->adjustment_changed_id =
-		gtk_signal_connect (GTK_OBJECT (adjustment), "changed",
-				    GTK_SIGNAL_FUNC (adjustment_changed), reflow);
+		g_signal_connect (adjustment, "changed",
+				  G_CALLBACK (adjustment_changed), reflow);
 	reflow->adjustment_value_changed_id =
-		gtk_signal_connect (GTK_OBJECT (adjustment), "value_changed",
-				    GTK_SIGNAL_FUNC (adjustment_changed), reflow);
+		g_signal_connect (adjustment, "value_changed",
+				  G_CALLBACK (adjustment_changed), reflow);
 	g_object_ref (adjustment);
 }
 
@@ -550,9 +552,9 @@ static void
 connect_set_adjustment (EReflow *reflow)
 {
 	reflow->set_scroll_adjustments_id =
-		gtk_signal_connect (GTK_OBJECT (GNOME_CANVAS_ITEM (reflow)->canvas),
-				    "set_scroll_adjustments",
-				    GTK_SIGNAL_FUNC (set_scroll_adjustments), reflow);
+		g_signal_connect (GNOME_CANVAS_ITEM (reflow)->canvas,
+				  "set_scroll_adjustments",
+				  G_CALLBACK (set_scroll_adjustments), reflow);
 }
 #endif
 
@@ -560,8 +562,8 @@ static void
 disconnect_set_adjustment (EReflow *reflow)
 {
 	if (reflow->set_scroll_adjustments_id != 0) {
-		gtk_signal_disconnect (GTK_OBJECT (GNOME_CANVAS_ITEM (reflow)->canvas),
-				       reflow->set_scroll_adjustments_id);
+		g_signal_handler_disconnect (GNOME_CANVAS_ITEM (reflow)->canvas,
+					     reflow->set_scroll_adjustments_id);
 		reflow->set_scroll_adjustments_id = 0;
 	}
 }
@@ -569,7 +571,7 @@ disconnect_set_adjustment (EReflow *reflow)
 static void
 column_width_changed (EReflow *reflow)
 {
-	gtk_signal_emit (GTK_OBJECT (reflow), signals[COLUMN_WIDTH_CHANGED], reflow->column_width);
+	g_signal_emit (reflow, signals[COLUMN_WIDTH_CHANGED], 0, reflow->column_width);
 }
 
 
@@ -577,41 +579,41 @@ column_width_changed (EReflow *reflow)
 
 /* Virtual functions */
 static void
-e_reflow_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+e_reflow_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
 	GnomeCanvasItem *item;
 	EReflow *reflow;
 
-	item = GNOME_CANVAS_ITEM (o);
-	reflow = E_REFLOW (o);
+	item = GNOME_CANVAS_ITEM (object);
+	reflow = E_REFLOW (object);
 	
-	switch (arg_id){
-	case ARG_HEIGHT:
-		reflow->height = GTK_VALUE_DOUBLE (*arg);
+	switch (prop_id){
+	case PROP_HEIGHT:
+		reflow->height = g_value_get_double (value);
 		reflow->need_reflow_columns = TRUE;
 		e_canvas_item_request_reflow(item);
 		break;
-	case ARG_MINIMUM_WIDTH:
-		reflow->minimum_width = GTK_VALUE_DOUBLE (*arg);
-		if (GNOME_CANVAS_ITEM_REALIZED & GTK_OBJECT_FLAGS(o))
+	case PROP_MINIMUM_WIDTH:
+		reflow->minimum_width = g_value_get_double (value);
+		if (GNOME_CANVAS_ITEM_REALIZED & GTK_OBJECT_FLAGS(object))
 			set_empty(reflow);
 		e_canvas_item_request_reflow(item);
 		break;
-	case ARG_EMPTY_MESSAGE:
+	case PROP_EMPTY_MESSAGE:
 		g_free(reflow->empty_message);
-		reflow->empty_message = g_strdup(GTK_VALUE_STRING (*arg));
-		if (GNOME_CANVAS_ITEM_REALIZED & GTK_OBJECT_FLAGS(o))
+		reflow->empty_message = g_strdup(g_value_get_string (value));
+		if (GNOME_CANVAS_ITEM_REALIZED & GTK_OBJECT_FLAGS(object))
 			set_empty(reflow);
 		break;
-	case ARG_MODEL:
-		connect_model (reflow, (EReflowModel *) GTK_VALUE_OBJECT (*arg));
+	case PROP_MODEL:
+		connect_model (reflow, (EReflowModel *) g_value_get_object (value));
 		break;
-	case ARG_COLUMN_WIDTH:
-		if (reflow->column_width != GTK_VALUE_INT (*arg)) {
+	case PROP_COLUMN_WIDTH:
+		if (reflow->column_width != g_value_get_int (value)) {
 			GtkAdjustment *adjustment = gtk_layout_get_hadjustment(GTK_LAYOUT(item->canvas));
 			double old_width = reflow->column_width;
 
-			reflow->column_width = GTK_VALUE_INT (*arg);
+			reflow->column_width = g_value_get_int (value);
 			adjustment->step_increment = (reflow->column_width + E_REFLOW_FULL_GUTTER) / 2;
 			adjustment->page_increment = adjustment->page_size - adjustment->step_increment;
 			gtk_adjustment_changed(adjustment);
@@ -629,39 +631,39 @@ e_reflow_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 }
 
 static void
-e_reflow_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+e_reflow_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
 	EReflow *reflow;
 
 	reflow = E_REFLOW (object);
 
-	switch (arg_id) {
-	case ARG_MINIMUM_WIDTH:
-		GTK_VALUE_DOUBLE (*arg) = reflow->minimum_width;
+	switch (prop_id) {
+	case PROP_MINIMUM_WIDTH:
+		g_value_set_double (value, reflow->minimum_width);
 		break;
-	case ARG_WIDTH:
-		GTK_VALUE_DOUBLE (*arg) = reflow->width;
+	case PROP_WIDTH:
+		g_value_set_double (value, reflow->width);
 		break;
-	case ARG_HEIGHT:
-		GTK_VALUE_DOUBLE (*arg) = reflow->height;
+	case PROP_HEIGHT:
+		g_value_set_double (value, reflow->height);
 		break;
-	case ARG_EMPTY_MESSAGE:
-		GTK_VALUE_STRING (*arg) = g_strdup(reflow->empty_message);
+	case PROP_EMPTY_MESSAGE:
+		g_value_set_string (value, g_strdup(reflow->empty_message));
 		break;
-	case ARG_MODEL:
-		GTK_VALUE_OBJECT (*arg) = (GtkObject *) reflow->model;
+	case PROP_MODEL:
+		g_value_set_object (value, reflow->model);
 		break;
-	case ARG_COLUMN_WIDTH:
-		GTK_VALUE_INT (*arg) = reflow->column_width;
+	case PROP_COLUMN_WIDTH:
+		g_value_set_double (value, reflow->column_width);
 		break;
 	default:
-		arg->type = GTK_TYPE_INVALID;
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }
 
 static void
-e_reflow_destroy (GtkObject *object)
+e_reflow_dispose (GObject *object)
 {
 	EReflow *reflow = E_REFLOW(object);
 
@@ -685,7 +687,7 @@ e_reflow_destroy (GtkObject *object)
 	g_free(reflow->empty_message);
 	reflow->empty_message = NULL;
   
-	GTK_OBJECT_CLASS(parent_class)->destroy (object);
+	G_OBJECT_CLASS(parent_class)->dispose (object);
 }
 
 static void
@@ -784,9 +786,9 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
 					GnomeCanvasItem *item = reflow->items[unsorted];
 					EFocus has_focus;
 					if (item) {
-						gtk_object_get(GTK_OBJECT(item),
-							       "has_focus", &has_focus,
-							       NULL);
+						g_object_get(item,
+							     "has_focus", &has_focus,
+							     NULL);
 						if (has_focus) {
 							if (event->key.state & GDK_SHIFT_MASK) {
 								if (i == 0)
@@ -1260,49 +1262,17 @@ e_reflow_selection_event_real (EReflow *reflow, GnomeCanvasItem *item, GdkEvent 
 static void
 e_reflow_class_init (EReflowClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	object_class = (GtkObjectClass*) klass;
+	object_class = (GObjectClass*) klass;
 	item_class = (GnomeCanvasItemClass *) klass;
 
-	parent_class = gtk_type_class (gnome_canvas_group_get_type ());
-  
-	gtk_object_add_arg_type ("EReflow::minimum_width", GTK_TYPE_DOUBLE,
-				 GTK_ARG_READWRITE, ARG_MINIMUM_WIDTH);
-	gtk_object_add_arg_type ("EReflow::width", GTK_TYPE_DOUBLE,
-				 GTK_ARG_READABLE, ARG_WIDTH);
-	gtk_object_add_arg_type ("EReflow::height", GTK_TYPE_DOUBLE,
-				 GTK_ARG_READWRITE, ARG_HEIGHT);
-	gtk_object_add_arg_type ("EReflow::empty_message", GTK_TYPE_STRING,
-				 GTK_ARG_READWRITE, ARG_EMPTY_MESSAGE);
-	gtk_object_add_arg_type ("EReflow::model", E_REFLOW_MODEL_TYPE,
-				 GTK_ARG_READWRITE, ARG_MODEL);
-	gtk_object_add_arg_type ("EReflow::column_width", GTK_TYPE_INT,
-				 GTK_ARG_READWRITE, ARG_COLUMN_WIDTH);
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
-	signals [SELECTION_EVENT] =
-		gtk_signal_new ("selection_event",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (EReflowClass, selection_event),
-				e_marshal_INT__OBJECT_BOXED,
-				GTK_TYPE_INT, 2, GTK_TYPE_OBJECT,
-				GDK_TYPE_EVENT);
-
-	signals [COLUMN_WIDTH_CHANGED] =
-		gtk_signal_new ("column_width_changed",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (EReflowClass, column_width_changed),
-				e_marshal_NONE__DOUBLE,
-				GTK_TYPE_NONE, 1, GTK_TYPE_DOUBLE);
-
-	E_OBJECT_CLASS_ADD_SIGNALS (object_class, signals, LAST_SIGNAL);
-
-	object_class->set_arg  = e_reflow_set_arg;
-	object_class->get_arg  = e_reflow_get_arg;
-	object_class->destroy  = e_reflow_destroy;
+	object_class->set_property  = e_reflow_set_property;
+	object_class->get_property  = e_reflow_get_property;
+	object_class->dispose  = e_reflow_dispose;
   
 	/* GnomeCanvasItem method overrides */
 	item_class->event      = e_reflow_event;
@@ -1314,6 +1284,68 @@ e_reflow_class_init (EReflowClass *klass)
 
 	klass->selection_event = e_reflow_selection_event_real;
 	klass->column_width_changed = NULL;
+
+	g_object_class_install_property (object_class, PROP_MINIMUM_WIDTH,
+					 g_param_spec_double ("minimum_width",
+							      _( "Minimum width" ),
+							      _( "Minimum Width" ),
+							      0.0, G_MAXDOUBLE, 0.0,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_WIDTH,
+					 g_param_spec_double ("width",
+							      _( "Width" ),
+							      _( "Width" ),
+							      0.0, G_MAXDOUBLE, 0.0,
+							      G_PARAM_READABLE));
+
+
+	g_object_class_install_property (object_class, PROP_HEIGHT,
+					 g_param_spec_double ("height",
+							      _( "Height" ),
+							      _( "Height" ),
+							      0.0, G_MAXDOUBLE, 0.0,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_EMPTY_MESSAGE,
+					 g_param_spec_string ("empty_message",
+							      _( "Empty message" ),
+							      _( "Empty message" ),
+							      NULL,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_EMPTY_MESSAGE,
+					 g_param_spec_object ("model",
+							      _( "Reflow model" ),
+							      _( "Reflow model" ),
+							      E_REFLOW_MODEL_TYPE,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_WIDTH,
+					 g_param_spec_double ("column_width",
+							      _( "Column width" ),
+							      _( "Column width" ),
+							      0.0, G_MAXDOUBLE, 0.0,
+							      G_PARAM_READWRITE));
+
+	signals [SELECTION_EVENT] =
+		g_signal_new ("selection_event",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EReflowClass, selection_event),
+			      NULL, NULL,
+			      e_marshal_INT__OBJECT_BOXED,
+			      G_TYPE_INT, 2, G_TYPE_OBJECT,
+			      GDK_TYPE_EVENT);
+
+	signals [COLUMN_WIDTH_CHANGED] =
+		g_signal_new ("column_width_changed",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EReflowClass, column_width_changed),
+			      NULL, NULL,
+			      e_marshal_NONE__DOUBLE,
+			      G_TYPE_NONE, 1, G_TYPE_DOUBLE);
 }
 
 static void
@@ -1374,25 +1406,9 @@ e_reflow_init (EReflow *reflow)
 	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(reflow), e_reflow_reflow);
 }
 
-GtkType
-e_reflow_get_type (void)
-{
-	static GtkType type = 0;
-
-	if (!type) {
-		static const GtkTypeInfo info = {
-			"EReflow",
-			sizeof (EReflow),
-			sizeof (EReflowClass),
-			(GtkClassInitFunc) e_reflow_class_init,
-			(GtkObjectInitFunc) e_reflow_init,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		type = gtk_type_unique (gnome_canvas_group_get_type (), &info);
-	}
-
-	return type;
-}
+E_MAKE_TYPE (e_reflow,
+	     "EReflow",
+	     EReflow,
+	     e_reflow_class_init,
+	     e_reflow_init,
+	     PARENT_TYPE)

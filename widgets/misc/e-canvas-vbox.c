@@ -29,12 +29,13 @@
 #include "e-canvas-utils.h"
 #include "e-canvas.h"
 #include "gal/util/e-util.h"
+#include "gal/util/e-i18n.h"
 
 static void e_canvas_vbox_init		(ECanvasVbox		 *CanvasVbox);
 static void e_canvas_vbox_class_init	(ECanvasVboxClass	 *klass);
-static void e_canvas_vbox_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
-static void e_canvas_vbox_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
-static void e_canvas_vbox_destroy (GtkObject *object);
+static void e_canvas_vbox_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
+static void e_canvas_vbox_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
+static void e_canvas_vbox_dispose (GObject *object);
 
 static gint e_canvas_vbox_event   (GnomeCanvasItem *item, GdkEvent *event);
 static void e_canvas_vbox_realize (GnomeCanvasItem *item);
@@ -45,72 +46,71 @@ static void e_canvas_vbox_real_add_item(ECanvasVbox *e_canvas_vbox, GnomeCanvasI
 static void e_canvas_vbox_real_add_item_start(ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item);
 static void e_canvas_vbox_resize_children (GnomeCanvasItem *item);
 
+#define PARENT_TYPE GNOME_TYPE_CANVAS_GROUP
 static GnomeCanvasGroupClass *parent_class = NULL;
 
 /* The arguments we take */
 enum {
-	ARG_0,
-	ARG_WIDTH,
-	ARG_MINIMUM_WIDTH,
-	ARG_HEIGHT,
-	ARG_SPACING
+	PROP_0,
+	PROP_WIDTH,
+	PROP_MINIMUM_WIDTH,
+	PROP_HEIGHT,
+	PROP_SPACING
 };
 
-GtkType
-e_canvas_vbox_get_type (void)
-{
-  static GtkType type = 0;
-
-  if (!type)
-    {
-      static const GtkTypeInfo info =
-      {
-        "ECanvasVbox",
-        sizeof (ECanvasVbox),
-        sizeof (ECanvasVboxClass),
-        (GtkClassInitFunc) e_canvas_vbox_class_init,
-        (GtkObjectInitFunc) e_canvas_vbox_init,
-        /* reserved_1 */ NULL,
-        /* reserved_2 */ NULL,
-        (GtkClassInitFunc) NULL,
-      };
-
-      type = gtk_type_unique (gnome_canvas_group_get_type (), &info);
-    }
-
-  return type;
-}
+E_MAKE_TYPE (e_canvas_vbox,
+	     "ECanvasVbox",
+	     ECanvasVbox,
+	     e_canvas_vbox_class_init,
+	     e_canvas_vbox_init,
+	     PARENT_TYPE)
 
 static void
 e_canvas_vbox_class_init (ECanvasVboxClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	object_class = (GtkObjectClass*) klass;
+	object_class = (GObjectClass*) klass;
 	item_class = (GnomeCanvasItemClass *) klass;
 
-	parent_class = gtk_type_class (gnome_canvas_group_get_type ());
-  
-	gtk_object_add_arg_type ("ECanvasVbox::width", GTK_TYPE_DOUBLE, 
-				 GTK_ARG_READWRITE, ARG_WIDTH); 
-	gtk_object_add_arg_type ("ECanvasVbox::minimum_width", GTK_TYPE_DOUBLE, 
-				 GTK_ARG_READWRITE, ARG_MINIMUM_WIDTH); 
-	gtk_object_add_arg_type ("ECanvasVbox::height", GTK_TYPE_DOUBLE, 
-				 GTK_ARG_READABLE, ARG_HEIGHT);
-	gtk_object_add_arg_type ("ECanvasVbox::spacing", GTK_TYPE_DOUBLE, 
-				 GTK_ARG_READWRITE, ARG_SPACING);
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	klass->add_item       = e_canvas_vbox_real_add_item;
 	klass->add_item_start = e_canvas_vbox_real_add_item_start;
  
-	object_class->set_arg   = e_canvas_vbox_set_arg;
-	object_class->get_arg   = e_canvas_vbox_get_arg;
-	object_class->destroy   = e_canvas_vbox_destroy;
+	object_class->set_property = e_canvas_vbox_set_property;
+	object_class->get_property = e_canvas_vbox_get_property;
+	object_class->dispose      = e_canvas_vbox_dispose;
   
 	/* GnomeCanvasItem method overrides */
 	item_class->event       = e_canvas_vbox_event;
 	item_class->realize     = e_canvas_vbox_realize;
+  
+	g_object_class_install_property (object_class, PROP_WIDTH,
+					 g_param_spec_double ("width",
+							      _( "Width" ),
+							      _( "Width" ),
+							      0.0, G_MAXDOUBLE, 0.0,
+							      G_PARAM_READWRITE));
+	g_object_class_install_property (object_class, PROP_MINIMUM_WIDTH,
+					 g_param_spec_double ("minimum_width",
+							      _( "Minimum width" ),
+							      _( "Minimum Width" ),
+							      0.0, G_MAXDOUBLE, 0.0,
+							      G_PARAM_READWRITE));
+	g_object_class_install_property (object_class, PROP_HEIGHT,
+					 g_param_spec_double ("height",
+							      _( "Height" ),
+							      _( "Height" ),
+							      0.0, G_MAXDOUBLE, 0.0,
+							      G_PARAM_READABLE));
+	g_object_class_install_property (object_class, PROP_SPACING,
+					 g_param_spec_double ("spacing",
+							      _( "Spacing" ),
+							      _( "Spacing" ),
+							      0.0, G_MAXDOUBLE, 0.0,
+							      G_PARAM_READWRITE));
 }
 
 static void
@@ -127,50 +127,50 @@ e_canvas_vbox_init (ECanvasVbox *vbox)
 }
 
 static void
-e_canvas_vbox_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+e_canvas_vbox_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
 	GnomeCanvasItem *item;
 	ECanvasVbox *e_canvas_vbox;
 
-	item = GNOME_CANVAS_ITEM (o);
-	e_canvas_vbox = E_CANVAS_VBOX (o);
+	item = GNOME_CANVAS_ITEM (object);
+	e_canvas_vbox = E_CANVAS_VBOX (object);
 	
-	switch (arg_id){
-	case ARG_WIDTH:
-	case ARG_MINIMUM_WIDTH:
-		e_canvas_vbox->minimum_width = GTK_VALUE_DOUBLE (*arg);
+	switch (prop_id){
+	case PROP_WIDTH:
+	case PROP_MINIMUM_WIDTH:
+		e_canvas_vbox->minimum_width = g_value_get_double (value);
 		e_canvas_vbox_resize_children(item);
 		e_canvas_item_request_reflow(item);
 		break;
-	case ARG_SPACING:
-		e_canvas_vbox->spacing = GTK_VALUE_DOUBLE (*arg);
+	case PROP_SPACING:
+		e_canvas_vbox->spacing = g_value_get_double (value);
 		e_canvas_item_request_reflow(item);
 		break;
 	}
 }
 
 static void
-e_canvas_vbox_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+e_canvas_vbox_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
 	ECanvasVbox *e_canvas_vbox;
 
 	e_canvas_vbox = E_CANVAS_VBOX (object);
 
-	switch (arg_id) {
-	case ARG_WIDTH:
-		GTK_VALUE_DOUBLE (*arg) = e_canvas_vbox->width;
+	switch (prop_id) {
+	case PROP_WIDTH:
+		g_value_set_double (value, e_canvas_vbox->width);
 		break;
-	case ARG_MINIMUM_WIDTH:
-		GTK_VALUE_DOUBLE (*arg) = e_canvas_vbox->minimum_width;
+	case PROP_MINIMUM_WIDTH:
+		g_value_set_double (value, e_canvas_vbox->minimum_width);
 		break;
-	case ARG_HEIGHT:
-		GTK_VALUE_DOUBLE (*arg) = e_canvas_vbox->height;
+	case PROP_HEIGHT:
+		g_value_set_double (value, e_canvas_vbox->height);
 		break;
-	case ARG_SPACING:
-		GTK_VALUE_DOUBLE (*arg) = e_canvas_vbox->spacing;
+	case PROP_SPACING:
+		g_value_set_double (value, e_canvas_vbox->spacing);
 		break;
 	default:
-		arg->type = GTK_TYPE_INVALID;
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }
@@ -185,11 +185,14 @@ disconnect_item_cb (gpointer data, gpointer user_data)
 	vbox = E_CANVAS_VBOX (user_data);
 
 	item = GNOME_CANVAS_ITEM (data);
-	gtk_signal_disconnect_by_data (GTK_OBJECT (item), vbox);
+	g_signal_handlers_disconnect_matched (item,
+					      G_SIGNAL_MATCH_DATA,
+					      0, 0, NULL, NULL,
+					      vbox);
 }
 
 static void
-e_canvas_vbox_destroy (GtkObject *object)
+e_canvas_vbox_dispose (GObject *object)
 {
 	ECanvasVbox *vbox = E_CANVAS_VBOX(object);
 
@@ -198,8 +201,8 @@ e_canvas_vbox_destroy (GtkObject *object)
 		g_list_free(vbox->items);
 		vbox->items = NULL;
 	}
-	
-	GTK_OBJECT_CLASS(parent_class)->destroy (object);
+
+	G_OBJECT_CLASS(parent_class)->dispose (object);
 }
 
 static gint
@@ -250,17 +253,18 @@ e_canvas_vbox_realize (GnomeCanvasItem *item)
 }
 
 static void
-e_canvas_vbox_remove_item (GnomeCanvasItem *item, ECanvasVbox *vbox)
+e_canvas_vbox_remove_item (gpointer data, GObject *where_object_was)
 {
-	vbox->items = g_list_remove(vbox->items, item);
+	ECanvasVbox *vbox = data;
+	vbox->items = g_list_remove(vbox->items, where_object_was);
 }
 
 static void
 e_canvas_vbox_real_add_item(ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item)
 {
 	e_canvas_vbox->items = g_list_append(e_canvas_vbox->items, item);
-	gtk_signal_connect(GTK_OBJECT(item), "destroy",
-			   GTK_SIGNAL_FUNC(e_canvas_vbox_remove_item), e_canvas_vbox);
+	g_object_weak_ref (G_OBJECT (item),
+			   e_canvas_vbox_remove_item, e_canvas_vbox);
 	if ( GTK_OBJECT_FLAGS( e_canvas_vbox ) & GNOME_CANVAS_ITEM_REALIZED ) {
 		gnome_canvas_item_set(item,
 				      "width", (double) e_canvas_vbox->minimum_width,
@@ -274,8 +278,8 @@ static void
 e_canvas_vbox_real_add_item_start(ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item)
 {
 	e_canvas_vbox->items = g_list_prepend(e_canvas_vbox->items, item);
-	gtk_signal_connect(GTK_OBJECT(item), "destroy",
-			   GTK_SIGNAL_FUNC(e_canvas_vbox_remove_item), e_canvas_vbox);
+	g_object_weak_ref (G_OBJECT (item),
+			   e_canvas_vbox_remove_item, e_canvas_vbox);
 	if ( GTK_OBJECT_FLAGS( e_canvas_vbox ) & GNOME_CANVAS_ITEM_REALIZED ) {
 		gnome_canvas_item_set(item,
 				      "width", (double) e_canvas_vbox->minimum_width,
@@ -323,10 +327,10 @@ e_canvas_vbox_reflow( GnomeCanvasItem *item, int flags )
 			gdouble item_width;
 
 			list = e_canvas_vbox->items;
-			gtk_object_get (GTK_OBJECT(list->data),
-					"height", &item_height,
-					"width", &item_width,
-					NULL);
+			g_object_get (list->data,
+				      "height", &item_height,
+				      "width", &item_width,
+				      NULL);
 			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(list->data),
 						    (double) 0,
 						    (double) running_height);
@@ -338,10 +342,10 @@ e_canvas_vbox_reflow( GnomeCanvasItem *item, int flags )
 			for( ; list; list = g_list_next(list)) {
 				running_height += e_canvas_vbox->spacing;
 
-				gtk_object_get (GTK_OBJECT(list->data),
-						"height", &item_height,
-						"width", &item_width,
-						NULL);
+				g_object_get (list->data,
+					      "height", &item_height,
+					      "width", &item_width,
+					      NULL);
 
 				e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(list->data),
 							    (double) 0,

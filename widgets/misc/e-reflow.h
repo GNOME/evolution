@@ -46,10 +46,10 @@ extern "C" {
  */
 
 #define E_REFLOW_TYPE			(e_reflow_get_type ())
-#define E_REFLOW(obj)			(GTK_CHECK_CAST ((obj), E_REFLOW_TYPE, EReflow))
-#define E_REFLOW_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_REFLOW_TYPE, EReflowClass))
-#define E_IS_REFLOW(obj)		(GTK_CHECK_TYPE ((obj), E_REFLOW_TYPE))
-#define E_IS_REFLOW_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_REFLOW_TYPE))
+#define E_REFLOW(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_REFLOW_TYPE, EReflow))
+#define E_REFLOW_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_REFLOW_TYPE, EReflowClass))
+#define E_IS_REFLOW(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_REFLOW_TYPE))
+#define E_IS_REFLOW_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_REFLOW_TYPE))
 
 
 typedef struct EReflowPriv    EReflowPriv;

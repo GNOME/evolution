@@ -44,10 +44,10 @@ extern "C" {
  */
 
 #define E_CANVAS_VBOX_TYPE			(e_canvas_vbox_get_type ())
-#define E_CANVAS_VBOX(obj)			(GTK_CHECK_CAST ((obj), E_CANVAS_VBOX_TYPE, ECanvasVbox))
-#define E_CANVAS_VBOX_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_CANVAS_VBOX_TYPE, ECanvasVboxClass))
-#define E_IS_CANVAS_VBOX(obj)		(GTK_CHECK_TYPE ((obj), E_CANVAS_VBOX_TYPE))
-#define E_IS_CANVAS_VBOX_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_CANVAS_VBOX_TYPE))
+#define E_CANVAS_VBOX(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_CANVAS_VBOX_TYPE, ECanvasVbox))
+#define E_CANVAS_VBOX_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_CANVAS_VBOX_TYPE, ECanvasVboxClass))
+#define E_IS_CANVAS_VBOX(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_CANVAS_VBOX_TYPE))
+#define E_IS_CANVAS_VBOX_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_CANVAS_VBOX_TYPE))
 
 
 typedef struct _ECanvasVbox       ECanvasVbox;

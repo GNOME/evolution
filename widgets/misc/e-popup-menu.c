@@ -128,9 +128,9 @@ e_popup_menu_create_with_domain (EPopupMenu *menu_list,
 
 			if (!menu_list[i].submenu) {
 				if (menu_list[i].fn)
-					gtk_signal_connect (GTK_OBJECT (item), "activate",
-							    GTK_SIGNAL_FUNC (menu_list[i].fn),
-							    menu_list[i].use_custom_closure ? menu_list[i].closure : default_closure);
+					g_signal_connect (item, "activate",
+							  G_CALLBACK (menu_list[i].fn),
+							  menu_list[i].use_custom_closure ? menu_list[i].closure : default_closure);
 			} else {
 				/* submenu */
 				GtkMenu *submenu;

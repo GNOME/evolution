@@ -36,10 +36,10 @@ extern "C" {
  */
 
 #define E_CANVAS_TYPE			(e_canvas_get_type ())
-#define E_CANVAS(obj)			(GTK_CHECK_CAST ((obj), E_CANVAS_TYPE, ECanvas))
-#define E_CANVAS_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_CANVAS_TYPE, ECanvasClass))
-#define E_IS_CANVAS(obj)		(GTK_CHECK_TYPE ((obj), E_CANVAS_TYPE))
-#define E_IS_CANVAS_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_CANVAS_TYPE))
+#define E_CANVAS(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_CANVAS_TYPE, ECanvas))
+#define E_CANVAS_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_CANVAS_TYPE, ECanvasClass))
+#define E_IS_CANVAS(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_CANVAS_TYPE))
+#define E_IS_CANVAS_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_CANVAS_TYPE))
 
 typedef void		(*ECanvasItemReflowFunc)		(GnomeCanvasItem *item,
 								 gint   	  flags);

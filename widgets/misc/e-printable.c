@@ -28,7 +28,7 @@
 
 #define EP_CLASS(e) ((EPrintableClass *)((GtkObject *)e)->klass)
 
-#define PARENT_TYPE gtk_object_get_type ()
+#define PARENT_TYPE GTK_TYPE_OBJECT
 					  
 
 static GtkObjectClass *e_printable_parent_class;
@@ -48,52 +48,55 @@ static void
 e_printable_class_init (GtkObjectClass *object_class)
 {
 	EPrintableClass *klass = E_PRINTABLE_CLASS(object_class);
-	e_printable_parent_class = gtk_type_class (PARENT_TYPE);
+	e_printable_parent_class = g_type_class_ref (PARENT_TYPE);
 	
 	e_printable_signals [PRINT_PAGE] =
-		gtk_signal_new ("print_page",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (EPrintableClass, print_page),
-				e_marshal_NONE__OBJECT_DOUBLE_DOUBLE_BOOLEAN,
-				G_TYPE_NONE, 4, G_TYPE_OBJECT, G_TYPE_DOUBLE,
-				G_TYPE_DOUBLE, G_TYPE_BOOLEAN);
+		g_signal_new ("print_page",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EPrintableClass, print_page),
+			      NULL, NULL,
+			      e_marshal_NONE__OBJECT_DOUBLE_DOUBLE_BOOLEAN,
+			      G_TYPE_NONE, 4, G_TYPE_OBJECT, G_TYPE_DOUBLE,
+			      G_TYPE_DOUBLE, G_TYPE_BOOLEAN);
 
 	e_printable_signals [DATA_LEFT] =
-		gtk_signal_new ("data_left",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (EPrintableClass, data_left),
-				e_marshal_BOOLEAN__NONE,
-				G_TYPE_BOOLEAN, 0, G_TYPE_NONE);
+		g_signal_new ("data_left",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EPrintableClass, data_left),
+			      NULL, NULL,
+			      e_marshal_BOOLEAN__NONE,
+			      G_TYPE_BOOLEAN, 0, G_TYPE_NONE);
 
 	e_printable_signals [RESET] =
-		gtk_signal_new ("reset",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (EPrintableClass, reset),
-				gtk_marshal_NONE__NONE,
-				G_TYPE_NONE, 0, G_TYPE_NONE);
+		g_signal_new ("reset",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EPrintableClass, reset),
+			      NULL, NULL,
+			      e_marshal_NONE__NONE,
+			      G_TYPE_NONE, 0, G_TYPE_NONE);
 
 	e_printable_signals [HEIGHT] =
-		gtk_signal_new ("height",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (EPrintableClass, height),
-				e_marshal_DOUBLE__OBJECT_DOUBLE_DOUBLE_BOOLEAN,
-				G_TYPE_DOUBLE, 4, G_TYPE_OBJECT, G_TYPE_DOUBLE,
-				G_TYPE_DOUBLE, G_TYPE_BOOLEAN);
-
+		g_signal_new ("height",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EPrintableClass, height),
+			      NULL, NULL,
+			      e_marshal_DOUBLE__OBJECT_DOUBLE_DOUBLE_BOOLEAN,
+			      G_TYPE_DOUBLE, 4, G_TYPE_OBJECT, G_TYPE_DOUBLE,
+			      G_TYPE_DOUBLE, G_TYPE_BOOLEAN);
+	
 	e_printable_signals [WILL_FIT] =
-		gtk_signal_new ("will_fit",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (EPrintableClass, will_fit),
-				e_marshal_BOOLEAN__OBJECT_DOUBLE_DOUBLE_BOOLEAN,
-				G_TYPE_BOOLEAN, 4, G_TYPE_OBJECT, G_TYPE_DOUBLE,
-				G_TYPE_DOUBLE, G_TYPE_BOOLEAN);
-
-	E_OBJECT_CLASS_ADD_SIGNALS (object_class, e_printable_signals, LAST_SIGNAL);
+		g_signal_new ("will_fit",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EPrintableClass, will_fit),
+			      NULL, NULL,
+			      e_marshal_BOOLEAN__OBJECT_DOUBLE_DOUBLE_BOOLEAN,
+			      G_TYPE_BOOLEAN, 4, G_TYPE_OBJECT, G_TYPE_DOUBLE,
+			      G_TYPE_DOUBLE, G_TYPE_BOOLEAN);
 
 	klass->print_page = NULL;    
 	klass->data_left = NULL;
@@ -103,35 +106,17 @@ e_printable_class_init (GtkObjectClass *object_class)
 }
 
 
-GtkType
-e_printable_get_type (void)
-{
-  static guint type = 0;
-
-  if (!type)
-    {
-      GtkTypeInfo info =
-      {
-	"EPrintable",
-	sizeof (EPrintable),
-	sizeof (EPrintableClass),
-	(GtkClassInitFunc) e_printable_class_init,
-	NULL,
-	/* reserved_1 */ NULL,
-        /* reserved_2 */ NULL,
-        (GtkClassInitFunc) NULL,
-      };
-
-      type = gtk_type_unique (gtk_object_get_type (), &info);
-    }
-
-  return type;
-}
+E_MAKE_TYPE (e_printable,
+	     "EPrintable",
+	     EPrintable,
+	     e_printable_class_init,
+	     NULL,
+	     PARENT_TYPE)
 
 EPrintable *
 e_printable_new(void)
 {
-	return E_PRINTABLE(gtk_type_new(e_printable_get_type()));
+	return E_PRINTABLE(g_object_new(E_PRINTABLE_TYPE, NULL));
 }
 
 void
@@ -144,12 +129,12 @@ e_printable_print_page          (EPrintable        *e_printable,
 	g_return_if_fail (e_printable != NULL);
 	g_return_if_fail (E_IS_PRINTABLE (e_printable));
 	
-	gtk_signal_emit (GTK_OBJECT (e_printable),
-			 e_printable_signals [PRINT_PAGE],
-			 context,
-			 width,
-			 height,
-			 quantized);
+	g_signal_emit (e_printable,
+		       e_printable_signals [PRINT_PAGE], 0,
+		       context,
+		       width,
+		       height,
+		       quantized);
 }
 
 gboolean
@@ -160,9 +145,9 @@ e_printable_data_left           (EPrintable        *e_printable)
 	g_return_val_if_fail (e_printable != NULL, FALSE);
 	g_return_val_if_fail (E_IS_PRINTABLE (e_printable), FALSE);
 
-	gtk_signal_emit (GTK_OBJECT (e_printable),
-			 e_printable_signals [DATA_LEFT],
-			 &ret_val);
+	g_signal_emit (e_printable,
+		       e_printable_signals [DATA_LEFT], 0,
+		       &ret_val);
 
 	return ret_val;
 }
@@ -173,8 +158,8 @@ e_printable_reset               (EPrintable        *e_printable)
 	g_return_if_fail (e_printable != NULL);
 	g_return_if_fail (E_IS_PRINTABLE (e_printable));
 	
-	gtk_signal_emit (GTK_OBJECT (e_printable),
-			 e_printable_signals [RESET]);
+	g_signal_emit (e_printable,
+		       e_printable_signals [RESET], 0);
 }
 
 gdouble
@@ -189,13 +174,13 @@ e_printable_height              (EPrintable        *e_printable,
 	g_return_val_if_fail (e_printable != NULL, -1);
 	g_return_val_if_fail (E_IS_PRINTABLE (e_printable), -1);
 
-	gtk_signal_emit (GTK_OBJECT (e_printable),
-			 e_printable_signals [HEIGHT],
-			 context,
-			 width,
-			 max_height,
-			 quantized,
-			 &ret_val);
+	g_signal_emit (e_printable,
+		       e_printable_signals [HEIGHT], 0,
+		       context,
+		       width,
+		       max_height,
+		       quantized,
+		       &ret_val);
 
 	return ret_val;
 }
@@ -212,13 +197,13 @@ e_printable_will_fit            (EPrintable        *e_printable,
 	g_return_val_if_fail (e_printable != NULL, -1);
 	g_return_val_if_fail (E_IS_PRINTABLE (e_printable), -1);
 
-	gtk_signal_emit (GTK_OBJECT (e_printable),
-			 e_printable_signals [WILL_FIT],
-			 context,
-			 width,
-			 max_height,
-			 quantized,
-			 &ret_val);
+	g_signal_emit (e_printable,
+		       e_printable_signals [WILL_FIT], 0,
+		       context,
+		       width,
+		       max_height,
+		       quantized,
+		       &ret_val);
 
 	return ret_val;
 }

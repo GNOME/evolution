@@ -43,10 +43,10 @@ G_BEGIN_DECLS
 
 
 #define E_CANVAS_BACKGROUND_TYPE            (e_canvas_background_get_type ())
-#define E_CANVAS_BACKGROUND(obj)            (GTK_CHECK_CAST ((obj), E_CANVAS_BACKGROUND_TYPE, ECanvasBackground))
-#define E_CANVAS_BACKGROUND_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), E_CANVAS_BACKGROUND_TYPE, ECanvasBackgroundClass))
-#define E_IS_CANVAS_BACKGROUND(obj)         (GTK_CHECK_TYPE ((obj), E_CANVAS_BACKGROUND_TYPE))
-#define E_IS_CANVAS_BACKGROUND_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), E_CANVAS_BACKGROUND_TYPE))
+#define E_CANVAS_BACKGROUND(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_CANVAS_BACKGROUND_TYPE, ECanvasBackground))
+#define E_CANVAS_BACKGROUND_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_CANVAS_BACKGROUND_TYPE, ECanvasBackgroundClass))
+#define E_IS_CANVAS_BACKGROUND(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_CANVAS_BACKGROUND_TYPE))
+#define E_IS_CANVAS_BACKGROUND_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_CANVAS_BACKGROUND_TYPE))
 
 typedef struct _ECanvasBackground      ECanvasBackground;
 typedef struct _ECanvasBackgroundClass ECanvasBackgroundClass;

@@ -33,6 +33,7 @@
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-canvas-utils.h"
 #include "gal/util/e-util.h"
+#include "gal/util/e-i18n.h"
 #include <string.h>
 
 #define PARENT_OBJECT_TYPE gnome_canvas_item_get_type ()
@@ -55,15 +56,15 @@ struct _ECanvasBackgroundPrivate {
 static GnomeCanvasItemClass *parent_class;
 
 enum {
-	ARG_0,
-	ARG_FILL_COLOR,
-	ARG_FILL_COLOR_GDK,
-	ARG_FILL_COLOR_RGBA,
-	ARG_FILL_STIPPLE,
-	ARG_X1,
-	ARG_X2,
-	ARG_Y1,
-	ARG_Y2,
+	PROP_0,
+	PROP_FILL_COLOR,
+	PROP_FILL_COLOR_GDK,
+	PROP_FILL_COLOR_RGBA,
+	PROP_FILL_STIPPLE,
+	PROP_X1,
+	PROP_X2,
+	PROP_Y1,
+	PROP_Y2,
 };
 
 static void
@@ -168,7 +169,7 @@ set_stipple (ECanvasBackground *ecb, GdkBitmap *stipple, int use_value)
 }
 
 static void
-ecb_destroy (GtkObject *object)
+ecb_dispose (GObject *object)
 {
 	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (object);
 
@@ -176,12 +177,15 @@ ecb_destroy (GtkObject *object)
 		gdk_bitmap_unref (ecb->priv->stipple);
 	ecb->priv->stipple = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-                GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+                G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void
-ecb_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+ecb_set_property (GObject *object,
+		  guint prop_id,
+		  const GValue *value,
+		  GParamSpec *pspec)
 {
 	GnomeCanvasItem *item;
 	ECanvasBackground *ecb;
@@ -190,13 +194,13 @@ ecb_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	GdkColor *pcolor;
 	gboolean color_changed = FALSE;
 
-	item = GNOME_CANVAS_ITEM (o);
-	ecb = E_CANVAS_BACKGROUND (o);
+	item = GNOME_CANVAS_ITEM (object);
+	ecb = E_CANVAS_BACKGROUND (object);
 
-	switch (arg_id){
-	case ARG_FILL_COLOR:
-		if (GTK_VALUE_STRING (*arg))
-			gdk_color_parse (GTK_VALUE_STRING (*arg), &color);
+	switch (prop_id){
+	case PROP_FILL_COLOR:
+		if (g_value_get_string (value))
+			gdk_color_parse (g_value_get_string (value), &color);
 
 		ecb->priv->rgba = ((color.red & 0xff00) << 16 |
 				   (color.green & 0xff00) << 8 |
@@ -205,8 +209,8 @@ ecb_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		color_changed = TRUE;
 		break;
 
-	case ARG_FILL_COLOR_GDK:
-		pcolor = GTK_VALUE_BOXED (*arg);
+	case PROP_FILL_COLOR_GDK:
+		pcolor = g_value_get_pointer (value);
 		if (pcolor) {
 			color = *pcolor;
 		}
@@ -218,29 +222,29 @@ ecb_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		color_changed = TRUE;
 		break;
 
-        case ARG_FILL_COLOR_RGBA:
-		ecb->priv->rgba = GTK_VALUE_UINT (*arg);
+        case PROP_FILL_COLOR_RGBA:
+		ecb->priv->rgba = g_value_get_uint (value);
 		color.red = ((ecb->priv->rgba >> 24) & 0xff) * 0x101;
 		color.green = ((ecb->priv->rgba >> 16) & 0xff) * 0x101;
 		color.blue = ((ecb->priv->rgba >> 8) & 0xff) * 0x101;
 		color_changed = TRUE;
 		break;
 
-	case ARG_FILL_STIPPLE:
-		set_stipple (ecb, GTK_VALUE_BOXED (*arg), TRUE);
+	case PROP_FILL_STIPPLE:
+		set_stipple (ecb, g_value_get_object (value), TRUE);
 		break;
 
-	case ARG_X1:
-		ecb->priv->x1 = GTK_VALUE_DOUBLE (*arg);
+	case PROP_X1:
+		ecb->priv->x1 = g_value_get_double (value);
 		break;
-	case ARG_X2:
-		ecb->priv->x2 = GTK_VALUE_DOUBLE (*arg);
+	case PROP_X2:
+		ecb->priv->x2 = g_value_get_double (value);
 		break;
-	case ARG_Y1:
-		ecb->priv->y1 = GTK_VALUE_DOUBLE (*arg);
+	case PROP_Y1:
+		ecb->priv->y1 = g_value_get_double (value);
 		break;
-	case ARG_Y2:
-		ecb->priv->y2 = GTK_VALUE_DOUBLE (*arg);
+	case PROP_Y2:
+		ecb->priv->y2 = g_value_get_double (value);
 		break;
 	}
 
@@ -260,38 +264,41 @@ ecb_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 }
 
 static void
-ecb_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+ecb_get_property (GObject *object,
+		  guint prop_id,
+		  GValue *value,
+		  GParamSpec *pspec)
 {
 	GnomeCanvasItem *item;
 	ECanvasBackground *ecb;
 
-	item = GNOME_CANVAS_ITEM (o);
-	ecb = E_CANVAS_BACKGROUND (o);
+	item = GNOME_CANVAS_ITEM (object);
+	ecb = E_CANVAS_BACKGROUND (object);
 
-	switch (arg_id){
-	case ARG_FILL_COLOR_GDK:
-		GTK_VALUE_BOXED (*arg) = gdk_color_copy (&ecb->priv->color);
+	switch (prop_id){
+	case PROP_FILL_COLOR_GDK:
+		g_value_set_pointer (value, gdk_color_copy (&ecb->priv->color));
 		break;
-        case ARG_FILL_COLOR_RGBA:
-		GTK_VALUE_UINT (*arg) = ecb->priv->rgba;
+        case PROP_FILL_COLOR_RGBA:
+		g_value_set_uint (value, ecb->priv->rgba);
 		break;
-	case ARG_FILL_STIPPLE:
-		GTK_VALUE_BOXED (*arg) = ecb->priv->stipple;
+	case PROP_FILL_STIPPLE:
+		g_value_set_object (value, ecb->priv->stipple);
 		break;
-	case ARG_X1:
-		GTK_VALUE_DOUBLE (*arg) = ecb->priv->x1;
+	case PROP_X1:
+		g_value_set_double (value, ecb->priv->x1);
 		break;
-	case ARG_X2:
-		GTK_VALUE_DOUBLE (*arg) = ecb->priv->x2;
+	case PROP_X2:
+		g_value_set_double (value, ecb->priv->x2);
 		break;
-	case ARG_Y1:
-		GTK_VALUE_DOUBLE (*arg) = ecb->priv->y1;
+	case PROP_Y1:
+		g_value_set_double (value, ecb->priv->y1);
 		break;
-	case ARG_Y2:
-		GTK_VALUE_DOUBLE (*arg) = ecb->priv->y2;
+	case PROP_Y2:
+		g_value_set_double (value, ecb->priv->y2);
 		break;
 	default:
-		arg->type = GTK_TYPE_INVALID;
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }
@@ -403,15 +410,15 @@ ecb_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 }
 
 static void
-ecb_class_init (GtkObjectClass *object_class)
+ecb_class_init (GObjectClass *object_class)
 {
 	GnomeCanvasItemClass *item_class = (GnomeCanvasItemClass *) object_class;
 	
-	parent_class                = gtk_type_class (PARENT_OBJECT_TYPE);
+	parent_class                = g_type_class_ref (PARENT_OBJECT_TYPE);
 	
-	object_class->destroy       = ecb_destroy;
-	object_class->set_arg       = ecb_set_arg;
-	object_class->get_arg       = ecb_get_arg;
+	object_class->dispose       = ecb_dispose;
+	object_class->set_property  = ecb_set_property;
+	object_class->get_property  = ecb_get_property;
 
 	item_class->update          = ecb_update;
 	item_class->realize         = ecb_realize;
@@ -419,43 +426,65 @@ ecb_class_init (GtkObjectClass *object_class)
 	item_class->draw            = ecb_draw;
 	item_class->point           = ecb_point;
 
-	gtk_object_add_arg_type ("ECanvasBackground::fill_color", GTK_TYPE_STRING,
-				 GTK_ARG_WRITABLE, ARG_FILL_COLOR);
-	gtk_object_add_arg_type ("ECanvasBackground::fill_color_gdk", GDK_TYPE_COLOR,
-				 GTK_ARG_READWRITE, ARG_FILL_COLOR_GDK);
-	gtk_object_add_arg_type ("ECanvasBackground::fill_color_rgba", GTK_TYPE_UINT,
-				 GTK_ARG_READWRITE, ARG_FILL_COLOR_RGBA);
-	gtk_object_add_arg_type ("ECanvasBackground::fill_stipple", GDK_TYPE_WINDOW,
-				 GTK_ARG_READWRITE, ARG_FILL_STIPPLE);
-	gtk_object_add_arg_type ("ECanvasBackground::x1", GTK_TYPE_DOUBLE,
-				 GTK_ARG_READWRITE, ARG_X1);
-	gtk_object_add_arg_type ("ECanvasBackground::x2", GTK_TYPE_DOUBLE,
-				 GTK_ARG_READWRITE, ARG_X2);
-	gtk_object_add_arg_type ("ECanvasBackground::y1", GTK_TYPE_DOUBLE,
-				 GTK_ARG_READWRITE, ARG_Y1);
-	gtk_object_add_arg_type ("ECanvasBackground::y2", GTK_TYPE_DOUBLE,
-				 GTK_ARG_READWRITE, ARG_Y2);
+	g_object_class_install_property (object_class, PROP_FILL_COLOR,
+					 g_param_spec_string ("fill_color",
+							      _( "Fill color" ),
+							      _( "Fill color" ),
+							      NULL,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_FILL_COLOR_GDK,
+					 g_param_spec_pointer ("fill_color_gdk",
+							       _( "GDK fill color" ),
+							       _( "GDK fill color" ),
+							       G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_FILL_COLOR_RGBA,
+					 g_param_spec_uint ("fill_color_rgba",
+							    _( "GDK fill color" ),
+							    _( "GDK fill color" ),
+							    0, G_MAXUINT, 0,
+							    G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_FILL_STIPPLE,
+					 g_param_spec_object ("fill_stipple",
+							      _( "Fill stipple" ),
+							      _( "FIll stipple" ),
+							      GDK_TYPE_WINDOW,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_X1,
+					 g_param_spec_double ("x1",
+							      _( "X1" ),
+							      _( "X1" ),
+							      0.0, G_MAXDOUBLE, 0.0,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_X2,
+					 g_param_spec_double ("x2",
+							      _( "X2" ),
+							      _( "X2" ),
+							      0.0, G_MAXDOUBLE, 0.0,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_Y1,
+					 g_param_spec_double ("y1",
+							      _( "Y1" ),
+							      _( "Y1" ),
+							      0.0, G_MAXDOUBLE, 0.0,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_Y2,
+					 g_param_spec_double ("y2",
+							      _( "Y2" ),
+							      _( "Y2" ),
+							      0.0, G_MAXDOUBLE, 0.0,
+							      G_PARAM_READWRITE));
 }
 
-GtkType
-e_canvas_background_get_type (void)
-{
-	static GtkType type = 0;
-
-	if (!type){
-		GtkTypeInfo info = {
-			"ECanvasBackground",
-			sizeof (ECanvasBackground),
-			sizeof (ECanvasBackgroundClass),
-			(GtkClassInitFunc) ecb_class_init,
-			(GtkObjectInitFunc) ecb_init,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		type = gtk_type_unique (PARENT_OBJECT_TYPE, &info);
-	}
-
-	return type;
-}
+E_MAKE_TYPE (e_canvas_background,
+	     "ECanvasBackground",
+	     ECanvasBackground,
+	     ecb_class_init,
+	     ecb_init,
+	     PARENT_OBJECT_TYPE)

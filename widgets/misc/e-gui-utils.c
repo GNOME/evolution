@@ -65,8 +65,8 @@ e_auto_kill_popup_menu_on_hide (GtkMenu *menu)
 	g_return_if_fail (menu != NULL);
 	g_return_if_fail (GTK_IS_MENU (menu));
 
-	gtk_signal_connect (GTK_OBJECT (menu), "hide",
-			    GTK_SIGNAL_FUNC (kill_popup_menu), menu);
+	g_signal_connect (menu, "hide",
+			  G_CALLBACK (kill_popup_menu), menu);
 }
 
 void
@@ -118,7 +118,7 @@ static void
 e_container_change_tab_order_destroy_notify(gpointer data)
 {
 	GList *list = data;
-	g_list_foreach(list, (GFunc) gtk_object_unref, NULL);
+	g_list_foreach(list, (GFunc) g_object_unref, NULL);
 	g_list_free(list);
 }
 
@@ -162,8 +162,7 @@ e_container_change_tab_order_callback(GtkContainer *container,
 				    GTK_IS_CONTAINER (child) &&
 				    !GTK_WIDGET_HAS_FOCUS (child))
 					if (gtk_widget_child_focus (GTK_WIDGET (child), direction)) {
-						gtk_signal_emit_stop_by_name (
-							GTK_OBJECT (container), "focus");
+						g_signal_stop_emission_by_name (container, "focus");
 						return TRUE;
 					}
 			}
@@ -171,14 +170,13 @@ e_container_change_tab_order_callback(GtkContainer *container,
 		else if (GTK_WIDGET_DRAWABLE (child)) {
 			if (GTK_IS_CONTAINER (child)) {
 				if (gtk_widget_child_focus (GTK_WIDGET (child), direction)) {
-					gtk_signal_emit_stop_by_name (
-						GTK_OBJECT (container), "focus");
+					g_signal_stop_emission_by_name (container, "focus");
 					return TRUE;
 				}
 			}
 			else if (GTK_WIDGET_CAN_FOCUS (child)) {
 				gtk_widget_grab_focus (child);
-				gtk_signal_emit_stop_by_name (GTK_OBJECT (container), "focus");
+				g_signal_stop_emission_by_name (container, "focus");
 				return TRUE;
 			}
 		}
@@ -192,7 +190,7 @@ e_container_change_tab_order(GtkContainer *container, GList *widgets)
 {
 	GList *list;
 	list = g_list_copy(widgets);
-	g_list_foreach(list, (GFunc) gtk_object_ref, NULL);
+	g_list_foreach(list, (GFunc) g_object_ref, NULL);
 	return gtk_signal_connect_full(GTK_OBJECT(container), "focus",
 				       GTK_SIGNAL_FUNC(e_container_change_tab_order_callback),
 				       NULL, list,
@@ -232,15 +230,15 @@ e_container_focus_nth_entry(GtkContainer *container, int n)
 }
 
 gboolean
-e_glade_xml_connect_widget (GladeXML *gui, char *name, char *signal, GtkSignalFunc cb, gpointer closure)
+e_glade_xml_connect_widget (GladeXML *gui, char *name, char *signal, GCallback cb, gpointer closure)
 {
 	GtkWidget *widget;
 
 	widget = glade_xml_get_widget (gui, name);
 
 	if (widget) {
-		gtk_signal_connect (GTK_OBJECT (widget), signal,
-				    cb, closure);
+		g_signal_connect (widget, signal,
+				  cb, closure);
 		return TRUE;
 	}
 

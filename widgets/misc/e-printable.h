@@ -30,10 +30,10 @@
 G_BEGIN_DECLS
 
 #define E_PRINTABLE_TYPE        (e_printable_get_type ())
-#define E_PRINTABLE(o)          (GTK_CHECK_CAST ((o), E_PRINTABLE_TYPE, EPrintable))
-#define E_PRINTABLE_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_PRINTABLE_TYPE, EPrintableClass))
-#define E_IS_PRINTABLE(o)       (GTK_CHECK_TYPE ((o), E_PRINTABLE_TYPE))
-#define E_IS_PRINTABLE_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_PRINTABLE_TYPE))
+#define E_PRINTABLE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_PRINTABLE_TYPE, EPrintable))
+#define E_PRINTABLE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_PRINTABLE_TYPE, EPrintableClass))
+#define E_IS_PRINTABLE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_PRINTABLE_TYPE))
+#define E_IS_PRINTABLE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_PRINTABLE_TYPE))
 
 typedef struct {
 	GtkObject   base;
