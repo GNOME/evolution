@@ -150,12 +150,12 @@ ea_week_view_get_name (AtkObject *accessible)
 	view_type = gnome_calendar_get_view (gcal);
 
 	if (view_type == GNOME_CAL_MONTH_VIEW)
-		accessible->name = g_strconcat (_("month view :"),
+		accessible->name = g_strconcat (_("month view:"),
 						label_text, buffer,
 						NULL);
 
 	else
-		accessible->name = g_strconcat (_("week view :"),
+		accessible->name = g_strconcat (_("week view:"),
 						label_text, buffer,
 						NULL);
 	return accessible->name;

@@ -147,11 +147,11 @@ ea_day_view_get_name (AtkObject *accessible)
 		g_snprintf (buffer, sizeof (buffer), ngettext ( _(", %d event"), _(", %d events"), n_events), n_events);
 	view_type = gnome_calendar_get_view (gcal);
 	if (view_type == GNOME_CAL_WORK_WEEK_VIEW)
-		accessible->name = g_strconcat (_("work week view :"),
+		accessible->name = g_strconcat (_("work week view:"),
 						label_text, buffer,
 						NULL);
 	else
-		accessible->name = g_strconcat (_("day view :"),
+		accessible->name = g_strconcat (_("day view:"),
 						label_text, buffer,
 						NULL);
 	return accessible->name;

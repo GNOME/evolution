@@ -1,3 +1,11 @@
+2005-01-31  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #71929
+	
+	* calendar/ea-day-view.c (ea_day_view_get_name):
+	* calendar/ea-week-view.c (ea_week_view_get_name): don't use spaces
+	before colons.
+
 2005-01-28  Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* addressbook/ea-minicard-view.c 
