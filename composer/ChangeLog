@@ -1,3 +1,10 @@
+2004-03-22  Radek Doulik  <rodo@ximian.com>
+
+	* e-msg-composer.c (disable_editor): do not set editor
+	insensitive, use editable-off command instead
+
+	Fixes #55049
+
 2004-03-22  Not Zed  <NotZed@Ximian.com>
 
 	* e-msg-composer-hdrs.c (post_browser_clicked_cb): exclude

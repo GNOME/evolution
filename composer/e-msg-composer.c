@@ -3922,7 +3922,12 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 static void
 disable_editor (EMsgComposer *composer)
 {
-	gtk_widget_set_sensitive (composer->editor, FALSE);
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "editable-off", &ev);
+	CORBA_exception_free (&ev);
+	
 	gtk_widget_set_sensitive (composer->attachment_bar, FALSE);
 	
 	bonobo_ui_component_set_prop (composer->uic, "/menu/Edit", "sensitive", "0", NULL);
