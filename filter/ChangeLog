@@ -1,3 +1,17 @@
+2003-04-18  Not Zed  <NotZed@Ximian.com>
+
+	* rule-editor.c (d): removed debug spew.
+
+	* addresses #41398
+	
+	* vfolder-rule.c (format_source): helper function to decode a url
+	into a more user-friendly format.
+	(source_add, get_widget): add the formatted data as another
+	column to the table.
+	(vfolder_editor_sourcelist_new): add another column to the table,
+	a formatted uri as well as the raw one.
+	(d): turned off debug vomit while i'm here.
+
 2003-04-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fixes for bugs: #41149, #41150, #41151, #41152, #41153, #41155,

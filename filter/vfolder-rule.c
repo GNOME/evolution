@@ -31,11 +31,12 @@
 #include <glade/glade.h>
 #include <libgnome/gnome-i18n.h>
 
+#include "camel/camel-url.h"
 #include "vfolder-context.h"
 #include "vfolder-rule.h"
 #include "shell/evolution-shell-client.h"
 
-#define d(x) x
+#define d(x) 
 
 static int validate(FilterRule *);
 static int vfolder_eq(FilterRule *fr, FilterRule *cm);
@@ -391,6 +392,35 @@ select_source_with (GtkWidget *widget, struct _source_data *data)
 	filter_rule_set_source ((FilterRule *) data->vr, source);
 }
 
+/* attempt to make a 'nice' folder name out of the raw uri */
+static char *format_source(const char *uri)
+{
+	CamelURL *url = camel_url_new(uri, NULL);
+	GString *out;
+	char *res;
+
+	/* bad uri */
+	if (url == NULL)
+		return g_strdup(uri);
+
+	out = g_string_new(url->protocol);
+	g_string_append_c(out, ':');
+	if (url->user && url->host) {
+		g_string_append_printf(out, "%s@%s", url->user, url->host);
+		if (url->port)
+			g_string_append_printf(out, ":%d", url->port);
+	}
+	if (url->fragment)
+		g_string_append(out, url->fragment);
+	else if (url->path)
+		g_string_append(out, url->path);
+
+	res = out->str;
+	g_string_free(out, FALSE);
+
+	return res;
+}
+
 static void
 source_add (GtkWidget *widget, struct _source_data *data)
 {
@@ -399,7 +429,7 @@ source_add (GtkWidget *widget, struct _source_data *data)
 	GtkTreeSelection *selection;
 	GtkWidget *window;
 	GtkTreeIter iter;
-	char *uri;
+	char *uri, *urinice;
 	
 	window = gtk_widget_get_toplevel (widget);
 	gtk_widget_set_sensitive (window, FALSE);
@@ -414,7 +444,9 @@ source_add (GtkWidget *widget, struct _source_data *data)
 		data->vr->sources = g_list_append (data->vr->sources, uri);
 		
 		gtk_list_store_append (data->model, &iter);
-		gtk_list_store_set (data->model, &iter, 0, uri, -1);
+		urinice = format_source(uri);
+		gtk_list_store_set (data->model, &iter, 0, urinice, 1, uri, -1);
+		g_free(urinice);
 		selection = gtk_tree_view_get_selection (data->list);
 		gtk_tree_selection_select_iter (selection, &iter);
 		data->current = uri;
@@ -490,7 +522,7 @@ vfolder_editor_sourcelist_new (char *widget_name, char *string1, char *string2, 
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
 					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	
-	model = gtk_list_store_new (1, G_TYPE_STRING);
+	model = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
 	table = gtk_tree_view_new_with_model ((GtkTreeModel *) model);
 	gtk_tree_view_set_headers_visible ((GtkTreeView *) table, FALSE);
 	
@@ -557,8 +589,11 @@ get_widget (FilterRule *fr, RuleContext *rc)
 	
 	source = NULL;
 	while ((source = vfolder_rule_next_source (vr, source))) {
+		char *nice = format_source(source);
+
 		gtk_list_store_append (data->model, &iter);
-		gtk_list_store_set (data->model, &iter, 0, source, -1);
+		gtk_list_store_set (data->model, &iter, 0, nice, 1, source, -1);
+		g_free(nice);
 	}
 	
 	g_signal_connect (data->list, "cursor-changed", G_CALLBACK (select_source), data);

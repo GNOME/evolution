@@ -37,7 +37,7 @@ static int enable_undo = 0;
 void rule_editor_add_undo (RuleEditor *re, int type, FilterRule *rule, int rank, int newrank);
 void rule_editor_play_undo (RuleEditor *re);
 
-#define d(x) x
+#define d(x) 
 
 static void set_source (RuleEditor *re, const char *source);
 static void set_sensitive (RuleEditor *re);
