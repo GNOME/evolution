@@ -111,20 +111,20 @@
       <item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
     </oaf_attribute>
 
-    <oaf_attribute name="evolution:config_item:title" type="string"
+    <oaf_attribute name="evolution2:config_item:title" type="string"
 		   _value="Mail Accounts"/>
 
-    <oaf_attribute name="evolution:config_item:description" type="string"
+    <oaf_attribute name="evolution2:config_item:description" type="string"
 		   _value="Configure your email accounts here"/>
 
-    <oaf_attribute name="evolution:config_item:icon_name" type="string"
+    <oaf_attribute name="evolution2:config_item:icon_name" type="string"
 		   value="mail-accounts-settings.png"/>
 
-    <oaf_attribute name="evolution:config_item:type" type="stringv">
+    <oaf_attribute name="evolution2:config_item:type" type="stringv">
 	<item value="mail"/>
     </oaf_attribute>
 
-    <oaf_attribute name="evolution:config_item:priority" type="string" value="-10"/>
+    <oaf_attribute name="evolution2:config_item:priority" type="string" value="-10"/>
     
     <oaf_attribute name="name" type="string"
 		   _value="Evolution Mail accounts configuration control"/>
@@ -140,16 +140,16 @@
       <item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
     </oaf_attribute>
 
-    <oaf_attribute name="evolution:config_item:title" type="string"
+    <oaf_attribute name="evolution2:config_item:title" type="string"
 		   _value="Mail Preferences"/>
 
-    <oaf_attribute name="evolution:config_item:description" type="string"
+    <oaf_attribute name="evolution2:config_item:description" type="string"
 		   _value="Configure mail preferences, including security and message display, here"/>
 
-    <oaf_attribute name="evolution:config_item:icon_name" type="string"
+    <oaf_attribute name="evolution2:config_item:icon_name" type="string"
 		   value="mail-config-druid.png"/>
     
-    <oaf_attribute name="evolution:config_item:priority" type="string" value="-9"/>
+    <oaf_attribute name="evolution2:config_item:priority" type="string" value="-9"/>
     
     <oaf_attribute name="name" type="string"
 		   _value="Evolution Mail preferences control"/>
@@ -165,16 +165,16 @@
       <item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
     </oaf_attribute>
 
-    <oaf_attribute name="evolution:config_item:title" type="string"
+    <oaf_attribute name="evolution2:config_item:title" type="string"
 		   _value="Composer Preferences"/>
 
-    <oaf_attribute name="evolution:config_item:description" type="string"
+    <oaf_attribute name="evolution2:config_item:description" type="string"
 		   _value="Configure spell-checking, signatures, and the message composer here"/>
 
-    <oaf_attribute name="evolution:config_item:icon_name" type="string"
+    <oaf_attribute name="evolution2:config_item:icon_name" type="string"
 		   value="composer-settings.png"/>
     
-    <oaf_attribute name="evolution:config_item:priority" type="string" value="-8"/>
+    <oaf_attribute name="evolution2:config_item:priority" type="string" value="-8"/>
     
     <oaf_attribute name="name" type="string"
 		   _value="Evolution Mail composer configuration control"/>

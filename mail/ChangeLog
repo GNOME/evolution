@@ -1,3 +1,9 @@
+2003-11-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* GNOME_Evolution_Mail.server.in.in: Use "evolution2:config_item"
+	properties for the config item instead of "evolution:config_item"
+	ones.
+
 2003-11-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-folder-view.c: setup filter-on-thread and vfolder-on-thread.
