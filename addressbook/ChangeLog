@@ -1,5 +1,12 @@
 2002-09-11  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes the other half of #17336 ]
+	* gui/contact-editor/e-contact-quick-add.c (quick_add_set_name):
+	parse the name when we're asked to set it, so the full name
+	doesn't get stored as (potentially) "Last, First" in the card.
+
+2002-09-11  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes part of #17336 ]
 	* gui/contact-editor/e-contact-editor-fullname.c
 	(e_contact_editor_fullname_init): get the window title from the
