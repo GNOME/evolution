@@ -44,6 +44,7 @@ static CamelLocalStoreClass *parent_class = NULL;
 #define CMAILDIRF_CLASS(so) CAMEL_MAILDIR_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
 static CamelFolder *get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelException * ex);
+static CamelFolder *get_inbox (CamelStore *store, CamelException *ex);
 static void delete_folder(CamelStore * store, const char *folder_name, CamelException * ex);
 
 static CamelFolderInfo * get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelException *ex);
@@ -57,6 +58,7 @@ static void camel_maildir_store_class_init(CamelObjectClass * camel_maildir_stor
 
 	/* virtual method overload, use defaults for most */
 	camel_store_class->get_folder = get_folder;
+	camel_store_class->get_inbox = get_inbox;
 	camel_store_class->delete_folder = delete_folder;
 
 	camel_store_class->get_folder_info = get_folder_info;
@@ -135,6 +137,13 @@ static CamelFolder *get_folder(CamelStore * store, const char *folder_name, guin
 	g_free(new);
 
 	return folder;
+}
+
+/* fixes bug #1138 */
+static CamelFolder *
+get_inbox (CamelStore *store, CamelException *ex)
+{
+	return get_folder (store, "", 0, ex);
 }
 
 static void delete_folder(CamelStore * store, const char *folder_name, CamelException * ex)

@@ -1,5 +1,8 @@
 2001-07-06  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/local/camel-maildir-store.c (get_inbox): Fixes bug
+	#1138.
+
 	* providers/local/camel-mbox-summary.c
 	(camel_mbox_summary_build_from): Make the `day-of-month' digit
 	take up 2 chars by using "%2d". Fixes bug #3989 for lame mailers
