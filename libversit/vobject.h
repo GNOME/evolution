@@ -247,6 +247,10 @@ extern "C" {
 #define VCX509Prop				"X509"
 #define VCXRuleProp				"XRULE"
 
+/* Extensions */
+
+#define XPilotIdProp                            "X-PILOTID"
+#define XPilotStatusProp                        "X-PILOTSTAT"
 
 typedef struct VObject VObject;
 
