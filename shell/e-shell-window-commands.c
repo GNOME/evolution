@@ -33,7 +33,6 @@
 
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-dialog-utils.h"
-#include "e-util/e-passwords.h"
 
 #include <glib/gprintf.h>
 
@@ -47,6 +46,8 @@
 #include <libgnomevfs/gnome-vfs-utils.h>
 
 #include <bonobo/bonobo-ui-component.h>
+
+#include <libedataserverui/e-passwords.h>
 
 #include <string.h>
 

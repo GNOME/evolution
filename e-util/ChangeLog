@@ -1,3 +1,11 @@
+2005-02-23  Hans Petter Jansson  <hpj@novell.com>
+
+	* Makefile.am (eutilinclude_HEADERS)
+	(libeutil_la_SOURCES): Remove e-passwords from here, it now
+	lives in libedataserverui.
+
+	* e-passwords.[ch]: Removed.
+
 2005-02-10  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #61363 & mail/ChangeLog

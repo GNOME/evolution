@@ -27,7 +27,6 @@
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-gtk-utils.h"
 #include "e-util/e-bconf-map.h"
-#include "e-util/e-passwords.h"
 
 #include <e-util/e-icon-factory.h>
 #include "e-shell-constants.h"
@@ -65,6 +64,8 @@
 #include <bonobo/bonobo-exception.h>
 
 #include <bonobo-activation/bonobo-activation.h>
+
+#include <libedataserverui/e-passwords.h>
 
 #include <glade/glade.h>
 

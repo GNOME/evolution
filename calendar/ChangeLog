@@ -1,3 +1,14 @@
+2005-02-23  Hans Petter Jansson  <hpj@novell.com>
+
+	* common/authentication.c:
+	* gui/e-pub-utils.c:
+	* gui/alarm-notify/alarm-notify.c:
+	* gui/alarm-notify/notify-main.c:
+	* gui/dialogs/url-editor-dialog.c:
+	Include <libedataserverui/e-passwords.h>.
+	* gui/itip-utils.c: Remove e-passwords.h include, it's not
+	needed.
+
 2005-02-23  JP Rosevear  <jpr@novell.com>
 
 	Fixes #70000

@@ -1,3 +1,7 @@
+2005-02-23  Hans Petter Jansson  <hpj@novell.com>
+
+	* send-options.c: Include <libedataserverui/e-passwords.h>.
+
 2005-02-10  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* send-options.c: (e_sendoptions_clicked_cb): IF

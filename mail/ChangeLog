@@ -1,3 +1,8 @@
+2005-02-23  Hans Petter Jansson  <hpj@novell.com>
+
+	* mail-session.c:
+	* mail-config.c: Include <libedataserverui/e-passwords.h>.
+
 2005-02-22  Not Zed  <NotZed@Ximian.com>
 
 	* em-account-editor.c (emae_send_page): fix argument order to

@@ -34,12 +34,12 @@
 #include "cal-prefs-dialog.h"
 #include "url-editor-dialog.h"
 
-#include "e-util/e-passwords.h"
 #include <gtk/gtk.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtktogglebutton.h>
 #include <libgnomeui/gnome-color-picker.h>
+#include <libedataserverui/e-passwords.h>
 #include <glade/glade.h>
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-icon-factory.h>

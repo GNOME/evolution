@@ -38,7 +38,7 @@
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo-activation/bonobo-activation.h>
 #include <libedataserver/e-source.h>
-#include "e-util/e-passwords.h"
+#include <libedataserverui/e-passwords.h>
 #include "e-util/e-icon-factory.h"
 #include "alarm.h"
 #include "alarm-queue.h"

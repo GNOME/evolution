@@ -1,3 +1,7 @@
+2005-02-23  Hans Petter Jansson  <hpj@novell.com>
+
+	* configure.in: Make mailer depend on libedataserverui.
+
 2005-02-22  Marco Pesenti Gritti  <marco@gnome.org>
 
 	* configure.in: Depend on gnome-vfs >= 2.4

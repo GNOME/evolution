@@ -32,7 +32,6 @@
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-bconf-map.h"
 #include "e-util/e-fsutils.h"
-#include "e-util/e-passwords.h"
 #include "widgets/misc/e-error.h"
 
 #include "e-shell-constants.h"
@@ -65,6 +64,8 @@
 #include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-moniker-util.h>
+
+#include <libedataserverui/e-passwords.h>
 
 #include <gal/util/e-util.h>
 

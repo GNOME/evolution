@@ -39,7 +39,6 @@
 #include <libsoup/soup-session-async.h>
 #include <libsoup/soup-message.h>
 #include <libsoup/soup-uri.h>
-#include "e-util/e-passwords.h"
 #include "calendar-config.h"
 #include "itip-utils.h"
 #include "dialogs/cal-attachment.h"

@@ -26,12 +26,12 @@
 #include <string.h>
 #include <bonobo/bonobo-main.h>
 #include <libedataserver/e-url.h>
+#include <libedataserverui/e-passwords.h>
 #include <libecal/e-cal.h>
 #include "alarm-notify.h"
 #include "alarm-queue.h"
 #include "config-data.h"
 #include "common/authentication.h"
-#include "e-util/e-passwords.h"
 
 
 /* Private part of the AlarmNotify structure */

@@ -40,13 +40,13 @@
 #include <bonobo/bonobo-exception.h>
 #include <gal/util/e-util.h>
 #include <libedataserverui/e-source-selector.h>
+#include <libedataserverui/e-passwords.h>
 
 #include "widgets/misc/e-error.h"
 #include "widgets/misc/e-task-bar.h"
 #include "widgets/misc/e-info-label.h"
 
 
-#include "e-util/e-passwords.h"
 #include "e-util/e-icon-factory.h"
 #include "shell/e-user-creatable-items-handler.h"
 

@@ -27,7 +27,7 @@
 
 #include <string.h>
 #include <bonobo/bonobo-i18n.h>
-#include "e-util/e-passwords.h"
+#include <libedataserverui/e-passwords.h>
 #include "authentication.h"
 
 static GHashTable *source_lists_hash = NULL;

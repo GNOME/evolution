@@ -54,7 +54,6 @@
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
 
-#include <e-util/e-passwords.h>
 #include <e-util/e-account-list.h>
 #include <e-util/e-signature-list.h>
 
@@ -63,6 +62,8 @@
 #include <camel/camel-stream-fs.h>
 #include <camel/camel-mime-filter-charset.h>
 #include <camel/camel-stream-filter.h>
+
+#include <libedataserverui/e-passwords.h>
 
 #include "mail-component.h"
 #include "mail-session.h"

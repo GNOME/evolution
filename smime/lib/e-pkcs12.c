@@ -62,12 +62,12 @@
 
 #include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
+#include <libedataserverui/e-passwords.h>
 
 #include <time.h>
 #include <fcntl.h>
 #include <unistd.h>
 
-#include "e-util/e-passwords.h"
 #include "e-cert-db.h"
 #include "e-pkcs12.h"
 

@@ -83,10 +83,10 @@
 #include "plstr.h"
 #include "prprf.h"
 #include "prmem.h"
-#include "e-util/e-passwords.h"
 #include "e-util/e-dialog-utils.h"
 #include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
+#include <libedataserverui/e-passwords.h>
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/stat.h>

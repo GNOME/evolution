@@ -27,8 +27,8 @@
 #include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <libebook/e-book.h>
+#include <libedataserverui/e-passwords.h>
 
-#include "e-util/e-passwords.h"
 #include "widgets/misc/e-error.h"
 #include "addressbook.h"
 

@@ -1,3 +1,9 @@
+2005-02-23  Hans Petter Jansson  <hpj@novell.com>
+
+	* gui/component.c:
+	* lib/e-cert-db.c:
+	* lib/e-pkcs12.c: Include <libedataserverui/e-passwords.h>.
+
 2005-02-09  Hans Petter Jansson  <hpj@novell.com>
 
 	* lib/Makefile.am:

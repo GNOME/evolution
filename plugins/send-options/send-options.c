@@ -32,9 +32,9 @@
 #include <mail/em-config.h>
 #include <e-gw-connection.h>
 #include <camel/camel-url.h>
-#include "e-util/e-passwords.h"
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-source-list.h>
+#include <libedataserverui/e-passwords.h>
 
 ESendOptionsDialog *sod = NULL;
 GtkWidget *parent;

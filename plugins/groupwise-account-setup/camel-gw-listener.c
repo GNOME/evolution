@@ -29,7 +29,7 @@
 #include <string.h>
 #include  <camel/camel-i18n.h>
 #include <e-gw-connection.h>
-#include <e-util/e-passwords.h>
+#include <libedataserverui/e-passwords.h>
 #include "widgets/misc/e-error.h"
 
 /*stores some info about all currently existing groupwise accounts 

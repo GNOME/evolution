@@ -1,3 +1,9 @@
+2005-02-23  Hans Petter Jansson  <hpj@novell.com>
+
+	* e-shell-window-commands.c:
+	* e-shell.c:
+	* main.c: Include <libedataserverui/e-passwords.h>.
+
 2005-02-22  Marco Pesenti Gritti  <marco@gnome.org>
 
 	* shell/e-shell-window-commands.c: (command_quick_reference):

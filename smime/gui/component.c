@@ -28,10 +28,10 @@
 #include <gtk/gtk.h>
 
 #include <libgnome/gnome-i18n.h>
+#include <libedataserverui/e-passwords.h>
 
 #include "ca-trust-dialog.h"
 #include "e-cert-db.h"
-#include "e-util/e-passwords.h"
 #include "pk11func.h"
 
 static gboolean

@@ -52,7 +52,7 @@
 #include "mail-tools.h"
 #include "mail-mt.h"
 #include "mail-ops.h"
-#include "e-util/e-passwords.h"
+#include <libedataserverui/e-passwords.h>
 #include "libedataserver/e-msgport.h"
 #include "em-junk-filter.h"
 #include "widgets/misc/e-error.h"

@@ -1,3 +1,9 @@
+2005-02-23  Hans Petter Jansson  <hpj@novell.com>
+
+	* gui/component/addressbook-view.c:
+	* gui/component/addressbook.c: Include
+	<libedataserverui/e-passwords.h>.
+
 2005-02-19  Sivaiah Nallagatla <snallagatla@novell.com>
 
        * gui/contact-editor/eab-editor.c
