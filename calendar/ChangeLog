@@ -1,3 +1,10 @@
+2003-08-12  Harry Lu <harry.lu@sun.com>
+
+	** fixes #47464.
+
+	* gui/dialogs/meeting-page.c: (get_widgets): The Organizer's value
+	need not match one of the values in the list.
+
 2003-08-08  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-cal-model-calendar.c (ecmc_fill_component_from_model):
