@@ -662,7 +662,7 @@ gpg_ctx_op_start (struct _GpgCtx *gpg)
 				    (i != STDERR_FILENO) &&
 				    (i != fds[7]) &&  /* status fd */
 				    (i != fds[8]))    /* passwd fd */
-					close (i);
+					fcntl (i, F_SETFD, FD_CLOEXEC);
 			}
 		}
 		

@@ -531,7 +531,7 @@ run_command (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessa
 		if (maxfd > 0) {
 			for (fd = 0; fd < maxfd; fd++) {
 				if (fd != STDIN_FILENO && fd != STDOUT_FILENO && fd != STDERR_FILENO)
-					close (fd);
+					fcntl (fd, F_SETFD, FD_CLOEXEC);
 			}
 		}
 		

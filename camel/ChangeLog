@@ -1,3 +1,16 @@
+2003-12-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-process.c (camel_process_fork): Same.
+
+	* camel-filter-search.c (run_command): Same as below.
+
+	* camel-filter-driver.c (pipe_to_system): Same as below.
+
+	* camel-gpg-context.c (gpg_ctx_op_start): Use fcntl() to set
+	FD_CLOEXEC on each fd rather than close()ing it. Apparently
+	Linux's older pthread implementations use sockets and so this
+	fouls threading up. GO LINUX! GO!
+
 2003-11-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/smtp/camel-smtp-transport.c (connect_to_server): Don't
