@@ -1,5 +1,10 @@
 2002-11-14  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-shell-client.c (class_init): Pass the right parent
+	type to gtk_type_class().
+
+2002-11-14  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-user-creatable-items-handler.c,
 	* e-shell-user-creatable-items-handler.c: Changed into a GObject
 	subclass instead of a GtkObject subclass.

@@ -347,7 +347,7 @@ class_init (EvolutionShellClientClass *klass)
 {
 	GObjectClass *object_class;
 
-	parent_class = gtk_type_class (bonobo_object_get_type ());
+	parent_class = gtk_type_class (PARENT_TYPE);
 
 	object_class = G_OBJECT_CLASS (klass);
 
