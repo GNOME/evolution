@@ -1,3 +1,10 @@
+2003-06-23  Dan Winship  <danw@ximian.com>
+
+	* e-summary-calendar.c (setup_gconf_client): Don't call
+	setup_calendar from here, since e_summary_calendar_init will call
+	it immediately after setup_gconf_client, which will result in a
+	calendar being quickly created and destroyed.
+
 2003-06-19  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-summary.c (do_summary_print): Do not destroy preview_widget

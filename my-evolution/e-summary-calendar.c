@@ -577,8 +577,6 @@ setup_gconf_client (ESummary *summary)
 
 	gconf_client_add_dir (calendar->gconf_client, "/apps/evolution/calendar", FALSE, NULL);
 	gconf_client_add_dir (calendar->gconf_client, "/apps/evolution/shell/default_folders", FALSE, NULL);
-
-	setup_calendar (summary);
 }
 
 void
