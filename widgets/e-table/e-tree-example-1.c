@@ -12,6 +12,8 @@
 #include "e-cell-checkbox.h"
 #include "e-table.h"
 #include "e-tree-simple.h"
+#include "libgnomeprint/gnome-print.h"
+#include "libgnomeprint/gnome-print-preview.h"
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
@@ -62,21 +64,9 @@ char *headers [COLS] = {
 GtkWidget *e_table;
 
 /*
- * ETableSimple callbacks
+ * ETreeSimple callbacks
  * These are the callbacks that define the behavior of our custom model.
  */
-
-/*
- * Since our model is a constant size, we can just return its size in
- * the column and row count fields.
- */
-
-/* This function returns the number of columns in our ETableModel. */
-static int
-my_col_count (ETableModel *etc, void *data)
-{
-	return COLS;
-}
 
 /* This function returns the value at a particular point in our ETreeModel. */
 static void *
@@ -137,7 +127,7 @@ add_sibling (GtkButton *button, gpointer data)
 	parent_node = e_tree_model_node_get_parent (e_tree_model, selected_node);
 
 	e_tree_model_node_insert_before (e_tree_model, parent_node,
-					 selected_node, "User added sibling");
+					 selected_node, g_strdup("User added sibling"));
 
 }
 
@@ -156,7 +146,7 @@ add_child (GtkButton *button, gpointer data)
 	g_assert (selected_node);
 
 	e_tree_model_node_insert (e_tree_model, selected_node,
-				  0, "User added child");
+				  0, g_strdup("User added child"));
 }
 
 static void
@@ -216,6 +206,19 @@ collapse_all (GtkButton *button, gpointer data)
 	e_tree_model_node_set_expanded_recurse (e_tree_model, selected_node, FALSE);
 }
 
+static void
+print_tree (GtkButton *button, gpointer data)
+{
+	EPrintable *printable = e_table_get_printable (E_TABLE (e_table));
+	GnomePrintContext *gpc;
+
+	gpc = gnome_print_context_new (gnome_printer_new_generic_ps ("tree-out.ps"));
+
+	e_printable_print_page (printable, gpc, 8*72, 10*72, FALSE);
+
+	gnome_print_context_close (gpc);
+}
+
 /* We create a window containing our new tree. */
 static void
 create_tree (void)
@@ -273,8 +276,8 @@ create_tree (void)
 	/*
 	 * Create our pixbuf for expanding/unexpanding
 	 */
-	tree_expanded_pixbuf = gdk_pixbuf_new_from_xpm_data(tree_expanded_xpm);
-	tree_unexpanded_pixbuf = gdk_pixbuf_new_from_xpm_data(tree_unexpanded_xpm);
+	tree_expanded_pixbuf = gdk_pixbuf_new_from_xpm_data((const char**)tree_expanded_xpm);
+	tree_unexpanded_pixbuf = gdk_pixbuf_new_from_xpm_data((const char**)tree_unexpanded_xpm);
 	
 	/* 
 	 * This renderer is used for the tree column (the leftmost one), and
@@ -348,6 +351,10 @@ create_tree (void)
 
 	button = gtk_button_new_with_label ("Collapse All Below");
 	gtk_signal_connect (GTK_OBJECT (button), "clicked", collapse_all, e_tree_model);
+	gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
+
+	button = gtk_button_new_with_label ("Print Tree");
+	gtk_signal_connect (GTK_OBJECT (button), "clicked", print_tree, e_tree_model);
 	gtk_box_pack_end (GTK_BOX (vbox), button, FALSE, FALSE, 0);
 
 	gtk_container_add (GTK_CONTAINER (window), vbox);

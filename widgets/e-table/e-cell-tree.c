@@ -167,13 +167,6 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 
 	/* only draw the tree effects if we're the active sort */
 	if (/* XXX */ TRUE) {
-		/*
-		 * need to get the following things from the model
-		 * 1. depth of item.
-		 * 2. whether or not it has any children.
-		 * 3. whether the item is a toplevel item.
-		 * 3. ... anything else?
-		 */
 		node = e_cell_tree_get_node (tree_model, row);
 
 		offset = offset_of_node (tree_model, node);
@@ -208,11 +201,13 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		/* draw our lines */
 		if (E_CELL_TREE(tree_view->cell_view.ecell)->draw_lines) {
 
-			gdk_draw_line (drawable, tree_view->gc,
-				       rect.x + offset - INDENT_AMOUNT / 2 + 1,
-				       rect.y + rect.height / 2,
-				       rect.x + offset,
-				       rect.y + rect.height / 2);
+			if (!e_tree_model_node_is_root (tree_model, node)
+			    || e_tree_model_node_get_children (tree_model, node, NULL) > 0)
+				gdk_draw_line (drawable, tree_view->gc,
+					       rect.x + offset - INDENT_AMOUNT / 2 + 1,
+					       rect.y + rect.height / 2,
+					       rect.x + offset,
+					       rect.y + rect.height / 2);
 
 			if (visible_depth_of_node (tree_model, node) != 0) {
 				gdk_draw_line (drawable, tree_view->gc,
@@ -355,6 +350,102 @@ ect_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, voi
 	e_cell_leave_edit (tree_view->subcell_view, model_col, view_col, row, edit_context);
 }
 
+static void
+ect_print (ECellView *ecell_view, GnomePrintContext *context, 
+	   int model_col, int view_col, int row,
+	   double width, double height)
+{
+	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
+
+	if (/* XXX only if we're the active sort */ TRUE) {
+		ETreeModel *tree_model = e_cell_tree_get_tree_model (ecell_view->e_table_model, row);
+		ETreePath *node = e_cell_tree_get_node (tree_model, row);
+		int offset = offset_of_node (tree_model, node);
+		int subcell_offset = offset;
+
+		/* draw our lines */
+		if (E_CELL_TREE(tree_view->cell_view.ecell)->draw_lines) {
+			gnome_print_moveto (context,
+					    offset - INDENT_AMOUNT / 2,
+					    height / 2);
+
+			gnome_print_lineto (context,
+					    offset,
+					    height / 2);
+
+			if (visible_depth_of_node (tree_model, node) != 0) {
+				gnome_print_moveto (context,
+						    offset - INDENT_AMOUNT / 2,
+						    height);
+				gnome_print_lineto (context,
+						    offset - INDENT_AMOUNT / 2,
+						    (e_tree_model_node_get_next (tree_model, node)
+						     ? 0
+						     : height / 2));
+			}
+
+			/* now traverse back up to the root of the tree, checking at
+			   each level if the node has siblings, and drawing the
+			   correct vertical pipe for it's configuration. */
+			node = e_tree_model_node_get_parent (tree_model, node);
+			offset -= INDENT_AMOUNT;
+			while (node && visible_depth_of_node (tree_model, node) != 0) {
+				if (e_tree_model_node_get_next(tree_model, node)) {
+					gnome_print_moveto (context,
+							    offset - INDENT_AMOUNT / 2,
+							    height);
+					gnome_print_lineto (context,
+							    offset - INDENT_AMOUNT / 2,
+							    0);
+				}
+				node = e_tree_model_node_get_parent (tree_model, node);
+				offset -= INDENT_AMOUNT;
+			}
+		}
+
+#if 0
+		/* now draw our icon if we're expandable */
+		if (expandable) {
+			GdkPixbuf *image = (expanded 
+					    ? E_CELL_TREE(tree_view->cell_view.ecell)->open_pixbuf
+					    : E_CELL_TREE(tree_view->cell_view.ecell)->closed_pixbuf);
+			int width, height;
+
+			width = gdk_pixbuf_get_width(image);
+			height = gdk_pixbuf_get_height(image);
+
+			gdk_pixbuf_render_to_drawable_alpha (image,
+							     drawable,
+							     0, 0,
+							     x1 + subcell_offset - INDENT_AMOUNT / 2 - width / 2,
+							     y1 + (y2 - y1) / 2 - height / 2,
+							     width, height,
+							     GDK_PIXBUF_ALPHA_BILEVEL,
+							     128,
+							     GDK_RGB_DITHER_NORMAL,
+							     width, 0);
+		}
+#endif
+
+		gnome_print_stroke (context);
+
+		if (gnome_print_translate(context, subcell_offset, 0) == -1)
+				/* FIXME */;
+		width -= subcell_offset;
+	}
+
+
+	e_cell_print (tree_view->subcell_view, context, model_col, view_col, row, width, height);
+}
+
+static gdouble
+ect_print_height (ECellView *ecell_view, GnomePrintContext *context, 
+		  int model_col, int view_col, int row,
+		  double width)
+{
+	return 12; /* XXX */
+}
+
 /*
  * GtkObject::destroy method
  */
@@ -385,6 +476,8 @@ e_cell_tree_class_init (GtkObjectClass *object_class)
 	ecc->height     = ect_height;
 	ecc->enter_edit = ect_enter_edit;
 	ecc->leave_edit = ect_leave_edit;
+	ecc->print      = ect_print;
+	ecc->print_height = ect_print_height;
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 }

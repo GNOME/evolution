@@ -1,3 +1,18 @@
+2000-06-14  Chris Toshok  <toshok@helixcode.com>
+
+	* e-tree-example-1.c (print_tree): new function, to generate
+	postscript so i can test tree printing.
+	(create_tree): add print button.
+
+	* e-cell-tree.c (ect_print_height): implement function (in a
+	broken way for the time being, heh).
+	(ect_print): implement function to draw tree controls and offset
+	the subcell's printing.  icons aren't printed yet, just lines.
+	(ect_draw): remove old unnecessary comments.  only draw the
+	horizontal line in specific instances (well, add a test so a lone
+	root node doesn't get the horizontal line.)
+	(e_cell_tree_class_init): add print/print_height methods.
+
 2000-06-14  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-cell-text.c: Request the value of e_table_is_cell_editable of
