@@ -639,8 +639,14 @@ tag_editor_response (GtkWidget *dialog, int button, struct ted_t *ted)
 		
 		camel_folder_freeze (folder);
 		for (i = 0; i < uids->len; i++) {
-			for (t = tags; t; t = t->next)
-				camel_folder_set_message_user_tag (folder, uids->pdata[i], t->name, t->value);
+			CamelMessageInfo *mi = camel_folder_get_message_info(folder, uids->pdata[i]);
+
+			if (mi) {
+				for (t = tags; t; t = t->next)
+					camel_message_info_set_user_tag(mi, t->name, t->value);
+
+				camel_message_info_free(mi);
+			}
 		}
 		
 		camel_folder_thaw (folder);
@@ -685,9 +691,12 @@ em_utils_flag_for_followup (GtkWidget *parent, CamelFolder *folder, GPtrArray *u
 		CamelMessageInfo *info;
 		
 		info = camel_folder_get_message_info (folder, uids->pdata[i]);
-		message_tag_followup_append_message (MESSAGE_TAG_FOLLOWUP (editor),
-						     camel_message_info_from (info),
-						     camel_message_info_subject (info));
+		if (info) {
+			message_tag_followup_append_message (MESSAGE_TAG_FOLLOWUP (editor),
+							     camel_message_info_from (info),
+							     camel_message_info_subject (info));
+			camel_message_info_free(info);
+		}
 	}
 	
 	/* special-case... */
@@ -699,8 +708,8 @@ em_utils_flag_for_followup (GtkWidget *parent, CamelFolder *folder, GPtrArray *u
 			const CamelTag *tags = camel_message_info_user_tags(info);
 
 			if (tags)
-				message_tag_editor_set_tag_list (MESSAGE_TAG_EDITOR (editor), tags);
-			camel_folder_free_message_info (folder, info);
+				message_tag_editor_set_tag_list (MESSAGE_TAG_EDITOR (editor), (CamelTag *)tags);
+			camel_message_info_free(info);
 		}
 	}
 	
@@ -729,9 +738,14 @@ em_utils_flag_for_followup_clear (GtkWidget *parent, CamelFolder *folder, GPtrAr
 	
 	camel_folder_freeze (folder);
 	for (i = 0; i < uids->len; i++) {
-		camel_folder_set_message_user_tag (folder, uids->pdata[i], "follow-up", "");
-		camel_folder_set_message_user_tag (folder, uids->pdata[i], "due-by", "");
-		camel_folder_set_message_user_tag (folder, uids->pdata[i], "completed-on", "");
+		CamelMessageInfo *mi = camel_folder_get_message_info(folder, uids->pdata[i]);
+
+		if (mi) {
+			camel_message_info_set_user_tag(mi, "follow-up", NULL);
+			camel_message_info_set_user_tag(mi, "due-by", NULL);
+			camel_message_info_set_user_tag(mi, "completed-on", NULL);
+			camel_message_info_free(mi);
+		}
 	}
 	camel_folder_thaw (folder);
 	
@@ -762,12 +776,14 @@ em_utils_flag_for_followup_completed (GtkWidget *parent, CamelFolder *folder, GP
 	camel_folder_freeze (folder);
 	for (i = 0; i < uids->len; i++) {
 		const char *tag;
-		
-		tag = camel_folder_get_message_user_tag (folder, uids->pdata[i], "follow-up");
-		if (tag == NULL || *tag == '\0')
-			continue;
-		
-		camel_folder_set_message_user_tag (folder, uids->pdata[i], "completed-on", now);
+		CamelMessageInfo *mi = camel_folder_get_message_info(folder, uids->pdata[i]);
+
+		if (mi) {
+			tag = camel_message_info_user_tag(mi, "follow-up");
+			if (tag && tag[0])
+				camel_message_info_set_user_tag(mi, "completed-on", now);
+			camel_message_info_free(mi);
+		}
 	}
 	camel_folder_thaw (folder);
 	

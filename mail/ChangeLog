@@ -1,5 +1,15 @@
 2005-02-21  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #35219
+
+	* em-utils.c (em_utils_flag_for_followup_clear): clear the flag
+	tags rather than setting them to "".  Also change to using newer
+	messageinfo api.
+	(tag_editor_response, em_utils_flag_for_followup)
+	(em_utils_flag_for_followup_completed):	some cleanup/api stuff.
+
+2005-02-21  Not Zed  <NotZed@Ximian.com>
+
 	** See bug #64987
 
 	* message-list.c (message_list_select_thread): select the paths
