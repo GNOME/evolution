@@ -433,6 +433,7 @@ create_view(void)
 	*/
 	/* Show it all. */
 	gtk_widget_show_all (view->widget);
+	gtk_object_ref(GTK_OBJECT(view->model));
 	gtk_object_sink(GTK_OBJECT(view->model));
 	window_count ++;
 	return view;

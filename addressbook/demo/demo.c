@@ -434,6 +434,7 @@ create_window(char *filename, ViewType type)
 	gtk_widget_set_usize (view->window, 200, 200);
 	/* Show it all. */
 	gtk_widget_show_all (view->window);
+	gtk_object_ref(GTK_OBJECT(view->model));
 	gtk_object_sink(GTK_OBJECT(view->model));
 	window_count ++;
 	return view->window;
