@@ -1,5 +1,10 @@
 2000-06-08  Federico Mena Quintero  <federico@helixcode.com>
 
+	* contact-editor/e-contact-editor.c (save_card): Doh, sync the
+	card simple and extract the card info.
+
+2000-06-08  Federico Mena Quintero  <federico@helixcode.com>
+
 	* contact-editor/e-contact-editor.h (EContactEditor): Now this
 	derives from GtkObject.  It follows the same strategy as the
 	EventEditor in the calendar.

@@ -506,6 +506,9 @@ categories_clicked(GtkWidget *button, EContactEditor *editor)
 static void
 save_card (EContactEditor *ce)
 {
+	e_card_simple_sync_card (ce->simple);
+	extract_info (ce);
+
 	if (ce->is_new_card)
 		gtk_signal_emit (GTK_OBJECT (ce), contact_editor_signals[ADD_CARD],
 				 ce->card);
