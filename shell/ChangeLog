@@ -1,3 +1,12 @@
+2001-08-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #5978, "If a component dies, it's toolbar buttons remain".]
+
+	* e-shell-view.c (socket_destroy_cb): If the view belongs to a
+	toplevel storage node, get the right type information with
+	`e_storage_get_toplevel_node_uri()' instead of trying to get the
+	[non-existing] folder for it.
+
 2001-08-24  Iain Holmes  <iain@ximian.com>
 
 	* e-shell-startup-wizard.c (druid_event_notify_cb): Implement the other
