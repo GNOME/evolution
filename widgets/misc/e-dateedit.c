@@ -1434,23 +1434,8 @@ e_date_edit_parse_date (EDateEdit *dedit,
 			gchar	  *date_text,
 			struct tm *date_tm)
 {
-	struct tm *tmp_tm;
-	time_t t;
-
 	if (e_time_parse_date (date_text, date_tm) != E_TIME_PARSE_OK)
 		return FALSE;
-
-	/* If the user entered a 2-digit year we use the current century. */
-	if (date_tm->tm_year < 0) {
-		t = time (NULL);
-		tmp_tm = localtime (&t);
-
-		/* This should convert it into a value from 0 to 99. */
-		date_tm->tm_year += 1900;
-
-		/* Now add on the century. */
-		date_tm->tm_year += tmp_tm->tm_year - (tmp_tm->tm_year % 100);
-	}
 
 	return TRUE;
 }
