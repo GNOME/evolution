@@ -65,6 +65,10 @@ Mail:
 
   - Implemented Create/Remove/Move Folder. (Jason, Jeff)
 
+  - Maildir fixes and improvments, support for subdirectories. (Michael)
+
+  - Progress reporting using via shell activity interface. (Michael)
+
   - Many bug fixes all around.  (Michael, Jeff, Danw, Peter, Trow and others)
 
 Addressbook:
