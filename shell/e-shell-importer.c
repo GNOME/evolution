@@ -25,6 +25,10 @@
 #include <config.h>
 #endif
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
 #include <glib.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
@@ -336,7 +340,18 @@ start_import (const char *folderpath,
 	ImporterComponentData *icd;
 	char *label;
 	char *real_iid;
+	struct stat buf;
 	
+	if (stat (filename, &buf) == -1) {
+		char *message;
+
+		message = g_strdup_printf (_("File %s does not exist"), filename);
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR, message);
+		g_free (message);
+
+		return;
+	}
+
 	if (iid == NULL || strcmp (iid, "Automatic") == 0) {
 		/* Work out the component to use */
 		real_iid = get_iid_for_filetype (filename);

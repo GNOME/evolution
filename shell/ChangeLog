@@ -1,5 +1,10 @@
 2001-09-04  Iain Holmes  <iain@ximian.com>
 
+	* e-shell-importer.c (start_import): Check the file exists before trying
+	to do anything.
+
+2001-09-04  Iain Holmes  <iain@ximian.com>
+
 	* e-shell.c (e_shell_construct): Make the other components shut down
 	correctly when the first time dialog is cancelled.
 
