@@ -32,6 +32,14 @@
 #include "camel-mime-filter-tohtml.h"
 #include "camel-utf8.h"
 
+/**
+ * TODO: convert common text/plain 'markup' to html. eg.:
+ *
+ * _word_ -> <u>_word_</u>
+ * *word* -> <b>*word*</b>
+ * /word/ -> <i>/word/</i>
+ **/
+
 #define d(x)
 
 #define CONVERT_WEB_URLS  CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS
