@@ -1,3 +1,14 @@
+2003-04-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-gpg-context.c (gpg_ctx_parse_status): Don't set seen_eof1
+	here anymore once we get a trust metric.
+	(gpg_ctx_new): Init seen_eof1 to TRUE here.
+	(gpg_ctx_set_ostream): Change seen_eof1 to FALSE here this way we
+	only ever have to set this if we are expecting output.
+	(gpg_ctx_parse_status): Don't set seen_eof1 for importing either.
+	(gpg_ctx_op_step): Only FD_SET() those fd's that we have not yet
+	finished reading.
+
 2003-04-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-url-scanner.c (camel_url_web_end): Urls are unlikely to
