@@ -1,5 +1,13 @@
 2002-05-14  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-config-offline.c
+	(init_storage_set_view_status_from_config): Add a missing
+	CORBA_free in the case in which the typecode of the
+	/OfflineFolders/Paths key in the ConfigDatabase doesn't match the
+	expected type.
+
+2002-05-14  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell.c (e_shell_go_offline): Pass self to
 	e_shell_offline_handler_new() instead of the component registry.
 

@@ -136,6 +136,7 @@ init_storage_set_view_status_from_config (EStorageSetView *storage_set_view,
 
 	if (! CORBA_TypeCode_equal (any->_type, TC_CORBA_sequence_CORBA_string, &ev) || BONOBO_EX (&ev)) {
 		g_warning ("/OfflineFolders/Paths in ConfigDatabase is not the expected type");
+		CORBA_free (any);
 		CORBA_exception_free (&ev);
 		return;
 	}
