@@ -171,16 +171,23 @@ struct prop_info {
 	LIST_PROP   (E_CARD_SIMPLE_FIELD_EMAIL, "email", "mail", email_populate, email_ber, email_compare),
 
 	/* phone numbers */
-	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_PRIMARY,      "phone", "primaryPhone"),
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_PRIMARY,      "primary_phone", "primaryPhone"),
 	LIST_PROP     (E_CARD_SIMPLE_FIELD_PHONE_BUSINESS,     "business_phone", "telephoneNumber", business_populate, business_ber, business_compare),
 	LIST_PROP     (E_CARD_SIMPLE_FIELD_PHONE_HOME,         "home_phone", "homePhone", homephone_populate, homephone_ber, homephone_compare),
-	STRING_PROP   (E_CARD_SIMPLE_FIELD_PHONE_MOBILE,       "mobile", "mobile"),
-	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_CAR,          "car", "carPhone"),
+	STRING_PROP   (E_CARD_SIMPLE_FIELD_PHONE_MOBILE,       "mobile_phone", "mobile"),
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_CAR,          "car_phone", "carPhone"),
 	STRING_PROP   (E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX, "business_fax", "facsimileTelephoneNumber"), 
 	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_HOME_FAX,     "home_fax", "homeFacsimileTelephoneNumber"), 
 	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_OTHER,        "other_phone", "otherPhone"), 
-	STRING_PROP   (E_CARD_SIMPLE_FIELD_PHONE_ISDN,         "isdn", "internationalISDNNumber"), 
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_OTHER,        "other_fax", "otherFacsimileTelephoneNumber"), 
+	STRING_PROP   (E_CARD_SIMPLE_FIELD_PHONE_ISDN,         "isdn", "internationaliSDNNumber"), 
 	STRING_PROP   (E_CARD_SIMPLE_FIELD_PHONE_PAGER,        "pager", "pager"),
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_RADIO,        "radio", "radio"),
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_TELEX,        "telex", "telex"),
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_ASSISTANT,    "assistant_phone", "assistantPhone"),
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_COMPANY,      "company_phone", "companyPhone"),
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_CALLBACK,     "callback_phone", "callbackPhone"),
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_TTYTTD,       "tty", "tty"),
 
 	/* org information */
 	STRING_PROP   (E_CARD_SIMPLE_FIELD_ORG,       "org",       "o"),
@@ -197,7 +204,7 @@ struct prop_info {
 	E_STRING_PROP (E_CARD_SIMPLE_FIELD_ADDRESS_OTHER,    "other_address",    "otherPostalAddress"),
 
 	/* misc fields */
-	STRING_PROP (E_CARD_SIMPLE_FIELD_URL,           "uri", "labeledURI"),
+	STRING_PROP (E_CARD_SIMPLE_FIELD_URL,           "url", "labeledURI"),
 	/* map nickname to displayName */
 	STRING_PROP   (E_CARD_SIMPLE_FIELD_NICKNAME,    "nickname",  "displayName"),
 	E_STRING_PROP (E_CARD_SIMPLE_FIELD_SPOUSE,      "spouse", "spouseName"), 
@@ -206,7 +213,8 @@ struct prop_info {
 	E_STRING_PROP (E_CARD_SIMPLE_FIELD_BIRTH_DATE,  "birth_date", "birthDate"), 
 	E_STRING_PROP (E_CARD_SIMPLE_FIELD_MAILER,      "mailer", "mailer"), 
 
-/*  	E_CARD_SIMPLE_FIELD_FILE_AS, */
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_FILE_AS,     "file_as", "fileAs"),
+
 /*      E_CARD_SIMPLE_FIELD_FBURL, */
 /*  	E_CARD_SIMPLE_FIELD_NAME_OR_ORG, */
 

@@ -1,3 +1,11 @@
+2001-03-02  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/evolutionperson.schema: rename evolveperson.schema
+	to this, and add remaining attributes.
+
+	* backend/pas/pas-backend-ldap.c: add remaining fields, and fix up
+	ones that were incorrent (either the ldap_attr or the query prop).
+
 2001-03-02  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/Makefile.am: update sed script
