@@ -1,4 +1,8 @@
-2001-04-13  Jon Trowbridge  <trow@gnu.org>
+2001-04-13  Jon Trowbridge  <trow@ximian.com>
+
+	* providers/imap/camel-imap-store.c (imap_disconnect):
+	s/imap_store/store/, fixing a typo that was causing the build to
+	fail.
 
 	* camel-filter-search.c (get_source): Make the (previously unused)
 	get-source command actually do the right thing, properly shrouding

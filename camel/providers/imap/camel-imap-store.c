@@ -734,11 +734,11 @@ imap_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 		store->subscribed_folders = NULL;
 	}
 
-	if (imap_store->authtypes) {
-		g_hash_table_foreach_remove (imap_store->authtypes,
+	if (store->authtypes) {
+		g_hash_table_foreach_remove (store->authtypes,
 					     free_key, NULL);
-		g_hash_table_destroy (imap_store->authtypes);
-		imap_store->authtypes = NULL;
+		g_hash_table_destroy (store->authtypes);
+		store->authtypes = NULL;
 	}
 
 	if (store->namespace && !(store->parameters & IMAP_PARAM_OVERRIDE_NAMESPACE)) {
