@@ -109,12 +109,22 @@
        them more quickly, which is why there's a search feature.
     </para>
   </sect1>
+
   <sect1 id="usage-contact-cards">
     <title>The Contact Editor</title>
     <para>
-       To delete a card, click on it once to select it, then press the
-       <guibutton>Delete</guibutton> button.  If you have multiple
-       cards selected, you'll delete multiple cards.
+      <orderedlist numeration="arabic">
+	<listitem>
+	  <para>
+	    Click once on the contact.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Press <guibutton>Delete</guibutton>.
+	  </para>
+	</listitem>
+      </orderedlist>
     </para>
     <para>
        If you want to add or change cards, you'll use the contact
@@ -125,32 +135,32 @@
        toolbar will open the same window, with blank entry boxes for
        you to fill in.
     </para>
-
-      <para>
-	The contact editor window has two tabs,
-    	<guilabel>General</guilabel>, for basic contact information,
-    	and <guilabel>Details</guilabel>, for a more specific
-    	description of the person.  In addition, it contains a
-    	<guimenu>File</guimenu> menu, (see <xref
-    	linkend="menuref-contact-editor">) and a toolbar with three
+    
+    <para>
+      The contact editor window has two tabs,
+      <guilabel>General</guilabel>, for basic contact information,
+      and <guilabel>Details</guilabel>, for a more specific
+      description of the person.  In addition, it contains a
+      <guimenu>File</guimenu> menu, (see <xref
+					       linkend="menuref-contact-editor">) and a toolbar with three
     	items: <guilabel>Save and Close</guilabel>,
     	<guilabel>Print</guilabel>, and <guilabel>Delete</guilabel>.
       </para>
-      
-      <figure id="usage-contact-editor-fig">
-	  <title>Evolution Contact Editor</title>
-	  <screenshot>
-	    <screeninfo>Evolution Contact Editor</screeninfo>
-	  <graphic fileref="fig/contact-editor" format="png" srccredit="Aaron Weber">
-		</graphic>
-	</screenshot>
-      </figure>
-      
-      <para> The <guilabel>General</guilabel> tab has seven sections,
-         each with an icon: a face, for name and company; a telephone
-         for phone numbers; an envelope for email address; a globe for
-         web page address; a house for postal address; a file folder
-         for contacts, and a briefcase for categories. 
+    
+    <figure id="usage-contact-editor-fig">
+      <title>Evolution Contact Editor</title>
+      <screenshot>
+	<screeninfo>Evolution Contact Editor</screeninfo>
+	<graphic fileref="fig/contact-editor" format="png" srccredit="Aaron Weber">
+	</graphic>
+      </screenshot>
+    </figure>
+    
+    <para> The <guilabel>General</guilabel> tab has seven sections,
+      each with an icon: a face, for name and company; a telephone
+      for phone numbers; an envelope for email address; a globe for
+      web page address; a house for postal address; a file folder
+      for contacts, and a briefcase for categories. 
     </para>
     <para>
      <variablelist>
@@ -260,62 +270,70 @@
        linkend="usage-contact-organize">.
      </para>
      <para>
-       The <guilabel>Details</guilabel> tab is, fortunately, much more
-       simple: three sections, all of which are more or less obvious:
-       the briefcase next to the details about the contact's
-       professional life; the face next to the details about their
-       personal life; the globe next to a big blank space you can use
-       for anything and everything else you'd like to note about them.
-       If you ever wanted to have that uncanny knack for remembering
-       obscure details like the date of someone's anniversary (perhaps
-       your own) this is the way to develop it.
-     </para>
-
-
-
-
-<!--- ############# This section isn't implemented yet either:
-    <sect2>
-      <title></title>
-      <para>
-        <tip>
-	  <title>Contact Shortcuts</title>
+       The <guilabel>Details</guilabel> tab is much simpler:
+      <itemizedlist>
+	<listitem>
 	  <para>
-            You can add cards from within an email message or calendar
-            appointment.  While looking at an email, right-click on
-            any email address or message, and choose
-            <guimenuitem>Create Card for this Address</guimenuitem> or
-            <guimenuitem>Create Card for this Sender</guimenuitem>
-            from the menu.  While looking at a calendar appointment,
-            right-click any email address, and choose
-            <guimenuitem>Create Card for this Address</guimenuitem>.
-            (NOTE that feature may change!  unimplemented!)
-          </para>
-	</tip>
-      </para>
-      <para>
-        You can move cards around just as you would move email
-        messages: dragging and dropping works, as does right-clicking
-        and choosing <guimenuitem>Move</guimenuitem> from the menu
-        that appears.
-      </para>
-    </sect2>
-############### SHORTCUT SECTION COMMENTED OUT FOR NOW -->
+	    The briefcase - Describes the person's professional life
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    The face - Describes the person's personal life
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    The globe - Misc. notes
+	  </para>
+	</listitem>
+      </itemizedlist>
 
+      <tip>
+	<title>Contact Shortcuts</title>
+	<para>
+	  You can add cards from within an email message or calendar
+	  appointment.  While looking at an email, right-click on
+	  any email address or message, and choose
+	  <guimenuitem>Create Card for this Address</guimenuitem> or
+	  <guimenuitem>Create Card for this Sender</guimenuitem>
+            from the menu.  While looking at a calendar appointment,
+	  right-click any email address, and choose
+	  <guimenuitem>Create Card for this Address</guimenuitem>.
+	  (NOTE that feature may change!  unimplemented!)
+	</para>
+      </tip>
+    </para>
   </sect1>
 
   <sect1 id="contact-search">
     <title>Searching for Contacts</title>
     <para>
-      Between <guilabel>Delete</guilabel> and <guilabel>View
-	All</guilabel> is a quick search field. To use it, select
-      from the drop-down list which sort of search you'd like to
-    	   perform (the whole card, just the name, or just the email
-      address), then enter one or more words in the text entry
-      box, and press <keycap>Enter</keycap>.
-      <application>Evolution</application> will search through
-      the contents of every displayed card to find one that
-      matches. You can refine searches by doing several in
+      <application>Evolution</application> allows searching through contacts
+      quickly and easily.
+    </para>
+    <para>
+      To search through contacts:
+      <orderedlist numeration="arabic">
+	<listitem>
+	  <para>
+	    Select your search focus in the search bar.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Enter your query.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Press return to search.
+	  </para>
+	</listitem>
+      </orderedlist>
+    </para>
+    <para>
+      You can refine searches by doing several in
       succession, or start over by pressing the <guibutton>View
 	All</guibutton> button.
     </para>
@@ -344,28 +362,45 @@
     </example>
     
     <para>
-      If you prefer to perform a more complex search, press
-      <guibutton>Find</guibutton> or choose
-      <menuchoice><guimenu>Tools</guimenu><guimenuitem>Search for
-	  Contact</guimenuitem></menuchoice>. This will open the
-      in-depth search window, which lets you use multiple search
-      criteria in the same way that email filters and <glossterm
-								 linkend="vfolder">virtual folders</glossterm> do.  
+      To perform a complex search through your contacts:
+      <orderedlist numeration="arabic">
+	<listitem>
+	  <para>
+	    Open
+	    <menuchoice>
+	      <guimenu>Tools</guimenu>
+	      <guimenuitem>Search for contacts</guimenuitem>
+	    </menuchoice>
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Name the rule in the <guilabel>Rule name</guilabel field.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Setup your criteria information in the <guilabel>If</guilabel> section.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    If you want to add more critera, click the <guibutton>Add
+	    criterion</guibutton> button.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Click <guibutton>Search</guibutton>.
+	  </para>
+	</listitem>
+      </orderedlist>
     </para>
     <para>
-      Click <guibutton>Add Criterion</guibutton> to increase the
-      number of criteria you'd like to use in the search, and
-      <guibutton>Remove Criterion</guibutton> to remove one from the
-      bottom of the list.  Your criteria may be a search within the
-      <guilabel>Name</guilabel> or <guilabel>Email</guilabel>
-      fields; alternately you can choose to search through all the
-      fields with a regular expression.  Then, you can select from
-      all the familiar requirements like <guilabel>Begins
-        With</guilabel> and <guilabel>Does Not Contain</guilabel>,
-      decide whether to match <guilabel>All</guilabel> or
-      <guilabel>Any</guilabel> of your criteria, and press
-      <guibutton>Search</guibutton> to set it all off.
+      To show all your contacts, select <guibutton>Show All</guibutton> in the
+      <guilablel>Search Bar</guilabel> or search with an empty query.
     </para>
+
   </sect1>
 
   <sect1 id="usage-contact-organize">
@@ -469,6 +504,7 @@
     </sect2>
   </sect1>
   
+<!-- we need a LDAP server up for me to test this -->
   <sect1 id="usage-contact-sharing">
     <title>Sharing your Cards</title>
     <para>
