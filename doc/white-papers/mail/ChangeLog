@@ -2,7 +2,9 @@
 
 	* camel.sgml: add a blurb about camel offering
 	uniform interface. needs style and grammar corrections. 
-	
+	Talk about virtual folders.
+	Talk about lightweight messages
+	Talk about IMAP. 
 
 2000-02-28  Dan Winship  <danw@helixcode.com>
 

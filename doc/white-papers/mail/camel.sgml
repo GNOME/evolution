@@ -59,6 +59,39 @@
       extensible. Camel includes a provider mechnism which
       allows the application to be written once, and access
       the various mail protocols when camel supports them.
+    </para>
+    <para>
+      The store/folder mechanism is a powerful and versatile
+      way of accessing mail messages. No particular asumption 
+      is made on the client side, thus allowing a new way of 
+      managing the mails. For example, the mails stored in the
+      folders don't necessarily have to be physically located
+      in the folder. The folder can be a pure virtual folder
+      containing only references to the actual mails. 
+    </para>
+    <para>
+      The folder may support a index/searching mechanism
+      which allows the application to create virtual 
+      folders as the result of requests. These requests 
+      can be persistently associated to the virtual folders
+      so that each new mail corresponding to the request 
+      is added dynamically to the virtual folder. 
+    </para>
+    <para>
+      In addition to these possibilities, Camel has full Mime
+      supports. Camel Mime  messages are lightwheight objects 
+      representing the Mime skeleton of the actual mail. 
+      The data contained in the Mime parts are never stored
+      in memory. The application, when accessing the various
+      mime objects contained in the message (text parts, 
+      attachments, embedded binary objects ...) ask camel 
+      for a stream that it can read data from. 
+      These scheme allows a light and  non blocking handling
+      of mime messages. It is fully compatible with IMAP and
+      obviously takes full advantage of the "load on demand"
+      feature of this popular yet rarely properly supported
+      protocol.      
+    </para>
     <para>
       To begin using &Camel;, an application first creates a
       <classname>CamelSession</classname> object. This object is used
