@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution CVS-20000615\n"
-"POT-Creation-Date: 2000-06-15 00:06+0900\n"
-"PO-Revision-Date: 2000-06-15 00:10+0900\n"
+"Project-Id-Version: evolution CVS-20000626\n"
+"POT-Creation-Date: 2000-06-26 01:47+0900\n"
+"PO-Revision-Date: 2000-06-26 01:50+0900\n"
 "Last-Translator: Akira TAGOH <tagoh@gnome.gr.jp>\n"
 "Language-Team: Japanese <translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -367,7 +367,7 @@ msgid "FIXME: Delete"
 msgstr "FIXME: 削除"
 
 #: addressbook/contact-editor/e-contact-editor.c:791
-#: calendar/gui/event-editor.c:1337 calendar/gui/gncal-todo.c:322
+#: calendar/gui/event-editor.c:1337 calendar/gui/gncal-todo.c:326
 msgid "Delete this item"
 msgstr "このアイテムを削除"
 
@@ -452,7 +452,7 @@ msgid "Mobile"
 msgstr "モバイル"
 
 #: addressbook/contact-editor/e-contact-editor.c:1225
-#: addressbook/contact-editor/e-contact-editor.c:1320 mail/mail-config.c:2027
+#: addressbook/contact-editor/e-contact-editor.c:1320 mail/mail-config.c:2039
 msgid "Other"
 msgstr "その他"
 
@@ -492,11 +492,11 @@ msgstr "Email 2"
 msgid "Email 3"
 msgstr "Email 3"
 
-#: addressbook/gui/component/addressbook.c:417 mail/message-list.c:577
+#: addressbook/gui/component/addressbook.c:417 mail/message-list.c:651
 msgid "To"
 msgstr "受取人"
 
-#: addressbook/gui/component/addressbook.c:418 mail/message-list.c:549
+#: addressbook/gui/component/addressbook.c:418 mail/message-list.c:623
 msgid "From"
 msgstr "差出人"
 
@@ -533,9 +533,9 @@ msgid "Print contacts"
 msgstr "コンタクトを印刷する"
 
 #. Delete
-#: addressbook/gui/component/addressbook.c:430 calendar/gui/gncal-todo.c:494
-#: mail/folder-browser-factory.c:50 mail/mail-config.c:1857
-#: mail/mail-config.c:1953
+#: addressbook/gui/component/addressbook.c:430 calendar/gui/gncal-todo.c:498
+#: mail/folder-browser-factory.c:50 mail/mail-config.c:1865
+#: mail/mail-config.c:1961
 msgid "Delete"
 msgstr "削除"
 
@@ -683,8 +683,8 @@ msgstr "カレンダを開く"
 msgid "Save calendar"
 msgstr "カレンダを保存"
 
-#: calendar/gui/calendar-commands.c:522 calendar/gui/gncal-todo.c:708
-#: calendar/gui/gncal-todo.c:712
+#: calendar/gui/calendar-commands.c:522 calendar/gui/gncal-todo.c:712
+#: calendar/gui/gncal-todo.c:716
 msgid "Day"
 msgstr "日"
 
@@ -700,7 +700,7 @@ msgstr "5 日"
 msgid "Show the working week"
 msgstr "仕事中の週を表示する"
 
-#: calendar/gui/calendar-commands.c:528 calendar/gui/gncal-todo.c:707
+#: calendar/gui/calendar-commands.c:528 calendar/gui/gncal-todo.c:711
 msgid "Week"
 msgstr "週"
 
@@ -724,11 +724,11 @@ msgstr "年"
 msgid "Show 1 year"
 msgstr "1 年間を表示する"
 
-#: calendar/gui/calendar-commands.c:544 calendar/gui/calendar-commands.c:687
+#: calendar/gui/calendar-commands.c:544 calendar/gui/calendar-commands.c:690
 msgid "Create a new appointment"
 msgstr "新規予約を作成する"
 
-#: calendar/gui/calendar-commands.c:548 calendar/gui/calendar-commands.c:671
+#: calendar/gui/calendar-commands.c:548 calendar/gui/calendar-commands.c:674
 msgid "Print this calendar"
 msgstr "このカレンダを印刷する"
 
@@ -765,67 +765,67 @@ msgid "Go to a specific date"
 msgstr "指定日へ移動する"
 
 #. file menu
-#: calendar/gui/calendar-commands.c:656
+#: calendar/gui/calendar-commands.c:659
 msgid "New Ca_lendar"
 msgstr "新規カレンダ(_l)"
 
-#: calendar/gui/calendar-commands.c:657
+#: calendar/gui/calendar-commands.c:660
 msgid "Create a new calendar"
 msgstr "新規カレンダを作成する"
 
-#: calendar/gui/calendar-commands.c:660
+#: calendar/gui/calendar-commands.c:663
 msgid "Open Ca_lendar"
 msgstr "カレンダを開く(_l)"
 
-#: calendar/gui/calendar-commands.c:661
+#: calendar/gui/calendar-commands.c:664
 msgid "Open a calendar"
 msgstr "カレンダを開く"
 
-#: calendar/gui/calendar-commands.c:665 calendar/gui/calendar-commands.c:666
+#: calendar/gui/calendar-commands.c:668 calendar/gui/calendar-commands.c:669
 msgid "Save Calendar As"
 msgstr "カレンダを別名で保存"
 
-#: calendar/gui/calendar-commands.c:670
+#: calendar/gui/calendar-commands.c:673
 msgid "Print..."
 msgstr "印刷..."
 
-#: calendar/gui/calendar-commands.c:676
+#: calendar/gui/calendar-commands.c:679
 msgid "_Close Calendar"
 msgstr "カレンダを閉じる(_C)"
 
-#: calendar/gui/calendar-commands.c:677
+#: calendar/gui/calendar-commands.c:680
 msgid "Close current calendar"
 msgstr "現在のカレンダを閉じる"
 
-#: calendar/gui/calendar-commands.c:687
+#: calendar/gui/calendar-commands.c:690
 msgid "_New appointment..."
 msgstr "新規予約(_N)..."
 
-#: calendar/gui/calendar-commands.c:692
+#: calendar/gui/calendar-commands.c:695
 msgid "New appointment for _today..."
 msgstr "今日の新規予約(_t)..."
 
-#: calendar/gui/calendar-commands.c:693
+#: calendar/gui/calendar-commands.c:696
 msgid "Create a new appointment for today"
 msgstr "今日の新規予約を作成する"
 
-#: calendar/gui/calendar-commands.c:701 calendar/gui/prop.c:712
+#: calendar/gui/calendar-commands.c:704 calendar/gui/prop.c:712
 msgid "Preferences"
 msgstr "設定"
 
-#: calendar/gui/calendar-commands.c:708 calendar/gui/calendar-commands.c:709
+#: calendar/gui/calendar-commands.c:711 calendar/gui/calendar-commands.c:712
 msgid "About Calendar"
 msgstr "カレンダについて"
 
 #. i18n: This "%s%s" indicates possession. Languages where the order is
 #. * the inverse should translate it to "%2$s%1$s".
 #.
-#: calendar/gui/calendar-commands.c:751
+#: calendar/gui/calendar-commands.c:754
 #, c-format
 msgid "%s%s"
 msgstr "%s%s"
 
-#: calendar/gui/calendar-commands.c:751
+#: calendar/gui/calendar-commands.c:754
 msgid "'s calendar"
 msgstr "のカレンダです"
 
@@ -1213,30 +1213,30 @@ msgstr "印刷プレビュー"
 msgid "%02i minute divisions"
 msgstr "%02i 分分割"
 
-#: calendar/gui/e-day-view.c:2248 calendar/gui/e-day-view.c:2255
-#: calendar/gui/e-day-view.c:2264 calendar/gui/e-week-view.c:2550
-#: calendar/gui/e-week-view.c:2557 calendar/gui/e-week-view.c:2566
+#: calendar/gui/e-day-view.c:2271 calendar/gui/e-day-view.c:2278
+#: calendar/gui/e-day-view.c:2287 calendar/gui/e-week-view.c:2629
+#: calendar/gui/e-week-view.c:2636 calendar/gui/e-week-view.c:2645
 msgid "New appointment..."
 msgstr "新規予約..."
 
-#: calendar/gui/e-day-view.c:2252 calendar/gui/e-day-view.c:2259
-#: calendar/gui/e-week-view.c:2554 calendar/gui/e-week-view.c:2561
+#: calendar/gui/e-day-view.c:2275 calendar/gui/e-day-view.c:2282
+#: calendar/gui/e-week-view.c:2633 calendar/gui/e-week-view.c:2640
 msgid "Edit this appointment..."
 msgstr "この予約を編集..."
 
-#: calendar/gui/e-day-view.c:2253 calendar/gui/e-week-view.c:2555
+#: calendar/gui/e-day-view.c:2276 calendar/gui/e-week-view.c:2634
 msgid "Delete this appointment"
 msgstr "この予約を削除"
 
-#: calendar/gui/e-day-view.c:2260 calendar/gui/e-week-view.c:2562
+#: calendar/gui/e-day-view.c:2283 calendar/gui/e-week-view.c:2641
 msgid "Make this appointment movable"
 msgstr "この予約を可動にする"
 
-#: calendar/gui/e-day-view.c:2261 calendar/gui/e-week-view.c:2563
+#: calendar/gui/e-day-view.c:2284 calendar/gui/e-week-view.c:2642
 msgid "Delete this occurrence"
 msgstr "この出来事を削除"
 
-#: calendar/gui/e-day-view.c:2262 calendar/gui/e-week-view.c:2564
+#: calendar/gui/e-day-view.c:2285 calendar/gui/e-week-view.c:2643
 msgid "Delete all occurrences"
 msgstr "すべての出来事を削除"
 
@@ -1268,113 +1268,113 @@ msgstr "今日へ移動"
 msgid "The URI that the calendar will display"
 msgstr "カレンダが表示する URI"
 
-#: calendar/gui/gncal-todo.c:135
+#: calendar/gui/gncal-todo.c:137
 msgid "Create to-do item"
 msgstr "TODO アイテムを作成"
 
-#: calendar/gui/gncal-todo.c:135
+#: calendar/gui/gncal-todo.c:137
 msgid "Edit to-do item"
 msgstr "TODO アイテムを編集"
 
-#: calendar/gui/gncal-todo.c:169
+#: calendar/gui/gncal-todo.c:171
 msgid "Summary:"
 msgstr "サマリ:"
 
-#: calendar/gui/gncal-todo.c:179
+#: calendar/gui/gncal-todo.c:181
 msgid "Due Date:"
 msgstr "期日:"
 
-#: calendar/gui/gncal-todo.c:188
+#: calendar/gui/gncal-todo.c:190
 msgid "Priority:"
 msgstr "優先度:"
 
-#: calendar/gui/gncal-todo.c:204
+#: calendar/gui/gncal-todo.c:206
 msgid "Item Comments:"
 msgstr "アイテムのコメント:"
 
-#: calendar/gui/gncal-todo.c:320
+#: calendar/gui/gncal-todo.c:324
 msgid "Add to-do item..."
 msgstr "TODO アイテムを追加..."
 
-#: calendar/gui/gncal-todo.c:321
+#: calendar/gui/gncal-todo.c:325
 msgid "Edit this item..."
 msgstr "アイテムを編集..."
 
-#: calendar/gui/gncal-todo.c:420
+#: calendar/gui/gncal-todo.c:424
 msgid "Summary"
 msgstr "サマリ"
 
-#: calendar/gui/gncal-todo.c:421 calendar/gui/prop.c:604
+#: calendar/gui/gncal-todo.c:425 calendar/gui/prop.c:604
 msgid "Due Date"
 msgstr "期日"
 
-#: calendar/gui/gncal-todo.c:422 calendar/gui/prop.c:605
-#: mail/message-list.c:535
+#: calendar/gui/gncal-todo.c:426 calendar/gui/prop.c:605
+#: mail/message-list.c:609
 msgid "Priority"
 msgstr "優先度"
 
-#: calendar/gui/gncal-todo.c:423
+#: calendar/gui/gncal-todo.c:427
 msgid "Time Left"
 msgstr "残った時間"
 
 #. Label
-#: calendar/gui/gncal-todo.c:435
+#: calendar/gui/gncal-todo.c:439
 msgid "To-do list"
 msgstr "TODO リスト"
 
 #. Add
-#: calendar/gui/gncal-todo.c:474
+#: calendar/gui/gncal-todo.c:478
 msgid "Add..."
 msgstr "追加..."
 
 #. Edit
-#: calendar/gui/gncal-todo.c:483
+#: calendar/gui/gncal-todo.c:487
 msgid "Edit..."
 msgstr "編集..."
 
-#: calendar/gui/gncal-todo.c:707
+#: calendar/gui/gncal-todo.c:711
 msgid "Weeks"
 msgstr "週"
 
-#: calendar/gui/gncal-todo.c:708 calendar/gui/gncal-todo.c:712
+#: calendar/gui/gncal-todo.c:712 calendar/gui/gncal-todo.c:716
 msgid "Days"
 msgstr "日"
 
-#: calendar/gui/gncal-todo.c:713 calendar/gui/gncal-todo.c:717
+#: calendar/gui/gncal-todo.c:717 calendar/gui/gncal-todo.c:721
 msgid "Hours"
 msgstr "時"
 
-#: calendar/gui/gncal-todo.c:713 calendar/gui/gncal-todo.c:717
+#: calendar/gui/gncal-todo.c:717 calendar/gui/gncal-todo.c:721
 msgid "Hour"
 msgstr "時"
 
-#: calendar/gui/gncal-todo.c:718 calendar/gui/gncal-todo.c:722
+#: calendar/gui/gncal-todo.c:722 calendar/gui/gncal-todo.c:726
 msgid "Minutes"
 msgstr "分"
 
-#: calendar/gui/gncal-todo.c:718 calendar/gui/gncal-todo.c:722
+#: calendar/gui/gncal-todo.c:722 calendar/gui/gncal-todo.c:726
 msgid "Minute"
 msgstr "分"
 
-#: calendar/gui/gncal-todo.c:723 calendar/gui/gncal-todo.c:727
+#: calendar/gui/gncal-todo.c:727 calendar/gui/gncal-todo.c:731
 msgid "Seconds"
 msgstr "秒"
 
-#: calendar/gui/gncal-todo.c:723 calendar/gui/gncal-todo.c:727
+#: calendar/gui/gncal-todo.c:727 calendar/gui/gncal-todo.c:731
 msgid "Second"
 msgstr "秒"
 
-#: calendar/gui/gnome-cal.c:442 calendar/gui/gnome-cal.c:1081
-#: calendar/gui/gnome-cal.c:1137
+#: calendar/gui/gnome-cal.c:452 calendar/gui/gnome-cal.c:1063
+#: calendar/gui/gnome-cal.c:1119
 msgid "Reminder of your appointment at "
 msgstr "あなたの予約の催促 "
 
-#: calendar/gui/gnome-cal.c:1073
+#: calendar/gui/gnome-cal.c:1055
 msgid "Snooze"
 msgstr "居眠り"
 
 #. Idea: we need Snooze option :-)
-#: calendar/gui/gnome-cal.c:1086 calendar/gui/gnome-cal.c:1141
+#: calendar/gui/gnome-cal.c:1068 calendar/gui/gnome-cal.c:1123
 msgid "Ok"
 msgstr "Ok"
 
@@ -1624,28 +1624,7 @@ msgstr "FIXME: vCalendar で転送(_C)"
 msgid "%a %b %d %Y"
 msgstr "%a %b %d %Y"
 
-#: camel/providers/imap/imap.c:407
-msgid "IMAP server replied using unknown tokens.\n"
-msgstr "IMAP サーバは未知のトークンを使用して返答しました\n"
-
-#: camel/providers/imap/imap.c:450
-msgid "IMAP responded with \"no such message\".\n"
-msgstr "IMAP は \"そのようなメッセージはありません\" と応じました\n"
-
-#: camel/providers/imap/imap.c:570
-#, c-format
-msgid "Connecting to IMAP server (%s)..."
-msgstr "IMAP サーバ (%s) へ接続中..."
-
-#: camel/providers/imap/imap.c:574
-msgid "failed.\n"
-msgstr "失敗\n"
-
-#: camel/providers/imap/imap.c:578
-msgid "success.\n"
-msgstr "成功\n"
-
-#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:656
+#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:690
 msgid "Cut"
 msgstr "切り取り"
 
@@ -1653,7 +1632,7 @@ msgstr "切り取り"
 msgid "Cut selected item into clipboard"
 msgstr "クリップボードの中へ選択されたアイテムを切り取る"
 
-#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:657
+#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:691
 msgid "Copy"
 msgstr "コピー"
 
@@ -1662,7 +1641,7 @@ msgid "Copy selected item into clipboard"
 msgstr "クリップボードの中へ選択されたアイテムをコピーする"
 
 #: composer/e-msg-composer-address-dialog.c:191
-#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:658
+#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:692
 msgid "Paste"
 msgstr "貼り付け"
 
@@ -1699,23 +1678,23 @@ msgstr "%.1fM"
 msgid "%.1fG"
 msgstr "%.1fG"
 
-#: composer/e-msg-composer-attachment-bar.c:297
+#: composer/e-msg-composer-attachment-bar.c:299
 msgid "Add attachment"
 msgstr "添付物の追加"
 
-#: composer/e-msg-composer-attachment-bar.c:354 shell/e-shortcuts-view.c:332
+#: composer/e-msg-composer-attachment-bar.c:362 shell/e-shortcuts-view.c:332
 msgid "Remove"
 msgstr "削除"
 
-#: composer/e-msg-composer-attachment-bar.c:355
+#: composer/e-msg-composer-attachment-bar.c:363
 msgid "Remove selected items from the attachment list"
 msgstr "添付物リストから選択したアイテムを削除する"
 
-#: composer/e-msg-composer-attachment-bar.c:386
+#: composer/e-msg-composer-attachment-bar.c:394
 msgid "Add attachment..."
 msgstr "添付物の追加..."
 
-#: composer/e-msg-composer-attachment-bar.c:387
+#: composer/e-msg-composer-attachment-bar.c:395
 msgid "Attach a file to the message"
 msgstr "メッセージへファイルを添付する"
 
@@ -1759,66 +1738,79 @@ msgstr "Subject:"
 msgid "Enter the subject of the mail"
 msgstr "メールの表題を入力"
 
-#: composer/e-msg-composer.c:508
+#: composer/e-msg-composer.c:492
+msgid "Open file"
+msgstr "ファイルを開く"
+
+#: composer/e-msg-composer.c:502
+#, c-format
+msgid "Error loading file: %s"
+msgstr "ファイルのロード中にエラー: %s"
+
+#: composer/e-msg-composer.c:543
 msgid "Discard this message?"
 msgstr "このメッセージを処分しますか?"
 
-#: composer/e-msg-composer.c:614
+#: composer/e-msg-composer.c:648
 msgid "Save in _folder..."
 msgstr "フォルダ内を保存(_f)..."
 
-#: composer/e-msg-composer.c:614
+#: composer/e-msg-composer.c:648
 msgid "Save the message in a specified folder"
 msgstr "指定したフォルダ内のメッセージを保存する"
 
-#: composer/e-msg-composer.c:617 composer/e-msg-composer.c:654
+#: composer/e-msg-composer.c:651 composer/e-msg-composer.c:688
 #: mail/folder-browser-factory.c:36
 msgid "Send"
 msgstr "送信"
 
-#: composer/e-msg-composer.c:617
+#: composer/e-msg-composer.c:651
 msgid "Send the message"
 msgstr "メッセージを送信する"
 
-#: composer/e-msg-composer.c:625
+#: composer/e-msg-composer.c:659
 msgid "View _attachments"
 msgstr "添付物を表示 (_a)"
 
-#: composer/e-msg-composer.c:625
+#: composer/e-msg-composer.c:659
 msgid "View/hide attachments"
 msgstr "添付物を表示/隠す"
 
-#: composer/e-msg-composer.c:654
+#: composer/e-msg-composer.c:688
 msgid "Send this message"
 msgstr "このメッセージを送信する"
 
-#: composer/e-msg-composer.c:656
+#: composer/e-msg-composer.c:690
 msgid "Cut selected region into the clipboard"
 msgstr "クリップボードの中へ選択された領域を切り取る"
 
-#: composer/e-msg-composer.c:657
+#: composer/e-msg-composer.c:691
 msgid "Copy selected region into the clipboard"
 msgstr "クリップボードの中へ選択された領域をコピーする"
 
-#: composer/e-msg-composer.c:658
+#: composer/e-msg-composer.c:692
 msgid "Paste selected region into the clipboard"
 msgstr "クリップボードの中へ選択された領域を貼り付ける"
 
-#: composer/e-msg-composer.c:659
+#: composer/e-msg-composer.c:693
 msgid "Undo"
 msgstr "元に戻す"
 
-#: composer/e-msg-composer.c:659
+#: composer/e-msg-composer.c:693
 msgid "Undo last operation"
 msgstr "最後の操作を元に戻す"
 
-#: composer/e-msg-composer.c:661
+#: composer/e-msg-composer.c:695
 msgid "Attach"
 msgstr "添付"
 
-#: composer/e-msg-composer.c:661
+#: composer/e-msg-composer.c:695
 msgid "Attach a file"
 msgstr "ファイルを添付する"
+
+#: composer/e-msg-composer.c:857
+msgid "Compose a message"
+msgstr "メッセージを作成する"
 
 #: mail/folder-browser-factory.c:35
 msgid "Get mail"
@@ -1917,31 +1909,31 @@ msgstr "署名ファイル:"
 msgid "Signature File"
 msgstr "署名ファイル"
 
-#: mail/mail-config.c:699 mail/mail-config.c:791
+#: mail/mail-config.c:698 mail/mail-config.c:789
 msgid "Server:"
 msgstr "サーバ:"
 
-#: mail/mail-config.c:705
+#: mail/mail-config.c:704
 msgid "Username:"
 msgstr "ユーザ名:"
 
-#: mail/mail-config.c:711
+#: mail/mail-config.c:710
 msgid "Path:"
 msgstr "パス:"
 
-#: mail/mail-config.c:717 mail/mail-config.c:797
+#: mail/mail-config.c:716 mail/mail-config.c:795
 msgid "Authentication:"
 msgstr "認証:"
 
-#: mail/mail-config.c:729 mail/mail-config.c:809
+#: mail/mail-config.c:728 mail/mail-config.c:807
 msgid "Detect supported types..."
 msgstr "サポートタイプの検出..."
 
-#: mail/mail-config.c:755 mail/mail-config.c:831
+#: mail/mail-config.c:754 mail/mail-config.c:829
 msgid "Test these values before continuing"
 msgstr "次へ進む前にこれらの値をテストして下さい"
 
-#: mail/mail-config.c:939
+#: mail/mail-config.c:936
 msgid ""
 "Select the kind of mail server you have, and enter the relevant information "
 "about it.\n"
@@ -1955,90 +1947,90 @@ msgstr ""
 "もしサーバが認証を必要とするなら, その他の情報を入力した後に "
 "\"サポートタイプを検出...\" ボタンをクリックできます"
 
-#: mail/mail-config.c:957
+#: mail/mail-config.c:954
 msgid "Select the method you would like to use to deliver your mail."
 msgstr "メールを配達するのに使用したい方法を選択して下さい"
 
-#: mail/mail-config.c:1120 mail/mail-config.c:1199
+#: mail/mail-config.c:1128 mail/mail-config.c:1207
 msgid "Mail Configuration"
 msgstr "メール設定"
 
 #. Identity page
-#: mail/mail-config.c:1137 mail/mail-config.c:1866
+#: mail/mail-config.c:1145 mail/mail-config.c:1874
 msgid "Identity"
 msgstr "身元"
 
 #. Source page
-#: mail/mail-config.c:1156
+#: mail/mail-config.c:1164
 msgid "Mail Source"
 msgstr "メールの起点"
 
 #. Transport page
-#: mail/mail-config.c:1177
+#: mail/mail-config.c:1185
 msgid "Mail Transport"
 msgstr "メールの転送"
 
-#: mail/mail-config.c:1299
+#: mail/mail-config.c:1307
 msgid "Edit Identity"
 msgstr "身元の編集"
 
-#: mail/mail-config.c:1301
+#: mail/mail-config.c:1309
 msgid "Add Identity"
 msgstr "身元の追加"
 
-#: mail/mail-config.c:1444
+#: mail/mail-config.c:1452
 msgid "Edit Source"
 msgstr "起点の編集"
 
-#: mail/mail-config.c:1446
+#: mail/mail-config.c:1454
 msgid "Add Source"
 msgstr "起点の追加"
 
-#: mail/mail-config.c:1708
+#: mail/mail-config.c:1716
 msgid "Name"
 msgstr "名前"
 
-#: mail/mail-config.c:1708
+#: mail/mail-config.c:1716
 msgid "Address"
 msgstr "アドレス"
 
-#: mail/mail-config.c:1708
+#: mail/mail-config.c:1716
 msgid "Organization"
 msgstr "組織"
 
-#: mail/mail-config.c:1708
+#: mail/mail-config.c:1716
 msgid "Signature file"
 msgstr "署名ファイル"
 
-#: mail/mail-config.c:1734
+#: mail/mail-config.c:1742
 msgid "Camel Providers Configuration"
 msgstr "キャメルプロバイダ設定"
 
-#: mail/mail-config.c:1823
+#: mail/mail-config.c:1831
 msgid "Identities"
 msgstr "身元"
 
-#: mail/mail-config.c:1839 mail/mail-config.c:1935
+#: mail/mail-config.c:1847 mail/mail-config.c:1943
 msgid "Add"
 msgstr "追加"
 
-#: mail/mail-config.c:1848 mail/mail-config.c:1944
+#: mail/mail-config.c:1856 mail/mail-config.c:1952
 msgid "Edit"
 msgstr "編集"
 
-#: mail/mail-config.c:1919
+#: mail/mail-config.c:1927
 msgid "Mail sources"
 msgstr "メールの起点"
 
-#: mail/mail-config.c:1962
+#: mail/mail-config.c:1970
 msgid "Sources"
 msgstr "起点"
 
-#: mail/mail-config.c:1997
+#: mail/mail-config.c:2009
 msgid "Transports"
 msgstr "転送"
 
-#: mail/mail-config.c:2018
+#: mail/mail-config.c:2030
 msgid "Send messages in HTML format"
 msgstr "HTML 形式でメッセージを送信"
 
@@ -2046,27 +2038,27 @@ msgstr "HTML 形式でメッセージを送信"
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "メールコンポーネント: Bonobo の初期化が出来ませんでした"
 
-#: mail/message-list.c:521
+#: mail/message-list.c:595
 msgid "Online Status"
 msgstr "オンライン状態"
 
-#: mail/message-list.c:556
+#: mail/message-list.c:630
 msgid "Subject"
 msgstr "表題"
 
-#: mail/message-list.c:563
+#: mail/message-list.c:637
 msgid "Date"
 msgstr "日付"
 
-#: mail/message-list.c:570
-msgid "Receive"
+#: mail/message-list.c:644
+msgid "Received"
 msgstr "受信"
 
-#: mail/message-list.c:584
+#: mail/message-list.c:658
 msgid "Size"
 msgstr "サイズ"
 
-#: mail/component-factory.c:177
+#: mail/component-factory.c:179
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Evolution メールコンポーネントの初期化が出来ません"
 
@@ -2402,79 +2394,79 @@ msgstr "Evolution はそれぞれのローカルフォルダを作成できません"
 msgid "Error saving shortcuts."
 msgstr "ショートカットの保存中にエラーが発生しました"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:374
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:386
 msgid "Tentative"
 msgstr "試案"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:375
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:387
 msgid "Busy"
 msgstr "ビジー"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:376
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:388
 msgid "Out of Office"
 msgstr "オフィスの外"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:377
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:389
 msgid "No Information"
 msgstr "情報なし"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:393
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:405
 msgid "_Invite Others..."
 msgstr "他の招待(_I)..."
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:413
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:425
 msgid "_Options"
 msgstr "オプション(_O)"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:430
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:442
 msgid "Show _Only Working Hours"
 msgstr "仕事中の時間だけ表示(_O)"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:443
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:455
 msgid "Show _Zoomed Out"
 msgstr "縮小して表示(_Z)"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:461
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:473
 msgid "_Update Free/Busy"
 msgstr "フリー/ビジー の更新(_U)"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:479
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:491
 msgid "_<<"
 msgstr "<<(_<)"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:496
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:508
 msgid "_Autopick"
 msgstr "自動ピックアップ(_A)"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:510
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:522
 msgid ">_>"
 msgstr ">>(_>)"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:527
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:539
 msgid "_All People and Resources"
 msgstr "すべての人々とリソース(_A)"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:540
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:552
 msgid "All _People and One Resource"
 msgstr "すべての人々とひとつのリソース(_P)"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:553
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:565
 msgid "_Required People"
 msgstr "人々が必要(_R)"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:566
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:578
 msgid "Required People and _One Resource"
 msgstr "人々とひとつのリソースが必要(_O)"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:589
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:601
 msgid "Meeting _start time:"
 msgstr "会議開始時間(_s):"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:613
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:625
 msgid "Meeting _end time:"
 msgstr "会議終了時間(_e):"
 
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:725
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:738
 msgid "All Attendees"
 msgstr "すべての付き添い"
 
