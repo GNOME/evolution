@@ -1,3 +1,7 @@
+1999-02-09  Tomas Ogren  <stric@ing.umu.se>
+
+	* main.c: Removed the gtk_widget_realize call.
+
 1999-02-06  Changwoo Ryu  <cwryu@adam.kaist.ac.kr>
 
 	* gncal.desktop: Added Korean translations.
