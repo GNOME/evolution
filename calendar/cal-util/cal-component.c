@@ -2230,7 +2230,8 @@ cal_component_alarm_set_action (CalComponentAlarm *alarm, CalComponentAlarmActio
 /**
  * cal_component_alarm_get_trigger:
  * @alarm: An alarm.
- * @trigger: Return value for the trigger time.
+ * @trigger: Return value for the trigger time.  This should be freed using the
+ * cal_component_alarm_free_trigger() function.
  * 
  * Queries the trigger time for an alarm.
  **/
@@ -2322,37 +2323,107 @@ cal_component_alarm_get_trigger (CalComponentAlarm *alarm, CalComponentAlarmTrig
 	}
 }
 
+/**
+ * cal_component_alarm_set_trigger:
+ * @alarm: An alarm.
+ * @trigger: Trigger time structure.
+ * 
+ * Sets the trigger time of an alarm.
+ **/
 void
 cal_component_alarm_set_trigger (CalComponentAlarm *alarm, CalComponentAlarmTrigger *trigger)
 {
 	union icaltriggertype t;
+	icalparameter *param;
+	icalparameter_value value_type;
+	icalparameter_related related;
 
 	g_return_if_fail (alarm != NULL);
 	g_return_if_fail (trigger != NULL);
 
 	g_assert (alarm->icalcomp != NULL);
 
+	/* Delete old trigger */
+
+	if (alarm->trigger) {
+		icalcomponent_remove_property (alarm->icalcomp, alarm->trigger);
+		icalproperty_free (alarm->trigger);
+		alarm->trigger = NULL;
+	}
+
 	/* Set the value */
+
+	value_type = ICAL_DURATION_VALUE; /* Keep GCC happy */
+	related = ICAL_RELATED_START; /* Ditto */
 
 	switch (trigger->type) {
 	case CAL_COMPONENT_ALARM_TRIGGER_RELATIVE:
 		t.duration = trigger->u.relative.duration;
+		value_type = ICAL_DURATION_VALUE;
+
+		switch (trigger->u.relative.related) {
+		case CAL_COMPONENT_ALARM_TRIGGER_RELATED_START:
+			related = ICAL_RELATED_START;
+			break;
+
+		case CAL_COMPONENT_ALARM_TRIGGER_RELATED_END:
+			related = ICAL_RELATED_END;
+			break;
+
+		default:
+			g_assert_not_reached ();
+			return;
+		}
+
 		break;
 
 	case CAL_COMPONENT_ALARM_TRIGGER_ABSOLUTE:
 		t.time = trigger->u.absolute;
+		value_type = ICAL_DATETIME_VALUE;
 		break;
 
 	default:
 		g_assert_not_reached ();
+		return;
 	}
 
-	if (alarm->trigger)
-		icalproperty_set_trigger (alarm->trigger, t);
+	alarm->trigger = icalproperty_new_trigger (t);
+	icalcomponent_add_property (alarm->icalcomp, alarm->trigger);
+
+	/* Value parameters */
+
+	param = icalproperty_get_first_parameter (alarm->trigger, ICAL_VALUE_PARAMETER);
+	if (param)
+		icalparameter_set_value (param, value_type);
 	else {
-		alarm->trigger = icalproperty_new_trigger (t);
-		icalcomponent_add_property (alarm->icalcomp, alarm->trigger);
+		param = icalparameter_new_value (value_type);
+		icalproperty_add_parameter (alarm->trigger, param);
 	}
 
-	/* Set the parameters */
+	/* Related parameter */
+
+	if (trigger->type == CAL_COMPONENT_ALARM_TRIGGER_RELATIVE) {
+		param = icalproperty_get_first_parameter (alarm->trigger, ICAL_RELATED_PARAMETER);
+
+		if (param)
+			icalparameter_set_related (param, related);
+		else {
+			param = icalparameter_new_related (related);
+			icalproperty_add_parameter (alarm->trigger, param);
+		}
+	}
+}
+
+/**
+ * cal_component_alarm_free_trigger:
+ * @trigger: A #CalComponentAlarmTrigger structure.
+ * 
+ * Frees a #CalComponentAlarmTrigger structure.
+ **/
+void
+cal_component_alarm_free_trigger (CalComponentAlarmTrigger *trigger)
+{
+	g_return_if_fail (trigger != NULL);
+
+	g_free (trigger);
 }

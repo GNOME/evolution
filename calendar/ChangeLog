@@ -1,3 +1,9 @@
+2000-07-19  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-util/cal-component.c (cal_component_alarm_set_trigger):
+	Finish filling the trigger.  What a pain, again.
+	(cal_component_alarm_free_trigger): Implemented.
+
 2000-07-19  Fatih Demir	<kabalak@gmx.net>
 	
 	* conduits/calendar/calendar-conduit-control-applet.desktop:
