@@ -24,6 +24,7 @@
 #include <config.h>
 #endif
 
+#include <sys/types.h>
 #include <ctype.h>
 #include <dirent.h>
 #include <errno.h>

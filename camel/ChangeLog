@@ -1,3 +1,10 @@
+2002-04-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-provider.c: Added #include <sys/types.h> for dirent.h
+	which needs it on MacOS X.
+
+	* camel-data-cache.c: Same.
+
 2002-04-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* broken-date-parser.c (datetok): Treat commas as token
