@@ -1,3 +1,7 @@
+2001-07-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* configure.in: Check for libGal 0.8.99.7.
+
 2001-07-02  Peter Williams  <peterw@ximian.com>
 
 	* configure.in (evolution_db_version): s,AC_DEFINE,AC_DEFINE_UNQUOTED
