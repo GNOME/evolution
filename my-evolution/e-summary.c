@@ -65,10 +65,10 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtkscrolledwindow.h>
 
+#include <gconf/gconf-client.h>
+
 #include <string.h>
 #include <unistd.h>
-
-#include "e-util/e-config-listener.h"
 
 #include "e-summary.h"
 #include "e-summary-preferences.h"
@@ -489,7 +489,7 @@ alarm_fn (gpointer alarm_id,
 static void
 e_summary_init (ESummary *summary)
 {
-	EConfigListener *config_listener;
+	GConfClient *gconf_client;
 	ESummaryPrivate *priv;
 	GdkColor bgcolor = {0, 0xffff, 0xffff, 0xffff};
 	time_t t, day_end;
@@ -528,18 +528,16 @@ e_summary_init (ESummary *summary)
 	priv->protocol_hash = NULL;
 	priv->connections = NULL;
 
-	config_listener = e_config_listener_new ();
+	gconf_client = gconf_client_get_default ();
 
-	summary->timezone = e_config_listener_get_string_with_default (config_listener,
-								       "/Calendar/Display/Timezone", "UTC",
-								       NULL);
+	summary->timezone = gconf_client_get_string (gconf_client, "/apps/evolution/calendar/display/timezone", NULL);
 	if (!summary->timezone || !summary->timezone[0]) {
 		g_free (summary->timezone);
 		summary->timezone = g_strdup ("UTC");
 	}
 	summary->tz = icaltimezone_get_builtin_timezone (summary->timezone);
 
-	g_object_unref (config_listener);
+	g_object_unref (gconf_client);
 
 	t = time (NULL);
 	if (summary->tz == NULL) {

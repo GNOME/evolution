@@ -86,16 +86,16 @@ struct _ESummaryPrefsFolder {
 struct _ESummaryPrefs {
 
 	/* Mail */
-	GList *display_folders; /* List of ESummaryPrefsFolder */
+	GSList *display_folders; /* List of ESummaryPrefsFolder */
 	gboolean show_full_path;
 
 	/* RDF */
-	GList *rdf_urls;
+	GSList *rdf_urls;
 	int rdf_refresh_time;
 	int limit;
 
 	/* Weather */
-	GList *stations;
+	GSList *stations;
 	ESummaryWeatherUnits units;
 	int weather_refresh_time;
 

@@ -31,8 +31,6 @@
 #include "e-summary-tasks.h"
 #include "e-summary.h"
 
-#include "e-util/e-config-listener.h"
-
 #include <cal-client/cal-client.h>
 #include <cal-util/timeutil.h>
 
@@ -41,6 +39,9 @@
 #include <bonobo/bonobo-listener.h>
 #include <bonobo/bonobo-moniker-util.h>
 #include <bonobo/bonobo-object.h>
+
+#include <gconf/gconf-client.h>
+
 
 #define MAX_RELOAD_TRIES 10
 
@@ -53,7 +54,7 @@ struct _ESummaryTasks {
 
 	char *default_uri;
 
-	EConfigListener *config_listener;
+	GConfClient *gconf_client;
 
 	int cal_open_reload_timeout_id;
 	int reload_count;
@@ -478,7 +479,7 @@ setup_task_folder (ESummary *summary)
 
 	tasks = summary->tasks;
 	g_assert (tasks != NULL);
-	g_assert (tasks->config_listener != NULL);
+	g_assert (tasks->gconf_client != NULL);
 
 	if (tasks->cal_open_reload_timeout_id != 0) {
 		g_source_remove (tasks->cal_open_reload_timeout_id);
@@ -490,15 +491,13 @@ setup_task_folder (ESummary *summary)
 	g_free (tasks->overdue_colour);
 	g_free (tasks->default_uri);
 	
-	tasks->due_today_colour = e_config_listener_get_string_with_default (tasks->config_listener,
-									     "/Calendar/Tasks/Colors/TasksDueToday", "blue", NULL);
-	tasks->overdue_colour = e_config_listener_get_string_with_default (tasks->config_listener,
-									   "/Calendar/Tasks/Colors/TasksOverdue", "red", NULL);
+	tasks->due_today_colour = gconf_client_get_string (tasks->gconf_client,
+							   "/apps/evolution/calendar/tasks/colors/TasksDueToday", NULL);
+	tasks->overdue_colour = gconf_client_get_string (tasks->gconf_client,
+							 "/apps/evolution/calendar/tasks/colors/TasksOverdue", NULL);
 
-	tasks->default_uri = e_config_listener_get_string_with_default (tasks->config_listener,
-									"/DefaultFolders/tasks_path",
-									NULL,
-									NULL);
+	tasks->default_uri = gconf_client_get_string (tasks->gconf_client,
+						      "/apps/evolution/shell/default_folders/tasks_path", NULL);
 
 	if (tasks->client != NULL)
 		g_object_unref (tasks->client);
@@ -518,26 +517,30 @@ setup_task_folder (ESummary *summary)
 }
 
 static void
-config_listener_key_changed_cb (EConfigListener *config_listener,
-				const char *key,
-				void *user_data)
+gconf_client_value_changed_cb (GConfClient *gconf_client,
+			       const char *key,
+			       GConfValue *value,
+			       void *user_data)
 {
 	setup_task_folder (E_SUMMARY (user_data));
-
 	generate_html (user_data);
 }
 
 static void
-setup_config_listener (ESummary *summary)
+setup_gconf_client (ESummary *summary)
 {
 	ESummaryTasks *tasks;
 
 	tasks = summary->tasks;
 	g_assert (tasks != NULL);
 
-	tasks->config_listener = e_config_listener_new ();
+	tasks->gconf_client = gconf_client_get_default ();
 
-	g_signal_connect (tasks->config_listener, "key_changed", G_CALLBACK (config_listener_key_changed_cb), summary);
+	gconf_client_add_dir (tasks->gconf_client, "/apps/evolution/calendar/tasks/colors", FALSE, NULL);
+	gconf_client_add_dir (tasks->gconf_client, "/apps/evolution/shell/default_folders", FALSE, NULL);
+
+	g_signal_connect (tasks->gconf_client, "value_changed",
+			  G_CALLBACK (gconf_client_value_changed_cb), summary);
 }
 
 void
@@ -548,11 +551,10 @@ e_summary_tasks_init (ESummary *summary)
 	g_return_if_fail (summary != NULL);
 
 	tasks = g_new0 (ESummaryTasks, 1);
-	tasks->config_listener = e_config_listener_new ();
 
 	summary->tasks = tasks;
 
-	setup_config_listener (summary);
+	setup_gconf_client (summary);
 	setup_task_folder (summary);
 
 	e_summary_add_protocol_listener (summary, "tasks", e_summary_tasks_protocol, tasks);
@@ -584,7 +586,7 @@ e_summary_tasks_free (ESummary *summary)
 	g_free (tasks->overdue_colour);
 	g_free (tasks->default_uri);
 
-	g_object_unref (tasks->config_listener);
+	g_object_unref (tasks->gconf_client);
 
 	g_free (tasks);
 	summary->tasks = NULL;

@@ -599,7 +599,7 @@ e_summary_weather_init (ESummary *summary)
 		g_strfreev (stations_v);
 		timeout = 600;
 	} else {
-		GList *p;
+		GSList *p;
 
 		for (p = prefs->stations; p; p = p->next) {
 			e_summary_weather_add_location (summary, p->data);
@@ -637,7 +637,7 @@ e_summary_weather_code_to_name (const char *code)
 static gboolean
 is_weather_shown (const char *code)
 {
-	GList *p;
+	GSList *p;
 	ESummaryPrefs *global_preferences;
 
 	global_preferences = e_summary_preferences_get_global ();
@@ -759,8 +759,9 @@ void
 e_summary_weather_reconfigure (ESummary *summary)
 {
 	ESummaryWeather *weather;
-	GList *old, *p;
+	GList *old;
 	GList *weather_list;
+	GSList *p;
 
 	g_return_if_fail (summary != NULL);
 	g_return_if_fail (IS_E_SUMMARY (summary));

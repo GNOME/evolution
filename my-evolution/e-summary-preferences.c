@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-summary-preferences.c
  *
- * Copyright (C) 2001 Ximian, Inc.
+ * Copyright (C) 2001, 2002 Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -42,11 +42,11 @@
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-widget.h>
 
+#include <gconf/gconf-client.h>
+
 #include <shell/evolution-storage-set-view-listener.h>
 
 #include <string.h>
-
-#include "e-util/e-config-listener.h"
 
 #include "e-summary.h"
 #include "e-summary-preferences.h"
@@ -60,280 +60,121 @@
 static ESummaryPrefs *global_preferences = NULL;
 static GNOME_Evolution_Shell global_shell = NULL;
 
-static char *default_folders[2] = {
-	"/local/Inbox", "/local/Outbox"
-};
-
-static void
-make_initial_mail_list (ESummaryPrefs *prefs)
-{
-	char *evolution_dir;
-	GList *folders = NULL;
-	int i;
-	
-	evolution_dir = gnome_util_prepend_user_home ("evolution");
-	for (i = 0; i < 2; i++) {
-		ESummaryPrefsFolder *folder;
-
-		folder = g_new (ESummaryPrefsFolder, 1);
-		folder->evolution_uri = g_strconcat ("evolution:", default_folders[i], NULL);
-		folder->physical_uri = g_strconcat ("file://", evolution_dir, default_folders[i], NULL);
-		
-		folders = g_list_append (folders, folder);
-	}
-
-	g_free (evolution_dir);
-	prefs->display_folders = folders;
-}
-
-static void
-make_initial_rdf_list (ESummaryPrefs *prefs)
-{
-	GList *rdfs;
-
-	rdfs = g_list_prepend (NULL, g_strdup ("http://linuxtoday.com/backend/my-netscape.rdf"));
-	rdfs = g_list_append (rdfs, g_strdup ("http://www.salon.com/feed/RDF/salon_use.rdf"));
-	
-	prefs->rdf_urls = rdfs;
-}
-
-static void
-make_initial_weather_list (ESummaryPrefs *prefs)
-{
-	/* translators: Put a list of codes for locations you want to see in
-	   My Evolution by default here. You can find the list of all
-	   stations and their codes in Evolution sources.
-	   (evolution/my-evolution/Locations)
-	   Codes are seperated with : eg. "KBOS:EGAA"*/
-	char *default_stations = _("KBOS"), **stations_v, **p;
-	GList *stations = NULL;
-
-	stations_v = g_strsplit (default_stations, ":", 0);
-	g_assert (stations_v != NULL);
-	for (p = stations_v; *p != NULL; p++) {
-		stations = g_list_prepend (stations, *p);
-	}
-	g_free (stations_v);
-
-	prefs->stations = g_list_reverse (stations);
-}
-
-/* Load the prefs off disk */
-
-static char *
-vector_from_str_list (GList *strlist)
-{
-	char *vector;
-	GString *str;
-
-	if (strlist == NULL) {
-		return g_strdup ("");
-	}
-
-	str = g_string_new ("");
-	for (; strlist; strlist = strlist->next) {
-		g_string_append (str, strlist->data);
-
-		/* No space at end */
-		if (strlist->next) {
-			g_string_append (str, " !<-->! ");
-		}
-	}
-
-	vector = str->str;
-	g_string_free (str, FALSE);
-
-	return vector;
-}
-
-static GList *
-str_list_from_vector (const char *vector)
-{
-	GList *strlist = NULL;
-	char **tokens, **t;
-
-	t = tokens = g_strsplit (vector, " !<-->! ", 8196);
-
-	if (tokens == NULL) {
-		return NULL;
-	}
-
-	for (; *tokens; tokens++) {
-		strlist = g_list_prepend (strlist, g_strdup (*tokens));
-	}
-
-	g_strfreev (t);
-
-	strlist = g_list_reverse (strlist);
-	return strlist;
-}
-
-static GList *
-folder_list_from_vector (const char *vector)
-{
-	GList *flist = NULL;
-	char **tokens, **t;
-
-	t = tokens = g_strsplit (vector, " !<-->! ", 8196);
-	if (tokens == NULL) {
-		return NULL;
-	}
-
-	for (tokens = t; *tokens; tokens += 2) {
-		ESummaryPrefsFolder *folder;
-		const char *evolution_uri;
-		const char *physical_uri;
-
-		evolution_uri = *tokens;
-		if (evolution_uri == NULL || strncmp (evolution_uri, "evolution:", 10) != 0)
-			break;
-
-		physical_uri = *(tokens + 1);
-		if (physical_uri == NULL)
-			break;
-
-		folder = g_new (ESummaryPrefsFolder, 1);
-		folder->evolution_uri = g_strdup (evolution_uri);
-		folder->physical_uri = g_strdup (physical_uri);
-
-		flist = g_list_prepend (flist, folder);
-	}
-
-	g_strfreev (t);
-
-	flist = g_list_reverse (flist);
-	return flist;
-}
-
-static char *
-vector_from_folder_list (GList *flist)
-{
-	char *vector;
-	GString *string;
-
-	if (flist == NULL) {
-		return g_strdup ("");
-	}
-
-	string = g_string_new ("");
-	for (; flist; flist = flist->next) {
-		ESummaryPrefsFolder *folder;
-
-		folder = flist->data;
-		string = g_string_append (string, folder->evolution_uri);
-		string = g_string_append (string, " !<-->! ");
-		string = g_string_append (string, folder->physical_uri);
-
-		if (flist->next != NULL) {
-			string = g_string_append (string, " !<-->! ");
-		}
-	}
-
-	vector = string->str;
-	g_string_free (string, FALSE);
-
-	return vector;
-}
-
 gboolean
 e_summary_preferences_restore (ESummaryPrefs *prefs)
 {
-	EConfigListener *config_listener;
-	char *vector;
-	gboolean used_default;
+	GConfClient *gconf_client;
+	GSList *path_list;
+	GSList *uri_list;
+	GSList *p, *q;
 
 	g_return_val_if_fail (prefs != NULL, FALSE);
 
-	config_listener = e_config_listener_new ();
+	gconf_client = gconf_client_get_default ();
 
-	vector = e_config_listener_get_string (config_listener, "My-Evolution/Mail/display_folders-1.2");
-	if (vector == NULL) {
-		g_warning ("Error getting Mail/display_folders. Using defaults");
-		make_initial_mail_list (prefs);
-	} else {
-		prefs->display_folders = folder_list_from_vector (vector);
-		g_free (vector);
+	path_list = gconf_client_get_list (gconf_client, "/apps/evolution/summary/mail/folder_evolution_uris",
+					   GCONF_VALUE_STRING, NULL);
+	uri_list = gconf_client_get_list (gconf_client, "/apps/evolution/summary/mail/folder_physical_uris",
+					  GCONF_VALUE_STRING, NULL);
+
+	prefs->display_folders = NULL;
+	for (p = path_list, q = uri_list; p != NULL && q != NULL; p = p->next, q = q->next) {
+		ESummaryPrefsFolder *folder;
+
+		folder = g_new (ESummaryPrefsFolder, 1);
+		folder->evolution_uri = p->data;
+		folder->physical_uri = q->data;
 	}
 
-	prefs->show_full_path = e_config_listener_get_boolean (config_listener, "My-Evolution/Mail/show_full_path");
+	g_slist_free (path_list);
+	g_slist_free (uri_list);
 
-	vector = e_config_listener_get_string (config_listener, "My-Evolution/RDF/rdf_urls");
-	if (vector == NULL)
-		return FALSE;
+	prefs->show_full_path = gconf_client_get_bool (gconf_client, "/apps/evolution/summary/mail/show_full_paths", NULL);
+
+	prefs->rdf_urls = gconf_client_get_list (gconf_client, "/apps/evolution/summary/rdf/uris",
+						 GCONF_VALUE_STRING, NULL);
+
+	prefs->rdf_refresh_time = gconf_client_get_int (gconf_client, "/apps/evolution/summary/rdf/refresh_time", NULL);
+
+	prefs->limit = gconf_client_get_int (gconf_client, "/apps/evolution/summary/rdf/max_items", NULL);
+
+	prefs->stations = gconf_client_get_list (gconf_client, "/apps/evolution/summary/weather/stations",
+						 GCONF_VALUE_STRING, NULL);
+
+	if (gconf_client_get_bool (gconf_client, "/apps/evolution/summary/weather/use_metric", NULL))
+		prefs->units = UNITS_METRIC;
+	else
+		prefs->units = UNITS_IMPERIAL;
+
+	prefs->weather_refresh_time = gconf_client_get_int (gconf_client, "/apps/evolution/summary/weather/refresh_time",
+							    NULL);
 	
-	prefs->rdf_urls = str_list_from_vector (vector);
-	g_free (vector);
+	prefs->days = gconf_client_get_int (gconf_client, "/apps/evolution/summary/calendar/days_shown", NULL);
+	if (gconf_client_get_bool (gconf_client, "/apps/evolution/summary/tasks/show_all", NULL))
+		prefs->show_tasks = E_SUMMARY_CALENDAR_ALL_TASKS;
+	else
+		prefs->show_tasks = E_SUMMARY_CALENDAR_ONE_DAY;
 
-	prefs->rdf_refresh_time = e_config_listener_get_long_with_default (config_listener, "My-Evolution/RDF/rdf_refresh_time", 600, NULL);
-
-	prefs->limit = e_config_listener_get_long_with_default (config_listener, "My-Evolution/RDF/limit", 10, NULL);
-
-	vector = e_config_listener_get_string (config_listener, "My-Evolution/Weather/stations");
-	if (vector == NULL)
-		return FALSE;
-
-	prefs->stations = str_list_from_vector (vector);
-	g_free (vector);
-
-	prefs->units = e_config_listener_get_long_with_default (config_listener, "My-Evolution/Weather/units", -1, &used_default);
-	if (used_default)
-		return FALSE;
-
-	prefs->weather_refresh_time = e_config_listener_get_long_with_default (config_listener,
-									       "My-Evolution/Weather/weather_refresh_time",
-									       -1, &used_default);
-	if (used_default)
-		return FALSE;
-	
-	prefs->days = e_config_listener_get_long_with_default (config_listener, "My-Evolution/Schedule/days", -1, &used_default);
-	if (used_default)
-		return FALSE;
-
-	prefs->show_tasks = e_config_listener_get_long_with_default (config_listener, "My-Evolution/Schedule/show_tasks", -1, &used_default);
-	if (&used_default)
-		return FALSE;
-
-	g_object_unref (config_listener);
+	g_object_unref (gconf_client);
 	return TRUE;
 }
 
-/* Write prefs to disk */
 void
 e_summary_preferences_save (ESummaryPrefs *prefs)
 {
-	EConfigListener *config_listener;
-	char *vector;
+	GConfClient *gconf_client;
+	GSList *evolution_uri_list, *physical_uri_list;
+	GSList *p;
 
-	config_listener = e_config_listener_new ();
+	gconf_client = gconf_client_get_default ();
 
-	vector = vector_from_folder_list (prefs->display_folders);
-	e_config_listener_set_string (config_listener, "My-Evolution/Mail/display_folders-1.2", vector);
-  	g_free (vector); 
+	evolution_uri_list = NULL;
+	physical_uri_list = NULL;
+	for (p = prefs->display_folders; p != NULL; p = p->next) {
+		const ESummaryPrefsFolder *folder;
 
-	e_config_listener_set_boolean (config_listener, "My-Evolution/Mail/show_full_path", prefs->show_full_path);
+		folder = (const ESummaryPrefsFolder *) p->data;
+		evolution_uri_list = g_slist_prepend (evolution_uri_list, folder->evolution_uri);
+		physical_uri_list = g_slist_prepend (evolution_uri_list, folder->physical_uri);
+	}
+	evolution_uri_list = g_slist_reverse (evolution_uri_list);
+	physical_uri_list = g_slist_reverse (physical_uri_list);
 
-	vector = vector_from_str_list (prefs->rdf_urls);
-	e_config_listener_set_string (config_listener, "My-Evolution/RDF/rdf_urls", vector);
-  	g_free (vector); 
+	gconf_client_set_list (gconf_client, "/apps/evolution/summary/mail/folder_evolution_uris",
+			       GCONF_VALUE_STRING, evolution_uri_list, NULL);
+	gconf_client_set_list (gconf_client, "/apps/evolution/summary/mail/folder_physical_uris",
+			       GCONF_VALUE_STRING, physical_uri_list, NULL);
 
-	e_config_listener_set_long (config_listener, "My-Evolution/RDF/rdf_refresh_time", prefs->rdf_refresh_time);
-	e_config_listener_set_long (config_listener, "My-Evolution/RDF/limit", prefs->limit);
+	g_slist_free (evolution_uri_list);
+	g_slist_free (physical_uri_list);
 
-	vector = vector_from_str_list (prefs->stations);
-	e_config_listener_set_string (config_listener, "My-Evolution/Weather/stations", vector);
-  	g_free (vector); 
+	gconf_client_set_bool (gconf_client, "/apps/evolution/summary/mail/show_full_paths", prefs->show_full_path, NULL);
 
-	e_config_listener_set_long (config_listener, "My-Evolution/Weather/units", prefs->units);
-	e_config_listener_set_long (config_listener, "My-Evolution/Weather/weather_refresh_time", prefs->weather_refresh_time);
+	gconf_client_set_list (gconf_client, "/apps/evolution/summary/rdf/uris",
+			       GCONF_VALUE_STRING, prefs->rdf_urls, NULL);
 
-	e_config_listener_set_long (config_listener, "My-Evolution/Schedule/days", prefs->days);
-	e_config_listener_set_long (config_listener, "My-Evolution/Schedule/show_tasks", prefs->show_tasks);
+	gconf_client_set_int (gconf_client, "/apps/evolution/summary/rdf/refresh_time", prefs->rdf_refresh_time, NULL);
+	gconf_client_set_int (gconf_client, "/apps/evolution/summary/rdf/max_items", prefs->limit, NULL);
 
-	g_object_unref (config_listener);
+	gconf_client_set_list (gconf_client, "/apps/evolution/summary/weather/stations",
+			       GCONF_VALUE_STRING, prefs->stations, NULL);
+
+	gconf_client_set_bool (gconf_client, "/apps/evolution/summary/weather/use_metric",
+			       prefs->units == UNITS_METRIC, NULL);
+	gconf_client_set_int (gconf_client, "/apps/evolution/summary/weather/refresh_time",
+			      prefs->weather_refresh_time, NULL);
+
+	gconf_client_set_int (gconf_client, "/apps/evolution/summary/calendar/days_shown",
+			      prefs->days, NULL);
+
+	gconf_client_set_bool (gconf_client, "/apps/evolution/summary/tasks/show_all",
+			       prefs->show_tasks == E_SUMMARY_CALENDAR_ALL_TASKS, NULL);
+
+	g_object_unref (gconf_client);
 }
 
 static void
-free_str_list (GList *list)
+free_str_list (GSList *list)
 {
 	for (; list; list = list->next) {
 		g_free (list->data);
@@ -341,7 +182,7 @@ free_str_list (GList *list)
 }
 
 static void
-free_folder_list (GList *list)
+free_folder_list (GSList *list)
 {
 	for (; list; list = list->next) {
 		ESummaryPrefsFolder *f = list->data;
@@ -357,39 +198,39 @@ e_summary_preferences_free (ESummaryPrefs *prefs)
 {
 	if (prefs->display_folders) {
 		free_folder_list (prefs->display_folders);
-		g_list_free (prefs->display_folders);
+		g_slist_free (prefs->display_folders);
 	}
 
 	if (prefs->rdf_urls) {
 		free_str_list (prefs->rdf_urls);
-		g_list_free (prefs->rdf_urls);
+		g_slist_free (prefs->rdf_urls);
 	}
 
 	if (prefs->stations) {
 		free_str_list (prefs->stations);
-		g_list_free (prefs->stations);
+		g_slist_free (prefs->stations);
 	}
 
 	g_free (prefs);
 }
 
-static GList *
-copy_str_list (GList *list)
+static GSList *
+copy_str_list (GSList *list)
 {
-	GList *list_copy = NULL;
+	GSList *list_copy = NULL;
 
 	for (; list; list = list->next) {
-		list_copy = g_list_prepend (list_copy, g_strdup (list->data));
+		list_copy = g_slist_prepend (list_copy, g_strdup (list->data));
 	}
 
-	list_copy = g_list_reverse (list_copy);
+	list_copy = g_slist_reverse (list_copy);
 	return list_copy;
 }
 
-static GList *
-copy_folder_list (GList *list)
+static GSList *
+copy_folder_list (GSList *list)
 {
-	GList *list_copy = NULL;
+	GSList *list_copy = NULL;
 
 	for (; list; list = list->next) {
 		ESummaryPrefsFolder *f1, *f2;
@@ -399,10 +240,10 @@ copy_folder_list (GList *list)
 		f2->evolution_uri = g_strdup (f1->evolution_uri);
 		f2->physical_uri = g_strdup (f1->physical_uri);
 
-		list_copy = g_list_prepend (list_copy, f2);
+		list_copy = g_slist_prepend (list_copy, f2);
 	}
 
-	list_copy = g_list_reverse (list_copy);
+	list_copy = g_slist_reverse (list_copy);
 	return list_copy;
 }
 
@@ -442,27 +283,7 @@ e_summary_preferences_init (void)
 	prefs = g_new0 (ESummaryPrefs, 1);
 	global_preferences = prefs;
 	
-	if (e_summary_preferences_restore (prefs) == TRUE) {
-		return prefs;
-	}
-
-	/* Defaults */
-	
-	/* Mail */
-	make_initial_mail_list (prefs);
-
-	/* RDF */
-	make_initial_rdf_list (prefs);
-	prefs->rdf_refresh_time = 600;
-	prefs->limit = 10;
-
-	/* Weather */
-	make_initial_weather_list (prefs);
-	prefs->units = UNITS_METRIC;
-	prefs->weather_refresh_time = 600;
-
-	prefs->days = E_SUMMARY_CALENDAR_ONE_DAY;
-	prefs->show_tasks = E_SUMMARY_CALENDAR_ALL_TASKS;
+	e_summary_preferences_restore (prefs);
 
 	return prefs;
 }
@@ -480,7 +301,7 @@ struct _MailPage {
 	GtkWidget *add, *remove;
 
 	GHashTable *model;
-	GList *tmp_list;
+	GSList *tmp_list;
 };
 
 struct _RDFPage {
@@ -489,7 +310,7 @@ struct _RDFPage {
 	GtkWidget *new_button, *delete_url;
 
 	GHashTable *default_hash, *model;
-	GList *known, *tmp_list;
+	GSList *known, *tmp_list;
 };
 
 struct _WeatherPage {
@@ -498,7 +319,7 @@ struct _WeatherPage {
 	GtkWidget *add, *remove;
 
 	GHashTable *model;
-	GList *tmp_list;
+	GSList *tmp_list;
 };
 
 struct _CalendarPage {
@@ -559,7 +380,7 @@ static struct _RDFInfo rdfs[] = {
 };
 
 static void
-save_known_rdfs (GList *rdfs)
+save_known_rdfs (GSList *rdfs)
 {
 	FILE *handle;
 	char *rdf_file;
@@ -595,7 +416,7 @@ static gboolean
 rdf_is_shown (PropertyData *pd,
 	      const char *url)
 {
-	GList *p;
+	GSList *p;
 
 	for (p = global_preferences->rdf_urls; p; p = p->next) {
 		if (strcmp (p->data, url) == 0) {
@@ -642,7 +463,7 @@ fill_rdf_etable (GtkWidget *widget,
 			e_summary_shown_add_node (ess, FALSE, entry, NULL, TRUE, NULL);
 		}
 
-		pd->rdf->known = g_list_append (pd->rdf->known, &rdfs[i]);
+		pd->rdf->known = g_slist_append (pd->rdf->known, &rdfs[i]);
 
 		g_hash_table_insert (pd->rdf->default_hash, rdfs[i].url, &rdfs[i]);
 	}
@@ -688,7 +509,7 @@ fill_rdf_etable (GtkWidget *widget,
 		info->name = g_strdup (tokens[1]);
 		info->custom = TRUE;
 		
-		pd->rdf->known = g_list_append (pd->rdf->known, info);
+		pd->rdf->known = g_slist_append (pd->rdf->known, info);
 
 		entry = g_new (ESummaryShownModelEntry, 1);
 		entry->location = g_strdup (info->url);
@@ -752,7 +573,7 @@ add_dialog_clicked_cb (GtkWidget *widget,
 			info->name = g_strdup (name);
 			info->custom = TRUE;
 
-			pd->rdf->known = g_list_append (pd->rdf->known, info);
+			pd->rdf->known = g_slist_append (pd->rdf->known, info);
 
 			entry = g_new (ESummaryShownModelEntry, 1);
 			entry->location = g_strdup (info->url);
@@ -833,7 +654,7 @@ rdf_delete_url_cb (GtkButton *button,
 		}
 		
 		e_summary_shown_remove_node (E_SUMMARY_SHOWN (pd->rdf->etable), TRUE, entry);
-		pd->rdf->known = g_list_remove (pd->rdf->known, entry->data);
+		pd->rdf->known = g_slist_remove (pd->rdf->known, entry->data);
 		
 		/* FIXME: Remove from shown side as well */
 	}
@@ -1151,20 +972,20 @@ static void
 free_property_dialog (PropertyData *pd)
 {
 	if (pd->rdf) {
-		g_list_free (pd->rdf->known);
+		g_slist_free (pd->rdf->known);
 
 		free_str_list (pd->rdf->tmp_list);
-		g_list_free (pd->rdf->tmp_list);
+		g_slist_free (pd->rdf->tmp_list);
 		g_free (pd->rdf);
 	}
 	if (pd->mail) {
 		free_str_list (pd->mail->tmp_list);
-		g_list_free (pd->mail->tmp_list);
+		g_slist_free (pd->mail->tmp_list);
 		g_free (pd->mail);
 	}
 	if (pd->weather) {
 		free_str_list (pd->weather->tmp_list);
-		g_list_free (pd->weather->tmp_list);
+		g_slist_free (pd->weather->tmp_list);
 		g_free (pd->weather);
 	}
 	if (pd->calendar) {
@@ -1188,7 +1009,7 @@ set_selected_folders (GNOME_Evolution_StorageSetView view)
 {
 	GNOME_Evolution_FolderList *list;
 	CORBA_Environment ev;
-	GList *l;
+	GSList *l;
 	int i, count;
 	
 	for (count = 0, l = global_preferences->display_folders; l;
@@ -1293,21 +1114,21 @@ add_shown_to_list (gpointer key,
 		   gpointer data)
 {
 	ESummaryShownModelEntry *item;
-	GList **list;
+	GSList **list;
 
 	item = (ESummaryShownModelEntry *) value;
-	list = (GList **) data;
+	list = (GSList **) data;
 
-	*list = g_list_prepend (*list, g_strdup (item->location));
+	*list = g_slist_prepend (*list, g_strdup (item->location));
 }
 
-static GList *
+static GSList *
 get_folders_from_view (GtkWidget *view)
 {
 	GNOME_Evolution_StorageSetView set_view;
 	GNOME_Evolution_FolderList *list;
 	CORBA_Environment ev;
-	GList *out_list = NULL;
+	GSList *out_list = NULL;
 	int i;
 	
 	set_view = g_object_get_data (G_OBJECT (view), "corba_view");
@@ -1330,7 +1151,7 @@ get_folders_from_view (GtkWidget *view)
 		f = g_new (ESummaryPrefsFolder, 1);
 		f->evolution_uri = g_strdup (folder.evolutionUri);
 		f->physical_uri = g_strdup (folder.physicalUri);
-		out_list = g_list_append (out_list, f);
+		out_list = g_slist_append (out_list, f);
 	}
 	
 	return out_list;
@@ -1346,7 +1167,7 @@ config_control_apply_cb (EvolutionConfigControl *control,
 
 	if (pd->rdf->tmp_list) {
 		free_str_list (pd->rdf->tmp_list);
-		g_list_free (pd->rdf->tmp_list);
+		g_slist_free (pd->rdf->tmp_list);
 		pd->rdf->tmp_list = NULL;
 	}
 	/* Take each news feed which is on and add it
@@ -1356,7 +1177,7 @@ config_control_apply_cb (EvolutionConfigControl *control,
 	
 	if (global_preferences->rdf_urls) {
 		free_str_list (global_preferences->rdf_urls);
-		g_list_free (global_preferences->rdf_urls);
+		g_slist_free (global_preferences->rdf_urls);
 	}
 	
 	global_preferences->rdf_urls = copy_str_list (pd->rdf->tmp_list);
@@ -1364,7 +1185,7 @@ config_control_apply_cb (EvolutionConfigControl *control,
 	/* Weather */
 	if (pd->weather->tmp_list) {
 		free_str_list (pd->weather->tmp_list);
-		g_list_free (pd->weather->tmp_list);
+		g_slist_free (pd->weather->tmp_list);
 		pd->weather->tmp_list = NULL;
 	}
 	
@@ -1372,14 +1193,14 @@ config_control_apply_cb (EvolutionConfigControl *control,
 			      add_shown_to_list, &pd->weather->tmp_list);
 	if (global_preferences->stations) {
 		free_str_list (global_preferences->stations);
-		g_list_free (global_preferences->stations);
+		g_slist_free (global_preferences->stations);
 	}
 	global_preferences->stations = copy_str_list (pd->weather->tmp_list);
 	
 	/* Folders */
 	if (pd->mail->tmp_list) {
 		free_str_list (pd->mail->tmp_list);
-		g_list_free (pd->mail->tmp_list);
+		g_slist_free (pd->mail->tmp_list);
 		pd->mail->tmp_list = NULL;
 	}
 #if 0
@@ -1389,7 +1210,7 @@ config_control_apply_cb (EvolutionConfigControl *control,
 	
 	if (global_preferences->display_folders) {
 		free_str_list (global_preferences->display_folders);
-		g_list_free (global_preferences->display_folders);
+		g_slist_free (global_preferences->display_folders);
 	}
 	global_preferences->display_folders = copy_str_list (pd->mail->tmp_list);
 

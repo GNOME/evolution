@@ -103,6 +103,9 @@ endif
 Locationdir = $(datadir)/evolution
 Location_DATA = Locations
 
+
+# .server files
+
 server_in_files = GNOME_Evolution_Summary.server.in.in
 
 serverdir = $(libdir)/bonobo/servers
@@ -110,10 +113,27 @@ server_DATA = $(server_in_files:.server.in.in=.server)
 $(server_in_files:.server.in.in=.server.in): $(server_in_files)
 	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
 
+@INTLTOOL_SERVER_RULE@
+
+
+# Glade
+
 gladedir = $(datadir)/evolution/glade
 glade_DATA = my-evolution.glade
 
-@INTLTOOL_SERVER_RULE@
+# GConf schemas
+
+schemadir   = $(GCONF_SCHEMA_FILE_DIR)
+schema_DATA = apps_evolution_summary.schemas
+
+install-data-local:
+	if test -z "$(DESTDIR)" ; then \
+		for p in $(schema_DATA) ; do \
+			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $(srcdir)/$$p; \
+		done \
+	fi
+
+# Extra
 
 EXTRA_DIST = 				\
 	$(summary_sources)		\

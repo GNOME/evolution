@@ -127,9 +127,7 @@ component_destroy (BonoboObject *factory,
 }
 
 static BonoboObject *
-create_component (BonoboGenericFactory *factory,
-		  const char *id,
-		  void *data)
+create_component (void)
 {
 	EvolutionShellComponent *shell_component;
 	ESummaryOfflineHandler *offline_handler;
@@ -164,12 +162,15 @@ void
 component_factory_init (void)
 {
 	BonoboGenericFactory *factory;
+	Bonobo_RegistrationResult result;
+	BonoboObject *shell_component;
 
-	factory = bonobo_generic_factory_new (COMPONENT_FACTORY_ID,
-					      create_component,
-					      NULL);
+	shell_component = create_component ();
 
-	if (factory == NULL)
+	result = bonobo_activation_active_server_register (COMPONENT_ID,
+							   bonobo_object_corba_objref (BONOBO_OBJECT (shell_component)));
+
+	if (result != Bonobo_ACTIVATION_REG_SUCCESS)
 		g_error ("Cannot register Evolution Summary component factory.");
 }
 

@@ -1,8 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-summary-calendar.c
  *
- * Copyright (C) 2001 Ximian, Inc.
- * Copyright (C) 2002 Ximian, Inc.
+ * Copyright (C) 2001, 2002 Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -31,13 +30,13 @@
 #include "e-summary-calendar.h"
 #include "e-summary.h"
 
-#include "e-util/e-config-listener.h"
-
 #include <cal-client/cal-client.h>
 #include <cal-util/timeutil.h>
 
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-moniker-util.h>
+
+#include <gconf/gconf-client.h>
 
 #include <ical.h>
 
@@ -51,7 +50,7 @@ struct _ESummaryCalendar {
 
 	char *default_uri;
 
-	EConfigListener *config_listener;
+	GConfClient *gconf_client;
 
 	int cal_open_reload_timeout_id;
 	int reload_count;
@@ -526,16 +525,6 @@ e_summary_calendar_protocol (ESummary *summary,
 	bonobo_object_release_unref (factory, NULL);
 }
 
-static gboolean
-locale_uses_24h_time_format (void)
-{
-	char s[16];
-	time_t t = 0;
-
-	strftime (s, sizeof s, "%p", gmtime (&t));
-	return s[0] == '\0';
-}
-
 static void
 setup_calendar (ESummary *summary)
 {
@@ -562,34 +551,38 @@ setup_calendar (ESummary *summary)
 	if (! cal_client_open_default_calendar (calendar->client, FALSE))
 		g_message ("Open calendar failed");
 
-	calendar->wants24hr = e_config_listener_get_boolean_with_default (calendar->config_listener,
-									  "/Calendar/Display/Use24HourFormat",
-									  locale_uses_24h_time_format (), NULL);
-	calendar->default_uri = e_config_listener_get_string_with_default (calendar->config_listener,
-									   "/DefaultFolders/calendar_path",
-									   "evolution:/local/Calendar", NULL);
+	calendar->wants24hr = gconf_client_get_bool (calendar->gconf_client,
+						     "/apps/evolution/calendar/display/use_24h_format", NULL);
+	calendar->default_uri = gconf_client_get_string (calendar->gconf_client,
+							 "/apps/evolution/shell/default_folders/celendar_path",
+							 NULL);
 }
 
 static void
-config_listener_key_changed_cb (EConfigListener *listener,
-				const char *key,
-				void *user_data)
+gconf_client_value_changed_cb (GConfClient *client,
+			       const char *key,
+			       GConfValue *value,
+			       void *user_data)
 {
 	setup_calendar (E_SUMMARY (user_data));
 	generate_html (user_data);
 }
 
 static void
-setup_config_listener (ESummary *summary)
+setup_gconf_client (ESummary *summary)
 {
 	ESummaryCalendar *calendar;
 
 	calendar = summary->calendar;
 	g_assert (calendar != NULL);
 
-	calendar->config_listener = e_config_listener_new ();
+	calendar->gconf_client = gconf_client_get_default ();
 
-	g_signal_connect (calendar->config_listener, "key_changed", G_CALLBACK (config_listener_key_changed_cb), summary);
+	g_signal_connect (calendar->gconf_client, "value_changed",
+			  G_CALLBACK (gconf_client_value_changed_cb), summary);
+
+	gconf_client_add_dir (calendar->gconf_client, "/apps/evolution/calendar", FALSE, NULL);
+	gconf_client_add_dir (calendar->gconf_client, "/apps/evolution/shell/default_folders", FALSE, NULL);
 
 	setup_calendar (summary);
 }
@@ -605,7 +598,7 @@ e_summary_calendar_init (ESummary *summary)
 	summary->calendar = calendar;
 	calendar->html = NULL;
 
-	setup_config_listener (summary);
+	setup_gconf_client (summary);
 	setup_calendar (summary);
 
 	e_summary_add_protocol_listener (summary, "calendar", e_summary_calendar_protocol, calendar);
@@ -635,6 +628,8 @@ e_summary_calendar_free (ESummary *summary)
 	g_free (calendar->html);
 	g_free (calendar->default_uri);
 	
+	g_object_unref (calendar->gconf_client);
+
 	g_free (calendar);
 	summary->calendar = NULL;
 }

@@ -1,3 +1,50 @@
+2002-11-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-summary.c (e_summary_init): Use GConf.
+
+	* e-summary-tasks.c: Replaced member config_listener in
+	ESummaryTasks with a gconf_client.
+	(setup_gconf_client): Renamed from setup_config_listener().  Set
+	up the GConf client and invoke gconf_client_add_dir() on the
+	interesting namespaces.
+	(gconf_client_value_changed_cb): Renamed from
+	config_listener_value_changed_cb and changed prototype to match
+	that of the "value_changed" signal in GConfClient.
+	(setup_task_folder): Updated to use GConf.
+
+	* e-summary-calendar.c: Replaced member config_listener with a
+	gconf_listener.
+	(setup_calendar): Use GConf.
+	(setup_gconf_client): Renamed from setup_config_listener.  Set up
+	a GConf client and invoke gconf_client_add_dir() on the
+	interesting namespaces.
+	(gconf_client_value_changed_cb): Renamed from
+	config_listener_key_changed_cb() and changed prototype to match
+	that of the "value_changed" signal in GConfClient.
+	(locale_uses_24h_time_format): Removed.
+	(e_summary_calendar_free): g_object_unref() the gconf_client.
+
+	* Makefile.am: Add rules to install the schemas.
+
+	* apps_evolution_summary.schemas: New.
+
+	* e-summary-preferences.c: Did a global GList -> GSList switch.
+	(e_summary_preferences_restore): Use GConfClient instead of
+	EConfigListener.
+	(vector_from_folder_list): Removed since GConf makes this useless.
+	(folder_list_from_vector): Likewise.
+	(str_list_from_vector): Likewise.
+	(vector_from_str_list): Likewise.
+	(make_initial_weather_list): Likewise.
+	(make_initial_rdf_list): Likewise.
+	(make_initial_mail_list): Likewise.
+	(e_summary_preferences_save): Use GConf.
+	(e_summary_preferences_init): No need to set up defaults here.
+
+	* e-summary.h: Changed members display_folders, rdf_urls, stations
+	in ESummaryPrefs to be GSLists instead of GLists; updated all the
+	functions that use them accordingly.
+
 2002-11-14  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am: Added rule to generate
