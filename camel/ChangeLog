@@ -1,3 +1,7 @@
+2001-04-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel.h: #include the pgp stuff.
+
 2001-04-12  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-message-cache.c

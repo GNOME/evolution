@@ -50,6 +50,8 @@ extern "C" {
 #include <camel/camel-mime-utils.h>
 #include <camel/camel-movemail.h>
 #include <camel/camel-multipart.h>
+#include <camel/camel-pgp-context.h>
+#include <camel/camel-pgp-mime.h>
 #include <camel/camel-provider.h>
 #include <camel/camel-seekable-stream.h>
 #include <camel/camel-seekable-substream.h>
