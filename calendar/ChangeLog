@@ -1,3 +1,8 @@
+1999-02-15  Tomas Ogren  <stric@ing.umu.se>
+
+	* goto.c: Made a private copy of what localtime() returns, to be able
+	to keep the data after more calls to localtime().
+
 1999-02-11  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* main.c (save_default_calendar): New function.  Saves the
