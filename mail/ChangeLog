@@ -1,3 +1,9 @@
+2001-04-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c: Pulled up fixes for opening file selection
+	dialogs in $HOME, determining if a folder is a drafts folder, and
+	Mark All As Read.
+
 2001-04-13  Christopher James Lahey  <clahey@ximian.com>
 
 	* message-list.c (on_cursor_activated_cmd): Only activate the
