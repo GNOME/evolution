@@ -394,7 +394,7 @@ mail_op_show_progressbar (void)
  **/
 
 void
-mail_op_set_message (gchar * fmt, ...)
+mail_op_set_message (const gchar *fmt, ...)
 {
 	com_msg_t msg;
 	va_list val;

@@ -1,3 +1,8 @@
+2000-11-01  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-threads.c (mail_op_set_message): fmt argument should be
+	const.
+
 2000-11-01  Dan Winship  <danw@helixcode.com>
 
 	Make "Get Mail" even more functional on IMAP (scans all folders),
@@ -105,7 +110,7 @@
 	strdup'ing the content? This seems to fix the memory corruption
 	problems.
 	(mail_generate_reply): Make sure that the last char in the
-	generated reply text is '\0' (when bodt text doesn't end with a
+	generated reply text is '\0' (when body text doesn't end with a
 	\n, a random char will appear otherwise).
 
 2000-10-31  Dan Winship  <danw@helixcode.com>
