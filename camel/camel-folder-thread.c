@@ -277,6 +277,7 @@ group_root_set(CamelFolderThread *thread, CamelFolderThreadNode **cp)
 			} else if (c->re && container->re) {
 				d(printf("subjects are common %p and %p\n", c, container));
 
+				/* build a phantom node */
 				remove_node(cp, container, &clast);
 				remove_node(cp, c, &clast);
 
@@ -534,6 +535,32 @@ camel_folder_thread_messages_new(CamelFolder *folder, GPtrArray *uids)
 #endif
 
 	sort_thread(&head);
+
+	/* remove any phantom nodes, this could possibly be put in group_root_set()? */
+	c = &head;
+	while (c->next) {
+		CamelFolderThreadNode *scan, *newtop;
+
+		child = c->next;
+		if (child->message == NULL) {
+			newtop = child->child;
+			/* unlink pseudo node */
+			c->next = newtop;
+
+			/* link its siblings onto the end of its children */
+			scan = &newtop->child;
+			while (scan->next)
+				scan = scan->next;
+			scan->next = newtop->next;
+			/* and link the now 'real' node into the list */
+			newtop->next = child->next;
+			c = newtop->next;
+			e_memchunk_free(thread->node_chunks, child);
+		} else {
+			c = child;
+		}
+	}
+
 
 	thread->tree = head;
 
