@@ -8,14 +8,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-01 17:54+0100\n"
+"POT-Creation-Date: 2004-03-05 13:00-0500\n"
 "PO-Revision-Date: 2004-03-01 18:28+0100\n"
 "Last-Translator: Данило Шеган <danilo@prevod.org>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 "Plural-Forms: nplurals=3;    plural=n%10==1 && n%100!=11 ? 0 :    n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
@@ -49,7 +49,6 @@ msgstr "Подесите овде самодопуњавање"
 #. can not get name, should be a bug of e-book.Anyway, should set a default name.
 #.
 #. name = e_book_get_name (book);
-#. Create the contacts group
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:51
 #: calendar/gui/migration.c:363
@@ -93,19 +92,19 @@ msgstr "Управљање подешавањем директоријума и�
 msgid "Manager your S/Mime certificates here"
 msgstr "Овде управљајте вашим S/MIME сертификатима"
 
-#: addressbook/gui/component/addressbook-component.c:211
+#: addressbook/gui/component/addressbook-component.c:225
 #, c-format
 msgid "Address book '%s' will be removed. Are you sure you want to continue?"
 msgstr "Адресар „%s“ ће бити уклоњен. Сигурно желите да наставите?"
 
-#: addressbook/gui/component/addressbook-component.c:269
+#: addressbook/gui/component/addressbook-component.c:308
 #: addressbook/gui/component/ldap-config.glade.h:29
 msgid "New Address Book"
 msgstr "Нови адресар"
 
-#: addressbook/gui/component/addressbook-component.c:270
+#: addressbook/gui/component/addressbook-component.c:309
 #: addressbook/gui/widgets/e-addressbook-view.c:1074
-#: calendar/gui/calendar-component.c:362 calendar/gui/tasks-component.c:365
+#: calendar/gui/calendar-component.c:374 calendar/gui/tasks-component.c:365
 #: filter/libfilter-i18n.h:11 mail/em-account-prefs.c:236
 #: ui/evolution-addressbook.xml.h:8 ui/evolution-comp-editor.xml.h:4
 #: ui/evolution-contact-editor.xml.h:3
@@ -113,60 +112,60 @@ msgstr "Нови адресар"
 msgid "Delete"
 msgstr "Обриши"
 
-#: addressbook/gui/component/addressbook-component.c:271
-#: calendar/gui/calendar-component.c:363 calendar/gui/tasks-component.c:367
+#: addressbook/gui/component/addressbook-component.c:310
+#: calendar/gui/calendar-component.c:375 calendar/gui/tasks-component.c:367
 msgid "Properties..."
 msgstr "Особине..."
 
-#: addressbook/gui/component/addressbook-component.c:342
+#: addressbook/gui/component/addressbook-component.c:554
 msgid "New Contact"
 msgstr "Нови контакт"
 
-#: addressbook/gui/component/addressbook-component.c:343
+#: addressbook/gui/component/addressbook-component.c:555
 msgid "_Contact"
 msgstr "_Контакт"
 
-#: addressbook/gui/component/addressbook-component.c:344
+#: addressbook/gui/component/addressbook-component.c:556
 msgid "Create a new contact"
 msgstr "Унеси нови контакт"
 
-#: addressbook/gui/component/addressbook-component.c:349
+#: addressbook/gui/component/addressbook-component.c:561
 msgid "New Contact List"
 msgstr "Нова контакт листа"
 
-#: addressbook/gui/component/addressbook-component.c:350
+#: addressbook/gui/component/addressbook-component.c:562
 msgid "Contact _List"
 msgstr "_Списак контаката"
 
-#: addressbook/gui/component/addressbook-component.c:351
+#: addressbook/gui/component/addressbook-component.c:563
 msgid "Create a new contact list"
 msgstr "Направи нови списак контаката"
 
-#: addressbook/gui/component/addressbook-config.c:398
+#: addressbook/gui/component/addressbook-config.c:399
 msgid "Failed to connect to LDAP server"
 msgstr "Неуспешно повезивање са LDAP сервером"
 
-#: addressbook/gui/component/addressbook-config.c:422
+#: addressbook/gui/component/addressbook-config.c:423
 msgid "Failed to authenticate with LDAP server"
 msgstr "Неуспешна пријава на LDAP сервер"
 
-#: addressbook/gui/component/addressbook-config.c:450
+#: addressbook/gui/component/addressbook-config.c:451
 msgid "Could not perform query on Root DSE"
 msgstr "Нисам могао да обавим упит на Root DSE"
 
-#: addressbook/gui/component/addressbook-config.c:774
+#: addressbook/gui/component/addressbook-config.c:777
 msgid "The server responded with no supported search bases"
 msgstr "Сервер је одговорио неподржаним базама за претрагу"
 
-#: addressbook/gui/component/addressbook-config.c:1185
+#: addressbook/gui/component/addressbook-config.c:1198
 msgid "This server does not support LDAPv3 schema information"
 msgstr "Овај сервер не подржава податке LDAPv3 шеме"
 
-#: addressbook/gui/component/addressbook-config.c:1207
+#: addressbook/gui/component/addressbook-config.c:1220
 msgid "Error retrieving schema information"
 msgstr "Грешка у читању података шеме"
 
-#: addressbook/gui/component/addressbook-config.c:1215
+#: addressbook/gui/component/addressbook-config.c:1228
 msgid "Server did not respond with valid schema information"
 msgstr "Сервер није одговорио са исправним подацима шеме"
 
@@ -194,20 +193,18 @@ msgid "Migrating `%s':"
 msgstr "Преносим „%s“:"
 
 #. create the local source group
-#. On This Computer is always first and VFolders is always last
 #: addressbook/gui/component/addressbook-migrate.c:409
 #: calendar/gui/migration.c:426 calendar/gui/migration.c:503
-#: mail/em-folder-tree-model.c:159 mail/em-folder-tree-model.c:161
-#: mail/mail-component.c:173
+#: mail/em-folder-tree-model.c:163 mail/em-folder-tree-model.c:165
+#: mail/mail-component.c:201
 msgid "On This Computer"
 msgstr "На овом рачунару"
 
 #. Create the default Person addressbook
-#. orange
 #: addressbook/gui/component/addressbook-migrate.c:417
 #: calendar/gui/migration.c:434 calendar/gui/migration.c:511
 #: filter/filter-label.c:123 mail/em-migrate.c:925 mail/mail-config.c:65
-#: mail/mail-config.glade.h:90
+#: mail/mail-config.glade.h:88
 msgid "Personal"
 msgstr "Лично"
 
@@ -363,7 +360,7 @@ msgstr " П_окажи подржане базе "
 #: calendar/gui/dialogs/new-task-list.glade.h:1
 #: calendar/gui/dialogs/task-page.glade.h:1
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:1
-#: composer/e-msg-composer-attachment.glade.h:1 mail/mail-config.glade.h:7
+#: composer/e-msg-composer-attachment.glade.h:1 mail/mail-config.glade.h:6
 #: mail/mail-search.glade.h:1 mail/message-tags.glade.h:1
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:1
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
@@ -407,7 +404,7 @@ msgid "Address Book Sources"
 msgstr "Извори адресара"
 
 #: addressbook/gui/component/ldap-config.glade.h:14 mail/mail-account-gui.c:65
-#: mail/mail-config.glade.h:17
+#: mail/mail-config.glade.h:16
 msgid "Always"
 msgstr "Увек"
 
@@ -467,7 +464,7 @@ msgid "Group:"
 msgstr "Група:"
 
 #: addressbook/gui/component/ldap-config.glade.h:28 mail/mail-account-gui.c:67
-#: mail/mail-config.glade.h:80
+#: mail/mail-config.glade.h:78
 msgid "Never"
 msgstr "Никада"
 
@@ -711,7 +708,7 @@ msgid "Using email address"
 msgstr "Користим електронску адресу"
 
 #: addressbook/gui/component/ldap-config.glade.h:86 mail/mail-account-gui.c:66
-#: mail/mail-config.glade.h:136
+#: mail/mail-config.glade.h:134
 msgid "Whenever Possible"
 msgstr "Када је могуће"
 
@@ -739,7 +736,7 @@ msgstr "Лимит за _преузимање:"
 #: addressbook/gui/component/ldap-config.glade.h:91
 #: addressbook/gui/contact-editor/contact-editor.glade.h:34
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41 filter/filter.glade.h:14
-#: mail/mail-config.glade.h:150 ui/evolution-addressbook.xml.h:34
+#: mail/mail-config.glade.h:148 ui/evolution-addressbook.xml.h:34
 #: ui/evolution-calendar.xml.h:36 ui/evolution-composer-entries.xml.h:8
 #: ui/evolution-mail-list.xml.h:24 ui/evolution-mail-messagedisplay.xml.h:6
 #: ui/evolution-message-composer.xml.h:43
@@ -989,9 +986,9 @@ msgstr "Ка_тегорије..."
 
 #. FIXME: need to disable for undeletable folders
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
-#: calendar/gui/dialogs/meeting-page.c:649 calendar/gui/e-cal-view.c:1300
+#: calendar/gui/dialogs/meeting-page.c:651 calendar/gui/e-cal-view.c:1300
 #: calendar/gui/e-cal-view.c:1331 calendar/gui/e-calendar-table.c:1057
-#: calendar/gui/e-calendar-table.c:1075 mail/em-folder-tree.c:2200
+#: calendar/gui/e-calendar-table.c:1075 mail/em-folder-tree.c:2237
 #: mail/em-folder-view.c:775 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:35 ui/evolution-comp-editor.xml.h:17
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:110
@@ -2083,7 +2080,7 @@ msgstr "Кућа"
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:250
 #: addressbook/gui/contact-editor/e-contact-editor.c:2876
 #: filter/filter-label.c:122 mail/em-migrate.c:924 mail/mail-config.c:64
-#: mail/mail-config.glade.h:137
+#: mail/mail-config.glade.h:135
 msgid "Work"
 msgstr "Посао"
 
@@ -2446,13 +2443,13 @@ msgid "Email begins with"
 msgstr "Е-пошта почиње са"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:162
-#: calendar/gui/cal-search-bar.c:52
+#: calendar/gui/cal-search-bar.c:54
 msgid "Category is"
 msgstr "Категорија је"
 
 #. We attach subitems below
 #: addressbook/gui/widgets/e-addressbook-view.c:163
-#: calendar/gui/cal-search-bar.c:48
+#: calendar/gui/cal-search-bar.c:49
 msgid "Any field contains"
 msgstr "Поље које садржи"
 
@@ -2542,7 +2539,7 @@ msgstr "Исеци"
 
 #. create the dialog
 #: addressbook/gui/widgets/e-addressbook-view.c:1072
-#: calendar/gui/calendar-component.c:360
+#: calendar/gui/calendar-component.c:372
 #: calendar/gui/dialogs/copy-source-dialog.c:159
 #: calendar/gui/tasks-component.c:363 ui/evolution-addressbook.xml.h:2
 #: ui/evolution-mail-message.xml.h:9 ui/evolution-tasks.xml.h:2
@@ -2573,7 +2570,7 @@ msgstr ""
 
 #. All, unmatched, separator
 #: addressbook/gui/widgets/e-addressbook-view.c:1607
-#: calendar/gui/cal-search-bar.c:353
+#: calendar/gui/cal-search-bar.c:359
 msgid "Any Category"
 msgstr "Било која категорија"
 
@@ -3106,17 +3103,17 @@ msgstr "Поглед карте"
 msgid "GTK Tree View"
 msgstr "Поглед GTK стабла"
 
-#: addressbook/gui/widgets/test-reflow.c:119
+#: addressbook/gui/widgets/test-reflow.c:106
 msgid "Reflow Test"
 msgstr "Проба преиспуњавања"
 
-#: addressbook/gui/widgets/test-reflow.c:120
+#: addressbook/gui/widgets/test-reflow.c:107
 #: addressbook/printing/test-contact-print-style-editor.c:54
 #: addressbook/printing/test-print.c:53
 msgid "Copyright (C) 2000, Ximian, Inc."
 msgstr "Сва права задржана ©2000, Ximian, Inc."
 
-#: addressbook/gui/widgets/test-reflow.c:122
+#: addressbook/gui/widgets/test-reflow.c:109
 msgid "This should test the reflow canvas item"
 msgstr "Ово испробава преиспуњавање поља"
 
@@ -3242,7 +3239,7 @@ msgstr "Маргине"
 msgid "Number of columns:"
 msgstr "Број колона:"
 
-#: addressbook/printing/e-contact-print.glade.h:23 mail/mail-config.glade.h:85
+#: addressbook/printing/e-contact-print.glade.h:23 mail/mail-config.glade.h:83
 msgid "Options"
 msgstr "Опције"
 
@@ -3422,7 +3419,7 @@ msgstr "Име датотеке није дато."
 msgid "Unnamed List"
 msgstr "Листа без имена"
 
-#: calendar/common/authentication.c:37 calendar/gui/itip-utils.c:1156
+#: calendar/common/authentication.c:37 calendar/gui/itip-utils.c:1158
 #: smime/gui/component.c:44
 msgid "Enter password"
 msgstr "Унесите лозинку"
@@ -3500,7 +3497,7 @@ msgid "Evolution's Tasks component"
 msgstr "Део Еволуције за задужења"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
-#: calendar/gui/e-tasks.c:1101 calendar/gui/print.c:1820
+#: calendar/gui/e-tasks.c:1134 calendar/gui/print.c:1820
 #: calendar/gui/tasks-control.c:516 calendar/importers/icalendar-importer.c:79
 #: calendar/importers/icalendar-importer.c:709
 msgid "Tasks"
@@ -3758,23 +3755,30 @@ msgstr "Да ли да приказујем време у 24ч облику ум
 msgid "Whether to show week numbers in date navigator"
 msgstr "Да ли да приказује бројеве недеља у избирачу датума"
 
-#: calendar/gui/cal-search-bar.c:49
+#: calendar/gui/cal-search-bar.c:50
 msgid "Summary contains"
 msgstr "Сажетак садржи"
 
-#: calendar/gui/cal-search-bar.c:50
+#: calendar/gui/cal-search-bar.c:51
 msgid "Description contains"
 msgstr "Опис садржи"
 
-#: calendar/gui/cal-search-bar.c:51
+#: calendar/gui/cal-search-bar.c:52
 msgid "Comment contains"
 msgstr "Коментар садржи"
 
-#: calendar/gui/cal-search-bar.c:357 mail/mail-ops.c:1108
+#: calendar/gui/cal-search-bar.c:53
+#, fuzzy
+msgid "Location contains"
+msgstr "Опис садржи"
+
+#: calendar/gui/cal-search-bar.c:363 mail/mail-ops.c:1100
 msgid "Unmatched"
 msgstr "Нерасподељено"
 
 #: calendar/gui/calendar-commands.c:116 calendar/gui/gnome-cal.c:1599
+#: camel/providers/groupwise/camel-gw-listener.c:298
+#: camel/providers/groupwise/camel-gw-listener.c:322
 msgid "Calendar"
 msgstr "Календар"
 
@@ -3804,10 +3808,6 @@ msgstr "%A %d %B %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
-#. strftime format %a = abbreviated weekday name,
-#. %d = day of month, %b = abbreviated month name.
-#. You can change the order but don't change the
-#. specifiers or add anything.
 #: calendar/gui/calendar-commands.c:434 calendar/gui/e-day-view-top-item.c:692
 #: calendar/gui/e-day-view.c:1367 calendar/gui/e-week-view-main-item.c:329
 msgid "%a %d %b"
@@ -3831,70 +3831,70 @@ msgstr "%d %B %Y"
 msgid "%d %B"
 msgstr "%d %B"
 
-#: calendar/gui/calendar-component.c:301
+#: calendar/gui/calendar-component.c:313
 #, c-format
 msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
 msgstr "Календар „%s“ ће бити уклоњен. Сигурно желите да наставите?"
 
-#: calendar/gui/calendar-component.c:358
+#: calendar/gui/calendar-component.c:370
 #: calendar/gui/dialogs/calendar-setup.glade.h:13
 msgid "New Calendar"
 msgstr "Нови календар"
 
-#: calendar/gui/calendar-component.c:603
+#: calendar/gui/calendar-component.c:843
 msgid "New appointment"
 msgstr "Нови заказани састанак"
 
-#: calendar/gui/calendar-component.c:604
+#: calendar/gui/calendar-component.c:844
 msgid "_Appointment"
 msgstr "Заказани _састанак"
 
-#: calendar/gui/calendar-component.c:605
+#: calendar/gui/calendar-component.c:845
 msgid "Create a new appointment"
 msgstr "Закажи састанак"
 
-#: calendar/gui/calendar-component.c:610
+#: calendar/gui/calendar-component.c:850
 msgid "New meeting"
 msgstr "Нови састанак"
 
-#: calendar/gui/calendar-component.c:611
+#: calendar/gui/calendar-component.c:851
 msgid "M_eeting"
 msgstr "С_астанак"
 
-#: calendar/gui/calendar-component.c:612
+#: calendar/gui/calendar-component.c:852
 msgid "Create a new meeting request"
 msgstr "Сачини нови захтев за састанак"
 
-#: calendar/gui/calendar-component.c:617
+#: calendar/gui/calendar-component.c:857
 msgid "New all day appointment"
 msgstr "Нови целодневни заказани састанак"
 
-#: calendar/gui/calendar-component.c:618
+#: calendar/gui/calendar-component.c:858
 msgid "All _Day Appointment"
 msgstr "Цело_дневни заказани састанак"
 
-#: calendar/gui/calendar-component.c:619
+#: calendar/gui/calendar-component.c:859
 msgid "Create a new all-day appointment"
 msgstr "Сачини нови целодневни заказани састанак"
 
-#: calendar/gui/calendar-component.c:624
+#: calendar/gui/calendar-component.c:864
 msgid "New calendar"
 msgstr "Нови календар"
 
-#: calendar/gui/calendar-component.c:625
+#: calendar/gui/calendar-component.c:865
 msgid "C_alendar"
 msgstr "К_алендар"
 
-#: calendar/gui/calendar-component.c:626
+#: calendar/gui/calendar-component.c:866
 msgid "Create a new calendar"
 msgstr "Направи нови календар"
 
-#: calendar/gui/calendar-component.c:693
+#: calendar/gui/calendar-component.c:933
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "Не могу да отворим календар „%s“ ради прављења догађаја и састанака"
 
-#: calendar/gui/calendar-component.c:705
+#: calendar/gui/calendar-component.c:945
 msgid "There is no calendar available for creating events and meetings"
 msgstr "Нема доступног календара за прављење догађаја и састанака"
 
@@ -4028,7 +4028,7 @@ msgstr "сати"
 msgid "minutes"
 msgstr "минута"
 
-#: calendar/gui/dialogs/alarm-page.c:798
+#: calendar/gui/dialogs/alarm-page.c:800
 msgid "Action/Trigger"
 msgstr "Дејство/покрени"
 
@@ -4101,7 +4101,7 @@ msgstr "сат(а)"
 
 # bug:plural-forms
 #: calendar/gui/dialogs/alarm-page.glade.h:16
-#: calendar/gui/dialogs/calendar-setup.glade.h:40 mail/mail-config.glade.h:184
+#: calendar/gui/dialogs/calendar-setup.glade.h:40 mail/mail-config.glade.h:182
 msgid "minute(s)"
 msgstr "минут(а)"
 
@@ -4163,7 +4163,7 @@ msgstr "30 минута"
 msgid "60 minutes"
 msgstr "60 минута"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6 mail/mail-config.glade.h:16
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6 mail/mail-config.glade.h:15
 msgid "Alerts"
 msgstr "Упозорења"
 
@@ -4188,7 +4188,7 @@ msgid "Days"
 msgstr "Дани"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
-#: mail/mail-config.glade.h:53
+#: mail/mail-config.glade.h:51
 msgid "E_nable"
 msgstr "О_могући"
 
@@ -4328,7 +4328,7 @@ msgid "_Fri"
 msgstr "_Пет"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
-#: mail/mail-config.glade.h:155
+#: mail/mail-config.glade.h:153
 msgid "_General"
 msgstr "_Опште"
 
@@ -4812,23 +4812,32 @@ msgstr "Заказивање"
 msgid "Meeting"
 msgstr "Састанак"
 
-#: calendar/gui/dialogs/event-page.c:606 calendar/gui/dialogs/task-page.c:510
+#: calendar/gui/dialogs/event-page.c:458
+#, fuzzy
+msgid "Event with no start date"
+msgstr "Датум завршетка је пре датума почетка!"
+
+#: calendar/gui/dialogs/event-page.c:461
+msgid "Event with no end date"
+msgstr ""
+
+#: calendar/gui/dialogs/event-page.c:615 calendar/gui/dialogs/task-page.c:512
 msgid "Start date is wrong"
 msgstr "Почетни датум је погрешан"
 
-#: calendar/gui/dialogs/event-page.c:616
+#: calendar/gui/dialogs/event-page.c:625
 msgid "End date is wrong"
 msgstr "Крајњи датум је погрешан"
 
-#: calendar/gui/dialogs/event-page.c:639
+#: calendar/gui/dialogs/event-page.c:648
 msgid "Start time is wrong"
 msgstr "Почетно време је погрешно"
 
-#: calendar/gui/dialogs/event-page.c:646
+#: calendar/gui/dialogs/event-page.c:655
 msgid "End time is wrong"
 msgstr "Крајње време је погрешно"
 
-#: calendar/gui/dialogs/event-page.c:1225
+#: calendar/gui/dialogs/event-page.c:1234
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "Не могу да отворим календар „%s“."
@@ -4902,36 +4911,31 @@ msgid "_Start time:"
 msgstr "_Почетно време:"
 
 #. an empty string is the same as 'None'
-#. add a "None" option to the stores menu
-#. Put the "None" and "UTC" entries at the top of the combo's list.
-#. When "None" is selected we want the field to be cleared.
-#. Note that we don't show this here, since by default a 'None' date
-#. is not permitted.
 #: calendar/gui/dialogs/meeting-page.c:311
 #: calendar/gui/dialogs/meeting-page.glade.h:3
 #: calendar/gui/e-cal-model-tasks.c:591 composer/e-msg-composer.c:2084
 #: mail/em-account-prefs.c:448 mail/em-folder-view.c:784
 #: mail/mail-account-gui.c:1258 mail/mail-account-gui.c:1782
-#: mail/mail-config.glade.h:82
+#: mail/mail-config.glade.h:80
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:193
 #: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:445
 #: widgets/misc/e-dateedit.c:1482 widgets/misc/e-dateedit.c:1597
 msgid "None"
 msgstr "Ништа"
 
-#: calendar/gui/dialogs/meeting-page.c:416
+#: calendar/gui/dialogs/meeting-page.c:418
 msgid "The organizer selected no longer has an account."
 msgstr "Изабрани организатор више нема налог."
 
-#: calendar/gui/dialogs/meeting-page.c:422
+#: calendar/gui/dialogs/meeting-page.c:424
 msgid "An organizer is required."
 msgstr "Захтева организатор."
 
-#: calendar/gui/dialogs/meeting-page.c:437
+#: calendar/gui/dialogs/meeting-page.c:439
 msgid "At least one attendee is required."
 msgstr "Најмање један присутни је потребан."
 
-#: calendar/gui/dialogs/meeting-page.c:645
+#: calendar/gui/dialogs/meeting-page.c:647
 msgid "_Delegate To..."
 msgstr "_Делегирај за..."
 
@@ -5119,7 +5123,7 @@ msgstr "на"
 msgid "occurrences"
 msgstr "појаве"
 
-#: calendar/gui/dialogs/recurrence-page.c:2334
+#: calendar/gui/dialogs/recurrence-page.c:2336
 msgid "Date/Time"
 msgstr "Датум/време"
 
@@ -5152,7 +5156,7 @@ msgid "_No recurrence"
 msgstr "_Без понављања"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:12
-#: composer/e-msg-composer-attachment-bar.c:444
+#: composer/e-msg-composer-attachment-bar.c:451
 msgid "_Remove"
 msgstr "_Уклони"
 
@@ -5218,7 +5222,7 @@ msgstr "Информација о примљеном задужењу је са�
 msgid "The task information has changed. Send an updated version?"
 msgstr "Информација о задужењу је измењена. Да пошаљем новију верзију?"
 
-#: calendar/gui/dialogs/task-details-page.c:402
+#: calendar/gui/dialogs/task-details-page.c:404
 msgid "Completed date is wrong"
 msgstr "Датум завршетка је погрешан"
 
@@ -5302,16 +5306,16 @@ msgstr "Основно"
 msgid "Assignment"
 msgstr "Задатак"
 
-#: calendar/gui/dialogs/task-page.c:483
+#: calendar/gui/dialogs/task-page.c:485
 msgid "Due date is wrong"
 msgstr "Датум за завршетак је погрешан"
 
-#: calendar/gui/dialogs/task-page.c:543 calendar/gui/e-cal-model-tasks.c:738
+#: calendar/gui/dialogs/task-page.c:545 calendar/gui/e-cal-model-tasks.c:738
 #: calendar/gui/e-cal-model-tasks.c:766
 msgid "Due date is before start date!"
 msgstr "Датум завршетка је пре датума почетка!"
 
-#: calendar/gui/dialogs/task-page.c:808
+#: calendar/gui/dialogs/task-page.c:810
 #, c-format
 msgid "Unable to open tasks in '%s'."
 msgstr "Не могу да отворим задужења у „%s“."
@@ -5322,7 +5326,7 @@ msgstr "Пов_ерљиво"
 
 #: calendar/gui/dialogs/task-page.glade.h:6 calendar/gui/e-itip-control.c:993
 #: calendar/gui/e-itip-control.glade.h:6 calendar/gui/e-tasks.c:243
-#: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:46
+#: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:45
 msgid "Description:"
 msgstr "Опис:"
 
@@ -5519,7 +5523,7 @@ msgstr "Почетни датум"
 msgid "Summary"
 msgstr "Извештај"
 
-#: calendar/gui/e-cal-list-view.etspec.h:6 mail/mail-config.glade.h:182
+#: calendar/gui/e-cal-list-view.etspec.h:6 mail/mail-config.glade.h:180
 msgid "color"
 msgstr "боја"
 
@@ -5582,7 +5586,7 @@ msgstr "Не"
 #: camel/camel-gpg-context.c:1665 camel/camel-gpg-context.c:1716
 #: camel/camel-tcp-stream-openssl.c:631
 #: camel/providers/smtp/camel-smtp-transport.c:172
-#: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:2097
+#: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:2112
 #: shell/e-component-registry.c:168 widgets/misc/e-charset-picker.c:60
 msgid "Unknown"
 msgstr "Непознато"
@@ -5671,7 +5675,7 @@ msgstr "_Исеци"
 
 #: calendar/gui/e-cal-view.c:1290 calendar/gui/e-cal-view.c:1327
 #: calendar/gui/e-calendar-table.c:1045 calendar/gui/e-calendar-table.c:1071
-#: mail/em-folder-tree.c:2193 ui/evolution-addressbook.xml.h:31
+#: mail/em-folder-tree.c:2230 ui/evolution-addressbook.xml.h:31
 #: ui/evolution-calendar.xml.h:34 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-message.xml.h:107 ui/evolution-tasks.xml.h:18
 msgid "_Copy"
@@ -5780,7 +5784,7 @@ msgid "Alarms"
 msgstr "Аларми"
 
 #: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:1167
-#: camel/camel-filter-driver.c:1259 mail/mail-send-recv.c:580
+#: camel/camel-filter-driver.c:1259 mail/mail-send-recv.c:597
 msgid "Complete"
 msgstr "Завршено"
 
@@ -5809,20 +5813,12 @@ msgid "URL"
 msgstr "URL"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
-#. strptime format of a weekday, a date and a time,
-#. in 24-hour format.
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:117 e-util/e-time-utils.c:180
 #: e-util/e-time-utils.c:393
 msgid "%a %m/%d/%Y %H:%M:%S"
 msgstr "%a %m/%d/%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
-#. strptime format of a weekday, a date and a time,
-#. in 12-hour format.
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:120 e-util/e-time-utils.c:175
 #: e-util/e-time-utils.c:402
 msgid "%a %m/%d/%Y %I:%M:%S %p"
@@ -5846,10 +5842,6 @@ msgstr "%02i минутни размаци"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
-#. strftime format %A = full weekday name, %d = day of
-#. month, %B = full month name. You can change the
-#. order but don't change the specifiers or add
-#. anything.
 #: calendar/gui/e-day-view-top-item.c:688 calendar/gui/e-day-view.c:1350
 #: calendar/gui/e-week-view-main-item.c:320 calendar/gui/print.c:1514
 msgid "%A %d %B"
@@ -5857,9 +5849,6 @@ msgstr "%A %d %B"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
-#. strftime format %d = day of month, %b = abbreviated
-#. month name. You can change the order but don't
-#. change the specifiers or add anything.
 #: calendar/gui/e-day-view-top-item.c:696 calendar/gui/e-day-view.c:1383
 #: calendar/gui/e-week-view-main-item.c:343
 msgid "%d %b"
@@ -6061,7 +6050,7 @@ msgid "Send Latest Information"
 msgstr "Пошаљи најновију информацију"
 
 #: calendar/gui/e-itip-control.c:1127 calendar/gui/itip-utils.c:442
-#: mail/mail-send-recv.c:390 mail/mail-send-recv.c:442
+#: mail/mail-send-recv.c:394 mail/mail-send-recv.c:446
 #: shell/e-shell-startup-wizard.c:794 ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Одустани"
@@ -6423,10 +6412,6 @@ msgstr "%A, %B %d, %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
-#. This is a strftime() format string %a = abbreviated weekday name,
-#. %m = month number, %d = month day, %Y = full year.
-#. strptime format of a weekday and a date.
-#. strftime format of a weekday and a date.
 #: calendar/gui/e-meeting-time-sel-item.c:456
 #: calendar/gui/e-meeting-time-sel.c:2093 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
@@ -6435,10 +6420,6 @@ msgstr "%a %m/%d/%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
-#. strptime format of a weekday and a date.
-#. This is the preferred date format for the locale.
-#. This is a strftime() format for a short date. %m = month,
-#. %d = day of month, %Y = year (all digits).
 #: calendar/gui/e-meeting-time-sel-item.c:460 e-util/e-time-utils.c:238
 #: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1606
 msgid "%m/%d/%Y"
@@ -6527,7 +6508,7 @@ msgstr "Веб страница:"
 msgid "Click to open %s"
 msgstr "Кликните да отворите %s"
 
-#: calendar/gui/e-tasks.c:736 calendar/gui/gnome-cal.c:1916
+#: calendar/gui/e-tasks.c:769 calendar/gui/gnome-cal.c:1916
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -6537,7 +6518,7 @@ msgstr ""
 " %s"
 
 #. FIXME: this doesn't remove the task list from the list or anything
-#: calendar/gui/e-tasks.c:755 calendar/gui/gnome-cal.c:1937
+#: calendar/gui/e-tasks.c:788 calendar/gui/gnome-cal.c:1937
 #, c-format
 msgid ""
 "The task backend for\n"
@@ -6548,12 +6529,12 @@ msgstr ""
 "%s\n"
 " је пукла."
 
-#: calendar/gui/e-tasks.c:835
+#: calendar/gui/e-tasks.c:868
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "Отварам задужења у %s"
 
-#: calendar/gui/e-tasks.c:856
+#: calendar/gui/e-tasks.c:889
 #, c-format
 msgid ""
 "Error opening %s:\n"
@@ -6562,19 +6543,19 @@ msgstr ""
 "Грешка при отварању %s:\n"
 "%s"
 
-#: calendar/gui/e-tasks.c:875
+#: calendar/gui/e-tasks.c:908
 msgid "Loading tasks"
 msgstr "Учитавам задужења"
 
-#: calendar/gui/e-tasks.c:977
+#: calendar/gui/e-tasks.c:1010
 msgid "Completing tasks..."
 msgstr "Испуњавам задужења..."
 
-#: calendar/gui/e-tasks.c:1000
+#: calendar/gui/e-tasks.c:1033
 msgid "Deleting selected objects..."
 msgstr "Бришем изабране објекте..."
 
-#: calendar/gui/e-tasks.c:1025
+#: calendar/gui/e-tasks.c:1058
 msgid "Expunging"
 msgstr "Избацујем"
 
@@ -6714,11 +6695,11 @@ msgstr "Слободан/заузет информација (%s до %s)"
 msgid "iCalendar information"
 msgstr "iCalendar информација"
 
-#: calendar/gui/itip-utils.c:671
+#: calendar/gui/itip-utils.c:673
 msgid "You must be an attendee of the event."
 msgstr "Морате бити учесник догађаја"
 
-#: calendar/gui/itip-utils.c:1155
+#: calendar/gui/itip-utils.c:1157
 #, c-format
 msgid "Enter the password for %s"
 msgstr "Унесите лозинку за „%s“"
@@ -8788,7 +8769,7 @@ msgstr "Неисправни аргументи за (системска-озн�
 msgid "Invalid arguments to (user-tag)"
 msgstr "Неипсравни аргументи за (корисничка-ознака)"
 
-#: camel/camel-filter-search.c:669 camel/camel-filter-search.c:677
+#: camel/camel-filter-search.c:670 camel/camel-filter-search.c:678
 #, c-format
 msgid "Error executing filter search: %s: %s"
 msgstr "Грешка код примене филтера за претрагу: %s: %s"
@@ -8877,7 +8858,7 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:779 camel/camel-gpg-context.c:1263
 #: camel/camel-gpg-context.c:1422 camel/camel-gpg-context.c:1508
-#: camel/camel-gpg-context.c:1615 mail/mail-send-recv.c:576
+#: camel/camel-gpg-context.c:1615 mail/mail-send-recv.c:593
 msgid "Cancelled."
 msgstr "Поништено."
 
@@ -9254,7 +9235,7 @@ msgstr "Важење тражених уверења је истекло."
 #: camel/camel-sasl-gssapi.c:189 camel/camel-sasl-gssapi.c:238
 #: camel/camel-sasl-gssapi.c:274 camel/camel-sasl-gssapi.c:289
 #: camel/camel-sasl-kerberos4.c:219
-#: camel/providers/imap/camel-imap-store.c:1221
+#: camel/providers/imap/camel-imap-store.c:1240
 msgid "Bad authentication response from server."
 msgstr "Лош одговор на пријаву од сервера."
 
@@ -9467,11 +9448,11 @@ msgstr "Не могу да направим директоријум: неисп
 msgid "Cannot delete folder: %s: Invalid operation"
 msgstr "Не могу да обришем директоријум: %s: неисправна операција"
 
-#: camel/camel-store.c:779 mail/mail-ops.c:1128
+#: camel/camel-store.c:779 mail/mail-ops.c:1120
 msgid "Trash"
 msgstr "Смеће"
 
-#: camel/camel-store.c:781 filter/libfilter-i18n.h:35 mail/mail-ops.c:1132
+#: camel/camel-store.c:781 filter/libfilter-i18n.h:35 mail/mail-ops.c:1124
 #: ui/evolution-mail-message.xml.h:46
 msgid "Junk"
 msgstr "Ђубре"
@@ -9741,7 +9722,7 @@ msgid "Apply filters to new messages in Inbox on this server"
 msgstr "Примени филтере на нове поруке у Inbox-у овог сервера"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:62
-#: camel/providers/imap/camel-imap-provider.c:66
+#: camel/providers/imap/camel-imap-provider.c:70
 msgid "Automatically synchronize remote mail locally"
 msgstr "Аутоматски усклади удаљену пошту са локалном"
 
@@ -9762,37 +9743,35 @@ msgid "For accessing Novell Groupwise servers"
 msgstr "За приступ Новел Групвајз серверима"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:100
-#: camel/providers/imap/camel-imap-provider.c:89
+#: camel/providers/imap/camel-imap-provider.c:93
 #: camel/providers/imapp/camel-imapp-provider.c:65
 #: camel/providers/nntp/camel-nntp-provider.c:71
-#: camel/providers/pop3/camel-pop3-provider.c:71 mail/mail-config.glade.h:89
+#: camel/providers/pop3/camel-pop3-provider.c:71 mail/mail-config.glade.h:87
 msgid "Password"
 msgstr "Лозинка"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:102
-#: camel/providers/imap/camel-imap-provider.c:91
+#: camel/providers/imap/camel-imap-provider.c:95
 #: camel/providers/imapp/camel-imapp-provider.c:67
 msgid "This option will connect to the IMAP server using a plaintext password."
 msgstr ""
 "Ова опција ће повезати на IMAP сервер коришћењем лозинке у обичном тексту."
 
-#. default charset used in mail view
 #: camel/providers/groupwise/camel-gw-listener.c:299
-#: camel/providers/groupwise/camel-gw-listener.c:300
-#: mail/em-folder-view.c:1586 mail/em-folder-view.c:1624
-#: mail/mail-config.glade.h:42
-msgid "Default"
-msgstr "Подразумевани"
+#: camel/providers/groupwise/camel-gw-listener.c:323
+#, fuzzy
+msgid "Checklist"
+msgstr "листа"
 
 #: camel/providers/imap/camel-imap-command.c:218
 #: camel/providers/imap/camel-imap-command.c:257
 #: camel/providers/imap/camel-imap-command.c:447
-#: camel/providers/imap/camel-imap-store.c:2869
+#: camel/providers/imap/camel-imap-store.c:2888
 msgid "Operation cancelled"
 msgstr "Операција обустављена"
 
 #: camel/providers/imap/camel-imap-command.c:302
-#: camel/providers/imap/camel-imap-store.c:2872
+#: camel/providers/imap/camel-imap-store.c:2891
 #, c-format
 msgid "Server unexpectedly disconnected: %s"
 msgstr "Веза са сервером је неочекивано искључена: %s"
@@ -9841,21 +9820,21 @@ msgstr "Нисам могао да направим директоријум %s:
 msgid "Could not load summary for %s"
 msgstr "Нисам могао да учитам сажетак за %s"
 
-#: camel/providers/imap/camel-imap-folder.c:320
+#: camel/providers/imap/camel-imap-folder.c:323
 msgid "Folder was destroyed and recreated on server."
 msgstr "Директоријум је уништен и поново на серверу направљен."
 
 #. Check UIDs and flags of all messages we already know of.
-#: camel/providers/imap/camel-imap-folder.c:563
+#: camel/providers/imap/camel-imap-folder.c:566
 msgid "Scanning for changed messages"
 msgstr "Трагам за промењеним порукама"
 
-#: camel/providers/imap/camel-imap-folder.c:1910
+#: camel/providers/imap/camel-imap-folder.c:1917
 #, c-format
 msgid "Unable to retrieve message: %s"
 msgstr "Не могу да покупим поруку: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:1941
+#: camel/providers/imap/camel-imap-folder.c:1948
 #: camel/providers/local/camel-maildir-folder.c:211
 #: camel/providers/local/camel-maildir-folder.c:224
 #: camel/providers/local/camel-maildir-folder.c:233
@@ -9871,25 +9850,25 @@ msgstr ""
 "Не могу да добијем поруку: %s\n"
 "  %s"
 
-#: camel/providers/imap/camel-imap-folder.c:1941
+#: camel/providers/imap/camel-imap-folder.c:1948
 #: camel/providers/local/camel-maildir-folder.c:211
 #: camel/providers/local/camel-mbox-folder.c:417
 #: camel/providers/local/camel-mh-folder.c:200
 msgid "No such message"
 msgstr "Нема такве поруке"
 
-#: camel/providers/imap/camel-imap-folder.c:1964
-#: camel/providers/imap/camel-imap-folder.c:2566
+#: camel/providers/imap/camel-imap-folder.c:1971
+#: camel/providers/imap/camel-imap-folder.c:2567
 #: camel/providers/nntp/camel-nntp-folder.c:205
 msgid "This message is not currently available"
 msgstr "Ова поруке није тренутно доступна"
 
-#: camel/providers/imap/camel-imap-folder.c:2224
-#: camel/providers/imap/camel-imap-folder.c:2294
+#: camel/providers/imap/camel-imap-folder.c:2231
+#: camel/providers/imap/camel-imap-folder.c:2301
 msgid "Fetching summary information for new messages"
 msgstr "Прикупљам сажету информацију за нове поруке"
 
-#: camel/providers/imap/camel-imap-folder.c:2604
+#: camel/providers/imap/camel-imap-folder.c:2605
 msgid "Could not find message body in FETCH response."
 msgstr "Нисам могао да пронађем текст поруке у FETCH одговору."
 
@@ -9944,27 +9923,37 @@ msgstr "Формат имена"
 msgid "Apply filters to new messages in INBOX on this server"
 msgstr "Примени филтере на нове поруке у INBOX-у овог сервера"
 
-#: camel/providers/imap/camel-imap-provider.c:72
+#: camel/providers/imap/camel-imap-provider.c:66
+#, fuzzy
+msgid "Check new messages for Junk contents"
+msgstr "Провери за нове поруке у свим директоријумима"
+
+#: camel/providers/imap/camel-imap-provider.c:68
+#, fuzzy
+msgid "Only check for Junk messages in the INBOX folder"
+msgstr "Провери за нове поруке у свим директоријумима"
+
+#: camel/providers/imap/camel-imap-provider.c:76
 msgid "IMAP"
 msgstr "IMAP"
 
-#: camel/providers/imap/camel-imap-provider.c:74
+#: camel/providers/imap/camel-imap-provider.c:78
 msgid "For reading and storing mail on IMAP servers."
 msgstr "За читање и смештање поште на IMAP сервере."
 
-#: camel/providers/imap/camel-imap-store.c:459
+#: camel/providers/imap/camel-imap-store.c:478
 #, c-format
 msgid "IMAP server %s"
 msgstr "IMAP сервер %s"
 
-#: camel/providers/imap/camel-imap-store.c:461
+#: camel/providers/imap/camel-imap-store.c:480
 #, c-format
 msgid "IMAP service for %s on %s"
 msgstr "IMAP сервис за %s на %s"
 
-#: camel/providers/imap/camel-imap-store.c:582
-#: camel/providers/imap/camel-imap-store.c:602
-#: camel/providers/imapp/camel-imapp-store.c:233
+#: camel/providers/imap/camel-imap-store.c:601
+#: camel/providers/imap/camel-imap-store.c:621
+#: camel/providers/imapp/camel-imapp-store.c:231
 #: camel/providers/nntp/camel-nntp-store.c:140
 #: camel/providers/pop3/camel-pop3-store.c:175
 #: camel/providers/smtp/camel-smtp-transport.c:269
@@ -9973,64 +9962,64 @@ msgstr "IMAP сервис за %s на %s"
 msgid "Could not connect to %s (port %d): %s"
 msgstr "Нисам могао да се повежем на %s (порт %d): %s"
 
-#: camel/providers/imap/camel-imap-store.c:584
+#: camel/providers/imap/camel-imap-store.c:603
 #: camel/providers/pop3/camel-pop3-store.c:177
 #: camel/providers/smtp/camel-smtp-transport.c:271
 msgid "SSL unavailable"
 msgstr "SSL није доступан"
 
-#: camel/providers/imap/camel-imap-store.c:599
-#: camel/providers/imap/camel-imap-store.c:831
-#: camel/providers/imapp/camel-imapp-store.c:230
+#: camel/providers/imap/camel-imap-store.c:618
+#: camel/providers/imap/camel-imap-store.c:850
+#: camel/providers/imapp/camel-imapp-store.c:228
 #: camel/providers/nntp/camel-nntp-store.c:137
 #: camel/providers/nntp/camel-nntp-store.c:155
 #: camel/providers/pop3/camel-pop3-store.c:192
 msgid "Connection cancelled"
 msgstr "Повезивање поништено"
 
-#: camel/providers/imap/camel-imap-store.c:665
-#: camel/providers/imap/camel-imap-store.c:696
+#: camel/providers/imap/camel-imap-store.c:684
+#: camel/providers/imap/camel-imap-store.c:715
 #, c-format
 msgid "Failed to connect to IMAP server %s in secure mode: %s"
 msgstr "Нисам могао да се повежем на IMAP сервер %s у сигурносном моду: %s"
 
-#: camel/providers/imap/camel-imap-store.c:666
+#: camel/providers/imap/camel-imap-store.c:685
 #: camel/providers/pop3/camel-pop3-store.c:228
 msgid "SSL/TLS extension not supported."
 msgstr "SSL/TLS екстензија није подржана."
 
-#: camel/providers/imap/camel-imap-store.c:697
+#: camel/providers/imap/camel-imap-store.c:716
 #: camel/providers/pop3/camel-pop3-store.c:269
 msgid "SSL negotiations failed"
 msgstr "SSL преговори нису успели"
 
-#: camel/providers/imap/camel-imap-store.c:834
+#: camel/providers/imap/camel-imap-store.c:853
 #, c-format
 msgid "Could not connect with command \"%s\": %s"
 msgstr "Нисам могао да се повежем помоћу наредбе %s: %s"
 
-#: camel/providers/imap/camel-imap-store.c:1251
+#: camel/providers/imap/camel-imap-store.c:1270
 #, c-format
 msgid "IMAP server %s does not support requested authentication type %s"
 msgstr "IMAP сервер %s не подржава тражени тип пријаве  %s"
 
-#: camel/providers/imap/camel-imap-store.c:1261
+#: camel/providers/imap/camel-imap-store.c:1280
 #: camel/providers/smtp/camel-smtp-transport.c:486
 #, c-format
 msgid "No support for authentication type %s"
 msgstr "Нема подршке за тип пријаве  %s"
 
-#: camel/providers/imap/camel-imap-store.c:1284
-#: camel/providers/imapp/camel-imapp-store.c:346
+#: camel/providers/imap/camel-imap-store.c:1303
+#: camel/providers/imapp/camel-imapp-store.c:344
 #, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
 msgstr "%sМолим унесите IMAP лозинку за %s@%s"
 
-#: camel/providers/imap/camel-imap-store.c:1298
+#: camel/providers/imap/camel-imap-store.c:1317
 msgid "You didn't enter a password."
 msgstr "Нисте унели лозинку."
 
-#: camel/providers/imap/camel-imap-store.c:1327
+#: camel/providers/imap/camel-imap-store.c:1346
 #, c-format
 msgid ""
 "Unable to authenticate to IMAP server.\n"
@@ -10041,13 +10030,13 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/imap/camel-imap-store.c:1674
-#: camel/providers/imap/camel-imap-store.c:1826
+#: camel/providers/imap/camel-imap-store.c:1693
+#: camel/providers/imap/camel-imap-store.c:1845
 #, c-format
 msgid "No such folder %s"
 msgstr "Нема таквог директоријума %s"
 
-#: camel/providers/imap/camel-imap-store.c:1767
+#: camel/providers/imap/camel-imap-store.c:1786
 #: camel/providers/local/camel-maildir-store.c:137
 #: camel/providers/local/camel-mbox-store.c:212
 #: camel/providers/local/camel-mh-store.c:234
@@ -10055,18 +10044,18 @@ msgstr "Нема таквог директоријума %s"
 msgid "Cannot create folder `%s': folder exists."
 msgstr "Не могу да направим директоријум „%s“: директоријум постоји."
 
-#: camel/providers/imap/camel-imap-store.c:2027
+#: camel/providers/imap/camel-imap-store.c:2046
 #, c-format
 msgid ""
 "The folder name \"%s\" is invalid because it containes the character \"%c\""
 msgstr "Име директоријума \"%s\" није исправно јер садржи карактер \"%c\""
 
-#: camel/providers/imap/camel-imap-store.c:2039
+#: camel/providers/imap/camel-imap-store.c:2058
 #, c-format
 msgid "Unknown parent folder: %s"
 msgstr "Непознати главни директоријум: %s"
 
-#: camel/providers/imap/camel-imap-store.c:2075
+#: camel/providers/imap/camel-imap-store.c:2094
 msgid "The parent folder is not allowed to contain subfolders"
 msgstr "Главни директоријум не може садржати директоријуме у себи"
 
@@ -10092,7 +10081,7 @@ msgstr ""
 "\n"
 " !!! НЕ КОРИСТИТЕ ОВО ЗА ВАЖНУ ПОШТУ  !!!\n"
 
-#: camel/providers/imapp/camel-imapp-store.c:330
+#: camel/providers/imapp/camel-imapp-store.c:328
 #, c-format
 msgid "Could not connect to POP server on %s"
 msgstr "Нисам могао да се повежем на ПОП сервер %s"
@@ -10313,9 +10302,9 @@ msgid "Checking for new messages"
 msgstr "Проверавам за нове поруке"
 
 #: camel/providers/local/camel-maildir-summary.c:733
-#: camel/providers/local/camel-mbox-summary.c:348
-#: camel/providers/local/camel-mbox-summary.c:521
-#: camel/providers/local/camel-mbox-summary.c:612
+#: camel/providers/local/camel-mbox-summary.c:369
+#: camel/providers/local/camel-mbox-summary.c:542
+#: camel/providers/local/camel-mbox-summary.c:633
 #: camel/providers/local/camel-spool-summary.c:137
 msgid "Storing folder"
 msgstr "Смештам директоријум"
@@ -10419,75 +10408,75 @@ msgstr "Не могу да преименујем „%s“: „%s“: %s"
 msgid "Could not rename '%s' to %s: %s"
 msgstr "Не могу да преименујем „%s“ у „%s“: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:354
+#: camel/providers/local/camel-mbox-summary.c:375
 #, c-format
 msgid "Could not open folder: %s: %s"
 msgstr "Нисам могао да отворим директоријум: %s: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:402
+#: camel/providers/local/camel-mbox-summary.c:423
 #, c-format
 msgid "Fatal mail parser error near position %ld in folder %s"
 msgstr "Фатална грешка у обради поште на позицији %ld у директоријуму %s"
 
-#: camel/providers/local/camel-mbox-summary.c:458
+#: camel/providers/local/camel-mbox-summary.c:479
 #, c-format
 msgid "Cannot check folder: %s: %s"
 msgstr "Не могу да проверим директоријум: %s: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:526
-#: camel/providers/local/camel-mbox-summary.c:617
+#: camel/providers/local/camel-mbox-summary.c:547
+#: camel/providers/local/camel-mbox-summary.c:638
 #: camel/providers/local/camel-spool-summary.c:142
 #, c-format
 msgid "Could not open file: %s: %s"
 msgstr "Нисам могао да отворим датотеку: %s: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:538
+#: camel/providers/local/camel-mbox-summary.c:559
 #: camel/providers/local/camel-spool-summary.c:162
 #, c-format
 msgid "Cannot open temporary mailbox: %s"
 msgstr "Не могу да отворим привремено сандуче: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:551
-#: camel/providers/local/camel-mbox-summary.c:715
+#: camel/providers/local/camel-mbox-summary.c:572
+#: camel/providers/local/camel-mbox-summary.c:736
 #, c-format
 msgid "Could not close source folder %s: %s"
 msgstr "Нисам могао да затворим изворни директоријум %s: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:560
+#: camel/providers/local/camel-mbox-summary.c:581
 #, c-format
 msgid "Could not close temp folder: %s"
 msgstr "Нисам могао да затворим temp директоријум: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:571 mail/em-folder-tree.c:2155
+#: camel/providers/local/camel-mbox-summary.c:592 mail/em-folder-tree.c:2192
 #, c-format
 msgid "Could not rename folder: %s"
 msgstr "Нисам могао да преименујем директоријум: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:655
-#: camel/providers/local/camel-mbox-summary.c:663
-#: camel/providers/local/camel-mbox-summary.c:856
-#: camel/providers/local/camel-mbox-summary.c:864
+#: camel/providers/local/camel-mbox-summary.c:676
+#: camel/providers/local/camel-mbox-summary.c:684
+#: camel/providers/local/camel-mbox-summary.c:877
+#: camel/providers/local/camel-mbox-summary.c:885
 msgid "Summary and folder mismatch, even after a sync"
 msgstr "Неслагање сажетка и директоријума, чак и након синхронизације"
 
-#: camel/providers/local/camel-mbox-summary.c:790
+#: camel/providers/local/camel-mbox-summary.c:811
 #: camel/providers/local/camel-spool-summary.c:334
 #, c-format
 msgid "Unknown error: %s"
 msgstr "Непозната грешка: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:825
+#: camel/providers/local/camel-mbox-summary.c:846
 #, c-format
 msgid "Could not store folder: %s"
 msgstr "Нисам могао да сачувам директоријум: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:919
-#: camel/providers/local/camel-mbox-summary.c:945
+#: camel/providers/local/camel-mbox-summary.c:940
+#: camel/providers/local/camel-mbox-summary.c:966
 #, c-format
 msgid "Error writing to temp mailbox: %s"
 msgstr "Грешка код писања у temp сандуче: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:936
+#: camel/providers/local/camel-mbox-summary.c:957
 #, c-format
 msgid "Writing to tmp mailbox failed: %s: %s"
 msgstr "Писање у tmp сандуче неуспело: %s: %s"
@@ -10878,7 +10867,7 @@ msgstr "Обриши након %s дана"
 msgid "Disable support for all POP3 extensions"
 msgstr "Онемогући подршку за сва POP3 проширења"
 
-#: camel/providers/pop3/camel-pop3-provider.c:54 mail/mail-config.glade.h:88
+#: camel/providers/pop3/camel-pop3-provider.c:54 mail/mail-config.glade.h:86
 msgid "POP"
 msgstr "POP"
 
@@ -10967,7 +10956,7 @@ msgid "No such folder `%s'."
 msgstr "Нема таквог директоријума `%s'."
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:36
-#: mail/mail-config.glade.h:113
+#: mail/mail-config.glade.h:111
 msgid "Sendmail"
 msgstr "Sendmail"
 
@@ -11020,7 +11009,7 @@ msgstr "sendmail"
 msgid "Mail delivery via the sendmail program"
 msgstr "Достава поште преко програма sendmail"
 
-#: camel/providers/smtp/camel-smtp-provider.c:37 mail/mail-config.glade.h:105
+#: camel/providers/smtp/camel-smtp-provider.c:37 mail/mail-config.glade.h:103
 msgid "SMTP"
 msgstr "SMTP"
 
@@ -11186,7 +11175,7 @@ msgstr "SMTP достава поште преко %s"
 msgid "Cannot send message: sender address not valid."
 msgstr "Не могу да пошаљем поруку: адреса пошиљаоца није исправна."
 
-#: camel/providers/smtp/camel-smtp-transport.c:691 mail/mail-ops.c:614
+#: camel/providers/smtp/camel-smtp-transport.c:691 mail/mail-ops.c:606
 msgid "Sending message"
 msgstr "Слање припремљених порука"
 
@@ -11292,34 +11281,34 @@ msgstr "QUIT захтеву је истекло време: %s"
 msgid "QUIT response error"
 msgstr "QUIT погрешан одговор"
 
-#: composer/e-msg-composer-attachment-bar.c:103
+#: composer/e-msg-composer-attachment-bar.c:104
 #, c-format
 msgid "%.0fK"
 msgstr "%.0fK"
 
-#: composer/e-msg-composer-attachment-bar.c:106
+#: composer/e-msg-composer-attachment-bar.c:107
 #, c-format
 msgid "%.0fM"
 msgstr "%.0fM"
 
-#: composer/e-msg-composer-attachment-bar.c:109
+#: composer/e-msg-composer-attachment-bar.c:110
 #, c-format
 msgid "%.0fG"
 msgstr "%.0fG"
 
-#: composer/e-msg-composer-attachment-bar.c:300 mail/em-utils.c:1476
+#: composer/e-msg-composer-attachment-bar.c:301 mail/em-utils.c:1476
 msgid "attachment"
 msgstr "прилог"
 
-#: composer/e-msg-composer-attachment-bar.c:445
+#: composer/e-msg-composer-attachment-bar.c:452
 msgid "Remove selected items from the attachment list"
 msgstr "Уклони одабране предмете са листе прилога"
 
-#: composer/e-msg-composer-attachment-bar.c:476
+#: composer/e-msg-composer-attachment-bar.c:483
 msgid "Add attachment..."
 msgstr "Додај прилог..."
 
-#: composer/e-msg-composer-attachment-bar.c:477
+#: composer/e-msg-composer-attachment-bar.c:484
 msgid "Attach a file to the message"
 msgstr "Додај датотеку поруци"
 
@@ -11758,16 +11747,12 @@ msgstr "Синхронизујем категорије:"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:185 e-util/e-time-utils.c:398
 msgid "%a %m/%d/%Y %I:%M %p"
 msgstr "%a %m/%d/%Y %I:%M %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:190 e-util/e-time-utils.c:389
 msgid "%a %m/%d/%Y %H:%M"
 msgstr "%a %m/%d/%Y %H:%M"
@@ -11819,31 +11804,23 @@ msgid "%m/%d/%Y %H"
 msgstr "%d.%m.%Y. %H"
 
 #. strptime format for a time of day, in 12-hour format.
-#. strftime format of a time in 12-hour format.
 #: e-util/e-time-utils.c:339 e-util/e-time-utils.c:438
 msgid "%I:%M:%S %p"
 msgstr "%I:%M:%S %p"
 
 #. strptime format for a time of day, in 24-hour format.
-#. strftime format of a time in 24-hour format.
 #: e-util/e-time-utils.c:343 e-util/e-time-utils.c:430
 msgid "%H:%M:%S"
 msgstr "%H:%M:%S"
 
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
-#. strftime format of a time in 12-hour format,
-#. without seconds.
-#. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
 #: widgets/misc/e-dateedit.c:1416 widgets/misc/e-dateedit.c:1641
 msgid "%I:%M %p"
 msgstr "%I:%M %p"
 
 #. strptime format for time of day, without seconds 24-hour format.
-#. strftime format of a time in 24-hour format,
-#. without seconds.
-#. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
 #: widgets/misc/e-dateedit.c:1413 widgets/misc/e-dateedit.c:1638
 msgid "%H:%M"
@@ -11993,19 +11970,19 @@ msgstr ""
 "%s"
 
 #: filter/filter-label.c:121 filter/libfilter-i18n.h:26 mail/em-migrate.c:923
-#: mail/mail-config.c:63 mail/mail-config.glade.h:68
+#: mail/mail-config.c:63 mail/mail-config.glade.h:66
 msgid "Important"
 msgstr "Важно"
 
 #. forest green
 #: filter/filter-label.c:124 mail/em-migrate.c:926 mail/mail-config.c:66
-#: mail/mail-config.glade.h:127
+#: mail/mail-config.glade.h:125
 msgid "To Do"
 msgstr "За урадити"
 
 #. blue
 #: filter/filter-label.c:125 mail/em-migrate.c:927 mail/mail-config.c:67
-#: mail/mail-config.glade.h:72
+#: mail/mail-config.glade.h:70
 msgid "Later"
 msgstr "Касније"
 
@@ -12110,7 +12087,7 @@ msgid "months"
 msgstr "месеци"
 
 # bug: plural-forms
-#: filter/filter.glade.h:21 mail/mail-config.glade.h:185
+#: filter/filter.glade.h:21 mail/mail-config.glade.h:183
 msgid "seconds"
 msgstr "секунде"
 
@@ -12522,7 +12499,7 @@ msgstr "Пошта"
 msgid "Mail Accounts"
 msgstr "Поштански налози"
 
-#: mail/GNOME_Evolution_Mail.server.in.in.h:14 mail/mail-config.glade.h:75
+#: mail/GNOME_Evolution_Mail.server.in.in.h:14 mail/mail-config.glade.h:73
 msgid "Mail Preferences"
 msgstr "Особине поште"
 
@@ -12659,122 +12636,123 @@ msgstr "<протисните овде да изаберете директор�
 msgid "Create New Folder"
 msgstr "Направи нови директоријум"
 
-#: mail/em-folder-selector.c:137 mail/em-folder-tree.c:1913
+#: mail/em-folder-selector.c:137 mail/em-folder-tree.c:1950
+#: mail/mail-component.c:597
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:4
 msgid "Specify where to create the folder:"
 msgstr "Наведите где да направим директоријум:"
 
-#: mail/em-folder-selector.c:260
+#: mail/em-folder-selector.c:267
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:2
 msgid "Folder _name:"
 msgstr "_Име директоријума:"
 
-#: mail/em-folder-tree-model.c:163 mail/em-folder-tree-model.c:165
+#: mail/em-folder-tree-model.c:167 mail/em-folder-tree-model.c:169
 #: mail/mail-vfolder.c:855
 msgid "VFolders"
 msgstr "VFolder-и"
 
-#: mail/em-folder-tree-model.c:173 mail/em-folder-tree-model.c:175
+#: mail/em-folder-tree-model.c:177 mail/em-folder-tree-model.c:179
 msgid "UNMATCHED"
 msgstr "НЕПОКЛОПЉЕН"
 
 #. Inbox is always first
-#: mail/em-folder-tree-model.c:201 mail/em-folder-tree-model.c:203
+#: mail/em-folder-tree-model.c:205 mail/em-folder-tree-model.c:207
 msgid "Inbox"
 msgstr "Сандуче"
 
-#: mail/em-folder-tree-model.c:446 mail/em-folder-tree-model.c:729
+#: mail/em-folder-tree-model.c:458 mail/em-folder-tree-model.c:741
 msgid "Loading..."
 msgstr "Учитавам..."
 
-#: mail/em-folder-tree.c:817
+#: mail/em-folder-tree.c:831
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Не могу да убацим поруке у смештај на највишем нивоу"
 
-#: mail/em-folder-tree.c:1760
+#: mail/em-folder-tree.c:1798
 #, c-format
 msgid "Cannot move folder `%s': illegal operation"
 msgstr "Не могу да преместим директоријум „%s“: неисправна операција"
 
-#: mail/em-folder-tree.c:1789 mail/em-folder-tree.c:1878
+#: mail/em-folder-tree.c:1827 mail/em-folder-tree.c:1915
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: mail/em-folder-tree.c:1805 mail/em-folder-tree.c:1818
+#: mail/em-folder-tree.c:1843 mail/em-folder-tree.c:1856
 #: mail/em-folder-view.c:660 mail/em-folder-view.c:674
-#: mail/importers/evolution-mbox-importer.c:118
+#: mail/importers/evolution-mbox-importer.c:119
 msgid "Select folder"
 msgstr "Одаберите директоријум"
 
-#: mail/em-folder-tree.c:1913
+#: mail/em-folder-tree.c:1950 mail/mail-component.c:597
 msgid "Create folder"
 msgstr "Направи директоријум"
 
-#: mail/em-folder-tree.c:2032
+#: mail/em-folder-tree.c:2069
 #, c-format
 msgid "Could not delete folder: %s"
 msgstr "Не могу да обришем директоријум: %s"
 
-#: mail/em-folder-tree.c:2057
+#: mail/em-folder-tree.c:2094
 #, c-format
 msgid "Cannot delete local %s folder."
 msgstr "Не могу да обришем локални директоријум „%s“."
 
-#: mail/em-folder-tree.c:2063
+#: mail/em-folder-tree.c:2100
 #, c-format
 msgid "Really delete folder \"%s\" and all of its subfolders?"
 msgstr "Заиста да бришем директоријум „%s“, и све његове поддиректоријуме?"
 
-#: mail/em-folder-tree.c:2073
+#: mail/em-folder-tree.c:2110
 #, c-format
 msgid "Delete \"%s\""
 msgstr "Обриши „%s“"
 
-#: mail/em-folder-tree.c:2107
+#: mail/em-folder-tree.c:2144
 #, c-format
 msgid "Cannot rename local %s folder."
 msgstr "Не могу да преименујем локални директоријум „%s“."
 
-#: mail/em-folder-tree.c:2116
+#: mail/em-folder-tree.c:2153
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Преименуј директоријум „%s“ у:"
 
-#: mail/em-folder-tree.c:2118
+#: mail/em-folder-tree.c:2155
 msgid "Rename Folder"
 msgstr "Преименуј директоријум"
 
-#: mail/em-folder-tree.c:2142
+#: mail/em-folder-tree.c:2179
 #, c-format
 msgid "A folder named \"%s\" already exists. Please use a different name."
 msgstr ""
 "Директоријум са именом „%s“ већ постоји. Молим користите неко друго име."
 
-#: mail/em-folder-tree.c:2188 ui/evolution-addressbook.xml.h:45
+#: mail/em-folder-tree.c:2225 ui/evolution-addressbook.xml.h:45
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:35
 msgid "_View"
 msgstr "П_реглед"
 
-#: mail/em-folder-tree.c:2189
+#: mail/em-folder-tree.c:2226
 msgid "Open in _New Window"
 msgstr "Отвори у _новом прозору"
 
-#: mail/em-folder-tree.c:2194
+#: mail/em-folder-tree.c:2231
 msgid "_Move"
 msgstr "Пре_мести"
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:2198
+#: mail/em-folder-tree.c:2235
 msgid "_New Folder..."
 msgstr "_Нови директоријум..."
 
-#: mail/em-folder-tree.c:2201
+#: mail/em-folder-tree.c:2238
 msgid "_Rename"
 msgstr "Преимену_ј"
 
-#: mail/em-folder-tree.c:2204 ui/evolution-mail-list.xml.h:27
+#: mail/em-folder-tree.c:2241 ui/evolution-mail-list.xml.h:27
 msgid "_Properties..."
 msgstr "_Особине..."
 
@@ -12905,6 +12883,12 @@ msgstr "Филтрирај према _дописној листи"
 #: mail/em-folder-view.c:809
 msgid "Filter on Thread"
 msgstr "Филтрирај прем _нити"
+
+#. default charset used in mail view
+#: mail/em-folder-view.c:1586 mail/em-folder-view.c:1624
+#: mail/mail-config.glade.h:41
+msgid "Default"
+msgstr "Подразумевани"
 
 #: mail/em-folder-view.c:1660
 msgid "Print Message"
@@ -13121,7 +13105,7 @@ msgid "Bcc"
 msgstr "Bcc (невидљива копија)"
 
 #: mail/em-format-html.c:1491 mail/em-format-quote.c:308
-#: mail/em-mailer-prefs.c:739
+#: mail/em-mailer-prefs.c:729
 msgid "Mailer"
 msgstr "Пошиљалац"
 
@@ -13153,15 +13137,20 @@ msgstr "Не могу да обрадим С/МИМЕ поруку: непозн
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Неподржана врста шифровања за multipart/encrypted"
 
-#: mail/em-format.c:1295
+#: mail/em-format.c:1297
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Нисам могао да обрадим MIME поруку. Показујем као извор."
 
-#: mail/em-format.c:1314
+#: mail/em-format.c:1316
 msgid "Unsupported signature format"
 msgstr "Неподржан облик потписа"
 
-#: mail/em-format.c:1322
+#: mail/em-format.c:1324
+#, fuzzy
+msgid "Error verifying signature"
+msgstr "Непозната грешка при провери потписа"
+
+#: mail/em-format.c:1324
 msgid "Unknown error verifying signature"
 msgstr "Непозната грешка при провери потписа"
 
@@ -13181,22 +13170,22 @@ msgstr ""
 "\n"
 "Будите стрпљиви док Еволуција пренесе ваше директоријуме..."
 
-#: mail/em-migrate.c:1800 mail/em-migrate.c:1815
+#: mail/em-migrate.c:1843 mail/em-migrate.c:1858
 #, c-format
 msgid "Failed to migrate pop3 uid caches: %s"
 msgstr "Неуспешан пренос оставе КИБ-ова за ПОП3: %s"
 
-#: mail/em-migrate.c:1903 mail/em-migrate.c:2004
+#: mail/em-migrate.c:1946 mail/em-migrate.c:2047
 #, c-format
 msgid "Failed to migrate folder expand state: %s"
 msgstr "Неуспешан пренос стања раширености директоријума: %s"
 
-#: mail/em-migrate.c:2128 mail/em-migrate.c:2300
+#: mail/em-migrate.c:2171 mail/em-migrate.c:2343
 #, c-format
 msgid "Failed to create directory `%s': %s"
 msgstr "Неуспешно прављење директоријума „%s“: %s"
 
-#: mail/em-migrate.c:2140
+#: mail/em-migrate.c:2183
 #, c-format
 msgid "Failed to open store for `%s': %s"
 msgstr "Неуспешно отварање смештаја за „%s“: %s"
@@ -13322,12 +13311,18 @@ msgstr "Сачувај поруку..."
 msgid "Add address"
 msgstr "Додај адресу"
 
-#: mail/em-utils.c:2088
+#. Drop filename for messages from a mailbox
+#: mail/em-utils.c:2052
+#, fuzzy, c-format
+msgid "Messages from %s"
+msgstr "Пошта од %s"
+
+#: mail/em-utils.c:2103
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Нисам могао да направим привремени директоријум: %s"
 
-#: mail/em-utils.c:2419
+#: mail/em-utils.c:2434
 #, c-format
 msgid ""
 "This operation will permanently remove all deleted messages in the folder `%"
@@ -13340,7 +13335,7 @@ msgstr ""
 "\n"
 "Заиста уклонити ове поруке?"
 
-#: mail/em-utils.c:2445
+#: mail/em-utils.c:2459
 msgid ""
 "This operation will permanently remove all deleted messages in all folders. "
 "If you continue, you will not be able to recover these messages.\n"
@@ -13364,97 +13359,93 @@ msgstr "Самопрепознавање смешака"
 msgid "Check incoming mail being junk"
 msgstr "Провери да ли је пристигла пошта ђубре"
 
-#: mail/evolution-mail.schemas.in.in.h:4
-msgid "Check incoming mail being junk for IMAP accounts"
-msgstr "Провери да ли је пристигла пошта ђубре за ИМАП налоге"
-
 # bug: British or American English?
-#: mail/evolution-mail.schemas.in.in.h:5
+#: mail/evolution-mail.schemas.in.in.h:4
 msgid "Citation highlight colour"
 msgstr "Боја истицања цитата"
 
 # bug: British or American English?
-#: mail/evolution-mail.schemas.in.in.h:6
+#: mail/evolution-mail.schemas.in.in.h:5
 msgid "Citation highlight colour."
 msgstr "Боја истицања цитата."
 
-#: mail/evolution-mail.schemas.in.in.h:7
+#: mail/evolution-mail.schemas.in.in.h:6
 msgid "Composer Window default height"
 msgstr "Подразумевана висина прозора за састављање"
 
-#: mail/evolution-mail.schemas.in.in.h:8
+#: mail/evolution-mail.schemas.in.in.h:7
 msgid "Composer Window default width"
 msgstr "Подразумевана ширина прозора за састављање"
 
-#: mail/evolution-mail.schemas.in.in.h:9
+#: mail/evolution-mail.schemas.in.in.h:8
 msgid "Default charset in which to compose messages"
 msgstr "Подразумевани скуп знакова за састављање порука"
 
-#: mail/evolution-mail.schemas.in.in.h:10
+#: mail/evolution-mail.schemas.in.in.h:9
 msgid "Default charset in which to compose messages."
 msgstr "Подразумевани скуп знакова за састављање порука."
 
-#: mail/evolution-mail.schemas.in.in.h:11
+#: mail/evolution-mail.schemas.in.in.h:10
 msgid "Default charset in which to display messages"
 msgstr "Подразумевани скуп знакова за приказ порука"
 
-#: mail/evolution-mail.schemas.in.in.h:12
+#: mail/evolution-mail.schemas.in.in.h:11
 msgid "Default charset in which to display messages."
 msgstr "Подразумевани скуп знакова за приказ порука."
 
-#: mail/evolution-mail.schemas.in.in.h:13
+#: mail/evolution-mail.schemas.in.in.h:12
 msgid "Default forward style"
 msgstr "Подразумевани стил прослеђивања"
 
-#: mail/evolution-mail.schemas.in.in.h:14
+#: mail/evolution-mail.schemas.in.in.h:13
 msgid "Default height of the Composer Window"
 msgstr "Подразумевана висина прозора за састављање"
 
-#: mail/evolution-mail.schemas.in.in.h:15
+#: mail/evolution-mail.schemas.in.in.h:14
 msgid "Default height of the Message Window"
 msgstr "Подразумевана висина прозора за поруку"
 
-#: mail/evolution-mail.schemas.in.in.h:16
+#: mail/evolution-mail.schemas.in.in.h:15
 msgid "Default reply style"
 msgstr "Подразумевани стил одговора"
 
-#: mail/evolution-mail.schemas.in.in.h:17
+#: mail/evolution-mail.schemas.in.in.h:16
 msgid "Default width of the Composer Window"
 msgstr "Подразумевана ширина прозора за састављање"
 
-#: mail/evolution-mail.schemas.in.in.h:18
+#: mail/evolution-mail.schemas.in.in.h:17
 msgid "Default width of the Message Window"
 msgstr "Подразумевана ширина прозора за поруку"
 
-#: mail/evolution-mail.schemas.in.in.h:19
+#: mail/evolution-mail.schemas.in.in.h:18
 msgid "Draw spelling error indicators on words as you type."
 msgstr "Исцртај ознаке грешака при куцању уз речи док куцате."
 
-#: mail/evolution-mail.schemas.in.in.h:20
+#: mail/evolution-mail.schemas.in.in.h:19
 msgid "Empty Trash folders on exit"
 msgstr "Испразни директоријуме са смећем на излазу"
 
-#: mail/evolution-mail.schemas.in.in.h:21
+#: mail/evolution-mail.schemas.in.in.h:20
 msgid "Empty all Trash folders when exiting Evolution."
 msgstr "Испразни све директоријуме са смећем при затварању Еволуције."
 
-#: mail/evolution-mail.schemas.in.in.h:22
+#: mail/evolution-mail.schemas.in.in.h:21
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
 msgstr "Омогући приказ курзора, тако да видите курзор док читате поруку."
 
-#: mail/evolution-mail.schemas.in.in.h:23
+#: mail/evolution-mail.schemas.in.in.h:22
 msgid "Enable/disable caret mode"
 msgstr "Укључи/искључи приказ курзора"
 
-#: mail/evolution-mail.schemas.in.in.h:24
+#: mail/evolution-mail.schemas.in.in.h:23
 msgid "Height of the message-list pane"
 msgstr "Висина површи списка порука"
 
-#: mail/evolution-mail.schemas.in.in.h:25
+#: mail/evolution-mail.schemas.in.in.h:24
 msgid "Height of the message-list pane."
 msgstr "Висина површи списка порука."
 
-#: mail/evolution-mail.schemas.in.in.h:26
+#: mail/evolution-mail.schemas.in.in.h:25
 msgid ""
 "If there isn't a builtin viewer for a particular mime-type inside Evolution, "
 "any mime-types appearing in this list which map to a bonobo-component viewer "
@@ -13465,15 +13456,15 @@ msgstr ""
 "користити за приказ садржаја."
 
 # bug: American English or British?
-#: mail/evolution-mail.schemas.in.in.h:27
+#: mail/evolution-mail.schemas.in.in.h:26
 msgid "List of Labels and their associated colours"
 msgstr "Списак ознака и одговарајућих боја"
 
-#: mail/evolution-mail.schemas.in.in.h:28
+#: mail/evolution-mail.schemas.in.in.h:27
 msgid "List of accounts"
 msgstr "Списак налога"
 
-#: mail/evolution-mail.schemas.in.in.h:29
+#: mail/evolution-mail.schemas.in.in.h:28
 msgid ""
 "List of accounts known to the mail component of Evolution. The list contains "
 "strings naming subdirectories relative to /apps/evolution/mail/accounts."
@@ -13481,12 +13472,12 @@ msgstr ""
 "Списак налога које познаје поштански део Еволуције. Списак садржи ниске које "
 "именују подкатегорије у односу на /apps/evolution/mail/accounts."
 
-#: mail/evolution-mail.schemas.in.in.h:30
+#: mail/evolution-mail.schemas.in.in.h:29
 msgid "List of custom headers and whether they are enabled."
 msgstr "Списак произвољних заглавља и да ли су укључена."
 
 # bug: American or British English?
-#: mail/evolution-mail.schemas.in.in.h:31
+#: mail/evolution-mail.schemas.in.in.h:30
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:colour where colour uses the HTML hex encoding."
@@ -13494,15 +13485,15 @@ msgstr ""
 "Списак ознака које познаје поштански део Еволуције. Списак садржи ниске које "
 "садрже име:боја где боја користи ХТМЛ хексадекадни запис."
 
-#: mail/evolution-mail.schemas.in.in.h:32
+#: mail/evolution-mail.schemas.in.in.h:31
 msgid "List of mime types to check for bonobo component viewers"
 msgstr "Списак врсти датотека за проналажење Бонобо прегледача"
 
-#: mail/evolution-mail.schemas.in.in.h:33
+#: mail/evolution-mail.schemas.in.in.h:32
 msgid "Load images for HTML messages over http"
 msgstr "Учитај слике за ХТМЛ поруке преко ХТТП-а"
 
-#: mail/evolution-mail.schemas.in.in.h:34
+#: mail/evolution-mail.schemas.in.in.h:33
 msgid ""
 "Load images for HTML messages over http(s). Possible values are: 0 - Never "
 "load images off the net 1 - Load images if sender is in the addressbook 2 - "
@@ -13512,80 +13503,80 @@ msgstr ""
 "не учитавај поруке преко мреже, 1 — учитај поруке ако је пошиљалац у "
 "адресару, 2 — увек учитај слике преко мреже"
 
-#: mail/evolution-mail.schemas.in.in.h:35
+#: mail/evolution-mail.schemas.in.in.h:34
 msgid "Log filter actions"
 msgstr "Бележи дејство филтера"
 
-#: mail/evolution-mail.schemas.in.in.h:36
+#: mail/evolution-mail.schemas.in.in.h:35
 msgid "Log filter actions to the specified log file."
 msgstr "Бележи дејство филтера у наведену датотеку дневника."
 
-#: mail/evolution-mail.schemas.in.in.h:37
+#: mail/evolution-mail.schemas.in.in.h:36
 msgid "Logfile to log filter actions"
 msgstr "Дневник у који да бележи дејство филтера"
 
-#: mail/evolution-mail.schemas.in.in.h:38
+#: mail/evolution-mail.schemas.in.in.h:37
 msgid "Logfile to log filter actions."
 msgstr "Дневник у који да бележи дејство филтера."
 
-#: mail/evolution-mail.schemas.in.in.h:39
+#: mail/evolution-mail.schemas.in.in.h:38
 msgid "Mark as Seen after specified timeout"
 msgstr "Означи као виђену након одређеног времена"
 
-#: mail/evolution-mail.schemas.in.in.h:40
+#: mail/evolution-mail.schemas.in.in.h:39
 msgid "Mark as Seen after specified timeout."
 msgstr "Означи као виђену након одређеног времена."
 
-#: mail/evolution-mail.schemas.in.in.h:41
+#: mail/evolution-mail.schemas.in.in.h:40
 msgid "Mark citations in the message \"Preview\""
 msgstr "Означи цитате у прегледу поруке"
 
-#: mail/evolution-mail.schemas.in.in.h:42
+#: mail/evolution-mail.schemas.in.in.h:41
 msgid "Mark citations in the message \"Preview\"."
 msgstr "Означи цитате у прегледу поруке."
 
-#: mail/evolution-mail.schemas.in.in.h:43
+#: mail/evolution-mail.schemas.in.in.h:42
 msgid "Message Window default hight"
 msgstr "Подразумевана висина прозора за поруку"
 
-#: mail/evolution-mail.schemas.in.in.h:44
+#: mail/evolution-mail.schemas.in.in.h:43
 msgid "Message Window default width"
 msgstr "Подразумевана ширина прозора за поруку"
 
-#: mail/evolution-mail.schemas.in.in.h:45
+#: mail/evolution-mail.schemas.in.in.h:44
 msgid "Message-display style (normal, full headers, source)"
 msgstr "Стил приказа поруке (обичан, сва заглавља, изворни)"
 
-#: mail/evolution-mail.schemas.in.in.h:46
+#: mail/evolution-mail.schemas.in.in.h:45
 msgid "New Mail Notify sound file"
 msgstr "Звук за обавештење о новој пошти"
 
-#: mail/evolution-mail.schemas.in.in.h:47
+#: mail/evolution-mail.schemas.in.in.h:46
 msgid "New Mail Notify type"
 msgstr "Врста обавештења о новој пошти"
 
-#: mail/evolution-mail.schemas.in.in.h:48
+#: mail/evolution-mail.schemas.in.in.h:47
 msgid "Prompt on empty subject"
 msgstr "Упитај када је тема празна"
 
-#: mail/evolution-mail.schemas.in.in.h:49
+#: mail/evolution-mail.schemas.in.in.h:48
 msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "Упитај корисника када жели да испразни директоријум."
 
-#: mail/evolution-mail.schemas.in.in.h:50
+#: mail/evolution-mail.schemas.in.in.h:49
 msgid ""
 "Prompt the user when he or she tries to send a message without a Subject."
 msgstr "Упитај корисника када покуша да пошаље поруку без теме."
 
-#: mail/evolution-mail.schemas.in.in.h:51
+#: mail/evolution-mail.schemas.in.in.h:50
 msgid "Prompt when user expunges"
 msgstr "Упитај при пражњењу"
 
-#: mail/evolution-mail.schemas.in.in.h:52
+#: mail/evolution-mail.schemas.in.in.h:51
 msgid "Prompt when user only fills Bcc"
 msgstr "Упитај када корисник упути само невидљиву копију"
 
-#: mail/evolution-mail.schemas.in.in.h:53
+#: mail/evolution-mail.schemas.in.in.h:52
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
@@ -13593,100 +13584,92 @@ msgstr ""
 "Упитај када корисник покуша да пошаље ХТМЛ поруке примаоцима који можда не "
 "желе да примају ХТМЛ пошту."
 
-#: mail/evolution-mail.schemas.in.in.h:54
+#: mail/evolution-mail.schemas.in.in.h:53
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr ""
 "Упитај корисника када покуша да пошаље поруку без навођења коме или копије."
 
-#: mail/evolution-mail.schemas.in.in.h:55
+#: mail/evolution-mail.schemas.in.in.h:54
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr "Упитај када корисник покуша да пошаље нежељени ХТМЛ"
 
-#: mail/evolution-mail.schemas.in.in.h:56
+#: mail/evolution-mail.schemas.in.in.h:55
 msgid "Recognize links in text and replace them."
 msgstr "Препознај везе у тексту и замени их."
 
-#: mail/evolution-mail.schemas.in.in.h:57
+#: mail/evolution-mail.schemas.in.in.h:56
 msgid "Recognize smileys in text and replace them with images."
 msgstr "Препознај смешке у тексту и замени их сликама."
 
-#: mail/evolution-mail.schemas.in.in.h:58
+#: mail/evolution-mail.schemas.in.in.h:57
 msgid "Run junk test on incoming mail"
 msgstr "Провери да долазећа пошта није ђубре"
 
-#: mail/evolution-mail.schemas.in.in.h:59
-msgid ""
-"Run junk test on incoming mail for IMAP accounts (only valid if "
-"check_incoming is set to true)"
-msgstr ""
-"Покрени проверу ђубрета за пристиглу пошту на ИМАП налозима (важи једино ако "
-"је постављено check_incoming)"
-
-#: mail/evolution-mail.schemas.in.in.h:60
+#: mail/evolution-mail.schemas.in.in.h:58
 msgid "S3kr3t 0pt10n"
 msgstr "т4јН4 0пЦиј4"
 
-#: mail/evolution-mail.schemas.in.in.h:61
+#: mail/evolution-mail.schemas.in.in.h:59
 msgid "S3kr3t 0pt10n."
 msgstr "т4јН4 0пЦиј4."
 
-#: mail/evolution-mail.schemas.in.in.h:62
+#: mail/evolution-mail.schemas.in.in.h:60
 msgid "Send HTML mail by default"
 msgstr "Подразумевано шаљи ХТМЛ пошту"
 
-#: mail/evolution-mail.schemas.in.in.h:63
+#: mail/evolution-mail.schemas.in.in.h:61
 msgid "Send HTML mail by default."
 msgstr "Подразумевано шаљи ХТМЛ пошту."
 
-#: mail/evolution-mail.schemas.in.in.h:64
+#: mail/evolution-mail.schemas.in.in.h:62
 msgid "Show Animations"
 msgstr "Прикажи анимације"
 
-#: mail/evolution-mail.schemas.in.in.h:65
+#: mail/evolution-mail.schemas.in.in.h:63
 msgid "Show animated images as animations."
 msgstr "Прикажи анимиране слике као анимације."
 
-#: mail/evolution-mail.schemas.in.in.h:66
+#: mail/evolution-mail.schemas.in.in.h:64
 msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr "Прикажи обрисане поруке (прецртане) у списку порука."
 
-#: mail/evolution-mail.schemas.in.in.h:67
+#: mail/evolution-mail.schemas.in.in.h:65
 msgid "Show deleted messages in the message-list"
 msgstr "Прикажи обрисане поруке у списку порука"
 
-#: mail/evolution-mail.schemas.in.in.h:68
+#: mail/evolution-mail.schemas.in.in.h:66
 msgid "Show the \"Preview\" pane"
 msgstr "Прикажи површ за преглед"
 
-#: mail/evolution-mail.schemas.in.in.h:69
+#: mail/evolution-mail.schemas.in.in.h:67
 msgid "Show the \"Preview\" pane."
 msgstr "Прикажи површ за преглед."
 
-#: mail/evolution-mail.schemas.in.in.h:70
+#: mail/evolution-mail.schemas.in.in.h:68
 msgid "Sound file to play when new mail arrives."
 msgstr "Звук који се пушта када стигне нова пошта."
 
-#: mail/evolution-mail.schemas.in.in.h:71
+#: mail/evolution-mail.schemas.in.in.h:69
 msgid "Specifies the type of New Mail Notification the user wishes to use."
 msgstr "Наводи врсту обавештења о новој пошти које корисник жели да користи."
 
-#: mail/evolution-mail.schemas.in.in.h:72
+#: mail/evolution-mail.schemas.in.in.h:70
 msgid "Spell check inline"
 msgstr "Истовремена провера правописа"
 
-#: mail/evolution-mail.schemas.in.in.h:73
+#: mail/evolution-mail.schemas.in.in.h:71
 msgid "Terminal font"
 msgstr "Фонт за терминал"
 
-#: mail/evolution-mail.schemas.in.in.h:74
+#: mail/evolution-mail.schemas.in.in.h:72
 msgid "The terminal font for mail display"
 msgstr "Фонт за терминал за приказ поште"
 
-#: mail/evolution-mail.schemas.in.in.h:75
+#: mail/evolution-mail.schemas.in.in.h:73
 msgid "The variable width font for mail display"
 msgstr "Фонт променљиве ширине за приказ поште"
 
-#: mail/evolution-mail.schemas.in.in.h:76
+#: mail/evolution-mail.schemas.in.in.h:74
 msgid ""
 "This key should contain a list of XML structures specifying custom headers, "
 "and whether they are to be displayed. The format of the XML structure is &lt;"
@@ -13698,100 +13681,100 @@ msgstr ""
 "enabled&gt; — постављено на укључено ако заглавље треба приказати при "
 "приказу поште."
 
-#: mail/evolution-mail.schemas.in.in.h:77
+#: mail/evolution-mail.schemas.in.in.h:75
 msgid "Thread the message list."
 msgstr "Списак порука према нити разговора."
 
-#: mail/evolution-mail.schemas.in.in.h:78
+#: mail/evolution-mail.schemas.in.in.h:76
 msgid "Thread the message-list"
 msgstr "Списак порука према нити разговора"
 
-#: mail/evolution-mail.schemas.in.in.h:79
+#: mail/evolution-mail.schemas.in.in.h:77
 msgid "Thread the message-list based on Subject"
 msgstr "Списак порука према нити разговора (према теми)"
 
-#: mail/evolution-mail.schemas.in.in.h:80
+#: mail/evolution-mail.schemas.in.in.h:78
 msgid "Timeout for marking message as Seen"
 msgstr "Време за означавање порука као виђене"
 
-#: mail/evolution-mail.schemas.in.in.h:81
+#: mail/evolution-mail.schemas.in.in.h:79
 msgid "Timeout for marking message as Seen."
 msgstr "Време за означавање порука као виђене."
 
-#: mail/evolution-mail.schemas.in.in.h:82
+#: mail/evolution-mail.schemas.in.in.h:80
 msgid "UID string of the default account."
 msgstr "КИБ ниска подразумеваног налога."
 
-#: mail/evolution-mail.schemas.in.in.h:83
+#: mail/evolution-mail.schemas.in.in.h:81
 msgid "Use Spamasssassin daemon and client"
 msgstr "Користи услугу и клијента Убице спама"
 
-#: mail/evolution-mail.schemas.in.in.h:84
+#: mail/evolution-mail.schemas.in.in.h:82
 msgid "Use Spamasssassin daemon and client (spamc/spamd)"
 msgstr "Користи услугу и клијента Убице спама (spamc/spamd)"
 
-#: mail/evolution-mail.schemas.in.in.h:85
+#: mail/evolution-mail.schemas.in.in.h:83
 msgid "Use custom fonts"
 msgstr "Користи произвољне фонтове"
 
-#: mail/evolution-mail.schemas.in.in.h:86
+#: mail/evolution-mail.schemas.in.in.h:84
 msgid "Use custom fonts for displaying mail"
 msgstr "Користи произвољне фонтове за приказ поште"
 
-#: mail/evolution-mail.schemas.in.in.h:87
+#: mail/evolution-mail.schemas.in.in.h:85
 msgid "Use only local spam tests."
 msgstr "Користи само локалне провере спама."
 
-#: mail/evolution-mail.schemas.in.in.h:88
+#: mail/evolution-mail.schemas.in.in.h:86
 msgid "Use only the local spam tests (no DNS)."
 msgstr "Користи само локалне провере спама (без ДНС-а)."
 
-#: mail/evolution-mail.schemas.in.in.h:89
+#: mail/evolution-mail.schemas.in.in.h:87
 msgid "Variable width font"
 msgstr "Фонт променљиве ширине"
 
-#: mail/evolution-mail.schemas.in.in.h:90
+#: mail/evolution-mail.schemas.in.in.h:88
 msgid "View/Bcc menu item is checked"
 msgstr "Ставка менија Преглед/Невидљива копија је изабрана"
 
-#: mail/evolution-mail.schemas.in.in.h:91
+#: mail/evolution-mail.schemas.in.in.h:89
 msgid "View/Bcc menu item is checked."
 msgstr "Ставка менија Преглед/Невидљива копија је изабрана."
 
-#: mail/evolution-mail.schemas.in.in.h:92
+#: mail/evolution-mail.schemas.in.in.h:90
 msgid "View/Cc menu item is checked"
 msgstr "Ставка менија Преглед/Копија је изабрана"
 
-#: mail/evolution-mail.schemas.in.in.h:93
+#: mail/evolution-mail.schemas.in.in.h:91
 msgid "View/Cc menu item is checked."
 msgstr "Ставка менија Преглед/Копија је изабрана."
 
-#: mail/evolution-mail.schemas.in.in.h:94
+#: mail/evolution-mail.schemas.in.in.h:92
 msgid "View/From menu item is checked"
 msgstr "Ставка менија Преглед/Од је изабрана"
 
-#: mail/evolution-mail.schemas.in.in.h:95
+#: mail/evolution-mail.schemas.in.in.h:93
 msgid "View/From menu item is checked."
 msgstr "Ставка менија Преглед/Од је изабрана."
 
-#: mail/evolution-mail.schemas.in.in.h:96
+#: mail/evolution-mail.schemas.in.in.h:94
 msgid "View/PostTo menu item is checked"
 msgstr "Ставка менија Преглед/Пошаљи-коме је изабрана"
 
-#: mail/evolution-mail.schemas.in.in.h:97
+#: mail/evolution-mail.schemas.in.in.h:95
 msgid "View/PostTo menu item is checked."
 msgstr "Ставка менија Преглед/Пошаљи-коме је изабрана."
 
-#: mail/evolution-mail.schemas.in.in.h:98
+#: mail/evolution-mail.schemas.in.in.h:96
 msgid "View/ReplyTo menu item is checked"
 msgstr "Ставка менија Преглед/Одговор-за је изабрана"
 
-#: mail/evolution-mail.schemas.in.in.h:99
+#: mail/evolution-mail.schemas.in.in.h:97
 msgid "View/ReplyTo menu item is checked."
 msgstr "Ставка менија Преглед/Одговор-за је изабрана."
 
 # Да ли ово треба оставити на енглеском, пошто су дословна имена заглавља?
-#: mail/evolution-mail.schemas.in.in.h:100
+#: mail/evolution-mail.schemas.in.in.h:98
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
@@ -13799,11 +13782,11 @@ msgstr ""
 "Да ли се покушава приказ нити расправе помоћу наслова када поруке не садрже "
 "заглавља Као-одговор-на и Референце."
 
-#: mail/evolution-mail.schemas.in.in.h:101
+#: mail/evolution-mail.schemas.in.in.h:99
 msgid "port for starting user runned spamd"
 msgstr "порт за покретање корисниковог spamd-а"
 
-#: mail/evolution-mail.schemas.in.in.h:102
+#: mail/evolution-mail.schemas.in.in.h:100
 msgid "spamd port"
 msgstr "порт spamd-а"
 
@@ -13840,15 +13823,15 @@ msgid "Evolution is importing your old Elm mail"
 msgstr "Еволуција увози вашу стару Elm пошту"
 
 #: mail/importers/elm-importer.c:89
-#: mail/importers/evolution-mbox-importer.c:219
-#: mail/importers/evolution-outlook-importer.c:215
+#: mail/importers/evolution-mbox-importer.c:220
+#: mail/importers/evolution-outlook-importer.c:225
 #: mail/importers/netscape-importer.c:1220 mail/importers/pine-importer.c:117
 msgid "Importing..."
 msgstr "Увозим..."
 
 #: mail/importers/elm-importer.c:91
-#: mail/importers/evolution-mbox-importer.c:221
-#: mail/importers/evolution-outlook-importer.c:217
+#: mail/importers/evolution-mbox-importer.c:222
+#: mail/importers/evolution-outlook-importer.c:227
 #: mail/importers/netscape-importer.c:1222 mail/importers/pine-importer.c:119
 msgid "Please wait"
 msgstr "Молим сачекајте"
@@ -13869,22 +13852,22 @@ msgstr ""
 msgid "Elm"
 msgstr "Elm"
 
-#: mail/importers/evolution-mbox-importer.c:115
+#: mail/importers/evolution-mbox-importer.c:116
 msgid "Destination folder:"
 msgstr "Одредишни директоријум:"
 
-#: mail/importers/evolution-mbox-importer.c:118
+#: mail/importers/evolution-mbox-importer.c:119
 msgid "Select folder to import into"
 msgstr "Изаберите директоријум у који да увезем"
 
-#: mail/importers/evolution-mbox-importer.c:218
-#: mail/importers/evolution-outlook-importer.c:214
+#: mail/importers/evolution-mbox-importer.c:219
+#: mail/importers/evolution-outlook-importer.c:224
 #: mail/importers/mail-importer.c:220
 #, c-format
 msgid "Importing `%s'"
 msgstr "Увозим „%s“"
 
-#: mail/importers/evolution-outlook-importer.c:261
+#: mail/importers/evolution-outlook-importer.c:271
 #: mail/importers/mail-importer.c:134
 msgid "Importing mailbox"
 msgstr "Увозим поштанско сандуче"
@@ -14041,15 +14024,15 @@ msgstr "Нисте унели све потребне податке."
 msgid "Evolution Account Editor"
 msgstr "Уредник Еволуција налога"
 
-#: mail/mail-account-gui.c:755 mail/mail-config.glade.h:157
+#: mail/mail-account-gui.c:755 mail/mail-config.glade.h:155
 msgid "_Host:"
 msgstr "_Домаћин:"
 
-#: mail/mail-account-gui.c:759 mail/mail-config.glade.h:131
+#: mail/mail-account-gui.c:759 mail/mail-config.glade.h:129
 msgid "User_name:"
 msgstr "Корисничко_име"
 
-#: mail/mail-account-gui.c:763 mail/mail-config.glade.h:166
+#: mail/mail-account-gui.c:763 mail/mail-config.glade.h:164
 msgid "_Path:"
 msgstr "_Путања:"
 
@@ -14102,27 +14085,42 @@ msgstr ""
 "    '%s'\n"
 "И освежен садржај."
 
-#: mail/mail-component.c:461
+#: mail/mail-component.c:487
 msgid "You have unsent messages, do you wish to quit anyway?"
 msgstr "Имате непослате поруке, желите ли свеједно да изађете?"
 
-#: mail/mail-component.c:520
+#: mail/mail-component.c:546
 msgid "New Mail Message"
 msgstr "Нова порука"
 
-#: mail/mail-component.c:521
+#: mail/mail-component.c:547
 msgid "_Mail Message"
 msgstr "_Порука"
 
-#: mail/mail-component.c:522
+#: mail/mail-component.c:548
 msgid "Compose a new mail message"
 msgstr "Састави нову поруку"
 
-#: mail/mail-component.c:656
+#: mail/mail-component.c:553
+#, fuzzy
+msgid "New Mail Folder"
+msgstr "Нови VFolder"
+
+#: mail/mail-component.c:554
+#, fuzzy
+msgid "Mail _Folder"
+msgstr "Филтери поште"
+
+#: mail/mail-component.c:555
+#, fuzzy
+msgid "Create a new mail folder"
+msgstr "Направи нови календар"
+
+#: mail/mail-component.c:722
 msgid "URI of the mail source that the view will display"
 msgstr "Адреса извора поште који ће бити приказани у прегледу"
 
-#: mail/mail-config-druid.c:367 mail/mail-config.glade.h:67
+#: mail/mail-config-druid.c:367 mail/mail-config.glade.h:65
 msgid "Identity"
 msgstr "Личност"
 
@@ -14164,7 +14162,7 @@ msgstr ""
 "Молим унесите податке о начину на који ћете слати пошту. Ако нисте сигурни, "
 "питајте систем администратора или понуђача Интернет сервиса."
 
-#: mail/mail-config-druid.c:394 mail/mail-config.glade.h:12
+#: mail/mail-config-druid.c:394 mail/mail-config.glade.h:11
 msgid "Account Management"
 msgstr "Управљање налозима"
 
@@ -14190,118 +14188,114 @@ msgid "Connecting to server..."
 msgstr "Повезујем се на сервер..."
 
 #: mail/mail-config.glade.h:3
-msgid "    "
-msgstr "    "
-
-#: mail/mail-config.glade.h:4
 msgid " _Check for supported types "
 msgstr "_Проверавам подржане типове "
 
-#: mail/mail-config.glade.h:5
+#: mail/mail-config.glade.h:4
 msgid "(SSL is not supported in this build of Evolution)"
 msgstr "(SSL није подржан у овој верзији Еволуције)"
 
-#: mail/mail-config.glade.h:6
+#: mail/mail-config.glade.h:5
 msgid "(SSL is not supported in this build of evolution)"
 msgstr "(SSL није подржан у овој верзији еволуције)"
 
-#: mail/mail-config.glade.h:8
+#: mail/mail-config.glade.h:7
 msgid "<b>_Displayed Mail Headers</b>"
 msgstr "<b>_Приказана заглавља порука</b>"
 
-#: mail/mail-config.glade.h:9
+#: mail/mail-config.glade.h:8
 msgid "A_lso encrypt to self when sending encrypted mail"
 msgstr "_Такође шифруј на мене код слања шифроване поште"
 
-#: mail/mail-config.glade.h:10
+#: mail/mail-config.glade.h:9
 msgid "Account Editor"
 msgstr "Уређивач налога"
 
-#: mail/mail-config.glade.h:11
+#: mail/mail-config.glade.h:10
 msgid "Account Information"
 msgstr "Информација о налогу"
 
-#: mail/mail-config.glade.h:13
+#: mail/mail-config.glade.h:12
 msgid "Add Sc_ript"
 msgstr "Додај ск_рипту"
 
-#: mail/mail-config.glade.h:14
+#: mail/mail-config.glade.h:13
 msgid "Add new signature..."
 msgstr "Додај нови потпис..."
 
-#: mail/mail-config.glade.h:15
+#: mail/mail-config.glade.h:14
 msgid "Al_ways encrypt to myself when sending encrypted mail"
 msgstr "Ув_ек шифрирај на мене код слања шифроване поште"
 
-#: mail/mail-config.glade.h:18
+#: mail/mail-config.glade.h:17
 msgid "Always _blind carbon-copy (Bcc) to:"
 msgstr "Увек пошаљи _скривену копију (Bcc) на:"
 
-#: mail/mail-config.glade.h:19
+#: mail/mail-config.glade.h:18
 msgid "Always _carbon-copy (Cc) to:"
 msgstr "Увек пошаљи _копију (Cc) на:"
 
-#: mail/mail-config.glade.h:20
+#: mail/mail-config.glade.h:19
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr "Увек _веруј кључевима у мојој вези када шифрираш"
 
-#: mail/mail-config.glade.h:21
+#: mail/mail-config.glade.h:20
 msgid "Attach original message"
 msgstr "Приложи оригиналну поруку"
 
-#: mail/mail-config.glade.h:22 mail/message-list.etspec.h:1
+#: mail/mail-config.glade.h:21 mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "Прилог"
 
-#: mail/mail-config.glade.h:23
+#: mail/mail-config.glade.h:22
 msgid "Authentication"
 msgstr "Идентификација"
 
-#: mail/mail-config.glade.h:24
+#: mail/mail-config.glade.h:23
 msgid "Baltic (ISO-8859-13)"
 msgstr "Балтички (ISO-8859-13)"
 
-#: mail/mail-config.glade.h:25
+#: mail/mail-config.glade.h:24
 msgid "Baltic (ISO-8859-4)"
 msgstr "Балтички (ISO-8859-4)"
 
-#: mail/mail-config.glade.h:26
+#: mail/mail-config.glade.h:25
 msgid "C_haracter set:"
 msgstr "К_одна страна:"
 
-#: mail/mail-config.glade.h:27
+#: mail/mail-config.glade.h:26
 msgid "C_olors"
 msgstr "_Боје"
 
-#: mail/mail-config.glade.h:28
+#: mail/mail-config.glade.h:27
 msgid "Check _Incoming Mail"
 msgstr "Провери пристиг_лу пошту"
 
-#: mail/mail-config.glade.h:29
+#: mail/mail-config.glade.h:28
 msgid "Check spelling while I _type"
 msgstr "Провери правопис док _куцам"
 
-#: mail/mail-config.glade.h:30
+#: mail/mail-config.glade.h:29
 msgid "Checking for New Mail"
 msgstr "Провери за нову пошту"
 
-#: mail/mail-config.glade.h:31
+#: mail/mail-config.glade.h:30
 msgid "Checks incoming mail messages to be Junk"
 msgstr "Провери да пристигле поруке нису ђубре"
 
-#: mail/mail-config.glade.h:32
+#: mail/mail-config.glade.h:31
 msgid "Color for _misspelled words:"
 msgstr "Боја за _погрешно написане речи:"
 
-#: mail/mail-config.glade.h:33
+#: mail/mail-config.glade.h:32
 msgid "Composing Messages"
 msgstr "Састављање порука"
 
-#: mail/mail-config.glade.h:34
+#: mail/mail-config.glade.h:33
 msgid "Configuration"
 msgstr "Подешавања"
 
-#: mail/mail-config.glade.h:35
+#: mail/mail-config.glade.h:34
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -14317,278 +14311,274 @@ msgstr ""
 "\n"
 "Притисните \"Примени\" да сачувате подешавања."
 
-#: mail/mail-config.glade.h:41
+#: mail/mail-config.glade.h:40
 msgid "De_fault"
 msgstr "Пре_дефинисано"
 
-#: mail/mail-config.glade.h:43
+#: mail/mail-config.glade.h:42
 msgid "Default Behavior"
 msgstr "Предефинисано понашање"
 
-#: mail/mail-config.glade.h:44
+#: mail/mail-config.glade.h:43
 msgid "Default character _encoding:"
 msgstr "Предефинисана кодна _страна"
 
-#: mail/mail-config.glade.h:45
+#: mail/mail-config.glade.h:44
 msgid "Deleting Mail"
 msgstr "Брисање поште"
 
-#: mail/mail-config.glade.h:47
+#: mail/mail-config.glade.h:46
 msgid "Digitally _sign outgoing messages (by default)"
 msgstr "Дигитално потпиши одлазеће поруке (подразумевано)"
 
-#: mail/mail-config.glade.h:48
-msgid "Do _Not Check Incoming Mail For IMAP Accounts"
-msgstr "_Не проверавај за новопристиглу пошту на ИМАП налозима"
-
-#: mail/mail-config.glade.h:49
+#: mail/mail-config.glade.h:47
 msgid "Do not quote original message"
 msgstr "Не цитирај оригиналну поруку"
 
-#: mail/mail-config.glade.h:50
+#: mail/mail-config.glade.h:48
 msgid "Don't sign _meeting requests (for Outlook compatibility)"
 msgstr "Не потписуј захтеве за с_астанцима (за компатибилност са Outlook-ом)"
 
-#: mail/mail-config.glade.h:51 shell/glade/evolution-startup-wizard.glade.h:1
+#: mail/mail-config.glade.h:49 shell/glade/evolution-startup-wizard.glade.h:1
 msgid "Done"
 msgstr "Готово"
 
-#: mail/mail-config.glade.h:52
+#: mail/mail-config.glade.h:50
 msgid "Drafts _folder:"
 msgstr "Д_иректоријум Припрема:"
 
-#: mail/mail-config.glade.h:54
+#: mail/mail-config.glade.h:52
 msgid "Email Accounts"
 msgstr "Електронски налози"
 
-#: mail/mail-config.glade.h:55
+#: mail/mail-config.glade.h:53
 msgid "Email _address:"
 msgstr "Електронска адреса:"
 
-#: mail/mail-config.glade.h:56
+#: mail/mail-config.glade.h:54
 msgid "Empty _trash folders on exit"
 msgstr "Испразни директоријуме са _смећем на излазу"
 
-#: mail/mail-config.glade.h:57
+#: mail/mail-config.glade.h:55
 msgid "Encry_ption certificate:"
 msgstr "Сертификат за ши_фровање:"
 
-#: mail/mail-config.glade.h:58
+#: mail/mail-config.glade.h:56
 msgid "Evolution Account Assistant"
 msgstr "Помоћник за налоге Еволуције"
 
-#: mail/mail-config.glade.h:59
+#: mail/mail-config.glade.h:57
 msgid "Execute Command..."
 msgstr "Изврши команду..."
 
 # bug: space too much?
-#: mail/mail-config.glade.h:60
+#: mail/mail-config.glade.h:58
 msgid "Fi_xed -width:"
 msgstr "У_тврђене-ширине:"
 
-#: mail/mail-config.glade.h:61
+#: mail/mail-config.glade.h:59
 msgid "Filter Options"
 msgstr "Опције филтера"
 
-#: mail/mail-config.glade.h:62
+#: mail/mail-config.glade.h:60
 msgid "Font Properties"
 msgstr "Особине писма"
 
-#: mail/mail-config.glade.h:63
+#: mail/mail-config.glade.h:61
 msgid "Format messages in _HTML"
 msgstr "Среди поруке у H_TML"
 
-#: mail/mail-config.glade.h:64
+#: mail/mail-config.glade.h:62
 msgid "H_eaders"
 msgstr "_Заглавља"
 
-#: mail/mail-config.glade.h:65
+#: mail/mail-config.glade.h:63
 msgid "Highlight _quotations with"
 msgstr "Нагласи _цитате са"
 
-#: mail/mail-config.glade.h:66
+#: mail/mail-config.glade.h:64
 msgid "IMAPv4 "
 msgstr "IMAPv4 "
 
-#: mail/mail-config.glade.h:69
+#: mail/mail-config.glade.h:67
 msgid "Inline"
 msgstr "Унутар"
 
-#: mail/mail-config.glade.h:70
+#: mail/mail-config.glade.h:68
 msgid "Kerberos "
 msgstr "Kerberos "
 
-#: mail/mail-config.glade.h:71
+#: mail/mail-config.glade.h:69
 msgid "Labels and Colors"
 msgstr "Етикете и боје"
 
-#: mail/mail-config.glade.h:73
+#: mail/mail-config.glade.h:71
 msgid "Loading Images"
 msgstr "Учитавање слика"
 
-#: mail/mail-config.glade.h:74
+#: mail/mail-config.glade.h:72
 msgid "Mail Configuration"
 msgstr "Подешавање поште"
 
-#: mail/mail-config.glade.h:76
+#: mail/mail-config.glade.h:74
 msgid "Mailbox location"
 msgstr "Локација сандучета"
 
-#: mail/mail-config.glade.h:77
+#: mail/mail-config.glade.h:75
 msgid "Message Composer"
 msgstr "Састављач поруке"
 
-#: mail/mail-config.glade.h:78
+#: mail/mail-config.glade.h:76
 msgid "Message Display"
 msgstr "Приказ поруке"
 
-#: mail/mail-config.glade.h:79
+#: mail/mail-config.glade.h:77
 msgid "Message Fonts"
 msgstr "Писма поруке"
 
-#: mail/mail-config.glade.h:81
+#: mail/mail-config.glade.h:79
 msgid "New Mail Notification"
 msgstr "Обавештење о новој пошти"
 
-#: mail/mail-config.glade.h:83
+#: mail/mail-config.glade.h:81
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
 msgstr "Напомена: бићете упитани за лозинку док се не повежете први пут"
 
-#: mail/mail-config.glade.h:84
+#: mail/mail-config.glade.h:82
 msgid "Optional Information"
 msgstr "Опционе информације"
 
-#: mail/mail-config.glade.h:86
+#: mail/mail-config.glade.h:84
 msgid "Or_ganization:"
 msgstr "Ор_ганизација:"
 
-#: mail/mail-config.glade.h:87
+#: mail/mail-config.glade.h:85
 msgid "PGP/GPG _Key ID:"
 msgstr "PGP/GPG лична карта _кључа:"
 
-#: mail/mail-config.glade.h:91
+#: mail/mail-config.glade.h:89
 msgid "Pick a color"
 msgstr "Изаберите боју"
 
-#: mail/mail-config.glade.h:92
+#: mail/mail-config.glade.h:90
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr "Упозори када шаљеш поруке само са дефинисаним Bcc примаоцима"
 
-#: mail/mail-config.glade.h:93
+#: mail/mail-config.glade.h:91
 msgid "Pretty Good Privacy (PGP/GPG)"
 msgstr "Pretty Good Privacy (PGP/GPG)"
 
-#: mail/mail-config.glade.h:94
+#: mail/mail-config.glade.h:92
 msgid "Printed Fonts"
 msgstr "Штампана писма"
 
-#: mail/mail-config.glade.h:95
+#: mail/mail-config.glade.h:93
 msgid "Qmail maildir "
 msgstr "Qmail maildir"
 
-#: mail/mail-config.glade.h:96
+#: mail/mail-config.glade.h:94
 msgid "Quote original message"
 msgstr "Цитирај оригиналну поруку"
 
-#: mail/mail-config.glade.h:97
+#: mail/mail-config.glade.h:95
 msgid "Quoted"
 msgstr "Цитирано"
 
-#: mail/mail-config.glade.h:98
+#: mail/mail-config.glade.h:96
 msgid "Re_member this password"
 msgstr "За_памти ову лозинку"
 
-#: mail/mail-config.glade.h:99
+#: mail/mail-config.glade.h:97
 msgid "Re_ply-To:"
 msgstr "Од_говори-на:"
 
-#: mail/mail-config.glade.h:100
+#: mail/mail-config.glade.h:98
 msgid "Receiving Email"
 msgstr "Примање поште"
 
-#: mail/mail-config.glade.h:101
+#: mail/mail-config.glade.h:99
 msgid "Receiving _Options"
 msgstr "_Опције за примање"
 
-#: mail/mail-config.glade.h:102
+#: mail/mail-config.glade.h:100
 msgid "Remember this _password"
 msgstr "Запамти ову _лозинку"
 
-#: mail/mail-config.glade.h:103
+#: mail/mail-config.glade.h:101
 msgid "Required Information"
 msgstr "Неопходне информације"
 
-#: mail/mail-config.glade.h:104
+#: mail/mail-config.glade.h:102
 msgid "Restore Defaults"
 msgstr "Поврати предефинисано"
 
-#: mail/mail-config.glade.h:106
+#: mail/mail-config.glade.h:104
 msgid "S_ecurity"
 msgstr "С_игурност"
 
-#: mail/mail-config.glade.h:107
+#: mail/mail-config.glade.h:105
 msgid "Secure MIME (S/MIME)"
 msgstr "Сигурни MIME (S/MIME)"
 
-#: mail/mail-config.glade.h:108
+#: mail/mail-config.glade.h:106
 msgid "Select HTML fixed width font"
 msgstr "Одабери HTML писмо фиксиране величине"
 
-#: mail/mail-config.glade.h:109
+#: mail/mail-config.glade.h:107
 msgid "Select HTML fixed width font for printing"
 msgstr "Одабери HTML писмо фиксиране величине за штампу"
 
-#: mail/mail-config.glade.h:110
+#: mail/mail-config.glade.h:108
 msgid "Select HTML variable width font"
 msgstr "Одабери HTML писмо варијабилне величине"
 
-#: mail/mail-config.glade.h:111
+#: mail/mail-config.glade.h:109
 msgid "Select HTML variable width font for printing"
 msgstr "Одабери HTML писмо варијабилне величине за штампу"
 
-#: mail/mail-config.glade.h:112
+#: mail/mail-config.glade.h:110
 msgid "Sending Email"
 msgstr "Слање поште"
 
-#: mail/mail-config.glade.h:114
+#: mail/mail-config.glade.h:112
 msgid "Sent _messages folder:"
 msgstr "Директоријум Послате _поруке"
 
-#: mail/mail-config.glade.h:115
+#: mail/mail-config.glade.h:113
 msgid "Sent and Draft Messages"
 msgstr "Поруке из Припреме и Послато директоријума"
 
-#: mail/mail-config.glade.h:116
+#: mail/mail-config.glade.h:114
 msgid "Ser_ver requires authentication"
 msgstr "Сер_вер тражи идентификацију"
 
-#: mail/mail-config.glade.h:117
+#: mail/mail-config.glade.h:115
 msgid "Server Configuration"
 msgstr "Подешавање сервера"
 
-#: mail/mail-config.glade.h:118
+#: mail/mail-config.glade.h:116
 msgid "Server _Type: "
 msgstr "_Тип сервера"
 
-#: mail/mail-config.glade.h:119
+#: mail/mail-config.glade.h:117
 msgid "Si_gning certificate:"
 msgstr "Сертификат за _потписивање:"
 
-#: mail/mail-config.glade.h:120
+#: mail/mail-config.glade.h:118
 msgid "Specify _filename:"
 msgstr "Одреди име _датотеке:"
 
-#: mail/mail-config.glade.h:121
+#: mail/mail-config.glade.h:119
 msgid "Spell _Checking"
 msgstr "Провера _правописа"
 
-#: mail/mail-config.glade.h:122
+#: mail/mail-config.glade.h:120
 msgid "Standard Unix mbox"
 msgstr "Стандардни Unix mbox"
 
-#: mail/mail-config.glade.h:123
+#: mail/mail-config.glade.h:121
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
@@ -14598,7 +14588,7 @@ msgstr ""
 "потпис. Име које сте дали ће бити коришћено\n"
 "само за сврху приказивања на екрану."
 
-#: mail/mail-config.glade.h:126
+#: mail/mail-config.glade.h:124
 msgid ""
 "This page allows you to configure spell checking behavior and language. The "
 "list of languages here reflects only the languages for which you have a "
@@ -14607,7 +14597,7 @@ msgstr ""
 "Ова вам страна омогућава да подесите проверу правописа и језик. Листа језика "
 "овде осликава само оне језике за које постоји инсталиран речник."
 
-#: mail/mail-config.glade.h:128
+#: mail/mail-config.glade.h:126
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
@@ -14615,15 +14605,15 @@ msgstr ""
 "Унесите име по коме желите да назовете овај налог.\n"
 "На пример: \"Пословни\" или \"Лични\""
 
-#: mail/mail-config.glade.h:130
+#: mail/mail-config.glade.h:128
 msgid "Use _Daemon"
 msgstr "Користи _услужни програм"
 
-#: mail/mail-config.glade.h:132
+#: mail/mail-config.glade.h:130
 msgid "V_ariable-width:"
 msgstr "В_аријабилна ширина:"
 
-#: mail/mail-config.glade.h:133
+#: mail/mail-config.glade.h:131
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -14633,171 +14623,171 @@ msgstr ""
 "\n"
 "Притисните \"Напред\" за почетак. "
 
-#: mail/mail-config.glade.h:138
+#: mail/mail-config.glade.h:136
 msgid "_Add Signature"
 msgstr "_Додај потпис"
 
-#: mail/mail-config.glade.h:139
+#: mail/mail-config.glade.h:137
 msgid "_Always load images off the net"
 msgstr "_Увек учитај слике са мреже"
 
-#: mail/mail-config.glade.h:140
+#: mail/mail-config.glade.h:138
 msgid "_Always sign outgoing messages when using this account"
 msgstr "_Увек потпиши одлазеће поруке на овом налогу"
 
-#: mail/mail-config.glade.h:141
+#: mail/mail-config.glade.h:139
 msgid "_Authentication Type: "
 msgstr "_Тип идентификације: "
 
-#: mail/mail-config.glade.h:142
+#: mail/mail-config.glade.h:140
 msgid "_Authentication type: "
 msgstr "_тип идентификације: "
 
-#: mail/mail-config.glade.h:143
+#: mail/mail-config.glade.h:141
 msgid "_Automatically check for new mail every"
 msgstr "_Аутоматски провери за нову пошту сваких"
 
-#: mail/mail-config.glade.h:144
+#: mail/mail-config.glade.h:142
 msgid "_Automatically insert smiley images"
 msgstr "_Аутоматски убаци слике са осмесима"
 
-#: mail/mail-config.glade.h:145
+#: mail/mail-config.glade.h:143
 msgid "_Beep when new mail arrives"
 msgstr "_Огласи се када стигне нова пошта"
 
-#: mail/mail-config.glade.h:146
+#: mail/mail-config.glade.h:144
 msgid "_Confirm when expunging a folder"
 msgstr "_Потврди када избацујеш директоријум"
 
-#: mail/mail-config.glade.h:147
+#: mail/mail-config.glade.h:145
 msgid "_Default signature:"
 msgstr "_Предефинисан потпис:"
 
-#: mail/mail-config.glade.h:148
+#: mail/mail-config.glade.h:146
 msgid "_Defaults"
 msgstr "_Предефинисано"
 
-#: mail/mail-config.glade.h:149
+#: mail/mail-config.glade.h:147
 msgid "_Do not notify me when new mail arrives"
 msgstr "_Немој да ме обавештаваш када стигне нова пошта"
 
-#: mail/mail-config.glade.h:151
+#: mail/mail-config.glade.h:149
 msgid "_Enable"
 msgstr "_Омогући"
 
-#: mail/mail-config.glade.h:152
+#: mail/mail-config.glade.h:150
 msgid "_Encrypt outgoing messages (by default)"
 msgstr "_Шифруј одлазеће поруке (подразумевано)"
 
-#: mail/mail-config.glade.h:153
+#: mail/mail-config.glade.h:151
 msgid "_Forward style:"
 msgstr "Стил _прослеђивања"
 
-#: mail/mail-config.glade.h:154
+#: mail/mail-config.glade.h:152
 msgid "_Full name:"
 msgstr "_Пуно име:"
 
-#: mail/mail-config.glade.h:156
+#: mail/mail-config.glade.h:154
 msgid "_HTML Mail"
 msgstr "_HTML пошта"
 
-#: mail/mail-config.glade.h:158
+#: mail/mail-config.glade.h:156
 msgid "_Identity"
 msgstr "_Личност"
 
-#: mail/mail-config.glade.h:159
+#: mail/mail-config.glade.h:157
 msgid "_Junk"
 msgstr "_Ђубре"
 
-#: mail/mail-config.glade.h:160
+#: mail/mail-config.glade.h:158
 msgid "_Load images if sender is in address book"
 msgstr "_Учитај слике ако је пошиљалац у адресару"
 
-#: mail/mail-config.glade.h:161
+#: mail/mail-config.glade.h:159
 msgid "_Local Tests Only"
 msgstr "Само _локалне пробе"
 
-#: mail/mail-config.glade.h:162
+#: mail/mail-config.glade.h:160
 msgid "_Make this my default account"
 msgstr "_Нека ово буде мој главни налог"
 
-#: mail/mail-config.glade.h:163
+#: mail/mail-config.glade.h:161
 msgid "_Mark messages as read after"
 msgstr "_Означи поруке као прочитане после"
 
-#: mail/mail-config.glade.h:164
+#: mail/mail-config.glade.h:162
 msgid "_Name:"
 msgstr "_Име:"
 
-#: mail/mail-config.glade.h:165
+#: mail/mail-config.glade.h:163
 msgid "_Never load images off the net"
 msgstr "_Никада не учитавај слике са мреже"
 
-#: mail/mail-config.glade.h:167
+#: mail/mail-config.glade.h:165
 msgid "_Play sound file when new mail arrives"
 msgstr "_Пусти звучну датотеку када стигне нова пошта"
 
-#: mail/mail-config.glade.h:168
+#: mail/mail-config.glade.h:166
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
 msgstr "_Упозори када шаљеш HTML поруке онима који их не желе"
 
-#: mail/mail-config.glade.h:169
+#: mail/mail-config.glade.h:167
 msgid "_Prompt when sending messages with an empty subject line"
 msgstr "_Упозори када шаљеш поруке без наслова"
 
-#: mail/mail-config.glade.h:170
+#: mail/mail-config.glade.h:168
 msgid "_Receiving Mail"
 msgstr "_Примање поште"
 
-#: mail/mail-config.glade.h:171
+#: mail/mail-config.glade.h:169
 msgid "_Reply style:"
 msgstr "_Стил одговора:"
 
-#: mail/mail-config.glade.h:172
+#: mail/mail-config.glade.h:170
 msgid "_Restore defaults"
 msgstr "_Поврати предефинисано"
 
-#: mail/mail-config.glade.h:173
+#: mail/mail-config.glade.h:171
 msgid "_Script:"
 msgstr "_Скрипта:"
 
-#: mail/mail-config.glade.h:174
+#: mail/mail-config.glade.h:172
 msgid "_Select..."
 msgstr "_Изабери..."
 
-#: mail/mail-config.glade.h:175
+#: mail/mail-config.glade.h:173
 msgid "_Sending Mail"
 msgstr "_Слање поште"
 
-#: mail/mail-config.glade.h:176
+#: mail/mail-config.glade.h:174
 msgid "_Show animated images"
 msgstr "_Покажи анимиране слике"
 
-#: mail/mail-config.glade.h:177
+#: mail/mail-config.glade.h:175
 msgid "_Signatures"
 msgstr "_Потписи"
 
-#: mail/mail-config.glade.h:178
+#: mail/mail-config.glade.h:176
 msgid "_Standard Font:"
 msgstr "_Стандардно писмо:"
 
-#: mail/mail-config.glade.h:179
+#: mail/mail-config.glade.h:177
 msgid "_Terminal Font:"
 msgstr "_Писмо за терминал:"
 
-#: mail/mail-config.glade.h:180
+#: mail/mail-config.glade.h:178
 msgid "_Use secure connection (SSL):"
 msgstr "_Користи сигурносну везу (SSL):"
 
-#: mail/mail-config.glade.h:181
+#: mail/mail-config.glade.h:179
 msgid "_Use the same fonts as other applications"
 msgstr "_Користи иста писма као други програми"
 
-#: mail/mail-config.glade.h:183
+#: mail/mail-config.glade.h:181
 msgid "description"
 msgstr "опис"
 
-#: mail/mail-folder-cache.c:796
+#: mail/mail-folder-cache.c:792
 #, c-format
 msgid "Pinging %s"
 msgstr "Пингујем %s"
@@ -14832,12 +14822,12 @@ msgstr "Филтрирам директоријум"
 msgid "Fetching Mail"
 msgstr "Узимам пошту"
 
-#: mail/mail-ops.c:536
+#: mail/mail-ops.c:528
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Неуспешна примена одлазећих филтера: %s"
 
-#: mail/mail-ops.c:561
+#: mail/mail-ops.c:553
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -14846,118 +14836,118 @@ msgstr ""
 "Неуспешно додавање у %s: %s\n"
 "Додајем у локални директоријум Послато."
 
-#: mail/mail-ops.c:570
+#: mail/mail-ops.c:562
 #, c-format
 msgid "Failed to append to local `Sent' folder: %s"
 msgstr "Неуспешно додавање у локални директоријум Послато: %s"
 
-#: mail/mail-ops.c:612
+#: mail/mail-ops.c:604
 #, c-format
 msgid "Sending \"%s\""
 msgstr "Шаљем \"%s\""
 
-#: mail/mail-ops.c:730
+#: mail/mail-ops.c:722
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Шаљем поруку %d од %d"
 
-#: mail/mail-ops.c:749
+#: mail/mail-ops.c:741
 #, c-format
 msgid "Failed on message %d of %d"
 msgstr "Неуспех код поруке %d од %d"
 
-#: mail/mail-ops.c:751
+#: mail/mail-ops.c:743
 msgid "Complete."
 msgstr "Готово."
 
-#: mail/mail-ops.c:845
+#: mail/mail-ops.c:837
 msgid "Saving message to folder"
 msgstr "Чувам поруку у директоријум"
 
-#: mail/mail-ops.c:930
+#: mail/mail-ops.c:922
 #, c-format
 msgid "Moving messages to %s"
 msgstr "Премештам поруке у %s"
 
-#: mail/mail-ops.c:930
+#: mail/mail-ops.c:922
 #, c-format
 msgid "Copying messages to %s"
 msgstr "Копирам поруке у %s"
 
-#: mail/mail-ops.c:1043
+#: mail/mail-ops.c:1035
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Претражујем директоријуме у \"%s\""
 
-#: mail/mail-ops.c:1239
+#: mail/mail-ops.c:1231
 msgid "Forwarded messages"
 msgstr "Прослеђене поруке"
 
-#: mail/mail-ops.c:1282
+#: mail/mail-ops.c:1274
 #, c-format
 msgid "Opening folder %s"
 msgstr "Отварам директоријум %s"
 
-#: mail/mail-ops.c:1354
+#: mail/mail-ops.c:1346
 #, c-format
 msgid "Opening store %s"
 msgstr "Отварам оставу %s"
 
-#: mail/mail-ops.c:1432
+#: mail/mail-ops.c:1424
 #, c-format
 msgid "Removing folder %s"
 msgstr "Уклањам директоријум %s"
 
-#: mail/mail-ops.c:1526
+#: mail/mail-ops.c:1518
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Смештам директоријум '%s'"
 
-#: mail/mail-ops.c:1591
+#: mail/mail-ops.c:1583
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Чистим и смештам налог „%s“"
 
-#: mail/mail-ops.c:1592
+#: mail/mail-ops.c:1584
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Смештам налог „%s“"
 
-#: mail/mail-ops.c:1647
+#: mail/mail-ops.c:1639
 msgid "Refreshing folder"
 msgstr "Освежавам директоријум"
 
-#: mail/mail-ops.c:1683 mail/mail-ops.c:1734
+#: mail/mail-ops.c:1675 mail/mail-ops.c:1726
 msgid "Expunging folder"
 msgstr "Избацујем директоријум"
 
-#: mail/mail-ops.c:1731
+#: mail/mail-ops.c:1723
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Празним смеће у '%s'"
 
-#: mail/mail-ops.c:1732
+#: mail/mail-ops.c:1724
 msgid "Local Folders"
 msgstr "Локални директоријуми"
 
-#: mail/mail-ops.c:1815
+#: mail/mail-ops.c:1807
 #, c-format
 msgid "Retrieving message %s"
 msgstr "Учитавам поруку %s"
 
 # bug: plural-forms
-#: mail/mail-ops.c:1887
+#: mail/mail-ops.c:1879
 #, c-format
 msgid "Retrieving %d message(s)"
 msgstr "Учитавам %d порука(е)"
 
 # bug: plural-forms
-#: mail/mail-ops.c:1971
+#: mail/mail-ops.c:1963
 #, c-format
 msgid "Saving %d messsage(s)"
 msgstr "Чувам %d порука(е)"
 
-#: mail/mail-ops.c:2019
+#: mail/mail-ops.c:2011
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -14966,7 +14956,7 @@ msgstr ""
 "Не могу да направим излазну датотеку: %s\n"
 " %s"
 
-#: mail/mail-ops.c:2047
+#: mail/mail-ops.c:2039
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -14975,11 +14965,11 @@ msgstr ""
 "Грешка код чувања порука у: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2118
+#: mail/mail-ops.c:2110
 msgid "Saving attachment"
 msgstr "Чувам прилог"
 
-#: mail/mail-ops.c:2135
+#: mail/mail-ops.c:2127
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -14988,22 +14978,22 @@ msgstr ""
 "Не могу да направим излазну датотеку: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2165
+#: mail/mail-ops.c:2157
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Нисам могао да упишем: %s"
 
-#: mail/mail-ops.c:2313
+#: mail/mail-ops.c:2305
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Прекидам везу са %s"
 
-#: mail/mail-ops.c:2313
+#: mail/mail-ops.c:2305
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "Поново се повезујем на %s"
 
-#: mail/mail-ops.c:2415
+#: mail/mail-ops.c:2407
 msgid "Changing junk status"
 msgstr "Измена стања ђубрета"
 
@@ -15035,38 +15025,38 @@ msgstr "Шифровање"
 msgid "Security Information"
 msgstr "Безбедносни подаци"
 
-#: mail/mail-send-recv.c:147
+#: mail/mail-send-recv.c:151
 msgid "Cancelling..."
 msgstr "Поништавам..."
 
-#: mail/mail-send-recv.c:254
+#: mail/mail-send-recv.c:258
 #, c-format
 msgid "Server: %s, Type: %s"
 msgstr "Сервер: %s, врста: %s"
 
-#: mail/mail-send-recv.c:256
+#: mail/mail-send-recv.c:260
 #, c-format
 msgid "Path: %s, Type: %s"
 msgstr "Путања: %s, врста: %s"
 
-#: mail/mail-send-recv.c:258
+#: mail/mail-send-recv.c:262
 #, c-format
 msgid "Type: %s"
 msgstr "Врста: %s"
 
-#: mail/mail-send-recv.c:308
+#: mail/mail-send-recv.c:312
 msgid "Send & Receive Mail"
 msgstr "Пошаљи и прими пошту"
 
-#: mail/mail-send-recv.c:311
+#: mail/mail-send-recv.c:315
 msgid "Cancel _All"
 msgstr "Поништи _све"
 
-#: mail/mail-send-recv.c:392
+#: mail/mail-send-recv.c:396
 msgid "Updating..."
 msgstr "Освежавам..."
 
-#: mail/mail-send-recv.c:392 mail/mail-send-recv.c:444
+#: mail/mail-send-recv.c:396 mail/mail-send-recv.c:448
 msgid "Waiting..."
 msgstr "Чекам..."
 
@@ -18279,6 +18269,22 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% завршено)"
+
+#~ msgid "Check incoming mail being junk for IMAP accounts"
+#~ msgstr "Провери да ли је пристигла пошта ђубре за ИМАП налоге"
+
+#~ msgid ""
+#~ "Run junk test on incoming mail for IMAP accounts (only valid if "
+#~ "check_incoming is set to true)"
+#~ msgstr ""
+#~ "Покрени проверу ђубрета за пристиглу пошту на ИМАП налозима (важи једино "
+#~ "ако је постављено check_incoming)"
+
+#~ msgid "    "
+#~ msgstr "    "
+
+#~ msgid "Do _Not Check Incoming Mail For IMAP Accounts"
+#~ msgstr "_Не проверавај за новопристиглу пошту на ИМАП налозима"
 
 #~ msgid "No data provided"
 #~ msgstr "Нисам добио податке"
