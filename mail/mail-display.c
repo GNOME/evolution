@@ -269,6 +269,7 @@ launch_cb (GtkWidget *widget, gpointer user_data)
 					       "directory: %s"),
 					     g_strerror (errno));
 		gnome_error_dialog (msg);
+		g_free (tmpl);
 		g_free (msg);
 		return;
 	}

@@ -188,23 +188,36 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 	switch (info) {
 	case DND_TARGET_TYPE_TEXT_URI_LIST:
 	{
-		char dir_template[] = "/tmp/evolution-XXXXXX";
-		const char *dirname, *filename;
+		char *uri_list, tmpdir, *tmpl;
 		CamelMimeMessage *message;
+		const char *filename;
 		CamelStream *stream;
 		char *uri_list;
+		char *tmpdir;
 		int fd;
 		
-		dirname = mktemp (dir_template);
-		if (!dirname) {
+		tmpl = g_strdup ("/tmp/evolution.XXXXXX");
+#ifdef HAVE_MKDTEMP
+		tmpdir = mkdtemp (tmpl);
+#else
+		tmpdir = mktemp (tmpl);
+		if (tmpdir) {
+			if (mkdir (tmpdir, S_IRWXU) == -1)
+				tmpdir = NULL;
+		}
+#endif
+		if (!tmpdir) {
+			char *msg = g_strdup_printf (_("Could not create temporary "
+						       "directory: %s"),
+						     g_strerror (errno));
+			gnome_error_dialog (msg);
 			/* cleanup and abort */
 			for (i = 0; i < uids->len; i++)
 				g_free (uids->pdata[i]);
 			g_ptr_array_free (uids, TRUE);
+			g_free (tmpl);
 			return;
 		}
-		
-		mkdir (dirname, 0700);
 		
 		message = camel_folder_get_message (fb->folder, uids->pdata[0], NULL);
 		g_free (uids->pdata[0]);

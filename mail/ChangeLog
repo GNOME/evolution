@@ -1,5 +1,12 @@
 2001-07-03  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* folder-browser.c (message_list_drag_data_get): Use mkdtemp if we
+	have it, else use mktemp but make the code safer than it was
+	previously.
+
+	* mail-display.c (launch_cb): Free the template string if the
+	tempdir failed to be created.
+
 	* folder-browser.c (message_list_drag_data_get): Hide the URL
 	passwd, auth, and params.
 	(folder_browser_copy): Same.
