@@ -34,30 +34,46 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
-#include <camel/camel-exception.h>
 #include <camel/camel-data-wrapper.h>
-#include <camel/camel-folder.h>
+#include <camel/camel-exception.h>
 #include <camel/camel-folder-pt-proxy.h>
+#include <camel/camel-folder.h>
 #include <camel/camel-marshal-utils.h>
+#include <camel/camel-medium.h>
 #include <camel/camel-mime-body-part.h>
+#include <camel/camel-mime-filter-basic.h>
+#include <camel/camel-mime-filter-charset.h>
+#include <camel/camel-mime-filter-index.h>
+#include <camel/camel-mime-filter-save.h>
+#include <camel/camel-mime-filter.h>
 #include <camel/camel-mime-message.h>
+#include <camel/camel-mime-parser.h>
+#include <camel/camel-mime-part-utils.h>
 #include <camel/camel-mime-part.h>
+#include <camel/camel-mime-utils.h>
 #include <camel/camel-movemail.h>
 #include <camel/camel-multipart.h>
 #include <camel/camel-op-queue.h>
 #include <camel/camel-provider.h>
+#include <camel/camel-recipient.h>
+#include <camel/camel-seekable-stream.h>
+#include <camel/camel-seekable-substream.h>
 #include <camel/camel-service.h>
 #include <camel/camel-session.h>
 #include <camel/camel-store.h>
-#include <camel/camel-stream.h>
 #include <camel/camel-stream-buffer.h>
+#include <camel/camel-stream-filter.h>
 #include <camel/camel-stream-fs.h>
 #include <camel/camel-stream-mem.h>
+#include <camel/camel-stream.h>
 #include <camel/camel-thread-proxy.h>
+#include <camel/camel-transport.h>
 #include <camel/camel-url.h>
 #include <camel/gmime-content-field.h>
 #include <camel/gmime-utils.h>
 #include <camel/gstring-util.h>
+#include <camel/hash-table-utils.h>
+#include <camel/md5-utils.h>
 #include <camel/string-utils.h>
 
 gint camel_init (void);
