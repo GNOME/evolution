@@ -22,6 +22,10 @@
  *   Ettore Perazzoli <ettore@ximian.com>
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-dialog-utils.h"
 
 #include <gdk/gdkx.h>
