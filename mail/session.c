@@ -39,7 +39,7 @@ request_callback (gchar *string, gpointer data)
 	char **ans = data;
 
 	if (string)
-		*ans = g_strdup(string);
+		*ans = string;
 	else
 		*ans = NULL;
 }

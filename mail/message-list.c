@@ -119,6 +119,8 @@ static void hide_load_state(MessageList *ml);
 /*static void mail_do_regenerate_messagelist (MessageList *list, const char *search, const char *hideexpr, CamelFolderChangeInfo *changes);*/
 static void mail_regen_list(MessageList *ml, const char *search, const char *hideexpr, CamelFolderChangeInfo *changes);
 
+static void clear_info(char *key, ETreePath *node, MessageList *ml);
+
 enum {
 	MESSAGE_SELECTED,
 	LAST_SIGNAL
@@ -1157,6 +1159,11 @@ message_list_destroy (GtkObject *object)
 		e_mempool_destroy(message_list->hidden_pool);
 		message_list->hidden = NULL;
 		message_list->hidden_pool = NULL;
+	}
+
+	if (message_list->uid_nodemap) {
+		g_hash_table_foreach(message_list->uid_nodemap, (GHFunc)clear_info, message_list);
+		g_hash_table_destroy (message_list->uid_nodemap);
 	}
 
 	g_free(message_list->cursor_uid);
@@ -2332,6 +2339,7 @@ static void hide_save_state(MessageList *ml)
 			g_hash_table_foreach(ml->hidden, (GHFunc)hide_save_1, out);
 		fclose(out);
 	}
+	g_free (filename);
 
 	MESSAGE_LIST_UNLOCK(ml, hide_lock);
 }

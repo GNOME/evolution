@@ -19,17 +19,12 @@
  */
 
 #include <config.h>
-
-#include <string.h>
-#include <glib.h>
-#include <gnome-xml/xmlmemory.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-#include <gal/widgets/e-unicode.h>
+#include <gnome.h>
 
 #include "filter-option.h"
 #include "filter-part.h"
 #include "e-util/e-sexp.h"
+#include <gal/widgets/e-unicode.h>
 
 #define d(x)
 
@@ -232,6 +227,7 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	char *value;
 	
 	d(printf ("Decoding option from xml\n"));
+	xmlFree (fe->name);
 	fe->name = xmlGetProp (node, "name");
 	value = xmlGetProp (node, "value");
 	if (value) {

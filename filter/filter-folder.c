@@ -19,14 +19,10 @@
  */
 
 #include <config.h>
+#include <gnome.h>
 
 #define SHELL
 
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
 #include <gal/widgets/e-unicode.h>
 
 #include "filter-folder.h"
@@ -187,11 +183,14 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	
 	d(printf ("Decoding folder from xml %p\n", fe));
 	
+	xmlFree (fe->name);
 	fe->name = xmlGetProp (node, "name");
 	
 	n = node->childs;
 	while (n) {
 		if (!strcmp (n->name, "folder")) {
+			xmlFree (ff->name);
+			xmlFree (ff->uri);
 			ff->name = xmlGetProp (n, "name");
 			ff->uri = xmlGetProp (n, "uri");
 			break;

@@ -23,10 +23,8 @@
 #endif
 
 #include <errno.h>
-#include <string.h>
-#include <gtk/gtksignal.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-stock.h>
+#include <gtk/gtk.h>
+#include <gnome.h>
 
 #include "rule-context.h"
 
@@ -106,8 +104,33 @@ static void
 rule_context_finalise(GtkObject * obj)
 {
 	RuleContext *o = (RuleContext *) obj;
+	struct _part_set_map *psm;
+	struct _rule_set_map *rsm;
+	GList *next;
 
-	o = o;
+	g_free(o->priv);
+	g_hash_table_destroy(o->part_set_map);
+	g_hash_table_destroy(o->rule_set_map);
+
+	for (; o->part_set_list; o->part_set_list = next) {
+		psm = o->part_set_list->data;
+		g_free (psm->name);
+		g_free (psm);
+		next = o->part_set_list->next;
+		g_list_free_1 (o->part_set_list);
+	}
+	for (; o->rule_set_list; o->rule_set_list = next) {
+		rsm = o->rule_set_list->data;
+		g_free (rsm->name);
+		g_free (rsm);
+		next = o->rule_set_list->next;
+		g_list_free_1 (o->rule_set_list);
+	}
+
+	if (o->system)
+		xmlFreeDoc(o->system);
+	if (o->user)
+		xmlFreeDoc(o->user);
 
 	((GtkObjectClass *) (parent_class))->finalize(obj);
 }

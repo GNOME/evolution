@@ -1,3 +1,15 @@
+2001-04-18  Dan Winship  <danw@ximian.com>
+
+	* filter-colour.c, filter-datespec.c, filter-folder.c,
+	filter-input.c, filter-option.c, filter-rule.c, filter-score.c,
+	filter-source.c, score-rule.c (xml_decode): Plug memory leaks.
+
+	* rule-context.c (rule_context_finalise): Implement. Free stuff.
+
+	* filter-element.h: #include <gnome-xml/xmlmemory.h> here for xmlFree
+
+	* filter-filter.c, filter-part.c: Remove xmlmemory.h #include
+
 2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* filter-rule.c: Added #ifdef FOR_TRANSLATIONS_ONLY section

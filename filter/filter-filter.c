@@ -20,15 +20,9 @@
  */
 
 #include <config.h>
+#include <gnome.h>
 
-#include <string.h>
-#include <glib.h>
-#include <gnome-xml/xmlmemory.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-stock.h>
 #include <gal/widgets/e-unicode.h>
-
 #include "filter-filter.h"
 #include "filter-context.h"
 

@@ -21,7 +21,6 @@
 
 #include <config.h>
 #include <gnome.h>
-#include <gnome-xml/xmlmemory.h>
 
 #include <gal/widgets/e-unicode.h>
 
@@ -309,9 +308,11 @@ xml_decode (FilterRule *fr, xmlNodePtr node, RuleContext *f)
 		fr->grouping = FILTER_GROUP_ALL;
 	xmlFree (grouping);
 	
+	g_free (fr->source);
 	source = xmlGetProp (node, "source");
 	if (source) {
-		fr->source = source;
+		fr->source = g_strdup (source);
+		xmlFree (source);
 	} else {
 		/* default filter type */
 		fr->source = g_strdup ("incoming");

@@ -22,9 +22,8 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtksignal.h>
-#include <gnome-xml/xmlmemory.h>
-#include <libgnomeui/gnome-color-picker.h>
+#include <gtk/gtk.h>
+#include <gnome.h>
 
 #include "e-util/e-sexp.h"
 #include "filter-colour.h"
@@ -179,6 +178,7 @@ static int xml_decode(FilterElement *fe, xmlNodePtr node)
 {
 	FilterColour *fc = (FilterColour *)fe;
 
+	xmlFree (fe->name);
 	fe->name = xmlGetProp(node, "name");
 	fc->r = get_value(node, "red");
 	fc->g = get_value(node, "green");

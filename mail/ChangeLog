@@ -1,3 +1,11 @@
+2001-04-18  Dan Winship  <danw@ximian.com>
+
+	* session.c (request_callback): Don't need to dup the string: the
+	relevant gnome-dialog routine already does.
+
+	* message-list.c (message_list_destroy): Free the uid_nodemap.
+	(hide_save_state): Free the filename when we're done.
+
 2001-04-18  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* component-factory.c: use big trash icon, stolen from mc.
