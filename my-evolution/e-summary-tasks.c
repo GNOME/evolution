@@ -164,6 +164,14 @@ sort_uids (gconstpointer a,
 	if (pri_b == NULL)
 		pri_b = &lowest;
 
+	if (*pri_a == 0) {
+		*pri_a = lowest;
+	}
+
+	if (*pri_b == 0) {
+		*pri_b = lowest;
+	}
+	
 	rv = *pri_a - *pri_b;
 
 	if (pri_a != &lowest)
