@@ -1,3 +1,8 @@
+2001-08-03  Federico Mena Quintero  <federico@ximian.com>
+
+	* e-calendar-item.c (e_calendar_item_mark_day): Request an update.
+	(e_calendar_item_mark_days): Likewise.
+
 2001-07-24  Damon Chaplin  <damon@ximian.com>
 
 	* e-calendar-item.c (e_calendar_item_show_popup_menu): don't show the

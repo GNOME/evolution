@@ -2364,6 +2364,8 @@ e_calendar_item_mark_day	(ECalendarItem	*calitem,
 		calitem->styles = g_new0 (guint8, (calitem->rows * calitem->cols + 2) * 32);
 
 	calitem->styles[(month_offset + 1) * 32 + day] = day_style;
+
+	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (calitem));
 }
 
 
@@ -2418,6 +2420,8 @@ e_calendar_item_mark_days	(ECalendarItem	*calitem,
 				break;
 		}
 	}
+
+	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (calitem));
 }
 
 
