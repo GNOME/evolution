@@ -557,6 +557,17 @@ file_close_cb (GtkWidget *widget, gpointer data)
 	close_dialog (ce);
 }
 
+static void
+file_save_as_cb (GtkWidget *widget, gpointer data)
+{
+	EContactEditor *ce;
+	ECard *card;
+
+	ce = E_CONTACT_EDITOR (data);
+	card = ce->card;
+	e_contact_save_as("Save as VCard", card);
+}
+
 /* Menu bar */
 
 static GnomeUIInfo file_new_menu[] = {
@@ -587,7 +598,7 @@ static GnomeUIInfo file_menu[] = {
 	GNOMEUIINFO_ITEM_NONE (N_("FIXME: S_end"), NULL, NULL),
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_MENU_SAVE_ITEM (file_save_cb, NULL),
-	GNOMEUIINFO_MENU_SAVE_AS_ITEM (NULL, NULL),
+	GNOMEUIINFO_MENU_SAVE_AS_ITEM (file_save_as_cb, NULL),
 	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Save Attac_hments..."), NULL, NULL),
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Delete"), NULL, NULL),
