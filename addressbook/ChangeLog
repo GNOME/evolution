@@ -1,3 +1,8 @@
+2001-04-02  Iain Holmes  <iain@ximian.com>
+
+	* backend/ebook/evolution-gnomecard-importer.c (importer_init): Shut
+	down and unregister the factory on exit. 
+
 2001-04-01  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* contact-editor/contact-editor.glade: changed icon to

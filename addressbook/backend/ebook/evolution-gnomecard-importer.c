@@ -186,6 +186,8 @@ importer_init (void)
 	if (factory == NULL) {
 		g_error ("Unable to create factory");
 	}
+
+	bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
 }
 
 int
