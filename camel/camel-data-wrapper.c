@@ -350,20 +350,20 @@ static void
 set_mime_type_field (CamelDataWrapper *data_wrapper,
 		     CamelContentType *mime_type)
 {
-	g_return_if_fail (CAMEL_IS_DATA_WRAPPER (data_wrapper));
-	g_return_if_fail (mime_type != NULL);
-
+	if (mime_type)
+		camel_content_type_ref (mime_type);
 	if (data_wrapper->mime_type)
 		camel_content_type_unref (data_wrapper->mime_type);
 	data_wrapper->mime_type = mime_type;
-	if (mime_type)
-		camel_content_type_ref (data_wrapper->mime_type);
 }
 
 void
 camel_data_wrapper_set_mime_type_field (CamelDataWrapper *data_wrapper,
 					CamelContentType *mime_type)
 {
+	g_return_if_fail (CAMEL_IS_DATA_WRAPPER (data_wrapper));
+	g_return_if_fail (mime_type != NULL);
+
 	CDW_CLASS (data_wrapper)->set_mime_type_field (data_wrapper, mime_type);
 }
 

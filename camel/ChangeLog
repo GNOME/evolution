@@ -1,3 +1,10 @@
+2004-01-09  Not Zed  <NotZed@Ximian.com>
+
+	* camel-data-wrapper.c (camel_data_wrapper_set_mime_type_field):
+	move assertions here.
+	(set_mime_type_field): change order slightly to properly handle
+	setting the same object.  removed assertions from internal method.
+
 2004-01-08 Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* providers/Makefile.am : add groupwise to SUBDIRS 
