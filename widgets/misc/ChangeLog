@@ -1,3 +1,7 @@
+2004-02-05  Rodney Dawes  <dobey@ximian.com>
+
+	* e-task-bar.c: Don't show the task label by default
+
 2004-02-03  Dan Winship  <danw@ximian.com>
 
 	* e-activity-handler.c: 
