@@ -1,3 +1,19 @@
+2001-01-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/smtp/camel-smtp-transport.c (get_smtp_error_string):
+	New smtp error-code to string mapping function.
+	(smtp_connect): Use the new error->string function for reporting
+	useful errors.
+	(smtp_helo): Same. Also use a case-insensitive strstr for 8BITMIEM
+	as it seems Exchange sends back lowercase for that one single SMTP
+	extension. Everything else is uppercase. I'm seeing a lack of love
+	for that extension by Microsoft dudes...
+	(smtp_mail): Use get_smtp_error_string.
+	(smtp_rcpt): Same.
+	(smtp_data): Same.
+	(smtp_quit): Same.
+	(smtp_rset): Same.
+
 2001-01-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-folder-summary.c (camel_folder_summary_array): Add an int

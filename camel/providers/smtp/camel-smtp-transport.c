@@ -48,6 +48,7 @@
 #include "camel-stream-fs.h"
 #include "camel-session.h"
 #include "camel-exception.h"
+#include <gal/util/e-util.h>
 
 #define d(x) x
 
@@ -128,6 +129,59 @@ camel_smtp_transport_get_type (void)
 	return camel_smtp_transport_type;
 }
 
+static const char *
+get_smtp_error_string (int error)
+{
+	/* SMTP error codes grabbed from rfc821 */
+	switch (error) {
+	case 0:
+		/* looks like a read problem, check errno */
+		return g_strerror (errno);
+	case 500:
+		return _("Syntax error, command unrecognized");
+	case 501:
+		return _("Syntax error in parameters or arguments");
+	case 502:
+		return _("Command not implemented");
+	case 504:
+		return _("Command parameter not implemented");
+	case 211:
+		return _("System status, or system help reply");
+	case 214:
+		return _("Help message");
+	case 220:
+		return _("Service ready");
+	case 221:
+		return _("Service closing transmission channel");
+	case 421:
+		return _("Service not available, closing transmission channel");
+	case 250:
+		return _("Requested mail action okay, completed");
+	case 251:
+		return _("User not local; will forward to <forward-path>");
+	case 450:
+		return _("Requested mail action not taken: mailbox unavailable");
+	case 550:
+		return _("Requested action not taken: mailbox unavailable");
+	case 451:
+		return _("Requested action aborted: error in processing");
+	case 551:
+		return _("User not local; please try <forward-path>");
+	case 452:
+		return _("Requested action not taken: insufficient system storage");
+	case 552:
+		return _("Requested mail action aborted: exceeded storage allocation");
+	case 553:
+		return _("Requested action not taken: mailbox name not allowed");
+	case 354:
+		return _("Start mail input; end with <CRLF>.<CRLF>");
+	case 554:
+		return _("Transaction failed");
+	default:
+		return _("Unknown");
+	}
+}
+
 static gboolean
 smtp_connect (CamelService *service, CamelException *ex)
 {
@@ -181,9 +235,13 @@ smtp_connect (CamelService *service, CamelException *ex)
 		g_free (respbuf);
 		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
 		if (!respbuf || strncmp (respbuf, "220", 3)) {
+			int error;
+			
+			error = respbuf ? atoi (respbuf) : 0;
+			g_free (respbuf);
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("Welcome response error: %s: possibly non-fatal"),
-					      g_strerror (errno));
+					      get_smtp_error_string (error));
 			return FALSE;
 		}
 		if (strstr (respbuf, "ESMTP"))
@@ -473,15 +531,18 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
 		
 		if (!respbuf || strncmp (respbuf, "250", 3)) {
+			int error;
+
+			error = respbuf ? atoi (respbuf) : 0;
 			g_free (respbuf);
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("HELO response error: %s: non-fatal"),
-					      g_strerror (errno));
+					      get_smtp_error_string (error));
 			return FALSE;
 		}
 		
-		if (strstr (respbuf, "8BITMIME")) {
-			d(fprintf (stderr, "This server supports 8bit\n"));
+		if (e_strstrcase (respbuf, "8BITMIME")) {
+			d(fprintf (stderr, "This server supports 8bit MIME\n"));
 			CAMEL_TRANSPORT (transport)->supports_8bit = TRUE;
 		}
 		
@@ -528,10 +589,13 @@ smtp_mail (CamelSmtpTransport *transport, const char *sender, gboolean has_8bit_
 		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
 		
 		if (!respbuf || strncmp (respbuf, "250", 3)) {
+			int error;
+			
+			error = respbuf ? atoi (respbuf) : 0;
 			g_free (respbuf);
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("MAIL FROM response error: %s: mail not sent"),
-					      g_strerror (errno));
+					      get_smtp_error_string (error));
 			return FALSE;
 		}
 	} while (*(respbuf+3) == '-'); /* if we got "250-" then loop again */
@@ -569,9 +633,13 @@ smtp_rcpt (CamelSmtpTransport *transport, const char *recipient, CamelException 
 		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
 		
 		if (!respbuf || strncmp (respbuf, "250", 3)) {
+			int error;
+			
+			error = respbuf ? atoi (respbuf) : 0;
 			g_free (respbuf);
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("RCPT TO response error: mail not sent"));
+					      _("RCPT TO response error: %s: mail not sent"),
+					      get_smtp_error_string (error));
 			return FALSE;
 		}
 	} while (*(respbuf+3) == '-'); /* if we got "250-" then loop again */
@@ -615,10 +683,13 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, gboolean has_8bi
 		/* we should have gotten instructions on how to use the DATA command:
 		 * 354 Enter mail, end with "." on a line by itself
 		 */
+		int error;
+			
+		error = respbuf ? atoi (respbuf) : 0;
 		g_free (respbuf);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("DATA response error: %s: mail not sent"),
-				      g_strerror (errno));
+				      get_smtp_error_string (error));
 		return FALSE;
 	}
 
@@ -664,11 +735,14 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, gboolean has_8bi
 		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
 		
 		if (!respbuf || strncmp (respbuf, "250", 3)) {
+			int error;
+			
+			error = respbuf ? atoi (respbuf) : 0;
 			g_free (respbuf);
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("DATA response error: message termination: "
 						"%s: mail not sent"),
-					      g_strerror (errno));
+					      get_smtp_error_string (error));
 			return FALSE;
 		}
 	} while (*(respbuf+3) == '-'); /* if we got "250-" then loop again */
@@ -704,10 +778,13 @@ smtp_rset (CamelSmtpTransport *transport, CamelException *ex)
 		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
 		
 		if (!respbuf || strncmp (respbuf, "250", 3)) {
+			int error;
+			
+			error = respbuf ? atoi (respbuf) : 0;
 			g_free (respbuf);
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("RSET response error: %s"),
-					      g_strerror (errno));
+					      get_smtp_error_string (error));
 			return FALSE;
 		}
 	} while (*(respbuf+3) == '-'); /* if we got "250-" then loop again */
@@ -743,10 +820,13 @@ smtp_quit (CamelSmtpTransport *transport, CamelException *ex)
 		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
 		
 		if (!respbuf || strncmp (respbuf, "221", 3)) {
+			int error;
+			
+			error = respbuf ? atoi (respbuf) : 0;
 			g_free (respbuf);
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("QUIT response error: %s: non-fatal"),
-					      g_strerror (errno));
+					      get_smtp_error_string (error));
 			return FALSE;
 		}
 	} while (*(respbuf+3) == '-'); /* if we got "221-" then loop again */
