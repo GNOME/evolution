@@ -41,7 +41,7 @@ static GnomeDialogClass *parent_class = NULL;
 /* The arguments we take */
 enum {
 	ARG_0,
-	ARG_COLLECTION,
+	ARG_COLLECTION
 };
 
 typedef struct {

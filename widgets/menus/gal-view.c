@@ -32,7 +32,7 @@
 
 #define d(x)
 
-d(static gint depth = 0);
+d(static gint depth = 0;)
 
 
 static GtkObjectClass *gal_view_parent_class;
