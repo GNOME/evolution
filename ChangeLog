@@ -1,3 +1,8 @@
+2001-09-07  Dan Winship  <danw@ximian.com>
+
+	* configure.in: one-line OpenSSL fix from Yanko Kaneti
+	<yaneti@declera.com>
+
 2001-09-05  Ettore Perazzoli  <ettore@ximian.com>
 
 	* README: Updated slightly.

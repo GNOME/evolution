@@ -920,7 +920,7 @@ if test "x${msg_nss}" != "xyes"; then
 	
 		case $with_openssl_libs in
 		""|-L*) ;;
-		*) $with_openssl_libs="-L$with_openssl_libs" ;;
+		*) with_openssl_libs="-L$with_openssl_libs" ;;
 		esac
 	
 		AC_CHECK_LIB(dl, dlopen, DL_LDFLAGS="-ldl", DL_LDFLAGS="")
