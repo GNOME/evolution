@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-29 17:30+0000\n"
-"PO-Revision-Date: 2004-08-29 20:06+0000\n"
+"POT-Creation-Date: 2004-08-30 15:05+0000\n"
+"PO-Revision-Date: 2004-08-30 15:10+0000\n"
 "Last-Translator: Åsmund Skjæveland <aasmunds@fys.uio.no>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -567,9 +567,8 @@ msgid "Details"
 msgstr "Detaljar"
 
 #: addressbook/gui/component/ldap-config.glade.h:19
-#, fuzzy
 msgid "Distinguished name"
-msgstr "Distinguished name"
+msgstr "Eintydig namn (DN)"
 
 #: addressbook/gui/component/ldap-config.glade.h:20
 msgid "Email address"
@@ -593,7 +592,7 @@ msgstr "Allmennt"
 
 #: addressbook/gui/component/ldap-config.glade.h:24
 msgid "Lo_gin:"
-msgstr "Lo_gg inn:"
+msgstr "Namn å lo_gga på med:"
 
 #: addressbook/gui/component/ldap-config.glade.h:25 mail/mail-account-gui.c:81
 #: mail/mail-config.glade.h:102
@@ -647,13 +646,12 @@ msgid "Supported Search Bases"
 msgstr "Støtta søkebasar"
 
 #: addressbook/gui/component/ldap-config.glade.h:33
-#, fuzzy
 msgid ""
 "The search base is the distinguished name (DN)  of the entry where your "
 "searches will begin. If you leave this blank, the search will begin at the "
 "root of the directory tree."
 msgstr ""
-"Søkebasen er det distingverte namnet (DN) på oppføringa der søka dine vil "
+"Søkebasen er det eintydige namnet (DN) på oppføringa der søka dine vil "
 "starta. Dersom du let denne stå blank, vil søka byrja ved rota på "
 "katalogtreet."
 
@@ -712,11 +710,11 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:40
 msgid "Using distinguished name (DN)"
-msgstr "Brukar distinguished name (DN)"
+msgstr "Oppgje eintydig namn (DN)"
 
 #: addressbook/gui/component/ldap-config.glade.h:41
 msgid "Using email address"
-msgstr "Brukar e-post adresse"
+msgstr "Oppgje e-post adresse"
 
 #: addressbook/gui/component/ldap-config.glade.h:42 mail/mail-account-gui.c:80
 #: mail/mail-config.glade.h:156
@@ -3753,7 +3751,9 @@ msgstr "Vil du senda denne oppgåva til deltakarane?"
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
-msgstr "Invitasjonar vil verta sendte til alle deltakarane per e-post, og gje dei høve til å godta denne oppgåva."
+msgstr ""
+"Invitasjonar vil verta sendte til alle deltakarane per e-post, og gje dei "
+"høve til å godta denne oppgåva."
 
 #. calendar:prompt-send-updated-task-info primary
 #: calendar/calendar-errors.xml.h:102
@@ -3765,7 +3765,9 @@ msgstr "Vil du senda oppdatert oppgåveinformasjon til deltakarane?"
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
-msgstr "Å senda oppdatert informasjon til dei andre deltakarane let dei halda oppgåvelistene sine oppdaterte."
+msgstr ""
+"Å senda oppdatert informasjon til dei andre deltakarane let dei halda "
+"oppgåvelistene sine oppdaterte."
 
 #. calendar:tasks-crashed primary
 #: calendar/calendar-errors.xml.h:108
@@ -3775,7 +3777,9 @@ msgstr "Evolution si oppgåvehandsaming har avslutta uventa."
 #. calendar:tasks-crashed secondary
 #: calendar/calendar-errors.xml.h:110
 msgid "Your tasks will not be available until Evolution is restarted."
-msgstr "Oppgåvene dine vil ikkje vera tilgjengelege før Evolution vert starta på nytt."
+msgstr ""
+"Oppgåvene dine vil ikkje vera tilgjengelege før Evolution vert starta på "
+"nytt."
 
 #. calendar:calendar-crashed primary
 #: calendar/calendar-errors.xml.h:112
@@ -3785,7 +3789,9 @@ msgstr "Evolution-kalenderen har avslutta uventa."
 #. calendar:calendar-crashed secondary
 #: calendar/calendar-errors.xml.h:114
 msgid "Your calendars will not be available until Evolution is restarted."
-msgstr "Kalenderane dine vil ikkje vera tilgjengelege før Evolution vert starta på nytt."
+msgstr ""
+"Kalenderane dine vil ikkje vera tilgjengelege før Evolution vert starta på "
+"nytt."
 
 #: calendar/common/authentication.c:48 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
@@ -6866,8 +6872,8 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Plasseringa til og hierarkiet i Evolution-kalendermappene har endra seg sidan "
-"Evolution 1.x.\n"
+"Plasseringa til og hierarkiet i Evolution-kalendermappene har endra seg "
+"sidan Evolution 1.x.\n"
 "\n"
 "Ha tolmod medan Evolution overfører mappene dine ..."
 
@@ -9091,9 +9097,7 @@ msgstr "Avbroten."
 
 #: camel/camel-gpg-context.c:822
 msgid "Failed to unlock secret key: 3 bad passphrases given."
-msgstr ""
-"Klarte ikkje å låsa opp hemmeleg nøkkel: "
-"3 ugyldige adgangsfrasar oppgjevne."
+msgstr "Klarte ikkje å låsa opp hemmeleg nøkkel: 3 ugyldige adgangsfrasar oppgjevne."
 
 #: camel/camel-gpg-context.c:828
 #, c-format
@@ -9354,7 +9358,9 @@ msgstr "CRAM-MD5"
 msgid ""
 "This option will connect to the server using a secure CRAM-MD5 password, if "
 "the server supports it."
-msgstr "Dette valet vil kopla til tenaren med eit trygt CRAM-MD5-passord, dersom tenaren støttar det."
+msgstr ""
+"Dette valet vil kopla til tenaren med eit trygt CRAM-MD5-passord, dersom "
+"tenaren støttar det."
 
 #: camel/camel-sasl-digest-md5.c:48
 msgid "DIGEST-MD5"
@@ -9364,7 +9370,9 @@ msgstr "DIGEST-MD5"
 msgid ""
 "This option will connect to the server using a secure DIGEST-MD5 password, "
 "if the server supports it."
-msgstr "Dette valet vil kopla til tenaren med eit trygt DIGEST-MD5-passord, dersom tenaren støttar det."
+msgstr ""
+"Dette valet vil kopla til tenaren med eit trygt DIGEST-MD5-passord, dersom "
+"tenaren støttar det."
 
 #: camel/camel-sasl-digest-md5.c:813
 msgid "Server challenge too long (>2048 octets)\n"
@@ -9402,7 +9410,9 @@ msgstr "Dette valet vil kopla til tenaren med Kerberos 5-autentisering."
 msgid ""
 "The specified mechanism is not supported by the provided credential, or is "
 "unrecognized by the implementation."
-msgstr "Den oppgjevne mekanismen er ikkje støtta av den tildelte referansen, eller vert ikkje kjent att av implementasjonen."
+msgstr ""
+"Den oppgjevne mekanismen er ikkje støtta av den tildelte referansen, eller "
+"vert ikkje kjent att av implementasjonen."
 
 #: camel/camel-sasl-gssapi.c:157
 msgid "The provided target_name parameter was ill-formed."
@@ -9412,19 +9422,25 @@ msgstr "Den oppgjevne parameteren target_name var misforma."
 msgid ""
 "The provided target_name parameter contained an invalid or unsupported type "
 "of name."
-msgstr "Den oppgjevne parameteren target_name inneheldt ein ugyldig eller ikkje støtta type namn."
+msgstr ""
+"Den oppgjevne parameteren target_name inneheldt ein ugyldig eller ikkje "
+"støtta type namn."
 
 #: camel/camel-sasl-gssapi.c:164
 msgid ""
 "The input_token contains different channel bindings to those specified via "
 "the input_chan_bindings parameter."
-msgstr "input_token inneheld andre kanalbindingar enn dei som er spesifiserte i parameteren imput_chan_bindings."
+msgstr ""
+"input_token inneheld andre kanalbindingar enn dei som er spesifiserte i "
+"parameteren imput_chan_bindings."
 
 #: camel/camel-sasl-gssapi.c:169
 msgid ""
 "The input_token contains an invalid signature, or a signature that could not "
 "be verified."
-msgstr "input_token inneheld ein ugyldig signatur eller ein signatur som ikkje kunne verifiserast."
+msgstr ""
+"input_token inneheld ein ugyldig signatur eller ein signatur som ikkje kunne "
+"verifiserast."
 
 #: camel/camel-sasl-gssapi.c:173
 msgid ""
@@ -9501,7 +9517,9 @@ msgstr "NTLM / SPA"
 msgid ""
 "This option will connect to a Windows-based server using NTLM / Secure "
 "Password Authentication."
-msgstr "Dette valet vil kopla til ein Windows-tenar med NTLM/Secure Password Authentication."
+msgstr ""
+"Dette valet vil kopla til ein Windows-tenar med NTLM/Secure Password "
+"Authentication."
 
 #: camel/camel-sasl-plain.c:32
 msgid "PLAIN"
@@ -13819,8 +13837,8 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Plasseringa til og hierarkiet i Evolution-postboksmappene har endra seg sidan "
-"Evolution 1.x.\n"
+"Plasseringa til og hierarkiet i Evolution-postboksmappene har endra seg "
+"sidan Evolution 1.x.\n"
 "\n"
 "Ha tolmod medan Evolution overfører mappene dine ..."
 
@@ -17157,7 +17175,8 @@ msgid ""
 "We hope that you enjoy the results of our hard work, and we\n"
 "eagerly await your contributions!\n"
 msgstr ""
-"Hei. Takk for at du tok deg tid til å lasta ned denne førehandsframvisinga av\n"
+"Hei. Takk for at du tok deg tid til å lasta ned denne førehandsframvisinga "
+"av\n"
 "Evolution gruppevarepakken.\n"
 "\n"
 "Denne versjonen av Evolution er ikkje ferdig enno. Det nærmar seg, men\n"
@@ -17166,7 +17185,8 @@ msgstr ""
 "Dersom du vil ha ein stabil versjon av Evolution, rår me til at du\n"
 "fjernar denne versjonen, og installerer versjon %s i staden.\n"
 "\n"
-"Dersom du finn feil, vil me setja stor pris på det om du seier ifrå om det på\n"
+"Dersom du finn feil, vil me setja stor pris på det om du seier ifrå om det "
+"på\n"
 "«http://bugzilla.ximian.com/». \n"
 "Dette produktet kjem utan noko form for garanti\n"
 "og er ikkje meint for personar som lett blir sinte.\n"
@@ -17236,7 +17256,8 @@ msgstr ""
 "Å oppgradera dataa og innstillingane dine vil krevja opp til {0} diskplass, "
 "men du har berre {1} tilgjengeleg.\n"
 "\n"
-"Du må gjera meir plass tilgjengeleg i heimekatalogen din før du kan halda fram."
+"Du må gjera meir plass tilgjengeleg i heimekatalogen din før du kan halda "
+"fram."
 
 #. shell:upgrade-failed primary
 #: shell/shell-errors.xml.h:8
@@ -17257,8 +17278,8 @@ msgid ""
 msgstr ""
 "{1}\n"
 "\n"
-"Dersom du vel å halda fram, kan det henda at du ikkje vil få tilgang til somme "
-"gamla data.\n"
+"Dersom du vel å halda fram, kan det henda at du ikkje vil få tilgang til "
+"somme gamla data.\n"
 
 #: shell/shell-errors.xml.h:15
 msgid "Continue"
@@ -17282,7 +17303,9 @@ msgid ""
 msgstr ""
 "Den førre versjonen av Evolution lagra data ein annan stad.\n"
 "\n"
-"Dersom du vel å fjerna gamle data, vil alt som ligg i katalogen «evolution» verta fjerna for godt. Dersom du vel å ta vare på dette, kan du fjerna innhaldet i katalogen «evolution» når du sjølv har lyst.\n"
+"Dersom du vel å fjerna gamle data, vil alt som ligg i katalogen «evolution» "
+"verta fjerna for godt. Dersom du vel å ta vare på dette, kan du fjerna "
+"innhaldet i katalogen «evolution» når du sjølv har lyst.\n"
 
 #: shell/shell-errors.xml.h:25
 msgid "_Remind Me Later"
@@ -17311,11 +17334,15 @@ msgid ""
 "Once deleted, you cannot downgrade to the previous version of Evolution "
 "without manual intervention.\n"
 msgstr ""
-"Heile innhaldet i katalogen «evolution» vil straks verta sletta, dersom du vel å halda fram.\n"
+"Heile innhaldet i katalogen «evolution» vil straks verta sletta, dersom du "
+"vel å halda fram.\n"
 "\n"
-"Det er lurt å kontrollera manuellt at all e-posten din, alle kontaktane og alle kalenderoppføringane er overført, og at denne versjonen av Evolution fungerer ordentleg før du slettar alle gamle data.\n"
+"Det er lurt å kontrollera manuellt at all e-posten din, alle kontaktane og "
+"alle kalenderoppføringane er overført, og at denne versjonen av Evolution "
+"fungerer ordentleg før du slettar alle gamle data.\n"
 "\n"
-"Når alle gamle data er sletta, kan du ikkje utan vidare nedgradera til den førre versjonen av Evolution.\n"
+"Når alle gamle data er sletta, kan du ikkje utan vidare nedgradera til den "
+"førre versjonen av Evolution.\n"
 
 #. shell:noshell title
 #. shell:noshell-reason title
@@ -17371,14 +17398,20 @@ msgid ""
 "Because you trust the certificate authority that issued this certificate, "
 "then you trust the authenticity of this certificate unless otherwise "
 "indicated here"
-msgstr "Sidan du stolar på sertifiseringsinstansen som utferda dette sertifikatet, så stolar du automatisk på at dette sertifikatet er autentisk med mindre du seier noko anna her"
+msgstr ""
+"Sidan du stolar på sertifiseringsinstansen som utferda dette sertifikatet, "
+"så stolar du automatisk på at dette sertifikatet er autentisk med mindre du "
+"seier noko anna her"
 
 #: smime/gui/cert-trust-dialog.c:149
 msgid ""
 "Because you do not trust the certificate authority that issued this "
 "certificate, then you do not trust the authenticity of this certificate "
 "unless otherwise indicated here"
-msgstr "Sidan du ikkje stolar på sertifiseringsinstansen som utferda dette sertifikatet, så trur du automatisk at dette sertifikatet ikkje er autentisk med mindre du seier noko anna her"
+msgstr ""
+"Sidan du ikkje stolar på sertifiseringsinstansen som utferda dette "
+"sertifikatet, så trur du automatisk at dette sertifikatet ikkje er autentisk "
+"med mindre du seier noko anna her"
 
 #: smime/gui/certificate-manager.c:134 smime/gui/certificate-manager.c:142
 #: smime/gui/certificate-manager.c:375 smime/gui/certificate-manager.c:383
@@ -17507,7 +17540,9 @@ msgstr "Ta tryggleikskopi av alle"
 msgid ""
 "Before trusting this CA for any purpose, you should examine its certificate "
 "and its policy and procedures (if available)."
-msgstr "Før du vel å stola på denne sertifiseringsinstansen til noko formål, bør du undersøkja sertifikatet og praksisen hans (dersom mogleg)."
+msgstr ""
+"Før du vel å stola på denne sertifiseringsinstansen til noko formål, bør du "
+"undersøkja sertifikatet og praksisen hans (dersom mogleg)."
 
 #: smime/gui/smime-ui.glade.h:14 smime/lib/e-cert.c:1076
 msgid "Certificate"
@@ -17740,7 +17775,6 @@ msgid "Algorithm Parameters"
 msgstr "Algoritmeparameterar"
 
 #: smime/lib/e-cert.c:768
-#, fuzzy
 msgid "Subject Public Key Info"
 msgstr ""
 
@@ -19343,7 +19377,8 @@ msgid ""
 "zone.\n"
 "Use the right mouse button to zoom out."
 msgstr ""
-"Bruk venstre museknapp for å forstørra ein del av kartet, og vel ein tidssone.\n"
+"Bruk venstre museknapp for å forstørra ein del av kartet, og vel ein "
+"tidssone.\n"
 "Bruk høgre museknapp for å forminska."
 
 #: widgets/menus/gal-view-menus.c:292
