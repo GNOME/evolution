@@ -50,7 +50,7 @@ do_save_calendar (EPlugin *ep, ECalPopupTargetSource *target, ECalSourceType typ
 	char *dest_uri;
 	ECal *source_client, *dest_client;
 	GtkWidget *dialog;
-	
+
 	primary_source = e_source_selector_peek_primary_selection (target->selector);
 
 	/* ask the user for destination file */
@@ -74,7 +74,7 @@ do_save_calendar (EPlugin *ep, ECalPopupTargetSource *target, ECalSourceType typ
 #ifdef USE_GTKFILECHOOSER
 	dest_uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (dialog));
 #else
-	dest_uri = g_strdup (gtk_file_selection_get_filename (GTK_FILE_SELECTION (filesel)));
+	dest_uri = g_strdup (gtk_file_selection_get_filename (GTK_FILE_SELECTION (dialog)));
 #endif
 	gtk_widget_destroy (dialog);
 	if (!dest_uri)

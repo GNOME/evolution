@@ -1,3 +1,8 @@
+2004-10-21  JP Rosevear  <jpr@novell.com>
+
+	* save-calendar.c (do_save_calendar): compile if not using file
+	chooser
+
 2004-10-21  Rodrigo Moya <rodrigo@novell.com>
 
 	* org-gnome-save-calendar.eplug.in: better menu items.
