@@ -2295,7 +2295,7 @@ e_day_view_set_selected_time_range_in_top_visible	(EDayView	*day_view,
 		start_col = 0;
 	if (!end_in_grid)
 		end_col = day_view->days_shown - 1;
-	
+
 	if (start_row != day_view->selection_start_row
 	    || start_col != day_view->selection_start_day) {
 		need_redraw = TRUE;
@@ -3091,9 +3091,11 @@ e_day_view_on_top_canvas_button_press (GtkWidget *widget,
 		if (!GTK_WIDGET_HAS_FOCUS (day_view))
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
 
-		e_day_view_start_selection (day_view, day, -1);
-		e_day_view_finish_selection (day_view);
-
+		if (day < day_view->selection_start_day || day > day_view->selection_end_day) {
+			e_day_view_start_selection (day_view, day, -1);
+			e_day_view_finish_selection (day_view);
+		}
+		
 		e_day_view_on_event_right_click (day_view, event, -1, -1);
 	}
 
@@ -3228,9 +3230,14 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 		if (!GTK_WIDGET_HAS_FOCUS (day_view))
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
 
-		e_day_view_start_selection (day_view, day, row);
-		e_day_view_finish_selection (day_view);
-
+		
+		if ((day < day_view->selection_start_day || day > day_view->selection_end_day)
+		    || (day == day_view->selection_start_day && row < day_view->selection_start_row)
+		    || (day == day_view->selection_end_day && row > day_view->selection_end_row)) {
+			e_day_view_start_selection (day_view, day, row);
+			e_day_view_finish_selection (day_view);
+		}
+		
 		e_day_view_on_event_right_click (day_view, event, -1, -1);
 	}
 

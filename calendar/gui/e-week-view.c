@@ -1468,7 +1468,7 @@ e_week_view_set_selected_time_range_visible	(EWeekView	*week_view,
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
 	time_to_gdate_with_zone (&date, start_time, week_view->zone);
-
+	
 	/* Set the selection to the given days. */
 	week_view->selection_start_day = g_date_julian (&date)
 		- g_date_julian (&week_view->first_day_shown);
@@ -2258,13 +2258,15 @@ e_week_view_on_button_press (GtkWidget *widget,
 		if (!GTK_WIDGET_HAS_FOCUS (week_view))
 			gtk_widget_grab_focus (GTK_WIDGET (week_view));
 
-		week_view->selection_start_day = day;
-		week_view->selection_end_day = day;
-		week_view->selection_drag_pos = E_WEEK_VIEW_DRAG_NONE;
-		
-		/* FIXME: Optimise? */
-		gtk_widget_queue_draw (week_view->main_canvas);
+		if (day < week_view->selection_start_day || day > week_view->selection_end_day) {
+			week_view->selection_start_day = day;
+			week_view->selection_end_day = day;
+			week_view->selection_drag_pos = E_WEEK_VIEW_DRAG_NONE;
 
+			/* FIXME: Optimise? */
+			gtk_widget_queue_draw (week_view->main_canvas);
+		}
+		
 		e_week_view_show_popup_menu (week_view, event, -1);
 	}
 

@@ -1,5 +1,13 @@
 2002-09-11  JP Rosevear  <jpr@ximian.com>
 
+	* gui/e-day-view.c (e_day_view_on_top_canvas_button_press): keep
+	the selection if we right click in it (but not on an appointment)
+	(e_day_view_on_main_canvas_button_press): ditto
+
+	* gui/e-week-view.c (e_week_view_on_button_press): same
+
+2002-09-11  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/e-week-view.c (e_week_view_new_appointment): create a new
 	appointment based on the selection
 	(e_week_view_on_button_press): use above
