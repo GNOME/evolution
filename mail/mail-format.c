@@ -1763,22 +1763,34 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 	
 	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
 	
-	/* Display all the subparts (there should be only 1)
-	 * except the signature (last part).
+	/* Display all the subparts (there should be only 1) up to, but not including,
+	 * the signature. (this should be the last part but we all know that most
+	 * mailers are broken, so attempt to handle broken multipart/signed messages).
+	 * See bug #23583 for details.
 	 */
 	mp = CAMEL_MULTIPART (wrapper);
 	
 	nparts = camel_multipart_get_number (mp);
-	for (i = 0; i < nparts - 1; i++) {
-		if (i != 0 && output)
-			write_hr (html, stream);
+	for (i = 0; i < nparts; i++) {
+		CamelContentType *content_type;
 		
 		subpart = camel_multipart_get_part (mp, i);
+		content_type = camel_mime_part_get_content_type (subpart);
+		
+		if (header_content_type_is (content_type, "application", "pgp-signature"))
+			break;
+		
+		if (i != 0 && output)
+			write_hr (html, stream);
 		
 		output = format_mime_part (subpart, md, html, stream);
 	}
 	
-	subpart = camel_multipart_get_part (mp, i);
+	if (i >= nparts) {
+		/* no signature part? wtf? */
+		return TRUE;
+	}
+	
 	mail_part_set_default_displayed_inline (subpart, md, FALSE);
 	
 	if (!mail_part_is_displayed_inline (subpart, md) && !md->printing) {
@@ -1850,6 +1862,17 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 		mail_html_write (html, stream, "</td></tr></table>");
 		camel_exception_clear (&ex);
 		camel_cipher_validity_free (valid);
+	}
+	
+	/* continuation of handling broken multipart/signed
+	 * parts... write out any extra parts that were added after
+	 * the signature part. */
+	for (i++; i < nparts; i++) {
+		subpart = camel_multipart_get_part (mp, i);
+		
+		write_hr (html, stream);
+		
+		output = format_mime_part (subpart, md, html, stream);
 	}
 	
 	return TRUE;

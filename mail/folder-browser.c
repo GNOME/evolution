@@ -381,7 +381,7 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 		gtk_selection_data_set (selection_data, selection_data->target, 8,
 					bytes->data, bytes->len);
 		
-		g_byte_array_free (bytes, FALSE);
+		g_byte_array_free (bytes, TRUE);
 	}
 	break;
 	case DND_TARGET_TYPE_X_EVOLUTION_MESSAGE:
@@ -409,7 +409,7 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 		gtk_selection_data_set (selection_data, selection_data->target, 8,
 					array->data, array->len);
 		
-		g_byte_array_free (array, FALSE);
+		g_byte_array_free (array, TRUE);
 	}
 	break;
 	default:
@@ -1731,6 +1731,8 @@ setup_popup_icons (void)
 			
 			filename = g_strdup_printf ("%s/%s", EVOLUTION_IMAGES, context_pixmaps[i]);
 			context_menu[i].pixmap = gnome_pixmap_new_from_file (filename);
+			gtk_signal_connect (GTK_OBJECT (context_menu[i].pixmap), "destroy",
+					    gtk_object_unref, NULL);
 			g_free (filename);
 		}
 	}
@@ -1768,9 +1770,9 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 		enable_mask |= CAN_RESEND;
 		hide_mask |= CAN_RESEND;
 	}
-
+	
 	enable_mask |= SELECTION_SET;
-
+	
 	/* get a list of uids */
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
@@ -1792,23 +1794,23 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 			info = camel_folder_get_message_info (fb->folder, uids->pdata[i]);
 			if (info == NULL)
 				continue;
-
+			
 			if (i == 0 && uids->len == 1) {
 				const char *mname, *p;
 				char c, *o;
-
+				
 				/* used by filter/vfolder from X callbacks */
 				fdata = g_malloc0(sizeof(*fdata));
 				fdata->uid = g_strdup(uids->pdata[i]);
 				fdata->uri = g_strdup(fb->uri);
 				fdata->folder = fb->folder;
 				camel_object_ref((CamelObject *)fdata->folder);
-
+				
 				enable_mask &= ~SELECTION_SET;
 				mname = camel_message_info_mlist(info);
 				if (mname && mname[0]) {
 					fdata->mlist = g_strdup(mname);
-
+					
 					/* Escape the mailing list name before showing it */
 					mlist = alloca (strlen (mname)+2);
 					p = mname;
@@ -1962,11 +1964,14 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 		label_menu[i + 2].name = e_utf8_to_locale_string (mail_config_get_label_name (i));
 		label_menu[i + 2].pixmap = gtk_pixmap_new (pixmap, NULL);
 		label_menu[i + 2].closure = closure;
+		
+		gtk_signal_connect (GTK_OBJECT (label_menu[i].pixmap), "destroy",
+				    gtk_object_unref, NULL);
 	}
 	
 	setup_popup_icons ();
 	
-	for (i=0;i<sizeof(filter_menu)/sizeof(filter_menu[0]);i++)
+	for (i = 0; i < sizeof (filter_menu) / sizeof (filter_menu[0]); i++)
 		filter_menu[i].closure = fdata;
 	
 	menu = e_popup_menu_create (context_menu, enable_mask, hide_mask, fb);
@@ -1998,7 +2003,7 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 	for (i = 0; i < 5; i++) {
 		g_free (label_menu[i + 2].name);
 	}
-
+	
 	return TRUE;
 }
 
