@@ -153,8 +153,6 @@ enum {
 	NORMALISED_LAST,
 };
 
-#define PARENT_TYPE (e_tree_scrolled_get_type ())
-
 /* #define SMART_ADDRESS_COMPARE */
 
 #ifdef SMART_ADDRESS_COMPARE
@@ -166,7 +164,7 @@ struct _EMailAddress {
 typedef struct _EMailAddress EMailAddress;
 #endif /* SMART_ADDRESS_COMPARE */
 
-static ETreeScrolledClass *message_list_parent_class;
+G_DEFINE_TYPE (MessageList, message_list, E_TREE_SCROLLED_TYPE);
 
 static void on_cursor_activated_cmd (ETree *tree, int row, ETreePath path, gpointer user_data);
 static void on_selection_changed_cmd(ETree *tree, MessageList *ml);
@@ -1799,12 +1797,11 @@ ml_scrolled (GtkAdjustment *adj, MessageList *ml)
 }
 
 /*
- * GtkObject::init
+ * GObject::init
  */
 static void
-message_list_init (GtkObject *object)
+message_list_init (MessageList *message_list)
 {
-	MessageList *message_list = MESSAGE_LIST (object);
 	struct _MessageListPrivate *p;
 	GtkAdjustment *adjustment;
 	GdkAtom matom;
@@ -1944,20 +1941,20 @@ message_list_finalise (GObject *object)
 }
 
 /*
- * GtkObjectClass::init
+ * GObjectClass::init
  */
 static void
-message_list_class_init (GObjectClass *object_class)
+message_list_class_init (MessageListClass *message_list_class)
 {
+	GObjectClass *object_class = (GObjectClass *) message_list_class;
+	GtkObjectClass *gtkobject_class = (GtkObjectClass *) message_list_class;
 	int i;
-
-	message_list_parent_class = g_type_class_ref(PARENT_TYPE);
 
 	for (i=0;i<sizeof(ml_drag_info)/sizeof(ml_drag_info[0]);i++)
 		ml_drag_info[i].atom = gdk_atom_intern(ml_drag_info[i].target, FALSE);
 
 	object_class->finalize = message_list_finalise;
-	((GtkObjectClass *)object_class)->destroy = message_list_destroy;
+	gtkobject_class->destroy = message_list_destroy;
 
 	message_list_signals[MESSAGE_SELECTED] =
 		g_signal_new ("message_selected",
@@ -2860,8 +2857,6 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const c
 			mail_regen_list (message_list, message_list->search, NULL, NULL);
 	}
 }
-
-E_MAKE_TYPE (message_list, "MessageList", MessageList, message_list_class_init, message_list_init, PARENT_TYPE);
 
 static gboolean
 on_cursor_activated_idle (gpointer data)

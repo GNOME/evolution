@@ -1,3 +1,7 @@
+2004-10-19  JP Rosevear  <jpr@novell.com>
+
+	* message-list.c: convert to G_DEFINE_TYPE
+
 2004-10-11  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #67014.
