@@ -1,3 +1,8 @@
+2004-12-23  Not Zed  <NotZed@Ximian.com>
+  
+	* camel-folder-search.c (check_header): treat a missing header as
+	if it was set to "".
+
 2004-12-02  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #69533.

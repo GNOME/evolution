@@ -879,23 +879,24 @@ check_header(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolder
 			e_sexp_fatal_error(f, _("Performing query on unknown header: %s"), headername);
 		}
 
-		if (header) {
-			/* performs an OR of all words */
-			for (i=1;i<argc && !truth;i++) {
-				if (argv[i]->type == ESEXP_RES_STRING) {
-					if (argv[i]->value.string[0] == 0) {
-						truth = TRUE;
-					} else if (how == CAMEL_SEARCH_MATCH_CONTAINS) {
-						/* doesn't make sense to split words on anything but contains i.e. we can't have an ending match different words */
-						words = camel_search_words_split(argv[i]->value.string);
-						truth = TRUE;
-						for (j=0;j<words->len && truth;j++) {
-							truth = camel_search_header_match(header, words->words[j]->word, how, type, NULL);
-						}
-						camel_search_words_free(words);
-					} else {
-						truth = camel_search_header_match(header, argv[i]->value.string, how, type, NULL);
+		if (header == NULL)
+			header = "";
+
+		/* performs an OR of all words */
+		for (i=1;i<argc && !truth;i++) {
+			if (argv[i]->type == ESEXP_RES_STRING) {
+				if (argv[i]->value.string[0] == 0) {
+					truth = TRUE;
+				} else if (how == CAMEL_SEARCH_MATCH_CONTAINS) {
+					/* doesn't make sense to split words on anything but contains i.e. we can't have an ending match different words */
+					words = camel_search_words_split(argv[i]->value.string);
+					truth = TRUE;
+					for (j=0;j<words->len && truth;j++) {
+						truth = camel_search_header_match(header, words->words[j]->word, how, type, NULL);
 					}
+					camel_search_words_free(words);
+				} else {
+					truth = camel_search_header_match(header, argv[i]->value.string, how, type, NULL);
 				}
 			}
 		}
