@@ -1511,7 +1511,7 @@ e_day_view_set_cal_client	(EDayView	*day_view,
 	day_view->client = client;
 
 	if (day_view->client) {
-		if (cal_client_get_load_state (day_view->client) == CAL_CLIENT_LOAD_LOADED)
+		if (cal_client_get_load_state (day_view->client) != CAL_CLIENT_LOAD_LOADED)
 			gtk_signal_connect (GTK_OBJECT (day_view->client), "cal_opened",
 					    GTK_SIGNAL_FUNC (cal_opened_cb), day_view);
 

@@ -30,7 +30,8 @@
 
 /* Private part of the AlarmNotify structure */
 struct _AlarmNotifyPrivate {
-	/* FIXME */
+	/* Mapping from GnomeVFSURIs to loaded clients */
+	GHashTable *uri_client_hash;
 };
 
 
@@ -140,14 +141,18 @@ alarm_notify_destroy (GtkObject *object)
 /* AlarmNotify::addCalendar method */
 static void
 AlarmNotify_addCalendar (PortableServer_Servant servant,
-			 const CORBA_char *uri,
+			 const CORBA_char *str_uri,
 			 CORBA_Environment *ev)
 {
 	AlarmNotify *an;
+	GnomeVFSURI *uri;
+	CalClient *client;
 
 	an = ALARM_NOTIFY (bonobo_object_from_servant (servant));
 
-	/* FIXME */
+	uri = gnome_vfs_uri_new (str_uri);
+	if (!uri) {
+	}
 }
 
 /* AlarmNotify::removeCalendar method */

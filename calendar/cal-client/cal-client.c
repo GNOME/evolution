@@ -347,7 +347,13 @@ cal_opened_cb (CalListener *listener,
 
  out:
 
-	g_assert (priv->load_state != CAL_CLIENT_LOAD_LOADING);
+	/* We are *not* inside a signal handler (this is just a simple callback
+	 * called from the listener), so there is not a temporary reference to
+	 * the client object.  We ref() so that we can safely emit our own
+	 * signal and clean up.
+	 */
+
+	gtk_object_ref (GTK_OBJECT (client));
 
 	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[CAL_OPENED],
 			 client_status);
@@ -357,6 +363,10 @@ cal_opened_cb (CalListener *listener,
 		g_free (priv->uri);
 		priv->uri = NULL;
 	}
+
+	g_assert (priv->load_state != CAL_CLIENT_LOAD_LOADING);
+
+	gtk_object_unref (GTK_OBJECT (client));
 }
 
 /* Handle the obj_updated signal from the listener */
@@ -713,7 +723,8 @@ build_uid_list (GNOME_Evolution_Calendar_CalObjUIDSeq *seq)
  * Queries a calendar for a list of unique identifiers corresponding to calendar
  * objects whose type matches one of the types specified in the @type flags.
  *
- * Return value: A list of strings that are the sought UIDs.
+ * Return value: A list of strings that are the sought UIDs.  This should be
+ * freed using the cal_obj_uid_list_free() function.
  **/
 GList *
 cal_client_get_uids (CalClient *client, CalObjType type)

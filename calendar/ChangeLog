@@ -1,3 +1,35 @@
+2001-01-18  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/tasks-migrate.[ch]: New files with a simple sequence to
+	migrate the task components from the old calendar folder into the
+	new tasks folder.
+
+	* gui/component-factory.c (owner_set_cb): Call tasks_migrate()
+	once evolution_dir is set.  It sucks to have to do this here.
+
+	* cal-client/cal-client.c (cal_client_get_uids): In the inline
+	docs, indicate how to free the return value.
+	(cal_opened_cb): Ahem, moved assertion to the right place.  Also,
+	ref() and unref() around our own signal emission because we are
+	not inside a signal handler, rather a simple callback from the
+	listener object; we want to have a chance to clean up even if the
+	client is unrefed during the emission.
+
+	* gui/Makefile.am (evolution_calendar_SOURCES): Added
+	tasks-migrate.[ch] to the list of sources.
+
+2001-01-17  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/event-editor.c (init_widgets): Use
+	e_calendar_item_set_max_days_sel() instead of setting GTK+ object
+	arguments.
+
+	* gui/e-day-view.c (e_day_view_set_cal_client): Oops, we had a
+	reversed test for the client being loaded.
+
+	* gui/tag-calendar.c (tag_calendar_by_client): Fixed similarly
+	reversed test.
+
 2001-01-17  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/e-week-view*.c

@@ -39,8 +39,8 @@
 #include "calendar-config.h"
 #include "component-factory.h"
 #include "control-factory.h"
-#include "tasks-control-factory.h"
 #include "e-itip-control.h"
+#include "tasks-control-factory.h"
 
 static void
 init_bonobo (int argc, char **argv)

@@ -112,6 +112,8 @@ evolution_calendar_SOURCES =			\
 	tasks-control-factory.h			\
 	tasks-control.c				\
 	tasks-control.h				\
+	tasks-migrate.c				\
+	tasks-migrate.h				\
 	weekday-picker.c			\
 	weekday-picker.h			\
 	widget-util.c				\

@@ -121,10 +121,10 @@ tag_calendar_by_client (ECalendar *ecal, CalClient *client)
 	if (!GTK_WIDGET_VISIBLE (ecal))
 		return;
 
-	prepare_tag (ecal, &c);
-
-	if (cal_client_get_load_state (client) == CAL_CLIENT_LOAD_LOADED)
+	if (cal_client_get_load_state (client) != CAL_CLIENT_LOAD_LOADED)
 		return;
+
+	prepare_tag (ecal, &c);
 
 #if 0
 	g_print ("DateNavigator generating instances\n");

@@ -32,6 +32,7 @@
 #include "calendar-config.h"
 #include "calendar-summary.h"
 #include "tasks-control.h"
+#include "tasks-migrate.h"
 
 
 
@@ -107,9 +108,17 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	      const char *evolution_homedir,
 	      gpointer user_data)
 {
-	evolution_dir = g_strdup (evolution_homedir);
-	calendar_config_init ();
+	static gboolean migrated = FALSE;
+
 	owner_count ++;
+	evolution_dir = g_strdup (evolution_homedir);
+
+	calendar_config_init ();
+
+	if (!migrated) {
+		tasks_migrate ();
+		migrated = TRUE;
+	}
 }
 
 static void
