@@ -307,6 +307,23 @@ e_memchunk_clean(MemChunk *m)
 	ci = hi;
 	while (ci) {
 		if (ci->count == m->blocksize) {
+			MemChunkFreeNode *prev = NULL;
+			
+			f = m->free;
+			while (f) {
+				if (tree_search (ci, (void *) f) == 0) {
+					/* prune this node from our free-node list */
+					if (prev)
+						prev->next = f->next;
+					else
+						m->free = f->next;
+				} else {
+					prev = f;
+				}
+				
+				f = f->next;
+			}
+			
 			g_ptr_array_remove_fast(m->blocks, ci->base);
 			g_free(ci->base);
 		}

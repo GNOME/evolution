@@ -1,3 +1,9 @@
+2002-01-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-memory.c (e_memchunk_clean): Prune free'd nodes from our free
+	list otherwise we'll end up re-using free'd memory blocks and
+	that's not a Good Thing (tm).
+
 2002-01-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* md5-utils.h: Reverted.
