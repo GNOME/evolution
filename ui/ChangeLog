@@ -1,0 +1,6 @@
+2003-06-25  Bolian Yin <bolian.yin@sun.com>
+
+	Fixes #45423
+
+	* evolution-calendar.xml: added keyboard shortcuts for "Go to today"
+	and "Go to date" menu/toolbar items.

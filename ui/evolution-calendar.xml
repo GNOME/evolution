@@ -54,8 +54,10 @@
 
     <submenu name="View">
       <placeholder name="ViewBegin">
-	<menuitem name="Today" verb="CalendarToday" _label="Go to _Today"/>
-	<menuitem name="Goto" verb="CalendarGoto" _label="Go to _Date" pixtype="pixbuf"/>
+	<menuitem name="Today" verb="CalendarToday" _label="Go to _Today"
+                  accel="*Control**Alt*t"/>
+	<menuitem name="Goto" verb="CalendarGoto" _label="Go to _Date"
+                  pixtype="pixbuf" accel="*Control**Alt*g"/>
 	<separator f="" name="ecal"/>
       </placeholder>
 
