@@ -1,3 +1,9 @@
+2004-04-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-signature-list.c (gconf_signatures_changed): If the autogen
+	signature isn't in the list (or isn't the first in the list), add
+	it to the head of the list.
+
 2004-04-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Probably fixes bug #56623 and others?
