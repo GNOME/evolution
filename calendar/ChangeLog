@@ -1,3 +1,8 @@
+2003-05-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/gnome-cal.c (gnome_calendar_setup_view_menus): Removed
+	debugging message.
+
 2003-05-20  Anna Marie Dirks  <anna@ximian.com>
 
 	* gui/dialogs/save-comp.c (save_component_dialog): Change this
@@ -70,52 +75,53 @@
 	* gui/e-day-view.c (e_day_view_finish_resize): hide canvas items and
 	update internal fields before updating the object.
 
+>>>>>>> 1.1774
 2003-05-15  JP Rosevear  <jpr@ximian.com>
  
- 	* gui/dialogs/comp-editor.c (comp_editor_finalize): unref the
- 	client and the ui component
+	* gui/dialogs/comp-editor.c (comp_editor_finalize): unref the
+	client and the ui component
 	
 2003-05-15  JP Rosevear  <jpr@ximian.com>
  
  	Fixes #41935
  	
- 	* gui/e-week-view.c (e_week_view_init): listen for scroll events
- 	on the canvas
- 	(e_week_view_on_button_press): don't scroll here
- 	(e_week_view_on_scroll): scroll here
+	* gui/e-week-view.c (e_week_view_init): listen for scroll events
+	on the canvas
+	(e_week_view_on_button_press): don't scroll here
+	(e_week_view_on_scroll): scroll here
  
- 	* gui/e-day-view.c (e_day_view_init): listen for scroll events on
- 	the time and main canvases
- 	(e_day_view_on_main_canvas_button_press): don't scroll here
- 	(e_day_view_on_main_canvas_scroll): scroll here 
- 	(e_day_view_on_time_canvas_scroll): and here
+	* gui/e-day-view.c (e_day_view_init): listen for scroll events on
+	the time and main canvases
+	(e_day_view_on_main_canvas_button_press): don't scroll here
+	(e_day_view_on_main_canvas_scroll): scroll here
+	(e_day_view_on_time_canvas_scroll): and here
 	
 2003-05-15  JP Rosevear  <jpr@ximian.com>
  
  	Fixes #43029
  	
- 	* gui/e-week-view.c (e_week_view_init): don't listen for destroy
- 	signal
- 	(e_week_view_destroy): check for NULL and make invisible NULL
- 	after we destroy it, unref cursors and NULL them out as well,
- 	guard against freeing events multiple times
+	* gui/e-week-view.c (e_week_view_init): don't listen for destroy
+	signal
+	(e_week_view_destroy): check for NULL and make invisible NULL
+	after we destroy it, unref cursors and NULL them out as well,
+	guard against freeing events multiple times
  
- 	* gui/e-day-view.c (e_day_view_destroy): check for NULL and make
- 	invisible NULL after we destroy it, unref cursors and NULL them
- 	out as well, guard against freeing events multiple times
- 	(e_day_view_init): don't listen for destroy signal
+	* gui/e-day-view.c (e_day_view_destroy): check for NULL and make
+	invisible NULL after we destroy it, unref cursors and NULL them
+	out as well, guard against freeing events multiple times
+	(e_day_view_init): don't listen for destroy signal
  
- 	* gui/e-calendar-table.c (e_calendar_table_init): don't listen for
- 	destroy signal
- 	(e_calendar_table_destroy): check for NULL and make invisible NULL
- 	after we destroy it
+	* gui/e-calendar-table.c (e_calendar_table_init): don't listen for
+	destroy signal
+	(e_calendar_table_destroy): check for NULL and make invisible NULL
+	after we destroy it
 	
-2003-05-15  JP Rosevear  <jpr@ximian.com>
+2003-05-15  JP Rosevear	 <jpr@ximian.com>
  
 	Fixes #41930
- 	
- 	* idl/evolution-calendar.idl: Make sure everything that can raise
- 	a NotFound exception lists it
+	
+	* idl/evolution-calendar.idl: Make sure everything that can raise
+	a NotFound exception lists it
 	
 2003-05-15  JP Rosevear  <jpr@ximian.com>
 
