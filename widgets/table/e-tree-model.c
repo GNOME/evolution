@@ -41,6 +41,7 @@ struct ETreeModelPriv {
 	GHashTable *expanded_state; /* used for loading/saving expanded state */
 	GString    *sort_group;	/* for caching the last sort group info */
 	gboolean    expanded_default; /* whether nodes are created expanded or collapsed by default */
+	gboolean   pre_change;	/* has there been a pre-change event on us? */
 };
 
 struct ETreePath {
@@ -169,6 +170,24 @@ e_tree_model_node_traverse (ETreeModel *model, ETreePath *path, ETreePathFunc fu
 
 		child = next_child;
 	}
+}
+
+
+/* signal handlers */
+static void
+etree_pre_change(GtkObject *object, ETreeModel *etm)
+{
+	ETreeModelPriv *priv = etm->priv;
+
+	priv->pre_change = TRUE;
+}
+
+static void
+etree_changed(GtkObject *object, ETreeModel *etm)
+{
+	ETreeModelPriv *priv = etm->priv;
+
+	priv->pre_change = FALSE;
 }
 
 
@@ -691,6 +710,9 @@ e_tree_model_construct (ETreeModel *etree)
 	priv->row_array = g_array_new (FALSE, FALSE, sizeof(ETreePath*));
 	priv->expanded_state = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->sort_group = g_string_new("");
+
+	gtk_signal_connect((GtkObject *)etree, "model_pre_change", etree_pre_change, etree);
+	gtk_signal_connect((GtkObject *)etree, "model_changed", etree_changed, etree);
 }
 
 ETreeModel *
@@ -896,7 +918,7 @@ e_tree_model_node_insert (ETreeModel *tree_model,
 		e_tree_path_insert (parent_path, position, new_path);
 
 		if (e_tree_model_node_is_visible (tree_model, new_path)) {
-			int parent_row;
+			int parent_row, child_offset = 0;
 			ETreePath *n;
 
 			/* we need to iterate back up to the root, incrementing the number of visible
@@ -905,9 +927,22 @@ e_tree_model_node_insert (ETreeModel *tree_model,
 				n->visible_descendents ++;
 			}
 				
-			/* finally, insert a row into the table */
-			if (position == -1)
+			/* determine if we are inserting at the end of this parent */
+			if (position == -1 || position == parent_path->num_children) {
 				position = e_tree_model_node_num_visible_descendents (tree_model, parent_path) - 1;
+			} else {
+				/* if we're not inserting at the end of the array, position is the child node we're
+				   inserting at, not the absolute row position - need to count expanded nodes before it too */
+				int i = position;
+
+				n = e_tree_model_node_get_first_child(tree_model, parent_path);
+				while (n != NULL && i > 0) {
+					child_offset += n->visible_descendents;
+					n = n->next_sibling;
+					i--;
+				}
+			}
+
 
 			/* if the parent is the root, no need to search for its position since it aint there */
 			if (parent_path->parent == NULL) {
@@ -917,9 +952,11 @@ e_tree_model_node_insert (ETreeModel *tree_model,
 			}
 
 			priv->row_array = g_array_insert_val (priv->row_array,
-							      parent_row + position + 1, new_path);
+							      parent_row + position + 1 + child_offset, new_path);
 
-			e_table_model_row_inserted (E_TABLE_MODEL(tree_model), parent_row + position + 1);
+			/* only do this if we know a changed signal isn't coming later on */
+			if (!priv->pre_change)
+				e_table_model_row_inserted (E_TABLE_MODEL(tree_model), parent_row + position + 1 + child_offset);
 		}
 
 		if (parent_path->compare)
@@ -973,11 +1010,25 @@ e_tree_model_node_insert_before (ETreeModel *etree,
 	return e_tree_model_node_insert (etree, parent, position, node_data);
 }
 
-static gboolean
-child_remove (ETreeModel *model, ETreePath *node, gpointer data)
+/* just blows away child data, doesn't take into account unlinking/etc */
+static void
+child_free(ETreeModel *etree, ETreePath *node)
 {
-	e_tree_model_node_remove (model, node);
-	return FALSE;
+	ETreePath *child, *next;
+	ETreeModelPriv *priv = etree->priv;
+
+	child = node->first_child;
+	while (child) {
+		next = child->next_sibling;
+		child_free(etree, child);
+		child = next;
+	}
+
+	if (node->save_id) {
+		g_hash_table_remove(priv->expanded_state, node->save_id);
+		g_free(node->save_id);
+	}
+	g_chunk_free(node, priv->node_chunk);
 }
 
 gpointer
@@ -986,48 +1037,72 @@ e_tree_model_node_remove (ETreeModel *etree, ETreePath *path)
 	ETreeModelPriv *priv = etree->priv;
 	ETreePath *parent = path->parent;
 	gpointer ret = path->node_data;
+	int row, visible = 0, base = 0;
+	gboolean dochanged;
 
-	/* remove children */
-	e_tree_model_node_traverse (etree, path, child_remove, etree);
-
-	/* clean up the display */
+	/* work out what range of visible rows to remove */
 	if (parent) {
-		if (e_tree_model_node_is_visible (etree, path)) {
-			int row = e_tree_model_row_of_node (etree, path);
-			priv->row_array = g_array_remove_index (priv->row_array, row);
-			e_table_model_row_deleted (E_TABLE_MODEL (etree), row);
-
-			/* we need to iterate back up to the root, incrementing the number of visible
-			   descendents */
-			for (; parent; parent = parent->parent) {
-				parent->visible_descendents --;
-			}
+		if (e_tree_model_node_is_visible(etree, path)) {
+			base = e_tree_model_row_of_node(etree, path);
+			visible = path->visible_descendents + 1;
 		}
-	}
-	else if (path == priv->root) {
+	} else if (path == priv->root) {
 		priv->root = NULL;
 		if (priv->root_visible) {
-			priv->row_array = g_array_remove_index (priv->row_array, 0);
-			e_table_model_row_deleted (E_TABLE_MODEL (etree), 0);
+			base = 0;
+			visible = path->visible_descendents + 1;
+		} else {
+			base = 0;
+			visible = path->visible_descendents;
 		}
-	}
-	else {
-		/* XXX invalid path */
+	} else {
+		g_warning("Trying to remove invalid path %p", path);
 		return NULL;
 	}
 
-	/* unlink the node */
+	/* unlink this node - we only have to unlink the root node being removed,
+	   since the others are only references from this node */
 	e_tree_path_unlink (path);
 
-	/* now free up the storage from that path */
-	if (path->save_id)
-		g_hash_table_remove (priv->expanded_state, path->save_id);
-	g_free (path->save_id);
-	g_chunk_free (path, priv->node_chunk);
+	/*printf("removing %d nodes from position %d\n", visible, base);*/
+
+	if (visible > 0) {
+		/* fix up the parent visible counts */
+		for (; parent; parent = parent->parent) {
+			parent->visible_descendents -= visible;
+		}
+
+		/* if we have a lot of nodes to remove, then we dont row_deleted each one */
+		/* could probably be tuned, but this'll do, since its normally only when we
+		   remove the whole lot do we really care */
+		dochanged = (visible > 1000) || (visible > (priv->row_array->len / 4));
+
+		/* and physically remove them */
+		if (visible == priv->row_array->len) {
+			g_array_set_size(priv->row_array, 0);
+		} else {
+			memmove(&g_array_index(priv->row_array, ETreePath *, base),
+				&g_array_index(priv->row_array, ETreePath *, base+visible),
+				(visible) * sizeof(ETreePath *));
+			g_array_set_size(priv->row_array, priv->row_array->len - visible);
+		}
+
+		/* tell the system we've removed (these) nodes */
+		if (!priv->pre_change) {
+			if (dochanged) {
+				e_table_model_changed(E_TABLE_MODEL(etree));
+			} else {
+				for (row=visible-1;row>=0;row--) {
+					e_table_model_row_deleted(E_TABLE_MODEL(etree), row+base);
+				}
+			}
+		}
+	}
+
+	child_free(etree, path);
 
 	return ret;
 }
-
 
 static void
 add_visible_descendents_to_array (ETreeModel *etm, ETreePath *node, int *row, int *count)
@@ -1036,7 +1111,9 @@ add_visible_descendents_to_array (ETreeModel *etm, ETreePath *node, int *row, in
 
 	/* add a row for this node */
 	priv->row_array = g_array_insert_val (priv->row_array, (*row), node);
-	e_table_model_row_inserted (E_TABLE_MODEL (etm), (*row)++);
+	if (!priv->pre_change)
+		e_table_model_row_inserted (E_TABLE_MODEL (etm), (*row));
+	(*row) ++;
 	(*count) ++;
 
 	/* then loop over its children, calling this routine for each
@@ -1283,6 +1360,7 @@ e_tree_model_node_sort (ETreeModel *tree_model,
 
 	g_free (sort_info);
 
-	e_table_model_changed (E_TABLE_MODEL (tree_model));
+	if (!priv->pre_change)
+		e_table_model_changed (E_TABLE_MODEL (tree_model));
 }
 
