@@ -1610,7 +1610,7 @@ e_book_dispose (GObject *object)
 		CORBA_exception_free (&ev);
 
 		if (book->priv->listener) {
-			g_signal_handler_disconnect (book->priv->comp_listener, book->priv->listener_signal);
+			g_signal_handler_disconnect (book->priv->listener, book->priv->listener_signal);
 			bonobo_object_unref (book->priv->listener);
 			book->priv->listener = NULL;
 		}

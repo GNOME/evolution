@@ -1,3 +1,7 @@
+2003-07-23  Chris Toshok  <toshok@ximian.com>
+
+	* backend/ebook/e-book.c (e_book_dispose): fix a typo.
+
 2003-07-22  Akira TAGOH  <tagoh@redhat.com>
 
 	* printing/e-contact-print-envelope.c (ecpe_print): Use 'Sans'
