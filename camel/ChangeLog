@@ -1,3 +1,8 @@
+2001-09-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-url.c (camel_url_set_param): Use g_datalist_set_data_full
+	so that the data will be free'd when we clear the list.
+
 2001-09-14  Dan Winship  <danw@ximian.com>
 
 	* camel-file-utils.c (camel_file_util_encode_string,

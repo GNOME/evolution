@@ -107,17 +107,17 @@ typedef struct {
 						     const char *old_name,
 						     const char *new_name,
 						     CamelException *ex);
-
+	
 	void            (*sync)                     (CamelStore *store,
 						     CamelException *ex);
-
+	
 	CamelFolderInfo *(*get_folder_info)         (CamelStore *store,
 						     const char *top,
 						     guint32 flags,
 						     CamelException *ex);
 	void            (*free_folder_info)         (CamelStore *store,
 						     CamelFolderInfo *fi);
-
+	
 	gboolean        (*folder_subscribed)        (CamelStore *store,
 						     const char *folder_name);
 	void            (*subscribe_folder)         (CamelStore *store,
