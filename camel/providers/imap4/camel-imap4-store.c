@@ -351,7 +351,10 @@ connect_to_server_wrapper (CamelIMAP4Engine *engine, CamelException *ex)
 	if (ai == NULL)
 		return FALSE;
 	
-	ret = connect_to_server (engine, ai, mode, ex);
+	if (!(ret = connect_to_server (engine, ai, mode, ex)) && mode == MODE_SSL)
+		ret = connect_to_server (engine, ai, MODE_TLS, ex);
+	else if (!ret && mode == MODE_TLS)
+		ret = connect_to_server (engine, ai, MODE_CLEAR, ex);
 	
 	camel_freeaddrinfo (ai);
 	

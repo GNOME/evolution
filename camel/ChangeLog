@@ -1,5 +1,17 @@
 2004-11-01  Jeffrey Stedfast  <fejj@novell.com>
 
+	* providers/smtp/camel-smtp-transport.c
+	(connect_to_server_wrapper): Do the same SSL->TLS and TLS->CLEAR
+	fallbacks that the 2.0 (and older) code did.
+
+	* providers/pop3/camel-pop3-store.c (connect_to_server_wrapper): Same.
+
+	* providers/imap4/camel-imap4-store.c (connect_to_server_wrapper): Same.
+
+	* providers/imap/camel-imap-store.c (connect_to_server_wrapper): Same.
+
+2004-11-01  Jeffrey Stedfast  <fejj@novell.com>
+
 	* providers/imap4/camel-imap4-summary.c
 	(camel_imap4_summary_expunge): Remove expunged messages from the
 	cache.

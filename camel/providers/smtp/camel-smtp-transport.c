@@ -427,7 +427,10 @@ connect_to_server_wrapper (CamelService *service, CamelException *ex)
 	if (ai == NULL)
 		return FALSE;
 
-	ret = connect_to_server (service, ai, mode, ex);
+	if (!(ret = connect_to_server (service, ai, mode, ex)) && mode == MODE_SSL)
+		ret = connect_to_server (service, ai, MODE_TLS, ex);
+	else if (!ret && mode == MODE_TLS)
+		ret = connect_to_server (service, ai, MODE_CLEAR, ex);
 	
 	camel_freeaddrinfo (ai);
 	
