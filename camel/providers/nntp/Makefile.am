@@ -8,6 +8,7 @@ provider_LTLIBRARIES = libcamelnntp.la
 provider_DATA = libcamelnntp.urls
 
 INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	\
+	-I$(top_srcdir)				\
 	-I$(top_srcdir)/intl			\
 	$(GTK_INCLUDEDIR) -I$(top_srcdir)/camel	\
 	-I$(srcdir)/../mbox			\

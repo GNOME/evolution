@@ -1,3 +1,8 @@
+2000-08-03  Peter Williams  <peterw@helixcode.com>
+
+	* providers/nntp/Makefile.am (INCLUDES): Add -I$(top_srcdir) to
+	pull in libibex/ibex.h
+
 2000-08-02  Dan Winship  <danw@helixcode.com>
 
 	* providers/MH: Kill this. It doesn't have any code to do anything
