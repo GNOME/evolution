@@ -6,6 +6,7 @@
  */
 
 #include <config.h>
+#include <gnome.h>
 #include <libgnomeui/gnome-canvas-text.h>
 #include "eventedit.h"
 #include "layout.h"
@@ -84,7 +85,7 @@ do_quick_view_popup (MonthView *mv, GdkEventButton *event, int day)
 
 	list = calendar_get_events_in_range (mv->calendar->cal, day_begin_time, day_end_time);
 
-	strftime (date_str, sizeof (date_str), "%a %b %d %Y", localtime (&day_begin_time));
+	strftime (date_str, sizeof (date_str), _("%a %b %d %Y"), localtime (&day_begin_time));
 	qv = quick_view_new (mv->calendar, date_str, list);
 
 	quick_view_do_popup (QUICK_VIEW (qv), event);
@@ -751,7 +752,7 @@ month_view_set (MonthView *mv, time_t month)
 	mv->year = tm->tm_year + 1900;
 	mv->month = tm->tm_mon;
 	
-	strftime (buf, 100, "%B %Y", tm);
+	strftime (buf, 100, _("%B %Y"), tm);
 
 	gnome_canvas_item_set (mv->title,
 			       "text", buf,

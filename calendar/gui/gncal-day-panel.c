@@ -5,6 +5,8 @@
  * Author: Federico Mena <quartic@gimp.org>
  */
 
+#include <config.h>
+#include <gnome.h>
 #include <gtk/gtkhseparator.h>
 #include "gncal-day-panel.h"
 #include "main.h"
@@ -209,7 +211,7 @@ update (GncalDayPanel *dpanel, int update_fullday, iCalObject *ico, int flags)
 	}
 	gncal_todo_update (dpanel->todo, ico, flags);
 	
-	strftime (buf, sizeof (buf), "%a %b %d %Y", localtime (&dpanel->start_of_day));
+	strftime (buf, sizeof (buf), _("%a %b %d %Y"), localtime (&dpanel->start_of_day));
 	gtk_label_set (GTK_LABEL (dpanel->date_label), buf);
 }
 
@@ -236,7 +238,7 @@ gncal_day_panel_set (GncalDayPanel *dpanel, time_t start_of_day)
 		return;
 
 	tm = *localtime (&dpanel->start_of_day);
-	strftime (buf, sizeof (buf), "%a %b %d %Y", &tm);
+	strftime (buf, sizeof (buf), _("%a %b %d %Y"), &tm);
 	gtk_label_set (GTK_LABEL (dpanel->date_label), buf);
 
 	gncal_full_day_set_bounds (dpanel->fullday, dpanel->start_of_day, time_day_end (dpanel->start_of_day));

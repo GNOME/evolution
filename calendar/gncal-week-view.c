@@ -7,6 +7,7 @@
  */
 
 #include <config.h>
+#include <gnome.h>
 #include <string.h>
 #include <gtk/gtk.h>
 #include "gncal-week-view.h"
@@ -230,11 +231,11 @@ gncal_week_view_set (GncalWeekView *wview, time_t start_of_week)
 		week_end = time_add_day (week_start, 6);
 		t = localtime (&week_start);
 		
-		strftime (buf, sizeof (buf), "%a %b %d %Y - ", t);
+		strftime (buf, sizeof (buf), _("%a %b %d %Y - "), t);
 		len = strlen (buf);
 
 	        t = localtime (&week_end);
-		strftime (buf + len, sizeof (buf) - len, "%a %b %d %Y", t);
+		strftime (buf + len, sizeof (buf) - len, _("%a %b %d %Y"), t);
 		gtk_label_set (GTK_LABEL (wview->label), buf);
 		
 	}
