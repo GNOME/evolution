@@ -1,3 +1,13 @@
+2001-10-18  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names-manager.c
+	(focus_out_cb): Lag our cardification on focus-out.  This seems to
+	help with the unintended cardifications that can result from the
+	weird focus-out/focus-in events that get generated when the popup
+	disappears.
+
+	* backend/ebook/e-card-compare.c: Removed some debug spew.
+
 2001-10-17  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-config.c (addressbook_source_dialog):

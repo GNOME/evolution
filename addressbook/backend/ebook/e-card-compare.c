@@ -258,10 +258,6 @@ e_card_compare_name_to_string_full (ECard *card, const gchar *str, gboolean allo
 		}
 	}
 
-	if (match_type != E_CARD_MATCH_NONE) {
-		g_message ("Matched %s on %s", e_card_name_to_string (card->name), str);
-	}
-
 	if (matched_parts_out)
 		*matched_parts_out = matched_parts;
 	if (first_matched_part_out)
