@@ -1,383 +1,213 @@
+<!-- $Id: usage-contact.sgml,v 1.2 2003/08/08 21:57:43 olea Exp $ -->
+<!-- Traducción: irm 030501 -->
+<!-- Revisión: ismael 030501 -->
+
+
 <!--
 <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
 -->
 
 <chapter id="usage-contact">
-  <title>La Agenda de Direcciones de Evolution</title>
-  <abstract>
-    <para>
-      The <application>Evolution</application> address book can
-      handle all of the functions of an address book, phone book, or
-      Rolodex.  Of course, it's a lot easier to update
-      <application>Evolution</application> than it is to change an
-      actual paper book. <application>Evolution</application> also
-      allows easy synchronization with hand-held devices.  Since
-      <application>Evolution</application> supports the <glossterm
-      linkend="ldap">LDAP</glossterm> directory protocol, you can use
-      it with almost any type of existing directory server on your
-      network.
-    </para>
-    <para>
-      Another advantage of the <application>Evolution</application>
-      address book is its integration with the rest of the
-      application.  When you look for someone's address, you can also
-      see a history of appointments with that person.  Or, you can
-      create address cards from emails with just a few clicks.  In
-      addition, searches and folders work in the same way they do in
-      the rest of Evolution.
-    </para>
-    <para>
-      This chapter will show you how to use the
-      <application>Evolution</application> address book to organize
-      any amount of contact information, share addresses over a
-      network, and several ways to save time with everyday tasks. To
-      learn about configuring the address book, see <xref
-      linkend="config-prefs-contact">.
-    </para>
-  </abstract>
-  <sect1 id="usage-contact-basic">
-    <title>Empezando con la Agenda de Direcciones</title>	
-    
-    <para>
-       To open up your address book, click on
-       <guibutton>Contacts</guibutton> in the shortcut bar, or select
-       one of your contacts folders from the folder bar.  <xref
-       linkend="usage-contact-fig"> shows the address book in all
-       its organizational glory.  By default, the address book
-       shows all your cards in alphabetical order, in a <glossterm
-       linkend="minicard">minicard</glossterm> format.  You can select
-       other views from the <guimenu>View</guimenu> menu, and adjust
-       the width of the columns by clicking and dragging the grey
-       column dividers.
-    </para>
+  <title>Trabajar con contactos</title>
+      <para> Este capítulo describe la utilización de la libreta de direcciones de  <application>Evolution</application>, y explica cómo organizar cualquier cantidad de contactos, compartir direcciones a través de una red así como aprovechar las numerosas soluciones que ofrece para ahorrar tiempo en las tareas cotidianas. Acerca de la configuración de la libreta de direcciones, consulte  <xref
+        linkend="config-prefs-contact">. Para importar los contactos de otras herramientas, utilice la herramienta Importar: para ello seleccione <menuchoice><guimenu>Archivo</guimenu><guimenuitem>Importar</guimenuitem></menuchoice>, o envíeselas por correo como adjuntos en formato vCard.
+      </para>
 
-
-    <figure id="usage-contact-fig">
-      <title>Agenda de Direcciones de Evolution</title>
-      <screenshot>
-	<screeninfo>Evolution Address Book Window</screeninfo>
-	<graphic fileref="fig/contact" format="png" srccredit="Aaron Weber">
-	    </graphic>
-      </screenshot>
-    </figure>
-
-    <para>
-       The toolbar for the address book is quite simple:
+    <para> La barra de herramientas de la libreta de direcciones es muy sencilla.
        <itemizedlist>
-	<listitem><para>
-           <guibutton>New</guibutton> creates a new card.
+	<listitem><para> Haga clic en <guibutton>Contacto nuevo</guibutton> para crear una nueva tarjeta, o haga doble-clic en un espacio en blanco dentro de la lista de contactos.
 	</para></listitem>
 
-	<listitem><para>
-           <guibutton>Find</guibutton> brings up an in-depth search window.
-         </para></listitem>
-	
-	<listitem><para>
-	    <guibutton>Print</guibutton> sends one or more of your cards to the printer.
+	<listitem><para> Haga clic en <guibutton>Lista de contactos</guibutton> para crear una nueva tarjeta, o haga doble-clic en un espacio en blanco de la lista.
 	</para></listitem>
-        <listitem><para>
-           <guibutton>Delete</guibutton> deletes a selected card.
-        </para></listitem>
 
-        <listitem><para> <guibutton>View All</guibutton> displays all
-           the address information in the folder.  Use this button to
-           refresh the display for a network folder, or to switch from
-           viewing the results of a search and see the whole contents.
-           </para></listitem>
+	<listitem><para> El icono de la  <guiicon>impresora</guiicon> permite imprimir una o varias tarjetas.  </para></listitem>
 
-        <listitem><para> <guibutton>Stop</guibutton> stops loading
-           contact data from the network.  This button is only
-           relevant if you are looking at contact information on a
-           network.  </para></listitem>
+        <listitem><para> El icono con la señal de  <guiicon>Stop</guiicon> interrumpe la descarga de los contactos desde la red.  Este botón sólo es relevante si está consultando los contactos desde una red.  </para></listitem>
       </itemizedlist>
     </para>
 
-    <para>
-       Your contact information fills the rest of the display.  Move
-       through the cards alphabetically with the buttons and the
-       scrollbar at the right of the window. Of course, if you have
-       more than a few people listed, you'll want some way of finding
-       them more quickly, which is why there's a search feature.
+    <para> Los datos de sus contactos llenan el resto de la pantalla.  Puede desplazarse de una tarjeta a otra por orden alfabético con la ayuda de los cursores y de la barra de desplazamiento a la derecha de la ventana. Por supuesto, si la lista incluye un número importante de entradas, querrá utilizar la función de búsqueda prevista, para encontrarlas más rápidamente.
     </para>
 
-    <sect2 id="contact-search">
-      <title>Buscando Contactos</title>
-      <para>
-	   Entre <guilabel>Borrar</guilabel> y <guilabel>Ver
-    	   Todo</guilabel> hay un campo de búsqueda rápida. Para usarlo,
-    	   elija de la lista descendente que clase de búsqueda quiere hacer
-    	   (toda la tarjeta, solo el nombre, o solo la dirección de correo),
-    	   entonces escriba una o más palabras en la caja de entrada de texto,
-    	   y pulse <keycap>Enter</keycap>.
-    	   <application>Evolution</application> buscará en los contenidos
-    	   de todas las tarjetas mostradas para encontrar una que concuerde.
-    	   Puede refinar las búsquedas haciendo varias búsquedas sucesivas,
-    	   o empezar de nuevo pulsando el botón <guibutton>Ver
-    	   Todas</guibutton>.
-	</para>
-      <para>
-	   Si no hay coincidencias, la tarjeta mostrada estará en blanco.
-	   Cuando quiera volver a ver todas las tarjetas de nuevo, pulse
-	   <guilabel>Mostrar Todas</guilabel>.
-       </para>
-      <example id="contact-quicksearch-ex">
-	<title>Refinando una Búsqueda Rápida</title>
-	<para>
-	    Tom vuelve de almorzar y se encuantra una nota en su teclado:
-	    "Le ha llamado Curtis de ventas, pero no dejo un teléfono,
-	    y se me olvidó anotar la compañía para la que trabaja. Eso si, dijo
-	    que era importante."
-	    Tom no está molesto en absoluto.
-         </para>
-	 <para>
-	    Abre la carpeta de contactos, y realiza una busqueda rápida por
-	    "Curtis". Hay dieciocho personas diferentes con ese nombre en el
-	    archivo. Entonces escribe "Ventas", y
-	    <application>Evolution</application> lo reduce al Curtis correcto.
-	    Tan solo se siente molesto cuando descubre que la llamada no era
-	    realmente importante.
-          </para>
-      </example>
-    
-      <para>
-        Si prefiere realizar una búsqueda más compleja, pulse
-        <guibutton>Buscar</guibutton> o elija
-        <menuchoice><guimenu>Herramientas</guimenu><guimenuitem>Buscar
-        Contacto</guimenuitem></menuchoice>. Esto abrirá la ventana de
-        búsqueda a fondo, que le permitirá usar multiples criterios de
-        búsqueda de la misma manera que en los filtros de correo y las
-        <glossterm linkend="vfolder">carpetas virtuales</glossterm>.
-        </para>
-      <para>
-        Pulse <guibutton>Añadir Criterio</guibutton> para aumentar el
-        número de criterios que quiere usar en la búsqueda, y
-        <guibutton>Eliminar Criterio</guibutton> para eliminar uno del la
-        parte inferior de la lista.  Su criterio puede ser una búsqueda en
-        los campos <guilabel>Nombre</guilabel> o
-        <guilabel>Correo</guilabel>. Alternativamente puede elegir buscar en
-        todos los campos con una expresión regular.  Entonces, puede
-        seleccionar entre los requisistos <guilabel>Comienza con</guilabel>
-        y <guilabel>No contiene</guilabel>, decidir si deben conincidir
-        <guilabel>Todos</guilabel> o <guilabel>Alguno</guilabel> de sus
-        criterios, y pulsar <guibutton>Buscar</guibutton> para ejecutar
-        todo.
-      </para>
-    
-    </sect2>
-
-  </sect1>
   <sect1 id="usage-contact-cards">
-    <title>Destruir, Crear, y Cambiar: El Editor de Contactos</title>
-    <para>
-       To delete a card, click on it once to select it, then press the
-       <guibutton>Delete</guibutton> button.  If you have multiple
-       cards selected, you'll delete multiple cards.
+    <title>El editor de contactos</title>
+    <para> Para eliminar un contacto:
+      <orderedlist numeration="arabic">
+	<listitem>
+	  <para> Haga clic en el contacto para seleccionarlo.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para> Haga clic en  <guibutton>Borrar</guibutton>.
+	  </para>
+	</listitem>
+      </orderedlist>
     </para>
-    <para>
-       Si quiere añadir o cambiar tarjetas, usará el editor de contactos.
-       Para cambiar una tarjeta que ya existe, pulse dos veces sobre ella
-       para abrir la ventana del editor de contactos con toda la información
-       actual.  Si quiere crear una nueva, pulsando el botón
-       <guibutton>Nuevo</guibutton> el la barra de herramientas abrirá la
-       misma ventana, con los campos en blanco para que los rellene.
+    <para> Utilice el editor de contactos para desea agregar o modificar tarjetas.  Para modificar una tarjeta existente, haga doble clic en la tarjeta y abrirá la ventana del editor de contactos.  Si desea crear una nueva tarjeta, haga clic en  <guibutton>Nuevo</guibutton> en la barra de herramientas para abrir otra ventana idéntica, pero con los campos vacíos para ser rellenados.
     </para>
 
-      <para>
-	La ventana del editor de contactos tiene dos pestañas,
-    	<guilabel>General</guilabel>, para información contacto básica,
-    	y <guilabel>Detalles</guilabel>, para una descripción más específica
-    	de la persona.  Ademas, contiene un menú
-    	<guimenu>Archivo</guimenu>, (ver <xref
-    	linkend="menuref-contact-editor">) y una barra de herramientas con
-    	tres elementos: <guilabel>Guardar y Cerrar</guilabel>,
-    	<guilabel>Imprimir</guilabel>, y <guilabel>Borrar</guilabel>.
+    <para> La ventana del editor de contactos cuenta con dos fichas, <guilabel>General</guilabel>, con la información esencial, y  <guilabel>Detalles</guilabel>, con una descripción más precisa de la persona.  Además, contiene un menú <guimenu>Archivo</guimenu> y una barra de herramientas con tres iconos: <guilabel>Guardar y cerrar</guilabel>, <guilabel>Imprimir</guilabel> y  <guilabel>Borrar</guilabel>.
       </para>
-      
-      <figure id="usage-contact-editor-fig">
-	  <title>Editor de contactos de Evolution</title>
-	  <screenshot>
-	    <screeninfo>Evolution Contact Editor</screeninfo>
-	  <graphic fileref="fig/contact-editor.png" format="png" srccredit="Aaron Weber">
-		</graphic>
-	</screenshot>
-      </figure>
-      
-      <para> La pestaña <guilabel>General</guilabel> tiene siete secciones,
-         cada una con un icono, una cara, para el nombre y la compañía, un
-         teléfono para números de teléfono, un sobre para direcciones de
-         correo, un globo terraqueo para direcciones de páginas web, una
-         casa para dirección postal, un archivador para contactos, y una
-         cartera para categorías. 
+
+    <figure id="usage-contact-editor-fig">
+      <title>Editor de contactos de Evolution</title>
+      <screenshot> <screeninfo>Editor de contactos de Evolution</screeninfo> <mediaobject><imageobject> <imagedata
+	fileref="figures/contact-editor" format="png" srccredit="Aaron
+	Weber"> </imageobject></mediaobject>
+      </screenshot> </figure>
+
+    <para> La ficha <guilabel>General</guilabel> cuenta siete secciones, con diferentes iconos: una careta para el nombre y organización; un teléfono para los números de teléfono; un sobre para la dirección de correo electrónico; un globo terráqueo para la dirección de la página Web; una casita para la dirección postal; una carpeta de archivos para los contactos, y por fin, un maletín para las categorías asociadas.
     </para>
     <para>
      <variablelist>
 
-	<varlistentry>
-	  <term>Full Name</term>
+	<varlistentry> <term>Nombre completo</term>
 	  <listitem>
-	    <para>
-              The <guilabel>Full Name</guilabel> field has two
-              major features:
+	    <para> El <guilabel>Nombre completo</guilabel> tiene dos características principales:
               <itemizedlist>
 		<listitem>
-		  <para>
-                    You can enter a name into the <guibutton>Full
-                    Name</guibutton> field, but you can also click the
-                    <guibutton>Full Name</guibutton> button to bring
-                    up a small dialog box with a few text boxes
+		  <para> Puede escribir un nombre en el campo <guibutton>Nombre completo</guibutton> pero también puede hacer clic en el botón <guibutton>Nombre completo</guibutton>: se abre un pequeño cuadro de diálogo con unos pocos campos de texto
                     <variablelist>
-		      <varlistentry>
-			<term><guilabel>Title: </guilabel></term>
-			<listitem> <para>
-	                  Enter an honorific or select one from the menu.
+		      <varlistentry> <term><guilabel>Tratamiento: </guilabel></term>
+			<listitem> <para> Escriba o seleccione el tratamiento en el menú.
 	                </para></listitem>
 		      </varlistentry>
-		      <varlistentry>
-			<term><guilabel>First: </guilabel></term>
-			<listitem> <para>
-		            Enter the first, or given, name.
-			 </para></listitem> 
-		      </varlistentry>
-		      <varlistentry>
-			<term><guilabel>Middle: </guilabel></term>
-			<listitem> <para>
-			  Enter the middle name or initial, if any.
-			</para></listitem>
-		      </varlistentry>
-		      <varlistentry>
-			<term><guilabel>Last: </guilabel></term>
-			<listitem> <para>
-			   Enter the last name (surname).
+		      <varlistentry> <term><guilabel>Nombre: </guilabel></term>
+			<listitem> <para> Escriba el nombre de pila.
 			 </para></listitem>
 		      </varlistentry>
-		      <varlistentry>
-			<term><guilabel>Suffix: </guilabel></term>
-			<listitem> <para>
-			   Enter suffixes such as "Jr." or "III."
+		      <varlistentry> <term><guilabel>2&ordm; Nombre: </guilabel></term>
+			<listitem> <para> Escriba el segundo nombre, si se precisa.
+			</para></listitem>
+		      </varlistentry>
+		      <varlistentry> <term><guilabel>Apellido: </guilabel></term>
+			<listitem> <para> Escriba el apellido o los apellidos.
+			 </para></listitem>
+		      </varlistentry>
+		      <varlistentry> <term><guilabel>Sufijo: </guilabel></term>
+			<listitem> <para> Escriba el sufijo si lo hay, por ejemplo «Jr.» o «III».
 			</para></listitem>
 		      </varlistentry>
 		    </variablelist>
                    </para>
 		</listitem>
-	        <listitem>
-		  <para>
-                    The <guilabel>Full Name</guilabel> field also
-                    interacts with the <guilabel>File As</guilabel>
-                    box to help you organize your contacts.
-                  </para>
-                  <para>
-                    To see how it works, type a name in the
-                    <guilabel>Full Name</guilabel> field:
-                    <userinput>Rupert T. Monkey</userinput>.  You'll
-                    notice that the <guilabel>File As</guilabel> field
-                    also fills up, but in reverse:
-                    <computeroutput>Monkey, Rupert</computeroutput>.
-                    You can pick <computeroutput>Rupert Monkey
-                    </computeroutput> from the drop-down, or type in
-                    your own, such as <userinput> T. Rupert Monkey
-                    </userinput>.
-                 </para>
-		  <tip>
-		    <title>Filing Suggestion</title>
-		   
-		    <para>
-                      Don't enter something entirely different from
-                      the actual name, since you might forget that
-                      you've filed Rupert's information under "F" for
-                      "Fictitious Ximian Employee."
-                    </para>
-		  </tip>
-		</listitem>
 	      </itemizedlist>
-             </para>
-           </listitem>
+	      </para>
+		<para> El  <guilabel>Nombre completo</guilabel> interactúa también con el botón  <guilabel>Guardar como</guilabel> a la hora de organizar sus contactos.
+		</para>
+	    <para> Para ver cómo funciona, escriba un nombre en el campo  <guilabel>Nombre completo</guilabel>. Como ejemplo, utilizaremos el nombre de la mascota de Ximian:  <userinput>Rupert T. Monkey</userinput>.  Observe cómo este nombre aparece también en el campo  <guilabel>Guardar como</guilabel>, pero al revés: <computeroutput>Monkey, Rupert</computeroutput>.  Puede seleccionar  <computeroutput>Rupert Monkey </computeroutput> en la lista desplegable, o escribirlo como prefiera, por ejemplo <userinput> T. Rupert Monkey </userinput>.
+		</para> <tip>
+	      <title>Sugerencias para introducir datos</title>
+	      <para> No utilice nombres completamente diferentes del nombre real, pues podría llegar a olvidar que introdujo los datos de Rupert bajo la «E» de «Empleado ficticio de Ximian», por ejemplo.
+              </para> </tip>
+	  </listitem>
 	</varlistentry>
-	<varlistentry>
-            <term>Multiple Values for Fields</term>
+	<varlistentry> <term>Valores múltiples en campos:</term>
             <listitem>
-	      <para>
-                If you click on the small arrow buttons next to the
-                <guilabel>Primary Email</guilabel> field, you can also
-                choose <guilabel>Email 2</guilabel> and
-                <guilabel>Email 3</guilabel>.  Although the contact
-                editor will only display one of those at any given
-                time, <application>Evolution</application> will
-                store them all.  The arrow buttons next to the
-                telephone and postal address fields work in the same
-                way.
+	      <para> Si hace clic en los iconos que apuntan hacia abajo junto al campo <guilabel>Correo electrónico principal</guilabel> puede seleccionar <guilabel>Correo electrónico 2</guilabel> y <guilabel>Correo electrónico 3</guilabel>.  El cliente  <application>Evolution</application> los almacena todos, aunque el editor de contacto sólo muestre uno de ellos a la vez.  Las entradas con información poseen una marca junto a ellas.  Los botones junto a los campos de teléfono y dirección postal funcionan del mismo modo.
               </para>
           </listitem>
 	</varlistentry>
       </variablelist>
      </para>
-     <para>
-      El último elemento en la pestaña <guilabel>General</guilabel> es la
-       herramienta de organización de <guilabel>Categorias</guilabel>, para
-       ver información acerca de ella, lea <xref
+     <para> El último elemento de la ficha  <guilabel>General</guilabel> es el de la herramienta de organización de las  <guilabel>Categorías</guilabel>. Para obtener información acerca de esta herramienta, consulte  <xref
        linkend="usage-contact-organize">.
      </para>
-     <para>
-       La pestaña de <guilabel>Detalles</guilabel> es, afortunadamente,
-       mucho más simple: tres secciones, las cuales son más o menos obvias:
-       la cartera al lado de los detalles acerca de la vida profesional del
-       contacto, la cara al lado de los detalles de su vida personal,
-       el globo terraqueo al lado de un gran espacio en blanco que puede
-       usar para cualquier cosa que quiera anotar.
-       Si alguna vez quiso tener ese poder sobrenatural de recordar oscuros
-       detalles como la fecha del aniversario de alguien (quiza del suyo
-       propio) esta es la manera de desarrollarlo.
-     </para>
+     <para> La ficha  <guilabel>Detalles</guilabel> es mucho más sencilla:
+      <itemizedlist>
+	<listitem>
+	  <para> El maletín - Para apuntes sobre el historial profesional
+	  </para>
+	</listitem>
+	<listitem>
+	  <para> La careta - Para apuntes sobre la persona
+	  </para>
+	</listitem>
+	<listitem>
+	  <para> El globo terráqueo - Para otros apuntes.
+	  </para>
+	</listitem>
+      </itemizedlist>
 
-
-
-
-<!--- ############# This section isn't implemented yet either:
-    <sect2>
-      <title></title>
-      <para>
-        <tip>
-	  <title>Contact Shortcuts</title>
-	  <para>
-            You can add cards from within an email message or calendar
-            appointment.  While looking at an email, right-click on
-            any email address or message, and choose
-            <guimenuitem>Create Card for this Address</guimenuitem> or
-            <guimenuitem>Create Card for this Sender</guimenuitem>
-            from the menu.  While looking at a calendar appointment,
-            right-click any email address, and choose
-            <guimenuitem>Create Card for this Address</guimenuitem>.
-            (NOTE that feature may change!  unimplemented!)
-          </para>
+      <tip>
+		<title>Atajos asociados a los contactos</title>
+		<para> 
+			Es posible agregar tarjetas a partir de un mensaje de correo o
+			de una cita del calendario.  Con el mensaje abierto, haga clic
+			con el botón derecho en cualquier dirección o mensaje de correo
+			electrónico, y elija en el menú 
+			<!-- esta opción no sale por ningún lado  <guimenuitem>Crear tarjeta con la dirección</guimenuitem> o -->
+			<guimenuitem>Añadir remitente a la libreta de direcciones</guimenuitem>.
+		</para> 
 	</tip>
-      </para>
-      <para>
-        You can move cards around just as you would move email
-        messages: dragging and dropping works, as does right-clicking
-        and choosing <guimenuitem>Move</guimenuitem> from the menu
-        that appears.
-      </para>
-    </sect2>
-############### SHORTCUT SECTION COMMENTED OUT FOR NOW -->
+    </para>
+  </sect1>
+
+  <sect1 id="contact-search">
+    <title>Búsqueda de contactos</title>
+    <para> <application>Evolution</application> es capaz de simplificar la búsqueda de contactos.
+    </para>
+    <para> Para buscar dentro de los contactos:
+      <orderedlist numeration="arabic">
+	<listitem>
+	  <para> Seleccione el elemento de búsqueda en la barra de búsqueda.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para> Escriba su consulta.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para> Presione intro para iniciar la búsqueda.
+	  </para>
+	</listitem>
+      </orderedlist>
+    </para>
+    <para> Para realizar una búsqueda compleja dentro de los contactos:
+      <orderedlist numeration="arabic">
+	<listitem>
+	  <para> Abra <menuchoice> <guimenu>Herramientas</guimenu> <guimenuitem>Buscar contactos</guimenuitem> </menuchoice>
+	  </para>
+	</listitem>
+	<listitem>
+	  <para> Escriba un nombre para la regla en el campo <guilabel>Nombre de la regla</guilabel>.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para> Configure el criterio de búsqueda en la sección  <guilabel>Si</guilabel>.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para> Si desea agregar otros criterios, haga clic en <guibutton>Añadir criterio</guibutton>.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para> Haga clic en <guibutton>Buscar</guibutton>.
+	  </para>
+	</listitem>
+      </orderedlist>
+    </para>
+    <para> 
+    	Para mostrar todos los contactos <!-- Esta parte parece que está
+    	obsoleta , seleccione <guibutton>Mostrar todo</guibutton> en la
+    	<guilabel>Barra de búsqueda</guilabel>, o --> realice una consulta con
+    	el campo vacío.
+    </para>
 
   </sect1>
 
   <sect1 id="usage-contact-organize">
-    <title>Organizando su Agenda de Direcciones</title>
-    <para>
-       Organizing your address book is a lot like organizing your
-       mail.  You can have folders and searches the same way you can
-       with mail, but the address book does not allow vFolders.  It
-       does, however, allow each card to fall under several
-       categories, and allow you to create your own categories.  To
-       learn about categories, read <xref
+    <title>Organización de la libreta de direcciones</title>
+    <para> La organización de la libreta de direcciones se asemeja mucho a la de sus mensajes.  Puede utilizar carpetas y búsquedas como hace con los mensajes, pero la libreta de direcciones no admite carpetas virtuales.  Sin embargo, sí permite clasificar cada tarjeta mediante numerosos criterios, así como crear criterios personales.  Acerca de las categorías, consulte  <xref
        linkend="usage-contact-organize-group-category">.
     </para>
 
-<!--
+<!-- UNIMPLEMENTED FEATURE
     <para>
       Another useful <application>Evolution</application> feature is
       its ability to recognize when people live or work together.  If
-      several people in your address book share an address, and you
+      several people in your addressbook share an address, and you
       change the address for one of them,
       <application>Evolution</application> will ask you if you wish to
       change the address for all of them, or just for one.
@@ -386,232 +216,131 @@
 
     <sect2 id="usage-contact-organize-group">
       <title>Grupos de contactos</title>
-      <para>
-         <application>Evolution</application> le ofrece dos maneras de
-         organizar sus tarjetas.  La primera es usando carpetas.
-         Esto funciona igual que las carpetas de correo.  Para más
-         flexibilidad, puede marcar los contactos como miembros de
-         diferentes categorías.
+      <para> <application>Evolution</application> dispone de dos métodos para organizar sus tarjetas.  El primer método son las carpetas; su funcionamiento es similar al de las carpetas de mensajes. Para mayor flexibilidad, puede utilizar marcas para asociar los contactos con diferentes categorías.  Además, para mejorar la integración con las herramientas de correo, es posible crear listas de contactos a cuya dirección puede escribir mensajes, como si se tratara de una persona individual.
       </para>
 
       <sect3 id="usage-contact-organize-group-folder">
-	<title>Agrupando con Carpatas</title>
-	<para>
-	   La manera más sencilla de agrupar tarjetas de direcciones es usar
-	   carpetas.  Por defecto, las tarjetas están en la carpeta
-	   <guilabel>Contactos</guilabel>.  Si ha leido <xref
-	   linkend="usage-mainwindow"> entonces sabrá que puede crear una nueva
-	   carpeta seleccionando 
-           <menuchoice>
-           <guimenu>Archivo</guimenu>
-	   <guisubmenu>Nuevo</guisubmenu>
-	   <guimenuitem>Carpeta</guimenuitem>
-           </menuchoice>
-           y que puede poner nuevas carpetas en cualquier sitio que quiera.
-	   Exactamente como con el correo, las tarjetas deben estar en una carpeta
-	   de tarjetas, y ninguna tarjeta puede estar en dos sitios a la vez.  Si
-	   quiere más flexibilidad, pruebe <xref
+	<title>Agrupación en carpetas</title>
+	<para> Las carpetas son la forma más sencilla de agrupar tarjetas de direcciones. De forma predeterminada, las tarjetas se encuentran originalmente en la carpeta  <guilabel>Contactos</guilabel>.  Si se leyó  <xref
+	   linkend="usage-mainwindow">, ya sabe cómo crear una carpeta nueva, con  <menuchoice> <guimenu>Archivo</guimenu> <guisubmenu>Nuevo</guisubmenu> <guimenuitem>Carpeta</guimenuitem> </menuchoice>, y que puede ubicarlas donde prefiera. Como ocurre con los mensajes, las tarjetas pueden colocarse en una carpeta asociada, y la misma tarjeta no puede aparecer en dos lugares a la vez.  Si desea mayor flexibilidad, consulte  <xref
 	   linkend="usage-contact-organize-group-category">.
 	 </para>
-	<para>
-          Para poner una tarjeta en una carpeta, simplemente arrastrela allí
-          desde la vista de carpetas.  Recuerde que las tarjetas de
-          contactos solo pueden estar en carpetas de contactos, como el
-          correo solo puede estar en carpetas de correo, y los calendarios
-          en carpetas de calendarios.
+	<para> Para colocar una tarjeta dentro de una carpeta, arrástrela desde la vista de carpetas.  Recuerde que las tarjetas de contactos sólo pueden moverse a carpetas específicas de tarjetas, del mismo modo que las carpetas de mensajes sólo admiten mensajes, y las carpetas de calendarios, sólo calendarios.
          </para>
       </sect3>
-      
+
       <sect3 id="usage-contact-organize-group-category">
-	<title>Agrupando con Categorías</title>
-	<para>
-           La otra manera de agrupar tarjetas es marcarlas como
-           pertenecientes a distintas categorias.  La diferencia entre
-           carpetas y categorias es que las carpetas contienen las tarjetas,
-           pero pertenecer a una categoría es una propiedad de cada tarjeta.
-           Lo que significa que puede marcar una tarjeta como perteneciente
-           a varias categorias o a ninguna.  Por ejemplo, yo pongo la
-           tarjeta de mi amigo Matthew en la categoría "Negocios", porque
-           trabaja conmigo, en la categoría "Amigos", porque tambien es mi
-           amigo, y en la categoría "Frecuente", porque le llamo
-           continuamente y nunca me acuerdo de su número de teléfono.
+	<title>Agrupación por categorías</title>
+	<para> El otro método para agrupar tarjetas consiste en marcarlas como pertenecientes a diferentes categorías. Por tanto, puede asociar una tarjeta con numerosas categorías, o no asociarla.  Por ejemplo, la tarjeta de mi amigo Mateo tiene asociadas las categorías «Trabajo», porque trabaja conmigo; «Amigos» porque también es un amigo mío; y «Frecuentes», porque siempre que le llamo, nunca recuerdo su número de teléfono.
         </para>
-	<para>
-           Para marcar una tarjeta como perteneciente a una categoría, pulse
-           botón <guibutton>Categorias</guibutton> abajo a la derecha.
-           De la ventana de diálogo que aparece, puede marcar tantas
-           categorías como quiera.
+	<para> Para asociar una tarjeta con una categoría, haga clic en <guibutton>Categorías</guibutton> en la parte inferior derecha.  En el cuadro de diálogo, active las casillas de todas las categorías que prefiera.
         </para>
-	<para>
-           Entonces, puede referirse a todas las tarjetas en esa categoría
-           haciendo: <!-- ARREGLAME --> Esperando a que Evolution soporte
-           la operación.
-         </para>
 
-       <!-- ARREGLAME: Caracteristica no implementeada
+       
+<!-- Feature Not Implemented
 	<para>
 
-           Si la lista principal de categorías no le es suficiente, puede
-           añadir las suyas propias.  Simplemente escriba el nombre de la
-           nueva categoría en la caja de texto, entonces pulse
-           <guibutton>Categorias</guibutton> y elija
-           <guilabel>Añadir a la Lista Principal</guilabel> en la ventana
-           aparece. 
+           If the master list of categories doesn't suit you, you can
+           add your own.  Just enter the new category's name in the
+           text box, then click <guibutton>Categories</guibutton> and
+           choose <guilabel>Add to Master List</guilabel> in the
+           window that appears.
          </para>
        -->
 
       </sect3>
+
+      <sect3 id="usage-contact-organize-group-list">
+	<title>Creación de una lista de contactos</title>
+	<para> Para crear una lista de contactos:
+
+         <orderedlist numeration="arabic">
+	    <listitem>
+	      <para> Abra el cuadro de diálogo de creación de lista: haga clic en 
+	       <menuchoice><guibutton>New</guibutton><guimenuitem>Lista de contactos</guimenuitem></menuchoice> o seleccione <menuchoice> <guimenu> Archivo </guimenu> <guisubmenu> Nuevo </guisubmenu> <guimenuitem> Lista de contactos </guimenuitem> </menuchoice>.
+               </para>
+	    </listitem>
+
+	    <listitem>
+	      <para> Escriba un nombre en la lista.
+              </para>
+	    </listitem>
+	    <listitem>
+	      <para> Escriba los nombres o direcciones de correo electrónico de los contactos, o arrástrelos desde la ventana principal, hasta la lista.
+              </para>
+	    </listitem>
+
+	    <listitem>
+	      <para> Especifique si prefiere ocultar las direcciones cuando envía un mensaje a la lista. A menos que se trate de una lista muy pequeña, se recomienda dejar ocultas estas direcciones.  Este funcionamiento es similar al de la característica «Bcc:», comentada en  <xref linkend="usage-mail-getnsend-send-to-types">.
+              </para>
+	    </listitem>
+
+	  </orderedlist>
+        </para>
+	<para> Cuando ha terminado, haga clic en <guibutton>Aceptar</guibutton>. La lista de contactos aparece como una tarjeta más, que puede utilizar como las demás. Esto incluye la posibilidad de enviar la lista a otra persona y, por supuesto, la de enviar un mensaje a la lista.
+        </para>
+	<para> Para enviar un mensaje a la lista, abra un mensaje nuevo y escriba el nombre correspondiente. Al enviarlo, Ximian Evolution transmitirá el mensaje a todos los miembros de la lista. También puede hacer clic con el botón derecho en la tarjeta correspondiente en la libreta de direcciones, y seleccionar <guimenuitem>Enviar un mensaje a la lista</guimenuitem>.
+        </para>
+        <para> Ximian Evolution no puede almacenar listas de contactos en servidores Exchange.
+        </para>
+
+      </sect3>
     </sect2>
   </sect1>
-  
+
   <sect1 id="usage-contact-sharing">
-    <title>Compartiendo sus Tarjetas</title>
-    <para>
-       Si tiene sus tarjetas en una red usando un servidor <glossterm
-       linkend="ldap">LDAP</glossterm>, puede compartir el acceso a ellas,
-       ver otras agendas, o mantener información de contacto compartida
-       para su compañía o su departamento.  Esta es la clase de
-       características que querrá si su compañía tiene una lista de
-       vendedores y clientes que necesita ser actualizada constantemente.
-       Si se comparten calendarios al igual que agendas, la gente puede
-       evitar duplicar trabajo y mantenerse al día en los desarrollos de su
-       grupo de trabajo o de la compañía entera.
+    <title>Protocolo LDAP: libretas de direcciones compartidas en red</title>
+
+    <para> El diseño del protocolo <glossterm linkend="ldap">LDAP</glossterm> permite a los usuarios compartir información de contactos en red, mediante accesos compartidos a una libreta de direcciones central.  El protocolo LDAP permite que una organización ponga un conjunto de contactos a la dispocición de sus miembros, o de un departamento.  Numerosas organizaciones conservan en una libreta LDAP las direcciones de todos sus empleados o los contactos de clientes.
     </para>
 
-     <example id="usage-contact-sharing-ex">
-	<title>Conpartiendo Tarjetas de Direcciones y Datos del Calendario</title>
-	  <para>
-	    Raul quiere concertar una reunión con la Compañía X, así que
-	    busca en la red la tarjeta de la Compañía X para saber a quien tiene
-	    que llamar.  Dado que su compañia comparte un calendario, ve que su
-	    compañera Diana ya ha concertado una reunión con la Compañía X para el
-	    próximo jueves.  Puede ir el mismo a la reunión o pedir a Diana que
-	    trate el tema por el.  De cualquier modo, evita concertar otra cita
-	    co la Compañía X. 
-	 </para>
-      </example>
-    <para>
-       Of course, you don't want to share all of your cards&mdash; why
-       overload the network with a list of babysitters or tell
-       everyone in the office you're talking to new job prospects?  If
-       you keep cards on your own computer, you can decide which items
-       you want to make accessible to others.
-    </para>
-    <para>
-       To learn how to add a remote directory to your available
-       contact folders, see <xref linkend="config-prefs-contact">.
-       Once you have a connection, the network contacts folder or
-       folders will appear inside the <guilabel>External
-       Directories</guilabel> folder in the folder bar.  It will work
-       exactly like a local folder of cards, with the following
-       exceptions:
+    <para> Para obtener información acerca de cómo agregar un directorio remoto dentro de sus carpetas de contactos disponibles, consulte <xref linkend="config-prefs-contact">. Tras establecer una conexión LDAP, la carpeta o las carpetas de contactos en red aparecerán dentro de la barra de carpetas bajo  <guilabel>Otros contactos</guilabel>.  Funciona exactamente como una carpeta de tarjetas locales, con las excepciones siguientes:
        <itemizedlist>
 
           <listitem>
-	  <para>
-              Network folders are only available when you are
-              connected to the network.  If you use a laptop or have a
-              modem connection, you may wish to copy or cache the
-              network directory and then synchronize your copy with
-              the networked version periodically.  <!-- FIXME: HOW? -->
-	  </para>
+	    <para> Las carpetas de red sólo están disponibles cuando se conecta a la red.  Si utiliza un equipo portátil o una conexión telefónica, conviene hacer una copia del directorio de red, o colocar éste en caché.  Para ello, arrastre los contactos deseados dentro de la lista de contactos local.
+	    </para>
 	  </listitem>
 
           <listitem>
-	  <para>
-              To prevent excess network traffic,
-              <application>Evolution</application> will not normally
-              load the contents of LDAP folders immediately upon
-              opening.  You must click <guilabel>Display
-              All</guilabel> before LDAP folder cards will be loaded
-              from the network. You can change this behavior in the
-              <interface>Contact Preferences</interface> window.
-          </para>
+	    <para> Para reducir el tráfico de red, <application>Evolution</application> no descarga normalmente el contenido de las carpetas LDAP en el mismo momento de conectar.  Es necesario hacer clic en <guilabel>Mostrar todo</guilabel> para descargar todo el contenido de la carpeta LDAP desde la red. Puede modificar este comportamiento en la ventana <interface>Preferencias de los contactos</interface>.
+	    </para>
 	  </listitem>
 	  <listitem>
-	  <para>
-              Your ability to view, change, add, and delete contacts
-              depends on the settings of the LDAP server. 
-          </para>
+	    <para> No puede agregar, eliminar o modificar las tarjetas del propio servidor LDAP. Si necesita modificar el contenido del servidor, póngase en contacto con el administrador del sistema.
+	    </para>
 	  </listitem>
-       </itemizedlist>
-     </para>
-  </sect1>
-
-  <sect1 id="usage-contact-automate">
-    <title>Herramientas de la Agenda de Direcciones</title>
-    <para>
-       The address book works closely with
-       <application>Evolution</application>'s mail and calendar tools.
-       For example, you can use the address book to help you manage
-       mailing lists, and send or recieve address cards over email.
-       More tools are on the way, and when they arrive, <!-- FIXME -->
-       they will be described in this section.
+	</itemizedlist>
     </para>
-
-    <sect2 id="contact-automation-basic">
-      <title>Envíame una Tarjeta: Añadiendo Tarjetas Rápidamente</title>
-      <para>
-	Como se ha visto antes, cuando obtiene información acerca de una
-	persona en el correo o en una entrada del calendario, puede añadirla
-	a una tarjeta de direcciones.  Para hacerlo, pulse con el botón
-	derecho en cualquier dirección de correo o mensaje de correo, y
-	seleccione <guimenuitem>Añadir Tarjeta de Direcciones</guimenuitem>
-	del menú que aparece.  Naturalmente,
-	<application>Evolution</application> tambien añade tarjetas desde un
-	dispositivo de mano durante la operación de sincronización.  Para más
-	información acerca de eso, vea <xref linkend="usage-sync">.
+    <sect2 id="usage-contact-sharing-setup">
+      <title>Configuración de Evolution para utilizar LDAP</title>
+      <para> Para más información acerca de cómo configurar el cliente  <application>Evolution</application> para que utilice el protocolo LDAP, consulte <xref linkend="config-prefs-contact-ldap-add" />
       </para>
     </sect2>
+  </sect1>
 
-    <sect2 id="contact-automation-lists">
-      <title>Administrando una Lista de Correo</title>
+  <sect1 id="contact-automation-basic">
+    <title>Cómo agregar tarjetas rápidamente</title>
+    <para> Como ya indicamos, puede crear una tarjeta con los datos de una persona, disponibles en un mensaje o una entrada del calendario. Para ello, haga clic con el botón derecho en cualquier dirección de correo o mensaje y seleccione <guimenuitem>Añadir a contactos</guimenuitem> en el menú. <application>Evolution</application> puede también leer las tarjetas de un dispositivo de mano durante una operación de sincronización (HotSync).  Para obtener más información, consulte <xref linkend="usage-sync">.
+    </para>
+  </sect1>
+
+<!-- Unimplemented features:
       <para>
-	 Ya sabe que cuando escribe un mensaje, puede dirigirlo a una o más
-	 personas, y que <application>Evolution</application> rellenará las
-	 direcciones con las direcciones de las tarjetas de su agenda si le
-	 deja.  Ademas, si quiere puede enviar mensajes a todos los de un
-	 grupo en particular.
-      </para>
-
-<!-- FIXME this feature not yet implemented 
-
-      <para>
-         You can also use the address book to print postal addresses
+         You can also use the addressbook to print postal addresses
 	 on mailing labels.  Future versions of
 	 <application>Evolution</application> will allow you to you
 	 export a group of cards to a spreadsheet, database, or word
 	 processor so you can print address labels or prepare large
 	 mailings.
       </para>
- -->
-
-    </sect2>
-<!---  FIXME this feature not yet implemented 
-    <sect2 id="usage-contact-automation-extra">
-      <title>Map It!</title>
-      <para>
-	 Need a map or directions? Click
-	 <guibutton>MapIt</guibutton> from within the contact
-	 manager, and <application>Evolution</application> will
-	 map the address for you online.
-      </para>
-    </sect2>
--->
-
-
-  </sect1>
-
-</chapter> 
-
-
-
-
-
-
-
-
-
+  <para>
+    Need a map or directions? Click <guibutton>MapIt</guibutton> from
+  within the addressbook, and <application>Evolution</application>
+  will map the address for you online.
+  </para>
+  -->
+</chapter>
 
 
 

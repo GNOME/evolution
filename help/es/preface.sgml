@@ -1,440 +1,223 @@
-<!--
-<!DOCTYPE preface PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
--->
+
+
+<!-- $Id: preface.sgml,v 1.3 2003/08/08 21:57:43 olea Exp $ -->
+<!-- Traducción: Ismael -->
+<!-- Revisión: irm 030504/final 030428/rápida -->
+
 
   <preface id="introduction">
-<!-- =============Introduction ============================= -->
-    <title>Introducción</title> 
+    <title>Introducción</title>
 
-    <sect1 id="what"> 
-      <title>¿Qué es Evolution, y qué puede hacer por mi?</title>
-      <para>
-       La información no sirve a menos que este organizada y sea accesible.
-       Ni si quiera se merece ese nombre si no puede mirarla y estar
-       <emphasis>informado</emphasis>.
-       El objetivo de <application>Evolution</application> es hacer que las
-       tareas de guardar, organizar, y obtener su información personal sean
-       más fáciles, para que pueda trabajar y comunicarse con otros. Esto
-       es, programa de <glossterm
-       linkend="groupware">trabajo en grupo</glossterm> altamente
-       evolucionado, una parte integral del escritorio conectado a Internet.
-       Por dentro, es una potente base de datos. Por fuera, es una
-       herramienta para ayudarle ha hacer su trabajo.
-      </para>
-      <para>
-        Como parte de proyecto GNOME,
-        <application>Evolution</application> is Software Libre.  El
-        programa y su código fuente están liberados bajo los términos de
-        la <ulink type="help" url="ghelp:gpl"><citetitle>General Public License "Licencia Pública
-        General" (GPL)</citetitle></ulink> de GNU, y la
-        documentación está bajo la <ulink type="help"
-        url="ghelp:fdl"><citetitle>Free Documentation
-        License "Licencia Libre de Documentación"</citetitle></ulink>
-        (FDL). Para más información acerca de la GPL y de la FDL,
-        visite el sitio web de la Free Software Foundation "Fundación para
-        el Software Libre" en <ulink
-        url="http://www.fsf.org">http://www.fsf.org</ulink>.
-      </para>
-      <para>
-        <note>
-           <title>Esta es una liberación de prueba</title>
-           <para>
-             <application>Evolution</application> no esta completa, y
-             todavía tiene muchos fallos.  Por favor ayúdenos a mejorarla
-             informandonos acerca de ellos.  Debe hacerlo enviando reportes
-             de fallo con la <application>Herramienta de Reportes de
-             Fallo</application> de GNOME (conocida como
-             <command>bug-buddy</command> en la línea de comandos).
-          </para>
-        </note>
-      </para>
+     <para> Bienvenido a la guía de usuario de Ximian Evolution y Ximian Connector para Microsoft Exchange 2000. Esta sección del manual es una introducción sobre un producto cuyo nombre adivina. Sin embargo, comenzaremos con algo información legal.
+     </para>
 
-      <para>
-        <application>Evolution</application> le puede ayudar a trabajar en
-        grupo encargandose del correo, direcciones y otra información
-        de contacto, y uno o más calendarios.  Puede hacerlo en uno o varios
-        ordenadores, conectados directamente o a traves de una red, para una
-        persona o para grandes grupos.
-      </para>
-      <para>
-        El proyecto de <application>Evolution</application> tiene cuatro
-        objetivos principales:
+      <sect1 id="actual-legal-info">
+          <title>Información legal y condiciones de licencia</title>
+       <para> Se concede permiso para copiar, distribuir y/o modificar este documento según los términos de la <quote lang="en">GNU Free Documentation License</quote> (Licencia GNU de Documentación Libre) versión 1.1 o cualquiera posterior publicada por la Free Software Foundation sin secciones invariantes ni textos de portada o contraportada. En el apéndice <xref linkend="apx-fdl"> encontrará una copia de la <citetitle>GNU Free Documentation License</citetitle>. También puede obtener una copia de la misma en el sitio web de la  <ulink type="http"          url="http://www.fsf.org">Free Software Foundation</ulink>, o escriba a: <foreignphrase>Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.</foreignphrase>.
+       </para>
 
-        <itemizedlist>
-	  <listitem>
-	    <para>
-             La aplicación debe ser <emphasis>al mismo tiempo potente
-             y facil de usar</emphasis>. En otras palabras, necesita una
-             interfaz familiar e intuitiva que los usuarios puedan
-             personalizar a su gusto, y los usuarios deben tener acceso a
-             atajos para tareas complicadas.
-            </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-              <application>Evolution</application> debe cumplir y
-              sobrepasar los estandares impuestos por otros programas de
-              trabajo en grupo.  Debe tener soporte para la mayor parte de
-              los <glossterm linkend="protocol">protocolos</glossterm>
-              de red para poder integrarse sin problemas con el hardware
-              y los entornos de red existentes.
-            </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-               El proyecto debe apoyar a los estandares abiertos y estar
-               abierto a la expansion, para que se pueda convertir en una
-               plataforma de desarollo tanto como en una aplicación.
-               Desde los guiones más simples a la programación de red y
-               componentes más compleja,
-               <application>Evolution</application> debe ofrecer a los
-               desarrolladores un entorno para el desarrollo de aplicaciones
-               de vanguardia.
-            </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-               Los datos deben ser seguros:
-               <application>Evolution</application> no debe perder correo,
-               corromper buzones u otra información, ejecutar
-               <glossterm linkend="script">guiones</glossterm> de
-               instruciones arbitrarios o borrar archivos de su disco duro.
-            </para>
-          </listitem>
-	</itemizedlist>
-      </para>
-      <para>
-        <application>Evolution</application> está diseñada para hacer la
-        mayoría de las tareas diarias más rápido.  Por ejemplo, solo
-        requiere una o dos pulsaciones introducir una nueva cita o una
-        tarjeta que le hayan enviado por correo, o enviar un correo a un
-        contacto o a una cita.  <application>Evolution</application>
-        hace las vistas más rápidas y eficientes, para que las búsquedas
-        sean más rápidas y el uso de la memoria sea menor.  Las personas
-        que reciben mucho correo apreciarán las características avanzadas
-        como las <link
-        linkend="usage-mail-organize-vFolders">Carpetas Virtuales</link>,
-        que le permiten guardar búsquedas como si fueran carpetas de correo
-        normales.
-      </para>
+       <para> La propia aplicación Ximian Evolution está bajo los auspicios de la <foreignphrase>GNU General Public License (GPL)</foreignphrase> (Licencia Pública General de GNU) y su código fuente está disponible en el repositorio cvs de GNOME en  <ulink url="http://cvs.gnome.org">cvs.gnome.org</ulink>. En el apéndice <xref linkend="apx-gpl"> encontrará una copia de la misma. También puede obtener una copia en el sitio web de la  <ulink type="http"          url="http://www.fsf.org">Free Software Foundation</ulink> o escriba a: <foreignphrase>Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.</foreignphrase>.
+       </para>
 
-  </sect1>
+        <para> Ximian Connector para Microsoft Exchange 2000 no es software libre. Existen ciertas restricciones de uso y no puede redistribuirse. Antes de descargárselo debe estar de acuerdo con los términos de la licencia que le serán (o habrán sido) presentados en la descarga. Si quiere revisar los términos de la licencia de Ximian Connector puede hacerlo en  <ulink          url="http://support.ximian.com/q?92">http://support.ximian.com/q?92</ulink>.
 
-  <sect1 id="aboutbook">
-      <title>Acerca de este Libro</title>
-    <!-- ************** FOLLOWING PARAGRAPH FOR DRAFT ONLY ************* -->
-      <para>
-        Esta versión de la Guía de Usuario de
-        <application>Evolution</application> es un
-        <emphasis>borrador</emphasis>. Describe la versión 0.6 del
-        programa.  Le faltan grandes piezas de información, y muchas de
-        las arecteristicas que describe no están implementadas.
-        Todo el contenido esta sujeto a cambios, especialmente si usted
-        colabora.  Por favor ebvie comentarios sobre la guía a
-        <email>aaron@ximian.com</email> y sobre la traducción a
-        <email>hector@scouts-es.org</email>. Si le gustaría colaborar en la
-        guía por favor pongase en contacto conmigo o vea el <ulink
-        url="http://developer.gnome.org/projects/gdp">sitio
-        web</ulink> del proyecto de Documentación de GNOME.  Este párrafo
-        será eliminado en futuras versiones del manual.
-      </para>
-    <!-- ************* END DRAFT ONLY PARAGRAPH ************** -->
+       </para>
+       </sect1>
 
-      <para>
-        Thite libro está dividido en dos partes, con varios apendices.
-        La primera parte es una <link linkend="usage">visita
-        guiada</link>&mdash; le explicará como usar
-        <application>Evolution</application>.  Si es nuevo en el uso de
-        <application>Evolution</application> o de los programas de trabajo
-        en grupo en general, esta sección es para usted. La segunda sección,
-        cubriendo la <link linkend="config">configuración</link>, está
-        dirijida a usuarios más avanzados, pero cualquiera que quiera
-        cambiar el aspecto o el comportamiento de
-        <application>Evolution</application> se beneficiará de su lectura.
-        Ademas, hay una <link linkend="menuref">referencia de menús</link>
-        que describe casi todas las posibilidades que ofrece
-        <application>Evolution</application>.
+      <sect1 id="organization">
+        <title>Cómo está organizado este libro</title>
+      <para> Este libro se divide en dos partes, más varios anexos. La primera parte es una <link linkend="usage">guía paso a paso</link> que le explicará cómo utilizar <application>Evolution</application>.  Si no está familiarizado con <application>Evolution</application> o las aplicaciones de trabajo en grupo en general, esta sección es para usted. La segunda parte describe la configuración y está orientada a usuarios más avanzados, pero cualquiera que quiera cambiar la apariencia o comportamiento de <application>Evolution</application> sacará provecho de su lectura.
       </para>
-      <formalpara>
-        <title>Convenios Tipográficos</title>
-	<para>
-          Algunas clases de palabras están escritas con una tipografía especial:
+      </sect1>
+
+      <sect1 id="typography">
+        <title>Convenciones tipográficas</title>
+        <para> Determinadas palabras de este documento utilizan una tipografía particular:
           <simplelist>
 	    <member><application>Aplicaciones</application></member>
-	    <member><command>Comandos</command> escritos en la línea de comandos</member>
-	    <member><guilabel>Etiquetas</guilabel> de elementos de la interfaz</member>
+	    <member><command>Órdenes</command> que se escriben en la línea de órdenes</member>
+	    <member><guilabel>Etiquetas</guilabel> para botones y otras partes del interfaz gráfico</member>
 
-            <member> La opcciones de los menús aparecen así:
-                       <menuchoice>
-                          <guimenu>Menú</guimenu>
-                          <guisubmenu>Sub-menú</guisubmenu> 
-                          <guimenuitem>Opción del Menú</guimenuitem>
-                     </menuchoice>
-            </member>
-	    <member><guibutton>Butones</guibutton> que puede pulsar</member>
-            <member><userinput>Cualquier cosa que
-            escribe</userinput></member> <member><computeroutput>Salida
-            del ordenador en texto</computeroutput></member>
-            <member><glossterm linkend="apx-gloss">Palabras</glossterm>
-            que están definidas en el <xref linkend="apx-gloss">.</member>
+            <member>Las referencias a menús se parecerán a esto: <menuchoice> <guimenu>Menú</guimenu> <guisubmenu>Submenú</guisubmenu> <guimenuitem>Elemento del menú</guimenuitem> </menuchoice>
+            </member> <member><guibutton>Botones</guibutton> en los que puede hacer clic</member> <member><userinput>Cualquier cosa que pueda escribir</userinput></member> <member> <computeroutput> Texto escrito en la pantalla</computeroutput></member>
+	  <member><glossterm linkend="apx-gloss">Palabras</glossterm> que puedan estar definidas en el <xref linkend="apx-gloss">.</member>
 	  </simplelist>
+</para>
+<para> También se ofrecen numerosos detalles adicionales en consejos diferenciados del resto del libro.
+
+	  <tip id="example-tip">
+	      <title>Consejo</title>
+	      <para> Los consejos y detalles de información adicionales tendrán una apariencia como esta.
+	      </para>
+	    </tip>
+</para>
+
+<para> Los ejemplos también se diferencian del resto del libro. Tienen una apariencia como esta:
+
+	  <example>
+	    <title>Ejemplo de ejemplo</title>
+	    <para> Este es el aspecto de un ejemplo. Ofreceremos ejemplos para algunas de las tareas más complicadas que podría realizar.
+	    </para>
+	  </example>
+</para>
+<para> Finalmente, encontrará advertencias para casos en los es necesario prestar especial atención:
+
+	    <warning id="example-warning">
+	      <title>Ejemplo de advertencia</title>
+	      <para> Este es el aspecto de una advertencia. Si existe algún riesgo de problema, se lo avisamos de antemano.
+	      </para> </warning>
         </para>
-      </formalpara>
-  </sect1>
-  <sect1 id="commontasks">
-    <title>Referencia Rápida para Tareas Comunes</title>
-    <para>
-        Puede que quiera copiar esta sección y pegarla a la pared de al lado
-        de su ordenador: es un resumen muy corto de la mayoría de las cosas
-        que querrá hacer con <application>Evolution</application>, y 
-        referencias a las secciones del libro donde encontrará descripciones
-        más profundas de dichas tareas.
-    </para>
-    <sect2 id="quickref-newthings">
-      <title>Abriendo o Creando algo</title>
-      <para>
-         Aquí están los atajos de teclado y las opciones del menú que
-         probablemente sean las que mas use:
-         
-          <variablelist>
+    </sect1>
 
-	  <varlistentry>
-	    <term>Crear una nueva carpeta</term>
-	    <listitem>
-	      <para>
-                <menuchoice><guimenu>Archivo</guimenu><guisubmenu>Nuevo</guisubmenu>
-                <guimenuitem>Carpeta</guimenuitem></menuchoice> o
-                <keycombo action="simul">
-		  <keycap>Ctrl</keycap>
-		  <keycap>Shift </keycap>
-		  <keycap>C</keycap>
-                </keycombo>
-                </para>
-	    </listitem>
-	  </varlistentry>
 
-	  <varlistentry>
-	    <term>Crear un nuevo Atajo en la Barra de Evolution</term>
-	    <listitem>
-	      <para>       
-                  <menuchoice><guimenu>Archivo</guimenu>
-		  <guisubmenu>Nuevo</guisubmenu>
-		  <guimenuitem>Atajo de Evolution</guimenuitem> </menuchoice> o 
-                <keycombo action="simul">
-		  <keycap>Ctrl</keycap>
-		  <keycap>Shift</keycap>
-		  <keycap>A</keycap>
-                </keycombo>
-                </para>
-	    </listitem>
-	  </varlistentry>
+    <sect1 id="other-help">
+      <title>Fuentes adicionales de ayuda </title>
+      <para> Dispone de tres fuentes de ayuda. Para informarse de las opciones de la línea de órdenes, abra una ventana de una terminal y escriba <command> man evolution</command> o <command>evolution --help</command>.  Para acceder a la asistencia técnica, noticias de última hora y erratas, visite el centro de asistencia de Ximian en  <ulink         url="http://support.ximian.com">support.ximian.com</ulink>.
 
-	  <varlistentry>
-	    <term>Crear un nuevo mensaje de correo:</term>
+      </para>
+    </sect1>
+
+    <sect1 id="whats-new-in-one-two">
+      <title>Novedades de Evolution 1.2</title>
+      <para> Si ya está familiarizado con Ximian Evolution 1.0, la nueva versión aporta numerosas novedades. Aquí están algunas de las prestaciones nuevas o modificadas. Ximian Connector para Microsoft Exchange también tiene nuevas características.
+        <variablelist>
+	  <varlistentry> <term>Interfaz de configuración de Evolution</term>
 	    <listitem>
-	      <para>
-                Use
-                <menuchoice><guimenu>Archivo</guimenu><guisubmenu>Nuevo</guisubmenu><guimenuitem>Mensaje de 
-                Correo</guimenuitem>  </menuchoice> o 
-                <keycombo action="simul">
-		  <keycap>Ctrl</keycap>
-		  <keycap>Shift </keycap>
-		  <keycap>M</keycap>
-                </keycombo>
+	      <para> Los diálogos de preferencias han sido completamente revisados. Ahora hay una única ventana de diálogo para la configuración de todos los componentes del programa a la que puede acceder desde cualquier parte. Para cambiar sus preferencias elija <menuchoice> <guimenu>Herramientas</guimenu> <guimenuitem>Preferencias</guimenuitem></menuchoice>.
               </para>
 	    </listitem>
 	  </varlistentry>
 
-	  <varlistentry>
-	    <term>Crear una nueva Cita</term>
+
+	  <varlistentry> <term>Función autocompletar del editor de correo</term>
 	    <listitem>
-	      <para>       
-                  <menuchoice><guimenu>Archivo</guimenu>
-		  <guisubmenu>Nuevo</guisubmenu>
-		  <guimenuitem>Cita</guimenuitem> </menuchoice>  o 
-                <keycombo action="simul">
-		  <keycap>Ctrl</keycap>
-		  <keycap>Shift</keycap>
-		  <keycap>T</keycap>
-                </keycombo>
-                </para>
+	      <para> Las direcciones de correo electrónico en el editor de mensajes pueden obtenerse de libretas de direcciones LDAP. En la sección <guilabel>Carpetas</guilabel> del diálogo de Configuración se puede agregar su libreta de direcciones a la lista de carpetas en donde harán las búsquedas de direcciones para la función de autocompleto.
+         </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry> <term>Mejoras de rendimiento</term>
+	    <listitem>
+	      <para> El tiempo de arranque ha disminuido, las interacciones con el servidor POP ahora son más eficientes y la indexación del correo local es ahora más rápida.
+	      </para>
 	    </listitem>
 	  </varlistentry>
 
 
-	  <varlistentry>
-	    <term>Introducir un nuevo Contacto</term>
+	  <varlistentry> <term>Mejoras HTML en el editor de correo</term>
 	    <listitem>
-	      <para>       
-                  <menuchoice><guimenu>Archivo</guimenu>
-		  <guisubmenu>Nuevo</guisubmenu>
-		  <guimenuitem>Contacto</guimenuitem> </menuchoice>  o 
-                <keycombo action="simul">
-		  <keycap>Ctrl</keycap>
-		  <keycap>Shift</keycap>
-		  <keycap>C</keycap>
-                </keycombo>
-                </para>
+	      <para> Al pegar al editor de correo desde otro mensaje o desde una página web se mantiene el formato HTML del documento original. Ahora se ven más claros cuando hay varios niveles de mensajes citados y una línea vertical azul señala las citas. Las <quote>caritas</quote> de texto ahora son convertidas a pequeñas imágenes automáticamente que reproducen el emoticón apropiado. Puede desactivar esta opción en la sección <guilabel>Editor de correo</guilabel> de la Configuración.
+
+          </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry> <term>Editor de firmas</term>
+	    <listitem>
+	      <para> Ahora existe un editor de firmas para crear firmas en formato de texto puro o HTML. Elija la ficha <guilabel>Firmas</guilabel> en la sección <guilabel>Editor de correo</guilabel> de la Configuración.
+              </para>
 	    </listitem>
 	  </varlistentry>
 
 
-	  <varlistentry>
-	    <term>Crear una nueva Tarea</term>
+	  <varlistentry> <term>Revisión de la navegación con teclado</term>
 	    <listitem>
-	      <para>       
-                  <menuchoice><guimenu>Archivo</guimenu>
-		  <guisubmenu>Nuevo</guisubmenu>
-		  <guimenuitem>Tarea</guimenuitem>  </menuchoice> o 
-                <keycombo action="simul">
-		  <keycap>Ctrl</keycap>
-		  <keycap>Shift</keycap>
-		  <keycap>T</keycap>
-                </keycombo>
-                </para>
+          <para> Todas las letras empleadas aisladamente cambian de función. Por ejemplo las teclas <keycap>N</keycap> y <keycap>P</keycap> ya no sirven para avanzar o retroceder en los mensajes. La presión de una letra ahora le conduce al mensaje más próximo cuyo contenido en la columna de ordenación empiece por esa letra. Así, si pulsa N y tiene ordenados los mensajes por remitentes podrá moverse al mensaje enviado por Natalia. Si la ordenación es por asunto podrá saltar al que habla de nectarinas. El desplazamiento en la lista de carpetas es similar.
+         </para>
+	      <para> Esto significa que los antiguos atajos de una sola letra han cambiado también. Los atajos nuevos son:
+                <simplelist>
+		  <member> <keycap>,</keycap> (coma) y <keycap>.</keycap> (punto) son los nuevos atajos de teclado para avanzar a los mensajes sin leer siguiente y anterior. También puede utilizar los corchetes <keycap>]</keycap> y <keycap>[</keycap>.
+                 </member>
+		 <member> <keycap>`</keycap> cambia la vista del panel de previsualización.
+                 </member>
+		</simplelist> Los atajos que utilizan la tecla <keycap>Ctrl</keycap> no han sido modificados.
+             </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry> <term>Característica mejorada del botón <quote>Nuevo</quote></term>
+	    <listitem>
+	      <para> El botón  <guibutton>Nuevo</guibutton> ahora tiene un menú junto a él. Como en Evolution 1.0, si hace clic en este botón, se abre un nuevo elemento, el que corresponda al tipo de herramienta Evolution utilizado en aquel momento. Sin embargo, si hace clic en el pequeño menú de la flecha a la derecha del botón, encontrará opciones que le permitirán crear nuevos elementos para el resto de Evolution: citas para todo el día, citas normales, tareas y reuniones en el calendario; mensajes en la herramienta de correo y contactos, y listas de contactos en el administrador de contactos.
+
+         </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry> <term>La herramienta de importación ahora importa los filtros de Netscape</term>
+	    <listitem>
+	      <para> Ahora puede importar los filtros así como sus mensajes de correo electrónico desde su cliente de correo Netscape.
+         </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry> <term> Internacionalización de los nombres de las carpetas</term>
+	    <listitem>
+	      <para> Ahora puede utilizar caracteres Unicode (UTF-8) en los nombres de carpetas IMAP.
+         </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry> <term>El resumen ejecutivo ahora lee IMAP</term>
+	    <listitem>
+	      <para> La herramienta de resumen ejecutivo de Evolution ahora muestra mensajes en carpetas IMAP al igual que las carpetas locales de correo.
+         </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry> <term>Los filtros y las carpetas virtuales reconocen correctamente las carpetas borradas o renombradas</term>
+	    <listitem>
+	      <para> Las carpetas virtuales y los filtros son actualizados cuando mueve o borra alguna carpeta utilizada por ellos.
+
+         </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry> <term>Característica de <quote>Ubicación original</quote> de las carpetas virtuales</term>
+	    <listitem>
+	      <para> Las carpetas virtuales (vFolder) ahora pueden mostrar la carpeta real de cada mensaje que contienen. Para conseguirlo, haga clic con el botón derecho sobre los encabezados de columnas en la lista de mensajes de cualquier carpeta virtual, elija <guimenuitem>Añadir una columna</guimenuitem> y arrastre el elemento <guibutton>Ubicación original</guibutton> a la posición deseada.
+         </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry> <term>Nuevas condiciones y acciones</term>
+	    <listitem>
+	      <para> Ahora hay nuevas condiciones y acciones que incluyen marcas para los mensajes, por ejemplo, la <guilabel>Marca de seguimiento</guilabel>.
+         </para>
+	    </listitem>
+	  </varlistentry>
+
+         <varlistentry> <term>Selección de carpetas para el modo desconectado</term>
+	    <listitem>
+          <para> Ahora puede elegir qué carpetas remotas quiere tener en <quote>caché</quote>, para trabajar con ellas en modo desconectado. Puede modificar esta configuración en la sección Carpetas de la ventana Configuración de Evolution.
+          </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry> <term>Nueva prestación para redirigir (rechazar) mensajes</term>
+	    <listitem>
+	      <para> Esta característica es conocida con frecuencia como <quote>Rechazar</quote> o <quote>Reenviar</quote>. Para redirigir un mensaje con todas sus cabeceras internas intactas en lugar de reenviarlo normalmente, seleccione el mensaje y elija el menú <menuchoice> <guimenu> Acciones </guimenu> <guisubmenu> Reenviar </guisubmenu> <guimenuitem> Redirigir </guimenuitem> </menuchoice>.
+             </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry> <term>Vista resumen de mensajes reenviados</term>
+	    <listitem>
+	      <para> Los mensajes que contienen varios mensajes reenviados se muestran ahora como un resumen en lugar de dentro o que series de adjuntos.
+         </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry> <term>Aviso de correo nuevo</term>
+	    <listitem>
+	      <para> Cuando llega correo nuevo, Evolution puede emitir un pitido o reproducir el fichero de audio que especifique.
+         </para>
 	    </listitem>
 	  </varlistentry>
 
 	</variablelist>
       </para>
-    </sect2> 
-    <sect2 id="quickref-mail">
-      <title>Enviar Tareas por Correo</title>
-      <para>
-        Aquí están las tareas más comunes con el correo, y los
-        atajos para manejarse por su buzón con el teclado en lugar
-        de con el ratón:
-         <variablelist>
-	  <varlistentry>
-	    <term>Comprobar Correo</term>
-	    <listitem>
-	      <para>
-                Pulse <guibutton>Obtener</guibutton> en la barra de
-                herramientas. No hay atajo de taclado para esto,
-                pero puede pedir a <application>Evolution</application>
-                que obtenga los nuevos mensajes periodicamente. Para
-                hacerlo, FIXME.
-                </para>
-	    </listitem>
-	  </varlistentry>
-
-          <varlistentry>
-	    <term>Responder a un Mensaje</term>
-	    <listitem>
-	      <para>
-                Para responder al remitente de un mensaje tan solo debe:
-                pulsar <guibutton>Responder</guibutton> en la barra de
-                herramientas, o pulsar
-                <keycombo action="simul">
-		  <keycap>Ctrl</keycap>
-		  <keycap>R</keycap>
-                </keycombo>
-                </para>
-	      <para>
-                Para responder al remitente y a todos los destinatarios
-                visibles del mensaje, pulse <guibutton>Responder a
-                Todos</guibutton> o seleccione el mensaje y pulse
-                <keycombo action="simul">
-		  <keycap>Shift</keycap>
-		  <keycap>Ctrl</keycap>
-		  <keycap>R</keycap>
-                </keycombo>
-              </para>
-	    </listitem>
-	  </varlistentry>
-	  
-          <varlistentry>
-	    <term>Reenviar un Mensaje</term>
-	    <listitem>
-	      <para>
-                Sleccione el mensaje o mensajes que quiere reenviar,
-                y pulse <guibutton>Reenviar</guibutton> en la barra de
-                herramientas, o pulse
-                <keycombo action="simul">
-		  <keycap>Ctrl</keycap>
-		  <keycap>J</keycap>
-                </keycombo>
-                </para>
-	    </listitem>
-	  </varlistentry>
-
-          <varlistentry>
-	    <term>Abrir un Mensaje en una Nueva Ventana</term>
-	    <listitem>
-	      <para>
-                Pulse dos veces sobre el mensaje que quiere ver, o
-                seleccionelo y pulse
-                <keycombo action="simul">
-		  <keycap>Ctrl</keycap>
-		  <keycap>O</keycap>
-                </keycombo>
-                </para>
-	    </listitem>
-	  </varlistentry>
-
-          <varlistentry>
-	    <term>Crear Filtros y Carpetas Virtuales</term>
-	    <listitem>
-	      <para>
-                Puede crear filtros y carpetas virtuales basados en las
-                caracteristicas de un mensaje específico desde el menú que
-                aparece al pulsar el botón derecho del ratón.  
-                Alternativamente, seleccion un mensaje, y elija
-                <menuchoice><guimenu>Configuración</guimenu>
-                <guimenuitem>Filtros de Correo</guimenuitem> </menuchoice>
-                o <menuchoice> <guimenu>Configuración</guimenu>
-                <guimenuitem>Editor de Carpetas Virtuales</guimenuitem>
-                </menuchoice>.  Los filtros se discuten en <xref
-                linkend="usage-mail-organize-filters">, y las carpetas
-                virtuales en <xref
-                linkend="usage-mail-organize-vfolders">.
-            </para>
-	    </listitem>
-	</varlistentry>
-	</variablelist>
-
-        </para>
-      </sect2>
-      <sect2 id="quickref-cal">
-        <title>Calendario</title>
-        <para>
-        <variablelist>
-	  <varlistentry>
-	    <term></term>
-	    <listitem>
-	      <para>
-               </para>
-	    </listitem>
-	    </varlistentry>
-	  </variablelist>
-
-        </para>
-      </sect2>
-      <sect2 id="quickref-contact">
-        <title>Administrador de Contactos</title>
-        <para>
-
-
-        <variablelist>
-	  <varlistentry>
-	    <term></term>
-	    <listitem>
-	      <para>
-               </para>
-	    </listitem>
-	    </varlistentry>
-	  </variablelist>
-
-
-        </para>
-      </sect2>
     </sect1>
-  </preface>
-
-
-
-
-
+</preface>
 
 
 

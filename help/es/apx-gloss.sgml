@@ -1,459 +1,180 @@
+
+
+<!-- $Id: apx-gloss.sgml,v 1.2 2003/08/08 21:57:43 olea Exp $ -->
+<!-- Traducción: Ismael -->
+<!-- Revisión: irm 030504/final 030428/rápida -->
+
+
 <glossary id="apx-gloss">
 
- <title>Glosario</title>
+  <title>Glosario</title>
 
- <glossentry id="attachment">
-  <glossterm>Adjunto</glossterm>
-  <glossdef>
-   <para>
-    Cualquier archivo enviado junto con el mensaje de correo.  Los adjuntos
-    pueden estar insertados dentro del mensaje o añadidos a el.
-   </para>
-  </glossdef>
- </glossentry>
-
-<glossentry id="automatic-indexing">
-  <glossterm>Indexado Automático</glossterm>
-  <glossdef>
-   <para>
-     El procedimiento de pre-ordenado que permite a
-     <application>Evolution</application> encontrar la información
-     rápidamente.  Permite búsquedas más rápidas y disminuye el uso de la
-     memoria para mostrar datos.
-   </para>
-  </glossdef>
- </glossentry>
-
- <glossentry id="bcc">
-  <glossterm>Cco (Con Copia Oculta)</glossterm>
-  <glossdef>
-   <para>
-    Una manera de dirigir un mensaje.  Bcc es usado para enviar un mensaje
-    a un grupo de personas, a la vez que se ocultan los nombres y
-    direcciones de unos a los otros.
-   </para>
-  </glossdef>
- </glossentry>
-
- <glossentry id="cc">
-  <glossterm>Cc (Con Copia)</glossterm>
-  <glossdef>
-   <para>
-    Con-Copia es usado para enviar una copia del mensaje a una 3º persona,
-    para que puedan enterarse de la conversación, sin estar en la lista de
-    A:
-   </para>
-  </glossdef>
- </glossentry>
-
- <glossentry id="conduit">
-  <glossterm>Enlaze</glossterm>
-  <glossdef>
-   <para>
-     Un enlaze de sincronización es una pequeña aplicación que controla la
-     transferencia de información entre un dispositivo de mano y un
-     ordenador.
-   </para>
-  </glossdef>
- </glossentry>
+  <glossentry id="attachment"> <glossterm>Adjunto:</glossterm> <glossdef>
+   <para> Cualquier archivo enviado por correo electrónico. Los adjuntos pueden estar empotrados dentro de un mensaje o anexados a él.
+   </para> </glossdef> </glossentry>
 
 
- <glossentry id="druid">
-  <glossterm>Ayudante</glossterm>
-  <glossdef>
-   <para>
-    Una herramienta que guía al usuario a través de una serie de pasos,
-    normalmente para configurar un programa.  Equivalente a "Asistente"
-    y "Wizard".
-   </para>
-  </glossdef>
- </glossentry>
+  <glossentry id="search-scope"> <glossterm>Ámbito de búsqueda:</glossterm> <glossdef>
+      <para> El ámbito de búsqueda declara en qué parte de la   <glossterm
+      	linkend="search-base">base de búsqueda</glossterm> buscar.
+      </para> </glossdef> </glossentry>
 
-<glossentry id="emoticon">
-  <glossterm>Emoticon</glossterm>
-  <glossdef>
-   <para>
-     También llamados "smileys", los emoticones son pequeñas caras puestas
-     de lado echas de puntos y paréntesis que la gente usa para expresar
-     emociones en los correos electrónicos. Ejemplos: :-) ó ;(  .
-   </para>
-  </glossdef>
- </glossentry>
+ <glossentry id="filetree"> <glossterm>Árbol de archivos:</glossterm> <glossdef>
+   <para> Una descripción imaginaria de los grupos de archivos del sistema. Con la perversidad típica de la nomenclatura informática (especialmente en Unix y Linux), la parte superior de ese árbol se llama el directorio raíz (<quote>root</quote>) y se indica con el carácter <filename>/</filename>. El resto de las <quote>ramas</quote> cuelgan de la raíz. No confunda el directorio raíz con la cuenta del superusuario (<quote>root</quote>) ni con el directorio de inicio del superusuario (<filename>/root</filename>).
+   </para> </glossdef> </glossentry>
 
- <glossentry id="evolution">
-  <glossterm>Evolution</glossterm>
-  <glossdef>
-   <para>
-    <application>Evolution</application> es la aplicación de trabajo en
-    grupo de <acronym>GNOME</acronym>.
-   </para>
-  </glossdef>
- </glossentry>
+  <glossentry id="assistant"> <glossterm>Asistente:</glossterm> <glossdef>
+      <para> Una herramienta que guía al usuario a través de una serie de pasos, normalmente para configurar un programa. Equivalente a un <quote>druida</quote> o un <quote>wizard</quote>.
+      </para> </glossdef> </glossentry>
 
- <glossentry id="execute">
-  <glossterm>Ejecutar</glossterm>
-  <glossdef>
-   <para>
-    Para ejecutar un programa.  Cualquier archivo que se puede ejecutar
-    se llama ejecutable.  <application>Evolution</application> puede
-    descargar ejecutables adjuntos, pero antes de poder ejecutarlos, el
-    archivo debe ser marcado como ejecutable a través de una shell o un
-    administrador de archivos.  Esta precaución de seguridad previene contra
-    la ejecución automática o accidental de programas maliciosos. Para más
-    información acerca de archivos ejecutables y permisos de archivos,
-    consulte la documentación de su administrador de archivos o de su shell.
-   </para>
-  </glossdef>
- </glossentry>
+  <glossentry id="shortcut-bar"> <glossterm>Barra de atajos:</glossterm> <glossdef>
+      <para> Una parte de <application>Evolution</application> que permite a los usuarios acceso rápido a las porciones más usadas de la aplicación.
+      </para> </glossdef> </glossentry>
+
+  <glossentry id="search-base"> <glossterm>Base de búsqueda:</glossterm> <glossdef>
+      <para> LDAP puede dividir las listas de contactos en varios grupos. La base de búsqueda indica la parte superior del grupo utilizado. La opción <glossterm linkend="search-scope">ámbito de búsqueda</glossterm> indica en qué parte de la base de búsqueda se realizará esta.
+      </para> </glossdef> </glossentry>
+
+ <glossentry id="bcc"> <glossterm>Bcc (Copia oculta del mensaje):</glossterm> <glossdef>
+   <para> Del inglés <quote lang="en">Blind Carbon Copy</quote>, una manera de asignar el destinatario de un mensaje. Permite enviar un mensaje a un grupo de destinatarios sin que ninguno pueda ver la dirección de los demás.
+   </para> </glossdef> </glossentry>
+
+ <glossentry id="cc"> <glossterm>Cc (Con copia):</glossterm> <glossdef>
+   <para> Un método para mandar una copia del mensaje a una tercera persona, con el fin de mantenerla al tanto de la conversación, sin que pertenezca a la lista principal de destinatarios.
+   </para> </glossdef> </glossentry>
 
 
- <glossentry id="filetree">
-  <glossterm>Árbol de Archivos</glossterm>
-  <glossdef>
-   <para>
-     Un forma de describir un conjunto de archivos en un ordenador.  Con
-     la especial perversión de la típica nomenclatura de ordenadores
-     (y especialmente en Unix y Linux), la parte más alta del árbol se
-     llama el directorio raíz, y se denota por <systemitem><filename>/
-     </filename></systemitem>.  El resto de las "ramas" se extienden
-     desde la raíz.  No confundir el directorio raíz (root en ingles) con
-     la cuenta <systemitem>root</systemitem>, o con el directorio del
-     usuario root, <systemitem><filename>/home/root</filename></systemitem>.
-   </para>
-  </glossdef>
- </glossentry>
+ <glossentry id="public-key-encryption"> <glossterm>Cifrado de clave pública:</glossterm> <glossdef>
+   <para> Un poderoso método de cifrado que usa un par de <quote>claves</quote>; una de ellas es pública y la otra es guardada en privado. Los datos cifrados con la clave pública sólo pueden ser descifrados con la clave privada. Cuanto más largas sean las claves más difícil será romper el cifrado.
+   </para> </glossdef> </glossentry>
 
- <glossentry id="filter">
-  <glossterm>Filtro</glossterm>
-  <glossdef>
-   <para>
-    Dentro de <application>Evolution</application>, un filtro es un método
-    para ordenar el correo automáticamente.  Puede crear filtros para
-    realizar una o más acciones sobre un mensaje que cumple alguno (o todos)
-    de los requisitos de un amplio rango de criterios.
-   </para>
-  </glossdef>
- </glossentry>
+  <glossentry id="mail-client"> <glossterm>Cliente de correo:</glossterm> <glossdef>
+      <para> Un cliente de correo es una aplicación con la que una persona lee y envía correo electrónico. Sus interlocutores son los varios tipos de servidores de correo que manejan la autenticación de usuarios y dirigen los mensajes del remitente al destinatario.
+      </para> </glossdef> </glossentry>
 
- <glossentry id="forward">
-  <glossterm>Reenviar</glossterm>
-  <glossdef>
-   <para>
-       el usuario puede enviar un mensaje a una tercera persona    que originalmente le fue enviado a el.
-   </para>
-  </glossdef>
- </glossentry>
+ <glossentry id="conduit"> <glossterm>Conducto:</glossterm> <glossdef>
+   <para> Pequeña aplicación que controla la transferencia de datos entre un PDA y su escritorio.
+   </para> </glossdef> </glossentry>
 
- <glossentry id="groupware">
- <glossterm>Trabajo en Grupo</glossterm>
-  <glossdef>
-   <para>
-    Trabajo en Grupo es un término que describe la aplicación que ayuda a
-    grupos de persones a trabajar juntas.  Típicamente, esta aplicación
-    varias herramientas de productividad integradas en un mismo programa.
-   </para>
-  </glossdef>
- </glossentry>
+  <glossentry id="tooltip"> <glossterm>Consejo:</glossterm> <glossdef>
+      <para> Un cuadrito con texto explicativo que aparece cuando se mantiene el puntero del ratón sobre un botón u otros elementos del interfaz gráfico.
+      </para> </glossdef> </glossentry>
 
- <glossentry id="haiku">
-  <glossterm>Haiku</glossterm>
-  <glossdef>
-   <para>
-     Una forma de poesía tradicional japonesa.  Los poemas son de tres
-     líneas, donde la primera y la última tienen cinco sílabas, y la
-     segunda línea tiene siete sílabas.
-   </para>
-  </glossdef>
- </glossentry>
+ <glossentry id="druid"> <glossterm>Druida:</glossterm> <glossdef>
+   <para> Ver <quote>Asistente</quote>.
+     </para> </glossdef> </glossentry>
 
- <glossentry id="html">
-  <glossterm>HTML</glossterm>
-  <glossdef>
-   <para>
-    Lenguaje de Marcas de Hyper-texto (<acronym>HTML</acronym>) es un
-    lenguaje para describir la forma de la página en documentos electrónicos
-    como páginas web, archivos de ayuda, y mensajes de correo.  El HTML se
-    puede usar en el correo electrónico y en los grupos de noticias para
-    insertar imágenes o formatear el texto
-   </para>
-  </glossdef>
- </glossentry>
+ <glossentry id="execute"> <glossterm>Ejecutar:</glossterm> <glossdef>
+   <para> Poner en marcha un programa. A cualquier archivo que pueda ser ejecutado se le llama ejecutable.  <application>Evolution</application> puede descargar adjuntos ejecutables, pero para poder ejecutarlos es preciso marcarlos antes como ejecutables en el administrador de archivos o en la línea de órdenes. Esta precaución de seguridad previene de la ejecución automática o accidental de programas maliciosos. Para obtener más información acerca de ejecutables y permisos de archivos consulte la documentación de su administrador de archivos o de su intérprete de órdenes.
+   </para> </glossdef> </glossentry>
 
- <glossentry id="hot-key">
-  <glossterm>Tecla Rápida</glossterm>
-  <glossdef>
-   <para>
-    Teclas rápidas son combinaciones de teclado usadas para realizar
-    acciones en el ordenador en lugar de usar el ratón para la misma
-    acción. Las teclas rápidas pueden acelerar el uso del ordenador.
-   </para>
-  </glossdef>
- </glossentry>
-
- <glossentry id="ical">
-  <glossterm>iCal</glossterm>
-  <glossdef>
-   <para>
-    <application>iCal</application> es el programa que usa
-    <application>Evolution</application> para manejar la sección del
-    calendario.
-   </para>
-  </glossdef>
- </glossentry> 
-
- <glossentry id="imap">
-  <glossterm>IMAP</glossterm>
-  <glossdef>
-   <para>
-    Dependiendo a quien pregunte, IMAP significa Protocolo de Acceso al
-    Correo de Internet, o Protocolo de Acceso a Correo Interinamente.
-    Lo que sea que signifique, permite acceder al correo que está
-    típicamente (aunque no siempre) guardado remotamente en el servidor en
-    lugar de en el disco duro local.  Algunas veces contrasta con
-    <glossterm>POP</glossterm>.
-    Esto no estará en la prueba.
-   </para>
-  </glossdef>
- </glossentry>
+ <glossentry id="inline"> <glossterm>En línea:</glossterm> <glossdef>
+   <para> Que se muestra empotrado, como parte de un mensaje u otro documento en lugar de estar anexo a un archivo. Alternativo a   <glossterm
+     linkend="attachment">Adjunto:</glossterm>.
+   </para> </glossdef> </glossentry>
 
 
- <glossentry id="inline">
-  <glossterm>En línea</glossterm>
-  <glossdef>
-   <para>
-     Mostrados como para de una mensaje u otro documento, en lugar de
-     incluido como un archivo separado. Contrasta con <glossterm
-     linkend="attachment">Adjunto</glossterm>.
-   </para>
-  </glossdef>
- </glossentry>
- 
-  <glossentry id="ldap">
-   <glossterm>LDAP</glossterm>
-   <glossdef>
-    <para>
-     LDAP, el Protocolo Ligero de Acceso a Directorio, permite a un cliente
-     buscar en una gran base de datos de direcciones, números de teléfono y
-     y personas que se encuentra en un servidor.
-    </para>
-   </glossdef>
-  </glossentry>
+ <glossentry id="regular-expression"> <glossterm>Expresión regular:</glossterm> <glossdef>
+   <para> Una expresión regular o <quote>regex</quote> es una manera de describir una cadena de texto mediante meta-caracteres o símbolos comodín.  Por ejemplo la sentencia <userinput>fly.*so[au]p</userinput> encuentra <quote>cualquier frase que empiece por <quote>fly</quote> y acabe en <quote>soup</quote> o en <quote>soap</quote></quote>.  Si hace una búsqueda con esa expresión podría encontrar tanto <quote>fly in my soup</quote> como <quote>fly in soap</quote>.  No hay espacio para profundizar en el tema pero si lo desea puede examinar la documentación de la orden <command>grep</command>: para ello, abra un intérprete de órdenes y escriba <command>man grep</command>.
+   </para> </glossdef> </glossentry>
 
- <glossentry id="mail-client">
-  <glossterm>Cliente de Correo</glossterm>
-  <glossdef>
-   <para>
-    Un cliente de correo es la aplicación con la que una persona lee y
-    envía correos electrónicos.  En el otro lado están los distintos tipos
-    de servidores de correo, que se encargan de autentificar al usuario
-    y dirigir los mensajes desde el remitente hasta el destinatario.
-   </para>
-  </glossdef>
- </glossentry>
+ <glossentry id="evolution"> <glossterm>Evolution:</glossterm> <glossdef>
+   <para> <application>Evolution</application> es la herramienta de trabajo en grupo de  <acronym>GNOME</acronym>.
+   </para> </glossdef> </glossentry>
+
+ <glossentry id="filter"> <glossterm>Filtro:</glossterm> <glossdef>
+   <para> En <application>Evolution</application> un filtro es un método de ordenación automática del correo cuando lo descarga de su buzón. Puede crear filtros para realizar una o más acciones sobre un mensaje que cumpla una (o todas) las condiciones, definidas entre una amplia gama de posibilidades.
+   </para> </glossdef> </glossentry>
+
+  <glossentry id="signature"> <glossterm>Firma:</glossterm> <glossdef>
+    <para> En términos de correo electrónico la firma es un trozo de texto al pie de cada mensaje enviado, como la firma manual al pie de cada carta escrita.  Una firma puede ser cualquier cosa desde una cita favorita a un enlace a una página web. La cortesía recomienda que sea menor que cuatro líneas de longitud.
+    </para> </glossdef> </glossentry>
+
+ <glossentry id="html"> <glossterm>HTML:</glossterm> <glossdef>
+   <para> El lenguaje de marcas de hipertexto (<acronym>HTML</acronym>) se utiliza para describir páginas de documentos electrónicos como son las páginas Web, archivos de ayuda y mensajes de correo electrónico. HTML se puede utilizar en el correo y en los envíos a las <quote>news</quote> para insertar imágenes y darle formato al texto.
+   </para> </glossdef> </glossentry>
+
+ <glossentry id="ical"> <glossterm>iCal:</glossterm> <glossdef>
+   <para> <application>iCal</application> es el programa con el que <application>Evolution</application>  maneja el calendario.
+   </para> </glossdef> </glossentry>
+
+ <glossentry id="imap"> <glossterm>IMAP:</glossterm> <glossdef>
+   <para> En función de a quién pregunte, IMAP significa protocolo de acceso al correo internet o protocolo interino de acceso a correo.  Permite tener acceso al correo electrónico que normalmente (aunque no siempre) se almacena remotamente en el servidor en lugar de en el disco duro local.  IMAP suele ser la alternativa a <glossterm>POP:</glossterm>. Pero nadie le va examinar de esto.
+   </para> </glossdef> </glossentry>
+
+<glossentry id="automatic-indexing"> <glossterm>Indexación automática:</glossterm> <glossdef>
+   <para> Procedimiento de prebúsqueda que permite a <application>Evolution</application> hacer referencia a los datos con rapidez.  Permite búsquedas rápidas y disminuye el consumo de memoria al presentar de la información.
+   </para> </glossdef> </glossentry>
 
 
- <glossentry id="minicard">
-  <glossterm>Minitarjeta</glossterm>
-  <glossdef>
-   <para>
-      Un formato para mostrar la información de contacto.  Similar en
-      apariencia a una pequeña tarjeta de visita.
-   </para>
-  </glossdef>
- </glossentry> 
-
- <glossentry id="nautilus">
-  <glossterm>Nautilus</glossterm>
-  <glossdef>
-   <para>
-    <application>Nautilus</application> es la próxima generación del
-    gestor de archivos de <acronym>GNOME</acronym> que está desarrollando
-    la compañía Eazel.
-   </para>
-  </glossdef>
- </glossentry>
-
- <glossentry id="nickname">
-  <glossterm>Apodo</glossterm>
-  <glossdef>
-   <para>
-    Un alias para una dirección de correo electrónico.
-   </para>
-  </glossdef>
- </glossentry>
-
- <glossentry id="pop">
-  <glossterm>POP</glossterm>
-  <glossdef>
-   <para>
-     POP, el Protocolo de Oficina de Correos, es un mecanismo para el
-     transporte de correo.  En contraste con IMAP, solo se usa para obtener
-     el correo del servidor y almacenarlo localmente en el disco duro.
-   </para>
-  </glossdef>
- </glossentry>
-
- <glossentry id="protocol">
-  <glossterm>Protocolo</glossterm>
-  <glossdef>
-   <para>
-     Un método de comunicación acordado, especialmente uno acordado para
-     enviar tipos particulares de información entre ordenadores
-     Ejemplos son POP (Protocolo de Oficina de Correo), para el correo, y
-     HTTP (Protocolo de Transferencia de Hipertexto), para páginas web.
-
-   </para>
-  </glossdef>
- </glossentry>
-
-
- <glossentry id="regular-expression">
-  <glossterm>Expresión Regular</glossterm>
-  <glossdef>
-   <para>
-      Una expresión regular, o "regex", es una forma de describir una
-      cadena de texto usando meta caracteres o símbolos wild-card.  Por
-      ejemplo, la frase <userinput>tener.*pat[a|o]</userinput> significa
-      "cualquier frase que comience por 'tener' y que acabe en 'pata' o
-      'pato'".  Si usted busca esta expresión, encontrará entre otras
-      "tener mala pata" y "tener un pato".  No hay sitio aquí para
-      entrar en profundidad, pero si lo desea, puede echar un vistazo a la
-      documentación del comando <command>grep</command>.
-   </para>
-  </glossdef>
- </glossentry>
-
- <glossentry id="script">
-  <glossterm>Script</glossterm>
-  <glossdef>
-   <para>
-    Un programa escrito en un lenguaje interpretado (en lugar de
-    compilado).  A menudo usado como sinónimo de "macro," para denotar
-    una serie de comando o acciones pre grabados en una aplicación.
-   </para>
-  </glossdef>
- </glossentry>
-
- <glossentry id="sendmail">
-  <glossterm>Sendmail</glossterm>
-  <glossdef>
-   <para>
-      Como su nombre indica, <application>sendmail</application> es un
-      programa que envía correo.  <application>Evolution</application>
-      puede usarlo en lugar de <glossterm>SMTP</glossterm>; algunas
-       personas lo prefieren porque permite más flexibilidad, pero es más
-      difícil de configurar.
-   </para>
-  </glossdef>
- </glossentry>
-
-
- <glossentry id="shortcut-bar">
-  <glossterm>Barra de Atajos</glossterm>
-  <glossdef>
-   <para>
-     Una parte de <application>Evolution</application> que ofrece
-     a los usuarios un rápido acceso a la partes de la aplicación
-     usadas más frecuentemente.
-   </para>
-  </glossdef>
- </glossentry>
-
-  <glossentry id="signature">
-   <glossterm>Firma</glossterm>
-   <glossdef>
-    <para>
-     En términos de un correo electrónico, una firma es un texto situado
-     al final de todos los mensajes que usted mande, como una firma hecha
-     a mano al final de una carta escrita.  Una firma puede ser cualquier
-     cosa desde su cita preferida hasta un enlace a una página web.  La
-     cortesía dicta que debe tener una longitud inferior a cuatro líneas.
-    </para>
-   </glossdef>
-  </glossentry> 
-
-  <glossentry id="SMTP">
-   <glossterm>SMTP</glossterm>
-   <glossdef>
-    <para>
-      Esta es la manera más común de transportar mensajes desde el
-      ordenador cliente (el suyo) al servidor. SMTP significa Protocolo
-      Simple de Transferencia de Correo.
-    </para>
-   </glossdef>
-  </glossentry> 
-
- <glossentry id="spam">
-  <glossterm>Spam</glossterm>
-  <glossdef>
-   <para>
-    Correo no deseado ó inútil.  El spam normalmente aparece como cartas
-    encadenadas y publicidad de compañías sin escrúpulos o sin sentido.
-    Los mensajes que no valen para nada se conocen como "boletínes
-    opt-in"
-.   </para>
-  </glossdef>
- </glossentry>
-
-
- <glossentry id="tooltip">
-  <glossterm>Mensaje de Ayuda</glossterm>
-  <glossdef>
-   <para>
-      Una paqueña caja con texto explicatorio que aparece cuando el puntero
-      del ratón permanece sin moverse sobre un botón o cualquier otro
-      elemento de la interfaz.
-   </para>
-  </glossdef>
- </glossentry>
+  <glossentry id="ldap"> <glossterm>LDAP:</glossterm> <glossdef>
+    <para> LDAP, el Protocolo Ligero de Acceso a Directorios, permite a un cliente buscar a través de grandes bases de datos, alojadas en un servidor, de direcciones, números de teléfono y personas.
+    </para> </glossdef> </glossentry>
 
 
 
+ <glossentry id="minicard"> <glossterm>Minitarjeta:</glossterm> <glossdef>
+   <para> Un formato para la presentación de datos de contacto. Es similar en apariencia a una tarjeta de visita.
+   </para> </glossdef> </glossentry>
 
- <glossentry id="virus">
-  <glossterm>Virus</glossterm>
-  <glossdef>
-   <para>
-    Un programa malicioso que se inserta a si mismo en otros para así ser 
-    ejecutado, permitiéndole expandirse a más programas y a otros ordenadores.
-    Un virus puede causar daños sustanciales colapsando redes y unidades de disco, 
-    borrando archivos, o abriendo agujeros de seguridad.
-   </para>
-  </glossdef>
- </glossentry>
+ <glossentry id="nautilus"> <glossterm>Nautilus:</glossterm> <glossdef>
+   <para> <application>Nautilus</application> es la siguiente generación de administrador de archivos de <acronym>GNOME</acronym>.
+    </para> </glossdef> </glossentry>
 
- <glossentry id="vcard">
-  <glossterm>vCard</glossterm>
-  <glossdef>
-   <para>
-    Un formato de archivo para el intercambio de información de contactos.
-    Cuando recibe una tarjeta adjunta a un correo, esta probablemente en el
-    formato vCard.  No confundir con <glossterm
-    linkend="vfolder">vFolder</glossterm>.
-   </para>
-  </glossdef>
- </glossentry>
+ <glossentry id="pop"> <glossterm>POP:</glossterm> <glossdef>
+   <para> POP, el Protocolo de Oficina Postal, es un mecanismo de transporte de correo electrónico. En contraste con IMAP sólo se usa para descargar el correo y almacenarlo localmente en el disco duro.
+   </para> </glossdef> </glossentry>
 
- <glossentry id="vfolder">
-  <glossterm>vFolder</glossterm>
-  <glossdef>
-   <para>
-    Una herramienta para organizar mensajes. vFolders le permite crear una
-    carpeta que contiene los resultados de una búsqueda compleja.  Los
-    contenidos de la carpeta se actualizan dinámicamente.
-   </para>
-  </glossdef>
- </glossentry>
+  <glossentry id="postscript"> <glossterm>Postscript:</glossterm> <glossdef>
+      <para> Un formato estándar de publicación de documentos. Muchas impresoras pueden leer Postscript puro, lo que lo hace bastante versátil.
+      </para> </glossdef> </glossentry>
+
+ <glossentry id="protocol"> <glossterm>Protocolo:</glossterm> <glossdef>
+   <para> Un método acordado de comunicación especialmente para el envío de tipos particulares de información entre diferentes máquinas. Algunos ejemplos son POP (Protocolo de Oficina Postal) para correo electrónico y HTTP (Protocolo de Transferencia de HiperTexto) para páginas web.
+   </para> </glossdef> </glossentry>
+
+ <glossentry id="expunge"> <glossterm>Purgar:</glossterm> <glossdef>
+   <para> Cuando los mensajes están marcados para ser borrados aún permanecen intactos hasta que son purgados. La purga de un mensaje significa eliminarlo definitivamente siempre y cuando esté marcado previamente para ello.
+   </para> </glossdef> </glossentry>
+
+ <glossentry id="forward"> <glossterm>Reenviar:</glossterm> <glossdef>
+   <para> Si recibe un mensaje dirigido a otra persona, puede reenviarlo para que lo reciba la persona adecuada.
+
+   </para> </glossdef> </glossentry>
+
+  <glossentry id="sendmail"> <glossterm>Sendmail:</glossterm> <glossdef>
+      <para> Como su nombre implica, <application>sendmail</application> es un programa que envía correo.  <application>Evolution</application> puede utilizarlo en lugar de <glossterm>SMTP:</glossterm>. Algunas personas prefieren utilizarlo por su mayor flexibilidad pero es más difícil de configurar.
+      </para> </glossdef> </glossentry>
+
+  <glossentry id="SMTP"> <glossterm>SMTP:</glossterm> <glossdef>
+    <para> Este es el medio de transporte de mensajes de correo más común entre el sistema del cliente (el suyo) y el servidor. SMTP significa Protocolo Sencillo de Transferencia de Correo.
+    </para> </glossdef> </glossentry>
+
+ <glossentry id="script"> <glossterm>Script:</glossterm> <glossdef>
+   <para> Un programa escrito en un lenguaje interpretado (en lugar de uno compilado). Se usa frecuentemente como sinónimo de <quote>macro</quote> para denotar a una serie de órdenes pregrabadas o acciones dentro de una aplicación. Su utilización en tareas tediosas y repetitivas puede ahorrar mucho tiempo al usuario.
+   </para> </glossdef> </glossentry>
+
+ <glossentry id="hot-key"> <glossterm>Tecla de acceso directo:</glossterm> <glossdef>
+   <para> Las teclas de acceso directo son combinaciones de teclas que permiten realizar acciones sin utilizar el ratón. Su utilización puede mejorar la velocidad de trabajo.
+   </para> </glossdef> </glossentry>
+
+ <glossentry id="groupware"> <glossterm>Trabajo en grupo:</glossterm> <glossdef>
+   <para> Expresión que describe una aplicación con la que grupos de personas pueden trabajar juntos. Normalmente una aplicación de trabajo en grupo incluye varias funciones de productividad integradas en un único programa: correo electrónico, calendario y gestión de contactos.
+   </para> </glossdef> </glossentry>
+
+  <glossentry id="vcard"> <glossterm>VCard:</glossterm> <glossdef>
+      <para> Un formato de archivo para el intercambio de información de contacto. Cuando recibe una tarjeta de visita adjunta a un mensaje probablemente está en formato VCard.  No debe ser confundido con <glossterm linkend="vfolder">carpeta virtual:</glossterm>.
+      </para> </glossdef> </glossentry>
+
+ <glossentry id="vfolder"> <glossterm>carpeta virtual:</glossterm> <glossdef>
+   <para> Una herramienta de organización de correo electrónico. Las carpetas virtuales permiten crear una carpeta que contiene el resultado de una búsqueda compleja.  Los contenidos de carpetas virtuales se actualizan dinámicamente.
+   </para> </glossdef> </glossentry>
+
+ <glossentry id="virus"> <glossterm>Virus:</glossterm> <glossdef>
+   <para> Un programa que se inserta a sí mismo dentro de otros archivos o programas y que, cuando se ejecuta, se propaga a otros programas y sistemas. Un virus puede causar un daño considerable: obstrucción de redes o unidades de disco, borrado de archivos o apertura de agujeros de seguridad.
+   </para> </glossdef> </glossentry>
 
 </glossary>
-
-
-
-
-
-
-
-
 
 
 
