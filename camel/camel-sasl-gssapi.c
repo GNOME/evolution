@@ -108,10 +108,10 @@ camel_sasl_gssapi_finalize (CamelObject *object)
 	guint32 status;
 	
 	if (gssapi->priv->ctx != GSS_C_NO_CONTEXT)
-		gss_delete_sec_context (&status, gssapi->priv->ctx, GSS_C_NO_BUFFER);
+		gss_delete_sec_context (&status, &gssapi->priv->ctx, GSS_C_NO_BUFFER);
 	
 	if (gssapi->priv->target != GSS_C_NO_NAME)
-		gss_release_name (&status, gssapi->priv->target);
+		gss_release_name (&status, &gssapi->priv->target);
 	
 	g_free (gssapi->priv);
 }
