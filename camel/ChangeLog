@@ -1,3 +1,11 @@
+2003-12-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c (header_decode_rfc2184_param): Revert the
+	s/is_/camel_mime_is_/ changes or we get really long variable
+	names.
+	(header_decode_param): Same.
+	(header_decode_param_list): Here too.
+
 2003-12-09  Not Zed  <NotZed@Ximian.com>
 
 	* providers/smtp/camel-smtp-transport.c (smtp_send_to): encode the

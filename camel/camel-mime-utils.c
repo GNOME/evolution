@@ -1906,34 +1906,34 @@ decode_param_token (const char **in)
 }
 
 static gboolean
-header_decode_rfc2184_param (const char **in, char **paramp, gboolean *value_camel_mime_is_encoded, int *part)
+header_decode_rfc2184_param (const char **in, char **paramp, gboolean *is_encoded, int *part)
 {
-	gboolean camel_mime_is_rfc2184 = FALSE;
+	gboolean is_rfc2184 = FALSE;
 	const char *inptr = *in;
 	char *param;
 	
-	*value_camel_mime_is_encoded = FALSE;
+	*is_encoded = FALSE;
 	*part = -1;
 	
 	param = decode_param_token (&inptr);
 	header_decode_lwsp (&inptr);
 	
 	if (*inptr == '*') {
-		camel_mime_is_rfc2184 = TRUE;
+		is_rfc2184 = TRUE;
 		inptr++;
 		header_decode_lwsp (&inptr);
 		if (*inptr == '=') {
 			/* form := param*=value */
-			if (value_camel_mime_is_encoded)
-				*value_camel_mime_is_encoded = TRUE;
+			if (is_encoded)
+				*is_encoded = TRUE;
 		} else {
 			/* form := param*#=value or param*#*=value */
 			*part = camel_header_decode_int (&inptr);
 			header_decode_lwsp (&inptr);
 			if (*inptr == '*') {
 				/* form := param*#*=value */
-				if (value_camel_mime_is_encoded)
-					*value_camel_mime_is_encoded = TRUE;
+				if (is_encoded)
+					*is_encoded = TRUE;
 				inptr++;
 				header_decode_lwsp (&inptr);
 			}
@@ -1946,28 +1946,28 @@ header_decode_rfc2184_param (const char **in, char **paramp, gboolean *value_cam
 	if (param)
 		*in = inptr;
 	
-	return camel_mime_is_rfc2184;
+	return is_rfc2184;
 }
 
 static int
-header_decode_param (const char **in, char **paramp, char **valuep, int *camel_mime_is_rfc2184_param, int *rfc2184_part)
+header_decode_param (const char **in, char **paramp, char **valuep, int *is_rfc2184_param, int *rfc2184_part)
 {
-	gboolean camel_mime_is_rfc2184_encoded = FALSE;
-	gboolean camel_mime_is_rfc2184 = FALSE;
+	gboolean is_rfc2184_encoded = FALSE;
+	gboolean is_rfc2184 = FALSE;
 	const char *inptr = *in;
 	char *param = NULL;
 	char *value = NULL;
 	
-	*camel_mime_is_rfc2184_param = FALSE;
+	*is_rfc2184_param = FALSE;
 	*rfc2184_part = -1;
 	
-	camel_mime_is_rfc2184 = header_decode_rfc2184_param (&inptr, &param, &camel_mime_is_rfc2184_encoded, rfc2184_part);
+	is_rfc2184 = header_decode_rfc2184_param (&inptr, &param, &is_rfc2184_encoded, rfc2184_part);
 	
 	if (*inptr == '=') {
 		inptr++;
 		value = header_decode_value (&inptr);
 		
-		if (value && camel_mime_is_rfc2184) {
+		if (value && is_rfc2184) {
 			/* We have ourselves an rfc2184 parameter */
 			
 			if (*rfc2184_part == -1) {
@@ -1986,7 +1986,7 @@ header_decode_param (const char **in, char **paramp, char **valuep, int *camel_m
 				/* Since we are expecting to find the rest of
 				 * this paramter value later, let our caller know.
 				 */
-				*camel_mime_is_rfc2184_param = TRUE;
+				*is_rfc2184_param = TRUE;
 			}
 		} else if (value && !strncmp (value, "=?", 2)) {
 			/* We have a broken param value that is rfc2047 encoded.
@@ -2918,7 +2918,7 @@ header_decode_param_list (const char **in)
 	const char *inptr = *in;
 	struct _camel_header_param *head = NULL, *tail = NULL;
 	gboolean last_was_rfc2184 = FALSE;
-	gboolean camel_mime_is_rfc2184 = FALSE;
+	gboolean is_rfc2184 = FALSE;
 	
 	header_decode_lwsp (&inptr);
 	
@@ -2929,10 +2929,10 @@ header_decode_param_list (const char **in)
 		
 		inptr++;
 		/* invalid format? */
-		if (header_decode_param (&inptr, &name, &value, &camel_mime_is_rfc2184, &rfc2184_part) != 0)
+		if (header_decode_param (&inptr, &name, &value, &is_rfc2184, &rfc2184_part) != 0)
 			break;
 		
-		if (camel_mime_is_rfc2184 && tail && !strcasecmp (name, tail->name)) {
+		if (is_rfc2184 && tail && !strcasecmp (name, tail->name)) {
 			/* rfc2184 allows a parameter to be broken into multiple parts
 			 * and it looks like we've found one. Append this value to the
 			 * last value.
@@ -2973,7 +2973,7 @@ header_decode_param_list (const char **in)
 			tail = param;
 		}
 		
-		last_was_rfc2184 = camel_mime_is_rfc2184;
+		last_was_rfc2184 = is_rfc2184;
 		
 		header_decode_lwsp (&inptr);
 	}
