@@ -1,3 +1,8 @@
+2004-03-12  Not Zed  <NotZed@Ximian.com>
+
+	* gui/e-cal-model.c (ecm_initialize_value): return "" instead of
+	NULL if there is no default_category set.  Fixes #53419.
+
 2004-03-09  Kidd Wang  <kidd.wang@sun.com>
 
 	* gui/e-day-view.c: (e_day_view_finish_long_event_resize): add a call

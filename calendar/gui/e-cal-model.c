@@ -762,7 +762,7 @@ ecm_initialize_value (ETableModel *etm, int col)
 
 	switch (col) {
 	case E_CAL_MODEL_FIELD_CATEGORIES :
-		return g_strdup (priv->default_category);
+		return g_strdup (priv->default_category?priv->default_category:"");
 	case E_CAL_MODEL_FIELD_CLASSIFICATION :
 	case E_CAL_MODEL_FIELD_DESCRIPTION :
 	case E_CAL_MODEL_FIELD_SUMMARY :
