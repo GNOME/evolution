@@ -1,3 +1,11 @@
+2003-07-15  Federico Mena Quintero  <federico@ximian.com>
+
+	* folder-browser.c (message_list_drag_data_received): Handle
+	invalid URIs, or more likely, the last empty element in a URI list
+	--- g_strsplit() will yield { "uri1", "", NULL }.  Fixes #46398.
+
+	* component-factory.c (destination_folder_handle_drop): Likewise.
+
 2003-07-15  Yuedong Du  <yuedong.du@sun.com>
 
 	* mail-config.c: (config_write_style), (mail_config_init): remove

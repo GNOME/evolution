@@ -533,6 +533,10 @@ message_list_drag_data_received (ETree *tree, int row, ETreePath path, int col,
 			
 			uri = camel_url_new (url, NULL);
 			g_free (url);
+
+			if (!uri)
+				continue;
+
 			url = uri->path;
 			uri->path = NULL;
 			camel_url_free (uri);

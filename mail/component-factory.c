@@ -630,6 +630,10 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *des
 			
 			uri = camel_url_new (url, NULL);
 			g_free (url);
+
+			if (!uri)
+				continue;
+
 			url = uri->path;
 			uri->path = NULL;
 			camel_url_free (uri);
