@@ -1,5 +1,12 @@
 2004-03-12  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/smtp/camel-smtp-transport.c (smtp_set_exception): Now
+	takes an argument to specify whether disconnecting when respbuf is
+	NULL is safe (to prevent us from recursively disconnecting or
+	disconnecting during a connect).
+
+2004-03-12  Jeffrey Stedfast  <fejj@ximian.com>
+
 	Fix for bug #53497.
 
 	* providers/smtp/camel-smtp-transport.c (smtp_helo): Instead of

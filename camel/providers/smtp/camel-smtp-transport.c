@@ -86,7 +86,7 @@ static gboolean smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *mess
 static gboolean smtp_rset (CamelSmtpTransport *transport, CamelException *ex);
 static gboolean smtp_quit (CamelSmtpTransport *transport, CamelException *ex);
 
-static void smtp_set_exception (CamelSmtpTransport *transport, const char *respbuf,
+static void smtp_set_exception (CamelSmtpTransport *transport, gboolean disconnect, const char *respbuf,
 				const char *message, CamelException *ex);
 
 /* private data members */
@@ -305,7 +305,7 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 		g_free (respbuf);
 		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
 		if (!respbuf || strncmp (respbuf, "220", 3)) {
-			smtp_set_exception (transport, respbuf,  _("Welcome response error"), ex);
+			smtp_set_exception (transport, FALSE, respbuf,  _("Welcome response error"), ex);
 			g_free (respbuf);
 			return FALSE;
 		}
@@ -370,7 +370,7 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
 		
 		if (!respbuf || strncmp (respbuf, "220", 3)) {
-			smtp_set_exception (transport, respbuf, _("STARTTLS response error"), ex);
+			smtp_set_exception (transport, FALSE, respbuf, _("STARTTLS command failed"), ex);
 			g_free (respbuf);
 			goto exception_cleanup;
 		}
@@ -814,7 +814,7 @@ smtp_decode_status_code (const char *in, size_t len)
 }
 
 static void
-smtp_set_exception (CamelSmtpTransport *transport, const char *respbuf, const char *message, CamelException *ex)
+smtp_set_exception (CamelSmtpTransport *transport, gboolean disconnect, const char *respbuf, const char *message, CamelException *ex)
 {
 	const char *token, *rbuf = respbuf;
 	char *buffer = NULL;
@@ -862,7 +862,10 @@ smtp_set_exception (CamelSmtpTransport *transport, const char *respbuf, const ch
 	
 	if (!respbuf) {
 		/* we got disconnected */
-		camel_service_disconnect ((CamelService *) transport, FALSE, NULL);
+		if (disconnect)
+			camel_service_disconnect ((CamelService *) transport, FALSE, NULL);
+		else
+			transport->connected = FALSE;
 	}
 }
 
@@ -954,7 +957,7 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
 		
 		if (!respbuf || strncmp (respbuf, "250", 3)) {
-			smtp_set_exception (transport, respbuf, _("HELO response error"), ex);
+			smtp_set_exception (transport, FALSE, respbuf, _("HELO command failed"), ex);
 			camel_operation_end (NULL);
 			g_free (respbuf);
 			
@@ -1060,7 +1063,7 @@ smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 		
 		/* the server challenge/response should follow a 334 code */
 		if (strncmp (respbuf, "334", 3) != 0) {
-			smtp_set_exception (transport, respbuf, _("AUTH command failed"), ex);
+			smtp_set_exception (transport, FALSE, respbuf, _("AUTH command failed"), ex);
 			g_free (respbuf);
 			goto lose;
 		}
@@ -1164,7 +1167,7 @@ smtp_mail (CamelSmtpTransport *transport, const char *sender, gboolean has_8bit_
 		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
 		
 		if (!respbuf || strncmp (respbuf, "250", 3)) {
-			smtp_set_exception (transport, respbuf, _("MAIL FROM response error"), ex);
+			smtp_set_exception (transport, TRUE, respbuf, _("MAIL FROM command failed"), ex);
 			g_free (respbuf);
 			return FALSE;
 		}
@@ -1208,7 +1211,7 @@ smtp_rcpt (CamelSmtpTransport *transport, const char *recipient, CamelException 
 			char *message;
 			
 			message = g_strdup_printf (_("RCPT TO <%s> failed"), recipient);
-			smtp_set_exception (transport, respbuf, message, ex);
+			smtp_set_exception (transport, TRUE, respbuf, message, ex);
 			g_free (message);
 			g_free (respbuf);
 			return FALSE;
@@ -1263,7 +1266,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, CamelExcept
 		/* we should have gotten instructions on how to use the DATA command:
 		 * 354 Enter mail, end with "." on a line by itself
 		 */
-		smtp_set_exception (transport, respbuf, _("DATA response error"), ex);
+		smtp_set_exception (transport, TRUE, respbuf, _("DATA command failed"), ex);
 		g_free (respbuf);
 		return FALSE;
 	}
@@ -1339,7 +1342,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, CamelExcept
 		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
 		
 		if (!respbuf || strncmp (respbuf, "250", 3)) {
-			smtp_set_exception (transport, respbuf, _("DATA termination response error"), ex);
+			smtp_set_exception (transport, TRUE, respbuf, _("DATA command failed"), ex);
 			g_free (respbuf);
 			return FALSE;
 		}
@@ -1378,7 +1381,7 @@ smtp_rset (CamelSmtpTransport *transport, CamelException *ex)
 		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
 		
 		if (!respbuf || strncmp (respbuf, "250", 3)) {
-			smtp_set_exception (transport, respbuf, _("RSET response error"), ex);
+			smtp_set_exception (transport, TRUE, respbuf, _("RSET command failed"), ex);
 			g_free (respbuf);
 			return FALSE;
 		}
@@ -1403,8 +1406,6 @@ smtp_quit (CamelSmtpTransport *transport, CamelException *ex)
 		camel_exception_setv (ex, errno == EINTR ? CAMEL_EXCEPTION_USER_CANCEL : CAMEL_EXCEPTION_SYSTEM,
 				      _("QUIT command failed: %s"), g_strerror (errno));
 		
-		camel_service_disconnect ((CamelService *) transport, FALSE, NULL);
-		
 		return FALSE;
 	}
 	g_free (cmdbuf);
@@ -1417,7 +1418,7 @@ smtp_quit (CamelSmtpTransport *transport, CamelException *ex)
 		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
 		
 		if (!respbuf || strncmp (respbuf, "221", 3)) {
-			smtp_set_exception (transport, respbuf, _("QUIT response error"), ex);
+			smtp_set_exception (transport, FALSE, respbuf, _("QUIT command failed"), ex);
 			g_free (respbuf);
 			return FALSE;
 		}
