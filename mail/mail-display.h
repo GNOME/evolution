@@ -40,6 +40,8 @@ struct _MailDisplay {
 	
 	CamelMimeMessage *current_message;
 	GData **data;
+
+	GHashTable *related;	/* related parts not displayed yet */
 	
 	/* Sigh.  This shouldn't be needed.  I haven't figured out why it is
 	   though.  */

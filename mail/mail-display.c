@@ -1162,6 +1162,9 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 		
 		g_return_if_fail (CAMEL_IS_MEDIUM (medium));
 		
+		if (md->related)
+			g_hash_table_remove(md->related, medium);
+
 		data = camel_medium_get_content_object (medium);
 		if (!mail_content_loaded (data, md, FALSE, url, html, handle))
 			return;

@@ -46,7 +46,7 @@
 #include "mail-vfolder.h"
 #include "mail-autofilter.h"
 
-#define w(x)
+#define w(x) 
 #define d(x) 
 
 /* note that many things are effectively serialised by having them run in
@@ -302,6 +302,8 @@ update_1folder(struct _folder_info *mfi, CamelFolderInfo *info)
 	} else if (info)
 		unread = info->unread_message_count;
 
+	d(printf("folder updated: unread %d: '%s'\n", unread, mfi->full_name));
+
 	if (unread == -1)
 		return;
 
@@ -354,7 +356,7 @@ setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 static void
 create_folders(CamelFolderInfo *fi, struct _store_info *si)
 {
-	d(printf("Setup new folder: %s\n", fi->url));
+	d(printf("Setup new folder: %s\n  %s\n", fi->url, fi->full_name));
 
 	setup_folder(fi, si);
 

@@ -162,7 +162,7 @@ mail_format_mime_message (CamelMimeMessage *mime_message, MailDisplay *md,
 	GHashTable *hash;
 	
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (mime_message));
-	
+
 	hash = g_datalist_get_data (md->data, "part_urls");
 	if (!hash) {
 		hash = g_hash_table_new (g_str_hash, g_str_equal);
@@ -1826,13 +1826,14 @@ static gboolean
 handle_multipart_related (CamelMimePart *part, const char *mime_type,
 			  MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream)
 {
-	CamelDataWrapper *wrapper =
-		camel_medium_get_content_object (CAMEL_MEDIUM (part));
+	CamelDataWrapper *wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	CamelMultipart *mp;
 	CamelMimePart *body_part, *display_part = NULL;
 	CamelContentType *content_type;
 	const char *start;
 	int i, nparts;
+	GHashTable *related_save;
+	int ret;
 
 	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
 	
@@ -1871,6 +1872,10 @@ handle_multipart_related (CamelMimePart *part, const char *mime_type,
 		return handle_multipart_mixed (part, mime_type, md, html, stream);
 	}
 
+	/* setup a 'stack' of related parts */
+	related_save = md->related;
+	md->related = g_hash_table_new(NULL, NULL);
+	
 	/* Record the Content-ID/Content-Location of any non-displayed parts. */
 	for (i = 0; i < nparts; i++) {
 		body_part = camel_multipart_get_part (mp, i);
@@ -1879,10 +1884,33 @@ handle_multipart_related (CamelMimePart *part, const char *mime_type,
 
 		get_cid (body_part, md);
 		get_location (body_part, md);
+		g_hash_table_insert(md->related, body_part, body_part);
 	}
 
 	/* Now, display the displayed part. */
-	return format_mime_part (display_part, md, html, stream);
+	ret = format_mime_part (display_part, md, html, stream);
+
+	/* FIXME: flush html stream via gtkhtml_stream_flush which doens't exist yet ... */
+	while (gtk_events_pending())
+		gtk_main_iteration();
+
+	/* Now check for related parts which didn't display, display them as attachments */
+	for (i = 0; i < nparts; i++) {
+		body_part = camel_multipart_get_part (mp, i);
+		if (body_part == display_part)
+			continue;
+
+		if (g_hash_table_lookup(md->related, body_part)) {
+			if (ret)
+				write_hr (html, stream);
+			ret |= format_mime_part(body_part, md, html, stream);
+		}
+	}
+
+	g_hash_table_destroy(md->related);
+	md->related = related_save;
+
+	return ret;
 }
 
 /* RFC 2046 says "display the last part that you are able to display". */

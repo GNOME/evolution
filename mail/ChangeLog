@@ -1,3 +1,11 @@
+2002-02-26  Not Zed  <NotZed@Ximian.com>
+
+	* mail-display.c (on_url_requested): If a related part is
+	requested, remove it from the related undisplayed list.
+
+	* mail-format.c (handle_multipart_related): Check if related parts
+	are displayed, if not, remove them.  For #2741.
+
 2002-02-24  Chris Toshok  <toshok@ximian.com>
 
 	* folder-browser.c (folder_browser_search_do_search): rename
