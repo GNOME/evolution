@@ -45,11 +45,9 @@ struct _CamelMimeFilterBasic {
 
 	CamelMimeFilterBasicType type;
 	
-	gboolean uu_begin;
 	unsigned char uubuf[60];
 	int state;
 	int save;
-	char uulen;
 };
 
 struct _CamelMimeFilterBasicClass {

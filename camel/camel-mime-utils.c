@@ -417,32 +417,32 @@ base64_decode_simple (char *data, size_t len)
  * @uubuf: temporary buffer of 60 bytes
  * @state: holds the number of bits that are stored in @save
  * @save: leftover bits that have not yet been encoded
- * @uulen: holds the value of the length-char which is used to calculate
- *         how many more chars need to be decoded for that 'line'
  *
  * Returns the number of bytes encoded. Call this when finished
  * encoding data with uuencode_step to flush off the last little
  * bit.
  **/
 size_t
-uuencode_close (unsigned char *in, size_t len, unsigned char *out, unsigned char *uubuf, int *state, guint32 *save, char *uulen)
+uuencode_close (unsigned char *in, size_t len, unsigned char *out, unsigned char *uubuf, int *state, guint32 *save)
 {
 	register unsigned char *outptr, *bufptr;
 	register guint32 saved;
-	int i;
+	int uulen, i;
 	
 	outptr = out;
 	
 	if (len > 0)
-		outptr += uuencode_step (in, len, out, uubuf, state, save, uulen);
+		outptr += uuencode_step (in, len, out, uubuf, state, save);
 	
-	bufptr = uubuf + ((*uulen / 3) * 4);
 	saved = *save;
-	i = *state;
+	i = *state & 0xff;
+	uulen = (*state >> 8) & 0xff;
+	
+	bufptr = uubuf + ((uulen / 3) * 4);
 	
 	if (i > 0) {
 		while (i < 3) {
-			saved <<= 8 | 0;
+			saved <<= 8;
 			i++;
 		}
 		
@@ -458,20 +458,24 @@ uuencode_close (unsigned char *in, size_t len, unsigned char *out, unsigned char
 			*bufptr++ = CAMEL_UUENCODE_CHAR (((b0 << 4) | ((b1 >> 4) & 0xf)) & 0x3f);
 			*bufptr++ = CAMEL_UUENCODE_CHAR (((b1 << 2) | ((b2 >> 6) & 0x3)) & 0x3f);
 			*bufptr++ = CAMEL_UUENCODE_CHAR (b2 & 0x3f);
+			
+			i = 0;
+			saved = 0;
+			uulen += 3;
 		}
 	}
 	
-	if (*uulen || *state) {
-		int cplen = (((*uulen + (*state ? 3 : 0)) / 3) * 4);
+	if (uulen > 0) {
+		int cplen = ((uulen / 3) * 4);
 		
-		*outptr++ = CAMEL_UUENCODE_CHAR (*uulen + *state);
+		*outptr++ = CAMEL_UUENCODE_CHAR (uulen & 0xff);
 		memcpy (outptr, uubuf, cplen);
 		outptr += cplen;
 		*outptr++ = '\n';
-		*uulen = 0;
+		uulen = 0;
 	}
 	
-	*outptr++ = CAMEL_UUENCODE_CHAR (*uulen);
+	*outptr++ = CAMEL_UUENCODE_CHAR (uulen & 0xff);
 	*outptr++ = '\n';
 	
 	*save = 0;
@@ -489,8 +493,6 @@ uuencode_close (unsigned char *in, size_t len, unsigned char *out, unsigned char
  * @uubuf: temporary buffer of 60 bytes
  * @state: holds the number of bits that are stored in @save
  * @save: leftover bits that have not yet been encoded
- * @uulen: holds the value of the length-char which is used to calculate
- *         how many more chars need to be decoded for that 'line'
  *
  * Returns the number of bytes encoded. Performs an 'encode step',
  * only encodes blocks of 45 characters to the output at a time, saves
@@ -498,28 +500,26 @@ uuencode_close (unsigned char *in, size_t len, unsigned char *out, unsigned char
  * invocation).
  **/
 size_t
-uuencode_step (unsigned char *in, size_t len, unsigned char *out, unsigned char *uubuf, int *state, guint32 *save, char *uulen)
+uuencode_step (unsigned char *in, size_t len, unsigned char *out, unsigned char *uubuf, int *state, guint32 *save)
 {
 	register unsigned char *inptr, *outptr, *bufptr;
 	unsigned char *inend;
 	register guint32 saved;
-	int i;
+	int uulen, i;
 	
-	if (*uulen <= 0)
-		*uulen = 0;
+	saved = *save;
+	i = *state & 0xff;
+	uulen = (*state >> 8) & 0xff;
 	
 	inptr = in;
 	inend = in + len;
 	
 	outptr = out;
 	
-	bufptr = uubuf + ((*uulen / 3) * 4);
-	
-	saved = *save;
-	i = *state;
+	bufptr = uubuf + ((uulen / 3) * 4);
 	
 	while (inptr < inend) {
-		while (*uulen < 45 && inptr < inend) {
+		while (uulen < 45 && inptr < inend) {
 			while (i < 3 && inptr < inend) {
 				saved = (saved << 8) | *inptr++;
 				i++;
@@ -540,22 +540,22 @@ uuencode_step (unsigned char *in, size_t len, unsigned char *out, unsigned char 
 				
 				i = 0;
 				saved = 0;
-				*uulen += 3;
+				uulen += 3;
 			}
 		}
 		
-		if (*uulen >= 45) {
-			*outptr++ = CAMEL_UUENCODE_CHAR (*uulen);
-			memcpy (outptr, uubuf, ((*uulen / 3) * 4));
-			outptr += ((*uulen / 3) * 4);
+		if (uulen >= 45) {
+			*outptr++ = CAMEL_UUENCODE_CHAR (uulen & 0xff);
+			memcpy (outptr, uubuf, ((uulen / 3) * 4));
+			outptr += ((uulen / 3) * 4);
 			*outptr++ = '\n';
-			*uulen = 0;
+			uulen = 0;
 			bufptr = uubuf;
 		}
 	}
 	
 	*save = saved;
-	*state = i;
+	*state = ((uulen & 0xff) << 8) | (i & 0xff);
 	
 	return outptr - out;
 }
@@ -568,85 +568,92 @@ uuencode_step (unsigned char *in, size_t len, unsigned char *out, unsigned char 
  * @out: output stream
  * @state: holds the number of bits that are stored in @save
  * @save: leftover bits that have not yet been decoded
- * @uulen: holds the value of the length-char which is used to calculate
- *         how many more chars need to be decoded for that 'line'
  *
  * Returns the number of bytes decoded. Performs a 'decode step' on
  * a chunk of uuencoded data. Assumes the "begin <mode> <file name>"
  * line has been stripped off.
  **/
 size_t
-uudecode_step (unsigned char *in, size_t len, unsigned char *out, int *state, guint32 *save, char *uulen)
+uudecode_step (unsigned char *in, size_t len, unsigned char *out, int *state, guint32 *save)
 {
 	register unsigned char *inptr, *outptr;
 	unsigned char *inend, ch;
 	register guint32 saved;
 	gboolean last_was_eoln;
-	int i;
-
-	if (*uulen <= 0)
+	int uulen, i;
+	
+	if (*state & CAMEL_UUDECODE_STATE_END)
+		return 0;
+	
+	saved = *save;
+	i = *state & 0xff;
+	uulen = (*state >> 8) & 0xff;
+	if (uulen == 0)
 		last_was_eoln = TRUE;
 	else
 		last_was_eoln = FALSE;
 	
 	inend = in + len;
 	outptr = out;
-	saved = *save;
-	i = *state;
+	
 	inptr = in;
-	while (inptr < inend && *inptr) {
+	while (inptr < inend) {
 		if (*inptr == '\n' || last_was_eoln) {
-			if (last_was_eoln) {
-				*uulen = CAMEL_UUDECODE_CHAR (*inptr);
+			if (last_was_eoln && *inptr != '\n') {
+				uulen = CAMEL_UUDECODE_CHAR (*inptr);
 				last_was_eoln = FALSE;
+				if (uulen == 0) {
+					*state |= CAMEL_UUDECODE_STATE_END;
+					break;
+				}
 			} else {
 				last_was_eoln = TRUE;
 			}
-
+			
 			inptr++;
 			continue;
 		}
-
+		
 		ch = *inptr++;
 		
-		if (*uulen > 0) {
+		if (uulen > 0) {
 			/* save the byte */
 			saved = (saved << 8) | ch;
 			i++;
 			if (i == 4) {
 				/* convert 4 uuencoded bytes to 3 normal bytes */
 				unsigned char b0, b1, b2, b3;
-
+				
 				b0 = saved >> 24;
 				b1 = saved >> 16 & 0xff;
 				b2 = saved >> 8 & 0xff;
 				b3 = saved & 0xff;
-
-				if (*uulen >= 3) {
+				
+				if (uulen >= 3) {
 					*outptr++ = CAMEL_UUDECODE_CHAR (b0) << 2 | CAMEL_UUDECODE_CHAR (b1) >> 4;
 					*outptr++ = CAMEL_UUDECODE_CHAR (b1) << 4 | CAMEL_UUDECODE_CHAR (b2) >> 2;
 				        *outptr++ = CAMEL_UUDECODE_CHAR (b2) << 6 | CAMEL_UUDECODE_CHAR (b3);
 				} else {
-					if (*uulen >= 1) {
+					if (uulen >= 1) {
 						*outptr++ = CAMEL_UUDECODE_CHAR (b0) << 2 | CAMEL_UUDECODE_CHAR (b1) >> 4;
 					}
-					if (*uulen >= 2) {
+					if (uulen >= 2) {
 						*outptr++ = CAMEL_UUDECODE_CHAR (b1) << 4 | CAMEL_UUDECODE_CHAR (b2) >> 2;
 					}
 				}
-
+				
 				i = 0;
 				saved = 0;
-				*uulen -= 3;
+				uulen -= 3;
 			}
 		} else {
 			break;
 		}
 	}
-
+	
 	*save = saved;
-	*state = i;
-
+	*state = (*state & CAMEL_UUDECODE_STATE_MASK) | ((uulen & 0xff) << 8) | (i & 0xff);
+	
 	return outptr - out;
 }
 

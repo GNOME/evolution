@@ -1,3 +1,18 @@
+2002-01-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-filter-basic.c (filter): Stop uudecoding once the
+	CAMEL_UUDECODE_STATE_END state bit gets set. Set the
+	CAMEL_UUDECODE_STATE_BEGIN state bit once we find the begin line.
+	(reset): No longer have uu_begin or uulen state variables, these
+	are now stuffed into a single state variable.
+
+	* camel-mime-utils.c (uudecode_step): No longer needs a uulen
+	argument and also keeps track of whether or not the end of the
+	encoded data has been found in 'state'.
+	(uuencode_step): Now stuffs uulen into state so that the uulen
+	argument is no longer needed.
+	(uuencode_close): Same.
+
 2002-01-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-filter-basic.c (filter): If we don't want to corrupt
