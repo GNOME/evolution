@@ -1,3 +1,7 @@
+2004-07-12  Jeffrey Stedfast  <fejj@novell.com>
+
+	* e-charset-picker.c: s/GB-2312/GB2312/ - fixes bug #61385.
+
 2004-06-24  Rodney Dawes  <dobey@novell.com>
 
 	* e-error.c (e_error_newv): Fix alignment of the icon to be 0x0
