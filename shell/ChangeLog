@@ -1,3 +1,14 @@
+2001-08-10  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #6787, Removing a storage with children and then re-adding it
+	causes a crash.]
+
+	* e-storage-set-view.c (convert_corba_drag_action_set_to_gdk):
+	Removed `#if 0'ed function.
+	(etree_node_destroy_func): New destroy function.
+	(e_storage_set_view_construct): Set this as the new destroy
+	function on the ETreeMemory.
+
 2001-08-09  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-test-component.c (user_create_new_item_callback):

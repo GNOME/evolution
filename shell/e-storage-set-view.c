@@ -352,28 +352,6 @@ convert_gdk_drag_action_set_to_corba (GdkDragAction action)
 	return retval;
 }
 
-#if 0
-static GdkDragAction
-convert_corba_drag_action_set_to_gdk (GNOME_Evolution_ShellComponentDnd_ActionSet action)
-{
-	GdkDragAction retval;
-
-	retval = GDK_ACTION_DEFAULT;
-
-	if (action & GNOME_Evolution_ShellComponentDnd_ACTION_COPY)
-		retval |= GDK_ACTION_COPY;
-	if (action & GNOME_Evolution_ShellComponentDnd_ACTION_MOVE)
-		retval |= GDK_ACTION_MOVE;
-	if (action & GNOME_Evolution_ShellComponentDnd_ACTION_LINK)
-		retval |= GDK_ACTION_LINK;
-	if (action & GNOME_Evolution_ShellComponentDnd_ACTION_ASK)
-		retval |= GDK_ACTION_ASK;
-
-	return retval;
-}
-#endif
-
-
 static GNOME_Evolution_ShellComponentDnd_ActionSet
 convert_gdk_drag_action_to_corba (GdkDragAction action)
 {
@@ -1549,6 +1527,20 @@ etree_value_to_string (ETreeModel *etc, int col, const void *value, void *data)
 		return g_strdup(value ? "Yes" : "No");
 }
 
+static void
+etree_node_destroy_func (void *data,
+			 void *user_data)
+{
+	EStorageSetView *storage_set_view;
+	char *path;
+
+	path = (char *) data;
+	storage_set_view = E_STORAGE_SET_VIEW (user_data);
+
+	remove_node_from_hash (storage_set_view, path);
+	g_free (path);
+}
+
 
 /* StorageSet signal handling.  */
 
@@ -1942,7 +1934,8 @@ e_storage_set_view_construct (EStorageSetView   *storage_set_view,
 
 							 storage_set_view);
 
-	e_tree_memory_set_node_destroy_func (E_TREE_MEMORY (priv->etree_model), (GFunc) g_free, NULL);
+	e_tree_memory_set_node_destroy_func (E_TREE_MEMORY (priv->etree_model),
+					     etree_node_destroy_func, storage_set_view);
 	e_tree_memory_set_expanded_default (E_TREE_MEMORY (priv->etree_model), TRUE);
 
 	priv->root_node = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), NULL, -1,
