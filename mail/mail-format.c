@@ -490,7 +490,7 @@ write_headers (CamelMimeMessage *message, struct mail_format_data *mfd)
 	recipients = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
 	write_recipients_to_stream ("Cc:", recipients, TRUE, TRUE,
 				    mfd->html, mfd->stream);
-	write_field_to_stream ("Subject:",
+	write_field_to_stream ("Subject: ",
 			       camel_mime_message_get_subject (message),
 			       TRUE, mfd->html, mfd->stream);
 
@@ -1748,10 +1748,7 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	if (!subject)
 		subject = g_strdup ("");
 	else {
-		while (*subject == ' ')
-			subject++;
-
-		if (!strncasecmp (subject, "Re: ", 4))
+		if (!g_strncasecmp (subject, "Re: ", 4))
 			subject = g_strdup (subject);
 		else
 			subject = g_strdup_printf ("Re: %s", subject);

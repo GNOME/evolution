@@ -1,3 +1,14 @@
+2000-08-07  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-format.c (write_headers): Get rid of kludge around subject
+	beginning with spaces.
+	(mail_generate_reply): Get rid of kludge around subject beginning
+	with spaces and also use g_strncasecmp instead of strncasecmp for
+	portability
+
+	* mail-ops.c (forward_msg): Get rid of kludges around subject
+	beginning with spaces.
+
 2000-08-07  Dan Winship  <danw@helixcode.com>
 
 	* message-list.c (message_list_select): Clarify that the input row

@@ -571,8 +571,8 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	message = e_msg_composer_get_message (composer);
 
 	subject = camel_mime_message_get_subject (message);
-	if (subject == NULL || subject[0] == '\0') {
-		if (! ask_confirm_for_empty_subject (composer)) {
+	if (!subject || !*subject) {
+		if (!ask_confirm_for_empty_subject (composer)) {
 			gtk_object_unref (GTK_OBJECT (message));
 			return;
 		}
@@ -750,8 +750,6 @@ forward_msg (GtkWidget *button, gpointer user_data)
 	subject = camel_mime_message_get_subject (cursor_msg);
 	if (from) {
 		if (subject && *subject) {
-			while (*subject == ' ')
-				subject++;
 			fwd_subj = g_strdup_printf ("[%s] %s", from, subject);
 		} else {
 			fwd_subj = g_strdup_printf ("[%s] (forwarded message)",
