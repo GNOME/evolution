@@ -1,3 +1,8 @@
+2004-02-11  Kidd Wang  <kidd.wang@sun.com>
+
+	* gui/print.c: (print_date_label): guarantee we do have some timezone
+	before the time convertion.
+
 2004-02-10  JP Rosevear <jpr@ximian.com>
 
 	* importers/icalendar-importer.c: remove useless include
