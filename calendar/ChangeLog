@@ -1,5 +1,10 @@
 2004-01-22  JP Rosevear <jpr@ximian.com>
 
+	* gui/e-tasks.c (e_tasks_setup_view_menus): Remove debugging
+	statement
+
+2004-01-22  JP Rosevear <jpr@ximian.com>
+
 	* gui/gnome-cal.c (setup_widgets): use the calendar component
 	config dir
 	(gnome_calendar_setup_view_menus): use the calendar component base

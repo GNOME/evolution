@@ -1110,7 +1110,6 @@ e_tasks_setup_view_menus (ETasks *tasks, BonoboUIComponent *uic)
 
 		dir = g_build_filename (tasks_component_peek_base_directory (tasks_component_peek ()), 
 					"tasks", "views", NULL);		
-		g_message ("Using %s", dir);
 		gal_view_collection_set_storage_directories (collection,
 							     EVOLUTION_GALVIEWSDIR "/tasks/",
 							     dir);
