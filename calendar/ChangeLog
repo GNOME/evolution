@@ -1,3 +1,8 @@
+2004-01-29  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/calendar-view.c (calendar_view_get_type_code): added support for
+	the list view also.
+
 2004-01-28  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/gnome-cal.c (update_query):
