@@ -1,3 +1,7 @@
+2001-01-23  Not Zed  <NotZed@Ximian.com>
+
+	* mail-crypto.c (pgp_mime_part_verify): Fix a double-free problem.
+
 2001-01-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config-druid.c (incoming_type_changed): Oops, danw didn't
