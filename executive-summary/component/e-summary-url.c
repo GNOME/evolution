@@ -39,6 +39,7 @@
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
 #include <gal/util/e-util.h>
+#include <gal/widgets/e-unicode.h>
 
 #include <liboaf/liboaf.h>
 
@@ -550,7 +551,7 @@ e_summary_url_click (GtkWidget *widget,
 										CORBA_OBJECT_NIL);
 			gnome_property_box_append_page (GNOME_PROPERTY_BOX (prefsbox),
 							control_widget,
-							gtk_label_new ("page"));
+							gtk_label_new (_("page")));
 		}
 
 		gtk_widget_show_all (prefsbox);
