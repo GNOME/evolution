@@ -32,6 +32,7 @@
 #include <gtk/gtkoptionmenu.h>
 #include <libgnomeui/gnome-druid.h>
 #include <libgnomeui/gnome-druid-page.h>
+#include <libgnomeui/gnome-color-picker.h>
 #include <glade/glade.h>
 #include <libedataserver/e-source-list.h>
 #include <libecal/e-cal.h>
@@ -61,6 +62,7 @@ typedef struct
 
 	/* General page fields */
 	GtkWidget    *name_entry;
+	GtkWidget    *source_color;
 
 	/* Location page fields */
 	GtkWidget    *uri_entry;
@@ -371,6 +373,29 @@ general_update_dialog (SourceDialog *source_dialog)
 }
 
 static void
+colorpicker_set_color (GnomeColorPicker *color, guint32 rgb)
+{
+	gnome_color_picker_set_i8 (color, (rgb & 0xff0000) >> 16, (rgb & 0xff00) >> 8, rgb & 0xff, 0xff);
+}
+
+static guint32
+colorpicker_get_color (GnomeColorPicker *color)
+{
+	guint8 r, g, b, a;
+	guint32 rgb = 0;
+	
+	gnome_color_picker_get_i8 (color, &r, &g, &b, &a);
+	
+	rgb   = r;
+	rgb <<= 8;
+	rgb  |= g;
+	rgb <<= 8;
+	rgb  |= b;
+	
+	return rgb;
+}					    
+
+static void
 source_to_dialog (SourceDialog *source_dialog)
 {
 	ESource *source = source_dialog->source;
@@ -419,6 +444,16 @@ source_to_dialog (SourceDialog *source_dialog)
 	if (source_dialog->refresh_spin)
 		g_signal_handlers_unblock_matched (source_dialog->refresh_spin, G_SIGNAL_MATCH_DATA,
 						   0, 0, NULL, NULL, source_dialog);
+	if (source_dialog->source_color) {
+		guint32 color = 0xff00ff00;
+
+		if (source_dialog->source)
+			e_source_get_color (source_dialog->source, &color);
+		else 
+			/* FIXME */;
+
+		colorpicker_set_color (GNOME_COLOR_PICKER (source_dialog->source_color), color);
+	}
 }
 
 static void
@@ -452,6 +487,10 @@ dialog_to_source (SourceDialog *source_dialog)
 		e_source_set_property (source, "refresh", refresh_str);
 		g_free (refresh_str);
 	}
+	
+	if (source_dialog->source_color)
+		e_source_set_color (source, 
+				    colorpicker_get_color (GNOME_COLOR_PICKER (source_dialog->source_color)));
 }
 
 static gboolean
@@ -510,6 +549,13 @@ source_group_changed_sensitive (SourceDialog *source_dialog)
 			     gtk_option_menu_get_history (GTK_OPTION_MENU (source_dialog->group_optionmenu)))->data;
 
 	general_update_dialog (source_dialog);
+}
+
+static void
+new_calendar_test_uri (SourceDialog *source_dialog)
+{
+	gnome_url_show (gtk_entry_get_text (GTK_ENTRY (source_dialog->uri_entry)),
+			NULL)
 }
 
 static void
@@ -584,13 +630,19 @@ calendar_setup_new_calendar (GtkWindow *parent)
 
 	source_dialog->add_button = glade_xml_get_widget (source_dialog->gui_xml, "add-button");
 	gtk_widget_set_sensitive (source_dialog->add_button, FALSE);
-
 	g_signal_connect_swapped (source_dialog->add_button, "clicked",
 				  G_CALLBACK (new_calendar_add), source_dialog);
+
+	source_dialog->source_color = glade_xml_get_widget (source_dialog->gui_xml, "source-color");
+
 	g_object_weak_ref (G_OBJECT (source_dialog->window),
 			   (GWeakNotify) source_dialog_destroy, source_dialog);
 	
 	source_to_dialog (source_dialog);
+	
+	g_signal_connect_swapped (glade_xml_get_widget (source_dialog->gui_xml, "uri-button"), "clicked",
+				  G_CALLBACK (new_calendar_test_uri), source_dialog);
+	
 
 	gtk_window_set_type_hint (GTK_WINDOW (source_dialog->window), GDK_WINDOW_TYPE_HINT_DIALOG);
 	gtk_window_set_modal (GTK_WINDOW (source_dialog->window), TRUE);
