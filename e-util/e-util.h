@@ -103,6 +103,10 @@ void      e_bsearch                                                        (cons
 									    gpointer          closure,
 									    size_t           *start,
 									    size_t           *end);
+size_t    e_strftime_fix_am_pm                                             (char             *s,
+									    size_t            max,
+									    const char       *fmt,
+									    const struct tm  *tm);
 void      e_marshal_INT__INT_INT_POINTER                                   (GtkObject        *object,
 									    GtkSignalFunc     func,
 									    gpointer          func_data,

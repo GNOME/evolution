@@ -31,6 +31,7 @@
 #include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "e-util.h"
 #if 0
@@ -1115,3 +1116,65 @@ e_sort (void             *base,
 	g_free(base_copy);
 #endif
 }
+
+/**
+ * Function to do a last minute fixup of the AM/PM stuff if the locale
+ * and gettext haven't done it right. Most English speaking countries
+ * except the USA use the 24 hour clock (UK, Australia etc). However
+ * since they are English nobody bothers to write a language
+ * translation (gettext) file. So the locale turns off the AM/PM, but
+ * gettext does not turn on the 24 hour clock. Leaving a mess.
+ *
+ * This routine checks if AM/PM are defined in the locale, if not it
+ * forces the use of the 24 hour clock.
+ *
+ * The function itself is a front end on strftime and takes exactly
+ * the same arguments.
+ *
+ * TODO: Actually remove the '%p' from the fixed up string so that
+ * there isn't a stray space.
+ **/
+
+size_t e_strftime_fix_am_pm(char *s, size_t max, const char *fmt, const struct tm *tm)
+{
+	char buf[10];
+	char *sp;
+	char *ffmt;
+	size_t ret;
+
+	if (strstr(fmt, "%p")==NULL && strstr(fmt, "%P")==NULL) {
+		/* No AM/PM involved - can use the fmt string directly */
+		ret=strftime(s, max, fmt, tm);
+	} else {
+		/* Get the AM/PM symbol from the locale */
+		strftime (buf, 10, "%p", tm);
+
+		if (buf[0]) {
+			/**
+			 * AM/PM have been defined in the locale
+			 * so we can use the fmt string directly
+			 **/
+			ret=strftime(s, max, fmt, tm);
+		} else {
+			/**
+			 * No AM/PM defined by locale
+			 * must change to 24 hour clock
+			 **/
+			ffmt=g_strdup(fmt);
+			for (sp=ffmt; (sp=strstr(sp, "%l")); sp++) {
+				/**
+				 * Maybe this should be 'k', but I have never
+				 * seen a 24 clock actually use that format
+				 **/
+				sp[1]='H';
+			}
+			for (sp=ffmt; (sp=strstr(sp, "%I")); sp++) {
+				sp[1]='H';
+			}
+			ret=strftime(s, max, ffmt, tm);
+			g_free(ffmt);
+		}
+	}
+	return(ret);
+}
+

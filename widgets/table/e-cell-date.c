@@ -39,7 +39,7 @@ ecd_get_text(ECellText *cell, ETableModel *model, int col, int row)
 	localtime_r (&nowdate, &now);
 
 	if (nowdate - date < 60 * 60 * 8 && nowdate > date) {
-		strftime (buf, 26, _("%l:%M %p"), &then);
+		e_strftime_fix_am_pm (buf, 26, _("%l:%M %p"), &then);
 		done = TRUE;
 	}
 
@@ -47,7 +47,7 @@ ecd_get_text(ECellText *cell, ETableModel *model, int col, int row)
 		if (then.tm_mday == now.tm_mday &&
 		    then.tm_mon == now.tm_mon &&
 		    then.tm_year == now.tm_year) {
-			strftime (buf, 26, _("Today %l:%M %p"), &then);
+			e_strftime_fix_am_pm (buf, 26, _("Today %l:%M %p"), &then);
 			done = TRUE;
 		}
 	}
@@ -59,10 +59,10 @@ ecd_get_text(ECellText *cell, ETableModel *model, int col, int row)
 		    then.tm_year == yesterday.tm_year) {
 #if 0
 			if (nowdate - date < 60 * 60 * 12) {
-				strftime (buf, 26, _("Late Yesterday %l:%M %p"), &then);
+				e_strftime_fix_am_pm (buf, 26, _("Late Yesterday %l:%M %p"), &then);
 			} else {
 #endif
-				strftime (buf, 26, _("Yesterday %l:%M %p"), &then);
+				e_strftime_fix_am_pm (buf, 26, _("Yesterday %l:%M %p"), &then);
 #if 0
 			}
 #endif
@@ -77,7 +77,7 @@ ecd_get_text(ECellText *cell, ETableModel *model, int col, int row)
 			if (then.tm_mday == yesterday.tm_mday &&
 			    then.tm_mon == yesterday.tm_mon &&
 			    then.tm_year == yesterday.tm_year) {
-				strftime (buf, 26, _("%a %l:%M %p"), &then);
+				e_strftime_fix_am_pm (buf, 26, _("%a %l:%M %p"), &then);
 				done = TRUE;
 				break;
 			}
@@ -85,9 +85,9 @@ ecd_get_text(ECellText *cell, ETableModel *model, int col, int row)
 	}
 	if (!done) {
 		if (then.tm_year == now.tm_year) {
-			strftime (buf, 26, _("%b %d %l:%M %p"), &then);
+			e_strftime_fix_am_pm (buf, 26, _("%b %d %l:%M %p"), &then);
 		} else {
-			strftime (buf, 26, _("%b %d %Y"), &then);
+			e_strftime_fix_am_pm (buf, 26, _("%b %d %Y"), &then);
 		}
 	}
 #if 0
