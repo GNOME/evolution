@@ -137,8 +137,6 @@ gnome_calendar_init(GnomeCalendar *gcal)
 	gcal->week_view = 0;
 	gcal->year_view = 0;
 	gcal->event_editor = 0;
-
-	setup_widgets (gcal);
 }
 
 static GtkWidget *
@@ -222,6 +220,7 @@ gnome_calendar_new (char *title)
 
 	gcal->current_display = time (NULL);
 	gcal->cal = calendar_new (title);
+	setup_widgets (gcal);
 	return retval;
 }
 
@@ -233,16 +232,17 @@ gnome_calendar_update_all (GnomeCalendar *cal, iCalObject *object, int flags)
 	gncal_year_view_update (GNCAL_YEAR_VIEW (cal->year_view), object, flags);
 }
 
-void
+int
 gnome_calendar_load (GnomeCalendar *gcal, char *file)
 {
 	char *r;
 	
 	if ((r = calendar_load (gcal->cal, file)) != NULL){
 		printf ("Error loading calendar: %s\n", r);
-		return;
+		return 0;
 	}
 	gnome_calendar_update_all (gcal, NULL, 0);
+	return 1;
 }
 
 void

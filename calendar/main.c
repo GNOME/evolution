@@ -130,6 +130,7 @@ display_objedit (GtkWidget *widget, GnomeCalendar *gcal)
 void
 close_cmd (GtkWidget *widget, GnomeCalendar *gcal)
 {
+	all_calendars = g_list_remove (all_calendars, gcal);
 	if (gcal->cal->modified){
 		if (!gcal->cal->filename)
 			save_calendar_cmd (widget, gcal);
@@ -137,9 +138,8 @@ close_cmd (GtkWidget *widget, GnomeCalendar *gcal)
 			calendar_save (gcal->cal, gcal->cal->filename);
 	}
 
-	gtk_widget_destroy (GTK_WIDGET (gcal));
+/*	gtk_widget_destroy (GTK_WIDGET (gcal)); */
 	active_calendars--;
-	all_calendars = g_list_remove (all_calendars, gcal);
 	
 	if (active_calendars == 0)
 		gtk_main_quit ();
@@ -218,7 +218,14 @@ save_ok (GtkWidget *widget, GtkFileSelection *fs)
 
 	gcal->cal->filename = g_strdup (gtk_file_selection_get_filename (fs));
 	calendar_save (gcal->cal, gcal->cal->filename);
-	gtk_widget_destroy (GTK_WIDGET (fs));
+	gtk_main_quit ();
+}
+
+static gint
+close_save (GtkWidget *w)
+{
+	gtk_main_quit ();
+	return TRUE;
 }
 
 void
@@ -233,11 +240,15 @@ save_calendar_cmd (GtkWidget *widget, void *data)
 			    (GtkSignalFunc) save_ok,
 			    fs);
 	gtk_signal_connect_object (GTK_OBJECT (fs->cancel_button), "clicked",
-				   (GtkSignalFunc) gtk_widget_destroy,
+				   (GtkSignalFunc) close_save,
 				   GTK_OBJECT (fs));
-
+	gtk_signal_connect_object (GTK_OBJECT (fs), "delete_event",
+				   GTK_SIGNAL_FUNC (close_save),
+				   GTK_OBJECT (fs));
 	gtk_widget_show (GTK_WIDGET (fs));
 	gtk_grab_add (GTK_WIDGET (fs)); /* Yes, it is modal, so sue me even more */
+	gtk_main ();
+	gtk_widget_destroy (GTK_WIDGET (fs));
 }
 
 GnomeUIInfo gnome_cal_file_menu [] = {
