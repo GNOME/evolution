@@ -664,13 +664,6 @@ calendar_control_activate (BonoboControl *control,
 
 	bonobo_ui_component_thaw (uic, NULL);
 
-	/* Show the dialog for setting the timezone if the user hasn't chosen
-	   a default timezone already. This is done in the startup wizard now,
-	   so we don't do it here. */
-#if 0
-	calendar_config_check_timezone_set ();
-#endif
-
 	focus = g_new (FocusData, 1);
 	focus->calendar_focused = FALSE;
 	focus->taskpad_focused = FALSE;

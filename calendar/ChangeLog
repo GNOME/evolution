@@ -1,5 +1,10 @@
 2004-10-15  JP Rosevear  <jpr@novell.com>
 
+	* gui/calendar-commands.c (calendar_control_activate): remove
+	useless ifdef'd out statement (its been unused for 3+ years)
+	
+2004-10-15  JP Rosevear  <jpr@novell.com>
+	
 	* gui/calendar-commands.h (calendar_goto_today): remove prototype
 
 	* gui/calendar-commands.c: remove dead function
