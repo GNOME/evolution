@@ -608,7 +608,7 @@ camel_mbox_summary_sync(CamelMboxSummary *mbs, gboolean expunge)
 
 		d(printf("Looking at message %s\n", info->info.uid));
 
-		if (info->info.flags & CAMEL_MESSAGE_DELETED) {
+		if (expunge && info->info.flags & CAMEL_MESSAGE_DELETED) {
 			d(printf("Deleting %s\n", info->info.uid));
 
 			g_assert(!quick);

@@ -1,5 +1,8 @@
 2000-06-15  Dan Winship  <danw@helixcode.com>
 
+	* providers/mbox/camel-mbox-summary.c: fix a bug. (don't expunge
+	deleted messages if called with expunge == FALSE)
+	
 	* providers/pop3/camel-pop3-store.c (connect_to_server): Check
 	server for various interesting extensions.
 
