@@ -1,3 +1,12 @@
+1999-01-20  Nat Friedman  <nat@nat.org>
+
+	* gncal-full-day.c (gncal_full_day_key_press): Only trap printable
+ 	characters such that hotkeys work.
+	(UNSELECT_TIMEOUT): Changed to 0.  Much saner behavior.
+
+	* prop.c (properties): Connect gnome_help_pbox_display to the
+ 	GnomePropertyBox help button.
+
 1999-01-19  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* quick-view.c (quick_view_do_popup): Do not grab the mouse here

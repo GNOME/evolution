@@ -24,7 +24,7 @@
 #define HANDLE_SIZE 8
 #define MIN_WIDTH 200
 #define XOR_RECT_WIDTH 2
-#define UNSELECT_TIMEOUT 150 /* ms */
+#define UNSELECT_TIMEOUT 0 /* ms */
 
 /* Size of the pixmaps */
 #define DECOR_WIDTH      16
@@ -108,7 +108,6 @@ static void gncal_full_day_forall         (GtkContainer      *container,
 					   gpointer           callback_data);
 
 static void range_activated (GncalFullDay *fullday);
-
 
 static GtkContainerClass *parent_class;
 
@@ -1816,10 +1815,10 @@ gncal_full_day_button_release (GtkWidget *widget, GdkEventButton *event)
 		break;
 
 	case DRAG_SELECT:
-		if ((event->time - di->click_time) < UNSELECT_TIMEOUT)
-			di->sel_rows_used = 0;
-		else
-			recompute_motion (fullday, y);
+	    if ((event->time - di->click_time) < UNSELECT_TIMEOUT)
+		    di->sel_rows_used = 0;
+	    else
+		    recompute_motion (fullday, y);
 
 		gdk_pointer_ungrab (event->time);
 
@@ -1960,28 +1959,37 @@ gncal_full_day_key_press (GtkWidget *widget, GdkEventKey *event)
 		return TRUE;
 	}
 
-	if (event->length > 0) {
-		/* This means some printable key was pressed */
+	/*
+	 * If a non-printable key was pressed, bail.  Otherwise, begin
+	 * editing the appointment.
+	 */
+	if ((event->keyval < 0x20) || (event->keyval > 0xFF)
+	    || (event->length == 0) || (event->state & GDK_CONTROL_MASK)
+	    || (event->state & GDK_MOD1_MASK))
+	    return FALSE;
 
-		gtk_signal_emit (GTK_OBJECT (fullday), fullday_signals[RANGE_ACTIVATED]);
+	gtk_signal_emit (GTK_OBJECT (fullday),
+			 fullday_signals[RANGE_ACTIVATED]);
+	
+	/*
+	 * Find the new child, which should hopefully be focused, and
+	 * insert the keypress.
+	 */
+	for (children = fullday->children; children; children = children->next)
+	    {
+		child = children->data;
 
-		/* Find the new child, which should hopefully be focused, and insert the keypress */
+		if (GTK_WIDGET_HAS_FOCUS (child->widget)) {
+		    pos = gtk_text_get_length (GTK_TEXT (child->widget));
 
-		for (children = fullday->children; children; children = children->next) {
-			child = children->data;
+		    gtk_editable_insert_text (GTK_EDITABLE (child->widget),
+					      event->string,
+					      event->length,
+					      &pos);
 
-			if (GTK_WIDGET_HAS_FOCUS (child->widget)) {
-				pos = gtk_text_get_length (GTK_TEXT (child->widget));
-
-				gtk_editable_insert_text (GTK_EDITABLE (child->widget),
-							  event->string,
-							  event->length,
-							  &pos);
-
-				return TRUE;
-			}
+		    return TRUE;
 		}
-	}
+	    }
 
 	return FALSE;
 }

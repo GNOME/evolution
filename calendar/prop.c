@@ -498,6 +498,10 @@ create_colors_page (void)
 void
 properties (GtkWidget *toplevel)
 {
+        static GnomeHelpMenuEntry help_entry = { NULL, "properties" };
+
+	help_entry.name = gnome_app_id;
+
 	if (prop_win)
 		return;
 
@@ -516,6 +520,10 @@ properties (GtkWidget *toplevel)
 
 	gtk_signal_connect (GTK_OBJECT (prop_win), "apply",
 			    (GtkSignalFunc) prop_apply, NULL);
+
+	gtk_signal_connect (GTK_OBJECT (prop_win), "help",
+			    GTK_SIGNAL_FUNC (gnome_help_pbox_display),
+			    &help_entry);
 
 	gtk_widget_show_all (prop_win);
 }
