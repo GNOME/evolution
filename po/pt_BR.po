@@ -5023,677 +5023,677 @@ msgstr ""
 msgid "Group %i"
 msgstr "Grupo %i"
 
-#~ msgid "FIXME: _Appointment"
-#~ msgstr "FIXME: _Compromisso"
+msgid "FIXME: _Appointment"
+msgstr "FIXME: _Compromisso"
 
-#~ msgid "FIXME: Meeting Re_quest"
-#~ msgstr "FIXME: Pedido de _reunião"
+msgid "FIXME: Meeting Re_quest"
+msgstr "FIXME: Pedido de _reunião"
 
-#~ msgid "FIXME: _Mail Message"
-#~ msgstr "FIXME: _Mensagem de correio"
+msgid "FIXME: _Mail Message"
+msgstr "FIXME: _Mensagem de correio"
 
-#~ msgid "FIXME: _Contact"
-#~ msgstr "FIXME: _Contato"
+msgid "FIXME: _Contact"
+msgstr "FIXME: _Contato"
 
-#~ msgid "FIXME: _Task"
-#~ msgstr "FIXME: _Tarefa"
+msgid "FIXME: _Task"
+msgstr "FIXME: _Tarefa"
 
-#~ msgid "FIXME: Task _Request"
-#~ msgstr "FIXME: Pedido de t_arefa"
+msgid "FIXME: Task _Request"
+msgstr "FIXME: Pedido de t_arefa"
 
-#~ msgid "FIXME: _Journal Entry"
-#~ msgstr "FIXME: Item de _diário"
+msgid "FIXME: _Journal Entry"
+msgstr "FIXME: Item de _diário"
 
-#~ msgid "FIXME: _Note"
-#~ msgstr "FIXME: _Anotação"
+msgid "FIXME: _Note"
+msgstr "FIXME: _Anotação"
 
-#~ msgid "FIXME: Ch_oose Form..."
-#~ msgstr "FIXME: Escolher _formulário..."
+msgid "FIXME: Ch_oose Form..."
+msgstr "FIXME: Escolher _formulário..."
 
-#~ msgid "FIXME: _Memo Style"
-#~ msgstr "FIXME: Estilo de _memorando"
+msgid "FIXME: _Memo Style"
+msgstr "FIXME: Estilo de _memorando"
 
-#~ msgid "FIXME: Define Print _Styles..."
-#~ msgstr "FIXME: Definir estilos de _impressão..."
+msgid "FIXME: Define Print _Styles..."
+msgstr "FIXME: Definir estilos de _impressão..."
 
-#~ msgid "FIXME: S_end"
-#~ msgstr "FIXME: _Enviar"
+msgid "FIXME: S_end"
+msgstr "FIXME: _Enviar"
 
-#~ msgid "FIXME: Save Attac_hments..."
-#~ msgstr "FIXME: Salvar a_nexos..."
+msgid "FIXME: Save Attac_hments..."
+msgstr "FIXME: Salvar a_nexos..."
 
-#~ msgid "FIXME: Cop_y to Folder..."
-#~ msgstr "FIXME: _Copiar para a pasta..."
+msgid "FIXME: Cop_y to Folder..."
+msgstr "FIXME: _Copiar para a pasta..."
 
-#~ msgid "Page Set_up"
-#~ msgstr "_Configuração de página"
+msgid "Page Set_up"
+msgstr "_Configuração de página"
 
-#~ msgid "FIXME: Print Pre_view"
-#~ msgstr "FIXME: _Visualizar impressão"
+msgid "FIXME: Print Pre_view"
+msgstr "FIXME: _Visualizar impressão"
 
-#~ msgid "FIXME: Paste _Special..."
-#~ msgstr "FIXME: Colar _especial..."
+msgid "FIXME: Paste _Special..."
+msgstr "FIXME: Colar _especial..."
 
-#~ msgid "_Object"
-#~ msgstr "_Objeto"
+msgid "_Object"
+msgstr "_Objeto"
 
-#~ msgid "FIXME: _Item"
-#~ msgstr "FIXME: _Item"
+msgid "FIXME: _Item"
+msgstr "FIXME: _Item"
 
-#~ msgid "FIXME: _Unread Item"
-#~ msgstr "FIXME: Item não _lido"
+msgid "FIXME: _Unread Item"
+msgstr "FIXME: Item não _lido"
 
-#~ msgid "FIXME: Fi_rst Item in Folder"
-#~ msgstr "FIXME: _Primeiro item na pasta"
+msgid "FIXME: Fi_rst Item in Folder"
+msgstr "FIXME: _Primeiro item na pasta"
 
-#~ msgid "FIXME: _Last Item in Folder"
-#~ msgstr "FIXME: Úl_timo item na pasta"
+msgid "FIXME: _Last Item in Folder"
+msgstr "FIXME: Úl_timo item na pasta"
 
-#~ msgid "FIXME: _Standard"
-#~ msgstr "FIXME: _Padrão"
+msgid "FIXME: _Standard"
+msgstr "FIXME: _Padrão"
 
-#~ msgid "FIXME: __Formatting"
-#~ msgstr "FIXME: __Formatação"
+msgid "FIXME: __Formatting"
+msgstr "FIXME: __Formatação"
 
-#~ msgid "FIXME: _Customize..."
-#~ msgstr "FIXME: _Customizar..."
+msgid "FIXME: _Customize..."
+msgstr "FIXME: _Customizar..."
 
-#~ msgid "Pre_vious"
-#~ msgstr "_Anterior"
+msgid "Pre_vious"
+msgstr "_Anterior"
 
-#~ msgid "Ne_xt"
-#~ msgstr "P_róximo"
+msgid "Ne_xt"
+msgstr "P_róximo"
 
-#~ msgid "_Toolbars"
-#~ msgstr "_Ferramentas"
+msgid "_Toolbars"
+msgstr "_Ferramentas"
 
-#~ msgid "FIXME: It_em..."
-#~ msgstr "FIXME: _Item..."
+msgid "FIXME: It_em..."
+msgstr "FIXME: _Item..."
 
-#~ msgid "FIXME: _Object..."
-#~ msgstr "FIXME: _Objeto..."
+msgid "FIXME: _Object..."
+msgstr "FIXME: _Objeto..."
 
-#~ msgid "FIXME: _Font..."
-#~ msgstr "FIXME: _Fonte..."
+msgid "FIXME: _Font..."
+msgstr "FIXME: _Fonte..."
 
-#~ msgid "FIXME: _Paragraph..."
-#~ msgstr "FIXME: _Parágrafo..."
+msgid "FIXME: _Paragraph..."
+msgstr "FIXME: _Parágrafo..."
 
-#~ msgid "FIXME: Desi_gn This Form"
-#~ msgstr "FIXME: Projetar _este formulário"
+msgid "FIXME: Desi_gn This Form"
+msgstr "FIXME: Projetar _este formulário"
 
-#~ msgid "FIXME: D_esign a Form..."
-#~ msgstr "FIXME: Projetar _um formulário..."
+msgid "FIXME: D_esign a Form..."
+msgstr "FIXME: Projetar _um formulário..."
 
-#~ msgid "FIXME: Publish _Form..."
-#~ msgstr "FIXME: Publicar _formulário..."
+msgid "FIXME: Publish _Form..."
+msgstr "FIXME: Publicar _formulário..."
 
-#~ msgid "FIXME: Pu_blish Form As..."
-#~ msgstr "FIXME: Publicar formulário _como..."
+msgid "FIXME: Pu_blish Form As..."
+msgstr "FIXME: Publicar formulário _como..."
 
-#~ msgid "FIXME: Script _Debugger"
-#~ msgstr "FIXME: _Depurador de scripts"
+msgid "FIXME: Script _Debugger"
+msgstr "FIXME: _Depurador de scripts"
 
-#~ msgid "FIXME: _Spelling..."
-#~ msgstr "FIXME: _Ortografia..."
+msgid "FIXME: _Spelling..."
+msgstr "FIXME: _Ortografia..."
 
-#~ msgid "_Forms"
-#~ msgstr "_Formulários"
+msgid "_Forms"
+msgstr "_Formulários"
 
-#~ msgid "FIXME: _New Contact"
-#~ msgstr "FIXME: _Novo contato"
+msgid "FIXME: _New Contact"
+msgstr "FIXME: _Novo contato"
 
-#~ msgid "FIXME: New _Contact from Same Company"
-#~ msgstr "FIXME: Novo _contato da mesma empresa"
+msgid "FIXME: New _Contact from Same Company"
+msgstr "FIXME: Novo _contato da mesma empresa"
 
-#~ msgid "FIXME: New _Letter to Contact"
-#~ msgstr "FIXME: Nova c_orrespondência para contato"
+msgid "FIXME: New _Letter to Contact"
+msgstr "FIXME: Nova c_orrespondência para contato"
 
-#~ msgid "FIXME: New _Message to Contact"
-#~ msgstr "FIXME: Nova _mensagem para contato"
+msgid "FIXME: New _Message to Contact"
+msgstr "FIXME: Nova _mensagem para contato"
 
-#~ msgid "FIXME: New Meetin_g with Contact"
-#~ msgstr "FIXME: Nova _reunião com contato"
+msgid "FIXME: New Meetin_g with Contact"
+msgstr "FIXME: Nova _reunião com contato"
 
-#~ msgid "FIXME: _Plan a Meeting..."
-#~ msgstr "FIXME: _Planejar uma reunião..."
+msgid "FIXME: _Plan a Meeting..."
+msgstr "FIXME: _Planejar uma reunião..."
 
-#~ msgid "FIXME: New _Task for Contact"
-#~ msgstr "FIXME: Nova _tarefa para contato"
+msgid "FIXME: New _Task for Contact"
+msgstr "FIXME: Nova _tarefa para contato"
 
-#~ msgid "FIXME: New _Journal Entry for Contact"
-#~ msgstr "FIXME: Novo item de _diário para contato"
+msgid "FIXME: New _Journal Entry for Contact"
+msgstr "FIXME: Novo item de _diário para contato"
 
-#~ msgid "FIXME: _Flag for Follow Up..."
-#~ msgstr "FIXME: _Marcar para seguimento..."
+msgid "FIXME: _Flag for Follow Up..."
+msgstr "FIXME: _Marcar para seguimento..."
 
-#~ msgid "FIXME: _Display Map of Address"
-#~ msgstr "FIXME: _Exibir mapa do endereço"
+msgid "FIXME: _Display Map of Address"
+msgstr "FIXME: _Exibir mapa do endereço"
 
-#~ msgid "FIXME: _Open Web Page"
-#~ msgstr "FIXME: _Abrir página web"
+msgid "FIXME: _Open Web Page"
+msgstr "FIXME: _Abrir página web"
 
-#~ msgid "FIXME: Forward as _vCard"
-#~ msgstr "FIXME: Encaminhar como _vCard"
+msgid "FIXME: Forward as _vCard"
+msgstr "FIXME: Encaminhar como _vCard"
 
-#~ msgid "FIXME: For_ward"
-#~ msgstr "FIXME: _Encaminhar"
+msgid "FIXME: For_ward"
+msgstr "FIXME: _Encaminhar"
 
-#~ msgid "_Insert"
-#~ msgstr "_Inserir"
+msgid "_Insert"
+msgstr "_Inserir"
 
-#~ msgid "F_ormat"
-#~ msgstr "F_ormato"
+msgid "F_ormat"
+msgstr "F_ormato"
 
-#~ msgid "FIXME: Insert File..."
-#~ msgstr "FIXME: Inserir arquivo..."
+msgid "FIXME: Insert File..."
+msgstr "FIXME: Inserir arquivo..."
 
-#~ msgid "Insert a file as an attachment"
-#~ msgstr "Insere um arquivo como um anexo"
+msgid "Insert a file as an attachment"
+msgstr "Insere um arquivo como um anexo"
 
-#~ msgid "FIXME: Previous"
-#~ msgstr "FIXME: Anterior"
+msgid "FIXME: Previous"
+msgstr "FIXME: Anterior"
 
-#~ msgid "Go to the previous item"
-#~ msgstr "Vai para o item anterior"
+msgid "Go to the previous item"
+msgstr "Vai para o item anterior"
 
-#~ msgid "FIXME: Next"
-#~ msgstr "FIXME: Próximo"
+msgid "FIXME: Next"
+msgstr "FIXME: Próximo"
 
-#~ msgid "Go to the next item"
-#~ msgstr "Vai para o próximo item"
+msgid "Go to the next item"
+msgstr "Vai para o próximo item"
 
-#~ msgid "FIXME: Help"
-#~ msgstr "FIXME: Ajuda"
+msgid "FIXME: Help"
+msgstr "FIXME: Ajuda"
 
-#~ msgid "See online help"
-#~ msgstr "Abre ajuda"
+msgid "See online help"
+msgstr "Abre ajuda"
 
-#~ msgid "Gnome Calendar"
-#~ msgstr "Agenda Gnome"
+msgid "Gnome Calendar"
+msgstr "Agenda Gnome"
 
-#~ msgid "The GNOME personal calendar and schedule manager."
-#~ msgstr "A agenda pessoal e gerente de compromissos do GNOME."
+msgid "The GNOME personal calendar and schedule manager."
+msgstr "A agenda pessoal e gerente de compromissos do GNOME."
 
-#~ msgid "Year"
-#~ msgstr "Ano"
+msgid "Year"
+msgstr "Ano"
 
-#~ msgid "Show 1 year"
-#~ msgstr "Exibe 1 ano"
+msgid "Show 1 year"
+msgstr "Exibe 1 ano"
 
-#~ msgid "New appointment for _today..."
-#~ msgstr "Novo compromisso para _hoje..."
+msgid "New appointment for _today..."
+msgstr "Novo compromisso para _hoje..."
 
-#~ msgid "Create a new appointment for today"
-#~ msgstr "Cria um novo compromisso para hoje"
+msgid "Create a new appointment for today"
+msgstr "Cria um novo compromisso para hoje"
 
-#~ msgid "About Calendar"
-#~ msgstr "Sobre a agenda"
+msgid "About Calendar"
+msgstr "Sobre a agenda"
 
-#~ msgid "'s calendar"
-#~ msgstr "Agenda de "
+msgid "'s calendar"
+msgstr "Agenda de "
 
-#~ msgid "?"
-#~ msgstr "?"
+msgid "?"
+msgstr "?"
 
-#~ msgid "FIXME: _Delete"
-#~ msgstr "FIXME: _Excluir"
+msgid "FIXME: _Delete"
+msgstr "FIXME: _Excluir"
 
-#~ msgid "FIXME: Ca_lendar..."
-#~ msgstr "FIXME: _Agenda..."
+msgid "FIXME: Ca_lendar..."
+msgstr "FIXME: _Agenda..."
 
-#~ msgid "FIXME: Chec_k Names"
-#~ msgstr "FIXME: _Verificar nomes"
+msgid "FIXME: Chec_k Names"
+msgstr "FIXME: _Verificar nomes"
 
-#~ msgid "FIXME: Address _Book..."
-#~ msgstr "FIXME: _Catálogo de endereços..."
+msgid "FIXME: Address _Book..."
+msgstr "FIXME: _Catálogo de endereços..."
 
-#~ msgid "FIXME: _New Appointment"
-#~ msgstr "FIXME: _Novo compromisso"
+msgid "FIXME: _New Appointment"
+msgstr "FIXME: _Novo compromisso"
 
-#~ msgid "FIXME: Rec_urrence..."
-#~ msgstr "FIXME: _Recorrência..."
+msgid "FIXME: Rec_urrence..."
+msgstr "FIXME: _Recorrência..."
 
-#~ msgid "FIXME: Invite _Attendees..."
-#~ msgstr "FIXME: Convidar _participantes..."
+msgid "FIXME: Invite _Attendees..."
+msgstr "FIXME: Convidar _participantes..."
 
-#~ msgid "FIXME: C_ancel Invitation..."
-#~ msgstr "FIXME: Cancelar con_vite..."
+msgid "FIXME: C_ancel Invitation..."
+msgstr "FIXME: Cancelar con_vite..."
 
-#~ msgid "FIXME: Forward as v_Calendar"
-#~ msgstr "FIXME: _Encaminhar como vCalendar"
+msgid "FIXME: Forward as v_Calendar"
+msgstr "FIXME: _Encaminhar como vCalendar"
 
-#~ msgid "FIXME: Save and Close"
-#~ msgstr "FIXME: Salvar e fechar"
+msgid "FIXME: Save and Close"
+msgstr "FIXME: Salvar e fechar"
 
-#~ msgid "FIXME: Print..."
-#~ msgstr "FIXME: Imprimir..."
+msgid "FIXME: Print..."
+msgstr "FIXME: Imprimir..."
 
-#~ msgid "FIXME: Recurrence..."
-#~ msgstr "FIXME: Recorrência..."
+msgid "FIXME: Recurrence..."
+msgstr "FIXME: Recorrência..."
 
-#~ msgid "Configure recurrence rules"
-#~ msgstr "Configura as regras de recorrência"
+msgid "Configure recurrence rules"
+msgstr "Configura as regras de recorrência"
 
-#~ msgid "FIXME: Invite Attendees..."
-#~ msgstr "FIXME: Convidar participantes..."
+msgid "FIXME: Invite Attendees..."
+msgstr "FIXME: Convidar participantes..."
 
-#~ msgid "Invite attendees to a meeting"
-#~ msgstr "Convida os participantes para uma reunião"
+msgid "Invite attendees to a meeting"
+msgstr "Convida os participantes para uma reunião"
 
-#~ msgid "FIXME: Delete"
-#~ msgstr "FIXME: Excluir"
+msgid "FIXME: Delete"
+msgstr "FIXME: Excluir"
 
-#~ msgid "Add to-do item..."
-#~ msgstr "Incluir tarefa..."
+msgid "Add to-do item..."
+msgstr "Incluir tarefa..."
 
-#~ msgid "Edit this item..."
-#~ msgstr "Editar este item..."
+msgid "Edit this item..."
+msgstr "Editar este item..."
 
-#~ msgid "Time Left"
-#~ msgstr "Tempo restante"
+msgid "Time Left"
+msgstr "Tempo restante"
 
-#~ msgid "To-do list"
-#~ msgstr "Lista de tarefas"
+msgid "To-do list"
+msgstr "Lista de tarefas"
 
-#~ msgid "Edit..."
-#~ msgstr "Editar..."
+msgid "Edit..."
+msgstr "Editar..."
 
-#~ msgid "Weeks"
-#~ msgstr "Semanas"
+msgid "Weeks"
+msgstr "Semanas"
 
-#~ msgid "Days"
-#~ msgstr "Dias"
+msgid "Days"
+msgstr "Dias"
 
-#~ msgid "Hours"
-#~ msgstr "Horas"
+msgid "Hours"
+msgstr "Horas"
 
-#~ msgid "Hour"
-#~ msgstr "Hora"
+msgid "Hour"
+msgstr "Hora"
 
-#~ msgid "Minutes"
-#~ msgstr "Minutos"
+msgid "Minutes"
+msgstr "Minutos"
 
-#~ msgid "Minute"
-#~ msgstr "Minuto"
+msgid "Minute"
+msgstr "Minuto"
 
-#~ msgid "Second"
-#~ msgstr "Segundo"
+msgid "Second"
+msgstr "Segundo"
 
-#~ msgid "TODO Items"
-#~ msgstr "Tarefas"
+msgid "TODO Items"
+msgstr "Tarefas"
 
-#~ msgid "%a"
-#~ msgstr "%a"
+msgid "%a"
+msgstr "%a"
 
-#~ msgid "%b"
-#~ msgstr "%b"
+msgid "%b"
+msgstr "%b"
 
-#~ msgid "Current week (%s %s %d - %s %s %d %d)"
-#~ msgstr "Semana atual (%s %s %d - %s %s %d %d)"
+msgid "Current week (%s %s %d - %s %s %d %d)"
+msgstr "Semana atual (%s %s %d - %s %s %d %d)"
 
-#~ msgid "Current week (%s %s %d %d - %s %s %d %d)"
-#~ msgstr "Semana atual (%s %s %d %d - %s %s %d %d)"
+msgid "Current week (%s %s %d %d - %s %s %d %d)"
+msgstr "Semana atual (%s %s %d %d - %s %s %d %d)"
 
-#~ msgid "Discard this message?"
-#~ msgstr "Descartar esta mensagem?"
+msgid "Discard this message?"
+msgstr "Descartar esta mensagem?"
 
-#~ msgid "Load a previously saved message"
-#~ msgstr "Carrega uma mensagem salva anteriormente"
+msgid "Load a previously saved message"
+msgstr "Carrega uma mensagem salva anteriormente"
 
-#~ msgid "_Save as..."
-#~ msgstr "Salvar _como..."
+msgid "_Save as..."
+msgstr "Salvar _como..."
 
-#~ msgid "Save in _folder..."
-#~ msgstr "Salvar na _pasta..."
+msgid "Save in _folder..."
+msgstr "Salvar na _pasta..."
 
-#~ msgid "Save the message in a specified folder"
-#~ msgstr "Salva a mensagem em uma pasta escolhida"
+msgid "Save the message in a specified folder"
+msgstr "Salva a mensagem em uma pasta escolhida"
 
-#~ msgid "_Insert text file... (FIXME)"
-#~ msgstr "_Inserir arquivo texto... (FIXME)"
+msgid "_Insert text file... (FIXME)"
+msgstr "_Inserir arquivo texto... (FIXME)"
 
-#~ msgid "Insert a file as text into the message"
-#~ msgstr "Insere um arquivo como texto na mensagem"
+msgid "Insert a file as text into the message"
+msgstr "Insere um arquivo como texto na mensagem"
 
-#~ msgid "_Send"
-#~ msgstr "_Enviar"
+msgid "_Send"
+msgstr "_Enviar"
 
-#~ msgid "_Close..."
-#~ msgstr "_Fechar..."
+msgid "_Close..."
+msgstr "_Fechar..."
 
-#~ msgid "_Format"
-#~ msgstr "_Formato"
+msgid "_Format"
+msgstr "_Formato"
 
-#~ msgid "HTML"
-#~ msgstr "HTML"
+msgid "HTML"
+msgstr "HTML"
 
-#~ msgid "Show _attachments"
-#~ msgstr "Exibir _anexos"
+msgid "Show _attachments"
+msgstr "Exibir _anexos"
 
-#~ msgid "Show/hide attachments"
-#~ msgstr "Exibe/esconde os anexos"
+msgid "Show/hide attachments"
+msgstr "Exibe/esconde os anexos"
 
-#~ msgid "Send"
-#~ msgstr "Enviar"
+msgid "Send"
+msgstr "Enviar"
 
-#~ msgid "Send this message"
-#~ msgstr "Envia esta mensagem"
+msgid "Send this message"
+msgstr "Envia esta mensagem"
 
-#~ msgid "Attach"
-#~ msgstr "Anexar"
+msgid "Attach"
+msgstr "Anexar"
 
-#~ msgid "Attach a file"
-#~ msgstr "Anexa um arquivo"
+msgid "Attach a file"
+msgstr "Anexa um arquivo"
 
-#~ msgid "Create filter"
-#~ msgstr "Criar filtro"
+msgid "Create filter"
+msgstr "Criar filtro"
 
-#~ msgid "Back"
-#~ msgstr "Voltar"
+msgid "Back"
+msgstr "Voltar"
 
-#~ msgid "Finish"
-#~ msgstr "Concluir"
+msgid "Finish"
+msgstr "Concluir"
 
-#~ msgid "Apply"
-#~ msgstr "Aplicar"
+msgid "Apply"
+msgstr "Aplicar"
 
-#~ msgid ""
-#~ "<h2>Create Filtering Rule</h2><p>Select one of the base rules above, then "
-#~ "continue forwards to customise it.</p>"
-#~ msgstr ""
-#~ "<h2>Criar regra de filtragem</h2><p>Selecione uma das regras base acima, "
-#~ "então continue para personalizá-la.</p>"
+msgid ""
+"<h2>Create Filtering Rule</h2><p>Select one of the base rules above, then "
+"continue forwards to customise it.</p>"
+msgstr ""
+"<h2>Criar regra de filtragem</h2><p>Selecione uma das regras base acima, "
+"então continue para personalizá-la.</p>"
 
-#~ msgid "Check for new mail"
-#~ msgstr "Verificar nova correspondência"
+msgid "Check for new mail"
+msgstr "Verificar nova correspondência"
 
 #, fuzzy
-#~ msgid "Refile"
-#~ msgstr "Abrir arquivo"
+msgid "Refile"
+msgstr "Abrir arquivo"
 
-#~ msgid "_Filter Druid ..."
-#~ msgstr "Assistente de _filtros ..."
+msgid "_Filter Druid ..."
+msgstr "Assistente de _filtros ..."
 
-#~ msgid "Test these values before continuing"
-#~ msgstr "Testar estes valores antes de continuar"
+msgid "Test these values before continuing"
+msgstr "Testar estes valores antes de continuar"
 
-#~ msgid "Select the method you would like to use to deliver your mail."
-#~ msgstr ""
-#~ "Selecione a maneira como você gostaria de entregar sua correspondência."
+msgid "Select the method you would like to use to deliver your mail."
+msgstr ""
+"Selecione a maneira como você gostaria de entregar sua correspondência."
 
-#~ msgid "Currently pending operations:"
-#~ msgstr "Operações pendentes no momento:"
-
-#, fuzzy
-#~ msgid "Mail Component: I could not initialize Bonobo"
-#~ msgstr "Não foi possível iniciar Bonobo"
-
-#~ msgid "Online Status"
-#~ msgstr "Estado conectado"
-
-#~ msgid "Subject"
-#~ msgstr "Assunto"
-
-#~ msgid "Date"
-#~ msgstr "Data"
-
-#~ msgid "Received"
-#~ msgstr "Recebida em"
-
-#~ msgid "To"
-#~ msgstr "Para"
-
-#~ msgid "Size"
-#~ msgstr "Tamanho"
+msgid "Currently pending operations:"
+msgstr "Operações pendentes no momento:"
 
 #, fuzzy
-#~ msgid "Composes a new mail message"
-#~ msgstr "Redige uma nova mensagem"
+msgid "Mail Component: I could not initialize Bonobo"
+msgstr "Não foi possível iniciar Bonobo"
+
+msgid "Online Status"
+msgstr "Estado conectado"
+
+msgid "Subject"
+msgstr "Assunto"
+
+msgid "Date"
+msgstr "Data"
+
+msgid "Received"
+msgstr "Recebida em"
+
+msgid "To"
+msgstr "Para"
+
+msgid "Size"
+msgstr "Tamanho"
 
 #, fuzzy
-#~ msgid "Task _Request (FIXME)"
-#~ msgstr "_Tarefa (FIXME)"
+msgid "Composes a new mail message"
+msgstr "Redige uma nova mensagem"
 
 #, fuzzy
-#~ msgid "_Journal Entry (FIXME)"
-#~ msgstr "C_ontato (FIXME)"
-
-#~ msgid "Show _shortcut bar"
-#~ msgstr "Exibir barra de _atalhos"
-
-#~ msgid "Show _folder bar"
-#~ msgstr "Exibir barra de _pastas"
-
-#~ msgid "Cannot initialize the configuration system."
-#~ msgstr "Não é possível iniciar o sistema de configuração."
-
-#~ msgid "Fields"
-#~ msgstr "Campos"
-
-#~ msgid "Grouping"
-#~ msgstr "Agrupamento"
-
-#~ msgid "Filter"
-#~ msgstr "Filtro"
-
-#~ msgid "Field Chooser"
-#~ msgstr "Editor de campos"
-
-#~ msgid ""
-#~ "To add a column to your table, drag it into\n"
-#~ "the location in which you want it to appear."
-#~ msgstr ""
-#~ "Para incluir uma coluna à sua tabela, arreste-a\n"
-#~ "para o local onde você deseja que ela apareça."
-
-#~ msgid "window1"
-#~ msgstr "window1"
-
-#~ msgid "Available fields"
-#~ msgstr "Campos disponíveis"
-
-#~ msgid "label1"
-#~ msgstr "label1"
-
-#~ msgid "Show in this order"
-#~ msgstr "Exibir nesta ordem"
-
-#~ msgid "label2"
-#~ msgstr "label2"
-
-#~ msgid "Add >>"
-#~ msgstr "Incluir >>"
-
-#~ msgid "<< Remove"
-#~ msgstr "<< Remover"
+msgid "Task _Request (FIXME)"
+msgstr "_Tarefa (FIXME)"
 
 #, fuzzy
-#~ msgid "FIXME: Intive _Attendees..."
-#~ msgstr "FIXME: Convidar _participantes..."
+msgid "_Journal Entry (FIXME)"
+msgstr "C_ontato (FIXME)"
+
+msgid "Show _shortcut bar"
+msgstr "Exibir barra de _atalhos"
+
+msgid "Show _folder bar"
+msgstr "Exibir barra de _pastas"
+
+msgid "Cannot initialize the configuration system."
+msgstr "Não é possível iniciar o sistema de configuração."
+
+msgid "Fields"
+msgstr "Campos"
+
+msgid "Grouping"
+msgstr "Agrupamento"
+
+msgid "Filter"
+msgstr "Filtro"
+
+msgid "Field Chooser"
+msgstr "Editor de campos"
+
+msgid ""
+"To add a column to your table, drag it into\n"
+"the location in which you want it to appear."
+msgstr ""
+"Para incluir uma coluna à sua tabela, arreste-a\n"
+"para o local onde você deseja que ela apareça."
+
+msgid "window1"
+msgstr "window1"
+
+msgid "Available fields"
+msgstr "Campos disponíveis"
+
+msgid "label1"
+msgstr "label1"
+
+msgid "Show in this order"
+msgstr "Exibir nesta ordem"
+
+msgid "label2"
+msgstr "label2"
+
+msgid "Add >>"
+msgstr "Incluir >>"
+
+msgid "<< Remove"
+msgstr "<< Remover"
 
 #, fuzzy
-#~ msgid "Cut selected region into the clipboard"
-#~ msgstr "Recortar item selecionado para a área de tranferência"
+msgid "FIXME: Intive _Attendees..."
+msgstr "FIXME: Convidar _participantes..."
 
 #, fuzzy
-#~ msgid "Copy selected region into the clipboard"
-#~ msgstr "Copiar item selecionado para a área de transferência"
+msgid "Cut selected region into the clipboard"
+msgstr "Recortar item selecionado para a área de tranferência"
 
 #, fuzzy
-#~ msgid "Paste selected region into the clipboard"
-#~ msgstr "Recortar item selecionado para a área de tranferência"
-
-#~ msgid "Undo"
-#~ msgstr "Desfazer"
-
-#~ msgid "Undo last operation"
-#~ msgstr "Desfazer a última operação"
+msgid "Copy selected region into the clipboard"
+msgstr "Copiar item selecionado para a área de transferência"
 
 #, fuzzy
-#~ msgid "Cc"
-#~ msgstr "Cc:"
+msgid "Paste selected region into the clipboard"
+msgstr "Recortar item selecionado para a área de tranferência"
+
+msgid "Undo"
+msgstr "Desfazer"
+
+msgid "Undo last operation"
+msgstr "Desfazer a última operação"
 
 #, fuzzy
-#~ msgid "_Close Calendar"
-#~ msgstr "Agenda Gnome"
+msgid "Cc"
+msgstr "Cc:"
 
 #, fuzzy
-#~ msgid "Close current calendar"
-#~ msgstr "Abrir agenda"
-
-#~ msgid "(C) 1998"
-#~ msgstr "(C) 1998"
-
-#~ msgid "gnome-calendar-conduit.png"
-#~ msgstr "gnome-calendar-conduit.png"
+msgid "_Close Calendar"
+msgstr "Agenda Gnome"
 
 #, fuzzy
-#~ msgid "Cannot initialze the GnomePilot Daemon"
-#~ msgstr "Não é possível iniciar o sistema de componentes Bonobo."
+msgid "Close current calendar"
+msgstr "Abrir agenda"
 
-#~ msgid "Specifies the port on which the Pilot is"
-#~ msgstr "Especifica a porta onde o pilot está"
+msgid "(C) 1998"
+msgstr "(C) 1998"
 
-#~ msgid "PORT"
-#~ msgstr "PORTA"
-
-#~ msgid "If you want to debug the attributes on records"
-#~ msgstr "Se você quer depurar os atributos dos registros"
-
-#~ msgid "Only syncs from desktop to pilot"
-#~ msgstr "Apenas sincroniza do computador para o pilot"
-
-#~ msgid "Only syncs from pilot to desktop"
-#~ msgstr "Apenas sincroniza do pilot para o computador"
+msgid "gnome-calendar-conduit.png"
+msgstr "gnome-calendar-conduit.png"
 
 #, fuzzy
-#~ msgid "Can not create Pilot socket\n"
-#~ msgstr "Não foi possível criar caixa de diálogo."
+msgid "Cannot initialze the GnomePilot Daemon"
+msgstr "Não é possível iniciar o sistema de componentes Bonobo."
 
-#~ msgid "Can not bind to device %s\n"
-#~ msgstr "Não é possível ligar ao dispositivo %s\n"
+msgid "Specifies the port on which the Pilot is"
+msgstr "Especifica a porta onde o pilot está"
 
-#~ msgid "Failed to get a connection from the Pilot device"
-#~ msgstr "Falha ao criar uma conexão com o pilot"
+msgid "PORT"
+msgstr "PORTA"
 
-#~ msgid "pi_accept failed"
-#~ msgstr "Falhou pi_accept"
+msgid "If you want to debug the attributes on records"
+msgstr "Se você quer depurar os atributos dos registros"
 
-#~ msgid ""
-#~ "\tObject has been modified on desktop and on the pilot, desktop takes "
-#~ "precedence\n"
-#~ msgstr ""
-#~ "\tObjeto foi alterado no computador e no pilot, computador tem a "
-#~ "precedência\n"
+msgid "Only syncs from desktop to pilot"
+msgstr "Apenas sincroniza do computador para o pilot"
 
-#~ msgid "Could not open DatebookDB on the Pilot"
-#~ msgstr "Não foi possível abrir DatebookDB no pilot"
+msgid "Only syncs from pilot to desktop"
+msgstr "Apenas sincroniza do pilot para o computador"
 
 #, fuzzy
-#~ msgid "Unable to open DatebookDB"
-#~ msgstr "Não é possível abrir o catálogo de endereços"
+msgid "Can not create Pilot socket\n"
+msgstr "Não foi possível criar caixa de diálogo."
 
-#~ msgid "Synced DateBook from Pilot to GnomeCal"
-#~ msgstr "Sincronizado DateBook do pilot à Agenda Gnome"
+msgid "Can not bind to device %s\n"
+msgstr "Não é possível ligar ao dispositivo %s\n"
 
-#~ msgid "_Owner:"
-#~ msgstr "_Dono:"
+msgid "Failed to get a connection from the Pilot device"
+msgstr "Falha ao criar uma conexão com o pilot"
 
-#~ msgid "Enabled"
-#~ msgstr "Habilitado"
+msgid "pi_accept failed"
+msgstr "Falhou pi_accept"
 
-#, fuzzy
-#~ msgid "Signature file"
-#~ msgstr "Arquivo de assinatura:"
+msgid ""
+"\tObject has been modified on desktop and on the pilot, desktop takes "
+"precedence\n"
+msgstr ""
+"\tObjeto foi alterado no computador e no pilot, computador tem a "
+"precedência\n"
 
-#, fuzzy
-#~ msgid "Camel Providers Configuration"
-#~ msgstr "_Configuração de correio ..."
-
-#, fuzzy
-#~ msgid "Mail sources"
-#~ msgstr "Fonte de papel:"
+msgid "Could not open DatebookDB on the Pilot"
+msgstr "Não foi possível abrir DatebookDB no pilot"
 
 #, fuzzy
-#~ msgid "Evolution can not create its local folders"
-#~ msgstr "Evolution - Criar nova pasta"
+msgid "Unable to open DatebookDB"
+msgstr "Não é possível abrir o catálogo de endereços"
+
+msgid "Synced DateBook from Pilot to GnomeCal"
+msgstr "Sincronizado DateBook do pilot à Agenda Gnome"
+
+msgid "_Owner:"
+msgstr "_Dono:"
+
+msgid "Enabled"
+msgstr "Habilitado"
 
 #, fuzzy
-#~ msgid "_Appointment"
-#~ msgstr "Compromissos:"
+msgid "Signature file"
+msgstr "Arquivo de assinatura:"
 
 #, fuzzy
-#~ msgid "Meeting Re_quest"
-#~ msgstr "FIXME: Pedido de _reunião"
+msgid "Camel Providers Configuration"
+msgstr "_Configuração de correio ..."
 
 #, fuzzy
-#~ msgid "_Contact"
-#~ msgstr "_Novo contato"
+msgid "Mail sources"
+msgstr "Fonte de papel:"
 
 #, fuzzy
-#~ msgid "Task _Request"
-#~ msgstr "FIXME: Pedido de t_arefa"
+msgid "Evolution can not create its local folders"
+msgstr "Evolution - Criar nova pasta"
 
 #, fuzzy
-#~ msgid "_Journal Entry"
-#~ msgstr "FIXME: Item de _diário"
+msgid "_Appointment"
+msgstr "Compromissos:"
 
 #, fuzzy
-#~ msgid "_Note"
-#~ msgstr "_Notas:"
-
-#~ msgid "_Selected Items"
-#~ msgstr "_Itens selecionados"
-
-#~ msgid "Clos_e All Items"
-#~ msgstr "Fechar _todos os itens"
-
-#~ msgid "Closes all the open items"
-#~ msgstr "Fecha todos os itens abertos"
+msgid "Meeting Re_quest"
+msgstr "FIXME: Pedido de _reunião"
 
 #, fuzzy
-#~ msgid "Browse..."
-#~ msgstr "_Fechar..."
-
-#~ msgid "_Configure Camel Providers ..."
-#~ msgstr "_Configurar provedores Camel"
-
-#~ msgid "We are sorry, Evolution's Folder Browser can not be initialized."
-#~ msgstr "Pedimos desculpas, o navegador de pastas não pode ser iniciado."
+msgid "_Contact"
+msgstr "_Novo contato"
 
 #, fuzzy
-#~ msgid "Whether a message preview should be shown"
-#~ msgstr "Se a visualização de uma mensagem deve ser exibida"
-
-#~ msgid "\tObject did not exist, creating a new one\n"
-#~ msgstr "\tObjeto não existe, criando um novo\n"
-
-#~ msgid "Syncing with the pilot..."
-#~ msgstr "Sincronizando com o pilot..."
-
-#~ msgid "IMAP server replied using unknown tokens.\n"
-#~ msgstr "Servidor IMAP respondeu usando mensagens desconhecidas.\n"
-
-#~ msgid "IMAP responded with \"no such message\".\n"
-#~ msgstr "IMAP respondeu com \"mensagem desconhecida\".\n"
-
-#~ msgid "Connecting to IMAP server (%s)..."
-#~ msgstr "Conectando ao servidor IMAP (%s)..."
-
-#~ msgid "failed.\n"
-#~ msgstr "falhou.\n"
-
-#~ msgid "success.\n"
-#~ msgstr "sucesso.\n"
-
-#~ msgid "T_ype name or select from List:"
-#~ msgstr "_Digite o nome ou selecione da lista:"
+msgid "Task _Request"
+msgstr "FIXME: Pedido de t_arefa"
 
 #, fuzzy
-#~ msgid "Cannot initialize Evolution's notes component."
-#~ msgstr "Não é possível iniciar o componente de correio do Evolution."
+msgid "_Journal Entry"
+msgstr "FIXME: Item de _diário"
 
 #, fuzzy
-#~ msgid "Notes Component: Could not initialize bonobo"
-#~ msgstr "Não foi possível iniciar Bonobo"
+msgid "_Note"
+msgstr "_Notas:"
+
+msgid "_Selected Items"
+msgstr "_Itens selecionados"
+
+msgid "Clos_e All Items"
+msgstr "Fechar _todos os itens"
+
+msgid "Closes all the open items"
+msgstr "Fecha todos os itens abertos"
+
+#, fuzzy
+msgid "Browse..."
+msgstr "_Fechar..."
+
+msgid "_Configure Camel Providers ..."
+msgstr "_Configurar provedores Camel"
+
+msgid "We are sorry, Evolution's Folder Browser can not be initialized."
+msgstr "Pedimos desculpas, o navegador de pastas não pode ser iniciado."
+
+#, fuzzy
+msgid "Whether a message preview should be shown"
+msgstr "Se a visualização de uma mensagem deve ser exibida"
+
+msgid "\tObject did not exist, creating a new one\n"
+msgstr "\tObjeto não existe, criando um novo\n"
+
+msgid "Syncing with the pilot..."
+msgstr "Sincronizando com o pilot..."
+
+msgid "IMAP server replied using unknown tokens.\n"
+msgstr "Servidor IMAP respondeu usando mensagens desconhecidas.\n"
+
+msgid "IMAP responded with \"no such message\".\n"
+msgstr "IMAP respondeu com \"mensagem desconhecida\".\n"
+
+msgid "Connecting to IMAP server (%s)..."
+msgstr "Conectando ao servidor IMAP (%s)..."
+
+msgid "failed.\n"
+msgstr "falhou.\n"
+
+msgid "success.\n"
+msgstr "sucesso.\n"
+
+msgid "T_ype name or select from List:"
+msgstr "_Digite o nome ou selecione da lista:"
+
+#, fuzzy
+msgid "Cannot initialize Evolution's notes component."
+msgstr "Não é possível iniciar o componente de correio do Evolution."
+
+#, fuzzy
+msgid "Notes Component: Could not initialize bonobo"
+msgstr "Não foi possível iniciar Bonobo"
