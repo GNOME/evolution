@@ -159,7 +159,7 @@ lack of time, resources, and interest.
          You can have as many as four different
          <guilabel>Alarms</guilabel>, any time prior to the event
          you've scheduled.  You can have one alarm of each of the following types:
-         <variablelist>
+          <variablelist>
            <varlistentry>
 	    <term><guilabel>Display</guilabel></term>
 	    <listitem>
@@ -267,7 +267,19 @@ lack of time, resources, and interest.
 	choosing <guimenuitem>Edit this Appointment</guimenuitem>.
       </para>
     </sect2>
-
+    <sect2 id="usage-calendar-rsvp">
+      <title>RSVPs with the Calendar</title>
+      <para>
+	<application>Evolution</application> can be used to setup group events
+	and help you manage RSVPs.
+      </para>
+      <para>
+	When you setup a gathering, you can specify people to come in numerous
+	positions, such as chair.  They are sent an email which lets them
+	easily reply to you with their response.  If they aren't sure if they
+	can attend, they can always reply to the mail later.
+      </para>
+    </sect2>
 <!-- ############UNIMPLEMENTED FEATURES ###################
 
     <sect2 id="usage-calendar-apts-group">
