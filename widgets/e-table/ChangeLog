@@ -1,5 +1,14 @@
 2000-05-16  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-table-sorted-variable.c: Changed sorting to be at priority
+	level 30.  
+
+	* e-table.c: Changed rebuild of the table to be at priority level
+	20.  This gives it an advantage over pretty much everything,
+	including e-table-sorted-variable sorting and canvas redraw.
+
+2000-05-16  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-table-group-container.c: Removed a memory leak here.
 
 	* e-table-group-leaf.c: Added a ref/sink pair.

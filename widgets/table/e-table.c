@@ -120,7 +120,7 @@ sort_info_changed (ETableSortInfo *info, ETable *et)
 {
 	et->need_rebuild = TRUE;
 	if (!et->rebuild_idle_id)
-		et->rebuild_idle_id = g_idle_add (changed_idle, et);
+		et->rebuild_idle_id = g_idle_add_full (20, changed_idle, et, NULL);
 }
 
 static void
@@ -216,7 +216,7 @@ et_table_model_changed (ETableModel *model, ETable *et)
 {
 	et->need_rebuild = TRUE;
 	if (!et->rebuild_idle_id)
-		et->rebuild_idle_id = g_idle_add (changed_idle, et);
+		et->rebuild_idle_id = g_idle_add_full (20, changed_idle, et, NULL);
 }
 
 static void

@@ -118,7 +118,7 @@ etsv_add       (ETableSubsetVariable *etssv,
 	etss->map_table[etss->n_map] = row;
 	etss->n_map++;
 	if (etsv->sort_idle_id == 0) {
-		etsv->sort_idle_id = g_idle_add_full(50, (GSourceFunc) etsv_sort_idle, etsv, NULL);
+		etsv->sort_idle_id = g_idle_add_full(30, (GSourceFunc) etsv_sort_idle, etsv, NULL);
 	}
 	if (!etm->frozen)
 		e_table_model_row_inserted (etm, etss->n_map - 1);
