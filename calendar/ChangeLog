@@ -1,3 +1,10 @@
+2003-12-17  Harry Lu  <harry.lu@sun.com>
+ 
+ 	Fixes #51665.
+ 
+ 	* gui/e-week-view.c: (e_week_view_focus): call 
+ 	e_week_view_check_layout() so that the spans won't be NULL.
+
 2003-12-17  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/calendar-commands.c: removed the 'NewCalendar' verb.

@@ -1008,6 +1008,8 @@ e_week_view_focus (GtkWidget *widget, GtkDirectionType direction)
 
 	week_view = E_WEEK_VIEW (widget);
 
+	e_week_view_check_layout (week_view);
+
 	if (week_view->focused_jump_button == E_WEEK_VIEW_JUMP_BUTTON_NO_FOCUS) {
 		last_focus_event_num = week_view->editing_event_num;
 		last_focus_span_num = week_view->editing_span_num;
