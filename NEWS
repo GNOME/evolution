@@ -206,3 +206,19 @@ New features:
     - Evolution can now generate graphical smileys automatically as
       you type.
 
+  * Summary
+
+    - Can have non-local mail folders displayed on the summary.
+
+    - Improved Calendar and Tasks displayed. Displays overdue and todays
+      tasks in colours.
+
+    - Uses Soup for HTTP downloading news feeds and weather info.
+
+    - Many bug fixes.
+
+    - Better folder selector
+
+    - Better Weather/News Feed selector.
+
+    - Can delete user added news feeds.
