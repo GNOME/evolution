@@ -162,8 +162,8 @@ add_header (CamelMedium *medium, const gchar *header_name,
  * headers.
  **/
 void
-camel_medium_add_header (CamelMedium *medium, gchar *header_name,
-			 gchar *header_value)
+camel_medium_add_header (CamelMedium *medium, const gchar *header_name,
+			 const gchar *header_value)
 {
 	g_return_if_fail (CAMEL_IS_MEDIUM (medium));
 	g_return_if_fail (header_name != NULL);
