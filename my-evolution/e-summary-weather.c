@@ -101,7 +101,7 @@ weather_make_html (Weather *w)
 
 	g_string_append (string, "<font size=\"-1\">");
 	
-	uri = g_strdup_printf ("<a href=\"more://%p\">", w);
+	uri = g_strdup_printf ("<a href=\"weather://%p\">", w);
 	g_string_append (string, uri);
 	g_free (uri);
 	g_string_append (string, "(More)</a></font></font></blockquote></dd>");
@@ -410,7 +410,6 @@ e_summary_weather_init (ESummary *summary)
 	summary->weather = weather;
 
 	e_summary_add_protocol_listener (summary, "weather", e_summary_weather_protocol, weather);
-	e_summary_add_protocol_listener (summary, "weather-more", e_summary_weather_protocol, weather);
 
 	e_summary_weather_add_location (summary, "ENBR");
 	e_summary_weather_add_location (summary, "EGAC");

@@ -333,7 +333,7 @@ e_summary_init (ESummary *summary)
 
 	priv->html_scroller = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (priv->html_scroller),
-					GTK_POLICY_NEVER,
+					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
 	priv->html = gtk_html_new ();
 	gtk_html_set_editable (GTK_HTML (priv->html), FALSE);
