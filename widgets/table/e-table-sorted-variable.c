@@ -271,7 +271,7 @@ e_table_sorted_variable_new (ETableModel *source, ETableHeader *full_header, ETa
 	ETableSubsetVariable *etssv = E_TABLE_SUBSET_VARIABLE (etsv);
 
 	if (e_table_subset_variable_construct (etssv, source) == NULL){
-		gtk_object_destroy (GTK_OBJECT (etsv));
+		gtk_object_unref (GTK_OBJECT (etsv));
 		return NULL;
 	}
 

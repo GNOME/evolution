@@ -59,7 +59,7 @@ e_table_sorted_new (ETableModel *source, int col, GCompareFunc compare)
 	int i;
 
 	if (e_table_subset_construct (etss, source, nvals) == NULL){
-		gtk_object_destroy (GTK_OBJECT (ets));
+		gtk_object_unref (GTK_OBJECT (ets));
 		return NULL;
 	}
 	

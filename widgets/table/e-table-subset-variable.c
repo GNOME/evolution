@@ -113,7 +113,7 @@ e_table_subset_variable_new (ETableModel *source)
 	ETableSubsetVariable *etssv = gtk_type_new (E_TABLE_SUBSET_VARIABLE_TYPE);
 
 	if (e_table_subset_variable_construct (etssv, source) == NULL){
-		gtk_object_destroy (GTK_OBJECT (etssv));
+		gtk_object_unref (GTK_OBJECT (etssv));
 		return NULL;
 	}
 
