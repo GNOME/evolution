@@ -24,7 +24,7 @@
 #ifndef __E_SHELL_FOLDER_TITLE_BAR_H__
 #define __E_SHELL_FOLDER_TITLE_BAR_H__
 
-#include <gtk/gtkeventbox.h>
+#include <gtk/gtkhbox.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 #ifdef __cplusplus
@@ -44,13 +44,13 @@ typedef struct _EShellFolderTitleBarPrivate EShellFolderTitleBarPrivate;
 typedef struct _EShellFolderTitleBarClass   EShellFolderTitleBarClass;
 
 struct _EShellFolderTitleBar {
-	GtkEventBox parent;
+	GtkHBox parent;
 
 	EShellFolderTitleBarPrivate *priv;
 };
 
 struct _EShellFolderTitleBarClass {
-	GtkEventBoxClass parent_class;
+	GtkHBoxClass parent_class;
 
 	/* Signals.  */
 	void  (* title_toggled)  (EShellFolderTitleBar *folder_title_bar, gboolean pressed);
@@ -61,16 +61,16 @@ GtkType    e_shell_folder_title_bar_get_type          (void);
 void       e_shell_folder_title_bar_construct         (EShellFolderTitleBar *folder_title_bar);
 GtkWidget *e_shell_folder_title_bar_new               (void);
 
-void       e_shell_folder_title_bar_set_title         (EShellFolderTitleBar *folder_title_bar,
-						       const char           *title);
-void       e_shell_folder_title_bar_set_folder_bar_label   (EShellFolderTitleBar *folder_title_bar,
-							    const char           *folder_bar_label);
-void       e_shell_folder_title_bar_set_icon          (EShellFolderTitleBar *folder_title_bar,
-						       const GdkPixbuf      *icon);
-void       e_shell_folder_title_bar_set_toggle_state  (EShellFolderTitleBar *folder_title_bar,
-						       gboolean              state);
-void       e_shell_folder_title_bar_set_clickable     (EShellFolderTitleBar *folder_title_bar,
-						       gboolean              clickable);
+void  e_shell_folder_title_bar_set_title             (EShellFolderTitleBar *folder_title_bar,
+						      const char           *title);
+void  e_shell_folder_title_bar_set_folder_bar_label  (EShellFolderTitleBar *folder_title_bar,
+						      const char           *folder_bar_label);
+void  e_shell_folder_title_bar_set_icon              (EShellFolderTitleBar *folder_title_bar,
+						      const GdkPixbuf      *icon);
+void  e_shell_folder_title_bar_set_toggle_state      (EShellFolderTitleBar *folder_title_bar,
+						      gboolean              state);
+void  e_shell_folder_title_bar_set_clickable         (EShellFolderTitleBar *folder_title_bar,
+						      gboolean              clickable);
 
 #ifdef __cplusplus
 }
