@@ -7,6 +7,8 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
     #46769 - no waring when create a task which due date is earlier than
              start date (Harry Lu)
+    #44972 - Appointment Notification List not translated (to German)
+             (Lorenzo Gil)
 
 Other bugs fixed:
 
