@@ -1,10 +1,11 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * e-tree-selection-model.c
- * Copyright 2000, 2001, Ximian, Inc.
+ * Copyright 2000, 2001, 2003 Ximian, Inc.
  *
  * Authors:
  *   Chris Lahey <clahey@ximian.com>
+ *   Mike Kestner <mkestner@ximian.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -22,11 +23,7 @@
  */
 
 #include <config.h>
-#include <gdk/gdkkeysyms.h>
-#include <gtk/gtksignal.h>
 #include "e-tree-selection-model.h"
-#include <gal/util/e-bit-array.h>
-#include <gal/util/e-sorter.h>
 #include <gal/util/e-i18n.h>
 #include <gal/util/e-util.h>
 #include <gdk/gdkkeysyms.h>
@@ -44,408 +41,82 @@ enum {
 	PROP_ETTA,
 };
 
-typedef struct ETreeSelectionModelNode {
-	guint selected : 1;
-	guint all_children_selected : 1;
-	guint any_children_selected : 1;
-	EBitArray *all_children_selected_array;
-	EBitArray *any_children_selected_array;
-	struct ETreeSelectionModelNode **children;
-	int num_children;
-} ETreeSelectionModelNode;
-
 struct ETreeSelectionModelPriv {
 	ETreeTableAdapter *etta;
 	ETreeModel *model;
 
-	ETreeSelectionModelNode *root;
-
+	GHashTable *paths;
 	ETreePath cursor_path;
+	ETreePath end_path;
 	gint cursor_col;
-	ETreePath selection_start_path;
 
-	char *cursor_save_id;
-
-	int          frozen_count;
-
-	int          tree_model_pre_change_id;
-	int          tree_model_no_change_id;
-	int          tree_model_node_changed_id;
-	int          tree_model_node_data_changed_id;
-	int          tree_model_node_col_changed_id;
-	int          tree_model_node_inserted_id;
-	int          tree_model_node_removed_id;
-	int          tree_model_node_deleted_id;
-
-	/* Anything other than -1 means that the selection is a single
-	 * row.  This being -1 does not impart any information. */
-	int          selected_row;
-	/* Anything other than -1 means that the selection is a all
-	 * rows between selection_start_path and cursor_path where
-	 * selected_range_end is the rwo number of cursor_path.  This
-	 * being -1 does not impart any information. */
-	int          selected_range_end;
+	gint tree_model_node_removed_id;
+	gint tree_model_node_deleted_id;
 };
 
-/* ETreeSelectionModelNode helpers */
-
-static ETreeSelectionModelNode *
-e_tree_selection_model_node_new (void)
-{
-	ETreeSelectionModelNode *node = g_new(ETreeSelectionModelNode, 1);
-
-	node->selected = 0;
-	node->all_children_selected = 0;
-	node->any_children_selected = 0;
-	node->all_children_selected_array = NULL;
-	node->any_children_selected_array = NULL;
-	node->children = NULL;
-	node->num_children = -1;
-
-	return node;
-}
-
-static void
-e_tree_selection_model_node_fill_children(ETreeSelectionModel *etsm, ETreePath path, ETreeSelectionModelNode *selection_node)
-{
-	int i;
-	for (selection_node->num_children = 0, path = e_tree_model_node_get_first_child(etsm->priv->model, path); 
-	     path; 
-	     path = e_tree_model_node_get_next(etsm->priv->model, path))
-		selection_node->num_children++;
-	selection_node->children = g_new(ETreeSelectionModelNode *, selection_node->num_children);
-	for (i = 0; i < selection_node->num_children; i++) {
-		selection_node->children[i] = NULL;
-	}
-}
-
-static void
-e_tree_selection_model_node_free(ETreeSelectionModelNode *node)
-{
-	int i;
-
-	if (node->all_children_selected_array)
-		g_object_unref(node->all_children_selected_array);
-	if (node->any_children_selected_array)
-		g_object_unref(node->any_children_selected_array);
-
-	for (i = 0; i < node->num_children; i++)
-		if (node->children[i])
-			e_tree_selection_model_node_free(node->children[i]);
-	g_free(node->children);
-
-	g_free(node);
-}
-
-
-/* Other helper functions */
-static ETreePath
-etsm_node_at_row(ETreeSelectionModel *etsm, int row)
-{
-	ETreePath path;
-
-	if (!(row >= 0 && row < e_table_model_row_count(E_TABLE_MODEL(etsm->priv->etta))))
-		return NULL;
-
-	path = e_tree_table_adapter_node_at_row(etsm->priv->etta, row);
-
-	return path;
-}
-
-static int
-etsm_row_of_node(ETreeSelectionModel *etsm, ETreePath path)
-{
-	if (path)
-		return e_tree_table_adapter_row_of_node(etsm->priv->etta, path);
-	else
-		return -1;
-}
-
-static int
-etsm_cursor_row_real (ETreeSelectionModel *etsm)
+static gint
+get_cursor_row (ETreeSelectionModel *etsm)
 {
 	if (etsm->priv->cursor_path)
-		return etsm_row_of_node(etsm, etsm->priv->cursor_path);
-	else
-		return -1;
+		return e_tree_table_adapter_row_of_node(etsm->priv->etta, etsm->priv->cursor_path);
+
+	return -1;
 }
 
 static void
-etsm_real_clear (ETreeSelectionModel *etsm)
+clear_selection (ETreeSelectionModel *etsm)
 {
-	if (etsm->priv->root) {
-		e_tree_selection_model_node_free(etsm->priv->root);
-		etsm->priv->root = NULL;
-	}
-}
-
-
-static ETreeSelectionModelNode *
-etsm_find_node_unless_equals (ETreeSelectionModel *etsm,
-			      ETreePath path,
-			      gboolean grow)
-{
-	ETreeSelectionModelNode *selection_node;
-	ETreePath parent;
-
-	parent = e_tree_model_node_get_parent(etsm->priv->model, path);
-
-	if (parent) {
-		selection_node = etsm_find_node_unless_equals(etsm, parent, grow);
-		if (selection_node) {
-			int position = e_tree_table_adapter_orig_position(etsm->priv->etta, path);
-			if (selection_node->all_children_selected && grow)
-				return NULL;
-			if (!(selection_node->any_children_selected || grow))
-				return NULL;
-			if (selection_node->all_children_selected_array && e_bit_array_value_at(selection_node->all_children_selected_array, position) && grow)
-				return NULL;
-			if (selection_node->any_children_selected_array && ! (e_bit_array_value_at(selection_node->any_children_selected_array, position) || grow))
-				return NULL;
-			if (selection_node->children == NULL) {
-				e_tree_selection_model_node_fill_children(etsm, parent, selection_node);
-			}
-			if (!selection_node->children[position]) 
-				selection_node->children[position] = e_tree_selection_model_node_new();
-
-			return selection_node->children[position];
-		} else
-			return NULL;
-	} else {
-		if (!etsm->priv->root)
-			etsm->priv->root = e_tree_selection_model_node_new();
-		return etsm->priv->root;
-	}
+	g_hash_table_destroy (etsm->priv->paths);
+	etsm->priv->paths = g_hash_table_new (NULL, NULL);;
 }
 
 static void
-update_parents (ETreeSelectionModel *etsm, ETreePath path)
+change_one_path (ETreeSelectionModel *etsm, ETreePath path, gboolean grow)
 {
-	int i;
-	int depth;
-	int *orig_position_sequence;
-	ETreeSelectionModelNode **node_sequence;
-	ETreePath parents;
-
-	if (!etsm->priv->root)
-		return;
-
-	depth = e_tree_model_node_depth (etsm->priv->model, path);
-
-	orig_position_sequence = g_new(int, depth + 1);
-	node_sequence = g_new(ETreeSelectionModelNode *, depth + 1);
-
-	parents = path;
-
-	for (i = depth; i > 0; i--) {
-		if (!parents) {
-			g_free(orig_position_sequence);
-			g_free(node_sequence);
-			return;
-		}
-		orig_position_sequence[i] = e_tree_table_adapter_orig_position(etsm->priv->etta, parents);
-		parents = e_tree_model_node_get_parent(etsm->priv->model, parents);
-	}
-
-	node_sequence[0] = etsm->priv->root;
-	for (i = 0; i < depth; i++) {
-		node_sequence[i + 1] = NULL;
-
-		if (node_sequence[i]->children)
-			node_sequence[i + 1] = node_sequence[i]->children[orig_position_sequence[i + 1]];
-
-		if (node_sequence[i + 1] == NULL) {
-			g_free(orig_position_sequence);
-			g_free(node_sequence);
-			return;
-		}
-	}
-
-	if (node_sequence[depth]->num_children == -1)
-		e_tree_selection_model_node_fill_children(etsm, path, node_sequence[depth]);
-
-	if (!node_sequence[depth]->all_children_selected_array)
-		node_sequence[depth]->all_children_selected_array = e_bit_array_new(node_sequence[depth]->num_children);
-	if (!node_sequence[depth]->any_children_selected_array)
-		node_sequence[depth]->any_children_selected_array = e_bit_array_new(node_sequence[depth]->num_children);
-
-	node_sequence[depth]->all_children_selected =
-		e_bit_array_cross_and(node_sequence[depth]->all_children_selected_array) &&
-		node_sequence[depth]->selected;
-
-	node_sequence[depth]->any_children_selected =
-		e_bit_array_cross_or(node_sequence[depth]->any_children_selected_array) ||
-		node_sequence[depth]->selected;
-
-	for (i = depth - 1; i >= 0; i--) {
-		gboolean all_children, any_children;
-
-		if (!node_sequence[i]->all_children_selected_array)
-			node_sequence[i]->all_children_selected_array = e_bit_array_new(node_sequence[i]->num_children);
-		if (!node_sequence[i]->any_children_selected_array)
-			node_sequence[i]->any_children_selected_array = e_bit_array_new(node_sequence[i]->num_children);
-
-		e_bit_array_change_one_row(node_sequence[i]->all_children_selected_array,
-					   orig_position_sequence[i + 1], node_sequence[i + 1]->all_children_selected);
-		e_bit_array_change_one_row(node_sequence[i]->any_children_selected_array,
-					   orig_position_sequence[i + 1], node_sequence[i + 1]->any_children_selected);
-
-		all_children = node_sequence[i]->all_children_selected;
-		any_children = node_sequence[i]->any_children_selected;
-
-		node_sequence[i]->all_children_selected =
-			e_bit_array_cross_and(node_sequence[i]->all_children_selected_array) &&
-			node_sequence[i]->selected;
-		node_sequence[i]->any_children_selected =
-			e_bit_array_cross_or(node_sequence[i]->any_children_selected_array) ||
-			node_sequence[i]->selected;
-
-		if (all_children == node_sequence[i]->all_children_selected &&
-		    any_children == node_sequence[i]->any_children_selected)
-			break;
-	}
-
-	g_free(orig_position_sequence);
-	g_free(node_sequence);
-}
-
-
-static void
-etsm_change_one_path(ETreeSelectionModel *etsm, ETreePath path, gboolean grow)
-{
-	ETreeSelectionModelNode *node;
-
 	if (!path)
 		return;
 
-	node = etsm_find_node_unless_equals (etsm, path, grow);
-
-	if (node) {
-		node->selected = grow;
-		update_parents(etsm, path);
-	}
+	if (grow)
+		g_hash_table_insert (etsm->priv->paths, path, path);
+	else if (g_hash_table_lookup (etsm->priv->paths, path))
+		g_hash_table_remove (etsm->priv->paths, path);
 }
 
 static void
-etsm_real_select_single_path (ETreeSelectionModel *etsm, ETreePath path)
+select_single_path (ETreeSelectionModel *etsm, ETreePath path)
 {
-	etsm_real_clear (etsm);
-	etsm_change_one_path(etsm, path, TRUE);
-	etsm->priv->selection_start_path = path;
-	etsm->priv->selected_row = -1;
-	etsm->priv->selected_range_end = -1;
-}
-
-
-/* Signal handlers */
-
-static void
-etsm_freeze (ETreeSelectionModel *etsm)
-{
-	etsm->priv->frozen_count ++;
+	clear_selection (etsm);
+	change_one_path(etsm, path, TRUE);
 }
 
 static void
-etsm_unfreeze (ETreeSelectionModel *etsm)
+select_range (ETreeSelectionModel *etsm, gint start, gint end)
 {
-	etsm->priv->frozen_count --;
-}
+	gint i;
 
-static void
-etsm_pre_change (ETreeModel *etm, ETreeSelectionModel *etsm)
-{
-	g_free (etsm->priv->cursor_save_id);
-	etsm->priv->cursor_save_id = NULL;
-
-	if (e_tree_model_has_get_node_by_id (etm) &&
-	    e_tree_model_has_save_id (etm) &&
-	    etsm->priv->cursor_path) {
-		etsm->priv->cursor_save_id = e_tree_model_get_save_id (etm, etsm->priv->cursor_path);
+	if (start > end) {
+		i = start;
+		start = end;
+		end = i;
 	}
 
-	etsm_freeze (etsm);
-}
-
-static void
-etsm_no_change (ETreeModel *etm, ETreeSelectionModel *etsm)
-{
-	etsm_unfreeze (etsm);
-}
-
-static void
-clear_tree (ETreeSelectionModel *etsm, ETreeModel *etm)
-{
-	int cursor_row;
-
-	etsm_real_clear (etsm);
-	etsm->priv->cursor_path = NULL;
-
-	if (e_tree_model_has_get_node_by_id (etm) && etsm->priv->cursor_save_id) {
-		ETreePath cursor_path;
-
-		cursor_path = e_tree_model_get_node_by_id (etm, etsm->priv->cursor_save_id);
-		etsm->priv->cursor_path = cursor_path;
-		if (cursor_path != NULL && etsm->priv->cursor_col == -1)
-			etsm->priv->cursor_col = 0;
-
-		etsm_real_select_single_path(etsm, cursor_path);
+	for (i = start; i <= end; i++) {
+		ETreePath path = e_tree_table_adapter_node_at_row (etsm->priv->etta, i);
+		if (path)
+			g_hash_table_insert (etsm->priv->paths, path, path);
 	}
-
-	cursor_row = etsm_cursor_row_real (etsm);
-	etsm->priv->selected_row = -1;
-	etsm->priv->selected_range_end = -1;
-	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
-	if (cursor_row != -1)
-		e_selection_model_cursor_changed(E_SELECTION_MODEL(etsm), cursor_row, etsm->priv->cursor_col);
-	else {
-		e_selection_model_cursor_changed(E_SELECTION_MODEL(etsm), -1, -1);
-		e_selection_model_cursor_activated(E_SELECTION_MODEL(etsm), -1, -1);
-	}
-
-	g_free (etsm->priv->cursor_save_id);
-	etsm->priv->cursor_save_id = NULL;
-}
-
-static void
-etsm_node_changed (ETreeModel *etm, ETreePath node, ETreeSelectionModel *etsm)
-{
-	clear_tree (etsm, etm);
-	etsm_unfreeze (etsm);
-}
-
-static void
-etsm_node_data_changed (ETreeModel *etm, ETreePath node, ETreeSelectionModel *etsm)
-{
-	g_free (etsm->priv->cursor_save_id);
-	etsm->priv->cursor_save_id = NULL;
-	etsm_unfreeze (etsm);
-}
-
-static void
-etsm_node_col_changed (ETreeModel *etm, ETreePath node, int col, ETreeSelectionModel *etsm)
-{
-	g_free (etsm->priv->cursor_save_id);
-	etsm->priv->cursor_save_id = NULL;
-	etsm_unfreeze (etsm);
-}
-
-static void
-etsm_node_inserted (ETreeModel *etm, ETreePath parent, ETreePath child, ETreeSelectionModel *etsm)
-{
-	clear_tree (etsm, etm);
-	etsm_unfreeze (etsm);
 }
 
 static void
 etsm_node_removed (ETreeModel *etm, ETreePath parent, ETreePath child, int old_position, ETreeSelectionModel *etsm)
 {
+	change_one_path(etsm, child, FALSE);
 }
 
 static void
 etsm_node_deleted (ETreeModel *etm, ETreePath child, ETreeSelectionModel *etsm)
 {
-	clear_tree (etsm, etm);
-	etsm_unfreeze (etsm);
+	change_one_path(etsm, child, FALSE);
 }
 
 
@@ -460,18 +131,6 @@ add_model(ETreeSelectionModel *etsm, ETreeModel *model)
 		return;
 
 	g_object_ref(priv->model);
-	priv->tree_model_pre_change_id        = g_signal_connect_after (G_OBJECT (priv->model), "pre_change",
-									G_CALLBACK (etsm_pre_change), etsm);
-	priv->tree_model_no_change_id         = g_signal_connect_after (G_OBJECT (priv->model), "no_change",
-									G_CALLBACK (etsm_no_change), etsm);
-	priv->tree_model_node_changed_id      = g_signal_connect_after (G_OBJECT (priv->model), "node_changed",
-									G_CALLBACK (etsm_node_changed), etsm);
-	priv->tree_model_node_data_changed_id = g_signal_connect_after (G_OBJECT (priv->model), "node_data_changed",
-									G_CALLBACK (etsm_node_data_changed), etsm);
-	priv->tree_model_node_col_changed_id  = g_signal_connect_after (G_OBJECT (priv->model), "node_col_changed",
-									G_CALLBACK (etsm_node_col_changed), etsm);
-	priv->tree_model_node_inserted_id     = g_signal_connect_after (G_OBJECT (priv->model), "node_inserted",
-									G_CALLBACK (etsm_node_inserted), etsm);
 	priv->tree_model_node_removed_id      = g_signal_connect_after (G_OBJECT (priv->model), "node_removed",
 									G_CALLBACK (etsm_node_removed), etsm);
 	priv->tree_model_node_deleted_id      = g_signal_connect_after (G_OBJECT (priv->model), "node_deleted",
@@ -487,18 +146,6 @@ drop_model(ETreeSelectionModel *etsm)
 		return;
 
 	g_signal_handler_disconnect (G_OBJECT (priv->model),
-			             priv->tree_model_pre_change_id);
-	g_signal_handler_disconnect (G_OBJECT (priv->model),
-			             priv->tree_model_no_change_id);
-	g_signal_handler_disconnect (G_OBJECT (priv->model),
-			             priv->tree_model_node_changed_id);
-	g_signal_handler_disconnect (G_OBJECT (priv->model),
-			             priv->tree_model_node_data_changed_id);
-	g_signal_handler_disconnect (G_OBJECT (priv->model),
-			             priv->tree_model_node_col_changed_id);
-	g_signal_handler_disconnect (G_OBJECT (priv->model),
-			             priv->tree_model_node_inserted_id);
-	g_signal_handler_disconnect (G_OBJECT (priv->model),
 			             priv->tree_model_node_removed_id);
 	g_signal_handler_disconnect (G_OBJECT (priv->model),
 			             priv->tree_model_node_deleted_id);
@@ -506,40 +153,35 @@ drop_model(ETreeSelectionModel *etsm)
 	g_object_unref (priv->model);
 	priv->model = NULL;
 
-	priv->tree_model_pre_change_id = 0;
-	priv->tree_model_no_change_id = 0;
-	priv->tree_model_node_changed_id = 0;
-	priv->tree_model_node_data_changed_id = 0;
-	priv->tree_model_node_col_changed_id = 0;
-	priv->tree_model_node_inserted_id = 0;
 	priv->tree_model_node_removed_id = 0;
 	priv->tree_model_node_deleted_id = 0;
 }
 
-
-/* Virtual functions */
 static void
 etsm_dispose (GObject *object)
 {
-	ETreeSelectionModel *etsm;
+	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (object);
 
-	etsm = E_TREE_SELECTION_MODEL (object);
+	drop_model(etsm);
+
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
+static void
+etsm_finalize (GObject *object)
+{
+	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (object);
 
 	if (etsm->priv) {
-		etsm_real_clear (etsm);
-		etsm->priv->cursor_path = NULL;
-
-		drop_model(etsm);
-		
-		g_free (etsm->priv->cursor_save_id);
-		etsm->priv->cursor_save_id = NULL;
-
+		clear_selection (etsm);
+		g_hash_table_destroy (etsm->priv->paths);
 		g_free (etsm->priv);
 		etsm->priv = NULL;
 	}
 
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 static void
@@ -549,7 +191,7 @@ etsm_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *ps
 
 	switch (prop_id){
 	case PROP_CURSOR_ROW:
-		g_value_set_int (value, etsm_cursor_row_real(etsm));
+		g_value_set_int (value, get_cursor_row(etsm));
 		break;
 
 	case PROP_CURSOR_COL:
@@ -578,7 +220,7 @@ etsm_set_property (GObject *object, guint prop_id, const GValue *value, GParamSp
 		break;
 
 	case PROP_CURSOR_COL:
-		e_selection_model_do_something(esm, etsm_cursor_row_real(etsm), g_value_get_int(value), 0);
+		e_selection_model_do_something(esm, get_cursor_row(etsm), g_value_get_int(value), 0);
 		break;
 
 	case PROP_MODEL:
@@ -592,73 +234,13 @@ etsm_set_property (GObject *object, guint prop_id, const GValue *value, GParamSp
 	}
 }
 
-static ETreeSelectionModelNode *
-etsm_recurse_is_path_selected (ETreeSelectionModel *etsm,
-			       ETreePath path,
-			       gboolean *is_selected)
-{
-	ETreeSelectionModelNode *selection_node;
-	ETreePath parent;
-
-	parent = e_tree_model_node_get_parent(etsm->priv->model, path);
-
-	if (parent) {
-		selection_node = etsm_recurse_is_path_selected (etsm, parent, is_selected);
-		if (selection_node) {
-			int position = e_tree_table_adapter_orig_position(etsm->priv->etta, path);
-			if (position < 0 || position >= selection_node->num_children) {
-				*is_selected = FALSE;
-				return NULL;
-			}
-			if (selection_node->all_children_selected) {
-				*is_selected = TRUE;
-				return NULL;
-			}
-			if (! selection_node->any_children_selected) {
-				*is_selected = FALSE;
-				return NULL;
-			}
-			if (selection_node->all_children_selected_array && e_bit_array_value_at(selection_node->all_children_selected_array, position)) {
-				*is_selected = TRUE;
-				return NULL;
-			}
-			if (selection_node->any_children_selected_array && ! e_bit_array_value_at(selection_node->any_children_selected_array, position)) {
-				*is_selected = FALSE;
-				return NULL;
-			}
-			if (!selection_node->children) {
-				*is_selected = FALSE;
-				return NULL;
-			}
-			return selection_node->children[position];
-		} else
-			  return NULL;
-	} else {
-		if (etsm->priv->root) {
-			return etsm->priv->root;
-		} else {
-			*is_selected = FALSE;
-			return NULL;
-		}
-	}
-}
-
 static gboolean
-etsm_is_path_selected (ETreeSelectionModel *etsm,
-		       ETreePath path)
+etsm_is_path_selected (ETreeSelectionModel *etsm, ETreePath path)
 {
-	ETreeSelectionModelNode *selection_node;
-	gboolean ret_val;
+	if (path && g_hash_table_lookup (etsm->priv->paths, path))
+		return TRUE;
 
-	if (!path)
-		return FALSE;
-
-	selection_node = etsm_recurse_is_path_selected (etsm, path, &ret_val);
-
-	if (selection_node)
-		ret_val = selection_node->selected;
-
-	return ret_val;
+	return FALSE;
 }
 
 /** 
@@ -693,10 +275,11 @@ typedef struct {
 } ModelAndCallback;
 
 static void
-etsm_row_foreach_cb (ETreePath path, gpointer user_data)
+etsm_row_foreach_cb (gpointer key, gpointer value, gpointer user_data)
 {
+	ETreePath path = key;
 	ModelAndCallback *mac = user_data;
-	int row = etsm_row_of_node(mac->etsm, path);
+	int row = e_tree_table_adapter_row_of_node(mac->etsm->priv->etta, path);
 	if (row >= 0)
 		mac->callback(row, mac->closure);
 }
@@ -722,7 +305,7 @@ etsm_foreach (ESelectionModel *selection,
 	mac.callback = callback;
 	mac.closure = closure;
 
-	e_tree_selection_model_foreach(etsm, etsm_row_foreach_cb, &mac);
+	g_hash_table_foreach(etsm->priv->paths, etsm_row_foreach_cb, &mac);
 }
 
 /** 
@@ -736,61 +319,11 @@ etsm_clear(ESelectionModel *selection)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL(selection);
 
-	etsm_real_clear (etsm);
+	clear_selection (etsm);
 
 	etsm->priv->cursor_path = NULL;
-	etsm->priv->cursor_col = -1;
-	etsm->priv->selected_row = -1;
-	etsm->priv->selected_range_end = -1;
 	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
 	e_selection_model_cursor_changed(E_SELECTION_MODEL(etsm), -1, -1);
-}
-
-/* Standard functions */
-static void
-etsm_selected_count_all_recurse (ETreeSelectionModel *etsm,
-				 ETreePath path,
-				 int *count)
-{
-	ETreePath child;
-
-	(*count) ++;
-
-	child = e_tree_model_node_get_first_child(E_TREE_MODEL(etsm->priv->model), path);
-	for ( ; child; child = e_tree_model_node_get_next(E_TREE_MODEL(etsm->priv->model), child))
-		if (child)
-			etsm_selected_count_all_recurse (etsm, child, count);
-}
-
-static void
-etsm_selected_count_recurse (ETreeSelectionModel *etsm,
-			     ETreeSelectionModelNode *selection_node,
-			     ETreePath path,
-			     int *count)
-{
-	if (selection_node->all_children_selected) {
-		if (path)
-			etsm_selected_count_all_recurse(etsm, path, count);
-		return;
-	}
-
-	if (selection_node->selected) {
-		(*count) ++;
-	}
-
-	if (!selection_node->any_children_selected)
-		return;
-
-	if (selection_node->children) {
-		ETreePath child = e_tree_model_node_get_first_child(E_TREE_MODEL(etsm->priv->model), path);
-		int i;
-		for (i = 0; child && i < selection_node->num_children; i++, child = e_tree_model_node_get_next(E_TREE_MODEL(etsm->priv->model), child))
-			if (selection_node->all_children_selected_array && e_bit_array_value_at(selection_node->all_children_selected_array, i))
-				etsm_selected_count_all_recurse (etsm, child, count);
-			else if (selection_node->children[i])
-				etsm_selected_count_recurse (etsm, selection_node->children[i], child, count);
-				
-	}
 }
 
 /** 
@@ -805,16 +338,15 @@ static gint
 etsm_selected_count (ESelectionModel *selection)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL(selection);
-	int count = 0;
-	if (etsm->priv->root) {
-		ETreePath model_root;
-		model_root = e_tree_model_get_root(etsm->priv->model);
-		etsm_selected_count_recurse(etsm, etsm->priv->root, model_root, &count);
-		if (!e_tree_table_adapter_root_node_is_visible (etsm->priv->etta) && etsm_is_path_selected (etsm, e_tree_model_get_root(etsm->priv->model))) {
-			count --;
-		}
-	}
-	return count;
+
+	return g_hash_table_size (etsm->priv->paths);
+}
+
+static int
+etsm_row_count (ESelectionModel *selection)
+{
+	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL(selection);
+	return e_table_model_row_count(E_TABLE_MODEL(etsm->priv->etta));
 }
 
 /** 
@@ -834,54 +366,14 @@ etsm_select_all (ESelectionModel *selection)
 	if (root == NULL)
 		return;
 
-	etsm_real_clear (etsm);
+	clear_selection (etsm);
+	select_range (etsm, 0, etsm_row_count (selection) - 1);
 
-	etsm->priv->root = e_tree_selection_model_node_new();
-	etsm->priv->root->selected = TRUE;
-	etsm->priv->root->all_children_selected = TRUE;
-	etsm->priv->root->any_children_selected = TRUE;
-
-	e_tree_selection_model_node_fill_children(etsm, root, etsm->priv->root);
-	etsm->priv->root->all_children_selected_array = NULL;
-	etsm->priv->root->any_children_selected_array = NULL;
-
-	if (etsm->priv->cursor_col == -1)
-		etsm->priv->cursor_col = 0;
 	if (etsm->priv->cursor_path == NULL)
-		etsm->priv->cursor_path = etsm_node_at_row(etsm, 0);
-	etsm->priv->selection_start_path = etsm_node_at_row(etsm, 0);
-	etsm->priv->selected_row = -1;
-	etsm->priv->selected_range_end = -1;
+		etsm->priv->cursor_path = e_tree_table_adapter_node_at_row(etsm->priv->etta, 0);
+
 	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
-	e_selection_model_cursor_changed(E_SELECTION_MODEL(etsm), etsm_cursor_row_real(etsm), etsm->priv->cursor_col);
-}
-
-static void
-etsm_invert_selection_recurse (ETreeSelectionModel *etsm,
-			       ETreeSelectionModelNode *selection_node)
-{
-	gboolean temp;
-	EBitArray *temp_eba;
-	selection_node->selected = ! selection_node->selected;
-
-	temp = selection_node->all_children_selected;
-	selection_node->all_children_selected = ! selection_node->any_children_selected;
-	selection_node->any_children_selected = ! temp;
-
-	temp_eba = selection_node->all_children_selected_array;
-	selection_node->all_children_selected_array = selection_node->any_children_selected_array;
-	selection_node->any_children_selected_array = temp_eba;
-	if (selection_node->all_children_selected_array)
-		e_bit_array_invert_selection(selection_node->all_children_selected_array);
-	if (selection_node->any_children_selected_array)
-		e_bit_array_invert_selection(selection_node->any_children_selected_array);
-	if (selection_node->children) {
-		int i;
-		for (i = 0; i < selection_node->num_children; i++) {
-			if (selection_node->children[i])
-				etsm_invert_selection_recurse (etsm, selection_node->children[i]);
-		}
-	}
+	e_selection_model_cursor_changed(E_SELECTION_MODEL(etsm), get_cursor_row(etsm), etsm->priv->cursor_col);
 }
 
 /** 
@@ -895,31 +387,29 @@ static void
 etsm_invert_selection (ESelectionModel *selection)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL(selection);
+        gint count = etsm_row_count (selection);
+	gint i;
 
-	if (etsm->priv->root)
-		etsm_invert_selection_recurse (etsm, etsm->priv->root);
-	
+	for (i = 0; i < count; i++) {
+		ETreePath path = e_tree_table_adapter_node_at_row (etsm->priv->etta, i);
+		if (!path)
+			continue;
+		if (g_hash_table_lookup (etsm->priv->paths, path))
+			g_hash_table_remove (etsm->priv->paths, path);
+		else
+			g_hash_table_insert (etsm->priv->paths, path, path);
+	}
+
 	etsm->priv->cursor_col = -1;
 	etsm->priv->cursor_path = NULL;
-	etsm->priv->selection_start_path = etsm_node_at_row(etsm, 0);
-	etsm->priv->selected_row = -1;
-	etsm->priv->selected_range_end = -1;
 	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
 	e_selection_model_cursor_changed(E_SELECTION_MODEL(etsm), -1, -1);
-}
-
-static int
-etsm_row_count (ESelectionModel *selection)
-{
-	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL(selection);
-	return e_table_model_row_count(E_TABLE_MODEL(etsm->priv->etta));
 }
 
 static void
 etsm_change_one_row(ESelectionModel *selection, int row, gboolean grow)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL(selection);
-	ETreeSelectionModelNode *node;
 	ETreePath path;
 
 	g_return_if_fail(row < e_table_model_row_count(E_TABLE_MODEL(etsm->priv->etta)));
@@ -931,12 +421,7 @@ etsm_change_one_row(ESelectionModel *selection, int row, gboolean grow)
 	if (!path)
 		return;
 
-	node = etsm_find_node_unless_equals (etsm, path, grow);
-
-	if (node) {
-		node->selected = grow;
-		update_parents(etsm, path);
-	}
+	change_one_path (etsm, path, grow);
 }
 
 static void
@@ -952,35 +437,18 @@ etsm_change_cursor (ESelectionModel *selection, int row, int col)
 	if (row == -1) {
 		etsm->priv->cursor_path = NULL;
 	} else {
-		etsm->priv->cursor_path = etsm_node_at_row(etsm, row);
+		etsm->priv->cursor_path = e_tree_table_adapter_node_at_row(etsm->priv->etta, row);
 	}
 	etsm->priv->cursor_col = col;
 }
 
-static void
-etsm_change_range(ESelectionModel *selection, int start, int end, gboolean grow)
-{
-	int i;
-	if (start != end) {
-		if (selection->sorter && e_sorter_needs_sorting(selection->sorter)) {
-			for ( i = start; i < end; i++) {
-				e_selection_model_change_one_row(selection, e_sorter_sorted_to_model(selection->sorter, i), grow);
-			}
-		} else {
-			for ( i = start; i < end; i++) {
-				e_selection_model_change_one_row(selection, i, grow);
-			}
-		}
-	}
-}
-
-static int
+static gint
 etsm_cursor_row (ESelectionModel *selection)
 {
-	return etsm_cursor_row_real(E_TREE_SELECTION_MODEL(selection));
+	return get_cursor_row(E_TREE_SELECTION_MODEL(selection));
 }
 
-static int
+static gint
 etsm_cursor_col (ESelectionModel *selection)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL(selection);
@@ -988,172 +456,98 @@ etsm_cursor_col (ESelectionModel *selection)
 }
 
 static void
-etsm_select_single_row (ESelectionModel *selection, int row)
+etsm_select_single_row (ESelectionModel *selection, gint row)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL(selection);
-	int selected_row = etsm->priv->selected_row;
+	ETreePath path = e_tree_table_adapter_node_at_row (etsm->priv->etta, row);
 
-	etsm_real_clear (etsm);
-	etsm_change_one_row(selection, row, TRUE);
-	etsm->priv->selection_start_path = etsm_node_at_row(etsm, row);
+	g_return_if_fail (path != NULL);
 
-	etsm->priv->selected_row = row;
-	etsm->priv->selected_range_end = -1;
-	if (selected_row != -1) {
-		if (selected_row != etsm->priv->selected_row) {
-			e_selection_model_selection_row_changed(E_SELECTION_MODEL(etsm), selected_row);
-			e_selection_model_selection_row_changed(E_SELECTION_MODEL(etsm), row);
-		}
-	} else {
-		e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
-	}
-}
+	select_single_path (etsm, path);
 
-static void
-etsm_toggle_single_row (ESelectionModel *selection, int row)
-{
-	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL(selection);
-
-	etsm->priv->selection_start_path = etsm_node_at_row(etsm, row);
-
-	etsm_change_one_row(selection, row, !etsm_is_row_selected(selection, row));
-
-	etsm->priv->selected_row = -1;
-	etsm->priv->selected_range_end = -1;
 	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
 }
 
 static void
-etsm_real_move_selection_end (ETreeSelectionModel *etsm, int row)
+etsm_toggle_single_row (ESelectionModel *selection, gint row)
 {
-	ESelectionModel *selection = E_SELECTION_MODEL (etsm);
-	int old_start;
-	int old_end;
-	int new_start;
-	int new_end;
-	int start_row = etsm_row_of_node(etsm, etsm->priv->selection_start_path);
-	if (selection->sorter && e_sorter_needs_sorting(selection->sorter)) {
-		old_start = MIN (e_sorter_model_to_sorted(selection->sorter, start_row),
-				 e_sorter_model_to_sorted(selection->sorter, etsm_cursor_row_real(etsm)));
-		old_end = MAX (e_sorter_model_to_sorted(selection->sorter, start_row),
-			       e_sorter_model_to_sorted(selection->sorter, etsm_cursor_row_real(etsm))) + 1;
-		new_start = MIN (e_sorter_model_to_sorted(selection->sorter, start_row),
-				 e_sorter_model_to_sorted(selection->sorter, row));
-		new_end = MAX (e_sorter_model_to_sorted(selection->sorter, start_row),
-			       e_sorter_model_to_sorted(selection->sorter, row)) + 1;
-	} else {
-		old_start = MIN (start_row, etsm_cursor_row_real(etsm));
-		old_end = MAX (start_row, etsm_cursor_row_real(etsm)) + 1;
-		new_start = MIN (start_row, row);
-		new_end = MAX (start_row, row) + 1;
-	}
-	/* This wouldn't work nearly so smoothly if one end of the selection weren't held in place. */
-	if (old_start < new_start)
-		etsm_change_range(selection, old_start, new_start, FALSE);
-	if (new_start < old_start)
-		etsm_change_range(selection, new_start, old_start, TRUE);
-	if (old_end < new_end)
-		etsm_change_range(selection, old_end, new_end, TRUE);
-	if (new_end < old_end)
-		etsm_change_range(selection, new_end, old_end, FALSE);
-	etsm->priv->selected_row = -1;
-	etsm->priv->selected_range_end = -1;
+	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL(selection);
+	ETreePath path = e_tree_table_adapter_node_at_row(etsm->priv->etta, row);
+
+	g_return_if_fail (path);
+
+	if (g_hash_table_lookup (etsm->priv->paths, path))
+		g_hash_table_remove (etsm->priv->paths, path);
+	else
+		g_hash_table_insert (etsm->priv->paths, path, path);
+
+	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
 }
 
 static void
-etsm_move_selection_end (ESelectionModel *selection, int row)
+etsm_real_move_selection_end (ETreeSelectionModel *etsm, gint row)
+{
+	ETreePath end_path = e_tree_table_adapter_node_at_row (etsm->priv->etta, row);
+	gint cursor;
+
+	g_return_if_fail (end_path);
+
+	cursor = e_tree_table_adapter_row_of_node(etsm->priv->etta, etsm->priv->cursor_path);
+	clear_selection (etsm);
+	select_range (etsm, cursor, row);
+}
+
+static void
+etsm_move_selection_end (ESelectionModel *selection, gint row)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL(selection);
+
+	g_return_if_fail (etsm->priv->cursor_path);
 
 	etsm_real_move_selection_end (etsm, row);
 	e_selection_model_selection_changed(E_SELECTION_MODEL(selection));
 }
 
 static void
-etsm_set_selection_end (ESelectionModel *selection, int row)
+etsm_set_selection_end (ESelectionModel *selection, gint row)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL(selection);
-	int selected_range_end = etsm->priv->selected_range_end;
 
-	etsm_real_select_single_path(etsm, etsm->priv->selection_start_path);
-	etsm->priv->cursor_path = etsm->priv->selection_start_path;
+	g_return_if_fail (etsm->priv->cursor_path);
+
 	etsm_real_move_selection_end(etsm, row);
-	etsm->priv->selected_range_end = row;
-	if (selected_range_end != -1 && row != -1) {
-		if (selected_range_end == row - 1 ||
-		    selected_range_end == row + 1) {
-			e_selection_model_selection_row_changed(E_SELECTION_MODEL(etsm), selected_range_end);
-			e_selection_model_selection_row_changed(E_SELECTION_MODEL(etsm), row);
-			return;
-		}
-	}
 	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
 }
 
-
-/* Standard functions */
-static void
-etsm_foreach_all_recurse (ETreeSelectionModel *etsm,
-			  ETreePath path,
-			  ETreeForeachFunc callback,
-			  gpointer closure)
-{
-	ETreePath child;
-
-	callback(path, closure);
-
-	child = e_tree_model_node_get_first_child(E_TREE_MODEL(etsm->priv->model), path);
-	for ( ; child; child = e_tree_model_node_get_next(E_TREE_MODEL(etsm->priv->model), child))
-		if (child)
-			etsm_foreach_all_recurse (etsm, child, callback, closure);
-}
+struct foreach_path_t {
+	ETreeForeachFunc callback;
+	gpointer closure;
+};
 
 static void
-etsm_foreach_recurse (ETreeSelectionModel *etsm,
-		      ETreeSelectionModelNode *selection_node,
-		      ETreePath path,
-		      ETreeForeachFunc callback,
-		      gpointer closure)
+foreach_path (gpointer key, gpointer value, gpointer data)
 {
-	if (selection_node->all_children_selected) {
-		if (path)
-			etsm_foreach_all_recurse(etsm, path, callback, closure);
-		return;
-	}
-	if (!selection_node->any_children_selected)
-		return;
-
-	if (selection_node->selected) {
-		callback(path, closure);
-	}
-
-	if (selection_node->children) {
-		ETreePath child = e_tree_model_node_get_first_child(E_TREE_MODEL(etsm->priv->model), path);
-		int i;
-		for (i = 0; i < selection_node->num_children; i++, child = e_tree_model_node_get_next(E_TREE_MODEL(etsm->priv->model), child))
-			if (selection_node->all_children_selected_array && e_bit_array_value_at(selection_node->all_children_selected_array, i))
-				etsm_foreach_all_recurse(etsm, child, callback, closure);
-			else if (selection_node->children[i])
-				etsm_foreach_recurse (etsm, selection_node->children[i], child, callback, closure);
-	}
+	ETreePath path = key;
+	struct foreach_path_t *c = data;
+	c->callback (path, c->closure);
 }
 
 void
-e_tree_selection_model_foreach   (ETreeSelectionModel *etsm,
-				  ETreeForeachFunc     callback,
-				  gpointer             closure)
+e_tree_selection_model_foreach (ETreeSelectionModel *etsm, ETreeForeachFunc callback, gpointer closure)
 {
-	if (etsm->priv->root) {
-		ETreePath model_root;
-		model_root = e_tree_model_get_root(etsm->priv->model);
-		etsm_foreach_recurse(etsm, etsm->priv->root, model_root, callback, closure);
+	if (etsm->priv->paths) {
+		struct foreach_path_t c;
+		c.callback = callback;
+		c.closure = closure;
+		g_hash_table_foreach(etsm->priv->paths, foreach_path, &c);
+		return;
 	}
 }
 
 void
 e_tree_selection_model_select_single_path (ETreeSelectionModel *etsm, ETreePath path)
 {
-	etsm_real_select_single_path (etsm, path);
+	select_single_path (etsm, path);
 
 	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
 }
@@ -1161,10 +555,7 @@ e_tree_selection_model_select_single_path (ETreeSelectionModel *etsm, ETreePath 
 void
 e_tree_selection_model_add_to_selection (ETreeSelectionModel *etsm, ETreePath path)
 {
-	etsm_change_one_path(etsm, path, TRUE);
-	etsm->priv->selection_start_path = path;
-	etsm->priv->selected_row = -1;
-	etsm->priv->selected_range_end = -1;
+	change_one_path(etsm, path, TRUE);
 
 	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
 }
@@ -1176,7 +567,7 @@ e_tree_selection_model_change_cursor (ETreeSelectionModel *etsm, ETreePath path)
 
 	etsm->priv->cursor_path = path;
 
-	row = etsm_cursor_row_real(etsm);
+	row = get_cursor_row(etsm);
 
 	E_SELECTION_MODEL (etsm)->old_selection = -1;
 
@@ -1201,30 +592,13 @@ e_tree_selection_model_init (ETreeSelectionModel *etsm)
 	priv->etta                            = NULL;
 	priv->model                           = NULL;
 
-	priv->root                            = NULL;
+	priv->paths                           = g_hash_table_new (NULL, NULL);
 
 	priv->cursor_path                     = NULL;
 	priv->cursor_col                      = -1;
-	priv->selection_start_path            = NULL;
 
-	priv->cursor_save_id                  = NULL;
-
-	priv->frozen_count                    = 0;
-
-	priv->frozen_count                    = 0;
-
-
-	priv->tree_model_pre_change_id        = 0;
-	priv->tree_model_no_change_id         = 0;
-	priv->tree_model_node_changed_id      = 0;
-	priv->tree_model_node_data_changed_id = 0;
-	priv->tree_model_node_col_changed_id  = 0;
-	priv->tree_model_node_inserted_id     = 0;
 	priv->tree_model_node_removed_id      = 0;
 	priv->tree_model_node_deleted_id      = 0;
-
-	priv->selected_row                    = -1;
-	priv->selected_range_end              = -1;
 }
 
 static void
@@ -1239,6 +613,7 @@ e_tree_selection_model_class_init (ETreeSelectionModelClass *klass)
 	esm_class = E_SELECTION_MODEL_CLASS(klass);
 
 	object_class->dispose = etsm_dispose;
+	object_class->finalize = etsm_finalize;
 	object_class->get_property = etsm_get_property;
 	object_class->set_property = etsm_set_property;
 

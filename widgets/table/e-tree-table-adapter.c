@@ -48,7 +48,6 @@ typedef struct {
 	ETreePath path;
 	guint32 num_visible_children;
 	guint32 index;
-	guint32 orig_pos;
 
 	guint expanded : 1;
 	guint expandable : 1;
@@ -165,11 +164,7 @@ resort_node(ETreeTableAdapter *etta, GNode *gnode, gboolean recurse)
 	sort_needed = etta->priv->sort_info && e_table_sort_info_sorting_get_count (etta->priv->sort_info) > 0;
 
 	for (i = 0, path = e_tree_model_node_get_first_child(etta->priv->source, node->path); path; 
-	     path = e_tree_model_node_get_next(etta->priv->source, path), i++) {
-		node_t *child = get_node(etta, path);
-		if (child)
-			child->orig_pos = i;
-	}
+	     path = e_tree_model_node_get_next(etta->priv->source, path), i++); 
 
 	count = i;
 	if (count <= 1)
@@ -320,7 +315,6 @@ create_gnode(ETreeTableAdapter *etta, ETreePath path)
 	node = g_new0(node_t, 1);
 	node->path = path;
 	node->index = -1;
-	node->orig_pos = 0;
 	node->expanded = e_tree_model_get_expanded_default(etta->priv->source);
 	node->expandable = e_tree_model_node_is_expandable(etta->priv->source, path);
 	node->expandable_set = 1;
@@ -343,7 +337,6 @@ insert_children(ETreeTableAdapter *etta, GNode *gnode)
 	     tmp = e_tree_model_node_get_next(etta->priv->source, tmp), pos++) {
 		GNode *child = create_gnode(etta, tmp);
 		node_t *node = (node_t *) child->data;
-		node->orig_pos = pos;
 		if (node->expanded)
 			node->num_visible_children = insert_children(etta, child);
 		g_node_prepend(gnode, child);
@@ -1120,13 +1113,3 @@ e_tree_table_adapter_set_sort_info (ETreeTableAdapter *etta, ETableSortInfo *sor
 	e_table_model_changed(E_TABLE_MODEL(etta));
 }
 
-gint
-e_tree_table_adapter_orig_position (ETreeTableAdapter *etta, ETreePath path)
-{
-	node_t *node = get_node (etta, path);
-
-	if (!node)
-		return -1;
-
-	return node->orig_pos;
-}
