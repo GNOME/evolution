@@ -2,6 +2,12 @@
 
 	* component-factory.c (create_component): Add a new menu item for
 	posting to the New toolbar button thing.
+	(destination_folder_handle_drop): Don't use a NULL exception when
+	we already have one to use anyway.
+	(got_folder): Move the *fp = folder; to before the check to make
+	sure folder != NULL, this makes it so that if getting a folder
+	fails at least have have a known value to look out for (NULL)
+	rather than some random garbage.
 
 2002-07-25  Jeffrey Stedfast  <fejj@ximian.com>
 

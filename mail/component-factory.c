@@ -547,9 +547,11 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *des
 	
 	switch (type) {
 	case ACCEPTED_DND_TYPE_TEXT_URI_LIST:
-		folder = mail_tool_uri_to_folder (physical_uri, 0, NULL);
-		if (!folder)
+		folder = mail_tool_uri_to_folder (physical_uri, 0, &ex);
+		if (!folder) {
+			camel_exception_clear (&ex);
 			return FALSE;
+		}
 		
 		tmp = g_strndup (data->bytes._buffer, data->bytes._length);
 		urls = g_strsplit (tmp, "\n", 0);
@@ -665,9 +667,9 @@ got_folder (char *uri, CamelFolder *folder, void *data)
 {
 	CamelFolder **fp = data;
 	
+	*fp = folder;
+	
 	if (folder) {
-		*fp = folder;
-		
 		camel_object_ref (CAMEL_OBJECT (folder));
 		
 		/* emit a changed event, this is a little hack so that the folderinfo cache
