@@ -13089,15 +13089,15 @@ msgstr "<b>Kui</b>"
 
 #: filter/filter-rule.c:855
 msgid "if all criteria are met"
-msgstr "kui kõik tingimused on täidetud"
+msgstr "kõik tingimused on täidetud"
 
 #: filter/filter-rule.c:855
 msgid "if any criteria are met"
-msgstr "kui üks tingimustest on täidetud"
+msgstr "üks tingimustest on täidetud"
 
 #: filter/filter-rule.c:857
 msgid "Execute actions"
-msgstr "Tegevused täidetakse"
+msgstr "Tegevused täidetakse juhul, kui"
 
 #: filter/filter-rule.c:878
 msgid "All related"
@@ -13113,7 +13113,7 @@ msgstr "Vastused ja eelnenud"
 
 #: filter/filter-rule.c:880
 msgid "Include threads"
-msgstr "Haara lõimedest kaasa"
+msgstr "Lõimedest kaasatakse"
 
 #: filter/filter-rule.c:975
 msgid "Outgoing"
@@ -13596,7 +13596,7 @@ msgstr "Kataloogi `%s' loomine"
 #: mail/mail-component.c:732
 #: plugins/shared-folder/share-folder-common.c:311
 msgid "Create folder"
-msgstr "Kataloogi loomine"
+msgstr "Kausta loomine"
 
 #: mail/em-folder-tree.c:2656
 #, c-format
@@ -14945,15 +14945,15 @@ msgstr "Saadetud"
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
-msgstr[0] "%d kustutatud"
-msgstr[1] "%d kustutatud"
+msgstr[0] "%d kustutatut"
+msgstr[1] "%d kustutatut"
 
 #: mail/mail-component.c:486
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
-msgstr[0] "%d rämpskiri"
-msgstr[1] "%d rämpskirja"
+msgstr[0] "%d rämpssõnum"
+msgstr[1] "%d rämpssõnumit"
 
 #: mail/mail-component.c:509
 #, c-format
@@ -17214,7 +17214,7 @@ msgstr ""
 
 #: plugins/save-calendar/csv-format.c:519
 msgid "Advanced options for the CSV format"
-msgstr ""
+msgstr "Laiendatud valikus CSV vormingule"
 
 #: plugins/save-calendar/csv-format.c:526
 msgid "Prepend a header"
@@ -17234,7 +17234,7 @@ msgstr ""
 
 #: plugins/save-calendar/csv-format.c:569
 msgid "Comma separated value format (.csv)"
-msgstr ""
+msgstr "Komaga eraldatud väärtuste vorming (.csv)"
 
 #: plugins/save-calendar/ical-format.c:120
 msgid "iCalendar format (.ics)"
@@ -17652,11 +17652,10 @@ msgstr "Bug buddy (veateatamisprogramm) ei saa käivitada."
 #: shell/e-shell-window-commands.c:425
 msgid "translator-credits"
 msgstr ""
-"Tõlge eesti keelde:\n"
-"\tIlmar Kerm <ikerm@hot.ee>, 2001\n"
-"\tIvar Smolin <okul@linux.ee>, 2002, 2003, 2005\n"
-"\tKaarel Jõgi <kaarel@gg.ee>, 2002\n"
-"\tPriit Laes <amd@tt.ee>, 2003, 2004, 2005\n"
+"Ilmar Kerm <ikerm@hot.ee>, 2001\n"
+"Ivar Smolin <okul@linux.ee>, 2002, 2003, 2005\n"
+"Kaarel Jõgi <kaarel@gg.ee>, 2002\n"
+"Priit Laes <amd@tt.ee>, 2003, 2004, 2005\n"
 "\n"
 "GNOME Translation Project Eesti meeskond.\n"
 "http://et-gnome.sourceforge.net\n"
@@ -18596,7 +18595,7 @@ msgstr "Peata"
 
 #: ui/evolution-addressbook.xml.h:28
 msgid "Stop Loading"
-msgstr "Peata laadimine"
+msgstr "Peatab laadimise"
 
 #: ui/evolution-addressbook.xml.h:29
 msgid "View the current contact"
