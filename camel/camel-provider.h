@@ -103,6 +103,8 @@ extern char *camel_provider_type_name[CAMEL_NUM_PROVIDER_TYPES];
 #define CAMEL_URL_PATH_IS_ABSOLUTE (1 << 12)
 
 
+#define CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT(prov) (prov->object_types[CAMEL_PROVIDER_STORE] && prov->object_types[CAMEL_PROVIDER_TRANSPORT])
+
 /* Generic extra config stuff */
 typedef enum {
 	CAMEL_PROVIDER_CONF_END,
@@ -148,12 +150,17 @@ typedef struct {
 	/* Extra configuration information */
 	CamelProviderConfEntry *extra_conf;
 
-	CamelType object_types [CAMEL_NUM_PROVIDER_TYPES];
+	/* CamelType(s) of its store and/or transport. If both are
+	 * set, then they are assumed to be linked together and the
+	 * transport type can only be used in an account that also
+	 * uses the store type (eg, Exchange or NNTP).
+	 */
+	CamelType object_types[CAMEL_NUM_PROVIDER_TYPES];
 
 	/* GList of CamelServiceAuthTypes the provider supports */
 	GList *authtypes;
 
-	GHashTable *service_cache;
+	GHashTable *service_cache[CAMEL_NUM_PROVIDER_TYPES];
 
 	GHashFunc url_hash;
 	GCompareFunc url_equal;

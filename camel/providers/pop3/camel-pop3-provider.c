@@ -92,7 +92,6 @@ camel_provider_module_init (CamelSession *session)
 	CamelServiceAuthType *auth;
 
 	pop3_provider.object_types[CAMEL_PROVIDER_STORE] = camel_pop3_store_get_type();
-	pop3_provider.service_cache = g_hash_table_new(camel_url_hash, camel_url_equal);
 	pop3_provider.url_hash = camel_url_hash;
 	pop3_provider.url_equal = camel_url_equal;
 

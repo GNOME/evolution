@@ -59,7 +59,6 @@ camel_provider_module_init (CamelSession *session)
 	news_provider.object_types[CAMEL_PROVIDER_STORE] =
 		camel_nntp_store_get_type();
 
-	news_provider.service_cache = g_hash_table_new (nntp_url_hash, nntp_url_equal);
 	news_provider.url_hash = nntp_url_hash;
 	news_provider.url_equal = nntp_url_equal;
 	

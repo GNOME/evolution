@@ -1,3 +1,33 @@
+2002-04-03  Dan Winship  <danw@ximian.com>
+
+	* camel-provider.h (CamelProvider): make service_cache be an array
+	of CAMEL_NUM_PROVIDER_TYPES elements so you can have a single
+	provider offer both stores and transports. (Eg, Exchange, NNTP)
+
+	* providers/imap/camel-imap-provider.c: Don't initialize
+	service_cache here. (The session code can do it itself since the
+	url_hash and url_equal functions are stored as part of the
+	provider.)
+
+	* providers/nntp/camel-nntp-provider.c: Likewise.
+
+	* providers/local/camel-local-provider.c: Likewise.
+
+	* providers/pop3/camel-pop3-provider.c: Likewise.
+
+	* providers/sendmail/camel-sendmail-provider.c: Likewise.
+
+	* providers/smtp/camel-smtp-provider.c: Likewise.
+
+	* camel-session.c (register_provider): Initialize the provider's
+	service cache(s) here.
+	(camel_session_class_init): Don't initialize.
+	vee_provider.service_cache here.
+	(camel_session_destroy_provider): Update to destroy multiple
+	service_caches.
+	(service_cache_remove, get_service): Tweak these a bit to deal
+	with multiple service_caches.
+
 2002-04-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-tcp-stream-ssl.c (set_errno): Handle a ton more nspr i/o
