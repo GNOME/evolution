@@ -1,5 +1,9 @@
 1999-01-08  Nat Friedman  <nat@nat.org>
 
+	* main.c: Converted some more stuff to use the standards.
+
+1999-01-08  Nat Friedman  <nat@nat.org>
+
 	* main.c (setup_appbar): New function to create the status bar.
 	(setup_menu): Install menu hints.
 

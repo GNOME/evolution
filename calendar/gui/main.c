@@ -402,28 +402,15 @@ static GnomeUIInfo gnome_cal_file_menu [] = {
 				  N_("Create a new calendar"),
 				  new_calendar_cmd, NULL),
 
-	{ GNOME_APP_UI_ITEM, N_("_Open calendar..."),
-	  N_("Open a saved calendar"), open_calendar_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_OPEN,
-	  GNOME_KEY_NAME_OPEN, GNOME_KEY_MOD_OPEN, NULL },
+	GNOMEUIINFO_MENU_OPEN_ITEM(open_calendar_cmd, NULL),
 
-	{ GNOME_APP_UI_ITEM, N_("_Save calendar"),
-	  N_("Save the current calendar"), save_calendar_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE,
-	  GNOME_KEY_NAME_SAVE, GNOME_KEY_MOD_SAVE, NULL },
+	GNOMEUIINFO_MENU_SAVE_ITEM(save_calendar_cmd, NULL),
 
-	{ GNOME_APP_UI_ITEM, N_("Save calendar _as..."),
-	  N_("Save the current calendar with a different name"),
-	  save_as_calendar_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE_AS,
-	  GNOME_KEY_NAME_SAVE_AS, GNOME_KEY_MOD_SAVE_AS, NULL },
+	GNOMEUIINFO_MENU_SAVE_AS_ITEM(save_as_calendar_cmd, NULL),
 
 	GNOMEUIINFO_SEPARATOR,
 
-	{ GNOME_APP_UI_ITEM, N_("_Close calendar..."),
-	  N_("Close the current calendar"), close_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_CLOSE,
-	  GNOME_KEY_NAME_CLOSE, GNOME_KEY_MOD_CLOSE, NULL },
+	GNOMEUIINFO_MENU_CLOSE_ITEM(close_cmd, NULL),
 
 	GNOMEUIINFO_MENU_EXIT_ITEM(quit_cmd, NULL),
 
