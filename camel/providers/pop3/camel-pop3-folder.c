@@ -169,6 +169,7 @@ cmd_builduid(CamelPOP3Engine *pe, CamelPOP3Stream *stream, void *data)
 			h = h->next;
 		}
 	default:
+		break;
 	}
 	camel_object_unref(mp);
 	md5_final(&md5, digest);

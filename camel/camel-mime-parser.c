@@ -1841,6 +1841,7 @@ folder_scan_drop_step(struct _header_scan_state *s)
 		return;
 	default:
 		/* FIXME: not sure if this is entirely right */
+		break;
 	}
 }
 

@@ -443,6 +443,7 @@ imap_getv (CamelObject *object, CamelException *ex, CamelArgGetV *args)
 			break;
 		default:
 			/* error? */
+			break;
 		}
 	}
 	

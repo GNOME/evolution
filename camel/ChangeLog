@@ -1,3 +1,14 @@
+2002-09-22  Dan Winship  <danw@ximian.com>
+
+	* camel-mime-parser.c (folder_scan_drop_step): fix non-ANSI switch
+	statement.
+
+	* camel-service.c (service_getv): Likewise.
+
+	* providers/imap/camel-imap-store.c (imap_getv): Likewise.
+
+	* providers/pop3/camel-pop3-folder.c (cmd_builduid): Likewise.
+
 2002-09-20  Not Zed  <NotZed@Ximian.com>
 
 	* tests/misc/split.c: New regression test for word
