@@ -142,113 +142,159 @@ mail_crypto_pgp_mime_part_decrypt (CamelMimePart *mime_part, CamelException *ex)
 
 
 /**
- * mail_crypto_smime_part_sign:
- * @mime_part: a MIME part that will be replaced by a S/MIME signed part
+ * mail_crypto_smime_sign:
+ * @message: MIME message to sign
  * @userid: userid to sign with
- * @hash: one of CAMEL_CIPHER_HASH_MD5 or CAMEL_CIPHER_HASH_SHA1
+ * @signing_time: Include signing time
+ * @detached: create detached signature
  * @ex: exception which will be set if there are any errors.
  *
- * Constructs a S/MIME multipart in compliance with rfc2633 and
- * replaces #part with the generated multipart/signed. On failure,
- * #ex will be set and #part will remain untouched.
+ * Returns a S/MIME message in compliance with rfc2633. Returns %NULL
+ * on failure and @ex will be set.
  **/
-void
-mail_crypto_smime_part_sign (CamelMimePart **mime_part, const char *userid, CamelCipherHash hash, CamelException *ex)
+CamelMimeMessage *
+mail_crypto_smime_sign (CamelMimeMessage *message, const char *userid,
+			gboolean signing_time, gboolean detached,
+			CamelException *ex)
 {
 	CamelSMimeContext *context = NULL;
+	CamelMimeMessage *mesg = NULL;
 	
 #ifdef HAVE_NSS
-	context = camel_smime_context_new (session);
+	context = camel_smime_context_new (session, NULL);
 #endif
 	
 	if (context) {
-		camel_smime_part_sign (context, mime_part, userid, hash, ex);
+		mesg = camel_cms_sign (CAMEL_CMS_CONTEXT (context), message,
+				       userid, signing_time, detached, ex);
 		camel_object_unref (CAMEL_OBJECT (context));
 	} else
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not create a S/MIME signature context."));
+	
+	return mesg;
 }
 
 
 /**
- * mail_crypto_smime_part_verify:
- * @mime_part: a multipart/signed S/MIME Part
+ * mail_crypto_smime_certsonly:
+ * @message: MIME message
+ * @userid: userid
+ * @recipients: recipients
  * @ex: exception
  *
- * Returns a CamelCipherValidity on success or NULL on fail.
+ * Returns a S/MIME message.
  **/
-CamelCipherValidity *
-mail_crypto_smime_part_verify (CamelMimePart *mime_part, CamelException *ex)
+CamelMimeMessage *
+mail_crypto_smime_certsonly (CamelMimeMessage *message, const char *userid,
+			     GPtrArray *recipients, CamelException *ex)
 {
-	CamelCipherValidity *valid = NULL;
 	CamelSMimeContext *context = NULL;
+	CamelMimeMessage *mesg = NULL;
 	
 #ifdef HAVE_NSS
-	context = camel_smime_context_new (session);
+	context = camel_smime_context_new (session, NULL);
 #endif
 	
 	if (context) {
-		valid = camel_smime_part_verify (context, mime_part, ex);
+		mesg = camel_cms_certsonly (CAMEL_CMS_CONTEXT (context), message,
+					    userid, recipients, ex);
 		camel_object_unref (CAMEL_OBJECT (context));
 	} else
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Could not create a S/MIME verification context."));
+				      _("Could not create a S/MIME certsonly context."));
 	
-	return valid;
+	return mesg;
 }
 
-
 /**
- * mail_crypto_smime_part_encrypt:
- * @mime_part: a MIME part that will be replaced by a S/MIME encrypted part
- * @recipients: list of recipient S/MIME encryption certificates
- * @ex: exception which will be set if there are any errors.
+ * mail_crypto_smime_encrypt:
+ * @message: MIME message
+ * @userid: userid
+ * @recipients: recipients
+ * @ex: exception
  *
- * Constructs a S/MIME multipart in compliance with rfc2633 and
- * replaces #mime_part with the generated part. On failure,
- * #ex will be set and #part will remain untouched.
+ * Returns a S/MIME message.
  **/
-void
-mail_crypto_smime_part_encrypt (CamelMimePart **mime_part, GPtrArray *recipients, CamelException *ex)
+CamelMimeMessage *
+mail_crypto_smime_encrypt (CamelMimeMessage *message, const char *userid,
+			   GPtrArray *recipients, CamelException *ex)
 {
 	CamelSMimeContext *context = NULL;
+	CamelMimeMessage *mesg = NULL;
 	
 #ifdef HAVE_NSS
-	context = camel_smime_context_new (session);
+	context = camel_smime_context_new (session, NULL);
 #endif
 	
 	if (context) {
-		camel_smime_part_encrypt (context, mime_part, recipients, ex);
+		mesg = camel_cms_encrypt (CAMEL_CMS_CONTEXT (context), message,
+					  userid, recipients, ex);
 		camel_object_unref (CAMEL_OBJECT (context));
 	} else
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not create a S/MIME encryption context."));
+	
+	return mesg;
 }
 
-
 /**
- * mail_crypto_smime_part_decrypt:
- * @mime_part: an S/MIME encrypted Part
+ * mail_crypto_smime_envelope:
+ * @message: MIME message
+ * @userid: userid
+ * @recipients: recipients
  * @ex: exception
  *
- * Returns the decrypted MIME Part on success or NULL on fail.
+ * Returns a S/MIME message.
  **/
-CamelMimePart *
-mail_crypto_smime_part_decrypt (CamelMimePart *mime_part, CamelException *ex)
+CamelMimeMessage *
+mail_crypto_smime_envelope (CamelMimeMessage *message, const char *userid,
+			    GPtrArray *recipients, CamelException *ex)
 {
 	CamelSMimeContext *context = NULL;
-	CamelMimePart *part = NULL;
+	CamelMimeMessage *mesg = NULL;
 	
 #ifdef HAVE_NSS
-	context = camel_smime_context_new (session);
+	context = camel_smime_context_new (session, NULL);
 #endif
 	
 	if (context) {
-		part = camel_smime_part_decrypt (context, mime_part, ex);
+		mesg = camel_cms_envelope (CAMEL_CMS_CONTEXT (context), message,
+					   userid, recipients, ex);
 		camel_object_unref (CAMEL_OBJECT (context));
 	} else
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Could not create a S/MIME decryption context."));
+				      _("Could not create a S/MIME envelope context."));
 	
-	return part;
+	return mesg;
+}
+
+/**
+ * mail_crypto_smime_decode:
+ * @message: MIME message
+ * @info: pointer to a CamelCMSValidityInfo structure (or %NULL)
+ * @ex: exception
+ *
+ * Returns a decoded S/MIME message.
+ **/
+CamelMimeMessage *
+mail_crypto_smime_decode (CamelMimeMessage *message, CamelCMSValidityInfo **info,
+			  CamelException *ex)
+{
+	CamelSMimeContext *context = NULL;
+	CamelMimeMessage *mesg = NULL;
+	
+#ifdef HAVE_NSS
+	context = camel_smime_context_new (session, NULL);
+#endif
+	
+	if (context) {
+		mesg = camel_cms_decode (CAMEL_CMS_CONTEXT (context),
+					 message, info, ex);
+		camel_object_unref (CAMEL_OBJECT (context));
+	} else
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Could not create a S/MIME decode context."));
+	
+	return mesg;
 }

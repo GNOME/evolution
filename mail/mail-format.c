@@ -1576,8 +1576,6 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 	
 	if (camel_pgp_mime_is_rfc2015_signed (part)) {
 		valid = mail_crypto_pgp_mime_part_verify (part, ex);
-	} else if (camel_smime_is_smime_v3_signed (part)) {
-		valid = mail_crypto_smime_part_verify (part, ex);
 	} else {
 		camel_exception_free (ex);
 		return handle_multipart_mixed (part, mime_type, md);

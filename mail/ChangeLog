@@ -1,3 +1,11 @@
+2001-05-31  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (handle_multipart_signed): Removed the code to
+	check for the validity of an S/MIME part. Stuff works differently
+	now.
+
+	* mail-crypto.c: Rewrote how the S/MIME stuff is going to work.
+
 2001-05-30  Dan Winship  <danw@ximian.com>
 
 	* mail-config.glade: Rename the "PGP" page back to "Other" and add

@@ -48,21 +48,22 @@ void mail_crypto_pgp_mime_part_encrypt (CamelMimePart **mime_part,
 CamelMimePart *mail_crypto_pgp_mime_part_decrypt (CamelMimePart *mime_part,
 						  CamelException *ex);
 
-/* S/MIME convenience wrappers */
-void mail_crypto_smime_part_sign (CamelMimePart **mime_part,
-				  const char *userid,
-				  CamelCipherHash hash,
-				  CamelException *ex);
-
-CamelCipherValidity *mail_crypto_smime_part_verify (CamelMimePart *mime_part,
-						    CamelException *ex);
-
-void mail_crypto_smime_part_encrypt (CamelMimePart **mime_part,
-				     GPtrArray *recipients,
-				     CamelException *ex);
-
-CamelMimePart *mail_crypto_smime_part_decrypt (CamelMimePart *mime_part,
+/* S/MIME v3 convenience wrappers */
+CamelMimeMessage *mail_crypto_smime_sign      (CamelMimeMessage *message, const char *userid,
+					       gboolean signing_time, gboolean detached,
 					       CamelException *ex);
+
+CamelMimeMessage *mail_crypto_smime_certsonly (CamelMimeMessage *message, const char *userid,
+					       GPtrArray *recipients, CamelException *ex);
+
+CamelMimeMessage *mail_crypto_smime_encrypt   (CamelMimeMessage *message, const char *userid,
+					       GPtrArray *recipients, CamelException *ex);
+
+CamelMimeMessage *mail_crypto_smime_envelope  (CamelMimeMessage *message, const char *userid,
+					       GPtrArray *recipients, CamelException *ex);
+
+CamelMimeMessage *mail_crypto_smime_decode    (CamelMimeMessage *message,
+					       CamelCMSValidityInfo **info, CamelException *ex);
 
 #ifdef __cplusplus
 }
