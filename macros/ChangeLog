@@ -1,3 +1,11 @@
+1998-08-20  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* compiler-flags.m4: New file.  Defines the
+	GNOME_COMPILER_WARNINGS macro.
+	* autogen.sh (conf_flags): Add `--enable-compile-warnings' to list
+	of flags passed to `configure'.
+	* Makefile.am (MACROS): Add compiler-flags.m4.
+
 1998-08-18  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-libgtop-check.m4: make it require libgtop >= 0.25.0.

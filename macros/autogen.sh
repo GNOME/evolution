@@ -73,8 +73,9 @@ do
 done
 
 if test x$NOCONFIGURE = x; then
-echo running $srcdir/configure --enable-maintainer-mode "$@"
-$srcdir/configure --enable-maintainer-mode "$@" \
+conf_flags="--enable-maintainer-mode --enable-compile-warnings" #--enable-iso-c
+echo running $srcdir/configure $conf_flags "$@"
+$srcdir/configure $conf_flags "$@" \
 && echo Now type \`make\' to compile the $PKG_NAME
 else
 echo Skipping configure process.
