@@ -97,8 +97,8 @@ time_from_isodate (const char *str)
 
 	if (len == 16) {
 #if defined(HAVE_TM_GMTOFF)
-		t -= my_tm.tm_gmtoff;
-#elsif defined(HAVE_TIMEZONE)
+		t += my_tm.tm_gmtoff;
+#elif defined(HAVE_TIMEZONE)
 		t -= timezone;
 #endif
 	}
