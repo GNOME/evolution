@@ -22,16 +22,14 @@
 
 		<submenu name="File" _label="_File">
 
-		        <menuitem name="ContactListEditorSave" verb=""
-			_label="_Save"/>
+		        <menuitem name="ContactListEditorSave" verb="" _label="_Save"/>
+		        <menuitem name="ContactListEditorSaveClose" verb="" _label="Save and Close" pixtype="pixbuf"/>
 
-		        <menuitem name="ContactListEditorSaveAs" verb=""
-			_label="Save _As..."/>
+		        <menuitem name="ContactListEditorSaveAs" verb="" _label="Save _As..."/>
 
 			<separator/>
 
-		        <menuitem name="ContactListEditorDelete" verb=""
-			_label="Delete..."/>
+		        <menuitem name="ContactListEditorDelete" verb="" _label="Delete..." pixtype="pixbuf"/>
 
 			<separator/>
 
@@ -40,7 +38,6 @@
 
 		</submenu>
 
-<!-- Not Yet Implemented
 		<submenu name="Actions" _label="_Actions">
 		        <menuitem name="ContactListEditorSendAs" verb=""
 			_label="Se_nd list to other..."/>
@@ -48,14 +45,12 @@
 		        <menuitem name="ContactListEditorSendTo" verb=""
 			_label="Send _message to list..."/>
 		</submenu>
--->
 
 	</menu>
 
 	<dockitem name="Toolbar" relief="none" behavior="exclusive"
 			hlook="text" vlook="icon">
-	        <toolitem name="ContactListEditorSave" verb=""
-		_label="Save" priority="1" />
+	        <toolitem name="ContactListEditorSaveClose" verb="" _label="Save and Close" priority="1" pixtype="pixbuf"/>
 
 		<separator/>
 
