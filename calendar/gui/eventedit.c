@@ -209,13 +209,6 @@ set_all_day (GtkToggleButton *toggle, EventEditor *ee)
 	gnome_date_edit_set_time (GNOME_DATE_EDIT (ee->end_time), mktime (tm));
 }
 
-static void
-recur_check_toggled (GtkToggleButton *toggle, EventEditor *ee)
-{
-	gtk_widget_set_sensitive (ee->recur_page_label, toggle->active);
-	gtk_widget_set_sensitive (ee->recur_table, toggle->active);
-}
-
 static GtkWidget *
 event_editor_setup_time_frame (EventEditor *ee)
 {
@@ -231,7 +224,12 @@ event_editor_setup_time_frame (EventEditor *ee)
 	gtk_container_add (GTK_CONTAINER (frame), ee->general_time_table);
 
 	/* 1. Start time */
+	if (ee->ical->dtstart == 0){
+		ee->ical->dtstart = time (NULL);
+		ee->ical->dtend   = time_add_minutes (ee->ical->dtstart, 30);
+	}
 	ee->start_time = start_time = gnome_date_edit_new (ee->ical->dtstart, TRUE);
+	print_time_t (ee->ical->dtstart);
 	gnome_date_edit_set_popup_range ((GnomeDateEdit *) start_time, day_begin, day_end);
 	gtk_signal_connect (GTK_OBJECT (start_time), "date_changed",
 			    GTK_SIGNAL_FUNC (check_dates), ee);
@@ -271,13 +269,6 @@ event_editor_setup_time_frame (EventEditor *ee)
 			  GTK_FILL | GTK_SHRINK,
 			  4, 0);
 	ee_check_all_day (ee);
-
-	/* 4. Recurring event checkbox */
-	ee->general_recur  = gtk_check_button_new_with_label (_("Recurring event"));
-	gtk_table_attach (t, ee->general_recur, 3, 4, 2, 3,
-			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-			  GTK_FILL | GTK_SHRINK,
-			  4, 0);
 
 	return frame;
 }
@@ -514,7 +505,7 @@ option_menu_active_number (GtkWidget *omenu)
 	return ni->num;
 }
 
-static void
+static int
 ee_store_recur_rule_to_ical (EventEditor *ee)
 {
 	iCalObject *ical;
@@ -529,14 +520,21 @@ ee_store_recur_rule_to_ical (EventEditor *ee)
 
 	i = g_slist_length (ee->recur_rr_group) - i - 1; /* buttons are stored in reverse order of insertion */
 
+	/* NOne selected, no rule to be stored */
+	if (i == 0)
+		return 0;
+
+	if (!ical->recur)
+		ical->recur = g_new0 (Recurrence, 1);
+	
 	switch (i) {
-	case 0:
+	case 1:
 		/* Daily */
 		ical->recur->type = RECUR_DAILY;
 		ical->recur->interval = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (ee->recur_rr_day_period));
 		break;
 
-	case 1:
+	case 2:
 		/* Weekly */
 		ical->recur->type = RECUR_WEEKLY;
 		ical->recur->interval = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (ee->recur_rr_week_period));
@@ -552,7 +550,7 @@ ee_store_recur_rule_to_ical (EventEditor *ee)
 
 		break;
 
-	case 2:
+	case 3:
 		/* Monthly */
 
 		if (GTK_WIDGET_SENSITIVE (ee->recur_rr_month_date)) {
@@ -574,7 +572,7 @@ ee_store_recur_rule_to_ical (EventEditor *ee)
 
 		break;
 
-	case 3:
+	case 4:
 		/* Yearly */
 		ical->recur->type = RECUR_YEARLY_BY_DAY;
 		/* FIXME: need to specify anything else?  I am assuming the code will look at the dtstart
@@ -585,6 +583,7 @@ ee_store_recur_rule_to_ical (EventEditor *ee)
 	default:
 		g_assert_not_reached ();
 	}
+	return 1;
 }
 
 static void
@@ -668,16 +667,19 @@ ee_store_recur_exceptions_to_ical (EventEditor *ee)
 static void
 ee_store_recur_values_to_ical (EventEditor *ee)
 {
-	if (GTK_TOGGLE_BUTTON (ee->general_recur)->active) {
-		if (!ee->ical->recur)
-			ee->ical->recur = g_new0 (Recurrence, 1);
-
-		ee_store_recur_rule_to_ical (ee);
+	if (ee_store_recur_rule_to_ical (ee)){
 		ee_store_recur_end_to_ical (ee);
 		ee_store_recur_exceptions_to_ical (ee);
 	} else if (ee->ical->recur) {
 		g_free (ee->ical->recur);
 		ee->ical->recur = NULL;
+		if (ee->ical->exdate){
+			GList *l = ee->ical->exdate;
+
+			for (; l; l = l->next)
+				g_free (l->data);
+			g_list_free (l);
+		}
 	}
 }
 
@@ -844,6 +846,7 @@ ee_init_summary_page (EventEditor *ee)
 struct {
 	char *name;
 } recurrence_types [] = {
+	{ N_("None") },
 	{ N_("Daily") },
 	{ N_("Weekly") },
 	{ N_("Monthly") },
@@ -862,7 +865,7 @@ recurrence_toggled (GtkRadioButton *radio, EventEditor *ee)
 
 	for (which = 0; list; list = list->next, which++) {
 		if (list->data == radio) {
-			gtk_notebook_set_page (GTK_NOTEBOOK (ee->recur_rr_notebook), 3 - which);
+			gtk_notebook_set_page (GTK_NOTEBOOK (ee->recur_rr_notebook), 4 - which);
 			return;
 		}
 	}
@@ -933,7 +936,7 @@ ee_rp_init_rule (EventEditor *ee)
 {
 	static char *day_names [] = { N_("Mon"), N_("Tue"), N_("Wed"), N_("Thu"), N_("Fri"), N_("Sat"), N_("Sun") };
 	GtkWidget   *r, *re, *r1, *f, *vbox, *hbox, *b, *week_hbox, *week_day, *w;
-	GtkWidget   *daily, *weekly, *monthly, *yearly;
+	GtkWidget   *none, *daily, *weekly, *monthly, *yearly;
 	GtkNotebook *notebook;
 	GSList      *group;
 	int          i, page, day_period, week_period, month_period, year_period;
@@ -973,37 +976,38 @@ ee_rp_init_rule (EventEditor *ee)
 
 	/* Determine which should be the default selection */
 
+	page = 0;
 	if (ee->ical->recur) {
 		enum RecurType type = ee->ical->recur->type;
 		int interval = ee->ical->recur->interval;
 
 		switch (type) {
 		case RECUR_DAILY:
-			page = 0;
+			page = 1;
 			day_period = interval;
 			break;
 
 		case RECUR_WEEKLY:
-			page = 1;
+			page = 2;
 			week_period = interval;
 			week_vector = ee->ical->recur->weekday;
 			break;
 
 		case RECUR_MONTHLY_BY_POS:
-			page = 2;
+			page = 3;
 			month_period = interval;
 			def_pos = ee->ical->recur->u.month_pos;
 			default_day = ee->ical->recur->u.month_day;
 			break;
 
 		case RECUR_MONTHLY_BY_DAY:
-			page = 2;
+			page = 3;
 			month_period = interval;
 			default_day = ee->ical->recur->u.month_day;
 			break;
 
 		case RECUR_YEARLY_BY_MONTH:
-			page = 3;
+			page = 4;
 			year_period  = interval;
 			break;
 
@@ -1028,6 +1032,9 @@ ee_rp_init_rule (EventEditor *ee)
 
 	ee->recur_rr_group = group;
 
+	/* 0. No recurrence */
+	none = gtk_label_new ("");
+	
 	/* 1. The daily recurrence */
 
 	daily = gtk_vbox_new (FALSE, 0);
@@ -1123,6 +1130,7 @@ ee_rp_init_rule (EventEditor *ee)
 
 	/* Finish setting this up */
 
+	gtk_notebook_append_page (notebook, none, gtk_label_new (""));
 	gtk_notebook_append_page (notebook, daily, gtk_label_new (""));
 	gtk_notebook_append_page (notebook, weekly, gtk_label_new (""));
 	gtk_notebook_append_page (notebook, monthly, gtk_label_new (""));
@@ -1144,7 +1152,6 @@ ee_rp_init_rule (EventEditor *ee)
 static void
 sensitize_by_toggle (GtkToggleButton *toggle, gpointer data)
 {
-	gtk_widget_set_sensitive (GTK_WIDGET (data), toggle->active);
 }
 
 static void
@@ -1197,12 +1204,6 @@ ee_rp_init_ending_date (EventEditor *ee)
 	ee->recur_ed_end_on = widget = gnome_date_edit_new (enddate, FALSE);
 	gtk_box_pack_start (GTK_BOX (ihbox), widget, FALSE, FALSE, 0);
 
-	gtk_signal_connect (GTK_OBJECT (radio1), "toggled",
-			    (GtkSignalFunc) sensitize_by_toggle,
-			    ihbox);
-
-	gtk_widget_set_sensitive (ihbox, FALSE);
-
 	/* end after n occurrences */
 
 	hbox = gtk_hbox_new (FALSE, 0);
@@ -1225,12 +1226,6 @@ ee_rp_init_ending_date (EventEditor *ee)
 
 	widget = gtk_label_new (_("occurrence(s)"));
 	gtk_box_pack_start (GTK_BOX (ihbox), widget, FALSE, FALSE, 0);
-
-	gtk_signal_connect (GTK_OBJECT (radio2), "toggled",
-			    (GtkSignalFunc) sensitize_by_toggle,
-			    ihbox);
-
-	gtk_widget_set_sensitive (ihbox, FALSE);
 
 	/* Activate appropriate item */
 
@@ -1412,17 +1407,6 @@ ee_init_recurrence_page (EventEditor *ee)
 	ee_rp_init_rule (ee);
 	ee_rp_init_ending_date (ee);
 	ee_rp_init_exceptions (ee);
-
-	/* Make the recurrence button sensitize the recurrence page */
-
-	recur_check_toggled (GTK_TOGGLE_BUTTON (ee->general_recur), ee);
-
-	gtk_signal_connect (GTK_OBJECT (ee->general_recur), "toggled",
-			    (GtkSignalFunc) recur_check_toggled,
-			    ee);
-
-	gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (ee->general_recur),
-				     (ee->ical->recur != NULL));
 }
 
 static void
@@ -1484,7 +1468,7 @@ event_editor_new (GnomeCalendar *gcal, iCalObject *ical)
 	
 	if (ical == 0){
 		ical = ical_new ("", user_name, "");
-		ical->new = 1;
+		ical->new     = 1;
 	}
 
 	ical->user_data = ee; /* so that the world can know we are editing it */

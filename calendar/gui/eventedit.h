@@ -27,7 +27,6 @@ typedef struct {
         GtkWidget  *general_table;
         GtkWidget  *general_time_table;
 	GtkWidget  *general_allday;
-	GtkWidget  *general_recur;
 	GtkWidget  *general_owner;
 	GtkWidget  *general_summary;
 	GtkWidget  *start_time, *end_time;

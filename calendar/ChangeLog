@@ -1,3 +1,22 @@
+1998-04-20  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* gncal-full-day.c (new_appointment): Setup the event editor dates
+	to those of the currently displayed day. 
+	(gncal_full_day_selection_range): Use sensible values in the case
+	no range is selected.
+	(new_appointment): Events now use the current day for event creation.
+
+	* view-utils.c: Pretty up the time display.
+
+	* calobj.c (ical_object_compute_end): Initialize
+	ico->recur->enddate, otherwise we loop forever during final date computation.
+
+	* eventedit.c: Now recurrence is toggled by a radio button in the
+	recurrence page, as the checkbox is confusing. 
+
+	* calobj.c (is_date_in_list): Add support for the exclussion
+	dates. 
+
 1998-04-18  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* gncal-year-view.c (double_click): Fix this routine as well.

@@ -2,11 +2,33 @@
  *
  * Copyright (C) 1998 The Free Software Foundation
  *
- * Author: Federico Mena <quartic@gimp.org>
+ * Authors: Federico Mena <quartic@gimp.org>
+ *          Miguel de Icaza <miguel@kernel.org>
  */
 
 #include <string.h>
 #include "view-utils.h"
+
+int am_pm_flag = 0;
+
+char *
+nicetime (struct tm *tm)
+{
+	static char buf [20];
+		
+	if (am_pm_flag){
+		if (tm->tm_min)
+			strftime (buf, sizeof (buf), "%I:%M%p", tm);
+		else
+			strftime (buf, sizeof (buf), "%I%p", tm);
+	} else {
+		if (tm->tm_min)
+			strftime (buf, sizeof (buf), "%H:%M", tm);
+		else
+			strftime (buf, sizeof (buf), "%H", tm);
+	}
+	return buf;
+}
 
 void
 view_utils_draw_events (GtkWidget *widget, GdkWindow *window, GdkGC *gc, GdkRectangle *area,
@@ -14,7 +36,7 @@ view_utils_draw_events (GtkWidget *widget, GdkWindow *window, GdkGC *gc, GdkRect
 {
 	int font_height;
 	int x, y, max_y;
-	char buf[512];
+	char buf [40];
 	int len;
 	struct tm tm_start, tm_end;
 	char *str;
@@ -35,13 +57,12 @@ view_utils_draw_events (GtkWidget *widget, GdkWindow *window, GdkGC *gc, GdkRect
 		tm_end = *localtime   (&co->ev_end);
 		str = ico->summary;
 
-		if (flags & VIEW_UTILS_DRAW_END) {
-			strftime (buf, 512, "%X-", &tm_start);
-			len = strlen (buf);
-			strftime (buf + len, 512 - len, "%X    ", &tm_end);
-		} else
-			strftime (buf, 512, "%X    ", &tm_start);
-
+		strcpy (buf, nicetime (&tm_start));
+			
+		if (flags & VIEW_UTILS_DRAW_END){
+			strcat (buf, "-");
+			strcat (buf, nicetime (&tm_end));
+		}
 		gdk_draw_string (window,
 				 widget->style->font,
 				 gc,

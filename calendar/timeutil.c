@@ -104,6 +104,21 @@ time_add_day (time_t time, int days)
 }
 
 time_t
+time_add_minutes (time_t time, int minutes)
+{
+	struct tm *tm = localtime (&time);
+	time_t new_time;
+
+	tm->tm_min += minutes;
+	if ((new_time = mktime (tm)) == -1){
+		g_warning ("mktime could not handling adding a day with\n");
+		print_time_t (time);
+		return time;
+	}
+	return new_time;
+}
+
+time_t
 time_add_year (time_t time, int years)
 {
 	struct tm *tm = localtime (&time);

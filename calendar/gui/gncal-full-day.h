@@ -57,6 +57,8 @@ void       gncal_full_day_set_bounds      (GncalFullDay *fullday, time_t lower, 
 
 /* Returns the selected range in lower and upper.  If nothing is
  * selected, return value is FALSE, otherwise it is TRUE.
+ * The lower and upper values are always set to proper values, regardless of
+ * the selection value 
  */
 int        gncal_full_day_selection_range (GncalFullDay *fullday, time_t *lower, time_t *upper);
 

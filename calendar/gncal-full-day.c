@@ -2,7 +2,8 @@
  *
  * Copyright (C) 1998 The Free Software Foundation
  *
- * Author: Federico Mena <quartic@gimp.org>
+ * Authors: Federico Mena <quartic@gimp.org>
+ *          Miguel de Icaza <miguel@kernel.org>
  */
 
 #include <string.h>
@@ -12,7 +13,7 @@
 #include "eventedit.h"
 #include "gncal-full-day.h"
 #include "view-utils.h"
-
+#include "main.h"
 
 #define TEXT_BORDER 2
 #define HANDLE_SIZE 8
@@ -341,16 +342,16 @@ new_appointment (GtkWidget *widget, gpointer data)
 {
 	GncalFullDay *fullday;
 	GtkWidget *ee;
-
+	iCalObject *ico;
+	time_t lower, upper;
+	
 	fullday = GNCAL_FULL_DAY (data);
 
-	/* FIXME: this should set up the start/end times in the event
-	 * editor to whatever the selection range is.  If there is no
-	 * selection, then default to something sensible, like the row
-	 * at which the button was clicked on when popping up the menu.
-	 */
-
-	ee = event_editor_new (fullday->calendar, NULL);
+	ico = ical_new ("", user_name, "");
+	ico->new = 1;
+	
+	gncal_full_day_selection_range (fullday, &ico->dtstart, &ico->dtend);
+	ee = event_editor_new (fullday->calendar, ico);
 	gtk_widget_show (ee);
 }
 
@@ -695,7 +696,7 @@ calc_labels_width (GncalFullDay *fullday)
 	struct tm cur, upper;
 	time_t tim, time_upper;
 	int width, max_w;
-	char buf[256];
+	char buf[40];
 
 	get_tm_range (fullday, fullday->lower, fullday->upper, &cur, &upper, NULL, NULL);
 
@@ -705,7 +706,11 @@ calc_labels_width (GncalFullDay *fullday)
 	time_upper = mktime (&upper);
 
 	while (tim < time_upper) {
-		strftime (buf, 256, "%X", &cur);
+		if (am_pm_flag)
+			strftime (buf, sizeof (buf), "%I:%M%p", &cur);
+		else
+			strftime (buf, sizeof (buf), "%H:%M", &cur);
+			
 
 		width = gdk_string_width (GTK_WIDGET (fullday)->style->font, buf);
 
@@ -1006,7 +1011,7 @@ paint_back (GncalFullDay *fullday, GdkRectangle *area)
 	int i, y;
 	GdkGC *gc;
 	struct tm tm;
-	char buf[256];
+	char buf [40];
 
 	widget = GTK_WIDGET (fullday);
 
@@ -1143,7 +1148,10 @@ paint_back (GncalFullDay *fullday, GdkRectangle *area)
 		mktime (&tm);
 
 		if (gdk_rectangle_intersect (&rect, area, &dest)) {
-			strftime (buf, 256, "%X", &tm);
+			if (am_pm_flag)
+				strftime (buf, sizeof (buf), "%I:%M%p", &tm);
+			else
+				strftime (buf, sizeof (buf), "%H:%M", &tm);
 
 			if ((di->sel_rows_used != 0)
 			    && (i >= di->sel_start_row)
@@ -1984,8 +1992,19 @@ gncal_full_day_selection_range (GncalFullDay *fullday, time_t *lower, time_t *up
 
 	di = fullday->drag_info;
 
-	if (di->sel_rows_used == 0)
+	if (di->sel_rows_used == 0){
+		time_t now = time (NULL);
+		struct tm tm    = *localtime (&now);
+		struct tm thisd = *localtime (&fullday->lower);
+		
+		thisd.tm_hour = tm.tm_hour;
+		thisd.tm_min  = tm.tm_min;
+		thisd.tm_sec  = 0;
+		*lower = mktime (&thisd);
+		thisd.tm_hour++;
+		*upper = mktime (&thisd);
 		return FALSE;
+	}
 
 	get_time_from_rows (fullday, di->sel_start_row, di->sel_rows_used, &alower, &aupper);
 

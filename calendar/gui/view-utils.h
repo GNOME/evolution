@@ -24,5 +24,6 @@ void view_utils_draw_events (GtkWidget *widget, GdkWindow *window, GdkGC *gc, Gd
 
 void view_utils_draw_textured_frame (GtkWidget *widget, GdkWindow *window, GdkRectangle *rect, GtkShadowType shadow);
 
+extern int am_pm_flag;
 
 #endif

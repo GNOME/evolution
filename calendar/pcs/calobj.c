@@ -892,6 +892,23 @@ ical_foreach (GList *events, calendarfn fn, void *closure)
 }
 
 static int
+is_date_in_list (GList *list, struct tm *date)
+{
+	struct tm *tm;
+	
+	for (; list; list = list->next){
+		time_t *timep = list->data;
+		
+		tm = localtime (timep);
+		if (date->tm_mday == tm->tm_mday &&
+		    date->tm_mon  == tm->tm_mon &&
+		    date->tm_year == tm->tm_year)
+			return 1;
+	}
+	return 0;
+}
+
+static int
 generate (iCalObject *ico, time_t reference, calendarfn cb, void *closure)
 {
 	struct tm dt_start, dt_end, ref;
@@ -910,7 +927,11 @@ generate (iCalObject *ico, time_t reference, calendarfn cb, void *closure)
 	dt_end.tm_year = ref.tm_year;
 
 	s_t = mktime (&dt_start);
+	if (ico->exdate && is_date_in_list (ico->exdate, &dt_start))
+		return;
+	
 	e_t = mktime (&dt_end);
+	
 	if (s_t == -1 || e_t == -1){
 		g_warning ("Produced invalid dates!\n");
 		return 0;
@@ -1093,7 +1114,7 @@ duration_callback (iCalObject *ico, time_t start, time_t end, void *closure)
 
 	(*count)++;
 	if (ico->recur->duration == *count) {
-		ico->recur->enddate = end;
+		ico->recur->enddate = time_end_of_day (end);
 		return 0;
 	}
 	return 1;
@@ -1108,6 +1129,7 @@ ical_object_compute_end (iCalObject *ico)
 	g_return_if_fail (ico->recur != NULL);
 
 	ico->recur->_enddate = 0;
+	ico->recur->enddate = 0;
 	ical_object_generate_events (ico, ico->dtstart, 0, duration_callback, &count);
 }
 
