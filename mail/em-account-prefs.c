@@ -214,7 +214,7 @@ account_delete_clicked (GtkButton *button, gpointer user_data)
 	if (account == NULL || prefs->editor != NULL)
 		return;
 	
-	ans = e_error_run(PREFS_WINDOW(prefs), "mail:ask-account-delete", NULL);
+	ans = e_error_run(PREFS_WINDOW(prefs), "mail:ask-delete-account", NULL);
 	if (ans == GTK_RESPONSE_YES) {
 		int len;
 		

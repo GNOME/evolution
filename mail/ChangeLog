@@ -1,5 +1,8 @@
 2004-04-29  Not Zed  <NotZed@Ximian.com>
 
+	* em-account-prefs.c (account_delete_clicked): duh, use the right
+	error id.
+
 	* mail-send-recv.c (receive_update_got_store): call
 	mail_note_store rather than get_folder_info so that unread counts
 	are propagated to the ui too.
