@@ -26,6 +26,10 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #42630 - collapsed thread always shows as unread (Jeff)
     #44139 - composer spacing is not HIG compliant (Jeff)
     #44991 - cannot send mail in GB-2312 (Jeff)
+    #45063 - Message display refreshes when new mail arrives,
+    	     introducted by #33593 (Michael)
+    #31745 - Cannot view mails under '#mh' namespace.  Temporary
+             workaround, strip #'s (Michael)
 
   * All
 
@@ -36,10 +40,14 @@ Other bugs
 
   * Mail
 
-    - Fix bug in indexer string normalisation (Larry)
+    - Fix bug in indexer string normalisation (they weren't) (Larry)
     - Major memory leak in message-threading (Larry)
     - Only try to snoop a content-type if its application/octet-stream
       when displaying mail parts (Jeff)
+    - Try to make asynchronous dns lookup more asynchronously
+      cancellable (Michael)
+    - Fix a degenerate algorithm case in vFolder shutdown which could
+      cause excessive exit cpu usage (Michael)
 
   * All
 
