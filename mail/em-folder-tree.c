@@ -2204,29 +2204,50 @@ emft_tree_button_press (GtkWidget *treeview, GdkEventButton *event, EMFolderTree
 	/* FIXME: need to disable Rename/Move for Outbox and possibly other special folders */
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	GtkTreeSelection *selection;
+	CamelStore *local, *store;
+	const char *folder_name;
+	EMPopupTarget *target;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	GSList *menus = NULL;
+	guint32 flags = 0;
+	gboolean isstore;
+	char *uri, *path;
 	GtkMenu *menu;
 	EMPopup *emp;
-	EMPopupTarget *target;
-	char *uri;
-	gboolean isstore;
 	int i;
 	
 	if (event->button != 3)
 		return FALSE;
 	
-	/* handle right-click by opening a context menu */
-	emp = em_popup_new ("com.ximian.mail.storageset.popup.select");
-	
 	/* FIXME: we really need the folderinfo to build a proper menu */
 	selection = gtk_tree_view_get_selection (priv->treeview);
 	emft_selection_get_selected (selection, &model, &iter);
-	gtk_tree_model_get (model, &iter, COL_STRING_URI, &uri, COL_BOOL_IS_STORE, &isstore, -1);
+	gtk_tree_model_get (model, &iter, COL_POINTER_CAMEL_STORE, &store,
+			    COL_STRING_URI, &uri, COL_STRING_FOLDER_PATH, &path,
+			    COL_BOOL_IS_STORE, &isstore, -1);
+	
+	if (path == NULL)
+		return FALSE;
+	
+	if (isstore)
+		flags |= EM_POPUP_FOLDER_STORE;
+	else
+		flags |= EM_POPUP_FOLDER_FOLDER;
+	
+	local = mail_component_peek_local_store (NULL);
+	
+	folder_name = path[0] == '/' ? path + 1 : path;
+	
+	/* don't allow deletion of special local folders */
+	if (!(store == local && is_special_local_folder (folder_name)))
+		flags |= EM_POPUP_FOLDER_DELETE;
+	
+	/* handle right-click by opening a context menu */
+	emp = em_popup_new ("com.ximian.mail.storageset.popup.select");
 	
 	/* FIXME: pass valid fi->flags here */
-	target = em_popup_target_new_folder(uri, 0, isstore);
+	target = em_popup_target_new_folder (uri, /* fi->flags */ 0, flags);
 	
 	for (i = 0; i < sizeof (emft_popup_menu) / sizeof (emft_popup_menu[0]); i++) {
 		EMPopupItem *item = &emft_popup_menu[i];

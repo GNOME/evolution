@@ -1,3 +1,13 @@
+2004-02-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-tree.c (emft_tree_button_press): Pass flags to
+	em_popup_target_new_folder() instead of just an isstore arg.
+
+	* em-popup.c (em_popup_target_new_folder): Instead of taking an
+	isstore argument, take a flags argument so that our caller can
+	give us hints about the selected folder/store. Also fixed a logic
+	bug from my previous commit.
+
 2004-02-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-folder-tree.c (emft_tree_button_press): Updated for em-popup

@@ -585,7 +585,7 @@ em_popup_target_new_part(struct _CamelMimePart *part, const char *mime_type)
 
 /* TODO: This should be based on the CamelFolderInfo, but ... em-folder-tree doesn't keep it? */
 EMPopupTarget *
-em_popup_target_new_folder(const char *uri, guint32 info_flags, int isstore)
+em_popup_target_new_folder (const char *uri, guint32 info_flags, guint32 popup_flags)
 {
 	EMPopupTarget *t = g_malloc0(sizeof(*t));
 	guint32 mask = ~0;
@@ -594,43 +594,37 @@ em_popup_target_new_folder(const char *uri, guint32 info_flags, int isstore)
 	t->type = EM_POPUP_TARGET_FOLDER;
 	t->data.folder.folder_uri = g_strdup(uri);
 
-	if (isstore)
+	if (popup_flags & EM_POPUP_FOLDER_STORE)
 		mask &= ~(EM_POPUP_FOLDER_STORE|EM_POPUP_FOLDER_INFERIORS);
 	else
 		mask &= ~EM_POPUP_FOLDER_FOLDER;
-
+	
 	url = camel_url_new(uri, NULL);
 	if (url == NULL)
 		goto done;
 	
-	if (!isstore) {
+	if (!(popup_flags & EM_POPUP_FOLDER_STORE)) {
 		const char *path;
-
-		/* We have no way to find out FOLDER_INFERIORS without
-		 * the FolderInfo, so turn it on always (except vtrash/junk below) */
-		mask &= ~EM_POPUP_FOLDER_INFERIORS;
-
-		/* FIXME: this is a total hack, but i think all we can do at present */
-		path = url->fragment?url->fragment:url->path;
-		mask &= ~EM_POPUP_FOLDER_DELETE;
-		if (path && path[0]
-		    && (strcmp(path, CAMEL_VTRASH_NAME) == 0
-			|| strcmp(path, CAMEL_VJUNK_NAME) == 0
-			|| strcmp(path, CAMEL_UNMATCHED_NAME) == 0
-			/* more hack, for maildir root */
-			|| strcmp(path, ".") == 0))
-			mask |= EM_POPUP_FOLDER_DELETE|EM_POPUP_FOLDER_INFERIORS;
 		
-		/* end hack bit */
+		if (popup_flags & EM_POPUP_FOLDER_DELETE)
+			mask &= ~EM_POPUP_FOLDER_DELETE;
 		
-		/* check for vTrash/vJunk */
+		if (!(info_flags & CAMEL_FOLDER_NOINFERIORS))
+			mask &= ~EM_POPUP_FOLDER_INFERIORS;
+		
+		if (!(info_flags & CAMEL_FOLDER_NOSELECT))
+			mask &= ~EM_POPUP_FOLDER_SELECT;
+		
 		if (info_flags & CAMEL_FOLDER_VIRTUAL)
 			mask |= EM_POPUP_FOLDER_DELETE|EM_POPUP_FOLDER_INFERIORS;
 		
-		if (info_flags & CAMEL_FOLDER_NOSELECT)
-			mask &= ~EM_POPUP_FOLDER_SELECT;
+		if ((path = url->fragment ? url->fragment : url->path)) {
+			if ((!strcmp (url->protocol, "vfolder") && !strcmp (path, CAMEL_UNMATCHED_NAME))
+			    || (!strcmp (url->protocol, "maildir") && !strcmp (path, "."))) /* hack for maildir toplevel folder */
+				mask |= EM_POPUP_FOLDER_DELETE|EM_POPUP_FOLDER_INFERIORS;
+		}
 	}
-
+	
 	camel_url_free(url);
 done:
 	t->mask = mask;
