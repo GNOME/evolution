@@ -1751,14 +1751,14 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 	while (subcomp) {
 		/* We ignore anything except VEVENT, VTODO and VJOURNAL
 		   components. */
-		icalcomponent_kind child_kind = icalcomponent_isa (icalcomp);
+		icalcomponent_kind child_kind = icalcomponent_isa (subcomp);
 		if (child_kind == ICAL_VEVENT_COMPONENT
 		    || child_kind == ICAL_VTODO_COMPONENT
 		    || child_kind == ICAL_VJOURNAL_COMPONENT) {
 			const char *comp_uid;
 
 			comp_uid = cal_backend_file_update_object (cbfile,
-								   icalcomp);
+								   subcomp);
 			if (comp_uid) {
 				/* We add a copy of the UID to a list, so we
 				   can emit notification signals later. We do

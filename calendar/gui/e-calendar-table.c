@@ -41,6 +41,7 @@
 #include <gal/widgets/e-popup-menu.h>
 #include <widgets/misc/e-cell-date-edit.h>
 #include <widgets/misc/e-cell-percent.h>
+#include <e-util/e-unicode-i18n.h>
 #include "e-calendar-table.h"
 #include "e-cell-date-edit-text.h"
 #include "calendar-config.h"
@@ -382,9 +383,9 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	gtk_object_unref (GTK_OBJECT (cell));
 
 	strings = NULL;
-	strings = g_list_append (strings, _("Public"));
-	strings = g_list_append (strings, _("Private"));
-	strings = g_list_append (strings, _("Confidential"));
+	strings = g_list_append (strings, (char*) U_("Public"));
+	strings = g_list_append (strings, (char*) U_("Private"));
+	strings = g_list_append (strings, (char*) U_("Confidential"));
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
 					  strings);
 
@@ -404,10 +405,10 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	gtk_object_unref (GTK_OBJECT (cell));
 
 	strings = NULL;
-	strings = g_list_append (strings, _("High"));
-	strings = g_list_append (strings, _("Normal"));
-	strings = g_list_append (strings, _("Low"));
-	strings = g_list_append (strings, _("Undefined"));
+	strings = g_list_append (strings, (char*) U_("High"));
+	strings = g_list_append (strings, (char*) U_("Normal"));
+	strings = g_list_append (strings, (char*) U_("Low"));
+	strings = g_list_append (strings, (char*) U_("Undefined"));
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
 					  strings);
 
@@ -426,17 +427,17 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	gtk_object_unref (GTK_OBJECT (cell));
 
 	strings = NULL;
-	strings = g_list_append (strings, _("0%"));
-	strings = g_list_append (strings, _("10%"));
-	strings = g_list_append (strings, _("20%"));
-	strings = g_list_append (strings, _("30%"));
-	strings = g_list_append (strings, _("40%"));
-	strings = g_list_append (strings, _("50%"));
-	strings = g_list_append (strings, _("60%"));
-	strings = g_list_append (strings, _("70%"));
-	strings = g_list_append (strings, _("80%"));
-	strings = g_list_append (strings, _("90%"));
-	strings = g_list_append (strings, _("100%"));
+	strings = g_list_append (strings, (char*) U_("0%"));
+	strings = g_list_append (strings, (char*) U_("10%"));
+	strings = g_list_append (strings, (char*) U_("20%"));
+	strings = g_list_append (strings, (char*) U_("30%"));
+	strings = g_list_append (strings, (char*) U_("40%"));
+	strings = g_list_append (strings, (char*) U_("50%"));
+	strings = g_list_append (strings, (char*) U_("60%"));
+	strings = g_list_append (strings, (char*) U_("70%"));
+	strings = g_list_append (strings, (char*) U_("80%"));
+	strings = g_list_append (strings, (char*) U_("90%"));
+	strings = g_list_append (strings, (char*) U_("100%"));
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
 					  strings);
 
@@ -456,8 +457,8 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	gtk_object_unref (GTK_OBJECT (cell));
 
 	strings = NULL;
-	strings = g_list_append (strings, _("Free"));
-	strings = g_list_append (strings, _("Busy"));
+	strings = g_list_append (strings, (char*) U_("Free"));
+	strings = g_list_append (strings, (char*) U_("Busy"));
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
 					  strings);
 
@@ -477,10 +478,10 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	gtk_object_unref (GTK_OBJECT (cell));
 
 	strings = NULL;
-	strings = g_list_append (strings, _("Not Started"));
-	strings = g_list_append (strings, _("In Progress"));
-	strings = g_list_append (strings, _("Completed"));
-	strings = g_list_append (strings, _("Cancelled"));
+	strings = g_list_append (strings, (char*) U_("Not Started"));
+	strings = g_list_append (strings, (char*) U_("In Progress"));
+	strings = g_list_append (strings, (char*) U_("Completed"));
+	strings = g_list_append (strings, (char*) U_("Cancelled"));
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
 					  strings);
 

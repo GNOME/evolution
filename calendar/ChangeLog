@@ -1,3 +1,19 @@
+2001-10-24  Damon Chaplin  <damon@ximian.com>
+
+	* pcs/cal-backend-file.c (cal_backend_file_update_objects): when
+	iterating over the subcomponents, use 'subcomp' rather than 'icalcomp'.
+	That meant it wasn't working at all well when an entire VCALENDAR
+	was passed in.
+
+	* cal-util/cal-component.c: handle DURATION property used instead of
+	DTEND or DUE. In cal_component_get_dtend/due we will return DTSTART
+	+ DURATION if necessary. In set_dtend/due we remove any DURATION
+	property. Fixes bug #11262.
+
+	* gui/e-meeting-model.c (build_etable): 
+	* gui/e-calendar-table.c (e_calendar_table_init): use U_ for the
+	ECellCombo popdown strings, as it expects UTF-8 strings.
+
 2001-10-24  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct):

@@ -88,6 +88,13 @@ struct _CalComponentPrivate {
 
 	icalproperty *dtstamp;
 
+	/* The DURATION property can be used instead of the VEVENT DTEND or
+	   the VTODO DUE dates. We do not use it directly ourselves, but we
+	   must be able to handle it from incoming data. If a DTEND or DUE
+	   is requested, we convert the DURATION if necessary. If DTEND or
+	   DUE is set, we remove any DURATION. */
+	icalproperty *duration;
+
 	struct datetime due;
 
 	GSList *exdate_list; /* list of struct datetime */
@@ -305,6 +312,8 @@ free_icalcomponent (CalComponent *comp, gboolean free)
 
 	priv->due.prop = NULL;
 	priv->due.tzid_param = NULL;
+
+	priv->duration = NULL;
 
 	priv->exdate_list = free_slist (priv->exdate_list);
 
@@ -631,6 +640,10 @@ scan_property (CalComponent *comp, icalproperty *prop)
 
 	case ICAL_DUE_PROPERTY:
 		scan_datetime (comp, &priv->due, prop);
+		break;
+
+	case ICAL_DURATION_PROPERTY:
+		priv->duration = prop;
 		break;
 
 	case ICAL_EXDATE_PROPERTY:
@@ -1971,6 +1984,54 @@ set_datetime (CalComponent *comp, struct datetime *datetime,
 	}
 }
 
+
+/* This tries to get the DTSTART + DURATION for a VEVENT or VTODO. In a
+   VEVENT this is used for the DTEND if no DTEND exists, In a VTOTO it is
+   used for the DUE date if DUE doesn't exist. */
+static void
+cal_component_get_start_plus_duration (CalComponent *comp,
+				       CalComponentDateTime *dt)
+{
+	CalComponentPrivate *priv;
+	struct icaldurationtype duration;
+
+	priv = comp->priv;
+
+	if (!priv->duration)
+		return;
+
+	/* Get the DTSTART time. */
+	get_datetime (&priv->dtstart, icalproperty_get_dtstart, dt);
+	if (!dt->value)
+		return;
+
+	duration = icalproperty_get_duration (priv->duration);
+
+	/* The DURATION shouldn't be negative, but just return DTSTART if it
+	   is, i.e. assume it is 0. */
+	if (duration.is_neg)
+		return;
+
+	/* If DTSTART is a DATE value, then we need to check if the DURATION
+	   includes any hours, minutes or seconds. If it does, we need to
+	   make the DTEND/DUE a DATE-TIME value. If not, we need to subtract
+	   one from the days, since the end date will be inclusive. */
+	duration.days += duration.weeks * 7;
+	if (dt->value->is_date) {
+		if (duration.hours != 0 || duration.minutes != 0
+		    || duration.seconds != 0) {
+			dt->value->is_date = 0;
+		} else {
+			duration.days--;
+		}
+	}
+
+	/* Add on the DURATION. */
+	icaltime_adjust (dt->value, duration.days, duration.hours,
+			 duration.minutes, duration.seconds);
+}
+
+
 /**
  * cal_component_get_dtend:
  * @comp: A calendar component object.
@@ -1992,6 +2053,11 @@ cal_component_get_dtend (CalComponent *comp, CalComponentDateTime *dt)
 	g_return_if_fail (priv->icalcomp != NULL);
 
 	get_datetime (&priv->dtend, icalproperty_get_dtend, dt);
+
+	/* If we don't have a DTEND property, then we try to get DTSTART
+	   + DURATION. */
+	if (!dt->value)
+		cal_component_get_start_plus_duration (comp, dt);
 }
 
 /**
@@ -2016,6 +2082,15 @@ cal_component_set_dtend (CalComponent *comp, CalComponentDateTime *dt)
 		      icalproperty_new_dtend,
 		      icalproperty_set_dtend,
 		      dt);
+
+	/* Make sure we remove any existing DURATION property, as it can't be
+	   used with a DTEND. If DTEND is set to NULL, i.e. removed, we also
+	   want to remove any DURATION. */
+	if (priv->duration) {
+		icalcomponent_remove_property (priv->icalcomp, priv->duration);
+		icalproperty_free (priv->duration);
+		priv->duration = NULL;
+	}
 
 	priv->need_sequence_inc = TRUE;
 }
@@ -2143,6 +2218,11 @@ cal_component_get_due (CalComponent *comp, CalComponentDateTime *dt)
 	g_return_if_fail (priv->icalcomp != NULL);
 
 	get_datetime (&priv->due, icalproperty_get_due, dt);
+
+	/* If we don't have a DTEND property, then we try to get DTSTART
+	   + DURATION. */
+	if (!dt->value)
+		cal_component_get_start_plus_duration (comp, dt);
 }
 
 /**
@@ -2167,6 +2247,15 @@ cal_component_set_due (CalComponent *comp, CalComponentDateTime *dt)
 		      icalproperty_new_due,
 		      icalproperty_set_due,
 		      dt);
+
+	/* Make sure we remove any existing DURATION property, as it can't be
+	   used with a DTEND. If DTEND is set to NULL, i.e. removed, we also
+	   want to remove any DURATION. */
+	if (priv->duration) {
+		icalcomponent_remove_property (priv->icalcomp, priv->duration);
+		icalproperty_free (priv->duration);
+		priv->duration = NULL;
+	}
 
 	priv->need_sequence_inc = TRUE;
 }

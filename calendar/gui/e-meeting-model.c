@@ -43,6 +43,7 @@
 #include <e-card.h>
 #include <e-card-simple.h>
 #include <e-destination.h>
+#include <e-util/e-unicode-i18n.h>
 #include <cal-util/cal-component.h>
 #include <cal-util/cal-util.h>
 #include <cal-util/timeutil.h>
@@ -684,11 +685,11 @@ build_etable (ETableModel *model, const gchar *spec_file, const gchar *state_fil
 	gtk_object_unref (GTK_OBJECT (cell));
 	
 	strings = NULL;
-	strings = g_list_append (strings, _("Individual"));
-	strings = g_list_append (strings, _("Group"));
-	strings = g_list_append (strings, _("Resource"));
-	strings = g_list_append (strings, _("Room"));
-	strings = g_list_append (strings, _("Unknown"));
+	strings = g_list_append (strings, (char*) U_("Individual"));
+	strings = g_list_append (strings, (char*) U_("Group"));
+	strings = g_list_append (strings, (char*) U_("Resource"));
+	strings = g_list_append (strings, (char*) U_("Room"));
+	strings = g_list_append (strings, (char*) U_("Unknown"));
 
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell), strings);
 	e_table_extras_add_cell (extras, "typeedit", popup_cell);
@@ -700,11 +701,11 @@ build_etable (ETableModel *model, const gchar *spec_file, const gchar *state_fil
 	gtk_object_unref (GTK_OBJECT (cell));
 	
 	strings = NULL;
-	strings = g_list_append (strings, _("Chair"));
-	strings = g_list_append (strings, _("Required Participant"));
-	strings = g_list_append (strings, _("Optional Participant"));
-	strings = g_list_append (strings, _("Non-Participant"));
-	strings = g_list_append (strings, _("Unknown"));
+	strings = g_list_append (strings, (char*) U_("Chair"));
+	strings = g_list_append (strings, (char*) U_("Required Participant"));
+	strings = g_list_append (strings, (char*) U_("Optional Participant"));
+	strings = g_list_append (strings, (char*) U_("Non-Participant"));
+	strings = g_list_append (strings, (char*) U_("Unknown"));
 
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell), strings);
 	e_table_extras_add_cell (extras, "roleedit", popup_cell);
@@ -716,8 +717,8 @@ build_etable (ETableModel *model, const gchar *spec_file, const gchar *state_fil
 	gtk_object_unref (GTK_OBJECT (cell));
 
 	strings = NULL;
-	strings = g_list_append (strings, _("Yes"));
-	strings = g_list_append (strings, _("No"));
+	strings = g_list_append (strings, (char*) U_("Yes"));
+	strings = g_list_append (strings, (char*) U_("No"));
 
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell), strings);
 	e_table_extras_add_cell (extras, "rsvpedit", popup_cell);
@@ -729,11 +730,11 @@ build_etable (ETableModel *model, const gchar *spec_file, const gchar *state_fil
 	gtk_object_unref (GTK_OBJECT (cell));
 
 	strings = NULL;
-	strings = g_list_append (strings, _("Needs Action"));
-	strings = g_list_append (strings, _("Accepted"));
-	strings = g_list_append (strings, _("Declined"));
-	strings = g_list_append (strings, _("Tentative"));
-	strings = g_list_append (strings, _("Delegated"));
+	strings = g_list_append (strings, (char*) U_("Needs Action"));
+	strings = g_list_append (strings, (char*) U_("Accepted"));
+	strings = g_list_append (strings, (char*) U_("Declined"));
+	strings = g_list_append (strings, (char*) U_("Tentative"));
+	strings = g_list_append (strings, (char*) U_("Delegated"));
 
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell), strings);
 	e_table_extras_add_cell (extras, "statusedit", popup_cell);
