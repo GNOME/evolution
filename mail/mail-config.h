@@ -130,6 +130,9 @@ void     mail_config_set_paned_size           (gint size);
 gboolean mail_config_get_send_html            (void);
 void     mail_config_set_send_html            (gboolean send_html);
 
+gboolean mail_config_get_confirm_unwanted_html (void);
+void     mail_config_set_confirm_unwanted_html (gboolean html_warning);
+
 gboolean mail_config_get_citation_highlight   (void);
 void     mail_config_set_citation_highlight   (gboolean);
 

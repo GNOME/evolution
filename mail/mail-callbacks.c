@@ -200,6 +200,56 @@ msgbox_destroyed (GtkWidget *widget, gpointer data)
 }
 
 static gboolean
+ask_confirm_for_unwanted_html_mail (EMsgComposer *composer, EDestination **recipients)
+{
+	gboolean show_again = TRUE;
+	GString *str;
+	GtkWidget *mbox;
+	gint i, button;
+
+	if (! mail_config_get_confirm_unwanted_html ()) {
+		g_message ("doesn't want to see confirm html messages!");
+		return TRUE;
+	}
+
+	/* FIXME: this wording sucks */
+	str = g_string_new (_("You are sending an HTML-formatted mail, but the following recipients' "
+			      "contact records do not indicate that they want to receive such messages:\n"));
+	for (i = 0; recipients[i] != NULL; ++i) {
+		if (! e_destination_get_html_mail_pref (recipients[i])) {
+			gchar *name = g_strdup_printf ("     %s\n", e_destination_get_textrep (recipients[i]));
+			g_string_append (str, name);
+			g_free (name);
+		}
+	}
+
+	g_string_append (str, _("Send anyway?"));
+
+	mbox = e_message_box_new (str->str,
+				  E_MESSAGE_BOX_QUESTION,
+				  GNOME_STOCK_BUTTON_YES,
+				  GNOME_STOCK_BUTTON_NO,
+				  NULL);
+
+	g_string_free (str, 0);
+
+	gtk_signal_connect (GTK_OBJECT (mbox), "destroy",
+			    msgbox_destroyed, &show_again);
+	
+	button = gnome_dialog_run_and_close (GNOME_DIALOG (mbox));
+	
+	if (! show_again) {
+		mail_config_set_confirm_unwanted_html (show_again);
+		g_message ("don't show HTML warning again");
+	}
+	
+	if (button == 0)
+		return TRUE;
+	else
+		return FALSE;
+}
+
+static gboolean
 ask_confirm_for_empty_subject (EMsgComposer *composer)
 {
 	/* FIXME: EMessageBox should really handle this stuff
@@ -341,8 +391,9 @@ composer_get_message (EMsgComposer *composer)
 	CamelMimeMessage *message;
 	const char *subject;
 	int num_addrs, i;
+	EDestination **recipients;
 	
-	message = e_msg_composer_get_message (composer, TRUE /* yes, we are sending this baby! */ );
+	message = e_msg_composer_get_message (composer);
 	if (message == NULL)
 		return NULL;
 	
@@ -389,6 +440,29 @@ composer_get_message (EMsgComposer *composer)
 			return NULL;
 		}
 	}
+
+	/* Only show this warning if our default is to send html.  If it isn't, we've
+	   manually switched into html mode in the composer and (presumably) had a good
+	   reason for doing this. */
+	if (e_msg_composer_get_send_html (composer)
+	    && mail_config_get_send_html ()
+	    && mail_config_get_confirm_unwanted_html ()) {
+		gboolean html_problem = FALSE;
+		recipients = e_msg_composer_get_recipients (composer);
+		for (i = 0; recipients[i] != NULL && !html_problem; ++i) {
+			if (! e_destination_get_html_mail_pref (recipients[i]))
+				html_problem = TRUE;
+		}
+		
+		if (html_problem) {
+			html_problem = ! ask_confirm_for_unwanted_html_mail (composer, recipients);
+			e_destination_freev (recipients);
+			if (html_problem) {
+				camel_object_unref (CAMEL_OBJECT (message));
+				return NULL;
+			}
+		}
+	}
 	
 	/* Check for no subject */
 	subject = camel_mime_message_get_subject (message);
@@ -406,6 +480,11 @@ composer_get_message (EMsgComposer *composer)
 		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Transport", account->transport->url);
 		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc", account->sent_folder_uri);
 	}
+
+	/* Get the message recipients and 'touch' them, boosting their use scores */
+	recipients = e_msg_composer_get_recipients (composer);
+	e_destination_touchv (recipients);
+	e_destination_freev (recipients);
 	
 	return message;
 }
@@ -545,17 +624,11 @@ list_add_addresses (GList *list, const CamelInternetAddress *cia, const GSList *
 	const char *name, *addr;
 	const GSList *l;
 	gboolean notme;
-	char *full;
 	int i;
 	
 	for (i = 0; camel_internet_address_get (cia, i, &name, &addr); i++) {
 		/* Make sure we don't want to ignore this address */
 		if (!ignore_addr || g_strcasecmp (ignore_addr, addr)) {
-			/* now, we format this, as if for display, but does the composer
-			   then use it as a real address?  If so, very broken. */
-			/* we should probably pass around CamelAddresse's if thats what
-			   we mean */
-			full = camel_internet_address_format_address (name, addr);
 			
 			/* Here I'll check to see if the cc:'d address is the address
 			   of the sender, and if so, don't add it to the cc: list; this
@@ -576,10 +649,12 @@ list_add_addresses (GList *list, const CamelInternetAddress *cia, const GSList *
 			}
 			
 			if (notme && !g_hash_table_lookup (rcpt_hash, addr)) {
+				EDestination *dest = e_destination_new ();
+				e_destination_set_name (dest, name);
+				e_destination_set_email (dest, addr);
+				list = g_list_append (list, dest);
 				g_hash_table_insert (rcpt_hash, (char *) addr, GINT_TO_POINTER (1));
-				list = g_list_append (list, full);
-			} else
-				g_free (full);
+			} 
 		}
 	}
 	
@@ -632,16 +707,6 @@ guess_me (const CamelInternetAddress *to, const CamelInternetAddress *cc, const 
 	return NULL;
 }
 
-static void
-free_recipients (GList *list)
-{
-	GList *l;
-	
-	for (l = list; l; l = l->next)
-		g_free (l->data);
-	g_list_free (list);
-}
-
 static EMsgComposer *
 mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char *uid, int mode)
 {
@@ -652,6 +717,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	const MailConfigAccount *me = NULL;
 	const GSList *accounts = NULL;
 	GList *to = NULL, *cc = NULL;
+	EDestination **tov, **ccv;
 	EMsgComposer *composer;
 	time_t date;
 	
@@ -700,7 +766,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 			to_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
 			max = camel_address_length (CAMEL_ADDRESS (to_addrs));
 			for (i = 0; i < max; i++) {
-				camel_internet_address_get (to_addrs, i, NULL, &address);
+				camel_internet_address_get (to_addrs, i, &name, &address);
 				if (!g_strncasecmp (address, mlist, len))
 					break;
 			}
@@ -709,14 +775,18 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 				cc_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
 				max = camel_address_length (CAMEL_ADDRESS (cc_addrs));
 				for (i = 0; i < max; i++) {
-					camel_internet_address_get (cc_addrs, i, NULL, &address);
+					camel_internet_address_get (cc_addrs, i, &name, &address);
 					if (!g_strncasecmp (address, mlist, len))
 						break;
 				}
 			}
-			
-			/* We only want to reply to the list address - if it even exists */
-			to = address && i != max ? g_list_append (to, g_strdup (address)) : to;
+
+			if (address && i != max) {
+				EDestination *dest = e_destination_new ();
+				e_destination_set_name (dest, name);
+				e_destination_set_email (dest, address);
+				to = g_list_append (to, dest);
+			}
 		}
 		
 		me = guess_me (to_addrs, cc_addrs, accounts);
@@ -730,9 +800,13 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 			reply_to = camel_mime_message_get_from (message);
 		if (reply_to) {
 			/* Get the Reply-To address so we can ignore references to it in the Cc: list */
-			if (camel_internet_address_get (reply_to, 0, NULL, &reply_addr)) {
+			if (camel_internet_address_get (reply_to, 0, &name, &reply_addr)) {
+				EDestination *dest = e_destination_new ();
+				e_destination_set_name (dest, name);
+				e_destination_set_email (dest, reply_addr);
+				g_message (">>>>>>>>>> [%s] [%s]", name, reply_addr);
+				to = g_list_append (to, dest);
 				g_hash_table_insert (rcpt_hash, (char *) reply_addr, GINT_TO_POINTER (1));
-				to = g_list_append (to, camel_address_format (CAMEL_ADDRESS (reply_to)));
 			}
 		}
 		
@@ -763,10 +837,18 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 		else
 			subject = g_strdup_printf ("Re: %s", subject);
 	}
-	
-	e_msg_composer_set_headers (composer, me ? me->name : NULL, to, cc, NULL, subject);
-	free_recipients (to);
-	free_recipients (cc);
+
+	tov = e_destination_list_to_vector (to);
+	ccv = e_destination_list_to_vector (cc);
+
+	g_list_free (to);
+	g_list_free (cc);
+
+	e_msg_composer_set_headers (composer, me ? me->name : NULL, tov, ccv, NULL, subject);
+
+	e_destination_freev (tov);
+	e_destination_freev (ccv);
+
 	g_free (subject);
 	
 	/* Add In-Reply-To and References. */

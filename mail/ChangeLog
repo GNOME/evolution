@@ -1,3 +1,27 @@
+2001-09-08  Jon Trowbridge  <trow@gnu.org>
+
+	* mail-callbacks.c (ask_confirm_for_unwanted_html_mail): Added.
+	Shows a (hopefully) informative dialog warning you that some
+	recipients might not want HTML mail (who are listed), and gives
+	the option to cancel sending.  (FIXME: The wording of this dialog
+	could use some work.)
+	(composer_get_message): Check if we are sending HTML to someone
+	who might not want it, and raise the dialog if we are.  Use our
+	new destination-vector based api when talking to the composer.
+	Touch our destinations here, boosting their use scores.  This is
+	the right place for this to happen --- closer to the end of the
+	sending process, where incorrect/artificial use score inflation is
+	less likely to occur.
+	
+	* mail-config.c (config_read): Added
+	/Mail/Format/confirm_unwanted_html key.  This flag determines
+	whether or not we want to see the warning dialog when we send HTML
+	mail to contacts who don't want it.  Default is TRUE.
+	(mail_config_write_on_exit): Write out the confirm_unwanted_html
+	key.
+	(mail_config_get_confirm_unwanted_html): Added.
+	(mail_config_set_confirm_unwanted_html): Added.
+
 2001-09-08  Dan Winship  <danw@ximian.com>
 
 	* mail-display.c (mail_display_destroy): Unref the invisible,

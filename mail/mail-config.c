@@ -62,6 +62,7 @@ typedef struct {
 	gboolean hide_deleted;
 	gint paned_size;
 	gboolean send_html;
+	gboolean confirm_unwanted_html;
 	gboolean citation_highlight;
 	guint32  citation_color;
 	gboolean prompt_empty_subject;
@@ -489,6 +490,10 @@ config_read (void)
 	/* Format */
 	config->send_html = bonobo_config_get_boolean_with_default (config->db,
 	        "/Mail/Format/send_html", FALSE, NULL);
+
+	/* Confirm Sending Unwanted HTML */
+	config->confirm_unwanted_html = bonobo_config_get_boolean_with_default (config->db,
+	        "/Mail/Format/confirm_unwanted_html", TRUE, NULL);
 	
 	/* Citation */
 	config->citation_highlight = bonobo_config_get_boolean_with_default (
@@ -798,6 +803,10 @@ mail_config_write_on_exit (void)
 	/* Format */
 	bonobo_config_set_boolean (config->db, "/Mail/Format/send_html", 
 				   config->send_html, NULL);
+
+	/* Confirm Sending Unwanted HTML */
+	bonobo_config_set_boolean (config->db, "/Mail/Format/confirm_unwanted_html",
+				   config->confirm_unwanted_html, NULL);
 	
 	/* Citation */
 	bonobo_config_set_boolean (config->db, 
@@ -1093,6 +1102,18 @@ void
 mail_config_set_send_html (gboolean send_html)
 {
 	config->send_html = send_html;
+}
+
+gboolean
+mail_config_get_confirm_unwanted_html (void)
+{
+	return config->confirm_unwanted_html;
+}
+
+void
+mail_config_set_confirm_unwanted_html (gboolean confirm)
+{
+	config->confirm_unwanted_html = confirm;
 }
 
 gboolean
