@@ -1,3 +1,7 @@
+2002-06-21  Christian Rose  <menthos@menthos.com>
+
+	* sv.po: Updated Swedish translation.
+
 2002-06-20  Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>
 
 	* sk.po: Updated Slovak translation.
@@ -5,10 +9,6 @@
 2002-06-10  Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>
 
 	* sk.po: Updated Slovak translation.
-
-2002-06-07  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.40.
 
 2002-06-04  Pablo Saratxaga  <pablo@mandrakesoft.com>
 
