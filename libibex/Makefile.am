@@ -1,10 +1,8 @@
 ## Process this file with automake to produce Makefile.in
 
-lib_LTLIBRARIES = libibex.la
+noinst_LIBRARIES = libibex.a
 
-libibex_la_SOURCES = file.c index.c find.c words.c
-
-include_HEADERS = ibex.h
+libibex_a_SOURCES = file.c index.c find.c words.c ibex.h
 
 noinst_HEADERS = ibex_internal.h
 
@@ -19,4 +17,4 @@ mkindex_LDADD = libibex.la $(GLIB_LIBS) $(UNICODE_LIBS)
 
 lookup_SOURCES = lookup.c
 
-lookup_LDADD = libibex.la $(GLIB_LIBS) $(UNICODE_LIBS)
+lookup_LDADD = libibex.a $(GLIB_LIBS) $(UNICODE_LIBS)

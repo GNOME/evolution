@@ -1,3 +1,8 @@
+2000-02-18  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* Makefile.am (lookup_LDADD): For now. make a libibex.a library so
+	we can link it with the camel provider.  I hate libtool
+
 2000-02-16  Dan Winship  <danw@helixcode.com>
 
 	* Makefile.am: automakify
