@@ -90,14 +90,16 @@ calendar_config_init			(void)
 	config_read ();
 }
 
-static gboolean
-locale_uses_24h_time_format (void)
+/* Returns TRUE if the locale has 'am' and 'pm' strings defined, in which
+   case the user can choose between 12 and 24-hour time formats. */
+gboolean
+calendar_config_locale_supports_12_hour_format (void)
 {  
 	char s[16];
 	time_t t = 0;
 
 	strftime (s, sizeof s, "%p", gmtime (&t));
-	return s[0] == '\0';
+	return s[0] != '\0';
 }
 
 static void
@@ -128,8 +130,15 @@ config_read				(void)
 	config->week_start_day = bonobo_config_get_long_with_default (db, 
                 "/Calendar/Display/WeekStartDay", 1, NULL);
  
-	config->use_24_hour_format = bonobo_config_get_boolean_with_default (
-		db, "/Calendar/Display/Use24HourFormat", locale_uses_24h_time_format (), NULL);
+	/* If the locale defines 'am' and 'pm' strings then the user has the
+	   choice of 12-hour or 24-hour time format, with 12-hour as the
+	   default. If the locale doesn't have 'am' and 'pm' strings we have
+	   to use 24-hour format, or strftime()/strptime() won't work. */
+	if (calendar_config_locale_supports_12_hour_format ()) {
+		config->use_24_hour_format = bonobo_config_get_boolean_with_default (db, "/Calendar/Display/Use24HourFormat", FALSE, NULL);
+	} else {
+		config->use_24_hour_format = TRUE;
+	}
 
 	config->week_start_day = bonobo_config_get_long_with_default (db, 
                 "/Calendar/Display/WeekStartDay", 1, NULL);
@@ -687,15 +696,19 @@ calendar_config_configure_e_cell_date_edit	(ECellDateEdit	*ecde)
 
 	start_hour = calendar_config_get_day_start_hour ();
 	end_hour = calendar_config_get_day_end_hour ();
+
 	/* Round up the end hour. */
 	if (calendar_config_get_day_end_minute () != 0)
-		end_hour = end_hour + 1 % 24;
+		end_hour++;
 
 	e_cell_date_edit_freeze (ecde);
 	gtk_object_set (GTK_OBJECT (ecde),
 			"use_24_hour_format", use_24_hour,
+#if 0
+			/* We use the default 0 - 24 now. */
 			"lower_hour", start_hour,
 			"upper_hour", end_hour,
+#endif
 			NULL);
 	e_cell_date_edit_thaw (ecde);
 }
@@ -724,6 +737,10 @@ calendar_config_configure_e_calendar_table	(ECalendarTable	*cal_table)
 	calendar_model_set_timezone (model, zone);
 
 	calendar_config_configure_e_cell_date_edit (cal_table->dates_cell);
+
+	/* Reload the event/tasks, since the 'Hide Completed Tasks' option
+	   may have been changed, so the query needs to be updated. */
+	calendar_model_refresh (model);
 
 	/* This is for changing the colors of the text; they will be re-fetched
 	 * by ECellText when the table is redrawn.

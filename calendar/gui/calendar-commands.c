@@ -448,7 +448,7 @@ calendar_set_folder_bar_label (GnomeCalendar *gcal, BonoboControl *control)
 		if (start_tm.tm_year == end_tm.tm_year) {
 			if (start_tm.tm_mon == end_tm.tm_mon) {
 				strftime (buffer, sizeof (buffer),
-					  _("%d"), &start_tm);
+					  "%d", &start_tm);
 				strftime (end_buffer, sizeof (end_buffer),
 					  _("%d %B %Y"), &end_tm);
 				strcat (buffer, " - ");

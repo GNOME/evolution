@@ -296,6 +296,7 @@ task_details_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	TaskEditorPriority priority;
 	icalproperty_status status;
 	const char *url;
+	struct icaltimetype *completed = NULL;
 
 	tdpage = TASK_DETAILS_PAGE (page);
 	priv = tdpage->priv;
@@ -330,6 +331,30 @@ task_details_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 			status = ICAL_STATUS_NEEDSACTION;
 	}
 	e_dialog_option_menu_set (priv->status, status, status_map);
+
+	/* Completed Date. */
+	cal_component_get_completed (comp, &completed);
+	if (completed) {
+		icaltimezone *utc_zone, *zone;
+		char *location;
+
+		/* Completed is in UTC, but that would confuse the user, so
+		   we convert it to local time. */
+		utc_zone = icaltimezone_get_utc_timezone ();
+		location = calendar_config_get_timezone ();
+		zone = icaltimezone_get_builtin_timezone (location);
+
+		icaltimezone_convert_time (completed, utc_zone, zone);
+
+		e_date_edit_set_date (E_DATE_EDIT (priv->completed_date),
+				      completed->year, completed->month,
+				      completed->day);
+		e_date_edit_set_time_of_day (E_DATE_EDIT (priv->completed_date),
+					     completed->hour,
+					     completed->minute);
+
+		cal_component_free_icaltimetype (completed);
+	}
 
 	/* Priority. */
 	cal_component_get_priority (comp, &priority_value);
@@ -492,6 +517,8 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 	if (priv->updating)
 		return;
 
+	priv->updating = TRUE;
+
 	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->completed_date),
 					 &completed_tt.year,
 					 &completed_tt.month,
@@ -499,20 +526,30 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->completed_date),
 				     &completed_tt.hour,
 				     &completed_tt.minute);
+
+	status = e_dialog_option_menu_get (priv->status, status_map);
+
 	if (!date_set) {
 		completed_tt = icaltime_null_time ();
-
-		status = e_dialog_option_menu_get (priv->status, status_map);
 		if (status == ICAL_STATUS_COMPLETED) {
-			e_dialog_option_menu_set (priv->status, ICAL_STATUS_NEEDSACTION, status_map);
+			e_dialog_option_menu_set (priv->status,
+						  ICAL_STATUS_NEEDSACTION,
+						  status_map);
 			e_dialog_spin_set (priv->percent_complete, 0);
 		}
 	} else {
-		e_dialog_option_menu_set (priv->status, ICAL_STATUS_COMPLETED, status_map);
+		if (status != ICAL_STATUS_COMPLETED) {
+			e_dialog_option_menu_set (priv->status,
+						  ICAL_STATUS_COMPLETED,
+						  status_map);
+		}
 		e_dialog_spin_set (priv->percent_complete, 100);
 	}
 	
+	priv->updating = FALSE;
+
 	/* Notify upstream */
+	dates.complete = &completed_tt;
 	comp_editor_page_notify_dates_changed (COMP_EDITOR_PAGE (tdpage), &dates);
 }
 

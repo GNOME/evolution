@@ -483,6 +483,7 @@ cal_prefs_dialog_show_config	(CalPrefsDialog	*prefs)
 	gint mask, day, week_start_day, time_divisions;
 	char *zone_name;
 	icaltimezone *zone;
+	gboolean sensitive;
 
 	priv = prefs->priv;
 
@@ -520,6 +521,11 @@ cal_prefs_dialog_show_config	(CalPrefsDialog	*prefs)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->use_24_hour), TRUE);
 	else
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->use_12_hour), TRUE);
+
+	sensitive = calendar_config_locale_supports_12_hour_format ();
+	gtk_widget_set_sensitive (priv->use_12_hour, sensitive);
+	gtk_widget_set_sensitive (priv->use_24_hour, sensitive);
+
 
 	/* Time Divisions. */
 	time_divisions = calendar_config_get_time_divisions ();

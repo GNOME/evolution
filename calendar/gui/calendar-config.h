@@ -159,5 +159,8 @@ void	  calendar_config_configure_e_cell_date_edit	(ECellDateEdit	*ecde);
 /* Shows the timezone dialog if the user hasn't set a default timezone. */
 void	  calendar_config_check_timezone_set	(void);
 
+/* Returns TRUE if the locale has 'am' and 'pm' strings defined, i.e. it
+   supports 12-hour time format. */
+gboolean  calendar_config_locale_supports_12_hour_format(void);
 
 #endif /* _CALENDAR_CONFIG_H_ */

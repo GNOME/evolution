@@ -66,6 +66,8 @@ void		calendar_model_set_cal_client	  (CalendarModel   *model,
 void		calendar_model_set_query	  (CalendarModel   *model,
 						   const char      *sexp);
 
+void		calendar_model_refresh		  (CalendarModel   *model);
+
 void		calendar_model_set_new_comp_vtype  (CalendarModel     *model,
 						    CalComponentVType  vtype);
 CalComponentVType calendar_model_get_new_comp_vtype (CalendarModel    *model);

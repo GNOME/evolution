@@ -40,6 +40,12 @@
 #include "itip-utils.h"
 #include "calendar-model.h"
 
+/* This specifies how often we refresh the list, so that completed tasks are
+   hidden according to the config setting, and overdue tasks change color etc.
+   It is in milliseconds, so this is 10 minutes.
+   Note that if the user is editing an item in the list, they will probably
+   lose their edit, so this isn't ideal. */
+#define CALENDAR_MODEL_REFRESH_TIMEOUT	1000 * 60 * 10
 
 /* Private part of the ECalendarModel structure */
 struct _CalendarModelPrivate {
@@ -75,6 +81,9 @@ struct _CalendarModelPrivate {
 	
 	/* The current timezone. */
 	icaltimezone *zone;
+
+	/* The id of our timeout function for refreshing the list. */
+	gint timeout_id;
 };
 
 
@@ -162,6 +171,25 @@ calendar_model_class_init (CalendarModelClass *class)
 	etm_class->value_to_string = calendar_model_value_to_string;
 }
 
+
+static gboolean
+calendar_model_timeout_cb (gpointer data)
+{
+	CalendarModel *model;
+
+	g_return_val_if_fail (IS_CALENDAR_MODEL (data), FALSE);
+
+	model = CALENDAR_MODEL (data);
+
+	GDK_THREADS_ENTER ();
+
+	calendar_model_refresh (model);
+
+	GDK_THREADS_LEAVE ();
+	return TRUE;
+}
+
+
 /* Object initialization function for the calendar table model */
 static void
 calendar_model_init (CalendarModel *model)
@@ -178,6 +206,9 @@ calendar_model_init (CalendarModel *model)
 	priv->uid_index_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->new_comp_vtype = CAL_COMPONENT_EVENT;
 	priv->use_24_hour_format = TRUE;
+
+	priv->timeout_id = g_timeout_add (CALENDAR_MODEL_REFRESH_TIMEOUT,
+					  calendar_model_timeout_cb, model);
 
 	priv->addresses = itip_addresses_get ();
 	
@@ -232,6 +263,11 @@ calendar_model_destroy (GtkObject *object)
 
 	model = CALENDAR_MODEL (object);
 	priv = model->priv;
+
+	if (priv->timeout_id) {
+		g_source_remove (priv->timeout_id);
+		priv->timeout_id = 0;
+	}
 
 	/* Free the calendar client interface object */
 
@@ -1839,7 +1875,8 @@ query_eval_error_cb (CalQuery *query, const char *error_str, gpointer data)
 }
 
 /* Builds a complete query sexp for the calendar model by adding the predicates
- * to filter only for the type of objects that the model supports.
+ * to filter only for the type of objects that the model supports, and
+ * whether we want completed tasks.
  */
 static char *
 adjust_query_sexp (CalendarModel *model, const char *sexp)
@@ -1848,6 +1885,7 @@ adjust_query_sexp (CalendarModel *model, const char *sexp)
 	CalObjType type;
 	char *type_sexp;
 	char *completed_sexp = "";
+	gboolean free_completed_sexp = FALSE;
 	char *new_sexp;
 
 	priv = model->priv;
@@ -1863,15 +1901,60 @@ adjust_query_sexp (CalendarModel *model, const char *sexp)
 			(type & CALOBJ_TYPE_TODO) ? "(= (get-vtype) \"VTODO\")" : "",
 			(type & CALOBJ_TYPE_JOURNAL) ? "(= (get-vtype) \"VJOURNAL\")" : "");
 
-	/* FIXME: Use config setting eventually. */
-#if 0
-	if (1)
-		completed_sexp = "(not is-completed?)";
-#endif
+	/* Create a sub-expression for filtering out completed tasks, based on
+	   the config settings. */
+	if (calendar_config_get_hide_completed_tasks ()) {
+		CalUnits units;
+		gint value;
+
+		units = calendar_config_get_hide_completed_tasks_units ();
+		value = calendar_config_get_hide_completed_tasks_value ();
+
+		if (value == 0) {
+			/* If the value is 0, we want to hide completed tasks
+			   immediately, so we filter out all completed tasks.*/
+			completed_sexp = "(not is-completed?)";
+		} else {
+			char *location, *isodate;
+			icaltimezone *zone;
+			struct icaltimetype tt;
+			time_t t;
+
+			/* Get the current time, and subtract the appropriate
+			   number of days/hours/minutes. */
+			location = calendar_config_get_timezone ();
+			zone = icaltimezone_get_builtin_timezone (location);
+			tt = icaltime_current_time_with_zone (zone);
+
+			switch (units) {
+			case CAL_DAYS:
+				icaltime_adjust (&tt, -value, 0, 0, 0);
+				break;
+			case CAL_HOURS:
+				icaltime_adjust (&tt, 0, -value, 0, 0);
+				break;
+			case CAL_MINUTES:
+				icaltime_adjust (&tt, 0, 0, -value, 0);
+				break;
+			default:
+				g_assert_not_reached ();
+			}
+
+			t = icaltime_as_timet_with_zone (tt, zone);
+
+			/* Convert the time to an ISO date string, and build
+			   the query sub-expression. */
+			isodate = isodate_from_time_t (t);
+			completed_sexp = g_strdup_printf ("(not (completed-before? (make-time \"%s\")))", isodate);
+			free_completed_sexp = TRUE;
+		}
+	}
 
 	new_sexp = g_strdup_printf ("(and %s %s %s)", type_sexp,
 				    completed_sexp, sexp);
 	g_free (type_sexp);
+	if (free_completed_sexp)
+		g_free (completed_sexp);
 
 	g_print ("Calendar mode sexp:\n%s\n", new_sexp);
 
@@ -2188,7 +2271,7 @@ calendar_model_get_component (CalendarModel *model,
    is not -1, then that is used, otherwise if the "Date Completed" property
    is not already set it is set to the current time.
    It makes sure the percent is set to 100, and that the status is "Completed".
-   Note that this doesn't update the component on the client. */
+   Note that this doesn't update the component on the server. */
 static void
 ensure_task_complete (CalComponent *comp,
 		      time_t completed_date)
@@ -2325,4 +2408,21 @@ calendar_model_set_timezone		(CalendarModel	*model,
 		   maybe other fields, so we need to redisplay everything. */
 		e_table_model_changed (E_TABLE_MODEL (model));
 	}
+}
+
+
+/**
+ * calendar_model_refresh:
+ * @model: A calendar model.
+ * 
+ * Refreshes the calendar model, reloading the events/tasks from the server.
+ * Be careful about doing this when the user is editing an event/task.
+ **/
+void
+calendar_model_refresh (CalendarModel *model)
+{
+	g_return_if_fail (model != NULL);
+	g_return_if_fail (IS_CALENDAR_MODEL (model));
+
+	update_query (model);
 }

@@ -830,6 +830,75 @@ func_is_completed (ESExp *esexp, int argc, ESExpResult **argv, void *data)
 	return result;
 }
 
+/* (completed-before? TIME)
+ *
+ * TIME - time_t
+ *
+ * Returns a boolean indicating whether the component was completed on or
+ * before the given time (i.e. it checks the COMPLETED property).
+ * This is really only useful for TODO components.
+ */
+static ESExpResult *
+func_completed_before (ESExp *esexp, int argc, ESExpResult **argv, void *data)
+{
+	Query *query;
+	QueryPrivate *priv;
+	CalComponent *comp;
+	ESExpResult *result;
+	struct icaltimetype *tt;
+	icaltimezone *zone;
+	gboolean retval = FALSE;
+	time_t before_time, completed_time;
+
+	query = QUERY (data);
+	priv = query->priv;
+
+	g_assert (priv->next_comp != NULL);
+	comp = priv->next_comp;
+
+	/* Check argument types */
+
+	if (argc != 1) {
+		e_sexp_fatal_error (esexp, _("completed-before? expects 1 argument"));
+		return NULL;
+	}
+
+	if (argv[0]->type != ESEXP_RES_TIME) {
+		e_sexp_fatal_error (esexp, _("completed-before? expects argument 1 "
+					     "to be a time_t"));
+		return NULL;
+	}
+	before_time = argv[0]->value.time;
+
+	cal_component_get_completed (comp, &tt);
+	if (tt) {
+		/* COMPLETED must be in UTC. */
+		zone = icaltimezone_get_utc_timezone ();
+		completed_time = icaltime_as_timet_with_zone (*tt, zone);
+
+#if 0
+		g_print ("Query Time    : %s", ctime (&before_time));
+		g_print ("Completed Time: %s", ctime (&completed_time));
+#endif
+
+		/* We want to return TRUE if before_time is after
+		   completed_time. */
+		if (difftime (before_time, completed_time) > 0) {
+#if 0
+			g_print ("  Returning TRUE\n");
+#endif
+			retval = TRUE;
+		}
+
+		cal_component_free_icaltimetype (tt);
+	}
+
+	result = e_sexp_result_new (esexp, ESEXP_RES_BOOL);
+	result->value.bool = retval;
+
+	return result;
+}
+
 
 
 /* Adds a component to our the UIDs hash table and notifies the client */
@@ -948,7 +1017,8 @@ static struct {
 	{ "occur-in-time-range?", func_occur_in_time_range },
 	{ "contains?", func_contains },
 	{ "has-categories?", func_has_categories },
-	{ "is-completed?", func_is_completed }
+	{ "is-completed?", func_is_completed },
+	{ "completed-before?", func_completed_before }
 };
 
 /* Initializes a sexp by interning our own symbols */

@@ -1499,7 +1499,7 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 {
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;
-	icalcomponent *icalcomp, *vcalendar_comp = NULL;
+	icalcomponent *toplevel_comp, *icalcomp = NULL;
 	icalcomponent_kind kind;
 	CalComponent *old_comp;
 	CalComponent *comp;
@@ -1515,29 +1515,22 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 
 	/* Pull the component from the string and ensure that it is sane */
 
-	fprintf (stderr, "cal_backend_file: Parsing string:\n%s\n", calobj);
-	icalcomp = icalparser_parse_string ((char *) calobj);
+	toplevel_comp = icalparser_parse_string ((char *) calobj);
 
-	if (!icalcomp)
+	if (!toplevel_comp)
 		return FALSE;
 
-	fprintf (stderr, "cal_backend_file: Parsed OK.\n");
-
-	kind = icalcomponent_isa (icalcomp);
+	kind = icalcomponent_isa (toplevel_comp);
 
 	if (kind == ICAL_VCALENDAR_COMPONENT) {
 		int num_found = 0;
 		icalcomponent_kind child_kind;
 		icalcomponent *subcomp;
 
-		fprintf (stderr, "cal_backend_file: VCALENDAR found\n");
-
 		/* We have a VCALENDAR containing the VEVENT/VTODO and the
 		   related timezone data, so we have to step through it to
 		   find the actual VEVENT/VTODO component. */
-		vcalendar_comp = icalcomp;
-
-		subcomp = icalcomponent_get_first_component (vcalendar_comp,
+		subcomp = icalcomponent_get_first_component (toplevel_comp,
 							     ICAL_ANY_COMPONENT);
 		while (subcomp) {
 			child_kind = icalcomponent_isa (subcomp);
@@ -1547,28 +1540,30 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 				icalcomp = subcomp;
 				num_found++;
 			}
-			subcomp = icalcomponent_get_next_component (vcalendar_comp,
+			subcomp = icalcomponent_get_next_component (toplevel_comp,
 								    ICAL_ANY_COMPONENT);
 		}
 
 		/* If we didn't find exactly 1 VEVENT/VTODO it is an error. */
 		if (num_found != 1) {
-			icalcomponent_free (icalcomp);
+			icalcomponent_free (toplevel_comp);
 			return FALSE;
 		}
 
-	} else if (!(kind == ICAL_VEVENT_COMPONENT
-		     || kind == ICAL_VTODO_COMPONENT
-		     || kind == ICAL_VJOURNAL_COMPONENT)) {
+	} else if (kind == ICAL_VEVENT_COMPONENT
+		   || kind == ICAL_VTODO_COMPONENT
+		   || kind == ICAL_VJOURNAL_COMPONENT) {
+		icalcomp = toplevel_comp;
+	} else {
 		/* We don't support this type of component */
-		icalcomponent_free (icalcomp);
+		icalcomponent_free (toplevel_comp);
 		return FALSE;
 	}
 
 	comp = cal_component_new ();
 	if (!cal_component_set_icalcomponent (comp, icalcomp)) {
 		gtk_object_unref (GTK_OBJECT (comp));
-		icalcomponent_free (icalcomp);
+		icalcomponent_free (toplevel_comp);
 		return FALSE;
 	}
 
@@ -1578,6 +1573,8 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 
 	if (!comp_uid || !comp_uid[0]) {
 		gtk_object_unref (GTK_OBJECT (comp));
+		if (kind == ICAL_VCALENDAR_COMPONENT)
+			icalcomponent_free (toplevel_comp);
 		return FALSE;
 	}
 
@@ -1599,7 +1596,7 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 		/* If we have a VCALENDAR component with child VTIMEZONEs and
 		   the VEVENT/VTODO, we have to merge it into the existing
 		   VCALENDAR, resolving any conflicting TZIDs. */
-		icalcomponent_merge_component (priv->icalcomp, vcalendar_comp);
+		icalcomponent_merge_component (priv->icalcomp, toplevel_comp);
 
 		/* Now we add the component to our local cache, but we pass
 		   FALSE as the last argument, since we have already added

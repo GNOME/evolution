@@ -1,3 +1,35 @@
+2001-09-17  Damon Chaplin  <damon@ximian.com>
+
+	* gui/calendar-model.c: added a timeout to refresh the list every
+	10 minutes. Not ideal, as the user may be editing a task when it gets
+	refreshed.
+	(adjust_query_sexp): use the 'completed-before?' operator to filter
+	out tasks according to the config settings.
+
+	* gui/dialogs/task-details-page.c (task_details_page_fill_widgets): 
+	added support for the 'Completed' date. This code must have got lost
+	somewhere, as it used to work.
+	(date_changed_cb): set the priv->updating flag while updating the other
+	widgets.
+
+	* pcs/cal-backend-file.c (cal_backend_file_update_objects): made sure
+	we freed the components.
+
+	* pcs/query.c (func_completed_before): added 'completed-before?'
+	operator.
+
+	* gui/calendar-config.c (calendar_config_configure_e_cell_date_edit): 
+	don't set the lower & upper hour. Use 0-24 like the EDateEdit does.
+
+	* gui/dialogs/cal-prefs-dialog.c (cal_prefs_dialog_show_config): set
+	the 12/24-hour time format options sensitive only if we support both.
+
+	* gui/calendar-config.c (config_read): if the locale doesn't define
+	'am' and 'pm' strings then we must use 24-hour format.
+
+	* gui/calendar-commands.c (calendar_set_folder_bar_label): don't
+	translate the '%d' as it doesn't make much sense. Resolves bug #8027.
+
 2001-09-17  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/component-factory.c (owner_set_cb): Do not call
