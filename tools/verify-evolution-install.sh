@@ -149,7 +149,7 @@ location $1.oafinfo to the environment variable OAF_INFO_PATH"
 
     tempfile="temp-$$-verifier"
     for iid in $iids ; do
-	echo "Attempting to activate IID \"$iid\"..."
+	#echo "Attempting to activate IID \"$iid\"..."
 	$OAF_CLIENT -qs "iid == '$iid'" >$tempfile
 	result=`cat $tempfile |grep exception`
 	if test x"$result" != x ; then
@@ -420,7 +420,7 @@ check_oafinfo oafd oaf
 check_config GCONF_CONFIG gconf-config GConf
 check_prefix GCONF_CONFIG GConf
 versionparse2 "`$GCONF_CONFIG --version`" "0.5" GConf
-if test x`which gconfd-1` != x ; then
+if test x"`which gconfd-1`" != x ; then
     check_oafinfo gconfd-1 GConf
     check_bin gconfd-1
 else
