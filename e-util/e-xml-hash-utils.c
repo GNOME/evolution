@@ -54,6 +54,7 @@ e_xml_to_hash (xmlDoc *doc, EXmlHashType type)
 		}
 
 		g_hash_table_insert (hash, g_strdup (key), g_strdup (value));
+		xmlFree (value);
 	}
 
 	return hash;

@@ -1,3 +1,8 @@
+2003-06-19  Dan Winship  <danw@ximian.com>
+
+	* e-xml-hash-utils.c (e_xml_to_hash): don't leak an extra copy of
+	the values
+
 2003-06-14  Larry Ewing  <lewing@ximian.com>
 
 	* e-name-western.c (e_name_western_get_suffix_at_str_end): free
