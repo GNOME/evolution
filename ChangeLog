@@ -1,5 +1,9 @@
 2001-06-09  Christopher James Lahey  <clahey@ximian.com>
 
+	* configure.in: Bumped required version of gal to 0.8.99.2.
+
+2001-06-09  Christopher James Lahey  <clahey@ximian.com>
+
 	* configure.in: Added addressbook/gui/merging/Makefile.
 
 2001-06-08  Jason Leach  <jleach@ximian.com>
