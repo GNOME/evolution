@@ -1,3 +1,10 @@
+2002-01-22  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes bug # 16864 ]
+	* backend/ebook/evolution-ldif-importer.c (getValue): create and
+	return a GString here, instead of writing to a fixed size buffer.
+	(parseLine): use a GString here instead of a fixed size buffer.
+
 2002-01-21  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/pas/pas-backend-ldap.c (ldap_search_handler): Set the
