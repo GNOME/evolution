@@ -2593,11 +2593,13 @@ static CamelFolderInfo *
 get_folder_info_online (CamelStore *store, const char *top, guint32 flags, CamelException *ex)
 {
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
-	CamelFolderInfo *tree;
+	CamelFolderInfo *tree = NULL;
 	GPtrArray *folders;
 	
 	if (top == NULL)
 		top = "";
+
+	CAMEL_SERVICE_LOCK(store, connect_lock);
 
 	if ((flags & CAMEL_STORE_FOLDER_INFO_SUBSCRIBED)
 	    && !(imap_store->capabilities & IMAP_CAPABILITY_useful_lsub)
@@ -2607,7 +2609,7 @@ get_folder_info_online (CamelStore *store, const char *top, guint32 flags, Camel
 		folders = get_folders(store, top, flags, ex);
 
 	if (folders == NULL)
-		return NULL;
+		goto done;
 
 	tree = camel_folder_info_build(folders, top, '/', TRUE);
 	g_ptr_array_free(folders, TRUE);
@@ -2617,6 +2619,8 @@ get_folder_info_online (CamelStore *store, const char *top, guint32 flags, Camel
 
 	d(dumpfi(tree));
 	camel_store_summary_save((CamelStoreSummary *)imap_store->summary);
+done:
+	CAMEL_SERVICE_UNLOCK(store, connect_lock);
 
 	return tree;
 }

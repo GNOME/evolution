@@ -1,3 +1,9 @@
+2004-03-23  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-store.c (get_folder_info_online):
+	connect lock around this.  was getting a race with mem corruption
+	otherwise.
+
 2004-03-22  Not Zed  <NotZed@Ximian.com>
 
 	* camel-mime-utils.c (camel_header_newsgroups_decode)
