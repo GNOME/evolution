@@ -1,3 +1,8 @@
+2004-08-12  Carlos Garnacho Parro  <carlosg@gnome.org>
+
+	* e-shell-importer.c: added the "use_filechooser" property to the
+	GnomeFileEntry
+
 2004-08-10  Not Zed  <NotZed@Ximian.com>
 
 	* main.c (main): init epasswords.

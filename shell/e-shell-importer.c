@@ -629,6 +629,7 @@ importer_file_page_new (ImportData *data)
 	gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
 
 	page->filename = gnome_file_entry_new ("Evolution_Importer_FileName", _("Select a file"));
+	g_object_set (G_OBJECT (page->filename), "use_filechooser", TRUE, NULL);
 	entry = gnome_file_entry_gtk_entry((GnomeFileEntry *)page->filename);
 	g_signal_connect (entry, "changed", G_CALLBACK (filename_changed), data);
 	gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
