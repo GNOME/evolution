@@ -926,7 +926,7 @@ void *mail_call_main(mail_call_t type, MailMainFunc func, ...)
 	m = mail_msg_new(&mail_call_op, reply, sizeof(*m));
 	m->type = type;
 	m->func = func;
-	m->ap = ap;
+	va_copy(m->ap, ap);
 
 	if (!ismain) {
 		e_msgport_put(mail_gui_port, (EMsg *)m);
