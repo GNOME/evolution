@@ -1723,6 +1723,12 @@ camel_imap_folder_changed (CamelFolder *folder, int exists,
 		for (i = 0; i < expunged->len; i++) {
 			id = g_array_index (expunged, int, i);
 			info = camel_folder_summary_index (folder->summary, id - 1);
+			if (info == NULL) {
+				/* FIXME: danw: does this mean that the summary is corrupt? */
+				/* I guess a message that we never retrieved got expunged? */
+				break;
+			}
+			
 			camel_folder_change_info_remove_uid (changes, camel_message_info_uid (info));
 			CAMEL_IMAP_FOLDER_LOCK (imap_folder, cache_lock);
 			camel_imap_message_cache_remove (imap_folder->cache, camel_message_info_uid (info));
