@@ -255,9 +255,9 @@ e_minicard_view_destroy (GtkObject *object)
 }
 
 void
-e_minicard_remove_selection(EMinicardView *view,
-			    EBookCallback  cb,
-			    gpointer       closure)
+e_minicard_view_remove_selection(EMinicardView *view,
+				 EBookCallback  cb,
+				 gpointer       closure)
 {
 	if (view->book) {
 		EReflow *reflow = E_REFLOW(view);
@@ -265,7 +265,7 @@ e_minicard_remove_selection(EMinicardView *view,
 		for (list = reflow->items; list; list = g_list_next(list)) {
 			GnomeCanvasItem *item = list->data;
 			gboolean has_focus;
-			gtk_object_get(item,
+			gtk_object_get(GTK_OBJECT(item),
 				       "has_focus", &has_focus,
 				       NULL);
 			if (has_focus) {

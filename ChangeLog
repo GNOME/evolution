@@ -1,3 +1,14 @@
+2000-04-11  Chris Toshok  <toshok@helixcode.com>
+
+	* addressbook/gui/component/addressbook.c (card_deleted_cb): new
+	function.
+	(delete_contact_cb): wire up button to call
+	e_minicard_view_remove_selection.
+
+	* addressbook/gui/minicard/e-minicard-view.c
+	(e_minicard_view_remove_selection): fix warning, and stick "view"
+	in the name.
+
 2000-04-10  Christopher James Lahey  <clahey@helixcode.com>
 
 	* addressbook/backend/ebook/e-book-view.c,

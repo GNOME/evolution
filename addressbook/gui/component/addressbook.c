@@ -145,6 +145,20 @@ find_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 	
 }
 
+static void
+card_deleted_cb (EBook* book, EBookStatus status, gpointer user_data)
+{
+	g_print ("%s: %s(): a card was deleted\n", __FILE__, __FUNCTION__);
+}
+
+static void
+delete_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
+{
+	EMinicardView *minicard_view = E_MINICARD_VIEW (user_data);
+
+	e_minicard_view_remove_selection (minicard_view, card_deleted_cb, NULL);
+}
+
 static GnomeUIInfo gnome_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("New"), N_("Create a new contact"), new_contact_cb, GNOME_STOCK_PIXMAP_NEW),
 
@@ -152,7 +166,7 @@ static GnomeUIInfo gnome_toolbar [] = {
 
 	GNOMEUIINFO_ITEM_STOCK (N_("Find"), N_("Find a contact"), find_contact_cb, GNOME_STOCK_PIXMAP_SEARCH),
 	GNOMEUIINFO_ITEM_STOCK (N_("Print"), N_("Print contacts"), do_nothing_cb, GNOME_STOCK_PIXMAP_PRINT),
-	GNOMEUIINFO_ITEM_STOCK (N_("Delete"), N_("Delete a contact"), do_nothing_cb, GNOME_STOCK_PIXMAP_TRASH),
+	GNOMEUIINFO_ITEM_STOCK (N_("Delete"), N_("Delete a contact"), delete_contact_cb, GNOME_STOCK_PIXMAP_TRASH),
 
 	GNOMEUIINFO_END
 };
