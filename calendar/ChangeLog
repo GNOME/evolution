@@ -1,3 +1,8 @@
+2005-01-08  Not Zed  <NotZed@Ximian.com>
+
+	* gui/e-day-view.c (e_day_view_finish_resize): set
+	last_Edited_comp_string to NULL, not test it for null.
+
 2004-12-06  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #68077
