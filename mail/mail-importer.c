@@ -38,7 +38,6 @@
 
 #include "mail-component.h"
 #include "mail-importer.h"
-#include "mail-local.h"
 #include "mail.h"
 
 static GList *importer_modules = NULL;
