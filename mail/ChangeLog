@@ -1,3 +1,9 @@
+2001-07-06  Ettore Perazzoli  <ettore@ximian.com>
+
+	* component-factory.c (populate_folder_context_menu): New function
+	to populate the right-click menu for mail folders.
+	(component_fn): Pass it to `evolution_shell_component_new()'.
+
 2001-07-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-accounts.c (construct): Add a checkbox for prompting when

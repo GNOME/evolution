@@ -279,6 +279,24 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	CORBA_exception_free (&ev);
 }
 
+static void
+populate_folder_context_menu (EvolutionShellComponent *shell_component,
+			      BonoboUIComponent *uic,
+			      const char *physical_uri,
+			      const char *type,
+			      void *closure)
+{
+	static char popup_xml[] =
+		"<menuitem name=\"ChangeFolderProperties\" verb=\"ChangeFolderProperties\""
+		"          _label=\"Properties...\" _tip=\"Change this folder's properties\"/>";
+
+	if (strcmp (type, "mail") != 0)
+		return;
+
+	bonobo_ui_component_set_translate (uic, EVOLUTION_SHELL_COMPONENT_POPUP_PLACEHOLDER,
+					   popup_xml, NULL);
+}
+
 static char *
 get_dnd_selection (EvolutionShellComponent *shell_component,
 		   const char *physical_uri,
@@ -624,7 +642,7 @@ component_fn (BonoboGenericFactory *factory, void *closure)
 							 create_folder,
 							 remove_folder,
 							 xfer_folder,
-							 NULL, /* populate_folder_context_menu_fn */
+							 populate_folder_context_menu,
 							 get_dnd_selection,
 							 NULL);
 	

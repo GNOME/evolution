@@ -264,15 +264,8 @@
                 _label="Add to _Shortcut Bar"
                 _tip="Create a link to this folder in the shortcut bar"/>
                 
-      <separator/>
-
       <placeholder name="ComponentPlaceholder"
 		   delimit="top"/>
-
-      <menuitem name="ChangeFolderProperties"
-                verb="ChangeFolderProperties"
-                _label="_Properties..."
-                _tip="Change the properties for this folder"/>
 
     </popup>
   </popups>
