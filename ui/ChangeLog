@@ -1,3 +1,10 @@
+2003-12-18  Rodney Dawes  <dobey@ximian.com>
+
+	* evolution-mail-message.xml:
+	* evolution-mail-messagedisplay.xml: Revert previous patch to
+	fix bug #49949 - exposes crash in libbonoboui when switching
+	away from mail component
+
 2003-12-18  Calvin Liu <calvin.liu@sun.com>
 
 	* evolution-mail-message.xml: On [Action] menu, change [Forward]

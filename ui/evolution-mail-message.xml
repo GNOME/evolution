@@ -380,7 +380,7 @@
     </submenu>
   </menu>
 
-  <dockitem name="Toolbar" behavior="exclusive">
+  <dockitem name="Toolbar">
 
     <placeholder name="MailMessageToolbar">
       <toolitem name="MessageReplySender" verb=""
