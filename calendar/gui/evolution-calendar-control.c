@@ -17,7 +17,7 @@
 #include <gui/gnome-cal.h>
 #include <gui/calendar-commands.h>
 
-#define PROPERTY_CALENDAR_URI "calendar_uri"
+#define PROPERTY_CALENDAR_URI "folder_uri"
 
 #define PROPERTY_CALENDAR_URI_IDX 1
 
@@ -96,12 +96,16 @@ set_prop (BonoboPropertyBag *bag,
 	  gpointer           user_data)
 {
 	GnomeCalendar *gcal = user_data;
+	char *filename;
 
 	switch (arg_id) {
 
 	case PROPERTY_CALENDAR_URI_IDX:
 		printf ("set_prop: '%s'\n", BONOBO_ARG_GET_STRING (arg));
-		calendar_set_uri (gcal, BONOBO_ARG_GET_STRING (arg));
+		filename = g_strdup_printf ("%s/calendar.vcf",
+					    BONOBO_ARG_GET_STRING (arg));
+		calendar_set_uri (gcal, filename);
+		g_free (filename);
 		break;
 
 	default:

@@ -1,3 +1,10 @@
+2000-05-07  Matt Loper  <matt@helixcode.com>
+
+	* gui/evolution-calendar-control.c (PROPERTY_CALENDAR_URI):
+	Changed to "folder_uri" from "calendar_uri".
+	(set_prop): The uri given to us is a directory, so we append a
+	filename onto the end before we use it.
+
 2000-05-06  Damon Chaplin  <damon@helixcode.com>
 
 	* cal-util/timeutil.c (time_day_begin): 
