@@ -1,5 +1,9 @@
 2003-11-13  Radek Doulik  <rodo@ximian.com>
 
+	* em-junk-filter.c (em_junk_sa_is_available): new helper function,
+	use it before any call to spamassassin, spamc and sa-learn
+	(em_junk_sa_test_spamd): first test if spamassassin is available
+
 	* mail-folder-cache.c (folder_changed): don't call
 	CAMEL_IS_VJUNK_FOLDER, it was added by mistake
 

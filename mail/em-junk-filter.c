@@ -61,6 +61,7 @@ static EMJunkPlugin spam_assassin_plugin =
 
 static gboolean em_junk_sa_spamd_tested = FALSE;
 static gboolean em_junk_sa_use_spamc = FALSE;
+static gboolean em_junk_sa_available = FALSE;
 static gint em_junk_sa_spamd_port = -1;
 
 #define d(x) x
@@ -78,6 +79,8 @@ pipe_to_sa (CamelMimeMessage *msg, gchar *in, int argc, gchar **argv)
 	int result, status;
 	int in_fds[2];
 	pid_t pid;
+
+	d(printf ("pipe_to_sa %s, %s, %s, %s\n", argc > 0 ? argv [0] : "N/A", argc > 1 ? argv [1] : "N/A", argc > 2 ? argv [2] : "N/A", argc > 3 ? argv [3] : "N/A"));
 	
 	if (argc < 1 || argv[0] == '\0')
 		return 0;
@@ -111,7 +114,7 @@ pipe_to_sa (CamelMimeMessage *msg, gchar *in, int argc, gchar **argv)
 		}
 
 		execvp (argv [0], argv);
-		
+
 		d(printf ("Could not execute %s: %s\n", argv [0], g_strerror (errno)));
 		_exit (255);
 	} else if (pid < 0) {
@@ -183,6 +186,17 @@ static void
 em_junk_sa_test_spamd ()
 {
 	gint i, port = 7830;
+	static gchar *args [3] = {
+		"/bin/sh",
+		"-c",
+		"spamassassin --version"
+	};
+
+	if (pipe_to_sa (NULL, NULL, 3, args)) {
+		em_junk_sa_available = FALSE;
+		return;
+	} else
+		em_junk_sa_available = TRUE;
 
 	em_junk_sa_use_spamc = FALSE;
 
@@ -232,6 +246,17 @@ em_junk_sa_test_spamd ()
 }
 
 static gboolean
+em_junk_sa_is_available ()
+{
+	LOCK (em_junk_sa_test_lock);
+	if (!em_junk_sa_spamd_tested)
+		em_junk_sa_test_spamd ();
+	UNLOCK (em_junk_sa_test_lock);
+
+	return em_junk_sa_available;
+}
+
+static gboolean
 em_junk_sa_check_junk (CamelMimeMessage *msg)
 {
 	static gchar *args [3] = {
@@ -243,10 +268,8 @@ em_junk_sa_check_junk (CamelMimeMessage *msg)
 
 	d(fprintf (stderr, "em_junk_sa_check_junk\n"));
 
-	LOCK (em_junk_sa_test_lock);
-	if (!em_junk_sa_spamd_tested)
-		em_junk_sa_test_spamd ();
-	UNLOCK (em_junk_sa_test_lock);
+	if (!em_junk_sa_is_available ())
+		return FALSE;
 
 	args [2] = em_junk_sa_use_spamc
 		? (em_junk_sa_spamd_port == -1
@@ -281,9 +304,10 @@ em_junk_sa_report_junk (CamelMimeMessage *msg)
 		" --local"             /* local only */
 	};
 
-	d(fprintf (stderr, "em_junk_sa_report_junk\n");)
+	d(fprintf (stderr, "em_junk_sa_report_junk\n"));
 
-	pipe_to_sa (msg, NULL, 3, args) > 0;
+	if (em_junk_sa_is_available ())
+		pipe_to_sa (msg, NULL, 3, args);
 }
 
 static void
@@ -299,9 +323,10 @@ em_junk_sa_report_notjunk (CamelMimeMessage *msg)
 		" --local"             /* local only */
 	};
 
-	d(fprintf (stderr, "em_junk_sa_report_notjunk\n");)
+	d(fprintf (stderr, "em_junk_sa_report_notjunk\n"));
 
-	pipe_to_sa (msg, NULL, 3, args) > 0;
+	if (em_junk_sa_is_available ())
+		pipe_to_sa (msg, NULL, 3, args);
 }
 
 static void
@@ -317,7 +342,8 @@ em_junk_sa_commit_reports (void)
 
 	d(fprintf (stderr, "em_junk_sa_commit_reports\n");)
 
-	pipe_to_sa (NULL, NULL, 3, args) > 0;
+	if (em_junk_sa_is_available ())
+		pipe_to_sa (NULL, NULL, 3, args);
 }
 
 const EMJunkPlugin *
