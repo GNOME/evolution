@@ -1,3 +1,13 @@
+2004-09-23  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-tree.c (emft_get_folder_info__desc): describe the
+	get-folder process.  This also makes it cancellable.
+
+	** See bug #64972.
+
+	* em-composer-utils.c (em_utils_reply_to_message): pass the folder
+	to guess_account.
+
 2004-09-03  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #65058.
