@@ -49,6 +49,7 @@
 #include <bonobo/bonobo-widget.h>
 #include <bonobo/bonobo-socket.h>
 
+#include <gdk/gdkkeysyms.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gdk-pixbuf-loader.h>
 #include <gal/util/e-util.h>
@@ -433,25 +434,45 @@ inline_cb (GtkWidget *widget, gpointer user_data)
 	mail_display_queue_redisplay (md);
 }
 
-static void
-button_press (GtkWidget *widget, CamelMimePart *part)
+static gboolean
+button_press (GtkWidget *widget, GdkEvent *event, CamelMimePart *part)
 {
 	MailDisplay *md;
-	
+
+	if (event->type == GDK_BUTTON_PRESS)
+		g_signal_stop_emission_by_name (widget, "button_press_event");
+	else if (event->type == GDK_KEY_PRESS && event->key.keyval != GDK_Return)
+		return FALSE;
+
 	md = g_object_get_data ((GObject *) widget, "MailDisplay");
 	if (md == NULL) {
 		g_warning ("No MailDisplay on button!");
-		return;
+		return TRUE;
 	}
 	
 	mail_part_toggle_displayed (part, md);
 	mail_display_queue_redisplay (md);
+
+	return TRUE;
+}
+
+static void
+popup_menu_placement_callback(GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpointer user_data)
+{
+	GtkWidget *widget = (GtkWidget*) user_data;
+
+	gdk_window_get_origin (gtk_widget_get_parent_window (widget), x, y);
+	*x += widget->allocation.x + widget->allocation.width;
+	*y += widget->allocation.y;
+
+	return;
 }
 
 static gboolean
-pixmap_press (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
+pixmap_press (GtkWidget *widget, GdkEvent *event, gpointer user_data)
 {
 	EPopupMenu *menu;
+	GtkMenu *gtk_menu;
 	EPopupMenu save_item = E_POPUP_ITEM (N_("Save Attachment..."), G_CALLBACK (save_cb), 0);
 	EPopupMenu view_item = E_POPUP_ITEM (N_("View Inline"), G_CALLBACK (inline_cb), 2);
 	EPopupMenu open_item = E_POPUP_ITEM (N_("Open in %s..."), G_CALLBACK (launch_cb), 1);
@@ -460,23 +481,27 @@ pixmap_press (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
 	MailMimeHandler *handler;
 	int mask = 0, i, nitems;
 	
+	if (event->type == GDK_BUTTON_PRESS) {
 #ifdef USE_OLD_DISPLAY_STYLE
-	if (event->button != 3) {
-		gtk_propagate_event (GTK_WIDGET (user_data),
-				     (GdkEvent *)event);
-		return TRUE;
-	}
+		if (event->button.button != 3) {
+			gtk_propagate_event (GTK_WIDGET (user_data),
+					     (GdkEvent *)event);
+			return TRUE;
+		}
 #endif
-	
-	if (event->button != 1 && event->button != 3) {
-		gtk_propagate_event (GTK_WIDGET (user_data),
-				     (GdkEvent *)event);
-		return TRUE;
+		
+		if (event->button.button != 1 && event->button.button != 3) {
+			gtk_propagate_event (GTK_WIDGET (user_data),
+					     (GdkEvent *)event);
+			return TRUE;
+		}
+		/* Stop the signal, since we don't want the button's class method to
+		   mess up our popup. */
+		g_signal_stop_emission_by_name (widget, "button_press_event");
+	} else {
+		if (event->key.keyval != GDK_Return)
+			return FALSE;
 	}
-	
-	/* Stop the signal, since we don't want the button's class method to
-	   mess up our popup. */
-	g_signal_stop_emission_by_name (widget, "button_press_event");
 	
 	part = g_object_get_data ((GObject *) widget, "CamelMimePart");
 	handler = mail_lookup_handler (g_object_get_data ((GObject *) widget, "mime_type"));
@@ -538,7 +563,13 @@ pixmap_press (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
 		mask |= 1;
 	}
 	
-	e_popup_menu_run (menu, (GdkEvent *)event, mask, 0, widget);
+	gtk_menu = e_popup_menu_create (menu, mask, 0, widget);
+	e_auto_kill_popup_menu_on_selection_done (gtk_menu);
+
+	if (event->type == GDK_BUTTON_PRESS)
+		gtk_menu_popup (gtk_menu, NULL, NULL, NULL, (gpointer)widget, event->button.button, event->button.time);
+	else
+		gtk_menu_popup (gtk_menu, NULL, NULL, popup_menu_placement_callback, (gpointer)widget, 0, event->key.time);
 	
 	for (i = 1; i < nitems; i++)
 		g_free (menu[i].name);
@@ -983,12 +1014,16 @@ do_attachment_header (GtkHTML *html, GtkHTMLEmbedded *eb,
 	mainbox = gtk_hbox_new (FALSE, 0);
 	
 	button = gtk_button_new ();
-	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
 	g_object_set_data ((GObject *) button, "MailDisplay", md);
 	
 	handler = mail_lookup_handler (eb->type);
-	if (handler && handler->builtin)
-		g_signal_connect (button, "clicked", G_CALLBACK (button_press), part);
+	if (handler && handler->builtin) {
+		g_signal_connect (button, "button_press_event", G_CALLBACK (button_press), part);
+		g_signal_connect (button, "key_press_event", G_CALLBACK (button_press), part);
+	} else {
+		gtk_widget_set_sensitive (button, FALSE);
+		GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
+	}
 	
 	/* Drag & Drop */
 	drag_types[DND_TARGET_TYPE_PART_MIME_TYPE].target = header_content_type_simple (part->content_type);
@@ -1016,7 +1051,6 @@ do_attachment_header (GtkHTML *html, GtkHTMLEmbedded *eb,
 	gtk_container_add (GTK_CONTAINER (button), hbox);
 	
 	popup = gtk_button_new ();
-	GTK_WIDGET_UNSET_FLAGS (popup, GTK_CAN_FOCUS);
 	gtk_container_add (GTK_CONTAINER (popup),
 			   gtk_arrow_new (GTK_ARROW_DOWN,
 					  GTK_SHADOW_ETCHED_IN));
@@ -1026,6 +1060,7 @@ do_attachment_header (GtkHTML *html, GtkHTMLEmbedded *eb,
 	g_object_set_data_full ((GObject *) popup, "mime_type", g_strdup (eb->type), (GDestroyNotify) g_free);
 	
 	g_signal_connect (popup, "button_press_event", G_CALLBACK (pixmap_press), md->scroll);
+	g_signal_connect (popup, "key_press_event", G_CALLBACK (pixmap_press), md->scroll);
 	
 	gtk_box_pack_start (GTK_BOX (mainbox), button, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (mainbox), popup, TRUE, TRUE, 0);
@@ -1120,9 +1155,10 @@ do_signature (GtkHTML *html, GtkHTMLEmbedded *eb,
 	g_idle_add_full (G_PRIORITY_LOW, (GSourceFunc) pixbuf_gen_idle, pbl, NULL);
 	
 	button = gtk_button_new ();
-	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
 	g_object_set_data ((GObject *) button, "MailDisplay", md);
-	g_signal_connect (button, "clicked", G_CALLBACK (button_press), part);
+	g_signal_connect (button, "button_press_event", G_CALLBACK (button_press), part);
+	g_signal_connect (button, "key_press_event", G_CALLBACK (button_press), part);
+
 	gtk_container_add (GTK_CONTAINER (button), pbl->pixmap);
 	gtk_widget_show_all (button);
 	gtk_container_add (GTK_CONTAINER (eb), button);

@@ -1,3 +1,17 @@
+2003-07-04  Maxx Cao  <maxx.cao@sun.com>
+
+	** For bug #41839
+
+	* mail-display.c (do_attachment_header): Attachment buttons made
+	accessable with keyboard (focusable). "Inline" button is disabled
+	when attachment can't be viewed inline.
+	(do_signature): Signature button made accessable with keyboard
+	(focusable).
+	(button_press): Function changed to an event callback (originally
+	gtkbutton signal callback).
+	(popup_menu_placement_callback): Function added to place popup
+	menu (of attachment) beside button when activated by keyboard.
+
 2003-07-10  Yuedong Du  <yuedong.du@sun.com>
 
 	* evolution-mail.schemas: add a gconf key corresponding to newly 
