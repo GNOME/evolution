@@ -172,6 +172,72 @@ e_calendar_table_class_init (ECalendarTableClass *class)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
 }
 
+/* Compares two priority values, which may not exist */
+static int
+compare_priorities (int *a, int *b)
+{
+	if (a && b) {
+		if (*a < *b)
+			return -1;
+		else if (*a > *b)
+			return 1;
+		else
+			return 0;
+	} else if (a)
+		return -1;
+	else if (b)
+		return 1;
+	else
+		return 0;
+}
+
+/* Comparison function for the task-sort column.  Sorts by due date and then by
+ * priority.
+ */
+static gint
+task_compare_cb (gconstpointer a, gconstpointer b)
+{
+	CalComponent *ca, *cb;
+	CalComponentDateTime due_a, due_b;
+	int *prio_a, *prio_b;
+	int retval;
+
+	ca = CAL_COMPONENT (a);
+	cb = CAL_COMPONENT (b);
+
+	cal_component_get_due (ca, &due_a);
+	cal_component_get_due (cb, &due_b);
+	cal_component_get_priority (ca, &prio_a);
+	cal_component_get_priority (cb, &prio_b);
+
+	if (due_a.value && due_b.value) {
+		int v;
+
+		v = icaltime_compare (*due_a.value, *due_b.value);
+
+		if (v == 0)
+			retval = compare_priorities (prio_a, prio_b);
+		else
+			retval = v;
+	} else if (due_a.value)
+		retval = -1;
+	else if (due_b.value)
+		retval = 1;
+	else
+		retval = compare_priorities (prio_a, prio_b);
+
+	cal_component_free_datetime (&due_a);
+	cal_component_free_datetime (&due_b);
+
+	if (prio_a)
+		cal_component_free_priority (prio_a);
+
+	if (prio_b)
+		cal_component_free_priority (prio_b);
+
+	return retval;
+}
+
 #ifdef JUST_FOR_TRANSLATORS
 static char *list [] = {
 	N_("Categories"),
@@ -243,6 +309,8 @@ static char *list [] = {
         "  <ETableColumn model_col=\"18\" _title=\"Status\" "		\
 	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
 	"   cell=\"calstatus\"   compare=\"string\"/>"			\
+	"  <ETableColumn model_col=\"19\" _title=\"Task sort\" "	\
+	"   cell=\"task-sort\" compare=\"task-sort\"/>"			\
 	"  <ETableState>"						\
 	"    <column source=\"13\"/>"					\
 	"    <column source=\"14\"/>"					\
@@ -451,6 +519,12 @@ e_calendar_table_init (ECalendarTable *cal_table)
 					  strings);
 
 	e_table_extras_add_cell (extras, "calstatus", popup_cell);
+
+	/* Task sorting field */
+	/* FIXME: This column should not be displayed, but ETableExtras requires
+	 * its shit to be visible columns listed in the XML spec.
+	 */
+	e_table_extras_add_compare (extras, "task-sort", task_compare_cb);
 
 	/* Create pixmaps */
 

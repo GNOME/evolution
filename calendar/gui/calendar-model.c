@@ -164,7 +164,7 @@ calendar_model_class_init (CalendarModelClass *class)
 						   categories_changed),
 				gtk_signal_default_marshaller,
 				GTK_TYPE_NONE, 0);
-	
+
 	gtk_object_class_add_signals (object_class, calendar_model_signals,
 				      LAST_SIGNAL);
 
@@ -749,8 +749,12 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 	case CAL_COMPONENT_FIELD_STATUS:
 		return get_status (comp);
 
+	case CAL_COMPONENT_FIELD_COMPONENT:
+		return comp;
+
 	default:
 		g_message ("calendar_model_value_at(): Requested invalid column %d", col);
+		g_assert_not_reached ();
 		return NULL;
 	}
 }
@@ -1283,7 +1287,8 @@ calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *val
 
 	default:
 		g_message ("calendar_model_set_value_at(): Requested invalid column %d", col);
-		break;
+		g_assert_not_reached ();
+		return;
 	}
 
 	if (!cal_client_update_object (priv->client, comp))
@@ -1410,6 +1415,10 @@ calendar_model_duplicate_value (ETableModel *etm, int col, const void *value)
 	case CAL_COMPONENT_FIELD_COLOR:
 		return (void *) value;
 
+	case CAL_COMPONENT_FIELD_COMPONENT:
+		gtk_object_ref (GTK_OBJECT (value));
+		return;
+
 	default:
 		g_message ("calendar_model_duplicate_value(): Requested invalid column %d", col);
 		return NULL;
@@ -1425,9 +1434,10 @@ calendar_model_free_value (ETableModel *etm, int col, void *value)
 	switch (col) {
 	case CAL_COMPONENT_FIELD_CATEGORIES:
 		g_free (value);
+		break;
 
 	case CAL_COMPONENT_FIELD_CLASSIFICATION:
-		return;
+		break;
 
 	case CAL_COMPONENT_FIELD_COMPLETED:
 	case CAL_COMPONENT_FIELD_DTEND:
@@ -1439,12 +1449,14 @@ calendar_model_free_value (ETableModel *etm, int col, void *value)
 	case CAL_COMPONENT_FIELD_SUMMARY:
 	case CAL_COMPONENT_FIELD_STATUS:
 		g_free (value);
+		break;
 
 	case CAL_COMPONENT_FIELD_TRANSPARENCY:
-		return;
+		break;
 
 	case CAL_COMPONENT_FIELD_URL:
 		g_free (value);
+		break;
 
 	case CAL_COMPONENT_FIELD_HAS_ALARMS:
 	case CAL_COMPONENT_FIELD_ICON:
@@ -1452,11 +1464,14 @@ calendar_model_free_value (ETableModel *etm, int col, void *value)
 	case CAL_COMPONENT_FIELD_RECURRING:
 	case CAL_COMPONENT_FIELD_OVERDUE:
 	case CAL_COMPONENT_FIELD_COLOR:
-		return;
+		break;
+
+	case CAL_COMPONENT_FIELD_COMPONENT:
+		gtk_object_unref (GTK_OBJECT (value));
+		break;
 
 	default:
 		g_message ("calendar_model_free_value(): Requested invalid column %d", col);
-		return;
 	}
 }
 
@@ -1501,6 +1516,7 @@ calendar_model_initialize_value (ETableModel *etm, int col)
 	case CAL_COMPONENT_FIELD_RECURRING:
 	case CAL_COMPONENT_FIELD_OVERDUE:
 	case CAL_COMPONENT_FIELD_COLOR:
+	case CAL_COMPONENT_FIELD_COMPONENT:
 		return NULL;
 
 	default:
@@ -1540,6 +1556,7 @@ calendar_model_value_is_empty (ETableModel *etm, int col, const void *value)
 	case CAL_COMPONENT_FIELD_RECURRING:
 	case CAL_COMPONENT_FIELD_OVERDUE:
 	case CAL_COMPONENT_FIELD_COLOR:
+	case CAL_COMPONENT_FIELD_COMPONENT:
 		return TRUE;
 
 	default:
@@ -1548,7 +1565,7 @@ calendar_model_value_is_empty (ETableModel *etm, int col, const void *value)
 	}
 }
 
-static char * 
+static char *
 calendar_model_value_to_string (ETableModel *etm, int col, const void *value)
 {
 	g_return_val_if_fail (col >= 0 && col < CAL_COMPONENT_FIELD_NUM_FIELDS, NULL);
@@ -1584,6 +1601,9 @@ calendar_model_value_to_string (ETableModel *etm, int col, const void *value)
 		return e_utf8_from_locale_string (value ? _("Yes") : _("No"));
 
 	case CAL_COMPONENT_FIELD_COLOR:
+		return NULL;
+
+	case CAL_COMPONENT_FIELD_COMPONENT:
 		return NULL;
 
 	default:
@@ -1887,9 +1907,9 @@ load_objects (CalendarModel *model)
 /**
  * calendar_model_get_cal_client:
  * @model: A calendar model.
- * 
+ *
  * Queries the calendar client interface object that a calendar model is using.
- * 
+ *
  * Return value: A calendar client interface object.
  **/
 CalClient *
@@ -1967,7 +1987,7 @@ calendar_model_set_cal_client (CalendarModel *model, CalClient *client, CalObjTy
  * calendar_model_set_new_comp_vtype:
  * @model: A calendar model.
  * @vtype: Type of calendar components to create.
- * 
+ *
  * Sets the type of calendar components that will be created by a calendar table
  * model when the click-to-add functionality of the table is used.
  **/
@@ -1987,10 +2007,10 @@ calendar_model_set_new_comp_vtype (CalendarModel *model, CalComponentVType vtype
 /**
  * calendar_model_get_new_comp_vtype:
  * @model: A calendar model.
- * 
+ *
  * Queries the type of calendar components that are created by a calendar table
  * model when using the click-to-add functionality in a table.
- * 
+ *
  * Return value: Type of components that are created.
  **/
 CalComponentVType
@@ -2034,9 +2054,9 @@ calendar_model_mark_task_complete (CalendarModel *model,
  * calendar_model_get_component:
  * @model: A calendar model.
  * @row: Row number of sought calendar component.
- * 
+ *
  * Queries a calendar component from a calendar model based on its row number.
- * 
+ *
  * Return value: The sought calendar component.
  **/
 CalComponent *

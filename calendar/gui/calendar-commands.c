@@ -48,6 +48,7 @@
 #include <bonobo/bonobo-ui-util.h>
 #include <cal-util/timeutil.h>
 #include "calendar-commands.h"
+#include "calendar-config.h"
 #include "gnome-cal.h"
 #include "goto.h"
 #include "print.h"

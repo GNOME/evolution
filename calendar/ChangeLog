@@ -1,3 +1,22 @@
+2001-06-23  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/e-calendar-table.c (task_compare_cb): New function to
+	compare tasks like the Pilot task list.
+
+	* cal-util/cal-component.h (CalComponentField): Added a
+	semi-hackish CAL_COMPONENT_FIELD_COMPONENT.  In the ETable model,
+	it is intended to return a pointer to the component itself.
+
+	* gui/calendar-model.c (calendar_model_value_at): Return the
+	component itself for CAL_COMPONENT_FIELD_COMPONENT.  Be more
+	paranoid about invalid columns.
+	(calendar_model_set_value_at): Be more paranoid about invalid
+	columns.
+	(calendar_model_duplicate_value): Ref the component field.
+	(calendar_model_initialize_value): Deal with the component field.
+	(calendar_model_value_is_empty): Likewise.
+	(calendar_model_value_to_string): Likewise.
+
 2001-06-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* gui/Makefile.am: Added itip-control-factory.* to the build.
