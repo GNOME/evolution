@@ -6,7 +6,7 @@
 		<cmd name="CalendarPrint"  _tip="Print this Calendar" _label="Print"
 		 pixtype="stock" pixname="Print"/>
 		<cmd name="CalendarPreferences" _tip="Alter preferences"/>
-		<cmd name="EditNewAppointment" _label="New appointment"
+		<cmd name="EditNewAppointment" _label="New Appointment"
 		 priority="1" _tip="Create a new appointment" pixtype="stock" pixname="New"/>
 		<cmd name="CalendarPrev" _label="Prev" _tip="Go back in time"
 		 pixtype="stock" pixname="Back"/>
@@ -14,7 +14,7 @@
 		 pixtype="stock" pixname="Home"/>
 		<cmd name="CalendarNext" _label="Next" _tip="Go forward in time" 
 		 pixtype="stock" pixname="Forward"/>
-		<cmd name="CalendarGoto" _label="Go to" priority="1"
+		<cmd name="CalendarGoto" _label="Go To" priority="1"
 		 _tip="Go to a specific date" pixtype="stock" pixname="Jump To"/>
 		<cmd name="ShowDayView" _label="Day" _tip="Show 1 day" pixtype="pixbuf"/>
 		<cmd name="ShowWorkWeekView" _label="5 Days" _tip="Show the working week"

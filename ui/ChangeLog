@@ -1,3 +1,10 @@
+2001-03-04  Damon Chaplin  <damon@ximian.com>
+
+	* evolution-tasks.xml: "New" -> "New Task".
+
+	* evolution-calendar.xml: "New appointment" -> "New Appointment",
+	"Go to" -> "Go To".
+
 2001-02-21  Not Zed  <NotZed@Ximian.com>
 
 	* evolution-mail.xml: Setup a command for MailStop.
