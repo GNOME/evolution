@@ -365,7 +365,8 @@ cmd_tocache(CamelPOP3Engine *pe, CamelPOP3Stream *stream, void *data)
 		w += n;
 		if (w > fi->size)
 			w = fi->size;
-		camel_operation_progress(NULL, (w * 100) / fi->size);
+		if (fi->size != 0)
+			camel_operation_progress(NULL, (w * 100) / fi->size);
 	}
 
 	/* it all worked, output a '#' to say we're a-ok */
