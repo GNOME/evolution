@@ -72,6 +72,7 @@ typedef struct {
 	GtkWidget              *label;
 	GtkWidget              *button;
 	GtkWidget              *recipient_table;
+	gulong                  changed_id;
 } ESelectNamesChild;
 
 GType
@@ -122,11 +123,6 @@ search_result (EAddressbookModel *model, EBookViewStatus status, ESelectNames *e
 static void
 set_book(EBook *book, EBookStatus status, ESelectNames *esn)
 {
-	if (esn->search_id) {
-		g_signal_handler_disconnect(esn->model, esn->search_id);
-		esn->search_id = 0;
-	}
-
 	g_object_set(esn->model,
 		     "book", book,
 		     NULL);
@@ -155,12 +151,6 @@ addressbook_model_set_uri(ESelectNames *e_select_names, EAddressbookModel *model
 	}
 
 	book = e_book_new();
-
-	if (e_select_names->search_id)
-		g_signal_handler_disconnect(model, e_select_names->search_id);
-	e_select_names->search_id = g_signal_connect (model,
-						      "search_result", G_CALLBACK (search_result),
-						      e_select_names);
 
 	g_object_ref(e_select_names);
 	g_object_ref(model);
@@ -532,6 +522,10 @@ e_select_names_init (ESelectNames *e_select_names)
 		g_object_weak_ref (G_OBJECT (e_select_names->status_message), clear_widget, &e_select_names->status_message);
 	}
 
+	e_select_names->search_id = g_signal_connect (e_select_names->model,
+						      "search_result", G_CALLBACK (search_result),
+						      e_select_names);
+
 	e_select_names->categories = glade_xml_get_widget (gui, "custom-categories");
 	if (e_select_names->categories && !E_IS_CATEGORIES_MASTER_LIST_OPTION_MENU (e_select_names->categories))
 		e_select_names->categories = NULL;
@@ -595,10 +589,8 @@ e_select_names_init (ESelectNames *e_select_names)
 
 static void e_select_names_child_free(char *key, ESelectNamesChild *child, ESelectNames *e_select_names)
 {
-	g_signal_handlers_disconnect_matched (child->source,
-					      (GSignalMatchType) (G_SIGNAL_MATCH_FUNC | G_SIGNAL_MATCH_DATA),
-					      0, 0, NULL,
-					      G_CALLBACK (sync_table_and_models), e_select_names);
+	g_signal_handler_disconnect(child->source, child->changed_id);
+
 	g_free(child->title);
 	g_object_unref(child->table_model);
 	g_object_unref(child->source);
@@ -717,6 +709,8 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 	GtkTable *table;
 	char *label_text;
 	ETable *etable;
+	ETableExtras *extras;
+	ECell *string_cell;
 
 	GtkWidget *sw;
 
@@ -767,10 +761,19 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 	etable = e_table_scrolled_get_table (e_select_names->table);
 	gtk_widget_set_sensitive (button, e_table_selected_count (etable) > 0);
 
+	extras = e_table_extras_new ();
+	string_cell = e_table_extras_get_cell (extras, "string");
+
+	g_object_set (string_cell,
+		      "underline_column", 2,
+		      NULL);
+		      
 	sw = e_table_scrolled_new_from_spec_file (E_TABLE_MODEL (child->table_model),
-						  NULL,
+						  extras,
 						  EVOLUTION_ETSPECDIR "/e-select-names-section.etspec",
 						  NULL);
+	g_object_unref (extras);
+
 	child->recipient_table = GTK_WIDGET (e_table_scrolled_get_table (E_TABLE_SCROLLED (sw)));
 
 	g_signal_connect (child->recipient_table,
@@ -785,10 +788,10 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 	g_signal_connect(child->recipient_table, "double_click",
 			 G_CALLBACK(remove_address), child);
 
-	g_signal_connect (child->source,
-			  "changed",
-			  G_CALLBACK (sync_table_and_models),
-			  e_select_names);
+	child->changed_id = g_signal_connect (child->source,
+					      "changed",
+					      G_CALLBACK (sync_table_and_models),
+					      e_select_names);
 	
 	gtk_widget_show_all (sw);
 	
@@ -815,41 +818,6 @@ static void
 card_free(void *value, void *closure)
 {
 	g_object_unref((gpointer)value);
-}
-
-EList *
-e_select_names_get_section(ESelectNames *e_select_names, char *id)
-{
-	ESelectNamesChild *child;
-	int i;
-	int rows;
-	EList *list;
-	
-	child = g_hash_table_lookup(e_select_names->children, id);
-	if (!child)
-		return NULL;
-	rows = e_select_names_model_count (child->source);
-	
-	list = e_list_new(card_copy, card_free, NULL);
-	for (i = 0; i < rows; i++) {
-		ECard *card = e_select_names_model_get_card (child->source, i);
-		e_list_append(list, card);
-		g_object_unref(card);
-	}
-	return list;
-}
-
-ESelectNamesModel *
-e_select_names_get_source(ESelectNames *e_select_names,
-			  char *id)
-{
-	ESelectNamesChild *child = g_hash_table_lookup(e_select_names->children, id);
-	if (child) {
-		if (child->source)
-			g_object_ref(child->source);
-		return child->source;
-	} else
-		return NULL;
 }
 
 void

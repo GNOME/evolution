@@ -1,3 +1,23 @@
+2003-03-18  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/select-names/e-select-names-section.etspec: use
+	alternating-row-colors="false"
+
+	* gui/component/select-names/e-select-names.h: nuke prototypes for
+	e_select_names_get_source/section.
+
+	* gui/component/select-names/e-select-names.c (set_book): remove
+	the signal disconnect from here.
+	(addressbook_model_set_uri): same.
+	(e_select_names_init): connect to the search_result signal on the
+	addressbook model.
+	(e_select_names_child_free): disconnect the changed_id signal.
+	(e_select_names_add_section): set the underline column so the
+	recipient tables look like they did when they were EEntry.
+	(e_select_names_add_section): store off the changed_id.
+	(e_select_names_get_section): nuke.
+	(e_select_names_get_source): nuke.
+
 2003-03-18  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/address-conduit.c (addrconduit_load_configuration): kill
