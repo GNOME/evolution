@@ -1925,6 +1925,12 @@ mail_display_redisplay (MailDisplay *md, gboolean reset_scroll)
 {
 	if (md->destroyed)
 		return;
+
+	/* we're in effect stealing the queued redisplay */
+	if (md->idle_id) {
+		g_source_remove(md->idle_id);
+		md->idle_id = 0;
+	}
 	
 	fetch_cancel(md);
 	
@@ -2000,7 +2006,7 @@ mail_display_set_charset (MailDisplay *mail_display, const char *charset)
 {
 	g_free (mail_display->charset);
 	mail_display->charset = g_strdup (charset);
-	
+
 	mail_display_queue_redisplay (mail_display);
 }
 
