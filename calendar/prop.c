@@ -62,7 +62,7 @@ prop_cancel (void)
 }
 
 static void
-prop_ok (void)
+prop_apply (void)
 {
 	day_begin = GTK_ADJUSTMENT (sa)->value;
 	day_end   = GTK_ADJUSTMENT (ea)->value;
@@ -74,7 +74,6 @@ prop_ok (void)
 
 	gnome_config_sync ();
 
-	prop_cancel ();
 	day_range_changed ();
 }
 
@@ -145,7 +144,7 @@ properties (void)
 			    GTK_SIGNAL_FUNC (prop_cancel), NULL);
 	
 	gtk_signal_connect (GTK_OBJECT (prop_win), "apply",
-			    GTK_SIGNAL_FUNC (prop_ok), NULL);
+			    GTK_SIGNAL_FUNC (prop_apply), NULL);
 	
 	gtk_widget_show_all (prop_win);
 }
