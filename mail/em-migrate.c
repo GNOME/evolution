@@ -20,7 +20,6 @@
  *
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -44,6 +43,7 @@
 #include <camel/camel.h>
 #include <camel/camel-session.h>
 #include <camel/camel-file-utils.h>
+#include <camel/camel-disco-folder.h>
 
 #include <libxml/tree.h>
 #include <libxml/parser.h>
@@ -56,13 +56,13 @@
 #include "e-util/e-bconf-map.h"
 #include "e-util/e-account-list.h"
 #include "e-util/e-signature-list.h"
+#include "e-util/e-path.h"
 
 #include "mail-config.h"
 #include "em-utils.h"
 #include "em-migrate.h"
 
 #define d(x) x
-
 
 /* upgrade helper functions */
 
@@ -190,50 +190,50 @@ static GHashTable *accounts_1_0 = NULL;
 static GHashTable *accounts_name_1_0 = NULL;
 
 static void
-imap_folder_info_1_0_free (gpointer key, gpointer value, gpointer user_data)
+imap_folder_info_1_0_free(gpointer key, gpointer value, gpointer user_data)
 {
 	struct _imap_folder_info_1_0 *fi = value;
 	
-	g_free (fi->folder);
-	g_free (fi);
+	g_free(fi->folder);
+	g_free(fi);
 }
 
 static void
 account_info_1_0_free (struct _account_info_1_0 *ai)
 {
-	g_free (ai->name);
-	g_free (ai->uri);
-	g_free (ai->base_uri);
-	g_free (ai->u.imap.namespace);
-	g_free (ai->u.imap.namespace_full);
-	g_hash_table_foreach (ai->u.imap.folders, (GHFunc) imap_folder_info_1_0_free, NULL);
-	g_hash_table_destroy (ai->u.imap.folders);
-	g_free (ai);
+	g_free(ai->name);
+	g_free(ai->uri);
+	g_free(ai->base_uri);
+	g_free(ai->u.imap.namespace);
+	g_free(ai->u.imap.namespace_full);
+	g_hash_table_foreach(ai->u.imap.folders, (GHFunc) imap_folder_info_1_0_free, NULL);
+	g_hash_table_destroy(ai->u.imap.folders);
+	g_free(ai);
 }
 
 static void
-accounts_1_0_free (gpointer key, gpointer value, gpointer user_data)
+accounts_1_0_free(gpointer key, gpointer value, gpointer user_data)
 {
-	account_info_1_0_free (value);
+	account_info_1_0_free(value);
 }
 
 static char *
-get_base_uri (const char *val)
+get_base_uri(const char *val)
 {
 	const char *tmp;
 	
-	tmp = strchr (val, ':');
+	tmp = strchr(val, ':');
 	if (tmp) {
 		tmp++;
-		if (strncmp (tmp, "//", 2) == 0)
+		if (strncmp(tmp, "//", 2) == 0)
 			tmp += 2;
-		tmp = strchr (tmp, '/');
+		tmp = strchr(tmp, '/');
 	}
 	
 	if (tmp)
-		return g_strndup (val, tmp-val);
+		return g_strndup(val, tmp-val);
 	else
-		return g_strdup (val);
+		return g_strdup(val);
 }
 
 static char *
@@ -522,9 +522,7 @@ em_migrate_1_0 (const char *evolution_dir, xmlDocPtr config_xmldb, xmlDocPtr fil
 	return 0;
 }
 
-
 /* 1.2 upgrade functions */
-
 static int
 is_xml1encoded (const char *txt)
 {
@@ -930,7 +928,7 @@ struct {
 
 /* remaps mail config from bconf to gconf */
 static int
-bconf_import (GConfClient *gconf, xmlDocPtr config_xmldb)
+bconf_import(GConfClient *gconf, xmlDocPtr config_xmldb)
 {
 	xmlNodePtr source;
 	char labx[16], colx[16];
@@ -938,62 +936,62 @@ bconf_import (GConfClient *gconf, xmlDocPtr config_xmldb)
 	GSList *list, *l;
 	int i;
 	
-	e_bconf_import (gconf, config_xmldb, gconf_remap_list);
+	e_bconf_import(gconf, config_xmldb, gconf_remap_list);
 	
 	/* Labels:
 	   label string + label colour as integer
 	   -> label string:# colour as hex */
-	source = e_bconf_get_path (config_xmldb, "/Mail/Labels");
+	source = e_bconf_get_path(config_xmldb, "/Mail/Labels");
 	if (source) {
 		list = NULL;
 		for (i = 0; i < 5; i++) {
-			sprintf (labx, "label_%d", i);
-			sprintf (colx, "color_%d", i);
-			lab = e_bconf_get_string (source, labx);
-			if ((col = e_bconf_get_value (source, colx))) {
-				sprintf (colx, "#%06x", atoi (col) & 0xffffff);
-				g_free (col);
+			sprintf(labx, "label_%d", i);
+			sprintf(colx, "color_%d", i);
+			lab = e_bconf_get_string(source, labx);
+			if ((col = e_bconf_get_value(source, colx))) {
+				sprintf(colx, "#%06x", atoi(col) & 0xffffff);
+				g_free(col);
 			} else
-				strcpy (colx, label_default[i].colour);
+				strcpy(colx, label_default[i].colour);
 			
-			val = g_strdup_printf ("%s:%s", lab ? lab : label_default[i].label, colx);
-			list = g_slist_append (list, val);
-			g_free (lab);
+			val = g_strdup_printf("%s:%s", lab ? lab : label_default[i].label, colx);
+			list = g_slist_append(list, val);
+			g_free(lab);
 		}
 		
-		gconf_client_set_list (gconf, "/apps/evolution/mail/labels", GCONF_VALUE_STRING, list, NULL);
+		gconf_client_set_list(gconf, "/apps/evolution/mail/labels", GCONF_VALUE_STRING, list, NULL);
 		while (list) {
 			l = list->next;
-			g_free (list->data);
-			g_slist_free_1 (list);
+			g_free(list->data);
+			g_slist_free_1(list);
 			list = l;
 		}
 	} else {
-		g_warning ("could not find /Mail/Labels in old config database, skipping");
+		g_warning("could not find /Mail/Labels in old config database, skipping");
 	}
 	
 	/* Accounts: The flat bonobo-config structure is remapped to a list of xml blobs.  Upgrades as necessary */
-	e_bconf_import_xml_blob (gconf, config_xmldb, account_map, "/Mail/Accounts",
-				 "/apps/evolution/mail/accounts", "account", "uid");
+	e_bconf_import_xml_blob(gconf, config_xmldb, account_map, "/Mail/Accounts",
+				"/apps/evolution/mail/accounts", "account", "uid");
 	
 	/* Same for signatures */
-	e_bconf_import_xml_blob (gconf, config_xmldb, signature_map, "/Mail/Signatures",
-				 "/apps/evolution/mail/signatures", "signature", NULL);
+	e_bconf_import_xml_blob(gconf, config_xmldb, signature_map, "/Mail/Signatures",
+				"/apps/evolution/mail/signatures", "signature", NULL);
 	
 	return 0;
 }
 
 static int
-em_migrate_1_2 (const char *evolution_dir, xmlDocPtr config_xmldb, xmlDocPtr filters, xmlDocPtr vfolders, CamelException *ex)
+em_migrate_1_2(const char *evolution_dir, xmlDocPtr config_xmldb, xmlDocPtr filters, xmlDocPtr vfolders, CamelException *ex)
 {
 	GConfClient *gconf;
 	
-	gconf = gconf_client_get_default ();
-	bconf_import (gconf, config_xmldb);
-	g_object_unref (gconf);
+	gconf = gconf_client_get_default();
+	bconf_import(gconf, config_xmldb);
+	g_object_unref(gconf);
 	
-	em_upgrade_xml_1_2 (filters);
-	em_upgrade_xml_1_2 (vfolders);
+	em_upgrade_xml_1_2(filters);
+	em_upgrade_xml_1_2(vfolders);
 	
 	return 0;
 }
@@ -2241,6 +2239,83 @@ em_migrate_folder_view_settings_1_4 (const char *evolution_dir, CamelException *
 }
 
 static int
+em_migrate_imap_cmeta_1_4(const char *evolution_dir, CamelException *ex)
+{
+	GConfClient *gconf;
+	GSList *paths, *p;
+	EAccountList *accounts;
+	const EAccount *account;
+
+	if (!(accounts = mail_config_get_accounts()))
+		return 0;
+
+	gconf = gconf_client_get_default();
+	paths = gconf_client_get_list(gconf, "/apps/evolution/shell/offline/folder_paths", GCONF_VALUE_STRING, NULL);
+	for (p = paths;p;p = g_slist_next(p)) {
+		char *name, *path;
+
+		name = p->data;
+		if (*name)
+			name++;
+		path = strchr(name, '/');
+		if (path) {
+			*path++ = 0;
+			account = e_account_list_find(accounts, E_ACCOUNT_FIND_NAME, name);
+			if (account && !strncmp(account->source->url, "imap:", 5)) {
+				CamelURL *url = camel_url_new(account->source->url, NULL);
+
+				if (url) {
+					char *dir, *base;
+
+					base = g_strdup_printf("%s/mail/imap/%s@%s/folders",
+							       evolution_dir,
+							       url->user?url->user:"",
+							       url->host?url->host:"");
+
+					dir = e_path_to_physical(base, path);
+					if (camel_mkdir(dir, 0777) == 0) {
+						char *cmeta;
+						FILE *fp;
+
+						cmeta = g_build_filename(dir, "cmeta", NULL);
+						fp = fopen(cmeta, "w");
+						if (fp) {
+							/* header/version */
+							fwrite("CLMD", 4, 1, fp);
+							camel_file_util_encode_uint32(fp, 1);
+							/* meta count, do we have any metadata? */
+							camel_file_util_encode_uint32(fp, 0);
+							/* prop count */
+							camel_file_util_encode_uint32(fp, 1);
+							/* sync offline property */
+							camel_file_util_encode_uint32(fp, CAMEL_DISCO_FOLDER_OFFLINE_SYNC);
+							camel_file_util_encode_uint32(fp, 1);
+							fclose(fp);
+						} else {
+							g_warning("couldn't create imap folder cmeta file '%s'", cmeta);
+						}
+						g_free(cmeta);
+					} else {
+						g_warning("couldn't create imap folder directory '%s'", dir);
+					}
+					g_free(dir);
+					g_free(base);
+					camel_url_free(url);
+				}
+			} else
+				g_warning("can't find offline folder '%s' '%s'", name, path);
+		}
+		g_free(p->data);
+	}
+	g_slist_free(paths);
+	g_object_unref(gconf);
+
+	/* we couldn't care less if this doesn't work */
+
+	return 0;
+}
+
+static int
 em_migrate_1_4 (const char *evolution_dir, xmlDocPtr filters, xmlDocPtr vfolders, CamelException *ex)
 {
 	EMMigrateSession *session;
@@ -2314,12 +2389,14 @@ em_migrate_1_4 (const char *evolution_dir, xmlDocPtr filters, xmlDocPtr vfolders
 	if (em_migrate_imap_caches_1_4 (evolution_dir, ex) == -1)
 		return -1;
 	
-	if (em_migrate_folder_expand_state_1_4 (evolution_dir, ex) == -1)
-		return -1;
-	
-	if (em_migrate_folder_view_settings_1_4 (evolution_dir, ex) == -1)
-		return -1;
-	
+	/* these are non-fatal */
+	em_migrate_folder_expand_state_1_4 (evolution_dir, ex);
+	camel_exception_clear(ex);
+	em_migrate_folder_view_settings_1_4 (evolution_dir, ex);
+	camel_exception_clear(ex);
+	em_migrate_imap_cmeta_1_4(evolution_dir, ex);
+	camel_exception_clear(ex);
+
 	return 0;
 }
 

@@ -1,5 +1,9 @@
 2004-04-22  Not Zed  <NotZed@Ximian.com>
 
+	* em-migrate.c (em_migrate_imap_cmeta_1_4): do the imap cmeta
+	files, it just does the sync offline stuff.  #56674.
+	(em_migrate_1_4): non-fatalise some of the options, call above.
+
 	* mail-component.c (view_changed_cb): display selected count
 	instead of unread if we have >1 selected.  Also don't do special
 	case drafts/sent/outbox stuff if folders are inbox or re-used.
