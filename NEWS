@@ -1,3 +1,13 @@
+Version 0.17 (Beta 7), 2001-10-15
+---------------------------------
+
+Calendar:
+
+  - Compilation fixes (Rodrigo)
+
+  - Fixed problems introduced in Beta 6 due to the changes in the URI
+    management functions (Rodrigo)
+
 Version 0.16 (Beta 6), 2001-10-10
 ---------------------------------
 
