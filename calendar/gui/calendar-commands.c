@@ -507,6 +507,8 @@ static EPixmap pixmaps [] =
 
 	E_PIXMAP ("/Toolbar/New",					      "buttons/new_appointment.png"),
 	E_PIXMAP ("/Toolbar/Print",					      "buttons/print.png"),
+	E_PIXMAP ("/Toolbar/Prev",					      "buttons/arrow-left-24.png"),
+	E_PIXMAP ("/Toolbar/Next",					      "buttons/arrow-right-24.png"),
 	E_PIXMAP ("/Toolbar/DayView",					      "buttons/dayview.xpm"),
 	E_PIXMAP ("/Toolbar/WorkWeekView",				      "buttons/workweekview.xpm"),
 	E_PIXMAP ("/Toolbar/WeekView",					      "buttons/weekview.xpm"),
