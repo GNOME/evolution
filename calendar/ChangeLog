@@ -1,5 +1,11 @@
 2004-06-03  Rodrigo Moya <rodrigo@novell.com>
 
+	* gui/dialogs/comp-editor-page.c
+	(comp_editor_page_notify_client_changed): update the internal client
+	when it changes.
+
+2004-06-03  Rodrigo Moya <rodrigo@novell.com>
+
 	Fixes #56875
 
 	* gui/dialogs/event-editor.c (event_editor_construct): connect to
