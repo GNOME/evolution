@@ -988,10 +988,17 @@ create_component (void)
 	evolution_mail_config_wizard_init ();
 
 	new_mail_icon = gdk_pixbuf_new_from_file (EVOLUTION_ICONSDIR "/new-message.xpm");
+	
+	evolution_shell_component_add_user_creatable_item (shell_component, "post",
+							   _("New Message Post"), _("_Post Message"),
+							   _("Post a new mail message"), 'p',
+							   new_mail_icon);
+	
 	evolution_shell_component_add_user_creatable_item (shell_component, "message",
 							   _("New Mail Message"), _("_Mail Message"),
 							   _("Compose a new mail message"), 'm',
 							   new_mail_icon);
+	
 	if (new_mail_icon != NULL)
 		gdk_pixbuf_unref (new_mail_icon);
 
