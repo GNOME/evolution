@@ -1,3 +1,8 @@
+2001-12-07  Dan Winship  <danw@ximian.com>
+
+	* mail-callbacks.h: Add missing part of Jeff's 12-03 patch so this
+	actually compiles.
+
 2001-12-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-ops.c (mail_send_message): s/PREVIEW_RELEASE/VERSION_COMMENT
