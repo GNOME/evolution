@@ -253,5 +253,7 @@ main (int argc, char **argv)
 	bonobo_object_unref (BONOBO_OBJECT (pas_book_factory));
 	pas_book_factory = NULL;
 
+	gnome_vfs_shutdown ();
+
 	return 0;
 }
