@@ -1,5 +1,8 @@
 2003-03-25  Not Zed  <NotZed@Ximian.com>
 
+	* component-factory.c (got_folder): remove a debug printf that
+	made it in a commit.
+
 	* folder-browser-ui.c (folder_browser_ui_add_global): Load
 	per-folder setting of show_preview from meta data.
 	(folder_browser_ui_add_list): Same, for thread_list.

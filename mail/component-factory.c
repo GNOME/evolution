@@ -731,7 +731,6 @@ got_folder (char *uri, CamelFolder *folder, void *data)
 	*fp = folder;
 	
 	if (folder) {
-		printf("got folder '%s'\n", uri);
 		camel_object_ref (CAMEL_OBJECT (folder));
 		
 		/* emit a changed event, this is a little hack so that the folderinfo cache
