@@ -1194,6 +1194,8 @@ process_components_cb (gpointer data)
 	g_source_remove (priv->timeout_id);
 	priv->timeout_id = 0;
 
+	bonobo_object_ref (BONOBO_OBJECT (query));
+
 	while (priv->pending_uids) {
 		g_assert (priv->n_pending > 0);
 
@@ -1211,14 +1213,10 @@ process_components_cb (gpointer data)
 
 		g_list_free_1 (l);
 
-		bonobo_object_ref (BONOBO_OBJECT (query));
-
 		match_component (query, uid,
 				 TRUE,
 				 priv->pending_total - priv->n_pending,
 				 priv->pending_total);
-
-		bonobo_object_unref (BONOBO_OBJECT (query));
 
 		g_free (uid);
 
@@ -1226,6 +1224,10 @@ process_components_cb (gpointer data)
 		if (gtk_events_pending ())
 			gtk_main_iteration ();
 	}
+
+	bonobo_object_unref (BONOBO_OBJECT (query));
+	if (!priv || !priv->ql)
+		return FALSE;
 
 	/* notify listener that the query ended */
 	priv->state = QUERY_DONE;

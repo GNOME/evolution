@@ -1,3 +1,9 @@
+2002-06-03  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/query.c: keep a reference to the Query object, to avoid
+	crashes when the queries are destroyed before finishing processing.
+	Fixes #25056.
+
 2002-05-26  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/comp-editor.h: update proto
