@@ -22,9 +22,9 @@
 #include <gpilotd/gnome-pilot-conduit-standard-abs.h>
 #include <todo-conduit.h>
 
-//#include "GnomeCal.h"
+#include <bonobo.h>
 
-void fook_fook (char *hi); /* FIX ME delete this */
+//#include "GnomeCal.h"
 
 GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
@@ -1170,6 +1170,16 @@ delete_all (GnomePilotConduitStandardAbs *conduit,
 }
 
 
+static ORBit_MessageValidationResult
+accept_all_cookies (CORBA_unsigned_long request_id,
+		    CORBA_Principal *principal,
+		    CORBA_char *operation)
+{
+	/* allow ALL cookies */
+	return ORBIT_MESSAGE_ALLOW_ALL;
+}
+
+
 GnomePilotConduit *
 conduit_get_gpilot_conduit (guint32 pilotId)
 {
@@ -1178,6 +1188,22 @@ conduit_get_gpilot_conduit (guint32 pilotId)
 	GCalConduitContext *ctxt;
 
 	printf ("in todo's conduit_get_gpilot_conduit\n");
+
+	/* we need to find wombat with oaf, so make sure oaf
+	   is initialized here.  once the desktop is converted
+	   to oaf and gpilotd is built with oaf, this can go away */
+	if (! oaf_is_initialized ())
+	{
+		char *argv[ 1 ] = {"hi"};
+		oaf_init (1, argv);
+
+		if (bonobo_init (CORBA_OBJECT_NIL,
+				 CORBA_OBJECT_NIL,
+				 CORBA_OBJECT_NIL) == FALSE)
+			g_error (_("Could not initialize Bonobo"));
+
+		ORBit_set_request_validation_handler (accept_all_cookies);
+	}
 
 	retval = gnome_pilot_conduit_standard_abs_new ("ToDoDB", 0x746F646F);
 	g_assert (retval != NULL);
@@ -1207,8 +1233,6 @@ conduit_get_gpilot_conduit (guint32 pilotId)
 	gtk_signal_connect (retval, "delete_all", (GtkSignalFunc) delete_all, ctxt);
 	gtk_signal_connect (retval, "transmit", (GtkSignalFunc) transmit, ctxt);
 	gtk_signal_connect (retval, "pre_sync", (GtkSignalFunc) pre_sync, ctxt);
-
-	fook_fook ("foo");
 
 	return GNOME_PILOT_CONDUIT (retval);
 }

@@ -354,7 +354,6 @@ main (int argc, char *argv[])
 	/* we're a capplet */
 	gnome_capplet_init ("todo conduit control applet", NULL, argc, argv, 
 			    NULL, 0, NULL);
-
    
 	gpc = gnome_pilot_client_new();
 	gnome_pilot_client_connect_to_daemon(gpc);
