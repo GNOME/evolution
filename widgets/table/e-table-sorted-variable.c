@@ -159,8 +159,8 @@ etsv_add       (ETableSubsetVariable *etssv,
 	}
 	etss->map_table[i] = row;
 	etss->n_map++;
-	if (!etm->frozen)
-		e_table_model_row_inserted (etm, i);
+
+	e_table_model_row_inserted (etm, i);
 }
 
 static void
@@ -182,8 +182,8 @@ etsv_add_all   (ETableSubsetVariable *etssv)
 	if (etsv->sort_idle_id == 0) {
 		etsv->sort_idle_id = g_idle_add_full(50, (GSourceFunc) etsv_sort_idle, etsv, NULL);
 	}
-	if (!etm->frozen)
-		e_table_model_changed (etm);
+
+	e_table_model_changed (etm);
 }
 
 ETableModel *
@@ -217,29 +217,25 @@ e_table_sorted_variable_new (ETableModel *source, ETableHeader *full_header, ETa
 static void
 etsv_proxy_model_changed (ETableModel *etm, ETableSortedVariable *etsv)
 {
-	if (!E_TABLE_MODEL(etsv)->frozen){
-		/*		FIXME: do_resort (); */
-	}
+	/* FIXME: do_resort (); */
 }
 
 static void
 etsv_proxy_model_row_changed (ETableModel *etm, int row, ETableSortedVariable *etsv)
 {
 	ETableSubsetVariable *etssv = E_TABLE_SUBSET_VARIABLE(etsv);
-	if (!E_TABLE_MODEL(etsv)->frozen){
-		if (e_table_subset_variable_remove(etssv, row))
-			e_table_subset_variable_add (etssv, row);
-	}
+
+	if (e_table_subset_variable_remove(etssv, row))
+		e_table_subset_variable_add (etssv, row);
 }
 
 static void
 etsv_proxy_model_cell_changed (ETableModel *etm, int col, int row, ETableSortedVariable *etsv)
 {
 	ETableSubsetVariable *etssv = E_TABLE_SUBSET_VARIABLE(etsv);
-	if (!E_TABLE_MODEL(etsv)->frozen){
-		if (e_table_subset_variable_remove(etssv, row))
-			e_table_subset_variable_add (etssv, row);
-	}
+
+	if (e_table_subset_variable_remove(etssv, row))
+		e_table_subset_variable_add (etssv, row);
 }
 
 static void

@@ -207,11 +207,6 @@ my_value_is_empty (ETableModel *etc, int col, const void *value, void *data)
 	}
 }
 
-static void
-my_thaw (ETableModel *etc, void *data)
-{
-}
-
 /* We create a window containing our new table. */
 static void
 create_table ()
@@ -239,7 +234,7 @@ create_table ()
 					    my_set_value_at, my_is_cell_editable,
 					    my_duplicate_value, my_free_value,
 					    my_initialize_value, my_value_is_empty,
-					    my_thaw, NULL);
+					    NULL);
 	/*
 	  Next we create a header.  The ETableHeader is used in two
 	  different way.  The first is the full_header.  This is the

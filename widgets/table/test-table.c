@@ -203,12 +203,6 @@ value_is_empty (ETableModel *etc, int col, const void *value, void *data)
 }
 
 static void
-thaw (ETableModel *etc, void *data)
-{
-	e_table_model_changed (etc);
-}
-
-static void
 set_canvas_size (GnomeCanvas *canvas, GtkAllocation *alloc)
 {
 	gnome_canvas_set_scroll_region (canvas, 0, 0, alloc->width, alloc->height);
@@ -234,7 +228,7 @@ table_browser_test (void)
 		set_value_at, is_cell_editable,
 		duplicate_value, free_value,
 		initialize_value, value_is_empty,
-		thaw, NULL);
+		NULL);
 
 	/*
 	 * Header
@@ -333,7 +327,7 @@ do_e_table_demo (const char *spec)
 					    set_value_at, is_cell_editable,
 					    duplicate_value, free_value,
 					    initialize_value, value_is_empty,
-					    thaw, NULL);
+					    NULL);
 
 	full_header = e_table_header_new ();
 	cell_left_just = e_cell_text_new (e_table_model, NULL, GTK_JUSTIFY_LEFT);

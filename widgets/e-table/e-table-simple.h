@@ -19,7 +19,6 @@ typedef	void       *(*ETableSimpleDuplicateValueFn)  (ETableModel *etm, int col,
 typedef	void        (*ETableSimpleFreeValueFn)       (ETableModel *etm, int col, void *val, void *data);
 typedef void       *(*ETableSimpleInitializeValueFn) (ETableModel *etm, int col, void *data);
 typedef gboolean    (*ETableSimpleValueIsEmptyFn)    (ETableModel *etm, int col, const void *val, void *data);
-typedef void        (*ETableSimpleThawFn)            (ETableModel *etm, void *data);
 
 typedef struct {
 	ETableModel parent;
@@ -33,7 +32,6 @@ typedef struct {
 	ETableSimpleFreeValueFn      free_value;
 	ETableSimpleInitializeValueFn initialize_value;
 	ETableSimpleValueIsEmptyFn value_is_empty;
-	ETableSimpleThawFn           thaw;
 	void *data;
 } ETableSimple;
 
@@ -52,7 +50,6 @@ ETableModel *e_table_simple_new (ETableSimpleColumnCountFn col_count,
 				 ETableSimpleFreeValueFn free_value,
 				 ETableSimpleInitializeValueFn initialize_value,
 				 ETableSimpleValueIsEmptyFn value_is_empty,
-				 ETableSimpleThawFn thaw,
 				 void *data);
 
 #endif /* _E_TABLE_SIMPLE_H_ */

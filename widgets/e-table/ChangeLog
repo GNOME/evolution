@@ -1,3 +1,48 @@
+2000-06-12  Federico Mena Quintero  <federico@helixcode.com>
+
+	* e-table-model.[ch]: Removed the freeze/thaw stuff for the model.
+	As Chris wisely pointed out, having freeze/thaw on the model makes
+	its state inconsistent from the perspective of the views.
+
+	* e-table-sorted-variable.c: Do not check for a frozen model.
+	* e-table-subset.c: Likewise.
+	* e-table-subset-variable.c: Likewise.
+
+	* e-table-example-1.c: Removed the ETableModel thaw handler.
+	* e-table-example-2.c: Likewise.
+	* e-table-simple.c: Likewise.
+	* e-table-size-test.c: Likewise.
+	* test-check.c: Likewise.
+	* test-cols.c: Likewise.
+	* test-table.c: Likewise.
+
+2000-06-08  Federico Mena Quintero  <federico@helixcode.com>
+
+	* e-table-model.h (ETableModelClass): Added a freeze method.
+
+	* e-table-model.c (e_table_model_freeze): Call the freeze method
+	instead of the thaw method!
+
+	* e-table-simple.h (ETableSimple): Added the freeze function.
+
+	* e-table-simple.c (simple_thaw): Check whether the function
+	exists.
+	(simple_freeze): New handler.
+	(e_table_simple_new): Take in and set the freeze handler.
+	(e_table_simple_class_init): Set the freeze handler.
+
+	* test-check.c (check_test): Pass in the freeze handler to
+	e_table_simple_new().
+
+	* test-cols.c (multi_cols_test): Likewise.
+
+	* e-table-example-2.c (create_table): Likewise.
+
+	* e-table-example-1.c (create_table): Likewise.
+
+	* test-table.c (table_browser_test): Likewise.
+	(do_e_table_demo): Likewise.
+
 2000-06-10  Chris Toshok  <toshok@helixcode.com>
 
 	* e-tree-example-1.c (create_tree): supply the pixbufs here.

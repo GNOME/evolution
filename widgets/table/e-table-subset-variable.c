@@ -39,8 +39,8 @@ etssv_add       (ETableSubsetVariable *etssv,
 			if (etss->map_table[i] >= row)
 				etss->map_table[i] ++;
 	etss->map_table[etss->n_map++] = row;
-	if (!etm->frozen)
-		e_table_model_row_inserted (etm, etss->n_map - 1);
+
+	e_table_model_row_inserted (etm, etss->n_map - 1);
 }
 
 static void
@@ -57,8 +57,8 @@ etssv_add_all   (ETableSubsetVariable *etssv)
 	}
 	for (i = 0; i < rows; i++)
 		etss->map_table[etss->n_map++] = i;
-	if (!etm->frozen)
-		e_table_model_changed (etm);
+
+	e_table_model_changed (etm);
 }
 
 static gboolean
@@ -74,8 +74,8 @@ etssv_remove    (ETableSubsetVariable *etssv,
 		if (etss->map_table[i] == row) {
 			memmove (etss->map_table + i, etss->map_table + i + 1, (etss->n_map - i - 1) * sizeof(int));
 			etss->n_map --;
-			if (!etm->frozen)
-				e_table_model_changed (etm);
+
+			e_table_model_changed (etm);
 			ret_val = TRUE;
 			break;
 		}

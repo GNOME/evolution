@@ -112,14 +112,6 @@ simple_value_is_empty (ETableModel *etm, int col, const void *value)
 }
 
 static void
-simple_thaw (ETableModel *etm)
-{
-	ETableSimple *simple = E_TABLE_SIMPLE(etm);
-
-	simple->thaw (etm, simple->data);
-}
-
-static void
 e_table_simple_class_init (GtkObjectClass *object_class)
 {
 	ETableModelClass *model_class = (ETableModelClass *) object_class;
@@ -133,7 +125,6 @@ e_table_simple_class_init (GtkObjectClass *object_class)
 	model_class->free_value = simple_free_value;
 	model_class->initialize_value = simple_initialize_value;
 	model_class->value_is_empty = simple_value_is_empty;
-	model_class->thaw = simple_thaw;
 }
 
 GtkType
@@ -169,7 +160,6 @@ e_table_simple_new (ETableSimpleColumnCountFn col_count,
 		    ETableSimpleFreeValueFn free_value,
 		    ETableSimpleInitializeValueFn initialize_value,
 		    ETableSimpleValueIsEmptyFn value_is_empty,
-		    ETableSimpleThawFn thaw,
 		    void *data)
 {
 	ETableSimple *et;
@@ -185,7 +175,6 @@ e_table_simple_new (ETableSimpleColumnCountFn col_count,
 	et->free_value = free_value;
 	et->initialize_value = initialize_value;
 	et->value_is_empty = value_is_empty;
-	et->thaw = thaw;
 	et->data = data;
 	
 	return (ETableModel *) et;

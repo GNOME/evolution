@@ -115,12 +115,6 @@ etss_value_is_empty (ETableModel *etm, int col, const void *value)
 }
 
 static void
-etss_thaw (ETableModel *etm)
-{
-	e_table_model_changed (etm);
-}
-
-static void
 etss_class_init (GtkObjectClass *klass)
 {
 	ETableModelClass *table_class = (ETableModelClass *) klass;
@@ -138,7 +132,6 @@ etss_class_init (GtkObjectClass *klass)
 	table_class->free_value       = etss_free_value;
 	table_class->initialize_value = etss_initialize_value;
 	table_class->value_is_empty   = etss_value_is_empty;
-	table_class->thaw             = etss_thaw;
 }
 
 E_MAKE_TYPE(e_table_subset, "ETableSubset", ETableSubset, etss_class_init, NULL, PARENT_TYPE);
@@ -146,23 +139,20 @@ E_MAKE_TYPE(e_table_subset, "ETableSubset", ETableSubset, etss_class_init, NULL,
 static void
 etss_proxy_model_changed (ETableModel *etm, ETableSubset *etss)
 {
-	if (!E_TABLE_MODEL(etss)->frozen)
-		e_table_model_changed (E_TABLE_MODEL (etss));
+	e_table_model_changed (E_TABLE_MODEL (etss));
 }
 
 static void
 etss_proxy_model_row_changed (ETableModel *etm, int row, ETableSubset *etss)
 {
-	if (!E_TABLE_MODEL(etss)->frozen){
-		const int n = etss->n_map;
-		const int * const map_table = etss->map_table;
-		int i;
+	const int n = etss->n_map;
+	const int * const map_table = etss->map_table;
+	int i;
 		
-		for (i = 0; i < n; i++){
-			if (map_table [i] == row){
-				e_table_model_row_changed (E_TABLE_MODEL (etss), i);
-				return;
-			}
+	for (i = 0; i < n; i++){
+		if (map_table [i] == row){
+			e_table_model_row_changed (E_TABLE_MODEL (etss), i);
+			return;
 		}
 	}
 }
@@ -170,16 +160,14 @@ etss_proxy_model_row_changed (ETableModel *etm, int row, ETableSubset *etss)
 static void
 etss_proxy_model_cell_changed (ETableModel *etm, int col, int row, ETableSubset *etss)
 {
-	if (!E_TABLE_MODEL(etss)->frozen){
-		const int n = etss->n_map;
-		const int * const map_table = etss->map_table;
-		int i;
+	const int n = etss->n_map;
+	const int * const map_table = etss->map_table;
+	int i;
 		
-		for (i = 0; i < n; i++){
-			if (map_table [i] == row){
-				e_table_model_cell_changed (E_TABLE_MODEL (etss), col, i);
-				return;
-			}
+	for (i = 0; i < n; i++){
+		if (map_table [i] == row){
+			e_table_model_cell_changed (E_TABLE_MODEL (etss), col, i);
+			return;
 		}
 	}
 }

@@ -12,8 +12,6 @@
 
 typedef struct {
 	GtkObject   base;
-	
-	guint frozen : 1;
 } ETableModel;
 
 typedef struct {
@@ -37,7 +35,6 @@ typedef struct {
 	/* Return TRUE if value is equivalent to an empty cell. */
 	gboolean    (*value_is_empty)   (ETableModel *etm, int col, const void *value);
 	
-	void        (*thaw)             (ETableModel *etm);
 	/*
 	 * Signals
 	 */
@@ -70,9 +67,6 @@ void       *e_table_model_duplicate_value  (ETableModel *e_table_model, int col,
 void        e_table_model_free_value       (ETableModel *e_table_model, int col, void *value);
 void       *e_table_model_initialize_value (ETableModel *e_table_model, int col);
 gboolean    e_table_model_value_is_empty   (ETableModel *e_table_model, int col, const void *value);
-
-void        e_table_model_freeze           (ETableModel *e_table_model);
-void        e_table_model_thaw             (ETableModel *e_table_model);
 
 /*
  * Routines for emitting signals on the e_table

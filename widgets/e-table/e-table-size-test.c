@@ -171,13 +171,6 @@ my_value_is_empty (ETableModel *etc, int col, const void *value, void *data)
 	return !(value && *(char *)value);
 }
 
-/* This function is for when the model is unfrozen.  This can mostly
-   be ignored for simple models.  */
-static void
-my_thaw (ETableModel *etc, void *data)
-{
-}
-
 /* We create a window containing our new table. */
 static void
 create_table (void)
@@ -195,7 +188,7 @@ create_table (void)
 					    my_set_value_at, my_is_cell_editable,
 					    my_duplicate_value, my_free_value,
 					    my_initialize_value, my_value_is_empty,
-					    my_thaw, NULL);
+					    NULL);
 	/*
 	 * Next we create a header.  The ETableHeader is used in two
 	 * different way.  The first is the full_header.  This is the
