@@ -1,3 +1,7 @@
+2000-10-10  Iain Holmes  <iain@helixcode.com>
+
+	* local/Makefile.am: Added the Executive-Summary dir.
+
 2000-10-05  Iain Holmes  <iain@helixcode.com>
 
 	* local/Makefile: Added Executive-Summary.
