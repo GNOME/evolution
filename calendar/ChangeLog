@@ -1,3 +1,8 @@
+2004-08-31  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/e-cal-model-tasks.c: include missing string.h, to avoid
+	problems in 64 bit builds.
+	
 2004-08-27  Not Zed  <NotZed@Ximian.com>
 
 	* common/authentication.c (auth_func_cb): constify the strings to
