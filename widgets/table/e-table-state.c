@@ -114,7 +114,7 @@ e_table_state_save_to_file      (ETableState *state,
 				 const char          *filename)
 {
 	xmlDoc *doc;
-	doc = xmlNewDoc(NULL);
+	doc = xmlNewDoc("1.0");
 	xmlDocSetRootElement(doc, e_table_state_save_to_node(state, NULL));
 	xmlSaveFile(filename, doc);
 }
@@ -142,6 +142,7 @@ e_table_state_save_to_node      (ETableState *state,
 {
 	int i;
 	xmlNode *node;
+
 	if (parent)
 		node = xmlNewChild (parent, NULL, "ETableState", NULL);
 	else
@@ -154,6 +155,7 @@ e_table_state_save_to_node      (ETableState *state,
 		new_node = xmlNewChild(node, NULL, "column", NULL);
 		e_xml_set_integer_prop_by_name (new_node, "source", column);
 	}
+
 
 	e_table_sort_info_save_to_node(state->sort_info, node);
 
