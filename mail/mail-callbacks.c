@@ -2115,12 +2115,12 @@ static void
 create_folders (EvolutionStorage *storage, const char *prefix, CamelFolderInfo *fi)
 {
 	char *path;
-
+	
 	mail_folder_cache_set_update_estorage (fi->url, storage);
 	mail_folder_cache_note_folderinfo (fi->url, fi);
-
+	
 	path = g_strdup_printf ("%s/%s", prefix, fi->name);
-
+	
 	if (!strncmp (fi->url, "vtrash:", 7))
 		evolution_storage_new_folder (storage, path, fi->name,
 					      "vtrash", fi->url,
@@ -2131,7 +2131,7 @@ create_folders (EvolutionStorage *storage, const char *prefix, CamelFolderInfo *
 					      "mail", fi->url,
 					      fi->name, /* description */
 					      fi->unread_message_count > 0);
-
+	
 	if (fi->child)
 		create_folders (storage, path, fi->child);
 	g_free (path);
@@ -2141,12 +2141,12 @@ create_folders (EvolutionStorage *storage, const char *prefix, CamelFolderInfo *
 }
 
 void
-folder_created (CamelStore *store, const char *prefix, CamelFolderInfo *fi)
+folder_created (CamelStore *store, const char *prefix, CamelFolderInfo *root)
 {
 	EvolutionStorage *storage;
 	
 	if ((storage = mail_lookup_storage (store))) {
-		create_folders (storage, prefix, fi);
+		create_folders (storage, prefix, root);
 		bonobo_object_unref (BONOBO_OBJECT (storage));
 	}
 }

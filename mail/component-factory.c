@@ -793,14 +793,14 @@ storage_create_folder (EvolutionStorage *storage,
 		       gpointer user_data)
 {
 	CamelStore *store = user_data;
+	CamelFolderInfo *root, *fi;
 	char *prefix, *name;
 	CamelURL *url;
 	CamelException ex;
-	CamelFolderInfo *fi;
-
+	
 	if (strcmp (type, "mail") != 0)
 		return EVOLUTION_STORAGE_ERROR_UNSUPPORTED_TYPE;
-
+	
 	name = strrchr (path, '/');
 	if (!name++)
 		return EVOLUTION_STORAGE_ERROR_INVALID_URI;
@@ -811,10 +811,10 @@ storage_create_folder (EvolutionStorage *storage,
 		if (!url)
 			return EVOLUTION_STORAGE_ERROR_INVALID_URI;
 		
-		fi = camel_store_create_folder (store, url->path + 1, name, &ex);
+		root = camel_store_create_folder (store, url->path + 1, name, &ex);
 		camel_url_free (url);
 	} else
-		fi = camel_store_create_folder (store, NULL, name, &ex);
+		root = camel_store_create_folder (store, NULL, name, &ex);
 	
 	if (camel_exception_is_set (&ex)) {
 		/* FIXME: do better than this */
@@ -822,14 +822,16 @@ storage_create_folder (EvolutionStorage *storage,
 		return EVOLUTION_STORAGE_ERROR_INVALID_URI;
 	}
 	
-	if (camel_store_supports_subscriptions (store))
-		camel_store_subscribe_folder (store, fi->full_name, NULL);
+	if (camel_store_supports_subscriptions (store)) {
+		for (fi = root; fi; fi = fi->child)
+			camel_store_subscribe_folder (store, fi->full_name, NULL);
+	}
 	
 	prefix = g_strndup (path, name - path - 1);
-	folder_created (store, prefix, fi);
+	folder_created (store, prefix, root);
 	g_free (prefix);
-
-	camel_store_free_folder_info (store, fi);
+	
+	camel_store_free_folder_info (store, root);
 	
 	return EVOLUTION_STORAGE_OK;
 }
