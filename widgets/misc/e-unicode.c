@@ -239,7 +239,7 @@ e_utf8_from_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 	obl = ibl * 6 + 1;
 
 	while (ibl > 0) {
-		iconv (ic, &ib, &ibl, &ob, &obl);
+		e_iconv (ic, &ib, &ibl, &ob, &obl);
 		if (ibl > 0) {
 			gint len;
 			if ((*ib & 0x80) == 0x00) len = 1;
@@ -302,7 +302,7 @@ e_utf8_to_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 	obl = ibl * 4 + 1;
 
 	while (ibl > 0) {
-		iconv (ic, &ib, &ibl, &ob, &obl);
+		e_iconv (ic, &ib, &ibl, &ob, &obl);
 		if (ibl > 0) {
 			gint len;
 			if ((*ib & 0x80) == 0x00) len = 1;
@@ -428,7 +428,7 @@ e_utf8_from_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes
 	obl = ibl * 6 + 1;
 
 	while (ibl > 0) {
-		iconv (ic, &ib, &ibl, &ob, &obl);
+		e_iconv (ic, &ib, &ibl, &ob, &obl);
 		if (ibl > 0) {
 			gint len;
 			if ((*ib & 0x80) == 0x00) len = 1;
@@ -506,7 +506,7 @@ e_utf8_to_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes)
 	obl = ibl * 4 + 1;
 
 	while (ibl > 0) {
-		iconv (ic, &ib, &ibl, &ob, &obl);
+		e_iconv (ic, &ib, &ibl, &ob, &obl);
 		if (ibl > 0) {
 			gint len;
 			if ((*ib & 0x80) == 0x00) len = 1;

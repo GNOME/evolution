@@ -419,6 +419,11 @@ iconv_t e_iconv_open(const char *oto, const char *ofrom)
 	return ip;
 }
 
+size_t e_iconv(iconv_t cd, const char **inbuf, size_t *inbytesleft, char ** outbuf, size_t *outbytesleft)
+{
+	return iconv(cd, inbuf, inbytesleft, outbuf, outbytesleft);
+}
+
 void
 e_iconv_close(iconv_t ip)
 {

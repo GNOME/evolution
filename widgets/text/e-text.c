@@ -2093,10 +2093,12 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			area.height = height;
 
 #define DEFAULT_SPACING   7
-
+#if 0
 			default_spacing = gtk_style_get_prop_experimental (widget->style,
 									   "GtkButton::default_spacing",
 									   DEFAULT_SPACING);
+#endif
+			default_spacing = 7;
 
 			thisx = 0;
 			thisy = 0;

@@ -32,6 +32,7 @@ extern "C" {
 
 const char *e_iconv_charset_name(const char *charset);
 iconv_t e_iconv_open(const char *oto, const char *ofrom);
+size_t e_iconv(iconv_t cd, const char **inbuf, size_t *inbytesleft, char ** outbuf, size_t *outbytesleft);
 void e_iconv_close(iconv_t ip);
 const char *e_iconv_locale_charset(void);
 
