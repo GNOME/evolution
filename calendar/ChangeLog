@@ -1,3 +1,19 @@
+2001-10-29  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/calendar-config.[ch] (calendar_config_get_default_uri):
+	(calendar_config_set_default_uri):
+	(calendar_config_get_default_tasks_uri):
+	(calendar_config_set_default_tasks_uri): new functions for setting
+	and retrieving the default calendar URIs
+
+	* gui/e-itip-control.c (init): don't use
+	hard-coded URI, but use the default calendar URI, as returned
+	by calendar_config_get_default_uri
+	(start_calendar_server): added a "gboolean tasks" parameter, so
+	that the local tasks.ics file is used if the calendar to be
+	started is for tasks when no default tasks URI is found in
+	the configuration
+
 2001-10-28  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/calendar/calendar-conduit.c (add_record): unref the

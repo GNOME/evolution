@@ -1,8 +1,9 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
- * Author :
+ * Authors :
  *  Damon Chaplin <damon@ximian.com>
+ *  Rodrigo Moya <rodrigo@ximian.com>
  *
  * Copyright 2000, Ximian, Inc.
  * Copyright 2000, Ximian, Inc.
@@ -44,6 +45,8 @@
 
 typedef struct
 {
+	gchar          *default_uri;
+	gchar          *default_tasks_uri;
 	gchar	       *timezone;
 	CalWeekdays	working_days;
 	gboolean	use_24_hour_format;
@@ -122,6 +125,12 @@ config_read				(void)
 
 	CORBA_exception_free (&ev);
 
+	config->default_uri = bonobo_config_get_string (db,
+		"/Calendar/DefaultUri", NULL);
+
+	config->default_tasks_uri = bonobo_config_get_string (db,
+		"/Calendar/DefaultTasksUri", NULL);
+				       
 	config->timezone =  bonobo_config_get_string (db, 
                 "/Calendar/Display/Timezone", NULL);
 
@@ -233,6 +242,14 @@ calendar_config_write			(void)
 		return;
  	}
 
+	if (config->default_uri)
+		bonobo_config_set_string (db, "/Calendar/DefaultUri",
+					  config->default_uri, NULL);
+
+	if (config->default_tasks_uri)
+		bonobo_config_set_string (db, "/Calendar/DefaultTasksUri",
+					  config->default_tasks_uri, NULL);
+
 	if (config->timezone)
 		bonobo_config_set_string (db, "/Calendar/Display/Timezone", 
 					  config->timezone, NULL);
@@ -330,6 +347,44 @@ calendar_config_write_on_exit		(void)
 /*
  * Calendar Settings.
  */
+
+/* The default URI is the one that will be used in places where there
+   might be some action on a calendar from outside, such as adding
+   a meeting request. */
+gchar *
+calendar_config_get_default_uri (void)
+{
+	return config->default_uri;
+}
+
+/* Sets the default calendar URI */
+void
+calendar_config_set_default_uri (gchar *default_uri)
+{
+	g_free (config->default_uri);
+
+	if (default_uri && default_uri[0])
+		config->default_uri = g_strdup (default_uri);
+	else
+		config->default_uri = NULL;
+}
+
+gchar *
+calendar_config_get_default_tasks_uri (void)
+{
+	return config->default_tasks_uri;
+}
+
+void
+calendar_config_set_default_tasks_uri (gchar *default_tasks_uri)
+{
+	g_free (config->default_tasks_uri);
+
+	if (default_tasks_uri && default_tasks_uri[0])
+		config->default_tasks_uri = g_strdup (default_tasks_uri);
+	else
+		config->default_tasks_uri = NULL;
+}
 
 /* The current timezone, e.g. "Europe/London". It may be NULL, in which case
    you should assume UTC (though Evolution will show the timezone-setting
