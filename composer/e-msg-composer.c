@@ -2453,10 +2453,9 @@ handle_multipart_alternative (EMsgComposer *composer, CamelMultipart *multipart)
 			
 			contents = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
 			text = mail_get_message_body (contents, FALSE, FALSE);
-			if (text) {
-				e_msg_composer_set_body_text (composer, text);
-				g_free (text);
-			}
+
+			if (text)
+				gtk_object_set_data (GTK_OBJECT (composer), "body:text", text);
 			
 			return;
 		}
@@ -2502,10 +2501,9 @@ handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, int depth)
 			
 			contents = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
 			text = mail_get_message_body (contents, FALSE, FALSE);
-			if (text) {
-				e_msg_composer_set_body_text (composer, text);
-				g_free (text);
-			}
+
+			if (text)
+				gtk_object_set_data (GTK_OBJECT (composer), "body:text", text);
 		} else {
 			/* this is a leaf of the tree, so attach it */
 			e_msg_composer_attach (composer, mime_part);
@@ -2559,7 +2557,8 @@ is_special_header (const char *hdr_name)
 
 /**
  * e_msg_composer_new_with_message:
- *
+ * @msg: The message to use as the source
+ * 
  * Create a new message composer widget.
  * 
  * Return value: A pointer to the newly created widget
@@ -2571,6 +2570,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 	GList *To = NULL, *Cc = NULL, *Bcc = NULL;
 	EDestination **Tov, **Ccv, **Bccv;
 	const char *format, *subject, *account_name;
+	char *body;
 	CamelContentType *content_type;
 	struct _header_raw *headers;
 	EMsgComposer *new;
@@ -2698,12 +2698,20 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 		
 		contents = camel_medium_get_content_object (CAMEL_MEDIUM (msg));
 		text = mail_get_message_body (contents, FALSE, FALSE);
-		if (text) {
-			e_msg_composer_set_body_text (new, text);
-			g_free (text);
-		}
+
+		if (text)
+			gtk_object_set_data (GTK_OBJECT (new), "body:text", text);
 	}
 	
+	/* We wait until now to set the body text because we need to ensure that
+	 * the attachment bar has all the attachments, before we request them.
+	 */
+	body = gtk_object_get_data (GTK_OBJECT (new), "body:text");
+	if (body) {
+		e_msg_composer_set_body_text (new, body);
+		gtk_object_set_data (GTK_OBJECT (new), "body:text", NULL);
+		g_free (body);
+	}
 	return new;
 }
 
@@ -2967,7 +2975,7 @@ void
 e_msg_composer_attach (EMsgComposer *composer, CamelMimePart *attachment)
 {
 	EMsgComposerAttachmentBar *bar;
-	
+
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	g_return_if_fail (CAMEL_IS_MIME_PART (attachment));
 	

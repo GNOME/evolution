@@ -26,8 +26,10 @@
 
 #include <bonobo/bonobo-arg.h>
 #include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-stream-client.h>
 
 #include "listener.h"
+#include "e-msg-composer-attachment-bar.h"
 
 static BonoboObjectClass *listener_parent_class;
 static POA_GNOME_GtkHTML_Editor_Listener__vepv listener_vepv;
@@ -113,7 +115,7 @@ impl_event (PortableServer_Servant _servant,
 	EditorListener *l = listener_from_servant (_servant);
 	CORBA_any  *rv = NULL;
 
-	/* printf ("impl_event\n"); */
+	printf ("impl_event = %s\n", name); 
 
 	if (!strcmp (name, "command")) {
 		if (!l->composer->in_signature_insert) {
@@ -142,7 +144,7 @@ impl_event (PortableServer_Servant _servant,
 		}
 	} else if (!strcmp (name, "delete")) {
 		CORBA_char *orig;
-
+		
 		if (GNOME_GtkHTML_Editor_Engine_isParagraphEmpty (l->composer->editor_engine, ev)) {
 			orig = GNOME_GtkHTML_Editor_Engine_getParagraphData (l->composer->editor_engine, "orig", ev);
 			if (ev->_major == CORBA_NO_EXCEPTION) {
@@ -158,6 +160,40 @@ impl_event (PortableServer_Servant _servant,
 				}
 			}
 		}
+	} else if (!strcmp (name, "url_requested")) {
+		GNOME_GtkHTML_Editor_URLRequestEvent *e;
+		CORBA_long len = 0;
+		CamelMimePart *part = NULL;
+
+		e = (GNOME_GtkHTML_Editor_URLRequestEvent *)arg->_value;
+	        g_warning ("url_requested = \"%s\"", e->url);
+
+		if (e->url) {
+			part = e_msg_composer_attachment_bar_find_message (
+			        E_MSG_COMPOSER_ATTACHMENT_BAR (l->composer->attachment_bar), e->url);
+		}
+
+		if (!part)
+			printf ("url_requested: no part found\n");
+		else 
+			printf ("url_requested: FOUND PART\n");
+
+		if (part && e->stream != CORBA_OBJECT_NIL) {
+			GByteArray *ba;
+			CamelStream *cstream;
+			CamelDataWrapper *wrapper;
+
+			/* Write the data to a CamelStreamMem... */
+			ba = g_byte_array_new ();
+			cstream = camel_stream_mem_new_with_byte_array (ba);
+			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+			camel_data_wrapper_write_to_stream (wrapper, cstream);
+
+			bonobo_stream_client_write (e->stream, ba->data, ba->len, ev);
+
+			camel_object_unref (CAMEL_OBJECT (cstream));
+		}
+
 	}
 
 	return rv ? rv : get_any_null ();

@@ -820,62 +820,40 @@ e_msg_composer_attachment_bar_attach_mime_part (EMsgComposerAttachmentBar *bar,
 }
 
 CamelMimePart *
-e_msg_composer_attachment_bar_find_content_id (EMsgComposerAttachmentBar *bar, char *content_id)
+e_msg_composer_attachment_bar_find_message (EMsgComposerAttachmentBar *bar, char *url)
 {
 	EMsgComposerAttachmentBarPrivate *priv;
 	GList *p;
+	char  *content_id = NULL;
 
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_ATTACHMENT_BAR (bar), NULL);
-	g_return_val_if_fail (content_id != NULL, NULL);
+	g_return_val_if_fail (url != NULL, NULL);
 
+	if (!strncmp ("cid:", url, 4))
+		content_id = url + 4;
+	    
 	priv = bar->priv;
 	
 	for (p = priv->attachments; p != NULL; p = p->next) {
-		EMsgComposerAttachment *attachment;
+		CamelMimePart *part;
 		const char *part_id;
+		const char *part_location;
+
+		part = E_MSG_COMPOSER_ATTACHMENT (p->data)->body;
+
+		part_id = camel_mime_part_get_content_id (part);
+		g_warning ("content_id: %s, part_id: %s\n", content_id, part_id);		
+
+		if (content_id && part_id && !strcmp (part_id, content_id))
+			return part;
+
+		part_location = camel_mime_part_get_content_location (part);
+		g_warning ("url: %s, part_id: %s\n", url, part_id);
 		
-		attachment = p->data;
-		part_id = camel_mime_part_get_content_id (attachment->body);
-		
-		g_warning ("content_id: %s, part_id: %s\n", content_id, part_id);
-		if (part_id && !strcmp (part_id, content_id))
-			return attachment->body;
+		if (part_id && !strcmp (part_location, url))
+			return part;
+
 	}
 
 	return NULL;
 }
-
-#if 0
-EMsgComposerAttachment *
-e_msg_composer_attachment_bar_find_content_id (EMsgComposerAttachmentBar *bar, char *content_id)
-{
-	EMsgComposerAttachmentBarPrivate *priv;
-	GList *p;
-
-	g_return_val_if_fail (E_IS_MSG_COMPOSER_ATTACHMENT_BAR (bar), NULL);
-	g_return_val_if_fail (content_id != NULL, NULL);
-
-	priv = bar->priv;
-	
-	if (priv->attachments)
-		g_warning ("NO ATTACHMENTS");
-
-	for (p = priv->attachments; p != NULL; p = p->next) {
-		EMsgComposerAttachment *attachment;
-		const char *part_id;
-		
-		attachment = p->data;
-		part_id = camel_mime_part_get_content_id (attachment->body);
-		
-		g_warning ("content_id: %s, part_id: %s\n", content_id, part_id);
-		if (part_id && !strcmp (part_id, content_id))
-			return attachment;
-	}
-
-	return NULL;
-}
-#endif
-
-
-
-

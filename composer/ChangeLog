@@ -1,3 +1,26 @@
+2001-10-05  Larry Ewing  <lewing@ximian.com>
+
+	* e-msg-composer-attachment.c (e_msg_composer_attachment_new):
+	remove unused variable.
+
+	* e-msg-composer-attachment-bar.c
+	(e_msg_composer_attachment_bar_find_message): generalize this to
+	lookup content locations as well.
+
+	* e-msg-composer-attachment-bar.h: change prototype to match the
+	new function.
+
+	* listener.c (impl_event): handle the url_requested event, look up
+	parts in the attachment part and feed them down the stream if it
+	is found.
+
+	* e-msg-composer.c (handle_multipart_alternative): delay setting
+	the body text.
+	(handle_multipart): delay setting body text
+	(e_msg_composer_new_with_message): set the body text from the
+	object data.  Doing this ensures that we will have the attachments
+	processed before we try to look them up.
+
 2001-10-04  Larry Ewing  <lewing@ximian.com>
 
 	* e-msg-composer-attachment-bar.c 
