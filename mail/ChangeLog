@@ -1,3 +1,10 @@
+2002-08-09  Peter Williams  <peterw@ximian.com>
+
+	* mail-config.c (mail_config_uri_renamed): When a URI is changed,
+	try to copy over threaded view settings, preview pane shown settings,
+	headers, hide state, tree expansion, and GAL view files.
+	(uri_to_evname): New utility function.
+
 2002-08-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (mail_account_gui_save): Instead of comparing

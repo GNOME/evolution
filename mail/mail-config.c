@@ -2442,12 +2442,39 @@ mail_config_get_default_transport (void)
 	return NULL;
 }
 
+static char *
+uri_to_evname (const char *uri, const char *prefix)
+{
+	char *safe;
+	char *tmp;
+
+	safe = g_strdup (uri);
+	e_filename_make_safe (safe);
+	/* blah, easiest thing to do */
+	if (prefix[0] == '*')
+		tmp = g_strdup_printf ("%s/%s%s.xml", evolution_dir, prefix + 1, safe);
+	else
+		tmp = g_strdup_printf ("%s/%s%s", evolution_dir, prefix, safe);
+	g_free (safe);
+	return tmp;
+}
+
 void
 mail_config_uri_renamed(GCompareFunc uri_cmp, const char *old, const char *new)
 {
 	MailConfigAccount *ac;
 	const GSList *l;
 	int work = 0;
+	gpointer oldkey, newkey, hashkey;
+	gpointer val;
+	char *oldname, *newname;
+	char *cachenames[] = { "config/hidestate-", 
+			       "config/et-expanded-", 
+			       "config/et-header-", 
+			       "*views/mail/current_view-",
+			       "*views/mail/custom_view-",
+			       NULL };
+	int i;
 
 	l = mail_config_get_accounts();
 	while (l) {
@@ -2463,6 +2490,43 @@ mail_config_uri_renamed(GCompareFunc uri_cmp, const char *old, const char *new)
 			work = 1;
 		}
 		l = l->next;
+	}
+
+	oldkey = uri_to_key (old);
+	newkey = uri_to_key (new);
+
+	/* call this to load the hash table and the key */
+	mail_config_get_thread_list (old);
+	if (g_hash_table_lookup_extended (config->threaded_hash, oldkey, &hashkey, &val)) {
+		/*printf ("changing key in threaded_hash\n");*/
+		g_hash_table_remove (config->threaded_hash, hashkey);
+		g_hash_table_insert (config->threaded_hash, newkey, val);
+		work = 2;
+	}
+
+	/* ditto */
+	mail_config_get_show_preview (old);
+	if (g_hash_table_lookup_extended (config->preview_hash, oldkey, &hashkey, &val)) {
+		/*printf ("changing key in preview_hash\n");*/
+		g_hash_table_remove (config->preview_hash, hashkey);
+		g_hash_table_insert (config->preview_hash, newkey, val);
+		work = 2;
+	}
+
+	g_free (oldkey);
+	if (work != 2)
+		g_free (newkey);
+
+	/* ignore return values or if the files exist or
+	 * not, doesn't matter */
+
+	for (i = 0; cachenames[i]; i++) {
+		oldname = uri_to_evname (old, cachenames[i]);
+		newname = uri_to_evname (new, cachenames[i]);
+		/*printf ("** renaming %s to %s\n", oldname, newname);*/
+		rename (oldname, newname);
+		g_free (oldname);
+		g_free (newname);
 	}
 
 	/* nasty ... */
