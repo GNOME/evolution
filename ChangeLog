@@ -1,3 +1,7 @@
+2000-08-02  Dan Winship  <danw@helixcode.com>
+
+	* configure.in (AC_OUTPUT): Add camel/providers/nntp
+
 2000-08-02  Christopher James Lahey  <clahey@helixcode.com>
 
 	* widgets/e-text/e-text.c: Made clicking choose the right
