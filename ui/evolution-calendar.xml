@@ -20,10 +20,10 @@
     <cmd name="ShowWeekView" _tip="Show one week" pixtype="pixbuf"/>
     <cmd name="ShowMonthView" _tip="Show one month" pixtype="pixbuf"/>
 
-    <cmd name="CutEvent" _tip="Cut the selection" accel="*Control*x"/>
-    <cmd name="CopyEvent" _tip="Copy the selection" accel="*Control*c"/>
-    <cmd name="PasteEvent" _tip="Paste the clipboard" accel="*Control*v"/>
-    <cmd name="DeleteEvent" _tip="Delete the appointment"/>
+    <cmd name="Cut" _tip="Cut the selection" accel="*Control*x"/>
+    <cmd name="Copy" _tip="Copy the selection" accel="*Control*c"/>
+    <cmd name="Paste" _tip="Paste the clipboard" accel="*Control*v"/>
+    <cmd name="Delete" _tip="Delete the appointment"/>
 
     <cmd name="PublishFreeBusy" _tip="Publish Free/Busy information for this calendar"/>
   </commands>
@@ -55,10 +55,10 @@
 
     <placeholder name="EditPlaceholder">
       <submenu name="Edit" _label="_Edit">
-      	<menuitem name="CutEvent" verb="" _label="C_ut" pixtype="pixbuf"/>
-      	<menuitem name="CopyEvent" verb="" _label="_Copy" pixtype="pixbuf"/>
-      	<menuitem name="PasteEvent" verb="" _label="_Paste" pixtype="pixbuf"/>
-      	<menuitem name="DeleteEvent" verb="" _label="_Delete" pixtype="pixbuf"/>
+      	<menuitem name="Cut" verb="" _label="C_ut" pixtype="pixbuf"/>
+      	<menuitem name="Copy" verb="" _label="_Copy" pixtype="pixbuf"/>
+      	<menuitem name="Paste" verb="" _label="_Paste" pixtype="pixbuf"/>
+      	<menuitem name="Delete" verb="" _label="_Delete" pixtype="pixbuf"/>
       </submenu>
     </placeholder>
 
@@ -104,7 +104,7 @@
     <separator/>
 
     <toolitem name="Print" verb="CalendarPrint" pixtype = "pixbuf"/>
-    <toolitem name="Delete" verb="DeleteEvent" pixtype="pixbuf"/>
+    <toolitem name="Delete" verb="" pixtype="pixbuf"/>
 
     <separator/>
 

@@ -1,3 +1,8 @@
+2001-10-30  Federico Mena Quintero  <federico@ximian.com>
+
+	* evolution-calendar.xml: Renamed the cut/copy/paste/delete
+	command/item/verb names to be consistent.
+
 2001-10-30  Larry Ewing  <lewing@ximian.com>
 
 	* evolution-signature-editor.xml: change Save into Save and close,
@@ -112,7 +117,6 @@
 	* evolution-mail-message.xml: Add a pixtype to 
 	/Commands/MessageUndelete so that people can see the icon.
 
->>>>>>> 1.242
 2001-08-23  Larry Ewing  <lewing@ximian.com>
 
 	* evolution-mail-message.xml: added ... to Search Message to
