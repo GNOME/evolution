@@ -58,11 +58,11 @@ e_notice (GtkWindow *parent, GtkMessageType type, const char *format, ...)
 }
 
 void
-e_auto_kill_popup_menu_on_hide (GtkMenu *menu)
+e_auto_kill_popup_menu_on_selection_done (GtkMenu *menu)
 {
 	g_return_if_fail (GTK_IS_MENU (menu));
 	
-	g_signal_connect (menu, "hide", G_CALLBACK (gtk_widget_destroy), menu);
+	g_signal_connect (menu, "selection_done", G_CALLBACK (gtk_widget_destroy), menu);
 }
 
 void
@@ -70,7 +70,7 @@ e_popup_menu (GtkMenu *menu, GdkEvent *event)
 {
 	g_return_if_fail (GTK_IS_MENU (menu));
 
-	e_auto_kill_popup_menu_on_hide (menu);
+	e_auto_kill_popup_menu_on_selection_done (menu);
 
 	if (event->type == GDK_KEY_PRESS)
 		gtk_menu_popup (menu, NULL, NULL, 0, NULL, 0, event->key.time);

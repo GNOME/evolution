@@ -32,29 +32,32 @@
 
 G_BEGIN_DECLS
 
-void      e_popup_menu                    (GtkMenu       *menu,
-					   GdkEvent      *event);
-void      e_auto_kill_popup_menu_on_hide  (GtkMenu       *menu);
-void      e_notice                        (GtkWindow     *window,
-					   GtkMessageType type,
-					   const char    *format,
-					   ...);
-void      e_container_foreach_leaf        (GtkContainer  *container,
-					   GtkCallback    callback,
-					   gpointer       closure);
-void      e_container_focus_nth_entry     (GtkContainer  *container,
-					   int            n);
-gint      e_container_change_tab_order    (GtkContainer  *container,
-					   GList         *widgets);
+void  e_popup_menu                              (GtkMenu  *menu,
+						 GdkEvent *event);
+void  e_auto_kill_popup_menu_on_selection_done  (GtkMenu  *menu);
+
+void  e_notice  (GtkWindow      *window,
+		 GtkMessageType  type,
+		 const char     *format,
+		 ...);
+
+void  e_container_foreach_leaf      (GtkContainer *container,
+				     GtkCallback   callback,
+				     gpointer      closure);
+void  e_container_focus_nth_entry   (GtkContainer *container,
+				     int           n);
+gint  e_container_change_tab_order  (GtkContainer *container,
+				     GList        *widgets);
+
 /* Returns TRUE on success. */
-gboolean  e_glade_xml_connect_widget      (GladeXML      *gui,
-					   char          *name,
-					   char          *signal,
-					   GtkSignalFunc  cb,
-					   gpointer       closure);
-gboolean  e_glade_xml_set_sensitive       (GladeXML      *gui,
-					   char          *name,
-					   gboolean       sensitive);
+gboolean  e_glade_xml_connect_widget  (GladeXML      *gui,
+				       char          *name,
+				       char          *signal,
+				       GtkSignalFunc  cb,
+				       gpointer       closure);
+gboolean  e_glade_xml_set_sensitive   (GladeXML      *gui,
+				       char          *name,
+				       gboolean       sensitive);
 
 G_END_DECLS
 
