@@ -450,7 +450,6 @@ free_folder (gpointer key,
 	g_free (folder->name);
 	g_free (folder->path);
 	g_free (folder);
-	g_free (value);
 }
 
 void

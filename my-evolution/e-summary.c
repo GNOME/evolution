@@ -113,6 +113,9 @@ destroy (GtkObject *object)
 		e_summary_tasks_free (summary);
 	}
 
+	alarm_remove (priv->alarm);
+	alarm_done ();
+
 	g_free (priv);
 	summary->priv = NULL;
 
@@ -408,6 +411,7 @@ e_summary_init (ESummary *summary)
 	priv->protocol_hash = NULL;
 	priv->connections = NULL;
 
+	alarm_init ();
 	t = time (NULL);
 	day_end = time_day_end (t);
 	priv->alarm = alarm_add (day_end, alarm_fn, summary, NULL);

@@ -1,5 +1,12 @@
 2001-07-11  Iain Holmes  <iain@ximian.com>
 
+	* e-summary.c (destroy): Destroy the alarm.
+	(e_summary_init): Init the alarm.
+	
+	* e-summary-mail.c (free_folder): Don't free the value.
+
+2001-07-11  Iain Holmes  <iain@ximian.com>
+
 	* e-summary.c (destroy): Destroy all the subcomponents.
 
 	* e-summary-rdf.c (e_summary_rdf_free): Free and stop all tranfsers
