@@ -542,6 +542,15 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 						    NULL, NULL, NULL, "", ex);
 		
 		if (camel_exception_is_set (ex)) {
+			char *description;
+			ExceptionId id;
+			
+			id = camel_exception_get_id (ex);
+			description = g_strdup (camel_exception_get_description (ex));
+			camel_exception_setv (ex, id, "%s\n%s", description,
+					      _("However, the message was successfully sent."));
+			g_free (description);
+			
 			camel_message_info_free (info);
 			return;
 		}
@@ -562,6 +571,17 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	
 	if (folder) {
 		camel_folder_append_message (folder, message, info, ex);
+		if (camel_exception_is_set (ex)) {
+			char *description;
+			ExceptionId id;
+			
+			id = camel_exception_get_id (ex);
+			description = g_strdup (camel_exception_get_description (ex));
+			camel_exception_setv (ex, id, "%s\n%s", description,
+					      _("However, the message was successfully sent."));
+			g_free (description);
+		}
+		
 		camel_folder_sync (folder, FALSE, NULL);
 		camel_object_unref (CAMEL_OBJECT (folder));
 	}

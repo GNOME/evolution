@@ -1,3 +1,10 @@
+2001-09-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-ops.c (mail_send_message): Append a message to any
+	exception we get appending to any folders after having sent the
+	message successfully saying that the message was sent successfully
+	so the user doesn't misinterpret the error.
+
 2001-09-13  Jon Trowbridge  <trow@ximian.com>
 
 	* mail-callbacks.c (composer_get_message): Fixed double-freeing of
