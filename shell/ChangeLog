@@ -1,5 +1,13 @@
 2002-09-04  Ettore Perazzoli  <ettore@ximian.com>
 
+	* main.c (idle_cb): Pass FALSE as @restore_all_views to
+	e_shell_restore_from_settings() so we only restore the first view.
+
+	* e-shell.c (e_shell_restore_from_settings): New arg
+	@restore_all_views.
+
+2002-09-04  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-storage-set-view.c (popup_folder_menu): Remove the context
 	menu items using
 	evolution_shell_component_client_unpopulate_folder_context_menu()

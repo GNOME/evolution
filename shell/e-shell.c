@@ -1304,9 +1304,8 @@ e_shell_construct (EShell *shell,
 	   can tell the components we are here.  */
 	set_owner_on_components (shell, E_SPLASH (splash));
 	
-	if (show_splash) {
+	if (show_splash)
 		gtk_widget_destroy (splash);
-	}
 	
 	if (e_shell_startup_wizard_create () == FALSE) {
 		e_shell_unregister_all (shell);
@@ -1694,15 +1693,18 @@ e_shell_save_settings (EShell *shell)
 /**
  * e_shell_restore_from_settings:
  * @shell: An EShell object.
+ * @restore_all_views: whether to restore all the views
  * 
  * Restore the existing views from the saved configuration.  The shell must
- * have no views for this to work.
+ * have no views for this to work.  If @restore_all_views is TRUE, restore all
+ * the views; otherwise, just the first one.
  * 
  * Return value: %FALSE if the shell has some open views or there is no saved
  * configuration.  %TRUE if the configuration could be restored successfully.
  **/
 gboolean
-e_shell_restore_from_settings (EShell *shell)
+e_shell_restore_from_settings (EShell *shell,
+			       gboolean restore_all_views)
 {
 	EShellPrivate *priv;
 	int num_views;
@@ -1716,8 +1718,12 @@ e_shell_restore_from_settings (EShell *shell)
 
 	num_views = bonobo_config_get_long_with_default (priv->db, "/Shell/Views/NumberOfViews", 0, NULL);
 
-	for (i = 0; i < num_views; i++)
+	for (i = 0; i < num_views; i++) {
 		e_shell_create_view_from_uri_and_settings (shell, NULL, i);
+
+		if (! restore_all_views)
+			break;
+	}
 
 	return (num_views > 0);
 }

@@ -126,7 +126,8 @@ EFolderTypeRegistry *e_shell_get_folder_type_registry  (EShell          *shell);
 EUriSchemaRegistry  *e_shell_get_uri_schema_registry   (EShell          *shell);
 
 gboolean             e_shell_save_settings             (EShell          *shell);
-gboolean             e_shell_restore_from_settings     (EShell          *shell);
+gboolean             e_shell_restore_from_settings     (EShell          *shell,
+							gboolean         restore_all_views);
 
 void                 e_shell_destroy_all_views         (EShell          *shell);
 

@@ -387,7 +387,7 @@ idle_cb (void *data)
 		 * user's previous settings, then show the default URI.
 		 */
 		if (! have_evolution_uri) {
-			if (! e_shell_restore_from_settings (shell)) 
+			if (! e_shell_restore_from_settings (shell, FALSE)) 
 				display_default = TRUE;
 			else
 				display_default = FALSE;
