@@ -1,3 +1,8 @@
+2001-10-05  Christopher James Lahey  <clahey@ximian.com>
+
+	* mail/By_Sender.galview, mail/By_Status.galview,
+	mail/By_Subject.galview: Fixed these.
+
 2001-06-15  Federico Mena Quintero  <federico@ximian.com>
 
 	* calendar/galview.xml: New list of the default calendar views.
