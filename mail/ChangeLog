@@ -1,3 +1,9 @@
+2002-01-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (do_edit_messages): Don't remove any
+	X-Evolution* headers here, the composer already knows to ignore
+	these. Besides, it needs to know the X-Evolution-Format header.
+
 2002-01-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (composer_save_draft_cb): Do proper refcounting
