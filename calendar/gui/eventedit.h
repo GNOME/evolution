@@ -23,20 +23,26 @@ typedef struct {
         GtkWidget  *general;
         GtkTable   *general_table;
         GtkWidget  *general_time_table;
+	GtkWidget  *general_allday;
+	GtkWidget  *general_recur;
 	GtkWidget  *general_owner;
 	GtkWidget  *general_summary;
 	GtkWidget  *start_time, *end_time;
-
+	GtkWidget  *general_radios;
+	
 	/* The associated ical object */
 	iCalObject *ical;
 	int        new_ical;
+
+	/* The calendar owner of this event */
+        GnomeCalendar *gnome_cal;
 } EventEditor;
 
 typedef struct {
 	GnomePropertyBoxClass parent_class;
 } EventEditorClass;
 
-GtkWidget *event_editor_new (iCalObject *);
+GtkWidget *event_editor_new (GnomeCalendar *owner, iCalObject *);
 
 END_GNOME_DECLS
 #endif

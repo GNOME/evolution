@@ -41,6 +41,14 @@ print_time_t (time_t t)
 		tm->tm_hour, tm->tm_min, tm->tm_sec);
 }
 
+int
+get_time_t_hour (time_t t)
+{
+	struct tm *tm;
+
+	tm = localtime (&t);
+	return tm->tm_hour;
+}
 
 char *
 isodate_from_time_t (time_t t)
@@ -50,7 +58,7 @@ isodate_from_time_t (time_t t)
 
 	tm = localtime (&t);
 	strftime (isotime, sizeof (isotime)-1, "%Y%m%dT%H%M%sZ", tm);
-	return &isotime;
+	return isotime;
 }
 
 time_t
@@ -79,3 +87,19 @@ format_simple_hour (int hour, int use_am_pm)
 	return buf;
 
 }
+
+time_t
+time_add_week (time_t time, int weeks)
+{
+}
+
+time_t
+time_add_day (time_t time, int weeks)
+{
+}
+
+time_t
+time_add_year (time_t time, int years)
+{
+}
+

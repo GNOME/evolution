@@ -39,18 +39,17 @@ gnome_calendar_get_type (void)
 static void
 setup_widgets (GnomeCalendar *gcal)
 {
-	GtkWidget *notebook;
-	GtkWidget *day_view, *year_view, *task_view;
 	time_t now;
 
 	now = time (NULL);
 	
-	notebook  = gtk_notebook_new ();
-	day_view  = day_view_create  (gcal);
+	gcal->notebook  = gtk_notebook_new ();
+	gcal->day_view  = day_view_create  (gcal);
 	gcal->week_view = gncal_week_view_new (gcal, now);
-	year_view = year_view_create (gcal);
-	task_view = tasks_create (gcal);
+	gcal->year_view = year_view_create (gcal);
+	gcal->task_view = tasks_create (gcal);
 
+	if (0)
 	{
 		struct tm tm;
 		time_t a, b;
@@ -66,17 +65,17 @@ setup_widgets (GnomeCalendar *gcal)
 
 		b = mktime (&tm);
 
-		day_view = gncal_full_day_new (gcal, a, b);
+		gcal->day_view = gncal_full_day_new (gcal, a, b);
 	}
 
-	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), day_view,  gtk_label_new (_("Day View")));
-	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), gcal->week_view, gtk_label_new (_("Week View")));
-	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), year_view, gtk_label_new (_("Year View")));
-	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), task_view, gtk_label_new (_("Todo")));
+	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->day_view,  gtk_label_new (_("Day View")));
+	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->week_view, gtk_label_new (_("Week View")));
+	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->year_view, gtk_label_new (_("Year View")));
+	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->task_view, gtk_label_new (_("Todo")));
 
-	gtk_widget_show_all (notebook);
+	gtk_widget_show_all (gcal->notebook);
 	
-	gnome_app_set_contents (GNOME_APP (gcal), notebook);
+	gnome_app_set_contents (GNOME_APP (gcal), gcal->notebook);
 	
 }
 
@@ -86,6 +85,29 @@ gnome_calendar_init(GnomeCalendar *gcal)
 	gcal->cal = 0;
 
 	setup_widgets (gcal);
+}
+
+static GtkWidget *
+get_current_page (GnomeCalendar *gcal)
+{
+	return GTK_NOTEBOOK (gcal->notebook)->cur_page->child;
+}
+
+GtkWidget *
+gnome_calendar_next (GnomeCalendar *gcal)
+{
+	GtkWidget *cp = get_current_page (gcal);
+	time_t new_time;
+	
+	if (cp == gcal->week_view)
+		new_time = time_add_week (gcal->current_display, 1);
+	else if (cp == gcal->day_view)
+		new_time = time_add_day (gcal->current_display, 1);
+	else if (cp == gcal->year_view)
+		new_time = time_add_year (gcal->current_display, 1);
+	else
+		g_warning ("Weee!  Where did the penguin go?");
+
 }
 
 GtkWidget *
@@ -104,13 +126,27 @@ gnome_calendar_new (char *title)
 	
 	gtk_window_set_title(GTK_WINDOW(retval), title);
 
+	gcal->current_display = time (NULL);
 	gcal->cal = calendar_new (title);
 	return retval;
+}
+
+void
+gnome_calendar_update_all (GnomeCalendar *cal)
+{
+	gncal_week_view_update (GNCAL_WEEK_VIEW (cal->week_view));
 }
 
 void
 gnome_calendar_load (GnomeCalendar *gcal, char *file)
 {
 	calendar_load (gcal->cal, file);
-	gncal_week_view_update (GNCAL_WEEK_VIEW (gcal->week_view));
+	gnome_calendar_update_all (gcal);
+}
+
+void
+gnome_calendar_add_object  (GnomeCalendar *gcal, iCalObject *obj)
+{
+	calendar_add_object (gcal->cal, obj);
+	gnome_calendar_update_all (gcal);
 }

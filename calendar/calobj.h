@@ -12,11 +12,32 @@
 
 BEGIN_GNOME_DECLS
 
+enum AlarmType {
+	ALARM_MAIL,
+	ALARM_PROGRAM,
+	ALARM_DISPLAY,
+	ALARM_AUDIO
+};
+
+enum AlarmUnit {
+	ALARM_MINUTES,
+	ALARM_HOURS,
+	ALARM_DAYS
+};
+
 typedef struct {
-	char      *alarm_audio_file;
-	char      *alarm_script;
-	char      *alarm_email;
-	char      *alarm_text;	/* Text to be displayed */
+	enum AlarmType type;
+	int            enabled;
+	int            count;
+	enum AlarmUnit units;
+	char           *data;
+
+	/* Widgets */
+	void           *w_count;      /* A GtkEntry */
+	void           *w_enabled;    /* A GtkChecButton */
+	void           *w_timesel;    /* A GtkMenu */
+	void           *w_entry;      /* A GnomeEntryFile/GtkEntry for PROGRAM/MAIL */
+	void           *w_label;
 } CalendarAlarm;
 
 /* Calendar object type */
@@ -65,7 +86,6 @@ typedef struct {
 	time_t        completed;
 	time_t        created;
 	GList         *contact;		/* type: one or more TEXT */
-	char          *description;
 	time_t        dtstamp;
 	time_t        dtstart;
 	time_t        dtend;
@@ -90,10 +110,10 @@ typedef struct {
 	char          *url;
 	time_t        recurid;
 
-	CalendarAlarm *dalarm;
-	CalendarAlarm *aalarm;
-	CalendarAlarm *palarm;
-	CalendarAlarm *malarm;
+	CalendarAlarm dalarm;
+	CalendarAlarm aalarm;
+	CalendarAlarm palarm;
+	CalendarAlarm malarm;
 } iCalObject;
 
 iCalObject *ical_new (char *comment, char *organizer, char *summary);

@@ -13,9 +13,10 @@
 #include <time.h>
 
 
-time_t time_from_isodate (char *str);
+time_t time_from_isodate        (char *str);
 time_t time_from_start_duration (time_t start, char *duration);
-char   *isodate_from_time_t (time_t t);
+char   *isodate_from_time_t     (time_t t);
+int    get_time_t_hour          (time_t t);
 
 /* Returns pointer to a statically-allocated buffer with a string of the form
  * 3am, 4am, 12pm, 08h, 17h, etc.

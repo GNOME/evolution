@@ -57,10 +57,13 @@ init_username (void)
 int
 range_check_hour (int hour)
 {
+	struct tm tm;
+	
 	if (hour < 0)
 		hour = 0;
 	if (hour > 24)
 		hour = 23;
+
 	return hour;
 }
 
@@ -122,10 +125,7 @@ about_calendar_cmd (GtkWidget *widget, void *data)
 void
 display_objedit (GtkWidget *widget, GnomeCalendar *gcal)
 {
-	if (!gcal->event_editor){
-		gcal->event_editor = event_editor_new (NULL);
-		gtk_widget_show (gcal->event_editor);
-	}
+	event_editor_new (gcal, NULL);
 }
 
 void
@@ -149,6 +149,33 @@ close_cmd (GtkWidget *widget, GnomeCalendar *gcal)
 
 	if (active_calendars == 0)
 		gtk_main_quit ();
+}
+
+static GtkWidget *
+get_current_page (GnomeCalendar *gcal)
+{
+	return GTK_NOTEBOOK (gcal->notebook)->cur_page->child;
+}
+
+void
+previous_clicked (GtkWidget *widget, GnomeCalendar *gcal)
+{
+	GtkWidget *current_page = get_current_page (gcal);
+
+	if (current_page == gcal->week_view){
+	}
+}
+
+void
+next_clicked (GtkWidget *widget, GnomeCalendar *gcal)
+{
+	GtkWidget *current_page = get_current_page (gcal);
+}
+
+void
+today_clicked (GtkWidget *widget, GnomeCalendar *gcal)
+{
+	GtkWidget *current_page = get_current_page (gcal);
 }
 
 GnomeUIInfo gnome_cal_file_menu [] = {
@@ -190,13 +217,13 @@ GnomeUIInfo gnome_cal_menu [] = {
 };
 
 GnomeUIInfo gnome_toolbar [] = {
-	{ GNOME_APP_UI_ITEM, N_("Prev"), N_("Previous"), /*previous_clicked*/0, 0, 0,
+	{ GNOME_APP_UI_ITEM, N_("Prev"), N_("Previous"), previous_clicked, 0, 0,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_BACK },
 	
-	{ GNOME_APP_UI_ITEM, N_("Today"), N_("Today"), /*previous_clicked*/0, 0, 0,
+	{ GNOME_APP_UI_ITEM, N_("Today"), N_("Today"), today_clicked, 0, 0,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_BACK },
 	
-	{ GNOME_APP_UI_ITEM, N_("Next"), N_("Next"), /*previous_clicked*/0, 0, 0,
+	{ GNOME_APP_UI_ITEM, N_("Next"), N_("Next"), next_clicked, 0, 0,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_FORWARD },
 
 	GNOMEUIINFO_END

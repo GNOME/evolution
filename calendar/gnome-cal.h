@@ -20,7 +20,14 @@ BEGIN_GNOME_DECLS
 typedef struct {
 	GnomeApp    gnome_app;
 	Calendar    *cal;
+
+	time_t      current_display;
+	
+	GtkWidget   *notebook;
 	GtkWidget   *week_view;
+	GtkWidget   *day_view;
+	GtkWidget   *year_view;
+	GtkWidget   *task_view;
 	void        *event_editor;
 } GnomeCalendar;
 
@@ -31,7 +38,7 @@ typedef struct {
 guint     gnome_calendar_get_type    (void);
 GtkWidget *gnome_calendar_new        (char *title);
 void      gnome_calendar_load        (GnomeCalendar *gcal, char *file);
-
+void      gnome_calendar_add_object  (GnomeCalendar *gcal, iCalObject *obj);
 END_GNOME_DECLS
 
 #endif

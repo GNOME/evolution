@@ -1,3 +1,11 @@
+1998-04-03  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* calobj.c (ical_object_destroy): Full destruction of the object.
+
+	* eventedit.c: Finished the main event editor form;  It still
+	lacks the details and the recurrence bits.  It now adds events
+	and cancels. 
+
 1998-04-03  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* view-utils.c (view_utils_draw_events): The "better" format

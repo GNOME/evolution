@@ -24,6 +24,27 @@ ical_object_new (void)
 	return ico;
 }
 
+static void
+default_alarm (iCalObject *ical, CalendarAlarm *alarm, char *def_mail, enum AlarmType type)
+{
+	alarm->enabled = 0;
+	alarm->type    = type;
+
+	if (type != ALARM_MAIL){
+		alarm->count   = 15;
+		alarm->units   = ALARM_MINUTES;
+	} else {
+		printf ("uno!\n");
+		alarm->count   = 1;
+		alarm->units   = ALARM_DAYS;
+	}
+
+	if (type == ALARM_MAIL)
+		alarm->data = g_strdup (def_mail);
+	else
+		alarm->data = g_strdup ("");
+}
+
 iCalObject *
 ical_new (char *comment, char *organizer, char *summary)
 {
@@ -34,18 +55,43 @@ ical_new (char *comment, char *organizer, char *summary)
 	ico->comment   = g_strdup (comment);
 	ico->organizer = g_strdup (organizer);
 	ico->summary   = g_strdup (summary);
+	ico->class     = g_strdup ("PUBLIC");
 
+	default_alarm  (ico, &ico->dalarm, organizer, ALARM_DISPLAY);
+	default_alarm  (ico, &ico->palarm, organizer, ALARM_PROGRAM);
+	default_alarm  (ico, &ico->malarm, organizer, ALARM_MAIL);
+	default_alarm  (ico, &ico->aalarm, organizer, ALARM_AUDIO);
+	
 	return ico;
 }
 
-#define free_if_defined(x) if (x){ g_free (x); x = 0; }
+static void
+list_free (GList *list)
+{
+	g_list_foreach (list, g_free, 0);
+	g_list_free (list);
+}
 
+#define free_if_defined(x) if (x){ g_free (x); x = 0; }
+#define lfree_if_defined(x) if (x){ list_free (x); x = 0; }
 void
 ical_object_destroy (iCalObject *ico)
 {
-	free_if_defined (ico->comment);
-	free_if_defined (ico->organizer);
-	free_if_defined (ico->summary);
+	/* Regular strings */
+	free_if_defined  (ico->comment);
+	free_if_defined  (ico->organizer);
+	free_if_defined  (ico->summary);
+	free_if_defined  (ico->uid);
+	free_if_defined  (ico->status);
+	free_if_defined  (ico->class);
+	free_if_defined  (ico->url);
+
+	/* Lists */
+	lfree_if_defined (ico->exdate);
+	lfree_if_defined (ico->categories);
+	lfree_if_defined (ico->resources);
+	lfree_if_defined (ico->related);
+	lfree_if_defined (ico->attach);
 	
 	g_free (ico);
 }
@@ -83,6 +129,7 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 		ical->type = ICAL_TODO;
 	else
 		return 0;
+
 	/* uid */
 	if (has (o, VCUniqueStringProp))
 		ical->uid = g_strdup (str_val (vo));
@@ -123,9 +170,9 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 	if (has (o, VCExpDateProp))
 		ical->exdate = set_list (str_val (vo), ",");
 
-	/* description */
+	/* description/comment */
 	if (has (o, VCDescriptionProp))
-		ical->description = g_strdup (str_val (vo));
+		ical->comment = g_strdup (str_val (vo));
 	
 	/* summary */
 	if (has (o, VCSummaryProp))
@@ -142,7 +189,7 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 	if (has (o, VCClassProp))
 		ical->class = g_strdup (str_val (vo));
 	else
-		ical->status = g_strdup ("PUBLIC");
+		ical->class = "PUBLIC";
 
 	/* categories */
 	if (has (o, VCCategoriesProp))
