@@ -38,8 +38,11 @@
 #include <errno.h>
 
 #include "camel-mime-utils.h"
+#include "camel-charset-map.h"
 
+#ifndef CLEAN_DATE
 #include "broken-date-parser.h"
+#endif
 
 #if 0
 int strdup_count = 0;
@@ -67,15 +70,15 @@ static unsigned char tohex[16] = {
 	'8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
 };
 
-static unsigned char camel_mime_special_table[256] = {
-	  5,  5,  5,  5,  5,  5,  5,  5,  5,167,  7,  5,  5, 39,  5,  5,
+static unsigned short camel_mime_special_table[256] = {
+	  5,  5,  5,  5,  5,  5,  5,  5,  5,231,  7,  5,  5, 39,  5,  5,
 	  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,
-	178,128,140,128,128,128,128,128,140,140,128,128,140,128,136,132,
-	128,128,128,128,128,128,128,128,128,128,204,140,140,  4,140,132,
-	140,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,
-	128,128,128,128,128,128,128,128,128,128,128,172,172,172,128,128,
-	128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,
-	128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,  5,
+	 50,192, 76,192,192,192,192,192, 76, 76,192,192, 76,192, 72, 68,
+	192,192,192,192,192,192,192,192,192,192, 76, 76, 76,  4, 76, 68,
+	 76,192,192,192,192,192,192,192,192,192,192,192,192,192,192,192,
+	192,192,192,192,192,192,192,192,192,192,192,108,236,108,192,192,
+	192,192,192,192,192,192,192,192,192,192,192,192,192,192,192,192,
+	192,192,192,192,192,192,192,192,192,192,192,192,192,192,192,  5,
 	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
 	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
 	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
@@ -109,7 +112,7 @@ static unsigned char camel_mime_base64_rank[256] = {
   if any of these change, then the tables above should be regenerated
   by compiling this with -DBUILD_TABLE, and running.
 
-  gcc -o buildtable `glib-config --cflags --libs` -DBUILD_TABLE camel-mime-utils.c
+  gcc -DCLEAN_DATE -o buildtable -I.. `glib-config --cflags --libs` -lunicode -DBUILD_TABLE camel-mime-utils.c
   ./buildtable
 
 */
@@ -120,8 +123,9 @@ enum {
 	IS_SPECIAL	= 1<<3,
 	IS_SPACE	= 1<<4,
 	IS_DSPECIAL	= 1<<5,
-	IS_COLON	= 1<<6,	/* rather wasteful of space ... */
-	IS_QPSAFE	= 1<<7
+	IS_QPSAFE	= 1<<6,
+	IS_ESAFE	= 1<<7,	/* encoded word safe */
+	IS_PSAFE	= 1<<8,	/* encoded word in phrase safe */
 };
 
 #define is_ctrl(x) ((camel_mime_special_table[(unsigned char)(x)] & IS_CTRL) != 0)
@@ -131,8 +135,10 @@ enum {
 #define is_ttoken(x) ((camel_mime_special_table[(unsigned char)(x)] & (IS_TSPECIAL|IS_LWSP|IS_CTRL)) == 0)
 #define is_atom(x) ((camel_mime_special_table[(unsigned char)(x)] & (IS_SPECIAL|IS_SPACE|IS_CTRL)) == 0)
 #define is_dtext(x) ((camel_mime_special_table[(unsigned char)(x)] & IS_DSPECIAL) == 0)
-#define is_fieldname(x) ((camel_mime_special_table[(unsigned char)(x)] & (IS_CTRL|IS_SPACE|IS_COLON)) == 0)
+#define is_fieldname(x) ((camel_mime_special_table[(unsigned char)(x)] & (IS_CTRL|IS_SPACE)) == 0)
 #define is_qpsafe(x) ((camel_mime_special_table[(unsigned char)(x)] & IS_QPSAFE) != 0)
+#define is_especial(x) ((camel_mime_special_table[(unsigned char)(x)] & IS_ESPECIAL) != 0)
+#define is_psafe(x) ((camel_mime_special_table[(unsigned char)(x)] & IS_PSAFE) != 0)
 
 /* only needs to be run to rebuild the tables above */
 #ifdef BUILD_TABLE
@@ -142,11 +148,23 @@ enum {
 #define CHARS_SPECIAL "()<>@,;:\\\".[]"
 #define CHARS_CSPECIAL "()\\\r"	/* not in comments */
 #define CHARS_DSPECIAL "[]\\\r \t"	/* not in domains */
+#define CHARS_ESPECIAL "()<>@,;:\"/[]?.=" /* encoded word specials */
+#define CHARS_PSPECIAL "!*+-/=_" /* encoded word specials */
 
 static void
-header_init_bits(unsigned char bit, unsigned char bitcopy, int remove, unsigned char *vals, int len)
+header_remove_bits(unsigned short bit, unsigned char *vals)
 {
 	int i;
+
+	for (i=0;vals[i];i++)
+		camel_mime_special_table[vals[i]] &= ~ bit;
+}
+
+static void
+header_init_bits(unsigned short bit, unsigned short bitcopy, int remove, unsigned char *vals)
+{
+	int i;
+	int len = strlen(vals);
 
 	if (!remove) {
 		for (i=0;i<len;i++) {
@@ -178,16 +196,23 @@ header_decode_init(void)
 {
 	int i;
 
-	for (i=0;i<256;i++) camel_mime_special_table[i] = 0;
-	for (i=0;i<32;i++) camel_mime_special_table[i] |= IS_CTRL;
+	for (i=0;i<256;i++) {
+		camel_mime_special_table[i] = 0;
+		if (i<32)
+			camel_mime_special_table[i] |= IS_CTRL;
+		if ((i>=33 && i<=60) || (i>=62 && i<=126) || i==32 || i==9)
+			camel_mime_special_table[i] |= IS_QPSAFE|IS_ESAFE;
+		if ((i>='0' && i<='9') || (i>='a' && i<='z') || (i>='A' && i<= 'Z'))
+			camel_mime_special_table[i] |= IS_PSAFE;
+	}
 	camel_mime_special_table[127] = IS_CTRL;
 	camel_mime_special_table[' '] = IS_SPACE;
-	camel_mime_special_table[':'] = IS_COLON;
-	header_init_bits(IS_LWSP, 0, 0, CHARS_LWSP, sizeof(CHARS_LWSP)-1);
-	header_init_bits(IS_TSPECIAL, IS_CTRL, 0, CHARS_TSPECIAL, sizeof(CHARS_TSPECIAL)-1);
-	header_init_bits(IS_SPECIAL, 0, 0, CHARS_SPECIAL, sizeof(CHARS_SPECIAL)-1);
-	header_init_bits(IS_DSPECIAL, 0, FALSE, CHARS_DSPECIAL, sizeof(CHARS_DSPECIAL)-1);
-	for (i=0;i<256;i++) if ((i>=33 && i<=60) || (i>=62 && i<=126) || i==32 || i==9) camel_mime_special_table[i] |= IS_QPSAFE;
+	header_init_bits(IS_LWSP, 0, 0, CHARS_LWSP);
+	header_init_bits(IS_TSPECIAL, IS_CTRL, 0, CHARS_TSPECIAL);
+	header_init_bits(IS_SPECIAL, 0, 0, CHARS_SPECIAL);
+	header_init_bits(IS_DSPECIAL, 0, FALSE, CHARS_DSPECIAL);
+	header_remove_bits(IS_ESAFE, CHARS_ESPECIAL);
+	header_init_bits(IS_PSAFE, 0, 0, CHARS_PSPECIAL);
 }
 
 void
@@ -210,7 +235,7 @@ int main(int argc, char **argv)
 	header_decode_init();
 	base64_init();
 
-	printf("static unsigned char camel_mime_special_table[256] = {\n\t");
+	printf("static unsigned short camel_mime_special_table[256] = {\n\t");
 	for (i=0;i<256;i++) {
 		printf("%3d,", camel_mime_special_table[i]);
 		if ((i&15) == 15) {
@@ -757,8 +782,10 @@ quoted_decode(const unsigned char *in, int len, unsigned char *out)
 }
 
 /* rfc2047 version of quoted-printable */
+/* safemask is the mask to apply to the camel_mime_special_table to determine what
+   characters can safely be included without encoding */
 static int
-quoted_encode(const unsigned char *in, int len, unsigned char *out)
+quoted_encode(const unsigned char *in, int len, unsigned char *out, unsigned short safemask)
 {
 	register const unsigned char *inptr, *inend;
 	unsigned char *outptr;
@@ -769,7 +796,8 @@ quoted_encode(const unsigned char *in, int len, unsigned char *out)
 	outptr = out;
 	while (inptr<inend) {
 		c = *inptr++;
-		if (is_qpsafe(c) && !(c=='_' || c=='?')) {
+		/*if (is_qpsafe(c) && !(c=='_' || c=='?')) {*/
+		if (camel_mime_special_table[c] & safemask) {
 			if (c==' ')
 				c='_';
 			*outptr++=c;
@@ -983,8 +1011,8 @@ static char *encoding_map[] = {
 };
 
 /* FIXME: needs a way to cache iconv opens for different charsets? */
-static
-char *rfc2047_encode_word(const char *in, int len, char *type)
+static void
+rfc2047_encode_word(GString *outstring, const char *in, int len, char *type, unsigned short safemask)
 {
 	unicode_iconv_t ic;
 	char *buffer, *out, *ascii;
@@ -1017,11 +1045,11 @@ char *rfc2047_encode_word(const char *in, int len, char *type)
 	out = ascii;
 	/* should determine which encoding is smaller, and use that? */
 	out += sprintf(out, "=?%s?Q?", type);
-	out += quoted_encode(buffer, enclen, out);
+	out += quoted_encode(buffer, enclen, out, safemask);
 	sprintf(out, "?=");
 
 	d(printf("converted = %s\n", ascii));
-	return g_strdup(ascii);
+	g_string_append(outstring, ascii);
 }
 
 
@@ -1065,13 +1093,18 @@ header_encode_string(const unsigned char *in)
 		}
 		inptr = newinptr;
 		if (unicode_isspace(c)) {
-			if (encoding == 0) {
+			switch (encoding) {
+			case 0:
 				out = g_string_append_len(out, start, inptr-start);
-			} else {
-				char *text = rfc2047_encode_word(start, inptr-start-1, encoding_map[encoding]);
-				out = g_string_append(out, text);
+				break;
+			case 1:
+				rfc2047_encode_word(out, start, inptr-start-1, "ISO-8859-1", IS_ESAFE);
+				break;
+			case 2:
+				rfc2047_encode_word(out, start, inptr-start-1,
+						    camel_charset_best(start, inptr-start-1), IS_ESAFE);
 				out = g_string_append_c(out, c);
-				g_free(text);
+				break;
 			}
 			start = inptr;
 			encoding = 0;
@@ -1082,14 +1115,191 @@ header_encode_string(const unsigned char *in)
 		}
 	}
 	if (inptr-start) {
-		if (encoding == 0) {
+		switch (encoding) {
+		case 0:
 			out = g_string_append_len(out, start, inptr-start);
-		} else {
-			char *text = rfc2047_encode_word(start, inptr-start, encoding_map[encoding]);
-			out = g_string_append(out, text);
-			g_free(text);
+			break;
+		case 1:
+			rfc2047_encode_word(out, start, inptr-start-1, "ISO-8859-1", IS_ESAFE);
+			break;
+		case 2:
+			rfc2047_encode_word(out, start, inptr-start-1,
+					    camel_charset_best(start, inptr-start-1), IS_ESAFE);
+			break;
 		}
 	}
+	outstr = out->str;
+	g_string_free(out, FALSE);
+	return outstr;
+}
+
+/* apply quoted-string rules to a string */
+static void
+quote_word(GString *out, gboolean do_quotes, const char *start, int len)
+{
+	int i, c;
+
+	/* TODO: What about folding on long lines? */
+	if (do_quotes)
+		g_string_append_c(out, '"');
+	for (i=0;i<len;i++) {
+		c = *start++;
+		if (c == '\"' || c=='\\' || c=='\r')
+			g_string_append_c(out, '\\');
+		g_string_append_c(out, c);
+	}
+	if (do_quotes)
+		g_string_append_c(out, '"');
+}
+
+/* incrementing possibility for the word type */
+enum _phrase_word_t {
+	WORD_ATOM,
+	WORD_QSTRING,
+	WORD_2047
+};
+
+struct _phrase_word {
+	const unsigned char *start, *end;
+	enum _phrase_word_t type;
+	int encoding;
+};
+
+/* split the input into words
+   with info about each word
+   merge common word types
+   clean up
+*/
+/* encodes a phrase sequence (different quoting/encoding rules to strings) */
+char *
+header_encode_phrase(const unsigned char *in)
+{
+	GString *out;
+	const unsigned char *inptr = in, *start, *last;
+	int encoding;
+	char *outstr;
+	struct _phrase_word *word, *next;
+	enum _phrase_word_t type;
+	GList *words = NULL, *wordl, *nextl;
+	int count;
+
+	if (in == NULL)
+		return NULL;
+
+	out = g_string_new("");
+
+	/* break the input into words */
+	type = WORD_ATOM;
+	count = 0;
+	last = inptr;
+	start = inptr;
+	encoding = 0;
+	while (inptr && *inptr) {
+		unicode_char_t c;
+		const char *newinptr;
+		newinptr = unicode_get_utf8(inptr, &c);
+		if (newinptr == NULL) {
+			w(g_warning("Invalid UTF-8 sequence encountered (pos %d, char '%c'): %s", (inptr-in), inptr[0], in));
+			inptr++;
+			continue;
+		}
+		inptr = newinptr;
+		/* save this word out, multiple whitespace is not explicitly counted (?) */
+		if (unicode_isspace(c)) {
+			if (count > 0) {
+				word = g_malloc0(sizeof(*word));
+				word->start = start;
+				word->end = last;
+				word->type = type;
+				word->encoding = encoding;
+				words = g_list_append(words, word);
+				count = 0;
+			}
+			start = inptr;
+			type = WORD_ATOM;
+			encoding = 0;
+		} else {
+			count++;
+			if (c<128) {
+				if (!is_atom(c))
+					type = MAX(type, WORD_QSTRING);
+			} else if (c>127 && c < 256) {
+				type = WORD_2047;
+				encoding = MAX(encoding, 1);
+			} else if (c >=256) {
+				type = WORD_2047;
+				encoding = MAX(encoding, 2);
+			}
+		}
+		last = inptr;
+	}
+	if (count > 0) {
+		word = g_malloc0(sizeof(*word));
+		word->start = start;
+		word->end = last;
+		word->type = type;
+		word->encoding = encoding;
+		words = g_list_append(words, word);
+	}
+
+	/* now scan the list, checking for words of similar types that can be merged */
+	wordl = words;
+	while (wordl) {
+		word = wordl->data;
+		/* leave atoms as atoms (unless they're surrounded by quoted words??) */
+		if (word->type != WORD_ATOM) {
+			nextl = g_list_next(wordl);
+			while (nextl) {
+				next = nextl->data;
+				/* merge nodes of the same (or lower?) type*/
+				if (word->type == next->type || (next->type < word->type && word->type < WORD_2047) ) {
+					word->end = next->end;
+					words = g_list_remove_link(words, nextl);
+					g_free(next);
+					nextl = g_list_next(wordl);
+				} else {
+					break;
+				}
+			}
+		}
+		wordl = g_list_next(wordl);
+	}
+
+	/* output words now with spaces between them */
+	wordl = words;
+	while (wordl) {
+		word = wordl->data;
+		switch (word->type) {
+		case WORD_ATOM:
+			out = g_string_append_len(out, word->start, word->end-word->start);
+			break;
+		case WORD_QSTRING:
+			quote_word(out, TRUE, word->start, word->end-word->start);
+			break;
+		case WORD_2047:
+			if (word->encoding == 1)
+				rfc2047_encode_word(out, word->start, word->end-word->start, "ISO-8859-1", IS_PSAFE);
+			else
+				rfc2047_encode_word(out, word->start, word->end-word->start,
+						    camel_charset_best(word->start, word->end-word->start), IS_PSAFE);
+			break;
+		}
+
+		/* copy across the right number of spaces between words */
+		nextl = g_list_next(wordl);
+		if (nextl) {
+			int i;
+			next = nextl->data;
+			for (i=next->start-word->end;i>0;i--)
+				out = g_string_append_c(out, ' ');
+		}
+
+		g_free(word);
+		wordl = g_list_next(wordl);
+	}
+	/* and we no longer need the list */
+	g_list_free(words);
+
 	outstr = out->str;
 	g_string_free(out, FALSE);
 	return outstr;
@@ -1826,10 +2036,6 @@ header_address_decode(const char *in)
 
 	d(printf("decoding To: '%s'\n", in));
 
-#ifndef NO_WARNINGS
-#warning header_to_decode needs to return some structure
-#endif
-
 	if (in == NULL)
 		return NULL;
 
@@ -2165,19 +2371,19 @@ header_decode_date(const char *in, int *saveoffset)
 			if (*inptr == ',') {
 				inptr++;
 			} else {
-				gchar *newdate;
-				
+#ifndef CLEAN_DATE
+				char *newdate;
+
 				w(g_warning("day not followed by ',' its probably a broken mail client, so we'll ignore its date entirely"));
 				printf ("Giving it one last chance...\n");
 				newdate = parse_broken_date (in);
 				if (newdate) {
 					printf ("Got: %s\n", newdate);
-					if (saveoffset)
-						*saveoffset = 0;					
-					t = header_decode_date (newdate, NULL);
+					t = header_decode_date (newdate, saveoffset);
 					g_free (newdate);
+					return t;
 				}
-				
+#endif
 				if (saveoffset)
 					*saveoffset = 0;
 				return 0;
@@ -2300,7 +2506,7 @@ header_raw_append_parse(struct _header_raw **list, const char *header, int offse
 	char *name;
 
 	in = header;
-	while (is_fieldname(*in))
+	while (is_fieldname(*in) || *in==':')
 		in++;
 	fieldlen = in-header;
 	while (is_lwsp(*in))
@@ -2629,10 +2835,67 @@ header_address_list_format(struct _header_address *a)
 	return ret;
 }
 
+/* simple header folding */
+/* note: assumes the input has not already been folded */
+char *
+header_fold(const char *in)
+{
+	int len, outlen, i;
+	const char *inptr = in, *space;
+	GString *out;
+	char *ret;
+
+	len = strlen(in);
+	if (len <= CAMEL_FOLD_SIZE)
+		return g_strdup(in);
+
+	out = g_string_new("");
+	outlen = 0;
+	while (*inptr) {
+		space = strchr(inptr, ' ');
+		if (space) {
+			len = space-inptr+1;
+		} else {
+			len = strlen(inptr);
+		}
+		if (outlen + len > CAMEL_FOLD_SIZE) {
+			g_string_append(out, "\n\t");
+			outlen = 1;
+			/* check for very long words, just cut them up */
+			while (outlen+len > CAMEL_FOLD_SIZE) {
+				for (i=0;i<CAMEL_FOLD_SIZE-outlen;i++)
+					g_string_append_c(out, inptr[i]);
+				inptr += CAMEL_FOLD_SIZE-outlen;
+				len -= CAMEL_FOLD_SIZE-outlen;
+				g_string_append(out, "\n\t");
+				outlen = 1;
+			}
+		}
+		outlen += len;
+		for (i=0;i<len;i++) {
+			g_string_append_c(out, inptr[i]);
+		}
+		inptr += len;
+	}
+	ret = out->str;
+	g_string_free(out, FALSE);
+	return ret;	
+}
+
 #ifdef BUILD_TABLE
 
 /* for debugging tests */
 /* should also have some regression tests somewhere */
+
+void test_phrase(const char *in)
+{
+	printf("'%s' -> '%s'\n", in, header_encode_phrase(in));
+}
+
+void test_fold(const char *in)
+{
+	printf("'%s'\n ->\n '%s'\n", in, header_fold(in));
+}
 
 void run_test(void)
 {
@@ -2644,21 +2907,49 @@ void run_test(void)
 	zucchi@zedzone.mmc.com.au, \"Foo bar\" <zed@zedzone>,
 	<frob@frobzone>";
 
+#if 0
 	header_to_decode(to);
 
-	header_mime_decode("1.0");
-	header_mime_decode("1.3 (produced by metasend V1.0)");
-	header_mime_decode("(produced by metasend V1.0) 5.2");
-	header_mime_decode("7(produced by metasend 1.0) . (produced by helix/send/1.0) 9 . 5");
-	header_mime_decode("3.");
-	header_mime_decode(".");
-	header_mime_decode(".5");
-	header_mime_decode("c.d");
-	header_mime_decode("");
+	header_mime_decode("1.0", 0, 0);
+	header_mime_decode("1.3 (produced by metasend V1.0)", 0, 0);
+	header_mime_decode("(produced by metasend V1.0) 5.2", 0, 0);
+	header_mime_decode("7(produced by metasend 1.0) . (produced by helix/send/1.0) 9 . 5", 0, 0);
+	header_mime_decode("3.", 0, 0);
+	header_mime_decode(".", 0, 0);
+	header_mime_decode(".5", 0, 0);
+	header_mime_decode("c.d", 0, 0);
+	header_mime_decode("", 0, 0);
 
 	header_msgid_decode(" <\"L3x2i1.0.Nm5.Xd-Wu\"@lists.redhat.com>");
 	header_msgid_decode("<200001180446.PAA02065@beaker.htb.com.au>");
+#endif
 
+	test_fold("Header: This is a long header that should be folded properly at the right place, or so i hope.  I should probably set the fold value to something lower for testing");
+	test_fold("Header: nowletstryfoldingsomethingthatistoolongtofold,iwonderwhatitshoulddointsteadtofoldit?hmm,iguessicanjusttruncateitatsomepointortrytorefoldthepreviousstuff(yuck)tofit");
+	test_phrase("Michael Zucchi (NotZed)");
+	test_phrase("Zucchi, ( \\ NotZed \\ ) Michael");
+	{
+		int ic;
+		char *outbuf, *inbuf, buffer[256];
+		int inlen, outlen;
+
+		outlen = 256;
+		inbuf = "Dra¾en Kaèar";
+		inlen = strlen(inbuf);
+		outbuf = buffer;
+		ic = unicode_iconv_open("UTF-8", "ISO-8859-1");
+		unicode_iconv(ic, &inbuf, &inlen, &outbuf, &outlen);
+		test_phrase(buffer);
+
+		outlen = 256;
+		inbuf = "Tomasz K³oczko";
+		inlen = strlen(inbuf);
+		outbuf = buffer;
+		ic = unicode_iconv_open("UTF-8", "ISO-8859-2");
+		unicode_iconv(ic, &inbuf, &inlen, &outbuf, &outlen);
+		test_phrase(buffer);
+
+	}
 }
 
 #endif /* BUILD_TABLE */

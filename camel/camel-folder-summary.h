@@ -167,6 +167,7 @@ void camel_folder_summary_set_build_content(CamelFolderSummary *, gboolean state
 
 guint32  camel_folder_summary_next_uid        (CamelFolderSummary *s);
 char    *camel_folder_summary_next_uid_string (CamelFolderSummary *s);
+void 	 camel_folder_summary_set_uid	      (CamelFolderSummary *s, guint32 uid);
 
 /* load/save the summary in its entirety */
 int camel_folder_summary_load(CamelFolderSummary *);

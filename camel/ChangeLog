@@ -1,3 +1,53 @@
+2000-09-28  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-mime-utils.c (header_fold): New function to fold headers.
+
+2000-09-27  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-mime-parser.c (folder_scan_header): If we had an empty
+	header, then it must be end of the headers too.
+	(folder_scan_init): No we dont need to init the outbuf with a nul
+	terminator.
+
+	* camel-folder-summary.c (camel_folder_summary_set_uid): New
+	function to reset the uid to a higher value.
+
+	* providers/mbox/camel-mbox-summary.c (camel_mbox_summary_sync):
+	"something failed (yo!)" what sort of crap is this?  Fixed all the
+	indenting again, what wanker keeps running stuff through indent?
+	(message_info_new): Check the uid we loaded off the disk, if it
+	existed already, assign a new one.  If it didn't then make sure
+	the nextuid is higher.
+
+	* camel-charset-map.c: New file, used to build a large unicode
+	decoding mapping table, and use it to determine what is the
+	lowest charset a given word can be encoded with.  Uses tables from
+	libunicode's source.
+
+	* camel-internet-address.c (internet_encode): Use
+	header_phrase_encode to properly encode the fullname, as required.
+	refixed indenting.  Who keeps doing that?
+	(camel_internet_address_find_address): Changed fatal return/warnings
+	into assertions.
+
+	* camel-mime-utils.c (header_raw_append_parse): Check : explicitly
+	(removed from is_fieldname() macro).
+	(camel_mime_special_table): Changed to short, so we can represent
+	more bit types.
+	(quoted_encode): Take a mask of the safe chars for this encoding.
+	(header_address_decode): Removed a #warning that makes no sense
+	anymore.
+	(header_decode_date): Fixed the 'broken date' parser code, if it
+	ever decoded it it just threw away the result.
+	(header_encode_string): Use better charset matching for encoding
+	strings as well.
+
+2000-08-31  Not Zed  <NotZed@HelixCode.com>
+
+	* providers/mh/camel-mh-summary.c (camel_mh_summary_sync): Save
+	the index if we do a sync.
+	(camel_mh_summary_check): Save the index here too.  Probably.
+
 2000-09-27  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-store.c (camel_imap_command_extended):

@@ -25,6 +25,9 @@
 #include <glib.h>
 #include <time.h>
 
+/* maximum size of a line from header_fold() */
+#define CAMEL_FOLD_SIZE (72)
+
 /* a list of references for this message */
 struct _header_references {
 	struct _header_references *next;
@@ -131,12 +134,18 @@ void header_raw_replace(struct _header_raw **list, const char *name, const char 
 void header_raw_remove(struct _header_raw **list, const char *name);
 void header_raw_clear(struct _header_raw **list);
 
+/* fold a header */
+char *header_fold(const char *in);
+
 /* decode a header which is a simple token */
 char *header_token_decode(const char *in);
 
 /* decode/encode a string type, like a subject line */
 char *header_decode_string(const char *in);
 char *header_encode_string(const unsigned char *in);
+
+/* encode a phrase, like the real name of an address */
+char *header_encode_phrase(const unsigned char *in);
 
 /* decode an email date field into a GMT time, + optional offset */
 time_t header_decode_date(const char *in, int *saveoffset);

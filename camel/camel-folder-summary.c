@@ -251,10 +251,15 @@ guint32 camel_folder_summary_next_uid(CamelFolderSummary *s)
 	return uid;
 }
 
-char *
-camel_folder_summary_next_uid_string (CamelFolderSummary *s)
+void camel_folder_summary_set_uid(CamelFolderSummary *s, guint32 uid)
 {
-	return g_strdup_printf ("%u", camel_folder_summary_next_uid (s));
+	s->nextuid = MAX(s->nextuid, uid);
+}
+
+char *
+camel_folder_summary_next_uid_string(CamelFolderSummary *s)
+{
+	return g_strdup_printf("%u", camel_folder_summary_next_uid(s));
 }
 
 /* loads the content descriptions, recursively */
@@ -388,7 +393,7 @@ void camel_folder_summary_add(CamelFolderSummary *s, CamelMessageInfo *info)
 		return;
 retry:
 	if (info->uid == NULL) {
-		info->uid = camel_folder_summary_next_uid_string (s);
+		info->uid = camel_folder_summary_next_uid_string(s);
 	}
 	if (g_hash_table_lookup(s->messages_uid, info->uid)) {
 		g_warning("Trying to insert message with clashing uid (%s).  new uid re-assigned", info->uid);
@@ -1206,7 +1211,7 @@ summary_build_content_info(CamelFolderSummary *s, CamelMimeParser *mp)
 		if (p->index && header_content_type_is(ct, "text", "*")) {
 			char *encoding;
 			const char *charset;
-			
+
 			d(printf("generating index:\n"));
 			
 			encoding = header_content_encoding_decode(camel_mime_parser_header(mp, "content-transfer-encoding", NULL));

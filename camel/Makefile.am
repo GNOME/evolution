@@ -55,6 +55,7 @@ libcamel_la_SOURCES = 				\
 	camel-transport.c			\
 	camel-uid-cache.c			\
 	camel-url.c				\
+	camel-charset-map.c			\
 	camel.c					\
 	gmime-content-field.c			\
 	gstring-util.c				\

@@ -42,10 +42,10 @@
 #include "camel-stream.h"
 #include "camel-seekable-stream.h"
 
-#define r(x)
-#define h(x)
-#define c(x)
-#define d(x)
+#define r(x) 
+#define h(x) 
+#define c(x) 
+#define d(x) 
 
 /*#define PURIFY*/
 
@@ -282,7 +282,6 @@ static void header_append_mempool(struct _header_scan_state *s, struct _header_s
 static void camel_mime_parser_class_init (CamelMimeParserClass *klass);
 static void camel_mime_parser_init       (CamelMimeParser *obj);
 
-#if d(!)0
 static char *states[] = {
 	"HSCAN_INITIAL",
 	"HSCAN_FROM",		/* got 'From' line */
@@ -301,8 +300,6 @@ static char *states[] = {
 	"HSCAN_MULTIPART_END",
 	"HSCAN_MESSAGE_END",
 };
-#endif
-
 
 static CamelObjectClass *camel_mime_parser_parent;
 
@@ -986,8 +983,6 @@ header_append_mempool(struct _header_scan_state *s, struct _header_scan_stack *h
 	struct _header_raw *l, *n;
 	char *content;
 
-	d(printf("Header: %s: %s\n", name, value));
-
 	content = strchr(header, ':');
 	if (content) {
 		register int len;
@@ -1125,14 +1120,21 @@ retry:
 				s->midline = FALSE;
 			}
 
+			h(printf("midline = %s\n", s->midline?"TRUE":"FALSE"));
 			h(printf("outbuf[0] = %02x '%c' oubuf[1] = %02x '%c'\n",
 				 s->outbuf[0], isprint(s->outbuf[0])?s->outbuf[0]:'.',
 				 s->outbuf[1], isprint(s->outbuf[1])?s->outbuf[1]:'.'));
+			h(printf("inptr[0] = %02x '%c' inptr[1] = %02x '%c'\n",
+				 inptr[0], isprint(inptr[0])?inptr[0]:'.',
+				 inptr[1], isprint(inptr[1])?inptr[1]:'.'));
 
 			if (!s->midline
 			    && !(inptr[0] == ' ' || inptr[0] == '\t')) {
-				if (s->outbuf[0] == '\n'
+				h(printf("ok, checking\n"));
+				if (s->outbuf == s->outptr
+				    || s->outbuf[0] == '\n'
 				    || (s->outbuf[0] == '\r' && s->outbuf[1]=='\n')) {
+					h(printf("header done?\n"));
 					goto header_done;
 				}
 
@@ -1141,7 +1143,7 @@ retry:
 					s->outptr--;
 				s->outptr[0] = 0;
 				
-				d(printf("header %.10s at %d\n", s->outbuf, s->header_start));
+				d(printf("header '%.10s' at %d\n", s->outbuf, s->header_start));
 				
 				header_raw_append_parse(&h->headers, s->outbuf, s->header_start);
 				
@@ -1218,7 +1220,7 @@ folder_scan_content(struct _header_scan_state *s, int *lastone, char **data, int
 	struct _header_scan_stack *part, *overpart = s->parts;
 	int already_packed = FALSE;
 
-	/*printf("scanning content\n");*/
+	c(printf("scanning content\n"));
 
 	/* FIXME: this info should be cached ? */
 	part = s->parts;
@@ -1368,7 +1370,6 @@ folder_scan_init(void)
 	s->stream = NULL;
 
 	s->outbuf = g_malloc(1024);
-	s->outbuf[0] = '\0';
 	s->outptr = s->outbuf;
 	s->outend = s->outbuf+1024;
 
@@ -1719,7 +1720,8 @@ int main(int argc, char **argv)
 			perror("Cannot open mailbox");
 			exit(1);
 		}
-		s = folder_scan_init(fd);
+		s = folder_scan_init();
+		folder_scan_init_with_fd(s, fd);
 		s->scan_from = FALSE;
 #if 0
 		h = g_malloc0(sizeof(*h));
@@ -1734,7 +1736,9 @@ int main(int argc, char **argv)
 				if (s->parts->content_type
 				    && (charset = header_content_type_param(s->parts->content_type, "charset"))) {
 					if (strcasecmp(charset, "us-ascii")) {
+#if 0
 						folder_push_filter_charset(s, "UTF-8", charset);
+#endif
 					} else {
 						charset = NULL;
 					}
@@ -1742,39 +1746,55 @@ int main(int argc, char **argv)
 					charset = NULL;
 				}
 
-				encoding = header_raw_find(&s->parts->headers, "Content-transfer-encoding");
+				encoding = header_raw_find(&s->parts->headers, "Content-transfer-encoding", 0);
 				printf("encoding = '%s'\n", encoding);
 				if (encoding && !strncasecmp(encoding, " base64", 7)) {
 					printf("adding base64 filter\n");
 					attachname = g_strdup_printf("attach.%d.%d", i, attach++);
+#if 0
 					folder_push_filter_save(s, attachname);
+#endif
 					g_free(attachname);
+#if 0
 					folder_push_filter_mime(s, 0);
+#endif
 				}
 				if (encoding && !strncasecmp(encoding, " quoted-printable", 17)) {
 					printf("adding quoted-printable filter\n");
 					attachname = g_strdup_printf("attach.%d.%d", i, attach++);
+#if 0
 					folder_push_filter_save(s, attachname);
+#endif
 					g_free(attachname);
+#if 0
 					folder_push_filter_mime(s, 1);
+#endif
 				}
 
 				break;
 			case HSCAN_BODY:
+				printf("got body %d '%.*s'\n",  len, len, data);
 				break;
 			case HSCAN_BODY_END:
+				printf("end body %d '%.*s'\n",  len, len, data);
 				if (encoding && !strncasecmp(encoding, " base64", 7)) {
 					printf("removing filters\n");
+#if 0
 					folder_filter_pull(s);
 					folder_filter_pull(s);
+#endif
 				}
 				if (encoding && !strncasecmp(encoding, " quoted-printable", 17)) {
 					printf("removing filters\n");
+#if 0
 					folder_filter_pull(s);
 					folder_filter_pull(s);
+#endif
 				}
 				if (charset) {
+#if 0
 					folder_filter_pull(s);
+#endif
 					charset = NULL;
 				}
 				encoding = NULL;

@@ -235,6 +235,13 @@ int		camel_mh_summary_check(CamelMhSummary * mhs, int forceindex)
 	g_hash_table_foreach(left, (GHFunc)remove_summary, mhs);
 	g_hash_table_destroy(left);
 
+	/* force a save of the index, just to make sure */
+	/* note this could be expensive so possibly shouldn't be here
+	   as such */
+	if (mhs->index) {
+		ibex_save(mhs->index);
+	}
+
 	return 0;
 }
 
@@ -248,6 +255,9 @@ int		camel_mh_summary_sync(CamelMhSummary * mhs, int expunge, CamelException *ex
 
 	printf("summary_sync(expunge=%s)\n", expunge?"true":"false");
 
+	if (mhs->index) {
+		ibex_save(mhs->index);
+	}
 	if (!expunge)
 		return 0;
 
