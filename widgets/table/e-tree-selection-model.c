@@ -462,7 +462,7 @@ etsm_node_removed (ETreeModel *etm, ETreePath parent, ETreePath child, int old_p
 }
 
 static void
-etsm_node_deleted (ETreeModel *etm, ETreePath parent, ETreePath child, int old_position, ETreeSelectionModel *etsm)
+etsm_node_deleted (ETreeModel *etm, ETreePath child, ETreeSelectionModel *etsm)
 {
 	clear_tree (etsm, etm);
 	etsm_unfreeze (etsm);
