@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-09-08 11:12+0200\n"
-"PO-Revision-Date: 2004-09-10 03:07+0300\n"
+"PO-Revision-Date: 2004-09-12 17:39+0300\n"
 "Last-Translator: Ayman Hourieh <aymanh@gmail.com>\n"
 "Language-Team: Arabic <support@arabeyes.org>\n"
 "MIME-Version: 1.0\n"
@@ -86,7 +86,7 @@ msgid ""
 msgstr ""
 "تأكّد أن كلمة السّر الخاصّة بك مهجّاة بشكلٍ صحيح و أنّك تستخدم طريقة تسجيل دخولٍ "
 "مدعومة. تذكّر أن الكثير من كلمات السّر حسّاسة لحجم الأحرف؛ قد يكون زر قفل "
-"الحروف الكبيرة (caps lock) منشّطاً لديك."
+"الحروف الكبيرة (caps lock( منشّطاً لديك."
 
 #. addressbook:ldap-search-base primary
 #: addressbook/addressbook-errors.xml.h:10
@@ -210,7 +210,7 @@ msgstr "لا يمكن حفظ المراسَل (أو المراسلين)."
 #. addressbook:save-error secondary
 #: addressbook/addressbook-errors.xml.h:49
 msgid "Error saving contacts to {0}: {1}"
-msgstr "خطأ أثناء حفظ المراسَلين في {0}: {1}"
+msgstr "خطأ أثناء حفظ المراسَلين في {0}: {1{"
 
 #. addressbook:backend-died primary
 #: addressbook/addressbook-errors.xml.h:51
@@ -384,6 +384,10 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
+"تغيّر موقع وبنية مجلّدات مراسلي إيفُليوشِن "
+"منذ الإصدار 1.x.\n"
+"\n"
+"الرّجاء الانتظار بينما ينزّح إيفُليوشِن مجلّداتك..."
 
 #: addressbook/gui/component/addressbook-migrate.c:1137
 msgid ""
@@ -391,6 +395,9 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
+"تغيّرت هيئة مراسلي القائمة البريدية.\n"
+"\n"
+"الرجاء الانتظار بينما ينزّح إيفُليوشِن مجلّداتك..."
 
 #: addressbook/gui/component/addressbook-migrate.c:1146
 msgid ""
@@ -398,6 +405,9 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
+"تغيّرت الطريقة تخزين إيفُليوشِن لأرقام الهاتف.\n"
+"\n"
+"الرجاء الانتظار بينما ينزّح إيفُليوشِن مجلّداتك..."
 
 #: addressbook/gui/component/addressbook-migrate.c:1156
 msgid ""
@@ -405,6 +415,9 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your Pilot Sync data..."
 msgstr ""
+"تغيّر سجل تغيّر تزامن بالم و ملفات الخارطة لإيفُليوشِن.\n"
+"\n"
+"الرجاء الانتظار بينما ينزّح إيفُليوشِن بيانات تزامن بالم الخاصّة بك..."
 
 #: addressbook/gui/component/addressbook-view.c:711
 #, c-format
@@ -3168,7 +3181,7 @@ msgstr "إختبار الجزْر"
 #: addressbook/printing/test-contact-print-style-editor.c:54
 #: addressbook/printing/test-print.c:53
 msgid "Copyright (C) 2000, Ximian, Inc."
-msgstr "جمسع الحقوق محفوظة (C) 2000، شركة زيميان."
+msgstr "جميع الحقوق محفوظة (C) 2000، شركة زيميان."
 
 #: addressbook/gui/widgets/test-reflow.c:122
 msgid "This should test the reflow canvas item"
@@ -3743,14 +3756,14 @@ msgstr "أدخل كلمة السّر"
 
 #: calendar/conduits/calendar/calendar-conduit.c:246
 msgid "Split Multi-Day Events:"
-msgstr "تجزأة أحداث متعدّدة في اليوم الواحد:"
+msgstr "تجزئة أحداث متعدّدة في اليوم الواحد:"
 
 #: calendar/conduits/calendar/calendar-conduit.c:1356
 #: calendar/conduits/calendar/calendar-conduit.c:1357
 #: calendar/conduits/todo/todo-conduit.c:879
 #: calendar/conduits/todo/todo-conduit.c:880
 msgid "Could not start evolution-data-server"
-msgstr "تعذّر تشغيل نادل بيانات إيفوليوشن (evolution-data-server)"
+msgstr "تعذّر تشغيل نادل بيانات إيفوليوشن (evolution-data-server("
 
 #: calendar/conduits/calendar/calendar-conduit.c:1465
 #: calendar/conduits/calendar/calendar-conduit.c:1468
@@ -6816,7 +6829,11 @@ msgid ""
 "Evolution 1.x.\n"
 "\n"
 "Please be patient while Evolution migrates your folders..."
-msgstr "..."
+msgstr ""
+"تغيّر موقع وبنية مجلّدات مهام إيفُليوشِن "
+"منذ الإصدار 1.x.\n"
+"\n"
+"الرّجاء الانتظار بينما ينزّح إيفُليوشِن مجلّداتك..."
 
 #: calendar/gui/migration.c:154
 msgid ""
@@ -6825,6 +6842,10 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
+"تغيّر موقع وبنية مجلّدات رزنامة إيفُليوشِن "
+"منذ الإصدار 1.x.\n"
+"\n"
+"الرّجاء الانتظار بينما ينزّح إيفُليوشِن مجلّداتك..."
 
 #: calendar/gui/migration.c:380
 msgid "Birthdays & Anniversaries"
@@ -7177,7 +7198,7 @@ msgstr "طبع المهام"
 
 #: calendar/gui/weekday-picker.c:326
 msgid "SMTWTFS"
-msgstr ""
+msgstr "س أ إ ث أ خ ج"
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:1
 msgid "Evolution Calendar intelligent importer"
@@ -8916,11 +8937,11 @@ msgstr "فشل جلب الرّسالة"
 
 #: camel/camel-filter-search.c:386
 msgid "Invalid arguments to (system-flag)"
-msgstr "متغيّرات غير سليمة لـ (system-flag)"
+msgstr "متغيّرات غير سليمة لـ (system-flag("
 
 #: camel/camel-filter-search.c:401
 msgid "Invalid arguments to (user-tag)"
-msgstr "متغيّرات غير سليمة لـ (user-tag)"
+msgstr "متغيّرات غير سليمة لـ (user-tag("
 
 #: camel/camel-filter-search.c:549
 #, c-format
@@ -8961,7 +8982,7 @@ msgstr "(match-threads) غير مسموح به ضمن match-all"
 
 #: camel/camel-folder-search.c:758 camel/camel-folder-search.c:762
 msgid "(match-threads) requires a match type string"
-msgstr ""
+msgstr "(match-threads) مطلوب ضمن سلسلة من نوع مطابقة"
 
 #: camel/camel-folder-search.c:784
 msgid "(match-threads) expects an array result"
@@ -9005,7 +9026,7 @@ msgstr "جاري تعلّم النّفاية"
 
 #: camel/camel-folder.c:1682
 msgid "Learning non-junk"
-msgstr ""
+msgstr "تعلّم غير النفايات"
 
 #: camel/camel-folder.c:1701
 msgid "Filtering new message(s)"
@@ -9574,7 +9595,7 @@ msgstr "لا يمكن إنشاء رسالة CMS"
 
 #: camel/camel-smime-context.c:272
 msgid "Cannot create CMS signedData"
-msgstr ""
+msgstr "غير قادر على إنشاء بيانات CMS موقّعة"
 
 #: camel/camel-smime-context.c:278
 msgid "Cannot attach CMS signedData"
@@ -9586,7 +9607,7 @@ msgstr "لا يمكن إرفاق بيانات CMS"
 
 #: camel/camel-smime-context.c:291
 msgid "Cannot create CMS SignerInfo"
-msgstr ""
+msgstr "غير قادر على إنشاء معلومات موقّع CMS"
 
 #: camel/camel-smime-context.c:297
 msgid "Cannot find cert chain"
@@ -9594,7 +9615,7 @@ msgstr "لا أستطيع إيجاد سلسلة الشّهادة"
 
 #: camel/camel-smime-context.c:303
 msgid "Cannot add CMS SigningTime"
-msgstr ""
+msgstr "غير قادر على إضافة وقت توقيع CMS"
 
 #: camel/camel-smime-context.c:325 camel/camel-smime-context.c:337
 #, c-format
@@ -9603,11 +9624,11 @@ msgstr "شهادة التّشفير لـ'%s' غير موجودة"
 
 #: camel/camel-smime-context.c:344
 msgid "Cannot add SMIMEEncKeyPrefs attribute"
-msgstr ""
+msgstr "غير قادر على إضافة صفة SMIMEEncKeyPrefs"
 
 #: camel/camel-smime-context.c:349
 msgid "Cannot add MS SMIMEEncKeyPrefs attribute"
-msgstr ""
+msgstr "غير قادر على إضافة صفة MS SMIMEEncKeyPrefs"
 
 #: camel/camel-smime-context.c:354
 msgid "Cannot add encryption certificate"
@@ -9615,7 +9636,7 @@ msgstr "لا يمكن إضافة شهادة التّشفير"
 
 #: camel/camel-smime-context.c:360
 msgid "Cannot add CMS SignerInfo"
-msgstr ""
+msgstr "غير قادر على إضافة معلومات موقّع CMS"
 
 #: camel/camel-smime-context.c:430 camel/camel-smime-context.c:877
 msgid "Cannot create encoder context"
@@ -9675,7 +9696,7 @@ msgstr "لا توجد بيانات موقّعة في الإمضاء"
 
 #: camel/camel-smime-context.c:576
 msgid "Digests missing from enveloped data"
-msgstr ""
+msgstr "الخلاصات مفقودة من معلومات المغلّف"
 
 #: camel/camel-smime-context.c:589 camel/camel-smime-context.c:599
 msgid "Cannot calculate digests"
@@ -9691,15 +9712,15 @@ msgstr "فشل استيراد الشّهادة"
 
 #: camel/camel-smime-context.c:628
 msgid "Certificate only message, cannot verify certificates"
-msgstr ""
+msgstr "رسالة بشهادة فقط، غير قادر على تحرّي الشّهادات"
 
 #: camel/camel-smime-context.c:631
 msgid "Certificate only message, certificates imported and verified"
-msgstr ""
+msgstr "رسالة بشهادة فقط، تمّ استيراد و تحرّي الشّهادات"
 
 #: camel/camel-smime-context.c:635
 msgid "Cannot find signature digests"
-msgstr ""
+msgstr "لا يمكن إيجاد خلاصات التّوقيع"
 
 #: camel/camel-smime-context.c:651
 #, c-format
@@ -9717,12 +9738,12 @@ msgstr "لا يمكن إيجاد الشّهادة لـ `%s'"
 
 #: camel/camel-smime-context.c:811
 msgid "Cannot find common bulk encryption algorithm"
-msgstr ""
+msgstr "غير قادر على إيجاد خوارزميّة تّشفير مشتركة"
 
 #. PORT_GetError(); ??
 #: camel/camel-smime-context.c:820
 msgid "Cannot allocate slot for encryption bulk key"
-msgstr ""
+msgstr "غير قادر على تخصيص حيّز لمفتاح التّشفير"
 
 #: camel/camel-smime-context.c:831
 msgid "Cannot create CMS Message"
@@ -9730,15 +9751,15 @@ msgstr "لا يمكن إنشاء رسالة CMS"
 
 #: camel/camel-smime-context.c:837
 msgid "Cannot create CMS EnvelopedData"
-msgstr ""
+msgstr "لا أستطيع إنشاء بيانات مغلّف CMS"
 
 #: camel/camel-smime-context.c:843
 msgid "Cannot attach CMS EnvelopedData"
-msgstr ""
+msgstr "لا أستطيع إرفاق بيانات مغلّف CMS"
 
 #: camel/camel-smime-context.c:849
 msgid "Cannot attach CMS data object"
-msgstr ""
+msgstr "لا أستطيع إرفاق بيانات كائن CMS"
 
 #: camel/camel-smime-context.c:858
 msgid "Cannot create CMS RecipientInfo"
@@ -9746,7 +9767,7 @@ msgstr "لا يمكن إنشاء معلومات مستلم CMS"
 
 #: camel/camel-smime-context.c:863
 msgid "Cannot add CMS RecipientInfo"
-msgstr ""
+msgstr "لا يمكن إضافة معلومات مستقبل CMS"
 
 #: camel/camel-smime-context.c:888
 msgid "Failed to add data to encoder"
@@ -9759,7 +9780,7 @@ msgstr "فشل فاكّ الترميز، خطأ %d"
 
 #: camel/camel-smime-context.c:982
 msgid "S/MIME Decrypt: No encrypted content found"
-msgstr ""
+msgstr "فاك تشفير S/MIME: لا يوجد محتوى مشفّر"
 
 #: camel/camel-smime-context.c:1009
 msgid "import keys: unimplemented"
@@ -10075,7 +10096,7 @@ msgstr "تفقّد الرّسائل الجديدة بحثاً عن محتويا�
 #: camel/providers/groupwise/camel-groupwise-provider.c:63
 #: camel/providers/imap/camel-imap-provider.c:68
 msgid "Only check for Junk messages in the INBOX folder"
-msgstr "جاري التّّفقّد عن نفايات في مجلّد صندوق الواردت"
+msgstr "جاري التّّفقّد عن نفايات في مجلّد صندوق الوارد"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:65
 #: camel/providers/imap/camel-imap-provider.c:70
@@ -10100,11 +10121,11 @@ msgstr "إ_ستعمال اتصال آمن (SSL)"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:92
 msgid "Novell GroupWise"
-msgstr ""
+msgstr "نوفل كروب-وايز"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:94
 msgid "For accessing Novell Groupwise servers"
-msgstr ""
+msgstr "للوصول إلى نوادل نوفل كروب-وايز"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:109
 #: camel/providers/imap/camel-imap-provider.c:93
@@ -10240,12 +10261,12 @@ msgstr "رد نادل غير كامل: لم تزود معلومات عن الر�
 #: camel/providers/imap/camel-imap-folder.c:2469
 #, c-format
 msgid "Incomplete server response: no UID provided for message %d"
-msgstr ""
+msgstr "استجابة نادل غير كاملة: لم يتمّ تزويد UID للرّسالة %d"
 
 #: camel/providers/imap/camel-imap-folder.c:2482
 #, c-format
 msgid "Unexpected server response: Identical UIDs provided for messages %d and %d"
-msgstr ""
+msgstr "استجابة نادل غير متوقّعة: تمّ تزويد UID متطابقة لكلّ من الرّسائل %d و %d"
 
 #: camel/providers/imap/camel-imap-folder.c:2658
 msgid "Could not find message body in FETCH response."
@@ -10740,7 +10761,7 @@ msgstr ""
 #: camel/providers/local/camel-local-provider.c:77
 #: camel/providers/local/camel-local-provider.c:94
 msgid "Apply filters to new messages in INBOX"
-msgstr "تطبيق المصفات على الرّسائل الجديدة في صندوق الوارد."
+msgstr "تطبيق المصفات على الرّسائل الجديدة في صندوق الوارد"
 
 #: camel/providers/local/camel-local-provider.c:83
 msgid "Maildir-format mail directories"
@@ -11289,11 +11310,11 @@ msgstr "لا يمكن حفظ ملف قائمة المجموعة لـ %s: %s"
 
 #: camel/providers/nntp/camel-nntp-provider.c:43
 msgid "Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
-msgstr ""
+msgstr "عرض المجلدات بالتّدوين القصير (مثلاً c.o.linux بدلاً من comp.os.linux("
 
 #: camel/providers/nntp/camel-nntp-provider.c:45
 msgid "In the subscription dialog, show relative folder names"
-msgstr ""
+msgstr "في حوار الاشتراك، إظهار أسماء مجلّدات نسبية"
 
 #: camel/providers/nntp/camel-nntp-provider.c:52
 msgid "USENET news"
@@ -11348,6 +11369,9 @@ msgid ""
 "\n"
 "No such newsgroup. The selected item is a probably a parent folder."
 msgstr ""
+"لا يمكنك الاشتراك بهذه المجموعة الاخباريّة:\n"
+"\n"
+"لا مجموعة اخبارية كهذه. العنصر المنتقى هو غالباً مجلّد أب."
 
 #: camel/providers/nntp/camel-nntp-store.c:904
 msgid ""
@@ -11355,10 +11379,13 @@ msgid ""
 "\n"
 "newsgroup does not exist!"
 msgstr ""
+"لا يمكنك إلغاء الاشتراك بهذه المجموعة الاخباريّة:\n"
+"\n"
+"لا توجد هذه المجموعة الاخبارية!"
 
 #: camel/providers/nntp/camel-nntp-store.c:929
 msgid "You cannot create a folder in a News store: subscribe instead."
-msgstr ""
+msgstr "لا يمكنك إنشاء مجلّد في مخزن أخبار: اشترك بدلاً من ذلك."
 
 #: camel/providers/nntp/camel-nntp-store.c:937
 msgid "You cannot rename a folder in a News store."
@@ -11366,7 +11393,7 @@ msgstr "لا يمكنك إعادة تسمية مجلّد في مخزن أخبا�
 
 #: camel/providers/nntp/camel-nntp-store.c:945
 msgid "You cannot remove a folder in a News store: unsubscribe instead."
-msgstr ""
+msgstr "لا يمكنك إزالة مجلّد في مخزن أخبار: ألغِ الاشتراك بدلاً من ذلك."
 
 #: camel/providers/nntp/camel-nntp-store.c:1118
 msgid "Authentication requested but not username provided"
@@ -11507,7 +11534,7 @@ msgstr "لم يمكن الإتّصال بنادل POP %s"
 msgid ""
 "Unable to connect to POP server %s: No support for requested authentication "
 "mechanism."
-msgstr "لا يمكن الإتّصال بنادل POP %s: لا دعم لآليّة التّوثيق المطلوبة"
+msgstr "لا يمكن الإتّصال بنادل POP %s: لا دعم لآليّة التّوثيق المطلوبة."
 
 #: camel/providers/pop3/camel-pop3-store.c:428
 #, c-format
@@ -12053,18 +12080,18 @@ msgstr "التّوقيع:"
 #, c-format
 msgid "<b>%d</b> File Attached"
 msgid_plural "<b>%d</b> Files Attached"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "ملف مرفق <b>واحد</b>"
+msgstr[1] "ملفان كرفقان <b>اثنان</b>"
+msgstr[2] "<b>%d</b> ملفات مرفقة"
+msgstr[3] "<b>%d</b> ملف مرفق"
 
 #: composer/e-msg-composer.c:2312
 msgid "Hide _Attachment Bar (drop attachments here)"
-msgstr ""
+msgstr "إخفاء شريط ال_مرفقات (أسقط المرفقات هنا)"
 
 #: composer/e-msg-composer.c:2315 composer/e-msg-composer.c:3271
 msgid "Show _Attachment Bar (drop attachments here)"
-msgstr ""
+msgstr "عرض شريط ال_مرفقات (أسقط المرفقات هنا)"
 
 #: composer/e-msg-composer.c:2332 composer/e-msg-composer.c:3163
 #: composer/e-msg-composer.c:3164
@@ -12100,19 +12127,19 @@ msgstr "لا يمكنك إرفاق الملف '{0}' بالرّسالة."
 #. mail-composer:attach-notfile primary
 #: composer/mail-composer-errors.xml.h:6
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
-msgstr ""
+msgstr "الملف `{0}' ليس ملفاً اعتياديا و لا يمكن إرساله في رسالة."
 
 #. mail-composer:attach-directory primary
 #: composer/mail-composer-errors.xml.h:8
 msgid "Directories can not be attached to Messages."
-msgstr ""
+msgstr "لا يمكن ارفاق المجلّدات في الرّسائل."
 
 #. mail-composer:attach-directory secondary
 #: composer/mail-composer-errors.xml.h:10
 msgid ""
 "To attach the contents of this directory, either attach the files in this "
 "directory individually, or create an archive of the directory and attach it."
-msgstr ""
+msgstr "لإرفاق محتويات هذا المجلّد، إمّا أن ترفق الملفات في هذا المجلّد إفراديّاً، أو أن تنشئ محفوظة من المجلّد و ترفقها."
 
 #. mail-composer:attach-nomessages primary
 #: composer/mail-composer-errors.xml.h:12
@@ -12148,6 +12175,8 @@ msgid ""
 "Evolution quit unexpectedly while you were composing a new message. "
 "Recovering the message will allow you to continue where you left off."
 msgstr ""
+"خرج إيفُليوشِن بشكل غير متوقّع بينما كنت تؤلّف رسالة جديدة. "
+"استعادة الرسالة ستمكنك من المتابعة حيث كنت."
 
 #: composer/mail-composer-errors.xml.h:21
 msgid "Don't Recover"
@@ -12155,12 +12184,12 @@ msgstr "لا تستعد"
 
 #: composer/mail-composer-errors.xml.h:22
 msgid "Recover"
-msgstr "تعاف"
+msgstr "تعافَ"
 
 #. mail-composer:no-autosave primary
 #: composer/mail-composer-errors.xml.h:24
 msgid "Could not save to autosave file \"{0}\"."
-msgstr ""
+msgstr "لم يمكن حفظ ملف الحفظ التلقائي \"{0}\"."
 
 #. mail-composer:no-autosave secondary
 #: composer/mail-composer-errors.xml.h:26
@@ -12185,7 +12214,7 @@ msgid ""
 "Closing this composer window will discard the message permanently, unless "
 "you choose to save the message in your Drafts folder. This will allow you to "
 "continue the message at a later date."
-msgstr ""
+msgstr "سيتجاهل إغلاق نافذة التّأليف الرسالة نهائيّاً، إلّا إذا اخترت حفظ الرّسالة في مجلد المسودات. سيمكّنك هذا من متابعة الرّسالة في وقت لاحق."
 
 #: composer/mail-composer-errors.xml.h:34
 msgid "Save Message"
@@ -12199,7 +12228,7 @@ msgstr "لم يمكن إنشاء الرسالة."
 #. mail-composer:no-build-message secondary
 #: composer/mail-composer-errors.xml.h:38
 msgid "Because \"{0}\", you may need to select different mail options."
-msgstr ""
+msgstr "بسبب \"{0}\"، قد تحتاج لأن تنتقي خيارات بريد مختلفة."
 
 #. mail-composer:no-sig-file primary
 #: composer/mail-composer-errors.xml.h:40
@@ -12209,7 +12238,7 @@ msgstr "لم يمكن فتح ملف التّوقيع \"{0}\"."
 #. mail-composer:all-accounts-deleted primary
 #: composer/mail-composer-errors.xml.h:44
 msgid "All accounts have been removed."
-msgstr ""
+msgstr "تمّت إزالة كلّ الحسابات."
 
 #. mail-composer:all-accounts-deleted secondary
 #: composer/mail-composer-errors.xml.h:46
@@ -12374,7 +12403,7 @@ msgstr "تنميق الملف؟"
 
 #: e-util/e-passwords.c:463
 msgid "_Remember this password"
-msgstr ""
+msgstr "إ_زالة كلمة السرّ هذه"
 
 #: e-util/e-passwords.c:464
 msgid "_Remember this password for the remainder of this session"
@@ -12592,7 +12621,7 @@ msgstr "خطأ في التّعبير النّظامي \"{0}\"."
 #. filter:bad-regexp secondary
 #: filter/filter-errors.xml.h:16
 msgid "Could not compile regular expression \"{1}\"."
-msgstr ""
+msgstr "لم يمكن تجميع التّعبير النّظامي \"{1}\"."
 
 #. filter:no-name primary
 #. mail:no-name-vfolder primary
@@ -12608,7 +12637,7 @@ msgstr "يجب أن تسمّي هذه المصفاة."
 #. filter:bad-name-notunique primary
 #: filter/filter-errors.xml.h:22
 msgid "Name \"{0}\" already used."
-msgstr ""
+msgstr "الاسم \"{0}\" مستخدم."
 
 #. filter:bad-name-notunique secondary
 #: filter/filter-errors.xml.h:24
@@ -12865,6 +12894,9 @@ msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
 msgstr ""
+"في ${AbbrevWeekdayName}، ${Year}-${Month}-${Day} عند ${24Hour}: "
+"${Minute} "
+"${TimeZone}، كتب ${Sender}:"
 
 #: mail/em-filter-editor.c:147
 msgid "_Filter Rules"
@@ -13174,12 +13206,12 @@ msgstr "إ_سم المجلّد:"
 #: mail/em-folder-tree-model.c:200 mail/em-folder-tree-model.c:202
 #: mail/mail-vfolder.c:872
 msgid "VFolders"
-msgstr ""
+msgstr "المجلّدات الاعتباطيّة"
 
 #. UNMATCHED is always last
 #: mail/em-folder-tree-model.c:206 mail/em-folder-tree-model.c:208
 msgid "UNMATCHED"
-msgstr ""
+msgstr "UNMATCHED"
 
 #: mail/em-folder-tree-model.c:476 mail/em-folder-tree-model.c:780
 msgid "Loading..."
@@ -13534,7 +13566,7 @@ msgstr "الشّهادة ليست صالحة بعد"
 
 #: mail/em-format-html-display.c:1006
 msgid "Completed on %B %d, %Y, %l:%M %p"
-msgstr ""
+msgstr "تمّ في %B %d، %Y، %l:%M %p"
 
 #: mail/em-format-html-display.c:1014
 msgid "Overdue:"
@@ -13661,7 +13693,7 @@ msgstr "لم يمكن ترجمة رسالة S/MIME: خطأ مجهول"
 
 #: mail/em-format.c:1221
 msgid "Unsupported encryption type for multipart/encrypted"
-msgstr ""
+msgstr "نوع تشفير غير مدعوم لـ multipart/encrypted"
 
 #: mail/em-format.c:1382
 msgid "Could not parse MIME message. Displaying as source."
@@ -13689,7 +13721,7 @@ msgstr "كل مرّة"
 
 #: mail/em-mailer-prefs.c:101
 msgid "Once per day"
-msgstr ""
+msgstr "مرّة في اليوم"
 
 #: mail/em-mailer-prefs.c:102
 msgid "Once per week"
@@ -13738,7 +13770,7 @@ msgstr "غير قادر على إنشاء مجلد POP3 لترك البيانا�
 #: mail/em-migrate.c:2060
 #, c-format
 msgid "Unable to copy POP3 keep-on-server data `%s': %s"
-msgstr ""
+msgstr "غير قادر على نسخ مجلد POP3 لترك البيانات النادل `%s': %s"
 
 #: mail/em-migrate.c:2415 mail/em-migrate.c:2427
 #, c-format
@@ -13755,6 +13787,8 @@ msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
 msgstr ""
+"غير قادر على قراءة الإعدادات من تنصيب إيفُليوشِن السّابق، evolution/config."
+"xmldb' غير موجود أو فاسد."
 
 #: mail/em-popup.c:700
 msgid "Save As..."
@@ -13763,7 +13797,7 @@ msgstr "حفظ كـ..."
 #: mail/em-popup.c:718
 #, c-format
 msgid "untitled_image.%s"
-msgstr ""
+msgstr "untitled_image.%s"
 
 #: mail/em-popup.c:808
 msgid "Set as _Background"
@@ -13871,11 +13905,11 @@ msgstr "لون إبراز الإقتباس."
 
 #: mail/evolution-mail.schemas.in.in.h:6
 msgid "Composer Window default height"
-msgstr ""
+msgstr "الارتفاع الافتراضي لنافذة التّأليف"
 
 #: mail/evolution-mail.schemas.in.in.h:7
 msgid "Composer Window default width"
-msgstr ""
+msgstr "العرض الافتراضي لنافذة التّأليف"
 
 #: mail/evolution-mail.schemas.in.in.h:8
 msgid "Default charset in which to compose messages"
@@ -13959,10 +13993,13 @@ msgid ""
 "any mime-types appearing in this list which map to a bonobo-component viewer "
 "in GNOME's mime-type database may be used for displaying content."
 msgstr ""
+"إذا لم يوجد عارض مبني ضمن إيفُليوشِن لنوع mime، "
+"قد يستخدم أي نوع mime مرتبط بعارض مكوّن بونوبو في قاعدة بيانات "
+"أنواع mime لجنوم لعرض المحتويات."
 
 #: mail/evolution-mail.schemas.in.in.h:28
 msgid "Last time empty trash was run"
-msgstr ""
+msgstr "آخر مرّة تمّ فيها تنفيذ إفراغ المهملات"
 
 #: mail/evolution-mail.schemas.in.in.h:29
 msgid "List of Labels and their associated colors"
@@ -13981,16 +14018,20 @@ msgid ""
 "List of accounts known to the mail component of Evolution. The list contains "
 "strings naming subdirectories relative to /apps/evolution/mail/accounts."
 msgstr ""
+"قائمة بالحسابات المعروفة لمكوّن البريد من إيفُليوشِن. تحتوي القائمة "
+"سلاسل تسمّي مجلّدات فرعيّة نسبيّة لـ/apps/evolution/mail/accounts."
 
 #: mail/evolution-mail.schemas.in.in.h:33
 msgid "List of custom headers and whether they are enabled."
-msgstr ""
+msgstr "قائمة بالترويسات المخصّصة و فيما إذا كانت مفعّلة."
 
 #: mail/evolution-mail.schemas.in.in.h:34
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
 msgstr ""
+"قائمة بالعلامات المعروفة لمكوّن البريد من إيفُليوشِن. تحتوي القائمة "
+"سلاسل تحوي اسم:لون حيث يستخدم اللّون  لترميز HTML السّداسي."
 
 #: mail/evolution-mail.schemas.in.in.h:35
 msgid "List of mime types to check for bonobo component viewers"
@@ -13998,7 +14039,7 @@ msgstr "قائمة أنواع mime للتّفقّد عن عارضات مكوّن
 
 #: mail/evolution-mail.schemas.in.in.h:36
 msgid "List of protocol names whose license has been accepted."
-msgstr ""
+msgstr "قائمة بأسماء البروتوكولات التي قبلت تراخيصها."
 
 #: mail/evolution-mail.schemas.in.in.h:37
 msgid "Load images for HTML messages over http"
@@ -14009,7 +14050,7 @@ msgid ""
 "Load images for HTML messages over http(s). Possible values are: 0 - Never "
 "load images off the net 1 - Load images if sender is in the addressbook 2 - "
 "Always load images off the net"
-msgstr ""
+msgstr "تحميل الصّور من رسائل HTML من http(s). القيم الممكنة هي:  0 - لا تحمّل الصّور من الشبكة أبداً 1 - حمّل الصّور إذا كان المرسل في دفتر العناوين 2 - حمل الصّور من الشبكة دائماً"
 
 #: mail/evolution-mail.schemas.in.in.h:39
 msgid "Log filter actions"
@@ -14049,7 +14090,7 @@ msgstr "ارتفاع نافذة الرّسالة الافتراضي"
 
 #: mail/evolution-mail.schemas.in.in.h:48
 msgid "Message Window default width"
-msgstr ""
+msgstr "عرض نافذة الرّسالة الافتراضي"
 
 #: mail/evolution-mail.schemas.in.in.h:49
 msgid "Message-display style (normal, full headers, source)"
@@ -14057,11 +14098,11 @@ msgstr "أسلوب عرض الرّسالة (عادي، ترويسات كاملة
 
 #: mail/evolution-mail.schemas.in.in.h:50
 msgid "Minimum days between emptying the trash on exit"
-msgstr ""
+msgstr "أقل عدد من الأيّام بين أوقات إفراغ المهملات عند الخروج"
 
 #: mail/evolution-mail.schemas.in.in.h:51
 msgid "Minimum time between emptying the trash on exit, in days."
-msgstr ""
+msgstr "أقل وقت بين أوقات إفراغ المهملات عند الخروج، بالأيّام."
 
 #: mail/evolution-mail.schemas.in.in.h:52
 msgid "New Mail Notify sound file"
@@ -14167,11 +14208,11 @@ msgstr "فحص تهجئة ضمن السّياق"
 
 #: mail/evolution-mail.schemas.in.in.h:76
 msgid "Subscribe dialog default height"
-msgstr ""
+msgstr "ارتفاع حوار الاشتراك الافتراضي"
 
 #: mail/evolution-mail.schemas.in.in.h:77
 msgid "Subscribe dialog default width"
-msgstr ""
+msgstr "عرض حوار الاشتراك الافتراضي"
 
 #: mail/evolution-mail.schemas.in.in.h:78
 msgid "Terminal font"
@@ -14179,7 +14220,7 @@ msgstr "خط الشاشة الطرفيّة"
 
 #: mail/evolution-mail.schemas.in.in.h:79
 msgid "The last time empty trash was run, in days since the epoch."
-msgstr ""
+msgstr "آخر مرّة تمّ فيها تنفيذ إفراغ المهملات، بالأيام منذ العصر."
 
 #: mail/evolution-mail.schemas.in.in.h:80
 msgid "The terminal font for mail display"
@@ -14196,6 +14237,11 @@ msgid ""
 "header enabled&gt; - set enabled if the header is to be displayed in the "
 "mail view."
 msgstr ""
+"يجب أن يحتوي المفتاح قائمة ببنى XML محدّدة الترويسات المخصّصة، "
+"و فيما إذا كان من الواجب عرضها. هيئة بنية XML هي "
+"&lt; "
+"الترويسة المفعّلة&gt; - اضبطها مفعّلة إذا كان من الواجب عرضها في "
+"عرض البريد."
 
 #: mail/evolution-mail.schemas.in.in.h:83
 msgid "Thread the message list."
@@ -14223,11 +14269,11 @@ msgstr "سلسلة هويّة المستخدم للحساب الإفتراضي."
 
 #: mail/evolution-mail.schemas.in.in.h:89
 msgid "Use Spamasssassin daemon and client"
-msgstr ""
+msgstr "استخدام جنّيّ و عميل سبام أسّاسن"
 
 #: mail/evolution-mail.schemas.in.in.h:90
 msgid "Use Spamasssassin daemon and client (spamc/spamd)"
-msgstr ""
+msgstr "استخدام جنّيّ و عميل سبام أسّاسن (spamc/spamd("
 
 #: mail/evolution-mail.schemas.in.in.h:91
 msgid "Use custom fonts"
@@ -14239,11 +14285,11 @@ msgstr "إستعمال خطوط مخصّصة لعرض البريد"
 
 #: mail/evolution-mail.schemas.in.in.h:93
 msgid "Use only local spam tests."
-msgstr ""
+msgstr "استخدام اختبارات النفايات المحليذة فقط."
 
 #: mail/evolution-mail.schemas.in.in.h:94
 msgid "Use only the local spam tests (no DNS)."
-msgstr ""
+msgstr "استخدام اختبارات النفايات المحليذة فقط (لا DNS)."
 
 #: mail/evolution-mail.schemas.in.in.h:95
 msgid "Variable width font"
@@ -14251,53 +14297,53 @@ msgstr "خط متغير العرض"
 
 #: mail/evolution-mail.schemas.in.in.h:96
 msgid "View/Bcc menu item is checked"
-msgstr ""
+msgstr "عنصر قائمة عرض/نسخة كربونيّة خفيّة معلَّم"
 
 #: mail/evolution-mail.schemas.in.in.h:97
 msgid "View/Bcc menu item is checked."
-msgstr ""
+msgstr "عنصر قائمة عرض/نسخة كربونيّة خفيّة معلَّم."
 
 #: mail/evolution-mail.schemas.in.in.h:98
 msgid "View/Cc menu item is checked"
-msgstr ""
+msgstr "عنصر قائمة عرض/نسخة كربونيّة معلَّم"
 
 #: mail/evolution-mail.schemas.in.in.h:99
 msgid "View/Cc menu item is checked."
-msgstr ""
+msgstr "عنصر قائمة عرض/نسخة كربونيّة معلَّم."
 
 #: mail/evolution-mail.schemas.in.in.h:100
 msgid "View/From menu item is checked"
-msgstr ""
+msgstr "عنصر قائمة عرض/من معلَّم"
 
 #: mail/evolution-mail.schemas.in.in.h:101
 msgid "View/From menu item is checked."
-msgstr ""
+msgstr "عنصر قائمة عرض/من معلَّم."
 
 #: mail/evolution-mail.schemas.in.in.h:102
 msgid "View/PostTo menu item is checked"
-msgstr ""
+msgstr "عنصر قائمة عرض/إرسال إلى معلَّم"
 
 #: mail/evolution-mail.schemas.in.in.h:103
 msgid "View/PostTo menu item is checked."
-msgstr ""
+msgstr "عنصر قائمة عرض/إرسال إلى معلَّم."
 
 #: mail/evolution-mail.schemas.in.in.h:104
 msgid "View/ReplyTo menu item is checked"
-msgstr ""
+msgstr "عنصر قائمة عرض/ردّ إلى معلَّم"
 
 #: mail/evolution-mail.schemas.in.in.h:105
 msgid "View/ReplyTo menu item is checked."
-msgstr ""
+msgstr "عنصر قائمة عرض/ردّ إلى معلَّم."
 
 #: mail/evolution-mail.schemas.in.in.h:106
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
-msgstr ""
+msgstr "فيما إذا وجبت العودة للتّشعيب حسب العنوان عندما لا تحتوي الرّسائل ترويسات الرّد إلى أو المراجع."
 
 #: mail/evolution-mail.schemas.in.in.h:107
 msgid "port for starting user runned spamd"
-msgstr ""
+msgstr "منفذ بدء spamd المنفّذ من قبل المستخدم"
 
 #: mail/evolution-mail.schemas.in.in.h:108
 msgid "spamd port"
@@ -14411,6 +14457,16 @@ msgid ""
 "of priorities. Check the imported filters to make sure\n"
 "everything still works as intended."
 msgstr ""
+"بعض مصافي البريد الإلكتروني من نتْسكيب مبنيّة\n"
+"على أولويّات البريد الإلكتروني، و هي غير مدعومة من إيفُليوشِن\n"
+"بدلاً من ذلك، يوفّر إيفُليوشِن نتائج في المجال -3 إلى 3\n"
+"ممكن أن تسند إلى الرّسائل و تصفّى على أساسها.\n"
+"\n"
+"كحلّ بديل، أضيفت مجموعة من المصافي تسمّى \"مصافي الأولويّة\" \n"
+"تحوّل أولويّات بريد نتْسكيب إلى نتائج إيفُليوشِن،\n"
+"و تستخدم المصافي المتأثّرة النّتائج بدلاً من الأولويّات.\n"
+"إفحص المصافي المستوردة للتّأكّد أنّ كلّ شيء\n"
+"سيعمل كالمطلوب."
 
 #: mail/importers/netscape-importer.c:686
 msgid ""
@@ -14419,6 +14475,10 @@ msgid ""
 "feature, which is not supported in Evolution.\n"
 "These filters will be dropped."
 msgstr ""
+"بعض مصافي البريد الإلكتروني من نتْسكيب تستخدم\n"
+"ميزة \"تجاهل الشّعبة\" أو \"مراقبة الشّعبة\"،\n"
+"و هي غير مدعومة من إيفُليوشِن.\n"
+"ستمّ تجاهل هذه المصافي."
 
 #: mail/importers/netscape-importer.c:703
 msgid ""
@@ -14428,6 +14488,11 @@ msgid ""
 "were modified to test whether that string is or is not\n"
 "contained in the message body."
 msgstr ""
+"بعض مصافي بريد نتْسكيب تختبر\n"
+"متن البريد للمساواة (أو عدمها) مع سلسلة معطاة،\n"
+"وهذا غير مدعوم في إيفُليوشِن. عدّلت هذه المصافي\n"
+"لاختبار فيما إذا كانت السلسلة محتواة أو غير محتواة\n"
+"في متل الرّسالة."
 
 #: mail/importers/netscape-importer.c:1250
 msgid "Evolution is importing your old Netscape data"
@@ -14490,6 +14555,10 @@ msgid ""
 "for %s displayed below\n"
 "and tick the check box for accepting it\n"
 msgstr ""
+"\n"
+"الرّجاء قراءة اتّفاقية الرخصة بانتباه\n"
+"المعروضة أسفلاً لـ%s\n"
+"و علّم صندوق التّعليم لقبولها\n"
 
 #: mail/mail-account-gui.c:252
 #, c-format
@@ -14621,7 +14690,7 @@ msgstr "إنشاء مجلّد بريد جديد"
 
 #: mail/mail-component.c:805
 msgid "Failed upgrading Mail settings or folders."
-msgstr ""
+msgstr "فشل تحديث إعدادات البريد على المجلّدات."
 
 #: mail/mail-config-druid.c:362 mail/mail-config.glade.h:92
 msgid "Identity"
@@ -14633,6 +14702,9 @@ msgid ""
 "below do not need to be filled in, unless you wish to include this "
 "information in email you send."
 msgstr ""
+"الرّجاء إدخال الاسم و عنوان البريد الإلكتروني أسفلاً. الحقول \"الاختيارية\" "
+"أسفلا لا تحتاج لأن تملأ، إلّا إذا أردت أن تضمن المعلومات في البريد الذي "
+"ترسله."
 
 #: mail/mail-config-druid.c:370 mail/mail-config-druid.c:377
 #: mail/mail-config.glade.h:119
@@ -14644,6 +14716,8 @@ msgid ""
 "Please enter information about your incoming mail server below. If you are "
 "not sure, ask your system administrator or Internet Service Provider."
 msgstr ""
+"الرجاء إدخال معلومات عن نادل البريد الوارد أسفلاً. إذا كنت غير "
+"متأكّد، إسأل مدير النظام أو مزود خدمة الإنترنت."
 
 #: mail/mail-config-druid.c:379
 msgid "Please select among the following options"
@@ -14658,6 +14732,8 @@ msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
 msgstr ""
+"الرجاء إدخال معلومات عن الطريقة التي ستستخدم لإرسال البريدً. إذا كنت غير "
+"متأكّد، إسأل مدير النظام أو مزود خدمة الإنترنت."
 
 #: mail/mail-config-druid.c:389 mail/mail-config.glade.h:37
 msgid "Account Management"
@@ -14671,6 +14747,11 @@ msgid ""
 "name for this account in the space below. This name will be used for display "
 "purposes only."
 msgstr ""
+"انتهيت تقريباً من عمليّة إعداد البريد. الهويّة، "
+"نادل البريد الوارد و طريقة نقل البريد الصّادر التي زوّدتها "
+"ستجمع معاً لتصبح حساب بريد إيفُليوشِن. الرّجاء إدخال "
+"اسم لهذا الحساب في المساحة أسفلاً. سيستخدم الاسم لأغراض "
+"العرض فقط."
 
 #: mail/mail-config.c:895
 msgid "Checking Service"
@@ -14702,23 +14783,23 @@ msgstr "<b>اللغات:</b>"
 
 #: mail/mail-config.glade.h:8
 msgid "<small>This will make the the filter more reliable, but slower</small>"
-msgstr ""
+msgstr "<small>سيجعل هذا المصفاة أكثر موثوقية، و لكن أبطأ</small>"
 
 #: mail/mail-config.glade.h:9
 msgid "<span weight=\"bold\">Account Information</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">معلومات الحساب</span>"
 
 #: mail/mail-config.glade.h:10
 msgid "<span weight=\"bold\">Alerts</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">التّنبيهات</span>"
 
 #: mail/mail-config.glade.h:11
 msgid "<span weight=\"bold\">Authentication Type</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">نوع التّوثيق</span>"
 
 #: mail/mail-config.glade.h:12
 msgid "<span weight=\"bold\">Authentication</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">التّوثيق</span>"
 
 #: mail/mail-config.glade.h:13
 msgid "<span weight=\"bold\">Checking for New Mail</span>"
@@ -14726,47 +14807,47 @@ msgstr "<span weight=\"bold\">مراجعة عن بريد جديد</span>"
 
 #: mail/mail-config.glade.h:14
 msgid "<span weight=\"bold\">Composing Messages</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">تأليف الرّسائل</span>"
 
 #: mail/mail-config.glade.h:15
 msgid "<span weight=\"bold\">Configuration</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">الإعداد</span>"
 
 #: mail/mail-config.glade.h:16
 msgid "<span weight=\"bold\">Default Behavior</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">السلوك الافتراضي</span>"
 
 #: mail/mail-config.glade.h:17
 msgid "<span weight=\"bold\">Delete Mail</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">حذف البريد</span>"
 
 #: mail/mail-config.glade.h:18
 msgid "<span weight=\"bold\">Displayed Mail _Headers</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">حذف _ترويسات البريد</span>"
 
 #: mail/mail-config.glade.h:19
 msgid "<span weight=\"bold\">Filter Options</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">خيارات المصفاة</span>"
 
 #: mail/mail-config.glade.h:20
 msgid "<span weight=\"bold\">General</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">عامّ</span>"
 
 #: mail/mail-config.glade.h:21
 msgid "<span weight=\"bold\">Labels and Colors</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">العلامات و الألوان</span>"
 
 #: mail/mail-config.glade.h:22
 msgid "<span weight=\"bold\">Loading Images</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">تحميل الصّور</span>"
 
 #: mail/mail-config.glade.h:23
 msgid "<span weight=\"bold\">Message Display</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">عرض الصّور</span>"
 
 #: mail/mail-config.glade.h:24
 msgid "<span weight=\"bold\">Message Fonts</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">خطوط الرّسالة</span>"
 
 #: mail/mail-config.glade.h:25
 msgid "<span weight=\"bold\">New Mail Notification</span>"
@@ -14774,11 +14855,11 @@ msgstr "<span weight=\"bold\">التّبليغ بالبريد الجديد</span
 
 #: mail/mail-config.glade.h:26
 msgid "<span weight=\"bold\">Optional Information</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">معلومات اختياريّة</span>"
 
 #: mail/mail-config.glade.h:27
 msgid "<span weight=\"bold\">Options</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">الخيارات</span>"
 
 #: mail/mail-config.glade.h:28
 msgid "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
@@ -14786,15 +14867,15 @@ msgstr "<span weight=\"bold\">أمن طيب جدا (PGP/GPG)</span>"
 
 #: mail/mail-config.glade.h:29
 msgid "<span weight=\"bold\">Printed Fonts</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">الخطوط المطبوعة</span>"
 
 #: mail/mail-config.glade.h:30
 msgid "<span weight=\"bold\">Required Information</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">المعلومات المطلوبة</span>"
 
 #: mail/mail-config.glade.h:31
 msgid "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">آمن MIME (S/MIME)</span>"
 
 #: mail/mail-config.glade.h:32
 msgid "<span weight=\"bold\">Security</span>"
@@ -14806,7 +14887,7 @@ msgstr "<span weight=\"bold\">الرسائل المبعوثة و المسودّ�
 
 #: mail/mail-config.glade.h:34
 msgid "<span weight=\"bold\">Server Configuration</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">إعداد النّادل</span>"
 
 #: mail/mail-config.glade.h:35
 msgid "A_lso encrypt to self when sending encrypted mail"
@@ -15002,7 +15083,7 @@ msgstr "IMAPv4·"
 
 #: mail/mail-config.glade.h:91
 msgid "I_nclude remote tests"
-msgstr ""
+msgstr "-تضمين المهام البعيدة"
 
 #: mail/mail-config.glade.h:94
 msgid "Inline"
@@ -15160,6 +15241,9 @@ msgid ""
 "signature. The name you specify will be used\n"
 "for display purposes only. "
 msgstr ""
+"سيستخدم خرج هذا المخطوط\n"
+"كتوقيع لك. سيستخدم الاسم الذي تحدّده\n"
+"لأغراض العرض فقط. "
 
 #: mail/mail-config.glade.h:147
 msgid ""
@@ -15167,6 +15251,8 @@ msgid ""
 "list of languages here reflects only the languages for which you have a "
 "dictionary installed."
 msgstr ""
+"تسمح لك هذه الصفحة بأن تعدّ سلوك التدقيق الإملائي و اللغة. تعكس قائمة "
+"اللغات هنا اللغات التي تملك قاموساً منصّباً."
 
 #: mail/mail-config.glade.h:149
 msgid ""
@@ -15236,11 +15322,11 @@ msgstr "_لا تحميل للصور خارج الإنترنت بتاتا"
 
 #: mail/mail-config.glade.h:174
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
-msgstr ""
+msgstr "المساءلة عند إرسال رسائل HTML إلى المراسَلين الذين لا يريدونها"
 
 #: mail/mail-config.glade.h:175
 msgid "_Prompt when sending messages with an empty subject line"
-msgstr ""
+msgstr "المساءلة عند إرسال رسائل بدون عنوان"
 
 #: mail/mail-config.glade.h:176
 msgid "_Reply style:"
@@ -15260,7 +15346,7 @@ msgstr "إ_ستعمال إتصال آمن (SSL):"
 
 #: mail/mail-config.glade.h:180
 msgid "_Use the same fonts as other applications"
-msgstr ""
+msgstr "ا_ستخدام نفس الخط كباقي التطبيقات"
 
 #: mail/mail-config.glade.h:181
 msgid "color"
@@ -15276,6 +15362,9 @@ msgid ""
 " Please read carefully the license agreement displayed\n"
 " below and tick the check box for accepting it\n"
 msgstr ""
+"\n"
+"الرّجاء قراءة اتّفاقية الرخصة المعروضة أسفلاً بانتباه\n"
+"و علّم صندوق التّعليم لقبولها\n"
 
 #: mail/mail-dialogs.glade.h:7
 msgid "<b>vFolder Sources</b>"
@@ -15283,11 +15372,11 @@ msgstr "<b>موارد المجلّدات الاعتباطية</b>"
 
 #: mail/mail-dialogs.glade.h:8
 msgid "<span weight=\"bold\">Digital Signature</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">التّوقيع الرّقمي</span>"
 
 #: mail/mail-dialogs.glade.h:9
 msgid "<span weight=\"bold\">Encryption</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">التّشفير</span>"
 
 #: mail/mail-dialogs.glade.h:10
 msgid "Accept License"
@@ -15303,7 +15392,7 @@ msgstr "حسّاس للحالة"
 
 #: mail/mail-dialogs.glade.h:14
 msgid "Find in Message"
-msgstr ""
+msgstr "إيجاد في الرّسالة"
 
 #: mail/mail-dialogs.glade.h:15
 msgid "Find:"
@@ -15312,7 +15401,7 @@ msgstr "إيجاد:"
 #: mail/mail-dialogs.glade.h:16 mail/message-tag-followup.c:294
 #: mail/message-tags.glade.h:3
 msgid "Flag to Follow Up"
-msgstr ""
+msgstr "علم المتابعة"
 
 #: mail/mail-dialogs.glade.h:17
 msgid "Folder Subscriptions"
@@ -15324,7 +15413,7 @@ msgstr "اتفاقية الحقوق "
 
 #: mail/mail-dialogs.glade.h:19
 msgid "None Selected"
-msgstr ""
+msgstr "لا شيء منتقى"
 
 #: mail/mail-dialogs.glade.h:20
 msgid "S_erver:"
@@ -15339,10 +15428,12 @@ msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
 msgstr ""
+"الرّسائل التي انتقيتها للمتابعة معروضة أسفلا.\n"
+"الرّجاء انتقاء فعل متابعة من قائمة \"العلم\"."
 
 #: mail/mail-dialogs.glade.h:25
 msgid "Tick this to accept the license agreement"
-msgstr ""
+msgstr "علّم هذا للموافقة على اتّفاقية الرّخصة"
 
 #: mail/mail-dialogs.glade.h:26 mail/message-tags.glade.h:6
 msgid "_Due By:"
@@ -15391,7 +15482,7 @@ msgstr "نادل SMTP هذا لا يدعم فئة التّوثّق المطلو�
 #. mail:camel-service-auth-failed primary
 #: mail/mail-errors.xml.h:6
 msgid "Your login to your server \"{0}\" as \"{0}\" failed."
-msgstr ""
+msgstr "فشل تسجيل الدّخول للنادل \"{0}\" كـ \"{0}\"."
 
 #. mail:camel-service-auth-failed secondary
 #: mail/mail-errors.xml.h:8
@@ -15399,6 +15490,8 @@ msgid ""
 "Check to make sure your password is spelled correctly.  Remember that many "
 "passwords are case sensitive; your caps lock might be on."
 msgstr ""
+"تفحّص للتأكد من أنّ كلمة السرّ مهجّأة بشكل صحيح. تذكّر أن العديد من كلمات "
+"السرّ حساسة للحالة؛ قد يكون مفتاح caps lock مفعّلاً."
 
 #. mail:ask-send-html primary
 #: mail/mail-errors.xml.h:10
@@ -15413,6 +15506,9 @@ msgid ""
 "{0}\n"
 "Send anyway?"
 msgstr ""
+"الرّجاء التّأكد أن المستقبلين التالين موافقون و قادرون على استقبال بريد HTML:\n"
+"{0}\n"
+"إرسال على أي حال؟"
 
 #: mail/mail-errors.xml.h:15 mail/mail-errors.xml.h:20
 #: mail/mail-errors.xml.h:27 mail/mail-errors.xml.h:32
@@ -15430,6 +15526,8 @@ msgid ""
 "Adding a meaningful Subject line to your messages will give your recipients "
 "an idea of what your mail is about."
 msgstr ""
+"إضافة عنوان ذو معنى إلى رسائلك سيعطي المستقبلين فكرة "
+"عن ماهيّة الرسالة."
 
 #. mail:ask-send-only-bcc-contact primary
 #. mail:ask-send-only-bcc primary
@@ -15447,6 +15545,12 @@ msgid ""
 "your message. To avoid this, you should add at least one To: or CC: "
 "recipient. "
 msgstr ""
+"قائمة المراسَلين التي ترسل لها معدّة لإخفاء قائمة المستقبلين.\n"
+"\n"
+"تضيف العديد من أنظمة البريد الإلكتروني ترويسة ظاهريّاً-إلى الرسائل "
+"التي لا تملك سوى مستقبلين مخفيين. إذا أضيفت هذه الترويسة فستضيف "
+"كلّ مستقبليك إلى رسالتك على كلّ حال. لتجاوز هذا، عليك استعمال مستقبل أو "
+"نسخة كربونية واحدة على الأقلّ. "
 
 #. mail:ask-send-only-bcc secondary
 #: mail/mail-errors.xml.h:31
@@ -15456,11 +15560,15 @@ msgid ""
 "your message anyway. To avoid this, you should add at least one To: or CC: "
 "recipient."
 msgstr ""
+"تضيف العديد من أنظمة البريد الإلكتروني ترويسة ظاهريّاً-إلى الرسائل "
+"التي لا تملك سوى مستقبلين مخفيين. إذا أضيفت هذه الترويسة فستضيف "
+"كلّ مستقبليك إلى رسالتك على كلّ حال. لتجاوز هذا، عليك استعمال مستقبل أو "
+"نسخة كربونية واحدة على الأقلّ."
 
 #. mail:send-no-recipients primary
 #: mail/mail-errors.xml.h:34
 msgid "This message cannot be sent because you have not specified any Recipients"
-msgstr ""
+msgstr "لا يمكن إرسال هذه الرّسالة لأنّك لم تحدد أي مستقبلين"
 
 #. mail:send-no-recipients secondary
 #: mail/mail-errors.xml.h:36
@@ -15468,6 +15576,8 @@ msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
 msgstr ""
+"الرّجاء إدخال عنوان بريد إلكتروني صالح في حقل إلى:. يمكن البحث عن "
+"عناوين البريد الإلكتروني بالضغط على زر إلى: جانب صندوق الإدخال."
 
 #. mail:ask-default-drafts primary
 #: mail/mail-errors.xml.h:38
@@ -15496,7 +15606,7 @@ msgstr "هل تريد فعلاً إزالة جميع الرّسائل المحذ
 #. mail:ask-empty-trash secondary
 #: mail/mail-errors.xml.h:45 mail/mail-errors.xml.h:50
 msgid "If you continue, you will not be able to recover these messages."
-msgstr ""
+msgstr "إذا تابعت، لن تكون قادراً على إستعادة هذه الرّسائل."
 
 #: mail/mail-errors.xml.h:46
 msgid "_Expunge"
@@ -15516,7 +15626,7 @@ msgstr "إ_فراغ سلة المهملات"
 #. mail:exit-unsaved primary
 #: mail/mail-errors.xml.h:53
 msgid "You have unsent messages, do you wish to quit anyway?"
-msgstr ""
+msgstr "لديك رسائل غير مرسلة، هل تريد الخروج على أي حال؟"
 
 #. mail:exit-unsaved secondary
 #: mail/mail-errors.xml.h:55
@@ -15524,11 +15634,13 @@ msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
 msgstr ""
+"إذا خرجت، لن ترسل هذه الرّسائل حتى تبدأ إيفُليوشِن "
+"مرّة ثانية."
 
 #. mail:camel-exception primary
 #: mail/mail-errors.xml.h:57
 msgid "Your message with the subject \"{0}\" was not delivered."
-msgstr ""
+msgstr "لم يمكن إيصال رسالتك بالعنوان \"{0}\"."
 
 #. mail:camel-exception secondary
 #: mail/mail-errors.xml.h:59
@@ -15538,6 +15650,10 @@ msgid ""
 "The message is stored in the Outbox folder.  Check the message for errors "
 "and resend."
 msgstr ""
+"تمّ إرسال هذه الرّسالة عن طريق تطبيق \"sendmail\" الخارجيّ. أعطى sendmail "
+"الخطأ التالي: الحالة 67: لم يتمّ إرسال البريد.\n"
+"الرّسالة مخزّنة في صندوق الصادر. إفحص الرّسالة بحثاً عن الأخطاء و "
+"أعد الإرسال."
 
 #. mail:async-error primary
 #: mail/mail-errors.xml.h:62
@@ -15557,7 +15673,7 @@ msgstr "خطأ أثناء تنفيذ العملية."
 #. mail:async-error-nodescribe secondary
 #: mail/mail-errors.xml.h:68
 msgid "{0}."
-msgstr ""
+msgstr "{0}."
 
 #. mail:ask-session-password primary
 #: mail/mail-errors.xml.h:82
@@ -15619,6 +15735,8 @@ msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
 "cannot be renamed, moved, or deleted."
 msgstr ""
+"مجلّدات النظام مطلوبة من قبل زيميان إيفُليوشِن ليعمل بشكل صحيح و "
+"لا يمكن إعادة تسميتها، نقلها، أو حذفها."
 
 #. mail:no-rename-special-folder primary
 #: mail/mail-errors.xml.h:118
@@ -15641,6 +15759,8 @@ msgid ""
 "If you delete the folder, all of its contents and its subfolders contents "
 "will be deleted permanently."
 msgstr ""
+"إذا حذفت هذا المجلّد، ستحذف محتوياته و وحتويات المجلّدات الفرعية "
+"ضمنه بشكل دائم."
 
 #. mail:no-rename-folder-exists primary
 #. mail:no-rename-folder primary
@@ -15657,7 +15777,7 @@ msgstr "هناك مجلّد بالإسم \"{0}\" موجود أصلاً. الرج
 #. mail:no-rename-folder secondary
 #: mail/mail-errors.xml.h:134
 msgid "Because \"{2}\"."
-msgstr ""
+msgstr "بسبب \"{2}\"."
 
 #. mail:no-move-folder-nostore primary
 #. mail:no-move-folder-to-nostore primary
@@ -15722,7 +15842,7 @@ msgstr "هل أنت متأكّد أنّك تريد حذف هذا الحساب؟"
 #. mail:ask-delete-account secondary
 #: mail/mail-errors.xml.h:168
 msgid "If you proceed, the account information will be deleted permanently."
-msgstr ""
+msgstr "إذا تابعت، سيتمّ حذف معلومات الحساب بشكل دائم."
 
 #: mail/mail-errors.xml.h:169
 msgid "Don't delete"
@@ -15736,7 +15856,7 @@ msgstr "لم يمكن حفظ ملف التّوقيع."
 #. mail:no-save-signature secondary
 #: mail/mail-errors.xml.h:173
 msgid "Because \"{0}\"."
-msgstr ""
+msgstr "بسبب \"{0}\"."
 
 #. mail:signature-notscript primary
 #: mail/mail-errors.xml.h:175
@@ -15746,7 +15866,7 @@ msgstr "لم يمكن إعداد مخطوط التّوقيع \"{0}\"."
 #. mail:signature-notscript secondary
 #: mail/mail-errors.xml.h:177
 msgid "The script file must exist and be executable."
-msgstr ""
+msgstr "يجب أن يوجد ملف المخطوط ليكون تنفيذيّاً."
 
 #. mail:ask-signature-changed title
 #: mail/mail-errors.xml.h:179
@@ -15777,7 +15897,7 @@ msgstr "لا يمكن تحرير المجلّد الاعتباطي \"{0}\" إذ 
 msgid ""
 "This folder may have been added implictly, go to the virtual folder editor "
 "to add it explictly, if required."
-msgstr ""
+msgstr "من المحتمل أنّه قد أضيف هذا المجلّد ضمنيّاً، إذهب لمحرر المجلّدات الاعتباطيّة لإضافته بشكل صريح، إذا كان مطلوباً."
 
 #. mail:vfolder-notunique primary
 #: mail/mail-errors.xml.h:190
@@ -15787,7 +15907,7 @@ msgstr "لا يمكن إضافة المجلّد الاعتباطي \"{0}\"."
 #. mail:vfolder-updated primary
 #: mail/mail-errors.xml.h:194
 msgid "vFolders automatically updated."
-msgstr ""
+msgstr "تحديث المجلّدات الاعتباطية آليّاً."
 
 #. mail:vfolder-updated secondary
 #: mail/mail-errors.xml.h:196
@@ -15807,7 +15927,7 @@ msgstr ""
 #. mail:filter-updated primary
 #: mail/mail-errors.xml.h:202
 msgid "Mail filters automatically updated."
-msgstr ""
+msgstr "تحديث مصافي البريد آليّاً."
 
 #. mail:filter-updated secondary
 #: mail/mail-errors.xml.h:204
@@ -15850,11 +15970,14 @@ msgid ""
 "Either by selecting the folders individually, and/or by selecting\n"
 "all local folders, all remote folders, or both."
 msgstr ""
+"عليك تحديد مجلّد واحد على الأقل كمصدر.\n"
+"إمّا بانتقاء المجلّدات إفراديّاً، و/أو انتقاء\n"
+"كل المجلّدات المحلّية، المجلّدات البعيدة، أو كلاهما."
 
 #. mail:ask-migrate-existing primary
 #: mail/mail-errors.xml.h:224
 msgid "Problem migrating old mail folder \"{0}\"."
-msgstr ""
+msgstr "مشكلة أثناء تنزيح مجلّد البريد القديم \"{0}\"."
 
 #. mail:ask-migrate-existing secondary
 #: mail/mail-errors.xml.h:226
@@ -15864,6 +15987,9 @@ msgid ""
 "You can choose to ignore this folder, overwrite or append its contents, or "
 "quit.\n"
 msgstr ""
+"يوجد مجلّد غير فارغ عند \"{1}\".\n"
+"\n"
+"يمكن اختيار تجاهل هذا المجلّد، تنميق أو إلحاق محتوياته، أو الخروج.\n"
 
 #: mail/mail-errors.xml.h:230
 msgid "Ignore"
@@ -15892,11 +16018,13 @@ msgid ""
 "\n"
 "Please check your account settings and try again.\n"
 msgstr ""
+"\n"
+"الرّجاء فحص إعدادات حسابك و المحاولة مرّة ثانية.\n"
 
 #: mail/mail-folder-cache.c:795
 #, c-format
 msgid "Pinging %s"
-msgstr ""
+msgstr "رنّ %s"
 
 #: mail/mail-ops.c:98
 msgid "Filtering Folder"
@@ -15917,11 +16045,13 @@ msgid ""
 "Failed to append to %s: %s\n"
 "Appending to local `Sent' folder instead."
 msgstr ""
+"فشل الإلحاق إلى %s: %s\n"
+"ألحق بمجلّد المرسلات المحلي بدلاً منه."
 
 #: mail/mail-ops.c:576
 #, c-format
 msgid "Failed to append to local `Sent' folder: %s"
-msgstr ""
+msgstr "فشل الإلحاق لمجلّد المرسلات المحلّي: %s"
 
 #: mail/mail-ops.c:672
 #, c-format
@@ -15983,7 +16113,7 @@ msgstr "جاري تخزين المجلّد '%s'"
 #: mail/mail-ops.c:1467
 #, c-format
 msgid "Expunging and storing account '%s'"
-msgstr ""
+msgstr "محو و تخزين الحساب '%s'"
 
 #: mail/mail-ops.c:1468
 #, c-format
@@ -16045,6 +16175,8 @@ msgid ""
 "Error saving messages to: %s:\n"
 " %s"
 msgstr ""
+"خطأ أثناء حفظ الرّسائل إلى: %s:\n"
+" %s"
 
 #: mail/mail-ops.c:1998
 msgid "Saving attachment"
@@ -16056,6 +16188,8 @@ msgid ""
 "Cannot create output file: %s:\n"
 " %s"
 msgstr ""
+"لا يمكن إنشاء ملف الخرج: %s:\n"
+" %s"
 
 #: mail/mail-ops.c:2020
 #, c-format
@@ -16065,7 +16199,7 @@ msgstr "لم يمكن كتابة البيانات: %s"
 #: mail/mail-ops.c:2168
 #, c-format
 msgid "Disconnecting from %s"
-msgstr ""
+msgstr "قطع الاتّصال من %s"
 
 #: mail/mail-ops.c:2168
 #, c-format
@@ -16118,7 +16252,7 @@ msgstr "أدخل كلمة السّر"
 
 #: mail/mail-session.c:238
 msgid "User canceled operation."
-msgstr ""
+msgstr "المستخدم ألغى العمليّة."
 
 #: mail/mail-signature-editor.c:371
 msgid "Edit signature"
@@ -16140,26 +16274,26 @@ msgstr "لم يمكن إنشاء مجلّد البكرة `%s': %s"
 #: mail/mail-tools.c:141
 #, c-format
 msgid "Trying to movemail a non-mbox source `%s'"
-msgstr ""
+msgstr "محاولة نقل البريد من مصدر ليس صندوق بريد `%s'"
 
 #: mail/mail-tools.c:276
 #, c-format
 msgid "Forwarded message - %s"
-msgstr ""
+msgstr "رسالة ممرّرة - %s"
 
 #: mail/mail-tools.c:278
 msgid "Forwarded message"
-msgstr ""
+msgstr "رسالة ممرّرة"
 
 #: mail/mail-tools.c:319
 #, c-format
 msgid "Invalid folder: `%s'"
-msgstr ""
+msgstr "مجلّد غير صالح: `%s'"
 
 #: mail/mail-vfolder.c:87
 #, c-format
 msgid "Setting up vfolder: %s"
-msgstr ""
+msgstr "إعداد مجلّد اعتباطي:%s "
 
 #: mail/mail-vfolder.c:235
 #, c-format
@@ -16173,15 +16307,15 @@ msgstr "جاري تحديث المجلّدات الاعتباطية لـ '%s'"
 
 #: mail/mail-vfolder.c:942
 msgid "vFolders"
-msgstr ""
+msgstr "مجلّدات اعتباطية"
 
 #: mail/mail-vfolder.c:981
 msgid "Edit VFolder"
-msgstr ""
+msgstr "تحرير المجلّد الاعتباطي"
 
 #: mail/mail-vfolder.c:1065
 msgid "New VFolder"
-msgstr ""
+msgstr "مجلّد اعتباطي جديد"
 
 #: mail/message-list.c:1000
 msgid "Unseen"
@@ -16249,7 +16383,7 @@ msgstr "جاري إنشاء قائمة الرسائل"
 
 #: mail/message-list.etspec.h:3
 msgid "Due By"
-msgstr ""
+msgstr "تاريخ الإستحقاق"
 
 #: mail/message-list.etspec.h:4
 msgid "Flag Status"
@@ -16261,7 +16395,7 @@ msgstr "معلّم"
 
 #: mail/message-list.etspec.h:6
 msgid "Follow Up Flag"
-msgstr ""
+msgstr "علم اللّحاق"
 
 #: mail/message-list.etspec.h:8
 msgid "Original Location"
@@ -16369,23 +16503,23 @@ msgstr "عرض النّافذة الإفتراضي"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:4
 msgid "Evolution configuration version"
-msgstr ""
+msgstr "إصدار إعداد إيفُليوشِن"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:5
 msgid "ID or alias of the component to be shown by default at start-up."
-msgstr ""
+msgstr "الهويّة أو الاسم المستعار الذي سيظهر للمكوّن افتراضيّاً عند البدء."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:6
 msgid ""
 "If set to true, Evolution will start up in offline mode instead of online "
 "mode."
-msgstr ""
+msgstr "إذا ضبط لـTrue، سيبدأ إيفُليوشِن في الوضع دون اتصال بدلاً من الوضع المتّصل."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:7
 msgid ""
 "If set to true, the warning dialog in development versions of Evolution is "
 "not displayed."
-msgstr ""
+msgstr "إذا ضبط لـTrue، لن يعرض حوار التحذير لاصدارات التطوير من إيفُليوشِن."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:8
 msgid "Last upgraded Evolution configuration version"
@@ -16393,7 +16527,7 @@ msgstr "آخر إصدار من إعداد إيفُليوشِن"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:9
 msgid "List of paths for the folders to be synchronized to disk for offline usage"
-msgstr ""
+msgstr "قائمة بمسارات المجلّدات التي تجب مزامنتها إلى القرص للاستخدام دون اتّصال"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:10
 msgid "Toolbar is visible"
@@ -16401,15 +16535,15 @@ msgstr "شريط الأدوات مرئي"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:11
 msgid "Whether Evolution should start up in offline mode"
-msgstr ""
+msgstr "في ما إذا كان على إيفُليوشِن أن يبدأ في الوضع دون اتّصال"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:12
 msgid "Whether the toolbar should be visible."
-msgstr ""
+msgstr "في ما إذا كان على شريط الأدوات أن يكون مرئيّاً."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:13
 msgid "Whether to skip the development warning dialog"
-msgstr ""
+msgstr "تجاوز حوار تحذير التّطوير أو لأ"
 
 #: shell/e-active-connection-dialog.glade.h:1
 msgid "<b>Active Connections</b>"
@@ -16429,7 +16563,7 @@ msgstr "(بدون عنوان)"
 
 #: shell/e-shell-importer.c:146
 msgid "Choose the type of importer to run:"
-msgstr ""
+msgstr "انتقاء نوع المستورد لتشغيله:"
 
 #: shell/e-shell-importer.c:149
 msgid ""
@@ -16439,6 +16573,10 @@ msgid ""
 "You can select \"Automatic\" if you do not know, and Evolution will attempt "
 "to work it out."
 msgstr ""
+"اختر الملف الذي تريد استيراده إلى إيفُليوشِن، و انتقِ نوع "
+"الملفّ من القائمة.\n"
+"\n"
+"يمكنك انتقاء \"آلي\" إذا كنت لا تعرف، و سيحاول إيفُليوشِن أن يجده."
 
 #: shell/e-shell-importer.c:155
 msgid "Choose the destination for this import"
@@ -16446,7 +16584,7 @@ msgstr "إختيار الهدف لهذا الاستيراد"
 
 #: shell/e-shell-importer.c:158 shell/e-shell-startup-wizard.c:750
 msgid "Please select the information that you would like to import:"
-msgstr ""
+msgstr "الرّجاء انتقاء المعلومات التي تودّ استيرادها:"
 
 #: shell/e-shell-importer.c:161
 msgid ""
@@ -16455,6 +16593,10 @@ msgid ""
 "that could be imported where found. If you would like to\n"
 "try again, please click the \"Back\" button.\n"
 msgstr ""
+"فحص إيفُليوشِن بحثاً عن الاعدادات للاستيراد من التطبيقات\n"
+"التّالية: باين، نتْسكيب، Elm، آيكلَندر. لم توجد إعدادات\n"
+"من الممكن استيرادها. إذا أردت المحاولة مرّة أخرى، الرّجاء\n"
+"ضغط زرّ \"إلى الخلف\".\n"
 
 #: shell/e-shell-importer.c:232 shell/e-shell-importer.c:266
 #, c-format
@@ -16462,6 +16604,8 @@ msgid ""
 "Importing %s\n"
 "Importing item %d."
 msgstr ""
+"جاري استيراد %s\n"
+"استيراد العنصر %d."
 
 #: shell/e-shell-importer.c:340
 msgid "Select importer"
@@ -16492,6 +16636,8 @@ msgid ""
 "Importing %s\n"
 "Importing item 1."
 msgstr ""
+"جاري استيراد %s\n"
+"استيراد العنصر 1."
 
 #: shell/e-shell-importer.c:582
 msgid "Automatic"
@@ -16511,7 +16657,7 @@ msgstr "_نوع الملف:"
 
 #: shell/e-shell-importer.c:694
 msgid "Import data and settings from _older programs"
-msgstr ""
+msgstr "استيراد البيانات و الإعدادات من البرامج الأ_قدم"
 
 #: shell/e-shell-importer.c:697
 msgid "Import a _single file"
@@ -16527,7 +16673,7 @@ msgstr ""
 
 #: shell/e-shell-importer.c:772
 msgid "Starting Intelligent Importers"
-msgstr ""
+msgstr "جاري بدء المستوردين الأذكياء"
 
 #: shell/e-shell-importer.c:898 shell/e-shell-startup-wizard.c:700
 #, c-format
@@ -16567,6 +16713,11 @@ msgid ""
 "\n"
 "Do you want to quit using the Assistant now?"
 msgstr ""
+"إذا خرجت من مساعد إعداد إيفُليوشِن الآن، ستُنسى كلّ المعلومات التي "
+"أدخلتها. عليك بدء هذا المساعد مرة أخرى قبل "
+"استخدام إيفُليوشِن.\n"
+"\n"
+"هل تريد الخروج من المساعد الآن؟"
 
 #: shell/e-shell-utils.c:116
 msgid "No folder name specified."
@@ -16590,7 +16741,7 @@ msgstr "'.'·و '..'·أسماء مجلّدات محجوزة."
 
 #: shell/e-shell-window-commands.c:67
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
-msgstr ""
+msgstr "يبدو أنّ أدوات جنوم بايلوت غير منصّبة على هذا النّظام."
 
 #: shell/e-shell-window-commands.c:75
 #, c-format
@@ -16607,7 +16758,7 @@ msgstr "لم يمكن تشغيل باك بدي."
 
 #: shell/e-shell-window-commands.c:323
 msgid "Groupware Suite"
-msgstr ""
+msgstr "طقم برامج مجموعات"
 
 #: shell/e-shell-window-commands.c:563
 msgid "_Work Online"
@@ -16629,7 +16780,7 @@ msgstr ""
 
 #: shell/e-shell-window.c:344
 msgid "Evolution is in the process of going offline."
-msgstr ""
+msgstr "إيفُليوشِن هو ضمن عمليّة الانتقال إلى الوضع دون اتّصال"
 
 #: shell/e-shell-window.c:350
 msgid "Evolution is currently offline.  Click on this button to work online."
@@ -16699,6 +16850,11 @@ msgid ""
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
+"أهلاً في إيفُليوشِن. ستمكّن الشاشات التالية إيفُليوشِن من\n"
+"الاتّصال بحسابات البريد الإلكتروني الخاصّة بك، و استيراد\n"
+"الملفات من غير تطبيقات.\n"
+"\n"
+"الرجاء الضّغط على زر \"إلى الأمام\" للمتابعة. "
 
 #: shell/evolution-startup-wizard.glade.h:11
 msgid ""
@@ -16707,6 +16863,10 @@ msgid ""
 "\n"
 "Click the \"Apply\" button to save your settings. "
 msgstr ""
+"أدخلت بشكل صحيح كلّ المعلومات\n"
+"المطلوبة لإعداد إيفُليوشِن.\n"
+"\n"
+"إضغط زرّ \"تطبيق\" لحفظ إعداداتك. "
 
 #: shell/evolution-test-component.c:140
 msgid "New Test"
@@ -16754,6 +16914,9 @@ msgid ""
 "With this assistant you will be guided through the process of\n"
 "importing external files into Evolution."
 msgstr ""
+"أهلا في مساعد استيراد إيفُليوشِن.\n"
+"ستوجّه في عملية استيراد الملفات الخارجيّة\n"
+"إلى إيفُليوشِن من خلال المساعد."
 
 #: shell/importer/intelligent.c:193
 msgid "Importers"
@@ -16795,6 +16958,21 @@ msgid ""
 "We hope that you enjoy the results of our hard work, and we\n"
 "eagerly await your contributions!\n"
 msgstr ""
+"مرحبا. شكراً لك لتحميل هذا الإصدار التجريبي من طقم\n"
+"برامج مجموعات إيفُليوشِن.\n"
+"\n"
+"هذا الإصدار من إيفُليوشِن غير كامل حتّى الآن، فهو يقترب من الإكتمال،\n"
+"إلّا أن بعض الميّزات هي إما غير مكتملة أو لا تعمل بشكل جيّد.\n"
+"\n"
+"إذا أردت الإصدار المستقر من إيفُليوشِن. نحثّك على إزالة هذا الإصدار،\n"
+"و تحميل الإصدار %d بدلاً منه.\n"
+"\n"
+"إذا وجدت خللاً، الرجاء الإخبار عنه في bugzilla.ximian.com.\n"
+"يأتي هذا المنتج بدون أي ضمانات و هو غير موجّه للأفراد\n"
+"المعرّضين لنوبات عنيفة من الغضب.\n"
+"\n"
+"نأمل أن تستمتع بنتيجة عملنا الجادّ، و نحن ننتظر بفارغ الصّبر\n"
+"مساهماتك!\n"
 
 #: shell/main.c:250
 msgid ""
@@ -16826,7 +17004,7 @@ msgstr "إجبار غلق جميع مكونات افُليوشِن"
 
 #: shell/main.c:473
 msgid "Forcibly re-migrate from Evolution 1.4"
-msgstr ""
+msgstr "إجبار إعادة النّزوح من إيفُليوشِن 1.4"
 
 #: shell/main.c:476
 msgid "Send the debugging output of all components to a file."
@@ -16855,6 +17033,11 @@ msgid ""
 "You will need to make more space available in your home directory before you "
 "can continue."
 msgstr ""
+"ستتطلّب ترقية بياناتك و إعداداتك {0} من مساحة القرص كحدّ أقصى، "
+"و لكن لديك {1} فقط متوفّرة.\n"
+"\n"
+"ستحتاج لتوفير المزيد من المساحة في الدّليل المنزلي الخاص بك "
+"قبل المتابعة."
 
 #. shell:upgrade-failed primary
 #: shell/shell-errors.xml.h:8
@@ -16897,6 +17080,11 @@ msgid ""
 "then you may manually remove the contents of \"evolution\" at your "
 "convenience.\n"
 msgstr ""
+"يخزّن الإصدار السّابق من إيفُليوشِن البيانات في مكان مختلف.\n"
+"\n"
+"إذا أردتّ إزالة هذه البيانات، كل محتويات مجلّد \"evolution\" ستزال "
+"بشكل نهائي. إذا اخترت إبقاء هذه البيانات، يمكنك إذاً إزالة محتويات "
+"هذا المجلّد يدويّاً عندما يناسبك هذا.\n"
 
 #: shell/shell-errors.xml.h:25
 msgid "_Remind Me Later"
@@ -16904,7 +17092,7 @@ msgstr "_ذكّرني لاحقاً"
 
 #: shell/shell-errors.xml.h:26
 msgid "_Keep Data"
-msgstr ""
+msgstr "إ_بقاء البيانات"
 
 #. shell:upgrade-remove-1-4-confirm title
 #. shell:upgrade-remove-1-4-confirm primary
@@ -16925,6 +17113,15 @@ msgid ""
 "Once deleted, you cannot downgrade to the previous version of Evolution "
 "without manual intervention.\n"
 msgstr ""
+"كلّ محتويات المجلّد \"evolution\" على وشك أن تزال "
+"بشكل نهائيّ.\n"
+"\n"
+"من المقترح أن تتأكّد بشكل يدوي من أنّ كل بريدك، مراسَليك، و "
+"بيانات الرزنامة موجودة، و أنّ نسخة إيفُليوشِن هذه تعمل بشكل صحيح "
+"قبل حذف البيانات القديمة.\n"
+"\n"
+"حالما تحذف البيانات، لن يكون من الممكن النزول للإصدار السّابق "
+"من إيفُليوشِن دون التّدخل اليدوي.\n"
 
 #. shell:noshell title
 #. shell:noshell-reason title
@@ -16945,6 +17142,9 @@ msgid ""
 "\n"
 "Click help for details"
 msgstr ""
+"لا يطابق إعداد نظامك إعداد إيفُليوشِن:\n"
+"\n"
+"إضغط مساعدة للتّفاصيل"
 
 #. shell:noshell-reason secondary
 #: shell/shell-errors.xml.h:51
@@ -16955,6 +17155,11 @@ msgid ""
 "\n"
 "Click help for details."
 msgstr ""
+"لا يطابق إعداد نظامك إعداد إيفُليوشِن:\n"
+"\n"
+"{0}\n"
+"\n"
+"إضغط مساعدة للتّفاصيل."
 
 #: smime/gui/ca-trust-dialog.c:91
 #, c-format
@@ -16963,20 +17168,23 @@ msgid ""
 "\n"
 "Edit trust settings:"
 msgstr ""
+"الشّهادة '%s' هي شهادة سلطة شهادات.\n"
+"\n"
+"تحرير إعدادات الثّقة:"
 
 #: smime/gui/cert-trust-dialog.c:145
 msgid ""
 "Because you trust the certificate authority that issued this certificate, "
 "then you trust the authenticity of this certificate unless otherwise "
 "indicated here"
-msgstr ""
+msgstr "لأنّك تثق بسلطة الشهادات التي أصدرت هذه الشّهادة، فأنت تثق أيضاً بموثوقية هذه الشّهادة إلا إذا أشرت لعكس ذلك هنا"
 
 #: smime/gui/cert-trust-dialog.c:149
 msgid ""
 "Because you do not trust the certificate authority that issued this "
 "certificate, then you do not trust the authenticity of this certificate "
 "unless otherwise indicated here"
-msgstr ""
+msgstr "لأنّك لا تثق بسلطة الشهادات التي أصدرت هذه الشّهادة، فأنت لا تثق أيضاً بموثوقية هذه الشّهادة إلا إذا أشرت لعكس ذلك هنا"
 
 #: smime/gui/certificate-manager.c:134 smime/gui/certificate-manager.c:142
 #: smime/gui/certificate-manager.c:375 smime/gui/certificate-manager.c:383
@@ -17100,7 +17308,7 @@ msgstr "نسخ احتياطي للكل"
 msgid ""
 "Before trusting this CA for any purpose, you should examine its certificate "
 "and its policy and procedures (if available)."
-msgstr ""
+msgstr "قبل الوثوق من سلطة الشهادات هذه لأي غرض، عليك تفحّص شهادتها و سياستها و إجراءاتها (في حال وجودها)."
 
 #: smime/gui/smime-ui.glade.h:14 smime/lib/e-cert.c:1076
 msgid "Certificate"
@@ -17124,7 +17332,7 @@ msgstr "شهادات المراسَل"
 
 #: smime/gui/smime-ui.glade.h:20
 msgid "Do not trust the authenticity of this certificate"
-msgstr ""
+msgstr "لا تثق بموثوقية هذه الشّهادة"
 
 #: smime/gui/smime-ui.glade.h:21
 msgid "Dummy window only"
@@ -17180,19 +17388,19 @@ msgstr "شهادة نادل SSL"
 
 #: smime/gui/smime-ui.glade.h:37
 msgid "Trust the authenticity of this certificate"
-msgstr ""
+msgstr "ثِق بموثوقية هذه الشّهادة"
 
 #: smime/gui/smime-ui.glade.h:38
 msgid "Trust this CA to identify email users."
-msgstr ""
+msgstr "ثِق بسلطة الشّهادات هذه للتّحقق من هوية مستخدمي البريد الإلكتروني."
 
 #: smime/gui/smime-ui.glade.h:39
 msgid "Trust this CA to identify software developers."
-msgstr ""
+msgstr "ثِق بسلطة الشّهادات هذه للتّحقق من هوية مطوّري البرامج."
 
 #: smime/gui/smime-ui.glade.h:40
 msgid "Trust this CA to identify web sites."
-msgstr ""
+msgstr "ثِق بسلطة الشّهادات هذه للتّحقق من هوية المواقع."
 
 #: smime/gui/smime-ui.glade.h:41
 msgid "View"
@@ -17216,7 +17424,7 @@ msgstr "شهاداتك"
 
 #: smime/gui/smime-ui.glade.h:46
 msgid "_Edit CA Trust"
-msgstr ""
+msgstr "_تحرير ثقة سلطات الشهادات"
 
 #. XXX we shouldn't be popping up dialogs in this code.
 #: smime/lib/e-cert-db.c:612
@@ -17363,7 +17571,7 @@ msgstr "التّوقيع"
 
 #: smime/lib/e-cert.c:870
 msgid "Non-repudiation"
-msgstr ""
+msgstr "عدم الرّفض"
 
 #: smime/lib/e-cert.c:874
 msgid "Key Encipherment"
@@ -17836,7 +18044,7 @@ msgstr "حفظ القائمة و غلق صندوق الحوار"
 
 #: ui/evolution-contact-list-editor.xml.h:9
 msgid "Se_nd list to other..."
-msgstr ""
+msgstr "إرسال القائمة إلى آخر..."
 
 #: ui/evolution-contact-list-editor.xml.h:10
 msgid "Send _message to list..."
@@ -18372,19 +18580,19 @@ msgstr "تراجع عن حذف الرسائل المنتقات"
 
 #: ui/evolution-mail-message.xml.h:103
 msgid "VFolder on Mailing _List..."
-msgstr ""
+msgstr "مجلّد اعتباطي على ال_قائمة البريدية..."
 
 #: ui/evolution-mail-message.xml.h:104
 msgid "VFolder on Se_nder..."
-msgstr ""
+msgstr "مجلّد اعتباطي على ال_مرسل..."
 
 #: ui/evolution-mail-message.xml.h:105
 msgid "VFolder on _Recipients..."
-msgstr ""
+msgstr "مجلّد اعتباطي على ال_مستقبلين..."
 
 #: ui/evolution-mail-message.xml.h:106
 msgid "VFolder on _Subject..."
-msgstr ""
+msgstr "مجلّد اعتباطي على ال_عنوان..."
 
 #: ui/evolution-mail-message.xml.h:108
 msgid "_Attached"
@@ -18561,27 +18769,27 @@ msgstr "توقيع الرسالة بتوقيع شهادة S/MIME خاصة بك"
 
 #: ui/evolution-message-composer.xml.h:32
 msgid "Toggles whether the BCC field is displayed"
-msgstr ""
+msgstr "قلب حالة عرض حقل نسخة كربونيّة خفيّة"
 
 #: ui/evolution-message-composer.xml.h:33
 msgid "Toggles whether the CC field is displayed"
-msgstr ""
+msgstr "قلب حالة عرض حقل نسخة كربونيّة"
 
 #: ui/evolution-message-composer.xml.h:34
 msgid "Toggles whether the From chooser is displayed"
-msgstr ""
+msgstr "قلب حالة عرض مختار من"
 
 #: ui/evolution-message-composer.xml.h:35
 msgid "Toggles whether the Post-To field is displayed"
-msgstr ""
+msgstr "قلب حالة عرض حقل إرسال إلى"
 
 #: ui/evolution-message-composer.xml.h:36
 msgid "Toggles whether the Reply-To field is displayed"
-msgstr ""
+msgstr "قلب حالة عرض حقل ردّ إلى"
 
 #: ui/evolution-message-composer.xml.h:37
 msgid "Toggles whether the To field is displayed"
-msgstr ""
+msgstr "قلب حالة عرض حقل إلى"
 
 #: ui/evolution-message-composer.xml.h:38
 msgid "_Attachment..."
@@ -18814,7 +19022,7 @@ msgstr "شريط الأ_دوات الرّئيسي"
 
 #: ui/evolution.xml.h:24
 msgid "Toggle whether we are working offline."
-msgstr ""
+msgstr "قلب حالة العمل بدون اتّصال."
 
 #: ui/evolution.xml.h:26
 msgid "_About Evolution..."
