@@ -48,11 +48,7 @@ static void real_create_imap_storage( gpointer user_data );
 static void create_news_storage (EvolutionShellComponent *shell_component);
 static void real_create_news_storage( gpointer user_data );
 
-#ifdef USING_OAF
 #define COMPONENT_FACTORY_ID "OAFIID:evolution-shell-component-factory:evolution-mail:0ea887d5-622b-4b8c-b525-18aa1cbe18a6"
-#else
-#define COMPONENT_FACTORY_ID "evolution-shell-component-factory:evolution-mail"
-#endif
 
 static BonoboGenericFactory *factory = NULL;
 

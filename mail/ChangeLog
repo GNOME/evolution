@@ -1,3 +1,12 @@
+2000-07-24  Dan Winship  <danw@helixcode.com>
+
+	* component-factory.c, folder-browser-factory.c, test-mail.c:
+	Remove GOAD support.
+
+	* main.c: Remove GOAD support.
+	(main): More "guess the build mistake" fun, this time for the
+	failure to initialize Bonobo case.
+
 2000-07-23  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* mail-ops.c (create_message_composer): New.

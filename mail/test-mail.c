@@ -11,35 +11,7 @@
 
 #include <gnome.h>
 #include <bonobo.h>
-
-#ifdef USING_OAF
-
 #include <liboaf/liboaf.h>
-
-static void
-init_corba (int *argc, char *argv[])
-{
-	gnome_init ("sample-control-container", "1.0", *argc, argv);
-	oaf_init (*argc, argv);
-}
-
-#else  /* USING_OAF */
-
-#include <libgnorba/gnorba.h>
-
-static void
-init_corba (int *argc, char *argv [])
-{
-	CORBA_Environment ev;
-
-	CORBA_exception_init (&ev);
-
-	gnome_CORBA_init ("sample-control-container", "1.0", argc, argv, 0, &ev);
-
-	CORBA_exception_free (&ev);
-}
-
-#endif /* USING_OAF */
 
 static guint
 create_container (void)
@@ -58,13 +30,8 @@ create_container (void)
 
 	uih = bonobo_ui_handler_new ();
 
-#ifdef USING_OAF
 	control = bonobo_widget_new_control ("OAFIID:control:evolution-mail:833d5a71-a201-4a0e-b7e6-5475c5c4cb45",
 					     bonobo_object_corba_objref (BONOBO_OBJECT (uih)));
-#else
-	control = bonobo_widget_new_control ("control:evolution-mail",
-				     bonobo_object_corba_objref (BONOBO_OBJECT (uih)));
-#endif
 	
 	if (control == NULL){
 		printf ("Could not launch mail control\n");
@@ -82,7 +49,8 @@ create_container (void)
 int
 main (int argc, char *argv [])
 {
-	init_corba (&argc, argv);
+	gnome_init ("sample-control-container", "1.0", argc, argv);
+	oaf_init (argc, argv);
 
 	if (bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
 		g_error ("Could not initialize Bonobo\n");

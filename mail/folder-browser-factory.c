@@ -19,12 +19,6 @@
 #include "mail.h"
 #include "shell/Evolution.h"
 
-#ifdef USING_OAF
-#define CONTROL_FACTORY_ID "OAFIID:control-factory:evolution-mail:25902062-543b-4f44-8702-d90145fcdbf2"
-#else
-#define CONTROL_FACTORY_ID "control-factory:evolution-mail"
-#endif
-
 static GnomeUIInfo gnome_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("Get mail"), N_("Check for new mail"), fetch_mail, GNOME_STOCK_PIXMAP_MAIL_RCV),
 	GNOMEUIINFO_ITEM_STOCK (N_("Compose"), N_("Compose a new message"), compose_msg, GNOME_STOCK_PIXMAP_MAIL_NEW),
