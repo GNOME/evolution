@@ -1,3 +1,11 @@
+2005-01-05  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer.c (d): turn off debug, setup g private instance
+	data structure.
+	(setup_ui): activate the composer plugin menu.
+	(destroy): clean up the composer plugin menu.
+	(class_init, init): init private instance data & plugin menu.
+
 2004-12-24  JP Rosevear  <jpr@novell.com>
 
 	* e-msg-composer.c (setup_signatures_menu): kill warnings

@@ -119,6 +119,7 @@
 #include "mail/mail-mt.h"
 #include "mail/mail-session.h"
 #include "mail/em-popup.h"
+#include "mail/em-menu.h"
 
 #include "e-msg-composer.h"
 #include "e-msg-composer-attachment-bar.h"
@@ -133,7 +134,13 @@
 
 #define GNOME_GTKHTML_EDITOR_CONTROL_ID "OAFIID:GNOME_GtkHTML_Editor:" GTKHTML_API_VERSION
 
-#define d(x) x
+#define d(x)
+
+#define _PRIVATE(o) (g_type_instance_get_private ((GTypeInstance *)o, e_msg_composer_get_type()))
+
+typedef struct _EMsgComposerPrivate {
+	EMMenu *menu;
+} EMsgComposerPrivate;
 
 enum {
 	SEND,
@@ -2140,6 +2147,8 @@ setup_signatures_menu (EMsgComposer *composer)
 static void
 setup_ui (EMsgComposer *composer)
 {
+	EMMenuTargetWidget *target;
+	EMsgComposerPrivate *p = _PRIVATE(composer);
 	BonoboUIContainer *container;
 	gboolean hide_smime;
 	char *charset;
@@ -2283,6 +2292,11 @@ setup_ui (EMsgComposer *composer)
 	/* Create the UIComponent for the non-control entries */
 
 	composer->entry_uic = bonobo_ui_component_new_default ();
+
+	/* Setup main menu plugin mechanism */
+	target = em_menu_target_new_widget(p->menu, (GtkWidget *)composer);
+	e_menu_update_target((EMenu *)p->menu, target);
+	e_menu_activate((EMenu *)p->menu, composer->uic, TRUE);
 }
 
 
@@ -2548,11 +2562,18 @@ destroy (GtkObject *object)
 	EMsgComposer *composer;
 	CORBA_Environment ev;
 	ESignatureList *signatures;
-	
+	EMsgComposerPrivate *p = _PRIVATE(composer);
+
 	composer = E_MSG_COMPOSER (object);
 	
 	CORBA_exception_init (&ev);
-	
+
+	if (p->menu) {
+		e_menu_update_target((EMenu *)p->menu, NULL);
+		g_object_unref(p->menu);
+		p->menu = NULL;
+	}
+
 	if (composer->uic) {
 		bonobo_object_unref (BONOBO_OBJECT (composer->uic));
 		composer->uic = NULL;
@@ -2978,6 +2999,8 @@ class_init (EMsgComposerClass *klass)
 	gobject_class = G_OBJECT_CLASS(klass);
 	object_class = GTK_OBJECT_CLASS (klass);
 	widget_class = GTK_WIDGET_CLASS (klass);
+
+	g_type_class_add_private(gobject_class, sizeof(struct _EMsgComposerPrivate));
 	
 	gobject_class->finalize = composer_finalise;
 	gobject_class->dispose = composer_dispose;
@@ -3009,6 +3032,8 @@ class_init (EMsgComposerClass *klass)
 static void
 init (EMsgComposer *composer)
 {
+	EMsgComposerPrivate *p = _PRIVATE(composer);
+
 	composer->uic                      = NULL;
 	
 	composer->hdrs                     = NULL;
@@ -3049,6 +3074,16 @@ init (EMsgComposer *composer)
 	composer->enable_autosave          = TRUE;
 	composer->autosave_file            = NULL;
 	composer->autosave_fd              = -1;
+
+	/** @HookPoint-EMMenu: Main Mail Menu
+	 * @Id: org.gnome.evolution.mail.composer
+	 * @Class: org.gnome.evolution.mail.bonobomenu:1.0
+	 * @Target: EMMenuTargetWidget
+	 *
+	 * The main menu of the composer window.  The widget of the
+	 * target will point to the EMsgComposer object.
+	 */
+	p->menu = em_menu_new("org.gnome.evolution.mail.composer");
 }
 
 
