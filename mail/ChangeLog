@@ -1,3 +1,9 @@
+2000-07-03  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* component-factory.c (create_folder): Get rid of a compiler
+	warning by making sure `folder' is always initialized to some
+	value for any code path.
+
 2000-07-03  Dan Winship  <danw@helixcode.com>
 
 	* message-list.c (select_msg): call mail_display_set_message with
