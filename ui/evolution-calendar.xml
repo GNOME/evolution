@@ -1,0 +1,87 @@
+<Root>
+
+	<menu>
+		<submenu name="File" _label="_File">
+
+			<submenu name="New" _label="_New">
+
+				<menuitem name="CalendarNew" verb=""
+				_label="New Ca_lendar" _descr="Create a new calendar"/>
+
+			</submenu>
+
+			<submenu name="Open" _label="_Open">
+
+				<menuitem name="CalendarOpen" verb=""
+				_label="_Open Calendar" _descr="Open a calendar"/>
+
+			</submenu>
+
+			<menuitem name="CalendarSaveAs" verb=""
+				_label="_Save Calendar As" _descr="Save calendar As something else"/>
+
+			<placeholder name="Print">
+
+				<menuitem name="Print" verb="CalendarPrint"
+				_label="_Print this calendar"
+				pixtype="stock" pixname="Menu_Print"
+				accel="&lt;Control&gt;p"/>
+				
+			</placeholder>
+
+		</submenu>
+
+		<submenu name="Edit" _label="_Edit">
+
+			<menuitem name="Appointment" _label="_New appointment..."
+			verb="EditNewAppointment" _descr="Create a new appointment"/>
+
+			<menuitem name="Preferences" _label="Preferences"
+			verb="CalendarPreferences" _descr="Alter preferences"/>
+
+		</submenu>
+
+		<submenu name="Help" _label="_Help">
+
+			<menuitem name="Calendar" _label="About Calendar"
+			_descr="All about the calendar" verb="AboutCalendar"/>
+
+		</submenu>
+	</menu>
+
+	<dockitem name="Toolbar">
+		<toolitem name="New" _label="New"
+		_decr="Create a new appointment" verb="EditNewAppointment"
+		pixtype="stock" pixname="New"/>
+
+		<toolitem type="separator"/>
+
+		<toolitem name="Print" _label="Print"
+		_descr="Print this calendar" verb="CalendarPrint"
+		pixtype="stock" pixname="Print"/>
+
+		<toolitem type="separator"/>
+
+		<toolitem name="Prev" label="Prev"
+		_descr="Go back in time" verb="CalendarPrev"
+		pixtype="stock" pixname="Back"/>
+
+		<toolitem name="Today" label="Today"
+		_descr="Go to present time" verb="CalendarToday"
+		pixtype="stock" pixname="Home"/>
+
+		<toolitem name="Next" label="Next"
+		_descr="Go forward in time" verb="CalendarNext"
+		pixtype="stock" pixname="Forward"/>
+
+		<toolitem type="separator"/>
+
+		<toolitem name="Goto" label="Go to"
+		_descr="Go to a specific data" verb="CalendarGoto"
+		pixtype="stock" pixname="Jump To"/>
+		
+		<toolitem type="separator"/>
+
+	</dockitem>
+
+</Root>
