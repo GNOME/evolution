@@ -1,3 +1,8 @@
+2002-07-08  Peter Williams  <peterw@ximian.com>
+
+	* gui/component/select-names/Makefile.am (idl_DATA): Install the
+	SelectNames IDL and ancillary changes.
+
 2002-07-12  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-summary.c (free_summary_item): free the

@@ -1,6 +1,8 @@
 # CORBA stuff
 
-IDLS = \
+idldir = $(datadir)/idl
+
+idl_DATA = \
 	Evolution-Addressbook-SelectNames.idl
 
 IDL_GENERATED = \
@@ -11,7 +13,7 @@ IDL_GENERATED = \
 
 Evolution-Addressbook-SelectNames-impl.o: Evolution-Addressbook-SelectNames.h
 
-$(IDL_GENERATED): $(IDLS)
+$(IDL_GENERATED): $(idl_DATA)
 	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`	\
 		$(srcdir)/Evolution-Addressbook-SelectNames.idl
 
@@ -75,8 +77,7 @@ glade_DATA = select-names.glade
 EXTRA_DIST = 			\
 	$(glade_DATA)		\
 	$(oaf_in_files)		\
-	$(oaf_DATA)		\
-	$(IDLS)
+	$(oaf_DATA)
 
 BUILT_SOURCES = $(IDL_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)
