@@ -48,7 +48,7 @@ model_changed(ETableModel *etm, ETableSelectionModel *etsm)
 	e_table_selection_model_clear(etsm);
 }
 
-#if 0
+#if 1
 static void
 model_row_inserted(ETableModel *etm, int row, ETableSelectionModel *etsm)
 {
