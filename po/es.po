@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.7.0\n"
-"POT-Creation-Date: 2001-02-07 18:17+0100\n"
+"POT-Creation-Date: 2001-02-07 23:23+0100\n"
 "PO-Revision-Date: 2001-01-23 16:58-04:00\n"
 "Last-Translator: Héctor García Álvarez <hector@scouts-es.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -1623,27 +1623,27 @@ msgstr "%A, %e %B %Y"
 msgid "%I:%M%p"
 msgstr "%I:%M%p"
 
-#: calendar/gui/calendar-summary.c:302
+#: calendar/gui/calendar-summary.c:335
 msgid "<b>Error loading calendar</b>"
 msgstr "<b>Error cargando el calendario</b>"
 
-#: calendar/gui/calendar-summary.c:314
+#: calendar/gui/calendar-summary.c:347
 msgid "<b>Error loading calendar:<br>Method not supported"
 msgstr "<b>Error cargando el calendario:<br>Método no soportado"
 
-#: calendar/gui/calendar-summary.c:484
+#: calendar/gui/calendar-summary.c:517
 msgid "Display"
 msgstr "Mostrar"
 
-#: calendar/gui/calendar-summary.c:489
+#: calendar/gui/calendar-summary.c:522
 msgid "Show appointments"
 msgstr "Mostrar citas"
 
-#: calendar/gui/calendar-summary.c:497
+#: calendar/gui/calendar-summary.c:530
 msgid "Show tasks"
 msgstr "Mostrar tareas"
 
-#: calendar/gui/calendar-summary.c:583
+#: calendar/gui/calendar-summary.c:616
 msgid "Loading Calendar"
 msgstr "Cargando calendario"
 
