@@ -43,7 +43,11 @@ AC_DEFUN([GNOME_COMPILE_WARNINGS],[
     fi
   fi
   AC_MSG_RESULT($complCFLAGS)
-  CFLAGS="$CFLAGS $warnCFLAGS $complCFLAGS"
+  if test "x$cflags_set" != "xyes"; then
+    CFLAGS="$CFLAGS $warnCFLAGS $complCFLAGS"
+    cflags_set=yes
+    AC_SUBST(cflags_set)
+  fi
 ])
 
 dnl For C++, do basically the same thing.
@@ -90,5 +94,9 @@ AC_DEFUN([GNOME_CXX_WARNINGS],[
      fi
    fi
   AC_MSG_RESULT($complCXXFLAGS)
-  CXXFLAGS="$CXXFLAGS $warnCXXFLAGS $complCXXFLAGS"
+  if test "x$cxxflags_set" != "xyes"; then
+    CXXFLAGS="$CXXFLAGS $warnCXXFLAGS $complCXXFLAGS"
+    cxxflags_set=yes
+    AC_SUBST(cxxflags_set)
+  fi
 ])
