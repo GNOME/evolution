@@ -578,6 +578,7 @@ component_fn (BonoboGenericFactory *factory, void *closure)
 	MailOfflineHandler *offline_handler;
 	
 	shell_component = evolution_shell_component_new (folder_types,
+							 NULL,
 							 create_view,
 							 create_folder,
 							 remove_folder,

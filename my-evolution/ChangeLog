@@ -1,3 +1,9 @@
+2001-06-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* component-factory.c (factory_fn): Pass NULL as the
+	@external_uri_schemas argument to
+	`evolution_shell_component_new()'.
+
 2001-06-21  Rodrigo Moya <rodrigo@ximian.com>
 
 	* Makefile.am: added libwombat to LDADD

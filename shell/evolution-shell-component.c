@@ -44,6 +44,7 @@ static GtkObjectClass *parent_class = NULL;
 
 struct _EvolutionShellComponentPrivate {
 	GList *folder_types;	/* EvolutionShellComponentFolderType */
+	GList *external_uri_schemas; /* char * */
 
 	EvolutionShellComponentCreateViewFn create_view_fn;
 	EvolutionShellComponentCreateFolderFn create_folder_fn;
@@ -61,6 +62,7 @@ enum {
 	OWNER_SET,
 	OWNER_UNSET,
 	DEBUG,
+	HANDLE_EXTERNAL_URI,
 	LAST_SIGNAL
 };
 
@@ -164,6 +166,46 @@ impl_ShellComponent__get_supported_types (PortableServer_Servant servant,
 	}
 
 	return folder_type_list;
+}
+
+static GNOME_Evolution_URISchemaList *
+impl_ShellComponent__get_external_uri_schemas (PortableServer_Servant servant,
+					       CORBA_Environment *ev)
+{
+	EvolutionShellComponent *shell_component;
+	EvolutionShellComponentPrivate *priv;
+	GNOME_Evolution_URISchemaList *uri_schema_list;
+	GList *p;
+	int i;
+
+	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object_from_servant (servant));
+	priv = shell_component->priv;
+
+	uri_schema_list = GNOME_Evolution_URISchemaList__alloc ();
+
+	/* FIXME: We could probably keep this to FALSE and avoid
+	   CORBA_string_duplicating.  */
+	CORBA_sequence_set_release (uri_schema_list, TRUE);
+
+	if (priv->external_uri_schemas == NULL) {
+		uri_schema_list->_length = 0;
+		uri_schema_list->_maximum = 0;
+		uri_schema_list->_buffer = NULL;
+		return uri_schema_list;
+	}
+
+	uri_schema_list->_length = g_list_length (priv->external_uri_schemas);
+	uri_schema_list->_maximum = uri_schema_list->_length;
+	uri_schema_list->_buffer = CORBA_sequence_GNOME_Evolution_URISchema_allocbuf (uri_schema_list->_maximum);
+
+	for (p = priv->external_uri_schemas, i = 0; p != NULL; p = p->next, i++) {
+		const char *schema;
+
+		schema = (const char *) p->data;
+		uri_schema_list->_buffer[i] = CORBA_string_dup (schema);
+	}
+
+	return uri_schema_list;
 }
 
 static void
@@ -429,6 +471,8 @@ destroy (GtkObject *object)
 	}
 	g_list_free (priv->folder_types);
 
+	e_free_string_list (priv->external_uri_schemas);
+
 	g_free (priv);
 
 	parent_class->destroy (object);
@@ -471,11 +515,21 @@ class_init (EvolutionShellComponentClass *klass)
 				  gtk_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
 
+	signals[HANDLE_EXTERNAL_URI]
+		= gtk_signal_new ("handle_external_uri",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EvolutionShellComponentClass, handle_external_uri),
+				  gtk_marshal_NONE__STRING,
+				  GTK_TYPE_NONE, 1,
+				  GTK_TYPE_STRING);
+
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 
 	epv->_get_supported_types      = impl_ShellComponent__get_supported_types;
+	epv->_get_external_uri_schemas = impl_ShellComponent__get_external_uri_schemas;
 	epv->setOwner                  = impl_ShellComponent_set_owner;
 	epv->unsetOwner                = impl_ShellComponent_unset_owner;
 	epv->debug                     = impl_ShellComponent_debug;
@@ -494,6 +548,8 @@ init (EvolutionShellComponent *shell_component)
 	priv = g_new (EvolutionShellComponentPrivate, 1);
 
 	priv->folder_types                    = NULL;
+	priv->external_uri_schemas            = NULL;
+
 	priv->create_view_fn                  = NULL;
 	priv->create_folder_fn                = NULL;
 	priv->remove_folder_fn                = NULL;
@@ -510,6 +566,7 @@ init (EvolutionShellComponent *shell_component)
 void
 evolution_shell_component_construct (EvolutionShellComponent *shell_component,
 				     const EvolutionShellComponentFolderType folder_types[],
+				     const char *external_uri_schemas[],
 				     EvolutionShellComponentCreateViewFn create_view_fn,
 				     EvolutionShellComponentCreateFolderFn create_folder_fn,
 				     EvolutionShellComponentRemoveFolderFn remove_folder_fn,
@@ -522,6 +579,8 @@ evolution_shell_component_construct (EvolutionShellComponent *shell_component,
 	int i;
 
 	g_return_if_fail (shell_component != NULL);
+	g_return_if_fail (EVOLUTION_IS_SHELL_COMPONENT (shell_component));
+	g_return_if_fail (folder_types != NULL);
 
 	priv = shell_component->priv;
 
@@ -553,10 +612,17 @@ evolution_shell_component_construct (EvolutionShellComponent *shell_component,
 
 	if (priv->folder_types == NULL)
 		g_warning ("No valid folder types constructing EShellComponent %p", shell_component);
+
+	if (external_uri_schemas != NULL) {
+		for (i = 0; external_uri_schemas[i] != NULL; i++)
+			priv->external_uri_schemas = g_list_prepend (priv->external_uri_schemas,
+								     g_strdup (external_uri_schemas[i]));
+	}
 }
 
 EvolutionShellComponent *
 evolution_shell_component_new (const EvolutionShellComponentFolderType folder_types[],
+			       const char *external_uri_schemas[],
 			       EvolutionShellComponentCreateViewFn create_view_fn,
 			       EvolutionShellComponentCreateFolderFn create_folder_fn,
 			       EvolutionShellComponentRemoveFolderFn remove_folder_fn,
@@ -567,10 +633,13 @@ evolution_shell_component_new (const EvolutionShellComponentFolderType folder_ty
 {
 	EvolutionShellComponent *new;
 
+	g_return_val_if_fail (folder_types != NULL, NULL);
+
 	new = gtk_type_new (evolution_shell_component_get_type ());
 
 	evolution_shell_component_construct (new,
 					     folder_types,
+					     external_uri_schemas,
 					     create_view_fn,
 					     create_folder_fn,
 					     remove_folder_fn,

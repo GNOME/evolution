@@ -1,3 +1,29 @@
+2001-06-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-test-component.c (factory_fn): Pass NULL as the
+	@external_uri_schemas arg to `evolution_shell_component_new'.
+
+	* evolution-shell-component.c: New enum value
+	`HANDLE_EXTERNAL_URI'.  New member `external_uri_schemas' in
+	`EvolutionShellComponentPrivate'.
+	(init): Initialize `external_uri_schemas' to NULL.
+	(destroy): Free it.
+	(destroy):
+	(class_init): Add the "handler_external_uri" signal.
+	(evolution_shell_component_new): Added precondition on
+	@folder_types.  New arg @external_uri_schemas.
+	(evolution_shell_component_construct): Added preconditions.  New
+	arg @external_uri_schemas.  Initialize the `external_uri_schemas'
+	member in the EvolutionShellComponentPrivate part.
+	(impl_ShellComponent__get_external_uri_schemas): New,
+	implementation for reading the `external_uri_schemas' attribute.
+	(class_init): Install it in the EPV.
+
+	* evolution-shell-component.h: New signal `handle_external_uri'.
+
+	* Evolution-ShellComponent.idl: New attribute `extra_uri_schemas'.
+	(handleExternalURI): New method.
+
 2001-06-26  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-storage-set-view.c (etree_value_at): Don't strdup "My

@@ -1,3 +1,9 @@
+2001-06-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component-factory.c (factory_fn): Pass NULL as the
+	@external_uri_schemas argument to
+	`evolution_shell_component_new()'.
+
 2001-06-27  Peter Williams  <peterw@ximian.com>
 
 	* conduits/*/Makefile.am (INCLUDES): More srcdir != builddir

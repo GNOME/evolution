@@ -131,12 +131,16 @@ struct _EvolutionShellComponentClass {
 			      const char *evolution_homedir);
 	void (* owner_unset) (EvolutionShellComponent *shell_component);
 	void (* debug)       (EvolutionShellComponent *shell_component);
+
+	void (* handle_external_uri) (EvolutionShellComponent *shell_component,
+				      const char *uri);
 };
 
 
 GtkType                  evolution_shell_component_get_type   (void);
 void                     evolution_shell_component_construct  (EvolutionShellComponent                            *shell_component,
 							       const EvolutionShellComponentFolderType             folder_types[],
+							       const char                                         *external_uri_schemas[],
 							       EvolutionShellComponentCreateViewFn                 create_view_fn,
 							       EvolutionShellComponentCreateFolderFn               create_folder_fn,
 							       EvolutionShellComponentRemoveFolderFn               remove_folder_fn,
@@ -145,6 +149,7 @@ void                     evolution_shell_component_construct  (EvolutionShellCom
 							       EvolutionShellComponentGetDndSelectionFn            get_dnd_selection_fn,
 							       void                                               *closure);
 EvolutionShellComponent *evolution_shell_component_new        (const EvolutionShellComponentFolderType             folder_types[],
+							       const char                                         *external_uri_schemas[],
 							       EvolutionShellComponentCreateViewFn                 create_view_fn,
 							       EvolutionShellComponentCreateFolderFn               create_folder_fn,
 							       EvolutionShellComponentRemoveFolderFn               remove_folder_fn,
