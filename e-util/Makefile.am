@@ -4,7 +4,8 @@ INCLUDES =					\
 	-I$(top_srcdir)				\
 	$(GNOME_INCLUDEDIR)			\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"	\
-	-DG_LOG_DOMAIN=\"e-utils\"
+	-DG_LOG_DOMAIN=\"e-utils\"		\
+	$(UNICODE_CFLAGS)
 
 noinst_LTLIBRARIES = libeutil.la libeutil-static.la
 
