@@ -1,3 +1,8 @@
+2001-10-30  Dan Winship  <danw@ximian.com>
+
+	* gui/alarm-notify/Makefile.am (INCLUDES):
+	s/BONOBO_HTML_GNOME_LIBS/BONOBO_HTML_GNOME_CFLAGS/
+
 2001-10-30  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-meeting-model.c (e_meeting_model_count_actual_attendees):

@@ -28,10 +28,9 @@ INCLUDES = 						\
 	-I$(top_builddir)/libical/src/libical		\
 	-I$(top_srcdir)/widgets				\
 	-I$(includedir)					\
-	$(GAL_CFLAGS)					\
 	$(BONOBO_VFS_GNOME_CFLAGS)			\
 	$(BONOBO_CONF_CFLAGS)				\
-	$(BONOBO_HTML_GNOME_LIBS)			\
+	$(BONOBO_HTML_GNOME_CFLAGS)			\
 	$(EXTRA_GNOME_CFLAGS)				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
