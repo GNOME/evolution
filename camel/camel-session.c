@@ -584,6 +584,7 @@ camel_session_get_storage_path (CamelSession *session, CamelService *service,
  * camel_session_get_password:
  * @session: session object
  * @prompt: prompt to provide to user
+ * @reprompt: TRUE if the prompt should force a reprompt
  * @secret: whether or not the data is secret (eg, a password, as opposed
  * to a smartcard response)
  * @service: the service this query is being made by
@@ -607,14 +608,15 @@ camel_session_get_storage_path (CamelSession *session, CamelService *service,
  **/
 char *
 camel_session_get_password (CamelSession *session, const char *prompt,
-			    gboolean secret, CamelService *service,
-			    const char *item, CamelException *ex)
+			    gboolean reprompt, gboolean secret,
+			    CamelService *service, const char *item,
+			    CamelException *ex)
 {
 	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
 	g_return_val_if_fail (prompt != NULL, NULL);
 	g_return_val_if_fail (item != NULL, NULL);
-
-	return CS_CLASS (session)->get_password (session, prompt, secret, service, item, ex);
+	
+	return CS_CLASS (session)->get_password (session, prompt, reprompt, secret, service, item, ex);
 }
 
 

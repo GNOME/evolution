@@ -769,7 +769,7 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 		prompt = g_strdup_printf (_("You need a passphrase to unlock the key for\n"
 					    "user: \"%s\""), name);
 		
-		passwd = camel_session_get_password (gpg->session, prompt, TRUE, NULL, userid, ex);
+		passwd = camel_session_get_password (gpg->session, prompt, FALSE, TRUE, NULL, userid, ex);
 		g_free (prompt);
 		
 		g_free (gpg->userid);

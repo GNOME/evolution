@@ -499,7 +499,7 @@ smtp_connect (CamelService *service, CamelException *ex)
 		while (!authenticated) {
 			if (errbuf) {
 				/* We need to un-cache the password before prompting again */
-				camel_session_forget_password (session, service, "password", ex);
+				camel_session_forget_password (session, service, "password", NULL);
 				g_free (service->url->passwd);
 				service->url->passwd = NULL;
 			}
@@ -511,7 +511,7 @@ smtp_connect (CamelService *service, CamelException *ex)
 							  errbuf ? errbuf : "", service->url->user,
 							  service->url->host);
 				
-				service->url->passwd = camel_session_get_password (session, prompt, TRUE,
+				service->url->passwd = camel_session_get_password (session, prompt, FALSE, TRUE,
 										   service, "password", ex);
 				
 				g_free (prompt);
@@ -519,8 +519,6 @@ smtp_connect (CamelService *service, CamelException *ex)
 				errbuf = NULL;
 				
 				if (!service->url->passwd) {
-					camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
-							     _("You didn't enter a password."));
 					camel_service_disconnect (service, TRUE, NULL);
 					return FALSE;
 				}

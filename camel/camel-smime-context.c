@@ -169,7 +169,7 @@ smime_get_password (PK11SlotInfo *info, PRBool retry, void *arg)
 	char *prompt, *passwd, *ret;
 	
 	prompt = g_strdup_printf (_("Please enter your password for %s"), userid);
-	passwd = camel_session_get_password (session, prompt, TRUE,
+	passwd = camel_session_get_password (session, prompt, FALSE, TRUE,
 					     NULL, userid, ex);
 	g_free (prompt);
 	

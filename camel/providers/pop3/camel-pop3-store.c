@@ -445,8 +445,7 @@ try_sasl(CamelPOP3Store *store, const char *mech, CamelException *ex)
 }
 
 static int
-pop3_try_authenticate (CamelService *service, const char *errmsg,
-		       CamelException *ex)
+pop3_try_authenticate (CamelService *service, gboolean reprompt, const char *errmsg, CamelException *ex)
 {
 	CamelPOP3Store *store = (CamelPOP3Store *)service;
 	CamelPOP3Command *pcu = NULL, *pcp = NULL;
@@ -455,7 +454,7 @@ pop3_try_authenticate (CamelService *service, const char *errmsg,
 	/* override, testing only */
 	/*printf("Forcing authmech to 'login'\n");
 	service->url->authmech = g_strdup("LOGIN");*/
-
+	
 	if (!service->url->passwd) {
 		char *prompt;
 		
@@ -464,7 +463,7 @@ pop3_try_authenticate (CamelService *service, const char *errmsg,
 					  service->url->user,
 					  service->url->host);
 		service->url->passwd = camel_session_get_password (camel_service_get_session (service),
-								   prompt, TRUE, service, "password", ex);
+								   prompt, reprompt, TRUE, service, "password", ex);
 		g_free (prompt);
 		if (!service->url->passwd)
 			return FALSE;
@@ -478,7 +477,7 @@ pop3_try_authenticate (CamelService *service, const char *errmsg,
 		char *secret, md5asc[33], *d;
 		unsigned char md5sum[16], *s;
 		
-		secret = alloca(strlen(store->engine->apop)+strlen(service->url->passwd)+1);
+		secret = g_alloca(strlen(store->engine->apop)+strlen(service->url->passwd)+1);
 		sprintf(secret, "%s%s",  store->engine->apop, service->url->passwd);
 		md5_get_digest(secret, strlen (secret), md5sum);
 
@@ -534,14 +533,18 @@ pop3_try_authenticate (CamelService *service, const char *errmsg,
 static gboolean
 pop3_connect (CamelService *service, CamelException *ex)
 {
+	CamelPOP3Store *store = (CamelPOP3Store *)service;
+	gboolean reprompt = FALSE;
+	CamelSession *session;
 	char *errbuf = NULL;
 	int status;
-	CamelPOP3Store *store = (CamelPOP3Store *)service;
+	
+	session = camel_service_get_session (service);
 	
 	if (store->cache == NULL) {
 		char *root;
 
-		root = camel_session_get_storage_path(service->session, service, ex);
+		root = camel_session_get_storage_path (session, service, ex);
 		if (root) {
 			store->cache = camel_data_cache_new(root, 0, ex);
 			g_free(root);
@@ -557,24 +560,21 @@ pop3_connect (CamelService *service, CamelException *ex)
 		return FALSE;
 	
 	do {
-		camel_exception_clear(ex);
-		status = pop3_try_authenticate(service, errbuf, ex);
-		g_free(errbuf);
+		camel_exception_clear (ex);
+		status = pop3_try_authenticate (service, reprompt, errbuf, ex);
+		g_free (errbuf);
 		errbuf = NULL;
 		
 		/* we only re-prompt if we failed to authenticate, any other error and we just abort */
 		if (camel_exception_get_id (ex) == CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE) {
-			errbuf = g_strdup_printf("%s\n\n", camel_exception_get_description(ex));
-			
-			/* Uncache the password before prompting again. */
-			camel_session_forget_password(camel_service_get_session (service),
-						      service, "password", NULL);
-			g_free(service->url->passwd);
+			errbuf = g_strdup_printf ("%s\n\n", camel_exception_get_description (ex));
+			g_free (service->url->passwd);
 			service->url->passwd = NULL;
+			reprompt = TRUE;
 		}
-	} while(status != -1 && ex->id == CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE);
-
-	g_free(errbuf);
+	} while (status != -1 && ex->id == CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE);
+	
+	g_free (errbuf);
 	
 	if (status == -1 || camel_exception_is_set(ex)) {
 		camel_service_disconnect(service, TRUE, ex);

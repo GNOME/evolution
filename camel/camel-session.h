@@ -87,6 +87,7 @@ typedef struct {
 
 	char *          (*get_password)      (CamelSession *session,
 					      const char *prompt,
+					      gboolean reprompt,
 					      gboolean secret,
 					      CamelService *service,
 					      const char *item,
@@ -152,6 +153,7 @@ char *             camel_session_get_storage_path   (CamelSession *session,
 
 char *             camel_session_get_password       (CamelSession *session,
 						     const char *prompt,
+						     gboolean reprompt,
 						     gboolean secret,
 						     CamelService *service,
 						     const char *item,

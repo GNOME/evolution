@@ -1,3 +1,40 @@
+2003-02-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-smime-context.c (smime_get_password): Same as the gpg and
+	pkcs7 contexts.
+
+	* camel-sasl-popb4smtp.c (popb4smtp_challenge): Updated for
+	camel_session_get_password().
+
+	* camel-pkcs7-context.c (get_password): Same as the gpg code.
+
+	* camel-gpg-context.c (gpg_ctx_parse_status): Updated for
+	camel_session_get_password().
+
+	* providers/smtp/camel-smtp-transport.c (smtp_connect): No need to
+	set USER_CANCEL exception here as it is done by
+	camel_session_get_password(). Also updated for the new
+	get_password() API change.
+
+	* providers/imap/camel-imap-store.c (imap_auth_loop): Updated for
+	camel_session_get_password() changes. We don't need to play the
+	"bad passwd" game here too, do we? Bah, probably should but I
+	don't feel like it for now. Maybe when we rewrite the IMAP
+	provider.
+
+	* camel-session.c (camel_session_get_password): Now takes a
+	'reprompt' argument that will force user-input to be given even if
+	we have the passwd cached.
+
+	* providers/pop3/camel-pop3-store.c (pop3_connect): Instead of
+	uncaching the passwd after we receive a -ERR from the POP server,
+	set 'reprompt' to TRUE to force user-input for the next password
+	prompt (ie, make sure the front-end knows not to just return the
+	cached value). The front-end can then decide to fill-in the
+	user-input field with the last passwd that the user supplied.
+	(pop3_try_authenticate): Now takes a reprompt argument which we
+	pass into camel_session_get_password().
+
 2003-02-05  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (libcamelincludedir): Define in terms of

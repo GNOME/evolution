@@ -104,8 +104,8 @@ popb4smtp_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 
 	sasl->authenticated = FALSE;
 
-	popuri = camel_session_get_password(session, _("POP Source URI"), FALSE,
-					    sasl->service, "popb4smtp_uri", ex);
+	popuri = camel_session_get_password (session, _("POP Source URI"), FALSE, FALSE,
+					     sasl->service, "popb4smtp_uri", ex);
 
 	if (popuri == NULL) {
 		camel_exception_setv(ex, 1, _("POP Before SMTP auth using an unknown transport"));

@@ -195,7 +195,7 @@ get_password (void *arg, SECKEYKeyDBHandle *handle)
 		return pwitem;
 	
 	prompt = g_strdup_printf (_("Please enter your password for %s"), userid);
-	passwd = camel_session_get_password (session, prompt, TRUE,
+	passwd = camel_session_get_password (session, prompt, FALSE, TRUE,
 					     NULL, userid, NULL);
 	g_free (prompt);
 	
