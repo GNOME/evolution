@@ -1,3 +1,8 @@
+2001-04-25  Dan Winship  <danw@ximian.com>
+
+	* gui/component/addressbook-factory.c (main): Remove call to
+	unicode_init.
+
 2001-04-23  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/e-address-popup.c: Lots of code has been

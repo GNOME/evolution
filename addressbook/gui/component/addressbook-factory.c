@@ -17,7 +17,6 @@
 #include <bonobo/bonobo-main.h>
 #include <glade/glade.h>
 #include <gal/widgets/e-cursors.h>
-#include <unicode.h>
 
 #include "addressbook.h"
 #include "addressbook-component.h"
@@ -72,8 +71,6 @@ main (int argc, char **argv)
 	e_address_popup_factory_init ();
 
 	e_cursors_init();
-
-	unicode_init();
 
 #if 0
 	g_log_set_always_fatal (G_LOG_LEVEL_CRITICAL | G_LOG_LEVEL_WARNING);
