@@ -868,18 +868,22 @@ compose_msg (GtkWidget *widget, gpointer user_data)
 
 /* Send according to a mailto (RFC 2368) URL. */
 void
-send_to_url (const char *url)
+send_to_url (const char *url, const char *parent_uri)
 {
 	struct _composer_callback_data *ccd;
 	GtkWidget *composer;
+	MailConfigAccount *account = NULL;
 	
 	/* FIXME: no way to get folder browser? Not without
 	 * big pain in the ass, as far as I can tell */
 	if (!check_send_configuration (NULL))
 		return;
 	
-	/* Tell create_msg_composer to use the default email profile */
-	composer = create_msg_composer (NULL, FALSE, url);
+	if (parent_uri)
+		account = mail_config_get_account_by_source_url (parent_uri);
+	
+	composer = create_msg_composer (account, FALSE, url);
+	
 	if (!composer)
 		return;
 	
@@ -1562,8 +1566,17 @@ post_to_url (const char *url)
 {
 	struct _composer_callback_data *ccd;
 	GtkWidget *composer;
+	MailConfigAccount *account = NULL;
 	
-	composer = create_msg_composer (NULL, TRUE, NULL);
+	/* FIXME: no way to get folder browser? Not without
+	 * big pain in the ass, as far as I can tell */
+	if (!check_send_configuration (NULL))
+		return;
+	
+	if (url)
+		account = mail_config_get_account_by_source_url (url);
+	
+	composer = create_msg_composer (account, TRUE, NULL);
 	if (!composer)
 		return;
 	

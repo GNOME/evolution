@@ -303,7 +303,7 @@ on_link_clicked (GtkHTML *html, const char *url, MailDisplay *md)
 	if (!g_strncasecmp (url, "news:", 5) || !g_strncasecmp (url, "nntp:", 5)) {
 		g_warning ("Can't handle news URLs yet.");
 	} else if (!g_strncasecmp (url, "mailto:", 7)) {
-		send_to_url (url);
+		send_to_url (url, NULL);
 	} else if (*url == '#') {
 		mail_display_jump_to_anchor (md, url);
 	} else {

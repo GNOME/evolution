@@ -1,3 +1,27 @@
+2003-01-24  Not Zed  <NotZed@Ximian.com>
+
+	* mail-local.c (non_equal): We do actually need to check they are
+	file url's, otherwise, all file url's match.
+
+2002-12-07 leon.zhang  <leon.zhang@sun.com>
+
+	* component-factory.c (user_create_new_item_cb):  transfer the 
+	current acount info, which will be regarded as the sender of 
+	new composer, to send_to_url().
+
+	* mail-callbacks.h (send_to_url): Add a new parameter for parent
+	folder uri.
+
+	* mail-callbacks.c (send_to_url): Create composer base on source
+	account info from parent folder physical uri.
+	(post_to_url): create composer based on current account from 
+	parent folder physical uri. 
+
+	* mail-display.c (on_link_clicked): Apply new format of function:
+	send_to_url.
+
+	Fixes bug #35123 #35289
+ 
 2003-01-24  Antonio Xu  <antonio.xu@sun.com>
 
 	* component-factory.c (storage_remove_folder): Change
@@ -6,6 +30,7 @@
 	for bug #33525.
 
 2003-01-13  Jeffrey Stedfast  <fejj@ximian.com>
+  	* mail-callbacks.c (guess_me_from_accounts): Use the same logic as
 
 	* folder-browser.c (folder_browser_copy): Correctly create the
 	clipboard buffer by using a nul to delimit the uri and the list of

@@ -1125,9 +1125,12 @@ non_hash (gconstpointer key)
 }
 
 static gint
-non_equal (gconstpointer a, gconstpointer b)
+non_equal (gconstpointer ap, gconstpointer bp)
 {
-	return TRUE;
+	const CamelURL *a = ap, *b = bp;
+
+	return strcmp(a->protocol, "file") == 0
+		&& strcmp(a->protocol, b->protocol) == 0;
 }
 
 static void
