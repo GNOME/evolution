@@ -119,6 +119,7 @@ typedef struct _CurrentCell{
 	ECellTextView *text_view;
 	int            width;
 	gchar         *text;
+	gchar         *starting_text; /* the text before the edits */
 	int            model_col, view_col, row;
 	ECellTextLineBreaks *breaks;
 } CurrentCell;
@@ -212,14 +213,16 @@ ect_queue_redraw (ECellTextView *text_view, int view_col, int view_row)
 }
 
 /*
- * Accept the currently edited text
+ * Accept the currently edited text.  if it's the same as what's in the cell, do nothing.
  */
 static void
 ect_accept_edits (ECellTextView *text_view)
 {
 	CurrentCell *cell = (CurrentCell *) text_view->edit;
-	
-	e_table_model_set_value_at (text_view->cell_view.e_table_model, cell->model_col, cell->row, cell->text);
+
+	if (strcmp (cell->starting_text, cell->text))
+		e_table_model_set_value_at (text_view->cell_view.e_table_model,
+					    cell->model_col, cell->row, cell->text);
 }
 
 /*
@@ -239,6 +242,8 @@ ect_stop_editing (ECellTextView *text_view)
 	
 	g_free (edit->old_text);
 	edit->old_text = NULL;
+	g_free (edit->cell.starting_text);
+	edit->cell.starting_text = NULL;
 	g_free (edit->cell.text);
 	edit->cell.text = NULL;
 	if (edit->invisible)
@@ -1895,6 +1900,7 @@ build_current_cell (CurrentCell *cell, ECellTextView *text_view, int model_col, 
 	cell->row = row;
 	cell->breaks = NULL;
 	cell->text = e_table_model_value_at (ecell_view->e_table_model, model_col, row);
+	cell->starting_text = g_strdup(cell->text);
 	cell->width = e_table_header_get_column (
 		((ETableItem *)ecell_view->e_table_item_view)->header,
 		view_col)->width - 8;

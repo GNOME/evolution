@@ -1,3 +1,11 @@
+2000-05-06  Chris Toshok  <toshok@helixcode.com>
+
+	* e-cell-text.c (ect_accept_edits): only to set_value_at if the
+	value is indeed different.
+	(ect_stop_editing): free edit->cell.starting_text
+	(build_current_cell): initialize edit->cell.starting_text as a
+	copy of the initial text.
+
 2000-05-06  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table-group-container.c, e-table.c: Killed some warnings.
