@@ -3425,7 +3425,8 @@ mail_regen_list (MessageList *ml, const char *search, const char *hideexpr, Came
 
 	ml->regen = g_list_prepend(ml->regen, m);
 
-	e_thread_put (mail_thread_new, (EMsg *)m);
+	/* TODO: we should manage our own thread stuff, would make cancelling outstanding stuff easier */
+	e_thread_put (mail_thread_queued, (EMsg *)m);
 }
 
 

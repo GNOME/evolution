@@ -979,7 +979,7 @@ mail_transfer_messages (CamelFolder *source, GPtrArray *uids,
 	m->done = done;
 	m->data = data;
 	
-	e_thread_put(mail_thread_queued, (EMsg *)m);
+	e_thread_put(mail_thread_queued_slow, (EMsg *)m);
 }
 
 /* ** SCAN SUBFOLDERS ***************************************************** */
@@ -2171,7 +2171,7 @@ mail_prep_offline(const char *uri,
 	m->data = data;
 	m->done = done;
 
-	e_thread_put(mail_thread_queued, (EMsg *)m);
+	e_thread_put(mail_thread_queued_slow, (EMsg *)m);
 }
 
 /* ** GO OFFLINE ***************************************************** */

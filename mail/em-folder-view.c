@@ -1916,15 +1916,14 @@ emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeM
 static void
 emfv_list_message_selected(MessageList *ml, const char *uid, EMFolderView *emfv)
 {
-	/* FIXME: ui stuff based on messageinfo, if available */
-
 	if (emfv->preview_active) {
 		if (uid) {
 			if (emfv->displayed_uid == NULL || strcmp(emfv->displayed_uid, uid) != 0) {
 				g_free(emfv->displayed_uid);
 				emfv->displayed_uid = g_strdup(uid);
 				g_object_ref (emfv);
-				mail_get_message(emfv->folder, uid, emfv_list_done_message_selected, emfv, mail_thread_new);
+				/* TODO: we should manage our own thread stuff, would make cancelling outstanding stuff easier */
+				mail_get_message(emfv->folder, uid, emfv_list_done_message_selected, emfv, mail_thread_queued);
 			}
 		} else {
 			g_free(emfv->displayed_uid);

@@ -1,3 +1,16 @@
+2004-05-07  Not Zed  <NotZed@Ximian.com>
+
+	** See #58017.
+
+	* message-list.c (mail_regen_list): use thread_queued, so we don't
+	regen out of order.
+
+	* em-folder-view.c (emfv_list_message_selected): use the queue
+	thread so we don't get messages out of order.
+
+	* mail-ops.c (mail_transfer_messages): use thread_queued_slow.
+	(mail_prep_offline): and here too.
+
 2004-05-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-component.c (folder_selected_cb): Check that the folder is
