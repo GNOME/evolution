@@ -1,5 +1,10 @@
 2002-08-26  Peter Williams  <peterw@ximian.com>
 
+	* mail-callbacks.c (toggle_flags): Logic change for when untoggling
+	a message from deleted-dom.
+
+2002-08-26  Peter Williams  <peterw@ximian.com>
+
 	* mail-ops.c (transfer_messages_transfer): Enforce the mailer policy
 	that deleted messages are marked as seen. Fixes 29448. This could
 	go in camel_folder_transfer_messages_to, but I don't think we

@@ -1997,8 +1997,10 @@ toggle_flags (FolderBrowser *fb, guint32 mask)
 			mask |= CAMEL_MESSAGE_DELETED;
 		}
 
-		/* if we're flagging a message deleted, always mark it seen too */
-		if (mask & flags & CAMEL_MESSAGE_DELETED) {
+		/* if we're flagging a message deleted, mark it seen. If 
+		 * we're undeleting it, we also want it to be seen, so always do this.
+		 */
+		if (mask & CAMEL_MESSAGE_DELETED) {
 			flags |= CAMEL_MESSAGE_SEEN;
 			mask |= CAMEL_MESSAGE_SEEN;
 		}
