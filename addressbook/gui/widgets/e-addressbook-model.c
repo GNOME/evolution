@@ -568,12 +568,14 @@ e_addressbook_model_set_property (GObject *object, guint prop_id, const GValue *
 			g_object_ref (model->book);
 			if (model->get_view_idle == 0)
 				model->get_view_idle = g_idle_add((GSourceFunc)get_view, model);
-			g_signal_connect (model->book,
-					  "writable_status",
-					  G_CALLBACK (writable_status), model);
-			g_signal_connect (model->book,
-					  "backend_died",
-					  G_CALLBACK (backend_died), model);
+			model->writable_status_id =
+				g_signal_connect (model->book,
+						  "writable_status",
+						  G_CALLBACK (writable_status), model);
+			model->backend_died_id =
+				g_signal_connect (model->book,
+						  "backend_died",
+						  G_CALLBACK (backend_died), model);
 		}
 		break;
 	case PROP_QUERY:
