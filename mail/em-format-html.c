@@ -888,6 +888,36 @@ fail:
 }
 
 static void
+efh_message_deliverystatus(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info)
+{
+	CamelStreamFilter *filtered_stream;
+	CamelMimeFilter *html_filter;
+	guint32 rgb = 0x737373;
+
+	/* Yuck, this is copied from efh_text_plain */
+	camel_stream_printf (stream,
+			     "<table bgcolor=\"#%06x\" cellspacing=0 cellpadding=1 width=100%%><tr><td>\n"
+			     "<table bgcolor=\"#%06x\" cellspacing=0 cellpadding=0 width=100%%><tr><td>\n"
+			     "<table cellspacing=0 cellpadding=10><td><tr>\n",
+			     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff);
+
+	filtered_stream = camel_stream_filter_new_with_stream(stream);
+	html_filter = camel_mime_filter_tohtml_new(efh->text_html_flags, rgb);
+	camel_stream_filter_add(filtered_stream, html_filter);
+	camel_object_unref(html_filter);
+
+	camel_stream_write_string(stream, "<tt>\n");
+	em_format_format_text((EMFormat *)efh, (CamelStream *)filtered_stream, camel_medium_get_content_object((CamelMedium *)part));
+	camel_stream_flush((CamelStream *)filtered_stream);
+	camel_stream_write_string(stream, "</tt>\n");
+
+	camel_stream_write_string(stream,
+				  "</td></tr></table>\n"
+				  "</td></tr></table>\n"
+				  "</td></tr></table>\n");
+}
+
+static void
 emfh_write_related(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
 {
 	em_format_format_content(emf, stream, puri->part);
@@ -1060,6 +1090,7 @@ static EMFormatHandler type_builtin_table[] = {
 	{ "text/richtext", (EMFormatFunc)efh_text_enriched },
 	{ "text/*", (EMFormatFunc)efh_text_plain },
 	{ "message/external-body", (EMFormatFunc)efh_message_external },
+	{ "message/delivery-status", (EMFormatFunc)efh_message_deliverystatus },
 	{ "multipart/related", (EMFormatFunc)efh_multipart_related },
 
 	/* This is where one adds those busted, non-registered types,

@@ -1378,6 +1378,12 @@ emf_message_rfc822(EMFormat *emf, CamelStream *stream, CamelMimePart *part, cons
 	g_string_truncate(emf->part_id, len);
 }
 
+static void
+emf_message_deliverystatus(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
+{
+	em_format_format_text(emf, stream, camel_medium_get_content_object((CamelMedium *)part));
+}
+
 static EMFormatHandler type_builtin_table[] = {
 #ifdef ENABLE_SMIME
 	{ "application/x-pkcs7-mime", (EMFormatFunc)emf_application_xpkcs7mime, EM_FORMAT_HANDLER_INLINE_DISPOSITION },
@@ -1391,6 +1397,7 @@ static EMFormatHandler type_builtin_table[] = {
 	{ "multipart/*", emf_multipart_mixed },
 	{ "message/rfc822", emf_message_rfc822, EM_FORMAT_HANDLER_INLINE },
 	{ "message/news", emf_message_rfc822, EM_FORMAT_HANDLER_INLINE },
+	{ "message/delivery-status", emf_message_deliverystatus },
 	{ "message/*", emf_message_rfc822, EM_FORMAT_HANDLER_INLINE },
 
 	/* Insert brokenly-named parts here */
