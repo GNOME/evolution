@@ -1314,6 +1314,21 @@ kill_default_view (SubscribeDialog *sc)
 }
 
 static void
+sc_selection_changed (GtkObject *obj, gpointer user_data)
+{
+	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
+	gboolean sensitive;
+
+	if (e_selection_model_selected_count (E_SELECTION_MODEL (obj)))
+		sensitive = TRUE;
+	else
+		sensitive = FALSE;
+
+	gtk_widget_set_sensitive (sc->priv->sub_button, sensitive);
+	gtk_widget_set_sensitive (sc->priv->unsub_button, sensitive);
+}
+
+static void
 menu_item_selected (GtkMenuItem *item, gpointer user_data)
 {
 	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
@@ -1323,9 +1338,16 @@ menu_item_selected (GtkMenuItem *item, gpointer user_data)
 
 	if (sd->widget == NULL) {
 		GtkWidget *widget;
+		ESelectionModel *esm;
+		ETree *tree;
 
 		widget = store_data_get_widget (sd);
 		gtk_box_pack_start (GTK_BOX (sc->priv->hbox), widget, TRUE, TRUE, 0);
+
+		tree = e_tree_scrolled_get_tree (E_TREE_SCROLLED (widget));
+		esm = e_tree_get_selection_model (tree);
+		gtk_signal_connect (GTK_OBJECT (esm), "selection_changed", sc_selection_changed, sc);
+		sc_selection_changed ((GtkObject *)esm, sc);
 	}
 
 	if (sc->priv->current_widget == sc->priv->default_widget)

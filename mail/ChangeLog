@@ -1,5 +1,13 @@
 2001-08-08  Peter Williams  <peterw@ximian.com>
 
+	* subscribe-dialog.c (sc_selection_changed): New function. Set the
+	sensitivity of the subscribe buttons based on whether any folders
+	are selected.
+	(menu_item_selected): If getting the widget for the first time,
+	hook up sc_selection_changed.
+
+2001-08-08  Peter Williams  <peterw@ximian.com>
+
 	* mail-ops.c (mail_update_subfolders): Change this gtk_object_ref
 	on the storage to a bonobo_object_ref.
 
