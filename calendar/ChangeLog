@@ -1,5 +1,16 @@
 2003-11-10  JP Rosevear <jpr@ximian.com>
 
+	* importers/icalendar-importer.c (update_single_object): return
+	boolean not ECalStatus
+	(update_objects): ditto
+	(process_item_fn): handle above returns
+
+2003-11-10  JP Rosevear <jpr@ximian.com>
+
+	* gui/e-cal-model-tasks.c (get_due_status): just check the boolean
+
+2003-11-10  JP Rosevear <jpr@ximian.com>
+
 	* conduits/calendar/calendar-conduit.c
 	(e_calendar_context_destroy): use proper change list free function
 	name

@@ -179,7 +179,7 @@ prepare_tasks (icalcomponent *icalcomp, GList *vtodos)
 	g_list_free (vtodos);
 }
 
-static ECalResult
+static gboolean
 update_single_object (ECal *client, icalcomponent *icalcomp)
 {
 	char *uid;
@@ -188,28 +188,27 @@ update_single_object (ECal *client, icalcomponent *icalcomp)
 	uid = (char *) icalcomponent_get_uid (icalcomp);
 	
 	if (e_cal_get_object (client, uid, NULL, &tmp_icalcomp, NULL))
-		return e_cal_modify_object (client, icalcomp, CALOBJ_MOD_ALL, NULL)
-			? E_CAL_RESULT_SUCCESS : E_CAL_RESULT_CORBA_ERROR;
+		return e_cal_modify_object (client, icalcomp, CALOBJ_MOD_ALL, NULL);
 
-	return e_cal_create_object (client, icalcomp, &uid, NULL)
-		? E_CAL_RESULT_SUCCESS : E_CAL_RESULT_CORBA_ERROR;
+	return e_cal_create_object (client, icalcomp, &uid, NULL);	
 }
 
-static ECalResult
+static gboolean
 update_objects (ECal *client, icalcomponent *icalcomp)
 {
 	icalcomponent *subcomp;
 	icalcomponent_kind kind;
-	ECalResult result;
 
 	kind = icalcomponent_isa (icalcomp);
 	if (kind == ICAL_VTODO_COMPONENT || kind == ICAL_VEVENT_COMPONENT)
 		return update_single_object (client, icalcomp);
 	else if (kind != ICAL_VCALENDAR_COMPONENT)
-		return E_CAL_RESULT_INVALID_OBJECT;
+		return FALSE;
 
 	subcomp = icalcomponent_get_first_component (icalcomp, ICAL_ANY_COMPONENT);
 	while (subcomp) {
+		gboolean success;
+		
 		kind = icalcomponent_isa (subcomp);
 		if (kind == ICAL_VTIMEZONE_COMPONENT) {
 			icaltimezone *zone;
@@ -217,21 +216,21 @@ update_objects (ECal *client, icalcomponent *icalcomp)
 			zone = icaltimezone_new ();
 			icaltimezone_set_component (zone, subcomp);
 
-			result = e_cal_add_timezone (client, zone, NULL);
+			success = e_cal_add_timezone (client, zone, NULL);
 			icaltimezone_free (zone, 1);
-			if (result != E_CAL_RESULT_SUCCESS)
-				return result;
+			if (!success)
+				return success;
 		} else if (kind == ICAL_VTODO_COMPONENT ||
 			   kind == ICAL_VEVENT_COMPONENT) {
-			result = update_single_object (client, subcomp);
-			if (result != E_CAL_RESULT_SUCCESS)
-				return result;
+			success = update_single_object (client, subcomp);
+			if (!success)
+				return success;
 		}
 
 		subcomp = icalcomponent_get_next_component (icalcomp, ICAL_ANY_COMPONENT);
 	}
 
-	return E_CAL_RESULT_SUCCESS;
+	return TRUE;
 }
 
 static void
@@ -274,20 +273,19 @@ process_item_fn (EvolutionImporter *importer,
 	   contains just tasks, we strip out the VEVENTs, which do not get
 	   imported at all. */
 	if (ici->folder_contains_events && ici->folder_contains_tasks) {
-		if (update_objects (ici->client, ici->icalcomp) != E_CAL_RESULT_SUCCESS)
+		if (!update_objects (ici->client, ici->icalcomp))
 			result = GNOME_Evolution_ImporterListener_BAD_DATA;
 	} else if (ici->folder_contains_events) {
 		GList *vtodos = prepare_events (ici->icalcomp);
-		if (update_objects (ici->client, ici->icalcomp) != E_CAL_RESULT_SUCCESS)
+		if (!update_objects (ici->client, ici->icalcomp))
 			result = GNOME_Evolution_ImporterListener_BAD_DATA;
 
 		prepare_tasks (ici->icalcomp, vtodos);
-		if (update_objects (ici->tasks_client,
-					       ici->icalcomp) != E_CAL_RESULT_SUCCESS)
+		if (!update_objects (ici->tasks_client, ici->icalcomp))
 			result = GNOME_Evolution_ImporterListener_BAD_DATA;
 	} else {
 		prepare_tasks (ici->icalcomp, NULL);
-		if (update_objects (ici->client, ici->icalcomp) != E_CAL_RESULT_SUCCESS)
+		if (!update_objects (ici->client, ici->icalcomp))
 			result = GNOME_Evolution_ImporterListener_BAD_DATA;
 	}
 
