@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.1\n"
-"POT-Creation-Date: 2000-05-08 16:14+0200\n"
+"POT-Creation-Date: 2000-05-10 10:01+0200\n"
 "PO-Revision-Date: 2000-04-04 19:23+0200\n"
 "Last-Translator: Andreas Hyden <a.hyden@cyberpoint.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -271,22 +271,18 @@ msgid "Delete this message"
 msgstr "Ta bort detta meddelandet"
 
 #: mail/folder-browser-factory.c:144
-msgid "_Mail"
-msgstr "_Epost"
-
-#: mail/folder-browser-factory.c:149
 msgid "_Expunge"
 msgstr "Rad_era"
 
-#: mail/folder-browser-factory.c:271
+#: mail/folder-browser-factory.c:267
 msgid "We are sorry, Evolution's Folder Browser can not be initialized."
 msgstr "Tyvärr, Evolutions mappbläddrare kan inte initialiseras."
 
-#: mail/folder-browser.c:196
+#: mail/folder-browser.c:207
 msgid "The URI that the Folder Browser will display"
 msgstr "URL:en som mappbläddraden kommer att visa"
 
-#: mail/folder-browser.c:199
+#: mail/folder-browser.c:210
 msgid "Whether a message preview should be shown"
 msgstr "Huruvida meddelanden ska förhandsgranskas"
 
@@ -322,111 +318,134 @@ msgstr "Till"
 msgid "Size"
 msgstr "Storlek"
 
-#: shell/e-shell-view-menu.c:82 shell/e-shell-view-menu.c:148
+#. you might have to call gnome_dialog_run() on the
+#. * dialog returned here, I don't remember...
+#.
+#: shell/e-shell-view-menu.c:62
+msgid "Bug buddy was not found in your $PATH."
+msgstr "Bug-buddy hittades inte i din $PATH."
+
+#. same as above
+#: shell/e-shell-view-menu.c:68
+msgid "Bug buddy could not be run."
+msgstr "Bug-buddy kunde inte köras."
+
+#: shell/e-shell-view-menu.c:111 shell/e-shell-view-menu.c:177
 msgid "_Folder"
 msgstr "_Mapp"
 
-#: shell/e-shell-view-menu.c:86
+#: shell/e-shell-view-menu.c:115
 msgid "Evolution _Bar Shortcut"
 msgstr "Evolution genvägsrad"
 
-#: shell/e-shell-view-menu.c:92
+#: shell/e-shell-view-menu.c:121
 msgid "_Mail message"
 msgstr "_Posta meddelande"
 
-#: shell/e-shell-view-menu.c:93 shell/e-shell-view-menu.c:96
+#: shell/e-shell-view-menu.c:122 shell/e-shell-view-menu.c:125
 msgid "Composes a new mail message"
 msgstr "Skriv ett nytt brev"
 
-#: shell/e-shell-view-menu.c:95
+#: shell/e-shell-view-menu.c:124
 msgid "_Appointment"
 msgstr "_Möte"
 
-#: shell/e-shell-view-menu.c:98
+#: shell/e-shell-view-menu.c:127
 msgid "Meeting Re_quest"
 msgstr "Begäran om möte"
 
-#: shell/e-shell-view-menu.c:101
+#: shell/e-shell-view-menu.c:130
 msgid "_Contact"
 msgstr "_Kontakt"
 
-#: shell/e-shell-view-menu.c:104
+#: shell/e-shell-view-menu.c:133
 msgid "_Task"
 msgstr "Uppgif_t"
 
-#: shell/e-shell-view-menu.c:107
+#: shell/e-shell-view-menu.c:136
 msgid "Task _Request"
 msgstr "Uppgiftsbegä_ran"
 
-#: shell/e-shell-view-menu.c:110
+#: shell/e-shell-view-menu.c:139
 msgid "_Journal Entry"
 msgstr "_Dagbokpost"
 
-#: shell/e-shell-view-menu.c:113
+#: shell/e-shell-view-menu.c:142
 msgid "_Note"
 msgstr "_Anteckning"
 
-#: shell/e-shell-view-menu.c:123
+#: shell/e-shell-view-menu.c:152
 msgid "_Selected Items"
 msgstr "_Markerade objekt"
 
-#: shell/e-shell-view-menu.c:131
+#: shell/e-shell-view-menu.c:160
 msgid "_New Folder"
 msgstr "_Ny mapp"
 
-#: shell/e-shell-view-menu.c:139
+#: shell/e-shell-view-menu.c:168
 msgid "_New"
 msgstr "_Ny"
 
-#: shell/e-shell-view-menu.c:140
+#: shell/e-shell-view-menu.c:169
 msgid "_Open"
 msgstr "_Öppna"
 
-#: shell/e-shell-view-menu.c:141
+#: shell/e-shell-view-menu.c:170
 msgid "Clos_e All Items"
 msgstr "Stäng _alla objekt"
 
-#: shell/e-shell-view-menu.c:141
+#: shell/e-shell-view-menu.c:170
 msgid "Closes all the open items"
 msgstr "Stänger alla öppna objekt"
 
-#: shell/e-shell-view-menu.c:162
+#: shell/e-shell-view-menu.c:191
 msgid "_Toggle Shortcut Bar"
 msgstr "_Växla genvägsrad"
 
-#: shell/e-shell-view-menu.c:163
+#: shell/e-shell-view-menu.c:192
 msgid "Toggles the shortcut bar"
 msgstr "Växlar genvägsraden"
 
-#: shell/e-shell-view-menu.c:165
+#: shell/e-shell-view-menu.c:194
 msgid "_Toggle Treeview"
 msgstr "_Växla trädvy"
 
-#: shell/e-shell-view-menu.c:166
+#: shell/e-shell-view-menu.c:195
 msgid "Toggles the tree view"
 msgstr "Växlar trädvyn"
 
+#: shell/e-shell-view-menu.c:209
+msgid "_Submit bug"
+msgstr "_Skicka felrapport"
+
+#: shell/e-shell-view-menu.c:210
+msgid "Submit bug-report via bug-buddy"
+msgstr "Skicka felrapport via bug-buddy"
+
 #. FIXME: add Favorites here
-#: shell/e-shell-view-menu.c:189
+#: shell/e-shell-view-menu.c:225
 msgid "_Tools"
 msgstr "_Verktyg"
 
-#: shell/e-shell-view-menu.c:190
+#: shell/e-shell-view-menu.c:226
 msgid "_Actions"
 msgstr "_Händelser"
 
-#: shell/e-shell.c:83
+#: shell/e-shell.c:82
 #, c-format
 msgid "Cannot set up local storage -- %s"
 msgstr "Kan inte lägga upp lokal sparningsplats -- %s"
 
-#: shell/main.c:86
+#: shell/main.c:111
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Kan inte initiera Bonobo-komponentsystemet"
 
-#: shell/main.c:101
+#: shell/main.c:126
 msgid "Cannot initialize the Evolution shell."
 msgstr "Kan inte initialisera Evolution-skalet"
+
+#~ msgid "_Mail"
+#~ msgstr "_Epost"
 
 #~ msgid "A folder containing mail items"
 #~ msgstr "En mapp som innehåller mailobjekt"
