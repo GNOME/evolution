@@ -1,3 +1,15 @@
+1998-11-12  Andrew T. Veliath  <andrewv@usa.net>
+
+	* gnome.m4: (GNOME_INIT_HOOK): Add GNOME_GNORBA_CHECK if
+	gnome-config is found.  New GNOMEGNORBA_LIBS library variable
+	(GNOMEGNORBA_LIBS is a superset of GNOMEUI_LIBS).  Update
+	GNOME_LIBDIR and GNOME_INCLUDEDIR to to include the required
+	Gnorba info, if it is in a different location.
+
+	* Makefile.am (MACROS): Add gnome-gnorba-check.m4 to Makefile.
+	
+	* gnome-gnorba-check.m4: New file.
+
 1998-11-12  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* gnome-support.m4 (vsnprintf): Remove easy-vsnprintf hack -- it

@@ -9,6 +9,7 @@ AC_DEFUN([GNOME_INIT_HOOK],
 [	
 	AC_SUBST(GNOME_LIBS)
 	AC_SUBST(GNOMEUI_LIBS)
+	AC_SUBST(GNOMEGNORBA_LIBS)
 	AC_SUBST(GTKXMHTML_LIBS)
 	AC_SUBST(GNOME_LIBDIR)
 	AC_SUBST(GNOME_INCLUDEDIR)
@@ -20,11 +21,13 @@ AC_DEFUN([GNOME_INIT_HOOK],
 	  AC_MSG_CHECKING(if $GNOME_CONFIG works)
 	  if $GNOME_CONFIG --libs-only-l gnome >/dev/null 2>&1; then
 	    AC_MSG_RESULT(yes)
+	    GNOME_GNORBA_CHECK
 	    GNOME_LIBS="`$GNOME_CONFIG --libs-only-l gnome`"
 	    GNOMEUI_LIBS="`$GNOME_CONFIG --libs-only-l gnomeui`"
+	    GNOMEGNORBA_LIBS="`$GNOME_CONFIG --libs-only-l gnorba gnomeui`"
 	    GTKXMHTML_LIBS="`$GNOME_CONFIG --libs-only-l gtkxmhtml`"
-	    GNOME_LIBDIR="`$GNOME_CONFIG --libs-only-L gnomeui`"
-	    GNOME_INCLUDEDIR="`$GNOME_CONFIG --cflags gnomeui`"
+	    GNOME_LIBDIR="`$GNOME_CONFIG --libs-only-L gnorba gnomeui`"
+	    GNOME_INCLUDEDIR="`$GNOME_CONFIG --cflags gnorba gnomeui`"
             $1
 	  else
 	    AC_MSG_RESULT(no)

@@ -5,6 +5,7 @@ MACROS=						\
   curses.m4					\
   gnome-fileutils.m4				\
   gnome-ghttp-check.m4				\
+  gnome-gnorba-check.m4				\
   gnome-guile-checks.m4				\
   gnome-libgtop-check.m4			\
   gnome-libgtop-sysdeps.m4			\
