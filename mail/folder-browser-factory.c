@@ -43,192 +43,6 @@
 /* The FolderBrowser BonoboControls we have.  */
 static EList *control_list = NULL;
 
-/*
- * Add with 'folder_browser'
- */
-BonoboUIVerb verbs [] = {
-	BONOBO_UI_UNSAFE_VERB ("EditCut", folder_browser_cut),
-	BONOBO_UI_UNSAFE_VERB ("EditCopy", folder_browser_copy),
-	BONOBO_UI_UNSAFE_VERB ("EditPaste", folder_browser_paste),
-	BONOBO_UI_UNSAFE_VERB ("EditInvertSelection", invert_selection),
-	BONOBO_UI_UNSAFE_VERB ("EditSelectAll", select_all),
-/*	BONOBO_UI_UNSAFE_VERB ("EditSelectThread", select_thread),	*/
-	BONOBO_UI_UNSAFE_VERB ("EmptyTrash", empty_trash),
-	BONOBO_UI_UNSAFE_VERB ("FolderConfig", configure_folder),
-	BONOBO_UI_UNSAFE_VERB ("FolderExpunge", expunge_folder),
-	BONOBO_UI_UNSAFE_VERB ("ForgetPasswords", mail_session_forget_passwords),
-	BONOBO_UI_UNSAFE_VERB ("MailCompose", compose_msg),
-	BONOBO_UI_UNSAFE_VERB ("MailGetSend", send_receive_mail),
-	BONOBO_UI_UNSAFE_VERB ("MailNext", next_msg),
-	BONOBO_UI_UNSAFE_VERB ("MailNextUnread", next_unread_msg),
-	BONOBO_UI_UNSAFE_VERB ("MailNextFlagged", next_flagged_msg),
-	BONOBO_UI_UNSAFE_VERB ("MailPrevious", previous_msg),
-	BONOBO_UI_UNSAFE_VERB ("MailPreviousUnread", previous_unread_msg),
-	BONOBO_UI_UNSAFE_VERB ("MailPreviousFlagged", previous_flagged_msg),
-	BONOBO_UI_UNSAFE_VERB ("MailStop", stop_threads),
-	BONOBO_UI_UNSAFE_VERB ("MessageApplyFilters", apply_filters),
-	BONOBO_UI_UNSAFE_VERB ("MessageCopy", copy_msg),
-	BONOBO_UI_UNSAFE_VERB ("MessageDelete", delete_msg),
-	BONOBO_UI_UNSAFE_VERB ("MessageForward", forward),
-	BONOBO_UI_UNSAFE_VERB ("MessageForwardAttached", forward_attached),
-	BONOBO_UI_UNSAFE_VERB ("MessageForwardInline", forward_inline),
-	BONOBO_UI_UNSAFE_VERB ("MessageForwardQuoted", forward_quoted),
-	BONOBO_UI_UNSAFE_VERB ("MessageMarkAllAsRead", mark_all_as_seen),
-	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsRead", mark_as_seen),
-	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsUnRead", mark_as_unseen),
-	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsImportant", mark_as_important),
-	BONOBO_UI_UNSAFE_VERB ("MessageMove", move_msg),
-	BONOBO_UI_UNSAFE_VERB ("MessageOpen", open_message),
-	BONOBO_UI_UNSAFE_VERB ("MessageReplyAll", reply_to_all),
-	BONOBO_UI_UNSAFE_VERB ("MessageReplySender", reply_to_sender),
-	BONOBO_UI_UNSAFE_VERB ("MessageReplyList", reply_to_list),
-	BONOBO_UI_UNSAFE_VERB ("MessageResend", resend_msg),
-	BONOBO_UI_UNSAFE_VERB ("MessageSaveAs", save_msg),
-	BONOBO_UI_UNSAFE_VERB ("MessageSearch", search_msg),
-	BONOBO_UI_UNSAFE_VERB ("MessageUndelete", undelete_msg),
-	BONOBO_UI_UNSAFE_VERB ("PrintMessage", print_msg),
-	BONOBO_UI_UNSAFE_VERB ("PrintPreviewMessage", print_preview_msg),
-	BONOBO_UI_UNSAFE_VERB ("ToolsFilterMailingList", filter_mlist),
-	BONOBO_UI_UNSAFE_VERB ("ToolsFilterRecipient", filter_recipient),
-	BONOBO_UI_UNSAFE_VERB ("ToolsFilters", filter_edit),
-	BONOBO_UI_UNSAFE_VERB ("ToolsFilterSender", filter_sender),
-	BONOBO_UI_UNSAFE_VERB ("ToolsFilterSubject", filter_subject),
-	BONOBO_UI_UNSAFE_VERB ("ToolsSettings", providers_config),
-	BONOBO_UI_UNSAFE_VERB ("ToolsSubscriptions", manage_subscriptions),
-	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderMailingList", vfolder_mlist),
-	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderRecipient", vfolder_recipient),
-	BONOBO_UI_UNSAFE_VERB ("ToolsVFolders", vfolder_edit_vfolders),
-	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderSender", vfolder_sender),
-	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderSubject", vfolder_subject),
-	BONOBO_UI_UNSAFE_VERB ("ViewHideRead", hide_read),
-	BONOBO_UI_UNSAFE_VERB ("ViewHideSelected", hide_selected),
-	BONOBO_UI_UNSAFE_VERB ("ViewLoadImages", load_images),
-	BONOBO_UI_UNSAFE_VERB ("ViewShowAll", hide_none),
-	
-	BONOBO_UI_VERB_END
-};
-
-static EPixmap pixcache [] = {
-	E_PIXMAP ("/commands/MailCompose", "new-message.xpm"),
-	E_PIXMAP ("/commands/FolderConfig", "configure_16_folder.xpm"),
-	E_PIXMAP ("/commands/PrintMessage", "print.xpm"),
-	E_PIXMAP ("/commands/PrintPreviewMessage", "print-preview.xpm"),
-
-	E_PIXMAP ("/commands/MessageDelete", "delete_message.xpm"),
-	E_PIXMAP ("/commands/MessageUndelete", "undelete_message.xpm"),
-
-	E_PIXMAP ("/commands/ViewHideRead", "hide_read_messages.xpm"),
-	E_PIXMAP ("/commands/ViewHideSelected", "hide_selected_messages.xpm"),
-	E_PIXMAP ("/commands/ViewShowAll", "show_all_messages.xpm"),
-
-	E_PIXMAP ("/commands/MailGetSend", "send-receive.xpm"),
-	E_PIXMAP ("/commands/MessageCopy", "copy_16_message.xpm"),
-	E_PIXMAP ("/commands/MessageMove", "move_message.xpm"),
-	E_PIXMAP ("/commands/MessageReplyAll", "reply_to_all.xpm"),
-	E_PIXMAP ("/commands/MessageReplySender", "reply.xpm"),
-	E_PIXMAP ("/commands/MessageForward", "forward.xpm"),
-
-	E_PIXMAP ("/commands/ToolsSettings", "configure_16_mail.xpm"),
-	
-	E_PIXMAP ("/Toolbar/MailGetSend", "buttons/send-24-receive.png"),
-	E_PIXMAP ("/Toolbar/MailCompose", "buttons/compose-message.png"),
-	E_PIXMAP ("/Toolbar/MessageReplySender", "buttons/reply.png"),
-	E_PIXMAP ("/Toolbar/MessageReplyAll", "buttons/reply-to-all.png"),
-	E_PIXMAP ("/Toolbar/MessageForward", "buttons/forward.png"),
-	E_PIXMAP ("/Toolbar/MessageMove", "buttons/move-message.png"),
-	E_PIXMAP ("/Toolbar/MessageCopy", "buttons/copy-message.png"),
-
-	E_PIXMAP_END
-};
-
-static void
-display_view(GalViewCollection *collection,
-	     GalView *view,
-	     gpointer data)
-{
-	FolderBrowser *fb = data;
-	if (GAL_IS_VIEW_ETABLE(view)) {
-		e_tree_set_state_object(fb->message_list->tree, GAL_VIEW_ETABLE(view)->state);
-	}
-}
-
-static void
-folder_browser_setup_view_menus (FolderBrowser *fb,
-				 BonoboUIComponent *uic)
-{
-	GalViewFactory *factory;
-	ETableSpecification *spec;
-	char *local_dir;
-
-	g_assert (fb->view_collection == NULL);
-	g_assert (fb->view_menus == NULL);
-
-	fb->view_collection = gal_view_collection_new();
-
-	local_dir = gnome_util_prepend_user_home ("/evolution/views/mail/");
-	gal_view_collection_set_storage_directories(
-		fb->view_collection,
-		EVOLUTION_DATADIR "/evolution/views/mail/",
-		local_dir);
-	g_free (local_dir);
-
-	spec = e_table_specification_new();
-	e_table_specification_load_from_file(spec, EVOLUTION_ETSPECDIR "/message-list.etspec");
-
-	factory = gal_view_factory_etable_new (spec);
-	gtk_object_unref (GTK_OBJECT (spec));
-	gal_view_collection_add_factory (fb->view_collection, factory);
-	gtk_object_unref (GTK_OBJECT (factory));
-
-	gal_view_collection_load(fb->view_collection);
-
-	fb->view_menus = gal_view_menus_new(fb->view_collection);
-	gal_view_menus_apply(fb->view_menus, uic, NULL);
-	gtk_signal_connect(GTK_OBJECT(fb->view_collection), "display_view",
-			   display_view, fb);
-}
-
-/* Gets rid of the view collection and view menus objects */
-static void
-folder_browser_discard_view_menus (FolderBrowser *fb)
-{
-	g_assert (fb->view_collection != NULL);
-	g_assert (fb->view_menus != NULL);
-
-	gtk_object_unref (GTK_OBJECT (fb->view_collection));
-	fb->view_collection = NULL;
-
-	gtk_object_unref (GTK_OBJECT (fb->view_menus));
-	fb->view_menus = NULL;
-}
-
-static void
-folder_browser_setup_property_menu (FolderBrowser *fb,
-				    BonoboUIComponent *uic)
-{
-	char *name, *base = NULL;
-
-	if (fb->uri)
-		base = g_basename (fb->uri);
-
-	if (base && base [0] != 0)
-		name = g_strdup_printf (_("Properties for \"%s\""), base);
-	else
-		name = g_strdup (_("Properties"));
-
-	bonobo_ui_component_set_prop (
-		uic, "/menu/File/Folder/FolderConfig",
-		"label", name, NULL);
-	g_free (name);
-}
-
-/* Must be in the same order as MailConfigDisplayStyle */
-char *message_display_styles[] = {
-	"/commands/ViewNormal",
-	"/commands/ViewFullHeaders",
-	"/commands/ViewSource"
-};
-
 static void
 control_activate (BonoboControl     *control,
 		  BonoboUIComponent *uic,
@@ -248,60 +62,9 @@ control_activate (BonoboControl     *control,
 	folder_browser = bonobo_control_get_widget (control);
 	folder_browser_set_ui_component (FOLDER_BROWSER (folder_browser), uic);
 
-	bonobo_ui_component_add_verb_list_with_data (
-		uic, verbs, folder_browser);
-
-	bonobo_ui_component_freeze (uic, NULL);
-
-	bonobo_ui_util_set_ui (
-		uic, EVOLUTION_DATADIR,
-		"evolution-mail.xml", "evolution-mail");
-
-	state = mail_config_get_show_preview (FOLDER_BROWSER (folder_browser)->uri);
-	bonobo_ui_component_set_prop (uic, "/commands/ViewPreview", "state", state ? "1" : "0", NULL);
-	bonobo_ui_component_add_listener (uic, "ViewPreview", folder_browser_toggle_preview, folder_browser);
-	/* FIXME: this kind of bypasses bonobo but seems the only way when we change components */
-	folder_browser_toggle_preview (uic, "", Bonobo_UIComponent_STATE_CHANGED, state ? "1" : "0", folder_browser);
-	
-	state = mail_config_get_thread_list (FOLDER_BROWSER (folder_browser)->uri);
-	bonobo_ui_component_set_prop (uic, "/commands/ViewThreaded", "state", state ? "1" : "0", NULL);
-	bonobo_ui_component_add_listener (uic, "ViewThreaded", folder_browser_toggle_threads, folder_browser);
-	/* FIXME: this kind of bypasses bonobo but seems the only way when we change components */
-	folder_browser_toggle_threads (uic, "", Bonobo_UIComponent_STATE_CHANGED, state ? "1" : "0", folder_browser);
-	
-	state = mail_config_get_message_display_style ();
-	bonobo_ui_component_set_prop (uic, message_display_styles[state],
-				      "state", "1", NULL);
-	bonobo_ui_component_add_listener (uic, "ViewNormal", folder_browser_set_message_display_style, folder_browser);
-	bonobo_ui_component_add_listener (uic, "ViewFullHeaders", folder_browser_set_message_display_style, folder_browser);
-	bonobo_ui_component_add_listener (uic, "ViewSource", folder_browser_set_message_display_style, folder_browser);
-	/* FIXME: this kind of bypasses bonobo but seems the only way when we change components */
-	folder_browser_set_message_display_style (uic, strrchr (message_display_styles[state], '/') + 1,
-						  Bonobo_UIComponent_STATE_CHANGED, "1", folder_browser);
-	
-	if (fb->folder && CAMEL_IS_VTRASH_FOLDER(fb->folder)) {
-		bonobo_ui_component_set_prop(uic, "/commands/HideDeleted", "sensitive", "0", NULL);
-		state = FALSE;
-	} else {
-		state = mail_config_get_hide_deleted();
-	}
-	bonobo_ui_component_set_prop (uic, "/commands/HideDeleted", "state", state ? "1" : "0", NULL);
-	bonobo_ui_component_add_listener (uic, "HideDeleted", folder_browser_toggle_hide_deleted,
-					  folder_browser);
-	/* FIXME: this kind of bypasses bonobo but seems the only way when we change components */
-	folder_browser_toggle_hide_deleted (uic, "", Bonobo_UIComponent_STATE_CHANGED,
-					    state ? "1" : "0", folder_browser);
-	if (fb->folder && !folder_browser_is_sent (fb)) 
-		bonobo_ui_component_set_prop (uic, "/commands/MessageResend", "sensitive", "0", NULL);
-	
-	folder_browser_setup_view_menus (fb, uic);
-	folder_browser_setup_property_menu (fb, uic);
-	
-	e_pixmaps_update (uic, pixcache);
-	
-        bonobo_ui_component_set_prop(uic, "/commands/MailStop", "sensitive", "0", NULL);
-	
-	bonobo_ui_component_thaw (uic, NULL);
+	folder_browser_ui_add_global (fb);
+	folder_browser_ui_add_list (fb);
+	folder_browser_ui_add_message (fb);
 
 	if (fb->folder)
 		mail_refresh_folder (fb->folder, NULL, NULL);
@@ -312,8 +75,9 @@ control_deactivate (BonoboControl     *control,
 		    BonoboUIComponent *uic,
 		    FolderBrowser     *fb)
 {
-	bonobo_ui_component_rm (uic, "/", NULL);
- 	bonobo_ui_component_unset_container (uic);
+	folder_browser_ui_rm_message (fb);
+	folder_browser_ui_rm_list (fb);
+	folder_browser_ui_rm_global (fb);
 
 	/* turn this back on to get the old (broken) behaviour of
 	 * synching when leaving a folder
@@ -324,7 +88,6 @@ control_deactivate (BonoboControl     *control,
 #endif
 
 	folder_browser_set_ui_component (fb, NULL);
-	folder_browser_discard_view_menus (fb);
 }
 
 static void

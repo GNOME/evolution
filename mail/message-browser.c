@@ -25,6 +25,10 @@
 #endif
 
 #include <gal/util/e-util.h>
+#include <bonobo/bonobo-exception.h>
+#include <bonobo/bonobo-ui-component.h>
+#include <bonobo/bonobo-ui-container.h>
+#include <bonobo/bonobo-ui-util.h>
 
 #include "message-browser.h"
 
@@ -40,17 +44,19 @@
 #include "mail-local.h"
 #include "mail-config.h"
 
+#include "folder-browser-ui.h"
+
 #define d(x) x
 
 #define MINIMUM_WIDTH  600
 #define MINIMUM_HEIGHT 400
 
-#define PARENT_TYPE (gnome_app_get_type ())
+#define PARENT_TYPE BONOBO_TYPE_WINDOW
 
 /* Size of the window last time it was changed.  */
 static GtkAllocation last_allocation = { 0, 0 };
 
-static GnomeAppClass *message_browser_parent_class;
+static BonoboWindowClass *message_browser_parent_class;
 
 static void
 message_browser_destroy (GtkObject *object)
@@ -62,6 +68,9 @@ message_browser_destroy (GtkObject *object)
 	gtk_object_unref (GTK_OBJECT (message_browser->fb));
 	
 	gtk_widget_destroy (GTK_WIDGET (message_browser));
+
+	if (GTK_OBJECT_CLASS (message_browser_parent_class)->destroy)
+		(GTK_OBJECT_CLASS (message_browser_parent_class)->destroy) (object);
 }
 
 static void
@@ -78,81 +87,21 @@ message_browser_init (GtkObject *object)
 	
 }
 
+/* UI callbacks */
+
 static void
-message_browser_close (GtkWidget *menuitem, gpointer user_data)
+message_browser_close (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	gtk_widget_destroy (GTK_WIDGET (user_data));
 }
 
-static void
-message_browser_reply_to_sender (GtkWidget *widget, gpointer user_data)
-{
-	MessageBrowser *mb = MESSAGE_BROWSER (user_data);
-	
-	reply_to_sender (NULL, mb->fb);
-}
+static BonoboUIVerb 
+browser_verbs [] = {
+	BONOBO_UI_UNSAFE_VERB ("MessageBrowserClose", message_browser_close),
+	BONOBO_UI_VERB_END
+};
 
-static void
-message_browser_reply_to_all (GtkWidget *widget, gpointer user_data)
-{
-	MessageBrowser *mb = MESSAGE_BROWSER (user_data);
-	
-	reply_to_all (NULL, mb->fb);
-}
-
-static void
-message_browser_forward_msg (GtkWidget *widget, gpointer user_data)
-{
-	MessageBrowser *mb = MESSAGE_BROWSER (user_data);
-	
-	forward (NULL, mb->fb);
-}
-
-static void
-message_browser_print_msg (GtkWidget *widget, gpointer user_data)
-{
-	MessageBrowser *mb = MESSAGE_BROWSER (user_data);
-	
-	mail_print_msg (mb->fb->mail_display);
-}
-
-static void
-message_browser_delete_msg (GtkWidget *button, gpointer user_data)
-{
-	MessageBrowser *mb = MESSAGE_BROWSER (user_data);
-	
-	delete_msg (NULL, mb->fb);
-}
-
-static void
-message_browser_next_msg (GtkWidget *button, gpointer user_data)
-{
-	MessageBrowser *mb = MESSAGE_BROWSER (user_data);
-	int row;
-	
-	row = e_tree_row_of_node (mb->fb->message_list->tree,
-				  e_tree_get_cursor (mb->fb->message_list->tree));
-	
-	message_list_select (mb->fb->message_list, row,
-			     MESSAGE_LIST_SELECT_NEXT,
-			     0, 0);
-	
-}
-
-static void
-message_browser_prev_msg (GtkWidget *button, gpointer user_data)
-{
-	MessageBrowser *mb = MESSAGE_BROWSER (user_data);
-	int row;
-	
-	row = e_tree_row_of_node (mb->fb->message_list->tree,
-				  e_tree_get_cursor (mb->fb->message_list->tree));
-	
-	message_list_select (mb->fb->message_list, row,
-			     MESSAGE_LIST_SELECT_PREVIOUS,
-			     0, 0);
-	
-}
+/* FB message loading hookups */
 
 static void
 message_browser_message_loaded (FolderBrowser *fb, const char *uid, MessageBrowser *mb)
@@ -189,58 +138,7 @@ message_browser_folder_loaded (FolderBrowser *fb, const char *uri, MessageBrowse
 			    message_browser_message_list_built, mb);
 }
 
-static GnomeUIInfo message_browser_toolbar [] = {
-	
-	/*GNOMEUIINFO_ITEM_STOCK (N_("Save"), N_("Save this message"),
-	  save_msg, GNOME_STOCK_PIXMAP_SAVE),*/
-	
-	GNOMEUIINFO_ITEM_STOCK (N_("Reply"), N_("Reply to the sender of this message"),
-				message_browser_reply_to_sender, GNOME_STOCK_PIXMAP_MAIL_RPL),
-	
-	GNOMEUIINFO_ITEM_STOCK (N_("Reply to All"), N_("Reply to all recipients of this message"),
-				message_browser_reply_to_all, GNOME_STOCK_PIXMAP_MAIL_RPL),
-	
-	GNOMEUIINFO_ITEM_STOCK (N_("Forward"), N_("Forward this message"),
-				message_browser_forward_msg, GNOME_STOCK_PIXMAP_MAIL_FWD),
-	
-	GNOMEUIINFO_SEPARATOR,
-	
-	GNOMEUIINFO_ITEM_STOCK (N_("Print"), N_("Print the selected message"),
-				message_browser_print_msg, GNOME_STOCK_PIXMAP_PRINT),
-	
-	GNOMEUIINFO_ITEM_STOCK (N_("Delete"), N_("Delete this message"),
-				message_browser_delete_msg, GNOME_STOCK_PIXMAP_TRASH),
-	
-	GNOMEUIINFO_SEPARATOR,
-	
-	GNOMEUIINFO_ITEM_STOCK (N_("Previous"), N_("Previous message"),
-				message_browser_prev_msg, GNOME_STOCK_PIXMAP_BACK),
-	
-	GNOMEUIINFO_ITEM_STOCK (N_("Next"), N_("Next message"),
-				message_browser_next_msg, GNOME_STOCK_PIXMAP_FORWARD),
-	
-	GNOMEUIINFO_END
-};
-
-static GnomeUIInfo file_menu[] = {
-	/*GNOMEUIINFO_MENU_SAVE_ITEM (save, NULL),*/
-	/*GNOMEUIINFO_MENU_SAVE_AS_ITEM (save_as, NULL),*/
-	/*GNOMEUIINFO_SEPARATOR,*/
-	GNOMEUIINFO_MENU_CLOSE_ITEM (message_browser_close, NULL),
-	GNOMEUIINFO_END
-};
-
-static GnomeUIInfo view_menu[] =
-{
-	GNOMEUIINFO_END
-};
-
-static GnomeUIInfo message_browser_menubar[] =
-{
-	GNOMEUIINFO_MENU_FILE_TREE (file_menu),
-	GNOMEUIINFO_MENU_VIEW_TREE (view_menu),
-	GNOMEUIINFO_END
-};
+/* Construction */
 
 static void
 set_default_size (GtkWidget *widget)
@@ -253,6 +151,53 @@ set_default_size (GtkWidget *widget)
 	gtk_window_set_default_size (GTK_WINDOW (widget), width, height);
 }
 
+static void 
+set_bonobo_ui (GtkWidget *widget, FolderBrowser *fb)
+{
+	BonoboUIContainer *uicont;
+	BonoboUIComponent *uic;
+	CORBA_Environment ev;
+
+	uicont = bonobo_ui_container_new ();
+	bonobo_ui_container_set_win (uicont, BONOBO_WINDOW (widget));
+
+	uic = bonobo_ui_component_new_default ();
+	bonobo_ui_component_set_container (uic, BONOBO_OBJREF (uicont));
+	folder_browser_set_ui_component (fb, uic);
+
+	/* Load our UI */
+
+	bonobo_ui_component_freeze (uic, NULL);
+	bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR, "evolution-mail-messagedisplay.xml", "evolution-mail");
+
+	/* Load the appropriate UI stuff from the folder browser */
+
+	folder_browser_ui_add_message (fb);
+
+	/* We just opened the message! We don't need to open it again. */
+
+	CORBA_exception_init (&ev);
+	bonobo_ui_component_rm (uic, "/menu/File/FileOps/MessageOpen", &ev);
+	if (BONOBO_EX (&ev))
+		g_warning ("Couldn't remove message open item. Weird. Error: %s",
+			   bonobo_exception_get_text (&ev));
+	CORBA_exception_free (&ev);
+
+	/* Customize Toolbar thingie */
+	
+	bonobo_ui_engine_config_set_path (bonobo_window_get_ui_engine (BONOBO_WINDOW (widget)),
+					  "/evolution/UIConf/messagebrowser");
+
+	/* Add the Close item */
+
+	bonobo_ui_component_add_verb_list_with_data (uic, browser_verbs, widget);
+
+	/* Done */
+
+	bonobo_ui_component_thaw (uic, NULL);
+
+}
+
 GtkWidget *
 message_browser_new (const GNOME_Evolution_Shell shell, const char *uri, const char *uid)
 {
@@ -260,18 +205,20 @@ message_browser_new (const GNOME_Evolution_Shell shell, const char *uri, const c
 	MessageBrowser *new;
 	FolderBrowser *fb;
 	
-	new = gtk_type_new (message_browser_get_type ());
-	
-	gnome_app_construct (GNOME_APP (new), "Evolution", "");
-	
+	new = gtk_type_new (MESSAGE_BROWSER_TYPE);
+	new = (MessageBrowser *) bonobo_window_construct (BONOBO_WINDOW (new), "Evolution", "");
+	if (!new) {
+		g_warning ("Failed to construct Bonobo window!");
+		return NULL;
+	}
+
 	gtk_object_set_data_full (GTK_OBJECT (new), "uid", g_strdup (uid), g_free);
 
-	gnome_app_create_toolbar_with_data (GNOME_APP (new), message_browser_toolbar, new);
-	gnome_app_create_menus_with_data (GNOME_APP (new), message_browser_menubar, new);
-	
 	fb = FOLDER_BROWSER (folder_browser_new (shell));
 	new->fb = fb;
-	
+
+	set_bonobo_ui (GTK_WIDGET (new), fb);
+
 	/* some evil hackery action... */
 	vbox = gtk_vbox_new (TRUE, 0);
 	gtk_widget_ref (GTK_WIDGET (fb->mail_display));
@@ -279,7 +226,7 @@ message_browser_new (const GNOME_Evolution_Shell shell, const char *uri, const c
 	gtk_widget_show (GTK_WIDGET (fb->mail_display));
 	gtk_widget_show (vbox);
 	
-	gnome_app_set_contents (GNOME_APP (new), vbox);
+	bonobo_window_set_contents (BONOBO_WINDOW (new), vbox);
 	gtk_widget_grab_focus (GTK_WIDGET (MAIL_DISPLAY (fb->mail_display)->html));
 	
 	set_default_size (GTK_WIDGET (new));
@@ -296,6 +243,7 @@ message_browser_new (const GNOME_Evolution_Shell shell, const char *uri, const c
 	return GTK_WIDGET (new);
 }
 
+/* Fin */
 
 E_MAKE_TYPE (message_browser, "MessageBrowser", MessageBrowser, message_browser_class_init,
 	     message_browser_init, PARENT_TYPE);

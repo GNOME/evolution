@@ -7,7 +7,10 @@ XML_FILES =				\
 	evolution-comp-editor.xml	\
 	evolution-event-editor.xml	\
 	evolution-executive-summary.xml	\
-	evolution-mail.xml		\
+	evolution-mail-message.xml	\
+	evolution-mail-list.xml		\
+	evolution-mail-global.xml	\
+	evolution-mail-messagedisplay.xml	\
 	evolution-message-composer.xml	\
 	evolution-subscribe.xml		\
 	evolution-task-editor.xml	\

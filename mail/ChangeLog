@@ -1,3 +1,27 @@
+2001-06-26  Peter Williams  <peterw@ximian.com>
+
+	* folder-browser-ui.c: New file derived from folder-browser-factory.c.
+	Contains the Bonobo UI code, split into three groups as described in
+	ui/ChangeLog. Also contains the GalView stuff and the hookups into
+	the Bonobo UI stuff.
+
+	* folder-browser-factory.c: Move most of the UI stuff to folder-browser-ui.c.
+	(control_activate): Add all three kinds of UI element to this folderbrowser.
+	(control_deactivate): Remove all three kinds.
+
+	* folder-browser-ui.h: New file. Prototypes functions to add UI elements
+	to a FolderBrowser.
+
+	* Makefile.am: Add folder-browser-ui.{c,h}
+	
+	* message-browser.c (PARENT_TYPE): Change to BONOBO_TYPE_WINDOW
+	(message_browser_destroy): Chain to parent destroy function.
+	(set_bonobo_ui): New function. Add the 'message' functions from the folder
+	browser to our UI.
+	(message_browser_close): BonoboVerbify this.
+	
+	* message-browser.h: Convert to BonoboWindow.
+
 2001-06-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser.c (my_folder_browser_init): Helps if I spell

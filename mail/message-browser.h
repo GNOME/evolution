@@ -24,6 +24,8 @@
 #define _MESSAGE_BROWSER_H_
 
 #include <gnome.h>
+#include <bonobo/bonobo-win.h>
+
 #include <camel/camel-folder.h>
 #include "folder-browser.h"
 #include "mail-display.h"
@@ -35,9 +37,8 @@
 #define IS_MESSAGE_BROWSER(o)       (GTK_CHECK_TYPE ((o), MESSAGE_BROWSER_TYPE))
 #define IS_MESSAGE_BROWSER_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), MESSAGE_BROWSER_TYPE))
 
-
 struct _MessageBrowser {
-	GnomeApp parent;
+	BonoboWindow parent;
 	
 	/*
 	 * The current URI being displayed by the MessageBrowser
@@ -47,7 +48,7 @@ struct _MessageBrowser {
 
 
 typedef struct {
-	GnomeAppClass parent_class;
+	BonoboWindowClass parent_class;
 	
 } MessageBrowserClass;
 

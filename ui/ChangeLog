@@ -1,3 +1,19 @@
+2001-06-26  Peter Williams  <peterw@ximian.com>
+
+	* evolution-mail-global.xml:
+	* evolution-mail-list.xml:
+	* evolution-mail-message.xml: New files. These are the result
+	of splitting evolution-mail.xml into three pieces: one for the
+	global mailer operations, one for the operations on a messagelist,
+	and one for the operations on one or more messages.
+
+	* evolution-mail-messagedisplay: New file. UI for the standalone
+	message browser that you get when you double-click. Very skeleton.
+	
+	* evolution-mail.xml: Removed.
+
+	* Makefile.am: Updated to install new files.
+	
 2001-06-25  jacob berkman  <jacob@ximian.com>
 
 	* evolution-mail.xml: add a preview toggle item
