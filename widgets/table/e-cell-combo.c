@@ -92,7 +92,9 @@ static void e_cell_combo_get_popup_pos	(ECellCombo	*ecc,
 					 gint		*height,
 					 gint		*width);
 
-static void e_cell_combo_selection_changed(GtkWidget *popup_list, ECellCombo *ecc);
+static void e_cell_combo_selection_changed (GtkWidget *popup_list, ECellCombo *ecc);
+
+static gint e_cell_combo_list_button_press (GtkWidget *popup_list, GdkEvent *event, ECellCombo *ecc);
 
 static gint e_cell_combo_button_press	(GtkWidget	*popup_window,
 					 GdkEvent	*event,
@@ -168,6 +170,10 @@ e_cell_combo_init			(ECellCombo	*ecc)
 	g_signal_connect (ecc->popup_list,
 			  "selection_changed",
 			  G_CALLBACK (e_cell_combo_selection_changed),
+			  ecc);
+	g_signal_connect (ecc->popup_list,
+			  "button_press_event",
+			  G_CALLBACK (e_cell_combo_list_button_press),
 			  ecc);
 	g_signal_connect (ecc->popup_window,
 			  "button_press_event",
@@ -503,14 +509,26 @@ e_cell_combo_selection_changed(GtkWidget *popup_list, ECellCombo *ecc)
 	if (!GTK_LIST(popup_list)->selection || !GTK_WIDGET_REALIZED(ecc->popup_window))
 		return;
 
+	e_cell_combo_restart_edit (ecc);
+}
+
+static gint
+e_cell_combo_list_button_press(GtkWidget *popup_list, GdkEvent *event, ECellCombo *ecc)
+{
+	g_return_val_if_fail (GTK_IS_LIST(popup_list), FALSE);
+
+	e_cell_combo_update_cell (ecc);
 	gtk_grab_remove (ecc->popup_window);
-	gdk_pointer_ungrab (gtk_get_current_event_time());
+	gdk_pointer_ungrab (event->button.time);
 	gtk_widget_hide (ecc->popup_window);
 
 	e_cell_popup_set_shown (E_CELL_POPUP (ecc), FALSE);
+	d(g_print("%s: popup_shown = FALSE\n", __FUNCTION__));
 
-	e_cell_combo_update_cell (ecc);
 	e_cell_combo_restart_edit (ecc);
+
+	return TRUE;
+
 }
 
 /* This handles button press events in the popup window.
