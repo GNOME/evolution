@@ -1,5 +1,11 @@
 2001-10-15  Christopher James Lahey  <clahey@ximian.com>
 
+	* backend/ebook/e-card.c (addPropValueQP, addPropValueSets,
+	e_card_get_vobject): Properly decide whether a property needs to
+	be marked as QP by searching for '\n'.  Fixes Ximian bug #3021.
+
+2001-10-15  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/contact-editor/e-contact-save-as.c (e_contact_save_as,
 	e_contact_list_save_as): Set the default file name here.  Fixes
 	Ximian bug #7053.

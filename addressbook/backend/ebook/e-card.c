@@ -383,13 +383,96 @@ static VObject *
 addPropValueUTF8(VObject *o, const char *p, const char *v)
 {
 	VObject *prop = addPropValue (o, p, v);
-	if (!e_utf8_is_ascii (v))
-		addPropValue (prop, "CHARSET", "UTF-8");
+	for (; *v; v++) {
+		if ((*v) & 0x80) {
+			addPropValue (prop, "CHARSET", "UTF-8");
+			for (; *v; v++) {
+				if (*v == '\n') {
+					addProp(prop, VCQuotedPrintableProp);
+					return prop;
+				}
+			}
+			return prop;
+		}
+		if (*v == '\n') {
+			addProp(prop, VCQuotedPrintableProp);
+			for (; *v; v++) {
+				if ((*v) & 0x80) {
+					addPropValue (prop, "CHARSET", "UTF-8");
+					return prop;
+				}
+			}
+			return prop;
+		}
+	}
 	return prop;
 }
 
-#define ADD_PROP_VALUE(o, p, v)              (assumeUTF8 ? (addPropValue ((o), (p), (v))) : addPropValueUTF8 ((o), (p), (v)))
-#define ADD_PROP_VALUE_SET_IS_ASCII(o, p, v) (addPropValue ((o), (p), (v)), is_ascii = is_ascii && e_utf8_is_ascii ((v)))
+static VObject *
+addPropValueQP(VObject *o, const char *p, const char *v)
+{
+	VObject *prop = addPropValue (o, p, v);
+	for (; *v; v++) {
+		if (*v == '\n') {
+			addProp(prop, VCQuotedPrintableProp);
+			break;
+		}
+	}
+	return prop;
+}
+
+static void
+addPropValueSets (VObject *o, char *p, char *v, gboolean assumeUTF8, gboolean *is_ascii, gboolean *has_return)
+{
+	addPropValue (o, p, v);
+	if (*has_return && (assumeUTF8 || !*is_ascii))
+		return;
+	if (*has_return) {
+		for (; *v; v++) {
+			if (*v & 0x80) {
+				*is_ascii = FALSE;
+				return;
+			}
+		}
+		return;
+	}
+	if (assumeUTF8 || !*is_ascii) {
+		for (; *v; v++) {
+			if (*v == '\n') {
+				*has_return = TRUE;
+				return;
+			}
+		}
+		return;
+	}
+	for (; *v; v++) {
+		if (*v & 0x80) {
+			*is_ascii = FALSE;
+			for (; *v; v++) {
+				if (*v == '\n') {
+					*has_return = TRUE;
+					return;
+				}
+			}
+			return;
+		}
+		if (*v == '\n') {
+			*has_return = TRUE;
+			for (; *v; v++) {
+				if (*v & 0x80) {
+					*is_ascii = FALSE;
+					return;
+				}
+			}
+			return;
+		}
+	}
+	return;
+}
+
+#define ADD_PROP_VALUE(o, p, v)              (assumeUTF8 ? (addPropValueQP ((o), (p), (v))) : addPropValueUTF8 ((o), (p), (v)))
+#define ADD_PROP_VALUE_SET_IS_ASCII(o, p, v) (addPropValueSets ((o), (p), (v), assumeUTF8, &is_ascii, &has_return))
+
 
 static VObject *
 e_card_get_vobject (ECard *card, gboolean assumeUTF8)
@@ -398,12 +481,12 @@ e_card_get_vobject (ECard *card, gboolean assumeUTF8)
 	
 	vobj = newVObject (VCCardProp);
 
-	if ( card->file_as && *card->file_as )
+	if (card->file_as && *card->file_as)
 		ADD_PROP_VALUE(vobj, "X-EVOLUTION-FILE-AS", card->file_as);
 	else if (card->file_as)
 		addProp(vobj, "X-EVOLUTION-FILE_AS");
 
-	if ( card->fname )
+	if (card->fname && *card->fname)
 		ADD_PROP_VALUE(vobj, VCFullNameProp, card->fname);
 	else if (card->fname)
 		addProp(vobj, VCFullNameProp);
@@ -411,6 +494,7 @@ e_card_get_vobject (ECard *card, gboolean assumeUTF8)
 	if ( card->name && (card->name->prefix || card->name->given || card->name->additional || card->name->family || card->name->suffix) ) {
 		VObject *nameprop;
 		gboolean is_ascii = TRUE;
+		gboolean has_return = FALSE;
 		nameprop = addProp(vobj, VCNameProp);
 		if ( card->name->prefix )
 			ADD_PROP_VALUE_SET_IS_ASCII(nameprop, VCNamePrefixesProp, card->name->prefix);
@@ -422,6 +506,8 @@ e_card_get_vobject (ECard *card, gboolean assumeUTF8)
 			ADD_PROP_VALUE_SET_IS_ASCII(nameprop, VCFamilyNameProp, card->name->family);
 		if ( card->name->suffix )
 			ADD_PROP_VALUE_SET_IS_ASCII(nameprop, VCNameSuffixesProp, card->name->suffix);
+		if (has_return)
+			addProp(nameprop, VCQuotedPrintableProp);
 		if (!(is_ascii || assumeUTF8))
 			addPropValue (nameprop, "CHARSET", "UTF-8");
 	}
@@ -435,6 +521,7 @@ e_card_get_vobject (ECard *card, gboolean assumeUTF8)
 			VObject *addressprop;
 			ECardDeliveryAddress *address = (ECardDeliveryAddress *) e_iterator_get(iterator);
 			gboolean is_ascii = TRUE;
+			gboolean has_return = FALSE;
 
 			addressprop = addProp(vobj, VCAdrProp);
 			
@@ -453,7 +540,9 @@ e_card_get_vobject (ECard *card, gboolean assumeUTF8)
 				ADD_PROP_VALUE_SET_IS_ASCII(addressprop, VCPostalCodeProp, address->code);
 			if ( address->country )
 				ADD_PROP_VALUE_SET_IS_ASCII(addressprop, VCCountryNameProp, address->country);
-			addProp(addressprop, VCQuotedPrintableProp);
+
+			if (has_return)
+				addProp(addressprop, VCQuotedPrintableProp);
 			if (!(is_ascii || assumeUTF8))
 				addPropValue (addressprop, "CHARSET", "UTF-8");
 		}
@@ -471,7 +560,6 @@ e_card_get_vobject (ECard *card, gboolean assumeUTF8)
 				labelprop = addProp(vobj, VCDeliveryLabelProp);
 			
 			set_address_flags (labelprop, address_label->flags);
-			addProp(labelprop, VCQuotedPrintableProp);
 		}
 		gtk_object_unref(GTK_OBJECT(iterator));
 	}
@@ -511,12 +599,16 @@ e_card_get_vobject (ECard *card, gboolean assumeUTF8)
 	if (card->org || card->org_unit) {
 		VObject *orgprop;
 		gboolean is_ascii = TRUE;
+		gboolean has_return = FALSE;
 		orgprop = addProp(vobj, VCOrgProp);
 		
 		if (card->org)
 			ADD_PROP_VALUE_SET_IS_ASCII(orgprop, VCOrgNameProp, card->org);
 		if (card->org_unit)
 			ADD_PROP_VALUE_SET_IS_ASCII(orgprop, VCOrgUnitProp, card->org_unit);
+
+		if (has_return)
+			addProp(orgprop, VCQuotedPrintableProp);
 		if (!(is_ascii || assumeUTF8))
 			addPropValue (orgprop, "CHARSET", "UTF-8");
 	}
@@ -563,7 +655,6 @@ e_card_get_vobject (ECard *card, gboolean assumeUTF8)
 		VObject *noteprop;
 
 		noteprop = ADD_PROP_VALUE(vobj, VCNoteProp, card->note);
-		addProp(noteprop, VCQuotedPrintableProp);
 	}
 
 	if (card->last_use) {
