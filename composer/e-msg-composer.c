@@ -459,7 +459,7 @@ prepare_engine (EMsgComposer *composer)
 
 	CORBA_exception_init (&ev);
 	composer->editor_engine = (GNOME_HTMLEditor_Engine) bonobo_object_client_query_interface
-		(bonobo_widget_get_server (BONOBO_WIDGET (composer->editor)), "IDL:HTMLEditor/Engine:1.0", &ev);
+		(bonobo_widget_get_server (BONOBO_WIDGET (composer->editor)), "IDL:GNOME/HTMLEditor/Engine:1.0", &ev);
 	if (composer->editor_engine != CORBA_OBJECT_NIL) {
 		
 		/* printf ("trying set listener\n"); */

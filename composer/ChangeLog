@@ -1,5 +1,7 @@
 2000-11-15  Radek Doulik  <rodo@helixcode.com>
 
+	* e-msg-composer.c (prepare_engine): update namespace
+
 	* updates for HTMLEditor API changes
 
 	* e-msg-composer.c: added #include <libgnomevfs/gnome-vfs.h>
