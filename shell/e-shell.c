@@ -28,7 +28,6 @@
 
 #include "e-util/e-dialog-utils.h"
 
-#include "e-setup.h"
 #include "e-shell-constants.h"
 #include "e-shell-offline-handler.h"
 #include "e-shell-settings-dialog.h"
@@ -914,7 +913,6 @@ e_shell_go_online (EShell *shell,
 		EComponentInfo *info = p->data;
 		CORBA_Environment ev;
 		GNOME_Evolution_Offline offline_interface;
-		const char *id;
 
 		CORBA_exception_init (&ev);
 
@@ -928,7 +926,7 @@ e_shell_go_online (EShell *shell,
 
 		GNOME_Evolution_Offline_goOnline (offline_interface, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION)
-			g_warning ("Error putting component `%s' online.", id);
+			g_warning ("Error putting component `%s' online.", info->id);
 
 		CORBA_exception_free (&ev);
 	}

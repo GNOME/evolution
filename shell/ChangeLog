@@ -1,3 +1,15 @@
+2003-12-30  JP Rosevear <jpr@ximian.com>
+
+	* e-setup.[hc]: these just handle creating the ~/evolution dir and
+	so are no longer needed
+
+	* main.c (main): don't setup the old ~/evolution dir
+	
+	* Makefile.am: don't build dead files
+
+	* e-shell.c (e_shell_go_online): get the id from the component
+	info
+
 2003-12-22  Ross Burton  <ross@burtonini.com>
 
 	* e-shell.c: mark the settings dialog as transient for the main window.

@@ -28,7 +28,6 @@
 #include "e-icon-factory.h"
 #include "e-shell-constants.h"
 #include "e-shell-window.h"	/* FIXME */
-#include "e-setup.h"
 
 #include "e-shell.h"
 
@@ -591,10 +590,8 @@ main (int argc, char **argv)
 
 	gnome_window_icon_set_default_from_file (EVOLUTION_IMAGES "/evolution-inbox.png");
 
-	/* FIXME */
+	/* FIXME We shouldn't be using the old directory at all I think */
 	evolution_directory = g_build_filename (g_get_home_dir (), "evolution", NULL);
-	if (! e_setup (evolution_directory))
-		exit (1);
 	if (setup_only)
 		exit (0);
 
