@@ -110,7 +110,8 @@ typedef struct {
 					    CamelException *ex);
 
 	void (*append_message)  (CamelFolder *folder, 
-				 CamelMimeMessage *message, 
+				 CamelMimeMessage *message,
+				 guint32 flags,
 				 CamelException *ex);
 	
 	guint32 (*get_permanent_flags) (CamelFolder *folder,
@@ -247,7 +248,8 @@ void		   camel_folder_set_message_user_flag  (CamelFolder *folder,
 
 /* message manipulation */
 void               camel_folder_append_message         (CamelFolder *folder, 
-							CamelMimeMessage *message, 
+							CamelMimeMessage *message,
+							guint32 flags,
 							CamelException *ex);
 
 

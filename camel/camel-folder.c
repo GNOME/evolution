@@ -96,7 +96,7 @@ static void expunge             (CamelFolder *folder,
 
 
 static void append_message (CamelFolder *folder, CamelMimeMessage *message,
-			    CamelException *ex);
+			    guint32 flags, CamelException *ex);
 
 
 static GPtrArray        *get_uids            (CamelFolder *folder,
@@ -621,7 +621,7 @@ camel_folder_get_unread_message_count (CamelFolder *folder, CamelException *ex)
 
 static void
 append_message (CamelFolder *folder, CamelMimeMessage *message,
-		CamelException *ex)
+		guint32 flags, CamelException *ex)
 {
 	g_warning ("CamelFolder::append_message not implemented for `%s'",
 		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
@@ -640,11 +640,12 @@ append_message (CamelFolder *folder, CamelMimeMessage *message,
 void
 camel_folder_append_message (CamelFolder *folder,
 			     CamelMimeMessage *message,
+			     guint32 flags,
 			     CamelException *ex)
 {
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-	CF_CLASS (folder)->append_message (folder, message, ex);
+	CF_CLASS (folder)->append_message (folder, message, flags, ex);
 }
 
 
@@ -1080,13 +1081,15 @@ copy_message_to (CamelFolder *source, const char *uid, CamelFolder *dest,
 		 CamelException *ex)
 {
 	CamelMimeMessage *msg;
+	CamelMessageInfo *info;
 
 	/* Default implementation. */
 	
 	msg = camel_folder_get_message (source, uid, ex);
 	if (!msg)
 		return;
-	camel_folder_append_message (dest, msg, ex);
+	info = camel_folder_get_message_info (source, uid);
+	camel_folder_append_message (dest, msg, info ? info->flags : 0, ex);
 	gtk_object_unref (GTK_OBJECT (msg));
 	if (camel_exception_is_set (ex))
 		return;
@@ -1124,13 +1127,15 @@ move_message_to (CamelFolder *source, const char *uid, CamelFolder *dest,
 		 CamelException *ex)
 {
 	CamelMimeMessage *msg;
+	CamelMessageInfo *info;
 
 	/* Default implementation. */
 	
 	msg = camel_folder_get_message (source, uid, ex);
 	if (!msg)
 		return;
-	camel_folder_append_message (dest, msg, ex);
+	info = camel_folder_get_message_info (source, uid);
+	camel_folder_append_message (dest, msg, info ? info->flags : 0, ex);
 	gtk_object_unref (GTK_OBJECT (msg));
 	if (camel_exception_is_set (ex))
 		return;

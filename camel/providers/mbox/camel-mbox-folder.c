@@ -65,7 +65,7 @@ static void mbox_init (CamelFolder *folder, CamelStore *parent_store,
 static void mbox_sync (CamelFolder *folder, gboolean expunge, CamelException *ex);
 static gint mbox_get_message_count (CamelFolder *folder, CamelException *ex);
 static gint mbox_get_unread_message_count (CamelFolder *folder, CamelException *ex);
-static void mbox_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
+static void mbox_append_message (CamelFolder *folder, CamelMimeMessage *message, guint32 flags, CamelException *ex);
 static GPtrArray *mbox_get_uids (CamelFolder *folder, CamelException *ex);
 static GPtrArray *mbox_get_subfolder_names (CamelFolder *folder, CamelException *ex);
 static GPtrArray *mbox_get_summary (CamelFolder *folder, CamelException *ex);
@@ -299,7 +299,7 @@ mbox_get_unread_message_count (CamelFolder *folder, CamelException *ex)
 
 /* FIXME: this may need some tweaking for performance? */
 static void
-mbox_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex)
+mbox_append_message (CamelFolder *folder, CamelMimeMessage *message, guint32 flags, CamelException *ex)
 {
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);
 	CamelStream *output_stream = NULL, *filter_stream = NULL;
@@ -332,7 +332,7 @@ mbox_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelExcept
 	/* assign a new x-evolution header/uid */
 	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution");
 	uid = camel_folder_summary_next_uid (CAMEL_FOLDER_SUMMARY (mbox_folder->summary));
-	xev = g_strdup_printf ("%08x-0000", uid);
+	xev = g_strdup_printf ("%08x-%08x", uid, flags);
 	camel_medium_add_header (CAMEL_MEDIUM (message), "X-Evolution", xev);
 	g_print ("%s -- %s\n", __FUNCTION__, xev);
 	g_free (xev);

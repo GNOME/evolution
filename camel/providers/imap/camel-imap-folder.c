@@ -64,7 +64,7 @@ static void imap_init (CamelFolder *folder, CamelStore *parent_store,
 static void imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex);
 static gint imap_get_message_count (CamelFolder *folder, CamelException *ex);
 static gint imap_get_unread_message_count (CamelFolder *folder, CamelException *ex);
-static void imap_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
+static void imap_append_message (CamelFolder *folder, CamelMimeMessage *message, guint32 flags, CamelException *ex);
 static void imap_copy_message_to (CamelFolder *source, const char *uid, CamelFolder *destination, CamelException *ex);
 static void imap_move_message_to (CamelFolder *source, const char *uid, CamelFolder *destination, CamelException *ex);
 static GPtrArray *imap_get_uids (CamelFolder *folder, CamelException *ex);
@@ -476,12 +476,12 @@ imap_get_unread_message_count (CamelFolder *folder, CamelException *ex)
 }
 
 static void
-imap_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex)
+imap_append_message (CamelFolder *folder, CamelMimeMessage *message, guint32 flags, CamelException *ex)
 {
 	CamelStore *store = CAMEL_STORE (folder->parent_store);
 	CamelURL *url = CAMEL_SERVICE (store)->url;
 	CamelStreamMem *mem;
-	gchar *result, *folder_path;
+	gchar *result, *folder_path, *flagstr = NULL;
 	gint status;
 
 	g_return_if_fail (folder != NULL);
@@ -506,11 +506,21 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelExcept
 	else
 		folder_path = g_strdup (folder->full_name);
 
+	/* create flag string param */
+	if (flags) {
+		flagstr = g_strconcat (" (", flags & CAMEL_MESSAGE_SEEN ? "\\Seen " : "",
+				       flags & CAMEL_MESSAGE_DRAFT ? "\\Draft " : "",
+				       flags & CAMEL_MESSAGE_DELETED ? "\\Answered " : "",
+				       NULL);
+		if (flagstr)
+			*(flagstr + strlen (flagstr) - 1) = ')';
+	}
+	
 	/* FIXME: len isn't really correct I don't think, we need to filter and possibly other things */
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store),
-					      folder, &result,
-					      "APPEND %s (\\Seen) {%d}\r\n%s",
-					      folder_path, mem->buffer->len - 1, mem->buffer->data);
+					      folder, &result, "APPEND %s%s {%d}\r\n%s",
+					      folder_path, flagstr ? flagstr : "",
+					      mem->buffer->len - 1, mem->buffer->data);
 
 	if (status != CAMEL_IMAP_OK) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);

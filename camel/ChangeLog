@@ -1,5 +1,18 @@
 2000-07-11  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* camel-folder.c (camel_folder_append_message): Now takes a
+	flags argument to specify the flags to be set on the message
+	since we might not necessarily want the flags to be wiped clean.
+	(move_message_to):
+	(copy_message_to): Updated to send a flags argument to 
+	append_message (); currently sends the original message's flags.
+
+	* providers/mbox/camel-mbox-folder.c (mbox_append_message): 
+	* providers/imap/camel-imap-folder.c (imap_append_message): 
+	Updated.
+
+2000-07-11  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* providers/imap/camel-imap-folder.c (imap_search_by_expression): 
 	This shouldn't return NULL, it should return g_ptr_array_new ()
 	so the mailer gets what it expects.
