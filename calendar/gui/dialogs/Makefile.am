@@ -32,6 +32,10 @@ noinst_LTLIBRARIES = libcal-dialogs.la
 
 libcal_dialogs_la_SOURCES =	\
 	$(IDL_GENERATED)	\
+	alarm-dialog.c		\
+	alarm-dialog.h		\
+	alarm-list-dialog.c	\
+	alarm-list-dialog.h	\
 	alarm-options.c		\
 	alarm-options.h		\
 	alarm-page.c		\
@@ -86,6 +90,8 @@ libcal_dialogs_la_SOURCES =	\
 	url-editor-dialog.h	
 
 glade_DATA =				\
+	alarm-dialog.glade		\
+	alarm-list-dialog.glade		\
 	alarm-options.glade		\
 	alarm-page.glade		\
 	cal-prefs-dialog.glade		\

@@ -277,6 +277,25 @@ clear_widgets (TaskDetailsPage *tdpage)
 	e_dialog_editable_set (priv->url, NULL);
 }
 
+static void
+sensitize_widgets (TaskDetailsPage *tdpage)
+{
+	gboolean read_only;
+	TaskDetailsPagePrivate *priv;
+	
+	priv = tdpage->priv;
+
+	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (tdpage)->client, &read_only, NULL))
+		read_only = TRUE;
+	
+	gtk_widget_set_sensitive (priv->status, !read_only);
+	gtk_widget_set_sensitive (priv->priority, !read_only);
+	gtk_widget_set_sensitive (priv->percent_complete, !read_only);
+	gtk_widget_set_sensitive (priv->completed_date, !read_only);
+	gtk_widget_set_sensitive (priv->url_label, !read_only);
+	gtk_entry_set_editable (GTK_ENTRY (e_url_entry_get_entry (priv->url_entry)), !read_only);
+}
+
 /* fill_widgets handler for the task page */
 static gboolean
 task_details_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
@@ -362,6 +381,8 @@ task_details_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	e_dialog_editable_set (priv->url, url);
 	
 	priv->updating = FALSE;
+
+	sensitize_widgets (tdpage);
 
 	return TRUE;
 }
@@ -729,7 +750,13 @@ init_widgets (TaskDetailsPage *tdpage)
 			    G_CALLBACK (field_changed_cb), tdpage);
 }
 
-
+static void
+client_changed_cb (CompEditorPage *page, ECal *client, gpointer user_data)
+{
+	TaskDetailsPage *tdpage = TASK_DETAILS_PAGE (page);
+
+	sensitize_widgets (tdpage);
+}
 
 /**
  * task_details_page_construct:
@@ -762,6 +789,9 @@ task_details_page_construct (TaskDetailsPage *tdpage)
 	}
 
 	init_widgets (tdpage);
+
+	g_signal_connect_after (G_OBJECT (tdpage), "client_changed",
+				G_CALLBACK (client_changed_cb), NULL);
 
 	return tdpage;
 }

@@ -770,7 +770,7 @@ dialog_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
  * Return value: TRUE if the dialog could be created, FALSE otherwise.
  **/
 gboolean
-alarm_options_dialog_run (ECalComponentAlarm *alarm, const char *email, gboolean repeat)
+alarm_options_dialog_run (GtkWidget *parent, ECalComponentAlarm *alarm, const char *email, gboolean repeat)
 {
 	Dialog dialog;
 	int response_id;
@@ -782,7 +782,7 @@ alarm_options_dialog_run (ECalComponentAlarm *alarm, const char *email, gboolean
  	dialog.email = email;
 	dialog.xml = glade_xml_new (EVOLUTION_GLADEDIR "/alarm-options.glade", NULL, NULL);
 	if (!dialog.xml) {
-		g_message ("alarm_options_dialog_new(): Could not load the Glade XML file!");
+		g_message (G_STRLOC ": Could not load the Glade XML file!");
 		return FALSE;
 	}
 
@@ -807,6 +807,9 @@ alarm_options_dialog_run (ECalComponentAlarm *alarm, const char *email, gboolean
 		g_list_free (icon_list);
 	}
 
+	gtk_window_set_transient_for (GTK_WINDOW (dialog.toplevel),
+				      GTK_WINDOW (parent));
+
 	response_id = gtk_dialog_run (GTK_DIALOG (dialog.toplevel));
 	gtk_widget_hide (dialog.toplevel);
 
@@ -818,3 +821,4 @@ alarm_options_dialog_run (ECalComponentAlarm *alarm, const char *email, gboolean
 
 	return TRUE;
 }
+

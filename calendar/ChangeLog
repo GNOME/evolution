@@ -1,5 +1,26 @@
 2004-06-22  JP Rosevear  <jpr@novell.com>
 
+	 * gui/dialogs/Makefile.am, gui/dialogs/alarm-dialog.c,
+	 gui/dialogs/alarm-dialog.glade, gui/dialogs/alarm-dialog.h,
+	 gui/dialogs/alarm-list-dialog.c,
+	 gui/dialogs/alarm-list-dialog.glade,
+	 gui/dialogs/alarm-list-dialog.h, gui/dialogs/alarm-options.c,
+	 gui/dialogs/alarm-options.h, gui/dialogs/alarm-page.c,
+	 gui/dialogs/alarm-page.glade, gui/dialogs/alarm-page.h,
+	 gui/dialogs/comp-editor.c, gui/dialogs/comp-editor.h,
+	 gui/dialogs/event-editor.c, gui/dialogs/event-page.c,
+	 gui/dialogs/event-page.glade, gui/dialogs/meeting-page.c,
+	 gui/dialogs/meeting-page.glade, gui/dialogs/recurrence-page.c,
+	 gui/dialogs/recurrence-page.glade,
+	 gui/dialogs/task-details-page.c,
+	 gui/dialogs/task-details-page.glade, gui/dialogs/task-editor.c,
+	 gui/dialogs/task-page.c, gui/dialogs/task-page.glade: HIGify and
+	 newer design; alarm page is gone, Cancel/OK buttons for the
+	 dialog, no more menus; slightly improve read-only workings for
+	 entry areas
+	
+2004-06-22  JP Rosevear  <jpr@novell.com>
+
 	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct):
 	rename widgets to be consistent with those else where
 	(e_meeting_time_selector_set_read_only): cast properly

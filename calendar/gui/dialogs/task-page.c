@@ -57,6 +57,7 @@ struct _TaskPagePrivate {
 	GtkWidget *main;
 
 	GtkWidget *summary;
+	GtkWidget *summary_label;
 
 	GtkWidget *due_date;
 	GtkWidget *start_date;
@@ -65,9 +66,7 @@ struct _TaskPagePrivate {
 
 	GtkWidget *description;
 
-	GtkWidget *classification_public;
-	GtkWidget *classification_private;
-	GtkWidget *classification_confidential;
+	GtkWidget *classification;
 
 	GtkWidget *categories_btn;
 	GtkWidget *categories;
@@ -150,14 +149,13 @@ task_page_init (TaskPage *tpage)
 
 	priv->main = NULL;
 	priv->summary = NULL;
+	priv->summary_label = NULL;
 	priv->due_date = NULL;
 	priv->start_date = NULL;
 	priv->due_timezone = NULL;
 	priv->start_timezone = NULL;
 	priv->description = NULL;
-	priv->classification_public = NULL;
-	priv->classification_private = NULL;
-	priv->classification_confidential = NULL;
+	priv->classification = NULL;
 	priv->categories_btn = NULL;
 	priv->categories = NULL;
 
@@ -237,8 +235,7 @@ clear_widgets (TaskPage *tpage)
 	e_date_edit_set_time (E_DATE_EDIT (priv->due_date), 0);
 
 	/* Classification */
-	e_dialog_radio_set (priv->classification_public,
-			    E_CAL_COMPONENT_CLASS_PRIVATE, classification_map);
+	e_dialog_option_menu_set (priv->classification, E_CAL_COMPONENT_CLASS_PRIVATE, classification_map);
 
 	/* Categories */
 	e_dialog_editable_set (priv->categories, NULL);
@@ -248,7 +245,30 @@ clear_widgets (TaskPage *tpage)
 static ECalComponentClassification
 classification_get (GtkWidget *widget)
 {
-	return e_dialog_radio_get (widget, classification_map);
+	return e_dialog_option_menu_get (widget, classification_map);
+}
+
+static void
+sensitize_widgets (TaskPage *tpage)
+{
+	gboolean read_only;
+	TaskPagePrivate *priv;
+	
+	priv = tpage->priv;
+
+	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (tpage)->client, &read_only, NULL))
+		read_only = TRUE;
+	
+	gtk_widget_set_sensitive (priv->summary_label, !read_only);
+	gtk_entry_set_editable (GTK_ENTRY (priv->summary), !read_only);
+	gtk_widget_set_sensitive (priv->due_date, !read_only);
+	gtk_widget_set_sensitive (priv->start_date, !read_only);
+	gtk_widget_set_sensitive (priv->due_timezone, !read_only);
+	gtk_widget_set_sensitive (priv->start_timezone, !read_only);
+	gtk_widget_set_sensitive (priv->description, !read_only);
+	gtk_widget_set_sensitive (priv->classification, !read_only);
+	gtk_widget_set_sensitive (priv->categories_btn, !read_only);
+	gtk_entry_set_editable (GTK_ENTRY (priv->categories), !read_only);
 }
 
 /* fill_widgets handler for the task page */
@@ -379,30 +399,15 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 	switch (cl) {
 	case E_CAL_COMPONENT_CLASS_PUBLIC:
-	    	e_dialog_radio_set (priv->classification_public,
-				    E_CAL_COMPONENT_CLASS_PUBLIC,
-				    classification_map);
-		break;
-
 	case E_CAL_COMPONENT_CLASS_PRIVATE:
-	    	e_dialog_radio_set (priv->classification_public,
-				    E_CAL_COMPONENT_CLASS_PRIVATE,
-				    classification_map);
-		break;
-
 	case E_CAL_COMPONENT_CLASS_CONFIDENTIAL:
-	    	e_dialog_radio_set (priv->classification_public,
-				    E_CAL_COMPONENT_CLASS_CONFIDENTIAL,
-				    classification_map);
 		break;
-
 	default:
 		/* default to PUBLIC */
-                e_dialog_radio_set (priv->classification_public,
-                                    E_CAL_COMPONENT_CLASS_PUBLIC,
-                                    classification_map);
+		cl = E_CAL_COMPONENT_CLASS_PUBLIC;
                 break;
 	}
+	e_dialog_option_menu_set (priv->classification, cl, classification_map);
 
 	/* Categories */
 	e_cal_component_get_categories (comp, &categories);
@@ -413,6 +418,8 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	e_source_option_menu_select (E_SOURCE_OPTION_MENU (priv->source_selector), source);
 
 	priv->updating = FALSE;
+
+	sensitize_widgets (tpage);
 
 	return TRUE;
 }
@@ -540,7 +547,7 @@ task_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 	}
 
 	/* Classification. */
-	e_cal_component_set_classification (comp, classification_get (priv->classification_public));
+	e_cal_component_set_classification (comp, classification_get (priv->classification));
 
 	/* Categories */
 	cat = e_dialog_editable_get (priv->categories);
@@ -640,6 +647,7 @@ get_widgets (TaskPage *tpage)
 	gtk_container_remove (GTK_CONTAINER (priv->main->parent), priv->main);
 
 	priv->summary = GW ("summary");
+	priv->summary_label = GW ("summary-label");
 
 	/* Glade's visibility flag doesn't seem to work for custom widgets */
 	priv->due_date = GW ("due-date");
@@ -652,9 +660,7 @@ get_widgets (TaskPage *tpage)
 
 	priv->description = GW ("description");
 
-	priv->classification_public = GW ("classification-public");
-	priv->classification_private = GW ("classification-private");
-	priv->classification_confidential = GW ("classification-confidential");
+	priv->classification = GW ("classification");
 
 	priv->categories_btn = GW ("categories-button");
 	priv->categories = GW ("categories");
@@ -664,13 +670,12 @@ get_widgets (TaskPage *tpage)
 #undef GW
 
 	return (priv->summary
+		&& priv->summary_label
 		&& priv->due_date
 		&& priv->start_date
 		&& priv->due_timezone
 		&& priv->start_timezone
-		&& priv->classification_public
-		&& priv->classification_private
-		&& priv->classification_confidential
+		&& priv->classification
 		&& priv->description
 		&& priv->categories_btn
 		&& priv->categories);
@@ -802,11 +807,11 @@ field_changed_cb (GtkWidget *widget, gpointer data)
 static void
 source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 {
-	TaskPage *epage;
+	TaskPage *tpage;
 	TaskPagePrivate *priv;
 
-	epage = TASK_PAGE (data);
-	priv = epage->priv;
+	tpage = TASK_PAGE (data);
+	priv = tpage->priv;
 
 	if (!priv->updating) {
 		ECal *client;
@@ -819,7 +824,7 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 				g_object_unref (client);
 
 			e_source_option_menu_select (E_SOURCE_OPTION_MENU (priv->source_selector),
-						     e_cal_get_source (COMP_EDITOR_PAGE (epage)->client));
+						     e_cal_get_source (COMP_EDITOR_PAGE (tpage)->client));
 
 			dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 							 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
@@ -831,6 +836,7 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 			comp_editor_notify_client_changed (
 				COMP_EDITOR (gtk_widget_get_toplevel (priv->main)),
 				client);
+			sensitize_widgets (tpage);
 		}
 	}
 }
@@ -871,21 +877,13 @@ init_widgets (TaskPage *tpage)
 	g_signal_connect((priv->due_date), "changed",
 			    G_CALLBACK (date_changed_cb), tpage);
 
-	g_signal_connect((priv->due_timezone), "changed",
-			    G_CALLBACK (field_changed_cb), tpage);
-	g_signal_connect((priv->start_timezone), "changed",
-			    G_CALLBACK (field_changed_cb), tpage);
+	/* Categories button */
+	g_signal_connect((priv->categories_btn), "clicked",
+			    G_CALLBACK (categories_clicked_cb), tpage);
 
-	/* Classification */
-	g_signal_connect((priv->classification_public),
-			    "toggled",
-			    G_CALLBACK (field_changed_cb), tpage);
-	g_signal_connect((priv->classification_private),
-			    "toggled",
-			    G_CALLBACK (field_changed_cb), tpage);
-	g_signal_connect((priv->classification_confidential),
-			    "toggled",
-			    G_CALLBACK (field_changed_cb), tpage);
+	/* Source selector */
+	g_signal_connect((priv->source_selector), "source_selected",
+			 G_CALLBACK (source_changed_cb), tpage);
 
 	/* Connect the default signal handler to use to make sure the "changed"
 	   field gets set whenever a field is changed. */
@@ -894,16 +892,16 @@ init_widgets (TaskPage *tpage)
 	g_signal_connect ((text_buffer), "changed",
 			  G_CALLBACK (field_changed_cb), tpage);
 
+	g_signal_connect((priv->summary), "changed",
+			    G_CALLBACK (field_changed_cb), tpage);
+	g_signal_connect((priv->due_timezone), "changed",
+			    G_CALLBACK (field_changed_cb), tpage);
+	g_signal_connect((priv->start_timezone), "changed",
+			    G_CALLBACK (field_changed_cb), tpage);
+	g_signal_connect((priv->classification), "changed",
+			    G_CALLBACK (field_changed_cb), tpage);
 	g_signal_connect((priv->categories), "changed",
 			    G_CALLBACK (field_changed_cb), tpage);
-
-	/* Categories button */
-	g_signal_connect((priv->categories_btn), "clicked",
-			    G_CALLBACK (categories_clicked_cb), tpage);
-
-	/* Source selector */
-	g_signal_connect((priv->source_selector), "source_selected",
-			 G_CALLBACK (source_changed_cb), tpage);
 
 	/* Set the default timezone, so the timezone entry may be hidden. */
 	zone = calendar_config_get_icaltimezone ();

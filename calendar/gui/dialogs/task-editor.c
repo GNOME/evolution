@@ -63,15 +63,6 @@ static void forward_cmd (GtkWidget *widget, gpointer data);
 static void model_row_change_insert_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data);
 static void model_row_delete_cb (GtkTreeModel *model, GtkTreePath *path, gpointer data);
 
-static BonoboUIVerb verbs [] = {
-	BONOBO_UI_UNSAFE_VERB ("ActionAssignTask", assign_task_cmd),
-	BONOBO_UI_UNSAFE_VERB ("ActionRefreshTask", refresh_task_cmd),
-	BONOBO_UI_UNSAFE_VERB ("ActionCancelTask", cancel_task_cmd),
-	BONOBO_UI_UNSAFE_VERB ("ActionForward", forward_cmd),
-
-	BONOBO_UI_VERB_END
-};
-
 static CompEditorClass *parent_class;
 
 
@@ -108,47 +99,6 @@ task_editor_class_init (TaskEditorClass *klass)
 }
 
 static void
-set_menu_sens (TaskEditor *te) 
-{
-	TaskEditorPrivate *priv;
-	gboolean sens, existing, user, read_only = TRUE;
-	
-	priv = te->priv;
-
- 	existing = comp_editor_get_existing_org (COMP_EDITOR (te));
- 	user = comp_editor_get_user_org (COMP_EDITOR (te));
-	
-	e_cal_is_read_only (comp_editor_get_e_cal (COMP_EDITOR (te)), &read_only, NULL);
- 
-  	sens = e_cal_get_static_capability (comp_editor_get_e_cal (COMP_EDITOR (te)),
-						 CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT)
-						 || priv->assignment_shown || read_only;
-  	comp_editor_set_ui_prop (COMP_EDITOR (te), 
-  				 "/commands/ActionAssignTask", 
-  				 "sensitive", sens ? "0" : "1");
-  
- 	sens = priv->assignment_shown && existing && !user && !read_only;
-  	comp_editor_set_ui_prop (COMP_EDITOR (te), 
-  				 "/commands/ActionRefreshTask", 
-  				 "sensitive", sens ? "1" : "0");
- 
- 	sens = priv->assignment_shown && existing && user && !read_only;
-  	comp_editor_set_ui_prop (COMP_EDITOR (te), 
-  				 "/commands/ActionCancelTask", 
-  				 "sensitive", sens ? "1" : "0");
-
-	comp_editor_set_ui_prop (COMP_EDITOR (te),
-				 "/commands/FileSave",
-				 "sensitive", read_only ? "0" : "1");
-	comp_editor_set_ui_prop (COMP_EDITOR (te),
-				 "/commands/FileSaveAndClose",
-				 "sensitive", read_only ? "0" : "1");
-	comp_editor_set_ui_prop (COMP_EDITOR (te),
-				 "/commands/FileDelete",
-				 "sensitive", read_only ? "0" : "1");
-}
-
-static void
 init_widgets (TaskEditor *te)
 {
 	TaskEditorPrivate *priv;
@@ -166,7 +116,7 @@ init_widgets (TaskEditor *te)
 static void
 client_changed_cb (CompEditorPage *page, ECal *client, gpointer user_data)
 {
-	set_menu_sens (TASK_EDITOR (user_data));
+//	set_menu_sens (TASK_EDITOR (user_data));
 }
 
 /* Object initialization function for the task editor */
@@ -196,7 +146,7 @@ task_editor_construct (TaskEditor *te, ECal *client)
 	gtk_object_sink (GTK_OBJECT (priv->task_page));
 	comp_editor_append_page (COMP_EDITOR (te), 
 				 COMP_EDITOR_PAGE (priv->task_page),
-				 _("Basic"));
+				 _("Basics"));
 	g_signal_connect (G_OBJECT (priv->task_page), "client_changed",
 			  G_CALLBACK (client_changed_cb), te);
 
@@ -205,7 +155,7 @@ task_editor_construct (TaskEditor *te, ECal *client)
 	gtk_object_sink (GTK_OBJECT (priv->task_details_page));
 	comp_editor_append_page (COMP_EDITOR (te),
 				 COMP_EDITOR_PAGE (priv->task_details_page),
-				 _("Details"));
+				 _("Status"));
 
 	priv->meet_page = meeting_page_new (priv->model, client);
 	g_object_ref (priv->meet_page);
@@ -216,10 +166,7 @@ task_editor_construct (TaskEditor *te, ECal *client)
 
 	comp_editor_set_e_cal (COMP_EDITOR (te), client);
 
-	comp_editor_merge_ui (COMP_EDITOR (te), "evolution-task-editor.xml", verbs, NULL);
-
 	init_widgets (te);
-	set_menu_sens (te);
 
 	return te;
 }
@@ -319,7 +266,6 @@ task_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	}
 	e_cal_component_free_attendee_list (attendees);
 
-	set_menu_sens (te);
 	comp_editor_set_needs_send (COMP_EDITOR (te), priv->assignment_shown && itip_organizer_is_user (comp, client));
 
 	priv->updating = FALSE;
@@ -415,7 +361,6 @@ show_assignment (TaskEditor *te)
 					 _("Assignment"));
 		priv->assignment_shown = TRUE;
 
-		set_menu_sens (te);
 		comp_editor_set_needs_send (COMP_EDITOR (te), priv->assignment_shown);
 		comp_editor_set_changed (COMP_EDITOR (te), TRUE);
 	}

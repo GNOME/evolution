@@ -32,7 +32,6 @@
 #include <e-util/e-icon-factory.h>
 
 #include "event-page.h"
-#include "alarm-page.h"
 #include "recurrence-page.h"
 #include "meeting-page.h"
 #include "schedule-page.h"
@@ -41,7 +40,6 @@
 
 struct _EventEditorPrivate {
 	EventPage *event_page;
-	AlarmPage *alarm_page;
 	RecurrencePage *recur_page;
 	MeetingPage *meet_page;
 	SchedulePage *sched_page;
@@ -69,19 +67,6 @@ static void forward_cmd (GtkWidget *widget, gpointer data);
 static void model_row_change_insert_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data);
 static void model_row_delete_cb (GtkTreeModel *model, GtkTreePath *path, gpointer data);
 
-static EPixmap pixmaps [] = {
-	E_PIXMAP ("/Toolbar/Actions/ActionScheduleMeeting", "stock_people", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP_END
-};
-
-static BonoboUIVerb verbs [] = {
-	BONOBO_UI_UNSAFE_VERB ("ActionScheduleMeeting", schedule_meeting_cmd),
-	BONOBO_UI_UNSAFE_VERB ("ActionRefreshMeeting", refresh_meeting_cmd),
-	BONOBO_UI_UNSAFE_VERB ("ActionCancelMeeting", cancel_meeting_cmd),
-	BONOBO_UI_UNSAFE_VERB ("ActionForward", forward_cmd),
-
-	BONOBO_UI_VERB_END
-};
 
 static CompEditorClass *parent_class;
 
@@ -119,45 +104,6 @@ event_editor_class_init (EventEditorClass *klass)
 }
 
 static void
-set_menu_sens (EventEditor *ee) 
-{
-	EventEditorPrivate *priv;
-	gboolean sens, existing, user, read_only = TRUE;
-	
-	priv = ee->priv;
-
-	existing = comp_editor_get_existing_org (COMP_EDITOR (ee));
-	user = comp_editor_get_user_org (COMP_EDITOR (ee));
-	
-	e_cal_is_read_only (comp_editor_get_e_cal (COMP_EDITOR (ee)), &read_only, NULL);
-
-	sens = priv->meeting_shown;
-	comp_editor_set_ui_prop (COMP_EDITOR (ee),
-				 "/commands/ActionScheduleMeeting", 
-				 "sensitive", sens || read_only ? "0" : "1");
-
-	sens = priv->meeting_shown && existing && !user && !read_only;
-	comp_editor_set_ui_prop (COMP_EDITOR (ee), 
-				 "/commands/ActionRefreshMeeting", 
-				 "sensitive", sens ? "1" : "0");
-
-	sens = priv->meeting_shown && existing && user && !read_only;
-	comp_editor_set_ui_prop (COMP_EDITOR (ee), 
-				 "/commands/ActionCancelMeeting", 
-				 "sensitive", sens ? "1" : "0");
-
-	comp_editor_set_ui_prop (COMP_EDITOR (ee),
-				 "/commands/FileSave",
-				 "sensitive", read_only ? "0" : "1");
-	comp_editor_set_ui_prop (COMP_EDITOR (ee),
-				 "/commands/FileSaveAndClose",
-				 "sensitive", read_only ? "0" : "1");
-	comp_editor_set_ui_prop (COMP_EDITOR (ee),
-				 "/commands/FileDelete",
-				 "sensitive", read_only ? "0" : "1");
-}
-
-static void
 init_widgets (EventEditor *ee)
 {
 	EventEditorPrivate *priv;
@@ -175,7 +121,7 @@ init_widgets (EventEditor *ee)
 static void
 client_changed_cb (CompEditorPage *page, ECal *client, gpointer user_data)
 {
-	set_menu_sens (EVENT_EDITOR (user_data));
+	//set_menu_sens (EVENT_EDITOR (user_data));
 }
 
 /* Object initialization function for the event editor */
@@ -208,13 +154,6 @@ event_editor_construct (EventEditor *ee, ECal *client)
 	g_signal_connect (G_OBJECT (priv->event_page), "client_changed",
 			  G_CALLBACK (client_changed_cb), ee);
 
-	priv->alarm_page = alarm_page_new ();
-	g_object_ref (priv->alarm_page);
-	gtk_object_sink (GTK_OBJECT (priv->alarm_page));
-	comp_editor_append_page (COMP_EDITOR (ee),
-				 COMP_EDITOR_PAGE (priv->alarm_page),
-				 _("Reminder"));
-
 	priv->recur_page = recurrence_page_new ();
 	g_object_ref (priv->recur_page);
 	gtk_object_sink (GTK_OBJECT (priv->recur_page));
@@ -238,10 +177,7 @@ event_editor_construct (EventEditor *ee, ECal *client)
 
 	comp_editor_set_e_cal (COMP_EDITOR (ee), client);
 
- 	comp_editor_merge_ui (COMP_EDITOR (ee), "evolution-event-editor.xml", verbs, pixmaps);
-
 	init_widgets (ee);
-	set_menu_sens (ee);	
 	gtk_window_set_default_size (GTK_WINDOW (ee), 300, 225);
 
 	return ee;
@@ -349,7 +285,6 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	}	
 	e_cal_component_free_attendee_list (attendees);
 
-	set_menu_sens (ee);
 	comp_editor_set_needs_send (COMP_EDITOR (ee), priv->meeting_shown && itip_organizer_is_user (comp, client));
 	
 	priv->updating = FALSE;
@@ -403,7 +338,6 @@ event_editor_finalize (GObject *object)
 	priv = ee->priv;
 
 	g_object_unref (priv->event_page);
-	g_object_unref (priv->alarm_page);
 	g_object_unref (priv->recur_page);
 	g_object_unref (priv->meet_page);
 	g_object_unref (priv->sched_page);
@@ -450,7 +384,6 @@ show_meeting (EventEditor *ee)
 					 _("Meeting"));
 		priv->meeting_shown = TRUE;
 
-		set_menu_sens (ee);
  		comp_editor_set_changed (COMP_EDITOR (ee), priv->meeting_shown);
 		comp_editor_set_needs_send (COMP_EDITOR (ee), priv->meeting_shown);
 	}

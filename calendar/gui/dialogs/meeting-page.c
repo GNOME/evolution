@@ -69,12 +69,14 @@ struct _MeetingPagePrivate {
 
 	/* Widgets from the Glade file */
 	GtkWidget *main;
+	GtkWidget *list_box;
 	GtkWidget *organizer_table;
 	GtkWidget *organizer;
 	GtkWidget *existing_organizer_table;
 	GtkWidget *existing_organizer;
 	GtkWidget *existing_organizer_btn;
 	GtkWidget *add;
+	GtkWidget *remove;
 	GtkWidget *invite;
 	
 	/* ListView stuff */
@@ -328,6 +330,7 @@ sensitize_widgets (MeetingPage *mpage)
 	gtk_widget_set_sensitive (priv->organizer, !read_only);
 	gtk_widget_set_sensitive (priv->existing_organizer_btn, !read_only);
 	gtk_widget_set_sensitive (priv->add, !read_only);
+	gtk_widget_set_sensitive (priv->remove, !read_only);
 	gtk_widget_set_sensitive (priv->invite, !read_only);
 	gtk_widget_set_sensitive (priv->list_view, !read_only);
 }
@@ -369,8 +372,9 @@ meeting_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 			gtk_widget_hide (priv->organizer_table);
 			gtk_widget_show (priv->existing_organizer_table);
 			if (itip_organizer_is_user (comp, page->client)) {
-				gtk_widget_show (priv->invite);
-				gtk_widget_show (priv->add);
+				gtk_widget_set_sensitive (priv->invite, TRUE);
+				gtk_widget_set_sensitive (priv->add, TRUE);
+				gtk_widget_set_sensitive (priv->remove, TRUE);
 				if (e_cal_get_static_capability (
 					    page->client,
 					    CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))
@@ -380,8 +384,9 @@ meeting_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 					    page->client,
 					    CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))
 					gtk_widget_hide (priv->existing_organizer_btn);
-				gtk_widget_hide (priv->invite);
-				gtk_widget_hide (priv->add);
+				gtk_widget_set_sensitive (priv->invite, FALSE);
+				gtk_widget_set_sensitive (priv->add, FALSE);
+				gtk_widget_set_sensitive (priv->remove, FALSE);
 			}
 			
 			if (organizer.cn != NULL)
@@ -483,6 +488,8 @@ get_widgets (MeetingPage *mpage)
 	if (!priv->main)
 		return FALSE;
 
+	priv->list_box = GW ("list-box");
+
 	/* Get the GtkAccelGroup from the toplevel window, so we can install
 	   it when the notebook page is mapped. */
 	toplevel = gtk_widget_get_toplevel (priv->main);
@@ -508,12 +515,15 @@ get_widgets (MeetingPage *mpage)
 
 	/* Buttons */
 	priv->add = GW ("add-attendee");
+	priv->remove = GW ("remove-attendee");
 	priv->invite = GW ("invite");
 	
 #undef GW
 
-	return (priv->invite
+	return (priv->list_box
+		&& priv->invite
 		&& priv->add
+		&& priv->remove
 		&& priv->organizer_table
 		&& priv->organizer
 		&& priv->existing_organizer_table
@@ -563,8 +573,9 @@ change_clicked_cb (GtkWidget *widget, gpointer data)
 
 	gtk_widget_show (priv->organizer_table);
 	gtk_widget_hide (priv->existing_organizer_table);
-	gtk_widget_show (priv->invite);
-	gtk_widget_show (priv->add);
+	gtk_widget_set_sensitive (priv->invite, TRUE);
+	gtk_widget_set_sensitive (priv->add, TRUE);
+	gtk_widget_set_sensitive (priv->remove, TRUE);
 
 	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (mpage));
 	
@@ -578,6 +589,11 @@ add_clicked_cb (GtkButton *btn, MeetingPage *mpage)
 	
 	attendee = e_meeting_store_add_attendee_with_defaults (mpage->priv->model);
 	e_meeting_list_view_edit (mpage->priv->list_view, attendee);
+}
+
+static void
+remove_clicked_cb (GtkButton *btn, MeetingPage *mpage)
+{
 }
 
 /* Function called to invite more people */
@@ -611,7 +627,10 @@ init_widgets (MeetingPage *mpage)
 	/* Add attendee button */
 	g_signal_connect (priv->add, "clicked", G_CALLBACK (add_clicked_cb), mpage);
 
-	/* Invite button */
+	/* Remove attendee button */
+	g_signal_connect (priv->remove, "clicked", G_CALLBACK (remove_clicked_cb), mpage);
+
+	/* Contacts button */
 	g_signal_connect(priv->invite, "clicked", G_CALLBACK (invite_cb), mpage);
 }
 
@@ -813,10 +832,11 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
 
 	gtk_widget_show (GTK_WIDGET (priv->list_view));
 	sw = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_IN);
 	gtk_widget_show (sw);
 	gtk_container_add (GTK_CONTAINER (sw), GTK_WIDGET (priv->list_view));
-	gtk_box_pack_start (GTK_BOX (priv->main), sw, TRUE, TRUE, 6);
+	gtk_box_pack_start (GTK_BOX (priv->list_box), sw, TRUE, TRUE, 6);
 	
 	/* Init the widget signals */
 	init_widgets (mpage);
