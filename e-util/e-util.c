@@ -21,6 +21,9 @@
  * 02111-1307, USA.
  */
 
+#include <config.h>
+#include "e-util.h"
+
 #include <glib.h>
 #include <gtk/gtkobject.h>
 #include <errno.h>
@@ -34,7 +37,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "e-util.h"
 #if 0
 #include <libgnomevfs/gnome-vfs.h>
 #endif
@@ -1167,6 +1169,34 @@ e_sort (void             *base,
 #endif
 }
 
+size_t e_strftime(char *s, size_t max, const char *fmt, const struct tm *tm)
+{
+#ifdef HAVE_LKSTRFTIME
+	return strftime(s, max, fmt, tm);
+#else
+	char *c, *ffmt, *ff;
+	size_t ret;
+
+	ffmt = g_strdup(fmt);
+	ff = ffmt;
+	while ((c = strstr(ff, "%l")) != NULL) {
+		c[1] = 'I';
+		ff = c;
+	}
+
+	ff = fmt;
+	while ((c = strstr(ff, "%k")) != NULL) {
+		c[1] = 'H';
+		ff = c;
+	}
+
+	ret = strftime(s, max, ffmt, tm);
+	g_free(ffmt);
+	return ret;
+#endif
+}
+
+
 /**
  * Function to do a last minute fixup of the AM/PM stuff if the locale
  * and gettext haven't done it right. Most English speaking countries
@@ -1194,17 +1224,17 @@ size_t e_strftime_fix_am_pm(char *s, size_t max, const char *fmt, const struct t
 
 	if (strstr(fmt, "%p")==NULL && strstr(fmt, "%P")==NULL) {
 		/* No AM/PM involved - can use the fmt string directly */
-		ret=strftime(s, max, fmt, tm);
+		ret=e_strftime(s, max, fmt, tm);
 	} else {
 		/* Get the AM/PM symbol from the locale */
-		strftime (buf, 10, "%p", tm);
+		e_strftime (buf, 10, "%p", tm);
 
 		if (buf[0]) {
 			/**
 			 * AM/PM have been defined in the locale
 			 * so we can use the fmt string directly
 			 **/
-			ret=strftime(s, max, fmt, tm);
+			ret=e_strftime(s, max, fmt, tm);
 		} else {
 			/**
 			 * No AM/PM defined by locale
@@ -1221,7 +1251,7 @@ size_t e_strftime_fix_am_pm(char *s, size_t max, const char *fmt, const struct t
 			for (sp=ffmt; (sp=strstr(sp, "%I")); sp++) {
 				sp[1]='H';
 			}
-			ret=strftime(s, max, ffmt, tm);
+			ret=e_strftime(s, max, ffmt, tm);
 			g_free(ffmt);
 		}
 	}
