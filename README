@@ -60,10 +60,13 @@ install, and whether to use GOAD or OAF.
    If you do not do this, you will need to set GNOME_PATH to include
    the prefix you install into. Eg:
 
-        GNOME_PATH=/usr/local
+        export GNOME_PATH=/usr/local
 
    (You need to do this both during compiling AND when you run
    evolution.)
+
+   Remember if you're installing into an odd prefix such as /evolution
+   that you also need to make sure to put ${prefix}/bin in your PATH.
 
 
  - GOAD is the "old" (GNOME 1.x series) object activation system. OAF
