@@ -1006,11 +1006,12 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 {
 	const CamelInternetAddress *reply_to, *sender, *to_addrs, *cc_addrs;
 	const char *name = NULL, *address = NULL, *source = NULL;
-	const char *message_id, *references, *reply_addr = NULL;
+	const char *message_id, *references, *mlist = NULL;
 	char *text = NULL, *subject, date_str[100], *format;
 	const MailConfigAccount *def, *account, *me = NULL;
 	const GSList *l, *accounts = NULL;
 	GHashTable *account_hash = NULL;
+	CamelMessageInfo *info = NULL;
 	GList *to = NULL, *cc = NULL;
 	EDestination **tov, **ccv;
 	EMsgComposer *composer;
@@ -1074,64 +1075,81 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	mail_ignore_address (composer, to_addrs);
 	mail_ignore_address (composer, cc_addrs);
 	
+	if (mode == REPLY_LIST) {
+		/* make sure we can reply to an mlist */
+		info = camel_folder_get_message_info (folder, uid);
+		if (!(mlist = camel_message_info_mlist (info))) {
+			camel_folder_free_message_info (folder, info);
+			mode = REPLY_ALL;
+			info = NULL;
+		}
+	}
+	
  determine_recipients:
 	if (mode == REPLY_LIST) {
-		CamelMessageInfo *info;
-		const char *mlist;
+		EDestination *dest;
 		int i, max, len;
 		
-		info = camel_folder_get_message_info (folder, uid);
-		mlist = camel_message_info_mlist (info);
+		/* look through the recipients to find the *real* mailing list address */
+		len = strlen (mlist);
 		
-		if (mlist) {
-			EDestination *dest;
-			
-			/* look through the recipients to find the *real* mailing list address */
-			len = strlen (mlist);
-			
-			d(printf ("we are looking for the mailing list called: %s\n", mlist));
-			
-			to_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
+		d(printf ("we are looking for the mailing list called: %s\n", mlist));
+		
+		i = max = 0;
+		
+		/* some mailing-lists set the Reply-To to the list address */
+		reply_to = camel_mime_message_get_reply_to (message);
+		if (reply_to) {
+			max = camel_address_length (CAMEL_ADDRESS (reply_to));
+			for (i = 0; i < max; i++) {
+				camel_internet_address_get (reply_to, i, &name, &address);
+				if (!g_strncasecmp (address, mlist, len))
+					break;
+			}
+		}
+		
+		if (i == max) {
 			max = camel_address_length (CAMEL_ADDRESS (to_addrs));
 			for (i = 0; i < max; i++) {
 				camel_internet_address_get (to_addrs, i, &name, &address);
 				if (!g_strncasecmp (address, mlist, len))
 					break;
 			}
-			
-			if (i == max) {
-				cc_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
-				max = camel_address_length (CAMEL_ADDRESS (cc_addrs));
-				for (i = 0; i < max; i++) {
-					camel_internet_address_get (cc_addrs, i, &name, &address);
-					if (!g_strncasecmp (address, mlist, len))
-						break;
-				}
+		}
+		
+		if (i == max) {
+			max = camel_address_length (CAMEL_ADDRESS (cc_addrs));
+			for (i = 0; i < max; i++) {
+				camel_internet_address_get (cc_addrs, i, &name, &address);
+				if (!g_strncasecmp (address, mlist, len))
+					break;
 			}
+		}
+		
+		if (address && i != max) {
+			dest = e_destination_new ();
+			e_destination_set_name (dest, name);
+			e_destination_set_email (dest, address);
 			
-			if (address && i != max) {
+			to = g_list_append (to, dest);
+		} else {
+			/* mailing list address wasn't found */
+			if (strchr (mlist, '@')) {
+				/* mlist string has an @, maybe it's valid? */
 				dest = e_destination_new ();
-				e_destination_set_name (dest, name);
-				e_destination_set_email (dest, address);
+				e_destination_set_email (dest, mlist);
 				
 				to = g_list_append (to, dest);
 			} else {
-				/* mailing list address wasn't found */
-				if (strchr (mlist, '@')) {
-					/* mlist string has an @, maybe it's valid? */
-					dest = e_destination_new ();
-					e_destination_set_email (dest, mlist);
-					
-					to = g_list_append (to, dest);
-				} else {
-					/* give up and just reply to all recipients? */
-					mode = REPLY_ALL;
-					goto determine_recipients;
-				}
+				/* give up and just reply to all recipients? */
+				mode = REPLY_ALL;
+				camel_folder_free_message_info (folder, info);
+				goto determine_recipients;
 			}
 		}
 		
 		me = guess_me (to_addrs, cc_addrs, account_hash);
+		camel_folder_free_message_info (folder, info);
 	} else {
 		GHashTable *rcpt_hash;
 		EDestination *dest;
@@ -1145,18 +1163,18 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 		if (reply_to) {
 			int i;
 			
-			for (i = 0; camel_internet_address_get (reply_to, i, &name, &reply_addr); i++) {
-				/* Get the Reply-To address so we can ignore references to it in the Cc: list */
-				if (reply_addr && !(mode == REPLY_ALL && g_hash_table_lookup (account_hash, reply_addr))) {
+			for (i = 0; camel_internet_address_get (reply_to, i, &name, &address); i++) {
+				/* ignore references to the Reply-To address in the To and Cc lists */
+				if (address && !(mode == REPLY_ALL && g_hash_table_lookup (account_hash, address))) {
 					/* In the case that we are doing a Reply-To-All, we do not want
 					   to include the user's email address because replying to oneself
 					   is kinda silly. */
 					dest = e_destination_new ();
 					e_destination_set_name (dest, name);
-					e_destination_set_email (dest, reply_addr);
+					e_destination_set_email (dest, address);
 					to = g_list_append (to, dest);
-					g_hash_table_insert (rcpt_hash, (char *) reply_addr, GINT_TO_POINTER (1));
-					mail_ignore (composer, name, reply_addr);
+					g_hash_table_insert (rcpt_hash, (char *) address, GINT_TO_POINTER (1));
+					mail_ignore (composer, name, address);
 				}
 			}
 		}
