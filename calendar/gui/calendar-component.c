@@ -321,6 +321,88 @@ remove_folder (EvolutionShellComponent *shell_component,
 		gnome_vfs_uri_unref (backup_uri);
 }
 
+static GNOME_Evolution_ShellComponentListener_Result
+xfer_file (GnomeVFSURI *base_src_uri,
+	   GnomeVFSURI *base_dest_uri,
+	   const char *file_name,
+	   int remove_source)
+{
+	GnomeVFSURI *src_uri, *dest_uri;
+	GnomeVFSHandle *hin, *hout;
+	GnomeVFSResult result;
+	GnomeVFSFileInfo file_info;
+	GnomeVFSFileSize size;
+	char *buffer;
+
+	src_uri = gnome_vfs_uri_append_file_name (base_src_uri, file_name);
+
+	result = gnome_vfs_open_uri (&hin, src_uri, GNOME_VFS_OPEN_READ);
+	if (result == GNOME_VFS_ERROR_NOT_FOUND) {
+		gnome_vfs_uri_unref (src_uri);
+		return GNOME_Evolution_ShellComponentListener_OK; /* No need to xfer anything.  */
+	}
+	if (result != GNOME_VFS_OK) {
+		gnome_vfs_uri_unref (src_uri);
+		return GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED;
+	}
+
+	result = gnome_vfs_get_file_info_uri (src_uri, &file_info, GNOME_VFS_FILE_INFO_DEFAULT);
+	if (result != GNOME_VFS_OK) {
+		gnome_vfs_uri_unref (src_uri);
+		return GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED;
+	}
+
+	dest_uri = gnome_vfs_uri_append_file_name (base_dest_uri, file_name);
+
+	result = gnome_vfs_create_uri (&hout, dest_uri, GNOME_VFS_OPEN_WRITE, FALSE, 0600);
+	if (result != GNOME_VFS_OK) {
+		gnome_vfs_close (hin);
+		gnome_vfs_uri_unref (src_uri);
+		gnome_vfs_uri_unref (dest_uri);
+		return GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED;
+	}
+
+	/* write source file to destination file */
+	buffer = g_malloc (file_info.size);
+	result = gnome_vfs_read (hin, buffer, file_info.size, &size);
+	if (result != GNOME_VFS_OK) {
+		gnome_vfs_close (hin);
+		gnome_vfs_close (hout);
+		gnome_vfs_uri_unref (src_uri);
+		gnome_vfs_uri_unref (dest_uri);
+		g_free (buffer);
+		return GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED;
+	}
+
+	result = gnome_vfs_write (hout, buffer, file_info.size, &size);
+	if (result != GNOME_VFS_OK) {
+		gnome_vfs_close (hin);
+		gnome_vfs_close (hout);
+		gnome_vfs_uri_unref (src_uri);
+		gnome_vfs_uri_unref (dest_uri);
+		g_free (buffer);
+		return GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED;
+	}
+
+	if (remove_source) {
+		char *text_uri;
+
+		/* Sigh, we have to do this as there is no gnome_vfs_unlink_uri(). :-(  */
+
+		text_uri = gnome_vfs_uri_to_string (src_uri, GNOME_VFS_URI_HIDE_NONE);
+		result = gnome_vfs_unlink (text_uri);
+		g_free (text_uri);
+	}
+
+	gnome_vfs_close (hin);
+	gnome_vfs_close (hout);
+	gnome_vfs_uri_unref (src_uri);
+	gnome_vfs_uri_unref (dest_uri);
+	g_free (buffer);
+
+	return GNOME_Evolution_ShellComponentListener_OK;
+}
+
 static void
 xfer_folder (EvolutionShellComponent *shell_component,
 	     const char *source_physical_uri,
@@ -334,9 +416,6 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	GnomeVFSURI *src_uri;
 	GnomeVFSURI *dest_uri;
 	GnomeVFSResult result;
-	GList *file_list;
-	GList *l;
-	gboolean success = TRUE;
 
 	CORBA_exception_init (&ev);
 
@@ -364,105 +443,15 @@ xfer_folder (EvolutionShellComponent *shell_component,
 		return;
 	}
 
+	result = xfer_file (src_uri, dest_uri, "calendar.ics", remove_source);
+	if (result == GNOME_Evolution_ShellComponentListener_OK)
+		result = xfer_file (src_uri, dest_uri, "calendar.ics~", remove_source);
+	
+	GNOME_Evolution_ShellComponentListener_notifyResult (listener, result, &ev);
+
 	gnome_vfs_uri_unref (src_uri);
 	gnome_vfs_uri_unref (dest_uri);
 
-	/* remove all files in that directory */
-	result = gnome_vfs_directory_list_load (&file_list, source_physical_uri, 0, NULL);
-	if (result != GNOME_VFS_OK) {
-		GNOME_Evolution_ShellComponentListener_notifyResult (
-			listener,
-			GNOME_Evolution_ShellComponentListener_INVALID_URI,
-                        &ev);
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	for (l = file_list; l; l = l->next) {
-		GnomeVFSFileInfo *file_info;
-                GnomeVFSHandle *hin;
-                GnomeVFSHandle *hout;
-                gpointer buffer;
-                GnomeVFSFileSize size;
-
-                file_info = (GnomeVFSFileInfo *) l->data;
-                if (!file_info || file_info->name[0] == '.')
-                        continue;
-
-                /* open source and destination files */
-                src_uri = gnome_vfs_uri_new (source_physical_uri);
-                src_uri = gnome_vfs_uri_append_file_name (src_uri, file_info->name);
-
-                result = gnome_vfs_open_uri (&hin, src_uri, GNOME_VFS_OPEN_READ);
-                gnome_vfs_uri_unref (src_uri);
-                if (result != GNOME_VFS_OK) {
-                        GNOME_Evolution_ShellComponentListener_notifyResult (
-                                listener,
-                                GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED,
-                                &ev);
-                        success = FALSE;
-			break;
-                }
-
-                dest_uri = gnome_vfs_uri_new (destination_physical_uri);
-                dest_uri = gnome_vfs_uri_append_file_name (dest_uri, file_info->name);
-
-                result = gnome_vfs_create_uri (&hout, dest_uri, GNOME_VFS_OPEN_WRITE, FALSE, 0);
-                gnome_vfs_uri_unref (dest_uri);
-                if (result != GNOME_VFS_OK) {
-                        gnome_vfs_close (hin);
-                        GNOME_Evolution_ShellComponentListener_notifyResult (
-                                listener,
-                                GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED,
-                                &ev);
-                        success = FALSE;
-                        break;
-                }
-
-                /* write source file to destination file */
-                buffer = g_malloc (file_info->size);
-                result = gnome_vfs_read (hin, buffer, file_info->size, &size);
-                if (result != GNOME_VFS_OK) {
-			gnome_vfs_close (hin);
-                        gnome_vfs_close (hout);
-                        g_free (buffer);
-
-                        GNOME_Evolution_ShellComponentListener_notifyResult (
-                                listener,
-                                GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED,
-                                &ev);
-                        success = FALSE;
-                        break;
-                }
-                result = gnome_vfs_write (hout, buffer, file_info->size, &size);
-                if (result != GNOME_VFS_OK) {
-                        gnome_vfs_close (hin);
-                        gnome_vfs_close (hout);
-                        g_free (buffer);
-
-                        GNOME_Evolution_ShellComponentListener_notifyResult (
-                                listener,
-                                GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED,
-                                &ev);
-                        success = FALSE;
-			break;
-                }
-
-                /* free memory */
-                gnome_vfs_close (hin);
-                gnome_vfs_close (hout);
-                g_free (buffer);
-        }
-
-        if (success) {
-                GNOME_Evolution_ShellComponentListener_notifyResult (
-                        listener,
-                        GNOME_Evolution_ShellComponentListener_OK,
-                        &ev);
-        }
-
-        /* free memory */
-        gnome_vfs_file_info_list_free (file_list);
         CORBA_exception_free (&ev);	
 }
 

@@ -1,3 +1,8 @@
+2001-10-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component-factory.c (xfer_folder): Fixed to only copy the
+	`calendar.ics' and `calendar.ics~' files.
+
 2001-10-24  Damon Chaplin  <damon@ximian.com>
 
 	* pcs/cal-backend-file.c (cal_backend_file_update_objects): when
@@ -14,6 +19,7 @@
 	* gui/e-calendar-table.c (e_calendar_table_init): use U_ for the
 	ECellCombo popdown strings, as it expects UTF-8 strings.
 
+>>>>>>> 1.1185
 2001-10-24  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct):
