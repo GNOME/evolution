@@ -1,3 +1,8 @@
+2001-07-25  Dan Winship  <danw@ximian.com>
+
+	* camel-mime-utils.c (mail_mlist_magic): Add another Sender
+	pattern.
+
 2001-07-24  Not Zed  <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-folder.c (camel_imap_folder_changed):
