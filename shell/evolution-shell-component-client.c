@@ -675,6 +675,7 @@ evolution_shell_component_client_async_create_folder (EvolutionShellComponentCli
 void
 evolution_shell_component_client_async_remove_folder (EvolutionShellComponentClient *shell_component_client,
 						      const char *physical_uri,
+						      const char *type,
 						      EvolutionShellComponentClientCallback callback,
 						      void *data)
 {
@@ -706,6 +707,7 @@ evolution_shell_component_client_async_remove_folder (EvolutionShellComponentCli
 	GNOME_Evolution_ShellComponent_removeFolderAsync (corba_shell_component,
 							  priv->listener_interface,
 							  physical_uri,
+							  type,
 							  &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION && priv->callback != NULL) {
@@ -723,6 +725,7 @@ void
 evolution_shell_component_client_async_xfer_folder (EvolutionShellComponentClient *shell_component_client,
 						    const char *source_physical_uri,
 						    const char *destination_physical_uri,
+						    const char *type,
 						    gboolean remove_source,
 						    EvolutionShellComponentClientCallback callback,
 						    void *data)
@@ -757,6 +760,7 @@ evolution_shell_component_client_async_xfer_folder (EvolutionShellComponentClien
 							priv->listener_interface,
 							source_physical_uri,
 							destination_physical_uri,
+							type,
 							remove_source,
 							&ev);
 

@@ -103,11 +103,13 @@ void  evolution_shell_component_client_async_create_folder  (EvolutionShellCompo
 							     void                                  *data);
 void  evolution_shell_component_client_async_remove_folder  (EvolutionShellComponentClient         *shell_component_client,
 							     const char                            *physical_uri,
+							     const char                            *type,
 							     EvolutionShellComponentClientCallback  callback,
 							     void                                  *data);
 void  evolution_shell_component_client_async_xfer_folder    (EvolutionShellComponentClient         *shell_component_client,
 							     const char                            *source_physical_uri,
 							     const char                            *destination_physical_uri,
+							     const char                            *type,
 							     gboolean                               remove_source,
 							     EvolutionShellComponentClientCallback  callback,
 							     void                                  *data);

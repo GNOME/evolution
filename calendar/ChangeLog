@@ -1,3 +1,13 @@
+2001-07-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component-factory.c (get_local_file_name_for_folder_type):
+	New helper function.
+	(remove_folder): Add a @type arg and handle it, by deleting
+	"tasks.ics" instead of "calendar.ics" if the type is "tasks".  If
+	the type is not "tasks" or "calendar", report an
+	`UNSUPPORTED_TYPE' error.
+	(xfer_folder): Likewise.
+
 2001-07-21  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component-factory.c: Make folders of type "calendar" and

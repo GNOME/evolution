@@ -68,12 +68,14 @@ module Evolution {
 			raises (Busy);
 
 		void removeFolderAsync (in ShellComponentListener listener,
-					in string physical_uri)
+					in string physical_uri,
+					in string type)
 			raises (Busy);
 
 		void xferFolderAsync (in ShellComponentListener listener,
 				      in string source_physical_uri,
 				      in string destination_physical_uri,
+				      in string type,
 				      in boolean remove_source)
 			raises (Busy);
 

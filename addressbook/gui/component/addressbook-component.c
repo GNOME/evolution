@@ -64,7 +64,7 @@ static char *accepted_dnd_types[] = {
 
 static const EvolutionShellComponentFolderType folder_types[] = {
 	{ "contacts", "evolution-contacts.png", TRUE, accepted_dnd_types, NULL },
-	{ NULL, NULL, NULL, NULL }
+	{ NULL, NULL, FALSE, NULL, NULL }
 };
 
 
@@ -113,6 +113,7 @@ create_folder (EvolutionShellComponent *shell_component,
 static void
 remove_folder (EvolutionShellComponent *shell_component,
 	       const char *physical_uri,
+	       const char *type,
 	       const GNOME_Evolution_ShellComponentListener listener,
 	       void *closure)
 {
@@ -121,9 +122,15 @@ remove_folder (EvolutionShellComponent *shell_component,
 	struct stat sb;
 	int rv;
 
-	g_print ("should remove %s\n", physical_uri);
-
 	CORBA_exception_init(&ev);
+
+	if (strcmp (type, "contacts") != 0) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+								     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE,
+								     &ev);
+		CORBA_exception_free(&ev);
+		return;
+	}
 
 	if (!strncmp (physical_uri, "ldap://", 7)) {
 		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
@@ -176,6 +183,7 @@ static void
 xfer_folder (EvolutionShellComponent *shell_component,
 	     const char *source_physical_uri,
 	     const char *destination_physical_uri,
+	     const char *type,
 	     gboolean remove_source,
 	     const GNOME_Evolution_ShellComponentListener listener,
 	     void *closure)
@@ -184,8 +192,13 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	char *source_path;
 	char *destination_path;
 	
-	g_print ("should transfer %s to %s, %s source\n", source_physical_uri,
-		 destination_physical_uri, remove_source ? "removing" : "not removing");
+	if (strcmp (type, "contacts") != 0) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+								     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE,
+								     &ev);
+		CORBA_exception_free(&ev);
+		return;
+	}
 
 	if (!strncmp (source_physical_uri, "ldap://", 7)
 	    || !strncmp (destination_physical_uri, "ldap://", 7)) {
@@ -207,13 +220,6 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	/* strip the 'file://' from the beginning of each uri and add addressbook.db */
 	source_path = g_concat_dir_and_file (source_physical_uri + 7, "addressbook.db");
 	destination_path = g_concat_dir_and_file (destination_physical_uri + 7, "addressbook.db");
-
-	if (remove_source) {
-		g_print ("rename %s %s\n", source_path, destination_path);
-	}
-	else {
-		g_print ("copy %s %s\n", source_path, destination_path);
-	}
 
 	CORBA_exception_init (&ev);
 

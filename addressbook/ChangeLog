@@ -1,3 +1,11 @@
+2001-07-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/addressbook-component.c (remove_folder): Add a
+	@type arg.  If the type is not "contacts", report an
+	`UNSUPPORTED_TYPE' error through the listener.  Also, remove
+	`g_print()' debugging messages.
+	(xfer_folder): Likewise.
+
 2001-07-21  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook-component.c: Make the "contacts"

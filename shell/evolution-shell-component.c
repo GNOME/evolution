@@ -369,6 +369,7 @@ static void
 impl_removeFolderAsync (PortableServer_Servant servant,
 			const GNOME_Evolution_ShellComponentListener listener,
 			const CORBA_char *physical_uri,
+			const CORBA_char *type,
 			CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
@@ -386,7 +387,7 @@ impl_removeFolderAsync (PortableServer_Servant servant,
 		return;
 	}
 
-	(* priv->remove_folder_fn) (shell_component, physical_uri, listener, priv->closure);
+	(* priv->remove_folder_fn) (shell_component, physical_uri, type, listener, priv->closure);
 }
 
 static void
@@ -394,6 +395,7 @@ impl_xferFolderAsync (PortableServer_Servant servant,
 		      const GNOME_Evolution_ShellComponentListener listener,
 		      const CORBA_char *source_physical_uri,
 		      const CORBA_char *destination_physical_uri,
+		      const CORBA_char *type,
 		      const CORBA_boolean remove_source,
 		      CORBA_Environment *ev)
 {
@@ -415,6 +417,7 @@ impl_xferFolderAsync (PortableServer_Servant servant,
 	(* priv->xfer_folder_fn) (shell_component,
 				  source_physical_uri,
 				  destination_physical_uri,
+				  type,
 				  remove_source,
 				  listener,
 				  priv->closure);

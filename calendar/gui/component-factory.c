@@ -53,6 +53,20 @@ static const EvolutionShellComponentFolderType folder_types[] = {
 };
 
 
+/* Utility functions.  */
+
+static const char *
+get_local_file_name_for_folder_type (const char *type)
+{
+	if (strcmp (type, "calendar") == 0)
+		return "calendar.ics";
+	else if (strcmp (type, "tasks") == 0)
+		return "tasks.ics";
+	else
+		return NULL;
+}
+
+
 /* EvolutionShellComponent methods and signals.  */
 
 static EvolutionShellComponentResult
@@ -107,10 +121,12 @@ create_folder (EvolutionShellComponent *shell_component,
 static void
 remove_folder (EvolutionShellComponent *shell_component,
 	       const char *physical_uri,
+	       const char *type,
 	       const GNOME_Evolution_ShellComponentListener listener,
 	       void *closure)
 {
 	CORBA_Environment ev;
+	const char *file_name;
 	gchar *path;
 	int rv;
 
@@ -128,8 +144,17 @@ remove_folder (EvolutionShellComponent *shell_component,
 
 	/* FIXME: check if there are subfolders? */
 
+	file_name = get_local_file_name_for_folder_type (type);
+	if (file_name == NULL) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+								     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE,
+								     &ev);
+		CORBA_exception_free (&ev);
+		return;
+	}
+
 	/* remove the .ics file */
-	path = g_concat_dir_and_file (physical_uri + 7, "calendar.ics");
+	path = g_concat_dir_and_file (physical_uri + 7, file_name);
 	rv = unlink (path);
 	g_free (path);
 	if (rv == 0) {
@@ -169,6 +194,7 @@ static void
 xfer_folder (EvolutionShellComponent *shell_component,
 	     const char *source_physical_uri,
 	     const char *destination_physical_uri,
+	     const char *type,
 	     gboolean remove_source,
 	     const GNOME_Evolution_ShellComponentListener listener,
 	     void *closure)
@@ -182,6 +208,7 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	GnomeVFSURI *uri;
 	GnomeVFSFileSize out;
 	char *buf;
+	const char *file_name;
 
 	CORBA_exception_init (&ev);
 
@@ -192,6 +219,15 @@ xfer_folder (EvolutionShellComponent *shell_component,
 			listener,
 			GNOME_Evolution_ShellComponentListener_INVALID_URI,
 			&ev);
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	file_name = get_local_file_name_for_folder_type (type);
+	if (file_name == NULL) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+								     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE,
+								     &ev);
 		CORBA_exception_free (&ev);
 		return;
 	}

@@ -93,7 +93,7 @@ static const EvolutionShellComponentFolderType folder_types[] = {
 	{ "mail", "evolution-inbox.png", TRUE, accepted_dnd_types, exported_dnd_types },
 	{ "mailstorage", "evolution-inbox.png", FALSE, NULL, NULL },
 	{ "vtrash", "evolution-trash.png", FALSE, accepted_dnd_types, exported_dnd_types },
-	{ NULL, NULL, NULL, NULL }
+	{ NULL, NULL, FALSE, NULL, NULL }
 };
 
 static const char *schema_types[] = {
@@ -231,12 +231,20 @@ do_remove_folder (char *uri, gboolean removed, void *data)
 static void
 remove_folder (EvolutionShellComponent *shell_component,
 	       const char *physical_uri,
+	       const char *type,
 	       const GNOME_Evolution_ShellComponentListener listener,
 	       void *closure)
 {
 	CORBA_Environment ev;
 	
 	CORBA_exception_init (&ev);
+
+	if (strcmp (type, "mail") != 0) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+								     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE, &ev);
+		CORBA_exception_free (&ev);
+		return;
+	}
 
 	mail_remove_folder (physical_uri, do_remove_folder, CORBA_Object_duplicate (listener, &ev));
 	GNOME_Evolution_ShellComponentListener_notifyResult (listener,
@@ -267,6 +275,7 @@ static void
 xfer_folder (EvolutionShellComponent *shell_component,
 	     const char *source_physical_uri,
 	     const char *destination_physical_uri,
+	     const char *type,
 	     gboolean remove_source,
 	     const GNOME_Evolution_ShellComponentListener listener,
 	     void *closure)
@@ -279,6 +288,12 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	if (strstr (destination_physical_uri, "noselect=yes")) {
 		GNOME_Evolution_ShellComponentListener_notifyResult (listener, 
 								     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_OPERATION, &ev);
+		return;
+	}
+
+	if (strcmp (type, "mail") != 0) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+								     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE, &ev);
 		return;
 	}
 

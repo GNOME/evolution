@@ -83,11 +83,13 @@ typedef void (* EvolutionShellComponentCreateFolderFn) (EvolutionShellComponent 
 						        void *closure);
 typedef void (* EvolutionShellComponentRemoveFolderFn) (EvolutionShellComponent *shell_component,
 						        const char *physical_uri,
+							const char *type,
 						        const GNOME_Evolution_ShellComponentListener listener,
 						        void *closure);
 typedef void (* EvolutionShellComponentXferFolderFn)   (EvolutionShellComponent *shell_component,
 							const char *source_physical_uri,
 							const char *destination_physical_uri,
+							const char *type,
 							gboolean remove_source,
 						        const GNOME_Evolution_ShellComponentListener listener,
 						        void *closure);

@@ -1,3 +1,28 @@
+2001-07-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-local-storage.c (remove_folder): Pass the folder type to
+	`evolution_shell_component_client_async_remove_folder()'.
+	(async_xfer_folder_step): Likewise with
+	`evolution_shell_component_client_async_xfer_folder()'.
+
+	* evolution-shell-component-client.c
+	(evolution_shell_component_client_async_remove_folder): New arg
+	@type.  Pass it to the `ShellComponent::removeFolder' CORBA
+	method.
+	(evolution_shell_component_client_async_xfer_folder): Likewise
+	with `::xferFolder'.
+
+	* evolution-shell-component.c (impl_removeFolderAsync): Add @type
+	arg according to the IDL.
+	(impl_xferFolderAsync): Likewise.
+
+	* evolution-shell-component.h: Add arg @type to
+	`EvolutionShellComponentRemoveFolderFn' and
+	EvolutionShellComponentXferFolderFn'.
+
+	* Evolution-ShellComponent.idl: Add @type arg to
+	`::removeFolderAsync' and `::xferFolderAsync'.
+
 2001-07-21  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-folder-creation-dialog.c (add_folder_types): Only put

@@ -500,6 +500,7 @@ remove_folder (ELocalStorage *local_storage,
 
 	evolution_shell_component_client_async_remove_folder (component_client,
 							      physical_uri,
+							      e_folder_get_type_string (folder),
 							      component_async_remove_folder_callback,
 							      callback_data);
 
@@ -705,6 +706,7 @@ async_xfer_folder_step (ELocalStorage *local_storage,
 	evolution_shell_component_client_async_xfer_folder (component_client,
 							    e_folder_get_physical_uri (source_folder),
 							    physical_uri,
+							    e_folder_get_type_string (source_folder),
 							    remove_source,
 							    component_client_callback,
 							    component_client_callback_data);
