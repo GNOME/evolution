@@ -1,3 +1,8 @@
+2004-11-15  Jeffrey Stedfast  <fejj@novell.com>
+
+	* providers/imap4/camel-imap4-stream.c (camel_imap4_stream_line):
+	Fix bug #69408 by filling our input buffer if inptr == inend.
+
 2004-11-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap4/camel-imap4-engine.c

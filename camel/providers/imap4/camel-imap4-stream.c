@@ -631,7 +631,10 @@ camel_imap4_stream_line (CamelIMAP4Stream *stream, unsigned char **line, size_t 
 	g_return_val_if_fail (line != NULL, -1);
 	g_return_val_if_fail (len != NULL, -1);
 	
-	if ((stream->inend - stream->inptr) < 2 && *stream->inptr != '\n') {
+	inptr = stream->inptr;
+	inend = stream->inend;
+	
+	if (inptr == inend || ((inend - inptr) < 2 && *inptr != '\n')) {
 		if (imap4_fill (stream) == -1 && stream->inptr == stream->inend)
 			return -1;
 	}
