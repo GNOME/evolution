@@ -469,9 +469,11 @@ receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelExcep
 		oldinfo->uri = g_strdup(uri);
 		g_hash_table_insert(info->data->folders, oldinfo->uri, oldinfo);
 	}
+	
+	camel_object_ref (CAMEL_OBJECT (folder));
+	
 	g_mutex_unlock(info->data->lock);
-
-	camel_object_ref((CamelObject *)folder);
+	
 	return folder;
 }
 

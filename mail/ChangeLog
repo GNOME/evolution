@@ -1,3 +1,9 @@
+2001-02-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-send-recv.c (receive_get_folder): Not sure it makes any
+	difference, but lets ref the folder while the hash table is locked
+	rather than after we unlock it.
+
 2001-02-11  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* mail-config.glade.h: removed, xml-i18n-extract's the strings itself.
