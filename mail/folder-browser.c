@@ -1444,6 +1444,7 @@ filter_type_uid(struct _filter_data *fdata, int type)
 	/* sigh, we need to copy this because the menu will free the one we got passed in */
 	data = g_malloc0(sizeof(*data));
 	data->type = type;
+	data->source = fdata->source;
 	mail_get_message(fdata->folder, fdata->uid, filter_type_got_message, data, mail_thread_new);
 }
 
