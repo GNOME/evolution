@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.4\n"
-"POT-Creation-Date: 2000-09-08 21:54+0200\n"
-"PO-Revision-Date: 2000-09-08 21:58+02:00\n"
+"POT-Creation-Date: 2000-09-09 23:18+0200\n"
+"PO-Revision-Date: 2000-09-09 23:20+02:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -934,7 +934,7 @@ msgstr ""
 "installere Evolution på nytt.\n"
 
 #: addressbook/gui/component/addressbook.c:920
-#: addressbook/gui/minicard/e-minicard.c:332
+#: addressbook/gui/minicard/e-minicard.c:334
 msgid "Save as VCard"
 msgstr "Lagre som VCard"
 
@@ -1654,7 +1654,7 @@ msgstr "Ingen sammendrag tilgjengelig."
 msgid "Close"
 msgstr "Lukk"
 
-#: calendar/gui/dialogs/alarm-notify.glade.h:8 calendar/gui/gnome-cal.c:1364
+#: calendar/gui/dialogs/alarm-notify.glade.h:8 calendar/gui/gnome-cal.c:1463
 msgid "Snooze"
 msgstr "Utsett"
 
@@ -2501,13 +2501,28 @@ msgstr "Prioritet:"
 msgid "Item Comments:"
 msgstr "Kommentarer for oppføring:"
 
-#: calendar/gui/gnome-cal.c:685 calendar/gui/gnome-cal.c:1372
-#: calendar/gui/gnome-cal.c:1428
+#: calendar/gui/gnome-cal.c:689 calendar/gui/gnome-cal.c:1471
+#: calendar/gui/gnome-cal.c:1527
 msgid "Reminder of your appointment at "
 msgstr "Påminnelse om din avtale "
 
+#: calendar/gui/gnome-cal.c:1169
+#, c-format
+msgid "Could not load the calendar in `%s'"
+msgstr "Kunne ikke laste kalenderen i `%s'"
+
+#: calendar/gui/gnome-cal.c:1180
+#, c-format
+msgid "Could not create a calendar in `%s'"
+msgstr "Kunne ikke opprette kalender i `%s'"
+
+#: calendar/gui/gnome-cal.c:1191
+#, c-format
+msgid "The method required to load `%s' is not supported"
+msgstr "Metoden som er nødvendig for å laste `%s' er ikke støttet"
+
 #. Idea: we need Snooze option :-)
-#: calendar/gui/gnome-cal.c:1377 calendar/gui/gnome-cal.c:1432
+#: calendar/gui/gnome-cal.c:1476 calendar/gui/gnome-cal.c:1531
 msgid "Ok"
 msgstr "Ok"
 
@@ -3839,279 +3854,279 @@ msgstr "Endrer mappe \"%s\" til \"%s\"-format"
 msgid "Change folder \"%s\" to \"%s\" format"
 msgstr "Endre mappe \"%s\" til \"%s\"-format"
 
-#: mail/mail-ops.c:74
+#: mail/mail-ops.c:75
 #, c-format
 msgid "Fetching email from %s"
 msgstr "Henter e-post fra %s"
 
-#: mail/mail-ops.c:76
+#: mail/mail-ops.c:77
 #, c-format
 msgid "Fetch email from %s"
 msgstr "Hent e-post fra %s"
 
-#: mail/mail-ops.c:87
+#: mail/mail-ops.c:88
 msgid "You have no remote mail source configured to fetch mail from."
 msgstr "Du har ikke konfigurert en ekstern e-post-kilde å hente e-post fra."
 
-#: mail/mail-ops.c:97
+#: mail/mail-ops.c:98
 msgid "Bad folder passed to fetch_mail"
 msgstr "Ugyldig mappe sendt til fetch_mail"
 
-#: mail/mail-ops.c:220
+#: mail/mail-ops.c:263
 #, c-format
 msgid "There is no new mail at %s."
 msgstr "Ingen ny e-post på %s."
 
-#: mail/mail-ops.c:284
+#: mail/mail-ops.c:327
 msgid "Filtering email on demand"
 msgstr "Filtrering av post etter behov"
 
-#: mail/mail-ops.c:286
+#: mail/mail-ops.c:329
 msgid "Filter email on demand"
 msgstr "Fi_ltrér e-post ved behov"
 
-#: mail/mail-ops.c:297
+#: mail/mail-ops.c:340
 msgid "Bad filter driver specified"
 msgstr "Ugyldig filter driver spesifisert"
 
-#: mail/mail-ops.c:306
+#: mail/mail-ops.c:349
 msgid "Bad input source defined for filtering"
 msgstr "Ugyldig inndatakilde definert for filtrering"
 
-#: mail/mail-ops.c:315
+#: mail/mail-ops.c:358
 msgid "Bad default destination folder"
 msgstr "Ugyldig standard målmappe"
 
-#: mail/mail-ops.c:456
+#: mail/mail-ops.c:505
 #, c-format
 msgid "Sending \"%s\""
 msgstr "Sender \"%s\""
 
-#: mail/mail-ops.c:461
+#: mail/mail-ops.c:510
 msgid "Sending a message without a subject"
 msgstr "Sender en melding uten emne"
 
-#: mail/mail-ops.c:464
+#: mail/mail-ops.c:513
 #, c-format
 msgid "Send \"%s\""
 msgstr "Send \"%s\""
 
-#: mail/mail-ops.c:467
+#: mail/mail-ops.c:516
 msgid "Send a message without a subject"
 msgstr "Send en melding uten emne"
 
-#: mail/mail-ops.c:648
+#: mail/mail-ops.c:697
 msgid "Sending queue"
 msgstr "Sender kø"
 
-#: mail/mail-ops.c:650
+#: mail/mail-ops.c:699
 msgid "Send queue"
 msgstr "Send kø"
 
-#: mail/mail-ops.c:804 mail/mail-ops.c:811
+#: mail/mail-ops.c:853 mail/mail-ops.c:860
 #, c-format
 msgid "Appending \"%s\""
 msgstr "Legger til \"%s\""
 
-#: mail/mail-ops.c:808 mail/mail-ops.c:814
+#: mail/mail-ops.c:857 mail/mail-ops.c:863
 msgid "Appending a message without a subject"
 msgstr "Legger til en melding uten emne"
 
-#: mail/mail-ops.c:909
+#: mail/mail-ops.c:958
 #, c-format
 msgid "Expunging \"%s\""
 msgstr "Fjerner \"%s\""
 
-#: mail/mail-ops.c:911
+#: mail/mail-ops.c:960
 #, c-format
 msgid "Expunge \"%s\""
 msgstr "Fjern \"%s\""
 
-#: mail/mail-ops.c:983
+#: mail/mail-ops.c:1032
 #, c-format
 msgid "Moving messages from \"%s\" into \"%s\""
 msgstr "Flytter meldinger fra \"%s\" til \"%s\""
 
-#: mail/mail-ops.c:985
+#: mail/mail-ops.c:1034
 #, c-format
 msgid "Copying messages from \"%s\" into \"%s\""
 msgstr "Kopierer meldinger fra \"%s\" til \"%s\""
 
-#: mail/mail-ops.c:988
+#: mail/mail-ops.c:1037
 #, c-format
 msgid "Move messages from \"%s\" into \"%s\""
 msgstr "Flytt meldinger fra \"%s\" til \"%s\""
 
-#: mail/mail-ops.c:990
+#: mail/mail-ops.c:1039
 #, c-format
 msgid "Copy messages from \"%s\" into \"%s\""
 msgstr "Kopiér meldinger fra \"%s\" til \"%s\""
 
-#: mail/mail-ops.c:1048
+#: mail/mail-ops.c:1097
 msgid "Moving"
 msgstr "Flytter"
 
-#: mail/mail-ops.c:1051
+#: mail/mail-ops.c:1100
 msgid "Copying"
 msgstr "Kopiérer"
 
-#: mail/mail-ops.c:1063
+#: mail/mail-ops.c:1112
 #, c-format
 msgid "%s message %d of %d (uid \"%s\")"
 msgstr "%s melding %d av %d (uid \"%s\")"
 
-#: mail/mail-ops.c:1144
+#: mail/mail-ops.c:1193
 #, c-format
 msgid "Marking messages in folder \"%s\""
 msgstr "Merker meldinger i mappe \"%s"
 
-#: mail/mail-ops.c:1147
+#: mail/mail-ops.c:1196
 #, c-format
 msgid "Mark messages in folder \"%s\""
 msgstr "Merk meldinger i mappe \"%s\""
 
-#: mail/mail-ops.c:1306
+#: mail/mail-ops.c:1355
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Skanner mapper i \"%s\""
 
-#: mail/mail-ops.c:1309
+#: mail/mail-ops.c:1358
 #, c-format
 msgid "Scan folders in \"%s\""
 msgstr "Skann foldere i \"%s\""
 
-#: mail/mail-ops.c:1364
+#: mail/mail-ops.c:1413
 #, c-format
 msgid "Found subfolder \"%s\""
 msgstr "Fant underfolder i \"%s\""
 
-#: mail/mail-ops.c:1398
+#: mail/mail-ops.c:1447
 msgid "(No description)"
 msgstr "(Ingen beskrivelse)"
 
-#: mail/mail-ops.c:1461
+#: mail/mail-ops.c:1510
 #, c-format
 msgid "Attaching messages from folder \"%s\""
 msgstr "Legger ved meldinger fra mappe \"%s\""
 
-#: mail/mail-ops.c:1464
+#: mail/mail-ops.c:1513
 #, c-format
 msgid "Attach messages from \"%s\""
 msgstr "Legg ved meldinger fra \"%s\""
 
-#: mail/mail-ops.c:1590
+#: mail/mail-ops.c:1639
 #, c-format
 msgid "Forwarding messages \"%s\""
 msgstr "Videresender meldinger \"%s\""
 
-#: mail/mail-ops.c:1595
+#: mail/mail-ops.c:1644
 msgid "Forwarding a message without a subject"
 msgstr "Videresender en melding uten emne"
 
-#: mail/mail-ops.c:1598
+#: mail/mail-ops.c:1647
 #, c-format
 msgid "Forward message \"%s\""
 msgstr "Videresend meldingen \"%s\""
 
-#: mail/mail-ops.c:1603
+#: mail/mail-ops.c:1652
 msgid "Forward a message without a subject"
 msgstr "Videresend en melding uten emne"
 
-#: mail/mail-ops.c:1657
+#: mail/mail-ops.c:1706
 #, c-format
 msgid "Retrieving message number %d of %d (uid \"%s\")"
 msgstr "Henter melding nummer %d av %d (uid \"%s\")"
 
-#: mail/mail-ops.c:1670
+#: mail/mail-ops.c:1719
 msgid ""
 "Failed to generate mime part from message while generating forwarded message."
 msgstr ""
 "Kunne ikke generere MIME-del fra melding under generering av videresendt "
 "melding."
 
-#: mail/mail-ops.c:1759
+#: mail/mail-ops.c:1808
 #, c-format
 msgid "Loading \"%s\""
 msgstr "Laster \"%s\""
 
-#: mail/mail-ops.c:1761
+#: mail/mail-ops.c:1810
 #, c-format
 msgid "Load \"%s\""
 msgstr "Last \"%s\""
 
-#: mail/mail-ops.c:1881
+#: mail/mail-ops.c:1930
 #, c-format
 msgid "Creating \"%s\""
 msgstr "Oppretter \"%s\""
 
-#: mail/mail-ops.c:1883
+#: mail/mail-ops.c:1932
 #, c-format
 msgid "Create \"%s\""
 msgstr "Opprett \"%s\""
 
-#: mail/mail-ops.c:1954
+#: mail/mail-ops.c:2003
 msgid "Exception while reporting result to shell component listener."
 msgstr "Unntak under rapportering av resultat til skallkomponentens lytter."
 
-#: mail/mail-ops.c:2007
+#: mail/mail-ops.c:2056
 #, c-format
 msgid "Synchronizing \"%s\""
 msgstr "Synkroniserer \"%s\""
 
-#: mail/mail-ops.c:2009
+#: mail/mail-ops.c:2058
 #, c-format
 msgid "Synchronize \"%s\""
 msgstr "Synkronisér \"%s\""
 
-#: mail/mail-ops.c:2085
+#: mail/mail-ops.c:2134
 #, c-format
 msgid "Displaying message UID \"%s\""
 msgstr "Viser melding-UID \"%s\""
 
-#: mail/mail-ops.c:2088
+#: mail/mail-ops.c:2137
 msgid "Clearing message display"
 msgstr "Tømmer meldingsvisning"
 
-#: mail/mail-ops.c:2091
+#: mail/mail-ops.c:2140
 #, c-format
 msgid "Display message UID \"%s\""
 msgstr "Vis meldings-UID \"%s\""
 
-#: mail/mail-ops.c:2094
+#: mail/mail-ops.c:2143
 msgid "Clear message display"
 msgstr "Tøm meldingsvisning"
 
-#: mail/mail-ops.c:2221
+#: mail/mail-ops.c:2270
 #, c-format
 msgid "Opening messages from folder \"%s\""
 msgstr "Åpner meldinger fra mappe \"%s\""
 
-#: mail/mail-ops.c:2224
+#: mail/mail-ops.c:2273
 #, c-format
 msgid "Open messages from \"%s\""
 msgstr "Åpne meldinger fra \"%s\""
 
-#: mail/mail-ops.c:2345
+#: mail/mail-ops.c:2394
 #, c-format
 msgid "Loading %s Folder"
 msgstr "Laster %s-mappe"
 
-#: mail/mail-ops.c:2347
+#: mail/mail-ops.c:2396
 #, c-format
 msgid "Load %s Folder"
 msgstr "Last %s-mappe"
 
-#: mail/mail-ops.c:2422
+#: mail/mail-ops.c:2471
 #, c-format
 msgid "Viewing messages from folder \"%s\""
 msgstr "Viser meldinger fra mappe \"%s\""
 
-#: mail/mail-ops.c:2425
+#: mail/mail-ops.c:2474
 #, c-format
 msgid "View messages from \"%s\""
 msgstr "Vis meldinger fra \"%s\""
 
-#: mail/mail-ops.c:2471
+#: mail/mail-ops.c:2520
 #, c-format
 msgid "Retrieving message %d of %d (uid \"%s\")"
 msgstr "Henter melding %d av %d (uid \"%s\")"
