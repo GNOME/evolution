@@ -485,9 +485,14 @@ setup_task_folder (ESummary *summary)
 	g_free (tasks->default_uri);
 	
 	tasks->due_today_colour = gconf_client_get_string (tasks->gconf_client,
-							   "/apps/evolution/calendar/tasks/colors/TasksDueToday", NULL);
+							   "/apps/evolution/calendar/tasks/colors/due_today", NULL);
+	if (!tasks->due_today_colour)
+		tasks->due_today_colour = g_strdup ("blue");
+
 	tasks->overdue_colour = gconf_client_get_string (tasks->gconf_client,
-							 "/apps/evolution/calendar/tasks/colors/TasksOverdue", NULL);
+							 "/apps/evolution/calendar/tasks/colors/overdue", NULL);
+	if (!tasks->overdue_colour)
+		tasks->overdue_colour = g_strdup ("red");
 
 	tasks->default_uri = gconf_client_get_string (tasks->gconf_client,
 						      "/apps/evolution/shell/default_folders/tasks_path", NULL);
