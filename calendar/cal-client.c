@@ -472,6 +472,16 @@ cal_client_get_object (CalClient *client, const char *uid)
 	return retval;
 }
 
+/**
+ * cal_client_get_uids:
+ * @client: A calendar client.
+ * @type: Bitmask with types of objects to return.
+ * 
+ * Queries a calendar for a list of unique identifiers corresponding to calendar
+ * objects whose type matches one of the types specified in the @type flags.
+ * 
+ * Return value: A list of strings that are the sought UIDs.
+ **/
 GList *
 cal_client_get_uids (CalClient *client, CalObjType type)
 {
