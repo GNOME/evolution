@@ -66,9 +66,9 @@ static gboolean _exists (CamelFolder *folder, CamelException *ex);
 static gboolean _create(CamelFolder *folder, CamelException *ex);
 static gboolean _delete (CamelFolder *folder, gboolean recurse, CamelException *ex);
 static gboolean _delete_messages (CamelFolder *folder, CamelException *ex);
-#if 0
 static GList *_list_subfolders (CamelFolder *folder, CamelException *ex);
-static CamelMimeMessage *_get_message (CamelFolder *folder, gint number, CamelException *ex);
+#if 0
+static CamelMimeMessage *_get_message_by_number (CamelFolder *folder, gint number, CamelException *ex);
 static gint _get_message_count (CamelFolder *folder, CamelException *ex);
 static gint _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
 static void _expunge (CamelFolder *folder, CamelException *ex);
@@ -98,8 +98,8 @@ camel_mbox_folder_class_init (CamelMboxFolderClass *camel_mbox_folder_class)
 	camel_folder_class->create = _create;
 	camel_folder_class->delete = _delete;
 	camel_folder_class->delete_messages = _delete_messages;
-#if 0
 	camel_folder_class->list_subfolders = _list_subfolders;
+#if 0
 	camel_folder_class->get_message_by_number = _get_message_by_number;
 	camel_folder_class->get_message_count = _get_message_count;
 	camel_folder_class->append_message = _append_message;
@@ -733,7 +733,6 @@ _list_subfolders (CamelFolder *folder, CamelException *ex)
 					      CAMEL_EXCEPTION_FOLDER_INSUFFICIENT_PERMISSION,
 					      "Unable to list the directory. Full Error text is : %s ", 
 					      strerror (errno));
-			return FALSE;			
 			break;
 			
 		case ENOENT :
@@ -742,14 +741,13 @@ _list_subfolders (CamelFolder *folder, CamelException *ex)
 					      CAMEL_EXCEPTION_FOLDER_INVALID_PATH,
 					      "Invalid mbox folder path. Full Error text is : %s ", 
 					      strerror (errno));
-			return FALSE;			
 			break;
 			
 		default :
 			camel_exception_set (ex, 
 					     CAMEL_EXCEPTION_SYSTEM,
 					     "Unable to delete the mbox folder.");
-			return FALSE;
+			
 		}
 	
 	g_list_free (subfolder_name_list);
@@ -761,3 +759,53 @@ _list_subfolders (CamelFolder *folder, CamelException *ex)
 
 
 
+
+
+
+
+
+static CamelMimeMessage *
+_get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
+{
+	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER(folder);
+	const gchar *directory_path;
+	gchar *message_name;
+	gchar *message_file_name;
+	CamelStream *input_stream = NULL;
+	CamelMimeMessage *message = NULL;
+	GList *message_list = NULL;
+	
+	g_assert(folder);
+	
+	
+	directory_path = mh_folder->directory_path;
+	if (!directory_path) return NULL;	
+
+		
+	
+	message_name = g_list_nth_data (mh_folder->file_name_list, number);
+	
+	if (message_name != NULL) {
+		CAMEL_LOG_FULL_DEBUG  ("CanelMhFolder::get_message message number = %d, name = %s\n", 
+				       number, message_name);
+		message_file_name = g_strdup_printf ("%s/%s", directory_path, message_name);
+		input_stream = camel_stream_buffered_fs_new_with_name (message_file_name, CAMEL_STREAM_BUFFERED_FS_READ);
+		
+		if (input_stream != NULL) {
+#warning use session field here
+			message = camel_mime_message_new_with_session ( (CamelSession *)NULL);
+			camel_data_wrapper_construct_from_stream ( CAMEL_DATA_WRAPPER (message), input_stream);
+			gtk_object_unref (GTK_OBJECT (input_stream));
+			message->message_number = number;
+			gtk_object_set_data_full (GTK_OBJECT (message), "filename", 
+						  g_strdup (message_name), _filename_free);
+			
+#warning Set flags and all this stuff here
+		}
+		g_free (message_file_name);
+	} else 
+		CAMEL_LOG_FULL_DEBUG  ("CanelMhFolder::get_message message number = %d, not found\n", number);
+	
+	
+	return message;   
+}

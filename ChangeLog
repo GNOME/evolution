@@ -1,3 +1,9 @@
+2000-01-04  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/providers/mbox/camel-mbox-folder.c (_list_subfolders): 
+	in the io_error label does not return before the 
+	list has been freed.
+
 2000-01-03  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/providers/mbox/camel-mbox-folder.c (_list_subfolders): 
