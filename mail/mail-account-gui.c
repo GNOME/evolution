@@ -152,18 +152,29 @@ service_authtype_changed (GtkWidget *widget, gpointer user_data)
 }
 
 static void
-build_auth_menu (MailAccountGuiService *service, GList *authtypes)
+build_auth_menu (MailAccountGuiService *service,
+		 GList *all_authtypes, GList *supported_authtypes)
 {
 	GtkWidget *menu, *item, *first = NULL;
-	CamelServiceAuthType *authtype;
-	GList *l;
+	CamelServiceAuthType *authtype, *sauthtype;
+	GList *l, *s;
 	
 	menu = gtk_menu_new ();
 	
-	for (l = authtypes; l; l = l->next) {
+	for (l = all_authtypes; l; l = l->next) {
 		authtype = l->data;
 		
 		item = gtk_menu_item_new_with_label (_(authtype->name));
+		for (s = supported_authtypes; s; s = s->next) {
+			sauthtype = s->data;
+			if (!strcmp (authtype->name, sauthtype->name))
+				break;
+		}
+		if (supported_authtypes && !s)
+			gtk_widget_set_sensitive (item, FALSE);
+		else if (!first)
+			first = item;
+
 		gtk_object_set_data (GTK_OBJECT (item), "authtype", authtype);
 		gtk_signal_connect (GTK_OBJECT (item), "activate",
 				    service_authtype_changed, service);
@@ -171,9 +182,6 @@ build_auth_menu (MailAccountGuiService *service, GList *authtypes)
 		gtk_menu_append (GTK_MENU (menu), item);
 		
 		gtk_widget_show (item);
-		
-		if (!first)
-			first = item;
 	}
 	
 	gtk_option_menu_remove_menu (service->authtype);
@@ -266,7 +274,7 @@ source_type_changed (GtkWidget *widget, gpointer user_data)
 		/* auth */
 		frame = glade_xml_get_widget (gui->xml, "source_auth_frame");
 		if (provider && CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_AUTH)) {
-			build_auth_menu (&gui->source, provider->authtypes);
+			build_auth_menu (&gui->source, provider->authtypes, NULL);
 			gtk_widget_show (frame);
 		} else
 			gtk_widget_hide (frame);
@@ -354,7 +362,7 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 			gtk_widget_hide (label);
 		}
 		
-		build_auth_menu (&gui->transport, provider->authtypes);
+		build_auth_menu (&gui->transport, provider->authtypes, NULL);
 		transport_needs_auth_toggled (gui->transport_needs_auth, gui);
 	} else
 		gtk_widget_hide (frame);
@@ -382,7 +390,7 @@ service_check_supported (GtkButton *button, gpointer user_data)
 	save_service (gsvc, NULL, service);
 	
 	if (mail_config_check_service (service->url, gsvc->provider_type, &authtypes)) {
-		build_auth_menu (gsvc, authtypes);
+		build_auth_menu (gsvc, gsvc->provider->authtypes, authtypes);
 		g_list_free (authtypes);
 	}
 	

@@ -1,3 +1,11 @@
+2001-06-29  Dan Winship  <danw@ximian.com>
+
+	* mail-account-gui.c (build_auth_menu): Take two authtypes lists,
+	"all", and "supported", and make the unsupported authtypes grayed
+	out in the menu rather than missing.
+	(source_type_changed, transport_type_changed,
+	service_check_supported): Update build_auth_menu calls.
+
 2001-06-29  Radek Doulik  <rodo@ximian.com>
 
 	* mail-account-gui.c (menu_file_save_cb): implemented plain saving
