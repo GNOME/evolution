@@ -1,3 +1,24 @@
+2001-09-26    <NotZed@Ximian.com>
+
+	* camel-filter-driver.c (camel_filter_driver_filter_message): If
+	we get a search error, just abort, dont try and fall back and copy
+	to inbox.
+	(camel_filter_driver_filter_message): Make sure we ALWAYS use
+	exceptions for important things - like moving messages to inbox!
+	(camel_filter_driver_filter_message): If we have the source
+	folder, use camel_folder_set_message_flags rather then poking the
+	info directly, which skips changed events.  This means filtering
+	immediate doesn't lose changed events.
+	(do_flag): Same here.
+	(do_colour): Same thing but using set_tag.
+	(do_score): Same again.
+	(camel_filter_driver_filter_folder): Use ~0 as the 'set' arg to
+	set_flags, just saves typing.
+	(open_folder): We cache folders that we couldn't open as well as
+	those ones we could.  Use magic token FOLDER_INVALID =
+	(void *)~0 as the marker.
+	(close_folder): Handle FOLDER_INVALID case properly.
+
 2001-09-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-message.c
