@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "POT-Creation-Date: 2003-06-25 13:24-0400\n"
-"PO-Revision-Date: 2003-09-10 13:35+0200\n"
+"PO-Revision-Date: 2003-09-15 13:49+0200\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team:  <tp@lists.linux.it>,<it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -12279,7 +12279,7 @@ msgstr "un mittente sconosciuto"
 
 #: mail/mail-callbacks.c:1193
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
-msgstr "Il %a, %Y-%m-%d alle %H:%M, %%s ha scritto:"
+msgstr "Lì %A, %Y/%m/%d alle %H:%M, %%s ha scritto:"
 
 #: mail/mail-callbacks.c:1700 mail/message-browser.c:132
 msgid "Move message(s) to"
