@@ -100,7 +100,7 @@ impl_SimpleCard_get (PortableServer_Servant servant,
 	if (priv->card_simple) {
 		char *value = e_card_simple_get (priv->card_simple,
 						 field);
-		char *ret_val = CORBA_string_dup (value);
+		char *ret_val = CORBA_string_dup (value ? value : "");
 		g_free (value);
 		return ret_val;
 	} else {
