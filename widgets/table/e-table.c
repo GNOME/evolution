@@ -908,6 +908,15 @@ e_table_fill_table (ETable *e_table, ETableModel *model)
 	e_table_group_add_all (e_table->group);
 }
 
+/**
+ * e_table_set_state_object:
+ * @e_table: The #ETable object to modify
+ * @state: The #ETableState to use
+ *
+ * This routine sets the state of the #ETable from the given
+ * #ETableState.
+ *
+ **/
 void
 e_table_set_state_object(ETable *e_table, ETableState *state)
 {
@@ -958,12 +967,12 @@ e_table_set_state_object(ETable *e_table, ETableState *state)
 
 /**
  * e_table_set_state:
- * @e_table: %ETable object that will be modified
- * @state_str: a string with the XML representation of the ETableState.
+ * @e_table: The #ETable object to modify
+ * @state_str: a string representing an #ETableState
  *
- * This routine sets the state (as described by %ETableState) of the
- * %ETable object.
- */
+ * This routine sets the state of the #ETable from a string.
+ *
+ **/
 void
 e_table_set_state (ETable      *e_table,
 		   const gchar *state_str)
@@ -985,12 +994,12 @@ e_table_set_state (ETable      *e_table,
 
 /**
  * e_table_load_state:
- * @e_table: %ETable object that will be modified
- * @filename: name of the file containing the state to be loaded into the %ETable
+ * @e_table: The #ETable object to modify
+ * @filename: name of the file to use
  *
- * An %ETableState will be loaded form the file pointed by @filename into the
- * @e_table object.
- */
+ * This routine sets the state of the #ETable from a file.
+ *
+ **/
 void
 e_table_load_state (ETable      *e_table,
 		    const gchar *filename)
@@ -1012,11 +1021,14 @@ e_table_load_state (ETable      *e_table,
 
 /**
  * e_table_get_state_object:
- * @e_table: %ETable object that will be modified
+ * @e_table: #ETable object to act on
  *
- * Returns: the %ETableState object that encapsulates the current
- * state of the @e_table object
- */
+ * Builds an #ETableState corresponding to the current state of the
+ * #ETable.
+ *
+ * Return value:
+ * The %ETableState object generated.
+ **/
 ETableState *
 e_table_get_state_object (ETable *e_table)
 {
@@ -1048,6 +1060,16 @@ e_table_get_state_object (ETable *e_table)
 	return state;
 }
 
+/**
+ * e_table_get_state:
+ * @e_table: The #ETable to act on.
+ * 
+ * Builds a state object based on the current state and returns the
+ * string corresponding to that state.
+ * 
+ * Return value: 
+ * A string describing the current state of the #ETable.
+ **/
 gchar          *e_table_get_state                 (ETable               *e_table)
 {
 	ETableState *state;
@@ -1061,12 +1083,13 @@ gchar          *e_table_get_state                 (ETable               *e_table
 
 /**
  * e_table_save_state:
- * @e_table: %ETable object that will be modified
- * @filename: name of the file containing the state to be loaded into the %ETable
+ * @e_table: The #ETable to act on
+ * @filename: name of the file to save to
  *
- * This routine saves the state of the @e_table object into the file pointed
- * by @filename
- */
+ * Saves the state of the @e_table object into the file pointed by
+ * @filename.
+ *
+ **/
 void
 e_table_save_state (ETable      *e_table,
 		    const gchar *filename)
@@ -1180,6 +1203,20 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	return e_table;
 }
 
+/**
+ * e_table_construct:
+ * @e_table: The newly created #ETable object.
+ * @etm: The model for this table.
+ * @ete: An optional #ETableExtras.  (%NULL is valid.)
+ * @spec_str: The spec.
+ * @state_str: An optional state.  (%NULL is valid.)
+ * 
+ * This is the internal implementation of e_table_new() for use by
+ * subclasses or language bindings.  See e_table_new() for details.
+ * 
+ * Return value: 
+ * The passed in value @e_table or %NULL if there's an error.
+ **/
 ETable *
 e_table_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 		   const char *spec_str, const char *state_str)
@@ -1217,6 +1254,21 @@ e_table_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	return e_table;
 }
 
+/**
+ * e_table_construct_from_spec_file:
+ * @e_table: The newly created #ETable object.
+ * @etm: The model for this table.
+ * @ete: An optional #ETableExtras.  (%NULL is valid.)
+ * @spec_fn: The filename of the spec.
+ * @state_fn: An optional state file.  (%NULL is valid.)
+ *
+ * This is the internal implementation of e_table_new_from_spec_file()
+ * for use by subclasses or language bindings.  See
+ * e_table_new_from_spec_file() for details.
+ * 
+ * Return value: 
+ * The passed in value @e_table or %NULL if there's an error.
+ **/
 ETable *
 e_table_construct_from_spec_file (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 				  const char *spec_fn, const char *state_fn)
@@ -1262,6 +1314,27 @@ e_table_construct_from_spec_file (ETable *e_table, ETableModel *etm, ETableExtra
 	return e_table;
 }
 
+/**
+ * e_table_new:
+ * @etm: The model for this table.
+ * @ete: An optional #ETableExtras.  (%NULL is valid.)
+ * @spec: The spec.
+ * @state: An optional state.  (%NULL is valid.)
+ *
+ * This function creates an #ETable from the given parameters.  The
+ * #ETableModel is a table model to be represented.  The #ETableExtras
+ * is an optional set of pixbufs, cells, and sorting functions to be
+ * used when interpreting the spec.  If you pass in %NULL it uses the
+ * default #ETableExtras.  (See e_table_extras_new()).
+ *
+ * @spec is the specification of the set of viewable columns and the
+ * default sorting state and such.  @state is an optional string
+ * specifying the current sorting state and such.  If @state is NULL,
+ * then the default state from the spec will be used.
+ * 
+ * Return value: 
+ * The newly created #ETable or %NULL if there's an error.
+ **/
 GtkWidget *
 e_table_new (ETableModel *etm, ETableExtras *ete, const char *spec, const char *state)
 {
@@ -1279,6 +1352,26 @@ e_table_new (ETableModel *etm, ETableExtras *ete, const char *spec, const char *
 	return GTK_WIDGET (e_table);
 }
 
+/**
+ * e_table_new_from_spec_file:
+ * @etm: The model for this table.
+ * @ete: An optional #ETableExtras.  (%NULL is valid.)
+ * @spec_fn: The filename of the spec.
+ * @state_fn: An optional state file.  (%NULL is valid.)
+ * 
+ * This is very similar to e_table_new(), except instead of passing in
+ * strings you pass in the file names of the spec and state to load.
+ *
+ * @spec_fn is the filename of the spec to load.  If this file doesn't
+ * exist, e_table_new_from_spec_file will return %NULL.
+ *
+ * @state_fn is the filename of the initial state to load.  If this is
+ * %NULL or if the specified file doesn't exist, the default state
+ * from the spec file is used.
+ * 
+ * Return value: 
+ * The newly created #ETable or %NULL if there's an error.
+ **/
 GtkWidget *
 e_table_new_from_spec_file (ETableModel *etm, ETableExtras *ete, const char *spec_fn, const char *state_fn)
 {
@@ -1434,6 +1527,13 @@ e_table_load_specification (ETable *e_table, gchar *filename)
 }
 #endif
 
+/**
+ * e_table_set_cursor_row:
+ * @e_table: The #ETable to set the cursor row of
+ * @row: The row number
+ * 
+ * Sets the cursor row and the selection to the given row number.
+ **/
 void
 e_table_set_cursor_row (ETable *e_table, int row)
 {
@@ -1446,6 +1546,15 @@ e_table_set_cursor_row (ETable *e_table, int row)
 		       NULL);
 }
 
+/**
+ * e_table_get_cursor_row:
+ * @e_table: The #ETable to query
+ * 
+ * Calculates the cursor row.  -1 means that we don't have a cursor.
+ * 
+ * Return value: 
+ * Cursor row
+ **/
 int
 e_table_get_cursor_row (ETable *e_table)
 {
@@ -1459,6 +1568,19 @@ e_table_get_cursor_row (ETable *e_table)
 	return row;
 }
 
+/**
+ * e_table_selected_row_foreach:
+ * @e_table: The #ETable to act on
+ * @callback: The callback function to call
+ * @closure: The value passed to the callback's closure argument
+ * 
+ * Calls the given @callback function once for every selected row.
+ *
+ * If you change the selection or delete or add rows to the table
+ * during these callbacks, problems can occur.  A standard thing to do
+ * is to create a list of rows or objects the function is called upon
+ * and then act upon that list. (In inverse order if it's rows.)
+ **/
 void
 e_table_selected_row_foreach     (ETable *e_table,
 				  EForeachFunc callback,
@@ -1472,6 +1594,15 @@ e_table_selected_row_foreach     (ETable *e_table,
 						     closure);
 }
 
+/**
+ * e_table_selected_count:
+ * @e_table: The #ETable to query
+ * 
+ * Counts the number of selected rows.
+ * 
+ * Return value: 
+ * The number of rows selected.
+ **/
 gint
 e_table_selected_count     (ETable *e_table)
 {
@@ -1481,6 +1612,12 @@ e_table_selected_count     (ETable *e_table)
 	return e_selection_model_selected_count(E_SELECTION_MODEL (e_table->selection));
 }
 
+/**
+ * e_table_select_all:
+ * @table: The #ETable to modify
+ * 
+ * Selects all the rows in @table.
+ **/
 void
 e_table_select_all (ETable *table)
 {
@@ -1490,6 +1627,12 @@ e_table_select_all (ETable *table)
 	e_selection_model_select_all (E_SELECTION_MODEL (table->selection));
 }
 
+/**
+ * e_table_invert_selection:
+ * @table: The #ETable to modify
+ * 
+ * Inverts the selection in @table.
+ **/
 void
 e_table_invert_selection (ETable *table)
 {
@@ -1500,6 +1643,15 @@ e_table_invert_selection (ETable *table)
 }
 
 
+/**
+ * e_table_get_printable:
+ * @e_table: #ETable to query
+ * 
+ * Used for printing your #ETable.
+ * 
+ * Return value: 
+ * The #EPrintable to print.
+ **/
 EPrintable *
 e_table_get_printable (ETable *e_table)
 {
@@ -1509,12 +1661,25 @@ e_table_get_printable (ETable *e_table)
 	return e_table_group_get_printable(e_table->group);
 }
 
+/**
+ * e_table_right_click_up:
+ * @table: The #ETable to modify.
+ * 
+ * Call this function when you're done handling the right click if you
+ * return TRUE from the "right_click" signal.
+ **/
 void
 e_table_right_click_up (ETable *table)
 {
 	e_selection_model_right_click_up(E_SELECTION_MODEL(table->selection));
 }
 
+/**
+ * e_table_commit_click_to_add:
+ * @table: The #ETable to modify
+ * 
+ * Commits the current values in the click to add to the table.
+ **/
 void
 e_table_commit_click_to_add (ETable *table)
 {
@@ -1594,6 +1759,17 @@ set_scroll_adjustments   (ETable *table,
 					    hadjustment);
 }
 
+/**
+ * e_table_get_next_row:
+ * @e_table: The #ETable to query
+ * @model_row: The model row to go from
+ * 
+ * This function is used when your table is sorted, but you're using
+ * model row numbers.  It returns the next row in sorted order as a model row.
+ * 
+ * Return value: 
+ * The model row number.
+ **/
 gint
 e_table_get_next_row      (ETable *e_table,
 			   gint    model_row)
@@ -1616,6 +1792,18 @@ e_table_get_next_row      (ETable *e_table,
 			return -1;
 }
 
+/**
+ * e_table_get_prev_row:
+ * @e_table: The #ETable to query
+ * @model_row: The model row to go from
+ * 
+ * This function is used when your table is sorted, but you're using
+ * model row numbers.  It returns the previous row in sorted order as
+ * a model row.
+ * 
+ * Return value: 
+ * The model row number.
+ **/
 gint
 e_table_get_prev_row      (ETable *e_table,
 			   gint    model_row)
@@ -1635,6 +1823,16 @@ e_table_get_prev_row      (ETable *e_table,
 		return model_row - 1;
 }
 
+/**
+ * e_table_model_to_view_row:
+ * @e_table: The #ETable to query
+ * @model_row: The model row number
+ * 
+ * Turns a model row into a view row.
+ * 
+ * Return value: 
+ * The view row number.
+ **/
 gint
 e_table_model_to_view_row        (ETable *e_table,
 				  gint    model_row)
@@ -1648,6 +1846,16 @@ e_table_model_to_view_row        (ETable *e_table,
 		return model_row;
 }
 
+/**
+ * e_table_view_to_model_row:
+ * @e_table: The #ETable to query
+ * @view_row: The view row number
+ * 
+ * Turns a view row into a model row.
+ * 
+ * Return value: 
+ * The model row number.
+ **/
 gint
 e_table_view_to_model_row        (ETable *e_table,
 				  gint    view_row)
@@ -1663,7 +1871,7 @@ e_table_view_to_model_row        (ETable *e_table,
 
 /**
  * e_table_get_cell_at:
- * @table: An ETable widget
+ * @table: An #ETable widget
  * @x: X coordinate for the pixel
  * @y: Y coordinate for the pixel
  * @row_return: Pointer to return the row value
@@ -1692,15 +1900,16 @@ e_table_get_cell_at (ETable *table,
 
 /**
  * e_table_get_cell_geometry:
- * @table: The table.
+ * @table: The #ETable.
  * @row: The row to get the geometry of.
  * @col: The col to get the geometry of.
- * @x_return: Returns the x coordinate of the upper right hand corner of the cell with respect to the widget.
- * @y_return: Returns the y coordinate of the upper right hand corner of the cell with respect to the widget.
+ * @x_return: Returns the x coordinate of the upper left hand corner of the cell with respect to the widget.
+ * @y_return: Returns the y coordinate of the upper left hand corner of the cell with respect to the widget.
  * @width_return: Returns the width of the cell.
  * @height_return: Returns the height of the cell.
  * 
- * Computes the data about this cell.
+ * Returns the x, y, width, and height of the given cell.  These can
+ * all be #NULL and they just won't be set.
  **/
 void
 e_table_get_cell_geometry (ETable *table,
@@ -1710,9 +1919,6 @@ e_table_get_cell_geometry (ETable *table,
 {
 	g_return_if_fail (table != NULL);
 	g_return_if_fail (E_IS_TABLE (table));
-
-	/* FIXME it would be nice if it could handle a NULL row_return or
-	 * col_return gracefully.  */
 
 	e_table_group_get_cell_geometry(table->group, &row, &col, x_return, y_return, width_return, height_return);
 
@@ -1724,6 +1930,16 @@ e_table_get_cell_geometry (ETable *table,
 	}
 }
 
+/**
+ * e_table_get_selection_model:
+ * @table: The #ETable to query
+ * 
+ * Returns the table's #ESelectionModel in case you want to access it
+ * directly.
+ * 
+ * Return value: 
+ * The #ESelectionModel.
+ **/
 ESelectionModel *
 e_table_get_selection_model (ETable *table)
 {
@@ -1802,6 +2018,18 @@ struct _GtkDragSourceInfo
 
 /* Drag & drop stuff. */
 /* Target */
+
+/**
+ * e_table_drag_get_data:
+ * @table: 
+ * @row: 
+ * @col: 
+ * @context: 
+ * @target: 
+ * @time: 
+ * 
+ * 
+ **/
 void
 e_table_drag_get_data (ETable         *table,
 		       int             row,
@@ -1819,17 +2047,17 @@ e_table_drag_get_data (ETable         *table,
 			  context,
 			  target,
 			  time);
-
 }
 
 /**
  * e_table_drag_highlight:
- * @table:
- * @row:
- * @col:
+ * @table: The #ETable to highlight
+ * @row: The row number of the cell to highlight
+ * @col: The column number of the cell to highlight
  *
- * Set col to -1 to highlight the entire row.
- */
+ * Set col to -1 to highlight the entire row.  If row is -1, this is
+ * identical to e_table_drag_unhighlight().
+ **/
 void
 e_table_drag_highlight (ETable *table,
 			int     row,
@@ -1872,6 +2100,12 @@ e_table_drag_highlight (ETable *table,
 	}
 }
 
+/**
+ * e_table_drag_unhighlight:
+ * @table: The #ETable to unhighlight
+ * 
+ * Removes the highlight from an #ETable.
+ **/
 void
 e_table_drag_unhighlight (ETable *table)
 {
@@ -1964,6 +2198,16 @@ et_real_start_drag (ETable *table, int row, int col, GdkEvent *event)
 	return FALSE;
 }
 
+/**
+ * e_table_drag_source_set:
+ * @table: The #ETable to set up as a drag site
+ * @start_button_mask: Mask of allowed buttons to start drag
+ * @targets: Table of targets for this source
+ * @n_targets: Number of targets in @targets
+ * @actions: Actions allowed for this source
+ * 
+ * Registers this table as a drag site, and possibly adds default behaviors.
+ **/
 void
 e_table_drag_source_set  (ETable               *table,
 			  GdkModifierType       start_button_mask,
@@ -2005,6 +2249,12 @@ e_table_drag_source_set  (ETable               *table,
 	site->actions = actions;
 }
 
+/**
+ * e_table_drag_source_unset:
+ * @table: The #ETable to un set up as a drag site
+ * 
+ * Unregisters this #ETable as a drag site.
+ **/
 void
 e_table_drag_source_unset (ETable *table)
 {
@@ -2026,6 +2276,21 @@ e_table_drag_source_unset (ETable *table)
  * as a GtkTargetList
  */
 
+/**
+ * e_table_drag_begin:
+ * @table: The #ETable to drag from
+ * @row: The row number of the cell
+ * @col: The col number of the cell
+ * @targets: The list of targets supported by the drag
+ * @actions: The available actions supported by the drag
+ * @button: The button held down for the drag
+ * @event: The event that initiated the drag
+ * 
+ * Start a drag from this cell.
+ * 
+ * Return value: 
+ * The drag context.
+ **/
 GdkDragContext *
 e_table_drag_begin (ETable            *table,
 		    int     	       row,

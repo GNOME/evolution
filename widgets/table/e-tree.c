@@ -870,11 +870,11 @@ e_tree_set_state_object(ETree *e_tree, ETableState *state)
 
 /**
  * e_tree_set_state:
- * @e_tree: %ETree object that will be modified
- * @state_str: a string with the XML representation of the ETableState.
+ * @e_tree: #ETree object that will be modified
+ * @state_str: a string with the XML representation of the #ETableState.
  *
- * This routine sets the state (as described by %ETableState) of the
- * %ETree object.
+ * This routine sets the state (as described by #ETableState) of the
+ * #ETree object.
  */
 void
 e_tree_set_state (ETree      *e_tree,
@@ -897,10 +897,10 @@ e_tree_set_state (ETree      *e_tree,
 
 /**
  * e_tree_load_state:
- * @e_tree: %ETree object that will be modified
- * @filename: name of the file containing the state to be loaded into the %ETree
+ * @e_tree: #ETree object that will be modified
+ * @filename: name of the file containing the state to be loaded into the #ETree
  *
- * An %ETableState will be loaded form the file pointed by @filename into the
+ * An #ETableState will be loaded form the file pointed by @filename into the
  * @e_tree object.
  */
 void
@@ -924,11 +924,14 @@ e_tree_load_state (ETree      *e_tree,
 
 /**
  * e_tree_get_state_object:
- * @e_tree: %ETree object that will be modified
+ * @e_tree: #ETree object to act on
  *
- * Returns: the %ETreeState object that encapsulates the current
- * state of the @e_tree object
- */
+ * Builds an #ETableState corresponding to the current state of the
+ * #ETree.
+ *
+ * Return value:
+ * The %ETableState object generated.
+ **/
 ETableState *
 e_tree_get_state_object (ETree *e_tree)
 {
@@ -960,7 +963,18 @@ e_tree_get_state_object (ETree *e_tree)
 	return state;
 }
 
-gchar          *e_tree_get_state                 (ETree               *e_tree)
+/**
+ * e_tree_get_state:
+ * @e_tree: The #ETree to act on
+ * 
+ * Builds a state object based on the current state and returns the
+ * string corresponding to that state.
+ * 
+ * Return value: 
+ * A string describing the current state of the #ETree.
+ **/
+gchar *
+e_tree_get_state (ETree *e_tree)
 {
 	ETableState *state;
 	gchar *string;
@@ -973,12 +987,12 @@ gchar          *e_tree_get_state                 (ETree               *e_tree)
 
 /**
  * e_tree_save_state:
- * @e_tree: %ETree object that will be modified
- * @filename: name of the file containing the state to be loaded into the %ETree
+ * @e_tree: The #ETree to act on
+ * @filename: name of the file to save to
  *
- * This routine saves the state of the @e_tree object into the file pointed
- * by @filename
- */
+ * Saves the state of the @e_tree object into the file pointed by
+ * @filename.
+ **/
 void
 e_tree_save_state (ETree      *e_tree,
 		   const gchar *filename)
@@ -990,6 +1004,14 @@ e_tree_save_state (ETree      *e_tree,
 	gtk_object_unref(GTK_OBJECT(state));
 }
 
+/**
+ * e_tree_get_spec:
+ * @e_tree: The #ETree to query
+ * 
+ * Returns the specification object.
+ * 
+ * Return value:
+ **/
 ETableSpecification *
 e_tree_get_spec (ETree *e_tree)
 {
@@ -1141,6 +1163,20 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 	return e_tree;
 }
 
+/**
+ * e_tree_construct:
+ * @e_tree: The newly created #ETree object.
+ * @etm: The model for this table.
+ * @ete: An optional #ETableExtras.  (%NULL is valid.)
+ * @spec_str: The spec.
+ * @state_str: An optional state.  (%NULL is valid.)
+ * 
+ * This is the internal implementation of e_tree_new() for use by
+ * subclasses or language bindings.  See e_tree_new() for details.
+ * 
+ * Return value: 
+ * The passed in value @e_tree or %NULL if there's an error.
+ **/
 ETree *
 e_tree_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 		   const char *spec_str, const char *state_str)
@@ -1178,6 +1214,21 @@ e_tree_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 	return e_tree;
 }
 
+/**
+ * e_tree_construct_from_spec_file:
+ * @e_tree: The newly created #ETree object.
+ * @etm: The model for this tree
+ * @ete: An optional #ETableExtras  (%NULL is valid.)
+ * @spec_fn: The filename of the spec
+ * @state_fn: An optional state file  (%NULL is valid.)
+ *
+ * This is the internal implementation of e_tree_new_from_spec_file()
+ * for use by subclasses or language bindings.  See
+ * e_tree_new_from_spec_file() for details.
+ * 
+ * Return value: 
+ * The passed in value @e_tree or %NULL if there's an error.
+ **/
 ETree *
 e_tree_construct_from_spec_file (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 				  const char *spec_fn, const char *state_fn)
@@ -1223,6 +1274,27 @@ e_tree_construct_from_spec_file (ETree *e_tree, ETreeModel *etm, ETableExtras *e
 	return e_tree;
 }
 
+/**
+ * e_tree_new:
+ * @etm: The model for this tree
+ * @ete: An optional #ETableExtras  (%NULL is valid.)
+ * @spec: The spec
+ * @state: An optional state  (%NULL is valid.)
+ * 
+ * This function creates an #ETree from the given parameters.  The
+ * #ETreeModel is a tree model to be represented.  The #ETableExtras
+ * is an optional set of pixbufs, cells, and sorting functions to be
+ * used when interpreting the spec.  If you pass in %NULL it uses the
+ * default #ETableExtras.  (See e_table_extras_new()).
+ *
+ * @spec is the specification of the set of viewable columns and the
+ * default sorting state and such.  @state is an optional string
+ * specifying the current sorting state and such.  If @state is NULL,
+ * then the default state from the spec will be used.
+ * 
+ * Return value: 
+ * The newly created #ETree or %NULL if there's an error.
+ **/
 GtkWidget *
 e_tree_new (ETreeModel *etm, ETableExtras *ete, const char *spec, const char *state)
 {
@@ -1244,6 +1316,26 @@ e_tree_new (ETreeModel *etm, ETableExtras *ete, const char *spec, const char *st
 	return (GtkWidget *) ret_val;
 }
 
+/**
+ * e_tree_new_from_spec_file:
+ * @etm: The model for this tree.
+ * @ete: An optional #ETableExtras.  (%NULL is valid.)
+ * @spec_fn: The filename of the spec.
+ * @state_fn: An optional state file.  (%NULL is valid.)
+ * 
+ * This is very similar to e_tree_new(), except instead of passing in
+ * strings you pass in the file names of the spec and state to load.
+ *
+ * @spec_fn is the filename of the spec to load.  If this file doesn't
+ * exist, e_tree_new_from_spec_file will return %NULL.
+ *
+ * @state_fn is the filename of the initial state to load.  If this is
+ * %NULL or if the specified file doesn't exist, the default state
+ * from the spec file is used.
+ * 
+ * Return value: 
+ * The newly created #ETree or %NULL if there's an error.
+ **/
 GtkWidget *
 e_tree_new_from_spec_file (ETreeModel *etm, ETableExtras *ete, const char *spec_fn, const char *state_fn)
 {

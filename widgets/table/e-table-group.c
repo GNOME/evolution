@@ -387,10 +387,10 @@ e_table_group_compute_location (ETableGroup *etg, int *x, int *y, int *row, int 
  * @row: A pointer to the row number to find.
  * @col: A pointer to the col number to find.
  *
- * This routine finds the view cell (row, col) in the %ETableGroup.
- * If that location is in the %ETableGroup *x and *y are set to the
+ * This routine finds the view cell (row, col) in the #ETableGroup.
+ * If that location is in the #ETableGroup *@x and *@y are set to the
  * upper left hand corner of the cell found.  If that location is not
- * in the %ETableGroup, the number of rows in the %ETableGroup is
+ * in the #ETableGroup, the number of rows in the #ETableGroup is
  * removed from the value row points to.
  */
 void
