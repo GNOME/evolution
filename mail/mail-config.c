@@ -1482,7 +1482,6 @@ add_shortcut_entry (const char *name, const char *uri, const char *type)
 	GNOME_Evolution_Shortcuts_Group *the_group;
 	GNOME_Evolution_Shortcuts_Shortcut *the_shortcut;
 	int i, group_num;
-	const char *group_name = U_("Evolution Shortcuts");
 	
 	if (!global_shell_client)
 		return;
@@ -1496,53 +1495,14 @@ add_shortcut_entry (const char *name, const char *uri, const char *type)
 		return;
 	}
 	
-	groups = GNOME_Evolution_Shortcuts__get_groups (shortcuts_interface, &ev);
+	the_group = GNOME_Evolution_Shortcuts_getGroup (shortcuts_interface, 0, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("Exception getting the groups: %s", ev._repo_id);
+		g_warning ("Exception getting first group: %s", ev._repo_id);
 		CORBA_exception_free (&ev);
 		return;
 	}
-	
-	the_group = NULL;
-	group_num = 0;
-	
-	for (i = 0; i < groups->_length; i++) {
-		GNOME_Evolution_Shortcuts_Group *iter;
-		
-		iter = groups->_buffer + i;
-		if (!strcmp (iter->name, group_name)) {
-			the_group = iter;
-			group_num = i;
-			break;
-		}
-	}
-	
-	if (the_group == NULL) {
-		/* Bleah, just create it. Probably not the best
-		 * course of action. */
-		
-		GNOME_Evolution_Shortcuts_addGroup (shortcuts_interface,
-						    group_num,
-						    group_name,
-						    &ev);
-		
-		if (ev._major != CORBA_NO_EXCEPTION) {
-			g_warning ("Exception recreating \"Evolution Shortcuts\" group: %s", ev._repo_id);
-			goto cleanup;
-		}
-		
-		the_group = GNOME_Evolution_Shortcuts_getGroup (shortcuts_interface,
-								group_num,
-								&ev);
-		
-		if (ev._major != CORBA_NO_EXCEPTION) {
-			g_warning ("Exception getting newly created \"Evolution Shortcuts\" group: %s", ev._repo_id);
-			goto cleanup;
-		}
-	}
-	
+
 	the_shortcut = NULL;
-	
 	for (i = 0; i < the_group->shortcuts._length; i++) {
 		GNOME_Evolution_Shortcuts_Shortcut *iter;
 		
@@ -1554,30 +1514,24 @@ add_shortcut_entry (const char *name, const char *uri, const char *type)
 	}
 	
 	if (the_shortcut == NULL) {
-		the_shortcut = 
-			GNOME_Evolution_Shortcuts_Shortcut__alloc ();
-		
+		the_shortcut = GNOME_Evolution_Shortcuts_Shortcut__alloc ();
 		the_shortcut->name = CORBA_string_dup (name);
 		the_shortcut->uri = CORBA_string_dup (uri);
 		the_shortcut->type = CORBA_string_dup (type);
 		
 		GNOME_Evolution_Shortcuts_add (shortcuts_interface,
-					       group_num,
-					       -1, /* "end of list" */
+					       0, -1, /* "end of list" */
 					       the_shortcut,
 					       &ev);
 		
 		CORBA_free (the_shortcut);
 		
-		if (ev._major != CORBA_NO_EXCEPTION) {
+		if (ev._major != CORBA_NO_EXCEPTION)
 			g_warning ("Exception creating shortcut \"%s\": %s", name, ev._repo_id);
-			goto cleanup;
-		}
 	}
 	
- cleanup:
+	CORBA_free (the_group);
 	CORBA_exception_free (&ev);
-	CORBA_free (groups);
 }
 
 static void

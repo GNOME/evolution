@@ -1,3 +1,8 @@
+2001-09-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-config.c (add_shortcut_entry): Just add the shortcut to the
+	first group.
+
 2001-09-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser-ui.c (folder_browser_ui_add_list): Call
