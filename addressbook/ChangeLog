@@ -1,3 +1,56 @@
+2003-02-06  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/e-address-popup.c (email_table_save_card_cb):
+	check the status, not the book, and unref the book here.
+	(contact_editor_cb): same.
+	(start_query): unref the book in the failure case.
+	(add_card_idle_cb): addressbook_load_default_book returns void
+	now.
+	(edit_contact_info_cb): same.
+	(e_address_popup_query): same.
+
+	* gui/component/addressbook.c (control_activate_cb): track change
+	to addressbook_load_uri return type.
+	(set_prop): same.
+	(addressbook_load_uri): return type is void now.
+	(addressbook_load_default_book): same.
+
+	* gui/component/addressbook.h:
+	addressbook_load_uri/addressbook_load_default_book return void
+	now.
+
+	* conduit/address-conduit.c (start_addressbook_server):
+	e_book_load_default_book returns void now.
+
+	* backend/ebook/e-book-util.h: track changes to return types.
+	
+	* backend/ebook/e-book-util.c (e_book_load_address_book_by_uri):
+	fallout from change to e_book_load_uri.  return type for this
+	function is void now too.
+	(e_book_use_address_book_by_uri): same.
+	(e_book_use_default_book): same.
+	(e_book_load_default_book): same.
+	(got_uri_book_cb): if unsuccessful and book is non-NULL, unref it
+	here.
+	(got_default_book_cb): same.
+
+	* backend/ebook/e-book.c (e_book_load_uri): no longer return a
+	gboolean.  any error is communicated to the callback.
+	
+	* backend/ebook/e-book.h: e_book_load_uri no longer returns a
+	gboolean (it's void.)
+
+	* backend/ebook/evolution-ldif-importer.c (ebook_create): track
+	change to the e_book_load_uri family of functions.
+	
+	* backend/ebook/test-client-list.c (ebook_create): same.
+
+	* backend/ebook/test-client.c (ebook_create): same.
+
+	* backend/ebook/load-pine-addressbook.c (ebook_create): same.
+
+	* backend/ebook/evolution-vcard-importer.c (ebook_create): same.
+
 2003-02-06  Ettore Perazzoli  <ettore@ximian.com>
 
 	* backend/ebook/Makefile.am (e-book-marshal.c, e-book-marshal.h):

@@ -53,9 +53,7 @@ ebook_create (gpointer data)
 	uri = g_strdup_printf ("file://%s", path);
 	g_free (path);
 
-	if (! e_book_load_uri (book, uri, book_open_cb, NULL)) {
-		printf ("error calling load_uri!\n");
-	}
+	e_book_load_uri (book, uri, book_open_cb, NULL);
 	g_free(uri);
 
 

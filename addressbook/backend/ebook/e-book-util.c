@@ -73,32 +73,27 @@ got_uri_book_cb (EBook *book, EBookStatus status, gpointer closure)
 	if (status == E_BOOK_STATUS_SUCCESS) {
 		info->cb (book, info->closure);
 	} else {
+		if (book)
+			g_object_unref (book);
 		info->cb (NULL, info->closure);
 	}
 	g_free (info);
 }
 
-gboolean
+void
 e_book_load_address_book_by_uri (EBook *book, const char *uri, EBookCallback open_response, gpointer closure)
 {
-	gboolean rv;
 	char *real_uri;
 
-	g_return_val_if_fail (book != NULL,          FALSE);
-	g_return_val_if_fail (E_IS_BOOK (book),      FALSE);
-	g_return_val_if_fail (open_response != NULL, FALSE);
+	g_return_if_fail (book != NULL);
+	g_return_if_fail (E_IS_BOOK (book));
+	g_return_if_fail (open_response != NULL);
 
 	real_uri = e_book_expand_uri (uri);
 
-	rv = e_book_load_uri (book, real_uri, open_response, closure);
-
-	if (!rv) {
-		g_warning ("Couldn't load addressbook %s", real_uri);
-	}
+	e_book_load_uri (book, real_uri, open_response, closure);
 
 	g_free (real_uri);
-
-	return rv;
 }
 
 void
@@ -114,10 +109,7 @@ e_book_use_address_book_by_uri (const char *uri, EBookCommonCallback cb, gpointe
 	info->closure = closure;
 
 	book = e_book_new ();
-	if (! e_book_load_address_book_by_uri (book, uri, got_uri_book_cb, info)) {
-		g_object_unref (book);
-		g_free (info);
-	}
+	e_book_load_address_book_by_uri (book, uri, got_uri_book_cb, info);
 }
 
 EConfigListener *
@@ -155,7 +147,8 @@ got_default_book_cb (EBook *book, EBookStatus status, gpointer closure)
 		}
 		
 	} else {
-
+		if (book)
+			g_object_unref (book);
 		info->cb (NULL, info->closure);
 
 	}
@@ -180,10 +173,7 @@ e_book_use_default_book (EBookCommonCallback cb, gpointer closure)
 	info->closure = closure;
 
 	book = e_book_new ();
-	if (! e_book_load_default_book (book, got_default_book_cb, info)) {
-		g_object_unref (book);
-		g_free (info);
-	}
+	e_book_load_default_book (book, got_default_book_cb, info);
 }
 
 static char *default_book_uri;
@@ -272,16 +262,15 @@ e_book_default_book_open (EBook *book, EBookStatus status, gpointer closure)
 	}
 }
 
-gboolean
+void
 e_book_load_default_book (EBook *book, EBookCallback open_response, gpointer closure)
 {
 	char *uri;
-	gboolean rv;
 	DefaultBookClosure *default_book_closure;
 
-	g_return_val_if_fail (book != NULL,          FALSE);
-	g_return_val_if_fail (E_IS_BOOK (book),      FALSE);
-	g_return_val_if_fail (open_response != NULL, FALSE);
+	g_return_if_fail (book != NULL);
+	g_return_if_fail (E_IS_BOOK (book));
+	g_return_if_fail (open_response != NULL);
 
 	uri = e_book_get_default_book_uri ();
 
@@ -290,14 +279,9 @@ e_book_load_default_book (EBook *book, EBookCallback open_response, gpointer clo
 	default_book_closure->closure = closure;
 	default_book_closure->open_response = open_response;
 
-	rv = e_book_load_uri (book, uri,
-			      e_book_default_book_open, default_book_closure);
+	e_book_load_uri (book, uri,
+			 e_book_default_book_open, default_book_closure);
 
-	if (!rv) {
-		g_warning ("Couldn't load default addressbook");
-	}
-
-	return rv;
 }
 
 char*

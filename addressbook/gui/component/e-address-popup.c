@@ -389,10 +389,11 @@ email_table_save_card_cb (EBook *book, EBookStatus status, gpointer closure)
 {
 	ECard *card = E_CARD (closure);
 
-	if (book) {
+	if (status == E_BOOK_STATUS_SUCCESS) {
 		e_book_commit_card (book, card, NULL, NULL);
-		g_object_unref (book);
 	}
+	if (book)
+		g_object_unref (book);
 	g_object_unref (card);
 }
 
@@ -406,10 +407,7 @@ add_card_idle_cb (gpointer closure)
 	EBook *book;
 
 	book = e_book_new ();
-	if (!addressbook_load_default_book (book, email_table_save_card_cb, closure)) {
-		g_object_unref (book);
-		email_table_save_card_cb (NULL, E_BOOK_STATUS_OTHER_ERROR, closure);
-	}
+	addressbook_load_default_book (book, email_table_save_card_cb, closure);
 
 	return 0;
 }
@@ -956,11 +954,16 @@ emit_event (EAddressPopup *pop, const char *event)
 static void
 contact_editor_cb (EBook *book, EBookStatus status, gpointer closure)
 {
-	EAddressPopup *pop = E_ADDRESS_POPUP (closure);
-	EContactEditor *ce = e_addressbook_show_contact_editor (book, pop->card, FALSE, TRUE);
-	e_address_popup_cleanup (pop);
-	emit_event (pop, "Destroy");
-	e_contact_editor_raise (ce);
+	if (status == E_BOOK_STATUS_SUCCESS) {
+		EAddressPopup *pop = E_ADDRESS_POPUP (closure);
+		EContactEditor *ce = e_addressbook_show_contact_editor (book, pop->card, FALSE, TRUE);
+		e_address_popup_cleanup (pop);
+		emit_event (pop, "Destroy");
+		e_contact_editor_raise (ce);
+	}
+
+	if (book)
+		g_object_unref (book);
 }
 
 static void
@@ -970,10 +973,7 @@ edit_contact_info_cb (EAddressPopup *pop)
 	emit_event (pop, "Hide");
 
 	book = e_book_new ();
-	if (!addressbook_load_default_book (book, contact_editor_cb, pop)) {
-		g_object_unref (book);
-		contact_editor_cb (NULL, E_BOOK_STATUS_OTHER_ERROR, pop);
-	}
+	addressbook_load_default_book (book, contact_editor_cb, pop);
 }
 
 static void
@@ -1156,6 +1156,8 @@ start_query (EBook *book, EBookStatus status, gpointer closure)
 
 	if (status != E_BOOK_STATUS_SUCCESS) {
 		e_address_popup_no_matches (pop);
+		if (book)
+			g_object_unref (book);
 		return;
 	}
 	
@@ -1184,10 +1186,7 @@ e_address_popup_query (EAddressPopup *pop)
 	book = e_book_new ();
 	g_object_ref (pop);
 
-	if (!addressbook_load_default_book (book, start_query, pop)) {
-		g_object_unref (book);
-		start_query (NULL, E_BOOK_STATUS_OTHER_ERROR, pop);
-	}
+	addressbook_load_default_book (book, start_query, pop);
 }
 
 /** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/

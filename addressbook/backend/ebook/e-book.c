@@ -729,7 +729,7 @@ activate_factories_for_uri (EBook *book, const char *uri)
 	return retval;
 }
 
-gboolean
+void
 e_book_load_uri (EBook                     *book,
 		 const char                *uri,
 		 EBookCallback              open_response,
@@ -738,21 +738,21 @@ e_book_load_uri (EBook                     *book,
 	EBookLoadURIData *load_uri_data;
 	GNOME_Evolution_Addressbook_BookFactory factory;
 
-	g_return_val_if_fail (book != NULL,          FALSE);
-	g_return_val_if_fail (E_IS_BOOK (book),      FALSE);
-	g_return_val_if_fail (uri != NULL,           FALSE);
-	g_return_val_if_fail (open_response != NULL, FALSE);
+	g_return_if_fail (book != NULL);
+	g_return_if_fail (E_IS_BOOK (book));
+	g_return_if_fail (uri != NULL);
+	g_return_if_fail (open_response != NULL);
 
 	if (book->priv->load_state != URINotLoaded) {
 		g_warning ("e_book_load_uri: Attempted to load a URI "
 			   "on a book which already has a URI loaded!\n");
-		return FALSE;
+		open_response (book, E_BOOK_STATUS_OTHER_ERROR, closure); /* XXX need a new status code here */
+		return;
 	}
 
 	/* try to find a list of factories that can handle the protocol */
 	if (!activate_factories_for_uri (book, uri)) {
-		open_response (NULL, E_BOOK_STATUS_PROTOCOL_NOT_SUPPORTED, closure);
-		return FALSE;
+		open_response (book, E_BOOK_STATUS_PROTOCOL_NOT_SUPPORTED, closure);
 	}
 		
 	g_free (book->priv->uri);
@@ -764,7 +764,8 @@ e_book_load_uri (EBook                     *book,
 	book->priv->listener = e_book_listener_new ();
 	if (book->priv->listener == NULL) {
 		g_warning ("e_book_load_uri: Could not create EBookListener!\n");
-		return FALSE;
+		open_response (NULL, E_BOOK_STATUS_OTHER_ERROR, closure); /* XXX need a new status code here */
+		return;
 	}
 
 	g_signal_connect (book->priv->listener, "responses_queued",
@@ -782,10 +783,6 @@ e_book_load_uri (EBook                     *book,
 	e_book_load_uri_from_factory (book, factory, load_uri_data);
 
 	book->priv->load_state = URILoading;
-
-	/* Now we play the waiting game. */
-
-	return TRUE;
 }
 
 /**

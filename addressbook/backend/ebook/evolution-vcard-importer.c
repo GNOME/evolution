@@ -70,15 +70,11 @@ ebook_create (VCardImporter *gci)
 	uri = g_strdup_printf ("%s/addressbook.db", epath);
 	g_free (epath);
 
-	if (! e_book_load_uri (gci->book, uri, book_open_cb, gci)) {
-		printf ("error calling load_uri!\n");
-	}
+	e_book_load_uri (gci->book, uri, book_open_cb, gci);
 	g_free(uri);
 #endif
 
-	if (! e_book_load_default_book (gci->book, book_open_cb, gci)) {
-		g_warning ("Error calling load_default_book");
-	}
+	e_book_load_default_book (gci->book, book_open_cb, gci);
 }
 
 /* EvolutionImporter methods */

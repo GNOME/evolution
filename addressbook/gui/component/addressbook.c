@@ -413,8 +413,7 @@ control_activate_cb (BonoboControl *control,
 			book = e_book_new ();
 			uri_data = e_book_expand_uri (view->uri);
 
-			if (! addressbook_load_uri (book, uri_data, book_open_cb, view))
-				printf ("error calling load_uri!\n");
+			addressbook_load_uri (book, uri_data, book_open_cb, view);
 
 			g_free(uri_data);
 		}
@@ -729,39 +728,27 @@ load_uri_cb (EBook *book, EBookStatus status, gpointer closure)
 	g_free (load_uri_data);
 }
 
-gboolean
+void
 addressbook_load_uri (EBook *book, const char *uri,
 		      EBookCallback cb, gpointer closure)
 {
 	LoadUriData *load_uri_data = g_new0 (LoadUriData, 1);
-	gboolean rv;
 
 	load_uri_data->cb = cb;
 	load_uri_data->closure = closure;
 
-	rv = e_book_load_uri (book, uri, load_uri_cb, load_uri_data);
-
-	if (!rv)
-		g_free (load_uri_data);
-
-	return rv;
+	e_book_load_uri (book, uri, load_uri_cb, load_uri_data);
 }
 
-gboolean
+void
 addressbook_load_default_book (EBook *book, EBookCallback cb, gpointer closure)
 {
 	LoadUriData *load_uri_data = g_new (LoadUriData, 1);
-	gboolean rv;
 
 	load_uri_data->cb = cb;
 	load_uri_data->closure = closure;
 
-	rv = e_book_load_default_book (book, load_uri_cb, load_uri_data);
-
-	if (!rv)
-		g_free (load_uri_data);
-
-	return rv;
+	e_book_load_default_book (book, load_uri_cb, load_uri_data);
 }
 
 static void
@@ -796,8 +783,7 @@ set_prop (BonoboPropertyBag *bag,
 		
 		uri_data = e_book_expand_uri (view->uri);
 
-		if (! addressbook_load_uri (book, uri_data, book_open_cb, view))
-			printf ("error calling load_uri!\n");
+		addressbook_load_uri (book, uri_data, book_open_cb, view);
 
 		g_free(uri_data);
 

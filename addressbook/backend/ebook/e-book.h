@@ -65,7 +65,7 @@ typedef void (*EBookAuthMethodsCallback) (EBook *book, EBookStatus status, EList
 /* Creating a new addressbook. */
 EBook    *e_book_new                      (void);
 
-gboolean  e_book_load_uri                 (EBook                 *book,
+void      e_book_load_uri                 (EBook                 *book,
 					   const char            *uri,
 					   EBookCallback          open_response,
 					   gpointer               closure);

@@ -553,13 +553,11 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 static int
 start_addressbook_server (EAddrConduitContext *ctxt)
 {
-	gboolean result;
-	
 	g_return_val_if_fail(ctxt!=NULL,-2);
 
 	ctxt->ebook = e_book_new ();
 
-	result = e_book_load_default_book (ctxt->ebook, book_open_cb, ctxt);
+	e_book_load_default_book (ctxt->ebook, book_open_cb, ctxt);
 	
 	/* run a sub event loop to turn ebook's async loading into a
            synchronous call */

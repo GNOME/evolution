@@ -45,10 +45,7 @@ ebook_create (gpointer data)
 	
 	book = e_book_new ();
 
-	if (! e_book_load_uri (book, "file:/tmp/test.db", book_open_cb, NULL)) {
-		printf ("error calling load_uri!\n");
-	}
-
+	e_book_load_uri (book, "file:/tmp/test.db", book_open_cb, NULL);
 
 	return FALSE;
 }

@@ -137,10 +137,7 @@ ebook_create (gpointer data)
 	}
 	
 
-	if (! e_book_load_default_book (book, book_open_cb, NULL)) {
-		printf ("error calling load_uri!\n");
-	}
-
+	e_book_load_default_book (book, book_open_cb, NULL);
 
 	return FALSE;
 }

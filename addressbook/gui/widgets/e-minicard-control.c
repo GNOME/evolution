@@ -249,13 +249,14 @@ static void
 book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 {
 	GList *list = closure;
-	if (book) {
+	if (status == E_BOOK_STATUS_SUCCESS) {
 		GList *p;
 		for (p = list; p; p = p->next) {
 			e_card_merging_book_add_card(book, p->data, NULL, NULL);
 		}
-		g_object_unref (book);
 	}
+	if (book)
+		g_object_unref (book);
 	e_free_object_list (list);
 }
 
@@ -273,10 +274,7 @@ save_in_addressbook(GtkWidget *button, gpointer data)
 	for (p = list; p; p = p->next)
 		g_object_ref (p->data);
 
-	if (!addressbook_load_default_book (book, book_open_cb, list)) {
-		g_object_unref (book);
-		book_open_cb (NULL, E_BOOK_STATUS_OTHER_ERROR, list);
-	}
+	addressbook_load_default_book (book, book_open_cb, list);
 }
 
 static void

@@ -132,13 +132,15 @@ merge_cb (EBook *book, EBookStatus status, gpointer closure)
 {
 	QuickAdd *qa = (QuickAdd *) closure;
 
-	if (book != NULL) {
+	if (status == E_BOOK_STATUS_SUCCESS) {
 		e_card_merging_book_add_card (book, qa->card, NULL, NULL);
 		if (qa->cb)
 			qa->cb (qa->card, qa->closure);
 		g_object_unref (book);
 	} else {
 		/* Something went wrong. */
+		if (book)
+			g_object_unref (book);
 		if (qa->cb)
 			qa->cb (NULL, qa->closure);
 	}
@@ -154,10 +156,7 @@ quick_add_merge_card (QuickAdd *qa)
 	quick_add_ref (qa);
 
 	book = e_book_new ();
-	if (!addressbook_load_default_book (book, merge_cb, qa)) {
-		g_object_unref (book);
-		merge_cb (book, E_BOOK_STATUS_OTHER_ERROR, qa);
-	}
+	addressbook_load_default_book (book, merge_cb, qa);
 }
 
 
@@ -197,7 +196,9 @@ ce_have_book (EBook *book, EBookStatus status, gpointer closure)
 {
 	QuickAdd *qa = (QuickAdd *) closure;
 
-	if (book == NULL) {
+	if (status != E_BOOK_STATUS_SUCCESS) {
+		if (book)
+			g_object_unref (book);
 		g_warning ("Couldn't open local address book.");
 		quick_add_unref (qa);
 	} else {
@@ -232,10 +233,7 @@ edit_card (QuickAdd *qa)
 {
 	EBook *book;
 	book = e_book_new ();
-	if (!addressbook_load_default_book (book, ce_have_book, qa)) {
-		g_object_unref (book);
-		ce_have_book (book, E_BOOK_STATUS_OTHER_ERROR, qa);
-	}
+	addressbook_load_default_book (book, ce_have_book, qa);
 }
 
 #define QUICK_ADD_RESPONSE_EDIT_FULL 2
