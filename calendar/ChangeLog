@@ -1,4 +1,13 @@
 2003-07-16  Andrew Wu <Yang.Wu@sun.com>
+
+      Fixes #45774
+
+      * gui/e-day-view.c (e_day_view_goto_start_of_work_day):
+      implemented select the time that begins a work day.
+      (e_day_view_goto_end_of_work_day):
+      implemented select the time that ends a work day.
+
+2003-07-16  Andrew Wu <Yang.Wu@sun.com>
 	
 	Fixes #45772
 	

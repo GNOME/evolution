@@ -164,6 +164,8 @@ static gboolean e_day_view_get_extreme_event (EDayView *day_view,
 static gboolean e_day_view_do_key_press (GtkWidget *widget,
 					 GdkEventKey *event);
 static gboolean e_day_view_popup_menu (GtkWidget *widget);
+static void e_day_view_goto_start_of_work_day (EDayView *day_view);
+static void e_day_view_goto_end_of_work_day (EDayView *day_view);
 static void e_day_view_cursor_key_up_shifted (EDayView *day_view,
 					      GdkEventKey *event);
 static void e_day_view_cursor_key_down_shifted (EDayView *day_view,
@@ -5671,6 +5673,22 @@ e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 		return FALSE;
 	}
 
+	/*Go to the start/end of a work day*/	
+	if ((keyval == GDK_Home)
+	    &&((event->state & GDK_SHIFT_MASK) != GDK_SHIFT_MASK)
+	    &&((event->state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
+	    &&((event->state & GDK_MOD1_MASK) != GDK_MOD1_MASK)) {
+		e_day_view_goto_start_of_work_day (day_view);
+		return TRUE;
+	}
+	if ((keyval == GDK_End)
+	    &&((event->state & GDK_SHIFT_MASK) != GDK_SHIFT_MASK)
+	    &&((event->state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
+	    &&((event->state & GDK_MOD1_MASK) != GDK_MOD1_MASK)) {
+		e_day_view_goto_end_of_work_day (day_view);
+		return TRUE;
+	}
+	
 	/* Handle the cursor keys for moving & extending the selection. */
 	stop_emission = TRUE;
 	if (event->state & GDK_SHIFT_MASK) {
@@ -5804,6 +5822,55 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	if (!handled)
 		handled = GTK_WIDGET_CLASS (parent_class)->key_press_event (widget, event);
 	return handled;
+}
+
+/* Select the time that begins a work day*/
+static void
+e_day_view_goto_start_of_work_day (EDayView *day_view)
+{
+	g_return_if_fail(day_view!=NULL);        
+
+	if (day_view->selection_in_top_canvas)
+		return;
+	else 
+		day_view->selection_start_row = 
+			e_day_view_convert_time_to_row (day_view, 
+							day_view->work_day_start_hour, 
+							day_view->work_day_start_minute);
+	day_view->selection_end_row = day_view->selection_start_row;
+
+	e_day_view_ensure_rows_visible (day_view,
+					day_view->selection_start_row,
+					day_view->selection_end_row);
+	
+	e_day_view_update_calendar_selection_time (day_view);
+	
+	gtk_widget_queue_draw (day_view->top_canvas);
+	gtk_widget_queue_draw (day_view->main_canvas);
+}
+
+
+/* Select the time that ends a work day*/
+static void
+e_day_view_goto_end_of_work_day (EDayView *day_view)
+{
+	if (day_view->selection_in_top_canvas)
+		return;
+	else
+		day_view->selection_start_row =
+			e_day_view_convert_time_to_row (day_view, 
+							day_view->work_day_end_hour-1, 
+							day_view->work_day_end_minute+30);
+	day_view->selection_end_row = day_view->selection_start_row;
+	
+	e_day_view_ensure_rows_visible (day_view,
+					day_view->selection_start_row,
+					day_view->selection_end_row);
+
+	e_day_view_update_calendar_selection_time (day_view);
+
+	gtk_widget_queue_draw (day_view->top_canvas);
+	gtk_widget_queue_draw (day_view->main_canvas);
 }
 
 static void
