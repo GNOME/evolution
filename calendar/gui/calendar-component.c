@@ -513,7 +513,7 @@ set_info (CalendarComponentView *component_view)
 		    && start_tm.tm_mon == end_tm.tm_mon
 		    && start_tm.tm_mday == end_tm.tm_mday) {
 			e_utf8_strftime (buffer, sizeof (buffer),
-				  _("%A %d %B %Y"), &start_tm);
+				  _("%A %d %b %Y"), &start_tm);
 		} else if (start_tm.tm_year == end_tm.tm_year) {
 			e_utf8_strftime (buffer, sizeof (buffer),
 				  _("%a %d %b"), &start_tm);
@@ -537,22 +537,22 @@ set_info (CalendarComponentView *component_view)
 				e_utf8_strftime (buffer, sizeof (buffer),
 					  "%d", &start_tm);
 				e_utf8_strftime (end_buffer, sizeof (end_buffer),
-					  _("%d %B %Y"), &end_tm);
+					  _("%d %b %Y"), &end_tm);
 				strcat (buffer, " - ");
 				strcat (buffer, end_buffer);
 			} else {
 				e_utf8_strftime (buffer, sizeof (buffer),
-					  _("%d %B"), &start_tm);
+					  _("%d %b"), &start_tm);
 				e_utf8_strftime (end_buffer, sizeof (end_buffer),
-					  _("%d %B %Y"), &end_tm);
+					  _("%d %b %Y"), &end_tm);
 				strcat (buffer, " - ");
 				strcat (buffer, end_buffer);
 			}
 		} else {
 			e_utf8_strftime (buffer, sizeof (buffer),
-				  _("%d %B %Y"), &start_tm);
+				  _("%d %b %Y"), &start_tm);
 			e_utf8_strftime (end_buffer, sizeof (end_buffer),
-				  _("%d %B %Y"), &end_tm);
+				  _("%d %b %Y"), &end_tm);
 			strcat (buffer, " - ");
 			strcat (buffer, end_buffer);
 		}

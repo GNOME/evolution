@@ -1,3 +1,8 @@
+2004-07-16  Larry Ewing  <lewing@ximian.com>
+
+	* gui/calendar-component.c (set_info): use short month forms to
+	limit the maximum width of the label.
+
 2004-07-15  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #57142
