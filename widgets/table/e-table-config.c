@@ -442,7 +442,7 @@ do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 					config->temp_state->sort_info, 0);
 			}
 			update_sort_and_group_config_dialog (config, is_sort);
-			continue;
+			break;
 
 		case GTK_RESPONSE_OK:
 			g_object_unref (config->state);
@@ -452,6 +452,7 @@ do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 			config_dialog_changed (config);
 			break;
 
+		case GTK_RESPONSE_DELETE_EVENT:
 		case GTK_RESPONSE_CANCEL:
 			g_object_unref (config->temp_state);
 			config->temp_state = 0;
@@ -491,7 +492,7 @@ do_fields_config_dialog (ETableConfig *config)
 			config_dialog_changed (config);
 			break;
 
-			/* CANCEL */
+		case GTK_RESPONSE_DELETE_EVENT:
 		case GTK_RESPONSE_CANCEL:
 			g_object_unref (config->temp_state);
 			config->temp_state = 0;
