@@ -31,13 +31,9 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-CamelFolder *vtrash_uri_to_folder (const char *uri, CamelException *ex);
+void mail_vtrash_add (CamelStore *store, const char *store_uri, const char *name);
 
-int vtrash_create (const char *store_uri,
-		   void (*done) (char *store_uri, CamelFolder *folder, void *data),
-		   void *data);
-
-void vtrash_cleanup (void);
+int mail_vtrash_create (const char *store_uri, const char *name);
 
 #ifdef __cplusplus
 }

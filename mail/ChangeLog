@@ -1,11 +1,32 @@
+2001-02-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* main.c (main): No longer need to do a vtrash_cleanup() (it also
+	doesn't exist anymore).
+
+	* component-factory.c (mail_load_storages): Updated to use the new
+	vtrash code.
+	(owner_set_cb): Same.
+
+	* mail-tools.c (mail_tool_uri_to_folder): Update to handle the
+	"vtrash:" url prefix so that we can extract the REAL uri and know
+	to get the trash folder.
+
+	* mail-vtrash.c (mail_vtrash_add): Add the vTrash folder to the
+	EvolutionStorage.
+	(mail_vtrash_create): Get the store based on the uri (async) and
+	then call mail_trash_add.
+	(vtrash_cleanup): Removed.
+	(vtrash_uri_to_folder): Removed.
+	(vtrash_create): Replaced by mail_vtrash_create()
+
 2001-02-23  Iain Holmes  <iain@ximian.com>
 
 	* component-factory.c (owner_set_cb): Init the importer here.
 
-	* mail-importer.[ch] (mail_importer_create_folder): Add a function that creates
-	new folders in the shell.
-	(mail_importer_init): Take in an EvolutionShellClient, and get the local_storage
-	corba_object from it.
+	* mail-importer.[ch] (mail_importer_create_folder): Add a function
+	that creates new folders in the shell.
+	(mail_importer_init): Take in an EvolutionShellClient, and get the
+	local_storage corba_object from it.
 
 2001-02-22  Jeffrey Stedfast  <fejj@ximian.com>
 

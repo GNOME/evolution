@@ -123,8 +123,6 @@ main (int argc, char *argv [])
 	bonobo_main ();
 	GDK_THREADS_LEAVE ();
 	
-	vtrash_cleanup ();
-	
 	mail_config_write_on_exit ();
 
 	return 0;

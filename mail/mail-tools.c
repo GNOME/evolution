@@ -31,7 +31,6 @@
 #include "camel/camel.h"
 #include "camel/camel-vee-folder.h"
 #include "mail-vfolder.h"
-#include "mail-vtrash.h"
 #include "filter/vfolder-rule.h"
 #include "filter/vfolder-context.h"
 #include "filter/filter-option.h"
@@ -171,7 +170,6 @@ mail_tool_get_inbox (const gchar *url, CamelException *ex)
 
 	return folder;
 }
-	
 
 /* why is this function so stupidly complex when allthe work is done elsehwere? */
 char *
@@ -308,33 +306,34 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 	CamelURL *url;
 	CamelStore *store = NULL;
 	CamelFolder *folder = NULL;
+	int offset = 0;
 	
 	g_return_val_if_fail (uri != NULL, NULL);
 	
-	/* FIXME: This is a hack. */
-	if (!strncmp (uri, "vtrash:", 7)) {
-		folder = vtrash_uri_to_folder (uri, ex);
-		if (folder)
-			return folder;
-	}
+	if (!strncmp (uri, "vtrash:", 7))
+		offset = 7;
 	
-	url = camel_url_new (uri, ex);
+	url = camel_url_new (uri + offset, ex);
 	if (!url)
 		return NULL;
 	
 	if (!strcmp (url->protocol, "vfolder")) {
 		folder = vfolder_uri_to_folder (uri, ex);
 	} else {
-		store = camel_session_get_store (session, uri, ex);
+		store = camel_session_get_store (session, uri + offset, ex);
 		if (store) {
 			char *name;
-
+			
 			if (url->path && *url->path)
 				name = url->path + 1;
 			else
 				name = "";
-			folder = camel_store_get_folder (
-				store, name, CAMEL_STORE_FOLDER_CREATE, ex);
+
+			if (offset)
+				folder = camel_store_get_trash (store, ex);
+			else
+				folder = camel_store_get_folder (store, name,
+								 CAMEL_STORE_FOLDER_CREATE, ex);
 		}
 	}
 

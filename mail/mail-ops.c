@@ -1091,7 +1091,7 @@ static void get_folder_got(struct _mail_msg *mm)
 	struct _get_folder_msg *m = (struct _get_folder_msg *)mm;
 
 	if (m->done)
-		m->done(m->uri, m->folder, m->data);
+		m->done (m->uri, m->folder, m->data);
 }
 
 static void get_folder_free(struct _mail_msg *mm)

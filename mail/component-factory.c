@@ -216,7 +216,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 		g_free (uri);
 	}
 	
-	vtrash_create ("file:/", NULL, NULL);
+	mail_vtrash_create ("file:/", _("vTrash"));
 	
 	mail_session_enable_interaction (TRUE);
 	
@@ -443,8 +443,8 @@ mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources, gboolean
 					   camel_exception_get_description (&ex));
 				camel_exception_clear (&ex);
 			} else {
-				/* create the vTrash folder */
-				vtrash_create (service->url, NULL, NULL);
+				/* add the vTrash folder */
+				mail_vtrash_add (CAMEL_STORE (store), service->url, _("vTrash"));
 			}
 		}
 		
