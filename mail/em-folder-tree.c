@@ -946,7 +946,7 @@ emft_tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *t
 	m->store = store;
 	m->emft = emft;
 	m->top = g_strdup (top);
-	m->flags = CAMEL_STORE_FOLDER_INFO_FAST;
+	m->flags = 0;
 	m->select_uri = NULL;
 	
 	e_thread_put (mail_thread_new, (EMsg *) m);
@@ -990,7 +990,7 @@ static void
 emft_copy_folders__copy (struct _mail_msg *mm)
 {
 	struct _EMCopyFolders *m = (struct _EMCopyFolders *) mm;
-	guint32 flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE;
+	guint32 flags = CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_RECURSIVE;
 	GList *pending = NULL, *deleting = NULL, *l;
 	GString *fromname, *toname;
 	CamelFolderInfo *fi;
@@ -1355,7 +1355,7 @@ emft_popup_delete_rec (CamelStore *store, CamelFolderInfo *fi, CamelException *e
 static void
 emft_popup_delete_folders (CamelStore *store, const char *path, CamelException *ex)
 {
-	guint32 flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE;
+	guint32 flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE | CAMEL_STORE_FOLDER_INFO_FAST;
 	const char *full_name;
 	CamelFolderInfo *fi;
 	

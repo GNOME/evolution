@@ -1,3 +1,11 @@
+2004-01-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-tree.c (emft_copy_folders__copy): Use FOLDER_INFO_FAST
+	bitflag here, since we don't care about unread counts when copying
+	folders around.
+	(emft_popup_delete_folders): Same.
+	(emft_tree_row_expanded): Don't use FOLDER_INFO_FAST here.
+
 2004-01-26  Radek Doulik  <rodo@ximian.com>
 
 	* mail-session.c (main_get_filter_driver): translate DEMAND to
