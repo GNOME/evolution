@@ -1,3 +1,11 @@
+2002-11-25  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer-attachment-bar.c (init): Remove the window size
+	setting.
+	(e_msg_composer_attachment_bar_new): Move the window size setting
+	here.  Also set icon width based on 15 approximate characters, so
+	the icon text is more readable.
+
 2002-11-22  Not Zed  <NotZed@Ximian.com>
 
 	* e-msg-composer-select-file.c: rewrote most of this.  Just use

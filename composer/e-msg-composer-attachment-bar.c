@@ -642,9 +642,7 @@ static void
 init (EMsgComposerAttachmentBar *bar)
 {
 	EMsgComposerAttachmentBarPrivate *priv;
-	guint icon_size, icon_height;
-	GdkFont *font;
-	
+
 	priv = g_new (EMsgComposerAttachmentBarPrivate, 1);
 	
 	priv->attachments = NULL;
@@ -654,20 +652,6 @@ init (EMsgComposerAttachmentBar *bar)
 	priv->num_attachments = 0;
 	
 	bar->priv = priv;
-	
-	/* FIXME partly hardcoded.  We should compute height from the font, and
-           allow at least 2 lines for every item.  */
-	icon_size = ICON_WIDTH + ICON_SPACING + ICON_BORDER + ICON_TEXT_SPACING;
-	
-	/*font = GTK_WIDGET (bar)->style->font;
-	  icon_height = icon_size + ((font->ascent + font->descent) * 2);*/
-#warning "FIXME: check icon_hight calculation with pango_font"
-	icon_height = icon_size + pango_font_description_get_size(GTK_WIDGET (bar)->style->font_desc)*2;
-	icon_size += 24;
-
-	printf("set size %d,%d\n", icon_size*4, icon_height);
-	
-	gtk_widget_set_size_request (GTK_WIDGET (bar), icon_size * 4, icon_height);
 }
 
 
@@ -698,12 +682,28 @@ e_msg_composer_attachment_bar_new (GtkAdjustment *adj)
 {
 	EMsgComposerAttachmentBar *new;
 	EIconList *icon_list;
+	int width, height, icon_width, window_height;
+	PangoFontMetrics *metrics;
+	PangoContext *context;
 	
 	new = g_object_new (e_msg_composer_attachment_bar_get_type (), NULL);
 	
 	icon_list = E_ICON_LIST (new);
+
+	context = gtk_widget_get_pango_context(((GtkWidget *)new));
+	metrics = pango_context_get_metrics(context, ((GtkWidget *)new)->style->font_desc, pango_context_get_language(context));
+	width = PANGO_PIXELS(pango_font_metrics_get_approximate_char_width(metrics)) * 15;
+	/* This should be *2, but the icon list creates too much space above ... */
+	height = PANGO_PIXELS(pango_font_metrics_get_ascent(metrics) + pango_font_metrics_get_descent(metrics)) * 3;
+	pango_font_metrics_unref(metrics);
+
+	icon_width = ICON_WIDTH + ICON_SPACING + ICON_BORDER + ICON_TEXT_SPACING;
+	icon_width = MAX(icon_width, width);
 	
-	e_icon_list_construct (icon_list, ICON_WIDTH, 0);
+	e_icon_list_construct (icon_list, icon_width, 0);
+
+	window_height = ICON_WIDTH + ICON_SPACING + ICON_BORDER + ICON_TEXT_SPACING + height;
+	gtk_widget_set_size_request (GTK_WIDGET (new), icon_width * 4, window_height);
 	
 	e_icon_list_set_separators (icon_list, ICON_SEPARATORS);
 	e_icon_list_set_row_spacing (icon_list, ICON_ROW_SPACING);
