@@ -177,6 +177,11 @@ folder_browser_destroy (GtkObject *object)
 	
 	folder_browser = FOLDER_BROWSER (object);
 	
+	if (folder_browser->seen_id) {
+		gtk_timeout_remove (folder_browser->seen_id);
+		folder_browser->seen_id = 0;
+	}
+	
 	if (folder_browser->message_list) {
 		gtk_widget_destroy (GTK_WIDGET (folder_browser->message_list));
 		folder_browser->message_list = NULL;
@@ -186,7 +191,7 @@ folder_browser_destroy (GtkObject *object)
 		gtk_widget_destroy (GTK_WIDGET (folder_browser->mail_display));
 		folder_browser->mail_display = NULL;
 	}
-		
+	
 	folder_browser_parent_class->destroy (object);
 }
 
@@ -792,8 +797,8 @@ got_folder(char *uri, CamelFolder *folder, void *data)
 {
 	FolderBrowser *fb = data;
 	
-	d(printf ("got folder '%s' = %p\n", uri, folder));
-
+	d(printf ("got folder '%s' = %p, previous folder was %p\n", uri, folder, fb->folder));
+	
 	if (fb->message_list == NULL)
 		goto done;
 	
