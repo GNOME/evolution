@@ -1,3 +1,12 @@
+2000-06-15  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (imap_get_summary): Started to implement
+	(imap_summary_get_by_uid): Started to code, I've got to find a way to get the 
+	date in time_t format and also get the flags
+
+	* string-utils.c (strstrcase): Added this convenience function - I know about
+	strcasestr() but it's not portable.
+
 2000-06-15  Dan Winship  <danw@helixcode.com>
 
 	* camel-service.c: Remove camel_service_connect_with_url. (URLs

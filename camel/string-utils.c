@@ -51,11 +51,6 @@ string_list_free (GList *string_list)
 	g_list_free (string_list);
 }
 
-
-
-
-
-
 GList *
 string_split (const gchar *string, char sep, const gchar *trim_chars, StringTrimOption trim_options)
 {
@@ -91,7 +86,6 @@ string_split (const gchar *string, char sep, const gchar *trim_chars, StringTrim
 	return result;
 }
 
-
 void 
 string_trim (gchar *string, const gchar *trim_chars, StringTrimOption options)
 {
@@ -120,9 +114,6 @@ string_trim (gchar *string, const gchar *trim_chars, StringTrimOption options)
 	string[last_ok - first_ok +1] = '\0';
 	
 }
-
-
-
 
 
 /**
@@ -182,4 +173,25 @@ string_prefix (const gchar *s, const gchar *suffix, gboolean *suffix_found)
 	}
 
 	return result_string;
+}
+
+gchar *
+strstrcase (const gchar *haystack, const gchar *needle)
+{
+	/* find the needle in the haystack neglecting case */
+	gchar *ptr;
+	guint len;
+
+	g_return_val_if_fail (haystack != NULL, NULL);
+	g_return_val_if_fail (needle != NULL, NULL);
+
+	len = strlen(needle);
+	if (len > strlen(haystack))
+		return NULL;
+
+	for (ptr = haystack; *(ptr + len - 1) != '\0'; ptr++)
+		if (!g_strncasecmp(ptr, needle, len))
+			return ptr;
+
+	return NULL;
 }

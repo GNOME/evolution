@@ -728,13 +728,70 @@ imap_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *
 }
 #endif
 
+/* This probably shouldn't go here...but it will for now */
+static gchar *
+get_header_field (gchar *header, gchar *field)
+{
+	gchar *part, *index, *p, *q;
+
+	index = strstrcase(header, field);
+	if (index == NULL)
+		return NULL;
+
+	p = index + strlen (field) + 1;
+	for (q = p; *q; q++)
+		if (*q == '\n' && (*(q + 1) != ' ' || *(q + 1) != '\t'))
+			break;
+
+	part = g_strndup (p, (gint)(q - p));
+
+	/* it may be wrapped on multiple lines, so lets strip out \n's */
+	for (p = part; *p; ) {
+		if (*p == '\r' || *p == '\n')
+			memmove(p, p + 1, strlen (p) - 1);
+		else
+			p++;
+	}
+	
+	return part;
+}
+
 GPtrArray *
 imap_get_summary (CamelFolder *folder, CamelException *ex)
 {
-	/* TODO: what should we do here?? */
-	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
+	/* TODO: code this - loop: "FETCH <i> BODY.PEEK[HEADER]" and parse */
+	/* TODO: Maybe use FETCH ENVELOPE instead */
+	GPtrArray *array = NULL;
+	CamelMessageInfo *info;
+	int i, num, status;
+	char *result;
 
-	return CAMEL_FOLDER_SUMMARY (imap_folder->summary)->messages;
+	num = imap_get_message_count (folder, ex);
+
+	array = g_ptr_array_new ();
+	
+	for (i = 0; i < num; i++) {
+		status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
+						      &result, "FETCH %d BODY.PEEK[HEADER]", i);
+		
+		if (status != CAMEL_IMAP_OK) {
+			g_free (result);
+			break;
+		}
+		
+		info = g_malloc0 (sizeof (CamelMessageInfo));
+		info->subject = get_header_field (result, "\nSubject:");
+		info->to = get_header_field (result, "\nTo:");
+		info->from = get_header_field (result, "\nFrom:");
+		info->uid = NULL;  /* FIXME: how can we get the UID? */
+		g_free (result);
+		
+		/* still need to get flags and date_sent */
+
+		g_ptr_array_add (array, info);
+	}
+
+	return array;
 }
 
 void
@@ -746,12 +803,31 @@ imap_free_summary (CamelFolder *folder, GPtrArray *array)
 
 /* get a single message info, by uid */
 static const CamelMessageInfo *
-imap_summary_get_by_uid (CamelFolder *f, const char *uid)
+imap_summary_get_by_uid (CamelFolder *folder, const char *uid)
 {
-	/* TODO: what do we do here? */
-	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (f);
+	/* TODO: code this - do a "UID FETCH <uid> BODY.PEEK[HEADER]" and parse */
+	CamelMessageInfo *info = NULL;
+	char *result;
+	int status;
 
-	return camel_folder_summary_uid(CAMEL_FOLDER_SUMMARY (imap_folder->summary), uid);
+	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
+					      &result, "UID FETCH %s BODY.PEEK[HEADER]", uid);
+
+	if (status != CAMEL_IMAP_OK) {
+		g_free (result);
+		return NULL;
+	}
+
+	info = g_malloc0 (sizeof (CamelMessageInfo));
+	info->subject = get_header_field (result, "\nSubject:");
+	info->to = get_header_field (result, "\nTo:");
+	info->from = get_header_field (result, "\nFrom:");
+	info->uid = g_strdup (uid);
+	g_free (result);
+
+	/* still need to get flags and date_sent */
+
+	return info;
 }
 
 static GList *
