@@ -1658,6 +1658,52 @@ imap_update_summary (CamelFolder *folder,
 		imap_update_summary (folder, changes, recents, ex);
 }
 
+struct _filter_timeout_data {
+	CamelFolder *folder;
+	GPtrArray *recents;
+	guint timeout_id;
+};
+
+static gboolean
+imap_filter_timeout (gpointer user_data)
+{
+	struct _filter_timeout_data *ftd = (struct _filter_timeout_data *) user_data;
+	CamelFilterDriver *driver;
+	CamelException ex;
+	int i;
+
+	camel_exception_init (&ex);
+	driver = camel_session_get_filter_driver (CAMEL_SERVICE (ftd->folder->parent_store)->session,
+						  "incoming", &ex);
+
+	if (driver) {
+		camel_filter_driver_filter_folder (driver, 
+						   ftd->folder, 
+						   ftd->recents, FALSE, &ex);
+
+		if (camel_exception_is_set (&ex)) 
+			printf ("imap INBOX filter failed: %s\n",
+				camel_exception_get_description (&ex));
+
+		camel_object_unref (CAMEL_OBJECT (driver));
+	} else 
+		printf ("imap INBOX filter failed: couldn't get filter driver: %s\n",
+			camel_exception_get_description (&ex));
+		
+	camel_exception_clear (&ex);
+	camel_object_unref ((CamelObject *) ftd->folder);
+
+	for (i = 0; i < ftd->recents->len; i++)
+		g_free (ftd->recents->pdata[i]);
+
+	g_ptr_array_free (ftd->recents, TRUE);
+
+	camel_session_remove_timeout (CAMEL_SERVICE (ftd->folder->parent_store)->session,
+				      ftd->timeout_id);
+	g_free (user_data);
+	return FALSE;
+}
+
 /* Called with the store's command_lock locked */
 void
 camel_imap_folder_changed (CamelFolder *folder, int exists,
@@ -1702,18 +1748,28 @@ camel_imap_folder_changed (CamelFolder *folder, int exists,
 
 	if (recents) {
 		if (!camel_exception_is_set (ex) && recents->len) {
-			CamelFilterDriver *driver;
+			/* is there any reason to protect against multiple
+			 * filters at once? */
 
-			driver = camel_session_get_filter_driver (
-				CAMEL_SERVICE (folder->parent_store)->session,
-				"incoming", ex);
-			if (driver) {
-				camel_filter_driver_filter_folder (
-					driver, folder, recents, FALSE, ex);
-				camel_object_unref (CAMEL_OBJECT (driver));
-			}
-		}
-		g_ptr_array_free (recents, TRUE);
+			struct _filter_timeout_data *ftd;
+			int i;
+
+			ftd = (struct _filter_timeout_data *) g_malloc (sizeof (struct _filter_timeout_data));
+			ftd->folder = folder;
+			camel_object_ref ((CamelObject *) folder);
+
+			/* Dup these in case they get removed */
+
+			for (i = 0; i < recents->len; i++)
+				recents->pdata[i] = g_strdup (recents->pdata[i]);
+
+			ftd->recents = recents;
+
+			/* interval must be > 1000 */
+			ftd->timeout_id = camel_session_register_timeout (CAMEL_SERVICE (folder->parent_store)->session,
+									  1001, imap_filter_timeout, ftd);
+		} else
+			g_ptr_array_free (recents, TRUE);
 	}
 
 	camel_folder_summary_save (folder->summary);
