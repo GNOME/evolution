@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
 "POT-Creation-Date: 2002-06-27 14:13-0400\n"
-"PO-Revision-Date: 2002-06-19 22:13+0200\n"
+"PO-Revision-Date: 2002-07-02 14:49+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -4005,7 +4005,7 @@ msgstr "Mandag"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "S_un"
-msgstr "S_øn"
+msgstr "S_ø."
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 #: calendar/gui/dialogs/recurrence-page.c:1126
@@ -4031,7 +4031,7 @@ msgstr "Oppg_aver som går ut i dag:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
 msgid "T_hu"
-msgstr "T_or"
+msgstr "T_o."
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
 msgid "Task List"
@@ -4103,7 +4103,7 @@ msgstr "_Vis"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 msgid "_Fri"
-msgstr "_Fre"
+msgstr "_Fr."
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 #: mail/mail-config.glade.h:161
@@ -4116,7 +4116,7 @@ msgstr "Sk_jul utførte oppgaver etter"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 msgid "_Mon"
-msgstr "_Man"
+msgstr "_Ma."
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 msgid "_Overdue tasks:"
@@ -4124,7 +4124,7 @@ msgstr "Utgåtte _oppgaver:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
 msgid "_Sat"
-msgstr "L_ør"
+msgstr "L_ø."
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
 msgid "_Show appointment end times in week and month views"
@@ -4136,11 +4136,11 @@ msgstr "Oppdeling av _tid:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
 msgid "_Tue"
-msgstr "_Tir"
+msgstr "_Ti."
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 msgid "_Wed"
-msgstr "_Ons"
+msgstr "_On."
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
 msgid "before every appointment"
@@ -7963,19 +7963,17 @@ msgid "Failed to unlock secret key: 3 bad passphrases given."
 msgstr ""
 
 #: camel/camel-gpg-context.c:776
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected response from GnuPG: %s"
-msgstr "Uventet svar fra POP-tjener: %s"
+msgstr "Uventet svar fra GnuPG: %s"
 
 #: camel/camel-gpg-context.c:782
-#, fuzzy
 msgid "No data provided"
-msgstr "Ingen filnavn spesifisert."
+msgstr "Ingen data gitt"
 
 #: camel/camel-gpg-context.c:827
-#, fuzzy
 msgid "Failed to encrypt: No valid recipients specified."
-msgstr "Kan ikke kryptere denne meldingen: ingen mottakere oppgitt"
+msgstr "Kan ikke kryptere: Ingen gyldige mottakere spesifisert."
 
 #: camel/camel-gpg-context.c:1077
 #, fuzzy, c-format
@@ -8103,9 +8101,8 @@ msgid "Failed to decrypt MIME part: protocol error"
 msgstr ""
 
 #: camel/camel-multipart-encrypted.c:325
-#, fuzzy
 msgid "Failed to decrypt MIME part: parse error"
-msgstr "Klarte ikke å dekryptere: Ukjent"
+msgstr "Klarte ikke å dekryptere MIME-del: tolkefeil"
 
 #: camel/camel-multipart-signed.c:624
 msgid "This is a digitally signed message part"
@@ -8781,9 +8778,8 @@ msgid "Store status headers in Elm/Pine/Mutt format"
 msgstr ""
 
 #: camel/providers/local/camel-local-provider.c:101
-#, fuzzy
 msgid "Standard Unix mbox spool or directory"
-msgstr "Standard Unix mbox «spools»"
+msgstr "Standard Unix mbox «spool» eller katalog"
 
 #: camel/providers/local/camel-local-provider.c:102
 #, fuzzy
@@ -9091,9 +9087,9 @@ msgid "Unknown error: %s"
 msgstr "Ukjent feil: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:882
-#, fuzzy, c-format
+#, c-format
 msgid "Could not store folder: %s"
-msgstr "Kunne ikke endre navn på mappe: %s"
+msgstr "Kunne ikke lagre mappe: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:973
 #, c-format
@@ -9125,14 +9121,14 @@ msgid "Cannot open MH directory path: %s: %s"
 msgstr "Kan ikke åpne MH-katalogsti: %s: %s"
 
 #: camel/providers/local/camel-spool-store.c:116
-#, fuzzy, c-format
+#, c-format
 msgid "Spool `%s' cannot be opened: %s"
-msgstr "Spool-mapper kan ikke være gis nytt navn"
+msgstr "Spool «%s» kan ikke åpnes: %s"
 
 #: camel/providers/local/camel-spool-store.c:128
-#, fuzzy, c-format
+#, c-format
 msgid "Spool `%s' is not a regular file or directory"
-msgstr "Lagerrot %s er ikke en vanlig katalog"
+msgstr "Spool «%s» er ikke en vanlig fil eller katalog"
 
 #: camel/providers/local/camel-spool-store.c:145
 #, c-format
@@ -21586,9 +21582,8 @@ msgid "Tallahassee"
 msgstr "Tallahassee"
 
 #: my-evolution/Locations.h:2211
-#, fuzzy
 msgid "Tallinn"
-msgstr "Talinn"
+msgstr "Tallinn"
 
 #: my-evolution/Locations.h:2212
 msgid "Tamanrasset"
@@ -24157,9 +24152,8 @@ msgid "C_elsius"
 msgstr "C_elsius"
 
 #: my-evolution/my-evolution.glade.h:4
-#, fuzzy
 msgid "Delete news feed"
-msgstr "Alle _nyhetstjenester"
+msgstr "Slett nyhetstrøm"
 
 #: my-evolution/my-evolution.glade.h:5
 msgid "How many days should the calendar display at once?"
@@ -24587,9 +24581,8 @@ msgstr ""
 "Importerer oppføring %d."
 
 #: shell/e-shell-importer.c:366
-#, fuzzy
 msgid "Select importer"
-msgstr "Velg mappe"
+msgstr "Velg importerer"
 
 #: shell/e-shell-importer.c:498
 #, c-format
