@@ -1,3 +1,10 @@
+2000-11-10  JP Rosevear  <jpr@helixcode.com>
+
+	* conduits/calendar/calendar-conduit.c (for_each_modified): Inc the
+	iterator before finding the next changed item.
+
+	* conduits/todo/todo-conduit.c (for_each_modified): ditto
+
 2000-11-09   Jesse Pavel   <jpavel@helixcode.com>
 
 	* gui/e-itip-control.c: I wrote the code so that recipients of meeting requests

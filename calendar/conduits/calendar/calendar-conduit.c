@@ -849,7 +849,8 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 		}
 	} else {
 		count++;
-		if ((iterator = next_changed_item (ctxt, iterator))) {
+		iterator = g_list_next (iterator);
+		if (iterator && (iterator = next_changed_item (ctxt, iterator))) {
 			CalObjChange *coc = NULL;
 
 			coc = iterator->data;
