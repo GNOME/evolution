@@ -68,6 +68,7 @@ etssv_remove    (ETableSubsetVariable *etssv,
 	ETableModel *etm = E_TABLE_MODEL(etssv);
 	ETableSubset *etss = E_TABLE_SUBSET(etssv);
 	int i;
+	int ret_val = FALSE;
 	
 	for (i = 0; i < etss->n_map; i++){
 		if (etss->map_table[i] == row) {
@@ -75,10 +76,18 @@ etssv_remove    (ETableSubsetVariable *etssv,
 			etss->n_map --;
 			if (!etm->frozen)
 				e_table_model_changed (etm);
-			return TRUE;
+			ret_val = TRUE;
+			break;
 		}
 	}
-	return FALSE;
+	
+	for (i = 0; i < etss->n_map; i++){
+		if (etss->map_table[i] > row) {
+			etss->map_table[i] --;
+		}
+	}
+
+	return ret_val;
 }
 
 static void

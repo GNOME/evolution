@@ -1,3 +1,7 @@
+2000-05-09  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table-subset-variable.c: Fixed etssv_remove.
+
 2000-05-08  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-cell-text.c: Make multi-line texts display properly.  Fixed
