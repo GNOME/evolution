@@ -138,6 +138,56 @@ imap_parse_list_response (CamelImapStore *store, const char *buf, int *flags, ch
 	return TRUE;
 }
 
+
+/**
+ * imap_parse_folder_name:
+ * @store:
+ * @folder_name:
+ *
+ * Return an array of folder paths representing the folder heirarchy.
+ * For example:
+ *   Full/Path/"to / from"/Folder
+ * Results in:
+ *   Full, Full/Path, Full/Path/"to / from", Full/Path/"to / from"/Folder
+ **/
+char **
+imap_parse_folder_name (CamelImapStore *store, const char *folder_name)
+{
+	GPtrArray *heirarchy;
+	char **paths;
+	const char *p;
+	
+	p = folder_name;
+	if (*p == store->dir_sep)
+		p++;
+	
+	heirarchy = g_ptr_array_new ();
+	
+	while (*p) {
+		if (*p == '"') {
+			p++;
+			while (*p && *p != '"')
+				p++;
+			if (*p)
+				p++;
+			continue;
+		}
+		
+		if (*p == store->dir_sep)
+			g_ptr_array_add (heirarchy, g_strndup (folder_name, p - folder_name));
+		
+		p++;
+	}
+	
+	g_ptr_array_add (heirarchy, g_strdup (folder_name));
+	g_ptr_array_add (heirarchy, NULL);
+	
+	paths = (char **) heirarchy->pdata;
+	g_ptr_array_free (heirarchy, FALSE);
+	
+	return paths;
+}
+
 char *
 imap_create_flag_list (guint32 flags)
 {

@@ -37,13 +37,20 @@ char *imap_next_word (const char *buf);
 #define IMAP_LIST_FLAG_NOSELECT		(1 << 1)
 #define IMAP_LIST_FLAG_MARKED		(1 << 2)
 #define IMAP_LIST_FLAG_UNMARKED		(1 << 3)
-gboolean imap_parse_list_response (CamelImapStore *store, const char *buf, int *flags, char *sep, char **folder);
 
-char *imap_create_flag_list (guint32 flags);
-guint32 imap_parse_flag_list (char **flag_list);
+gboolean imap_parse_list_response  (CamelImapStore *store, const char *buf, int *flags,
+				    char *sep, char **folder);
+
+char   **imap_parse_folder_name    (CamelImapStore *store, const char *folder_name);
+
+char    *imap_create_flag_list     (guint32 flags);
+guint32  imap_parse_flag_list      (char **flag_list);
+
 
 enum { IMAP_STRING, IMAP_NSTRING, IMAP_ASTRING };
-char *imap_parse_string_generic (char **str_p, int *len, int type);
+
+char    *imap_parse_string_generic (char **str_p, int *len, int type);
+
 #define imap_parse_string(str_p, len_p) \
 	imap_parse_string_generic (str_p, len_p, IMAP_STRING)
 #define imap_parse_nstring(str_p, len_p) \
@@ -51,16 +58,16 @@ char *imap_parse_string_generic (char **str_p, int *len, int type);
 #define imap_parse_astring(str_p, len_p) \
 	imap_parse_string_generic (str_p, len_p, IMAP_ASTRING)
 
-void imap_parse_body (char **body_p, CamelFolder *folder,
-		      CamelMessageContentInfo *ci);
+void     imap_parse_body           (char **body_p, CamelFolder *folder,
+				    CamelMessageContentInfo *ci);
 
-char *imap_quote_string (const char *str);
+char    *imap_quote_string         (const char *str);
 
-void imap_skip_list (char **str_p);
+void     imap_skip_list            (char **str_p);
 
-char *     imap_uid_array_to_set (CamelFolderSummary *summary, GPtrArray *uids);
-GPtrArray *imap_uid_set_to_array (CamelFolderSummary *summary, const char *uids);
-void       imap_uid_array_free (GPtrArray *arr);
+char    *imap_uid_array_to_set     (CamelFolderSummary *summary, GPtrArray *uids);
+GPtrArray *imap_uid_set_to_array   (CamelFolderSummary *summary, const char *uids);
+void     imap_uid_array_free       (GPtrArray *arr);
 
 char *imap_concat (CamelImapStore *imap_store, const char *prefix, const char *suffix);
 char *imap_namespace_concat (CamelImapStore *store, const char *name);

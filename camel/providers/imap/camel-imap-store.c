@@ -992,10 +992,11 @@ create_folder (CamelStore *store, const char *parent_name,
 	       const char *folder_name, CamelException *ex)
 {
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
-	CamelImapResponse *response;
-	CamelFolderInfo *fi;
 	char *full_name, *resp, *thisone;
+	CamelImapResponse *response;
+	CamelFolderInfo *root, *fi;
 	gboolean need_convert;
+	char **pathnames;
 	int i, flags;
 	
 	if (!camel_disco_store_check_online (CAMEL_DISCO_STORE (store), ex))
@@ -1063,14 +1064,37 @@ create_folder (CamelStore *store, const char *parent_name,
 	full_name = imap_concat (imap_store, parent_name, folder_name);
 	response = camel_imap_command (imap_store, NULL, ex, "CREATE %F",
 				       full_name);
-	if (response) {
-		camel_imap_response_free (imap_store, response);
-		fi = get_folder_info_online (store, full_name, 0, ex);
-	} else
-		fi = NULL;
-	
 	g_free (full_name);
-	return fi;
+	
+	if (response) {
+		CamelFolderInfo *parent;
+		
+		camel_imap_response_free (imap_store, response);
+		
+		/* We have to do this in case we are creating a
+                   recursive directory structure */
+		pathnames = imap_parse_folder_name (imap_store, folder_name);
+		full_name = imap_concat (imap_store, parent_name, pathnames[0]);
+		g_free (pathnames);
+		parent = root = get_folder_info_online (store, full_name, 0, ex);
+		g_free (full_name);
+		for (i = 1; parent && pathnames[i]; i++) {
+			full_name = imap_concat (imap_store, parent_name, pathnames[i]);
+			g_free (pathnames);
+			fi = get_folder_info_online (store, full_name, 0, ex);
+			g_free (full_name);
+			
+			if (!fi)
+				break;
+			
+			fi->parent = parent;
+			parent->child = fi;
+			parent = fi;
+		}
+	} else
+		root = NULL;
+	
+	return root;
 }
 
 static CamelFolderInfo *
