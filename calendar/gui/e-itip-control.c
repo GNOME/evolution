@@ -809,6 +809,7 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 	CalComponentOrganizer organizer;
 	CalComponentAttendee *attendee;
 	GSList *attendees, *l = NULL;
+	const char *string;
 	gchar *html;
 	const gchar *const_html;
 
@@ -889,6 +890,12 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 	cal_component_get_summary (priv->comp, &text);
 	gtk_html_stream_printf (html_stream, "<b>%s</b> %s<br><br>",
 				U_("Summary:"), text.value ? text.value : U_("<i>None</i>"));
+
+	/* Location */
+	cal_component_get_location (priv->comp, &string);
+	if (string != NULL)
+		gtk_html_stream_printf (html_stream, "<b>%s</b> %s<br><br>", 
+					U_("Location:"), string);
 
 	/* Status */
 	if (priv->method == ICAL_METHOD_REPLY) {

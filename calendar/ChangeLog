@@ -1,5 +1,10 @@
 2002-07-24  JP Rosevear  <jpr@ximian.com>
 
+	* gui/e-itip-control.c (write_html): display the location in the
+	itip information
+
+2002-07-24  JP Rosevear  <jpr@ximian.com>
+
 	* gui/calendar-model.c (set_percent): set status to in progress if
 	the percent is between 0 and 100
 	(set_status): if the value is set to in process, change the
