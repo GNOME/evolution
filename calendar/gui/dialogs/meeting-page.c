@@ -602,6 +602,32 @@ add_clicked_cb (GtkButton *btn, MeetingPage *mpage)
 	e_meeting_list_view_edit (mpage->priv->list_view, attendee);
 }
 
+static gboolean
+existing_attendee (EMeetingAttendee *ia, ECalComponent *comp) 
+{
+	GSList *attendees, *l;
+	const gchar *ia_address;
+	
+	ia_address = itip_strip_mailto (e_meeting_attendee_get_address (ia));
+	if (!ia_address)
+		return FALSE;
+	
+	e_cal_component_get_attendee_list (comp, &attendees);
+
+	for (l = attendees; l; l = l->next) {
+		ECalComponentAttendee *attendee = l->data;
+		const char *address;
+		
+		address = itip_strip_mailto (attendee->value);
+		if (address && !g_strcasecmp (ia_address, address))
+			return TRUE;
+	}
+	
+	e_cal_component_free_attendee_list (attendees);
+	
+	return FALSE;
+}
+
 static void
 remove_attendee (MeetingPage *mpage, EMeetingAttendee *ia) 
 {
@@ -610,8 +636,8 @@ remove_attendee (MeetingPage *mpage, EMeetingAttendee *ia)
 	
 	priv = mpage->priv;
 
-	/* If the user deletes the attendee explicitly, assume they no
-	   longer want the organizer showing up */
+	/* If the user deletes the organizer attendee explicitly,
+	   assume they no longer want the organizer showing up */
 	if (ia == priv->ia) {
 		g_object_unref (priv->ia);
 		priv->ia = NULL;
@@ -632,12 +658,15 @@ remove_attendee (MeetingPage *mpage, EMeetingAttendee *ia)
 	while (ia != NULL) {
 		EMeetingAttendee *ib = NULL;
 
-		g_object_ref (ia);
-		g_ptr_array_add (priv->deleted_attendees, ia);
-		e_meeting_store_remove_attendee (priv->model, ia);
-
+		if (existing_attendee (ia, priv->comp)) {
+			g_object_ref (ia);
+			g_ptr_array_add (priv->deleted_attendees, ia);
+		}
+		
 		if (e_meeting_attendee_get_delto (ia) != NULL)
 			ib = e_meeting_store_find_attendee (priv->model, e_meeting_attendee_get_delto (ia), NULL);
+		e_meeting_store_remove_attendee (priv->model, ia);
+
 		ia = ib;
 	}
 

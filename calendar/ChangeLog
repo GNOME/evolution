@@ -1,3 +1,12 @@
+2004-08-11  JP Rosevear  <jpr@ximian.com>
+
+	Fixes #61555
+	
+	* gui/dialogs/meeting-page.c (existing_attendee): check if an
+	attendee was pre-existing
+	(remove_attendee): only add the attendee to the cancel comp if it
+	was pre-existing
+
 2004-08-10  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/e-cal-model.c (e_cal_model_set_search_query): guard against
