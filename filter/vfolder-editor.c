@@ -39,9 +39,7 @@ static void vfolder_editor_class_init (VfolderEditorClass *klass);
 static void vfolder_editor_init (VfolderEditor *ve);
 static void vfolder_editor_finalise (GObject *obj);
 
-
 static RuleEditorClass *parent_class = NULL;
-
 
 GtkType
 vfolder_editor_get_type (void)

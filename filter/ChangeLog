@@ -1,3 +1,18 @@
+2004-02-20  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #54338.
+
+	* vfolder-rule.c: instead of overriding the filter-rule's 'source'
+	attribute for 'with sources', add a 'with' enum.
+	(xml_decode): handle loading old-format files, as well as new
+	ones, where the with is a prop on the sources xml.
+	(xml_encode): set 'with' on save.
+	(rule_copy): copy across with value.
+	(get_widget): just hook onto option menu changed, dont bother
+	setting up any per-item callbacks.
+	(select_source_with_changed): callback to monitor source 'with'
+	type.
+
 2004-02-17  Not Zed  <NotZed@Ximian.com>
 
 	* filter-int.c (int_clone): implement, since we dont store the

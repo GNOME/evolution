@@ -33,12 +33,23 @@
 #define IS_VFOLDER_RULE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), VFOLDER_TYPE_RULE))
 #define VFOLDER_RULE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), VFOLDER_TYPE_RULE, VfolderRuleClass))
 
+/* perhaps should be bits? */
+enum _vfolder_rule_with_t {
+	VFOLDER_RULE_WITH_SPECIFIC,
+	VFOLDER_RULE_WITH_LOCAL,
+	VFOLDER_RULE_WITH_REMOTE_ACTIVE,
+	VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE,
+};
+
 typedef struct _VfolderRule VfolderRule;
 typedef struct _VfolderRuleClass VfolderRuleClass;
 
+typedef enum _vfolder_rule_with_t vfolder_rule_with_t;
+
 struct _VfolderRule {
-	FilterRule parent_object;
+	FilterRule rule;
 	
+	vfolder_rule_with_t with;
 	GList *sources;		/* uri's of the source folders */
 };
 

@@ -52,9 +52,15 @@ static void vfolder_rule_class_init (VfolderRuleClass *klass);
 static void vfolder_rule_init (VfolderRule *vr);
 static void vfolder_rule_finalise (GObject *obj);
 
+/* DO NOT internationalise these strings */
+const char *with_names[] = {
+	"specific",
+	"local",
+	"remote_active",
+	"local_remote_active"
+};
 
 static FilterRuleClass *parent_class = NULL;
-
 
 GType
 vfolder_rule_get_type (void)
@@ -103,7 +109,7 @@ vfolder_rule_class_init (VfolderRuleClass *klass)
 static void
 vfolder_rule_init (VfolderRule *vr)
 {
-	;
+	vr->with = VFOLDER_RULE_WITH_SPECIFIC;
 }
 
 static void
@@ -216,7 +222,7 @@ validate (FilterRule *fr)
 	
 	/* We have to have at least one source set in the "specific" case.
 	   Do not translate this string! */
-	if (fr->source && !strcmp (fr->source, "specific") && VFOLDER_RULE (fr)->sources == NULL) {
+	if (((VfolderRule *)fr)->with == VFOLDER_RULE_WITH_SPECIFIC && ((VfolderRule *)fr)->sources == NULL) {
 		/* FIXME: set a parent window? */
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
 						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
@@ -263,8 +269,10 @@ xml_encode (FilterRule *fr)
 	
         node = FILTER_RULE_CLASS (parent_class)->xml_encode (fr);
 	g_assert(node != NULL);
+	g_assert(vr->with >= 0 && vr->with < sizeof(with_names)/sizeof(with_names[0]));
 	set = xmlNewNode (NULL, "sources");
 	xmlAddChild (node, set);
+	xmlSetProp(set, "with", with_names[vr->with]);
 	l = vr->sources;
 	while (l) {
 		work = xmlNewNode (NULL, "folder");
@@ -276,28 +284,55 @@ xml_encode (FilterRule *fr)
 	return node;
 }
 
+static void
+set_with(VfolderRule *vr, const char *name)
+{
+	int i;
+
+	for (i=0;i<sizeof(with_names)/sizeof(with_names[0]);i++) {
+		if (!strcmp(name, with_names[i])) {
+			vr->with = i;
+			return;
+		}
+	}
+
+	vr->with = 0;
+}
+
 static int
 xml_decode (FilterRule *fr, xmlNodePtr node, struct _RuleContext *f)
 {
 	xmlNodePtr set, work;
 	int result;
 	VfolderRule *vr = (VfolderRule *)fr;
-	char *uri;
+	char *tmp;
 	
         result = FILTER_RULE_CLASS (parent_class)->xml_decode (fr, node, f);
 	if (result != 0)
 		return result;
 	
+	/* handle old format file, vfolder source is in filterrule */
+	if (strcmp(fr->source, "incoming") != 0) {
+		set_with(vr, fr->source);
+		g_free(fr->source);
+		fr->source = g_strdup("incoming");
+	}
+
 	set = node->children;
 	while (set) {
-		if (!strcmp (set->name, "sources")) {
+		if (!strcmp(set->name, "sources")) {
+			tmp = xmlGetProp(set, "with");
+			if (tmp) {
+				set_with(vr, tmp);
+				xmlFree(tmp);
+			}
 			work = set->children;
 			while (work) {
-				if (!strcmp (work->name, "folder")) {
-					uri = xmlGetProp (work, "uri");
-					if (uri) {
-						vr->sources = g_list_append (vr->sources, g_strdup (uri));
-						xmlFree (uri);
+				if (!strcmp(work->name, "folder")) {
+					tmp = xmlGetProp(work, "uri");
+					if (tmp) {
+						vr->sources = g_list_append(vr->sources, g_strdup(tmp));
+						xmlFree(tmp);
 					}
 				}
 				work = work->next;
@@ -330,10 +365,11 @@ rule_copy (FilterRule *dest, FilterRule *src)
 		vdest->sources = g_list_append (vdest->sources, g_strdup (uri));
 		node = node->next;
 	}
-	
+
+	vdest->with = vsrc->with;
+
 	FILTER_RULE_CLASS (parent_class)->copy (dest, src);
 }
-
 
 enum {
 	BUTTON_ADD,
@@ -385,11 +421,14 @@ select_source (GtkWidget *list, struct _source_data *data)
 }
 
 static void
-select_source_with (GtkWidget *widget, struct _source_data *data)
+select_source_with_changed(GtkWidget *widget, struct _source_data *data)
 {
-	char *source = g_object_get_data ((GObject *) widget, "source");
-	
-	filter_rule_set_source ((FilterRule *) data->vr, source);
+	vfolder_rule_with_t with;
+
+	with = gtk_option_menu_get_history((GtkOptionMenu *)widget);
+	if (with < VFOLDER_RULE_WITH_SPECIFIC || with > VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE)
+		with = 0;
+	data->vr->with = with;
 }
 
 /* attempt to make a 'nice' folder name out of the raw uri */
@@ -560,15 +599,6 @@ vfolder_editor_sourcelist_new (char *widget_name, char *string1, char *string2, 
 	return scrolled;
 }
 
-
-/* DO NOT internationalise these strings */
-const char *source_names[] = {
-	"specific",
-	"local",
-	"remote_active",
-	"local_remote_active"
-};
-
 static GtkWidget *
 get_widget (FilterRule *fr, RuleContext *rc)
 {
@@ -579,8 +609,7 @@ get_widget (FilterRule *fr, RuleContext *rc)
 	const char *source;
 	GtkTreeIter iter;
 	GladeXML *gui;
-	int i, row;
-	GList *l;
+	int i;
 	
         widget = FILTER_RULE_CLASS (parent_class)->get_widget (fr, rc);
 	
@@ -614,31 +643,8 @@ get_widget (FilterRule *fr, RuleContext *rc)
 	g_signal_connect (data->list, "cursor-changed", G_CALLBACK (select_source), data);
 	
 	omenu = (GtkOptionMenu *) glade_xml_get_widget (gui, "source_option");
-	l = GTK_MENU_SHELL (omenu->menu)->children;
-	i = 0;
-	row = 0;
-	while (l) {
-		GtkWidget *item = GTK_WIDGET (l->data);
-		
-		/* make sure that the glade is in sync with the source list! */
-		if (i < sizeof (source_names) / sizeof (source_names[0])) {
-			g_object_set_data ((GObject *) item, "source", (char *) source_names[i]);
-			if (fr->source && strcmp (source_names[i], fr->source) == 0) {
-				row = i;
-			}
-		} else {
-			g_warning ("Glade file " FILTER_GLADEDIR "/filter.glade out of sync with editor code");
-		}
-		
-		g_signal_connect (item, "activate", G_CALLBACK (select_source_with), data);
-		
-		i++;
-		l = l->next;
-	}
-	
-	gtk_option_menu_set_history (omenu, row);
-	if (fr->source == NULL)
-		filter_rule_set_source (fr, (char *) source_names[row]);
+	gtk_option_menu_set_history(omenu, vr->with);
+	g_signal_connect(omenu, "changed", G_CALLBACK(select_source_with_changed), data);
 	
 	set_sensitive (data);
 		
