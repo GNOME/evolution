@@ -1,3 +1,9 @@
+2004-05-21  Jeffrey Stedfast  <fejj@novell.com>
+
+	* evolution-shell-component-utils.c (e_activation_failure_dialog):
+	Removed. Nothing uses this interface (which didn't use the EError
+	routines anyway).
+
 2004-05-21  Not Zed  <NotZed@Ximian.com>
 
 	* e-shell.c (e_shell_attempt_upgrade): remove unused.
