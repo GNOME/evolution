@@ -79,6 +79,10 @@ images_DATA = \
 	new_appointment.xpm		\
 	new_contact.xpm			\
 	new-message.xpm			\
+	save-16.png			\
+	save-as-16.png			\
+	search-16.png			\
+	search-and-replace-16.png	\
 	send-16.png                     \
 	send-later-16.png		\
 	send-receive.xpm		\
@@ -97,6 +101,7 @@ images_DATA = \
 	thankyou.png			\
 	undelete_message.xpm		\
 	work_offline.xpm		\
+	work_online-16.png		\
 	world_map-960.png
 
 buttonsdir = $(datadir)/images/evolution/buttons

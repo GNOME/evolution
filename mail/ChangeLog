@@ -1,5 +1,8 @@
 2001-08-01  Jason Leach  <jleach@ximian.com>
 
+	* folder-browser-ui.c: Use the new Save As and Message Search
+	icons from Jakub.
+
 	* mail-callbacks.c (delete_msg): Don't move cursors around when
 	deleting last message and Hide Deleted Messages isn't enabled.
 	Bug #5928.

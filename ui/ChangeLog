@@ -1,3 +1,11 @@
+2001-08-01  Jason Leach  <jleach@ximian.com>
+
+	* evolution-mail-message.xml: Use Jakub's new Find icon for
+	Edit/Search Message menu item.
+
+	* evolution-message-composer.xml: And the new Save and Save As
+	icons for the composer.
+
 2001-07-31  Peter Williams  <peterw@ximian.com>
 
 	* evolution-message-composer.xml: Add "Customize Toolbars" menu item

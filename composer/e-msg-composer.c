@@ -1685,8 +1685,10 @@ static EPixmap pixcache [] = {
 	E_PIXMAP ("/Toolbar/FileSend", "buttons/send-24.png"),
 
 /*	E_PIXMAP ("/menu/Insert/FileAttach", "buttons/add-attachment.png"), */
-	E_PIXMAP ("/menu/File/FileSend", "send-16.png"),
-	E_PIXMAP ("/menu/File/FileSendLater", "send-later-16.png"),
+	E_PIXMAP ("/commands/FileSend", "send-16.png"),
+	E_PIXMAP ("/commands/FileSendLater", "send-later-16.png"),
+	E_PIXMAP ("/commands/FileSave", "save-16.png"),
+	E_PIXMAP ("/commands/FileSaveAs", "save-as-16.png"),
 
 	E_PIXMAP_END
 };

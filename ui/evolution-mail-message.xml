@@ -36,7 +36,7 @@
     <cmd name="MessageCopy"
      _tip="Copy selected messages to another folder"
      accel="*Control**Shift*c"
-     pixtype="pixbuf" />
+     pixtype="pixbuf"/>
 
     <cmd name="MessageDelete"
      _tip="Mark the selected messages for deletion"
@@ -45,7 +45,7 @@
     <cmd name="MessageForward"
      _tip="Forward the selected message to someone"
      accel="*Control*f"
-     pixtype="pixbuf" />
+     pixtype="pixbuf"/>
 
     <cmd name="MessageForwardAttached"
      _tip="Forward the selected message to someone as an attachment"
@@ -102,11 +102,12 @@
     <cmd name="MessageSaveAs"
      _tip="Save the message as a text file"
      accel="*Control**Alt*s"
-     pixtype="stock" pixname="Save"/>
+     pixtype="pixbuf"/>
 
     <cmd name="MessageSearch"
      _tip="Search for text in the body of the displayed message"
-     accel="*Control*e"/>
+     accel="*Control*e"
+     pixtype="pixbuf"/>
 
     <cmd name="MessageUndelete"
      _tip="Un-delete the selected messages"

@@ -5,12 +5,12 @@
 		_tip="Open a file" pixtype="stock" pixname="Open" accel="*Control*o"/>
 		
 	        <cmd name="FileSave" _label="Save"
-		_tip="Save the current file" pixtype="stock" pixname="Save"
+		_tip="Save the current file" pixtype="pixbuf"
 		accel="*Ctrl*s"/>
 		
 	        <cmd name="FileSaveAs" _label="Save As"
 	        _tip="Save the current file with a different name"
-		pixtype="stock" pixname="Save As"/>
+		pixtype="pixbuf"/>
 		
 	        <cmd name="FileClose" _label="Close"
 		_tip="Close the current file" pixtype="stock" pixname="Close"
@@ -89,9 +89,9 @@
 			<menuitem name="FileOpen" verb="" _label="_Open..."/>
 			<placeholder name="FileOps"/>
 			<menuitem name="FileSend" verb=""
-			_label="Send" pixtype="pixbuf"/>
+			_label="Send"/>
 			<menuitem name="FileSendLater" verb=""
-			_label="Send _Later" pixtype="pixbuf"/>
+			_label="Send _Later"/>
 			<separator/>
 			<menuitem name="FileSave" verb="" _label="_Save"/>
 			<menuitem name="FileSaveAs" verb="" _label="Save _As..."/>
