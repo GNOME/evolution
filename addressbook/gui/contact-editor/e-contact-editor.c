@@ -367,6 +367,9 @@ address_mailing_changed (GtkWidget *widget, EContactEditor *editor)
 
 	address = e_card_delivery_address_copy (curr);
 
+	if (!address)
+		address = e_card_delivery_address_new ();
+
 	if (mailing_address)
 		address->flags |= E_CARD_ADDR_DEFAULT;
 	else

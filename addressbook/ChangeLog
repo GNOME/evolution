@@ -1,3 +1,9 @@
+2003-05-14  Chris Toshok  <toshok@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c (address_mailing_changed):
+	handle the case where we haven't filled in the address yet. fixes
+	#42620.
+
 2003-05-14  JP Rosevear  <jpr@ximian.com>
 
 	* gui/component/addressbook.c (addressbook_view_unref): clear the
