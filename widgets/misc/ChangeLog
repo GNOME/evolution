@@ -1,3 +1,10 @@
+2003-04-29  Dan Winship  <danw@ximian.com>
+
+	* e-dateedit.c (e_date_edit_forall): Remove this so that
+	GtkContainer's destroy method will destroy all of the internal
+	widgets. (This is how other compound-widgets-that-aren't-
+	meant-to-be-used-as-containers behave.) #41458
+
 2003-04-16  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-search-bar.c (remove_bonobo_menus): Only do the actual remove

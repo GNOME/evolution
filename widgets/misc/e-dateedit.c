@@ -138,10 +138,6 @@ static void e_date_edit_init			(EDateEdit	*dedit);
 static void create_children			(EDateEdit	*dedit);
 static void e_date_edit_dispose			(GObject	*object);
 static void e_date_edit_grab_focus		(GtkWidget	*widget);
-static void e_date_edit_forall			(GtkContainer   *container,
-						 gboolean	 include_internals,
-						 GtkCallback     callback,
-						 gpointer	 callback_data);
 
 static gint on_date_entry_key_press		(GtkWidget	*widget,
 						 GdkEventKey	*event,
@@ -241,7 +237,6 @@ e_date_edit_class_init		(EDateEditClass	*class)
 {
 	GObjectClass *object_class = (GObjectClass *) class;
 	GtkWidgetClass *widget_class = (GtkWidgetClass *) class;
-	GtkContainerClass *container_class = (GtkContainerClass *) class;
 
 	parent_class = g_type_class_ref (GTK_TYPE_HBOX);
 
@@ -257,8 +252,6 @@ e_date_edit_class_init		(EDateEditClass	*class)
 	object_class->dispose = e_date_edit_dispose;
 
 	widget_class->grab_focus = e_date_edit_grab_focus;
-
-	container_class->forall = e_date_edit_forall;
 
 	class->changed = NULL;
 }
@@ -516,24 +509,6 @@ e_date_edit_set_editable (EDateEdit *dedit, gboolean editable)
 
 	gtk_entry_set_editable (GTK_ENTRY (priv->date_entry), editable);
 	gtk_widget_set_sensitive (priv->date_button, editable);
-}
-
-static void
-e_date_edit_forall		(GtkContainer	*container,
-				 gboolean	 include_internals,
-				 GtkCallback	 callback,
-				 gpointer	 callback_data)
-{
-	g_return_if_fail (E_IS_DATE_EDIT (container));
-	g_return_if_fail (callback != NULL);
-
-	/* Let GtkBox handle the internal widgets if needed. */
-	if (include_internals) {
-		if (GTK_CONTAINER_CLASS (parent_class)->forall)
-			(* GTK_CONTAINER_CLASS (parent_class)->forall)
-				(container, include_internals,
-				 callback, callback_data);
-	}
 }
 
 
