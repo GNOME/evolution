@@ -1,3 +1,15 @@
+2002-06-05  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/e-addressbook-util.c (e_addressbook_error_dialog):
+	make sure we map status -> string correctly (add missing strings).
+
+	* backend/ebook/e-book-types.h (EBookStatus): add the missing
+	AUTHENTICATION_REQUIRED status code, to map to the idl response.
+
+	* backend/ebook/e-book-listener.c
+	(e_book_listener_convert_status): make sure we map all idl status
+	codes to EBookStatus statuses.
+
 2002-04-02  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/evolutionperson.schema: deprecate freeBusyURI
