@@ -1,3 +1,18 @@
+2001-09-06  Chris Toshok  <toshok@ximian.com>
+
+	* evolution-storage.c (impl_Storage_async_remove_folder): change
+	to match create_folder.
+	(e_marshal_NONE__POINTER_POINTER_POINTER): new marshaller for
+	remove_folder.
+	(class_init): make sure to use the right marshaller for
+	create/remove_folder.
+
+	* evolution-storage.h: change the signature of both the
+	create_folder and remove_folder signals to be more in line with
+	what's in evolution-storage.c.  They both take a Bonobo_Listener
+	which the signal func notifies, instead of synchronously returning
+	the result.
+
 2001-09-06  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-activity-client.c (evolution_activity_client_update):

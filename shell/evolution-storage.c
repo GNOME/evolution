@@ -263,33 +263,6 @@ impl_Storage__get_name (PortableServer_Servant servant,
 	return CORBA_string_dup (priv->name);
 }
 
-static GNOME_Evolution_Storage_Result
-storage_gtk_to_corba_result (EvolutionStorageResult result)
-{
-	switch (result) {
-	case EVOLUTION_STORAGE_OK:
-		return GNOME_Evolution_Storage_OK;
-	case EVOLUTION_STORAGE_ERROR_UNSUPPORTED_OPERATION:
-		return GNOME_Evolution_Storage_UNSUPPORTED_OPERATION;
-	case EVOLUTION_STORAGE_ERROR_UNSUPPORTED_TYPE:
-		return GNOME_Evolution_Storage_UNSUPPORTED_TYPE;
-	case EVOLUTION_STORAGE_ERROR_INVALID_URI:
-		return GNOME_Evolution_Storage_INVALID_URI;
-	case EVOLUTION_STORAGE_ERROR_ALREADY_EXISTS:
-		return GNOME_Evolution_Storage_ALREADY_EXISTS;
-	case EVOLUTION_STORAGE_ERROR_DOES_NOT_EXIST:
-		return GNOME_Evolution_Storage_DOES_NOT_EXIST;
-	case EVOLUTION_STORAGE_ERROR_PERMISSION_DENIED:
-		return GNOME_Evolution_Storage_PERMISSION_DENIED;
-	case EVOLUTION_STORAGE_ERROR_NO_SPACE:
-		return GNOME_Evolution_Storage_NO_SPACE;
-	case EVOLUTION_STORAGE_ERROR_NOT_EMPTY:
-		return GNOME_Evolution_Storage_NOT_EMPTY;
-	default:
-		return GNOME_Evolution_Storage_GENERIC_ERROR;
-	}
-}
-
 static void
 impl_Storage_async_create_folder (PortableServer_Servant servant,
 				  const CORBA_char *path,
@@ -321,22 +294,15 @@ impl_Storage_async_remove_folder (PortableServer_Servant servant,
 {
 	BonoboObject *bonobo_object;
 	EvolutionStorage *storage;
-	int int_result;
-	CORBA_any any;
-	GNOME_Evolution_Storage_Result corba_result;
+
+	CORBA_Object obj_dup;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	storage = EVOLUTION_STORAGE (bonobo_object);
 
-	int_result = GNOME_Evolution_Storage_UNSUPPORTED_OPERATION;
+	obj_dup = CORBA_Object_duplicate (listener, ev);
 	gtk_signal_emit (GTK_OBJECT (storage), signals[REMOVE_FOLDER],
-			 path, physical_uri, &int_result);
-
-	corba_result = storage_gtk_to_corba_result (int_result);
-	any._type = TC_GNOME_Evolution_Storage_Result;
-	any._value = &corba_result;
-
-	Bonobo_Listener_event (listener, "result", &any, ev);
+			 obj_dup, path, physical_uri);
 }
 
 static void
@@ -521,6 +487,26 @@ e_marshal_NONE__POINTER_POINTER_POINTER_POINTER_POINTER (GtkObject *object,
 		  func_data);
 }
 
+typedef void (*GtkSignal_NONE__POINTER_POINTER_POINTER) (GtkObject *,
+							 gpointer, gpointer, gpointer,
+							 gpointer user_data);
+
+static void
+e_marshal_NONE__POINTER_POINTER_POINTER (GtkObject *object,
+					 GtkSignalFunc func,
+					 gpointer func_data,
+					 GtkArg *args)
+{
+	GtkSignal_NONE__POINTER_POINTER_POINTER rfunc;
+
+	rfunc = (GtkSignal_NONE__POINTER_POINTER_POINTER) func;
+	(*rfunc) (object,
+		  GTK_VALUE_POINTER (args[0]),
+		  GTK_VALUE_POINTER (args[1]),
+		  GTK_VALUE_POINTER (args[2]),
+		  func_data);
+}
+
 static void
 class_init (EvolutionStorageClass *klass)
 {
@@ -536,7 +522,7 @@ class_init (EvolutionStorageClass *klass)
 						 object_class->type,
 						 GTK_SIGNAL_OFFSET (EvolutionStorageClass,
 								    create_folder),
-						 e_marshal_INT__POINTER_POINTER_POINTER_POINTER_POINTER,
+						 e_marshal_NONE__POINTER_POINTER_POINTER_POINTER_POINTER,
 						 GTK_TYPE_INT, 4,
 						 GTK_TYPE_STRING,
 						 GTK_TYPE_STRING,
@@ -548,7 +534,7 @@ class_init (EvolutionStorageClass *klass)
 						 object_class->type,
 						 GTK_SIGNAL_OFFSET (EvolutionStorageClass,
 								    remove_folder),
-						 e_marshal_INT__POINTER_POINTER,
+						 e_marshal_NONE__POINTER_POINTER_POINTER,
 						 GTK_TYPE_INT, 2,
 						 GTK_TYPE_STRING,
 						 GTK_TYPE_STRING);

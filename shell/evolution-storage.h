@@ -82,15 +82,17 @@ struct _EvolutionStorageClass {
 	BonoboObjectClass parent_class;
 
 	/* signals */
-	int (*create_folder) (EvolutionStorage *storage,
-			      const char *path,
-			      const char *type,
-			      const char *description,
-			      const char *parent_physical_uri);
+	void (*create_folder) (EvolutionStorage *storage,
+			       const Bonobo_Listener listener,
+			       const char *path,
+			       const char *type,
+			       const char *description,
+			       const char *parent_physical_uri);
 
-	int (*remove_folder) (EvolutionStorage *storage,
-			      const char *path,
-			      const char *physical_uri);
+	void (*remove_folder) (EvolutionStorage *storage,
+			       const Bonobo_Listener listener,
+			       const char *path,
+			       const char *physical_uri);
 
 	void (*update_folder) (EvolutionStorage *storage,
 			       const char *path,
