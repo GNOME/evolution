@@ -1,3 +1,9 @@
+2001-07-01  Jakub Steiner <jimmac@ximian.com>
+
+	* print.xpm, print-preview.xpm: nat didn't like the jaggy
+	  version. This one is based on tuomas 48x48 print icon.
+
+
 2001-06-30  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (buttons_DATA): Add `print.png', `next-message.png',
