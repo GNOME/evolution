@@ -75,45 +75,45 @@ rule_context_get_type(void)
 }
 
 static void
-rule_context_class_init(RuleContextClass * class)
+rule_context_class_init (RuleContextClass * class)
 {
 	GtkObjectClass *object_class;
-
+	
 	object_class = (GtkObjectClass *) class;
 	parent_class = gtk_type_class(gtk_object_get_type());
-
+	
 	object_class->finalize = rule_context_finalise;
-
+	
 	/* override methods */
 	class->load = load;
 	class->save = save;
-
+	
 	/* signals */
-
+	
 	gtk_object_class_add_signals(object_class, signals, LAST_SIGNAL);
 }
 
 static void
-rule_context_init(RuleContext * o)
+rule_context_init (RuleContext * o)
 {
-	o->priv = g_malloc0(sizeof(*o->priv));
-
-	o->part_set_map = g_hash_table_new(g_str_hash, g_str_equal);
-	o->rule_set_map = g_hash_table_new(g_str_hash, g_str_equal);
+	o->priv = g_malloc0 (sizeof (*o->priv));
+	
+	o->part_set_map = g_hash_table_new (g_str_hash, g_str_equal);
+	o->rule_set_map = g_hash_table_new (g_str_hash, g_str_equal);
 }
 
 static void
-free_part_set(struct _part_set_map *map, void *data)
+free_part_set (struct _part_set_map *map, void *data)
 {
-	g_free(map->name);
-	g_free(map);
+	g_free (map->name);
+	g_free (map);
 }
 
 static void
-free_rule_set(struct _rule_set_map *map, void *data)
+free_rule_set (struct _rule_set_map *map, void *data)
 {
-	g_free(map->name);
-	g_free(map);
+	g_free (map->name);
+	g_free (map);
 }
 
 static void
