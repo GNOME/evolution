@@ -1,3 +1,14 @@
+2004-02-27  Rodney Dawes  <dobey@ximian.com>
+
+	* gui/contact-editor/contact-editor.glade: Get rid of some extraneous
+	event boxes that were not needed/used for anything really
+	Set the button relief for the pop-down buttons to NONE
+	Set the shadow type for the arrows in the pop-down buttons to NONE,
+	so that we look good with themes that actually handle shadow types on
+	arrows, since most things just ignore the shadow type anyway
+
+	Fixes #8516
+
 2004-02-26  Hans Petter Jansson  <hpj@ximian.com>
 
 	* util/eab-destination.c (name_and_email_cb): Move unused variable

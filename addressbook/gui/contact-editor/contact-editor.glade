@@ -447,13 +447,13 @@
 		  <child>
 		    <widget class="GtkButton" id="button-email1">
 		      <property name="visible">True</property>
-		      <property name="relief">GTK_RELIEF_NORMAL</property>
+		      <property name="relief">GTK_RELIEF_NONE</property>
 
 		      <child>
 			<widget class="GtkArrow" id="arrow1">
 			  <property name="visible">True</property>
 			  <property name="arrow_type">GTK_ARROW_DOWN</property>
-			  <property name="shadow_type">GTK_SHADOW_OUT</property>
+			  <property name="shadow_type">GTK_SHADOW_NONE</property>
 			  <property name="xalign">0.5</property>
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
@@ -484,13 +484,13 @@
 		  <child>
 		    <widget class="GtkButton" id="button-phone4">
 		      <property name="visible">True</property>
-		      <property name="relief">GTK_RELIEF_NORMAL</property>
+		      <property name="relief">GTK_RELIEF_NONE</property>
 
 		      <child>
 			<widget class="GtkArrow" id="arrow5">
 			  <property name="visible">True</property>
 			  <property name="arrow_type">GTK_ARROW_DOWN</property>
-			  <property name="shadow_type">GTK_SHADOW_OUT</property>
+			  <property name="shadow_type">GTK_SHADOW_NONE</property>
 			  <property name="xalign">0.5</property>
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
@@ -521,13 +521,13 @@
 		  <child>
 		    <widget class="GtkButton" id="button-phone2">
 		      <property name="visible">True</property>
-		      <property name="relief">GTK_RELIEF_NORMAL</property>
+		      <property name="relief">GTK_RELIEF_NONE</property>
 
 		      <child>
 			<widget class="GtkArrow" id="arrow3">
 			  <property name="visible">True</property>
 			  <property name="arrow_type">GTK_ARROW_DOWN</property>
-			  <property name="shadow_type">GTK_SHADOW_OUT</property>
+			  <property name="shadow_type">GTK_SHADOW_NONE</property>
 			  <property name="xalign">0.5</property>
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
@@ -558,13 +558,13 @@
 		  <child>
 		    <widget class="GtkButton" id="button-phone1">
 		      <property name="visible">True</property>
-		      <property name="relief">GTK_RELIEF_NORMAL</property>
+		      <property name="relief">GTK_RELIEF_NONE</property>
 
 		      <child>
 			<widget class="GtkArrow" id="arrow2">
 			  <property name="visible">True</property>
 			  <property name="arrow_type">GTK_ARROW_DOWN</property>
-			  <property name="shadow_type">GTK_SHADOW_OUT</property>
+			  <property name="shadow_type">GTK_SHADOW_NONE</property>
 			  <property name="xalign">0.5</property>
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
@@ -609,13 +609,13 @@
 		  <child>
 		    <widget class="GtkButton" id="button-phone3">
 		      <property name="visible">True</property>
-		      <property name="relief">GTK_RELIEF_NORMAL</property>
+		      <property name="relief">GTK_RELIEF_NONE</property>
 
 		      <child>
 			<widget class="GtkArrow" id="arrow4">
 			  <property name="visible">True</property>
 			  <property name="arrow_type">GTK_ARROW_DOWN</property>
-			  <property name="shadow_type">GTK_SHADOW_OUT</property>
+			  <property name="shadow_type">GTK_SHADOW_NONE</property>
 			  <property name="xalign">0.5</property>
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
@@ -853,13 +853,13 @@
 		  <child>
 		    <widget class="GtkButton" id="button-address">
 		      <property name="visible">True</property>
-		      <property name="relief">GTK_RELIEF_NORMAL</property>
+		      <property name="relief">GTK_RELIEF_NONE</property>
 
 		      <child>
 			<widget class="GtkArrow" id="arrow6">
 			  <property name="visible">True</property>
 			  <property name="arrow_type">GTK_ARROW_DOWN</property>
-			  <property name="shadow_type">GTK_SHADOW_OUT</property>
+			  <property name="shadow_type">GTK_SHADOW_NONE</property>
 			  <property name="xalign">0.5</property>
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
@@ -872,192 +872,6 @@
 		<packing>
 		  <property name="left_attach">6</property>
 		  <property name="right_attach">7</property>
-		  <property name="top_attach">5</property>
-		  <property name="bottom_attach">6</property>
-		  <property name="x_options">fill</property>
-		  <property name="y_options">fill</property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkEventBox" id="eventbox1">
-		  <property name="visible">True</property>
-
-		  <child>
-		    <widget class="GtkLabel" id="label-phone1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">_Business:</property>
-		      <property name="use_underline">True</property>
-		      <property name="use_markup">False</property>
-		      <property name="justify">GTK_JUSTIFY_CENTER</property>
-		      <property name="wrap">False</property>
-		      <property name="selectable">False</property>
-		      <property name="xalign">1</property>
-		      <property name="yalign">0.5</property>
-		      <property name="xpad">0</property>
-		      <property name="ypad">0</property>
-		      <property name="mnemonic_widget">entry-phone1</property>
-		    </widget>
-		  </child>
-		</widget>
-		<packing>
-		  <property name="left_attach">5</property>
-		  <property name="right_attach">6</property>
-		  <property name="top_attach">0</property>
-		  <property name="bottom_attach">1</property>
-		  <property name="x_options">fill</property>
-		  <property name="y_options">fill</property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkEventBox" id="eventbox2">
-		  <property name="visible">True</property>
-
-		  <child>
-		    <widget class="GtkLabel" id="label-phone2">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">_Home:</property>
-		      <property name="use_underline">True</property>
-		      <property name="use_markup">False</property>
-		      <property name="justify">GTK_JUSTIFY_CENTER</property>
-		      <property name="wrap">False</property>
-		      <property name="selectable">False</property>
-		      <property name="xalign">1</property>
-		      <property name="yalign">0.5</property>
-		      <property name="xpad">0</property>
-		      <property name="ypad">0</property>
-		      <property name="mnemonic_widget">entry-phone2</property>
-		    </widget>
-		  </child>
-		</widget>
-		<packing>
-		  <property name="left_attach">5</property>
-		  <property name="right_attach">6</property>
-		  <property name="top_attach">1</property>
-		  <property name="bottom_attach">2</property>
-		  <property name="x_options">fill</property>
-		  <property name="y_options">fill</property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkEventBox" id="eventbox3">
-		  <property name="visible">True</property>
-
-		  <child>
-		    <widget class="GtkLabel" id="label-phone3">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Business fa_x:</property>
-		      <property name="use_underline">True</property>
-		      <property name="use_markup">False</property>
-		      <property name="justify">GTK_JUSTIFY_CENTER</property>
-		      <property name="wrap">False</property>
-		      <property name="selectable">False</property>
-		      <property name="xalign">1</property>
-		      <property name="yalign">0.5</property>
-		      <property name="xpad">0</property>
-		      <property name="ypad">0</property>
-		      <property name="mnemonic_widget">entry-phone3</property>
-		    </widget>
-		  </child>
-		</widget>
-		<packing>
-		  <property name="left_attach">5</property>
-		  <property name="right_attach">6</property>
-		  <property name="top_attach">2</property>
-		  <property name="bottom_attach">3</property>
-		  <property name="x_options">fill</property>
-		  <property name="y_options">fill</property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkEventBox" id="eventbox4">
-		  <property name="visible">True</property>
-
-		  <child>
-		    <widget class="GtkLabel" id="label-phone4">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">_Mobile:</property>
-		      <property name="use_underline">True</property>
-		      <property name="use_markup">False</property>
-		      <property name="justify">GTK_JUSTIFY_LEFT</property>
-		      <property name="wrap">False</property>
-		      <property name="selectable">False</property>
-		      <property name="xalign">1</property>
-		      <property name="yalign">0.5</property>
-		      <property name="xpad">0</property>
-		      <property name="ypad">0</property>
-		      <property name="mnemonic_widget">entry-phone4</property>
-		    </widget>
-		  </child>
-		</widget>
-		<packing>
-		  <property name="left_attach">5</property>
-		  <property name="right_attach">6</property>
-		  <property name="top_attach">3</property>
-		  <property name="bottom_attach">4</property>
-		  <property name="x_options">fill</property>
-		  <property name="y_options">fill</property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkEventBox" id="eventbox5">
-		  <property name="visible">True</property>
-
-		  <child>
-		    <widget class="GtkLabel" id="label-email1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Primary _email:</property>
-		      <property name="use_underline">True</property>
-		      <property name="use_markup">False</property>
-		      <property name="justify">GTK_JUSTIFY_CENTER</property>
-		      <property name="wrap">False</property>
-		      <property name="selectable">False</property>
-		      <property name="xalign">1</property>
-		      <property name="yalign">0.5</property>
-		      <property name="xpad">0</property>
-		      <property name="ypad">0</property>
-		      <property name="mnemonic_widget">entry-email1</property>
-		    </widget>
-		  </child>
-		</widget>
-		<packing>
-		  <property name="left_attach">1</property>
-		  <property name="right_attach">2</property>
-		  <property name="top_attach">5</property>
-		  <property name="bottom_attach">6</property>
-		  <property name="x_options">fill</property>
-		  <property name="y_options">fill</property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkEventBox" id="eventbox-business">
-		  <property name="visible">True</property>
-
-		  <child>
-		    <widget class="GtkLabel" id="label-address">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes"> B_usiness:</property>
-		      <property name="use_underline">True</property>
-		      <property name="use_markup">False</property>
-		      <property name="justify">GTK_JUSTIFY_CENTER</property>
-		      <property name="wrap">False</property>
-		      <property name="selectable">False</property>
-		      <property name="xalign">1</property>
-		      <property name="yalign">0.5</property>
-		      <property name="xpad">0</property>
-		      <property name="ypad">0</property>
-		      <property name="mnemonic_widget">text-address</property>
-		    </widget>
-		  </child>
-		</widget>
-		<packing>
-		  <property name="left_attach">5</property>
-		  <property name="right_attach">6</property>
 		  <property name="top_attach">5</property>
 		  <property name="bottom_attach">6</property>
 		  <property name="x_options">fill</property>
@@ -1117,37 +931,6 @@
 		  <property name="right_attach">8</property>
 		  <property name="top_attach">11</property>
 		  <property name="bottom_attach">12</property>
-		  <property name="y_options">fill</property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkEventBox" id="eventbox7">
-		  <property name="visible">True</property>
-
-		  <child>
-		    <widget class="GtkLabel" id="label-jobtitle">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">_Job title:</property>
-		      <property name="use_underline">True</property>
-		      <property name="use_markup">False</property>
-		      <property name="justify">GTK_JUSTIFY_CENTER</property>
-		      <property name="wrap">False</property>
-		      <property name="selectable">False</property>
-		      <property name="xalign">1</property>
-		      <property name="yalign">0.5</property>
-		      <property name="xpad">0</property>
-		      <property name="ypad">0</property>
-		      <property name="mnemonic_widget">entry-jobtitle</property>
-		    </widget>
-		  </child>
-		</widget>
-		<packing>
-		  <property name="left_attach">1</property>
-		  <property name="right_attach">3</property>
-		  <property name="top_attach">1</property>
-		  <property name="bottom_attach">2</property>
-		  <property name="x_options">fill</property>
 		  <property name="y_options">fill</property>
 		</packing>
 	      </child>
@@ -1581,6 +1364,181 @@
 		  <property name="y_options">fill</property>
 		</packing>
 	      </child>
+
+	      <child>
+		<widget class="GtkLabel" id="label-phone1">
+		  <property name="visible">True</property>
+		  <property name="label" translatable="yes">_Business:</property>
+		  <property name="use_underline">True</property>
+		  <property name="use_markup">False</property>
+		  <property name="justify">GTK_JUSTIFY_CENTER</property>
+		  <property name="wrap">False</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">1</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">0</property>
+		  <property name="ypad">0</property>
+		  <property name="mnemonic_widget">entry-phone1</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">5</property>
+		  <property name="right_attach">6</property>
+		  <property name="top_attach">0</property>
+		  <property name="bottom_attach">1</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkLabel" id="label-phone2">
+		  <property name="visible">True</property>
+		  <property name="label" translatable="yes">_Home:</property>
+		  <property name="use_underline">True</property>
+		  <property name="use_markup">False</property>
+		  <property name="justify">GTK_JUSTIFY_CENTER</property>
+		  <property name="wrap">False</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">1</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">0</property>
+		  <property name="ypad">0</property>
+		  <property name="mnemonic_widget">entry-phone2</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">5</property>
+		  <property name="right_attach">6</property>
+		  <property name="top_attach">1</property>
+		  <property name="bottom_attach">2</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkLabel" id="label-phone3">
+		  <property name="visible">True</property>
+		  <property name="label" translatable="yes">Business fa_x:</property>
+		  <property name="use_underline">True</property>
+		  <property name="use_markup">False</property>
+		  <property name="justify">GTK_JUSTIFY_CENTER</property>
+		  <property name="wrap">False</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">1</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">0</property>
+		  <property name="ypad">0</property>
+		  <property name="mnemonic_widget">entry-phone3</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">5</property>
+		  <property name="right_attach">6</property>
+		  <property name="top_attach">2</property>
+		  <property name="bottom_attach">3</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkLabel" id="label-phone4">
+		  <property name="visible">True</property>
+		  <property name="label" translatable="yes">_Mobile:</property>
+		  <property name="use_underline">True</property>
+		  <property name="use_markup">False</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
+		  <property name="wrap">False</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">1</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">0</property>
+		  <property name="ypad">0</property>
+		  <property name="mnemonic_widget">entry-phone4</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">5</property>
+		  <property name="right_attach">6</property>
+		  <property name="top_attach">3</property>
+		  <property name="bottom_attach">4</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkLabel" id="label-address">
+		  <property name="visible">True</property>
+		  <property name="label" translatable="yes"> B_usiness:</property>
+		  <property name="use_underline">True</property>
+		  <property name="use_markup">False</property>
+		  <property name="justify">GTK_JUSTIFY_CENTER</property>
+		  <property name="wrap">False</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">1</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">0</property>
+		  <property name="ypad">0</property>
+		  <property name="mnemonic_widget">text-address</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">5</property>
+		  <property name="right_attach">6</property>
+		  <property name="top_attach">5</property>
+		  <property name="bottom_attach">6</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkLabel" id="label-jobtitle">
+		  <property name="visible">True</property>
+		  <property name="label" translatable="yes">_Job title:</property>
+		  <property name="use_underline">True</property>
+		  <property name="use_markup">False</property>
+		  <property name="justify">GTK_JUSTIFY_CENTER</property>
+		  <property name="wrap">False</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">1</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">0</property>
+		  <property name="ypad">0</property>
+		  <property name="mnemonic_widget">entry-jobtitle</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">1</property>
+		  <property name="right_attach">3</property>
+		  <property name="top_attach">1</property>
+		  <property name="bottom_attach">2</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkLabel" id="label-email1">
+		  <property name="visible">True</property>
+		  <property name="label" translatable="yes">Primary _email:</property>
+		  <property name="use_underline">True</property>
+		  <property name="use_markup">False</property>
+		  <property name="justify">GTK_JUSTIFY_CENTER</property>
+		  <property name="wrap">False</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">1</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">0</property>
+		  <property name="ypad">0</property>
+		  <property name="mnemonic_widget">entry-email1</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">1</property>
+		  <property name="right_attach">2</property>
+		  <property name="top_attach">5</property>
+		  <property name="bottom_attach">6</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
+		</packing>
+	      </child>
 	    </widget>
 	    <packing>
 	      <property name="tab_expand">False</property>
@@ -1737,31 +1695,6 @@
 		  <property name="right_attach">2</property>
 		  <property name="top_attach">5</property>
 		  <property name="bottom_attach">6</property>
-		  <property name="x_options">fill</property>
-		  <property name="y_options">fill</property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkLabel" id="label-birthday">
-		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">Birthda_y:</property>
-		  <property name="use_underline">True</property>
-		  <property name="use_markup">False</property>
-		  <property name="justify">GTK_JUSTIFY_CENTER</property>
-		  <property name="wrap">False</property>
-		  <property name="selectable">False</property>
-		  <property name="xalign">1</property>
-		  <property name="yalign">0.5</property>
-		  <property name="xpad">0</property>
-		  <property name="ypad">0</property>
-		  <property name="mnemonic_widget">dateedit-birthday</property>
-		</widget>
-		<packing>
-		  <property name="left_attach">3</property>
-		  <property name="right_attach">4</property>
-		  <property name="top_attach">4</property>
-		  <property name="bottom_attach">5</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options">fill</property>
 		</packing>
@@ -2169,6 +2102,31 @@
 		  <property name="top_attach">5</property>
 		  <property name="bottom_attach">6</property>
 		  <property name="y_options">fill</property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkLabel" id="label-birthday">
+		  <property name="visible">True</property>
+		  <property name="label" translatable="yes">Birthda_y:</property>
+		  <property name="use_underline">True</property>
+		  <property name="use_markup">False</property>
+		  <property name="justify">GTK_JUSTIFY_CENTER</property>
+		  <property name="wrap">False</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">1</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">0</property>
+		  <property name="ypad">0</property>
+		  <property name="mnemonic_widget">dateedit-birthday</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">3</property>
+		  <property name="right_attach">4</property>
+		  <property name="top_attach">4</property>
+		  <property name="bottom_attach">5</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
 		</packing>
 	      </child>
 	    </widget>
