@@ -1024,16 +1024,22 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 	GnomePrintConfig *config;
 	GnomePrintContext *pc;
 	gboolean uses_book = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(dialog), "uses_book"));
+	gboolean uses_list = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(dialog), "uses_list"));
 	EBook *book = NULL;
 	char *query = NULL;
 	ECard *card = NULL;
+	GList *card_list = NULL;
 	gdouble font_size;
 
 
 	if (uses_book) {
 		book = g_object_get_data(G_OBJECT(dialog), "book");
 		query = g_object_get_data(G_OBJECT(dialog), "query");
-	} else {
+	}
+	else if (uses_list) {
+		card_list = g_object_get_data(G_OBJECT(dialog), "card_list");
+	}
+	else {
 		card = g_object_get_data(G_OBJECT(dialog), "card");
 	}
 	switch( response_id ) {
@@ -1071,7 +1077,12 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 		if (uses_book) {
 			ctxt->cards = NULL;
 			e_contact_do_print(book, ctxt->query, ctxt);
-		} else {
+		}
+		else if (uses_list) {
+			ctxt->cards = card_list;
+			complete_sequence(NULL, E_BOOK_VIEW_STATUS_SUCCESS, ctxt);
+		}
+		else {
 			ctxt->cards = g_list_append(NULL, card);
 			complete_sequence(NULL, E_BOOK_VIEW_STATUS_SUCCESS, ctxt);
 		}
@@ -1111,7 +1122,13 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 			ctxt->cards = NULL;
 			g_object_ref(book);
 			e_contact_do_print(book, ctxt->query, ctxt);
-		} else {
+		}
+		else if (uses_list) {
+			ctxt->cards = g_list_copy (card_list);
+			g_list_foreach (ctxt->cards, (GFunc)g_object_ref, NULL);
+			complete_sequence(NULL, E_BOOK_VIEW_STATUS_SUCCESS, ctxt);
+		}
+		else {
 			ctxt->cards = g_list_append(NULL, card);
 			g_object_ref(card);
 			complete_sequence(NULL, E_BOOK_VIEW_STATUS_SUCCESS, ctxt);
@@ -1120,6 +1137,8 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 	case GNOME_PRINT_DIALOG_RESPONSE_CANCEL:
 		if (uses_book)
 			g_object_unref(book);
+		else if (uses_list)
+			e_free_object_list (card_list);
 		else
 			g_object_unref(card);
 		g_free(query);
@@ -1141,7 +1160,8 @@ e_contact_print_dialog_new(EBook *book, char *query)
 					       NULL, NULL, NULL);
 
 	g_object_ref(book);
-	g_object_set_data(G_OBJECT(dialog), "uses_book", (void *) 1);
+	g_object_set_data(G_OBJECT(dialog), "uses_book", GINT_TO_POINTER (TRUE));
+	g_object_set_data(G_OBJECT(dialog), "uses_list", GINT_TO_POINTER (FALSE));
 	g_object_set_data(G_OBJECT(dialog), "book", book);
 	g_object_set_data(G_OBJECT(dialog), "query", g_strdup(query));
 	g_signal_connect(dialog,
@@ -1205,7 +1225,8 @@ e_contact_print_card_dialog_new(ECard *card)
 
 	card = e_card_duplicate(card);
 	g_object_set_data(G_OBJECT(dialog), "card", card);
-	g_object_set_data(G_OBJECT(dialog), "uses_book", (void *) 0);
+	g_object_set_data(G_OBJECT(dialog), "uses_list", GINT_TO_POINTER (FALSE));
+	g_object_set_data(G_OBJECT(dialog), "uses_book", GINT_TO_POINTER (FALSE));
 	g_signal_connect(dialog,
 			 "response", G_CALLBACK(e_contact_print_response), NULL);
 	g_signal_connect(dialog,
@@ -1213,21 +1234,25 @@ e_contact_print_card_dialog_new(ECard *card)
 	return dialog;
 }
 
-/* FIXME: Print all the contacts selected. */
 GtkWidget *
 e_contact_print_card_list_dialog_new(GList *list)
 {
 	GtkWidget *dialog;
 	ECard *card;
+	GList *copied_list;
 
 	if (list == NULL)
 		return NULL;
-	
+
+	copied_list = g_list_copy (list);
+	g_list_foreach (copied_list, (GFunc)g_object_ref, NULL);
+
 	dialog = gnome_print_dialog_new(NULL, _("Print card"), GNOME_PRINT_DIALOG_COPIES);
 
 	card = e_card_duplicate(list->data);
-	g_object_set_data(G_OBJECT(dialog), "card", card);
-	g_object_set_data(G_OBJECT(dialog), "uses_book", (void *) 0);
+	g_object_set_data(G_OBJECT(dialog), "card_list", copied_list);
+	g_object_set_data(G_OBJECT(dialog), "uses_list", GINT_TO_POINTER (TRUE));
+	g_object_set_data(G_OBJECT(dialog), "uses_book", GINT_TO_POINTER (FALSE));
 	g_signal_connect(dialog,
 			 "response", G_CALLBACK(e_contact_print_response), NULL);
 	g_signal_connect(dialog,
