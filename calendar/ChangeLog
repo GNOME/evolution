@@ -1,3 +1,10 @@
+2005-02-01  JP Rosevear  <jpr@novell.com>
+
+	Fixes #71944
+	
+	* gui/e-tasks.c: declare config_categories_changed_cb before its
+	used
+
 2005-01-31  Hans Petter Jansson  <hpj@novell.com>
 
 	* common/Makefile.am (libevolution_calendarprivate_la_LDFLAGS):

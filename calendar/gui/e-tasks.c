@@ -95,6 +95,7 @@ static void setup_widgets (ETasks *tasks);
 static void e_tasks_destroy (GtkObject *object);
 static void update_view (ETasks *tasks);
 
+static void config_categories_changed_cb (EConfigListener *config_listener, const char *key, gpointer user_data);
 static void backend_error_cb (ECal *client, const char *message, gpointer data);
 
 /* Signal IDs */
