@@ -1304,6 +1304,9 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 	GnomeFont *font = get_font_for_size (16);
 	char *string;
 	ECellText *ect = E_CELL_TEXT(ecell_view->ecell);
+	double ty, ly, text_width;
+	gboolean strikeout, underline;
+
 	string = e_cell_text_get_text(ect, ecell_view->e_table_model, model_col, row);
 	gnome_print_gsave(context);
 	if (gnome_print_moveto(context, 2, 2) == -1)
@@ -1318,8 +1321,34 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 				/* FIXME */;
 	if (gnome_print_clip(context) == -1)
 				/* FIXME */;
-	gnome_print_moveto(context, 2, (height - gnome_font_get_ascender(font) - gnome_font_get_descender(font)) / 2);
 
+	ty = (height - gnome_font_get_ascender(font) - gnome_font_get_descender(font)) / 2;
+	text_width = gnome_font_get_width_utf8 (font, string);
+
+	strikeout = ect->strikeout_column >= 0 && row >= 0 &&
+		e_table_model_value_at (ecell_view->e_table_model, ect->strikeout_column, row);
+	underline = ect->underline_column >= 0 && row >= 0 &&
+		e_table_model_value_at(ecell_view->e_table_model, ect->underline_column, row);
+
+	if (underline) {
+		ly = ty + gnome_font_get_underline_position (font);
+		gnome_print_newpath (context);
+		gnome_print_moveto (context, 2, ly);
+		gnome_print_lineto (context, MIN (2 + text_width, width - 2), ly);
+		gnome_print_setlinewidth (context, gnome_font_get_underline_thickness (font));
+		gnome_print_stroke (context);
+	}
+
+	if (strikeout) {
+		ly = ty + (gnome_font_get_ascender (font)  - gnome_font_get_underline_thickness (font))/ 2.0;
+		gnome_print_newpath (context);
+		gnome_print_moveto (context, 2, ly);
+		gnome_print_lineto (context, MIN (2 + text_width, width - 2), ly);
+		gnome_print_setlinewidth (context, gnome_font_get_underline_thickness (font));
+		gnome_print_stroke (context);
+	}
+
+	gnome_print_moveto(context, 2, ty);
 	gnome_print_setfont(context, font);
 	gnome_print_show(context, string);
 	gnome_print_grestore(context);
