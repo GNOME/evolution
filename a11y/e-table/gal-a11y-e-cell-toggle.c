@@ -2,6 +2,8 @@
 #include "gal-a11y-e-cell-toggle.h"
 #include <gal/e-table/e-cell-toggle.h>
 #include <gal/e-table/e-table-model.h>
+#include <atk/atkcomponent.h>
+#include <glib/gi18n.h>
 
 #define PARENT_TYPE  (gal_a11y_e_cell_get_type ())
 static GObjectClass *parent_class;
@@ -15,8 +17,10 @@ gal_a11y_e_cell_toggle_dispose (GObject *object)
 
 	ETableModel *e_table_model = GAL_A11Y_E_CELL (a11y)->item->table_model;
 
-	if (e_table_model)
+	if (e_table_model && a11y->model_id > 0) {
 		g_signal_handler_disconnect (e_table_model, a11y->model_id);
+		a11y->model_id = 0;
+	}
 
 	if (parent_class->dispose)
 		parent_class->dispose (object);
@@ -91,8 +95,8 @@ toggle_cell_action (GalA11yECell *cell)
 
 static void
 model_change_cb (ETableModel *etm,
-		 gint row,
 		 gint col,
+		 gint row,
 		 GalA11yECell *cell)
 {
 	gint value;
@@ -101,7 +105,10 @@ model_change_cb (ETableModel *etm,
 
 	        value = GPOINTER_TO_INT (
 			e_table_model_value_at (cell->cell_view->e_table_model,
-						cell->model_col, cell->row));
+			 			cell->model_col, cell->row));
+		/* Cheat gnopernicus, or it will ignore the state change signal  */
+                atk_focus_tracker_notify (ATK_OBJECT (cell));
+
 		if (value)
 			gal_a11y_e_cell_add_state (cell, ATK_STATE_CHECKED, TRUE);
 		else
@@ -140,8 +147,8 @@ gal_a11y_e_cell_toggle_new (ETableItem *item,
                                    row);
 
 	gal_a11y_e_cell_add_action (cell, 
-				    "toggle",	       /* action name*/
-				    "toggle the cell", /* action description */
+				    _("toggle"),	       /* action name*/
+				    _("toggle the cell"), /* action description */
 				    NULL,              /* action keybinding */
 				    toggle_cell_action);
 

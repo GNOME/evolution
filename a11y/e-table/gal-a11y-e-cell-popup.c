@@ -31,6 +31,7 @@
 #include <atk/atkobject.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkwidget.h>
+#include <glib/gi18n.h>
 
 static AtkObjectClass *parent_class = NULL;
 #define PARENT_TYPE (gal_a11y_e_cell_get_type ())
@@ -118,8 +119,8 @@ gal_a11y_e_cell_popup_new (ETableItem *item,
 	g_return_val_if_fail (a11y != NULL, NULL);
 	cell = GAL_A11Y_E_CELL(a11y);
 	gal_a11y_e_cell_add_action (cell, 
-				    "popup",	       /* action name*/
-				    "popup a child", /* action description */
+				    _("popup"),	       /* action name*/
+				    _("popup a child"), /* action description */
 				    "<Alt>Down",              /* action keybinding */
 				    popup_cell_action);
 

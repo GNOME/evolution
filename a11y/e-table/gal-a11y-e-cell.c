@@ -7,7 +7,10 @@
  */
 
 #include <config.h>
+#include <string.h>
 #include "gal/e-table/e-table.h"
+#include "gal/e-table/e-tree.h"
+#include "gal-a11y-e-table-item.h"
 #include "gal-a11y-e-cell.h"
 #include "gal-a11y-util.h"
 #include <atk/atkobject.h>
@@ -15,6 +18,7 @@
 #include <atk/atkaction.h>
 #include <atk/atkstateset.h>
 #include <gtk/gtkwindow.h>
+#include <glib/gi18n.h>
 
 #define CS_CLASS(a11y) (G_TYPE_INSTANCE_GET_CLASS ((a11y), C_TYPE_STREAM, GalA11yECellClass))
 static GObjectClass *parent_class;
@@ -39,8 +43,28 @@ unref_cell (gpointer user_data, GObject *obj_loc)
 }
 #endif 
 
+static gboolean 
+is_valid (AtkObject *cell)
+{
+	GalA11yECell *a11y = GAL_A11Y_E_CELL (cell);
+	GalA11yETableItem *a11yItem = GAL_A11Y_E_TABLE_ITEM (a11y->parent);
+	AtkStateSet *item_ss;
+	gboolean ret = TRUE;
+
+	item_ss = atk_object_ref_state_set (ATK_OBJECT (a11yItem));
+	if (atk_state_set_contains_state (item_ss, ATK_STATE_DEFUNCT))
+		ret = FALSE;
+
+	g_object_unref (item_ss);
+
+	if (ret && atk_state_set_contains_state (a11y->state_set, ATK_STATE_DEFUNCT))
+		ret = FALSE;
+
+	return ret;
+}
+
 static void
-eti_dispose (GObject *object)
+gal_a11y_e_cell_dispose (GObject *object)
 {
 	GalA11yECell *a11y = GAL_A11Y_E_CELL (object);
 
@@ -53,35 +77,61 @@ eti_dispose (GObject *object)
 		g_object_unref (a11y->parent);
 #endif
 
-	if (a11y->state_set)
+	if (a11y->state_set) {
 		g_object_unref (a11y->state_set);
+		a11y->state_set = NULL;
+	}
 
 	if (parent_class->dispose)
 		parent_class->dispose (object);
+
 }
 
 /* Static functions */
+static G_CONST_RETURN gchar*
+gal_a11y_e_cell_get_name (AtkObject * a11y)
+{
+	GalA11yECell *cell = GAL_A11Y_E_CELL (a11y);
+        ETableCol *ecol;
+
+	if (a11y->name != NULL && strcmp (a11y->name, ""))
+		return a11y->name;
+
+	if (cell->item != NULL) {
+ 		ecol = e_table_header_get_column (cell->item->header, cell->view_col);
+		if (ecol != NULL)
+			return ecol->text;
+	}
+
+	return _("Table Cell");
+}
+
 static AtkStateSet *
-eti_ref_state_set (AtkObject *accessible)
+gal_a11y_e_cell_ref_state_set (AtkObject *accessible)
 {
 	GalA11yECell *cell = GAL_A11Y_E_CELL (accessible);
-	g_return_val_if_fail (cell->state_set, NULL);
 
+	g_return_val_if_fail (cell->state_set, NULL);
+                                                                              
 	g_object_ref(cell->state_set);
+
 	return cell->state_set;
 }
 
 static AtkObject*
-eti_get_parent (AtkObject *accessible)
+gal_a11y_e_cell_get_parent (AtkObject *accessible)
 {
 	GalA11yECell *a11y = GAL_A11Y_E_CELL (accessible);
 	return a11y->parent;
 }
 
 static gint
-eti_get_index_in_parent (AtkObject *accessible)
+gal_a11y_e_cell_get_index_in_parent (AtkObject *accessible)
 {
 	GalA11yECell *a11y = GAL_A11Y_E_CELL (accessible);
+
+	if (!is_valid (accessible))
+		return -1;
 
 	return a11y->row * a11y->item->cols + a11y->view_col;
 }
@@ -89,7 +139,7 @@ eti_get_index_in_parent (AtkObject *accessible)
 
 /* Component IFace */
 static void
-eti_get_extents (AtkComponent *component,
+gal_a11y_e_cell_get_extents (AtkComponent *component,
 		gint *x,
 		gint *y,
 		gint *width,
@@ -97,6 +147,7 @@ eti_get_extents (AtkComponent *component,
 		AtkCoordType coord_type)
 {
 	GalA11yECell *a11y = GAL_A11Y_E_CELL (component);
+	GtkWidget *tableOrTree;
 	int row;
 	int col;
 	int xval;
@@ -105,14 +156,16 @@ eti_get_extents (AtkComponent *component,
 	row = a11y->row;
 	col = a11y->view_col;
 
-
-	e_table_item_get_cell_geometry (a11y->item,
-					&row, 
-					&col,
-					&xval,
-					&yval,
-					width,
-					height);
+	tableOrTree = gtk_widget_get_parent (GTK_WIDGET (a11y->item->parent.canvas));
+	if (E_IS_TREE (tableOrTree)) {
+		e_tree_get_cell_geometry (E_TREE (tableOrTree),
+					row, col, &xval, &yval,
+					width, height);
+	} else {
+		e_table_get_cell_geometry (E_TABLE (tableOrTree),
+					row, col, &xval, &yval,
+					width, height);
+	}
 
 	atk_component_get_position (ATK_COMPONENT (a11y->parent),
 				    x, y, coord_type);
@@ -123,22 +176,23 @@ eti_get_extents (AtkComponent *component,
 }
 
 static gboolean
-eti_grab_focus (AtkComponent *component)
+gal_a11y_e_cell_grab_focus (AtkComponent *component)
 {
 	GalA11yECell *a11y;
-	gint view_row;
-	GtkWidget *e_table, *toplevel;
+	gint index;
+	GtkWidget *toplevel;
+	GalA11yETableItem *a11yTableItem;
 
 	a11y = GAL_A11Y_E_CELL (component);
-	e_table = gtk_widget_get_parent (GTK_WIDGET (GNOME_CANVAS_ITEM (a11y->item)->canvas));
-	view_row = e_table_view_to_model_row (E_TABLE (e_table), a11y->row);
-
-	e_selection_model_select_single_row (a11y->item->selection, view_row);
-	e_selection_model_change_cursor (a11y->item->selection, view_row, a11y->view_col);
-
-	gtk_widget_grab_focus (e_table);
-	toplevel = gtk_widget_get_toplevel (e_table);
-	if (GTK_WIDGET_TOPLEVEL (toplevel))
+	a11yTableItem = GAL_A11Y_E_TABLE_ITEM (a11y->parent);
+	index = atk_object_get_index_in_parent (ATK_OBJECT (a11y));
+	
+	atk_selection_clear_selection (ATK_SELECTION (a11yTableItem));
+	atk_selection_add_selection (ATK_SELECTION (a11yTableItem), index);
+	
+	gtk_widget_grab_focus (GTK_WIDGET (GNOME_CANVAS_ITEM (a11y->item)->canvas));
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (GNOME_CANVAS_ITEM (a11y->item)->canvas));
+	if (toplevel && GTK_WIDGET_TOPLEVEL (toplevel))
 		gtk_window_present (GTK_WINDOW (toplevel));
 
 	return TRUE;
@@ -147,29 +201,30 @@ eti_grab_focus (AtkComponent *component)
 /* Table IFace */
 
 static void
-eti_atk_component_iface_init (AtkComponentIface *iface)
+gal_a11y_e_cell_atk_component_iface_init (AtkComponentIface *iface)
 {
-	iface->get_extents = eti_get_extents;
-	iface->grab_focus  = eti_grab_focus;
+	iface->get_extents = gal_a11y_e_cell_get_extents;
+	iface->grab_focus  = gal_a11y_e_cell_grab_focus;
 }
 
 static void
-eti_class_init (GalA11yECellClass *klass)
+gal_a11y_e_cell_class_init (GalA11yECellClass *klass)
 {
 	AtkObjectClass *atk_object_class = ATK_OBJECT_CLASS (klass);
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
 	parent_class                          = g_type_class_ref (PARENT_TYPE);
 
-	object_class->dispose                 = eti_dispose;
+	object_class->dispose                 = gal_a11y_e_cell_dispose;
 
-	atk_object_class->get_parent          = eti_get_parent;
-	atk_object_class->get_index_in_parent = eti_get_index_in_parent;
-	atk_object_class->ref_state_set       = eti_ref_state_set;
+	atk_object_class->get_parent          = gal_a11y_e_cell_get_parent;
+	atk_object_class->get_index_in_parent = gal_a11y_e_cell_get_index_in_parent;
+	atk_object_class->ref_state_set       = gal_a11y_e_cell_ref_state_set;
+	atk_object_class->get_name            = gal_a11y_e_cell_get_name;
 }
 
 static void
-eti_init (GalA11yECell *a11y)
+gal_a11y_e_cell_init (GalA11yECell *a11y)
 {
 	a11y->item = NULL;
 	a11y->cell_view = NULL;
@@ -181,6 +236,11 @@ eti_init (GalA11yECell *a11y)
 	a11y->state_set = atk_state_set_new ();
 	atk_state_set_add_state (a11y->state_set, ATK_STATE_TRANSIENT);
 	atk_state_set_add_state (a11y->state_set, ATK_STATE_ENABLED);
+	atk_state_set_add_state (a11y->state_set, ATK_STATE_SENSITIVE);
+	atk_state_set_add_state (a11y->state_set, ATK_STATE_SELECTABLE);
+	atk_state_set_add_state (a11y->state_set, ATK_STATE_SHOWING);
+	atk_state_set_add_state (a11y->state_set, ATK_STATE_FOCUSABLE);
+	atk_state_set_add_state (a11y->state_set, ATK_STATE_VISIBLE);
 }
 
 
@@ -350,6 +410,10 @@ idle_do_action (gpointer data)
 	GalA11yECell *cell;
 
 	cell = GAL_A11Y_E_CELL (data);
+
+	if (!is_valid (ATK_OBJECT (cell)))
+		return FALSE;
+
 	cell->action_idle_handler = 0;
 	cell->action_func (cell);
                                                                                 
@@ -362,6 +426,9 @@ gal_a11y_e_cell_action_do_action (AtkAction *action,
 {
 	GalA11yECell *cell = GAL_A11Y_E_CELL(action);
 	ActionInfo *info = _gal_a11y_e_cell_get_action_info (cell, index);
+
+	if (!is_valid (ATK_OBJECT (action)))
+		return FALSE;
 
 	if (info == NULL)
 		return FALSE;
@@ -477,17 +544,17 @@ gal_a11y_e_cell_get_type (void)
 			sizeof (GalA11yECellClass),
 			(GBaseInitFunc) NULL,
 			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) eti_class_init,
+			(GClassInitFunc) gal_a11y_e_cell_class_init,
 			(GClassFinalizeFunc) NULL,
 			NULL, /* class_data */
 			sizeof (GalA11yECell),
 			0,
-			(GInstanceInitFunc) eti_init,
+			(GInstanceInitFunc) gal_a11y_e_cell_init,
 			NULL /* value_cell */
 		};
 
 		static const GInterfaceInfo atk_component_info = {
-			(GInterfaceInitFunc) eti_atk_component_iface_init,
+			(GInterfaceInitFunc) gal_a11y_e_cell_atk_component_iface_init,
 			(GInterfaceFinalizeFunc) NULL,
 			NULL
 		};
@@ -539,17 +606,16 @@ gal_a11y_e_cell_construct (AtkObject  *object,
 	a11y->row       = row;
 	ATK_OBJECT (a11y) ->role	= ATK_ROLE_TABLE_CELL;
 
+	if (item)
+		g_object_ref (G_OBJECT (item)); 
+
 #if 0
 	if (parent)
 		g_object_ref (parent);
 
-	if (item)
-		g_object_ref (G_OBJECT (item)); /*,
-						  unref_item,
-						  a11y);*/
 	if (cell_view)
-		g_object_ref (G_OBJECT (cell_view)); /*,
-						  unref_cell,
-						  a11y);*/
+		g_object_ref (G_OBJECT (cell_view)); 
+
+
 #endif
 }

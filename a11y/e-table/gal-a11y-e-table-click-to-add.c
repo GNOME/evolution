@@ -13,6 +13,7 @@
 #include <gal/e-table/e-table-click-to-add.h>
 #include <atk/atkcomponent.h>
 #include <atk/atkaction.h>
+#include <glib/gi18n.h>
 
 static AtkObjectClass *parent_class;
 static GType parent_type;
@@ -37,7 +38,7 @@ etcta_get_description (AtkAction *action,
                              gint      i)
 {
 	if (i == 0)
-		return "click to add";
+		return _("click to add");
 
 	return NULL;
 }
@@ -46,7 +47,7 @@ static G_CONST_RETURN gchar*
 etcta_action_get_name (AtkAction *action, gint      i)
 {
 	if (i == 0)
-		return "click";
+		return _("click");
 
 	return NULL;
 }
@@ -104,9 +105,15 @@ atk_action_interface_init (AtkActionIface *iface)
 static G_CONST_RETURN gchar *
 etcta_get_name (AtkObject *obj)
 {
+	ETableClickToAdd * etcta;
+
 	g_return_val_if_fail (GAL_A11Y_IS_E_TABLE_CLICK_TO_ADD (obj), NULL);
 
-	return "click to add";
+	etcta = E_TABLE_CLICK_TO_ADD (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE(obj)));
+	if (etcta && etcta->message != NULL)
+		return etcta->message;
+
+	return _("click to add");
 }
 
 static gint
@@ -140,6 +147,20 @@ etcta_ref_child (AtkObject *accessible,
 	return atk_obj;
 }
 
+static AtkStateSet *
+etcta_ref_state_set (AtkObject *accessible)
+{
+	AtkStateSet * state_set = NULL;
+
+	state_set = ATK_OBJECT_CLASS (parent_class)->ref_state_set (accessible);
+	if (state_set != NULL) {
+		atk_state_set_add_state (state_set, ATK_STATE_SENSITIVE);
+		atk_state_set_add_state (state_set, ATK_STATE_SHOWING);
+	}
+
+	return state_set;
+}
+
 static void
 etcta_class_init (GalA11yETableClickToAddClass *klass)
 {
@@ -150,6 +171,7 @@ etcta_class_init (GalA11yETableClickToAddClass *klass)
 	atk_object_class->get_name = etcta_get_name;
         atk_object_class->get_n_children = etcta_get_n_children;
         atk_object_class->ref_child = etcta_ref_child;
+        atk_object_class->ref_state_set = etcta_ref_state_set;
 }
 
 static void
@@ -241,6 +263,27 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e, gpointer data)
 	return TRUE;
 }
 
+static void
+etcta_selection_cursor_changed (ESelectionModel *esm, gint row, gint col,
+			GalA11yETableClickToAdd *a11y)
+{
+	ETableClickToAdd *etcta;
+	AtkObject *row_a11y;
+
+	etcta = E_TABLE_CLICK_TO_ADD (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE(a11y)));
+
+	if (etcta == NULL || etcta->row == NULL)
+		return;
+
+	row_a11y = atk_gobject_accessible_for_object (G_OBJECT(etcta->row));
+	if (row_a11y) {
+		AtkObject *cell_a11y = g_object_get_data (G_OBJECT(row_a11y), "gail-focus-object");
+		if (cell_a11y) {
+			atk_focus_tracker_notify (cell_a11y);
+		}
+	}
+}
+
 AtkObject *
 gal_a11y_e_table_click_to_add_new (GObject *widget)
 {
@@ -264,6 +307,9 @@ gal_a11y_e_table_click_to_add_new (GObject *widget)
 
 	g_signal_connect_after (G_OBJECT(widget), "event",
 	    			G_CALLBACK (etcta_event), a11y);
+
+	g_signal_connect (etcta->selection, "cursor_changed",
+			G_CALLBACK (etcta_selection_cursor_changed), a11y);
 
 	return ATK_OBJECT (a11y);
 }

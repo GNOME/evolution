@@ -14,6 +14,7 @@
 #include "gal/e-table/e-cell-tree.h"
 #include "gal/e-table/e-table.h"
 #include "gal/e-table/e-tree-table-adapter.h"
+#include <glib/gi18n.h>
 
 #define CS_CLASS(a11y) (G_TYPE_INSTANCE_GET_CLASS ((a11y), C_TYPE_STREAM, GalA11yECellTreeClass))
 static AtkObjectClass *a11y_parent_class;
@@ -164,14 +165,14 @@ gal_a11y_e_cell_tree_new (ETableItem *item,
 								    view_col,
 								    row);
 		gal_a11y_e_cell_add_action (GAL_A11Y_E_CELL (subcell_a11y),
-					    "expand",
-					    "expands the row in the ETree containing this cell",
+					    _("expand"),
+					    _("expands the row in the ETree containing this cell"),
 					    NULL,
 					    (ACTION_FUNC)ectr_do_action_expand);
 
 		gal_a11y_e_cell_add_action (GAL_A11Y_E_CELL (subcell_a11y),
-					    "collapse",
-					    "collapses the row in the ETree containing this cell",
+					    _("collapse"),
+					    _("collapses the row in the ETree containing this cell"),
 					    NULL,
 					    (ACTION_FUNC)ectr_do_action_collapse);
 

@@ -37,8 +37,8 @@ struct _GalA11yETableItemClass {
 
 /* Standard Glib function */
 GType      gal_a11y_e_table_item_get_type  (void);
-AtkObject *gal_a11y_e_table_item_new       (AtkObject  *parent,
-					    ETableItem *item,
-					    int         index_in_parent);
+AtkObject *gal_a11y_e_table_item_new       (ETableItem *item);
+
+void gal_a11y_e_table_item_init (void);
 
 #endif /* ! __GAL_A11Y_E_TABLE_ITEM_H__ */

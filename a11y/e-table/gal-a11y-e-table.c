@@ -12,6 +12,7 @@
 #include "gal-a11y-util.h"
 #include <gal/e-table/e-table.h>
 #include <gal/e-table/e-table-group.h>
+#include <gal/e-table/e-table-group-container.h>
 #include <gal/e-table/e-table-group-leaf.h>
 #include <gal/e-table/e-table-click-to-add.h>
 
@@ -27,16 +28,80 @@ struct _GalA11yETablePrivate {
 };
 
 /* Static functions */
+static ETableItem *
+find_first_table_item (ETableGroup *group)
+{
+	GnomeCanvasGroup *cgroup;
+	GList *l;
 
-static void
+	cgroup = GNOME_CANVAS_GROUP (group);
+
+	for (l = cgroup->item_list; l; l = l->next) {
+		GnomeCanvasItem *i;
+
+		i = GNOME_CANVAS_ITEM (l->data);
+
+		if (E_IS_TABLE_GROUP (i))
+			return find_first_table_item (E_TABLE_GROUP (i));
+		else if (E_IS_TABLE_ITEM (i)) {
+			return E_TABLE_ITEM (i);
+		}
+	}
+
+	return NULL;
+}
+
+static AtkObject*
+eti_get_accessible (ETableItem *eti, AtkObject *parent)
+{
+	AtkObject *a11y = NULL;
+
+	g_return_val_if_fail (eti, NULL);
+
+	a11y = atk_gobject_accessible_for_object (G_OBJECT (eti));
+	g_return_val_if_fail (a11y, NULL);
+
+	return a11y;
+}
+
+static ETableItem *
+find_table_item (ETable *table)
+{
+	if (e_table_model_row_count(table->model) < 1)
+		return NULL;
+	else {
+		if (table->group)
+			return find_first_table_item (table->group);
+	}
+
+	return NULL;
+}
+
+static gboolean 
 init_child_item (GalA11yETable *a11y)
 {
-	GalA11yETablePrivate *priv = GET_PRIVATE (a11y);
-	ETable *table = E_TABLE (GTK_ACCESSIBLE (a11y)->widget);
-	if (priv->child_item == NULL) {
-		priv->child_item = atk_gobject_accessible_for_object (G_OBJECT(E_TABLE_GROUP_LEAF (table->group)->item));
-		priv->child_item->role = ATK_ROLE_TABLE;
+	ETable *table;
+
+	if (!a11y || !GTK_IS_ACCESSIBLE (a11y))
+		return FALSE;
+
+	table = E_TABLE (GTK_ACCESSIBLE (a11y)->widget);
+	if (table && GTK_WIDGET_MAPPED (GTK_WIDGET (table)) && table->group && E_IS_TABLE_GROUP_CONTAINER(table->group)) {
+		ETableGroupContainer *etgc =  (ETableGroupContainer *)table->group;
+		GList *list;
+
+		for (list = etgc->children; list; list = g_list_next (list)) {
+			ETableGroupContainerChildNode *child_node = list->data;
+			ETableGroup *child = child_node->child;
+			ETableItem *eti = find_first_table_item (child);
+
+			eti_get_accessible (eti, ATK_OBJECT (a11y));
+		}
 	}
+	g_object_unref (a11y);
+	g_object_unref (table);
+
+	return FALSE;
 }
 
 static AtkObject*
@@ -46,7 +111,8 @@ et_ref_accessible_at_point  (AtkComponent *component,
 			     AtkCoordType coord_type)
 {
 	GalA11yETable *a11y = GAL_A11Y_E_TABLE (component);
-	init_child_item (a11y);
+	if (GET_PRIVATE (a11y)->child_item)
+		g_object_ref (GET_PRIVATE (a11y)->child_item);
 	return GET_PRIVATE (a11y)->child_item;
 }
 
@@ -55,13 +121,23 @@ et_get_n_children (AtkObject *accessible)
 {
 	GalA11yETable *a11y = GAL_A11Y_E_TABLE (accessible);
 	ETable * et;
+	int n = 0;
 
 	et = E_TABLE(GTK_ACCESSIBLE (a11y)->widget);
-	if (et && et->use_click_to_add) {
-		return 2;
-	}
 
-	return 1;
+	if (et->group) {
+		if (E_IS_TABLE_GROUP_LEAF (et->group))
+			n = 1;
+		else if (E_IS_TABLE_GROUP_CONTAINER (et->group)) {
+			ETableGroupContainer *etgc = (ETableGroupContainer *)et->group;
+			n = g_list_length (etgc->children);
+		}
+	}
+	
+	if (et && et->use_click_to_add && et->click_to_add) {
+		n++;
+	}
+	return n;
 }
 
 static AtkObject*
@@ -70,29 +146,51 @@ et_ref_child (AtkObject *accessible,
 {
 	GalA11yETable *a11y = GAL_A11Y_E_TABLE (accessible);
 	ETable * et;
+	gint child_no;
 
 	et = E_TABLE(GTK_ACCESSIBLE (a11y)->widget);
 
-	if (i == 0) {
-		init_child_item (a11y);
-		g_object_ref (GET_PRIVATE (a11y)->child_item);
-		return GET_PRIVATE (a11y)->child_item;
-	} else if (i == 1) {
+	child_no = et_get_n_children (accessible);
+	if (i == 0 || i < child_no - 1) {
+		if (E_IS_TABLE_GROUP_LEAF (et->group)) {
+			ETableItem *eti = find_first_table_item (et->group);
+			AtkObject *aeti = eti_get_accessible (eti, accessible);
+			if (aeti)
+				g_object_ref (aeti);
+			return aeti;
+
+		} else if (E_IS_TABLE_GROUP_CONTAINER (et->group)) {
+			ETableGroupContainer *etgc =  (ETableGroupContainer *) et->group;
+			ETableGroupContainerChildNode *child_node = g_list_nth_data (etgc->children, i);
+			if (child_node) {
+				ETableGroup *child = child_node->child;
+				ETableItem * eti = find_first_table_item (child);
+				AtkObject *aeti =  eti_get_accessible (eti, accessible);
+				if (aeti)
+					g_object_ref (aeti);
+				return aeti;
+			}
+		}
+	} else if (i == child_no -1) {
         	AtkObject * accessible;
 		ETableClickToAdd * etcta;
 
 		if (et && et->use_click_to_add && et->click_to_add) {
 			etcta = E_TABLE_CLICK_TO_ADD(et->click_to_add);
-			if (etcta->rect) {
-				accessible = atk_gobject_accessible_for_object (G_OBJECT(etcta));
-			} else {
-				accessible = atk_gobject_accessible_for_object (G_OBJECT(etcta->row));
-			}
+			accessible = atk_gobject_accessible_for_object (G_OBJECT(etcta));
+			if (accessible)
+				g_object_ref (accessible);
 			return accessible;
 		}
 	}
 
 	return NULL;
+}
+
+static AtkLayer
+et_get_layer (AtkComponent *component)
+{
+	return ATK_LAYER_WIDGET;
 }
 
 static void
@@ -110,6 +208,7 @@ static void
 et_atk_component_iface_init (AtkComponentIface *iface)
 {
 	iface->ref_accessible_at_point = et_ref_accessible_at_point;
+	iface->get_layer = et_get_layer;
 }
 
 static void
@@ -180,6 +279,16 @@ gal_a11y_e_table_new (GObject *widget)
 	a11y = g_object_new (gal_a11y_e_table_get_type (), NULL);
 
 	GTK_ACCESSIBLE (a11y)->widget = GTK_WIDGET (widget);
+
+	/* we need to init all the children for multiple table items */
+	if (table && GTK_WIDGET_MAPPED (GTK_WIDGET (table)) && table->group && E_IS_TABLE_GROUP_CONTAINER (table->group)) {
+		/* Ref it here so that it is still valid in the idle function */
+		/* It will be unrefed in the idle function */
+		g_object_ref (a11y);
+		g_object_ref (widget);
+
+		g_idle_add ((GSourceFunc)init_child_item, a11y);
+	}
 
 	return ATK_OBJECT (a11y);
 }

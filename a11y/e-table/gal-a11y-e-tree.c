@@ -35,11 +35,6 @@ init_child_item (GalA11yETree *a11y)
 	eti = e_tree_get_item (tree);
 	if (priv->child_item == NULL) {
 		priv->child_item = atk_gobject_accessible_for_object (G_OBJECT (eti));
-		if (!priv->child_item)
-			priv->child_item = gal_a11y_e_table_item_new (ATK_OBJECT (a11y),eti, 0);
-
-		g_return_if_fail (priv->child_item);
-		priv->child_item->role = ATK_ROLE_TREE_TABLE;
 	}
 }
 
@@ -72,6 +67,12 @@ et_ref_child (AtkObject *accessible,
 	return GET_PRIVATE (a11y)->child_item;
 }
 
+static AtkLayer
+et_get_layer (AtkComponent *component)
+{
+	return ATK_LAYER_WIDGET;
+}
+
 static void
 et_class_init (GalA11yETreeClass *klass)
 {
@@ -87,6 +88,7 @@ static void
 et_atk_component_iface_init (AtkComponentIface *iface)
 {
 	iface->ref_accessible_at_point = et_ref_accessible_at_point;
+	iface->get_layer = et_get_layer;
 }
 
 static void

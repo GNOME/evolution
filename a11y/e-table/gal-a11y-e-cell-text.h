@@ -29,6 +29,8 @@ typedef struct _GalA11yECellTextPrivate GalA11yECellTextPrivate;
  **/
 struct _GalA11yECellText {
 	GalA11yECell object;
+	gint inserted_id;
+	gint deleted_id;
 };
 
 struct _GalA11yECellTextClass {

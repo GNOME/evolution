@@ -15,18 +15,84 @@
 #include <atk/atktext.h>
 #include <atk/atkeditabletext.h>
 #include <atk/atkaction.h>
+#include <atk/atkstateset.h>
+#include <glib/gi18n.h>
 
 #define CS_CLASS(a11y) (G_TYPE_INSTANCE_GET_CLASS ((a11y), C_TYPE_STREAM, GalA11yECellTextClass))
 static AtkObjectClass *parent_class;
 #define PARENT_TYPE (gal_a11y_e_cell_get_type ())
 
 /* Static functions */
+static void
+ect_dispose (GObject *object)
+{
+	GObjectClass *g_class;
+	GalA11yECell *gaec = GAL_A11Y_E_CELL (object);
+	GalA11yECellText *gaet = GAL_A11Y_E_CELL_TEXT (object);
+
+	if (gaet->inserted_id != 0) {
+		ECellText *ect = E_CELL_TEXT (gaec->cell_view->ecell);
+
+		if (ect) {
+			g_signal_handler_disconnect (ect, gaet->inserted_id);
+			g_signal_handler_disconnect (ect, gaet->deleted_id);
+		}
+
+		gaet->inserted_id = 0;
+		gaet->deleted_id = 0;
+	}
+
+	g_class = (GObjectClass *)parent_class;
+	if (g_class->dispose)
+		g_class->dispose (object);
+
+}
+
+static gboolean
+ect_check (gpointer a11y)
+{
+	GalA11yECell *gaec = GAL_A11Y_E_CELL (a11y);
+	ETableItem *item = gaec->item;
+
+	g_return_val_if_fail ((gaec->item != NULL), FALSE);
+	g_return_val_if_fail ((gaec->cell_view != NULL), FALSE);
+	g_return_val_if_fail ((gaec->cell_view->ecell != NULL), FALSE);
+
+	if (atk_state_set_contains_state (gaec->state_set, ATK_STATE_DEFUNCT))
+		return FALSE;
+
+	if (gaec->row < 0 || gaec->row >= item->rows
+		|| gaec->view_col <0 || gaec->view_col >= item->cols
+		|| gaec->model_col <0 || gaec->model_col >= e_table_model_column_count (item->table_model))
+		return FALSE;
+
+	if (!E_IS_CELL_TEXT (gaec->cell_view->ecell))
+		return FALSE;
+
+	return TRUE;
+}
+
 static G_CONST_RETURN gchar*
 ect_get_name (AtkObject * a11y)
 {
-	GalA11yECell *gaec = GAL_A11Y_E_CELL (a11y);
-	ECellText *ect = E_CELL_TEXT (gaec->cell_view->ecell);
-	return e_cell_text_get_text (ect, gaec->item->table_model, gaec->model_col, gaec->row);
+	GalA11yECell *gaec;
+	char *name;
+
+	if (!ect_check (a11y))
+		return NULL;
+
+	gaec = GAL_A11Y_E_CELL (a11y);
+	name = e_cell_text_get_text_by_view (gaec->cell_view, gaec->model_col, gaec->row);
+	if (name != NULL) {
+		ATK_OBJECT_CLASS (parent_class)->set_name (a11y, name);
+		g_free (name);
+	}
+
+	if (a11y->name != NULL && strcmp (a11y->name, "")) {
+		return a11y->name;
+	} else {
+		return parent_class->get_name (a11y);
+	}
 }
 
 static gchar *
@@ -35,9 +101,13 @@ ect_get_text (AtkText *text,
 	      gint end_offset)
 {
 	GalA11yECell *gaec = GAL_A11Y_E_CELL (text);
-	ECellText *ect = E_CELL_TEXT (gaec->cell_view->ecell);
+	gchar *full_text;
 	gchar *ret_val;
-	gchar *full_text = e_cell_text_get_text (ect, gaec->item->table_model, gaec->model_col, gaec->row);
+
+	if (!ect_check (text))
+		return NULL;
+
+	full_text = e_cell_text_get_text_by_view (gaec->cell_view, gaec->model_col, gaec->row);
 
 	if (end_offset == -1)
 		end_offset = strlen (full_text);
@@ -48,7 +118,7 @@ ect_get_text (AtkText *text,
 
 	ret_val = g_strndup (full_text + start_offset, end_offset - start_offset);
 
-	e_cell_text_free_text (ect, full_text);
+	g_free (full_text);
 
 	return ret_val;
 }
@@ -80,13 +150,16 @@ ect_get_character_at_offset (AtkText *text,
 			     gint offset)
 {
 	GalA11yECell *gaec = GAL_A11Y_E_CELL (text);
-	ECellText *ect = E_CELL_TEXT (gaec->cell_view->ecell);
 	gunichar ret_val;
 	gchar *at_offset;
-	gchar *full_text = e_cell_text_get_text (ect, gaec->item->table_model, gaec->model_col, gaec->row);
+
+	if (!ect_check (text))
+		return -1;
+
+	gchar *full_text = e_cell_text_get_text_by_view (gaec->cell_view, gaec->model_col, gaec->row);
 	at_offset = g_utf8_offset_to_pointer (full_text, offset);
 	ret_val = g_utf8_get_char_validated (at_offset, -1);
-	e_cell_text_free_text (ect, full_text);
+	g_free (full_text);
 
 	return ret_val;
 }
@@ -108,18 +181,17 @@ static gint
 ect_get_caret_offset (AtkText *text)
 {
 	GalA11yECell *gaec = GAL_A11Y_E_CELL (text);
-	ECellText *ect = NULL;
 	gint start, end;
 
-	g_return_val_if_fail (gaec && gaec->cell_view && gaec->cell_view->ecell && E_IS_CELL_TEXT (gaec->cell_view->ecell), -1);
-	ect = E_CELL_TEXT (gaec->cell_view->ecell);
+	if (!ect_check (text))
+		return -1;
 
 	if (e_cell_text_get_selection (gaec->cell_view,
 				       gaec->view_col, gaec->row,
 				       &start, &end)) {
-		gchar *full_text = e_cell_text_get_text (ect, gaec->item->table_model, gaec->model_col, gaec->row);
+		gchar *full_text = e_cell_text_get_text_by_view (gaec->cell_view, gaec->model_col, gaec->row);
 		end = g_utf8_pointer_to_offset (full_text, full_text + end);
-		e_cell_text_free_text (ect, full_text);
+		g_free (full_text);
 		
 		return end;
 	}
@@ -163,13 +235,15 @@ static gint
 ect_get_character_count (AtkText *text)
 {
 	GalA11yECell *gaec = GAL_A11Y_E_CELL (text);
-	ECellText *ect = E_CELL_TEXT (gaec->cell_view->ecell);
 	gint ret_val;
 
-	gchar *full_text = e_cell_text_get_text (ect, gaec->item->table_model, gaec->model_col, gaec->row);
+	if (!ect_check (text))
+		return -1;
+
+	gchar *full_text = e_cell_text_get_text_by_view (gaec->cell_view, gaec->model_col, gaec->row);
 
 	ret_val = g_utf8_strlen (full_text, -1);
-	e_cell_text_free_text (ect, full_text);
+	g_free (full_text);
 	return ret_val;
 }
 
@@ -190,6 +264,10 @@ ect_get_n_selections (AtkText *text)
 {
 	GalA11yECell *gaec = GAL_A11Y_E_CELL (text);
 	gint selection_start, selection_end;
+
+	if (!ect_check (text))
+		return 0;
+
 	if (e_cell_text_get_selection (gaec->cell_view,
 				       gaec->view_col, gaec->row,
 				       &selection_start,
@@ -207,7 +285,6 @@ ect_get_selection (AtkText *text,
 		   gint *end_offset)
 {
 	GalA11yECell *gaec = GAL_A11Y_E_CELL (text);
-	ECellText *ect = E_CELL_TEXT (gaec->cell_view->ecell);
 	gchar *ret_val;
 	gint selection_start, selection_end;
 
@@ -218,7 +295,7 @@ ect_get_selection (AtkText *text,
 					  &selection_end)
 	    && selection_start != selection_end) {
 		gint real_start, real_end, len;
-		gchar *full_text = e_cell_text_get_text (ect, gaec->item->table_model, gaec->model_col, gaec->row);
+		gchar *full_text = e_cell_text_get_text_by_view (gaec->cell_view, gaec->model_col, gaec->row);
 		len = strlen (full_text);
 		real_start = MIN (selection_start, selection_end);
 		real_end   = MAX (selection_start, selection_end);
@@ -234,7 +311,7 @@ ect_get_selection (AtkText *text,
 			*start_offset = real_start;
 		if (end_offset)
 			*end_offset = real_end;
-		e_cell_text_free_text (ect, full_text);
+		g_free (full_text);
 	} else {
 		if (start_offset)
 			*start_offset = 0;
@@ -253,12 +330,11 @@ ect_add_selection (AtkText *text,
 		   gint end_offset)
 {
 	GalA11yECell *gaec = GAL_A11Y_E_CELL (text);
-	ECellText *ect = E_CELL_TEXT (gaec->cell_view->ecell);
 
 	if (start_offset != end_offset) {
 		gint real_start, real_end, len;
 		gchar *full_text =
-			e_cell_text_get_text (ect, gaec->item->table_model, gaec->model_col, gaec->row);
+			e_cell_text_get_text_by_view (gaec->cell_view, gaec->model_col, gaec->row);
 
 		len = g_utf8_strlen (full_text, -1);
 		if (end_offset == -1)
@@ -272,7 +348,7 @@ ect_add_selection (AtkText *text,
 
 		real_start = g_utf8_offset_to_pointer (full_text, real_start) - full_text;
 		real_end   = g_utf8_offset_to_pointer (full_text, real_end) - full_text;
-		e_cell_text_free_text (ect, full_text);
+		g_free (full_text);
 
 		if (e_cell_text_set_selection (gaec->cell_view,
 					       gaec->view_col, gaec->row,
@@ -330,11 +406,10 @@ ect_set_caret_offset (AtkText *text,
 		      gint offset)
 {
 	GalA11yECell *gaec = GAL_A11Y_E_CELL (text);
-	ECellText *ect = E_CELL_TEXT (gaec->cell_view->ecell);
 	gchar *full_text;
 	gint len;
 
-	full_text = e_cell_text_get_text (ect, gaec->item->table_model, gaec->model_col, gaec->row);
+	full_text = e_cell_text_get_text_by_view (gaec->cell_view, gaec->model_col, gaec->row);
 
 	len = g_utf8_strlen (full_text, -1);
 	if (offset == -1)
@@ -344,7 +419,7 @@ ect_set_caret_offset (AtkText *text,
 	
 	offset = g_utf8_offset_to_pointer (full_text, offset) - full_text;
 
-	e_cell_text_free_text (ect, full_text);
+	g_free (full_text);
 
 	return e_cell_text_set_selection (gaec->cell_view,
 					  gaec->view_col, gaec->row,
@@ -382,7 +457,7 @@ ect_insert_text (AtkEditableText *text,
 	GalA11yECell *gaec = GAL_A11Y_E_CELL (text);
 	ECellText *ect = E_CELL_TEXT (gaec->cell_view->ecell);
 
-	gchar *full_text = e_cell_text_get_text (ect, gaec->item->table_model, gaec->model_col, gaec->row);
+	gchar *full_text = e_cell_text_get_text_by_view (gaec->cell_view, gaec->model_col, gaec->row);
 	gchar *result = g_strdup_printf ("%.*s%.*s%s", *position, full_text, length, string, full_text + *position);
 
 	e_cell_text_set_value (ect, gaec->item->table_model, gaec->model_col, gaec->row, result);
@@ -390,7 +465,7 @@ ect_insert_text (AtkEditableText *text,
 	*position += length;
 
 	g_free (result);
-	e_cell_text_free_text (ect, full_text);
+	g_free (full_text);
 }
 
 static void
@@ -443,7 +518,43 @@ static void
 ect_do_action_edit (AtkAction *action)
 {
 	GalA11yECell *a11y = GAL_A11Y_E_CELL (action);
-	e_table_item_enter_edit (a11y->item, a11y->view_col, a11y->row);
+	ETableModel *e_table_model = a11y->item->table_model;
+
+	if (e_table_model_is_cell_editable(e_table_model, a11y->model_col, a11y->row)) {
+		e_table_item_enter_edit (a11y->item, a11y->view_col, a11y->row);
+	}
+}
+
+/* text signal handlers */
+static void
+ect_text_inserted_cb (ECellText *text, ECellView *cell_view, int pos, int len, int row, int model_col, gpointer data)
+{
+	GalA11yECellText *gaet;
+	GalA11yECell *gaec;
+
+	if (!ect_check (data))
+		return;
+	gaet = GAL_A11Y_E_CELL_TEXT (data);
+	gaec = GAL_A11Y_E_CELL (data);
+
+	if (cell_view == gaec->cell_view && row == gaec->row && model_col == gaec->model_col) {
+		g_signal_emit_by_name (gaet, "text_changed::insert", pos, len);
+
+	}
+}
+
+static void
+ect_text_deleted_cb (ECellText *text, ECellView *cell_view, int pos, int len, int row, int model_col, gpointer data)
+{
+	GalA11yECellText *gaet;
+	GalA11yECell *gaec;
+	if (!ect_check (data))
+		return;
+	gaet = GAL_A11Y_E_CELL_TEXT (data);
+	gaec = GAL_A11Y_E_CELL (data);
+	if (cell_view == gaec->cell_view && row == gaec->row && model_col == gaec->model_col) {
+		g_signal_emit_by_name (gaet, "text_changed::delete", pos, len);
+	 }
 }
 
 static void
@@ -483,19 +594,25 @@ ect_atk_editable_text_iface_init (AtkEditableTextIface *iface)
 static void
 ect_class_init (GalA11yECellTextClass *klass)
 {
-	AtkObjectClass *a11y      = ATK_OBJECT_CLASS (klass);   
+	AtkObjectClass *a11y      = ATK_OBJECT_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	
 	parent_class              = g_type_class_ref (PARENT_TYPE);
 	a11y->get_name            = ect_get_name;
+	object_class->dispose     = ect_dispose;
 }
 
 static void
-ect_init (GalA11yECellText *a11y)
+ect_action_init (GalA11yECellText *a11y)
 {
-	gal_a11y_e_cell_add_action (GAL_A11Y_E_CELL (a11y),
-				    "edit",
-				    "begin editing this cell",
+	GalA11yECell *gaec = GAL_A11Y_E_CELL (a11y);
+	ECellText *ect = E_CELL_TEXT (gaec->cell_view->ecell);
+	if (ect->editable && e_table_model_is_cell_editable (gaec->cell_view->e_table_model, gaec->model_col, gaec->row))
+		gal_a11y_e_cell_add_action (gaec,
+				    _("edit"),
+				    _("begin editing this cell"),
 				    NULL,
-				    (ACTION_FUNC)ect_do_action_edit);
+				    (ACTION_FUNC) ect_do_action_edit);
 }
 
 /**
@@ -522,7 +639,7 @@ gal_a11y_e_cell_text_get_type (void)
 			NULL, /* class_data */
 			sizeof (GalA11yECellText),
 			0,
-			(GInstanceInitFunc) ect_init,
+			(GInstanceInitFunc) NULL,
 			NULL /* value_cell_text */
 		};
 
@@ -547,6 +664,14 @@ gal_a11y_e_cell_text_get_type (void)
 	return type;
 }
 
+static void
+cell_text_destroyed (gpointer data)
+{
+	g_return_if_fail (GAL_A11Y_IS_E_CELL_TEXT (data));
+	
+	g_object_unref (data);
+}
+
 AtkObject *
 gal_a11y_e_cell_text_new (ETableItem *item,
 			  ECellView  *cell_view,
@@ -556,6 +681,9 @@ gal_a11y_e_cell_text_new (ETableItem *item,
 			  int         row)
 {
 	AtkObject *a11y;
+	GalA11yECell *gaec;
+	GalA11yECellText *gaet;
+	ECellText *ect; 
 
 	a11y = g_object_new (gal_a11y_e_cell_text_get_type (), NULL);
 
@@ -566,5 +694,28 @@ gal_a11y_e_cell_text_new (ETableItem *item,
 				   model_col,
 				   view_col,
 				   row);
+	gaet = GAL_A11Y_E_CELL_TEXT (a11y);
+
+	/* will be unrefed in cell_text_destroyed */
+	g_object_ref (a11y);
+
+	gaet->inserted_id = g_signal_connect (E_CELL_TEXT (((ECellView *)cell_view)->ecell),		  
+						"text_inserted", G_CALLBACK (ect_text_inserted_cb), a11y);
+	gaet->deleted_id = g_signal_connect (E_CELL_TEXT (((ECellView *)cell_view)->ecell), 
+					     "text_deleted", G_CALLBACK (ect_text_deleted_cb), a11y);
+
+	g_object_weak_ref (G_OBJECT (((ECellView *)cell_view)->ecell),
+			   (GWeakNotify) cell_text_destroyed,
+			   a11y);
+
+	ect_action_init (gaet);
+
+	ect = E_CELL_TEXT (cell_view->ecell);
+	gaec = GAL_A11Y_E_CELL (a11y);
+	if (ect->editable && e_table_model_is_cell_editable (gaec->cell_view->e_table_model, gaec->model_col, gaec->row))
+		gal_a11y_e_cell_add_state (gaec, ATK_STATE_EDITABLE, FALSE);
+	else
+		gal_a11y_e_cell_remove_state (gaec, ATK_STATE_EDITABLE, FALSE);
+
 	return a11y;
 }

@@ -31,7 +31,7 @@ gal_a11y_e_table_item_factory_create_accessible (GObject *obj)
 	AtkObject *accessible;
 
 	g_return_val_if_fail (E_IS_TABLE_ITEM(obj), NULL);
-	accessible = gal_a11y_e_table_item_new(NULL, E_TABLE_ITEM (obj), 0);
+	accessible = gal_a11y_e_table_item_new (E_TABLE_ITEM (obj));
                                                                                 
 	return accessible;
 }
