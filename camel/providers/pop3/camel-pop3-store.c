@@ -465,13 +465,13 @@ static gboolean
 pop3_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 {
 	CamelPop3Store *store = CAMEL_POP3_STORE (service);
-
+	
 	if (clean)
 		camel_pop3_command (store, NULL, ex, "QUIT");
-
+	
 	if (!CAMEL_SERVICE_CLASS (parent_class)->disconnect (service, clean, ex))
 		return FALSE;
-
+	
 	return TRUE;
 }
 

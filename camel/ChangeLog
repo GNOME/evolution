@@ -1,3 +1,9 @@
+2001-08-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-pgp-context.c (pgp_verify): Turn on --batch and reenable
+	gpg keyserver lookups.
+	(pgp_decrypt): Disable keyserver lookups if we are disconnected.
+
 2001-08-21  Dan Winship  <danw@ximian.com>
 
 	* camel-folder-thread.c
@@ -15,8 +21,8 @@
 
 	* providers/local/camel-mbox-summary.c (mbox_summary_sync_full):
 	s/Synchronising/Synchronizing/.
-	(mbox_summary_sync_quick): Likewise.
-	* providers/local/camel-spool-summary.c (spool_summary_sync_full):
+	(mbox_summary_sync_quick): Likewise.  *
+	providers/local/camel-spool-summary.c (spool_summary_sync_full):
 	Likewise.
 	(spool_summary_sync_quick): Likewise.
 
