@@ -75,13 +75,6 @@
 	for name, full name, birthday, telephone, email, and street
 	address properties.
 
-2000-03-22  NotZed  <NotZed@HelixCode.com>
-
-	* e-util/e-sexp.h: Formatting cleanup.
-
-2000-03-07  NotZed  <NotZed@HelixCode.com>
-
-	* e-util/Makefile.am (libeutil_la_SOURCES): s-sexp.h -> e-sexp.h.
 
 2000-03-22  Christopher James Lahey  <clahey@helixcode.com>
 
@@ -294,9 +287,6 @@
 	* widgets/e-minicard/Makefile.am: Added e-table since e-minicard
 	is now dependent on an e-table-model for its data.
 
-	* e-util/e-canvas.c, e-util/e-canvas.h: Fixed some bugs here to
-	speed up reflow and to make it fail less often.
-
 	* addressbook/demo, addressbook/demo/.cvsignore,
 	addressbook/demo/Makefile.am, addressbook/demo/demo.c,
 	addressbook/demo/spec: A new program to test ETable and EMinicard
@@ -320,10 +310,6 @@
 	* shell/e-service.h: 
 
 2000-03-10  Christopher James Lahey  <clahey@helixcode.com>
-
-	* e-util/e-canvas.c, e-util/e-canvas.h: Designed a new system for
-	doing hierarchical displays in the canvas.  Adds an extra idle
-	loop to the canvas system.
 
 	* widgets/e-minicard/e-minicard.c,
 	widgets/e-minicard/e-minicard-label.c,
@@ -358,10 +344,6 @@
 	"y" to set the children's position to using
 	e_canvas_item_move_absolute.
 
-2000-03-05  Christopher James Lahey  <clahey@helixcode.com>
-
-	* e-util/e-xml-utils.c: Fixed e_xml_set_integer_prop_by_name.
-
 2000-03-05  Matt Loper  <matt.loper@splashtech.com>
 
 	* tests/ui-tests/message-browser.c: Commenting added.
@@ -370,11 +352,6 @@
 	(hydrate_persist_stream_from_gstring): New function.
 	(camel_stream_to_gstring): New function.
 	(on_object_requested): Cleaned up.
-
-2000-03-04  Christopher James Lahey  <clahey@helixcode.com>
-
-	* e-util/e-xml-utils.c, e-util/e-xml-utils.h: Added
-	e_xml_set_integer_prop_by_name.
 
 2000-03-04  bertrand  <bertrand@helixcode.com>
 
@@ -438,11 +415,6 @@
 	* widgets/e-minicard/Makefile.am (INCLUDES): Fixed references to
 	eutil.
 
-	* e-util/e-sexp.[ch]: Added.  moved from filter-sexp.[ch]
-
-	* e-util/Makefile.am (libeutil_a_SOURCES): Add e-sexp.
-	(noinst_LTLIBRARIES): Changed to a libtool library.
-
 	* Makefile.am (SUBDIRS): Build e-util before other stuff.
 	(SUBDIRS): Build filter after camel.
 
@@ -454,17 +426,6 @@
 
 	* widgets/e-text/e-text.c, widgets/e-text/e-text.h: Updated these
 	to use the canvas ::update system properly.
-
-2000-02-24  Christopher James Lahey  <clahey@helixcode.com>
-
-	* e-util/e-xml-utils.c, e-util/e-xml-utils.h: Added
-	e_xml_get_integer_prop_by_name.
-
-	* e-util/Makefile.am: Added e-util.c.
-
-	* e-util/e-util.h: Added e-util.c functions.
-
-	* e-util/e-util.c: New file for compare functions
 
 2000-02-24  Dan Winship  <danw@helixcode.com>
 
@@ -497,24 +458,6 @@
 	* widgets/e-minicard/e-minicard-label.c: Made e-minicard-label take and return
 	an EFocus for its "has_focus" argument.  Made the font that
 	e-minicard-label uses only be allocated once.
-	
-	* e-util/e-canvas-utils.h: Fixed the comment at the top and added
-	#ifndef __E_CANVAS_UTILS__.
-
-	* e-util/Makefile.am: Added e-xml-utils.c and
-	e-xml-utils.h.
-
-	* e-util/e-xml-utils.h, e-util/e-xml-utils.c: Added files for some
-	xml utilities.
-
-	* e-util/e-util.h: Added type EFocus which describes which
-	direction the focus will be coming from.
-
-2000-02-23  Dan Winship  <danw@helixcode.com>
-
-	* e-util/e-setup.c (e_setup_base_dir): Make ~/evolution mode 700
-	rather than mode 600 (and use the symbolic name rather than the
-	number).
 	
 2000-02-22  bertrand  <Bertrand.Guiheneuf@aful.org>
 
@@ -884,8 +827,6 @@
 2000-02-09  Christopher James Lahey  <clahey@helixcode.com>
 
 	* configure.in: Add new Makefiles to Makefile list.
-
-	* e-util/Makefile.am: Add canvas utilities to libeutil.
 
 	* widgets/e-text/Makefile.am: Build libetext.
 

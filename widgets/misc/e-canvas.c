@@ -22,8 +22,8 @@
 
 #include <gnome.h>
 #include "e-canvas.h"
-static void e_canvas_init		(ECanvas		 *card);
-static void e_canvas_class_init	(ECanvasClass	 *klass);
+static void e_canvas_init           (ECanvas         *card);
+static void e_canvas_class_init	    (ECanvasClass	 *klass);
 static gint e_canvas_key            (GtkWidget        *widget,
 				     GdkEventKey      *event);
 
@@ -46,26 +46,26 @@ static guint e_canvas_signals [LAST_SIGNAL] = { 0, };
 GtkType
 e_canvas_get_type (void)
 {
-  static GtkType canvas_type = 0;
-
-  if (!canvas_type)
-    {
-      static const GtkTypeInfo canvas_info =
-      {
-        "ECanvas",
-        sizeof (ECanvas),
-        sizeof (ECanvasClass),
-        (GtkClassInitFunc) e_canvas_class_init,
-        (GtkObjectInitFunc) e_canvas_init,
-        /* reserved_1 */ NULL,
-        /* reserved_2 */ NULL,
-        (GtkClassInitFunc) NULL,
-      };
-
-      canvas_type = gtk_type_unique (gnome_canvas_get_type (), &canvas_info);
-    }
-
-  return canvas_type;
+	static GtkType canvas_type = 0;
+	
+	if (!canvas_type)
+	{
+		static const GtkTypeInfo canvas_info =
+		{
+			"ECanvas",
+			sizeof (ECanvas),
+			sizeof (ECanvasClass),
+			(GtkClassInitFunc) e_canvas_class_init,
+			(GtkObjectInitFunc) e_canvas_init,
+			/* reserved_1 */ NULL,
+			/* reserved_2 */ NULL,
+			(GtkClassInitFunc) NULL,
+		};
+		
+		canvas_type = gtk_type_unique (gnome_canvas_get_type (), &canvas_info);
+	}
+	
+	return canvas_type;
 }
 
 static void
@@ -105,7 +105,7 @@ e_canvas_init (ECanvas *canvas)
 }
 
 GtkWidget *
-e_canvas_new()
+e_canvas_new ()
 {
 	return GTK_WIDGET (gtk_type_new (e_canvas_get_type ()));
 }
@@ -327,18 +327,18 @@ e_canvas_item_invoke_reflow (GnomeCanvasItem *item, int flags)
 	GList *list;
 	GnomeCanvasItem *child;
 
-	if ( GNOME_IS_CANVAS_GROUP( item ) ) {
-		group = GNOME_CANVAS_GROUP( item );
-		for ( list = group->item_list; list; list = list->next ) {
+	if (GNOME_IS_CANVAS_GROUP (item)) {
+		group = GNOME_CANVAS_GROUP(item);
+		for (list = group->item_list; list; list = list->next) {
 			child = GNOME_CANVAS_ITEM(list->data);
-			if ( child->object.flags & E_CANVAS_ITEM_DESCENDENT_NEEDS_REFLOW )
+			if (child->object.flags & E_CANVAS_ITEM_DESCENDENT_NEEDS_REFLOW)
 				e_canvas_item_invoke_reflow(child, flags);
 		}
 	}
 	
-	if ( item->object.flags & E_CANVAS_ITEM_NEEDS_REFLOW ) {
+	if (item->object.flags & E_CANVAS_ITEM_NEEDS_REFLOW) {
 		ECanvasItemReflowFunc func = gtk_object_get_data(GTK_OBJECT(item), "ECanvasItem::reflow_callback");
-		if ( func )
+		if (func)
 			func(item, flags);
 	}
 
@@ -349,7 +349,7 @@ e_canvas_item_invoke_reflow (GnomeCanvasItem *item, int flags)
 static void
 do_reflow (ECanvas *canvas)
 {
-	if ( GNOME_CANVAS(canvas)->root->object.flags & E_CANVAS_ITEM_DESCENDENT_NEEDS_REFLOW )
+	if (GNOME_CANVAS(canvas)->root->object.flags & E_CANVAS_ITEM_DESCENDENT_NEEDS_REFLOW)
 		e_canvas_item_invoke_reflow (GNOME_CANVAS(canvas)->root, 0);
 }
 
@@ -359,7 +359,7 @@ idle_handler (gpointer data)
 {
 	ECanvas *canvas;
 
-	GDK_THREADS_ENTER ();
+	GDK_THREADS_ENTER();
 
 	canvas = E_CANVAS (data);
 	do_reflow (canvas);
@@ -370,7 +370,7 @@ idle_handler (gpointer data)
 	gtk_signal_emit (GTK_OBJECT (canvas),
 			 e_canvas_signals [REFLOW]);
 
-	GDK_THREADS_LEAVE ();
+	GDK_THREADS_LEAVE();
 
 	return FALSE;
 }
@@ -388,18 +388,18 @@ add_idle (ECanvas *canvas)
 static void
 e_canvas_item_descendent_needs_reflow (GnomeCanvasItem *item)
 {
-	if ( item->object.flags & E_CANVAS_ITEM_DESCENDENT_NEEDS_REFLOW )
+	if (item->object.flags & E_CANVAS_ITEM_DESCENDENT_NEEDS_REFLOW)
 		return;
 
 	item->object.flags |= E_CANVAS_ITEM_DESCENDENT_NEEDS_REFLOW;
-	if ( item->parent )
+	if (item->parent)
 		e_canvas_item_descendent_needs_reflow(item->parent);
 }
 
 void
 e_canvas_item_request_reflow (GnomeCanvasItem *item)
 {
-	if ( item->object.flags & GNOME_CANVAS_ITEM_REALIZED ) {
+	if (item->object.flags & GNOME_CANVAS_ITEM_REALIZED) {
 		item->object.flags |= E_CANVAS_ITEM_NEEDS_REFLOW;
 		e_canvas_item_descendent_needs_reflow(item);
 		add_idle(E_CANVAS(item->canvas));
