@@ -373,8 +373,6 @@ gal_view_collection_get_count (GalViewCollection *collection)
  * @collection: The view collection to query
  * @n: The view to get.
  *
- * Calculates the number of views in the given collection.
- *
  * Returns: The nth view in the collection
  */
 GalView *
@@ -385,6 +383,23 @@ gal_view_collection_get_view (GalViewCollection *collection,
 	g_return_val_if_fail(n >= 0, NULL);
 
 	return collection->view_data[n]->view;
+}
+
+/**
+ * gal_view_collection_get_view_item
+ * @collection: The view collection to query
+ * @n: The view item to get.
+ *
+ * Returns: The nth view item in the collection
+ */
+GalViewCollectionItem *
+gal_view_collection_get_view_item (GalViewCollection *collection,
+				   int n)
+{
+	g_return_val_if_fail(n < collection->view_count, NULL);
+	g_return_val_if_fail(n >= 0, NULL);
+
+	return collection->view_data[n];
 }
 
 static char *
