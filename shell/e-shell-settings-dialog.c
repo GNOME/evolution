@@ -165,7 +165,7 @@ load_pages (EShellSettingsDialog *dialog)
 	
 	CORBA_exception_init (&ev);
 
-	control_list = bonobo_activation_query ("defined(evolution:config_item:title)", NULL, &ev);
+	control_list = bonobo_activation_query ("defined(evolution2:config_item:title)", NULL, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION || control_list == NULL) {
 		g_warning ("Cannot load configuration pages -- %s", BONOBO_EX_REPOID (&ev));
 		CORBA_exception_free (&ev);
@@ -192,11 +192,11 @@ load_pages (EShellSettingsDialog *dialog)
 
 		info = & control_list->_buffer[i];
 
-		title       	= bonobo_server_info_prop_lookup (info, "evolution:config_item:title", language_list);
-		description 	= bonobo_server_info_prop_lookup (info, "evolution:config_item:description", language_list);
-		icon_path   	= bonobo_server_info_prop_lookup (info, "evolution:config_item:icon_name", NULL);
-		type            = bonobo_server_info_prop_find   (info, "evolution:config_item:type");
-		priority_string = bonobo_server_info_prop_lookup (info, "evolution:config_item:priority", NULL);
+		title       	= bonobo_server_info_prop_lookup (info, "evolution2:config_item:title", language_list);
+		description 	= bonobo_server_info_prop_lookup (info, "evolution2:config_item:description", language_list);
+		icon_path   	= bonobo_server_info_prop_lookup (info, "evolution2:config_item:icon_name", NULL);
+		type            = bonobo_server_info_prop_find   (info, "evolution2:config_item:type");
+		priority_string = bonobo_server_info_prop_lookup (info, "evolution2:config_item:priority", NULL);
 
 		if (icon_path == NULL) {
 			icon = NULL;
