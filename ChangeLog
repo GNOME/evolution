@@ -1,3 +1,8 @@
+2000-05-10  Dan Winship  <danw@helixcode.com>
+
+	* configure.in: Update versions needed for gnome-print, bonobo,
+	and gtkhtml.
+
 2000-05-10  Christopher James Lahey  <clahey@helixcode.com>
 
 	* HACKING: We need a HACKING file.

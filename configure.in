@@ -167,14 +167,14 @@ fi
 dnl **************************************************
 dnl * Print check
 dnl **************************************************
-AC_MSG_CHECKING(for GnomePrint libraries >= 0.10)
+AC_MSG_CHECKING(for GnomePrint libraries >= 0.13)
 if gnome-config --libs print > /dev/null 2>&1; then 
     vers=`gnome-config --modversion print | sed -e "s/gnome-print-//" | \
         awk 'BEGIN { FS = "."; } { print $1 * 1000 + $2;}'`
-    if test "$vers" -ge 10; then
+    if test "$vers" -ge 13; then
         AC_MSG_RESULT(found)
     else
-        AC_MSG_ERROR(You need at least GNOME print 0.10 for this version of Gnumeric)
+        AC_MSG_ERROR(You need at least GNOME print 0.13)
     fi
 else
     AC_MSG_ERROR(Did not find GnomePrint installed)
@@ -194,13 +194,12 @@ dnl AC_SUBST(GNOMEGNORBA_LIBS)
 dnl ******************************
 dnl Check for Bonobo
 dnl ******************************
-AC_MSG_CHECKING(for Bonobo > 0.5)
+AC_MSG_CHECKING(for Bonobo >= 0.10)
 if gnome-config --libs bonobo > /dev/null 2>&1; then
 	vers=`gnome-config --modversion bonobo`
-        echo $vers
 	case $vers
 	in
-	    bonobo-0.[[012345]]) bonobo_ok=false ;;
+	    bonobo-0.?) bonobo_ok=false ;;
 	    *) bonobo_ok=true ;;
 	esac
 else
@@ -208,9 +207,9 @@ else
 fi
 
 if $bonobo_ok; then
-	AC_MSG_RESULT(found)
+	AC_MSG_RESULT($vers found)
 else
-	AC_MSG_ERROR(Bonobo 0.5 is required to compile Evolution)
+	AC_MSG_ERROR(Bonobo 0.10 is required to compile Evolution)
 fi
 
 
@@ -278,15 +277,20 @@ dnl ******************************
 
 AC_MSG_CHECKING(for GtkHTML)
 if gnome-config --libs gtkhtml > /dev/null 2>&1; then
-	gtkhtml_ok=true
+	vers=`gnome-config --modversion gtkhtml`
+	case $vers
+	in
+	    gtkhtml-0.1) gtkhtml_ok=false ;;
+	    *) gtkhtml_ok=true ;;
+	esac
 else
 	gtkhtml_ok=false
 fi
 
 if $gtkhtml_ok; then
-	AC_MSG_RESULT(found)
+	AC_MSG_RESULT($vers found)
 else
-	AC_MSG_ERROR(GtkHTML is required to compile Evolution)
+	AC_MSG_ERROR(GtkHTML 0.2 or later is required to compile Evolution)
 fi
 
 GTKHTML_CFLAGS="`gnome-config --cflags gtkhtml`"
