@@ -1,3 +1,9 @@
+2002-01-23  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (INCLUDES): Define CAMEL_PROVIDERDIR to be the
+	configure.in-defined camel_providerdir. (Was supposed to have been
+	committed a month ago... oops.)
+
 2002-01-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-ops.c (mail_filter_folder): Now takes a boolean notify

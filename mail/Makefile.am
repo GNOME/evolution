@@ -2,7 +2,6 @@ SUBDIRS = importers
 
 bin_PROGRAMS =	evolution-mail
 
-providerdir = $(libdir)/evolution/camel-providers/$(VERSION)
 importerdir = $(libdir)/evolution/evolution-mail-importers/$(VERSION)
 
 INCLUDES = \
@@ -24,7 +23,7 @@ INCLUDES = \
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
 	-DEVOLUTION_BUTTONSDIR=\""$(buttonsdir)"\"	\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
-	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"	\
+	-DCAMEL_PROVIDERDIR=\""$(camel_providerdir)"\"	\
 	-DMAIL_IMPORTERSDIR=\""$(importerdir)"\"	\
 	-DG_LOG_DOMAIN=\"evolution-mail\"
 
