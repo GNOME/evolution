@@ -408,19 +408,7 @@ impl_requestCreateItem (PortableServer_Servant servant,
 static CORBA_boolean
 impl_upgradeFromVersion (PortableServer_Servant servant, short major, short minor, short revision, CORBA_Environment *ev)
 {
-	switch (major) {
-	case 1:
-		switch (minor) {
-		case 0:
-		case 2:
-		case 4:
-			addressbook_migrate (addressbook_component_peek ());
-			break;
-		}
-		break;
-	}
-	
-	return TRUE;
+	return addressbook_migrate (addressbook_component_peek (), major, minor, revision);
 }
 
 /* GObject methods.  */

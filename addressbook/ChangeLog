@@ -1,3 +1,18 @@
+2004-01-20  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook-migrate.c (create_groups): deal with
+	the groups/sources already being there.  Essentially make this
+	function idempotent.
+	(addressbook_migrate): unconditionally call create_groups now.
+	move the version logic here from ipl_upgradeFromVersion, and
+	include more versions in the set of those we upgrade from.
+
+	* gui/component/addressbook-migrate.h: add major/minor/revision
+	args to addressbook_migrate.
+
+	* gui/component/addressbook-component.c (impl_upgradeFromVersion):
+	remove the version logic from here.
+
 2004-01-20 Sivaiah Nallagatla   <snallagatla@novell.com>
 
 	* printing/e-contact-print.c (e_contact_print_response): do not 
