@@ -1,3 +1,14 @@
+2002-05-09  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Evolution-Offline.idl: Rename NotPrepared to notPrepared and
+	NotSyncing to notSyncing.
+
+	* evolution-storage.c (impl_Storage__get_folder_list): Renamed
+	from impl_Storage_get_folder_list().
+
+	* Evolution-Storage.idl: Don't typedef FolderList here.  Replace
+	`getFolderList' method with a readonly attribute.
+
 2002-05-07  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Evolution-Offline.idl: New interface SyncFolderProgressListener.

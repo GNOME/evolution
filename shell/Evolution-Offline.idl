@@ -34,8 +34,8 @@ interface SyncFolderProgressListener {
 };
 
 interface Offline : Bonobo::Unknown {
-	exception NotPrepared {};
-	exception NotSyncing {};
+	exception notPrepared {};
+	exception notSyncing {};
 
 	/* Whether the component is currently off-line.  */
 	attribute boolean isOffline;

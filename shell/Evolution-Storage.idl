@@ -19,10 +19,6 @@ module Evolution {
 		exception AlreadyListening {};
 		exception NotFound {};
 
-		attribute string name;
-
-		typedef sequence<Folder> FolderList;
-
 		enum Result {
 			OK,
 			UNSUPPORTED_OPERATION,
@@ -41,7 +37,11 @@ module Evolution {
 			string path;
 		};
 
-		FolderList getFolderList ();
+		/* Flat list of the folders in the storage.  */
+		readonly attribute FolderList folderList;
+
+		/* The name of the storage.  */
+		attribute string name;
 		
 		void asyncCreateFolder (in string path,
 					in string type,

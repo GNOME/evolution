@@ -278,7 +278,7 @@ get_servers (EvolutionShellClient *shell_client, const char *possible_types[], g
 		GNOME_Evolution_FolderList *folder_list;
 		
 		storage = storage_list->_buffer[i];
-		folder_list = GNOME_Evolution_Storage_getFolderList (storage, &ev);
+		folder_list = GNOME_Evolution_Storage__get_folderList (storage, &ev);
 
 		for (j = 0; j < folder_list->_length; j++) {
 			GNOME_Evolution_Folder folder;

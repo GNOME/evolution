@@ -1,3 +1,10 @@
+2002-05-09  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/e-itip-control.c (get_servers): use
+	GNOME_Evolution_Storage__get_folderList instead of
+	GNOME_Evolution_Storage_getFolderList since I have now changed
+	that to be an attribute instead of a method.
+
 2002-05-07  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-itip-control.c (start_calendar_server): start a server a
