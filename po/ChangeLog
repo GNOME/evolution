@@ -1,3 +1,7 @@
+2001-03-10  Héctor García Álvarez <hector@scouts-es.org>
+
+        * es.po: Updated Spanish translation.
+
 2001-03-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* POTFILES.in: Removed mail-vtrash.c
