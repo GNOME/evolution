@@ -1,3 +1,10 @@
+2000-12-15  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* camel-mime-utils.c (header_fold): When checking to see if we
+	need to fold the header, when we come accross a \n, make sure to
+	start at p + 1 the next time through the loop or else we get into
+	an infinite loop.
+
 2000-12-13  Dan Winship  <danw@helixcode.com>
 
 	* Namespace cleanup: change a bunch of IS_CAMEL_* macros to

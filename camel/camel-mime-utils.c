@@ -3125,7 +3125,7 @@ header_fold(const char *in, int headerlen)
 		if (len >= CAMEL_FOLD_SIZE)
 			break;
 		len = 0;
-		p = n;
+		p = n + 1;
 	}
 	if (len < CAMEL_FOLD_SIZE)
 		return g_strdup(in);
