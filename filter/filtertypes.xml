@@ -616,7 +616,7 @@
   <input type="integer" name="retval"/>
  </part>
 
- <part name="pipe">
+ <part name="junk">
   <title>Junk Test</title>
   <input type="optionlist" name="retval-type">
    <option value="is-junk">
