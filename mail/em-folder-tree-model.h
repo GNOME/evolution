@@ -89,6 +89,10 @@ struct _EMFolderTreeModelClass {
 	GtkTreeStoreClass parent_class;
 	
 	/* signals */
+	void     (* loading_row)        (EMFolderTreeModel *model,
+					 GtkTreePath *path,
+					 GtkTreeIter *iter);
+	
 	gboolean (* drag_data_received) (EMFolderTreeModel *model,
 					 GtkTreePath *dest_path,
 					 GtkSelectionData *selection_data);

@@ -74,6 +74,8 @@ struct _EMFolderTreePrivate {
 	
 	guint save_state_id;
 	
+	guint loading_row_id;
+	
 	/* dnd signal ids */
 	guint ddr, rdp, rd, ddg, ddd;
 };
@@ -314,6 +316,11 @@ static void
 em_folder_tree_destroy (GtkObject *obj)
 {
 	struct _EMFolderTreePrivate *priv = ((EMFolderTree *) obj)->priv;
+	
+	if (priv->loading_row_id != 0) {
+		g_signal_handler_disconnect (priv->model, priv->loading_row_id);
+		priv->loading_row_id = 0;
+	}
 	
 	if (priv->ddr != 0) {
 		g_signal_handler_disconnect (priv->model, priv->ddr);
@@ -907,6 +914,33 @@ expand_node (const char *key, gpointer value, EMFolderTree *emft)
 }
 
 
+static void
+loading_row_cb (EMFolderTreeModel *model, GtkTreePath *tree_path, GtkTreeIter *iter, EMFolderTree *emft)
+{
+	struct _EMFolderTreeModelStoreInfo *si;
+	CamelStore *store;
+	EAccount *account;
+	char *path, *key;
+	
+	gtk_tree_model_get ((GtkTreeModel *) model, iter,
+			    COL_STRING_FOLDER_PATH, &path,
+			    COL_POINTER_CAMEL_STORE, &store,
+			    -1);
+	
+	si = g_hash_table_lookup (model->store_hash, store);
+	if ((account = mail_config_get_account_by_name (si->display_name))) {
+	        key = g_strdup_printf ("%s:%s", account->uid, path);
+	} else {
+		key = g_strdup_printf ("%s:%s", si->display_name, path);
+	}
+	
+	if (em_folder_tree_model_get_expanded (model, key))
+		gtk_tree_view_expand_to_path (emft->priv->treeview, tree_path);
+	
+	g_free (key);
+}
+
+
 GtkWidget *
 em_folder_tree_new_with_model (EMFolderTreeModel *model)
 {
@@ -918,6 +952,8 @@ em_folder_tree_new_with_model (EMFolderTreeModel *model)
 	
 	/* FIXME: this sucks... */
 	g_hash_table_foreach (model->expanded, (GHFunc) expand_node, emft);
+	
+	emft->priv->loading_row_id = g_signal_connect (model, "loading-row", G_CALLBACK (loading_row_cb), emft);
 	
 	return (GtkWidget *) emft;
 }

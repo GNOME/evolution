@@ -78,6 +78,7 @@ static gboolean model_drag_data_delete   (GtkTreeDragSource *drag_source,
 
 
 enum {
+	LOADING_ROW,
 	DRAG_DATA_RECEIVED,
 	ROW_DROP_POSSIBLE,
 	ROW_DRAGGABLE,
@@ -149,6 +150,17 @@ em_folder_tree_model_class_init (EMFolderTreeModelClass *klass)
 	object_class->finalize = em_folder_tree_model_finalize;
 	
 	/* signals */
+	signals[LOADING_ROW] =
+		g_signal_new ("loading-row",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (EMFolderTreeModelClass, loading_row),
+			      NULL, NULL,
+			      em_marshal_VOID__POINTER_POINTER,
+			      G_TYPE_NONE, 2,
+			      G_TYPE_POINTER,
+			      G_TYPE_POINTER);
+	
 	signals[DRAG_DATA_RECEIVED] =
 		g_signal_new ("drag-data-received",
 			      G_OBJECT_CLASS_TYPE (object_class),
@@ -442,6 +454,10 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 				    COL_STRING_URI, NULL,
 				    COL_UINT_UNREAD, 0,
 				    -1);
+		
+		path = gtk_tree_model_get_path ((GtkTreeModel *) model, iter);
+		g_signal_emit (model, signals[LOADING_ROW], 0, path, iter);
+		gtk_tree_path_free (path);
 	}
 }
 

@@ -1,5 +1,16 @@
 2003-12-02  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-folder-tree.c (em_folder_tree_new_with_model): Connect to the
+	loading row signal.
+	(loading_row_cb): Expand the path if needed.
+	(em_folder_tree_destroy): Disconnect from the loading-row signal.
+
+	* em-folder-tree-model.c (em_folder_tree_model_class_init): Define
+	the loading-row signal.
+	(em_folder_tree_model_set_folder_info): emit the loading-row signal.
+
+2003-12-02  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* em-folder-tree.c (em_folder_tree_new): Fixed to pass the
 	evolution dir into em_folder_tree_model_new().
 	(model_save_state): Removed.
