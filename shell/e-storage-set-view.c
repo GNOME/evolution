@@ -876,9 +876,9 @@ motion_notify_event (GtkWidget *widget,
 	actions = GDK_ACTION_MOVE | GDK_ACTION_COPY;
 
 	context = e_tree_drag_begin (tree,
-				      priv->drag_row, priv->drag_column,
-				      target_list, actions,
-				      1, (GdkEvent *) event);
+				     priv->drag_row, priv->drag_column,
+				     target_list, actions,
+				     1, (GdkEvent *) event);
 	gtk_drag_set_icon_default (context);
 
 	gtk_target_list_unref (target_list);
@@ -1205,7 +1205,7 @@ tree_drag_data_received (ETree *etree,
 {
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
-	gboolean handled;
+	gboolean handled = FALSE;
 	char *target_type;
 
 	storage_set_view = E_STORAGE_SET_VIEW (etree);
@@ -1426,7 +1426,7 @@ etree_get_node_by_id (ETreeModel *etm, gchar *save_id, void *model_data)
 GHashTable *folders_with_unread = NULL;
 
 static void
-update_folder_with_unread_hash (char *folder_name, int unread_count)
+update_folder_with_unread_hash (const char *folder_name, int unread_count)
 {
 	if (!folders_with_unread)
 	        folders_with_unread = g_hash_table_new (g_str_hash, g_str_equal);
@@ -1454,7 +1454,7 @@ etree_value_at (ETreeModel *etree, ETreePath tree_path, int col, void *model_dat
 
 	folder = e_storage_set_get_folder (storage_set, path);
 	if (folder != NULL) {
-		char *folder_name = e_folder_get_name (folder);
+		const char *folder_name = e_folder_get_name (folder);
 		int unread_count = e_folder_get_unread_count (folder);
 
 		update_folder_with_unread_hash (folder_name, unread_count);
@@ -1756,6 +1756,7 @@ init (EStorageSetView *storage_set_view)
 	priv->drag_y                      = 0;
 	priv->drag_column                 = 0;
 	priv->drag_row                    = 0;
+	priv->drag_path                   = NULL;
 
 	storage_set_view->priv = priv;
 }

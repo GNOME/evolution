@@ -1,3 +1,11 @@
+2001-08-03  Christopher James Lahey  <clahey@ximian.com>
+
+	* e-storage-set-view.c (tree_drag_data_received): Some paths here
+	don't set handled properly so lets initialize it to FALSE.
+	(update_folder_with_unread_hash, etree_value_at): constified
+	folder_name here.
+	(init): Initialize priv->drag_path here to NULL.
+
 2001-08-03  Jason Leach  <jleach@ximian.com>
 
 	[Removing Evolution::LocalStorage interface, abstracting the
