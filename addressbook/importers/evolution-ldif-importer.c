@@ -52,11 +52,12 @@ static struct {
 	char *ldif_attribute;
 	EContactField contact_field;
 #define FLAG_ADDRESS 0x01
+#define FLAG_LIST 0x02
 	int flags;
 }
 ldif_fields[] = {
 	{ "cn", E_CONTACT_FULL_NAME },
-	{ "mail", E_CONTACT_EMAIL },
+	{ "mail", E_CONTACT_EMAIL, FLAG_LIST },
 #if 0
 	{ "givenname", E_CONTACT_GIVEN_NAME },
 #endif
@@ -259,6 +260,16 @@ parseLine (EContact *contact, EContactAddress *address, char **buf)
 						address->region = g_strdup (ldif_value->str);
 					else if (!g_ascii_strcasecmp (ptr, "streetaddress"))
 						address->street = g_strdup (ldif_value->str);
+				}
+				else if (ldif_fields[i].flags & FLAG_LIST) {
+					GList *list;
+
+					list = e_contact_get (contact, ldif_fields[i].contact_field);
+					list = g_list_append (list, g_strdup (ldif_value->str));
+					e_contact_set (contact, ldif_fields[i].contact_field, list);
+
+					g_list_foreach (list, (GFunc) g_free, NULL);
+					g_list_free (list);
 				}
 				else {
 					/* FIXME is everything a string? */

@@ -1,3 +1,10 @@
+2004-06-14  Not Zed  <NotZed@Ximian.com>
+
+	* importers/evolution-ldif-importer.c (parseLine): handle LIST
+	field types.
+	(ldif_fields[]): Add a list type. E_CONTACT_EMAIL is a list field
+	type.  See #58855.
+
 2004-06-08  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/e-addressbook-model.c (get_view_idle): new
