@@ -40,6 +40,10 @@
 
 #include <bonobo.h>
 #include <bonobo-conf/bonobo-config-database.h>
+#include <gal/util/e-xml-utils.h>
+#include <libxml/xmlmemory.h>
+#include <libxml/parser.h>
+#include <libxml/tree.h>
 
 #include <camel/camel-file-utils.h>
 #include <camel/camel-store.h>
@@ -852,14 +856,13 @@ shortcuts_upgrade_uri (GHashTable *accounts, GHashTable *imap_sources, const cha
 static int
 shortcuts_upgrade_xml_file (GHashTable *accounts, GHashTable *imap_sources, const char *filename)
 {
-	unsigned char *buffer, *inptr, *start, *folder, *new, *account = NULL;
-	ssize_t nread = 0, nwritten, n;
-	gboolean url_need_upgrade;
+	char *bak, *uri, *account, *folder, *new, *new_uri, *type;
 	struct stat st;
-	size_t len;
-	char *bak;
-	int fd;
-	
+	xmlDoc *doc;
+	xmlNode *group, *item;
+	int account_len;
+	gboolean changed = FALSE;
+
 	bak = g_strdup_printf ("%s.bak-1.0", filename);
 	if (stat (bak, &st) != -1) {
 		/* seems we have already converted this file? */
@@ -868,178 +871,86 @@ shortcuts_upgrade_xml_file (GHashTable *accounts, GHashTable *imap_sources, cons
 		return 0;
 	}
 	
-	if (stat (filename, &st) == -1 || (fd = open (filename, O_RDONLY)) == -1) {
+	if (stat (filename, &st) == -1) {
 		/* file doesn't exist? I guess nothing to upgrade here */
 		fprintf (stderr, "\nCould not open %s: %s\n", filename, strerror (errno));
 		g_free (bak);
 		return 0;
 	}
 	
-	start = buffer = g_malloc (st.st_size + 1);
-	do {
-		do {
-			n = read (fd, buffer + nread, st.st_size - nread);
-		} while (n == -1 && errno == EINTR);
-		
-		if (n > 0)
-			nread += n;
-	} while (n != -1 && nread < st.st_size);
-	buffer[nread] = '\0';
-	
-	if (nread < st.st_size) {
-		/* failed to load the entire file? */
-		fprintf (stderr, "\nFailed to load %s: %s\n", filename, strerror (errno));
-		g_free (buffer);
+	doc = xmlParseFile (filename);
+	if (!doc || !doc->xmlRootNode) {
+		/* failed to load/parse the file? */
+		fprintf (stderr, "\nFailed to load %s\n", filename);
 		g_free (bak);
-		close (fd);
 		return -1;
 	}
 	
-	close (fd);
-	
-	inptr = buffer;
-	url_need_upgrade = FALSE;
-	do {
-		g_free (account);
-		inptr = strstr (inptr, ">evolution:/");
-		if (inptr) {
-			inptr += 12;
-			account = inptr;
-			while (*inptr && *inptr != '/')
-				inptr++;
+	for (group = doc->xmlRootNode->xmlChildrenNode; group; group = group->next) {
+		for (item = group->xmlChildrenNode; item; item = item->next) {
+			/* Fix IMAP/Exchange URIs */
+			uri = xmlNodeGetContent (item);
+			if (!strncmp (uri, "evolution:/", 11)) {
+				account_len = strcspn (uri + 11, "/");
+				account = g_strndup (uri + 11, account_len);
+				if (g_hash_table_lookup (accounts, account)) {
+					folder = uri + 11 + account_len;
+					if (*folder)
+						folder++;
+					new = shortcuts_upgrade_uri (accounts, imap_sources, account, folder);
+					new_uri = g_strdup_printf ("evolution:/%s/%s", account, new);
+					xmlNodeSetContent (item, new_uri);
+					changed = TRUE;
+					g_free (new_uri);
+				}
+				g_free (account);
+			}
+			xmlFree (uri);
 			
-			account = g_strndup (account, inptr - account);
-			inptr++;
-			
-			url_need_upgrade = GPOINTER_TO_INT (g_hash_table_lookup (accounts, account));
+			/* Fix LDAP shortcuts */
+			type = xmlGetProp (item, "type");
+			if (type) {
+				if (!strcmp (type, "ldap-contacts")) {
+					xmlSetProp (item, "type", "contacts/ldap");
+					changed = TRUE;
+				}
+				xmlFree (type);
+			}
 		}
-	} while (inptr && !url_need_upgrade);
+	}
 	
-	if (inptr == NULL) {
-		/* no imap urls in this xml file, so no need to "upgrade" it */
+	if (!changed) {
 		fprintf (stdout, "\nNo updates required for %s\n", filename);
-		g_free (buffer);
+		xmlFreeDoc (doc);
 		g_free (bak);
 		return 0;
-	}
+ 	}
 	
 	if (rename (filename, bak) == -1) {
 		/* failed to backup xml file */
 		fprintf (stderr, "\nFailed to create backup file %s: %s\n", bak, strerror (errno));
-		g_free (buffer);
+		xmlFreeDoc (doc);
 		g_free (bak);
 		return -1;
 	}
 	
-	if ((fd = open (filename, O_WRONLY | O_CREAT | O_TRUNC, 0644)) == -1) {
-		/* failed to create new xml file */
-		fprintf (stderr, "\nFailed to create new %s: %s\n", filename, strerror (errno));
+	if (e_xml_save_file (filename, doc) == -1) {
+		fprintf (stderr, "\nFailed to save updated settings to %s: %s\n\n", filename, strerror (errno));
+		xmlFreeDoc (doc);
+		unlink (filename);
 		rename (bak, filename);
-		g_free (buffer);
 		g_free (bak);
 		return -1;
 	}
-	
-	while (inptr != NULL) {
-		len = inptr - start;
-		nwritten = 0;
-		do {
-			do {
-				n = write (fd, start + nwritten, len - nwritten);
-			} while (n == -1 && errno == EINTR);
-			
-			if (n > 0)
-				nwritten += n;
-		} while (n != -1 && nwritten < len);
-		
-		if (nwritten < len)
-			goto exception;
-		
-		if (!(start = strstr (inptr, "</item>"))) {
-			start = inptr;
-			while (*start && *start != '<')
-				start++;
-		}
-		
-		folder = g_strndup (inptr, start - inptr);
-		new = shortcuts_upgrade_uri (accounts, imap_sources, account, folder);
-		g_free (account);
-		account = NULL;
-		g_free (folder);
-		
-		nwritten = 0;
-		len = strlen (new);
-		do {
-			do {
-				n = write (fd, new + nwritten, len - nwritten);
-			} while (n == -1 && errno == EINTR);
-			
-			if (n > 0)
-				nwritten += n;
-		} while (n != -1 && nwritten < len);
-		
-		g_free (new);
-		
-		if (nwritten < len)
-			goto exception;
-		
-		inptr = start;
-		url_need_upgrade = FALSE;
-		do {
-			g_free (account);
-			inptr = strstr (inptr, ">evolution:/");
-			if (inptr) {
-				inptr += 12;
-				account = inptr;
-				while (*inptr && *inptr != '/')
-					inptr++;
-				
-				account = g_strndup (account, inptr - account);
-				inptr++;
-				
-				url_need_upgrade = GPOINTER_TO_INT (g_hash_table_lookup (accounts, account));
-			}
-		} while (inptr && !url_need_upgrade);
-	}
-	
-	nwritten = 0;
-	len = strlen (start);
-	do {
-		do {
-			n = write (fd, start + nwritten, len - nwritten);
-		} while (n == -1 && errno == EINTR);
-		
-		if (n > 0)
-			nwritten += n;
-	} while (n != -1 && nwritten < len);
-	
-	if (nwritten < len)
-		goto exception;
-	
-	if (fsync (fd) == -1)
-		goto exception;
-	
-	close (fd);
-	g_free (buffer);
 	
 	fprintf (stdout, "\nSuccessfully upgraded %s\nPrevious settings saved in %s\n\n", filename, bak);
 	
+	xmlFreeDoc (doc);
 	g_free (bak);
 	
 	return 0;
-	
- exception:
-	
-	fprintf (stderr, "\nFailed to save updated settings to %s: %s\n\n", filename, strerror (errno));
-	
-	close (fd);
-	g_free (buffer);
-	unlink (filename);
-	rename (bak, filename);
-	g_free (bak);
-	
-	return -1;
 }
+
 
 static int
 mailer_upgrade (Bonobo_ConfigDatabase db)

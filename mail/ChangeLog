@@ -1,3 +1,10 @@
+2002-10-15  Dan Winship  <danw@ximian.com>
+
+	* upgrade-mailer.c (shortcuts_upgrade_xml_file): Change the type
+	in LDAP shortcuts from "ldap-contacts" to "contacts/ldap". Rewrite
+	this to use libxml since that was easier than trying to make the
+	old code do both kinds of changes at once.
+
 2002-10-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config-druid.c (management_prepare): Only set an account
