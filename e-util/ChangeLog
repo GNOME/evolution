@@ -1,3 +1,11 @@
+2001-08-01  Christopher James Lahey  <clahey@ximian.com>
+
+	* e-categories-master-list-wombat.c (ecmlw_load): Fixed the load
+	statement here by just using array_from_string.
+	(ecmlw_save): Removed the part where we save the icons and colors
+	since that's handled in the array_to_string function.  Fixes
+	Ximian bug #4451.
+
 2001-07-27  JP Rosevear  <jpr@ximian.com>
 
 	* e-dbhash.c (string_to_dbt): memset everything to 0
