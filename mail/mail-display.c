@@ -532,34 +532,40 @@ pixbuf_for_mime_type (const char *mime_type)
 	const char *icon_name;
 	char *filename = NULL;
 	GdkPixbuf *pixbuf = NULL;
-
-	icon_name = gnome_vfs_mime_get_value (mime_type, "icon-filename");
+	
+	/* GnomeVFS changed the key from icon-filename to
+	   icon_filename, so check icon_filename first and if that
+	   fails, fall back to the old key name */
+	if (!(icon_name = gnome_vfs_mime_get_value (mime_type, "icon_filename")))
+		icon_name = gnome_vfs_mime_get_value (mime_type, "icon-filename");
+	
 	if (icon_name) {
 		if (*icon_name == '/') {
 			pixbuf = gdk_pixbuf_new_from_file (icon_name);
 			if (pixbuf)
 				return pixbuf;
 		}
-
+		
 		filename = gnome_pixmap_file (icon_name);
 		if (!filename) {
 			char *fm_icon;
-
+			
 			fm_icon = g_strdup_printf ("nautilus/%s", icon_name);
 			filename = gnome_pixmap_file (fm_icon);
 			if (!filename) {
+				g_free (fm_icon);
 				fm_icon = g_strdup_printf ("mc/%s", icon_name);
 				filename = gnome_pixmap_file (fm_icon);
 			}
 			g_free (fm_icon);
 		}
+		
+		if (filename) {
+			pixbuf = gdk_pixbuf_new_from_file (filename);
+			g_free (filename);
+		}
 	}
 	
-	if (filename) {
-		pixbuf = gdk_pixbuf_new_from_file (filename);
-		g_free (filename);
-	}
-
 	if (!pixbuf) {
 		filename = gnome_pixmap_file ("gnome-unknown.png");
 		if (filename) {
@@ -571,7 +577,7 @@ pixbuf_for_mime_type (const char *mime_type)
 				(const char **)empty_xpm);
 		}
 	}
-
+	
 	return pixbuf;
 }
 

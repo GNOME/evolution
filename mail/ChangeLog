@@ -1,3 +1,10 @@
+2002-09-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-display.c (pixbuf_for_mime_type): check the new gnome-vfs
+	icon_filename key. If that fails, fall back to checking
+	icon-filename. Also don't leak the fm_icon string and rearranged
+	some code.
+
 2002-09-11  Not Zed  <NotZed@Ximian.com>
 
 	* component-factory.c (configure_folder_popup): Handle file uri's
