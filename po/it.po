@@ -4,11 +4,14 @@
 # Ettore Perazzoli <ettore@ximian.com>, 2001
 # Marco Ciampa <ciampix@libero.it>, 2003
 # Alessio Dessi <alessio.dessi@libero.it>, 2003
+# Monica Badia <Monica.Badia@Sun.COM>, 2003
+# This document is under revision (completed at 25% now)
+# Will be finished to the 5th of august.
 msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "POT-Creation-Date: 2003-06-25 13:24-0400\n"
-"PO-Revision-Date: 2003-06-23 11:23+0200\n"
+"PO-Revision-Date: 2003-08-01 10:46+0200\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team:  <tp@lists.linux.it>,<it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -179,7 +182,7 @@ msgstr "Altro fax"
 #: addressbook/gui/contact-editor/e-contact-editor.c:1751
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:32
 msgid "Pager"
-msgstr "Impaginatore"
+msgstr "Cercapersone"
 
 #: addressbook/backend/ebook/e-card-simple.c:82
 #: addressbook/gui/contact-editor/e-contact-editor.c:1753
@@ -244,7 +247,7 @@ msgstr "Uff"
 #: addressbook/backend/ebook/e-card.c:1388
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:39
 msgid "Title"
-msgstr "Posizione"
+msgstr "Qualifica"
 
 #: addressbook/backend/ebook/e-card-simple.c:92
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:34
@@ -422,11 +425,11 @@ msgstr "Vuole HTML tipo"
 
 #: addressbook/backend/ebook/e-card.c:1506
 msgid "List"
-msgstr "Lista"
+msgstr "Elenco"
 
 #: addressbook/backend/ebook/e-card.c:1513
 msgid "List Show Addresses"
-msgstr "Lista mostra indirizzi"
+msgstr "Elenco mostra indirizzi"
 
 #: addressbook/backend/ebook/e-card.c:1520
 msgid "Arbitrary"
@@ -465,7 +468,7 @@ msgstr "Uso nome distintivo (DN)"
 
 #: addressbook/backend/pas/pas-backend-ldap.c:602
 msgid "Using Email Address"
-msgstr "Uso indirizzo email"
+msgstr "Uso indirizzo Email"
 
 #: addressbook/backend/pas/pas-backend-ldap.c:748
 msgid "Reconnecting to LDAP server..."
@@ -598,23 +601,23 @@ msgstr "Crea un nuovo contatto"
 
 #: addressbook/gui/component/addressbook-component.c:578
 msgid "New Contact List"
-msgstr "Nuova lista contatti"
+msgstr "Nuova elenco contatti"
 
 #: addressbook/gui/component/addressbook-component.c:578
 msgid "Contact _List"
-msgstr "Lista _contatti"
+msgstr "Elenco _contatti"
 
 #: addressbook/gui/component/addressbook-component.c:579
 msgid "Create a new contact list"
-msgstr "Crea una nuova lista contatti"
+msgstr "Crea un nuovo elenco contatti"
 
 #: addressbook/gui/component/addressbook-config.c:206
 msgid "Failed to connect to LDAP server"
-msgstr "Fallita la connessione al server LDAP"
+msgstr "Connessione al server LDAP non riuscita"
 
 #: addressbook/gui/component/addressbook-config.c:231
 msgid "Failed to authenticate with LDAP server"
-msgstr "Fallita l'autenticazione con il server LDAP"
+msgstr "L'autenticazione con il server LDAP non riuscita"
 
 #: addressbook/gui/component/addressbook-config.c:259
 msgid "Could not perform query on Root DSE"
@@ -678,9 +681,9 @@ msgid ""
 "retrieving OpenLDAP from the link below.\n"
 msgstr ""
 "Questa versione di Evolution non ha il supporto LDAP\n"
-"compilato.  Se si desidera usare LDAP con Evolution\n"
-"bisogna compilare il programma dai sorgenti CVS dopo\n"
-"aver scaricato Open LDAP dal collegamento sottostante.\n"
+"compilato. Per usare LDAP con Evolution è necessario\n"
+"compilare il programma dai sorgenti CVS dopo aver\n"
+"scaricato Open LDAP dal collegamento sottostante.\n"
 
 #: addressbook/gui/component/addressbook.c:527
 msgid ""
@@ -702,7 +705,7 @@ msgstr "Accesso anonimo al server LDAP"
 
 #: addressbook/gui/component/addressbook.c:652
 msgid "Failed to authenticate.\n"
-msgstr "Fallita autenticazione.\n"
+msgstr "Autenticazione non riuscita.\n"
 
 #: addressbook/gui/component/addressbook.c:660
 #: addressbook/gui/component/addressbook.c:663
@@ -716,7 +719,7 @@ msgstr "Il nome comincia per"
 
 #: addressbook/gui/component/addressbook.c:795
 msgid "Email begins with"
-msgstr "L'email comincia per"
+msgstr "L'Email comincia per"
 
 #: addressbook/gui/component/addressbook.c:796
 #: calendar/gui/cal-search-bar.c:53
@@ -740,11 +743,11 @@ msgid ""
 "Please make your search more specific or raise the result limit in\n"
 "the directory server preferences for this addressbook."
 msgstr ""
-"A questa interrogazione corrispondono più card di quante\n"
-"questo server sia configurato a restituire o di quanto\n"
-"Evolution sia configurato a mostrare. Prego impostare la\n"
-"ricerca in maniera più specifica o aumentare il limite di risultati\n"
-"nelle preferenze del server di directory per questa rubrica."
+"A questa interrogazione corrispondono più card di quante la \n"
+"configurazione di questo server riesca a restituire o quella \n"
+"di Evolution riesca a mostrare. Impostare la ricerca in maniera \n"
+"più specifica o aumentare il limite di risultati nelle preferenze \n"
+"del server di elenchi per questa rubrica."
 
 #: addressbook/gui/component/addressbook.c:961
 msgid ""
@@ -754,9 +757,9 @@ msgid ""
 "preferences for this addressbook."
 msgstr ""
 "Il tempo necessario per eseguire questa query eccede o il limite\n"
-"del server o il limite configurato per questa rubrica.  Prego\n"
-"rendere la ricerca più specifica o elevare il limite di tempo del\n"
-"server di directory nelle preferenze di questa rubrica."
+"del server o il limite configurato per questa rubrica. Rendere \n"
+"la ricerca più specifica o elevare il limite di tempo del\n"
+"server di elenchi nelle preferenze di questa rubrica."
 
 #: addressbook/gui/component/addressbook.c:967
 msgid "The backend for this addressbook was unable to parse this query."
@@ -799,7 +802,7 @@ msgstr "Email principale"
 
 #: addressbook/gui/component/e-address-popup.c:614
 msgid "Select an Action"
-msgstr "Selezionare un'azione"
+msgstr "Seleziona un'azione"
 
 #: addressbook/gui/component/e-address-popup.c:622
 #, c-format
@@ -828,7 +831,7 @@ msgstr "Aggiungi ai contatti"
 
 #: addressbook/gui/component/e-address-popup.c:1053
 msgid "Merge E-Mail Address"
-msgstr "Unisci indirizzo email"
+msgstr "Unisci indirizzo Email"
 
 #: addressbook/gui/component/e-address-widget.c:369
 msgid "Disable Queries"
@@ -914,11 +917,11 @@ msgid ""
 "Please click the \"Finish\" button to save the settings you have entered "
 "here."
 msgstr ""
-"Congratulazioni, hai finito di impostare questo server LDAP. Ora\n"
-"sei pronto per accedere a questa directory.\n"
+"La configurazione del server LDAP è terminata.\n"
+"Ora si può accedere a questa directory.\n"
 "\n"
-"Prego premere il tasto \"Applica\" per salvare le impostazioni che si è sin "
-"qui inserite."
+"Premere il tasto \"Fine\" per salvare le impostazioni \n"
+"inserite sino a questo punto."
 
 #: addressbook/gui/component/ldap-config.glade.h:19
 msgid "Connecting"
@@ -934,17 +937,16 @@ msgstr "Modifica server LDAP"
 
 #: addressbook/gui/component/ldap-config.glade.h:22
 msgid "Email address:"
-msgstr "Indirizzo email:"
+msgstr "Indirizzo Email:"
 
 #: addressbook/gui/component/ldap-config.glade.h:23
 msgid "Evolution will use this DN to authenticate you with the server"
-msgstr "Evolution utilizzerà questo DN per autenticarti con il server"
+msgstr "Evolution utilizzerà questo DN per autenticarsi con il server"
 
 #: addressbook/gui/component/ldap-config.glade.h:24
 msgid ""
 "Evolution will use this email address to authenticate you with the server"
-msgstr ""
-"Evolution utilizzerà questo indirizzo di posta per autenticarsi con il server"
+msgstr "Evolution utilizzerà questo indirizzo Email per autenticarsi con il server"
 
 #: addressbook/gui/component/ldap-config.glade.h:25
 msgid "Finished"
@@ -965,6 +967,7 @@ msgid "Never"
 msgstr "Mai"
 
 #: addressbook/gui/component/ldap-config.glade.h:29
+#, fuzzy
 msgid ""
 "Now, you must specify how you want to connect to the LDAP server. The SSL "
 "(Secure Sockets Layer)\n"
@@ -973,12 +976,10 @@ msgid ""
 "your connection. Ask your system administrator if your LDAP server uses "
 "these protocols."
 msgstr ""
-"Ora è necessario specificare come si vuole connettersi al server LDAP. "
-"Alcuni sever\n"
-" utilizzano i protocolli SSL (Secure Socket Layer) e TLS (Transport Layer "
-"Security) per proteggere\n"
-"crittograficamente la connessione. Chiedi all'amministratore se il server "
-"LDAP usa questi protocolli."
+"Ora è necessario specificare come si vuole connettersi al server LDAP. \n"
+"Alcuni server utilizzano i protocolli SSL (Secure Socket Layer) e TLS \n"
+"(Transport Layer Security) per proteggere crittograficamente la connessione. \n"
+"Chiedere all'amministratore se il server LDAP usa questi protocolli."
 
 #: addressbook/gui/component/ldap-config.glade.h:32
 msgid "One"
@@ -1035,11 +1036,9 @@ msgid ""
 "to security\n"
 "exploits. "
 msgstr ""
-"Selezionare quest'opzione significa che il server non supporta nè SSL nè "
-"TLS.  Ciò \n"
-"significa che la connessione sarà insicura e che si diventerà giocoforza "
-"vulnerabili\n"
-"ad attacchi sulla sicurezza."
+"Selezionare quest'opzione significa che il server non supporta nè SSL nè TLS.  Ciò \n"
+"significa che la connessione sarà insicura e che si diventerà perciò vulnerabili\n"
+"ad attacchi alla sicurezza del sistema."
 
 #: addressbook/gui/component/ldap-config.glade.h:45
 msgid ""
@@ -1047,8 +1046,7 @@ msgid ""
 "LDAP\n"
 "searches, and for creating and editing contacts. "
 msgstr ""
-"Selezionando quest'opzione permetterà di modificare le preimpostazioni di "
-"Evolution per\n"
+"Selezionando quest'opzione sarà possibile modificare le preimpostazioni di Evolution per\n"
 "le ricerche e per la creazione e modifica dei contatti."
 
 #: addressbook/gui/component/ldap-config.glade.h:47
@@ -1090,10 +1088,8 @@ msgid ""
 "information. Please ask your system administrator if you are unsure of this "
 "information."
 msgstr ""
-"Il primo passo nella configurazione di un server LDAP è fornire il suo nome "
-"e le Vostre\n"
-"informazioni di sottoscrizione. Prego chiedere all'amministrazione di "
-"sistema se non si è\n"
+"Il primo passo nella configurazione di un server LDAP è fornire il proprio  nome e le \n"
+"informazioni di sottoscrizione. Chiedere all'amministrazione di sistema se non si è\n"
 "sicuri di queste informazioni."
 
 #: addressbook/gui/component/ldap-config.glade.h:56
@@ -1104,11 +1100,9 @@ msgid ""
 "if you\n"
 "need to change these options."
 msgstr ""
-"Le opzioni in questa pagina controllano quante voci dovrebbero essere "
-"incluse\n"
-"nelle ricerche e quanto a lungo può durare una ricerca. Domandate al Vostro "
-"amministratore\n"
-"di sistema se avete bisogno di cambiare queste opzioni."
+"Le opzioni in questa pagina determinano il numero di voci da includere\n"
+"nelle ricerche e la durata di una ricerca. Per cambiarle rivolgersi \n"
+"all'amministratore di sistema."
 
 #: addressbook/gui/component/ldap-config.glade.h:59
 msgid ""
@@ -1117,10 +1111,8 @@ msgid ""
 "begin. If you leave this blank, the search will begin at the root of the "
 "directory tree."
 msgstr ""
-"La base di ricerca è il nome distinto (DN) della voce dove la ricerca "
-"comincerà.\n"
-"Se si lascia in bianco questo campo la ricerca comincerà alla radice "
-"dell'albero delle directory."
+"La base di ricerca è il nome distinto (DN) della voce dove la ricerca comincerà.\n"
+"Lasciando in bianco questo campo, la ricerca comincerà alla radice dell'albero delle directory."
 
 #: addressbook/gui/component/ldap-config.glade.h:61
 msgid ""
@@ -1131,12 +1123,9 @@ msgid ""
 "A search scope of \"one\" will only include the entries one level beneath "
 "your base.\n"
 msgstr ""
-"L'ampiezza ricerca definisce a che profondità si vuole venga estesa la "
-"ricerca lungo\n"
-"l'albero delle directory. Un'ampiezza di \"sub\" includerà tutte le voci "
-"sotto la base di ricerca.\n"
-"Un'ampiezza di ricerca di \"uno\" includerà solo le voci un livello sotto la "
-"base.\n"
+"L'ampiezza ricerca definisce il livello di profondità a cui si vuole estendere la ricerca lungo\n"
+"l'albero delle directory. Un'ampiezza di \"sub\" includerà tutte le voci sotto la base di ricerca.\n"
+"Un'ampiezza di ricerca di \"uno\" includerà solo le voci un livello sotto la base.\n"
 
 #: addressbook/gui/component/ldap-config.glade.h:65
 msgid ""
@@ -1147,20 +1136,18 @@ msgid ""
 "server. Please contact your system administrator if you need help finding "
 "this information."
 msgstr ""
-"L'assistente Vi aiuterà ad accedere ai servizi di directory in linea\n"
+"L'assistente aiuterà ad accedere ai servizi di directory in linea\n"
 "utilizzando server LDAP (Lightweight Directory Access Protocol).\n"
 "\n"
-"L'aggiunta di un nuovo server LDAP richiede alcune speciali "
-"informazionicirca il server. Contattare il Vostro amministratore di sistema "
-"seavete bisogno di aiuto per trovare le suddette informazioni."
+"L'aggiunta di un nuovo server LDAP richiede alcune informazioni \n"
+"specifiche circa il server. Per richiedere questo tipo di informazioni \n"
+"contattare l'amministratore di sistema."
 
 #: addressbook/gui/component/ldap-config.glade.h:69
 msgid ""
 "This is the full name of your ldap server. For example, \"ldap.mycompany.com"
 "\"."
-msgstr ""
-"Questo è il nome completo del Vostro server ldap. Per esempio \"ldap."
-"miazienda.com\"."
+msgstr "Questo è il nome completo del server ldap. Per esempio \"ldap.miazienda.com\"."
 
 #: addressbook/gui/component/ldap-config.glade.h:70
 msgid ""
@@ -1168,8 +1155,8 @@ msgid ""
 "be \n"
 "too large will slow down your addressbook."
 msgstr ""
-"Questo è il numero massimo di voci da scaricare. L'impostazione di un valore "
-"troppo grande rallenterà questa rubrica."
+"Questo è il numero massimo di voci da scaricare. L'impostazione di un \n"
+"valore troppo grande rallenterà la rubrica."
 
 #: addressbook/gui/component/ldap-config.glade.h:72
 msgid ""
@@ -1178,7 +1165,7 @@ msgid ""
 "server."
 msgstr ""
 "Questo è il metodo usato da Evolution per l'autenticazione. Notare che "
-"impostare questo come \"indirizzo email\" richiede accesso anonimo al server "
+"impostare questo come \"indirizzo Email\" richiede accesso anonimo al server "
 "ldap."
 
 #: addressbook/gui/component/ldap-config.glade.h:73
@@ -1187,8 +1174,9 @@ msgid ""
 "list.\n"
 "It is for display purposes only. "
 msgstr ""
-"Questo nome viene usato per identificare il vostro account.\n"
-" Serve solo allo scopo di visualizzarlo."
+"Questo è il nome del server che risulterà nell'elenco delle cartelle di "
+"Evolution.\n"
+"Serve solo allo scopo di visualizzarlo."
 
 #: addressbook/gui/component/ldap-config.glade.h:75
 msgid ""
@@ -1197,15 +1185,13 @@ msgid ""
 "list of standard ports has been provided. Ask your system administrator\n"
 "what port you should specify."
 msgstr ""
-"Questa è la porta sul server LDAP alla quale Evolution tenterà di "
-"connettersi.\n"
-"Viene fornito un elenco di porte standard. Richiedere al Vostro "
-"amministratore di\n"
-"sistema che porta si dovrà specificare."
+"Questa è la porta sul server LDAP alla quale Evolution tenterà di connettersi.\n"
+"Viene fornito un elenco di porte standard. Richiedere all'amministratore di \n"
+"sistema quale porta si dovrà specificare."
 
 #: addressbook/gui/component/ldap-config.glade.h:78
 msgid "This option controls how long a search will be run."
-msgstr "Quest'opzione controlla quanto una ricerca potrà estendersi."
+msgstr "Quest'opzione determina la durata di una ricerca."
 
 #: addressbook/gui/component/ldap-config.glade.h:79
 msgid "U_se SSL/TLS:"
@@ -1217,7 +1203,7 @@ msgstr "Uso nome distintivo (DN)"
 
 #: addressbook/gui/component/ldap-config.glade.h:81
 msgid "Using email address"
-msgstr "Uso indirizzo email"
+msgstr "Uso indirizzo Email"
 
 #: addressbook/gui/component/ldap-config.glade.h:82 mail/mail-account-gui.c:63
 #: mail/mail-config.glade.h:128
@@ -1230,7 +1216,7 @@ msgstr "Mostra il nome:"
 
 #: addressbook/gui/component/ldap-config.glade.h:84
 msgid "_Download limit:"
-msgstr "Limite scaricamento:"
+msgstr "Limite di _download:"
 
 #: addressbook/gui/component/ldap-config.glade.h:85 filter/filter.glade.h:14
 #: mail/mail-config.glade.h:143 ui/evolution-addressbook.xml.h:33
@@ -1268,15 +1254,15 @@ msgstr "card"
 
 #: addressbook/gui/component/ldap-config.glade.h:92
 msgid "connecting-tab"
-msgstr "linguetta-connessione"
+msgstr "scheda-connessione"
 
 #: addressbook/gui/component/ldap-config.glade.h:93
 msgid "general-tab"
-msgstr "linguetta-generale"
+msgstr "scheda-generale"
 
 #: addressbook/gui/component/ldap-config.glade.h:94
 msgid "searching-tab"
-msgstr "linguetta-ricerca"
+msgstr "scheda-ricerca"
 
 #: addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.server.in.in.h:1
 msgid "Evolution Addressbook name selection interface"
@@ -1284,17 +1270,17 @@ msgstr "Interfaccia per la selezione dei nomi della rubrica di Evolution."
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:204
 msgid "Remove All"
-msgstr "Rimuovere tutti"
+msgstr "Rimuovi tutti"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:211
 #: addressbook/gui/component/select-names/e-select-names.c:694
 #: composer/e-msg-composer-attachment-bar.c:507
 msgid "Remove"
-msgstr "Rimuovere"
+msgstr "Rimuovi"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:218
 msgid "View Contact List"
-msgstr "Mostra lista contatti"
+msgstr "Mostra elenco contatti"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:218
 msgid "View Contact Info"
@@ -1332,7 +1318,7 @@ msgstr "Seleziona nomi"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:4
 msgid "Selected Contacts:"
-msgstr "Selezionare contatti:"
+msgstr "Seleziona contatti:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:5
 msgid "Show Contacts"
@@ -1343,7 +1329,7 @@ msgid ""
 "Type a name into the entry, or\n"
 "select one from the list below:"
 msgstr ""
-"Inserisci un nome o selezionane\n"
+"Inserisci un nome o scegline\n"
 "uno dall'elenco sottostante:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:8
@@ -1415,7 +1401,7 @@ msgid ""
 "Internet, enter the address\n"
 "of that information here."
 msgstr ""
-"Se questa persona pubblica informazioni di calendario su Internet,\n"
+"Se la persona indicata pubblica informazioni di calendario su Internet,\n"
 "inserirne qui la URL."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:18
@@ -1473,7 +1459,7 @@ msgstr "Casa:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
 msgid "_Job title:"
-msgstr "_Titolo:"
+msgstr "_Qualifica:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:31
 msgid "_Manager's name:"
@@ -2478,7 +2464,7 @@ msgstr "Gran Bretagna"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:355
 msgid "United States Minor Outlying Islands"
-msgstr "United States Minor Outlying Islands"
+msgstr "Isole minori degli Stati Uniti"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:356
 #: my-evolution/Locations.h:2345
@@ -2583,7 +2569,7 @@ msgid ""
 "Are you sure you want\n"
 "to delete these contacts?"
 msgstr ""
-"Sicuro di voler cancellare\n"
+"Cancellare\n"
 "questi contatti?"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:1058
@@ -2591,7 +2577,7 @@ msgid ""
 "Are you sure you want\n"
 "to delete this contact?"
 msgstr ""
-"Sicuro di voler cancellare\n"
+"Cancellare\n"
 "questo contatto?"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:1755
@@ -2631,7 +2617,7 @@ msgstr "card.vcf"
 
 #: addressbook/gui/contact-editor/e-contact-save-as.c:175
 msgid "list"
-msgstr "lista"
+msgstr "elenco"
 
 #: addressbook/gui/contact-editor/e-contact-save-as.c:208
 #, c-format
@@ -2676,7 +2662,7 @@ msgstr "_Stato/Provincia:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:9
 msgid "_ZIP Code:"
-msgstr "_ZIP/CAP:"
+msgstr "CAP:"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:2
 msgid "Dr."
@@ -2748,33 +2734,32 @@ msgstr "Membri"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
 msgid "_Hide addresses when sending mail to this list"
-msgstr "_Nascondi gli indirizzi quando si invia una email a questa lista"
+msgstr "_Nascondi gli indirizzi quando si invia una Email a questo elenco"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
 msgid "_List name:"
-msgstr "Nome della _lista:"
+msgstr "Nome dell'e_lenco:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
 msgid "_Type an email address or drag a contact into the list below:"
-msgstr ""
-"Inserire un indirizzo email o trascinare un contatto dalla lista sottostante:"
+msgstr "Inserire un indirizzo Email o trascinare un contatto dall'elenco sottostante:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:8
 msgid "contact-list-editor"
-msgstr "Editor della lista dei contatti"
+msgstr "Editor dell'elenco dei contatti"
 
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:156
 msgid "Is New List"
-msgstr "È una nuova lista"
+msgstr "È un nuovo elenco"
 
 #. Construct the app
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:242
 msgid "Contact List Editor"
-msgstr "Editor della lista dei contatti"
+msgstr "Editor dell'elenco dei contatti"
 
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:456
 msgid "Save List as VCard"
-msgstr "Salva lista come vcard"
+msgstr "Salva elenco come vcard"
 
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
 msgid "Contact"
@@ -2798,7 +2783,7 @@ msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder.  Would you like to add it anyway?"
 msgstr ""
-"Il nome o l'indirizzo email di questo contatto esistono già\n"
+"Il nome o l'indirizzo Email di questo contatto esistono già\n"
 "in questa cartella. Aggiungere comunque?"
 
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:1
@@ -2814,7 +2799,7 @@ msgid ""
 "The changed email or name of this contact already\n"
 "exists in this folder.  Would you like to add it anyway?"
 msgstr ""
-"L'indirizzo email o il nome di questo contatto esistono\n"
+"L'indirizzo Email o il nome di questo contatto esistono\n"
 " già in questa cartella. Aggiungere comunque?"
 
 #. FIXME: get the toplevel window...
@@ -2887,7 +2872,7 @@ msgstr "Card non trovata"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:41
 msgid "Card ID already exists"
-msgstr "ID della card già esistente"
+msgstr "ID della card esiste già"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:42
 msgid "Protocol not supported"
@@ -2906,7 +2891,7 @@ msgstr "Annullato"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:44
 msgid "Authentication Failed"
-msgstr "Autenticazione fallita"
+msgstr "Autenticazione non riuscita"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:45
 msgid "Authentication Required"
@@ -2934,7 +2919,7 @@ msgstr "_Annulla"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:96
 msgid "Error adding list"
-msgstr "Errore nell'aggiungere la lista"
+msgstr "Errore nell'aggiungere l'elenco"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:96
 #: addressbook/gui/widgets/e-addressbook-util.c:272
@@ -2943,11 +2928,11 @@ msgstr "Errore nell'aggiungere una card"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:105
 msgid "Error modifying list"
-msgstr "Errore nella modifica della lista"
+msgstr "Errore nella modifica dell'elenco"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:115
 msgid "Error removing list"
-msgstr "Errore nella rimozione della lista"
+msgstr "Errore nella rimozione dell'elenco"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:115
 #: addressbook/gui/widgets/e-addressbook-util.c:230
@@ -2960,8 +2945,8 @@ msgid ""
 "Opening %d cards will open %d new windows as well.\n"
 "Do you really want to display all of these cards?"
 msgstr ""
-"Aprendo %d card causerà la visualizzazione di %d nuove finestre.\n"
-" Si desidera veramente visualizzare tutte queste card?"
+"L'apertura di %d card causerà l'apertura di %d nuove finestre.\n"
+" Visualizzare tutte le card indicate?"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:328
 msgid "Move card to"
@@ -3014,7 +2999,7 @@ msgstr "Nuovo contatto..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:883
 msgid "New Contact List..."
-msgstr "Nuova lista di contatti..."
+msgstr "Nuovo elenco contatti..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:886
 msgid "Go to Folder..."
@@ -3117,12 +3102,11 @@ msgid ""
 msgstr ""
 "Il backend della rubrica per\n"
 "%s\n"
-"è crashato. E' necessario riavviare Evolution se si vuole continuare ad "
-"utilizzarlo"
+"è andato in crash. Per utilizzarlo nuovamente è necessario riavviare Evolution"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:1
 msgid "* Click here to add a contact *"
-msgstr "* Cliccare qui per aggiungere un contatto *"
+msgstr "* Fare clic qui per aggiungere un contatto *"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:3
 msgid "Assistant Phone"
@@ -3240,7 +3224,7 @@ msgstr ""
 "\n"
 "Non c'è niente da mostrare in questa vista\n"
 "\n"
-"Fare doppio click qui per creare un nuovo contatto."
+"Fare doppio clic qui per creare un nuovo contatto."
 
 #: addressbook/gui/widgets/e-minicard-view.c:144
 msgid ""
@@ -3348,7 +3332,7 @@ msgstr "Altezza:"
 
 #: addressbook/printing/e-contact-print.glade.h:16
 msgid "Immediately follow each other"
-msgstr "Concatenati l'un l'altro"
+msgstr "Uno di seguito all'altro"
 
 #: addressbook/printing/e-contact-print.glade.h:17
 msgid "Include:"
@@ -3364,7 +3348,7 @@ msgstr "Sinistra:"
 
 #: addressbook/printing/e-contact-print.glade.h:20
 msgid "Letter tabs on side"
-msgstr "Linguette lettera sul bordo"
+msgstr "Schede lettera sul bordo"
 
 #: addressbook/printing/e-contact-print.glade.h:21
 msgid "Margins"
@@ -3727,8 +3711,8 @@ msgid ""
 "a normal reminder dialog box instead."
 msgstr ""
 "Il calendario di Evolution al momento non permette di spedire\n"
-"notifiche attraverso la posta elettronica, anche se questo avvertimento\n"
-"richiede l'invio di un messaggio di posta elettronica.  Per questo,\n"
+"notifiche attraverso Email, anche se questo avvertimento\n"
+"richiede l'invio di un messaggio Email.  Per questo,\n"
 "Evolution visualizzerà invece un messaggio a video."
 
 #: calendar/gui/alarm-notify/alarm-queue.c:873
@@ -4053,7 +4037,7 @@ msgstr "Opzioni messaggi di avviso"
 
 #: calendar/gui/dialogs/alarm-options.c:438
 msgid "Email Alarm Options"
-msgstr "Opzioni avviso di posta"
+msgstr "Opzioni avviso Email"
 
 #: calendar/gui/dialogs/alarm-options.c:447
 msgid "Program Alarm Options"
@@ -4143,7 +4127,7 @@ msgstr "Esegui programma"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:7
 msgid "Send an Email"
-msgstr "Invia un email"
+msgstr "Invia una Email"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:8
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
@@ -4282,7 +4266,7 @@ msgstr "G_io"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
 msgid "Task List"
-msgstr "Lista attività"
+msgstr "Elenco attività"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
 #: calendar/gui/dialogs/recurrence-page.c:1039
@@ -4401,36 +4385,31 @@ msgstr "prima di ogni appuntamento"
 msgid ""
 "The event being deleted is a meeting, would you like to send a cancellation "
 "notice?"
-msgstr ""
-"L'evento cancellato è una riunione, vuoi spedire un'avvertimento di "
-"cancellazione?"
+msgstr "L'evento cancellato è una riunione. Spedire un'avvertimento di cancellazione?"
 
 #: calendar/gui/dialogs/cancel-comp.c:61
 msgid "Are you sure you want to cancel and delete this meeting?"
-msgstr "Sicuro di voler annullare e cancellare questa riunione?"
+msgstr "Annullare e cancellare questa riunione?"
 
 #: calendar/gui/dialogs/cancel-comp.c:67
 msgid ""
 "The task being deleted is assigned, would you like to send a cancellation "
 "notice?"
-msgstr ""
-"L'evento cancellato è assegnato, vuoi spedire una nota di cancellazione?"
+msgstr "L'evento cancellato è assegnato. Spedire una nota di cancellazione?"
 
 #: calendar/gui/dialogs/cancel-comp.c:70
 msgid "Are you sure you want to cancel and delete this task?"
-msgstr "Sei sicuro di voler annullare e cancellare questa attività?"
+msgstr "Annullare e cancellare questa attività?"
 
 #: calendar/gui/dialogs/cancel-comp.c:76
 msgid ""
 "The journal entry being deleted is published, would you like to send a "
 "cancellation notice?"
-msgstr ""
-"La voce di giornale cancellata è stata pubblicata, vuoi spedire un'avviso di "
-"cancellazione?"
+msgstr "La voce dell'agenda cancellata è stata pubblicata. Spedire un'avviso di cancellazione?"
 
 #: calendar/gui/dialogs/cancel-comp.c:79
 msgid "Are you sure you want to cancel and delete this journal entry?"
-msgstr "Sei sicuro di voler annullare e cancellare questa voce dell'agenda?"
+msgstr "Annullare e cancellare questa voce dell'agenda?"
 
 #: calendar/gui/dialogs/changed-comp.c:58
 msgid "This event has been deleted."
@@ -4447,14 +4426,12 @@ msgstr "Questa voce dell'agenda è stata cancellata."
 #: calendar/gui/dialogs/changed-comp.c:75
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
-msgstr ""
-"%s sono state effettuate delle modifiche.  Dimenticare queste modifiche e "
-"chiudere l'editor?"
+msgstr "%s sono state effettuate delle modifiche. Ignorare le modifiche e chiudere l'editor?"
 
 #: calendar/gui/dialogs/changed-comp.c:77
 #, c-format
 msgid "%s  You have made no changes, close the editor?"
-msgstr "%s non sono state effettuate modifiche, chiudere l'editor?"
+msgstr "%s non sono state effettuate modifiche. Chiudere l'editor?"
 
 #: calendar/gui/dialogs/changed-comp.c:82
 msgid "This event has been changed."
@@ -4471,14 +4448,12 @@ msgstr "Questa voce dell'agenda è stata modificata."
 #: calendar/gui/dialogs/changed-comp.c:99
 #, c-format
 msgid "%s  You have made changes. Forget those changes and update the editor?"
-msgstr ""
-"%s sono state effettuate delle modifiche.  Dimenticare queste modifiche ed "
-"aggiornare l'editor?"
+msgstr "%s sono state effettuate delle modifiche. Ignorare le modifiche ed aggiornare l'editor?"
 
 #: calendar/gui/dialogs/changed-comp.c:101
 #, c-format
 msgid "%s  You have made no changes, update the editor?"
-msgstr "%s non sono state effettuate modifiche.  Aggiornare l'editor?"
+msgstr "%s non sono state effettuate modifiche. Aggiornare l'editor?"
 
 #: calendar/gui/dialogs/comp-editor-page.c:409
 #, c-format
@@ -4515,7 +4490,7 @@ msgstr "Oggetto non trovato, non aggiornato"
 
 #: calendar/gui/dialogs/comp-editor.c:340
 msgid "You don't have permissions to update this object"
-msgstr "Non hai i permessi per aggiornare quest'oggetto"
+msgstr "Non si hanno i permessi per aggiornare quest'oggetto"
 
 #: calendar/gui/dialogs/comp-editor.c:343
 msgid "Could not update object"
@@ -4565,49 +4540,49 @@ msgstr ""
 
 #: calendar/gui/dialogs/comp-editor.c:1459
 msgid "Unable to obtain current version!"
-msgstr "Impossibile ottenere la versione corrente!"
+msgstr "Impossibile ricevere la versione corrente!"
 
 #: calendar/gui/dialogs/delete-comp.c:96
 #, c-format
 msgid "Are you sure you want to delete the appointment `%s'?"
-msgstr "Sei sicuro di voler cancellare l'appuntamento `%s'?"
+msgstr "Cancellare l'appuntamento `%s'?"
 
 #: calendar/gui/dialogs/delete-comp.c:99
 msgid "Are you sure you want to delete this untitled appointment?"
-msgstr "Sei sicuro di voler cancellare questo appuntamento senza nome?"
+msgstr "Cancellare questo appuntamento senza nome?"
 
 #: calendar/gui/dialogs/delete-comp.c:105
 #, c-format
 msgid "Are you sure you want to delete the task `%s'?"
-msgstr "Sei sicuro di voler cancellare l'attività `%s'?"
+msgstr "Cancellare l'attività `%s'?"
 
 #: calendar/gui/dialogs/delete-comp.c:108
 msgid "Are you sure you want to delete this untitled task?"
-msgstr "Sei sicuro di voler cancellare questa attività senza nome?"
+msgstr "Cancellare questa attività senza nome?"
 
 #: calendar/gui/dialogs/delete-comp.c:114
 #, c-format
 msgid "Are you sure you want to delete the journal entry `%s'?"
-msgstr "Sei sicuro di voler cancellare la voce dell'agenda `%s'?"
+msgstr "Cancellare la voce dell'agenda `%s'?"
 
 #: calendar/gui/dialogs/delete-comp.c:117
 msgid "Are you sure want to delete this untitled journal entry?"
-msgstr "Sei sicuro di voler cancellare questa voce dell'agenda senza nome?"
+msgstr "Cancellare questa voce dell'agenda senza nome?"
 
 #: calendar/gui/dialogs/delete-comp.c:132
 #, c-format
 msgid "Are you sure you want to delete %d appointments?"
-msgstr "Sei sicuro di voler cancellare %d appuntamenti?"
+msgstr "Cancellare %d appuntamenti?"
 
 #: calendar/gui/dialogs/delete-comp.c:137
 #, c-format
 msgid "Are you sure you want to delete %d tasks?"
-msgstr "Sei sicuro di voler cancellare %d attività?"
+msgstr "Cancellare %d attività?"
 
 #: calendar/gui/dialogs/delete-comp.c:142
 #, c-format
 msgid "Are you sure you want to delete %d journal entries?"
-msgstr "Sei sicuro di voler cancellare %d voci dell'agenda?"
+msgstr "Cancellare %d voci dell'agenda?"
 
 #: calendar/gui/dialogs/delete-error.c:50
 msgid "The event could not be deleted due to a corba error"
@@ -4619,8 +4594,7 @@ msgstr "L'azione non può essere cancellata a causa di un errore corba"
 
 #: calendar/gui/dialogs/delete-error.c:56
 msgid "The journal entry could not be deleted due to a corba error"
-msgstr ""
-"La voce del giornale non può essere cancellata a causa di un errore corba"
+msgstr "La voce dell'agenda non può essere cancellata a causa di un errore corba"
 
 #: calendar/gui/dialogs/delete-error.c:59
 msgid "The item could not be deleted due to a corba error"
@@ -4628,24 +4602,19 @@ msgstr "L'elemento non può essere cancellato a causa di un errore corba"
 
 #: calendar/gui/dialogs/delete-error.c:66
 msgid "The event could not be deleted because permission was denied"
-msgstr ""
-"L'evento non può essere cancellato perché ne è stato negato il permesso"
+msgstr "L'evento non può essere cancellato perché ne è stato negato il permesso"
 
 #: calendar/gui/dialogs/delete-error.c:69
 msgid "The task could not be deleted because permission was denied"
-msgstr ""
-"L'azione non può essere cancellata perché ne è stato negato il permesso"
+msgstr "L'azione non può essere cancellata perché ne è stato negato il permesso"
 
 #: calendar/gui/dialogs/delete-error.c:72
 msgid "The journal entry could not be deleted because permission was denied"
-msgstr ""
-"La voce del giornale non può essere cancellata perché ne è stato negato il "
-"permesso"
+msgstr "La voce dell'agenda non può essere cancellata perché ne è stato negato il permesso"
 
 #: calendar/gui/dialogs/delete-error.c:75
 msgid "The item could not be deleted because permission was denied"
-msgstr ""
-"L'elemento non può essere cancellato perché ne è stato negato il permesso"
+msgstr "L'elemento non può essere cancellato perché ne è stato negato il permesso"
 
 #: calendar/gui/dialogs/delete-error.c:82
 msgid "The event could not be deleted because it was invalid"
@@ -4657,7 +4626,7 @@ msgstr "L'azione non può essere cancellata perché non era valida"
 
 #: calendar/gui/dialogs/delete-error.c:88
 msgid "The journal entry could not be deleted because it was invalid"
-msgstr "La voce del giornale non può essere cancellata perché non era valida"
+msgstr "La voce dell'agenda non può essere cancellata perché non era valida"
 
 #: calendar/gui/dialogs/delete-error.c:91
 msgid "The item could not be deleted because it was invalid"
@@ -4765,7 +4734,7 @@ msgstr "Pub_blico"
 #: calendar/gui/dialogs/event-page.glade.h:12
 #: calendar/gui/e-calendar-table.etspec.h:13
 msgid "Show Time As"
-msgstr "Mostra ora come"
+msgstr "Mostra orario come"
 
 #: calendar/gui/dialogs/event-page.glade.h:13
 #: calendar/gui/dialogs/task-page.glade.h:10
@@ -4808,7 +4777,7 @@ msgstr "Partecipante"
 #: calendar/gui/dialogs/meeting-page.etspec.h:2
 #: calendar/gui/e-meeting-time-sel.etspec.h:2
 msgid "Click here to add an attendee"
-msgstr "Fare click qui per aggiungere un partecipante"
+msgstr "Fare clic qui per aggiungere un partecipante"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:3
 #: calendar/gui/e-meeting-time-sel.etspec.h:3
@@ -4818,7 +4787,7 @@ msgstr "Nome comune"
 #: calendar/gui/dialogs/meeting-page.etspec.h:4
 #: calendar/gui/e-meeting-time-sel.etspec.h:4
 msgid "Delegated From"
-msgstr "Delega"
+msgstr "Delegato da"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:5
 #: calendar/gui/e-meeting-time-sel.etspec.h:5
@@ -4864,17 +4833,16 @@ msgstr "_Invita altri..."
 
 #: calendar/gui/dialogs/recur-comp.c:50
 msgid "You are modifying a recurring event, what would you like to modify?"
-msgstr "Stai modificando un evento ricorrente, cosa vuoi modificare?"
+msgstr "Si sta modificando un evento ricorrente. Cosa si vuole modificare?"
 
 #: calendar/gui/dialogs/recur-comp.c:54
 msgid "You are modifying a recurring task, what would you like to modify?"
-msgstr "Stai modificando un'azione ricorrente, cosa vuoi modificare?"
+msgstr "Si sta modificando un'azione ricorrente. Cosa si vuole modificare?"
 
 #: calendar/gui/dialogs/recur-comp.c:58
 msgid ""
 "You are modifying a recurring journal entry, what would you like to modify?"
-msgstr ""
-"Stai modificando una voce giornaliera ricorrente, cosa vuoi modificare?"
+msgstr "Si sta modificando una voce giornaliera ricorrente. Cosa si vuole modificare?"
 
 #: calendar/gui/dialogs/recur-comp.c:72
 msgid "This Instance Only"
@@ -4882,7 +4850,7 @@ msgstr "Solo questa istanza"
 
 #: calendar/gui/dialogs/recur-comp.c:75
 msgid "This and Future Instances"
-msgstr "Questa e future istanze"
+msgstr "Questa istanza e quelle future"
 
 #: calendar/gui/dialogs/recur-comp.c:77
 msgid "All Instances"
@@ -5144,7 +5112,7 @@ msgstr "1 secondo"
 
 #: calendar/gui/e-alarm-list.c:465
 msgid "Send an email"
-msgstr "Invia un email"
+msgstr "Invia un Email"
 
 #: calendar/gui/e-alarm-list.c:475
 msgid "Unknown action to be performed"
@@ -5292,7 +5260,7 @@ msgstr "_Segna come completato"
 
 #: calendar/gui/e-calendar-table.c:973
 msgid "_Mark Selected Tasks as Complete"
-msgstr "_Marca attività come completata"
+msgstr "Segna attività come co_mpletata"
 
 #: calendar/gui/e-calendar-table.c:978
 msgid "_Delete Selected Tasks"
@@ -5471,7 +5439,7 @@ msgstr "Elimina _tutte le ricorrenze"
 
 #: calendar/gui/e-itip-control.c:706
 msgid "Yes. (Complex Recurrence)"
-msgstr "Si (ricorrenza complessa)"
+msgstr "Sì (ricorrenza complessa)"
 
 #: calendar/gui/e-itip-control.c:718
 msgid "Every day"
