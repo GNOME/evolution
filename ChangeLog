@@ -1,3 +1,8 @@
+2004-09-13  Tomasz Kłoczko <kloczek@pld.org.pl>
+
+	* data/evolution.desktop.in: added missing Encoding=UTF-8 field 
+	  (validate desktop file).
+
 2004-09-11  Akagic Amila  <bono@linux.org.ba>
 
 	* configure.in: Added 'bs' to ALL_LINGUAS.
