@@ -1,3 +1,8 @@
+2003-09-04  David Woodhouse  <dwmw2@infradead.org>
+
+	* providers/camel-imap-store.[ch]: Add PREAUTH handling and
+	pine/mutt/etpan/etc.-style 'ssh <mailhost> exec imapd' support.
+	
 2003-09-03  David Woodhouse  <dwmw2@infradead.org>
 
 	* camel-stream-process.[ch]: New stream implementation for running

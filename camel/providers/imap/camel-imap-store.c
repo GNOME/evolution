@@ -52,6 +52,7 @@
 #include "camel-stream.h"
 #include "camel-stream-buffer.h"
 #include "camel-stream-fs.h"
+#include "camel-stream-process.h"
 #include "camel-tcp-stream-raw.h"
 #include "camel-tcp-stream-ssl.h"
 #include "camel-url.h"
@@ -251,6 +252,7 @@ camel_imap_store_init (gpointer object, gpointer klass)
 	imap_store->dir_sep = '\0';
 	imap_store->current_folder = NULL;
 	imap_store->connected = FALSE;
+	imap_store->preauthed = FALSE;
 	
 	imap_store->tag_prefix = imap_tag_prefix++;
 	if (imap_tag_prefix > 'Z')
@@ -599,9 +601,10 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 	store->istream = camel_stream_buffer_new (tcp_stream, CAMEL_STREAM_BUFFER_READ);
 	
 	store->connected = TRUE;
+	store->preauthed = FALSE;
 	store->command = 0;
 	
-	/* Read the greeting, if any. FIXME: deal with PREAUTH */
+	/* Read the greeting, if any, and deal with PREAUTH */
 	if (camel_imap_store_readline (store, &buf, ex) < 0) {
 		if (store->istream) {
 			camel_object_unref (CAMEL_OBJECT (store->istream));
@@ -617,6 +620,8 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 		
 		return FALSE;
 	}
+	if (!strncmp(buf, "* PREAUTH", 9))
+		store->preauthed = TRUE;
 	g_free (buf);
 	
 	/* get the imap server capabilities */
@@ -728,6 +733,149 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 #endif /* HAVE_SSL */
 }
 
+static gboolean
+connect_to_server_process (CamelService *service, const char *cmd, CamelException *ex)
+{
+	CamelImapStore *store = (CamelImapStore *) service;
+	CamelStream *cmd_stream;
+	int ret, i = 0;
+	char *buf;
+	char *cmd_copy;
+	char *full_cmd;
+	char *child_env[7];
+
+	/* Put full details in the environment, in case the connection 
+	   program needs them */
+	buf = camel_url_to_string(service->url, 0);
+	child_env[i++] = g_strdup_printf("URL=%s", buf);
+	g_free(buf);
+
+	child_env[i++] = g_strdup_printf("URLHOST=%s", service->url->host);
+	if (service->url->port)
+		child_env[i++] = g_strdup_printf("URLPORT=%d", service->url->port);
+	if (service->url->user)
+		child_env[i++] = g_strdup_printf("URLUSER=%s", service->url->user);
+	if (service->url->passwd)
+		child_env[i++] = g_strdup_printf("URLPASSWD=%s", service->url->passwd);
+	if (service->url->path)
+		child_env[i++] = g_strdup_printf("URLPATH=%s", service->url->path);
+	child_env[i] = NULL;
+
+	/* Now do %h, %u, etc. substitution in cmd */
+	buf = cmd_copy = g_strdup(cmd);
+
+	full_cmd = "";
+
+	for(;;) {
+		char *pc;
+		char *tmp;
+		char *var;
+		int len;
+
+		pc = strchr(buf, '%');
+	ignore:
+		if (!pc) {
+			tmp = g_strdup_printf("%s%s", full_cmd, buf);
+			g_free(full_cmd);
+			full_cmd = tmp;
+			break;
+		}
+		
+		len = pc - buf;
+
+		var = NULL;
+
+		switch(pc[1]) {
+		case 'h':
+			var = service->url->host;
+			break;
+		case 'u':
+			var = service->url->user;
+			break;
+		}
+		if (!var) {
+			/* If there wasn't a valid %-code, with an actual
+			   variable to insert, pretend we didn't see the % */
+			pc = strchr(pc + 1, '%');
+			goto ignore;
+		}
+		tmp = g_strdup_printf("%s%.*s%s", full_cmd, len, buf, var);
+		g_free(full_cmd);
+		full_cmd = tmp;
+		buf = pc + 2;
+	}
+			
+	g_free(cmd_copy);
+
+	cmd_stream = camel_stream_process_new ();
+	
+	ret = camel_stream_process_connect (CAMEL_STREAM_PROCESS(cmd_stream),
+					    full_cmd, (const char **)child_env);
+
+	while (i)
+		g_free(child_env[--i]);
+		
+	if (ret == -1) {
+		if (errno == EINTR)
+			camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
+					     _("Connection cancelled"));
+		else
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+					      _("Could not connect with command \"%s\": %s"),
+					      full_cmd, g_strerror (errno));
+		
+		camel_object_unref (CAMEL_OBJECT (cmd_stream));
+		g_free(full_cmd);
+		return FALSE;
+	}
+	g_free(full_cmd);
+	
+	store->ostream = cmd_stream;
+	store->istream = camel_stream_buffer_new (cmd_stream, CAMEL_STREAM_BUFFER_READ);
+	
+	store->connected = TRUE;
+	store->preauthed = FALSE;
+	store->command = 0;
+	
+	/* Read the greeting, if any, and deal with PREAUTH */
+	if (camel_imap_store_readline (store, &buf, ex) < 0) {
+		if (store->istream) {
+			camel_object_unref (CAMEL_OBJECT (store->istream));
+			store->istream = NULL;
+		}
+		
+		if (store->ostream) {
+			camel_object_unref (CAMEL_OBJECT (store->ostream));
+			store->ostream = NULL;
+		}
+		
+		store->connected = FALSE;
+		return FALSE;
+	}
+	if (!strncmp(buf, "* PREAUTH", 9))
+		store->preauthed = TRUE;
+	g_free (buf);
+	
+	/* get the imap server capabilities */
+	if (!imap_get_capability (service, ex)) {
+		if (store->istream) {
+			camel_object_unref (CAMEL_OBJECT (store->istream));
+			store->istream = NULL;
+		}
+		
+		if (store->ostream) {
+			camel_object_unref (CAMEL_OBJECT (store->ostream));
+			store->ostream = NULL;
+		}
+		
+		store->connected = FALSE;
+		return FALSE;
+	}
+	
+	return TRUE;
+	
+}
+
 static struct {
 	char *value;
 	int mode;
@@ -742,10 +890,16 @@ static struct {
 static gboolean
 connect_to_server_wrapper (CamelService *service, CamelException *ex)
 {
+	const char *command;
 #ifdef HAVE_SSL
 	const char *use_ssl;
 	int i, ssl_mode;
-	
+#endif
+	command = camel_url_get_param (service->url, "command");
+	if (command)
+		return connect_to_server_process (service, command, ex);
+
+#ifdef HAVE_SSL
 	use_ssl = camel_url_get_param (service->url, "use_ssl");
 	if (use_ssl) {
 		for (i = 0; ssl_options[i].value; i++)
@@ -1070,6 +1224,13 @@ imap_auth_loop (CamelService *service, CamelException *ex)
 	
 	CAMEL_SERVICE_ASSERT_LOCKED (store, connect_lock);
 	
+	if (store->preauthed) {
+		if (camel_verbose_debug)
+			fprintf(stderr, "Server %s has preauthenticated us.\n",
+				service->url->host);
+		return TRUE;
+	}
+
 	if (service->url->authmech) {
 		if (!g_hash_table_lookup (store->authtypes, service->url->authmech)) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,

@@ -107,6 +107,7 @@ struct _CamelImapStore {
 	
 	/* Information about the command channel / connection status */
 	gboolean connected;
+	gboolean preauthed;
 	char tag_prefix;
 	guint32 command;
 	CamelFolder *current_folder;
