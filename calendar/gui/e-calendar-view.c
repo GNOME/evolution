@@ -24,6 +24,7 @@
 #include <config.h>
 #include <string.h>
 #include <gtk/gtkinvisible.h>
+#include <gtk/gtkstock.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 #include "e-util/e-dialog-utils.h"
@@ -655,6 +656,11 @@ on_print (GtkWidget *widget, gpointer user_data)
 	view_type = gnome_calendar_get_view (cal_view->priv->calendar);
 
 	switch (view_type) {
+	case GNOME_CAL_DAY_VIEW :
+		print_view = PRINT_VIEW_DAY;
+		break;
+
+	case GNOME_CAL_WORK_WEEK_VIEW :
 	case GNOME_CAL_WEEK_VIEW:
 		print_view = PRINT_VIEW_WEEK;
 		break;
@@ -984,6 +990,23 @@ free_view_popup (GtkWidget *widget, gpointer data)
 	cal_view->priv->view_menu = NULL;
 }
 
+static void
+setup_popup_icons (EPopupMenu *context_menu)
+{
+	gint i;
+
+	for (i = 0; context_menu[i].name; i++) {
+		GtkWidget *pixmap_widget = NULL;
+
+		if (!strcmp (context_menu[i].name, _("_Print...")))
+			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_PRINT);
+
+		if (pixmap_widget)
+			gtk_widget_show (pixmap_widget);
+		context_menu[i].pixmap_widget = pixmap_widget;
+	}
+}
+
 GtkMenu *
 e_cal_view_create_popup_menu (ECalView *cal_view)
 {
@@ -1031,6 +1054,7 @@ e_cal_view_create_popup_menu (ECalView *cal_view)
 	if (being_edited)
 		disable_mask |= MASK_EDITING;
 
+	setup_popup_icons (context_menu);
 	popup = e_popup_menu_create (context_menu, disable_mask, hide_mask, cal_view);
 	g_signal_connect (popup, "selection-done", G_CALLBACK (free_view_popup), cal_view);
 

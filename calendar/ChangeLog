@@ -1,3 +1,9 @@
+2003-07-24  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-view.c (on_print): added missing cases.
+	(setup_popup_icons): new function to set up icons for the popup menu.
+	(e_cal_view_create_popup_menu): call setup_popup_icons.
+
 2003-07-23  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-cal-view.[ch]: moved the duplicated popup menu code here.
