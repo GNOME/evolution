@@ -50,11 +50,45 @@ AC_DEFUN([PILOT_LINK_HOOK],[
 		AC_CHECK_LIB(pisock, pi_accept, [ PISOCK_LIBS=-lpisock ], 
 			[ AC_MSG_ERROR("Unable to find libpisock. Try ftp://ryeham.ee.ryerson.ca/pub/PalmOS/.") ])
 	fi
+	
+	AC_ARG_ENABLE(pilotlinktest,
+		[  --enable-pilotlinktest       Test for correct version of pilot-link],
+		[testplversion=$enableval],
+		[ testplversion=yes ]
+	)
 
+	if test x$testplversion = xyes; then
+		AC_MSG_CHECKING(for pilot-link version >= $1)
+		pl_ve=`echo $1|sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\1/'`
+		pl_ma=`echo $1|sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\2/'`
+		pl_mi=`echo $1|sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\3/'`
+		AC_TRY_RUN(
+			[
+			#include <pi-version.h>
+			int main(int argc,char *argv[]) {
+				if (PILOT_LINK_VERSION == $pl_ve) {
+					if (PILOT_LINK_MAJOR == $pl_ma) {
+						if (PILOT_LINK_MINOR >= $pl_mi) {
+							exit(0);
+				       	  	}
+					} else if (PILOT_LINK_MAJOR > $pl_ma) {
+						exit(0);
+					}
+				} else if (PILOT_LINK_VERSION > $pl_ve) {
+					exit(0);
+				}
+				exit(1);
+			}
+			],
+			[AC_MSG_RESULT(yes)],
+			[AC_MSG_ERROR("pilot-link >= $1 required")],
+			[AC_MSG_WARN("No action taken for crosscompile")]
+		)
+	fi
 ])
 
 AC_DEFUN([PILOT_LINK_CHECK],[
-	PILOT_LINK_HOOK([],nofailure)
+	PILOT_LINK_HOOK($1,[],nofailure)
 ])
 
 AC_DEFUN([GNOME_PILOT_HOOK],[
@@ -68,18 +102,22 @@ AC_DEFUN([GNOME_PILOT_HOOK],[
 	])
 	AM_CONDITIONAL(HAVE_GNOME_PILOT,test x$gnome_cv_pilot_found = xyes)
 	if test x$gnome_cv_pilot_found = xyes; then
-		PILOT_LINK_CHECK
+		PILOT_LINK_CHECK(($1)
 		GNOME_PILOT_CFLAGS=`gnome-pilot-config --cflags client conduitmgmt`
 		GNOME_PILOT_LIBS=`gnome-pilot-config --libs client conduitmgmt`
-		$1
+		$2
 	else
-		if test x$2 = xfailure; then
+		if test x$3 = xfailure; then
 			AC_MSG_ERROR(Gnome-pilot not installed or installation problem)
 		fi
 	fi
 ])
 
 AC_DEFUN([GNOME_PILOT_CHECK],[
-	GNOME_PILOT_HOOK([],nofailure)
+	if test x$1 = x; then
+		GNOME_PILOT_HOOK(0.9.3,[],nofailure)
+	else
+		GNOME_PILOT_HOOK($1,[],nofailure)
+	fi
 ])
 

@@ -1,3 +1,8 @@
+2000-01-15  Eskil Heyn Olsen  <deity@eskil.dk>
+	
+	* gnome-pilot.m4: PILOT_LINK_HOOK now check pilot-link version.
+	GNOME_PILOT_CHECK defaults to requiring 0.9.3.
+	
 2000-01-09  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-libgtop-check.m4: Applied patch from R. Bernstein
