@@ -1,4 +1,3 @@
-SUBDIRS = versit gnomecard
 help_base = $(datadir)/gnome/help/cal
 
 CFLAGS += -Wall
@@ -6,8 +5,7 @@ CFLAGS += -Wall
 INCLUDES = 			\
 	-I$(includedir)					\
 	$(GNOME_INCLUDEDIR)				\
-        -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
-	-I../../gcalendar
+        -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
 
 bin_PROGRAMS = gnomecal
 
@@ -59,7 +57,7 @@ gnomecal_SOURCES = \
 LINK_FLAGS = \
 	$(GNOME_LIBDIR) \
 	$(GNOMEGNORBA_LIBS) \
-	$(INTLLIBS) versit/libversit.a
+	$(INTLLIBS) ../libversit/libversit.a
 
 
 #gncal_LDADD = $(LINK_FLAGS)

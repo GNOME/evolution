@@ -11,7 +11,7 @@
 #include <ctype.h>
 #include "calobj.h"
 #include "timeutil.h"
-#include "versit/vcc.h"
+#include "../libversit/vcc.h"
 
 iCalObject *
 ical_object_new (void)

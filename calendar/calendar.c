@@ -17,7 +17,7 @@
 #include "alarm.h"
 #include "calendar.h"
 #include "timeutil.h"
-#include "versit/vcc.h"
+#include "../libversit/vcc.h"
 
 /* Our day range */
 time_t calendar_day_begin, calendar_day_end;

@@ -9,7 +9,7 @@
 #define CALOBJ_H
 
 #include <libgnome/libgnome.h>
-#include "versit/vcc.h"
+#include "../libversit/vcc.h"
 
 BEGIN_GNOME_DECLS
 
