@@ -73,6 +73,10 @@ void       e_combo_button_set_label  (EComboButton *combo_button,
 void       e_combo_button_set_menu   (EComboButton *combo_button,
 				      GtkMenu      *menu);
 
+GtkWidget *e_combo_button_get_label  (EComboButton *combo_button);
+
+gboolean   e_combo_button_popup_menu (EComboButton *combo_button);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

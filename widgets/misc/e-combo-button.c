@@ -25,6 +25,7 @@
 #endif
 
 #include "e-combo-button.h"
+#include "ea-widgets.h"
 #include <e-util/e-icon-factory.h>
 
 #include <gtk/gtkarrow.h>
@@ -251,6 +252,30 @@ impl_destroy (GtkObject *object)
 }
 
 
+
+static gboolean
+e_combo_button_popup (EComboButton *combo_button, GdkEventButton *event)
+{
+	EComboButtonPrivate *priv;
+
+	g_return_val_if_fail (combo_button != NULL, FALSE);
+	g_return_val_if_fail (E_IS_COMBO_BUTTON (combo_button), FALSE);
+
+	priv = combo_button->priv;
+
+	priv->menu_popped_up = TRUE;
+
+	if (event)
+		gtk_menu_popup (GTK_MENU (priv->menu), NULL, NULL,
+				menu_position_func, combo_button,
+				event->button, event->time);
+	else
+		gtk_menu_popup (GTK_MENU (priv->menu), NULL, NULL,
+				menu_position_func, combo_button,
+				0, gtk_get_current_event_time());
+
+	return TRUE;
+}
 /* GtkWidget methods.  */
 
 static int
@@ -272,10 +297,7 @@ impl_button_press_event (GtkWidget *widget,
 			/* User clicked on the right side: pop up the menu.  */
 			gtk_button_pressed (GTK_BUTTON (widget));
 
-			priv->menu_popped_up = TRUE;
-			gtk_menu_popup (GTK_MENU (priv->menu), NULL, NULL,
-					menu_position_func, combo_button,
-					event->button, event->time);
+			e_combo_button_popup (combo_button, event);
 		} else {
 			/* User clicked on the left side: just behave like a
 			   normal button (i.e. not a toggle).  */
@@ -393,6 +415,8 @@ e_combo_button_class_init (EComboButtonClass *combo_button_class)
 						    G_STRUCT_OFFSET (EComboButtonClass, activate_default),
 						    gtk_marshal_NONE__NONE,
 						    GTK_TYPE_NONE, 0);
+
+	e_combo_button_a11y_init ();
 }
 
 static void
@@ -508,4 +532,23 @@ e_combo_button_set_menu (EComboButton *combo_button,
 	g_signal_connect((menu), "deactivate",
 			    G_CALLBACK (menu_deactivate_callback),
 			    combo_button);
+}
+
+GtkWidget *
+e_combo_button_get_label (EComboButton *combo_button)
+{
+	EComboButtonPrivate *priv;
+
+	g_return_val_if_fail (combo_button != NULL, NULL);
+	g_return_val_if_fail (E_IS_COMBO_BUTTON (combo_button), NULL);
+
+	priv = combo_button->priv;
+
+	return priv->label;
+}
+
+gboolean
+e_combo_button_popup_menu (EComboButton *combo_button)
+{
+	return e_combo_button_popup (combo_button, NULL);
 }

@@ -1,3 +1,13 @@
+2004-01-04  Harry Lu  <harry.lu@sun.com>
+
+	* misc/e-combo-button.c: (e_combo_button_popup): new internal function
+	to popup the menu.
+	(impl_button_press_event): call the new function.
+	(e_combo_button_class_init): init a11y.
+	(e_combo_button_get_label): new function to return label.
+	(e_combo_button_popup_menu): new function to popup menu.
+	* misc/e-combo-button.h: add function declarations.
+
 2004-12-17  Not Zed  <NotZed@Ximian.com>
 
 	* e-error.c (ee_load, e_error_newv): translate strings based on
