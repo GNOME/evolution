@@ -114,9 +114,10 @@ itip_control_destroy_cb (GtkObject *object,
 	gtk_object_unref (GTK_OBJECT (priv->xml));
 	gtk_object_unref (GTK_OBJECT (priv->xml2));
 
-	icalcomponent_remove_component (priv->main_comp, priv->comp);
-
 	if (priv->main_comp != NULL) {
+		if (priv->comp != NULL)
+			icalcomponent_remove_component (priv->main_comp, priv->comp);
+	
 		icalcomponent_free (priv->main_comp);
 	}
 
