@@ -1,3 +1,9 @@
+2003-02-20  Dan Winship  <danw@ximian.com>
+
+	* gui/Makefile.am (libevolution_calendar_la_LIBADD):
+	s/libemiscwidgets.a/libemiscwidgets.la/ and likewise for
+	libetimezonedialog
+
 2003-02-19  Ettore Perazzoli  <ettore@ximian.com>
 
 	* pcs/Makefile.am: Split $(CORBA_GENERATED_H) rule from the

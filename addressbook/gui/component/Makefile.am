@@ -58,7 +58,7 @@ libevolution_addressbook_la_LIBADD =							\
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.a	\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.a		\
 	$(top_builddir)/libversit/libversit.a						\
-	$(top_builddir)/widgets/misc/libemiscwidgets.a 					\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la					\
 	$(top_builddir)/addressbook/gui/merging/libecardmerging.a			\
 	$(top_builddir)/e-util/libeutil.la						\
 	$(top_builddir)/widgets/menus/libmenus.la					\

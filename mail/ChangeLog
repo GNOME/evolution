@@ -1,3 +1,9 @@
+2003-02-20  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (libevolution_mail_la_LIBADD):
+	s/libemiscwidgets.a/libemiscwidgets.la/ and likewise for
+	libefilterbar
+
 2003-02-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (mark_all_as_seen): Fixed a memory leak - make

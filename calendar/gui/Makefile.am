@@ -195,8 +195,8 @@ libevolution_calendar_la_LIBADD =							\
 	$(top_builddir)/libversit/libversit.a						\
 	$(top_builddir)/e-util/ename/libename.la					\
 	dialogs/libcal-dialogs.a							\
-	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.a			\
-	$(top_builddir)/widgets/misc/libemiscwidgets.a					\
+	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.la			\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la					\
 	$(EVOLUTION_CALENDAR_LIBS)
 
 libevolution_calendar_la_LDFLAGS = -avoid-version -module

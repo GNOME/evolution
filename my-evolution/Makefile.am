@@ -67,7 +67,7 @@ summary_sources =				\
 summary_libs =				 				\
 	$(top_builddir)/calendar/gui/alarm-notify/libalarm.a		\
 	$(top_builddir)/shell/libeshell.la				\
-	$(top_builddir)/widgets/misc/libemiscwidgets.a			\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/calendar/cal-client/libcal-client.la		\
 	$(top_builddir)/calendar/cal-util/libcal-util.la		\

@@ -239,8 +239,8 @@ evolution_SOURCES =				\
 evolution_LDADD =							\
 	libeshell.la							\
 	importer/libevolution-importer.la				\
-	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.a	\
-	$(top_builddir)/widgets/misc/libemiscwidgets.a			\
+	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.la	\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/libical/src/libical/libical-evolution.la	\
 	$(SHELL_LIBS)

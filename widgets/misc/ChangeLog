@@ -1,3 +1,9 @@
+2003-02-20  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am: Make libemiscwidgets and libefilterbar dynamic
+	libraries instead of static so they can be portably linked into
+	the shlib components
+
 2003-02-05  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (INCLUDES): Define MAP_DIR in terms of $(imagesdir).

@@ -98,7 +98,7 @@ MARSHAL_GENERATED = e-addressbook-marshal.c e-addressbook-marshal.h
 #	 $(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.a \
 #	 $(top_builddir)/addressbook/printing/libecontactprint.a		\
 #	 $(top_builddir)/addressbook/gui/merging/libecardmerging.a	\
-#	 $(top_builddir)/widgets/misc/libemiscwidgets.a 			\
+#	 $(top_builddir)/widgets/misc/libemiscwidgets.la 			\
 #	 $(top_builddir)/addressbook/gui/component/select-names/libeselectnames.la	\
 #	 $(top_builddir)/e-util/libeutil.la				\
 #	$(EVOLUTION_ADDRESSBOOK_LIBS)					\
@@ -115,7 +115,7 @@ MARSHAL_GENERATED = e-addressbook-marshal.c e-addressbook-marshal.h
 #	 $(top_builddir)/e-util/ename/libename.la			\
 #	 $(top_builddir)/addressbook/contact-editor/libecontacteditor.a	\
 #	 $(top_builddir)/addressbook/printing/libecontactprint.a		\
-#	 $(top_builddir)/widgets/misc/libemiscwidgets.a 			\
+#	 $(top_builddir)/widgets/misc/libemiscwidgets.la 			\
 #	 $(top_builddir)/e-util/libeutil.la				\
 #	$(EVOLUTION_ADDRESSBOOK_LIBS)
 
@@ -131,7 +131,7 @@ MARSHAL_GENERATED = e-addressbook-marshal.c e-addressbook-marshal.h
 #	$(top_builddir)/addressbook/ename/libename.la			\
 #	$(top_builddir)/addressbook/contact-editor/libecontacteditor.a	\
 #	$(top_builddir)/addressbook/printing/libecontactprint.a		\
-#	$(top_builddir)/widgets/misc/libemiscwidgets.a 			\
+#	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 #	$(top_builddir)/e-util/libeutil.la
 #
 #minicard_widget_test_SOURCES = 	\
@@ -147,7 +147,7 @@ MARSHAL_GENERATED = e-addressbook-marshal.c e-addressbook-marshal.h
 #	 $(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.a \
 #	 $(top_builddir)/addressbook/gui/component/select-names/libeselectnames.la	\
 #	 $(top_builddir)/addressbook/printing/libecontactprint.a		\
-#	 $(top_builddir)/widgets/misc/libemiscwidgets.a 			\
+#	 $(top_builddir)/widgets/misc/libemiscwidgets.la 			\
 #	 $(top_builddir)/e-util/libeutil.la				\
 #	 $(top_builddir)/addressbook/gui/merging/libecardmerging.a	\
 #	$(EVOLUTION_ADDRESSBOOK_LIBS)

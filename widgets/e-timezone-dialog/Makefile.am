@@ -6,10 +6,10 @@ INCLUDES =								\
 	-DG_LOG_DOMAIN=__FILE__						\
 	$(GNOME_FULL_CFLAGS)
 
-noinst_LIBRARIES =	\
-	libetimezonedialog.a
+noinst_LTLIBRARIES =	\
+	libetimezonedialog.la
 
-libetimezonedialog_a_SOURCES = 	\
+libetimezonedialog_la_SOURCES =	\
 	e-timezone-dialog.c	\
 	e-timezone-dialog.h
 

@@ -1,3 +1,11 @@
+2003-02-20  Dan Winship  <danw@ximian.com>
+
+	* gui/component/Makefile.am (libevolution_addressbook_la_LIBADD):
+	s/libemiscwidgets.a/libemiscwidgets.la/
+
+	* gui/widgets/Makefile.am: Likewise (in a bunch of commented-out
+	test programs)
+
 2003-02-19  Dan Winship  <danw@ximian.com>
 
 	* gui/widgets/e-addressbook-model.c: Make parent_class static.

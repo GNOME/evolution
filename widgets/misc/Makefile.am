@@ -8,8 +8,8 @@ INCLUDES =								\
 	-DG_LOG_DOMAIN=__FILE__						\
 	$(GNOME_FULL_CFLAGS)
 
-privlib_LIBRARIES =	\
-	libemiscwidgets.a
+privlib_LTLIBRARIES =	\
+	libemiscwidgets.la
 
 widgetsincludedir = $(privincludedir)/widgets
 
@@ -31,7 +31,7 @@ widgetsinclude_HEADERS =			\
 	e-title-bar.h				\
 	e-url-entry.h
 
-libemiscwidgets_a_SOURCES =			\
+libemiscwidgets_la_SOURCES =			\
 	$(widgetsinclude_HEADERS)		\
 	e-calendar.c				\
 	e-calendar-item.c			\
@@ -65,11 +65,11 @@ e-util-marshal.c: e-util-marshal.h
 
 MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
 
-libemiscwidgets_a_LIBADD = $(top_builddir)/e-util/libeutil.la
+libemiscwidgets_la_LIBADD = $(top_builddir)/e-util/libeutil.la
 
-noinst_LIBRARIES = libefilterbar.a
+noinst_LTLIBRARIES = libefilterbar.la
 
-libefilterbar_a_SOURCES =	\
+libefilterbar_la_SOURCES =	\
 	e-filter-bar.c		\
 	e-filter-bar.h
 
@@ -86,7 +86,7 @@ test_calendar_SOURCES = 	\
 	test-calendar.c
 
 test_calendar_LDADD = 						\
-	./libemiscwidgets.a					\
+	./libemiscwidgets.la					\
 	../../e-util/libeutil.la				\
 	$(GNOME_FULL_LIBS)
 
@@ -96,7 +96,7 @@ test_dateedit_SOURCES = 	\
 	test-dateedit.c
 
 test_dateedit_LDADD = 			\
-	./libemiscwidgets.a		\
+	./libemiscwidgets.la		\
 	../../e-util/libeutil.la	\
 	$(GNOME_FULL_LIBS)
 
@@ -106,7 +106,7 @@ test_dropdown_button_SOURCES = 	\
 	test-dropdown-button.c
 
 test_dropdown_button_LDADD =	\
-	./libemiscwidgets.a	\
+	./libemiscwidgets.la	\
 	$(GNOME_FULL_LIBS)
 
 # test-multi-config-dialog
@@ -115,7 +115,7 @@ test_multi_config_dialog_SOURCES = 	\
 	test-multi-config-dialog.c
 
 test_multi_config_dialog_LDADD = 	\
-	./libemiscwidgets.a		\
+	./libemiscwidgets.la		\
 	$(GNOME_FULL_LIBS)
 
 # test-title-bar
@@ -124,7 +124,7 @@ test_title_bar_SOURCES = 	\
 	test-title-bar.c
 
 test_title_bar_LDADD = 		\
-	./libemiscwidgets.a	\
+	./libemiscwidgets.la	\
 	$(GNOME_FULL_LIBS)
 
 
