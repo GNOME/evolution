@@ -253,7 +253,8 @@ real_flush_updates(void *o, void *event_data, void *data)
 				evolution_storage_new_folder(storage,
 							     up->path, up->name, type, up->uri, up->name, NULL,
 							     up->unread,
-							     TRUE, 0);
+							     CAMEL_IS_DISCO_STORE(up->store)
+							     && camel_disco_store_can_work_offline((CamelDiscoStore *)up->store), 0);
 			}
 
 			if (!up->olduri && up->add)

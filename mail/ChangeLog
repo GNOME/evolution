@@ -1,5 +1,17 @@
 2003-09-22  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #32996
+	
+	* mail-folder-cache.c (real_flush_updates): don't just pass TRUE
+	to the 'can work offline' parameter of new shell folder.
+
+	** See bug #39410
+	
+	* mail-ops.c (prep_offline_do): sync all messages, not just
+	unread or flagged ones.
+
+2003-09-22  Not Zed  <NotZed@Ximian.com>
+
 	* em-popup.c (emp_uri_popup_link_copy): removed, moved to
 	em-folder-view, for now, it has access to an invisible.
 
