@@ -1,3 +1,13 @@
+2001-03-29  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-store.c (get_folder_info): Don't
+	blindly append "/INBOX", construct a CamelURL and set the path
+	that way.
+	(parse_list_response_as_folder_info): Don't blindly append
+	"/<foldername>", construct a CamelURL and set the path that way
+	instead.
+	(get_folders_offline): And again here.
+
 2001-03-30  Not Zed  <NotZed@Ximian.com>
 
 	* camel-service.c (camel_get_host_byname): Dont overwrite an
