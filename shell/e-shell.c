@@ -1026,16 +1026,6 @@ e_shell_construct (EShell *shell,
 
 		exit (0);
 	}
-	shortcut_path = g_concat_dir_and_file (local_directory, "shortcuts.xml");
-	priv->shortcuts = e_shortcuts_new (priv->storage_set,
-					   priv->folder_type_registry,
-					   shortcut_path);
-	g_assert (priv->shortcuts != NULL);
-	
-	if (e_shortcuts_get_num_groups (priv->shortcuts) == 0)
-		e_shortcuts_add_default_group (priv->shortcuts);
-	
-	g_free (shortcut_path);
 
 	priv->is_initialized = TRUE;
 

@@ -1,5 +1,12 @@
 2001-09-28  Ettore Perazzoli  <ettore@ximian.com>
 
+	[Fix #8053, `GNOME_Evolution_Shortcuts' doesn't seem to work.]
+
+	* e-shell.c (e_shell_construct): Don't create the EShortcuts
+	object a second time.
+
+2001-09-28  Ettore Perazzoli  <ettore@ximian.com>
+
 	[Fix #8434, Shortcut bar not shown properly.]
 
 	* e-shell-view.c (e_shell_view_show_shortcut_bar): Set the
