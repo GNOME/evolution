@@ -47,17 +47,24 @@ static const EvolutionShellComponentFolderType folder_types[] = {
 
 /* EvolutionShellComponent methods and signals.  */
 
-static BonoboControl *
+static EvolutionShellComponentResult
 create_view (EvolutionShellComponent *shell_component,
 	     const char *physical_uri,
+	     const char *type,
+	     BonoboControl **control_return,
 	     void *closure)
 {
 	BonoboControl *control;
 
+	if (g_strcasecmp (type, "calendar") != 0)
+		return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE;
+
 	control = control_factory_new_control ();
 	bonobo_control_set_property (control, "folder_uri", physical_uri, NULL);
 
-	return control;
+	*control_return = control;
+
+	return EVOLUTION_SHELL_COMPONENT_OK;
 }
 
 static void
@@ -76,7 +83,7 @@ factory_fn (BonoboGenericFactory *factory,
 {
 	EvolutionShellComponent *shell_component;
 
-	shell_component = evolution_shell_component_new (folder_types, create_view, NULL);
+	shell_component = evolution_shell_component_new (folder_types, create_view, NULL, NULL, NULL);
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
 			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);

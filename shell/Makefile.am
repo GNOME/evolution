@@ -1,3 +1,5 @@
+SUBDIRS = glade
+
 imagesdir = $(datadir)/images/evolution
 
 bin_PROGRAMS = evolution
@@ -27,49 +29,56 @@ IDLS = 					\
 	Evolution-ShellComponent.idl	\
 	Evolution-Storage.idl
 
-evolution_SOURCES = 			\
-	$(EVOLUTION_CORBA_GENERATED)	\
-	e-corba-storage.c		\
-	e-corba-storage.h		\
-	e-corba-storage-registry.c	\
-	e-corba-storage-registry.h	\
-	e-folder-type-registry.c	\
-	e-folder-type-registry.h	\
-	e-folder.c			\
-	e-folder.h			\
-	e-local-folder.c		\
-	e-local-folder.h		\
-	e-local-storage.c		\
-	e-local-storage.h		\
-	e-setup.c			\
-	e-setup.h			\
-	e-component-registry.h		\
-	e-component-registry.c		\
-	e-shell-constants.h		\
-	e-shell-folder-title-bar.c	\
-	e-shell-folder-title-bar.h	\
-	e-shell-utils.c			\
-	e-shell-utils.h			\
-	e-shell-view-menu.c		\
-	e-shell-view-menu.h		\
-	e-shell-view.c			\
-	e-shell-view.h			\
-	e-shell.c			\
-	e-shell.h			\
-	e-shortcuts-view.c		\
-	e-shortcuts-view.h		\
-	e-shortcuts.c			\
-	e-shortcuts.h			\
-	e-storage-set-view.c		\
-	e-storage-set-view.h		\
-	e-storage-set.c			\
-	e-storage-set.h			\
-	e-storage.c			\
-	e-storage.h			\
-	evolution-shell-component.c	\
-	evolution-shell-component.h	\
-	evolution-storage.c		\
-	evolution-storage.h		\
+CPPFLAGS = \
+	-DE_GLADEDIR=\"$(datadir)/evolution/glade\"
+
+evolution_SOURCES =				\
+	$(EVOLUTION_CORBA_GENERATED)		\
+	e-component-registry.c			\
+	e-component-registry.h			\
+	e-corba-storage-registry.c		\
+	e-corba-storage-registry.h		\
+	e-corba-storage.c			\
+	e-corba-storage.h			\
+	e-folder-type-registry.c		\
+	e-folder-type-registry.h		\
+	e-folder.c				\
+	e-folder.h				\
+	e-local-folder.c			\
+	e-local-folder.h			\
+	e-local-storage.c			\
+	e-local-storage.h			\
+	e-setup.c				\
+	e-setup.h				\
+	e-shell-constants.h			\
+	e-shell-folder-creation-dialog.c	\
+	e-shell-folder-creation-dialog.h	\
+	e-shell-folder-title-bar.c		\
+	e-shell-folder-title-bar.h		\
+	e-shell-utils.c				\
+	e-shell-utils.h				\
+	e-shell-view-menu.c			\
+	e-shell-view-menu.h			\
+	e-shell-view.c				\
+	e-shell-view.h				\
+	e-shell.c				\
+	e-shell.h				\
+	e-shortcuts-view.c			\
+	e-shortcuts-view.h			\
+	e-shortcuts.c				\
+	e-shortcuts.h				\
+	e-storage-set-view.c			\
+	e-storage-set-view.h			\
+	e-storage-set.c				\
+	e-storage-set.h				\
+	e-storage.c				\
+	e-storage.h				\
+	evolution-shell-component-client.c	\
+	evolution-shell-component-client.h	\
+	evolution-shell-component.c		\
+	evolution-shell-component.h		\
+	evolution-storage.c			\
+	evolution-storage.h			\
 	main.c
 
 Evolution-impl.o: Evolution.h

@@ -454,6 +454,7 @@ addressbook/gui/Makefile
 addressbook/gui/minicard/Makefile
 addressbook/gui/component/Makefile
 shell/Makefile
+shell/glade/Makefile
 mail/Makefile
 data/Makefile
 libversit/Makefile
@@ -467,6 +468,7 @@ calendar/cal-client/Makefile
 calendar/pcs/Makefile
 calendar/gui/Makefile
 calendar/gui/dialogs/Makefile
+notes/Makefile
 filter/Makefile
 notes/Makefile
 wombat/Makefile

@@ -668,7 +668,7 @@ get_control_for_uri (EShellView *shell_view,
 	EStorageSet *storage_set;
 	EFolder *folder;
 	Bonobo_UIHandler corba_uih;
-	BonoboObjectClient *handler_client;
+	EvolutionShellComponentClient *handler_client;
 	Bonobo_Control corba_control;
 	Evolution_ShellComponent handler;
 	const char *path;
@@ -707,7 +707,8 @@ get_control_for_uri (EShellView *shell_view,
 
 	CORBA_exception_init (&ev);
 
-	corba_control = Evolution_ShellComponent_create_view (handler, e_folder_get_physical_uri (folder), &ev);
+	corba_control = Evolution_ShellComponent_create_view (handler, e_folder_get_physical_uri (folder),
+							      folder_type, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		CORBA_exception_free (&ev);
 		return NULL;
@@ -968,6 +969,15 @@ e_shell_view_get_appbar (EShellView *shell_view)
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
 	return shell_view->priv->appbar;
+}
+
+const char *
+e_shell_view_get_current_uri (EShellView *shell_view)
+{
+	g_return_val_if_fail (shell_view != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	return shell_view->priv->uri;
 }
 
 

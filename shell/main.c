@@ -25,6 +25,7 @@
 #include <gnome.h>
 #include <bonobo.h>
 #include <libgnomeui/gnome-window-icon.h>
+#include <glade/glade.h>
 
 #include "e-util/e-gui-utils.h"
 #include "e-setup.h"
@@ -193,6 +194,8 @@ main (int argc, char **argv)
 	textdomain (PACKAGE);
 
 	init_corba (&argc, argv);
+
+	glade_gnome_init ();
 
 	gnome_window_icon_set_default_from_file (EVOLUTION_IMAGES "/evolution-inbox.png");
 

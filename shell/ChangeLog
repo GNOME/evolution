@@ -1,3 +1,64 @@
+2000-06-09  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell-view-menu.c: Removed folder menu and "save as..." command.
+
+	* main.c (main): Call `glade_gnome_init()'.
+
+	* e-shell-view-menu.c (command_new_folder): Implemented.
+
+	* e-shell-folder-creation-dialog.c: New.
+	* e-shell-folder-creation-dialog.h: New.
+
+	* glade/Makefile.am: New.
+	* glade/e-shell-folder-creation-dialog.glade: New.
+
+	* e-shell-view.c (e_shell_view_get_current_uri): New.
+
+	* e-folder-type-registry.c
+	(e_folder_type_registry_get_type_names): New.
+
+	* e-shell-view.c (get_control_for_uri): Updated to use
+	`EvolutionShellComponentClient'.
+
+	* e-folder-type-registry.c: Use `EvolutionShellComponentClient's
+	instead of `BonoboObjectClient's.
+
+	* e-component-registry.c: Use `EvolutionShellComponentClient'
+	instead of `BonoboObjectClient' in `Component'.
+	(component_new): Updated accordingly.
+	(register_component): Likewise.
+
+	* evolution-shell-component-client.h: New.
+	* evolution-shell-component-client.c: New.
+
+	* evolution-shell-component.c
+	(impl_ShellComponent_async_create_folder): New, implementation of
+	`::async_create_folder'.
+	(impl_ShellComponent_async_remove_folder): New, implementation of
+	`::async_remove_folder'.
+	(corba_class_init): Install them.
+	(evolution_shell_component_new): New args `create_folder_fn' and
+	`remove_folder_fn' for setting the handlers for these new methods.
+	(evolution_shell_component_construct): Likewise.
+
+	* Evolution-ShellComponent.idl
+	(ShellComponent::async_create_folder): New.
+	(ShellComponent::async_remove_folder): New.
+	(ShellComponentListener): New.
+
+	* evolution-shell-component.c (impl_ShellComponent_create_view):
+	New param @type.  Use the new `EvolutionShellComponentCreateViewFn'.
+
+	* evolution-shell-component.h: New enum `EvolutionShellComponentResult'.
+	Changed `EvolutionShellComponentCreateViewFn' to return an
+	`EvolutionShellComponentResult'.
+
+	* e-shell-view.c (get_control_for_uri): Pass the folder type to
+	`ShellComponent::create_view'.
+
+	* Evolution-ShellComponent.idl: New param @type for
+	`ShellComponent::create_view'.
+
 2000-06-08  Miguel de Icaza  <miguel@helixcode.com>
 
 	* main.c (development_warning): Use version here.  Add padding to

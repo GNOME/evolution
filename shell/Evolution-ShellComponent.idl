@@ -20,20 +20,54 @@ module Evolution {
 
 	typedef sequence<FolderType> FolderTypeList;
 
+	interface ShellComponentListener;
+
 	interface ShellComponent : Bonobo::Unknown {
 		readonly attribute FolderTypeList supported_types;
 
-		/* FIXME can we use an attribute here?  */
+		/* FIXME: Can we use an attribute here?  */
 		exception AlreadyOwned {};
+
 		void set_owner (in Shell shell)
 			raises (AlreadyOwned);
 
 		exception NotOwned {};
+
 		void unset_owner ()
 			raises (NotOwned);
 
+		/* FIXME: We might want more exceptions here.  */
 		exception NotFound {};
-		Bonobo::Control create_view (in string physical_uri)
-			raises (NotFound);
+		exception UnsupportedType {};
+		exception InternalError {};
+
+		Bonobo::Control create_view (in string physical_uri,
+					     in string type)
+			raises (NotFound, UnsupportedType, InternalError);
+
+		exception Busy {};
+
+		void async_create_folder (in ShellComponentListener listener,
+					  in string physical_uri,
+					  in string type)
+			raises (Busy);
+		void async_remove_folder (in ShellComponentListener listener,
+					  in string physical_uri)
+			raises (Busy);
+	};
+
+	interface ShellComponentListener {
+		enum Result {
+			OK,
+			UNSUPPORTED_OPERATION,
+			UNSUPPORTED_TYPE,
+			EXISTS,
+			INVALID_URI,
+			PERMISSION_DENIED,
+			HAS_SUBFOLDERS,
+			NO_SPACE
+		};
+
+		void report_result (in Result result);
 	};
 };

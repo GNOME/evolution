@@ -26,7 +26,9 @@
 #include <config.h>
 #include <gnome.h>
 
-#include "e-shell-view.h"
+#include "e-shell-folder-creation-dialog.h"
+#include "e-shell-constants.h"
+
 #include "e-shell-view-menu.h"
 
 
@@ -218,6 +220,30 @@ command_toggle_shortcut_bar (BonoboUIHandler *uih,
 }
 
 
+static void
+command_new_folder (BonoboUIHandler *uih,
+		    void *data,
+		    const char *path)
+{
+	EShellView *shell_view;
+	EShell *shell;
+	const char *current_uri;
+	const char *default_parent_folder;
+
+	shell_view = E_SHELL_VIEW (data);
+	shell = e_shell_view_get_shell (shell_view);
+	current_uri = e_shell_view_get_current_uri (shell_view);
+
+	if (strncmp (current_uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0)
+		default_parent_folder = current_uri + E_SHELL_URI_PREFIX_LEN;
+	else
+		default_parent_folder = NULL;
+
+	e_shell_show_folder_creation_dialog (shell, GTK_WINDOW (shell_view),
+					     default_parent_folder);
+}
+
+
 /* Unimplemented commands.  */
 
 #define DEFINE_UNIMPLEMENTED(func)					\
@@ -227,7 +253,6 @@ func (GtkWidget *widget, gpointer data)					\
 	g_warning ("EShellView: %s: not implemented.", __FUNCTION__);	\
 }									\
 
-DEFINE_UNIMPLEMENTED (command_new_folder)
 DEFINE_UNIMPLEMENTED (command_new_shortcut)
 DEFINE_UNIMPLEMENTED (command_new_mail_message)
 DEFINE_UNIMPLEMENTED (command_new_meeting_request)
@@ -237,7 +262,6 @@ DEFINE_UNIMPLEMENTED (command_new_task_request)
 DEFINE_UNIMPLEMENTED (command_new_journal_entry)
 DEFINE_UNIMPLEMENTED (command_new_note)
 DEFINE_UNIMPLEMENTED (command_open_selected_items)
-DEFINE_UNIMPLEMENTED (command_save_as)
 DEFINE_UNIMPLEMENTED (command_close_open_items)
 
 
@@ -299,28 +323,12 @@ static GnomeUIInfo menu_file_open [] = {
 	GNOMEUIINFO_END
 };
 
-static GnomeUIInfo menu_folder [] = {
-	{ GNOME_APP_UI_ITEM, N_("_New Folder"), NULL,
-	  command_new_folder, NULL,
-	  NULL, 0, 0, 'e', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
-	
-	GNOMEUIINFO_END
-};
-
 static GnomeUIInfo menu_file [] = {
 	GNOMEUIINFO_SUBTREE_STOCK (N_("_New"), menu_file_new, GNOME_STOCK_MENU_NEW),
 	GNOMEUIINFO_SUBTREE_STOCK (N_("_Open"), menu_file_open, GNOME_STOCK_MENU_NEW),
 	GNOMEUIINFO_ITEM_NONE (N_("Clos_e All Items"), N_("Closes all the open items"), command_close_open_items),
 	GNOMEUIINFO_SEPARATOR,
 	
-	GNOMEUIINFO_MENU_SAVE_AS_ITEM (command_save_as, NULL),
-	
-	GNOMEUIINFO_SEPARATOR,
-
-	GNOMEUIINFO_SUBTREE (N_("_Folder"), menu_folder),
-
-	GNOMEUIINFO_SEPARATOR,
-
 	GNOMEUIINFO_MENU_EXIT_ITEM(command_quit, NULL),
 
 	GNOMEUIINFO_END

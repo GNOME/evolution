@@ -59,13 +59,18 @@ static GList *browsers;
 
 /* EvolutionShellComponent methods and signals.  */
 
-static BonoboControl *
+static EvolutionShellComponentResult
 create_view (EvolutionShellComponent *shell_component,
 	     const char *physical_uri,
+	     const char *folder_type,
+	     BonoboControl **control_return,
 	     void *closure)
 {
 	BonoboControl *control;
 	GtkWidget *folder_browser_widget;
+
+	if (g_strcasecmp (folder_type, "mail") != 0)
+		return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE;
 
 	control = folder_browser_factory_new_control ();
 
@@ -83,7 +88,9 @@ create_view (EvolutionShellComponent *shell_component,
 	/* FIXME: This never fails.  :-/  */
 	folder_browser_set_uri (FOLDER_BROWSER (folder_browser_widget), physical_uri);
 
-	return control;
+	*control_return = control;
+
+	return EVOLUTION_SHELL_COMPONENT_OK;
 }
 
 static void
@@ -123,7 +130,7 @@ factory_fn (BonoboGenericFactory *factory,
 {
 	EvolutionShellComponent *shell_component;
 
-	shell_component = evolution_shell_component_new (folder_types, create_view, NULL);
+	shell_component = evolution_shell_component_new (folder_types, create_view, NULL, NULL, NULL);
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
 			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);

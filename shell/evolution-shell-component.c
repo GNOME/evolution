@@ -40,7 +40,10 @@ static BonoboObjectClass *parent_class = NULL;
 struct _EvolutionShellComponentPrivate {
 	GList *folder_types;	/* EvolutionShellComponentFolderType */
 
-	EvolutionShellComponentCreateViewFn create_view_fn;
+	EvolutionShellComponentCreateViewFn   create_view_fn;
+	EvolutionShellComponentCreateFolderFn create_folder_fn;
+	EvolutionShellComponentRemoveFolderFn remove_folder_fn;
+
 	Evolution_Shell corba_owner;
 	void *closure;
 };
@@ -167,27 +170,93 @@ impl_ShellComponent_unset_owner (PortableServer_Servant servant,
 static Bonobo_Control
 impl_ShellComponent_create_view (PortableServer_Servant servant,
 				 const CORBA_char *physical_uri,
+				 const CORBA_char *type,
 				 CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	EvolutionShellComponent *shell_component;
 	EvolutionShellComponentPrivate *priv;
+	EvolutionShellComponentResult result;
 	BonoboControl *control;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object);
 	priv = shell_component->priv;
 
-	control = (* priv->create_view_fn) (shell_component, physical_uri, priv->closure);
+	result = (* priv->create_view_fn) (shell_component, physical_uri, type,
+					   &control, priv->closure);
 
-	if (control == NULL) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_Evolution_ShellComponent_NotFound,
-				     NULL);
+	if (result != EVOLUTION_SHELL_COMPONENT_OK) {
+		switch (result) {
+		case EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE:
+			CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+					     ex_Evolution_ShellComponent_UnsupportedType,
+					     NULL);
+			break;
+		case EVOLUTION_SHELL_COMPONENT_INTERNALERROR:
+			CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+					     ex_Evolution_ShellComponent_InternalError,
+					     NULL);
+			break;
+		default:
+			CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+					     ex_Evolution_ShellComponent_NotFound,
+					     NULL);
+		}
+
 		return CORBA_OBJECT_NIL;
 	}
 
 	return bonobo_object_corba_objref (BONOBO_OBJECT (control));
+}
+
+static void
+impl_ShellComponent_async_create_folder (PortableServer_Servant servant,
+					 const Evolution_ShellComponentListener listener,
+					 const CORBA_char *physical_uri,
+					 const CORBA_char *type,
+					 CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	EvolutionShellComponent *shell_component;
+	EvolutionShellComponentPrivate *priv;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object);
+	priv = shell_component->priv;
+
+	if (priv->create_folder_fn == NULL) {
+		Evolution_ShellComponentListener_report_result (listener,
+								Evolution_ShellComponentListener_UNSUPPORTED_OPERATION,
+								ev);
+		return;
+	}
+
+	(* priv->create_folder_fn) (shell_component, physical_uri, type, listener, priv->closure);
+}
+
+static void
+impl_ShellComponent_async_remove_folder (PortableServer_Servant servant,
+					 const Evolution_ShellComponentListener listener,
+					 const CORBA_char *physical_uri,
+					 CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	EvolutionShellComponent *shell_component;
+	EvolutionShellComponentPrivate *priv;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object);
+	priv = shell_component->priv;
+
+	if (priv->remove_folder_fn == NULL) {
+		Evolution_ShellComponentListener_report_result (listener,
+								Evolution_ShellComponentListener_UNSUPPORTED_OPERATION,
+								ev);
+		return;
+	}
+
+	(* priv->remove_folder_fn) (shell_component, physical_uri, listener, priv->closure);
 }
 
 
@@ -248,6 +317,8 @@ corba_class_init (void)
 	epv->set_owner            = impl_ShellComponent_set_owner;
 	epv->unset_owner          = impl_ShellComponent_unset_owner;
 	epv->create_view          = impl_ShellComponent_create_view;
+	epv->async_create_folder  = impl_ShellComponent_async_create_folder;
+	epv->async_remove_folder  = impl_ShellComponent_async_remove_folder;
 
 	vepv = &ShellComponent_vepv;
 	vepv->_base_epv                    = base_epv;
@@ -294,10 +365,12 @@ init (EvolutionShellComponent *shell_component)
 
 	priv = g_new (EvolutionShellComponentPrivate, 1);
 
-	priv->folder_types    = NULL;
-	priv->create_view_fn  = NULL;
-	priv->closure         = NULL;
-	priv->corba_owner     = CORBA_OBJECT_NIL;
+	priv->folder_types     = NULL;
+	priv->create_view_fn   = NULL;
+	priv->create_folder_fn = NULL;
+	priv->remove_folder_fn = NULL;
+	priv->corba_owner      = CORBA_OBJECT_NIL;
+	priv->closure          = NULL;
 
 	shell_component->priv = priv;
 }
@@ -308,6 +381,8 @@ evolution_shell_component_construct (EvolutionShellComponent *shell_component,
 				     const EvolutionShellComponentFolderType folder_types[],
 				     Evolution_ShellComponent corba_object,
 				     EvolutionShellComponentCreateViewFn create_view_fn,
+				     EvolutionShellComponentCreateFolderFn create_folder_fn,
+				     EvolutionShellComponentRemoveFolderFn remove_folder_fn,
 				     void *closure)
 {
 	EvolutionShellComponentPrivate *priv;
@@ -320,7 +395,10 @@ evolution_shell_component_construct (EvolutionShellComponent *shell_component,
 
 	priv = shell_component->priv;
 
-	priv->create_view_fn = create_view_fn;
+	priv->create_view_fn   = create_view_fn;
+	priv->create_folder_fn = create_folder_fn;
+	priv->remove_folder_fn = remove_folder_fn;
+
 	priv->closure = closure;
 
 	for (i = 0; folder_types[i].name != NULL; i++) {
@@ -345,6 +423,8 @@ evolution_shell_component_construct (EvolutionShellComponent *shell_component,
 EvolutionShellComponent *
 evolution_shell_component_new (const EvolutionShellComponentFolderType folder_types[],
 			       EvolutionShellComponentCreateViewFn create_view_fn,
+			       EvolutionShellComponentCreateFolderFn create_folder_fn,
+			       EvolutionShellComponentRemoveFolderFn remove_folder_fn,
 			       void *closure)
 {
 	EvolutionShellComponent *new;
@@ -358,7 +438,9 @@ evolution_shell_component_new (const EvolutionShellComponentFolderType folder_ty
 	new = gtk_type_new (evolution_shell_component_get_type ());
 
 	corba_object = bonobo_object_activate_servant (BONOBO_OBJECT (new), servant);
-	evolution_shell_component_construct (new, folder_types, corba_object, create_view_fn, closure);
+	evolution_shell_component_construct (new, folder_types, corba_object,
+					     create_view_fn, create_folder_fn, remove_folder_fn,
+					     closure);
 
 	return new;
 }

@@ -31,7 +31,7 @@
 #include <gtk/gtkobject.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-#include <bonobo/bonobo-object-client.h>
+#include "evolution-shell-component-client.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -64,20 +64,22 @@ GtkType              e_folder_type_registry_get_type   (void);
 void                 e_folder_type_registry_construct  (EFolderTypeRegistry *folder_type_registry);
 EFolderTypeRegistry *e_folder_type_registry_new        (void);
 
-gboolean  e_folder_type_registry_register_type         (EFolderTypeRegistry *folder_type_registry,
-							const char          *type_name,
-							const char          *icon_name);
-gboolean  e_folder_type_registry_set_handler_for_type  (EFolderTypeRegistry *folder_type_registry,
-							const char          *type_name,
-							BonoboObjectClient  *handler);
+gboolean  e_folder_type_registry_register_type         (EFolderTypeRegistry           *folder_type_registry,
+							const char                    *type_name,
+							const char                    *icon_name);
+gboolean  e_folder_type_registry_set_handler_for_type  (EFolderTypeRegistry           *folder_type_registry,
+							const char                    *type_name,
+							EvolutionShellComponentClient *handler);
 
-GdkPixbuf          *e_folder_type_registry_get_icon_for_type       (EFolderTypeRegistry *folder_type_registry,
-								    const char          *type_name,
-								    gboolean             mini);
-const char         *e_folder_type_registry_get_icon_name_for_type  (EFolderTypeRegistry *folder_type_registry,
-								    const char          *type_name);
-BonoboObjectClient *e_folder_type_registry_get_handler_for_type    (EFolderTypeRegistry *folder_type_registry,
-								    const char          *type_name);
+GList *e_folder_type_registry_get_type_names  (EFolderTypeRegistry *folder_type_registry);
+
+GdkPixbuf                     *e_folder_type_registry_get_icon_for_type       (EFolderTypeRegistry *folder_type_registry,
+									       const char          *type_name,
+									       gboolean             mini);
+const char                    *e_folder_type_registry_get_icon_name_for_type  (EFolderTypeRegistry *folder_type_registry,
+									       const char          *type_name);
+EvolutionShellComponentClient *e_folder_type_registry_get_handler_for_type    (EFolderTypeRegistry *folder_type_registry,
+									       const char          *type_name);
 
 #ifdef __cplusplus
 }

@@ -42,7 +42,7 @@ struct _FolderType {
 	char *name;
 	char *icon_name;
 
-	BonoboObjectClient *handler;
+	EvolutionShellComponentClient *handler;
 
 	/* The icon, standard (48x48) and mini (16x16) versions.  */
 	GdkPixbuf *icon_pixbuf;
@@ -144,7 +144,7 @@ register_folder_type (EFolderTypeRegistry *folder_type_registry,
 static gboolean
 set_handler (EFolderTypeRegistry *folder_type_registry,
 	     const char *name,
-	     BonoboObjectClient *handler)
+	     EvolutionShellComponentClient *handler)
 {
 	EFolderTypeRegistryPrivate *priv;
 	FolderType *folder_type;
@@ -258,7 +258,7 @@ e_folder_type_registry_register_type (EFolderTypeRegistry *folder_type_registry,
 gboolean
 e_folder_type_registry_set_handler_for_type  (EFolderTypeRegistry *folder_type_registry,
 					      const char *type_name,
-					      BonoboObjectClient *handler)
+					      EvolutionShellComponentClient *handler)
 {
 	g_return_val_if_fail (folder_type_registry != NULL, FALSE);
 	g_return_val_if_fail (E_IS_FOLDER_TYPE_REGISTRY (folder_type_registry), FALSE);
@@ -268,6 +268,35 @@ e_folder_type_registry_set_handler_for_type  (EFolderTypeRegistry *folder_type_r
 	return set_handler (folder_type_registry, type_name, handler);
 }
 
+
+static void
+get_type_names_hash_forall (void *key,
+			    void *value,
+			    void *data)
+{
+	GList **type_name_list;
+
+	type_name_list = (GList **) data;
+
+	*type_name_list = g_list_prepend (*type_name_list, g_strdup ((const char *) key));
+}
+
+GList *
+e_folder_type_registry_get_type_names (EFolderTypeRegistry *folder_type_registry)
+{
+	GList *type_name_list;
+	EFolderTypeRegistryPrivate *priv;
+
+	g_return_val_if_fail (folder_type_registry != NULL, NULL);
+	g_return_val_if_fail (E_IS_FOLDER_TYPE_REGISTRY (folder_type_registry), NULL);
+
+	priv = folder_type_registry->priv;
+
+	type_name_list = NULL;
+	g_hash_table_foreach (priv->name_to_type, get_type_names_hash_forall, &type_name_list);
+
+	return type_name_list;
+}
 
 
 const char *
@@ -312,7 +341,7 @@ e_folder_type_registry_get_icon_for_type (EFolderTypeRegistry *folder_type_regis
 		return folder_type->icon_pixbuf;
 }
 
-BonoboObjectClient *
+EvolutionShellComponentClient *
 e_folder_type_registry_get_handler_for_type (EFolderTypeRegistry *folder_type_registry,
 					     const char *type_name)
 {

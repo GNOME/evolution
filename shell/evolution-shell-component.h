@@ -21,20 +21,22 @@
  * Author: Ettore Perazzoli
  */
 
-#ifndef __EVOLUTION_SHELL_COMPONENT_H__
-#define __EVOLUTION_SHELL_COMPONENT_H__
+#ifndef EVOLUTION_SHELL_COMPONENT_H
+#define EVOLUTION_SHELL_COMPONENT_H
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
 #include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-control.h>
+
 #include "Evolution.h"
 
-#ifdef __cplusplus
+#ifdef cplusplus
 extern "C" {
 #pragma }
-#endif /* __cplusplus */
+#endif /* cplusplus */
 
 #define EVOLUTION_TYPE_SHELL_COMPONENT            (evolution_shell_component_get_type ())
 #define EVOLUTION_SHELL_COMPONENT(obj)            (GTK_CHECK_CAST ((obj), EVOLUTION_TYPE_SHELL_COMPONENT, EvolutionShellComponent))
@@ -47,9 +49,41 @@ typedef struct _EvolutionShellComponent        EvolutionShellComponent;
 typedef struct _EvolutionShellComponentPrivate EvolutionShellComponentPrivate;
 typedef struct _EvolutionShellComponentClass   EvolutionShellComponentClass;
 
-typedef BonoboControl * (* EvolutionShellComponentCreateViewFn) (EvolutionShellComponent *shell_component,
-								 const char *physical_uri,
-								 void *closure);
+enum _EvolutionShellComponentResult {
+	EVOLUTION_SHELL_COMPONENT_OK,
+	EVOLUTION_SHELL_COMPONENT_CORBAERROR,
+	EVOLUTION_SHELL_COMPONENT_INTERRUPTED,
+	EVOLUTION_SHELL_COMPONENT_INVALIDARG,
+	EVOLUTION_SHELL_COMPONENT_ALREADYOWNED,
+	EVOLUTION_SHELL_COMPONENT_NOTOWNED,
+	EVOLUTION_SHELL_COMPONENT_NOTFOUND,
+	EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE,
+	EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDOPERATION,
+	EVOLUTION_SHELL_COMPONENT_INTERNALERROR,
+	EVOLUTION_SHELL_COMPONENT_BUSY,
+	EVOLUTION_SHELL_COMPONENT_EXISTS,
+	EVOLUTION_SHELL_COMPONENT_INVALIDURI,
+	EVOLUTION_SHELL_COMPONENT_PERMISSIONDENIED,
+	EVOLUTION_SHELL_COMPONENT_HASSUBFOLDERS,
+	EVOLUTION_SHELL_COMPONENT_NOSPACE,
+	EVOLUTION_SHELL_COMPONENT_UNKNOWNERROR
+};
+typedef enum _EvolutionShellComponentResult EvolutionShellComponentResult;
+
+typedef EvolutionShellComponentResult (* EvolutionShellComponentCreateViewFn) 	(EvolutionShellComponent *shell_component,
+									      	 const char *physical_uri,
+									      	 const char *type,
+									      	 BonoboControl **control_return,
+									      	 void *closure);
+typedef EvolutionShellComponentResult (* EvolutionShellComponentCreateFolderFn) (EvolutionShellComponent *shell_component,
+										 const char *physical_uri,
+										 const char *type,
+										 const Evolution_ShellComponentListener listener,
+										 void *closure);
+typedef EvolutionShellComponentResult (* EvolutionShellComponentRemoveFolderFn) (EvolutionShellComponent *shell_component,
+										 const char *physical_uri,
+										 const Evolution_ShellComponentListener listener,
+										 void *closure);
 
 struct _EvolutionShellComponentFolderType {
 	char *name;
@@ -79,14 +113,18 @@ void                     evolution_shell_component_construct  (EvolutionShellCom
 							       const EvolutionShellComponentFolderType  folder_types[],
 							       Evolution_ShellComponent                 corba_object,
 							       EvolutionShellComponentCreateViewFn      create_view_fn,
+							       EvolutionShellComponentCreateFolderFn    create_folder_fn,
+							       EvolutionShellComponentRemoveFolderFn    remove_folder_fn,
 							       void                                    *closure);
 EvolutionShellComponent *evolution_shell_component_new        (const EvolutionShellComponentFolderType  folder_types[],
 							       EvolutionShellComponentCreateViewFn      create_view_fn,
+							       EvolutionShellComponentCreateFolderFn    create_folder_fn,
+							       EvolutionShellComponentRemoveFolderFn    remove_folder_fn,
 							       void                                    *closure);
 Evolution_Shell          evolution_shell_component_get_owner  (EvolutionShellComponent                 *shell_component);
 
-#ifdef __cplusplus
+#ifdef cplusplus
 }
-#endif /* __cplusplus */
+#endif /* cplusplus */
 
-#endif /* __EVOLUTION_SHELL_COMPONENT_H__ */
+#endif /* EVOLUTION_SHELL_COMPONENT_H */

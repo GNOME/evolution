@@ -117,7 +117,7 @@ impl_Shell_get_component_for_type (PortableServer_Servant servant,
 				   CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
-	BonoboObjectClient *handler;
+	EvolutionShellComponentClient *handler;
 	EFolderTypeRegistry *folder_type_registry;
 	Evolution_ShellComponent corba_component;
 	EShell *shell;

@@ -34,6 +34,8 @@
 
 #include "Evolution.h"
 
+#include "evolution-shell-component-client.h"
+
 #include "e-component-registry.h"
 
 
@@ -45,7 +47,7 @@ typedef struct _Component Component;
 struct _Component {
 	char *id;
 	
-	BonoboObjectClient *client;
+	EvolutionShellComponentClient *client;
 
 	/* Names of the folder types we support (normal ASCII strings).  */
 	GList *folder_type_names;
@@ -62,7 +64,7 @@ struct _EComponentRegistryPrivate {
 
 static Component *
 component_new (const char *id,
-	       BonoboObjectClient *client)
+	       EvolutionShellComponentClient *client)
 {
 	Component *new;
 
@@ -133,7 +135,7 @@ register_component (EComponentRegistry *component_registry,
 	Evolution_Shell shell_corba_interface;
 	Evolution_FolderTypeList *supported_types;
 	Component *component;
-	BonoboObjectClient *client;
+	EvolutionShellComponentClient *client;
 	CORBA_Environment ev;
 	CORBA_unsigned_long i;
 
@@ -144,11 +146,14 @@ register_component (EComponentRegistry *component_registry,
 		return FALSE;
 	}
 
-	client = bonobo_object_activate (id, 0);
+	client = evolution_shell_component_client_new (id);
 	if (client == NULL)
 		return FALSE;
 
 	CORBA_exception_init (&ev);
+
+	/* FIXME we could use the EvolutionShellComponentClient API here instead, but for
+           now we don't care.  */
 
 	component_corba_interface = bonobo_object_corba_objref (BONOBO_OBJECT (client));
 	shell_corba_interface = bonobo_object_corba_objref (BONOBO_OBJECT (priv->shell));

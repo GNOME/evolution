@@ -1,3 +1,11 @@
+2000-06-09  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* component-factory.c (create_view): Updated to match the changes
+	to the definition of `EvolutionShellComponentCreateFn'.  If @type
+	is not "mail", return an "unsupported type" error.
+	(factory_fn): Pass NULL for the `remove_folder' and
+	`create_folder' functions.
+
 2000-06-09  Dan Winship  <danw@helixcode.com>
 
 	* mail-format.c: Redo things a bit so that whitespace-only

@@ -1,3 +1,12 @@
+2000-06-09  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* gui/component-factory.c (factory_fn): Pass NULL for the new args
+	@create_folder_fn and @remove_folder_fn.
+	(create_view): Updated to match the new
+	`EvolutionShellComponentCreateViewFn'.  Return
+	`EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE' if type is not
+	"calendar".
+
 2000-06-09  Federico Mena Quintero  <federico@helixcode.com>
 
 	* idl/evolution-calendar.idl (Cal): Added a get_n_objects()
