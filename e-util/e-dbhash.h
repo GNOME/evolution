@@ -35,7 +35,7 @@ void e_dbhash_add (EDbHash *edbh, const char *key, const char *data);
 void e_dbhash_remove (EDbHash *edbh, const char *key);
 
 EDbHashStatus e_dbhash_compare (EDbHash *edbh, const char *key, const char *compare_data);
-void e_dbhash_foreach_key (EDbHash *edbh, EDbHashFunc *func, gpointer user_data);
+void e_dbhash_foreach_key (EDbHash *edbh, EDbHashFunc func, gpointer user_data);
 
 void e_dbhash_write (EDbHash *edbh);
 

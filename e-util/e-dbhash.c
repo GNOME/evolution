@@ -80,8 +80,6 @@ e_dbhash_add (EDbHash *edbh, const gchar *key, const gchar *data)
 
 	/* Add to database */
 	db->put (db, &dkey, &ddata, 0);
-
-	g_free (local_hash);
 }
 
 void 
@@ -104,7 +102,7 @@ e_dbhash_remove (EDbHash *edbh, const char *key)
 }
 
 void 
-e_dbhash_foreach_key (EDbHash *edbh, EDbHashFunc *func, gpointer user_data)
+e_dbhash_foreach_key (EDbHash *edbh, EDbHashFunc func, gpointer user_data)
 {
 	DB *db;
 	DBT dkey;
@@ -145,6 +143,7 @@ e_dbhash_compare (EDbHash *edbh, const char *key, const char *compare_data)
 	string_to_dbt (key, &dkey);
 
 	/* Lookup in database */
+	memset (&ddata, 0, sizeof (DBT));
 	db->get (db, &dkey, &ddata, 0);
 	
 	/* Compare */

@@ -1,3 +1,9 @@
+2000-11-09  JP Rosevear  <jpr@helixcode.com>
+
+	* e-dbhash.h: oops thats func not *func
+
+	* e-dbhash.c (e_dbhash_foreach_key): Memset the data DBT to 0
+
 2000-11-07  JP Rosevear  <jpr@helixcode.com>
 
 	* Makefile.am: Build e-dbhash.[hc]
