@@ -105,7 +105,7 @@ check_test (void)
 	 */
 	e_table_header = e_table_header_new ();
 
-	cell_left_just = e_cell_text_new (e_table_model, NULL, GTK_JUSTIFY_LEFT);
+	cell_left_just = e_cell_text_new (e_table_model, NULL, GTK_JUSTIFY_LEFT, TRUE);
 
 	cell_image_check = e_cell_checkbox_new ();
 	col_0 = e_table_col_new (0, "", 18, 18, cell_image_check, g_int_equal, TRUE);

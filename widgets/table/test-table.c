@@ -202,7 +202,7 @@ table_browser_test (void)
 	 * Header
 	 */
 	e_table_header = e_table_header_new ();
-	cell_left_just = e_cell_text_new (e_table_model, NULL, GTK_JUSTIFY_LEFT);
+	cell_left_just = e_cell_text_new (e_table_model, NULL, GTK_JUSTIFY_LEFT, TRUE);
 	
 	for (i = 0; i < cols; i++){
 		ETableCol *ecol = e_table_col_new (
@@ -269,7 +269,7 @@ do_e_table_demo (const char *col_spec, const char *group_spec)
 		set_value_at, is_cell_editable, NULL);
 
 	full_header = e_table_header_new ();
-	cell_left_just = e_cell_text_new (e_table_model, NULL, GTK_JUSTIFY_LEFT);
+	cell_left_just = e_cell_text_new (e_table_model, NULL, GTK_JUSTIFY_LEFT, TRUE);
 
 	for (i = 0; i < cols; i++){
 		ETableCol *ecol = e_table_col_new (

@@ -56,7 +56,7 @@ typedef struct {
 } ECellTextClass;
 
 GtkType    e_cell_text_get_type (void);
-ECell     *e_cell_text_new      (ETableModel *model, const char *fontname, GtkJustification justify);
+ECell     *e_cell_text_new      (ETableModel *model, const char *fontname, GtkJustification justify, gboolean editable);
 
 #endif /* _E_CELL_TEXT_H_ */
 
