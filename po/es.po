@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-15 11:26+0100\n"
-"PO-Revision-Date: 2003-12-13 14:09+0100\n"
+"POT-Creation-Date: 2003-12-21 18:55+0100\n"
+"PO-Revision-Date: 2003-12-21 18:56+0100\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -11984,7 +11984,7 @@ msgstr "Responder a la _lista"
 msgid "Reply to _All"
 msgstr "Responder a _todos"
 
-#: mail/folder-browser.c:1797
+#: mail/folder-browser.c:1797 ui/evolution-mail-message.xml.h:98
 msgid "_Forward"
 msgstr "Reen_viar"
 
@@ -26963,8 +26963,8 @@ msgid "Display the previous unread message"
 msgstr "Muestra el anterior mensaje no leído"
 
 #: ui/evolution-mail-message.xml.h:28
-msgid "F_orward"
-msgstr "Reen_viar"
+msgid "F_orward As..."
+msgstr "Re_enviar como..."
 
 #: ui/evolution-mail-message.xml.h:29
 msgid "Filter on Mailing _List..."
@@ -27201,10 +27201,6 @@ msgstr "_Copiar a la carpeta"
 #: ui/evolution-mail-message.xml.h:96
 msgid "_Create Filter From Message"
 msgstr "Crear un filtro según el _mensaje"
-
-#: ui/evolution-mail-message.xml.h:98
-msgid "_Forward Message"
-msgstr "_Reenviar mensaje"
 
 #: ui/evolution-mail-message.xml.h:99
 msgid "_Go To"
@@ -28050,6 +28046,9 @@ msgstr "Motor de agenda en archivo local de Evolution"
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:1
 msgid "Evolution Addressbook local file backend"
 msgstr "Motor para libretas de direcciones en archivo local de Evolution"
+
+#~ msgid "_Forward Message"
+#~ msgstr "_Reenviar mensaje"
 
 #~ msgid "Host lookup failed: cannot create thread: %s"
 #~ msgstr "La resolución del host ha fallado: no se puede crear el hilo: %s"
