@@ -1,3 +1,8 @@
+2000-07-26  Dan Winship  <danw@helixcode.com>
+
+	* gui/component/addressbook.oafinfo: lowercasify the
+	supported_mime_types
+
 2000-07-25  Chris Toshok  <toshok@helixcode.com>
 
 	* backend/ebook/e-card-types.h: add enum for e-card pilot status.

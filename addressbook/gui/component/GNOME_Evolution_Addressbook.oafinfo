@@ -23,8 +23,8 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="bonobo:supported_mime_types" type="stringv">
-		<item value="text/vCard"/>
-		<item value="text/x-vCard"/>
+		<item value="text/vcard"/>
+		<item value="text/x-vcard"/>
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
