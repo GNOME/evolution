@@ -22,9 +22,6 @@
 /* Padding between day borders and event text */
 #define EVENT_PADDING 3
 
-/* Font for the month view events */
-#define EVENT_FONT "-adobe-helvetica-medium-r-normal--10-*-*-*-p-*-*-*"
-
 
 static void month_view_class_init    (MonthViewClass *class);
 static void month_view_init          (MonthView      *mv);
@@ -416,7 +413,7 @@ month_view_init (MonthView *mv)
 	mv->title = gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (mv)),
 					   gnome_canvas_text_get_type (),
 					   "anchor", GTK_ANCHOR_N,
-					   "font", HEADING_FONT,
+					   "fontset", HEADING_FONTSET,
 					   "fill_color", "black",
 					   NULL);
 
@@ -429,8 +426,8 @@ month_view_init (MonthView *mv)
 			       "day_anchor", GTK_ANCHOR_NE,
 			       "start_on_monday", week_starts_on_monday,
 			       "heading_padding", 2.0,
-			       "heading_font", BIG_DAY_HEADING_FONT,
-			       "day_font", BIG_NORMAL_DAY_FONT,
+			       "heading_fontset", BIG_DAY_HEADING_FONTSET,
+			       "day_fontset", BIG_NORMAL_DAY_FONTSET,
 			       NULL);
 
 	/* Arrows and text items.  The arrows start hidden by default; they will be shown as
@@ -473,7 +470,7 @@ month_view_init (MonthView *mv)
 
 		mv->text[i] = gnome_canvas_item_new (GNOME_CANVAS_GROUP (day_group),
 						     gnome_canvas_text_get_type (),
-						     "font", EVENT_FONT,
+						     "fontset", EVENT_FONTSET,
 						     "anchor", GTK_ANCHOR_NW,
 						     "fill_color", color_spec_from_prop (COLOR_PROP_DAY_FG),
 						     "clip", TRUE,
@@ -714,7 +711,7 @@ mark_current_day (MonthView *mv)
 						   GNOME_MONTH_ITEM_DAY_LABEL + mv->old_current_index);
 		gnome_canvas_item_set (item,
 				       "fill_color", color_spec_from_prop (COLOR_PROP_DAY_FG),
-				       "font", BIG_NORMAL_DAY_FONT,
+				       "fontset", BIG_NORMAL_DAY_FONTSET,
 				       NULL);
 
 		mv->old_current_index = -1;
@@ -733,7 +730,7 @@ mark_current_day (MonthView *mv)
 						   GNOME_MONTH_ITEM_DAY_LABEL + mv->old_current_index);
 		gnome_canvas_item_set (item,
 				       "fill_color", color_spec_from_prop (COLOR_PROP_CURRENT_DAY_FG),
-				       "font", BIG_CURRENT_DAY_FONT,
+				       "fontset", BIG_CURRENT_DAY_FONTSET,
 				       NULL);
 	}
 }

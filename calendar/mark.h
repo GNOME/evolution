@@ -14,14 +14,15 @@
 
 /* These are the fonts used for the montly calendars */
 
-#define HEADING_FONT         "-*-helvetica-bold-r-normal--14-*-*-*-p-*-*-*"
-#define TITLE_FONT           "-*-helvetica-bold-r-normal--12-*-*-*-p-*-*-*"
-#define DAY_HEADING_FONT     "-*-helvetica-medium-r-normal--10-*-*-*-p-*-*-*"
-#define NORMAL_DAY_FONT      "-*-helvetica-medium-r-normal--10-*-*-*-p-*-*-*"
-#define CURRENT_DAY_FONT     "-*-helvetica-bold-r-normal--12-*-*-*-p-*-*-*"
-#define BIG_DAY_HEADING_FONT "-*-helvetica-bold-r-normal--14-*-*-*-p-*-*-*"
-#define BIG_NORMAL_DAY_FONT  "-*-helvetica-medium-r-normal--14-*-*-*-p-*-*-*"
-#define BIG_CURRENT_DAY_FONT "-*-helvetica-bold-r-normal--14-*-*-*-p-*-*-*"
+#define HEADING_FONTSET         "-adobe-helvetica-medium-r-*-*-14-*-*-*-p-*-*-*,-cronyx-helvetica-medium-r-normal-*-17-*-*-*-p-*-koi8-r"
+#define TITLE_FONTSET           "-adobe-helvetica-bold-r-normal--12-*-*-*-p-*-*-*,-cronyx-helvetica-medium-r-normal-*-14-*-*-*-p-*-koi8-r"
+#define DAY_HEADING_FONTSET     "-adobe-helvetica-medium-r-normal--10-*-*-*-p-*-*-*,-cronyx-helvetica-medium-r-normal-*-11-*-*-*-p-*-koi8-r"
+#define NORMAL_DAY_FONTSET      "-adobe-helvetica-medium-r-normal--10-*-*-*-p-*-*-*,-cronyx-helvetica-medium-r-normal-*-11-*-*-*-p-*-koi8-r"
+#define CURRENT_DAY_FONTSET     "-adobe-helvetica-bold-r-normal--12-*-*-*-p-*-*-*,-cronyx-helvetica-medium-r-normal-*-14-*-*-*-p-*-koi8-r"
+#define BIG_DAY_HEADING_FONTSET "-adobe-helvetica-bold-r-normal--14-*-*-*-p-*-*-*,-cronyx-helvetica-bold-r-normal-*-17-*-*-*-p-*-koi8-r"
+#define BIG_NORMAL_DAY_FONTSET  "-adobe-helvetica-medium-r-normal--14-*-*-*-p-*-*-*,-cronyx-helvetica-medium-r-normal-*-17-*-*-*-p-*-koi8-r"
+#define BIG_CURRENT_DAY_FONTSET "-adobe-helvetica-bold-r-normal--14-*-*-*-p-*-*-*,-cronyx-helvetica-bold-r-normal-*-17-*-*-*-p-*-koi8-r"
+#define EVENT_FONTSET           "-adobe-helvetica-medium-r-*-*-10-*-*-*-p-*-*-*,-cronyx-helvetica-medium-r-normal-*-11-*-*-*-p-*-koi8-r"
 
 
 /* Functions of this type are used by the marking functions to fetch color specifications.  Such

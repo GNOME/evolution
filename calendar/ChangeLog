@@ -1,3 +1,12 @@
+1999-02-17  Sergey Panov <sipan@mit.edu>
+
+	* gnome-month-item.c,gnome-month-item.h,goto.c,mark.h,
+	month-view.c,prop.c,quick-view.c,year-view.c: will define 
+	fonts via fontset. Friendlier to locales that use iso8859-[^1]
+	and koi8-r encodings. Does not solve problem for Asian languiges
+	--- better solution is needed (e.g. standart GNOME fontstyles
+	defined in gtkrc).	
+	
 1999-02-16  Sergey Panov <sipan@mit.edu>
 
 	* main.c: Use N_() macro for color settings labels in

@@ -38,7 +38,7 @@ update (void)
 						   GNOME_MONTH_ITEM_DAY_LABEL + current_index);
 		gnome_canvas_item_set (item,
 				       "fill_color", color_spec_from_prop (COLOR_PROP_DAY_FG),
-				       "font", NORMAL_DAY_FONT,
+				       "fontset", NORMAL_DAY_FONTSET,
 				       NULL);
 		current_index = -1;
 	}
@@ -54,7 +54,7 @@ update (void)
 						   GNOME_MONTH_ITEM_DAY_LABEL + current_index);
 		gnome_canvas_item_set (item,
 				       "fill_color", color_spec_from_prop (COLOR_PROP_CURRENT_DAY_FG),
-				       "font", CURRENT_DAY_FONT,
+				       "fontset", CURRENT_DAY_FONTSET,
 				       NULL);
 	}
 }

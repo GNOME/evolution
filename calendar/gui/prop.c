@@ -395,7 +395,7 @@ set_current_day (void)
 	item = gnome_month_item_num2child (GNOME_MONTH_ITEM (month_item), GNOME_MONTH_ITEM_DAY_LABEL + day_index);
 	gnome_canvas_item_set (item,
 			       "fill_color", color_spec_from_picker (COLOR_PROP_CURRENT_DAY_FG),
-			       "font", CURRENT_DAY_FONT,
+			       "fontset", CURRENT_DAY_FONTSET,
 			       NULL);
 }
 

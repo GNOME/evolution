@@ -58,8 +58,10 @@ enum {
 	ARG_DAY_ANCHOR,
 	ARG_START_ON_MONDAY,
 	ARG_HEAD_FONT,
+	ARG_HEAD_FONTSET,
 	ARG_HEAD_FONT_GDK,
 	ARG_DAY_FONT,
+	ARG_DAY_FONTSET,
 	ARG_DAY_FONT_GDK,
 	ARG_HEAD_COLOR,
 	ARG_HEAD_COLOR_GDK,
@@ -136,8 +138,10 @@ gnome_month_item_class_init (GnomeMonthItemClass *class)
 	gtk_object_add_arg_type ("GnomeMonthItem::day_anchor", GTK_TYPE_ANCHOR_TYPE, GTK_ARG_READWRITE, ARG_DAY_ANCHOR);
 	gtk_object_add_arg_type ("GnomeMonthItem::start_on_monday", GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_START_ON_MONDAY);
 	gtk_object_add_arg_type ("GnomeMonthItem::heading_font", GTK_TYPE_STRING, GTK_ARG_WRITABLE, ARG_HEAD_FONT);
+	gtk_object_add_arg_type ("GnomeMonthItem::heading_fontset", GTK_TYPE_STRING, GTK_ARG_WRITABLE, ARG_HEAD_FONTSET);
 	gtk_object_add_arg_type ("GnomeMonthItem::heading_font_gdk", GTK_TYPE_GDK_FONT, GTK_ARG_READWRITE, ARG_HEAD_FONT_GDK);
 	gtk_object_add_arg_type ("GnomeMonthItem::day_font", GTK_TYPE_STRING, GTK_ARG_WRITABLE, ARG_DAY_FONT);
+	gtk_object_add_arg_type ("GnomeMonthItem::day_fontset", GTK_TYPE_STRING, GTK_ARG_WRITABLE, ARG_DAY_FONTSET);
 	gtk_object_add_arg_type ("GnomeMonthItem::day_font_gdk", GTK_TYPE_GDK_FONT, GTK_ARG_READWRITE, ARG_DAY_FONT_GDK);
 	gtk_object_add_arg_type ("GnomeMonthItem::heading_color", GTK_TYPE_STRING, GTK_ARG_WRITABLE, ARG_HEAD_COLOR);
 	gtk_object_add_arg_type ("GnomeMonthItem::heading_color_gdk", GTK_TYPE_GDK_COLOR, GTK_ARG_READWRITE, ARG_HEAD_COLOR_GDK);
@@ -977,6 +981,20 @@ gnome_month_item_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		reshape (mitem);
 		break;
 
+	case ARG_HEAD_FONTSET:
+		gdk_font_unref (mitem->head_font);
+
+		mitem->head_font = gdk_fontset_load (GTK_VALUE_STRING (*arg));
+		if (!mitem->head_font) {
+			mitem->head_font =
+			  gdk_fontset_load ("-*-fixed-medium-r-semicondensed--13-120-75-75-c-60-*-*");
+			g_assert (mitem->head_font != NULL);
+		}
+
+		set_head_font (mitem);
+		reshape (mitem);
+		break;
+
 	case ARG_HEAD_FONT_GDK:
 		gdk_font_unref (mitem->head_font);
 
@@ -992,6 +1010,20 @@ gnome_month_item_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		mitem->day_font = gdk_font_load (GTK_VALUE_STRING (*arg));
 		if (!mitem->day_font) {
 			mitem->day_font = gdk_font_load ("fixed");
+			g_assert (mitem->day_font != NULL);
+		}
+
+		set_day_font (mitem);
+		reshape (mitem);
+		break;
+
+	case ARG_DAY_FONTSET:
+		gdk_font_unref (mitem->day_font);
+
+		mitem->head_font = gdk_fontset_load (GTK_VALUE_STRING (*arg));
+		if (!mitem->day_font) {
+			mitem->day_font =
+			  gdk_fontset_load ("-*-fixed-medium-r-semicondensed--13-120-75-75-c-60-*-*");
 			g_assert (mitem->day_font != NULL);
 		}
 

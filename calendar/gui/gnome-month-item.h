@@ -67,8 +67,10 @@ typedef enum {
  * day_anchor		GtkAnchorType	RW		Anchor side for day numbers inside day boxes
  * start_on_monday	boolean		RW		Specifies whether the week starts on Monday or Sunday
  * heading_font		string		W		X logical font descriptor for the headings
+ * heading_fontset     	string		W		X logical fontset descriptor for the headings
  * heading_font_gdk	GdkFont *	RW		Pointer to GdkFont for the headings
  * day_font		string		W		X logical font descriptor for the day numbers
+ * day_fontset 		string		W		X logical fontset descriptor for the day numbers
  * day_font_gdk		GdkFont *	RW		Pointer to GdkFont for the day numbers
  * heading_color	string		W		X color specification for heading labels
  * heading_color_gdk	GdkColor *	RW		Pointer to an allocated GdkColor for heading labels

@@ -10,7 +10,7 @@
 #include "main.h"
 
 
-#define QUICK_VIEW_FONT "-adobe-helvetica-medium-r-normal--10-*-*-*-p-*-*-*"
+#define QUICK_VIEW_FONTSET "-adobe-helvetica-medium-r-normal--10-*-*-*-p-*-*-*,-cronyx-helvetica-medium-r-normal-*-11-*-*-*-p-*-koi8-r"
 
 
 static void quick_view_class_init (QuickViewClass *class);
@@ -138,7 +138,7 @@ create_items_for_event (QuickView *qv, CalendarObject *co, double *y, double *ma
 				      "y", *y,
 				      "anchor", GTK_ANCHOR_NW,
 				      "text", str,
-				      "font", QUICK_VIEW_FONT,
+				      "fontset", QUICK_VIEW_FONTSET,
 				      NULL);
 
 	g_free (str);
@@ -173,7 +173,7 @@ setup_event_list (QuickView *qv, GList *event_list)
 					      "y", 0.0,
 					      "anchor", GTK_ANCHOR_NW,
 					      "text", _("No appointments for this day"),
-					      "font", QUICK_VIEW_FONT,
+					      "fontset", QUICK_VIEW_FONTSET,
 					      NULL);
 
 		/* Measure the text and set the proper sizes */

@@ -497,7 +497,7 @@ year_view_init (YearView *yv)
 	yv->heading = gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (yv)),
 					     gnome_canvas_text_get_type (),
 					     "anchor", GTK_ANCHOR_N,
-					     "font", HEADING_FONT,
+					     "fontset", HEADING_FONTSET,
 					     "fill_color", "black",
 					     NULL);
 
@@ -513,7 +513,7 @@ year_view_init (YearView *yv)
 						       gnome_canvas_text_get_type (),
 						       "text", buf,
 						       "anchor", GTK_ANCHOR_N,
-						       "font", TITLE_FONT,
+						       "fontset", TITLE_FONTSET,
 						       "fill_color", "black",
 						       NULL);
 
@@ -523,8 +523,8 @@ year_view_init (YearView *yv)
 		gnome_canvas_item_set (yv->mitems[i],
 				       "anchor", GTK_ANCHOR_NW,
 				       "start_on_monday", week_starts_on_monday,
-				       "heading_font", DAY_HEADING_FONT,
-				       "day_font", NORMAL_DAY_FONT,
+				       "heading_fontset", DAY_HEADING_FONTSET,
+				       "day_fontset", NORMAL_DAY_FONTSET,
 				       NULL);
 		setup_month_item (yv, i);
 	}
@@ -638,7 +638,7 @@ mark_current_day (YearView *yv)
 						   GNOME_MONTH_ITEM_DAY_LABEL + day_index);
 		gnome_canvas_item_set (item,
 				       "fill_color", color_spec_from_prop (COLOR_PROP_DAY_FG),
-				       "font", NORMAL_DAY_FONT,
+				       "fontset", NORMAL_DAY_FONTSET,
 				       NULL);
 
 		yv->old_marked_day = -1;
@@ -658,7 +658,7 @@ mark_current_day (YearView *yv)
 						   GNOME_MONTH_ITEM_DAY_LABEL + day_index);
 		gnome_canvas_item_set (item,
 				       "fill_color", color_spec_from_prop (COLOR_PROP_CURRENT_DAY_FG),
-				       "font", CURRENT_DAY_FONT,
+				       "fontset", CURRENT_DAY_FONTSET,
 				       NULL);
 
 		yv->old_marked_day = month_index * 42 + day_index;
