@@ -342,6 +342,9 @@ get_path (CamelService *service)
 			g_string_sprintfa (gpath, "/%s@%s",
 					   url->user ? url->user : "",
 					   url->host ? url->host : "");
+			
+			if (url->port)
+				g_string_sprintfa (gpath, ":%d", url->port);
 		} else {
 			g_string_sprintfa (gpath, "/%s%s",
 					   url->user ? url->user : "",
@@ -351,6 +354,9 @@ get_path (CamelService *service)
 		g_string_sprintfa (gpath, "/%s%s",
 				   CAMEL_PROVIDER_NEEDS (prov, CAMEL_URL_PART_HOST) ? "" : "@",
 				   url->host ? url->host : "");
+		
+		if (url->port)
+			g_string_sprintfa (gpath, ":%d", url->port);
 	}
 	if (CAMEL_PROVIDER_NEEDS (prov, CAMEL_URL_PART_PATH)) {
 		g_string_sprintfa (gpath, "%s%s",

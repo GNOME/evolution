@@ -1,5 +1,12 @@
 2001-03-27  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-service.c (get_path): Add the port (if user defined) to
+	the path to fix bug #1996.
+
+	Danw: I'm iffy on the "fix" so I'd like you to comment.
+
+2001-03-27  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* providers/pop3/camel-pop3-folder.c (pop3_sync): If we aren't
 	going to even check the resp/free buffer that gets returned from
 	camel_pop3_command, don't even bother using it. Send in NULL
