@@ -1,5 +1,10 @@
 2004-02-18  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/gnome-cal.c (client_cal_opened_cb): set the task pad client to NULL
+	if opening it failed. Show more verbose status bar messages.
+
+2004-02-18  Rodrigo Moya <rodrigo@ximian.com>
+
 	* common/authentication.c (auth_func_cb): call first e_passwords_get_password
 	before calling _ask_password.
 

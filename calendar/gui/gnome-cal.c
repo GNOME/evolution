@@ -1032,6 +1032,9 @@ setup_widgets (GnomeCalendar *gcal)
 					  GTK_WIDGET (priv->views[i]), gtk_label_new (""));
 
 		gtk_widget_show (GTK_WIDGET (priv->views[i]));
+
+		/* make sure we set the initial queries for the views */
+		//adjust_e_cal_view_for_view (E_CALENDAR_VIEW (priv->views[i]), "");
 	}
 }
 
@@ -1742,17 +1745,28 @@ copy_categories (GPtrArray *categories)
 static void
 client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 {
+	char *msg;
 	GnomeCalendarPrivate *priv = gcal->priv;
 
 	e_calendar_view_set_status_message (E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (gcal)), NULL);
 
 	if (status == E_CALENDAR_STATUS_OK) {
 		if (ecal == priv->task_pad_client) {
+			msg = g_strdup_printf (_("Loading tasks at %s"), e_cal_get_uri (ecal));
+			e_calendar_view_set_status_message (E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (gcal)), msg);
+			g_free (msg);
+
 			e_cal_model_add_client (e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)),
 						priv->task_pad_client);
 
+			e_calendar_view_set_status_message (E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (gcal)), NULL);
+
 		} else {
 			int i;
+
+			msg = g_strdup_printf (_("Loading appointments at %s"), e_cal_get_uri (ecal));
+			e_calendar_view_set_status_message (E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (gcal)), msg);
+			g_free (msg);
 
 			/* add client to the views */
 			for (i = 0; i < GNOME_CAL_LAST_VIEW; i++) {
@@ -1764,9 +1778,13 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 
 			/* update date navigator query */
 			update_query (gcal);
+
+			e_calendar_view_set_status_message (E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (gcal)), NULL);
 		}
 	} else {
-		if (ecal != priv->task_pad_client) {
+		if (ecal == priv->task_pad_client)
+			priv->task_pad_client = NULL;
+		else {
 			gpointer orig_uid;
 			gpointer orig_client;
 
