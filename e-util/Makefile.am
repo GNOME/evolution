@@ -12,7 +12,8 @@ INCLUDES =					\
 	-DG_LOG_DOMAIN=\"e-utils\"
 
 noinst_LTLIBRARIES = libeutil.la libeutil-static.la \
-	libeconduit.la libeconduit-static.la
+	libeconduit.la libeconduit-static.la \
+	libedb3util.la
 
 libeutil_la_SOURCES =			\
 	e-corba-utils.c			\
@@ -45,10 +46,6 @@ libeutil_la_SOURCES =			\
 	e-time-utils.h			\
 	e-url.c				\
 	e-url.h				\
-	e-db3-utils.c			\
-	e-db3-utils.h			\
-	e-dbhash.c			\
-	e-dbhash.h			\
 	md5-utils.c			\
 	md5-utils.h
 
@@ -77,3 +74,8 @@ libeconduit_static_la_LDFLAGS = --all-static
 
 EXTRA_DIST = $(pilot_sources)
 
+libedb3util_la_SOURCES =		\
+	e-db3-utils.c			\
+	e-db3-utils.h			\
+	e-dbhash.c			\
+	e-dbhash.h
