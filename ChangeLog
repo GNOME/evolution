@@ -1,3 +1,8 @@
+2003-01-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* configure.in (MOZILLA_NSS): Simplify the whole process into
+	about 8 lines by using pkg-config.
+
 2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* data/Makefile.am: For now, do not install the evolution.1

@@ -8,7 +8,7 @@ AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 AM_CONFIG_HEADER(config.h)
 
 AC_CANONICAL_HOST
-AC_DEFINE_UNQUOTED(VERSION_COMMENT, "(Preview Release)")
+AC_DEFINE_UNQUOTED(VERSION_COMMENT, "(Preview Release; Code Named: Monkey See Monkey Doo)")
 
 dnl Initialize maintainer mode
 AM_MAINTAINER_MODE
@@ -714,7 +714,7 @@ dnl needed by Camel (SSL and S/MIME).
 dnl
 dnl The Evolution security extensions are only built if these libraries are found
 dnl ********************************************************************************
-msg_ssl=no
+msg_ssl="no"
 
 dnl these 2 enable's are inverses of each other
 AC_ARG_ENABLE(nss, [  --enable-nss=[yes,no,static]        Attempt to use Mozilla libnss for SSL support.],
@@ -730,168 +730,18 @@ dnl User wants to override nss with OpenSSL
 fi
 
 if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
-	AC_ARG_WITH(nspr-includes, [  --with-nspr-includes=PREFIX     Location of NSPR header files.],
-		with_nspr_includes="$withval", with_nspr_includes="/usr/include/nspr")
-	have_nspr_includes="no"
-	if test "x${with_nspr_includes}" != "xno"; then
-		CPPFLAGS_save="$CPPFLAGS"
-		
-		AC_MSG_CHECKING(for Mozilla nspr4 includes in $with_nspr_includes)
-		AC_MSG_RESULT("")
-		
-		CPPFLAGS="$CPPFLAGS -I$with_nspr_includes"
-		AC_CHECK_HEADERS(nspr.h prio.h, [ moz_nspr_includes="yes" ])
-		CPPFLAGS="$CPPFLAGS_save"
-		
-		if test "x{$moz_nspr_includes}" != "xno" -a "x{$moz_nspr_includes}" != "x" ; then
-			have_nspr_includes="yes"
-			NSPR_CFLAGS="-I$with_nspr_includes"
-		fi
-	else
-		AC_MSG_CHECKING(for Mozilla nspr4 includes)
-		AC_MSG_RESULT(no)
-	fi
-	
-	AC_ARG_WITH(nspr-libs, [  --with-nspr-libs=PREFIX     Location of Mozilla nspr4 libs.],
-		with_nspr_libs="$withval")
-	have_nspr_libs="no"
-	if test "x${with_nspr_libs}" != "xno" -a "x${have_nspr_includes}" != "xno"; then
-		CFLAGS_save="$CFLAGS"
-		LDFLAGS_save="$LDFLAGS"
-
-		if test "$enable_nss" = "static"; then
-		    if test -z "${with_nspr_libs}"; then
-			AC_MSG_ERROR([Static linkage requested, but path to nspr libraries not set]
-				     [Please specify the path to libnspr4.a]
-				     [Example: --with-nspr-libs=/usr/lib])
-       		    else
-               		nsprlibs="-ldl $with_nspr_libs/libplc4.a $with_nspr_libs/libplds4.a $with_nspr_libs/libnspr4.a $PTHREAD_LIB"
-      		    fi
-		else
-               	    nsprlibs="-ldl -lplc4 -lplds4 -lnspr4 $PTHREAD_LIB"
-		fi
-
-		AC_CACHE_CHECK([for Mozilla nspr libraries], moz_nspr_libs,
-		[
-	               	LIBS_save="$LIBS"
-			CFLAGS="$CFLAGS $NSPR_CFLAGS"
-
-			if test "x${with_nspr_libs}" != "x"; then
-                       		LIBS="$nsprlibs"
-                       		LDFLAGS="$LDFLAGS -L$with_nspr_libs"
-        		else
-                       		LIBS="$nsprlibs"
-                       		LDFLAGS="$LDFLAGS"
-			fi
-			
-			AC_TRY_LINK_FUNC(PR_Init, moz_nspr_libs="yes", moz_nspr_libs="no")
-			CFLAGS="$CFLAGS_save"
-			LDFLAGS="$LDFLAGS_save"
-	 		LIBS="$LIBS_save"
-		])
-		if test "x$moz_nspr_libs" != "xno"; then
-			have_nspr_libs="yes"
-			NSPR_LDFLAGS="-L$with_nspr_libs $nsprlibs"
-		else
-			NSPR_CLFAGS=""
-		fi
-	else
-		AC_MSG_CHECKING(for Mozilla nspr4 libraries)
-		AC_MSG_RESULT(no)
-	fi
-	
-	AC_ARG_WITH(nss-includes, [  --with-nss-includes=PREFIX     Location of NSS3 headers.],
-		with_nss_includes="$withval", with_nss_includes="/usr/include/moznss")
-	if test "x${with_nss_includes}" != "xno" -a "x${have_nspr_libs}" != "xno"; then
-		CPPFLAGS_save="$CPPFLAGS"
-		
-		AC_MSG_CHECKING(for Mozilla nss3 includes in $with_nss_includes)
-		AC_MSG_RESULT("")
-	
-        	if test "x${with_nspr_includes}" != "x"; then
-	        	CPPFLAGS="$CPPFLAGS -I$with_nspr_includes -I$with_nss_includes"
-        	else
-	        	CPPFLAGS="$CPPFLAGS -I$with_nss_includes"
-		fi
-	
-		AC_CHECK_HEADERS(nss.h ssl.h smime.h,
-			[ have_nss_includes="yes" ], 
-			[ have_nss_includes="no" ])
-	
-		CPPFLAGS="$CPPFLAGS_save"
-		
-		if test "x${have_nss_includes}" = xyes ; then	
-			have_nss_includes="yes"
-			NSS_CFLAGS="-I$with_nss_includes"
-		else
-			NSPR_CFLAGS=""
-			NSPR_LDFLAGS=""
-		fi
-	else
-		AC_MSG_CHECKING(for Mozilla nss3 includes)
-		AC_MSG_RESULT(no)
-	fi
-	
-	AC_ARG_WITH(nss-libs, [  --with-nss-libs=PREFIX     	Location of Mozilla nss3 libs.],
-		with_nss_libs="$withval")
-	if test "x${with_nss_libs}" != "xno" -a "x${have_nss_includes}" != "xno"; then
-		LDFLAGS_save="$LDFLAGS"
-	
-		if test "$enable_nss" = "static"; then
-		    if test -z "${with_nss_libs}"; then
-                        AC_MSG_ERROR([Static linkage requested, but path to nss libraries not set]
-                                     [Please specify the path to libnss3.a]
-                                     [Example: --with-nspr-libs=/usr/lib/mozilla])
-         	    else
-                 	nsslibs="-ldb1 $with_nss_libs/libnssckfw.a $with_nss_libs/libasn1.a $with_nss_libs/libcrmf.a $with_nss_libs/libswfci.a $with_nss_libs/libjar.a $with_nss_libs/libpkcs12.a $with_nss_libs/libpkcs7.a $with_nss_libs/libpki1.a $with_nss_libs/libsmime.a $with_nss_libs/libssl.a $with_nss_libs/libnss.a $with_nss_libs/libpk11wrap.a $with_nss_libs/libsoftokn.a $with_nss_libs/libfreebl.a $with_nss_libs/libnsspki.a $with_nss_libs/libnssdev.a $with_nss_libs/libcryptohi.a $with_nss_libs/libcerthi.a $with_nss_libs/libcertdb.a $with_nss_libs/libsecutil.a $with_nss_libs/libnssb.a"
-                 	case "$host" in
-                     		*solaris*)
-                         	nsslibs="$nsslibs $with_nss_libs/libfreebl.a"
-                     	;;
-                 	esac
-		    fi
-		else
-                 	nsslibs="-lssl3 -lsmime3 -lnss3 -lsoftokn3"
-         	fi	
-
-		AC_CACHE_CHECK([for Mozilla nss libraries], moz_nss_libs,
-		[
-	 		LIBS_save="$LIBS"
-			LDFLAGS="$LDFLAGS -L$with_nspr_libs $nsprlibs -L$with_nss_libs $nsslibs"
-	              	LIBS="$nsslibs $nsprlibs"
-			AC_TRY_LINK_FUNC(NSS_Init, moz_nss_libs="yes", moz_nss_libs="no")
-			if test "$moz_nss_libs" = no; then
-				nsslibs="-lssl3 -lsmime3 -lnss3 -lsoftokn3"
-				LDFLAGS="$LDFLAGS -L$with_nspr_libs $nsprlibs -L$with_nss_libs $nsslibs"
-				AC_TRY_LINK_FUNC(NSS_Init, moz_nss_libs="yes", moz_nss_libs="no")	
-			fi
-			LDFLAGS="$LDFLAGS_save"
-	 		LIBS="$LIBS_save"
-		])
-		if test "$moz_nss_libs" != no; then
-			AC_DEFINE(HAVE_NSS)
-			AC_DEFINE(HAVE_SSL)
-	               	if test "$enable_nss" = "static"; then
-           	        	msg_ssl="yes (Mozilla NSS:static)"
-                 	else
-                       		msg_ssl="yes (Mozilla NSS)"
-                 	fi # static_nss
-			NSS_LDFLAGS="-L$with_nss_libs $nsslibs"
-		else
-			NSS_CFLAGS=""
-			NSPR_CFLAGS=""
-			NSPR_LDFLAGS=""
-		fi
-	else
-		AC_MSG_CHECKING(for Mozilla nss libraries)
-		AC_MSG_RESULT(no)
+	PKG_CHECK_MODULES(NSS, mozilla-nss, have_nss="yes")
+	if test "x${have_nss}" = "xyes"; then
+		msg_ssl="yes (Mozilla NSS)"
+		mozilla_nspr="mozilla-nspr"
+		mozilla_nss="mozilla-nss"
+		AC_DEFINE(HAVE_NSS)
+		AC_DEFINE(HAVE_SSL)
 	fi
 fi
 
-AC_SUBST(NSPR_CFLAGS)
-AC_SUBST(NSPR_LDFLAGS)
 AC_SUBST(NSS_CFLAGS)
-AC_SUBST(NSS_LDFLAGS)
+AC_SUBST(NSS_LIBS)
 
 dnl ******************
 dnl CDE dtappintegrate
@@ -1010,9 +860,9 @@ AC_DEFUN(EVO_SET_COMPILE_FLAGS, [
 	deps="$2"
 	extra_cflags="$3"
 	extra_libs="$4"
-	PKG_CHECK_MODULES(foo, $deps)
-	$1_CFLAGS="$foo_CFLAGS \$(WERROR) $extra_cflags"
-	$1_LIBS="$foo_LIBS $extra_libs"
+	PKG_CHECK_MODULES($1, $deps)
+	${1}_CFLAGS="${1}_CFLAGS \$(WERROR) $extra_cflags"
+	${1}_LIBS="${1}_LIBS $extra_libs"
 ])
 
 dnl --- Flags to get all the GNOME stuff
@@ -1029,9 +879,9 @@ AC_SUBST(GNOME_FULL_LIBS)
 
 dnl --- Flags for the various libraries we build
 
-EVO_SET_COMPILE_FLAGS(CAMEL, glib-2.0 gal-2.0 >= $GAL_VERSION,
-		      $THREADS_CFLAGS $KRB4_CFLAGS $NSS_CFLAGS $NSPR_CFLAGS $OPENSSL_CFLAGS,
-	              $THREADS_LIBS $KRB4_LDFLAGS $NSS_LDFLAGS $NSPR_LDFLAGS $OPENSSL_LDFLAGS)
+EVO_SET_COMPILE_FLAGS(CAMEL, glib-2.0 gal-2.0 >= $GAL_VERSION $mozilla_nss,
+		      $THREADS_CFLAGS $KRB4_CFLAGS $OPENSSL_CFLAGS,
+	              $THREADS_LIBS $KRB4_LDFLAGS $OPENSSL_LDFLAGS)
 AC_SUBST(CAMEL_CFLAGS)
 AC_SUBST(CAMEL_LIBS)
 
@@ -1039,7 +889,7 @@ EVO_SET_COMPILE_FLAGS(E_NAME, libgnomeui-2.0 libbonoboui-2.0 gal-2.0 >= $GAL_VER
 AC_SUBST(E_NAME_CFLAGS)
 AC_SUBST(E_NAME_LIBS)
 
-EVO_SET_COMPILE_FLAGS(E_UTIL, gconf-2.0 libxml-2.0 libbonoboui-2.0 libglade-2.0 gal-2.0 >= $GAL_VERSION libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 soup-2.0, $THREADS_CFLAGS $NSPR_CFLAGS, $THREADS_LIBS $NSPR_LDFLAGS)
+EVO_SET_COMPILE_FLAGS(E_UTIL, gconf-2.0 libxml-2.0 libbonoboui-2.0 libglade-2.0 gal-2.0 >= $GAL_VERSION libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 soup-2.0 $mozilla_nspr, $THREADS_CFLAGS, $THREADS_LIBS)
 AC_SUBST(E_UTIL_CFLAGS)
 AC_SUBST(E_UTIL_LIBS)
 
@@ -1098,7 +948,7 @@ dnl AC_SUBST(EVOLUTION_CALENDAR_CONDUIT_LIBS)
 
 dnl --- evolution-mail flags
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.0 >= $GAL_VERSION libglade-2.0 soup-2.0 libgnomeprint-2.2 libgtkhtml-3.0 libxml-2.0 bonobo-activation-2.0 gthread-2.0 gconf-2.0)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.0 >= $GAL_VERSION libglade-2.0 soup-2.0 libgnomeprint-2.2 libgtkhtml-3.0 libxml-2.0 bonobo-activation-2.0 gthread-2.0 gconf-2.0 $mozilla_nss)
 AC_SUBST(EVOLUTION_MAIL_CFLAGS)
 AC_SUBST(EVOLUTION_MAIL_LIBS)
 
