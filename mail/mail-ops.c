@@ -507,7 +507,6 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	}
 	
 	xport = camel_session_get_transport (session, transport_url ? transport_url : destination, ex);
-	g_assert (CAMEL_OBJECT (xport)->ref_count == 1);
 	g_free (transport_url);
 	if (!xport) {
 		g_free (sent_folder_uri);
@@ -515,7 +514,6 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	}
 	
 	camel_transport_send (xport, CAMEL_MEDIUM (message), ex);
-	g_assert (CAMEL_OBJECT (xport)->ref_count == 1);
 	camel_object_unref (CAMEL_OBJECT (xport));
 	if (camel_exception_is_set (ex)) {
 		g_free (sent_folder_uri);
