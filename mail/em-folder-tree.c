@@ -122,7 +122,7 @@ static void em_folder_tree_init (EMFolderTree *emft);
 static void em_folder_tree_destroy (GtkObject *obj);
 static void em_folder_tree_finalize (GObject *obj);
 
-static void em_folder_tree_save_state (EMFolderTree *emft);
+static gboolean em_folder_tree_save_state (EMFolderTree *emft);
 static void em_folder_tree_queue_save_state (EMFolderTree *emft);
 
 static void tree_row_collapsed (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *path, EMFolderTree *emft);
@@ -312,7 +312,8 @@ em_folder_tree_finalize (GObject *obj)
 static void
 em_folder_tree_destroy (GtkObject *obj)
 {
-	struct _EMFolderTreePrivate *priv = ((EMFolderTree *) obj)->priv;
+	EMFolderTree *emft = (EMFolderTree *) obj;
+	struct _EMFolderTreePrivate *priv = emft->priv;
 	
 	if (priv->loading_row_id != 0) {
 		g_signal_handler_disconnect (priv->model, priv->loading_row_id);
@@ -1676,7 +1677,7 @@ em_folder_tree_save_state (EMFolderTree *emft)
 
 	em_folder_tree_model_save_expanded (priv->model);
 
-	return FALSE
+	return FALSE;
 }
 
 
