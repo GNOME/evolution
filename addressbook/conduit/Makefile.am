@@ -2,52 +2,38 @@ INCLUDES = 					\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/addressbook		\
 	-I$(top_srcdir)/addressbook/backend	\
-	$(BONOBO_GNOME_CFLAGS)			\
+	$(BONOBO_VFS_GNOME_CFLAGS)			\
 	$(GNOME_PILOT_CFLAGS)
 
-bin_PROGRAMS = address-conduit-control-applet
+# Address Capplet
+bin_PROGRAMS = e-address-conduit-control-applet
 
-address_conduit_control_applet_SOURCES = address-conduit-control-applet.c
+e_address_conduit_control_applet_SOURCES = address-conduit-control-applet.c
 
-address_conduit_control_applet_LDADD = \
+e_address_conduit_control_applet_LDADD = \
 		$(CAPPLET_LIBS)  \
 		$(GNOME_LIBDIR) \
-		-lgpilotdcm \
-		-lgpilotd \
-		-lgpilotdconduit \
+		$(GNOME_PILOT_LIBS) \
+		$(PISOCK_LIBDIR) $(PISOCK_LIBS) \
 		$(GNOME_CAPPLET_LIBS) \
 		$(BONOBO_VFS_GNOME_LIBS) \
 		$(GNOME_XML_LIB) \
 	        $(GNOMEUI_LIBS) \
-		$(PISOCK_LIBDIR) $(PISOCK_LIBS) \
                 $(INTLLIBS)
 
 
-# address_conduit
-address_conduitsdir=$(libdir)/gnome-pilot/conduits
-address_conduits_LTLIBRARIES = libaddress_conduit.la
+# Address Conduit
+e_address_conduitsdir=$(libdir)/gnome-pilot/conduits
+e_address_conduits_LTLIBRARIES = libeaddress_conduit.la
 
-libaddress_conduit_la_SOURCES = \
+libeaddress_conduit_la_SOURCES = \
 	address-conduit.c \
-	address-conduit.h
+	address-conduit.h \
+	address-conduit-config.h
 
-# address-conduit.c: my_gnomecal_idl
-
-address.conduit: address.conduit.in Makefile
-	sed -e 's^\@prefix\@^$(prefix)^g' < $(srcdir)/address.conduit.in > address.conduit.tmp \
-	&& mv address.conduit.tmp address.conduit
-
-#
-# conduit
-#
-
-libaddress_conduit_la_LDFLAGS = \
-	-rpath $(libdir)
-
-libaddress_conduit_la_LIBADD = 					\
+libeaddress_conduit_la_LIBADD = 					\
 	$(top_builddir)/addressbook/backend/ebook/libebook-static.la	\
 	$(top_builddir)/e-util/libeutil-static.la			\
-	$(top_builddir)/addressbook/ename/libename-static.la		\
 	$(top_builddir)/libversit/libversit.la				\
 	$(top_builddir)/libical/src/libical/libical-static.la		\
 	$(BONOBO_VFS_GNOME_LIBS)					\
@@ -55,21 +41,31 @@ libaddress_conduit_la_LIBADD = 					\
 	$(GNOME_LIBDIR) 						\
 	$(GNOME_LIBS)
 
+e-address.conduit: e-address.conduit.in Makefile
+	sed -e 's^\@prefix\@^$(prefix)^g' < $(srcdir)/e-address.conduit.in > e-address.conduit.tmp \
+	&& mv e-address.conduit.tmp e-address.conduit
+
+
 ccenterdir = $(datadir)/control-center
 ccenterPalmPilotdir = $(ccenterdir)/Peripherals
 ccenterConduitsdir = $(ccenterPalmPilotdir)/Conduits
-ccenterConduits_DATA = address-conduit-control-applet.desktop 
+ccenterConduits_DATA = e-address-conduit-control-applet.desktop 
 
 panelConduitsdir = $(datadir)/gnome/apps/Settings/Peripherals/Conduits
 panelConduits_DATA = $(ccenterConduits_DATA)
 
 Conduitdir = $(datadir)/gnome-pilot/conduits/
-Conduit_DATA = address.conduit
+Conduit_DATA = e-address.conduit
 
 EXTRA_DIST = \
-	address.conduit.in \
+	e-address.conduit.in \
         $(ccenterConduits_DATA)
 
 install-data-local:
 	$(mkinstalldirs) $(ccenterConduitsdir)
 	$(mkinstalldirs) $(Conduitdir)
+
+
+
+
+
