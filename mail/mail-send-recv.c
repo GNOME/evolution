@@ -669,7 +669,7 @@ receive_update_got_store (char *uri, CamelStore *store, void *data)
 	}
 }
 
-void mail_send_receive (void)
+GtkWidget *mail_send_receive (void)
 {
 	extern CamelFolder *outbox_folder;
 	struct _send_data *data;
@@ -682,15 +682,15 @@ void mail_send_receive (void)
 			gdk_window_show(send_recv_dialogue->window);
 			gdk_window_raise(send_recv_dialogue->window);
 		}
-		return;
+		return send_recv_dialogue;
 	}
 	
 	if (!camel_session_is_online (session))
-		return;
+		return send_recv_dialogue;
 	
 	account = mail_config_get_default_account ();
 	if (!account || !account->transport->url)
-		return;
+		return send_recv_dialogue;
 	
 	accounts = mail_config_get_accounts ();
 	
@@ -726,6 +726,8 @@ void mail_send_receive (void)
 		}
 		scan = scan->next;
 	}
+
+	return send_recv_dialogue;
 }
 
 struct _auto_data {

@@ -38,6 +38,8 @@
 
 #include <gal/widgets/e-gui-utils.h>
 
+#include "e-util/e-dialog-utils.h"
+
 #include "Evolution.h"
 #include "evolution-storage.h"
 #include "evolution-wizard.h"
@@ -981,7 +983,8 @@ send_receive_cb (EvolutionShellComponent *shell_component,
 		 void *data)
 {
 	EAccount *account;
-	
+	GtkWidget *dialog;
+
 	/* FIXME: configure_mail() should be changed to work without a
 	   FolderBrowser, and then we will be able to call configure_mail from
 	   here properly.  */
@@ -990,17 +993,14 @@ send_receive_cb (EvolutionShellComponent *shell_component,
 	
 	account = mail_config_get_default_account ();
 	if (!account || !account->transport->url) {
-		GtkWidget *dialog;
-		
-		dialog = gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
 						 _("You have not set a mail transport method"));
-		gtk_dialog_run ((GtkDialog *) dialog);
-		gtk_widget_destroy (dialog);
-		
-		return;
+		g_signal_connect (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
+		gtk_widget_show (dialog);
+	} else {
+		dialog = mail_send_receive ();
+		e_dialog_set_transient_for_xid((GtkWindow *)dialog, evolution_shell_component_get_parent_view_xid(shell_component));
 	}
-	
-	mail_send_receive ();
 }
 
 static gboolean

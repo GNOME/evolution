@@ -31,7 +31,7 @@ extern "C" {
 #include "mail-config.h"
 
 /* send/receive all uri's */
-void mail_send_receive(void);
+GtkWidget *mail_send_receive(void);
 /* receive a single uri */
 void mail_receive_uri(const char *uri, int keep);
 void mail_send (void);

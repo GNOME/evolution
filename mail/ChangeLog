@@ -1,3 +1,14 @@
+2003-04-03  Not Zed  <NotZed@Ximian.com>
+
+	** Bug 40536
+
+	* component-factory.c (send_receive_cb): run the warning dialogue
+	asynchronously.  Also, set the mail send/receive dialogue to
+	transient for parent.
+
+	* mail-send-recv.c (mail_send_receive): return the dialogue for
+	send/receive.
+
 2003-04-02  Rodrigo Moya <rodrigo@ximian.com>
 
 	* importers/evolution-mbox-importer.c (load_file_fn):
