@@ -361,7 +361,6 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 
 	url = camel_url_new (uri + offset, ex);
 	if (!url) {
-		g_static_mutex_unlock (&folders_lock);
 		return NULL;
 	}
 
