@@ -44,6 +44,7 @@
 #include "e-shell-constants.h"
 #include "e-shell-folder-creation-dialog.h"
 #include "e-shell-folder-selection-dialog.h"
+#include "e-shell-utils.h"
 
 
 /* Utility functions.  */
@@ -535,13 +536,24 @@ e_shell_command_rename_folder (EShell *shell,
 
 	prompt = g_strdup_printf (_("Rename the \"%s\" folder to:"), old_name);  
 
-	new_name = e_request_string (shell_view != NULL ? GTK_WINDOW (shell_view) : NULL,
-				     _("Rename folder"), prompt, old_name);
+	while (1) {
+		const char *reason;
+
+		new_name = e_request_string (shell_view != NULL ? GTK_WINDOW (shell_view) : NULL,
+					     _("Rename folder"), prompt, old_name);
+
+		if (new_name == NULL)
+			return;
+
+		if (e_shell_folder_name_is_valid (new_name, &reason))
+			break;
+
+		e_notice (shell_view != NULL ? GTK_WINDOW (shell_view) : NULL,
+			  GNOME_MESSAGE_BOX_ERROR,
+			  _("The specified folder name is not valid: %s"), reason);
+	}
 
 	g_free (prompt);
-
-	if (new_name == NULL)
-		return;
 
 	if (strcmp (old_name, new_name) == 0) {
 		g_free (new_name);

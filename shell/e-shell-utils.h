@@ -26,7 +26,10 @@
 
 #include <glib.h>
 
-char *e_shell_get_icon_path (const char *icon_name,
-			     gboolean try_mini);
+char     *e_shell_get_icon_path         (const char  *icon_name,
+					 gboolean     try_mini);
+
+gboolean  e_shell_folder_name_is_valid  (const char  *name,
+					 const char **reason_return);
 
 #endif

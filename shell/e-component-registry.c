@@ -120,7 +120,7 @@ component_free (Component *component)
 
 	bonobo_object_unref (BONOBO_OBJECT (component->client));
 
-	wait_for_corba_object_to_die (corba_shell_component, component->id);
+	wait_for_corba_object_to_die ((Bonobo_Unknown) corba_shell_component, component->id);
 	CORBA_Object_release (corba_shell_component, &ev);
 
 	e_free_string_list (component->folder_type_names);
@@ -464,7 +464,7 @@ e_component_registry_restart_component  (EComponentRegistry *component_registry,
 
 	component_free (component);
 
-	wait_for_corba_object_to_die (component, id);
+	wait_for_corba_object_to_die (corba_objref, id);
 
 	CORBA_exception_free (&ev);
 
