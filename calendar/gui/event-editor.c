@@ -1,3 +1,5 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /* Evolution calendar - Event editor dialog
  *
  * Copyright (C) 2000 Helix Code, Inc.
@@ -31,6 +33,7 @@
 #include "calendar-config.h"
 #include "event-editor.h"
 #include "e-meeting-edit.h"
+#include "calendar-config.h"
 #include "tag-calendar.h"
 #include "weekday-picker.h"
 
@@ -1434,7 +1437,6 @@ fill_recurrence_widgets (EventEditor *ee)
 
 	cal_component_get_rrule_list (priv->comp, &rrule_list);
 	len = g_slist_length (rrule_list);
-
 	if (len > 1
 	    || cal_component_has_rdates (priv->comp)
 	    || cal_component_has_exrules (priv->comp))
@@ -2099,24 +2101,35 @@ dialog_to_comp_object (EventEditor *ee, CalComponent *comp)
 
 		cal_component_set_description_list (comp, &l);
 	}
+	/* FIXME: Do we need to free str?? */
 
 	/* Dates */
 	
 	date.value = g_new (struct icaltimetype, 1);
-	t = e_date_edit_get_time (E_DATE_EDIT (priv->start_time));
-	*date.value = icaltime_from_timet (t, FALSE, FALSE);
 	date.tzid = NULL;
-	cal_component_set_dtstart (comp, &date);
+
+	t = e_date_edit_get_time (E_DATE_EDIT (priv->start_time));
+	if (t != -1) {
+		*date.value = icaltime_from_timet (t, FALSE, FALSE);
+		cal_component_set_dtstart (comp, &date);
+	} else {
+		/* FIXME: What do we do here? */
+	}
 
 	/* If the all_day toggle is set, the end date is inclusive of the
 	   entire day on which it points to. */
 	all_day_event = e_dialog_toggle_get (priv->all_day_event);
 	t = e_date_edit_get_time (E_DATE_EDIT (priv->end_time));
-	if (all_day_event)
-		t = time_day_end (t);
+	if (t != -1) {
+		if (all_day_event)
+			t = time_day_end (t);
 
-	*date.value = icaltime_from_timet (t, FALSE, FALSE);
-	cal_component_set_dtend (comp, &date);
+		*date.value = icaltime_from_timet (t, FALSE, FALSE);
+		cal_component_set_dtend (comp, &date);
+	} else {
+		/* FIXME: What do we do here? */
+	}
+
 	g_free (date.value);
 
 #if 0
@@ -2676,8 +2689,20 @@ check_all_day (EventEditor *ee)
 
 	priv = ee->priv;
 
+	/* Currently we just return if the date is not set or not valid.
+	   I'm not entirely sure this is the corrent thing to do. */
 	ev_start = e_date_edit_get_time (E_DATE_EDIT (priv->start_time));
+	g_return_if_fail (ev_start != -1);
+
 	ev_end = e_date_edit_get_time (E_DATE_EDIT (priv->end_time));
+	g_return_if_fail (ev_end != -1);
+
+#if 0
+	/* all day event checkbox */
+	if (time_day_begin (ev_start) == ev_start
+	    && time_day_begin (ev_end) == ev_end)
+		e_dialog_toggle_set (priv->all_day_event, TRUE);
+#endif
 
 	start_begin_day = time_day_begin (ev_start);
 	end_begin_day = time_day_begin (ev_end);
@@ -2685,6 +2710,8 @@ check_all_day (EventEditor *ee)
 	tm_start = *localtime (&start_begin_day);
 	tm_end = *localtime (&end_begin_day);
 
+	/* FIXME: This will only set all_day to TRUE if the event lasts 1 day.
+	   But we also want it TRUE for multiple-day events. */
 	tm_end.tm_mday--;
 	if (mktime (&tm_start) == mktime (&tm_end))
 		all_day = TRUE;
@@ -2711,11 +2738,25 @@ set_all_day (GtkWidget *toggle, EventEditor *ee)
 
 	priv = ee->priv;
 
-	/* If the all_day toggle is set, the end date is inclusive of the
-	   entire day on which it points to. */
+	/* When the all_day toggle is on, the start date is rounded down to
+	   the start of the day, and end date is rounded down to the start of
+	   the day on which the event ends. The event is then taken to be
+	   inclusive of the days between the start and end days.
+	   Note that if the event end is at midnight, we do not round it down
+	   to the previous day, since if we do that and the user repeatedly
+	   turns the all_day toggle on and off, the event keeps shrinking.
+	   (We'd also need to make sure we didn't adjust the time when the
+	   radio button is initially set.)
+
+	   When the all_day_toggle is off, we set the event start to the start
+	   of the working day, and if the event end is on or before the day
+	   of the event start we set it to one hour after the event start. */
 	all_day = GTK_TOGGLE_BUTTON (toggle)->active;
 
+	/* Start time. */
 	start_t = e_date_edit_get_time (E_DATE_EDIT (priv->start_time));
+	g_return_if_fail (start_t != -1);
+
 	start_tm = *localtime (&start_t);
 	start_tm.tm_min  = 0;
 	start_tm.tm_sec  = 0;
@@ -2728,25 +2769,37 @@ set_all_day (GtkWidget *toggle, EventEditor *ee)
 	/* will set recur start too */
 	e_date_edit_set_time (E_DATE_EDIT (priv->start_time), mktime (&start_tm));
 
+	/* End time. */
 	end_t = e_date_edit_get_time (E_DATE_EDIT (priv->end_time));
+	g_return_if_fail (end_t != -1);
+
 	end_tm = *localtime (&end_t);
 	end_tm.tm_min  = 0;
 	end_tm.tm_sec  = 0;
 
 	if (all_day) {
-		/* mktime() will fix this if we go past the end of the month.*/
 		end_tm.tm_hour = 0;
 	} else {
-		if (end_tm.tm_year == start_tm.tm_year
-		    && end_tm.tm_mon == start_tm.tm_mon
-		    && end_tm.tm_mday == start_tm.tm_mday
-		    && end_tm.tm_hour <= start_tm.tm_hour)
+		/* If the event end is now before the event start, make it
+		   end one hour after the start. mktime() will fix any
+		   overflows. */
+		if (end_tm.tm_year < start_tm.tm_year
+		    || (end_tm.tm_year == start_tm.tm_year
+			&& end_tm.tm_mon < start_tm.tm_mon)
+		    || (end_tm.tm_year == start_tm.tm_year
+			&& end_tm.tm_mon == start_tm.tm_mon
+			&& end_tm.tm_mday <= start_tm.tm_mday)) {
+			end_tm.tm_year = start_tm.tm_year;
+			end_tm.tm_mon = start_tm.tm_mon;
+			end_tm.tm_mday = start_tm.tm_mday;
 			end_tm.tm_hour = start_tm.tm_hour + 1;
+		}
 	}
+
+	e_date_edit_set_time (E_DATE_EDIT (priv->end_time), mktime (&end_tm));
 
 	e_date_edit_set_show_time (E_DATE_EDIT (priv->start_time), !all_day);
 	e_date_edit_set_show_time (E_DATE_EDIT (priv->end_time), !all_day);
-	e_date_edit_set_time (E_DATE_EDIT (priv->end_time), mktime (&end_tm));
 }
 
 /* Callback used when the start or end date widgets change.  We check that the
@@ -2766,7 +2819,9 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 	/* Ensure that start < end */
 
 	start = e_date_edit_get_time (E_DATE_EDIT (priv->start_time));
+	g_return_if_fail (start != -1);
 	end = e_date_edit_get_time (E_DATE_EDIT (priv->end_time));
+	g_return_if_fail (end != -1);
 
 	if (start > end) {
 		tm_start = *localtime (&start);
@@ -2943,7 +2998,7 @@ date_edit_new (time_t the_time, int show_time)
 	dedit = e_date_edit_new ();
 	/* FIXME: Set other options. */
 	e_date_edit_set_show_time (E_DATE_EDIT (dedit), show_time);
-	e_date_edit_set_time_popup_range (E_DATE_EDIT (dedit), 8, 18);
+	e_date_edit_set_time_popup_range (E_DATE_EDIT (dedit), calendar_config_get_day_start_hour (), calendar_config_get_day_end_hour ());
 	return dedit;
 }
 

@@ -174,6 +174,7 @@ e_week_view_titles_item_draw (GnomeCanvasItem  *canvas_item,
 	GDate date;
 	GdkRectangle clip_rect;
 	gboolean long_format;
+	gint weekday;
 
 #if 0
 	g_print ("In e_week_view_titles_item_draw %i,%i %ix%i\n",
@@ -222,9 +223,12 @@ e_week_view_titles_item_draw (GnomeCanvasItem  *canvas_item,
 	/* Draw the date. Set a clipping rectangle so we don't draw over the
 	   next day. */
 	g_date_clear (&date, 1);
-	g_date_set_dmy (&date, 27, 3, 2000);	/* Must be a Monday. */
+	/* Note that 20th March 2000 is a Monday. We only care about the
+	   weekday. */
+	weekday = week_view->display_start_day;
+	g_date_set_dmy (&date, 20 + weekday, 3, 2000);
 	for (col = 0; col < week_view->columns; col++) {
-		if (col == 5 && week_view->compress_weekend) {
+		if (weekday == 5 && week_view->compress_weekend) {
 			g_date_strftime (buffer, 128, "%a/", &date);
 			g_date_add_days (&date, 1);
 			g_date_strftime (buffer + strlen (buffer), 100,
@@ -239,14 +243,14 @@ e_week_view_titles_item_draw (GnomeCanvasItem  *canvas_item,
 		clip_rect.height = canvas_height - 2;
 		gdk_gc_set_clip_rectangle (fg_gc, &clip_rect);
 
-		if (col == 5 && week_view->compress_weekend)
+		if (weekday == 5 && week_view->compress_weekend)
 			date_width = week_view->abbr_day_widths[5]
 				+ week_view->slash_width
 				+ week_view->abbr_day_widths[6];
 		else if (long_format)
-			date_width = week_view->day_widths[col];
+			date_width = week_view->day_widths[weekday];
 		else
-			date_width = week_view->abbr_day_widths[col];
+			date_width = week_view->abbr_day_widths[weekday];
 
 		date_x = week_view->col_offsets[col]
 			+ (week_view->col_widths[col] - date_width) / 2;
@@ -279,6 +283,13 @@ e_week_view_titles_item_draw (GnomeCanvasItem  *canvas_item,
 				       week_view->col_offsets[col] - x,
 				       canvas_height - y);
 		}
+
+		if (weekday == 5 && week_view->compress_weekend)
+			weekday += 2;
+		else
+			weekday++;
+
+		weekday = weekday % 7;
 
 		g_date_add_days (&date, 1);
 	}

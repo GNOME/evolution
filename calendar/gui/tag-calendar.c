@@ -60,7 +60,7 @@ prepare_tag (ECalendar *ecal, struct calendar_tag_closure *c)
 
 	end_tm.tm_year = end_year - 1900;
 	end_tm.tm_mon = end_month;
-	end_tm.tm_mday = end_day;
+	end_tm.tm_mday = end_day + 1;
 	end_tm.tm_hour = 0;
 	end_tm.tm_min = 0;
 	end_tm.tm_sec = 0;
@@ -125,6 +125,9 @@ tag_calendar_by_client (ECalendar *ecal, CalClient *client)
 	if (!cal_client_is_loaded (client))
 		return;
 
+#if 0
+	g_print ("DateNavigator generating instances\n");
+#endif
 	cal_client_generate_instances (client, CALOBJ_TYPE_EVENT,
 				       c.start_time, c.end_time,
 				       tag_calendar_cb, &c);
@@ -153,5 +156,8 @@ tag_calendar_by_comp (ECalendar *ecal, CalComponent *comp)
 		return;
 
 	prepare_tag (ecal, &c);
+#if 0
+	g_print ("DateNavigator generating instances\n");
+#endif
 	cal_recur_generate_instances (comp, c.start_time, c.end_time, tag_calendar_cb, &c);
 }

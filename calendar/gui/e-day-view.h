@@ -209,7 +209,7 @@ struct _EDayView
 	/* Calendar client object we are monitoring */
 	CalClient *client;
 
-	/* The start and end of the day shown. */
+	/* The start and end of the days shown. */
 	time_t lower;
 	time_t upper;
 
@@ -218,7 +218,7 @@ struct _EDayView
 
 	/* The number of days we are showing. Usually 1 or 5, but can be up
 	   to E_DAY_VIEW_MAX_DAYS, e.g. when the user selects a range of
-	   days in the mini calendar. */
+	   days in the date navigator. */
 	gint days_shown;
 
 	/* The start of each day & an extra element to hold the last time. */
@@ -282,6 +282,12 @@ struct _EDayView
 	/* Whether we use 12-hour of 24-hour format. */
 	gboolean use_24_hour_format;
 
+	/* Whether we use show event end times in the main canvas. */
+	gboolean show_event_end_times;
+
+	/* The first day of the week, 0 (Monday) to 6 (Sunday). */
+	gint week_start_day;
+
 	/* This is set to TRUE when the widget is created, so it scrolls to
 	   the start of the working day when first shown. */
 	gboolean scroll_to_work_day;
@@ -291,7 +297,9 @@ struct _EDayView
 	gint day_widths[E_DAY_VIEW_MAX_DAYS];
 	gint day_offsets[E_DAY_VIEW_MAX_DAYS + 1];
 
-	/* An array holding the number of columns in each row, in each day. */
+	/* An array holding the number of columns in each row, in each day.
+	   Note that there are a maximum of 12 * 24 rows (when a row is 5 mins)
+	   but we don't always have that many rows. */
 	guint8 cols_per_row[E_DAY_VIEW_MAX_DAYS][12 * 24];
 
 	/* Sizes of the various time strings. */
@@ -313,7 +321,7 @@ struct _EDayView
 	gint longest_weekday_name;
 	gint longest_abbreviated_weekday_name;
 
-	/* The large font use to display the hours. I don't think we need a
+	/* The large font used to display the hours. I don't think we need a
 	   fontset since we only display numbers. */
 	GdkFont *large_font;
 
@@ -433,6 +441,12 @@ struct _EDayView
 	GnomeCanvasItem *drag_rect_item;
 	GnomeCanvasItem *drag_bar_item;
 	GnomeCanvasItem *drag_item;
+
+	/* "am" and "pm" in the current locale, and their widths. */
+	gchar *am_string;
+	gchar *pm_string;
+	gint am_string_width;
+	gint pm_string_width;
 };
 
 struct _EDayViewClass
@@ -514,6 +528,16 @@ void	   e_day_view_set_working_day		(EDayView	*day_view,
 gboolean   e_day_view_get_24_hour_format	(EDayView	*day_view);
 void	   e_day_view_set_24_hour_format	(EDayView	*day_view,
 						 gboolean	 use_24_hour);
+
+/* Whether we display event end times in the main canvas. */
+gboolean   e_day_view_get_show_event_end_times	(EDayView	*day_view);
+void	   e_day_view_set_show_event_end_times	(EDayView	*day_view,
+						 gboolean	 show);
+
+/* The first day of the week, 0 (Monday) to 6 (Sunday). */
+gint	   e_day_view_get_week_start_day	(EDayView	*day_view);
+void	   e_day_view_set_week_start_day	(EDayView	*day_view,
+						 gint		 week_start_day);
 
 /*
  * Internal functions called by the associated canvas items.

@@ -222,6 +222,9 @@ typedef gboolean (* EDayViewForeachEventCallback) (EDayView *day_view,
 						   gint event_num,
 						   gpointer data);
 
+static void e_day_view_foreach_event		(EDayView	*day_view,
+						 EDayViewForeachEventCallback callback,
+						 gpointer	 data);
 static void e_day_view_foreach_event_with_uid (EDayView *day_view,
 					       const gchar *uid,
 					       EDayViewForeachEventCallback callback,
@@ -380,6 +383,14 @@ static gboolean e_day_view_remove_event_cb (EDayView *day_view,
 					    gint event_num,
 					    gpointer data);
 static void e_day_view_normalize_selection (EDayView *day_view);
+static gboolean e_day_view_set_show_times_cb	(EDayView	*day_view,
+						 gint		 day,
+						 gint		 event_num,
+						 gpointer	 data);
+static time_t e_day_view_find_work_week_start	(EDayView	*day_view,
+						 time_t		 start_time);
+static void e_day_view_recalc_work_week		(EDayView	*day_view);
+static void e_day_view_recalc_work_week_days_shown	(EDayView	*day_view);
 
 
 static GtkTableClass *parent_class;
@@ -463,7 +474,6 @@ e_day_view_init (EDayView *day_view)
 	day_view->lower = 0;
 	day_view->upper = 0;
 
-	/* FIXME: Initialize day_starts. */
 	day_view->work_week_view = FALSE;
 	day_view->days_shown = 1;
 
@@ -490,6 +500,8 @@ e_day_view_init (EDayView *day_view)
 	day_view->work_day_start_minute = 0;
 	day_view->work_day_end_hour = 17;
 	day_view->work_day_end_minute = 0;
+	day_view->show_event_end_times = TRUE;
+	day_view->week_start_day = 0;
 	day_view->scroll_to_work_day = TRUE;
 
 	day_view->editing_event_day = -1;
@@ -521,6 +533,12 @@ e_day_view_init (EDayView *day_view)
 		day_view->large_font = gdk_font_load (E_DAY_VIEW_LARGE_FONT_FALLBACK);
 	if (!day_view->large_font)
 		g_warning ("Couldn't load font");
+
+	/* String to use in 12-hour time format for times in the morning. */
+	day_view->am_string = _("am");
+
+	/* String to use in 12-hour time format for times in the afternoon. */
+	day_view->pm_string = _("pm");
 
 
 	/*
@@ -1065,6 +1083,11 @@ e_day_view_style_set (GtkWidget *widget,
 	day_view->max_minute_width = max_minute_width;
 	day_view->colon_width = gdk_string_width (font, ":");
 
+	day_view->am_string_width = gdk_string_width (font,
+						      day_view->am_string);
+	day_view->pm_string_width = gdk_string_width (font,
+						      day_view->pm_string);
+
 	/* Calculate the width of the time column. */
 	times_width = e_day_view_time_item_get_column_width (E_DAY_VIEW_TIME_ITEM (day_view->time_canvas_item));
 	gtk_widget_set_usize (day_view->time_canvas, times_width, -1);
@@ -1252,8 +1275,6 @@ e_day_view_set_calendar		(EDayView	*day_view,
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
 	day_view->calendar = calendar;
-
-	/* FIXME: free current events? */
 }
 
 
@@ -1284,6 +1305,9 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	g_return_if_fail (E_IS_DAY_VIEW (data));
 
 	day_view = E_DAY_VIEW (data);
+
+	/* Sanity check. */
+	g_return_if_fail (client == day_view->client);
 
 	/* If our time hasn't been set yet, just return. */
 	if (day_view->lower == 0 && day_view->upper == 0)
@@ -1459,8 +1483,46 @@ e_day_view_update_event_cb (EDayView *day_view,
 }
 
 
+/* This calls a given function for each event instance (in both views).
+   If the callback returns TRUE the iteration is stopped.
+   Note that it is safe for the callback to remove the event (since we
+   step backwards through the arrays). */
+static void
+e_day_view_foreach_event		(EDayView	*day_view,
+					 EDayViewForeachEventCallback callback,
+					 gpointer	 data)
+{
+	EDayViewEvent *event;
+	gint day, event_num;
+
+	for (day = 0; day < day_view->days_shown; day++) {
+		for (event_num = day_view->events[day]->len - 1;
+		     event_num >= 0;
+		     event_num--) {
+			event = &g_array_index (day_view->events[day],
+						EDayViewEvent, event_num);
+
+			if (!(*callback) (day_view, day, event_num, data))
+				return;
+		}
+	}
+
+	for (event_num = day_view->long_events->len - 1;
+	     event_num >= 0;
+	     event_num--) {
+		event = &g_array_index (day_view->long_events,
+					EDayViewEvent, event_num);
+
+		if (!(*callback) (day_view, E_DAY_VIEW_LONG_EVENT, event_num,
+				  data))
+			return;
+	}
+}
+
+
 /* This calls a given function for each event instance that matches the given
-   uid. Note that it is safe for the callback to remove the event (since we
+   uid. If the callback returns TRUE the iteration is stopped.
+   Note that it is safe for the callback to remove the event (since we
    step backwards through the arrays). */
 static void
 e_day_view_foreach_event_with_uid (EDayView *day_view,
@@ -1553,9 +1615,9 @@ e_day_view_update_event_label (EDayView *day_view,
 			       gint event_num)
 {
 	EDayViewEvent *event;
-	char *text;
+	char *text, *start_suffix, *end_suffix;
 	gboolean free_text = FALSE, editing_event = FALSE;
-	gint offset, start_minute, end_minute;
+	gint offset, start_hour, start_minute, end_hour, end_minute;
 	CalComponentText summary;
 
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
@@ -1574,17 +1636,70 @@ e_day_view_update_event_label (EDayView *day_view,
 
 	if (!editing_event
 	    && (event->start_minute % day_view->mins_per_row != 0
-		|| event->end_minute % day_view->mins_per_row != 0)) {
+		|| (day_view->show_event_end_times
+		    && event->end_minute % day_view->mins_per_row != 0))) {
 		offset = day_view->first_hour_shown * 60
 			+ day_view->first_minute_shown;
 		start_minute = offset + event->start_minute;
 		end_minute = offset + event->end_minute;
-		text = g_strdup_printf ("%02i:%02i-%02i:%02i %s",
-					start_minute / 60,
-					start_minute % 60,
-					end_minute / 60,
-					end_minute % 60,
-					text);
+
+		start_hour = start_minute / 60;
+		start_minute = start_minute % 60;
+
+		end_hour = end_minute / 60;
+		end_minute = end_minute % 60;
+
+		if (day_view->use_24_hour_format) {
+			if (day_view->show_event_end_times) {
+				/* 24 hour format with end time. */
+				text = g_strdup_printf
+					("%02i:%02i-%02i:%02i %s",
+					 start_hour, start_minute,
+					 end_hour, end_minute,
+					 text);
+			} else {
+				/* 24 hour format without end time. */
+				text = g_strdup_printf
+					("%02i:%02i %s",
+					 start_hour, start_minute,
+					 text);
+			}
+		} else {
+			start_suffix = end_suffix = day_view->am_string;
+
+			if (start_hour >= 12) {
+				start_hour -= 12;
+				start_suffix = day_view->pm_string;
+			}
+			if (end_hour >= 12) {
+				end_hour -= 12;
+				end_suffix = day_view->pm_string;
+			}
+
+			/* We display 1-12 rather than 0-11 for hours. */
+			if (start_hour == 0)
+				start_hour = 12;
+			if (end_hour == 0)
+				end_hour = 12;
+
+			if (day_view->show_event_end_times) {
+				/* 12 hour format with end time. */
+				text = g_strdup_printf
+					("%02i:%02i%s-%02i:%02i%s %s",
+					 start_hour, start_minute,
+					 start_suffix,
+					 end_hour, end_minute,
+					 end_suffix,
+					 text);
+			} else {
+				/* 12 hour format without end time. */
+				text = g_strdup_printf
+					("%02i:%02i%s %s",
+					 start_hour % 12, start_minute,
+					 start_suffix,
+					 text);
+			}
+		}
 
 		free_text = TRUE;
 	}
@@ -1717,7 +1832,6 @@ e_day_view_set_selected_time_range	(EDayView	*day_view,
 					 time_t		 start_time,
 					 time_t		 end_time)
 {
-	GDate date;
 	time_t lower;
 	gint start_row, start_col, end_row, end_col;
 	gboolean need_redraw = FALSE, start_in_grid, end_in_grid;
@@ -1727,16 +1841,11 @@ e_day_view_set_selected_time_range	(EDayView	*day_view,
 	/* Calculate the first day that should be shown, based on start_time
 	   and the days_shown setting. If we are showing 1 day it is just the
 	   start of the day given by start_time, otherwise it is the previous
-	   Monday. */
+	   work-week start day. */
 	if (!day_view->work_week_view) {
 		lower = time_day_begin (start_time);
 	} else {
-		g_date_clear (&date, 1);
-		g_date_set_time (&date, start_time);
-		g_date_subtract_days (&date, g_date_weekday (&date) - 1);
-		lower = time_from_day (g_date_year (&date),
-				       g_date_month (&date) - 1,
-				       g_date_day (&date));
+		lower = e_day_view_find_work_week_start (day_view, start_time);
 	}
 
 	/* See if we need to change the days shown. */
@@ -1787,6 +1896,46 @@ e_day_view_set_selected_time_range	(EDayView	*day_view,
 		gtk_widget_queue_draw (day_view->top_canvas);
 		gtk_widget_queue_draw (day_view->main_canvas);
 	}
+}
+
+
+/* Finds the start of the working week which includes the given time. */
+static time_t
+e_day_view_find_work_week_start		(EDayView	*day_view,
+					 time_t		 start_time)
+{
+	GDate date;
+	gint weekday, day, i, offset;
+
+	g_date_clear (&date, 1);
+	g_date_set_time (&date, start_time);
+
+	/* The start of the work-week is the first working day after the
+	   week start day. */
+
+	/* Get the weekday corresponding to start_time, 0 (Sun) to 6 (Sat). */
+	weekday = g_date_weekday (&date) % 7;
+
+	/* Calculate the first working day of the week, 0 (Sun) to 6 (Sat).
+	   It will automatically default to the week start day if no days
+	   are set as working days. */
+	day = (day_view->week_start_day + 1) % 7;
+	for (i = 0; i < 7; i++) {
+		if (day_view->working_days & (1 << day))
+			break;
+		day = (day + 1) % 7;
+	}
+
+	/* Calculate how many days we need to go back to the first workday. */
+	offset = (weekday + 7 - day) % 7;
+
+	g_print ("Weekday: %i Day: %i Offset: %i\n", weekday, day, offset);
+
+	g_date_subtract_days (&date, offset);
+
+	return time_from_day (g_date_year (&date),
+			      g_date_month (&date) - 1,
+			      g_date_day (&date));
 }
 
 
@@ -1868,7 +2017,8 @@ e_day_view_set_work_week_view	(EDayView	*day_view,
 
 	day_view->work_week_view = work_week_view;
 
-	/* FIXME: need to recalc the first day shown if now work-week view. */
+	if (day_view->work_week_view)
+		e_day_view_recalc_work_week (day_view);
 }
 
 
@@ -1889,12 +2039,18 @@ e_day_view_set_days_shown	(EDayView	*day_view,
 	g_return_if_fail (days_shown >= 1);
 	g_return_if_fail (days_shown <= E_DAY_VIEW_MAX_DAYS);
 
-	if (day_view->days_shown != days_shown) {
-		day_view->days_shown = days_shown;
-		e_day_view_recalc_day_starts (day_view, day_view->lower);
-		e_day_view_recalc_cell_sizes (day_view);
-		e_day_view_queue_reload_events (day_view);
-	}
+	if (day_view->days_shown = days_shown)
+		return;
+
+	day_view->days_shown = days_shown;
+
+	/* If the date isn't set, just return. */
+	if (day_view->lower == 0 && day_view->upper == 0)
+		return;
+
+	e_day_view_recalc_day_starts (day_view, day_view->lower);
+	e_day_view_recalc_cell_sizes (day_view);
+	e_day_view_queue_reload_events (day_view);
 }
 
 
@@ -1934,6 +2090,11 @@ e_day_view_set_mins_per_row	(EDayView	*day_view,
 	for (day = 0; day < E_DAY_VIEW_MAX_DAYS; day++)
 		day_view->need_layout[day] = TRUE;
 
+	/* We need to update all the day event labels since the start & end
+	   times may or may not be on row boundaries any more. */
+	e_day_view_foreach_event (day_view,
+				  e_day_view_set_show_times_cb, NULL);
+
 	/* We must layout the events before updating the scroll region, since
 	   that will result in a redraw which would crash otherwise. */
 	e_day_view_check_layout (day_view);
@@ -1961,10 +2122,55 @@ e_day_view_set_working_days	(EDayView	*day_view,
 {
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
-	if (day_view->working_days != days) {
-		day_view->working_days = days;
-		gtk_widget_queue_draw (day_view->main_canvas);
+	if (day_view->working_days == days)
+		return;
+
+	day_view->working_days = days;
+
+	if (day_view->work_week_view)
+		e_day_view_recalc_work_week (day_view);
+
+	/* We have to do this, as the new working days may have no effect on
+	   the days shown, but we still want the background color to change. */
+	gtk_widget_queue_draw (day_view->main_canvas);
+}
+
+
+static void
+e_day_view_recalc_work_week_days_shown	(EDayView	*day_view)
+{
+	gint first_day, last_day, i, days_shown;
+	gboolean has_working_days = FALSE;
+
+	/* Find the first working day in the week, 0 (Sun) to 6 (Sat). */
+	first_day = (day_view->week_start_day + 1) % 7;
+	for (i = 0; i < 7; i++) {
+		if (day_view->working_days & (1 << first_day)) {
+			has_working_days = TRUE;
+			break;
+		}
+		first_day = (first_day + 1) % 7;
 	}
+
+	if (has_working_days) {
+		/* Now find the last working day of the week, backwards. */
+		last_day = day_view->week_start_day % 7;
+		for (i = 0; i < 7; i++) {
+			if (day_view->working_days & (1 << last_day))
+				break;
+			last_day = (last_day + 6) % 7;
+		}
+		/* Now calculate the days we need to show to include all the
+		   working days in the week. Add 1 to make it inclusive. */
+		days_shown = (last_day + 7 - first_day) % 7 + 1;
+		g_print ("First day: %i Last: %i Days: %i\n",
+			 first_day, last_day, days_shown);
+	} else {
+		/* If no working days are set, just use 7. */
+		days_shown = 7;
+	}
+
+	e_day_view_set_days_shown (day_view, days_shown);
 }
 
 
@@ -2020,11 +2226,120 @@ e_day_view_set_24_hour_format	(EDayView	*day_view,
 {
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
-	if (day_view->use_24_hour_format != use_24_hour) {
-		day_view->use_24_hour_format = use_24_hour;
+	if (day_view->use_24_hour_format == use_24_hour)
+		return;
 
-		/* FIXME: Eventually we need to do a re-layout. */
-		gtk_widget_queue_draw (day_view->main_canvas);
+	day_view->use_24_hour_format = use_24_hour;
+
+	/* We need to update all the text in the events since they may contain
+	   the time in the old format. */
+	e_day_view_foreach_event (day_view, e_day_view_set_show_times_cb,
+				  NULL);
+
+	/* FIXME: We need to re-layout the top canvas since the time
+	   format affects the sizes. */
+	gtk_widget_queue_draw (day_view->time_canvas);
+	gtk_widget_queue_draw (day_view->top_canvas);
+}
+
+
+/* Whether we display event end times in the main canvas. */
+gboolean
+e_day_view_get_show_event_end_times	(EDayView	*day_view)
+{
+	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), TRUE);
+
+	return day_view->show_event_end_times;
+}
+
+
+void
+e_day_view_set_show_event_end_times	(EDayView	*day_view,
+					 gboolean	 show)
+{
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+
+	if (day_view->show_event_end_times != show) {
+		day_view->show_event_end_times = show;
+		e_day_view_foreach_event (day_view,
+					  e_day_view_set_show_times_cb, NULL);
+	}
+}
+
+
+/* This is a callback used to update all day event labels. */
+static gboolean
+e_day_view_set_show_times_cb		(EDayView	*day_view,
+					 gint		 day,
+					 gint		 event_num,
+					 gpointer	 data)
+{
+	g_print ("In e_day_view_set_show_times_cb day:%i event_num:%i\n",
+		 day, event_num);
+
+	if (day != E_DAY_VIEW_LONG_EVENT) {
+		e_day_view_update_event_label (day_view, day, event_num);
+	}
+
+	return TRUE;
+}
+
+
+/* The first day of the week, 0 (Monday) to 6 (Sunday). */
+gint
+e_day_view_get_week_start_day	(EDayView	*day_view)
+{
+	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), 0);
+
+	return day_view->week_start_day;
+}
+
+
+void
+e_day_view_set_week_start_day	(EDayView	*day_view,
+				 gint		 week_start_day)
+{
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+	g_return_if_fail (week_start_day >= 0);
+	g_return_if_fail (week_start_day < 7);
+
+	g_print ("In e_day_view_set_week_start_day day: %i\n", week_start_day);
+
+	if (day_view->week_start_day == week_start_day)
+		return;
+
+	day_view->week_start_day = week_start_day;
+
+	if (day_view->work_week_view)
+		e_day_view_recalc_work_week (day_view);
+}
+
+
+static void
+e_day_view_recalc_work_week	(EDayView	*day_view)
+{		
+	time_t lower;
+
+	/* If we aren't showing the work week, just return. */
+	if (!day_view->work_week_view)
+		return;
+
+	/* If the date isn't set, just return. */
+	if (day_view->lower == 0 && day_view->upper == 0)
+		return;
+
+	e_day_view_recalc_work_week_days_shown	(day_view);
+	
+	lower = e_day_view_find_work_week_start (day_view, day_view->lower);
+	if (lower != day_view->lower) {
+		/* Reset the selection, as it may disappear. */
+		day_view->selection_start_day = -1;
+
+		e_day_view_recalc_day_starts (day_view, lower);
+		e_day_view_queue_reload_events (day_view);
+
+		/* This updates the date navigator. */
+		e_day_view_update_calendar_selection_time (day_view);
 	}
 }
 
@@ -2719,7 +3034,11 @@ e_day_view_on_new_appointment (GtkWidget *widget, gpointer data)
 
 	cal_component_commit_sequence (comp);
 
-	gnome_calendar_edit_object (day_view->calendar, comp);
+	if (day_view->calendar)
+		gnome_calendar_edit_object (day_view->calendar, comp);
+	else
+		g_warning ("Calendar not set");
+
 	gtk_object_unref (GTK_OBJECT (comp));
 }
 
@@ -2736,7 +3055,10 @@ e_day_view_on_edit_appointment (GtkWidget *widget, gpointer data)
 	if (event == NULL)
 		return;
 
-	gnome_calendar_edit_object (day_view->calendar, event->comp);
+	if (day_view->calendar)
+		gnome_calendar_edit_object (day_view->calendar, event->comp);
+	else
+		g_warning ("Calendar not set");
 }
 
 
@@ -2804,6 +3126,9 @@ e_day_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	event = e_day_view_get_popup_menu_event (day_view);
 	if (event == NULL)
 		return;
+
+	date.value = &itt;
+	date.tzid = NULL;
 
 	/* For the recurring object, we add an exception to get rid of the
 	   instance. */
@@ -2917,8 +3242,13 @@ e_day_view_update_calendar_selection_time (EDayView *day_view)
 	time_t start, end;
 
 	e_day_view_get_selected_time_range (day_view, &start, &end);
-	gnome_calendar_set_selected_time_range (day_view->calendar,
-						start, end);
+
+	g_print ("Start: %s", ctime (&start));
+	g_print ("End  : %s", ctime (&end));
+
+	if (day_view->calendar)
+		gnome_calendar_set_selected_time_range (day_view->calendar,
+							start, end);
 }
 
 
@@ -3500,8 +3830,11 @@ e_day_view_reload_events (EDayView *day_view)
 
 	/* If both lower & upper are 0, then the time range hasn't been set,
 	   so we don't try to load any events. */
-	if (day_view->calendar
-	    && (day_view->lower != 0 || day_view->upper != 0)) {
+	if (day_view->lower != 0 || day_view->upper != 0) {
+#if 0
+		g_print ("EDayView (%s) generating instances\n",
+			 day_view->work_week_view ? "Work Week" : "1 Day View");
+#endif
 		cal_client_generate_instances (day_view->client,
 					       CALOBJ_TYPE_EVENT,
 					       day_view->lower,
@@ -3969,7 +4302,9 @@ e_day_view_layout_day_events (EDayView *day_view,
 	   rows. */
 	guint16 group_starts[12 * 24];
 
-	/* Reset the cols_per_row array, and initialize the connected rows. */
+	/* Reset the cols_per_row array, and initialize the connected rows so
+	   that all rows are not connected - each row is the start of a new
+	   group. */
 	for (row = 0; row < day_view->rows; row++) {
 		day_view->cols_per_row[day][row] = 0;
 		group_starts[row] = row;
@@ -4647,7 +4982,8 @@ static void
 e_day_view_cursor_key_left (EDayView *day_view, GdkEventKey *event)
 {
 	if (day_view->selection_start_day == 0) {
-		gnome_calendar_previous (day_view->calendar);
+		if (day_view->calendar)
+			gnome_calendar_previous (day_view->calendar);
 	} else {
 		day_view->selection_start_day--;
 		day_view->selection_end_day--;
@@ -4665,7 +5001,8 @@ static void
 e_day_view_cursor_key_right (EDayView *day_view, GdkEventKey *event)
 {
 	if (day_view->selection_end_day == day_view->days_shown - 1) {
-		gnome_calendar_next (day_view->calendar);
+		if (day_view->calendar)
+			gnome_calendar_next (day_view->calendar);
 	} else {
 		day_view->selection_start_day++;
 		day_view->selection_end_day++;

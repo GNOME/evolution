@@ -207,6 +207,17 @@ struct _EWeekView
 	   they are always compressed into 1 cell in the week view. */
 	gboolean compress_weekend;
 
+	/* Whether we use show event end times. */
+	gboolean show_event_end_times;
+
+	/* The first day of the week, 0 (Monday) to 6 (Sunday). */
+	gint week_start_day;
+
+	/* The first day of the week we display, 0 (Monday) to 6 (Sunday).
+	   This will usually be week_start_day, but if the weekend is
+	   compressed, and week_start_day is Sunday we have to use Saturday. */
+	gint display_start_day;
+
 	/* The vertical offset of the events from the top of the cells. */
 	gint events_y_offset;
 
@@ -355,6 +366,18 @@ void	   e_week_view_set_weeks_shown		(EWeekView	*week_view,
 gboolean   e_week_view_get_compress_weekend	(EWeekView	*week_view);
 void       e_week_view_set_compress_weekend	(EWeekView	*week_view,
 						 gboolean	 compress);
+
+/* Whether we display event end times. */
+gboolean   e_week_view_get_show_event_end_times	(EWeekView	*week_view);
+void	   e_week_view_set_show_event_end_times	(EWeekView	*week_view,
+						 gboolean	 show);
+
+/* The first day of the week, 0 (Monday) to 6 (Sunday). */
+gint	   e_week_view_get_week_start_day	(EWeekView	*week_view);
+void	   e_week_view_set_week_start_day	(EWeekView	*week_view,
+						 gint		 week_start_day);
+
+
 
 /*
  * Internal functions called by the associated canvas items.

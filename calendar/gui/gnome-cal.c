@@ -310,10 +310,10 @@ gnome_calendar_init (GnomeCalendar *gcal)
 	priv->current_view_type = VIEW_NOT_SET;
 	priv->range_selected = FALSE;
 
+	setup_widgets (gcal);
+
 	priv->selection_start_time = time_day_begin (time (NULL));
 	priv->selection_end_time = time_add_day (priv->selection_start_time, 1);
-
-	setup_widgets (gcal);
 }
 
 /* Used from g_hash_table_foreach(); frees an object alarms entry */
@@ -1582,19 +1582,21 @@ gnome_calendar_update_config_settings (GnomeCalendar *gcal,
 
 	/* Note that this is 0 (Sun) to 6 (Sat). */
 	week_start_day = calendar_config_get_week_start_day ();
-	/* FIXME: Add support for these. */
-#if 0
+
+	/* Convert it to 0 (Mon) to 6 (Sun), which is what we use. */
+	week_start_day = (week_start_day + 6) % 7;
+
+	g_print ("Setting week start day to %i (0=Sun)\n", week_start_day);
 	e_day_view_set_week_start_day (E_DAY_VIEW (priv->day_view),
-				       week_start_day);
+					week_start_day);
 	e_day_view_set_week_start_day (E_DAY_VIEW (priv->work_week_view),
-				       week_start_day);
+					week_start_day);
 	e_week_view_set_week_start_day (E_WEEK_VIEW (priv->week_view),
 					week_start_day);
 	e_week_view_set_week_start_day (E_WEEK_VIEW (priv->month_view),
 					week_start_day);
-#endif
 	gnome_canvas_item_set (GNOME_CANVAS_ITEM (E_CALENDAR (priv->date_navigator)->calitem),
-			       "week_start_day", (week_start_day + 6) % 7,
+			       "week_start_day", week_start_day,
 			       NULL);
 
 	start_hour = calendar_config_get_day_start_hour ();
@@ -1628,17 +1630,14 @@ gnome_calendar_update_config_settings (GnomeCalendar *gcal,
 				     time_divisions);
 
 	show_event_end = calendar_config_get_show_event_end ();
-	/* FIXME: Add support for these. */
-#if 0
-	e_day_view_set_show_event_end (E_DAY_VIEW (priv->day_view),
-				       show_event_end);
-	e_day_view_set_show_event_end (E_DAY_VIEW (priv->work_week_view),
-				       show_event_end);
-	e_week_view_set_show_event_end (E_WEEK_VIEW (priv->week_view),
-					show_event_end);
-	e_week_view_set_show_event_end (E_WEEK_VIEW (priv->month_view),
-					show_event_end);
-#endif
+	e_day_view_set_show_event_end_times (E_DAY_VIEW (priv->day_view),
+					     show_event_end);
+	e_day_view_set_show_event_end_times (E_DAY_VIEW (priv->work_week_view),
+					     show_event_end);
+	e_week_view_set_show_event_end_times (E_WEEK_VIEW (priv->week_view),
+					      show_event_end);
+	e_week_view_set_show_event_end_times (E_WEEK_VIEW (priv->month_view),
+					      show_event_end);
 
 	compress_weekend = calendar_config_get_compress_weekend ();
 	e_week_view_set_compress_weekend (E_WEEK_VIEW (priv->month_view),
@@ -1657,6 +1656,10 @@ gnome_calendar_update_config_settings (GnomeCalendar *gcal,
 	} else {
 		gnome_calendar_update_paned_quanta (gcal);
 	}
+
+	/* The range of days shown may have changed, so we update the date
+	   navigator if needed. */
+	gnome_calendar_update_date_navigator (gcal);
 }
 
 

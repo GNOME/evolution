@@ -1,3 +1,31 @@
+2000-11-26  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/gnome-cal.c: added more support for config settings.
+
+	* gui/e-week-view.[hc]: 
+	* gui/e-day-view.[hc]: added support for setting - show event end
+	times, week start day and 12-hour format (unfinished).
+
+	* gui/e-day-view-time-item.c: started 12-hour support.
+
+	* gui/tag-calendar.c (prepare_tag): use end_day + 1 since we want to
+	include the last day.
+
+	* gui/event-editor.c (set_all_day): minor change when turning all_day
+	off - set the event end to one hour after the event start if it is on
+	or before the start time. Also added more comments to make it a bit
+	clearer.
+
+	* cal-util/cal-recur.c (cal_obj_time_add_days): use a gint for day
+	rather than a guint since we now support -ve days.
+	Also fixed bug with weekly recurrences.
+
+	* gui/dialogs/task-editor.c (task_editor_create_date_edit): use
+	config settings.
+
+	* gui/dialogs/cal-prefs-dialog.c (cal_prefs_dialog_update_config): 
+	updated EDateEdit calls.
+
 2000-11-24  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/e-calendar-table.c (e_calendar_table_init): Unref the ETable

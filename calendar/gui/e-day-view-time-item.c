@@ -189,25 +189,29 @@ gint
 e_day_view_time_item_get_column_width (EDayViewTimeItem *dvtmitem)
 {
 	EDayView *day_view;
+	gint column_width_default, column_width_60_min_rows;
 
 	day_view = dvtmitem->day_view;
 	g_return_val_if_fail (day_view != NULL, 0);
 
-	/* Calculate the width of each time column. */
-	if (day_view->mins_per_row == 60) {
-		dvtmitem->column_width = day_view->max_small_hour_width
-			+ day_view->colon_width
-			+ day_view->max_minute_width
-			+ E_DVTMI_60_MIN_X_PAD * 2
-			+ E_DVTMI_TIME_GRID_X_PAD * 2;
-	} else {
-		dvtmitem->column_width = day_view->max_large_hour_width
+	/* Calculate the width of each time column, using the maximum of the
+	   default format with large hour numbers, and the 60-min divisions
+	   format which uses small text. */
+	column_width_default = day_view->max_large_hour_width
 			+ day_view->max_minute_width
 			+ E_DVTMI_MIN_X_PAD * 2
 			+ E_DVTMI_HOUR_L_PAD
 			+ E_DVTMI_HOUR_R_PAD
 			+ E_DVTMI_TIME_GRID_X_PAD * 2;
-	}
+
+	column_width_60_min_rows = day_view->max_small_hour_width
+			+ day_view->colon_width
+			+ day_view->max_minute_width
+			+ E_DVTMI_60_MIN_X_PAD * 2
+			+ E_DVTMI_TIME_GRID_X_PAD * 2;
+
+	dvtmitem->column_width = MAX (column_width_default,
+				      column_width_60_min_rows);
 
 	return dvtmitem->column_width;
 }
@@ -228,12 +232,12 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 	EDayView *day_view;
 	EDayViewTimeItem *dvtmitem;
 	gint time_hour_x1, time_hour_x2, time_min_x1;
-	gint hour, minute, hour_y, min_y, hour_r, min_r, start_y;
-	gint row, row_y, min_width, hour_width;
+	gint hour, display_hour, minute, hour_y, min_y, hour_r, min_r, start_y;
+	gint row, row_y, min_width, hour_width, suffix_width;
 	GtkStyle *style;
 	GdkFont *small_font, *large_font;
 	GdkGC *fg_gc, *dark_gc;
-	gchar buffer[16];
+	gchar buffer[64], *suffix;
 
 	dvtmitem = E_DAY_VIEW_TIME_ITEM (canvas_item);
 	day_view = dvtmitem->day_view;
@@ -262,12 +266,6 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 	}
 
 	hour = day_view->first_hour_shown;
-	if (!day_view->use_24_hour_format) {
-		if (hour == 0 || hour == 12)
-			hour = 12;
-		else
-			hour %= 12;
-	}
 	hour_y = large_font->ascent + 2; /* FIXME */
 	minute = day_view->first_minute_shown;
 	min_y = small_font->ascent + 2; /* FIXME */
@@ -280,12 +278,40 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 			if (min_r <= 0)
 				continue;
 
+			/* Calculate the actual hour number to display. */
+			display_hour = hour;
+			if (!day_view->use_24_hour_format) {
+				if (display_hour < 12) {
+					suffix = day_view->am_string;
+					suffix_width = day_view->am_string_width;
+				} else {
+					display_hour -= 12;
+					suffix = day_view->pm_string;
+					suffix_width = day_view->pm_string_width;
+				}
+
+				/* 12-hour format uses 12:00 rather than 0:00.
+				 */
+				if (display_hour == 0)
+					display_hour = 12;
+			}
+
 			if (day_view->mins_per_row == 60) {
 				gdk_draw_line (drawable, dark_gc,
 					       time_hour_x1, row_y,
 					       time_hour_x2, row_y);
-				sprintf (buffer, "%02i:%02i", hour, minute);
-				min_width = day_view->small_hour_widths[hour] + day_view->minute_widths[minute / 5] + day_view->colon_width;
+
+				if (day_view->use_24_hour_format) {
+					sprintf (buffer, "%i:%02i",
+						 display_hour, minute);
+					/*min_width = day_view->small_hour_widths[display_hour] + day_view->minute_widths[minute / 5] + day_view->colon_width;*/
+					min_width = gdk_string_width (small_font, buffer);
+				} else {
+					sprintf (buffer, "%i %s",
+						 display_hour, suffix);
+					/*min_width = day_view->small_hour_widths[display_hour] + suffix_width;*/
+					min_width = gdk_string_width (small_font, buffer);
+				}
 				gdk_draw_string (drawable, small_font, fg_gc,
 						 min_r - min_width,
 						 row_y + min_y, buffer);
@@ -294,8 +320,9 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 					gdk_draw_line (drawable, dark_gc,
 						       time_hour_x1, row_y,
 						       time_hour_x2, row_y);
-					sprintf (buffer, "%02i", hour);
-					hour_width = day_view->large_hour_widths[hour];
+					sprintf (buffer, "%i", display_hour);
+					/*hour_width = day_view->large_hour_widths[display_hour];*/
+					hour_width = gdk_string_width (large_font, buffer);
 					gdk_draw_string (drawable, large_font,
 							 fg_gc,
 							 hour_r - hour_width,
@@ -309,8 +336,14 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 
 				if (day_view->mins_per_row != 30
 				    || minute != 30) {
-					sprintf (buffer, "%02i", minute);
-					min_width = day_view->minute_widths[minute / 5];
+					if (minute == 0
+					    && !day_view->use_24_hour_format) {
+						strcpy (buffer, suffix);
+						min_width = gdk_string_width (small_font, buffer);
+					} else {
+						sprintf (buffer, "%02i", minute);
+						min_width = day_view->minute_widths[minute / 5];
+					}
 					gdk_draw_string (drawable, small_font,
 							 fg_gc,
 							 min_r - min_width,
@@ -320,16 +353,14 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 			}
 		}
 
+		/* Note that mins_per_row is never > 60, so we never have to
+		   worry about adding more than 60 minutes. */
 		minute += day_view->mins_per_row;
 		if (minute >= 60) {
-			hour++;
-			if (!day_view->use_24_hour_format) {
-				if (hour == 0 || hour == 12)
-					hour = 12;
-				else
-					hour %= 12;
-			}
 			minute -= 60;
+			/* Currently we never wrap around to the next day, but
+			   we may do if we display extra timezones. */
+			hour = (hour + 1) % 24;
 		}
 	}
 }
