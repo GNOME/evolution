@@ -29,18 +29,9 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-#include <gtk/gtkwindow.h>
-#include <camel/camel-folder.h>
+struct _GtkWindow;
 
-CamelFolder *em_folder_selection_run_dialog (GtkWindow *parent_window,
-					     const char *title,
-					     CamelFolder *default_folder);
-
-char *em_folder_selection_run_dialog_uri (GtkWindow *parent_window,
-					  const char *title,
-					  const char *default_uri);
-
-void em_select_folder (GtkWindow *parent_window, const char *title, const char *default_uri,
+void em_select_folder (struct _GtkWindow *parent_window, const char *title, const char *default_uri,
 		       void (*done)(const char *uri, void *data),
 		       void *data);
 

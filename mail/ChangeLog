@@ -1,5 +1,12 @@
 2003-12-10  Not Zed  <NotZed@Ximian.com>
 
+	* em-folder-selection.c (em_select_folder): rewritten to get rid
+	of hte old crap that should've been gotten rid of before.  Bug
+	#51602.
+	(em_folder_selection_run_dialog_uri): removed.
+	(em_folder_selection_run_dialog): removed.  this file is gutted
+	and should probably be removed.
+
 	* em-folder-selector.h: use a POSITIVE value for the response
 	value, gtk uses -ative ones.  Bug #51752.
 
