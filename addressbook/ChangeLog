@@ -1,3 +1,13 @@
+2003-11-26  JP Rosevear  <jpr@ximian.com>
+
+	* gui/widgets/Makefile.am: turn on deprecated gtk and libgnomeui
+	stuff
+
+	* gui/component/select-names/Makefile.am: turn on deprecated gtk
+	stuff
+
+	* gui/contact-editor/Makefile.am: ditto
+	
 2003-11-17  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/component/addressbook-component.c (impl_createControls): Store
