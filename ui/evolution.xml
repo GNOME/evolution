@@ -152,6 +152,11 @@
 
 			<separator/>
 
+			<menuitem name="HelpFAQ" verb=""
+			_label="Evolution _FAQ"/>
+
+			<separator/>
+
 			<menuitem name="HelpSubmitBug" verb=""
 			_label="Submit _Bug Report"/>
 

@@ -1,3 +1,7 @@
+2001-05-15  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-view-menu.c: Add an `HelpFAQ' verb.
+
 2001-05-14  jacob berkman  <jacob@ximian.com>
 
 	* e-folder-tree.c (remove_folder): set the subfolder's parent to
