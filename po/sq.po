@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-08 11:06+0200\n"
+"POT-Creation-Date: 2004-08-13 14:55-0400\n"
 "PO-Revision-Date: 2004-08-08 15:11+0200\n"
 "Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
 "Language-Team: Albanian <gnome-albanian-perkthyesit@lists.sourceforge.net>\n"
@@ -178,7 +178,8 @@ msgstr "Dëshiron të ruash ndryshimet e kryera?"
 msgid ""
 "You have made modifications to this contact. Do you want to save these "
 "changes?"
-msgstr "Keni kryer ndryshime tek ky kontakt. Dëshironi t'i ruani këto ndryshime?"
+msgstr ""
+"Keni kryer ndryshime tek ky kontakt. Dëshironi t'i ruani këto ndryshime?"
 
 #: addressbook/addressbook-errors.xml.h:43
 #: addressbook/gui/contact-editor/e-contact-editor.c:2803
@@ -217,7 +218,8 @@ msgstr "Rubrika e Evolution përfundoi në menyrë të papritur."
 
 #. addressbook:backend-died secondary
 #: addressbook/addressbook-errors.xml.h:55
-msgid "Your contacts for {0} will not be available until Evolution is restarted."
+msgid ""
+"Your contacts for {0} will not be available until Evolution is restarted."
 msgstr ""
 "Kontaktet tuaja për {0} do të jenë në dispozicion vetëm mbas rinisjes së "
 "Evolution."
@@ -445,17 +447,17 @@ msgstr "Elemino"
 msgid "Properties..."
 msgstr "Pronësitë..."
 
-#: addressbook/gui/component/addressbook.c:89
+#: addressbook/gui/component/addressbook.c:98
 msgid "Accessing LDAP Server anonymously"
 msgstr "Hyrje anonime tek server-i LDAP"
 
-#: addressbook/gui/component/addressbook.c:173
-#: camel/providers/groupwise/camel-gw-listener.c:417
+#: addressbook/gui/component/addressbook.c:184
+#: camel/providers/groupwise/camel-gw-listener.c:420
 msgid "Failed to authenticate.\n"
 msgstr "Autentifikimi dështoi.\n"
 
-#: addressbook/gui/component/addressbook.c:179
-#: camel/providers/groupwise/camel-gw-listener.c:406
+#: addressbook/gui/component/addressbook.c:191
+#: camel/providers/groupwise/camel-gw-listener.c:409
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%sShkruaj fjalëkalimin për %s (përdoruesi %s)"
@@ -478,7 +480,8 @@ msgstr ""
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:4
 msgid "URI for the folder last used in the select names dialog"
-msgstr "URI për kartelën e përdorur së fundmi në dritaren e zgjedhjes së emrave"
+msgstr ""
+"URI për kartelën e përdorur së fundmi në dritaren e zgjedhjes së emrave"
 
 #: addressbook/gui/component/ldap-config.glade.h:1
 #: addressbook/gui/component/select-names/select-names.glade.h:1
@@ -581,8 +584,10 @@ msgid "Email address"
 msgstr "Adresa Email"
 
 #: addressbook/gui/component/ldap-config.glade.h:21
-msgid "Evolution will use this email address to authenticate you with the server."
-msgstr "Evolution do të përdorë këtë adresë email për t'ju autentifikuar me serverin."
+msgid ""
+"Evolution will use this email address to authenticate you with the server."
+msgstr ""
+"Evolution do të përdorë këtë adresë email për t'ju autentifikuar me serverin."
 
 #: addressbook/gui/component/ldap-config.glade.h:22
 msgid "Find Possible Search Bases"
@@ -2345,7 +2350,8 @@ msgstr "Emri i _listës:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:11
 msgid "_Type an email address or drag a contact into the list below:"
-msgstr "_Shkruaj një adresë email ose zvarrit një kontakt nga lista e mëposhtme:"
+msgstr ""
+"_Shkruaj një adresë email ose zvarrit një kontakt nga lista e mëposhtme:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:13
 #: smime/gui/smime-ui.glade.h:48
@@ -2566,7 +2572,7 @@ msgid "Paste"
 msgstr "Ngjite"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1128
-#: calendar/gui/e-calendar-view.c:1347
+#: calendar/gui/e-calendar-view.c:1418
 msgid "Current View"
 msgstr "Paraqitja aktuale"
 
@@ -3044,7 +3050,7 @@ msgid "Error adding list"
 msgstr "Gabim gjatë shtimit të listës"
 
 #: addressbook/gui/widgets/eab-gui-util.c:170
-#: addressbook/gui/widgets/eab-gui-util.c:581
+#: addressbook/gui/widgets/eab-gui-util.c:640
 msgid "Error adding contact"
 msgstr "Gabim gjatë shtimit të kontaktit"
 
@@ -3061,7 +3067,7 @@ msgid "Error removing list"
 msgstr "Gabim gjatë eleminimit të listës"
 
 #: addressbook/gui/widgets/eab-gui-util.c:193
-#: addressbook/gui/widgets/eab-gui-util.c:539
+#: addressbook/gui/widgets/eab-gui-util.c:598
 msgid "Error removing contact"
 msgstr "Gabim gjatë eleminimit të kontaktit"
 
@@ -3088,39 +3094,39 @@ msgid "Overwrite"
 msgstr "Mbishkruaj"
 
 #. This is a filename. Translators take note.
-#: addressbook/gui/widgets/eab-gui-util.c:366
+#: addressbook/gui/widgets/eab-gui-util.c:383
 msgid "card.vcf"
 msgstr "card.vcf"
 
-#: addressbook/gui/widgets/eab-gui-util.c:500
+#: addressbook/gui/widgets/eab-gui-util.c:545
 msgid "list"
 msgstr "lista"
 
-#: addressbook/gui/widgets/eab-gui-util.c:635
+#: addressbook/gui/widgets/eab-gui-util.c:694
 msgid "Move contact to"
 msgstr "Lëvize kontaktin tek"
 
-#: addressbook/gui/widgets/eab-gui-util.c:637
+#: addressbook/gui/widgets/eab-gui-util.c:696
 msgid "Copy contact to"
 msgstr "Kopjo kontaktin tek"
 
-#: addressbook/gui/widgets/eab-gui-util.c:640
+#: addressbook/gui/widgets/eab-gui-util.c:699
 msgid "Move contacts to"
 msgstr "Lëviz kontaktet tek"
 
-#: addressbook/gui/widgets/eab-gui-util.c:642
+#: addressbook/gui/widgets/eab-gui-util.c:701
 msgid "Copy contacts to"
 msgstr "Kopjo kontaktet tek"
 
-#: addressbook/gui/widgets/eab-gui-util.c:645
+#: addressbook/gui/widgets/eab-gui-util.c:704
 msgid "Select target addressbook."
 msgstr "Zgjidh rubrikën objekt."
 
-#: addressbook/gui/widgets/eab-gui-util.c:868
+#: addressbook/gui/widgets/eab-gui-util.c:927
 msgid "Multiple VCards"
 msgstr "VCards shumëfishe"
 
-#: addressbook/gui/widgets/eab-gui-util.c:871
+#: addressbook/gui/widgets/eab-gui-util.c:930
 #, c-format
 msgid "VCard for %s"
 msgstr "VCard për %s"
@@ -3465,7 +3471,8 @@ msgid "Export in asynchronous mode "
 msgstr "Eksporto në modalitet asinkron"
 
 #: addressbook/tools/evolution-addressbook-export.c:63
-msgid "The number of cards in one output file in asychronous mode,default size 100."
+msgid ""
+"The number of cards in one output file in asychronous mode,default size 100."
 msgstr ""
 "Numri i card në një file dalje në modalitet asinkron, vlera e paracaktuar "
 "është 100."
@@ -3475,7 +3482,8 @@ msgid "NUMBER"
 msgstr "NUMRI"
 
 #: addressbook/tools/evolution-addressbook-export.c:91
-msgid "Command line arguments error, please use --help option to see the usage."
+msgid ""
+"Command line arguments error, please use --help option to see the usage."
 msgstr ""
 "Gabim në argumentet e rreshtit të komandës, përdor opcionin --help për të "
 "shikuar përdorimin."
@@ -3528,9 +3536,9 @@ msgstr ""
 "dinë që takimi është anulluar."
 
 #: calendar/calendar-errors.xml.h:5 calendar/calendar-errors.xml.h:15
-#: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:85
-#: calendar/calendar-errors.xml.h:91 calendar/calendar-errors.xml.h:97
-#: calendar/calendar-errors.xml.h:103
+#: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:87
+#: calendar/calendar-errors.xml.h:93 calendar/calendar-errors.xml.h:99
+#: calendar/calendar-errors.xml.h:105
 msgid "Don't Send"
 msgstr "Mos dërgo"
 
@@ -3546,7 +3554,8 @@ msgstr "Jeni i sigurt që dëshironi të eleminoni këtë mbledhje?"
 
 #. calendar:prompt-delete-meeting secondary
 #: calendar/calendar-errors.xml.h:10
-msgid "All information on this meeting will be deleted and can not be restored."
+msgid ""
+"All information on this meeting will be deleted and can not be restored."
 msgstr ""
 "Të gjitha informacionet mbi këtë mbledhje do të fshihen dhe nuk do të jenë "
 "më të rekuperueshme."
@@ -3613,7 +3622,8 @@ msgstr "Jeni i sigurt që dëshironi të eleminoni takimin me titull '{0}'?"
 #. calendar:prompt-delete-titled-appointment secondary
 #. calendar:prompt-delete-appointment secondary
 #: calendar/calendar-errors.xml.h:34 calendar/calendar-errors.xml.h:38
-msgid "All information on this appointment will be deleted and can not be restored."
+msgid ""
+"All information on this appointment will be deleted and can not be restored."
 msgstr ""
 "Të gjitha informacionet e përmbajtura në këtë takim do të fshihen dhe nuk do "
 "të jenë më të rekuperueshme."
@@ -3636,7 +3646,8 @@ msgstr "Jeni i sigurt që dëshironi të eleminoni zërin e ditarit '{0}'?"
 #. calendar:prompt-delete-named-journal secondary
 #. calendar:prompt-delete-journal secondary
 #: calendar/calendar-errors.xml.h:50 calendar/calendar-errors.xml.h:54
-msgid "All information in this journal will be deleted and can not be restored."
+msgid ""
+"All information in this journal will be deleted and can not be restored."
 msgstr ""
 "Të gjitha informacionet e përmbajtura në këtë ditar do të fshihen dhe nuk do "
 "të jenë më të rekuperueshme."
@@ -3696,11 +3707,12 @@ msgstr "Dëshiron të ruash ndryshimet e kryera tek ky takim?"
 msgid "You have made changes to this appointment, but not yet saved them."
 msgstr "Keni kryer ndryshime tek ky takim, por nuk i keni ruajtur akoma ato."
 
-#: calendar/calendar-errors.xml.h:73 composer/mail-composer-errors.xml.h:33
+#: calendar/calendar-errors.xml.h:73 calendar/calendar-errors.xml.h:81
+#: composer/mail-composer-errors.xml.h:33
 msgid "Discard Changes"
 msgstr "Anullo ndryshimet"
 
-#: calendar/calendar-errors.xml.h:74
+#: calendar/calendar-errors.xml.h:74 calendar/calendar-errors.xml.h:82
 msgid "Save Changes"
 msgstr "Ruaj Ndryshimet"
 
@@ -3717,33 +3729,36 @@ msgstr "Dëshiron të ruash ndryshimet e kryera tek ky aktivitet?"
 #. calendar:prompt-save-task secondary
 #: calendar/calendar-errors.xml.h:80
 msgid "You have made changes to this task, but not yet saved them."
-msgstr "Keni kryer ndryshime tek ky aktivitet, por nuk i keni ruajtur akoma ato."
+msgstr ""
+"Keni kryer ndryshime tek ky aktivitet, por nuk i keni ruajtur akoma ato."
 
 #. calendar:prompt-meeting-invite primary
-#: calendar/calendar-errors.xml.h:82
+#: calendar/calendar-errors.xml.h:84
 msgid "Would you like to send meeting invitations to participants?"
 msgstr "Dëshironi t'i dërgoni një ftesë mbledhjeje pjesmarrësve?"
 
 #. calendar:prompt-meeting-invite secondary
-#: calendar/calendar-errors.xml.h:84
-msgid "Email invitations will be sent to all participants and allow them to RSVP."
+#: calendar/calendar-errors.xml.h:86
+msgid ""
+"Email invitations will be sent to all participants and allow them to RSVP."
 msgstr ""
 "Mesazhi ftues do t'u dërgohet të gjithë pjesmarrësve dhe do t'i lejojë ata "
 "në RSVP."
 
-#: calendar/calendar-errors.xml.h:86 calendar/calendar-errors.xml.h:92
-#: calendar/calendar-errors.xml.h:98 calendar/calendar-errors.xml.h:104
+#: calendar/calendar-errors.xml.h:88 calendar/calendar-errors.xml.h:94
+#: calendar/calendar-errors.xml.h:100 calendar/calendar-errors.xml.h:106
 #: ui/evolution-message-composer.xml.h:24
 msgid "Send"
 msgstr "Dërgo"
 
 #. calendar:prompt-send-updated-meeting-info primary
-#: calendar/calendar-errors.xml.h:88
+#: calendar/calendar-errors.xml.h:90
 msgid "Would you like to send updated meeting information to participants?"
-msgstr "Dëshiron t'u dërgosh informacionit e rifreskuar të mbledhjes pjesmarrësve?"
+msgstr ""
+"Dëshiron t'u dërgosh informacionit e rifreskuar të mbledhjes pjesmarrësve?"
 
 #. calendar:prompt-send-updated-meeting-info secondary
-#: calendar/calendar-errors.xml.h:90
+#: calendar/calendar-errors.xml.h:92
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
@@ -3752,12 +3767,12 @@ msgstr ""
 "rifreskuar kalendarët e tyre."
 
 #. calendar:prompt-send-task primary
-#: calendar/calendar-errors.xml.h:94
+#: calendar/calendar-errors.xml.h:96
 msgid "Would you like to send this task to participants?"
 msgstr "Dëshiron t'ua dërgosh këtë aktivitet pjesmarrësve?"
 
 #. calendar:prompt-send-task secondary
-#: calendar/calendar-errors.xml.h:96
+#: calendar/calendar-errors.xml.h:98
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
@@ -3766,12 +3781,13 @@ msgstr ""
 "mundësinë të pranojnë këtë aktivitet."
 
 #. calendar:prompt-send-updated-task-info primary
-#: calendar/calendar-errors.xml.h:100
+#: calendar/calendar-errors.xml.h:102
 msgid "Would you like to send updated task information to participants?"
-msgstr "Dëshiron t'u dërgosh pjesmarrësve informacionet e rifreskuara të aktivitetit?"
+msgstr ""
+"Dëshiron t'u dërgosh pjesmarrësve informacionet e rifreskuara të aktivitetit?"
 
 #. calendar:prompt-send-updated-task-info secondary
-#: calendar/calendar-errors.xml.h:102
+#: calendar/calendar-errors.xml.h:104
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
@@ -3780,24 +3796,26 @@ msgstr ""
 "rifreskuar listën e aktiviteteve të tyre."
 
 #. calendar:tasks-crashed primary
-#: calendar/calendar-errors.xml.h:106
+#: calendar/calendar-errors.xml.h:108
 msgid "The Evolution tasks have quit unexpectedly."
 msgstr "Aktivitetet e Evolution përfunduan në menyrë të papritur."
 
 #. calendar:tasks-crashed secondary
-#: calendar/calendar-errors.xml.h:108
+#: calendar/calendar-errors.xml.h:110
 msgid "Your tasks will not be available until Evolution is restarted."
-msgstr "Aktivitetet tuaja do të jenë në dispozicion vetëm mbas rinisjes së Evolution."
+msgstr ""
+"Aktivitetet tuaja do të jenë në dispozicion vetëm mbas rinisjes së Evolution."
 
 #. calendar:calendar-crashed primary
-#: calendar/calendar-errors.xml.h:110
+#: calendar/calendar-errors.xml.h:112
 msgid "The Evolution calendar has quit unexpectedly."
 msgstr "Kalendari i Evolution përfundoi në menyrë të papritur."
 
 #. calendar:calendar-crashed secondary
-#: calendar/calendar-errors.xml.h:112
+#: calendar/calendar-errors.xml.h:114
 msgid "Your calendars will not be available until Evolution is restarted."
-msgstr "Kalendarët tuaj do të jenë në dispozicion vetëm mbas rinisjes së Evolution."
+msgstr ""
+"Kalendarët tuaj do të jenë në dispozicion vetëm mbas rinisjes së Evolution."
 
 #: calendar/common/authentication.c:48 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
@@ -3848,7 +3866,8 @@ msgstr "Kalendarët"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:5
 msgid "Configure your timezone, Calendar and Task List here "
-msgstr "Konfiguro këtu zonën tënde të orës, kalendarin dhe listën e aktiviteteve"
+msgstr ""
+"Konfiguro këtu zonën tënde të orës, kalendarin dhe listën e aktiviteteve"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:6
 msgid "Evolution Calendar and Tasks"
@@ -3924,24 +3943,24 @@ msgstr "_Ndrysho takimet"
 msgid "_Snooze"
 msgstr "_Zilja"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:882
+#: calendar/gui/alarm-notify/alarm-queue.c:885
 #: ui/evolution-message-composer.xml.h:10
 msgid "Open"
 msgstr "Hap"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:884
+#: calendar/gui/alarm-notify/alarm-queue.c:887
 msgid "Dismiss"
 msgstr "Braktis"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:886
+#: calendar/gui/alarm-notify/alarm-queue.c:889
 msgid "Dismiss All"
 msgstr "Braktis gjithçka"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:951
+#: calendar/gui/alarm-notify/alarm-queue.c:954
 msgid "No description available."
 msgstr "Asnjë përshkrim në dispozicion."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:971
+#: calendar/gui/alarm-notify/alarm-queue.c:974
 #, c-format
 msgid ""
 "Alarm on %s\n"
@@ -3954,12 +3973,12 @@ msgstr ""
 "Fillon nga %s\n"
 "Mbaron në %s"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1071
-#: calendar/gui/alarm-notify/alarm-queue.c:1095
+#: calendar/gui/alarm-notify/alarm-queue.c:1074
+#: calendar/gui/alarm-notify/alarm-queue.c:1098
 msgid "Warning"
 msgstr "Kujdes"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1075
+#: calendar/gui/alarm-notify/alarm-queue.c:1078
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -3971,7 +3990,7 @@ msgstr ""
 "ky paralajmërim kërkon nisjen e një mesazhi email.  Për këtë,\n"
 "Evolution do të hapë një mesazh normal viziv (në ekran)."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1101
+#: calendar/gui/alarm-notify/alarm-queue.c:1104
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -3988,7 +4007,7 @@ msgstr ""
 "\n"
 "Dëshironi me të vërtetë që ky program të ekzekutohet?"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1115
+#: calendar/gui/alarm-notify/alarm-queue.c:1118
 msgid "Do not ask me about this program again."
 msgstr "Mos më pyet më për këtë program."
 
@@ -4575,7 +4594,7 @@ msgstr "Publikimi i disponibilitetit"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 #: calendar/gui/dialogs/recurrence-page.c:1038
-#: calendar/gui/e-itip-control.c:560
+#: calendar/gui/e-itip-control.c:581
 msgid "Friday"
 msgstr "E premte"
 
@@ -4589,7 +4608,7 @@ msgstr "Minuta"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
 #: calendar/gui/dialogs/recurrence-page.c:1034
-#: calendar/gui/e-itip-control.c:556
+#: calendar/gui/e-itip-control.c:577
 msgid "Monday"
 msgstr "E hënë"
 
@@ -4599,7 +4618,7 @@ msgstr "D_ie"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
 #: calendar/gui/dialogs/recurrence-page.c:1039
-#: calendar/gui/e-itip-control.c:561
+#: calendar/gui/e-itip-control.c:582
 msgid "Saturday"
 msgstr "E shtunë"
 
@@ -4613,7 +4632,7 @@ msgstr "Shfaq _numrat e javëve"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
 #: calendar/gui/dialogs/recurrence-page.c:1040
-#: calendar/gui/e-itip-control.c:555
+#: calendar/gui/e-itip-control.c:576
 msgid "Sunday"
 msgstr "E djelë"
 
@@ -4627,7 +4646,7 @@ msgstr "E_nj"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
 #: calendar/gui/dialogs/recurrence-page.c:1037
-#: calendar/gui/e-itip-control.c:559
+#: calendar/gui/e-itip-control.c:580
 msgid "Thursday"
 msgstr "E enjte"
 
@@ -4641,7 +4660,7 @@ msgstr "Formati i orës:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 #: calendar/gui/dialogs/recurrence-page.c:1035
-#: calendar/gui/e-itip-control.c:557
+#: calendar/gui/e-itip-control.c:578
 msgid "Tuesday"
 msgstr "E martë"
 
@@ -4651,7 +4670,7 @@ msgstr "Fillim jav_e:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 #: calendar/gui/dialogs/recurrence-page.c:1036
-#: calendar/gui/e-itip-control.c:558
+#: calendar/gui/e-itip-control.c:579
 msgid "Wednesday"
 msgstr "E mërkurë"
 
@@ -4783,8 +4802,9 @@ msgid "_Add Calendar"
 msgstr "_Shto një Kalendar"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:7
-msgid "_Add Group"
-msgstr "_Shto një grup"
+#, fuzzy
+msgid "_Add Task List"
+msgstr "Shto një Listë Aktivitetesh"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:9
 msgid "_Refresh:"
@@ -4817,7 +4837,8 @@ msgstr "Ky zë u eleminua."
 #: calendar/gui/dialogs/changed-comp.c:77
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
-msgstr "%s  Keni kryer ndryshime. T'i harrojmë ndryshimet dhe të mbyll editorin?"
+msgstr ""
+"%s  Keni kryer ndryshime. T'i harrojmë ndryshimet dhe të mbyll editorin?"
 
 #: calendar/gui/dialogs/changed-comp.c:79
 #, c-format
@@ -5163,7 +5184,7 @@ msgstr "Ora _fillimit:"
 #. is not permitted.
 #: calendar/gui/dialogs/meeting-page.c:316
 #: calendar/gui/dialogs/meeting-page.glade.h:5
-#: calendar/gui/e-cal-model-tasks.c:647 calendar/gui/e-itip-control.c:932
+#: calendar/gui/e-cal-model-tasks.c:647 calendar/gui/e-itip-control.c:953
 #: composer/e-msg-composer.c:2097 filter/filter-rule.c:877
 #: mail/em-account-prefs.c:427 mail/em-folder-view.c:933
 #: mail/mail-account-gui.c:1571 mail/mail-account-gui.c:1967
@@ -5186,11 +5207,11 @@ msgstr "Nevoitet një organizues."
 msgid "At least one attendee is required."
 msgstr "Nevoitet të paktën një pjesmarrës."
 
-#: calendar/gui/dialogs/meeting-page.c:764
+#: calendar/gui/dialogs/meeting-page.c:793
 msgid "_Delegate To..."
 msgstr "_Delegoja..."
 
-#: calendar/gui/dialogs/meeting-page.c:768
+#: calendar/gui/dialogs/meeting-page.c:797
 #: composer/e-msg-composer-attachment-bar.c:453
 msgid "_Remove"
 msgstr "_Hiq"
@@ -5232,7 +5253,7 @@ msgid "Member"
 msgstr "Anëtar"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:8
-#: calendar/gui/e-itip-control.c:1064 calendar/gui/e-meeting-list-view.c:241
+#: calendar/gui/e-itip-control.c:1085 calendar/gui/e-meeting-list-view.c:241
 #: calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "RSVP"
@@ -5306,15 +5327,19 @@ msgstr "Emri i listës së aktiviteteve"
 
 #: calendar/gui/dialogs/recur-comp.c:51
 msgid "You are modifying a recurring event, what would you like to modify?"
-msgstr "Jeni duke ndryshuar një ngjarje përkujtimore, çfarë dëshironi të ndryshoni?"
+msgstr ""
+"Jeni duke ndryshuar një ngjarje përkujtimore, çfarë dëshironi të ndryshoni?"
 
 #: calendar/gui/dialogs/recur-comp.c:55
 msgid "You are modifying a recurring task, what would you like to modify?"
-msgstr "Jeni duke ndryshuar një aktivitet përkujtimor, çfarë dëshironi të ndryshoni?"
+msgstr ""
+"Jeni duke ndryshuar një aktivitet përkujtimor, çfarë dëshironi të ndryshoni?"
 
 #: calendar/gui/dialogs/recur-comp.c:59
-msgid "You are modifying a recurring journal entry, what would you like to modify?"
-msgstr "Jeni duke ndryshuar një zë ditari përkujtimor, çfarë dëshironi të ndryshoni?"
+msgid ""
+"You are modifying a recurring journal entry, what would you like to modify?"
+msgstr ""
+"Jeni duke ndryshuar një zë ditari përkujtimor, çfarë dëshironi të ndryshoni?"
 
 #: calendar/gui/dialogs/recur-comp.c:85
 msgid "This Instance Only"
@@ -5457,7 +5482,7 @@ msgstr "<span weight=\"bold\">Gjendja</span>"
 #: calendar/gui/dialogs/task-details-page.glade.h:4
 #: calendar/gui/e-cal-component-preview.c:230
 #: calendar/gui/e-cal-model-tasks.c:350 calendar/gui/e-cal-model-tasks.c:653
-#: calendar/gui/e-calendar-table.c:472 calendar/gui/e-itip-control.c:724
+#: calendar/gui/e-calendar-table.c:472 calendar/gui/e-itip-control.c:745
 #: calendar/gui/e-meeting-store.c:187 calendar/gui/e-meeting-store.c:210
 #: calendar/gui/print.c:2346
 msgid "Completed"
@@ -5693,7 +5718,7 @@ msgid "Untitled"
 msgstr "Pa titull"
 
 #: calendar/gui/e-cal-component-preview.c:187
-#: calendar/gui/e-itip-control.c:936 calendar/gui/e-itip-control.glade.h:11
+#: calendar/gui/e-itip-control.c:957 calendar/gui/e-itip-control.glade.h:11
 msgid "Summary:"
 msgstr "Përmbledhja:"
 
@@ -5708,7 +5733,7 @@ msgstr "Skadenca:"
 
 #. write status
 #: calendar/gui/e-cal-component-preview.c:223
-#: calendar/gui/e-itip-control.c:960
+#: calendar/gui/e-itip-control.c:981
 msgid "Status:"
 msgstr "Gjëndja:"
 
@@ -5717,7 +5742,7 @@ msgid "Priority:"
 msgstr "Prioriteti: "
 
 #: calendar/gui/e-cal-component-preview.c:268
-#: calendar/gui/e-itip-control.c:992 calendar/gui/e-itip-control.glade.h:6
+#: calendar/gui/e-itip-control.c:1013 calendar/gui/e-itip-control.glade.h:6
 #: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:71
 msgid "Description:"
 msgstr "Përshkrimi:"
@@ -5787,7 +5812,7 @@ msgstr "Jo"
 
 #. This is the default filename used for temporary file creation
 #: calendar/gui/e-cal-model.c:357 calendar/gui/e-cal-model.c:360
-#: calendar/gui/e-itip-control.c:977 calendar/gui/e-itip-control.c:1191
+#: calendar/gui/e-itip-control.c:998 calendar/gui/e-itip-control.c:1212
 #: calendar/gui/e-meeting-list-view.c:122
 #: calendar/gui/e-meeting-list-view.c:136 calendar/gui/e-meeting-store.c:115
 #: calendar/gui/e-meeting-store.c:150 calendar/gui/e-meeting-store.c:215
@@ -5800,7 +5825,7 @@ msgstr "Jo"
 #: camel/providers/imap4/camel-imap4-store.c:1223
 #: camel/providers/imap4/camel-imap4-utils.c:457
 #: camel/providers/smtp/camel-smtp-transport.c:172
-#: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:1123
+#: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:1155
 #: shell/e-component-registry.c:207 shell/e-component-registry.c:211
 #: widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
@@ -5867,7 +5892,7 @@ msgid "Updating objects"
 msgstr "Duke rifreskuar objektet"
 
 #: calendar/gui/e-calendar-table.c:1043 calendar/gui/e-calendar-table.c:1084
-#: calendar/gui/e-calendar-view.c:1360 calendar/gui/e-calendar-view.c:1440
+#: calendar/gui/e-calendar-view.c:1431 calendar/gui/e-calendar-view.c:1512
 #: mail/em-folder-view.c:899 ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "_Hap"
@@ -5877,15 +5902,15 @@ msgid "Open _Web Page"
 msgstr "Hap faqen _web"
 
 #: calendar/gui/e-calendar-table.c:1045 calendar/gui/e-calendar-table.c:1090
-#: calendar/gui/e-calendar-view.c:1361 calendar/gui/e-calendar-view.c:1446
+#: calendar/gui/e-calendar-view.c:1432 calendar/gui/e-calendar-view.c:1518
 #: mail/em-folder-view.c:901 mail/em-popup.c:691 mail/em-popup.c:807
 #: ui/evolution-mail-message.xml.h:128
 msgid "_Save As..."
 msgstr "_Ruaje si..."
 
 #: calendar/gui/e-calendar-table.c:1046 calendar/gui/e-calendar-table.c:1088
-#: calendar/gui/e-calendar-view.c:1339 calendar/gui/e-calendar-view.c:1362
-#: calendar/gui/e-calendar-view.c:1444 ui/evolution-addressbook.xml.h:40
+#: calendar/gui/e-calendar-view.c:1410 calendar/gui/e-calendar-view.c:1433
+#: calendar/gui/e-calendar-view.c:1516 ui/evolution-addressbook.xml.h:40
 #: ui/evolution-calendar.xml.h:44 ui/evolution-comp-editor.xml.h:19
 #: ui/evolution-contact-editor.xml.h:17 ui/evolution-mail-message.xml.h:125
 #: ui/evolution-tasks.xml.h:25
@@ -5893,14 +5918,14 @@ msgid "_Print..."
 msgstr "_Printo..."
 
 #: calendar/gui/e-calendar-table.c:1050 calendar/gui/e-calendar-table.c:1079
-#: calendar/gui/e-calendar-view.c:1367 calendar/gui/e-calendar-view.c:1410
+#: calendar/gui/e-calendar-view.c:1438 calendar/gui/e-calendar-view.c:1482
 #: ui/evolution-addressbook.xml.h:1 ui/evolution-calendar.xml.h:1
 #: ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "P_reje"
 
 #: calendar/gui/e-calendar-table.c:1051 calendar/gui/e-calendar-table.c:1077
-#: calendar/gui/e-calendar-view.c:1368 calendar/gui/e-calendar-view.c:1408
+#: calendar/gui/e-calendar-view.c:1439 calendar/gui/e-calendar-view.c:1480
 #: mail/em-folder-tree.c:965 mail/message-list.c:1702
 #: ui/evolution-addressbook.xml.h:31 ui/evolution-calendar.xml.h:39
 #: ui/evolution-composer-entries.xml.h:7 ui/evolution-mail-message.xml.h:109
@@ -5909,8 +5934,8 @@ msgid "_Copy"
 msgstr "_Kopjo"
 
 #: calendar/gui/e-calendar-table.c:1052 calendar/gui/e-calendar-table.c:1086
-#: calendar/gui/e-calendar-view.c:1343 calendar/gui/e-calendar-view.c:1369
-#: calendar/gui/e-calendar-view.c:1442 ui/evolution-addressbook.xml.h:38
+#: calendar/gui/e-calendar-view.c:1414 calendar/gui/e-calendar-view.c:1440
+#: calendar/gui/e-calendar-view.c:1514 ui/evolution-addressbook.xml.h:38
 #: ui/evolution-calendar.xml.h:43 ui/evolution-composer-entries.xml.h:9
 #: ui/evolution-mail-message.xml.h:123 ui/evolution-tasks.xml.h:24
 msgid "_Paste"
@@ -5934,7 +5959,7 @@ msgstr "_Shëno aktivitetet e zgjedhura si të plotësuara"
 
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1063 calendar/gui/e-calendar-table.c:1081
-#: calendar/gui/e-calendar-view.c:1380 calendar/gui/e-calendar-view.c:1412
+#: calendar/gui/e-calendar-view.c:1451 calendar/gui/e-calendar-view.c:1484
 #: mail/em-folder-tree.c:2615 mail/em-folder-view.c:924
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:14
@@ -5994,67 +6019,72 @@ msgstr "Duke lëvizur elementët"
 msgid "Copying items"
 msgstr "Duke kopjuar elementët"
 
-#: calendar/gui/e-calendar-view.c:1332 calendar/gui/e-calendar-view.c:1420
+#: calendar/gui/e-calendar-view.c:1403 calendar/gui/e-calendar-view.c:1492
 msgid "New _Appointment..."
 msgstr "_Takim i Ri..."
 
-#: calendar/gui/e-calendar-view.c:1333 calendar/gui/e-calendar-view.c:1425
+#: calendar/gui/e-calendar-view.c:1404 calendar/gui/e-calendar-view.c:1497
 msgid "New All Day _Event"
 msgstr "_Ndodhi e Re e ditës"
 
-#: calendar/gui/e-calendar-view.c:1334 calendar/gui/e-calendar-view.c:1430
+#: calendar/gui/e-calendar-view.c:1405 calendar/gui/e-calendar-view.c:1502
 msgid "New Meeting"
 msgstr "Mbledhje e Re"
 
-#: calendar/gui/e-calendar-view.c:1335 calendar/gui/e-calendar-view.c:1435
+#: calendar/gui/e-calendar-view.c:1406 calendar/gui/e-calendar-view.c:1507
 msgid "New Task"
 msgstr "Aktivitet i Ri"
 
-#: calendar/gui/e-calendar-view.c:1349 ui/evolution-calendar.xml.h:26
+#: calendar/gui/e-calendar-view.c:1420 ui/evolution-calendar.xml.h:26
 msgid "Select _Today"
 msgstr "Zgjidh _Sot"
 
-#: calendar/gui/e-calendar-view.c:1350
+#: calendar/gui/e-calendar-view.c:1421
 msgid "_Select Date..."
 msgstr "_Zgjidh datën..."
 
-#: calendar/gui/e-calendar-view.c:1354 ui/evolution-calendar.xml.h:45
+#: calendar/gui/e-calendar-view.c:1425 ui/evolution-calendar.xml.h:45
 msgid "_Publish Free/Busy Information"
 msgstr "_Publiko informacionet mbi disponibilitetin"
 
-#: calendar/gui/e-calendar-view.c:1373
+#: calendar/gui/e-calendar-view.c:1444
 msgid "Cop_y to Calendar..."
 msgstr "Kopjo_je në kalendar..."
 
-#: calendar/gui/e-calendar-view.c:1374
+#: calendar/gui/e-calendar-view.c:1445
 msgid "Mo_ve to Calendar..."
 msgstr "Lë_vize në kalendar..."
 
-#: calendar/gui/e-calendar-view.c:1375
+#: calendar/gui/e-calendar-view.c:1446
 msgid "_Schedule Meeting..."
 msgstr "_Planifiko Mbledhje..."
 
-#: calendar/gui/e-calendar-view.c:1376
+#: calendar/gui/e-calendar-view.c:1447
 msgid "_Forward as iCalendar..."
 msgstr "_Përcille si iCalendar..."
 
-#: calendar/gui/e-calendar-view.c:1381 calendar/gui/e-calendar-view.c:1413
+#: calendar/gui/e-calendar-view.c:1452
+#, fuzzy
+msgid "Make this Occurrence _Movable"
+msgstr "Elemino këtë përvjetor"
+
+#: calendar/gui/e-calendar-view.c:1453 calendar/gui/e-calendar-view.c:1485
 msgid "Delete this _Occurrence"
 msgstr "Elemino këtë _përkujtimore"
 
-#: calendar/gui/e-calendar-view.c:1382 calendar/gui/e-calendar-view.c:1414
+#: calendar/gui/e-calendar-view.c:1454 calendar/gui/e-calendar-view.c:1486
 msgid "Delete _All Occurrences"
 msgstr "Elemino të _gjitha përkujtimoret"
 
-#: calendar/gui/e-calendar-view.c:1416
+#: calendar/gui/e-calendar-view.c:1488
 msgid "Go to _Today"
 msgstr "Shko tek _Sot"
 
-#: calendar/gui/e-calendar-view.c:1418
+#: calendar/gui/e-calendar-view.c:1490
 msgid "_Go to Date..."
 msgstr "_Shko tek data..."
 
-#: calendar/gui/e-calendar-view.c:1448 ui/evolution.xml.h:35
+#: calendar/gui/e-calendar-view.c:1520 ui/evolution.xml.h:35
 msgid "_Settings..."
 msgstr "_Rregullimet..."
 
@@ -6117,98 +6147,98 @@ msgstr "pd"
 msgid "pm"
 msgstr "md"
 
-#: calendar/gui/e-itip-control.c:589
+#: calendar/gui/e-itip-control.c:610
 msgid "Yes. (Complex Recurrence)"
 msgstr "Po (Përkujtimore Komplekse)"
 
-#: calendar/gui/e-itip-control.c:600
+#: calendar/gui/e-itip-control.c:621
 #, c-format
 msgid "Every day"
 msgid_plural "Every %d days"
 msgstr[0] "Çdo ditë"
 msgstr[1] "Çdo %d ditë"
 
-#: calendar/gui/e-itip-control.c:605
+#: calendar/gui/e-itip-control.c:626
 #, c-format
 msgid "Every week"
 msgid_plural "Every %d weeks"
 msgstr[0] "Çdo javë"
 msgstr[1] "Çdo %d javë"
 
-#: calendar/gui/e-itip-control.c:607
+#: calendar/gui/e-itip-control.c:628
 #, c-format
 msgid "Every week on "
 msgid_plural "Every %d weeks on "
 msgstr[0] "Çdo javë të "
 msgstr[1] "Çdo %d javë të "
 
-#: calendar/gui/e-itip-control.c:615
+#: calendar/gui/e-itip-control.c:636
 msgid " and "
 msgstr " dhe "
 
-#: calendar/gui/e-itip-control.c:622
+#: calendar/gui/e-itip-control.c:643
 #, c-format
 msgid "The %s day of "
 msgstr "Ditën %s të "
 
-#: calendar/gui/e-itip-control.c:635
+#: calendar/gui/e-itip-control.c:656
 #, c-format
 msgid "The %s %s of "
 msgstr "Të %s %s e "
 
-#: calendar/gui/e-itip-control.c:642
+#: calendar/gui/e-itip-control.c:663
 #, c-format
 msgid "every month"
 msgid_plural "every %d months"
 msgstr[0] "çdo muaj"
 msgstr[1] "çdo %d muaj"
 
-#: calendar/gui/e-itip-control.c:646
+#: calendar/gui/e-itip-control.c:667
 #, c-format
 msgid "Every year"
 msgid_plural "Every %d years"
 msgstr[0] "Çdo vit"
 msgstr[1] "Çdo %d vite"
 
-#: calendar/gui/e-itip-control.c:657
+#: calendar/gui/e-itip-control.c:678
 #, c-format
 msgid "a total of %d time"
 msgid_plural " a total of %d times"
 msgstr[0] " gjithsej %d herë"
 msgstr[1] " gjithsej prej %d herësh"
 
-#: calendar/gui/e-itip-control.c:666
+#: calendar/gui/e-itip-control.c:687
 msgid ", ending on "
 msgstr ", që mbaron të "
 
-#: calendar/gui/e-itip-control.c:690
+#: calendar/gui/e-itip-control.c:711
 msgid "Starts"
 msgstr "Fillon"
 
-#: calendar/gui/e-itip-control.c:703
+#: calendar/gui/e-itip-control.c:724
 msgid "Ends"
 msgstr "Mbaron"
 
-#: calendar/gui/e-itip-control.c:737
+#: calendar/gui/e-itip-control.c:758
 msgid "Due"
 msgstr "Skadimi"
 
-#: calendar/gui/e-itip-control.c:777 calendar/gui/e-itip-control.c:834
+#: calendar/gui/e-itip-control.c:798 calendar/gui/e-itip-control.c:855
 msgid "iCalendar Information"
 msgstr "Informacione iCalendar"
 
 #. Title
-#: calendar/gui/e-itip-control.c:794
+#: calendar/gui/e-itip-control.c:815
 msgid "iCalendar Error"
 msgstr "Gabim i iCalendar"
 
-#: calendar/gui/e-itip-control.c:866 calendar/gui/e-itip-control.c:882
-#: calendar/gui/e-itip-control.c:893 calendar/gui/e-itip-control.c:910
+#: calendar/gui/e-itip-control.c:887 calendar/gui/e-itip-control.c:903
+#: calendar/gui/e-itip-control.c:914 calendar/gui/e-itip-control.c:931
 msgid "An unknown person"
 msgstr "Një person i panjohur"
 
 #. Describe what the user can do
-#: calendar/gui/e-itip-control.c:917
+#: calendar/gui/e-itip-control.c:938
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
@@ -6216,297 +6246,303 @@ msgstr ""
 "<br>Ju lutem shikoni informacionet në vazhdim, e pastaj zgjidhni një veprim "
 "nga menu e poshtme."
 
-#: calendar/gui/e-itip-control.c:946
+#: calendar/gui/e-itip-control.c:967
 msgid "Location:"
 msgstr "Vendodhja:"
 
-#: calendar/gui/e-itip-control.c:965 calendar/gui/e-meeting-list-view.c:158
+#: calendar/gui/e-itip-control.c:986 calendar/gui/e-meeting-list-view.c:158
 #: calendar/gui/e-meeting-store.c:179 calendar/gui/e-meeting-store.c:202
 #: calendar/gui/itip-utils.c:422
 msgid "Accepted"
 msgstr "U pranua"
 
-#: calendar/gui/e-itip-control.c:969 calendar/gui/itip-utils.c:425
+#: calendar/gui/e-itip-control.c:990 calendar/gui/itip-utils.c:425
 msgid "Tentatively Accepted"
 msgstr "U pranua me përpjekje"
 
-#: calendar/gui/e-itip-control.c:973 calendar/gui/e-meeting-list-view.c:159
+#: calendar/gui/e-itip-control.c:994 calendar/gui/e-meeting-list-view.c:159
 #: calendar/gui/e-meeting-store.c:181 calendar/gui/e-meeting-store.c:204
 #: calendar/gui/itip-utils.c:428 calendar/gui/itip-utils.c:454
 msgid "Declined"
 msgstr "Nuk u pranua"
 
-#: calendar/gui/e-itip-control.c:1032 calendar/gui/e-itip-control.c:1060
-#: calendar/gui/e-itip-control.c:1086 calendar/gui/e-itip-control.c:1099
-#: calendar/gui/e-itip-control.c:1112 calendar/gui/e-itip-control.c:1137
+#: calendar/gui/e-itip-control.c:1053 calendar/gui/e-itip-control.c:1081
+#: calendar/gui/e-itip-control.c:1107 calendar/gui/e-itip-control.c:1120
+#: calendar/gui/e-itip-control.c:1133 calendar/gui/e-itip-control.c:1158
 msgid "Choose an action:"
 msgstr "Zgjidh një veprim:"
 
-#: calendar/gui/e-itip-control.c:1033
+#: calendar/gui/e-itip-control.c:1054
 msgid "Update"
 msgstr "Rifresko"
 
-#: calendar/gui/e-itip-control.c:1034 calendar/gui/e-itip-control.c:1065
-#: calendar/gui/e-itip-control.c:1088 calendar/gui/e-itip-control.c:1101
-#: calendar/gui/e-itip-control.c:1114 calendar/gui/e-itip-control.c:1139
+#: calendar/gui/e-itip-control.c:1055 calendar/gui/e-itip-control.c:1086
+#: calendar/gui/e-itip-control.c:1109 calendar/gui/e-itip-control.c:1122
+#: calendar/gui/e-itip-control.c:1135 calendar/gui/e-itip-control.c:1160
 #: shell/e-shell.c:1210 widgets/misc/e-cell-date-edit.c:265
 msgid "OK"
 msgstr "OK"
 
-#: calendar/gui/e-itip-control.c:1061
+#: calendar/gui/e-itip-control.c:1082
 msgid "Accept"
 msgstr "Prano"
 
-#: calendar/gui/e-itip-control.c:1062
+#: calendar/gui/e-itip-control.c:1083
 msgid "Tentatively accept"
 msgstr "Prano me përpjekje"
 
-#: calendar/gui/e-itip-control.c:1063
+#: calendar/gui/e-itip-control.c:1084
 msgid "Decline"
 msgstr "Refuzo"
 
-#: calendar/gui/e-itip-control.c:1087
+#: calendar/gui/e-itip-control.c:1108
 msgid "Send Free/Busy Information"
 msgstr "Dërgo Informacionin mbi disponibilitetin"
 
-#: calendar/gui/e-itip-control.c:1100
+#: calendar/gui/e-itip-control.c:1121
 msgid "Update respondent status"
 msgstr "Rifresko gjendjen e përgjigjes"
 
-#: calendar/gui/e-itip-control.c:1113
+#: calendar/gui/e-itip-control.c:1134
 msgid "Send Latest Information"
 msgstr "Dërgo informacionet aktuale"
 
-#: calendar/gui/e-itip-control.c:1123
+#: calendar/gui/e-itip-control.c:1144
 msgid ""
 "The meeting has been cancelled, however it could not be found in your "
 "calendars"
 msgstr "Mbledhja është anulluar, sidoqoftë nuk gjendet në kalendarët tuaj"
 
-#: calendar/gui/e-itip-control.c:1125
-msgid "The task has been cancelled, however it could not be found in your task lists"
-msgstr "Aktiviteti është anulluar, sidoqoftë nuk gjendet në listën tuaj të aktiviteteve"
+#: calendar/gui/e-itip-control.c:1146
+msgid ""
+"The task has been cancelled, however it could not be found in your task lists"
+msgstr ""
+"Aktiviteti është anulluar, sidoqoftë nuk gjendet në listën tuaj të "
+"aktiviteteve"
 
-#: calendar/gui/e-itip-control.c:1138 calendar/gui/itip-utils.c:442
+#: calendar/gui/e-itip-control.c:1159 calendar/gui/itip-utils.c:442
 #: mail/mail-send-recv.c:410 mail/mail-send-recv.c:464
 #: ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Anulloje"
 
-#: calendar/gui/e-itip-control.c:1214
+#: calendar/gui/e-itip-control.c:1235
 #, c-format
 msgid "<b>%s</b> has published meeting information."
 msgstr "<b>%s</b> ka publikuar informacione në lidhje me një mbledhje."
 
-#: calendar/gui/e-itip-control.c:1215
+#: calendar/gui/e-itip-control.c:1236
 msgid "Meeting Information"
 msgstr "Informacione mbi mbledhjen"
 
-#: calendar/gui/e-itip-control.c:1220
+#: calendar/gui/e-itip-control.c:1241
 #, c-format
 msgid "<b>%s</b> requests the presence of %s at a meeting."
 msgstr "<b>%s</b> kërkon praninë e %s në një mbledhje."
 
-#: calendar/gui/e-itip-control.c:1222
+#: calendar/gui/e-itip-control.c:1243
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
 msgstr "<b>%s</b> kërkon praninë tuaj në një mbledhje."
 
-#: calendar/gui/e-itip-control.c:1223
+#: calendar/gui/e-itip-control.c:1244
 msgid "Meeting Proposal"
 msgstr "Propozim mbledhjeje"
 
-#: calendar/gui/e-itip-control.c:1257
+#: calendar/gui/e-itip-control.c:1265
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
 msgstr "<b>%s</b> dëshiron t'i shtohet një mbledhjeje ekzistuese."
 
-#: calendar/gui/e-itip-control.c:1258
+#: calendar/gui/e-itip-control.c:1266
 msgid "Meeting Update"
 msgstr "Rifreskimi i mbledhjes"
 
-#: calendar/gui/e-itip-control.c:1262
+#: calendar/gui/e-itip-control.c:1270
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
-msgstr "<b>%s</b> kërkon të marrë informacionet aktuale në lidhje me mbledhjen."
+msgstr ""
+"<b>%s</b> kërkon të marrë informacionet aktuale në lidhje me mbledhjen."
 
-#: calendar/gui/e-itip-control.c:1263
+#: calendar/gui/e-itip-control.c:1271
 msgid "Meeting Update Request"
 msgstr "Kërkesë për rifreskim mbledhjeje"
 
-#: calendar/gui/e-itip-control.c:1270
+#: calendar/gui/e-itip-control.c:1278
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
 msgstr "<b>%s</b> i është përgjigjur një kërkese për mbledhje."
 
-#: calendar/gui/e-itip-control.c:1271
+#: calendar/gui/e-itip-control.c:1279
 msgid "Meeting Reply"
 msgstr "Përgjigje mbledhjes"
 
-#: calendar/gui/e-itip-control.c:1278
+#: calendar/gui/e-itip-control.c:1286
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
 msgstr "<b>%s</b> ka anulluar një mbledhje."
 
-#: calendar/gui/e-itip-control.c:1279
+#: calendar/gui/e-itip-control.c:1287
 msgid "Meeting Cancellation"
 msgstr "Anullimi i mbledhjes"
 
-#: calendar/gui/e-itip-control.c:1286 calendar/gui/e-itip-control.c:1354
-#: calendar/gui/e-itip-control.c:1389
+#: calendar/gui/e-itip-control.c:1294 calendar/gui/e-itip-control.c:1362
+#: calendar/gui/e-itip-control.c:1397
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
 msgstr "<b>%s</b> ka dërguar një mesazh të pakuptueshëm."
 
-#: calendar/gui/e-itip-control.c:1287
+#: calendar/gui/e-itip-control.c:1295
 msgid "Bad Meeting Message"
 msgstr "Mesazh i paqartë mbledhjeje"
 
-#: calendar/gui/e-itip-control.c:1312
+#: calendar/gui/e-itip-control.c:1320
 #, c-format
 msgid "<b>%s</b> has published task information."
 msgstr "<b>%s</b> ka publikuar informacione në lidhje me aktivitetin."
 
-#: calendar/gui/e-itip-control.c:1313
+#: calendar/gui/e-itip-control.c:1321
 msgid "Task Information"
 msgstr "Informacione mbi aktivitetin"
 
-#: calendar/gui/e-itip-control.c:1318
+#: calendar/gui/e-itip-control.c:1326
 #, c-format
 msgid "<b>%s</b> requests %s to perform a task."
 msgstr "<b>%s</b> kërkon që %s të kryejë një detyrë."
 
-#: calendar/gui/e-itip-control.c:1320
+#: calendar/gui/e-itip-control.c:1328
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
 msgstr "<b>%s</b> kërkon që ju të kryeni një detyrë."
 
-#: calendar/gui/e-itip-control.c:1321
+#: calendar/gui/e-itip-control.c:1329
 msgid "Task Proposal"
 msgstr "Propozim detyre"
 
-#: calendar/gui/e-itip-control.c:1325
+#: calendar/gui/e-itip-control.c:1333
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task."
 msgstr "<b>%s</b> dëshiron të shtojë informacione mbi një aktivitet ekzistues."
 
-#: calendar/gui/e-itip-control.c:1326
+#: calendar/gui/e-itip-control.c:1334
 msgid "Task Update"
 msgstr "Rifreskimi i aktivitetit"
 
-#: calendar/gui/e-itip-control.c:1330
+#: calendar/gui/e-itip-control.c:1338
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
 msgstr "<b>%s</b> dëshiron të marrë informacionet aktualë të aktivitetit."
 
-#: calendar/gui/e-itip-control.c:1331
+#: calendar/gui/e-itip-control.c:1339
 msgid "Task Update Request"
 msgstr "Kërkesë për rifreskim aktiviteti"
 
-#: calendar/gui/e-itip-control.c:1338
+#: calendar/gui/e-itip-control.c:1346
 #, c-format
 msgid "<b>%s</b> has replied to a task assignment."
 msgstr "<b>%s</b> i është përgjigjur caktimit të një detyre."
 
-#: calendar/gui/e-itip-control.c:1339
+#: calendar/gui/e-itip-control.c:1347
 msgid "Task Reply"
 msgstr "Përgjigje aktivitetit"
 
-#: calendar/gui/e-itip-control.c:1346
+#: calendar/gui/e-itip-control.c:1354
 #, c-format
 msgid "<b>%s</b> has cancelled a task."
 msgstr "<b>%s</b> ka anulluar një aktivitet."
 
-#: calendar/gui/e-itip-control.c:1347
+#: calendar/gui/e-itip-control.c:1355
 msgid "Task Cancellation"
 msgstr "Anullimi i aktivitetit"
 
-#: calendar/gui/e-itip-control.c:1355
+#: calendar/gui/e-itip-control.c:1363
 msgid "Bad Task Message"
 msgstr "Mesazh i paqartë aktiviteti"
 
-#: calendar/gui/e-itip-control.c:1374
+#: calendar/gui/e-itip-control.c:1382
 #, c-format
 msgid "<b>%s</b> has published free/busy information."
 msgstr "<b>%s</b> ka publikuar informacione mbi disponibilitetin."
 
-#: calendar/gui/e-itip-control.c:1375
+#: calendar/gui/e-itip-control.c:1383
 msgid "Free/Busy Information"
 msgstr "Informacione mbi gatishmërinë"
 
-#: calendar/gui/e-itip-control.c:1379
+#: calendar/gui/e-itip-control.c:1387
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
 msgstr "<b>%s</b> kërkon informacione mbi gatishmërinë tuaj."
 
-#: calendar/gui/e-itip-control.c:1380
+#: calendar/gui/e-itip-control.c:1388
 msgid "Free/Busy Request"
 msgstr "Kërkesë disponibiliteti"
 
-#: calendar/gui/e-itip-control.c:1384
+#: calendar/gui/e-itip-control.c:1392
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
 msgstr "<b>%s</b> i është përgjigjur një kërkese disponibiliteti."
 
-#: calendar/gui/e-itip-control.c:1385
+#: calendar/gui/e-itip-control.c:1393
 msgid "Free/Busy Reply"
 msgstr "Përgjigje gatishmërie"
 
-#: calendar/gui/e-itip-control.c:1390
+#: calendar/gui/e-itip-control.c:1398
 msgid "Bad Free/Busy Message"
 msgstr "Mesazh i paqartë gadishmërie"
 
-#: calendar/gui/e-itip-control.c:1465
+#: calendar/gui/e-itip-control.c:1473
 msgid "The message does not appear to be properly formed"
 msgstr "Mesazhi nuk është i formuar si duhet"
 
-#: calendar/gui/e-itip-control.c:1524
+#: calendar/gui/e-itip-control.c:1532
 msgid "The message contains only unsupported requests."
 msgstr "Mesazhi përmban vetëm kërkesa të pasuportuara."
 
-#: calendar/gui/e-itip-control.c:1555
+#: calendar/gui/e-itip-control.c:1563
 msgid "The attachment does not contain a valid calendar message"
 msgstr "I bashkangjituri nuk përmban një mesazh kalendari të vlefshëm"
 
-#: calendar/gui/e-itip-control.c:1587
+#: calendar/gui/e-itip-control.c:1595
 msgid "The attachment has no viewable calendar items"
 msgstr "I bashkangjituri nuk përmban elementë të shikueshëm kalendari"
 
-#: calendar/gui/e-itip-control.c:1821
+#: calendar/gui/e-itip-control.c:1829
 msgid "Update complete\n"
 msgstr "Rifreskimi u plotësua\n"
 
-#: calendar/gui/e-itip-control.c:1849
+#: calendar/gui/e-itip-control.c:1857
 msgid "Object is invalid and cannot be updated\n"
 msgstr "Objekti është i pavlefshëm dhe nuk mund të rifreskohet\n"
 
-#: calendar/gui/e-itip-control.c:1859
+#: calendar/gui/e-itip-control.c:1867
 msgid "This response is not from a current attendee.  Add as an attendee?"
-msgstr "Kjo përgjigje nuk vjen nga një pjesmarrës aktual.  T'a shtoj si pjesmarrës?"
+msgstr ""
+"Kjo përgjigje nuk vjen nga një pjesmarrës aktual.  T'a shtoj si pjesmarrës?"
 
-#: calendar/gui/e-itip-control.c:1871
+#: calendar/gui/e-itip-control.c:1879
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr ""
 "Gjendja e pjesmarrësit nuk mund të rifreskohet për shkak të një gjendje të "
 "pavlefshme!\n"
 
-#: calendar/gui/e-itip-control.c:1888
+#: calendar/gui/e-itip-control.c:1896
 msgid "Attendee status updated\n"
 msgstr "Gjendja e pjesmarrësit u rifreskua\n"
 
-#: calendar/gui/e-itip-control.c:1891
+#: calendar/gui/e-itip-control.c:1899
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr "Gjendja e pjesmarrësit nuk mund të rifreskohet pasi elementi nuk ekziston më"
+msgstr ""
+"Gjendja e pjesmarrësit nuk mund të rifreskohet pasi elementi nuk ekziston më"
 
-#: calendar/gui/e-itip-control.c:1918
+#: calendar/gui/e-itip-control.c:1926
 msgid "Removal Complete"
 msgstr "Heqja u plotësua"
 
-#: calendar/gui/e-itip-control.c:1941 calendar/gui/e-itip-control.c:1989
+#: calendar/gui/e-itip-control.c:1949 calendar/gui/e-itip-control.c:1997
 msgid "Item sent!\n"
 msgstr "Elementi u dërgua!\n"
 
-#: calendar/gui/e-itip-control.c:1943 calendar/gui/e-itip-control.c:1993
+#: calendar/gui/e-itip-control.c:1951 calendar/gui/e-itip-control.c:2001
 msgid "The item could not be sent!\n"
 msgstr "Elementi nuk mund të dërgohet!\n"
 
@@ -8907,7 +8943,8 @@ msgstr "Duke përgatitur kartelën '%s' për modalitetin jashtë linje"
 
 #: camel/camel-disco-store.c:404
 msgid "You must be working online to complete this operation"
-msgstr "Duhet të punoni në modalitetin në linjë për të plotësuar këtë operacion"
+msgstr ""
+"Duhet të punoni në modalitetin në linjë për të plotësuar këtë operacion"
 
 #: camel/camel-filter-driver.c:669 camel/camel-filter-search.c:513
 #: camel/camel-process.c:48
@@ -8992,7 +9029,8 @@ msgstr "Argumentë të pavlefshëm për (zgjedhja përdoruesit)"
 msgid "Failed to create create child process '%s': %s"
 msgstr "Krijimi i proçesit bir '%s' dështoi: %s"
 
-#: camel/camel-filter-search.c:670 camel/camel-filter-search.c:678
+#. A filter search is a search through your filters, ie. your filters is the corpus being searched thru.
+#: camel/camel-filter-search.c:671 camel/camel-filter-search.c:679
 #, c-format
 msgid "Error executing filter search: %s: %s"
 msgstr "Gabim gjatë ekzkekutimit të kërkimit me filtër: %s: %s"
@@ -9113,7 +9151,8 @@ msgstr "U anullua."
 
 #: camel/camel-gpg-context.c:822
 msgid "Failed to unlock secret key: 3 bad passphrases given."
-msgstr "Zbllokimi i kyçit sekret nuk pati sukses: u dhanë 3 passphrases të gabuara."
+msgstr ""
+"Zbllokimi i kyçit sekret nuk pati sukses: u dhanë 3 passphrases të gabuara."
 
 #: camel/camel-gpg-context.c:828
 #, c-format
@@ -9166,7 +9205,8 @@ msgstr "Kjo pjesë e mesazhit është e firmosur"
 #: camel/camel-gpg-context.c:1443 camel/camel-smime-context.c:721
 #: camel/camel-smime-context.c:732 camel/camel-smime-context.c:739
 msgid "Cannot verify message signature: Incorrect message format"
-msgstr "I pamundur verifikimi i firmës së mesazhit: Format i pavlefshëm mesazhi"
+msgstr ""
+"I pamundur verifikimi i firmës së mesazhit: Format i pavlefshëm mesazhi"
 
 #: camel/camel-gpg-context.c:1477
 #, c-format
@@ -9311,7 +9351,8 @@ msgstr "Për të lexuar postën si një kërkim i të përbashkët tjetër karte
 #: camel/camel-provider.c:172
 #, c-format
 msgid "Could not load %s: Module loading not supported on this system."
-msgstr "I pamundur ngarkimi i %s: ky sistem nuk suporton ngarkimin e një moduli."
+msgstr ""
+"I pamundur ngarkimi i %s: ky sistem nuk suporton ngarkimin e një moduli."
 
 #: camel/camel-provider.c:181
 #, c-format
@@ -9417,15 +9458,16 @@ msgstr "Përgjigja nga serveri përmban të dhëna autorizimi jo të plota\n"
 msgid "Server response does not match\n"
 msgstr "Përgjigja e serverit nuk korrispondon\n"
 
-#: camel/camel-sasl-gssapi.c:48
+#: camel/camel-sasl-gssapi.c:52
 msgid "GSSAPI"
 msgstr "GSSAPI"
 
-#: camel/camel-sasl-gssapi.c:50
+#: camel/camel-sasl-gssapi.c:54
 msgid "This option will connect to the server using Kerberos 5 authentication."
-msgstr "Me këtë opcion lidheni në server duke përdorur autentifikimin Kerberos 5."
+msgstr ""
+"Me këtë opcion lidheni në server duke përdorur autentifikimin Kerberos 5."
 
-#: camel/camel-sasl-gssapi.c:148
+#: camel/camel-sasl-gssapi.c:152
 msgid ""
 "The specified mechanism is not supported by the provided credential, or is "
 "unrecognized by the implementation."
@@ -9433,11 +9475,11 @@ msgstr ""
 "Mekanizmi i specifikuar nuk është i suportuar nga kredencialet e dhëna, ose "
 "nuk është njohur nga implementimi."
 
-#: camel/camel-sasl-gssapi.c:153
+#: camel/camel-sasl-gssapi.c:157
 msgid "The provided target_name parameter was ill-formed."
 msgstr "Parametri target_name i dhënë ishte i keqformuar."
 
-#: camel/camel-sasl-gssapi.c:156
+#: camel/camel-sasl-gssapi.c:160
 msgid ""
 "The provided target_name parameter contained an invalid or unsupported type "
 "of name."
@@ -9445,7 +9487,7 @@ msgstr ""
 "Parametri target_name i dhënë përmbante një lloj emri të pavlefshëm apo të "
 "pasuportuar."
 
-#: camel/camel-sasl-gssapi.c:160
+#: camel/camel-sasl-gssapi.c:164
 msgid ""
 "The input_token contains different channel bindings to those specified via "
 "the input_chan_bindings parameter."
@@ -9453,7 +9495,7 @@ msgstr ""
 "input_token përmban lidhje kanali të ndryshme nga ato të specifikuara me anë "
 "të parametrit input_chan_bindings."
 
-#: camel/camel-sasl-gssapi.c:165
+#: camel/camel-sasl-gssapi.c:169
 msgid ""
 "The input_token contains an invalid signature, or a signature that could not "
 "be verified."
@@ -9461,7 +9503,7 @@ msgstr ""
 "input_token përmban një firmë të pavlefshme, ose një firmë që nuk mund të "
 "verifikohet."
 
-#: camel/camel-sasl-gssapi.c:169
+#: camel/camel-sasl-gssapi.c:173
 msgid ""
 "The supplied credentials were not valid for context initiation, or the "
 "credential handle did not reference any credentials."
@@ -9469,35 +9511,36 @@ msgstr ""
 "Kredencialet e dhëna nuk ishin të vlefshme për fillimin e përmbajtjes, ose "
 "handle e kredencialit nuk ka të bëjë me asnjë kredencial."
 
-#: camel/camel-sasl-gssapi.c:174
+#: camel/camel-sasl-gssapi.c:178
 msgid "The supplied context handle did not refer to a valid context."
-msgstr "Handle e përmbajtjes së dhënë nuk i referohet një konteksti të vlefshëm."
+msgstr ""
+"Handle e përmbajtjes së dhënë nuk i referohet një konteksti të vlefshëm."
 
-#: camel/camel-sasl-gssapi.c:177
+#: camel/camel-sasl-gssapi.c:181
 msgid "The consistency checks performed on the input_token failed."
 msgstr "Kontrolli i konsistencës kryer tek input_token dështoi."
 
-#: camel/camel-sasl-gssapi.c:180
+#: camel/camel-sasl-gssapi.c:184
 msgid "The consistency checks performed on the credential failed."
 msgstr "Kontrolli i konsistencës kryer tek kredenciali dështoi."
 
-#: camel/camel-sasl-gssapi.c:183
+#: camel/camel-sasl-gssapi.c:187
 msgid "The referenced credentials have expired."
 msgstr "Kredencialet referues kanë skaduar."
 
-#: camel/camel-sasl-gssapi.c:189 camel/camel-sasl-gssapi.c:238
-#: camel/camel-sasl-gssapi.c:274 camel/camel-sasl-gssapi.c:289
+#: camel/camel-sasl-gssapi.c:193 camel/camel-sasl-gssapi.c:242
+#: camel/camel-sasl-gssapi.c:278 camel/camel-sasl-gssapi.c:293
 #: camel/camel-sasl-kerberos4.c:219
 #: camel/providers/imap/camel-imap-store.c:1236
 msgid "Bad authentication response from server."
 msgstr "Përgjigje e pavlefshme autentifikimi nga serveri."
 
-#: camel/camel-sasl-gssapi.c:213
+#: camel/camel-sasl-gssapi.c:217
 #, c-format
 msgid "Failed to resolve host `%s': %s"
 msgstr "Zgjidhja e host `%s' dështoi: %s"
 
-#: camel/camel-sasl-gssapi.c:299
+#: camel/camel-sasl-gssapi.c:303
 msgid "Unsupported security layer."
 msgstr "Nivel sigurie i pasuportuar."
 
@@ -9526,7 +9569,8 @@ msgstr "Futu"
 
 #: camel/camel-sasl-login.c:34 camel/camel-sasl-plain.c:34
 msgid "This option will connect to the server using a simple password."
-msgstr "Me këtë opcion lidheni me serverin duke përdorur një fjalëkalim të thjeshtë."
+msgstr ""
+"Me këtë opcion lidheni me serverin duke përdorur një fjalëkalim të thjeshtë."
 
 #: camel/camel-sasl-login.c:127
 msgid "Unknown authentication state."
@@ -10159,7 +10203,8 @@ msgid "Automatically synchronize remote mail locally"
 msgstr "Sinkronizo postën remote në lokale automatikisht"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:69
-msgid "Address Book And Calendar"
+#, fuzzy
+msgid "Address Book and Calendar"
 msgstr "Rubrika dhe Kalendari"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:72
@@ -10171,8 +10216,9 @@ msgid "Post Office Agent SOAP Port:"
 msgstr "Porta agjentit të zyrës së postës SOAP:"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:78
-msgid "Use ssl"
-msgstr "Përdor ssl"
+#, fuzzy
+msgid "Use Secure Connection (SSL)"
+msgstr "_Përdor lidhje të sigurt:"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:92
 msgid "Novell GroupWise"
@@ -10325,7 +10371,8 @@ msgstr "Përgjigje e paplotë nga serveri: nuk është dhënë UID për mesazhin
 
 #: camel/providers/imap/camel-imap-folder.c:2482
 #, c-format
-msgid "Unexpected server response: Identical UIDs provided for messages %d and %d"
+msgid ""
+"Unexpected server response: Identical UIDs provided for messages %d and %d"
 msgstr ""
 "Përgjigje e papritur nga serveri: Është dhënë UID identike për mesazhet %d "
 "dhe %d"
@@ -10507,7 +10554,8 @@ msgstr "Kartela %s nuk ekziston"
 #: camel/providers/imap/camel-imap-store.c:2259
 #: camel/providers/imap4/camel-imap4-store.c:764
 #, c-format
-msgid "The folder name \"%s\" is invalid because it contains the character \"%c\""
+msgid ""
+"The folder name \"%s\" is invalid because it contains the character \"%c\""
 msgstr ""
 "Emri i kartelës \"%s\" është i pavlefshëm pasi nuk mund të përmbajë simbolin "
 "\"%c\""
@@ -10607,12 +10655,14 @@ msgstr "I pamundur shtimi i mesazhit tek kartela `%s': Komandë e pavlefshme"
 #: camel/providers/imap4/camel-imap4-folder.c:935
 #, c-format
 msgid "Cannot move messages from folder `%s' to folder `%s': Unknown"
-msgstr "E pamundur lëvizja e mesazheve nga kartela `%s' tek kartela `%s': nuk njihet"
+msgstr ""
+"E pamundur lëvizja e mesazheve nga kartela `%s' tek kartela `%s': nuk njihet"
 
 #: camel/providers/imap4/camel-imap4-folder.c:939
 #, c-format
 msgid "Cannot copy messages from folder `%s' to folder `%s': Unknown"
-msgstr "I pamundur kopjimi i mesazheve nga kartela `%s' tek kartela `%s': nuk njihet"
+msgstr ""
+"I pamundur kopjimi i mesazheve nga kartela `%s' tek kartela `%s': nuk njihet"
 
 #: camel/providers/imap4/camel-imap4-folder.c:947
 #, c-format
@@ -10634,10 +10684,12 @@ msgstr "IMAPv4rev1"
 
 #: camel/providers/imap4/camel-imap4-provider.c:55
 msgid "For reading and storing mail on IMAPv4rev1 servers. EXPERIMENTAL !!"
-msgstr "Për të lexuar dhe arkivuar postën në server IMAPv4rev1. EKSPERIMENTALE !!"
+msgstr ""
+"Për të lexuar dhe arkivuar postën në server IMAPv4rev1. EKSPERIMENTALE !!"
 
 #: camel/providers/imap4/camel-imap4-provider.c:72
-msgid "This option will connect to the IMAPv4rev1 server using a plaintext password."
+msgid ""
+"This option will connect to the IMAPv4rev1 server using a plaintext password."
 msgstr ""
 "Ky opcion do t'ju lidhë me serverin IMAPv4rev1 duke përdorur një fjalëkalim "
 "në tekst të thjeshtë."
@@ -10653,7 +10705,8 @@ msgstr ""
 
 #: camel/providers/imap4/camel-imap4-store.c:363
 #, c-format
-msgid "Cannot authenticate to IMAP server %s using the %s authentication mechanism"
+msgid ""
+"Cannot authenticate to IMAP server %s using the %s authentication mechanism"
 msgstr ""
 "I apmundur autentifikimi në server-in IMAP %s duke përdorur mekanizmin e "
 "autentifikimit %s"
@@ -10701,7 +10754,8 @@ msgstr "E pamundur fshirja e kartelës `%s': Komandë e pavlefshme"
 #: camel/providers/imap4/camel-imap4-store.c:936
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Special folder"
-msgstr "I pamundur ndryshimi i emrit të kartelës `%s' në `%s': Kartelë speciale"
+msgstr ""
+"I pamundur ndryshimi i emrit të kartelës `%s' në `%s': Kartelë speciale"
 
 #: camel/providers/imap4/camel-imap4-store.c:968
 #, c-format
@@ -10713,7 +10767,8 @@ msgstr ""
 #: camel/providers/imap4/camel-imap4-store.c:973
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Bad command"
-msgstr "I pamundur ndryshimi i emrit të kartelës `%s' në `%s': Komandë e pavlefshme"
+msgstr ""
+"I pamundur ndryshimi i emrit të kartelës `%s' në `%s': Komandë e pavlefshme"
 
 #: camel/providers/imap4/camel-imap4-store.c:1221
 #, c-format
@@ -11130,7 +11185,8 @@ msgstr "E pamundur hapja e kartelës: %s: %s"
 #: camel/providers/local/camel-mbox-summary.c:423
 #, c-format
 msgid "Fatal mail parser error near position %ld in folder %s"
-msgstr "Gabim fatal i shpërndarjes së postës afër pozicionit %ld në kartelën %s"
+msgstr ""
+"Gabim fatal i shpërndarjes së postës afër pozicionit %ld në kartelën %s"
 
 #: camel/providers/local/camel-mbox-summary.c:479
 #, c-format
@@ -11385,14 +11441,16 @@ msgid "Unable to save grouplist file for %s: %s"
 msgstr "E pamundur ruajtja e file me listën e grupeve për %s: %s"
 
 #: camel/providers/nntp/camel-nntp-provider.c:43
-msgid "Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
+msgid ""
+"Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
 msgstr ""
 "Shfaq kartelat në formën e shkurtër (d.m.th. c.o.linux në vend të comp.os."
 "linux)"
 
 #: camel/providers/nntp/camel-nntp-provider.c:45
 msgid "In the subscription dialog, show relative folder names"
-msgstr "Tek dritarja e dialogut të regjistrimit, shfaq emrat e kartelave relative"
+msgstr ""
+"Tek dritarja e dialogut të regjistrimit, shfaq emrat e kartelave relative"
 
 #: camel/providers/nntp/camel-nntp-provider.c:52
 msgid "USENET news"
@@ -11400,7 +11458,8 @@ msgstr "USENET news"
 
 #: camel/providers/nntp/camel-nntp-provider.c:54
 msgid "This is a provider for reading from and posting toUSENET newsgroups."
-msgstr "Ky është një furnizues për të lexuar dhe postuar tek newsgroups USENET."
+msgstr ""
+"Ky është një furnizues për të lexuar dhe postuar tek newsgroups USENET."
 
 #: camel/providers/nntp/camel-nntp-provider.c:73
 msgid ""
@@ -11600,7 +11659,8 @@ msgstr "E pamundur lidhja me serverin POP %s (porta %d): %s"
 #: camel/providers/pop3/camel-pop3-store.c:214
 #, c-format
 msgid "Failed to read a valid greeting from POP server %s (port %d)"
-msgstr "I pamundur leximi i një greeting të vlefshëm nga serveri POP %s (porta %d)"
+msgstr ""
+"I pamundur leximi i një greeting të vlefshëm nga serveri POP %s (porta %d)"
 
 #: camel/providers/pop3/camel-pop3-store.c:232
 #: camel/providers/pop3/camel-pop3-store.c:261
@@ -11688,7 +11748,8 @@ msgstr "E pamundur lëvizja e listës së marrësve"
 #: camel/providers/sendmail/camel-sendmail-transport.c:144
 #, c-format
 msgid "Could not create pipe to sendmail: %s: mail not sent"
-msgstr "I pamundur krijimi i ridrejtimit drejt sendmail: %s: posta nuk u dërgua"
+msgstr ""
+"I pamundur krijimi i ridrejtimit drejt sendmail: %s: posta nuk u dërgua"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:165
 #, c-format
@@ -11729,7 +11790,8 @@ msgstr "SMTP"
 
 #: camel/providers/smtp/camel-smtp-provider.c:39
 msgid "For delivering mail by connecting to a remote mailhub using SMTP."
-msgstr "Për të dorëzuar postën duke u lidhur me një mailhub remot duke përdorur SMTP."
+msgstr ""
+"Për të dorëzuar postën duke u lidhur me një mailhub remot duke përdorur SMTP."
 
 #: camel/providers/smtp/camel-smtp-transport.c:174
 msgid "Syntax error, command unrecognized"
@@ -11797,7 +11859,8 @@ msgstr "Veprimi i kërkuar nuk u krye: hapësirë e pamjaftueshme"
 
 #: camel/providers/smtp/camel-smtp-transport.c:206
 msgid "Requested mail action aborted: exceeded storage allocation"
-msgstr "Operacioni i kërkuar për postën nuk u plotësua: hapësirë e pamjaftueshme"
+msgstr ""
+"Operacioni i kërkuar për postën nuk u plotësua: hapësirë e pamjaftueshme"
 
 #: camel/providers/smtp/camel-smtp-transport.c:208
 msgid "Requested action not taken: mailbox name not allowed"
@@ -12007,7 +12070,7 @@ msgstr "%.0fM"
 msgid "%.0fG"
 msgstr "%.0fG"
 
-#: composer/e-msg-composer-attachment-bar.c:298 mail/em-utils.c:410
+#: composer/e-msg-composer-attachment-bar.c:298 mail/em-utils.c:436
 msgid "attachment"
 msgstr "bashkangjitur"
 
@@ -12032,7 +12095,8 @@ msgstr "Bashkangjitja e file %s është e pamundur: %s"
 #: composer/e-msg-composer-attachment.c:181
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
-msgstr "Bashkangjitja e file %s është e pamundur: nuk është një file i rregullt"
+msgstr ""
+"Bashkangjitja e file %s është e pamundur: nuk është një file i rregullt"
 
 #: composer/e-msg-composer-attachment.glade.h:2
 msgid "Attachment Properties"
@@ -12047,7 +12111,8 @@ msgid "MIME type:"
 msgstr "Lloji MIME:"
 
 #: composer/e-msg-composer-attachment.glade.h:6
-#: composer/e-msg-composer-select-file.c:74
+#: composer/e-msg-composer-select-file.c:92
+#: composer/e-msg-composer-select-file.c:111
 msgid "Suggest automatic display of attachment"
 msgstr "Preferohet paraqitja automatike e të bashkangjiturve"
 
@@ -12127,12 +12192,13 @@ msgstr "Dërgo Tek:"
 msgid "Click here to select folders to post to"
 msgstr "Kliko këtu për të zgjedhur kartelat ku duhet dërguar"
 
-#: composer/e-msg-composer-select-file.c:127
+#: composer/e-msg-composer-select-file.c:186
 msgid "Attach file(s)"
 msgstr "Bashkangjit file(s)"
 
 #: composer/e-msg-composer.c:704
-msgid "Cannot sign outgoing message: No signing certificate set for this account"
+msgid ""
+"Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 "E pamundur firmosja e mesazhit në dalje: Nuk është përcaktuar asnjë "
 "çertifikatë firme për këtë llogari"
@@ -12355,13 +12421,14 @@ msgid ""
 "installed."
 msgstr ""
 
-#: data/evolution.desktop.in.in.h:1
-msgid "The Ximian Evolution Groupware Suite"
+#: data/evolution.desktop.in.in.h:1 shell/main.c:503
+msgid "Evolution"
 msgstr ""
 
 #: data/evolution.desktop.in.in.h:2
-msgid "Ximian Evolution (Unstable)"
-msgstr "Ximian Evolution (Jo stabël)"
+#, fuzzy
+msgid "The Evolution Groupware Suite"
+msgstr "Suite Groupware"
 
 #: data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -12469,23 +12536,23 @@ msgid ""
 "do?"
 msgstr ""
 
-#: e-util/e-dialog-utils.c:253
+#: e-util/e-dialog-utils.c:265
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
 msgstr ""
 
 #. system:ask-save-file-exists-overwrite title
-#: e-util/e-dialog-utils.c:255 widgets/misc/e-system-errors.xml.h:2
+#: e-util/e-dialog-utils.c:267 widgets/misc/e-system-errors.xml.h:2
 msgid "Overwrite file?"
 msgstr ""
 
-#: e-util/e-passwords.c:358
-msgid "Remember this password"
-msgstr "Kujtoje këtë fjalëkalim"
+#: e-util/e-passwords.c:460
+msgid "_Remember this password"
+msgstr ""
 
-#: e-util/e-passwords.c:360
-msgid "Remember this password for the remainder of this session"
+#: e-util/e-passwords.c:461
+msgid "_Remember this password for the remainder of this session"
 msgstr ""
 
 #. strptime format of a weekday, a date and a time,
@@ -12863,14 +12930,16 @@ msgid "Composer Preferences"
 msgstr "Preferimet e hartuesit"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:3
-msgid "Configure mail preferences, including security and message display, here"
+msgid ""
+"Configure mail preferences, including security and message display, here"
 msgstr ""
 "Konfiguro preferimet e postës, përfshirë sigurinë dhe shfaqjen e mesazheve, "
 "këtu"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:4
 msgid "Configure spell-checking, signatures, and the message composer here"
-msgstr "Konfiguro këtu kontrollin e drejtshkrimit, firmat dhe hartuesin e mesazheve"
+msgstr ""
+"Konfiguro këtu kontrollin e drejtshkrimit, firmat dhe hartuesin e mesazheve"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:5
 msgid "Configure your email accounts here"
@@ -13718,7 +13787,7 @@ msgid "Bcc"
 msgstr ""
 
 #. pseudo-header
-#: mail/em-format-html.c:1554 mail/em-format-quote.c:312
+#: mail/em-format-html.c:1554 mail/em-format-quote.c:314
 #: mail/em-mailer-prefs.c:939
 msgid "Mailer"
 msgstr "Trajtuesi i postës"
@@ -13733,7 +13802,7 @@ msgstr ""
 msgid "<I> (%R %Z)</I>"
 msgstr ""
 
-#: mail/em-format-html.c:1594 mail/em-format-quote.c:319 mail/em-format.c:806
+#: mail/em-format-html.c:1594 mail/em-format-quote.c:321 mail/em-format.c:806
 #: mail/em-mailer-prefs.c:88 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Data"
@@ -13910,20 +13979,20 @@ msgstr "Mos e shfaq më këtë mesazh."
 msgid "Filters"
 msgstr "Filtrat"
 
-#: mail/em-utils.c:408
+#: mail/em-utils.c:434
 msgid "message"
 msgstr "mesazh"
 
-#: mail/em-utils.c:511
+#: mail/em-utils.c:543
 msgid "Save Message..."
 msgstr "Ruaj mesazhin..."
 
-#: mail/em-utils.c:560
+#: mail/em-utils.c:592
 msgid "Add address"
 msgstr "Shto adresën"
 
 #. Drop filename for messages from a mailbox
-#: mail/em-utils.c:1021
+#: mail/em-utils.c:1053
 #, c-format
 msgid "Messages from %s"
 msgstr "Mesazhet nga %s"
@@ -14171,7 +14240,8 @@ msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:56
-msgid "Prompt the user when he or she tries to send a message without a Subject."
+msgid ""
+"Prompt the user when he or she tries to send a message without a Subject."
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:57
@@ -15494,7 +15564,8 @@ msgstr ""
 #. mail:ask-send-only-bcc primary
 #: mail/mail-errors.xml.h:22 mail/mail-errors.xml.h:29
 msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr "Jeni i sigurt që dëshironi të dërgoni një mesazh vetëm me marrësit BCC?"
+msgstr ""
+"Jeni i sigurt që dëshironi të dërgoni një mesazh vetëm me marrësit BCC?"
 
 #. mail:ask-send-only-bcc-contact secondary
 #: mail/mail-errors.xml.h:24
@@ -15518,7 +15589,8 @@ msgstr ""
 
 #. mail:send-no-recipients primary
 #: mail/mail-errors.xml.h:34
-msgid "This message cannot be sent because you have not specified any Recipients"
+msgid ""
+"This message cannot be sent because you have not specified any Recipients"
 msgstr ""
 
 #. mail:send-no-recipients secondary
@@ -16156,25 +16228,17 @@ msgstr "Duke rifreskuar të dhënat..."
 msgid "Waiting..."
 msgstr ""
 
-#: mail/mail-session.c:240
-msgid "User canceled operation."
-msgstr ""
-
-#: mail/mail-session.c:274
+#: mail/mail-session.c:207
 #, c-format
 msgid "Enter Password for %s"
 msgstr ""
 
-#: mail/mail-session.c:276
+#: mail/mail-session.c:209
 msgid "Enter Password"
 msgstr ""
 
-#: mail/mail-session.c:304
-msgid "_Remember this password"
-msgstr ""
-
-#: mail/mail-session.c:305
-msgid "_Remember this password for the remainder of this session"
+#: mail/mail-session.c:238
+msgid "User canceled operation."
 msgstr ""
 
 #: mail/mail-signature-editor.c:371
@@ -16453,7 +16517,8 @@ msgid "Last upgraded Evolution configuration version"
 msgstr "Versioni i i fundit i përditsuar i konfigurimit të Evolution"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:10
-msgid "List of paths for the folders to be synchronized to disk for offline usage"
+msgid ""
+"List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:11
@@ -16528,7 +16593,7 @@ msgstr ""
 msgid "Select importer"
 msgstr ""
 
-#: shell/e-shell-importer.c:451 shell/e-shell-importer.c:1055
+#: shell/e-shell-importer.c:451 shell/e-shell-importer.c:1056
 #, c-format
 msgid "File %s does not exist"
 msgstr ""
@@ -16566,43 +16631,43 @@ msgstr "Emri i f_ile:"
 msgid "Select a file"
 msgstr "Zgjidh një file"
 
-#: shell/e-shell-importer.c:642
+#: shell/e-shell-importer.c:643
 msgid "File _type:"
 msgstr "_Lloji i file:"
 
-#: shell/e-shell-importer.c:681
+#: shell/e-shell-importer.c:682
 msgid "Import data and settings from _older programs"
 msgstr ""
 
-#: shell/e-shell-importer.c:684
+#: shell/e-shell-importer.c:685
 msgid "Import a _single file"
 msgstr ""
 
-#: shell/e-shell-importer.c:752 shell/e-shell-startup-wizard.c:571
+#: shell/e-shell-importer.c:753 shell/e-shell-startup-wizard.c:571
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
 msgstr ""
 
-#: shell/e-shell-importer.c:756
+#: shell/e-shell-importer.c:757
 msgid "Starting Intelligent Importers"
 msgstr ""
 
-#: shell/e-shell-importer.c:882 shell/e-shell-startup-wizard.c:698
+#: shell/e-shell-importer.c:883 shell/e-shell-startup-wizard.c:698
 #, c-format
 msgid "From %s:"
 msgstr ""
 
-#: shell/e-shell-importer.c:1073
+#: shell/e-shell-importer.c:1074
 #, c-format
 msgid "No importer available for file %s"
 msgstr ""
 
-#: shell/e-shell-importer.c:1085
+#: shell/e-shell-importer.c:1086
 msgid "Unable to execute importer"
 msgstr "I pamundur ekzekutimi i importuesit"
 
-#: shell/e-shell-importer.c:1199
+#: shell/e-shell-importer.c:1200
 msgid "_Import"
 msgstr "_Importo"
 
@@ -16682,7 +16747,8 @@ msgstr "Puno online"
 
 #: shell/e-shell-window.c:337
 msgid "Evolution is currently online.  Click on this button to work offline."
-msgstr "Evolution aktualisht është online.  Kliko tek ky buton për të punuar offline."
+msgstr ""
+"Evolution aktualisht është online.  Kliko tek ky buton për të punuar offline."
 
 #: shell/e-shell-window.c:344
 msgid "Evolution is in the process of going offline."
@@ -16690,7 +16756,8 @@ msgstr "Evolution është në procesin e daljes offline."
 
 #: shell/e-shell-window.c:350
 msgid "Evolution is currently offline.  Click on this button to work online."
-msgstr "Evolution aktualisht është offline.  Kliko tek ky buton për të punuar online."
+msgstr ""
+"Evolution aktualisht është offline.  Kliko tek ky buton për të punuar online."
 
 #: shell/e-shell-window.c:637
 #, c-format
@@ -16827,7 +16894,7 @@ msgid "Evolution can import data from the following files:"
 msgstr ""
 
 #. Preview/Alpha/Beta version warning message
-#: shell/main.c:225
+#: shell/main.c:226
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -16847,7 +16914,7 @@ msgid ""
 "eagerly await your contributions!\n"
 msgstr ""
 
-#: shell/main.c:249
+#: shell/main.c:250
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -16855,39 +16922,35 @@ msgstr ""
 "Ju faleminderit\n"
 "The Evolution Team\n"
 
-#: shell/main.c:256
+#: shell/main.c:257
 msgid "Don't tell me again"
 msgstr ""
 
-#: shell/main.c:461
+#: shell/main.c:462
 msgid "Start Evolution activating the specified component"
 msgstr ""
 
-#: shell/main.c:463
+#: shell/main.c:464
 msgid "Start in offline mode"
 msgstr ""
 
-#: shell/main.c:465
+#: shell/main.c:466
 msgid "Start in online mode"
 msgstr ""
 
-#: shell/main.c:468
+#: shell/main.c:469
 msgid "Forcibly shut down all evolution components"
 msgstr ""
 
-#: shell/main.c:472
+#: shell/main.c:473
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr ""
 
-#: shell/main.c:475
+#: shell/main.c:476
 msgid "Send the debugging output of all components to a file."
 msgstr ""
 
-#: shell/main.c:502
-msgid "Evolution"
-msgstr ""
-
-#: shell/main.c:506
+#: shell/main.c:507
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -16947,17 +17010,22 @@ msgid ""
 msgstr ""
 
 #: shell/shell-errors.xml.h:25
-msgid "Keep"
-msgstr "Mbaj"
+#, fuzzy
+msgid "_Remind Me Later"
+msgstr "Kujtesë!!"
+
+#: shell/shell-errors.xml.h:26
+msgid "_Keep Data"
+msgstr ""
 
 #. shell:upgrade-remove-1-4-confirm title
 #. shell:upgrade-remove-1-4-confirm primary
-#: shell/shell-errors.xml.h:27 shell/shell-errors.xml.h:29
+#: shell/shell-errors.xml.h:28 shell/shell-errors.xml.h:30
 msgid "Really delete old data?"
 msgstr ""
 
 #. shell:upgrade-remove-1-4-confirm secondary
-#: shell/shell-errors.xml.h:31
+#: shell/shell-errors.xml.h:32
 msgid ""
 "The entire contents of the \"evolution\" directory is about to be be "
 "permanently removed.\n"
@@ -16972,18 +17040,18 @@ msgstr ""
 
 #. shell:noshell title
 #. shell:noshell-reason title
-#: shell/shell-errors.xml.h:38 shell/shell-errors.xml.h:46
+#: shell/shell-errors.xml.h:39 shell/shell-errors.xml.h:47
 msgid "Cannot start Evolution"
 msgstr "E pamundur nisja e Evolution"
 
 #. shell:noshell primary
 #. shell:noshell-reason primary
-#: shell/shell-errors.xml.h:40 shell/shell-errors.xml.h:48
+#: shell/shell-errors.xml.h:41 shell/shell-errors.xml.h:49
 msgid "Evolution can not start."
 msgstr "E pamundur nisja e Evolution."
 
 #. shell:noshell secondary
-#: shell/shell-errors.xml.h:42
+#: shell/shell-errors.xml.h:43
 msgid ""
 "Your system configuration does not match your Evolution configuration.\n"
 "\n"
@@ -16991,7 +17059,7 @@ msgid ""
 msgstr ""
 
 #. shell:noshell-reason secondary
-#: shell/shell-errors.xml.h:50
+#: shell/shell-errors.xml.h:51
 msgid ""
 "Your system configuration does not match your Evolution configuration:\n"
 "\n"
@@ -17022,30 +17090,31 @@ msgid ""
 "unless otherwise indicated here"
 msgstr ""
 
-#: smime/gui/certificate-manager.c:130 smime/gui/certificate-manager.c:353
-#: smime/gui/certificate-manager.c:556
+#: smime/gui/certificate-manager.c:134 smime/gui/certificate-manager.c:142
+#: smime/gui/certificate-manager.c:375 smime/gui/certificate-manager.c:383
+#: smime/gui/certificate-manager.c:595 smime/gui/certificate-manager.c:603
 msgid "Select a cert to import..."
 msgstr "Zgjidh një çertifikatë për t'a importuar..."
 
-#: smime/gui/certificate-manager.c:245 smime/gui/certificate-manager.c:437
-#: smime/gui/certificate-manager.c:638
+#: smime/gui/certificate-manager.c:263 smime/gui/certificate-manager.c:472
+#: smime/gui/certificate-manager.c:690
 msgid "Certificate Name"
 msgstr ""
 
-#: smime/gui/certificate-manager.c:254 smime/gui/certificate-manager.c:455
+#: smime/gui/certificate-manager.c:272 smime/gui/certificate-manager.c:490
 msgid "Purposes"
 msgstr "Qëllime"
 
-#: smime/gui/certificate-manager.c:263 smime/gui/smime-ui.glade.h:36
+#: smime/gui/certificate-manager.c:281 smime/gui/smime-ui.glade.h:36
 #: smime/lib/e-cert.c:569
 msgid "Serial Number"
 msgstr ""
 
-#: smime/gui/certificate-manager.c:271
+#: smime/gui/certificate-manager.c:289
 msgid "Expires"
 msgstr ""
 
-#: smime/gui/certificate-manager.c:446
+#: smime/gui/certificate-manager.c:481
 msgid "E-Mail Address"
 msgstr "Adresa E-Mail"
 
@@ -17246,7 +17315,8 @@ msgid "You have certificates from these organizations that identify you:"
 msgstr "Keni çertifikata nga këto organizata që ju identifikojnë:"
 
 #: smime/gui/smime-ui.glade.h:43
-msgid "You have certificates on file that identify these certificate authorities:"
+msgid ""
+"You have certificates on file that identify these certificate authorities:"
 msgstr "Keni çertifikata në file që identifikojnë këto autoritete:"
 
 #: smime/gui/smime-ui.glade.h:44
@@ -17495,7 +17565,8 @@ msgstr "Përshkrimi i të bashkangjiturit."
 
 #: tools/evolution-launch-composer.c:328
 msgid "Mark attachment to be shown inline by default."
-msgstr "Shëno si rregullim të prezgjedhur shfaqjen  në linjë të të bashkangjiturit."
+msgstr ""
+"Shëno si rregullim të prezgjedhur shfaqjen  në linjë të të bashkangjiturit."
 
 #: tools/evolution-launch-composer.c:329
 msgid "Default subject for the message."
@@ -17955,7 +18026,8 @@ msgstr "Hap një dritare për të hartuar një mesazh"
 
 #: ui/evolution-mail-global.xml.h:8
 msgid "Permanently remove all deleted messages from all folders"
-msgstr "Elemino përgjithmonë të gjithë mesazhet e fshirë nga të gjitha kartelat"
+msgstr ""
+"Elemino përgjithmonë të gjithë mesazhet e fshirë nga të gjitha kartelat"
 
 #: ui/evolution-mail-global.xml.h:9
 msgid "Post Ne_w Message"
@@ -18014,7 +18086,8 @@ msgid "Hide _Read Messages"
 msgstr "Fshih mesazhet e _lexuar"
 
 #: ui/evolution-mail-list.xml.h:8
-msgid "Hide deleted messages rather than displaying them with a line through them"
+msgid ""
+"Hide deleted messages rather than displaying them with a line through them"
 msgstr "Fshih mesazhet e fshirë në vend që t'i shfaqësh të vizuar"
 
 #: ui/evolution-mail-list.xml.h:9
@@ -18811,7 +18884,8 @@ msgstr "Harro _Fjalëkalimet"
 
 #: ui/evolution.xml.h:11
 msgid "Forget remembered passwords so you will be prompted for them again"
-msgstr "Harro fjalëkalimet në kujtesë në menyrë që t'ju kërkohen përsëri të rejat"
+msgstr ""
+"Harro fjalëkalimet në kujtesë në menyrë që t'ju kërkohen përsëri të rejat"
 
 #: ui/evolution.xml.h:12
 msgid "Import data from other programs"
@@ -19129,7 +19203,8 @@ msgstr "Kërkimi në Evolution"
 #. setup a dummy error
 #: widgets/misc/e-error.c:421
 #, c-format
-msgid "<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
+msgid ""
+"<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
 msgstr "<span weight=\"bold\">Gabim i brendshëm, gabim i panjohur '%s'</span>"
 
 #: widgets/misc/e-expander.c:181
@@ -19289,3 +19364,17 @@ msgstr "%s (...)"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% plotësuar)"
 
+#~ msgid "_Add Group"
+#~ msgstr "_Shto një grup"
+
+#~ msgid "Use ssl"
+#~ msgstr "Përdor ssl"
+
+#~ msgid "Ximian Evolution (Unstable)"
+#~ msgstr "Ximian Evolution (Jo stabël)"
+
+#~ msgid "Remember this password"
+#~ msgstr "Kujtoje këtë fjalëkalim"
+
+#~ msgid "Keep"
+#~ msgstr "Mbaj"

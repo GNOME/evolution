@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-13 00:24-0400\n"
+"POT-Creation-Date: 2004-08-13 14:55-0400\n"
 "PO-Revision-Date: 2004-08-10 19:18-0700\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@FreeBSD.org>\n"
@@ -449,12 +449,12 @@ msgid "Accessing LDAP Server anonymously"
 msgstr "Accessing LDAP Server anonymously"
 
 #: addressbook/gui/component/addressbook.c:184
-#: camel/providers/groupwise/camel-gw-listener.c:418
+#: camel/providers/groupwise/camel-gw-listener.c:420
 msgid "Failed to authenticate.\n"
 msgstr "Failed to authenticate.\n"
 
 #: addressbook/gui/component/addressbook.c:191
-#: camel/providers/groupwise/camel-gw-listener.c:407
+#: camel/providers/groupwise/camel-gw-listener.c:409
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%sEnter password for %s (user %s)"
@@ -3040,7 +3040,7 @@ msgid "Error adding list"
 msgstr "Error adding list"
 
 #: addressbook/gui/widgets/eab-gui-util.c:170
-#: addressbook/gui/widgets/eab-gui-util.c:581
+#: addressbook/gui/widgets/eab-gui-util.c:640
 msgid "Error adding contact"
 msgstr "Error adding contact"
 
@@ -3057,7 +3057,7 @@ msgid "Error removing list"
 msgstr "Error removing list"
 
 #: addressbook/gui/widgets/eab-gui-util.c:193
-#: addressbook/gui/widgets/eab-gui-util.c:539
+#: addressbook/gui/widgets/eab-gui-util.c:598
 msgid "Error removing contact"
 msgstr "Error removing contact"
 
@@ -3084,39 +3084,39 @@ msgid "Overwrite"
 msgstr "Overwrite"
 
 #. This is a filename. Translators take note.
-#: addressbook/gui/widgets/eab-gui-util.c:366
+#: addressbook/gui/widgets/eab-gui-util.c:383
 msgid "card.vcf"
 msgstr "card.vcf"
 
-#: addressbook/gui/widgets/eab-gui-util.c:500
+#: addressbook/gui/widgets/eab-gui-util.c:545
 msgid "list"
 msgstr "list"
 
-#: addressbook/gui/widgets/eab-gui-util.c:635
+#: addressbook/gui/widgets/eab-gui-util.c:694
 msgid "Move contact to"
 msgstr "Move contact to"
 
-#: addressbook/gui/widgets/eab-gui-util.c:637
+#: addressbook/gui/widgets/eab-gui-util.c:696
 msgid "Copy contact to"
 msgstr "Copy contact to"
 
-#: addressbook/gui/widgets/eab-gui-util.c:640
+#: addressbook/gui/widgets/eab-gui-util.c:699
 msgid "Move contacts to"
 msgstr "Move contacts to"
 
-#: addressbook/gui/widgets/eab-gui-util.c:642
+#: addressbook/gui/widgets/eab-gui-util.c:701
 msgid "Copy contacts to"
 msgstr "Copy contacts to"
 
-#: addressbook/gui/widgets/eab-gui-util.c:645
+#: addressbook/gui/widgets/eab-gui-util.c:704
 msgid "Select target addressbook."
 msgstr "Select target addressbook."
 
-#: addressbook/gui/widgets/eab-gui-util.c:868
+#: addressbook/gui/widgets/eab-gui-util.c:927
 msgid "Multiple VCards"
 msgstr "Multiple VCards"
 
-#: addressbook/gui/widgets/eab-gui-util.c:871
+#: addressbook/gui/widgets/eab-gui-util.c:930
 #, c-format
 msgid "VCard for %s"
 msgstr "VCard for %s"
@@ -3522,9 +3522,9 @@ msgstr ""
 "the meeting is canceled."
 
 #: calendar/calendar-errors.xml.h:5 calendar/calendar-errors.xml.h:15
-#: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:85
-#: calendar/calendar-errors.xml.h:91 calendar/calendar-errors.xml.h:97
-#: calendar/calendar-errors.xml.h:103
+#: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:87
+#: calendar/calendar-errors.xml.h:93 calendar/calendar-errors.xml.h:99
+#: calendar/calendar-errors.xml.h:105
 msgid "Don't Send"
 msgstr "Don't Send"
 
@@ -3682,11 +3682,12 @@ msgstr "Would you like to save your changes to this appointment?"
 msgid "You have made changes to this appointment, but not yet saved them."
 msgstr "You have made changes to this appointment, but not yet saved them."
 
-#: calendar/calendar-errors.xml.h:73 composer/mail-composer-errors.xml.h:33
+#: calendar/calendar-errors.xml.h:73 calendar/calendar-errors.xml.h:81
+#: composer/mail-composer-errors.xml.h:33
 msgid "Discard Changes"
 msgstr "Discard Changes"
 
-#: calendar/calendar-errors.xml.h:74
+#: calendar/calendar-errors.xml.h:74 calendar/calendar-errors.xml.h:82
 msgid "Save Changes"
 msgstr "Save Changes"
 
@@ -3706,30 +3707,30 @@ msgid "You have made changes to this task, but not yet saved them."
 msgstr "You have made changes to this task, but not yet saved them."
 
 #. calendar:prompt-meeting-invite primary
-#: calendar/calendar-errors.xml.h:82
+#: calendar/calendar-errors.xml.h:84
 msgid "Would you like to send meeting invitations to participants?"
 msgstr "Would you like to send meeting invitations to participants?"
 
 #. calendar:prompt-meeting-invite secondary
-#: calendar/calendar-errors.xml.h:84
+#: calendar/calendar-errors.xml.h:86
 msgid ""
 "Email invitations will be sent to all participants and allow them to RSVP."
 msgstr ""
 "Email invitations will be sent to all participants and allow them to RSVP."
 
-#: calendar/calendar-errors.xml.h:86 calendar/calendar-errors.xml.h:92
-#: calendar/calendar-errors.xml.h:98 calendar/calendar-errors.xml.h:104
+#: calendar/calendar-errors.xml.h:88 calendar/calendar-errors.xml.h:94
+#: calendar/calendar-errors.xml.h:100 calendar/calendar-errors.xml.h:106
 #: ui/evolution-message-composer.xml.h:24
 msgid "Send"
 msgstr "Send"
 
 #. calendar:prompt-send-updated-meeting-info primary
-#: calendar/calendar-errors.xml.h:88
+#: calendar/calendar-errors.xml.h:90
 msgid "Would you like to send updated meeting information to participants?"
 msgstr "Would you like to send updated meeting information to participants?"
 
 #. calendar:prompt-send-updated-meeting-info secondary
-#: calendar/calendar-errors.xml.h:90
+#: calendar/calendar-errors.xml.h:92
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
@@ -3738,12 +3739,12 @@ msgstr ""
 "calendars up to date."
 
 #. calendar:prompt-send-task primary
-#: calendar/calendar-errors.xml.h:94
+#: calendar/calendar-errors.xml.h:96
 msgid "Would you like to send this task to participants?"
 msgstr "Would you like to send this task to participants?"
 
 #. calendar:prompt-send-task secondary
-#: calendar/calendar-errors.xml.h:96
+#: calendar/calendar-errors.xml.h:98
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
@@ -3752,12 +3753,12 @@ msgstr ""
 "this task."
 
 #. calendar:prompt-send-updated-task-info primary
-#: calendar/calendar-errors.xml.h:100
+#: calendar/calendar-errors.xml.h:102
 msgid "Would you like to send updated task information to participants?"
 msgstr "Would you like to send updated task information to participants?"
 
 #. calendar:prompt-send-updated-task-info secondary
-#: calendar/calendar-errors.xml.h:102
+#: calendar/calendar-errors.xml.h:104
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
@@ -3766,22 +3767,22 @@ msgstr ""
 "lists up to date."
 
 #. calendar:tasks-crashed primary
-#: calendar/calendar-errors.xml.h:106
+#: calendar/calendar-errors.xml.h:108
 msgid "The Evolution tasks have quit unexpectedly."
 msgstr "The Evolution tasks have quit unexpectedly."
 
 #. calendar:tasks-crashed secondary
-#: calendar/calendar-errors.xml.h:108
+#: calendar/calendar-errors.xml.h:110
 msgid "Your tasks will not be available until Evolution is restarted."
 msgstr "Your tasks will not be available until Evolution is restarted."
 
 #. calendar:calendar-crashed primary
-#: calendar/calendar-errors.xml.h:110
+#: calendar/calendar-errors.xml.h:112
 msgid "The Evolution calendar has quit unexpectedly."
 msgstr "The Evolution calendar has quit unexpectedly."
 
 #. calendar:calendar-crashed secondary
-#: calendar/calendar-errors.xml.h:112
+#: calendar/calendar-errors.xml.h:114
 msgid "Your calendars will not be available until Evolution is restarted."
 msgstr "Your calendars will not be available until Evolution is restarted."
 
@@ -4767,8 +4768,9 @@ msgid "_Add Calendar"
 msgstr "_Add Calendar"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:7
-msgid "_Add Group"
-msgstr "_Add Group"
+#, fuzzy
+msgid "_Add Task List"
+msgstr "Add Task List"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:9
 msgid "_Refresh:"
@@ -6193,6 +6195,7 @@ msgstr "iCalendar Error"
 msgid "An unknown person"
 msgstr "An unknown person"
 
+#. Describe what the user can do
 #: calendar/gui/e-itip-control.c:938
 msgid ""
 "<br> Please review the following information, and then select an action from "
@@ -9396,16 +9399,16 @@ msgstr "Server response contained incomplete authorization data\n"
 msgid "Server response does not match\n"
 msgstr "Server response does not match\n"
 
-#: camel/camel-sasl-gssapi.c:48
+#: camel/camel-sasl-gssapi.c:52
 msgid "GSSAPI"
 msgstr "GSSAPI"
 
-#: camel/camel-sasl-gssapi.c:50
+#: camel/camel-sasl-gssapi.c:54
 msgid "This option will connect to the server using Kerberos 5 authentication."
 msgstr ""
 "This option will connect to the server using Kerberos 5 authentication."
 
-#: camel/camel-sasl-gssapi.c:148
+#: camel/camel-sasl-gssapi.c:152
 msgid ""
 "The specified mechanism is not supported by the provided credential, or is "
 "unrecognized by the implementation."
@@ -9413,71 +9416,71 @@ msgstr ""
 "The specified mechanism is not supported by the provided credential, or is "
 "unrecognized by the implementation."
 
-#: camel/camel-sasl-gssapi.c:153
+#: camel/camel-sasl-gssapi.c:157
 msgid "The provided target_name parameter was ill-formed."
 msgstr "The provided target_name parameter was ill-formed."
 
-#: camel/camel-sasl-gssapi.c:156
-msgid ""
-"The provided target_name parameter contained an invalid or unsupported type "
-"of name."
-msgstr ""
-"The provided target_name parameter contained an invalid or unsupported type "
-"of name."
-
 #: camel/camel-sasl-gssapi.c:160
 msgid ""
-"The input_token contains different channel bindings to those specified via "
-"the input_chan_bindings parameter."
+"The provided target_name parameter contained an invalid or unsupported type "
+"of name."
 msgstr ""
-"The input_token contains different channel bindings to those specified via "
-"the input_chan_bindings parameter."
+"The provided target_name parameter contained an invalid or unsupported type "
+"of name."
 
-#: camel/camel-sasl-gssapi.c:165
+#: camel/camel-sasl-gssapi.c:164
 msgid ""
-"The input_token contains an invalid signature, or a signature that could not "
-"be verified."
+"The input_token contains different channel bindings to those specified via "
+"the input_chan_bindings parameter."
 msgstr ""
-"The input_token contains an invalid signature, or a signature that could not "
-"be verified."
+"The input_token contains different channel bindings to those specified via "
+"the input_chan_bindings parameter."
 
 #: camel/camel-sasl-gssapi.c:169
 msgid ""
+"The input_token contains an invalid signature, or a signature that could not "
+"be verified."
+msgstr ""
+"The input_token contains an invalid signature, or a signature that could not "
+"be verified."
+
+#: camel/camel-sasl-gssapi.c:173
+msgid ""
 "The supplied credentials were not valid for context initiation, or the "
 "credential handle did not reference any credentials."
 msgstr ""
 "The supplied credentials were not valid for context initiation, or the "
 "credential handle did not reference any credentials."
 
-#: camel/camel-sasl-gssapi.c:174
+#: camel/camel-sasl-gssapi.c:178
 msgid "The supplied context handle did not refer to a valid context."
 msgstr "The supplied context handle did not refer to a valid context."
 
-#: camel/camel-sasl-gssapi.c:177
+#: camel/camel-sasl-gssapi.c:181
 msgid "The consistency checks performed on the input_token failed."
 msgstr "The consistency checks performed on the input_token failed."
 
-#: camel/camel-sasl-gssapi.c:180
+#: camel/camel-sasl-gssapi.c:184
 msgid "The consistency checks performed on the credential failed."
 msgstr "The consistency checks performed on the credential failed."
 
-#: camel/camel-sasl-gssapi.c:183
+#: camel/camel-sasl-gssapi.c:187
 msgid "The referenced credentials have expired."
 msgstr "The referenced credentials have expired."
 
-#: camel/camel-sasl-gssapi.c:189 camel/camel-sasl-gssapi.c:238
-#: camel/camel-sasl-gssapi.c:274 camel/camel-sasl-gssapi.c:289
+#: camel/camel-sasl-gssapi.c:193 camel/camel-sasl-gssapi.c:242
+#: camel/camel-sasl-gssapi.c:278 camel/camel-sasl-gssapi.c:293
 #: camel/camel-sasl-kerberos4.c:219
 #: camel/providers/imap/camel-imap-store.c:1236
 msgid "Bad authentication response from server."
 msgstr "Bad authentication response from server."
 
-#: camel/camel-sasl-gssapi.c:213
+#: camel/camel-sasl-gssapi.c:217
 #, c-format
 msgid "Failed to resolve host `%s': %s"
 msgstr "Failed to resolve host `%s': %s"
 
-#: camel/camel-sasl-gssapi.c:299
+#: camel/camel-sasl-gssapi.c:303
 msgid "Unsupported security layer."
 msgstr "Unsupported security layer."
 
@@ -10138,7 +10141,8 @@ msgid "Automatically synchronize remote mail locally"
 msgstr "Automatically synchronize remote mail locally"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:69
-msgid "Address Book And Calendar"
+#, fuzzy
+msgid "Address Book and Calendar"
 msgstr "Address Book And Calendar"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:72
@@ -10150,8 +10154,9 @@ msgid "Post Office Agent SOAP Port:"
 msgstr "Post Office Agent SOAP Port:"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:78
-msgid "Use ssl"
-msgstr "Use ssl"
+#, fuzzy
+msgid "Use Secure Connection (SSL)"
+msgstr "_Use Secure Connection (SSL):"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:92
 msgid "Novell GroupWise"
@@ -12318,6 +12323,7 @@ msgstr "Could not create composer window."
 msgid "Unable to activate the address selector control."
 msgstr "Unable to activate the address selector control."
 
+#. mail-composer:no-editor-control secondary
 #: composer/mail-composer-errors.xml.h:54
 msgid ""
 "Unable to activate the HTML editor control.\n"
@@ -15556,6 +15562,7 @@ msgstr ""
 msgid "Are you sure you want to send a message in HTML format?"
 msgstr "Are you sure you want to send a message in HTML format?"
 
+#. mail:ask-send-html secondary
 #: mail/mail-errors.xml.h:12
 msgid ""
 "Please make sure the following recipients are willing and able to receive "
@@ -15593,6 +15600,7 @@ msgstr ""
 msgid "Are you sure you want to send a message with only BCC recipients?"
 msgstr "Are you sure you want to send a message with only BCC recipients?"
 
+#. mail:ask-send-only-bcc-contact secondary
 #: mail/mail-errors.xml.h:24
 msgid ""
 "The contact list you are sending to is configured to hide list recipients.\n"
@@ -15707,6 +15715,7 @@ msgstr ""
 msgid "Your message with the subject \"{0}\" was not delivered."
 msgstr "Your message with the subject \"{0}\" was not delivered."
 
+#. mail:camel-exception secondary
 #: mail/mail-errors.xml.h:59
 msgid ""
 "The message was sent via the \"sendmail\" external application.  Sendmail "
@@ -15975,6 +15984,7 @@ msgstr "Cannot add vFolder \"{0}\"."
 msgid "vFolders automatically updated."
 msgstr "vFolders automatically updated."
 
+#. mail:vfolder-updated secondary
 #: mail/mail-errors.xml.h:196
 msgid ""
 "The following vFolder(s):\n"
@@ -15994,6 +16004,7 @@ msgstr ""
 msgid "Mail filters automatically updated."
 msgstr "Mail filters automatically updated."
 
+#. mail:filter-updated secondary
 #: mail/mail-errors.xml.h:204
 msgid ""
 "The following filter rule(s):\n"
@@ -16028,6 +16039,7 @@ msgstr "You must name this vFolder."
 msgid "No sources selected."
 msgstr "No sources selected."
 
+#. mail:vfolder-no-source secondary
 #: mail/mail-errors.xml.h:220
 msgid ""
 "You must specify at least one folder as a source.\n"
@@ -16044,6 +16056,7 @@ msgstr ""
 msgid "Problem migrating old mail folder \"{0}\"."
 msgstr "Problem migrating old mail folder \"{0}\"."
 
+#. mail:ask-migrate-existing secondary
 #: mail/mail-errors.xml.h:226
 msgid ""
 "A non-empty folder at \"{1}\" already exists.\n"
@@ -16993,8 +17006,9 @@ msgstr "Don't ask me again"
 msgid "Evolution can import data from the following files:"
 msgstr "Evolution can import data from the following files:"
 
+#. Preview/Alpha/Beta version warning message
 #: shell/main.c:226
-#, c-format
+#, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Evolution groupware suite.\n"
@@ -17078,6 +17092,7 @@ msgstr ""
 msgid "Insufficient disk space for upgrade."
 msgstr "Insufficient disk space for upgrade."
 
+#. shell:upgrade-nospace secondary
 #: shell/shell-errors.xml.h:4
 msgid ""
 "Upgrading your data and settings will require upto {0} of disk space, but "
@@ -17092,6 +17107,7 @@ msgstr ""
 "You will need to make more space available in your home directory before you "
 "can continue."
 
+#. shell:upgrade-failed primary
 #: shell/shell-errors.xml.h:8
 msgid ""
 "Upgrade from previous version failed:\n"
@@ -17100,6 +17116,7 @@ msgstr ""
 "Upgrade from previous version failed:\n"
 "{0}"
 
+#. shell:upgrade-failed secondary
 #: shell/shell-errors.xml.h:11
 msgid ""
 "{1}\n"
@@ -17122,6 +17139,7 @@ msgstr "Continue"
 msgid "Delete old data from version {0}?"
 msgstr "Delete old data from version {0}?"
 
+#. shell:upgrade-remove-1-4 secondary
 #: shell/shell-errors.xml.h:21
 msgid ""
 "The previous version of evolution stored its data in a different location.\n"
@@ -17139,16 +17157,22 @@ msgstr ""
 "convenience.\n"
 
 #: shell/shell-errors.xml.h:25
-msgid "Keep"
-msgstr "Keep"
+#, fuzzy
+msgid "_Remind Me Later"
+msgstr "Reminder!!"
+
+#: shell/shell-errors.xml.h:26
+msgid "_Keep Data"
+msgstr ""
 
 #. shell:upgrade-remove-1-4-confirm title
 #. shell:upgrade-remove-1-4-confirm primary
-#: shell/shell-errors.xml.h:27 shell/shell-errors.xml.h:29
+#: shell/shell-errors.xml.h:28 shell/shell-errors.xml.h:30
 msgid "Really delete old data?"
 msgstr "Really delete old data?"
 
-#: shell/shell-errors.xml.h:31
+#. shell:upgrade-remove-1-4-confirm secondary
+#: shell/shell-errors.xml.h:32
 msgid ""
 "The entire contents of the \"evolution\" directory is about to be be "
 "permanently removed.\n"
@@ -17172,17 +17196,18 @@ msgstr ""
 
 #. shell:noshell title
 #. shell:noshell-reason title
-#: shell/shell-errors.xml.h:38 shell/shell-errors.xml.h:46
+#: shell/shell-errors.xml.h:39 shell/shell-errors.xml.h:47
 msgid "Cannot start Evolution"
 msgstr "Cannot start Evolution"
 
 #. shell:noshell primary
 #. shell:noshell-reason primary
-#: shell/shell-errors.xml.h:40 shell/shell-errors.xml.h:48
+#: shell/shell-errors.xml.h:41 shell/shell-errors.xml.h:49
 msgid "Evolution can not start."
 msgstr "Evolution cannot start."
 
-#: shell/shell-errors.xml.h:42
+#. shell:noshell secondary
+#: shell/shell-errors.xml.h:43
 msgid ""
 "Your system configuration does not match your Evolution configuration.\n"
 "\n"
@@ -17192,7 +17217,8 @@ msgstr ""
 "\n"
 "Click help for details"
 
-#: shell/shell-errors.xml.h:50
+#. shell:noshell-reason secondary
+#: shell/shell-errors.xml.h:51
 msgid ""
 "Your system configuration does not match your Evolution configuration:\n"
 "\n"
@@ -19508,3 +19534,12 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% complete)"
+
+#~ msgid "_Add Group"
+#~ msgstr "_Add Group"
+
+#~ msgid "Use ssl"
+#~ msgstr "Use ssl"
+
+#~ msgid "Keep"
+#~ msgstr "Keep"

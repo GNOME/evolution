@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-11 11:08+0200\n"
+"POT-Creation-Date: 2004-08-13 14:55-0400\n"
 "PO-Revision-Date: 2004-08-08 14:41+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -439,17 +439,17 @@ msgstr "删除"
 msgid "Properties..."
 msgstr "属性..."
 
-#: addressbook/gui/component/addressbook.c:89
+#: addressbook/gui/component/addressbook.c:98
 msgid "Accessing LDAP Server anonymously"
 msgstr "匿名访问 LDAP 服务器"
 
-#: addressbook/gui/component/addressbook.c:173
-#: camel/providers/groupwise/camel-gw-listener.c:417
+#: addressbook/gui/component/addressbook.c:184
+#: camel/providers/groupwise/camel-gw-listener.c:420
 msgid "Failed to authenticate.\n"
 msgstr "认证失败。\n"
 
-#: addressbook/gui/component/addressbook.c:179
-#: camel/providers/groupwise/camel-gw-listener.c:406
+#: addressbook/gui/component/addressbook.c:191
+#: camel/providers/groupwise/camel-gw-listener.c:409
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%s为 %s 输入口令 (用户 %s)"
@@ -3009,7 +3009,7 @@ msgid "Error adding list"
 msgstr "添加列表出错"
 
 #: addressbook/gui/widgets/eab-gui-util.c:170
-#: addressbook/gui/widgets/eab-gui-util.c:581
+#: addressbook/gui/widgets/eab-gui-util.c:640
 msgid "Error adding contact"
 msgstr "添加联系人出错"
 
@@ -3026,7 +3026,7 @@ msgid "Error removing list"
 msgstr "删除列表出错"
 
 #: addressbook/gui/widgets/eab-gui-util.c:193
-#: addressbook/gui/widgets/eab-gui-util.c:539
+#: addressbook/gui/widgets/eab-gui-util.c:598
 msgid "Error removing contact"
 msgstr "删除联系人出错"
 
@@ -3053,39 +3053,39 @@ msgid "Overwrite"
 msgstr "覆盖"
 
 #. This is a filename. Translators take note.
-#: addressbook/gui/widgets/eab-gui-util.c:366
+#: addressbook/gui/widgets/eab-gui-util.c:383
 msgid "card.vcf"
 msgstr "card.vcf"
 
-#: addressbook/gui/widgets/eab-gui-util.c:500
+#: addressbook/gui/widgets/eab-gui-util.c:545
 msgid "list"
 msgstr "列表"
 
-#: addressbook/gui/widgets/eab-gui-util.c:635
+#: addressbook/gui/widgets/eab-gui-util.c:694
 msgid "Move contact to"
 msgstr "将联系人移动到"
 
-#: addressbook/gui/widgets/eab-gui-util.c:637
+#: addressbook/gui/widgets/eab-gui-util.c:696
 msgid "Copy contact to"
 msgstr "将联系人复制到"
 
-#: addressbook/gui/widgets/eab-gui-util.c:640
+#: addressbook/gui/widgets/eab-gui-util.c:699
 msgid "Move contacts to"
 msgstr "将联系人移动到"
 
-#: addressbook/gui/widgets/eab-gui-util.c:642
+#: addressbook/gui/widgets/eab-gui-util.c:701
 msgid "Copy contacts to"
 msgstr "将联系人复制到"
 
-#: addressbook/gui/widgets/eab-gui-util.c:645
+#: addressbook/gui/widgets/eab-gui-util.c:704
 msgid "Select target addressbook."
 msgstr "从地址簿中选择目标联系人。"
 
-#: addressbook/gui/widgets/eab-gui-util.c:868
+#: addressbook/gui/widgets/eab-gui-util.c:927
 msgid "Multiple VCards"
 msgstr "多个 VCard"
 
-#: addressbook/gui/widgets/eab-gui-util.c:871
+#: addressbook/gui/widgets/eab-gui-util.c:930
 #, c-format
 msgid "VCard for %s"
 msgstr "%s 的 VCard"
@@ -3486,9 +3486,9 @@ msgid ""
 msgstr "如果您不发送取消通知，其他参与者也许不知道会议已经取消。"
 
 #: calendar/calendar-errors.xml.h:5 calendar/calendar-errors.xml.h:15
-#: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:85
-#: calendar/calendar-errors.xml.h:91 calendar/calendar-errors.xml.h:97
-#: calendar/calendar-errors.xml.h:103
+#: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:87
+#: calendar/calendar-errors.xml.h:93 calendar/calendar-errors.xml.h:99
+#: calendar/calendar-errors.xml.h:105
 msgid "Don't Send"
 msgstr "不发送"
 
@@ -3635,11 +3635,12 @@ msgstr "您想要保存对约会的更改吗？"
 msgid "You have made changes to this appointment, but not yet saved them."
 msgstr "您已经对此约会做出了更改，但尚未保存。"
 
-#: calendar/calendar-errors.xml.h:73 composer/mail-composer-errors.xml.h:33
+#: calendar/calendar-errors.xml.h:73 calendar/calendar-errors.xml.h:81
+#: composer/mail-composer-errors.xml.h:33
 msgid "Discard Changes"
 msgstr "丢弃更改"
 
-#: calendar/calendar-errors.xml.h:74
+#: calendar/calendar-errors.xml.h:74 calendar/calendar-errors.xml.h:82
 msgid "Save Changes"
 msgstr "保存更改"
 
@@ -3659,75 +3660,75 @@ msgid "You have made changes to this task, but not yet saved them."
 msgstr "您已经对此任务做出了更改，但尚未保存。"
 
 #. calendar:prompt-meeting-invite primary
-#: calendar/calendar-errors.xml.h:82
+#: calendar/calendar-errors.xml.h:84
 msgid "Would you like to send meeting invitations to participants?"
 msgstr "您是否想要给参与者发送会议邀请？"
 
 #. calendar:prompt-meeting-invite secondary
-#: calendar/calendar-errors.xml.h:84
+#: calendar/calendar-errors.xml.h:86
 msgid ""
 "Email invitations will be sent to all participants and allow them to RSVP."
 msgstr "将会向全部参与者发送电子邮件邀请，并要求他们答复。"
 
-#: calendar/calendar-errors.xml.h:86 calendar/calendar-errors.xml.h:92
-#: calendar/calendar-errors.xml.h:98 calendar/calendar-errors.xml.h:104
+#: calendar/calendar-errors.xml.h:88 calendar/calendar-errors.xml.h:94
+#: calendar/calendar-errors.xml.h:100 calendar/calendar-errors.xml.h:106
 #: ui/evolution-message-composer.xml.h:24
 msgid "Send"
 msgstr "发送"
 
 #. calendar:prompt-send-updated-meeting-info primary
-#: calendar/calendar-errors.xml.h:88
+#: calendar/calendar-errors.xml.h:90
 msgid "Would you like to send updated meeting information to participants?"
 msgstr "您是否想要给参与者发送更新的会议信息？"
 
 #. calendar:prompt-send-updated-meeting-info secondary
-#: calendar/calendar-errors.xml.h:90
+#: calendar/calendar-errors.xml.h:92
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
 msgstr "发送更新的信息将允许其他参与者使他们的日历保持最新。"
 
 #. calendar:prompt-send-task primary
-#: calendar/calendar-errors.xml.h:94
+#: calendar/calendar-errors.xml.h:96
 msgid "Would you like to send this task to participants?"
 msgstr "您是否想要将此任务发送给参与者？"
 
 #. calendar:prompt-send-task secondary
-#: calendar/calendar-errors.xml.h:96
+#: calendar/calendar-errors.xml.h:98
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
 msgstr "将会向全部参与者发送电子邮件邀请，并允许他们接受此任务。"
 
 #. calendar:prompt-send-updated-task-info primary
-#: calendar/calendar-errors.xml.h:100
+#: calendar/calendar-errors.xml.h:102
 msgid "Would you like to send updated task information to participants?"
 msgstr "您是否想要给参与者发送更新的任务信息？"
 
 #. calendar:prompt-send-updated-task-info secondary
-#: calendar/calendar-errors.xml.h:102
+#: calendar/calendar-errors.xml.h:104
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
 msgstr "发送更新的信息允许其他参与者使他们的任务列表保持最新。"
 
 #. calendar:tasks-crashed primary
-#: calendar/calendar-errors.xml.h:106
+#: calendar/calendar-errors.xml.h:108
 msgid "The Evolution tasks have quit unexpectedly."
 msgstr "Evolution 任务异常退出。"
 
 #. calendar:tasks-crashed secondary
-#: calendar/calendar-errors.xml.h:108
+#: calendar/calendar-errors.xml.h:110
 msgid "Your tasks will not be available until Evolution is restarted."
 msgstr "除非您重新启动 Evolution，否则您的任务将无法使用。"
 
 #. calendar:calendar-crashed primary
-#: calendar/calendar-errors.xml.h:110
+#: calendar/calendar-errors.xml.h:112
 msgid "The Evolution calendar has quit unexpectedly."
 msgstr "Evolution 日历异常退出。"
 
 #. calendar:calendar-crashed secondary
-#: calendar/calendar-errors.xml.h:112
+#: calendar/calendar-errors.xml.h:114
 msgid "Your calendars will not be available until Evolution is restarted."
 msgstr "除非您重新启动 Evolution，否则您的日历无法使用。"
 
@@ -4708,8 +4709,9 @@ msgid "_Add Calendar"
 msgstr "添加日历(_A)"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:7
-msgid "_Add Group"
-msgstr "添加组(_A)"
+#, fuzzy
+msgid "_Add Task List"
+msgstr "添加任务列表"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:9
 msgid "_Refresh:"
@@ -5104,11 +5106,11 @@ msgstr "需要一名组织者。"
 msgid "At least one attendee is required."
 msgstr "需要至少一个参加者。"
 
-#: calendar/gui/dialogs/meeting-page.c:764
+#: calendar/gui/dialogs/meeting-page.c:793
 msgid "_Delegate To..."
 msgstr "授权于(_D)..."
 
-#: calendar/gui/dialogs/meeting-page.c:768
+#: calendar/gui/dialogs/meeting-page.c:797
 #: composer/e-msg-composer-attachment-bar.c:453
 msgid "_Remove"
 msgstr "删除(_R)"
@@ -5714,7 +5716,7 @@ msgstr "否"
 #: camel/providers/imap4/camel-imap4-store.c:1223
 #: camel/providers/imap4/camel-imap4-utils.c:457
 #: camel/providers/smtp/camel-smtp-transport.c:172
-#: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:1123
+#: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:1155
 #: shell/e-component-registry.c:207 shell/e-component-registry.c:211
 #: widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
@@ -8893,7 +8895,8 @@ msgstr "(user-tag)参数无效"
 msgid "Failed to create create child process '%s': %s"
 msgstr "创建子进程“%s”失败：%s"
 
-#: camel/camel-filter-search.c:670 camel/camel-filter-search.c:678
+#. A filter search is a search through your filters, ie. your filters is the corpus being searched thru.
+#: camel/camel-filter-search.c:671 camel/camel-filter-search.c:679
 #, c-format
 msgid "Error executing filter search: %s: %s"
 msgstr "执行过滤规则搜索错误：%s：%s"
@@ -9308,78 +9311,78 @@ msgstr "服务器应达含有不完整的认证数据\n"
 msgid "Server response does not match\n"
 msgstr "服务器应答不匹配\n"
 
-#: camel/camel-sasl-gssapi.c:48
+#: camel/camel-sasl-gssapi.c:52
 msgid "GSSAPI"
 msgstr "GSSAPI"
 
-#: camel/camel-sasl-gssapi.c:50
+#: camel/camel-sasl-gssapi.c:54
 msgid "This option will connect to the server using Kerberos 5 authentication."
 msgstr "该选项将用 Kerberos 5 认证连接到服务器。"
 
-#: camel/camel-sasl-gssapi.c:148
+#: camel/camel-sasl-gssapi.c:152
 msgid ""
 "The specified mechanism is not supported by the provided credential, or is "
 "unrecognized by the implementation."
 msgstr "所提供的证书不支持指定的机制，或者无法被实现所识别。"
 
-#: camel/camel-sasl-gssapi.c:153
+#: camel/camel-sasl-gssapi.c:157
 msgid "The provided target_name parameter was ill-formed."
 msgstr "提供的 target_name 参数格式不对。"
 
-#: camel/camel-sasl-gssapi.c:156
+#: camel/camel-sasl-gssapi.c:160
 msgid ""
 "The provided target_name parameter contained an invalid or unsupported type "
 "of name."
 msgstr "提供的 target_name 参数包含无效或不支持的名称类型。"
 
-#: camel/camel-sasl-gssapi.c:160
+#: camel/camel-sasl-gssapi.c:164
 msgid ""
 "The input_token contains different channel bindings to those specified via "
 "the input_chan_bindings parameter."
 msgstr ""
 "input_token 包含的通道绑定与通过 input_chan_bindings 参数指定的通道不同。"
 
-#: camel/camel-sasl-gssapi.c:165
+#: camel/camel-sasl-gssapi.c:169
 msgid ""
 "The input_token contains an invalid signature, or a signature that could not "
 "be verified."
 msgstr "input_token 包含无效的签名，或者无法验证签名。"
 
-#: camel/camel-sasl-gssapi.c:169
+#: camel/camel-sasl-gssapi.c:173
 msgid ""
 "The supplied credentials were not valid for context initiation, or the "
 "credential handle did not reference any credentials."
 msgstr "提供的证书由于上下文的原因无效，或者证书句柄没有引用证书。"
 
-#: camel/camel-sasl-gssapi.c:174
+#: camel/camel-sasl-gssapi.c:178
 msgid "The supplied context handle did not refer to a valid context."
 msgstr "提供的上下文句柄所引用的上下文无效。"
 
-#: camel/camel-sasl-gssapi.c:177
+#: camel/camel-sasl-gssapi.c:181
 msgid "The consistency checks performed on the input_token failed."
 msgstr "对 input_token 执行完整性检查失败。"
 
-#: camel/camel-sasl-gssapi.c:180
+#: camel/camel-sasl-gssapi.c:184
 msgid "The consistency checks performed on the credential failed."
 msgstr "对证书执行完整性检查失败。"
 
-#: camel/camel-sasl-gssapi.c:183
+#: camel/camel-sasl-gssapi.c:187
 msgid "The referenced credentials have expired."
 msgstr "引用的证书已过期。"
 
-#: camel/camel-sasl-gssapi.c:189 camel/camel-sasl-gssapi.c:238
-#: camel/camel-sasl-gssapi.c:274 camel/camel-sasl-gssapi.c:289
+#: camel/camel-sasl-gssapi.c:193 camel/camel-sasl-gssapi.c:242
+#: camel/camel-sasl-gssapi.c:278 camel/camel-sasl-gssapi.c:293
 #: camel/camel-sasl-kerberos4.c:219
 #: camel/providers/imap/camel-imap-store.c:1236
 msgid "Bad authentication response from server."
 msgstr "来自服务器的无效认证应答。"
 
-#: camel/camel-sasl-gssapi.c:213
+#: camel/camel-sasl-gssapi.c:217
 #, c-format
 msgid "Failed to resolve host `%s': %s"
 msgstr "解析主机“%s”：%s"
 
-#: camel/camel-sasl-gssapi.c:299
+#: camel/camel-sasl-gssapi.c:303
 msgid "Unsupported security layer."
 msgstr "不支持的安全层。"
 
@@ -10037,7 +10040,8 @@ msgid "Automatically synchronize remote mail locally"
 msgstr "自动将远程邮件同步到本地"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:69
-msgid "Address Book And Calendar"
+#, fuzzy
+msgid "Address Book and Calendar"
 msgstr "地址簿和日历"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:72
@@ -10049,8 +10053,9 @@ msgid "Post Office Agent SOAP Port:"
 msgstr "邮局代理 SOAP 端口："
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:78
-msgid "Use ssl"
-msgstr "使用 SSL"
+#, fuzzy
+msgid "Use Secure Connection (SSL)"
+msgstr "使用安全连接(SSL)(_U)："
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:92
 msgid "Novell GroupWise"
@@ -11853,7 +11858,7 @@ msgstr "%.0fM"
 msgid "%.0fG"
 msgstr "%.0fG"
 
-#: composer/e-msg-composer-attachment-bar.c:298 mail/em-utils.c:410
+#: composer/e-msg-composer-attachment-bar.c:298 mail/em-utils.c:436
 msgid "attachment"
 msgstr "附件"
 
@@ -11893,7 +11898,8 @@ msgid "MIME type:"
 msgstr "MIME 类型："
 
 #: composer/e-msg-composer-attachment.glade.h:6
-#: composer/e-msg-composer-select-file.c:74
+#: composer/e-msg-composer-select-file.c:92
+#: composer/e-msg-composer-select-file.c:111
 msgid "Suggest automatic display of attachment"
 msgstr "建议自动显示附件"
 
@@ -11971,7 +11977,7 @@ msgstr "投递到："
 msgid "Click here to select folders to post to"
 msgstr "单击此处以选择要投递到的文件夹"
 
-#: composer/e-msg-composer-select-file.c:127
+#: composer/e-msg-composer-select-file.c:186
 msgid "Attach file(s)"
 msgstr "添加附件"
 
@@ -12198,13 +12204,14 @@ msgstr ""
 "无法激活 HTML 编辑器组件。\n"
 "请确定您的 gtkhtml 和 libgtkhtml 所安装的版本正确。"
 
-#: data/evolution.desktop.in.in.h:1
-msgid "The Ximian Evolution Groupware Suite"
-msgstr "Ximian Evolution 群件套件"
+#: data/evolution.desktop.in.in.h:1 shell/main.c:503
+msgid "Evolution"
+msgstr "Evolution"
 
 #: data/evolution.desktop.in.in.h:2
-msgid "Ximian Evolution (Unstable)"
-msgstr "Ximian Evolution (不稳定)"
+#, fuzzy
+msgid "The Evolution Groupware Suite"
+msgstr "Ximian Evolution 群件套件"
 
 #: data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -12313,7 +12320,7 @@ msgid ""
 "do?"
 msgstr "当您收到请求阅读收条的邮件，Evolution 应该做什么？"
 
-#: e-util/e-dialog-utils.c:253
+#: e-util/e-dialog-utils.c:265
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
@@ -12322,17 +12329,17 @@ msgstr ""
 "覆盖它？"
 
 #. system:ask-save-file-exists-overwrite title
-#: e-util/e-dialog-utils.c:255 widgets/misc/e-system-errors.xml.h:2
+#: e-util/e-dialog-utils.c:267 widgets/misc/e-system-errors.xml.h:2
 msgid "Overwrite file?"
 msgstr "覆盖文件吗？"
 
-#: e-util/e-passwords.c:358
-msgid "Remember this password"
-msgstr "记住该密码"
+#: e-util/e-passwords.c:460
+msgid "_Remember this password"
+msgstr "记住该密码(_R)"
 
-#: e-util/e-passwords.c:360
-msgid "Remember this password for the remainder of this session"
-msgstr "在本会话中记住该密码"
+#: e-util/e-passwords.c:461
+msgid "_Remember this password for the remainder of this session"
+msgstr "在本会话中记住该密码(_R)"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
@@ -13552,7 +13559,7 @@ msgid "Bcc"
 msgstr "密件抄送"
 
 #. pseudo-header
-#: mail/em-format-html.c:1554 mail/em-format-quote.c:312
+#: mail/em-format-html.c:1554 mail/em-format-quote.c:314
 #: mail/em-mailer-prefs.c:939
 msgid "Mailer"
 msgstr "邮件程序"
@@ -13567,7 +13574,7 @@ msgstr "<I> (%A，%R %Z)</I>"
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: mail/em-format-html.c:1594 mail/em-format-quote.c:319 mail/em-format.c:806
+#: mail/em-format-html.c:1594 mail/em-format-quote.c:321 mail/em-format.c:806
 #: mail/em-mailer-prefs.c:88 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "日期"
@@ -13747,20 +13754,20 @@ msgstr "不再显示此信息。"
 msgid "Filters"
 msgstr "过滤规则"
 
-#: mail/em-utils.c:408
+#: mail/em-utils.c:434
 msgid "message"
 msgstr "邮件"
 
-#: mail/em-utils.c:511
+#: mail/em-utils.c:543
 msgid "Save Message..."
 msgstr "保存邮件..."
 
-#: mail/em-utils.c:560
+#: mail/em-utils.c:592
 msgid "Add address"
 msgstr "添加地址"
 
 #. Drop filename for messages from a mailbox
-#: mail/em-utils.c:1021
+#: mail/em-utils.c:1053
 #, c-format
 msgid "Messages from %s"
 msgstr "来自 %s 的邮件"
@@ -16072,26 +16079,18 @@ msgstr "正在更新..."
 msgid "Waiting..."
 msgstr "正在等待..."
 
-#: mail/mail-session.c:240
-msgid "User canceled operation."
-msgstr "用户己取消操作。"
-
-#: mail/mail-session.c:274
+#: mail/mail-session.c:207
 #, c-format
 msgid "Enter Password for %s"
 msgstr "为 %s 输入密码"
 
-#: mail/mail-session.c:276
+#: mail/mail-session.c:209
 msgid "Enter Password"
 msgstr "输入密码"
 
-#: mail/mail-session.c:304
-msgid "_Remember this password"
-msgstr "记住该密码(_R)"
-
-#: mail/mail-session.c:305
-msgid "_Remember this password for the remainder of this session"
-msgstr "在本会话中记住该密码(_R)"
+#: mail/mail-session.c:238
+msgid "User canceled operation."
+msgstr "用户己取消操作。"
 
 #: mail/mail-signature-editor.c:371
 msgid "Edit signature"
@@ -16453,7 +16452,7 @@ msgstr ""
 msgid "Select importer"
 msgstr "选择导入器"
 
-#: shell/e-shell-importer.c:451 shell/e-shell-importer.c:1055
+#: shell/e-shell-importer.c:451 shell/e-shell-importer.c:1056
 #, c-format
 msgid "File %s does not exist"
 msgstr "文件 %s 不存在"
@@ -16493,19 +16492,19 @@ msgstr "文件名(_I)："
 msgid "Select a file"
 msgstr "选择一个文件"
 
-#: shell/e-shell-importer.c:642
+#: shell/e-shell-importer.c:643
 msgid "File _type:"
 msgstr "文件类型(_T)："
 
-#: shell/e-shell-importer.c:681
+#: shell/e-shell-importer.c:682
 msgid "Import data and settings from _older programs"
 msgstr "从旧版程序中导入数据和设置(_O)"
 
-#: shell/e-shell-importer.c:684
+#: shell/e-shell-importer.c:685
 msgid "Import a _single file"
 msgstr "导入单个文件(_S)"
 
-#: shell/e-shell-importer.c:752 shell/e-shell-startup-wizard.c:571
+#: shell/e-shell-importer.c:753 shell/e-shell-startup-wizard.c:571
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
@@ -16513,25 +16512,25 @@ msgstr ""
 "请稍候...\n"
 "正在扫描现有设置"
 
-#: shell/e-shell-importer.c:756
+#: shell/e-shell-importer.c:757
 msgid "Starting Intelligent Importers"
 msgstr "启动智能导入器"
 
-#: shell/e-shell-importer.c:882 shell/e-shell-startup-wizard.c:698
+#: shell/e-shell-importer.c:883 shell/e-shell-startup-wizard.c:698
 #, c-format
 msgid "From %s:"
 msgstr "从 %s："
 
-#: shell/e-shell-importer.c:1073
+#: shell/e-shell-importer.c:1074
 #, c-format
 msgid "No importer available for file %s"
 msgstr "没有可供文件 %s 使用的导入器"
 
-#: shell/e-shell-importer.c:1085
+#: shell/e-shell-importer.c:1086
 msgid "Unable to execute importer"
 msgstr "无法执行导入器"
 
-#: shell/e-shell-importer.c:1199
+#: shell/e-shell-importer.c:1200
 msgid "_Import"
 msgstr "导入(_I)"
 
@@ -16769,7 +16768,7 @@ msgid "Evolution can import data from the following files:"
 msgstr "Evolution 可以从下列文件中导入数据："
 
 #. Preview/Alpha/Beta version warning message
-#: shell/main.c:225
+#: shell/main.c:226
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -16801,7 +16800,7 @@ msgstr ""
 "\n"
 "我们希望您尽情享受我们努力工作的成果，我们也热切盼望着您的意见！\n"
 
-#: shell/main.c:249
+#: shell/main.c:250
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -16809,39 +16808,35 @@ msgstr ""
 "感谢\n"
 "Evolution 团队\n"
 
-#: shell/main.c:256
+#: shell/main.c:257
 msgid "Don't tell me again"
 msgstr "不要再问我"
 
-#: shell/main.c:461
+#: shell/main.c:462
 msgid "Start Evolution activating the specified component"
 msgstr "启动 Evolution 并激活指定组件"
 
-#: shell/main.c:463
+#: shell/main.c:464
 msgid "Start in offline mode"
 msgstr "以脱机模式启动"
 
-#: shell/main.c:465
+#: shell/main.c:466
 msgid "Start in online mode"
 msgstr "以联机模式启动"
 
-#: shell/main.c:468
+#: shell/main.c:469
 msgid "Forcibly shut down all evolution components"
 msgstr "强制关闭所有 Evolution 组件"
 
-#: shell/main.c:472
+#: shell/main.c:473
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "强制从 Evolution 1.4 重新升迁"
 
-#: shell/main.c:475
+#: shell/main.c:476
 msgid "Send the debugging output of all components to a file."
 msgstr "把所有成员的调试输出发送到一个文件中。"
 
-#: shell/main.c:502
-msgid "Evolution"
-msgstr "Evolution"
-
-#: shell/main.c:506
+#: shell/main.c:507
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -16915,17 +16910,22 @@ msgstr ""
 "留此数据，那么您可以在您方便的时候手动删除“evolution”目录。\n"
 
 #: shell/shell-errors.xml.h:25
-msgid "Keep"
-msgstr "保留"
+#, fuzzy
+msgid "_Remind Me Later"
+msgstr "提醒!!"
+
+#: shell/shell-errors.xml.h:26
+msgid "_Keep Data"
+msgstr ""
 
 #. shell:upgrade-remove-1-4-confirm title
 #. shell:upgrade-remove-1-4-confirm primary
-#: shell/shell-errors.xml.h:27 shell/shell-errors.xml.h:29
+#: shell/shell-errors.xml.h:28 shell/shell-errors.xml.h:30
 msgid "Really delete old data?"
 msgstr "真的要删除旧数据吗？"
 
 #. shell:upgrade-remove-1-4-confirm secondary
-#: shell/shell-errors.xml.h:31
+#: shell/shell-errors.xml.h:32
 msgid ""
 "The entire contents of the \"evolution\" directory is about to be be "
 "permanently removed.\n"
@@ -16946,18 +16946,18 @@ msgstr ""
 
 #. shell:noshell title
 #. shell:noshell-reason title
-#: shell/shell-errors.xml.h:38 shell/shell-errors.xml.h:46
+#: shell/shell-errors.xml.h:39 shell/shell-errors.xml.h:47
 msgid "Cannot start Evolution"
 msgstr "无法启动 Evolution"
 
 #. shell:noshell primary
 #. shell:noshell-reason primary
-#: shell/shell-errors.xml.h:40 shell/shell-errors.xml.h:48
+#: shell/shell-errors.xml.h:41 shell/shell-errors.xml.h:49
 msgid "Evolution can not start."
 msgstr "Evolution 无法启动。"
 
 #. shell:noshell secondary
-#: shell/shell-errors.xml.h:42
+#: shell/shell-errors.xml.h:43
 msgid ""
 "Your system configuration does not match your Evolution configuration.\n"
 "\n"
@@ -16968,7 +16968,7 @@ msgstr ""
 "请单击帮助查看详情"
 
 #. shell:noshell-reason secondary
-#: shell/shell-errors.xml.h:50
+#: shell/shell-errors.xml.h:51
 msgid ""
 "Your system configuration does not match your Evolution configuration:\n"
 "\n"
@@ -17007,30 +17007,31 @@ msgid ""
 "unless otherwise indicated here"
 msgstr "由于您不信任颁发此证书的机构，您就将不信任此证书的权威性，除非在此声明"
 
-#: smime/gui/certificate-manager.c:130 smime/gui/certificate-manager.c:353
-#: smime/gui/certificate-manager.c:556
+#: smime/gui/certificate-manager.c:134 smime/gui/certificate-manager.c:142
+#: smime/gui/certificate-manager.c:375 smime/gui/certificate-manager.c:383
+#: smime/gui/certificate-manager.c:595 smime/gui/certificate-manager.c:603
 msgid "Select a cert to import..."
 msgstr "选择要导入的证书..."
 
-#: smime/gui/certificate-manager.c:245 smime/gui/certificate-manager.c:437
-#: smime/gui/certificate-manager.c:638
+#: smime/gui/certificate-manager.c:263 smime/gui/certificate-manager.c:472
+#: smime/gui/certificate-manager.c:690
 msgid "Certificate Name"
 msgstr "证书名称"
 
-#: smime/gui/certificate-manager.c:254 smime/gui/certificate-manager.c:455
+#: smime/gui/certificate-manager.c:272 smime/gui/certificate-manager.c:490
 msgid "Purposes"
 msgstr "用途"
 
-#: smime/gui/certificate-manager.c:263 smime/gui/smime-ui.glade.h:36
+#: smime/gui/certificate-manager.c:281 smime/gui/smime-ui.glade.h:36
 #: smime/lib/e-cert.c:569
 msgid "Serial Number"
 msgstr "序列号"
 
-#: smime/gui/certificate-manager.c:271
+#: smime/gui/certificate-manager.c:289
 msgid "Expires"
 msgstr "到期"
 
-#: smime/gui/certificate-manager.c:446
+#: smime/gui/certificate-manager.c:481
 msgid "E-Mail Address"
 msgstr "电子邮件地址"
 
@@ -19269,3 +19270,21 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 完成)"
+
+#~ msgid "_Add Group"
+#~ msgstr "添加组(_A)"
+
+#~ msgid "Use ssl"
+#~ msgstr "使用 SSL"
+
+#~ msgid "Ximian Evolution (Unstable)"
+#~ msgstr "Ximian Evolution (不稳定)"
+
+#~ msgid "Remember this password"
+#~ msgstr "记住该密码"
+
+#~ msgid "Remember this password for the remainder of this session"
+#~ msgstr "在本会话中记住该密码"
+
+#~ msgid "Keep"
+#~ msgstr "保留"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-12 11:22+0200\n"
+"POT-Creation-Date: 2004-08-13 14:55-0400\n"
 "PO-Revision-Date: 2004-08-07 08:20+0200\n"
 "Last-Translator: Åsmund Skjæveland <aasmunds@fys.uio.no>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -459,12 +459,12 @@ msgid "Accessing LDAP Server anonymously"
 msgstr "Hentar data frå LDAP-tenar anonymt"
 
 #: addressbook/gui/component/addressbook.c:184
-#: camel/providers/groupwise/camel-gw-listener.c:418
+#: camel/providers/groupwise/camel-gw-listener.c:420
 msgid "Failed to authenticate.\n"
 msgstr "Kan ikkje autentisera.\n"
 
 #: addressbook/gui/component/addressbook.c:191
-#: camel/providers/groupwise/camel-gw-listener.c:407
+#: camel/providers/groupwise/camel-gw-listener.c:409
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%sSkriv passordet til %s (brukar %s)"
@@ -3069,7 +3069,7 @@ msgid "Error adding list"
 msgstr "Feil ved tillegging av liste"
 
 #: addressbook/gui/widgets/eab-gui-util.c:170
-#: addressbook/gui/widgets/eab-gui-util.c:581
+#: addressbook/gui/widgets/eab-gui-util.c:640
 msgid "Error adding contact"
 msgstr "Feil når kontakt vart lagt til"
 
@@ -3086,7 +3086,7 @@ msgid "Error removing list"
 msgstr "Feil ved fjerning av liste"
 
 #: addressbook/gui/widgets/eab-gui-util.c:193
-#: addressbook/gui/widgets/eab-gui-util.c:539
+#: addressbook/gui/widgets/eab-gui-util.c:598
 msgid "Error removing contact"
 msgstr "Feil ved fjerning av kontakt"
 
@@ -3113,39 +3113,39 @@ msgid "Overwrite"
 msgstr "Skriv over"
 
 #. This is a filename. Translators take note.
-#: addressbook/gui/widgets/eab-gui-util.c:366
+#: addressbook/gui/widgets/eab-gui-util.c:383
 msgid "card.vcf"
 msgstr "card.vcf"
 
-#: addressbook/gui/widgets/eab-gui-util.c:500
+#: addressbook/gui/widgets/eab-gui-util.c:545
 msgid "list"
 msgstr "liste"
 
-#: addressbook/gui/widgets/eab-gui-util.c:635
+#: addressbook/gui/widgets/eab-gui-util.c:694
 msgid "Move contact to"
 msgstr "Flytt kontakt til"
 
-#: addressbook/gui/widgets/eab-gui-util.c:637
+#: addressbook/gui/widgets/eab-gui-util.c:696
 msgid "Copy contact to"
 msgstr "Kopiér kontakt til"
 
-#: addressbook/gui/widgets/eab-gui-util.c:640
+#: addressbook/gui/widgets/eab-gui-util.c:699
 msgid "Move contacts to"
 msgstr "Flytt kontakt til"
 
-#: addressbook/gui/widgets/eab-gui-util.c:642
+#: addressbook/gui/widgets/eab-gui-util.c:701
 msgid "Copy contacts to"
 msgstr "Kopiér kontakt til"
 
-#: addressbook/gui/widgets/eab-gui-util.c:645
+#: addressbook/gui/widgets/eab-gui-util.c:704
 msgid "Select target addressbook."
 msgstr "Vel måladressebok."
 
-#: addressbook/gui/widgets/eab-gui-util.c:868
+#: addressbook/gui/widgets/eab-gui-util.c:927
 msgid "Multiple VCards"
 msgstr "Fleire VCard"
 
-#: addressbook/gui/widgets/eab-gui-util.c:871
+#: addressbook/gui/widgets/eab-gui-util.c:930
 #, c-format
 msgid "VCard for %s"
 msgstr "VCard for %s"
@@ -3554,9 +3554,9 @@ msgstr ""
 "deltakarane veit at møtet er avlyst."
 
 #: calendar/calendar-errors.xml.h:5 calendar/calendar-errors.xml.h:15
-#: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:85
-#: calendar/calendar-errors.xml.h:91 calendar/calendar-errors.xml.h:97
-#: calendar/calendar-errors.xml.h:103
+#: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:87
+#: calendar/calendar-errors.xml.h:93 calendar/calendar-errors.xml.h:99
+#: calendar/calendar-errors.xml.h:105
 msgid "Don't Send"
 msgstr "Ikkje send"
 
@@ -3717,11 +3717,12 @@ msgstr "Vil du lagra endringane i denne avtalen?"
 msgid "You have made changes to this appointment, but not yet saved them."
 msgstr "Du har endra denne avtalen, men ikkje lagra endringane."
 
-#: calendar/calendar-errors.xml.h:73 composer/mail-composer-errors.xml.h:33
+#: calendar/calendar-errors.xml.h:73 calendar/calendar-errors.xml.h:81
+#: composer/mail-composer-errors.xml.h:33
 msgid "Discard Changes"
 msgstr "Forkast endringane"
 
-#: calendar/calendar-errors.xml.h:74
+#: calendar/calendar-errors.xml.h:74 calendar/calendar-errors.xml.h:82
 msgid "Save Changes"
 msgstr "Lagra endringane"
 
@@ -3744,77 +3745,77 @@ msgid "You have made changes to this task, but not yet saved them."
 msgstr "Du har endra denne avtalen, men ikkje lagra endringane."
 
 #. calendar:prompt-meeting-invite primary
-#: calendar/calendar-errors.xml.h:82
+#: calendar/calendar-errors.xml.h:84
 msgid "Would you like to send meeting invitations to participants?"
 msgstr "Vil du senda ein møteinvitasjon til deltakarane?"
 
 #. calendar:prompt-meeting-invite secondary
-#: calendar/calendar-errors.xml.h:84
+#: calendar/calendar-errors.xml.h:86
 #, fuzzy
 msgid ""
 "Email invitations will be sent to all participants and allow them to RSVP."
 msgstr ""
 "E-post-invitasjonar vil verta sendt til alle deltakarane, og vil be om svar."
 
-#: calendar/calendar-errors.xml.h:86 calendar/calendar-errors.xml.h:92
-#: calendar/calendar-errors.xml.h:98 calendar/calendar-errors.xml.h:104
+#: calendar/calendar-errors.xml.h:88 calendar/calendar-errors.xml.h:94
+#: calendar/calendar-errors.xml.h:100 calendar/calendar-errors.xml.h:106
 #: ui/evolution-message-composer.xml.h:24
 msgid "Send"
 msgstr "Send"
 
 #. calendar:prompt-send-updated-meeting-info primary
-#: calendar/calendar-errors.xml.h:88
+#: calendar/calendar-errors.xml.h:90
 msgid "Would you like to send updated meeting information to participants?"
 msgstr ""
 
 #. calendar:prompt-send-updated-meeting-info secondary
-#: calendar/calendar-errors.xml.h:90
+#: calendar/calendar-errors.xml.h:92
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
 msgstr ""
 
 #. calendar:prompt-send-task primary
-#: calendar/calendar-errors.xml.h:94
+#: calendar/calendar-errors.xml.h:96
 msgid "Would you like to send this task to participants?"
 msgstr ""
 
 #. calendar:prompt-send-task secondary
-#: calendar/calendar-errors.xml.h:96
+#: calendar/calendar-errors.xml.h:98
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
 msgstr ""
 
 #. calendar:prompt-send-updated-task-info primary
-#: calendar/calendar-errors.xml.h:100
+#: calendar/calendar-errors.xml.h:102
 msgid "Would you like to send updated task information to participants?"
 msgstr ""
 
 #. calendar:prompt-send-updated-task-info secondary
-#: calendar/calendar-errors.xml.h:102
+#: calendar/calendar-errors.xml.h:104
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
 msgstr ""
 
 #. calendar:tasks-crashed primary
-#: calendar/calendar-errors.xml.h:106
+#: calendar/calendar-errors.xml.h:108
 msgid "The Evolution tasks have quit unexpectedly."
 msgstr ""
 
 #. calendar:tasks-crashed secondary
-#: calendar/calendar-errors.xml.h:108
+#: calendar/calendar-errors.xml.h:110
 msgid "Your tasks will not be available until Evolution is restarted."
 msgstr ""
 
 #. calendar:calendar-crashed primary
-#: calendar/calendar-errors.xml.h:110
+#: calendar/calendar-errors.xml.h:112
 msgid "The Evolution calendar has quit unexpectedly."
 msgstr "Evolution-kalenderen har avslutta uventa."
 
 #. calendar:calendar-crashed secondary
-#: calendar/calendar-errors.xml.h:112
+#: calendar/calendar-errors.xml.h:114
 msgid "Your calendars will not be available until Evolution is restarted."
 msgstr ""
 
@@ -4812,8 +4813,9 @@ msgid "_Add Calendar"
 msgstr "_Legg til kalender"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:7
-msgid "_Add Group"
-msgstr "_Legg til gruppe"
+#, fuzzy
+msgid "_Add Task List"
+msgstr "Legg til ny oppgåveliste"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:9
 msgid "_Refresh:"
@@ -5843,7 +5845,7 @@ msgstr "Nei"
 #: camel/providers/imap4/camel-imap4-store.c:1223
 #: camel/providers/imap4/camel-imap4-utils.c:457
 #: camel/providers/smtp/camel-smtp-transport.c:172
-#: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:1123
+#: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:1155
 #: shell/e-component-registry.c:207 shell/e-component-registry.c:211
 #: widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
@@ -9078,7 +9080,8 @@ msgid "Failed to create create child process '%s': %s"
 msgstr "Kan ikkje oppretta underprosess «%s»: %s"
 
 # TRN: Kva er eit filtersøk? Skjønar eg dette rett?
-#: camel/camel-filter-search.c:670 camel/camel-filter-search.c:678
+#. A filter search is a search through your filters, ie. your filters is the corpus being searched thru.
+#: camel/camel-filter-search.c:671 camel/camel-filter-search.c:679
 #, c-format
 msgid "Error executing filter search: %s: %s"
 msgstr "Feil under køyring av filtersøk: %s: %s"
@@ -9493,77 +9496,77 @@ msgstr ""
 msgid "Server response does not match\n"
 msgstr ""
 
-#: camel/camel-sasl-gssapi.c:48
+#: camel/camel-sasl-gssapi.c:52
 msgid "GSSAPI"
 msgstr ""
 
-#: camel/camel-sasl-gssapi.c:50
+#: camel/camel-sasl-gssapi.c:54
 msgid "This option will connect to the server using Kerberos 5 authentication."
 msgstr ""
 
-#: camel/camel-sasl-gssapi.c:148
+#: camel/camel-sasl-gssapi.c:152
 msgid ""
 "The specified mechanism is not supported by the provided credential, or is "
 "unrecognized by the implementation."
 msgstr ""
 
-#: camel/camel-sasl-gssapi.c:153
+#: camel/camel-sasl-gssapi.c:157
 msgid "The provided target_name parameter was ill-formed."
 msgstr ""
 
-#: camel/camel-sasl-gssapi.c:156
+#: camel/camel-sasl-gssapi.c:160
 msgid ""
 "The provided target_name parameter contained an invalid or unsupported type "
 "of name."
 msgstr ""
 
-#: camel/camel-sasl-gssapi.c:160
+#: camel/camel-sasl-gssapi.c:164
 msgid ""
 "The input_token contains different channel bindings to those specified via "
 "the input_chan_bindings parameter."
 msgstr ""
 
-#: camel/camel-sasl-gssapi.c:165
+#: camel/camel-sasl-gssapi.c:169
 msgid ""
 "The input_token contains an invalid signature, or a signature that could not "
 "be verified."
 msgstr ""
 
-#: camel/camel-sasl-gssapi.c:169
+#: camel/camel-sasl-gssapi.c:173
 msgid ""
 "The supplied credentials were not valid for context initiation, or the "
 "credential handle did not reference any credentials."
 msgstr ""
 
-#: camel/camel-sasl-gssapi.c:174
+#: camel/camel-sasl-gssapi.c:178
 msgid "The supplied context handle did not refer to a valid context."
 msgstr ""
 
-#: camel/camel-sasl-gssapi.c:177
+#: camel/camel-sasl-gssapi.c:181
 msgid "The consistency checks performed on the input_token failed."
 msgstr ""
 
-#: camel/camel-sasl-gssapi.c:180
+#: camel/camel-sasl-gssapi.c:184
 msgid "The consistency checks performed on the credential failed."
 msgstr ""
 
-#: camel/camel-sasl-gssapi.c:183
+#: camel/camel-sasl-gssapi.c:187
 msgid "The referenced credentials have expired."
 msgstr ""
 
-#: camel/camel-sasl-gssapi.c:189 camel/camel-sasl-gssapi.c:238
-#: camel/camel-sasl-gssapi.c:274 camel/camel-sasl-gssapi.c:289
+#: camel/camel-sasl-gssapi.c:193 camel/camel-sasl-gssapi.c:242
+#: camel/camel-sasl-gssapi.c:278 camel/camel-sasl-gssapi.c:293
 #: camel/camel-sasl-kerberos4.c:219
 #: camel/providers/imap/camel-imap-store.c:1236
 msgid "Bad authentication response from server."
 msgstr ""
 
-#: camel/camel-sasl-gssapi.c:213
+#: camel/camel-sasl-gssapi.c:217
 #, c-format
 msgid "Failed to resolve host `%s': %s"
 msgstr "Klarte ikkje å slå opp verten «%s»: %s"
 
-#: camel/camel-sasl-gssapi.c:299
+#: camel/camel-sasl-gssapi.c:303
 msgid "Unsupported security layer."
 msgstr "Ikkje støtta tryggleiksnivå."
 
@@ -10206,7 +10209,8 @@ msgid "Automatically synchronize remote mail locally"
 msgstr "Automatisk synkroniser ekstern e-post med lokal"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:69
-msgid "Address Book And Calendar"
+#, fuzzy
+msgid "Address Book and Calendar"
 msgstr "Adressebok og kalender"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:72
@@ -10218,8 +10222,9 @@ msgid "Post Office Agent SOAP Port:"
 msgstr ""
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:78
-msgid "Use ssl"
-msgstr ""
+#, fuzzy
+msgid "Use Secure Connection (SSL)"
+msgstr "Br_uk sikker tilknytning (SSL)"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:92
 msgid "Novell GroupWise"
@@ -12060,7 +12065,7 @@ msgstr "%.1fM"
 msgid "%.0fG"
 msgstr "%.1fG"
 
-#: composer/e-msg-composer-attachment-bar.c:298 mail/em-utils.c:410
+#: composer/e-msg-composer-attachment-bar.c:298 mail/em-utils.c:436
 msgid "attachment"
 msgstr "vedlegg"
 
@@ -12104,7 +12109,8 @@ msgid "MIME type:"
 msgstr "MIME-type:"
 
 #: composer/e-msg-composer-attachment.glade.h:6
-#: composer/e-msg-composer-select-file.c:74
+#: composer/e-msg-composer-select-file.c:92
+#: composer/e-msg-composer-select-file.c:111
 msgid "Suggest automatic display of attachment"
 msgstr ""
 
@@ -12188,7 +12194,7 @@ msgstr "Porto"
 msgid "Click here to select folders to post to"
 msgstr "<klikk her for å velje mappe>"
 
-#: composer/e-msg-composer-select-file.c:127
+#: composer/e-msg-composer-select-file.c:186
 #, fuzzy
 msgid "Attach file(s)"
 msgstr "Legg ved fil"
@@ -12418,15 +12424,14 @@ msgid ""
 "installed."
 msgstr "Kan ikkje laga nytt vindauge.\n"
 
-#: data/evolution.desktop.in.in.h:1
-#, fuzzy
-msgid "The Ximian Evolution Groupware Suite"
-msgstr "Gruppevareverktyet Evolution"
+#: data/evolution.desktop.in.in.h:1 shell/main.c:503
+msgid "Evolution"
+msgstr "Evolution"
 
 #: data/evolution.desktop.in.in.h:2
 #, fuzzy
-msgid "Ximian Evolution (Unstable)"
-msgstr "Ximian Evolution"
+msgid "The Evolution Groupware Suite"
+msgstr "Gruppevareverktyet Evolution"
 
 #: data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -12535,7 +12540,7 @@ msgid ""
 "do?"
 msgstr ""
 
-#: e-util/e-dialog-utils.c:253
+#: e-util/e-dialog-utils.c:265
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
@@ -12544,7 +12549,7 @@ msgstr ""
 "Vil du skrive over den?"
 
 #. system:ask-save-file-exists-overwrite title
-#: e-util/e-dialog-utils.c:255 widgets/misc/e-system-errors.xml.h:2
+#: e-util/e-dialog-utils.c:267 widgets/misc/e-system-errors.xml.h:2
 msgid "Overwrite file?"
 msgstr "Skriv over fil?"
 
@@ -13855,7 +13860,7 @@ msgid "Bcc"
 msgstr "Bcc:"
 
 #. pseudo-header
-#: mail/em-format-html.c:1554 mail/em-format-quote.c:312
+#: mail/em-format-html.c:1554 mail/em-format-quote.c:314
 #: mail/em-mailer-prefs.c:939
 msgid "Mailer"
 msgstr "E-postprogram"
@@ -13870,7 +13875,7 @@ msgstr ""
 msgid "<I> (%R %Z)</I>"
 msgstr ""
 
-#: mail/em-format-html.c:1594 mail/em-format-quote.c:319 mail/em-format.c:806
+#: mail/em-format-html.c:1594 mail/em-format-quote.c:321 mail/em-format.c:806
 #: mail/em-mailer-prefs.c:88 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Dato"
@@ -14064,22 +14069,22 @@ msgstr "Ikkje vis denne meldinga att"
 msgid "Filters"
 msgstr "Filter"
 
-#: mail/em-utils.c:408
+#: mail/em-utils.c:434
 #, fuzzy
 msgid "message"
 msgstr "Melding"
 
-#: mail/em-utils.c:511
+#: mail/em-utils.c:543
 msgid "Save Message..."
 msgstr "Lagra melding ..."
 
-#: mail/em-utils.c:560
+#: mail/em-utils.c:592
 #, fuzzy
 msgid "Add address"
 msgstr "Adresse"
 
 #. Drop filename for messages from a mailbox
-#: mail/em-utils.c:1021
+#: mail/em-utils.c:1053
 #, fuzzy, c-format
 msgid "Messages from %s"
 msgstr "Melding frå %s"
@@ -16930,7 +16935,7 @@ msgstr ""
 msgid "Select importer"
 msgstr "Vel importerar"
 
-#: shell/e-shell-importer.c:451 shell/e-shell-importer.c:1055
+#: shell/e-shell-importer.c:451 shell/e-shell-importer.c:1056
 #, c-format
 msgid "File %s does not exist"
 msgstr "Fila %s finst ikkje"
@@ -16971,19 +16976,19 @@ msgstr "Filnamn:"
 msgid "Select a file"
 msgstr "Vel ei fil"
 
-#: shell/e-shell-importer.c:642
+#: shell/e-shell-importer.c:643
 msgid "File _type:"
 msgstr "Fil_type:"
 
-#: shell/e-shell-importer.c:681
+#: shell/e-shell-importer.c:682
 msgid "Import data and settings from _older programs"
 msgstr "Importér data _og innstillingar frå eldre program"
 
-#: shell/e-shell-importer.c:684
+#: shell/e-shell-importer.c:685
 msgid "Import a _single file"
 msgstr "Importer ei ein_skild fil"
 
-#: shell/e-shell-importer.c:752 shell/e-shell-startup-wizard.c:571
+#: shell/e-shell-importer.c:753 shell/e-shell-startup-wizard.c:571
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
@@ -16991,28 +16996,28 @@ msgstr ""
 "Vent...\n"
 "Leitar etter eksisterande oppsett"
 
-#: shell/e-shell-importer.c:756
+#: shell/e-shell-importer.c:757
 msgid "Starting Intelligent Importers"
 msgstr "Startar intelligent import"
 
-#: shell/e-shell-importer.c:882 shell/e-shell-startup-wizard.c:698
+#: shell/e-shell-importer.c:883 shell/e-shell-startup-wizard.c:698
 #, c-format
 msgid "From %s:"
 msgstr "Frå %s:"
 
-#: shell/e-shell-importer.c:1073
+#: shell/e-shell-importer.c:1074
 #, fuzzy, c-format
 msgid "No importer available for file %s"
 msgstr ""
 "Det er ingen importerarar som kan handsama\n"
 "%s"
 
-#: shell/e-shell-importer.c:1085
+#: shell/e-shell-importer.c:1086
 #, fuzzy
 msgid "Unable to execute importer"
 msgstr "Feil under køyring av gpg."
 
-#: shell/e-shell-importer.c:1199
+#: shell/e-shell-importer.c:1200
 msgid "_Import"
 msgstr "_Importér"
 
@@ -17344,10 +17349,6 @@ msgstr ""
 msgid "Send the debugging output of all components to a file."
 msgstr "Send feilsøkingsutskrift frå alle komponentane til ei fil."
 
-#: shell/main.c:503
-msgid "Evolution"
-msgstr "Evolution"
-
 #: shell/main.c:507
 #, c-format
 msgid ""
@@ -17412,17 +17413,21 @@ msgstr ""
 
 #: shell/shell-errors.xml.h:25
 #, fuzzy
-msgid "Keep"
-msgstr "Pipelyd"
+msgid "_Remind Me Later"
+msgstr "Påminning!"
+
+#: shell/shell-errors.xml.h:26
+msgid "_Keep Data"
+msgstr ""
 
 #. shell:upgrade-remove-1-4-confirm title
 #. shell:upgrade-remove-1-4-confirm primary
-#: shell/shell-errors.xml.h:27 shell/shell-errors.xml.h:29
+#: shell/shell-errors.xml.h:28 shell/shell-errors.xml.h:30
 msgid "Really delete old data?"
 msgstr ""
 
 #. shell:upgrade-remove-1-4-confirm secondary
-#: shell/shell-errors.xml.h:31
+#: shell/shell-errors.xml.h:32
 msgid ""
 "The entire contents of the \"evolution\" directory is about to be be "
 "permanently removed.\n"
@@ -17437,20 +17442,20 @@ msgstr ""
 
 #. shell:noshell title
 #. shell:noshell-reason title
-#: shell/shell-errors.xml.h:38 shell/shell-errors.xml.h:46
+#: shell/shell-errors.xml.h:39 shell/shell-errors.xml.h:47
 #, fuzzy
 msgid "Cannot start Evolution"
 msgstr "Kan ikkje starta Ximian Evolution-skalet: %s"
 
 #. shell:noshell primary
 #. shell:noshell-reason primary
-#: shell/shell-errors.xml.h:40 shell/shell-errors.xml.h:48
+#: shell/shell-errors.xml.h:41 shell/shell-errors.xml.h:49
 #, fuzzy
 msgid "Evolution can not start."
 msgstr "KDeelop-installering"
 
 #. shell:noshell secondary
-#: shell/shell-errors.xml.h:42
+#: shell/shell-errors.xml.h:43
 msgid ""
 "Your system configuration does not match your Evolution configuration.\n"
 "\n"
@@ -17458,7 +17463,7 @@ msgid ""
 msgstr ""
 
 #. shell:noshell-reason secondary
-#: shell/shell-errors.xml.h:50
+#: shell/shell-errors.xml.h:51
 msgid ""
 "Your system configuration does not match your Evolution configuration:\n"
 "\n"
@@ -17489,35 +17494,36 @@ msgid ""
 "unless otherwise indicated here"
 msgstr ""
 
-#: smime/gui/certificate-manager.c:130 smime/gui/certificate-manager.c:353
-#: smime/gui/certificate-manager.c:556
+#: smime/gui/certificate-manager.c:134 smime/gui/certificate-manager.c:142
+#: smime/gui/certificate-manager.c:375 smime/gui/certificate-manager.c:383
+#: smime/gui/certificate-manager.c:595 smime/gui/certificate-manager.c:603
 #, fuzzy
 msgid "Select a cert to import..."
 msgstr "Vel importerar"
 
-#: smime/gui/certificate-manager.c:245 smime/gui/certificate-manager.c:437
-#: smime/gui/certificate-manager.c:638
+#: smime/gui/certificate-manager.c:263 smime/gui/certificate-manager.c:472
+#: smime/gui/certificate-manager.c:690
 #, fuzzy
 msgid "Certificate Name"
 msgstr "_Sertifikat-ID:"
 
-#: smime/gui/certificate-manager.c:254 smime/gui/certificate-manager.c:455
+#: smime/gui/certificate-manager.c:272 smime/gui/certificate-manager.c:490
 #, fuzzy
 msgid "Purposes"
 msgstr "Framgang"
 
-#: smime/gui/certificate-manager.c:263 smime/gui/smime-ui.glade.h:36
+#: smime/gui/certificate-manager.c:281 smime/gui/smime-ui.glade.h:36
 #: smime/lib/e-cert.c:569
 #, fuzzy
 msgid "Serial Number"
 msgstr "Serienummer"
 
-#: smime/gui/certificate-manager.c:271
+#: smime/gui/certificate-manager.c:289
 #, fuzzy
 msgid "Expires"
 msgstr "Uttrykk"
 
-#: smime/gui/certificate-manager.c:446
+#: smime/gui/certificate-manager.c:481
 #, fuzzy
 msgid "E-Mail Address"
 msgstr "E-postadresse:"
@@ -19900,6 +19906,17 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% ferdig)"
+
+#~ msgid "_Add Group"
+#~ msgstr "_Legg til gruppe"
+
+#, fuzzy
+#~ msgid "Ximian Evolution (Unstable)"
+#~ msgstr "Ximian Evolution"
+
+#, fuzzy
+#~ msgid "Keep"
+#~ msgstr "Pipelyd"
 
 #~ msgid "Remember this password"
 #~ msgstr "Husk dette passordet"

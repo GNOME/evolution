@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-12 03:06+0200\n"
+"POT-Creation-Date: 2004-08-13 14:55-0400\n"
 "PO-Revision-Date: 2004-08-12 13:55+0300\n"
 "Last-Translator: Leonid Kanter <leon@asplinux.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -19,7 +19,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.3.1\n"
-"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: a11y/addressbook/ea-addressbook-view.c:94
@@ -216,7 +217,8 @@ msgstr "Работа компонента адресной книги Evolution 
 
 #. addressbook:backend-died secondary
 #: addressbook/addressbook-errors.xml.h:55
-msgid "Your contacts for {0} will not be available until Evolution is restarted."
+msgid ""
+"Your contacts for {0} will not be available until Evolution is restarted."
 msgstr "Ваши контакты для {0} не будут доступны до перезапуска Evolution."
 
 #: addressbook/conduit/address-conduit.c:298
@@ -441,17 +443,17 @@ msgstr "Удалить"
 msgid "Properties..."
 msgstr "Свойства..."
 
-#: addressbook/gui/component/addressbook.c:89
+#: addressbook/gui/component/addressbook.c:98
 msgid "Accessing LDAP Server anonymously"
 msgstr "Анонимное подключение к серверу LDAP"
 
-#: addressbook/gui/component/addressbook.c:173
-#: camel/providers/groupwise/camel-gw-listener.c:417
+#: addressbook/gui/component/addressbook.c:184
+#: camel/providers/groupwise/camel-gw-listener.c:420
 msgid "Failed to authenticate.\n"
 msgstr "Ошибка проверки подлинности.\n"
 
-#: addressbook/gui/component/addressbook.c:179
-#: camel/providers/groupwise/camel-gw-listener.c:406
+#: addressbook/gui/component/addressbook.c:191
+#: camel/providers/groupwise/camel-gw-listener.c:409
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%sВведите пароль для %s (пользователь %s)"
@@ -577,7 +579,8 @@ msgid "Email address"
 msgstr "Электронная почта"
 
 #: addressbook/gui/component/ldap-config.glade.h:21
-msgid "Evolution will use this email address to authenticate you with the server."
+msgid ""
+"Evolution will use this email address to authenticate you with the server."
 msgstr "Этот адрес будет использоваться для идентификации вас на сервере."
 
 #: addressbook/gui/component/ldap-config.glade.h:22
@@ -3021,11 +3024,13 @@ msgstr ""
 
 #: addressbook/gui/widgets/eab-gui-util.c:142
 msgid "The backend for this addressbook was unable to parse this query."
-msgstr "База данных для этой адресной книги не смогла обработать текущий запрос."
+msgstr ""
+"База данных для этой адресной книги не смогла обработать текущий запрос."
 
 #: addressbook/gui/widgets/eab-gui-util.c:145
 msgid "The backend for this addressbook refused to perform this query."
-msgstr "База данных для этой адресной книги отказалась обрабатывать текущий запрос."
+msgstr ""
+"База данных для этой адресной книги отказалась обрабатывать текущий запрос."
 
 #: addressbook/gui/widgets/eab-gui-util.c:148
 msgid "This query did not complete successfully."
@@ -3036,7 +3041,7 @@ msgid "Error adding list"
 msgstr "Ошибка добавления списка"
 
 #: addressbook/gui/widgets/eab-gui-util.c:170
-#: addressbook/gui/widgets/eab-gui-util.c:581
+#: addressbook/gui/widgets/eab-gui-util.c:640
 msgid "Error adding contact"
 msgstr "Ошибка добавления контакта"
 
@@ -3053,7 +3058,7 @@ msgid "Error removing list"
 msgstr "Ошибка удаления списка"
 
 #: addressbook/gui/widgets/eab-gui-util.c:193
-#: addressbook/gui/widgets/eab-gui-util.c:539
+#: addressbook/gui/widgets/eab-gui-util.c:598
 msgid "Error removing contact"
 msgstr "Ошибка удаления контакта"
 
@@ -3080,39 +3085,39 @@ msgid "Overwrite"
 msgstr "Перезаписать"
 
 #. This is a filename. Translators take note.
-#: addressbook/gui/widgets/eab-gui-util.c:366
+#: addressbook/gui/widgets/eab-gui-util.c:383
 msgid "card.vcf"
 msgstr "card.vcf"
 
-#: addressbook/gui/widgets/eab-gui-util.c:500
+#: addressbook/gui/widgets/eab-gui-util.c:545
 msgid "list"
 msgstr "список"
 
-#: addressbook/gui/widgets/eab-gui-util.c:635
+#: addressbook/gui/widgets/eab-gui-util.c:694
 msgid "Move contact to"
 msgstr "Переместить контакт в"
 
-#: addressbook/gui/widgets/eab-gui-util.c:637
+#: addressbook/gui/widgets/eab-gui-util.c:696
 msgid "Copy contact to"
 msgstr "Копировать контакт в"
 
-#: addressbook/gui/widgets/eab-gui-util.c:640
+#: addressbook/gui/widgets/eab-gui-util.c:699
 msgid "Move contacts to"
 msgstr "Переместить контакты в"
 
-#: addressbook/gui/widgets/eab-gui-util.c:642
+#: addressbook/gui/widgets/eab-gui-util.c:701
 msgid "Copy contacts to"
 msgstr "Копировать контакты в"
 
-#: addressbook/gui/widgets/eab-gui-util.c:645
+#: addressbook/gui/widgets/eab-gui-util.c:704
 msgid "Select target addressbook."
 msgstr "Выберите целевую адресную книгу."
 
-#: addressbook/gui/widgets/eab-gui-util.c:868
+#: addressbook/gui/widgets/eab-gui-util.c:927
 msgid "Multiple VCards"
 msgstr "Множество VCards"
 
-#: addressbook/gui/widgets/eab-gui-util.c:871
+#: addressbook/gui/widgets/eab-gui-util.c:930
 #, c-format
 msgid "VCard for %s"
 msgstr "VCard для %s"
@@ -3456,7 +3461,8 @@ msgid "Export in asynchronous mode "
 msgstr "Экспорт в асинхронном режиме "
 
 #: addressbook/tools/evolution-addressbook-export.c:63
-msgid "The number of cards in one output file in asychronous mode,default size 100."
+msgid ""
+"The number of cards in one output file in asychronous mode,default size 100."
 msgstr ""
 "Количество карточек в одном файле вывода в асинхронном режиме, по умолчанию "
 "100"
@@ -3466,7 +3472,8 @@ msgid "NUMBER"
 msgstr "NUMBER"
 
 #: addressbook/tools/evolution-addressbook-export.c:91
-msgid "Command line arguments error, please use --help option to see the usage."
+msgid ""
+"Command line arguments error, please use --help option to see the usage."
 msgstr ""
 "Ошибка аргументов командной строки, используйте параметр --help, чтобы "
 "просмотреть доступные аргументы."
@@ -3519,9 +3526,9 @@ msgstr ""
 "собрание отменено."
 
 #: calendar/calendar-errors.xml.h:5 calendar/calendar-errors.xml.h:15
-#: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:85
-#: calendar/calendar-errors.xml.h:91 calendar/calendar-errors.xml.h:97
-#: calendar/calendar-errors.xml.h:103
+#: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:87
+#: calendar/calendar-errors.xml.h:93 calendar/calendar-errors.xml.h:99
+#: calendar/calendar-errors.xml.h:105
 msgid "Don't Send"
 msgstr "Не отправлять"
 
@@ -3537,7 +3544,8 @@ msgstr "Вы действительно хотите удалить это со�
 
 #. calendar:prompt-delete-meeting secondary
 #: calendar/calendar-errors.xml.h:10
-msgid "All information on this meeting will be deleted and can not be restored."
+msgid ""
+"All information on this meeting will be deleted and can not be restored."
 msgstr "Все сведения об этом собрании будут безвозвратно удалены."
 
 #. calendar:prompt-cancel-task secondary
@@ -3594,7 +3602,8 @@ msgstr "Вы действительно хотите удалить встреч
 #. calendar:prompt-delete-titled-appointment secondary
 #. calendar:prompt-delete-appointment secondary
 #: calendar/calendar-errors.xml.h:34 calendar/calendar-errors.xml.h:38
-msgid "All information on this appointment will be deleted and can not be restored."
+msgid ""
+"All information on this appointment will be deleted and can not be restored."
 msgstr "Все сведения об этой встрече будут безвозвратно удалены."
 
 #. calendar:prompt-delete-appointment primary
@@ -3615,7 +3624,8 @@ msgstr ""
 #. calendar:prompt-delete-named-journal secondary
 #. calendar:prompt-delete-journal secondary
 #: calendar/calendar-errors.xml.h:50 calendar/calendar-errors.xml.h:54
-msgid "All information in this journal will be deleted and can not be restored."
+msgid ""
+"All information in this journal will be deleted and can not be restored."
 msgstr ""
 
 #. calendar:prompt-delete-appointments primary
@@ -3670,11 +3680,12 @@ msgstr "Сохранить изменения этой встречи?"
 msgid "You have made changes to this appointment, but not yet saved them."
 msgstr "Вы сделали изменения этой встречи, но не сохранили их."
 
-#: calendar/calendar-errors.xml.h:73 composer/mail-composer-errors.xml.h:33
+#: calendar/calendar-errors.xml.h:73 calendar/calendar-errors.xml.h:81
+#: composer/mail-composer-errors.xml.h:33
 msgid "Discard Changes"
 msgstr "Отклонить изменения"
 
-#: calendar/calendar-errors.xml.h:74
+#: calendar/calendar-errors.xml.h:74 calendar/calendar-errors.xml.h:82
 msgid "Save Changes"
 msgstr "Сохранить изменения"
 
@@ -3694,28 +3705,29 @@ msgid "You have made changes to this task, but not yet saved them."
 msgstr "Вы сделали изменения этой задачи, но не сохранили их."
 
 #. calendar:prompt-meeting-invite primary
-#: calendar/calendar-errors.xml.h:82
+#: calendar/calendar-errors.xml.h:84
 msgid "Would you like to send meeting invitations to participants?"
 msgstr "Разослать приглашения на собрание участникам?"
 
 #. calendar:prompt-meeting-invite secondary
-#: calendar/calendar-errors.xml.h:84
-msgid "Email invitations will be sent to all participants and allow them to RSVP."
+#: calendar/calendar-errors.xml.h:86
+msgid ""
+"Email invitations will be sent to all participants and allow them to RSVP."
 msgstr ""
 
-#: calendar/calendar-errors.xml.h:86 calendar/calendar-errors.xml.h:92
-#: calendar/calendar-errors.xml.h:98 calendar/calendar-errors.xml.h:104
+#: calendar/calendar-errors.xml.h:88 calendar/calendar-errors.xml.h:94
+#: calendar/calendar-errors.xml.h:100 calendar/calendar-errors.xml.h:106
 #: ui/evolution-message-composer.xml.h:24
 msgid "Send"
 msgstr "Отправить"
 
 #. calendar:prompt-send-updated-meeting-info primary
-#: calendar/calendar-errors.xml.h:88
+#: calendar/calendar-errors.xml.h:90
 msgid "Would you like to send updated meeting information to participants?"
 msgstr "Разослать обновленную информацию о собрании участникам?"
 
 #. calendar:prompt-send-updated-meeting-info secondary
-#: calendar/calendar-errors.xml.h:90
+#: calendar/calendar-errors.xml.h:92
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
@@ -3724,12 +3736,12 @@ msgstr ""
 "календари в текущем состоянии."
 
 #. calendar:prompt-send-task primary
-#: calendar/calendar-errors.xml.h:94
+#: calendar/calendar-errors.xml.h:96
 msgid "Would you like to send this task to participants?"
 msgstr "Разослать эту задачу участникам?"
 
 #. calendar:prompt-send-task secondary
-#: calendar/calendar-errors.xml.h:96
+#: calendar/calendar-errors.xml.h:98
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
@@ -3738,34 +3750,34 @@ msgstr ""
 "принять эту задачу."
 
 #. calendar:prompt-send-updated-task-info primary
-#: calendar/calendar-errors.xml.h:100
+#: calendar/calendar-errors.xml.h:102
 msgid "Would you like to send updated task information to participants?"
 msgstr "Разослать обновленные сведения о задаче участникам?"
 
 #. calendar:prompt-send-updated-task-info secondary
-#: calendar/calendar-errors.xml.h:102
+#: calendar/calendar-errors.xml.h:104
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
 msgstr ""
 
 #. calendar:tasks-crashed primary
-#: calendar/calendar-errors.xml.h:106
+#: calendar/calendar-errors.xml.h:108
 msgid "The Evolution tasks have quit unexpectedly."
 msgstr "Работа компонента задач Evolution неожиданно завершилась."
 
 #. calendar:tasks-crashed secondary
-#: calendar/calendar-errors.xml.h:108
+#: calendar/calendar-errors.xml.h:110
 msgid "Your tasks will not be available until Evolution is restarted."
 msgstr "Ваши задачи будут недоступны до перезапуска Evolution."
 
 #. calendar:calendar-crashed primary
-#: calendar/calendar-errors.xml.h:110
+#: calendar/calendar-errors.xml.h:112
 msgid "The Evolution calendar has quit unexpectedly."
 msgstr "Работа компонента календаря Evolution неожиданно завершилась."
 
 #. calendar:calendar-crashed secondary
-#: calendar/calendar-errors.xml.h:112
+#: calendar/calendar-errors.xml.h:114
 msgid "Your calendars will not be available until Evolution is restarted."
 msgstr "Ваши календари будут недоступны до перезапуска Evolution."
 
@@ -4751,8 +4763,9 @@ msgid "_Add Calendar"
 msgstr "_Добавить календарь"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:7
-msgid "_Add Group"
-msgstr "_Добавить группу"
+#, fuzzy
+msgid "_Add Task List"
+msgstr "Добавить список задач"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:9
 msgid "_Refresh:"
@@ -5282,8 +5295,10 @@ msgid "You are modifying a recurring task, what would you like to modify?"
 msgstr "Вы изменяете повторяющуюся задачу, что именно вы хотите изменить?"
 
 #: calendar/gui/dialogs/recur-comp.c:59
-msgid "You are modifying a recurring journal entry, what would you like to modify?"
-msgstr "Вы изменяете повторяющуюся запись в журнале, что именно вы хотите изменить?"
+msgid ""
+"You are modifying a recurring journal entry, what would you like to modify?"
+msgstr ""
+"Вы изменяете повторяющуюся запись в журнале, что именно вы хотите изменить?"
 
 #: calendar/gui/dialogs/recur-comp.c:85
 msgid "This Instance Only"
@@ -5774,7 +5789,7 @@ msgstr "Нет"
 #: camel/providers/imap4/camel-imap4-store.c:1223
 #: camel/providers/imap4/camel-imap4-utils.c:457
 #: camel/providers/smtp/camel-smtp-transport.c:172
-#: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:1123
+#: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:1155
 #: shell/e-component-registry.c:207 shell/e-component-registry.c:211
 #: widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
@@ -6265,11 +6280,14 @@ msgstr "Отправить последнюю информацию"
 msgid ""
 "The meeting has been cancelled, however it could not be found in your "
 "calendars"
-msgstr "Собрание было отменено, но оно не может быть найдено в ваших календарях"
+msgstr ""
+"Собрание было отменено, но оно не может быть найдено в ваших календарях"
 
 #: calendar/gui/e-itip-control.c:1146
-msgid "The task has been cancelled, however it could not be found in your task lists"
-msgstr "Задача была отменена, но она не может быть найдена в ваших списках задач"
+msgid ""
+"The task has been cancelled, however it could not be found in your task lists"
+msgstr ""
+"Задача была отменена, но она не может быть найдена в ваших списках задач"
 
 #: calendar/gui/e-itip-control.c:1159 calendar/gui/itip-utils.c:442
 #: mail/mail-send-recv.c:410 mail/mail-send-recv.c:464
@@ -6466,11 +6484,13 @@ msgstr "Объект некорректен и не может быть обно
 
 #: calendar/gui/e-itip-control.c:1867
 msgid "This response is not from a current attendee.  Add as an attendee?"
-msgstr "Этот ответ пришел не от текущего участника.  Добавить его, как участника?"
+msgstr ""
+"Этот ответ пришел не от текущего участника.  Добавить его, как участника?"
 
 #: calendar/gui/e-itip-control.c:1879
 msgid "Attendee status could not be updated because of an invalid status!\n"
-msgstr "Статус участника не может быть обновлён из-за неверного текущего статуса!\n"
+msgstr ""
+"Статус участника не может быть обновлён из-за неверного текущего статуса!\n"
 
 #: calendar/gui/e-itip-control.c:1896
 msgid "Attendee status updated\n"
@@ -8975,7 +8995,8 @@ msgstr "Недопустимые аргументы для user-tag"
 msgid "Failed to create create child process '%s': %s"
 msgstr "Сбой при создании дочернего процесса '%s': %s"
 
-#: camel/camel-filter-search.c:670 camel/camel-filter-search.c:678
+#. A filter search is a search through your filters, ie. your filters is the corpus being searched thru.
+#: camel/camel-filter-search.c:671 camel/camel-filter-search.c:679
 #, c-format
 msgid "Error executing filter search: %s: %s"
 msgstr "Ошибка выполнения поиска фильтра: %s: %s"
@@ -9037,7 +9058,8 @@ msgstr "Неподдерживаемая операция: поиск выраж
 #: camel/camel-folder.c:1302
 #, c-format
 msgid "Unsupported operation: search by uids: for %s"
-msgstr "Неподдерживаемая операция: поиск по идентификатору пользователя: для %s"
+msgstr ""
+"Неподдерживаемая операция: поиск по идентификатору пользователя: для %s"
 
 #: camel/camel-folder.c:1416
 msgid "Moving messages"
@@ -9108,7 +9130,8 @@ msgstr "Неожиданный ответ от GnuPG: %s"
 
 #: camel/camel-gpg-context.c:880
 msgid "Failed to encrypt: No valid recipients specified."
-msgstr "Не удается зашифровать это сообщение: Не определены корректные получатели"
+msgstr ""
+"Не удается зашифровать это сообщение: Не определены корректные получатели"
 
 #: camel/camel-gpg-context.c:1157
 #, c-format
@@ -9157,7 +9180,8 @@ msgstr "Не удается проверить подпись сообщения
 #: camel/camel-gpg-context.c:1477
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
-msgstr "Не удается проверить подпись сообщения: не удается создать временный файл: %s"
+msgstr ""
+"Не удается проверить подпись сообщения: не удается создать временный файл: %s"
 
 #: camel/camel-gpg-context.c:1565
 #, c-format
@@ -9295,7 +9319,8 @@ msgstr "Для чтения почты по запросу к другому н�
 #: camel/camel-provider.c:172
 #, c-format
 msgid "Could not load %s: Module loading not supported on this system."
-msgstr "Не удается загрузить %s: Загрузка модулей не поддерживается в этой системе."
+msgstr ""
+"Не удается загрузить %s: Загрузка модулей не поддерживается в этой системе."
 
 #: camel/camel-provider.c:181
 #, c-format
@@ -9399,25 +9424,25 @@ msgstr "Ответ сервера содержит неполную информ
 msgid "Server response does not match\n"
 msgstr "Ответ сервера не совпадает\n"
 
-#: camel/camel-sasl-gssapi.c:48
+#: camel/camel-sasl-gssapi.c:52
 msgid "GSSAPI"
 msgstr "GSSAPI"
 
-#: camel/camel-sasl-gssapi.c:50
+#: camel/camel-sasl-gssapi.c:54
 msgid "This option will connect to the server using Kerberos 5 authentication."
 msgstr "Подключение к серверу будет производиться с использованием Kerberos 5."
 
-#: camel/camel-sasl-gssapi.c:148
+#: camel/camel-sasl-gssapi.c:152
 msgid ""
 "The specified mechanism is not supported by the provided credential, or is "
 "unrecognized by the implementation."
 msgstr ""
 
-#: camel/camel-sasl-gssapi.c:153
+#: camel/camel-sasl-gssapi.c:157
 msgid "The provided target_name parameter was ill-formed."
 msgstr "Предоставленный параметр target_name сформирован неверно."
 
-#: camel/camel-sasl-gssapi.c:156
+#: camel/camel-sasl-gssapi.c:160
 msgid ""
 "The provided target_name parameter contained an invalid or unsupported type "
 "of name."
@@ -9425,13 +9450,13 @@ msgstr ""
 "Предоставленный параметр target_name содержит неверный или неподдерживаемый "
 "тип имени."
 
-#: camel/camel-sasl-gssapi.c:160
+#: camel/camel-sasl-gssapi.c:164
 msgid ""
 "The input_token contains different channel bindings to those specified via "
 "the input_chan_bindings parameter."
 msgstr ""
 
-#: camel/camel-sasl-gssapi.c:165
+#: camel/camel-sasl-gssapi.c:169
 msgid ""
 "The input_token contains an invalid signature, or a signature that could not "
 "be verified."
@@ -9439,41 +9464,41 @@ msgstr ""
 "input_token содержит неверную подпись, или подпись, которая не может быть "
 "проверена."
 
-#: camel/camel-sasl-gssapi.c:169
+#: camel/camel-sasl-gssapi.c:173
 msgid ""
 "The supplied credentials were not valid for context initiation, or the "
 "credential handle did not reference any credentials."
 msgstr ""
 
-#: camel/camel-sasl-gssapi.c:174
+#: camel/camel-sasl-gssapi.c:178
 msgid "The supplied context handle did not refer to a valid context."
 msgstr ""
 
-#: camel/camel-sasl-gssapi.c:177
+#: camel/camel-sasl-gssapi.c:181
 msgid "The consistency checks performed on the input_token failed."
 msgstr ""
 
-#: camel/camel-sasl-gssapi.c:180
+#: camel/camel-sasl-gssapi.c:184
 msgid "The consistency checks performed on the credential failed."
 msgstr ""
 
-#: camel/camel-sasl-gssapi.c:183
+#: camel/camel-sasl-gssapi.c:187
 msgid "The referenced credentials have expired."
 msgstr ""
 
-#: camel/camel-sasl-gssapi.c:189 camel/camel-sasl-gssapi.c:238
-#: camel/camel-sasl-gssapi.c:274 camel/camel-sasl-gssapi.c:289
+#: camel/camel-sasl-gssapi.c:193 camel/camel-sasl-gssapi.c:242
+#: camel/camel-sasl-gssapi.c:278 camel/camel-sasl-gssapi.c:293
 #: camel/camel-sasl-kerberos4.c:219
 #: camel/providers/imap/camel-imap-store.c:1236
 msgid "Bad authentication response from server."
 msgstr "Неверный ответ от сервера при идентификации."
 
-#: camel/camel-sasl-gssapi.c:213
+#: camel/camel-sasl-gssapi.c:217
 #, c-format
 msgid "Failed to resolve host `%s': %s"
 msgstr "Ошибка при определении узла '%s': %s"
 
-#: camel/camel-sasl-gssapi.c:299
+#: camel/camel-sasl-gssapi.c:303
 msgid "Unsupported security layer."
 msgstr "Неподдерживаемый уровень безопасности."
 
@@ -10127,7 +10152,8 @@ msgstr "Проверять новую почту во всех папках"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:59
 msgid "Apply filters to new messages in Inbox on this server"
-msgstr "Применить фильтры к новым сообщениям в папке \"Входящие\" на этом сервере"
+msgstr ""
+"Применить фильтры к новым сообщениям в папке \"Входящие\" на этом сервере"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:61
 #: camel/providers/imap/camel-imap-provider.c:66
@@ -10137,7 +10163,8 @@ msgstr "Проверять, являются ли новые сообщения 
 #: camel/providers/groupwise/camel-groupwise-provider.c:63
 #: camel/providers/imap/camel-imap-provider.c:68
 msgid "Only check for Junk messages in the INBOX folder"
-msgstr "Проверять, являются ли новые сообщения спамом, только в папке \"Входящие\""
+msgstr ""
+"Проверять, являются ли новые сообщения спамом, только в папке \"Входящие\""
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:65
 #: camel/providers/imap/camel-imap-provider.c:70
@@ -10145,7 +10172,8 @@ msgid "Automatically synchronize remote mail locally"
 msgstr "Автоматически синхронизировать удаленную почту локально"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:69
-msgid "Address Book And Calendar"
+#, fuzzy
+msgid "Address Book and Calendar"
 msgstr "Адресная книга и календарь"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:72
@@ -10157,8 +10185,9 @@ msgid "Post Office Agent SOAP Port:"
 msgstr ""
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:78
-msgid "Use ssl"
-msgstr "Использовать ssl"
+#, fuzzy
+msgid "Use Secure Connection (SSL)"
+msgstr "Использовать _защищенное соединение (SSL):"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:92
 msgid "Novell GroupWise"
@@ -10310,7 +10339,8 @@ msgstr "Неполный ответ сервера: отсутствует UID �
 
 #: camel/providers/imap/camel-imap-folder.c:2482
 #, c-format
-msgid "Unexpected server response: Identical UIDs provided for messages %d and %d"
+msgid ""
+"Unexpected server response: Identical UIDs provided for messages %d and %d"
 msgstr "Неожиданный ответ сервера: одинаковые UID для сообщений %d и %d"
 
 #: camel/providers/imap/camel-imap-folder.c:2658
@@ -10374,7 +10404,8 @@ msgstr "Пространство имен"
 
 #: camel/providers/imap/camel-imap-provider.c:64
 msgid "Apply filters to new messages in INBOX on this server"
-msgstr "Применить фильтры к новым сообщениям в папке \"Входящие\" на этом сервере"
+msgstr ""
+"Применить фильтры к новым сообщениям в папке \"Входящие\" на этом сервере"
 
 #: camel/providers/imap/camel-imap-provider.c:76
 msgid "IMAP"
@@ -10490,7 +10521,8 @@ msgstr "Нет такой папки %s"
 #: camel/providers/imap/camel-imap-store.c:2259
 #: camel/providers/imap4/camel-imap4-store.c:764
 #, c-format
-msgid "The folder name \"%s\" is invalid because it contains the character \"%c\""
+msgid ""
+"The folder name \"%s\" is invalid because it contains the character \"%c\""
 msgstr "Имя папки \"%s\" некорректно, так как содержит символ \"%c\""
 
 #: camel/providers/imap/camel-imap-store.c:1939
@@ -10600,12 +10632,14 @@ msgstr "Не удается получить сообщение: %s из пап�
 #: camel/providers/imap4/camel-imap4-folder.c:947
 #, c-format
 msgid "Cannot move messages from folder `%s' to folder `%s': Bad command"
-msgstr "Не удается переместить сообщения из папки `%s' в папку `%s': неверная команда"
+msgstr ""
+"Не удается переместить сообщения из папки `%s' в папку `%s': неверная команда"
 
 #: camel/providers/imap4/camel-imap4-folder.c:951
 #, c-format
 msgid "Cannot copy messages from folder `%s' to folder `%s': Bad command"
-msgstr "Не удается скопировать сообщения из папки `%s' в папку `%s': неверная команда"
+msgstr ""
+"Не удается скопировать сообщения из папки `%s' в папку `%s': неверная команда"
 
 #: camel/providers/imap4/camel-imap4-provider.c:53
 msgid "IMAPv4rev1"
@@ -10613,10 +10647,12 @@ msgstr "IMAPv4rev1"
 
 #: camel/providers/imap4/camel-imap4-provider.c:55
 msgid "For reading and storing mail on IMAPv4rev1 servers. EXPERIMENTAL !!"
-msgstr "Для чтения и хранения почты на серверах IMAPv4rev1. ЭКСПЕРИМЕНТАЛЬНО !!"
+msgstr ""
+"Для чтения и хранения почты на серверах IMAPv4rev1. ЭКСПЕРИМЕНТАЛЬНО !!"
 
 #: camel/providers/imap4/camel-imap4-provider.c:72
-msgid "This option will connect to the IMAPv4rev1 server using a plaintext password."
+msgid ""
+"This option will connect to the IMAPv4rev1 server using a plaintext password."
 msgstr ""
 "Подключение к серверу IMAP будет производиться с использованием "
 "незашифрованного пароля."
@@ -10632,7 +10668,8 @@ msgstr ""
 
 #: camel/providers/imap4/camel-imap4-store.c:363
 #, c-format
-msgid "Cannot authenticate to IMAP server %s using the %s authentication mechanism"
+msgid ""
+"Cannot authenticate to IMAP server %s using the %s authentication mechanism"
 msgstr "Не удается авторизоваться на сервере IMAP %s используя механизм %s"
 
 #: camel/providers/imap4/camel-imap4-store.c:408
@@ -10683,7 +10720,8 @@ msgstr "Не удается переименовать папку `%s' в `%s': 
 #: camel/providers/imap4/camel-imap4-store.c:968
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Invalid mailbox name"
-msgstr "Не удается переименовать папку `%s' в `%s': Неверное имя почтового ящика"
+msgstr ""
+"Не удается переименовать папку `%s' в `%s': Неверное имя почтового ящика"
 
 #: camel/providers/imap4/camel-imap4-store.c:973
 #, c-format
@@ -11358,7 +11396,8 @@ msgstr ""
 " %s"
 
 #: camel/providers/nntp/camel-nntp-provider.c:43
-msgid "Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
+msgid ""
+"Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
 msgstr ""
 
 #: camel/providers/nntp/camel-nntp-provider.c:45
@@ -11371,7 +11410,8 @@ msgstr "Новости USENET"
 
 #: camel/providers/nntp/camel-nntp-provider.c:54
 msgid "This is a provider for reading from and posting toUSENET newsgroups."
-msgstr "Это провайдер для чтения и отправки сообщений в группы новостей USENET."
+msgstr ""
+"Это провайдер для чтения и отправки сообщений в группы новостей USENET."
 
 #: camel/providers/nntp/camel-nntp-provider.c:73
 msgid ""
@@ -11641,7 +11681,8 @@ msgstr "Sendmail"
 msgid ""
 "For delivering mail by passing it to the \"sendmail\" program on the local "
 "system."
-msgstr "Для доставки почты путем запуска программы \"sendmail\" на локальной системе."
+msgstr ""
+"Для доставки почты путем запуска программы \"sendmail\" на локальной системе."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:113
 msgid "Could not parse recipient list"
@@ -11737,7 +11778,8 @@ msgstr "Запрошенное почтовое действие выполне�
 
 #: camel/providers/smtp/camel-smtp-transport.c:194
 msgid "User not local; will forward to <forward-path>"
-msgstr "Не локальный пользователь; будет отправлено в соответствии с <forward-path>"
+msgstr ""
+"Не локальный пользователь; будет отправлено в соответствии с <forward-path>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:196
 msgid "Requested mail action not taken: mailbox unavailable"
@@ -11757,7 +11799,8 @@ msgstr "Пользователь не локальный; установите <
 
 #: camel/providers/smtp/camel-smtp-transport.c:204
 msgid "Requested action not taken: insufficient system storage"
-msgstr "Запрошенное действие не выполнено: недостаточно места в системном хранилище"
+msgstr ""
+"Запрошенное действие не выполнено: недостаточно места в системном хранилище"
 
 #: camel/providers/smtp/camel-smtp-transport.c:206
 msgid "Requested mail action aborted: exceeded storage allocation"
@@ -11973,7 +12016,7 @@ msgstr "%.0fM"
 msgid "%.0fG"
 msgstr "%.0fG"
 
-#: composer/e-msg-composer-attachment-bar.c:298 mail/em-utils.c:410
+#: composer/e-msg-composer-attachment-bar.c:298 mail/em-utils.c:436
 msgid "attachment"
 msgstr "вложение"
 
@@ -12013,7 +12056,8 @@ msgid "MIME type:"
 msgstr "Тип MIME:"
 
 #: composer/e-msg-composer-attachment.glade.h:6
-#: composer/e-msg-composer-select-file.c:74
+#: composer/e-msg-composer-select-file.c:92
+#: composer/e-msg-composer-select-file.c:111
 msgid "Suggest automatic display of attachment"
 msgstr "Предполагать автоматическое отображение вложения"
 
@@ -12095,19 +12139,24 @@ msgstr "Отправить на:"
 msgid "Click here to select folders to post to"
 msgstr "<щёлкните здесь, чтобы выбрать папку>"
 
-#: composer/e-msg-composer-select-file.c:127
+#: composer/e-msg-composer-select-file.c:186
 msgid "Attach file(s)"
 msgstr "Вложить файл(ы)"
 
 #: composer/e-msg-composer.c:704
-msgid "Cannot sign outgoing message: No signing certificate set for this account"
-msgstr "Не удается подписать исходящее сообщение: нет сертификата подписи для этой учетной записи"
+msgid ""
+"Cannot sign outgoing message: No signing certificate set for this account"
+msgstr ""
+"Не удается подписать исходящее сообщение: нет сертификата подписи для этой "
+"учетной записи"
 
 #: composer/e-msg-composer.c:711
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
-msgstr "Не удается зашифровать исходящее сообщение: нет сертификата шифрования для этой учетной записи"
+msgstr ""
+"Не удается зашифровать исходящее сообщение: нет сертификата шифрования для "
+"этой учетной записи"
 
 #: composer/e-msg-composer.c:1268
 msgid "Could not open file"
@@ -12184,7 +12233,8 @@ msgstr "Вы не можете вложить файл `{0}' в это сооб�
 #. mail-composer:attach-notfile primary
 #: composer/mail-composer-errors.xml.h:6
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
-msgstr "Файл `{0}' не является обычным файлом и не может быть отправлен в сообщении."
+msgstr ""
+"Файл `{0}' не является обычным файлом и не может быть отправлен в сообщении."
 
 #. mail-composer:attach-directory primary
 #: composer/mail-composer-errors.xml.h:8
@@ -12333,13 +12383,14 @@ msgstr ""
 "Убедитесь, что у вас установлены необходимые\n"
 "версии пакетов gtkhtml и libgtkhtml."
 
-#: data/evolution.desktop.in.in.h:1
-msgid "The Ximian Evolution Groupware Suite"
-msgstr "Набор приложений групповой работы Ximian Evolution"
+#: data/evolution.desktop.in.in.h:1 shell/main.c:503
+msgid "Evolution"
+msgstr "Evolution"
 
 #: data/evolution.desktop.in.in.h:2
-msgid "Ximian Evolution (Unstable)"
-msgstr "Ximian Evolution (нестабильный)"
+#, fuzzy
+msgid "The Evolution Groupware Suite"
+msgstr "Набор приложений групповой работы Ximian Evolution"
 
 #: data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -12453,7 +12504,7 @@ msgstr ""
 "Что должна делать программа Evolution, когда приходит письмо с запросом "
 "подтверждения прочтения?"
 
-#: e-util/e-dialog-utils.c:253
+#: e-util/e-dialog-utils.c:265
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
@@ -12462,17 +12513,17 @@ msgstr ""
 "Перезаписать его?"
 
 #. system:ask-save-file-exists-overwrite title
-#: e-util/e-dialog-utils.c:255 widgets/misc/e-system-errors.xml.h:2
+#: e-util/e-dialog-utils.c:267 widgets/misc/e-system-errors.xml.h:2
 msgid "Overwrite file?"
 msgstr "Перезаписать файл?"
 
-#: e-util/e-passwords.c:358
-msgid "Remember this password"
-msgstr "Запомнить этот пароль"
+#: e-util/e-passwords.c:460
+msgid "_Remember this password"
+msgstr "_Запомнить этот пароль"
 
-#: e-util/e-passwords.c:360
-msgid "Remember this password for the remainder of this session"
-msgstr "Запомнить этот пароль до окончания этой сессии"
+#: e-util/e-passwords.c:461
+msgid "_Remember this password for the remainder of this session"
+msgstr "_Запомнить этот пароль до завершения этого сеанса"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
@@ -12857,7 +12908,8 @@ msgid "Composer Preferences"
 msgstr "Настройка редактора"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:3
-msgid "Configure mail preferences, including security and message display, here"
+msgid ""
+"Configure mail preferences, including security and message display, here"
 msgstr ""
 "Тут настраиваются параметры почты, включая безопасность и отображение "
 "сообщений"
@@ -13542,7 +13594,8 @@ msgstr "Не подписано"
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
-msgstr "Это сообщение не подписано. Отправитель не может быть аутентифицирован."
+msgstr ""
+"Это сообщение не подписано. Отправитель не может быть аутентифицирован."
 
 #: mail/em-format-html-display.c:642 mail/em-format-html.c:583
 msgid "Valid signature"
@@ -13728,7 +13781,7 @@ msgid "Bcc"
 msgstr "Скр.копия"
 
 #. pseudo-header
-#: mail/em-format-html.c:1554 mail/em-format-quote.c:312
+#: mail/em-format-html.c:1554 mail/em-format-quote.c:314
 #: mail/em-mailer-prefs.c:939
 msgid "Mailer"
 msgstr "Почтовый клиент"
@@ -13743,7 +13796,7 @@ msgstr ""
 msgid "<I> (%R %Z)</I>"
 msgstr ""
 
-#: mail/em-format-html.c:1594 mail/em-format-quote.c:319 mail/em-format.c:806
+#: mail/em-format-html.c:1594 mail/em-format-quote.c:321 mail/em-format.c:806
 #: mail/em-mailer-prefs.c:88 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Дата"
@@ -13923,20 +13976,20 @@ msgstr "Не показывать это сообщение снова."
 msgid "Filters"
 msgstr "Настройки фильтров"
 
-#: mail/em-utils.c:408
+#: mail/em-utils.c:434
 msgid "message"
 msgstr "сообщение"
 
-#: mail/em-utils.c:511
+#: mail/em-utils.c:543
 msgid "Save Message..."
 msgstr "Сохранить сообщение ..."
 
-#: mail/em-utils.c:560
+#: mail/em-utils.c:592
 msgid "Add address"
 msgstr "Добавить адрес"
 
 #. Drop filename for messages from a mailbox
-#: mail/em-utils.c:1021
+#: mail/em-utils.c:1053
 #, c-format
 msgid "Messages from %s"
 msgstr "Почта от %s"
@@ -14192,7 +14245,8 @@ msgstr ""
 "папке."
 
 #: mail/evolution-mail.schemas.in.in.h:56
-msgid "Prompt the user when he or she tries to send a message without a Subject."
+msgid ""
+"Prompt the user when he or she tries to send a message without a Subject."
 msgstr ""
 "Предупреждать, если пользователь пытается отправить сообщение с пустым полем "
 "Subject."
@@ -14209,15 +14263,18 @@ msgstr "Предупреждать, если пользователь запол
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
-msgstr "Предупреждать при отправке сообщений в формате HTML тем, кто не желает этого."
+msgstr ""
+"Предупреждать при отправке сообщений в формате HTML тем, кто не желает этого."
 
 #: mail/evolution-mail.schemas.in.in.h:60
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
-msgstr "Предупреждать при попытке отправить сообщение с пустыми полями To и Cc."
+msgstr ""
+"Предупреждать при попытке отправить сообщение с пустыми полями To и Cc."
 
 #: mail/evolution-mail.schemas.in.in.h:61
 msgid "Prompt when user tries to send unwanted HTML"
-msgstr "Предупреждать, когда пользователь пытается отправить нежелательный HTML"
+msgstr ""
+"Предупреждать, когда пользователь пытается отправить нежелательный HTML"
 
 #: mail/evolution-mail.schemas.in.in.h:62
 msgid "Recognize links in text and replace them."
@@ -15387,7 +15444,8 @@ msgstr "_Никогда не загружать изображения из Ин
 
 #: mail/mail-config.glade.h:174
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
-msgstr "П_редупреждать при отправке сообщений в формате HTML тем, кто не желает этого"
+msgstr ""
+"П_редупреждать при отправке сообщений в формате HTML тем, кто не желает этого"
 
 #: mail/mail-config.glade.h:175
 msgid "_Prompt when sending messages with an empty subject line"
@@ -15595,7 +15653,8 @@ msgstr ""
 #: mail/mail-errors.xml.h:22 mail/mail-errors.xml.h:29
 #, fuzzy
 msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr "Предупреждать при попытке отправить сообщение с пустыми полями To и Cc."
+msgstr ""
+"Предупреждать при попытке отправить сообщение с пустыми полями To и Cc."
 
 #. mail:ask-send-only-bcc-contact secondary
 #: mail/mail-errors.xml.h:24
@@ -15619,8 +15678,10 @@ msgstr ""
 
 #. mail:send-no-recipients primary
 #: mail/mail-errors.xml.h:34
-msgid "This message cannot be sent because you have not specified any Recipients"
-msgstr "Сообщение не может быть отправлено, поскольку не указан ни один получатель"
+msgid ""
+"This message cannot be sent because you have not specified any Recipients"
+msgstr ""
+"Сообщение не может быть отправлено, поскольку не указан ни один получатель"
 
 #. mail:send-no-recipients secondary
 #: mail/mail-errors.xml.h:36
@@ -15894,7 +15955,8 @@ msgstr "Вы действительно хотите удалить эту уч�
 #. mail:ask-delete-account secondary
 #: mail/mail-errors.xml.h:168
 msgid "If you proceed, the account information will be deleted permanently."
-msgstr "Если вы продолжите, сведения о учетной записи будут окончательно удалены."
+msgstr ""
+"Если вы продолжите, сведения о учетной записи будут окончательно удалены."
 
 #: mail/mail-errors.xml.h:169
 msgid "Don't delete"
@@ -16281,26 +16343,18 @@ msgstr "Обновление..."
 msgid "Waiting..."
 msgstr "Ожидание..."
 
-#: mail/mail-session.c:240
-msgid "User canceled operation."
-msgstr "Операция отменена пользователем."
-
-#: mail/mail-session.c:274
+#: mail/mail-session.c:207
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Введите пароль для %s"
 
-#: mail/mail-session.c:276
+#: mail/mail-session.c:209
 msgid "Enter Password"
 msgstr "Ввод пароля"
 
-#: mail/mail-session.c:304
-msgid "_Remember this password"
-msgstr "_Запомнить этот пароль"
-
-#: mail/mail-session.c:305
-msgid "_Remember this password for the remainder of this session"
-msgstr "_Запомнить этот пароль до завершения этого сеанса"
+#: mail/mail-session.c:238
+msgid "User canceled operation."
+msgstr "Операция отменена пользователем."
 
 #: mail/mail-signature-editor.c:371
 msgid "Edit signature"
@@ -16567,7 +16621,8 @@ msgstr ""
 msgid ""
 "If set to true, Evolution will start up in offline mode instead of online "
 "mode."
-msgstr "Если этот ключ установлен, Evolution будет запускаться в автономном режиме."
+msgstr ""
+"Если этот ключ установлен, Evolution будет запускаться в автономном режиме."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:8
 msgid ""
@@ -16581,7 +16636,8 @@ msgid "Last upgraded Evolution configuration version"
 msgstr "Версия конфигурации Evolution"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:10
-msgid "List of paths for the folders to be synchronized to disk for offline usage"
+msgid ""
+"List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:11
@@ -16663,7 +16719,7 @@ msgstr ""
 msgid "Select importer"
 msgstr "Выбрать импортер"
 
-#: shell/e-shell-importer.c:451 shell/e-shell-importer.c:1055
+#: shell/e-shell-importer.c:451 shell/e-shell-importer.c:1056
 #, c-format
 msgid "File %s does not exist"
 msgstr "Файл \"%s\" не существует"
@@ -16703,19 +16759,19 @@ msgstr "_Имя файла:"
 msgid "Select a file"
 msgstr "Выбрать файл"
 
-#: shell/e-shell-importer.c:642
+#: shell/e-shell-importer.c:643
 msgid "File _type:"
 msgstr "_Тип файла:"
 
-#: shell/e-shell-importer.c:681
+#: shell/e-shell-importer.c:682
 msgid "Import data and settings from _older programs"
 msgstr "Импорт данных и настроек из _старых программ"
 
-#: shell/e-shell-importer.c:684
+#: shell/e-shell-importer.c:685
 msgid "Import a _single file"
 msgstr "Импорт _одного файла"
 
-#: shell/e-shell-importer.c:752 shell/e-shell-startup-wizard.c:571
+#: shell/e-shell-importer.c:753 shell/e-shell-startup-wizard.c:571
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
@@ -16723,25 +16779,25 @@ msgstr ""
 "Пожалуйста подождите...\n"
 "Сканирование существующих настроек"
 
-#: shell/e-shell-importer.c:756
+#: shell/e-shell-importer.c:757
 msgid "Starting Intelligent Importers"
 msgstr "Запуск интеллектуального импортера"
 
-#: shell/e-shell-importer.c:882 shell/e-shell-startup-wizard.c:698
+#: shell/e-shell-importer.c:883 shell/e-shell-startup-wizard.c:698
 #, c-format
 msgid "From %s:"
 msgstr "Из %s:"
 
-#: shell/e-shell-importer.c:1073
+#: shell/e-shell-importer.c:1074
 #, fuzzy, c-format
 msgid "No importer available for file %s"
 msgstr "Провайдер для протокола \"%s\" не доступен"
 
-#: shell/e-shell-importer.c:1085
+#: shell/e-shell-importer.c:1086
 msgid "Unable to execute importer"
 msgstr "Не удается запустить приложение импорта"
 
-#: shell/e-shell-importer.c:1199
+#: shell/e-shell-importer.c:1200
 msgid "_Import"
 msgstr "_Импорт"
 
@@ -16924,7 +16980,8 @@ msgstr "Создать новый тестовый элемент"
 
 #: shell/importer/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
-msgstr "Нажмите \"Импортировать\" для начала импортирования файлов в Evolution."
+msgstr ""
+"Нажмите \"Импортировать\" для начала импортирования файлов в Evolution."
 
 #: shell/importer/import.glade.h:2
 msgid "Evolution Import Assistant"
@@ -16982,7 +17039,7 @@ msgid "Evolution can import data from the following files:"
 msgstr "Evolution может импортировать данные из следующих файлов:"
 
 #. Preview/Alpha/Beta version warning message
-#: shell/main.c:225
+#: shell/main.c:226
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -17002,7 +17059,7 @@ msgid ""
 "eagerly await your contributions!\n"
 msgstr ""
 
-#: shell/main.c:249
+#: shell/main.c:250
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -17010,39 +17067,35 @@ msgstr ""
 "С благодарностью\n"
 "команда Evolution\n"
 
-#: shell/main.c:256
+#: shell/main.c:257
 msgid "Don't tell me again"
 msgstr "Не напоминать больше"
 
-#: shell/main.c:461
+#: shell/main.c:462
 msgid "Start Evolution activating the specified component"
 msgstr "Запуск Evolution с активированием указанного компонента"
 
-#: shell/main.c:463
+#: shell/main.c:464
 msgid "Start in offline mode"
 msgstr "Запуск в автономном режиме"
 
-#: shell/main.c:465
+#: shell/main.c:466
 msgid "Start in online mode"
 msgstr "Запуск в режиме подключения к интернету"
 
-#: shell/main.c:468
+#: shell/main.c:469
 msgid "Forcibly shut down all evolution components"
 msgstr "Принудительное закрытие всех компонентов evolution"
 
-#: shell/main.c:472
+#: shell/main.c:473
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "Принудительная повторная миграция с Evolution 1.4"
 
-#: shell/main.c:475
+#: shell/main.c:476
 msgid "Send the debugging output of all components to a file."
 msgstr "Записывать отладочный вывод всех компонентов в файл."
 
-#: shell/main.c:502
-msgid "Evolution"
-msgstr "Evolution"
-
-#: shell/main.c:506
+#: shell/main.c:507
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -17104,17 +17157,22 @@ msgid ""
 msgstr ""
 
 #: shell/shell-errors.xml.h:25
-msgid "Keep"
-msgstr "Сохранить"
+#, fuzzy
+msgid "_Remind Me Later"
+msgstr "Напоминание!!"
+
+#: shell/shell-errors.xml.h:26
+msgid "_Keep Data"
+msgstr ""
 
 #. shell:upgrade-remove-1-4-confirm title
 #. shell:upgrade-remove-1-4-confirm primary
-#: shell/shell-errors.xml.h:27 shell/shell-errors.xml.h:29
+#: shell/shell-errors.xml.h:28 shell/shell-errors.xml.h:30
 msgid "Really delete old data?"
 msgstr "Вы действительно хотите удалить старые данные?"
 
 #. shell:upgrade-remove-1-4-confirm secondary
-#: shell/shell-errors.xml.h:31
+#: shell/shell-errors.xml.h:32
 msgid ""
 "The entire contents of the \"evolution\" directory is about to be be "
 "permanently removed.\n"
@@ -17129,18 +17187,18 @@ msgstr ""
 
 #. shell:noshell title
 #. shell:noshell-reason title
-#: shell/shell-errors.xml.h:38 shell/shell-errors.xml.h:46
+#: shell/shell-errors.xml.h:39 shell/shell-errors.xml.h:47
 msgid "Cannot start Evolution"
 msgstr "Не удается запустить Evolution"
 
 #. shell:noshell primary
 #. shell:noshell-reason primary
-#: shell/shell-errors.xml.h:40 shell/shell-errors.xml.h:48
+#: shell/shell-errors.xml.h:41 shell/shell-errors.xml.h:49
 msgid "Evolution can not start."
 msgstr "Не удается запустить Evolution."
 
 #. shell:noshell secondary
-#: shell/shell-errors.xml.h:42
+#: shell/shell-errors.xml.h:43
 msgid ""
 "Your system configuration does not match your Evolution configuration.\n"
 "\n"
@@ -17148,7 +17206,7 @@ msgid ""
 msgstr ""
 
 #. shell:noshell-reason secondary
-#: shell/shell-errors.xml.h:50
+#: shell/shell-errors.xml.h:51
 msgid ""
 "Your system configuration does not match your Evolution configuration:\n"
 "\n"
@@ -17179,30 +17237,31 @@ msgid ""
 "unless otherwise indicated here"
 msgstr ""
 
-#: smime/gui/certificate-manager.c:130 smime/gui/certificate-manager.c:353
-#: smime/gui/certificate-manager.c:556
+#: smime/gui/certificate-manager.c:134 smime/gui/certificate-manager.c:142
+#: smime/gui/certificate-manager.c:375 smime/gui/certificate-manager.c:383
+#: smime/gui/certificate-manager.c:595 smime/gui/certificate-manager.c:603
 msgid "Select a cert to import..."
 msgstr "Выберите сертификат для импорта..."
 
-#: smime/gui/certificate-manager.c:245 smime/gui/certificate-manager.c:437
-#: smime/gui/certificate-manager.c:638
+#: smime/gui/certificate-manager.c:263 smime/gui/certificate-manager.c:472
+#: smime/gui/certificate-manager.c:690
 msgid "Certificate Name"
 msgstr "Имя сертификата"
 
-#: smime/gui/certificate-manager.c:254 smime/gui/certificate-manager.c:455
+#: smime/gui/certificate-manager.c:272 smime/gui/certificate-manager.c:490
 msgid "Purposes"
 msgstr "Назначения"
 
-#: smime/gui/certificate-manager.c:263 smime/gui/smime-ui.glade.h:36
+#: smime/gui/certificate-manager.c:281 smime/gui/smime-ui.glade.h:36
 #: smime/lib/e-cert.c:569
 msgid "Serial Number"
 msgstr "Серийный номер"
 
-#: smime/gui/certificate-manager.c:271
+#: smime/gui/certificate-manager.c:289
 msgid "Expires"
 msgstr "Годен до"
 
-#: smime/gui/certificate-manager.c:446
+#: smime/gui/certificate-manager.c:481
 msgid "E-Mail Address"
 msgstr "Электронная почта"
 
@@ -17404,7 +17463,8 @@ msgid "You have certificates from these organizations that identify you:"
 msgstr "У вас есть идентифицирующие вас сертификаты от следующих организаций:"
 
 #: smime/gui/smime-ui.glade.h:43
-msgid "You have certificates on file that identify these certificate authorities:"
+msgid ""
+"You have certificates on file that identify these certificate authorities:"
 msgstr ""
 
 #: smime/gui/smime-ui.glade.h:44
@@ -17654,7 +17714,8 @@ msgstr "Описание вложения."
 
 #: tools/evolution-launch-composer.c:328
 msgid "Mark attachment to be shown inline by default."
-msgstr "Пометить вложение, чтобы оно отображалось в теле сообщения по умолчанию."
+msgstr ""
+"Пометить вложение, чтобы оно отображалось в теле сообщения по умолчанию."
 
 #: tools/evolution-launch-composer.c:329
 msgid "Default subject for the message."
@@ -18173,7 +18234,8 @@ msgid "Hide _Read Messages"
 msgstr "Скрыть п_рочитанные сообщения"
 
 #: ui/evolution-mail-list.xml.h:8
-msgid "Hide deleted messages rather than displaying them with a line through them"
+msgid ""
+"Hide deleted messages rather than displaying them with a line through them"
 msgstr "Скрывать сообщения, помеченные как удаленные, вместо их перечеркивания"
 
 #: ui/evolution-mail-list.xml.h:9
@@ -19286,7 +19348,8 @@ msgstr "Запрос Evolution"
 #. setup a dummy error
 #: widgets/misc/e-error.c:421
 #, c-format
-msgid "<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
+msgid ""
+"<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
 msgstr ""
 "<span weight=\"bold\">Внутренняя ошибка, неизвестная ошибка '%s' requested</"
 "span>"
@@ -19446,3 +19509,20 @@ msgstr "%s (...)"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% выполнено)"
 
+#~ msgid "_Add Group"
+#~ msgstr "_Добавить группу"
+
+#~ msgid "Use ssl"
+#~ msgstr "Использовать ssl"
+
+#~ msgid "Ximian Evolution (Unstable)"
+#~ msgstr "Ximian Evolution (нестабильный)"
+
+#~ msgid "Remember this password"
+#~ msgstr "Запомнить этот пароль"
+
+#~ msgid "Remember this password for the remainder of this session"
+#~ msgstr "Запомнить этот пароль до окончания этой сессии"
+
+#~ msgid "Keep"
+#~ msgstr "Сохранить"

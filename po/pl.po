@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-11 10:53+0200\n"
+"POT-Creation-Date: 2004-08-13 14:55-0400\n"
 "PO-Revision-Date: 2004-01-28 14:18+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -455,17 +455,17 @@ msgstr "Usuń"
 msgid "Properties..."
 msgstr "Właściwości..."
 
-#: addressbook/gui/component/addressbook.c:89
+#: addressbook/gui/component/addressbook.c:98
 msgid "Accessing LDAP Server anonymously"
 msgstr "Anonimowy dostęp do serwera LDAP"
 
-#: addressbook/gui/component/addressbook.c:173
-#: camel/providers/groupwise/camel-gw-listener.c:417
+#: addressbook/gui/component/addressbook.c:184
+#: camel/providers/groupwise/camel-gw-listener.c:420
 msgid "Failed to authenticate.\n"
 msgstr "Nie można dokonać uwierzytelnienia.\n"
 
-#: addressbook/gui/component/addressbook.c:179
-#: camel/providers/groupwise/camel-gw-listener.c:406
+#: addressbook/gui/component/addressbook.c:191
+#: camel/providers/groupwise/camel-gw-listener.c:409
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%sWprowadź hasło dla %s (użytkownik %s)"
@@ -3060,7 +3060,7 @@ msgid "Error adding list"
 msgstr "Błąd przy dodawaniu listy"
 
 #: addressbook/gui/widgets/eab-gui-util.c:170
-#: addressbook/gui/widgets/eab-gui-util.c:581
+#: addressbook/gui/widgets/eab-gui-util.c:640
 msgid "Error adding contact"
 msgstr "Błąd przy dodawaniu kontaktu"
 
@@ -3077,7 +3077,7 @@ msgid "Error removing list"
 msgstr "Błąd przy usuwaniu listy"
 
 #: addressbook/gui/widgets/eab-gui-util.c:193
-#: addressbook/gui/widgets/eab-gui-util.c:539
+#: addressbook/gui/widgets/eab-gui-util.c:598
 msgid "Error removing contact"
 msgstr "Błąd przy usuwaniu kontaktu"
 
@@ -3104,40 +3104,40 @@ msgid "Overwrite"
 msgstr "Nadpisz"
 
 #. This is a filename. Translators take note.
-#: addressbook/gui/widgets/eab-gui-util.c:366
+#: addressbook/gui/widgets/eab-gui-util.c:383
 msgid "card.vcf"
 msgstr "karta.vcf"
 
-#: addressbook/gui/widgets/eab-gui-util.c:500
+#: addressbook/gui/widgets/eab-gui-util.c:545
 msgid "list"
 msgstr "lista"
 
-#: addressbook/gui/widgets/eab-gui-util.c:635
+#: addressbook/gui/widgets/eab-gui-util.c:694
 msgid "Move contact to"
 msgstr "Przeniesienie kontaktu do"
 
-#: addressbook/gui/widgets/eab-gui-util.c:637
+#: addressbook/gui/widgets/eab-gui-util.c:696
 msgid "Copy contact to"
 msgstr "Skopiowanie kontaktu do"
 
-#: addressbook/gui/widgets/eab-gui-util.c:640
+#: addressbook/gui/widgets/eab-gui-util.c:699
 msgid "Move contacts to"
 msgstr "Przeniesienie kontaktów do"
 
-#: addressbook/gui/widgets/eab-gui-util.c:642
+#: addressbook/gui/widgets/eab-gui-util.c:701
 msgid "Copy contacts to"
 msgstr "Skopiowanie kontaktów do"
 
 # FIXME - albo wybierz 
-#: addressbook/gui/widgets/eab-gui-util.c:645
+#: addressbook/gui/widgets/eab-gui-util.c:704
 msgid "Select target addressbook."
 msgstr "Wybór docelowej książki adresowej."
 
-#: addressbook/gui/widgets/eab-gui-util.c:868
+#: addressbook/gui/widgets/eab-gui-util.c:927
 msgid "Multiple VCards"
 msgstr "Plik VCard z wieloma pozycjami"
 
-#: addressbook/gui/widgets/eab-gui-util.c:871
+#: addressbook/gui/widgets/eab-gui-util.c:930
 #, c-format
 msgid "VCard for %s"
 msgstr "Plik VCard z pozycją %s"
@@ -3547,9 +3547,9 @@ msgstr ""
 "nie dowiedzieć, że spotkanie się nie odbedzie."
 
 #: calendar/calendar-errors.xml.h:5 calendar/calendar-errors.xml.h:15
-#: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:85
-#: calendar/calendar-errors.xml.h:91 calendar/calendar-errors.xml.h:97
-#: calendar/calendar-errors.xml.h:103
+#: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:87
+#: calendar/calendar-errors.xml.h:93 calendar/calendar-errors.xml.h:99
+#: calendar/calendar-errors.xml.h:105
 msgid "Don't Send"
 msgstr "Nie wysyłaj"
 
@@ -3704,11 +3704,12 @@ msgid "You have made changes to this appointment, but not yet saved them."
 msgstr ""
 "Wprowadzono zmiany w tym terminie, ale nie zostały one jeszcze zapisane."
 
-#: calendar/calendar-errors.xml.h:73 composer/mail-composer-errors.xml.h:33
+#: calendar/calendar-errors.xml.h:73 calendar/calendar-errors.xml.h:81
+#: composer/mail-composer-errors.xml.h:33
 msgid "Discard Changes"
 msgstr "Porzuć zmiany"
 
-#: calendar/calendar-errors.xml.h:74
+#: calendar/calendar-errors.xml.h:74 calendar/calendar-errors.xml.h:82
 msgid "Save Changes"
 msgstr "Zapisz zmiany"
 
@@ -3729,31 +3730,31 @@ msgstr ""
 "Wprowadzono zmiany w tym zadaniu, ale nie zostały one jeszcze zapisane."
 
 #. calendar:prompt-meeting-invite primary
-#: calendar/calendar-errors.xml.h:82
+#: calendar/calendar-errors.xml.h:84
 msgid "Would you like to send meeting invitations to participants?"
 msgstr "Czy wysłać do uczestników powiadomienie o spotkaniu?"
 
 #. calendar:prompt-meeting-invite secondary
-#: calendar/calendar-errors.xml.h:84
+#: calendar/calendar-errors.xml.h:86
 msgid ""
 "Email invitations will be sent to all participants and allow them to RSVP."
 msgstr ""
 "Powiadomienia zostaną wysłane za pomocą poczty elektronicznej do wszystkich "
 "uczestników, pozwalając im na przysłanie potwierdzenia."
 
-#: calendar/calendar-errors.xml.h:86 calendar/calendar-errors.xml.h:92
-#: calendar/calendar-errors.xml.h:98 calendar/calendar-errors.xml.h:104
+#: calendar/calendar-errors.xml.h:88 calendar/calendar-errors.xml.h:94
+#: calendar/calendar-errors.xml.h:100 calendar/calendar-errors.xml.h:106
 #: ui/evolution-message-composer.xml.h:24
 msgid "Send"
 msgstr "Wyślij"
 
 #. calendar:prompt-send-updated-meeting-info primary
-#: calendar/calendar-errors.xml.h:88
+#: calendar/calendar-errors.xml.h:90
 msgid "Would you like to send updated meeting information to participants?"
 msgstr "Czy wysłać aktualizację informacji o spotkaniu do uczestników?"
 
 #. calendar:prompt-send-updated-meeting-info secondary
-#: calendar/calendar-errors.xml.h:90
+#: calendar/calendar-errors.xml.h:92
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
@@ -3762,12 +3763,12 @@ msgstr ""
 "ich kalendarzy."
 
 #. calendar:prompt-send-task primary
-#: calendar/calendar-errors.xml.h:94
+#: calendar/calendar-errors.xml.h:96
 msgid "Would you like to send this task to participants?"
 msgstr "Czy wysłać to zadanie do uczestników?"
 
 #. calendar:prompt-send-task secondary
-#: calendar/calendar-errors.xml.h:96
+#: calendar/calendar-errors.xml.h:98
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
@@ -3776,12 +3777,12 @@ msgstr ""
 "uczestników, pozwalając im na akceptację tego zadania."
 
 #. calendar:prompt-send-updated-task-info primary
-#: calendar/calendar-errors.xml.h:100
+#: calendar/calendar-errors.xml.h:102
 msgid "Would you like to send updated task information to participants?"
 msgstr "Czy wysłać aktualizację zadania do uczestników?"
 
 #. calendar:prompt-send-updated-task-info secondary
-#: calendar/calendar-errors.xml.h:102
+#: calendar/calendar-errors.xml.h:104
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
@@ -3790,24 +3791,24 @@ msgstr ""
 "ich listy zadań."
 
 #. calendar:tasks-crashed primary
-#: calendar/calendar-errors.xml.h:106
+#: calendar/calendar-errors.xml.h:108
 msgid "The Evolution tasks have quit unexpectedly."
 msgstr "Zadania Evolution niespodziewanie zakończyły pracę."
 
 #. calendar:tasks-crashed secondary
-#: calendar/calendar-errors.xml.h:108
+#: calendar/calendar-errors.xml.h:110
 msgid "Your tasks will not be available until Evolution is restarted."
 msgstr ""
 "Zadania nie będą dostepne do czasu następnego uruchomienia programu "
 "Evolution."
 
 #. calendar:calendar-crashed primary
-#: calendar/calendar-errors.xml.h:110
+#: calendar/calendar-errors.xml.h:112
 msgid "The Evolution calendar has quit unexpectedly."
 msgstr "Kalendarz Evolution niespodziewanie zakończył pracę."
 
 #. calendar:calendar-crashed secondary
-#: calendar/calendar-errors.xml.h:112
+#: calendar/calendar-errors.xml.h:114
 msgid "Your calendars will not be available until Evolution is restarted."
 msgstr ""
 "Kalendarze nie będą dostępne do czasu następnego uruchomienia programu "
@@ -4801,8 +4802,9 @@ msgid "_Add Calendar"
 msgstr "_Dodaj kalendarz"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:7
-msgid "_Add Group"
-msgstr "_Dodaj grupę"
+#, fuzzy
+msgid "_Add Task List"
+msgstr "Dodawanie listy zadań"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:9
 msgid "_Refresh:"
@@ -5205,11 +5207,11 @@ msgstr "Wymagany jest organizator."
 msgid "At least one attendee is required."
 msgstr "Wymagany jest co najmniej jeden uczestnik."
 
-#: calendar/gui/dialogs/meeting-page.c:764
+#: calendar/gui/dialogs/meeting-page.c:793
 msgid "_Delegate To..."
 msgstr "_Oddeleguj do..."
 
-#: calendar/gui/dialogs/meeting-page.c:768
+#: calendar/gui/dialogs/meeting-page.c:797
 #: composer/e-msg-composer-attachment-bar.c:453
 msgid "_Remove"
 msgstr "_Usuń"
@@ -5828,7 +5830,7 @@ msgstr "Nie"
 #: camel/providers/imap4/camel-imap4-store.c:1223
 #: camel/providers/imap4/camel-imap4-utils.c:457
 #: camel/providers/smtp/camel-smtp-transport.c:172
-#: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:1123
+#: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:1155
 #: shell/e-component-registry.c:207 shell/e-component-registry.c:211
 #: widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
@@ -9041,7 +9043,8 @@ msgstr "Niepoprawne argumenty funkcji (user-tag)"
 msgid "Failed to create create child process '%s': %s"
 msgstr "Nie można utworzyć procesu potomnego \"%s\": %s"
 
-#: camel/camel-filter-search.c:670 camel/camel-filter-search.c:678
+#. A filter search is a search through your filters, ie. your filters is the corpus being searched thru.
+#: camel/camel-filter-search.c:671 camel/camel-filter-search.c:679
 #, c-format
 msgid "Error executing filter search: %s: %s"
 msgstr "Błąd przy wykonywaniu wyszukiwania przez filtr: %s: %s"
@@ -9470,17 +9473,17 @@ msgstr "Odpowiedź serwera zawiera niekompletne dane o autoryzacji\n"
 msgid "Server response does not match\n"
 msgstr "Niepotwierdzona odpowiedź serwera\n"
 
-#: camel/camel-sasl-gssapi.c:48
+#: camel/camel-sasl-gssapi.c:52
 msgid "GSSAPI"
 msgstr "GSSAPI"
 
-#: camel/camel-sasl-gssapi.c:50
+#: camel/camel-sasl-gssapi.c:54
 msgid "This option will connect to the server using Kerberos 5 authentication."
 msgstr ""
 "Opcja ta spowoduje łączenie z serwerem przy wykorzystaniu uwierzytelniania "
 "Kerberos 4."
 
-#: camel/camel-sasl-gssapi.c:148
+#: camel/camel-sasl-gssapi.c:152
 msgid ""
 "The specified mechanism is not supported by the provided credential, or is "
 "unrecognized by the implementation."
@@ -9488,11 +9491,11 @@ msgstr ""
 "Podany mechanizm nie jest obsługiwany przez określoną metodę "
 "uwierzytelniania lub nie jest rozpoznawany przez implementację."
 
-#: camel/camel-sasl-gssapi.c:153
+#: camel/camel-sasl-gssapi.c:157
 msgid "The provided target_name parameter was ill-formed."
 msgstr "Podany parametr nazwa_celu został niepoprawnie utworzony."
 
-#: camel/camel-sasl-gssapi.c:156
+#: camel/camel-sasl-gssapi.c:160
 msgid ""
 "The provided target_name parameter contained an invalid or unsupported type "
 "of name."
@@ -9500,7 +9503,7 @@ msgstr ""
 "Podany parametr nazwa_celu zawiera niepoprawną nazwę lub nazwę "
 "nieobsługiwanego typu."
 
-#: camel/camel-sasl-gssapi.c:160
+#: camel/camel-sasl-gssapi.c:164
 msgid ""
 "The input_token contains different channel bindings to those specified via "
 "the input_chan_bindings parameter."
@@ -9508,7 +9511,7 @@ msgstr ""
 "Parametr input_token zawiera inne przyłącza kanałów w stosunku do podawanych "
 "przez parametr input_chan_bindings."
 
-#: camel/camel-sasl-gssapi.c:165
+#: camel/camel-sasl-gssapi.c:169
 msgid ""
 "The input_token contains an invalid signature, or a signature that could not "
 "be verified."
@@ -9516,7 +9519,7 @@ msgstr ""
 "Parametr input_token zawiera podpis niepoprawny, lub taki, który nie może "
 "zostać zweryfikowany."
 
-#: camel/camel-sasl-gssapi.c:169
+#: camel/camel-sasl-gssapi.c:173
 msgid ""
 "The supplied credentials were not valid for context initiation, or the "
 "credential handle did not reference any credentials."
@@ -9524,35 +9527,35 @@ msgstr ""
 "Podane dane uwierzytelniania nie są poprawne dla inicjacji kontekstu, lub "
 "uchwyt tych danych nie wskazuje na nie."
 
-#: camel/camel-sasl-gssapi.c:174
+#: camel/camel-sasl-gssapi.c:178
 msgid "The supplied context handle did not refer to a valid context."
 msgstr "Podany uchwyt kontekstu nie odnosi się do poprawnego kontekstu."
 
-#: camel/camel-sasl-gssapi.c:177
+#: camel/camel-sasl-gssapi.c:181
 msgid "The consistency checks performed on the input_token failed."
 msgstr "Sprawdzenie spójności elementu input_token nie powiodło się."
 
-#: camel/camel-sasl-gssapi.c:180
+#: camel/camel-sasl-gssapi.c:184
 msgid "The consistency checks performed on the credential failed."
 msgstr "Sprawdzenie spójności danych uwierzytelniania nie powiodło się."
 
-#: camel/camel-sasl-gssapi.c:183
+#: camel/camel-sasl-gssapi.c:187
 msgid "The referenced credentials have expired."
 msgstr "Wskazane dane uwierzytelniania są przeterminowane."
 
-#: camel/camel-sasl-gssapi.c:189 camel/camel-sasl-gssapi.c:238
-#: camel/camel-sasl-gssapi.c:274 camel/camel-sasl-gssapi.c:289
+#: camel/camel-sasl-gssapi.c:193 camel/camel-sasl-gssapi.c:242
+#: camel/camel-sasl-gssapi.c:278 camel/camel-sasl-gssapi.c:293
 #: camel/camel-sasl-kerberos4.c:219
 #: camel/providers/imap/camel-imap-store.c:1236
 msgid "Bad authentication response from server."
 msgstr "Niepoprawna odpowiedź serwera na uwierzytelnienie."
 
-#: camel/camel-sasl-gssapi.c:213
+#: camel/camel-sasl-gssapi.c:217
 #, c-format
 msgid "Failed to resolve host `%s': %s"
 msgstr "Nie można rozpoznać nazwy komputera \"%s\": %s"
 
-#: camel/camel-sasl-gssapi.c:299
+#: camel/camel-sasl-gssapi.c:303
 msgid "Unsupported security layer."
 msgstr "Nieobsługiwana warstwa bezpieczeństwa."
 
@@ -10228,7 +10231,8 @@ msgid "Automatically synchronize remote mail locally"
 msgstr "Automatyczne synchronizowanie zdalnej poczty lokalnie"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:69
-msgid "Address Book And Calendar"
+#, fuzzy
+msgid "Address Book and Calendar"
 msgstr "Książka adresowa i kalendarz"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:72
@@ -10240,8 +10244,9 @@ msgid "Post Office Agent SOAP Port:"
 msgstr "Port agenta pocztowego SOAP:"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:78
-msgid "Use ssl"
-msgstr "Użycie SSL"
+#, fuzzy
+msgid "Use Secure Connection (SSL)"
+msgstr "Wykorzystanie bezpiecznego połączenia (_SSL):"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:92
 msgid "Novell GroupWise"
@@ -12097,7 +12102,7 @@ msgstr "%.0fM"
 msgid "%.0fG"
 msgstr "%.0fG"
 
-#: composer/e-msg-composer-attachment-bar.c:298 mail/em-utils.c:410
+#: composer/e-msg-composer-attachment-bar.c:298 mail/em-utils.c:436
 msgid "attachment"
 msgstr "załącznik"
 
@@ -12137,7 +12142,8 @@ msgid "MIME type:"
 msgstr "Typ MIME:"
 
 #: composer/e-msg-composer-attachment.glade.h:6
-#: composer/e-msg-composer-select-file.c:74
+#: composer/e-msg-composer-select-file.c:92
+#: composer/e-msg-composer-select-file.c:111
 msgid "Suggest automatic display of attachment"
 msgstr "Sugerowanie automatycznego wyświetlenia załącznika"
 
@@ -12216,7 +12222,7 @@ msgstr "Wyślij do:"
 msgid "Click here to select folders to post to"
 msgstr "Kliknij aby wybrać foldery do których wysłać"
 
-#: composer/e-msg-composer-select-file.c:127
+#: composer/e-msg-composer-select-file.c:186
 msgid "Attach file(s)"
 msgstr "Załączenie plików"
 
@@ -12460,13 +12466,14 @@ msgstr ""
 "Upewnij się, że w systemie zainstalowane są poprawne wersje pakietów gtkhtml "
 "i libgtkhtml."
 
-#: data/evolution.desktop.in.in.h:1
-msgid "The Ximian Evolution Groupware Suite"
-msgstr "Pakiet do pracy grupowej Ximian Evolution"
+#: data/evolution.desktop.in.in.h:1 shell/main.c:503
+msgid "Evolution"
+msgstr "Evolution"
 
 #: data/evolution.desktop.in.in.h:2
-msgid "Ximian Evolution (Unstable)"
-msgstr "Ximian Evolution (Niestabilny)"
+#, fuzzy
+msgid "The Evolution Groupware Suite"
+msgstr "Pakiet do pracy grupowej Ximian Evolution"
 
 #: data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -12583,7 +12590,7 @@ msgstr ""
 "Jak powinien zachować się Evolution gdy zostanie otrzymana wiadomość z "
 "żądaniem potwierdzenia jej przeczytania?"
 
-#: e-util/e-dialog-utils.c:253
+#: e-util/e-dialog-utils.c:265
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
@@ -12592,17 +12599,17 @@ msgstr ""
 "Nadpisać go?"
 
 #. system:ask-save-file-exists-overwrite title
-#: e-util/e-dialog-utils.c:255 widgets/misc/e-system-errors.xml.h:2
+#: e-util/e-dialog-utils.c:267 widgets/misc/e-system-errors.xml.h:2
 msgid "Overwrite file?"
 msgstr "Nadpisać plik?"
 
-#: e-util/e-passwords.c:358
-msgid "Remember this password"
-msgstr "Zapamiętanie hasła"
+#: e-util/e-passwords.c:460
+msgid "_Remember this password"
+msgstr "_Zapamiętanie hasła"
 
-#: e-util/e-passwords.c:360
-msgid "Remember this password for the remainder of this session"
-msgstr "Zapamiętanie tego hasła na czas bieżącej sesji"
+#: e-util/e-passwords.c:461
+msgid "_Remember this password for the remainder of this session"
+msgstr "_Zapamiętanie tego hasła na czas bieżącej sesji"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
@@ -13867,7 +13874,7 @@ msgid "Bcc"
 msgstr "Bcc"
 
 #. pseudo-header
-#: mail/em-format-html.c:1554 mail/em-format-quote.c:312
+#: mail/em-format-html.c:1554 mail/em-format-quote.c:314
 #: mail/em-mailer-prefs.c:939
 msgid "Mailer"
 msgstr "Program pocztowy"
@@ -13882,7 +13889,7 @@ msgstr "<I> (%a, %R %Z)</I>"
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: mail/em-format-html.c:1594 mail/em-format-quote.c:319 mail/em-format.c:806
+#: mail/em-format-html.c:1594 mail/em-format-quote.c:321 mail/em-format.c:806
 #: mail/em-mailer-prefs.c:88 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Data"
@@ -14069,21 +14076,21 @@ msgstr "Bez wyświetlania tego komunikatu w przyszłości."
 msgid "Filters"
 msgstr "Filtry"
 
-#: mail/em-utils.c:408
+#: mail/em-utils.c:434
 msgid "message"
 msgstr "list"
 
-#: mail/em-utils.c:511
+#: mail/em-utils.c:543
 msgid "Save Message..."
 msgstr "Zapis wiadomości..."
 
-#: mail/em-utils.c:560
+#: mail/em-utils.c:592
 msgid "Add address"
 msgstr "Dodanie adresu"
 
 # FIXME - upewnić się co to jest
 #. Drop filename for messages from a mailbox
-#: mail/em-utils.c:1021
+#: mail/em-utils.c:1053
 #, c-format
 msgid "Messages from %s"
 msgstr "Listów z %s"
@@ -16480,26 +16487,18 @@ msgstr "Aktualizowanie..."
 msgid "Waiting..."
 msgstr "Oczekiwanie..."
 
-#: mail/mail-session.c:240
-msgid "User canceled operation."
-msgstr "Operacja anulowana przez użytkownika."
-
-#: mail/mail-session.c:274
+#: mail/mail-session.c:207
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Wprowadź hasło dla %s"
 
-#: mail/mail-session.c:276
+#: mail/mail-session.c:209
 msgid "Enter Password"
 msgstr "Wprowadź hasło"
 
-#: mail/mail-session.c:304
-msgid "_Remember this password"
-msgstr "_Zapamiętanie hasła"
-
-#: mail/mail-session.c:305
-msgid "_Remember this password for the remainder of this session"
-msgstr "_Zapamiętanie tego hasła na czas bieżącej sesji"
+#: mail/mail-session.c:238
+msgid "User canceled operation."
+msgstr "Operacja anulowana przez użytkownika."
 
 #: mail/mail-signature-editor.c:371
 msgid "Edit signature"
@@ -16878,7 +16877,7 @@ msgstr ""
 msgid "Select importer"
 msgstr "Wybór importera"
 
-#: shell/e-shell-importer.c:451 shell/e-shell-importer.c:1055
+#: shell/e-shell-importer.c:451 shell/e-shell-importer.c:1056
 #, c-format
 msgid "File %s does not exist"
 msgstr "Plik %s nie istnieje."
@@ -16918,19 +16917,19 @@ msgstr "Nazwa pl_iku:"
 msgid "Select a file"
 msgstr "Wybór pliku"
 
-#: shell/e-shell-importer.c:642
+#: shell/e-shell-importer.c:643
 msgid "File _type:"
 msgstr "_Typ pliku:"
 
-#: shell/e-shell-importer.c:681
+#: shell/e-shell-importer.c:682
 msgid "Import data and settings from _older programs"
 msgstr "Import danych i ustawień ze _starszych programów"
 
-#: shell/e-shell-importer.c:684
+#: shell/e-shell-importer.c:685
 msgid "Import a _single file"
 msgstr "Imp_ort pojedynczego pliku"
 
-#: shell/e-shell-importer.c:752 shell/e-shell-startup-wizard.c:571
+#: shell/e-shell-importer.c:753 shell/e-shell-startup-wizard.c:571
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
@@ -16938,25 +16937,25 @@ msgstr ""
 "Poczekaj chwilę...\n"
 "Trwa analizowanie istniejących konfiguracji"
 
-#: shell/e-shell-importer.c:756
+#: shell/e-shell-importer.c:757
 msgid "Starting Intelligent Importers"
 msgstr "Uruchamianie inteligentnych importerów"
 
-#: shell/e-shell-importer.c:882 shell/e-shell-startup-wizard.c:698
+#: shell/e-shell-importer.c:883 shell/e-shell-startup-wizard.c:698
 #, c-format
 msgid "From %s:"
 msgstr "Od %s:"
 
-#: shell/e-shell-importer.c:1073
+#: shell/e-shell-importer.c:1074
 #, c-format
 msgid "No importer available for file %s"
 msgstr "Brak dostępnego importera dla pliku %s"
 
-#: shell/e-shell-importer.c:1085
+#: shell/e-shell-importer.c:1086
 msgid "Unable to execute importer"
 msgstr "Nie można uruchomić importera"
 
-#: shell/e-shell-importer.c:1199
+#: shell/e-shell-importer.c:1200
 msgid "_Import"
 msgstr "Za_importuj"
 
@@ -17205,7 +17204,7 @@ msgid "Evolution can import data from the following files:"
 msgstr "Można zaimportować do Evolution dane z następujących plików:"
 
 #. Preview/Alpha/Beta version warning message
-#: shell/main.c:225
+#: shell/main.c:226
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -17240,7 +17239,7 @@ msgstr ""
 "Mamy nadzieję, że spodobają ci się wyniki naszej ciężkiej pracy,\n"
 "my zaś będziemy oczekiwać z niecierpliwością na na twoje wsparcie!\n"
 
-#: shell/main.c:249
+#: shell/main.c:250
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -17248,40 +17247,36 @@ msgstr ""
 "Dzięki\n"
 "Zespół Evolution\n"
 
-#: shell/main.c:256
+#: shell/main.c:257
 msgid "Don't tell me again"
 msgstr "Nie informuj mnie ponownie"
 
-#: shell/main.c:461
+#: shell/main.c:462
 msgid "Start Evolution activating the specified component"
 msgstr "Rozpoczyna Evolution aktywując podany komponent"
 
-#: shell/main.c:463
+#: shell/main.c:464
 msgid "Start in offline mode"
 msgstr "Rozpoczyna w trybie bez podłączenia"
 
-#: shell/main.c:465
+#: shell/main.c:466
 msgid "Start in online mode"
 msgstr "Rozpoczyna w trybie z podłączeniem"
 
-#: shell/main.c:468
+#: shell/main.c:469
 msgid "Forcibly shut down all evolution components"
 msgstr "Wymusza zamknięcie wszystkich komponentów Evolution"
 
-#: shell/main.c:472
+#: shell/main.c:473
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "Wymusza ponowną migrację z Evolution 1.4"
 
-#: shell/main.c:475
+#: shell/main.c:476
 msgid "Send the debugging output of all components to a file."
 msgstr ""
 "Zapisuje do pliku informacje dotyczące przebiegu wykonania komponentów."
 
-#: shell/main.c:502
-msgid "Evolution"
-msgstr "Evolution"
-
-#: shell/main.c:506
+#: shell/main.c:507
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -17360,17 +17355,22 @@ msgstr ""
 "potrzebami.\n"
 
 #: shell/shell-errors.xml.h:25
-msgid "Keep"
-msgstr "Zachowaj"
+#, fuzzy
+msgid "_Remind Me Later"
+msgstr "Przypomnienie"
+
+#: shell/shell-errors.xml.h:26
+msgid "_Keep Data"
+msgstr ""
 
 #. shell:upgrade-remove-1-4-confirm title
 #. shell:upgrade-remove-1-4-confirm primary
-#: shell/shell-errors.xml.h:27 shell/shell-errors.xml.h:29
+#: shell/shell-errors.xml.h:28 shell/shell-errors.xml.h:30
 msgid "Really delete old data?"
 msgstr "Na pewno usunąć stare dane?"
 
 #. shell:upgrade-remove-1-4-confirm secondary
-#: shell/shell-errors.xml.h:31
+#: shell/shell-errors.xml.h:32
 msgid ""
 "The entire contents of the \"evolution\" directory is about to be be "
 "permanently removed.\n"
@@ -17393,18 +17393,18 @@ msgstr ""
 
 #. shell:noshell title
 #. shell:noshell-reason title
-#: shell/shell-errors.xml.h:38 shell/shell-errors.xml.h:46
+#: shell/shell-errors.xml.h:39 shell/shell-errors.xml.h:47
 msgid "Cannot start Evolution"
 msgstr "Nie można uruchomić Evolution"
 
 #. shell:noshell primary
 #. shell:noshell-reason primary
-#: shell/shell-errors.xml.h:40 shell/shell-errors.xml.h:48
+#: shell/shell-errors.xml.h:41 shell/shell-errors.xml.h:49
 msgid "Evolution can not start."
 msgstr "Nie można uruchomić Evolution."
 
 #. shell:noshell secondary
-#: shell/shell-errors.xml.h:42
+#: shell/shell-errors.xml.h:43
 msgid ""
 "Your system configuration does not match your Evolution configuration.\n"
 "\n"
@@ -17415,7 +17415,7 @@ msgstr ""
 "Kliknij pomoc aby dowiedzieć się szczegółów"
 
 #. shell:noshell-reason secondary
-#: shell/shell-errors.xml.h:50
+#: shell/shell-errors.xml.h:51
 msgid ""
 "Your system configuration does not match your Evolution configuration:\n"
 "\n"
@@ -17459,30 +17459,31 @@ msgstr ""
 "nie zaufano też autentyczności tego certyfikatu o ile tutaj nie wskazano "
 "inaczej"
 
-#: smime/gui/certificate-manager.c:130 smime/gui/certificate-manager.c:353
-#: smime/gui/certificate-manager.c:556
+#: smime/gui/certificate-manager.c:134 smime/gui/certificate-manager.c:142
+#: smime/gui/certificate-manager.c:375 smime/gui/certificate-manager.c:383
+#: smime/gui/certificate-manager.c:595 smime/gui/certificate-manager.c:603
 msgid "Select a cert to import..."
 msgstr "Wybór importowanego certyfikatu..."
 
-#: smime/gui/certificate-manager.c:245 smime/gui/certificate-manager.c:437
-#: smime/gui/certificate-manager.c:638
+#: smime/gui/certificate-manager.c:263 smime/gui/certificate-manager.c:472
+#: smime/gui/certificate-manager.c:690
 msgid "Certificate Name"
 msgstr "Nazwa certyfikatu"
 
-#: smime/gui/certificate-manager.c:254 smime/gui/certificate-manager.c:455
+#: smime/gui/certificate-manager.c:272 smime/gui/certificate-manager.c:490
 msgid "Purposes"
 msgstr "Zastosowania"
 
-#: smime/gui/certificate-manager.c:263 smime/gui/smime-ui.glade.h:36
+#: smime/gui/certificate-manager.c:281 smime/gui/smime-ui.glade.h:36
 #: smime/lib/e-cert.c:569
 msgid "Serial Number"
 msgstr "Numer seryjny"
 
-#: smime/gui/certificate-manager.c:271
+#: smime/gui/certificate-manager.c:289
 msgid "Expires"
 msgstr "Traci ważność"
 
-#: smime/gui/certificate-manager.c:446
+#: smime/gui/certificate-manager.c:481
 msgid "E-Mail Address"
 msgstr "Adres e-mail"
 
@@ -19753,6 +19754,24 @@ msgstr "%s (...)"
 msgid "%s (%d%% complete)"
 msgstr "%s (zakończono %d%%)"
 
+#~ msgid "_Add Group"
+#~ msgstr "_Dodaj grupę"
+
+#~ msgid "Use ssl"
+#~ msgstr "Użycie SSL"
+
+#~ msgid "Ximian Evolution (Unstable)"
+#~ msgstr "Ximian Evolution (Niestabilny)"
+
+#~ msgid "Remember this password"
+#~ msgstr "Zapamiętanie hasła"
+
+#~ msgid "Remember this password for the remainder of this session"
+#~ msgstr "Zapamiętanie tego hasła na czas bieżącej sesji"
+
+#~ msgid "Keep"
+#~ msgstr "Zachowaj"
+
 #~ msgid "New Contacts Group"
 #~ msgstr "Nowa grupa kontaktów"
 
@@ -19879,9 +19898,6 @@ msgstr "%s (zakończono %d%%)"
 
 #~ msgid "Addressbook..."
 #~ msgstr "Książka adresowa..."
-
-#~ msgid "Reminder"
-#~ msgstr "Przypomnienie"
 
 #~ msgid "B_usy"
 #~ msgstr "Z_ajęty"

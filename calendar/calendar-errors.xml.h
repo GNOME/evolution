@@ -78,6 +78,8 @@ char *s = N_("Save Task");
 char *s = N_("Would you like to save your changes to this task?");
 /* calendar:prompt-save-task secondary */
 char *s = N_("You have made changes to this task, but not yet saved them.");
+char *s = N_("Discard Changes");
+char *s = N_("Save Changes");
 /* calendar:prompt-meeting-invite primary */
 char *s = N_("Would you like to send meeting invitations to participants?");
 /* calendar:prompt-meeting-invite secondary */

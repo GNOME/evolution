@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.5.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-13 22:03+0900\n"
+"POT-Creation-Date: 2004-08-13 14:55-0400\n"
 "PO-Revision-Date: 2004-08-14 00:14+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: GNOME Korea <gnome-kr-hackers@lists.kldp.net>\n"
@@ -18,29 +18,29 @@ msgstr ""
 
 #: a11y/addressbook/ea-addressbook-view.c:94
 #: a11y/addressbook/ea-addressbook-view.c:103
-#: a11y/addressbook/ea-minicard-view.c:120
+#: a11y/addressbook/ea-minicard-view.c:119
 msgid "evolution addressbook"
 msgstr "evolution 주소록"
 
 # FIXME: bad msgid
 # "current addressbook folder {has,have} %d folder(s)
-#: a11y/addressbook/ea-minicard-view.c:102
+#: a11y/addressbook/ea-minicard-view.c:101
 msgid "current addressbook folder "
 msgstr "현재 주소록 폴더에는 "
 
-#: a11y/addressbook/ea-minicard-view.c:103
+#: a11y/addressbook/ea-minicard-view.c:102
 msgid "have "
 msgstr "카드가 "
 
-#: a11y/addressbook/ea-minicard-view.c:103
+#: a11y/addressbook/ea-minicard-view.c:102
 msgid "has "
 msgstr "카드가 "
 
-#: a11y/addressbook/ea-minicard-view.c:105
+#: a11y/addressbook/ea-minicard-view.c:104
 msgid " cards"
 msgstr "개 있습니다"
 
-#: a11y/addressbook/ea-minicard-view.c:105
+#: a11y/addressbook/ea-minicard-view.c:104
 msgid " card"
 msgstr "개 있습니다"
 
@@ -448,12 +448,12 @@ msgid "Accessing LDAP Server anonymously"
 msgstr "익명으로 LDAP 서버 사용"
 
 #: addressbook/gui/component/addressbook.c:184
-#: camel/providers/groupwise/camel-gw-listener.c:418
+#: camel/providers/groupwise/camel-gw-listener.c:420
 msgid "Failed to authenticate.\n"
 msgstr "인증하는 데 실패했습니다.\n"
 
 #: addressbook/gui/component/addressbook.c:191
-#: camel/providers/groupwise/camel-gw-listener.c:407
+#: camel/providers/groupwise/camel-gw-listener.c:409
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%s%s(사용자 %s)의 열쇠글을 입력하십시오"
@@ -3517,9 +3517,9 @@ msgstr ""
 "못할 수도 있습니다."
 
 #: calendar/calendar-errors.xml.h:5 calendar/calendar-errors.xml.h:15
-#: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:85
-#: calendar/calendar-errors.xml.h:91 calendar/calendar-errors.xml.h:97
-#: calendar/calendar-errors.xml.h:103
+#: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:87
+#: calendar/calendar-errors.xml.h:93 calendar/calendar-errors.xml.h:99
+#: calendar/calendar-errors.xml.h:105
 msgid "Don't Send"
 msgstr "보내지 않음"
 
@@ -3673,11 +3673,12 @@ msgstr "바뀐 부분을 이 약속에 저장하시겠습니까?"
 msgid "You have made changes to this appointment, but not yet saved them."
 msgstr "약속에 바뀐 사항이 있지만, 아직 저장하지 않았습니다."
 
-#: calendar/calendar-errors.xml.h:73 composer/mail-composer-errors.xml.h:33
+#: calendar/calendar-errors.xml.h:73 calendar/calendar-errors.xml.h:81
+#: composer/mail-composer-errors.xml.h:33
 msgid "Discard Changes"
 msgstr "바뀐 내용 버리기"
 
-#: calendar/calendar-errors.xml.h:74
+#: calendar/calendar-errors.xml.h:74 calendar/calendar-errors.xml.h:82
 msgid "Save Changes"
 msgstr "바뀐 내용 저장"
 
@@ -3697,30 +3698,30 @@ msgid "You have made changes to this task, but not yet saved them."
 msgstr "작업에 바뀐 사항이 있지만, 아직 저장하지 않았습니다."
 
 #. calendar:prompt-meeting-invite primary
-#: calendar/calendar-errors.xml.h:82
+#: calendar/calendar-errors.xml.h:84
 msgid "Would you like to send meeting invitations to participants?"
 msgstr "회의 정보를 참가자들에게 보내시겠습니까?"
 
 #. calendar:prompt-meeting-invite secondary
-#: calendar/calendar-errors.xml.h:84
+#: calendar/calendar-errors.xml.h:86
 msgid ""
 "Email invitations will be sent to all participants and allow them to RSVP."
 msgstr ""
 "전자메일로 초대 메세지를 모든 참가자에게 보내고 참가자들이 응답하도록 합니다."
 
-#: calendar/calendar-errors.xml.h:86 calendar/calendar-errors.xml.h:92
-#: calendar/calendar-errors.xml.h:98 calendar/calendar-errors.xml.h:104
+#: calendar/calendar-errors.xml.h:88 calendar/calendar-errors.xml.h:94
+#: calendar/calendar-errors.xml.h:100 calendar/calendar-errors.xml.h:106
 #: ui/evolution-message-composer.xml.h:24
 msgid "Send"
 msgstr "보내기"
 
 #. calendar:prompt-send-updated-meeting-info primary
-#: calendar/calendar-errors.xml.h:88
+#: calendar/calendar-errors.xml.h:90
 msgid "Would you like to send updated meeting information to participants?"
 msgstr "업데이트한 회의 정보를 참가자들에게 보내시겠습니까?"
 
 #. calendar:prompt-send-updated-meeting-info secondary
-#: calendar/calendar-errors.xml.h:90
+#: calendar/calendar-errors.xml.h:92
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
@@ -3729,12 +3730,12 @@ msgstr ""
 "있습니다."
 
 #. calendar:prompt-send-task primary
-#: calendar/calendar-errors.xml.h:94
+#: calendar/calendar-errors.xml.h:96
 msgid "Would you like to send this task to participants?"
 msgstr "이 작업을 참가자들에게 보내시겠습니까?"
 
 #. calendar:prompt-send-task secondary
-#: calendar/calendar-errors.xml.h:96
+#: calendar/calendar-errors.xml.h:98
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
@@ -3743,12 +3744,12 @@ msgstr ""
 "록 합니다."
 
 #. calendar:prompt-send-updated-task-info primary
-#: calendar/calendar-errors.xml.h:100
+#: calendar/calendar-errors.xml.h:102
 msgid "Would you like to send updated task information to participants?"
 msgstr "업데이트한 작업 정보를 참가자들에게 보내시겠습니까?"
 
 #. calendar:prompt-send-updated-task-info secondary
-#: calendar/calendar-errors.xml.h:102
+#: calendar/calendar-errors.xml.h:104
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
@@ -3757,22 +3758,22 @@ msgstr ""
 "할 수 있습니다."
 
 #. calendar:tasks-crashed primary
-#: calendar/calendar-errors.xml.h:106
+#: calendar/calendar-errors.xml.h:108
 msgid "The Evolution tasks have quit unexpectedly."
 msgstr "Evolution 작업이 예상치 못하게 끝났습니다."
 
 #. calendar:tasks-crashed secondary
-#: calendar/calendar-errors.xml.h:108
+#: calendar/calendar-errors.xml.h:110
 msgid "Your tasks will not be available until Evolution is restarted."
 msgstr "Evolution을 다시 시작할 때까지는 작업을 사용할 수 없습니다."
 
 #. calendar:calendar-crashed primary
-#: calendar/calendar-errors.xml.h:110
+#: calendar/calendar-errors.xml.h:112
 msgid "The Evolution calendar has quit unexpectedly."
 msgstr "Evolution 달력이 예상치 못하게 끝났습니다."
 
 #. calendar:calendar-crashed secondary
-#: calendar/calendar-errors.xml.h:112
+#: calendar/calendar-errors.xml.h:114
 msgid "Your calendars will not be available until Evolution is restarted."
 msgstr "Evolution을 다시 시작할 때까지는 달력을 사용할 수 없습니다."
 
@@ -4782,8 +4783,9 @@ msgid "_Add Calendar"
 msgstr "달력 더하기(_A)"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:7
-msgid "_Add Group"
-msgstr "그룹 더하기(_A)"
+#, fuzzy
+msgid "_Add Task List"
+msgstr "작업 목록 더하기"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:9
 msgid "_Refresh:"
@@ -9467,15 +9469,15 @@ msgstr "서버 응답에 불완전한 인증 데이터가 들어 있습니다\n"
 msgid "Server response does not match\n"
 msgstr "서버 응답이 일치하지 않습니다\n"
 
-#: camel/camel-sasl-gssapi.c:48
+#: camel/camel-sasl-gssapi.c:52
 msgid "GSSAPI"
 msgstr "GSSAPI"
 
-#: camel/camel-sasl-gssapi.c:50
+#: camel/camel-sasl-gssapi.c:54
 msgid "This option will connect to the server using Kerberos 5 authentication."
 msgstr "이 옵션을 켜면 Kerberos 5 인증을 사용해 서버에 연결합니다."
 
-#: camel/camel-sasl-gssapi.c:148
+#: camel/camel-sasl-gssapi.c:152
 msgid ""
 "The specified mechanism is not supported by the provided credential, or is "
 "unrecognized by the implementation."
@@ -9483,11 +9485,11 @@ msgstr ""
 "지정한 방식은 제공한 증명서가 지원하지 않습니다. 혹은 현재 구현해 놓은 것에"
 "서 인식할 수 없습니다."
 
-#: camel/camel-sasl-gssapi.c:153
+#: camel/camel-sasl-gssapi.c:157
 msgid "The provided target_name parameter was ill-formed."
 msgstr "제공된 target_name 매개변수의 형식이 틀렸습니다."
 
-#: camel/camel-sasl-gssapi.c:156
+#: camel/camel-sasl-gssapi.c:160
 msgid ""
 "The provided target_name parameter contained an invalid or unsupported type "
 "of name."
@@ -9495,7 +9497,7 @@ msgstr ""
 "제공된 target_name 매개변수에 잘못되었거나 지원하지 않은 종류의 이름이 들어 "
 "있습니다."
 
-#: camel/camel-sasl-gssapi.c:160
+#: camel/camel-sasl-gssapi.c:164
 msgid ""
 "The input_token contains different channel bindings to those specified via "
 "the input_chan_bindings parameter."
@@ -9503,13 +9505,13 @@ msgstr ""
 "input_chan_bindings 인수를 통해 지정된 것과 다른 채널 바인딩이 input_token에 "
 "들어 있습니다."
 
-#: camel/camel-sasl-gssapi.c:165
+#: camel/camel-sasl-gssapi.c:169
 msgid ""
 "The input_token contains an invalid signature, or a signature that could not "
 "be verified."
 msgstr "input_token에 잘못된 서명 혹은 확인할 수 없는 서명이 들어 있습니다."
 
-#: camel/camel-sasl-gssapi.c:169
+#: camel/camel-sasl-gssapi.c:173
 msgid ""
 "The supplied credentials were not valid for context initiation, or the "
 "credential handle did not reference any credentials."
@@ -9517,35 +9519,35 @@ msgstr ""
 "제공된 증명서가 컨텍스트 초기화에 올바르지 않거나, 증명서 핸들이 어떤 증명서"
 "도 참조하지 않습니다."
 
-#: camel/camel-sasl-gssapi.c:174
+#: camel/camel-sasl-gssapi.c:178
 msgid "The supplied context handle did not refer to a valid context."
 msgstr "제공된 컨텍스트 핸들이 올바른 컨텍스트를 참조하지 않습니다."
 
-#: camel/camel-sasl-gssapi.c:177
+#: camel/camel-sasl-gssapi.c:181
 msgid "The consistency checks performed on the input_token failed."
 msgstr "input_token에 수행한 일관성 검사가 실패했습니다."
 
-#: camel/camel-sasl-gssapi.c:180
+#: camel/camel-sasl-gssapi.c:184
 msgid "The consistency checks performed on the credential failed."
 msgstr "credential에 수행한 일관성 검사가 실패했습니다."
 
-#: camel/camel-sasl-gssapi.c:183
+#: camel/camel-sasl-gssapi.c:187
 msgid "The referenced credentials have expired."
 msgstr "참조한 증명서가 만료된 증명서입니다."
 
-#: camel/camel-sasl-gssapi.c:189 camel/camel-sasl-gssapi.c:238
-#: camel/camel-sasl-gssapi.c:274 camel/camel-sasl-gssapi.c:289
+#: camel/camel-sasl-gssapi.c:193 camel/camel-sasl-gssapi.c:242
+#: camel/camel-sasl-gssapi.c:278 camel/camel-sasl-gssapi.c:293
 #: camel/camel-sasl-kerberos4.c:219
 #: camel/providers/imap/camel-imap-store.c:1236
 msgid "Bad authentication response from server."
 msgstr "서버에서 보낸 인증 응답이 틀렸습니다."
 
-#: camel/camel-sasl-gssapi.c:213
+#: camel/camel-sasl-gssapi.c:217
 #, c-format
 msgid "Failed to resolve host `%s': %s"
 msgstr "`%s' 호스트를 찾는 데 실패했습니다: %s"
 
-#: camel/camel-sasl-gssapi.c:299
+#: camel/camel-sasl-gssapi.c:303
 msgid "Unsupported security layer."
 msgstr "보안 레이어를 지원하지 않습니다."
 
@@ -10204,7 +10206,8 @@ msgid "Automatically synchronize remote mail locally"
 msgstr "로컬에서 자동으로 원격 메일과 동기화합니다"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:69
-msgid "Address Book And Calendar"
+#, fuzzy
+msgid "Address Book and Calendar"
 msgstr "주소록 및 달력"
 
 # groupwise에서 "Post Office Agent"라는 용어를 그대로 사용한다
@@ -10218,8 +10221,9 @@ msgid "Post Office Agent SOAP Port:"
 msgstr "Post Office Agent SOAP 포트:"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:78
-msgid "Use ssl"
-msgstr "SSL 사용"
+#, fuzzy
+msgid "Use Secure Connection (SSL)"
+msgstr "보안 연결 (SSL) 사용(_U):"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:92
 msgid "Novell GroupWise"
@@ -17209,18 +17213,24 @@ msgstr ""
 "다. 이 데이터를 유지한다면, 나중에 지우고 싶을 때 수동으로 \"evolution\"의 내"
 "용을 지울 수 있습니다.\n"
 
+# Reminder -> 미리 알림, Microsoft Office XP
 #: shell/shell-errors.xml.h:25
-msgid "Keep"
-msgstr "유지"
+#, fuzzy
+msgid "_Remind Me Later"
+msgstr "미리 알림!!"
+
+#: shell/shell-errors.xml.h:26
+msgid "_Keep Data"
+msgstr ""
 
 #. shell:upgrade-remove-1-4-confirm title
 #. shell:upgrade-remove-1-4-confirm primary
-#: shell/shell-errors.xml.h:27 shell/shell-errors.xml.h:29
+#: shell/shell-errors.xml.h:28 shell/shell-errors.xml.h:30
 msgid "Really delete old data?"
 msgstr "정말로 과거의 데이터를 지우시겠습니까?"
 
 #. shell:upgrade-remove-1-4-confirm secondary
-#: shell/shell-errors.xml.h:31
+#: shell/shell-errors.xml.h:32
 msgid ""
 "The entire contents of the \"evolution\" directory is about to be be "
 "permanently removed.\n"
@@ -17243,18 +17253,18 @@ msgstr ""
 
 #. shell:noshell title
 #. shell:noshell-reason title
-#: shell/shell-errors.xml.h:38 shell/shell-errors.xml.h:46
+#: shell/shell-errors.xml.h:39 shell/shell-errors.xml.h:47
 msgid "Cannot start Evolution"
 msgstr "Evolution을 시작할 수 없습니다"
 
 #. shell:noshell primary
 #. shell:noshell-reason primary
-#: shell/shell-errors.xml.h:40 shell/shell-errors.xml.h:48
+#: shell/shell-errors.xml.h:41 shell/shell-errors.xml.h:49
 msgid "Evolution can not start."
 msgstr "Evolution을 시작할 수 없습니다."
 
 #. shell:noshell secondary
-#: shell/shell-errors.xml.h:42
+#: shell/shell-errors.xml.h:43
 msgid ""
 "Your system configuration does not match your Evolution configuration.\n"
 "\n"
@@ -17265,7 +17275,7 @@ msgstr ""
 "자세한 정보는 도움말을 클릭하십시오."
 
 #. shell:noshell-reason secondary
-#: shell/shell-errors.xml.h:50
+#: shell/shell-errors.xml.h:51
 msgid ""
 "Your system configuration does not match your Evolution configuration:\n"
 "\n"
@@ -19583,3 +19593,12 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 완료)"
+
+#~ msgid "_Add Group"
+#~ msgstr "그룹 더하기(_A)"
+
+#~ msgid "Use ssl"
+#~ msgstr "SSL 사용"
+
+#~ msgid "Keep"
+#~ msgstr "유지"
