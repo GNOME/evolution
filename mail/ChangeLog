@@ -1,3 +1,9 @@
+2001-07-03  Sam Creasey <sammy@oh.verio.com>
+	* mail-config.c (mail_config_set_show_preview): Replace value in
+	config->preview_hash when it already exists.  Old code never
+	re-inserted into the hash, just assigned to val -- it's an int
+	here, not a real pointer.
+	
 2001-07-03  Joe Shaw  <joe@ximian.com>
 
 	* mail-callbacks.c (expunge_folder): Unset the message being displayed
