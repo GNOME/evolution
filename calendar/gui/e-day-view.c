@@ -6018,6 +6018,9 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 				g_message (G_STRLOC ": Could not create the object!");
 			else
 				g_signal_emit_by_name (day_view, "user_created");
+
+			/* we remove the object since we either got the update from the server or failed */
+			e_day_view_remove_event_cb (day_view, day, event_num, NULL);
 		} else {
 			CalObjModType mod = CALOBJ_MOD_ALL;
 			GtkWindow *toplevel;

@@ -3302,7 +3302,10 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 			if (!e_cal_create_object (client, icalcomp, NULL, NULL))
 				g_message (G_STRLOC ": Could not create the object!");
 			else
-				g_signal_emit_by_name (week_view, "user_created");				
+				g_signal_emit_by_name (week_view, "user_created");
+
+			/* we remove the object since we either got the update from the server or failed */
+			e_week_view_remove_event_cb (week_view, event_num, NULL);
 		} else {
 			CalObjModType mod = CALOBJ_MOD_ALL;
 			GtkWindow *toplevel;

@@ -1,3 +1,10 @@
+2005-01-10  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/e-day-view.c (e_day_view_on_editing_stopped): remove the
+	temporary object from the view when stopping editing.
+
+	* gui/e-week-view.c (e_week_view_on_editing_stopped): ditto.
+	
 2005-01-10  Harish Krishnaswamy  <kharish@novell.com>
 
 	* gui/dialogs/cal-attachment-bar.c:
