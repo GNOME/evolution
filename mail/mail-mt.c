@@ -770,12 +770,16 @@ struct _proxy_msg {
 	void *data;
 };
 
+static int mail_proxy_event_current = -1;
+
 static void
 do_proxy_event(struct _mail_msg *mm)
 {
 	struct _proxy_msg *m = (struct _proxy_msg *)mm;
 
+	mail_proxy_event_current = mm->seq;
 	m->func(m->o, m->event_data, m->data);
+	mail_proxy_event_current = -1;
 }
 
 struct _mail_msg_op proxy_event_op = {
@@ -785,6 +789,12 @@ struct _mail_msg_op proxy_event_op = {
 	NULL,
 };
 
+/* returns the current id of the executing proxy event */
+int mail_proxy_event_id(void)
+{
+	return mail_proxy_event_current;
+}
+
 int mail_proxy_event(CamelObjectEventHookFunc func, CamelObject *o, void *event_data, void *data)
 {
 	struct _proxy_msg *m;
@@ -792,7 +802,11 @@ int mail_proxy_event(CamelObjectEventHookFunc func, CamelObject *o, void *event_
 	int ismain = pthread_self() == mail_gui_thread;
 
 	if (ismain) {
+		/* save the current id incase we're proxying an event in a proxied event */
+		id = mail_proxy_event_current;
+		mail_proxy_event_current = -1;
 		func(o, event_data, data);
+		mail_proxy_event_current = id;
 		/* id of -1 is 'always finished' */
 		return -1;
 	} else {

@@ -35,6 +35,8 @@ typedef enum _FolderBrowserSelectionState {
 
 struct  _FolderBrowser {
 	GtkTable parent;
+
+	struct _FolderBrowserPrivate *priv;
 	
 	BonoboPropertyBag *properties;
 	
@@ -56,7 +58,7 @@ struct  _FolderBrowser {
 	char	    *new_uid;	/* place to save the next uid during idle timeout */
 	char	    *loaded_uid; /* what we have loaded */
 	guint	     loading_id, seen_id;
-	
+
 	/* a folder we are expunging, dont use other than to compare the pointer value */
 	CamelFolder *expunging;
 	

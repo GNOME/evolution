@@ -1,3 +1,20 @@
+2001-10-16    <NotZed@Ximian.com>
+
+	* mail-mt.c (mail_proxy_event_id): New function to return the id
+	of the currently executing proxied event.
+
+	* folder-browser.h: Added private field.
+
+	* folder-browser.c (folder_changed): Keep track of tasks
+	outstanding in the tasks list, locked access.
+	(FOLDER_BROWSER_LOCK, UNLOCK): Macros to lock the folder browser
+	for poking about in diff threads.
+	(folder_browser_finalise): Wait for any outstanding takss to
+	finish before cleaning ourself up.
+	(folder_browser_destroy): Move the seen_id handling to finalise,
+	also add a loading_id handling code.
+	(main_folder_changed): Remove our running task when done.
+
 2001-10-15  Larry Ewing  <lewing@ximian.com>
 
 	* mail-display.c (mail_error_write): don't write strings longer

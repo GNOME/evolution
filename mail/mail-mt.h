@@ -70,6 +70,8 @@ gboolean mail_user_message (const char *type, const char *prompt, gboolean allow
 
 /* forward a camel event (or other call) to the gui thread */
 int mail_proxy_event(CamelObjectEventHookFunc func, CamelObject *o, void *event_data, void *data);
+/* in main (only), get the current event id */
+int mail_proxy_event_id(void);
 
 /* Call a function in the gui thread, wait for it to return, type is the marshaller to use */
 typedef enum {

@@ -58,6 +58,18 @@
 
 #define d(x)
 
+
+typedef struct _FolderBrowserPrivate {
+	GMutex *lock;
+
+	/* If we have outstanding tasks running */
+	GSList	    *tasks;
+	GSList	    *tasks_done;
+} FolderBrowserPrivate;
+
+#define FOLDER_BROWSER_LOCK(fb) g_mutex_lock(((FolderBrowser *)(fb))->priv->lock);
+#define FOLDER_BROWSER_UNLOCK(fb) g_mutex_unlock(((FolderBrowser *)(fb))->priv->lock);
+
 #define PARENT_TYPE (gtk_table_get_type ())
 
 static void folder_changed(CamelObject *o, void *event_data, void *data);
@@ -112,10 +124,38 @@ folder_browser_finalise (GtkObject *object)
 {
 	FolderBrowser *folder_browser;
 	CORBA_Environment ev;
+	FolderBrowserPrivate *p;
 
 	folder_browser = FOLDER_BROWSER(object);
+	p = folder_browser->priv;
+
+	/* This @#$#@ is to make sure we dont have any outstanding implicit
+	   refs on us from outstanding async tasks */
+	FOLDER_BROWSER_LOCK(folder_browser);
+	while (p->tasks) {
+		int id;
+
+		id = (int)p->tasks->data;
+		FOLDER_BROWSER_UNLOCK(folder_browser);
+		mail_msg_wait(id);
+		FOLDER_BROWSER_LOCK(folder_browser);
+	}
+	/* the tasks_done list is just to avoid races, we can simply free it now */
+	g_slist_free(p->tasks_done);
+	p->tasks_done = NULL;
+	FOLDER_BROWSER_UNLOCK(folder_browser);
 
 	CORBA_exception_init (&ev);
+
+	if (folder_browser->seen_id != 0) {
+		gtk_timeout_remove (folder_browser->seen_id);
+		folder_browser->seen_id = 0;
+	}
+
+	if (folder_browser->loading_id != 0) {
+		gtk_timeout_remove(folder_browser->loading_id);
+		folder_browser->loading_id = 0;
+	}
 	
 	if (folder_browser->search_full)
 		gtk_object_unref (GTK_OBJECT (folder_browser->search_full));
@@ -167,6 +207,9 @@ folder_browser_finalise (GtkObject *object)
 	if (folder_browser->clipboard_selection)
 		g_byte_array_free (folder_browser->clipboard_selection, TRUE);
 
+	g_mutex_free(p->lock);
+	g_free(p);
+
 	folder_browser_parent_class->finalize(object);
 }
 
@@ -176,12 +219,7 @@ folder_browser_destroy (GtkObject *object)
 	FolderBrowser *folder_browser;
 	
 	folder_browser = FOLDER_BROWSER (object);
-	
-	if (folder_browser->seen_id) {
-		gtk_timeout_remove (folder_browser->seen_id);
-		folder_browser->seen_id = 0;
-	}
-	
+		
 	if (folder_browser->message_list) {
 		gtk_widget_destroy (GTK_WIDGET (folder_browser->message_list));
 		folder_browser->message_list = NULL;
@@ -783,13 +821,43 @@ update_status_bar(FolderBrowser *fb)
 static void main_folder_changed(CamelObject *o, void *event_data, void *data)
 {
 	FolderBrowser *fb = data;
+	FolderBrowserPrivate *p = fb->priv;
+	int id;
 
+	/* so some corba unref doesnt blow us away while we're busy */
+	gtk_object_ref((GtkObject *)fb);
 	update_status_bar(fb);
+
+	id = mail_proxy_event_id();
+	if (id != -1) {
+		FOLDER_BROWSER_LOCK(fb);
+		if (g_slist_find(p->tasks, (void *)id))
+			p->tasks = g_slist_remove(p->tasks, (void *)id);
+		else
+			p->tasks_done = g_slist_prepend(p->tasks_done, (void *)id);
+		FOLDER_BROWSER_UNLOCK(fb);
+	}
+	gtk_object_unref((GtkObject *)fb);
 }
 
 static void folder_changed(CamelObject *o, void *event_data, void *data)
 {
-	mail_msg_wait(mail_proxy_event(main_folder_changed, o, event_data, data));
+	int id;
+	FolderBrowser *fb = data;
+	FolderBrowserPrivate *p = fb->priv;
+
+	/* this snot is so we can implicitly and asynchronosly ref
+	   the folder browser, since we can't actually ref it because
+	   gtk_object_ref isn't threadsafe ... #@$@ */
+	id = mail_proxy_event(main_folder_changed, o, event_data, data);
+	if (id != -1) {
+		FOLDER_BROWSER_LOCK(fb);
+		if (g_slist_find(p->tasks_done, (void *)id))
+			p->tasks_done = g_slist_remove(p->tasks_done, (void *)id);
+		else
+			p->tasks = g_slist_prepend(p->tasks, (void *)id);
+		FOLDER_BROWSER_UNLOCK(fb);
+	}
 }
 
 static void
@@ -1897,6 +1965,11 @@ on_message_selected (MessageList *ml, const char *uid, FolderBrowser *fb)
 static void
 folder_browser_init (GtkObject *object)
 {
+	FolderBrowser *fb = (FolderBrowser *)object;
+	FolderBrowserPrivate *p;
+
+	p = fb->priv = g_malloc0(sizeof(*fb->priv));
+	p->lock = g_mutex_new();
 }
 
 static void
