@@ -12,7 +12,7 @@
   <ETableColumn model_col= "9" _title="Size" expansion="0.2" minimum_width="32" resizable="true" cell="render_size" compare="integer"/>
   <ETableColumn model_col="10" _title="Needs Reply" pixbuf="needsreply" expansion="0.0" minimum_width="18" resizable="false" cell="render_needs_reply" compare="integer" sortable="false"/>
   <ETableState>
-    <column source="0"/> <column source="10"/> <column source="3"/> <column source="1"/>
+    <column source="0"/> <column source="3"/> <column source="1"/>
     <column source="4"/> <column source="5" expansion="1.60"/> <column source="6" expansion="0.40"/>
     <grouping> </grouping> 
   </ETableState>

@@ -1195,7 +1195,7 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 	start = text;
 	while (isspace ((unsigned) *start))
 		start++;
-	if (!g_strncasecmp (start, "<html>", 6)) {
+	if (!g_strncasecmp (start, "<html>", 6) || !g_strncasecmp (start, "<!DOCTYPE HTML", 14)) {
 		g_free (text);
 		return handle_text_html (part, "text/html", md, html, stream);
 	}

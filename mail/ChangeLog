@@ -1,3 +1,8 @@
+2002-02-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (handle_text_plain): Look for DOCTYPE XML comments
+	too to decide if the message content is really HTML.
+
 2002-02-06  Not Zed  <NotZed@Ximian.com>
 
 	* mail-callbacks.c (mail_generate_reply): Dont double-free the
