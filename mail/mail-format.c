@@ -1300,12 +1300,11 @@ handle_text_enriched (CamelMimePart *part, const char *mime_type,
 	camel_stream_filter_add (filtered_stream, enriched);
 	camel_object_unref (enriched);
 	
-	camel_stream_write ((CamelStream *) stream, "<tt>\n", 5);
-	
+	camel_stream_write_string ((CamelStream *) stream, STANDARD_ISSUE_TABLE_OPEN "<tr><td><tt>\n");	
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	mail_format_data_wrapper_write_to_stream (wrapper, md, (CamelStream *) filtered_stream);
 	
-	camel_stream_write ((CamelStream *) stream, "</tt>\n", 6);
+	camel_stream_write_string ((CamelStream *) stream, "</tt></td></tr></table>\n");
 	camel_object_unref (filtered_stream);
 	
 	return TRUE;
