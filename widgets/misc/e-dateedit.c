@@ -1681,15 +1681,20 @@ e_date_edit_check_date_changed		(EDateEdit	*dedit)
 	EDateEditPrivate *priv;
 	gchar *date_text;
 	struct tm tmp_tm;
-	gboolean none = FALSE, valid = TRUE, date_changed;
+	gboolean none = FALSE, valid = TRUE, date_changed = FALSE;
 
 	priv = dedit->priv;
 
 	date_text = gtk_entry_get_text (GTK_ENTRY (priv->date_entry));
 	if (field_set_to_none (date_text))
 		none = TRUE;
-	else if (!e_date_edit_parse_date (dedit, date_text, &tmp_tm))
+	else if (!e_date_edit_parse_date (dedit, date_text, &tmp_tm)) {
 		valid = FALSE;
+		tmp_tm.tm_year = 0;
+		tmp_tm.tm_mon = 0;
+		tmp_tm.tm_mday = 0;
+	}
+
 
 	date_changed = e_date_edit_set_date_internal (dedit, valid, none,
 						      tmp_tm.tm_year,
