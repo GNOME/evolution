@@ -573,8 +573,6 @@ static struct _RDFInfo rdfs[] = {
 	{"http://barrapunto.com/gnome.rdf", "Barrapunto GNOME", FALSE,},
 	{"http://www.bsdtoday.com/backend/bt.rdf", "BSD Today", FALSE},
 	{"http://beyond2000.com/b2k.rdf", "Beyond 2000", FALSE},
-  	{"http://www.cnn.com/cnn.rss", "CNN", FALSE},
-        {"http://www.debianplanet.org/debianplanet/backend.php", "Debian Planet", FALSE},
 	{"http://www.dictionary.com/wordoftheday/wotd.rss", N_("Dictionary.com Word of the Day"), FALSE},
 	{"http://www.dvdreview.com/rss/newschannel.rss", "DVD Review", FALSE},
 	{"http://freshmeat.net/backend/fm.rdf", "Freshmeat", FALSE},
@@ -598,7 +596,7 @@ static struct _RDFInfo rdfs[] = {
 	{"http://slashdot.org/slashdot.rdf", "Slashdot", FALSE},
 	{"http://www.theregister.co.uk/tonys/slashdot.rdf", "The Register", FALSE},
 	{"http://www.webreference.com/webreference.rdf", "Web Reference", FALSE},
-	{"http://redcarpet.ximian.com/red-carpet.rdf", "Ximian Red Carpet New", FALSE},
+	{"http://redcarpet.ximian.com/red-carpet.rdf", "Ximian Red Carpet News", FALSE},
 	{NULL, NULL, FALSE}
 };
 

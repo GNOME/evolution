@@ -1,3 +1,8 @@
+2002-09-26  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-summary-preferences.c: Take out CNN and DebianPlanet, which do
+	not seem to work for me.
+
 2002-09-23  Dan Winship  <danw@ximian.com>
 
 	* e-summary-offline-handler.c (impl_goOffline): Pass ev, not &ev
