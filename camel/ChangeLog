@@ -1,3 +1,13 @@
+2004-12-01  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #69776.
+
+	* camel-multipart-signed.c (parse_boundary): take end of data
+	argument, so it handles binary data.  Use a binary data string
+	search rather than strstr.
+	(parse_content): dont bother to append a \0 on the end of the
+	data, not binary capable.
+
 2004-11-23  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #69615.

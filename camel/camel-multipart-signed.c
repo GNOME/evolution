@@ -183,11 +183,16 @@ camel_multipart_signed_new (void)
 
 /* find the next boundary @bound from @start, return the start of the actual data
    @end points to the end of the data BEFORE the boundary */
-static char *parse_boundary(char *start, const char *bound, char **end)
+static char *parse_boundary(char *start, char *last, const char *bound, char **end)
 {
 	char *data, *begin;
 
-	begin = strstr(start, bound);
+	while ((begin = memchr(start, bound[0], last-start))) {
+		if (memcmp(begin, bound, strlen(bound)) == 0)
+			break;
+		start = begin+1;
+	}
+
 	if (begin == NULL)
 		return NULL;
 
@@ -232,14 +237,12 @@ parse_content(CamelMultipartSigned *mps)
 		return -1;
 	}
 
-	camel_stream_write((CamelStream *)mem, "", 1);
-	g_byte_array_set_size(mem->buffer, mem->buffer->len-1);
 	last = mem->buffer->data + mem->buffer->len;
 
 	bound = alloca(strlen(boundary)+5);
 	sprintf(bound, "--%s", boundary);
 
-	start = parse_boundary(mem->buffer->data, bound, &end);
+	start = parse_boundary(mem->buffer->data, last, bound, &end);
 	if (start == NULL || start[0] == 0)
 		return -1;
 
@@ -249,12 +252,12 @@ parse_content(CamelMultipartSigned *mps)
 		g_free(tmp);
 	}
 
-	start2 = parse_boundary(start, bound, &end);
+	start2 = parse_boundary(start, last, bound, &end);
 	if (start2 == NULL || start2[0] == 0)
 		return -1;
 
 	sprintf(bound, "--%s--", boundary);
-	post = parse_boundary(start2, bound, &end2);
+	post = parse_boundary(start2, last, bound, &end2);
 	if (post == NULL)
 		return -1;
 
