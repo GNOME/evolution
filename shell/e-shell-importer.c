@@ -1173,28 +1173,6 @@ next_intelligent_page (GnomeDruidPage *page,
 	return TRUE;
 }
 
-/* Hack to change the Finish button */
-static void
-druid_finish_button_change (GnomeDruid *druid)
-{
-	GtkWidget *button = druid->finish;
-	GtkWidget *hbox = GTK_BIN (button)->child, *hbox2;
-	GtkBoxChild *child;
-	GtkWidget *label;
-
-	/* Get the second item from the children list */
-	hbox2 = ((GtkBoxChild *)GTK_BOX (hbox)->children->data)->widget;
-
-	g_return_if_fail (GTK_IS_BOX (hbox2));
-	child = (GtkBoxChild *)g_list_nth_data (GTK_BOX (hbox2)->children, 0);
-	label = child->widget;
-
-	/* Safety check :) */
-	g_return_if_fail (GTK_IS_LABEL (label));
-
-	gtk_label_set_text (GTK_LABEL (label), _("Import"));
-}
-
 static void
 dialog_weak_notify (void *data,
 		    GObject *where_the_dialog_was)
@@ -1232,7 +1210,8 @@ show_import_wizard (BonoboUIComponent *component,
 	g_signal_connect (data->druid, "cancel",
 			  G_CALLBACK (import_druid_cancel), data);
 
-	druid_finish_button_change (GNOME_DRUID (data->druid));
+	gtk_button_set_label((GtkButton *)((GnomeDruid *)data->druid)->finish, _("Import"));
+
 	data->start = GNOME_DRUID_PAGE_EDGE (glade_xml_get_widget (data->wizard, "page0"));
 
 	data->typedialog = glade_xml_get_widget (data->wizard, "page1");

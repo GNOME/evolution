@@ -1,3 +1,23 @@
+2003-02-05  Not Zed  <NotZed@Ximian.com>
+
+	* e-shell-startup-wizard.c (start_importers): re-enable.
+	(prepare_importer_page): re-enable importer code.
+
+	* e-shell-importer.c (druid_finish_button_change): removed, since
+	its not such a hack to change anymore.  Dunno how to get an icon
+	on it tho, without a stock button.
+	(show_import_wizard): Change the apply button to "Import" here.
+
+2003-01-28  Not Zed  <NotZed@Ximian.com>
+
+	* e-local-storage.c (create_folder_directory): We can't use
+	pointer arithmetic with g_path_get_*, so adjust code accordingly.
+
+2003-01-16  Not Zed  <NotZed@Ximian.com>
+
+	* e-shell-startup-wizard.c (e_shell_startup_wizard_create): Hook
+	onto finish instead of next on the last page.
+
 2003-01-28  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am ($(SELECT_NAMES_IDL_GENERATED_C)): No need for the

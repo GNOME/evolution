@@ -342,7 +342,7 @@ create_folder_directory (ELocalStorage *local_storage,
 {
 	EStorage *storage;
 	ELocalStoragePrivate *priv;
-	char *folder_name;
+	char *parent_path;
 	char *physical_path;
 	
 	storage = E_STORAGE (local_storage);
@@ -351,17 +351,16 @@ create_folder_directory (ELocalStorage *local_storage,
 	*physical_path_return = NULL;
 	g_assert (g_path_is_absolute (path));
 	
-	folder_name = g_path_get_basename (path);
+	parent_path = g_path_get_dirname(path);
 
-	if (folder_name != path + 1) {
+	if (strlen(parent_path) > 1) {
 		char *subfolders_directory_physical_path;
-		char *parent_path;
-		
+		char *parent;
+
 		/* Create the `subfolders' subdirectory under the parent.  */
-		
-		parent_path = g_strndup (path, folder_name - path);
-		subfolders_directory_physical_path = e_path_to_physical (priv->base_path, parent_path);
-		g_free (parent_path);
+		parent = alloca(strlen(parent_path)+2);
+		sprintf(parent, "%s/", parent_path);
+		subfolders_directory_physical_path = e_path_to_physical (priv->base_path, parent);
 
 		if (! g_file_test (subfolders_directory_physical_path, G_FILE_TEST_EXISTS)) {
 			if (mkdir (subfolders_directory_physical_path, 0700) == -1) {
@@ -372,7 +371,7 @@ create_folder_directory (ELocalStorage *local_storage,
 		g_free (subfolders_directory_physical_path);
 	}
 
-	g_free (folder_name);
+	g_free (parent_path);
 
 	physical_path = e_path_to_physical (priv->base_path, path);
 

@@ -262,7 +262,6 @@ free_importers (SWData *data)
 static void
 start_importers (GList *p)
 {
-#if 0
 	CORBA_Environment ev;
 	
 	for (; p; p = p->next) {
@@ -276,7 +275,6 @@ start_importers (GList *p)
 		}
 		CORBA_exception_free (&ev);
 	}
-#endif
 }
 
 static void
@@ -667,18 +665,15 @@ prepare_importer_page (GnomeDruidPage *page,
 
 	table = gtk_table_new (g_list_length (importers), 2, FALSE);
 	for (l = importers; l; l = l->next) {
-#if 0
 		GtkWidget *label;
 		CORBA_Environment ev;
 		gboolean can_run;
 		char *str;
-#endif
 		IntelligentImporterData *id;
-		
+
 		id = g_new0 (IntelligentImporterData, 1);
 		id->iid = g_strdup (l->data);
 
-#if 0				/* FIXME */
 		CORBA_exception_init (&ev);
 		id->object = bonobo_activation_activate_from_id ((char *) id->iid, 0, NULL, &ev);
 		if (BONOBO_EX (&ev)) {
@@ -762,6 +757,7 @@ prepare_importer_page (GnomeDruidPage *page,
 			id->widget = bonobo_widget_new_control_from_objref (id->control, CORBA_OBJECT_NIL);
 			gtk_widget_show (id->widget);
 		} else {
+			printf("no control\n");
 			id->widget = gtk_label_new ("");
 			gtk_widget_show (id->widget);
 		}
@@ -783,7 +779,6 @@ prepare_importer_page (GnomeDruidPage *page,
 
 		gtk_box_pack_start (GTK_BOX (data->import_page->vbox), table,
 				    FALSE, FALSE, 0);
-#endif
 	}
 
 	if (running == 0) {
@@ -884,7 +879,7 @@ e_shell_startup_wizard_create (void)
 	data->finish = glade_xml_get_widget (data->wizard, "done-page");
 	g_return_val_if_fail (data->start != NULL, FALSE);
 	g_return_val_if_fail (data->finish != NULL, FALSE);
-	g_signal_connect (data->finish, "next", G_CALLBACK (finish_func), data);
+	g_signal_connect (data->finish, "finish", G_CALLBACK (finish_func), data);
 
 	make_mail_dialog_pages (data);
 	g_return_val_if_fail (data->mailer != CORBA_OBJECT_NIL, TRUE);
