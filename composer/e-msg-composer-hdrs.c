@@ -183,10 +183,13 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 	const GSList *accounts;
 	GtkWidget *item;
 	int i = 0, history = 0;
+	int default_account;
 	
 	omenu = gtk_option_menu_new ();
 	menu = gtk_menu_new ();
-		
+
+	default_account = mail_config_get_default_account_num ();
+
 	accounts = mail_config_get_accounts ();
 	while (accounts) {
 		const MailConfigAccount *account;
@@ -217,7 +220,7 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 		gtk_signal_connect (GTK_OBJECT (item), "activate",
 				    GTK_SIGNAL_FUNC (from_changed), hdrs);
 		
-		if (account->default_account) {
+		if (i == default_account) {
 			first = item;
 			history = i;
 		}
@@ -733,12 +736,15 @@ e_msg_composer_hdrs_set_from_account (EMsgComposerHdrs *hdrs,
 	GtkWidget *item;
 	GSList *l;
 	int i = 0;
+	int default_account = 0;
 	
 	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	
 	omenu = GTK_OPTION_MENU (hdrs->priv->from.entry);
 	
+	default_account = mail_config_get_default_account_num ();
+
 	/* find the item that represents the account and activate it */
 	l = hdrs->priv->from_options;
 	while (l) {
@@ -747,7 +753,7 @@ e_msg_composer_hdrs_set_from_account (EMsgComposerHdrs *hdrs,
 		
 		account = gtk_object_get_data (GTK_OBJECT (item), "account");
 		if ((account_name && !strcmp (account_name, account->name)) ||
-		    (!account_name && account->default_account)) {
+		    (!account_name && i == default_account)) {
 			/* set the correct optionlist item */
 			gtk_option_menu_set_history (omenu, i);
 			gtk_signal_emit_by_name (GTK_OBJECT (item), "activate", hdrs);

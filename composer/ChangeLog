@@ -1,3 +1,8 @@
+2001-07-18  Jason Leach  <jleach@ximian.com>
+
+	* e-msg-composer-hdrs.c (create_from_optionmenu): Update to the
+	new way of finding the default account.
+
 2001-07-18  Iain Holmes  <iain@ximian.com>
 
 	* e-msg-composer.c (do_exit): Use a messagebox.
