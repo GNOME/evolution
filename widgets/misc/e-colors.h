@@ -5,7 +5,7 @@ void     color_init      (void);
 
 /* Return the pixel value for the given red, green and blue */
 int      color_alloc      (gushort red, gushort green, gushort blue);
-void     color_alloc_name (char *name, GdkColor *color);
+void     color_alloc_name (const char *name, GdkColor *color);
 void     color_alloc_gdk  (GdkColor *color);
 
 /* Colors used by any GnumericSheet item */

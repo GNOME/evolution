@@ -37,7 +37,7 @@ color_alloc_gdk (GdkColor *c)
 }
 
 void
-color_alloc_name (char *name, GdkColor *c)
+color_alloc_name (const char *name, GdkColor *c)
 {
 	int failed;
 	
