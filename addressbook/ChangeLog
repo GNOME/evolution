@@ -1,5 +1,12 @@
 2004-10-15 Sivaiah Nallagatla <snallagatla@novell.com>
 
+	* gui/widgets/e-addressbook-view.c : add EAB_POPUP_SELECT_ANY
+	mask instead of EAB_POPUP_SELECT_MANY, so that 
+	all the options like Save as, Forward etc are enabled even 
+	single contact is selected. 
+
+2004-10-15 Sivaiah Nallagatla <snallagatla@novell.com>
+
 	* gui/widgets/eab-contact-display.c : uncomment 
 	HANDLE_MAILTO_INTERNALLY define so that we will
 	launch composer through bonobo  instead of using 
