@@ -1148,7 +1148,7 @@ autosave_manager_query_load_orphans (AutosaveManager *am, EMsgComposer *composer
 	if (!dir) {
 		return;
 	}
-		    
+	
 	while ((d = readdir (dir))) {
 		if ((!strncmp (d->d_name, AUTOSAVE_SEED, len - 6))
 		    && (strlen (d->d_name) == len)
@@ -1168,6 +1168,8 @@ autosave_manager_query_load_orphans (AutosaveManager *am, EMsgComposer *composer
 			match = g_slist_prepend (match, filename);				
 		}
 	}
+	
+	closedir (dir);
 	
 	if (match != NULL) {
 		dialog = gnome_question_dialog_parented (_("Evolution has found unsaved files from a previous session.\n"
