@@ -1,5 +1,9 @@
 2000-07-13  Seth Alves  <alves@hungry.com>
 
+	* conduits/todo/todo-conduit.c: conduit based on the calendar conduit.
+	this conduit syncs a pilot's ToDoDB database to wombat's list of "todo"
+	events.
+
 	* gui/gncal-todo.c (simple_todo_editor): set todo's priority control
 	based on value from ical object during edit.
 
