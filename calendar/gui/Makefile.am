@@ -48,6 +48,10 @@ gnomecal_SOURCES = \
 	GnomeCal.h		\
 	alarm.c			\
 	alarm.h			\
+	cal-client.c		\
+	cal-client.h		\
+	cal-listener.c		\
+	cal-listener.h		\
 	calendar.c		\
 	calendar.h		\
 	calendar-conduit.h	\
@@ -55,11 +59,11 @@ gnomecal_SOURCES = \
 	calobj.h		\
 	eventedit.c		\
 	eventedit.h		\
-	getdate.y		\
 	corba-cal.c		\
 	corba-cal.h		\
 	corba-cal-factory.c	\
 	corba-cal-factory.h	\
+	getdate.y		\
 	gncal-day-panel.c	\
 	gncal-day-panel.h	\
 	gncal-day-view.c	\

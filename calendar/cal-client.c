@@ -20,6 +20,8 @@
  */
 
 #include <config.h>
+#include <gtk/gtksignal.h>
+#include <libgnorba/gnorba.h>
 #include "cal-client.h"
 #include "cal-listener.h"
 
@@ -231,7 +233,7 @@ cal_client_new (void)
 
 	if (!cal_client_construct (client)) {
 		g_message ("cal_client_new(): could not construct the calendar client");
-		gtk_object_unref (client);
+		gtk_object_unref (GTK_OBJECT (client));
 		return NULL;
 	}
 
@@ -270,7 +272,8 @@ cal_client_load_calendar (CalClient *client, const char *str_uri)
 		return FALSE;
 	}
 
-	corba_listener = (Evolution_Calendar_Listener) bonobo_object_corba_objref (priv->listener);
+	corba_listener = (Evolution_Calendar_Listener) bonobo_object_corba_objref (
+		BONOBO_OBJECT (priv->listener));
 
 	CORBA_exception_init (&ev);
 
@@ -279,7 +282,7 @@ cal_client_load_calendar (CalClient *client, const char *str_uri)
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_message ("cal_client_load_calendar(): load request failed");
-		gtk_object_unref (priv->listener);
+		gtk_object_unref (GTK_OBJECT (priv->listener));
 		priv->listener = NULL;
 		priv->load_state = LOAD_STATE_NOT_LOADED;
 		CORBA_exception_free (&ev);

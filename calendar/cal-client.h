@@ -63,7 +63,7 @@ CalClient *cal_client_construct (CalClient *client);
 
 CalClient *cal_client_new (void);
 
-void cal_client_load_calendar (CalClient *client, const char *str_uri);
+gboolean cal_client_load_calendar (CalClient *client, const char *str_uri);
 
 
 

@@ -1,5 +1,10 @@
 2000-01-30  Federico Mena Quintero  <federico@helixcode.com>
 
+	* Makefile.am (gnomecal_SOURCES): Added cal-client.[ch] and
+	cal-listener.[ch].
+
+2000-01-30  Federico Mena Quintero  <federico@helixcode.com>
+
 	* evolution-calendar.idl: Changed the namespace from
 	GNOME::Calendar to Evolution::Calendar.
 	(Listener::LoadStatus): Fixed SUCESSS -> SUCCESS typo.  And I
