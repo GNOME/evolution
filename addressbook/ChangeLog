@@ -1,3 +1,9 @@
+2001-08-03  Jason Leach  <jleach@ximian.com>
+
+	* gui/component/addressbook-storage.c (load_source_data): Update
+	for EvolutionStorage API changes.
+	(addressbook_storage_add_source): Ditto.
+
 2001-08-03  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/widgets/e-addressbook-view.c (jump_to_letter): Made this

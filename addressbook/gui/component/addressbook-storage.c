@@ -320,7 +320,7 @@ load_source_data (const char *file_path)
 		path = g_strdup_printf ("/%s", source->name);
 		evolution_storage_new_folder (storage, path, source->name,
 					      "contacts", source->uri,
-					      source->description, FALSE);
+					      source->description, 0);
 
 		sources = g_list_append (sources, source);
 
@@ -451,7 +451,7 @@ addressbook_storage_add_source (AddressbookSource *source)
 	register_storage ();
 	path = g_strdup_printf ("/%s", source->name);
 	evolution_storage_new_folder (storage, path, source->name, "contacts",
-				      source->uri, source->description, FALSE);
+				      source->uri, source->description, 0);
 
 	g_free (path);
 }
