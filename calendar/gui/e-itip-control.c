@@ -58,7 +58,6 @@
 
 struct _EItipControlPrivate {
 	GtkWidget *html;
-	gboolean html_destroyed;
 	
 	GPtrArray *event_clients;
 	CalClient *event_client;
@@ -328,7 +327,7 @@ html_destroyed (gpointer data)
 	
 	priv = itip->priv;
 	
-	priv->html_destroyed = TRUE;
+	priv->html = NULL;
 }
 
 static void
@@ -360,7 +359,6 @@ init (EItipControl *itip)
 	
 	/* Html Widget */
 	priv->html = gtk_html_new ();
-	priv->html_destroyed = FALSE;
 	gtk_html_set_default_content_type (GTK_HTML (priv->html), 
 					   "text/html; charset=utf-8");
 	gtk_html_load_from_string (GTK_HTML (priv->html), " ", 1);
@@ -437,6 +435,8 @@ destroy (GtkObject *obj)
 	priv = itip->priv;
 	  
 	priv->destroyed = TRUE;
+
+	(* GTK_OBJECT_CLASS (parent_class)->destroy) (obj);
 }
 
 static void
@@ -943,7 +943,7 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 
 	priv = itip->priv;
 
-	if (priv->html_destroyed)
+	if (priv->html == NULL)
 		return;
 	
 	/* Html widget */

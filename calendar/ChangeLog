@@ -1,3 +1,9 @@
+2003-08-12  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/e-itip-control.c (html_destroyed):
+	(init):
+	(write_html): Add destroy chaining.
+
 2003-08-12  Harry Lu <harry.lu@sun.com>
 
 	** Fixes #47464.
