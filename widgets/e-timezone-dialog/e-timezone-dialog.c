@@ -390,10 +390,12 @@ on_map_motion (GtkWidget *widget, GdkEventMotion *event, gpointer data)
 
 	gtk_label_get (GTK_LABEL (priv->timezone_preview), &old_zone_name);
 	new_zone = get_zone_from_point (etd, priv->point_hover);
-	new_zone_name = zone_display_name (new_zone);
-	if (strcmp (old_zone_name, new_zone_name)) {
-		gtk_label_set_text (GTK_LABEL (priv->timezone_preview),
-				    new_zone_name);
+	if (new_zone) {
+		new_zone_name = zone_display_name (new_zone);
+		if (strcmp (old_zone_name, new_zone_name)) {
+			gtk_label_set_text (GTK_LABEL (priv->timezone_preview),
+					    new_zone_name);
+		}
 	}
 
 	return TRUE;

@@ -1,3 +1,8 @@
+2003-03-17  Dan Winship  <danw@ximian.com>
+
+	* e-timezone-dialog/e-timezone-dialog.c (on_map_motion): Don't
+	crash if there's no timezone set initially. #39783
+
 2003-03-11  Dan Winship  <danw@ximian.com>
 
 	* e-timezone-dialog/e-timezone-dialog.c: Various cleanups.
