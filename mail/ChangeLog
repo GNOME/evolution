@@ -1,3 +1,22 @@
+2001-10-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* component-factory.c (free_storage): Make sure the
+	service/storage are non-NULL.
+
+	* mail-callbacks.c (e_gnome_dialog_parent_destroyed): Call
+	gtk_main_quit.
+	(send_receive_mail): Don't use e_gnome stuff since this doesn't
+	need to be run using gnome_dialog_run_and_close().
+	(composer_send_cb): Same.
+	(edit_msg): Here too.
+	(resend_msg): And here.
+	(search_msg): Same.
+	(filter_edit): Here too.
+	(filter_edit): Don't use e_gnome_dialog_set_parent() because we
+	don't do gnome_dialog_run_and_close on this dialog.
+	(e_gnome_error_dialog_parented): Removed.
+	(e_gnome_ok_dialog_parented): Removed.
+
 2001-10-10  Dan Winship  <danw@ximian.com>
 
 	* mail-config.c (new_source_created): Fix up the logic here.
@@ -43,6 +62,7 @@
 	Should fix #11981.
 
 2001-10-09  Jeffrey Stedfast  <fejj@ximian.com>
+>>>>>>> 1.1813
 
 	* folder-browser.c (done_message_selected): Make sure the
 	mail-display is non-NULL.

@@ -729,9 +729,13 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 static void
 free_storage (gpointer service, gpointer storage, gpointer data)
 {
-	camel_service_disconnect (CAMEL_SERVICE (service), TRUE, NULL);
-	camel_object_unref (CAMEL_OBJECT (service));
-	bonobo_object_unref (BONOBO_OBJECT (storage));
+	if (service) {
+		camel_service_disconnect (CAMEL_SERVICE (service), TRUE, NULL);
+		camel_object_unref (CAMEL_OBJECT (service));
+	}
+	
+	if (storage)
+		bonobo_object_unref (BONOBO_OBJECT (storage));
 }
 
 static void
