@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
-"POT-Creation-Date: 2003-04-23 03:35+0200\n"
-"PO-Revision-Date: 2003-04-23 11:45+0200\n"
+"POT-Creation-Date: 2003-04-24 03:36+0200\n"
+"PO-Revision-Date: 2003-04-24 12:10+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -449,7 +449,7 @@ msgstr "Použít skóre"
 
 #: addressbook/backend/ebook/test-client-list.c:15
 #: addressbook/backend/ebook/test-client.c:33
-#: calendar/gui/alarm-notify/notify-main.c:170
+#: calendar/gui/alarm-notify/notify-main.c:171
 msgid "Could not initialize Bonobo"
 msgstr "Nelze spustit Bonobo"
 
@@ -993,7 +993,7 @@ msgstr "_Rozsah vyhledávání: "
 
 #. No time range is set, so don't start a query
 #: addressbook/gui/component/ldap-config.glade.h:35
-#: calendar/gui/calendar-model.c:1982 calendar/gui/e-day-view.c:1681
+#: calendar/gui/calendar-model.c:1982 calendar/gui/e-day-view.c:1665
 #: calendar/gui/e-week-view.c:1236
 msgid "Searching"
 msgstr "Vyhledávání"
@@ -1219,7 +1219,6 @@ msgstr "Kdykoliv je možné"
 #: addressbook/gui/contact-editor/contact-editor.glade.h:29
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
 #: calendar/gui/dialogs/alarm-page.glade.h:9 mail/mail-config.glade.h:135
-#: shell/glade/e-folder-list.glade.h:1
 msgid "_Add"
 msgstr "_Přidat"
 
@@ -1447,11 +1446,11 @@ msgstr "Chce dostávat poštu v _HTML formátu"
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
 #: calendar/gui/dialogs/alarm-page.glade.h:10
 #: calendar/gui/dialogs/meeting-page.c:715 calendar/gui/e-calendar-table.c:969
-#: calendar/gui/e-day-view.c:3721 calendar/gui/e-week-view.c:3583
+#: calendar/gui/e-day-view.c:3705 calendar/gui/e-week-view.c:3589
 #: mail/folder-browser.c:1783 mail/mail-config.glade.h:148
-#: shell/glade/e-folder-list.glade.h:2 ui/evolution-addressbook.xml.h:32
-#: ui/evolution-calendar.xml.h:30 ui/evolution-mail-message.xml.h:97
-#: ui/evolution-tasks.xml.h:16 ui/evolution.xml.h:46
+#: ui/evolution-addressbook.xml.h:32 ui/evolution-calendar.xml.h:30
+#: ui/evolution-mail-message.xml.h:97 ui/evolution-tasks.xml.h:16
+#: ui/evolution.xml.h:45
 msgid "_Delete"
 msgstr "_Smazat"
 
@@ -2993,7 +2992,7 @@ msgstr "Adresář"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:674
 #: addressbook/gui/widgets/e-addressbook-view.c:884
-#: addressbook/gui/widgets/e-addressbook-view.c:1859
+#: addressbook/gui/widgets/e-addressbook-view.c:1858
 #: ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard"
 msgstr "Uložit jako VCard"
@@ -3078,7 +3077,7 @@ msgid "Delete"
 msgstr "Smazat"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:904
-#: calendar/gui/e-day-view.c:3681 calendar/gui/e-week-view.c:3548
+#: calendar/gui/e-day-view.c:3665 calendar/gui/e-week-view.c:3554
 msgid "Current View"
 msgstr "Aktuální náhled"
 
@@ -3098,7 +3097,7 @@ msgstr ",123,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
 msgid ",0,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
 msgstr ",0,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1339
+#: addressbook/gui/widgets/e-addressbook-view.c:1338
 #, c-format
 msgid ""
 "The addressbook backend for\n"
@@ -3703,13 +3702,13 @@ msgstr "_Upravit událost"
 msgid "No description available."
 msgstr "Popis není dostupný."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:854
-#: calendar/gui/alarm-notify/alarm-queue.c:878
+#: calendar/gui/alarm-notify/alarm-queue.c:853
+#: calendar/gui/alarm-notify/alarm-queue.c:877
 #: calendar/gui/tasks-control.c:463 widgets/misc/e-messagebox.c:161
 msgid "Warning"
 msgstr "Varování"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:858
+#: calendar/gui/alarm-notify/alarm-queue.c:857
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -3721,7 +3720,7 @@ msgstr ""
 "vytvořena k poslání e-mailu. Evolution namísto toho\n"
 "zobrazí dialogové okno pro běžnou připomínku."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:884
+#: calendar/gui/alarm-notify/alarm-queue.c:883
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -3738,15 +3737,15 @@ msgstr ""
 "\n"
 "Opravdu chcete spustit tento program?"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:898
+#: calendar/gui/alarm-notify/alarm-queue.c:897
 msgid "Do not ask me about this program again."
 msgstr "Příště se neptat na tento program."
 
-#: calendar/gui/alarm-notify/notify-main.c:173
+#: calendar/gui/alarm-notify/notify-main.c:174
 msgid "Could not initialize gnome-vfs"
 msgstr "Nelze spustit gnome-vfs"
 
-#: calendar/gui/alarm-notify/notify-main.c:180
+#: calendar/gui/alarm-notify/notify-main.c:183
 msgid "Could not create the alarm notify service factory"
 msgstr "Nelze vytvořit továrnu ke službě hlášení alarmu"
 
@@ -4525,8 +4524,8 @@ msgid "No summary"
 msgstr "Není shrnutí"
 
 #: calendar/gui/dialogs/comp-editor.c:1230
-#: calendar/gui/e-calendar-table.c:1040 calendar/gui/e-day-view.c:3939
-#: calendar/gui/e-week-view.c:3784 composer/e-msg-composer.c:1162
+#: calendar/gui/e-calendar-table.c:1040 calendar/gui/e-day-view.c:3923
+#: calendar/gui/e-week-view.c:3790 composer/e-msg-composer.c:1162
 msgid "Save as..."
 msgstr "Uložit jako..."
 
@@ -5123,13 +5122,13 @@ msgstr "90%"
 msgid "100%"
 msgstr "100%"
 
-#: calendar/gui/e-calendar-table.c:715 calendar/gui/e-day-view.c:2836
+#: calendar/gui/e-calendar-table.c:715 calendar/gui/e-day-view.c:2820
 #: calendar/gui/e-week-view.c:1913
 msgid "Deleting selected objects"
 msgstr "Odstraňuji vybrané objekty"
 
-#: calendar/gui/e-calendar-table.c:950 calendar/gui/e-day-view.c:3703
-#: calendar/gui/e-week-view.c:3565 mail/folder-browser.c:1756
+#: calendar/gui/e-calendar-table.c:950 calendar/gui/e-day-view.c:3687
+#: calendar/gui/e-week-view.c:3571 mail/folder-browser.c:1756
 #: shell/e-shortcuts-view.c:422 ui/evolution-addressbook.xml.h:36
 msgid "_Open"
 msgstr "_Otevřít"
@@ -5138,30 +5137,30 @@ msgstr "_Otevřít"
 msgid "_Save as..."
 msgstr "_Uložit jako..."
 
-#: calendar/gui/e-calendar-table.c:952 calendar/gui/e-day-view.c:3705
-#: calendar/gui/e-week-view.c:3540 calendar/gui/e-week-view.c:3567
+#: calendar/gui/e-calendar-table.c:952 calendar/gui/e-day-view.c:3689
+#: calendar/gui/e-week-view.c:3546 calendar/gui/e-week-view.c:3573
 #: ui/evolution-addressbook.xml.h:38 ui/evolution-calendar.xml.h:33
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:108
 #: ui/evolution-tasks.xml.h:20 ui/my-evolution.xml.h:6
 msgid "_Print..."
 msgstr "_Tisknout..."
 
-#: calendar/gui/e-calendar-table.c:956 calendar/gui/e-day-view.c:3710
-#: calendar/gui/e-week-view.c:3572 ui/evolution-addressbook.xml.h:1
+#: calendar/gui/e-calendar-table.c:956 calendar/gui/e-day-view.c:3694
+#: calendar/gui/e-week-view.c:3578 ui/evolution-addressbook.xml.h:1
 #: ui/evolution-calendar.xml.h:1 ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "_Vyjmout"
 
-#: calendar/gui/e-calendar-table.c:957 calendar/gui/e-day-view.c:3711
-#: calendar/gui/e-week-view.c:3573 ui/evolution-addressbook.xml.h:30
+#: calendar/gui/e-calendar-table.c:957 calendar/gui/e-day-view.c:3695
+#: calendar/gui/e-week-view.c:3579 ui/evolution-addressbook.xml.h:30
 #: ui/evolution-calendar.xml.h:29 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-list.xml.h:24 ui/evolution-tasks.xml.h:15
 msgid "_Copy"
 msgstr "_Kopírovat"
 
-#: calendar/gui/e-calendar-table.c:958 calendar/gui/e-day-view.c:3676
-#: calendar/gui/e-day-view.c:3712 calendar/gui/e-week-view.c:3544
-#: calendar/gui/e-week-view.c:3574 ui/evolution-addressbook.xml.h:37
+#: calendar/gui/e-calendar-table.c:958 calendar/gui/e-day-view.c:3660
+#: calendar/gui/e-day-view.c:3696 calendar/gui/e-week-view.c:3550
+#: calendar/gui/e-week-view.c:3580 ui/evolution-addressbook.xml.h:37
 #: ui/evolution-calendar.xml.h:32 ui/evolution-composer-entries.xml.h:9
 #: ui/evolution-mail-list.xml.h:29 ui/evolution-tasks.xml.h:19
 msgid "_Paste"
@@ -5187,8 +5186,8 @@ msgstr "Označit _vybrané úkoly jako dokončené"
 msgid "_Delete Selected Tasks"
 msgstr "_Smazat vybrané úkoly"
 
-#: calendar/gui/e-calendar-table.c:1245 calendar/gui/e-day-view.c:7659
-#: calendar/gui/e-week-view.c:4290
+#: calendar/gui/e-calendar-table.c:1245 calendar/gui/e-day-view.c:7648
+#: calendar/gui/e-week-view.c:4296
 msgid "Updating objects"
 msgstr "Aktualizuji objekty"
 
@@ -5294,67 +5293,67 @@ msgstr "am"
 msgid "pm"
 msgstr "pm"
 
-#: calendar/gui/e-day-view.c:3660
+#: calendar/gui/e-day-view.c:3644
 msgid "New _Appointment"
 msgstr "Nová _událost"
 
-#: calendar/gui/e-day-view.c:3662 calendar/gui/e-week-view.c:3534
+#: calendar/gui/e-day-view.c:3646 calendar/gui/e-week-view.c:3540
 msgid "New All Day _Event"
 msgstr "Nová _celodenní událost"
 
-#: calendar/gui/e-day-view.c:3664 calendar/gui/e-week-view.c:3535
+#: calendar/gui/e-day-view.c:3648 calendar/gui/e-week-view.c:3541
 msgid "New Meeting"
 msgstr "Nová schůzka"
 
-#: calendar/gui/e-day-view.c:3666 calendar/gui/e-week-view.c:3536
+#: calendar/gui/e-day-view.c:3650 calendar/gui/e-week-view.c:3542
 msgid "New Task"
 msgstr "Nový úkol"
 
-#: calendar/gui/e-day-view.c:3671 ui/evolution-comp-editor.xml.h:11
+#: calendar/gui/e-day-view.c:3655 ui/evolution-comp-editor.xml.h:11
 msgid "Print..."
 msgstr "Tisk..."
 
-#: calendar/gui/e-day-view.c:3683 calendar/gui/e-week-view.c:3550
+#: calendar/gui/e-day-view.c:3667 calendar/gui/e-week-view.c:3556
 #: ui/evolution-calendar.xml.h:13
 msgid "Go to _Today"
 msgstr "Jít na _dnešek"
 
-#: calendar/gui/e-day-view.c:3685 calendar/gui/e-week-view.c:3551
+#: calendar/gui/e-day-view.c:3669 calendar/gui/e-week-view.c:3557
 msgid "_Go to Date..."
 msgstr "_Jít na datum..."
 
-#: calendar/gui/e-day-view.c:3690 calendar/gui/e-week-view.c:3555
+#: calendar/gui/e-day-view.c:3674 calendar/gui/e-week-view.c:3561
 #: ui/evolution-calendar.xml.h:34
 msgid "_Publish Free/Busy Information"
 msgstr "_Zveřejnit informaci o volném/obsazeném čase"
 
-#: calendar/gui/e-day-view.c:3695 calendar/gui/e-week-view.c:3559
+#: calendar/gui/e-day-view.c:3679 calendar/gui/e-week-view.c:3565
 #: ui/evolution.xml.h:60
 msgid "_Settings..."
 msgstr "Na_stavení..."
 
-#: calendar/gui/e-day-view.c:3704 calendar/gui/e-week-view.c:3566
+#: calendar/gui/e-day-view.c:3688 calendar/gui/e-week-view.c:3572
 #: mail/folder-browser.c:1758 ui/evolution-mail-message.xml.h:112
 msgid "_Save As..."
 msgstr "_Uložit jako..."
 
-#: calendar/gui/e-day-view.c:3716 calendar/gui/e-week-view.c:3578
+#: calendar/gui/e-day-view.c:3700 calendar/gui/e-week-view.c:3584
 msgid "_Schedule Meeting..."
 msgstr "Naplánovat _Schůzku..."
 
-#: calendar/gui/e-day-view.c:3717 calendar/gui/e-week-view.c:3579
+#: calendar/gui/e-day-view.c:3701 calendar/gui/e-week-view.c:3585
 msgid "_Forward as iCalendar..."
 msgstr "_Odeslat jako iCalendar..."
 
-#: calendar/gui/e-day-view.c:3722 calendar/gui/e-week-view.c:3584
+#: calendar/gui/e-day-view.c:3706 calendar/gui/e-week-view.c:3590
 msgid "Make this Occurrence _Movable"
 msgstr "Nastavit tento výskyt jako _přesunutelný"
 
-#: calendar/gui/e-day-view.c:3723 calendar/gui/e-week-view.c:3585
+#: calendar/gui/e-day-view.c:3707 calendar/gui/e-week-view.c:3591
 msgid "Delete this _Occurrence"
 msgstr "Odstranit tento vý_skyt"
 
-#: calendar/gui/e-day-view.c:3724 calendar/gui/e-week-view.c:3586
+#: calendar/gui/e-day-view.c:3708 calendar/gui/e-week-view.c:3592
 msgid "Delete _All Occurrences"
 msgstr "Odstranit _všechny výskyty"
 
@@ -6041,7 +6040,7 @@ msgstr "Mažu vybrané objekty..."
 msgid "Expunging"
 msgstr "Čistí se"
 
-#: calendar/gui/e-week-view.c:3533
+#: calendar/gui/e-week-view.c:3539
 msgid "New _Appointment..."
 msgstr "Nová _událost..."
 
@@ -8732,12 +8731,12 @@ msgstr "Poskytovatel pošty pro virtuální složky"
 msgid "For reading mail as a query of another set of folders"
 msgstr "Pro čtení pošty jako otázky na jinou množinu složek"
 
-#: camel/camel-session.c:354 camel/camel-session.c:422
+#: camel/camel-session.c:355 camel/camel-session.c:405
 #, c-format
 msgid "No provider available for protocol `%s'"
 msgstr "Pro protokol `%s' není k dispozici poskytovatel"
 
-#: camel/camel-session.c:548
+#: camel/camel-session.c:528
 #, c-format
 msgid ""
 "Could not create directory %s:\n"
@@ -8783,11 +8782,11 @@ msgstr "Nepodařilo se dekódovat zprávu."
 msgid "Failed to verify certificates."
 msgstr "Nepodařilo se ověřit certifikáty"
 
-#: camel/camel-store.c:214
+#: camel/camel-store.c:215
 msgid "Cannot get folder: Invalid operation on this store"
 msgstr "Nelze získat složku: Neplatná operace pro tento sklad"
 
-#: camel/camel-store.c:268
+#: camel/camel-store.c:269
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "Nelze vytvořit složku: Neplatná operace pro tento sklad"
 
@@ -9046,12 +9045,12 @@ msgstr "Nelze přejmenovat složku: %s: Složka neexistuje"
 #: camel/providers/imap/camel-imap-command.c:224
 #: camel/providers/imap/camel-imap-command.c:263
 #: camel/providers/imap/camel-imap-command.c:453
-#: camel/providers/imap/camel-imap-store.c:2642
+#: camel/providers/imap/camel-imap-store.c:2644
 msgid "Operation cancelled"
 msgstr "Operace zrušena"
 
 #: camel/providers/imap/camel-imap-command.c:308
-#: camel/providers/imap/camel-imap-store.c:2645
+#: camel/providers/imap/camel-imap-store.c:2647
 #, c-format
 msgid "Server unexpectedly disconnected: %s"
 msgstr "Server neočekávaně zrušil spojení: %s"
@@ -9287,24 +9286,24 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/imap/camel-imap-store.c:1496
-#: camel/providers/imap/camel-imap-store.c:1638
+#: camel/providers/imap/camel-imap-store.c:1498
+#: camel/providers/imap/camel-imap-store.c:1640
 #, c-format
 msgid "No such folder %s"
 msgstr "Složka %s neexistuje"
 
-#: camel/providers/imap/camel-imap-store.c:1839
+#: camel/providers/imap/camel-imap-store.c:1841
 #, c-format
 msgid ""
 "The folder name \"%s\" is invalid because it containes the character \"%c\""
 msgstr "Název složky \"%s\" je neplatný, protože obsahuje znak \"%c\""
 
-#: camel/providers/imap/camel-imap-store.c:1851
+#: camel/providers/imap/camel-imap-store.c:1853
 #, c-format
 msgid "Unknown parent folder: %s"
 msgstr "Neznámá rodičovská složka: %s"
 
-#: camel/providers/imap/camel-imap-store.c:1887
+#: camel/providers/imap/camel-imap-store.c:1889
 msgid "The parent folder is not allowed to contain subfolders"
 msgstr "Rodičovská složka nemůže obsahovat podsložky"
 
@@ -10976,7 +10975,7 @@ msgstr "Potom"
 msgid "You must specify a folder."
 msgstr "Musíte uvést složku."
 
-#: filter/filter-folder.c:243 filter/vfolder-rule.c:408
+#: filter/filter-folder.c:243 filter/vfolder-rule.c:438
 #: mail/mail-account-gui.c:1503 mail/mail-account-gui.c:1517
 msgid "Select Folder"
 msgstr "Vybrat složku"
@@ -11416,15 +11415,15 @@ msgstr "Název pravidla"
 msgid "Score Rules"
 msgstr "Pravidla skóre"
 
-#: filter/vfolder-rule.c:208
+#: filter/vfolder-rule.c:209
 msgid "You must name this vfolder."
 msgstr "Musíte pojmenovat tuto v-složku."
 
-#: filter/vfolder-rule.c:222
+#: filter/vfolder-rule.c:223
 msgid "You need to to specify at least one folder as a source."
 msgstr "Musíte zadat alespoň jednu složku jako zdrojovou."
 
-#: filter/vfolder-rule.c:499
+#: filter/vfolder-rule.c:531
 msgid "VFolder source"
 msgstr "Zdroj v-složky"
 
@@ -25388,7 +25387,7 @@ msgstr "Synchronizuje se složka"
 msgid "Synchronizing \"%s\" (%d of %d) ..."
 msgstr "Synchronizuje se \"%s\" (%d z %d)..."
 
-#: shell/e-shell-settings-dialog.c:345
+#: shell/e-shell-settings-dialog.c:346
 msgid "Evolution Settings"
 msgstr "Nastavení Evolution"
 
@@ -25493,7 +25492,7 @@ msgstr "Pracovat _on-line"
 msgid "_Work Offline"
 msgstr "_Pracovat při odpojení"
 
-#: shell/e-shell-view-menu.c:795 ui/evolution.xml.h:40
+#: shell/e-shell-view-menu.c:795 ui/evolution.xml.h:39
 msgid "Work Offline"
 msgstr "Pracovat při odpojení"
 
@@ -25660,7 +25659,7 @@ msgstr "Přejmenovat vybranou zkratku na:"
 msgid "Open the folder linked to this shortcut"
 msgstr "Otevřít složku s odkazem na tuto zkratku"
 
-#: shell/e-shortcuts-view.c:424 ui/evolution.xml.h:24
+#: shell/e-shortcuts-view.c:424 ui/evolution.xml.h:23
 msgid "Open in New _Window"
 msgstr "Otevřít v _novém okně"
 
@@ -26257,7 +26256,7 @@ msgstr "Zobrazit aktuální kontakt"
 #: ui/evolution-event-editor.xml.h:11 ui/evolution-mail-global.xml.h:17
 #: ui/evolution-mail-list.xml.h:23 ui/evolution-mail-message.xml.h:93
 #: ui/evolution-mail-messagedisplay.xml.h:4 ui/evolution-task-editor.xml.h:9
-#: ui/evolution-tasks.xml.h:14 ui/evolution.xml.h:43
+#: ui/evolution-tasks.xml.h:14 ui/evolution.xml.h:42
 msgid "_Actions"
 msgstr "_Akce"
 
@@ -26382,7 +26381,7 @@ msgid "Delete this item"
 msgstr "Smazat tuto položku"
 
 #: ui/evolution-comp-editor.xml.h:6 ui/evolution-event-editor.xml.h:5
-#: ui/evolution-mail-messagedisplay.xml.h:3 ui/evolution.xml.h:19
+#: ui/evolution-mail-messagedisplay.xml.h:3 ui/evolution.xml.h:18
 msgid "Main toolbar"
 msgstr "Hlavní nástrojová lišta"
 
@@ -26422,7 +26421,7 @@ msgstr "Uložit tuto položku na disk"
 #: ui/evolution-mail-messagedisplay.xml.h:7
 #: ui/evolution-message-composer.xml.h:42
 #: ui/evolution-signature-editor.xml.h:12 ui/evolution-subscribe.xml.h:11
-#: ui/evolution.xml.h:47
+#: ui/evolution.xml.h:46
 msgid "_File"
 msgstr "_Soubor"
 
@@ -26686,7 +26685,7 @@ msgstr "Seznam zpráv dle vláken"
 msgid "_Expunge"
 msgstr "_Vyčistit"
 
-#: ui/evolution-mail-list.xml.h:27 ui/evolution.xml.h:48
+#: ui/evolution-mail-list.xml.h:27 ui/evolution.xml.h:47
 msgid "_Folder"
 msgstr "_Složka"
 
@@ -27105,7 +27104,7 @@ msgstr "Zavřít toto okno"
 #: ui/evolution-mail-messagedisplay.xml.h:5
 #: ui/evolution-message-composer.xml.h:39
 #: ui/evolution-signature-editor.xml.h:10 ui/evolution-subscribe.xml.h:9
-#: ui/evolution.xml.h:44
+#: ui/evolution.xml.h:43
 msgid "_Close"
 msgstr "_Zavřít"
 
@@ -27394,168 +27393,168 @@ msgid "Copy this folder"
 msgstr "Kopírovat tuto složku"
 
 #: ui/evolution.xml.h:8
-msgid "Create _New Folder..."
-msgstr "Vytvořit _novou složku..."
-
-#: ui/evolution.xml.h:9
 msgid "Create a link to this folder in the shortcut bar"
 msgstr "Vytvořit odkaz na tuto složku v liště zkratek"
 
-#: ui/evolution.xml.h:10
+#: ui/evolution.xml.h:9
 msgid "Create a new folder"
 msgstr "Vytvořit novou složku"
 
-#: ui/evolution.xml.h:11
+#: ui/evolution.xml.h:10
 msgid "Create a new shortcut"
 msgstr "Vytvořit novou zkratku"
 
-#: ui/evolution.xml.h:12
+#: ui/evolution.xml.h:11
 msgid "Create a new window displaying this folder"
 msgstr "Vytvořit nové okno zobrazující tuto složku"
 
-#: ui/evolution.xml.h:13
+#: ui/evolution.xml.h:12
 msgid "Delete this folder"
 msgstr "Smazat tuto složku"
 
-#: ui/evolution.xml.h:14
+#: ui/evolution.xml.h:13
 msgid "Display a different folder"
 msgstr "Zobrazit jinou složku"
 
-#: ui/evolution.xml.h:15
+#: ui/evolution.xml.h:14
 msgid "E_xit"
 msgstr "_Konec"
 
-#: ui/evolution.xml.h:16
+#: ui/evolution.xml.h:15
 msgid "Evolution _Window"
 msgstr "Okno _Evolution"
 
-#: ui/evolution.xml.h:17
+#: ui/evolution.xml.h:16
 msgid "Exit the program"
 msgstr "Ukončit program"
 
-#: ui/evolution.xml.h:18
+#: ui/evolution.xml.h:17
 msgid "Import data from other programs"
 msgstr "Importovat data z jiných programů"
 
-#: ui/evolution.xml.h:20
+#: ui/evolution.xml.h:19
 msgid "Move this folder to another place"
 msgstr "Přesunout tuto složku na jiné místo"
 
-#: ui/evolution.xml.h:21
+#: ui/evolution.xml.h:20
 msgid "Open Other _User's Folder..."
 msgstr "Otevřít složku _jiného uživatele..."
 
-#: ui/evolution.xml.h:22
+#: ui/evolution.xml.h:21
 msgid "Open a folder belonging to some other user on the server"
 msgstr "Otevřít složku patřící jinému uživateli na serveru"
 
-#: ui/evolution.xml.h:23
+#: ui/evolution.xml.h:22
 msgid "Open in New Window"
 msgstr "Otevřít v novém oknu"
 
-#: ui/evolution.xml.h:25
+#: ui/evolution.xml.h:24
 msgid "Open this folder in an other window"
 msgstr "Otevřít tuto složku v jiném okně"
 
-#: ui/evolution.xml.h:26
+#: ui/evolution.xml.h:25
 msgid "Pi_lot Settings..."
 msgstr "Nastavení diáře _Pilot..."
 
-#: ui/evolution.xml.h:27
+#: ui/evolution.xml.h:26
 msgid "Remove a folder added with \"Open Other User's Folder\""
 msgstr "Odstranit složku přidanou přes \"Otevřít složku jiného uživatele\""
 
-#: ui/evolution.xml.h:28
+#: ui/evolution.xml.h:27
 msgid "Send / Receive"
 msgstr "Odeslat / přijmout"
 
-#: ui/evolution.xml.h:29
+#: ui/evolution.xml.h:28
 msgid "Send queued items and retrieve new items"
 msgstr "Poslat položky čekající ve frontě a přijmout nové položky"
 
-#: ui/evolution.xml.h:30
+#: ui/evolution.xml.h:29
 msgid "Set up Pilot configuration"
 msgstr "Nastavení Pilota"
 
-#: ui/evolution.xml.h:31
+#: ui/evolution.xml.h:30
 msgid "Show information about Ximian Evolution"
 msgstr "Ukázat informace o Ximian Evolution"
 
-#: ui/evolution.xml.h:32
+#: ui/evolution.xml.h:31
 msgid "Submit Bug Report"
 msgstr "Poslat hlášení o chybě"
 
-#: ui/evolution.xml.h:33
+#: ui/evolution.xml.h:32
 msgid "Submit _Bug Report"
 msgstr "_Poslat hlášení o chybě"
 
-#: ui/evolution.xml.h:34
+#: ui/evolution.xml.h:33
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Poslat hlášení o chybě pomocí nástroje pro hlášení chyb Přítel v nouzi"
 
-#: ui/evolution.xml.h:35
+#: ui/evolution.xml.h:34
 msgid "Toggle"
 msgstr "Přepínač"
 
-#: ui/evolution.xml.h:36
+#: ui/evolution.xml.h:35
 msgid "Toggle whether to show the folder bar"
 msgstr "Přepnout zobrazení lišty složkek"
 
-#: ui/evolution.xml.h:37
+#: ui/evolution.xml.h:36
 msgid "Toggle whether to show the shortcut bar"
 msgstr "Přepnout zobrazení lišty zkratek"
 
-#: ui/evolution.xml.h:38
+#: ui/evolution.xml.h:37
 msgid "Toggle whether we are working offline."
 msgstr "Přepnout, zdali pracujete off-line."
 
-#: ui/evolution.xml.h:39
+#: ui/evolution.xml.h:38
 msgid "View the selected folder"
 msgstr "Zobrazit vybranou složku"
 
-#: ui/evolution.xml.h:41
+#: ui/evolution.xml.h:40
 msgid "Ximian Evolution _FAQ"
 msgstr "Ximian Evolution _FAQ"
 
-#: ui/evolution.xml.h:42
+#: ui/evolution.xml.h:41
 msgid "_About Ximian Evolution..."
 msgstr "O _aplikaci Ximian Evolution..."
 
-#: ui/evolution.xml.h:45
+#: ui/evolution.xml.h:44
 msgid "_Copy..."
 msgstr "_Kopírovat..."
 
-#: ui/evolution.xml.h:49
+#: ui/evolution.xml.h:48
 msgid "_Folder Bar"
 msgstr "Lišta _složek"
 
-#: ui/evolution.xml.h:50
+#: ui/evolution.xml.h:49
 msgid "_Folder..."
 msgstr "Sl_ožka..."
 
-#: ui/evolution.xml.h:51
+#: ui/evolution.xml.h:50
 msgid "_Go to Folder..."
 msgstr "_Jít na složku..."
 
-#: ui/evolution.xml.h:52
+#: ui/evolution.xml.h:51
 msgid "_Help"
 msgstr "Ná_pověda"
 
-#: ui/evolution.xml.h:53
+#: ui/evolution.xml.h:52
 msgid "_Import..."
 msgstr "I_mportovat..."
 
-#: ui/evolution.xml.h:54
+#: ui/evolution.xml.h:53
 msgid "_Move..."
 msgstr "_Přesunout..."
 
-#: ui/evolution.xml.h:55
+#: ui/evolution.xml.h:54
 msgid "_New"
 msgstr "_Nový"
 
-#: ui/evolution.xml.h:56
+#: ui/evolution.xml.h:55
 msgid "_New Folder"
 msgstr "_Nová složka"
+
+#: ui/evolution.xml.h:56
+msgid "_New Folder..."
+msgstr "_Nová složka..."
 
 #: ui/evolution.xml.h:57
 msgid "_Remove Other User's Folder"
