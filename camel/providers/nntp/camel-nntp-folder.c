@@ -216,7 +216,7 @@ nntp_folder_get_uids (CamelFolder *folder)
 	
 	for (i = 0; i < count; i++) {
 		message_info = camel_folder_summary_index (nntp_folder->summary, i);
-		out->pdata[i] = g_strdup (message_info->uid);
+		out->pdata[i] = g_strdup (camel_message_info_uid(message_info));
 	}
 	
 	return out;

@@ -367,7 +367,7 @@ local_get_uids(CamelFolder *folder)
 	for (i = 0; i < count; i++) {
 		CamelMessageInfo *info = camel_folder_summary_index(CAMEL_FOLDER_SUMMARY(local_folder->summary), i);
 
-		array->pdata[i] = g_strdup(info->uid);
+		array->pdata[i] = g_strdup(camel_message_info_uid(info));
 	}
 
 	return array;

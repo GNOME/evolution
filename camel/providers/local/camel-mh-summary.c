@@ -204,7 +204,7 @@ remove_summary(char *key, CamelMessageInfo *info, CamelLocalSummary *cls)
 {
 	d(printf("removing message %s from summary\n", key));
 	if (cls->index)
-		ibex_unindex(cls->index, info->uid);
+		ibex_unindex(cls->index, (char *)camel_message_info_uid(info));
 	camel_folder_summary_remove((CamelFolderSummary *)cls, info);
 }
 
@@ -238,7 +238,7 @@ mh_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changeinfo, Came
 	for (i=0;i<count;i++) {
 		info = camel_folder_summary_index((CamelFolderSummary *)cls, i);
 		if (info) {
-			g_hash_table_insert(left, info->uid, info);
+			g_hash_table_insert(left, (char *)camel_message_info_uid(info), info);
 		}
 	}
 
@@ -254,12 +254,12 @@ mh_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changeinfo, Came
 			if (info == NULL || (cls->index && (!ibex_contains_name(cls->index, d->d_name)))) {
 				/* need to add this file to the summary */
 				if (info != NULL) {
-					g_hash_table_remove(left, info->uid);
+					g_hash_table_remove(left, camel_message_info_uid(info));
 					camel_folder_summary_remove((CamelFolderSummary *)cls, info);
 				}
 				camel_mh_summary_add(cls, d->d_name, forceindex);
 			} else {
-				g_hash_table_remove(left, info->uid);
+				g_hash_table_remove(left, camel_message_info_uid(info));
 			}
 		}
 	}
@@ -288,7 +288,7 @@ mh_summary_sync_message(CamelLocalSummary *cls, CamelMessageInfo *info, CamelExc
 	int fd, outfd, len, outlen, ret=0;
 	char *name, *tmpname, *xevnew;
 
-	name = g_strdup_printf("%s/%s", cls->folder_path, info->uid);
+	name = g_strdup_printf("%s/%s", cls->folder_path, camel_message_info_uid(info));
 	fd = open(name, O_RDWR);
 	if (fd == -1)
 		return -1;
@@ -306,7 +306,7 @@ mh_summary_sync_message(CamelLocalSummary *cls, CamelMessageInfo *info, CamelExc
 			d(printf("camel local summary_decode_xev = %d\n", camel_local_summary_decode_x_evolution(cls, xev, NULL)));
 
 			/* need to write a new copy/unlink old */
-			tmpname = g_strdup_printf("%s/.tmp.%d.%s", cls->folder_path, getpid(), info->uid);
+			tmpname = g_strdup_printf("%s/.tmp.%d.%s", cls->folder_path, getpid(), camel_message_info_uid(info));
 			d(printf("old xev was %d %s new xev is %d %s\n", strlen(xev), xev, strlen(xevnew), xevnew));
 			d(printf("creating new message %s\n", tmpname));
 			outfd = open(tmpname, O_CREAT|O_WRONLY|O_TRUNC, 0600);
@@ -360,6 +360,7 @@ mh_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChangeInfo 
 	int count, i;
 	CamelMessageInfo *info;
 	char *name;
+	const char *uid;
 
 	d(printf("summary_sync(expunge=%s)\n", expunge?"true":"false"));
 
@@ -373,15 +374,16 @@ mh_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChangeInfo 
 		info = camel_folder_summary_index((CamelFolderSummary *)cls, i);
 		g_assert(info);
 		if (expunge && (info->flags & CAMEL_MESSAGE_DELETED)) {
-			name = g_strdup_printf("%s/%s", cls->folder_path, info->uid);
+			uid = camel_message_info_uid(info);
+			name = g_strdup_printf("%s/%s", cls->folder_path, uid);
 			d(printf("deleting %s\n", name));
 			if (unlink(name) == 0 || errno==ENOENT) {
 
 				/* FIXME: put this in folder_summary::remove()? */
 				if (cls->index)
-					ibex_unindex(cls->index, info->uid);
+					ibex_unindex(cls->index, (char *)uid);
 				
-				camel_folder_change_info_remove_uid(changes, info->uid);
+				camel_folder_change_info_remove_uid(changes, uid);
 				camel_folder_summary_remove((CamelFolderSummary *)cls, info);
 			}
 			g_free(name);

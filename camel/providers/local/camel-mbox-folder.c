@@ -188,7 +188,7 @@ mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const Camel
 	if (camel_exception_is_set(ex))
 		goto fail;
 
-	d(printf("Appending message: uid is %s\n", mi->uid));
+	d(printf("Appending message: uid is %s\n", camel_message_info_uid(mi)));
 
 	output_stream = camel_stream_fs_new_with_name(lf->folder_path, O_WRONLY|O_APPEND, 0600);
 	if (output_stream == NULL) {
@@ -248,7 +248,7 @@ mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const Camel
 
 fail_write:
 	camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-			     _("Cannot append message to mbox file: %s: %s"), lf->folder_path, g_strerror(errno));
+			     _("Cannot append message to mbox file: %s: %s"), lf->folder_path, strerror(errno));
 
 	if (filter_stream)
 		camel_object_unref(CAMEL_OBJECT(filter_stream));
@@ -313,8 +313,7 @@ retry:
 		return NULL;
 	}
 
-	/* if this has no content, its an error in the library */
-	g_assert(info->info.content);
+	/* no frompos, its an error in the library (and we can't do anything with it */
 	g_assert(info->frompos != -1);
 	
 	/* we use an fd instead of a normal stream here - the reason is subtle, camel_mime_part will cache

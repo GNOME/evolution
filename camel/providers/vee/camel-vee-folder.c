@@ -28,6 +28,10 @@
 #include "camel-folder-search.h"
 #endif
 
+#ifdef DOESTRV
+#include "e-util/e-memory.h"
+#endif
+
 #include <string.h>
 
 /* our message info includes the parent folder */
@@ -210,11 +214,13 @@ camel_vee_folder_new (CamelStore *parent_store, const char *name, CamelException
 static void
 vfolder_remove_match(CamelVeeFolder *vf, CamelVeeMessageInfo *vinfo)
 {
-	printf("removing match %s\n", vinfo->info.uid);
+	const char *uid = camel_message_info_uid(vinfo);
 
-	g_hash_table_remove(vf->messages_uid, vinfo->info.uid);
+	printf("removing match %s\n", uid);
+
+	g_hash_table_remove(vf->messages_uid, uid);
 	g_ptr_array_remove_fast(vf->messages, vinfo);
-	camel_folder_change_info_remove_uid(vf->changes, vinfo->info.uid);
+	camel_folder_change_info_remove_uid(vf->changes, uid);
 	camel_message_info_free((CamelMessageInfo *)vinfo);
 }
 
@@ -222,18 +228,26 @@ static CamelVeeMessageInfo *
 vfolder_add_match(CamelVeeFolder *vf, CamelFolder *f, const CamelMessageInfo *info)
 {
 	CamelVeeMessageInfo *mi;
+	char *uid;
 
 	mi = g_malloc0(sizeof(*mi));
 	camel_message_info_dup_to(info, (CamelMessageInfo*)mi);
+	uid = g_strdup_printf("%p:%s", f, camel_message_info_uid(info));
+#ifdef DOESTRV
+	mi->info.strings = e_strv_set_ref_free(mi->info.strings, CAMEL_MESSAGE_INFO_UID, uid);
+	mi->info.strings = e_strv_pack(mi->info.strings);
+#else
 	g_free (mi->info.uid);
-	mi->info.uid = g_strdup_printf("%p:%s", f, info->uid);
+	mi->info.uid = uid;
+#endif
 	mi->folder = f;
 	g_ptr_array_add(vf->messages, mi);
-	g_hash_table_insert(vf->messages_uid, mi->info.uid, mi);
+	uid = (char *)camel_message_info_uid(mi);
+	g_hash_table_insert(vf->messages_uid, uid, mi);
 
-	printf("adding match %s\n", mi->info.uid);
+	printf("adding match %s\n", uid);
 
-	camel_folder_change_info_add_uid(vf->changes, mi->info.uid);
+	camel_folder_change_info_add_uid(vf->changes, uid);
 	return mi;
 }
 #endif
@@ -244,7 +258,7 @@ vfolder_change_match(CamelVeeFolder *vf, CamelVeeMessageInfo *vinfo, const Camel
 	CamelFlag *flag;
 	CamelTag *tag;
 
-	printf("changing match %s\n", vinfo->info.uid);
+	printf("changing match %s\n", camel_message_info_uid(vinfo));
 
 	vinfo->info.flags = info->flags;
 	camel_flag_list_free(&vinfo->info.user_flags);
@@ -259,7 +273,7 @@ vfolder_change_match(CamelVeeFolder *vf, CamelVeeMessageInfo *vinfo, const Camel
 		camel_tag_set(&vinfo->info.user_tags, tag->name, tag->value);
 		tag = tag->next;
 	}
-	camel_folder_change_info_change_uid(vf->changes, vinfo->info.uid);
+	camel_folder_change_info_change_uid(vf->changes, camel_message_info_uid(vinfo));
 }
 
 static void
@@ -462,7 +476,7 @@ get_real_message(CamelFolder *folder, const char *uid, CamelFolder **out_folder,
 	g_return_val_if_fail(mi != NULL, FALSE);
 
 	*out_folder = mi->folder;
-	*out_uid = strchr(mi->info.uid, ':')+1;
+	*out_uid = strchr(camel_message_info_uid(mi), ':')+1;
 	return TRUE;
 }
 
@@ -505,7 +519,7 @@ static GPtrArray *vee_get_uids (CamelFolder *folder)
 	g_ptr_array_set_size (result, vf->messages->len);
 	for (i=0;i<vf->messages->len;i++) {
 		CamelMessageInfo *mi = g_ptr_array_index(vf->messages, i);
-		result->pdata[i] = g_strdup(mi->uid);
+		result->pdata[i] = g_strdup(camel_message_info_uid(mi));
 	}
 
 	return result;
@@ -574,8 +588,7 @@ vee_get_message_user_flag(CamelFolder *folder, const char *uid, const char *name
 }
 
 static void
-vee_set_message_user_flag(CamelFolder *folder, const char *uid,
-			  const char *name, gboolean value)
+vee_set_message_user_flag(CamelFolder *folder, const char *uid, const char *name, gboolean value)
 {
 	const char *real_uid;
 	CamelFolder *real_folder;
@@ -627,13 +640,21 @@ vee_folder_build(CamelVeeFolder *vf, CamelException *ex)
 		for (i = 0; i < matches->len; i++) {
 			info = camel_folder_get_message_info(f, matches->pdata[i]);
 			if (info) {
+				char *uid;
+
 				mi = g_malloc0(sizeof(*mi));
 				camel_message_info_dup_to(info, (CamelMessageInfo *)mi);
-				g_free (mi->info.uid);
-				mi->info.uid = g_strdup_printf("%p:%s", f, info->uid);
+				uid = g_strdup_printf("%p:%s", f, camel_message_info_uid(info));
+#ifdef DOESTRV
+				mi->info.strings = e_strv_set_ref_free(mi->info.strings, CAMEL_MESSAGE_INFO_UID, uid);
+				mi->info.strings = e_strv_pack(mi->info.strings);
+#else
+				g_free(mi->info.uid);
+				mi->info.uid = uid;
+#endif
 				mi->folder = f;
 				g_ptr_array_add(messages, mi);
-				g_hash_table_insert(messages_uid, mi->info.uid, mi);
+				g_hash_table_insert(messages_uid, (char *)camel_message_info_uid(mi), mi);
 			}
 		}
 		camel_folder_search_free(f, matches);
@@ -658,8 +679,9 @@ vee_folder_build_folder(CamelVeeFolder *vf, CamelFolder *source, CamelException 
 	for (i=0;i<vf->messages->len;i++) {
 		CamelVeeMessageInfo *mi = g_ptr_array_index(vf->messages, i);
 		if (mi->folder == source) {
-			camel_folder_change_info_add_source(vf->changes, mi->info.uid);
-			g_hash_table_remove(vf->messages_uid, mi->info.uid);
+			const char *uid = camel_message_info_uid(mi);
+			camel_folder_change_info_add_source(vf->changes, uid);
+			g_hash_table_remove(vf->messages_uid, uid);
 			g_ptr_array_remove_index_fast(vf->messages, i);
 
 			camel_message_info_free((CamelMessageInfo *)mi);
@@ -674,15 +696,23 @@ vee_folder_build_folder(CamelVeeFolder *vf, CamelFolder *source, CamelException 
 	for (i = 0; i < matches->len; i++) {
 		info = camel_folder_get_message_info(f, matches->pdata[i]);
 		if (info) {
+			char *uid;
+
 			mi = g_malloc0(sizeof(*mi));
 			camel_message_info_dup_to(info, (CamelMessageInfo*)mi);
+			uid = g_strdup_printf("%p:%s", f, camel_message_info_uid(info));
+#ifdef DOESTRV
+			mi->info.strings = e_strv_set_ref_free(mi->info.strings, CAMEL_MESSAGE_INFO_UID, uid);
+			mi->info.strings = e_strv_pack(mi->info.strings);
+#else
 			g_free (mi->info.uid);
-			mi->info.uid = g_strdup_printf("%p:%s", f, info->uid);
+			mi->info.uid = uid;
+#endif
 			mi->folder = f;
 			g_ptr_array_add(messages, mi);
-			g_hash_table_insert(messages_uid, mi->info.uid, mi);
-
-			camel_folder_change_info_add_update(vf->changes, mi->info.uid);
+			uid = (char *)camel_message_info_uid(mi);
+			g_hash_table_insert(messages_uid, uid, mi);
+			camel_folder_change_info_add_update(vf->changes, uid);
 		}
 	}
 	camel_folder_search_free(f, matches);

@@ -1,3 +1,139 @@
+2000-11-30  Not Zed  <NotZed@HelixCode.com>
+
+	* providers/local/camel-mbox-folder.c (mbox_get_message): Remove
+	assertion that content is there, when it no longer can be.
+
+	* camel-folder-summary.h: Removed pos/bodypos/endpos from
+	camelmeessagecontentinfo.
+	(CamelMessageFlags): Added an attachments flag.
+
+	* providers/local/camel-local-summary.h: Added load virtual
+	function.
+
+	* tests/lib/folders.c (test_message_info): Accessors.
+	(test_folder_message): "
+
+	* camel-folder-thread.c (get_root_subject): Fix accessors.
+	(dump_tree_rec): "
+
+	* camel-folder-search.c (camel_folder_search_execute_expression):
+	Accessors for messageinfo.
+	(search_match_all): "
+	(search_header_contains): "
+	(search_header_contains): "
+	(search_body_contains): "
+	(camel_folder_search_execute_expression): Use mepool_strdup.
+
+	* providers/local/camel-mbox-summary.c (summary_update): Accessors
+	for messageinfo.
+	(mbox_summary_sync_full): "
+
+	* providers/local/camel-mh-summary.c (remove_summary): Accessors
+	for messageinfo.
+	(mh_summary_check): "
+	(mh_summary_sync_message): "
+	(mh_summary_sync): "
+
+	* providers/local/camel-mh-folder.c (mh_append_message): Use
+	accessor for uid.
+
+	* providers/local/camel-local-summary.c
+	(local_summary_decode_x_evolution): Use accessor to uid.
+	(local_summary_encode_x_evolution): Likewise.
+	(message_info_new): And here.
+	(camel_local_summary_load): Call virtual load function.
+	(local_summary_load): Default load function, load summary.
+	(camel_local_summary_load): Check file exists before trying to
+	load.
+	(camel_local_summary_construct): Turn off building content info!
+	(CAMEL_LOCAL_SUMMARY_VERSION): Bump, since we dont build content
+	info anymore.
+	(camel_local_summary_load): After a successful load/check, do a
+	save too so we dont have to go through it again randomly.
+
+	* providers/nntp/camel-nntp-utils.c (get_XOVER_headers): Use
+	accessors for messageinfo.
+
+	* providers/nntp/camel-nntp-folder.c (nntp_folder_get_uids): Use
+	accessors for uid.
+
+	* providers/imap/camel-imap-folder.c (imap_refresh_info): Use
+	accessor for uid.
+	(imap_sync): Likewise.
+	(imap_get_uids): Likewise.
+	(imap_update_summary): And here.
+
+	* providers/vee/camel-vee-folder.c (vfolder_remove_match): Use
+	accessor for uid.
+	(vfolder_add_match): Handle estrv stuff.
+	(vfolder_change_match): Accessor for uid.
+	(get_real_message): "
+	(vee_get_uids): "
+	(vee_folder_build): " + estrv.
+	(vee_folder_build_folder): "
+
+	* providers/local/camel-maildir-folder.c (maildir_append_message):
+	Use acccessors for uid's.
+	(maildir_get_message): Here too.
+
+	* providers/local/camel-maildir-summary.c
+	(camel_maildir_summary_init): Setup the string count for us.
+	(message_info_new): Access the string array directly.
+	(message_info_free): No need to free string if using array.
+	(camel_maildir_summary_info_to_name): Use accessor to get to uid.
+	(remove_summary): And here.
+	(maildir_summary_check): Likewise.
+	(maildir_summary_sync): And here.
+	(maildir_summary_load): Load up a cache of uid->filename mappings
+	before loading the actual summary file.  This saves us having to
+	waste the diskspace storing the filenames in the summary itself,
+	and also helps us sync the summary better on load.
+	(message_info_load): If we have the load_map setup, and the uid
+	exists, then set the filename cache from it, and update the flags
+	from the name, incase our summary mismatches it.
+
+	* camel-folder-summary.c (camel_folder_summary_init): Setup string
+	count for compressed info record.  An optional compile mode which
+	stores all strings for a given messageinfo into a packed array,
+	which should save 36-50 bytes/record.
+	(camel_folder_summary_info_new): Init the string array.
+	(message_info_new): Set the string array items, as required.
+	(message_info_load): And here too.
+	(message_info_save): Use accessors to get to strings.
+	(message_info_free): Free strings as one.
+	(camel_message_info_dup_to): Handle packed array case.
+	(camel_folder_summary_add): Use accessors.  And pack the strv
+	before storing it.
+	(summary_assign_uid): New function to assign a unique uid to a
+	message, if it doesn't have one.
+	(camel_folder_summary_add): Call assign_uid instead of doing it
+	ourselves.
+	(camel_folder_summary_info_new_from_parser): "
+	(camel_folder_summary_info_new_from_message): "
+	(camel_folder_summary_encode_string): constify.
+	(camel_folder_summary_encode_token): "
+	(summary_build_content_info_message): Fix accessors to messageinfo.
+	(CAMEL_FOLDER_SUMMARY_VERSION): Bumped, for removal of
+	contentinfo->pos data.
+	(camel_folder_summary_info_new_from_parser): Calculate the size
+	based on the parser position, not the removed contentinfo stuff.
+	(camel_folder_summary_info_new_from_message): Remove size stuff.
+	(camel_folder_summary_offset_content): Removed, no longer means anything.
+	(content_info_new): 
+	(content_info_load): 
+	(content_info_save): 
+	(summary_build_content_info): Remove stuff for contentinfo->pos*.
+	(summary_build_content_info): Take a msginfo argument, set
+	attachments flag if we find any attachments.
+	(summary_build_content_info_message): set attachments flag if we
+	find any attachments.
+	(camel_folder_summary_info_new_from_parser): Always scan the
+	content info, even if we dont save it.
+	(camel_folder_summary_info_new_from_message): And here too.
+	(summary_build_content_info): Only create the contentinfo stuff if
+	we have it turned on, otherwise just parse and discard.
+	(summary_build_content_info_message): Likewise.
+
 2000-11-29  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* camel-store.c (camel_store_get_folder): Updated the gtk-doc

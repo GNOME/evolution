@@ -62,8 +62,8 @@ safe_strcmp(const char *a, const char *b)
 void
 test_message_info(CamelMimeMessage *msg, const CamelMessageInfo *info)
 {
-	check_msg(safe_strcmp(info->subject, camel_mime_message_get_subject(msg)) == 0,
-		  "info->subject = '%s', get_subject() = '%s'", info->subject, camel_mime_message_get_subject(msg));
+	check_msg(safe_strcmp(camel_message_info_subject(info), camel_mime_message_get_subject(msg)) == 0,
+		  "info->subject = '%s', get_subject() = '%s'", camel_message_info_subject(info), camel_mime_message_get_subject(msg));
 
 	/* FIXME: testing from/cc/to, etc is more tricky */
 
@@ -91,7 +91,7 @@ test_folder_message(CamelFolder *folder, const char *uid)
 	/* first try getting info */
 	info = camel_folder_get_message_info(folder, uid);
 	check(info != NULL);
-	check(strcmp(info->uid, uid) == 0);
+	check(strcmp(camel_message_info_uid(info), uid) == 0);
 
 	/* then, getting message */
 	msg = camel_folder_get_message(folder, uid, ex);
@@ -109,7 +109,7 @@ test_folder_message(CamelFolder *folder, const char *uid)
 	found = 0;
 	for (i=0;i<s->len;i++) {
 		info = s->pdata[i];
-		if (strcmp(info->uid, uid) == 0)
+		if (strcmp(camel_message_info_uid(info), uid) == 0)
 			found++;
 	}
 	check(found == 1);
@@ -160,7 +160,7 @@ test_folder_not_message(CamelFolder *folder, const char *uid)
 	found = 0;
 	for (i=0;i<s->len;i++) {
 		info = s->pdata[i];
-		if (strcmp(info->uid, uid) == 0)
+		if (strcmp(camel_message_info_uid(info), uid) == 0)
 			found++;
 	}
 	check(found == 0);

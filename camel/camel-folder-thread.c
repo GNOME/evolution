@@ -149,13 +149,13 @@ get_root_subject(CamelFolderThreadNode *c, int *re)
 	s = NULL;
 	*re = FALSE;
 	if (c->message)
-		s = c->message->subject;
+		s = (char *)camel_message_info_subject(c->message);
 	else {
 		/* one of the children will always have a message */
 		scan = c->child;
 		while (scan) {
 			if (scan->message) {
-				s = scan->message->subject;
+				s = (char *)camel_message_info_subject(scan->message);
 				break;
 			}
 			scan = scan->next;
@@ -319,7 +319,7 @@ dump_tree_rec(struct _tree_info *info, CamelFolderThreadNode *c, int depth)
 			g_hash_table_insert(info->visited, c, c);
 		}
 		if (c->message) {
-			printf("%s %p Subject: %s <%.8s>\n", p, c, c->message->subject, c->message->message_id.id.hash);
+			printf("%s %p Subject: %s <%.8s>\n", p, c, camel_message_info_subject(c->message), c->message->message_id.id.hash);
 			count += 1;
 		} else {
 			printf("%s %p <empty>\n", p, c);

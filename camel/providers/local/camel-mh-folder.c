@@ -137,10 +137,10 @@ static void mh_append_message(CamelFolder * folder, CamelMimeMessage * message, 
 		return;
 	}
 
-	d(printf("Appending message: uid is %s\n", mi->uid));
+	d(printf("Appending message: uid is %s\n", camel_message_info_uid(mi)));
 
 	/* write it out, use the uid we got from the summary */
-	name = g_strdup_printf("%s/%s", lf->folder_path, mi->uid);
+	name = g_strdup_printf("%s/%s", lf->folder_path, camel_message_info_uid(mi));
 	output_stream = camel_stream_fs_new_with_name(name, O_WRONLY|O_CREAT, 0600);
 	if (output_stream == NULL) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,

@@ -138,12 +138,10 @@ static void maildir_append_message(CamelFolder * folder, CamelMimeMessage * mess
 
 	mdi = (CamelMaildirMessageInfo *)mi;
 
-	g_assert(mdi->filename);
-
-	d(printf("Appending message: uid is %s filename is %s\n", mi->uid, mdi->filename));
+	d(printf("Appending message: uid is %s filename is %s\n", camel_message_info_uid(mi), mdi->filename));
 
 	/* write it out to tmp, use the uid we got from the summary */
-	name = g_strdup_printf("%s/tmp/%s", lf->folder_path, mi->uid);
+	name = g_strdup_printf("%s/tmp/%s", lf->folder_path, camel_message_info_uid(mi));
 	output_stream = camel_stream_fs_new_with_name(name, O_WRONLY|O_CREAT, 0600);
 	if (output_stream == NULL) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
@@ -163,7 +161,7 @@ static void maildir_append_message(CamelFolder * folder, CamelMimeMessage * mess
 	}
 
 	/* now move from tmp to cur (bypass new, does it matter?) */
-	dest = g_strdup_printf("%s/cur/%s", lf->folder_path, mdi->filename);
+	dest = g_strdup_printf("%s/cur/%s", lf->folder_path, camel_maildir_info_filename(mdi));
 	if (rename(name, dest) == 1) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Cannot append message to maildir folder: %s: %s"), name, g_strerror(errno));
@@ -201,7 +199,7 @@ static CamelMimeMessage *maildir_get_message(CamelFolder * folder, const gchar *
 	mdi = (CamelMaildirMessageInfo *)info;
 
 	/* what do we do if the message flags (and :info data) changes?  filename mismatch - need to recheck I guess */
-	name = g_strdup_printf("%s/cur/%s", lf->folder_path, mdi->filename);
+	name = g_strdup_printf("%s/cur/%s", lf->folder_path, camel_maildir_info_filename(mdi));
 	if ((message_stream = camel_stream_fs_new_with_name(name, O_RDONLY, 0)) == NULL) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID, _("Cannot get message: %s\n  %s"),
 				     name, g_strerror(errno));

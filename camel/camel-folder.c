@@ -1143,7 +1143,7 @@ change_info_add_uid(CamelFolderChangeInfo *info, GPtrArray *uids, const char *ui
 	if (copy)
 		g_ptr_array_add(uids, e_mempool_strdup(info->uid_pool, uid));
 	else
-		g_ptr_array_add(uids, uid);
+		g_ptr_array_add(uids, (char *)uid);
 }
 
 static void

@@ -54,6 +54,7 @@ struct _CamelLocalSummary {
 struct _CamelLocalSummaryClass {
 	CamelFolderSummaryClass parent_class;
 
+	int (*load)(CamelLocalSummary *cls, int forceindex, CamelException *ex);
 	int (*check)(CamelLocalSummary *cls, CamelFolderChangeInfo *changeinfo, CamelException *ex);
 	int (*sync)(CamelLocalSummary *cls, gboolean expunge, CamelFolderChangeInfo *changeinfo, CamelException *ex);
 	CamelMessageInfo *(*add)(CamelLocalSummary *cls, CamelMimeMessage *msg, const CamelMessageInfo *info, CamelFolderChangeInfo *, CamelException *ex);

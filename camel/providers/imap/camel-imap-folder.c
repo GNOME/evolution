@@ -300,7 +300,7 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 		if (!new[i].uid)
 			continue;
 
-		if (strcmp (info->uid, new[i].uid) != 0) {
+		if (strcmp (camel_message_info_uid(info), new[i].uid) != 0) {
 			camel_folder_summary_remove (imap_folder->summary,
 						     info);
 			folder_changed = TRUE;
@@ -314,7 +314,7 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 			info->flags = new[i].flags;
 			camel_object_trigger_event (CAMEL_OBJECT (folder),
 						    "message_changed",
-						    info->uid);
+						    (char *)camel_message_info_uid(info));
 		}
 
 		g_free (new[i].uid);
@@ -366,7 +366,7 @@ imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 				response = camel_imap_command (
 					store, folder, ex,
 					"UID STORE %s FLAGS.SILENT %s",
-					info->uid, flags);
+					camel_message_info_uid(info), flags);
 				g_free (flags);
 				if (!response)
 					return;
@@ -547,7 +547,7 @@ imap_get_uids (CamelFolder *folder)
 
 	for (i = 0; i < count; i++) {
 		info = camel_folder_summary_index (imap_folder->summary, i);
-		array->pdata[i] = g_strdup (info->uid);
+		array->pdata[i] = g_strdup (camel_message_info_uid(info));
 	}
 
 	return array;
@@ -697,7 +697,8 @@ imap_update_summary (CamelFolder *folder, int first, int last,
 		 */
 		info = ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(imap_folder->summary)))->message_info_new(imap_folder->summary, h);
 		header_raw_clear (&h);
-		info->uid = g_strndup (uid, q - uid);
+		uid = g_strndup(uid, q-uid);
+		camel_message_info_set_uid(info, uid);
 
 		/* now lets grab the FLAGS */
 		if (!(flags = strstr (headers->pdata[i], "FLAGS "))) {

@@ -67,6 +67,7 @@ get_XOVER_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 				CamelMessageInfo *new_info = camel_folder_summary_info_new(nntp_folder->summary);
 				char **split_line = g_strsplit (line, "\t", 7);
 				char *subject, *from, *date, *message_id, *bytes;
+				char *uid;
 
 				subject = split_line [nntp_store->overview_field [CAMEL_NNTP_OVER_SUBJECT].index];
 				from = split_line [nntp_store->overview_field [CAMEL_NNTP_OVER_FROM].index];
@@ -88,16 +89,18 @@ get_XOVER_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 				if (nntp_store->overview_field [ CAMEL_NNTP_OVER_BYTES ].full)
 					bytes += strlen ("Bytes:");
 
-				new_info->subject = g_strdup(subject);
-				new_info->from = g_strdup(from);
-				new_info->to = g_strdup(folder->name);
+				uid = g_strdup_printf ("%s,%s", split_line[0], message_id);
+				camel_message_info_set_subject(new_info, g_strdup(subject));
+				camel_message_info_set_from(new_info, g_strdup(from));
+				camel_message_info_set_to(new_info, g_strdup(folder->name));
+				camel_message_info_set_uid(new_info, uid);
+
 				new_info->date_sent = header_decode_date(date, NULL);
 #if 0
 				/* XXX do we need to fill in both dates? */
 				new_info->headers.date_received = g_strdup(date);
 #endif
 				new_info->size = atoi(bytes);
-				new_info->uid = g_strdup_printf ("%s,%s", split_line[0], message_id);
 				md5_get_digest(message_id, strlen(message_id), digest);
 				memcpy(new_info->message_id.id.hash, digest, sizeof(new_info->message_id.id.hash));
 

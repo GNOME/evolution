@@ -112,7 +112,8 @@ int main(int argc, char **argv)
 
 				push("checking it is the right message (subject): %s", subject);
 				info = camel_folder_get_message_info(folder, uids->pdata[j]);
-				check_msg(strcmp(info->subject, subject)==0, "info->subject %s", info->subject);
+				check_msg(strcmp(camel_message_info_subject(info), subject)==0,
+					  "info->subject %s", camel_message_info_subject(info));
 				camel_folder_free_uids(folder, uids);
 				pull();
 
@@ -150,7 +151,8 @@ int main(int argc, char **argv)
 				test_folder_message(folder, uids->pdata[j]);
 
 				info = camel_folder_get_message_info(folder, uids->pdata[j]);
-				check_msg(strcmp(info->subject, subject)==0, "info->subject %s", info->subject);
+				check_msg(strcmp(camel_message_info_subject(info), subject)==0,
+					  "info->subject %s", camel_message_info_subject(info));
 				test_free(subject);
 				pull();
 			}
@@ -175,7 +177,8 @@ int main(int argc, char **argv)
 				test_folder_message(folder, uids->pdata[j]);
 
 				info = camel_folder_get_message_info(folder, uids->pdata[j]);
-				check_msg(strcmp(info->subject, subject)==0, "info->subject %s", info->subject);
+				check_msg(strcmp(camel_message_info_subject(info), subject)==0,
+					  "info->subject %s", camel_message_info_subject(info));
 				test_free(subject);
 				pull();
 			}
@@ -202,7 +205,8 @@ int main(int argc, char **argv)
 				test_folder_message(folder, uids->pdata[j]);
 
 				info = camel_folder_get_message_info(folder, uids->pdata[j]);
-				check_msg(strcmp(info->subject, subject)==0, "info->subject %s", info->subject);
+				check_msg(strcmp(camel_message_info_subject(info), subject)==0,
+					  "info->subject %s", camel_message_info_subject(info));
 				test_free(subject);
 				pull();
 			}

@@ -305,7 +305,7 @@ summary_update(CamelLocalSummary *cls, off_t offset, CamelFolderChangeInfo *chan
 		for (i = 0; i < camel_folder_summary_count(s); i++) {
 			CamelMessageInfo *mi = camel_folder_summary_index(s, i);
 
-			camel_folder_change_info_add_source(changeinfo, mi->uid);
+			camel_folder_change_info_add_source(changeinfo, camel_message_info_uid(mi));
 		}
 	}
 
@@ -317,7 +317,7 @@ summary_update(CamelLocalSummary *cls, off_t offset, CamelFolderChangeInfo *chan
 		count = camel_folder_summary_count(s);
 		for (i = 0; i < count; i++) {
 			CamelMessageInfo *mi = camel_folder_summary_index(s, i);
-			camel_folder_change_info_add_update(changeinfo, mi->uid);
+			camel_folder_change_info_add_update(changeinfo, camel_message_info_uid(mi));
 		}
 		camel_folder_change_info_build_diff(changeinfo);
 	}
@@ -523,13 +523,15 @@ mbox_summary_sync_full(CamelLocalSummary *cls, gboolean expunge, CamelFolderChan
 
 		lastdel = FALSE;
 		if (expunge && info->info.flags & CAMEL_MESSAGE_DELETED) {
-			d(printf("Deleting %s\n", info->info.uid));
+			const char *uid = camel_message_info_uid(info);
+
+			d(printf("Deleting %s\n", uid));
 
 			if (cls->index)
-				ibex_unindex(cls->index, info->info.uid);
+				ibex_unindex(cls->index, (char *)uid);
 
 			/* remove it from the change list */
-			camel_folder_change_info_remove_uid(changeinfo, info->info.uid);
+			camel_folder_change_info_remove_uid(changeinfo, uid);
 			camel_folder_summary_remove(s, (CamelMessageInfo *)info);
 			count--;
 			i--;
