@@ -1,3 +1,8 @@
+2004-04-21  Rodney Dawes  <dobey@ximian.com>
+
+	* autogen.sh: Require automake 1.6 or neweer, we already do for libsoup
+	and evolution-data-server, there is no reason not to here
+
 2004-04-21  Chris Toshok  <toshok@ximian.com>
 
 	* configure.in (EDS_REQUIRED): bump to 0.0.92.1 for new EContact
