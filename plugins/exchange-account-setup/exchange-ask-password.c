@@ -190,7 +190,7 @@ add_owa_entry (GtkWidget *parent,
 	owa_entry = gtk_entry_new ();
 	gtk_widget_show (owa_entry);
 
-	button = gtk_button_new_from_stock (GTK_STOCK_OK);
+	button = gtk_button_new_with_mnemonic (_("A_uthenticate"));
 	gtk_widget_set_sensitive (button, FALSE);
 	gtk_widget_show (button);
 
@@ -245,6 +245,75 @@ org_gnome_exchange_read_url (EPlugin *epl, EConfigHookItemFactoryData *data)
 	}
 	g_free (account_url);
 	return owa_entry;
+}
+
+
+GtkWidget *
+org_gnome_exchange_handle_auth (EPlugin *epl, EConfigHookItemFactoryData *data)
+{
+	EMConfigTargetAccount *target_account;
+	EConfig *config;
+	char *account_url = NULL, *exchange_url = NULL, *url_string;
+	const char *source_url;
+	char *auth_type;
+	GtkWidget *auth_section=NULL, *parent, *section;
+	
+	config = data->config;
+	target_account = (EMConfigTargetAccount *)data->config->target;
+
+	source_url = e_account_get_string (target_account->account, 
+					   E_ACCOUNT_SOURCE_URL); 
+	account_url = g_strdup (source_url);
+	exchange_url = g_strrstr (account_url, "exchange");
+
+	if (exchange_url) {
+		parent = data->parent;
+
+		/* We don't need auth section while creating the account. But
+		 * we need that in the Editor. And since we get the child vbox
+		 * from the plugin, we are finding the parent section and
+		 * hiding it. This is a temporary fix and this needs to be handled 
+		 * in the proper way. */
+		section = gtk_widget_get_parent (gtk_widget_get_parent (parent));
+		gtk_widget_hide (section);
+	}
+	auth_section = gtk_entry_new ();
+	gtk_widget_hide (auth_section);
+	return auth_section;		
+}
+
+GtkWidget *
+org_gnome_exchange_handle_send_auth_option (EPlugin *epl, EConfigHookItemFactoryData *data)
+{
+	EMConfigTargetAccount *target_account;
+	EConfig *config;
+	char *account_url = NULL, *exchange_url = NULL, *url_string;
+	const char *source_url;
+	char *auth_type;
+	GtkWidget *auth_section=NULL, *parent, *section;
+	
+	config = data->config;
+	target_account = (EMConfigTargetAccount *)data->config->target;
+
+	source_url = e_account_get_string (target_account->account, 
+					   E_ACCOUNT_SOURCE_URL); 
+	account_url = g_strdup (source_url);
+	exchange_url = g_strrstr (account_url, "exchange");
+
+	if (exchange_url) {
+		parent = data->parent;
+		/* We don't need auth section while creating the account. But
+		 * we need that in the Editor. And since we get the child vbox
+		 * from the plugin, we are finding the parent section and
+		 * hiding it. This is a temporary fix and this needs to be handled 
+		 * in the proper way. */
+		section = gtk_widget_get_parent (
+				gtk_widget_get_parent (gtk_widget_get_parent(parent)));
+		gtk_widget_hide (section);
+	}
+	auth_section = gtk_entry_new ();
+	gtk_widget_hide (auth_section);
+	return auth_section;		
 }
 
 gboolean

@@ -29,6 +29,15 @@
                 <item type="section"
                         path="10.receive/00.config"
 			factory="org_gnome_exchange_read_url"/>
+                <item type="section"
+                        path="10.receive/00.config"
+			label=""/>
+		<item type="item"
+			path="10.receive/30.auth/00.hide"
+			factory="org_gnome_exchange_handle_auth"/>
+		<item type="item"
+			path="30.send/30.auth/00.hide"
+			factory="org_gnome_exchange_handle_send_auth_option"/>
         </group>
         <group
 		target="account"

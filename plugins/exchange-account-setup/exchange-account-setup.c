@@ -326,7 +326,7 @@ add_owa_entry_to_editor (GtkWidget *parent, EConfig *config,
 		gtk_entry_set_text (GTK_ENTRY (owa_entry), url_value); 
 	gtk_widget_show (owa_entry);
 
-	button = gtk_button_new_from_stock (GTK_STOCK_OK);
+	button = gtk_button_new_with_mnemonic (_("A_uthenticate"));
 	gtk_widget_set_sensitive (button, FALSE);
 	gtk_widget_show (button);
 
