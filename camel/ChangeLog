@@ -1,3 +1,9 @@
+2000-08-11  Chris Toshok  <toshok@helixcode.com>
+
+	* providers/nntp/camel-nntp-store.c
+	(camel_nntp_store_get_toplevel_dir): use g_get_home_dir, since
+	evolution_dir isn't available in the providers.
+
 2000-08-11  Peter Williams  <peterw@helixcode.com>
 
 	* camel-folder.c (thaw): Fix a bug where the message_changed

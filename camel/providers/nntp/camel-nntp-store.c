@@ -467,12 +467,11 @@ camel_nntp_store_get_toplevel_dir (CamelNNTPStore *store)
 {
 	CamelURL *url = CAMEL_SERVICE (store)->url;
 	char *top_dir;
-	extern char *evolution_dir;
 
 	g_assert(url != NULL);
 
-	top_dir = g_strdup_printf( "%s/news/%s",
-				   evolution_dir,
+	top_dir = g_strdup_printf( "%s/evolution/news/%s",
+				   g_get_home_dir (),
 				   url->host );
 
 	return top_dir;
