@@ -1,3 +1,9 @@
+2002-07-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-filter-crlf.c (filter): Only add a \r if the
+	character before the \n wasn't already a \r - this covers for when
+	people add DOS files as attachments. Fixes bug #28056.
+
 2002-07-19  Not Zed  <NotZed@Ximian.com>
 
 	* camel-mime-part-utils.c (convert_buffer): Changed to use a
