@@ -1,3 +1,8 @@
+2004-06-02  Not Zed  <NotZed@Ximian.com>
+
+	* mail-component.c (mc_add_local_store_done): put this back in,
+	local folders not being noted properly all the time.
+
 2004-06-01  Jeffrey Stedfast  <fejj@novell.com>
 
 	* em-composer-utils.c (forward_non_attached): Don't attach
