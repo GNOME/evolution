@@ -1142,7 +1142,7 @@ pre_sync (GnomePilotConduit *conduit,
 	LOG (g_message ( "pre_sync: Addressbook Conduit v.%s", CONDUIT_VERSION ));
 	/* g_message ("Addressbook Conduit v.%s", CONDUIT_VERSION); */
 
-	ctxt->dbi = dbi;	
+	ctxt->dbi = dbi;
 	
 	/* FIXME Need to allow our own concept of "local" */
 	ctxt->ebook = e_book_new ();

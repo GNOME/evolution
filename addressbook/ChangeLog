@@ -1,3 +1,8 @@
+2004-04-30  Enver ALTIN  <enver.altin@frontsite.com.tr>
+
+	* gui/component/GNOME_Evolution_Addressbook.server.in.in: Fixed a
+	type-o.
+
 2004-04-29  Hans Petter Jansson  <hpj@ximian.com>
 
 	* printing/e-contact-print.c: Don't dereference the file_as pointer

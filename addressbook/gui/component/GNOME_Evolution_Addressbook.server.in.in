@@ -129,7 +129,7 @@
 		_value="Autocompletion"/>
 
 	<oaf_attribute name="evolution2:config_item:description" type="string"
-		_value="Configure autocomple here"/>
+		_value="Configure autocomplete here"/>
 
 	<oaf_attribute name="evolution2:config_item:icon_name" type="string"
 		value="stock_contact"/>
