@@ -497,6 +497,7 @@ rename_cb (EStorageSet *storage_set,
 	/* FIXME: Do something? */
 }
 
+#if 0
 void
 e_shell_command_rename_folder (EShell *shell,
 			       EShellView *shell_view)
@@ -546,6 +547,7 @@ e_shell_command_rename_folder (EShell *shell,
 
 	g_free (path);
 }
+#endif
 
 
 void
