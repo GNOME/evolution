@@ -23,7 +23,6 @@
 
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-cursors.h>
-#include <gal/widgets/e-unicode.h>
 
 #include "e-util/e-passwords.h"
 #include "e-util/e-proxy.h"

@@ -25,7 +25,6 @@
 #endif
 
 #include <gal/util/e-util.h>
-#include <gal/widgets/e-unicode.h>
 
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-ui-component.h>

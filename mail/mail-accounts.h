@@ -65,23 +65,12 @@ struct _MailAccountsTab {
 	GdkBitmap *mark_bitmap;
 	
 	GtkTreeView *table;
-#if 0
-	ETable *table;
-	ETableModel *model;
-#endif
 	
 	GtkButton *mail_add;
 	GtkButton *mail_edit;
 	GtkButton *mail_delete;
 	GtkButton *mail_default;
 	GtkButton *mail_able;
-	
-	GtkCList *news;
-	int news_row;
-	GtkButton *news_add;
-	GtkButton *news_edit;
-	GtkButton *news_delete;
-	GtkWidget *news_editor;
 };
 
 struct _MailAccountsTabClass {

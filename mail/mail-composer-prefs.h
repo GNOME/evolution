@@ -96,10 +96,9 @@ struct _MailComposerPrefs {
 	
 	/* Keyboard Shortcuts */
 	GtkOptionMenu *shortcuts_type;
-	GtkCList *keybindings;
 	
 	/* Signatures */
-	GtkTreeView *sig_clist;
+	GtkTreeView *sig_list;
 	GtkButton *sig_add;
 	GtkButton *sig_edit;
 	GtkButton *sig_delete;

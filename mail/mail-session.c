@@ -31,7 +31,6 @@
 
 #include <libgnome/gnome-config.h>
 #include <libgnome/gnome-sound.h>
-#include <gal/widgets/e-unicode.h>
 
 #include "camel/camel-filter-driver.h"
 #include "filter/filter-context.h"
@@ -797,8 +796,8 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 			g_string_append (faction, "\"(beep)\"");
 			break;
 		case MAIL_CONFIG_NOTIFY_PLAY_SOUND:
-			g_string_sprintfa (faction, "\"(play-sound \\\"%s\\\")\"",
-					   mail_config_get_new_mail_notify_sound_file ());
+			g_string_append_printf (faction, "\"(play-sound \\\"%s\\\")\"",
+						mail_config_get_new_mail_notify_sound_file ());
 			break;
 		default:
 			break;

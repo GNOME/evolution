@@ -1,3 +1,34 @@
+2002-12-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	...And a whole bunch more build fixes.
+
+	* mail-vfolder.c (mail_vfolder_delete_uri): Don't use
+	g_string_sprintfa() anymore since it is apparently deprecated.
+
+	* mail-session.c (main_get_filter_driver): Don't use
+	g_string_sprintfa() anymore since it is apparently deprecated.
+
+	* mail-ops.c (build_from): Don't use g_string_sprintfa() anymore
+	since it is apparently deprecated.
+
+	* mail-callbacks.c (ask_confirm_for_unwanted_html_mail): Don't use
+	g_string_sprintfa() anymore since it is apparently deprecated.
+
+	* mail-autofilter.c: Don't use g_string_sprintfa() anymore since
+	it is apparently deprecated.
+
+	* folder-browser.c: Don't use g_string_sprintfa() anymore since it
+	is apparently deprecated.
+
+	* mail-search.c (mail_search_set_subject): Remove the unnecessary
+	g_strdup()'age as well as fix a possible buffer overrun.
+
+	* mail-local.c (mail_local_folder_construct): Use
+	g_path_get_basename().
+
+	* mail-config-druid.c (make_account): Don't use e_utf8_*
+	functions.
+
 2002-12-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c #define a STANDARD_ISSUE_TABLE_OPEN string used

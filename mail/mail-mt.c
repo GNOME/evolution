@@ -15,7 +15,6 @@
 #include <gtk/gtkstock.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/widgets/e-gui-utils.h>
-#include <gal/widgets/e-unicode.h>
 
 #include "folder-browser-factory.h"
 #include "e-util/e-msgport.h"

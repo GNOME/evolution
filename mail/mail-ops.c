@@ -33,7 +33,6 @@
 #include <errno.h>
 #include <libgnome/gnome-exec.h>
 #include <gal/util/e-util.h>
-#include <gal/widgets/e-unicode.h>
 #include <camel/camel-mime-filter-from.h>
 #include <camel/camel-operation.h>
 #include <camel/camel-vtrash-folder.h>
@@ -1823,46 +1822,49 @@ build_from(struct _header_raw *header)
 	time_t thetime;
 	int offset;
 	struct tm tm;
-
-	tmp = header_raw_find(&header, "Sender", NULL);
+	
+	tmp = header_raw_find (&header, "Sender", NULL);
 	if (tmp == NULL)
-		tmp = header_raw_find(&header, "From", NULL);
+		tmp = header_raw_find (&header, "From", NULL);
 	if (tmp != NULL) {
-		struct _header_address *addr = header_address_decode(tmp);
-
+		struct _header_address *addr = header_address_decode (tmp);
+		
 		tmp = NULL;
 		if (addr) {
 			if (addr->type == HEADER_ADDRESS_NAME) {
-				g_string_append(out, addr->v.addr);
+				g_string_append (out, addr->v.addr);
 				tmp = "";
 			}
-			header_address_unref(addr);
+			header_address_unref (addr);
 		}
 	}
+	
 	if (tmp == NULL)
-		g_string_append(out, "unknown@nodomain.now.au");
-
+		g_string_append (out, "unknown@nodomain.now.au");
+	
 	/* try use the received header to get the date */
-	tmp = header_raw_find(&header, "Received", NULL);
+	tmp = header_raw_find (&header, "Received", NULL);
 	if (tmp) {
 		tmp = strrchr(tmp, ';');
 		if (tmp)
 			tmp++;
 	}
-
+	
 	/* if there isn't one, try the Date field */
 	if (tmp == NULL)
-		tmp = header_raw_find(&header, "Date", NULL);
-
-	thetime = header_decode_date(tmp, &offset);
+		tmp = header_raw_find (&header, "Date", NULL);
+	
+	thetime = header_decode_date (tmp, &offset);
 	thetime += ((offset / 100) * (60 * 60)) + (offset % 100) * 60;
-	gmtime_r(&thetime, &tm);
-	g_string_sprintfa(out, " %s %s %d %02d:%02d:%02d %4d\n",
-			  tz_days[tm.tm_wday],
-			  tz_months[tm.tm_mon], tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec, tm.tm_year + 1900);
-
+	gmtime_r (&thetime, &tm);
+	g_string_append_printf (out, " %s %s %d %02d:%02d:%02d %4d\n",
+				tz_days[tm.tm_wday], tz_months[tm.tm_mon],
+				tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec,
+				tm.tm_year + 1900);
+	
 	ret = out->str;
-	g_string_free(out, FALSE);
+	g_string_free (out, FALSE);
+	
 	return ret;
 }
 

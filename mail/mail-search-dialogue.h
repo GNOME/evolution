@@ -50,12 +50,12 @@ struct _MailSearchDialogueClass {
 	/* signals */
 };
 
-guint		mail_search_dialogue_get_type	(void);
-MailSearchDialogue	*mail_search_dialogue_new	(void);
-MailSearchDialogue	*mail_search_dialogue_new_with_rule(FilterRule *rule);
+GType mail_search_dialogue_get_type (void);
+MailSearchDialogue *mail_search_dialogue_new (void);
+MailSearchDialogue *mail_search_dialogue_new_with_rule (FilterRule *rule);
 
 /* methods */
-char *mail_search_dialogue_get_query(MailSearchDialogue *msd);
+char *mail_search_dialogue_get_query (MailSearchDialogue *msd);
 
 #endif /* ! _MAIL_SEARCH_DIALOGUE_H */
 

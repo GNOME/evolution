@@ -740,72 +740,72 @@ folder_browser_paste (GtkWidget *menuitem, FolderBrowser *fb)
 
 /* all this crap so we can give the user a whoopee doo status bar */
 static void
-update_status_bar(FolderBrowser *fb)
+update_status_bar (FolderBrowser *fb)
 {
+	extern CamelFolder *outbox_folder, *sent_folder;
 	CORBA_Environment ev;
 	int tmp, total;
 	GString *work;
-	extern CamelFolder *outbox_folder, *sent_folder;
-
+	
 	if (fb->folder == NULL
 	    || fb->message_list == NULL
 	    || fb->shell_view == CORBA_OBJECT_NIL)
 		return;
-
-	if (!fb->message_list->hidedeleted || !camel_folder_has_summary_capability(fb->folder)) {
-		total = camel_folder_get_message_count(fb->folder);
+	
+	if (!fb->message_list->hidedeleted || !camel_folder_has_summary_capability (fb->folder)) {
+		total = camel_folder_get_message_count (fb->folder);
 	} else {
-		GPtrArray *sum = camel_folder_get_summary(fb->folder);
+		GPtrArray *sum = camel_folder_get_summary (fb->folder);
 		int i;
-
+		
 		if (sum) {
 			total = 0;
-			for (i=0;i<sum->len;i++) {
+			for (i = 0; i < sum->len; i++) {
 				CamelMessageInfo *info = sum->pdata[i];
 				
 				if ((info->flags & CAMEL_MESSAGE_DELETED) == 0)
 					total++;
 			}
-			camel_folder_free_summary(fb->folder, sum);
+			camel_folder_free_summary (fb->folder, sum);
 		} else {
-			total = camel_folder_get_message_count(fb->folder);
+			total = camel_folder_get_message_count (fb->folder);
 		}
 	}
 	
-	work = g_string_new("");
-	g_string_sprintfa(work, _("%d new"), camel_folder_get_unread_message_count(fb->folder));
-	tmp = message_list_hidden(fb->message_list);
+	work = g_string_new ("");
+	g_string_append_printf (work, _("%d new"), camel_folder_get_unread_message_count (fb->folder));
+	tmp = message_list_hidden (fb->message_list);
 	if (0 < tmp && tmp < total) {
-		g_string_append(work, _(", "));
+		g_string_append (work, _(", "));
 		if (tmp < total / 2)
-			g_string_sprintfa(work, _("%d hidden"), tmp);
+			g_string_append_printf (work, _("%d hidden"), tmp);
 		else  
-			g_string_sprintfa(work, _("%d visible"), total - tmp);
+			g_string_append_printf (work, _("%d visible"), total - tmp);
 	}
-	tmp = e_selection_model_selected_count(e_tree_get_selection_model(fb->message_list->tree));
+	tmp = e_selection_model_selected_count (e_tree_get_selection_model (fb->message_list->tree));
 	if (tmp) {
-		g_string_append(work, _(", "));
-		g_string_sprintfa(work, _("%d selected"), tmp);
+		g_string_append (work, _(", "));
+		g_string_append_printf (work, _("%d selected"), tmp);
 	}
-	g_string_append(work, _(", "));
-
+	g_string_append (work, _(", "));
+	
 	if (fb->folder == outbox_folder)
-		g_string_sprintfa(work, _("%d unsent"), total);
+		g_string_append_printf (work, _("%d unsent"), total);
 	else if (fb->folder == sent_folder)
-		g_string_sprintfa(work, _("%d sent"), total);
+		g_string_append_printf (work, _("%d sent"), total);
 	else
-		g_string_sprintfa(work, _("%d total"), total);
-
-	CORBA_exception_init(&ev);
-	GNOME_Evolution_ShellView_setFolderBarLabel(fb->shell_view, work->str, &ev);
-	CORBA_exception_free(&ev);
-
+		g_string_append_printf (work, _("%d total"), total);
+	
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_ShellView_setFolderBarLabel (fb->shell_view, work->str, &ev);
+	CORBA_exception_free (&ev);
+	
 	if (fb->update_status_bar_idle_id != 0) {
 		g_source_remove (fb->update_status_bar_idle_id);
 		fb->update_status_bar_idle_id = 0;
 	}
-
-	g_string_free(work, TRUE);
+	
+	g_string_free (work, TRUE);
 }
 
 static gboolean
@@ -1153,9 +1153,9 @@ folder_browser_search_menu_activated (ESearchBar *esb, int id, FolderBrowser *fb
 			
 			text = e_search_bar_get_text(esb);
 			name = g_strdup_printf("%s %s", rule->name, (text&&text[0])?text:"''");
-			g_free(text);
+			g_free (text);
 			filter_rule_set_name(rule, name);
-			g_free(name);
+			g_free (name);
 			
 			filter_rule_set_source(rule, FILTER_SOURCE_INCOMING);
 			vfolder_rule_add_source((VfolderRule *)rule, fb->uri);
@@ -1195,7 +1195,7 @@ folder_browser_config_search (EFilterBar *efb, FilterRule *rule, int id, const c
 			words = camel_search_words_split(query);
 			for (i=0;i<words->len;i++)
 				e_searching_tokenizer_add_secondary_search_string (st, words->words[i]->word);
-			camel_search_words_free(words);
+			camel_search_words_free (words);
 		} else if(!strcmp(part->name, "sender")) {
 			FilterInput *input = (FilterInput *)filter_part_find_element(part, "sender");
 			if (input)
@@ -1372,15 +1372,15 @@ vfolder_type_current(FolderBrowser *fb, int type)
 }
 
 /* external api to vfolder/filter on X, based on current message */
-void vfolder_subject(GtkWidget *w, FolderBrowser *fb) { vfolder_type_current(fb, AUTO_SUBJECT); }
-void vfolder_sender(GtkWidget *w, FolderBrowser *fb) { vfolder_type_current(fb, AUTO_FROM); }
-void vfolder_recipient(GtkWidget *w, FolderBrowser *fb) { vfolder_type_current(fb, AUTO_TO); }
-void vfolder_mlist(GtkWidget *w, FolderBrowser *fb) { vfolder_type_current(fb, AUTO_MLIST); }
+void vfolder_subject (GtkWidget *w, FolderBrowser *fb) { vfolder_type_current(fb, AUTO_SUBJECT); }
+void vfolder_sender (GtkWidget *w, FolderBrowser *fb) { vfolder_type_current(fb, AUTO_FROM); }
+void vfolder_recipient (GtkWidget *w, FolderBrowser *fb) { vfolder_type_current(fb, AUTO_TO); }
+void vfolder_mlist (GtkWidget *w, FolderBrowser *fb) { vfolder_type_current(fb, AUTO_MLIST); }
 
-static void filter_type_uid(CamelFolder *folder, const char *uid, const char *source, int type);
+static void filter_type_uid (CamelFolder *folder, const char *uid, const char *source, int type);
 
 static void
-filter_type_current(FolderBrowser *fb, int type)
+filter_type_current (FolderBrowser *fb, int type)
 {
 	GPtrArray *uids;
 	int i;
@@ -1403,10 +1403,10 @@ filter_type_current(FolderBrowser *fb, int type)
 	g_ptr_array_free (uids, TRUE);
 }
 
-void filter_subject(GtkWidget *w, FolderBrowser *fb) { filter_type_current(fb, AUTO_SUBJECT); }
-void filter_sender(GtkWidget *w, FolderBrowser *fb) { filter_type_current(fb, AUTO_FROM); }
-void filter_recipient(GtkWidget *w, FolderBrowser *fb) { filter_type_current(fb, AUTO_TO); }
-void filter_mlist(GtkWidget *w, FolderBrowser *fb) { filter_type_current(fb, AUTO_MLIST); }
+void filter_subject (GtkWidget *w, FolderBrowser *fb) { filter_type_current (fb, AUTO_SUBJECT); }
+void filter_sender (GtkWidget *w, FolderBrowser *fb) { filter_type_current (fb, AUTO_FROM); }
+void filter_recipient (GtkWidget *w, FolderBrowser *fb) { filter_type_current (fb, AUTO_TO); }
+void filter_mlist (GtkWidget *w, FolderBrowser *fb) { filter_type_current (fb, AUTO_MLIST); }
 
 /* ************************************************************ */
 
@@ -1421,7 +1421,7 @@ struct _filter_data {
 };
 
 static void
-filter_data_free(struct _filter_data *fdata)
+filter_data_free (struct _filter_data *fdata)
 {
 	g_free (fdata->uid);
 	g_free (fdata->uri);
@@ -1439,7 +1439,7 @@ vfolder_type_got_message(CamelFolder *folder, const char *uid, CamelMimeMessage 
 	if (msg)
 		vfolder_gui_add_from_message(msg, data->type, data->uri);
 	
-	filter_data_free(data);
+	filter_data_free (data);
 }
 
 static void
@@ -1466,7 +1466,7 @@ filter_type_got_message(CamelFolder *folder, const char *uid, CamelMimeMessage *
 	if (msg)
 		filter_gui_add_from_message(msg, data->source, data->type);
 	
-	filter_data_free(data);
+	filter_data_free (data);
 }
 
 static void
@@ -1488,7 +1488,7 @@ static void filter_mlist_uid(GtkWidget *w, struct _filter_data *fdata)		{ filter
 void
 hide_none(GtkWidget *w, FolderBrowser *fb)
 {
-	message_list_hide_clear(fb->message_list);
+	message_list_hide_clear (fb->message_list);
 }
 
 void
@@ -1560,11 +1560,11 @@ hide_subject(GtkWidget *w, FolderBrowser *fb)
 		if (subject) {
 			subject = strip_re(subject);
 			if (subject && subject[0]) {
-				expr = g_string_new("(match-all (header-contains \"subject\" ");
-				e_sexp_encode_string(expr, subject);
-				g_string_append(expr, "))");
-				message_list_hide_add(fb->message_list, expr->str, ML_HIDE_SAME, ML_HIDE_SAME);
-				g_string_free(expr, TRUE);
+				expr = g_string_new ("(match-all (header-contains \"subject\" ");
+				e_sexp_encode_string (expr, subject);
+				g_string_append (expr, "))");
+				message_list_hide_add (fb->message_list, expr->str, ML_HIDE_SAME, ML_HIDE_SAME);
+				g_string_free (expr, TRUE);
 				return;
 			}
 		}
@@ -1572,20 +1572,20 @@ hide_subject(GtkWidget *w, FolderBrowser *fb)
 }
 
 void
-hide_sender(GtkWidget *w, FolderBrowser *fb)
+hide_sender (GtkWidget *w, FolderBrowser *fb)
 {
 	const CamelInternetAddress *from;
 	const char *real, *addr;
 	GString *expr;
 	
 	if (fb->mail_display->current_message) {
-		from = camel_mime_message_get_from(fb->mail_display->current_message);
-		if (camel_internet_address_get(from, 0, &real, &addr)) {
-			expr = g_string_new("(match-all (header-contains \"from\" ");
-			e_sexp_encode_string(expr, addr);
-			g_string_append(expr, "))");
-			message_list_hide_add(fb->message_list, expr->str, ML_HIDE_SAME, ML_HIDE_SAME);
-			g_string_free(expr, TRUE);
+		from = camel_mime_message_get_from (fb->mail_display->current_message);
+		if (camel_internet_address_get (from, 0, &real, &addr)) {
+			expr = g_string_new ("(match-all (header-contains \"from\" ");
+			e_sexp_encode_string (expr, addr);
+			g_string_append (expr, "))");
+			message_list_hide_add (fb->message_list, expr->str, ML_HIDE_SAME, ML_HIDE_SAME);
+			g_string_free (expr, TRUE);
 			return;
 		}
 	}

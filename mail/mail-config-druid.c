@@ -38,7 +38,7 @@
 #include <libgnomeui/gnome-druid-page-standard.h>
 #include <glade/glade.h>
 #include <gtkhtml/gtkhtml.h>
-#include <gal/widgets/e-unicode.h>
+
 #include "mail-config-druid.h"
 #include "mail-config.h"
 #include "mail-ops.h"
@@ -473,7 +473,7 @@ make_account (void)
 	
 	account->id = g_new0 (MailConfigIdentity, 1);
 	name = g_get_real_name ();
-	account->id->name = e_utf8_from_locale_string (name);
+	account->id->name = g_strdup (name);
 	user = g_get_user_name ();
 	if (user && !uname (&uts) && strchr (uts.nodename, '.'))
 		account->id->address = g_strdup_printf ("%s@%s", user, uts.nodename);

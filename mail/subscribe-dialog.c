@@ -33,7 +33,6 @@
 #include <libgnomeui/gnome-appbar.h>
 
 #include <gal/util/e-util.h>
-#include <gal/widgets/e-unicode.h>
 
 #include <gal/e-table/e-cell-toggle.h>
 #include <gal/e-table/e-cell-text.h>

@@ -31,14 +31,16 @@
 #include <ctype.h>
 #include <errno.h>
 #include <string.h>
-#include <gal/widgets/e-unicode.h>
-#include "camel/camel.h"
-#include "camel/camel-vee-folder.h"
+
+#include <camel/camel.h>
+#include <camel/camel-vee-folder.h>
+
+#include <filter/vfolder-rule.h>
+#include <filter/vfolder-context.h>
+#include <filter/filter-option.h>
+#include <filter/filter-input.h>
+
 #include "mail-vfolder.h"
-#include "filter/vfolder-rule.h"
-#include "filter/vfolder-context.h"
-#include "filter/filter-option.h"
-#include "filter/filter-input.h"
 #include "mail.h" /*session*/
 #include "mail-tools.h"
 #include "mail-local.h"

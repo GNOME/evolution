@@ -37,25 +37,25 @@ static void mail_search_dialogue_finalise	(GObject *obj);
 
 static GtkDialogClass *parent_class;
 
-guint
+GType
 mail_search_dialogue_get_type (void)
 {
 	static GType type = 0;
 	
 	if (!type) {
-		GTypeInfo type_info = {
-			sizeof(MailSearchDialogueClass),
-			NULL,
-			NULL,
-			(GClassInitFunc)mail_search_dialogue_class_init,
-			NULL,
-			NULL,
-			sizeof(MailSearchDialogue),
+		static const GTypeInfo info = {
+			sizeof (MailSearchDialogueClass),
+			NULL, /* base_class_init */
+			NULL, /* base_class_finalize */
+			(GClassInitFunc) mail_search_dialogue_class_init,
+			NULL, /* class_finalize */
+			NULL, /* class_data */
+			sizeof (MailSearchDialogue),
 			0,
-			(GtkObjectInitFunc)mail_search_dialogue_init,
+			(GInstanceInitFunc) mail_search_dialogue_init,
 		};
 		
-		type = g_type_register_static (gtk_dialog_get_type (), "MailSearchDialogue", &type_info, 0);
+		type = g_type_register_static (gtk_dialog_get_type (), "MailSearchDialogue", &info, 0);
 	}
 	
 	return type;

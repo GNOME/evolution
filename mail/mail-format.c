@@ -1869,15 +1869,15 @@ mail_get_message_rfc822 (CamelMimeMessage *message, gboolean want_plain, gboolea
 	 * <P> to <PRE> switch.
 	 */
 	if (!strncasecmp (text, "<pre>", 5))
-		g_string_sprintfa (retval, "<PRE>");
+		g_string_append_printf (retval, "<PRE>");
 	
 	/* create credits */
 	cia = camel_mime_message_get_from (message);
 	buf = camel_address_format (CAMEL_ADDRESS (cia));
 	if (buf) {
 		html = camel_text_to_html (buf, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL, 0);
-		g_string_sprintfa (retval, "%s<b>From:</b> %s<br>",
-				   citation, html);
+		g_string_append_printf (retval, "%s<b>From:</b> %s<br>",
+					citation, html);
 		g_free (html);
 		g_free (buf);
 	}
@@ -1886,8 +1886,8 @@ mail_get_message_rfc822 (CamelMimeMessage *message, gboolean want_plain, gboolea
 	buf = camel_address_format (CAMEL_ADDRESS (cia));
 	if (buf) {
 		html = camel_text_to_html (buf, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL, 0);
-		g_string_sprintfa (retval, "%s<b>To:</b> %s<br>",
-				   citation, html);
+		g_string_append_printf (retval, "%s<b>To:</b> %s<br>",
+					citation, html);
 		g_free (html);
 		g_free (buf);
 	}
@@ -1896,8 +1896,8 @@ mail_get_message_rfc822 (CamelMimeMessage *message, gboolean want_plain, gboolea
 	buf = camel_address_format (CAMEL_ADDRESS (cia));
 	if (buf) {
 		html = camel_text_to_html (buf, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL, 0);
-		g_string_sprintfa (retval, "%s<b>Cc:</b> %s<br>",
-				   citation, html);
+		g_string_append_printf (retval, "%s<b>Cc:</b> %s<br>",
+					citation, html);
 		g_free (html);
 		g_free (buf);
 	}
@@ -1906,22 +1906,22 @@ mail_get_message_rfc822 (CamelMimeMessage *message, gboolean want_plain, gboolea
 	if (buf) {
 		html = camel_text_to_html (buf, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
 					   CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
-		g_string_sprintfa (retval, "%s<b>Subject:</b> %s<br>",
-				   citation, html);
+		g_string_append_printf (retval, "%s<b>Subject:</b> %s<br>",
+					citation, html);
 		g_free (html);
 	}
 	
 	date_val = camel_mime_message_get_date (message, &offset);
 	buf = header_format_date (date_val, offset);
 	html = camel_text_to_html (buf, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL, 0);
-	g_string_sprintfa (retval, "%s<b>Date:</b> %s<br>", citation, html);
+	g_string_append_printf (retval, "%s<b>Date:</b> %s<br>", citation, html);
 	g_free (html);
 	g_free (buf);
 	
 	if (!strncasecmp (text, "<pre>", 5))
-		g_string_sprintfa (retval, "%s<br>%s", citation, text + 5);
+		g_string_append_printf (retval, "%s<br>%s", citation, text + 5);
 	else
-		g_string_sprintfa (retval, "%s<br>%s", citation, text);
+		g_string_append_printf (retval, "%s<br>%s", citation, text);
 	g_free (text);
 	
 	buf = retval->str;

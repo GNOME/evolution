@@ -627,23 +627,21 @@ mail_local_folder_get_type (void)
 }
 
 static MailLocalFolder *
-mail_local_folder_construct(MailLocalFolder *mlf, MailLocalStore  *parent_store, const char *full_name, CamelException *ex)
+mail_local_folder_construct(MailLocalFolder *mlf, MailLocalStore *parent_store, const char *full_name, CamelException *ex)
 {
-	const char *name;
-	char *metapath;
+	char *metapath, *name;
 	
-	name = g_basename (full_name);
+	name = g_path_get_basename (full_name);
+	d(printf ("constructing local folder: full = %s, name = %s\n", full_name, name));
+	camel_folder_construct (CAMEL_FOLDER (mlf), CAMEL_STORE (parent_store), full_name, name);
+	g_free (name);
 	
-	d(printf("constructing local folder: full = %s, name = %s\n", full_name, name));
-
-	camel_folder_construct(CAMEL_FOLDER (mlf), CAMEL_STORE(parent_store), full_name, name);
-
-	mlf->real_path = g_strdup(((CamelFolder *)mlf)->full_name);
-
-	metapath = g_strdup_printf("%s/%s/local-metadata.xml", ((CamelService *)parent_store)->url->path, full_name);
-	mlf->meta = load_metainfo(metapath);
-	g_free(metapath);
-
+	mlf->real_path = g_strdup (((CamelFolder *) mlf)->full_name);
+	
+	metapath = g_strdup_printf ("%s/%s/local-metadata.xml", ((CamelService *) parent_store)->url->path, full_name);
+	mlf->meta = load_metainfo (metapath);
+	g_free (metapath);
+	
 	return mlf;
 }
 

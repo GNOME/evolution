@@ -44,19 +44,19 @@ message_tag_editor_get_type (void)
 	static GType type = 0;
 	
 	if (!type) {
-		GTypeInfo type_info = {
+		static const GTypeInfo info = {
 			sizeof (MessageTagEditorClass),
-			NULL,
-			NULL,
+			NULL, /* base_class_init */
+			NULL, /* base_class_finalize */
 			(GClassInitFunc) message_tag_editor_class_init,
-			NULL,
-			NULL,
+			NULL, /* class_finalize */
+			NULL, /* class_data */
 			sizeof (MessageTagEditor),
 			0,
 			(GInstanceInitFunc) message_tag_editor_init,
 		};
 		
-		type = g_type_register_static (gtk_dialog_get_type (), "MessageTagEditor", &type_info, 0);
+		type = g_type_register_static (gtk_dialog_get_type (), "MessageTagEditor", &info, 0);
 	}
 	
 	return type;

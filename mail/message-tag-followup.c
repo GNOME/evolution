@@ -33,8 +33,6 @@
 #include <libgnomeui/gnome-window-icon.h>
 #include <libgnomeui/gnome-pixmap.h>
 
-#include <gal/widgets/e-unicode.h>
-
 #include "message-tag-followup.h"
 #include "mail-config.h"
 
@@ -72,17 +70,19 @@ message_tag_followup_get_type (void)
 	static GType type = 0;
 	
 	if (!type) {
-		GTypeInfo type_info = {
+		static const GTypeInfo info = {
 			sizeof (MessageTagFollowUpClass),
-			NULL, NULL,
+			NULL, /* base_class_init */
+			NULL, /* base_class_finalize */
 			(GClassInitFunc) message_tag_followup_class_init,
-			NULL, NULL,
+			NULL, /* class_finalize */
+			NULL, /* class_data */
 			sizeof (MessageTagFollowUp),
 			0,
 			(GInstanceInitFunc) message_tag_followup_init,
 		};
 		
-		type = g_type_register_static (message_tag_editor_get_type (), "MessageTagFollowUp", &type_info, 0);
+		type = g_type_register_static (message_tag_editor_get_type (), "MessageTagFollowUp", &info, 0);
 	}
 	
 	return type;

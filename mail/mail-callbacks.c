@@ -255,7 +255,7 @@ ask_confirm_for_unwanted_html_mail (EMsgComposer *composer, EDestination **recip
 			
 			name = e_destination_get_textrep (recipients[i]);
 			
-			g_string_sprintfa (str, "     %s\n", name);
+			g_string_append_printf (str, "     %s\n", name);
 		}
 	}
 	

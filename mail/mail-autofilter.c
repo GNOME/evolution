@@ -363,7 +363,7 @@ mail_filter_delete_uri(CamelStore *store, const char *uri)
 	system = EVOLUTION_DATADIR "/evolution/filtertypes.xml";
 	rule_context_load ((RuleContext *)fc, system, user);
 	
-	deleted = rule_context_delete_uri((RuleContext *)fc, uri, uri_cmp);
+	deleted = rule_context_delete_uri ((RuleContext *) fc, uri, uri_cmp);
 	if (deleted) {
 		GtkWidget *dialog;
 		GString *s;
@@ -372,13 +372,14 @@ mail_filter_delete_uri(CamelStore *store, const char *uri)
 		s = g_string_new (_("The following filter rule(s):\n"));
 		l = deleted;
 		while (l) {
-			g_string_sprintfa(s, "    %s\n", (char *)l->data);
+			g_string_append_printf (s, "    %s\n", (char *)l->data);
 			l = l->next;
 		}
-		g_string_sprintfa (s, _("Used the removed folder:\n    '%s'\n"
-					"And have been updated."), uri);
+		g_string_append_printf (s, _("Used the removed folder:\n    '%s'\n"
+					     "And have been updated."), uri);
 		
-		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, "%s", s->str);
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_INFO,
+						 GTK_BUTTONS_CLOSE, "%s", s->str);
 		g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
 		
 		g_string_free (s, TRUE);
@@ -386,9 +387,9 @@ mail_filter_delete_uri(CamelStore *store, const char *uri)
 		gtk_widget_show (dialog);
 		
 		printf("Folder deleterename '%s' changed filters, resaving\n", uri);
-		if (rule_context_save((RuleContext *)fc, user) == -1)
-			g_warning("Could not write out changed filter rules\n");
-		rule_context_free_uri_list((RuleContext *)fc, deleted);
+		if (rule_context_save ((RuleContext *) fc, user) == -1)
+			g_warning ("Could not write out changed filter rules\n");
+		rule_context_free_uri_list ((RuleContext *) fc, deleted);
 	}
 	
 	g_free (user);

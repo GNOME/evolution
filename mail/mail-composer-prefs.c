@@ -213,7 +213,7 @@ sig_edit (GtkWidget *widget, MailComposerPrefs *prefs)
 	GtkTreeIter iter;
 	GtkTreeSelection *selection;
 	
-	selection = gtk_tree_view_get_selection (prefs->sig_clist);
+	selection = gtk_tree_view_get_selection (prefs->sig_list);
 	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
 		return;
 	
@@ -239,8 +239,8 @@ mail_composer_prefs_new_signature (MailComposerPrefs *prefs, gboolean html, cons
 		GtkTreeSelection *selection;
 		char *name = NULL, *val;
 
-		model = (GtkListStore *) gtk_tree_view_get_model (prefs->sig_clist);
-		selection = gtk_tree_view_get_selection (prefs->sig_clist);
+		model = (GtkListStore *) gtk_tree_view_get_model (prefs->sig_list);
+		selection = gtk_tree_view_get_selection (prefs->sig_list);
 		if (sig->name)
 			val = name = g_strconcat (sig->name, " ", _("[script]"), NULL);
 		else
@@ -266,7 +266,7 @@ sig_delete (GtkWidget *widget, MailComposerPrefs *prefs)
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
 
-	selection = gtk_tree_view_get_selection (prefs->sig_clist);
+	selection = gtk_tree_view_get_selection (prefs->sig_list);
 	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
 		gtk_tree_model_get (model, &iter, 1, &sig, -1);
 		gtk_list_store_remove ((GtkListStore *) model, &iter);
@@ -416,7 +416,7 @@ sig_event_client (MailConfigSigEvent event, MailConfigSignature *sig, MailCompos
 		d(printf ("accounts NAME CHANGED\n"));
 
 		/* this is one bizarro interface */
-		model = gtk_tree_view_get_model (prefs->sig_clist);
+		model = gtk_tree_view_get_model (prefs->sig_list);
 		sprintf (path, "%d", sig->id);
 		if (gtk_tree_model_get_iter_from_string (model, &iter, path)) {
 			char *val, *name = NULL;
@@ -432,7 +432,7 @@ sig_event_client (MailConfigSigEvent event, MailConfigSignature *sig, MailCompos
 		break;
 	case MAIL_CONFIG_SIG_EVENT_CONTENT_CHANGED:
 		d(printf ("accounts CONTENT CHANGED\n"));
-		selection = gtk_tree_view_get_selection (prefs->sig_clist);
+		selection = gtk_tree_view_get_selection (prefs->sig_list);
 		if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
 			gtk_tree_model_get (model, &iter, 1, &current, -1);
 			if (sig == current)
@@ -864,18 +864,18 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	prefs->sig_delete = GTK_BUTTON (glade_xml_get_widget (gui, "cmdSignatureDelete"));
 	g_signal_connect (prefs->sig_delete, "clicked", G_CALLBACK (sig_delete), prefs);
 	
-	prefs->sig_clist = GTK_TREE_VIEW (glade_xml_get_widget (gui, "clistSignatures"));
+	prefs->sig_list = GTK_TREE_VIEW (glade_xml_get_widget (gui, "clistSignatures"));
 	model = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
-	gtk_tree_view_set_model (prefs->sig_clist, (GtkTreeModel *)model);
-	gtk_tree_view_insert_column_with_attributes (prefs->sig_clist, -1, _("Signature(s)"),
+	gtk_tree_view_set_model (prefs->sig_list, (GtkTreeModel *)model);
+	gtk_tree_view_insert_column_with_attributes (prefs->sig_list, -1, _("Signature(s)"),
 						     gtk_cell_renderer_text_new (),
 						     "text", 0,
 						     NULL);
-	selection = gtk_tree_view_get_selection (prefs->sig_clist);
+	selection = gtk_tree_view_get_selection (prefs->sig_list);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
 	g_signal_connect (selection, "changed", G_CALLBACK (sig_selection_changed), prefs);
 	
-	sig_fill_clist (prefs->sig_clist);
+	sig_fill_clist (prefs->sig_list);
 	if (mail_config_get_signature_list () == NULL) {
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_delete, FALSE);
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_edit, FALSE);

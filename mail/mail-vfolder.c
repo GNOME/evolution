@@ -405,55 +405,55 @@ mail_vfolder_delete_uri(CamelStore *store, const char *uri)
 
 	if (context == NULL || !strncmp(uri, "vtrash:", 7))
 		return;
-
-	d(printf("Deleting uri to check: %s\n", uri));
-
-	g_assert(pthread_self() == mail_gui_thread);
-
-	changed = g_string_new("");
-
+	
+	d(printf ("Deleting uri to check: %s\n", uri));
+	
+	g_assert (pthread_self() == mail_gui_thread);
+	
+	changed = g_string_new ("");
+	
 	LOCK();
-
+	
 	/* see if any rules directly reference this removed uri */
  	rule = NULL;
-	while ( (rule = rule_context_next_rule((RuleContext *)context, rule, NULL)) ) {
+	while ((rule = rule_context_next_rule ((RuleContext *) context, rule, NULL))) {
 		source = NULL;
-		while ( (source = vfolder_rule_next_source((VfolderRule *)rule, source)) ) {
+		while ((source = vfolder_rule_next_source ((VfolderRule *) rule, source))) {
 			/* Remove all sources that match, ignore changed events though
 			   because the adduri call above does the work async */
-			if (uri_cmp(uri, source)) {
-				vf = g_hash_table_lookup(vfolder_hash, rule->name);
-				g_assert(vf);
-				g_signal_handlers_disconnect_matched(rule, G_SIGNAL_MATCH_FUNC|G_SIGNAL_MATCH_DATA, 0,
-								     0, NULL, rule_changed, vf);
-				vfolder_rule_remove_source((VfolderRule *)rule, source);
-				g_signal_connect(rule, "changed", G_CALLBACK(rule_changed), vf);
-				g_string_sprintfa(changed, "    %s\n", rule->name);
+			if (uri_cmp (uri, source)) {
+				vf = g_hash_table_lookup (vfolder_hash, rule->name);
+				g_assert (vf != NULL);
+				g_signal_handlers_disconnect_matched (rule, G_SIGNAL_MATCH_FUNC|G_SIGNAL_MATCH_DATA, 0,
+								      0, NULL, rule_changed, vf);
+				vfolder_rule_remove_source ((VfolderRule *)rule, source);
+				g_signal_connect (rule, "changed", G_CALLBACK(rule_changed), vf);
+				g_string_sprintfa (changed, "    %s\n", rule->name);
 				source = NULL;
 			}
 		}
 	}
-
+	
 	UNLOCK();
-
+	
 	if (changed->str[0]) {
-		GtkDialog *gd;
+		GtkWidget *dialog;
 		char *user;
-
-		gd = (GtkDialog *)gtk_message_dialog_new(NULL, 0, GTK_MESSAGE_INFO, GTK_BUTTONS_OK,
-							 _("The following vFolder(s):\n%s"
-							   "Used the removed folder:\n    '%s'\n"
-							   "And have been updated."),
-							 changed->str, uri);
-		g_signal_connect_swapped(gd, "response", G_CALLBACK(gtk_widget_destroy), gd);
-		gtk_widget_show((GtkWidget *)gd);
-
-		user = g_strdup_printf("%s/vfolders.xml", evolution_dir);
-		rule_context_save((RuleContext *)context, user);
-		g_free(user);
+		
+		dialog = gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_INFO, GTK_BUTTONS_OK,
+						 _("The following vFolder(s):\n%s"
+						   "Used the removed folder:\n    '%s'\n"
+						   "And have been updated."),
+						 changed->str, uri);
+		g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
+		gtk_widget_show (dialog);
+		
+		user = g_strdup_printf ("%s/vfolders.xml", evolution_dir);
+		rule_context_save ((RuleContext *) context, user);
+		g_free (user);
 	}
-
-	g_string_free(changed, TRUE);
+	
+	g_string_free (changed, TRUE);
 }
 
 /* called when a uri is renamed in a store */
