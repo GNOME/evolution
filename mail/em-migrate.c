@@ -2266,7 +2266,7 @@ em_migrate (const char *evolution_dir, int major, int minor, int revision, Camel
 			config_xmldb = emm_load_xml (path, "config.xmldb");
 		g_free (path);
 		
-		if (minor <= 0) {
+		if (minor == 0) {
 			if (em_migrate_1_0 (evolution_dir, config_xmldb, filters, vfolders, ex) == -1) {
 				xmlFreeDoc (config_xmldb);
 				xmlFreeDoc (filters);
