@@ -162,10 +162,13 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 		for (i = 0; i < uids->len; i++) {
 			CamelMimeMessage *message;
 			
+			mail_tool_camel_lock_up ();
 			message = camel_folder_get_message (folder, uids->pdata[i], ex);
+			fprintf (stderr, "about to run the filter\n");
 			filter_driver_run (filter, message, input->destination,
 					   FILTER_SOURCE_INCOMING, TRUE,
 					   input->hook_func, input->hook_data);
+			mail_tool_camel_lock_down ();
 			
 			if (!input->keep_on_server) {
 				guint32 flags;
@@ -176,10 +179,7 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 								~flags);
 			}
 			camel_object_unref (CAMEL_OBJECT (message));
-			g_free (uids->pdata[i]);
 		}
-		
-		g_ptr_array_free (uids, TRUE);
 		
 		data->empty = FALSE;
 	}

@@ -1,3 +1,8 @@
+2000-09-07  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-ops.c (do_fetch_mail): Don't free uids, let the camel
+	folder do that when it gets finalized
+
 2000-09-06  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-ops.c (mail_do_filter_ondemand): New async function to
