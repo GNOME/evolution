@@ -166,7 +166,6 @@ update_uri_for_primary_selection (CalendarComponent *calendar_component)
 {
 	CalendarComponentPrivate *priv;
 	ESource *source;
-	char *uri;
 
 	priv = calendar_component->priv;
 	
@@ -507,6 +506,59 @@ impl_finalize (GObject *object)
 
 /* Evolution::Component CORBA methods.  */
 
+static CORBA_boolean
+impl_upgradeFromVersion (PortableServer_Servant servant,
+			 CORBA_short major,
+			 CORBA_short minor,
+			 CORBA_short revision,
+			 CORBA_Environment *ev)
+{
+	CalendarComponentPrivate *priv;
+	GSList *groups;
+	CalendarComponent *calendar_component = CALENDAR_COMPONENT (bonobo_object_from_servant (servant));
+
+	priv = calendar_component->priv;
+
+	/* create default calendars if there are no groups */
+	groups = e_source_list_peek_groups (priv->source_list);
+	if (!groups) {
+		ESourceGroup *group;
+		ESource *source;
+		char *base_uri, *new_dir;
+
+		/* create the local source group */
+		base_uri = g_build_filename (g_get_home_dir (),
+					     "/.evolution/calendar/local/OnThisComputer/",
+					     NULL);
+		group = e_source_group_new (_("On This Computer"), base_uri);
+		e_source_list_add_group (priv->source_list, group, -1);
+
+		/* migrate calendars from older setup */
+		if (!migrate_old_calendars (group)) {
+			/* create default calendars */
+			new_dir = g_build_filename (base_uri, "Personal/", NULL);
+			if (!e_mkdir_hier (new_dir, 0700)) {
+				source = e_source_new (_("Personal"), "Personal");
+				e_source_group_add_source (group, source, -1);
+			}
+			g_free (new_dir);
+
+			new_dir = g_build_filename (base_uri, "Work/", NULL);
+			if (!e_mkdir_hier (new_dir, 0700)) {
+				source = e_source_new (_("Work"), "Work");
+				e_source_group_add_source (group, source, -1);
+			}
+			g_free (new_dir);
+		}
+
+		/* create the remote source group */
+		group = e_source_group_new (_("On The Web"), "webcal://");
+		e_source_list_add_group (priv->source_list, group, -1);
+
+		g_free (base_uri);
+	}
+}
+
 static void
 impl_createControls (PortableServer_Servant servant,
 		     Bonobo_Control *corba_sidebar_control,
@@ -776,6 +828,7 @@ calendar_component_class_init (CalendarComponentClass *class)
 
 	parent_class = g_type_class_peek_parent (class);
 
+	epv->upgradeFromVersion      = impl_upgradeFromVersion;
 	epv->createControls          = impl_createControls;
 	epv->_get_userCreatableItems = impl__get_userCreatableItems;
 	epv->requestCreateItem       = impl_requestCreateItem;
@@ -788,7 +841,6 @@ static void
 calendar_component_init (CalendarComponent *component)
 {
 	CalendarComponentPrivate *priv;
-	GSList *groups;
 
 	priv = g_new0 (CalendarComponentPrivate, 1);
 
@@ -804,45 +856,6 @@ calendar_component_init (CalendarComponent *component)
 							 "/apps/evolution/calendar/sources");
 
 	priv->activity_handler = e_activity_handler_new ();
-
-	/* create default calendars if there are no groups */
-	groups = e_source_list_peek_groups (priv->source_list);
-	if (!groups) {
-		ESourceGroup *group;
-		ESource *source;
-		char *base_uri, *new_dir;
-
-		/* create the local source group */
-		base_uri = g_build_filename (g_get_home_dir (),
-					     "/.evolution/calendar/local/OnThisComputer/",
-					     NULL);
-		group = e_source_group_new (_("On This Computer"), base_uri);
-		e_source_list_add_group (priv->source_list, group, -1);
-
-		/* migrate calendars from older setup */
-		if (!migrate_old_calendars (group)) {
-			/* create default calendars */
-			new_dir = g_build_filename (base_uri, "Personal/", NULL);
-			if (!e_mkdir_hier (new_dir, 0700)) {
-				source = e_source_new (_("Personal"), "Personal");
-				e_source_group_add_source (group, source, -1);
-			}
-			g_free (new_dir);
-
-			new_dir = g_build_filename (base_uri, "Work/", NULL);
-			if (!e_mkdir_hier (new_dir, 0700)) {
-				source = e_source_new (_("Work"), "Work");
-				e_source_group_add_source (group, source, -1);
-			}
-			g_free (new_dir);
-		}
-
-		g_free (base_uri);
-
-		/* create the remote source group */
-		group = e_source_group_new (_("On The Web"), "webcal://");
-		e_source_list_add_group (priv->source_list, group, -1);
-	}
 
 	component->priv = priv;
 }

@@ -1,3 +1,18 @@
+2004-01-06  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/calendar-component.c (impl_upgradeFromVersion): new
+	method's implementation.
+	(calendar_component_class_init): initialize new epv's member.
+	(calendar_component_init): moved migration code to
+	impl_upgradeFromVersion.
+	(update_uri_for_primary_selection): fixed warning.
+
+	* gui/tasks-component.c (impl_upgradeFromVersion): new
+	method's implementation.
+	(tasks_component_class_init): initialize new epv's member.
+	(tasks_component_init): moved migration code to
+	impl_upgradeFromVersion.
+
 2004-01-06  JP Rosevear <jpr@ximian.com>
 
 	* gui/e-select-names-renderer.c (esnr_editing_done): disconnect

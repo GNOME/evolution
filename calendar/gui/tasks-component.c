@@ -493,6 +493,49 @@ impl_finalize (GObject *object)
 /* Evolution::Component CORBA methods */
 
 static void
+impl_upgradeFromVersion (PortableServer_Servant servant,
+			 CORBA_short major,
+			 CORBA_short minor,
+			 CORBA_short revision,
+			 CORBA_Environment *ev)
+{
+	TasksComponentPrivate *priv;
+	GSList *groups;
+	TasksComponent *component = TASKS_COMPONENT (bonobo_object_from_servant (servant));
+
+	priv = component->priv;
+
+	/* create default tasks folders if there are no groups */
+	groups = e_source_list_peek_groups (priv->source_list);
+	if (!groups) {
+		ESourceGroup *group;
+		ESource *source;
+		char *base_uri, *new_dir;
+
+		/* create the source group */
+		base_uri = g_build_filename (g_get_home_dir (),
+					     ".evolution/tasks/local/OnThisComputer/",
+					     NULL);
+		group = e_source_group_new (_("On This Computer"), base_uri);
+		e_source_list_add_group (priv->source_list, group, -1);
+
+		/* migrate tasks from older setup */
+		if (!migrate_old_tasks (group)) {
+			/* create default tasks folders */
+			new_dir = g_build_filename (base_uri, "Personal/", NULL);
+			if (!e_mkdir_hier (new_dir, 0700)) {
+				source = e_source_new (_("Personal"), "Personal");
+				e_source_group_add_source (group, source, -1);
+			}
+
+			g_free (new_dir);
+		}
+
+		g_free (base_uri);
+	}
+}
+
+static void
 impl_createControls (PortableServer_Servant servant,
 		     Bonobo_Control *corba_sidebar_control,
 		     Bonobo_Control *corba_view_control,
@@ -734,6 +777,7 @@ tasks_component_class_init (TasksComponentClass *klass)
 
 	parent_class = g_type_class_peek_parent (klass);
 
+	epv->upgradeFromVersion      = impl_upgradeFromVersion;
 	epv->createControls          = impl_createControls;
 	epv->_get_userCreatableItems = impl__get_userCreatableItems;
 	epv->requestCreateItem       = impl_requestCreateItem;
@@ -746,7 +790,6 @@ static void
 tasks_component_init (TasksComponent *component, TasksComponentClass *klass)
 {
 	TasksComponentPrivate *priv;
-	GSList *groups;
 
 	priv = g_new0 (TasksComponentPrivate, 1);
 	priv->config_directory = g_build_filename (g_get_home_dir (),
@@ -757,35 +800,6 @@ tasks_component_init (TasksComponent *component, TasksComponentClass *klass)
 	priv->gconf_client = gconf_client_get_default ();
 	priv->source_list = e_source_list_new_for_gconf (priv->gconf_client,
 							 "/apps/evolution/tasks/sources");
-
-	/* create default tasks folders if there are no groups */
-	groups = e_source_list_peek_groups (priv->source_list);
-	if (!groups) {
-		ESourceGroup *group;
-		ESource *source;
-		char *base_uri, *new_dir;
-
-		/* create the source group */
-		base_uri = g_build_filename (g_get_home_dir (),
-					     ".evolution/tasks/local/OnThisComputer/",
-					     NULL);
-		group = e_source_group_new (_("On This Computer"), base_uri);
-		e_source_list_add_group (priv->source_list, group, -1);
-
-		/* migrate tasks from older setup */
-		if (!migrate_old_tasks (group)) {
-			/* create default tasks folders */
-			new_dir = g_build_filename (base_uri, "Personal/", NULL);
-			if (!e_mkdir_hier (new_dir, 0700)) {
-				source = e_source_new (_("Personal"), "Personal");
-				e_source_group_add_source (group, source, -1);
-			}
-
-			g_free (new_dir);
-		}
-
-		g_free (base_uri);
-	}
 
 	component->priv = priv;
 }
