@@ -1,3 +1,9 @@
+2000-07-08  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-stream.c (stream_read): Only cache
+	the important data (aka the mime part requested and no extra
+	server response stuff)
+
 2000-07-07  Dan Winship  <danw@helixcode.com>
 
 	* camel-mime-utils.c (header_references_decode): Work around
