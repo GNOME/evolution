@@ -47,6 +47,9 @@ int camel_file_util_decode_off_t (FILE *in, off_t *);
 int camel_file_util_encode_string (FILE *out, const char *);
 int camel_file_util_decode_string (FILE *in, char **);
 
+int camel_file_util_mkdir(const char *path, mode_t mode);
+char *camel_file_util_safe_filename(const char *name);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

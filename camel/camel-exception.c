@@ -29,6 +29,7 @@
 
 #include <glib.h>
 #include "camel-exception.h"
+#include "e-util/e-memory.h"
 
 /* i dont know why gthread_mutex stuff even exists, this is easier */
 
@@ -46,6 +47,8 @@ static pthread_mutex_t exception_mutex = PTHREAD_MUTEX_INITIALIZER;
 #define CAMEL_EXCEPTION_UNLOCK(e) 
 #endif
 
+static EMemChunk *exception_chunks = NULL;
+
 /**
  * camel_exception_new: allocate a new exception object. 
  * 
@@ -59,11 +62,18 @@ camel_exception_new (void)
 {
 	CamelException *ex;
 
-	ex = g_new (CamelException, 1);
+	CAMEL_EXCEPTION_LOCK(exception);
+
+	if (exception_chunks == NULL)
+		exception_chunks = e_memchunk_new(16, sizeof(CamelException));
+
+	ex = e_memchunk_alloc(exception_chunks);
 	ex->desc = NULL;
 
 	/* set the Exception Id to NULL */
 	ex->id = CAMEL_EXCEPTION_NONE;
+
+	CAMEL_EXCEPTION_UNLOCK(exception);
 
 	return ex;
 }
@@ -129,7 +139,12 @@ camel_exception_free (CamelException *exception)
 	
 	if (exception->desc)
 		g_free (exception->desc);
-	g_free (exception);
+
+	CAMEL_EXCEPTION_LOCK(exception);
+
+	e_memchunk_free(exception_chunks, exception);
+
+	CAMEL_EXCEPTION_UNLOCK(exception);
 }
 
 /**

@@ -28,6 +28,7 @@ libcamel_la_SOURCES = 				\
 	camel-address.c				\
 	camel-cipher-context.c			\
 	camel-cms-context.c			\
+	camel-data-cache.c			\
 	camel-data-wrapper.c			\
 	camel-digest-folder.c			\
 	camel-disco-diary.c			\
@@ -114,6 +115,7 @@ libcamelinclude_HEADERS =			\
 	camel-charset-map.h			\
 	camel-cipher-context.h			\
 	camel-cms-context.h			\
+	camel-data-cache.h			\
 	camel-data-wrapper.h			\
 	camel-digest-folder.h			\
 	camel-disco-diary.h			\

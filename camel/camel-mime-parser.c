@@ -1523,6 +1523,16 @@ folder_scan_init(void)
 	return s;
 }
 
+static void
+drop_states(struct _header_scan_state *s)
+{
+	while (s->parts) {
+		folder_scan_drop_step(s);
+	}
+	s->unstep = 0;
+	s->state = HSCAN_INITIAL;
+}
+
 static int
 folder_scan_init_with_fd(struct _header_scan_state *s, int fd)
 {
@@ -1530,6 +1540,7 @@ folder_scan_init_with_fd(struct _header_scan_state *s, int fd)
 
 	len = read(fd, s->inbuf, SCAN_BUF);
 	if (len>=0) {
+		drop_states(s);
 		s->inend = s->inbuf+len;
 		s->inptr = s->inbuf;
 		s->inend[0] = '\n';
@@ -1555,6 +1566,7 @@ folder_scan_init_with_stream(struct _header_scan_state *s, CamelStream *stream)
 
 	len = camel_stream_read(stream, s->inbuf, SCAN_BUF);
 	if (len >= 0) {
+		drop_states(s);
 		s->inend = s->inbuf+len;
 		s->inptr = s->inbuf;
 		s->inend[0] = '\n';

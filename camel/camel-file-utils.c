@@ -1,6 +1,5 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
-/* 
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
+ *
  * Authors:
  *   Michael Zucchi <notzed@ximian.com>
  *   Dan Winship <danw@ximian.com>
@@ -24,6 +23,14 @@
 
 
 #include "camel-file-utils.h"
+#include "camel-url.h"
+
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+#include <string.h>
 
 #include <netinet/in.h>
 
@@ -279,4 +286,37 @@ camel_file_util_decode_string (FILE *in, char **str)
 	return 0;
 }
 
+/* Make a directory heirarchy.
+   Always use full paths */
+int
+camel_file_util_mkdir(const char *path, mode_t mode)
+{
+	char *copy, *p;
 
+	g_assert(path && path[0] == '/');
+
+	p = copy = alloca(strlen(path)+1);
+	strcpy(copy, path);
+	do {
+		p = strchr(p + 1, '/');
+		if (p)
+			*p = '\0';
+		if (access(copy, F_OK) == -1) {
+			if (mkdir(copy, mode) == -1)
+				return -1;
+		}
+		if (p)
+			*p = '/';
+	} while (p);
+
+	return 0;
+}
+
+char *
+camel_file_util_safe_filename(const char *name)
+{
+	if (name == NULL)
+		return NULL;
+	
+	return camel_url_encode(name, TRUE, "/?()'*");
+}

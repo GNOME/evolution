@@ -1,3 +1,31 @@
+2001-11-30  Not Zed  <NotZed@Ximian.com>
+
+	* providers/nntp/camel-nntp-*.c:
+	Completely new implementation of NNTP.
+	
+	Doesn't support subscriptions yet (lists all folders), but should
+	be more reliable (faster?), and has an integrated cache.
+
+	* camel-exception.c (camel_exception_new): Use e_memchunks for
+	exception blocks.
+	(camel_exception_free): Same.
+
+	* camel-data-cache.[ch]: New object for managing on-disk caches of
+	anything that can be stored in a camel-stream.
+
+	* camel-file-utils.c (camel_file_util_mkdir): New function, just a
+	nicer place to put this (than camel-store), should be removed from
+	camel-store.
+	(camel_file_util_safe_filename): New function to url-encode a
+	filename.
+
+	* camel-mime-parser.c (drop_states): New func to drop the parser
+	state to initial state.
+	(folder_scan_init_with_fd): 
+	(folder_scan_init_with_stream): Call above func to reset state if
+	the stream is changed on us so we can change streams to reuse a
+	parser object.
+
 2001-11-25  Not Zed  <NotZed@Ximian.com>
 
 	* providers/nntp/camel-nntp-folder.c (nntp_folder_get_message): If
