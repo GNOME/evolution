@@ -1,3 +1,12 @@
+2000-10-27    <jpr@helixcode.com>
+
+	* conduits/calendar/calendar-conduit.c (add_archive_record): Remove
+	invalid test.
+	(local_record_from_comp): If the event is all day, mark it as timeless
+	(comp_from_remote_record): Timeless events take up all day
+
+	* conduits/todo/todo-conduit.c (add_archive_record): ditto
+
 2000-10-27  JP Rosevear  <jpr@helixcode.com>
 
 	* conduits/todo/todo-conduit.c (add_archive_record): Take proper

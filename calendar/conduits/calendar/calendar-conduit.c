@@ -331,7 +331,7 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 	}
 
 	cal_component_get_dtend (comp, &dt);	
-	if (dt.value) {
+	if (dt.value && time_add_day (dt_time, 1) != icaltime_as_timet (*dt.value)) {
 		dt_time = icaltime_as_timet (*dt.value);
 		
 		local->appt->end = *localtime (&dt_time);
@@ -465,7 +465,14 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		cal_component_set_dtstart (comp, &dt);
 	}
 
-	if (appt.end.tm_sec || appt.end.tm_min || appt.end.tm_hour 
+	if (appt.event) {
+		time_t t = mktime (&appt.begin);
+		
+		t = time_day_end (t);
+		it = icaltime_from_timet (t, FALSE, FALSE);
+		dt.value = &it;
+		cal_component_set_dtend (comp, &dt);
+	} else if (appt.end.tm_sec || appt.end.tm_min || appt.end.tm_hour 
 	    || appt.end.tm_mday || appt.end.tm_mon || appt.end.tm_year) {
 		it = icaltime_from_timet (mktime (&appt.end), FALSE, FALSE);
 		dt.value = &it;
@@ -880,10 +887,9 @@ add_archive_record (GnomePilotConduitSyncAbs *conduit,
 	int retval = 0;
 	
 	g_return_val_if_fail (remote != NULL, -1); 
-	g_return_val_if_fail (local != NULL, -1);
 
 	LOG ("add_archive_record: doing nothing with %s\n",
-	     print_local (local));
+	     print_remote (remote));
 
 	return retval;
 }

@@ -761,10 +761,9 @@ add_archive_record (GnomePilotConduitSyncAbs *conduit,
 	int retval = 0;
 	
 	g_return_val_if_fail (remote != NULL, -1); 
-	g_return_val_if_fail (local != NULL, -1);
 
 	LOG ("add_archive_record: doing nothing with %s\n",
-	     print_local (local));
+	     print_remote (remote));
 
 	return retval;
 }
