@@ -306,7 +306,7 @@ daynumberlist (iCalObject *o, char **str)
 			if (val == 0){
 				struct tm *day = localtime (&o->dtstart);
 				
-				val = tm->tm_mday;
+				val = day->tm_mday;
 			}
 			o->recur->u.month_day = val;
 			first = 1;

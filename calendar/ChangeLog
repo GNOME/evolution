@@ -1,3 +1,7 @@
+1999-06-03  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* calobj.c (daynumberlist): One line bug fix from Sergey I Panov.
+
 1999-06-02  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* view-utils.c (nicetime): Use %H instead of %k, as %k is a GNU
