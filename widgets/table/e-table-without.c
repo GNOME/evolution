@@ -115,6 +115,8 @@ etw_destroy (GtkObject *object)
 		etw->priv = NULL;
 	}
 
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 static void
