@@ -17,3 +17,4 @@ evolution-calendar.h
 GnomeCal-stubs.c
 tlacuache
 tl-test
+*.lo
