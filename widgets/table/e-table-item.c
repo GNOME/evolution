@@ -1003,6 +1003,7 @@ eti_idle_show_cursor_cb (gpointer data)
 		eti_check_cursor_bounds (eti);
 	}
 
+	eti->cursor_idle_id = 0;
 	g_object_unref (eti);
 	return FALSE;
 }
@@ -1013,7 +1014,8 @@ eti_idle_maybe_show_cursor(ETableItem *eti)
 	d(g_print ("%s: cursor on screen: %s\n", __FUNCTION__, eti->cursor_on_screen ? "TRUE" : "FALSE"));
 	if (eti->cursor_on_screen) {
 		g_object_ref (eti);
-		g_idle_add (eti_idle_show_cursor_cb, eti);
+		if (!eti->cursor_idle_id)
+			eti->cursor_idle_id = g_idle_add (eti_idle_show_cursor_cb, eti);
 	}
 }
 
@@ -1400,6 +1402,11 @@ eti_dispose (GObject *object)
 		eti->height_cache_idle_id = 0;
 	}
 	eti->height_cache_idle_count = 0;
+
+	if (eti->cursor_idle_id) {
+		g_source_remove(eti->cursor_idle_id);
+		eti->cursor_idle_id = 0;
+	}
 
 	if (eti->height_cache)
 		g_free (eti->height_cache);
