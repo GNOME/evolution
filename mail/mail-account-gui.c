@@ -822,14 +822,14 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 				GtkWidget *label;
 				
 				if (!strcmp (entries[i].name, "username")) {
-					gtk_label_parse_uline (GTK_LABEL (username_label), _(entries[i].text));
+					gtk_label_parse_uline (GTK_LABEL (username_label), entries[i].text);
 				} else if (!strcmp (entries[i].name, "hostname")) {
-					gtk_label_parse_uline (GTK_LABEL (hostname_label), _(entries[i].text));
+					gtk_label_parse_uline (GTK_LABEL (hostname_label), entries[i].text);
 				} else if (!strcmp (entries[i].name, "path")) {
-					gtk_label_parse_uline (GTK_LABEL (path_label), _(entries[i].text));
+					gtk_label_parse_uline (GTK_LABEL (path_label), entries[i].text);
 				} else {
 					/* make a new label */
-					label = gtk_label_new (_(entries[i].text));
+					label = gtk_label_new (entries[i].text);
 					gtk_box_pack_start (GTK_BOX (cur_vbox), label, FALSE, FALSE, 0);
 				}
 			}
@@ -840,7 +840,7 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 			GtkWidget *checkbox;
 			gboolean active;
 			
-			checkbox = gtk_check_button_new_with_label (_(entries[i].text));
+			checkbox = gtk_check_button_new_with_label (entries[i].text);
 			if (url)
 				active = camel_url_get_param (url, entries[i].name) != NULL;
 			else
@@ -859,21 +859,21 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 			const char *text;
 			
 			if (!strcmp (entries[i].name, "username")) {
-				gtk_label_parse_uline (GTK_LABEL (username_label), _(entries[i].text));
+				gtk_label_parse_uline (GTK_LABEL (username_label), entries[i].text);
 				label = username_label;
 				entry = username;
 			} else if (!strcmp (entries[i].name, "hostname")) {
-				gtk_label_parse_uline (GTK_LABEL (hostname_label), _(entries[i].text));
+				gtk_label_parse_uline (GTK_LABEL (hostname_label), entries[i].text);
 				label = hostname_label;
 				entry = hostname;
 			} else if (!strcmp (entries[i].name, "path")) {
-				gtk_label_parse_uline (GTK_LABEL (path_label), _(entries[i].text));
+				gtk_label_parse_uline (GTK_LABEL (path_label), entries[i].text);
 				label = path_label;
 				entry = path;
 			} else {
 				/* make a new text entry with label */
 				hbox = gtk_hbox_new (FALSE, 8);
-				label = gtk_label_new (_(entries[i].text));
+				label = gtk_label_new (entries[i].text);
 				entry = gtk_entry_new ();
 				
 				gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
@@ -908,7 +908,7 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 			gboolean enable;
 			
 			/* FIXME: this is pretty fucked... */
-			data = _(entries[i].text);
+			data = entries[i].text;
 			p = strstr (data, "%s");
 			g_return_if_fail (p != NULL);
 			

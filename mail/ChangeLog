@@ -1,3 +1,9 @@
+2003-01-07  Dan Winship  <danw@ximian.com>
+
+	* mail-account-gui.c (mail_account_gui_auto_detect_extra_conf,
+	mail_account_gui_build_extra_conf): Don't translate the conf
+	strings. Camel already did it.
+
 2003-01-06  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am: remove idldir definition. (It's defined in
