@@ -45,6 +45,7 @@ static int disco_getv(CamelObject *object, CamelException *ex, CamelArgGetV *arg
 static int disco_setv(CamelObject *object, CamelException *ex, CamelArgV *args);
 
 static void disco_refresh_info (CamelFolder *folder, CamelException *ex);
+static void disco_refresh_info_online (CamelFolder *folder, CamelException *ex);
 static void disco_sync (CamelFolder *folder, gboolean expunge, CamelException *ex);
 static void disco_expunge (CamelFolder *folder, CamelException *ex);
 
@@ -75,6 +76,7 @@ camel_disco_folder_class_init (CamelDiscoFolderClass *camel_disco_folder_class)
 	/* virtual method definition */
 	camel_disco_folder_class->cache_message = disco_cache_message;
 	camel_disco_folder_class->prepare_for_offline = disco_prepare_for_offline;
+	camel_disco_folder_class->refresh_info_online = disco_refresh_info_online;
 
 	/* virtual method overload */
 	camel_folder_class->refresh_info = disco_refresh_info;
@@ -249,6 +251,12 @@ disco_setv(CamelObject *object, CamelException *ex, CamelArgV *args)
 		camel_object_state_write(object);
 
 	return ((CamelObjectClass *)parent_class)->setv(object, ex, args);
+}
+
+static void
+disco_refresh_info_online(CamelFolder *folder, CamelException *ex)
+{
+	/* NOOP */;
 }
 
 static void
