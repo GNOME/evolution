@@ -16408,7 +16408,7 @@ msgstr "ઈવોલ્યુશન ચકાસણી ભાગ"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:1
 msgid "480"
-msgstr "૪૮૦"
+msgstr "480"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:2
 msgid "Default width of the folder bar pane"
