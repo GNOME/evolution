@@ -100,7 +100,7 @@ typedef struct {
 	GList *  (*expunge) (CamelFolder *folder);
 	CamelMimeMessage * (*get_message) (CamelFolder *folder, gint number);
 	gint   (*get_message_count) (CamelFolder *folder);
-	
+	gint   (*append_message) (CamelFolder *folder, CamelMimeMessage *message);
 } CamelFolderClass;
 
 
@@ -125,7 +125,8 @@ const gchar *camel_folder_get_name (CamelFolder *folder);
 const gchar *camel_folder_get_full_name (CamelFolder *folder);
 CamelMimeMessage *camel_folder_get_message (CamelFolder *folder, gint number);
 gboolean camel_folder_exists (CamelFolder *folder);
-gint camel_get_message_count (CamelFolder *folder);
+gint camel_folder_get_message_count (CamelFolder *folder);
+gint camel_folder_append_message (CamelFolder *folder, CamelMimeMessage *message);
 
 
 

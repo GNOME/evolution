@@ -1,3 +1,8 @@
+1999-08-10  root  <guiheneu@jean.joudboeuf.fr>
+
+	* camel/camel-folder.c (camel_folder_append_message): 
+	new method.
+
 1999-08-09  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* devel-docs/misc/ref_and_id_proposition.txt:
@@ -90,7 +95,7 @@
 	* camel/providers/MH/camel-mh-store.c: 
 	parent class is CamelStorClass not GtkObjectClass
 
-1999-08-05  
+1999-08-05  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* tests/test4.c: 
 	test mh provider.

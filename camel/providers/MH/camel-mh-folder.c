@@ -51,6 +51,8 @@ static gboolean _delete_messages (CamelFolder *folder);
 static GList *_list_subfolders (CamelFolder *folder);
 static CamelMimeMessage *_get_message (CamelFolder *folder, gint number);
 static gint _get_message_count (CamelFolder *folder);
+static gint _append_message (CamelFolder *folder, CamelMimeMessage *message);
+
 
 static void
 camel_mh_folder_class_init (CamelMhFolderClass *camel_mh_folder_class)
@@ -69,6 +71,7 @@ camel_mh_folder_class_init (CamelMhFolderClass *camel_mh_folder_class)
 	camel_folder_class->list_subfolders = _list_subfolders;
 	camel_folder_class->get_message = _get_message;
 	camel_folder_class->get_message_count = _get_message_count;
+	camel_folder_class->append_message = _append_message;
 	
 }
 
@@ -479,4 +482,67 @@ _get_message_count (CamelFolder *folder)
 
 	closedir (dir_handle);
 	return message_count;
+}
+
+
+
+
+static gint
+_append_message (CamelFolder *folder, CamelMimeMessage *message)
+{
+	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER(folder);
+	const gchar *directory_path;
+	struct dirent *dir_entry;
+	DIR *dir_handle;
+	guint last_max_message_number = 0;
+	guint current_message_number;
+	guint new_message_number;
+	gchar *new_message_filename;
+	CamelStream *output_stream;
+	gboolean error;
+
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelMhFolder::append_message\n");
+	
+	g_assert(folder);
+
+	directory_path = mh_folder->directory_path;
+	if (!directory_path) return -1;
+	
+	if (!camel_folder_exists (folder)) return 0;
+	
+	dir_handle = opendir (directory_path);
+	
+	/* read first entry in the directory */
+	dir_entry = readdir (dir_handle);
+	while (dir_entry != NULL) {
+		/* tests if the entry correspond to a message file */
+		if (_is_a_message_file (dir_entry->d_name, directory_path)) {
+			/* see if the message number is the biggest found */
+			current_message_number = atoi (dir_entry->d_name);
+			if (current_message_number > last_max_message_number)
+				last_max_message_number = current_message_number;
+		}
+		/* read next entry */
+		dir_entry = readdir (dir_handle);
+	}
+	closedir (dir_handle);
+
+	new_message_number = last_max_message_number + 1;
+	new_message_filename = g_strdup_printf ("%s/%d", directory_path, new_message_number);
+	CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::append_message new message path is %s\n", new_message_filename);
+
+	output_stream = camel_stream_fs_new_with_name (new_message_filename, CAMEL_STREAM_FS_WRITE);
+	if (output_stream != NULL) {
+		camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), output_stream);
+		camel_stream_close (output_stream);
+	} else {
+		CAMEL_LOG_WARNING ("CamelMhFolder::append_message could not open %s for writing\n", new_message_filename);
+		CAMEL_LOG_FULL_DEBUG ("  Full error text is : %s\n", strerror(errno));
+		error = TRUE;
+	}
+
+	g_free (new_message_filename);
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMhFolder::append_message\n");
+	if (error) return -1;
+	else return new_message_number;
 }

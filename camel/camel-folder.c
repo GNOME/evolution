@@ -51,6 +51,8 @@ static GList *_list_subfolders (CamelFolder *folder);
 static GList *_expunge (CamelFolder *folder);
 static CamelMimeMessage *_get_message (CamelFolder *folder, gint number);
 static gint _get_message_count (CamelFolder *folder);
+static gint _append_message (CamelFolder *folder, CamelMimeMessage *message);
+
 
 static void
 camel_folder_class_init (CamelFolderClass *camel_folder_class)
@@ -78,6 +80,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->expunge = _expunge;
 	camel_folder_class->get_message = _get_message;
 	camel_folder_class->get_message_count = _get_message_count;
+	camel_folder_class->append_message = _append_message;
 
 	/* virtual method overload */
 }
@@ -784,3 +787,15 @@ camel_folder_get_message_count (CamelFolder *folder)
 	return CF_CLASS (folder)->get_message_count (folder);
 }
 
+
+static gint
+_append_message (CamelFolder *folder, CamelMimeMessage *message)
+{
+	return -1;
+}
+
+
+gint camel_folder_append_message (CamelFolder *folder, CamelMimeMessage *message)
+{
+	return CF_CLASS (folder)->append_message (folder, message);
+}

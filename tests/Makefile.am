@@ -2,7 +2,6 @@
 
 INCLUDES = -I$(top_srcdir)/intl -I$(top_srcdir)/camel \
 	-I$(includedir) -I$(top_srcdir)/camel/providers/MH
-
 LDADD = \
 	$(top_builddir)/camel/libcamel.la 	\
 	$(GNOME_LIBDIR) 			\
