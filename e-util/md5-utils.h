@@ -28,13 +28,8 @@
 
 #include <glib.h>
 
-typedef struct {
-	guint32 buf[4];
-	guint32 bits[2];
-	guchar in[64];
-	gint doByteReverse;
 
-} MD5Context ;
+typedef struct _MD5Context MD5Context;
 
 
 void md5_get_digest (const gchar *buffer, gint buffer_size, guchar digest[16]);
