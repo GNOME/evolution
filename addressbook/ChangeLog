@@ -2,6 +2,9 @@
 
 	* gui/component/addressbook-migrate.c (addressbook_migrate):
 	Migrate pilot data.
+	(migrate_pilot_data): Oops. Apparently the addressbook didn't
+	change the format of the changelog file from db3 to xml, so fix to
+	simply copy the file over.
 
 2004-04-27  Rodney Dawes  <dobey@ximian.com>
 

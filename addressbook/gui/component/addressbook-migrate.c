@@ -31,8 +31,6 @@
 #include "addressbook-migrate.h"
 #include "e-destination.h"
 #include <libebook/e-book-async.h>
-#include <libedataserver/e-dbhash.h>
-#include <libedataserver/e-xml-hash-utils.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>
@@ -942,14 +940,6 @@ migrate_company_phone_for_local_folders (MigrationContext *context, ESourceGroup
 }
 
 static void
-migrate_pilot_db_key (const char *key, const char *data, gpointer user_data)
-{
-	EXmlHash *xmlhash = user_data;
-	
-	e_xmlhash_add (xmlhash, key, data);
-}
-
-static void
 migrate_pilot_data (const char *old_path, const char *new_path)
 {
 	struct dirent *dent;
@@ -961,9 +951,11 @@ migrate_pilot_data (const char *old_path, const char *new_path)
 		return;
 	
 	while ((dent = readdir (dir))) {
-		if (!strncmp (dent->d_name, "pilot-map-", 10) &&
-		    ((ext = strrchr (dent->d_name, '.')) && !strcmp (ext, ".xml"))) {
-			/* pilot map file - src and dest file formats are identical */
+		if ((!strncmp (dent->d_name, "pilot-map-", 10) &&
+		     ((ext = strrchr (dent->d_name, '.')) && !strcmp (ext, ".xml"))) ||
+		    (!strncmp (dent->d_name, "pilot-sync-evolution-addressbook-", 33) &&
+		     ((ext = strrchr (dent->d_name, '.')) && !strcmp (ext, ".db")))) {
+			/* src and dest file formats are identical for both map and changelog files */
 			unsigned char inbuf[4096];
 			size_t nread, nwritten;
 			int fd0, fd1;
@@ -1017,34 +1009,6 @@ migrate_pilot_data (const char *old_path, const char *new_path)
 			close (fd0);
 			close (fd1);
 			g_free (filename);
-		} else if (!strncmp (dent->d_name, "pilot-sync-evolution-addressbook-", 33) &&
-			   ((ext = strrchr (dent->d_name, '.')) && !strcmp (ext, ".db"))) {
-			/* src and dest formats differ, src format is db3 while dest format is xml */
-			EXmlHash *xmlhash;
-			EDbHash *dbhash;
-			struct stat st;
-			
-			filename = g_build_filename (old_path, dent->d_name, NULL);
-			if (stat (filename, &st) == -1) {
-				g_free (filename);
-				continue;
-			}
-			
-			dbhash = e_dbhash_new (filename);
-			g_free (filename);
-			
-			filename = g_build_filename (new_path, dent->d_name, NULL);
-			if (stat (filename, &st) != -1)
-				unlink (filename);
-			xmlhash = e_xmlhash_new (filename);
-			g_free (filename);
-			
-			e_dbhash_foreach_key (dbhash, migrate_pilot_db_key, xmlhash);
-			
-			e_dbhash_destroy (dbhash);
-			
-			e_xmlhash_write (xmlhash);
-			e_xmlhash_destroy (xmlhash);
 		}
 	}
 	
