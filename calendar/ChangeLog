@@ -1,3 +1,14 @@
+2000-09-12  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/gnome-cal.c (gnome_calendar_construct): Connect to the
+	"cal_loaded" signal of the client here.
+	(connect_load): Removed function.
+	(disconnect_load): Removed function.
+	(cal_loaded_cb): Store the URI we are loading in the GnomeCal
+	structure instead of in a weird closure.  This gets rid of the
+	connect/disconnect mess as well.
+	(gnome_calendar_open): Store the URI in the GnomeCal.
+
 2000-09-11  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/e-day-view.c: Fixed a warning (removed unused variable
