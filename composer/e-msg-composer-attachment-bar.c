@@ -235,15 +235,13 @@ update (EMsgComposerAttachmentBar *bar)
 	for (p = priv->attachments; p != NULL; p = p->next) {
 		EMsgComposerAttachment *attachment;
 		const gchar *desc;
-		gchar *size_string, *label, *mime_type;
+		gchar *size_string, *label;
 		CamelContentType *content_type;
 		GdkPixbuf *pixbuf;
 		gboolean image;
 		
 		attachment = p->data;
 		content_type = camel_mime_part_get_content_type (attachment->body);
-		mime_type = header_content_type_format (content_type);
-
 		/* Get the image out of the attachment 
 		   and create a thumbnail for it */
 		image = header_content_type_is (content_type, "image", "*");
@@ -335,14 +333,17 @@ update (EMsgComposerAttachmentBar *bar)
 		if (image) {
 			e_icon_list_append_pixbuf (icon_list, attachment->pixbuf_cache, NULL, label);
 		} else {
+			char *mime_type;
+
+			mime_type = header_content_type_simple (content_type);
 			pixbuf = pixbuf_for_mime_type (mime_type);
+			g_free (mime_type);
 			e_icon_list_append_pixbuf (icon_list, pixbuf, 
 						   NULL, label);
 			if (pixbuf)
 				gdk_pixbuf_unref (pixbuf);
 		}
 
-		g_free (mime_type);
 		g_free (label);
 	}
 

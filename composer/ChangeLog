@@ -1,5 +1,9 @@
 2001-01-02  Dan Winship  <danw@helixcode.com>
 
+	* e-msg-composer-attachment.c (e_msg_composer_attachment_edit): 
+	* e-msg-composer-attachment-bar.c (update): Use
+	header_content_type_simple, not header_content_type_format.
+
 	* e-msg-composer-hdrs.c (create_dropdown_entry): Call
 	e_utf8_to_gtk_string on the combobox strings.
 

@@ -399,7 +399,7 @@ e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment,
 		set_entry (editor_gui, "description_entry",
 			   camel_mime_part_get_description (attachment->body));
 		content_type = camel_mime_part_get_content_type (attachment->body);
-		type = header_content_type_format (content_type);
+		type = header_content_type_simple (content_type);
 		set_entry (editor_gui, "mime_type_entry", type);
 		g_free (type);
 	}
