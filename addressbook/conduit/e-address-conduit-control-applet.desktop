@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=Evolution Address conduit 
+Name[sl]=Evolucijin veznik naslovov
 Name[da]=Udstående
 Name[es]=Enlace del libro de direcciones de Evolution
 Name[fr]=Conduit Adresses
@@ -7,6 +8,7 @@ Name[no]=Oppgaver
 Name[sv]=Adresser
 Name[tr]=Adres parçasý
 Comment=Configure the address conduit
+Comment[sl]=Nastavi veznik naslovov
 Comment[da]=Konfigurér Udstående
 Comment[es]=Configura el enlace del libro de direcciones
 Comment[fr]=Configuration du conduit Adresses
