@@ -631,12 +631,13 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 		gtk_entry_set_text (GTK_ENTRY (name), fr->name);
 		/* FIXME: do we want the following code in the future? */
 		/*gtk_editable_select_region (GTK_EDITABLE (name), 0, -1);*/
-		gtk_widget_grab_focus (GTK_WIDGET (name));
-		/* Why does GTK say we can't grab the default?? */
-		/*gtk_widget_grab_default (GTK_WIDGET (name));*/
 	} else {
 		e_utf8_gtk_entry_set_text (GTK_ENTRY (name), fr->name);
 	}
+	
+	gtk_widget_grab_focus (GTK_WIDGET (name));
+	/* Why does GTK say we can't grab the default?? */
+	/*gtk_widget_grab_default (GTK_WIDGET (name));*/
 	
 	hbox = gtk_hbox_new (FALSE, 3);
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);

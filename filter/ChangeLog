@@ -1,7 +1,13 @@
-2001-07-09  Anna Marie Dirks
-	*rule-context.c (rule_context_add_rule_gui): Increased the size
+2001-07-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* filter-rule.c (get_widget): Set the focus on the title of the
+	filter rule.
+
+2001-07-09  Anna Marie Dirks  <anna@ximian.com>
+
+	* rule-context.c (rule_context_add_rule_gui): Increased the size
 	of the "Add Filter Rule" dialog to 600 x 400, so that no resizing
-	is necessary to use the dialog. 
+	is necessary to use the dialog.
 
 2001-07-09  Jon Trowbridge  <trow@ximian.com>
 
