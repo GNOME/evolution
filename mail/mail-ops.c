@@ -142,7 +142,7 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 	if (camel_folder_get_message_count (folder) == 0) {
 		data->empty = TRUE;
 	} else {
-		CamelUIDCache *cache;
+		CamelUIDCache *cache = NULL;
 		gchar *userrules;
 		gchar *systemrules;
 		FilterContext *fc;
@@ -153,7 +153,7 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 		
 		userrules = g_strdup_printf ("%s/filters.xml", evolution_dir);
 		systemrules = g_strdup_printf ("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
-		fc = filter_context_new();
+		fc = filter_context_new ();
 		rule_context_load ((RuleContext *)fc, systemrules, userrules, NULL, NULL);
 		g_free (userrules);
 		g_free (systemrules);
@@ -168,23 +168,25 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 		
 		uids = camel_folder_get_uids (folder);
 		
-		/* get the mail source's uid cache file */
-		url = camel_url_to_string (CAMEL_SERVICE (folder->parent_store)->url, FALSE);
-		for (p = url; *p; p++) {
-			if (!isascii ((unsigned char)*p) || strchr (" /'\"`&();|<>${}!", *p))
-				*p = '_';
-		}
-		
-		filename = g_strdup_printf ("%s/config/cache-%s", evolution_dir, url);
-		g_free (url);
-		
-		cache = camel_uid_cache_new (filename);
-		
-		if (cache) {
-			/* determine the new uids */
-			new_uids = camel_uid_cache_get_new_uids (cache, uids);
-			camel_folder_free_uids (folder, uids);
-			uids = new_uids;
+		if (!input->keep_on_server) {
+			/* get the mail source's uid cache file */
+			url = camel_url_to_string (CAMEL_SERVICE (folder->parent_store)->url, FALSE);
+			for (p = url; *p; p++) {
+				if (!isascii ((unsigned char)*p) || strchr (" /'\"`&();|<>${}!", *p))
+					*p = '_';
+			}
+			
+			filename = g_strdup_printf ("%s/config/cache-%s", evolution_dir, url);
+			g_free (url);
+			
+			cache = camel_uid_cache_new (filename);
+			
+			if (cache) {
+				/* determine the new uids */
+				new_uids = camel_uid_cache_get_new_uids (cache, uids);
+				camel_folder_free_uids (folder, uids);
+				uids = new_uids;
+			}
 		}
 		
 		/* get/filter the new messages */
@@ -237,8 +239,8 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 			camel_object_unhook_event (CAMEL_OBJECT (input->destination), "folder_changed", 
 						   input->hook_func, input->hook_data);
 		
-		/* save the cache for the next time we fetch mail! */
 		if (cache) {
+			/* save the cache for the next time we fetch mail! */
 			camel_uid_cache_free_uids (uids);
 			
 			if (!camel_exception_is_set (ex))
