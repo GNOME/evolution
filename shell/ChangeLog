@@ -1,4 +1,4 @@
-2001-01-17  Jason Leach  <jasonleach@usa.net>
+2001-01-19  Jason Leach  <jasonleach@usa.net>
 
 	(Bug #883: Shortcut bar does not update when a folders display
 	 name changes)
@@ -17,10 +17,10 @@
 	initiates the shell updating.
 	
 	* e-shortcuts.c (e_shortcuts_update_shortcut_by_uri): New
-	function.  Given a uri for a shortcut bar item, we'll update it.
+	function.  Given a URI for a shortcut bar item, we'll update it.
 
 	* e-shortcuts.c (e_shortcuts_remove_shortcut_by_uri): New
-	function.  Given a uri for a shortcut bar item, we'll remove it.
+	function.  Given a URI for a shortcut bar item, we'll remove it.
 
 	* e-shortcuts.c (removed_folder_cb): Connect this callback that
 	will remove a renamed vfolder from the shortcut bar.  Temporary
@@ -32,7 +32,6 @@
 	* e-shell-view.c (save_shortcut_bar_icon_modes): New static
 	function, save the icon modes (for all shortcut bar groups, even
 	though we only have one group now).
-
 	(load_shortcut_bar_icon_modes): New static function, load the
 	saved shortcut bar group icon modes and apply them to our shortcut
 	bar.
