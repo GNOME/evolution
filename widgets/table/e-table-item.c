@@ -789,9 +789,10 @@ eti_show_cursor (ETableItem *eti, int delay)
 		       "cursor_row", &cursor_row,
 		       NULL);
 
+	d(g_print ("%s: cursor row: %d\n", __FUNCTION__, cursor_row));
+
 	if (cursor_row != -1) {
 		cursor_row = model_to_view_row (eti, cursor_row);
-		d(g_print ("%s: cursor row: %d\n", __FUNCTION__, cursor_row));
 		eti_request_region_show (eti,
 					 0, cursor_row, eti->cols + 1, cursor_row + 1,
 					 delay);
@@ -838,6 +839,8 @@ eti_check_cursor_bounds (ETableItem *eti)
 		return;
 	}
 
+	d(g_print ("%s: model cursor row: %d\n", __FUNCTION__, cursor_row));
+
 	cursor_row = model_to_view_row (eti, cursor_row);
 
 	d(g_print ("%s: cursor row: %d\n", __FUNCTION__, cursor_row));
@@ -864,11 +867,12 @@ eti_maybe_show_cursor(ETableItem *eti, int delay)
 }
 
 static gboolean
-eti_idle_maybe_show_cursor_cb (gpointer data)
+eti_idle_show_cursor_cb (gpointer data)
 {
 	ETableItem *eti = data;
 	if (!GTK_OBJECT_DESTROYED (eti)) {
-		eti_maybe_show_cursor (eti, 0);
+		eti_show_cursor (eti, 0);
+		eti_check_cursor_bounds (eti);
 	}
 	gtk_object_unref (GTK_OBJECT (eti));
 	return FALSE;
@@ -877,8 +881,11 @@ eti_idle_maybe_show_cursor_cb (gpointer data)
 static void
 eti_idle_maybe_show_cursor(ETableItem *eti)
 {
-	gtk_object_ref (GTK_OBJECT (eti));
-	g_idle_add (eti_idle_maybe_show_cursor_cb, eti);
+	d(g_print ("%s: cursor on screen: %s\n", __FUNCTION__, eti->cursor_on_screen ? "TRUE" : "FALSE"));
+	if (eti->cursor_on_screen) {
+		gtk_object_ref (GTK_OBJECT (eti));
+		g_idle_add (eti_idle_show_cursor_cb, eti);
+	}
 }
 
 static void

@@ -969,6 +969,7 @@ void         e_tree_table_adapter_node_set_expanded (ETreeTableAdapter *etta, ET
 			else if (row != 0)
 				e_table_model_row_changed(E_TABLE_MODEL(etta), row - 1);
 
+			e_table_model_pre_change (E_TABLE_MODEL(etta));
 			if (expanded) {
 				int num_children = array_size_from_path(etta, path) - 1;
 				etta_expand_to(etta, etta->priv->n_map + num_children);
