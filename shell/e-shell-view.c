@@ -1136,7 +1136,7 @@ updated_folder_cb (EStorageSet *storage_set,
 #endif
 
 	view_path = get_storage_set_path_from_uri (priv->uri);
-	if (strcmp (path, view_path) != 0)
+	if (view_path && strcmp (path, view_path) != 0)
 		return;
 
 	/* Update the folder title bar and the window title bar */
