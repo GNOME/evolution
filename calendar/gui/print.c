@@ -62,6 +62,9 @@
  * what gnome-print uses.
  */
 
+/* The font to use */
+#define DEFAULT_FONT "Times"
+
 /* The font size to use for normal text. */
 #define DAY_NORMAL_FONT_SIZE	12
 #define WEEK_NORMAL_FONT_SIZE	12
@@ -249,6 +252,25 @@ build_month (int month, int year, int *days, int *start, int *end)
 		*end = d_week + d_month - 1;
 }
 
+static GnomeFont *
+get_font_for_size (double h, GnomeFontWeight weight, gboolean italic)
+{
+	GnomeFontFace *face;
+	GnomeFont *font;
+	double asc, desc, size;
+	
+	face = gnome_font_unsized_closest (DEFAULT_FONT, weight, italic);
+	asc = gnome_font_face_get_ascender (face);
+	desc = gnome_font_face_get_descender (face);
+	size = h * 1000 / (asc + desc);
+	g_print ("Print Info: %f, %f, %f\n", asc, desc, size);
+	
+	font = gnome_font_new_closest (DEFAULT_FONT, weight, italic, size);
+
+	gtk_object_unref (GTK_OBJECT (face));
+	
+	return font;
+}
 
 enum align_box {
 	ALIGN_LEFT=1,
@@ -355,12 +377,9 @@ print_text(GnomePrintContext *pc, GnomeFont *font, const char *text,
 	/* Make sure we don't go off the left edge. */
 	x = MAX (l, x);
 
-	/* Calculate the top of where the text should be. */
-	y = (t + b + gnome_font_get_size (font)) / 2;
-
 	/* Now calculate the baseline. */
-	y -= gnome_font_get_ascender (font) + 1;
-
+	y = t - gnome_font_get_ascender (font);
+	
 	/* Set a clipping rectangle. */
 	gnome_print_moveto (pc, l, t);
 	gnome_print_lineto (pc, r, t);
@@ -378,14 +397,26 @@ print_text(GnomePrintContext *pc, GnomeFont *font, const char *text,
 	gnome_print_grestore (pc);
 }
 
-/* gets/frees the font for you, as a bold font */
+/* gets/frees the font for you, as a book font */
 static void
-print_text_size(GnomePrintContext *pc, double size, const char *text,
-		enum align_box align, double l, double r, double t, double b)
+print_text_size(GnomePrintContext *pc, const char *text,
+		     enum align_box align, double l, double r, double t, double b)
 {
 	GnomeFont *font;
 
-	font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, 0, size);
+	font = get_font_for_size (t - b, GNOME_FONT_BOOK, FALSE);
+	print_text(pc, font, text, align, l, r, t, b);
+	gtk_object_unref (GTK_OBJECT (font));
+}
+
+/* gets/frees the font for you, as a bold font */
+static void
+print_text_size_bold(GnomePrintContext *pc, const char *text,
+		     enum align_box align, double l, double r, double t, double b)
+{
+	GnomeFont *font;
+
+	font = get_font_for_size (t - b, GNOME_FONT_BOLD, FALSE);
 	print_text(pc, font, text, align, l, r, t, b);
 	gtk_object_unref (GTK_OBJECT (font));
 }
@@ -501,14 +532,13 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal, time_t month,
 	/* Print the title, e.g. 'June 2001', in the top 16% of the area. */
 	format_date (month, titleflags, buf, 100);
 	header_size = (top - bottom) * 0.16;
-	font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, FALSE,
-				       header_size * 0.8);
+	font = get_font_for_size (header_size, GNOME_FONT_BOLD, FALSE);
 	if (bordertitle) {
 		print_border (pc, left, right, top, top - header_size,
 			      1.0, 0.9);
 	}
 	print_text (pc, font, buf, ALIGN_CENTER, left, right,
-		    top - header_size * 0.1, top - header_size);
+		    top, top - header_size);
 	gtk_object_unref (GTK_OBJECT (font));
 
 	top -= header_size;
@@ -523,24 +553,21 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal, time_t month,
 
 	/* First we need to calculate a reasonable font size. We start with a
 	   rough guess of just under the height of each row. */
-	font_size = row_height * 0.9;
+	font_size = row_height;
 
 	/* Check that it isn't going to be too wide. The characters are about
 	   twice as high as they are wide, but we need to fit two characters
 	   into each cell, so we don't want to go over col_width. */
 	max_font_size = col_width * 0.65;
 
-	font_size = MIN (font_size, max_font_size);
-
+	font_size = row_height;
 
 	/* get month days */
 	tm = *convert_timet_to_struct_tm (month, zone);
 	build_month (tm.tm_mon, tm.tm_year + 1900, days, 0, 0);
 
-	font_normal = gnome_font_new_closest ("Times", GNOME_FONT_BOOK, 0,
-					      font_size);
-	font_bold = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, 0,
-					    font_size);
+	font_normal = get_font_for_size (font_size, GNOME_FONT_BOOK, FALSE);
+	font_bold = get_font_for_size (font_size, GNOME_FONT_BOLD, FALSE);
 
 	/* Get a reasonable estimate of the largest number we will need,
 	   and use it to calculate the offset from the right edge of the
@@ -738,20 +765,16 @@ print_day_background (GnomePrintContext *pc, GnomeCalendar *gcal,
 	/* Calculate the row height. */
 	yinc = (top - bottom) / (pdi->end_hour - pdi->start_hour);
 
-	/* Get the 2 fonts we need. */
+        /* Get the 2 fonts we need. */
 	font_size = yinc * 0.6;
 	max_font_size = width * 0.5;
-	font_size = MIN (font_size, max_font_size);
-	font_hour    = gnome_font_new_closest ("Times", GNOME_FONT_BOLD,
-					       0, font_size);
-	hour_font_size = gnome_font_get_size (font_hour);
+	hour_font_size = MIN (font_size, max_font_size);
+	font_hour = get_font_for_size (hour_font_size, GNOME_FONT_BOLD, FALSE);
 
 	font_size = yinc * 0.33;
 	max_font_size = width * 0.25;
-	font_size = MIN (font_size, max_font_size);
-	font_minute  = gnome_font_new_closest ("Times", GNOME_FONT_BOOK,
-					       0, font_size);
-	minute_font_size = gnome_font_get_size (font_minute);
+	minute_font_size = MIN (font_size, max_font_size);
+	font_minute = get_font_for_size (minute_font_size, GNOME_FONT_BOLD, FALSE);
 
 	use_24_hour = calendar_config_get_24_hour_format ();
 
@@ -1114,7 +1137,7 @@ print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 				       pdi.day_starts, &rows_in_top_display);
 
 	/* Print the long events. */
-	font = gnome_font_new_closest ("Times", GNOME_FONT_BOOK, 0, 12);
+	font = get_font_for_size (12, GNOME_FONT_BOOK, FALSE);
 	for (i = 0; i < pdi.long_events->len; i++) {
 		event = &g_array_index (pdi.long_events, EDayViewEvent, i);
 		print_day_long_event (pc, font, left, right, top, bottom,
@@ -1151,7 +1174,7 @@ print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 	/* Print the short events. */
 	max_font_size = ((top - bottom) / pdi.rows) - 4;
 	font_size = MIN (DAY_NORMAL_FONT_SIZE, max_font_size);
-	font = gnome_font_new_closest ("Times", GNOME_FONT_BOOK, 0, font_size);
+	font = get_font_for_size (font_size, GNOME_FONT_BOOK, FALSE);
 	for (i = 0; i < pdi.events[0]->len; i++) {
 		event = &g_array_index (pdi.events[0], EDayViewEvent, i);
 		print_day_event (pc, font, left, right, top, bottom,
@@ -1273,7 +1296,7 @@ print_week_long_event (GnomePrintContext *pc, GnomeFont *font,
 				    buffer, sizeof (buffer));
 
 		x1 += 4;
-		print_text (pc, font, buffer, ALIGN_LEFT, x1, x2, y1, y2);
+		print_text_size (pc, buffer, ALIGN_LEFT, x1, x2, y1, y2);
 		x1 += gnome_font_get_width_utf8 (font, buffer);
 	}
 
@@ -1292,13 +1315,13 @@ print_week_long_event (GnomePrintContext *pc, GnomeFont *font,
 				    buffer, sizeof (buffer));
 
 		x2 -= 4;
-		print_text (pc, font, buffer, ALIGN_RIGHT, x1, x2, y1, y2);
+		print_text_size (pc, buffer, ALIGN_RIGHT, x1, x2, y1, y2);
 		x2 -= gnome_font_get_width_utf8 (font, buffer);
 	}
 
 	x1 += 4;
 	x2 -= 4;
-	print_text (pc, font, text, ALIGN_CENTER, x1, x2, y1, y2);
+	print_text_size (pc, text, ALIGN_CENTER, x1, x2, y1, y2);
 }
 
 
@@ -1323,11 +1346,11 @@ print_week_day_event (GnomePrintContext *pc, GnomeFont *font,
 	e_time_format_time (&date_tm, psi->use_24_hour_format, FALSE,
 			    buffer, sizeof (buffer));
 
-	print_text (pc, font, buffer, ALIGN_LEFT, x1, x2, y1, y2);
+	print_text_size (pc, buffer, ALIGN_LEFT, x1, x2, y1, y2);
 	x1 += gnome_font_get_width_utf8 (font, buffer);
 
 	x1 += 4;
-	print_text (pc, font, text, ALIGN_LEFT, x1, x2, y1, y2);
+	print_text_size (pc, text, ALIGN_LEFT, x1, x2, y1, y2);
 }
 
 
@@ -1464,8 +1487,8 @@ print_week_view_background (GnomePrintContext *pc, GnomeFont *font,
 
 		strftime (buffer, sizeof (buffer), format_string, &tm);
 		utf_str = e_utf8_from_locale_string (buffer);
-		print_text (pc, font, utf_str, ALIGN_RIGHT,
-			    x1, x2 - 4, y1 - 2, y1 - 2 - font_size);
+		print_text_size (pc, utf_str, ALIGN_RIGHT,
+				 x1, x2 - 4, y1 - 2, y1 - 2 - font_size);
 		g_free (utf_str);
 	}
 }
@@ -1552,7 +1575,7 @@ print_week_summary (GnomePrintContext *pc, GnomeCalendar *gcal,
 	psi.rows_per_compressed_cell = (cell_height - psi.header_row_height)
 		/ psi.row_height;
 
-	font = gnome_font_new_closest ("Times", GNOME_FONT_BOOK, 0, font_size);
+	font = get_font_for_size (font_size, GNOME_FONT_BOOK, FALSE);
 
 	/* Draw the grid and the day names/numbers. */
 	print_week_view_background (pc, font, &psi, left, top,
@@ -1659,8 +1682,7 @@ print_month_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 	tm = *convert_timet_to_struct_tm (date, zone);
 	tm.tm_mday = (tm.tm_mday % 7) + 7;
 
-	font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, 0,
-				       MONTH_NORMAL_FONT_SIZE);
+	font = get_font_for_size (MONTH_NORMAL_FONT_SIZE, GNOME_FONT_BOLD, FALSE);
 	font_size = gnome_font_get_size (font);
 	gnome_print_setfont (pc, font);
 
@@ -1688,7 +1710,7 @@ print_month_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 
 		print_border (pc, x1, x2, y1, y2, 1.0, -1.0);
 		utf_str = e_utf8_from_locale_string (buffer);
-		print_text (pc, font, utf_str, ALIGN_CENTER, x1, x2, y1, y2);
+		print_text_size (pc, utf_str, ALIGN_CENTER, x1, x2, y1, y2);
 		g_free (utf_str);
 
 		tm.tm_mday++;
@@ -1724,8 +1746,7 @@ print_todo_details (GnomePrintContext *pc, GnomeCalendar *gcal,
 	model = e_calendar_table_get_model (task_pad);
 	client = gnome_calendar_get_task_pad_cal_client (gcal);
 
-	font_summary = gnome_font_new_closest ("Times", GNOME_FONT_BOOK,
-					       0, 10);
+	font_summary = get_font_for_size (10, GNOME_FONT_BOOK, FALSE);
 
 	gnome_print_setrgbcolor (pc, 0, 0, 0);
 	gnome_print_setlinewidth (pc, 0.0);
@@ -1927,12 +1948,12 @@ print_day_view (GnomePrintContext *pc, GnomeCalendar *gcal, time_t date,
 		/* Print the date, e.g. '8th May, 2001'. */
 		format_date (date, DATE_DAY | DATE_MONTH | DATE_YEAR,
 			     buf, 100);
-		print_text_size (pc, 24, buf, ALIGN_LEFT,
-				 left + 4, todo, top - 4, top - 4 - 24);
+		print_text_size_bold (pc, buf, ALIGN_LEFT,
+				      left + 4, todo, top - 4, top - 4 - 24);
 
 		/* Print the day, e.g. 'Tuesday'. */
 		format_date (date, DATE_DAYNAME, buf, 100);
-		print_text_size (pc, 18, buf, ALIGN_LEFT,
+		print_text_size_bold (pc, buf, ALIGN_LEFT,
 				 left + 4, todo, top - 32, top - 32 - 18);
 
 		gnome_print_showpage (pc);
@@ -1999,14 +2020,14 @@ print_week_view (GnomePrintContext *pc, GnomeCalendar *gcal, time_t date,
 
 	/* Print the start day of the week, e.g. '7th May 2001'. */
 	format_date (when, DATE_DAY | DATE_MONTH | DATE_YEAR, buf, 100);
-	print_text_size (pc, 24, buf, ALIGN_LEFT,
-			 left + 3, right, top - 4, top - 4 - 24);
-
+	print_text_size_bold (pc, buf, ALIGN_LEFT,
+			      left + 3, right, top - 4, top - 4 - 24);
+	
 	/* Print the end day of the week, e.g. '13th May 2001'. */
 	when = time_add_day_with_zone (when, 6, zone);
 	format_date (when, DATE_DAY | DATE_MONTH | DATE_YEAR, buf, 100);
-	print_text_size (pc, 24, buf, ALIGN_LEFT,
-			 left + 3, right, top - 24 - 3, top - 24 - 3 - 24);
+	print_text_size_bold (pc, buf, ALIGN_LEFT,
+			      left + 3, right, top - 24 - 3, top - 24 - 3 - 24);
 
 	gnome_print_showpage (pc);
 }
@@ -2045,8 +2066,8 @@ print_month_view (GnomePrintContext *pc, GnomeCalendar *gcal, time_t date,
 
 	/* Print the month, e.g. 'May 2001'. */
 	format_date (date, DATE_MONTH | DATE_YEAR, buf, 100);
-	print_text_size (pc, 24, buf, ALIGN_CENTER,
-			 left + 3, right - 3, top - 3, top - 3 - 24);
+	print_text_size_bold (pc, buf, ALIGN_CENTER,
+			      left + 3, right - 3, top - 3, top - 3 - 24);
 
 	gnome_print_showpage (pc);
 }
@@ -2066,8 +2087,8 @@ print_year_view (GnomePrintContext *pc, GnomeCalendar *gcal, time_t date,
 
 	/* centered title */
 	format_date (date, DATE_YEAR, buf, 100);
-	print_text_size (pc, 24, buf, ALIGN_CENTER,
-			 left+3, right, top-3, top - 27);
+	print_text_size_bold (pc, buf, ALIGN_CENTER,
+			      left+3, right, top-3, top - 27);
 
 	gnome_print_showpage (pc);
 }
@@ -2178,8 +2199,8 @@ print_date_label (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 	}
 
 	utf_text = e_utf8_from_locale_string (buffer);
-	print_text_size (pc, 12, utf_text, ALIGN_LEFT,
-			 left, right, top, top - 15);
+	print_text_size_bold (pc, utf_text, ALIGN_LEFT,
+			      left, right, top, top - 15);
 	g_free (utf_text);
 }
 
@@ -2207,7 +2228,7 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 		return;
 
 	/* Print the title in a box at the top of the page. */
-	font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, FALSE, 18);
+	font = get_font_for_size (18, GNOME_FONT_BOLD, FALSE);
 	header_size = 50;
 	print_border (pc, left, right, top, top - header_size,
 		      1.0, 0.9);
@@ -2218,7 +2239,7 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 	top -= header_size + 10;
 
 	/* Summary */
-	font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, FALSE, 18);
+	font = get_font_for_size (18, GNOME_FONT_BOLD, FALSE);
 	cal_component_get_summary (comp, &text);
 	top = bound_text (pc, font, text.value, left, right,
 			  top - 3, bottom, 0);
@@ -2228,7 +2249,7 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 	print_date_label (pc, comp, client, left, right, top-3, top - 15);
 	top -= 20;
 
-	font = gnome_font_new_closest ("Times", GNOME_FONT_BOOK, FALSE, 12);
+	font = get_font_for_size (12, GNOME_FONT_BOOK, FALSE);
 
 	/* For a VTODO we print the Status, Priority, % Complete and URL. */
 	if (vtype == CAL_COMPONENT_TODO) {

@@ -272,6 +272,7 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 {
 	EMeetingTimeSelector *mts;
 	EMeetingTimeSelectorItem *mts_item;
+	ETable *real_table;
 	EMeetingAttendee *ia;
 	gint day_x, meeting_start_x, meeting_end_x, bar_y, bar_height;
 	gint row, row_y, start_x, end_x;
@@ -284,6 +285,8 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	g_return_if_fail (mts != NULL);
 	gc = mts_item->main_gc;
 	stipple_gc = mts_item->stipple_gc;
+
+	real_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (mts->etable));	
 
 	is_display_top = (GTK_WIDGET (item->canvas) == mts->display_top)
 		? TRUE : FALSE;
@@ -335,7 +338,8 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		row = y / mts->row_height;
 		row_y = row * mts->row_height - y;
 		while (row < e_meeting_model_count_actual_attendees (mts->model) && row_y < height) {
-			gint model_row = e_meeting_model_etable_view_to_model_row (mts->model, row);
+			gint model_row = e_meeting_model_etable_view_to_model_row (real_table, 
+										   mts->model, row);
 
 			ia = e_meeting_model_find_attendee_at_row (mts->model, model_row);
 
@@ -648,7 +652,7 @@ e_meeting_time_selector_item_paint_busy_periods (EMeetingTimeSelectorItem *mts_i
 
 	/* Step through the attendees painting the busy periods. */
 	while (y < height && row < e_meeting_model_count_actual_attendees (mts->model)) {
-		model_row = e_meeting_model_etable_view_to_model_row (mts->model, row);
+		model_row = e_meeting_model_etable_view_to_model_row (real_table, mts->model, row);
 
 		/* Find the first visible busy period. */
 		first_period = e_meeting_time_selector_item_find_first_busy_period (mts_item, date, model_row);

@@ -1,3 +1,29 @@
+2002-03-05  JP Rosevear  <jpr@ximian.com>
+
+	* gui/print.c: remove unneeded parameter from print_text_size
+	everywhere
+	(get_font_for_size): calculate a font size based on the available
+	height
+	(print_text): calculate the top of where the font should be drawn
+	(print_text_size): use get_font_for_size
+	(print_day_background): use get_font_for_size
+
+2002-03-05  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-meeting-time-sel-item.c
+	(e_meeting_time_selector_item_draw): pass the real table
+	to e_meeting_model_etable_view_to_model_row
+	(e_meeting_time_selector_item_paint_busy_periods): ditto
+
+	* gui/dialogs/meeting-page.c (right_click_cb): ditto
+	
+	* gui/e-meeting-model.h: update protos
+
+	* gui/e-meeting-model.c
+	(e_meeting_model_etable_model_to_view_row): take in to account the
+	fact the table used the without model
+	(e_meeting_model_etable_view_to_model_row): ditto
+
 2002-03-04  Damon Chaplin  <damon@ximian.com>
 
 	* gui/tasks-control.c: added support for printing the Tasks table.

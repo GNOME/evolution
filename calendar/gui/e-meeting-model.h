@@ -112,8 +112,8 @@ void e_meeting_model_refresh_busy_periods (EMeetingModel *im,
 
 /* Helpful functions */
 ETableScrolled    *e_meeting_model_etable_from_model (EMeetingModel *im, const gchar *spec_file, const gchar *state_file);
-int e_meeting_model_etable_model_to_view_row (EMeetingModel *im, int model_row);
-int e_meeting_model_etable_view_to_model_row (EMeetingModel *im, int view_row);
+int e_meeting_model_etable_model_to_view_row (ETable *et, EMeetingModel *im, int model_row);
+int e_meeting_model_etable_view_to_model_row (ETable *et, EMeetingModel *im, int view_row);
 
 void e_meeting_model_invite_others_dialog (EMeetingModel *im);
 
