@@ -18,11 +18,11 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
   * Mailer
 
-    #22363 -- Problems resyncing IMAP folders when going Online.
-    #18929 -- If we get multiple Content-Type header values, change 
+    #22363 -- Problems resyncing IMAP folders when going Online.  (Jeff)
+    #18929 -- If we get multiple Content-Type header values, change
               subsequent headers to X-Invalid-Content-Type so it doesn't 
-              wreck processing.
-    #21716 -- Fixes to decoding illegally rfc2047 encoded words.
+              wreck processing.  (Michael)
+    #21716 -- Fixes to decoding illegally rfc2047 encoded words.  (Michael)
     
 
 Other fixes
@@ -36,9 +36,11 @@ Other fixes
   * Mailer
 
     - Fixed Daylight-Savings-Time calculations on systems that use 
-      tm.tm_gmtoff rather than 'timezone' (affects BSD systems).
+      tm.tm_gmtoff rather than 'timezone' (affects BSD systems).  (Jeff)
     - Fixed the annoying EINPROGRESS error dialogs when connecting 
-      to IMAP/SMTP/POP via SSL.
+      to IMAP/SMTP/POP via SSL.  (Jeff)
+    - Changed the date format used in From-lines in mbox spools to be 
+      the same as those used by Pine to fix interoperability issues.  (Michael)
 
   * Summary
 
