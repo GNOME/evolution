@@ -87,7 +87,6 @@ enum {
 static const int action_map[] = {
 	CAL_ALARM_DISPLAY,
 	CAL_ALARM_AUDIO,
-	CAL_ALARM_EMAIL,
 	CAL_ALARM_PROCEDURE,
 	-1
 };

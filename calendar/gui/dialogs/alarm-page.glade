@@ -198,7 +198,6 @@
 	    <can_focus>True</can_focus>
 	    <items>Display a message
 Play a sound
-Send an email
 Run a program
 </items>
 	    <initial_choice>0</initial_choice>

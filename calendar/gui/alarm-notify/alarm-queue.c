@@ -31,6 +31,9 @@
 #include <liboaf/liboaf.h>
 #include <libgnome/gnome-exec.h>
 #include <libgnome/gnome-sound.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-dialog-util.h>
+#include <libgnomeui/gnome-uidefs.h>
 #include <bonobo/bonobo-object.h>
 #include <cal-util/timeutil.h>
 #include "alarm.h"
@@ -94,6 +97,7 @@ static gpointer midnight_refresh_id = NULL;
 static void display_notification (time_t trigger, CompQueuedAlarms *cqa,
 				  gpointer alarm_id, gboolean use_description);
 static void audio_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id);
+static void mail_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id);
 static void procedure_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id);
 
 
@@ -251,8 +255,7 @@ alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
 		break;
 
 	case CAL_ALARM_EMAIL:
-		/* FIXME: mail_notification (); */
-		remove_queued_alarm (cqa, alarm_id);
+		mail_notification (trigger, cqa, alarm_id);
 		break;
 
 	case CAL_ALARM_PROCEDURE:
@@ -646,7 +649,6 @@ audio_notification (time_t trigger, CompQueuedAlarms *cqa,
 	CalComponent *comp;
 	CalComponentAlarm *alarm;
 	icalattach *attach;
-	const char *url;
 
 	comp = cqa->alarms->comp;
 	qa = lookup_queued_alarm (cqa, alarm_id);
@@ -658,27 +660,37 @@ audio_notification (time_t trigger, CompQueuedAlarms *cqa,
 	cal_component_alarm_get_attach (alarm, &attach);
 	cal_component_alarm_free (alarm);
 
-	/* If the alarm has no attachment, simply display a notification dialog. */
-	if (!attach)
-		goto fallback;
+	if (attach && icalattach_get_is_url (attach)) {
+		const char *url;
 
-	if (!icalattach_get_is_url (attach)) {
-		icalattach_unref (attach);
-		goto fallback;
+		url = icalattach_get_url (attach);
+		g_assert (url != NULL);
+
+		gnome_sound_play (url); /* this sucks */
 	}
 
-	url = icalattach_get_url (attach);
-	g_assert (url != NULL);
+	if (attach)
+		icalattach_unref (attach);
 
-	gnome_sound_play (url); /* this sucks */
-	icalattach_unref (attach);
+	/* We present a notification message in addition to playing the sound */
+	display_notification (trigger, cqa, alarm_id, FALSE);
+}
 
-	remove_queued_alarm (cqa, alarm_id);
-	return;
+/* Performs notification of a mail alarm */
+static void
+mail_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id)
+{
+	GtkWidget *dialog;
 
- fallback:
+	/* FIXME */
 
 	display_notification (trigger, cqa, alarm_id, FALSE);
+
+	dialog = gnome_warning_dialog (_("Evolution does not support calendar reminders with\n"
+					 "email notifications yet, but this reminder was\n"
+					 "configured to send an email.  Evolution will display\n"
+					 "a normal reminder dialog box instead."));
+	gnome_dialog_run (GNOME_DIALOG (dialog));
 }
 
 /* Performs notification of a procedure alarm */
@@ -691,6 +703,8 @@ procedure_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id
 	CalComponentText description;
 	icalattach *attach;
 	const char *url;
+	char *cmd, *str;
+	GtkWidget *dialog;
 	int result;
 
 	comp = cqa->alarms->comp;
@@ -716,18 +730,28 @@ procedure_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id
 	url = icalattach_get_url (attach);
 	g_assert (url != NULL);
 
-	if (description.value) {
-		char *argv[2];
+	/* Ask for confirmation before executing the stuff */
 
-		argv[0] = (char *) url;
-		argv[1] = (char *) description.value;
-		result = gnome_execute_async (NULL, 2, argv);
-	} else {
-		char *argv[1];
+	if (description.value)
+		cmd = g_strconcat (url, " ", description.value, NULL);
+	else
+		cmd = (char *) url;
 
-		argv[0] = (char *) url;
-		result = gnome_execute_async (NULL, 1, argv);
-	}
+	str = g_strdup_printf (_("An Evolution Calendar reminder is about to trigger.\n"
+				 "This reminder is configured to run the following program:\n\n"
+				 "        %s\n\n"
+				 "Are you sure you want to run this program?"),
+			       cmd);
+
+	dialog = gnome_question_dialog_modal (str, NULL, NULL);
+	g_free (str);
+
+	result = 0;
+	if (gnome_dialog_run (GNOME_DIALOG (dialog)) == GNOME_YES)
+		result = gnome_execute_shell (NULL, cmd);
+
+	if (cmd != (char *) url)
+		g_free (cmd);
 
 	icalattach_unref (attach);
 

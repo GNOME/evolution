@@ -1,3 +1,23 @@
+2001-09-19  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/alarm-notify/alarm-queue.c (audio_notification): Display a
+	notification message always, in addition to playing the sound.
+	(procedure_notification): Present a confirmation dialog before
+	actually running the alarm's program.
+	(procedure_notification): Use gnome_execute_shell() instead of
+	gnome_execute_async() so that we handle multiple arguments
+	properly.  Plus, it is most likely what the user expects.
+	(mail_notification): Display a message about unsupported email
+	reminders instead of blindly dropping the alarm.
+
+	* gui/dialogs/alarm-options.glade: Added an explanatory message
+	about mail alarms not being supported.
+
+	* gui/dialogs/alarm-page.glade: Removed the "Send an email"
+	option.
+
+	* gui/dialogs/alarm-page.c (action_map): Removed CAL_ALARM_EMAIL.
+
 2001-09-19  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/task-editor.c (init_widgets): listen for model

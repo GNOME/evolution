@@ -267,9 +267,9 @@ days
       <class>GtkLabel</class>
       <name>malarm-group</name>
       <visible>False</visible>
-      <label>FIXME: mail alarm options</label>
+      <label>This is an email reminder, but Evolution does not yet support this kind of reminders.  You will not be able to edit the options for this reminder.</label>
       <justify>GTK_JUSTIFY_CENTER</justify>
-      <wrap>False</wrap>
+      <wrap>True</wrap>
       <xalign>0.5</xalign>
       <yalign>0.5</yalign>
       <xpad>0</xpad>
