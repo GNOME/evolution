@@ -1,3 +1,22 @@
+2004-01-09  Not Zed  <NotZed@Ximian.com>
+
+	* em-format.c (em_format_format_text): keep the windows charset
+	filter around until we're done since if we set it up we reference
+	its memory.  Causes warnings and breaks message display.
+
+	** See bug #52637.
+	
+	* em-inline-filter.c (em_inline_filter_new): added a content-type
+	paramter for the base content type.
+	(em_inline_filter_finalize): free base content type.
+	(emif_types[]): Added 'plain' parameter, indicates type needs
+	plain parameters set on content type.
+	(emif_add_part): inherit the full base type if it is set, for
+	plain parts.
+
+	* em-format-html.c (efh_text_plain): pass the part's content-type
+	to the inline filter.
+
 2004-01-08  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #50786
