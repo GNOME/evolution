@@ -2,3 +2,8 @@ Makefile
 Makefile.in
 evolution-guide
 evolution-guide.junk
+evolution-guide.log
+evolution-guide.ps
+evolution-guide.dvi
+evolution-guide.tex
+fig/*.eps

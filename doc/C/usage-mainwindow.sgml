@@ -6,13 +6,14 @@
   <title>The Main Window: Evolution Basics</title>
   <para>
      Start <application>Evolution</application> by selecting
-     <guimenuitem>Evolution</guimenuitem> from the
-     <guisubmenu>Applications</guisubmenu> of the <guimenu>Main Panel
-     Menu</guimenu>, or by typing <command>evolution</command> at the
-     command-line.  The first time you run the program, it will create
-     a directory called <filename>evolution</filename> in your home
-     directory, where it will keep all your
-     <application>Evolution</application>-related files.
+     <menuchoice><guimenu>Main Panel Menu</guimenu>
+     <guisubmenu>Applications</guisubmenu>
+     <guimenuitem>Evolution</guimenuitem></menuchoice> or by typing
+     <command>evolution</command> at the command line.  The first time
+     you run the program, it will create a directory called
+     <filename>evolution</filename> in your home directory, where it
+     will keep all your <application>Evolution</application>-related
+     files.
    </para>
    <para>
      After <application>Evolution</application> starts
@@ -88,7 +89,7 @@
        </para>
     <para>
        Take a look at the <guilabel>Evolution Shortcuts</guilabel>
-       again.  They are:
+       again.  The shortcut buttons in that category are:
 
       <variablelist>
 
@@ -165,26 +166,39 @@
       </variablelist>
     </para>
     <para>
-      If you prefer to use a keyboard shortcut, or <glossterm>hot
-      key</glossterm>, you can use those instead.  They're shown next
-      to their equivalent menu items in the menu bar. You can also set
-      your own hot keys for functions that don't have any; this is
-      covered in <xref linkend="config">.  If you're using the
+      If you don't like the shortcut bar, you can use keyboard
+      shortcuts, or <glossterm>hot keys</glossterm>.  They're shown
+      next to their equivalent menu items in the menu bar. You can
+      also set your own hot keys for functions that don't have any;
+      this is covered in <xref linkend="config">.  If you're using the
       keyboard shortcuts you may also want to hide the
-      <interface>shortcut bar</interface> by selecting 
-      <menuchoice> <guimenu>View</guimenu> <guimenuitem>Show Shortcut
+      <interface>shortcut bar</interface> by selecting <menuchoice>
+      <guimenu>View</guimenu> <guimenuitem>Show Shortcut
       Bar</guimenuitem> </menuchoice>.
     </para>
 
     <tip>
-       <title>Two Shortcut Bar Tricks</title>
+       <title>Shortcut Bar Tricks</title>
        <para>
          To remove a shortcut from the shortcut bar, right-click on it
-         and select <guimenuitem>Remove</guimenuitem>.  </para>
+         and select <guimenuitem>Remove</guimenuitem>.  To add one,
+         select <menuchoice> <guimenu>File</guimenu>
+         <guisubmenu>New</guisubmenu> <guimenuitem>Evolution Bar
+         Shortcut</guimenuitem> </menuchoice>. </para>
        <para>
          To change the way the shortcut bar looks, right-click in an
          empoy space on the shortcut bar.  From the menu that appears,
          you can select icon sizes.
+       </para>
+       <para>
+         You don't need the folder bar to move between folders. You
+         can use <menuchoice> <guimenu>File</guimenu> <guimenuitem>Go
+         to Folder...</guimenuitem> </menuchoice> to move to a
+         particular foder.  It's faster, however, to click on the
+         <guilabel>Inbox</guilabel> label just below the toolbar, to
+         the right of the shortcut bar, and select a folder from
+         there.  The <guilabel>Inbox</guilabel> label will change to
+         reflect your location in the folder tree.
        </para>
     </tip>
   </sect1>
@@ -200,18 +214,21 @@
       at the top, and branches downwards. On most computers, there
       will be three folders at the base.  The first one is
       <guilabel>VFolders</guilabel>, for virtual folders (discussed in
-      <xref linkend="usage-mail-organize-vfolders">.  The next one is
-      <guilabel>External Directories</guilabel>, for contact
-      directories stored on a network.  The most important one is
-      probably <guilabel>Local</guilabel>, which you can use to access
-      all the data that's stored on your computer.  If you click on
-      the plus sign plus sign next to the <guilabel>Local</guilabel>
-      folder, you'll see the contents:
+      <xref linkend="usage-mail-organize-vfolders">.  After that come
+      any <glossterm>IMAP</glossterm> mail folders you might have
+      available to you over your network.  The next folder is called
+      <guilabel>External Directories</guilabel>, and holds
+      <glossterm>LDAP</glossterm> contact directories stored on a
+      network.  The most important one is probably
+      <guilabel>Local</guilabel>, which you can use to access all the
+      data that's stored on your computer.  If you click on the plus
+      sign plus sign next to the <guilabel>Local</guilabel> folder,
+      you'll see the contents:
       <itemizedlist>
 	 <listitem>
 	    <para>
-	      <guilabel>Calendar</guilabel>, for appointments and
-	      event listings.
+	     <guilabel>Calendar</guilabel>, for appointments and
+	     event listings.
 	   </para>
 	 </listitem> 
 	 <listitem>

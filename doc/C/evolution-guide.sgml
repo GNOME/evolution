@@ -48,7 +48,7 @@
         <citetitle>GNU General Public License</citetitle>, or GPL.
       </para>
       <para>
-        The licenses are included with this document in <xref
+        These licenses are included with this document in <xref
         linkend="fdl">, and <xref linkend="gpl">; you may also obtain
         a copy from the Free Software Foundation by visiting <ulink
         type="http" url="http://www.fsf.org">their Web site</ulink> or
@@ -102,11 +102,11 @@
         <application>Evolution</application> is highly configurable.
         Usually, when developers say that, they mean that they didn't
         test it out thoroughly and have left it to other hackers to
-        "configure" themselves a working system.  When we say
-        configurable, we mean that although
-        <application>Evolution</application> will work perfectly well
-        with minimal setup hassle, you can alter its behavior to fit
-        your needs with just a little more work.
+        "configure" themselves a working system.  But in the case of
+        <application>Evolution</application>, you can expect that it
+        will work perfectly well with minimal setup hassle, and that
+        you can alter its behavior to fit your needs with just a
+        little more work.
       </para>
     </partintro>
 

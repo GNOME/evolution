@@ -1,3 +1,16 @@
+2000-08-31  Aaron Weber  <aaron@helixcode.com>
+
+	* C/preface.sgml: Added "quickref and pointers" sections. Props to
+	  O'Reilly for the copy of Outlook in a Nutshell which gave me the
+	  idea.
+
+2000-08-30  Aaron Weber  <aaron@helixcode.com>
+
+	* C/usage-mainwindow.sgml: Minor fixes.
+
+	* C/preface.sgml: Corrected grammar, added glossterms, described
+	menuref.
+
 2000-08-25  Aaron Weber  <aaron@helixcode.com>
 
 	* C/usage-mail.sgml: Redid filter and vFolder assistant

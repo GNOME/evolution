@@ -1,10 +1,13 @@
-<!-- <!DOCTYPE preface PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">  -->
+<!--
+<!DOCTYPE preface PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
+-->
+
   <preface id="introduction">
 <!-- =============Introduction ============================= -->
     <title>Introduction</title> 
 
-    <section id="what"> 
-      <title> What is Evolution, and What Can It Do for Me?</title>
+    <sect1 id="what"> 
+      <title>What is Evolution, and What Can It Do for Me?</title>
       <para>
         The word "evolution" means "a process of improvement and
         development."  The GNOME application
@@ -17,8 +20,7 @@
         <application>Evolution</application> is free software.  The
         program and its source code are released under the terms of
         the GNU Public License (GPL), and the documentation falls
-        under the Free Documentation License (FDL), which is included
-        with this document (<xref linkend="fdl">).  For more
+        under the Free Documentation License (FDL).  For more
         information about the GPL and the FDL, visit the Free Software
         Foundation's website at <ulink
         url="http://www.fsf.org">http://www.fsf.org</ulink>.
@@ -75,18 +77,17 @@
                to turn <application>Evolution</application> into an
                advanced development platform.  From the simplest
                scripting to the most complex network and component
-               programming, <application>Evolution</application>
-               needed to offer developers an environment for
-               cutting-edge application development.
+               programming, <application>Evolution</application> must
+               to offer developers an environment for cutting-edge
+               application development.
             </para>
 	  </listitem>
 	  <listitem>
 	    <para>
                Data must be safe: <application>Evolution</application>
-               must not lose mail or corrupt mailbox files.  It will
-               not execute scripts, automatically forward a virus to
-               your entire contacts list, or delete files from your
-               hard disk.
+               must not not lose mail, corrupt mailbox files or other
+               data, execute arbitrary scripts, or delete files from
+               your hard disk.
             </para>
           </listitem>
 	</itemizedlist>
@@ -105,9 +106,9 @@
         folders.
       </para>
 
-    </section>
+  </sect1>
 
-    <section id="aboutbook">
+  <sect1 id="aboutbook">
       <title>About This Book</title>
     <!-- ************** FOLLOWING PARAGRAPH FOR DRAFT ONLY ************* -->
       <para>
@@ -119,21 +120,26 @@
         guide to <email>aaron@helixcode.com</email>. If you would like
         to work on the guide please contact me or see the GNOME
         Documentation project <ulink
-        url="http://www.gnome.org/gdp">web site</ulink>.  This
-        paragraph will be removed in later versions of the manual.
+        url="http://developer.gnome.org/projects/gdp">web
+        site</ulink>.  This paragraph will be removed in later
+        versions of the manual.
       </para>
     <!-- ************* END DRAFT ONLY PARAGRAPH ************** -->
 
       <para>
-        This book is divided into two sections. The first section is a
-        <link linkend="usage">guided tour</link>&mdash; it will
-        explain how to use <application>Evolution</application>.  If
-        you are new to <application>Evolution</application> or to
-        groupware in general, this is the section for you. The second
-        section, covering <link linkend="config">configuration</link>,
-        is targeted at more advanced users, but anyone who wants to
+        This book is divided into two parts, with several
+        appendicies. The first part is a <link linkend="usage">guided
+        tour</link>&mdash; it will explain how to use
+        <application>Evolution</application>.  If you are new to
+        <application>Evolution</application> or to groupware in
+        general, this is the section for you. The second section,
+        covering <link linkend="config">configuration</link>, is
+        targeted at more advanced users, but anyone who wants to
         change the way <application>Evolution</application> looks or
-        acts can benefit from reading it.
+        acts can benefit from reading it.  In addition, there is a
+        comprehensive <link linkend="menuref">menu
+        reference</link> which describes nearly every capability that
+        <application>Evolution</application> has to offer.
       </para>
       <formalpara>
         <title>Typographical conventions</title>
@@ -154,11 +160,238 @@
 	    <member><guibutton>Buttons</guibutton> you can click</member>
             <member><userinput>Anything you type in</userinput></member>
 	    <member><computeroutput>Text output from a computer</computeroutput></member>
-
+            <member><glossterm>Words</glossterm> that are defined 
+                    in <xref linkend="apx-gloss">.</member>
 	  </simplelist>
         </para>
       </formalpara>
-    </section>
+  </sect1>
+  <sect1 id="commontasks">
+    <title>A Quick Reference to Common Tasks</title>
+    <para>
+        You might want to copy the next few pages and tape them to the
+        wall next to your computer: They contain a very short run-down
+        of most of the things you'll want to do with
+        <application>Evolution</application>, and pointers to the
+        sections of the book where you'll find more in-depth
+        description of those tasks.
+    </para>
+    <sect2 id="quickref-newthings">
+      <title>Opening or Creating Anything</title>
+      <para>
+         Here are the keyboard shortcuts and menu items you're most
+         likely to use: (Please note that the shortcuts listed are
+         probably wrong at this point).
+         
+          <variablelist>
+
+	  <varlistentry>
+	    <term>Create a new folder</term>
+	    <listitem>
+	      <para>
+                <menuchoice><guimenu>File</guimenu><guisubmenu>New</guisubmenu>
+                <guimenuitem>Folder</guimenuitem></menuchoice> or
+                <keycombo action="simul">
+		  <keycap>Ctrl</keycap>
+		  <keycap>Shift </keycap>
+		  <keycap>F</keycap>
+                </keycombo>
+                </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Create a new Shortcut in the Evolution Bar</term>
+	    <listitem>
+	      <para>       
+                  <menuchoice><guimenu>File</guimenu>
+		  <guisubmenu>New</guisubmenu>
+		  <guimenuitem>Evolution Bar Shortcut</guimenuitem> </menuchoice> or 
+                <keycombo action="simul">
+		  <keycap>Ctrl</keycap>
+		  <keycap>Shift</keycap>
+		  <keycap>S</keycap>
+                </keycombo>
+                </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Create a new email message:</term>
+	    <listitem>
+	      <para>
+                Use
+                <menuchoice><guimenu>File</guimenu><guisubmenu>New</guisubmenu><guimenuitem>Mail
+                Message</guimenuitem>  </menuchoice> or 
+                <keycombo action="simul">
+		  <keycap>Ctrl</keycap>
+		  <keycap>Shift </keycap>
+		  <keycap>M</keycap>
+                </keycombo>
+              </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Create a new Appointment</term>
+	    <listitem>
+	      <para>       
+                  <menuchoice><guimenu>File</guimenu>
+		  <guisubmenu>New</guisubmenu>
+		  <guimenuitem>Appointment</guimenuitem> </menuchoice>  or 
+                <keycombo action="simul">
+		  <keycap>Ctrl</keycap>
+		  <keycap>Shift</keycap>
+		  <keycap>A</keycap>
+                </keycombo>
+                </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Create a new Task</term>
+	    <listitem>
+	      <para>       
+                  <menuchoice><guimenu>File</guimenu>
+		  <guisubmenu>New</guisubmenu>
+		  <guimenuitem>Task</guimenuitem>  </menuchoice> or 
+                <keycombo action="simul">
+		  <keycap>Ctrl</keycap>
+		  <keycap>Shift</keycap>
+		  <keycap>T</keycap>
+                </keycombo>
+                </para>
+	    </listitem>
+	  </varlistentry>
+
+
+	  <varlistentry>
+	    <term>Enter a new Contact</term>
+	    <listitem>
+	      <para>       
+                  <menuchoice><guimenu>File</guimenu>
+		  <guisubmenu>New</guisubmenu>
+		  <guimenuitem>Contact</guimenuitem> </menuchoice>  or 
+                <keycombo action="simul">
+		  <keycap>Ctrl</keycap>
+		  <keycap>Shift</keycap>
+		  <keycap>C</keycap>
+                </keycombo>
+                </para>
+	    </listitem>
+	  </varlistentry>
+
+
+	</variablelist>
+      </para>
+    </sect2> 
+    <sect2 id="quickref-mail">
+      <title>Mail Tasks</title>
+      <para>
+        Here are the most frequent email tasks:
+         <variablelist>
+	  <varlistentry>
+	    <term>Check Mail</term>
+	    <listitem>
+	      <para>
+                Click <guibutton>Get Mail</guibutton> in the toolbar, or press 
+                <keycombo action="simul">
+		  <keycap>FIXME</keycap>
+		  <keycap>FIXME</keycap>
+		  <keycap>FIXME</keycap>
+                </keycombo>
+                </para>
+	    </listitem>
+	  </varlistentry>
+
+          <varlistentry>
+	    <term>Reply to Message</term>
+	    <listitem>
+	      <para>
+                Select the message to which you want to reply, and
+                click Click <guibutton>Reply</guibutton> in the
+                toolbar, or press
+                <keycombo action="simul">
+		  <keycap>FIXME</keycap>
+		  <keycap>FIXME</keycap>
+		  <keycap>FIXME</keycap>
+                </keycombo>
+                </para>
+	    </listitem>
+	  </varlistentry>
+	  
+          <varlistentry>
+	    <term>Forward Message</term>
+	    <listitem>
+	      <para>
+                Select the message you want to forward, and
+                click Click <guibutton>Forward</guibutton> in the
+                toolbar, or press
+                <keycombo action="simul">
+		  <keycap>FIXME</keycap>
+		  <keycap>FIXME</keycap>
+		  <keycap>FIXME</keycap>
+                </keycombo>
+                </para>
+	    </listitem>
+	  </varlistentry>
+
+          <varlistentry>
+	    <term>Create Filters and vFolders</term>
+	    <listitem>
+	      <para>
+                You can create filters and vFolders based on specific
+                message attributes by right-clicking on a message or
+                by selecting <menuchoice> <guimenu>Tools</guimenu>
+                <guimenuitem>Mail Filters</guimenuitem> </menuchoice>
+                or <menuchoice> <guimenu>Tools</guimenu>
+                <guimenuitem>vFolder Editor</guimenuitem>
+                </menuchoice>.  Filters are discussed in <xref
+                linkend="usage-mail-organize-filters">, and vFolders
+                in <xref linkend="usage-mail-organize-vfolders">.
+            </para>
+	    </listitem>
+	</varlistentry>
+	</variablelist>
+
+        </para>
+      </sect2>
+      <sect2 id="quickref-cal">
+        <title>Calendar</title>
+        <para>
+
+
+        <variablelist>
+	  <varlistentry>
+	    <term></term>
+	    <listitem>
+	      <para>
+               </para>
+	    </listitem>
+	    </varlistentry>
+	  </variablelist>
+
+        </para>
+      </sect2>
+      <sect2 id="quickref-contact">
+        <title>Contact Manager</title>
+        <para>
+
+
+        <variablelist>
+	  <varlistentry>
+	    <term></term>
+	    <listitem>
+	      <para>
+               </para>
+	    </listitem>
+	    </varlistentry>
+	  </variablelist>
+
+
+        </para>
+      </sect2>
+    </sect1>
   </preface>
 
 
