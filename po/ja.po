@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-05-23 01:39+0900\n"
-"PO-Revision-Date: 2004-05-23 01:28+0900\n"
+"POT-Creation-Date: 2004-05-23 10:55+0900\n"
+"PO-Revision-Date: 2004-05-23 10:54+0900\n"
 "Last-Translator: Takeshi AIHANA <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -9427,7 +9427,7 @@ msgstr "ホストの検索に失敗しました: スレッドを生成できま�
 #: camel/camel-service.c:798
 #, c-format
 msgid "Host lookup failed: %s: host not found"
-msgstr "ホストの検索に失敗しました: %s: ホストは見つかりません"
+msgstr "ホストの検索に失敗しました: %s: ホストが見つかりません"
 
 #: camel/camel-service.c:801
 #, c-format
@@ -9440,7 +9440,7 @@ msgstr "アドレスの解決中"
 
 #: camel/camel-service.c:924
 msgid "Host lookup failed: host not found"
-msgstr "ホストの検索に失敗しました: ホストは見つかりません"
+msgstr "ホストの検索に失敗しました: ホストが見つかりません"
 
 #: camel/camel-service.c:927
 msgid "Host lookup failed: unknown reason"
@@ -13518,7 +13518,7 @@ msgstr "メッセージの整形"
 #: mail/em-format-html.c:1523 mail/em-format-quote.c:309
 #: mail/em-mailer-prefs.c:930
 msgid "Mailer"
-msgstr "メール・クライアント"
+msgstr "メーラー"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
 #: mail/em-format-html.c:1550
@@ -13559,7 +13559,7 @@ msgstr "転送中に改鼠されているので、このメッセージの署名
 
 #: mail/em-format-html-display.c:647
 msgid "Valid signature, cannot verify sender"
-msgstr "署名妥当ですが、差出人を検証できません"
+msgstr "署名は妥当ですが、差出人を検証できません"
 
 #: mail/em-format-html-display.c:647
 msgid ""
@@ -15899,22 +15899,22 @@ msgstr "完了しました"
 
 #: mail/mail-ops.c:804
 msgid "Saving message to folder"
-msgstr "フォルダへメッセージを保存中"
+msgstr "フォルダへメッセージを保存"
 
 #: mail/mail-ops.c:889
 #, c-format
 msgid "Moving messages to %s"
-msgstr "%s へメッセージを移動中"
+msgstr "%s へメッセージを移動"
 
 #: mail/mail-ops.c:889
 #, c-format
 msgid "Copying messages to %s"
-msgstr "%s へメッセージをコピー中"
+msgstr "%s へメッセージをコピー"
 
 #: mail/mail-ops.c:1002
 #, c-format
 msgid "Scanning folders in \"%s\""
-msgstr "\"%s\" の中のフォルダを走査中"
+msgstr "\"%s\" の中のフォルダを走査"
 
 #: mail/mail-ops.c:1115
 msgid "Forwarded messages"
@@ -15923,12 +15923,12 @@ msgstr "転送メッセージ"
 #: mail/mail-ops.c:1158
 #, c-format
 msgid "Opening folder %s"
-msgstr "フォルダ %s をオープンする"
+msgstr "フォルダ %s をオープン"
 
 #: mail/mail-ops.c:1230
 #, c-format
 msgid "Opening store %s"
-msgstr "保存された %s をオープンする"
+msgstr "保存された %s をオープン"
 
 #: mail/mail-ops.c:1308
 #, c-format
@@ -15952,11 +15952,11 @@ msgstr "アカウント '%s' の格納"
 
 #: mail/mail-ops.c:1523
 msgid "Refreshing folder"
-msgstr "フォルダを更新中"
+msgstr "フォルダを更新"
 
 #: mail/mail-ops.c:1559 mail/mail-ops.c:1610
 msgid "Expunging folder"
-msgstr "フォルダを抹消中"
+msgstr "フォルダを抹消"
 
 #: mail/mail-ops.c:1607
 #, c-format
@@ -16634,7 +16634,7 @@ msgstr ""
 #: shell/e-shell-window.c:621
 #, c-format
 msgid "Switch to %s"
-msgstr "%s へ切り替え"
+msgstr "\"%s\" へ切り替えます"
 
 #: shell/e-shell-window-commands.c:64
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
