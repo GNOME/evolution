@@ -4,7 +4,7 @@
 <glade-interface>
 
 <widget class="GtkWindow" id="account-add-window">
-  <property name="title" translatable="yes">Add Contacts Group</property>
+  <property name="title" translatable="yes">Add Address Book</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>

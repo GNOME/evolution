@@ -1,3 +1,11 @@
+2004-07-26  JP Rosevear  <jpr@novell.com>
+ 
+ 	* gui/component/ldap-config.glade: change contacts group to
+ 	address book
+ 
+ 	* gui/component/addressbook-component.c
+ 	(impl__get_userCreatableItems): ditto
+	
 2004-07-19  Radek Doulik  <rodo@ximian.com>
 
 	* gui/widgets/eab-vcard-control.c (eab_vcard_control_new): but
