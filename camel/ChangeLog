@@ -1,3 +1,21 @@
+2001-01-04  JP Rosevear  <jpr@helixcode.com>
+
+	* tests/lib/Makefile.am: fix includes for compilation
+
+	* tests/message/Makefile.am: Build test3 again
+
+	* tests/message/test2.c: Kill warnings with header includes
+
+	* tests/message/test3.c: ditto
+
+	* tests/lib/streams.c: ditto
+
+	* tests/lib/camel-test.c: ditto
+
+	* tests/lib/messages.c: ditto
+
+	* tests/lib/folders.c: ditto
+
 2001-01-04  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (imap_rescan): Fix two
