@@ -1,5 +1,24 @@
 2000-11-01  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* filter-driver.c (filter_driver_filter_message): Use
+	filter_driver_log() where appropriate.
+	(do_copy): Use the service url for the path rather than the
+	folder->full_name because that'll only get you a "/mbox" which is
+	entirely useless. Replace occurences of report_status with
+	filter_driver_log.
+	(do_move): Same.
+	(report_status): Don't use this for logging anymore, use only for
+	reporting the status back to the caller.
+	(filter_driver_log): Renamed from filter_driver_status_log. Now
+	ONLY handles file logging and is for INTERNAL USE ONLY.
+	(do_flag): Replace occurences of report_status with
+	filter_driver_log.
+	(do_score): Same.
+	(do_colour): Same.
+	(do_stop): Same.
+
+2000-11-01  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* filter-datespec.c (validate): Check to make sure the user has
 	entered a valid date.
 
