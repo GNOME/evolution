@@ -100,19 +100,19 @@ enum {
 };
 const struct {
 	const char *name;
-	CamelMimePartEncodingType type;
+	CamelTransferEncoding type;
 } emif_types[] = {
-	{ "text/plain", CAMEL_MIME_PART_ENCODING_DEFAULT, },
-	{ "application/octet-stream", CAMEL_MIME_PART_ENCODING_UUENCODE, },
-	{ "application/mac-binhex40", CAMEL_MIME_PART_ENCODING_7BIT, },
-	{ "application/postscript", CAMEL_MIME_PART_ENCODING_7BIT, },
-	{ "text/plain", CAMEL_MIME_PART_ENCODING_7BIT, },
+	{ "text/plain", CAMEL_TRANSFER_ENCODING_DEFAULT, },
+	{ "application/octet-stream", CAMEL_TRANSFER_ENCODING_UUENCODE, },
+	{ "application/mac-binhex40", CAMEL_TRANSFER_ENCODING_7BIT, },
+	{ "application/postscript", CAMEL_TRANSFER_ENCODING_7BIT, },
+	{ "text/plain", CAMEL_TRANSFER_ENCODING_7BIT, },
 };
 
 static void
 emif_add_part(EMInlineFilter *emif, const char *data, int len)
 {
-	CamelMimePartEncodingType type;
+	CamelTransferEncoding type;
 	CamelStream *mem;
 	CamelDataWrapper *dw;
 	CamelMimePart *part;
@@ -309,7 +309,7 @@ emif_reset(CamelMimeFilter *f)
  * Return value: 
  **/
 EMInlineFilter *
-em_inline_filter_new(CamelMimePartEncodingType base_encoding)
+em_inline_filter_new(CamelTransferEncoding base_encoding)
 {
 	EMInlineFilter *emif;
 

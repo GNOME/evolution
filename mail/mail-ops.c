@@ -1927,7 +1927,7 @@ save_prepare_part (CamelMimePart *mime_part)
 			/* We want to save textual parts as 8bit instead of encoded */
 			type = camel_data_wrapper_get_mime_type_field (wrapper);
 			if (camel_content_type_is (type, "text", "*"))
-				camel_mime_part_set_encoding (mime_part, CAMEL_MIME_PART_ENCODING_8BIT);
+				camel_mime_part_set_encoding (mime_part, CAMEL_TRANSFER_ENCODING_8BIT);
 		}
 	}
 }

@@ -1,5 +1,15 @@
 2003-09-18  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-inline-filter.c: updated for CamelTransferEncoding namespace
+	changes
+
+	* em-inline-filter.h: updated for CamelTransferEncoding namespace
+	changes
+
+	* mail-ops.c: updated for CamelTransferEncoding namespace changes
+
+2003-09-18  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* component-factory.c: updated for camel namespace changes
 
 	* em-folder-view.c: updated for camel namespace changes
