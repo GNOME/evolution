@@ -1,3 +1,20 @@
+2002-06-25  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #10681, Incorrect behavior when deleting a hierarchy of local
+	folders.]
+
+	* e-local-storage.c: Change the ASyncRemoveFolderCallbackData
+	struct to have only storage and next_paths_to_delete members.
+	(remove_folder_step): New.
+	(component_async_remove_folder_callback): Start deletion for the
+	next path in next_paths_to_delete, so we handle recursion
+	properly.
+	(create_subfolder_list): New.
+	(remove_folder): Create the list with create_subfolder_list,
+	initialize the ASyncRemoveFolderCallbackData with the
+	next_paths_to_delete list and do the first deletion.  This way we
+	handle recursion properly.
+
 2002-06-26  Iain <iain@ximian.com>
 
 	* e-shell-importer.c (show_import_wizard): Only let the dialog be
@@ -31,6 +48,8 @@
 	list.
 	
 2002-06-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-local-storage.c (remove_folder): Removed arg @physical_uri.
 
 	* e-shell-folder-selection-dialog.c (impl_clicked): Pass
 	default_type to e_shell_show_folder_creation_dialog() properly.

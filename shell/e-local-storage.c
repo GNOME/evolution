@@ -449,9 +449,7 @@ create_folder (ELocalStorage *local_storage,
 
 struct _AsyncRemoveFolderCallbackData {
 	EStorage *storage;
-
-	char *path;
-	char *physical_path;
+	GList *next_paths_to_delete;
 };
 typedef struct _AsyncRemoveFolderCallbackData AsyncRemoveFolderCallbackData;
 
@@ -500,55 +498,139 @@ remove_folder_directory (ELocalStorage *local_storage,
 	return E_STORAGE_OK;
 }
 
+static gboolean remove_folder_step (AsyncRemoveFolderCallbackData *callback_data);
+
 static void
 component_async_remove_folder_callback (EvolutionShellComponentClient *shell_component_client,
 					EvolutionShellComponentResult result,
 					void *data)
 {
+	ELocalStoragePrivate *priv;
 	AsyncRemoveFolderCallbackData *callback_data;
 	EStorageResult storage_result;
+	gboolean success;
+	const char *path;
 
 	callback_data = (AsyncRemoveFolderCallbackData *) data;
+	priv = E_LOCAL_STORAGE (callback_data->storage)->priv;
+	path = (const char *) callback_data->next_paths_to_delete->data;
 
 	storage_result = shell_component_result_to_storage_result (result);
 
-	/* If result == HASSUBFOLDERS then recurse delete the subfolders dir? */
-
-	/* FIXME: Handle errors */
 	if (result == EVOLUTION_SHELL_COMPONENT_OK) {
-		ELocalStoragePrivate *priv;
+		result = remove_folder_directory (E_LOCAL_STORAGE (callback_data->storage), path);
+		e_storage_removed_folder (E_STORAGE (callback_data->storage), path);
 
-		priv = E_LOCAL_STORAGE (callback_data->storage)->priv;
+		g_print ("...Removed %s!\n", path);
 
-		result = remove_folder_directory (E_LOCAL_STORAGE (callback_data->storage),
-						  callback_data->path);
-
-		e_storage_removed_folder (E_STORAGE (callback_data->storage),
-					  callback_data->path);
-
-		evolution_storage_removed_folder (EVOLUTION_STORAGE (priv->bonobo_interface),
-						  callback_data->path);
+		evolution_storage_removed_folder (EVOLUTION_STORAGE (priv->bonobo_interface), path);
+	} else {
+		/* FIXME: Handle errors.  */
+		g_print ("...Error removing %s!\n", path);
 	}
 
 	bonobo_object_unref (BONOBO_OBJECT (shell_component_client));
 
-	g_free (callback_data->path);
-	g_free (callback_data->physical_path);
-	g_free (callback_data);
+	/* Now go on and delete the next subfolder in the list that still
+	   exists, deallocating the elements in the list in the process.  */
+	do {
+		char *path;
+
+		path = callback_data->next_paths_to_delete->data;
+		g_free (path);
+
+		callback_data->next_paths_to_delete
+			= g_list_remove_link (callback_data->next_paths_to_delete,
+					      callback_data->next_paths_to_delete);
+
+		/* Check if we are done.  */
+		if (callback_data->next_paths_to_delete == NULL) {
+			g_free (callback_data);
+			return;
+		}
+
+		/* Remove the folder; if the folder has disappeared from the
+		   tree for some reason (this is an async callback!), just go
+		   on with the next one.  */
+		success = remove_folder_step (callback_data);
+	} while (! success);
+}
+
+static gboolean
+remove_folder_step (AsyncRemoveFolderCallbackData *callback_data)
+{
+	EvolutionShellComponentClient *client;
+	ELocalStoragePrivate *priv;
+	EFolder *folder;
+	const char *path;
+	const char *type;
+	char *physical_path;
+	char *physical_uri;
+
+	g_assert (callback_data->next_paths_to_delete != NULL);
+	path = (const char *) callback_data->next_paths_to_delete->data;
+
+	folder = e_storage_get_folder (callback_data->storage, path);
+	if (folder == NULL)
+		return FALSE;
+
+	priv = E_LOCAL_STORAGE (callback_data->storage)->priv;
+
+	physical_path = e_path_to_physical (priv->base_path, path);
+	physical_uri = g_strconcat ("file://", physical_path, NULL);
+
+	type = e_folder_get_type_string (folder);
+	client = e_folder_type_registry_get_handler_for_type (priv->folder_type_registry, type);
+
+	bonobo_object_ref (BONOBO_OBJECT (client));
+
+	g_print ("Removing %s...\n", path);
+
+	evolution_shell_component_client_async_remove_folder (client, physical_uri, type,
+							      component_async_remove_folder_callback,
+							      callback_data);
+
+	g_free (physical_path);
+	g_free (physical_uri);
+
+	return TRUE;
+}
+
+static GList *
+create_subfolder_list (ELocalStorage *local_storage,
+		       const char *path)
+{
+	GList *subfolders;
+	GList *list;
+	GList *p;
+
+	subfolders = e_storage_get_subfolder_paths (E_STORAGE (local_storage), path);
+
+	list = NULL;
+	for (p = subfolders; p != NULL; p = p->next) {
+		char *path;
+
+		path = (char *) p->data;
+
+		list = g_list_concat (list, create_subfolder_list (local_storage, path));
+		list = g_list_append (list, path);
+	}
+
+	g_list_free (subfolders);
+
+	return list;
 }
 				
 static EStorageResult
 remove_folder (ELocalStorage *local_storage,
-	       const char *path,
-	       const char *physical_uri)
+	       const char *path)
 {
 	ELocalStoragePrivate *priv;
 	EStorage *storage;
 	AsyncRemoveFolderCallbackData *callback_data;
 	EvolutionShellComponentClient *component_client;
 	EFolder *folder;
-	char *physical_path, *physical_uri_mem = NULL;
-	GList *subfolder_paths;
+	GList *next_paths_to_delete;
 	GList *p;
 
 	priv = local_storage->priv;
@@ -564,30 +646,17 @@ remove_folder (ELocalStorage *local_storage,
 	if (component_client == NULL)
 		return E_STORAGE_INVALIDTYPE;
 
-	physical_path = e_path_to_physical (priv->base_path, path);
-
-	if (!physical_uri)
-		physical_uri = physical_uri_mem = g_strconcat ("file://", physical_path, NULL);
-
-	/* Recursively remove the subfolders */
-	subfolder_paths = e_storage_get_subfolder_paths (storage, path);
-
-	for (p = subfolder_paths; p; p = p->next)
-		remove_folder (local_storage, p->data, NULL);
+	next_paths_to_delete = create_subfolder_list (E_LOCAL_STORAGE (storage), path);
+	next_paths_to_delete = g_list_append (next_paths_to_delete, g_strdup (path));
 
 	callback_data = g_new (AsyncRemoveFolderCallbackData, 1);
-	callback_data->storage       = E_STORAGE (local_storage);
-	callback_data->path          = g_strdup (path);
-	callback_data->physical_path = physical_path;
+	callback_data->storage              = E_STORAGE (local_storage);
+	callback_data->next_paths_to_delete = next_paths_to_delete;
 
-	bonobo_object_ref (BONOBO_OBJECT (component_client));
-
-	evolution_shell_component_client_async_remove_folder (component_client,
-							      physical_uri,
-							      e_folder_get_type_string (folder),
-							      component_async_remove_folder_callback,
-							      callback_data);
-	g_free (physical_uri_mem);
+	if (! remove_folder_step (callback_data)) {
+		/* Eek, something wacky happened.  */
+		return EVOLUTION_SHELL_COMPONENT_UNKNOWNERROR;
+	}
 
 	return EVOLUTION_SHELL_COMPONENT_OK;
 }
@@ -654,7 +723,7 @@ impl_async_remove_folder (EStorage *storage,
 
 	local_storage = E_LOCAL_STORAGE (storage);
 
-	result = remove_folder (local_storage, path, NULL);
+	result = remove_folder (local_storage, path);
 
 	if (callback != NULL)
 		(* callback) (E_STORAGE (local_storage), result, data);
@@ -953,7 +1022,7 @@ bonobo_interface_remove_folder_cb (EvolutionStorage *storage,
 
 	local_storage = E_LOCAL_STORAGE (data);
 
-	return remove_folder (local_storage, path, physical_uri);
+	return remove_folder (local_storage, path);
 }
 
 static void
