@@ -1,3 +1,7 @@
+2001-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* C/topic.dat: s/usage-exec-summary.html/usage-summary.html.
+
 2001-10-22  Aaron Weber  <aaron@ximian.com>
 
 	* C/evolution.sgml: validation. SIlly me.
