@@ -1,3 +1,10 @@
+2001-05-14  Jon Trowbridge  <trow@ximian.com>
+
+	* mail-search.c (mail_search_construct): Put frame around dialog
+	vbox, put mail subject in that frame's label.  (Patch by Duncan.)
+	(mail_search_set_subject): Break out subject-setting code.
+	Truncate long subjects with ellipses.
+
 2001-05-14  Duncan Mak  <duncan@ximian.com>
 
 	* mail-search.c (mail_search_construct): set the dialog's
@@ -5,8 +12,8 @@
 
 2001-05-13  Iain Holmes  <iain@ximian.com>
 
-	* Makefile.am: Make the LDADD line longer so it actually compiles everything
-	correctly.
+	* Makefile.am: Make the LDADD line longer so it actually compiles
+	everything correctly.
 
 2001-05-14  Dan Winship  <danw@ximian.com>
 

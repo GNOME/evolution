@@ -105,6 +105,46 @@ mail_search_redisplay_message (MailSearch *ms)
 	mail_display_redisplay (ms->mail, FALSE);
 }
 
+static void
+mail_search_set_subject (MailSearch *ms, const gchar *subject)
+{
+	gchar *utf8_subject = NULL;
+	gchar *gtk_subject = NULL;
+
+	if (subject && *subject) {
+		
+		utf8_subject = g_strdup (subject);
+
+		if (g_utf8_validate (utf8_subject, -1, NULL)) {
+			
+			const gint ARBITRARY_CUTOFF = 40;
+
+			if (g_utf8_strlen (utf8_subject, -1) > ARBITRARY_CUTOFF) {
+				gchar *p = g_utf8_offset_to_pointer (utf8_subject, ARBITRARY_CUTOFF);
+				strcpy (p, "...");
+			}
+			
+		} else {
+			/* If the subject contains bad utf8, don't show anything in the frame label. */
+			g_free (utf8_subject);
+			utf8_subject = NULL;
+		}
+
+		if (utf8_subject)
+			gtk_subject = e_utf8_to_gtk_string (GTK_WIDGET (ms->msg_frame), utf8_subject);
+
+	} else {
+
+		gtk_subject = g_strdup (_("(Untitled Message)"));
+
+	}
+
+	gtk_frame_set_label (GTK_FRAME (ms->msg_frame), gtk_subject);
+
+	g_free (gtk_subject);
+	g_free (utf8_subject);
+}
+
 /*
  *  Construct Objects
  */
@@ -185,18 +225,7 @@ static void
 begin_cb (ESearchingTokenizer *st, gchar *foo, MailSearch *ms)
 {
 	gtk_label_set_text (GTK_LABEL (ms->count_label), "0");
-	
-#ifdef SUBJECT_IN_DIALOG
-	if (ms->mail->current_message->subject && *ms->mail->current_message->subject) {
-		gchar *msg_subject = e_utf8_to_gtk_string (GTK_WIDGET (ms->msg_label), 
-							   ms->mail->current_message->subject);
-		gtk_label_set_text (GTK_LABEL (ms->msg_label), msg_subject); /* Use the converted string */
-		g_free (msg_subject);
-	} else {
-		gtk_label_set_text (GTK_LABEL (ms->msg_label), _("(Untitled Message)"));
-	}
-#endif
-
+	mail_search_set_subject (ms, ms->mail->current_message->subject);
 }
 
 static void
@@ -218,18 +247,15 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 	GtkWidget *find_hbox;
 	GtkWidget *matches_hbox;
 	GtkWidget *toggles_hbox;
+	GtkWidget *frame_vbox;
 
 	GtkWidget *entry;
 	GtkWidget *count_label;
 	GtkWidget *case_check;
 	GtkWidget *fwd_check;
 
-#ifdef SUBJECT_IN_DIALOG
-	gchar *utf8_subject;
-	gchar *msg_subject;
 	GtkWidget *msg_hbox;
-	GtkWidget *msg_label;
-#endif
+	GtkWidget *msg_frame;
 
 	g_return_if_fail (ms != NULL && IS_MAIL_SEARCH (ms));
 	g_return_if_fail (mail != NULL && IS_MAIL_DISPLAY (mail));
@@ -240,13 +266,6 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 	gtk_object_ref (GTK_OBJECT (mail));
 
 	title = g_strdup (_("Find in Message")); 
-	
-#ifdef SUBJECT_IN_DIALOG
-	if (mail->current_message->subject && *mail->current_message->subject)
-		utf8_subject = g_strdup (mail->current_message->subject);
-	else
-		utf8_subject = g_strdup (_("(Untitled Message)"));
-#endif
 	
 	gnome_dialog_constructv (GNOME_DIALOG (ms), title, buttons);
 	g_free (title);
@@ -265,21 +284,16 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 
 	/* Construct the dialog contents. */
 	
-	/* msg_hbox     = gtk_hbox_new (FALSE, 0); */
+	msg_hbox     = gtk_hbox_new (FALSE, 0);
 	find_hbox    = gtk_hbox_new (FALSE, 0);
 	matches_hbox = gtk_hbox_new (FALSE, 0);
 	toggles_hbox = gtk_hbox_new (FALSE, 0);
+	frame_vbox   = gtk_vbox_new (FALSE, 0);
 
 	entry       = gtk_entry_new ();
 	count_label = gtk_label_new ("0");
 
-#ifdef SUBJECT_IN_DIALOG
-	msg_label   = gtk_label_new ("");	
-	msg_subject = e_utf8_to_gtk_string (GTK_WIDGET (msg_label), utf8_subject); 
-	gtk_label_set_text (GTK_LABEL (msg_label), msg_subject); /* Use converted string instead */
-	g_free (utf8_subject);
-	g_free (msg_subject);
-#endif
+	msg_frame   = gtk_frame_new (NULL);	
 
 	case_check  = gtk_check_button_new_with_label (_("Case Sensitive"));
 	fwd_check   = gtk_check_button_new_with_label (_("Search Forward"));
@@ -287,19 +301,20 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 	ms->entry       = entry;
 	ms->count_label = count_label;
 
-#ifdef SUBJECT_IN_DIALOG
-	ms->msg_label   = msg_label;
-#endif
+	ms->msg_frame   = msg_frame;
+
+	if (mail->current_message->subject && *mail->current_message->subject)
+		mail_search_set_subject (ms, mail->current_message->subject);
+	else
+		mail_search_set_subject (ms, NULL);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (fwd_check),  ms->search_forward);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (case_check), ms->case_sensitive);
-#ifdef SUBJECT_IN_DIALOG
-	/* gtk_box_pack_start (GTK_BOX (msg_hbox), gtk_label_new (_("Message subject:")), FALSE, FALSE, 3); */
-	gtk_box_pack_start (GTK_BOX (msg_hbox), msg_label, TRUE, TRUE, 0);
-#endif
-	gtk_box_pack_start (GTK_BOX (find_hbox), gtk_label_new (_("Find:")), FALSE, FALSE, 3);
-	gtk_box_pack_start (GTK_BOX (find_hbox), entry, TRUE, TRUE, 0);
 
+  	gtk_box_pack_start (GTK_BOX (msg_hbox), GTK_WIDGET (msg_frame), FALSE, FALSE, 3);
+
+	gtk_box_pack_start (GTK_BOX (find_hbox), gtk_label_new (_("Find:")), FALSE, FALSE, 3);
+	gtk_box_pack_start (GTK_BOX (find_hbox), entry, TRUE, TRUE, 3);
 	gtk_box_pack_start (GTK_BOX (matches_hbox), gtk_hbox_new (FALSE, 0), TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (matches_hbox), gtk_label_new (_("Matches:")), FALSE, FALSE, 3);
 	gtk_box_pack_start (GTK_BOX (matches_hbox), count_label, FALSE, FALSE, 0);
@@ -308,21 +323,21 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 	gtk_box_pack_start (GTK_BOX (toggles_hbox), case_check, FALSE, FALSE, 4);
 	gtk_box_pack_start (GTK_BOX (toggles_hbox), fwd_check,  FALSE, FALSE, 4);
 
-#ifdef SUBJECT_IN_DIALOG
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (ms)->vbox), msg_hbox, TRUE, TRUE, 0);
-#endif
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (ms)->vbox), find_hbox, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (ms)->vbox), matches_hbox, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (ms)->vbox), toggles_hbox, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (frame_vbox), find_hbox, TRUE, TRUE, 8);
+  	gtk_box_pack_start (GTK_BOX (frame_vbox), matches_hbox, TRUE, TRUE, 0); 
+  	gtk_box_pack_start (GTK_BOX (frame_vbox), toggles_hbox, TRUE, TRUE, 0);
+	
+	gtk_container_add (GTK_CONTAINER (GTK_FRAME (msg_frame)), GTK_WIDGET (frame_vbox));
+
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (ms)->vbox), msg_hbox, TRUE, TRUE, 0); 	
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (ms)->vbox), GTK_WIDGET (GTK_FRAME (msg_frame)), TRUE, TRUE, 0);
 
 	gtk_widget_grab_focus (entry); /* Give focus to entry by default */ 
 	gnome_dialog_set_default (GNOME_DIALOG (ms), 0); 
 	gnome_dialog_editable_enters (GNOME_DIALOG (ms), GTK_EDITABLE(entry)); /* Make <enter> run the search */
 	gnome_window_icon_set_from_file (GTK_WINDOW (GNOME_DIALOG (ms)), EVOLUTION_ICONSDIR "/find-message.xpm");
 
-#ifdef SUBJECT_IN_DIALOG
 	gtk_widget_show_all (msg_hbox);
-#endif
 	gtk_widget_show_all (find_hbox);
 	gtk_widget_show_all (matches_hbox);
 	gtk_widget_show_all (toggles_hbox);
