@@ -27,6 +27,7 @@ libcamel_la_SOURCES = 				\
 	camel-store.c				\
 	camel-stream.c				\
 	camel-stream-fs.c			\
+	camel-stream-mem.c			\
 	data-wrapper-repository.c		\
 	gmime-content-field.c			\
 	gmime-utils.c				\
@@ -50,6 +51,7 @@ libcamelinclude_HEADERS =			\
 	camel-store.h				\
 	camel-stream.h				\
 	camel-stream-fs.h			\
+	camel-stream-mem.h			\
 	data-wrapper-repository.h		\
 	gmime-content-field.h			\
 	gmime-utils.h				\

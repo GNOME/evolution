@@ -38,7 +38,12 @@ extern "C" {
 #define CAMEL_STREAM_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_STREAM_TYPE, CamelStreamClass))
 #define IS_CAMEL_STREAM(o)    (GTK_CHECK_TYPE((o), CAMEL_STREAM_TYPE))
 
-
+typedef enum
+{
+	CAMEL_STREAM_SET,
+	CAMEL_STREAM_CUR,
+	CAMEL_STREAM_END
+} CamelStreamSeekPolicy;
 
 typedef struct 
 {
@@ -58,6 +63,7 @@ typedef struct {
 	gint  (*available) (CamelStream *stream);
 	gboolean  (*eos)   (CamelStream *stream);
 	void  (*close)     (CamelStream *stream);
+	gint (*seek)       (CamelStream *stream, gint offset, CamelStreamSeekPolicy policy);
 } CamelStreamClass;
 
 
@@ -73,6 +79,7 @@ void     camel_stream_flush     (CamelStream *stream);
 gint     camel_stream_available (CamelStream *stream);
 gboolean camel_stream_eos       (CamelStream *stream);
 void     camel_stream_close     (CamelStream *stream);
+gint     camel_stream_seek      (CamelStream *stream, gint offset, CamelStreamSeekPolicy policy);
 
 /* utility macros and funcs */
 #define camel_stream_write_string(stream, string) camel_stream_write ((stream), (string), strlen (string))
