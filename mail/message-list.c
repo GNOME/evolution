@@ -2981,14 +2981,17 @@ message_list_set_selected(MessageList *ml, GPtrArray *uids)
 	int i;
 	ETreeSelectionModel *etsm;
 	ETreePath node;
+	GPtrArray *paths = g_ptr_array_new();
 
 	etsm = (ETreeSelectionModel *)e_tree_get_selection_model(ml->tree);
-	
 	for (i=0; i<uids->len; i++) {
 		node = g_hash_table_lookup(ml->uid_nodemap, uids->pdata[i]);
 		if (node)
-			e_tree_selection_model_add_to_selection(etsm, node);
+			g_ptr_array_add(paths, node);
 	}
+
+	e_tree_selection_model_select_paths(etsm, paths);
+	g_ptr_array_free(paths, TRUE);
 }
 
 void

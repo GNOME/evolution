@@ -1,5 +1,9 @@
 2004-06-10  Not Zed  <NotZed@Ximian.com>
 
+	* message-list.c (message_list_set_selected): use new
+	etreeselectionmodel api to select paths in one call.  Fixes
+	#59546.
+
 	* em-folder-view.c (emfv_message_reply): check that we have
 	content selected, not just a selection, before trying to reply to
 	that content.  #59146.
