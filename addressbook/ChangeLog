@@ -1,3 +1,7 @@
+2000-08-25  Christopher James Lahey  <clahey@helixcode.com>
+
+	* demo/* Removed the demo directory since it's no longer used.
+
 2000-08-26  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/minicard/Makefile.am: Remove gnorba stuff
