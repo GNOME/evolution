@@ -448,8 +448,8 @@ mail_component_init (MailComponent *component)
 	if (camel_mkdir (priv->base_directory, 0777) == -1 && errno != EEXIST)
 		abort ();
 	
-	priv->model = em_folder_tree_model_new ();
-
+	priv->model = em_folder_tree_model_new (priv->base_directory);
+	
 	priv->activity_handler = e_activity_handler_new ();
 	
 	/* EPFIXME: Turn into an object?  */

@@ -25,7 +25,14 @@
 #include <config.h>
 #endif
 
+#include <stdio.h>
 #include <string.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <errno.h>
+
+#include <camel/camel-file-utils.h>
 
 #include "mail-config.h"
 
@@ -201,6 +208,7 @@ em_folder_tree_model_init (EMFolderTreeModel *model)
 {
 	model->store_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
 	model->uri_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	model->expanded = g_hash_table_new (g_str_hash, g_str_equal);
 }
 
 static void
@@ -241,6 +249,12 @@ uri_hash_free (gpointer key, gpointer value, gpointer user_data)
 	gtk_tree_row_reference_free (value);
 }
 
+static gboolean
+expanded_free (gpointer key, gpointer value, gpointer user_data)
+{
+	g_free (key);
+	return TRUE;
+}
 
 static void
 em_folder_tree_model_finalize (GObject *obj)
@@ -252,6 +266,11 @@ em_folder_tree_model_finalize (GObject *obj)
 	
 	g_hash_table_foreach (model->uri_hash, uri_hash_free, NULL);
 	g_hash_table_destroy (model->uri_hash);
+	
+	g_hash_table_foreach (model->expanded, (GHFunc) expanded_free, NULL);
+	g_hash_table_destroy (model->expanded);
+	
+	g_free (model->filename);
 	
 	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
@@ -335,13 +354,36 @@ model_drag_data_delete (GtkTreeDragSource *drag_source, GtkTreePath *src_path)
 }
 
 
+static void
+em_folder_tree_model_load_state (EMFolderTreeModel *model, const char *filename)
+{
+	char *node;
+	FILE *fp;
+	
+	g_hash_table_foreach_remove (model->expanded, expanded_free, NULL);
+	
+	if ((fp = fopen (filename, "r")) == NULL)
+		return;
+	
+	while (camel_file_util_decode_string (fp, &node) != -1)
+		g_hash_table_insert (model->expanded, node, GINT_TO_POINTER (TRUE));
+	
+	fclose (fp);
+}
+
+
 EMFolderTreeModel *
-em_folder_tree_model_new (void)
+em_folder_tree_model_new (const char *evolution_dir)
 {
 	EMFolderTreeModel *model;
+	char *filename;
 	
 	model = g_object_new (EM_TYPE_FOLDER_TREE_MODEL, NULL);
 	gtk_tree_store_set_column_types ((GtkTreeStore *) model, NUM_COLUMNS, col_types);
+	
+	filename = g_build_filename (evolution_dir, "mail", "config", "folder-tree.state", NULL);
+	em_folder_tree_model_load_state (model, filename);
+	model->filename = filename;
 	
 	return model;
 }
@@ -766,4 +808,90 @@ em_folder_tree_model_remove_store (EMFolderTreeModel *model, CamelStore *store)
 	
 	/* recursively remove subfolders and finally the toplevel store */
 	em_folder_tree_model_remove_folders (model, si, &iter);
+}
+
+
+gboolean
+em_folder_tree_model_get_expanded (EMFolderTreeModel *model, const char *key)
+{
+	if (g_hash_table_lookup (model->expanded, key))
+		return TRUE;
+	
+	return FALSE;
+}
+
+
+void
+em_folder_tree_model_set_expanded (EMFolderTreeModel *model, const char *key, gboolean expanded)
+{
+	gpointer okey, oval;
+	
+	if (g_hash_table_lookup_extended (model->expanded, key, &okey, &oval)) {
+		g_hash_table_remove (model->expanded, okey);
+		g_free (okey);
+	}
+	
+	if (expanded)
+		g_hash_table_insert (model->expanded, g_strdup (key), GINT_TO_POINTER (TRUE));
+}
+
+
+static void
+expanded_save (gpointer key, gpointer value, FILE *fp)
+{
+	if (!GPOINTER_TO_INT (value))
+		return;
+	
+	camel_file_util_encode_string (fp, key);
+}
+
+void
+em_folder_tree_model_save_expanded (EMFolderTreeModel *model)
+{
+	char *dirname, *tmpname;
+	FILE *fp;
+	int fd;
+	
+	dirname = g_path_get_dirname (model->filename);
+	if (camel_mkdir (dirname, 0777) == -1 && errno != EEXIST) {
+		g_free (dirname);
+		return;
+	}
+	
+	g_free (dirname);
+	tmpname = g_strdup_printf ("%s~", model->filename);
+	
+	if (!(fp = fopen (tmpname, "w+"))) {
+		g_free (tmpname);
+		return;
+	}
+	
+	g_hash_table_foreach (model->expanded, (GHFunc) expanded_save, fp);
+	
+	if (fflush (fp) != 0)
+		goto exception;
+	
+	if ((fd = fileno (fp)) == -1)
+		goto exception;
+	
+	if (fsync (fd) == -1)
+		goto exception;
+	
+	fclose (fp);
+	fp = NULL;
+	
+	if (rename (tmpname, model->filename) == -1)
+		goto exception;
+	
+	g_free (tmpname);
+	
+	return;
+	
+ exception:
+	
+	if (fp != NULL)
+		fclose (fp);
+	
+	unlink (tmpname);
+	g_free (tmpname);
 }

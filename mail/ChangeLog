@@ -1,3 +1,23 @@
+2003-12-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-tree.c (em_folder_tree_new): Fixed to pass the
+	evolution dir into em_folder_tree_model_new().
+	(model_save_state): Removed.
+	(em_folder_tree_save_state): Moved all the saving logic into
+	em_folder_tree_model_save_expanded().
+
+	* em-folder-tree-model.c (em_folder_tree_model_new): Load the
+	expanded state off disk.
+	(em_folder_tree_model_save_expanded): New function to save
+	expanded state.
+	(em_folder_tree_model_get_expanded): new function to get if a node
+	should be expanded.
+	(em_folder_tree_model_set_expanded): new function to set the
+	expanded state of a node.
+
+	* mail-component.c (mail_component_init): Pass the evo dir to
+	em_folder_tree_model_new() which now requires it.
+
 2003-12-02  Rodney Dawes  <dobey@ximian.com>
 
 	* Makefile.am: Version the schemas

@@ -78,9 +78,11 @@ struct _EMFolderTreeModelStoreInfo {
 struct _EMFolderTreeModel {
 	GtkTreeStore parent_object;
 	
+	char *filename;          /* state filename */
+	
 	GHashTable *store_hash;  /* maps CamelStore's to store-info's */
 	GHashTable *uri_hash;    /* maps URI's to GtkTreeRowReferences */
-	GHashTable *expanded;
+	GHashTable *expanded;    /* saved expanded state from previous session */
 };
 
 struct _EMFolderTreeModelClass {
@@ -107,7 +109,7 @@ struct _EMFolderTreeModelClass {
 GType em_folder_tree_model_get_type (void);
 
 
-EMFolderTreeModel *em_folder_tree_model_new (void);
+EMFolderTreeModel *em_folder_tree_model_new (const char *evolution_dir);
 
 
 void em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *iter,
@@ -118,6 +120,10 @@ void em_folder_tree_model_add_store (EMFolderTreeModel *model, CamelStore *store
 void em_folder_tree_model_remove_store (EMFolderTreeModel *model, CamelStore *store);
 void em_folder_tree_model_remove_folders (EMFolderTreeModel *model, struct _EMFolderTreeModelStoreInfo *si,
 					  GtkTreeIter *toplevel);
+
+gboolean em_folder_tree_model_get_expanded (EMFolderTreeModel *model, const char *key);
+void em_folder_tree_model_set_expanded (EMFolderTreeModel *model, const char *key, gboolean expanded);
+void em_folder_tree_model_save_expanded (EMFolderTreeModel *model);
 
 #ifdef __cplusplus
 }
