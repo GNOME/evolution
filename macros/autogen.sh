@@ -85,8 +85,6 @@ xlc )
   am_opt=--include-deps;;
 esac
 
-DELETEME="gnome-gettext.m4"
-DELETEFILES="`find $srcdir -name $DELETEME`"
 for coin in `find $srcdir -name configure.in -print`
 do 
   dr=`dirname $coin`
@@ -96,15 +94,21 @@ do
     echo processing $dr
     macrodirs=`sed -n -e 's,AM_ACLOCAL_INCLUDE(\(.*\)),\1,gp' < $coin`
     ( cd $dr
+	DELETEFILES="`find . -name gnome-gettext.m4`"
       aclocalinclude="$ACLOCAL_FLAGS"
+      for k in $aclocalinclude; do
+  	if test -d $k; then
+	  if [ -f $k/gnome.m4 -a "$GNOME_INTERFACE_VERSION" = "1.0" ]; then
+	    rm -f $DELETEFILES
+	  fi
+        fi
+      done
       for k in $macrodirs; do
   	if test -d $k; then
           aclocalinclude="$aclocalinclude -I $k"
 	  if [ -f $k/gnome.m4 -a "$GNOME_INTERFACE_VERSION" = "1.0" ]; then
 	    rm -f $DELETEFILES
 	  fi
-  	##else 
-	##  echo "**Warning**: No such directory \`$k'.  Ignored."
         fi
       done
       if grep "^AM_GNU_GETTEXT" configure.in >/dev/null; then
