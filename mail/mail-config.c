@@ -80,8 +80,6 @@ typedef struct {
 	EAccountList *accounts;
 	guint accounts_notify_id;
 	
-	GHashTable *threaded_hash;
-	
 	GSList *signatures;
 	int sig_nextid;
 	
@@ -418,24 +416,6 @@ mail_config_write (void)
 	gconf_client_suggest_sync (config->gconf, NULL);
 }
 
-static gboolean
-hash_save_state (gpointer key, gpointer value, gpointer user_data)
-{
-	char *path;
-	gboolean bool = GPOINTER_TO_INT (value);
-	
-#warning "need to rewrite hash_save_state(), probably shouldn't use gconf tho"
-#if 0
-	path = g_strconcat ("/apps/Evolution/Mail/", (char *)user_data, "/", (char *)key, 
-			    NULL);
-	e_config_listener_set_boolean (config->db, path, bool);
-	g_free (path);
-	g_free (key);
-#endif
-	
-	return TRUE;
-}
-
 void
 mail_config_write_on_exit (void)
 {
@@ -449,10 +429,6 @@ mail_config_write_on_exit (void)
 		config_write_timeout = 0;
 		mail_config_write ();
 	}
-	
-	/* Message Threading */
-	if (config->threaded_hash)
-		g_hash_table_foreach_remove (config->threaded_hash, hash_save_state, "Threads");
 	
 	/* Passwords */
 	
@@ -532,65 +508,6 @@ uri_to_key (const char *uri)
 			*ptr = '_';
 	
 	return rval;
-}
-
-gboolean
-mail_config_get_thread_list (const char *uri)
-{
-#warning "FIXME: need to rework how we save state, probably shouldn't use gconf"
-#if 0
-	if (uri && *uri) {
-		gpointer key, val;
-		char *dbkey;
-		
-		dbkey = uri_to_key (uri);
-		
-		if (!config->threaded_hash)
-			config->threaded_hash = g_hash_table_new (g_str_hash, g_str_equal);
-		
-		if (!g_hash_table_lookup_extended (config->threaded_hash, dbkey, &key, &val)) {
-			gboolean value;
-			char *str;
-			
-			str = g_strdup_printf ("/apps/Evolution/Mail/Threads/%s", dbkey);
-			value = e_config_listener_get_boolean_with_default (config->db, str, FALSE, NULL);
-			g_free (str);
-			
-			g_hash_table_insert (config->threaded_hash, dbkey,
-					     GINT_TO_POINTER (value));
-			
-			return value;
-		} else {
-			g_free(dbkey);
-			return GPOINTER_TO_INT (val);
-		}
-	}
-#endif
-	
-	/* return the default value */
-	
-	return gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/thread_list", NULL);
-}
-
-void
-mail_config_set_thread_list (const char *uri, gboolean value)
-{
-	if (uri && *uri) {
-		char *dbkey = uri_to_key (uri);
-		gpointer key, val;
-		
-		if (!config->threaded_hash)
-			config->threaded_hash = g_hash_table_new (g_str_hash, g_str_equal);
-		
-		if (g_hash_table_lookup_extended (config->threaded_hash, dbkey, &key, &val)) {
-			g_hash_table_insert (config->threaded_hash, dbkey,
-					     GINT_TO_POINTER (value));
-			g_free (dbkey);
-		} else {
-			g_hash_table_insert (config->threaded_hash, dbkey, 
-					     GINT_TO_POINTER (value));
-		}
-	}
 }
 
 const char *
@@ -982,7 +899,6 @@ mail_config_uri_renamed (GCompareFunc uri_cmp, const char *old, const char *new)
 	EAccount *account;
 	EIterator *iter;
 	int i, work = 0;
-	gpointer oldkey, newkey, hashkey;
 	gpointer val;
 	char *oldname, *newname;
 	char *cachenames[] = { "config/hidestate-", 
@@ -1012,21 +928,6 @@ mail_config_uri_renamed (GCompareFunc uri_cmp, const char *old, const char *new)
 	}
 	
 	g_object_unref (iter);
-	
-	oldkey = uri_to_key (old);
-	newkey = uri_to_key (new);
-	
-	/* call this to load the hash table and the key */
-	mail_config_get_thread_list (old);
-	if (g_hash_table_lookup_extended (config->threaded_hash, oldkey, &hashkey, &val)) {
-		/*printf ("changing key in threaded_hash\n");*/
-		g_hash_table_remove (config->threaded_hash, hashkey);
-		g_hash_table_insert (config->threaded_hash, g_strdup (newkey), val);
-		work = 2;
-	}
-	
-	g_free (oldkey);
-	g_free (newkey);
 	
 	/* ignore return values or if the files exist or
 	 * not, doesn't matter */

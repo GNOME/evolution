@@ -3,7 +3,7 @@
  *  Authors: Miguel De Icaza <miguel@ximian.com>
  *           Jeffrey Stedfast <fejj@ximian.com>
  *
- *  Copyright 2000,2001 Ximian, Inc. (www.ximian.com)
+ *  Copyright 2000-2003 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -1319,18 +1319,21 @@ folder_browser_toggle_threads (BonoboUIComponent           *component,
 			       gpointer                     user_data)
 {
 	FolderBrowser *fb = user_data;
+	GConfClient *gconf;
 	int prev_state;
 	
-	if (type != Bonobo_UIComponent_STATE_CHANGED
-	    || fb->message_list == NULL)
+	if (type != Bonobo_UIComponent_STATE_CHANGED || fb->message_list == NULL)
 		return;
 	
-	mail_config_set_thread_list (fb->uri, atoi (state));
+	gconf = gconf_client_get_default ();
+	gconf_client_set_bool (gconf, "/apps/evolution/mail/display/thread_list",
+			       atoi (state), NULL);
+	
 	message_list_set_threaded (fb->message_list, atoi (state));
 	
 	prev_state = fb->selection_state;
 	fb->selection_state = FB_SELSTATE_UNDEFINED;
-	folder_browser_ui_set_selection_state (fb, prev_state);	
+	folder_browser_ui_set_selection_state (fb, prev_state);
 }
 
 void

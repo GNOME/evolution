@@ -1,3 +1,17 @@
+2003-01-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (mail_config_get_thread_list): Removed.
+	(mail_config_set_thread_list): Removed.
+	(mail_config_uri_renamed): No longer needs to change threaded
+	state for each url either.
+	(mail_config_write_on_exit): Updated.
+
+	* folder-browser-ui.c (folder_browser_ui_add_list): Get the
+	threaded state via gconf.
+
+	* folder-browser.c (folder_browser_toggle_threads): Save the
+	threaded state.
+
 2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* folder-browser-ui.c (folder_browser_ui_setup_view_menus): Use

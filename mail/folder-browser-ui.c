@@ -577,12 +577,13 @@ folder_browser_ui_add_list (FolderBrowser *fb)
 		fbui_sensitise_item (fb, "HideDeleted", FALSE);
 	
 	/* Threaded toggle */
-	state = mail_config_get_thread_list (FOLDER_BROWSER (fb)->uri);
+	state = gconf_client_get_bool (gconf, "/apps/evolution/mail/display/thread_list", NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/ViewThreaded", "state", state ? "1" : "0", NULL);
 	bonobo_ui_component_add_listener (uic, "ViewThreaded", folder_browser_toggle_threads, fb);
-	/* FIXME: this kind of bypasses bonobo but seems the only way when we change components */
-	folder_browser_toggle_threads (uic, "", Bonobo_UIComponent_STATE_CHANGED,
-				       state ? "1" : "0", fb);
+	message_list_set_threaded (fb->message_list, state);
+	state = fb->selection_state;
+	fb->selection_state = FB_SELSTATE_UNDEFINED;
+	folder_browser_ui_set_selection_state (fb, state);
 	
 	/* Property menu */
 	folder_browser_setup_property_menu (fb, fb->uicomp);

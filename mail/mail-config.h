@@ -103,9 +103,6 @@ void mail_config_write_on_exit (void);
 gboolean mail_config_is_configured            (void);
 gboolean mail_config_is_corrupt               (void);
 
-gboolean mail_config_get_thread_list          (const char *uri);
-void     mail_config_set_thread_list          (const char *uri, gboolean value);
-
 const char *mail_config_get_label_name  (int label);
 void        mail_config_set_label_name  (int label, const char *name);
 guint32     mail_config_get_label_color (int label);
