@@ -26,7 +26,6 @@ calendar/gui/dialogs/alarm-notify-dialog.c
 calendar/gui/main.c
 calendar/gui/event-editor.c
 calendar/gui/control-factory.c
-camel/providers/imap/imap.c
 composer/e-msg-composer-address-dialog.c
 composer/e-msg-composer-attachment-bar.c
 composer/e-msg-composer-attachment.c

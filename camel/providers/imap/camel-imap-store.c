@@ -421,15 +421,15 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char
 	gchar *cmdbuf, *respbuf;
 	gchar *cmdid;
 	va_list ap;
-	gint status;
+	gint status = CAMEL_IMAP_OK;
 
-	if (folder && store->current_folder != folder && strncmp(fmt, "SELECT", 6) &&
-	    strncmp(fmt, "STATUS", 6) && strncmp(fmt, "CREATE", 5)) {
+	if (folder && store->current_folder != folder && strncmp (fmt, "SELECT", 6) &&
+	    strncmp (fmt, "STATUS", 6) && strncmp (fmt, "CREATE", 5) && strcmp (fmt, "CAPABILITY")) {
 		/* We need to select the correct mailbox first */
 		char *r;
 		int s;
 
-		s = camel_imap_command(store, folder, &r, "SELECT %s", folder->full_name);
+		s = camel_imap_command (store, folder, &r, "SELECT %s", folder->full_name);
 		if (s != CAMEL_IMAP_OK) {
 			*ret = r;
 			return s;
@@ -439,32 +439,32 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char
 	}
 	
 	/* create the command */
-	cmdid = g_strdup_printf("A%.5d", store->command++);
+	cmdid = g_strdup_printf ("A%.5d", store->command++);
 	va_start (ap, fmt);
 	cmdbuf = g_strdup_vprintf (fmt, ap);
 	va_end (ap);
 
-	fprintf(stderr, "sending : %s %s\r\n", cmdid, cmdbuf);
+	fprintf (stderr, "sending : %s %s\r\n", cmdid, cmdbuf);
 
 	if (camel_stream_printf (store->ostream, "%s %s\r\n", cmdid, cmdbuf) == -1) {
-		g_free(cmdbuf);
-		g_free(cmdid);
+		g_free (cmdbuf);
+		g_free (cmdid);
 		if (*ret)
-			*ret = g_strdup(strerror(errno));
+			*ret = g_strdup (strerror(errno));
 		return CAMEL_IMAP_FAIL;
 	}
-	g_free(cmdbuf);
+	g_free (cmdbuf);
 
 	/* Read the response */
 	respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream));
 	if (respbuf == NULL) {
 		if (*ret)
-			*ret = g_strdup(strerror(errno));
+			*ret = g_strdup (strerror(errno));
 		return CAMEL_IMAP_FAIL;
 	}
 
 	fprintf(stderr, "received: %s\n", respbuf ? respbuf : "(null)");
-
+	
 	status = camel_imap_status (cmdid, respbuf);
 	g_free (cmdid);
 
@@ -515,13 +515,13 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 	va_list app;
 	gint status = CAMEL_IMAP_OK;
 
-	if (folder && store->current_folder != folder && strncmp(fmt, "SELECT", 6) &&
-	    strncmp(fmt, "STATUS", 6) && strncmp(fmt, "CREATE", 5)) {
+	if (folder && store->current_folder != folder && strncmp (fmt, "SELECT", 6) &&
+	    strncmp (fmt, "STATUS", 6) && strncmp (fmt, "CREATE", 5) && strcmp (fmt, "CAPABILITY")) {
 		/* We need to select the correct mailbox first */
 		char *r;
 		int s;
 
-		s = camel_imap_command(store, folder, &r, "SELECT %s", folder->full_name);
+		s = camel_imap_command (store, folder, &r, "SELECT %s", folder->full_name);
 		if (s != CAMEL_IMAP_OK) {
 			*ret = r;
 			return s;
@@ -531,22 +531,22 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 	}
 	
 	/* Create the command */
-	cmdid = g_strdup_printf("A%.5d", store->command++);
+	cmdid = g_strdup_printf ("A%.5d", store->command++);
 	va_start (app, fmt);
 	cmdbuf = g_strdup_vprintf (fmt, app);
 	va_end (app);
 
-	fprintf(stderr, "sending : %s %s\r\n", cmdid, cmdbuf);
+	fprintf (stderr, "sending : %s %s\r\n", cmdid, cmdbuf);
 
 	if (camel_stream_printf (store->ostream, "%s %s\r\n", cmdid, cmdbuf) == -1) {
 		g_free(cmdbuf);
 		g_free(cmdid);
 
-		*ret = g_strdup(strerror(errno));
+		*ret = g_strdup (strerror(errno));
 
 		return CAMEL_IMAP_FAIL;
 	}
-	g_free(cmdbuf);
+	g_free (cmdbuf);
 
 	data = g_ptr_array_new ();
 

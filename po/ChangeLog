@@ -1,3 +1,9 @@
+2000-06-17  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* POTFILES.in: why the heck was 
+	camel/providers/imap/imap.c listed? Oh well, 'tis
+	removed now...
+
 2000-06-17  Valek Filippov  <frob@df.ru>
 
 	* ru.po: Updated russian translation.

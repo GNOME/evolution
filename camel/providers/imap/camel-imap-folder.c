@@ -208,21 +208,26 @@ imap_init (CamelFolder *folder, CamelStore *parent_store, CamelFolder *parent_fo
 	/* now lets find out if we can do searches... */
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
 					      &result, "CAPABILITY");
+	
+	/* ugh, I forgot that CAPABILITY doesn't have a response code */
 	if (status != CAMEL_IMAP_OK) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);
+		
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      "Could not get capabilities on IMAP server %s: %s.",
 				      service->url->host, 
 				      status == CAMEL_IMAP_ERR ? result :
 				      "Unknown error");
 	}
-
-	if (strstr (result, "SEARCH"))
+	
+	if (strstrcase (result, "SEARCH"))
 		folder->has_search_capability = TRUE;
 	else
 		folder->has_search_capability = FALSE;
 	
 	g_free (result);
+
+	fprintf (stderr, "IMAP provider does%shave SEARCH support\n", folder->has_search_capability ? " " : "n't ");
 	
         /* some IMAP daemons support user-flags           *
 	 * I would not, however, rely on this feature as  *
@@ -242,6 +247,7 @@ imap_init (CamelFolder *folder, CamelStore *parent_store, CamelFolder *parent_fo
 					      &result, "SELECT %s", folder->full_name);
 	if (status != CAMEL_IMAP_OK) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);
+		
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      "Could not SELECT %s on IMAP server %s: %s.",
 				      folder->full_name, service->url->host, 

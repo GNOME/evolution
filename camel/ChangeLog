@@ -1,3 +1,8 @@
+2000-06-17  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (imap_init): Should now
+	correctly do CAPABILITY.
+
 2000-06-17  Dan Winship  <danw@helixcode.com>
 
 	* providers/mbox/camel-mbox-summary.c: Add some debugging printfs
