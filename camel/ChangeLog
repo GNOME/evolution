@@ -1,3 +1,23 @@
+2001-11-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-command.c
+	(camel_imap_command_continuation): Now takes a command-length
+	argument so we can 1) avoid duping the command string yet again,
+	yay. 2) we now don't have to worry about embedded nul-chars
+	screwing us over (we still need to avoid allowing them into the
+	string but at least now it won't mess us up).
+
+	* providers/imap/camel-imap-folder.c (do_append): Instead of
+	appending a nul char to the end of the byte array and then passing
+	that off as if it were a string to
+	camel_imap_command_continuation, instead pass the byte-array
+	length since that function now takes a length argument. Yay.  Also
+	encode any 8bit parts to avoid the possibility of sending embedded
+	nul chars to the imap server.
+
+	* providers/imap/camel-imap-store.c (try_auth): Updated to pass a
+	command-length argument to camel_imap_command_continuation().
+
 2001-11-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-tcp-stream-ssl.c (save_ssl_cert): Oops, pass a mode

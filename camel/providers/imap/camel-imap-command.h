@@ -54,6 +54,7 @@ CamelImapResponse *camel_imap_command              (CamelImapStore *store,
 						    const char *fmt, ...);
 CamelImapResponse *camel_imap_command_continuation (CamelImapStore *store,
 						    const char *cmd,
+						    size_t cmdlen,
 						    CamelException *ex);
 
 void  camel_imap_response_free                     (CamelImapStore *store,

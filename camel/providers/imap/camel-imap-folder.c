@@ -939,29 +939,33 @@ do_append (CamelFolder *folder, CamelMimeMessage *message,
 	CamelStreamFilter *streamfilter;
 	GByteArray *ba;
 	char *flagstr, *result, *end;
-
+	
 	/* create flag string param */
 	if (info && info->flags)
 		flagstr = imap_create_flag_list (info->flags);
 	else
 		flagstr = NULL;
-
+	
+	/* encode any 8bit parts so we avoid sending embedded nul-chars and such  */
+	/* commented out because it might change the encoding on
+           signed parts which'd break stuff */
+	/*camel_mime_message_encode_8bit_parts (message);*/
+	
 	/* FIXME: We could avoid this if we knew how big the message was. */
 	memstream = camel_stream_mem_new ();
 	ba = g_byte_array_new ();
 	camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (memstream), ba);
-
+	
 	streamfilter = camel_stream_filter_new_with_stream (memstream);
-	crlf_filter = camel_mime_filter_crlf_new (
-		CAMEL_MIME_FILTER_CRLF_ENCODE,
-		CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
+	crlf_filter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_ENCODE,
+						  CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
 	camel_stream_filter_add (streamfilter, crlf_filter);
 	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message),
 					    CAMEL_STREAM (streamfilter));
 	camel_object_unref (CAMEL_OBJECT (streamfilter));
 	camel_object_unref (CAMEL_OBJECT (crlf_filter));
 	camel_object_unref (CAMEL_OBJECT (memstream));
-
+	
 	response = camel_imap_command (store, NULL, ex, "APPEND %F%s%s {%d}",
 				       folder->full_name, flagstr ? " " : "",
 				       flagstr ? flagstr : "", ba->len);
@@ -971,27 +975,27 @@ do_append (CamelFolder *folder, CamelMimeMessage *message,
 		g_byte_array_free (ba, TRUE);
 		return NULL;
 	}
+	
 	result = camel_imap_response_extract_continuation (store, response, ex);
 	if (!result) {
 		g_byte_array_free (ba, TRUE);
 		return NULL;
 	}
 	g_free (result);
-
+	
 	/* send the rest of our data - the mime message */
-	g_byte_array_append (ba, "\0", 3);
-	response = camel_imap_command_continuation (store, ba->data, ex);
+	response = camel_imap_command_continuation (store, ba->data, ba->len, ex);
 	g_byte_array_free (ba, TRUE);
 	if (!response)
 		return response;
-
+	
 	if (store->capabilities & IMAP_CAPABILITY_UIDPLUS) {
 		*uid = strstrcase (response->status, "[APPENDUID ");
 		if (*uid)
 			*uid = strchr (*uid + 11, ' ');
 		if (*uid) {
 			*uid = g_strndup (*uid + 1, strcspn (*uid + 1, "]"));
-				/* Make sure it's a number */
+			/* Make sure it's a number */
 			if (strtoul (*uid, &end, 10) == 0 || *end) {
 				g_free (*uid);
 				*uid = NULL;
@@ -999,7 +1003,7 @@ do_append (CamelFolder *folder, CamelMimeMessage *message,
 		}
 	} else
 		*uid = NULL;
-
+	
 	return response;
 }
 

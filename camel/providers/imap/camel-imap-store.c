@@ -446,31 +446,30 @@ try_auth (CamelImapStore *store, const char *mech, CamelException *ex)
 	CamelImapResponse *response;
 	char *resp;
 	char *sasl_resp;
-
+	
 	CAMEL_IMAP_STORE_ASSERT_LOCKED (store, command_lock);
-
-	response = camel_imap_command (store, NULL, ex,
-				       "AUTHENTICATE %s", mech);
+	
+	response = camel_imap_command (store, NULL, ex, "AUTHENTICATE %s", mech);
 	if (!response)
 		return FALSE;
-
+	
 	sasl = camel_sasl_new ("imap", mech, CAMEL_SERVICE (store));
 	while (!camel_sasl_authenticated (sasl)) {
 		resp = camel_imap_response_extract_continuation (store, response, ex);
 		if (!resp)
 			goto lose;
-
+		
 		sasl_resp = camel_sasl_challenge_base64 (sasl, resp + 2, ex);
 		g_free (resp);
 		if (camel_exception_is_set (ex))
 			goto break_and_lose;
-
-		response = camel_imap_command_continuation (store, sasl_resp, ex);
+		
+		response = camel_imap_command_continuation (store, sasl_resp, strlen (sasl_resp), ex);
 		g_free (sasl_resp);
 		if (!response)
 			goto lose;
 	}
-
+	
 	resp = camel_imap_response_extract_continuation (store, response, NULL);
 	if (resp) {
 		/* Oops. SASL claims we're done, but the IMAP server
@@ -483,13 +482,13 @@ try_auth (CamelImapStore *store, const char *mech, CamelException *ex)
 	camel_object_unref (CAMEL_OBJECT (sasl));
 	
 	return TRUE;
-
+	
  break_and_lose:
 	/* Get the server out of "waiting for continuation data" mode. */
-	response = camel_imap_command_continuation (store, "*", NULL);
+	response = camel_imap_command_continuation (store, "*", 1, NULL);
 	if (response)
 		camel_imap_response_free (store, response);
-
+	
  lose:
 	if (!camel_exception_is_set (ex)) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,

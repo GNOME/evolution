@@ -198,6 +198,7 @@ imap_command_start (CamelImapStore *store, CamelFolder *folder,
  * camel_imap_command_continuation:
  * @store: the IMAP store
  * @cmd: buffer containing the response/request data
+ * @cmdlen: command length
  * @ex: a CamelException
  *
  * This method is for sending continuing responses to the IMAP server
@@ -211,10 +212,24 @@ imap_command_start (CamelImapStore *store, CamelFolder *folder,
  **/
 CamelImapResponse *
 camel_imap_command_continuation (CamelImapStore *store, const char *cmd,
-				 CamelException *ex)
+				 size_t cmdlen, CamelException *ex)
 {
-	if (camel_remote_store_send_string (CAMEL_REMOTE_STORE (store), ex,
-					    "%s\r\n", cmd) < 0) {
+	CamelStream *stream;
+	
+	if (!camel_remote_store_connected (CAMEL_REMOTE_STORE (store), ex))
+		return NULL;
+	
+	stream = CAMEL_REMOTE_STORE (store)->ostream;
+	
+	if (camel_stream_write (stream, cmd, cmdlen) == -1 ||
+	    camel_stream_write (stream, "\r\n", 2) == -1) {
+		if (errno == EINTR)
+			camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
+					     _("Operation cancelled"));
+		else
+			camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+					     g_strerror (errno));
+		camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
 		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
 		return NULL;
 	}
