@@ -1,3 +1,23 @@
+2004-07-23  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #61824.
+
+	* em-popup.c (emp_part_popup_reply_sender)
+	(emp_part_popup_reply_list, emp_part_popup_reply_all): use new
+	api.  We have no uid/folder to update here.
+
+	* em-folder-view.c (emfv_message_reply): use new api for replying
+	so we can supply the message content and have flags updated.
+
+	* em-composer-utils.c (em_utils_reply_to_message): added optional
+	folder and uid.
+	(em_utils_reply_to_message_by_uid): removed, use the other
+	interface instead.
+	(reply_to_message): just call reply_to_message if we get a message
+	to reply to.
+	(em_utils_reply_to_message): if no message supplied, load it via
+	the uid.
+
 2004-07-22  Not Zed  <NotZed@Ximian.com>
 
 	* em-utils.c (em_utils_part_to_html, em_utils_message_to_html):

@@ -772,7 +772,7 @@ emp_part_popup_reply_sender (GtkWidget *w, EMPopupTarget *t)
 	CamelMimeMessage *message;
 	
 	message = (CamelMimeMessage *) camel_medium_get_content_object ((CamelMedium *) t->data.part.part);
-	em_utils_reply_to_message (message, REPLY_MODE_SENDER);
+	em_utils_reply_to_message (NULL, NULL, message, REPLY_MODE_SENDER);
 }
 
 static void
@@ -781,7 +781,7 @@ emp_part_popup_reply_list (GtkWidget *w, EMPopupTarget *t)
 	CamelMimeMessage *message;
 	
 	message = (CamelMimeMessage *) camel_medium_get_content_object ((CamelMedium *) t->data.part.part);
-	em_utils_reply_to_message (message, REPLY_MODE_LIST);
+	em_utils_reply_to_message (NULL, NULL, message, REPLY_MODE_LIST);
 }
 
 static void
@@ -790,7 +790,7 @@ emp_part_popup_reply_all (GtkWidget *w, EMPopupTarget *t)
 	CamelMimeMessage *message;
 	
 	message = (CamelMimeMessage *) camel_medium_get_content_object ((CamelMedium *) t->data.part.part);
-	em_utils_reply_to_message (message, REPLY_MODE_ALL);
+	em_utils_reply_to_message (NULL, NULL, message, REPLY_MODE_ALL);
 }
 
 static void

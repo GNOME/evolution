@@ -1266,15 +1266,15 @@ emfv_message_reply(EMFolderView *emfv, int mode)
 						    ((GString *)state->user_data)->str,
 						    ((GString *)state->user_data)->len,
 						    "text/html");
-			em_utils_reply_to_message (msg, mode);
+			em_utils_reply_to_message (emfv->folder, emfv->list->cursor_uid, msg, mode);
 			camel_object_unref(msg);
 		} else {
-			em_utils_reply_to_message_by_uid (emfv->folder, emfv->list->cursor_uid, mode);
+			em_utils_reply_to_message (emfv->folder, emfv->list->cursor_uid, NULL, mode);
 		}
 
 		html_engine_save_buffer_free(state);
 	} else {
-		em_utils_reply_to_message_by_uid (emfv->folder, emfv->list->cursor_uid, mode);
+		em_utils_reply_to_message(emfv->folder, emfv->list->cursor_uid, NULL, mode);
 	}
 }
 

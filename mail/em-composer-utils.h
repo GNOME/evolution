@@ -68,8 +68,7 @@ enum {
 	REPLY_MODE_LIST
 };
 
-void em_utils_reply_to_message (struct _CamelMimeMessage *message, int mode);
-void em_utils_reply_to_message_by_uid (struct _CamelFolder *folder, const char *uid, int mode);
+void em_utils_reply_to_message (struct _CamelFolder *, const char *uid, struct _CamelMimeMessage *message, int mode);
 
 void em_utils_post_reply_to_message_by_uid (struct _CamelFolder *folder, const char *uid);
 

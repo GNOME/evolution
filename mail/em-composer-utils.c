@@ -1690,72 +1690,54 @@ composer_set_body (EMsgComposer *composer, CamelMimeMessage *message)
 	e_msg_composer_drop_editor_undo (composer);
 }
 
+static void
+reply_to_message(CamelFolder *folder, const char *uid, CamelMimeMessage *message, void *user_data)
+{
+	if (message != NULL)
+		em_utils_reply_to_message(folder, uid, message, GPOINTER_TO_INT(user_data));
+}
+
 /**
  * em_utils_reply_to_message:
- * @message: message to reply to
+ * @folder: optional folder
+ * @uid: optional uid
+ * @message: message to reply to, optional
  * @mode: reply mode
  *
  * Creates a new composer ready to reply to @message.
+ *
+ * If @message is NULL then @folder and @uid must be set to the
+ * message to be replied to, it will be loaded asynchronously.
+ *
+ * If @message is non null, then it is used directly, @folder and @uid
+ * may be supplied in order to update the message flags once it has
+ * been replied to.
  **/
 void
-em_utils_reply_to_message (CamelMimeMessage *message, int mode)
+em_utils_reply_to_message(CamelFolder *folder, const char *uid, CamelMimeMessage *message, int mode)
 {
 	CamelInternetAddress *to = NULL, *cc = NULL;
 	EMsgComposer *composer;
 	EAccount *account;
+	const char *postto = NULL;
+	guint32 flags;
+
+	if (folder && uid && message == NULL) {
+		mail_get_message(folder, uid, reply_to_message, GINT_TO_POINTER(mode), mail_thread_new);
+		return;
+	}
+
+	g_return_if_fail(message != NULL);
 	
 	account = guess_account (message, NULL);
-	
-	switch (mode) {
-	case REPLY_MODE_SENDER:
-		get_reply_sender (message, &to, NULL);
-		break;
-	case REPLY_MODE_LIST:
-		if (get_reply_list (message, &to))
-			break;
-	case REPLY_MODE_ALL:
-		get_reply_all (message, &to, &cc, NULL);
-		break;
-	}
-	
-	composer = reply_get_composer (message, account, to, cc, NULL, NULL);
-	e_msg_composer_add_message_attachments (composer, message, TRUE);
-	
-	if (to != NULL)
-		camel_object_unref (to);
-	
-	if (cc != NULL)
-		camel_object_unref (cc);
-	
-	composer_set_body (composer, message);
-	
-	em_composer_utils_setup_default_callbacks (composer);
-	
-	gtk_widget_show (GTK_WIDGET (composer));
-	e_msg_composer_unset_changed (composer);
-}
-
-static void
-reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *message, void *user_data)
-{
-	CamelInternetAddress *to = NULL, *cc = NULL;
-	const char *postto = NULL;
-	EMsgComposer *composer;
-	EAccount *account;
-	guint32 flags;
-	int mode;
-	
-	if (message == NULL)
-		return;
-	
-	mode = GPOINTER_TO_INT (user_data);
-
-	account = guess_account (message, folder);
 	flags = CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN;
 	
 	switch (mode) {
 	case REPLY_MODE_SENDER:
-		get_reply_sender (message, &to, &postto);
+		if (folder)
+			get_reply_sender (message, &to, &postto);
+		else
+			get_reply_sender (message, &to, NULL);
 		break;
 	case REPLY_MODE_LIST:
 		flags |= CAMEL_MESSAGE_ANSWERED_ALL;
@@ -1763,7 +1745,10 @@ reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *messag
 			break;
 	case REPLY_MODE_ALL:
 		flags |= CAMEL_MESSAGE_ANSWERED_ALL;
-		get_reply_all (message, &to, &cc, &postto);
+		if (folder)
+			get_reply_all (message, &to, &cc, &postto);
+		else
+			get_reply_all (message, &to, &cc, NULL);
 		break;
 	}
 	
@@ -1782,24 +1767,6 @@ reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *messag
 	
 	gtk_widget_show (GTK_WIDGET (composer));
 	e_msg_composer_unset_changed (composer);
-}
-
-/**
- * em_utils_reply_to_message_by_uid:
- * @folder: folder containing message to reply to
- * @uid: message uid
- * @mode: reply mode
- *
- * Creates a new composer ready to reply to the message referenced by
- * @folder and @uid.
- **/
-void
-em_utils_reply_to_message_by_uid (CamelFolder *folder, const char *uid, int mode)
-{
-	g_return_if_fail (CAMEL_IS_FOLDER (folder));
-	g_return_if_fail (uid != NULL);
-	
-	mail_get_message (folder, uid, reply_to_message, GINT_TO_POINTER (mode), mail_thread_new);
 }
 
 /* Posting replies... */
