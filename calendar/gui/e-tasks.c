@@ -497,6 +497,27 @@ e_tasks_new_task			(ETasks		*tasks)
 }
 
 /**
+ * e_tasks_complete_selected:
+ * @tasks: A tasks control widget
+ * 
+ * Marks the selected tasks complete
+ **/
+void
+e_tasks_complete_selected (ETasks *tasks)
+{
+	ETasksPrivate *priv;
+	ECalendarTable *cal_table;
+
+	g_return_if_fail (tasks != NULL);
+	g_return_if_fail (E_IS_TASKS (tasks));
+
+	priv = tasks->priv;
+
+	cal_table = E_CALENDAR_TABLE (priv->tasks_view);
+	e_calendar_table_complete_selected (cal_table);
+}
+
+/**
  * e_tasks_delete_selected:
  * @tasks: A tasks control widget.
  * 

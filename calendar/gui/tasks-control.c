@@ -79,6 +79,9 @@ static void tasks_control_paste_cmd             (BonoboUIComponent      *uic,
 static void tasks_control_delete_cmd		(BonoboUIComponent	*uic,
 						 gpointer		 data,
 						 const char		*path);
+static void tasks_control_complete_cmd		(BonoboUIComponent	*uic,
+						 gpointer		 data,
+						 const char		*path);
 static void tasks_control_expunge_cmd		(BonoboUIComponent	*uic,
 						 gpointer		 data,
 						 const char		*path);
@@ -227,6 +230,9 @@ sensitize_commands (ETasks *tasks, BonoboControl *control, int n_selected)
 	bonobo_ui_component_set_prop (uic, "/commands/TasksDelete", "sensitive",
 				      n_selected == 0 ? "0" : "1",
 				      NULL);
+	bonobo_ui_component_set_prop (uic, "/commands/TasksMarkComplete", "sensitive",
+				      n_selected == 0 ? "0" : "1",
+				      NULL);
 }
 
 /* Callback used when the selection in the table changes */
@@ -246,6 +252,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("TasksCopy", tasks_control_copy_cmd),
 	BONOBO_UI_VERB ("TasksPaste", tasks_control_paste_cmd),
 	BONOBO_UI_VERB ("TasksDelete", tasks_control_delete_cmd),
+	BONOBO_UI_VERB ("TasksMarkComplete", tasks_control_complete_cmd),
 	BONOBO_UI_VERB ("TasksExpunge", tasks_control_expunge_cmd),
 	BONOBO_UI_VERB ("TasksSettings", tasks_control_settings_cmd),
 
@@ -394,6 +401,17 @@ tasks_control_delete_cmd		(BonoboUIComponent	*uic,
 
 	tasks = E_TASKS (data);
 	e_tasks_delete_selected (tasks);
+}
+
+static void
+tasks_control_complete_cmd		(BonoboUIComponent	*uic,
+					 gpointer		 data,
+					 const char		*path)
+{
+	ETasks *tasks;
+
+	tasks = E_TASKS (data);
+	e_tasks_complete_selected (tasks);
 }
 
 static gboolean

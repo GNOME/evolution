@@ -101,6 +101,7 @@ static void invisible_destroyed                 (GtkWidget *invisible,
 						 ECalendarTable *cal_table);
 static struct tm e_calendar_table_get_current_time (ECellDateEdit *ecde,
 						    gpointer data);
+static void mark_row_complete_cb (int model_row, gpointer data);
 
 
 /* The icons to represent the task. */
@@ -635,6 +636,24 @@ e_calendar_table_get_table (ECalendarTable *cal_table)
 	g_return_val_if_fail (E_IS_CALENDAR_TABLE (cal_table), NULL);
 
 	return e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
+}
+
+/**
+ * e_calendar_table_complete_selected:
+ * @cal_table: A calendar table
+ * 
+ * Marks the selected items as completed
+ **/
+void
+e_calendar_table_complete_selected (ECalendarTable *cal_table)
+{
+	ETable *etable;
+
+	g_return_if_fail (cal_table != NULL);
+	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
+
+	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
+	e_table_selected_row_foreach (etable, mark_row_complete_cb, cal_table);
 }
 
 /* Used from e_table_selected_row_foreach(); puts the selected row number in an

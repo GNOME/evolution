@@ -1,5 +1,21 @@
 2002-01-03  JP Rosevear  <jpr@ximian.com>
 
+	* gui/tasks-control.c (tasks_control_complete_cmd): new verb
+	callback
+	(sensitize_commands): set sensitivity of mark complete command
+
+	* gui/e-tasks.h: new proto
+
+	* gui/e-tasks.c (e_tasks_complete_selected): mark selected tasks
+	in the table as complete
+
+	* gui/e-calendar-table.h: new proto
+
+	* gui/e-calendar-table.c (e_calendar_table_complete_selected):
+	mark selected rows as complete
+
+2002-01-03  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/tasks-control.c (confirm_expunge): only need one warning
 	message now
 
