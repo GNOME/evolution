@@ -439,6 +439,7 @@ connect_model (EReflow *reflow, EReflowModel *model)
 	reflow->model_item_changed_id =
 		gtk_signal_connect (GTK_OBJECT (reflow->model), "model_item_changed",
 				    GTK_SIGNAL_FUNC (item_changed), reflow);
+	model_changed (model, reflow);
 }
 
 static void
