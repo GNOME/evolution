@@ -802,7 +802,7 @@ procedure_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id
  * alarm_queue_init:
  *
  * Initializes the alarm queueing system.  This should be called near the
- * beginning of the program, after calling alarm_init().
+ * beginning of the program.
  **/
 void
 alarm_queue_init (void)

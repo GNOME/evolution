@@ -32,7 +32,6 @@
 typedef void (* AlarmFunction) (gpointer alarm_id, time_t trigger, gpointer data);
 typedef void (* AlarmDestroyNotify) (gpointer alarm_id, gpointer data);
 
-void alarm_init (void);
 void alarm_done (void);
 
 gpointer alarm_add (time_t trigger, AlarmFunction alarm_fn, gpointer data,

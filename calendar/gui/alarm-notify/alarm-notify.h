@@ -57,6 +57,9 @@ GtkType alarm_notify_get_type (void);
 
 AlarmNotify *alarm_notify_new (void);
 
+void alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_afterwards,
+				CORBA_Environment *ev);
+
 
 
 

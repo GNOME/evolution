@@ -142,6 +142,60 @@ create_folder (EvolutionShellComponent *shell_component,
 	CORBA_exception_free (&ev);
 }
 
+/* Asks the alarm daemon to stop monitoring the specified URI */
+static void
+stop_alarms (GnomeVFSURI *uri)
+{
+	char *str_uri;
+	CORBA_Environment ev;
+	GNOME_Evolution_Calendar_AlarmNotify an;
+
+	/* Activate the alarm notification service */
+
+	CORBA_exception_init (&ev);
+	an = oaf_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify", 0, NULL, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("stop_alarms(): Could not activate the alarm notification service");
+		CORBA_exception_free (&ev);
+		return;
+	}
+	CORBA_exception_free (&ev);
+
+	/* Ask the service to remove the URI from its list of calendars */
+
+	str_uri = gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_NONE);
+	g_assert (str_uri != NULL);
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_AlarmNotify_removeCalendar (an, str_uri, &ev);
+	g_free (str_uri);
+
+	if (ev._major == CORBA_USER_EXCEPTION) {
+		char *ex_id;
+
+		ex_id = CORBA_exception_id (&ev);
+		if (strcmp (ex_id, ex_GNOME_Evolution_Calendar_AlarmNotify_InvalidURI) == 0)
+			g_message ("stop_alarms(): Invalid URI reported from the "
+				   "alarm notification service");
+		else if (strcmp (ex_id, ex_GNOME_Evolution_Calendar_AlarmNotify_NotFound) == 0) {
+			/* This is OK; the service may not have loaded that calendar */
+		}
+	} else if (ev._major != CORBA_NO_EXCEPTION)
+		g_message ("stop_alarms(): Could not issue the removeCalendar request");
+
+	CORBA_exception_free (&ev);
+
+	/* Get rid of the service */
+
+	CORBA_exception_init (&ev);
+	bonobo_object_release_unref (an, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_message ("stop_alarms(): Could not unref the alarm notification service");
+
+	CORBA_exception_free (&ev);
+}
+
 static void
 remove_folder (EvolutionShellComponent *shell_component,
 	       const char *physical_uri,
@@ -216,6 +270,10 @@ remove_folder (EvolutionShellComponent *shell_component,
 
 		goto out;
 	}
+
+	/* Ask the alarm daemon to stop monitoring this URI */
+
+	stop_alarms (data_uri);
 
 	/* Delete the data and backup files; the shell will take care of the rest */
 

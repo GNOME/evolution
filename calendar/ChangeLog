@@ -1,3 +1,40 @@
+2001-10-18  Federico Mena Quintero  <federico@ximian.com>
+
+	Adds session management for the alarm daemon.  Also makes it store
+	a list of calendars to be monitored.  Those calendars will all be
+	loaded when the alarm daemon starts up.
+
+	* idl/evolution-calendar.idl (AlarmNotify): Removed the ::die()
+	method.  The alarm daemon now handles termination via the session
+	manager's commands.
+
+	* gui/alarm-notify/notify-main.c (set_session_parameters): New
+	function, sets some parameters so that the session manager can
+	restart the daemon via the evolution-alarm-client program.  Also,
+	sets up the "die" signal so that the daemon can terminate when the
+	session ends.
+	(load_calendars): New function to load the calendars on startup.
+	(main): Set the session parameters.  Load the calendars on startup.
+
+	* gui/alarm-notify/alarm-notify.c (alarm_notify_add_calendar): New
+	function, moved over from the impl_ function.  Added a
+	load_afterwards argument to indicate whether the calendar should
+	just be loaded or if it should also be added to the list of
+	calendars to load on startup.
+	(AlarmNotify_addCalendar): Use alarm_notify_add_calendar().
+	(AlarmNotify_removeCalendar): Remove the calendar from the list of
+	calendars to load on startup.
+
+	* gui/alarm-notify/save.c (save_calendars_to_load): New function,
+	saves a sequence of the URIs to load.
+	(get_calendars_to_load): New function, loads a sequence of
+	calendars to load.
+
+	* gui/alarm-notify/alarm.h: Removed stale prototype for alarm_init().
+
+	* gui/component-factory.c (remove_folder): Ask the alarm daemon to
+	stop monitoring alarms for the folder that is being deleted.
+
 2001-10-18  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-meeting-time-sel.c

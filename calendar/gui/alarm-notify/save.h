@@ -25,7 +25,9 @@
 #include <time.h>
 
 void save_notification_time (time_t t);
-
 time_t get_saved_notification_time (void);
+
+void save_calendars_to_load (GPtrArray *uris);
+GPtrArray *get_calendars_to_load (void);
 
 #endif

@@ -27,6 +27,7 @@
 #include <cal-client/cal-client.h>
 #include "alarm-notify.h"
 #include "alarm-queue.h"
+#include "save.h"
 
 
 
@@ -64,8 +65,6 @@ static void AlarmNotify_addCalendar (PortableServer_Servant servant,
 static void AlarmNotify_removeCalendar (PortableServer_Servant servant,
 					const CORBA_char *str_uri,
 					CORBA_Environment *ev);
-static void AlarmNotify_die (PortableServer_Servant servant,
-			     CORBA_Environment *ev);
 
 
 static BonoboXObjectClass *parent_class;
@@ -89,7 +88,6 @@ alarm_notify_class_init (AlarmNotifyClass *class)
 
 	class->epv.addCalendar = AlarmNotify_addCalendar;
 	class->epv.removeCalendar = AlarmNotify_removeCalendar;
-	class->epv.die = AlarmNotify_die;
 
 	object_class->destroy = alarm_notify_destroy;
 }
@@ -148,6 +146,114 @@ alarm_notify_destroy (GtkObject *object)
 
 /* CORBA servant implementation */
 
+/* Looks for a canonicalized URI inside an array of URIs; returns the index
+ * within the array or -1 if not found.
+ */
+static int
+find_uri_index (GPtrArray *uris, const char *str_uri)
+{
+	int i;
+
+	for (i = 0; i < uris->len; i++) {
+		char *uri;
+
+		uri = uris->pdata[i];
+		if (strcmp (uri, str_uri) == 0)
+			break;
+	}
+
+	if (i == uris->len)
+		return -1;
+	else
+		return i;
+}
+
+/* Frees an array of URIs and the URIs within it. */
+static void
+free_uris (GPtrArray *uris)
+{
+	int i;
+
+	for (i = 0; i < uris->len; i++) {
+		char *uri;
+
+		uri = uris->pdata[i];
+		g_free (uri);
+	}
+
+	g_ptr_array_free (uris, TRUE);
+}
+
+/* Adds an URI to the list of calendars to load on startup */
+static void
+add_uri_to_load (GnomeVFSURI *uri)
+{
+	char *str_uri;
+	GPtrArray *loaded_uris;
+	int i;
+
+	/* Canonicalize the URI */
+	str_uri = gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_NONE);
+	g_assert (str_uri != NULL);
+
+	loaded_uris = get_calendars_to_load ();
+	g_assert (loaded_uris != NULL);
+
+	/* Look for the URI in the list of calendars to load */
+
+	i = find_uri_index (loaded_uris, str_uri);
+
+	/* We only need to add the URI if we didn't find it among the list of
+	 * calendars.
+	 */
+	if (i != -1) {
+		g_free (str_uri);
+		free_uris (loaded_uris);
+		return;
+	}
+
+	g_ptr_array_add (loaded_uris, str_uri);
+	save_calendars_to_load (loaded_uris);
+
+	free_uris (loaded_uris);
+}
+
+/* Removes an URI from the list of calendars to load on startup */
+static void
+remove_uri_to_load (GnomeVFSURI *uri)
+{
+	char *str_uri;
+	GPtrArray *loaded_uris;
+	char *loaded_uri;
+	int i;
+
+	/* Canonicalize the URI */
+	str_uri = gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_NONE);
+	g_assert (str_uri != NULL);
+
+	loaded_uris = get_calendars_to_load ();
+	g_assert (loaded_uris != NULL);
+
+	/* Look for the URI in the list of calendars to load */
+
+	i = find_uri_index (loaded_uris, str_uri);
+	g_free (str_uri);
+
+	/* If we didn't find it, there is no need to remove it */
+	if (i == -1) {
+		free_uris (loaded_uris);
+		return;
+	}
+
+	loaded_uri = loaded_uris->pdata[i];
+	g_free (loaded_uri);
+
+	g_ptr_array_remove_index (loaded_uris, i);
+	save_calendars_to_load (loaded_uris);
+
+	free_uris (loaded_uris);
+}
+
 /* AlarmNotify::addCalendar method */
 static void
 AlarmNotify_addCalendar (PortableServer_Servant servant,
@@ -155,10 +261,21 @@ AlarmNotify_addCalendar (PortableServer_Servant servant,
 			 CORBA_Environment *ev)
 {
 	AlarmNotify *an;
+
+	an = ALARM_NOTIFY (bonobo_object_from_servant (servant));
+	alarm_notify_add_calendar (an, str_uri, TRUE, ev);
+}
+
+/* AlarmNotify::removeCalendar method */
+static void
+AlarmNotify_removeCalendar (PortableServer_Servant servant,
+			    const CORBA_char *str_uri,
+			    CORBA_Environment *ev)
+{
+	AlarmNotify *an;
 	AlarmNotifyPrivate *priv;
-	GnomeVFSURI *uri;
-	CalClient *client;
 	LoadedClient *lc;
+	GnomeVFSURI *uri;
 
 	an = ALARM_NOTIFY (bonobo_object_from_servant (servant));
 	priv = an->priv;
@@ -170,6 +287,89 @@ AlarmNotify_addCalendar (PortableServer_Servant servant,
 				     NULL);
 		return;
 	}
+
+	remove_uri_to_load (uri);
+
+	lc = g_hash_table_lookup (priv->uri_client_hash, uri);
+	gnome_vfs_uri_unref (uri);
+
+	if (!lc) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Calendar_AlarmNotify_NotFound,
+				     NULL);
+		return;
+	}
+
+	g_assert (lc->refcount > 0);
+
+	lc->refcount--;
+	if (lc->refcount > 0)
+		return;
+
+	g_hash_table_remove (priv->uri_client_hash, lc->uri);
+
+	gtk_object_unref (GTK_OBJECT (lc->client));
+	gnome_vfs_uri_unref (lc->uri);
+	g_free (lc);
+}
+
+
+
+/**
+ * alarm_notify_new:
+ * 
+ * Creates a new #AlarmNotify object.
+ * 
+ * Return value: A newly-created #AlarmNotify, or NULL if its corresponding
+ * CORBA object could not be created.
+ **/
+AlarmNotify *
+alarm_notify_new (void)
+{
+	AlarmNotify *an;
+
+	an = gtk_type_new (TYPE_ALARM_NOTIFY);
+	return an;
+}
+
+/**
+ * alarm_notify_add_calendar:
+ * @an: An alarm notification service.
+ * @uri: URI of the calendar to load.
+ * @load_afterwards: Whether this calendar should be loaded in the future
+ * when the alarm daemon starts up.
+ * @ev: CORBA environment for exceptions.
+ * 
+ * Tells the alarm notification service to load a calendar and start monitoring
+ * its alarms.  It can optionally be made to save the URI of this calendar so
+ * that it can be loaded in the future when the alarm daemon starts up.
+ **/
+void
+alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_afterwards,
+			   CORBA_Environment *ev)
+{
+	AlarmNotifyPrivate *priv;
+	GnomeVFSURI *uri;
+	CalClient *client;
+	LoadedClient *lc;
+
+	g_return_if_fail (an != NULL);
+	g_return_if_fail (IS_ALARM_NOTIFY (an));
+	g_return_if_fail (str_uri != NULL);
+	g_return_if_fail (ev != NULL);
+
+	priv = an->priv;
+
+	uri = gnome_vfs_uri_new (str_uri);
+	if (!uri) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Calendar_AlarmNotify_InvalidURI,
+				     NULL);
+		return;
+	}
+
+	if (load_afterwards)
+		add_uri_to_load (uri);
 
 	lc = g_hash_table_lookup (priv->uri_client_hash, uri);
 
@@ -205,81 +405,4 @@ AlarmNotify_addCalendar (PortableServer_Servant servant,
 				     NULL);
 		return;
 	}
-}
-
-/* AlarmNotify::removeCalendar method */
-static void
-AlarmNotify_removeCalendar (PortableServer_Servant servant,
-			    const CORBA_char *str_uri,
-			    CORBA_Environment *ev)
-{
-	AlarmNotify *an;
-	AlarmNotifyPrivate *priv;
-	LoadedClient *lc;
-	GnomeVFSURI *uri;
-
-	an = ALARM_NOTIFY (bonobo_object_from_servant (servant));
-	priv = an->priv;
-
-	uri = gnome_vfs_uri_new (str_uri);
-	if (!uri) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Calendar_AlarmNotify_InvalidURI,
-				     NULL);
-		return;
-	}
-
-	lc = g_hash_table_lookup (priv->uri_client_hash, uri);
-	gnome_vfs_uri_unref (uri);
-
-	if (!lc) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Calendar_AlarmNotify_NotFound,
-				     NULL);
-		return;
-	}
-
-	g_assert (lc->refcount > 0);
-
-	lc->refcount--;
-	if (lc->refcount > 0)
-		return;
-
-	g_hash_table_remove (priv->uri_client_hash, lc->uri);
-
-	gtk_object_unref (GTK_OBJECT (lc->client));
-	gnome_vfs_uri_unref (lc->uri);
-	g_free (lc);
-}
-
-static void
-AlarmNotify_die (PortableServer_Servant servant,
-		 CORBA_Environment *ev)
-{
-	AlarmNotify *an;
-	AlarmNotifyPrivate *priv;
-
-	an = ALARM_NOTIFY (bonobo_object_from_servant (servant));
-	priv = an->priv;
-
-	/* FIXME */
-}
-
-
-
-/**
- * alarm_notify_new:
- * 
- * Creates a new #AlarmNotify object.
- * 
- * Return value: A newly-created #AlarmNotify, or NULL if its corresponding
- * CORBA object could not be created.
- **/
-AlarmNotify *
-alarm_notify_new (void)
-{
-	AlarmNotify *an;
-
-	an = gtk_type_new (TYPE_ALARM_NOTIFY);
-	return an;
 }
