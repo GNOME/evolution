@@ -294,7 +294,6 @@ Cal_get_events_in_range (PortableServer_Servant servant,
 		corba_icoi = &seq->_buffer[i];
 
 		corba_icoi->uid = CORBA_string_dup (icoi->uid);
-		corba_icoi->calobj = CORBA_string_dup (icoi->calobj);
 		corba_icoi->start = icoi->start;
 		corba_icoi->end = icoi->end;
 	}

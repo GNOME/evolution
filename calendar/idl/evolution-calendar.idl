@@ -45,7 +45,6 @@ module Calendar {
 	 */
 	struct CalObjInstance {
 		CalObjUID uid;
-		CalObj calobj;
 		Time_t start;
 		Time_t end;
 	};

@@ -1,5 +1,5 @@
 [evolution:calendar-factory]
 type=exe
-repo_id=IDL:Evolution/Calendar/CalFactory:1.0
+repo_id=IDL:Evolution/Calendar/CalFactory:1.0 IDL:Bonobo/Unknown:1.0
 description=Calendar factory for the Personal Calendar Server
 location_info=tlacuache

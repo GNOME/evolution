@@ -28,11 +28,6 @@
 
 
 
-/* VCalendar product ID */
-#define PRODID "-//Helix Code//NONSGML Tlacuache//EN"
-
-
-
 /* Private part of the CalBackend structure */
 typedef struct {
 	/* URI where the calendar data is stored */
@@ -391,59 +386,6 @@ load_from_vobject (CalBackend *backend, VObject *vobject)
 	}
 }
 
-/* Creates a VObject with the base information of a calendar */
-static VObject *
-get_calendar_base_vobject (CalBackend *backend)
-{
-	VObject *vobj;
-	time_t now;
-	struct tm tm;
-
-	/* We call localtime for the side effect of setting tzname */
-
-	now = time (NULL);
-	tm = *localtime (&now);
-
-	vobj = newVObject (VCCalProp);
-
-	addPropValue (vobj, VCProdIdProp, PRODID);
-
-#if defined (HAVE_TM_ZONE)
-	addPropValue (vobj, VCTimeZoneProp, tm.tm_zone);
-#elif defined (HAVE_TZNAME)
-	addPropValue (vobj, VCTimeZoneProp, tzname[0]);
-#endif
-
-	/* Per the vCalendar spec, this must be "1.0" */
-	addPropValue (vobj, VCVersionProp, "1.0");
-
-	return vobj;
-}
-
-/* Builds the string representation of a complete calendar object wrapping the
- * specified object --- a complete calendar is needed because of the timezone
- * information.  The return value must be freed with free(), not g_free(), since
- * the internal implementation calls writeMemVObject() from libversit, which
- * uses realloc() to allocate this string.
- */
-static char *
-string_from_ical_object (CalBackend *backend, iCalObject *ico)
-{
-	VObject *vcalobj, *vobj;
-	char *buf;
-
-	vcalobj = get_calendar_base_vobject (backend);
-	vobj = ical_object_to_vobject (ico);
-	addVObjectProp (vcalobj, vobj);
-
-	buf = writeMemVObject (NULL, NULL, vcalobj);
-
-	cleanVObject (vcalobj);
-	cleanStrTbl ();
-
-	return buf;
-}
-
 
 
 /**
@@ -775,7 +717,7 @@ cal_backend_get_object (CalBackend *backend, const char *uid)
 {
 	CalBackendPrivate *priv;
 	iCalObject *ico;
-	char *buf, *retval;
+	char *buf;
 
 	g_return_val_if_fail (backend != NULL, NULL);
 	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
@@ -792,17 +734,8 @@ cal_backend_get_object (CalBackend *backend, const char *uid)
 	if (!ico)
 		return NULL;
 
-	/* string_from_ical_object() uses writeMemVObject(), which uses
-	 * realloc(), so we must free its result with free() instead of
-	 * g_free().  We take a copy of the result so that callers can use the
-	 * normal glib function to free it.
-	 */
-
-	buf = string_from_ical_object (backend, ico);
-	retval = g_strdup (buf);
-	free (buf);
-
-	return retval;
+	buf = ical_object_to_string (ico);
+	return buf;
 }
 
 struct get_uids_closure {
@@ -893,7 +826,6 @@ build_event_list (iCalObject *ico, time_t start, time_t end, void *data)
 
 	g_assert (ico->uid != NULL);
 	icoi->uid = g_strdup (ico->uid);
-	icoi->calobj = string_from_ical_object (c->backend, ico);
 	icoi->start = start;
 	icoi->end = end;
 

@@ -1,3 +1,42 @@
+2000-03-27  Federico Mena Quintero  <federico@helixcode.com>
+
+	* pcs/cal-backend.c (cal_backend_get_object): Use
+	ical_object_to_string().
+
+	* cal-util/calobj.c (ical_object_to_string): Moved over from
+	pcs/cal-backend.c (was string_from_ical_object).
+	(get_calendar_base_vobject): Likewise, moved over from
+	pcs/cal-backend.c.
+
+	* cal-util/cal-util.c: Removed string_to_ical_object(); the
+	correct function is in calobj.[ch], called
+	ical_object_find_in_string().  Removed ical_object_to_string,
+	since we now implement it in calobj.c.
+
+	* cal-util/calobj.c: Removed ical_object_new_from_string(); see
+	above.
+
+	* idl/evolution-calendar.idl (CalObjInstance): Calendar object
+	instances now contain only the UID for the object, not the whole
+	string representation of the object.  This allows clients to
+	implement caching of objects if they wish.
+
+	* pcs/cal.c (Cal_get_events_in_range): Likewise.
+
+	* pcs/cal-backend.c (build_event_list): Likewise.
+
+	* cal-client/cal-client.c (cal_client_get_events_in_range):
+	Likewise.
+
+	* cal-util/cal-util.h (CalObjInstance): Likewise.
+
+	* cal-util/cal-util.c (cal_obj_instance_list_free): Likewise.
+	(cal_obj_uid_list_free): Assert that the UIDs in the list are not
+	NULL.
+
+	* pcs/tlacuache.gnorba (repo_id): The calendar factory also
+	supports the Unknown interface.
+
 2000-03-17  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/e-day-view.c: Fix includes.

@@ -35,8 +35,7 @@ BEGIN_GNOME_DECLS
  * recurrence, or an alarm trigger of a `real' calendar object.
  */
 typedef struct {
-	char *uid;			/* Identifier for the object wrapped in calobj */
-	char *calobj;			/* String representation of calendar object */
+	char *uid;			/* UID of the object */
 	time_t start;			/* Start time of instance */
 	time_t end;			/* End time of instance */
 } CalObjInstance;
@@ -53,9 +52,6 @@ typedef enum {
 } CalObjType;
 
 void cal_obj_uid_list_free (GList *list);
-
-char *ical_object_to_string (iCalObject *ico);
-iCalObject *string_to_ical_object (char *);
 
 END_GNOME_DECLS
 

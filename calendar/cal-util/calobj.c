@@ -17,6 +17,11 @@
 
 
 
+/* VCalendar product ID */
+#define PRODID "-//Helix Code//NONSGML Evolution Calendar//EN"
+
+
+
 static char *
 ical_gen_uid (void)
 {
@@ -1493,35 +1498,6 @@ alarm_compute_offset (CalendarAlarm *a)
 	return a->offset;
 }
 
-iCalObject *
-ical_object_new_from_string (const char *vcal_string)
-{
-	iCalObject *ical = NULL;
-	VObject *cal, *event;
-	VObjectIterator i;
-	const char *object_name;
-
-	cal = Parse_MIME (vcal_string, strlen (vcal_string));
-
-	initPropIterator (&i, cal);
-
-	while (moreIteration (&i)){
-		event = nextVObject (&i);
-
-		object_name = vObjectName (event);
-
-		if (strcmp (object_name, VCEventProp) == 0){
-			ical = ical_object_create_from_vobject (event, object_name);
-			break;
-		}
-	}
-
-	cleanVObject (cal);
-	cleanStrTbl ();
-
-	return ical;
-}
-
 /**
  * ical_object_find_in_string:
  * @uid: Unique identifier of the sought object.
@@ -1592,4 +1568,67 @@ ical_object_find_in_string (const char *uid, const char *vcalobj, iCalObject **i
 	cleanStrTbl ();
 
 	return status;
+}
+
+/* Creates a VObject with the base information of a calendar */
+static VObject *
+get_calendar_base_vobject (void)
+{
+	VObject *vobj;
+	time_t now;
+	struct tm tm;
+
+	/* We call localtime for the side effect of setting tzname */
+
+	now = time (NULL);
+	tm = *localtime (&now);
+
+	vobj = newVObject (VCCalProp);
+
+	addPropValue (vobj, VCProdIdProp, PRODID);
+
+#if defined (HAVE_TM_ZONE)
+	addPropValue (vobj, VCTimeZoneProp, tm.tm_zone);
+#elif defined (HAVE_TZNAME)
+	addPropValue (vobj, VCTimeZoneProp, tzname[0]);
+#endif
+
+	/* Per the vCalendar spec, this must be "1.0" */
+	addPropValue (vobj, VCVersionProp, "1.0");
+
+	return vobj;
+}
+
+/**
+ * ical_object_to_string:
+ * @ico: A calendar object.
+ * 
+ * Converts a vCalendar object to its string representation.  It is wrapped
+ * inside a complete VCALENDAR object because other auxiliary information such
+ * as timezones may appear there.
+ * 
+ * Return value: String representation of the object.
+ **/
+char *
+ical_object_to_string (iCalObject *ico)
+{
+	VObject *vcalobj, *vobj;
+	char *buf, *gbuf;
+
+	vcalobj = get_calendar_base_vobject ();
+	vobj = ical_object_to_vobject (ico);
+	addVObjectProp (vcalobj, vobj);
+
+	buf = writeMemVObject (NULL, NULL, vcalobj);
+
+	cleanVObject (vcalobj);
+	cleanStrTbl ();
+
+	/* We have to g_strdup() it because libversit uses malloc()/realloc(),
+	 * and we want clients to be able to use g_free().  Sigh.
+	 */
+	gbuf = g_strdup (buf);
+	free (buf);
+
+	return gbuf;
 }

@@ -43,10 +43,8 @@ cal_obj_instance_list_free (GList *list)
 
 		g_assert (i != NULL);
 		g_assert (i->uid != NULL);
-		g_assert (i->calobj != NULL);
 
 		g_free (i->uid);
-		g_free (i->calobj);
 		g_free (i);
 	}
 
@@ -68,80 +66,10 @@ cal_obj_uid_list_free (GList *list)
 		char *uid;
 
 		uid = l->data;
+
+		g_assert (uid != NULL);
 		g_free (uid);
 	}
 
 	g_list_free (list);
 }
-
-
-#warning FIXME -- do we need a complete calendar here?  should we use libical instead of libversit?  can this be the same as string_from_ical_object in cal-backend.c?
-char *ical_object_to_string (iCalObject *ico)
-{
-	VObject *vobj;
-	char *buf;
-
-	vobj = ical_object_to_vobject (ico);
-	buf = writeMemVObject (NULL, NULL, vobj);
-	cleanStrTbl ();
-	return buf;
-}
-
-iCalObject *string_to_ical_object (char *buffer)
-{
-	/* FIX ME */
-#if 0
-	/* something */
-	VObject *vcal;
-	vcal = Parse_MIME (buffer, strlen (buffer));
-#endif /* 0 */
-	return NULL;
-}
-
-
-#if 0
-this is the one from calendar.c:
-
-/*
- * calendar_string_from_object:
- *
- * Returns the iCalObject @object armored around a vCalendar
- * object as a string.
- */
-char *
-calendar_string_from_object (iCalObject *object)
-{
-	Calendar *cal;
-	char *str;
-
-	g_return_val_if_fail (object != NULL, NULL);
-	
-	cal = calendar_new ("Temporal",CALENDAR_INIT_NIL);
-	calendar_add_object (cal, object);
-	str = calendar_get_as_vcal_string (cal);
-	calendar_remove_object (cal, object);
-
-	calendar_destroy (cal);
-	
-	return str;
-}
-
-char *
-calendar_get_as_vcal_string (Calendar *cal)
-{
-	VObject *vcal;
-	char *result;
-	
-	g_return_val_if_fail (cal != NULL, NULL);
-
-	vcal = vcalendar_create_from_calendar (cal);
-	result = writeMemVObject (NULL, 0, vcal);
-
-	cleanVObject (vcal);
-	cleanStrTbl ();
-
-	return result;
-}
-
-#endif /* 0 */
-

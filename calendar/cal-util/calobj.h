@@ -228,7 +228,6 @@ typedef int (*calendarfn) (iCalObject *, time_t, time_t, void *);
 
 iCalObject *ical_new                        (char *comment, char *organizer, char *summary);
 iCalObject *ical_object_new                 (void);
-iCalObject *ical_object_new_from_string     (const char *vcalendar_string);
 void        ical_object_destroy             (iCalObject *ico);
 iCalObject *ical_object_create_from_vobject (VObject *obj, const char *object_name);
 VObject    *ical_object_to_vobject          (iCalObject *ical);
@@ -247,6 +246,8 @@ typedef enum {
 } CalObjFindStatus;
 
 CalObjFindStatus ical_object_find_in_string (const char *uid, const char *vcalobj, iCalObject **ico);
+
+char *ical_object_to_string (iCalObject *ico);
 
 
 /* Returns the first toggled day in a weekday mask -- we do this because we do not support multiple

@@ -685,7 +685,6 @@ cal_client_get_events_in_range (CalClient *client, time_t start, time_t end)
 		icoi = g_new (CalObjInstance, 1);
 
 		icoi->uid = g_strdup (corba_icoi->uid);
-		icoi->calobj = g_strdup (corba_icoi->calobj);
 		icoi->start = corba_icoi->start;
 		icoi->end = corba_icoi->end;
 
