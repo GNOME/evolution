@@ -37,6 +37,21 @@
 #include <unistd.h>
 #include <errno.h>
 
+#ifdef HAVE_KRB4
+/* Specified nowhere */
+#define KPOP_PORT 1109
+
+#include <krb.h>
+
+#ifdef NEED_KRB_SENDAUTH_PROTO
+extern int krb_sendauth(long options, int fd, KTEXT ticket, char *service,
+			char *inst, char *realm, unsigned KRB4_32 checksum,
+			MSG_DAT *msg_data, CREDENTIALS *cred,
+			Key_schedule schedule, struct sockaddr_in *laddr,
+			struct sockaddr_in *faddr, char *version);
+#endif
+#endif
+
 #include "camel-pop3-store.h"
 #include "camel-pop3-folder.h"
 #include "camel-stream-buffer.h"
@@ -49,14 +64,7 @@
 /* Specified in RFC 1939 */
 #define POP3_PORT 110
 
-#ifdef HAVE_KRB4
-/* Specified nowhere */
-#define KPOP_PORT 1109
-
-#include <krb.h>
-#endif
-
-static CamelServiceClass *service_class = NULL;
+static CamelRemoteStoreClass *parent_class = NULL;
 
 static void finalize (CamelObject *object);
 
@@ -64,8 +72,6 @@ static gboolean pop3_connect (CamelService *service, CamelException *ex);
 static gboolean pop3_disconnect (CamelService *service, CamelException *ex);
 static GList *query_auth_types_connected (CamelService *service, CamelException *ex);
 static GList *query_auth_types_generic (CamelService *service, CamelException *ex);
-static void free_auth_types (CamelService *service, GList *authtypes);
-static char *get_name (CamelService *service, gboolean brief);
 
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name, 
 				gboolean create, CamelException *ex);
@@ -73,7 +79,7 @@ static char *get_folder_name (CamelStore *store, const char *folder_name,
 			      CamelException *ex);
 static char *get_root_folder_name (CamelStore *store, CamelException *ex);
 
-static int pop3_get_response (CamelPop3Store *store, char **ret);
+static int pop3_get_response (CamelPop3Store *store, char **ret, CamelException *ex);
 
 
 static void
@@ -83,16 +89,18 @@ camel_pop3_store_class_init (CamelPop3StoreClass *camel_pop3_store_class)
 		CAMEL_SERVICE_CLASS (camel_pop3_store_class);
 	CamelStoreClass *camel_store_class =
 		CAMEL_STORE_CLASS (camel_pop3_store_class);
-	
-	service_class = CAMEL_SERVICE_CLASS(camel_type_get_global_classfuncs (camel_service_get_type ()));
+	/*CamelRemoteStoreClass *camel_remote_store_class =
+	 *	CAMEL_STORE_CLASS (camel_pop3_store_class);
+	 */
+
+	parent_class = CAMEL_REMOTE_STORE_CLASS(camel_type_get_global_classfuncs 
+						(camel_remote_store_get_type ()));
 
 	/* virtual method overload */
-	camel_service_class->connect = pop3_connect;
-	camel_service_class->disconnect = pop3_disconnect;
 	camel_service_class->query_auth_types_connected = query_auth_types_connected;
 	camel_service_class->query_auth_types_generic = query_auth_types_generic;
-	camel_service_class->free_auth_types = free_auth_types;
-	camel_service_class->get_name = get_name;
+	camel_service_class->connect = pop3_connect;
+	camel_service_class->disconnect = pop3_disconnect;
 
 	camel_store_class->get_folder = get_folder;
 	camel_store_class->get_folder_name = get_folder_name;
@@ -106,7 +114,8 @@ camel_pop3_store_init (gpointer object, gpointer klass)
 {
 	CamelService *service = CAMEL_SERVICE (object);
 
-	service->url_flags = (CAMEL_SERVICE_URL_NEED_USER | CAMEL_SERVICE_URL_NEED_HOST);
+	service->url_flags |= (CAMEL_SERVICE_URL_NEED_USER | CAMEL_SERVICE_URL_NEED_HOST |
+			       CAMEL_SERVICE_URL_ALLOW_AUTH);
 }
 
 CamelType
@@ -115,7 +124,7 @@ camel_pop3_store_get_type (void)
 	static CamelType camel_pop3_store_type = CAMEL_INVALID_TYPE;
 
 	if (!camel_pop3_store_type) {
-		camel_pop3_store_type = camel_type_register (CAMEL_STORE_TYPE, "CamelPop3Store",
+		camel_pop3_store_type = camel_type_register (CAMEL_REMOTE_STORE_TYPE, "CamelPop3Store",
 							     sizeof (CamelPop3Store),
 							     sizeof (CamelPop3StoreClass),
 							     (CamelObjectClassInitFunc) camel_pop3_store_class_init,
@@ -131,12 +140,6 @@ static void
 finalize (CamelObject *object)
 {
 	CamelPop3Store *pop3_store = CAMEL_POP3_STORE (object);
-	/*CamelException ex;*/
-
-	/*camel_exception_init (&ex);
-	 *pop3_disconnect (CAMEL_SERVICE (object), &ex);
-	 *camel_exception_clear (&ex);
-	 */
 
 	if (pop3_store->apop_timestamp)
 		g_free (pop3_store->apop_timestamp);
@@ -176,40 +179,14 @@ static CamelServiceAuthType kpop_authtype = {
 #endif
 
 static gboolean
-connect_to_server (CamelService *service, gboolean real, CamelException *ex)
+connect_to_server (CamelService *service, /*gboolean real, */CamelException *ex)
 {
 	CamelPop3Store *store = CAMEL_POP3_STORE (service);
-	struct hostent *h;
-	struct sockaddr_in sin;
-	int fd, status;
 	char *buf, *apoptime, *apopend;
+	gint status;
 #ifdef HAVE_KRB4
 	gboolean kpop = (service->url->port == KPOP_PORT);
 #endif
-
-	h = camel_service_gethost (service, ex);
-	if (!h)
-		return FALSE;
-
-	sin.sin_family = h->h_addrtype;
-	if (service->url->port)
-		sin.sin_port = htons (service->url->port);
-	else
-		sin.sin_port = htons (POP3_PORT);
-	memcpy (&sin.sin_addr, h->h_addr, sizeof (sin.sin_addr));
-
-	fd = socket (h->h_addrtype, SOCK_STREAM, 0);
-	if (fd == -1 ||
-	    connect (fd, (struct sockaddr *)&sin, sizeof(sin)) == -1) {
-		if (real) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-					      "Could not connect to %s: %s",
-					      h->h_name, g_strerror(errno));
-		}
-		if (fd > -1)
-			close (fd);
-		return FALSE;
-	}
 
 #ifdef HAVE_KRB4
 	if (kpop) {
@@ -218,25 +195,30 @@ connect_to_server (CamelService *service, gboolean real, CamelException *ex)
 		CREDENTIALS cred;
 		Key_schedule schedule;
 		char *hostname;
+		struct hostent *h;
+		int fd;
 
 		/* Need to copy hostname, because krb_realmofhost will
 		 * call gethostbyname as well, and gethostbyname uses
 		 * static storage.
 		 */
+		h = camel_service_gethost (service, ex);
 		hostname = g_strdup (h->h_name);
+
+		fd = CAMEL_STREAM_FS (CAMEL_REMOTE_STORE (service)->ostream)->fd;
+
 		status = krb_sendauth (0, fd, &ticket_st, "pop", hostname,
 				       krb_realmofhost (hostname), 0,
 				       &msg_data, &cred, schedule,
 				       NULL, NULL, "KPOPV0.1");
 		g_free (hostname);
 		if (status != KSUCCESS) {
-			if (real) {
+			/*if (real) {*/
 				camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 						      "Could not authenticate "
 						      "to KPOP server: %s",
 						      krb_err_txt[status]);
-			}
-			close (fd);
+				/*}*/
 			return FALSE;
 		}
 
@@ -245,22 +227,10 @@ connect_to_server (CamelService *service, gboolean real, CamelException *ex)
 	}
 #endif /* HAVE_KRB4 */
 
-	store->ostream = camel_stream_fs_new_with_fd (fd);
-	store->istream = camel_stream_buffer_new (store->ostream,
-						  CAMEL_STREAM_BUFFER_READ);
-
 	/* Read the greeting, check status */
-	status = pop3_get_response (store, &buf);
-	if (status != CAMEL_POP3_OK) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "%s: %s", status == CAMEL_POP3_ERR ?
-				      "Error connecting to POP server" :
-				      "Error reading greeting from POP server",
-				      buf);
-		g_free (buf);
-		pop3_disconnect (service, ex);
+	status = pop3_get_response (store, &buf, ex);
+	if (status != CAMEL_POP3_OK)
 		return FALSE;
-	}
 
 	apoptime = strchr (buf, '<');
 	apopend = apoptime ? strchr (apoptime, '>') : NULL;
@@ -277,20 +247,14 @@ connect_to_server (CamelService *service, gboolean real, CamelException *ex)
 	store->supports_uidl = -1;
 	store->expires = -1;
 
-	/* good enough for us */
-	service->connected = TRUE;
-
-	status = camel_pop3_command (store, NULL, "CAPA");
+	status = camel_pop3_command (store, NULL, ex, "CAPA");
 	if (status == CAMEL_POP3_OK) {
 		char *p;
 		int len;
 
 		buf = camel_pop3_command_get_additional_data (store, ex);
-		if (camel_exception_is_set (ex)) {
-			pop3_disconnect (service, ex);
-			service->connected = FALSE;
+		if (camel_exception_is_set (ex))
 			return FALSE;
-		}
 
 		p = buf;
 		while (*p) {
@@ -332,24 +296,32 @@ query_auth_types_connected (CamelService *service, CamelException *ex)
 	int saved_port;
 #endif
 
-	if (service->url && !service->url->empty) {
-		passwd = connect_to_server (service, FALSE, ex);
-		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
-			return NULL;
-		apop = store->apop_timestamp != NULL;
-		if (passwd)
-			pop3_disconnect (service, ex);
+	ret = CAMEL_SERVICE_CLASS (parent_class)->query_auth_types_connected (service, ex);
+
+	passwd = camel_service_connect (service, ex);
+	/*ignore the exception here; the server may just not support passwd */
+	/*if (camel_exception_is_set (ex) != CAMEL_EXCEPTION_NONE)*/
+	/*return NULL;*/
+	
+	/* should we check apop too? */
+	apop = store->apop_timestamp != NULL;
+	if (passwd)
+		camel_service_disconnect (service, ex);
+	camel_exception_clear (ex);
+
 #ifdef HAVE_KRB4
-		saved_port = service->url->port;
-		service->url->port = KPOP_PORT;
-		kpop = connect_to_server (service, FALSE, ex);
-		service->url->port = saved_port;
-		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
-			return NULL;
-		if (kpop)
-			pop3_disconnect (service, ex);
+	saved_port = service->url->port;
+	service->url->port = KPOP_PORT;
+	kpop = camel_service_connect (service, ex);
+	service->url->port = saved_port;
+	/*ignore the exception here; the server may just not support kpop */
+	/*if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)*/
+	/*return NULL;*/
+
+	if (kpop)
+		camel_service_disconnect (service, ex);
+	camel_exception_clear (ex);
 #endif
-	}
 
 	if (passwd)
 		ret = g_list_append (ret, &password_authtype);
@@ -383,25 +355,6 @@ query_auth_types_generic (CamelService *service, CamelException *ex)
 	return ret;
 }
 
-static void
-free_auth_types (CamelService *service, GList *authtypes)
-{
-	g_list_free (authtypes);
-}
-
-static char *
-get_name (CamelService *service, gboolean brief)
-{
-	if (brief)
-		return g_strdup_printf ("POP server %s", service->url->host);
-	else {
-		return g_strdup_printf ("POP service for %s on %s",
-					service->url->user,
-					service->url->host);
-	}
-}
-
-
 /**
  * camel_pop3_store_expunge:
  * @store: the store
@@ -414,8 +367,8 @@ get_name (CamelService *service, gboolean brief)
 void
 camel_pop3_store_expunge (CamelPop3Store *store, CamelException *ex)
 {
-	camel_pop3_command (store, NULL, "QUIT");
-	pop3_disconnect (CAMEL_SERVICE (store), ex);
+	/*camel_pop3_command (store, NULL, ex, "QUIT");*/
+	/*camel_service_disconnect (CAMEL_SERVICE (store), ex);*/
 }
 
 
@@ -449,20 +402,23 @@ pop3_try_authenticate (CamelService *service, gboolean kpop,
 	}
 
 	if (!service->url->authmech || kpop) {
-		status = camel_pop3_command (store, &msg, "USER %s",
+		status = camel_pop3_command (store, &msg, ex, "USER %s",
 					     service->url->user);
-		if (status != CAMEL_POP3_OK) {
+		switch (status) {
+		case CAMEL_POP3_ERR:
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
 					      "Unable to connect to POP "
 					      "server.\nError sending "
 					      "username: %s",
 					      msg ? msg : "(Unknown)");
 			g_free (msg);
+			/*fallll*/
+		case CAMEL_POP3_FAIL:
 			return FALSE;
 		}
 		g_free (msg);
 
-		status = camel_pop3_command (store, &msg, "PASS %s",
+		status = camel_pop3_command (store, &msg, ex, "PASS %s",
 					     service->url->passwd);
 	} else if (!strcmp (service->url->authmech, "+APOP")
 		   && store->apop_timestamp) {
@@ -477,7 +433,7 @@ pop3_try_authenticate (CamelService *service, gboolean kpop,
 		for (s = md5sum, d = md5asc; d < md5asc + 32; s++, d += 2)
 			sprintf (d, "%.2x", *s);
 
-		status = camel_pop3_command (store, &msg, "APOP %s %s",
+		status = camel_pop3_command (store, &msg, ex, "APOP %s %s",
 					     service->url->user, md5asc);
 	} else {
 		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
@@ -487,12 +443,12 @@ pop3_try_authenticate (CamelService *service, gboolean kpop,
 		return FALSE;
 	}
 
-	if (status != CAMEL_POP3_OK) {
+	if (status == CAMEL_POP3_ERR) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
 				      "Unable to connect to POP server.\n"
 				      "Error sending password: %s",
 				      msg ? msg : "(Unknown)");
-	}
+	} /*if status == camel_pop3_fail, ex will be set*/
 
 	g_free (msg);
 	return camel_exception_is_set (ex);
@@ -503,17 +459,42 @@ pop3_connect (CamelService *service, CamelException *ex)
 {
 	char *errbuf = NULL;
 	gboolean tryagain, kpop = FALSE;
+	gboolean res;
 
 #ifdef HAVE_KRB4
+	gboolean set_port = FALSE;
+
 	kpop = (service->url->authmech &&
 		!strcmp (service->url->authmech, "+KPOP"));
 
-	if (kpop && service->url->port == 0)
+	if (kpop && service->url->port == 0) {
+		set_port = TRUE;
 		service->url->port = KPOP_PORT;
+	}
 #endif
 
+  	res = CAMEL_SERVICE_CLASS (parent_class)->connect (service, ex);
+
+#ifdef HAVE_KRB4
+	/* This is veeery nasty. When we set the port, we're changing the
+	 * hash value of our URL. service_cache_remove() gets called when
+	 * we're done checking the mail, but the hash table lookup fails
+	 * because the url port has changed. Then, a finalized instance of
+	 * the CamelService is stuck in the hash table, and the next time
+	 * we try to look up the service, with a URL of port 0, we look
+	 * up the freed service and a segfault results.
+	 */
+
+	if (kpop && set_port)
+		service->url->port = 0;
+#endif
+
+	if (res == FALSE)
+		return FALSE;
+
 	d(printf ("POP3: Connecting to %s\n", service->url->host));
-	if (!connect_to_server (service, TRUE, ex))
+	/*FIXME integrate these functions */
+	if (!connect_to_server (service, ex))
 		return FALSE;
 
 	camel_exception_clear (ex);
@@ -522,6 +503,7 @@ pop3_connect (CamelService *service, CamelException *ex)
 			errbuf = g_strdup_printf (
 				"%s\n\n",
 				camel_exception_get_description (ex));
+			camel_exception_clear (ex);
 
 			/* Uncache the password before prompting again. */
 			camel_session_query_authenticator (
@@ -536,13 +518,10 @@ pop3_connect (CamelService *service, CamelException *ex)
 		g_free (errbuf);
 	} while (tryagain);
 
-	if (camel_exception_is_set (ex)) {
-		pop3_disconnect (service, NULL);
-		service->connected = FALSE;
+	if (camel_exception_is_set (ex))
 		return FALSE;
-	}
 
-	return service_class->connect (service, ex);
+	return TRUE;
 }
 
 static gboolean
@@ -550,25 +529,12 @@ pop3_disconnect (CamelService *service, CamelException *ex)
 {
 	CamelPop3Store *store = CAMEL_POP3_STORE (service);
 
-	if (!service_class->disconnect (service, ex))
+	camel_pop3_command (store, NULL, ex, "QUIT");
+
+	if (!CAMEL_SERVICE_CLASS (parent_class)->disconnect (service, ex))
 		return FALSE;
 
 	d(printf ("POP3: Disconnecting from %s\n", service->url->host));
-
-	if (store->ostream) {
-		camel_object_unref (CAMEL_OBJECT (store->ostream));
-		store->ostream = NULL;
-	}
-	if (store->istream) {
-		camel_object_unref (CAMEL_OBJECT (store->istream));
-		store->istream = NULL;
-	}
-
-	if (store->apop_timestamp) {
-		g_free (store->apop_timestamp);
-		store->apop_timestamp = NULL;
-	}
-
 	return TRUE;
 }
 
@@ -576,14 +542,6 @@ static CamelFolder *
 get_folder (CamelStore *store, const char *folder_name,
 	    gboolean create, CamelException *ex)
 {
-	/* CamelService *service = CAMEL_SERVICE (store);
-	 *
-	 *	if (!camel_service_is_connected (service)) {
-	 *	if (!camel_service_connect (service, ex))
-	 *		return NULL;
-	 *}
-	 */
-
 	return camel_pop3_folder_new (store, ex);
 }
 
@@ -628,45 +586,16 @@ get_root_folder_name (CamelStore *store, CamelException *ex)
  * result of the command.)
  **/
 int
-camel_pop3_command (CamelPop3Store *store, char **ret, char *fmt, ...)
+camel_pop3_command (CamelPop3Store *store, char **ret, CamelException *ex, char *fmt, ...)
 {
 	char *cmdbuf;
 	va_list ap;
-
-	/* Check for connectedness. Failed (or cancelled) operations will
-	 * close the connection. */
-	if (CAMEL_SERVICE (store)->connected == FALSE) {
-		CamelException ex;
-
-		d(g_message ("pop3: disconnected, reconnecting."));
-		camel_exception_init (&ex);
-		CAMEL_SERVICE_CLASS (CAMEL_OBJECT_GET_CLASS (store))->connect (store, &ex);
-		if (camel_exception_is_set (&ex)) {
-			camel_exception_clear (&ex);
-			return CAMEL_POP3_FAIL;
-		}
-		camel_exception_clear (&ex);
-	}
-
-	if (!store->ostream) {
-		/*CamelException ex;
-		 *
-		 *camel_exception_init (&ex);
-		 *if (!camel_service_connect (CAMEL_SERVICE (store), &ex)) {
-		 *	if (ret)
-		 *		*ret = g_strdup (camel_exception_get_description (&ex));
-		 *	camel_exception_clear (&ex);
-		 */
-
-		return CAMEL_POP3_FAIL;
-		/*}*/
-	}
 
 	va_start (ap, fmt);
 	cmdbuf = g_strdup_vprintf (fmt, ap);
 	va_end (ap);
 
-#if d(!)0
+#if 0 /*remote-store prints output now*/
 	if (!strncmp (cmdbuf, "PASS", 4))
 		printf ("POP3: >>> PASS xxx\n");
 	else
@@ -674,33 +603,29 @@ camel_pop3_command (CamelPop3Store *store, char **ret, char *fmt, ...)
 #endif
 
 	/* Send the command */
-	if (camel_stream_printf (store->ostream, "%s\r\n", cmdbuf) == -1) {
+	if (camel_remote_store_send_string (CAMEL_REMOTE_STORE (store), ex, "%s\r\n", cmdbuf) < 0) {
 		g_free (cmdbuf);
-		if (*ret)
-			*ret = g_strdup (g_strerror (errno));
-		d(printf ("POP3: !!! %s\n", g_strerror (errno)));
+		if (ret)
+			*ret = NULL;
 		return CAMEL_POP3_FAIL;
 	}
 	g_free (cmdbuf);
 
-	return pop3_get_response (store, ret);
+	return pop3_get_response (store, ret, ex);
 }
 
 static int
-pop3_get_response (CamelPop3Store *store, char **ret)
+pop3_get_response (CamelPop3Store *store, char **ret, CamelException *ex)
 {
 	char *respbuf;
 	int status;
 
-	respbuf = camel_stream_buffer_read_line (
-		CAMEL_STREAM_BUFFER (store->istream));
-	if (respbuf == NULL) {
+	if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store), &respbuf, ex) < 0) {
 		if (ret)
-			*ret = g_strdup (g_strerror (errno));
-		d(printf ("POP3: !!! %s\n", g_strerror (errno)));
+			*ret = NULL;
+		d(printf ("POP3: !!! %s\n", camel_exception_get_description (ex)));
 		return CAMEL_POP3_FAIL;
 	}
-	d(printf ("POP3: <<< %s\n", respbuf));
 
 	if (!strncmp (respbuf, "+OK", 3))
 		status = CAMEL_POP3_OK;
@@ -739,15 +664,13 @@ pop3_get_response (CamelPop3Store *store, char **ret)
 char *
 camel_pop3_command_get_additional_data (CamelPop3Store *store, CamelException *ex)
 {
-	CamelStreamBuffer *stream = CAMEL_STREAM_BUFFER (store->istream);
 	GPtrArray *data;
 	char *buf, *p;
 	int i, len = 0, status = CAMEL_POP3_OK;
 
 	data = g_ptr_array_new ();
 	while (1) {
-		buf = camel_stream_buffer_read_line (stream);
-		if (!buf) {
+		if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store), &buf, ex) < 0) {
 			status = CAMEL_POP3_FAIL;
 			break;
 		}
@@ -758,7 +681,9 @@ camel_pop3_command_get_additional_data (CamelPop3Store *store, CamelException *e
 		g_ptr_array_add (data, buf);
 		len += strlen (buf) + 1;
 	}
-	g_free (buf);
+	
+	if (buf)
+		g_free (buf);
 
 	if (status == CAMEL_POP3_OK) {
 		buf = g_malloc0 (len + 1);
@@ -769,7 +694,7 @@ camel_pop3_command_get_additional_data (CamelPop3Store *store, CamelException *e
 			datap = (char *) data->pdata[i];
 			ptr = (*datap == '.') ? datap + 1 : datap;
 			len = strlen (ptr);
-#if d(!)0
+#if 0 /*remote store prints stuff now */
 			if (i == data->len - 1)
 				printf ("POP3: <<<<<< %s\n", ptr);
 			else if (i == 0)

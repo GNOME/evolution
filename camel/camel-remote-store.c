@@ -149,8 +149,8 @@ camel_remote_store_get_type (void)
 static CamelServiceAuthType password_authtype = {
 	"SSH Tunneling",
 	
-	"This option will connect to the REMOTE server using a "
-	"plaintext password.",
+	"This option will connect to the server using a "
+	"SSH tunnel.",
 	
 	"",
 	TRUE
@@ -160,14 +160,12 @@ static CamelServiceAuthType password_authtype = {
 static GList *
 remote_query_auth_types_connected (CamelService *service, CamelException *ex)
 {
-	g_warning ("remote::query_auth_types_connected: not implemented. Defaulting.");
-	return CSRVC (service)->query_auth_types_generic (service, ex);
+	return NULL;
 }
 
 static GList *
 remote_query_auth_types_generic (CamelService *service, CamelException *ex)
 {
-	g_warning ("remote::query_auth_types_generic: not implemented. Defaulting.");
 	return NULL;
 }
 
@@ -190,14 +188,6 @@ remote_get_name (CamelService *service, gboolean brief)
 					service->url->user,
 					service->url->host);
 	}
-}
-
-static void
-refresh_folder_info (gpointer key, gpointer value, gpointer data)
-{
-	CamelFolder *folder = CAMEL_FOLDER (value);
-	
-	camel_folder_refresh_info (folder, (CamelException *) data);
 }
 
 static gboolean
@@ -277,9 +267,6 @@ remote_connect (CamelService *service, CamelException *ex)
 								    store);
 	}
 	
-	/* Let's make sure that any of our folders are brought up to speed */
-	g_hash_table_foreach (CAMEL_STORE (store)->folders, refresh_folder_info, ex);
-	
 	return TRUE;
 }
 
@@ -333,8 +320,15 @@ remote_send_string (CamelRemoteStore *store, CamelException *ex, char *fmt, va_l
 	
 	/* create the command */
 	cmdbuf = g_strdup_vprintf (fmt, ap);
-	
-	d(fprintf (stderr, "sending : %s", cmdbuf));
+
+#if d(!)0
+	if (strncmp (cmdbuf, "PASS ", 5) == 0)
+		fprintf (stderr, "sending : PASS xxxx\n");
+	else if (strstr (cmdbuf, "LOGIN \""))
+		fprintf (stderr, "sending : ---- LOGIN \"xxxx\" \"xxxx\"\n");
+	else
+		fprintf (stderr, "sending : %s", cmdbuf);
+#endif
 	
 	if (camel_stream_printf (store->ostream, "%s", cmdbuf) == -1) {
 		CamelException dex;
@@ -493,3 +487,26 @@ camel_remote_store_recv_line (CamelRemoteStore *store, char **dest,
 	
 	return CRSC (store)->recv_line (store, dest, ex);
 }
+
+static void
+refresh_folder_info (gpointer key, gpointer value, gpointer data)
+{
+	CamelFolder *folder = CAMEL_FOLDER (value);
+	
+	camel_folder_refresh_info (folder, (CamelException *) data);
+}
+
+/**
+ * camel_remote_store_refresh_folders: Refresh the folders that I
+ * contain
+ * @store: a CamelRemoteStore
+ * @ex: a CamelException
+ *
+ * Refreshes the folders listed in the folders hashtable.
+ **/
+
+void
+camel_remote_store_refresh_folders (CamelRemoteStore *store, CamelException *ex)
+{
+	g_hash_table_foreach (CAMEL_STORE (store)->folders, refresh_folder_info, ex);
+}	

@@ -134,24 +134,22 @@ pop3_refresh_info (CamelFolder *folder, CamelException *ex)
 	CamelPop3Folder *pop3_folder = (CamelPop3Folder *) folder;
 	CamelPop3Store *pop3_store = CAMEL_POP3_STORE (folder->parent_store);
 
-	status = camel_pop3_command (pop3_store, &data, "STAT");
-	if (status != CAMEL_POP3_OK) {
-		CamelService *service = CAMEL_SERVICE (pop3_store);
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not get message count from POP "
-				      "server %s: %s.", service->url->host,
-				      data ? data : "Unknown error");
-		g_free (data);
+	status = camel_pop3_command (pop3_store, &data, ex, "STAT");
+	if (status != CAMEL_POP3_OK)
 		return;
-	}
 
 	count = atoi (data);
 	g_free (data);
 
 	if (pop3_store->supports_uidl != FALSE) {
-		status = camel_pop3_command (pop3_store, NULL, "UIDL");
-		if (status != CAMEL_POP3_OK)
+		status = camel_pop3_command (pop3_store, NULL, ex, "UIDL");
+		switch (status) {
+		case CAMEL_POP3_ERR:
 			pop3_store->supports_uidl = FALSE;
+			break;
+		case CAMEL_POP3_FAIL:
+			return;
+		}
 	}
 
 	if (pop3_store->supports_uidl == FALSE) {
@@ -198,16 +196,10 @@ pop3_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 
 	for (i = 0; i < pop3_folder->uids->len; i++) {
 		if (pop3_folder->flags[i] & CAMEL_MESSAGE_DELETED) {
-			status = camel_pop3_command (pop3_store, &resp,
+			status = camel_pop3_command (pop3_store, &resp, ex,
 						     "DELE %d", i + 1);
-			if (status != CAMEL_POP3_OK) {
-				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-						      "Unable to sync folder"
-						      "%s%s", resp ? ": " : "",
-						      resp ? resp : "");
-				g_free (resp);
+			if (status != CAMEL_POP3_OK)
 				return;
-			}
 		}
 	}
 
@@ -276,17 +268,9 @@ pop3_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 	}
 
 	status = camel_pop3_command (CAMEL_POP3_STORE (folder->parent_store),
-				     &result, "RETR %d", num);
-	if (status != CAMEL_POP3_OK) {
-		CamelService *service = CAMEL_SERVICE (folder->parent_store);
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not retrieve message from POP "
-				      "server %s: %s.", service->url->host,
-				      status == CAMEL_POP3_ERR ? result :
-				      "Unknown error");
-		g_free (result);
+				     &result, ex, "RETR %d", num);
+	if (status != CAMEL_POP3_OK)
 		return NULL;
-	}
 	g_free (result);
 
 	body = camel_pop3_command_get_additional_data (CAMEL_POP3_STORE (folder->parent_store), ex);

@@ -191,10 +191,20 @@ camel_imap_folder_new (CamelStore *parent, char *folder_name, CamelException *ex
 	
 	CF_CLASS (folder)->init (folder, parent, NULL, folder_name, dir_sep, FALSE, ex);
 	
+	if (camel_exception_is_set (ex)) {
+		camel_object_unref (CAMEL_OBJECT (folder));
+		return NULL;
+	}
+
 	if (!strcmp (folder_name, url->path + 1))
 		folder->can_hold_messages = FALSE;
 	
 	CF_CLASS (folder)->refresh_info (folder, ex);
+
+	if (camel_exception_is_set (ex)) {
+		camel_object_unref (CAMEL_OBJECT (folder));
+		return NULL;
+	}
 
 	return folder;
 }

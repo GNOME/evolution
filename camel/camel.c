@@ -40,8 +40,7 @@ camel_init(void)
 #endif /* G_THREADS_ENABLED */
 #endif /* ENABLE_THREADS */
 
-	/* Taken care of by e-util/e-unicode.c */
-	/*unicode_init ();*/
+	unicode_init ();
 
 	return 0;
 }

@@ -1,3 +1,8 @@
+2000-09-05  Peter Williams  <peterw@helixcode.com>
+
+	* folder-browser.c (folder_browser_destroy): Don't free the shell;
+	it's not ours.
+
 2000-09-05  Dan Winship  <danw@helixcode.com>
 
 	* mail-tools.c (mail_tool_move_folder_contents): only call

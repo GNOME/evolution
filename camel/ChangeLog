@@ -1,3 +1,19 @@
+2000-09-05  Peter Williams  <peterw@helixcode.com>
+
+	* providers/imap/camel-imap-store.c (imap_folder_exists): Don't free the
+	result on error; the exception will have the relevant info.
+
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_new): Check for
+	exceptions here.
+
+	* providers/imap/camel-imap-store.c (imap_connect): Check the exception
+	on the refresh_folders call.
+
+	* providers/imap/camel-imap-store.h: Clean up some now-unused fields.
+
+	* camel.c (camel_init): Call unicode_init again, now that libunicode
+	will not initialize itself twice.
+
 2000-09-02  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* camel-folder-search (search_header_contains): Use e_utf8_strstrcase
@@ -6,6 +22,59 @@
 
 	* providers/imap/camel-imap-utils.c: Removed some unused
 	functions.
+
+2000-09-01  Peter Williams  <peterw@helixcode.com>
+
+	* providers/nntp/camel-nntp-store.c (camel_nntp_command): Initialize
+	the statically-allocated CamelException so that it doesn't contain
+	junk data that camel_exception_set() may try to free.
+	(camel_nntp_store_get_extensions): Same.
+	(camel_nntp_store_get_overview_fmt): Same.
+
+	* providers/pop3/camel-pop3-store.c (camel_pop3_command): Typo
+	fix (if (*ret) -> if (ret)).
+
+	* providers/pop3/camel-pop3-store.c (pop3_connect): Set the
+	port # back to what was specified ASAP, so that the hash of
+	the URL doesn't change (which causes a failure in
+	service_cache_remove that leads to a segfault).
+
+	* providers/imap/camel-imap-store.c (imap_connect): Clear the 
+	exception after a failed LOGIN so that it doesn't pass through
+	to the upper level and make mail think that the login failed.
+
+	* providers/pop3/camel-pop3-store.c (pop3_connect): As above.
+
+2000-08-31  Peter Williams  <peterw@helixcode.com>
+
+	* providers/pop3/camel-pop3-store.c (camel_pop3_store_get_type):
+	Implement POP3 with the CamelRemoteStore now.
+	(connect_to_server): Hack this a bit to get KPOP to work. Obey
+	the new connection semantics of the remote store (implicitly).
+	(query_auth_types_connected): Clear exceptions after attempts
+	to connect; the code at the bottom will catch hard errors.
+	Use camel_service_connect.
+	(camel_pop3_command): Take a CamelException; now, when an error
+	occurs, ret is set to NULL and the exception passes back the
+	appropriate information.
+	(pop3_get_response): Same as above.
+	(pop3_try_authenticate): Give camel_pop3_command its exception
+	and handle it properly.
+	(pop3_connect): Call the parent classfuncs. Don't disconnect
+	on error (done for us).
+
+	* providers/pop3/camel-pop3-folder.c: Obey the camel_pop3_command
+	semantics.
+
+	* camel-remote-store.c (remote_query_auth_types_connected): Don't
+	warn; just return NULL.
+	(remote_query_auth_types_generic): Same.
+	(remote_send_string): Filter out passwords in debugging output.
+
+	* providers/pop3/camel-pop3-store.c (camel_pop3_store_init): Also
+	set the ALLOW_AUTH flag.
+
+	* providers/imap/camel-imap-store.c (camel_imap_store_init): Same.
 
 2000-08-31  Chris Toshok  <toshok@helixcode.com>
 

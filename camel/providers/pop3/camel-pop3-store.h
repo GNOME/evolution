@@ -34,7 +34,7 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include "camel-types.h"
-#include "camel-store.h"
+#include "camel-remote-store.h"
 
 #define CAMEL_POP3_STORE_TYPE     (camel_pop3_store_get_type ())
 #define CAMEL_POP3_STORE(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_POP3_STORE_TYPE, CamelPop3Store))
@@ -43,9 +43,8 @@ extern "C" {
 
 
 typedef struct {
-	CamelStore parent_object;
+	CamelRemoteStore parent_object;
 
-	CamelStream *istream, *ostream;
 	char *apop_timestamp, *implementation;
 	gboolean supports_top, supports_uidl, expires;
 	int login_delay;
@@ -55,7 +54,7 @@ typedef struct {
 
 
 typedef struct {
-	CamelStoreClass parent_class;
+	CamelRemoteStoreClass parent_class;
 
 } CamelPop3StoreClass;
 
@@ -65,7 +64,7 @@ void camel_pop3_store_expunge (CamelPop3Store *store, CamelException *ex);
 
 /* support functions */
 enum { CAMEL_POP3_OK, CAMEL_POP3_ERR, CAMEL_POP3_FAIL };
-int camel_pop3_command (CamelPop3Store *store, char **ret, char *fmt, ...);
+int camel_pop3_command (CamelPop3Store *store, char **ret, CamelException *ex, char *fmt, ...);
 char *camel_pop3_command_get_additional_data (CamelPop3Store *store,
 					      CamelException *ex);
 

@@ -66,6 +66,8 @@ camel_nntp_store_get_extensions (CamelNNTPStore *store)
 		gboolean done = FALSE;
 		CamelException ex;
 
+		camel_exception_init (&ex);
+
 		while (!done) {
 			char *line;
 
@@ -117,6 +119,8 @@ camel_nntp_store_get_overview_fmt (CamelNNTPStore *store)
 	int i;
 	gboolean done = FALSE;
 	CamelException ex;
+
+	camel_exception_init (&ex);
 
 	status = camel_nntp_command (store, NULL,
 				     "LIST OVERVIEW.FMT");
@@ -406,6 +410,8 @@ camel_nntp_command (CamelNNTPStore *store, char **ret, char *fmt, ...)
 	int resp_code;
 	char *real_fmt;
 	CamelException ex;
+
+	camel_exception_init (&ex);
 
 	real_fmt = g_strdup_printf ("%s\r\n", fmt);
 

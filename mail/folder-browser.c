@@ -49,9 +49,10 @@ folder_browser_destroy (GtkObject *object)
 {
 	FolderBrowser *folder_browser = FOLDER_BROWSER (object);
 
-	if (folder_browser->shell)
-		CORBA_free (folder_browser->shell);
-	
+	/*if (folder_browser->shell)
+	 *	CORBA_free (folder_browser->shell);
+	 */
+
 	if (folder_browser->uri)
 		g_free (folder_browser->uri);
 

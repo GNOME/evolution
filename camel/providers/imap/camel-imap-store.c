@@ -95,7 +95,8 @@ camel_imap_store_init (gpointer object, gpointer klass)
 	
 	service->url_flags |= (CAMEL_SERVICE_URL_NEED_USER |
 			       CAMEL_SERVICE_URL_NEED_HOST |
-			       CAMEL_SERVICE_URL_ALLOW_PATH);
+			       CAMEL_SERVICE_URL_ALLOW_PATH |
+			       CAMEL_SERVICE_URL_ALLOW_AUTH);
 	
 	imap_store->dir_sep = g_strdup ("/"); /*default*/
 	imap_store->current_folder = NULL;
@@ -231,6 +232,7 @@ imap_connect (CamelService *service, CamelException *ex)
 			errbuf = g_strdup_printf ("Unable to authenticate to IMAP server.\n"
 						  "%s\n\n",
 						  camel_exception_get_description (ex));
+			camel_exception_clear (ex);
 		} else {
 			g_message ("IMAP Service sucessfully authenticated user %s", service->url->user);
 			authenticated = TRUE;
@@ -280,8 +282,10 @@ imap_connect (CamelService *service, CamelException *ex)
 	}
 	
 	g_free (result);
-	
-	return TRUE;
+
+	camel_remote_store_refresh_folders (CAMEL_REMOTE_STORE (store), ex);
+
+	return ! camel_exception_is_set (ex);
 }
 
 static gboolean
@@ -336,7 +340,6 @@ imap_folder_exists (CamelFolder *folder, CamelException *ex)
 					      &result, ex, "EXAMINE %s", folder_path);
 	
 	if (status != CAMEL_IMAP_OK) {
-		g_free (result);
 		g_free (folder_path);
 		return FALSE;
 	}
@@ -439,6 +442,9 @@ get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelEx
 	
 	new_folder = camel_imap_folder_new (store, folder_path, ex);
 	
+	if (camel_exception_is_set (ex))
+		return NULL;
+
 	/* this is the top-level dir, we already know it exists - it has to! */
 	if (!strcmp (folder_name, dir_sep))
 		return new_folder;

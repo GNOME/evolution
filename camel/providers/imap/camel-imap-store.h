@@ -50,7 +50,6 @@ typedef struct {
 	CamelRemoteStore parent_object;	
 	
 	CamelFolder *current_folder;
-	CamelStream *istream, *ostream;
 	
 	guint32 command;
 	
@@ -58,8 +57,6 @@ typedef struct {
 	gboolean has_status_capability;
 	
 	gchar *dir_sep;
-	
-	guint timeout_id;
 } CamelImapStore;
 
 
