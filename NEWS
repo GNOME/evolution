@@ -8,6 +8,18 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #43455 - evo crashed on exit (Rodrigo)
     #43763 - 2 right mouse menus appear in Week & Month views (Rodrigo)
 
+  * Mail
+
+    #42854 - copying files from one IMAP folder to another makes
+             multiple copies of file  (Jeff)
+    #43862 - first run imap account won't load folders until account
+             is disabled and re-enabled  (Jeff and Michael)
+    #42691 - server files not regenerated after distclean  (Michael)
+    #43805 - Evolution locked while editing reply to an mail  (Jeff)
+    #43410 - Flag for Followup dialog opens up too small in Evo  (Michael)
+    #43688 - can't save signatures  (Michael)
+
+
 Evolution 1.3.92, 2003-05-22
 ----------------------------
 
