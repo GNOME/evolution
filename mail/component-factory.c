@@ -825,8 +825,11 @@ user_create_new_item_cb (EvolutionShellComponent *shell_component,
 	if (!strcmp (id, "message")) {
 		send_to_url (NULL);
 		return;
-	} 
-
+	} else if (!strcmp (id, "post")) {
+		post_to_url (parent_folder_physical_uri);
+		return;
+	}
+	
 	g_warning ("Don't know how to create item of type \"%s\"", id);
 }
 

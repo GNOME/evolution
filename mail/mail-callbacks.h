@@ -55,6 +55,7 @@ void forward_quoted        (GtkWidget *widget, gpointer user_data);
 void forward_attached      (GtkWidget *widget, gpointer user_data);
 void forward               (GtkWidget *widget, gpointer user_data);
 
+void post_to_url           (const char *url);
 void post_message          (GtkWidget *widget, gpointer user_data);
 void post_reply            (GtkWidget *widget, gpointer user_data);
 

@@ -1373,6 +1373,25 @@ forward (GtkWidget *widget, gpointer user_data)
 
 
 void
+post_to_url (const char *url)
+{
+	GtkWidget *composer;
+	
+	composer = create_msg_composer (NULL, TRUE, NULL);
+	if (!composer)
+		return;
+	
+	e_msg_composer_hdrs_set_post_to ((EMsgComposerHdrs *) ((EMsgComposer *) composer)->hdrs, url);
+	
+	gtk_signal_connect (GTK_OBJECT (composer), "send",
+			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
+	gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
+			    GTK_SIGNAL_FUNC (composer_save_draft_cb), NULL);
+	
+	gtk_widget_show (composer);
+}
+
+void
 post_message (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
@@ -1382,20 +1401,9 @@ post_message (GtkWidget *widget, gpointer user_data)
 	if (FOLDER_BROWSER_IS_DESTROYED (fb) || !check_send_configuration (fb))
 		return;
 	
-	composer = create_msg_composer (NULL, TRUE, NULL);
-	if (!composer)
-		return;
-	
 	url = mail_tools_folder_to_url (fb->folder);
-	e_msg_composer_hdrs_set_post_to ((EMsgComposerHdrs *) ((EMsgComposer *) composer)->hdrs, url);
+	post_to_url (url);
 	g_free (url);
-	
-	gtk_signal_connect (GTK_OBJECT (composer), "send",
-			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
-	gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
-			    GTK_SIGNAL_FUNC (composer_save_draft_cb), NULL);
-	
-	gtk_widget_show (composer);
 }
 
 void

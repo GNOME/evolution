@@ -1,3 +1,12 @@
+2002-08-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* component-factory.c (user_create_new_item_cb): Updated to call
+	post_to_url if the id is "post".
+
+	* mail-callbacks.c (post_to_url): New function so that we don't
+	need a FolderBrowser to post a new message.
+	(post_message): Call post_to_url since they shared so much code.
+
 2002-08-05  Dan Winship  <danw@ximian.com>
 
 	* mail-callbacks.c (mail_reply): Only reply to all or reply to
