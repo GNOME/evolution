@@ -1,5 +1,8 @@
 2000-09-11  Dan Winship  <danw@helixcode.com>
 
+	* e-font.c (find_best_bold): Thou shalt leave space for the
+	trailing \0.
+
 	* e-util.c (e_strstrcase): The return value should not be
 	const. (Well, unless the input was, but you can't know that.)
 

@@ -440,7 +440,7 @@ find_best_bold (gchar **namelist, gint length, gchar *weight)
 		g_hash_table_insert (wh, "black", GINT_TO_POINTER (8));
 	}
 
-	s = alloca (strlen (weight));
+	s = alloca (strlen (weight) + 1);
 	strcpy (s, weight);
 	g_strdown (s);
 	sw = GPOINTER_TO_INT (g_hash_table_lookup (wh, s));
