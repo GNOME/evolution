@@ -396,18 +396,16 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 {
 	GtkTreeRowReference *uri_row, *path_row;
 	unsigned int unread;
-	EAccount *account;
 	GtkTreePath *path;
 	GtkTreeIter sub;
 	gboolean load;
-	char *node;
 	
 	load = !fi->child && (fi->flags & CAMEL_FOLDER_CHILDREN) && !(fi->flags & CAMEL_FOLDER_NOINFERIORS);
 	
 	path = gtk_tree_model_get_path ((GtkTreeModel *) model, iter);
 	uri_row = gtk_tree_row_reference_new ((GtkTreeModel *) model, path);
 	path_row = gtk_tree_row_reference_copy (uri_row);
-	/*gtk_tree_path_free (path);*/
+	gtk_tree_path_free (path);
 	
 	g_hash_table_insert (model->uri_hash, g_strdup (fi->url), uri_row);
 	g_hash_table_insert (si->path_hash, g_strdup (fi->path), path_row);
@@ -423,8 +421,6 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 			    COL_BOOL_IS_STORE, FALSE,
 			    COL_BOOL_LOAD_SUBDIRS, load,
 			    -1);
-	
-	node = fi->path;
 	
 	if (fi->child) {
 		fi = fi->child;
@@ -447,21 +443,6 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 				    COL_UINT_UNREAD, 0,
 				    -1);
 	}
-#if 0
-	/* FIXME: need to somehow get access to the appropriate treeview widget... */
-	if ((account = mail_config_get_account_by_name (si->display_name)))
-		node = g_strdup_printf ("%s:%s", account->uid, node);
-	else
-		node = g_strdup_printf ("%s:%s", si->display_name, node);
-	
-	if (g_hash_table_lookup (priv->expanded, node)) {
-		printf ("expanding node '%s'\n", node);
-		gtk_tree_view_expand_to_path (priv->treeview, path);
-	}
-	
-	gtk_tree_path_free (path);
-	g_free (node);
-#endif
 }
 
 
@@ -630,8 +611,7 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model, CamelStore *store, con
 	GtkTreeRowReference *row;
 	GtkTreeIter root, iter;
 	GtkTreePath *path;
-	EAccount *account;
-	char *node, *uri;
+	char *uri;
 	
 	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
 	g_return_if_fail (CAMEL_IS_STORE (store));
@@ -681,33 +661,15 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model, CamelStore *store, con
 	gtk_tree_store_append ((GtkTreeStore *) model, &iter, &root);
 	gtk_tree_store_set ((GtkTreeStore *) model, &iter,
 			    COL_STRING_DISPLAY_NAME, _("Loading..."),
-			    COL_POINTER_CAMEL_STORE, store,
-			    COL_STRING_FOLDER_PATH, "/",
-			    COL_BOOL_LOAD_SUBDIRS, TRUE,
+			    COL_POINTER_CAMEL_STORE, NULL,
+			    COL_STRING_FOLDER_PATH, NULL,
+			    COL_BOOL_LOAD_SUBDIRS, FALSE,
 			    COL_BOOL_IS_STORE, FALSE,
-			    COL_STRING_URI, uri,
+			    COL_STRING_URI, NULL,
 			    COL_UINT_UNREAD, 0,
 			    -1);
 	
 	g_free (uri);
-	
-#if 0
-	/* FIXME: how to do this now that it is being done in the
-	 * model instead of the tree widget code??? need to somehow
-	 * get access to the appropriate treeview widget... */
-	if ((account = mail_config_get_account_by_name (display_name)))
-		node = g_strdup_printf ("%s:/", account->uid);
-	else
-		node = g_strdup_printf ("%s:/", display_name);
-	
-	if (g_hash_table_lookup (priv->expanded, node)) {
-		path = gtk_tree_model_get_path ((GtkTreeModel *) model, &iter);
-		gtk_tree_view_expand_to_path (priv->treeview, path);
-		gtk_tree_path_free (path);
-	}
-	
-	g_free (node);
-#endif
 	
 	/* listen to store events */
 #define CAMEL_CALLBACK(func) ((CamelObjectEventHookFunc) func)
@@ -839,6 +801,7 @@ em_folder_tree_model_set_expanded (EMFolderTreeModel *model, const char *key, gb
 static void
 expanded_save (gpointer key, gpointer value, FILE *fp)
 {
+	/* FIXME: don't save nodes that don't exist in the tree anymore... */
 	if (!GPOINTER_TO_INT (value))
 		return;
 	

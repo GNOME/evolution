@@ -316,27 +316,27 @@ em_folder_tree_destroy (GtkObject *obj)
 	struct _EMFolderTreePrivate *priv = ((EMFolderTree *) obj)->priv;
 	
 	if (priv->ddr != 0) {
-		g_signal_handler_disconnect (obj, priv->ddr);
+		g_signal_handler_disconnect (priv->model, priv->ddr);
 		priv->ddr = 0;
 	}
 	
 	if (priv->rdp != 0) {
-		g_signal_handler_disconnect (obj, priv->rdp);
+		g_signal_handler_disconnect (priv->model, priv->rdp);
 		priv->rdp = 0;
 	}
 	
 	if (priv->rd != 0) {
-		g_signal_handler_disconnect (obj, priv->rd);
+		g_signal_handler_disconnect (priv->model, priv->rd);
 		priv->rd = 0;
 	}
 	
 	if (priv->ddg != 0) {
-		g_signal_handler_disconnect (obj, priv->ddg);
+		g_signal_handler_disconnect (priv->model, priv->ddg);
 		priv->ddg = 0;
 	}
 	
 	if (priv->ddd != 0) {
-		g_signal_handler_disconnect (obj, priv->ddd);
+		g_signal_handler_disconnect (priv->model, priv->ddd);
 		priv->ddd = 0;
 	}
 	
@@ -409,7 +409,6 @@ em_folder_tree_construct (EMFolderTree *emft, EMFolderTreeModel *model)
 	
 	gtk_box_pack_start ((GtkBox *) emft, scrolled, TRUE, TRUE, 0);
 }
-
 
 
 static void
@@ -822,6 +821,7 @@ em_folder_tree_new (void)
 	
 	model = em_folder_tree_model_new (mail_component_peek_base_directory (mail_component_peek ()));
 	emft = (EMFolderTree *) em_folder_tree_new_with_model (model);
+	g_object_unref (model);
 	
 	priv = emft->priv;
 	priv->ddr = g_signal_connect (model, "drag-data-received", G_CALLBACK (drag_data_received_cb), emft);
@@ -852,14 +852,15 @@ get_store_by_name (CamelStore *store, struct _EMFolderTreeModelStoreInfo *si, st
 }
 
 static void
-expand_node (char *key, gpointer value, EMFolderTree *emft)
+expand_node (const char *key, gpointer value, EMFolderTree *emft)
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	struct _EMFolderTreeModelStoreInfo *si;
 	GtkTreeRowReference *row;
 	GtkTreePath *path;
 	EAccount *account;
-	char *id, *p;
+	const char *p;
+	char *id;
 	
 	if (!(p = strchr (key, ':')))
 		return;
@@ -904,6 +905,7 @@ expand_node (char *key, gpointer value, EMFolderTree *emft)
 	gtk_tree_view_expand_to_path (priv->treeview, path);
 	gtk_tree_path_free (path);
 }
+
 
 GtkWidget *
 em_folder_tree_new_with_model (EMFolderTreeModel *model)
