@@ -1,5 +1,19 @@
 2000-08-21  Federico Mena Quintero  <federico@helixcode.com>
 
+	* gui/calendar-model.c (calendar_model_duplicate_value): Updated
+	function.
+	(calendar_model_free_value): Updated function.
+	(calendar_model_initialize_value): Updated function.
+	(calendar_model_value_is_empty): Updated function.
+	(remove_object): Updated function.
+	(obj_updated_cb): Updated function.
+	(calendar_model_get_cal_client): Added inline docs.
+	(calendar_model_delete_task): Updated.
+	(calendar_model_mark_task_complete): Updated.
+	(calendar_model_get_cal_object): Updated.
+
+2000-08-21  Federico Mena Quintero  <federico@helixcode.com>
+
 	* gui/calendar-model.c (set_categories): New function.
 	(parse_time): Moved over from the old set_time_t().  This just
 	parses the time and leaves the warning dialog for the caller.
@@ -11,6 +25,9 @@
 	(set_url): New function.
 	(calendar_model_set_value_at): Updated function.
 	(calendar_model_is_cell_editable): Updated function.
+	(calendar_model_append_row): Updated.  Added an ugly hack to
+	accomodate ETable's lack of a real API for adding new items.
+	Also, don't try to set columns that are not editable.
 
 2000-08-21  JP Rosevear  <jpr@helixcode.com>
 

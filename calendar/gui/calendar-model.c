@@ -51,6 +51,9 @@ typedef struct {
 
 	/* UID -> array index hash */
 	GHashTable *uid_index_hash;
+
+	/* HACK: so that ETable can do its stupid append_row() thing */
+	guint appending_row : 1;
 } CalendarModelPrivate;
 
 
@@ -1107,6 +1110,12 @@ calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *val
 		break;
 	}
 
+	/* FIXME: this is an ugly HACK.  ETable needs a better API for the
+	 * "click here to add an element" thingy.
+	 */
+	if (priv->appending_row)
+		return;
+
 	if (!cal_client_update_object (priv->client, comp))
 		g_message ("calendar_model_set_value_at(): Could not update the object!");
 }
@@ -1150,41 +1159,51 @@ calendar_model_append_row (ETableModel *etm, ETableModel *source, gint row)
 {
 	CalendarModel *model;
 	CalendarModelPrivate *priv;
-	iCalObject *ico;
-	gint *new_idx, col;
-
-	g_print ("In calendar_model_append_row\n");
+	CalComponent *comp;
+	int *new_idx, col;
+	const char *uid;
 
 	model = CALENDAR_MODEL (etm);
 	priv = model->priv;
 
-	ico = ical_new ("", user_name, "");
-	ico->type = ICAL_TODO;
+	/* This is a HACK */
+	priv->appending_row = TRUE;
 
-	/* Flag the iCalObject as new so all the calls to set_value_at to set
-	   each field don't call cal_client_update_object(). We only want to
-	   do that once after all the fields are set. */
-	ico->new = TRUE;
+	/* FIXME: This should support other types of components, but for now it
+	 * is only used for the task list.
+	 */
+	comp = cal_component_new ();
+	cal_component_set_new_vtype (comp, CAL_COMPONENT_TODO);
 
-	g_array_append_val (priv->objects, ico);
+	cal_component_get_uid (comp, &uid);
+
+	g_array_append_val (priv->objects, comp);
 	new_idx = g_new (int, 1);
 	*new_idx = priv->objects->len - 1;
-	g_hash_table_insert (priv->uid_index_hash, ico->uid, new_idx);
+	g_hash_table_insert (priv->uid_index_hash, (char *) uid, new_idx);
 
 	/* Notify the views about the new row. I think we have to do that here,
 	   or the views may become confused when they start getting
 	   "row_changed" or "cell_changed" signals for this new row. */
 	e_table_model_row_inserted (etm, *new_idx);
 
-	for (col = 0; col < ICAL_OBJECT_FIELD_NUM_FIELDS; col++) {
-		const void *val = e_table_model_value_at(source, col, row);
-		e_table_model_set_value_at(etm, col, *new_idx, val);
+	for (col = 0; col < CAL_COMPONENT_FIELD_NUM_FIELDS; col++) {
+		const void *val;
+
+		if (!e_table_model_is_cell_editable (etm, col, *new_idx))
+			continue;
+
+		val = e_table_model_value_at(source, col, row);
+		e_table_model_set_value_at (etm, col, *new_idx, val);
 	}
 
-	if (!cal_client_update_object (priv->client, ico)) {
+	/* This is the end of the HACK */
+	priv->appending_row = FALSE;
+
+	if (!cal_client_update_object (priv->client, comp)) {
 		/* FIXME: Show error dialog. */
 		g_message ("calendar_model_append_row(): Could not add new object!");
-		remove_object (model, ico->uid);
+		remove_object (model, uid);
 		e_table_model_row_deleted (etm, *new_idx);
 	}
 }
@@ -1196,116 +1215,44 @@ dup_string (const char *value)
 	return g_strdup (value);
 }
 
-/* Duplicates a time_t value */
-static char *
-dup_time_t (const char *value)
-{
-	return g_strdup (value);
-
-#if 0
-	time_t *t;
-
-	t = g_new (time_t, 1);
-	*t = *value;
-	return t;
-#endif
-}
-
-/* Duplicates a geo value */
-static char *
-dup_geo (const char *value)
-{
-	return g_strdup (value);
-
-#if 0
-	iCalGeo *geo;
-
-	geo = g_new (iCalGeo, 1);
-	*geo = *value;
-	return geo;
-#endif
-}
-
-/* Duplicates a person value */
-static char *
-dup_person (const char *value)
-{
-	/* FIXME */
-	return g_strdup (value);
-}
-
-/* Duplicates an int value */
-static char *
-dup_int (const char *value)
-{
-	return g_strdup (value);
-
-#if 0
-	int *v;
-
-	v = g_new (int, 1);
-	*v = *value;
-	return v;
-#endif
-}
-
 /* duplicate_value handler for the calendar table model */
 static void *
 calendar_model_duplicate_value (ETableModel *etm, int col, const void *value)
 {
-	g_return_val_if_fail (col >= 0 && col < ICAL_OBJECT_FIELD_NUM_FIELDS, NULL);
+	g_return_val_if_fail (col >= 0 && col < CAL_COMPONENT_FIELD_NUM_FIELDS, NULL);
+
+	/* They are almost all dup_string()s for now, but we'll have real fields
+	 * later.
+	 */
 
 	switch (col) {
-	case ICAL_OBJECT_FIELD_COMMENT:
+	case CAL_COMPONENT_FIELD_CATEGORIES:
 		return dup_string (value);
 
-	case ICAL_OBJECT_FIELD_COMPLETED:
-		return dup_time_t (value);
-
-	case ICAL_OBJECT_FIELD_DESCRIPTION:
-		return dup_string (value);
-
-	case ICAL_OBJECT_FIELD_DTSTAMP:
-		return dup_time_t (value);
-
-	case ICAL_OBJECT_FIELD_DTSTART:
-		return dup_time_t (value);
-
-	case ICAL_OBJECT_FIELD_DTEND:
-		return dup_time_t (value);
-
-	case ICAL_OBJECT_FIELD_GEO:
-		return dup_geo (value);
-
-	case ICAL_OBJECT_FIELD_LAST_MOD:
-		return dup_time_t (value);
-
-	case ICAL_OBJECT_FIELD_LOCATION:
-		return dup_string (value);
-
-	case ICAL_OBJECT_FIELD_ORGANIZER:
-		return dup_person (value);
-
-	case ICAL_OBJECT_FIELD_PERCENT:
-		return dup_int (value);
-
-	case ICAL_OBJECT_FIELD_PRIORITY:
-		return dup_int (value);
-
-	case ICAL_OBJECT_FIELD_SUMMARY:
-		return dup_string (value);
-
-	case ICAL_OBJECT_FIELD_URL:
-		return dup_string (value);
-
-	case ICAL_OBJECT_FIELD_HAS_ALARMS:
+	case CAL_COMPONENT_FIELD_CLASSIFICATION:
 		return (void *) value;
 
-	case ICAL_OBJECT_FIELD_ICON:
-	case ICAL_OBJECT_FIELD_COMPLETE:
-	case ICAL_OBJECT_FIELD_RECURRING:
-	case ICAL_OBJECT_FIELD_OVERDUE:
-	case ICAL_OBJECT_FIELD_COLOR:
+	case CAL_COMPONENT_FIELD_COMPLETED:
+	case CAL_COMPONENT_FIELD_DTEND:
+	case CAL_COMPONENT_FIELD_DTSTART:
+	case CAL_COMPONENT_FIELD_DUE:
+	case CAL_COMPONENT_FIELD_GEO:
+	case CAL_COMPONENT_FIELD_PERCENT:
+	case CAL_COMPONENT_FIELD_PRIORITY:
+		return dup_string (value);
+
+	case CAL_COMPONENT_FIELD_TRANSPARENCY:
+		return (void *) value;
+
+	case CAL_COMPONENT_FIELD_URL:
+		return dup_string (value);
+
+	case CAL_COMPONENT_FIELD_HAS_ALARMS:
+	case CAL_COMPONENT_FIELD_ICON:
+	case CAL_COMPONENT_FIELD_COMPLETE:
+	case CAL_COMPONENT_FIELD_RECURRING:
+	case CAL_COMPONENT_FIELD_OVERDUE:
+	case CAL_COMPONENT_FIELD_COLOR:
 		return (void *) value;
 
 	default:
@@ -1318,23 +1265,41 @@ calendar_model_duplicate_value (ETableModel *etm, int col, const void *value)
 static void
 calendar_model_free_value (ETableModel *etm, int col, void *value)
 {
-	g_return_if_fail (col >= 0 && col < ICAL_OBJECT_FIELD_NUM_FIELDS);
+	g_return_if_fail (col >= 0 && col < CAL_COMPONENT_FIELD_NUM_FIELDS);
 
 	switch (col) {
-	case ICAL_OBJECT_FIELD_ORGANIZER:
-		/* FIXME: this requires special handling for iCalPerson */
-
-		break;
-	case ICAL_OBJECT_FIELD_HAS_ALARMS:
-	case ICAL_OBJECT_FIELD_ICON:
-	case ICAL_OBJECT_FIELD_COMPLETE:
-	case ICAL_OBJECT_FIELD_RECURRING:
-	case ICAL_OBJECT_FIELD_OVERDUE:
-	case ICAL_OBJECT_FIELD_COLOR:
-		/* Do nothing. */
-		break;
-	default:
+	case CAL_COMPONENT_FIELD_CATEGORIES:
 		g_free (value);
+
+	case CAL_COMPONENT_FIELD_CLASSIFICATION:
+		return;
+
+	case CAL_COMPONENT_FIELD_COMPLETED:
+	case CAL_COMPONENT_FIELD_DTEND:
+	case CAL_COMPONENT_FIELD_DTSTART:
+	case CAL_COMPONENT_FIELD_DUE:
+	case CAL_COMPONENT_FIELD_GEO:
+	case CAL_COMPONENT_FIELD_PERCENT:
+	case CAL_COMPONENT_FIELD_PRIORITY:
+		g_free (value);
+
+	case CAL_COMPONENT_FIELD_TRANSPARENCY:
+		return;
+
+	case CAL_COMPONENT_FIELD_URL:
+		g_free (value);
+
+	case CAL_COMPONENT_FIELD_HAS_ALARMS:
+	case CAL_COMPONENT_FIELD_ICON:
+	case CAL_COMPONENT_FIELD_COMPLETE:
+	case CAL_COMPONENT_FIELD_RECURRING:
+	case CAL_COMPONENT_FIELD_OVERDUE:
+	case CAL_COMPONENT_FIELD_COLOR:
+		return;
+
+	default:
+		g_message ("calendar_model_free_value(): Requested invalid column %d", col);
+		return;
 	}
 }
 
@@ -1345,153 +1310,46 @@ init_string (void)
 	return g_strdup ("");
 }
 
-/* Initializes a time_t value */
-static char *
-init_time_t (void)
-{
-	return g_strdup ("");
-#if 0
-	time_t *t;
-
-	t = g_new (time_t, 1);
-	*t = -1;
-	return t;
-#endif
-}
-
-/* Initializes a geo value */
-static char *
-init_geo (void)
-{
-	return g_strdup ("");
-#if 0
-	iCalGeo *geo;
-
-	geo = g_new (iCalGeo, 1);
-	geo->valid = FALSE;
-	geo->latitude = 0.0;
-	geo->longitude = 0.0;
-	return geo;
-#endif
-}
-
-/* Initializes a person value */
-static char *
-init_person (void)
-{
-	/* FIXME */
-	return g_strdup ("");
-}
-
-/* Initializes an int value */
-static char *
-init_int (void)
-{
-	return g_strdup ("");
-
-#if 0
-	int *v;
-
-	v = g_new (int, 1);
-	*v = 0;
-	return v;
-#endif
-}
-
 /* initialize_value handler for the calendar table model */
 static void *
 calendar_model_initialize_value (ETableModel *etm, int col)
 {
-	g_return_val_if_fail (col >= 0 && col < ICAL_OBJECT_FIELD_NUM_FIELDS, NULL);
+	g_return_val_if_fail (col >= 0 && col < CAL_COMPONENT_FIELD_NUM_FIELDS, NULL);
 
 	switch (col) {
-	case ICAL_OBJECT_FIELD_COMMENT:
+	case CAL_COMPONENT_FIELD_CATEGORIES:
 		return init_string ();
 
-	case ICAL_OBJECT_FIELD_COMPLETED:
-		return init_time_t ();
+	case CAL_COMPONENT_FIELD_CLASSIFICATION:
+		return NULL;
 
-	case ICAL_OBJECT_FIELD_DESCRIPTION:
+	case CAL_COMPONENT_FIELD_COMPLETED:
+	case CAL_COMPONENT_FIELD_DTEND:
+	case CAL_COMPONENT_FIELD_DTSTART:
+	case CAL_COMPONENT_FIELD_DUE:
+	case CAL_COMPONENT_FIELD_GEO:
+	case CAL_COMPONENT_FIELD_PERCENT:
+	case CAL_COMPONENT_FIELD_PRIORITY:
 		return init_string ();
 
-	case ICAL_OBJECT_FIELD_DTSTAMP:
-		return init_time_t ();
+	case CAL_COMPONENT_FIELD_TRANSPARENCY:
+		return NULL;
 
-	case ICAL_OBJECT_FIELD_DTSTART:
-		return init_time_t ();
-
-	case ICAL_OBJECT_FIELD_DTEND:
-		return init_time_t ();
-
-	case ICAL_OBJECT_FIELD_GEO:
-		return init_geo ();
-
-	case ICAL_OBJECT_FIELD_LAST_MOD:
-		return init_time_t ();
-
-	case ICAL_OBJECT_FIELD_LOCATION:
+	case CAL_COMPONENT_FIELD_URL:
 		return init_string ();
 
-	case ICAL_OBJECT_FIELD_ORGANIZER:
-		return init_person ();
-
-	case ICAL_OBJECT_FIELD_PERCENT:
-		return init_int ();
-
-	case ICAL_OBJECT_FIELD_PRIORITY:
-		return init_int ();
-
-	case ICAL_OBJECT_FIELD_SUMMARY:
-		return init_string ();
-
-	case ICAL_OBJECT_FIELD_URL:
-		return init_string ();
-
-	case ICAL_OBJECT_FIELD_HAS_ALARMS:
-		return NULL; /* "false" */
-
-	case ICAL_OBJECT_FIELD_ICON:
-	case ICAL_OBJECT_FIELD_COMPLETE:
-	case ICAL_OBJECT_FIELD_RECURRING:
-	case ICAL_OBJECT_FIELD_OVERDUE:
-		return GINT_TO_POINTER (0);
-
-	case ICAL_OBJECT_FIELD_COLOR:
+	case CAL_COMPONENT_FIELD_HAS_ALARMS:
+	case CAL_COMPONENT_FIELD_ICON:
+	case CAL_COMPONENT_FIELD_COMPLETE:
+	case CAL_COMPONENT_FIELD_RECURRING:
+	case CAL_COMPONENT_FIELD_OVERDUE:
+	case CAL_COMPONENT_FIELD_COLOR:
 		return NULL;
 
 	default:
 		g_message ("calendar_model_initialize_value(): Requested invalid column %d", col);
 		return NULL;
 	}
-}
-
-
-/* Returns whether a time_t is empty */
-static gboolean
-time_t_is_empty (const char *str)
-{
-	return string_is_empty (str);
-#if 0
-	return (*t <= 0);
-#endif
-}
-
-/* Returns whether a geo is empty */
-static gboolean
-geo_is_empty (const char *str)
-{
-	return string_is_empty (str);
-#if 0
-	return !geo->valid;
-#endif
-}
-
-/* Returns whether a person is empty */
-static gboolean
-person_is_empty (const char *str)
-{
-	/* FIXME */
-	return string_is_empty (str);
 }
 
 /* value_is_empty handler for the calendar model. This should return TRUE
@@ -1501,57 +1359,28 @@ person_is_empty (const char *str)
 static gboolean
 calendar_model_value_is_empty (ETableModel *etm, int col, const void *value)
 {
-	g_return_val_if_fail (col >= 0 && col < ICAL_OBJECT_FIELD_NUM_FIELDS, TRUE);
+	g_return_val_if_fail (col >= 0 && col < CAL_COMPONENT_FIELD_NUM_FIELDS, TRUE);
 
 	switch (col) {
-	case ICAL_OBJECT_FIELD_COMMENT:
+	case CAL_COMPONENT_FIELD_CATEGORIES:
+	case CAL_COMPONENT_FIELD_CLASSIFICATION: /* actually goes here, not by itself */
+	case CAL_COMPONENT_FIELD_COMPLETED:
+	case CAL_COMPONENT_FIELD_DTEND:
+	case CAL_COMPONENT_FIELD_DTSTART:
+	case CAL_COMPONENT_FIELD_DUE:
+	case CAL_COMPONENT_FIELD_GEO:
+	case CAL_COMPONENT_FIELD_PERCENT:
+	case CAL_COMPONENT_FIELD_PRIORITY:
+	case CAL_COMPONENT_FIELD_TRANSPARENCY:
+	case CAL_COMPONENT_FIELD_URL:
 		return string_is_empty (value);
 
-	case ICAL_OBJECT_FIELD_COMPLETED:
-		return time_t_is_empty (value);
-
-	case ICAL_OBJECT_FIELD_DESCRIPTION:
-		return string_is_empty (value);
-
-	case ICAL_OBJECT_FIELD_DTSTAMP:
-		return time_t_is_empty (value);
-
-	case ICAL_OBJECT_FIELD_DTSTART:
-		return time_t_is_empty (value);
-
-	case ICAL_OBJECT_FIELD_DTEND:
-		return time_t_is_empty (value);
-
-	case ICAL_OBJECT_FIELD_GEO:
-		return geo_is_empty (value);
-
-	case ICAL_OBJECT_FIELD_LAST_MOD:
-		return time_t_is_empty (value);
-
-	case ICAL_OBJECT_FIELD_LOCATION:
-		return string_is_empty (value);
-
-	case ICAL_OBJECT_FIELD_ORGANIZER:
-		return person_is_empty (value);
-
-	case ICAL_OBJECT_FIELD_PERCENT:
-		return string_is_empty (value);
-
-	case ICAL_OBJECT_FIELD_PRIORITY:
-		return string_is_empty (value);
-
-	case ICAL_OBJECT_FIELD_SUMMARY:
-		return string_is_empty (value);
-
-	case ICAL_OBJECT_FIELD_URL:
-		return string_is_empty (value);
-
-	case ICAL_OBJECT_FIELD_HAS_ALARMS:
-	case ICAL_OBJECT_FIELD_ICON:
-	case ICAL_OBJECT_FIELD_COMPLETE:
-	case ICAL_OBJECT_FIELD_RECURRING:
-	case ICAL_OBJECT_FIELD_OVERDUE:
-	case ICAL_OBJECT_FIELD_COLOR:
+	case CAL_COMPONENT_FIELD_HAS_ALARMS:
+	case CAL_COMPONENT_FIELD_ICON:
+	case CAL_COMPONENT_FIELD_COMPLETE:
+	case CAL_COMPONENT_FIELD_RECURRING:
+	case CAL_COMPONENT_FIELD_OVERDUE:
+	case CAL_COMPONENT_FIELD_COLOR:
 		return TRUE;
 
 	default:
@@ -1600,7 +1429,7 @@ remove_object (CalendarModel *model, const char *uid)
 {
 	CalendarModelPrivate *priv;
 	int *idx;
-	iCalObject *orig_ico;
+	CalComponent *orig_comp;
 	int i;
 	int n;
 
@@ -1612,23 +1441,26 @@ remove_object (CalendarModel *model, const char *uid)
 	if (!idx)
 		return -1;
 
-	orig_ico = g_array_index (priv->objects, iCalObject *, *idx);
-	g_assert (orig_ico != NULL);
+	orig_comp = g_array_index (priv->objects, CalComponent *, *idx);
+	g_assert (orig_comp != NULL);
 
 	/* Decrease the indices of all the objects that follow in the array */
 
 	for (i = *idx + 1; i < priv->objects->len; i++) {
-		iCalObject *ico;
-		int *ico_idx;
+		CalComponent *comp;
+		int *comp_idx;
+		const char *comp_uid;
 
-		ico = g_array_index (priv->objects, iCalObject *, i);
-		g_assert (ico != NULL);
+		comp = g_array_index (priv->objects, CalComponent *, i);
+		g_assert (comp != NULL);
 
-		ico_idx = g_hash_table_lookup (priv->uid_index_hash, ico->uid);
-		g_assert (ico_idx != NULL);
+		cal_component_get_uid (comp, &comp_uid);
 
-		(*ico_idx)--;
-		g_assert (*ico_idx >= 0);
+		comp_idx = g_hash_table_lookup (priv->uid_index_hash, comp_uid);
+		g_assert (comp_idx != NULL);
+
+		(*comp_idx)--;
+		g_assert (*comp_idx >= 0);
 	}
 
 	/* Remove this object from the array and hash */
@@ -1636,7 +1468,7 @@ remove_object (CalendarModel *model, const char *uid)
 	g_hash_table_remove (priv->uid_index_hash, uid);
 	g_array_remove_index (priv->objects, *idx);
 
-	ical_object_unref (orig_ico);
+	gtk_object_unref (GTK_OBJECT (orig_comp));
 
 	n = *idx;
 	g_free (idx);
@@ -1651,7 +1483,8 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	CalendarModel *model;
 	CalendarModelPrivate *priv;
 	int orig_idx;
-	iCalObject *new_ico;
+	CalComponent *new_comp;
+	const char *new_comp_uid;
 	int *new_idx;
 	CalClientGetStatus status;
 	gboolean added;
@@ -1661,44 +1494,50 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 
 	orig_idx = remove_object (model, uid);
 
-	status = cal_client_get_object (priv->client, uid, &new_ico);
+	status = cal_client_get_object (priv->client, uid, &new_comp);
 
 	added = FALSE;
 
 	switch (status) {
 	case CAL_CLIENT_GET_SUCCESS:
+		cal_component_get_uid (new_comp, &new_comp_uid);
+
 		if (orig_idx == -1) {
 			/* The object not in the model originally, so we just append it */
 
-			g_array_append_val (priv->objects, new_ico);
+			g_array_append_val (priv->objects, new_comp);
 
 			new_idx = g_new (int, 1);
 			*new_idx = priv->objects->len - 1;
-			g_hash_table_insert (priv->uid_index_hash, new_ico->uid, new_idx);
+
+			g_hash_table_insert (priv->uid_index_hash, (char *) new_comp_uid, new_idx);
 		} else {
 			int i;
 
 			/* Insert the new version of the object in its old position */
 
-			g_array_insert_val (priv->objects, orig_idx, new_ico);
+			g_array_insert_val (priv->objects, orig_idx, new_comp);
 
 			new_idx = g_new (int, 1);
 			*new_idx = orig_idx;
-			g_hash_table_insert (priv->uid_index_hash, new_ico->uid, new_idx);
+			g_hash_table_insert (priv->uid_index_hash, (char *) new_comp_uid, new_idx);
 
 			/* Increase the indices of all subsequent objects */
 
 			for (i = orig_idx + 1; i < priv->objects->len; i++) {
-				iCalObject *ico;
-				int *ico_idx;
+				CalComponent *comp;
+				int *comp_idx;
+				const char *comp_uid;
 
-				ico = g_array_index (priv->objects, iCalObject *, i);
-				g_assert (ico != NULL);
+				comp = g_array_index (priv->objects, CalComponent *, i);
+				g_assert (comp != NULL);
 
-				ico_idx = g_hash_table_lookup (priv->uid_index_hash, ico->uid);
-				g_assert (ico_idx != NULL);
+				cal_component_get_uid (comp, &comp_uid);
 
-				(*ico_idx)++;
+				comp_idx = g_hash_table_lookup (priv->uid_index_hash, comp_uid);
+				g_assert (comp_idx != NULL);
+
+				(*comp_idx)++;
 			}
 		}
 
@@ -1757,12 +1596,13 @@ load_objects (CalendarModel *model)
 
 	for (l = uids; l; l = l->next) {
 		char *uid;
-		iCalObject *ico;
+		CalComponent *comp;
+		const char *comp_uid;
 		CalClientGetStatus status;
 		int *idx;
 
 		uid = l->data;
-		status = cal_client_get_object (priv->client, uid, &ico);
+		status = cal_client_get_object (priv->client, uid, &comp);
 
 		switch (status) {
 		case CAL_CLIENT_GET_SUCCESS:
@@ -1780,25 +1620,33 @@ load_objects (CalendarModel *model)
 			g_assert_not_reached ();
 		}
 
-		g_assert (ico->uid != NULL);
-
-		/* FIXME: Why doesn't it just store the index in the hash
-		   table as a GINT_TO_POINTER? - Damon. */
 		idx = g_new (int, 1);
 
-		g_array_append_val (priv->objects, ico);
+		g_array_append_val (priv->objects, comp);
 		*idx = priv->objects->len - 1;
 
-		g_hash_table_insert (priv->uid_index_hash, ico->uid, idx);
+		cal_component_get_uid (comp, &comp_uid);
+		g_hash_table_insert (priv->uid_index_hash, (char *) comp_uid, idx);
 	}
 
 	cal_obj_uid_list_free (uids);
 }
 
-CalClient*
-calendar_model_get_cal_client	  (CalendarModel   *model)
+/**
+ * calendar_model_get_cal_client:
+ * @model: A calendar model.
+ * 
+ * Queries the calendar client interface object that a calendar model is using.
+ * 
+ * Return value: A calendar client interface object.
+ **/
+CalClient *
+calendar_model_get_cal_client (CalendarModel *model)
 {
 	CalendarModelPrivate *priv;
+
+	g_return_val_if_fail (model != NULL, NULL);
+	g_return_val_if_fail (IS_CALENDAR_MODEL (model), NULL);
 
 	priv = model->priv;
 
@@ -1866,13 +1714,23 @@ calendar_model_delete_task (CalendarModel *model,
 			    gint row)
 {
 	CalendarModelPrivate *priv;
-	iCalObject *ico;
+	CalComponent *comp;
+	const char *uid;
+
+	g_return_if_fail (model != NULL);
+	g_return_if_fail (IS_CALENDAR_MODEL (model));
 
 	priv = model->priv;
-	ico = g_array_index (priv->objects, iCalObject *, row);
 
-	if (!cal_client_remove_object (priv->client, ico->uid))
-		g_message ("calendar_model_mark_task_complete(): Could not update the object!");
+	g_return_if_fail (row >= 0 && row < priv->objects->len);
+
+	comp = g_array_index (priv->objects, CalComponent *, row);
+	g_assert (comp != NULL);
+
+	cal_component_get_uid (comp, &uid);
+
+	if (!cal_client_remove_object (priv->client, uid))
+		g_message ("calendar_model_delete_task(): Could not remove the object!");
 }
 
 
@@ -1881,16 +1739,27 @@ calendar_model_mark_task_complete (CalendarModel *model,
 				   gint row)
 {
 	CalendarModelPrivate *priv;
-	iCalObject *ico;
+	CalComponent *comp;
+	int percent;
+	struct icaltimetype itt;
+
+	g_return_if_fail (model != NULL);
+	g_return_if_fail (IS_CALENDAR_MODEL (model));
 
 	priv = model->priv;
-	ico = g_array_index (priv->objects, iCalObject *, row);
 
-	/* FIXME: Need a function to do all this. */
-	ico->percent = 100;
-	ico->completed = time (NULL);
+	g_return_if_fail (row >= 0 && row < priv->objects->len);
 
-	if (!cal_client_update_object (priv->client, ico))
+	comp = g_array_index (priv->objects, CalComponent *, row);
+	g_assert (comp != NULL);
+
+	percent = 100;
+	cal_component_set_percent (comp, &percent);
+
+	itt = icaltimetype_from_timet (time (NULL), FALSE);
+	cal_component_set_completed (comp, &itt);
+
+	if (!cal_client_update_object (priv->client, comp))
 		g_message ("calendar_model_mark_task_complete(): Could not update the object!");
 }
 
@@ -1902,7 +1771,12 @@ calendar_model_get_cal_object (CalendarModel *model,
 {
 	CalendarModelPrivate *priv;
 
+	g_return_val_if_fail (model != NULL, NULL);
+	g_return_val_if_fail (IS_CALENDAR_MODEL (model), NULL);
+
 	priv = model->priv;
+
+	g_return_val_if_fail (row >= 0 && row < priv->objects->len, NULL);
 
 	return g_array_index (priv->objects, CalComponent *, row);
 }
