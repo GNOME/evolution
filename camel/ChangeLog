@@ -1,3 +1,13 @@
+2004-04-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-provider.c: Fix capitalisation of the
+	"mailcheck" section title and move it to the top (so it matches
+	with the UI).
+
+	* providers/imap/camel-imap-folder.c (imap_get_message): Fetch the
+	entire message in one fell swoop even if the message size is
+	larger than 5k *if* the message is a single part. Fixes bug #56686.
+
 2004-04-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-store.c (get_folder_online): Changed

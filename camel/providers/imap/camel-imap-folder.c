@@ -2021,8 +2021,8 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 		    &&  !camel_imap_store_connected(store, ex))
 			goto fail;
 	
-		/* If the message is small, fetch it in one piece. */
-		if (mi->size < IMAP_SMALL_BODY_SIZE) {
+		/* If the message is small or only 1 part, fetch it in one piece. */
+		if (mi->size < IMAP_SMALL_BODY_SIZE || !mi->content->childs) {
 			msg = get_message_simple (imap_folder, uid, NULL, ex);
 		} else {
 			if (content_info_incomplete (mi->content)) {
