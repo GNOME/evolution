@@ -17,9 +17,9 @@ EXTRA_DIST = 			\
 	MAINTAINERS		\
 	NEWS			\
 	NEWS-1.0		\
-	xml-i18n-merge.in	\
-	xml-i18n-update.in	\
-	xml-i18n-extract.in	\
+	intltool-merge.in	\
+	intltool-update.in	\
+	intltool-extract.in	\
 	$(pkgconfig_DATA:.pc=.pc.in)
 
 SUBDIRS = 			\

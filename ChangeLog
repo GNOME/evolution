@@ -1,3 +1,7 @@
+2003-01-14  Rodney Dawes  <dobey@ximian.com>
+
+	* Makefile.am (EXTRA_DIST): intltool, not xml-i18n-tools
+	
 2003-01-07  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (SUBDIRS): add po
