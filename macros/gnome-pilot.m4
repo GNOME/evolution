@@ -67,6 +67,8 @@ AC_DEFUN([PILOT_LINK_HOOK],[
 		pl_ve=`echo $1|sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\1/'`
 		pl_ma=`echo $1|sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\2/'`
 		pl_mi=`echo $1|sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\3/'`
+		CFLAGS_save="$CFLAGS"
+		CFLAGS="$CFLAGS $PISOCK_INCLUDEDIR"
 		AC_TRY_RUN(
 			[
 			#include <$piversion_include>
@@ -89,6 +91,7 @@ AC_DEFUN([PILOT_LINK_HOOK],[
 			[AC_MSG_ERROR("pilot-link >= $1 required")],
 			[AC_MSG_WARN("No action taken for crosscompile")]
 		)
+		CFLAGS="$CFLAGS_save"
 	fi
 ])
 

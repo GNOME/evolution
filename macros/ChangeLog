@@ -1,3 +1,7 @@
+2000-06-23  Stanislav Brabec  <utx@penguin.cz>
+
+	* gnome-pilot.m4: Use 'PISOCK_INCLUDEDIR' in pisock version check.
+
 2000-06-17  Dan Winship  <danw@helixcode.com>
 
 	* autogen.sh: exit immediately if aclocal, autoheader, automake,
