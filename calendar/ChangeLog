@@ -1,11 +1,43 @@
+2001-08-08  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/meeting-page.c (set_attendees): set the attendees of
+	a component
+	(meeting_page_fill_component): use above
+	(meeting_page_get_cancel_comp): return a comp with the attendees
+	to be cancelled
+
+	* gui/dialogs/meeting-page.h: get a component that will be sent as
+	a cancellation
+
+	* gui/dialogs/event-editor.c (event_editor_class_init): override
+	send_comp class method
+	(event_editor_send_comp): send cancellation notices to deleted
+	attendees
+	(refresh_meeting_cmd): save before send
+	(forward_cmd): ditto
+
+	* gui/dialogs/comp-editor.c (comp_editor_class_init): set default
+	send_comp method
+	(real_send_comp): do the real work
+	(comp_editor_send_comp): call class method
+	(save_comp): don't do any sending
+	(save_comp_with_send): save and send here
+	(prompt_to_save_changes): use above
+	(save_close_cmd): ditto
+
+	* gui/dialogs/comp-editor.h: add virtual function
+
 2001-08-08  Rodrigo Moya <rodrigo@ximian.com>
 
-	* gui/e-week-view-event-item.c (e_week_view_event_item_draw_icons):
-	don't use a NULL mask in the call to gdk_gc_set_clip_mask
+	* gui/e-week-view-event-item.c
+	(e_week_view_event_item_draw_icons): don't use a NULL mask in the
+	call to gdk_gc_set_clip_mask
 
-	* gui/e-day-view-top-item.c (e_day_view_top_item_draw_long_event): ditto
+	* gui/e-day-view-top-item.c (e_day_view_top_item_draw_long_event):
+	ditto
 
-	* gui/e-day-view-main-item.c (e_day_view_main_item_draw_day_event): ditto
+	* gui/e-day-view-main-item.c
+	(e_day_view_main_item_draw_day_event): ditto
 
 2001-08-08  JP Rosevear  <jpr@ximian.com>
 

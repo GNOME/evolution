@@ -52,6 +52,7 @@ struct _EventEditorPrivate {
 static void event_editor_class_init (EventEditorClass *class);
 static void event_editor_init (EventEditor *ee);
 static void event_editor_edit_comp (CompEditor *editor, CalComponent *comp);
+static void event_editor_send_comp (CompEditor *editor, CalComponentItipMethod method);
 static void event_editor_destroy (GtkObject *object);
 
 static void schedule_meeting_cmd (GtkWidget *widget, gpointer data);
@@ -117,6 +118,7 @@ event_editor_class_init (EventEditorClass *klass)
 	parent_class = gtk_type_class (TYPE_COMP_EDITOR);
 
 	editor_class->edit_comp = event_editor_edit_comp;
+	editor_class->send_comp = event_editor_send_comp;
 	
 	object_class->destroy = event_editor_destroy;
 }
@@ -198,6 +200,29 @@ event_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 		parent_class->edit_comp (editor, comp);
 }
 
+static void
+event_editor_send_comp (CompEditor *editor, CalComponentItipMethod method)
+{
+	EventEditor *ee = EVENT_EDITOR (editor);
+	EventEditorPrivate *priv;
+	CalComponent *comp = NULL;
+
+	priv = ee->priv;
+
+	/* Don't cancel more than once */
+	if (method == CAL_COMPONENT_METHOD_CANCEL)
+		return;	
+	
+	comp = meeting_page_get_cancel_comp (priv->meet_page);
+	if (comp != NULL) {		
+		itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, comp);
+		gtk_object_unref (GTK_OBJECT (comp));
+	}
+	
+	if (parent_class->send_comp)
+		parent_class->send_comp (editor, method);
+}
+
 /* Destroy handler for the event editor */
 static void
 event_editor_destroy (GtkObject *object)
@@ -258,7 +283,8 @@ static void
 refresh_meeting_cmd (GtkWidget *widget, gpointer data)
 {
 	EventEditor *ee = EVENT_EDITOR (data);
-	
+
+	comp_editor_save_comp (COMP_EDITOR (ee));
 	comp_editor_send_comp (COMP_EDITOR (ee), CAL_COMPONENT_METHOD_REFRESH);
 }
 
@@ -280,6 +306,7 @@ forward_cmd (GtkWidget *widget, gpointer data)
 {
 	EventEditor *ee = EVENT_EDITOR (data);
 	
+	comp_editor_save_comp (COMP_EDITOR (ee));
 	comp_editor_send_comp (COMP_EDITOR (ee), CAL_COMPONENT_METHOD_PUBLISH);
 }
 

@@ -95,6 +95,9 @@ struct _MeetingPagePrivate {
 	/* Lists of attendees */
 	GSList *attendees;
 	GSList *deleted_attendees;
+
+	/* To use in case of cancellation */
+	CalComponent *comp;
 	
 	/* List of identities */
 	GList *addresses;
@@ -214,8 +217,12 @@ meeting_page_init (MeetingPage *mpage)
 	priv = g_new0 (MeetingPagePrivate, 1);
 	mpage->priv = priv;
 
-	priv->xml = NULL;
+	priv->attendees = NULL;
+	priv->deleted_attendees = NULL;
 
+	priv->comp = NULL;
+	
+	priv->xml = NULL;
 	priv->main = NULL;
 	priv->invite = NULL;
 	
@@ -223,6 +230,37 @@ meeting_page_init (MeetingPage *mpage)
 	priv->etable = NULL;
 	
 	priv->updating = FALSE;
+}
+
+static void
+set_attendees (CalComponent *comp, GSList *attendees)
+{
+	GSList *comp_attendees = NULL;
+	GSList *l;
+	
+	for (l = attendees; l != NULL; l = l->next) {
+		struct attendee *attendee = l->data;
+		CalComponentAttendee *att = g_new0 (CalComponentAttendee, 1);
+		
+		
+		att->value = attendee->address;
+		att->member = (attendee->member && *attendee->member) ? attendee->member : NULL;
+		att->cutype= attendee->cutype;
+		att->role = attendee->role;
+		att->status = attendee->status;
+		att->rsvp = attendee->rsvp;
+		att->delto = (attendee->delto && *attendee->delto) ? attendee->delto : NULL;
+		att->delfrom = (attendee->delfrom && *attendee->delfrom) ? attendee->delfrom : NULL;
+		att->sentby = (attendee->sentby && *attendee->sentby) ? attendee->sentby : NULL;
+		att->cn = (attendee->cn && *attendee->cn) ? attendee->cn : NULL;
+		att->language = (attendee->language && *attendee->language) ? attendee->language : NULL;
+		
+		comp_attendees = g_slist_prepend (comp_attendees, att);
+		
+	}
+	comp_attendees = g_slist_reverse (comp_attendees);
+	cal_component_set_attendee_list (comp, comp_attendees);
+	g_slist_free (comp_attendees);
 }
 
 static void
@@ -262,6 +300,9 @@ meeting_page_destroy (GtkObject *object)
 	mpage = MEETING_PAGE (object);
 	priv = mpage->priv;
 
+	if (priv->comp != NULL)
+		gtk_object_unref (GTK_OBJECT (priv->comp));
+	
 	cleanup_attendees (priv->attendees);
 	cleanup_attendees (priv->deleted_attendees);
 	
@@ -352,6 +393,10 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	priv->updating = TRUE;
 	
 	/* Clean out old data */
+	if (priv->comp != NULL)
+		gtk_object_unref (GTK_OBJECT (priv->comp));
+	priv->comp = NULL;
+	
 	cleanup_attendees (priv->attendees);
 	cleanup_attendees (priv->deleted_attendees);
 	priv->attendees = NULL;	
@@ -360,6 +405,9 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	/* Clean the screen */
 	clear_widgets (mpage);
 
+	/* Component for cancellation */
+	priv->comp = cal_component_clone (comp);
+	
 	/* Organizer */
 	cal_component_get_organizer (comp, &organizer);
 	priv->addresses = itip_addresses_get ();
@@ -432,7 +480,6 @@ meeting_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	MeetingPage *mpage;
 	MeetingPagePrivate *priv;
 	CalComponentOrganizer organizer = {NULL, NULL, NULL, NULL};
-	GSList *attendees = NULL, *l;
 	
 	mpage = MEETING_PAGE (page);
 	priv = mpage->priv;
@@ -474,30 +521,8 @@ meeting_page_fill_component (CompEditorPage *page, CalComponent *comp)
 		g_free (addr);
 		g_free (cn);
 	}
-	
-	for (l = priv->attendees; l != NULL; l = l->next) {
-		struct attendee *attendee = l->data;
-		CalComponentAttendee *att = g_new0 (CalComponentAttendee, 1);
-		
-		
-		att->value = attendee->address;
-		att->member = (attendee->member && *attendee->member) ? attendee->member : NULL;
-		att->cutype= attendee->cutype;
-		att->role = attendee->role;
-		att->status = attendee->status;
-		att->rsvp = attendee->rsvp;
-		att->delto = (attendee->delto && *attendee->delto) ? attendee->delto : NULL;
-		att->delfrom = (attendee->delfrom && *attendee->delfrom) ? attendee->delfrom : NULL;
-		att->sentby = (attendee->sentby && *attendee->sentby) ? attendee->sentby : NULL;
-		att->cn = (attendee->cn && *attendee->cn) ? attendee->cn : NULL;
-		att->language = (attendee->language && *attendee->language) ? attendee->language : NULL;
-		
-		attendees = g_slist_prepend (attendees, att);
-		
-	}
-	attendees = g_slist_reverse (attendees);
-	cal_component_set_attendee_list (comp, attendees);
-	g_slist_free (attendees);
+
+	set_attendees (comp, priv->attendees);
 }
 
 
@@ -1403,7 +1428,7 @@ popup_delete_cb (GtkWidget *widget, gpointer data)
 	a = g_slist_nth_data (priv->attendees, priv->row);
 
 	/* If this was a delegatee, no longer delegate */
-	if (a->delfrom != NULL) {
+	if (a->delfrom != NULL && *a->delfrom != '\0') {
 		struct attendee *b;
 		
 		b = find_match (mpage, a->delfrom, &pos);
@@ -1535,5 +1560,31 @@ meeting_page_new (void)
 	}
 
 	return mpage;
+}
+
+/**
+ * meeting_page_get_cancel_comp:
+ * @mpage: 
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
+CalComponent *
+meeting_page_get_cancel_comp (MeetingPage *mpage)
+{
+	MeetingPagePrivate *priv;
+
+	g_return_val_if_fail (mpage != NULL, NULL);
+	g_return_val_if_fail (IS_MEETING_PAGE (mpage), NULL);
+
+	priv = mpage->priv;
+
+	if (priv->deleted_attendees == NULL)
+		return NULL;
+	
+	set_attendees (priv->comp, priv->deleted_attendees);
+	
+	return cal_component_clone (priv->comp);
 }
 

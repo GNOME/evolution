@@ -53,6 +53,7 @@ typedef struct {
 
 	/* Virtual functions */
 	void (* edit_comp) (CompEditor *page, CalComponent *comp);
+	void (* send_comp) (CompEditor *page, CalComponentItipMethod method);
 } CompEditorClass;
 
 GtkType       comp_editor_get_type         (void);

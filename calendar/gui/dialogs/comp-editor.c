@@ -77,7 +77,9 @@ static void comp_editor_init (CompEditor *editor);
 static void comp_editor_destroy (GtkObject *object);
 
 static void real_edit_comp (CompEditor *editor, CalComponent *comp);
+static void real_send_comp (CompEditor *editor, CalComponentItipMethod method);
 static void save_comp (CompEditor *editor);
+static void save_comp_with_send (CompEditor *editor);
 static void delete_comp (CompEditor *editor);
 static void close_dialog (CompEditor *editor);
 
@@ -163,6 +165,7 @@ comp_editor_class_init (CompEditorClass *klass)
 	parent_class = gtk_type_class (GTK_TYPE_OBJECT);
 
 	klass->edit_comp = real_edit_comp;
+	klass->send_comp = real_send_comp;
 
 	object_class->destroy = comp_editor_destroy;
 }
@@ -523,6 +526,20 @@ real_edit_comp (CompEditor *editor, CalComponent *comp)
 	fill_widgets (editor);	
 }
 
+
+static void
+real_send_comp (CompEditor *editor, CalComponentItipMethod method) 
+{
+	CompEditorPrivate *priv;
+
+	g_return_if_fail (editor != NULL);
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	priv = editor->priv;
+	
+	itip_send_comp (method, priv->comp);
+}
+
 	
 /**
  * comp_editor_edit_comp:
@@ -600,14 +617,15 @@ comp_editor_delete_comp (CompEditor *editor)
 void
 comp_editor_send_comp (CompEditor *editor, CalComponentItipMethod method)
 {
-	CalComponent *comp;
+	CompEditorClass *klass;
+	
+	g_return_if_fail (editor != NULL);
+	g_return_if_fail (IS_COMP_EDITOR (editor));
 
-	comp = comp_editor_get_current_comp (editor);
-
-	cal_component_commit_sequence (comp);
-	itip_send_comp (method, comp);
-
-	gtk_object_unref (GTK_OBJECT (comp));
+	klass = COMP_EDITOR_CLASS (GTK_OBJECT (editor)->klass);
+	
+	if (klass->send_comp)
+		klass->send_comp (editor, method);
 }
 
 /**
@@ -704,11 +722,7 @@ save_comp (CompEditor *editor)
 	
 	for (l = priv->pages; l != NULL; l = l->next)
 		comp_editor_page_fill_component (l->data, priv->comp);
-
-	if (priv->needs_send && send_component_dialog (priv->comp)) {
-		cal_component_commit_sequence (priv->comp);
-		itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, priv->comp);
-	}
+	cal_component_commit_sequence (priv->comp);
 	
 	priv->updating = TRUE;
 
@@ -718,6 +732,19 @@ save_comp (CompEditor *editor)
 		priv->changed = FALSE;
 
 	priv->updating = FALSE;
+}
+
+static void
+save_comp_with_send (CompEditor *editor) 
+{
+	CompEditorPrivate *priv;
+	
+	priv = editor->priv;
+
+	save_comp (editor);
+	
+	if (priv->needs_send && send_component_dialog (priv->comp))
+		comp_editor_send_comp (editor, CAL_COMPONENT_METHOD_REQUEST);
 }
 
 static void
@@ -749,7 +776,7 @@ prompt_to_save_changes (CompEditor *editor)
 	case 0: /* Save */
 		/* FIXME: If an error occurs here, we should popup a dialog
 		   and then return FALSE. */
-		save_comp (editor);
+		save_comp_with_send (editor);
 		return TRUE;
 	case 1: /* Discard */
 		return TRUE;
@@ -782,7 +809,7 @@ save_close_cmd (GtkWidget *widget, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
 
-	save_comp (editor);
+	save_comp_with_send (editor);
 	close_dialog (editor);
 }
 
