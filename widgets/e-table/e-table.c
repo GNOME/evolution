@@ -823,7 +823,7 @@ e_table_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	char *copy;
 	copy = g_strdup (spec);
 
-	xmlSpec = xmlParseMemory (copy, strlen(copy) + 1);
+	xmlSpec = xmlParseMemory (copy, strlen(copy));
 	et_real_construct (e_table, full_header, etm, xmlSpec);
 	xmlFreeDoc (xmlSpec);
 	g_free (copy);

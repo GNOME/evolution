@@ -1,3 +1,8 @@
+2000-04-15  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-table.c (e_table_construct): Use `strlen (copy)' instead of
+	`strlen (copy) + 1' as the size argument for `xmlParseMemory()'.
+
 2000-04-14  Miguel de Icaza  <miguel@gnu.org>
 
 	* e-table.c, e-table.h: Switch the parent object to be a GtkTable.
