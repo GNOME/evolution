@@ -1,3 +1,8 @@
+2000-06-29  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (imap_expunge): Should now
+	print a meaningful error message when it doesn't succeed
+
 2000-06-28  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-store.c (imap_connect): Changed to

@@ -349,13 +349,13 @@ imap_expunge (CamelFolder *folder, CamelException *ex)
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      "Could not EXPUNGE from IMAP server %s: %s.",
 				      service->url->host,
-				      status == CAMEL_IMAP_ERR ? result :
+				      status == CAMEL_IMAP_ERR && result ? result :
 				      "Unknown error");
 		g_free (result);
 		return;
 	}
 	
-	g_free(result);
+	g_free (result);
 }
 
 #if 0
