@@ -185,6 +185,7 @@ THREADS_CFLAGS="`glib-config --cflags gthread`"
 
 AC_SUBST(THREADS_LIBS)
 AC_SUBST(THREADS_CFLAGS)
+AC_DEFINE(ENABLE_THREADS)
 
 dnl **************************************************
 dnl * File locking
