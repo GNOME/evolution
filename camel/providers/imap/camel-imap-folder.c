@@ -307,7 +307,10 @@ camel_imap_folder_selected (CamelFolder *folder, CamelImapResponse *response,
 			}
 		}
 	}
-	
+
+	if (camel_strstrcase (response->status, "OK [READ-ONLY]"))
+		imap_folder->read_only = TRUE;
+
 	if (camel_disco_store_status (CAMEL_DISCO_STORE (folder->parent_store)) == CAMEL_DISCO_STORE_RESYNCING) {
 		if (validity != imap_summary->validity) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_SUMMARY_INVALID,
@@ -752,6 +755,11 @@ imap_sync_online (CamelFolder *folder, CamelException *ex)
 	gboolean unset;
 	int i, j, max;
 	
+	if (((CamelImapFolder *)folder)->read_only) {
+		imap_sync_offline (folder, ex);
+		return;
+	}
+
 	camel_exception_init (&local_ex);
 	CAMEL_SERVICE_LOCK (store, connect_lock);
 	
@@ -925,10 +933,14 @@ imap_expunge_uids_online (CamelFolder *folder, GPtrArray *uids, CamelException *
 static void
 imap_expunge_uids_resyncing (CamelFolder *folder, GPtrArray *uids, CamelException *ex)
 {
+	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
 	GPtrArray *keep_uids, *mark_uids;
 	CamelImapResponse *response;
 	char *result;
+
+	if (imap_folder->read_only)
+		return;
 
 	if (store->capabilities & IMAP_CAPABILITY_UIDPLUS) {
 		imap_expunge_uids_online (folder, uids, ex);

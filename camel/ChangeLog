@@ -1,5 +1,15 @@
 2004-01-14  Not Zed  <NotZed@Ximian.com>
 
+	** Patch from Timo Sirainen <tss@iki.fi> to honour read-only
+	status for imap folders.
+	
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_selected):
+	check for read-only status response.
+	(imap_sync_online): only call sync_offline if we're read-only.
+	(imap_expunge_uids_resyncing): NOOP for read-only.
+
+2004-01-14  Not Zed  <NotZed@Ximian.com>
+
 	* providers/local/camel-local-folder.c (local_getv): remove debug
 	printf.
 
