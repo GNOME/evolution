@@ -74,7 +74,7 @@ struct _MessageList {
 
 	/* Where the ETable cursor is. */
 	int cursor_row;
-	const char *cursor_uid;
+	char *cursor_uid;
 
 	/* Row-selection and seen-marking timers */
 	guint idle_id, seen_id;

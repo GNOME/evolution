@@ -1,3 +1,14 @@
+2001-02-12  Not Zed  <NotZed@Ximian.com>
+
+	* message-list.c (build_tree): if doing a full update, save the
+	cursor pos and restore it afterwards.
+	(on_cursor_activated_cmd): Copy the current_uid to a new string.
+	I dont know why this is required, but it is.
+	(message_list_destroy): Free the cursor_uid as we're done with it.
+	(build_flat): IF the current uid disappeared from the list, then
+	unset the message.
+	(build_tree): Likewise.
+
 2001-02-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (mail_config_write): Clean out the cruft in the

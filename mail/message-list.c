@@ -1270,7 +1270,9 @@ message_list_destroy (GtkObject *object)
 		message_list->hidden = NULL;
 		message_list->hidden_pool = NULL;
 	}
-	
+
+	g_free(message_list->cursor_uid);
+
 	g_mutex_free(message_list->hide_lock);
 
 	GTK_OBJECT_CLASS (message_list_parent_class)->destroy (object);
@@ -1509,6 +1511,7 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 	GHashTable *expanded_nodes;
 	ETreeModel *etm = (ETreeModel *)ml->table_model;
 	ETreePath *top;
+	char *uid = NULL;
 
 #ifdef TIMEIT
 	struct timeval start, end;
@@ -1537,10 +1540,34 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 #ifndef BROKEN_ETREE
 	if (top == NULL || changes == NULL) {
 #endif
+		if (ml->cursor_uid) {
+			uid = g_strdup(ml->cursor_uid);
+			printf("current uid = %s\n", uid);
+		}
+
 		e_tree_model_freeze(etm);
 		clear_tree (ml);
+
 		build_subtree(ml, ml->tree_root, thread->tree, &row, expanded_nodes);
+
 		e_tree_model_thaw(etm);
+
+		if (uid) {
+			int row;
+			char *dummy;
+
+			if (g_hash_table_lookup_extended(ml->uid_rowmap, uid, (void **)&dummy, (void **)&row)) {
+				printf("selecting uid %s row %d\n", uid, row);
+				e_table_set_cursor_row(ml->table, row);
+			} else {
+				printf("cannot find uid %s\n", uid);
+				g_free(ml->cursor_uid);
+				ml->cursor_uid = NULL;
+				gtk_signal_emit((GtkObject *)ml, message_list_signals[MESSAGE_SELECTED], NULL);
+			}
+			g_free(uid);
+		}
+
 #ifndef BROKEN_ETREE
 	} else {
 		static int tree_equal(ETreeModel *etm, ETreePath *ap, CamelFolderThreadNode *bp);
@@ -1895,7 +1922,7 @@ build_flat (MessageList *ml, GPtrArray *uids, CamelFolderChangeInfo *changes)
 {
 	ETreeModel *tree = E_TREE_MODEL (ml->table_model);
 	ETreePath *node;
-	char *uid;
+	char *saveuid = NULL;
 	int i;
 
 #ifdef TIMEIT
@@ -1911,14 +1938,34 @@ build_flat (MessageList *ml, GPtrArray *uids, CamelFolderChangeInfo *changes)
 		build_flat_diff(ml, changes);
 	} else {
 #endif
+		if (ml->cursor_uid)
+			saveuid = g_strdup(ml->cursor_uid);
+
 		e_tree_model_freeze(tree);
 		clear_tree (ml);
 		for (i = 0; i < uids->len; i++) {
-			uid = new_id_from_uid(ml, uids->pdata[i]);
+			char *uid = new_id_from_uid(ml, uids->pdata[i]);
 			node = e_tree_model_node_insert (tree, ml->tree_root, -1, uid);
 			g_hash_table_insert (ml->uid_rowmap, id_uid(uid), GINT_TO_POINTER (i));
 		}
 		e_tree_model_thaw(tree);
+
+		if (saveuid) {
+			int row;
+			char *dummy;
+
+			if (g_hash_table_lookup_extended(ml->uid_rowmap, saveuid, (void **)&dummy, (void **)&row)) {
+				printf("re-selecting %s rwo %d\n", saveuid, row);
+				e_table_set_cursor_row(ml->table, row);
+			} else {
+				printf("can't find uid %s anymore\n", saveuid);
+				g_free(ml->cursor_uid);
+				ml->cursor_uid = NULL;
+				gtk_signal_emit((GtkObject *)ml, message_list_signals[MESSAGE_SELECTED], NULL);
+			}
+
+			g_free(saveuid);
+		}
 #ifndef BROKEN_ETREE
 	}
 #endif
@@ -2191,7 +2238,8 @@ on_cursor_activated_cmd (ETableScrolled *table, int row, gpointer user_data)
 	message_list = MESSAGE_LIST (user_data);
 	
 	message_list->cursor_row = row;
-	message_list->cursor_uid = get_message_uid (message_list, row);
+	g_free(message_list->cursor_uid);
+	message_list->cursor_uid = g_strdup(get_message_uid(message_list, row));
 
 	if (!message_list->idle_id) {
 		message_list->idle_id =
