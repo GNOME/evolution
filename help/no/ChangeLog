@@ -1,3 +1,7 @@
+2002-06-27  Aaron Weber  <aaron@ximian.com>
+
+	* evolution-no.omf: apply patch from otaylor.
+
 2001-10-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* topic.dat: s/usage-exec-summary.html/usage-summary.html/.

@@ -1,3 +1,7 @@
+2002-06-27  Aaron Weber  <aaron@ximian.com>
+
+	* C/evolution-C.omf: apply patch from owen taylor
+
 2002-03-25  Kevin Breit  <mrproper@ximian.com>
 
 	* C/evolution-C.omf: Changed title from "The Evolution Manual" to "Evolution Manual".
