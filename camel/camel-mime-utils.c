@@ -1626,18 +1626,18 @@ header_encode_phrase (const unsigned char *in)
 /* these are all internal parser functions */
 
 static char *
-decode_token(const char **in)
+decode_token (const char **in)
 {
 	const char *inptr = *in;
 	const char *start;
-
-	header_decode_lwsp(&inptr);
+	
+	header_decode_lwsp (&inptr);
 	start = inptr;
-	while (is_ttoken(*inptr))
+	while (is_ttoken (*inptr))
 		inptr++;
-	if (inptr>start) {
+	if (inptr > start) {
 		*in = inptr;
-		return g_strndup(start, inptr-start);
+		return g_strndup (start, inptr - start);
 	} else {
 		return NULL;
 	}
@@ -2717,6 +2717,58 @@ header_param_list_decode(const char *in)
 		return NULL;
 
 	return header_decode_param_list(&in);
+}
+
+struct _header_param *
+html_meta_param_list_decode (const char *in, int inlen)
+{
+	struct _header_param *params = NULL, *last = NULL;
+	const char *inptr, *inend;
+	
+	if (in == NULL)
+		return NULL;
+	
+	inptr = in;
+	inend = inptr + inlen;
+	
+	if (*inptr != '<')
+		return NULL;
+	
+	if (!g_strncasecmp (inptr, "<meta", 5))
+		inptr += 5;
+	else
+		return NULL;
+	
+	header_decode_lwsp (&inptr);
+	
+	while (inptr < inend && *inptr != '>') {
+		char *name = NULL, *value = NULL;
+		struct _header_param *param;
+		
+		name = decode_token (&inptr);
+		header_decode_lwsp (&inptr);
+		if (*inptr != '=') {
+			g_free (name);
+			break;
+		}
+		
+		value = header_decode_value (&inptr);
+		header_decode_lwsp (&inptr);
+		
+		param = g_malloc (sizeof (struct _header_param));
+		param->next = NULL;
+		param->name = name;
+		param->value = value;
+		
+		if (last) {
+			last->next = param;
+			last = param;
+		} else {
+			last = params = param;
+		}
+	}
+	
+	return params;
 }
 
 /* FIXME: I wrote this in a quick & dirty fasion - it may not be 100% correct */

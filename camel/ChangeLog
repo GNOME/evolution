@@ -1,3 +1,16 @@
+2001-07-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c (html_meta_param_list_decode): New function
+	to parse an HTML meta-tag.
+
+	* camel-mime-part-utils.c
+	(simple_data_wrapper_construct_from_parser): If the Content-Type
+	did not contain a charset parameter and it's also a text/html
+	part, we have 1 last place to look - in the META html tags. *sigh*
+
+	* camel-mime-message.c (camel_mime_message_get_source):
+	s/gint/unsigned since that's what it should be.
+
 2001-07-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-pgp-context.c (pgp_sign): Forget the passphrase if the

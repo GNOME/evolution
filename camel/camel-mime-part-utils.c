@@ -54,14 +54,14 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 	CamelStream *source;
 	CamelSeekableStream *seekable_source = NULL;
 	char *encoding;
-
+	
 	d(printf("constructing data-wrapper\n"));
 
-		/* Ok, try and be smart.  If we're storing a small message (typical) convert it,
-		   and store it in memory as we parse it ... if not, throw away the conversion
-		   and scan till the end ... */
-
-		/* if we can't seek, dont have a stream/etc, then we must cache it */
+	/* Ok, try and be smart.  If we're storing a small message (typical) convert it,
+	   and store it in memory as we parse it ... if not, throw away the conversion
+	   and scan till the end ... */
+	
+	/* if we can't seek, dont have a stream/etc, then we must cache it */
 	source = camel_mime_parser_stream(mp);
 	if (source) {
 		camel_object_ref((CamelObject *)source);
@@ -69,7 +69,7 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 			seekable_source = CAMEL_SEEKABLE_STREAM (source);
 		}
 	}
-
+	
 	/* first, work out conversion, if any, required, we dont care about what we dont know about */
 	encoding = header_content_encoding_decode(camel_mime_parser_header(mp, "content-transfer-encoding", NULL));
 	if (encoding) {
@@ -84,39 +84,97 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 		}
 		g_free(encoding);
 	}
-
+	
 	/* If we're doing text, we also need to do CRLF->LF and may have to convert it to UTF8 as well. */
-	ct = camel_mime_parser_content_type(mp);
-	if (header_content_type_is(ct, "text", "*")) {
-		const char *charset = header_content_type_param(ct, "charset");
-
+	ct = camel_mime_parser_content_type (mp);
+	if (header_content_type_is (ct, "text", "*")) {
+		const char *charset = header_content_type_param (ct, "charset");
+		char *acharset; /* to be alloca'd if needed */
+		
 		if (fdec) {
 			d(printf("Adding CRLF conversion filter\n"));
-			fcrlf = (CamelMimeFilter *)camel_mime_filter_crlf_new(CAMEL_MIME_FILTER_CRLF_DECODE,
-									      CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
-			crlfid = camel_mime_parser_filter_add(mp, fcrlf);
+			fcrlf = (CamelMimeFilter *)camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_DECODE,
+									       CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
+			crlfid = camel_mime_parser_filter_add (mp, fcrlf);
 		}
-
-		if (charset!=NULL
-		    && !(strcasecmp(charset, "us-ascii")==0
-			 || strcasecmp(charset, "utf-8")==0)) {
+		
+		/* Possible Lame Mailer Alert... check the META tag for a charset */
+		if (!charset && header_content_type_is (ct, "text", "html")) {
+			/* example: <META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"> */
+			const char *data, *slashhead;
+			CamelStream *mem;
+			
+			mem = camel_stream_mem_new ();
+			camel_data_wrapper_write_to_stream (dw, mem);
+			camel_stream_write (mem, "", 1);
+			
+			data = CAMEL_STREAM_MEM (mem)->buffer->data;
+			slashhead = strstrcase (data, "</head");
+			if (!slashhead)
+				slashhead = data + CAMEL_STREAM_MEM (mem)->buffer->len;
+			
+			/* Yea, this is ugly */
+			while (data < slashhead) {
+				struct _header_param *params;
+				char *meta, *metaend;
+				const char *val;
+				
+				meta = strstrcase (data, "<meta");
+				if (!meta)
+					break;
+				
+				metaend = strchr (meta, '>');
+				if (!metaend)
+					metaend = slashhead;
+				
+				params = html_meta_param_list_decode (meta, metaend - meta);
+				if (params) {
+					val = header_param (params, "http-equiv");
+					if (val && !g_strcasecmp (val, "Content-Type")) {
+						struct _header_content_type *content_type;
+						
+						content_type = header_content_type_decode (val);
+						charset = header_content_type_param (content_type, "charset");
+						if (charset) {
+							acharset = alloca (strlen (charset) + 1);
+							strcpy (acharset, charset);
+							charset = acharset;
+						}
+						
+						header_content_type_unref (content_type);
+					}
+					
+					header_param_list_free (params);
+					
+					/* break as soon as we find a charset */
+					if (charset)
+						break;
+				}
+				
+				data = metaend;
+			}
+			
+			camel_object_unref (CAMEL_OBJECT (mem));
+		}
+		
+		/* if the charset is not us-ascii or utf-8, then we need to convert to utf-8 */
+		if (charset && !(g_strcasecmp (charset, "us-ascii") == 0 || g_strcasecmp (charset, "utf-8") == 0)) {
 			d(printf("Adding conversion filter from %s to UTF-8\n", charset));
-			fch = (CamelMimeFilter *)camel_mime_filter_charset_new_convert(charset, "UTF-8");
+			fch = (CamelMimeFilter *)camel_mime_filter_charset_new_convert (charset, "UTF-8");
 			if (fch) {
-				chrid = camel_mime_parser_filter_add(mp, (CamelMimeFilter *)fch);
+				chrid = camel_mime_parser_filter_add (mp, (CamelMimeFilter *)fch);
 			} else {
-				g_warning("Cannot convert '%s' to 'UTF-8', message display may be corrupt", charset);
+				g_warning ("Cannot convert '%s' to 'UTF-8', message display may be corrupt", charset);
 			}
 		}
-
 	}
-
+	
 	buffer = g_byte_array_new();
 
 	if (seekable_source /* !cache */) {
 		start = camel_mime_parser_tell(mp) + seekable_source->bound_start;
 	}
-	while ( camel_mime_parser_step(mp, &buf, &len) != HSCAN_BODY_END ) {
+	while (camel_mime_parser_step (mp, &buf, &len) != HSCAN_BODY_END) {
 		d(printf("appending o/p data: %d: %.*s\n", len, len, buf));
 		if (buffer) {
 			if (buffer->len > 20480 && seekable_source) {

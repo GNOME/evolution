@@ -109,6 +109,9 @@ void header_param_list_format_append(GString *out, struct _header_param *p);
 char *header_param_list_format(struct _header_param *p);
 void header_param_list_free(struct _header_param *p);
 
+/* for decoding META tags in text/html stuff */
+struct _header_param *html_meta_param_list_decode (const char *in, int inlen);
+
 /* Content-Type header */
 struct _header_content_type *header_content_type_new(const char *type, const char *subtype);
 struct _header_content_type *header_content_type_decode(const char *in);

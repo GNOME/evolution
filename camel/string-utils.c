@@ -209,7 +209,7 @@ strip (gchar *string, gchar c)
 }
 
 char *
-strstrcase (char *haystack, const char *needle)
+strstrcase (const char *haystack, const char *needle)
 {
 	/* find the needle in the haystack neglecting case */
 	const char *ptr;
