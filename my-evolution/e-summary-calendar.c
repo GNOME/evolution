@@ -51,10 +51,14 @@ e_summary_calendar_event_sort_func (const void *e1,
 {
 	ESummaryCalEvent *event1, *event2;
 
-	event1 = (ESummaryCalEvent *) e1;
-	event2 = (ESummaryCalEvent *) e2;
+	event1 = *(ESummaryCalEvent **) e1;
+	event2 = *(ESummaryCalEvent **) e2;
 
-	return icaltime_compare (*event1->dt.value, *event2->dt.value);
+	if (event1->dt.value == NULL || event2->dt.value == NULL) {
+		return 0;
+	}
+
+	return icaltime_compare (*(event1->dt.value), *(event2->dt.value));
 }
 
 static GPtrArray *
@@ -95,7 +99,7 @@ uids_to_array (ESummary *summary,
 		g_ptr_array_add (array, event);
 	}
 
-	qsort (array->pdata, array->len, sizeof (ESummaryCalEvent), e_summary_calendar_event_sort_func);
+	qsort (array->pdata, array->len, sizeof (ESummaryCalEvent *), e_summary_calendar_event_sort_func);
 
 	return array;
 }

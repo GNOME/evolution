@@ -38,6 +38,7 @@
 #include <libgnomeprint/gnome-print-master-preview.h>
 
 #include <gui/alarm-notify/alarm.h>
+#include <cal-util/timeutil.h>
 
 #include "e-summary.h"
 #include "e-summary-preferences.h"
