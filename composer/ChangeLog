@@ -1,5 +1,11 @@
 2000-06-14  Dan Winship  <danw@helixcode.com>
 
+	* e-msg-composer-attachment-bar.c (add_from_user): keep the
+	GtkFileSelection around between calls so we start up in the same
+	directory we ended up in last time around. (Also fixes a big
+	memory leak in that the code was already keeping the
+	GtkFileSelection around, it just wasn't remembering to reuse it.)
+
 	* e-msg-composer.c (format_text): Don't line-wrap lines that start
 	with ">".
 

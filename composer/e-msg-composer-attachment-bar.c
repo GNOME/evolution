@@ -290,25 +290,33 @@ attach_cb (GtkWidget *widget,
 static void
 add_from_user (EMsgComposerAttachmentBar *bar)
 {
-	GtkWidget *file_selection;
-	GtkWidget *cancel_button;
-	GtkWidget *ok_button;
+	static GtkWidget *fs;
 
-	file_selection = gtk_file_selection_new (_("Add attachment"));
-	gtk_window_set_position (GTK_WINDOW (file_selection),
-				 GTK_WIN_POS_MOUSE);
+	if (!fs) {
+		GtkWidget *cancel_button;
+		GtkWidget *ok_button;
 
-	ok_button = GTK_FILE_SELECTION (file_selection)->ok_button;
-	gtk_signal_connect (GTK_OBJECT (ok_button),
-			    "clicked", GTK_SIGNAL_FUNC (attach_cb), bar);
+		fs = gtk_file_selection_new (_("Add attachment"));
 
-	cancel_button = GTK_FILE_SELECTION (file_selection)->cancel_button;
-	gtk_signal_connect_object (GTK_OBJECT (cancel_button),
-				   "clicked",
-				   GTK_SIGNAL_FUNC (gtk_widget_hide),
-				   GTK_OBJECT (file_selection));
+		ok_button = GTK_FILE_SELECTION (fs)->ok_button;
+		gtk_signal_connect (GTK_OBJECT (ok_button),
+				    "clicked", GTK_SIGNAL_FUNC (attach_cb),
+				    bar);
 
-	gtk_widget_show (GTK_WIDGET (file_selection));
+		cancel_button = GTK_FILE_SELECTION (fs)->cancel_button;
+		gtk_signal_connect_object (GTK_OBJECT (cancel_button),
+					   "clicked",
+					   GTK_SIGNAL_FUNC (gtk_widget_hide),
+					   GTK_OBJECT (fs));
+
+		gtk_signal_connect (GTK_OBJECT (fs), "delete_event",
+				    GTK_SIGNAL_FUNC (gtk_widget_hide), NULL);
+	} else
+		gtk_file_selection_set_filename (GTK_FILE_SELECTION (fs), "");
+
+	gtk_window_set_position (GTK_WINDOW (fs), GTK_WIN_POS_MOUSE);
+
+	gtk_widget_show (GTK_WIDGET (fs));
 }
 
 
