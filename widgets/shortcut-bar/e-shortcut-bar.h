@@ -96,7 +96,7 @@ GtkWidget* e_shortcut_bar_new			(void);
 
 /* Adds a new group, returning the index. */
 gint	   e_shortcut_bar_add_group		(EShortcutBar	 *shortcut_bar,
-						 gchar		 *group_name);
+						 const gchar	 *group_name);
 void	   e_shortcut_bar_remove_group		(EShortcutBar	 *shortcut_bar,
 						 gint		  group_num);
 
@@ -108,8 +108,8 @@ void	   e_shortcut_bar_set_view_type		(EShortcutBar	 *shortcut_bar,
 /* Adds a new item to a group, returning the index within the group. */
 gint	   e_shortcut_bar_add_item		(EShortcutBar	 *shortcut_bar,
 						 gint		  group_num,
-						 gchar		 *item_url,
-						 gchar		 *item_name);
+						 const gchar	 *item_url,
+						 const gchar	 *item_name);
 
 void	   e_shortcut_bar_start_editing_item	(EShortcutBar	 *shortcut_bar,
 						 gint		  group_num,

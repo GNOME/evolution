@@ -172,7 +172,7 @@ void	       e_icon_bar_set_view_type		(EIconBar	  *icon_bar,
    added at the end. It returns the index of the item. */
 gint	       e_icon_bar_add_item		(EIconBar	  *icon_bar,
 						 GdkPixbuf	  *image,
-						 gchar		  *text,
+						 const gchar	  *text,
 						 gint		   position);
 
 /* Reorders an item. Note that position refers to the new position to add the

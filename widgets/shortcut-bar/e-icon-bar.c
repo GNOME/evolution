@@ -565,7 +565,7 @@ rgb_from_gdk_color (GdkColor *color)
 gint
 e_icon_bar_add_item (EIconBar	    *icon_bar,
 		     GdkPixbuf      *image,
-		     gchar	    *text,
+		     const gchar    *text,
 		     gint	     position)
 {
 	EIconBarItem item;

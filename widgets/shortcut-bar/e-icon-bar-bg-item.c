@@ -192,6 +192,7 @@ e_icon_bar_bg_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 	icon_bar = ibitem->icon_bar;
 	g_return_if_fail (icon_bar != NULL);
 	style = GTK_WIDGET (icon_bar)->style;
+	shadow = GTK_SHADOW_NONE;
 
 	/* Draw the highlight around the current highlight item. */
 	item_num = -1;

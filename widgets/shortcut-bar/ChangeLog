@@ -1,5 +1,19 @@
 2000-05-04  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-icon-bar-bg-item.c (e_icon_bar_bg_item_draw): Initialize
+	`shadow' to placate compiler.
+
+	* e-icon-bar.c (e_icon_bar_add_item): @text made const-safe.
+
+	* e-shortcut-bar.c (e_shortcut_bar_add_group): @group_name made
+	const-safe.
+	(e_shortcut_bar_add_item): @item_url and @item_name made
+	const-safe.
+	(e_shortcut_bar_get_image_from_url): @item_url made const-safe.
+	(e_shortcut_bar_load_image): @filename made const-safe.
+
+2000-05-04  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* test-shortcut-bar.c (icon_callback): Adapted to the new
 	`EShortcutBarIconCallback' typedef: get a @data parameter and get
 	a const-safe @url.

@@ -84,8 +84,8 @@ static void e_shortcut_bar_on_drag_end (GtkWidget      *widget,
 static void e_shortcut_bar_stop_editing (GtkWidget *button,
 					 EShortcutBar *shortcut_bar);
 static GdkPixbuf* e_shortcut_bar_get_image_from_url (EShortcutBar *shortcut_bar,
-							 gchar *item_url);
-static GdkPixbuf* e_shortcut_bar_load_image (gchar *filename);
+						     const gchar *item_url);
+static GdkPixbuf* e_shortcut_bar_load_image (const gchar *filename);
 
 
 enum
@@ -188,7 +188,7 @@ e_shortcut_bar_destroy (GtkObject *object)
 
 
 gint
-e_shortcut_bar_add_group (EShortcutBar *shortcut_bar, gchar *group_name)
+e_shortcut_bar_add_group (EShortcutBar *shortcut_bar, const gchar *group_name)
 {
 	EShortcutBarGroup *group, tmp_group;
 	gint group_num;
@@ -280,7 +280,7 @@ e_shortcut_bar_remove_group	(EShortcutBar	 *shortcut_bar,
 
 gint
 e_shortcut_bar_add_item (EShortcutBar *shortcut_bar, gint group_num,
-			 gchar *item_url, gchar *item_name)
+			 const gchar *item_url, const gchar *item_name)
 {
 	EShortcutBarGroup *group;
 	GdkPixbuf *image;
@@ -546,7 +546,7 @@ e_shortcut_bar_set_icon_callback (EShortcutBar *shortcut_bar,
 
 static GdkPixbuf *
 e_shortcut_bar_get_image_from_url (EShortcutBar *shortcut_bar,
-				   gchar *item_url)
+				   const gchar *item_url)
 {
 	GdkPixbuf *icon = NULL;
 
@@ -568,7 +568,7 @@ e_shortcut_bar_get_image_from_url (EShortcutBar *shortcut_bar,
 
 
 static GdkPixbuf *
-e_shortcut_bar_load_image (gchar *filename)
+e_shortcut_bar_load_image (const gchar *filename)
 {
 	gchar *pathname;
 	GdkPixbuf *image = NULL;
