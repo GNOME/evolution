@@ -1,3 +1,15 @@
+2001-02-26  Dan Winship  <danw@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (imap_sync): Group messages
+	into sets with the same flags and use the IMAP message set
+	notation rather than doing a separate STORE FLAGS for each one.
+	This cuts the network traffic down to just a handful of commands
+	per sync rather than one per changed message. Removed the progress
+	notification stuff since it's no longer meaningful and should
+	hopefully be unnecessary.
+	(imap_copy_message_to): move the former sync_message function
+	into here, since it's no longer shared with imap_sync.
+
 2001-02-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.c: Made thread-safe and moved to above the test
