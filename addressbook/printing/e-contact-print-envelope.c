@@ -209,7 +209,7 @@ e_contact_print_envelope_dialog_new(ECard *card)
 {
 	GtkWidget *dialog;
 	
-	dialog = gnome_print_dialog_new("Print envelope", GNOME_PRINT_DIALOG_COPIES);
+	dialog = gnome_print_dialog_new(_("Print envelope"), GNOME_PRINT_DIALOG_COPIES);
 
 	card = e_card_duplicate(card);
 	gtk_object_set_data(GTK_OBJECT(dialog), "card", card);
@@ -230,7 +230,7 @@ e_contact_print_envelope_list_dialog_new(GList *list)
 	if (list == NULL)
 		return NULL;
 
-	dialog = gnome_print_dialog_new("Print envelope", GNOME_PRINT_DIALOG_COPIES);
+	dialog = gnome_print_dialog_new(_("Print envelope"), GNOME_PRINT_DIALOG_COPIES);
 
 	card = e_card_duplicate(list->data);
 	gtk_object_set_data(GTK_OBJECT(dialog), "card", card);

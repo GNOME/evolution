@@ -1,3 +1,8 @@
+2001-08-11  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* printing/e-contact-print.c: Marked some strings for translation.
+	* printing/e-contact-print-envelope.c: Same here.
+	
 2001-08-10  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/contact-editor/e-contact-quick-add.c (e_contact_quick_add):

@@ -1086,7 +1086,7 @@ e_contact_print_dialog_new(EBook *book, char *query)
 	GtkWidget *dialog;
 	
 	
-	dialog = gnome_print_dialog_new("Print cards", GNOME_PRINT_DIALOG_RANGE | GNOME_PRINT_DIALOG_COPIES);
+	dialog = gnome_print_dialog_new(_("Print cards"), GNOME_PRINT_DIALOG_RANGE | GNOME_PRINT_DIALOG_COPIES);
 	gnome_print_dialog_construct_range_any(GNOME_PRINT_DIALOG(dialog), GNOME_PRINT_RANGE_ALL | GNOME_PRINT_RANGE_SELECTION,
 					       NULL, NULL, NULL);
 
@@ -1106,7 +1106,7 @@ e_contact_print_card_dialog_new(ECard *card)
 {
 	GtkWidget *dialog;
 	
-	dialog = gnome_print_dialog_new("Print card", GNOME_PRINT_DIALOG_COPIES);
+	dialog = gnome_print_dialog_new(_("Print card"), GNOME_PRINT_DIALOG_COPIES);
 
 	card = e_card_duplicate(card);
 	gtk_object_set_data(GTK_OBJECT(dialog), "card", card);
@@ -1128,7 +1128,7 @@ e_contact_print_card_list_dialog_new(GList *list)
 	if (list == NULL)
 		return NULL;
 	
-	dialog = gnome_print_dialog_new("Print card", GNOME_PRINT_DIALOG_COPIES);
+	dialog = gnome_print_dialog_new(_("Print card"), GNOME_PRINT_DIALOG_COPIES);
 
 	card = e_card_duplicate(list->data);
 	gtk_object_set_data(GTK_OBJECT(dialog), "card", card);
