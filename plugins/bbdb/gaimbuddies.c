@@ -70,7 +70,6 @@ static GList *bbdb_get_gaim_buddy_list (void);
 static char *get_node_text (xmlNodePtr node);
 static char *get_buddy_icon_from_setting (xmlNodePtr setting);
 static char *get_node_text (xmlNodePtr node);
-static void free_contact_list (GList *contacts);
 static void free_buddy_list (GList *blist);
 static void parse_buddy_group (xmlNodePtr group, GList **buddies);
 static EContactField proto_to_contact_field (const char *proto);
@@ -209,11 +208,11 @@ static gboolean
 im_list_contains_buddy (GList *ims, GaimBuddy *b)
 {
 	GList *l;
-       
+
 	for (l = ims; l != NULL; l = l->next) {
 		char *im = (char *) l->data;
 
-		if (! strcmp (im, b->alias))
+		if (! strcmp (im, b->account_name))
 			return TRUE;
 	}
 
@@ -262,10 +261,8 @@ bbdb_merge_buddy_to_contact (EBook *book, GaimBuddy *b, EContact *c)
 	}
 
 	/* Clean up */
-	if (photo != NULL) {
-		g_free (photo->data);
-		g_free (photo);
-	}
+	if (photo != NULL)
+		e_contact_photo_free (photo);
 
 	for (l = ims; l != NULL; l = l->next)
 		g_free ((char *) l->data);
@@ -291,16 +288,6 @@ proto_to_contact_field (const char *proto)
 		return E_CONTACT_IM_JABBER;
 
 	return E_CONTACT_IM_AIM;
-}
-
-static void
-free_contact_list (GList *contacts)
-{
-	GList *l;
-	
-	for (l = contacts; l != NULL; l = l->next)
-		g_object_unref (G_OBJECT (l->data));
-	g_list_free (contacts);
 }
 
 static GList *
