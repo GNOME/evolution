@@ -934,8 +934,9 @@ rfc2047_decode_word(const char *in, int len)
 			inlen = quoted_decode(inptr+2, tmplen, decword);
 			break;
 		case 'B': {
-			int state=0;
-			unsigned int save=0;
+			int state = 0;
+			unsigned int save = 0;
+			
 			inlen = base64_decode_step((char *)inptr+2, tmplen, decword, &state, &save);
 			/* if state != 0 then error? */
 			break;
@@ -945,29 +946,38 @@ rfc2047_decode_word(const char *in, int len)
 			return NULL;
 		}
 		d(printf("The encoded length = %d\n", inlen));
-		if (inlen>0) {
+		if (inlen > 0) {
 			/* yuck, all this snot is to setup iconv! */
-			tmplen = inptr-in-3;
-			encname = alloca(tmplen+1);
-			encname[tmplen]=0;
-			memcpy(encname, in+2, tmplen);
-
+			tmplen = inptr - in - 3;
+			encname = alloca (tmplen + 2);
+			
+			/* Hack to convert charsets like ISO8859-1 to iconv-friendly ISO-8859-1 */
+			if (!g_strncasecmp (in + 2, "iso", 3) && *(in + 5) != '-') {
+				memcpy (encname, in + 2, 3);
+				encname[3] = '-';
+				memcpy (encname + 4, in + 5, tmplen - 3);
+				tmplen++;
+			} else {
+				memcpy (encname, in + 2, tmplen);
+			}
+			encname[tmplen] = '\0';
+			
 			inbuf = decword;
-
-			outlen = inlen*6+16;
-			outbase = alloca(outlen);
+			
+			outlen = inlen * 6 + 16;
+			outbase = alloca (outlen);
 			outbuf = outbase;
-
+			
 			/* TODO: Should this cache iconv converters? */
-			ic = iconv_open("UTF-8", encname);
+			ic = iconv_open ("UTF-8", encname);
 			if (ic != (iconv_t)-1) {
-				ret = iconv(ic, &inbuf, &inlen, &outbuf, &outlen);
+				ret = iconv (ic, &inbuf, &inlen, &outbuf, &outlen);
 				if (ret>=0) {
-					iconv(ic, NULL, 0, &outbuf, &outlen);
+					iconv (ic, NULL, 0, &outbuf, &outlen);
 					*outbuf = 0;
-					decoded = g_strdup(outbase);
+					decoded = g_strdup (outbase);
 				}
-				iconv_close(ic);
+				iconv_close (ic);
 			} else {
 				w(g_warning("Cannot decode charset, header display may be corrupt: %s: %s",
 					    encname, strerror(errno)));
