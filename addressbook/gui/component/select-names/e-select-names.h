@@ -56,6 +56,7 @@ extern "C" {
 
 typedef struct _ESelectNames       ESelectNames;
 typedef struct _ESelectNamesClass  ESelectNamesClass;
+typedef struct _ESelectNamesFolder ESelectNamesFolder;
 
 struct _ESelectNames
 {
@@ -77,7 +78,9 @@ struct _ESelectNames
 	EvolutionStorageListener *local_listener;
 	EvolutionStorageListener *other_contacts_listener;
 	GHashTable *folders;
+	GHashTable *folders_by_uri;
 	char *def;
+	ESelectNamesFolder *current_folder;
 };
 
 struct _ESelectNamesClass

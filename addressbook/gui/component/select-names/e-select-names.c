@@ -72,6 +72,15 @@ typedef struct {
 	GtkWidget             *label;
 } ESelectNamesChild;
 
+struct _ESelectNamesFolder {
+	char *description;
+	char *display_name;
+	char *uri;
+	char *physicalUri;
+	char *path;
+	int   count;
+};
+
 GtkType
 e_select_names_get_type (void)
 {
@@ -152,7 +161,7 @@ set_book_with_model_data(EBook *book, EBookStatus status, EAddressbookModel *mod
 }
 
 static void
-addressbook_model_set_uri(ESelectNames *e_select_names, EAddressbookModel *model, char *uri)
+addressbook_model_set_uri(ESelectNames *e_select_names, EAddressbookModel *model, const char *uri, ESelectNamesFolder *e_folder)
 {
 	EBook *book;
 
@@ -169,6 +178,7 @@ addressbook_model_set_uri(ESelectNames *e_select_names, EAddressbookModel *model
 		gtk_object_ref(GTK_OBJECT(e_select_names));
 		gtk_object_ref(GTK_OBJECT(model));
 		addressbook_load_uri(book, uri, (EBookCallback) set_book, e_select_names);
+		e_select_names->current_folder = e_folder;
 	} else {
 		gtk_object_ref(GTK_OBJECT(model));
 		addressbook_load_uri(book, uri, (EBookCallback) set_book_with_model_data, model);
@@ -308,7 +318,7 @@ e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int n
 	filename = gnome_util_prepend_user_home("evolution/local/Contacts/addressbook.db");
 	uri = g_strdup_printf("file://%s", filename);
 
-	addressbook_model_set_uri(NULL, model, uri);
+	addressbook_model_set_uri(NULL, model, uri, NULL);
 
 	g_free(uri);
 	g_free(filename);
@@ -337,19 +347,14 @@ e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int n
 	return table;
 }
 
-typedef struct {
-	char *description;
-	char *display_name;
-	char *uri;
-
-} ESelectNamesFolder;
-
 static void
 e_select_names_folder_free(ESelectNamesFolder *e_folder)
 {
 	g_free(e_folder->description );
 	g_free(e_folder->display_name);
 	g_free(e_folder->uri);
+	g_free(e_folder->physicalUri);
+	g_free(e_folder->path);
 	g_free(e_folder);
 }
 
@@ -358,12 +363,13 @@ e_select_names_option_activated(GtkWidget *widget, ESelectNames *e_select_names)
 {
 	ESelectNamesFolder *e_folder = gtk_object_get_data (GTK_OBJECT (widget), "EsnChoiceFolder");
 
-	addressbook_model_set_uri(e_select_names, e_select_names->model, e_folder->uri);
+	addressbook_model_set_uri(e_select_names, e_select_names->model, e_folder->uri, e_folder);
 }
 
 typedef struct {
 	ESelectNames *names;
 	GtkWidget *menu;
+	int count;
 } NamesAndMenu;
 
 static void
@@ -393,6 +399,8 @@ add_menu_item		(gpointer	key,
 	gtk_signal_connect (GTK_OBJECT (item), "activate",
 			    GTK_SIGNAL_FUNC (e_select_names_option_activated),
 			    e_select_names);
+
+	e_folder->count = nnm->count++;
 }
 
 static void
@@ -409,6 +417,7 @@ update_option_menu(ESelectNames *e_select_names)
 
 		nnm.names = e_select_names;
 		nnm.menu = menu;
+		nnm.count = 0;
 
 		g_hash_table_foreach	(e_select_names->folders,
 					 add_menu_item,
@@ -442,8 +451,13 @@ new_folder      (EvolutionStorageListener *storage_listener,
 			e_folder->uri = g_strdup_printf ("%s/addressbook.db", folder->physicalUri);
 		else
 			e_folder->uri = g_strdup(folder->physicalUri);
+		e_folder->physicalUri = g_strdup(folder->physicalUri);
+		e_folder->path = g_strdup (path);
+		e_folder->count = -1;
 		g_hash_table_insert(e_select_names->folders,
-				    g_strdup(path), e_folder);
+				    e_folder->path, e_folder);
+		g_hash_table_insert(e_select_names->folders_by_uri,
+				    e_folder->physicalUri, e_folder);
 		update_option_menu(e_select_names);
 	}
 }
@@ -454,12 +468,12 @@ removed_folder  (EvolutionStorageListener *storage_listener,
 		 ESelectNames *e_select_names)
 {
 	ESelectNamesFolder *e_folder;
-	char *orig_path;
 
-	if (g_hash_table_lookup_extended(e_select_names->folders, path, (void **) &orig_path, (void **) &e_folder)) {
+	if ((e_folder = g_hash_table_lookup(e_select_names->folders, path))) {
+		g_hash_table_remove(e_select_names->folders_by_uri,
+				    e_folder->physicalUri);
 		g_hash_table_remove(e_select_names->folders, path);
 		e_select_names_folder_free(e_folder);
-		g_free(orig_path);
 		update_option_menu(e_select_names);
 	}
 }
@@ -545,6 +559,41 @@ select_entry_changed (GtkWidget *widget, ESelectNames *e_select_names)
 			i = e_table_view_to_model_row (table, i);
 			e_table_set_cursor_row (table, i);
 		}
+	}
+}
+
+extern EvolutionShellClient *global_shell_client;
+
+static void
+folder_browse (GtkWidget *widget, ESelectNames *e_select_names)
+{
+	const char *allowed_types[] = { "contacts", NULL };
+	GNOME_Evolution_Folder *folder;
+	const char *current_uri = "";
+	ESelectNamesFolder *e_folder;
+
+	if (e_select_names->current_folder && e_select_names->current_folder->physicalUri) {
+		current_uri = e_select_names->current_folder->physicalUri;
+	}
+
+	evolution_shell_client_user_select_folder (global_shell_client,
+						   GTK_WINDOW (gtk_widget_get_toplevel (widget)),
+						   _("Find contact in"), current_uri,
+						   allowed_types,
+						   &folder);
+	if (!folder)
+		return;
+
+	if ((e_folder = g_hash_table_lookup(e_select_names->folders_by_uri, folder->physicalUri))) {
+		GtkWidget *option;
+
+		option = glade_xml_get_widget (e_select_names->gui,
+					       "optionmenu-folder");
+		if (e_folder->count != -1 && option) {
+			gtk_option_menu_set_history (GTK_OPTION_MENU (option), e_folder->count);
+		}
+
+		addressbook_model_set_uri(e_select_names, e_select_names->model, e_folder->uri, e_folder);
 	}
 }
 
@@ -769,7 +818,13 @@ e_select_names_init (ESelectNames *e_select_names)
 		gtk_signal_connect(GTK_OBJECT(button), "clicked",
 				   GTK_SIGNAL_FUNC(update_query), e_select_names);
 
+	button  = glade_xml_get_widget (gui, "button-browse");
+	if (button && GTK_IS_BUTTON (button))
+		gtk_signal_connect(GTK_OBJECT(button), "clicked",
+				   GTK_SIGNAL_FUNC(folder_browse), e_select_names);
+
 	e_select_names->folders = g_hash_table_new(g_str_hash, g_str_equal);
+	e_select_names->folders_by_uri = g_hash_table_new(g_str_hash, g_str_equal);
 
 	e_select_names_hookup_shell_listeners (e_select_names);
 
@@ -804,6 +859,8 @@ e_select_names_destroy (GtkObject *object)
 	gtk_object_unref(GTK_OBJECT(e_select_names->gui));
 	g_hash_table_foreach(e_select_names->children, (GHFunc) e_select_names_child_free, e_select_names);
 	g_hash_table_destroy(e_select_names->children);
+	g_hash_table_destroy(e_select_names->folders);
+	g_hash_table_destroy(e_select_names->folders_by_uri);
 
 	g_free(e_select_names->def);
 }

@@ -137,7 +137,7 @@
 	  <name>table5</name>
 	  <border_width>3</border_width>
 	  <rows>2</rows>
-	  <columns>2</columns>
+	  <columns>3</columns>
 	  <homogeneous>False</homogeneous>
 	  <row_spacing>3</row_spacing>
 	  <column_spacing>3</column_spacing>
@@ -226,7 +226,7 @@
 	    <last_modification_time>Tue, 19 Feb 2002 23:06:24 GMT</last_modification_time>
 	    <child>
 	      <left_attach>1</left_attach>
-	      <right_attach>2</right_attach>
+	      <right_attach>3</right_attach>
 	      <top_attach>1</top_attach>
 	      <bottom_attach>2</bottom_attach>
 	      <xpad>0</xpad>
@@ -237,6 +237,28 @@
 	      <yshrink>False</yshrink>
 	      <xfill>True</xfill>
 	      <yfill>True</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkButton</class>
+	    <name>button-browse</name>
+	    <can_focus>True</can_focus>
+	    <label>_Browse...</label>
+	    <relief>GTK_RELIEF_NORMAL</relief>
+	    <child>
+	      <left_attach>2</left_attach>
+	      <right_attach>3</right_attach>
+	      <top_attach>0</top_attach>
+	      <bottom_attach>1</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
 	    </child>
 	  </widget>
 	</widget>
