@@ -100,6 +100,12 @@ void mail_remove_folder (const char *uri,
 			 void (*done) (char *uri, gboolean removed, void *data),
 			 void *data);
 
+/* transfer (copy/move) a folder */
+void mail_xfer_folder (const char *src_uri, const char *dest_uri, gboolean remove_source,
+		       void (*done) (char *src_uri, char *dest_uri, gboolean remove_source,
+				     CamelFolder *folder, void *data),
+		       void *data);
+
 /* save messages */
 int mail_save_messages (CamelFolder *folder, GPtrArray *uids, const char *path,
 			void (*done) (CamelFolder *folder, GPtrArray *uids, char *path, void *data),

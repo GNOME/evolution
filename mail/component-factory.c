@@ -188,10 +188,50 @@ remove_folder (EvolutionShellComponent *shell_component,
 	
 	CORBA_exception_init (&ev);
 	
-	/* FIXME: what if the folder is mh or maildir? */
-	/* ?? maybe we should just rm -rf the physical_uri?? */
-	uri = g_strdup_printf ("mbox://%s", physical_uri);
+	uri = g_strdup_printf ("file://%s", physical_uri);
 	mail_remove_folder (uri, do_remove_folder, CORBA_Object_duplicate (listener, &ev));
+	GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+							     GNOME_Evolution_ShellComponentListener_OK, &ev);
+	
+	CORBA_exception_free (&ev);
+}
+
+static void
+do_xfer_folder (char *src_uri, char *dest_uri, gboolean remove_source, CamelFolder *dest_folder, void *data)
+{
+	GNOME_Evolution_ShellComponentListener listener = data;
+	GNOME_Evolution_ShellComponentListener_Result result;
+	CORBA_Environment ev;
+	
+	if (dest_folder)
+		result = GNOME_Evolution_ShellComponentListener_OK;
+	else
+		result = GNOME_Evolution_ShellComponentListener_INVALID_URI;
+	
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_ShellComponentListener_notifyResult (listener, result, &ev);
+	CORBA_Object_release (listener, &ev);
+	CORBA_exception_free (&ev);
+}
+
+static void
+xfer_folder (EvolutionShellComponent *shell_component,
+	     const char *source_physical_uri,
+	     const char *destination_physical_uri,
+	     gboolean remove_source,
+	     const GNOME_Evolution_ShellComponentListener listener,
+	     void *closure)
+{
+	CORBA_Environment ev;
+	char *dest_uri;
+	
+	CORBA_exception_init (&ev);
+	
+	dest_uri = g_strdup_printf ("mbox://%s", destination_physical_uri);
+	mail_xfer_folder (source_physical_uri, dest_uri, remove_source, do_xfer_folder,
+			  CORBA_Object_duplicate (listener, &ev));
+	g_free (dest_uri);
+	
 	GNOME_Evolution_ShellComponentListener_notifyResult (listener,
 							     GNOME_Evolution_ShellComponentListener_OK, &ev);
 	
@@ -334,7 +374,7 @@ component_fn (BonoboGenericFactory *factory, void *closure)
 							 create_view,
 							 create_folder,
 							 remove_folder,
-							 NULL, /* xfer_folder_fn */
+							 xfer_folder,
 							 NULL, /* populate_folder_context_menu_fn */
 							 NULL, /* get_dnd_selection_fn */
 							 NULL);

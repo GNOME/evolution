@@ -1,8 +1,14 @@
 2001-05-23  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* component-factory.c (xfer_folder): New function that the shell
+	component calls to copy/move a folder.
+	(component_fn): Set the xfer_folder_fn argument.
+
 	* mail-ops.c (mail_remove_folder): New async function to remove a
 	folder. God knows if it does what the ShellComponent needs or not
 	yet.
+	(mail_xfer_folder): Yet another yummy async function to move or
+	copy a folder to a new location.
 
 	* component-factory.c (storage_remove_folder): New function for
 	removing folders.
