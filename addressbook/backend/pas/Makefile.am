@@ -23,6 +23,9 @@ INCLUDES =						\
         $(BONOBO_GNOME_CFLAGS)				\
 	$(EXTRA_GNOME_CFLAGS)
 
+LDAP_SCHEMA =						\
+	evolutionperson.schema
+
 LDAP_BACKEND_FILES = pas-backend-ldap.c pas-backend-ldap.h
 
 if ENABLE_LDAP
@@ -57,4 +60,4 @@ CLEANFILES = $(BUILT_SOURCES)
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 
-EXTRA_DIST = $(LDAP_BACKEND_FILES)
+EXTRA_DIST = $(LDAP_BACKEND_FILES) $(LDAP_SCHEMA)
