@@ -1,10 +1,6 @@
 tests/ui-tests/store_listing.glade
 addressbook/gui/component/select-names/recipient.glade
 addressbook/gui/widgets/test-minicard-view.c
-calendar/gui/alarm-notify.c
-calendar/gui/getdate.c
-camel/providers/local/camel-mbox-provider.c
-cmdline/compose.c
 notes/component-factory.c
 notes/main.c
 tests/ui-tests/message-browser.c
@@ -24,4 +20,3 @@ executive-summary/test-service/rdf-summary.c
 mail/mail-summary.c
 my-evolution/GNOME_Evolution_Summary.oaf.in.in
 notes/GNOME_Evolution_Notes.oaf.in
-wombat/GNOME_Evolution_Wombat.oaf.in

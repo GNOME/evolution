@@ -14,12 +14,12 @@ addressbook/backend/pas/pas-backend-ldap.c
 addressbook/conduit/address-conduit.c
 addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in
 addressbook/gui/component/addressbook-component.c
+addressbook/gui/component/addressbook-config.c
 addressbook/gui/component/addressbook-factory.c
 addressbook/gui/component/addressbook-storage.c
 addressbook/gui/component/addressbook.c
 addressbook/gui/component/e-address-popup.c
 addressbook/gui/component/e-address-widget.c
-addressbook/gui/component/addressbook-config.c
 addressbook/gui/component/ldap-config.glade
 addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.oaf.in
 addressbook/gui/component/select-names/e-select-names-popup.c
@@ -134,6 +134,7 @@ camel/camel-folder.c
 camel/camel-lock-client.c
 camel/camel-lock.c
 camel/camel-movemail.c
+camel/camel-multipart-signed.c
 camel/camel-pgp-context.c
 camel/camel-pgp-mime.c
 camel/camel-provider.c
@@ -161,6 +162,7 @@ camel/providers/imap/camel-imap-folder.c
 camel/providers/imap/camel-imap-message-cache.c
 camel/providers/imap/camel-imap-provider.c
 camel/providers/imap/camel-imap-store.c
+camel/providers/local/camel-local-folder.c
 camel/providers/local/camel-local-provider.c
 camel/providers/local/camel-local-store.c
 camel/providers/local/camel-local-summary.c
@@ -260,7 +262,6 @@ mail/mail-search.c
 mail/mail-send-recv.c
 mail/mail-session.c
 mail/mail-signature-editor.c
-#mail/mail-summary.c
 mail/mail-tools.c
 mail/mail-vfolder.c
 mail/message-browser.c
@@ -286,7 +287,6 @@ my-evolution/e-summary.c
 my-evolution/main.c
 my-evolution/metar.c
 my-evolution/my-evolution.glade
-#notes/GNOME_Evolution_Notes.oaf.in
 shell/GNOME_Evolution_Shell.oaf.in
 shell/e-activity-handler.c
 shell/e-folder-dnd-bridge.c

@@ -1,3 +1,11 @@
+2002-06-21  Abel Cheung  <maddog@linux.org.hk>
+
+	* .cvsignore: Ignore more files.
+	* Makefile.i18npatch, update.sh: Removed obsolete files.
+	* POTFILES.in: Add missing files, remove entries already present in
+	POTFILES.skip.
+	* POTFILES.skip: Remove non-existant entries.
+
 2002-06-13  Andrew V. Samoilov  <kai@cmail.ru>
 
 	* ru.po: Updated Russian translation.

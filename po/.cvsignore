@@ -1,10 +1,11 @@
 *.gmo
 *.mo
+*.pot
 Makefile
 Makefile.in
 Makefile.in.in
 POTFILES
 cat-id-tbl.c
-stamp-cat-id
-evolution.pot
 messages
+missing
+stamp-cat-id
