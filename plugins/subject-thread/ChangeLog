@@ -1,0 +1,9 @@
+2004-10-20  JP Rosevear  <jpr@novell.com>
+
+	* subject-thread.c: implement 
+
+	* org-gnome-subject-thread.eplug.in: define the
+	subject-thread plugin
+
+	* Makefile.am: build the subject thread plugin
+
