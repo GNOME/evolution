@@ -24,8 +24,12 @@
  */
 
 #include "camel-pop3-folder.h"
+#include "camel-pop3-store.h"
+#include "camel-exception.h"
 
-#define CF_CLASS (o) (CAMEL_FOLDER_CLASS (GTK_OBJECT (o)->klass))
+#include <stdlib.h>
+
+#define CF_CLASS(o) (CAMEL_FOLDER_CLASS (GTK_OBJECT (o)->klass))
 
 static gboolean has_message_number_capability (CamelFolder *folder);
 static CamelMimeMessage *get_message_by_number (CamelFolder *folder, 
@@ -96,7 +100,8 @@ camel_pop3_folder_get_type (void)
 CamelFolder *camel_pop3_folder_new (CamelStore *parent, CamelException *ex)
 {
 	CamelFolder *folder =
-		CAMEL_FOLDER (gtk_object_new (camel_pop3_folder_get_type ()));
+		CAMEL_FOLDER (gtk_object_new (camel_pop3_folder_get_type (),
+					      NULL));
 
 	CF_CLASS (folder)->init (folder, parent, NULL, "inbox", '/', ex);
 	return folder;
@@ -112,10 +117,10 @@ static CamelMimeMessage *
 get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
 {
 	int status;
-	char *body;
+	char *result, *body;
 
 	status = camel_pop3_command (CAMEL_POP3_STORE (folder->parent_store),
-				     NULL, "RETR %d", number);
+				     &result, "RETR %d", number);
 	if (status != CAMEL_POP3_OK) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
@@ -124,15 +129,16 @@ get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
 				      status == CAMEL_POP3_ERR ? result :
 				      "Unknown error");
 		g_free (result);
-		return -1;
+		return NULL;
 	}
+	g_free (result);
 
 	/* XXX finish this */
-	return NULL
+	return NULL;
 }
 
 
-static gint get_message_count (CamelFolder *folder, CamelException *ex);
+static gint get_message_count (CamelFolder *folder, CamelException *ex)
 {
 	int status, count;
 	char *result;

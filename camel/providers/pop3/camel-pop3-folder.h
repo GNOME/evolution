@@ -35,7 +35,6 @@ extern "C" {
 
 #include <gtk/gtk.h>
 #include "camel-folder.h"
-#include "camel-pop3-summary.h"
 
 #define CAMEL_POP3_FOLDER_TYPE     (camel_pop3_folder_get_type ())
 #define CAMEL_POP3_FOLDER(obj)     (GTK_CHECK_CAST((obj), CAMEL_POP3_FOLDER_TYPE, CamelPop3Folder))

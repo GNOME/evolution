@@ -45,7 +45,7 @@
 
 
 
-static gboolean connect (CamelService *service, CamelException *ex);
+static gboolean pop3_connect (CamelService *service, CamelException *ex);
 static CamelFolder *get_folder (CamelStore *store, const gchar *folder_name, 
 				CamelException *ex);
 
@@ -59,7 +59,7 @@ camel_pop3_store_class_init (CamelPop3StoreClass *camel_pop3_store_class)
 		CAMEL_STORE_CLASS (camel_pop3_store_class);
 	
 	/* virtual method overload */
-	camel_service_class->connect = connect;
+	camel_service_class->connect = pop3_connect;
 
 	camel_store_class->get_root_folder = camel_pop3_folder_new;
 	camel_store_class->get_default_folder = camel_pop3_folder_new;
@@ -107,7 +107,7 @@ camel_pop3_store_get_type (void)
 
 
 static gboolean
-_connect (CamelService *service, CamelException *ex)
+pop3_connect (CamelService *service, CamelException *ex)
 {
 	struct hostent *h;
 	struct sockaddr_in sin;
@@ -221,8 +221,7 @@ camel_pop3_command (CamelPop3Store *store, char **ret, char *fmt, ...)
 	CamelStreamBuffer *stream = store->stream;
 	char *cmdbuf, *respbuf;
 	va_list ap;
-	int status, i;
-	GPtrArray *data;
+	int status;
 
 	va_start (ap, fmt);
 	cmdbuf = g_strdup_vprintf (fmt, ap);
@@ -246,7 +245,7 @@ camel_pop3_command (CamelPop3Store *store, char **ret, char *fmt, ...)
 		if (status != CAMEL_POP3_FAIL) {
 			*ret = strchr (respbuf, ' ');
 			if (*ret)
-				*ret = g_strdup (ret + 1);
+				*ret = g_strdup (*ret + 1);
 		} else
 			*ret = NULL;
 	}
