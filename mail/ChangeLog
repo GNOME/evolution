@@ -1,3 +1,16 @@
+2001-10-22  Anna Marie Dirks  <anna@ximian.com>
+
+	* mail-config.glade: Added several new accelerators to the edit account
+	dialog, and fixed the focus targets on all existing accelerators. I 
+	was hoping that since the widgets used in the account editor are also 
+	used in the first-time start-up druid and them mail-config druid, 
+	that this would fix all accelerator problems for those druids as well,
+	but there is something wrong with Bonobo which is preventing
+	the druids from responding to their accelerators. Sigh. Anyway,
+	most accelerators in the edit account dialog work correctly 
+	now, though there are few (such as _Full Name) which fail to
+	do anything. I don't know why. 
+
 2001-10-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-stream-gtkhtml.c (mail_stream_gtkhtml_new): New class that

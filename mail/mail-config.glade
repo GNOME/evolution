@@ -273,7 +273,7 @@ Click &quot;Finish&quot; to save your settings.</text>
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
-	      <default_focus_target>management_name</default_focus_target>
+	      <focus_target>management_name</focus_target>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
@@ -397,7 +397,7 @@ Click &quot;Finish&quot; to save your settings.</text>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
-	    <default_focus_target>identity_address</default_focus_target>
+	    <focus_target>identity_address</focus_target>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -424,7 +424,7 @@ Click &quot;Finish&quot; to save your settings.</text>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
-	    <default_focus_target>identity_full_name</default_focus_target>
+	    <focus_target>identity_full_name</focus_target>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -511,7 +511,7 @@ Click &quot;Finish&quot; to save your settings.</text>
 	    <yalign>0.5</yalign>
 	    <xpad>7</xpad>
 	    <ypad>0</ypad>
-	    <default_focus_target>identity_organization</default_focus_target>
+	    <focus_target>identity_organization</focus_target>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -596,7 +596,7 @@ Click &quot;Finish&quot; to save your settings.</text>
 	    <yalign>0.5</yalign>
 	    <xpad>7</xpad>
 	    <ypad>0</ypad>
-	    <default_focus_target>entry_signature</default_focus_target>
+	    <focus_target>entry_signature</focus_target>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -721,13 +721,14 @@ Click &quot;Finish&quot; to save your settings.</text>
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>source_type_label</name>
-	  <label>Server Type: </label>
+	  <label>_Server Type: </label>
 	  <justify>GTK_JUSTIFY_RIGHT</justify>
 	  <wrap>False</wrap>
 	  <xalign>1</xalign>
 	  <yalign>0.5</yalign>
 	  <xpad>2</xpad>
 	  <ypad>0</ypad>
+	  <focus_target>source_type_omenu</focus_target>
 	  <child>
 	    <left_attach>0</left_attach>
 	    <right_attach>1</right_attach>
@@ -852,7 +853,7 @@ None
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
-	    <default_focus_target>source_host</default_focus_target>
+	    <focus_target>source_host</focus_target>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -879,7 +880,7 @@ None
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
-	    <default_focus_target>source_user</default_focus_target>
+	    <focus_target>source_user</focus_target>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -954,7 +955,7 @@ None
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
-	    <default_focus_target>source_path</default_focus_target>
+	    <focus_target>source_path</focus_target>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -975,7 +976,7 @@ None
 	    <class>GtkCheckButton</class>
 	    <name>source_use_ssl</name>
 	    <can_focus>True</can_focus>
-	    <label>Use secure connection (_SSL)</label>
+	    <label>Use s_ecure connection (SSL)</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -1091,13 +1092,14 @@ None
 	    <widget>
 	      <class>GtkLabel</class>
 	      <name>source_auth_label</name>
-	      <label>Authentication Type: </label>
+	      <label>_Authentication Type: </label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
 	      <wrap>False</wrap>
 	      <xalign>0.5</xalign>
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
+	      <default_focus_target>source_auth_omenu</default_focus_target>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
@@ -1138,7 +1140,7 @@ Kerberos
 		<class>GtkButton</class>
 		<name>source_check_supported</name>
 		<can_focus>True</can_focus>
-		<label>_Check for supported types</label>
+		<label> _Check for supported types </label>
 		<relief>GTK_RELIEF_NORMAL</relief>
 	      </widget>
 	    </widget>
@@ -1148,7 +1150,7 @@ Kerberos
 	    <class>GtkCheckButton</class>
 	    <name>source_remember_password</name>
 	    <can_focus>True</can_focus>
-	    <label>_Remember this password</label>
+	    <label>Re_member this password</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -1184,7 +1186,7 @@ Kerberos
       <widget>
 	<class>GtkFrame</class>
 	<name>extra_mailcheck_frame</name>
-	<label>Checking for new mail</label>
+	<label>Checking for New Mail</label>
 	<label_xalign>0</label_xalign>
 	<shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
 	<child>
@@ -1204,7 +1206,7 @@ Kerberos
 	    <class>GtkHBox</class>
 	    <name>hbox53</name>
 	    <homogeneous>False</homogeneous>
-	    <spacing>4</spacing>
+	    <spacing>0</spacing>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
@@ -1215,9 +1217,27 @@ Kerberos
 	      <class>GtkCheckButton</class>
 	      <name>extra_auto_check</name>
 	      <can_focus>True</can_focus>
-	      <label>_Automatically check for new mail every</label>
+	      <label>_Automatically check for new mail</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
+	      <child>
+		<padding>0</padding>
+		<expand>False</expand>
+		<fill>False</fill>
+	      </child>
+	    </widget>
+
+	    <widget>
+	      <class>GtkLabel</class>
+	      <name>label53</name>
+	      <label>_every</label>
+	      <justify>GTK_JUSTIFY_CENTER</justify>
+	      <wrap>False</wrap>
+	      <xalign>1</xalign>
+	      <yalign>0.5</yalign>
+	      <xpad>3</xpad>
+	      <ypad>0</ypad>
+	      <focus_target>extra_auto_check_min</focus_target>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
@@ -1306,13 +1326,14 @@ Kerberos
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>transport_type_label</name>
-	  <label>Server Type: </label>
+	  <label>Server _Type: </label>
 	  <justify>GTK_JUSTIFY_RIGHT</justify>
 	  <wrap>False</wrap>
 	  <xalign>1</xalign>
 	  <yalign>0.5</yalign>
 	  <xpad>2</xpad>
 	  <ypad>0</ypad>
+	  <focus_target>transport_type_omenu</focus_target>
 	  <child>
 	    <left_attach>0</left_attach>
 	    <right_attach>1</right_attach>
@@ -1445,7 +1466,7 @@ Sendmail
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
-	      <default_focus_target>transport_host</default_focus_target>
+	      <focus_target>transport_host</focus_target>
 	      <child>
 		<left_attach>0</left_attach>
 		<right_attach>1</right_attach>
@@ -1491,7 +1512,7 @@ Sendmail
 	    <class>GtkCheckButton</class>
 	    <name>transport_use_ssl</name>
 	    <can_focus>True</can_focus>
-	    <label>Use secure connection (_SSL)</label>
+	    <label>Use s_ecure connection (SSL)</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -1523,7 +1544,7 @@ Sendmail
 	    <class>GtkCheckButton</class>
 	    <name>transport_needs_auth</name>
 	    <can_focus>True</can_focus>
-	    <label>Server requires _authentication</label>
+	    <label>Ser_ver requires authentication</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -1569,13 +1590,14 @@ Sendmail
 	    <widget>
 	      <class>GtkLabel</class>
 	      <name>transport_auth_label</name>
-	      <label>Authentication Type: </label>
+	      <label>_Authentication Type: </label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
 	      <wrap>False</wrap>
 	      <xalign>0.5</xalign>
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
+	      <default_focus_target>transport_auth_omenu</default_focus_target>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
@@ -1590,7 +1612,7 @@ Sendmail
 	      <items>Password
 Kerberos 
 </items>
-	      <initial_choice>0</initial_choice>
+	      <initial_choice>1</initial_choice>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
@@ -1729,13 +1751,14 @@ Kerberos
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>drafts_label</name>
-	    <label>Drafts folder:</label>
+	    <label>_Drafts folder:</label>
 	    <justify>GTK_JUSTIFY_RIGHT</justify>
 	    <wrap>False</wrap>
 	    <xalign>1</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
+	    <focus_target>drafts_button</focus_target>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -1755,13 +1778,14 @@ Kerberos
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>sent_label</name>
-	    <label>Sent messages folder:</label>
+	    <label>Sent _messages folder:</label>
 	    <justify>GTK_JUSTIFY_RIGHT</justify>
 	    <wrap>False</wrap>
 	    <xalign>1</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
+	    <focus_target>sent_button</focus_target>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -1770,28 +1794,6 @@ Kerberos
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
 	      <xexpand>False</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkButton</class>
-	    <name>sent_button</name>
-	    <can_focus>True</can_focus>
-	    <label>Sent</label>
-	    <relief>GTK_RELIEF_NORMAL</relief>
-	    <child>
-	      <left_attach>1</left_attach>
-	      <right_attach>2</right_attach>
-	      <top_attach>1</top_attach>
-	      <bottom_attach>2</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>True</xexpand>
 	      <yexpand>False</yexpand>
 	      <xshrink>False</xshrink>
 	      <yshrink>False</yshrink>
@@ -1811,6 +1813,28 @@ Kerberos
 	      <right_attach>2</right_attach>
 	      <top_attach>0</top_attach>
 	      <bottom_attach>1</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>True</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkButton</class>
+	    <name>sent_button</name>
+	    <can_focus>True</can_focus>
+	    <label>Sent</label>
+	    <relief>GTK_RELIEF_NORMAL</relief>
+	    <child>
+	      <left_attach>1</left_attach>
+	      <right_attach>2</right_attach>
+	      <top_attach>1</top_attach>
+	      <bottom_attach>2</bottom_attach>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
 	      <xexpand>True</xexpand>
@@ -1870,13 +1894,14 @@ Kerberos
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>pgp_key_id_label</name>
-	    <label>PGP Key ID:</label>
+	    <label>PGP _Key ID:</label>
 	    <justify>GTK_JUSTIFY_RIGHT</justify>
 	    <wrap>False</wrap>
 	    <xalign>1</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
+	    <default_focus_target>pgp_key</default_focus_target>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -1921,7 +1946,7 @@ Kerberos
 	    <class>GtkCheckButton</class>
 	    <name>pgp_encrypt_to_self</name>
 	    <can_focus>True</can_focus>
-	    <label>Always encrypt to myself when sending encrypted mail</label>
+	    <label>Always _encrypt to myself when sending encrypted mail</label>
 	    <active>True</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -1944,7 +1969,7 @@ Kerberos
 	    <class>GtkCheckButton</class>
 	    <name>pgp_always_sign</name>
 	    <can_focus>True</can_focus>
-	    <label>Always sign outgoing messages when using this account</label>
+	    <label>Always _sign outgoing messages when using this account</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -1991,13 +2016,14 @@ Kerberos
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>smime_key_label</name>
-	    <label>Certificate ID:</label>
+	    <label>_Certificate ID:</label>
 	    <justify>GTK_JUSTIFY_RIGHT</justify>
 	    <wrap>False</wrap>
 	    <xalign>1</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
+	    <default_focus_target>smime_key</default_focus_target>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -2042,7 +2068,7 @@ Kerberos
 	    <class>GtkCheckButton</class>
 	    <name>smime_encrypt_to_self</name>
 	    <can_focus>True</can_focus>
-	    <label>Always encrypt to myself when sending encrypted mail</label>
+	    <label>A_lways encrypt to myself when sending encrypted mail</label>
 	    <active>True</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -2087,7 +2113,7 @@ Kerberos
 	    <class>GtkCheckButton</class>
 	    <name>smime_always_sign</name>
 	    <can_focus>True</can_focus>
-	    <label>Always sign outgoing messages when using this account</label>
+	    <label>_Always sign outgoing messages when using this account</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
