@@ -220,7 +220,7 @@ e_summary_init (ESummary *esummary)
 	gtk_container_add (GTK_CONTAINER (priv->html_scroller), priv->html);
 	gtk_widget_show_all (priv->html_scroller);
 
-	e_summary_rebuild_page (esummary);
+	e_summary_queue_rebuild (esummary);
 
 	/* Pack stuff */
 	gtk_box_pack_start (GTK_BOX (esummary), priv->html_scroller, 
@@ -481,7 +481,7 @@ e_summary_display_window (ESummary *esummary,
 			footer, strlen (footer));
 }
 
-int
+static int
 e_summary_rebuild_page (ESummary *esummary)
 {
 	ESummaryPrivate *priv;
@@ -495,11 +495,19 @@ e_summary_rebuild_page (ESummary *esummary)
 
 	priv = esummary->private;
 
+	if (priv->idle == 0) {
+		g_warning ("esummary->private->idle == 0! This means that "
+			   "e_summary_rebuild_page was called by itself and "
+			   "not queued. You should use e_summary_queue_rebuild "
+			   "instead.");
+		return FALSE;
+	}
+
 	/* If there is a selection, don't redraw the page so that the selection
 	   isn't cleared */
 	if (GTK_HTML (priv->html)->in_selection == TRUE ||
 	    html_engine_is_selection_active (GTK_HTML (priv->html)->engine) == TRUE)
-		return TRUE;
+		return FALSE;
 
 	gtk_layout_freeze (GTK_LAYOUT (priv->html));
 	e_summary_start_load (esummary);
@@ -559,6 +567,21 @@ e_summary_rebuild_page (ESummary *esummary)
 	return FALSE;
 }
 
+/* This is the function that should be called instead of 
+   e_summary_queue_rebuild. This prevents multiple 
+   rebuilds happening together. */
+void
+e_summary_queue_rebuild (ESummary *esummary)
+{
+	ESummaryPrivate *priv;
+
+	priv = esummary->private;
+	if (priv->idle != 0)
+		return;
+
+	priv->idle = g_idle_add (e_summary_rebuild_page, esummary);
+}
+
 static void
 html_event (BonoboListener *listener,
 	    char *event_name,
@@ -573,7 +596,7 @@ html_event (BonoboListener *listener,
 		return;
 	}
 
-	e_summary_rebuild_page (window->esummary);
+	e_summary_queue_rebuild (window->esummary);
 }
 		
 static void
@@ -586,7 +609,7 @@ prop_changed_cb (BonoboPropertyListener *listener,
 		if (window->title != NULL)
 			g_free (window->title);
 		window->title = g_strdup (BONOBO_ARG_GET_STRING (arg));
-		e_summary_rebuild_page (window->esummary);
+		e_summary_queue_rebuild (window->esummary);
 		return;
 	}
 
@@ -594,7 +617,7 @@ prop_changed_cb (BonoboPropertyListener *listener,
 		if (window->icon != NULL)
 			g_free (window->icon);
 		window->icon = g_strdup (BONOBO_ARG_GET_STRING (arg));
-		e_summary_rebuild_page (window->esummary);
+		e_summary_queue_rebuild (window->esummary);
 		return;
 	}
 }
@@ -726,7 +749,7 @@ e_summary_embed_service_from_id (ESummary *esummary,
 	bonobo_object_unref (BONOBO_OBJECT (client));
 
 	window = e_summary_add_service (esummary, component, obj_id);
-	e_summary_rebuild_page (esummary);
+	e_summary_queue_rebuild (esummary);
 	
 	return window;
 }
@@ -1104,7 +1127,7 @@ e_summary_reconfigure (ESummary *esummary)
 	prefs = esummary->prefs;
 
 	e_summary_load_page (esummary);
-	e_summary_rebuild_page (esummary);
+	e_summary_queue_rebuild (esummary);
 }
 
 static void

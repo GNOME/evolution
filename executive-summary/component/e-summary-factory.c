@@ -202,6 +202,5 @@ e_summary_factory_new_control (const char *uri,
 
   control_list = g_list_prepend (control_list, control);
 
-  e_summary_rebuild_page (E_SUMMARY (esummary));
   return control;
 }

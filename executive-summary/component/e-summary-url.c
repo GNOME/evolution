@@ -427,7 +427,7 @@ e_summary_url_click (GtkWidget *widget,
 			break;
 
 		e_summary_remove_window (esummary, window);
-		e_summary_rebuild_page (esummary);
+		e_summary_queue_rebuild (esummary);
 		break;
 
 	case PROTOCOL_CONFIGURE:
@@ -489,7 +489,7 @@ e_summary_url_click (GtkWidget *widget,
 			break;
 
 		e_summary_window_move_left (esummary, window);
-		e_summary_rebuild_page (esummary);
+		e_summary_queue_rebuild (esummary);
 		break;
 
 	case PROTOCOL_RIGHT:
@@ -499,7 +499,7 @@ e_summary_url_click (GtkWidget *widget,
 			break;
 
 		e_summary_window_move_right (esummary, window);
-		e_summary_rebuild_page (esummary);
+		e_summary_queue_rebuild (esummary);
 		break;
 
 	case PROTOCOL_UP:
@@ -509,7 +509,7 @@ e_summary_url_click (GtkWidget *widget,
 			break;
 
 		e_summary_window_move_up (esummary, window);
-		e_summary_rebuild_page (esummary);
+		e_summary_queue_rebuild (esummary);
 		break;
 
 	case PROTOCOL_DOWN:
@@ -519,7 +519,7 @@ e_summary_url_click (GtkWidget *widget,
 			break;
 
 		e_summary_window_move_down (esummary, window);
-		e_summary_rebuild_page (esummary);
+		e_summary_queue_rebuild (esummary);
 		break;
 
 	case PROTOCOL_NONE:

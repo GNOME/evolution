@@ -81,7 +81,7 @@ struct _ESummaryClass {
 
 GtkType e_summary_get_type (void);
 GtkWidget *e_summary_new (const GNOME_Evolution_Shell shell);
-int e_summary_rebuild_page (ESummary *esummary);
+void e_summary_queue_rebuild (ESummary *esummary);
 
 void e_summary_window_free (ESummaryWindow *window);
 void e_summary_remove_window (ESummary *esummary,
