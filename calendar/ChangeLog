@@ -1,5 +1,12 @@
 2001-11-11  JP Rosevear  <jpr@ximian.com>
 
+ 	* pcs/cal-backend-file.c (free_busy_instance): recurrence
+ 	expansion callback for free/busy
+ 	(create_user_free_busy): expand recurrences and use date/time
+ 	values for dtstart and dtend
+ 
+2001-11-11  JP Rosevear  <jpr@ximian.com>
+
 	* gui/e-meeting-model.h: new protos
 
 	* gui/e-meeting-model.c (e_meeting_model_get_zone): accessor

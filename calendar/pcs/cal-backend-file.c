@@ -1217,6 +1217,36 @@ cal_backend_file_get_objects_in_range (CalBackend *backend, CalObjType type,
 	return event_list;
 }
 
+static gboolean
+free_busy_instance (CalComponent *comp,
+		    time_t        instance_start,
+		    time_t        instance_end,
+		    gpointer      data)
+{
+	icalcomponent *vfb = data;
+	icalproperty *prop;
+	icalparameter *param;
+	struct icalperiodtype ipt;
+	icaltimezone *utc_zone;
+
+	utc_zone = icaltimezone_get_utc_timezone ();
+
+	ipt.start = icaltime_from_timet_with_zone (instance_start, FALSE, utc_zone);
+	ipt.end = icaltime_from_timet_with_zone (instance_end, FALSE, utc_zone);
+	ipt.duration = icaldurationtype_null_duration ();
+	
+        /* add busy information to the vfb component */
+	prop = icalproperty_new (ICAL_FREEBUSY_PROPERTY);
+	icalproperty_set_freebusy (prop, ipt);
+	
+	param = icalparameter_new_fbtype (ICAL_FBTYPE_BUSY);
+	icalproperty_add_parameter (prop, param);
+	
+	icalcomponent_add_property (vfb, prop);
+
+	return TRUE;
+}
+
 static icalcomponent *
 create_user_free_busy (CalBackendFile *cbfile, const char *address, const char *cn,
 		       time_t start, time_t end)
@@ -1225,7 +1255,8 @@ create_user_free_busy (CalBackendFile *cbfile, const char *address, const char *
 	GList *uids;
 	GList *l;
 	icalcomponent *vfb;
-
+	icaltimezone *utc_zone;
+	
 	priv = cbfile->priv;
 
 	/* create the (unique) VFREEBUSY object that we'll return */
@@ -1242,8 +1273,9 @@ create_user_free_busy (CalBackendFile *cbfile, const char *address, const char *
 		if (prop != NULL)
 			icalcomponent_add_property (vfb, prop);		
 	}
-	icalcomponent_set_dtstart (vfb, icaltime_from_timet (start, 1));
-	icalcomponent_set_dtend (vfb, icaltime_from_timet (end, 1));
+	utc_zone = icaltimezone_get_utc_timezone ();
+	icalcomponent_set_dtstart (vfb, icaltime_from_timet_with_zone (start, FALSE, utc_zone));
+	icalcomponent_set_dtend (vfb, icaltime_from_timet_with_zone (end, FALSE, utc_zone));
 
 	/* add all objects in the given interval */
 
@@ -1251,10 +1283,8 @@ create_user_free_busy (CalBackendFile *cbfile, const char *address, const char *
 						 CALOBJ_TYPE_ANY, start, end);
 	for (l = uids; l != NULL; l = l->next) {
 		CalComponent *comp;
-		icalcomponent *icalcomp;
-		icalparameter *param;
+		icalcomponent *icalcomp, *vcalendar_comp;
 		icalproperty *prop;
-		struct icalperiodtype ipt;
 		char *uid = (char *) l->data;
 
 		/* get the component from our internal list */
@@ -1276,18 +1306,14 @@ create_user_free_busy (CalBackendFile *cbfile, const char *address, const char *
 				continue;
 		}
 
-		ipt.start = icalcomponent_get_dtstart (icalcomp);
-		ipt.end = icalcomponent_get_dtend (icalcomp);
-		ipt.duration = icalcomponent_get_duration (icalcomp);
-
-		/* add busy information to the vfb component */
-		prop = icalproperty_new (ICAL_FREEBUSY_PROPERTY);
-		icalproperty_set_freebusy (prop, ipt);
-
-		param = icalparameter_new_fbtype (ICAL_FBTYPE_BUSY);
-		icalproperty_add_parameter (prop, param);
-
-		icalcomponent_add_property (vfb, prop);
+		vcalendar_comp = icalcomponent_get_parent (icalcomp);
+		cal_recur_generate_instances (comp, start, end,
+					      free_busy_instance,
+					      vfb,
+					      resolve_tzid,
+					      vcalendar_comp,
+					      priv->default_zone);
+		
 	}
 	cal_obj_uid_list_free (uids);
 
