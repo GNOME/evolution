@@ -88,8 +88,6 @@ int main( int argc, char *argv[] )
     {
       card = gnome_canvas_item_new( gnome_canvas_root( GNOME_CANVAS( canvas ) ),
 				    e_minicard_get_type(),
-				    "x", (double) 0,
-				    "y", (double) 0,
 				    "width", (double) 100,
 				    NULL );
     }

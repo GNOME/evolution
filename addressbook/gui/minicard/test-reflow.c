@@ -144,8 +144,6 @@ int main( int argc, char *argv[] )
 				NULL );
   reflow = gnome_canvas_item_new( gnome_canvas_root( GNOME_CANVAS( canvas ) ),
 				  e_reflow_get_type(),
-				  "x", (double) 0,
-				  "y", (double) 0,
 				  "height", (double) 100,
 				  "minimum_width", (double) 100,
 				  NULL );

@@ -92,8 +92,6 @@ int main( int argc, char *argv[] )
 				NULL );
   label = e_minicard_label_new(gnome_canvas_root( GNOME_CANVAS( canvas ) ));
   gnome_canvas_item_set( label,
-			 "x", (double) 0,
-			 "y", (double) 0,
 			 "width", (double) 100,
 			 "height", (double) 100,
 			 "fieldname", "Full Name:",
