@@ -50,10 +50,6 @@ struct _EClippedLabel
 	GtkMisc misc;
 
 	gchar *label;
-	GdkWChar *label_wc;
-
-	/* This is the number of wide characters in the label. */
-	gint wc_len;
 
 	/* This is the width of the entire label string, in pixels. */
 	gint label_width;

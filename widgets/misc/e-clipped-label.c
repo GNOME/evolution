@@ -51,7 +51,7 @@ static void e_clipped_label_size_allocate (GtkWidget *widget,
 					   GtkAllocation *allocation);
 static gint e_clipped_label_expose (GtkWidget      *widget,
 				    GdkEventExpose *event);
-static void e_clipped_label_recalc_chars_displayed (EClippedLabel *label);
+static void e_clipped_label_recalc_chars_displayed (EClippedLabel *label, PangoLayout *layout);
 static void e_clipped_label_finalize               (GObject *object);
 
 
@@ -117,7 +117,6 @@ e_clipped_label_init (EClippedLabel *label)
 	GTK_WIDGET_SET_FLAGS (label, GTK_NO_WINDOW);
 
 	label->label = NULL;
-	label->label_wc = NULL;
 	label->chars_displayed = E_CLIPPED_LABEL_NEED_RECALC;
 }
 
@@ -143,6 +142,31 @@ e_clipped_label_new (const gchar *text)
 	return label;
 }
 
+static PangoLayout*
+build_layout (GtkWidget *widget, char *text)
+{
+	PangoLayout *layout;
+
+	layout = gtk_widget_create_pango_layout (widget, text);
+
+#ifdef FROB_FONT_DESC
+	{
+		/* this makes the font used a little bigger than the
+		   default style for this widget, as well as makes it
+		   bold...  */
+		GtkStyle *style = gtk_widget_get_style (widget);
+		PangoFontDescription *desc = pango_font_description_copy (style->font_desc);
+		pango_font_description_set_size (desc,
+						 pango_font_description_get_size (desc) * 1.2);
+		
+		pango_font_description_set_weight (desc, PANGO_WEIGHT_BOLD);
+		pango_layout_set_font_description (layout, desc);
+		pango_font_description_free (desc);
+	}
+#endif
+
+	return layout;
+}
 
 static void
 e_clipped_label_size_request (GtkWidget      *widget,
@@ -150,16 +174,21 @@ e_clipped_label_size_request (GtkWidget      *widget,
 {
 	EClippedLabel *label;
 	GdkFont *font;
-  
+	PangoLayout *layout;
+	int height;
+
 	g_return_if_fail (E_IS_CLIPPED_LABEL (widget));
 	g_return_if_fail (requisition != NULL);
   
 	label = E_CLIPPED_LABEL (widget);
-	font = gtk_style_get_font (widget->style);
+
+	layout = build_layout (widget, label->label);
+	pango_layout_get_pixel_size (layout, NULL, &height);
 
 	requisition->width = 0;
-	requisition->height = font->ascent + font->descent
-		+ 2 * GTK_MISC (widget)->ypad;
+	requisition->height = height + 2 * GTK_MISC (widget)->ypad;
+
+	g_object_unref (layout);
 }
 
 
@@ -185,24 +214,28 @@ e_clipped_label_expose (GtkWidget      *widget,
 	EClippedLabel *label;
 	GtkMisc *misc;
 	gint x, y;
-	GdkFont *font;
 	gchar *tmp_str, tmp_ch;
+	PangoLayout *layout;
+	PangoRectangle rect;
 
 	g_return_val_if_fail (E_IS_CLIPPED_LABEL (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
   
 	label = E_CLIPPED_LABEL (widget);
 	misc = GTK_MISC (widget);
-	font = gtk_style_get_font (widget->style);
 
 	/* If the label isn't visible or has no text, just return. */
 	if (!GTK_WIDGET_VISIBLE (widget) || !GTK_WIDGET_MAPPED (widget)
 	    || !label->label || (*label->label == '\0'))
 		return TRUE;
 
+	layout = build_layout (widget, label->label);
+
 	/* Recalculate the number of characters displayed, if necessary. */
 	if (label->chars_displayed == E_CLIPPED_LABEL_NEED_RECALC)
-		e_clipped_label_recalc_chars_displayed (label);
+		e_clipped_label_recalc_chars_displayed (label, layout);
+
+	pango_layout_set_text (layout, label->label, strlen (label->label));
 
 	/*
 	 * GC Clipping
@@ -211,11 +244,13 @@ e_clipped_label_expose (GtkWidget      *widget,
 				   &event->area);
 	gdk_gc_set_clip_rectangle (widget->style->fg_gc[widget->state],
 				   &event->area);
-      
+
+	pango_layout_get_pixel_extents (layout, &rect, NULL);
+
 	y = floor (widget->allocation.y + (gint)misc->ypad 
 		   + (((gint)widget->allocation.height - 2 * (gint)misc->ypad
-		       - (gint)font->ascent - font->descent)
-		      * misc->yalign) + 0.5) + font->ascent;
+		       + (gint)PANGO_ASCENT (rect) - PANGO_DESCENT(rect))
+		      * misc->yalign) + 0.5);
 
 	if (label->chars_displayed == E_CLIPPED_LABEL_SHOW_ENTIRE_LABEL) {
 		x = floor (widget->allocation.x + (gint)misc->xpad
@@ -223,33 +258,33 @@ e_clipped_label_expose (GtkWidget      *widget,
 			       (gint)label->label_width - 2 * (gint)misc->xpad)
 			      * misc->xalign) + 0.5);
 
-		gtk_paint_string (widget->style, widget->window, widget->state,
-				  &event->area, widget, "label", 
-				  x, y, label->label);
+		gdk_draw_layout (widget->window, widget->style->fg_gc[widget->state],
+				 x, y, layout);
 	} else {
+		int layout_width;
+
 		x = widget->allocation.x + (gint)misc->xpad;
 
-		tmp_ch = label->label_wc[label->chars_displayed];
-		label->label_wc[label->chars_displayed] = '\0';
-		tmp_str = gdk_wcstombs (label->label_wc);
-		if (tmp_str) {
-			gtk_paint_string (widget->style, widget->window,
-					  widget->state, &event->area,
-					  widget, "label", 
-					  x, y, tmp_str);
-			g_free (tmp_str);
-		}
-		label->label_wc[label->chars_displayed] = tmp_ch;
+		pango_layout_set_text (layout, label->label, label->chars_displayed);
+
+		gdk_draw_layout (widget->window, widget->style->fg_gc[widget->state],
+				 x, y, layout);
+
+		pango_layout_get_pixel_size (layout, &layout_width, NULL);
 
 		x = widget->allocation.x + (gint)misc->xpad
 			+ label->ellipsis_x;
-		gtk_paint_string (widget->style, widget->window, widget->state,
-				  &event->area, widget, "label", 
-				  x, y, e_clipped_label_ellipsis);
+
+		pango_layout_set_text (layout, e_clipped_label_ellipsis, strlen (e_clipped_label_ellipsis));
+
+		gdk_draw_layout (widget->window, widget->style->fg_gc[widget->state],
+				 x, y, layout);
 	}
 
 	gdk_gc_set_clip_mask (widget->style->white_gc, NULL);
 	gdk_gc_set_clip_mask (widget->style->fg_gc[widget->state], NULL);
+
+	g_object_unref (layout);
 
 	return TRUE;
 }
@@ -265,7 +300,6 @@ e_clipped_label_finalize (GObject *object)
 	label = E_CLIPPED_LABEL(object);
 
 	g_free (label->label);
-	g_free (label->label_wc);
 
 	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
@@ -307,18 +341,10 @@ e_clipped_label_set_text (EClippedLabel *label,
 	if (label->label != text || !label->label || !text
 	    || strcmp (label->label, text)) {
 		g_free (label->label);
-		g_free (label->label_wc);
 		label->label = NULL;
-		label->label_wc = NULL;
 
-		if (text) {
+		if (text)
 			label->label = g_strdup (text);
-			len = strlen (text);
-			label->label_wc = g_new (GdkWChar, len + 1);
-			label->wc_len = gdk_mbstowcs (label->label_wc,
-						      label->label, len + 1);
-			label->label_wc[label->wc_len] = '\0';
-		}
 
 		/* Reset the number of characters displayed, so it is
 		   recalculated when needed. */
@@ -332,12 +358,9 @@ e_clipped_label_set_text (EClippedLabel *label,
 
 
 static void
-e_clipped_label_recalc_chars_displayed (EClippedLabel *label)
+e_clipped_label_recalc_chars_displayed (EClippedLabel *label, PangoLayout *layout)
 {
-	GdkFont *font;
-	gint max_width, width, ch, last_width;
-
-	font = gtk_style_get_font (GTK_WIDGET (label)->style);
+	gint max_width, width, ch, last_width, ellipsis_width;
 
 	max_width = GTK_WIDGET (label)->allocation.width
 		- 2 * GTK_MISC (label)->xpad;
@@ -348,14 +371,16 @@ e_clipped_label_recalc_chars_displayed (EClippedLabel *label)
 	}
 
 	/* See if the entire label fits in the allocated width. */
-	label->label_width = gdk_string_width (font, label->label);
+	pango_layout_get_pixel_size (layout, &label->label_width, NULL);
 	if (label->label_width <= max_width) {
 		label->chars_displayed = E_CLIPPED_LABEL_SHOW_ENTIRE_LABEL;
 		return;
 	}
 
 	/* Calculate the width of the ellipsis string. */
-	max_width -= gdk_string_measure (font, e_clipped_label_ellipsis);
+	pango_layout_set_text (layout, e_clipped_label_ellipsis, strlen (e_clipped_label_ellipsis));
+	pango_layout_get_pixel_size (layout, &ellipsis_width, NULL);
+	max_width -= ellipsis_width;
 
 	if (max_width <= 0) {
 		label->chars_displayed = 0;
@@ -363,11 +388,12 @@ e_clipped_label_recalc_chars_displayed (EClippedLabel *label)
 		return;
 	}
 
-	/* Step through the wide-char label, adding on the widths of the
+	/* Step through the label, adding on the widths of the
 	   characters, until we can't fit any more in. */
 	width = last_width = 0;
-	for (ch = 0; ch < label->wc_len; ch++) {
-		width += gdk_char_width_wc (font, label->label_wc[ch]);
+	for (ch = 0; ch < strlen (label->label); ch++) {
+		pango_layout_set_text (layout, label->label, ch);
+		pango_layout_get_pixel_size (layout, &width, NULL);
 
 		if (width > max_width) {
 			label->chars_displayed = ch;
