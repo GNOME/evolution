@@ -208,8 +208,6 @@ send_queued_mail (GtkWidget *widget, gpointer user_data)
 		return;
 	}
 	
-	/* FIXME: use the preferred transport for each message */
-	
 	account = mail_config_get_default_account ();
 	if (!account || !account->transport) {
 		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (user_data),
@@ -363,6 +361,7 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 void
 composer_postpone_cb (EMsgComposer *composer, gpointer data)
 {
+	const MailConfigAccount *account = NULL;
 	extern CamelFolder *outbox_folder;
 	CamelMimeMessage *message;
 	struct post_send_data *psd = data;
@@ -379,6 +378,13 @@ composer_postpone_cb (EMsgComposer *composer, gpointer data)
 			return;
 		}
 	}
+	
+	/* Attach a X-Evolution-Transport header so we know which account
+	   to use when it gets sent later. */
+	account = e_msg_composer_get_preferred_account (composer);
+	if (!account)
+		account = mail_config_get_default_account ();
+	camel_medium_add_header (CAMEL_MEDIUM (message), "X-Evolution-Transport", account->transport->url);
 	
 	/* Save the message in Outbox */
 	mail_do_append_mail (outbox_folder, message, NULL);

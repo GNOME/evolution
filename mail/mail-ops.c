@@ -701,6 +701,7 @@ do_send_queue (gpointer in_data, gpointer op_data, CamelException *ex)
 	
 	for (i = 0; i < uids->len; i++) {
 		CamelMimeMessage *message;
+		char *transport_url = NULL;
 		
 		message = camel_folder_get_message (input->folder_queue, uids->pdata[i], ex);
 		if (camel_exception_is_set (ex))
@@ -710,7 +711,14 @@ do_send_queue (gpointer in_data, gpointer op_data, CamelException *ex)
 		
 		camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
 		
-		xport = camel_session_get_transport (session, input->xport_uri, ex);
+		/* Get the preferred transport URI */
+		transport_url = g_strdup (camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Transport"));
+		if (transport_url)
+			camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Transport");
+		
+		xport = camel_session_get_transport (session, transport_url ? transport_url : input->xport_uri, ex);
+		g_free (transport_url);
+		
 		if (camel_exception_is_set (ex))
 			break;
 		
