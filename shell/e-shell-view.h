@@ -1,57 +1,75 @@
-#ifndef E_SHELL_VIEW_H
-#define E_SHELL_VIEW_H
+/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* e-shell-view.h
+ *
+ * Copyright (C) 2000  Helix Code, Inc.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ *
+ * Author: Ettore Perazzoli
+ */
 
-#include <bonobo/bonobo-object.h>
-#include <bonobo/bonobo-ui-handler.h>
+#ifndef _E_SHELL_VIEW_H_
+#define _E_SHELL_VIEW_H_
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include <gnome.h>
+
 #include "e-shell.h"
-#include "e-util/e-paned.h"
 
-#define E_SHELL_VIEW_TYPE        (e_shell_view_get_type ())
-#define E_SHELL_VIEW(o)          (GTK_CHECK_CAST ((o), E_SHELL_VIEW_TYPE, EShellView))
-#define E_SHELL_VIEW_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_SHELL_VIEW_TYPE, EShellViewClass))
-#define E_IS_SHELL_VIEW(o)       (GTK_CHECK_TYPE ((o), E_SHELL_VIEW_TYPE))
-#define E_IS_SHELL_VIEW_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_SHELL_VIEW_TYPE))
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
 
+
+#define E_TYPE_SHELL_VIEW			(e_shell_view_get_type ())
+#define E_SHELL_VIEW(obj)			(GTK_CHECK_CAST ((obj), E_TYPE_SHELL_VIEW, EShellView))
+#define E_SHELL_VIEW_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_TYPE_SHELL_VIEW, EShellViewClass))
+#define E_IS_SHELL_VIEW(obj)			(GTK_CHECK_TYPE ((obj), E_TYPE_SHELL_VIEW))
+#define E_IS_SHELL_VIEW_CLASS(klass)		(GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_SHELL_VIEW))
+
+typedef struct _EShellView        EShellView;
 typedef struct _EShellViewPrivate EShellViewPrivate;
+typedef struct _EShellViewClass   EShellViewClass;
 
 struct _EShellView {
 	GnomeApp parent;
 
-	/* Pointer to our model */
-	EShell  *eshell;
-
-	/* Our user interface handler */
-	BonoboUIHandler *uih;
-
-
-	EFolder   *efolder;
-
-	gboolean  shortcut_displayed;
-	GtkWidget *hpaned;
-	GtkWidget *shortcut_bar;
-	GtkWidget *treeview;	
-	GtkWidget *contents;
-
 	EShellViewPrivate *priv;
 };
 
-typedef struct {
+struct _EShellViewClass {
 	GnomeAppClass parent_class;
-} EShellViewClass;
+};
 
-GtkWidget *e_shell_view_new          (EShell *eshell, EFolder *folder,
-				      gboolean show_shortcut_bar);
+
 GtkType    e_shell_view_get_type     (void);
+void       e_shell_view_construct    (EShellView *shell_view,
+				      EShell     *shell,
+				      const char *uri);
+GtkWidget *e_shell_view_new          (EShell     *shell,
+				      const char *uri);
+gboolean   e_shell_view_display_uri  (EShellView *shell,
+				      const char *uri);
 
-void       e_shell_view_new_folder   (EShellView *esv);
-void       e_shell_view_new_shortcut (EShellView *esv);
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
-void       e_shell_view_set_view     (EShellView *eshell_view,
-				      EFolder *efolder);
-
-void e_shell_view_toggle_shortcut_bar (EShellView *eshell_view);
-void e_shell_view_toggle_treeview (EShellView *eshell_view);
-
-void e_shell_view_display_shortcut_bar (EShellView *eshell_view, gboolean display);
-
-#endif /* E_SHELL_VIEW_H */
+#endif /* _E_SHELL_VIEW_H_ */

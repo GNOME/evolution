@@ -1,139 +1,99 @@
-/*
- * Main evolution shell application
+/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* .c
  *
- * Authors:
- *   Miguel de Icaza (miguel@helixcode.com)
+ * Copyright (C) 2000  Helix Code, Inc.
  *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ *
+ * Author: Ettore Perazzoli
  */
-
-#include <config.h>
 
 #include <gnome.h>
 #include <bonobo.h>
-#include <e-util/e-gui-utils.h>
-#include <e-util/e-cursors.h>
-#include <e-util/e-setup.h> /* for e_setup_base_dir */
-#include <glade/glade.h>
-#include <glade/glade-xml.h>
 
-#ifdef USING_OAF
-#include <liboaf/liboaf.h>
-#else
-#include <libgnorba/gnorba.h>
-#endif
+#include "e-util/e-gui-utils.h"
+#include "e-setup.h"
 
 #include "e-shell.h"
-#include "e-shell-view.h"
-
-int shell_debugging = 0;
-
-poptContext ctx;
-
-EShell *eshell;
-
-const struct poptOption shell_popt_options [] = {
-	{ "debug", '\0', POPT_ARG_INT, &shell_debugging, 0,
-	  N_("Enables some debugging functions"), N_("LEVEL") },
-        { NULL, '\0', 0, NULL, 0 }
-};
 
 #ifdef USING_OAF
 
-static void
-corba_init (int *argc, char *argv [])
-{
-	gnomelib_register_popt_table (shell_popt_options, "Evolution shell options");
+#include <liboaf/liboaf.h>
 
-	gnome_init_with_popt_table ("Evolution", VERSION, *argc, argv,
-				    oaf_popt_options, 0, NULL);
+static void
+init_corba (int *argc, char **argv)
+{
+	gnome_init_with_popt_table ("Evolution", VERSION, *argc, argv, oaf_popt_options, 0, NULL);
 
 	oaf_init (*argc, argv);
 }
 
 #else  /* USING_OAF */
 
+#include <libgnorba/gnorba.h>
+
 static void
-corba_init (int *argc, char *argv [])
+init_corba (int *argc, char **argv)
 {
 	CORBA_Environment ev;
 	
 	CORBA_exception_init (&ev);
-	gnome_CORBA_init_with_popt_table (
-		"Evolution", VERSION, argc, argv,
-		shell_popt_options, 0, &ctx, GNORBA_INIT_SERVER_FUNC, &ev);
+
+	gnome_CORBA_init_with_popt_table ("Evolution", VERSION, argc, argv,
+					  shell_popt_options, 0, &ctx,
+					  GNORBA_INIT_SERVER_FUNC, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_error ("Cannot initialize GNOME");
+
 	CORBA_exception_free (&ev);
 }
 
 #endif /* USING_OAF */
 
-static void
-init_bonobo (void)
+
+int
+main (int argc, char **argv)
 {
-	if (bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE){
+	EShell *shell;
+	char *evolution_directory;
+
+	init_corba (&argc, argv);
+
+	if (! bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL)) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-			  _("Failed to initialize the Bonobo component system"));
+			  _("Cannot initialize the Bonobo component system."));
 		exit (1);
 	}
-}
 
-static void
-gui_init (void)
-{
-	e_cursors_init ();
+	/* FIXME */
+	evolution_directory = g_concat_dir_and_file (g_get_home_dir (), "evolution");
 
-	glade_gnome_init ();
-
-	bonobo_activate ();
-}
-
-static void
-gui_shutdown (void)
-{
-	/* shutdown */
-	e_cursors_shutdown ();
-}
-
-static void
-evolution_boot (void)
-{
-	EShellView *e_shell_view;
-
-	if (!e_setup_base_dir ()){
-		e_notice (
-			NULL, GNOME_MESSAGE_BOX_ERROR,
-			_("It was not possible to setup the Evolution startup files.  Please\n"
-			  "fix the problem, and restart Evolution"));
-		exit (0);
+	if (! e_setup (evolution_directory)) {
+		g_free (evolution_directory);
+		exit (1);
 	}
-	
-	eshell = e_shell_new ();
-	e_shell_view = E_SHELL_VIEW (
-		e_shell_view_new (eshell,
-				  eshell->default_folders.inbox,
-				  TRUE));
-	gtk_signal_connect (GTK_OBJECT (e_shell_view), "destroy",
-			    GTK_SIGNAL_FUNC(gtk_main_quit),
-			    NULL);
-	
-	gtk_widget_show (GTK_WIDGET (e_shell_view));
-}
 
-int
-main (int argc, char *argv [])
-{
-	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
-	textdomain (PACKAGE);
+	shell = e_shell_new (evolution_directory);
 
-	corba_init (&argc, argv);
-	init_bonobo ();
+	e_shell_new_view (shell, NULL);
 
-	gui_init ();
+	bonobo_main ();
 
-	evolution_boot ();
-	
-	gtk_main ();
-
-	gui_shutdown ();
+	g_free (evolution_directory);
 
 	return 0;
 }

@@ -1,377 +1,233 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
-/*
- * E-shell.c: Shell object for Evolution
+/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* e-shell.c
  *
- * Authors:
- *   Miguel de Icaza (miguel@helixcode.com)
+ * Copyright (C) 2000  Helix Code, Inc.
  *
- * (C) 1999 Miguel de Icaza
- * (C) 2000 Helix Code, Inc.
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ *
+ * Author: Ettore Perazzoli
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
-#include <gtk/gtkmain.h>
-#include <libgnome/libgnome.h>
-#include "Evolution.h"
+#endif
+
+#include <gtk/gtkobject.h>
+#include <gtk/gtktypeutils.h>
+
 #include "e-util/e-util.h"
+
+#include "e-folder-type-repository.h"
+#include "e-local-storage.h"
+#include "e-shell-view.h"
+#include "e-shortcuts.h"
+#include "e-storage-set.h"
+
 #include "e-shell.h"
 
-#define PARENT_TYPE (bonobo_object_get_type ())
+
+#define PARENT_TYPE GTK_TYPE_OBJECT
+static GtkObjectClass *parent_class = NULL;
 
-static BonoboObjectClass *e_shell_parent_class;
-POA_Evolution_Shell__vepv eshell_vepv;
+struct _EShellPrivate {
+	char *local_directory;
 
-GtkType e_shell_get_type (void);
+	EStorageSet *storage_set;
+	EShortcuts *shortcuts;
+	EFolderTypeRepository *folder_type_repository;
+};
 
-void
-e_shell_new_appointment (EShell *eshell)
+#define SHORTCUTS_FILE_NAME     "shortcuts.xml"
+#define LOCAL_STORAGE_DIRECTORY "local"
+
+
+/* Initialization of the storages.  */
+
+static gboolean
+setup_storages (EShell *shell)
 {
-	printf ("Unimplemented function invoked: %s\n", __FUNCTION__);
+	EStorage *local_storage;
+	EShellPrivate *priv;
+	gchar *local_storage_path;
+
+	priv = shell->priv;
+
+	local_storage_path = g_concat_dir_and_file (priv->local_directory,
+						    LOCAL_STORAGE_DIRECTORY);
+	local_storage = e_local_storage_open (local_storage_path);
+	g_free (local_storage_path);
+
+	if (local_storage == NULL)
+		return FALSE;
+
+	priv->storage_set = e_storage_set_new ();
+	e_storage_set_add_storage (priv->storage_set, local_storage);
+
+	return TRUE;
 }
 
-void
-e_shell_new_meeting_request (EShell *eshell)
+
+/* GtkObject methods.  */
+
+static void
+destroy (GtkObject *object)
 {
-	printf ("Unimplemented function invoked: %s\n", __FUNCTION__);
+	EShell *shell;
+	EShellPrivate *priv;
+
+	shell = E_SHELL (object);
+	priv = shell->priv;
+
+	gtk_object_unref (GTK_OBJECT (priv->storage_set));
+	gtk_object_unref (GTK_OBJECT (priv->shortcuts));
+	gtk_object_unref (GTK_OBJECT (priv->folder_type_repository));
+
+	g_free (priv);
+
+	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
-void
-e_shell_new_task (EShell *eshell)
+
+static void
+class_init (EShellClass *klass)
 {
-	printf ("Unimplemented function invoked: %s\n", __FUNCTION__);
-}
+	GtkObjectClass *object_class;
 
-void
-e_shell_new_task_request (EShell *eshell)
-{
-	printf ("Unimplemented function invoked: %s\n", __FUNCTION__);
-}
+	object_class = GTK_OBJECT_CLASS (klass);
+	object_class->destroy = destroy;
 
-void
-e_shell_new_contact (EShell *eshell)
-{
-	printf ("Unimplemented function invoked: %s\n", __FUNCTION__);
-}
+	parent_class = gtk_type_class (gtk_object_get_type ());
 
-void
-e_shell_new_mail_message (EShell *eshell)
-{
-	printf ("Unimplemented function invoked: %s\n", __FUNCTION__);
-}
-
-void
-e_shell_new_distribution_list (EShell *eshell)
-{
-	printf ("Unimplemented function invoked: %s\n", __FUNCTION__);
-}
-
-void
-e_shell_new_journal_entry (EShell *eshell)
-{
-	printf ("Unimplemented function invoked: %s\n", __FUNCTION__);
-}
-
-void
-e_shell_new_note (EShell *eshell)
-{
-	printf ("Unimplemented function invoked: %s\n", __FUNCTION__);
 }
 
 static void
-EShell_cmd_new (PortableServer_Servant servant,
-		const Evolution_Shell_NewType type,
-		CORBA_Environment *ev)
+init (EShell *shell)
 {
-	EShell *eshell = E_SHELL (bonobo_object_from_servant (servant));
+	EShellPrivate *priv;
 
-	switch (type){
-	case Evolution_Shell_APPOINTMENT:
-		e_shell_new_appointment (eshell);
-		break;
-		
-	case Evolution_Shell_MEETING_REQUEST:
-		e_shell_new_meeting_request (eshell);
-		break;
+	priv = g_new (EShellPrivate, 1);
 
-	case Evolution_Shell_TASK:
-		e_shell_new_task (eshell);
-		break;
+	priv->local_directory        = NULL;
+	priv->storage_set            = NULL;
+	priv->shortcuts              = NULL;
+	priv->folder_type_repository = NULL;
 
-	case Evolution_Shell_TASK_REQUEST:
-		e_shell_new_task_request (eshell);
-		break;
-
-	case Evolution_Shell_CONTACT:
-		e_shell_new_contact (eshell);
-		break;
-
-	case Evolution_Shell_MAIL_MESSAGE:
-		e_shell_new_mail_message (eshell);
-		break;
-
-	case Evolution_Shell_DISTRIBUTION_LIST:
-		e_shell_new_distribution_list (eshell);
-		break;
-
-	case Evolution_Shell_JOURNAL_ENTRY:
-		e_shell_new_journal_entry (eshell);
-		break;
-		
-	case Evolution_Shell_NOTE:
-		e_shell_new_note (eshell);
-		break;
-		
-	default:
-	}
+	shell->priv = priv;
 }
 
-static void 
-EShell_register_service (PortableServer_Servant servant,
-			 const Evolution_Shell_ServiceType type,
-			 const CORBA_char *uri,
-			 CORBA_Environment *ev)
-{
-	char *service_type_desc = NULL;
-
-	switch (type) {
-
-	case Evolution_Shell_MAIL_STORE :
-		service_type_desc = "store";
-		break;
-	case Evolution_Shell_MAIL_TRANSPORT :
-		service_type_desc = "transport";
-		break;
-	default :
-		service_type_desc = "service of unknown type";
-	}
-					
-	printf ("A component has registered a %s with uri \"%s\"\n", service_type_desc, uri);
-
-}
-
-
-static POA_Evolution_Shell__epv *
-e_shell_get_epv (void)
-{
-	POA_Evolution_Shell__epv *epv;
-
-	epv = g_new0 (POA_Evolution_Shell__epv, 1);
-
-	epv->new = EShell_cmd_new;
-	epv->register_service = EShell_register_service;
-
-	return epv;
-}
-
-static void
-init_e_shell_corba_class (void)
-{
-	eshell_vepv.Bonobo_Unknown_epv = bonobo_object_get_epv ();
-	eshell_vepv.Evolution_Shell_epv = e_shell_get_epv ();
-}
-
-static void
-es_destroy_default_folders (EShell *eshell)
-{
-	gtk_object_unref (GTK_OBJECT (eshell->default_folders.inbox));
-	gtk_object_unref (GTK_OBJECT (eshell->default_folders.outbox));
-	gtk_object_unref (GTK_OBJECT (eshell->default_folders.drafts));
-	gtk_object_unref (GTK_OBJECT (eshell->default_folders.calendar));
-	gtk_object_unref (GTK_OBJECT (eshell->default_folders.tasks));
-}
-
-static void
-e_shell_destroy (GtkObject *object)
-{
-	EShell *eshell = E_SHELL (object);
-
-	gtk_object_unref (GTK_OBJECT (eshell->shortcut_bar));
-	es_destroy_default_folders (eshell);
-	
-	GTK_OBJECT_CLASS (e_shell_parent_class)->destroy (object);
-}
-
-static void
-e_shell_class_init (GtkObjectClass *object_class)
-{
-	e_shell_parent_class = gtk_type_class (PARENT_TYPE);
-	init_e_shell_corba_class ();
-
-	object_class->destroy = e_shell_destroy;
-}
-
-static void
-e_shell_destroy_views (EShell *eshell)
-{
-
-	/*
-	 * Notice that eshell->views is updated by the various views
-	 * during unregistration
-	 */
-	while (eshell->views){
-		EShellView *view = eshell->views->data;
-
-		gtk_object_destroy (GTK_OBJECT (view));
-	}
-}
-
+
 void
-e_shell_quit (EShell *eshell)
+e_shell_construct (EShell *shell,
+		   const char *local_directory)
 {
-	g_return_if_fail (eshell != NULL);
-	g_return_if_fail (E_IS_SHELL (eshell));
+	EShellPrivate *priv;
+	gchar *shortcut_path;
 
-	e_shell_destroy_views (eshell);
-	
-	gtk_main_quit ();
-}
+	g_return_if_fail (shell != NULL);
+	g_return_if_fail (E_IS_SHELL (shell));
+	g_return_if_fail (local_directory != NULL);
+	g_return_if_fail (g_path_is_absolute (local_directory));
 
-static CORBA_Object
-create_corba_eshell (BonoboObject *object)
-{
-	POA_Evolution_Shell *servant;
-	CORBA_Environment ev;
+	GTK_OBJECT_UNSET_FLAGS (shell, GTK_FLOATING);
 
-	servant = (POA_Evolution_Shell *)g_new0 (BonoboObjectServant, 1);
-	servant->vepv = &eshell_vepv;
+	priv = shell->priv;
 
-	CORBA_exception_init (&ev);
+	priv->local_directory = g_strdup (local_directory);
 
-	POA_Evolution_Shell__init ((PortableServer_Servant) servant, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION){
-		CORBA_exception_free (&ev);
-		g_free (servant);
-		return CORBA_OBJECT_NIL;
+	if (! setup_storages (shell))
+		return;
+
+	priv->folder_type_repository = e_folder_type_repository_new ();
+	priv->shortcuts              = e_shortcuts_new (priv->storage_set, priv->folder_type_repository);
+
+	shortcut_path = g_concat_dir_and_file (local_directory, "shortcuts.xml");
+
+	if (! e_shortcuts_load (priv->shortcuts, shortcut_path)) {
+		gtk_object_unref (GTK_OBJECT (priv->shortcuts));
+		priv->shortcuts = NULL;
 	}
 
-	CORBA_exception_free (&ev);
-
-	return bonobo_object_activate_servant (object, servant);
-}
-
-static void
-e_shell_setup_default_folders (EShell *eshell)
-{
-	eshell->default_folders.summary = e_folder_new (
-		E_FOLDER_SUMMARY, "internal:summary", _("Today"), _("Executive Summary"),
-		NULL, "internal:");
-	eshell->default_folders.inbox = e_folder_new (
-		E_FOLDER_MAIL, "internal:inbox", _("Inbox"), _("New mail messages"),
-		NULL, "internal:mail_view");
-	eshell->default_folders.outbox = e_folder_new (
-		E_FOLDER_MAIL, "internal:outbox", _("Sent messages"), _("Sent mail messages"),
-		NULL, "internal:mail_view");
-	eshell->default_folders.drafts = e_folder_new (
-		E_FOLDER_MAIL, "internal:drafts", _("Drafts"), _("Draft mail messages"),
-		NULL, "internal:mail_view");
-	eshell->default_folders.calendar = e_folder_new (
-		E_FOLDER_CALENDAR, "internal:personal_calendar", _("Calendar"), _("Your calendar"),
-		NULL, "internal:calendar_daily");
-	eshell->default_folders.contacts = e_folder_new (
-		E_FOLDER_CONTACTS, "internal:personal_contacts", _("Contacts"), _("Your contacts list"),
-		NULL, "internal:contact_view");
-	eshell->default_folders.tasks = e_folder_new (
-		E_FOLDER_TASKS, "internal:personal_calendar", _("Tasks"), _("Tasks list"),
-		NULL, "internal:tasks_view");
-}
-
-static EShortcutGroup *
-setup_main_shortcuts (EShell *eshell)
-{
-	EShortcutGroup *m;
-
-	m = e_shortcut_group_new (_("Main Shortcuts"), FALSE);
-	e_shortcut_group_append (m, e_shortcut_new (eshell->default_folders.summary));
-	e_shortcut_group_append (m, e_shortcut_new (eshell->default_folders.inbox));
-	e_shortcut_group_append (m, e_shortcut_new (eshell->default_folders.calendar));
-	e_shortcut_group_append (m, e_shortcut_new (eshell->default_folders.contacts));
-	e_shortcut_group_append (m, e_shortcut_new (eshell->default_folders.tasks));
-
-	return m;
-}
-
-static EShortcutGroup *
-setup_secondary_shortcuts (EShell *eshell)
-{
-	EShortcutGroup *sec;
-
-	sec = e_shortcut_group_new (_("Other Shortcuts"), TRUE);
-	
-	e_shortcut_group_append (sec, e_shortcut_new (eshell->default_folders.drafts));
-	e_shortcut_group_append (sec, e_shortcut_new (eshell->default_folders.outbox));
-
-	return sec;
-}
-
-static void
-e_shell_setup_default_shortcuts (EShell *eshell)
-{
-	eshell->shortcut_bar = e_shortcut_bar_model_new ();
-	e_shortcut_bar_model_append (
-		eshell->shortcut_bar,
-		setup_main_shortcuts (eshell));
-	e_shortcut_bar_model_append (
-		eshell->shortcut_bar,
-		setup_secondary_shortcuts (eshell));
-}
-
-static void
-e_shell_init (GtkObject *object)
-{
-	EShell *eshell = E_SHELL (object);
-	
-	e_shell_setup_default_folders (eshell);
-	e_shell_setup_default_shortcuts (eshell);
-}
-
-static void
-e_shell_construct (EShell *eshell, Evolution_Shell corba_eshell)
-{
-	bonobo_object_construct (BONOBO_OBJECT (eshell), corba_eshell);
+	g_free (shortcut_path);
 }
 
 EShell *
-e_shell_new (void)
+e_shell_new (const char *local_directory)
 {
-	Evolution_Shell corba_eshell;
-	EShell *eshell;
+	EShell *new;
+	EShellPrivate *priv;
 
-	eshell = gtk_type_new (e_shell_get_type ());
+	new = gtk_type_new (e_shell_get_type ());
+	e_shell_construct (new, local_directory);
 
-	corba_eshell = create_corba_eshell (BONOBO_OBJECT (eshell));
-	if (corba_eshell == CORBA_OBJECT_NIL){
-		gtk_object_destroy (GTK_OBJECT (eshell));
+	priv = new->priv;
+
+	if (priv->shortcuts == NULL || priv->storage_set == NULL) {
+		gtk_object_unref (GTK_OBJECT (new));
 		return NULL;
 	}
-	
-	e_shell_construct (eshell, corba_eshell);
 
-	return eshell;
+	return new;
 }
 
-void
-e_shell_register_view (EShell *eshell, EShellView *eshell_view)
+
+GtkWidget *
+e_shell_new_view (EShell *shell,
+		  const char *uri)
 {
-	g_return_if_fail (eshell != NULL);
-	g_return_if_fail (E_IS_SHELL (eshell));
-	g_return_if_fail (eshell_view != NULL);
+	GtkWidget *view_widget;
+	EShellView *shell_view;
 
-	eshell->views = g_slist_prepend (eshell->views, eshell_view);
+	g_return_val_if_fail (shell != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
+	view_widget = e_shell_view_new (shell, uri);
+	shell_view = E_SHELL_VIEW (view_widget);
+
+	gtk_widget_show (view_widget);
+
+	return view_widget;
 }
 
-void
-e_shell_unregister_view (EShell *eshell, EShellView *eshell_view)
+
+EShortcuts *
+e_shell_get_shortcuts (EShell *shell)
 {
-	g_return_if_fail (eshell != NULL);
-	g_return_if_fail (E_IS_SHELL (eshell));
-	g_return_if_fail (eshell_view != NULL);
+	g_return_val_if_fail (shell != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
-	eshell->views = g_slist_remove (eshell->views, eshell_view);
+	return shell->priv->shortcuts;
 }
 
-E_MAKE_TYPE (e_shell, "EShell", EShell, e_shell_class_init, e_shell_init, PARENT_TYPE);
+EStorageSet *
+e_shell_get_storage_set (EShell *shell)
+{
+	g_return_val_if_fail (shell != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
+	return shell->priv->storage_set;
+}
 
+EFolderTypeRepository *
+e_shell_get_folder_type_repository (EShell *shell)
+{
+	g_return_val_if_fail (shell != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
-     
+	return shell->priv->folder_type_repository;
+}
+
+
+E_MAKE_TYPE (e_shell, "EShell", EShell, class_init, init, PARENT_TYPE)

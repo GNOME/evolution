@@ -1,3 +1,9 @@
+2000-05-06  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* All files: Reorganized and redone a lot of the shell.  New
+	features: internal URI namespace, extensible storage/folder
+	mechanism, configurable shortcuts.
+
 2000-05-03  Damon Chaplin  <damon@helixcode.com>
 
 	* e-shell-view.c (e_shell_view_new): turned the notebook border off.

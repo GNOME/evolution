@@ -11,9 +11,7 @@ mail/mail-display.c
 mail/main.c
 mail/message-list.c
 shell/e-folder.c
-shell/e-init.c
 shell/e-shell-shortcut.c
 shell/e-shell-view-menu.c
 shell/e-shell.c
-shell/e-shortcut.c
 shell/main.c

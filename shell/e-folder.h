@@ -1,93 +1,92 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
-
+ /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* e-folder.h
+ *
+ * Copyright (C) 2000  Helix Code, Inc.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ *
+ * Author: Ettore Perazzoli
+ */
 
 #ifndef _E_FOLDER_H_
 #define _E_FOLDER_H_
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <gtk/gtkobject.h>
-#include <gdk-pixbuf/gdk-pixbuf.h>
 
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
 
-#define E_FOLDER_TYPE        (e_folder_get_type ())
-#define E_FOLDER(o)          (GTK_CHECK_CAST ((o), E_FOLDER_TYPE, EFolder))
-#define E_FOLDER_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_FOLDER_TYPE, EFolderClass))
-#define E_IS_FOLDER(o)       (GTK_CHECK_TYPE ((o), E_FOLDER_TYPE))
-#define E_IS_FOLDER_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_FOLDER_TYPE))
+#define E_TYPE_FOLDER			(e_folder_get_type ())
+#define E_FOLDER(obj)			(GTK_CHECK_CAST ((obj), E_TYPE_FOLDER, EFolder))
+#define E_FOLDER_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_TYPE_FOLDER, EFolderClass))
+#define E_IS_FOLDER(obj)		(GTK_CHECK_TYPE ((obj), E_TYPE_FOLDER))
+#define E_IS_FOLDER_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_FOLDER))
 
-typedef enum {
-	E_FOLDER_DND_AS_FORWARD,
-	E_FOLDER_DND_AS_MOVE_COPY
-} EFolderDragDropAction;
-
-typedef enum {
-	E_FOLDER_SUMMARY,
-	E_FOLDER_MAIL,
-	E_FOLDER_CONTACTS,
-	E_FOLDER_CALENDAR,
-	E_FOLDER_TASKS,
-	E_FOLDER_OTHER
-} EFolderType;
+
+typedef struct _EFolder        EFolder;
+typedef struct _EFolderPrivate EFolderPrivate;
+typedef struct _EFolderClass   EFolderClass;
 
 struct _EFolder {
-	GtkObject parent_object;
+	GtkObject parent;
 
-	EFolderType type;
-
-	/*
-	 * General properties
-	 */
-	char *uri;		/* Location */
-	char *name;		/* Short name */
-	char *desc;	        /* Full description */
-	char *home_page;	/* Home page for this folder */
-
-	/*
-	 * Administration properties
-	 */
-	char *view_name;	/* View name */
+	EFolderPrivate *priv;
 };
-typedef struct _EFolder EFolder;
- 
+
 struct _EFolderClass {
 	GtkObjectClass parent_class;
 
-	/*
-	 * Notifies views of visible changes in the Efolder
-	 */
-	void (*changed) (EFolder *efolder);
+	/* Virtual methods.  */
+	gboolean     (* save_info) 	  (EFolder *folder);
+	gboolean     (* load_info) 	  (EFolder *folder);
+	gboolean     (* remove)    	  (EFolder *folder);
+	const char * (* get_physical_uri) (EFolder *folder);
+
+	/* Signals.  */
+	void (* changed) (EFolder *folder);
 };
-typedef struct _EFolderClass EFolderClass;
 
-GtkType     e_folder_get_type        (void);
-void        e_folder_construct       (EFolder *efolder, EFolderType type,
-				      const char *uri, const char *name,
-				      const char *desc, const char *home_page,
-				      const char *view_name);
-EFolder    *e_folder_new             (EFolderType type,
-				      const char *uri, const char *name,
-				      const char *desc, const char *home_page,
-				      const char *view_name);
+
+GtkType  e_folder_get_type   (void);
+void     e_folder_construct  (EFolder    *folder,
+			      const char *name,
+			      const char *type,
+			      const char *description);
+EFolder *e_folder_new        (const char *name,
+			      const char *type,
+			      const char *description);
 
-void        e_folder_set_uri         (EFolder *efolder, const char *uri);
-const char *e_folder_get_uri         (EFolder *efolder);
+const char *e_folder_get_physical_uri  (EFolder *folder);
 
-void        e_folder_set_description (EFolder *efolder, const char *desc);
-const char *e_folder_get_description (EFolder *efolder);
+const char *e_folder_get_name         (EFolder *folder);
+const char *e_folder_get_type_string  (EFolder *folder);
+const char *e_folder_get_description  (EFolder *folder);
 
-void        e_folder_set_home_page   (EFolder *efolder, const char *desc);
-const char *e_folder_get_home_page   (EFolder *efolder);
+void  e_folder_set_name         (EFolder *folder, const char *name);
+void  e_folder_set_type_string  (EFolder *folder, const char *type);
+void  e_folder_set_description  (EFolder *folder, const char *description);
 
-const char *e_folder_get_name        (EFolder *efolder);
-void        e_folder_set_name        (EFolder *efolder, const char *name);
-
-const char *e_folder_get_view_name   (EFolder *efolder);
-void        e_folder_set_view_name   (EFolder *efolder, const char *view_name);
-
-const char *e_folder_get_type_name   (EFolder *efolder);
-
-EFolderType e_folder_get_folder_type (EFolder *efolder);
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* _E_FOLDER_H_ */
-

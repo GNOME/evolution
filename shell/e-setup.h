@@ -1,5 +1,5 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-/* e-shell-view.c
+/* e-setup.h
  *
  * Copyright (C) 2000  Helix Code, Inc.
  *
@@ -18,16 +18,14 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Authors:
- *   Miguel de Icaza
- *   Ettore Perazzoli
+ * Author: Ettore Perazzoli
  */
 
-#ifndef E_SHELL_VIEW_MENU_H
-#define E_SHELL_VIEW_MENU_H
+#ifndef _E_SETUP_H
+#define _E_SETUP_H
 
-#include <gnome.h>
+#include <glib.h>
 
-extern GnomeUIInfo e_shell_view_menu[];
+gboolean  e_setup  (const char *evolution_directory);
 
-#endif
+#endif /* _E_SETUP_H */

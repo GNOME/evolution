@@ -1,268 +1,100 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
-/*
- * E-shell-view.c: Implements a Shell View of Evolution
+/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* e-shell-view.c
+ *
+ * Copyright (C) 2000  Helix Code, Inc.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
  *
  * Authors:
- *   Miguel de Icaza (miguel@helixcode.com)
- *
- * (C) 2000 Helix Code, Inc.
+ *   Ettore Perazzoli <ettore@helixcode.com>
+ *   Miguel de Icaza <miguel@helixcode.com>
+ *   Matt Loper <matt@helixcode.com>
  */
+
+#ifdef HAVE_CONFIG_H
 #include <config.h>
-#include <gnome.h>
-
-#include "shortcut-bar/e-shortcut-bar.h"
-#include "e-util/e-util.h"
-#include "e-shell-view.h"
-#include "e-shell-view-menu.h"
-#include "e-shell-shortcut.h"
-#include "Evolution.h"
-
-#include <bonobo.h>
-#include <libgnorba/gnorba.h>
-#include <gtk/gtkprivate.h>
-
-#ifdef USING_OAF
-
-#    define MAIL_CONTROL_ID        "OAFIID:control:evolution-mail:833d5a71-a201-4a0e-b7e6-5475c5c4cb45"
-#    define ADDRESSBOOK_CONTROL_ID "OAFIID:control:addressbook:851f883b-2fe7-4c94-a1e3-a1f2a7a03c49"
-#    define CALENDAR_CONTROL_ID    "OAFIID:control:calendar:dd34ddae-25c6-486b-a8a8-3e8f0286b54c"
-
-#else
-
-#   define MAIL_CONTROL_ID        "control:evolution-mail"
-#   define ADDRESSBOOK_CONTROL_ID "control:addressbook"
-#   define CALENDAR_CONTROL_ID    "control:calendar"
-
 #endif
 
-#define PARENT_TYPE gnome_app_get_type ()
+#include <gnome.h>
+#include <bonobo.h>
 
-static GtkObjectClass *parent_class;
+#include "e-shell.h"
+#include "e-shortcuts-view.h"
+#include "e-util/e-util.h"
+
+#include "e-shell-view.h"
+#include "e-shell-view-menu.h"
+
+
+
+#define PARENT_TYPE gnome_app_get_type () /* Losing GnomeApp does not define GNOME_TYPE_APP.  */
+static GnomeAppClass *parent_class = NULL;
 
 struct _EShellViewPrivate {
-	/* a hashtable of e-folders -> widgets */
-	GHashTable *folder_views;
+	/* The shell.  */
+	EShell *shell;
+
+	/* The UI handler.  */
+	BonoboUIHandler *uih;
+
+	/* Currently displayed URI.  */
+	char *uri;
+
+	/* The widgetry.  */
+	GtkWidget *hpaned;
+	GtkWidget *shortcut_bar;
+	GtkWidget *contents;
 	GtkWidget *notebook;
+
+	/* The view we have already open.  */
+	GHashTable *uri_to_control;
 };
 
-static void
-destroy_folder_view (gpointer unused, gpointer pfolder_view, gpointer unused2)
-{
-	GtkWidget *folder_view = GTK_WIDGET (pfolder_view);
-	BonoboWidget *bonobo_widget;
-	BonoboObject *bonobo_object;	
-	CORBA_Object corba_control;
-	CORBA_Environment ev;
+#define DEFAULT_SHORTCUT_BAR_WIDTH 100
 
-	g_print ("%s: %s entered\n",
-		 __FILE__, __FUNCTION__);
-	
-	g_return_if_fail (BONOBO_IS_WIDGET (folder_view));
+#define DEFAULT_WIDTH 600
+#define DEFAULT_HEIGHT 600
 
-	bonobo_widget = BONOBO_WIDGET (folder_view);
-	
-	bonobo_object = BONOBO_OBJECT (
-		bonobo_widget_get_server (bonobo_widget));
-
-	corba_control = bonobo_object_corba_objref (bonobo_object);
-	
-	g_return_if_fail (corba_control != NULL);
-	
-	CORBA_exception_init (&ev);
-
-	/* hangs on this! */
-	Bonobo_Unknown_unref (corba_control, &ev);
-	CORBA_exception_free (&ev);
-
-	g_print ("%s: %s exited\n",
-		 __FILE__, __FUNCTION__);	
-}
-
-
-static void
-esv_destroy (GtkObject *object)
-{
-	EShellView *eshell_view = E_SHELL_VIEW (object);
-
-	e_shell_unregister_view (eshell_view->eshell, eshell_view);
-
-	g_hash_table_foreach (eshell_view->priv->folder_views,
-			      destroy_folder_view, NULL);
-	
-	g_hash_table_destroy (eshell_view->priv->folder_views);	
-	g_free (eshell_view->priv);	
-	parent_class->destroy (object);
-}
-
-static void
-e_shell_view_class_init (GtkObjectClass *object_class)
-{
-	object_class->destroy = esv_destroy;
-
-	parent_class = gtk_type_class (PARENT_TYPE);
-}
-
-static void
-e_shell_view_setup (EShellView *eshell_view)
-{
-	/*
-	 * FIXME, should load the config if (load_config)....
-	 */
-	gtk_window_set_default_size (GTK_WINDOW (eshell_view), 600, 600);
-}
-
-
-
-
-static void
-e_shell_view_setup_shortcut_display (EShellView *eshell_view)
-{
-	eshell_view->shortcut_bar =
-		e_shortcut_bar_view_new (eshell_view->eshell->shortcut_bar);
-	
-	eshell_view->hpaned = e_paned_new (TRUE);
-
-	e_paned_insert (E_PANED (eshell_view->hpaned), 0,
-			eshell_view->shortcut_bar,
-			100);
-
-	gtk_widget_show_all (eshell_view->hpaned);
-	
-	gnome_app_set_contents (GNOME_APP (eshell_view),
-				eshell_view->hpaned);
-
-	gtk_signal_connect (
-		GTK_OBJECT (eshell_view->shortcut_bar), "item_selected",
-		GTK_SIGNAL_FUNC (shortcut_bar_item_selected), eshell_view);
-}
-
+
 static GtkWidget *
-get_view (EShellView *eshell_view, EFolder *efolder, Bonobo_UIHandler uih)
+create_label_for_empty_page (void)
 {
-  	GtkWidget *w = NULL;
-	Evolution_Shell corba_shell = CORBA_OBJECT_NIL;
-	EShell *shell_model = eshell_view->eshell;
+	GtkWidget *label;
 
-	/* This type could be E_FOLDER_MAIL, E_FOLDER_CONTACTS, etc */
-	EFolderType e_folder_type;
+	label = gtk_label_new (_("(No folder displayed)"));
+	gtk_widget_show (label);
 
-	g_assert (efolder);
-	g_assert (eshell_view);
-	
-	e_folder_type = e_folder_get_folder_type (efolder);
-	
-	if (shell_model)
-		corba_shell = bonobo_object_corba_objref (
-			BONOBO_OBJECT (shell_model));
-	else 
-		g_warning ("The shell Bonobo object does not have "
-			   "an associated CORBA object\n");
-	
-	/* depending on the type of folder, 
-	 * we launch a different bonobo component */
-	switch (e_folder_type) {
-
-	case E_FOLDER_MAIL :
-		w = bonobo_widget_new_control (MAIL_CONTROL_ID, uih);
-		break;
-
-	case E_FOLDER_CONTACTS :
-		w = bonobo_widget_new_control (ADDRESSBOOK_CONTROL_ID, uih);
-		break;
-
-	case E_FOLDER_CALENDAR : {
-		gchar *user_cal_file;
-		BonoboPropertyBagClient *pbc;
-		BonoboControlFrame *cf;
-
-		w = bonobo_widget_new_control (CALENDAR_CONTROL_ID, uih);
-
-		if (w) {
-			cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (w));
-			pbc = bonobo_control_frame_get_control_property_bag (cf);
-			/*pbc = bonobo_control_get_property_bag (w);*/
-			
-			user_cal_file =
-				g_concat_dir_and_file (gnome_util_user_home (),
-						       ".gnome/user-cal.vcf");
-			
-			bonobo_property_bag_client_set_value_string (pbc,
-								     "calendar_uri",
-								     user_cal_file);
-		}
-		
-		break;
-	}
-
-	case E_FOLDER_TASKS :
-	case E_FOLDER_OTHER :		
-	default : 
-		printf ("%s: %s: No bonobo component associated with %s\n",
-			__FILE__,
-			__FUNCTION__,
-			e_folder_get_description (efolder));
-		return NULL;
-	}
-
-	if (w) {
-		Evolution_ServiceRepository corba_sr;
-		BonoboObjectClient *server =
-			bonobo_widget_get_server (BONOBO_WIDGET (w));
-		CORBA_Environment ev;
-		CORBA_exception_init (&ev);
-
-		/* Does this control have the "ServiceRepository" interface? */
-		corba_sr = (Evolution_ServiceRepository) 
-			bonobo_object_client_query_interface (
-				server,
-				"IDL:Evolution/ServiceRepository:1.0",
-				NULL);
-
-		/* If it does, pass our shell interface to it */
-		if (corba_sr != CORBA_OBJECT_NIL) {
-
-			Evolution_ServiceRepository_set_shell (corba_sr,
-							       corba_shell,
-							       &ev);
-			/* We're done with the service repository interface,
-			   so now let's get rid of it */
-			Bonobo_Unknown_unref (corba_sr, &ev);
-			
-		} else {
-			
-			g_print ("The bonobo component for \"%s\" doesn't "
-				 "seem to implement the "
-				 "Evolution::ServiceRepository interface\n",
-				 e_folder_get_description (efolder));
-		}
-
-		CORBA_exception_free (&ev);
-
-		gtk_widget_show (w);
-	}
-	
-	return w;
+	return label;
 }
 
-void e_shell_view_toggle_shortcut_bar (EShellView *eshell_view)
+static void
+setup_menus (EShellView *shell_view)
 {
-	GtkWidget *shortcut_bar = eshell_view->shortcut_bar;
-	GtkWidget *hpaned = eshell_view->hpaned;
-	
-	if (shortcut_bar->parent) {
-		gtk_widget_ref (shortcut_bar);				
-		e_paned_remove (E_PANED (hpaned), shortcut_bar);
-	}
-	else
-		e_paned_insert (E_PANED (hpaned), 0, shortcut_bar, 
-				100);
-	gtk_widget_show_all (GTK_WIDGET (hpaned));
-}
+	BonoboUIHandlerMenuItem *list;
+	EShellViewPrivate *priv;
 
-void e_shell_view_toggle_treeview (EShellView *eshell_view)
-{
-	
+	priv = shell_view->priv;
+
+	priv->uih = bonobo_ui_handler_new ();
+	bonobo_ui_handler_set_app (priv->uih, GNOME_APP (shell_view));
+	bonobo_ui_handler_create_menubar (priv->uih);
+
+	list = bonobo_ui_handler_menu_parse_uiinfo_list_with_data (e_shell_view_menu, shell_view);
+	bonobo_ui_handler_menu_add_list (priv->uih, "/", list);
+	bonobo_ui_handler_menu_free_list (list);
 }
 
 static gboolean
@@ -283,179 +115,413 @@ bonobo_widget_is_dead (BonoboWidget *bw)
 	return is_dead;
 }
 
-
-void
-e_shell_view_set_view (EShellView *eshell_view, EFolder *efolder)
+
+static void
+activate_shortcut_cb (EShortcutsView *shortcut_view,
+		      EShortcuts *shortcuts,
+		      const char *uri,
+		      gpointer data)
 {
+	EShellView *shell_view;
+
+	shell_view = E_SHELL_VIEW (data);
+
+	e_shell_view_display_uri (shell_view, uri);
+}
+
+static void
+setup_widgets (EShellView *shell_view)
+{
+	EShellViewPrivate *priv;
+
+	priv = shell_view->priv;
+
+	priv->hpaned = gtk_hpaned_new ();
+	gnome_app_set_contents (GNOME_APP (shell_view), priv->hpaned);
+
+	/* The shortcut bar.  */
+
+	priv->shortcut_bar = e_shortcuts_new_view (e_shell_get_shortcuts (priv->shell));
+	gtk_paned_add1 (GTK_PANED (priv->hpaned), priv->shortcut_bar);
+	gtk_paned_set_position (GTK_PANED (priv->hpaned), DEFAULT_SHORTCUT_BAR_WIDTH);
+	gtk_signal_connect (GTK_OBJECT (priv->shortcut_bar), "activate_shortcut",
+			    GTK_SIGNAL_FUNC (activate_shortcut_cb), shell_view);
+
+	/* The tabless notebook which we used to contain the views.  */
+
+	priv->notebook = gtk_notebook_new ();
+	gtk_notebook_set_show_border (GTK_NOTEBOOK (priv->notebook), FALSE);
+	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (priv->notebook), FALSE);
+	gtk_paned_add2 (GTK_PANED (priv->hpaned), priv->notebook);
+
+	/* Page for "No URL displayed" message.  */
+
+	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook), create_label_for_empty_page (), NULL);
+
+	/* Show stuff.  */
+
+	gtk_widget_show (priv->shortcut_bar);
+	gtk_widget_show (priv->notebook);
+
+	/* FIXME: Session management and stuff?  */
+	gtk_window_set_default_size (GTK_WINDOW (shell_view), DEFAULT_WIDTH, DEFAULT_HEIGHT);
+}
+
+
+/* GtkObject methods.  */
+
+static void
+hash_forall_destroy_control (gpointer name,
+			     gpointer value,
+			     gpointer data)
+{
+	CORBA_Object corba_control;
+	CORBA_Environment ev;
+	BonoboObject *bonobo_object;
+	BonoboWidget *bonobo_widget;
+
+	bonobo_widget = BONOBO_WIDGET (value);
+	bonobo_object = BONOBO_OBJECT (bonobo_widget_get_server (bonobo_widget));
+	corba_control = bonobo_object_corba_objref (bonobo_object);
+
+	g_return_if_fail (corba_control != CORBA_OBJECT_NIL);
+
+	CORBA_exception_init (&ev);
+	Bonobo_Unknown_unref (corba_control, &ev);
+	CORBA_exception_free (&ev);
+
+	g_free (name);
+}
+
+static void
+destroy (GtkObject *object)
+{
+	EShellView *shell_view;
+	EShellViewPrivate *priv;
+
+	shell_view = E_SHELL_VIEW (object);
+	priv = shell_view->priv;
+
+	g_hash_table_foreach (priv->uri_to_control, hash_forall_destroy_control, NULL);
+	g_hash_table_destroy (priv->uri_to_control);
+
+	g_free (priv);
+
+	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+}
+
+
+/* Initialization.  */
+
+static void
+class_init (EShellViewClass *klass)
+{
+	GtkObjectClass *object_class;
+
+	object_class = GTK_OBJECT_CLASS (klass);
+	object_class->destroy = destroy;
+
+	parent_class = gtk_type_class (gnome_app_get_type ());
+}
+
+static void
+init (EShellView *shell_view)
+{
+	EShellViewPrivate *priv;
+
+	priv = g_new (EShellViewPrivate, 1);
+
+	priv->shell        = NULL;
+	priv->uih          = NULL;
+	priv->uri          = NULL;
+	priv->hpaned       = NULL;
+	priv->shortcut_bar = NULL;
+	priv->contents     = NULL;
+	priv->notebook     = NULL;
+
+	priv->uri_to_control = g_hash_table_new (g_str_hash, g_str_equal);
+
+	shell_view->priv = priv;
+}
+
+
+void
+e_shell_view_construct (EShellView *shell_view,
+			EShell *shell,
+			const char *uri)
+{
+	EShellViewPrivate *priv;
+
+	g_return_if_fail (shell_view != NULL);
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (shell != NULL);
+	g_return_if_fail (E_IS_SHELL (shell));
+	g_return_if_fail (uri == NULL || ! g_path_is_absolute (uri));
+
+	gnome_app_construct (GNOME_APP (shell_view), "evolution", "Evolution");
+
+	priv = shell_view->priv;
+
+	priv->shell = shell;
+	priv->uri = g_strdup (uri);
+
+	setup_widgets (shell_view);
+	setup_menus (shell_view);
+}
+
+GtkWidget *
+e_shell_view_new (EShell *shell,
+		  const char *uri)
+{
+	GtkWidget *new;
+
+	g_return_val_if_fail (shell != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+	g_return_val_if_fail (uri == NULL || ! g_path_is_absolute (uri), NULL);
+
+	new = gtk_type_new (e_shell_view_get_type ());
+	e_shell_view_construct (E_SHELL_VIEW (new), shell, uri);
+
+	return new;
+}
+
+
+/* This displays the specified page, doing the appropriate Bonobo
+   activation/deactivation magic to make sure things work nicely.
+   FIXME: Crappy way to solve the issue.  */
+static void
+set_current_notebook_page (EShellView *shell_view,
+			   int page_num)
+{
+	EShellViewPrivate *priv;
 	GtkNotebook *notebook;
-	GtkWidget *folder_view;
-	int current_page;
+	GtkWidget *current;
 	BonoboControlFrame *control_frame;
+	int current_page;
 
-	g_assert (eshell_view);
-	g_assert (efolder);
+	priv = shell_view->priv;
+	notebook = GTK_NOTEBOOK (priv->notebook);
 
-	notebook = GTK_NOTEBOOK (eshell_view->priv->notebook);
 	current_page = gtk_notebook_get_current_page (notebook);
-
-	if (current_page != -1) {
-		GtkWidget *current;
-
-		current = gtk_notebook_get_nth_page (notebook, current_page);
-		control_frame = bonobo_widget_get_control_frame (
-			BONOBO_WIDGET (current));
-	} else
-		control_frame = NULL;
-
-	/* If there's a notebook page in our hash that represents this
-	 * efolder, switch to it.
-	 */
-	folder_view = g_hash_table_lookup (eshell_view->priv->folder_views,
-					   efolder);
-	if (folder_view) {
-		int notebook_page;
-
-		g_assert (GTK_IS_NOTEBOOK (notebook));
-		g_assert (GTK_IS_WIDGET (folder_view));
-		
-		notebook_page = gtk_notebook_page_num (notebook,
-						       folder_view);
-		g_assert (notebook_page != -1);
-		
-		/* a BonoboWidget can be a "zombie" in the sense that its
-		   actual control is dead; if it's zombie, let's recreate it*/
-		if (bonobo_widget_is_dead (BONOBO_WIDGET (folder_view))) {
-
-			GtkWidget *parent = folder_view->parent;
-			Bonobo_UIHandler uih =
-				bonobo_object_corba_objref (
-					BONOBO_OBJECT (eshell_view->uih));			
-
-			/* out with the old */
-			gtk_container_remove (GTK_CONTAINER (parent), folder_view);
-
-			/* in with the new */
-			folder_view = get_view (eshell_view, efolder, uih);
-			gtk_container_add (GTK_CONTAINER (parent), folder_view);
-
-			/* make sure it's in our hashtable, so we can get to
-			   it from the shortcut bar */
-			g_hash_table_insert (eshell_view->priv->folder_views,
-					     efolder, folder_view);
-			gtk_widget_show_all (folder_view);
-		}
-		
-		
-		gtk_notebook_set_page (notebook, notebook_page);
-
+	if (current_page == page_num)
 		return;
-		
-	} else {
-		/* Get a new control that represents this efolder,
-		 * append it to our notebook, and put it in our hash.
-		 */
-		Bonobo_UIHandler uih =
-			bonobo_object_corba_objref (
-				BONOBO_OBJECT (eshell_view->uih));
-		int new_page_index;
 
-		folder_view = get_view (eshell_view, efolder, uih);
-		if (!folder_view) {
-			/* FIXME: Report failure.  */
-			return;
-		}
+	if (current_page != -1 && current_page != 0) {
+		current = gtk_notebook_get_nth_page (notebook, current_page);
+		control_frame = bonobo_widget_get_control_frame (BONOBO_WIDGET (current));
 
-		gtk_notebook_append_page (notebook, folder_view, NULL);
-		new_page_index = gtk_notebook_page_num (notebook,
-							folder_view);
-		g_hash_table_insert (eshell_view->priv->folder_views,
-				     efolder, folder_view);
-		gtk_notebook_set_page (notebook, new_page_index);
+		bonobo_control_frame_set_autoactivate (control_frame, FALSE);
+		bonobo_control_frame_control_deactivate (control_frame);
 	}
 
-	if (control_frame)
-		bonobo_control_frame_control_deactivate (control_frame);
+	gtk_notebook_set_page (notebook, page_num);
 
-	control_frame =
-		bonobo_widget_get_control_frame (BONOBO_WIDGET (folder_view));
+	if (page_num == -1 || page_num == 0)
+		return;
+
+	current = gtk_notebook_get_nth_page (notebook, page_num);
+	control_frame = bonobo_widget_get_control_frame (BONOBO_WIDGET (current));
+
 	bonobo_control_frame_set_autoactivate (control_frame, FALSE);
 	bonobo_control_frame_control_activate (control_frame);
 }
 
-GtkWidget *
-e_shell_view_new (EShell *eshell, EFolder *efolder, gboolean show_shortcut_bar)
+static void
+show_error (EShellView *shell_view,
+	    const char *uri)
 {
-	EShellView *eshell_view;
+	EShellViewPrivate *priv;
+	GtkWidget *label;
+	char *s;
 
-	g_return_val_if_fail (eshell != NULL, NULL);
-	g_return_val_if_fail (efolder != NULL, NULL);	
-	
-	eshell_view = gtk_type_new (e_shell_view_get_type ());
+	priv = shell_view->priv;
 
-	eshell_view->priv = g_new (EShellViewPrivate, 1);
-	eshell_view->priv->folder_views =
-		g_hash_table_new (g_direct_hash, g_direct_equal);
-	eshell_view->priv->notebook = NULL;
+	s = g_strdup_printf (_("Cannot open location: %s\n"), uri);
+	label = gtk_label_new (s);
+	g_free (s);
 
-	gnome_app_construct (GNOME_APP (eshell_view),
-			     "Evolution", "Evolution");
+	gtk_widget_show (label);
 
-	eshell_view->eshell = eshell;
-	e_shell_view_setup (eshell_view);
-	e_shell_view_setup_menus (eshell_view);
+	gtk_notebook_remove_page (GTK_NOTEBOOK (priv->notebook), 0);
+	gtk_notebook_prepend_page (GTK_NOTEBOOK (priv->notebook), label, NULL);
+}
 
-	e_shell_register_view (eshell, eshell_view);
-	eshell_view->shortcut_displayed = show_shortcut_bar;
-	e_shell_view_setup_shortcut_display (eshell_view);
+/* Create a new view for @uri with @control.  It assumes a view for @uri does
+   not exist yet.  */
+static GtkWidget *
+get_control_for_uri (EShellView *shell_view,
+		     const char *uri)
+{
+	EShellViewPrivate *priv;
+	EFolderTypeRepository *folder_type_repository;
+	EStorageSet *storage_set;
+	EFolder *folder;
+	Bonobo_UIHandler corba_uih;
+	const char *control_id;
+	const char *path;
+	const char *folder_type;
+	GtkWidget *control;
 
-	/* create our notebook, if it hasn't been created already */
-	if (!eshell_view->priv->notebook) {
-		eshell_view->priv->notebook = gtk_notebook_new();
+	priv = shell_view->priv;
 
-		gtk_notebook_set_show_border (
-			GTK_NOTEBOOK (eshell_view->priv->notebook),
-			FALSE);
-		gtk_notebook_set_show_tabs (
-			GTK_NOTEBOOK (eshell_view->priv->notebook),
-			FALSE);
+	path = strchr (uri, ':');
+	if (path == NULL)
+		return NULL;
 
-		gtk_widget_show (eshell_view->priv->notebook);
+	path++;
+	if (*path == '\0')
+		return NULL;
 
-		e_paned_insert (E_PANED (eshell_view->hpaned),
-				1,
-				eshell_view->priv->notebook,
-//				gtk_button_new_with_label ("foobar"),
-				500);
-		
-		gtk_widget_show_all (GTK_WIDGET (eshell_view->hpaned));
+	storage_set = e_shell_get_storage_set (priv->shell);
+	folder_type_repository = e_shell_get_folder_type_repository (priv->shell);
+
+	folder = e_storage_set_get_folder (storage_set, path);
+	if (folder == NULL)
+		return NULL;
+
+	folder_type = e_folder_get_type_string (folder);
+	if (folder_type == NULL)
+		return NULL;
+
+	control_id = e_folder_type_repository_get_control_id_for_type (folder_type_repository,
+								       folder_type);
+	if (control_id == NULL)
+		return NULL;
+
+	corba_uih = bonobo_object_corba_objref (BONOBO_OBJECT (priv->uih));
+	control = bonobo_widget_new_control (control_id, corba_uih);
+
+	if (control == NULL)
+		return NULL;
+
+	bonobo_widget_set_property (BONOBO_WIDGET (control),
+				    "folder_uri", e_folder_get_physical_uri (folder),
+				    NULL);
+
+	return control;
+}
+
+static gboolean
+show_existing_view (EShellView *shell_view,
+		    const char *uri,
+		    GtkWidget *control)
+{
+	EShellViewPrivate *priv;
+	int notebook_page;
+
+	priv = shell_view->priv;
+
+	notebook_page = gtk_notebook_page_num (GTK_NOTEBOOK (priv->notebook), control);
+	g_assert (notebook_page != -1);
+
+	/* A BonoboWidget can be a "zombie" in the sense that its actual
+	   control is dead; if it's zombie, we have to recreate it.  */
+	if (bonobo_widget_is_dead (BONOBO_WIDGET (control))) {
+		GtkWidget *parent;
+		Bonobo_UIHandler uih;
+
+		parent = control->parent;
+		uih = bonobo_object_corba_objref (BONOBO_OBJECT (priv->uih));			
+
+		/* Out with the old.  */
+		gtk_container_remove (GTK_CONTAINER (parent), control);
+		g_hash_table_remove (priv->uri_to_control, uri);
+
+		/* In with the new.  */
+		control = get_control_for_uri (shell_view, uri);
+		if (control == NULL)
+			return FALSE;
+
+		gtk_container_add (GTK_CONTAINER (parent), control);
+		g_hash_table_insert (priv->uri_to_control, g_strdup (uri), control);
+
+		/* Show.  */
+		gtk_widget_show (control);
 	}
 
-	e_shell_view_set_view (eshell_view, efolder);
-	
-	return (GtkWidget *) eshell_view;
+	set_current_notebook_page (shell_view, notebook_page);
+
+	return TRUE;
 }
 
-void
-e_shell_view_display_shortcut_bar (EShellView *eshell_view, gboolean display)
+static gboolean
+create_new_view_for_uri (EShellView *shell_view,
+			 const char *uri)
 {
-	g_return_if_fail (eshell_view != NULL);
-	g_return_if_fail (E_IS_SHELL_VIEW (eshell_view));
+	GtkWidget *control;
+	EShellViewPrivate *priv;
+	int page_num;
 
-	g_error ("Switching code for the shortcut bar is not written yet");
+	priv = shell_view->priv;
+
+	control = get_control_for_uri (shell_view, uri);
+	if (control == NULL) {
+		show_error (shell_view, uri);
+		return FALSE;
+	}
+
+	gtk_widget_show (control);
+
+	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook), control, NULL);
+
+	page_num = gtk_notebook_page_num (GTK_NOTEBOOK (priv->notebook), control);
+	g_assert (page_num != -1);
+	set_current_notebook_page (shell_view, page_num);
+
+	g_hash_table_insert (priv->uri_to_control, g_strdup (uri), control);
+
+	return TRUE;
 }
 
-E_MAKE_TYPE (e_shell_view, "EShellView", EShellView, e_shell_view_class_init, NULL, PARENT_TYPE);
-
-void
-e_shell_view_new_folder (EShellView *esv)
+gboolean
+e_shell_view_display_uri (EShellView *shell_view,
+			  const char *uri)
 {
-	g_return_if_fail (esv != NULL);
-	g_return_if_fail (E_IS_SHELL_VIEW (esv));
+	EShellViewPrivate *priv;
+	GtkWidget *control;
+
+	g_return_val_if_fail (shell_view != NULL, FALSE);
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
+
+	priv = shell_view->priv;
+
+	if (uri == NULL) {
+		gtk_notebook_remove_page (GTK_NOTEBOOK (priv->notebook), 0);
+		gtk_notebook_prepend_page (GTK_NOTEBOOK (priv->notebook),
+					   create_label_for_empty_page (), NULL);
+
+		set_current_notebook_page (shell_view, 0);
+
+		if (priv->uri != NULL) {
+			g_free (priv->uri);
+			priv->uri = NULL;
+		}
+
+		return TRUE;
+	}
+
+	g_free (priv->uri);
+	priv->uri = g_strdup (uri);
+
+	if (strncmp (uri, "evolution:", 10) != 0) {
+		show_error (shell_view, uri);
+		return FALSE;
+	}
+
+	control = g_hash_table_lookup (priv->uri_to_control, uri);
+	if (control != NULL) {
+		g_assert (GTK_IS_WIDGET (control));
+		show_existing_view (shell_view, uri, control);
+		return TRUE;
+	}
+
+	if (! create_new_view_for_uri (shell_view, uri)) {
+		show_error (shell_view, uri);
+		return FALSE;
+	}
+
+	return TRUE;
 }
 
-void
-e_shell_view_new_shortcut (EShellView *esv)
-{
-	g_return_if_fail (esv != NULL);
-	g_return_if_fail (E_IS_SHELL_VIEW (esv));
-}
+
+E_MAKE_TYPE (e_shell_view, "EShellView", EShellView, class_init, init, PARENT_TYPE)

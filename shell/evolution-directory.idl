@@ -1,0 +1,89 @@
+/* -*- Mode: IDL; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ * evolution-directory.idl
+ *
+ * Copyright (C) 1999  Helix Code, Inc.
+ *
+ * This interface is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ *
+ * Author: Ettore Perazzoli
+ */
+
+module Evolution {
+	struct FolderInfo {
+		/* Name of the folder, i.e. the last part of the path.  */
+		string name;
+
+		/* Name of the service handling this folder, e.g. "mail"
+		   or "calendar" or "contacts".  */
+		string service_name;
+	};
+
+	/* Listener interface associated to the directory.  */
+	interface DirectoryListener {
+		enum Result {
+			SUCCESS,
+			IN_PROGRESS,
+			NOT_FOUND,
+			OVERWRITING
+		};
+
+		typedef int ListenerHandle;
+
+		/* You get this when you first open a path in the directory.  */
+		void open_result (in string path, in ListenerHandle handle);
+
+		/* This is called to inform the listener that there is a new folder in the
+                   specified path.  */
+		void new_folder (in string path, in FolderInfo info);
+
+		/* This informs the listener that a folder does not exist anymore.  */
+		void removed_folder (in string path, in string name);
+
+		/* These report result of the corresponding operation.  If this implies a
+                   change in the directory, the listener will also get `new_folder' and
+                   `removed_folder' calls appropriately.  */
+		void remove_folder_result (in string path, in Result result);
+		void create_folder_result (in string path, in Result result);
+		void copy_folder_result (in string old_path, in string new_path, in Result result);
+		void move_folder_result (in string old_path, in string new_path, in Result result);
+
+		/* This reports the result for a `get_folder' operation.  */
+		void get_folder_result (in string path, in Result, in FolderInfo info);
+	};
+
+	interface Directory {
+		/* Open a subpath in the directory.  @listener will be updated of all the
+                   changes in it.  */
+		void open (in string path, in DirectoryListener listener);
+
+		/* This removes a listener.  @handle is passed through `open_result' after
+                   the initial `open' call.  */
+		void close (in ListenerHandle handle);
+
+		/* These calls create/remove a folder in the folder specified by @path.
+                   An empty @path corresponds to the root of the directory.  */
+		void create_folder (in string path, in FolderInfo info);
+		void remove_folder (in string path, in string name);
+
+		/* These are used to copy or move folders around.  */
+		void copy_folder (in string old_path, in string new_path);
+		void move_folder (in string old_path, in string new_path);
+
+		/* This call retrieves information for a folder.  */
+		void get_folder (in string path);
+	};
+};

@@ -1,153 +1,100 @@
-/*
- * E-shell-view-menu.c: Controls the shell view's menus.
+/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* e-shell-view.c
  *
- * This file provides API entry points for changing and updating
- * the menus to reflect the status of Evolution.
+ * Copyright (C) 2000  Helix Code, Inc.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
  *
  * Authors:
- *   Miguel de Icaza (miguel@helixcode.com)
- *
- * (C) 2000 Helix Code, Inc.
+ *   Miguel de Icaza
+ *   Ettore Perazzoli
  */
 
 #include <config.h>
 #include <gnome.h>
+
 #include "e-shell-view.h"
 #include "e-shell-view-menu.h"
 
-static void
-esv_cmd_new_folder (GtkWidget *widget, EShellView *esv)
-{
-	e_shell_view_new_folder (esv);
-}
+#define DEFINE_UNIMPLEMENTED(func)					\
+static void								\
+func (GtkWidget *widget, gpointer data)					\
+{									\
+	g_warning ("EShellView: %s: not implemented.", __FUNCTION__);	\
+}									\
 
-static void
-esv_cmd_new_shortcut (GtkWidget *widget, EShellView *esv)
-{
-	e_shell_view_new_shortcut (esv);
-}
-
-static void
-esv_cmd_new_mail_message (GtkWidget *widget, EShellView *esv)
-{
-	e_shell_new_mail_message (esv->eshell);
-}
-
-static void
-esv_cmd_new_meeting_request (GtkWidget *widget, EShellView *esv)
-{
-	e_shell_new_meeting_request (esv->eshell);
-}
-
-static void
-esv_cmd_new_contact (GtkWidget *widget, EShellView *esv)
-{
-	e_shell_new_contact (esv->eshell);
-}
-
-static void
-esv_cmd_new_task (GtkWidget *widget, EShellView *esv)
-{
-	e_shell_new_task (esv->eshell);
-}
-
-static void
-esv_cmd_new_task_request (GtkWidget *widget, EShellView *esv)
-{
-	e_shell_new_task_request (esv->eshell);
-}
-
-static void
-esv_cmd_new_journal_entry (GtkWidget *widget, EShellView *esv)
-{
-	e_shell_new_journal_entry (esv->eshell);
-}
-
-static void
-esv_cmd_new_note (GtkWidget *widget, EShellView *esv)
-{
-	e_shell_new_note (esv->eshell);
-}
-
-static void
-esv_cmd_open_selected_items (GtkWidget *widget, EShellView *esv)
-{
-	printf ("Unimplemented open selected items\n");
-}
-
-static void
-esv_cmd_save_as (GtkWidget *widget, EShellView *esv)
-{
-}
-
-static void
-quit_cmd (GtkWidget *widget, EShellView *esv)
-{
-	e_shell_quit (esv->eshell);
-}
-
-static void
-esv_cmd_close_open_items (GtkWidget *widget, EShellView *esv)
-{
-	printf ("Unimplemented function");
-}
-
-static void
-esv_cmd_toggle_shortcut_bar (GtkWidget *widget, EShellView *esv)
-{
-	e_shell_view_toggle_shortcut_bar (esv);
-}
-
-static void
-esv_cmd_toggle_treeview (GtkWidget *widget, EShellView *esv)
-{
-	e_shell_view_toggle_treeview (esv);
-}
-
+DEFINE_UNIMPLEMENTED (command_new_folder)
+DEFINE_UNIMPLEMENTED (command_new_shortcut)
+DEFINE_UNIMPLEMENTED (command_new_mail_message)
+DEFINE_UNIMPLEMENTED (command_new_meeting_request)
+DEFINE_UNIMPLEMENTED (command_new_contact)
+DEFINE_UNIMPLEMENTED (command_new_task)
+DEFINE_UNIMPLEMENTED (command_new_task_request)
+DEFINE_UNIMPLEMENTED (command_new_journal_entry)
+DEFINE_UNIMPLEMENTED (command_new_note)
+DEFINE_UNIMPLEMENTED (command_open_selected_items)
+DEFINE_UNIMPLEMENTED (command_save_as)
+DEFINE_UNIMPLEMENTED (command_quit)
+DEFINE_UNIMPLEMENTED (command_close_open_items)
+DEFINE_UNIMPLEMENTED (command_toggle_shortcut_bar)
+DEFINE_UNIMPLEMENTED (command_toggle_treeview)
 
 /*
- * Fixme
+ * FIXME
  *
  * This menu is actually pretty dynamic, it changes de values of various entries
  * depending on the current data being displayed
  *
  * This is currently only a placeholder.  We need to figure what to do about this.
  */
-static GnomeUIInfo esv_menu_file_new [] = {
+static GnomeUIInfo menu_file_new [] = {
 
 	{ GNOME_APP_UI_ITEM, N_("_Folder"),
-	  NULL, esv_cmd_new_folder, NULL,
+	  NULL, command_new_folder, NULL,
 	  NULL, 0, 0, 'e', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
 
 	{ GNOME_APP_UI_ITEM, N_("Evolution _Bar Shortcut"),
-	  NULL, esv_cmd_new_shortcut, NULL,
+	  NULL, command_new_shortcut, NULL,
 	  NULL, 0, 0, 'e', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
 	
 	GNOMEUIINFO_SEPARATOR,
 
 	{ GNOME_APP_UI_ITEM, N_("_Mail message"),
-	  N_("Composes a new mail message"), esv_cmd_new_mail_message, NULL,
+	  N_("Composes a new mail message"), command_new_mail_message, NULL,
 	  NULL, 0, 0, 'n', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
 	{ GNOME_APP_UI_ITEM, N_("_Appointment"),
-	  N_("Composes a new mail message"), esv_cmd_new_mail_message, NULL,
+	  N_("Composes a new mail message"), command_new_mail_message, NULL,
 	  NULL, 0, 0, 'a', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
 	{ GNOME_APP_UI_ITEM, N_("Meeting Re_quest"), NULL,
-	  esv_cmd_new_meeting_request, NULL,
+	  command_new_meeting_request, NULL,
 	  NULL, 0, 0, 'q', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
 	{ GNOME_APP_UI_ITEM, N_("_Contact"), NULL,
-	  esv_cmd_new_contact, NULL,
+	  command_new_contact, NULL,
 	  NULL, 0, 0, 'c', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
 	{ GNOME_APP_UI_ITEM, N_("_Task"), NULL,
-	  esv_cmd_new_task, NULL,
+	  command_new_task, NULL,
 	  NULL, 0, 0, 'k', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
 	{ GNOME_APP_UI_ITEM, N_("Task _Request"), NULL,
-	  esv_cmd_new_task_request, NULL,
+	  command_new_task_request, NULL,
 	  NULL, 0, 0, 'u', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
 	{ GNOME_APP_UI_ITEM, N_("_Journal Entry"), NULL,
-	  esv_cmd_new_journal_entry, NULL,
+	  command_new_journal_entry, NULL,
 	  NULL, 0, 0, 'j', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
 	{ GNOME_APP_UI_ITEM, N_("_Note"), NULL,
-	  esv_cmd_new_note, NULL,
+	  command_new_note, NULL,
 	  NULL, 0, 0, 'o', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
 
 	GNOMEUIINFO_SEPARATOR,
@@ -155,92 +102,77 @@ static GnomeUIInfo esv_menu_file_new [] = {
 	GNOMEUIINFO_END
 };
 
-static GnomeUIInfo esv_menu_file_open [] = {
+static GnomeUIInfo menu_file_open [] = {
 	{ GNOME_APP_UI_ITEM, N_("_Selected Items"), NULL,
-	  esv_cmd_open_selected_items, NULL,
+	  command_open_selected_items, NULL,
 	  NULL, 0, 0, 'o', GDK_CONTROL_MASK },
 	
 	GNOMEUIINFO_END
 };
 
-static GnomeUIInfo esv_menu_folder [] = {
+static GnomeUIInfo menu_folder [] = {
 	{ GNOME_APP_UI_ITEM, N_("_New Folder"), NULL,
-	  esv_cmd_new_folder, NULL,
+	  command_new_folder, NULL,
 	  NULL, 0, 0, 'e', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
 	
 	GNOMEUIINFO_END
 };
 
-static GnomeUIInfo esv_menu_file [] = {
-	GNOMEUIINFO_SUBTREE_STOCK (N_("_New"), esv_menu_file_new, GNOME_STOCK_MENU_NEW),
-	GNOMEUIINFO_SUBTREE_STOCK (N_("_Open"), esv_menu_file_open, GNOME_STOCK_MENU_NEW),
-	GNOMEUIINFO_ITEM_NONE (N_("Clos_e All Items"), N_("Closes all the open items"), esv_cmd_close_open_items),
+static GnomeUIInfo menu_file [] = {
+	GNOMEUIINFO_SUBTREE_STOCK (N_("_New"), menu_file_new, GNOME_STOCK_MENU_NEW),
+	GNOMEUIINFO_SUBTREE_STOCK (N_("_Open"), menu_file_open, GNOME_STOCK_MENU_NEW),
+	GNOMEUIINFO_ITEM_NONE (N_("Clos_e All Items"), N_("Closes all the open items"), command_close_open_items),
 	GNOMEUIINFO_SEPARATOR,
 	
-	GNOMEUIINFO_MENU_SAVE_AS_ITEM (esv_cmd_save_as, NULL),
+	GNOMEUIINFO_MENU_SAVE_AS_ITEM (command_save_as, NULL),
 	
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_SUBTREE (N_("_Folder"), esv_menu_folder),
+	GNOMEUIINFO_SUBTREE (N_("_Folder"), menu_folder),
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_MENU_EXIT_ITEM(quit_cmd, NULL),
+	GNOMEUIINFO_MENU_EXIT_ITEM(command_quit, NULL),
 
 	GNOMEUIINFO_END
 };
 
-static GnomeUIInfo esv_menu_edit [] = {
+static GnomeUIInfo menu_edit [] = {
 	GNOMEUIINFO_END
 };
 
-static GnomeUIInfo esv_menu_view [] = {
+static GnomeUIInfo menu_view [] = {
 	{ GNOME_APP_UI_ITEM, N_("_Toggle Shortcut Bar"),
-	  N_("Toggles the shortcut bar"), esv_cmd_toggle_shortcut_bar, NULL,
+	  N_("Toggles the shortcut bar"), command_toggle_shortcut_bar, NULL,
 	  NULL, 0, 0, 'n', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
 	{ GNOME_APP_UI_ITEM, N_("_Toggle Treeview"),
-	  N_("Toggles the tree view"), esv_cmd_toggle_treeview, NULL,
+	  N_("Toggles the tree view"), command_toggle_treeview, NULL,
 	  NULL, 0, 0, 'n', GDK_CONTROL_MASK | GDK_SHIFT_MASK },		
 	GNOMEUIINFO_END
 };
 
-static GnomeUIInfo esv_menu_tools [] = {
+static GnomeUIInfo menu_tools [] = {
 	GNOMEUIINFO_END
 };
 
-static GnomeUIInfo esv_menu_actions [] = {
+static GnomeUIInfo menu_actions [] = {
 	GNOMEUIINFO_END
 };
 
-static GnomeUIInfo esv_menu [] = {
-	GNOMEUIINFO_MENU_FILE_TREE (esv_menu_file),
-	GNOMEUIINFO_MENU_EDIT_TREE (esv_menu_edit),
-	GNOMEUIINFO_MENU_VIEW_TREE (esv_menu_view),
+
+/* Menu bar.  */
+
+GnomeUIInfo e_shell_view_menu [] = {
+	GNOMEUIINFO_MENU_FILE_TREE (menu_file),
+	GNOMEUIINFO_MENU_EDIT_TREE (menu_edit),
+	GNOMEUIINFO_MENU_VIEW_TREE (menu_view),
 
 	/* FIXME: add Favorites here */
 
-	{ GNOME_APP_UI_SUBTREE, N_("_Tools"), NULL, esv_menu_tools },
-	{ GNOME_APP_UI_SUBTREE, N_("_Actions"), NULL, esv_menu_actions },
+	{ GNOME_APP_UI_SUBTREE, N_("_Tools"), NULL, menu_tools },
+	{ GNOME_APP_UI_SUBTREE, N_("_Actions"), NULL, menu_actions },
+
 #warning Should provide a help menu here;  Bonobo needs it
+
 	GNOMEUIINFO_END
 };
-
-/*
- * Sets up the menus for the EShellView.
- *
- * Creates the Bonobo UI Handler, and then loads the menus from our
- * GnomeUIInfo definitions
- */
-void
-e_shell_view_setup_menus (EShellView *eshell_view)
-{
-	BonoboUIHandlerMenuItem *list;
-
-	eshell_view->uih = bonobo_ui_handler_new ();
-	bonobo_ui_handler_set_app (eshell_view->uih, GNOME_APP (eshell_view));
-	bonobo_ui_handler_create_menubar (eshell_view->uih);
-
-	list = bonobo_ui_handler_menu_parse_uiinfo_list_with_data (esv_menu, eshell_view);
-	bonobo_ui_handler_menu_add_list (eshell_view->uih, "/", list);
-	bonobo_ui_handler_menu_free_list (list);
-}
