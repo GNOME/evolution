@@ -1,3 +1,8 @@
+2004-07-19  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-migrate.c (em_migrate_folder): Free uri and name
+	strings. Fixes a leak.
+
 2004-07-13  Jeffrey Stedfast  <fejj@novell.com>
 
 	* em-folder-view.c (emfv_message_reply): Chck that the selection

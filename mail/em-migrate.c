@@ -1736,6 +1736,8 @@ em_migrate_folder(EMMigrateSession *session, const char *dirname, const char *fu
 	}
 	res = 0;
 fatal:
+	g_free (uri);
+	g_free (name);
 	g_string_free(src, TRUE);
 	g_string_free(dest, TRUE);
 	if (local_store)
