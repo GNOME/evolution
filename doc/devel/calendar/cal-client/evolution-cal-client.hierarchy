@@ -1,5 +1,0 @@
-GtkObject
-  GtkWidget
-    GtkRange
-    GtkContainer
-  CalClient
