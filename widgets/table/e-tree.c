@@ -2068,14 +2068,12 @@ e_tree_find_next (ETree *et, ETreeFindNextParams params, ETreePathFunc func, gpo
 	cursor = e_tree_get_cursor (et);
 	row = e_tree_table_adapter_row_of_node (et->priv->etta, cursor);
 	row_count = e_table_model_row_count (E_TABLE_MODEL (et->priv->etta));
-	if (row == -1)
-		row = 0;
-
+	
 	if (params & E_TREE_FIND_NEXT_FORWARD)
 		found = find_next_in_range (et, row + 1, row_count - 1, func, data);
 	else
-		found = find_prev_in_range (et, row - 1, 0, func, data);
-
+		found = find_prev_in_range (et, row == -1 ? -1 : row - 1, 0, func, data);
+	
 	if (found) {
 		e_tree_table_adapter_show_node (et->priv->etta, found);
 		e_tree_set_cursor (et, found);
