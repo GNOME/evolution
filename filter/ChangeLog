@@ -1,3 +1,10 @@
+2000-05-30  Not Zed  <NotZed@HelixCode.com>
+
+	* filtertypes.xml: And here too.
+
+	* vfoldertypes.xml: Add body-contains and not-body-contains
+	types.
+
 2000-05-27  Not Zed  <NotZed@HelixCode.com>
 
 	* vfoldertypes.xml: New file - lists rules appropriate for
