@@ -93,7 +93,6 @@ e_folder_map_dir (const char *dirname, const char *type, GSList **dir_list)
 {
 	char *path;
 	const char *name;
-	struct stat st;
 	GDir *dir;
 	GError *error = NULL;
 
@@ -116,7 +115,7 @@ e_folder_map_dir (const char *dirname, const char *type, GSList **dir_list)
  try_subdirs:
 
 	path = g_build_filename (dirname, "subfolders", NULL);
-	if (stat (path, &st) == -1 || !S_ISDIR (st.st_mode)) {
+	if (!g_file_test (path, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_DIR)) {
 		g_free (path);
 		return;
 	}
@@ -140,7 +139,7 @@ e_folder_map_dir (const char *dirname, const char *type, GSList **dir_list)
 			continue;
 		}
 		
-		e_folder_map_dir (full_path, full_path, dir_list);
+		e_folder_map_dir (full_path, type, dir_list);
 		g_free (full_path);
 	}
 	
