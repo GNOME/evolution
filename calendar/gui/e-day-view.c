@@ -6392,6 +6392,8 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 		} else if (event->key.keyval == GDK_Escape) {
 			cancel_editing (day_view);
 			gtk_signal_emit_stop_by_name (GTK_OBJECT (item), "event");
+			/* focus should go to day view when stop editing */
+			gtk_widget_grab_focus (GTK_WIDGET (day_view));
 			return TRUE;
 		}
 		break;
