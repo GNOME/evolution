@@ -1154,9 +1154,8 @@ evolution_storage_update_folder (EvolutionStorage *evolution_storage,
 {
 	EvolutionStorageResult result;
 	EvolutionStoragePrivate *priv;
-	CORBA_Environment ev;
-	GList *p;
 	GNOME_Evolution_Folder *corba_folder;
+	GList *p;
 
 	g_return_val_if_fail (evolution_storage != NULL,
 			      EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
@@ -1173,30 +1172,19 @@ evolution_storage_update_folder (EvolutionStorage *evolution_storage,
 	if (priv->corba_storage_listeners == NULL)
 		return EVOLUTION_STORAGE_ERROR_NOTREGISTERED;
 
-	CORBA_exception_init (&ev);
-
 	result = EVOLUTION_STORAGE_OK;
 
 	for (p = priv->corba_storage_listeners; p != NULL; p = p->next) {
 		GNOME_Evolution_StorageListener listener;
+		CORBA_Environment ev;
+
+		CORBA_exception_init (&ev);
 
 		listener = p->data;
 		GNOME_Evolution_StorageListener_notifyFolderUpdated (listener, path, unread_count, &ev);
 
-		if (ev._major == CORBA_NO_EXCEPTION)
-			continue;
-
-		if (ev._major != CORBA_USER_EXCEPTION)
-			result = EVOLUTION_STORAGE_ERROR_CORBA;
-		else if (strcmp (CORBA_exception_id (&ev), ex_GNOME_Evolution_StorageListener_NotFound) == 0)
-			result = EVOLUTION_STORAGE_ERROR_NOTFOUND;
-		else
-			result = EVOLUTION_STORAGE_ERROR_GENERIC;
-
-		break;
+		CORBA_exception_free (&ev);
 	}
-
-	CORBA_exception_free (&ev);
 
 	if (result == EVOLUTION_STORAGE_OK) {
 		corba_folder = e_folder_tree_get_folder (priv->folder_tree, path);

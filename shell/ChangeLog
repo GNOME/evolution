@@ -1,5 +1,11 @@
 2002-09-19  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-storage.c (evolution_storage_update_folder): Do not
+	stop propagating the notification to the listeners if
+	::notifyFolderUpdate() fails.  [#27662 (?)]
+
+2002-09-19  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-storage-set-view.c (resort): New.
 	(sort_idle_callback): Use it.
 	(insert_storages): Use resort() instead of queue_resort() so we
