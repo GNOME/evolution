@@ -3468,10 +3468,18 @@ e_contact_editor_create_date(gchar *name,
 			     gint int1, gint int2)
 {
 	GtkWidget *widget = e_date_edit_new ();
+	AtkObject *a11y;
+
 	e_date_edit_set_allow_no_date_set (E_DATE_EDIT (widget),
 					   TRUE);
 	e_date_edit_set_show_time (E_DATE_EDIT (widget), FALSE);
 	e_date_edit_set_time (E_DATE_EDIT (widget), -1);
+
+	a11y = gtk_widget_get_accessible (e_date_edit_get_entry (E_DATE_EDIT(widget)));
+	if (a11y != NULL) {
+		atk_object_set_name (a11y, string1);
+	}
+
 	gtk_widget_show (widget);
 	return widget;
 }

@@ -106,6 +106,9 @@
 		      <property name="can_focus">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="focus_on_click">True</property>
+		      <accessibility>
+			<atkproperty name="AtkObject::accessible_name" translatable="yes">Image</atkproperty>
+		      </accessibility>
 
 		      <child>
 			<widget class="Custom" id="image-chooser">
@@ -2550,6 +2553,7 @@
 			<widget class="Custom" id="dateedit-anniversary">
 			  <property name="visible">True</property>
 			  <property name="creation_function">e_contact_editor_create_date</property>
+			  <property name="string1">Anniversary</property>
 			  <property name="int1">0</property>
 			  <property name="int2">0</property>
 			  <property name="last_modification_time">Tue, 13 Apr 2004 23:56:03 GMT</property>
@@ -2568,6 +2572,7 @@
 			<widget class="Custom" id="dateedit-birthday">
 			  <property name="visible">True</property>
 			  <property name="creation_function">e_contact_editor_create_date</property>
+			  <property name="string1">Birthday</property>
 			  <property name="int1">0</property>
 			  <property name="int2">0</property>
 			  <property name="last_modification_time">Tue, 13 Apr 2004 23:55:46 GMT</property>

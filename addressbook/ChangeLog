@@ -1,3 +1,10 @@
+2005-01-18 Hao Sheng <hao.sheng@sun.com>
+
+	* gui/contact-editor/contact-editor.glade:
+	add a11y names for widgets named "Image","Anniversary" and "Birthday".
+	* gui/contact-editor/e-contact-editor.c:
+	(e_contact_editor_create_date): add string1 as entry's a11y name.
+
 2005-01-17 Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* gui/contact-editor/e-contact-editor.c 
