@@ -177,7 +177,8 @@ register_component (EComponentRegistry *component_registry,
 
 	component = component_new (id, client);
 	g_hash_table_insert (priv->component_id_to_component, component->id, component);
-
+	bonobo_object_unref (BONOBO_OBJECT (client));
+	
 	for (i = 0; i < supported_types->_length; i++) {
 		const GNOME_Evolution_FolderType *type;
 

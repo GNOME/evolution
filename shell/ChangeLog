@@ -1,3 +1,12 @@
+2001-05-11  JP Rosevear  <jpr@ximian.com>
+
+	* e-component-registry.c (register_component): component_new refs
+	the object itself, so unref ours when we finish with it
+
+	* e-shell.c (e_shell_construct): There is no need to explicitly
+	ref the folder type registry, storage set and shortcuts because we
+	are the creator and hold the initial ref count of 1.
+
 2001-05-11  Dan Winship  <danw@ximian.com>
 
 	* e-local-storage.c (load_folder): Lots of people seem to have
