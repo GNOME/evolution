@@ -828,7 +828,7 @@ write_address (MailDisplay *md, const CamelInternetAddress *addr, const char *fi
 
 		subaddr = camel_internet_address_new ();
 		camel_internet_address_add (subaddr, name, email);
-		addr_txt = camel_address_encode (CAMEL_ADDRESS (subaddr));
+		addr_txt = camel_address_format (CAMEL_ADDRESS (subaddr));
 		addr_url = camel_url_encode (addr_txt, TRUE, NULL);
 		camel_object_unref (CAMEL_OBJECT (subaddr));
 		
@@ -863,7 +863,7 @@ write_address (MailDisplay *md, const CamelInternetAddress *addr, const char *fi
 			mail_html_write (md->html, md->stream, "<i>%s</i>", str);
 			g_free (str);
 		}
-		
+
 		g_free (name_arg);
 		g_free (email_arg);
 		g_free (name_disp);

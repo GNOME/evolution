@@ -1,5 +1,8 @@
 2001-09-26  Jon Trowbridge  <trow@ximian.com>
 
+	* mail-format.c (write_address): Use camel_address_format,
+	not camel_address_encode.
+
 	* mail-display.c (html_button_press_event): Decode our URL before
 	extracting the address to pop up contact info.
 
