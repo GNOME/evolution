@@ -1,3 +1,12 @@
+2004-03-18  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/dialogs/select-source-dialog.c (select_source_dialog): create
+	an ESourceSelector instead of a ESourceOptionMenu, to be consistent
+	with the other components, and create a scrolled window to hold the
+	source selector.
+	(primary_selection_changed_cb): callback for "primary_selection_changed"
+	signal in the ESourceSelector.
+
 2004-03-18  Alfred Peng <alfred.peng@sun.com>
 
 	* Fix #51187 on bugzilla of ximian

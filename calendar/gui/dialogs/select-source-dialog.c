@@ -22,18 +22,19 @@
 #include <gtk/gtkbox.h>
 #include <gtk/gtkdialog.h>
 #include <gtk/gtklabel.h>
+#include <gtk/gtkscrolledwindow.h>
 #include <gtk/gtkstock.h>
-#include "widgets/misc/e-source-option-menu.h"
+#include "widgets/misc/e-source-selector.h"
 #include "select-source-dialog.h"
 
 static void
-source_selected_cb (ESourceOptionMenu *menu, ESource *selected_source, gpointer user_data)
+primary_selection_changed_cb (ESourceSelector *selector, gpointer user_data)
 {
 	ESource **our_selection = user_data;
 
 	if (*our_selection)
 		g_object_unref (*our_selection);
-	*our_selection = g_object_ref (selected_source);
+	*our_selection = g_object_ref (e_source_selector_peek_primary_selection (selector));
 }
 
 /**
@@ -44,7 +45,7 @@ source_selected_cb (ESourceOptionMenu *menu, ESource *selected_source, gpointer 
 ESource *
 select_source_dialog (GtkWindow *parent, ECalSourceType obj_type)
 {
-	GtkWidget *dialog, *label, *source_selector;
+	GtkWidget *dialog, *label, *scroll, *source_selector;
 	ESourceList *source_list;
 	ESource *selected_source = NULL;
 	const char *gconf_key;
@@ -75,15 +76,24 @@ select_source_dialog (GtkWindow *parent, ECalSourceType obj_type)
 
 	conf_client = gconf_client_get_default ();
 	source_list = e_source_list_new_for_gconf (conf_client, gconf_key);
-	source_selector = e_source_option_menu_new (source_list);
-	g_signal_connect (G_OBJECT (source_selector), "source_selected",
-			  G_CALLBACK (source_selected_cb), &selected_source);
+
+	scroll = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll),
+					GTK_POLICY_AUTOMATIC,
+					GTK_POLICY_AUTOMATIC);
+	gtk_widget_show (scroll);
+	source_selector = e_source_selector_new (source_list);
+	e_source_selector_show_selection (E_SOURCE_SELECTOR (source_selector), FALSE);
+	g_signal_connect (G_OBJECT (source_selector), "primary_selection_changed",
+			  G_CALLBACK (primary_selection_changed_cb), &selected_source);
 	gtk_widget_show (source_selector);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), source_selector, FALSE, FALSE, 6);
+	gtk_container_add (GTK_CONTAINER (scroll), source_selector);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), scroll, TRUE, TRUE, 12);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK) {
 		if (selected_source)
 			g_object_unref (selected_source);
+		selected_source = NULL;
 	}
 
 	g_object_unref (conf_client);
