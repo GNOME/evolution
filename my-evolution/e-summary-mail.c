@@ -137,7 +137,7 @@ new_folder_cb (EvolutionStorageListener *listener,
 	ESummaryMailFolder *mail_folder;
 	GList *p;
 
-	/* Don't care about none mail */
+	/* Don't care about non mail */
 	if (strcmp (folder->type, "mail") != 0 ||
 	    strncmp (folder->physical_uri, "file://", 7) != 0) {
 		return;
@@ -249,6 +249,7 @@ e_summary_mail_init (ESummary *summary,
 	mail = g_new (ESummaryMail, 1);
 	summary->mail = mail;
 
+
 	CORBA_exception_init (&ev);
 	mail->folder_info = oaf_activate_from_id (MAIL_IID, 0, NULL, &ev);
 	if (BONOBO_EX (&ev)) {
@@ -262,6 +263,7 @@ e_summary_mail_init (ESummary *summary,
 
 	/* Create a hash table for the folders */
 	mail->folders = g_hash_table_new (g_str_hash, g_str_equal);
+	mail->shown = NULL;
 	
 	/* Create a BonoboListener for all the notifies. */
 	mail->listener = bonobo_listener_new (NULL, NULL);

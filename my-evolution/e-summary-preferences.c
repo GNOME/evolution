@@ -84,9 +84,9 @@ static GList *
 str_list_from_vector (const char *vector)
 {
 	GList *strlist = NULL;
-	char **tokens;
+	char **tokens, **t;
 
-	tokens = g_strsplit (vector, " ", 8196);
+	t = tokens = g_strsplit (vector, " ", 8196);
 
 	if (tokens == NULL) {
 		return NULL;
@@ -96,7 +96,7 @@ str_list_from_vector (const char *vector)
 		strlist = g_list_prepend (strlist, g_strdup (*tokens));
 	}
 
-	g_strfreev (tokens);
+	g_strfreev (t);
 
 	strlist = g_list_reverse (strlist);
 	return strlist;
@@ -152,7 +152,7 @@ e_summary_preferences_restore (ESummaryPrefs *prefs)
 	prefs->weather_refresh_time = gnome_config_get_int ("weather_refresh_time");
 	
 	gnome_config_pop_prefix ();
-	key = g_strdup_printf ("=%s=/Schedule", evolution_dir);
+	key = g_strdup_printf ("=%s=/Schedule/", evolution_dir);
 	gnome_config_push_prefix (key);
 	g_free (key);
 
@@ -173,6 +173,7 @@ e_summary_preferences_save (ESummaryPrefs *prefs)
 
 	g_return_if_fail (prefs != NULL);
 
+	g_print ("Saving stuff\n");
 	evolution_dir = gnome_util_prepend_user_home ("evolution/config/my-evolution");
 	key = g_strdup_printf ("=%s=/Mail/", evolution_dir);
 	gnome_config_push_prefix (key);
@@ -210,7 +211,7 @@ e_summary_preferences_save (ESummaryPrefs *prefs)
 	gnome_config_set_int ("weather_refresh_time", prefs->weather_refresh_time);
 	
 	gnome_config_pop_prefix ();
-	key = g_strdup_printf ("=%s=/Schedule", evolution_dir);
+	key = g_strdup_printf ("=%s=/Schedule/", evolution_dir);
 	gnome_config_push_prefix (key);
 	g_free (key);
 
@@ -218,6 +219,10 @@ e_summary_preferences_save (ESummaryPrefs *prefs)
 	gnome_config_set_int ("show_tasks", prefs->show_tasks);
 
 	gnome_config_pop_prefix ();
+
+	gnome_config_sync ();
+	gnome_config_drop_all ();
+
 	g_free (evolution_dir);
 }
 
@@ -956,8 +961,6 @@ property_box_clicked_cb (GnomeDialog *dialog,
 {
 	if (page_num == -1) {
 		e_summary_reconfigure (pd->summary);
-		e_summary_preferences_free (pd->summary->old_prefs);
-		pd->summary->old_prefs = NULL;
 	}
 }
 
@@ -965,6 +968,12 @@ static void
 property_box_destroy_cb (GtkObject *object,
 			 PropertyData *pd)
 {
+	if (pd->summary->old_prefs != NULL) {
+		e_summary_preferences_free (pd->summary->old_prefs);
+		pd->summary->old_prefs = NULL;
+	}
+
+	e_summary_preferences_save (pd->summary->preferences);
 	free_property_dialog (pd);
 }
 
