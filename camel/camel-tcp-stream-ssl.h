@@ -38,6 +38,12 @@ extern "C" {
 #define CAMEL_TCP_STREAM_SSL_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_TCP_STREAM_SSL_TYPE, CamelTcpStreamSSLClass))
 #define CAMEL_IS_TCP_STREAM_SSL(o)    (CAMEL_CHECK_TYPE((o), CAMEL_TCP_STREAM_SSL_TYPE))
 
+enum {
+	CAMEL_TCP_STREAM_SSL_ENABLE_SSL2 = (1 << 0),
+	CAMEL_TCP_STREAM_SSL_ENABLE_SSL3 = (1 << 1),
+	CAMEL_TCP_STREAM_SSL_ENABLE_TLS  = (1 << 2),
+};
+
 struct _CamelTcpStreamSSL {
 	CamelTcpStream parent_object;
 	
@@ -55,9 +61,9 @@ typedef struct {
 CamelType camel_tcp_stream_ssl_get_type (void);
 
 /* public methods */
-CamelStream *camel_tcp_stream_ssl_new (CamelService *service, const char *expected_host);
+CamelStream *camel_tcp_stream_ssl_new (CamelService *service, const char *expected_host, guint32 flags);
 
-CamelStream *camel_tcp_stream_ssl_new_raw (CamelService *service, const char *expected_host);
+CamelStream *camel_tcp_stream_ssl_new_raw (CamelService *service, const char *expected_host, guint32 flags);
 
 int camel_tcp_stream_ssl_enable_ssl (CamelTcpStreamSSL *ssl);
 

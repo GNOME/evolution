@@ -1,3 +1,23 @@
+2003-02-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-http-stream.c (http_connect): Here too.
+
+	* providers/smtp/camel-smtp-transport.c (connect_to_server): Same
+	as IMAP and POP.
+
+	* providers/imap/camel-imap-store.c (connect_to_server): Same as
+	the POP3 code.
+
+	* providers/pop3/camel-pop3-store.c (connect_to_server): Pass in
+	appropriate flags for camel_tcp_stream_ssl_new*() functions.
+
+	* camel-tcp-stream-ssl.c (enable_ssl): Not all ssl/tls streams
+	will want to allow each of SSLv2, SSLv3 and TLSv1 so use flags to
+	decide which to enable/disable.
+	(camel_tcp_stream_ssl_new): Now takes a flags argument to mask out
+	which SSL/TLS versions the stream should be compatable with.
+	(camel_tcp_stream_ssl_new_raw): Same.
+
 2003-02-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-stream-filter.c: Add a 'flushed' state variable to the

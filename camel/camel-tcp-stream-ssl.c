@@ -89,6 +89,7 @@ struct _CamelTcpStreamSSLPrivate {
 	CamelService *service;
 	char *expected_host;
 	gboolean ssl_mode;
+	guint32 flags;
 };
 
 static void
@@ -160,6 +161,7 @@ camel_tcp_stream_ssl_get_type (void)
  * camel_tcp_stream_ssl_new:
  * @service: camel service
  * @expected_host: host that the stream is expected to connect with.
+ * @flags: ENABLE_SSL2, ENABLE_SSL3 and/or ENABLE_TLS
  *
  * Since the SSL certificate authenticator may need to prompt the
  * user, a CamelService is needed. @expected_host is needed as a
@@ -168,7 +170,7 @@ camel_tcp_stream_ssl_get_type (void)
  * Return value: a ssl stream (in ssl mode)
  **/
 CamelStream *
-camel_tcp_stream_ssl_new (CamelService *service, const char *expected_host)
+camel_tcp_stream_ssl_new (CamelService *service, const char *expected_host, guint32 flags)
 {
 	CamelTcpStreamSSL *stream;
 	
@@ -177,6 +179,7 @@ camel_tcp_stream_ssl_new (CamelService *service, const char *expected_host)
 	stream->priv->service = service;
 	stream->priv->expected_host = g_strdup (expected_host);
 	stream->priv->ssl_mode = TRUE;
+	stream->priv->flags = flags;
 	
 	return CAMEL_STREAM (stream);
 }
@@ -186,6 +189,7 @@ camel_tcp_stream_ssl_new (CamelService *service, const char *expected_host)
  * camel_tcp_stream_ssl_new_raw:
  * @service: camel service
  * @expected_host: host that the stream is expected to connect with.
+ * @flags: ENABLE_SSL2, ENABLE_SSL3 and/or ENABLE_TLS
  *
  * Since the SSL certificate authenticator may need to prompt the
  * user, a CamelService is needed. @expected_host is needed as a
@@ -194,7 +198,7 @@ camel_tcp_stream_ssl_new (CamelService *service, const char *expected_host)
  * Return value: a ssl-capable stream (in non ssl mode)
  **/
 CamelStream *
-camel_tcp_stream_ssl_new_raw (CamelService *service, const char *expected_host)
+camel_tcp_stream_ssl_new_raw (CamelService *service, const char *expected_host, guint32 flags)
 {
 	CamelTcpStreamSSL *stream;
 	
@@ -203,6 +207,7 @@ camel_tcp_stream_ssl_new_raw (CamelService *service, const char *expected_host)
 	stream->priv->service = service;
 	stream->priv->expected_host = g_strdup (expected_host);
 	stream->priv->ssl_mode = FALSE;
+	stream->priv->flags = flags;
 	
 	return CAMEL_STREAM (stream);
 }
@@ -979,6 +984,19 @@ enable_ssl (CamelTcpStreamSSL *ssl, PRFileDesc *fd)
 		return NULL;
 	
 	SSL_OptionSet (ssl_fd, SSL_SECURITY, PR_TRUE);
+	if (ssl->priv->flags & CAMEL_TCP_STREAM_SSL_ENABLE_SSL2)
+		SSL_OptionSet (ssl_fd, SSL_ENABLE_SSL2, PR_TRUE);
+	else
+		SSL_OptionSet (ssl_fd, SSL_ENABLE_SSL2, PR_FALSE);
+	if (ssl->priv->flags & CAMEL_TCP_STREAM_SSL_ENABLE_SSL3)
+		SSL_OptionSet (ssl_fd, SSL_ENABLE_SSL3, PR_TRUE);
+	else
+		SSL_OptionSet (ssl_fd, SSL_ENABLE_SSL3, PR_FALSE);
+	if (ssl->priv->flags & CAMEL_TCP_STREAM_SSL_ENABLE_TLS)
+		SSL_OptionSet (ssl_fd, SSL_ENABLE_TLS, PR_TRUE);
+	else
+		SSL_OptionSet (ssl_fd, SSL_ENABLE_TLS, PR_FALSE);
+	
 	SSL_SetURL (ssl_fd, ssl->priv->expected_host);
 	
 	/*SSL_GetClientAuthDataHook (sslSocket, ssl_get_client_auth, (void *) certNickname);*/

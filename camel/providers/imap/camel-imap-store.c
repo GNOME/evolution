@@ -544,6 +544,9 @@ enum {
 	USE_SSL_WHEN_POSSIBLE
 };
 
+#define SSL_PORT_FLAGS (CAMEL_TCP_STREAM_SSL_ENABLE_SSL2 | CAMEL_TCP_STREAM_SSL_ENABLE_SSL3)
+#define STARTTLS_FLAGS (CAMEL_TCP_STREAM_SSL_ENABLE_TLS)
+
 static gboolean
 connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelException *ex)
 {
@@ -563,11 +566,11 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 	
 #ifdef HAVE_SSL
 	if (ssl_mode != USE_SSL_NEVER) {
-		if (try_starttls)
-			tcp_stream = camel_tcp_stream_ssl_new_raw (service, service->url->host);
-		else {
+		if (try_starttls) {
+			tcp_stream = camel_tcp_stream_ssl_new_raw (service, service->url->host, STARTTLS_FLAGS);
+		} else {
 			port = service->url->port ? service->url->port : 993;
-			tcp_stream = camel_tcp_stream_ssl_new (service, service->url->host);
+			tcp_stream = camel_tcp_stream_ssl_new (service, service->url->host, SSL_PORT_FLAGS);
 		}
 	} else {
 		tcp_stream = camel_tcp_stream_raw_new ();
