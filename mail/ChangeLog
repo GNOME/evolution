@@ -1,3 +1,13 @@
+2005-01-19  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #66943.
+
+	* em-composer-utils.c (save_draft_done): check if the
+	editor_engine is still there before trying to invoke a method on
+	it.
+	(em_utils_composer_save_draft_cb): grab resources before getting
+	the folder, so the composer doesn't go away.
+
 2005-01-18  Rodrigo Moya <rodrigo@novell.com>
 
 	* em-filter-source-element.c:
