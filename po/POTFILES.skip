@@ -1,8 +1,12 @@
+addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.server.in
 addressbook/gui/component/select-names/recipient.glade
+addressbook/gui/component/GNOME_Evolution_Addressbook.server.in
 addressbook/gui/widgets/test-minicard-view.c
 addressbook/tools/evolution-addressbook-export-list-cards.c
 addressbook/tools/evolution-addressbook-export-list-folders.c
 addressbook/tools/evolution-addressbook-export.c
+calendar/gui/GNOME_Evolution_Calendar.server.in
+calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in
 camel/camel-pkcs7-context.c
 camel/providers/nntp/camel-nntp-auth.c
 camel/providers/nntp/camel-nntp-folder.c
@@ -13,8 +17,12 @@ executive-summary/component/e-summary-url.c
 executive-summary/component/e-summary.c
 executive-summary/component/main.c
 executive-summary/test-service/rdf-summary.c
+mail/GNOME_Evolution_Mail.server.in
 mail/mail-summary.c
+my-evolution/GNOME_Evolution_Summary.server.in
 notes/component-factory.c
 notes/main.c
+shell/GNOME_Evolution_Shell.server.in
 tests/ui-tests/message-browser.c
 tests/ui-tests/store_listing.glade
+wombat/GNOME_Evolution_Wombat.server.in

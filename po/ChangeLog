@@ -1,3 +1,8 @@
+2003-04-16  Christian Neumair  <chris@gnome-de.org>
+
+	* POTFILES.skip: Added missing files.
+	* de.po: Updated German translation.
+
 2003-04-15  Wang Jian <lark@linux.net.cn>
 
 	* zh_CN.po: Fixed an erroneous translation for "message".
