@@ -1,3 +1,7 @@
+2000-11-27  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-display.c: Removed some unecessary debugging printf's
+
 2000-11-27  Dan Winship  <danw@helixcode.com>
 
 	* mail-config-druid.glade: Revert the new druid for now, until the

@@ -668,7 +668,6 @@ mail_html_write (GtkHTML *html, GtkHTMLStream *stream,
 	va_start (ap, format);
 	buf = g_strdup_vprintf (format, ap);
 	va_end (ap);
-	printf ("Writing html '%s'\n", buf);
 	gtk_html_write (html, stream, buf, strlen (buf));
 	g_free (buf);
 }
@@ -689,7 +688,6 @@ mail_text_write (GtkHTML *html, GtkHTMLStream *stream,
 				   E_TEXT_TO_HTML_CONVERT_NL |
 				   E_TEXT_TO_HTML_CONVERT_SPACES);
 	gtk_html_write (html, stream, "<tt>", 4);
-	printf ("Writing text '%s'\n", htmltext);
 	gtk_html_write (html, stream, htmltext, strlen (htmltext));
 	gtk_html_write (html, stream, "</tt>", 5);
 	g_free (htmltext);
