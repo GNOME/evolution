@@ -1,3 +1,8 @@
+2003-10-14  Suresh Chandrasekharan <suresh.chandrasekharan@sun.com>
+
+	* mail-search.c: Enabled forward/backward search toggle
+	in 'Search in Message' dialog.
+
 2003-10-08  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* mail-display.c: (pixbuf_gen_idle):

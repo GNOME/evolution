@@ -174,14 +174,12 @@ toggled_case_cb (GtkToggleButton *b, MailSearch *ms)
 	
 }
 
-#if 0
 static void
 toggled_fwd_cb (GtkToggleButton *b, MailSearch *ms)
 {
 	ms->search_forward = gtk_toggle_button_get_active (b);
 	gtk_html_engine_search_set_forward (ms->mail->html, ms->search_forward);
 }
-#endif
 
 static void
 dialog_response_cb (GtkWidget *widget, int button, MailSearch *ms)
@@ -268,9 +266,7 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 	GtkWidget *entry;
 	GtkWidget *count_label;
 	GtkWidget *case_check;
-#if 0
 	GtkWidget *fwd_check;
-#endif
 	GtkWidget *button;
 	GtkWidget *msg_hbox;
 	GtkWidget *msg_frame;
@@ -318,9 +314,7 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 	gtk_container_set_border_width ((GtkContainer *) msg_frame, 6);
 	
 	case_check  = gtk_check_button_new_with_label (_("Case Sensitive"));
-#if 0
 	fwd_check   = gtk_check_button_new_with_label (_("Search Forward"));
-#endif
 	
 	ms->entry       = entry;
 	ms->count_label = count_label;
@@ -332,9 +326,7 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 	else
 		mail_search_set_subject (ms, NULL);
 	
-#if 0
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (fwd_check),  ms->search_forward);
-#endif
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (case_check), ms->case_sensitive);
 	
   	gtk_box_pack_start (GTK_BOX (msg_hbox), GTK_WIDGET (msg_frame), TRUE, TRUE, 0);
@@ -356,9 +348,7 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 	 * be a 1.1 item.
 	 */
 	
-#if 0
 	gtk_box_pack_start (GTK_BOX (toggles_hbox), fwd_check,  FALSE, FALSE, 3);
-#endif
 	
 	gtk_box_pack_start (GTK_BOX (frame_vbox), find_hbox, FALSE, FALSE, 3);
   	gtk_box_pack_start (GTK_BOX (frame_vbox), matches_hbox, FALSE, FALSE, 3); 
@@ -380,9 +370,7 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 	/* Hook up signals */
 	
 	g_signal_connect (case_check, "toggled", G_CALLBACK (toggled_case_cb), ms);
-#if 0
 	g_signal_connect (fwd_check, "toggled", G_CALLBACK (toggled_fwd_cb), ms);
-#endif
 	g_signal_connect (ms, "response", G_CALLBACK (dialog_response_cb), ms);
 	
 	g_object_weak_ref ((GObject *) ms->mail, (GWeakNotify) gtk_widget_destroy, ms);
