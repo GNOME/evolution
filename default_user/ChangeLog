@@ -1,3 +1,8 @@
+2001-07-19  Chris Toshok  <toshok@ximian.com>
+
+	* addressbook-sources.xml: remove all the servers that just don't
+	work anymore, and add Verisign's directory.
+
 2001-07-03  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (default_DATA): Remove `shortcuts.xml'.  The shell

@@ -9,14 +9,6 @@
       <scope>one</scope>
   </contactserver>
   <contactserver>
-      <name>InfoSpace</name>
-      <description>Infospace</description>
-      <host>ldap.infospace.com</host>
-      <port>389</port>
-      <rootdn></rootdn>
-      <scope>one</scope>
-  </contactserver>
-  <contactserver>
       <name>Netcenter</name>
       <description>Netcenter Member Directory</description>
       <host>memberdir.netscape.com</host>
@@ -25,19 +17,11 @@
       <scope>one</scope>
   </contactserver>
   <contactserver>
-      <name>WhoWhere</name>
-      <description>WhoWhere</description>
-      <host>ldap.whowhere.com</host>
+      <name>Verisign</name>
+      <description>Verisign Directory</description>
+      <host>directory.verisign.com</host>
       <port>389</port>
-      <rootdn></rootdn>
-      <scope>one</scope>
-  </contactserver>
-  <contactserver>
-      <name>Yahoo!</name>
-      <description>Yahoo! People Search</description>
-      <host>ldap.yahoo.com</host>
-      <port>389</port>
-      <rootdn></rootdn>
+      <rootdn/>
       <scope>one</scope>
   </contactserver>
 </addressbooks>
