@@ -642,7 +642,7 @@ efhd_complete(EMFormat *emf)
 static const struct {
 	const char *icon, *shortdesc, *description;
 } smime_sign_table[4] = {
-	{ NULL, N_("Unsigned"), N_("This message is not signed. There is no guarantee that this message is authentic.") },
+	{ "pgp-signature-nokey.png", N_("Unsigned"), N_("This message is not signed. There is no guarantee that this message is authentic.") },
 	{ "pgp-signature-ok.png", N_("Valid signature"), N_("This message is signed and is valid meaning that it is very likely that this message is authentic.") },
 	{ "pgp-signature-bad.png", N_("Invalid signature"), N_("The signature of this message cannot be verified, it may have been altered in transit.") },
 	{ "pgp-signature-nokey.png", N_("Valid signature, cannot verify sender"), N_("This message is signed with a valid signature, but the sender of the message cannot be verified.") },
@@ -682,6 +682,12 @@ efhd_xpkcs7mime_info_response(GtkWidget *w, guint button, struct _smime_pobject 
 	po->widget = NULL;
 }
 
+static void
+efhd_xpkcs7mime_viewcert_foad(GtkWidget *w, guint button, struct _smime_pobject *po)
+{
+	gtk_widget_destroy(w);
+}
+
 #ifdef HAVE_NSS
 static void
 efhd_xpkcs7mime_viewcert_clicked(GtkWidget *button, struct _smime_pobject *po)
@@ -698,6 +704,10 @@ efhd_xpkcs7mime_viewcert_clicked(GtkWidget *button, struct _smime_pobject *po)
 
 	if (ec != NULL) {
 		GtkWidget *w = certificate_viewer_show(ec);
+
+		/* oddly enough certificate_viewer_show doesn't ... */
+		gtk_widget_show(w);
+		g_signal_connect(w, "response", G_CALLBACK(efhd_xpkcs7mime_viewcert_foad), po);
 
 		if (w && po->widget)
 			gtk_window_set_transient_for((GtkWindow *)w, (GtkWindow *)po->widget);
@@ -732,7 +742,10 @@ efhd_xpkcs7mime_add_cert_table(GtkWidget *vbox, EDList *certlist, struct _smime_
 		
 		if (l) {
 			GtkWidget *w;
-
+#if defined(HAVE_NSS)
+			ECertDB *db = e_cert_db_peek();
+			ECert *ec = NULL;
+#endif
 			w = gtk_label_new(l);
 			gtk_misc_set_alignment((GtkMisc *)w, 0.0, 0.5);
 			g_free(la);
@@ -742,6 +755,16 @@ efhd_xpkcs7mime_add_cert_table(GtkWidget *vbox, EDList *certlist, struct _smime_
 			gtk_table_attach(table, w, 1, 2, n, n+1, 0, 0, 3, 3);
 			g_object_set_data((GObject *)w, "e-cert-info", info);
 			g_signal_connect(w, "clicked", G_CALLBACK(efhd_xpkcs7mime_viewcert_clicked), po);
+
+			if (info->email)
+				ec = e_cert_db_find_cert_by_email_address(db, info->email, NULL);
+			if (ec == NULL && info->name)
+				ec = e_cert_db_find_cert_by_nickname(db, info->name, NULL);
+
+			if (ec == NULL)
+				gtk_widget_set_sensitive(w, FALSE);
+			else
+				g_object_unref(ec);
 #else
 			w = gtk_label_new (_("This certificate is not viewable"));
 			gtk_table_attach(table, w, 1, 2, n, n+1, 0, 0, 3, 3);
@@ -820,7 +843,6 @@ efhd_xpkcs7mime_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 
 	/* FIXME: need to have it based on encryption and signing too */
 	name = smime_sign_table[po->valid->sign.status].icon;
-	
 	file = g_build_filename(EVOLUTION_ICONSDIR, name, NULL);
 	pixbuf = gdk_pixbuf_new_from_file(file, NULL);
 	g_free(file);

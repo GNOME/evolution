@@ -1,5 +1,17 @@
 2004-04-05  Not Zed  <NotZed@Ximian.com>
 
+	* em-format-html-display.c (efhd_xpkcs7mime_button): if we have no
+	sign status, use signed-nokey, rather than no icon.
+	(efhd_xpkcs7mime_viewcert_clicked): show the certificate viewer
+	since certificate_viewer_show doesn't show it.
+	(efhd_xpkcs7mime_viewcert_foad): foad foad foad.  The api changed
+	and we need to foad it ourselves.
+
+	** See bug #52822.
+
+	* em-format-html-display.c (efhd_xpkcs7mime_add_cert_table): if we
+	can't find the cert, then desensitise the cert button.
+
 	** See bug # 56402.
 
 	* mail-folder-cache.c (update_folders): if we're cancelled, noop.
