@@ -1,3 +1,17 @@
+2001-10-30    <NotZed@Ximian.com>
+
+	* camel-folder-search.c (match_message): If we can't retrieve the
+	message, ignore it, it can't match.
+
+	* providers/imap/camel-imap-search.c
+	(camel_imap_search_class_init): Setup parent class pointer.
+	(imap_body_contains): If offline, just use the parent
+	body_contains method which will get the messages and search them
+	manually.
+
+	* providers/imap/camel-imap-folder.c (imap_search_by_expression,
+	imap_search_by_uids): Remove offline check.
+
 2001-10-30  Dan Winship  <danw@ximian.com>
 
 	* camel-mime-part.c (free_headers): Fix this to match get_headers.

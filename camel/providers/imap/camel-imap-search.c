@@ -40,12 +40,16 @@ static ESExpResult *
 imap_body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv,
 		    CamelFolderSearch *s);
 
+static CamelFolderSearchClass *imap_search_parent_class;
+
 static void
 camel_imap_search_class_init (CamelImapSearchClass *camel_imap_search_class)
 {
 	/* virtual method overload */
 	CamelFolderSearchClass *camel_folder_search_class =
 		CAMEL_FOLDER_SEARCH_CLASS (camel_imap_search_class);
+
+	imap_search_parent_class = camel_type_get_global_classfuncs (camel_folder_search_get_type ());
 	
 	/* virtual method overload */
 	camel_folder_search_class->body_contains = imap_body_contains;
@@ -99,6 +103,10 @@ imap_body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv,
 	GPtrArray *sorted;
 	int i;
 
+	/* If offline, search using the parent class, which can handle this manually */
+	if (!camel_disco_store_check_online (CAMEL_DISCO_STORE (store), NULL))
+		return imap_search_parent_class->body_contains(f, argc, argv, s);
+
 	if (s->current) {
 		uid = camel_message_info_uid (s->current);
 		r = e_sexp_result_new (f, ESEXP_RES_BOOL);
@@ -111,8 +119,6 @@ imap_body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv,
 		
 		if (argc == 1 && *value == '\0' && s->folder) {
 			/* optimise the match "" case - match everything */
-			int i;
-			
 			r->value.ptrarray = g_ptr_array_new ();
 			for (i = 0; i < s->summary->len; i++) {
 				CamelMessageInfo *info = g_ptr_array_index (s->summary, i);
@@ -163,8 +169,6 @@ imap_body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv,
 			   access to the summary memory which is locked for the duration of
 			   the search, and wont vanish on us */
 			if (uid_hash == NULL) {
-				int i;
-				
 				uid_hash = g_hash_table_new (g_str_hash, g_str_equal);
 				for (i = 0; i < s->summary->len; i++) {
 					info = s->summary->pdata[i];

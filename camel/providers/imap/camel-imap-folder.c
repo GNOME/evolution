@@ -1305,9 +1305,6 @@ imap_search_by_expression (CamelFolder *folder, const char *expression, CamelExc
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	GPtrArray *matches, *summary;
 
-	if (!camel_disco_store_check_online (CAMEL_DISCO_STORE (folder->parent_store), ex))
-		return NULL;
-
 	/* we could get around this by creating a new search object each time,
 	   but i doubt its worth it since any long operation would lock the
 	   command channel too */
@@ -1334,9 +1331,6 @@ imap_search_by_uids(CamelFolder *folder, const char *expression, GPtrArray *uids
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER(folder);
 	GPtrArray *summary, *matches;
 	int i;
-
-	if (!camel_disco_store_check_online (CAMEL_DISCO_STORE (folder->parent_store), ex))
-		return NULL;
 
 	/* NOTE: could get away without the search lock by creating a new
 	   search object each time */

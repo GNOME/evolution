@@ -722,6 +722,8 @@ match_message(CamelFolder *folder, const char *uid, regex_t *pattern, CamelExcep
 	if (!camel_exception_is_set(ex) && msg!=NULL) {
 		truth = camel_search_message_body_contains((CamelDataWrapper *)msg, pattern);
 		camel_object_unref((CamelObject *)msg);
+	} else {
+		camel_exception_clear(ex);
 	}
 	return truth;
 }
