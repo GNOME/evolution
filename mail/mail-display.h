@@ -42,6 +42,10 @@ GtkWidget *    mail_display_new         (void);
 
 void           mail_display_queue_redisplay (MailDisplay *mail_display);
 void           mail_display_redisplay (MailDisplay *mail_display, gboolean unscroll);
+void           mail_display_redisplay_when_loaded (MailDisplay *md,
+						   gconstpointer key,
+						   void (*callback)(MailDisplay *, gpointer),
+						   gpointer data);
 
 void           mail_display_set_message (MailDisplay *mail_display, 
 					 CamelMedium *medium);

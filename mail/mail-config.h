@@ -59,6 +59,11 @@ typedef struct {
 	gchar *sent_folder_name, *sent_folder_uri;
 } MailConfigAccount;
 
+typedef enum {
+	MAIL_CONFIG_HTTP_NEVER, MAIL_CONFIG_HTTP_SOMETIMES,
+	MAIL_CONFIG_HTTP_ALWAYS,
+} MailConfigHTTPMode;
+
 /* Identities */
 MailConfigIdentity *identity_copy (const MailConfigIdentity *id);
 void                identity_destroy (MailConfigIdentity *id);
@@ -114,6 +119,9 @@ void         mail_config_set_pgp_type (CamelPgpType pgp_type);
 
 const char *mail_config_get_pgp_path (void);
 void        mail_config_set_pgp_path (const char *pgp_path);
+
+MailConfigHTTPMode mail_config_get_http_mode (void);
+void               mail_config_set_http_mode (MailConfigHTTPMode);
 
 const MailConfigAccount  *mail_config_get_default_account       (void);
 const MailConfigAccount  *mail_config_get_account_by_name       (const char *account_name);

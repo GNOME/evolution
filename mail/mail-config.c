@@ -65,6 +65,8 @@ typedef struct {
 	
 	char *pgp_path;
 	CamelPgpType pgp_type;
+
+	MailConfigHTTPMode http_mode;
 } MailConfig;
 
 static const char GCONFPATH[] = "/apps/Evolution/Mail";
@@ -449,6 +451,14 @@ config_read (void)
 	if (def)
 		config->pgp_type = CAMEL_PGP_TYPE_NONE;
 	g_free (str);
+
+	/* HTTP images */
+	str = g_strdup_printf ("=%s/config/Mail=/Display/http_images", 
+			       evolution_dir);
+	config->http_mode = gnome_config_get_int_with_default (str, &def);
+	if (def)
+		config->http_mode = MAIL_CONFIG_HTTP_NEVER;
+	g_free (str);
 	
 	gnome_config_sync ();
 }
@@ -626,6 +636,12 @@ mail_config_write_on_exit (void)
 	gnome_config_set_int (str, config->pgp_type);
 	g_free (str);
 	
+	/* HTTP images */
+	str = g_strdup_printf ("=%s/config/Mail=/Display/http_images", 
+			       evolution_dir);
+	gnome_config_set_int (str, config->http_mode);
+	g_free (str);
+
 	/* Passwords */
 	gnome_config_private_clean_section ("/Evolution/Passwords");
 	sources = mail_config_get_sources ();
@@ -856,6 +872,18 @@ mail_config_set_pgp_path (const char *pgp_path)
 	g_free (config->pgp_path);
 	
 	config->pgp_path = g_strdup (pgp_path);
+}
+
+MailConfigHTTPMode
+mail_config_get_http_mode (void)
+{
+	return config->http_mode;
+}
+
+void
+mail_config_set_http_mode (MailConfigHTTPMode mode)
+{
+	config->http_mode = mode;
 }
 
 const MailConfigAccount *

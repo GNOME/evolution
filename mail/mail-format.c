@@ -2,10 +2,9 @@
 
 /*
  * Authors:
- *  Matt Loper <matt@helixcode.com>
- *  Dan Winship <danw@helixcode.com>
+ *  Dan Winship <danw@ximian.com>
  *
- *  Copyright 2000, Helix Code, Inc. (http://www.helixcode.com)
+ *  Copyright 2000, 2001 Ximian, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -39,6 +38,7 @@
 
 #include <camel/camel-mime-utils.h>
 #include <camel/camel-pgp-mime.h>
+#include <camel/camel-stream-null.h>
 #include <shell/e-setup.h>
 #include <e-util/e-html-utils.h>
 
@@ -102,30 +102,38 @@ static gboolean handle_via_bonobo            (CamelMimePart *part,
 static void write_headers (CamelMimeMessage *message, MailDisplay *md);
 
 /* dispatch html printing via mimetype */
-static gboolean call_handler_function (CamelMimePart *part, MailDisplay *md);
+static gboolean format_mime_part (CamelMimePart *part, MailDisplay *md);
 
 static void
 free_url (gpointer key, gpointer value, gpointer data)
 {
 	g_free (key);
+	if (data)
+		g_byte_array_free (value, TRUE);
 }
 
 static void
-free_urls (gpointer urls)
+free_part_urls (gpointer urls)
 {
 	g_hash_table_foreach (urls, free_url, NULL);
 	g_hash_table_destroy (urls);
 }
 
+static void
+free_data_urls (gpointer urls)
+{
+	g_hash_table_foreach (urls, free_url, GINT_TO_POINTER (1));
+	g_hash_table_destroy (urls);
+}
+
 static char *
-add_url (char *url, gpointer data, MailDisplay *md)
+add_url (const char *kind, char *url, gpointer data, MailDisplay *md)
 {
 	GHashTable *urls;
 	gpointer old_key, old_value;
 
-	urls = g_datalist_get_data (md->data, "urls");
+	urls = g_datalist_get_data (md->data, kind);
 	g_return_val_if_fail (urls != NULL, NULL);
-	
 	if (g_hash_table_lookup_extended (urls, url, &old_key, &old_value)) {
 		g_free (url);
 		url = old_key;
@@ -148,15 +156,21 @@ mail_format_mime_message (CamelMimeMessage *mime_message, MailDisplay *md)
 
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (mime_message));
 
-	urls = g_datalist_get_data (md->data, "urls");
+	urls = g_datalist_get_data (md->data, "part_urls");
 	if (!urls) {
 		urls = g_hash_table_new (g_str_hash, g_str_equal);
-		g_datalist_set_data_full (md->data, "urls", urls,
-					  free_urls);
+		g_datalist_set_data_full (md->data, "part_urls", urls,
+					  free_part_urls);
 	}
-	
+	urls = g_datalist_get_data (md->data, "data_urls");
+	if (!urls) {
+		urls = g_hash_table_new (g_str_hash, g_str_equal);
+		g_datalist_set_data_full (md->data, "data_urls", urls,
+					  free_data_urls);
+	}
+
 	write_headers (mime_message, md);
-	call_handler_function (CAMEL_MIME_PART (mime_message), md);
+	format_mime_part (CAMEL_MIME_PART (mime_message), md);
 }
 
 
@@ -186,12 +200,8 @@ mail_format_raw_message (CamelMimeMessage *mime_message, MailDisplay *md)
 static const char *
 get_cid (CamelMimePart *part, MailDisplay *md)
 {
-	GHashTable *urls;
 	char *cid;
-	gpointer orig_name, value;
 	static int fake_cid_counter = 0;
-
-	urls = g_datalist_get_data (md->data, "urls");
 
 	/* If we have a real Content-ID, use it. If we don't,
 	 * make a (syntactically invalid, unique) fake one.
@@ -202,24 +212,30 @@ get_cid (CamelMimePart *part, MailDisplay *md)
 	} else
 		cid = g_strdup_printf ("cid:@@@%d", fake_cid_counter++);
 
-	if (g_hash_table_lookup_extended (urls, cid, &orig_name, &value)) {
-		g_free (cid);
-		return orig_name;
-	} else
-		g_hash_table_insert (urls, cid, part);
+	return add_url ("part_urls", cid, part, md);
+}
 
-	return cid;
+static const char *
+get_location (CamelMimePart *part, MailDisplay *md)
+{
+	const char *loc;
+
+	/* FIXME: relative URLs */
+	loc = camel_mime_part_get_content_location (part);
+	if (!loc)
+		return NULL;
+
+	return add_url ("part_urls", g_strdup (loc), part, md);
 }
 
 static const char *
 get_url_for_icon (const char *icon_name, MailDisplay *md)
 {
-	static GHashTable *icons;
 	char *icon_path, buf[1024], *url;
+	int fd, nread;
 	GByteArray *ba;
 
-	if (!icons)
-		icons = g_hash_table_new (g_str_hash, g_str_equal);
+	/* FIXME: cache */
 
 	if (*icon_name == '/')
 		icon_path = g_strdup (icon_name);
@@ -229,33 +245,22 @@ get_url_for_icon (const char *icon_name, MailDisplay *md)
 			return "file:///dev/null";
 	}
 
-	ba = g_hash_table_lookup (icons, icon_path);
-	if (!ba) {
-		int fd, nread;
-
-		fd = open (icon_path, O_RDONLY);
-		if (fd == -1) {
-			g_free (icon_path);
-			return "file:///dev/null";
-		}
-
-		ba = g_byte_array_new ();
-
-		while (1) {
-			nread = read (fd, buf, sizeof (buf));
-			if (nread < 1)
-				break;
-			g_byte_array_append (ba, buf, nread);
-		}
-		close (fd);
-
-		/* FIXME: these aren't freed. */
-		g_hash_table_insert (icons, g_strdup (icon_path), ba);
-	}
+	fd = open (icon_path, O_RDONLY);
 	g_free (icon_path);
+	if (fd == -1)
+		return "file:///dev/null";
+
+	ba = g_byte_array_new ();
+	while (1) {
+		nread = read (fd, buf, sizeof (buf));
+		if (nread < 1)
+			break;
+		g_byte_array_append (ba, buf, nread);
+	}
+	close (fd);
 
 	url = g_strdup_printf ("x-evolution-data:%p", ba);
-	return add_url (url, ba, md);
+	return add_url ("data_urls", url, ba, md);
 }
 
 
@@ -550,12 +555,17 @@ attachment_header (CamelMimePart *part, const char *mime_type,
 }
 
 static gboolean
-call_handler_function (CamelMimePart *part, MailDisplay *md)
+format_mime_part (CamelMimePart *part, MailDisplay *md)
 {
 	CamelDataWrapper *wrapper;
 	char *mime_type;
 	MailMimeHandler *handler;
 	gboolean output, is_inline;
+	const char *location;
+
+	/* Record URLs associated with this part */
+	get_cid (part, md);
+	get_location (part, md);
 
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
 
@@ -738,7 +748,7 @@ write_headers (CamelMimeMessage *message, MailDisplay *md)
 			 "<table bgcolor=\"#000000\" width=\"100%%\" "
 			 "cellspacing=0 cellpadding=1><tr><td>"
 			 "<table bgcolor=\"#EEEEEE\" width=\"100%%\" cellpadding=0 cellspacing=0>"
-			 "<tr><td><table>");
+			 "<tr><td><table>\n");
 	
 	write_address(md, camel_mime_message_get_from(message),
 		      _("From:"), WRITE_BOLD);
@@ -757,86 +767,26 @@ write_headers (CamelMimeMessage *message, MailDisplay *md)
 			 "</table></td></tr></table></td></tr></table></font>");
 }
 
-struct _load_content_msg {
-	struct _mail_msg msg;
-
-	MailDisplay *display;
-	CamelMimeMessage *message;
-	CamelDataWrapper *wrapper;
-};
-
-static char *
-load_content_desc (struct _mail_msg *mm, int done)
-{
-	return g_strdup (_("Loading message content"));
-}
-
 static void
-load_content_load (struct _mail_msg *mm)
+load_offline_content (MailDisplay *md, gpointer data)
 {
-	struct _load_content_msg *m = (struct _load_content_msg *)mm;
-	CamelStream *memstream;
+	CamelDataWrapper *wrapper = data;
+	CamelStream *stream;
 
-	memstream = camel_stream_mem_new ();
-	camel_data_wrapper_write_to_stream (m->wrapper, memstream);
-	camel_object_unref (CAMEL_OBJECT (memstream));
+	stream = camel_stream_null_new ();
+	camel_data_wrapper_write_to_stream (wrapper, stream);
+	camel_object_unref (CAMEL_OBJECT (stream));
+	camel_object_unref (CAMEL_OBJECT (wrapper));
 }
-
-static void
-load_content_loaded (struct _mail_msg *mm)
-{
-	struct _load_content_msg *m = (struct _load_content_msg *)mm;
-
-	if (m->display->current_message == m->message)
-		mail_display_queue_redisplay (m->display);
-}
-
-static void
-load_content_free (struct _mail_msg *mm)
-{
-	struct _load_content_msg *m = (struct _load_content_msg *)mm;
-
-	gtk_object_unref (GTK_OBJECT (m->display));
-	camel_object_unref (CAMEL_OBJECT (m->wrapper));
-	camel_object_unref (CAMEL_OBJECT (m->message));
-}
-
-static struct _mail_msg_op load_content_op = {
-	load_content_desc,
-	load_content_load,
-	load_content_loaded,
-	load_content_free,
-};
 
 gboolean
 mail_content_loaded (CamelDataWrapper *wrapper, MailDisplay *md)
 {
-	struct _load_content_msg *m;
-	GHashTable *loading;
-
 	if (!camel_data_wrapper_is_offline (wrapper))
 		return TRUE;
 
-	loading = g_datalist_get_data (md->data, "loading");
-	if (loading) {
-		if (g_hash_table_lookup (loading, wrapper))
-			return FALSE;
-	} else {
-		loading = g_hash_table_new (NULL, NULL);
-		g_datalist_set_data_full (md->data, "loading", loading,
-					  (GDestroyNotify)g_hash_table_destroy);
-	}
-	g_hash_table_insert (loading, wrapper, GINT_TO_POINTER (1));	
-
-	m = mail_msg_new (&load_content_op, NULL, sizeof (*m));
-	m->display = md;
-	gtk_object_ref (GTK_OBJECT (m->display));
-	m->message = md->current_message;
-	camel_object_ref (CAMEL_OBJECT (m->message));
-	m->wrapper = wrapper;
-	camel_object_ref (CAMEL_OBJECT (m->wrapper));
-
-	e_thread_put (mail_thread_queued, (EMsg *)m);
+	camel_object_ref (CAMEL_OBJECT (wrapper));
+	mail_display_redisplay_when_loaded (md, wrapper, load_offline_content, wrapper);
 	return FALSE;
 }
 
@@ -1254,7 +1204,7 @@ try_uudecoding (char *start, MailDisplay *md)
 				 "finalize", destroy_part, part);
 
 	mail_html_write (md->html, md->stream, "<hr>");
-	call_handler_function (part, md);
+	format_mime_part (part, md);
 
 	return p + 4;
 }
@@ -1282,16 +1232,9 @@ try_inline_binhex (char *start, MailDisplay *md)
 				 "finalize", destroy_part, part);
 
 	mail_html_write (md->html, md->stream, "<hr>");
-	call_handler_function (part, md);
+	format_mime_part (part, md);
 
 	return p;
-}
-
-static void
-free_byte_array (CamelObject *obj, gpointer event_data, gpointer user_data)
-{
-	/* We don't have to do a forward event here right now */
-	g_byte_array_free (user_data, TRUE);
 }
 
 /* text/enriched (RFC 1896) or text/richtext (included in RFC 1341) */
@@ -1450,9 +1393,7 @@ handle_text_enriched (CamelMimePart *part, const char *mime_type,
 	mail_html_write (md->html, md->stream,
 			 "<iframe src=\"%s\" frameborder=0 scrolling=no>"
 			 "</iframe>", xed);
-	add_url (xed, ba, md);
-	camel_object_hook_event (CAMEL_OBJECT (md->current_message),
-				 "finalize", free_byte_array, ba);
+	add_url ("data_urls", xed, ba, md);
 
 	return TRUE;
 }
@@ -1461,10 +1402,17 @@ static gboolean
 handle_text_html (CamelMimePart *part, const char *mime_type,
 		  MailDisplay *md)
 {
+	const char *location;
+
 	mail_html_write (md->html, md->stream, "\n<!-- text/html -->\n");
+
+	/* FIXME: deal with relative URLs */
+	location = get_location (part, md);
+	if (!location)
+		location = get_cid (part, md);
 	mail_html_write (md->html, md->stream,
 			 "<iframe src=\"%s\" frameborder=0 scrolling=no>"
-			 "</iframe>", get_cid (part, md));
+			 "</iframe>", location);
 	return TRUE;
 }
 
@@ -1496,7 +1444,7 @@ handle_multipart_mixed (CamelMimePart *part, const char *mime_type,
 
 		part = camel_multipart_get_part (mp, i);
 
-		output = call_handler_function (part, md);
+		output = format_mime_part (part, md);
 	}
 
 	return TRUE;
@@ -1528,7 +1476,7 @@ handle_multipart_encrypted (CamelMimePart *part, const char *mime_type,
 	} else {
 		gboolean retcode;
 		
-		retcode = call_handler_function (mime_part, md);
+		retcode = format_mime_part (mime_part, md);
 		camel_object_unref (CAMEL_OBJECT (mime_part));
 		
 		return retcode;
@@ -1567,7 +1515,7 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 		
 		part = camel_multipart_get_part (mp, i);
 		
-		output = call_handler_function (part, md);
+		output = format_mime_part (part, md);
 	}
 	
 	/* Now display the "seal-of-authenticity" or something... */
@@ -1653,17 +1601,18 @@ handle_multipart_related (CamelMimePart *part, const char *mime_type,
 		return handle_multipart_mixed (part, mime_type, md);
 	}
 
-	/* Record the Content-IDs of any non-displayed parts. */
+	/* Record the Content-ID/Content-Location of any non-displayed parts. */
 	for (i = 0; i < nparts; i++) {
 		body_part = camel_multipart_get_part (mp, i);
 		if (body_part == display_part)
 			continue;
 
 		get_cid (body_part, md);
+		get_location (body_part, md);
 	}
 
 	/* Now, display the displayed part. */
-	return call_handler_function (display_part, md);
+	return format_mime_part (display_part, md);
 }
 
 /* RFC 2046 says "display the last part that you are able to display". */
@@ -1707,7 +1656,7 @@ handle_multipart_alternative (CamelMimePart *part, const char *mime_type,
 	
 	mime_part = find_preferred_alternative (multipart, FALSE);
 	if (mime_part)
-		return call_handler_function (mime_part, md);
+		return format_mime_part (mime_part, md);
 	else
 		return handle_multipart_mixed (part, mime_type, md);
 }
@@ -1730,7 +1679,7 @@ handle_multipart_appledouble (CamelMimePart *part, const char *mime_type,
 	 * likely it's application/octet-stream though.
 	 */
 	part = camel_multipart_get_part (multipart, 1);
-	return call_handler_function (part, md);
+	return format_mime_part (part, md);
 }
 
 static gboolean

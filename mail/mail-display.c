@@ -20,6 +20,7 @@
 #include <libgnorba/gnorba.h>
 #include <libgnomevfs/gnome-vfs-mime-info.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
+#include <libgnomevfs/gnome-vfs.h>
 #include <bonobo/bonobo-control-frame.h>
 #include <bonobo/bonobo-stream-memory.h>
 #include <bonobo/bonobo-ui-toolbar-icon.h>
@@ -691,7 +692,7 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 	if (strncmp (cid, "cid:", 4) != 0)
 		return FALSE;
 
-	urls = g_datalist_get_data (md->data, "urls");
+	urls = g_datalist_get_data (md->data, "part_urls");
 	g_return_val_if_fail (urls != NULL, FALSE);
 
 	medium = g_hash_table_lookup (urls, cid);
@@ -850,6 +851,40 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 
 	return TRUE;
 }
+ 
+static void
+load_http (MailDisplay *md, gpointer data)
+{
+	char *url = data;
+	GHashTable *urls;
+	GnomeVFSHandle *handle;
+	GnomeVFSFileSize read;
+	GByteArray *ba;
+	char buf[8192];
+
+	urls = g_datalist_get_data (md->data, "data_urls");
+	ba = g_hash_table_lookup (urls, url);
+	g_return_if_fail (ba != NULL);
+
+	if (gnome_vfs_open (&handle, url, GNOME_VFS_OPEN_READ) != GNOME_VFS_OK) {
+#if 0
+		printf ("failed to open %s\n", url);
+#endif
+		g_free (url);
+		return;
+	}
+
+	while (gnome_vfs_read (handle, buf, sizeof (buf), &read) == GNOME_VFS_OK)
+		g_byte_array_append (ba, buf, read);
+	gnome_vfs_close (handle);
+
+#if 0
+	if (!ba->len)
+		printf ("no data in %s\n", url);
+#endif
+
+	g_free (url);
+}
 
 static void
 on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
@@ -857,40 +892,137 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 {
 	MailDisplay *md = user_data;
 	GHashTable *urls;
+	CamelMedium *medium;
+	GByteArray *ba;
 
-	urls = g_datalist_get_data (md->data, "urls");
+	urls = g_datalist_get_data (md->data, "part_urls");
 	g_return_if_fail (urls != NULL);
 
-	user_data = g_hash_table_lookup (urls, url);
-	if (user_data == NULL) {
-		gtk_html_end (html, handle, GTK_HTML_STREAM_ERROR);
-		return;
-	}
-
-	if (strncmp (url, "cid:", 4) == 0) {
-		CamelMedium *medium = user_data;
+	/* See if it refers to a MIME part (cid: or http:) */
+	medium = g_hash_table_lookup (urls, url);
+	if (medium) {
 		CamelDataWrapper *data;
 		CamelStream *stream_mem;
-		GByteArray *ba;
 
 		g_return_if_fail (CAMEL_IS_MEDIUM (medium));
+
 		data = camel_medium_get_content_object (medium);
-		if (!mail_content_loaded (data, md))
+		if (!mail_content_loaded (data, md)) {
+			gtk_html_end (html, handle, GTK_HTML_STREAM_ERROR);
 			return;
+		}
 
 		ba = g_byte_array_new ();
 		stream_mem = camel_stream_mem_new_with_byte_array (ba);
 		camel_data_wrapper_write_to_stream (data, stream_mem);
 		gtk_html_write (html, handle, ba->data, ba->len);
 		camel_object_unref (CAMEL_OBJECT (stream_mem));
-	} else if (strncmp (url, "x-evolution-data:", 17) == 0) {
-		GByteArray *ba = user_data;
 
-		g_return_if_fail (ba != NULL);
-		gtk_html_write (html, handle, ba->data, ba->len);
+		gtk_html_end (html, handle, GTK_HTML_STREAM_OK);
+		return;
 	}
 
-	gtk_html_end (html, handle, GTK_HTML_STREAM_OK);
+	urls = g_datalist_get_data (md->data, "data_urls");
+	g_return_if_fail (urls != NULL);
+
+	/* See if it's some piece of cached data */
+	ba = g_hash_table_lookup (urls, url);
+	if (ba) {
+		if (ba->len)
+			gtk_html_write (html, handle, ba->data, ba->len);
+		gtk_html_end (html, handle, GTK_HTML_STREAM_OK);
+		return;
+	}
+
+	/* See if it's something we can load. */
+	if (strncmp (url, "http:", 5) == 0 &&
+	    mail_config_get_http_mode () == MAIL_CONFIG_HTTP_ALWAYS) {
+		ba = g_byte_array_new ();
+		g_hash_table_insert (urls, g_strdup (url), ba);
+		mail_display_redisplay_when_loaded (md, ba, load_http, g_strdup (url));
+	}
+
+	gtk_html_end (html, handle, GTK_HTML_STREAM_ERROR);
+}
+
+struct _load_content_msg {
+	struct _mail_msg msg;
+
+	MailDisplay *display;
+	CamelMimeMessage *message;
+	void (*callback)(MailDisplay *, gpointer);
+	gpointer data;
+};
+
+static char *
+load_content_desc (struct _mail_msg *mm, int done)
+{
+	return g_strdup (_("Loading message content"));
+}
+
+static void
+load_content_load (struct _mail_msg *mm)
+{
+	struct _load_content_msg *m = (struct _load_content_msg *)mm;
+
+	m->callback (m->display, m->data);
+}
+
+static void
+load_content_loaded (struct _mail_msg *mm)
+{
+	struct _load_content_msg *m = (struct _load_content_msg *)mm;
+
+	if (m->display->current_message == m->message)
+		mail_display_queue_redisplay (m->display);
+}
+
+static void
+load_content_free (struct _mail_msg *mm)
+{
+	struct _load_content_msg *m = (struct _load_content_msg *)mm;
+
+	gtk_object_unref (GTK_OBJECT (m->display));
+	camel_object_unref (CAMEL_OBJECT (m->message));
+}
+
+static struct _mail_msg_op load_content_op = {
+	load_content_desc,
+	load_content_load,
+	load_content_loaded,
+	load_content_free,
+};
+
+void
+mail_display_redisplay_when_loaded (MailDisplay *md,
+				    gconstpointer key,
+				    void (*callback)(MailDisplay *, gpointer),
+				    gpointer data)
+{
+	struct _load_content_msg *m;
+	GHashTable *loading;
+
+	loading = g_datalist_get_data (md->data, "loading");
+	if (loading) {
+		if (g_hash_table_lookup (loading, key))
+			return;
+	} else {
+		loading = g_hash_table_new (NULL, NULL);
+		g_datalist_set_data_full (md->data, "loading", loading,
+					  (GDestroyNotify)g_hash_table_destroy);
+	}
+	g_hash_table_insert (loading, (gpointer)key, GINT_TO_POINTER (1));
+
+	m = mail_msg_new (&load_content_op, NULL, sizeof (*m));
+	m->display = md;
+	gtk_object_ref (GTK_OBJECT (m->display));
+	m->message = md->current_message;
+	camel_object_ref (CAMEL_OBJECT (m->message));
+	m->callback = callback;
+	m->data = data;
+
+	e_thread_put (mail_thread_queued, (EMsg *)m);
+	return;
 }
 
 void

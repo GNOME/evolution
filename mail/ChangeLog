@@ -1,3 +1,28 @@
+2001-05-11  Dan Winship  <danw@ximian.com>
+
+	* mail-display.c (load_http): callback to use GNOME-VFS to load
+	http data.
+	(on_url_requested): Handle http: URLs that refer to either MIME
+	parts or web data.
+	(mail_display_redisplay_when_loaded): Moved out of
+	mail_content_loaded and made more generic.
+
+	* mail-format.c (add_url): Handle two different kinds of URLs
+	(URLs that point to CamelMimeParts and URLs that point to
+	GByteArrays).
+	(mail_content_loaded): Use mail_display_redisplay_when_loaded.
+	(format_mime_part): Renamed from "call_handler_function". Also,
+	record Content-Location if the part has one. (This is not yet 100%
+	correct: it doesn't deal with relative URLs at all.)
+	(handle_text_html): Use Content-Location URL rather than
+	Content-ID, when available (will help deal with relative URLs once
+	GtkHTML supports that better).
+	(etc): Update for changes.
+
+	* mail-config.c (mail_config_get_http_mode,
+	mail_config_set_http_mode): get/set HTTP image downloading mode.
+	(config_read, mail_config_write_on_exit): save/load that data.
+
 2001-05-11  JP Rosevear  <jpr@ximian.com>
 
 	* mail-importer.h: add proto
