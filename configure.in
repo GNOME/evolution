@@ -499,13 +499,12 @@ EVO_CHECK_LIB(OAF, oaf, 0.6.2)
 EVO_CHECK_LIB(libglade, libglade, 0.14)
 EVO_CHECK_LIB(gdk-pixbuf with GNOME canvas support, gnomecanvaspixbuf, 0.9.0)
 EVO_CHECK_LIB(GAL, gal, 0.8.99.5)
+
 dnl FIXME: really a post-0.9.3 version (as of April 25) is needed for
 dnl changes in Editor.idl (menesis)
 EVO_CHECK_LIB(GtkHTML, gtkhtml, 0.9.3)
 EVO_CHECK_LIB(GNOME-VFS, vfs, 1.0)
 EVO_CHECK_LIB(libxml, xml, 1.8.10, 2.0)
-
-
 
 dnl *************************
 dnl CFLAGS and LIBS and stuff
@@ -996,6 +995,7 @@ camel/providers/local/Makefile
 camel/tests/Makefile
 camel/tests/lib/Makefile
 camel/tests/message/Makefile
+camel/tests/mime-filter/Makefile
 camel/tests/misc/Makefile
 camel/tests/folder/Makefile
 camel/tests/smime/Makefile
