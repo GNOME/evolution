@@ -1,3 +1,10 @@
+2001-10-30  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-meeting-time-sel.c
+	(e_meeting_time_selector_on_start_time_changed): don't overwrite
+	memory
+	(e_meeting_time_selector_on_end_time_changed): ditto
+
 2001-10-30  Damon Chaplin  <damon@ximian.com>
 
 	* gui/calendar-model.c (dup_date_edit_value): return NULL if passed

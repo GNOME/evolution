@@ -2085,6 +2085,7 @@ e_meeting_time_selector_on_start_time_changed (GtkWidget *widget,
 {
 	gint duration_days, duration_hours, duration_minutes;
 	EMeetingTime mtstime;
+	gint hour = 0, minute = 0;
 	time_t newtime;
 
 	/* Date */
@@ -2093,7 +2094,9 @@ e_meeting_time_selector_on_start_time_changed (GtkWidget *widget,
 	g_date_set_time (&mtstime.date, newtime);
 
 	/* Time */
-	e_date_edit_get_time_of_day (E_DATE_EDIT (mts->start_date_edit), &mtstime.hour, &mtstime.minute);
+	e_date_edit_get_time_of_day (E_DATE_EDIT (mts->start_date_edit), &hour, &minute);
+	mtstime.hour = hour;
+	mtstime.minute = minute;
 
 	/* If the time hasn't changed, just return. */
 	if (e_meeting_time_selector_compare_times (&mtstime, &mts->meeting_start_time) == 0)
@@ -2126,6 +2129,7 @@ e_meeting_time_selector_on_end_time_changed (GtkWidget *widget,
 					     EMeetingTimeSelector *mts)
 {
 	EMeetingTime mtstime;
+	gint hour = 0, minute = 0;
 	time_t newtime;
 
 	/* Date */
@@ -2136,7 +2140,9 @@ e_meeting_time_selector_on_end_time_changed (GtkWidget *widget,
 		g_date_add_days (&mtstime.date, 1);
 
 	/* Time */
-	e_date_edit_get_time_of_day (E_DATE_EDIT (mts->end_date_edit), &mtstime.hour, &mtstime.minute);
+	e_date_edit_get_time_of_day (E_DATE_EDIT (mts->end_date_edit), &hour, &minute);
+	mtstime.hour = hour;
+	mtstime.minute = minute;
 
 	/* If the time hasn't changed, just return. */
 	if (e_meeting_time_selector_compare_times (&mtstime, &mts->meeting_end_time) == 0)
