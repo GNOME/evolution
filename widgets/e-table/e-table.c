@@ -407,6 +407,7 @@ et_table_cell_changed (ETableModel *table_model, int view_col, int row, ETable *
 static void
 et_table_row_inserted (ETableModel *table_model, int row, ETable *et)
 {
+	/* This number has already been decremented. */
 	int row_count = e_table_model_row_count(table_model);
 	if (!et->need_rebuild) {
 		if (row != row_count - 1)
@@ -421,7 +422,7 @@ et_table_row_deleted (ETableModel *table_model, int row, ETable *et)
 	int row_count = e_table_model_row_count(table_model);
 	if (!et->need_rebuild) {
 		e_table_group_remove (et->group, row);
-		if (row != row_count - 1)
+		if (row != row_count)
 			e_table_group_decrement(et->group, row, 1);
 	}
 }
