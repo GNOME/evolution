@@ -1,5 +1,11 @@
 2000-12-05  Dan Winship  <danw@helixcode.com>
 
+	* providers/imap/camel-imap-folder.c (imap_get_message): use
+	BODY.PEEK[] rather than RFC822, so the message doesn't get marked
+	as \Seen.
+
+2000-12-05  Dan Winship  <danw@helixcode.com>
+
 	* providers/imap/camel-imap-folder.c (imap_set_message_flags): Fix
 	the check for "flags aren't actually changing".
 

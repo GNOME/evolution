@@ -564,14 +564,14 @@ imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 	int len;
 
 	response = camel_imap_command (store, folder, ex,
-				       "UID FETCH %s RFC822", uid);
+				       "UID FETCH %s BODY.PEEK[]", uid);
 	if (!response)
 		return NULL;
 	result = camel_imap_response_extract (response, "FETCH", ex);
 	if (!result)
 		return NULL;
 
-	p = strstr (result, "RFC822");
+	p = strstr (result, "BODY[]");
 	if (p) {
 		p += 7;
 		mesg = imap_parse_nstring (&p, &len);
