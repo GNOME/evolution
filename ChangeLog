@@ -1,5 +1,18 @@
 2000-04-08  Christopher James Lahey  <clahey@helixcode.com>
 
+	* addressbook/contact-editor/Makefile.am,
+	addressbook/contact-editor/e-contact-editor.c,
+	addressbook/contact-editor/e-contact-editor.h,
+	addressbook/contact-editor/test-editor.c: Made the contact editor
+	load from an ECard.
+
+	* addressbook/backend/ebook/e-card.c,
+	addressbook/backend/ebook/e-card.h,
+	addressbook/gui/minicard/e-minicard.c: Added support for the URL
+	field.
+
+2000-04-08  Christopher James Lahey  <clahey@helixcode.com>
+
 	* addressbook/backend/ebook/e-card.c (e_card_get_vcard): Fixed a
 	small typo.
 

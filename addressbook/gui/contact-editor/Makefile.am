@@ -9,7 +9,8 @@ CPPFLAGS = \
 	-DDATADIR=\""$(datadir)"\"
 
 INCLUDES =					\
-	$(GNOME_INCLUDEDIR)
+	$(GNOME_INCLUDEDIR)			\
+	-I$(top_srcdir)/addressbook/backend/ebook
 
 noinst_LIBRARIES =				\
 	libecontacteditor.a
@@ -25,6 +26,11 @@ contact_editor_test_SOURCES = 	\
 	test-editor.c
 
 contact_editor_test_LDADD =	\
+	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
+	$(top_builddir)/libversit/libversit.la	\
+	$(GNOMEGNORBA_LIBS)				\
+	-lbonobo					\
+	$(top_builddir)/e-util/libeutil.la	\
 	libecontacteditor.a	\
 	$(EXTRA_GNOME_LIBS)
 

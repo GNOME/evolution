@@ -30,7 +30,8 @@ enum {
 	ARG_ADDRESS,
 	ARG_PHONE,
 	ARG_EMAIL,
-	ARG_BIRTH_DATE
+	ARG_BIRTH_DATE,
+	ARG_URL
 };
 
 #if 0
@@ -56,6 +57,7 @@ static void parse_name(ECard *card, VObject *object);
 static void parse_email(ECard *card, VObject *object);
 static void parse_phone(ECard *card, VObject *object);
 static void parse_address(ECard *card, VObject *object);
+static void parse_url(ECard *card, VObject *object);
 
 static ECardPhoneFlags get_phone_flags (VObject *vobj);
 static void set_phone_flags (VObject *vobj, ECardPhoneFlags flags);
@@ -74,7 +76,8 @@ struct {
 	{ VCBirthDateProp,    parse_bday },
 	{ VCEmailAddressProp, parse_email },
 	{ VCTelephoneProp,    parse_phone },
-	{ VCAdrProp,          parse_address }
+	{ VCAdrProp,          parse_address },
+	{ VCURLProp,          parse_url }
 };
 
 /**
@@ -251,6 +254,9 @@ char
 		addPropValue(vobj, VCBirthDateProp, value);
 		g_free(value);
 	}
+
+	if ( card->url )
+		addPropValue(vobj, VCURLProp, card->url);
 	
 #if 0
 	
@@ -447,6 +453,14 @@ parse_address(ECard *card, VObject *vobj)
 }
 
 static void
+parse_url(ECard *card, VObject *vobj)
+{
+	if ( card->url )
+		g_free(card->url);
+	assign_string(vobj, &(card->url));
+}
+
+static void
 parse_attribute(ECard *card, VObject *vobj)
 {
 	ParsePropertyFunc function = g_hash_table_lookup(E_CARD_CLASS(GTK_OBJECT(card)->klass)->attribute_jump_table, vObjectName(vobj));
@@ -490,6 +504,8 @@ e_card_class_init (ECardClass *klass)
 				 GTK_TYPE_OBJECT, GTK_ARG_READABLE, ARG_EMAIL);
 	gtk_object_add_arg_type ("ECard::birth_date",
 				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_BIRTH_DATE);
+	gtk_object_add_arg_type ("ECard::url",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_URL);  
 
 
 	object_class->destroy = e_card_destroy;
@@ -609,6 +625,10 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 			g_free(card->bday);
 		card->bday = GTK_VALUE_POINTER(*arg);
 		break;
+	case ARG_URL:
+		if ( card->url )
+			g_free(card->url);
+		card->url = GTK_VALUE_STRING(*arg);
 	default:
 		return;
 	}
@@ -653,6 +673,9 @@ e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_BIRTH_DATE:
 		GTK_VALUE_POINTER(*arg) = card->bday;
 		break;
+	case ARG_URL:
+		GTK_VALUE_STRING(*arg) = card->url;
+		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
 		break;
@@ -674,6 +697,7 @@ e_card_init (ECard *card)
 	card->email = NULL;
 	card->phone = NULL;
 	card->address = NULL;
+	card->url = NULL;
 #if 0
 
 	c = g_new0 (ECard, 1);

@@ -26,6 +26,55 @@
 #include <glade/glade.h>
 #include "e-contact-editor.h"
 
+#define TEST_VCARD                   \
+"BEGIN:VCARD
+"                      \
+"FN:Nat
+"                           \
+"N:Friedman;Nat;D;Mr.
+"             \
+"BDAY:1977-08-06
+"                  \
+"TEL;WORK:617 679 1984
+"            \
+"TEL;CELL:123 456 7890
+"            \
+"EMAIL;INTERNET:nat@nat.org
+"       \
+"EMAIL;INTERNET:nat@helixcode.com
+" \
+"ADR;WORK;POSTAL:P.O. Box 101;;;Any Town;CA;91921-1234;
+" \
+"ADR;HOME;POSTAL;INTL:P.O. Box 202;;;Any Town 2;MI;12344-4321;USA
+" \
+"END:VCARD
+"                        \
+"
+"
+
+static char *
+read_file (char *name)
+{
+	int  len;
+	char buff[65536];
+	char line[1024];
+	FILE *f;
+
+	f = fopen (name, "r");
+	if (f == NULL)
+		g_error ("Unable to open %s!\n", name);
+
+	len  = 0;
+	while (fgets (line, sizeof (line), f) != NULL) {
+		strcpy (buff + len, line);
+		len += strlen (line);
+	}
+
+	fclose (f);
+
+	return g_strdup (buff);
+}
+
 /* This is a horrible thing to do, but it is just a test. */
 GtkWidget *editor;
 
@@ -59,43 +108,51 @@ static void about_callback( GtkWidget *widget, gpointer data )
 
 int main( int argc, char *argv[] )
 {
-  GtkWidget *app;
-
-  /*  bindtextdomain (PACKAGE, GNOMELOCALEDIR);
-      textdomain (PACKAGE);*/
-
-  gnome_init( "Contact Editor Test", VERSION, argc, argv);
-
-  glade_gnome_init ();
-
-  app = gnome_app_new("Contact Editor Test", NULL);
-
-  editor = e_contact_editor_new(NULL);
-  
-  gnome_app_set_contents( GNOME_APP( app ), editor );
-
-  /* Connect the signals */
-  gtk_signal_connect( GTK_OBJECT( app ), "destroy",
-		      GTK_SIGNAL_FUNC( destroy_callback ),
-		      ( gpointer ) app );
-
-  gtk_widget_show_all( app );
-
-  app = gnome_app_new("Contact Editor Test", NULL);
-
-  editor = e_contact_editor_new(NULL);
-  
-  gnome_app_set_contents( GNOME_APP( app ), editor );
-
-  /* Connect the signals */
-  gtk_signal_connect( GTK_OBJECT( app ), "destroy",
-		      GTK_SIGNAL_FUNC( destroy_callback ),
-		      ( gpointer ) app );
-
-  gtk_widget_show_all( app );
-
-  gtk_main(); 
-
-  /* Not reached. */
-  return 0;
+	char *cardstr;
+	GtkWidget *app;
+	
+	/*  bindtextdomain (PACKAGE, GNOMELOCALEDIR);
+	    textdomain (PACKAGE);*/
+	
+	gnome_init( "Contact Editor Test", VERSION, argc, argv);
+	
+	glade_gnome_init ();
+	
+	app = gnome_app_new("Contact Editor Test", NULL);
+	
+	cardstr = NULL;
+	if (argc == 2)
+		cardstr = read_file (argv [1]);
+	
+	if (cardstr == NULL)
+		cardstr = TEST_VCARD;
+	
+	editor = e_contact_editor_new(e_card_new(cardstr));
+	
+	gnome_app_set_contents( GNOME_APP( app ), editor );
+	
+	/* Connect the signals */
+	gtk_signal_connect( GTK_OBJECT( app ), "destroy",
+			    GTK_SIGNAL_FUNC( destroy_callback ),
+			    ( gpointer ) app );
+	
+	gtk_widget_show_all( app );
+	
+	app = gnome_app_new("Contact Editor Test", NULL);
+	
+	editor = e_contact_editor_new(e_card_new(cardstr));
+	
+	gnome_app_set_contents( GNOME_APP( app ), editor );
+	
+	/* Connect the signals */
+	gtk_signal_connect( GTK_OBJECT( app ), "destroy",
+			    GTK_SIGNAL_FUNC( destroy_callback ),
+			    ( gpointer ) app );
+	
+	gtk_widget_show_all( app );
+	
+	gtk_main(); 
+	
+	/* Not reached. */
+	return 0;
 }

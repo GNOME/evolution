@@ -402,6 +402,7 @@ remodel( EMinicard *e_minicard )
 {
 	if (e_minicard->card) {
 		char *fname;
+		char *url;
 		ECardList *address_list;
 		ECardList *phone_list;
 		ECardList *email_list;
@@ -417,11 +418,12 @@ remodel( EMinicard *e_minicard )
 		e_minicard->fields = NULL;
 
 		gtk_object_get(GTK_OBJECT(e_minicard->card),
-		       "full_name",  &fname,
-		       "address",    &address_list,
-		       "phone",      &phone_list,
-		       "email",      &email_list,
-		       NULL);
+			       "full_name",  &fname,
+			       "address",    &address_list,
+			       "phone",      &phone_list,
+			       "email",      &email_list,
+			       "url",        &url,
+			       NULL);
 
 		if (fname) {
 			add_field(e_minicard, "Name:", fname);
@@ -465,6 +467,8 @@ remodel( EMinicard *e_minicard )
 				add_field(e_minicard, "Email:", (char *) e_card_iterator_get(iterator));
 			}
 		}
+		if (url)
+			add_field(e_minicard, "Web page:", url);
 	}
 }
 

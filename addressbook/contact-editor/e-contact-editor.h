@@ -23,6 +23,7 @@
 
 #include <gnome.h>
 #include <glade/glade.h>
+#include "e-card.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -53,7 +54,7 @@ struct _EContactEditor
 	GtkVBox parent;
 	
 	/* item specific fields */
-	/*  ECard *card; */
+	ECard *card;
 	
 	GladeXML *gui;
 	GnomeUIInfo *email_info;
@@ -73,7 +74,7 @@ struct _EContactEditorClass
 };
 
 
-GtkWidget *e_contact_editor_new(void *card);
+GtkWidget *e_contact_editor_new(ECard *card);
 GtkType    e_contact_editor_get_type (void);
 
 #ifdef __cplusplus

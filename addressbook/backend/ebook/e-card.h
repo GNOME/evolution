@@ -40,10 +40,8 @@ struct _ECard {
 #endif
 	ECardList       *phone;         /* Phone numbers (ECardPhone *)     */
 	ECardList       *email;         /* Email addresses (char *)         */
-#if 0
 	char            *url;	        /* The person's web page.           */
 
-#endif
 	ECardDate       *bday;	        /* The person's birthday.           */
 #if 0
 
