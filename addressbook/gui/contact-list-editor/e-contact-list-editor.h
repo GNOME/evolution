@@ -68,6 +68,9 @@ struct _EContactListEditor
 	/* Whether we are editing a new contact or an existing one */
 	guint is_new_list : 1;
 
+	/* Whether the image chooser widget has been changed. */
+	guint image_set : 1;
+
 	/* Whether the contact has been changed since bringing up the contact editor */
 	guint changed : 1;
 

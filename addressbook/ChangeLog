@@ -1,5 +1,25 @@
 2004-02-17  Chris Toshok  <toshok@ximian.com>
 
+	* gui/contact-list-editor/e-contact-list-editor.h (struct
+	_EContactListEditor): add image_set slot.
+
+	* gui/contact-list-editor/e-contact-list-editor.c
+	(list_image_changed_cb): set image_set = TRUE.
+	(e_contact_list_editor_init): init image_set = FALSE
+	(extract_info): only set the LOGO attribute if image_set = TRUE.
+
+	* gui/contact-editor/e-contact-editor.h (struct _EContactEditor):
+	add image_set slot.
+
+	* gui/contact-editor/e-contact-editor.c (extract_info): only set
+	the PHOTO attribute if image_set == TRUE.
+	(image_chooser_changed): new function, set image_set = TRUE and
+	call widget_changed.
+	(e_contact_editor_init): init image_set to FALSE.
+	(_address_arrow_pressed): quiet compiler.
+
+2004-02-17  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes bug #53620 ]
 	
 	* gui/merging/eab-contact-compare.c (eab_contact_compare_name): ""

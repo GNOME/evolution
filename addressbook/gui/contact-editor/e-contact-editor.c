@@ -1207,6 +1207,14 @@ company_entry_changed (GtkWidget *widget, EContactEditor *editor)
 }
 
 static void
+image_chooser_changed (GtkWidget *widget, EContactEditor *editor)
+{
+	editor->image_set = TRUE;
+
+	widget_changed (widget, editor);
+}
+
+static void
 field_changed (GtkWidget *widget, EContactEditor *editor)
 {
 	if (!editor->changed) {
@@ -1334,7 +1342,7 @@ set_entry_changed_signals(EContactEditor *editor)
 	widget = glade_xml_get_widget (editor->gui, "image-chooser");
 	if (widget && E_IS_IMAGE_CHOOSER (widget)) {
 		g_signal_connect (widget, "changed",
-				  G_CALLBACK (widget_changed), editor);
+				  G_CALLBACK (image_chooser_changed), editor);
 	}
 }
 
@@ -1952,6 +1960,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 
 	e_contact_editor->contact = NULL;
 	e_contact_editor->changed = FALSE;
+	e_contact_editor->image_set = FALSE;
 	e_contact_editor->in_async_call = FALSE;
 	e_contact_editor->source_editable = TRUE;
 	e_contact_editor->target_editable = TRUE;
@@ -2640,7 +2649,7 @@ _address_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEdito
 		EContactAddress *address = e_contact_get (editor->contact, i);
 		gboolean checked;
 
-		checked = address;
+		checked = (address != NULL);
 		gtk_check_menu_item_set_active (
 			GTK_CHECK_MENU_ITEM (editor->address_info [i - E_CONTACT_FIRST_ADDRESS_ID].widget),
 			checked);
@@ -3372,9 +3381,10 @@ extract_info(EContactEditor *editor)
 			char *image_data;
 			gsize image_data_len;
 
-			if (e_image_chooser_get_image_data (E_IMAGE_CHOOSER (widget),
-							    &image_data,
-							    &image_data_len)) {
+			if (editor->image_set
+			    && e_image_chooser_get_image_data (E_IMAGE_CHOOSER (widget),
+							       &image_data,
+							       &image_data_len)) {
 				EContactPhoto photo;
 
 				photo.data = image_data;

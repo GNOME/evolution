@@ -9,7 +9,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
  *
  * You should have received a copy of the GNU General Public
@@ -220,6 +220,7 @@ e_contact_list_editor_init (EContactListEditor *editor)
 
 	editor->contact = NULL;
 	editor->changed = FALSE;
+	editor->image_set = FALSE;
 	editor->editable = TRUE;
 	editor->in_async_call = FALSE;
 	editor->is_new_list = FALSE;
@@ -775,6 +776,7 @@ list_name_changed_cb (GtkWidget *w, EContactListEditor *editor)
 static void
 list_image_changed_cb (GtkWidget *w, EContactListEditor *editor)
 {
+	editor->image_set = TRUE;
 	editor->changed = TRUE;
 	command_state_changed (editor);
 }
@@ -970,9 +972,10 @@ extract_info(EContactListEditor *editor)
 		g_list_foreach (email_list, (GFunc) g_free, NULL);
 		g_list_free (email_list);
 
-		if (e_image_chooser_get_image_data (E_IMAGE_CHOOSER (editor->list_image),
-						    &image_data,
-						    &image_data_len)) {
+		if (editor->image_set
+		    && e_image_chooser_get_image_data (E_IMAGE_CHOOSER (editor->list_image),
+						       &image_data,
+						       &image_data_len)) {
 			EContactPhoto photo;
 
 			photo.data = image_data;
