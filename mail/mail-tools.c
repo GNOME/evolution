@@ -391,7 +391,7 @@ mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...)
 gchar *
 mail_tool_forward_message (CamelMimeMessage *message, gboolean quoted)
 {
-	gchar *title, *body, *ret;
+	char *title, *body, *ret;
 	
 	body = mail_get_message_body (CAMEL_DATA_WRAPPER (message),
 				      !mail_config_get_send_html (),

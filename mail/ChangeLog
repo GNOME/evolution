@@ -1,5 +1,8 @@
 2002-05-20  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-format.c (mail_get_message_body): Only get the contents of
+	a mime part if it is marked as "inline". Fixes bug #7527.
+
 	* mail-display.c (mail_display_render): Fixed the "Overdue:"
 	string to not contain any HTML tags.
 

@@ -2299,8 +2299,8 @@ mail_get_message_rfc822 (CamelMimeMessage *message, gboolean want_plain, gboolea
 char *
 mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean cite)
 {
-	CamelContentType *mime_type;
 	char *subtext, *old, *div, *text = NULL;
+	CamelContentType *mime_type;
 	GByteArray *bytes = NULL;
 	CamelMimePart *subpart;
 	CamelMultipart *mp;
@@ -2372,6 +2372,10 @@ mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean cit
 	nparts = camel_multipart_get_number (mp);
 	for (i = 0; i < nparts; i++) {
 		subpart = camel_multipart_get_part (mp, i);
+		
+		/* only add to the body contents if it is marked as "inline" */
+		if (!mail_part_is_inline (subpart))
+			continue;
 		
 		data = camel_medium_get_content_object (CAMEL_MEDIUM (subpart));
 		subtext = mail_get_message_body (data, want_plain, cite);
