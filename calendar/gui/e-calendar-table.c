@@ -659,7 +659,8 @@ get_selected_comp (ECalendarTable *cal_table)
 	int row;
 
 	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
-	g_assert (e_table_selected_count (etable) == 1);
+	if (e_table_selected_count (etable) != 1)
+		return NULL;
 
 	row = -1;
 	e_table_selected_row_foreach (etable,
@@ -755,7 +756,8 @@ e_calendar_table_delete_selected (ECalendarTable *cal_table)
 	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
 
 	n_selected = e_table_selected_count (etable);
-	g_assert (n_selected > 0);
+	if (n_selected <= 0)
+		return;
 
 	if (n_selected == 1)
 		comp = get_selected_comp (cal_table);
@@ -974,7 +976,8 @@ e_calendar_table_on_right_click (ETable *table,
 	int disable_mask = 0;
 
 	n_selected = e_table_selected_count (table);
-	g_assert (n_selected > 0);
+	if (n_selected <= 0)
+		return TRUE;
 
 	if (n_selected == 1)
 		hide_mask = MASK_MULTIPLE;
@@ -998,7 +1001,8 @@ e_calendar_table_on_open_task (GtkWidget *menuitem,
 	cal_table = E_CALENDAR_TABLE (data);
 
 	comp = get_selected_comp (cal_table);
-	open_task (cal_table, comp);
+	if (comp)
+		open_task (cal_table, comp);
 }
 
 static void
