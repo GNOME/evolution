@@ -1016,18 +1016,19 @@ add_folder_modify (GtkWidget *widget, AddressbookSourceDialog *sdialog)
 		gtk_widget_set_sensitive (sdialog->auth_frame, remote);
 
 #ifdef HAVE_LDAP
+	gtk_widget_set_sensitive (sdialog->email, sdialog->auth != ADDRESSBOOK_LDAP_AUTH_NONE);
+
 	if (valid)
 		valid = general_tab_check (sdialog);
 	if (valid)
 		valid = connecting_tab_check (sdialog);
 
-	gtk_widget_set_sensitive (glade_xml_get_widget (sdialog->gui, "details-label"), valid);
+	gtk_widget_set_sensitive (glade_xml_get_widget (sdialog->gui, "details-label"), valid && remote);
 
-	gtk_widget_set_sensitive (glade_xml_get_widget (sdialog->gui, "details-vbox"), valid);
+	gtk_widget_set_sensitive (glade_xml_get_widget (sdialog->gui, "details-vbox"), valid && remote);
 
 	if (valid)
 		valid = searching_tab_check (sdialog);
-	else 
 #endif
 
 	gtk_widget_set_sensitive (sdialog->ok_button, valid);
@@ -1108,7 +1109,6 @@ addressbook_add_server_dialog (void)
 	setup_general_tab (sdialog, add_folder_modify);
 	setup_searching_tab (sdialog, add_folder_modify);
 	setup_connecting_tab (sdialog, add_folder_modify);
-
 
 	sdialog->auth_frame = glade_xml_get_widget (sdialog->gui, "authentication-frame");
 	sdialog->server_frame = glade_xml_get_widget (sdialog->gui, "server-frame");

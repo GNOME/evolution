@@ -1,5 +1,9 @@
 2004-05-03  Larry Ewing  <lewing@ximian.com>
 
+	* gui/component/addressbook-config.c (add_folder_modify): set the
+	email entry sesitive only when anonymous isn't selected.  Make the
+	details tab insensitive if the method is local.
+
 	* gui/component/ldap-config.glade: remove unused colorpicker.
 
 2004-05-03  JP Rosevear  <jpr@ximian.com>
