@@ -1,3 +1,8 @@
+2001-10-03  Carlos Perelló Marín <carlos@gnome-db.org>
+
+	* es.po: Reverted a change from Ismael and /s/fichero/archivo/
+	* POTFILES.in: Fixed.
+
 2001-10-03  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* pl.po: Updated Polish translation.
