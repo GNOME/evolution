@@ -1,3 +1,12 @@
+2000-02-20  Iain Holmes  <ih@csd.abdn.ac.uk>
+
+	* widgets/e-text/e-text.[ch] (_do_tooltip): Show the text of the item,
+	in a tooltip style.
+	(e_text_event): Add a timeout on the Enter and remove it on the Leave
+	events.
+
+	* e-text-test.c: New file to test e-text items.
+	
 2000-02-20  Matt Loper  <matt@helixcode.com>
 
 	* .cvsignore: added ABOUT-NLS.  

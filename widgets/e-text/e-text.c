@@ -332,7 +332,7 @@ e_text_destroy (GtkObject *object)
 	EText *text;
 
 	g_return_if_fail (object != NULL);
-	g_return_if_fail (GNOME_IS_CANVAS_TEXT (object));
+	g_return_if_fail (E_IS_TEXT (object));
 
 	text = E_TEXT (object);
 
@@ -1823,6 +1823,48 @@ _blink_scroll_timeout (gpointer data)
 	return TRUE;
 }
 
+static gboolean
+_do_tooltip (gpointer data)
+{
+	EText *text = E_TEXT (data);
+	struct line *lines;
+	GtkWidget *label, *vbox;
+	gint x, y, pointer_x, pointer_y, scr_w, scr_h, tip_w, tip_h;
+	int i;
+
+	lines = text->lines;
+
+	scr_w = gdk_screen_width ();
+	scr_h = gdk_screen_height ();
+	gdk_window_get_pointer (NULL, &pointer_x, &pointer_y, NULL);
+
+	text->tooltip_window = gtk_window_new (GTK_WINDOW_POPUP);
+	vbox = gtk_vbox_new (TRUE, 0);
+	for (i = 0; i < text->num_lines; i++) {
+		gchar *linetext;
+
+		linetext = g_strndup (lines->text, lines->length);
+		label = gtk_label_new (linetext);
+		g_free (linetext);
+		gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
+		gtk_box_pack_start (GTK_BOX (vbox), label, TRUE, TRUE, 0);
+		lines++;
+	}
+
+	gtk_widget_show_all (vbox);
+	gtk_container_add (GTK_CONTAINER (text->tooltip_window), vbox);
+	gtk_widget_realize (text->tooltip_window);
+	tip_w = text->tooltip_window->allocation.width;
+	tip_h = text->tooltip_window->allocation.height;
+
+	/* Stay on screen */
+	x = pointer_x + tip_w <= scr_w ? pointer_x : scr_w - tip_w; 
+	y = pointer_y + tip_h + 1 <= scr_h ? pointer_y + 1: pointer_y - tip_h;
+	gtk_widget_popup (text->tooltip_window, x, y);
+
+	return FALSE;
+}
+
 static gint
 e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 {
@@ -1951,6 +1993,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		}
 		break;
 	case GDK_ENTER_NOTIFY:
+		text->tooltip_timeout = gtk_timeout_add (3000, _do_tooltip, text);
 		text->pointer_in = TRUE;
 		if (text->editing) {
 			if ( text->default_cursor_shown ) {
@@ -1960,6 +2003,12 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		}
 		break;
 	case GDK_LEAVE_NOTIFY:
+		gtk_timeout_remove (text->tooltip_timeout);
+		if (text->tooltip_window) {
+			gtk_widget_destroy (text->tooltip_window);
+			text->tooltip_window = NULL;
+		}
+
 		text->pointer_in = FALSE;
 		if (text->editing) {
 			if ( ! text->default_cursor_shown ) {

@@ -173,6 +173,9 @@ struct _EText {
 
 	GdkCursor *default_cursor;      /* Default cursor (arrow) */
 	GdkCursor *i_cursor;            /* I beam cursor */
+
+	gint tooltip_timeout;           /* Timeout for the tooltip */
+	GtkWidget *tooltip_window;      /* GtkWindow for displaying the tooltip */
 };
 
 struct _ETextClass {
