@@ -1,3 +1,14 @@
+2002-08-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-gui.c (mail_account_gui_save): If we are editing an
+	account, then get the CamelStore associated with the old account
+	info and save it in a struct that we will pass along as user_data
+	to mail_get_store() for the new account url.
+	(add_new_store): If the old account and new account stores are
+	identical, then don't remove the old store from the folder
+	tree. If they are not the same, then remove the old store and add
+	the new store to the folder tree.
+
 2002-07-31  Peter Williams  <peterw@ximian.com>
 
 	* mail-folder-cache.c: Add another bitfield "unsub"
