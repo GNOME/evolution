@@ -1,3 +1,15 @@
+2001-09-26  Federico Mena Quintero  <federico@ximian.com>
+
+	Fixes the GUI part of bug #7892.
+
+	* gui/dialogs/alarm-page.c (get_alarm_duration_string): Return
+	NULL if the duration is zero.
+	(get_alarm_string): Handle duration of zero.  Also, hopefully
+	make the strings be more l10n-friendly.
+
+	* gui/alarm-notify/alarm.c (alarm_ready_cb): I am a moron.  Fix
+	reversed test.
+
 2001-09-26  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/comp-editor.c (comp_editor_destroy): disconnect

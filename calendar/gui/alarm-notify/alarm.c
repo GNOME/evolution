@@ -106,7 +106,7 @@ alarm_ready_cb (gpointer data)
 		 * re-entered and added an alarm of its own, so the timer will
 		 * already be set up.
 		 */
-		if (timeout_id != 0)
+		if (timeout_id == 0)
 			setup_timeout (now);
 	} else
 		g_assert (timeout_id == 0);

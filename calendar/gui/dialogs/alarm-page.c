@@ -293,41 +293,64 @@ clear_widgets (AlarmPage *apage)
 	gtk_clist_clear (GTK_CLIST (priv->list));
 }
 
+/* Builds a string for the duration of the alarm.  If the duration is zero, returns NULL. */
 static char *
 get_alarm_duration_string (struct icaldurationtype *duration)
 {
 	GString *string = g_string_new (NULL);
 	char *ret;
+	gboolean have_something;
 
-	if (duration->days > 1)
+	have_something = FALSE;
+
+	if (duration->days > 1) {
 		g_string_sprintf (string, _("%d days"), duration->days);
-	else if (duration->days == 1)
+		have_something = TRUE;
+	} else if (duration->days == 1) {
 		g_string_append (string, _("1 day"));
+		have_something = TRUE;
+	}
 
-	if (duration->weeks > 1)
+	if (duration->weeks > 1) {
 		g_string_sprintf (string, _("%d weeks"), duration->weeks);
-	else if (duration->weeks == 1)
+		have_something = TRUE;
+	} else if (duration->weeks == 1) {
 		g_string_append (string, _("1 week"));
+		have_something = TRUE;
+	}
 
-	if (duration->hours > 1)
+	if (duration->hours > 1) {
 		g_string_sprintf (string, _("%d hours"), duration->hours);
-	else if (duration->hours == 1)
+		have_something = TRUE;
+	} else if (duration->hours == 1) {
 		g_string_append (string, _("1 hour"));
+		have_something = TRUE;
+	}
 
-	if (duration->minutes > 1)
+	if (duration->minutes > 1) {
 		g_string_sprintf (string, _("%d minutes"), duration->minutes);
-	else if (duration->minutes == 1)
+		have_something = TRUE;
+	} else if (duration->minutes == 1) {
 		g_string_append (string, _("1 minute"));
+		have_something = TRUE;
+	}
 
-	if (duration->seconds > 1)
+	if (duration->seconds > 1) {
 		g_string_sprintf (string, _("%d seconds"), duration->seconds);
-	else if (duration->seconds == 1)
+		have_something = TRUE;
+	} else if (duration->seconds == 1) {
 		g_string_append (string, _("1 second"));
+		have_something = TRUE;
+	}
 
-	ret = string->str;
-	g_string_free (string, FALSE);
-
-	return ret;
+	if (have_something) {
+		ret = string->str;
+		g_string_free (string, FALSE);
+		return ret;
+	} else {
+		g_string_free (string, TRUE);
+		return NULL;
+	}
 }
 
 static char *
@@ -365,7 +388,7 @@ get_alarm_string (CalComponentAlarm *alarm)
 	case CAL_ALARM_NONE:
 	case CAL_ALARM_UNKNOWN:
 	default:
-		base = _("Unknown");
+		base = _("Unknown action to be performed");
 		break;
 	}
 
@@ -375,33 +398,58 @@ get_alarm_string (CalComponentAlarm *alarm)
 	case CAL_ALARM_TRIGGER_RELATIVE_START:
 		dur = get_alarm_duration_string (&trigger.u.rel_duration);
 
-		if (trigger.u.rel_duration.is_neg)
-			str = g_strdup_printf ("%s %s %s", base, dur,
-					       _("before start of appointment"));
-		else
-			str = g_strdup_printf ("%s %s %s", base, dur,
-					       _("after start of appointment"));
+		if (dur) {
+			if (trigger.u.rel_duration.is_neg)
+				str = g_strdup_printf (_("%s %s before the start of the appointment"),
+						       base, dur);
+			else
+				str = g_strdup_printf (_("%s %s after the start of the appointment"),
+						       base, dur);
 
-		g_free (dur);
+			g_free (dur);
+		} else
+			str = g_strdup_printf (_("%s at the start of the appointment"), base);
+
 		break;
 
 	case CAL_ALARM_TRIGGER_RELATIVE_END:
 		dur = get_alarm_duration_string (&trigger.u.rel_duration);
 
-		if (trigger.u.rel_duration.is_neg)
-			str = g_strdup_printf ("%s %s %s", base, dur,
-					       _("before end of appointment"));
-		else
-			str = g_strdup_printf ("%s %s %s", base, dur,
-					       _("after end of appointment"));
+		if (dur) {
+			if (trigger.u.rel_duration.is_neg)
+				str = g_strdup_printf (_("%s %s before the end of the appointment"),
+						       base, dur);
+			else
+				str = g_strdup_printf (_("%s %s after the end of the appointment"),
+						       base, dur);
 
-		g_free (dur);
+			g_free (dur);
+		} else
+			str = g_strdup_printf (_("%s at the end of the appointment"), base);
+
 		break;
+
+	case CAL_ALARM_TRIGGER_ABSOLUTE: {
+		time_t t;
+		struct tm tm;
+		char *date;
+
+		t = icaltime_as_timet (trigger.u.abs_time);
+		if (t == -1)
+			date = g_strdup_printf (_("%s at an unknown time"), base);
+		else {
+			char buf[256];
+
+			tm = *localtime (&t);
+			strftime (buf, sizeof (buf), "%A %b %d %Y %H:%M", &tm);
+			date = g_strdup_printf (_("%s at %s"), base, buf);
+		}
+
+		break; }
+
 	case CAL_ALARM_TRIGGER_NONE:
-	case CAL_ALARM_TRIGGER_ABSOLUTE:
 	default:
-		str = g_strdup_printf ("%s %s", base,
-				       _("Unknown"));
+		str = g_strdup_printf (_("%s for an unknown trigger type"), base);
 		break;
 	}
 
@@ -441,7 +489,7 @@ alarm_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	GList *alarms, *l;
 	GtkCList *clist;
 	CompEditorPageDates dates;
-	
+
 	apage = ALARM_PAGE (page);
 	priv = apage->priv;
 
@@ -536,7 +584,7 @@ alarm_page_set_summary (CompEditorPage *page, const char *summary)
 	AlarmPage *apage;
 	AlarmPagePrivate *priv;
 	gchar *s;
-	
+
 	apage = ALARM_PAGE (page);
 	priv = apage->priv;
 
@@ -576,7 +624,7 @@ get_widgets (AlarmPage *apage)
 
 	gtk_widget_ref (priv->main);
 	gtk_widget_unparent (priv->main);
-	
+
 	priv->summary = GW ("summary");
 	priv->date_time = GW ("date-time");
 
@@ -613,10 +661,10 @@ field_changed_cb (GtkWidget *widget, gpointer data)
 {
 	AlarmPage *apage;
 	AlarmPagePrivate *priv;
-	
+
 	apage = ALARM_PAGE (data);
 	priv = apage->priv;
-	
+
 	if (!priv->updating)
 		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (apage));
 }
@@ -644,7 +692,7 @@ add_clicked_cb (GtkButton *button, gpointer data)
 
 	switch (e_dialog_option_menu_get (priv->value_units, value_map)) {
 	case MINUTES:
-		trigger.u.rel_duration.minutes = 
+		trigger.u.rel_duration.minutes =
 			e_dialog_spin_get_int (priv->interval_value);
 		break;
 
