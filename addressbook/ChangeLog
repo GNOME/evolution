@@ -1,3 +1,16 @@
+2001-06-28  Chris Toshok  <toshok@ximian.com>
+
+	* backend/ebook/e-card.c (e_card_get_vobject): add support for
+	X-EVOLUTION-LIST and X-EVOLUTION-LIST-SHOW-ADDRESSES.
+	(parse_list): new function, parse the boolean X-EVOLUTION-LIST.
+	(parse_list_show_addresses): new function, parse the boolean
+	X-EVOLUTION-LIST-SHOW-ADDRESSES.
+	(e_card_class_init): add args for "list" and
+	"list_show_addresses".
+	(e_card_set_arg): add support for list and list_show_addresses.
+	(e_card_get_arg): same.
+	(e_card_init): init list and list_show_addresses.
+
 2001-06-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook-component.c (factory_fn): Pass NULL as

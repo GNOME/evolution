@@ -33,6 +33,8 @@
 
 #define XEV_WANTS_HTML "X-MOZILLA-HTML"
 #define XEV_ARBITRARY "X-EVOLUTION-ARBITRARY"
+#define XEV_LIST "X-EVOLUTION-LIST"
+#define XEV_LIST_SHOW_ADDRESSES "X-EVOLUTION-LIST-SHOW_ADDRESSES"
 
 /* Object argument IDs */
 enum {
@@ -63,6 +65,8 @@ enum {
 	ARG_CATEGORY_LIST,
 	ARG_WANTS_HTML,
 	ARG_WANTS_HTML_SET,
+	ARG_EVOLUTION_LIST,
+	ARG_EVOLUTION_LIST_SHOW_ADDRESSES,
 	ARG_ARBITRARY,
 	ARG_ID,
 };
@@ -106,6 +110,8 @@ static void parse_fburl(ECard *card, VObject *object);
 static void parse_note(ECard *card, VObject *object);
 static void parse_categories(ECard *card, VObject *object);
 static void parse_wants_html(ECard *card, VObject *object);
+static void parse_list(ECard *card, VObject *object);
+static void parse_list_show_addresses(ECard *card, VObject *object);
 static void parse_arbitrary(ECard *card, VObject *object);
 static void parse_id(ECard *card, VObject *object);
 
@@ -145,6 +151,8 @@ struct {
 	{ "CATEGORIES",              parse_categories },
 	{ XEV_WANTS_HTML,            parse_wants_html },
 	{ XEV_ARBITRARY,             parse_arbitrary },
+	{ XEV_LIST,                  parse_list },
+	{ XEV_LIST_SHOW_ADDRESSES,   parse_list_show_addresses },
 	{ VCUniqueStringProp,        parse_id }
 };
 
@@ -444,6 +452,11 @@ e_card_get_vobject (ECard *card)
 
 	if (card->wants_html_set) {
 		addPropValue (vobj, XEV_WANTS_HTML, card->wants_html ? "TRUE" : "FALSE");
+	}
+
+	if (card->list) {
+		addPropValue (vobj, XEV_LIST, "TRUE");
+		addPropValue (vobj, XEV_LIST_SHOW_ADDRESSES, card->list_show_addresses ? "TRUE" : "FALSE");
 	}
 
 	if (card->arbitrary) {
@@ -893,6 +906,36 @@ parse_wants_html(ECard *card, VObject *vobj)
 	}
 }
 
+static void
+parse_list(ECard *card, VObject *vobj)
+{
+	if ( vObjectValueType (vobj) ) {
+		char *str = fakeCString (vObjectUStringZValue (vobj));
+		if (!strcasecmp(str, "true")) {
+			card->list = TRUE;
+		}
+		if (!strcasecmp(str, "false")) {
+			card->list = FALSE;
+		}
+		free(str);
+	}
+}
+
+static void
+parse_list_show_addresses(ECard *card, VObject *vobj)
+{
+	if ( vObjectValueType (vobj) ) {
+		char *str = fakeCString (vObjectUStringZValue (vobj));
+		if (!strcasecmp(str, "true")) {
+			card->list_show_addresses = TRUE;
+		}
+		if (!strcasecmp(str, "false")) {
+			card->list_show_addresses = FALSE;
+		}
+		free(str);
+	}
+}
+
 typedef union ValueItem {
     const char *strs;
     const wchar_t *ustrs;
@@ -1048,6 +1091,10 @@ e_card_class_init (ECardClass *klass)
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_WANTS_HTML);
 	gtk_object_add_arg_type ("ECard::wants_html_set",
 				 GTK_TYPE_BOOL, GTK_ARG_READABLE, ARG_WANTS_HTML);
+	gtk_object_add_arg_type ("ECard::list",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_EVOLUTION_LIST);
+	gtk_object_add_arg_type ("ECard::list_show_addresses",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_EVOLUTION_LIST_SHOW_ADDRESSES);
 	gtk_object_add_arg_type ("ECard::arbitrary",
 				 GTK_TYPE_OBJECT, GTK_ARG_READWRITE, ARG_ARBITRARY);
 	gtk_object_add_arg_type ("ECard::id",
@@ -1771,6 +1818,12 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		g_free(card->id);
 		card->id = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
+	case ARG_EVOLUTION_LIST:
+		card->list = GTK_VALUE_BOOL(*arg);
+		break;
+	case ARG_EVOLUTION_LIST_SHOW_ADDRESSES:
+		card->list_show_addresses = GTK_VALUE_BOOL(*arg);
+		break;
 	default:
 		return;
 	}
@@ -1911,6 +1964,12 @@ e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_ID:
 		GTK_VALUE_STRING(*arg) = card->id;
 		break;
+	case ARG_EVOLUTION_LIST:
+		GTK_VALUE_BOOL(*arg) = card->list;
+		break;
+	case ARG_EVOLUTION_LIST_SHOW_ADDRESSES:
+		GTK_VALUE_BOOL(*arg) = card->list_show_addresses;
+		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
 		break;
@@ -1951,6 +2010,8 @@ e_card_init (ECard *card)
 	card->categories = NULL;
 	card->wants_html = FALSE;
 	card->wants_html_set = FALSE;
+	card->list = FALSE;
+	card->list_show_addresses = FALSE;
 	card->arbitrary = NULL;
 #if 0
 
@@ -3810,4 +3871,16 @@ e_card_send (ECard *card, ECardDisposition disposition)
 	list = g_list_prepend (NULL, card);
 	e_card_list_send (list, disposition);
 	g_list_free (list);
+}
+
+gboolean
+e_card_evolution_list (ECard *card)
+{
+	return card->list;
+}
+
+gboolean
+e_card_evolution_list_show_addresses (ECard *card)
+{
+	return card->list_show_addresses;
 }

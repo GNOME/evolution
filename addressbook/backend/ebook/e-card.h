@@ -74,6 +74,10 @@ struct _ECard {
 	guint32         wants_html : 1; /* Wants html mail. */
 	guint32         wants_html_set : 1; /* Wants html mail. */
 
+	guint32		list : 1; /* If the card corresponds to a contact list */
+	guint32		list_show_addresses : 1; /* Whether to show the addresses
+						    in the To: or Bcc: field */
+
 #if 0
 	ECardPhoto      *logo;          /* This person's org's logo.        */
 
@@ -114,6 +118,10 @@ void                  e_card_set_id                       (ECard                
 char                 *e_card_get_vcard                    (ECard                      *card);
 char                 *e_card_list_get_vcard               (GList                      *list);
 ECard                *e_card_duplicate                    (ECard                      *card);
+
+/* Evolution List convenience functions */
+gboolean              e_card_evolution_list               (ECard                      *card);
+gboolean              e_card_evolution_list_show_addresses(ECard                      *card);
 
 /* ECardPhone manipulation */
 ECardPhone           *e_card_phone_new                    (void);
