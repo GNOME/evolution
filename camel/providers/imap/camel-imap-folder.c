@@ -513,9 +513,6 @@ imap_rescan (CamelFolder *folder, int exists, CamelException *ex)
 		g_datalist_clear (&data);
 	}
 	
-	/* Free the final tagged response */
-	g_free (resp);
-	
 	camel_operation_end (NULL);
 	if (type == CAMEL_IMAP_RESPONSE_ERROR) {
 		for (i = 0; i < summary_len && new[i].uid; i++)
@@ -523,6 +520,9 @@ imap_rescan (CamelFolder *folder, int exists, CamelException *ex)
 		g_free (new);
 		return;
 	}
+	
+	/* Free the final tagged response */
+	g_free (resp);
 	
 	/* If we find a UID in the summary that doesn't correspond to
 	 * the UID in the folder, then either: (a) it's a real UID,

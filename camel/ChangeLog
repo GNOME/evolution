@@ -1,5 +1,14 @@
 2002-05-31  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-folder.c (imap_rescan): Revert my fix
+	from the other day since camel_imap_command_response() doesn't
+	guarentee that resp will be set to NULL on error.
+
+	* providers/imap/camel-imap-command.c
+	(camel_imap_command_response): Use a different variable to get the
+	return of imap_parse_untagged so that we don't lose the pointer to
+	the original malloc'd respbuf buffer.
+
 	* camel-data-cache.c (camel_data_cache_get): If we fail to be able
 	to create a stream to insert into the cache, then free the 'real'
 	path.

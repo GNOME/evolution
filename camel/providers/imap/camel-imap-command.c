@@ -288,7 +288,7 @@ camel_imap_command_response (CamelImapStore *store, char **response,
 			     CamelException *ex)
 {
 	CamelImapResponseType type;
-	char *respbuf;
+	char *respbuf, *untagged;
 	
 	if (camel_imap_store_readline (store, &respbuf, ex) < 0) {
 		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
@@ -312,9 +312,12 @@ camel_imap_command_response (CamelImapStore *store, char **response,
 		
 		/* Read the rest of the response. */
 		type = CAMEL_IMAP_RESPONSE_UNTAGGED;
-		respbuf = imap_read_untagged (store, respbuf, ex);
-		if (!respbuf)
+		untagged = imap_read_untagged (store, respbuf, ex);
+		if (!untagged) {
 			type = CAMEL_IMAP_RESPONSE_ERROR;
+			g_free (respbuf);
+			respbuf = NULL;
+		}
 		
 		break;
 	case '+':
