@@ -1,3 +1,18 @@
+2004-01-26  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes #53238 ]
+	* util/eab-destination.c (nonempty): make this accept NULL's (and
+	return FALSE for them).
+	(eab_destination_is_empty): shorten some of the tests since
+	nonempty takes NULL now.
+	(eab_destination_get_address): only call
+	camel_internet_address_add if both name and email are non-empty.
+	otherwise call camel_address_decode and let camel try to deal with
+	it.
+	(eab_destination_xml_encode): call xmlEncodeEntitiesReentrant on
+	the strings before adding them to the xml, so people that enter
+	[<>&] won't end up with broken EABDestinations.
+
 2004-01-26  Radek Doulik  <rodo@ximian.com>
 
 	* gui/widgets/e-addressbook-view.c (selection_received): make sure

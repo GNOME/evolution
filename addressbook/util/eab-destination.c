@@ -310,6 +310,8 @@ static gboolean
 nonempty (const gchar *s)
 {
 	gunichar c;
+	if (s == NULL)
+		return FALSE;
 	while (*s) {
 		c = g_utf8_get_char (s);
 		if (!g_unichar_isspace (c))
@@ -332,10 +334,10 @@ eab_destination_is_empty (const EABDestination *dest)
 	return !(p->contact != NULL
 		 || (p->book_uri && *p->book_uri)
 		 || (p->uid && *p->uid)
-		 || (p->raw && nonempty (p->raw))
-		 || (p->name && nonempty (p->name))
-		 || (p->email && nonempty (p->email))
-		 || (p->addr && nonempty (p->addr))
+		 || (nonempty (p->raw))
+		 || (nonempty (p->name))
+		 || (nonempty (p->email))
+		 || (nonempty (p->addr))
 		 || (p->list_dests != NULL));
 }
 
@@ -757,9 +759,17 @@ eab_destination_get_address (const EABDestination *dest)
 				EABDestination *list_dest = EAB_DESTINATION (iter->data);
 				
 				if (!eab_destination_is_empty (list_dest)) {
-					camel_internet_address_add (addr, 
-								    eab_destination_get_name (list_dest),
-								    eab_destination_get_email (list_dest));
+					const char *name, *email;
+					name = eab_destination_get_name (list_dest);
+					email = eab_destination_get_email (list_dest);
+
+					if (nonempty (name) && nonempty (email))
+						camel_internet_address_add (addr, name, email);
+					else if (nonempty (email))
+						camel_address_decode (CAMEL_ADDRESS (addr), email);
+					else /* this case loses i suppose, but there's
+						nothing we can do here */
+						camel_address_decode (CAMEL_ADDRESS (addr), name);
 				}
 				iter = g_list_next (iter);
 			}
@@ -771,9 +781,17 @@ eab_destination_get_address (const EABDestination *dest)
 				priv->addr = camel_address_encode (CAMEL_ADDRESS (addr));
 			}
 		} else {
-			camel_internet_address_add (addr,
-						    eab_destination_get_name (dest),
-						    eab_destination_get_email (dest));
+			const char *name, *email;
+			name = eab_destination_get_name (dest);
+			email = eab_destination_get_email (dest);
+
+			if (nonempty (name) && nonempty (email))
+				camel_internet_address_add (addr, name, email);
+			else if (nonempty (email))
+				camel_address_decode (CAMEL_ADDRESS (addr), email);
+			else /* this case loses i suppose, but there's
+				nothing we can do here */
+				camel_address_decode (CAMEL_ADDRESS (addr), name);
 			
 			priv->addr = camel_address_encode (CAMEL_ADDRESS (addr));
 		}
@@ -1136,14 +1154,20 @@ eab_destination_xml_encode (const EABDestination *dest)
 		while (iter) {
 			EABDestination *list_dest = EAB_DESTINATION (iter->data);
 			xmlNodePtr list_node = xmlNewNode (NULL, "list_entry");
-			
+
 			str = eab_destination_get_name (list_dest);
-			if (str)
-				xmlNewTextChild (list_node, NULL, "name", str);
+			if (str) {
+				char *escaped = xmlEncodeEntitiesReentrant (NULL, str);
+				xmlNewTextChild (list_node, NULL, "name", escaped);
+				xmlFree (escaped);
+			}
 			
 			str = eab_destination_get_email (list_dest);
-			if (str)
+			if (str) {
+				char *escaped = xmlEncodeEntitiesReentrant (NULL, str);
 				xmlNewTextChild (list_node, NULL, "email", str);
+				xmlFree (escaped);
+			}
 			
 			xmlAddChild (dest_node, list_node);
 			
@@ -1157,7 +1181,9 @@ eab_destination_xml_encode (const EABDestination *dest)
 	
 	str = eab_destination_get_book_uri (dest);
 	if (str) {
+		char *escaped = xmlEncodeEntitiesReentrant (NULL, str);
 		xmlNewTextChild (dest_node, NULL, "book_uri", str);
+		xmlFree (escaped);
 	}
 	
 	str = eab_destination_get_contact_uid (dest);
