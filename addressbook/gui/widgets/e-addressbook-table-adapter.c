@@ -258,12 +258,19 @@ create_contact (EABModel *model,
 }
 
 static void
-remove_contact (EABModel *model,
-		gint index,
+remove_contacts (EABModel *model,
+		gpointer data,
 		EAddressbookTableAdapter *adapter)
 {
+	GArray *indices = (GArray *) data;
+	int count = indices->len;
+	
+	
 	e_table_model_pre_change (E_TABLE_MODEL (adapter));
-	e_table_model_rows_deleted (E_TABLE_MODEL (adapter), index, 1);
+	if (count == 1) 
+		e_table_model_rows_deleted (E_TABLE_MODEL (adapter), g_array_index (indices, gint, 0), 1);
+	else
+		e_table_model_changed (E_TABLE_MODEL (adapter));
 }
 
 static void
@@ -321,8 +328,8 @@ eab_table_adapter_construct (EAddressbookTableAdapter *adapter,
 						   G_CALLBACK(create_contact),
 						   adapter);
 	priv->remove_contact_id = g_signal_connect(priv->model,
-						   "contact_removed",
-						   G_CALLBACK(remove_contact),
+						   "contacts_removed",
+						   G_CALLBACK(remove_contacts),
 						   adapter);
 	priv->modify_contact_id = g_signal_connect(priv->model,
 						   "contact_changed",

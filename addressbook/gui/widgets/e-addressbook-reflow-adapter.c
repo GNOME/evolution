@@ -259,11 +259,18 @@ create_contact (EABModel *model,
 }
 
 static void
-remove_contact (EABModel *model,
-		gint index,
+remove_contacts (EABModel *model,
+		gpointer data,
 		EAddressbookReflowAdapter *adapter)
 {
-	e_reflow_model_item_removed (E_REFLOW_MODEL (adapter), index);
+	GArray *indices = (GArray *) data;
+	int count = indices->len;
+	
+	if (count == 1)
+		e_reflow_model_item_removed (E_REFLOW_MODEL (adapter), g_array_index (indices, gint, 0));
+	else 
+		e_reflow_model_changed (E_REFLOW_MODEL (adapter));
+	
 }
 
 static void
@@ -472,8 +479,8 @@ e_addressbook_reflow_adapter_construct (EAddressbookReflowAdapter *adapter,
 						G_CALLBACK(create_contact),
 						adapter);
 	priv->remove_contact_id = g_signal_connect(priv->model,
-						"contact_removed",
-						G_CALLBACK(remove_contact),
+						"contacts_removed",
+						G_CALLBACK(remove_contacts),
 						adapter);
 	priv->modify_contact_id = g_signal_connect(priv->model,
 						"contact_changed",

@@ -99,7 +99,7 @@ static void stop_state_changed (GtkObject *object, EABView *eav);
 static void writable_status    (GtkObject *object, gboolean writable, EABView *eav);
 static void backend_died       (GtkObject *object, EABView *eav);
 static void contact_changed    (EABModel *model, gint index, EABView *eav);
-static void contact_removed    (EABModel *model, gint index, EABView *eav);
+static void contacts_removed    (EABModel *model, gpointer data, EABView *eav);
 static GList *get_selected_contacts (EABView *view);
 
 static void command_state_change (EABView *eav);
@@ -436,8 +436,8 @@ eab_view_new (void)
 			  G_CALLBACK (backend_died), eav);
 	g_signal_connect (eav->model, "contact_changed",
 			  G_CALLBACK (contact_changed), eav);
-	g_signal_connect (eav->model, "contact_removed",
-			  G_CALLBACK (contact_removed), eav);
+	g_signal_connect (eav->model, "contacts_removed",
+			  G_CALLBACK (contacts_removed), eav);
 
 	eav->editable = FALSE;
 	eav->query = g_strdup (SHOW_ALL_SEARCH);
@@ -1189,13 +1189,23 @@ contact_changed (EABModel *model, gint index, EABView *eav)
 }
 
 static void
-contact_removed (EABModel *model, gint index, EABView *eav)
+contacts_removed (EABModel *model, gpointer data, EABView *eav)
 {
-	if (eav->displayed_contact == index) {
-		/* if the contact that's presently displayed is changed, clear the display */
-		eab_contact_display_render (EAB_CONTACT_DISPLAY (eav->contact_display), NULL,
-					    EAB_CONTACT_DISPLAY_RENDER_NORMAL);
-		eav->displayed_contact = -1;
+	GArray *indices = (GArray *) data;
+	int count = indices->len;
+	gint i;
+
+	for (i = 0; i < count; i ++) {
+	
+		
+		if (eav->displayed_contact == g_array_index (indices, gint, i)) {
+			
+			/* if the contact that's presently displayed is changed, clear the display */
+			eab_contact_display_render (EAB_CONTACT_DISPLAY (eav->contact_display), NULL,
+						    EAB_CONTACT_DISPLAY_RENDER_NORMAL);
+			eav->displayed_contact = -1;
+			break;
+		}
 	}
 }
 

@@ -53,7 +53,7 @@ struct _EABModelClass {
 	void (*status_message)     (EABModel *model, const gchar *message);
 	void (*folder_bar_message) (EABModel *model, const gchar *message);
 	void (*contact_added)      (EABModel *model, gint index, gint count);
-	void (*contact_removed)    (EABModel *model, gint index);
+	void (*contacts_removed)    (EABModel *model, gpointer id_list);
 	void (*contact_changed)    (EABModel *model, gint index);
 	void (*model_changed)      (EABModel *model);
 	void (*stop_state_changed) (EABModel *model);

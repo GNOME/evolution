@@ -1,3 +1,32 @@
+2005-01-21 Sivaiah Nallagatla <snallagatla@novell.com>
+
+       * gui/widgets/e-addressbook-model.[ch]
+       (eab_model_class_init) : renamed the signal
+       CONTACT_REMOVED to CONTACTS_REMOVED and chaned
+       the param type POINTER from INT
+       (remove_contact) : delete all the contacts
+       from the model and emit CONATCTS_REMOVED
+       signal instead of emitting it many times
+
+       * gui/widgets/e-addressbook-reflow-adpater.c
+       (e_addressbook_reflow_adapter_construct)
+       (remove_contacts) : renamed remove_contact to remove_contacts
+       and when number of conacts is more than 1 use _model_changed
+       instead of _remove_item
+
+       * gui/widgets/e-addressbook-table-adapter.c
+       (eab_table_adapter_construct)
+       (remove_contacts) : ditto
+
+       * gui/widgets/e-addressbook-view.c
+       (eab_view_new) :
+       (contacts_removed) : renamed contact_removed
+       to contacts_removed and traverese over indices
+       to find displayed contact indiex
+
+       fixes #71448
+
+
 2005-01-21  Rodney Dawes  <dobey@novell.com>
 
 	* gui/contact-editor/e-contact-quick-add.c (build_quick_add_dialog):

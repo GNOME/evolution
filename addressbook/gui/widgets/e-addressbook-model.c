@@ -42,7 +42,7 @@ enum {
 	SEARCH_RESULT,
 	FOLDER_BAR_MESSAGE,
 	CONTACT_ADDED,
-	CONTACT_REMOVED,
+	CONTACTS_REMOVED,
 	CONTACT_CHANGED,
 	MODEL_CHANGED,
 	STOP_STATE_CHANGED,
@@ -191,9 +191,11 @@ remove_contact(EBookView *book_view,
 	       EABModel *model)
 {
 	/* XXX we should keep a hash around instead of this O(n*m) loop */
-	int i = 0;
+	gint i = 0;
 	GList *l;
+	GArray *indices;
 
+	indices = g_array_new (FALSE, FALSE, sizeof (gint));
 	for (l = ids; l; l = l->next) {
 		char *id = l->data;
 		for ( i = 0; i < model->data_count; i++) {
@@ -201,16 +203,15 @@ remove_contact(EBookView *book_view,
 				g_object_unref (model->data[i]);
 				memmove(model->data + i, model->data + i + 1, (model->data_count - i - 1) * sizeof (EContact *));
 				model->data_count--;
-
-				g_signal_emit (model,
-					       eab_model_signals [CONTACT_REMOVED], 0,
-					       i);
-
+				g_array_append_val (indices, i);
 				break;
 			}
 		}
 	}
-
+	g_signal_emit (model,
+		       eab_model_signals [CONTACTS_REMOVED], 0,
+		       indices);
+	g_array_free (indices, FALSE);
 	update_folder_bar_message (model);
 }
 
@@ -367,14 +368,14 @@ eab_model_class_init (GObjectClass *object_class)
 			      eab_marshal_NONE__INT_INT,
 			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
 
-	eab_model_signals [CONTACT_REMOVED] =
-		g_signal_new ("contact_removed",
+	eab_model_signals [CONTACTS_REMOVED] =
+		g_signal_new ("contacts_removed",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EABModelClass, contact_removed),
+			      G_STRUCT_OFFSET (EABModelClass, contacts_removed),
 			      NULL, NULL,
-			      eab_marshal_NONE__INT,
-			      G_TYPE_NONE, 1, G_TYPE_INT);
+			      eab_marshal_NONE__POINTER,
+			      G_TYPE_NONE, 1, G_TYPE_POINTER);
 
 	eab_model_signals [CONTACT_CHANGED] =
 		g_signal_new ("contact_changed",
