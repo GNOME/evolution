@@ -1,3 +1,7 @@
+2004-06-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* POTFILES.in: Added filter-errors.xml.h
+
 2004-06-18  Not Zed  <NotZed@Ximian.com>
 
 	* POTFILES.in: fix up for mail glade ifle changes.
