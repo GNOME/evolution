@@ -1,3 +1,12 @@
+2001-10-29  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-view.c (e_shell_view_construct): Ref the shell.
+	(destroy): Unref the shell.
+	(destroy): Free the delayed_selection.  No need to call
+	`cleanup_delayed_selection()' as the signal handler will have
+	already be disconnected at this point [as we are using
+	connect_while_alive()'].
+
 2001-10-28  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-view.c (destroy): Call `cleanup_delayed_selection()' as

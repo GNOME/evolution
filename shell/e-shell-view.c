@@ -51,6 +51,8 @@
 #include "widgets/misc/e-clipped-label.h"
 #include "widgets/misc/e-bonobo-widget.h"
 
+#include "e-util/e-gtk-utils.h"
+
 #include "evolution-shell-view.h"
 
 #include "e-gray-bar.h"
@@ -90,9 +92,8 @@ struct _EShellViewPrivate {
 	/* Currently displayed URI.  */
 	char *uri;
 
-	/* delayed selection, used when a path doesn't exist in an
-           EStorage.  cleared when we're signaled with
-           "folder_selected" */
+	/* Delayed selection, used when a path doesn't exist in an EStorage.
+           Cleared when we're signaled with "folder_selected".  */
 	char *delayed_selection;
 
 	/* uri to go to at timeout */
@@ -1102,9 +1103,10 @@ destroy (GtkObject *object)
 	shell_view = E_SHELL_VIEW (object);
 	priv = shell_view->priv;
 
-	cleanup_delayed_selection (shell_view);
-
 	gtk_object_unref (GTK_OBJECT (priv->tooltips));
+
+	if (priv->shell != NULL)
+		bonobo_object_unref (BONOBO_OBJECT (priv->shell));
 
 	if (priv->corba_interface != NULL)
 		bonobo_object_unref (BONOBO_OBJECT (priv->corba_interface));
@@ -1133,6 +1135,8 @@ destroy (GtkObject *object)
 		gtk_timeout_remove (priv->set_folder_timeout);
 
 	g_free (priv->set_folder_uri);
+
+	g_free (priv->delayed_selection);
 
 	g_free (priv);
 
@@ -1371,6 +1375,7 @@ e_shell_view_construct (EShellView *shell_view,
 	}		
 
 	priv->shell = shell;
+	bonobo_object_ref (BONOBO_OBJECT (priv->shell));
 
 	gtk_signal_connect (GTK_OBJECT (view), "delete_event",
 			    GTK_SIGNAL_FUNC (delete_event_cb), NULL);
@@ -2029,7 +2034,7 @@ e_shell_view_display_uri (EShellView *shell_view,
 		e_gtk_signal_connect_full_while_alive (GTK_OBJECT (e_shell_get_storage_set (priv->shell)), "new_folder",
 						       GTK_SIGNAL_FUNC (new_folder_cb), NULL,
 						       shell_view, NULL,
-						       NULL, TRUE,
+						       FALSE, TRUE,
 						       GTK_OBJECT (shell_view));
 		retval = FALSE;
 		goto end;

@@ -914,8 +914,10 @@ destroy (GtkObject *object)
 
 	g_free (priv->local_directory);
 
-	if (priv->storage_set != NULL)
+	if (priv->storage_set != NULL) {
 		gtk_object_unref (GTK_OBJECT (priv->storage_set));
+		priv->storage_set = NULL;
+	}
 
 	if (priv->local_storage != NULL)
 		gtk_object_unref (GTK_OBJECT (priv->local_storage));
