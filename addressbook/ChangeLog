@@ -1,3 +1,11 @@
+2005-01-21  Hans Petter Jansson  <hpj@novell.com>
+
+	* gui/contact-editor/e-contact-quick-add.c (quick_add_set_name)
+	(quick_add_set_email): Don't set properties on the contact immediately.
+	(clicked_cb): Set the properties on the contact immediately before
+	passing it on. This way, the FULL_NAME will only be set once, and so
+	the FILE_AS field will be updated here.
+
 2005-01-21 Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* gui/component/addressbook-config.c 
