@@ -380,6 +380,7 @@ e_shell_folder_title_bar_construct (EShellFolderTitleBar *folder_title_bar)
 	widget = GTK_WIDGET (folder_title_bar);
 
 	priv->label = gtk_label_new ("");
+	gtk_misc_set_padding (GTK_MISC (priv->label), 5, 0);
 	gtk_misc_set_alignment (GTK_MISC (priv->label), 0.0, 0.5);
 
 	priv->folder_bar_label = gtk_label_new ("");
@@ -387,7 +388,7 @@ e_shell_folder_title_bar_construct (EShellFolderTitleBar *folder_title_bar)
 	gtk_widget_show (priv->folder_bar_label);
 
 	priv->button_label = gtk_label_new ("");
-	gtk_misc_set_padding (GTK_MISC (priv->button_label), 5, 0);
+	gtk_misc_set_padding (GTK_MISC (priv->button_label), 2, 0);
 	gtk_misc_set_alignment (GTK_MISC (priv->button_label), 0.0, 0.5);
 	gtk_widget_show (priv->button_label);
 

@@ -1,3 +1,15 @@
+2001-07-19  Jason Leach  <jleach@ximian.com>
+
+	* e-shell-folder-title-bar.c (e_shell_folder_title_bar_construct):
+	Line up the padding for the folder title bar labels when you have
+	the folder bar enabled or disabled (previously when disabled it
+	was padding ~8 pixels to the right while the other had 0).
+
+	* e-shell-view.c (setup_widgets): Take out a 2 pixel padding
+	around the vbox containing the title bar, folder bar, message list
+	and mail display.  Also remove 2 more extra pixels of padding on
+	the bottom.
+
 2001-07-16  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shortcuts.c
