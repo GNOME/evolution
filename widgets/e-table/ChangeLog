@@ -1,3 +1,15 @@
+2000-08-02  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table-model.c, e-table-model.h: Changed the API for the
+	append_row function.  Now accepts a model to copy data from
+	instead of returning a row number and leaving it up to ETableOne
+	to copy the data in.
+
+	* e-table-one.c, e-table-one.h: Adapted to use new append_row API.
+
+	* e-table-simple.c, e-table-simple.h, e-table-subset.c: Adapted to
+	supply new append_row API.
+
 2000-07-31  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table-col.c, e-table-col.h: Added an argument to set a column

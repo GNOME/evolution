@@ -216,7 +216,7 @@ e_table_one_new (ETableModel *source)
 	return (ETableModel *) eto;
 }
 
-gint
+void
 e_table_one_commit (ETableOne *one)
 {
 	if (one->source) {
@@ -229,16 +229,8 @@ e_table_one_commit (ETableOne *one)
 				break;
 			}
 		}
-
 		if (!empty) {
-			int row = e_table_model_append_row(one->source);
-			if (row != -1) {
-				for (col = 0; col < cols; col++) {
-					e_table_model_set_value_at(one->source, col, row, one->data[col]);
-				}
-			}
-			return row;
+			e_table_model_append_row(one->source, E_TABLE_MODEL(one), 0);
 		}
 	}
-	return -1;
 }

@@ -85,16 +85,14 @@ e_table_model_is_cell_editable (ETableModel *e_table_model, int col, int row)
 	return ETM_CLASS (e_table_model)->is_cell_editable (e_table_model, col, row);
 }
 
-gint
-e_table_model_append_row (ETableModel *e_table_model)
+void
+e_table_model_append_row (ETableModel *e_table_model, ETableModel *source, int row)
 {
-	g_return_val_if_fail (e_table_model != NULL, -1);
-	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), -1);
+	g_return_if_fail (e_table_model != NULL);
+	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 
 	if (ETM_CLASS (e_table_model)->append_row)
-		return ETM_CLASS (e_table_model)->append_row (e_table_model);
-	else
-		return -1;
+		ETM_CLASS (e_table_model)->append_row (e_table_model, source, row);
 }
 
 void *

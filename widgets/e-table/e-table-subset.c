@@ -81,21 +81,11 @@ etss_is_cell_editable (ETableModel *etm, int col, int row)
 	return e_table_model_is_cell_editable (etss->source, col, etss->map_table [row]);
 }
 
-static gint
-etss_append_row (ETableModel *etm)
+static void
+etss_append_row (ETableModel *etm, ETableModel *source, int row)
 {
 	ETableSubset *etss = (ETableSubset *)etm;
-	gint source_row = e_table_model_append_row (etss->source);
-	const int n = etss->n_map;
-	const int * const map_table = etss->map_table;
-	int i;
-
-	for (i = 0; i < n; i++){
-		if (map_table [i] == source_row){
-			return i;
-		}
-	}
-	return -1;
+	e_table_model_append_row (etss->source, source, row);
 }
 
 static void *

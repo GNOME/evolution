@@ -24,7 +24,7 @@ typedef struct {
 GtkType e_table_one_get_type (void);
 
 ETableModel *e_table_one_new (ETableModel *source);
-gint         e_table_one_commit (ETableOne *one);
+void         e_table_one_commit (ETableOne *one);
 
 #endif /* _E_TABLE_ONE_H_ */
 

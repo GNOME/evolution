@@ -127,15 +127,13 @@ simple_value_to_string (ETableModel *etm, int col, const void *value)
 		return g_strdup ("");
 }
 
-static int
-simple_append_row (ETableModel *etm)
+static void
+simple_append_row (ETableModel *etm, ETableModel *source, int row)
 {
 	ETableSimple *simple = E_TABLE_SIMPLE(etm);
 	
 	if (simple->append_row)
-		return simple->append_row (etm, simple->data);
-	else
-		return -1;
+		simple->append_row (etm, source, row, simple->data);
 }
 
 static void

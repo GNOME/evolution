@@ -15,7 +15,7 @@ typedef	int         (*ETableSimpleRowCountFn)        (ETableModel *etm, void *da
 typedef	void       *(*ETableSimpleValueAtFn)         (ETableModel *etm, int col, int row, void *data);
 typedef	void        (*ETableSimpleSetValueAtFn)      (ETableModel *etm, int col, int row, const void *val, void *data);
 typedef	gboolean    (*ETableSimpleIsCellEditableFn)  (ETableModel *etm, int col, int row, void *data);
-typedef gint        (*ETableSimpleAppendRowFn)       (ETableModel *etm, void *data);
+typedef void        (*ETableSimpleAppendRowFn)       (ETableModel *etm, ETableModel *model, int row, void *data);
 typedef	void       *(*ETableSimpleDuplicateValueFn)  (ETableModel *etm, int col, const void *val, void *data);
 typedef	void        (*ETableSimpleFreeValueFn)       (ETableModel *etm, int col, void *val, void *data);
 typedef void       *(*ETableSimpleInitializeValueFn) (ETableModel *etm, int col, void *data);
