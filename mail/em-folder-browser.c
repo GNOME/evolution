@@ -300,8 +300,12 @@ void em_folder_browser_show_preview(EMFolderBrowser *emfb, gboolean state)
 		gtk_paned_set_position (GTK_PANED (emfb->vpane), paned_size);
 		gtk_widget_show (GTK_WIDGET (emfb->priv->preview));
 
-		if (emfb->view.list->cursor_uid)
-			em_folder_view_set_message(&emfb->view, emfb->view.list->cursor_uid);
+		if (emfb->view.list->cursor_uid) {
+			char *uid = g_alloca(strlen(emfb->view.list->cursor_uid)+1);
+
+			strcpy(uid, emfb->view.list->cursor_uid);
+			em_folder_view_set_message(&emfb->view, uid);
+		}
 
 		/* need to load/show the current message? */
 		/*do_message_selected (emfb);*/
