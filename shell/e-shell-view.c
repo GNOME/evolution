@@ -139,6 +139,8 @@ bonobo_widget_is_dead (BonoboWidget *bonobo_widget)
 
 /* Folder bar pop-up handling.  */
 
+static void disconnect_popup_signals (EShellView *shell_view);
+
 static void
 storage_set_view_box_button_release_event_cb (GtkWidget *widget,
 					      GdkEventButton *button_event,
@@ -155,11 +157,45 @@ storage_set_view_box_button_release_event_cb (GtkWidget *widget,
 
 	e_shell_view_set_folder_bar_mode (shell_view, E_SHELL_VIEW_SUBWINDOW_HIDDEN);
 
+	disconnect_popup_signals (shell_view);
+
+	e_shell_folder_title_bar_set_toggle_state (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar), FALSE);
+}
+
+static void
+popup_storage_set_view_close_button_clicked (ETitleBar *title_bar,
+					     void *data)
+{
+	EShellView *shell_view;
+	EShellViewPrivate *priv;
+
+	shell_view = E_SHELL_VIEW (data);
+	priv = shell_view->priv;
+
+	gdk_pointer_ungrab (GDK_CURRENT_TIME);
+	gtk_grab_remove (priv->storage_set_view_box);
+
+	disconnect_popup_signals (shell_view);
+
+	e_shell_view_set_folder_bar_mode (shell_view, E_SHELL_VIEW_SUBWINDOW_STICKY);
+	e_shell_folder_title_bar_set_toggle_state (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar), FALSE);
+}
+
+static void
+disconnect_popup_signals (EShellView *shell_view)
+{
+	EShellViewPrivate *priv;
+
+	priv = shell_view->priv;
+
 	gtk_signal_disconnect_by_func (GTK_OBJECT (priv->storage_set_view_box),
 				       GTK_SIGNAL_FUNC (storage_set_view_box_button_release_event_cb),
 				       shell_view);
 	gtk_signal_disconnect_by_func (GTK_OBJECT (priv->storage_set_view),
 				       GTK_SIGNAL_FUNC (storage_set_view_box_button_release_event_cb),
+				       shell_view);
+	gtk_signal_disconnect_by_func (GTK_OBJECT (priv->storage_set_title_bar),
+				       GTK_SIGNAL_FUNC (popup_storage_set_view_close_button_clicked),
 				       shell_view);
 }
 
@@ -190,6 +226,8 @@ storage_set_view_box_map_cb (GtkWidget *widget,
 			    GTK_SIGNAL_FUNC (storage_set_view_box_button_release_event_cb), shell_view);
 	gtk_signal_connect (GTK_OBJECT (priv->storage_set_view), "button_release_event",
 			    GTK_SIGNAL_FUNC (storage_set_view_box_button_release_event_cb), shell_view);
+	gtk_signal_connect (GTK_OBJECT (priv->storage_set_title_bar), "close_button_clicked",
+			    GTK_SIGNAL_FUNC (popup_storage_set_view_close_button_clicked), shell_view);
 }
 
 static void
@@ -257,14 +295,18 @@ storage_set_view_close_button_clicked_cb (ETitleBar *title_bar,
 	e_shell_view_set_folder_bar_mode (shell_view, E_SHELL_VIEW_SUBWINDOW_HIDDEN);
 }
 
-/* Callback called when the title bar button has been clicked.  */
+/* Callback called when the title bar button has been pressed.  */
 static void
-title_bar_clicked_cb (EShellFolderTitleBar *title_bar,
+title_bar_toggled_cb (EShellFolderTitleBar *title_bar,
+		      gboolean state,
 		      void *data)
 {
 	EShellView *shell_view;
 
 	shell_view = E_SHELL_VIEW (data);
+
+	if (! state)
+		return;
 
 	if (e_shell_view_get_folder_bar_mode (shell_view) != E_SHELL_VIEW_SUBWINDOW_TRANSIENT)
 		pop_up_folder_bar (shell_view);
@@ -349,8 +391,8 @@ setup_widgets (EShellView *shell_view)
 	gtk_container_set_border_width (GTK_CONTAINER (priv->view_vbox), 2);
 
 	priv->view_title_bar = e_shell_folder_title_bar_new ();
-	gtk_signal_connect (GTK_OBJECT (priv->view_title_bar), "title_clicked",
-			    GTK_SIGNAL_FUNC (title_bar_clicked_cb), shell_view);
+	gtk_signal_connect (GTK_OBJECT (priv->view_title_bar), "title_toggled",
+			    GTK_SIGNAL_FUNC (title_bar_toggled_cb), shell_view);
 
 	priv->view_hpaned = e_hpaned_new ();
 	e_paned_add1 (E_PANED (priv->view_hpaned), priv->storage_set_view_box);

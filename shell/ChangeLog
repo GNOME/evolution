@@ -1,5 +1,17 @@
 2000-07-21  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-shell-view.c (storage_set_view_box_button_release_event_cb):
+	Set the toggle state to FALSE on the title bar.
+
+	* e-shell-folder-title-bar.c: Signal "title_clicked" replaced by
+	"title_toggled".
+	(setup_style): Change the style for the button too.
+	(e_shell_folder_title_bar_construct): Use a GtkToggleButton, not a
+	GtkButton.
+	(e_shell_folder_title_bar_set_toggle_state): New.
+
+2000-07-21  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-shell-folder-title-bar.c (create_icon_pixmap): New.  Create a
 	small arrow-shaped GtkPixmap.
 	(title_button_box_realize_cb): New.  Callback for the "realize"
