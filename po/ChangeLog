@@ -1,3 +1,7 @@
+2000-05-10  Christopher James Lahey  <clahey@helixcode.com>
+
+	* POTFILES.in: Removed mail/mail-component.c.
+
 2000-05-09  Andreas Hyden  <a.hyden@cyberpoint.se>
 
 	* sv.po: Updated Swedish translation.
