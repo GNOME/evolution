@@ -112,11 +112,12 @@ evolution_calendar_SOURCES =			\
 
 evolution_calendar_LDADD =								\
 	alarm-notify/libalarm.a								\
+	$(top_builddir)/executive-summary/evolution-services/libevolution-services.la	\
+	$(DB3_LDADD)									\
 	$(top_builddir)/shell/libeshell.la						\
 	$(top_builddir)/calendar/cal-client/libcal-client.la				\
 	$(top_builddir)/calendar/cal-util/libcal-util.la				\
 	$(top_builddir)/e-util/libeutil.la						\
-	$(top_builddir)/executive-summary/evolution-services/libevolution-services.la	\
 	$(top_builddir)/libversit/libversit.la						\
 	$(top_builddir)/libical/src/libical/libical.la					\
 	$(top_builddir)/widgets/meeting-time-sel/libevolutionmtsel.a			\
@@ -126,8 +127,7 @@ evolution_calendar_LDADD =								\
 	$(BONOBO_HTML_GNOME_LIBS)							\
 	$(GNOME_VFS_LIBS)								\
 	$(GAL_LIBS)									\
-	$(INTLLIBS)									\
-	$(DB3_LDADD)
+	$(INTLLIBS)
 
 #evolution_calendar_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 

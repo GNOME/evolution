@@ -1,3 +1,8 @@
+2001-06-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* backend/ebook/Makefile.am (evolution_vcard_importer_LDADD): Move
+	`$(DB3_LDADD)' before libeutil.
+
 2001-06-01  Ettore Perazzoli  <ettore@ximian.com>
 
 	* backend/ebook/Makefile.am (evolution_vcard_importer_LDADD): Add

@@ -1,3 +1,11 @@
+2001-06-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* test-service/Makefile.am (rdf_summary_LDADD): Move
+	`$(DB3_LDADD)' before the shared libraries.
+
+	* component/Makefile.am (evolution_executive_summary_LDADD): Move
+	`$(DB3_LDADD)' before libeutil.
+
 2001-06-01  Ettore Perazzoli  <ettore@ximian.com>
 
 	* component/Makefile.am (evolution_executive_summary_LDADD): Add

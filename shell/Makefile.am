@@ -148,13 +148,13 @@ evolution_SOURCES =				\
 evolution_LDADD =						\
 	libeshell.la						\
 	importer/libevolution-importer.la			\
+	$(DB3_LDADD)						\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a		\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(EXTRA_GNOME_LIBS)					\
 	$(GNOME_PRINT_LIBS)					\
 	$(GTKHTML_LIBS)						\
-	$(BONOBO_GNOME_LIBS)					\
-	$(DB3_LDADD)
+	$(BONOBO_GNOME_LIBS)
 
 oafdir = $(datadir)/oaf
 oaf_in_files = GNOME_Evolution_Shell.oaf.in

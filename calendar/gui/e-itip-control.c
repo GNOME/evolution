@@ -33,7 +33,7 @@
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-persist-stream.h>
 #include <bonobo/bonobo-stream-client.h>
-#include <bonobo/bonobo-running-context.h>
+#include <bonobo/bonobo-context.h>
 
 #include <glade/glade.h>
 #include <ical.h>

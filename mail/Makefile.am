@@ -102,11 +102,12 @@ evolution_mail_SOURCES =		\
 	mail.h
 
 evolution_mail_LDADD = 					\
+	$(top_builddir)/camel/libcamel.la		\
+	$(DB3_LDADD)					\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/shell/libeshell.la		\
 	$(top_builddir)/composer/libcomposer.a		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a	\
-	$(top_builddir)/camel/libcamel.la		\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
 	$(top_builddir)/libversit/libversit.la		\
 	$(top_builddir)/e-util/ename/libename.la	\
@@ -115,8 +116,7 @@ evolution_mail_LDADD = 					\
 	$(top_builddir)/executive-summary/evolution-services/libevolution-services.la	\
 	$(top_builddir)/shell/importer/libevolution-importer.la				\
 	$(top_builddir)/widgets/menus/libmenus.la	\
-	$(MAILER_LIBS)					\
-	$(DB3_LDADD)
+	$(MAILER_LIBS)
 
 evolution_mail_LDFLAGS =				\
 	-export-dynamic

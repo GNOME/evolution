@@ -57,6 +57,7 @@ evolution_executive_summary_SOURCES =		\
 	main.c
 
 evolution_executive_summary_LDADD = 							\
+	$(DB3_LDADD)									\
 	$(top_builddir)/shell/libeshell.la						\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a					\
 	$(top_builddir)/e-util/libeutil.la						\
@@ -64,8 +65,7 @@ evolution_executive_summary_LDADD = 							\
 	$(BONOBO_VFS_GNOME_LIBS)							\
 	$(EXTRA_GNOME_LIBS)								\
 	-lgal										\
-	$(GTKHTML_LIBS)									\
-	$(DB3_LDADD)
+	$(GTKHTML_LIBS)
 
 gladedir = $(datadir)/evolution/glade
 glade_DATA = executive-summary-config.glade

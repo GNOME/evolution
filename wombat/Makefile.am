@@ -23,6 +23,7 @@ wombat_SOURCES = 		\
 
 wombat_LDADD =							\
 	$(top_builddir)/addressbook/backend/pas/libpas.a	\
+	$(DB3_LDADD)						\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
 	$(top_builddir)/e-util/ename/libename.la		\
 	$(top_builddir)/calendar/pcs/libpcs.a			\
@@ -31,7 +32,6 @@ wombat_LDADD =							\
 	$(top_builddir)/libversit/libversit.la			\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(LDAP_LIBS)						\
-	$(DB3_LDADD)						\
 	$(EXTRA_GNOME_LIBS)					\
 	$(BONOBO_VFS_GNOME_LIBS)
 

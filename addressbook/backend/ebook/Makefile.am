@@ -112,11 +112,11 @@ evolution_vcard_importer_LDADD =				\
 	libebook.la						\
 	$(BONOBO_GNOME_LIBS)					\
 	$(EXTRA_GNOME_LIBS)					\
+	$(top_builddir)/shell/importer/libevolution-importer.la \
+	$(DB3_LDADD)						\
 	$(top_builddir)/e-util/ename/libename.la		\
 	$(top_builddir)/libversit/libversit.la			\
-	$(top_builddir)/e-util/libeutil.la			\
-	$(top_builddir)/shell/importer/libevolution-importer.la	\
-	$(DB3_LDADD)
+	$(top_builddir)/e-util/libeutil.la
 
 load_pine_addressbook_SOURCES =				\
 	load-pine-addressbook.c

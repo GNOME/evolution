@@ -1,3 +1,12 @@
+2001-06-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/e-itip-control.c: #include <bonobo/bonobo-context.h> instead
+	of <bonobo/bonobo-running-context.h>.
+	* gui/tasks-control-factory.c: Likewise.
+
+	* gui/Makefile.am (evolution_calendar_LDADD): Move `$(DB3_LDADD)'
+	before libeutil.
+
 2001-06-01  JP Rosevear  <jpr@ximian.com>
 
 	* gui/Makefile.am: no longer build widget-util.*, the code has

@@ -25,7 +25,7 @@
 #include <config.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-generic-factory.h>
-#include <bonobo/bonobo-running-context.h>
+#include <bonobo/bonobo-context.h>
 
 #include <liboaf/liboaf.h>
 
