@@ -785,6 +785,12 @@ tasks_component_peek_source_list (TasksComponent *component)
 	return component->priv->source_list;	
 }
 
+ESourceSelector *
+tasks_component_peek_source_selector (TasksComponent *component)
+{
+	return component->priv->source_selector;
+}
+
 EActivityHandler *
 tasks_component_peek_activity_handler (TasksComponent *component)
 {

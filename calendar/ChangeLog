@@ -1,3 +1,18 @@
+2004-01-24  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/calendar-component.[ch]
+	(calendar_component_peek_source_selector): new function.
+
+	* gui/tasks-component.[ch]
+	(tasks_component_peek_source_selector): new function.
+
+	* gui/e-tasks.c (backend_died_cb):
+	* gui/gnome-cal.c (backend_died_cb): don't tell the user to restart
+	Evolution, there is no need now, just unselecting and selecting
+	back the calendar loads it again. Also, remove the crashed client
+	from the list of loaded clients. Also, unselect the source on
+	the source selector.
+
 2004-01-24  JP Rosevear <jpr@ximian.com>
 
 	* gui/tasks-component.c (update_primary_selection): use

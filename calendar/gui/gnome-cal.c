@@ -1908,24 +1908,28 @@ backend_died_cb (ECal *client, gpointer data)
 	gcal = GNOME_CALENDAR (data);
 	priv = gcal->priv;
 
-	/* FIXME This doesn't remove the calendar from the list or anything */
 	uristr = get_uri_without_password (e_cal_get_uri (client));
 	if (client == priv->task_pad_client) {
-		message = g_strdup_printf (_("The task backend for\n%s\n has crashed. "
-					     "You will have to restart Evolution in order "
-					     "to use it again"),
-					   uristr);
+		message = g_strdup_printf (_("The task backend for\n%s\n has crashed."), uristr);
 		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL);
+
+		g_object_unref (priv->task_pad_client);
+		priv->task_pad_client = NULL;
 	} else {
 		int i;
 		
-		message = g_strdup_printf (_("The calendar backend for\n%s\n has crashed. "
-					     "You will have to restart Evolution in order "
-					     "to use it again"),
-					   uristr);
+		message = g_strdup_printf (_("The calendar backend for\n%s\n has crashed."), uristr);
 		
 		for (i = 0; i < GNOME_CAL_LAST_VIEW; i++)
 			e_calendar_view_set_status_message (priv->views[i], NULL);
+
+		e_source_selector_unselect_source (
+			calendar_component_peek_source_selector (calendar_component_peek ()),
+			e_cal_get_source (client));
+
+		g_hash_table_remove (priv->clients, e_cal_get_uri (client));
+		priv->clients_list = g_list_remove (priv->clients_list, client);
+		g_object_unref (client);
 	}
 
 	dialog = gtk_message_dialog_new (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))),

@@ -853,6 +853,12 @@ calendar_component_peek_source_list (CalendarComponent *component)
 	return component->priv->source_list;
 }
 
+ESourceSelector *
+calendar_component_peek_source_selector (CalendarComponent *component)
+{
+	return component->priv->source_selector;
+}
+
 EActivityHandler *
 calendar_component_peek_activity_handler (CalendarComponent *component)
 {

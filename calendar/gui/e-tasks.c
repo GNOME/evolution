@@ -763,10 +763,7 @@ backend_died_cb (ECal *client, gpointer data)
 	priv = tasks->priv;
 
 	/* FIXME: this doesn't remove the task list from the list or anything */
-	message = g_strdup_printf (_("The task backend for\n%s\n has crashed. "
-				     "You will have to restart Evolution in order "
-				     "to use it again"),
-				   e_cal_get_uri (client));
+	message = g_strdup_printf (_("The task backend for\n%s\n has crashed."), e_cal_get_uri (client));
 	e_calendar_table_set_status_message (E_CALENDAR_TABLE (e_tasks_get_calendar_table (tasks)), NULL);
 
 	dialog = gtk_message_dialog_new (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (tasks))),
@@ -775,6 +772,14 @@ backend_died_cb (ECal *client, gpointer data)
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 	g_free (message);
+
+	e_source_selector_unselect_source (
+		tasks_component_peek_source_selector (tasks_component_peek ()),
+		e_cal_get_source (client));
+
+	g_hash_table_remove (priv->clients, e_cal_get_uri (client));
+	priv->clients_list = g_list_remove (priv->clients_list, client);
+	g_object_unref (client);
 }
 
 void
