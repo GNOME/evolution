@@ -47,6 +47,10 @@ static GString *_get_subject (CamelMimeMessage *mime_message);
 static void _set_from (CamelMimeMessage *mime_message, GString *from);
 static GString *_get_from (CamelMimeMessage *mime_message);
 
+static void _add_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GString *recipient); 
+static void _remove_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GString *recipient);
+static GList *_get_recipients (CamelMimeMessage *mime_message, GString *recipient_type);
+
 /* Returns the class for a CamelMimeMessage */
 #define CMM_CLASS(so) CAMEL_MIME_MESSAGE_CLASS (GTK_OBJECT(so)->klass)
 
@@ -73,6 +77,9 @@ camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 	camel_mime_message_class->get_subject = _get_subject;
 	camel_mime_message_class->set_from = _set_from;
 	camel_mime_message_class->get_from = _get_from;
+	camel_mime_message_class->add_recipient = _add_recipient; 
+	camel_mime_message_class->remove_recipient = _remove_recipient;
+	camel_mime_message_class->get_recipients = _get_recipients;
 	
 	/* virtual method overload */
 }

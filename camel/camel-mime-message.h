@@ -85,6 +85,9 @@ typedef struct {
 	GString * (*get_subject) (CamelMimeMessage *mime_message);
 	void  (*set_from) (CamelMimeMessage *mime_message, GString *from);
 	GString * (*get_from) (CamelMimeMessage *mime_message);
+	void (*add_recipient) (CamelMimeMessage *mime_message, GString *recipient_type, GString *recipient); 
+	void (*remove_recipient) (CamelMimeMessage *mime_message, GString *recipient_type, GString *recipient);
+	GList * (*get_recipients) (CamelMimeMessage *mime_message, GString *recipient_type);
 
 } CamelMimeMessageClass;
 
@@ -95,6 +98,19 @@ GtkType camel_mime_message_get_type (void);
 
 
 /* public methods */
+
+void set_received_date (CamelMimeMessage *mime_message, GString *received_date);
+GString *get_received_date (CamelMimeMessage *mime_message);
+GString *get_sent_date (CamelMimeMessage *mime_message);
+void set_reply_to (CamelMimeMessage *mime_message, GString *reply_to);
+GString *get_reply_to (CamelMimeMessage *mime_message);
+void set_subject (CamelMimeMessage *mime_message, GString *subject);
+GString *get_subject (CamelMimeMessage *mime_message);
+void set_from (CamelMimeMessage *mime_message, GString *from);
+GString *get_from (CamelMimeMessage *mime_message);
+
+
+
 
 #ifdef __cplusplus
 }
