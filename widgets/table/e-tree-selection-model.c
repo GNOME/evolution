@@ -890,6 +890,11 @@ static void
 etsm_select_all (ESelectionModel *selection)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL(selection);
+	ETreePath root;
+
+	root = e_tree_model_get_root(E_TREE_MODEL(etsm->priv->ets));
+	if (root == NULL)
+		return;
 
 	etsm_real_clear (etsm);
 
@@ -898,7 +903,7 @@ etsm_select_all (ESelectionModel *selection)
 	etsm->priv->root->all_children_selected = TRUE;
 	etsm->priv->root->any_children_selected = TRUE;
 
-	e_tree_selection_model_node_fill_children(etsm, e_tree_model_get_root(E_TREE_MODEL(etsm->priv->ets)), etsm->priv->root);
+	e_tree_selection_model_node_fill_children(etsm, root, etsm->priv->root);
 	etsm->priv->root->all_children_selected_array = e_bit_array_new(etsm->priv->root->num_children);
 	etsm->priv->root->any_children_selected_array = e_bit_array_new(etsm->priv->root->num_children);
 	e_bit_array_select_all(etsm->priv->root->all_children_selected_array);
