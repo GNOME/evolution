@@ -5065,7 +5065,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 		if (pos != E_DAY_VIEW_POS_OUTSIDE) {
 			num_days = 1;
 			start_offset = 0;
-			end_offset = 0;
+			end_offset = -1;
 
 			if (day_view->drag_event_day == E_DAY_VIEW_LONG_EVENT) {
 				event = &g_array_index (day_view->long_events, EDayViewEvent,
@@ -5083,7 +5083,6 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 
 				start_offset = event->start_minute;
 				end_offset = event->end_minute;
-
 			} else if (day_view->drag_event_day != -1) {
 				event = &g_array_index (day_view->events[day_view->drag_event_day],
 							EDayViewEvent,
@@ -5103,7 +5102,10 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 			ico = *event->ico;
 
 			ico.dtstart = day_view->day_starts[day] + start_offset * 60;
-			ico.dtend = day_view->day_starts[day + num_days - 1] + end_offset * 60;
+			if (end_offset == -1 || end_offset == 0)
+				ico.dtend = day_view->day_starts[day + num_days];
+			else
+				ico.dtend = day_view->day_starts[day + num_days - 1] + end_offset * 60;
 
 			gtk_drag_finish (context, TRUE, TRUE, time);
 

@@ -1,3 +1,8 @@
+2000-06-18  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/e-day-view.c (e_day_view_on_top_canvas_drag_data_received): 
+	fixed a DnD bug.
+
 2000-06-17  Dan Winship  <danw@helixcode.com>
 
 	* cal-client/Makefile.am (INCLUDES): Fix to not depend on
