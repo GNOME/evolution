@@ -543,7 +543,6 @@ e_summary_add_protocol_listener (ESummary *summary,
 	g_return_if_fail (listener != NULL);
 
 	if (summary->priv->protocol_hash == NULL) {
-		g_print ("Creating\n");
 		summary->priv->protocol_hash = g_hash_table_new (g_str_hash,
 								 g_str_equal);
 		old = NULL;

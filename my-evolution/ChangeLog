@@ -1,5 +1,9 @@
 2001-07-19  Iain Holmes  <iain@ximian.com>
 
+	* e-summary-mail.c (folder_gen_html): correct the folder name.
+
+2001-07-19  Iain Holmes  <iain@ximian.com>
+
 	* my-evolution-html.h: Set the text colour to black. Frank was claiming
 	it picked the default colour from the GTK+ theme, and if it was white
 	bad things happened.

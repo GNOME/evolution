@@ -76,7 +76,7 @@ folder_gen_html (ESummaryMailFolder *folder,
 	char *str, *pretty_name, *uri;
 	
 	pretty_name = make_pretty_foldername (folder->name);
-	uri = g_strconcat ("evolution:", folder->name, NULL); 
+	uri = g_strconcat ("evolution:/local", folder->name, NULL); 
 	str = g_strdup_printf ("<tr><td><a href=\"%s\"><pre>%s</pre></a></td><td align=\"Left\"><pre>%d/%d</pre></td></tr>", 
 			       uri, pretty_name, folder->unread, folder->count);
 	g_free (uri);
