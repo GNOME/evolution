@@ -608,7 +608,7 @@ if test "$x{with_krb5}" != "xno"; then
 			AC_DEFINE(HAVE_HEIMDAL_KRB5,1,[Define if you have Heimdal])
 			msg_krb5="yes (Heimdal)"
 		fi
-		KRB5_CFLAGS="-I$with_krb5/include/krb5"
+		KRB5_CFLAGS="-I$with_krb5/include"
 		KRB5_LDFLAGS="-L$with_krb5/lib $ac_cv_lib_kerberos5"
 	fi
 else
@@ -1047,8 +1047,8 @@ AC_SUBST(GNOME_FULL_LIBS)
 dnl --- Flags for the various libraries we build
 
 EVO_SET_COMPILE_FLAGS(CAMEL, glib-2.0 gal-2.0 >= $GAL_VERSION $mozilla_nss,
-		      $THREADS_CFLAGS $KRB4_CFLAGS $MANUAL_NSS_CFLAGS $OPENSSL_CFLAGS,
-	              $THREADS_LIBS $KRB4_LDFLAGS $MANUAL_NSS_LIBS $OPENSSL_LDFLAGS)
+		      $THREADS_CFLAGS $KRB4_CFLAGS $KRB5_CFLAGS $MANUAL_NSS_CFLAGS $OPENSSL_CFLAGS,
+	              $THREADS_LIBS $KRB4_LDFLAGS $KRB5_LDFLAGS $MANUAL_NSS_LIBS $OPENSSL_LDFLAGS)
 AC_SUBST(CAMEL_CFLAGS)
 AC_SUBST(CAMEL_LIBS)
 
