@@ -78,7 +78,7 @@
       <submenu name="Actions" _label="_Actions">
 	<menuitem name="NewAppointment" verb="CalendarNewAppointment"
 		  _label="Create a _New Appointment" pixtype="pixbuf"/>
-	<menuitem name="NewEvent" verb="CalendarNewEvent" _label="Create a New All-Day _Event" pixtype="pixbuf"/>
+	<menuitem name="NewEvent" verb="CalendarNewEvent" _label="Create a New All Day _Event" pixtype="pixbuf"/>
 
 	<menuitem name="NewTask" verb="CalendarNewTask" _label="Create a New _Task" pixtype="pixbuf"/>
 

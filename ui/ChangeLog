@@ -1,3 +1,8 @@
+2001-08-21  Damon Chaplin  <damon@ximian.com>
+
+	* evolution-calendar.xml: 'All-Day' -> 'All Day' to be consistent
+	everywhere.
+
 2001-08-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-mail-list.xml: Move the ChangeFolderProperties into
