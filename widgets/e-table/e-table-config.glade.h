@@ -4,7 +4,6 @@
  * DO NOT compile it as part of your application.
  */
 
-gchar *s = N_("window1");
 gchar *s = N_("Fields");
 gchar *s = N_("Grouping");
 gchar *s = N_("Sort");

@@ -1,3 +1,13 @@
+
+gladedir = $(datadir)/evolution/glade
+glade_DATA = 					\
+	e-table-config.glade			\
+	e-table-group.glade
+
+glade_headers = 				\
+	e-table-config.glade.h			\
+	e-table-group.glade.h
+
 INCLUDES =					\
 	$(EXTRA_GNOME_CFLAGS)			\
 	$(GNOME_INCLUDEDIR)			\
@@ -89,9 +99,14 @@ table_example_2_LDADD =				\
 
 table_example_2_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 
-EXTRA_DIST =			\
-	sample.table		\
+icons = 			\
 	add-col.xpm		\
 	check-empty.xpm		\
 	check-filled.xpm	\
 	remove-col.xpm
+
+EXTRA_DIST =			\
+	sample.table		\
+	$(icons)		\
+	$(glade_DATA)		\
+	$(glade_headers)
