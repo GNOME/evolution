@@ -1,3 +1,7 @@
+2004-12-08  David Mosberger <davidm@napali.hpl.hp.com>
+
+	* gui/main.c: include plugin headers to fix 64 bit problems.
+
 2004-12-06  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #67403

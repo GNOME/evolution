@@ -47,6 +47,8 @@
 
 #include <e-util/e-plugin.h>
 #include "e-cal-config.h"
+#include "e-cal-popup.h"
+#include "e-cal-menu.h"
 
 #define FACTORY_ID "OAFIID:GNOME_Evolution_Calendar_Factory:" BASE_VERSION
 
