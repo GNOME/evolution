@@ -74,6 +74,7 @@ INCLUDES =						\
 	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"	\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"	\
 	-DPREFIX=\""$(prefix)"\"			\
+	$(LIBSOUP_CFLAGS)				\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
 glade_DATA = 					\
@@ -221,6 +222,7 @@ libevolution_calendar_la_LIBADD =					\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/a11y/calendar/libevolution-calendar-a11y.la	\
+	$(LIBSOUP_LIBS)							\
 	$(EVOLUTION_CALENDAR_LIBS)
 
 libevolution_calendar_la_LDFLAGS = -avoid-version -module

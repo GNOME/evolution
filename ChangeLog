@@ -1,3 +1,7 @@
+2004-01-13  Rodney Dawes  <dobey@ximian.com>
+
+	* configure.in: Check for libsoup separately
+
 2004-01-12  JP Rosevear  <jpr@ximian.com>
 
 	* configure.in: bump version and requirements

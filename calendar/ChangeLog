@@ -1,3 +1,7 @@
+2004-01-13  Rodney Dawes  <dobey@ximian.com>
+
+	* gui/Makefile.am: Only link in libsoup where we need it
+
 2004-01-13  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/calendar-component.c (impl_upgradeFromVersion): free 'base_uri'
