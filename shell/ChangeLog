@@ -1,3 +1,10 @@
+2004-09-21  JP Rosevear  <jpr@novell.com>
+
+	From Malcolm Tredinnick <malcolm@commsecure.com.au>
+	
+	* e-shell-window-commands.c (about_box_new): don't show
+	"translator-credits" if not translated
+
 2004-09-13  JP Rosevear  <jpr@novell.com>
 
 	* main.c: turn off development mode

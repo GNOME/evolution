@@ -437,7 +437,7 @@ about_box_new (void)
 				     copyright,
 				     _("Groupware Suite"),
 				     authors, documentors,
-				     strcmp (translator_credits, "translator_credits") ? translator_credits : NULL,
+				     strcmp (translator_credits, "translator-credits") ? translator_credits : NULL,
 				     pixbuf);
 	
         if (pixbuf != NULL)
