@@ -411,37 +411,6 @@ open_dialog(GtkWidget *button, ESelectNamesManager *manager)
 	e_select_names_manager_activate_dialog(manager, id);
 }
 
-static void
-test_select_names_cb (BonoboUIHandler *uih, void *user_data, const char *path)
-{
-	ESelectNamesManager *manager = e_select_names_manager_new();
-	GtkWidget *window;
-	GtkWidget *table;
-	int row = 0;
-	char *sections[] = {"to", "from", "cc"};
-	char *titles[] = {N_("To"), N_("From"), N_("Cc")};
-
-	for (row = 0; row < 3; row ++)
-		e_select_names_manager_add_section(manager, sections[row], _(titles[row]));
-
-
-	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	table = gtk_table_new(3, 2, FALSE);
-	
-	for (row = 0; row < 3; row ++) {
-		GtkWidget *button = gtk_button_new_with_label(_(titles[row]));
-		GtkWidget *entry = e_select_names_manager_create_entry(manager, sections[row]);
-
-		gtk_object_set_data(GTK_OBJECT(button), "id", g_strdup(sections[row]));
-		gtk_signal_connect(GTK_OBJECT(button), "clicked",
-				   GTK_SIGNAL_FUNC(open_dialog), manager);
-		gtk_table_attach(GTK_TABLE(table), button, 0, 1, row, row + 1, GTK_FILL, GTK_FILL, 0, 0);
-		gtk_table_attach(GTK_TABLE(table), entry, 1, 2, row, row + 1, GTK_FILL | GTK_EXPAND, GTK_FILL, 0, 0);
-	}
-	gtk_container_add(GTK_CONTAINER(window), table);
-	gtk_widget_show_all(window);
-}
-
 static GnomeUIInfo gnome_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("New"), N_("Create a new contact"), new_contact_cb, GNOME_STOCK_PIXMAP_NEW),
 
@@ -519,13 +488,6 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
 					 0, 0, print_cb,
-					 (gpointer) view);
-
-	bonobo_ui_handler_menu_new_item (uih, "/File/TestSelectNames",
-					 N_("Test Select Names"),
-					 NULL, -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0, test_select_names_cb,
 					 (gpointer) view);
 
 	bonobo_ui_handler_menu_new_item (uih, "/View/Toggle View",

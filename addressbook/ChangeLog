@@ -1,3 +1,8 @@
+2000-07-10  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* gui/component/addressbook.c (control_activate): Remove the
+	SelectNames test.
+
 2000-07-10  Peter Williams  <peterw@curious-george.helixcode.com>
 
 	* gui/component/select-names/e-select-names-model.c: (Clahey's fix)
