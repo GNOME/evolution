@@ -1,3 +1,9 @@
+2000-07-07  Dan Winship  <danw@helixcode.com>
+
+	* configure.in: make pthreads not required again, since they
+	aren't, and remove widgets/e-toolbar/Makefile from AC_OUTPUT since
+	that dir doesn't exist any more.
+
 2000-07-06  Chris Toshok  <toshok@helixcode.com>
 
 	* configure.in (AC_OUTPUT): remove the default_user Directories
