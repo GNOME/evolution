@@ -1,3 +1,23 @@
+2004-03-10  Chris Toshok  <toshok@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c (phone_entry_changed):
+	phone_choice is an index into the phones array.
+	(_phone_arrow_pressed): same.
+	(address_text_changed): address_choice is an index into the
+	addresses array.
+	(_address_arrow_pressed): same.
+	(set_address_field): same.
+	(_email_arrow_pressed): email_choice is an index into the emails
+	array.
+	(full_addr_clicked): same, and same with
+	s/addresses/address_editable.
+	(e_contact_editor_init): initialize the *_choice fields as indices
+	into their respective *es arrays.
+	(e_contact_editor_build_address_ui): initialize the labels from
+	the addresses array.
+	(set_fields): *_choice fields are indices into *es arrays.
+	(enable_writable_fields): same.
+
 2004-03-09  Rodney Dawes  <dobey@ximian.com>
 
 	* gui/contact-editor/e-contact-editor.c (_arrow_pressed): Don't try
