@@ -4488,11 +4488,11 @@ msgstr "Valmis"
 
 #: calendar/gui/dialogs/comp-editor-util.c:198 calendar/gui/print.c:2227
 msgid " (Due "
-msgstr "(tulossa"
+msgstr "(erääntyy "
 
 #: calendar/gui/dialogs/comp-editor-util.c:200 calendar/gui/print.c:2229
 msgid "Due "
-msgstr "Tulossa"
+msgstr "Erääntyy "
 
 #: calendar/gui/dialogs/comp-editor.c:334
 msgid "Could not update invalid object"
@@ -5060,11 +5060,11 @@ msgstr "Tapaaminen"
 
 #: calendar/gui/dialogs/task-page.c:482
 msgid "Due date is wrong"
-msgstr "Tuleva päivämäärä on väärin"
+msgstr "Eräpäivä on väärin"
 
 #: calendar/gui/dialogs/task-page.c:542
 msgid "Due date is before start date!"
-msgstr "Valmistumispäivä on ennen aloituspäivää!"
+msgstr "Eräpäivä on ennen aloituspäivää!"
 
 #: calendar/gui/dialogs/task-page.glade.h:4
 msgid "Con_fidential"
@@ -5082,7 +5082,7 @@ msgstr "_Alkamispäivä:"
 
 #: calendar/gui/dialogs/task-page.glade.h:11
 msgid "_Due Date:"
-msgstr "Tuleva päivämäärä:"
+msgstr "Eräpäivä:"
 
 #: calendar/gui/e-alarm-list.c:397
 #, c-format
@@ -5311,7 +5311,7 @@ msgstr "Valmistumispäivä"
 
 #: calendar/gui/e-calendar-table.etspec.h:9
 msgid "Due Date"
-msgstr "Erääntymispäivä"
+msgstr "Eräpäivä"
 
 #: calendar/gui/e-calendar-table.etspec.h:10
 msgid "End Date"
@@ -13796,7 +13796,7 @@ msgstr "Luodaan viestiluetteloa"
 
 #: mail/message-list.etspec.h:3
 msgid "Due By"
-msgstr "Valmistuu"
+msgstr "Erääntyy"
 
 #: mail/message-list.etspec.h:4
 msgid "Flag Status"
@@ -13876,7 +13876,7 @@ msgstr ""
 
 #: mail/message-tags.glade.h:6
 msgid "_Due by:"
-msgstr "_Valmistuu:"
+msgstr "_Erääntyy:"
 
 #: mail/message-tags.glade.h:7
 msgid "_Flag:"
