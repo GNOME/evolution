@@ -143,8 +143,10 @@ set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	if (!data_wrapper->output_stream && stream)
 		set_output_stream (data_wrapper, stream);
 
-	if (stream)
+	if (stream) {
 		gtk_object_ref (GTK_OBJECT (stream));
+		gtk_object_sink (GTK_OBJECT (stream));
+	}
 }
 
 /**
@@ -201,8 +203,10 @@ set_output_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 		gtk_object_unref (GTK_OBJECT (data_wrapper->output_stream));
 
 	data_wrapper->output_stream = stream;
-	if (stream)
+	if (stream) {
 		gtk_object_ref (GTK_OBJECT (stream));
+		gtk_object_sink (GTK_OBJECT (stream));
+	}
 }
 
 /**

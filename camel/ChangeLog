@@ -1,5 +1,10 @@
 2000-04-18  Dan Winship  <danw@helixcode.com>
 
+	* camel-mime-part.c (my_set_input_stream): 
+	* camel-data-wrapper.c (set_input_stream, set_output_stream): do
+	better reference counting of streams so they actually go away
+	when they should.
+
 	* camel-log.[ch], *: Nuke camel log stuff. Replace calls to
 	CAMEL_LOG_WARNING with calls to g_warning.
 

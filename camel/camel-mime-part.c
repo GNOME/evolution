@@ -816,7 +816,8 @@ my_set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	mime_part->content_input_stream = camel_seekable_substream_new_with_seekable_stream_and_bounds (seekable_stream,
 													content_stream_inf_bound, 
 													-1);
-		
+	gtk_object_ref (GTK_OBJECT (mime_part->content_input_stream));
+	gtk_object_sink (GTK_OBJECT (mime_part->content_input_stream));
 }
 
 
