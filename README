@@ -201,7 +201,7 @@ it without messing up your system installation.
 
   * Get the Sleepycat tarball from:
 
-      http://www.sleepycat.com/update/3.1.17/db-3.1.17.tar.gz
+      http://www.sleepycat.com/update/snapshot/db-3.1.17.tar.gz
 
   * Install the content somewhere _other_ than the evolution source tree.
      e.g: NOT evolution/db-3.1.17
