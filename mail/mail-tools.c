@@ -44,6 +44,7 @@
 #include "mail-tools.h"
 #include "mail-local.h"
 #include "mail-mt.h"
+#include "mail-folder-cache.h"
 #include "e-util/e-html-utils.h"
 
 /* **************************************** */
@@ -245,92 +246,6 @@ mail_tool_make_message_attachment (CamelMimeMessage *message)
 	return part;
 }
 
-struct folder_cache_info {
-	char *uri;
-	CamelFolder *folder;
-	int unread;
-};
-
-static void
-update_unread_count_main (CamelObject *object, gpointer event_data,
-			  gpointer user_data)
-{
-	CamelFolder *folder = (CamelFolder *)object;
-	struct folder_cache_info *fci = user_data;
-	EvolutionStorage *storage;
-	char *name;
-
-	storage = mail_lookup_storage (folder->parent_store);
-	if (fci->unread == 0)
-		name = g_strdup (camel_folder_get_name (folder));
-	else
-		name = g_strdup_printf ("%s (%d)", camel_folder_get_name (folder), fci->unread);
-
-	evolution_storage_update_folder_by_uri (storage, fci->uri, name,
-						fci->unread != 0);
-	g_free (name);
-	gtk_object_unref (GTK_OBJECT (storage));
-	camel_object_unref (object);
-}
-
-static void
-update_unread_count (CamelObject *object, gpointer event_data,
-		     gpointer user_data)
-{
-	CamelFolder *folder = (CamelFolder *)object;
-	struct folder_cache_info *fci = user_data;
-	int unread;
-
-	unread = camel_folder_get_unread_message_count (folder);
-	if (unread == fci->unread)
-		return;
-	fci->unread = unread;
-	camel_object_ref (object);
-	mail_proxy_event (update_unread_count_main, object, event_data, user_data);
-}
-
-static GHashTable *folders = NULL;
-static GStaticMutex folders_lock = G_STATIC_MUTEX_INIT;
-
-static void
-uncache_folder (CamelObject *folder, gpointer event_data, gpointer user_data)
-{
-	struct folder_cache_info *fci = user_data;
-
-	g_static_mutex_lock (&folders_lock);
-	g_hash_table_remove (folders, fci->uri);
-	g_static_mutex_unlock (&folders_lock);
-
-	g_free (fci->uri);
-	g_free (fci);
-}
-
-static void
-cache_folder (CamelFolder *folder, const char *uri)
-{
-	CamelObject *object = CAMEL_OBJECT (folder);
-	EvolutionStorage *storage;
-	struct folder_cache_info *fci;
-
-	fci = g_new (struct folder_cache_info, 1);
-	fci->folder = folder;
-	fci->uri = g_strdup (uri);
-	fci->unread = 0;
-
-	g_hash_table_insert (folders, fci->uri, fci);
-	camel_object_hook_event (object, "finalize", uncache_folder, fci);
-
-	storage = mail_lookup_storage (folder->parent_store);
-	if (storage) {
-		gtk_object_unref (GTK_OBJECT (storage));
-		update_unread_count (object, NULL, fci);
-		camel_object_hook_event (object, "message_changed",
-					 update_unread_count, fci);
-		camel_object_hook_event (object, "folder_changed",
-					 update_unread_count, fci);
-	}
-}
-
 CamelFolder *
 mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 {
@@ -341,19 +256,10 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 
 	g_return_val_if_fail (uri != NULL, NULL);
 
-	g_static_mutex_lock (&folders_lock);
-	if (folders) {
-		struct folder_cache_info *fci;
-
-		fci = g_hash_table_lookup (folders, uri);
-		g_static_mutex_unlock (&folders_lock);
-		if (fci) {
-			camel_object_ref (CAMEL_OBJECT (fci->folder));
-			return fci->folder;
-		}
-	} else {
-		folders = g_hash_table_new (g_str_hash, g_str_equal);
-		g_static_mutex_unlock (&folders_lock);
+	folder = mail_folder_cache_try_folder (uri);
+	if (folder) {
+		camel_object_ref (CAMEL_OBJECT (folder));
+		return folder;
 	}
 
 	if (!strncmp (uri, "vtrash:", 7))
@@ -399,10 +305,7 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 	}
 	camel_url_free (url);
 
-	g_static_mutex_lock (&folders_lock);
-	if (!g_hash_table_lookup (folders, uri))
-		cache_folder (folder, uri);
-	g_static_mutex_unlock (&folders_lock);
+	mail_folder_cache_note_folder (uri, folder);
 
 	return folder;
 }

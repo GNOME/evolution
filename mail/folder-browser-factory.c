@@ -37,12 +37,42 @@
 #include "mail-config.h"
 #include "mail-ops.h"
 #include "mail-session.h"
+#include "mail-folder-cache.h"
 
 #include "evolution-shell-component-utils.h"
 #include "camel/camel-vtrash-folder.h"
 
 /* The FolderBrowser BonoboControls we have.  */
 static EList *control_list = NULL;
+
+/* copied from mail-display.c for now.... */
+static GNOME_Evolution_ShellView
+fb_get_svi (BonoboControl *control)
+{
+	Bonobo_ControlFrame control_frame;
+	GNOME_Evolution_ShellView shell_view_interface;
+	CORBA_Environment ev;
+	
+	control_frame = bonobo_control_get_control_frame (control);
+
+	if (control_frame == NULL)
+		return CORBA_OBJECT_NIL;
+
+	CORBA_exception_init (&ev);
+	shell_view_interface = Bonobo_Unknown_queryInterface (control_frame,
+							      "IDL:GNOME/Evolution/ShellView:1.0",
+							      &ev);
+	CORBA_exception_free (&ev);
+
+	if (shell_view_interface != CORBA_OBJECT_NIL)
+		gtk_object_set_data (GTK_OBJECT (control),
+				     "mail_threads_shell_view_interface",
+				     shell_view_interface);
+	else
+		g_warning ("Control frame doesn't have Evolution/ShellView.");
+
+	return shell_view_interface;
+}
 
 static void
 control_activate (BonoboControl     *control,
@@ -65,6 +95,8 @@ control_activate (BonoboControl     *control,
 	folder_browser_ui_add_global (fb);
 	folder_browser_ui_add_list (fb);
 	folder_browser_ui_add_message (fb);
+
+	mail_folder_cache_set_shell_view (fb_get_svi (control));
 
 	if (fb->folder)
 		mail_refresh_folder (fb->folder, NULL, NULL);

@@ -42,6 +42,7 @@
 #include "mail-vfolder.h"
 #include "mail-autofilter.h"
 #include "mail-mt.h"
+#include "mail-folder-cache.h"
 
 #include "mail-local.h"
 #include "mail-config.h"
@@ -620,6 +621,10 @@ got_folder(char *uri, CamelFolder *folder, void *data)
 				 folder_browser_is_sent (fb) ||
 				 folder_browser_is_outbox (fb));
 	vfolder_register_source (folder);
+
+	mail_folder_cache_note_folder (fb->uri, folder);
+	mail_folder_cache_note_message_list (fb->uri, fb->message_list);
+
  done:
 	gtk_object_unref (GTK_OBJECT (fb));
 	

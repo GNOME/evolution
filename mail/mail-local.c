@@ -65,7 +65,7 @@
 #include "mail-tools.h"
 #include "folder-browser.h"
 #include "mail-mt.h"
-
+#include "mail-folder-cache.h"
 #include "mail-vfolder.h"
 
 #define d(x)
@@ -183,7 +183,6 @@ typedef struct {
 	char *local_path;
 	int local_pathlen;
 	GHashTable *folders; /* points to MailLocalFolder */
-	GHashTable *unread;
 } MailLocalStore;
 
 typedef struct {
@@ -194,14 +193,11 @@ typedef struct {
 	CamelFolder *folder;
 	MailLocalStore *local_store;
 	char *path, *name, *uri;
-	int last_unread;
 } MailLocalFolder;
 
 static MailLocalStore *local_store;
 
 CamelType mail_local_store_get_type (void);
-
-static void local_folder_changed_proxy (CamelObject *folder, gpointer event_data, gpointer user_data);
 
 static char *get_name (CamelService *service, gboolean brief);
 
@@ -254,15 +250,9 @@ mail_local_store_init (gpointer object, gpointer klass)
 static void
 free_local_folder (MailLocalFolder *lf)
 {
-	if (lf->folder) {
-		camel_object_unhook_event((CamelObject *)lf->folder,
-					  "folder_changed", local_folder_changed_proxy,
-					  lf);
-		camel_object_unhook_event((CamelObject *)lf->folder,
-					  "message_changed", local_folder_changed_proxy,
-					  lf);
+	if (lf->folder)
 		camel_object_unref((CamelObject *)lf->folder);
-	}
+
 	g_free(lf->path);
 	g_free(lf->name);
 	g_free(lf->uri);
@@ -447,47 +437,6 @@ local_storage_destroyed_cb (EvolutionStorageListener *storage_listener,
 	g_warning ("%s -- The LocalStorage has gone?!", __FILE__);
 }
 
-
-static void
-local_folder_changed (CamelObject *object, gpointer event_data,
-		      gpointer user_data)
-{
-	MailLocalFolder *local_folder = user_data;
-	int unread = GPOINTER_TO_INT (event_data);
-	char *display;
-
-	if (unread != local_folder->last_unread) {
-		CORBA_Environment ev;
-
-		CORBA_exception_init (&ev);
-		if (unread > 0) {
-			display = g_strdup_printf ("%s (%d)", local_folder->name, unread);
-			GNOME_Evolution_LocalStorage_updateFolder (
-				local_folder->local_store->corba_local_storage,
-				local_folder->path, display, TRUE, &ev);
-			g_free (display);
-		} else {
-			GNOME_Evolution_LocalStorage_updateFolder (
-				local_folder->local_store->corba_local_storage,
-				local_folder->path, local_folder->name,
-				FALSE, &ev);
-		}
-		CORBA_exception_free (&ev);
-
-		local_folder->last_unread = unread;
-	}
-}
-
-static void
-local_folder_changed_proxy (CamelObject *folder, gpointer event_data, gpointer user_data)
-{
-	int unread;
-
-	unread = camel_folder_get_unread_message_count (CAMEL_FOLDER (folder));
-	mail_proxy_event (local_folder_changed, folder,
-			  GINT_TO_POINTER (unread), user_data);
-}
-
 /* ********************************************************************** */
 /* Register folder */
 
@@ -536,15 +485,6 @@ register_folder_register(struct _mail_msg *mm)
 	if (meta->indexed)
 		flags |= CAMEL_STORE_FOLDER_BODY_INDEX;
 	local_folder->folder = camel_store_get_folder (store, meta->name, flags, &mm->ex);
-	if (local_folder->folder) {
-		camel_object_hook_event (CAMEL_OBJECT (local_folder->folder),
-					 "folder_changed", local_folder_changed_proxy,
-					 local_folder);
-		camel_object_hook_event (CAMEL_OBJECT (local_folder->folder),
-					 "message_changed", local_folder_changed_proxy,
-					 local_folder);
-		local_folder->last_unread = camel_folder_get_unread_message_count(local_folder->folder);
-	}
 
 	camel_object_unref (CAMEL_OBJECT (store));
 	free_metainfo (meta);
@@ -557,9 +497,10 @@ register_folder_registered(struct _mail_msg *mm)
 {
 	struct _register_msg *m = (struct _register_msg *)mm;
 	MailLocalFolder *local_folder = m->local_folder;
-	int unread;
 	
 	if (local_folder->folder) {
+		gchar *name;
+
 		g_hash_table_insert (local_folder->local_store->folders, local_folder->uri + 8,
 				     local_folder);
 		/* Remove the circular ref once the local store knows aboutthe folder */
@@ -567,11 +508,20 @@ register_folder_registered(struct _mail_msg *mm)
 		
 		/* add the folder to the vfolder lists FIXME: merge stuff above with this */
 		vfolder_register_source(local_folder->folder);
-		
-		unread = local_folder->last_unread;
-		local_folder->last_unread = 0;
-		local_folder_changed (CAMEL_OBJECT (local_folder->folder), GINT_TO_POINTER (unread),
-				      local_folder);
+
+		mail_folder_cache_set_update_lstorage (local_folder->uri, 
+						       local_folder->local_store->corba_local_storage,
+						       local_folder->path);
+
+		name = strrchr (local_folder->path, '/');
+		if (name) /* should always be true... */ {
+			name += 1; /* skip the slash */
+			mail_folder_cache_note_name (local_folder->uri, name);
+		}
+
+		/* Do this after specifying the name so it isn't 'mbox' */
+		mail_folder_cache_note_folder (local_folder->uri, local_folder->folder);
+
 		m->local_folder = NULL;
 	}
 }
@@ -860,12 +810,7 @@ reconfigure_folder_reconfigure(struct _mail_msg *mm)
 	/* first, 'close' the old folder */
 	update_progress(_("Closing current folder"), 0.0);
 	camel_folder_sync(local_folder->folder, FALSE, &mm->ex);
-	camel_object_unhook_event(CAMEL_OBJECT (local_folder->folder),
-				  "folder_changed", local_folder_changed_proxy,
-				  local_folder);
-	camel_object_unhook_event(CAMEL_OBJECT (local_folder->folder),
-				  "message_changed", local_folder_changed_proxy,
-				  local_folder);
+
 	/* Once for the FolderBrowser, once for the local store */
 	camel_object_unref(CAMEL_OBJECT(local_folder->folder));
 	camel_object_unref(CAMEL_OBJECT(local_folder->folder));

@@ -56,6 +56,7 @@
 #include "mail-search.h"
 #include "mail-send-recv.h"
 #include "mail-vfolder.h"
+#include "mail-folder-cache.h"
 #include "folder-browser.h"
 #include "subscribe-dialog.h"
 #include "e-messagebox.h"
@@ -374,7 +375,7 @@ composer_get_message (EMsgComposer *composer)
 			return NULL;
 		}
 	}
-	
+
 	/* Check for no subject */
 	subject = camel_mime_message_get_subject (message);
 	if (subject == NULL || subject[0] == '\0') {
@@ -1971,21 +1972,17 @@ empty_trash (BonoboUIComponent *uih, void *user_data, const char *path)
 static void
 create_folders (EvolutionStorage *storage, const char *prefix, CamelFolderInfo *fi)
 {
-	char *name, *path;
+	char *path;
 	
-	if (fi->unread_message_count > 0)
-		name = g_strdup_printf ("%s (%d)", fi->name,
-					fi->unread_message_count);
-	else
-		name = g_strdup (fi->name);
-	
+	mail_folder_cache_set_update_estorage (fi->url, storage);
+	mail_folder_cache_note_folderinfo (fi->url, fi);
+
 	path = g_strdup_printf ("%s/%s", prefix, fi->name);
-	evolution_storage_new_folder (storage, path, name,
+	evolution_storage_new_folder (storage, path, fi->name,
 				      "mail", fi->url ? fi->url : "",
 				      fi->name, /* description */
 				      fi->unread_message_count > 0);
-	g_free (name);
-	
+
 	if (fi->child)
 		create_folders (storage, path, fi->child);
 	g_free (path);

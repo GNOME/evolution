@@ -66,6 +66,8 @@ evolution_mail_SOURCES =		\
 	mail-crypto.h			\
 	mail-display.c			\
 	mail-display.h			\
+	mail-folder-cache.c		\
+	mail-folder-cache.h		\
 	mail-format.c			\
 	mail-identify.c			\
 	mail-importer.c			\

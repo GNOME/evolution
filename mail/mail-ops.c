@@ -46,6 +46,7 @@
 #include "filter/filter-filter.h"
 
 #include "mail-mt.h"
+#include "mail-folder-cache.h"
 
 #define d(x) x
 
@@ -360,20 +361,19 @@ struct _update_info {
 static void
 do_update_subfolders_rec (CamelStore *store, CamelFolderInfo *info, EvolutionStorage *storage, const char *prefix)
 {
-	char *path, *name;
+	char *path;
 	
+	/* info->url == URI??? */
+	mail_folder_cache_set_update_estorage (info->url, storage);
+	mail_folder_cache_note_folderinfo (info->url, info);
+		
 	path = g_strdup_printf("%s/%s", prefix, info->name);
-	if (info->unread_message_count > 0)
-		name = g_strdup_printf("%s (%d)", info->name, info->unread_message_count);
-	else
-		name = g_strdup(info->name);
-	
-	evolution_storage_update_folder(storage, path, name, info->unread_message_count > 0);
-	g_free(name);
+
 	if (info->child)
 		do_update_subfolders_rec(store, info->child, storage, path);
 	if (info->sibling)
 		do_update_subfolders_rec(store, info->sibling, storage, prefix);
+
 	g_free(path);
 }
 
