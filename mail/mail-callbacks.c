@@ -1671,7 +1671,7 @@ transfer_msg_done (gboolean ok, void *data)
 static void
 transfer_msg (FolderBrowser *fb, gboolean delete_from_source)
 {
-	static const char *allowed_types[] = { "mail", "vtrash", NULL };
+	static const char *allowed_types[] = { "mail/*", "vtrash", NULL };
 	extern EvolutionShellClient *global_shell_client;
 	GNOME_Evolution_Folder *folder;
 	static char *last_uri = NULL;

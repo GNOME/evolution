@@ -1365,7 +1365,7 @@ prepare_signatures (MailAccountGui *gui)
 MailAccountGui *
 mail_account_gui_new (MailConfigAccount *account, MailAccountsTab *dialog)
 {
-	const char *allowed_types[] = { "mail", NULL };
+	const char *allowed_types[] = { "mail/*", NULL };
 	MailAccountGui *gui;
 	GtkWidget *button;
 	

@@ -100,6 +100,7 @@ static char *exported_dnd_types[] = {
 
 static const EvolutionShellComponentFolderType folder_types[] = {
 	{ "mail", "evolution-inbox.png", N_("Mail"), N_("Folder containing mail"), TRUE, accepted_dnd_types, exported_dnd_types },
+	{ "mail/public", "evolution-inbox.png", N_("Public Mail"), N_("Public folder containing mail"), FALSE, accepted_dnd_types, exported_dnd_types },
 	{ "vtrash", "evolution-trash.png", N_("Virtual Trash"), N_("Virtual Trash folder"), FALSE, accepted_dnd_types, exported_dnd_types },
 	{ NULL, NULL, NULL, NULL, FALSE, NULL, NULL }
 };
@@ -108,6 +109,18 @@ static const char *schema_types[] = {
 	"mailto",
 	NULL
 };
+
+static inline gboolean
+type_is_mail (const char *type)
+{
+	return !strcmp (type, "mail") || !strcmp (type, "mail/public");
+}
+
+static inline gboolean
+type_is_vtrash (const char *type)
+{
+	return !strcmp (type, "vtrash");
+}
 
 /* EvolutionShellComponent methods and signals.  */
 
@@ -136,7 +149,7 @@ create_view (EvolutionShellComponent *shell_component,
 	shell_client = evolution_shell_component_get_owner (shell_component);
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
 	
-	if (!g_strcasecmp (folder_type, "mail")) {
+	if (type_is_mail (folder_type)) {
 		const char *noselect;
 		CamelURL *url;
 		
@@ -148,7 +161,7 @@ create_view (EvolutionShellComponent *shell_component,
 			control = folder_browser_factory_new_control (physical_uri,
 								      corba_shell);
 		camel_url_free (url);
-	} else if (!g_strcasecmp (folder_type, "vtrash")) {
+	} else if (type_is_vtrash (folder_type)) {
 		if (!g_strncasecmp (physical_uri, "file:", 5))
 			control = folder_browser_factory_new_control ("vtrash:file:/", corba_shell);
 		else
@@ -193,7 +206,7 @@ create_folder (EvolutionShellComponent *shell_component,
 
 	CORBA_exception_init (&ev);
 	
-	if (!strcmp (type, "mail")) {
+	if (type_is_mail (type)) {
 		mail_get_folder (physical_uri, CAMEL_STORE_FOLDER_CREATE, create_folder_done,
 				 CORBA_Object_duplicate (listener, &ev), mail_thread_new);
 	} else {
@@ -233,7 +246,7 @@ remove_folder (EvolutionShellComponent *shell_component,
 	
 	CORBA_exception_init (&ev);
 	
-	if (strcmp (type, "mail") != 0) {
+	if (!type_is_mail (type)) {
 		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
 								     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE, &ev);
 		CORBA_exception_free (&ev);
@@ -295,7 +308,7 @@ xfer_folder (EvolutionShellComponent *shell_component,
 
 	CORBA_exception_init (&ev);
 
-	if (strcmp (type, "mail") != 0) {
+	if (!type_is_mail (type)) {
 		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
 								     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE, &ev);
 		return;
@@ -417,7 +430,7 @@ populate_folder_context_menu (EvolutionShellComponent *shell_component,
 		"<menuitem name=\"ChangeFolderPropertiesPopUp\" verb=\"ChangeFolderPropertiesPopUp\""
 		"          _label=\"Properties...\" _tip=\"Change this folder's properties\"/>";
 
-	if (strcmp (type, "mail") != 0)
+	if (!type_is_mail (type))
 		return;
 
 	/* FIXME: handle other types */
@@ -438,7 +451,7 @@ unpopulate_folder_context_menu (EvolutionShellComponent *shell_component,
 				const char *type,
 				void *closure)
 {
-	if (strcmp (type, "mail") != 0)
+	if (!type_is_mail (type))
 		return;
 
 	/* FIXME: handle other types */
@@ -571,7 +584,7 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *des
 	camel_exception_init (&ex);
 	
 	/* if this is a local vtrash folder, then it's uri is vtrash:file:/ */
-	if (!strcmp (folder_type, "vtrash") && !strncmp (physical_uri, "file:", 5))
+	if (type_is_vtrash (folder_type) && !strncmp (physical_uri, "file:", 5))
 		physical_uri = "vtrash:file:/";
 	
 	switch (type) {
@@ -1035,7 +1048,7 @@ create_component (void)
 	evolution_shell_component_add_user_creatable_item (shell_component, "post",
 							   _("New Message Post"), _("_Post Message"),
 							   _("Post a new mail message"),
-							   "mail", 'p',
+							   "mail/public", 'p',
 							   icon);
 	if (icon != NULL)
 		gdk_pixbuf_unref (icon);
@@ -1140,7 +1153,7 @@ storage_create_folder (EvolutionStorage *storage,
 	
 	/* We could just use 'path' always here? */
 	
-	if (strcmp (type, "mail") != 0) {
+	if (!type_is_mail (type)) {
 		notify_listener (listener, GNOME_Evolution_Storage_UNSUPPORTED_TYPE);
 		return;
 	}
