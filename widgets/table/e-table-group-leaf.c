@@ -37,8 +37,10 @@ static void
 etgl_destroy (GtkObject *object)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF(object);
-	gtk_object_unref(GTK_OBJECT(etgl->subset));
-	gtk_object_destroy(GTK_OBJECT(etgl->item));
+	if ( etgl->subset )
+		gtk_object_unref(GTK_OBJECT(etgl->subset));
+	if ( etgl->item )
+		gtk_object_destroy(GTK_OBJECT(etgl->item));
 	if ( GTK_OBJECT_CLASS (etgl_parent_class)->destroy )
 		GTK_OBJECT_CLASS (etgl_parent_class)->destroy (object);
 }

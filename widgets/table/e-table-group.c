@@ -69,9 +69,12 @@ static void
 etg_destroy (GtkObject *object)
 {
 	ETableGroup *etg = E_TABLE_GROUP(object);
-	gtk_object_unref(GTK_OBJECT(etg->header));
-	gtk_object_unref(GTK_OBJECT(etg->full_header));
-	gtk_object_unref(GTK_OBJECT(etg->model));
+	if ( etg->header )
+		gtk_object_unref(GTK_OBJECT(etg->header));
+	if ( etg->full_header )
+		gtk_object_unref(GTK_OBJECT(etg->full_header));
+	if ( etg->model )
+		gtk_object_unref(GTK_OBJECT(etg->model));
 	if ( GTK_OBJECT_CLASS (etg_parent_class)->destroy )
 		GTK_OBJECT_CLASS (etg_parent_class)->destroy (object);
 }

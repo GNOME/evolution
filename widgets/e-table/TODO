@@ -6,7 +6,7 @@ Add threshold to compute a "global" size
 Implement the two methods for row finding: by full thing, or by a factor.
 
 
-Add editing
++ Add editing
 mouse grabbing for scrolling
 
 
@@ -25,7 +25,10 @@ mouse grabbing for scrolling
 
 
 
-+ * Add an ETable::get_specification method to get the current layout informatino.
+* Add an ETable::get_specification method to get the current layout information.
+
+ 	* Add frozen_columns output.
+	* Add input and output of column widths and minimum column widths.
 
 * Add GUI sort
 
@@ -46,11 +49,11 @@ mouse grabbing for scrolling
 	* Create the menu object.
 	* Hook up all the menu items.
 
-* Add a possible columns GUI
+* Add a possible column list GUI
 
 	* Create ETableColumnList class.
 	* Hook it up to ETableHeader.
-	* Figure out the correct semantics for requireing the connection between the ETableHeader and the ETableColumnList.
+	* Figure out the correct semantics for the connection between the ETableHeader and the ETableColumnList.
 	* Implement widget display.
 	* Implement drag&drop.
 
@@ -64,6 +67,7 @@ mouse grabbing for scrolling
 
 * Data entry ("Click here to add...")
 
+	* Add "Allocate" to the ETableModel
 	* Implement ETableDataEntry (a subclass of ETableModel).
 	* Build GUI for the data entry model.  This should be fairly simple.
 

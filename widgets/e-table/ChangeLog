@@ -1,5 +1,12 @@
 2000-03-04  Christopher James Lahey  <clahey@helixcode.com>
 
+	* TODO: Touched this up a bit.
+
+	* e-table-group.c, e-table-group-leaf.c: Check for NULL before
+	calling gtk_object_unref or gtk_object_destroy.
+
+2000-03-04  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-table.c: Fixed a crash error.
 
 2000-03-04  Christopher James Lahey  <clahey@helixcode.com>
