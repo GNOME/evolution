@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "POT-Creation-Date: 2001-05-04 12:50+0200\n"
-"PO-Revision-Date: 2001-05-04 15:39+02:00\n"
+"PO-Revision-Date: 2001-05-04 15:44+02:00\n"
 "Last-Translator: András Tímár <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -4684,9 +4684,8 @@ msgid "Cannot initialize Evolution's composer."
 msgstr "Nem tudom az Evolúció levelezõ komponensét elindítani."
 
 #: data/evolution.desktop.in.h:2
-#, fuzzy
 msgid "The Evolution groupware suite"
-msgstr "Evolúció naptár csatorna"
+msgstr "Evolúció csoportmunka-programcsomag"
 
 #: data/evolution.keys.in.h:1
 #, fuzzy
