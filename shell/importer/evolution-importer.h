@@ -26,8 +26,6 @@
 
 #include <bonobo/bonobo-object.h>
 
-#include "evolution-importer.h"
-
 #ifdef __cplusplus
 extern "C" {
 #pragma }
@@ -44,6 +42,12 @@ typedef struct _EvolutionImporterPrivate EvolutionImporterPrivate;
 typedef struct _EvolutionImporterClass   EvolutionImporterClass;
 typedef enum _EvolutionImporterResult EvolutionImporterResult;
 
+typedef gboolean (* EvolutionImporterSupportFormatFn) (EvolutionImporter *importer,
+						       const char *filename,
+						       void *closure);
+typedef gboolean (* EvolutionImporterLoadFileFn) (EvolutionImporter *importer,
+						  const char *filename,
+						  void *closure);
 typedef void (* EvolutionImporterProcessItemFn) (EvolutionImporter *importer,
 						 CORBA_Object listener,
 						 void *closure,
@@ -74,13 +78,10 @@ struct _EvolutionImporterClass {
 };
 
 GtkType evolution_importer_get_type (void);
-void evolution_importer_construct (EvolutionImporter *importer,
-				   CORBA_Object corba_object,
-				   EvolutionImporterProcessItemFn process_item_fn,
-				   EvolutionImporterGetErrorFn get_error_fn,
-				   void *closure);
 
-EvolutionImporter *evolution_importer_new (EvolutionImporterProcessItemFn process_item_fn,
+EvolutionImporter *evolution_importer_new (EvolutionImporterSupportFormatFn support_format_fn,
+					   EvolutionImporterLoadFileFn load_file_fn,
+					   EvolutionImporterProcessItemFn process_item_fn,
 					   EvolutionImporterGetErrorFn get_error_fn,
 					   void *closure);
 

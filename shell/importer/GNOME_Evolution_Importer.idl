@@ -61,9 +61,7 @@ module Evolution {
 		 * Returns: A string.
 		 */
 		string getError ();
-	};
 
-	interface ImporterFactory : Bonobo::Unknown {
 		/**
 		 * supportFormat:
 		 * @filename: The filename of the file.
@@ -85,7 +83,7 @@ module Evolution {
 		 *
 		 * Returns: An Importer object.
 		 */
-		Importer loadFile (in string filename);
+		boolean loadFile (in string filename);
 	};
 };
 };

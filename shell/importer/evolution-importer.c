@@ -36,6 +36,8 @@
 static BonoboObjectClass *parent_class = NULL;
 
 struct _EvolutionImporterPrivate {
+	EvolutionImporterLoadFileFn load_file_fn;
+	EvolutionImporterSupportFormatFn support_format_fn;
 	EvolutionImporterProcessItemFn process_item_fn;
 	EvolutionImporterGetErrorFn get_error_fn;
 
@@ -65,6 +67,45 @@ create_servant (void)
 	CORBA_exception_free (&ev);
 
 	return servant;
+}
+
+static CORBA_boolean
+impl_GNOME_Evolution_Importer_supportFormat (PortableServer_Servant servant,
+					     const CORBA_char *filename,
+					     CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	EvolutionImporter *importer;
+	EvolutionImporterPrivate *priv;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	importer = EVOLUTION_IMPORTER (bonobo_object);
+	priv = importer->private;
+
+	if (priv->support_format_fn != NULL)
+		return (priv->support_format_fn) (importer, filename, 
+						  priv->closure);
+	else
+		return FALSE;
+}
+
+static CORBA_boolean
+impl_GNOME_Evolution_Importer_loadFile (PortableServer_Servant servant,
+					const CORBA_char *filename,
+					CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	EvolutionImporter *importer;
+	EvolutionImporterPrivate *priv;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	importer = EVOLUTION_IMPORTER (bonobo_object);
+	priv = importer->private;
+
+	if (priv->load_file_fn != NULL)
+		return (priv->load_file_fn) (importer, filename, priv->closure);
+	else
+		return FALSE;
 }
 
 static void
@@ -136,6 +177,8 @@ corba_class_init (void)
 	base_epv = g_new0 (PortableServer_ServantBase__epv, 1);
 	
 	epv = g_new0 (POA_GNOME_Evolution_Importer__epv, 1);
+	epv->supportFormat = impl_GNOME_Evolution_Importer_supportFormat;
+	epv->loadFile = impl_GNOME_Evolution_Importer_loadFile;
 	epv->processItem = impl_GNOME_Evolution_Importer_processItem;
 	epv->getError = impl_GNOME_Evolution_Importer_getError;
 
@@ -169,9 +212,11 @@ init (EvolutionImporter *importer)
 
 
 
-void
+static void
 evolution_importer_construct (EvolutionImporter *importer,
 			      GNOME_Evolution_Importer corba_object,
+			      EvolutionImporterSupportFormatFn support_format_fn,
+			      EvolutionImporterLoadFileFn load_file_fn,
 			      EvolutionImporterProcessItemFn process_item_fn,
 			      EvolutionImporterGetErrorFn get_error_fn,
 			      void *closure)
@@ -181,20 +226,38 @@ evolution_importer_construct (EvolutionImporter *importer,
 	g_return_if_fail (importer != NULL);
 	g_return_if_fail (EVOLUTION_IS_IMPORTER (importer));
 	g_return_if_fail (corba_object != CORBA_OBJECT_NIL);
+	g_return_if_fail (support_format_fn != NULL);
+	g_return_if_fail (load_file_fn != NULL);
 	g_return_if_fail (process_item_fn != NULL);
-	g_return_if_fail (get_error_fn != NULL);
 
 	bonobo_object_construct (BONOBO_OBJECT (importer), corba_object);
 
 	priv = importer->private;
+	priv->support_format_fn = support_format_fn;
+	priv->load_file_fn = load_file_fn;
 	priv->process_item_fn = process_item_fn;
 	priv->get_error_fn = get_error_fn;
 
 	priv->closure = closure;
 }
 
+/**
+ * evolution_importer_new:
+ * @support_format_fn: The function to be called by the supportFormat method.
+ * @load_file_fn: The function to be called by the loadFile method.
+ * @process_item_fn: The function to be called by the processItem method.
+ * @get_error_fn: The function to be called by the getError method.
+ * @closure: The data to be passed to all of the above functions.
+ *
+ * Creates a new EvolutionImporter object. Of the parameters only 
+ * @get_error_function and @closure may be #NULL.
+ *
+ * Returns: A newly created EvolutionImporter object.
+ */
 EvolutionImporter *
-evolution_importer_new (EvolutionImporterProcessItemFn process_item_fn,
+evolution_importer_new (EvolutionImporterSupportFormatFn support_format_fn,
+			EvolutionImporterLoadFileFn load_file_fn,
+			EvolutionImporterProcessItemFn process_item_fn,
 			EvolutionImporterGetErrorFn get_error_fn,
 			void *closure)
 {
@@ -209,8 +272,9 @@ evolution_importer_new (EvolutionImporterProcessItemFn process_item_fn,
 	importer = gtk_type_new (evolution_importer_get_type ());
 	corba_object = bonobo_object_activate_servant (BONOBO_OBJECT (importer),
 						       servant);
-	evolution_importer_construct (importer, corba_object, process_item_fn,
-				      get_error_fn, closure);
+	evolution_importer_construct (importer, corba_object, 
+				      support_format_fn, load_file_fn,
+				      process_item_fn, get_error_fn, closure);
 	return importer;
 }
 

@@ -232,33 +232,31 @@ get_iid_for_filetype (const char *filename)
 	int i, len = 0;
 
 	CORBA_exception_init (&ev);
-	info_list = oaf_query ("repo_ids.has ('IDL:GNOME/Evolution/ImporterFactory:1.0')", NULL, &ev);
+	info_list = oaf_query ("repo_ids.has ('IDL:GNOME/Evolution/Importer:1.0')", NULL, &ev);
 
 	for (i = 0; i < info_list->_length; i++) {
 		CORBA_Environment ev2;
-		CORBA_Object factory;
+		CORBA_Object importer;
 		const OAF_ServerInfo *info;
-		char *name = NULL;
 
 		info = info_list->_buffer + i;
 
 		CORBA_exception_init (&ev2);
-		factory = oaf_activate_from_id ((char *) info->iid, 0, NULL, &ev2);
+		importer = oaf_activate_from_id ((char *) info->iid, 0, NULL, &ev2);
 		if (ev2._major != CORBA_NO_EXCEPTION) {
 			g_warning ("Error activating %s", info->iid);
 			CORBA_exception_free (&ev2);
 			continue;
 		}
 
-		if (GNOME_Evolution_ImporterFactory_supportFormat (factory,
-								   filename,
-								   &ev2)) {
+		if (GNOME_Evolution_Importer_supportFormat (importer,
+							    filename, &ev2)) {
 			can_handle = g_list_prepend (can_handle, 
 						     g_strdup (info->iid));
 			len++;
 		}
 
-		bonobo_object_release_unref (factory, &ev2);
+		bonobo_object_release_unref (importer, &ev2);
 		CORBA_exception_free (&ev2);
 	}
 
@@ -269,6 +267,7 @@ get_iid_for_filetype (const char *filename)
 	} else if (len > 1) {
 		/* FIXME: Some way to choose between multiple iids */
 		/* FIXME: Free stuff */
+		g_warning ("Multiple iids can support");
 		ret_iid = can_handle->data;
 		g_list_free (can_handle);
 		return ret_iid;
@@ -281,10 +280,7 @@ static void
 start_import (const char *filename,
 	      const char *iid)
 {
-	CORBA_Object factory, importer;
-	EvolutionImporterClient *client;
 	ImporterComponentData *icd;
-	CORBA_Environment ev;
 	char *label;
 	char *real_iid;
 	
@@ -303,9 +299,9 @@ start_import (const char *filename,
 	icd = g_new (ImporterComponentData, 1);
 	icd->stop = FALSE;
 	icd->destroyed = FALSE;
-	icd->dialog = gnome_dialog_new (_("Importing"),
-					GNOME_STOCK_BUTTON_CANCEL,
-					NULL);
+	icd->dialog = GNOME_DIALOG (gnome_dialog_new (_("Importing"),
+						      GNOME_STOCK_BUTTON_CANCEL,
+						      NULL));
 	gtk_signal_connect (GTK_OBJECT (icd->dialog), "clicked",
 			    GTK_SIGNAL_FUNC (dialog_clicked_cb), icd);
 	gtk_signal_connect (GTK_OBJECT (icd->dialog), "destroy",
@@ -322,49 +318,21 @@ start_import (const char *filename,
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
 	
-	CORBA_exception_init (&ev);
-	factory = oaf_activate_from_id ((char *) real_iid, 0, NULL, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		label = g_strdup_printf (_("Importing %s\n"
-					   "Cannot activate %s."),
-					 filename, real_iid);
+	icd->client = evolution_importer_client_new_from_id (real_iid);
+	g_free (real_iid);
+
+	if (evolution_importer_client_load_file (icd->client, filename) == FALSE) {
+		label = g_strdup_printf (_("Error loading %s"), filename);
 		gtk_label_set_text (GTK_LABEL (icd->contents), label);
 		g_free (label);
 		while (gtk_events_pending ())
 			gtk_main_iteration ();
 		
+		bonobo_object_unref (BONOBO_OBJECT (icd->client));
+		gtk_object_unref (GTK_OBJECT (icd->dialog));
 		g_free (icd);
-		g_free (real_iid);
-		return;
 	}
-	
-	importer = GNOME_Evolution_ImporterFactory_loadFile (factory,
-							     filename,
-							     &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		CORBA_Environment ev2;
-		
-		label = g_strdup_printf (_("Unable to load %s.\n%s"),
-					 filename, CORBA_exception_id (&ev));
-		
-		gtk_label_set_text (GTK_LABEL (icd->contents), label);
-		g_free (label);
-		while (gtk_events_pending ())
-			gtk_main_iteration ();
-		
-		g_free (icd);
-		g_free (real_iid);
-		CORBA_exception_init (&ev2);
-		CORBA_Object_release (factory, &ev2);
-		CORBA_exception_free (&ev2);
-		return;
-	}
-	
-	CORBA_Object_release (factory, &ev);
-	CORBA_exception_free (&ev);
-	
-	client = evolution_importer_client_new (importer);
-	icd->client = client;
+
 	icd->filename = g_strdup (filename);
 	icd->item = 1;
 	
@@ -375,8 +343,7 @@ start_import (const char *filename,
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
 	
-	evolution_importer_client_process_item (client, import_cb, icd);
-	g_free (real_iid);
+	evolution_importer_client_process_item (icd->client, import_cb, icd);
 }
 
 static void
@@ -445,7 +412,7 @@ create_plugin_menu (ImportData *data)
 	gtk_menu_append (GTK_MENU (menu), item);
 
 	CORBA_exception_init (&ev);
-	info_list = oaf_query ("repo_ids.has ('IDL:GNOME/Evolution/ImporterFactory:1.0')", NULL, &ev);
+	info_list = oaf_query ("repo_ids.has ('IDL:GNOME/Evolution/Importer:1.0')", NULL, &ev);
 	for (i = 0; i < info_list->_length; i++) {
 		const OAF_ServerInfo *info;
 		char *name = NULL;

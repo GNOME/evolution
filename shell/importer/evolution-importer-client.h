@@ -25,8 +25,7 @@
 #define EVOLUTION_IMPORTER_CLIENT_H
 
 #include <bonobo/bonobo-object-client.h>
-
-#include "evolution-importer.h"
+#include <importer/evolution-importer.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -60,10 +59,14 @@ typedef void (* EvolutionImporterClientCallback) (EvolutionImporterClient *clien
 						  void *data);
 
 GtkType evolution_importer_client_get_type (void);
-void evolution_importer_client_construct (EvolutionImporterClient *client,
-					  CORBA_Object corba_object);
-EvolutionImporterClient *evolution_importer_client_new (const CORBA_Object objref);
 
+EvolutionImporterClient *evolution_importer_client_new (const CORBA_Object objref);
+EvolutionImporterClient *evolution_importer_client_new_from_id (const char *id);
+
+gboolean evolution_importer_client_support_format (EvolutionImporterClient *client,
+						   const char *filename);
+gboolean evolution_importer_client_load_file (EvolutionImporterClient *client,
+					      const char *filename);
 void evolution_importer_client_process_item (EvolutionImporterClient *client,
 					     EvolutionImporterClientCallback callback,
 					     void *closure);
