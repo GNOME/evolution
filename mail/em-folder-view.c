@@ -1027,7 +1027,7 @@ emfv_popup(EMFolderView *emfv, GdkEvent *event)
 	for (i=0;i<sizeof(emfv_popup_items)/sizeof(emfv_popup_items[0]);i++)
 		menus = g_slist_prepend(menus, &emfv_popup_items[i]);
 
-	e_popup_add_items((EPopup *)emp, menus, emfv_popup_items_free, emfv);
+	e_popup_add_items((EPopup *)emp, menus, NULL, emfv_popup_items_free, emfv);
 
 	i = 1;
 	for (l = mail_config_get_labels(); l; l = l->next) {
@@ -1059,7 +1059,7 @@ emfv_popup(EMFolderView *emfv, GdkEvent *event)
 		label_list = g_slist_prepend(label_list, item);
 	}
 
-	e_popup_add_items((EPopup *)emp, label_list, emfv_popup_labels_free, emfv);
+	e_popup_add_items((EPopup *)emp, label_list, NULL, emfv_popup_labels_free, emfv);
 
 	menu = e_popup_create_menu_once((EPopup *)emp, (EPopupTarget *)target, 0);
 
@@ -2248,7 +2248,7 @@ emfv_format_popup_event(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const 
 			emfv_uri_popups[i].user_data = g_strdup(t->uri);
 			menus = g_slist_prepend(menus, &emfv_uri_popups[i]);
 		}
-		e_popup_add_items((EPopup *)emp, menus, emfv_uri_popup_free, emfv);
+		e_popup_add_items((EPopup *)emp, menus, NULL, emfv_uri_popup_free, emfv);
 	}
 
 	menu = e_popup_create_menu_once((EPopup *)emp, target, 0);

@@ -1061,26 +1061,6 @@ emae_path_changed(GtkEntry *entry, EMAccountEditorService *service)
 	emae_service_url_changed(service, camel_url_set_path, entry);
 }
 
-static void
-emae_needs_auth(GtkToggleButton *toggle, EMAccountEditorService *service)
-{
-	GtkWidget *w;
-	int need = gtk_toggle_button_get_active(toggle);
-
-	w = glade_xml_get_widget(service->emae->priv->xml, emae_service_info[service->type].auth_frame);
-	gtk_widget_set_sensitive(w, need);
-
-	if (need)
-		emae_authtype_changed(service->authtype, service);
-	else {
-		CamelURL *url = emae_account_url(service->emae, emae_service_info[service->type].account_uri_key);
-
-		camel_url_set_authmech(url, NULL);
-		emae_uri_changed(service, url);
-		camel_url_free(url);
-	}
-}
-
 static int
 emae_ssl_update(EMAccountEditorService *service, CamelURL *url)
 {
@@ -1359,6 +1339,26 @@ emae_authtype_changed(GtkComboBox *dropdown, EMAccountEditorService *service)
 	camel_url_free(url);
 
 	gtk_widget_set_sensitive((GtkWidget *)service->remember, authtype?authtype->need_password:FALSE);
+}
+
+static void
+emae_needs_auth(GtkToggleButton *toggle, EMAccountEditorService *service)
+{
+	GtkWidget *w;
+	int need = gtk_toggle_button_get_active(toggle);
+
+	w = glade_xml_get_widget(service->emae->priv->xml, emae_service_info[service->type].auth_frame);
+	gtk_widget_set_sensitive(w, need);
+
+	if (need)
+		emae_authtype_changed(service->authtype, service);
+	else {
+		CamelURL *url = emae_account_url(service->emae, emae_service_info[service->type].account_uri_key);
+
+		camel_url_set_authmech(url, NULL);
+		emae_uri_changed(service, url);
+		camel_url_free(url);
+	}
 }
 
 static void emae_check_authtype(GtkWidget *w, EMAccountEditorService *service);

@@ -1106,7 +1106,7 @@ efhd_attachment_popup(GtkWidget *w, GdkEventButton *event, struct _attach_puri *
 		menus = g_slist_prepend(menus, item);
 	}
 
-	e_popup_add_items((EPopup *)emp, menus, efhd_menu_items_free, info);
+	e_popup_add_items((EPopup *)emp, menus, NULL, efhd_menu_items_free, info);
 
 	menu = e_popup_create_menu_once((EPopup *)emp, (EPopupTarget *)target, 0);
 	if (event)

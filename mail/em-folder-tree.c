@@ -1104,7 +1104,7 @@ tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, int x, int y
 			if ((item->visible & mask) == 0)
 				menus = g_slist_append(menus, item);
 		}
-		e_popup_add_items((EPopup *)emp, menus, emft_drop_popup_free, m);
+		e_popup_add_items((EPopup *)emp, menus, NULL, emft_drop_popup_free, m);
 		menu = e_popup_create_menu_once((EPopup *)emp, NULL, mask);
 		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 	} else {
@@ -2823,7 +2823,7 @@ emft_popup (EMFolderTree *emft, GdkEvent *event)
 	for (i = 0; i < sizeof (emft_popup_items) / sizeof (emft_popup_items[0]); i++)
 		menus = g_slist_prepend (menus, &emft_popup_items[i]);
 	
-	e_popup_add_items ((EPopup *)emp, menus, emft_popup_free, emft);
+	e_popup_add_items ((EPopup *)emp, menus, NULL, emft_popup_free, emft);
 
 	menu = e_popup_create_menu_once ((EPopup *)emp, (EPopupTarget *)target, 0);
 	

@@ -691,7 +691,7 @@ emp_standard_menu_factory(EPopup *emp, void *data)
 			}
 
 			if (open_menus)
-				e_popup_add_items(emp, open_menus, emp_apps_popup_free, NULL);
+				e_popup_add_items(emp, open_menus, NULL, emp_apps_popup_free, NULL);
 
 			g_string_free(label, TRUE);
 			g_list_free(apps);
@@ -711,7 +711,7 @@ emp_standard_menu_factory(EPopup *emp, void *data)
 	}
 
 	if (menus)
-		e_popup_add_items(emp, menus, emp_standard_items_free, NULL);
+		e_popup_add_items(emp, menus, NULL, emp_standard_items_free, NULL);
 }
 
 /* ********************************************************************** */
