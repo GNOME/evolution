@@ -27,13 +27,6 @@
 #include <string.h>
 #include "md5-utils.h"
 
-struct _MD5Context {
-	guint32 buf[4];
-	guint32 bits[2];
-	guchar in[64];
-	gint doByteReverse;
-};
-
 
 static void md5_transform (guint32 buf[4], const guint32 in[16]);
 
