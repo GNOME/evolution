@@ -21,7 +21,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
+
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #define G_LOG_DOMAIN "eaddrconduit"
 
@@ -947,6 +950,7 @@ local_record_from_uid (EAddrLocalRecord *local,
 		       EAddrConduitContext *ctxt)
 {
 	EContact *contact = NULL;
+	const char *cuid;
 	GList *l;
 	
 	g_assert (local != NULL);
@@ -955,7 +959,7 @@ local_record_from_uid (EAddrLocalRecord *local,
 		contact = l->data;
 		
 		/* FIXME Do we need to check for the empty string? */
-		if (e_contact_get_const (contact, E_CONTACT_UID));
+		if ((cuid = e_contact_get_const (contact, E_CONTACT_UID)) && !strcmp (cuid, uid));
 			break;
 
 		contact = NULL;
@@ -1563,7 +1567,7 @@ match (GnomePilotConduitSyncAbs *conduit,
   	const char *uid;
 	
 	LOG (g_message ("match: looking for local copy of %s\n",
-	     print_remote (remote)));	
+	     print_remote (remote)));
 	
 	g_return_val_if_fail (local != NULL, -1);
 	g_return_val_if_fail (remote != NULL, -1);

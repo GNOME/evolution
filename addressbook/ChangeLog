@@ -1,3 +1,8 @@
+2004-06-21  Jeffrey Stedfast  <fejj@novell.com>
+
+	* conduit/address-conduit.c (local_record_from_uid): Make sure the
+	UIDs match. Should fix bug #59725.
+
 2004-06-19 Sivaiah Nallagatla <snallagatla@novell.com>
 
        * gui/component/addressbook-config.c (dialog_to_source) : 
