@@ -51,6 +51,8 @@ mail/component-factory.c
 mail/folder-browser-factory.c
 mail/folder-browser.c
 mail/mail-config.c
+mail/mail-config.glade.h
+mail/mail-config-druid.glade.h
 mail/mail-crypto.c
 mail/mail-ops.c
 mail/mail-threads.c
