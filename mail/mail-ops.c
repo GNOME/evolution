@@ -35,6 +35,7 @@
 #include <gal/widgets/e-unicode.h>
 #include <camel/camel-mime-filter-from.h>
 #include <camel/camel-operation.h>
+#include <camel/camel-vtrash-folder.h>
 #include "mail.h"
 #include "mail-tools.h"
 #include "mail-ops.h"
@@ -901,20 +902,30 @@ transfer_messages_transfer (struct _mail_msg *mm)
 		func = camel_folder_copy_messages_to;
 		desc = _("Copying");
 	}
-
+	
 	dest = mail_tool_uri_to_folder (m->dest_uri, &mm->ex);
 	if (camel_exception_is_set (&mm->ex))
 		return;
-
+	
 	camel_folder_freeze (m->source);
 	camel_folder_freeze (dest);
 	
-	(func) (m->source, m->uids, dest, &mm->ex);
+	if (CAMEL_IS_VTRASH_FOLDER (dest)) {
+		if (m->delete) {
+			int i;
+			
+			for (i = 0; i < m->uids->len; i++)
+				camel_folder_delete_message (m->source, m->uids->pdata[i]);
+		} else {
+			/* no-op - can't copy messages to*/
+		}
+	} else
+		(func) (m->source, m->uids, dest, &mm->ex);
 	
-	camel_folder_thaw(m->source);
-	camel_folder_thaw(dest);
-	camel_folder_sync(dest, FALSE, NULL);
-	camel_object_unref((CamelObject *)dest);
+	camel_folder_thaw (m->source);
+	camel_folder_thaw (dest);
+	camel_folder_sync (dest, FALSE, NULL);
+	camel_object_unref (CAMEL_OBJECT (dest));
 }
 
 static void
@@ -983,7 +994,8 @@ struct _get_folderinfo_msg {
 	void *data;
 };
 
-static char *get_folderinfo_desc(struct _mail_msg *mm, int done)
+static char *
+get_folderinfo_desc (struct _mail_msg *mm, int done)
 {
 	struct _get_folderinfo_msg *m = (struct _get_folderinfo_msg *)mm;
 	char *ret, *name;
@@ -1004,14 +1016,14 @@ add_vtrash_info (CamelFolderInfo *info)
 	g_return_if_fail (info != NULL);
 	
 	for (fi = info; fi->sibling; fi = fi->sibling) {
-		if (!strcmp (fi->name, _("Trash")))
+		if (!strcmp (fi->name, CAMEL_VTRASH_NAME))
 			break;
 	}
 	
 	/* create our vTrash URL */
 	url = camel_url_new (info->url, NULL);
 	g_free (url->path);
-	url->path = g_strdup_printf ("/%s", _("Trash"));
+	url->path = g_strdup_printf ("/%s", CAMEL_VTRASH_NAME);
 	uri = camel_url_to_string (url, 0);
 	camel_url_free (url);
 	
@@ -1036,7 +1048,8 @@ add_vtrash_info (CamelFolderInfo *info)
 	g_free (uri);
 }
 
-static void get_folderinfo_get(struct _mail_msg *mm)
+static void
+get_folderinfo_get (struct _mail_msg *mm)
 {
 	struct _get_folderinfo_msg *m = (struct _get_folderinfo_msg *)mm;
 	guint32 flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE;
@@ -1051,7 +1064,8 @@ static void get_folderinfo_get(struct _mail_msg *mm)
 	camel_operation_unregister(mm->cancel);
 }
 
-static void get_folderinfo_got(struct _mail_msg *mm)
+static void
+get_folderinfo_got (struct _mail_msg *mm)
 {
 	struct _get_folderinfo_msg *m = (struct _get_folderinfo_msg *)mm;
 
@@ -1066,7 +1080,8 @@ static void get_folderinfo_got(struct _mail_msg *mm)
 		m->done(m->store, m->info, m->data);
 }
 
-static void get_folderinfo_free(struct _mail_msg *mm)
+static void
+get_folderinfo_free (struct _mail_msg *mm)
 {
 	struct _get_folderinfo_msg *m = (struct _get_folderinfo_msg *)mm;
 
@@ -1082,7 +1097,8 @@ static struct _mail_msg_op get_folderinfo_op = {
 	get_folderinfo_free,
 };
 
-int mail_get_folderinfo(CamelStore *store, void (*done)(CamelStore *store, CamelFolderInfo *info, void *data), void *data)
+int
+mail_get_folderinfo (CamelStore *store, void (*done)(CamelStore *store, CamelFolderInfo *info, void *data), void *data)
 {
 	struct _get_folderinfo_msg *m;
 	int id;

@@ -971,7 +971,7 @@ transfer_msg (GtkWidget *widget, gpointer user_data, gboolean delete_from_source
 	GPtrArray *uids;
 	char *uri, *physical, *path;
 	char *desc;
-	const char *allowed_types[] = { "mail", "vtrash", NULL };
+	const char *allowed_types[] = { "mail", /*"vtrash",*/ NULL };
 	extern EvolutionShellClient *global_shell_client;
 	static char *last = NULL;
 	
@@ -983,8 +983,8 @@ transfer_msg (GtkWidget *widget, gpointer user_data, gboolean delete_from_source
 	else
 		desc = _("Copy message(s) to");
 	
-	evolution_shell_client_user_select_folder  (global_shell_client, desc, last,
-						    allowed_types, &uri, &physical);
+	evolution_shell_client_user_select_folder (global_shell_client, desc, last,
+						   allowed_types, &uri, &physical);
 	if (!uri)
 		return;
 	

@@ -27,6 +27,8 @@
 #include <camel/camel-folder.h>
 #include <camel/camel-vee-folder.h>
 
+#define CAMEL_VTRASH_NAME "Trash"
+
 #define CAMEL_VTRASH_FOLDER(obj)         CAMEL_CHECK_CAST (obj, camel_vtrash_folder_get_type (), CamelVTrashFolder)
 #define CAMEL_VTRASH_FOLDER_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_vtrash_folder_get_type (), CamelVTrashFolderClass)
 #define CAMEL_IS_VTRASH_FOLDER(obj)      CAMEL_CHECK_TYPE (obj, camel_vtrash_folder_get_type ())

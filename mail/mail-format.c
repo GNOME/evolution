@@ -561,23 +561,22 @@ void
 mail_part_toggle_displayed (CamelMimePart *part, MailDisplay *md)
 {
 	GHashTable *asht = g_datalist_get_data (md->data, "attachment_states");
+	gpointer ostate, opart;
 	gint state;
 	
-	state = GPOINTER_TO_INT (g_hash_table_lookup (asht, part));
-
-	if (state & I_DISPLAYED) { 
-		/*printf ("** part %p, hiding\n", part);*/
-		state &= ~I_DISPLAYED;
+	if (g_hash_table_lookup_extended (asht, part, &opart, &ostate)) {
+		g_hash_table_remove (asht, part);
+		
+		state = GPOINTER_TO_INT (ostate);
+		
+		if (state & I_DISPLAYED)
+			state &= ~I_DISPLAYED;
+		else
+			state |= I_DISPLAYED;
 	} else {
-		if (state == 0) {
-			/*printf ("** part %p: uninitialized attachment state! Showing.", part);*/
-			state |= I_VALID;
-		}
-
-		printf ("** part %p, showing\n", part);
-		state |= I_DISPLAYED;
+		state = I_VALID | I_DISPLAYED;
 	}
-
+	
 	g_hash_table_insert (asht, part, GINT_TO_POINTER (state));
 }
 
@@ -875,7 +874,7 @@ write_headers (CamelMimeMessage *message, MailDisplay *md)
 		{ "Date", NULL }
 	};
 	int i, len, flags;
-	gboolean full = GPOINTER_TO_INT (g_datalist_get_data (md->data, "full_headers"));
+	gboolean full = (md->display_style == MAIL_CONFIG_DISPLAY_FULL_HEADERS);
 
 	mail_html_write (md->html, md->stream,
 			 "<table width=\"100%%\" cellpadding=0 cellspacing=0>"
@@ -1658,12 +1657,14 @@ handle_multipart_encrypted (CamelMimePart *part, const char *mime_type,
 		camel_exception_clear (&ex);
 		return handle_multipart_mixed (part, mime_type, md);
 	} else {
-		gboolean retcode;
-		
-		retcode = format_mime_part (mime_part, md);
+		/* replace the encrypted part with the decrypted part */
+		/* FIXME: will this cause problems anywhere? -- seems to work okay so far */
+		camel_medium_set_content_object (CAMEL_MEDIUM (part),
+						 camel_medium_get_content_object (CAMEL_MEDIUM (mime_part)));
 		camel_object_unref (CAMEL_OBJECT (mime_part));
 		
-		return retcode;
+		/* and continue on our merry way... */
+		return format_mime_part (part, md);
 	}
 }
 

@@ -350,13 +350,8 @@ static void
 init_trash (CamelStore *store)
 {
 	MailLocalStore *local_store = MAIL_LOCAL_STORE (store);
-	char *name;
 	
-	name = g_strdup_printf ("%s?(match-all (system-flag \"Deleted\"))", "vTrash");
-	
-	store->vtrash = camel_vtrash_folder_new (store, name);
-	
-	g_free (name);
+	store->vtrash = camel_vtrash_folder_new (store, CAMEL_VTRASH_NAME);
 	
 	if (store->vtrash) {
 		/* attach to the finalize event of the vtrash */
@@ -446,7 +441,8 @@ struct _register_msg {
 	MailLocalFolder *local_folder;
 };
 
-static char *register_folder_desc(struct _mail_msg *mm, int done)
+static char *
+register_folder_desc(struct _mail_msg *mm, int done)
 {
 	struct _register_msg *m = (struct _register_msg *)mm;
 
@@ -469,15 +465,14 @@ register_folder_register(struct _mail_msg *mm)
 	meta = load_metainfo (name);
 	g_free (name);
 
-	camel_operation_register(mm->cancel);
-
+	camel_operation_register (mm->cancel);
 	name = g_strdup_printf ("%s:%s", meta->format, path);
 	store = camel_session_get_store (session, name, &mm->ex);
 	g_free (name);
 
 	if (!store) {
 		free_metainfo (meta);
-		camel_operation_unregister(mm->cancel);
+		camel_operation_unregister (mm->cancel);
 		return;
 	}
 

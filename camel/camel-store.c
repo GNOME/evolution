@@ -375,7 +375,7 @@ trash_finalize (CamelObject *trash, gpointer event_data, gpointer user_data)
 static void
 init_trash (CamelStore *store)
 {
-	store->vtrash = camel_vtrash_folder_new (store, _("Trash"));
+	store->vtrash = camel_vtrash_folder_new (store, CAMEL_VTRASH_NAME);
 	
 	if (store->vtrash) {
 		/* attach to the finalise event of the vtrash */
@@ -444,9 +444,13 @@ static void
 store_sync (CamelStore *store, CamelException *ex)
 {
 	if (store->folders) {
+		CamelException internal_ex;
+	
+		camel_exception_init (&internal_ex);
 		CAMEL_STORE_LOCK(store, cache_lock);
-		g_hash_table_foreach (store->folders, sync_folder, ex);
+		g_hash_table_foreach (store->folders, sync_folder, &internal_ex);
 		CAMEL_STORE_UNLOCK(store, cache_lock);
+		camel_exception_xfer (ex, &internal_ex);
 	}
 }
 

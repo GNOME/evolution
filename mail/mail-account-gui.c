@@ -36,6 +36,7 @@
 #include "shell/evolution-shell-client.h"
 #include "mail-account-gui.h"
 #include "mail-session.h"
+#include "mail-send-recv.h"
 #include "e-msg-composer.h"
 
 extern char *default_drafts_folder_uri, *default_sent_folder_uri;
@@ -260,7 +261,7 @@ static void
 source_type_changed (GtkWidget *widget, gpointer user_data)
 {
 	MailAccountGui *gui = user_data;
-	GtkWidget *label, *frame, *dwidget = NULL;
+	GtkWidget *file_entry, *label, *frame, *dwidget = NULL;
 	CamelProvider *provider;
 	
 	provider = gtk_object_get_data (GTK_OBJECT (widget), "provider");
@@ -298,6 +299,7 @@ source_type_changed (GtkWidget *widget, gpointer user_data)
 		
 		/* path */
 		label = glade_xml_get_widget (gui->xml, "source_path_label");
+		file_entry = glade_xml_get_widget (gui->xml, "source_path_entry");
 		
 		if (CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_PATH)) {
 			if (!dwidget)
@@ -320,11 +322,11 @@ source_type_changed (GtkWidget *widget, gpointer user_data)
 				gtk_entry_set_text (gui->source.path, "");
 			}
 			
-			gtk_widget_show (GTK_WIDGET (gui->source.path));
+			gtk_widget_show (GTK_WIDGET (file_entry));
 			gtk_widget_show (label);
 		} else {
 			gtk_entry_set_text (gui->source.path, "");
-			gtk_widget_hide (GTK_WIDGET (gui->source.path));
+			gtk_widget_hide (GTK_WIDGET (file_entry));
 			gtk_widget_hide (label);
 		}
 		
@@ -1570,6 +1572,8 @@ mail_account_gui_save (MailAccountGui *gui)
 	g_free (account->smime_key);
 	account->smime_key = e_utf8_gtk_entry_get_text (gui->smime_key);
 	account->smime_encrypt_to_self = gtk_toggle_button_get_active (gui->smime_encrypt_to_self);
+	
+	mail_autoreceive_setup ();
 	
 	return TRUE;
 }

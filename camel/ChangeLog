@@ -1,3 +1,55 @@
+2001-07-17  Peter Williams  <peterw@ximian.com>
+
+	Clean up some exception misusage.
+
+	* providers/imap/camel-imap-command.c (camel_imap_command): Use
+	our own internal exception for sending the string and transfer it
+	to @ex if anything goes wrong.
+	(imap_read_response): Use our own internal exception for reading
+	the untagged responses and blah blah blah.
+
+	* camel-session.c (get_service): Use our own internal exception
+	when constructing the service and transfer it to @ex if anything
+	goes wrong.
+
+	* camel-remote-store.c (remote_recv_line): Instead of having
+	gboolean exception, use our own internal exception and copy
+	it to @ex if anything goes wrong.
+
+	* camel-store.c (store_sync): Create an internal exception
+	because sync_folder() checks it for validity. Transfer it to
+	@ex when done.
+
+	* camel-exception.c (camel_exception_get_description): If @ex is
+	NULL, complain - passing NULL exceptions to Camel is okay, but
+	there should be no circumstances under which they're then
+	examined.
+	(camel_exception_get_id): Same here,
+	(camel_exception_xfer): NULL-protect and warn if transferring from
+	a NULL exception.
+	
+2001-07-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-store.c (init_trash): Use CAMEL_VTRASH_NAME.
+
+	* camel-vtrash-folder.h: #define CAMEL_VTRASH_NAME
+
+2001-07-16  Dan Winship  <danw@ximian.com>
+
+	* providers/imap/camel-imap-command.c (camel_imap_response_free):
+	Given:
+		* 4 EXISTS
+		* 1 EXPUNGE
+	We have to pass 3, not 4 to camel_imap_folder_changed for the
+	exists count. Fixes ximian bug #2112 (finally!).
+
+2001-07-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_changed):
+	If the message info for an expunged message is NULL, then just
+	break out - maybe a message was expunged that we were never
+	notified even existed?
+
 2001-07-16  JP Rosevear  <jpr@ximian.com>
 
 	* tests/smime/pgp-mime.c (main): update call for pgp context api

@@ -170,6 +170,8 @@ folder_browser_factory_new_control (const char *uri,
 	if (folder_browser == NULL)
 		return NULL;
 
+	FOLDER_BROWSER (folder_browser)->pref_master = TRUE; /* save UI settings changed in this FB */
+
 	if (!folder_browser_set_uri (FOLDER_BROWSER (folder_browser), uri)) {
 		gtk_object_sink (GTK_OBJECT (folder_browser));
 		return NULL;

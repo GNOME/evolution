@@ -280,7 +280,7 @@ folder_browser_ui_add_message (FolderBrowser *fb)
 
 	/* Display Style */
 
-	state = mail_config_get_message_display_style ();
+	state = fb->mail_display->display_style;
 	bonobo_ui_component_set_prop (uic, message_display_styles[state],
 				      "state", "1", NULL);
 	bonobo_ui_component_add_listener (uic, "ViewNormal", folder_browser_set_message_display_style, fb);
