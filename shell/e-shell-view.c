@@ -211,6 +211,54 @@ storage_set_view_box_button_release_event_cb (GtkWidget *widget,
 	return TRUE;
 }
 
+static int
+storage_set_view_box_event_cb (GtkWidget *widget,
+			       GdkEvent *event,
+			       void *data)
+{
+	GtkWidget *event_widget;
+	GtkWidget *tooltip;
+	EShellView *shell_view;
+	EShellViewPrivate *priv;
+
+	shell_view = E_SHELL_VIEW (data);
+	priv = shell_view->priv;
+
+	event_widget = gtk_get_event_widget (event);
+
+	if (!event_widget)
+		return FALSE;
+
+	tooltip = e_tree_get_tooltip (E_TREE(priv->storage_set_view));
+	if (! (GTK_WIDGET_IS_SENSITIVE (event_widget) &&
+	       tooltip &&
+	       gtk_widget_is_ancestor (event_widget, tooltip)))
+		return FALSE;
+
+	switch (event->type) {
+	case GDK_BUTTON_PRESS:
+	case GDK_2BUTTON_PRESS:
+	case GDK_3BUTTON_PRESS:
+	case GDK_KEY_PRESS:
+	case GDK_KEY_RELEASE:
+	case GDK_MOTION_NOTIFY:
+	case GDK_BUTTON_RELEASE:
+	case GDK_PROXIMITY_IN:
+	case GDK_PROXIMITY_OUT:
+		gtk_propagate_event (event_widget, event);
+		return TRUE;
+		break;
+	case GDK_ENTER_NOTIFY:
+	case GDK_LEAVE_NOTIFY:
+		gtk_widget_event (event_widget, event);
+		return TRUE;
+		break;
+	default:
+		break;
+	}
+	return FALSE;
+}
+
 static void
 popup_storage_set_view_button_clicked (ETitleBar *title_bar,
 				       void *data)
@@ -253,6 +301,8 @@ storage_set_view_box_map_cb (GtkWidget *widget,
 	}
 
 	gtk_grab_add (widget);
+	gtk_signal_connect (GTK_OBJECT (widget), "event",
+			    GTK_SIGNAL_FUNC (storage_set_view_box_event_cb), shell_view);
 	gtk_signal_connect (GTK_OBJECT (widget), "button_release_event",
 			    GTK_SIGNAL_FUNC (storage_set_view_box_button_release_event_cb), shell_view);
 	gtk_signal_connect (GTK_OBJECT (priv->storage_set_view), "button_release_event",
