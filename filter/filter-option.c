@@ -169,7 +169,7 @@ filter_option_add(FilterOption *fo, const char *value, const char *title, const 
 	struct _filter_option *op;
 	
 	g_assert(IS_FILTER_OPTION(fo));
-	g_return_if_fail(find_option(fo, value) == NULL);
+	g_return_val_if_fail(find_option(fo, value) == NULL, NULL);
 	
 	op = g_malloc(sizeof(*op));
 	op->title = g_strdup(title);

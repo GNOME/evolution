@@ -70,6 +70,7 @@ libfilter_la_DEPENDENCIES = libfilter-i18n.h
 
 EXTRA_DIST =					\
 	$(glade_DATA)				\
+	$(error_in_files)			\
 	ChangeLog.pre-1-4			\
 	filter-marshal.list			\
 	filtertypes.xml				\
@@ -80,6 +81,11 @@ EXTRA_DIST =					\
 # basic rules.
 filterdir = $(privdatadir)
 filter_DATA = filtertypes.xml vfoldertypes.xml searchtypes.xml
+
+error_in_files = filter-errors.xml.in
+error_DATA = $(error_in_files:.xml.in=.xml)
+errordir = $(privdatadir)/errors
+@INTLTOOL_XML_RULE@
 
 libfilter-i18n.h: filtertypes.xml vfoldertypes.xml
 	echo "/* Automatically generated. Do not edit. */" > $@;	      \

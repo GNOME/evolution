@@ -37,6 +37,7 @@
 #include "mail/em-folder-tree.h"
 #include "mail/em-folder-selector.h"
 #include "mail/mail-component.h"
+#include "widgets/misc/e-error.h"
 
 #define d(x) 
 
@@ -204,20 +205,11 @@ vfolder_rule_next_source (VfolderRule *vr, const char *last)
 static int
 validate (FilterRule *fr)
 {
-	GtkWidget *dialog;
-	
 	g_return_val_if_fail (fr != NULL, FALSE);
 	
 	if (!fr->name || !*fr->name) {
 		/* FIXME: set a aprent window? */
-		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
-						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-						 "%s", _("You must name this vfolder."));
-		
-		gtk_dialog_set_has_separator ((GtkDialog *) dialog, FALSE);
-		gtk_dialog_run ((GtkDialog *) dialog);
-		gtk_widget_destroy (dialog);
-		
+		e_error_run(NULL, "filter:no-name-vfolder", NULL);
 		return 0;
 	}
 	
@@ -225,14 +217,7 @@ validate (FilterRule *fr)
 	   Do not translate this string! */
 	if (((VfolderRule *)fr)->with == VFOLDER_RULE_WITH_SPECIFIC && ((VfolderRule *)fr)->sources == NULL) {
 		/* FIXME: set a parent window? */
-		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
-						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-						 "%s", _("You need to to specify at least one folder as a source."));
-		
-		gtk_dialog_set_has_separator ((GtkDialog *) dialog, FALSE);
-		gtk_dialog_run ((GtkDialog *) dialog);
-		gtk_widget_destroy (dialog);
-		
+		e_error_run(NULL, "filter:vfolder-no-source", NULL);
 		return 0;
 	}
 	

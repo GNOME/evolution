@@ -1,3 +1,9 @@
+2004-04-28  Not Zed  <NotZed@Ximian.com>
+
+	* filter-option.c (filter_option_add): fix a warning.
+
+	** Changed error messages to use EError.
+
 2004-03-31  Not Zed  <NotZed@Ximian.com>
 
 	* filter.glade: renamed filter_label to rule_label, and removed

@@ -27,9 +27,11 @@
 
 /* for getenv only, remove when getenv need removed */
 #include <stdlib.h>
+#include <string.h>
 
 #include <libgnome/gnome-i18n.h>
 
+#include "widgets/misc/e-error.h"
 #include "rule-editor.h"
 
 static int enable_undo = 0;
@@ -234,15 +236,7 @@ add_editor_response (GtkWidget *dialog, int button, RuleEditor *re)
 		}
 		
 		if (rule_context_find_rule (re->context, re->edit->name, re->edit->source)) {
-			dialog = gtk_message_dialog_new ((GtkWindow *) dialog, GTK_DIALOG_DESTROY_WITH_PARENT,
-							 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-							 _("Rule name '%s' is not unique, choose another."),
-							 re->edit->name);
-			
-			gtk_dialog_set_has_separator ((GtkDialog *) dialog, FALSE);
-			gtk_dialog_run ((GtkDialog *) dialog);
-			gtk_widget_destroy (dialog);
-			
+			e_error_run((GtkWindow *)dialog, "filter:bad-name-notunique", re->edit->name, NULL);
 			return;
 		}
 		
@@ -320,15 +314,7 @@ edit_editor_response (GtkWidget *dialog, int button, RuleEditor *re)
 		
 		rule = rule_context_find_rule (re->context, re->edit->name, re->edit->source);
 		if (rule != NULL && rule != re->current) {
-			dialog = gtk_message_dialog_new ((GtkWindow *) dialog,
-							 GTK_DIALOG_DESTROY_WITH_PARENT,
-							 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-							 _("Rule name '%s' is not unique, choose another."),
-							 re->edit->name);
-			
-			gtk_dialog_set_has_separator ((GtkDialog *) dialog, FALSE);
-			gtk_dialog_run ((GtkDialog *) dialog);
-			gtk_widget_destroy (dialog);
+			e_error_run((GtkWindow *)dialog, "filter:bad-name-notunique", rule->name, NULL);
 			
 			return;
 		}

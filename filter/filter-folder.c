@@ -34,6 +34,7 @@
 #include "mail/em-folder-selection-button.h"
 #include "mail/mail-component.h"
 #include "e-util/e-sexp.h"
+#include "widgets/misc/e-error.h"
 
 #define d(x)
 
@@ -139,7 +140,6 @@ static gboolean
 validate (FilterElement *fe)
 {
 	FilterFolder *ff = (FilterFolder *) fe;
-	GtkWidget *dialog;
 	
 	if (ff->uri && *ff->uri) {
 		return TRUE;
@@ -148,14 +148,8 @@ validate (FilterElement *fe)
                    GtkWidget member pointing to the value gotten with
                    ::get_widget() so that we can get the parent window
                    here. */
-		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
-						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-						 "%s", _("You must specify a folder."));
+		e_error_run(NULL, "filter:no-folder", NULL);
 
-		gtk_dialog_set_has_separator ((GtkDialog *) dialog, FALSE);
-		gtk_dialog_run ((GtkDialog *) dialog);
-		gtk_widget_destroy (dialog);
-		
 		return FALSE;
 	}
 }

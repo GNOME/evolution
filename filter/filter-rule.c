@@ -30,6 +30,7 @@
 #include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
 
+#include "widgets/misc/e-error.h"
 #include "filter-rule.h"
 #include "filter-context.h"
 #include "filter-marshal.h"
@@ -205,7 +206,6 @@ filter_rule_validate (FilterRule *fr)
 static int
 validate (FilterRule *fr)
 {
-	GtkWidget *dialog;
 	int valid = TRUE;
 	GList *parts;
 	
@@ -214,13 +214,7 @@ validate (FilterRule *fr)
                    GtkWidget member pointing to the value gotten with
                    ::get_widget() so that we can get the parent window
                    here. */
-		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
-						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-						 "%s", _("You must name this filter."));
-		
-		gtk_dialog_set_has_separator ((GtkDialog *) dialog, FALSE);
-		gtk_dialog_run ((GtkDialog *) dialog);
-		gtk_widget_destroy (dialog);
+		e_error_run(NULL, "filter:no-name", NULL);
 		
 		return FALSE;
 	}

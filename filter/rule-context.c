@@ -35,6 +35,7 @@
 #include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-xml-utils.h>
+#include "widgets/misc/e-error.h"
 
 #include "rule-context.h"
 #include "filter-rule.h"
@@ -677,14 +678,7 @@ new_rule_response(GtkWidget *dialog, int button, RuleContext *context)
 		}
 
 		if (rule_context_find_rule (context, rule->name, rule->source)) {
-			dialog = gtk_message_dialog_new ((GtkWindow *) dialog, GTK_DIALOG_DESTROY_WITH_PARENT,
-							 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-							 _("Rule name '%s' is not unique, choose another."),
-							 rule->name);
-
-			gtk_dialog_set_has_separator ((GtkDialog *) dialog, FALSE);
-			gtk_dialog_run ((GtkDialog *) dialog);
-			gtk_widget_destroy (dialog);
+			e_error_run((GtkWindow *)dialog, "filter:bad-name-notunique", rule->name, NULL);
 
 			return;
 		}

@@ -34,6 +34,7 @@
 
 #include "filter-input.h"
 #include "e-util/e-sexp.h"
+#include "widgets/misc/e-error.h"
 
 #define d(x)
 
@@ -165,7 +166,6 @@ validate (FilterElement *fe)
 {
 	FilterInput *fi = (FilterInput *)fe;
 	gboolean valid = TRUE;
-	GtkWidget *dialog;
 	
 	if (fi->values && !strcmp (fi->type, "regex")) {
 		const char *pattern;
@@ -188,14 +188,7 @@ validate (FilterElement *fe)
 			   GtkWidget member pointing to the value gotten with
 			   ::get_widget() so that we can get the parent window
 			   here. */
-			dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
-							 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-							 _("Error in regular expression '%s':\n%s"),
-							 pattern, regmsg);
-			
-			gtk_dialog_set_has_separator ((GtkDialog *) dialog, FALSE);
-			gtk_dialog_run ((GtkDialog *) dialog);
-			gtk_widget_destroy (dialog);
+			e_error_run(NULL, "filter:bad-regexp", pattern, regmsg, NULL);
 			g_free (regmsg);
 			
 			valid = FALSE;
