@@ -1,3 +1,9 @@
+2005-03-16  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #73347
+
+	* mail-composer-errors.xml: set the default for auto-recover.
+
 2005-03-15  Hans Petter Jansson  <hpj@novell.com>
 
 	* e-msg-composer.c (setup_cut_copy_paste): Set up c/c/p for To: Cc:

@@ -20,7 +20,7 @@
   <secondary>Because &quot;{1}&quot;.</secondary>
  </error>
 
- <error id="recover-autosave" type="question">
+ <error id="recover-autosave" type="question" default="GTK_RESPONSE_YES">
   <title>Unfinished messages found</title>
   <primary>Do you want to recover unfinished messages?</primary>
   <secondary>Evolution quit unexpectedly while you were composing a new message. Recovering the message will allow you to continue where you left off.</secondary>
