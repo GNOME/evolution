@@ -1,5 +1,10 @@
 2002-11-06  Chris Toshok  <toshok@ximian.com>
 
+	* backend/ebook/e-book-util.c (e_book_expand_uri): call
+	g_build_filename, not g_build_path.
+
+2002-11-06  Chris Toshok  <toshok@ximian.com>
+
 	* backend/ebook/e-destination.[ch]: fix the gnome-xml headers.
 
 2002-11-06  Chris Toshok  <toshok@ximian.com>

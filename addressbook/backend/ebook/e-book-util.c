@@ -53,7 +53,7 @@ e_book_expand_uri (const char *uri)
 			char *ret_val;
 			char *file_name;
 
-			file_name = g_build_path(uri + offset, "addressbook.db", NULL);
+			file_name = g_build_filename(uri + offset, "addressbook.db", NULL);
 			ret_val = g_strdup_printf("file://%s", file_name);
 			g_free(file_name);
 			return ret_val; 
