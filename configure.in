@@ -514,31 +514,6 @@ fi
 AC_MSG_RESULT($with_broken_spool)
 
 
-dnl ***************************************************************
-dnl Whether to build shlib components (instead of out-of-proc ones)
-dnl ***************************************************************
-
-AC_ARG_ENABLE(shlib-components,
-	      [   --enable-shlib-components Enable building of some of the components as shared libs],
-	      enable_shlib_components=yes,enable_shlib_components=no)
-
-AM_CONDITIONAL(ENABLE_SHLIB_COMPONENTS, test "x$enable_shlib_components" = "xyes")
-
-if test "x$enable_shlib_components" = "xyes" ; then
-	OAF_SHLIB_TYPE="shlib"
-	OAF_SHLIB_PREFIX="lib"
-	OAF_SHLIB_SUFFIX=".so"
-else
-	OAF_SHLIB_TYPE="exe"
-	OAF_SHLIB_PREFIX=""
-	OAF_SHLIB_SUFFIX=""
-fi
-
-AC_SUBST(OAF_SHLIB_TYPE)
-AC_SUBST(OAF_SHLIB_PREFIX)
-AC_SUBST(OAF_SHLIB_SUFFIX)
-
-
 dnl *********
 dnl Libraries
 dnl *********
@@ -1405,26 +1380,16 @@ echo "\
 	IPv6 support:     $msg_ipv6
 	Dot Locking:	  $msg_dot
 	File Locking:	  $msg_file
-	Gtk-doc:	  $enable_gtk_doc
-	Shlib components: $enable_shlib_components"
+	Gtk-doc:	  $enable_gtk_doc"
 
 if test x$enable_gtk_doc = xyes; then
 echo "
-	Programming documentation files will be built automatically."
+	Programming documentation files will be built automatically.
+"
 else
 echo "
 	Programming documentation files will not be built.
 	You may want to install the gtk-doc package
-	so that you will get the Evolution Developer's Guide."
-fi
-
-if test "x$enable_shlib_components" = "xyes" ; then
-	echo "
-        *** Warning, shlib components are currently broken.
-        *** Enabling this option will probably cause Evolution to not
-        *** work correctly.
-"
-else
-	echo "
+	so that you will get the Evolution Developer's Guide.
 "
 fi

@@ -1,3 +1,7 @@
+2003-02-03  Chris Toshok  <toshok@ximian.com>
+
+	* configure.in: remove the --enable-shlib-components stuff.
+
 2003-01-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in (HAVE_KRB5): Updated to add gssapi libs, since this
