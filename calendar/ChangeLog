@@ -1,5 +1,9 @@
 2002-01-14  JP Rosevear  <jpr@ximian.com>
 
+	* gui/gnome-cal.c (get_current_time): use icaltimetype_to_tm
+	
+2002-01-14  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/e-week-view-main-item.c (e_week_view_main_item_draw_day):
 	figure out when today is and highlight if it is not selected
 

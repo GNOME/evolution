@@ -642,13 +642,7 @@ get_current_time (ECalendarItem *calitem, gpointer data)
 					    cal->priv->zone);
 
 	/* Now copy it to the struct tm and return it. */
-	tmp_tm.tm_year  = tt.year - 1900;
-	tmp_tm.tm_mon   = tt.month - 1;
-	tmp_tm.tm_mday  = tt.day;
-	tmp_tm.tm_hour  = tt.hour;
-	tmp_tm.tm_min   = tt.minute;
-	tmp_tm.tm_sec   = tt.second;
-	tmp_tm.tm_isdst = -1;
+	tmp_tm = icaltimetype_to_tm (&tt);
 
 	return tmp_tm;
 }
