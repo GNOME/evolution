@@ -282,6 +282,9 @@ em_folder_selector_get_selected_uri (EMFolderSelector *emfs)
 		char *newpath;
 		
 		url = camel_url_new (uri, NULL);
+		/* FIXME: if we try to create a toplevel folder on a
+		 * store that uses fragments, url->fragment will be
+		 * NULL and so the resultant url will be incorrect */
 		newpath = g_strdup_printf ("%s/%s", url->fragment ? url->fragment : url->path, gtk_entry_get_text (emfs->name_entry));
 		if (url->fragment)
 			camel_url_set_fragment (url, newpath);

@@ -435,11 +435,11 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 		gtk_tree_store_append ((GtkTreeStore *) model, &sub, iter);
 		gtk_tree_store_set ((GtkTreeStore *) model, &sub,
 				    COL_STRING_DISPLAY_NAME, _("Loading..."),
-				    COL_POINTER_CAMEL_STORE, si->store,
-				    COL_STRING_FOLDER_PATH, fi->path,
-				    COL_BOOL_LOAD_SUBDIRS, TRUE,
+				    COL_POINTER_CAMEL_STORE, NULL,
+				    COL_STRING_FOLDER_PATH, NULL,
+				    COL_BOOL_LOAD_SUBDIRS, FALSE,
 				    COL_BOOL_IS_STORE, FALSE,
-				    COL_STRING_URI, fi->url,
+				    COL_STRING_URI, NULL,
 				    COL_UINT_UNREAD, 0,
 				    -1);
 	}

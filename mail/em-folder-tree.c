@@ -1050,7 +1050,6 @@ em_folder_tree_get_folder_info__free (struct _mail_msg *mm)
 	camel_store_free_folder_info (m->store, m->fi);
 	
 	gtk_tree_row_reference_free (m->root);
-	/*g_object_unref (m->emft);*/
 	camel_object_unref (m->store);
 	g_free (m->select_uri);
 	g_free (m->top);
