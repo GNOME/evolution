@@ -1,3 +1,9 @@
+2003-12-06  JP Rosevear <jpr@ximian.com>
+
+	* e-shell-importer.c: remove useless gal include
+
+	* Makefile.am: Remove hard coded disable deprecated flags
+
 2003-12-04  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell.c (e_shell_prepare_for_quit): Implement.

@@ -54,7 +54,6 @@
 
 #include <glade/glade.h>
 #include <gal/widgets/e-gui-utils.h>
-#include <gal/widgets/e-unicode.h>
 
 #include "e-util/e-gtk-utils.h"
 
