@@ -117,9 +117,6 @@ struct _EStorageSetViewPrivate {
 	   not, when show_checkboxes is TRUE.  */
 	EStorageSetViewHasCheckBoxFunc has_checkbox_func;
 	void *has_checkbox_func_data;
-
-	/* Sorting idle function.  */
-	int sort_idle_id;
 };
 
 
@@ -155,7 +152,7 @@ typedef enum _DndTargetType DndTargetType;
 #define E_SHORTCUT_TYPE "E-SHORTCUT"
 
 
-/* Sorting.  */
+/* Sorting callbacks.  */
 
 static int
 storage_sort_callback (ETreeMemory *etmm,
@@ -188,7 +185,7 @@ storage_sort_callback (ETreeMemory *etmm,
 		return -1;
 	if (path_2_local)
 		return 1;
-
+	
 	return g_utf8_collate (e_tree_model_value_at (E_TREE_MODEL (etmm), node1, 0),
 	                       e_tree_model_value_at (E_TREE_MODEL (etmm), node2, 0));
 }
@@ -222,65 +219,6 @@ folder_sort_callback (ETreeMemory *etmm,
 		return -1;
 	else			/* priority_1 > priority_2 */
 		return +1;
-}
-
-static gboolean
-sort_traverse_callback (ETreeModel *model,
-			ETreePath node,
-			void *data)
-{
-	EStorageSetView *storage_set_view;
-	EStorageSetViewPrivate *priv;
-
-	storage_set_view = E_STORAGE_SET_VIEW (data);
-	priv = storage_set_view->priv;
-
-	e_tree_memory_sort_node (E_TREE_MEMORY (model), node,
-				 folder_sort_callback, storage_set_view);
-
-	return FALSE;
-}
-
-static void
-resort (EStorageSetView *storage_set_view)
-{
-	EStorageSetViewPrivate *priv;
-
-	priv = storage_set_view->priv;
-
-	e_tree_memory_sort_node (E_TREE_MEMORY (priv->etree_model), priv->root_node,
-				 storage_sort_callback, storage_set_view);
-
-	e_tree_model_node_traverse (priv->etree_model, priv->root_node,
-				    sort_traverse_callback, storage_set_view);
-}
-
-static int
-sort_idle_callback (void *data)
-{
-	EStorageSetView *storage_set_view;
-	EStorageSetViewPrivate *priv;
-
-	storage_set_view = E_STORAGE_SET_VIEW (data);
-	priv = storage_set_view->priv;
-
-	resort (storage_set_view);
-
-	priv->sort_idle_id = 0;
-	return FALSE;
-}
-
-static void
-queue_resort (EStorageSetView *storage_set_view)
-{
-	EStorageSetViewPrivate *priv;
-
-	priv = storage_set_view->priv;
-
-	if (priv->sort_idle_id != 0)
-		return;
-
-	priv->sort_idle_id = g_idle_add (sort_idle_callback, storage_set_view);
 }
 
 
@@ -954,9 +892,6 @@ impl_destroy (GtkObject *object)
 
 	/* (No unreffing for priv->ui_container since we use a weakref.)  */
 
-	if (priv->sort_idle_id != 0)
-		g_source_remove (priv->sort_idle_id);
-
 	g_free (priv->selected_row_path);
 	g_free (priv->right_click_row_path);
 
@@ -1222,7 +1157,7 @@ impl_tree_drag_motion (ETree *tree,
 		return FALSE;
 
 	folder_path = e_tree_memory_node_get_data (E_TREE_MEMORY (priv->etree_model),
-						   e_tree_node_at_row (E_TREE (storage_set_view), row));
+					    e_tree_node_at_row (E_TREE (storage_set_view), row));
 	if (folder_path == NULL)
 		return FALSE;
 
@@ -1715,8 +1650,8 @@ new_storage_cb (EStorageSet *storage_set,
 	path = g_strconcat (E_PATH_SEPARATOR_S, e_storage_get_name (storage), NULL);
 
 	node = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), priv->root_node, -1, path);
-
-	queue_resort (storage_set_view);
+	e_tree_memory_sort_node (E_TREE_MEMORY(priv->etree_model), priv->root_node,
+				 storage_sort_callback, storage_set_view);
 
 	if (! add_node_to_hash (storage_set_view, path, node)) {
 		e_tree_memory_node_remove (E_TREE_MEMORY(priv->etree_model), node);
@@ -1781,8 +1716,7 @@ new_folder_cb (EStorageSet *storage_set,
 
 	copy_of_path = g_strdup (path);
 	new_node = e_tree_memory_node_insert (E_TREE_MEMORY(etree), parent_node, -1, copy_of_path);
-
-	queue_resort (storage_set_view);
+	e_tree_memory_sort_node (E_TREE_MEMORY(etree), parent_node, folder_sort_callback, storage_set_view);
 
 	if (! add_node_to_hash (storage_set_view, path, new_node)) {
 		e_tree_memory_node_remove (E_TREE_MEMORY(etree), new_node);
@@ -1968,8 +1902,6 @@ init (EStorageSetView *storage_set_view)
 	priv->has_checkbox_func           = NULL;
 	priv->has_checkbox_func_data      = NULL;
 
-	priv->sort_idle_id                = 0;
-
 	storage_set_view->priv = priv;
 }
 
@@ -2021,7 +1953,31 @@ static void
 folder_name_changed_cb (EFolder *folder,
 			void *data)
 {
-	queue_resort (E_STORAGE_SET_VIEW (data));
+	EStorageSetView *storage_set_view;
+	EStorageSetViewPrivate *priv;
+	FolderChangedCallbackData *callback_data;
+	ETreePath parent_node;
+	const char *last_separator;
+	char *parent_path;
+
+	callback_data = (FolderChangedCallbackData *) data;
+
+	storage_set_view = callback_data->storage_set_view;
+	priv = storage_set_view->priv;
+
+	last_separator = strrchr (callback_data->path, E_PATH_SEPARATOR);
+
+	parent_path = g_strndup (callback_data->path, last_separator - callback_data->path);
+	parent_node = g_hash_table_lookup (priv->path_to_etree_node, parent_path);
+	g_free (parent_path);
+
+	if (parent_node == NULL) {
+		g_warning ("EStorageSetView -- EFolder::name_changed emitted for a folder whose path I don't know.");
+		return;
+	}
+
+	e_tree_memory_sort_node (E_TREE_MEMORY (priv->etree_model), parent_node,
+				 folder_sort_callback, storage_set_view);
 }
 
 static void
@@ -2037,7 +1993,7 @@ setup_folder_changed_callbacks (EStorageSetView *storage_set_view,
 
 	gtk_signal_connect_while_alive (GTK_OBJECT (folder), "name_changed",
 					GTK_SIGNAL_FUNC (folder_name_changed_cb),
-					storage_set_view,
+					folder_changed_callback_data,
 					GTK_OBJECT (storage_set_view));
 
 	e_gtk_signal_connect_full_while_alive (GTK_OBJECT (folder), "changed",
@@ -2083,12 +2039,14 @@ insert_folders (EStorageSetView *storage_set_view,
 		folder_name = e_folder_get_name (folder);
 
 		full_path = g_strconcat ("/", storage_name, folder_path, NULL);
+
+		setup_folder_changed_callbacks (storage_set_view, folder, full_path);
+
 		node = e_tree_memory_node_insert (E_TREE_MEMORY(etree), parent, -1, (void *) full_path);
+		e_tree_memory_sort_node(E_TREE_MEMORY(etree), parent, folder_sort_callback, storage_set_view);
 		add_node_to_hash (storage_set_view, full_path, node);
 
 		insert_folders (storage_set_view, node, storage, folder_path);
-
-		setup_folder_changed_callbacks (storage_set_view, folder, full_path);
 	}
 
 	e_free_string_list (folder_path_list);
@@ -2118,6 +2076,9 @@ insert_storages (EStorageSetView *storage_set_view)
 		path = g_strconcat ("/", name, NULL);
 
 		parent = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), priv->root_node, -1, path);
+		e_tree_memory_sort_node (E_TREE_MEMORY(priv->etree_model),
+					 priv->root_node,
+					 storage_sort_callback, storage_set_view);
 
 		g_hash_table_insert (priv->path_to_etree_node, path, parent);
 
@@ -2126,8 +2087,6 @@ insert_storages (EStorageSetView *storage_set_view)
 	}
 
 	e_free_object_list (storage_list);
-
-	resort (storage_set_view);
 }
 
 void

@@ -1,3 +1,14 @@
+2002-09-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-storage-set-view.c: Removed member sort_idle_id in
+	EStorageSetViewPrivate.
+	(resort): Removed.
+	(sort_traverse_callback): Removed.
+	(sort_idle_callback): Removed.
+	(queue_resort): Removed.
+	(impl_destroy): Removed.
+	(folder_name_changed_cb): Sort now instead of queueing a resort.
+
 2002-09-19  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #28495 with a lame hack that works around Bonobo sizing
