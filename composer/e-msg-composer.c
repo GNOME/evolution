@@ -868,7 +868,7 @@ save (EMsgComposer *composer,
 		return;
 	
 	/* check to see if we already have the file */
-	if ((fd = open (my_file_name, O_RDONLY | O_CREAT | O_EXCL)) == -1) {
+	if ((fd = open (my_file_name, O_RDONLY | O_CREAT | O_EXCL, 0777)) == -1) {
 		GtkWidget *dialog, *label;
 		
 		dialog = gnome_dialog_new (_("Warning!"),

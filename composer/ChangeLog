@@ -1,3 +1,8 @@
+2001-09-06  Dan Winship  <danw@ximian.com>
+
+	* e-msg-composer.c (save): Have to specify a mode when using
+	O_CREAT.
+
 2001-09-05  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-msg-composer.c (autosave_manager_query_load_orphans):
