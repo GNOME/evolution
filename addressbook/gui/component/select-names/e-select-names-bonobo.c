@@ -53,6 +53,7 @@ struct _ESelectNamesBonoboPrivate {
 enum _EntryPropertyID {
 	ENTRY_PROPERTY_ID_TEXT,
 	ENTRY_PROPERTY_ID_DESTINATIONS,
+	ENTRY_PROPERTY_ID_FIRST_EMAIL,
 	ENTRY_PROPERTY_ID_ALLOW_CONTACT_LISTS,
 	ENTRY_PROPERTY_ID_ENTRY_CHANGED
 };
@@ -94,6 +95,23 @@ entry_get_property_fn (BonoboPropertyBag *bag,
 			text = e_select_names_model_export_destinationv (model);
 			BONOBO_ARG_SET_STRING (arg, text);
 			g_free (text);
+		}
+		break;
+
+	case ENTRY_PROPERTY_ID_FIRST_EMAIL:
+		{
+			ESelectNamesModel *model;
+
+			model = E_SELECT_NAMES_MODEL (gtk_object_get_data (GTK_OBJECT (w), "select_names_model"));
+			g_assert (model != NULL);
+
+			if (e_select_names_model_count (model) > 0) {
+				const EDestination *destination = e_select_names_model_get_destination (model, 0);
+				const char *text = e_destination_get_email (destination);
+				BONOBO_ARG_SET_STRING (arg, text);
+			} else {
+				BONOBO_ARG_SET_STRING (arg, "");
+			}
 		}
 		break;
 
@@ -315,6 +333,9 @@ impl_SelectNames_get_entry_for_section (PortableServer_Servant servant,
 	bonobo_property_bag_add (property_bag, "destinations", ENTRY_PROPERTY_ID_DESTINATIONS,
 				 BONOBO_ARG_STRING, NULL, NULL,
 				 BONOBO_PROPERTY_READABLE | BONOBO_PROPERTY_WRITEABLE);
+	bonobo_property_bag_add (property_bag, "first_email", ENTRY_PROPERTY_ID_FIRST_EMAIL,
+				 BONOBO_ARG_STRING, NULL, NULL,
+				 BONOBO_PROPERTY_READABLE);
 	bonobo_property_bag_add (property_bag, "allow_contact_lists", ENTRY_PROPERTY_ID_ALLOW_CONTACT_LISTS,
 				 BONOBO_ARG_BOOLEAN, NULL, NULL,
 				 BONOBO_PROPERTY_READABLE | BONOBO_PROPERTY_WRITEABLE);

@@ -1,3 +1,8 @@
+2002-05-09  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(entry_get_property_fn): Added "first_email" property.
+
 2002-05-09  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook-storage.c
