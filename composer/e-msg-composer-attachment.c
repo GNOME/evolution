@@ -304,35 +304,17 @@ destroy_dialog_data (DialogData *data)
 static void
 update_mime_type (DialogData *data)
 {
-	const char *filename, *tmpdir;
-	char *mime_type, *path, *uri;
+	const char *filename, *mime_type;
 	
 	if (!data->attachment->guessed_type)
 		return;
 	
 	filename = gtk_entry_get_text (data->file_name_entry);
 	if (filename) {
-		/* gnome_vfs_get_mime_type() might try to access the
-		 * file and read it to 'sniff' the mime-type if it is
-		 * there (and gnome-vfs can't determine the mime-type
-		 * based on filename extension?), so we need to make
-		 * sure the file doesn't exist yet we want to keep the
-		 * filename intact so that gnome-vfs can try and
-		 * determine the mime-type by the filename. This is
-		 * kinda nasty.
-		 */
+		mime_type = gnome_vfs_get_mime_type_from_name (filename);
 		
-		tmpdir = e_mkdtemp ("mime-identify-XXXXXX");
-		path = g_strdup_printf ("%s/%s", tmpdir, filename);
-		uri = gnome_vfs_get_uri_from_local_path (path);
-		mime_type = gnome_vfs_get_mime_type (uri);
-		g_free (path);
-		g_free (uri);
-		
-		if (mime_type) {
+		if ((mime_type = gnome_vfs_get_mime_type_from_name (filename))
 			gtk_entry_set_text (data->mime_type_entry, mime_type);
-			g_free (mime_type);
-		}
 	}
 }
 
