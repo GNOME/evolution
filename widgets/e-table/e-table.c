@@ -685,6 +685,7 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	e_table->model = etm;
 	gtk_object_ref (GTK_OBJECT (etm));
 
+	e_table->specification = xmlSpec;
 	xmlRoot = xmlDocGetRootElement(xmlSpec);
 	xmlColumns = e_xml_get_child_by_name(xmlRoot, "columns-shown");
 	xmlGrouping = e_xml_get_child_by_name(xmlRoot, "grouping");
