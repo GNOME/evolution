@@ -47,6 +47,8 @@ struct _CalendarComponentPrivate {
 
 	GConfClient *gconf_client;
 	ESourceList *source_list;
+
+	GnomeCalendar *calendar;
 };
 
 
@@ -155,6 +157,7 @@ impl_createControls (PortableServer_Servant servant,
 	BonoboControl *sidebar_control;
 	BonoboControl *view_control;
 
+	/* Create sidebar selector */
 	selector = e_source_selector_new (calendar_component->priv->source_list);
 	gtk_widget_show (selector);
 
@@ -168,6 +171,8 @@ impl_createControls (PortableServer_Servant servant,
 
 	sidebar_control = bonobo_control_new (selector_scrolled_window);
 
+	/* Create main calendar view */
+	
 	view_control = control_factory_new_control ();
 
 	g_signal_connect_object (selector, "selection_changed",

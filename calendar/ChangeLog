@@ -1,3 +1,13 @@
+2003-10-23    <jpr@ximian.com>
+
+	* gui/gnome-cal.c (gnome_calendar_get_current_view_widget): just
+	uses the views array and the current view type
+	(setup_widgets): ditto
+	(set_view): ditto
+	(backend_died_cb): ditto
+	(gnome_calendar_get_calendar_model): ditto
+	(gnome_calendar_update_config_settings): ditto
+
 2003-10-23  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-day-view.c: accept also text/calendar for D&D.

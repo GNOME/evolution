@@ -430,31 +430,10 @@ GtkWidget*
 gnome_calendar_get_current_view_widget (GnomeCalendar *gcal)
 {
 	GnomeCalendarPrivate *priv;
-	GtkWidget *retval = NULL;
 
 	priv = gcal->priv;
 
-	switch (priv->current_view_type) {
-	case GNOME_CAL_DAY_VIEW:
-		retval = priv->day_view;
-		break;
-	case GNOME_CAL_WORK_WEEK_VIEW:
-		retval = priv->work_week_view;
-		break;
-	case GNOME_CAL_WEEK_VIEW:
-		retval = priv->week_view;
-		break;
-	case GNOME_CAL_MONTH_VIEW:
-		retval = priv->month_view;
-		break;
-	case GNOME_CAL_LIST_VIEW:
-		retval = priv->list_view;
-		break;
-	default:
-		g_assert_not_reached ();
-	}
-
-	return retval;
+	return GTK_WIDGET (priv->views[priv->current_view_type]);
 }
 
 /* Gets the focus location based on who is the focused widget within the
@@ -851,7 +830,8 @@ setup_widgets (GnomeCalendar *gcal)
 	GtkWidget *w;
 	gchar *filename;
 	ETable *etable;
-
+	int i;
+	
 	priv = gcal->priv;
 
 	priv->search_bar = cal_search_bar_new ();
@@ -928,10 +908,6 @@ setup_widgets (GnomeCalendar *gcal)
 
 	/* The Day View. */
 	priv->day_view = e_day_view_new ();
-	e_cal_view_set_calendar (E_CAL_VIEW (priv->day_view), gcal);
-	gtk_widget_show (priv->day_view);
-	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
-				  priv->day_view, gtk_label_new (""));
 	g_signal_connect (priv->day_view, "selection_changed",
 			  G_CALLBACK (view_selection_changed_cb), gcal);
 
@@ -943,20 +919,12 @@ setup_widgets (GnomeCalendar *gcal)
 				       TRUE);
 	e_day_view_set_days_shown (E_DAY_VIEW (priv->work_week_view), 5);
 	e_cal_view_set_calendar (E_CAL_VIEW (priv->work_week_view), gcal);
-	gtk_widget_show (priv->work_week_view);
-	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
-				  priv->work_week_view, gtk_label_new (""));
-	g_signal_connect (priv->work_week_view, "selection_changed",
-			  G_CALLBACK (view_selection_changed_cb), gcal);
 
 	connect_day_view_focus (gcal, E_DAY_VIEW (priv->work_week_view));
 
 	/* The Week View. */
 	priv->week_view = e_week_view_new ();
 	e_cal_view_set_calendar (E_CAL_VIEW (priv->week_view), gcal);
-	gtk_widget_show (priv->week_view);
-	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
-				  priv->week_view, gtk_label_new (""));
 	g_signal_connect (priv->week_view, "selection_changed",
 			  G_CALLBACK (view_selection_changed_cb), gcal);
 
@@ -966,9 +934,6 @@ setup_widgets (GnomeCalendar *gcal)
 	priv->month_view = e_week_view_new ();
 	e_cal_view_set_calendar (E_CAL_VIEW (priv->month_view), gcal);
 	e_week_view_set_multi_week_view (E_WEEK_VIEW (priv->month_view), TRUE);
-	gtk_widget_show (priv->month_view);
-	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
-				  priv->month_view, gtk_label_new (""));
 	g_signal_connect (priv->month_view, "selection_changed",
 			  G_CALLBACK (view_selection_changed_cb), gcal);
 
@@ -980,9 +945,6 @@ setup_widgets (GnomeCalendar *gcal)
 	g_free (filename);
 
 	e_cal_view_set_calendar (E_CAL_VIEW (priv->list_view), gcal);
-	gtk_widget_show (priv->list_view);
-	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
-				  priv->list_view, gtk_label_new (""));
 
 	connect_list_view_focus (gcal, E_CAL_LIST_VIEW (priv->list_view));
 
@@ -992,6 +954,13 @@ setup_widgets (GnomeCalendar *gcal)
 	priv->views[GNOME_CAL_MONTH_VIEW] = E_CAL_VIEW (priv->month_view);
 	priv->views[GNOME_CAL_LIST_VIEW] = E_CAL_VIEW (priv->list_view);
 
+	for (i = 0; i < GNOME_CAL_LAST_VIEW; i++) {
+		gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
+					  GTK_WIDGET (priv->views[i]), gtk_label_new (""));
+
+		gtk_widget_show (GTK_WIDGET (priv->views[i]));
+	}
+	
 	gnome_calendar_update_config_settings (gcal, TRUE);
 }
 
@@ -1393,7 +1362,6 @@ set_view (GnomeCalendar	*gcal, GnomeCalendarViewType view_type,
 {
 	GnomeCalendarPrivate *priv;
 	gboolean round_selection;
-	GtkWidget *focus_widget;
 	const char *view_id;
 	static gboolean updating = FALSE;
 
@@ -1403,12 +1371,10 @@ set_view (GnomeCalendar	*gcal, GnomeCalendarViewType view_type,
 	priv = gcal->priv;
 
 	round_selection = FALSE;
-	focus_widget = NULL;
 
 	switch (view_type) {
 	case GNOME_CAL_DAY_VIEW:
 		view_id = "Day_View";
-		focus_widget = priv->day_view;
 		
 		if (!range_selected)
 			e_day_view_set_days_shown (E_DAY_VIEW (priv->day_view), 1);
@@ -1417,18 +1383,15 @@ set_view (GnomeCalendar	*gcal, GnomeCalendarViewType view_type,
 
 	case GNOME_CAL_WORK_WEEK_VIEW:
 		view_id = "Work_Week_View";
-		focus_widget = priv->work_week_view;
 		break;
 
 	case GNOME_CAL_WEEK_VIEW:
 		view_id = "Week_View";
-		focus_widget = priv->week_view;
 		round_selection = TRUE;
 		break;
 
 	case GNOME_CAL_MONTH_VIEW:
 		view_id = "Month_View";
-		focus_widget = priv->month_view;
 
 		if (!range_selected)
 			e_week_view_set_weeks_shown (E_WEEK_VIEW (priv->month_view), 5);
@@ -1438,7 +1401,6 @@ set_view (GnomeCalendar	*gcal, GnomeCalendarViewType view_type,
 
 	case GNOME_CAL_LIST_VIEW:
 		view_id = "List_View";
-		focus_widget = priv->list_view;
 		break;
 
 	default:
@@ -1450,8 +1412,6 @@ set_view (GnomeCalendar	*gcal, GnomeCalendarViewType view_type,
 	priv->current_view_type = view_type;
 	priv->range_selected = range_selected;
 
-	g_assert (focus_widget != NULL);
-
 	calendar_config_set_default_view (view_type);
 
 	updating = TRUE;
@@ -1461,7 +1421,7 @@ set_view (GnomeCalendar	*gcal, GnomeCalendarViewType view_type,
 	updating = FALSE;
 
 	if (grab_focus)
-		gtk_widget_grab_focus (focus_widget);
+		gtk_widget_grab_focus (GTK_WIDGET (priv->views[view_type]));
 
 	gnome_calendar_set_pane_positions (gcal);
 
@@ -1944,6 +1904,7 @@ backend_died_cb (CalClient *client, gpointer data)
 	gcal = GNOME_CALENDAR (data);
 	priv = gcal->priv;
 
+	/* FIXME This doesn't remove the calendar from the list or anything */
 	uristr = get_uri_without_password (cal_client_get_uri (client));
 	if (client == priv->task_pad_client) {
 		message = g_strdup_printf (_("The task backend for\n%s\n has crashed. "
@@ -1952,14 +1913,15 @@ backend_died_cb (CalClient *client, gpointer data)
 					   uristr);
 		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL);
 	} else {
+		int i;
+		
 		message = g_strdup_printf (_("The calendar backend for\n%s\n has crashed. "
 					     "You will have to restart Evolution in order "
 					     "to use it again"),
 					   uristr);
-		e_cal_view_set_status_message (E_CAL_VIEW (priv->day_view), NULL);
-		e_cal_view_set_status_message (E_CAL_VIEW (priv->work_week_view), NULL);
-		e_cal_view_set_status_message (E_CAL_VIEW (priv->week_view), NULL);
-		e_cal_view_set_status_message (E_CAL_VIEW (priv->month_view), NULL);
+		
+		for (i = 0; i < GNOME_CAL_LAST_VIEW; i++)
+			e_cal_view_set_status_message (priv->views[i], NULL);
 	}
 
 	gnome_error_dialog_parented (message, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))));
@@ -2048,8 +2010,7 @@ gnome_calendar_get_calendar_model (GnomeCalendar *gcal)
 
 	priv = gcal->priv;
 
-	return e_cal_view_get_model (
-		gnome_calendar_get_current_view_widget (gcal));
+	return e_cal_view_get_model (priv->views[priv->current_view_type]);
 }
 
 /**
@@ -2268,7 +2229,8 @@ gnome_calendar_update_config_settings (GnomeCalendar *gcal,
 	gboolean use_24_hour, show_event_end, compress_weekend;
 	char *location;
 	GList *l;
-
+	int i;
+	
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
 	priv = gcal->priv;
@@ -2359,11 +2321,8 @@ gnome_calendar_update_config_settings (GnomeCalendar *gcal,
 						 priv->zone, NULL);
 	}
 
-	e_cal_view_set_timezone (E_CAL_VIEW (priv->day_view), priv->zone);
-	e_cal_view_set_timezone (E_CAL_VIEW (priv->work_week_view), priv->zone);
-	e_cal_view_set_timezone (E_CAL_VIEW (priv->week_view), priv->zone);
-	e_cal_view_set_timezone (E_CAL_VIEW (priv->month_view), priv->zone);
-	e_cal_view_set_timezone (E_CAL_VIEW (priv->list_view), priv->zone);
+	for (i = 0; i < GNOME_CAL_LAST_VIEW; i++)
+		e_cal_view_set_timezone (E_CAL_VIEW (priv->views[i]), priv->zone);
 
 	if (initializing) {
 		priv->hpane_pos = calendar_config_get_hpane_pos ();
@@ -2377,7 +2336,6 @@ gnome_calendar_update_config_settings (GnomeCalendar *gcal,
 	gnome_calendar_update_date_navigator (gcal);
 	gnome_calendar_notify_dates_shown_changed (gcal);
 }
-
 
 void
 gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
