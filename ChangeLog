@@ -1,3 +1,7 @@
+2003-03-21  Rodney Dawes  <dobey@ximian.com>
+
+	* configure.in: Fix the mit krb5+krb4 check to work with --without-kr5
+
 2003-03-19  Ettore Perazzoli  <ettore@ximian.com>
 
 	* README: Updated considerably.

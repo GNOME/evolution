@@ -623,14 +623,11 @@ if test "x${with_krb4}" != "xno"; then
 	AC_CACHE_CHECK(for Kerberos 4, ac_cv_lib_kerberos4,
 	[
 		ac_cv_lib_kerberos4="no"
-		
-		case $ac_cv_lib_kerberos5 in
-		*k5crypto*)
-			# Look for MIT krb5 compat krb4
-			LDFLAGS="$LDFLAGS -L$with_krb4/lib -lkrb4 -ldes425 $KRB5_LDFLAGS"
-			AC_TRY_LINK_FUNC(krb_mk_req, ac_cv_lib_kerberos4="-lkrb4 -ldes425 $KRB5_LDFLAGS")
-			;;
-		esac
+
+		mitcompatlibs="-lkrb4 -ldes425 -lkrb5 -lk5crypto -lcom_err"
+		# Look for MIT krb5 compat krb4
+		LDFLAGS="$LDFLAGS -L$with_krb4/lib $mitcompatlibs"
+		AC_TRY_LINK_FUNC(krb_mk_req, ac_cv_lib_kerberos4="$mitcompatlibs")
 		
 		if test "$ac_cv_lib_kerberos4" = "no"; then
 			# Look for KTH krb4
