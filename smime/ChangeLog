@@ -1,3 +1,8 @@
+2003-10-30  Chris Toshok  <toshok@ximian.com>
+
+	* tests/Makefile.am (INCLUDES): use CERT_UI_CFLAGS.
+	(TEST_LIBS): use CERT_UI_LIBS.
+
 2003-10-28  Chris Toshok  <toshok@ximian.com>
 
 	* gui/Makefile.am (libevolution_smime_la_SOURCES): add
