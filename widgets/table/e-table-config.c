@@ -156,7 +156,7 @@ config_class_init (GObjectClass *object_class)
 							      E_TABLE_STATE_TYPE,
 							      G_PARAM_READABLE));
 
-	glade_gnome_init ();
+	glade_init ();
 }
 
 static ETableColumnSpecification *

@@ -64,7 +64,7 @@ e_table_field_chooser_class_init (ETableFieldChooserClass *klass)
 	object_class = (GObjectClass*) klass;
 	vbox_class = (GtkVBoxClass *) klass;
 
-	glade_gnome_init();
+	glade_init();
 
 	parent_class = g_type_class_ref (GTK_TYPE_VBOX);
 
