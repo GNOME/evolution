@@ -22,9 +22,8 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
+
 #include <config.h>
-#endif
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -855,7 +854,7 @@ get_folder (CamelStore *store, const char *folder_name, guint32 flags,
 
 	if (!selectable) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-				      _("%s is not a selectable folder"),
+				      "%s is not a selectable folder",
 				      folder_name);
 		g_free (short_name);
 		return NULL;
@@ -885,7 +884,7 @@ static char *
 imap_concat (CamelImapStore *imap_store, const char *prefix, const char *suffix)
 {
 	int len;
-	
+
 	len = strlen (prefix);
 	if (len == 0 || prefix[len - 1] == imap_store->dir_sep)
 		return g_strdup_printf ("%s%s", prefix, suffix);

@@ -29,9 +29,10 @@
 
 /* FIXME: Shouldn't we add a version number to providers ? */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "config.h"
+#include "camel-provider.h"
+#include "camel-exception.h"
+#include "hash-table-utils.h"
 
 #include <dirent.h>
 #include <errno.h>
@@ -39,10 +40,6 @@
 #include <string.h>
 
 #include <gmodule.h>
-
-#include "camel-provider.h"
-#include "camel-exception.h"
-#include "hash-table-utils.h"
 
 /**
  * camel_provider_init:

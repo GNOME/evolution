@@ -22,21 +22,14 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
+#include "mail-account-editor.h"
+#include "mail-session.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <libgnomeui/gnome-messagebox.h>
-#include <libgnomeui/gnome-stock.h>
 #include <camel/camel-url.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-gui-utils.h>
-
-#include "mail-account-editor.h"
-#include "mail-session.h"
 
 static void mail_account_editor_class_init (MailAccountEditorClass *class);
 static void mail_account_editor_finalize   (GtkObject *obj);

@@ -4,6 +4,7 @@
 #ifndef _FOLDER_BROWSER_H_
 #define _FOLDER_BROWSER_H_
 
+#include "mail-types.h"
 #include <gtk/gtktable.h>
 #include "camel/camel-stream.h"
 #include <bonobo/bonobo-property-bag.h>
@@ -13,7 +14,6 @@
 #include "filter/filter-context.h" /*eek*/
 #include "message-list.h"
 #include "mail-display.h"
-#include "mail-types.h"
 #include "shell/Evolution.h"
 
 
@@ -111,4 +111,9 @@ void folder_browser_toggle_view_source (BonoboUIComponent           *component,
 					const char                  *state,
 					gpointer                     user_data);
 
+void folder_browser_toggle_hide_deleted (BonoboUIComponent           *component,
+					 const char                  *path,
+					 Bonobo_UIComponent_EventType type,
+					 const char                  *state,
+					 gpointer                     user_data);
 #endif /* _FOLDER_BROWSER_H_ */

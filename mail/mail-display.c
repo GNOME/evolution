@@ -8,34 +8,15 @@
  *
  * (C) 2000 Helix Code, Inc.
  */
-
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
-
 #include <sys/stat.h>
 #include <ctype.h>
 #include <fcntl.h>
 #include <errno.h>
-#include <libgnorba/gnorba.h>
-#include <libgnomevfs/gnome-vfs-mime-info.h>
-#include <libgnomevfs/gnome-vfs-mime-handlers.h>
-#include <bonobo/bonobo-control-frame.h>
-#include <bonobo/bonobo-stream-memory.h>
-#include <bonobo/bonobo-ui-toolbar-icon.h>
-#include <bonobo/bonobo-widget.h>
-#include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gdk-pixbuf/gdk-pixbuf-loader.h>
+#include <gnome.h>
+#include "e-util/e-html-utils.h"
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-popup-menu.h>
-#include <gtkhtml/gtkhtml-embedded.h>
-#include <gtkhtml/htmlengine.h>	/* XXX */
-#include <gtkhtml/htmlobject.h> /* XXX */
-#include <gtkhtml/htmltext.h> /* XXX */
-#include <gtkhtml/htmlinterval.h> /* XXX */
-
-#include <e-util/e-html-utils.h>
-
 #include "mail-display.h"
 #include "mail-config.h"
 #include "mail.h"
@@ -43,6 +24,21 @@
 
 #include "mail-ops.h"
 #include "mail-mt.h"
+
+#include <bonobo.h>
+#include <libgnorba/gnorba.h>
+#include <bonobo/bonobo-stream-memory.h>
+#include <libgnomevfs/gnome-vfs-mime-info.h>
+#include <libgnomevfs/gnome-vfs-mime-handlers.h>
+
+#include <bonobo/bonobo-ui-toolbar-icon.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gdk-pixbuf/gdk-pixbuf-loader.h>
+#include <gtkhtml/gtkhtml-embedded.h>
+#include <gtkhtml/htmlengine.h>	/* XXX */
+#include <gtkhtml/htmlobject.h>	/* XXX */
+#include <gtkhtml/htmlinterval.h> /* XXX */
+#include <gtkhtml/htmltext.h> /* XXX */
 
 #define PARENT_TYPE (gtk_vbox_get_type ())
 
@@ -920,7 +916,6 @@ mail_text_write (GtkHTML *html, GtkHTMLStream *stream,
 
 	htmltext = e_text_to_html_full (buf,
 					E_TEXT_TO_HTML_CONVERT_URLS |
-					/* E_TEXT_TO_HTML_CONVERT_ADDRESSES | */
 					E_TEXT_TO_HTML_CONVERT_NL |
 					E_TEXT_TO_HTML_CONVERT_SPACES |
 					(mail_config_get_citation_highlight () ? E_TEXT_TO_HTML_MARK_CITATION : 0),

@@ -7,25 +7,9 @@
  *
  * (C) 2000, 2001 Ximian, Inc.
  */
-
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
-
 #include <ctype.h>
-
-#include <gdk/gdkkeysyms.h>
-#include <gal/util/e-util.h>
-#include <gal/widgets/e-unicode.h>
-#include <gal/e-paned/e-vpaned.h>
-#include <gal/widgets/e-popup-menu.h>
-
-#include "filter/vfolder-rule.h"
-#include "filter/vfolder-context.h"
-#include "filter/filter-option.h"
-#include "filter/filter-input.h"
-
-#include "mail-search-dialogue.h"
+#include <gnome.h>
 #include "e-util/e-sexp.h"
 #include "folder-browser.h"
 #include "mail.h"
@@ -38,8 +22,23 @@
 #include "mail-mlist-magic.h"
 #include "mail-mt.h"
 
+#include <gal/util/e-util.h>
+#include <gal/widgets/e-unicode.h>
+#include <gal/e-paned/e-vpaned.h>
+
+#include "filter/vfolder-rule.h"
+#include "filter/vfolder-context.h"
+#include "filter/filter-option.h"
+#include "filter/filter-input.h"
+
+#include "mail-search-dialogue.h"
+
 #include "mail-local.h"
 #include "mail-config.h"
+
+#include <gal/widgets/e-popup-menu.h>
+
+#include <camel/camel-vtrash-folder.h>
 
 #define d(x) x
 
@@ -305,6 +304,23 @@ folder_browser_toggle_threads (BonoboUIComponent           *component,
 	
 	mail_config_set_thread_list (atoi (state));
 	message_list_set_threaded (fb->message_list, atoi (state));
+}
+
+void
+folder_browser_toggle_hide_deleted (BonoboUIComponent           *component,
+				    const char                  *path,
+				    Bonobo_UIComponent_EventType type,
+				    const char                  *state,
+				    gpointer                     user_data)
+{
+	FolderBrowser *fb = user_data;
+
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+
+	if (!(fb->folder && CAMEL_IS_VTRASH_FOLDER(fb->folder)))
+		mail_config_set_hide_deleted (atoi (state));
+	message_list_set_hidedeleted (fb->message_list, atoi (state));
 }
 
 void

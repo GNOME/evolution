@@ -20,24 +20,16 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
-
 #include <pwd.h>
 #include <ctype.h>
 
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-config.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-stock.h>
+#include <gnome.h>
 #include <gtkhtml/gtkhtml.h>
 #include <glade/glade.h>
 
 #include <gal/util/e-util.h>
-#include <e-util/e-html-utils.h>
-#include <e-util/e-url.h>
+#include "e-util/e-html-utils.h"
 #include "mail.h"
 #include "mail-config.h"
 #include "mail-ops.h"
@@ -46,6 +38,7 @@
 typedef struct {
 	gboolean thread_list;
 	gboolean view_source;
+	gboolean hide_deleted;
 	gint paned_size;
 	gboolean send_html;
 	gboolean citation_highlight;
@@ -390,6 +383,14 @@ config_read (void)
 		config->thread_list = FALSE;
 	g_free (str);
 	
+	/* Hide deleted automatically */
+	str = g_strdup_printf ("=%s/config/Mail=/Display/hide_deleted", 
+			       evolution_dir);
+	config->hide_deleted = gnome_config_get_bool_with_default (str, &def);
+	if (def)
+		config->hide_deleted = FALSE;
+	g_free (str);
+	
 	/* Size of vpaned in mail view */
 	str = g_strdup_printf ("=%s/config/Mail=/Display/paned_size", 
 			       evolution_dir);
@@ -543,6 +544,12 @@ mail_config_write_on_exit (void)
 			       evolution_dir);
 	gnome_config_set_bool (str, config->thread_list);
 	g_free (str);
+
+	/* Hide deleted automatically */
+	str = g_strdup_printf ("=%s/config/Mail=/Display/hide_deleted", 
+			       evolution_dir);
+	gnome_config_set_bool (str, config->hide_deleted);
+	g_free (str);
 	
 	/* Size of vpaned in mail view */
 	str = g_strdup_printf ("=%s/config/Mail=/Display/paned_size", 
@@ -630,6 +637,18 @@ void
 mail_config_set_view_source (gboolean value)
 {
 	config->view_source = value;
+}
+
+gboolean
+mail_config_get_hide_deleted (void)
+{
+	return config->hide_deleted;
+}
+
+void
+mail_config_set_hide_deleted (gboolean value)
+{
+	config->hide_deleted = value;
 }
 
 gint
@@ -767,29 +786,6 @@ mail_config_get_account_by_name (const char *account_name)
 	while (l) {
 		account = l->data;
 		if (account && !strcmp (account->name, account_name))
-			return account;
-		
-		l = l->next;
-	}
-	
-	return NULL;
-}
-
-const MailConfigAccount *
-mail_config_get_account_by_source_url (const char *source_url)
-{
-	const MailConfigAccount *account;
-	GSList *l;
-
-	g_return_val_if_fail (source_url != NULL, NULL);
-
-	l = config->accounts;
-	while (l) {
-		account = l->data;
-		if (account
-		    && account->source 
-		    && account->source->url
-		    && e_url_equal (account->source->url, source_url))
 			return account;
 		
 		l = l->next;

@@ -25,11 +25,8 @@
  * USA
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
-/* #include <ctype.h> */
 #include <errno.h>
 #include <gal/util/e-util.h>
 #include <camel/camel-mime-filter-from.h>
@@ -495,9 +492,8 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	camel_medium_add_header (CAMEL_MEDIUM (message), "X-Mailer", version);
 	camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
 	
-	/* Remove the X-Evolution and X-Evolution-Source headers so we don't send our flags & other info too ;-) */
+	/* Remove the X-Evolution header so we don't send our flags too ;-) */
 	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution");
-	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Source");
 	
 	/* Get information about the account this was composed by. */
 	header = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Account");
@@ -516,14 +512,14 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	if (!transport_url) {
 		header = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Transport");
 		if (header) {
-			transport_url = g_strdup (header);
+			transport_url = g_strstrip(g_strdup (header));
 			camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Transport");
 		}
 	}
 	if (!sent_folder_uri) {
 		header = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc");
 		if (header) {
-			sent_folder_uri = g_strdup (header);
+			sent_folder_uri = g_strstrip(g_strdup (header));
 			camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc");
 		}
 	}
@@ -693,7 +689,7 @@ send_queue_send(struct _mail_msg *mm)
 	uids = camel_folder_get_uids (m->queue);
 	if (uids == NULL || uids->len == 0)
 		return;
-	
+
 	if (m->cancel)
 		camel_operation_register (m->cancel);
 	
@@ -702,7 +698,7 @@ send_queue_send(struct _mail_msg *mm)
 		CamelMessageInfo *info;
 		int pc = (100 * i) / uids->len;
 		
-		report_status (m, CAMEL_FILTER_STATUS_START, pc, _("Sending message %d of %d"), i+1, uids->len);
+		report_status (m, CAMEL_FILTER_STATUS_START, pc, "Sending message %d of %d", i+1, uids->len);
 		
 		info = camel_folder_get_message_info (m->queue, uids->pdata[i]);
 		if (info && info->flags & CAMEL_MESSAGE_DELETED)
@@ -721,9 +717,9 @@ send_queue_send(struct _mail_msg *mm)
 	}
 	
 	if (camel_exception_is_set (&mm->ex))
-		report_status (m, CAMEL_FILTER_STATUS_END, 100, _("Failed on message %d of %d"), i+1, uids->len);
+		report_status (m, CAMEL_FILTER_STATUS_END, 100, "Failed on message %d of %d", i+1, uids->len);
 	else
-		report_status (m, CAMEL_FILTER_STATUS_END, 100, _("Complete."));
+		report_status (m, CAMEL_FILTER_STATUS_END, 100, "Complete.");
 	
 	camel_folder_free_uids (m->queue, uids);
 	
@@ -991,7 +987,6 @@ add_vtrash_info (CamelFolderInfo *info)
 	g_return_if_fail (info != NULL);
 	
 	for (fi = info; fi->sibling; fi = fi->sibling) {
-		g_warning ("add_vtrash_info(): url is %s", fi->url);
 		if (!strcmp (fi->name, _("Trash")))
 			break;
 	}
@@ -1029,9 +1024,7 @@ static void get_folderinfo_get(struct _mail_msg *mm)
 	struct _get_folderinfo_msg *m = (struct _get_folderinfo_msg *)mm;
 	
 	camel_operation_register(mm->cancel);
-	m->info = camel_store_get_folder_info (m->store, NULL, FALSE, TRUE,
-					       camel_store_supports_subscriptions (m->store),
-					       &mm->ex);
+	m->info = camel_store_get_folder_info(m->store, NULL, FALSE, TRUE, camel_store_supports_subscriptions(m->store), &mm->ex);
 	if (m->info && m->info->url)
 		add_vtrash_info (m->info);
 	camel_operation_unregister(mm->cancel);

@@ -23,28 +23,15 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
-
-#include <ctype.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-
-#ifdef ENABLE_THREADS
-#include <pthread.h>
-#include "e-util/e-msgport.h"
-#endif
-
 #include "camel-service.h"
 #include "camel-session.h"
 #include "camel-exception.h"
-#include "camel-operation.h"
-#include "camel-private.h"
 
-#define d(x)
+#include <ctype.h>
+#include <stdlib.h>
+
+#include "camel-private.h"
 
 static CamelObjectClass *parent_class = NULL;
 
@@ -479,146 +466,29 @@ camel_service_query_auth_types (CamelService *service, CamelException *ex)
 struct hostent *
 camel_service_gethost (CamelService *service, CamelException *ex)
 {
-	char *hostname;
 	struct hostent *h;
+	char *hostname;
+
+#warning "This needs to use gethostbyname_r()"
 
 	if (service->url->host)
 		hostname = service->url->host;
 	else
 		hostname = "localhost";
+	h = gethostbyname (hostname);
+	if (!h) {
+		extern int h_errno;
 
-	return camel_get_host_byname(hostname, ex);
-}
-
-#ifdef offsetof
-#define STRUCT_OFFSET(type, field)        ((gint) offsetof (type, field))
-#else
-#define STRUCT_OFFSET(type, field)        ((gint) ((gchar*) &((type *) 0)->field))
-#endif
-
-struct _lookup_msg {
-#ifdef ENABLE_THREADS
-	EMsg msg;
-#endif
-	const char *name;
-	int result;
-	int herr;
-	struct hostent hostbuf;
-	struct hostent *hp;
-	int hostbuflen;
-	char *hostbufmem;
-};
-
-static void *
-get_host(void *data)
-{
-	struct _lookup_msg *info = data;
-
-	while ((info->result = gethostbyname_r(info->name, &info->hostbuf, info->hostbufmem, info->hostbuflen, &info->hp, &info->herr)) == ERANGE) {
-		d(printf("gethostbyname fialed?\n"));
-#ifdef ENABLE_THREADS
-		pthread_testcancel();
-#endif
-                info->hostbuflen *= 2;
-                info->hostbufmem = g_realloc(info->hostbufmem, info->hostbuflen);
-	}
-
-	d(printf("gethostbyname ok?\n"));
-
-#ifdef ENABLE_THREADS
-	e_msgport_reply((EMsg *)info);
-#endif
-	return NULL;
-}
-
-struct hostent *camel_get_host_byname(const char *name, CamelException *ex)
-{
-#ifdef ENABLE_THREADS
-	int fdmax, fd, cancel_fd;
-#endif
-	struct _lookup_msg *msg;
-
-	g_return_val_if_fail(name != NULL, NULL);
-
-	if (camel_operation_cancel_check(NULL)) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled"));
+		if (h_errno == HOST_NOT_FOUND || h_errno == NO_DATA) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
+					      _("No such host %s."), hostname);
+		} else {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+					      _("Temporarily unable to look "
+						"up hostname %s."), hostname);
+		}
 		return NULL;
 	}
 
-	camel_operation_start(NULL, _("Resolving: %s"), name);
-
-	msg = g_malloc0(sizeof(*msg));
-	msg->hostbuflen = 1024;
-	msg->hostbufmem = g_malloc(msg->hostbuflen);
-	msg->name = name;
-
-#ifdef ENABLE_THREADS
-	cancel_fd = camel_operation_cancel_fd(NULL);
-	if (cancel_fd == -1) {
-#endif
-		get_host(msg);
-#ifdef ENABLE_THREADS
-	} else {
-		EMsgPort *reply_port;
-		pthread_t id;
-		fd_set rdset;
-
-		reply_port = msg->msg.reply_port = e_msgport_new();
-		fd = e_msgport_fd(msg->msg.reply_port);
-		if (pthread_create(&id, NULL, get_host, msg) == 0) {
-			FD_ZERO(&rdset);
-			FD_SET(cancel_fd, &rdset);
-			FD_SET(fd, &rdset);
-			fdmax = MAX(fd, cancel_fd) + 1;
-			d(printf("waiting for name return/cancellation in main process\n"));
-			if (select(fdmax, &rdset, NULL, 0, NULL) == -1) {
-				camel_exception_setv(ex, 1, _("Failure in name lookup: %s"), strerror(errno));
-				d(printf("Cancelling lookup thread\n"));
-				pthread_cancel(id);
-			} else if (FD_ISSET(cancel_fd, &rdset)) {
-				d(printf("Cancelling lookup thread\n"));
-				camel_exception_setv(ex, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled"));
-				pthread_cancel(id);
-			} else {
-				struct _lookup_msg *reply = (struct _lookup_msg *)e_msgport_get(reply_port);
-
-				g_assert(reply == msg);
-			}
-			d(printf("waiting for child to exit\n"));
-			pthread_join(id, NULL);
-			d(printf("child done\n"));
-		}
-		e_msgport_destroy(reply_port);
-	}
-#endif
-
-	camel_operation_end(NULL);
-
-	if (msg->hp == NULL) {
- 		if (!camel_exception_is_set(ex)) {
-			if (msg->herr == HOST_NOT_FOUND || msg->herr == NO_DATA)
-				camel_exception_setv(ex, 1, _("Host lookup failed: %s: host not found"), name);
-			else
-				camel_exception_setv(ex, 1, _("Host lookup failed: %s: unknown reason"), name);
-		}
-		g_free(msg->hostbufmem);
-		g_free(msg);
-		return NULL;
-	} else {
-		return &msg->hostbuf;
-	}
-}
-
-void camel_free_host(struct hostent *h)
-{
-	struct _lookup_msg *msg;
-
-	g_return_if_fail(h != NULL);
-
-	/* yeah this looks ugly but it is safe.  we passed out a reference to inside our structure, this maps it
-	   to the base structure, so we can free everything right without having to keep track of it separately */
-	msg = (struct _lookup_msg *)(((char *)h) - STRUCT_OFFSET(struct _lookup_msg, hostbuf));
-
-	g_free(msg->hostbufmem);
-	g_free(msg);
+	return h;
 }

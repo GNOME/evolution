@@ -88,6 +88,9 @@ void     mail_config_set_thread_list          (gboolean value);
 gboolean mail_config_get_view_source          (void);
 void     mail_config_set_view_source          (gboolean value);
 
+gboolean mail_config_get_hide_deleted          (void);
+void     mail_config_set_hide_deleted          (gboolean value);
+
 gint     mail_config_get_paned_size           (void);
 void     mail_config_set_paned_size           (gint size);
 
@@ -112,13 +115,12 @@ void     mail_config_set_pgp_type (gint pgp_type);
 const char *mail_config_get_pgp_path (void);
 void        mail_config_set_pgp_path (const char *pgp_path);
 
-const MailConfigAccount  *mail_config_get_default_account       (void);
-const MailConfigAccount  *mail_config_get_account_by_name       (const char *account_name);
-const MailConfigAccount  *mail_config_get_account_by_source_url (const char *url);
-const GSList             *mail_config_get_accounts              (void);
-void                      mail_config_add_account               (MailConfigAccount *account);
-const GSList             *mail_config_remove_account            (MailConfigAccount *account);
-void                      mail_config_set_default_account       (const MailConfigAccount *account);
+const MailConfigAccount  *mail_config_get_default_account (void);
+const MailConfigAccount  *mail_config_get_account_by_name (const char *account_name);
+const GSList             *mail_config_get_accounts        (void);
+void                      mail_config_add_account         (MailConfigAccount *account);
+const GSList             *mail_config_remove_account      (MailConfigAccount *account);
+void                      mail_config_set_default_account (const MailConfigAccount *account);
 
 const MailConfigIdentity *mail_config_get_default_identity (void);
 const MailConfigService  *mail_config_get_default_transport (void);

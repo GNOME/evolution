@@ -1,11 +1,13 @@
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+
+#include "config.h"
 
 #include <stdio.h>
 #ifdef ENABLE_THREADS
 #include <pthread.h>
 #endif
+
+#include <sys/time.h>
+#include <unistd.h>
 
 #include <glib.h>
 #include "camel-operation.h"
@@ -15,6 +17,13 @@
 
 /* ********************************************************************** */
 
+struct _status_stack {
+	guint32 flags;
+	char *msg;
+	int pc;				/* last pc reported */
+	unsigned int stamp;		/* last stamp reported */
+};
+
 struct _CamelOperation {
 	pthread_t id;		/* id of running thread */
 	guint32 flags;		/* cancelled ? */
@@ -23,10 +32,11 @@ struct _CamelOperation {
 
 	CamelOperationStatusFunc status;
 	void *status_data;
-	time_t status_update;
+	unsigned int status_update;
 
-	/* stack of status messages (char *) */
+	/* stack of status messages (struct _status_stack *) */
 	GSList *status_stack;
+	struct _status_stack *lastreport;
 
 #ifdef ENABLE_THREADS
 	EMsgPort *cancel_port;
@@ -36,6 +46,7 @@ struct _CamelOperation {
 };
 
 #define CAMEL_OPERATION_CANCELLED (1<<0)
+#define CAMEL_OPERATION_TRANSIENT (1<<1)
 
 #ifdef ENABLE_THREADS
 #define CAMEL_OPERATION_LOCK(cc) pthread_mutex_lock(&cc->lock)
@@ -405,6 +416,7 @@ void camel_operation_start(CamelOperation *cc, char *what, ...)
 {
 	va_list ap;
 	char *msg;
+	struct _status_stack *s;
 
 	if (operation_active == NULL)
 		return;
@@ -425,8 +437,65 @@ void camel_operation_start(CamelOperation *cc, char *what, ...)
 	va_end(ap);
 	cc->status(cc, msg, CAMEL_OPERATION_START, cc->status_data);
 	cc->status_update = 0;
-	cc->status_stack = g_slist_prepend(cc->status_stack, msg);
+	s = g_malloc0(sizeof(*s));
+	s->msg = msg;
+	s->flags = 0;
+	cc->lastreport = s;
+	cc->status_stack = g_slist_prepend(cc->status_stack, s);
 	d(printf("start '%s'\n", msg, pc));
+}
+
+/**
+ * camel_operation_start_transient:
+ * @cc: 
+ * @what: 
+ * @: 
+ * 
+ * Start a transient event.  We only update this to the display if it
+ * takes very long to process, and if we do, we then go back to the
+ * previous state when finished.
+ **/
+void camel_operation_start_transient(CamelOperation *cc, char *what, ...)
+{
+	va_list ap;
+	char *msg;
+	struct _status_stack *s;
+
+	if (operation_active == NULL)
+		return;
+
+	if (cc == NULL) {
+		CAMEL_ACTIVE_LOCK();
+		cc = g_hash_table_lookup(operation_active, (void *)pthread_self());
+		CAMEL_ACTIVE_UNLOCK();
+		if (cc == NULL)
+			return;
+	}
+
+	if (cc->status == NULL)
+		return;
+
+	va_start(ap, what);
+	msg = g_strdup_vprintf(what, ap);
+	va_end(ap);
+	/* we dont report it yet */
+	/*cc->status(cc, msg, CAMEL_OPERATION_START, cc->status_data);*/
+	cc->status_update = 0;
+	s = g_malloc0(sizeof(*s));
+	s->msg = msg;
+	s->flags = CAMEL_OPERATION_TRANSIENT;
+	s->stamp = stamp();
+	cc->status_stack = g_slist_prepend(cc->status_stack, s);
+	d(printf("start '%s'\n", msg, pc));
+}
+
+static unsigned int stamp(void)
+{
+	struct timeval tv;
+
+	gettimeofday(&tv, NULL);
+	/* update 4 times/second */
+	return (tv.tv_sec * 4) + tv.tv_usec / (1000000/4);
 }
 
 /**
@@ -443,8 +512,8 @@ void camel_operation_start(CamelOperation *cc, char *what, ...)
  **/
 void camel_operation_progress(CamelOperation *cc, int pc)
 {
-	char *msg;
-	time_t now;
+	unsigned int now;
+	struct _status_stack *s;
 
 	if (operation_active == NULL)
 		return;
@@ -463,19 +532,31 @@ void camel_operation_progress(CamelOperation *cc, int pc)
 	if (cc->status_stack == NULL)
 		return;
 
-	now = time(0);
+	s = cc->status_stack->data;
+	s->pc = pc;
+
+	now = stamp();
 	if (cc->status_update != now) {
-		msg =cc->status_stack->data;
-		cc->status(cc, msg, pc, cc->status_data);
-		d(printf("progress '%s' %d %%\n", msg, pc));
-		cc->status_update = now;
+		if (s->flags & CAMEL_OPERATION_TRANSIENT) {
+			if (s->stamp/16 < now/16) {
+				s->stamp = now;
+				cc->status(cc, s->msg, pc, cc->status_data);
+				cc->status_update = now;
+				cc->lastreport = s;
+			}
+		} else {
+			cc->status(cc, s->msg, pc, cc->status_data);
+			d(printf("progress '%s' %d %%\n", s->msg, pc));
+			s->stamp = cc->status_update = now;
+			cc->lastreport = s;
+		}
 	}
 }
 
 void camel_operation_progress_count(CamelOperation *cc, int sofar)
 {
-	char *msg;
-	time_t now;
+	unsigned int now;
+	struct _status_stack *s;
 
 	if (operation_active == NULL)
 		return;
@@ -495,12 +576,23 @@ void camel_operation_progress_count(CamelOperation *cc, int sofar)
 		return;
 
 	/* FIXME: generate some meaningful pc value */
-	now = time(0);
+	s = cc->status_stack->data;
+	s->pc = sofar;
+	now = stamp();
 	if (cc->status_update != now) {
-		msg =cc->status_stack->data;
-		cc->status(cc, msg, sofar, cc->status_data);
-		d(printf("progress '%s' %d done\n", msg, sofar));
-		cc->status_update = now;
+		if (s->flags & CAMEL_OPERATION_TRANSIENT) {
+			if (s->stamp/16 < now/16) {
+				s->stamp = now;
+				cc->status(cc, s->msg, sofar, cc->status_data);
+				cc->status_update = now;
+				cc->lastreport = s;
+			}
+		} else {
+			cc->status(cc, s->msg, sofar, cc->status_data);
+			d(printf("progress '%s' %d done\n", msg, sofar));
+			s->stamp = cc->status_update = now;
+			cc->lastreport = s;
+		}
 	}
 }
 
@@ -515,7 +607,8 @@ void camel_operation_progress_count(CamelOperation *cc, int sofar)
  **/
 void camel_operation_end(CamelOperation *cc)
 {
-	char *msg;
+	struct _status_stack *s, *p;
+	unsigned int now;
 
 	if (operation_active == NULL)
 		return;
@@ -534,8 +627,36 @@ void camel_operation_end(CamelOperation *cc)
 	if (cc->status_stack == NULL)
 		return;
 
-	msg = cc->status_stack->data;
-	cc->status(cc, msg, CAMEL_OPERATION_END, cc->status_data);
-	g_free(msg);
+	/* so what we do here is this.  If the operation that just
+	 * ended was transient, see if we have any other transient
+	 * messages that haven't been updated yet above us, otherwise,
+	 * re-update as a non-transient at the last reported pc */
+	now = stamp();
+	s = cc->status_stack->data;
+	if (s->flags & CAMEL_OPERATION_TRANSIENT) {
+		if (cc->lastreport == s) {
+			GSList *l = cc->status_stack->next;
+			while (l) {
+				p = l->data;
+				if (p->flags & CAMEL_OPERATION_TRANSIENT) {
+					if (p->stamp/16 < now/16) {
+						cc->status(cc, p->msg, p->pc, cc->status_data);
+						cc->lastreport = p;
+						break;
+					}
+				} else {
+					cc->status(cc, p->msg, p->pc, cc->status_data);
+					cc->lastreport = p;
+					break;
+				}
+				l = l->next;
+			}
+		}
+	} else {
+		cc->status(cc, s->msg, CAMEL_OPERATION_END, cc->status_data);
+		cc->lastreport = s;
+	}
+	g_free(s->msg);
+	g_free(s);
 	cc->status_stack = g_slist_remove_link(cc->status_stack, cc->status_stack);
 }

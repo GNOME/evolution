@@ -34,15 +34,14 @@
   the maintainer of this information.
 
 */
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
-#include <gnome-xml/xmlmemory.h>
+#include <bonobo.h>
 #include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
 #include <glade/glade.h>
+#include <gnome-xml/xmlmemory.h>
 
 #include "Evolution.h"
 #include "evolution-storage.h"
@@ -357,7 +356,7 @@ trash_finalize (CamelObject *trash, gpointer event_data, gpointer user_data)
 	
 	store->vtrash = NULL;
 }
-
+						  
 static void
 init_trash (CamelStore *store)
 {

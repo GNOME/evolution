@@ -1,13 +1,5 @@
-2001-04-04  Gediminas Paulauskas <menesis@delfi.lt>
-
-	* component-factory.c: use big trash icon, stolen from mc.
-
-2001-04-03  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* openpgp-utils.c (openpgp_encrypt): Add --no-tty argument to gpg.
-
 2001-04-03  Dan Winship  <danw@ximian.com>
-
+	
 	* folder-browser-factory.c (control_activate): Sync the folder on
 	activate.
 
@@ -15,16 +7,15 @@
 	URL-transforming rules we use when hashing the password so this
 	actually works.
 
+2001-04-03  Not Zed  <NotZed@Ximian.com>
+
+	* mail-ops.c (mail_send_message): Strip header content before using it.
+
 2001-04-02  Iain Holmes  <iain@ximian.com>
 
-	* importers/elm-importer.c (elm_can_import): Call is_kmail to check for 
-	KMail files.
+	* importers/elm-importer.c (elm_can_import): Calls is_kmail to check for
+	kmail files.
 	(is_kmail): Checks if the given directory is a KMail directory.
-
-2001-04-02  Iain Holmes  <iain@ximian.com>
-
-	* importers/elm-importer.c (elm_can_import): Check for some MH files
-	to make sure that the dir really is an Elm dir.
 
 2001-04-02  Dan Winship  <danw@ximian.com>
 
@@ -39,37 +30,49 @@
 	"changed" signal on transport.hostname, not the store.
 	(mail_account_gui_setup): Set up provider_type fields
 
-2001-04-01  Gediminas Paulauskas <menesis@delfi.lt>
+2001-04-02  Iain Holmes  <iain@ximian.com>
 
-	* component-factory.c: changed vtrash icon to trash. doh
-	* folder-browser-factory.c: pixmap cache got moved from here to
-	e-util/e-gui-utils.c. Changed pixmap paths according to file renames.
-	Added icons for print, get mail, etc., changed get mail icon as Jacub
-	suggested.
-	* subscribe-dialog.c: also use new pixmap cache.
+	* importers/elm-importer.c (elm_can_import): Check for some MH files
+	to make sure that the dir really is an Elm dir.
+
+2001-03-30  Not Zed  <NotZed@Ximian.com>
+
+	* folder-browser.c (folder_browser_toggle_hide_deleted): New
+	function to listen for hide_deleted changes.
+	(folder_browser_toggle_hide_deleted): Only svae the hide-deleted
+	state if we are not setting a trash folder.
+
+	* folder-browser-factory.c (control_activate): Set the
+	hide_deleted flag appropriately/setup the menu's appropriately.
+	(control_activate): Workaround to Force setting of options by
+	bypassing bonobo notification, since it doesn't properly handle
+	changed components.
+
+	* mail-config.c (mail_config_get_hide_deleted): 
+	(mail_config_set_hide_deleted): New functions for
+	accessing/setting the hide deleted state.
+	(mail_config_write_on_exit): 
+	(config_read): Save/load the hide_deleted flag.
+
+	* message-list.c (main_folder_changed): Oops, remember to copy
+	over all the rest of the changes too if we removed some.
+	(find_next_undeleted): Find the first undeleted message below us.
+	This of course does not follow sorting conventions, but thats
+	etree.  Have to ask chris if there is a way to make it work like
+	that.
+	(message_list_set_hidedeleted): Check we dont set hide_delete on a
+	vtrash.
+	(build_tree): If the message has vanished, try and get the next
+	undeleted message set, etc, if it still exists.  The set_cursor()
+	function seems very broken but i'm sure e-lahey will get to it
+	soon.
+	(build_flat): Similarly for above.
 
 2001-03-30  Dan Winship  <danw@ximian.com>
 
 	* mail-config.c (check_service_check): Register for cancellation.
 	(mail_config_check_service): Pop up a modal dialog with a message
 	and a "Cancel" button for the duration of the check.
-
-2001-03-30  Iain Holmes  <iain@ximian.com>
-
-	* importers/evolution-mbox-importer.c (load_file_fn): Check if
-	foldername is \0.
-
-	* importers/evolution-outlook-importer.c (load_file_fn): Ditto.
-
-2001-03-30  Jon Trowbridge  <trow@ximian.com>
-
-	* mail-display.c (mail_text_write): Add (commented-out)
-	E_TEXT_TO_HTML_CONVERT_ADDRESSES.
-
-	* mail-config.c (mail_config_get_account_by_source_url): 
-	Call e_url_equal to compare URLs.
-
-2001-03-30  Dan Winship  <danw@ximian.com>
 
 	* component-factory.c (debug_cb): If the EvolutionShellComponent
 	emits a "debug" signal, turn on camel_verbose_debug.
@@ -78,43 +81,15 @@
 
 	* mail-display.c (mail_display_redisplay): reset last_active
 
-2001-03-29  Jon Trowbridge  <trow@ximian.com>
-
-	* mail-callbacks.c: Added #include <time.h> to get things
-	to compile.
-
-	* mail-callbacks.c (mail_generate_reply): Look at the
-	X-Evolution-Source header, and try to find a corresponding
-	account.  If this works, send the mail from this account.
-	If not, use the default account.
-
-	* mail-ops.c (send_queue_send): Strip out the X-Evolution-Source
-	header before sending.
-
-	* mail-config.c (mail_config_get_account_by_source_url): Added.
-	Look up accounts by source URL.
-
 2001-03-29  Dan Winship  <danw@ximian.com>
 
 	* mail-format.c (call_handler_function): if called with a
 	multipart that's really a 0-part, spew an error and display as
 	source.
 
-	* message-list.c: #include <camel/camel-vtrash-folder.h>
-
-	* mail-callbacks.c: #include <libgnome/gnome-paper.h>
-	for the gnome-print stuff.
-
 	* mail-display.c (pixmap_press): Ignore "funky" button clicks
 	(like scroll wheel scrolls)
 
-2001-03-29  Kjartan Maraas  <kmaraas@gnome.org>
-
-	* *.*: Cleaned up #includes. Remove unneccesary includes of
-	<gnome.h>, <gtk/gtk.h>, <bonobo.h> and replaced with more
-	fine grained headers where needed. Also marked a bunch of
-	strings for translations and added some missing prototypes.
-	
 2001-03-29  Dan Winship  <danw@ximian.com>
 
 	* mail-account-editor.c (switch_page): Fix this so the "Receiving

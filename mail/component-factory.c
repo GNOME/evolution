@@ -25,8 +25,7 @@
 #include <config.h>
 #endif
 
-#include <bonobo/bonobo-generic-factory.h>
-#include <gal/widgets/e-gui-utils.h>
+#include <bonobo.h>
 
 #include "camel.h"
 
@@ -37,7 +36,6 @@
 #include "evolution-shell-component.h"
 #include "folder-browser.h"
 #include "mail.h"		/* YUCK FIXME */
-#include "mail-config.h"
 #include "mail-tools.h"
 #include "mail-ops.h"
 #include "mail-local.h"
@@ -46,6 +44,7 @@
 #include "mail-importer.h"
 #include "mail-vfolder.h"             /* vfolder_create_storage */
 #include "openpgp-utils.h"
+#include <gal/widgets/e-gui-utils.h>
 
 #include "component-factory.h"
 
@@ -282,7 +281,7 @@ debug_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 static const EvolutionShellComponentFolderType folder_types[] = {
 	{ "mail", "evolution-inbox.png" },
 	{ "mailstorage", "evolution-inbox.png" },
-	{ "vtrash", "evolution-trash.png" },
+	{ "vtrash", "evolution-inbox.png" },
 	{ NULL, NULL }
 };
 
