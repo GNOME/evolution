@@ -454,7 +454,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 				   e_meeting_time_selector_options_menu_detacher);
 
 	menuitem = gtk_check_menu_item_new_with_label ("");
-	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (menuitem)->child), _("Show _Only Working Hours"));
+	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (menuitem)->child), _("Show _only working hours"));
 	gtk_menu_append (GTK_MENU (mts->options_menu), menuitem);
 	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menuitem),
 					mts->working_hours_only);
@@ -464,7 +464,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	gtk_widget_show (menuitem);
 
 	menuitem = gtk_check_menu_item_new_with_label ("");
-	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (menuitem)->child), _("Show _Zoomed Out"));
+	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (menuitem)->child), _("Show _zoomed out"));
 	gtk_menu_append (GTK_MENU (mts->options_menu), menuitem);
 	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menuitem),
 					mts->zoomed_out);
@@ -479,7 +479,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	gtk_widget_show (menuitem);
 
 	menuitem = gtk_menu_item_new_with_label ("");
-	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (menuitem)->child), _("_Update Free/Busy"));
+	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (menuitem)->child), _("_Update free/busy"));
 	gtk_menu_append (GTK_MENU (mts->options_menu), menuitem);
 
 	g_signal_connect (menuitem, "activate",
@@ -544,7 +544,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	menuitem = gtk_radio_menu_item_new_with_label (NULL, "");
 	mts->autopick_all_item = menuitem;
 	group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (menuitem));
-	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (menuitem)->child), _("_All People and Resources"));
+	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (menuitem)->child), _("_All people and resources"));
 	gtk_menu_append (GTK_MENU (mts->autopick_menu), menuitem);
 	g_signal_connect (menuitem, "toggled",
 			  G_CALLBACK (e_meeting_time_selector_on_autopick_option_toggled), mts);
@@ -553,7 +553,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	menuitem = gtk_radio_menu_item_new_with_label (group, "");
 	mts->autopick_all_people_one_resource_item = menuitem;
 	group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (menuitem));
-	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (menuitem)->child), _("All _People and One Resource"));
+	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (menuitem)->child), _("All _people and one resource"));
 	gtk_menu_append (GTK_MENU (mts->autopick_menu), menuitem);
 	g_signal_connect (menuitem, "toggled",
 			  G_CALLBACK (e_meeting_time_selector_on_autopick_option_toggled), mts);
@@ -562,7 +562,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	menuitem = gtk_radio_menu_item_new_with_label (group, "");
 	mts->autopick_required_people_item = menuitem;
 	group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (menuitem));
-	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (menuitem)->child), _("_Required People"));
+	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (menuitem)->child), _("_Required people"));
 	gtk_menu_append (GTK_MENU (mts->autopick_menu), menuitem);
 	g_signal_connect (menuitem, "activate",
 			  G_CALLBACK (e_meeting_time_selector_on_autopick_option_toggled), mts);
@@ -571,7 +571,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	menuitem = gtk_radio_menu_item_new_with_label (group, "");
 	mts->autopick_required_people_one_resource_item = menuitem;
 	group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (menuitem));
-	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (menuitem)->child), _("Required People and _One Resource"));
+	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (menuitem)->child), _("Required people and _one resource"));
 	gtk_menu_append (GTK_MENU (mts->autopick_menu), menuitem);
 	g_signal_connect (menuitem, "activate",
 			  G_CALLBACK (e_meeting_time_selector_on_autopick_option_toggled), mts);
