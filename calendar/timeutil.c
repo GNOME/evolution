@@ -141,11 +141,10 @@ time_add_month (time_t time, int months)
 {
 	struct tm *tm = localtime (&time);
 	time_t new_time;
+	int mday;
 
-	/* FIXME: this will not work correctly when switching, say, from a 31-day month to a 30-day
-	 * month.  Figure out the number of days in the month and go to the nearest "limit" day.
-	 */
-
+	mday = tm->tm_mday;
+	
 	tm->tm_mon += months;
 	tm->tm_isdst = -1;
 	if ((new_time = mktime (tm)) == -1){
@@ -153,7 +152,14 @@ time_add_month (time_t time, int months)
 		print_time_t (time);
 		return time;
 	}
-	return new_time;
+	tm = localtime (&new_time);
+	if (tm->tm_mday < mday){
+		tm->tm_mon--;
+		tm->tm_mday = time_days_in_month (tm->tm_year+1900, tm->tm_mon);
+		return new_time = mktime (tm);
+	}
+	else
+		return new_time;
 }
 
 time_t

@@ -1,3 +1,21 @@
+1999-07-14  Miguel de Icaza  <miguel@gnu.org>
+
+	* calobj.c (ical_gen_uid): Returns a UID.
+	(ical_object_new): Use a UID when creating an event.  Should get
+	syncing done easier.
+
+1999-07-14  Nicholas J Kreucher <nick@poetic.com>
+
+	* calobj.c (skip_numbers): Actually skip over the numbers.
+	(ical_object_to_vobject): Test the proper variable for storing the
+	proper information.
+
+1999-07-14  Jean-Noel Guiheneuf <jean-noel.guiheneuf@wanadoo.fr>
+
+	* timeutil.c (time_add_month): Fixed the problem with next month
+	going from a 31-day to a 30-day by adjusting the date to the
+	closest day at the end of the month.
+
 1999-06-07  Mike McEwan  <mike@lotusland.demon.co.uk>
 
         * timeutil.c (time_add_month): Tell ktime' that we don't know
