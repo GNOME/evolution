@@ -20,6 +20,8 @@ lib_LTLIBRARIES = libcal-util.la
 privlib_LTLIBRARIES = libcal-util-static.la
 
 libcal_util_la_SOURCES = 	\
+	cal-util-marshal.c	\
+	cal-util-marshal.h	\
 	cal-component.c		\
 	cal-recur.c		\
 	cal-util.c		\
@@ -32,6 +34,22 @@ libcal_utilinclude_HEADERS =	\
 	cal-recur.h		\
 	cal-util.h		\
 	timeutil.h
+
+# GLib marshalling cruft
+
+cal-util-marshal.h: cal-util-marshal.list
+	( @GLIB_GENMARSHAL@ --prefix=cal_util_marshal cal-util-marshal.list --header > cal-util-marshal.tmp \
+	&& mv cal-util-marshal.tmp cal-util-marshal.h ) \
+	|| ( rm -f cal-util-marshal.tmp && exit 1 )
+
+cal-util-marshal.c: cal-util-marshal.h
+	( @GLIB_GENMARSHAL@ --prefix=cal_util_marshal cal-util-marshal.list --body > cal-util-marshal.tmp \
+	&& mv cal-util-marshal.tmp cal-util-marshal.c ) \
+	|| ( rm -f cal-util-marshal.tmp && exit 1 )
+
+MARSHAL_GENERATED = cal-util-marshal.c cal-util-marshal.h
+
+BUILT_SOURCES = $(MARSHAL_GENERATED)
 
 #
 # static library for use in conduits' shared libraries

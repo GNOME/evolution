@@ -22,7 +22,6 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtksignal.h>
 #include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-exception.h>
 #include <libgnome/gnome-util.h>
@@ -92,9 +91,9 @@ enum {
 	LAST_SIGNAL
 };
 
-static void cal_client_class_init (CalClientClass *class);
-static void cal_client_init (CalClient *client);
-static void cal_client_destroy (GtkObject *object);
+static void cal_client_class_init (CalClientClass *klass);
+static void cal_client_init (CalClient *client, CalClientClass *klass);
+static void cal_client_finalize (GObject *object);
 
 static char *client_get_password_cb (WombatClient *w_client,
 				     const gchar *prompt,
@@ -108,7 +107,7 @@ static void cal_client_get_object_timezones_cb (icalparameter *param,
 
 static guint cal_client_signals[LAST_SIGNAL];
 
-static GtkObjectClass *parent_class;
+static GObjectClass *parent_class;
 
 
 
@@ -120,121 +119,124 @@ static GtkObjectClass *parent_class;
  *
  * Return value: The type ID of the #CalClient class.
  **/
-GtkType
+GType
 cal_client_get_type (void)
 {
-	static GtkType cal_client_type = 0;
+	static GType cal_client_type = 0;
 
 	if (!cal_client_type) {
-		static const GtkTypeInfo cal_client_info = {
-			"CalClient",
-			sizeof (CalClient),
-			sizeof (CalClientClass),
-			(GtkClassInitFunc) cal_client_class_init,
-			(GtkObjectInitFunc) cal_client_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		cal_client_type = gtk_type_unique (GTK_TYPE_OBJECT, &cal_client_info);
+		static GTypeInfo info = {
+                        sizeof (CalClientClass),
+                        (GBaseInitFunc) NULL,
+                        (GBaseFinalizeFunc) NULL,
+                        (GClassInitFunc) cal_client_class_init,
+                        NULL, NULL,
+                        sizeof (CalClient),
+                        0,
+                        (GInstanceInitFunc) cal_client_init
+                };
+		cal_component_type = g_type_register_static (G_TYPE_OBJECT, "CalClient", &info, 0);
 	}
 
 	return cal_client_type;
 }
 
-#define marshal_NONE__ENUM_ENUM gtk_marshal_NONE__INT_INT
-
 /* Class initialization function for the calendar client */
 static void
-cal_client_class_init (CalClientClass *class)
+cal_client_class_init (CalClientClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = (GtkObjectClass *) class;
+	object_class = (GObjectClass *) class;
 
-	parent_class = gtk_type_class (GTK_TYPE_OBJECT);
+	parent_class = g_type_class_peek_parent (klass);
 
 	cal_client_signals[CAL_OPENED] =
-		gtk_signal_new ("cal_opened",
-				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (CalClientClass, cal_opened),
-				gtk_marshal_NONE__ENUM,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_ENUM);
+		g_signal_new ("cal_opened",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (CalClientClass, cal_opened),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__ENUM,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_ENUM);
 	cal_client_signals[CAL_SET_MODE] =
-		gtk_signal_new ("cal_set_mode",
-				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (CalClientClass, cal_set_mode),
-				marshal_NONE__ENUM_ENUM,
-				GTK_TYPE_NONE, 2,
-				GTK_TYPE_ENUM,
-				GTK_TYPE_ENUM);
+		g_signal_new ("cal_set_mode",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (CalClientClass, cal_set_mode),
+			      NULL, NULL,
+			      cal_util_marshal_VOID__ENUM_ENUM,
+			      G_TYPE_NONE, 2,
+			      G_TYPE_ENUM,
+			      G_TYPE_ENUM);
 	cal_client_signals[OBJ_UPDATED] =
-		gtk_signal_new ("obj_updated",
-				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (CalClientClass, obj_updated),
-				gtk_marshal_NONE__STRING,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_STRING);
+		g_signal_new ("obj_updated",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST
+			      G_STRUCT_OFFSET (CalClientClass, obj_updated),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__STRING,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_STRING);
 	cal_client_signals[OBJ_REMOVED] =
-		gtk_signal_new ("obj_removed",
-				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (CalClientClass, obj_removed),
-				gtk_marshal_NONE__STRING,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_STRING);
+		g_signal_new ("obj_removed",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (CalClientClass, obj_removed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__STRING,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_STRING);
 	cal_client_signals[BACKEND_ERROR] =
-		gtk_signal_new ("backend_error",
-				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (CalClientClass, backend_error),
-				gtk_marshal_NONE__STRING,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_STRING);
+		g_signal_new ("backend_error",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT__OFFSET (CalClientClass, backend_error),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__STRING,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_STRING);
 	cal_client_signals[CATEGORIES_CHANGED] =
-		gtk_signal_new ("categories_changed",
-				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (CalClientClass, categories_changed),
-				gtk_marshal_NONE__POINTER,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_POINTER);
+		g_signal_new ("categories_changed",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (CalClientClass, categories_changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__POINTER,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_POINTER);
 	cal_client_signals[FORGET_PASSWORD] =
-		gtk_signal_new ("forget_password",
-				GTK_RUN_FIRST,
-                                G_TYPE_FROM_CLASS (object_class),
-                                GTK_SIGNAL_OFFSET (CalClientClass, forget_password),
-                                gtk_marshal_NONE__STRING,
-                                GTK_TYPE_NONE, 1,
-                                GTK_TYPE_STRING);
+		g_signal_new ("forget_password",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (CalClientClass, forget_password),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__STRING,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_STRING);
 	cal_client_signals[BACKEND_DIED] =
-		gtk_signal_new ("backend_died",
-				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (CalClientClass, backend_died),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("backend_died",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_SIGNAL_OFFSET (CalClientClass, backend_died),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 
-	gtk_object_class_add_signals (object_class, cal_client_signals, LAST_SIGNAL);
+	klass->cal_opened = NULL;
+	klass->obj_updated = NULL;
+	klass->obj_removed = NULL;
+	klass->categories_changed = NULL;
+	klass->forget_password = NULL;
+	klass->backend_died = NULL;
 
-	class->cal_opened = NULL;
-	class->obj_updated = NULL;
-	class->obj_removed = NULL;
-	class->categories_changed = NULL;
-	class->forget_password = NULL;
-	class->backend_died = NULL;
-
-	object_class->destroy = cal_client_destroy;
+	object_class->finalize = cal_client_finalize;
 }
 
 /* Object initialization function for the calendar client */
 static void
-cal_client_init (CalClient *client)
+cal_client_init (CalClient *client, CalClientClass *klass)
 {
 	CalClientPrivate *priv;
 
@@ -339,9 +341,9 @@ free_timezone (gpointer key, gpointer value, gpointer data)
 	icaltimezone_free (value, TRUE);
 }
 
-/* Destroy handler for the calendar client */
+/* Finalize handler for the calendar client */
 static void
-cal_client_destroy (GtkObject *object)
+cal_client_finalize (GObject *object)
 {
 	CalClient *client;
 	CalClientPrivate *priv;
@@ -359,8 +361,11 @@ cal_client_destroy (GtkObject *object)
 	}
 
 	if (priv->comp_listener) {
-		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->comp_listener), client);
-		gtk_object_unref (GTK_OBJECT (priv->comp_listener));
+		g_signal_handlers_disconnect_matched (G_OBJECT (priv->comp_listener),
+						       G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL,
+						      client);
+		g_object_unref (G_OBJECT (priv->comp_listener));
 		priv->comp_listener = NULL;
 	}
 
@@ -387,8 +392,8 @@ cal_client_destroy (GtkObject *object)
 	g_free (priv);
 	client->priv = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -403,7 +408,7 @@ backend_died_cb (EComponentListener *cl, gpointer user_data)
 
 	priv = client->priv;
 	priv->load_state = CAL_CLIENT_LOAD_NOT_LOADED;
-	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[BACKEND_DIED]);
+	g_signal_emit (G_OBJECT (client), cal_client_signals[BACKEND_DIED], 0);
 }
 
 /* Signal handlers for the listener's signals */
@@ -447,8 +452,8 @@ cal_opened_cb (CalListener *listener,
 
 		/* setup component listener */
 		priv->comp_listener = e_component_listener_new (priv->cal, 0);
-		gtk_signal_connect (GTK_OBJECT (priv->comp_listener), "component_died",
-				    GTK_SIGNAL_FUNC (backend_died_cb), client);
+		g_signal_connect (G_OBJECT (priv->comp_listener), "component_died",
+				  G_CALLBACK (backend_died_cb), client);
 		goto out;
 
 	case GNOME_Evolution_Calendar_Listener_ERROR:
@@ -489,10 +494,10 @@ cal_opened_cb (CalListener *listener,
 	 * signal and clean up.
 	 */
 
-	gtk_object_ref (GTK_OBJECT (client));
+	g_object_ref (G_OBJECT (client));
 
-	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[CAL_OPENED],
-			 client_status);
+	g_signal_emit (G_OBJECT (client), cal_client_signals[CAL_OPENED],
+		       0, client_status);
 
 	if (client_status != CAL_CLIENT_OPEN_SUCCESS) {
 		priv->load_state = CAL_CLIENT_LOAD_NOT_LOADED;
@@ -502,7 +507,7 @@ cal_opened_cb (CalListener *listener,
 
 	g_assert (priv->load_state != CAL_CLIENT_LOAD_LOADING);
 
-	gtk_object_unref (GTK_OBJECT (client));
+	g_object_unref (G_OBJECT (client));
 }
 
 /* Handle the cal_set_mode notification from the listener */
@@ -541,12 +546,12 @@ cal_set_mode_cb (CalListener *listener,
 	 * signal and clean up.
 	 */
 
-	gtk_object_ref (GTK_OBJECT (client));
+	g_object_ref (G_OBJECT (client));
 
-	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[CAL_SET_MODE],
-			 client_status, mode);
+	g_signal_emit (G_OBJECT (client), cal_client_signals[CAL_SET_MODE],
+		       0, client_status, mode);
 
-	gtk_object_unref (GTK_OBJECT (client));
+	g_object_unref (G_OBJECT (client));
 }
 
 /* Handle the obj_updated signal from the listener */
@@ -556,7 +561,7 @@ obj_updated_cb (CalListener *listener, const CORBA_char *uid, gpointer data)
 	CalClient *client;
 
 	client = CAL_CLIENT (data);
-	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[OBJ_UPDATED], uid);
+	g_signal_emit (G_OBJECT (client), cal_client_signals[OBJ_UPDATED], 0, uid);
 }
 
 /* Handle the obj_removed signal from the listener */
@@ -566,7 +571,7 @@ obj_removed_cb (CalListener *listener, const CORBA_char *uid, gpointer data)
 	CalClient *client;
 
 	client = CAL_CLIENT (data);
-	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[OBJ_REMOVED], uid);
+	g_signal_emit (G_OBJECT (client), cal_client_signals[OBJ_REMOVED], 0, uid);
 }
 
 /* Handle the error_occurred signal from the listener */
@@ -576,7 +581,7 @@ backend_error_cb (CalListener *listener, const char *message, gpointer data)
 	CalClient *client;
 
 	client = CAL_CLIENT (data);
-	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[BACKEND_ERROR], message);
+	g_signal_emit (G_OBJECT (client), cal_client_signals[BACKEND_ERROR], 0, message);
 }
 
 /* Handle the categories_changed signal from the listener */
@@ -596,7 +601,7 @@ categories_changed_cb (CalListener *listener, const GNOME_Evolution_Calendar_Str
 	for (i = 0; i < categories->_length; i++)
 		cats->pdata[i] = categories->_buffer[i];
 
-	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[CATEGORIES_CHANGED], cats);
+	g_signal_emit (G_OBJECT (client), cal_client_signals[CATEGORIES_CHANGED], 0, cats);
 
 	g_ptr_array_free (cats, TRUE);
 }
@@ -631,9 +636,9 @@ client_forget_password_cb (WombatClient *w_client,
         client = CAL_CLIENT (user_data);
         g_return_if_fail (IS_CAL_CLIENT (client));
 
-        gtk_signal_emit (GTK_OBJECT (client),
-                         cal_client_signals [FORGET_PASSWORD],
-                         key);
+        g_signal_emit (G_OBJECT (client),
+		       cal_client_signals [FORGET_PASSWORD],
+		       0, key);
 }
 
 
@@ -712,11 +717,11 @@ cal_client_new (void)
 {
 	CalClient *client;
 
-	client = gtk_type_new (CAL_CLIENT_TYPE);
+	client = g_object_new (CAL_CLIENT_TYPE, NULL);
 
 	if (!cal_client_construct (client)) {
 		g_message ("cal_client_new(): could not construct the calendar client");
-		gtk_object_unref (GTK_OBJECT (client));
+		g_object_unref (G_OBJECT (client));
 		return NULL;
 	}
 
@@ -1236,7 +1241,7 @@ cal_client_get_object (CalClient *client, const char *uid, CalComponent **comp)
 	*comp = cal_component_new ();
 	if (!cal_component_set_icalcomponent (*comp, icalcomp)) {
 		icalcomponent_free (icalcomp);
-		gtk_object_unref (GTK_OBJECT (*comp));
+		g_object_unref (G_OBJECT (*comp));
 		*comp = NULL;
 
 		retval = CAL_CLIENT_GET_SYNTAX_ERROR;
@@ -1246,7 +1251,7 @@ cal_client_get_object (CalClient *client, const char *uid, CalComponent **comp)
 	/* Now make sure we have all timezones needed for this object.
 	   We do this to try to avoid any problems caused by getting a timezone
 	   in the middle of other code. Any calls to ORBit result in a 
-	   recursive call of the GTK+ main loop, which can cause problems for
+	   recursive call of the GLib main loop, which can cause problems for
 	   code that doesn't expect it. Currently GnomeCanvas has problems if
 	   we try to get a timezone in the middle of a redraw, and there is a
 	   resize pending, which leads to an assert failure and an abort. */
@@ -1351,7 +1356,7 @@ cal_client_get_timezone (CalClient *client,
 	tmp_zone = icaltimezone_new ();
 	if (!tmp_zone) {
 		/* FIXME: Needs better error code - out of memory. Or just
-		   abort like GTK+ does? */
+		   abort like GLib does? */
 		retval = CAL_CLIENT_GET_NOT_FOUND;
 		goto out;
 	}
@@ -1477,7 +1482,7 @@ build_change_list (GNOME_Evolution_Calendar_CalObjChangeSeq *seq)
 		ccc->comp = cal_component_new ();
 		if (!cal_component_set_icalcomponent (ccc->comp, icalcomp)) {
 			icalcomponent_free (icalcomp);
-			gtk_object_unref (GTK_OBJECT (ccc->comp));
+			g_object_unref (G_OBJECT (ccc->comp));
 			continue;
 		}
 		ccc->type = corba_coc->type;
@@ -1672,7 +1677,7 @@ cal_client_get_free_busy (CalClient *client, GList *users,
 			comp = cal_component_new ();
 			if (!cal_component_set_icalcomponent (comp, icalcomp)) {
 				icalcomponent_free (icalcomp);
-				gtk_object_unref (GTK_OBJECT (comp));
+				g_object_unref (G_OBJECT (comp));
 				continue;
 			}
 
@@ -1709,7 +1714,7 @@ generate_instances_obj_updated_cb (CalClient *client, const char *uid, gpointer 
 		return;
 
 	g_hash_table_remove (uid_comp_hash, uid);
-	gtk_object_unref (GTK_OBJECT (comp));
+	g_object_unref (G_OBJECT (comp));
 
 	status = cal_client_get_object (client, uid, &comp);
 
@@ -1746,7 +1751,7 @@ generate_instances_obj_removed_cb (CalClient *client, const char *uid, gpointer 
 		return;
 
 	g_hash_table_remove (uid_comp_hash, uid);
-	gtk_object_unref (GTK_OBJECT (comp));
+	g_object_unref (G_OBJECT (comp));
 }
 
 /* Adds a component to the list; called from g_hash_table_foreach() */
@@ -1783,13 +1788,13 @@ get_objects_atomically (CalClient *client, CalObjType type, time_t start, time_t
 
 	/* While we are getting the actual object data, keep track of changes */
 
-	obj_updated_id = gtk_signal_connect (GTK_OBJECT (client), "obj_updated",
-					     GTK_SIGNAL_FUNC (generate_instances_obj_updated_cb),
-					     uid_comp_hash);
+	obj_updated_id = g_signal_connect (G_OBJECT (client), "obj_updated",
+					   G_CALLBACK (generate_instances_obj_updated_cb),
+					   uid_comp_hash);
 
-	obj_removed_id = gtk_signal_connect (GTK_OBJECT (client), "obj_removed",
-					     GTK_SIGNAL_FUNC (generate_instances_obj_removed_cb),
-					     uid_comp_hash);
+	obj_removed_id = g_signal_connect (G_OBJECT (client), "obj_removed",
+					   G_CALLBACK (generate_instances_obj_removed_cb),
+					   uid_comp_hash);
 
 	/* Get the objects */
 
@@ -1832,8 +1837,8 @@ get_objects_atomically (CalClient *client, CalObjType type, time_t start, time_t
 	 * notification signals and generate the final list of components.
 	 */
 
-	gtk_signal_disconnect (GTK_OBJECT (client), obj_updated_id);
-	gtk_signal_disconnect (GTK_OBJECT (client), obj_removed_id);
+	g_signal_handler_disconnect_by_func (G_OBJECT (client), obj_updated_id, client);
+	g_signal_handler_disconnect (G_OBJECT (client), obj_removed_id, client);
 
 	objects = NULL;
 	g_hash_table_foreach (uid_comp_hash, add_component, &objects);
@@ -1860,7 +1865,7 @@ add_instance (CalComponent *comp, time_t start, time_t end, gpointer data)
 	ci = g_new (struct comp_instance, 1);
 
 	ci->comp = comp;
-	gtk_object_ref (GTK_OBJECT (ci->comp));
+	g_object_ref (G_OBJECT (ci->comp));
 	
 	ci->start = start;
 	ci->end = end;
@@ -1898,7 +1903,7 @@ compare_comp_instance (gconstpointer a, gconstpointer b)
  * way so that the generated instances are actually in the server at the time
  * the initial cal_client_get_objects_in_range() query ends.
  *
- * The callback function should do a gtk_object_ref() of the calendar component
+ * The callback function should do a g_object_ref() of the calendar component
  * it gets passed if it intends to keep it around.
  **/
 void
@@ -1933,7 +1938,7 @@ cal_client_generate_instances (CalClient *client, CalObjType type,
 		cal_recur_generate_instances (comp, start, end, add_instance, &instances,
 					      cal_client_resolve_tzid_cb, client,
 					      priv->default_zone);
-		gtk_object_unref (GTK_OBJECT (comp));
+		g_object_unref (G_OBJECT (comp));
 	}
 
 	g_list_free (objects);
@@ -1960,7 +1965,7 @@ cal_client_generate_instances (CalClient *client, CalObjType type,
 		struct comp_instance *ci;
 
 		ci = l->data;
-		gtk_object_unref (GTK_OBJECT (ci->comp));
+		g_object_unref (G_OBJECT (ci->comp));
 		g_free (ci);
 	}
 
@@ -2031,7 +2036,7 @@ build_component_alarms_list (GNOME_Evolution_Calendar_CalComponentAlarmsSeq *seq
 		comp = cal_component_new ();
 		if (!cal_component_set_icalcomponent (comp, icalcomp)) {
 			icalcomponent_free (icalcomp);
-			gtk_object_unref (GTK_OBJECT (comp));
+			g_object_unref (G_OBJECT (comp));
 			continue;
 		}
 
@@ -2175,7 +2180,7 @@ cal_client_get_alarms_for_object (CalClient *client, const char *uid,
 	comp = cal_component_new ();
 	if (!cal_component_set_icalcomponent (comp, icalcomp)) {
 		icalcomponent_free (icalcomp);
-		gtk_object_unref (GTK_OBJECT (comp));
+		g_object_unref (G_OBJECT (comp));
 		goto out;
 	}
 

@@ -5,3 +5,5 @@ Makefile
 *.lo
 *.la
 test-recur
+cal-util-marshal.c
+cal-util-marshal.h
