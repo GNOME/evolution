@@ -1,3 +1,8 @@
+2004-01-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-migrate.c (cp): Only abort the copy if the dest folder both
+	exists and contains data. Fixes bug #52880.
+
 2004-01-15  Rodrigo Moya <rodrigo@ximian.com>
 
 	* em-folder-browser.c: removed ForgetPasswords verb.
