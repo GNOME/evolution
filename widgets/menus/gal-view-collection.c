@@ -23,6 +23,7 @@ static GtkObjectClass *gal_view_collection_parent_class;
 
 enum {
 	DISPLAY_VIEW,
+	CHANGED,
 	LAST_SIGNAL
 };
 
@@ -44,6 +45,16 @@ gal_view_collection_display_view (GalViewCollection *collection,
 	gtk_signal_emit (GTK_OBJECT (collection),
 			 gal_view_collection_signals [DISPLAY_VIEW],
 			 view);
+}
+
+static void
+gal_view_collection_changed (GalViewCollection *collection)
+{
+	g_return_if_fail (collection != NULL);
+	g_return_if_fail (GAL_IS_VIEW_COLLECTION (collection));
+
+	gtk_signal_emit (GTK_OBJECT (collection),
+			 gal_view_collection_signals [CHANGED]);
 }
 
 static void
@@ -93,11 +104,20 @@ gal_view_collection_class_init (GtkObjectClass *object_class)
 				object_class->type,
 				GTK_SIGNAL_OFFSET (GalViewCollectionClass, display_view),
 				gtk_marshal_NONE__OBJECT,
-				GTK_TYPE_NONE, 1, GTK_TYPE_OBJECT);
+				GTK_TYPE_NONE, 1, GAL_VIEW_TYPE);
+
+	gal_view_collection_signals [CHANGED] =
+		gtk_signal_new ("changed",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (GalViewCollectionClass, changed),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
 
 	gtk_object_class_add_signals (object_class, gal_view_collection_signals, LAST_SIGNAL);
 
-	klass->display_view = NULL;     
+	klass->display_view = NULL;
+	klass->changed      = NULL;
 }
 
 static void
@@ -197,6 +217,8 @@ view_changed (GalView *view,
 {
 	item->changed = TRUE;
 	item->ever_changed = TRUE;
+
+	gal_view_collection_changed(item->collection);
 }
 
 static GalViewCollectionItem *
@@ -214,6 +236,7 @@ load_single_file (GalViewCollection *collection,
 	item->title = e_xml_get_string_prop_by_name(node, "title");
 	item->filename = e_xml_get_string_prop_by_name(node, "filename");
 	item->type = e_xml_get_string_prop_by_name(node, "type");
+	item->collection = collection;
 	if (item->filename) {
 		GalViewFactory *factory;
 		GList *factories;
@@ -483,6 +506,7 @@ gal_view_collection_append                   (GalViewCollection *collection,
 	item->id = gal_view_generate_id(collection, view);
 	item->filename = g_strdup_printf("%s.galview", item->id);
 	item->view = view;
+	item->collection = collection;
 	gtk_object_ref(GTK_OBJECT(view));
 
 	gtk_signal_connect(GTK_OBJECT(item->view), "changed",
@@ -491,6 +515,8 @@ gal_view_collection_append                   (GalViewCollection *collection,
 	collection->view_data = g_renew(GalViewCollectionItem *, collection->view_data, collection->view_count + 1);
 	collection->view_data[collection->view_count] = item;
 	collection->view_count ++;
+
+	gal_view_collection_changed(collection);
 }
 
 void
@@ -509,6 +535,8 @@ gal_view_collection_delete_view              (GalViewCollection *collection,
 	} else {
 		gal_view_collection_item_free (item);
 	}
+
+	gal_view_collection_changed(collection);
 }
 
 void
@@ -527,6 +555,7 @@ gal_view_collection_copy_view                (GalViewCollection *collection,
 	item->id = gal_view_generate_id(collection, view);
 	item->filename = g_strdup_printf("%s.galview", item->id);
 	item->view = gal_view_clone(view);
+	item->collection = collection;
 
 	gtk_signal_connect(GTK_OBJECT(item->view), "changed",
 			   GTK_SIGNAL_FUNC(view_changed), item);
@@ -534,4 +563,6 @@ gal_view_collection_copy_view                (GalViewCollection *collection,
 	collection->view_data = g_renew(GalViewCollectionItem *, collection->view_data, collection->view_count + 1);
 	collection->view_data[collection->view_count] = item;
 	collection->view_count ++;
+
+	gal_view_collection_changed(collection);
 }

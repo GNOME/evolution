@@ -16,16 +16,7 @@ extern "C" {
 #define GAL_IS_VIEW_COLLECTION(o)       (GTK_CHECK_TYPE ((o), GAL_VIEW_COLLECTION_TYPE))
 #define GAL_IS_VIEW_COLLECTION_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), GAL_VIEW_COLLECTION_TYPE))
 
-typedef struct {
-	GalView *view;
-	char *id;
-	gboolean changed;
-	gboolean ever_changed;
-	gboolean built_in;
-	char *filename;
-	char *title;
-	char *type;
-} GalViewCollectionItem;
+typedef struct GalViewCollectionItem GalViewCollectionItem;
 
 typedef struct {
 	GtkObject base;
@@ -49,7 +40,20 @@ typedef struct {
 	 */
 	void (*display_view) (GalViewCollection *collection,
 			      GalView    *view);
+	void (*changed)      (GalViewCollection *collection);
 } GalViewCollectionClass;
+
+struct GalViewCollectionItem {
+	GalView *view;
+	char *id;
+	gboolean changed;
+	gboolean ever_changed;
+	gboolean built_in;
+	char *filename;
+	char *title;
+	char *type;
+	GalViewCollection *collection;
+};
 
 /* Standard functions */
 GtkType                gal_view_collection_get_type                 (void);
