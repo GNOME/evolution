@@ -1,3 +1,11 @@
+2001-03-27 Anna Marie Dirks <anna@ximian.com> 
+	* gui/e-itip-control.glade: fixed spacing and label alignment to
+	comply with gnome standards. Also removed shadows from extraneous
+	scrolled windows to avoid bevelitous. There are many more changes
+	that need to happen to this viewer, but they all require a hacker
+	to do some c-coding, so I will avoid committing them until after the
+	.10 release.
+
 2001-03-26  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* cal-client/client-test.c: Replace includes of <gnome.h>, <bonobo.h>
