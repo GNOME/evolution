@@ -1,3 +1,10 @@
+2001-03-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* src/libical/Makefile.am (GENERATEDHEADERS): List all the built
+	sources except for `ical.h'.
+	(BUILT_SOURCES): Define as `$(GENERATEDHEADERS)' plus `ical.h'.
+	(ical.h): Depend on `$(GENERATEDHEADERS)'.
+
 2001-02-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* src/libical/Makefile.am (ical.h): Depend on `$(BUILT_SOURCES)',
