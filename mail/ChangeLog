@@ -1,3 +1,8 @@
+2002-09-19  Not Zed  <NotZed@Ximian.com>
+
+	* mail-session.c (main_get_filter_driver): Fix for filter driver
+	api change.
+
 2002-09-18  Not Zed  <NotZed@Ximian.com>
 
 	* mail-config-druid.c (wizard_back_cb): If going back from a page

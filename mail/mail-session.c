@@ -849,7 +849,7 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 	rule_context_load (fc, system, user);
 	g_free (user);
 	
-	driver = camel_filter_driver_new ();
+	driver = camel_filter_driver_new (session);
 	camel_filter_driver_set_folder_func (driver, get_folder, NULL);
 	
 	if (mail_config_get_filter_log ()) {
