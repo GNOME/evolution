@@ -1,5 +1,8 @@
 2003-07-07  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-callbacks.c (mail_generate_reply): Use
+	camel_strcase_hash/equal.
+
 	* upgrade-mailer.c: Updated to use the camel-file-utils version of
 	mkdir.
 
