@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-13 14:55-0400\n"
-"PO-Revision-Date: 2004-10-09 00:13+0700\n"
+"PO-Revision-Date: 2004-10-09 22:31+0700\n"
 "Last-Translator: pclouds <pclouds@vnlinux.org>\n"
 "Language-Team: GnomeVI <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -230,7 +230,7 @@ msgstr "Không thể đọc khối ứng dụng địa chỉ của pilot"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:1
 msgid "*Control*F2"
-msgstr ""
+msgstr "*Control*F2"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:2
 msgid "Autocompletion"
@@ -554,7 +554,7 @@ msgstr "Tên phân biệt"
 
 #: addressbook/gui/component/ldap-config.glade.h:20
 msgid "Email address"
-msgstr "Địa chỉ email:"
+msgstr "Địa chỉ email"
 
 #: addressbook/gui/component/ldap-config.glade.h:21
 msgid ""
@@ -569,7 +569,7 @@ msgstr "Tìm mọi cơ sở tìm có thể"
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 #: mail/mail-config.glade.h:86 smime/gui/smime-ui.glade.h:27
 msgid "General"
-msgstr "Chung"
+msgstr "Tổng quát"
 
 #: addressbook/gui/component/ldap-config.glade.h:24
 msgid "Lo_gin:"
@@ -932,7 +932,7 @@ msgstr "Trang chủ:"
 #: addressbook/gui/contact-editor/contact-editor.glade.h:26
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:66
 msgid "MSN Messenger"
-msgstr ""
+msgstr "Tin nhắn MSN"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:27
 msgid "Mailing Address"
@@ -940,7 +940,7 @@ msgstr "Địa chỉ thư tín"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
 msgid "Manager:"
-msgstr ""
+msgstr "Quản lý:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:29
 msgid "Ni_ckname:"
@@ -953,7 +953,7 @@ msgstr "Ghi chú:"
 #: addressbook/gui/contact-editor/contact-editor.glade.h:31
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:63
 msgid "Novell Groupwise"
-msgstr ""
+msgstr "Phần mềm nhóm Novell"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:32
 msgid "Office:"
@@ -973,7 +973,7 @@ msgstr "Nghề nghiệp:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:37
 msgid "Spouse:"
-msgstr ""
+msgstr "Vợ chồng:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:38
 msgid "State/Province:"
@@ -2694,7 +2694,7 @@ msgstr "Tựa đề"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:38
 msgid "Unit"
-msgstr ""
+msgstr "Đơn vị"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:39
 msgid "Web Site"
@@ -2831,7 +2831,7 @@ msgstr "Tên nghề"
 
 #: addressbook/gui/widgets/eab-contact-display.c:574
 msgid "Home page"
-msgstr ""
+msgstr "Trang chủ"
 
 #. E_BOOK_ERROR_OK
 #: addressbook/gui/widgets/eab-gui-util.c:49
@@ -3126,11 +3126,11 @@ msgstr[1] "và %d liên lạc khác."
 #: addressbook/gui/widgets/eab-vcard-control.c:223
 #: addressbook/gui/widgets/eab-vcard-control.c:272
 msgid "Show Full VCard"
-msgstr ""
+msgstr "Hiện toàn VCard"
 
 #: addressbook/gui/widgets/eab-vcard-control.c:227
 msgid "Show Compact VCard"
-msgstr ""
+msgstr "Hiện VCard tóm gọn"
 
 #: addressbook/gui/widgets/eab-vcard-control.c:277
 msgid "Save in addressbook"
@@ -3164,7 +3164,7 @@ msgstr "Bộ nhập LDIF Evolution"
 
 #: addressbook/importers/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:2
 msgid "LDAP Data Interchange Format (.ldif)"
-msgstr ""
+msgstr "LDAP Data Interchange Format (.ldif)"
 
 #: addressbook/importers/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in.h:1
 msgid "Evolution VCard Importer"
@@ -3421,7 +3421,7 @@ msgstr ""
 
 #: addressbook/tools/evolution-addressbook-export.c:63
 msgid "NUMBER"
-msgstr ""
+msgstr "SỐ"
 
 #: addressbook/tools/evolution-addressbook-export.c:91
 msgid ""
@@ -4143,7 +4143,7 @@ msgstr "%d %B"
 #: calendar/gui/calendar-component.c:370
 #, c-format
 msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
-msgstr ""
+msgstr "Lịch '%s' sẽ bị loại bỏ. Bạn có muốn tiếp tục không?"
 
 #: calendar/gui/calendar-component.c:426
 msgid "New Calendar"
@@ -4233,12 +4233,12 @@ msgstr "Tạo lịch mới"
 #: calendar/gui/calendar-offline-handler.c:192
 #, c-format
 msgid "backend_go_offline(): %s"
-msgstr ""
+msgstr "backend_go_offline(): %s"
 
 #: calendar/gui/calendar-offline-handler.c:215
 #, c-format
 msgid "backend_go_online(): %s"
-msgstr ""
+msgstr "backend_go_online(): %s"
 
 #: calendar/gui/calendar-view-factory.c:118
 msgid "Day View"
@@ -4271,7 +4271,7 @@ msgstr "Không đủ quyền truy cập để mở lịch"
 #: calendar/gui/comp-editor-factory.c:474
 #, c-format
 msgid "open_client(): %s"
-msgstr ""
+msgstr "open_client(): %s"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:2
 msgid "<b>Alarm</b>\t"
@@ -4295,7 +4295,7 @@ msgstr "Thông điệp _riêng"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:7
 msgid "Custom alarm sound"
-msgstr ""
+msgstr "Âm thanh báo động riêng"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:8
 msgid "Mes_sage:"
@@ -4308,7 +4308,7 @@ msgstr "Phát âm thanh"
 #: calendar/gui/dialogs/alarm-dialog.glade.h:10
 #: calendar/gui/e-alarm-list.c:448
 msgid "Pop up an alert"
-msgstr ""
+msgstr "Hiện báo động"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:11
 #: calendar/gui/e-alarm-list.c:456
@@ -4848,7 +4848,7 @@ msgstr "Không thể mở đích"
 
 #: calendar/gui/dialogs/copy-source-dialog.c:78
 msgid "Destination is read only"
-msgstr ""
+msgstr "Đích là chỉ đọc"
 
 #: calendar/gui/dialogs/delete-error.c:54
 msgid "The event could not be deleted due to a corba error"
@@ -4932,11 +4932,11 @@ msgstr "Mời dự"
 
 #: calendar/gui/dialogs/event-page.c:692
 msgid "Event with no start date"
-msgstr ""
+msgstr "Sự kiện không có ngày bắt đầu"
 
 #: calendar/gui/dialogs/event-page.c:695
 msgid "Event with no end date"
-msgstr ""
+msgstr "Sự kiện không có ngày kết thúc"
 
 #: calendar/gui/dialogs/event-page.c:855 calendar/gui/dialogs/task-page.c:523
 msgid "Start date is wrong"
@@ -5053,7 +5053,7 @@ msgstr "Tó_m tắt:"
 
 #: calendar/gui/dialogs/event-page.glade.h:18
 msgid "This appointment has customized alarms"
-msgstr ""
+msgstr "Cuộc hẹn này có báo động riêng"
 
 #: calendar/gui/dialogs/event-page.glade.h:19
 msgid "_Alarm"
@@ -5237,7 +5237,7 @@ msgstr ""
 
 #: calendar/gui/dialogs/recur-comp.c:85
 msgid "This Instance Only"
-msgstr ""
+msgstr "Chỉ phiên bản này"
 
 #: calendar/gui/dialogs/recur-comp.c:89
 msgid "This and Prior Instances"
@@ -5249,7 +5249,7 @@ msgstr ""
 
 #: calendar/gui/dialogs/recur-comp.c:100
 msgid "All Instances"
-msgstr ""
+msgstr "Mọi phiên bản"
 
 #: calendar/gui/dialogs/recurrence-page.c:511
 msgid "This appointment contains recurrences that Evolution cannot edit."
@@ -7173,11 +7173,11 @@ msgstr ""
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:4
 msgid "iCalendar files (.ics)"
-msgstr ""
+msgstr "Tập tin iCalendar (.ics)"
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:5
 msgid "vCalendar files (.vcf)"
-msgstr ""
+msgstr "Tập tin vCalendar (.vcf)"
 
 #: calendar/importers/icalendar-importer.c:82
 msgid "Appointments and Meetings"
@@ -12616,12 +12616,12 @@ msgstr "Bạn phải đặt tên cho bộ lọc này."
 #. filter:bad-name-notunique primary
 #: filter/filter-errors.xml.h:22
 msgid "Name \"{0}\" already used."
-msgstr ""
+msgstr "Tên \"{0}\" đã được dùng."
 
 #. filter:bad-name-notunique secondary
 #: filter/filter-errors.xml.h:24
 msgid "Please choose another name."
-msgstr ""
+msgstr "Hãy chọn tên khác."
 
 #: filter/filter-file.c:288
 msgid "Choose a file"
@@ -12770,7 +12770,7 @@ msgstr "Tên quy tắt"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:1
 msgid "*Control*F1"
-msgstr ""
+msgstr "*Control*F1"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:2
 msgid "Composer Preferences"
@@ -12882,7 +12882,7 @@ msgstr "người gửi lạ"
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
-msgstr ""
+msgstr "Vào ${AbbrevWeekdayName}, ${Day}-${Month}-${Year} lúc ${24Hour}:${Minute} ${TimeZone}, ${Sender} viết:"
 
 #: mail/em-filter-editor.c:147
 msgid "_Filter Rules"
@@ -13648,12 +13648,12 @@ msgstr ""
 #. translators: strftime format for local time equivalent in Date header display, with day
 #: mail/em-format-html.c:1581
 msgid "<I> (%a, %R %Z)</I>"
-msgstr ""
+msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
 #: mail/em-format-html.c:1584
 msgid "<I> (%R %Z)</I>"
-msgstr ""
+msgstr "<I> (%R %Z)</I>"
 
 #: mail/em-format-html.c:1594 mail/em-format-quote.c:321 mail/em-format.c:806
 #: mail/em-mailer-prefs.c:88 mail/message-list.etspec.h:2
@@ -13874,9 +13874,8 @@ msgid "Automatic link recognition"
 msgstr "Tự động _xác định liên kết"
 
 #: mail/evolution-mail.schemas.in.in.h:2
-#, fuzzy
 msgid "Automatic smiley recognition"
-msgstr "Tự động _xác định liên kết"
+msgstr "Tự động nhận dạng biểu tượng vui"
 
 #: mail/evolution-mail.schemas.in.in.h:3
 msgid "Check incoming mail being junk"
@@ -14009,9 +14008,8 @@ msgid "List of accepted licenses"
 msgstr "Tài khoản thư"
 
 #: mail/evolution-mail.schemas.in.in.h:31
-#, fuzzy
 msgid "List of accounts"
-msgstr "Tài khoản thư"
+msgstr "Danh sách tài khoản"
 
 #: mail/evolution-mail.schemas.in.in.h:32
 msgid ""
@@ -14153,63 +14151,55 @@ msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:63
 msgid "Recognize smileys in text and replace them with images."
-msgstr ""
+msgstr "Nhận dạng biểu tượng vui trong văn bản và thay thế bằng ảnh."
 
 #: mail/evolution-mail.schemas.in.in.h:64
 msgid "Run junk test on incoming mail"
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:65
-#, fuzzy
 msgid "Send HTML mail by default"
 msgstr "_Gửi thư mặc định dùng dạng HTML"
 
 #: mail/evolution-mail.schemas.in.in.h:66
-#, fuzzy
 msgid "Send HTML mail by default."
-msgstr "_Gửi thư mặc định dùng dạng HTML"
+msgstr "Gửi thư mặc định dùng dạng HTML."
 
 #: mail/evolution-mail.schemas.in.in.h:67
-#, fuzzy
 msgid "Show Animations"
-msgstr "_Hiện hoạt cảnh"
+msgstr "Hiện hoạt cảnh"
 
 #: mail/evolution-mail.schemas.in.in.h:68
-#, fuzzy
 msgid "Show animated images as animations."
-msgstr "_Hiện hoạt cảnh"
+msgstr "Hiện ảnh kiểu hoạt cảnh."
 
 #: mail/evolution-mail.schemas.in.in.h:69
 msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:70
-#, fuzzy
 msgid "Show deleted messages in the message-list"
-msgstr "Hiện thông điệp theo cách bình thường"
+msgstr "Hiện thông điệp đã xóa trong danh sách thông điệp"
 
 #: mail/evolution-mail.schemas.in.in.h:71
-#, fuzzy
 msgid "Show the \"Preview\" pane"
-msgstr "Khung xem thử"
+msgstr "Hiện khung \"Xem trước\""
 
 #: mail/evolution-mail.schemas.in.in.h:72
 msgid "Show the \"Preview\" pane."
-msgstr ""
+msgstr "Hiện khung \"Xem trước\"."
 
 #: mail/evolution-mail.schemas.in.in.h:73
-#, fuzzy
 msgid "Sound file to play when new mail arrives."
-msgstr "_Chơi nhạc khi có thư mới"
+msgstr "Tập tin nhạc cần phát khi có thư mới."
 
 #: mail/evolution-mail.schemas.in.in.h:74
 msgid "Specifies the type of New Mail Notification the user wishes to use."
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:75
-#, fuzzy
 msgid "Spell check inline"
-msgstr "_Kiểm tra chính tả"
+msgstr "Kiểm tra chính tả trực tiếp"
 
 #: mail/evolution-mail.schemas.in.in.h:76
 #, fuzzy
@@ -14895,14 +14885,12 @@ msgid "Attachment"
 msgstr "Đính kèm"
 
 #: mail/mail-config.glade.h:48
-#, fuzzy
 msgid "Automatically _insert smiley images"
-msgstr "_Tự động chèn ảnh smiley"
+msgstr "Tự động chèn _biểu tượng vui"
 
 #: mail/mail-config.glade.h:49
-#, fuzzy
 msgid "Automatically check for _new mail every"
-msgstr "_Tự động kiểm tra có thư mới"
+msgstr "_Tự động kiểm tra thư mới mỗi"
 
 #: mail/mail-config.glade.h:50
 msgid "Baltic (ISO-8859-13)"
@@ -14913,7 +14901,6 @@ msgid "Baltic (ISO-8859-4)"
 msgstr "Baltic (ISO-8859-4)"
 
 #: mail/mail-config.glade.h:52
-#, fuzzy
 msgid "Beep w_hen new mail arrives"
 msgstr "_Kêu bíp khi có thư mới"
 
@@ -14922,14 +14909,12 @@ msgid "C_haracter set:"
 msgstr "Bảng mã:"
 
 #: mail/mail-config.glade.h:54
-#, fuzzy
 msgid "Ch_eck for Supported Types "
-msgstr "  _Hiện cơ sở được hỗ trợ "
+msgstr "_Kiểm tra kiểu được hỗ trợ "
 
 #: mail/mail-config.glade.h:55
-#, fuzzy
 msgid "Check _incoming mail for junk"
-msgstr "Kiểm tra thư mới"
+msgstr "Kiểm tra thư _rác mới"
 
 #: mail/mail-config.glade.h:56
 msgid "Check spelling while I _type"
@@ -14948,9 +14933,8 @@ msgid "Colors"
 msgstr "Màu sắc"
 
 #: mail/mail-config.glade.h:60
-#, fuzzy
 msgid "Confirm _when expunging a folder"
-msgstr "_Xác nhận khi xóa thư mục"
+msgstr "_Xác nhận khi xóa hẳn trong thư mục"
 
 #: mail/mail-config.glade.h:61
 msgid ""
@@ -15008,9 +14992,8 @@ msgid "Empty trash folders on e_xit"
 msgstr "_Xóa thư mục Sọt rác khi thoát"
 
 #: mail/mail-config.glade.h:80
-#, fuzzy
 msgid "Encry_ption certificate:"
-msgstr "_ID Chứng nhận:"
+msgstr ""
 
 #: mail/mail-config.glade.h:81
 msgid "Evolution Account Assistant"
@@ -15021,9 +15004,8 @@ msgid "Execute Command..."
 msgstr "Thực hiện lệnh..."
 
 #: mail/mail-config.glade.h:83
-#, fuzzy
 msgid "Fi_xed-width:"
-msgstr "Độ rộng _cứng:"
+msgstr ""
 
 #: mail/mail-config.glade.h:84
 msgid "Font Properties"
@@ -15034,12 +15016,10 @@ msgid "Format messages in _HTML"
 msgstr "Định dạng thông điệp bằng _HTML"
 
 #: mail/mail-config.glade.h:87
-#, fuzzy
 msgid "HTML Mail"
-msgstr "Thư _HTML"
+msgstr "Thư HTML"
 
 #: mail/mail-config.glade.h:88
-#, fuzzy
 msgid "Headers"
 msgstr "Header"
 
@@ -15052,9 +15032,8 @@ msgid "IMAPv4 "
 msgstr "IMAPv4 "
 
 #: mail/mail-config.glade.h:91
-#, fuzzy
 msgid "I_nclude remote tests"
-msgstr "Bao gồm:"
+msgstr ""
 
 #: mail/mail-config.glade.h:94
 msgid "Inline"
@@ -15091,9 +15070,8 @@ msgid "PGP/GPG _Key ID:"
 msgstr "_Khóa ID PGP/GPG:"
 
 #: mail/mail-config.glade.h:111
-#, fuzzy
 msgid "Play sound file when new mail arri_ves"
-msgstr "_Chơi nhạc khi có thư mới"
+msgstr "_Phát nhạc khi có thư mới"
 
 #: mail/mail-config.glade.h:112
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
@@ -15109,12 +15087,11 @@ msgstr "Trích dẫn thông điệp gốc"
 
 #: mail/mail-config.glade.h:115
 msgid "Quoted"
-msgstr ""
+msgstr "Trích dẫn"
 
 #: mail/mail-config.glade.h:116
-#, fuzzy
 msgid "Re_member password"
-msgstr "Nhớ mật khẩu này"
+msgstr "_Nhớ mật khẩu"
 
 #: mail/mail-config.glade.h:117
 msgid "Re_ply-To:"
@@ -15125,24 +15102,20 @@ msgid "Receiving Email"
 msgstr "Đang nhận email"
 
 #: mail/mail-config.glade.h:120
-#, fuzzy
 msgid "Receiving Options"
-msgstr "Tùy chọn _nhận"
+msgstr "Tùy chọn nhận"
 
 #: mail/mail-config.glade.h:121
-#, fuzzy
 msgid "Remember _password"
-msgstr "Nhớ mật khẩu này"
+msgstr "_Nhớ mật khẩu"
 
 #: mail/mail-config.glade.h:123
-#, fuzzy
 msgid "S_tandard Font:"
-msgstr "Sand Point"
+msgstr "Phông chuẩn:"
 
 #: mail/mail-config.glade.h:124
-#, fuzzy
 msgid "Security"
-msgstr "_Bảo mật"
+msgstr "Bảo mật"
 
 #: mail/mail-config.glade.h:125
 msgid "Select HTML fixed width font"
@@ -15161,18 +15134,16 @@ msgid "Select HTML variable width font for printing"
 msgstr "Chọn phông HTML độ rộng thay đổi để in"
 
 #: mail/mail-config.glade.h:129
-#, fuzzy
 msgid "Select..."
-msgstr "Xóa..."
+msgstr "Chọn..."
 
 #: mail/mail-config.glade.h:130
 msgid "Sending Email"
 msgstr "Đang gửi email"
 
 #: mail/mail-config.glade.h:133
-#, fuzzy
 msgid "Sent _Messages Folder:"
-msgstr "Thư mục thông điệp đã gửi:"
+msgstr "Thư mục thông điệp đã _gửi:"
 
 #: mail/mail-config.glade.h:134
 msgid "Ser_ver requires authentication"
@@ -15183,42 +15154,36 @@ msgid "Server _Type: "
 msgstr "_Kiểu máy chủ:"
 
 #: mail/mail-config.glade.h:136
-#, fuzzy
 msgid "Si_gning certificate:"
-msgstr "Chứng nhận tự ký trong chuỗi"
+msgstr ""
 
 #: mail/mail-config.glade.h:137
-#, fuzzy
 msgid "Signat_ure:"
-msgstr "Chữ ký:"
+msgstr "Chữ _ký:"
 
 #: mail/mail-config.glade.h:138
-#, fuzzy
 msgid "Signatures"
-msgstr "_Chữ ký"
+msgstr "Chữ ký"
 
 #: mail/mail-config.glade.h:139
 msgid "Specify _filename:"
 msgstr "Xác định _tên tập tin:"
 
 #: mail/mail-config.glade.h:140
-#, fuzzy
 msgid "Spell Checking"
-msgstr "_Kiểm tra chính tả"
+msgstr "Kiểm tra chính tả"
 
 #: mail/mail-config.glade.h:141
 msgid "Standard Unix mbox"
 msgstr "Dạng thức Unix mbox chuẩn"
 
 #: mail/mail-config.glade.h:142
-#, fuzzy
 msgid "T_erminal Font:"
-msgstr "Liên lạc gốc:"
+msgstr "Phông terminal:"
 
 #: mail/mail-config.glade.h:143
-#, fuzzy
 msgid "T_ype: "
-msgstr "Kiểu:"
+msgstr "_Kiểu: "
 
 #: mail/mail-config.glade.h:144
 msgid ""
@@ -15266,9 +15231,8 @@ msgid "_Add Signature"
 msgstr "Thêm chữ _ký"
 
 #: mail/mail-config.glade.h:159
-#, fuzzy
 msgid "_Always load images from the Internet"
-msgstr "_Luôn nạp ảnh từ mạng"
+msgstr "_Luôn nạp ảnh từ Internet"
 
 #: mail/mail-config.glade.h:160
 #, fuzzy
@@ -15292,7 +15256,6 @@ msgid "_Forward style:"
 msgstr "Phong cách _chuyển tiếp:"
 
 #: mail/mail-config.glade.h:168
-#, fuzzy
 msgid "_Load images if sender is in address book"
 msgstr "_Nạp ảnh nếu người gửi có trong sổ địa chỉ"
 
@@ -15305,9 +15268,8 @@ msgid "_Mark messages as read after"
 msgstr "Đánh dấu sẽ đọ_c sau"
 
 #: mail/mail-config.glade.h:172
-#, fuzzy
 msgid "_Never load images from the Internet"
-msgstr "_Không bao giờ nạp ảnh từ mạng"
+msgstr "_Không bao giờ nạp ảnh từ Internet"
 
 #: mail/mail-config.glade.h:174
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
@@ -15330,7 +15292,6 @@ msgid "_Show animated images"
 msgstr "_Hiện hoạt cảnh"
 
 #: mail/mail-config.glade.h:179
-#, fuzzy
 msgid "_Use Secure Connection (SSL):"
 msgstr "Dùng kết nối _an toàn (SSL):"
 
@@ -15354,9 +15315,8 @@ msgid ""
 msgstr ""
 
 #: mail/mail-dialogs.glade.h:7
-#, fuzzy
 msgid "<b>vFolder Sources</b>"
-msgstr "Nguồn VFolder"
+msgstr "<b>Nguồn vFolder</b>"
 
 #: mail/mail-dialogs.glade.h:8
 msgid "<span weight=\"bold\">Digital Signature</span>"
@@ -15367,9 +15327,8 @@ msgid "<span weight=\"bold\">Encryption</span>"
 msgstr "<span weight=\"bold\">Mã hóa</span>"
 
 #: mail/mail-dialogs.glade.h:10
-#, fuzzy
 msgid "Accept License"
-msgstr "Chấp nhận"
+msgstr "Chấp nhận giấy phép"
 
 #: mail/mail-dialogs.glade.h:11 mail/message-tags.glade.h:2
 msgid "C_ompleted"
@@ -15393,28 +15352,24 @@ msgid "Flag to Follow Up"
 msgstr ""
 
 #: mail/mail-dialogs.glade.h:17
-#, fuzzy
 msgid "Folder Subscriptions"
-msgstr "Quản lý đăng ký"
+msgstr "Đăng ký thư mục"
 
 #: mail/mail-dialogs.glade.h:18
 msgid "License Agreement"
 msgstr ""
 
 #: mail/mail-dialogs.glade.h:19
-#, fuzzy
 msgid "None Selected"
-msgstr "Đã chọn"
+msgstr "Chưa chọn"
 
 #: mail/mail-dialogs.glade.h:20
-#, fuzzy
 msgid "S_erver:"
-msgstr "_mỗi"
+msgstr "_Máy chủ:"
 
 #: mail/mail-dialogs.glade.h:21
-#, fuzzy
 msgid "Security Information"
-msgstr "Thông tin tài khoản"
+msgstr "Thông tin bảo mật"
 
 #: mail/mail-dialogs.glade.h:23 mail/message-tags.glade.h:4
 msgid ""
@@ -15423,12 +15378,10 @@ msgid ""
 msgstr ""
 
 #: mail/mail-dialogs.glade.h:25
-#, fuzzy
 msgid "Tick this to accept the license agreement"
-msgstr "Tài khoản thư"
+msgstr ""
 
 #: mail/mail-dialogs.glade.h:26 mail/message-tags.glade.h:6
-#, fuzzy
 msgid "_Due By:"
 msgstr "Đến _hạn:"
 
@@ -15462,17 +15415,15 @@ msgstr "với mọi thư mục cục bộ"
 
 #. mail:camel-service-auth-invalid primary
 #: mail/mail-errors.xml.h:2
-#, fuzzy
 msgid "Invalid authentication"
-msgstr "xác thực"
+msgstr "Xác thực không hợp lệ"
 
 #. mail:camel-service-auth-invalid secondary
 #: mail/mail-errors.xml.h:4
-#, fuzzy
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
-msgstr "Máy chủ SMTP %s không hỗ trợ loại xác thực yêu cầu loại %s."
+msgstr "Máy chủ không hỗ trợ loại xác thực này và có lẽ hoàn toàn không hỗ trợ xác thực."
 
 #. mail:camel-service-auth-failed primary
 #: mail/mail-errors.xml.h:6
@@ -15488,9 +15439,8 @@ msgstr ""
 
 #. mail:ask-send-html primary
 #: mail/mail-errors.xml.h:10
-#, fuzzy
 msgid "Are you sure you want to send a message in HTML format?"
-msgstr "Bạn có chắc muốn gửi lại %d thông điệp?"
+msgstr "Bạn có chắc muốn gửi thông điệp theo dạng HTML không?"
 
 #. mail:ask-send-html secondary
 #: mail/mail-errors.xml.h:12
@@ -15506,15 +15456,13 @@ msgstr ""
 
 #: mail/mail-errors.xml.h:15 mail/mail-errors.xml.h:20
 #: mail/mail-errors.xml.h:27 mail/mail-errors.xml.h:32
-#, fuzzy
 msgid "_Send"
-msgstr "Gửi"
+msgstr "_Gửi"
 
 #. mail:ask-send-no-subject primary
 #: mail/mail-errors.xml.h:17
-#, fuzzy
 msgid "Are you sure you want to send a message without a subject?"
-msgstr "Bạn có chắc muốn gửi lại %d thông điệp?"
+msgstr "Bạn có chắc muốn gửi thông điệp không có chủ đề không?"
 
 #. mail:ask-send-no-subject secondary
 #: mail/mail-errors.xml.h:19
@@ -15526,9 +15474,8 @@ msgstr ""
 #. mail:ask-send-only-bcc-contact primary
 #. mail:ask-send-only-bcc primary
 #: mail/mail-errors.xml.h:22 mail/mail-errors.xml.h:29
-#, fuzzy
 msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr "Bạn có chắc muốn gửi lại %d thông điệp?"
+msgstr "Bạn có chắc muốn gửi thông điệp chỉ có người nhận BCC không?"
 
 #. mail:ask-send-only-bcc-contact secondary
 #: mail/mail-errors.xml.h:24
@@ -15565,52 +15512,43 @@ msgstr ""
 
 #. mail:ask-default-drafts primary
 #: mail/mail-errors.xml.h:38
-#, fuzzy
 msgid "Use default drafts folder?"
-msgstr "Đang mở thư mục công việc mặc định"
+msgstr "Dùng thư mục nháp mặc định nhé?"
 
 #. mail:ask-default-drafts secondary
 #: mail/mail-errors.xml.h:40
-#, fuzzy
 msgid ""
 "Unable to open the drafts folder for this account.  Use the system drafts "
 "folder instead?"
-msgstr ""
-"Không thể mở thư mục Nháp cho tài khoản này.\n"
-"Bạn có muốn dùng thư mục Nháp mặc định?"
+msgstr "Không thể mở thư mục Nháp cho tài khoản này. Dùng thư mục Nháp của hệ thống nhé?"
 
 #: mail/mail-errors.xml.h:41
-#, fuzzy
 msgid "Use _Default"
-msgstr "Mặc định"
+msgstr "Dùng _mặc định"
 
 #. mail:ask-expunge primary
 #: mail/mail-errors.xml.h:43
-#, fuzzy
 msgid ""
 "Are you sure you want to permanently remove all the deleted message in "
 "folder \"{0}\"?"
-msgstr ""
-"Bạn có chắc muốn mở tất cả %d thông điệp trong những cửa sổ riêng biệt không?"
+msgstr "Bạn có chắc muốn xoá vĩnh viễn tất cả những thông điệp đã xóa trong thư mục \"{0}\" không?"
 
 #. mail:ask-expunge secondary
 #. mail:ask-empty-trash secondary
 #: mail/mail-errors.xml.h:45 mail/mail-errors.xml.h:50
 msgid "If you continue, you will not be able to recover these messages."
-msgstr ""
+msgstr "Nếu bạn tiếp tục, bạn sẽ không thể phục hồi những thông điệp này."
 
 #: mail/mail-errors.xml.h:46
-#, fuzzy
 msgid "_Expunge"
-msgstr "_Bỏ"
+msgstr "_Xóa hẳn"
 
 #. mail:ask-empty-trash primary
 #: mail/mail-errors.xml.h:48
-#, fuzzy
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
-msgstr "Loại bỏ vĩnh viễn những thông điệp đã xóa của mọi thư mục"
+msgstr "Bạn có chắc muốn loại bỏ vĩnh viễn những thông điệp đã xóa trong mọi thư mục không?"
 
 #: mail/mail-errors.xml.h:51
 msgid "_Empty Trash"
@@ -15644,102 +15582,76 @@ msgstr ""
 
 #. mail:async-error primary
 #: mail/mail-errors.xml.h:62
-#, fuzzy
 msgid "Error while {0}."
-msgstr ""
-"Lỗi khi '%s':\n"
-"%s"
+msgstr "Lỗi \"{0}\"."
 
 #. mail:async-error secondary
 #: mail/mail-errors.xml.h:64
-#, fuzzy
 msgid "{1}."
-msgstr "{1}"
+msgstr "{1}."
 
 #. mail:async-error-nodescribe primary
 #: mail/mail-errors.xml.h:66
-#, fuzzy
 msgid "Error while performing operation."
-msgstr ""
-"Lỗi khi đang thực hiện thao tác:\n"
-"%s"
+msgstr "Lỗi thực hiện thao tác."
 
 #. mail:async-error-nodescribe secondary
 #: mail/mail-errors.xml.h:68
 msgid "{0}."
-msgstr ""
+msgstr "{0}."
 
 #. mail:ask-session-password primary
 #: mail/mail-errors.xml.h:82
-#, fuzzy
 msgid "Enter password."
-msgstr "Nhập mật khẩu"
+msgstr "Hãy nhập mật khẩu."
 
 #. mail:filter-load-error primary
 #: mail/mail-errors.xml.h:86
-#, fuzzy
 msgid "Error loading filter definitions."
-msgstr ""
-"Lỗi khi nạp thông tin bộ lọc:\n"
-"%s"
+msgstr "Lỗi nạp định nghĩa bộ lọc."
 
 #. mail:no-save-path primary
 #: mail/mail-errors.xml.h:90
-#, fuzzy
 msgid "Cannot save to directory \"{0}\"."
-msgstr "Không thể tạo thư mục %s: %s"
+msgstr "Không thể lưu vào thư mục \"{0}\"."
 
 #. mail:no-create-path primary
 #. mail:no-write-path-exists primary
 #. mail:no-write-path-notfile primary
 #: mail/mail-errors.xml.h:94 mail/mail-errors.xml.h:102
 #: mail/mail-errors.xml.h:106
-#, fuzzy
 msgid "Cannot save to file \"{0}\"."
-msgstr ""
-"Không thể lưu vào `%s'\n"
-"  %s"
+msgstr "Không thể lưu vào tập tin \"{0}\"."
 
 #. mail:no-create-path secondary
 #: mail/mail-errors.xml.h:96
-#, fuzzy
 msgid "Cannot create the save directory, because \"{1}\""
-msgstr ""
-"Không thể tạo thư mục\n"
-"%s\n"
-"Lỗi: %s"
+msgstr "Không thể tạo thư mục lưu, vì \"{1}\""
 
 #. mail:no-create-tmp-path primary
 #: mail/mail-errors.xml.h:98
-#, fuzzy
 msgid "Cannot create temporary save directory."
-msgstr "Không thể tạo thư mục tạm: %s"
+msgstr "Không thể tạo thư mục lưu tạm."
 
 #. mail:no-write-path-exists secondary
 #: mail/mail-errors.xml.h:104
-#, fuzzy
 msgid "File exists but cannot overwrite it."
-msgstr "Tập tin đã tồn tại, ghi đè chứ?"
+msgstr "Tập tin đã tồn tại nhưng không thể ghi."
 
 #. mail:no-write-path-notfile secondary
 #: mail/mail-errors.xml.h:108
-#, fuzzy
 msgid "File exists but is not a regular file."
-msgstr "Tập tin '%s' không tồn tại hoặc không phải là một tập tin bình thường"
+msgstr "Tập tin tồn tại nhưng không phải là tập tin bình thường."
 
 #. mail:no-delete-folder primary
 #: mail/mail-errors.xml.h:110
-#, fuzzy
 msgid "Cannot delete folder \"{0}\"."
-msgstr ""
-"Không thể xóa thư mục:\n"
-"%s"
+msgstr "Không thể xóa thư mục \"{0}\"."
 
 #. mail:no-delete-spethal-folder primary
 #: mail/mail-errors.xml.h:114
-#, fuzzy
 msgid "Cannot delete system folder \"{0}\"."
-msgstr "Không thể xóa thư mục: %s: Không có thư mục như vậy"
+msgstr "Không thể xóa thư mục hệ thống \"{0}\"."
 
 #. mail:no-delete-spethal-folder secondary
 #. mail:no-rename-spethal-folder secondary
@@ -15751,21 +15663,18 @@ msgstr ""
 
 #. mail:no-rename-spethal-folder primary
 #: mail/mail-errors.xml.h:118
-#, fuzzy
 msgid "Cannot rename or move system folder \"{0}\"."
-msgstr "Không thể đổi tên thư mục: %s: Không có thư mục này"
+msgstr "Không thể đổi tên hoặc di chuyển thư mục hệ thống \"{0}\"."
 
 #. mail:ask-delete-folder title
 #: mail/mail-errors.xml.h:122
-#, fuzzy
 msgid "Delete \"{0}\"?"
-msgstr "Xoá \"%s\""
+msgstr "Xoá \"{0}\" chứ?"
 
 #. mail:ask-delete-folder primary
 #: mail/mail-errors.xml.h:124
-#, fuzzy
 msgid "Really delete folder \"{0}\" and all of its subfolders?"
-msgstr "Bạn thật sự muốn xóa thư mục \"%s\" chứ?"
+msgstr "Bạn thật sự muốn xóa thư mục \"{0}\" và tất cả thư mục con của nó chứ?"
 
 #. mail:ask-delete-folder secondary
 #: mail/mail-errors.xml.h:126
@@ -15777,9 +15686,8 @@ msgstr ""
 #. mail:no-rename-folder-exists primary
 #. mail:no-rename-folder primary
 #: mail/mail-errors.xml.h:128 mail/mail-errors.xml.h:132
-#, fuzzy
 msgid "Cannot rename \"{0}\" to \"{1}\"."
-msgstr "Không thể di chuyển thư mục: %s"
+msgstr "Không thể đổi tên thư mục \"{0}\" sang \"{1}\"."
 
 #. mail:no-rename-folder-exists secondary
 #. mail:vfolder-notunique secondary
@@ -15795,49 +15703,42 @@ msgstr "Vì \"{2}\"."
 #. mail:no-move-folder-nostore primary
 #. mail:no-move-folder-to-nostore primary
 #: mail/mail-errors.xml.h:136 mail/mail-errors.xml.h:140
-#, fuzzy
 msgid "Cannot move folder \"{0}\" to \"{1}\"."
-msgstr "Không thể di chuyển thư mục: %s"
+msgstr "Không thể di chuyển thư mục \"{0}\" đến \"{1}\"."
 
 #. mail:no-move-folder-nostore secondary
 #. mail:no-copy-folder-nostore secondary
 #: mail/mail-errors.xml.h:138 mail/mail-errors.xml.h:146
-#, fuzzy
 msgid "Cannot open source \"{2}\"."
-msgstr "Không thể mở thư mục chia sẽ: %s."
+msgstr "Không thể mở nguồn \"{2}\"."
 
 #. mail:no-move-folder-to-nostore secondary
 #. mail:no-copy-folder-to-nostore secondary
 #: mail/mail-errors.xml.h:142 mail/mail-errors.xml.h:150
-#, fuzzy
 msgid "Cannot open target \"{2}\"."
-msgstr "Không thể mở thông điệp"
+msgstr "Không thể mở đích \"{2}\"."
 
 #. mail:no-copy-folder-nostore primary
 #. mail:no-copy-folder-to-nostore primary
 #: mail/mail-errors.xml.h:144 mail/mail-errors.xml.h:148
-#, fuzzy
 msgid "Cannot copy folder \"{0}\" to \"{1}\"."
-msgstr "Không thể sao chép thư mục: %s"
+msgstr "Không thể sao chép thư mục \"{0}\" vào \"{1\"}."
 
 #. mail:no-create-folder-nostore primary
 #: mail/mail-errors.xml.h:152
-#, fuzzy
 msgid "Cannot create folder \"{0}\"."
-msgstr "Không thể lấy thư mục: %s: %s"
+msgstr "Không thể tạo thư mục \"{0}\"."
 
 #. mail:no-create-folder-nostore secondary
 #: mail/mail-errors.xml.h:154
-#, fuzzy
 msgid "Cannot open source \"{1}\""
-msgstr "Không thể mở thư mục chia sẽ: %s."
+msgstr "Không thể mở nguồn \"{1}\""
 
 #. mail:account-incomplete primary
 #. mail:account-notunique primary
 #: mail/mail-errors.xml.h:156 mail/mail-errors.xml.h:160
-#, fuzzy
 msgid "Cannot save changes to account."
-msgstr "và một liên lạc khác."
+msgstr "Không thể lưu các thay đổi trong tài khoản."
 
 #. mail:account-incomplete secondary
 #: mail/mail-errors.xml.h:158
@@ -15851,9 +15752,8 @@ msgstr "Bạn không thể tạo hai tài khoản trùng tên."
 
 #. mail:ask-delete-account title
 #: mail/mail-errors.xml.h:164
-#, fuzzy
 msgid "Delete account?"
-msgstr "Thật sự muốn xóa tài khoản này chứ?"
+msgstr "Xóa tài khoản chứ?"
 
 #. mail:ask-delete-account primary
 #: mail/mail-errors.xml.h:166
@@ -15866,15 +15766,13 @@ msgid "If you proceed, the account information will be deleted permanently."
 msgstr ""
 
 #: mail/mail-errors.xml.h:169
-#, fuzzy
 msgid "Don't delete"
-msgstr "_Hủy xóa"
+msgstr "Không xóa"
 
 #. mail:no-save-signature primary
 #: mail/mail-errors.xml.h:171
-#, fuzzy
 msgid "Could not save signature file."
-msgstr "Không thể lưu tập tin chữ ký: %s"
+msgstr "Không thể lưu tập tin chữ ký."
 
 #. mail:no-save-signature secondary
 #: mail/mail-errors.xml.h:173
@@ -15894,24 +15792,18 @@ msgstr ""
 
 #. mail:ask-signature-changed title
 #: mail/mail-errors.xml.h:179
-#, fuzzy
 msgid "Discard changed?"
-msgstr "_Hủy thay đổi"
+msgstr "Hủy thay đổi chứ?"
 
 #. mail:ask-signature-changed primary
 #: mail/mail-errors.xml.h:181
-#, fuzzy
 msgid "Do you wish to save your changes?"
 msgstr "Bạn có muốn lưu các thay đổi không?"
 
 #. mail:ask-signature-changed secondary
 #: mail/mail-errors.xml.h:183
-#, fuzzy
 msgid "This signature has been changed, but has not been saved."
-msgstr ""
-"Chữ ký này đã thay đổi, nhưng vẫn chưa được lưu.\n"
-"\n"
-"Bạn có muốn lưu các thay đổi không?"
+msgstr "Chữ ký này đã thay đổi, nhưng vẫn chưa được lưu."
 
 #: mail/mail-errors.xml.h:184
 msgid "_Discard changes"
@@ -15919,9 +15811,8 @@ msgstr "_Hủy thay đổi"
 
 #. mail:vfolder-notexist primary
 #: mail/mail-errors.xml.h:186
-#, fuzzy
 msgid "Cannot edit vFolder \"{0}\" as it does not exist."
-msgstr "Thư mục `%s' không tồn tại."
+msgstr "Không thể hiệu chỉnh thư mục \"{0}\" vì nó không tồn tại."
 
 #. mail:vfolder-notexist secondary
 #: mail/mail-errors.xml.h:188
@@ -15932,11 +15823,8 @@ msgstr ""
 
 #. mail:vfolder-notunique primary
 #: mail/mail-errors.xml.h:190
-#, fuzzy
 msgid "Cannot add vFolder \"{0}\"."
-msgstr ""
-"Không thể xóa thư mục:\n"
-"%s"
+msgstr "Không thể thêm vFolder \"{0}\"."
 
 #. mail:vfolder-updated primary
 #: mail/mail-errors.xml.h:194
@@ -15970,9 +15858,8 @@ msgstr ""
 
 #. mail:no-folder primary
 #: mail/mail-errors.xml.h:210
-#, fuzzy
 msgid "Missing folder."
-msgstr "Đang gở bỏ thư mục %s"
+msgstr "Thiếu thư mục."
 
 #. mail:no-folder secondary
 #: mail/mail-errors.xml.h:212
@@ -15981,15 +15868,13 @@ msgstr "Bạn phải xác định thư mục."
 
 #. mail:no-name-vfolder secondary
 #: mail/mail-errors.xml.h:216
-#, fuzzy
 msgid "You must name this vFolder."
-msgstr "Bạn phải đặt tên cho vfolder này."
+msgstr "Bạn phải đặt tên cho vFolder này."
 
 #. mail:vfolder-no-source primary
 #: mail/mail-errors.xml.h:218
-#, fuzzy
 msgid "No sources selected."
-msgstr "Chưa chọn server"
+msgstr "Chưa chọn nguồn."
 
 #. mail:vfolder-no-source secondary
 #: mail/mail-errors.xml.h:220
@@ -16068,9 +15953,9 @@ msgid "Sending message %d of %d"
 msgstr "Đang gửi thông điệp %d trên %d"
 
 #: mail/mail-ops.c:703
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to send %d of %d messages"
-msgstr "Lỗi giải mã thông điệp."
+msgstr "Lỗi gửi %d trên %d thông điệp"
 
 #: mail/mail-ops.c:707
 msgid "Complete."
@@ -16125,9 +16010,9 @@ msgid "Expunging and storing account '%s'"
 msgstr ""
 
 #: mail/mail-ops.c:1468
-#, fuzzy, c-format
+#, c-format
 msgid "Storing account '%s'"
-msgstr "Đang lưu thư mục %s"
+msgstr "Đang lưu tài khoản '%s'"
 
 #: mail/mail-ops.c:1523
 msgid "Refreshing folder"
@@ -16138,9 +16023,9 @@ msgid "Expunging folder"
 msgstr "Đang bỏ thư mục"
 
 #: mail/mail-ops.c:1607
-#, fuzzy, c-format
+#, c-format
 msgid "Emptying trash in '%s'"
-msgstr "Đang nhập %s như là %s"
+msgstr "Đang làm sạch sọt rác trong '%s'"
 
 #: mail/mail-ops.c:1608
 msgid "Local Folders"
@@ -16152,14 +16037,14 @@ msgid "Retrieving message %s"
 msgstr "Đang nhận thông điệp %s"
 
 #: mail/mail-ops.c:1763
-#, fuzzy, c-format
+#, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
 msgstr[0] "Đang nhận %d thông điệp"
 msgstr[1] "Đang nhận %d thông điệp"
 
 #: mail/mail-ops.c:1849
-#, fuzzy, c-format
+#, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messsages"
 msgstr[0] "Đang lưu %d thông điệp"
@@ -16235,9 +16120,8 @@ msgid "Send & Receive Mail"
 msgstr "Gửi và nhận thư"
 
 #: mail/mail-send-recv.c:323
-#, fuzzy
 msgid "Cancel _All"
-msgstr "Hủy tất cả"
+msgstr "Hủy _tất cả"
 
 #: mail/mail-send-recv.c:412
 msgid "Updating..."
@@ -16273,11 +16157,9 @@ msgid "Name:"
 msgstr "Tên:"
 
 #: mail/mail-tools.c:114
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create spool directory `%s': %s"
-msgstr ""
-"Không thể tạo thư mục %s:\n"
-"%s"
+msgstr "Không thể tạo thư mục spool '%s': %s"
 
 #: mail/mail-tools.c:141
 #, c-format
@@ -16294,9 +16176,9 @@ msgid "Forwarded message"
 msgstr "Thông điệp chuyển tiếp"
 
 #: mail/mail-tools.c:319
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid folder: `%s'"
-msgstr "Đang mở thư mục %s"
+msgstr "Thư mục không hợp lệ: '%s'"
 
 #: mail/mail-vfolder.c:87
 #, c-format
@@ -16304,14 +16186,14 @@ msgid "Setting up vfolder: %s"
 msgstr "Thiết lập vfolder: %s"
 
 #: mail/mail-vfolder.c:235
-#, fuzzy, c-format
+#, c-format
 msgid "Updating vFolders for '%s:%s'"
-msgstr "Đang cập nhật vfolder cho URI: %s"
+msgstr "Đang cập nhật vfolder cho '%s:%s'"
 
 #: mail/mail-vfolder.c:242
-#, fuzzy, c-format
+#, c-format
 msgid "Updating vFolders for '%s'"
-msgstr "Đang cập nhật vfolder cho URI: %s"
+msgstr "Đang cập nhật vFolder cho '%s'"
 
 #: mail/mail-vfolder.c:942
 msgid "vFolders"
@@ -16419,7 +16301,7 @@ msgstr "Kích thước"
 
 #: mail/message-tag-followup.c:73
 msgid "Call"
-msgstr ""
+msgstr "Gọi"
 
 #: mail/message-tag-followup.c:74
 msgid "Do Not Forward"
@@ -16501,9 +16383,8 @@ msgid "Evolution Test component"
 msgstr "Thành phần kiểm tra Evolution"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:1
-#, fuzzy
 msgid "480"
-msgstr "380"
+msgstr "480"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:2
 #, fuzzy
@@ -16511,19 +16392,16 @@ msgid "Default width of the folder bar pane"
 msgstr "Bật tắt hiện thanh thư mục"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:3
-#, fuzzy
 msgid "Default window height"
-msgstr "Độ ưu tiên mặc định:"
+msgstr "Độ cao cửa sổ mặc định"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:4
-#, fuzzy
 msgid "Default window width"
-msgstr "Độ ưu tiên mặc định:"
+msgstr "Độ rộng cửa sổ mặc định"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:5
-#, fuzzy
 msgid "Evolution configuration version"
-msgstr "Giao diện cấu hình mail."
+msgstr "Phiên bản cấu hình Evolution"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:6
 msgid "ID or alias of the component to be shown by default at start-up."
@@ -16671,19 +16549,16 @@ msgid "Select a file"
 msgstr "Chọn tập tin"
 
 #: shell/e-shell-importer.c:643
-#, fuzzy
 msgid "File _type:"
-msgstr "Kiểu tập tin:"
+msgstr "_Kiểu tập tin:"
 
 #: shell/e-shell-importer.c:682
-#, fuzzy
 msgid "Import data and settings from _older programs"
-msgstr "Nhập dữ liệu và thiết lập từ chương trình cũ"
+msgstr "_Nhập dữ liệu và thiết lập từ chương trình cũ"
 
 #: shell/e-shell-importer.c:685
-#, fuzzy
 msgid "Import a _single file"
-msgstr "Nhập tập tin đơn"
+msgstr "Nhập _tập tin đơn"
 
 #: shell/e-shell-importer.c:753 shell/e-shell-startup-wizard.c:571
 msgid ""
@@ -16708,9 +16583,8 @@ msgid "No importer available for file %s"
 msgstr "Không có bên nào cung cấp giao thức `%s'"
 
 #: shell/e-shell-importer.c:1086
-#, fuzzy
 msgid "Unable to execute importer"
-msgstr "Lỗi thực hiện GPG."
+msgstr ""
 
 #: shell/e-shell-importer.c:1200
 msgid "_Import"
@@ -16746,14 +16620,12 @@ msgid "Folder name cannot contain the Return character."
 msgstr "Tên thư mục không thể chứa ký tự Enter"
 
 #: shell/e-shell-utils.c:129
-#, fuzzy
 msgid "Folder name cannot contain the character \"/\"."
-msgstr "Tên thư mục không thể chứa ký tự Enter"
+msgstr "Tên thư mục không thể chứa ký tự \"/\"."
 
 #: shell/e-shell-utils.c:135
-#, fuzzy
 msgid "Folder name cannot contain the character \"#\"."
-msgstr "Tên thư mục không thể chứa ký tự Enter"
+msgstr "Tên thư mục không thể chứa ký tự \"#\"."
 
 #: shell/e-shell-utils.c:141
 msgid "'.' and '..' are reserved folder names."
@@ -16793,22 +16665,16 @@ msgid "Work Offline"
 msgstr "Ngoại tuyến"
 
 #: shell/e-shell-window.c:337
-#, fuzzy
 msgid "Evolution is currently online.  Click on this button to work offline."
-msgstr ""
-"Ximian Evolution hiện thời đang trực tuyến. Nhấn nút này để chuyển sang "
-"ngoại tuyến."
+msgstr "Evolution hiện thời đang trực tuyến. Nhấn nút này để chuyển sang ngoại tuyến."
 
 #: shell/e-shell-window.c:344
-#, fuzzy
 msgid "Evolution is in the process of going offline."
-msgstr "Ximian Volution đang trong tiến trình chuyển sang ngoại tuyến."
+msgstr "Evolution đang chuyển sang ngoại tuyến."
 
 #: shell/e-shell-window.c:350
-#, fuzzy
 msgid "Evolution is currently offline.  Click on this button to work online."
-msgstr ""
-"Ximian Evolution đang ngoại tuyến. Nhấn nút này để chuyển sang trực tuyến."
+msgstr "Evolution đang ngoại tuyến. Nhấn nút này để chuyển sang trực tuyến."
 
 #: shell/e-shell-window.c:637
 #, c-format
@@ -16861,7 +16727,6 @@ msgid "Welcome"
 msgstr "Chào mừng"
 
 #: shell/evolution-startup-wizard.glade.h:6
-#, fuzzy
 msgid ""
 "Welcome to Evolution. The next few screens will allow\n"
 "Evolution to connect to your email accounts, and to import\n"
@@ -16876,7 +16741,6 @@ msgstr ""
 "Vui lòng nhấn nút \"Kế tiếp\" để tiếp tục."
 
 #: shell/evolution-startup-wizard.glade.h:11
-#, fuzzy
 msgid ""
 "You have successfully entered all of the information\n"
 "needed to set up Evolution. \n"
@@ -16885,7 +16749,7 @@ msgid ""
 msgstr ""
 "Bạn đã hoàn tất nhập mọi thông tin cần thiết cho Evolution.\n"
 "\n"
-"Hãy nhấn nút \"Kết thúc\" để lưu các thiết lập của bạn."
+"Hãy nhấn nút \"Áp dụng\" để lưu các thiết lập của bạn."
 
 #: shell/evolution-test-component.c:140
 msgid "New Test"
@@ -17276,11 +17140,11 @@ msgstr ""
 
 #: smime/gui/smime-ui.glade.h:11
 msgid "Backup"
-msgstr ""
+msgstr "Sao lưu"
 
 #: smime/gui/smime-ui.glade.h:12
 msgid "Backup All"
-msgstr ""
+msgstr "Sao lưu tất cả"
 
 #: smime/gui/smime-ui.glade.h:13
 msgid ""
@@ -18142,9 +18006,8 @@ msgid "Cut selected message(s) to the clipboard"
 msgstr "Cắt thông điệp được chọn vào clipboard"
 
 #: ui/evolution-mail-list.xml.h:4
-#, fuzzy
 msgid "E_xpunge"
-msgstr "_Bỏ"
+msgstr "_Xóa hẳn"
 
 #: ui/evolution-mail-list.xml.h:5
 msgid "Hide S_elected Messages"
