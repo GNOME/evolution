@@ -1,7 +1,5 @@
 ui/evolution-executive-summary.xml
 executive-summary/component/component-factory.c
-addressbook/gui/widgets/test-minicard-view.c
-camel/providers/local/camel-mbox-provider.c
 camel/providers/vee/camel-vee-folder.c
 executive-summary/component/e-summary-callbacks.c
 executive-summary/component/e-summary-url.c
@@ -9,8 +7,6 @@ executive-summary/component/e-summary.c
 executive-summary/component/main.c
 executive-summary/test-service/rdf-summary.c
 mail/mail-config.c
-notes/component-factory.c
-notes/main.c
 ui/evolution-task-editor-dialog.xml
 ui/evolution-tasks.xml
 addressbook/backend/ebook/e-card-simple.c
@@ -44,7 +40,6 @@ calendar/conduits/calendar/calendar-conduit-control-applet.c
 calendar/conduits/calendar/calendar-conduit.c
 calendar/conduits/todo/todo-conduit-control-applet.c
 calendar/conduits/todo/todo-conduit.c
-calendar/gui/alarm-notify.c
 calendar/gui/calendar-commands.c
 calendar/gui/calendar-model.c
 calendar/gui/calendar-summary.c
@@ -66,7 +61,6 @@ calendar/gui/e-week-view.c
 calendar/gui/event-editor-dialog.glade
 calendar/gui/event-editor.c
 calendar/gui/gnome-cal.c
-calendar/gui/gnome-month-item.c
 calendar/gui/goto.c
 calendar/gui/goto-dialog.glade
 calendar/gui/main.c

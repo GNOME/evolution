@@ -1,3 +1,10 @@
+2001-01-17  Dave Camp <dave@ximian.com>
+
+	* POTFILES.in: Removed addressbook/gui/widgets/test-minicard-view.c,
+	camel/providers/local/camel-mbox-provider.c, 
+	notes/component-factory.c, notes/main.c, and 
+	calendar/gui/gnome-month-item.c, and calendar/gui/alarm-notify.c.
+
 2001-01-17  Valek Filippov  <frob@df.ru>
 
 	* ru.po: updated russian translation.
