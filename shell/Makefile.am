@@ -200,7 +200,7 @@ schema_DATA = $(schema_in_files:.schemas.in.in=-$(BASE_VERSION).schemas)
 install-data-local:
 	if test -z "$(DESTDIR)" ; then												\
 		for p in $(schema_DATA) ; do											\
-			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $(srcdir)/$$p;	\
+			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $$p;		\
 		done														\
 	fi
 
@@ -211,6 +211,12 @@ if DEFAULT_BINARY
 	cd $(DESTDIR)$(bindir) && rm -f evolution && $(LN_S) evolution-$(BASE_VERSION) evolution
 endif
 
+uninstall-evolution:
+	$(LIBTOOL) --mode=uninstall rm -rf $(DESTDIR)$(bindir)/evolution-$(BASE_VERSION)
+if DEFAULT_BINARY
+	rm -f $(DESTDIR)$(bindir)/evolution
+endif
+
 if HAVE_DTAPPINTEGRATE
 
 install-exec-local: install-evolution
@@ -218,9 +224,13 @@ install-exec-local: install-evolution
 	mv $(DESTDIR)$(bindir)/evolution-$(BASE_VERSION) $(DESTDIR)$(libexecdir)/evolution-$(BASE_VERSION)
 	$(INSTALL_PROGRAM) evolution-nognome $(DESTDIR)$(bindir)/evolution-$(BASE_VERSION) 
 
+uninstall-local: uninstall-evolution
+	rm -rf $(DESTDIR)$(libexecdir)/evolution-$(BASE_VERSION)
+	rm -rf $(DESTDIR)$(bindir)/evolution-$(BASE_VERSION)/evolution-nognome
 else
 
 install-exec-local: install-evolution
+uninstall-local: uninstall-evolution
 
 endif
 
