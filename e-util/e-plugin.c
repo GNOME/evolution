@@ -221,7 +221,7 @@ ep_load(const char *filename)
 	root = xmlDocGetRootElement(doc);
 	if (strcmp(root->name, "e-plugin-list") != 0) {
 		g_warning("No <e-plugin-list> root element: %s", filename);
-		xmlFreedoc(doc);
+		xmlFreeDoc(doc);
 		return -1;
 	}
 
