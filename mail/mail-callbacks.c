@@ -215,17 +215,15 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	MailConfigService *xport = NULL;
 	CamelMimeMessage *message;
 	const char *subject;
-
 	struct post_send_data *psd = data;
-
+	
 	/* Config info */
-
 	id = mail_config_get_default_identity ();
 	xport = mail_config_get_transport ();
-
-	/* Generate our from address */
 	
-	from = g_strdup (e_msg_composer_hdrs_get_from (E_MSG_COMPOSER_HDRS (composer->hdrs)));
+	/* Generate our from address */
+	/* FIXME: we shouldn't need this code anymore as it's taken care of in the composer */
+	from = e_msg_composer_hdrs_get_from (E_MSG_COMPOSER_HDRS (composer->hdrs));
 	if (!from) {
 		CamelInternetAddress *ciaddr;
 		
@@ -236,20 +234,18 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	}
 	
 	/* Get the message */
-	
 	message = e_msg_composer_get_message (composer);
-
+	
 	/* Check for no subject */
-
 	subject = camel_mime_message_get_subject (message);
 	if (subject == NULL || subject[0] == '\0') {
-		if (! ask_confirm_for_empty_subject (composer)) {
+		if (!ask_confirm_for_empty_subject (composer)) {
 			camel_object_unref (CAMEL_OBJECT (message));
 			free_psd (psd); /* will take care of psd == NULL */
 			return;
 		}
 	}
-
+	
 	if (psd) {
 		mail_do_send_mail (xport->url, message, from,
 				   psd->folder, psd->uid, psd->flags, 
@@ -259,7 +255,9 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 				   NULL, NULL, 0,
 				   GTK_WIDGET (composer));
 	}
-
+	
+	g_free (from);
+	
 	free_psd (psd);
 }
 
