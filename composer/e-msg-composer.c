@@ -1445,17 +1445,18 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 	
 	contents = camel_medium_get_content_object (CAMEL_MEDIUM (msg));
 	text = mail_get_message_body (contents, FALSE, &is_html);
-	if (is_html)
-		final_text = g_strdup (text);
-	else
-		final_text = e_text_to_html (text, E_TEXT_TO_HTML_CONVERT_NL |
-					     E_TEXT_TO_HTML_CONVERT_SPACES);
-	g_free (text);
+	if (text) {
+		if (is_html)
+			final_text = g_strdup (text);
+		else
+			final_text = e_text_to_html (text, E_TEXT_TO_HTML_CONVERT_NL |
+						     E_TEXT_TO_HTML_CONVERT_SPACES);
+		g_free (text);
+		
+		e_msg_composer_set_body_text (new, final_text);
+	}
 	
-	e_msg_composer_set_body_text (new, final_text);
-	
-	/*set_editor_text (BONOBO_WIDGET (new->editor), 
-	  NULL, "FIXME: like, uh... put the message here and stuff\n");*/
+	/* FIXME: attach the message attachments */
 	
 	return new;
 }
