@@ -1,3 +1,7 @@
+2001-08-14  Jakub Steiner <jimmac@ximian.com>
+
+	* evolution-today-mini.png: new summary tree view icon.
+
 2001-08-10  Rodrigo Moya <rodrigo@ximian.com>
 
 	* 16_category_*: removed these files, which are now in gal
