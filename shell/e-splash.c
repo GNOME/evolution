@@ -302,6 +302,8 @@ e_splash_construct (ESplash *splash,
 	canvas = gnome_canvas_new_aa ();
 	priv->canvas = GNOME_CANVAS (canvas);
 
+	e_make_widget_backing_stored (canvas);
+
 	image_width = gdk_pixbuf_get_width (splash_image_pixbuf);
 	image_height = gdk_pixbuf_get_height (splash_image_pixbuf);
 

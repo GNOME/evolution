@@ -1,5 +1,9 @@
 2001-09-17  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-splash.c (e_splash_construct): Make the canvas backing stored.
+
+2001-09-17  Ettore Perazzoli  <ettore@ximian.com>
+
 	* main.c (quit_box_new): Call `e_make_widget_backing_stored()' on
 	the widget so it refreshes properly even when we are busy waiting
 	on CORBA calls.
