@@ -41,6 +41,8 @@
 
     <oaf_attribute name="name" type="string" _value="Evolution Mail component"/>
 
+    <oaf_attribute name="evolution:button_label" type="string" _value="Mail"/>
+
     <oaf_attribute name="evolution:component_icon" type="string" value="evolution-inbox.png"/>
     <oaf_attribute name="evolution:component_display_order" type="number" value="1"/>
   </oaf_server>

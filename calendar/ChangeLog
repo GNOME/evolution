@@ -1,3 +1,9 @@
+2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/GNOME_Evolution_Calendar.server.in.in: Add an
+	"evolution:button_label" property on the component for use in the
+	shell.
+
 2003-10-21  Rodney Dawes  <dobey@ximian.com>
 
 	* cal-client/Makefile.am: Fix typo in libcal_client_la_SOURCES

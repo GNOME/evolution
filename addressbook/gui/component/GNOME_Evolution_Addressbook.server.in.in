@@ -57,6 +57,8 @@
 	<oaf_attribute name="name" type="string"
 	               _value="Evolution Addressbook component"/>
 
+        <oaf_attribute name="evolution:button_label" type="string" _value="Contacts"/>
+
 </oaf_server>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_AddressWidget"

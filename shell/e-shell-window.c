@@ -20,19 +20,15 @@
  * Author: Ettore Perazzoli <ettore@ximian.com>
  */
 
-/* TODO
-
-	- e_shell_component_maybe_crashed() replacement.
-
-*/
-
 #include <config.h>
 
 #include "e-shell-window.h"
 
 #include "Evolution.h"
-
 #include "e-shell-window-commands.h"
+#include "e-sidebar.h"
+
+#include "e-util/e-lang-utils.h"
 
 #include <gal/util/e-util.h>
 
@@ -58,6 +54,7 @@ static GtkWindowClass *parent_class = NULL;
    to -1.  When the views are created the first time, the widget pointers as
    well as the notebook page value get set.  */
 struct _ComponentView {
+	int button_id;
 	char *component_id;
 
 	GNOME_Evolution_Component component_iface;
@@ -76,6 +73,9 @@ struct _EShellWindowPrivate {
 	/* All the ComponentViews.  */
 	GSList *component_views;
 
+	/* The sidebar.  */
+	GtkWidget *sidebar;
+
 	/* Notebooks used to switch between components.  */
 	GtkWidget *sidebar_notebook;
 	GtkWidget *view_notebook;
@@ -91,11 +91,12 @@ struct _EShellWindowPrivate {
 /* ComponentView handling.  */
 
 static ComponentView *
-component_view_new (const char *id)
+component_view_new (const char *id, int button_id)
 {
 	ComponentView *view = g_new0 (ComponentView, 1);
 
 	view->component_id = g_strdup (id);
+	view->button_id = button_id;
 	view->notebook_page_num = -1;
 
 	return view;
@@ -231,13 +232,25 @@ init_view (EShellWindow *window,
 /* Callbacks.  */
 
 static void
-component_button_clicked_callback (GtkButton *button,
-				   EShellWindow *window)
+sidebar_button_selected_callback (ESidebar *sidebar,
+				  int button_id,
+				  EShellWindow *window)
 {
-	ComponentView *component_view = g_object_get_data (G_OBJECT (button), "ComponentView");
 	EShellWindowPrivate *priv = window->priv;
+	ComponentView *component_view;
+	GSList *p;
 
-	g_assert (component_view != NULL);
+	for (p = priv->component_views; p != NULL; p = p->next) {
+		if (((ComponentView *) p->data)->button_id == button_id) {
+			component_view = p->data;
+			break;
+		}
+	}
+
+	if (component_view == NULL) {
+		g_warning ("Unknown component id %d", button_id);
+		return;
+	}
 
 	if (component_view->sidebar_widget == NULL) {
 		init_view (window, component_view);
@@ -255,70 +268,36 @@ component_button_clicked_callback (GtkButton *button,
 
 /* Widget layout.  */
 
-static GtkWidget *
-create_component_button (EShellWindow *window,
-			 ComponentView *component_view)
-{
-	GtkWidget *button;
-	const char *id = component_view->component_id;
-	const char *p, *q;
-	char *label;
-
-	/* FIXME: Need a "name" property on the component or somesuch.  */
-
-	p = strrchr (id, '_');
-	if (p == NULL || p == id) {
-		label = g_strdup (id);
-	} else {
-		for (q = p - 1; q != id; q--) {
-			if (*q == '_')
-				break;
-		}
-
-		if (*q != '_') {
-			label = g_strdup (id);
-		} else {
-			label = g_strndup (q + 1, p - q - 1);
-		}
-	}
-
-	button = gtk_button_new_with_label (label);
-
-	g_object_set_data (G_OBJECT (button), "ComponentView", component_view);
-	g_signal_connect (button, "clicked", G_CALLBACK (component_button_clicked_callback), window);
-
-	g_free (label);
-
-	return button;
-}
-
 static void
 setup_widgets (EShellWindow *window)
 {
 	EShellWindowPrivate *priv = window->priv;
+	GList *language_list;
 	Bonobo_ServerInfoList *info_list;
 	CORBA_Environment ev;
 	GtkWidget *paned;
-	GtkWidget *sidebar_vbox;
 	GtkWidget *button_box;
 	int i;
 
 	paned = gtk_hpaned_new ();
 	bonobo_window_set_contents (BONOBO_WINDOW (window), paned);
 
-	sidebar_vbox = gtk_vbox_new (FALSE, 6);
-	gtk_paned_pack1 (GTK_PANED (paned), sidebar_vbox, FALSE, FALSE);
+	priv->sidebar = e_sidebar_new ();
+	g_signal_connect (priv->sidebar, "button_selected",
+			  G_CALLBACK (sidebar_button_selected_callback), window);
+	gtk_paned_pack1 (GTK_PANED (paned), priv->sidebar, TRUE, FALSE);
 
 	priv->sidebar_notebook = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (priv->sidebar_notebook), FALSE);
-	gtk_box_pack_start (GTK_BOX (sidebar_vbox), priv->sidebar_notebook, TRUE, TRUE, 0);
+	e_sidebar_set_selection_widget (E_SIDEBAR (priv->sidebar), priv->sidebar_notebook);
 
 	priv->view_notebook = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (priv->view_notebook), FALSE);
-	gtk_paned_pack2 (GTK_PANED (paned), priv->view_notebook, TRUE, FALSE);
+	gtk_paned_pack2 (GTK_PANED (paned), priv->view_notebook, FALSE, TRUE);
+
+	gtk_paned_set_position (GTK_PANED (paned), 200);
 
 	button_box = gtk_hbox_new (FALSE, 6);
-	gtk_box_pack_start (GTK_BOX (sidebar_vbox), button_box, FALSE, FALSE, 0);
 
 	CORBA_exception_init (&ev);
 
@@ -333,19 +312,26 @@ setup_widgets (EShellWindow *window)
 		return;
 	}
 
-	for (i = 0; i < info_list->_length; i++) {
-		ComponentView *component_view = component_view_new (info_list->_buffer[i].iid);
-		GtkWidget *component_button = create_component_button (window, component_view);
+	language_list = e_get_language_list ();
 
+	for (i = 0; i < info_list->_length; i++) {
+		ComponentView *component_view = component_view_new (info_list->_buffer[i].iid, i);
+		const char *label = bonobo_server_info_prop_lookup (& info_list->_buffer[i],
+								    "evolution:button_label",
+								    language_list);
+
+		g_print ("component %s\n", info_list->_buffer[i].iid);
 		priv->component_views = g_slist_prepend (priv->component_views, component_view);
 
-		gtk_box_pack_start (GTK_BOX (button_box), component_button, FALSE, FALSE, 0);
+		e_sidebar_add_button (E_SIDEBAR (priv->sidebar), label, NULL, component_view->button_id);
 	}
 
 	CORBA_free (info_list);
 	CORBA_exception_free (&ev);
 
 	gtk_widget_show_all (paned);
+
+	e_free_language_list (language_list);
 }
 
 
@@ -437,7 +423,7 @@ e_shell_window_new (EShell *shell)
 	bonobo_ui_util_set_ui (priv->ui_component,
 			       PREFIX,
 			       EVOLUTION_UIDIR "/evolution.xml",
-			       "evolution-1.5", NULL);
+			       "evolution-" BASE_VERSION, NULL);
 
 	e_shell_window_commands_setup (window);
 

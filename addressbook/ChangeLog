@@ -1,3 +1,9 @@
+2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/GNOME_Evolution_Addressbook.server.in.in: Add an
+	"evolution:button_label" property on the component for use in the
+	shell.
+
 2003-10-20  Dan Winship  <danw@ximian.com>
 
 	* backend/pas/pas-book-view.c: Queue up removes and modifies as

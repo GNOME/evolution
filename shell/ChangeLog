@@ -1,5 +1,22 @@
 2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-window.c (struct _ComponentView): New member button_id.
+	(struct _EShellWindowPrivate): New member sidebar.
+	(component_new_new): Get a button_id arg.
+	(component_button_clicked_callback): Removed.
+	(sidebar_button_selected_callback): New.
+	(create_component_button): Removed.
+	(setup_widget): Set up the sidebar using ESidebar and hook up its
+	"button_selected" signal.  Also get the component name from a
+	property on the server info.
+	(e_shell_window_new): Use BASE_VERSION for the version in the app
+	name instead of hardcoding "1.5".
+
+	* e-sidebar.c: New.
+	* e-sidebar.h: New.
+
+2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
 	* GNOME_Evolution_Shell.server.in.in: Append a _2 to all the IIDs.
 
 	* e-shell.h (E_SHELL_OAFIID): Change to "GNOME_Evolution_Shell_2"
