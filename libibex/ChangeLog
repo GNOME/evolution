@@ -1,3 +1,11 @@
+2001-09-17    <NotZed@Ximian.com>
+
+	* disktail.c (tail_space): Fix the tail space calculation, it
+	didn't always take into account the space used by a new tail node
+	(i think).
+	(tail_info): Add a failback assertion that end >= start.  Fix all
+	callers (needed to add blocks argument).
+
 2001-08-16  Not Zed  <NotZed@Ximian.com>
 
 	* dumpindex.c (main): Force open of internal data before using it.

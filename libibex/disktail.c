@@ -85,7 +85,7 @@ struct _IBEXStoreClass ibex_diskarray_class = {
 
 
 static int
-tail_info(struct _tailblock *bucket, nameid_t tailid, blockid_t **startptr)
+tail_info(struct _memcache *blocks, struct _tailblock *bucket, nameid_t tailid, blockid_t **startptr)
 {
 	blockid_t *start, *end;
 	int index;
@@ -100,6 +100,9 @@ tail_info(struct _tailblock *bucket, nameid_t tailid, blockid_t **startptr)
 	}
 	if (startptr)
 		*startptr = start;
+
+	ibex_block_cache_assert(blocks, end >= start);
+
 	return end-start;
 }
 
@@ -194,7 +197,7 @@ tail_space(struct _tailblock *tail)
 		return sizeof(tail->tb_data)/sizeof(tail->tb_data[0])-1;
 
 	return  &tail->tb_data[tail->tb_offset[tail->used-1]]
-		- (blockid_t *)&tail->tb_offset[tail->used];
+		- (blockid_t *)&tail->tb_offset[tail->used] - 1;
 }
 
 #if 0
@@ -504,7 +507,7 @@ disk_add_list(struct _IBEXStore *store, blockid_t *headptr, blockid_t *tailptr, 
 			}
 		} else {
 			tailblock = (struct _tailblock *)ibex_block_read(store->blocks, TAIL_BLOCK(tail));
-			len = tail_info(tailblock, tail, &start);
+			len = tail_info(store->blocks, tailblock, tail, &start);
 			/* case 3 */
 			if (len + data->len >= TAIL_THRESHOLD) {
 				/* this is suboptimal, but should work - merge the tail data with
@@ -542,7 +545,7 @@ disk_add_list(struct _IBEXStore *store, blockid_t *headptr, blockid_t *tailptr, 
 			/* read/merge the tail with the new data, rewrite out.
 			   suboptimal, but it should be 'ok' ? */
 			tailblock = (struct _tailblock *)ibex_block_read(store->blocks, TAIL_BLOCK(tail));
-			len = tail_info(tailblock, tail, &start);
+			len = tail_info(store->blocks, tailblock, tail, &start);
 			tmpdata = g_array_new(0, 0, sizeof(blockid_t));
 			g_array_append_vals(tmpdata, start, len);
 			g_array_append_vals(tmpdata, data->data, data->len);
@@ -610,7 +613,7 @@ disk_remove(struct _IBEXStore *store, blockid_t *headptr, blockid_t *tailptr, na
 		int len;
 		blockid_t *start;
 
-		len = tail_info(tailblock, tail, &start);
+		len = tail_info(store->blocks, tailblock, tail, &start);
 		for (i=0;i<len;i++) {
 			if (start[i] == data) {
 				for (;i<len-1;i++)
@@ -688,7 +691,7 @@ disk_find(struct _IBEXStore *store, blockid_t head, blockid_t tail, nameid_t dat
 		int len;
 		blockid_t *start;
 
-		len = tail_info(tailblock, tail, &start);
+		len = tail_info(store->blocks, tailblock, tail, &start);
 		for (i=0;i<len;i++) {
 			if (start[i] == data)
 				return TRUE;
@@ -725,7 +728,7 @@ disk_get(struct _IBEXStore *store, blockid_t head, blockid_t tail)
 		blockid_t *start;
 		
 		tailblock = (struct _tailblock *)ibex_block_read(store->blocks, TAIL_BLOCK(tail));
-		len = tail_info(tailblock, tail, &start);
+		len = tail_info(store->blocks, tailblock, tail, &start);
 		g_array_append_vals(result, start, len);
 	}
 	return result;
@@ -764,7 +767,7 @@ ibex_diskarray_dump(struct _memcache *blocks, blockid_t head, blockid_t tail)
 		int i;
 
 		tailblock = (struct _tailblock *)ibex_block_read(blocks, TAIL_BLOCK(tail));
-		len = tail_info(tailblock, tail, &start);
+		len = tail_info(blocks, tailblock, tail, &start);
 		for (i=0;i<len;i++)
 			printf(" %d", start[i]);
 	}
