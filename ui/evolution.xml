@@ -160,7 +160,7 @@
       <menuitem name="Settings" verb="" _label="_Preferences..." _tip="Change Evolution's settings"/>
       <separator/>
       <placeholder name="ComponentPlaceholder"/>
-      <menuitem name="PilotSettings" verb="" _label="_Pilot Settings..." _tip="Set up Pilot configuration"/>
+      <menuitem name="PilotSettings" verb="" _label="Pi_lot Settings..." _tip="Set up Pilot configuration"/>
     </submenu>
 
     <placeholder name="SearchPlaceholder">
