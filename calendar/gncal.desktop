@@ -2,8 +2,10 @@
 Name=Calendar
 Name[es]=Calendario
 Name[fr]=Calendrier
+Name[de]=Kalender
 Comment=Calendar application
 Comment[fr]=Calendrier Gnome
+Comment[de]=Gnome Kalender
 Exec=gncal
 Icon=
 Terminal=0
