@@ -266,10 +266,10 @@ imap_init (CamelFolder *folder, CamelStore *parent_store, CamelFolder *parent_fo
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      "Could not SELECT %s on IMAP server %s: %s.",
 				      folder->full_name, service->url->host, 
-				      status == CAMEL_IMAP_ERR ? result :
-				      "Unknown error");
+				      result ? result : "Unknown error");
 	} else {
-		/* parse the mode we opened it in */
+		/* parse the mode we opened it in and set as current mailbox */
+		CAMEL_IMAP_STORE (store)->current_folder = folder;
 	}
 	g_free (result);
 	g_free (folder_path);
@@ -558,8 +558,8 @@ imap_copy_message_to (CamelFolder *source, const char *uid, CamelFolder *destina
 	else
 		folder_path = g_strdup (destination->full_name);
 	
-	status = camel_imap_command (CAMEL_IMAP_STORE (store), NULL, &result,
-				     "COPY %s %s", uid, folder_path);
+	status = camel_imap_command (CAMEL_IMAP_STORE (store), source, &result,
+				     "UID COPY %s %s", uid, folder_path);
 	
 	if (status != CAMEL_IMAP_OK) {
 		CamelService *service = CAMEL_SERVICE (store);
@@ -594,9 +594,9 @@ imap_move_message_to (CamelFolder *source, const char *uid, CamelFolder *destina
 	else
 		folder_path = g_strdup (destination->full_name);
 	
-	status = camel_imap_command (CAMEL_IMAP_STORE (store), NULL, &result,
-				     "COPY %s %s", uid, folder_path);
-	
+	status = camel_imap_command (CAMEL_IMAP_STORE (store), source, &result,
+				     "UID COPY %s %s", uid, folder_path);
+
 	if (status != CAMEL_IMAP_OK) {
 		CamelService *service = CAMEL_SERVICE (store);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
@@ -1020,7 +1020,7 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	GPtrArray *summary = NULL, *headers = NULL;
 	gint num, i, j, status = 0;
-	char *result, *p, *q, *node;
+	char *result, *q, *node;
 	const char *received;
 	struct _header_raw *h, *tail = NULL;
 
@@ -1031,16 +1031,23 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 	
 	summary = g_ptr_array_new ();
 
-	if (num == 0) {
+	switch (num) {
+	case 0:
 		imap_folder->summary = summary;
 		
 		return summary;
+	case 1:
+		status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
+						      &result, "FETCH 1 (UID FLAGS BODY[HEADER.FIELDS "
+						      "(SUBJECT FROM TO CC DATE MESSAGE-ID "
+						      "REFERENCES IN-REPLY-TO)])");
+		break;
+	default:
+		status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
+						      &result, "FETCH 1:%d (UID FLAGS BODY[HEADER.FIELDS "
+						      "(SUBJECT FROM TO CC DATE MESSAGE-ID "
+						      "REFERENCES IN-REPLY-TO)])", num);
 	}
-
-	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
-					      &result, "FETCH 1:%d (UID FLAGS BODY[HEADER.FIELDS "
-					      "(SUBJECT FROM TO CC DATE MESSAGE-ID "
-					      "REFERENCES IN-REPLY-TO)])", num);
 	
 	if (status != CAMEL_IMAP_OK) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);

@@ -3,6 +3,11 @@
 	* providers/imap/camel-imap-folder.c (imap_get_summary): Oops.
 	If the number of messages in the folder is 0, don't fetch
 	summaries 1 thru 0, just return an empty summary.
+	(imap_copy_message_to): Fixed to use message UID and also send
+	the source folder as an arg to camel_imap_command rather than NULL.
+	(imap_move_message_to): Same.
+	(imap_init): If SELECT is successful, we need to set the current
+	folder to the one selected, this was causing problems with move/copy
 
 2000-07-13  Dan Winship  <danw@helixcode.com>
 

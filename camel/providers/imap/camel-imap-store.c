@@ -532,6 +532,9 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char
 	va_list ap;
 	gint status = CAMEL_IMAP_OK;
 
+	if (folder)
+		printf ("*** Current folder = %s\n", store->current_folder->full_name);
+
 	if (folder && store->current_folder != folder && strncmp (fmt, "STATUS", 6) &&
 	    strncmp (fmt, "CREATE", 5) && strcmp (fmt, "CAPABILITY")) {
 		/* We need to select the correct mailbox first */
