@@ -26,9 +26,11 @@
 
 #include <time.h>
 #include <gtk/gtktable.h>
+#include <gtk/gtktooltips.h>
 #include <libgnomecanvas/gnome-canvas.h>
 #include <gal/widgets/e-popup-menu.h>
 
+#include "e-cal-view.h"
 #include "gnome-cal.h"
 #include "evolution-activity-client.h"
 
@@ -222,7 +224,7 @@ typedef struct _EDayViewClass  EDayViewClass;
 
 struct _EDayView
 {
-	GtkTable table;
+	ECalView cal_view;
 
 	/* The top canvas where the dates and long appointments are shown. */
 	GtkWidget *top_canvas;
@@ -505,7 +507,7 @@ struct _EDayView
 
 struct _EDayViewClass
 {
-	GtkTableClass parent_class;
+	ECalViewClass parent_class;
 
 	/* Notification signals */
 	void (* selection_changed) (EDayView *day_view);

@@ -250,11 +250,11 @@ static void e_week_view_queue_layout (EWeekView *week_view);
 static void e_week_view_cancel_layout (EWeekView *week_view);
 static gboolean e_week_view_layout_timeout_cb (gpointer data);
 
-static GtkTableClass *parent_class;
+static ECalViewClass *parent_class;
 static GdkAtom clipboard_atom = GDK_NONE;
 
 E_MAKE_TYPE (e_week_view, "EWeekView", EWeekView, e_week_view_class_init,
-	     e_week_view_init, GTK_TYPE_TABLE);
+	     e_week_view_init, e_cal_view_get_type ());
 
 static void
 e_week_view_class_init (EWeekViewClass *class)

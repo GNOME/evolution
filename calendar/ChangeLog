@@ -1,5 +1,14 @@
 2003-07-17  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/e-cal-view.[ch]: new base class for calendar views.
+
+	* gui/e-day-view.[ch]:
+	* gui/e-week-view.[ch]: base these classes on ECalView.
+
+	* gui/Makefile.am: added new files.
+
+2003-07-17  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/calendar-config.[ch]:
 	* gui/tasks-control.c: s/expunge/purge.
 

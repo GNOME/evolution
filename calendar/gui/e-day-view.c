@@ -500,7 +500,7 @@ static GtkTableClass *parent_class;
 static GdkAtom clipboard_atom = GDK_NONE;
 
 E_MAKE_TYPE (e_day_view, "EDayView", EDayView, e_day_view_class_init,
-	     e_day_view_init, GTK_TYPE_TABLE);
+	     e_day_view_init, e_cal_view_get_type ());
 
 static void
 e_day_view_class_init (EDayViewClass *class)

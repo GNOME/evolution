@@ -28,6 +28,7 @@
 #include <libgnomecanvas/gnome-canvas.h>
 #include <gal/widgets/e-popup-menu.h>
 
+#include "e-cal-view.h"
 #include "gnome-cal.h"
 #include "evolution-activity-client.h"
 
@@ -178,7 +179,7 @@ typedef struct _EWeekViewClass  EWeekViewClass;
 
 struct _EWeekView
 {
-	GtkTable table;
+	ECalView cal_view;
 
 	/* The top canvas where the dates are shown. */
 	GtkWidget *titles_canvas;
@@ -374,7 +375,7 @@ struct _EWeekView
 
 struct _EWeekViewClass
 {
-	GtkTableClass parent_class;
+	ECalViewClass parent_class;
 
 	/* Notification signals */
 	void (* selection_changed) (EWeekView *week_view);
