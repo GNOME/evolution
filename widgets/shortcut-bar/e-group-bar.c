@@ -628,6 +628,8 @@ e_group_bar_add (GtkContainer *container,
 	g_return_if_fail (E_IS_GROUP_BAR (container));
 	g_return_if_fail (widget != NULL);
 
+	group_bar = E_GROUP_BAR (container);
+
 	g_snprintf (buffer, sizeof (buffer), _("Group %i"),
 		    group_bar->children->len + 1);
 	button = gtk_button_new_with_label (buffer);

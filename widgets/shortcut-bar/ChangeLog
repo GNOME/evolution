@@ -1,3 +1,7 @@
+2000-07-10  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-group-bar.c (e_group_bar_add): Set `group_bar'.
+
 2000-06-19  Damon Chaplin  <damon@helixcode.com>
 
 	* e-icon-bar-bg-item.c:
