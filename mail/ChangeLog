@@ -1,3 +1,13 @@
+2005-01-18  Not Zed  <NotZed@Ximian.com>
+
+	* em-format-html.c (emfh_gethttp): kill old 'load http 0 now=0' debug.
+
+	** See bug #70563.
+
+	* em-utils.c (emu_set_proxy, emu_proxy_setup)
+	(em_utils_get_proxy_uri): make sure the init code is called from
+	main thread (gconf usage), and add locking for data consistency.
+
 2005-01-14  Not Zed  <NotZed@Ximian.com>
 
 	** Related to changes for #65178.
