@@ -25,6 +25,11 @@ AC_DEFUN([GNOME_SUPPORT_CHECKS],[
   AC_TRY_LINK([#include <errno.h>],[
     char *foo = program_invocation_name], [
     AC_DEFINE(HAVE_PROGRAM_INVOCATION_NAME)])
+
+  AC_CHECK_FUNCS(vsnprintf,,[
+    AC_CHECK_FUNCS(__vsnprintf,
+      LIBOBJS="$LIBOBJS easy-vsnprintf.o",LIBOBJS="$LIBOBJS vsnprint.o")])
+
   AC_REPLACE_FUNCS(strtok_r strcasecmp strndup strnlen)
 
   if test "$LIBOBJS" != ""; then

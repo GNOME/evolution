@@ -1,3 +1,7 @@
+1998-03-09  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* gnome-support.m4: Add check for `vsnprintf'.
+
 Sun Mar  8 17:04:28 1998  Tom Tromey  <tromey@cygnus.com>
 
 	* gnome-support.m4: Set need_gnome_support shell variable.  Define
