@@ -1,5 +1,10 @@
 2000-06-01  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-table-sorted-variable.c: Made the sort when inserting a signal
+	row be syncronous.
+
+2000-06-01  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-cell-text.c, e-cell-text.h: Added "text_filter" argument that
 	takes a const void * and returns an allocated char *.
 

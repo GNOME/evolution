@@ -98,6 +98,41 @@ etsv_sort_idle(ETableSortedVariable *etsv)
 	return FALSE;
 }
 
+/* This takes source rows. */
+static int
+etsv_compare(ETableSortedVariable *etsv, int row1, int row2)
+{
+	int j;
+	int sort_count = e_table_sort_info_sorting_get_count(etsv->sort_info);
+	int comp_val = 0;
+	int ascending = 1;
+	ETableSubset *etss = E_TABLE_SUBSET(etsv);
+
+	for (j = 0; j < sort_count; j++) {
+		ETableSortColumn column = e_table_sort_info_sorting_get_nth(etsv->sort_info, j);
+		ETableCol *col;
+		if (column.column > e_table_header_count (etsv->full_header))
+			col = e_table_header_get_column (etsv->full_header, e_table_header_count (etsv->full_header) - 1);
+		else
+			col = e_table_header_get_column (etsv->full_header, column.column);
+		comp_val = (*col->compare)(e_table_model_value_at (etss->source, col->col_idx, row1),
+					   e_table_model_value_at (etss->source, col->col_idx, row2));
+		ascending = column.ascending;
+		if (comp_val != 0)
+			break;
+	}
+	if (comp_val == 0) {
+		if (row1 < row2)
+			comp_val = -1;
+		if (row1 > row2)
+			comp_val = 1;
+	}
+	if (!ascending)
+		comp_val = -comp_val;
+	return comp_val;
+}
+
+
 static void
 etsv_add       (ETableSubsetVariable *etssv,
 		gint                  row)
@@ -107,7 +142,7 @@ etsv_add       (ETableSubsetVariable *etssv,
 	ETableSortedVariable *etsv = E_TABLE_SORTED_VARIABLE (etssv);
 	int i;
 	
-	if (etss->n_map + 1 > etssv->n_vals_allocated){
+	if (etss->n_map + 1 > etssv->n_vals_allocated) {
 		etssv->n_vals_allocated += INCREMENT_AMOUNT;
 		etss->map_table = g_realloc (etss->map_table, (etssv->n_vals_allocated) * sizeof(int));
 	}
@@ -115,13 +150,17 @@ etsv_add       (ETableSubsetVariable *etssv,
 		for ( i = 0; i < etss->n_map; i++ )
 			if (etss->map_table[i] >= row)
 				etss->map_table[i] ++;
-	etss->map_table[etss->n_map] = row;
-	etss->n_map++;
+	i = etss->n_map;
 	if (etsv->sort_idle_id == 0) {
-		etsv->sort_idle_id = g_idle_add_full(30, (GSourceFunc) etsv_sort_idle, etsv, NULL);
+		i = 0;
+		while (etsv_compare(etsv, etss->map_table[i], row) < 0)
+			i++;
+		memmove(etss->map_table + i + 1, etss->map_table + i, etss->n_map - i);
 	}
+	etss->map_table[i] = row;
+	etss->n_map++;
 	if (!etm->frozen)
-		e_table_model_row_inserted (etm, etss->n_map - 1);
+		e_table_model_row_inserted (etm, i);
 }
 
 static void
