@@ -1,5 +1,13 @@
 2000-09-07  Dan Winship  <danw@helixcode.com>
 
+	* session.c (session_init): Pass a storage dir to
+	camel_session_new now.
+
+	* main.c (main): Can't call session_init here now, because it
+	requires evolution_dir to be set.
+
+	* component-factory.c (owner_set_cb): call session_init here.
+
 	* mail-ops.c (do_fetch_mail): Fix previous fix. (Free the uids,
 	just do it correctly.)
 

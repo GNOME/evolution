@@ -189,9 +189,13 @@ remove_callback (guint handle)
 void
 session_init (void)
 {
+	char *camel_dir;
+
 	camel_init ();
-	session = camel_session_new (auth_callback, register_callback, 
-				     remove_callback);
+	camel_dir = g_strdup_printf ("%s/mail", evolution_dir);
+	session = camel_session_new (camel_dir, auth_callback,
+				     register_callback, remove_callback);
+	g_free (camel_dir);
 }
 
 static gboolean

@@ -115,7 +115,8 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	g_print ("evolution-mail: Yeeeh! We have an owner!\n");	/* FIXME */
 	
 	evolution_dir = g_strdup (evolution_homedir);
-	
+	session_init ();
+
 	mail_config_init ();
 	mail_do_setup_folder ("Drafts", &drafts_folder);
 	mail_do_setup_folder ("Outbox", &outbox_folder);

@@ -60,7 +60,6 @@ main (int argc, char *argv [])
 
 	e_unicode_init ();
 
-	session_init ();
 	e_cursors_init ();
 
 	component_factory_init ();
