@@ -1,5 +1,10 @@
 2001-10-05  Ettore Perazzoli  <ettore@ximian.com>
 
+	* main.c (idle_cb): Do not invoke
+	`e_shell_restore_from_settings()' if `shell' is NULL.
+
+2001-10-05  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c (e_shell_view_save_settings): Get the right
 	hpaned positions for when the shortcut bar and/or the folder bar
 	are visible.

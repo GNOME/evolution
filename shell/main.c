@@ -260,7 +260,7 @@ idle_cb (void *data)
 	}
 
 	if (! have_evolution_uri) {
-		if (! e_shell_restore_from_settings (shell)) {
+		if (shell == NULL || ! e_shell_restore_from_settings (shell)) {
 			const char *uri;
 
 			uri = E_SHELL_VIEW_DEFAULT_URI;
