@@ -1,3 +1,7 @@
+2003-04-15  Wang Jian <lark@linux.net.cn>
+
+	* zh_CN.po: Fixed an erroneous translation for "message".
+
 2003-04-14  Pablo Gonzalo del Campo <pablodc@bigfoot.com>
 
         * es.po: Updated Spanish translation by
