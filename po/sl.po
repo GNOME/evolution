@@ -24756,7 +24756,7 @@ msgstr "Zbriši ta predmet"
 #: ui/evolution-comp-editor.xml.h:6 ui/evolution-mail-messagedisplay.xml.h:3
 #: ui/evolution.xml.h:16
 msgid "Main toolbar"
-msgstr "Glavna orodna vrstica"
+msgstr "Glavna orodjarna"
 
 #: ui/evolution-comp-editor.xml.h:7
 msgid "Preview the printed item"
