@@ -402,6 +402,7 @@ widgets/misc/e-expander.c
 widgets/misc/e-filter-bar.c
 widgets/misc/e-filter-bar.h
 widgets/misc/e-image-chooser.c
+widgets/misc/e-pilot-settings.c
 widgets/misc/e-search-bar.c
 widgets/misc/e-system-errors.xml.h
 widgets/misc/e-task-widget.c

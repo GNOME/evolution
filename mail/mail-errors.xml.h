@@ -230,3 +230,5 @@ char *s = N_("A non-empty folder at \"{1}\" already exists.\n"
 char *s = N_("Ignore");
 char *s = N_("_Overwrite");
 char *s = N_("_Append");
+/* mail:gw-accountsetup-error primary */
+char *s = N_("Could not connect to {0}. Groupwise account setup is incomplete. You may need to setup  the account again");
