@@ -941,8 +941,10 @@ camel_mbox_summary_sync_mbox(CamelMboxSummary *cls, guint32 flags, CamelFolderCh
 			lastdel = TRUE;
 		} else {
 			/* otherwise, the message is staying, copy its From_ line across */
+#if 0
 			if (i>0)
 				write(fdout, "\n", 1);
+#endif
 			info->frompos = lseek(fdout, 0, SEEK_CUR);
 			fromline = camel_mime_parser_from_line(mp);
 			write(fdout, fromline, strlen(fromline));
@@ -993,6 +995,14 @@ camel_mbox_summary_sync_mbox(CamelMboxSummary *cls, guint32 flags, CamelFolderCh
 					goto error;
 				}
 			}
+
+			if (write(fdout, "\n", 1) != 1) {
+				camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
+						     _("Error writing to temp mailbox: %s"),
+						     strerror(errno));
+				goto error;
+			}
+
 			d(printf("we are now at %d, from = %d\n", (int)camel_mime_parser_tell(mp),
 				 (int)camel_mime_parser_tell_start_from(mp)));
 			camel_mime_parser_unstep(mp);
@@ -1001,9 +1011,11 @@ camel_mbox_summary_sync_mbox(CamelMboxSummary *cls, guint32 flags, CamelFolderCh
 		}
 	}
 
+#if 0
 	/* if last was deleted, append the \n we removed */
 	if (lastdel && count > 0)
 		write(fdout, "\n", 1);
+#endif
 
 	camel_object_unref((CamelObject *)mp);
 		

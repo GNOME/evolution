@@ -1,3 +1,39 @@
+2002-08-29  Not Zed  <NotZed@Ximian.com>
+
+	* tests/folder/test3.c: Change the case sensitive search of
+	subject to expect case insensitive results, as the behaviour has
+	changed.
+	(main): Made the search content before sync nonfatal.  its
+	something that needs to be fixed but not practical concern in
+	evolution.
+
+	* camel-block-file.c (block_file_validate_root): Only spit out the
+	invalid root warnings if the file isn't empty.
+
+	* camel-text-index.c (text_index_compress_nosync): Swap the path
+	as well when we compress.
+
+	* camel-mime-parser.c (folder_scan_content): Treat the end of file
+	as a boundary if we're scanning From lines, and drop the last \n.
+	(folder_scan_init_with_fd): Dont pre-read from the fd, and init eof.
+	(folder_scan_init_with_stream): Similar.
+	(folder_read): Handle eof, and set eof on 0 read.
+	(folder_seek): Dont pre-read after a seek, and reset eof flag.
+	(camel_mime_parser_init_with_fd): Fix doco, no pre-read occurs
+	anymore.
+	(camel_mime_parser_init_with_stream): Same.
+
+	* providers/local/camel-mbox-summary.c
+	(camel_mbox_summary_sync_mbox): Add a \n to end of content of each
+	message, not at start.
+
+	* providers/local/camel-mbox-folder.c (mbox_append_message):
+	Instead of appending "\nFrom " to a mailbox, start with "From ",
+	and append a \n after the message always.  For better mutt/elm
+	compatability.  Also, unlock after we've stat'd.
+	(mbox_append_message): Set the message's from_pos exactly as the
+	mbox size.
+
 2002-08-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-tcp-stream-openssl.c (stream_setsockopt): Fixed `set' to

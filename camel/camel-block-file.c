@@ -93,10 +93,11 @@ block_file_validate_root(CamelBlockFile *bs)
 {
 	struct stat st;
 	CamelBlockRoot *br;
+	int s;
 
 	br = bs->root;
 
-	fstat(bs->fd, &st);
+	s = fstat(bs->fd, &st);
 
 	d(printf("Validate root: '%s'\n", bs->path));
 	d(printf("version: %.8s (%.8s)\n", bs->root->version, bs->version));
@@ -117,15 +118,17 @@ block_file_validate_root(CamelBlockFile *bs)
 	    || st.st_size != br->last
 	    || br->free > st.st_size
 	    || (br->flags & CAMEL_BLOCK_FILE_SYNC) == 0) {
-		g_warning("Invalid root: '%s'", bs->path);
-		g_warning("version: %.8s (%.8s)", bs->root->version, bs->version);
-		g_warning("block size: %d (%d)%s", br->block_size, bs->block_size,
-			  br->block_size != bs->block_size ? " BAD":" OK");
-		g_warning("free: %ld (%d add size < %ld)%s", (long)br->free, br->free / bs->block_size * bs->block_size, (long)st.st_size,
-			  (br->free > st.st_size) || (br->free % bs->block_size) != 0 ? " BAD":" OK");
-		g_warning("last: %ld (%d and size: %ld)%s", (long)br->last, br->last / bs->block_size * bs->block_size, (long)st.st_size,
-			  (br->last != st.st_size) || ((br->last % bs->block_size) != 0) ? " BAD": " OK");
-		g_warning("flags: %s", (br->flags & CAMEL_BLOCK_FILE_SYNC)?"SYNC":"unSYNC");
+		if (s != -1 && st.st_size > 0) {
+			g_warning("Invalid root: '%s'", bs->path);
+			g_warning("version: %.8s (%.8s)", bs->root->version, bs->version);
+			g_warning("block size: %d (%d)%s", br->block_size, bs->block_size,
+				  br->block_size != bs->block_size ? " BAD":" OK");
+			g_warning("free: %ld (%d add size < %ld)%s", (long)br->free, br->free / bs->block_size * bs->block_size, (long)st.st_size,
+				  (br->free > st.st_size) || (br->free % bs->block_size) != 0 ? " BAD":" OK");
+			g_warning("last: %ld (%d and size: %ld)%s", (long)br->last, br->last / bs->block_size * bs->block_size, (long)st.st_size,
+				  (br->last != st.st_size) || ((br->last % bs->block_size) != 0) ? " BAD": " OK");
+			g_warning("flags: %s", (br->flags & CAMEL_BLOCK_FILE_SYNC)?"SYNC":"unSYNC");
+		}
 		return -1;
 	}
 

@@ -217,7 +217,7 @@ mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const Camel
 	}
 
 	/* and we need to set the frompos/XEV explicitly */
-	((CamelMboxMessageInfo *)mi)->frompos = mbs->folder_size?mbs->folder_size+1:0;
+	((CamelMboxMessageInfo *)mi)->frompos = mbs->folder_size;
 #if 0
 	xev = camel_local_summary_encode_x_evolution((CamelLocalSummary *)folder->summary, mi);
 	if (xev) {
@@ -228,23 +228,19 @@ mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const Camel
 	}
 #endif
 
-	/* we must write this to the non-filtered stream ... prepend a \n if not at the start of the file */
+	/* we must write this to the non-filtered stream ... */
 	fromline = camel_mbox_summary_build_from(((CamelMimePart *)message)->headers);
-	if (camel_stream_printf(output_stream, mbs->folder_size==0?"%s":"\n%s", fromline) == -1)
+	if (camel_stream_write(output_stream, fromline, strlen(fromline)) == -1)
 		goto fail_write;
 
-	/* and write the content to the filtering stream, that translated '\nFrom' into '\n>From' */
+	/* and write the content to the filtering stream, that translates '\nFrom' into '\n>From' */
 	filter_stream = (CamelStream *) camel_stream_filter_new_with_stream(output_stream);
 	filter_from = (CamelMimeFilter *) camel_mime_filter_from_new();
 	camel_stream_filter_add((CamelStreamFilter *) filter_stream, filter_from);
-	if (camel_data_wrapper_write_to_stream((CamelDataWrapper *)message, filter_stream) == -1)
+	if (camel_data_wrapper_write_to_stream((CamelDataWrapper *)message, filter_stream) == -1
+	    || camel_stream_write(filter_stream, "\n", 1) == -1
+	    || camel_stream_close(filter_stream) == -1)
 		goto fail_write;
-
-	if (camel_stream_close(filter_stream) == -1)
-		goto fail_write;
-
-	/* unlock as soon as we can */
-	camel_local_folder_unlock(lf);
 
 	/* filter stream ref's the output stream itself, so we need to unref it too */
 	camel_object_unref((CamelObject *)filter_from);
@@ -258,6 +254,9 @@ mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const Camel
 		mbs->folder_size = st.st_size;
 		((CamelFolderSummary *)mbs)->time = st.st_mtime;
 	}
+
+	/* unlock as soon as we can */
+	camel_local_folder_unlock(lf);
 
 	if (camel_folder_change_info_changed(lf->changes)) {
 		camel_object_trigger_event((CamelObject *)folder, "folder_changed", lf->changes);

@@ -491,12 +491,14 @@ text_index_compress_nosync(CamelIndex *idx)
 #define myswap(a, b) { void *tmp = a; a = b; b = tmp; }
 	/* Poke the private data across to the new object */
 	/* And change the fd's over, etc? */
+	/* Yes: This is a hack */
 	myswap(newp->blocks, oldp->blocks);
 	myswap(newp->links, oldp->links);
 	myswap(newp->word_index, oldp->word_index);
 	myswap(newp->word_hash, oldp->word_hash);
 	myswap(newp->name_index, oldp->name_index);
 	myswap(newp->name_hash, oldp->name_hash);
+	myswap(((CamelIndex *)newidx)->path, ((CamelIndex *)idx)->path);
 #undef myswap
 
 	ret = 0;
