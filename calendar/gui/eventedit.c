@@ -1450,6 +1450,7 @@ static void
 event_editor_init (EventEditor *ee)
 {
 	ee->ical = 0;
+	gtk_window_set_title (GTK_WINDOW (ee), _("Create new appointment"));
 	gnome_dialog_set_close (GNOME_DIALOG(ee), TRUE);
 }
 

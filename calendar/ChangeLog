@@ -1,3 +1,8 @@
+1999-02-01  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* eventedit.c (event_editor_init): Set the title of the event
+	editor window.
+
 1999-01-31  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* gncal-day-view.c (gncal_day_view_expose): Do not remove the
