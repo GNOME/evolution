@@ -52,9 +52,6 @@ struct _ELocalStorageClass {
 };
 
 
-#define E_LOCAL_STORAGE_NAME "local"
-
-
 GtkType                       e_local_storage_get_type             (void);
 
 EStorage                     *e_local_storage_open                 (EFolderTypeRegistry *folder_type_registry,

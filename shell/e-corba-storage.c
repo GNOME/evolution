@@ -39,8 +39,6 @@ static EStorageClass *parent_class = NULL;
 typedef struct _StorageListenerServant StorageListenerServant;
 
 struct _ECorbaStoragePrivate {
-	char *name;
-
 	GNOME_Evolution_Storage storage_interface;
 
 	/* The Evolution::StorageListener interface we expose.  */
@@ -217,8 +215,6 @@ destroy (GtkObject *object)
 	corba_storage = E_CORBA_STORAGE (object);
 	priv = corba_storage->priv;
 
-	g_free (priv->name);
-
 	CORBA_exception_init (&ev);
 
 	if (priv->storage_interface != CORBA_OBJECT_NIL) {
@@ -249,31 +245,6 @@ destroy (GtkObject *object)
 
 
 /* EStorage methods.  */
-
-static const char *
-get_name (EStorage *storage)
-{
-	ECorbaStorage *corba_storage;
-	ECorbaStoragePrivate *priv;
-
-	corba_storage = E_CORBA_STORAGE (storage);
-	priv = corba_storage->priv;
-
-	return priv->name;
-}
-static const char *
-get_display_name (EStorage *storage)
-{
-	ECorbaStorage *corba_storage;
-	ECorbaStoragePrivate *priv;
-
-	corba_storage = E_CORBA_STORAGE (storage);
-	priv = corba_storage->priv;
-
-	/* FIXME: Abstract a display_name, return it.  Necessary
-           changes to the IDL and EvolutionStorage required. */
-	return priv->name;
-}
 
 struct async_folder_closure {
 	EStorageResultCallback callback;
@@ -495,8 +466,6 @@ class_init (ECorbaStorageClass *klass)
 	object_class->destroy = destroy;
 
 	storage_class = E_STORAGE_CLASS (klass);
-	storage_class->get_name = get_name;
-	storage_class->get_display_name = get_display_name;
 	storage_class->async_create_folder = async_create_folder;
 	storage_class->async_remove_folder = async_remove_folder;
 	storage_class->async_xfer_folder = async_xfer_folder;
@@ -512,7 +481,6 @@ init (ECorbaStorage *corba_storage)
 	ECorbaStoragePrivate *priv;
 
 	priv = g_new (ECorbaStoragePrivate, 1);
-	priv->name              = NULL;
 	priv->storage_interface = CORBA_OBJECT_NIL;
 
 	corba_storage->priv = priv;
@@ -535,11 +503,11 @@ e_corba_storage_construct (ECorbaStorage *corba_storage,
 	g_return_if_fail (storage_interface != CORBA_OBJECT_NIL);
 	g_return_if_fail (name != NULL);
 
-	e_storage_construct (E_STORAGE (corba_storage), toplevel_node_uri, toplevel_node_type);
+	/* FIXME: Need separate name and display name. */
+	e_storage_construct (E_STORAGE (corba_storage), name, name,
+			     toplevel_node_uri, toplevel_node_type);
 
 	priv = corba_storage->priv;
-
-	priv->name = g_strdup (name);
 
 	CORBA_exception_init (&ev);
 

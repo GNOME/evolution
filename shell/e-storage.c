@@ -50,6 +50,12 @@ struct _EStoragePrivate {
 	/* The set of folders we have in this storage.  */
 	EFolderTree *folder_tree;
 
+	/* Internal name of the storage */
+	char *name;
+
+	/* User-visible localized UTF-8 name */
+	char *display_name;
+
 	/* URI for the toplevel node.  */
 	char *toplevel_node_uri;
 
@@ -141,6 +147,8 @@ destroy (GtkObject *object)
 	if (priv->folder_tree != NULL)
 		e_folder_tree_destroy (priv->folder_tree);
 
+	g_free (priv->name);
+	g_free (priv->display_name);
 	g_free (priv->toplevel_node_uri);
 	g_free (priv->toplevel_node_type);
 
@@ -178,13 +186,13 @@ impl_get_folder (EStorage *storage,
 static const char *
 impl_get_name (EStorage *storage)
 {
-	return _("(No name)");
+	return storage->priv->name;
 }
 
 static const char *
 impl_get_display_name (EStorage *storage)
 {
-	return _("(No name)");
+	return storage->priv->display_name;
 }
 
 static void
@@ -286,6 +294,8 @@ init (EStorage *storage)
 
 void
 e_storage_construct (EStorage *storage,
+		     const char *name,
+		     const char *display_name,
 		     const char *toplevel_node_uri,
 		     const char *toplevel_node_type)
 {
@@ -296,6 +306,8 @@ e_storage_construct (EStorage *storage,
 
 	priv = storage->priv;
 
+	priv->name               = g_strdup (name);
+	priv->display_name       = g_strdup (display_name);
 	priv->toplevel_node_uri  = g_strdup (toplevel_node_uri);
 	priv->toplevel_node_type = g_strdup (toplevel_node_type);
 
@@ -303,14 +315,17 @@ e_storage_construct (EStorage *storage,
 }
 
 EStorage *
-e_storage_new (const char *toplevel_node_uri,
+e_storage_new (const char *name,
+	       const char *display_name,
+	       const char *toplevel_node_uri,
 	       const char *toplevel_node_type)
 {
 	EStorage *new;
 
 	new = gtk_type_new (e_storage_get_type ());
 
-	e_storage_construct (new, toplevel_node_uri, toplevel_node_type);
+	e_storage_construct (new, name, display_name,
+			     toplevel_node_uri, toplevel_node_type);
 
 	return new;
 }

@@ -160,8 +160,6 @@ evolution_SOURCES =				\
 	e-storage-set.h				\
 	e-storage.c				\
 	e-storage.h				\
-	e-summary-storage.c			\
-	e-summary-storage.h			\
 	e-task-bar.c				\
 	e-task-bar.h				\
 	e-task-widget.c				\

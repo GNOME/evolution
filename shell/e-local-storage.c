@@ -50,6 +50,7 @@
 #include <gal/util/e-unicode-i18n.h>
 #include "e-util/e-path.h"
 #include "e-local-folder.h"
+#include "e-shell-constants.h"
 
 #include "evolution-storage.h"
 
@@ -622,21 +623,6 @@ impl_destroy (GtkObject *object)
 }
 
 
-/* EStorage methods.  */
-
-static const char *
-impl_get_name (EStorage *storage)
-{
-	return E_LOCAL_STORAGE_NAME;
-}
-
-static const char *
-impl_get_display_name (EStorage *storage)
-{
-	return U_("Local Folders");
-}
-
-
 /* Creating folders.  */
 
 static void
@@ -1004,8 +990,6 @@ class_init (ELocalStorageClass *class)
 
 	object_class->destroy              = impl_destroy;
 
-	storage_class->get_name            = impl_get_name;
-	storage_class->get_display_name    = impl_get_display_name;
 	storage_class->async_create_folder = impl_async_create_folder;
 	storage_class->async_remove_folder = impl_async_remove_folder;
 	storage_class->async_xfer_folder   = impl_async_xfer_folder;
@@ -1034,7 +1018,9 @@ construct (ELocalStorage *local_storage,
 	ELocalStoragePrivate *priv;
 	int base_path_len;
 
-	e_storage_construct (E_STORAGE (local_storage), NULL, NULL);
+	e_storage_construct (E_STORAGE (local_storage),
+			     E_LOCAL_STORAGE_NAME, U_("Local Folders"),
+			     NULL, NULL);
 
 	priv = local_storage->priv;
 

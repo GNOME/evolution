@@ -1,5 +1,39 @@
 2002-03-06  Dan Winship  <danw@ximian.com>
 
+	* e-storage.c: Keep the storage name and display_name in
+	EStoragePriv.
+	(impl_get_name, impl_get_display_name): Return them.
+	(e_storage_construct): Set them here.
+	(e_storage_new): And here.
+
+	* e-local-storage.c: (impl_get_name, impl_get_display_name):
+	Removed.
+	(construct): Pass E_LOCAL_STORAGE_NAME and U_("Local Folders") to
+	e_storage_construct.
+
+	* e-corba-storage.c: Remove priv->name.
+	(get_name, get_display_name): Removed.
+	(e_corba_storage_construct): Pass name to e_storage_construct().
+
+	* e-summary-storage.[ch]: Gone. This didn't override anything in
+	EStorage but get_name/get_display_name, and the defaults for those
+	DTRT now.
+	
+	* e-shell-constants.h: Move E_SUMMARY_STORAGE_NAME here from
+	e-summary-storage.h, and move E_LOCAL_STORAGE_NAME too for
+	consistency.
+
+	* e-storage-set-view.c: Fix up #includes.
+
+	* e-shell-importer.c: Likewise
+
+	* e-shell.c: Likewise. Create summary_storage as a plain EStorage
+	since ESummaryStorage is gone now.
+
+	* Makefile.am (evolution_SOURCES): Remove e-summary-storage.[ch]
+
+2002-03-06  Dan Winship  <danw@ximian.com>
+
 	* e-corba-storage-registry.c
 	(impl_StorageRegistry_removeListener): Fix up GList/GSList
 	confusion.

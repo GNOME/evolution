@@ -111,9 +111,13 @@ struct _EStorageClass {
 
 GtkType   e_storage_get_type   (void);
 void      e_storage_construct  (EStorage   *storage,
+				const char *name,
+				const char *display_name,
 				const char *toplevel_node_uri,
 				const char *toplevel_node_type);
-EStorage *e_storage_new        (const char *toplevel_node_uri,
+EStorage *e_storage_new        (const char *name,
+				const char *display_name,
+				const char *toplevel_node_uri,
 				const char *toplevel_node_type);
 
 gboolean    e_storage_path_is_relative      (const char *path);

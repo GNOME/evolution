@@ -43,8 +43,6 @@
 #include "e-util/e-gtk-utils.h"
 
 #include "e-shell-constants.h"
-#include "e-local-storage.h"
-#include "e-summary-storage.h"
 
 
 /*#define DEBUG_XML*/

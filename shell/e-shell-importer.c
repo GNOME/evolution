@@ -46,7 +46,7 @@
 
 #include "e-shell.h"
 #include "e-shell-view.h"
-#include "e-local-storage.h" /* for E_LOCAL_STORAGE_NAME */
+#include "e-shell-constants.h"
 #include "e-shell-folder-selection-dialog.h"
 
 #include "importer/evolution-importer-client.h"
