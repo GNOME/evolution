@@ -45,6 +45,8 @@ typedef struct _EStorageSet        EStorageSet;
 typedef struct _EStorageSetPrivate EStorageSetPrivate;
 typedef struct _EStorageSetClass   EStorageSetClass;
 
+typedef void (* EStorageSetResultCallback) (EStorageSet *storage_set, EStorageResult result, void *data);
+
 struct _EStorageSet {
 	GtkObject parent;
 
@@ -81,27 +83,22 @@ EFolder     *e_storage_set_get_folder           (EStorageSet            *storage
 						 const char             *path);
 GtkWidget   *e_storage_set_new_view             (EStorageSet            *storage_set);
 
-void         e_storage_set_async_create_folder  (EStorageSet            *storage_set,
-						 const char             *path,
-						 const char             *type,
-						 const char             *description,
-						 EStorageResultCallback  callback,
-						 void                   *data);
-void         e_storage_set_async_remove_folder  (EStorageSet            *storage_set,
-						 const char             *path,
-						 EStorageResultCallback  callback,
-						 void                   *data);
-
-void         e_storage_set_async_copy_folder    (EStorageSet            *storage_set,
-						 const char             *source_path,
-						 const char             *destination_path,
-						 EStorageResultCallback  callback,
-						 void                   *data);
-void         e_storage_set_async_move_folder    (EStorageSet            *storage_set,
-						 const char             *source_path,
-						 const char             *destination_path,
-						 EStorageResultCallback  callback,
-						 void                   *data);
+void  e_storage_set_async_create_folder  (EStorageSet               *storage_set,
+					  const char                *path,
+					  const char                *type,
+					  const char                *description,
+					  EStorageSetResultCallback  callback,
+					  void                      *data);
+void  e_storage_set_async_remove_folder  (EStorageSet               *storage_set,
+					  const char                *path,
+					  EStorageSetResultCallback  callback,
+					  void                      *data);
+void  e_storage_set_async_xfer_folder    (EStorageSet               *storage_set,
+					  const char                *source_path,
+					  const char                *destination_path,
+					  gboolean                   remove_source,
+					  EStorageSetResultCallback  callback,
+					  void                      *data);
 
 EFolderTypeRegistry *e_storage_set_get_folder_type_registry (EStorageSet *storage_set);
 

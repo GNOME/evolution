@@ -1,5 +1,34 @@
 2001-03-22  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-storage-set-view.c: Removed some unused static variables.
+	(set_evolution_path_selection): Removed unused variable
+	`evolution_path'.
+
+	* e-storage-set.c (e_storage_set_async_xfer_folder): Get an
+	`EStorageSetResultCallback', instead of an
+	`EStorageResultCallback'.
+	(e_storage_set_async_remove_folder): Likewise.
+	(e_storage_set_async_create_folder): Likewise.
+	(storage_callback_converter): New callback to convert from the
+	EStorageResultCallback to the EStorageSetResultCallback.
+
+	* e-storage-set.h: New typedef `EStorageSetResultCallback'.
+
+	* Evolution-ShellComponent.idl: Renamed `copyFolderAsync' into
+	`xferFolderAsync' for consistency.
+
+	* e-storage-set-view.c (tree_drag_data_received): Updated to use
+	`e_storage_set_async_xfer_folder()' instead of
+	`e_storage_set_async_move_folder()' or
+	`e_storage_set_async_copy_folder()'.
+	(folder_xfer_callback): New, callback for the xfer function.
+
+	* e-storage-set.c (e_storage_set_async_move_folder): Removed.
+	(e_storage_set_async_copy_folder): Removed.
+	(e_storage_set_async_xfer_folder): New.
+
+2001-03-22  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-storage.c (e_storage_async_xfer_folder): New.
 	(impl_async_xfer_folder): New, default implementation for the
 	`async_xfer_folder' method.

@@ -130,20 +130,6 @@ typedef enum _DndTargetType DndTargetType;
 #define URI_LIST_TYPE   "text/uri-list"
 #define E_SHORTCUT_TYPE "E-SHORTCUT"
 
-static GtkTargetEntry source_drag_types [] = {
-	{ URI_LIST_TYPE, 0, DND_TARGET_TYPE_URI_LIST },
-	{ E_SHORTCUT_TYPE, 0, DND_TARGET_TYPE_E_SHORTCUT }
-};
-static const int num_source_drag_types = sizeof (source_drag_types) / sizeof (source_drag_types[0]);
-
-static GtkTargetEntry destination_drag_types [] = {
-	{ URI_LIST_TYPE, 0, DND_TARGET_TYPE_URI_LIST },
-	{ E_SHORTCUT_TYPE, 0, DND_TARGET_TYPE_E_SHORTCUT }
-};
-static const int num_destination_drag_types = sizeof (destination_drag_types) / sizeof (destination_drag_types[0]);
-
-static GtkTargetList *target_list;
-
 
 /* Sorting callbacks.  */
 
@@ -613,7 +599,6 @@ set_evolution_path_selection (EStorageSetView *storage_set_view,
 			      GtkSelectionData *selection_data)
 {
 	EStorageSetViewPrivate *priv;
-	const char *evolution_path;
 
 	g_assert (storage_set_view != NULL);
 	g_assert (selection_data != NULL);
@@ -622,6 +607,17 @@ set_evolution_path_selection (EStorageSetView *storage_set_view,
 
 	gtk_selection_data_set (selection_data, selection_data->target,
 				8, (guchar *) priv->selected_row_path, strlen (priv->selected_row_path) + 1);
+}
+
+
+/* Callbacks for folder operations.  */
+
+static void
+folder_xfer_callback (EStorageSet *storage_set,
+		      EStorageResult result,
+		      void *data)
+{
+	g_print ("Folder Xfer result -- %s\n", e_storage_result_to_string (result));
 }
 
 
@@ -1188,11 +1184,13 @@ tree_drag_data_received (ETree *etree,
 		switch (context->action) {
 		case GDK_ACTION_MOVE:
 			g_print ("EStorageSetView: Moving from `%s' to `%s'\n", source_path, destination_path);
-			e_storage_set_async_move_folder (priv->storage_set, source_path, destination_path, NULL, NULL);
+			e_storage_set_async_xfer_folder (priv->storage_set, source_path, destination_path, TRUE,
+							 folder_xfer_callback, NULL);
 			break;
 		case GDK_ACTION_COPY:
 			g_print ("EStorageSetView: Copying from `%s' to `%s'\n", source_path, destination_path);
-			e_storage_set_async_copy_folder (priv->storage_set, source_path, destination_path, NULL, NULL);
+			e_storage_set_async_xfer_folder (priv->storage_set, source_path, destination_path, FALSE,
+							 folder_xfer_callback, NULL);
 			break;
 		default:
 			g_warning ("EStorageSetView: Don't know action %d\n", context->action);

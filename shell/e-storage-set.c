@@ -100,6 +100,48 @@ name_to_named_storage_foreach_destroy (void *key,
 }
 
 
+/* "Callback converter", from `EStorageResultCallback' to
+   `EStorageSetResultCallback'.  */
+
+struct _StorageCallbackConverterData {
+	EStorageSet *storage_set;
+	EStorageSetResultCallback storage_set_result_callback;
+	void *data;
+};
+typedef struct _StorageCallbackConverterData StorageCallbackConverterData;
+
+static StorageCallbackConverterData *
+storage_callback_converter_data_new (EStorageSet *storage_set,
+				     EStorageSetResultCallback callback,
+				     void *data)
+{
+	StorageCallbackConverterData *new;
+
+	new = g_new (StorageCallbackConverterData, 1);
+	new->storage_set                 = storage_set;
+	new->storage_set_result_callback = callback;
+	new->data                        = data;
+
+	return new;
+}
+
+static void
+storage_callback_converter (EStorage *storage,
+			    EStorageResult result,
+			    void *data)
+{
+	StorageCallbackConverterData *converter_data;
+
+	converter_data = (StorageCallbackConverterData *) data;
+
+	(* converter_data->storage_set_result_callback) (converter_data->storage_set,
+							 result,
+							 converter_data->data);
+
+	g_free (converter_data);
+}
+
+
 /* Handling for signals coming from the EStorages.  */
 
 static char *
@@ -500,15 +542,16 @@ e_storage_set_new_view (EStorageSet *storage_set)
 
 
 void
-e_storage_set_async_create_folder  (EStorageSet            *storage_set,
-				    const char             *path,
-				    const char             *type,
-				    const char             *description,
-				    EStorageResultCallback  callback,
-				    void                   *data)
+e_storage_set_async_create_folder  (EStorageSet *storage_set,
+				    const char *path,
+				    const char *type,
+				    const char *description,
+				    EStorageSetResultCallback callback,
+				    void *data)
 {
 	EStorage *storage;
 	const char *subpath;
+	StorageCallbackConverterData *converter_data;
 
 	g_return_if_fail (storage_set != NULL);
 	g_return_if_fail (E_IS_STORAGE_SET (storage_set));
@@ -520,17 +563,21 @@ e_storage_set_async_create_folder  (EStorageSet            *storage_set,
 
 	storage = get_storage_for_path (storage_set, path, &subpath);
 
-	e_storage_async_create_folder (storage, subpath, type, description, callback, data);
+	converter_data = storage_callback_converter_data_new (storage_set, callback, data);
+
+	e_storage_async_create_folder (storage, subpath, type, description,
+				       storage_callback_converter, converter_data);
 }
 
 void
-e_storage_set_async_remove_folder  (EStorageSet            *storage_set,
-				    const char             *path,
-				    EStorageResultCallback  callback,
-				    void                   *data)
+e_storage_set_async_remove_folder  (EStorageSet *storage_set,
+				    const char *path,
+				    EStorageSetResultCallback callback,
+				    void *data)
 {
 	EStorage *storage;
 	const char *subpath;
+	StorageCallbackConverterData *converter_data;
 
 	g_return_if_fail (storage_set != NULL);
 	g_return_if_fail (E_IS_STORAGE_SET (storage_set));
@@ -540,7 +587,49 @@ e_storage_set_async_remove_folder  (EStorageSet            *storage_set,
 
 	storage = get_storage_for_path (storage_set, path, &subpath);
 
-	e_storage_async_remove_folder (storage, path, callback, data);
+	converter_data = storage_callback_converter_data_new (storage_set, callback, data);
+
+	e_storage_async_remove_folder (storage, path,
+				       storage_callback_converter, converter_data);
+}
+
+void
+e_storage_set_async_xfer_folder (EStorageSet *storage_set,
+				 const char *source_path,
+				 const char *destination_path,
+				 gboolean remove_source,
+				 EStorageSetResultCallback callback,
+				 void *data)
+{
+	EStorage *source_storage;
+	EStorage *destination_storage;
+	const char *source_subpath;
+	const char *destination_subpath;
+	StorageCallbackConverterData *converter_data;
+
+	g_return_if_fail (storage_set != NULL);
+	g_return_if_fail (E_IS_STORAGE_SET (storage_set));
+	g_return_if_fail (source_path != NULL);
+	g_return_if_fail (g_path_is_absolute (source_path));
+	g_return_if_fail (destination_path != NULL);
+	g_return_if_fail (g_path_is_absolute (destination_path));
+	g_return_if_fail (callback != NULL);
+
+	source_storage = get_storage_for_path (storage_set, source_path, &source_subpath);
+	destination_storage = get_storage_for_path (storage_set, destination_path, &destination_subpath);
+
+	if (source_storage != destination_storage) {
+		g_warning ("e_storage_set_async_xfer_folder(): "
+			   "Attempt to xfer folders between different storages -- not supported yet.");
+		(* callback) (storage_set, E_STORAGE_UNSUPPORTEDOPERATION, data);
+		return;
+	}
+
+	converter_data = storage_callback_converter_data_new (storage_set, callback, data);
+
+	e_storage_async_xfer_folder (source_storage,
+ 				     source_subpath, destination_subpath, remove_source,
+				     storage_callback_converter, converter_data);
 }
 
 
@@ -599,53 +688,6 @@ e_storage_set_get_path_for_physical_uri (EStorageSet *storage_set,
 	}
 
 	return NULL;
-}
-
-
-/**
- * e_storage_set_async_copy_folder:
- * @storage_set: 
- * @source_path: 
- * @destination_path: 
- * @callback: 
- * @data: 
- * 
- * Copy a folder from @source_path to @destination_path.
- **/
-void
-e_storage_set_async_copy_folder    (EStorageSet            *storage_set,
-				    const char             *source_path,
-				    const char             *destination_path,
-				    EStorageResultCallback  callback,
-				    void                   *data)
-{
-	g_return_if_fail (storage_set != NULL);
-	g_return_if_fail (E_IS_STORAGE_SET (storage_set));
-	g_return_if_fail (source_path != NULL);
-	g_return_if_fail (destination_path != NULL);
-}
-
-/**
- * e_storage_set_async_move_folder:
- * @storage_set: 
- * @source_path: 
- * @destination_path: 
- * @callback: 
- * @data: 
- * 
- * Move a folder from @source_path to @destination_path.
- **/
-void
-e_storage_set_async_move_folder    (EStorageSet            *storage_set,
-				    const char             *source_path,
-				    const char             *destination_path,
-				    EStorageResultCallback  callback,
-				    void                   *data)
-{
-	g_return_if_fail (storage_set != NULL);
-	g_return_if_fail (E_IS_STORAGE_SET (storage_set));
-	g_return_if_fail (source_path != NULL);
-	g_return_if_fail (destination_path != NULL);
 }
 
 
