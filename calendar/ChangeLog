@@ -1,3 +1,14 @@
+2000-05-06  Damon Chaplin  <damon@helixcode.com>
+
+	* cal-util/timeutil.c (time_day_begin): 
+	(time_day_end): changed these so they just do a simple localtime(),
+	update the struct tm, then do a mktime(). I don't know why it used to
+	look at the tm_isdst flags etc. From a little test program I wrote
+	which steps through testing every hour for a year it wasn't working
+	correctly, and the new code does.
+	(time_add_day): also got rid of the stuff that looked at tm_isdst here.
+	My test program now works better.
+
 2000-05-06  Chris Toshok  <toshok@helixcode.com>
 	* gui/.cvsignore: ignore evolution-calendar.pure
 

@@ -116,12 +116,21 @@ time_add_minutes (time_t time, int minutes)
 	return new_time;
 }
 
+/* Adds a day onto the time, using local time.
+   Note that if clocks go forward due to daylight savings time, there are
+   some non-existent local times, so the hour may be changed to make it a
+   valid time. This also means that it may not be wise to keep calling
+   time_add_day() to step through a certain period - if the hour gets changed
+   to make it valid time, any further calls to time_add_day() will also return
+   this hour, which may not be what you want. */
 time_t
 time_add_day (time_t time, int days)
 {
 	struct tm *tm = localtime (&time);
 	time_t new_time;
+#if 0
 	int dst_flag = tm->tm_isdst;
+#endif
 
 	tm->tm_mday += days;
 
@@ -131,6 +140,9 @@ time_add_day (time_t time, int days)
 		return time;
 	}
 
+#if 0
+	/* I don't know what this is for. See also time_day_begin() and
+	   time_day_end(). - Damon. */
 	if (dst_flag > tm->tm_isdst){
 		tm->tm_hour++;
 		new_time += 3600;
@@ -138,6 +150,7 @@ time_add_day (time_t time, int days)
 		tm->tm_hour--;
 		new_time -= 3600;
 	}
+#endif
 
 	return new_time;
 }
@@ -336,9 +349,26 @@ time_week_end (time_t t)
 	return mktime (&tm);
 }
 
+/* Returns the start of the day, according to the local time. */
 time_t
 time_day_begin (time_t t)
 {
+#if 1
+	struct tm tm;
+
+	tm = *localtime (&t);
+	tm.tm_hour = 0;
+	tm.tm_min  = 0;
+	tm.tm_sec  = 0;
+	tm.tm_isdst = -1;
+
+	return mktime (&tm);
+
+#else
+	/* This is the original code which sometimes produces a time of 1:00.
+	   I don't understand why it looked at the tm_isdst flags at all.
+	   - Damon. */
+
 	struct tm tm;
 	time_t temp = t - 43200;
 	int dstflag, dstflag2;
@@ -363,11 +393,29 @@ time_day_begin (time_t t)
 	}
 
 	return temp;
+#endif
 }
 
+/* Returns the end of the day, according to the local time. */
 time_t
 time_day_end (time_t t)
 {
+#if 1
+	struct tm tm;
+
+	tm = *localtime (&t);
+	tm.tm_mday++;
+	tm.tm_hour = 0;
+	tm.tm_min  = 0;
+	tm.tm_sec  = 0;
+	tm.tm_isdst = -1;
+
+	return mktime (&tm);
+
+#else
+	/* This is the original code which has more problems than
+	   time_day_begin(). - Damon. */
+
 	struct tm tm;
 	time_t temp;
 	int dstflag, dstflag2;
@@ -394,6 +442,7 @@ time_day_end (time_t t)
 	if(dstflag > dstflag2) {
 	}
 	return temp;
+#endif
 }
 
 static char *
