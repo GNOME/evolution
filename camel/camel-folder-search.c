@@ -427,7 +427,7 @@ camel_folder_search_match_expression(CamelFolderSearch *search, const char *expr
 	GPtrArray *uids;
 	int ret = FALSE;
 
-	search->match1 = (CamelMessageInfo *)info;
+	search->current = (CamelMessageInfo *)info;
 
 	uids = camel_folder_search_execute_expression(search, expr, ex);
 	if (uids) {
@@ -435,7 +435,7 @@ camel_folder_search_match_expression(CamelFolderSearch *search, const char *expr
 			ret = TRUE;
 		camel_folder_search_free_result(search, uids);
 	}
-	search->match1 = NULL;
+	search->current = NULL;
 
 	return ret;
 }
@@ -493,14 +493,10 @@ search_not(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSe
 			r->value.ptrarray = g_ptr_array_new();
 
 			/* not against a single message?*/
-			if (search->match1 || search->current) {
+			if (search->current) {
 				int found = FALSE;
 
-				if (search->match1)
-					uid = camel_message_info_uid(search->match1);
-				else
-					uid = camel_message_info_uid(search->current);
-
+				uid = camel_message_info_uid(search->current);
 				for (i=0;!found && i<v->len;i++) {
 					if (strcmp(uid, v->pdata[i]) == 0)
 						found = TRUE;
@@ -556,32 +552,31 @@ search_match_all(struct _ESExp *f, int argc, struct _ESExpTerm **argv, CamelFold
 	if (argc>1) {
 		g_warning("match-all only takes a single argument, other arguments ignored");
 	}
-	r = e_sexp_result_new(f, ESEXP_RES_ARRAY_PTR);
-	r->value.ptrarray = g_ptr_array_new();
 
-	/* we are only matching a single message? */
-	if (search->match1) {
-		search->current = search->match1;
-
+	/* we are only matching a single message?  or already inside a match-all? */
+	if (search->current) {
 		d(printf("matching against 1 message: %s\n", camel_message_info_subject(search->current)));
+
+		r = e_sexp_result_new(f, ESEXP_RES_BOOL);
+		r->value.bool = FALSE;
 
 		if (argc>0) {
 			r1 = e_sexp_term_eval(f, argv[0]);
 			if (r1->type == ESEXP_RES_BOOL) {
-				if (r1->value.bool)
-					g_ptr_array_add(r->value.ptrarray, (char *)camel_message_info_uid(search->current));
+				r->value.bool = r1->value.bool;
 			} else {
 				g_warning("invalid syntax, matches require a single bool result");
 				e_sexp_fatal_error(f, _("(match-all) requires a single bool result"));
 			}
 			e_sexp_result_free(f, r1);
 		} else {
-			g_ptr_array_add(r->value.ptrarray, (char *)camel_message_info_uid(search->current));
+			r->value.bool = TRUE;
 		}
-		search->current = NULL;
-
 		return r;
 	}
+
+	r = e_sexp_result_new(f, ESEXP_RES_ARRAY_PTR);
+	r->value.ptrarray = g_ptr_array_new();
 
 	if (search->summary == NULL) {
 		/* TODO: make it work - e.g. use the folder and so forth for a slower search */

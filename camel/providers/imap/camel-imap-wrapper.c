@@ -84,6 +84,7 @@ camel_imap_wrapper_init (gpointer object, gpointer klass)
 #ifdef ENABLE_THREADS
 	imap_wrapper->priv->lock = g_mutex_new ();
 #endif
+	((CamelDataWrapper *)imap_wrapper)->rawtext = FALSE;
 }
 
 CamelType

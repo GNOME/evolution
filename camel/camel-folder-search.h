@@ -52,7 +52,6 @@ struct _CamelFolderSearch {
 	GPtrArray *summary;	/* summary array for current search */
 	GHashTable *summary_hash; /* hashtable of summary items */
 	CamelMessageInfo *current; /* current message info, when searching one by one */
-	CamelMessageInfo *match1; /* message info, when searching a single message only */
 	CamelMimeMessage *current_message; /* cache of current message, if required */
 	CamelIndex *body_index;
 };
