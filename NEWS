@@ -9,6 +9,25 @@ Mail:
 
 Addressbook:
 
+  - Fixed race conditions associated with adding/removing contacts.
+    The addressbook should be much more stable now. (Trow)
+
+  - Fixed reference counting bugs in addressbook & wombat. (Trow)
+
+  - Made address lookup smarter; cut & paste of address now mostly works.
+    (Trow)
+
+  - Plugged Trow's memory leaks. (Larry)
+
+  - Name completion now works with one-word names, so it is now much
+    easier to send mail to Cher. (Trow)
+
+  - Better handling of contact lists in the composer entries. (Trow, Toshok)
+
+  - i18n fixes.  (Zbigniew, Trow, and probably everybody else too)
+
+  - SelectNames dialog fixes. (Trow)
+
 Calendar & Tasks:
 
   - Free/Busy changes (JP, Rodrigo)
