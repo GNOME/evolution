@@ -663,6 +663,17 @@ fe_return_false (void)
 	return FALSE;
 }
 
+static gint
+fe_sort_folder (ETreeMemory *etmm, ETreePath left, ETreePath right, gpointer user_data)
+{
+	ftree_node *n_left, *n_right;
+
+	n_left = e_tree_memory_node_get_data (etmm, left);
+	n_right = e_tree_memory_node_get_data (etmm, right);
+
+	return g_strcasecmp (ftree_node_get_name (n_left), ftree_node_get_name (n_right));
+}
+
 /* scanning */
 
 static void
@@ -688,6 +699,10 @@ fe_got_children (CamelStore *store, gchar *prefix, CamelFolderInfo *info, gpoint
 							closure->path,
 							0,
 							node);
+		e_tree_memory_sort_node (E_TREE_MEMORY (closure->ftree), 
+					 closure->path,
+					 fe_sort_folder,
+					 NULL);
 	}
 
 	if (closure->data)

@@ -1,5 +1,13 @@
 2001-08-16  Peter Williams  <peterw@ximian.com>
 
+	* subscribe-dialog.c (fe_got_children): Sort the nodes here...
+	(fe_sort_folder): ... using this function.
+
+	* folder-browser-ui.c (folder_browser_ui_message_loaded): Check for uic
+	== NULL. I'm not sure how this could happen, but... 
+
+2001-08-16  Peter Williams  <peterw@ximian.com>
+
 	* folder-browser-ui.c (folder_browser_ui_set_selection_state): Disable
 	"Search Message" when more or less than exactly one message is selected.
 

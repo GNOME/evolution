@@ -511,6 +511,6 @@ folder_browser_ui_message_loaded (FolderBrowser *fb)
 {
 	BonoboUIComponent *uic = fb->uicomp;
 
-	if (fb->loaded_uid == NULL)
+	if (fb->loaded_uid == NULL && uic)
 		fbui_sensitize_items (uic, message_pane_enables, TRUE);
 }
