@@ -1,3 +1,15 @@
+2004-08-19  Chris Toshok  <toshok@ximian.com>
+
+	[ likely fixes #61500 ]
+	* addressbook-errors.xml (remove-addressbook): remove the
+	secondary text, since we don't have the gerror text to supply it
+	anymore.
+
+	* gui/component/addressbook-view.c (book_removed): new function,
+	move the error handling here.
+	(delete_addressbook_cb): create a closure with necessary data, and
+	call the e_book_async_remove instead of e_book_remove.
+
 2004-08-18  Sivaiah Nallagatla <snallagatla@novell.com>
 	
 	* gui/component/select-names/e-select-names.c (e_select_names_init) :

@@ -648,6 +648,47 @@ add_popup_menu_item (GtkMenu *menu, const char *label, const char *pixmap,
 	gtk_widget_show (item);
 }
 
+typedef struct {
+	AddressbookView *view;
+	ESource *selected_source;
+	GtkWidget *toplevel;
+	GtkWidget *dialog;
+} BookRemovedClosure;
+
+static void
+book_removed (EBook *book, EBookStatus status, gpointer data)
+{
+	BookRemovedClosure *closure = data;
+	AddressbookView *view = closure->view;
+	AddressbookViewPrivate *priv = view->priv;
+	ESource *source = closure->selected_source;
+	GtkWidget *dialog = closure->dialog;
+	GtkWidget *toplevel = closure->toplevel;
+
+	g_free (closure);
+
+	g_object_unref (book);
+
+	if (E_BOOK_ERROR_OK == status) {
+		/* Remove source */
+		if (e_source_selector_source_is_selected (E_SOURCE_SELECTOR (priv->selector),
+							  source))
+			e_source_selector_unselect_source (E_SOURCE_SELECTOR (priv->selector),
+							   source);
+		
+		e_source_group_remove_source (e_source_peek_group (source), source);
+
+		e_source_list_sync (priv->source_list, NULL);
+	}
+	else {
+		e_error_run (GTK_WINDOW (toplevel),
+			     "addressbook:remove-addressbook",
+			     NULL);
+	}
+
+	gtk_widget_destroy (dialog);
+}
+
 static void
 delete_addressbook_cb (GtkWidget *widget, AddressbookView *view)
 {
@@ -655,7 +696,6 @@ delete_addressbook_cb (GtkWidget *widget, AddressbookView *view)
 	ESource *selected_source;
 	GtkWidget *dialog;
 	EBook  *book;
-	gboolean removed = FALSE;
 	GError *error = NULL;
 
 	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->selector));
@@ -679,28 +719,26 @@ delete_addressbook_cb (GtkWidget *widget, AddressbookView *view)
 
 	/* Remove local data */
 	book = e_book_new (selected_source, &error);
-	if (book)
-		removed = e_book_remove (book, &error);
+	if (book) {
+		BookRemovedClosure *closure = g_new (BookRemovedClosure, 1);
 
-	if (removed) {
-		/* Remove source */
-		if (e_source_selector_source_is_selected (E_SOURCE_SELECTOR (priv->selector),
-							  selected_source))
-			e_source_selector_unselect_source (E_SOURCE_SELECTOR (priv->selector),
-							   selected_source);
-		
-		e_source_group_remove_source (e_source_peek_group (selected_source), selected_source);
+		closure->toplevel = gtk_widget_get_toplevel (widget);
+		closure->view = view;
+		closure->selected_source = selected_source;
+		closure->dialog = dialog;
 
-		e_source_list_sync (priv->source_list, NULL);
-	} else {
-		e_error_run (GTK_WINDOW (gtk_widget_get_toplevel (widget)),
-			     "addressbook:remove-addressbook",
-			     error->message, NULL);
-		g_error_free (error);
+		if (e_book_async_remove (book, book_removed, closure)) {
+			e_error_run (GTK_WINDOW (gtk_widget_get_toplevel (widget)),
+				     "addressbook:remove-addressbook",
+				     NULL);
+
+			g_free (closure);
+
+			g_object_unref (book);
+		}
 	}
 
-	g_object_unref (book);
-	gtk_widget_destroy (dialog);
+	gtk_widget_set_sensitive (dialog, FALSE);
 }
 
 static void

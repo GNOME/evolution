@@ -30,7 +30,6 @@
 
  <error id="remove-addressbook" type="error" modal="true">
   <primary>Could not remove addressbook.</primary>
-  <secondary>{0}</secondary>
  </error>
 
  <error id="edit-categories" type="error">
