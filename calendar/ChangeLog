@@ -1,3 +1,9 @@
+1999-12-10  Russell Steinthal  <rms39@columbia.edu>
+
+	* eventedit.c (ee_create_ae): Fix sensitivity bug when used to
+	create default alarm box (widgets in that box should always be
+	sensitive, even if the enabled checkbutton is not set)
+
 1999-12-08  Eskil Heyn Olsen  <deity@eskil.dk>
 
 	* calendar-conduit-control-applet.c (setSettings): Capplets now
@@ -22,6 +28,7 @@
 	* Makefile.am (Conduits_second_DATA): Also install .desktop files
 	for conduit capplets in the gnome/apps menu dir.
 
+>>>>>>> 1.252
 1999-12-04  Eskil Heyn Olsen  <deity@eskil.dk>
 
 	* Makefile.am (EXTRA_DIST): Added .desktop files to EXTRA_DIST.

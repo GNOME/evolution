@@ -385,7 +385,10 @@ ee_create_ae (GtkTable *table, char *str, CalendarAlarm *alarm, enum AlarmType t
 		break;
 	}
 
-	ee_alarm_setting (alarm, alarm->enabled);
+	if (control_sens)
+		ee_alarm_setting (alarm, alarm->enabled);
+	else
+		ee_alarm_setting (alarm, TRUE);
 }
 
 static GtkWidget *
