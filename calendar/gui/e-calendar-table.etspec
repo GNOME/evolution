@@ -1,4 +1,4 @@
-<ETableSpecification click-to-add="true" _click-to-add-message="Click here to add a task" draw-grid="true">
+<ETableSpecification click-to-add="true" _click-to-add-message="Click to add a task" draw-grid="true">
   <ETableColumn model_col= "0" _title="Categories" expansion="1.0" minimum_width="10" resizable="true" cell="calstring" compare="string"/>
   <ETableColumn model_col= "1" _title="Classification" expansion="1.0" minimum_width="10" resizable="true" cell="classification" compare="string"/>
   <ETableColumn model_col= "2" _title="Completion Date" expansion="2.0" minimum_width="10" resizable="true" cell="dateedit" compare="string"/>

@@ -1126,7 +1126,7 @@ e_calendar_table_get_current_time (ECellDateEdit *ecde, gpointer data)
 #ifdef TRANSLATORS_ONLY
 
 static char *test[] = {
-    N_("Click here to add a task")
+    N_("Click to add a task")
 };
 
 #endif
