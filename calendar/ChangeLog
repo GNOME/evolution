@@ -1,3 +1,9 @@
+2003-09-01  Andrew Wu <Yang.Wu@sun.com>
+       * gui/e-day-view.c:
+       (e_day_view_change_event_end_time_up):
+       (e_day_view_change_event_end_time_down):
+       Use "ctrl+shift+alt+Up/Down" to change the end time of the editing event.
+
 2003-08-28  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/alarm-notify/alarm-queue.c (tray_icon_blink_cb)

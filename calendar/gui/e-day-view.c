@@ -344,6 +344,8 @@ static void e_day_view_stop_editing_event (EDayView *day_view);
 static gboolean e_day_view_on_text_item_event (GnomeCanvasItem *item,
 					       GdkEvent *event,
 					       EDayView *day_view);
+static void e_day_view_change_event_end_time_up (EDayView *day_view);
+static void e_day_view_change_event_end_time_down (EDayView *day_view);
 static void e_day_view_on_editing_started (EDayView *day_view,
 					   GnomeCanvasItem *item);
 static void e_day_view_on_editing_stopped (EDayView *day_view,
@@ -569,6 +571,7 @@ e_day_view_init (EDayView *day_view)
 	day_view->editing_event_day = -1;
 	day_view->editing_event_num = -1;
 
+	day_view->resize_event_num = -1;
 	day_view->resize_bars_event_day = -1;
 	day_view->resize_bars_event_num = -1;
 
@@ -4415,6 +4418,12 @@ e_day_view_reshape_day_events (EDayView *day_view,
 	for (event_num = 0; event_num < day_view->events[day]->len;
 	     event_num++) {
 		e_day_view_reshape_day_event (day_view, day, event_num);
+		if (event_num == day_view->resize_event_num) {
+			EDayViewEvent *event;
+			event = &g_array_index (day_view->events[day], EDayViewEvent,
+				event_num);
+			e_canvas_item_grab_focus (event->canvas_item, TRUE);
+		}
 	}
 }
 
@@ -5598,6 +5607,8 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 	switch (event->type) {
 	case GDK_KEY_PRESS:
 		if (event && event->key.keyval == GDK_Return) {
+			day_view->resize_event_num = -1;
+
 			/* We set the keyboard focus to the EDayView, so the
 			   EText item loses it and stops the edit. */
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
@@ -5613,6 +5624,18 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			/* focus should go to day view when stop editing */
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
 			return TRUE;
+               } else if ((event->key.keyval == GDK_Up)
+                          && (event->key.state & GDK_SHIFT_MASK)
+                          && (event->key.state & GDK_CONTROL_MASK)
+                          && (event->key.state & GDK_MOD1_MASK)) {
+                       e_day_view_change_event_end_time_up (day_view);
+                       return TRUE;
+               } else if ((event->key.keyval == GDK_Down)
+                          && (event->key.state & GDK_SHIFT_MASK)
+                          && (event->key.state & GDK_CONTROL_MASK)
+                          && (event->key.state & GDK_MOD1_MASK)) {
+                       e_day_view_change_event_end_time_down (day_view);
+                       return TRUE;
 		}
 		break;
 	case GDK_2BUTTON_PRESS:
@@ -5640,6 +5663,67 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 	}
 
 	return FALSE;
+}
+
+static void 
+e_day_view_change_event_end_time_up (EDayView *day_view)
+{
+	EDayViewEvent *event;
+	gint day, event_num, resize_start_row, resize_end_row;
+
+	day = day_view->editing_event_day;
+	event_num = day_view->editing_event_num;
+	if ((day == -1) || (day == E_DAY_VIEW_LONG_EVENT))
+		return;
+	event = &g_array_index (day_view->events[day], EDayViewEvent,
+				event_num);
+	day_view->resize_event_day = day;
+	day_view->resize_event_num = event_num;
+	day_view->resize_bars_event_day = day;
+	day_view->resize_bars_event_num = event_num;
+	resize_start_row = event->start_minute / day_view->mins_per_row;
+	resize_end_row = (event->end_minute - 1) / day_view->mins_per_row;
+	if (resize_end_row < resize_start_row)
+		resize_end_row = resize_start_row;
+	if (resize_end_row == resize_start_row)
+		return;
+	day_view->resize_drag_pos = E_CAL_VIEW_POS_BOTTOM_EDGE;
+	resize_end_row--;
+	day_view->resize_start_row = resize_start_row;
+	day_view->resize_end_row = resize_end_row;
+	e_day_view_finish_resize (day_view);
+	e_day_view_ensure_rows_visible (day_view, resize_start_row, resize_end_row);
+}
+
+
+static void 
+e_day_view_change_event_end_time_down (EDayView *day_view)
+{
+	EDayViewEvent *event;
+	gint day, event_num, resize_start_row, resize_end_row;
+	
+	day = day_view->editing_event_day;
+	event_num = day_view->editing_event_num;
+	if ((day == -1) || (day == E_DAY_VIEW_LONG_EVENT))
+		return;
+	event = &g_array_index (day_view->events[day], EDayViewEvent,
+				event_num);
+	day_view->resize_event_day = day;
+	day_view->resize_event_num = event_num;
+	day_view->resize_bars_event_day = day;
+	day_view->resize_bars_event_num = event_num;
+	resize_start_row = event->start_minute / day_view->mins_per_row;
+	resize_end_row = (event->end_minute - 1) / day_view->mins_per_row;
+	if (resize_end_row < resize_start_row)
+		resize_end_row = resize_start_row;
+	if (resize_end_row == day_view->rows -1)
+		return;
+	day_view->resize_drag_pos = E_CAL_VIEW_POS_BOTTOM_EDGE;
+	resize_end_row++;
+	day_view->resize_start_row = resize_start_row;
+	day_view->resize_end_row = resize_end_row;
+	e_day_view_finish_resize (day_view);
+	e_day_view_ensure_rows_visible (day_view, resize_start_row, resize_end_row);
 }
 
 
