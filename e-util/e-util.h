@@ -40,5 +40,6 @@ void  e_free_object_list  (GList *list);
 void  e_free_string_list  (GList *list);
 
 char *e_read_file  (const char *filename);
+gint e_write_file(const char *filename, const char *data, int flags);
 
 #endif /* _E_UTIL_H_ */

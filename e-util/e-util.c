@@ -133,3 +133,29 @@ e_read_file(const char *filename)
 	g_list_free(lengths);
 	return ret_val;
 }
+
+gint
+e_write_file(const char *filename, const char *data, int flags)
+{
+	int fd;
+	int length = strlen(data);
+	int bytes;
+	fd = open(filename, flags, 0666);
+	if (fd == -1)
+		return errno;
+	while (length > 0) {
+		bytes = write(fd, data, length);
+		if (bytes > 0) {
+			length -= bytes;
+			data += bytes;
+		} else {
+			if (errno != EINTR && errno != EAGAIN) {
+				int save_errno = errno;
+				close(fd);
+				return save_errno;
+			}
+		}
+	}
+	close(fd);
+	return 0;
+}
