@@ -1,3 +1,24 @@
+2001-10-21    <NotZed@Ximian.com>
+
+	* mail-vfolder.c (mail_vfolder_shutdown): Clear variables once
+	done, for debugging.
+	(mail_vfolder_add_uri, mail_vfolder_delete_uri): Dont do anything
+	if we're shutdown (context == NULL).
+
+	* component-factory.c (idle_quit): Move mail_vfolder_shutdown
+	here, it should be one of the last things shutdown.
+
+	* mail-format.c (handle_text_plain): Dont use (if (!p++), and then
+	check p!= later, since its now 1, oops.  Fixes #13106, thought it
+	was a start of uuencoded stuff!
+
+	* folder-browser.c (on_right_click): Escape _'s before adding them
+	to menu from mailing list name, also remove some dead code that
+	someone forgot to remove when refactoring.  #11307.
+	(folder_browser_is_drafts): Use the store's uri_cmp function to
+	compare to the drafts uri's.
+	(folder_browser_is_sent): Same.  Slight cleanup for #11351.
+
 2001-10-21  Dan Winship  <danw@ximian.com>
 
 	* mail-callbacks.c (mail_generate_reply): Update for

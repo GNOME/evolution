@@ -305,7 +305,7 @@ mail_vfolder_add_uri(CamelStore *store, const char *uri, int remove)
 	int remote = (((CamelService *)store)->provider->flags & CAMEL_PROVIDER_IS_REMOTE) != 0;
 	GCompareFunc uri_cmp = CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->compare_folder_name;
 
-	if (CAMEL_IS_VEE_STORE(store) || !strncmp(uri, "vtrash:", 7))
+	if (CAMEL_IS_VEE_STORE(store) || !strncmp(uri, "vtrash:", 7) || context == NULL)
 		return;
 
 	g_assert(pthread_self() == mail_gui_thread);
@@ -376,7 +376,7 @@ mail_vfolder_delete_uri(CamelStore *store, const char *uri)
 	CamelVeeFolder *vf;
 	GString *changed;
 
-	if (CAMEL_IS_VEE_STORE(store) || !strncmp(uri, "vtrash:", 7))
+	if (context == NULL || CAMEL_IS_VEE_STORE(store) || !strncmp(uri, "vtrash:", 7))
 		return;
 
 	d(printf("Deleting uri to check: %s\n", uri));
@@ -854,10 +854,15 @@ mail_vfolder_shutdown (void)
 {
 	g_hash_table_foreach (vfolder_hash, vfolder_foreach_cb, NULL);
 	g_hash_table_destroy (vfolder_hash);
-	
-	if (vfolder_store)
+	vfolder_hash = NULL;
+
+	if (vfolder_store) {
 		camel_object_unref (CAMEL_OBJECT (vfolder_store));
+		vfolder_store = NULL;
+	}
 	
-	if (context)
+	if (context) {
 		gtk_object_unref (GTK_OBJECT (context));
+		context = NULL;
+	}
 }

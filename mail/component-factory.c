@@ -799,6 +799,8 @@ idle_quit (gpointer user_data)
 	g_hash_table_foreach (storages_hash, free_storage, NULL);
 	g_hash_table_destroy (storages_hash);
 	
+	mail_vfolder_shutdown ();
+
 	gtk_main_quit ();
 	
 	return FALSE;
@@ -832,9 +834,7 @@ owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 		empty_trash (NULL, NULL, NULL);
 	
 	mail_msg_wait_all();
-	
-	mail_vfolder_shutdown ();
-	
+		
 	unref_standard_folders ();
 	mail_importer_uninit ();
 

@@ -1173,8 +1173,12 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 			 * skip over it.
 			 */
 			p = strchr (start, '\n');
-			if (!p++)
+			/* Last line, drop out, and dump */
+			if (p == NULL) {
+				p = start;
 				break;
+			}
+			p++;
 			mail_text_write (md->html, md->stream, "%.*s", p-start, start);
 		} else if (p)
 			mail_html_write (md->html, md->stream, "<hr>");

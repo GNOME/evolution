@@ -1304,6 +1304,7 @@ mail_text_write (GtkHTML *html, GtkHTMLStream *stream,
 					E_TEXT_TO_HTML_CONVERT_SPACES |
 					(mail_config_get_citation_highlight () ? E_TEXT_TO_HTML_MARK_CITATION : 0),
 					mail_config_get_citation_color ());
+
 	gtk_html_write (html, stream, "<tt>", 4);
 	gtk_html_write (html, stream, htmltext, strlen (htmltext));
 	gtk_html_write (html, stream, "</tt>", 5);

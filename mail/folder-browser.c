@@ -893,17 +893,16 @@ folder_browser_is_drafts (FolderBrowser *fb)
 	
 	g_return_val_if_fail (IS_FOLDER_BROWSER (fb), FALSE);
 
-	if (fb->uri == NULL)
+	if (fb->uri == NULL || fb->folder == NULL)
 		return FALSE;
 	
 	if (fb->folder == drafts_folder)
 		return TRUE;
-	
+
 	accounts = mail_config_get_accounts ();
 	while (accounts) {
 		account = accounts->data;
-		if (account->drafts_folder_uri &&
-		    !strcmp (account->drafts_folder_uri, fb->uri))
+		if (account->drafts_folder_uri && camel_store_uri_cmp(fb->folder->parent_store, account->drafts_folder_uri, fb->uri))
 			return TRUE;
 		accounts = accounts->next;
 	}
@@ -926,7 +925,7 @@ folder_browser_is_sent (FolderBrowser *fb)
 	
 	g_return_val_if_fail (IS_FOLDER_BROWSER (fb), FALSE);
 
-	if (fb->uri == NULL)
+	if (fb->uri == NULL || fb->folder == NULL)
 		return FALSE;
 
 	if (fb->folder == sent_folder)
@@ -935,8 +934,7 @@ folder_browser_is_sent (FolderBrowser *fb)
 	accounts = mail_config_get_accounts ();
 	while (accounts) {
 		account = accounts->data;
-		if (account->sent_folder_uri &&
-		    !strcmp (account->sent_folder_uri, fb->uri))
+		if (account->sent_folder_uri && camel_store_uri_cmp(fb->folder->parent_store, account->sent_folder_uri, fb->uri))
 			return TRUE;
 		accounts = accounts->next;
 	}
@@ -1493,8 +1491,7 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 	int enable_mask = 0;
 	int hide_mask = 0;
 	int i;
-	char *mailing_list_name = NULL;
-	char *subject_match = NULL, *from_match = NULL;
+	char *mlist = NULL;
 	GtkMenu *menu;
 
 	if (fb->folder != sent_folder) {
@@ -1504,22 +1501,23 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 	
 	if (fb->mail_display->current_message == NULL) {
 		enable_mask |= SELECTION_SET;
-		mailing_list_name = NULL;
 	} else {
-		/* FIXME: we are leaking subject_match and from_match...what do we use them for anyway??? */
-		const char *subject, *real, *addr;
-		const CamelInternetAddress *from;
-		
-		mailing_list_name = header_raw_check_mailing_list(
-			&((CamelMimePart *)fb->mail_display->current_message)->headers);
-		
-		subject = camel_mime_message_get_subject (fb->mail_display->current_message);
-		if (subject && (subject = strip_re (subject)) && subject[0])
-			subject_match = g_strdup (subject);
-		
-		from = camel_mime_message_get_from (fb->mail_display->current_message);
-		if (from && camel_internet_address_get (from, 0, &real, &addr) && addr && addr[0])
-			from_match = g_strdup (addr);
+		char *mname, *p, c, *o;
+
+		mname = header_raw_check_mailing_list(&((CamelMimePart *)fb->mail_display->current_message)->headers);
+		/* Escape the mailing list name before showing it */
+		if (mname) {
+			mlist = alloca(strlen(mname)+2);
+			p = mname;
+			o = mlist;
+			while ((c = *p++)) {
+				if (c=='_')
+					*o++='_';
+				*o++ = c;
+			}
+			*o = 0;
+			g_free(mname);
+		}
 	}
 	
 	/* get a list of uids */
@@ -1606,14 +1604,13 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 	g_ptr_array_free (uids, TRUE);
 	
 	/* generate the "Filter on Mailing List menu item name */
-	if (mailing_list_name == NULL) {
+	if (mlist == NULL) {
 		enable_mask |= IS_MAILING_LIST;
 		filter_menu[MLIST_FILTER].name = g_strdup (_("Filter on Mailing List"));
 		filter_menu[MLIST_VFOLDER].name = g_strdup (_("VFolder on Mailing List"));
 	} else {
-		filter_menu[MLIST_FILTER].name = g_strdup_printf (_("Filter on Mailing List (%s)"), mailing_list_name);
-		filter_menu[MLIST_VFOLDER].name = g_strdup_printf (_("VFolder on Mailing List (%s)"), mailing_list_name);
-		g_free(mailing_list_name);
+		filter_menu[MLIST_FILTER].name = g_strdup_printf (_("Filter on Mailing List (%s)"), mlist);
+		filter_menu[MLIST_VFOLDER].name = g_strdup_printf (_("VFolder on Mailing List (%s)"), mlist);
 	}
 	
 	menu = e_popup_menu_create (context_menu, enable_mask, hide_mask, fb);
