@@ -31,7 +31,6 @@
 #include <libebook/e-book-async.h>
 #include <libebook/e-contact.h>
 #include "addressbook/util/e-destination.h"
-#include "addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.h"
 
 G_BEGIN_DECLS
 
@@ -75,7 +74,13 @@ struct _EContactListEditor
 	GtkWidget *ok_button;
 	GtkWidget *cancel_button;
 
-	GNOME_Evolution_Addressbook_SelectNames corba_select_names;
+	/* FIXME: Unfortunately, we can't use the proper name here, as it'd
+	 * create a circular dependency. The long-term solution would be to
+	 * move the select-names component out of the component/ dir so it can
+	 * be built before sources using this.
+	 * 
+	 * GNOME_Evolution_Addressbook_SelectNames corba_select_names; */
+	gpointer corba_select_names;
 
 	/* Whether we are editing a new contact or an existing one */
 	guint is_new_list : 1;

@@ -1,1 +1,1 @@
-SUBDIRS = merging widgets component contact-editor contact-list-editor search
+SUBDIRS = merging contact-editor contact-list-editor widgets search component
