@@ -1,5 +1,10 @@
 2001-09-28  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* folder-browser-ui.c (folder_browser_ui_add_list): Call
+	folder_browser_toggle_threads() here after setting the value. This
+	should fix bug #6415 and if it doesn't, then this whole deal is
+	just a lost cause.
+
 	* mail-mt.h: Added mail_msg_cleanup() prototype.
 
 2001-09-28  Dan Winship  <danw@ximian.com>
