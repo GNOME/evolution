@@ -27,6 +27,7 @@
 #include <gtk/gtkcombo.h>
 #include <gtk/gtktext.h>
 #include <libgnomeui/gnome-popup-menu.h>
+#include <libgnomeui/gnome-stock.h>
 #include <libgnome/gnome-i18n.h>
 
 #include <bonobo/bonobo-ui-container.h>
@@ -42,6 +43,7 @@
 
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/printing/e-contact-print-envelope.h"
+#include "addressbook/gui/widgets/e-addressbook-util.h"
 #include "e-util/e-gui-utils.h"
 #include "widgets/misc/e-dateedit.h"
 #include "shell/evolution-shell-component-utils.h"
@@ -900,6 +902,24 @@ close_dialog (EContactEditor *ce)
 	}
 }
 
+static gboolean
+prompt_to_save_changes (EContactEditor *editor)
+{
+	if (!editor->changed)
+		return TRUE;
+
+	switch (e_addressbook_prompt_save_dialog (GTK_WINDOW(editor->app))) {
+	case 0: /* Save */
+		save_card (editor, FALSE);
+		return TRUE;
+	case 1: /* Discard */
+		return TRUE;
+	case 2: /* Cancel */
+	default:
+		return FALSE;
+	}
+}
+
 /* Menu callbacks */
 
 /* File/Save callback */
@@ -919,6 +939,9 @@ file_close_cb (GtkWidget *widget, gpointer data)
 	EContactEditor *ce;
 
 	ce = E_CONTACT_EDITOR (data);
+	if (!prompt_to_save_changes (ce))
+		return;
+
 	close_dialog (ce);
 }
 
@@ -1113,6 +1136,9 @@ app_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
 	EContactEditor *ce;
 
 	ce = E_CONTACT_EDITOR (data);
+
+	if (!prompt_to_save_changes (ce))
+		return TRUE;
 
 	close_dialog (ce);
 	return TRUE;

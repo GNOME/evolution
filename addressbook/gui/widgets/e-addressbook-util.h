@@ -31,6 +31,7 @@ extern "C" {
 
 void            e_addressbook_error_dialog (const gchar *msg,
 					    EBookStatus status);
+gint            e_addressbook_prompt_save_dialog (GtkWindow *parent);
 EContactEditor* e_addressbook_show_contact_editor (EBook *book, ECard *card,
 						   gboolean is_new_card,
 						   gboolean editable);

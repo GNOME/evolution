@@ -28,6 +28,8 @@
 #include <gal/widgets/e-unicode.h>
 #include "shell/evolution-shell-component-utils.h"
 
+#include "addressbook/gui/widgets/e-addressbook-util.h"
+
 #include "e-contact-editor.h"
 #include "e-contact-list-editor.h"
 #include "e-contact-list-model.h"
@@ -358,10 +360,31 @@ save_card (EContactListEditor *cle, gboolean should_close)
 	}
 }
 
+static gboolean
+prompt_to_save_changes (EContactListEditor *editor)
+{
+	if (!editor->changed)
+		return TRUE;
+
+	switch (e_addressbook_prompt_save_dialog (GTK_WINDOW(editor->app))) {
+	case 0: /* Save */
+		save_card (editor, FALSE);
+		return TRUE;
+	case 1: /* Discard */
+		return TRUE;
+	case 2: /* Cancel */
+	default:
+		return FALSE;
+	}
+}
+
 static void
 file_close_cb (GtkWidget *widget, gpointer data)
 {
 	EContactListEditor *cle = E_CONTACT_LIST_EDITOR (data);
+
+	if (!prompt_to_save_changes (cle))
+		return;
 
 	close_dialog (cle);
 }
@@ -675,6 +698,9 @@ app_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
 	EContactListEditor *ce;
 
 	ce = E_CONTACT_LIST_EDITOR (data);
+
+	if (!prompt_to_save_changes (ce))
+		return TRUE;
 
 	close_dialog (ce);
 	return TRUE;

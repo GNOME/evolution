@@ -49,6 +49,24 @@ e_addressbook_error_dialog (const gchar *msg, EBookStatus status)
 	g_free (error_msg);
 }
 
+gint
+e_addressbook_prompt_save_dialog (GtkWindow *parent)
+{
+	GtkWidget *dialog;
+
+	dialog = gnome_message_box_new (_("Do you want to save changes?"),
+					GNOME_MESSAGE_BOX_QUESTION,
+					GNOME_STOCK_BUTTON_YES,
+					GNOME_STOCK_BUTTON_NO,
+					GNOME_STOCK_BUTTON_CANCEL,
+					NULL);
+
+	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
+	gnome_dialog_grab_focus (GNOME_DIALOG (dialog), 0);
+	gnome_dialog_set_parent (GNOME_DIALOG (dialog), parent);
+
+	return gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+}
 
 static void
 added_cb (EBook* book, EBookStatus status, const char *id,

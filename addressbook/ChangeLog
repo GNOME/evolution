@@ -1,5 +1,30 @@
 2001-10-29  Chris Toshok  <toshok@ximian.com>
 
+	* gui/widgets/e-addressbook-util.c
+	(e_addressbook_prompt_save_dialog): new function, a "Do you want
+	to save changes?" dialog.
+
+	* gui/widgets/e-addressbook-util.h: add prototype for
+	e_addressbook_prompt_save_dialog.
+
+	* gui/contact-editor/e-contact-editor.c (prompt_to_save_changes):
+	call e_addressbook_prompt_save_dialog and save the card if they
+	select save.  return TRUE if the dialog should be closed, FALSE
+	otherwise.
+	(file_close_cb): check prompt_to_save_changes before closing the
+	dialog.
+	(app_delete_event_cb): same.
+
+	* gui/contact-list-editor/e-contact-list-editor.c
+	(prompt_to_save_changes): call e_addressbook_prompt_save_dialog
+	and save the card if they select save.  return TRUE if the dialog
+	should be closed, FALSE otherwise.
+	(file_close_cb): check prompt_to_save_changes before closing the
+	dialog.
+	(app_delete_event_cb): same.
+
+2001-10-29  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/pas-backend-ldap.c (add_objectclass_mod): overload
 	this function for modifying objectclasses too, so we can make sure
 	evolutionPerson shows up in the objectclasses of an entry if it
