@@ -1,3 +1,14 @@
+2004-04-27  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #57511.
+
+	* mail-config.glade: gave the whole smime frame (vbox) a name so
+	we can use it from code.
+
+	* mail-account-gui.c (mail_account_gui_new): get the smime_vbox
+	widget if we have no NSS, the name changed and the HIG patches
+	didn't fix it.
+
 2004-04-26  Radek Doulik  <rodo@ximian.com>
 
 	* em-format-html.c (efh_format_timeout): set gtk_html_begin's

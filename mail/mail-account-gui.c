@@ -1908,7 +1908,7 @@ mail_account_gui_new (EAccount *account, EMAccountPrefs *dialog)
 		/* Since we don't have NSS, hide the S/MIME config options */
 		GtkWidget *frame;
 		
-		frame = glade_xml_get_widget (gui->xml, "smime_frame");
+		frame = glade_xml_get_widget (gui->xml, "smime_vbox");
 		gtk_widget_destroy (frame);
 	}
 #endif /* HAVE_NSS */
