@@ -801,7 +801,7 @@ if test "x${with_nspr_libs}" != "xno" -a "x${have_nspr_includes}" != "xno"; then
 	CFLAGS_save="$CFLAGS"
 	LDFLAGS_save="$LDFLAGS"
 	
-	nsprlibs="-lnspr4 -lplc4 -lplds4 $PTHREAD_LIB"
+	nsprlibs="-lplc4 -lplds4 -lnspr4 $PTHREAD_LIB"
 	AC_CACHE_CHECK([for Mozilla nspr libraries], moz_nspr_libs,
 	[
 		CFLAGS="$CFLAGS $NSPR_CFLAGS"
@@ -865,8 +865,8 @@ msg_nss="no"
 if test "x${with_nss_libs}" != "xno" -a "x${have_nss_includes}" != "xno"; then
 	LDFLAGS_save="$LDFLAGS"
 	
-	nsprlibs="-lnspr4 -lplc4 -lplds4 $PTHREAD_LIB"
-	nsslibs="-lnss3 -lssl3 -lsmime3"
+	nsprlibs="-lplc4 -lplds4 -lnspr4 $PTHREAD_LIB"
+	nsslibs="-lssl3 -lsmime3 -lnss3"
 	AC_CACHE_CHECK([for Mozilla nss libraries], moz_nss_libs,
 	[
 		LDFLAGS="$LDFLAGS -L$with_nspr_libs $nsprlibs -L$with_nss_libs $nsslibs"

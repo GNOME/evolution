@@ -1,3 +1,9 @@
+2001-09-30  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* configure.in (nspr_libs): Order the linkline to be the same as
+	the order in Mozilla (it is suggested that they be in this order).
+	(nss_libs): Same.
+
 2001-09-27  Dan Winship  <danw@ximian.com>
 
 	* configure.in: Remove references to the "compose" program, since
