@@ -1053,7 +1053,7 @@ do_popup_menu(EABView *view, GdkEvent *event)
 		E_POPUP_ITEM (N_("Import..."), G_CALLBACK (import), POPUP_READONLY_MASK),
 		E_POPUP_SEPARATOR,
 		E_POPUP_ITEM (N_("Search for Contacts..."), G_CALLBACK (search), 0),
-		E_POPUP_ITEM (N_("Addressbook Sources..."), G_CALLBACK (sources), 0),
+		E_POPUP_ITEM (N_("Address Book Sources..."), G_CALLBACK (sources), 0),
 		E_POPUP_SEPARATOR,
 		E_POPUP_ITEM (N_("Pilot Settings..."), G_CALLBACK (pilot_settings), 0),
 #endif
@@ -1067,8 +1067,8 @@ do_popup_menu(EABView *view, GdkEvent *event)
 #endif
 		E_POPUP_SEPARATOR,
 
-		E_POPUP_ITEM (N_("Copy to folder..."), G_CALLBACK(copy_to_folder), POPUP_NOSELECTION_MASK), 
-		E_POPUP_ITEM (N_("Move to folder..."), G_CALLBACK(move_to_folder), POPUP_READONLY_MASK | POPUP_NOSELECTION_MASK),
+		E_POPUP_ITEM (N_("Copy to Address Book..."), G_CALLBACK(copy_to_folder), POPUP_NOSELECTION_MASK), 
+		E_POPUP_ITEM (N_("Move to Address Book..."), G_CALLBACK(move_to_folder), POPUP_READONLY_MASK | POPUP_NOSELECTION_MASK),
 		E_POPUP_SEPARATOR,
 
 		E_POPUP_ITEM (N_("Cut"), G_CALLBACK (cut), POPUP_READONLY_MASK | POPUP_NOSELECTION_MASK),
