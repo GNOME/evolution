@@ -129,7 +129,7 @@ void                  e_card_set_book                                     (ECard
 									   struct _EBook              *book);
 char                 *e_card_get_vcard                                    (ECard                      *card);
 char                 *e_card_get_vcard_assume_utf8                        (ECard                      *card);
-char                 *e_card_list_get_vcard                               (GList                      *list);
+char                 *e_card_list_get_vcard                               (const GList                *list);
 ECard                *e_card_duplicate                                    (ECard                      *card);
 float                 e_card_get_use_score                                (ECard                      *card);
 void                  e_card_touch                                        (ECard                      *card);

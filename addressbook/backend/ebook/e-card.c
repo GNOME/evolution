@@ -422,7 +422,7 @@ addPropValueQP(VObject *o, const char *p, const char *v)
 }
 
 static void
-addPropValueSets (VObject *o, char *p, char *v, gboolean assumeUTF8, gboolean *is_ascii, gboolean *has_return)
+addPropValueSets (VObject *o, const char *p, const char *v, gboolean assumeUTF8, gboolean *is_ascii, gboolean *has_return)
 {
 	addPropValue (o, p, v);
 	if (*has_return && (assumeUTF8 || !*is_ascii))
@@ -475,7 +475,7 @@ addPropValueSets (VObject *o, char *p, char *v, gboolean assumeUTF8, gboolean *i
 
 
 static VObject *
-e_card_get_vobject (ECard *card, gboolean assumeUTF8)
+e_card_get_vobject (const ECard *card, gboolean assumeUTF8)
 {
 	VObject *vobj;
 	
@@ -839,7 +839,7 @@ e_card_get_vcard_assume_utf8 (ECard *card)
  * Returns: a string in vCard format.
  */
 char *
-e_card_list_get_vcard (GList *list)
+e_card_list_get_vcard (const GList *list)
 {
 	VObject *vobj;
 
