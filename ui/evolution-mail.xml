@@ -35,8 +35,8 @@
         <menuitem name="EditSelectAll" verb=""
         _label="Select _All"/>
 
-        <menuitem name="EditUnSelectAll" verb=""
-        _label="_Unselect All"/>
+        <menuitem name="EditInvertSelection" verb=""
+        _label="_Invert Selection"/>
 
     </submenu>
 

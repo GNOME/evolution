@@ -1,3 +1,7 @@
+2000-10-04  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* evolution-mail.xml: Add Invert Selection
+
 2000-10-04  Michael Meeks  <michael@helixcode.com>
 
 	* evolution-mail.xml: bind 'D' to MessageDelete; a proto binding.
