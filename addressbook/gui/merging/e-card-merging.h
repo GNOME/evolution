@@ -11,11 +11,9 @@
 #ifndef __E_CARD_MERGING_H__
 #define __E_CARD_MERGING_H__
 
-#include <libgnome/gnome-defs.h>
-
 #include <addressbook/backend/ebook/e-book.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 gboolean  e_card_merging_book_add_card     (EBook           *book,
 					    ECard           *card,
@@ -26,6 +24,6 @@ gboolean  e_card_merging_book_commit_card  (EBook           *book,
 					    EBookCallback    cb,
 					    gpointer         closure);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* ! __E_CARD_MERGING_H__ */

@@ -81,9 +81,9 @@ match_query_callback (ECard *card, ECard *match, ECardMatchType type, gpointer c
 		GtkWidget *widget;
 
 		if (lookup->op == E_CARD_MERGING_ADD)
-			ui = glade_xml_new (EVOLUTION_GLADEDIR "/e-card-duplicate-detected.glade", NULL);
+			ui = glade_xml_new (EVOLUTION_GLADEDIR "/e-card-duplicate-detected.glade", NULL, NULL);
 		else if (lookup->op == E_CARD_MERGING_COMMIT)
-			ui = glade_xml_new (EVOLUTION_GLADEDIR "/e-card-merging-book-commit-duplicate-detected.glade", NULL);
+			ui = glade_xml_new (EVOLUTION_GLADEDIR "/e-card-merging-book-commit-duplicate-detected.glade", NULL, NULL);
 		else {
 			doit (lookup);
 			g_free (lookup);
