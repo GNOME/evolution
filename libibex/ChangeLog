@@ -1,3 +1,46 @@
+2001-08-10  Not Zed  <NotZed@Ximian.com>
+
+	* wordindexmem.c (sync_cache_entry): NOOP if writing to a failed
+	file.
+	(word_index_pre): NOOP if failed file.
+	(ibex_create_word_index_mem): Setup blocks value.
+
+	** Added internal exception handling to libibex, in the case of
+	errors with on-disk data, exceptions are returned.
+
+	* block.c (ibex_block_cache_open): Detect fatal errors below us
+	and clean up appropriately.
+	(ibex_block_cache_fail): New function to handle the failure, and
+	keep track of it.
+	(ibex_block_cache_sync): Dont do anything if we've failed on this
+	file.
+
+	* disktail.c (tail_compress): Add blocks param so we can assert
+	for exceptions.
+
+	* hash.c, block.c disktail.c: g_assert->ibex_block_cache_assert
+	where dealing with external data.
+
+	* hash.c (hash_info): Add index param so we can assert for exceptions.
+
+	* ibex_block.c (ibex_index_buffer): Setjmp before calling into
+	internal routines.
+	(ibex_save): "
+	(ibex_unindex): "
+	(ibex_find): "
+	(ibex_find_name): "
+	(ibex_contains_name): "
+	(ibex_reset): Function to reset the index file if we have an
+	error, call when we have an error.
+
+	* block.h (ibex_block_cache_assert): Create assertion/exception
+	macros, and include a setjmp buffer for returning it.
+
+2001-08-09  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am (libibex_la_SOURCES): Remove wordindex.c,
+	wordindexmem is what's used.
+
 2001-06-01  Peter Williams  <peterw@ximian.com>
 
 	* Makefile.am (dumpindex_LDADD): Add GAL_LIBS here too.

@@ -7,6 +7,7 @@
 /*#define IBEX_STATS*/		/* define to get/dump block access stats */
 
 #include <glib.h>
+#include <setjmp.h>
 
 /* version of file format */
 #define IBEX_VERSION "ibx6"
@@ -78,7 +79,12 @@ struct _memcache {
 	int count;		/* nodes in cache */
 
 	GHashTable *index;	/* blockid->memblock mapping */
+
 	int fd;			/* file fd */
+	char *name;		/* file name */
+
+	jmp_buf failenv;	/* for exception failure */
+	int failed;		/* indicates the file failed */
 
 #ifdef IBEX_STATS
 	GHashTable *stats;
@@ -102,6 +108,11 @@ struct _memcache *ibex_block_cache_open(const char *name, int flags, int mode);
 void ibex_block_cache_close(struct _memcache *block_cache);
 void ibex_block_cache_sync(struct _memcache *block_cache);
 void ibex_block_cache_flush(struct _memcache *block_cache);
+
+#define ibex_block_cache_setjmp(bc) (((bc)==NULL)?1:setjmp((bc)->failenv))
+#define ibex_block_cache_assert(bc, cond) { if (!(cond)) { ibex_block_cache_fail(bc, __FILE__, __LINE__, # cond); } }
+
+void ibex_block_cache_fail(struct _memcache *block_cache, char *file, int line, char *why);
 
 blockid_t ibex_block_get(struct _memcache *block_cache);
 void ibex_block_free(struct _memcache *block_cache, blockid_t blockid);

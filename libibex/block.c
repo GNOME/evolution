@@ -277,6 +277,9 @@ ibex_block_cache_sync(struct _memcache *block_cache)
 {
 	struct _memblock *memblock;
 
+	if (block_cache->failed)
+		return;
+
 	memblock = (struct _memblock *)block_cache->nodes.head;
 	while (memblock->next) {
 #ifdef MALLOC_CHECK
@@ -365,8 +368,8 @@ ibex_block_read(struct _memcache *block_cache, blockid_t blockid)
 #endif
 
 	/* nothing can read the root block directly */
-	g_assert(blockid != 0);
-	g_assert(blockid < block_cache->root.roof);
+	ibex_block_cache_assert(block_cache, blockid != 0);
+	ibex_block_cache_assert(block_cache, blockid < block_cache->root.roof);
 
 	memblock = g_hash_table_lookup(block_cache->index, (void *)blockid);
 
@@ -443,6 +446,19 @@ ibex_block_read(struct _memcache *block_cache, blockid_t blockid)
 	return &memblock->data;
 }
 
+void
+ibex_block_cache_fail(struct _memcache *block_cache, char *where, int line, char *why)
+{
+	block_cache->failed = TRUE;
+	block_cache->root.flags &= ~IBEX_ROOT_SYNCF;
+	/* and blow it away, we can do nothing better yet */
+	ftruncate(block_cache->fd, 0);
+
+	g_warning("%s(%d): Integrity assertion failed: '%s' on file '%s'", where, line, why, block_cache->name);
+
+	longjmp(block_cache->failenv, 1);
+}
+
 /**
  * ibex_block_cache_open:
  * @name: 
@@ -469,11 +485,20 @@ ibex_block_cache_open(const char *name, int flags, int mode)
 	block_cache->count = 0;
 	block_cache->index = g_hash_table_new(g_direct_hash, g_direct_equal);
 	block_cache->fd = open(name, flags, mode);
+	block_cache->failed = FALSE;
+	block_cache->name = g_strdup(name);
 
 	if (block_cache->fd == -1) {
 		g_hash_table_destroy(block_cache->index);
 		g_free(block_cache);
 		return NULL;
+	}
+
+	if (ibex_block_cache_setjmp(block_cache) != 0) {
+		close(block_cache->fd);
+		g_hash_table_destroy(block_cache->index);
+		g_free(block_cache);
+		return NULL;		
 	}
 
 	ibex_block_read_root(block_cache);
@@ -526,6 +551,7 @@ ibex_block_cache_close(struct _memcache *block_cache)
 
 	ibex_block_cache_sync(block_cache);
 	close(block_cache->fd);
+	g_free(block_cache->name);
 
 	mw = (struct _memblock *)block_cache->nodes.head;
 	mn = mw->next;
@@ -585,7 +611,7 @@ ibex_block_get(struct _memcache *block_cache)
 		block = ibex_block_read(block_cache, head);
 	}
 
-	g_assert(head != 0);
+	ibex_block_cache_assert(block_cache, head != 0);
 
 	d(printf("new block = %d\n", head));
 	block->next = 0;

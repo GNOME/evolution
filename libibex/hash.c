@@ -244,7 +244,7 @@ hash_get_key(struct _IBEXIndex *index, hashid_t hashbucket, int *len)
 	bucket = (struct _hashblock *)ibex_block_read(index->blocks, HASH_BLOCK(hashbucket));
 	ind = HASH_INDEX(hashbucket);
 
-	g_assert(ind < bucket->used);
+	ibex_block_cache_assert(index->blocks, ind < bucket->used);
 
 	start = &bucket->hb_keydata[bucket->hb_keys[ind].keyoffset];
 	if (ind == 0) {
@@ -286,7 +286,7 @@ hash_find(struct _IBEXIndex *index, const char *key, int keylen)
 	/* find the table containing this entry */
 	hash = hash_key(key, keylen) % hashroot->size;
 	hashtable = hashroot->table[hash / (BLOCK_SIZE/sizeof(blockid_t))];
-	g_assert(hashtable != 0);
+	ibex_block_cache_assert(index->blocks, hashtable != 0);
 	table = (struct _hashtableblock *)ibex_block_read(index->blocks, hashtable);
 	hashentry = hash % (BLOCK_SIZE/sizeof(blockid_t));
 	/* and its bucket */
@@ -312,7 +312,7 @@ hash_find(struct _IBEXIndex *index, const char *key, int keylen)
 		/* and get the key number within the block */
 		ind = HASH_INDEX(hashbucket);
 
-		g_assert(ind < bucket->used);
+		ibex_block_cache_assert(index->blocks, ind < bucket->used);
 
 		start = &bucket->hb_keydata[bucket->hb_keys[ind].keyoffset];
 		if (ind == 0) {
@@ -330,11 +330,11 @@ hash_find(struct _IBEXIndex *index, const char *key, int keylen)
 }
 
 static int
-hash_info(struct _hashblock *bucket, int index)
+hash_info(struct _IBEXIndex *idex, struct _hashblock *bucket, int index)
 {
 	char *start, *end;
 
-	g_assert(index < bucket->used);
+	ibex_block_cache_assert(idex->blocks, index < bucket->used);
 
 	start = &bucket->hb_keydata[bucket->hb_keys[index].keyoffset];
 	if (index == 0) {
@@ -448,7 +448,7 @@ hash_remove(struct _IBEXIndex *index, const char *key, int keylen)
 		/* and get the key number within the block */
 		ind = HASH_INDEX(hashbucket);
 
-		g_assert(ind < bucket->used);
+		ibex_block_cache_assert(index->blocks, ind < bucket->used);
 
 		start = &bucket->hb_keydata[bucket->hb_keys[ind].keyoffset];
 		if (ind == 0) {
@@ -473,8 +473,7 @@ hash_remove(struct _IBEXIndex *index, const char *key, int keylen)
 				ibex_block_dirty((struct _block *)hashroot);
 			} else {
 				prevbucket = (struct _hashblock *)ibex_block_read(index->blocks, HASH_BLOCK(hashprev));
-				prevbucket->hb_keys[HASH_INDEX(hashprev)].next =
-					bucket->hb_keys[ind].next;
+				prevbucket->hb_keys[HASH_INDEX(hashprev)].next = bucket->hb_keys[ind].next;
 				/* link into free list */
 				bucket->hb_keys[ind].next = hashroot->free;
 				hashroot->free = hashbucket;
@@ -500,7 +499,7 @@ hash_set_data_block(struct _IBEXIndex *index, hashid_t keyid, blockid_t blockid,
 	d(printf("setting data block hash %d to %d tail %d\n", keyid, blockid, tail));
 
 	/* map to a block number */
-	g_assert((blockid & (BLOCK_SIZE-1)) == 0);
+	ibex_block_cache_assert(index->blocks, (blockid & (BLOCK_SIZE-1)) == 0);
 	blockid >>= BLOCK_BITS;
 
 	bucket = (struct _hashblock *)ibex_block_read(index->blocks, HASH_BLOCK(keyid));
@@ -581,8 +580,7 @@ hash_insert(struct _IBEXIndex *index, const char *key, int keylen)
 			- (char *)&bucket->hb_keys[bucket->used];
 		if (space >= keylen) {
 			hash_expand(bucket, HASH_INDEX(keybucket), keylen);
-			memcpy(&bucket->hb_keydata[bucket->hb_keys[HASH_INDEX(keybucket)].keyoffset],
-			       key, keylen);
+			memcpy(&bucket->hb_keydata[bucket->hb_keys[HASH_INDEX(keybucket)].keyoffset], key, keylen);
 
 			/* check if there is free space still in this node, and there are no other empty blocks */
 			keyfree = bucket->hb_keys[HASH_INDEX(keybucket)].next;
@@ -709,7 +707,7 @@ hash_cursor_next(struct _IBEXCursor *idc)
 	while (hc->block != 0) {
 		bucket = (struct _hashblock *)ibex_block_read(idc->index->blocks, hc->block);
 		while (hc->index < bucket->used) {
-			if (hash_info(bucket, hc->index) > 0) {
+			if (hash_info(idc->index, bucket, hc->index) > 0) {
 				hc->key = HASH_KEY(hc->block, hc->index);
 				hc->index++;
 				if (hc->index == bucket->used) {

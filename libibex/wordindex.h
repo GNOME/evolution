@@ -56,6 +56,8 @@ struct _IBEXWord {
 	struct _IBEXStore *namestore;
 	struct _IBEXIndex *nameindex;
 
+	struct _memcache *blocks;
+
 	/* word caching info (should probably be modularised) */
 	GHashTable *wordcache;	/* word->struct _wordcache mapping */
 	struct _list wordnodes;	/* LRU list of wordcache structures */
@@ -66,7 +68,7 @@ struct _IBEXWord {
 };
 
 
-struct _IBEXWord *ibex_create_word_index(struct _memcache *bc, blockid_t *wordroot, blockid_t *nameroot);
+/*struct _IBEXWord *ibex_create_word_index(struct _memcache *bc, blockid_t *wordroot, blockid_t *nameroot);*/
 
 /* alternate implemenation */
 struct _IBEXWord *ibex_create_word_index_mem(struct _memcache *bc, blockid_t *wordroot, blockid_t *nameroot);

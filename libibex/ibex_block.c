@@ -11,6 +11,8 @@
 
 #define d(x)
 
+static void ibex_reset(ibex *ib);
+
 static signed char utf8_trans[] = {
 	'A', 'A', 'A', 'A', 'A', 'A', -1, 'C', 'E', 'E', 'E', 'E', 'I', 'I',
 	'I', 'I', -2, 'N', 'O', 'O', 'O', 'O', 'O', '*', 'O', 'U', 'U', 'U',
@@ -129,7 +131,8 @@ utf8_category (char *p, char **np, char *end)
 int
 ibex_index_buffer (ibex *ib, char *name, char *buffer, size_t len, size_t *unread)
 {
-	char *p, *q, *nq, *end, *word;
+	char *p, *q, *nq, *end;
+	char *word;
 	int wordsiz, cat = 0;
 	GHashTable *words = g_hash_table_new(g_str_hash, g_str_equal);
 	GPtrArray *wordlist = g_ptr_array_new();
@@ -186,24 +189,36 @@ ibex_index_buffer (ibex *ib, char *name, char *buffer, size_t len, size_t *unrea
 		p = q;
 	}
 done:
+	/* this weird word=NULL shit is to get rid of compiler warnings about clobbering with longjmp */
+	g_free(word);
+	word = NULL;
+
 	IBEX_LOCK(ib);
 
-	d(printf("name %s count %d size %d\n", name, wordlist->len, len));
-	if (!ib->predone) {
-		ib->words->klass->index_pre(ib->words);
-		ib->predone = TRUE;
+	if (ibex_block_cache_setjmp(ib->blocks) != 0) {
+		printf("Error in indexing\n");
+		ret = -1;
+		ibex_reset(ib);
+		word = NULL;	/* here too */
+	} else {
+		word = NULL;	/* ... and here */
+		d(printf("name %s count %d size %d\n", name, wordlist->len, len));
+		if (!ib->predone) {
+			ib->words->klass->index_pre(ib->words);
+			ib->predone = TRUE;
+		}
+		ib->words->klass->add_list(ib->words, name, wordlist);
+		ret = 0;
 	}
-	ib->words->klass->add_list(ib->words, name, wordlist);
 
 	IBEX_UNLOCK(ib);
 
-	ret = 0;
 error:
 	for (i=0;i<wordlist->len;i++)
 		g_free(wordlist->pdata[i]);
 	g_ptr_array_free(wordlist, TRUE);
 	g_hash_table_destroy(words);
-	g_free (word);
+	g_free(word);
 	return ret;
 }
 
@@ -219,6 +234,11 @@ ibex *ibex_open (char *file, int flags, int mode)
 		g_free(ib);
 		return NULL;
 	}
+
+	ib->name = g_strdup(file);
+	ib->flags = flags;
+	ib->mode = mode;
+
 	/* FIXME: the blockcache or the wordindex needs to manage the other one */
 	ib->words = ib->blocks->words;
 
@@ -230,48 +250,100 @@ ibex *ibex_open (char *file, int flags, int mode)
 
 int ibex_save (ibex *ib)
 {
+	int ret;
+
 	d(printf("syncing database\n"));
 
 	IBEX_LOCK(ib);
 
-	if (ib->predone) {
-		ib->words->klass->index_post(ib->words);
-		ib->predone = FALSE;
+	if (ibex_block_cache_setjmp(ib->blocks) != 0) {
+		ibex_reset(ib);
+		printf("Error saving\n");
+		ret = -1;
+	} else {
+		if (ib->predone) {
+			ib->words->klass->index_post(ib->words);
+			ib->predone = FALSE;
+		}
+		ib->words->klass->sync(ib->words);
+		/* FIXME: some return */
+		ibex_block_cache_sync(ib->blocks);
+		ret = 0;
 	}
-	ib->words->klass->sync(ib->words);
-	/* FIXME: some return */
-	ibex_block_cache_sync(ib->blocks);
 
 	IBEX_UNLOCK(ib);
 
-	return 0;
+	return ret;
+}
+
+static int
+close_backend(ibex *ib)
+{
+	int ret;
+
+	if (ibex_block_cache_setjmp(ib->blocks) != 0) {
+		printf("Error closing!\n");
+		ret = -1;
+	} else {
+		if (ib->predone) {
+			ib->words->klass->index_post(ib->words);
+			ib->predone = FALSE;
+		}
+
+		ib->words->klass->close(ib->words);
+		/* FIXME: return */
+		ibex_block_cache_close(ib->blocks);
+		ret = 0;
+	}
+
+	return ret;
+}
+
+/* close/reopen the ibex file, assumes we have lock */
+static void
+ibex_reset(ibex *ib)
+{
+	g_warning("resetting ibex file");
+
+	close_backend(ib);
+
+	ib->blocks = ibex_block_cache_open(ib->name, ib->flags, ib->mode);
+	if (ib->blocks == 0) {
+		g_warning("ibex_reset create: Error occured?: %s\n", strerror(errno));
+	}
+	/* FIXME: the blockcache or the wordindex needs to manage the other one */
+	ib->words = ib->blocks->words;
 }
 
 int ibex_close (ibex *ib)
 {
-	int ret = 0;
+	int ret;
 
 	d(printf("closing database\n"));
 
-	if (ib->predone) {
-		ib->words->klass->index_post(ib->words);
-		ib->predone = FALSE;
-	}
+	ret = close_backend(ib);
 
-	ib->words->klass->close(ib->words);
-	ibex_block_cache_close(ib->blocks);
+	g_free(ib->name);
+
 #ifdef ENABLE_THREADS
 	g_mutex_free(ib->lock);
 #endif
 	g_free(ib);
+
 	return ret;
 }
 
 void ibex_unindex (ibex *ib, char *name)
 {
 	d(printf("trying to unindex '%s'\n", name));
+
 	IBEX_LOCK(ib);
-	ib->words->klass->unindex_name(ib->words, name);
+	if (ibex_block_cache_setjmp(ib->blocks) != 0) {
+		printf("Error unindexing!\n");
+		ibex_reset(ib);
+	} else {
+		ib->words->klass->unindex_name(ib->words, name);
+	}
 	IBEX_UNLOCK(ib);
 }
 
@@ -285,7 +357,12 @@ GPtrArray *ibex_find (ibex *ib, char *word)
 	normal = alloca(len+1);
 	ibex_normalise_word(word, word+len, normal);
 	IBEX_LOCK(ib);
-	ret = ib->words->klass->find(ib->words, normal);
+	if (ibex_block_cache_setjmp(ib->blocks) != 0) {
+		ibex_reset(ib);
+		ret = NULL;
+	} else {
+		ret = ib->words->klass->find(ib->words, normal);
+	}
 	IBEX_UNLOCK(ib);
 	return ret;
 }
@@ -300,7 +377,12 @@ gboolean ibex_find_name (ibex *ib, char *name, char *word)
 	normal = alloca(len+1);
 	ibex_normalise_word(word, word+len, normal);
 	IBEX_LOCK(ib);
-	ret = ib->words->klass->find_name(ib->words, name, normal);
+	if (ibex_block_cache_setjmp(ib->blocks) != 0) {
+		ibex_reset(ib);
+		ret = FALSE;
+	} else {
+		ret = ib->words->klass->find_name(ib->words, name, normal);
+	}
 	IBEX_UNLOCK(ib);
 	return ret;
 }
@@ -310,7 +392,12 @@ gboolean ibex_contains_name(ibex *ib, char *name)
 	gboolean ret;
 
 	IBEX_LOCK(ib);
-	ret = ib->words->klass->contains_name(ib->words, name);
+	if (ibex_block_cache_setjmp(ib->blocks) != 0) {
+		ibex_reset(ib);
+		ret = FALSE;
+	} else {
+		ret = ib->words->klass->contains_name(ib->words, name);
+	}
 	IBEX_UNLOCK(ib);
 	return ret;
 }

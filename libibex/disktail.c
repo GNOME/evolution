@@ -105,7 +105,7 @@ tail_info(struct _tailblock *bucket, nameid_t tailid, blockid_t **startptr)
 
 /* compresses (or expand) the bucket entry, to the new size */
 static void
-tail_compress(struct _tailblock *bucket, int index, int newsize)
+tail_compress(struct _memcache *blocks, struct _tailblock *bucket, int index, int newsize)
 {
 	int i;
 	blockid_t *start, *end, *newstart;
@@ -170,10 +170,10 @@ tail_compress(struct _tailblock *bucket, int index, int newsize)
 	/* fixup data */
 	newstart = &bucket->tb_data[bucket->tb_offset[bucket->used-1]];
 
-	g_assert(newstart+(end-start)-newsize <= &bucket->tb_data[sizeof(bucket->tb_data)/sizeof(bucket->tb_data[0])]);
-	g_assert(newstart + (start-newstart) + MIN(end-start, newsize) <= &bucket->tb_data[sizeof(bucket->tb_data)/sizeof(bucket->tb_data[0])]);
-	g_assert(newstart+(end-start)-newsize >= (blockid_t *) &bucket->tb_offset[bucket->used]);
-	g_assert(newstart + (start-newstart) + MIN(end-start, newsize) >= (blockid_t *) &bucket->tb_offset[bucket->used]);
+	ibex_block_cache_assert(blocks, newstart+(end-start)-newsize <= &bucket->tb_data[sizeof(bucket->tb_data)/sizeof(bucket->tb_data[0])]);
+	ibex_block_cache_assert(blocks, newstart + (start-newstart) + MIN(end-start, newsize) <= &bucket->tb_data[sizeof(bucket->tb_data)/sizeof(bucket->tb_data[0])]);
+	ibex_block_cache_assert(blocks, newstart+(end-start)-newsize >= (blockid_t *) &bucket->tb_offset[bucket->used]);
+	ibex_block_cache_assert(blocks, newstart + (start-newstart) + MIN(end-start, newsize) >= (blockid_t *) &bucket->tb_offset[bucket->used]);
 
 	memmove(newstart+(end-start)-newsize, newstart, ((start-newstart)+MIN(end-start, newsize)) * sizeof(blockid_t));
 
@@ -240,14 +240,14 @@ tail_get(struct _memcache *blocks, int size)
 			d(printf("allocated %d (%d), used %d\n", tailid, tailid, tail->used));
 			ibex_block_dirty((struct _block *)tail);
 
-			g_assert(&tail->tb_offset[tail->used-1]
-				 < (unsigned char *) &tail->tb_data[tail->tb_offset[tail->used-1]]);
+			ibex_block_cache_assert(blocks, &tail->tb_offset[tail->used-1]
+						< (unsigned char *) &tail->tb_data[tail->tb_offset[tail->used-1]]);
 
 			return tailid;
 		}
 
-		g_assert(&tail->tb_offset[tail->used-1]
-			 < (unsigned char *) &tail->tb_data[tail->tb_offset[tail->used-1]]);
+		ibex_block_cache_assert(blocks, &tail->tb_offset[tail->used-1]
+					< (unsigned char *) &tail->tb_data[tail->tb_offset[tail->used-1]]);
 
 		/* see if we have a free slot first */
 		freeindex = -1;
@@ -278,7 +278,7 @@ tail_get(struct _memcache *blocks, int size)
 				tail->tb_offset[tail->used] = tail->tb_offset[tail->used-1];
 				tail->used++;
 			}
-			tail_compress(tail, freeindex, size);
+			tail_compress(blocks, tail, freeindex, size);
 			ibex_block_dirty((struct _block *)tail);
 			d(printf("allocated %d (%d), used %d\n", tailid, TAIL_KEY(tailid, freeindex), tail->used));
 			return TAIL_KEY(tailid, freeindex);
@@ -315,11 +315,11 @@ tail_free(struct _memcache *blocks, blockid_t tailid)
 
 	tail = (struct _tailblock *)ibex_block_read(blocks, TAIL_BLOCK(tailid));
 	d(printf("  tail %d used %d\n", tailid, tail->used));
-	g_assert(tail->used);
+	ibex_block_cache_assert(blocks, tail->used);
 	if (TAIL_INDEX(tailid)  == tail->used - 1) {
 		tail->used --;
 	} else {
-		tail_compress(tail, TAIL_INDEX(tailid), 0);
+		tail_compress(blocks, tail, TAIL_INDEX(tailid), 0);
 	}
 	ibex_block_dirty((struct _block *)tail);
 }
@@ -391,7 +391,7 @@ disk_add_blocks_internal(struct _IBEXStore *store, blockid_t *headptr, blockid_t
 	int space, copied = 0, left;
 
 	/* assumes this funciton is in control of any tail creation */ 
-	g_assert(tail == 0);
+	ibex_block_cache_assert(store->blocks, tail == 0);
 
 	d(printf("Adding %d items to block list\n", data->len));
 
@@ -519,7 +519,7 @@ disk_add_list(struct _IBEXStore *store, blockid_t *headptr, blockid_t *tailptr, 
 				head = disk_add_blocks_internal(store, headptr, tailptr, tmpdata);
 			} else if (tail_space(tailblock) >= data->len) {
 				/* can we just expand this in our node, or do we need a new one? */
-				tail_compress(tailblock, TAIL_INDEX(tail), data->len + len);
+				tail_compress(store->blocks, tailblock, TAIL_INDEX(tail), data->len + len);
 				memcpy(&tailblock->tb_data[tailblock->tb_offset[TAIL_INDEX(tail)] + len],
 				       data->data, data->len * sizeof(blockid_t));
 				ibex_block_dirty((struct _block *)tailblock);
@@ -625,7 +625,7 @@ disk_remove(struct _IBEXStore *store, blockid_t *headptr, blockid_t *tailptr, na
 					ibex_block_dirty((struct _block *)tailblock);
 					*tailptr = 0;
 				} else {
-					tail_compress(tailblock, TAIL_INDEX(tail), len-1);
+					tail_compress(store->blocks, tailblock, TAIL_INDEX(tail), len-1);
 					ibex_block_dirty((struct _block *)tailblock);
 				}
 			}
@@ -654,7 +654,7 @@ static void disk_free(struct _IBEXStore *store, blockid_t head, blockid_t tail)
 	if (tail) {
 		struct _tailblock *tailblock = (struct _tailblock *)ibex_block_read(store->blocks, TAIL_BLOCK(tail));
 		d(printf("freeing tail block %d (%d)\n", TAIL_BLOCK(tail), tail));
-		tail_compress(tailblock, TAIL_INDEX(tail), 0);
+		tail_compress(store->blocks, tailblock, TAIL_INDEX(tail), 0);
 		ibex_block_dirty((struct _block *)tailblock);
 	}
 }

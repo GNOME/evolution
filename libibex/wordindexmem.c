@@ -134,6 +134,7 @@ ibex_create_word_index_mem(struct _memcache *bc, blockid_t *wordroot, blockid_t 
 	struct _IBEXWord *idx;
 
 	idx = g_malloc0(sizeof(*idx));
+	idx->blocks = bc;
 	idx->wordcache = g_hash_table_new(g_str_hash, g_str_equal);
 	ibex_list_new(&idx->wordnodes);
 	idx->wordcount = 0;
@@ -200,6 +201,12 @@ static void word_index_pre(struct _IBEXWord *idx)
 	idx->precount ++;
 	if (idx->precount > 1)
 		return;
+
+	/* NOOP if failed */
+	if (idx->blocks->failed) {
+		g_warning("word_index_pre() on failed data file");
+		return;
+	}
 
 	/* want to load all words into the cache lookup table */
 	d(printf("pre-loading all word info into memory\n"));
@@ -479,6 +486,10 @@ sync_cache_entry(struct _IBEXWord *idx, struct _wordcache *cache)
 {
 	GArray array; /* just use this as a header */
 	blockid_t oldblock, oldtail;
+
+	/* NOOP if failed */
+	if (idx->blocks->failed)
+		return;
 	
 	if (cache->filecount == 0)
 		return;

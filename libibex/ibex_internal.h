@@ -27,7 +27,9 @@
 #include "wordindex.h"
 
 struct ibex {
-	char *path;
+	char *name;
+	int flags;
+	int mode;
 	struct _memcache *blocks;
 	struct _IBEXWord *words;
 	int predone;
