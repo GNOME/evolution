@@ -49,7 +49,7 @@
 GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 
-#define CONDUIT_VERSION "0.1.1"
+#define CONDUIT_VERSION "0.1.2"
 #ifdef G_LOG_DOMAIN
 #undef G_LOG_DOMAIN
 #endif
@@ -191,6 +191,9 @@ cursor_cb (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer closur
 		for (i = 0; i < length; i ++) {
 			ECard *card = e_card_cursor_get_nth (cursor, i);
 			
+			if (e_card_evolution_list (card))
+				continue;
+
 			gtk_object_ref (GTK_OBJECT (card));
 			ctxt->cards = g_list_append (ctxt->cards, card);
 		}
@@ -565,9 +568,14 @@ card_added (EBookView *book_view, const GList *cards, EAddrConduitContext *ctxt)
 	const GList *l;
 
 	for (l = cards; l != NULL; l = l->next) {
-		CardObjectChange *coc = g_new0 (CardObjectChange, 1);
+		ECard *card = E_CARD (l->data);
+		CardObjectChange *coc;
 		
-		coc->card = E_CARD (l->data);
+		if (e_card_evolution_list (card))
+			continue;
+		
+		coc = g_new0 (CardObjectChange, 1);
+		coc->card = card;
 		coc->type = CARD_ADDED;
 
 		gtk_object_ref (GTK_OBJECT (coc->card));
@@ -583,8 +591,13 @@ card_changed (EBookView *book_view, const GList *cards, EAddrConduitContext *ctx
 	const GList *l;
 
 	for (l = cards; l != NULL; l = l->next) {
-		CardObjectChange *coc = g_new0 (CardObjectChange, 1);
+		ECard *card = E_CARD (l->data);
+		CardObjectChange *coc;
+
+		if (e_card_evolution_list (card))
+			continue;
 		
+		coc = g_new0 (CardObjectChange, 1);		
 		coc->card = E_CARD (l->data);
 		coc->type = CARD_MODIFIED;
 
@@ -599,13 +612,19 @@ card_changed (EBookView *book_view, const GList *cards, EAddrConduitContext *ctx
 static void
 card_removed (EBookView *book_view, const char *id, EAddrConduitContext *ctxt)
 {
-	CardObjectChange *coc = g_new0 (CardObjectChange, 1);
+	CardObjectChange *coc;
+
+	/* If its deleted but not in the map its probably a list */
+	if (e_pilot_map_lookup_pid (ctxt->map, id) == 0)
+		return;	
 	
+	coc = g_new0 (CardObjectChange, 1);
 	coc->card = e_card_new ("");
 	e_card_set_id (coc->card, id);
 	coc->type = CARD_DELETED;
 
 	ctxt->changed = g_list_prepend (ctxt->changed, coc);
+	
 	if (!e_pilot_map_uid_is_archived (ctxt->map, id))
 		g_hash_table_insert (ctxt->changed_hash, (gpointer)e_card_get_id (coc->card), coc);
 }

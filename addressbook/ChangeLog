@@ -1,3 +1,12 @@
+2001-09-19  JP Rosevear  <jpr@ximian.com>
+
+	* conduit/address-conduit.c (cursor_cb): don't add to the complete
+	list of cards if the card is a list
+	(card_added): don't add to the list of changes if the card is a
+	list
+	(card_changed): ditto
+	(card_removed): ditto
+
 2001-09-19  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names.c
