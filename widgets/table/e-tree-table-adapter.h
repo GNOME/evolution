@@ -61,6 +61,8 @@ ETableModel *e_tree_table_adapter_construct                  (ETreeTableAdapter 
 		      					      ETableSortInfo    *sort_info,
 							      ETableHeader	*header);
 
+ETreePath    e_tree_table_adapter_node_get_next              (ETreeTableAdapter *etta,
+							      ETreePath          path);
 gboolean     e_tree_table_adapter_node_is_expanded           (ETreeTableAdapter *etta,
 							      ETreePath          path);
 void         e_tree_table_adapter_node_set_expanded          (ETreeTableAdapter *etta,

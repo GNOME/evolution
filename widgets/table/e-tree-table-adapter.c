@@ -1154,3 +1154,13 @@ e_tree_table_adapter_set_sort_info (ETreeTableAdapter *etta, ETableSortInfo *sor
 	e_table_model_changed(E_TABLE_MODEL(etta));
 }
 
+ETreePath
+e_tree_table_adapter_node_get_next (ETreeTableAdapter *etta, ETreePath path)
+{
+	GNode *node = lookup_gnode (etta, path);
+
+	if (node && node->next)
+		return ((node_t *)node->next->data)->path;
+
+	return NULL;
+}

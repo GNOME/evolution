@@ -264,7 +264,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 					       rect.x + offset - INDENT_AMOUNT / 2,
 					       rect.y,
 					       rect.x + offset - INDENT_AMOUNT / 2,
-					       (e_tree_model_node_get_next (tree_model, node)
+					       (e_tree_table_adapter_node_get_next (tree_table_adapter, node)
 						? rect.y + rect.height
 						: rect.y + rect.height / 2));
 			}
@@ -276,7 +276,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 			offset -= INDENT_AMOUNT;
 			depth = visible_depth_of_node (ecell_view->e_table_model, row) - 1;
 			while (parent_node && depth != 0) {
-				if (e_tree_model_node_get_next(tree_model, parent_node)) {
+				if (e_tree_table_adapter_node_get_next(tree_table_adapter, parent_node)) {
 					gdk_draw_line (drawable, tree_view->gc,
 						       rect.x + offset - INDENT_AMOUNT / 2,
 						       rect.y,
@@ -590,7 +590,7 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 						    height);
 				gnome_print_lineto (context,
 						    offset - INDENT_AMOUNT / 2,
-						    (e_tree_model_node_get_next (tree_model, node)
+						    (e_tree_table_adapter_node_get_next (tree_table_adapter, node)
 						     ? 0
 						     : height / 2));
 			}
@@ -602,7 +602,7 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 			depth = visible_depth_of_node (ecell_view->e_table_model, row) - 1;
 			offset -= INDENT_AMOUNT;
 			while (node && depth != 0) {
-				if (e_tree_model_node_get_next(tree_model, node)) {
+				if (e_tree_table_adapter_node_get_next(tree_table_adapter, node)) {
 					gnome_print_moveto (context,
 							    offset - INDENT_AMOUNT / 2,
 							    height);
