@@ -1,5 +1,7 @@
 2000-06-05  Dan Winship  <danw@helixcode.com>
 
+	* folder-browser.c (etable_key): Add "Delete" = delete message.
+
 	* mail-format.c (mail_generate_forward): Update for new composer
 	attachment interface.
 
