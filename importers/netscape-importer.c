@@ -78,15 +78,14 @@ typedef struct {
 	/* Checkboxes */
 	GtkWidget *mail;
 	gboolean do_mail;
-	GtkWidget *addrs;
-	gboolean do_addrs;
-	GtkWidget *filters;
-	gboolean do_filters;
+/*
+  GtkWidget *addrs;
+  gboolean do_addrs;
+  GtkWidget *filters;
+  gboolean do_filters;
+*/
 	GtkWidget *settings;
 	gboolean do_settings;
-
-	GtkWidget *ask;
-	gboolean ask_again;
 
 	Bonobo_ConfigDatabase db;
 } NetscapeImporter;
@@ -98,15 +97,8 @@ netscape_store_settings (NetscapeImporter *importer)
 {
 	bonobo_config_set_boolean (importer->db, "/Importer/Netscape/mail", 
 				   importer->do_mail, NULL);
-	bonobo_config_set_boolean (importer->db, "/Importer/Netscape/address", 
-				   importer->do_addrs, NULL);
-	bonobo_config_set_boolean (importer->db, "/Importer/Netscape/filters", 
-				   importer->do_filters, NULL);
 	bonobo_config_set_boolean (importer->db, "/Importer/Netscape/settings",
 				   importer->do_settings, NULL);
-	bonobo_config_set_boolean (importer->db, 
-				   "/Importer/Netscape/ask-again", 
-				   importer->ask_again, NULL);
 }
 
 static void
@@ -115,17 +107,8 @@ netscape_restore_settings (NetscapeImporter *importer)
 	importer->do_mail = bonobo_config_get_boolean_with_default (
 		importer->db, "/Importer/Netscape/mail", TRUE, NULL);
 
-	importer->do_addrs = bonobo_config_get_boolean_with_default (
-		importer->db, "/Importer/Netscape/address", TRUE, NULL);
-
-	importer->do_filters = bonobo_config_get_boolean_with_default (
-		importer->db, "/Importer/Netscape/filters", TRUE, NULL);
-
 	importer->do_settings = bonobo_config_get_boolean_with_default (
 		importer->db, "/Importer/Netscape/settings", TRUE, NULL);
-
-	importer->ask_again = bonobo_config_get_boolean_with_default (
-                importer->db, "/Importer/Netscape/ask-again", FALSE, NULL);
 }
 
 static const char *
@@ -471,12 +454,13 @@ netscape_can_import (EvolutionIntelligentImporter *ii,
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->settings),
 				      importer->do_settings);
 
-	if (importer->ask_again == TRUE) {
-		return FALSE;
+	if (user_prefs == NULL) {
+		netscape_init_prefs ();
 	}
 
 	if (user_prefs == NULL) {
-		netscape_init_prefs ();
+		d(g_warning ("No netscape dir"));
+		return FALSE;
 	}
 
 	nsmail_dir = g_hash_table_lookup (user_prefs, "mail.directory");
@@ -730,23 +714,21 @@ netscape_destroy_cb (GtkObject *object,
 {
 	CORBA_Environment ev;
 
-	/* Save the state of the checkboxes */
-	g_print ("\n-------Settings-------\n");
-	g_print ("Mail - %s\n", importer->do_mail ? "Yes" : "No");
-	g_print ("Addressbook - %s\n", importer->do_addrs ? "Yes" : "No");
-	g_print ("Filters - %s\n", importer->do_filters ? "Yes" : "No");
-	g_print ("Settings - %s\n", importer->do_settings ? "Yes" : "No");
-
 	netscape_store_settings (importer);
 
 	CORBA_exception_init (&ev);
 	Bonobo_ConfigDatabase_sync (importer->db, &ev);
 	CORBA_exception_free (&ev);
 
-	if (importer->db != CORBA_OBJECT_NIL)
+	if (importer->db != CORBA_OBJECT_NIL) {
 		bonobo_object_release_unref (importer->db, NULL);
+	}
 	importer->db = CORBA_OBJECT_NIL;
 
+	if (importer->importer != CORBA_OBJECT_NIL) {
+		bonobo_object_release_unref (importer->importer, NULL);
+	}
+		
 	gtk_main_quit ();
 }
 
@@ -763,7 +745,7 @@ checkbox_toggle_cb (GtkToggleButton *tb,
 static BonoboControl *
 create_checkboxes_control (NetscapeImporter *importer)
 {
-	GtkWidget *container, *vbox, *sep;
+	GtkWidget *container, *vbox;
 	BonoboControl *control;
 
 	container = gtk_frame_new (_("Import"));
@@ -781,44 +763,12 @@ create_checkboxes_control (NetscapeImporter *importer)
 			    GTK_SIGNAL_FUNC (checkbox_toggle_cb),
 			    &importer->do_settings);
 
-	importer->filters = gtk_check_button_new_with_label (_("Filters"));
-	gtk_signal_connect (GTK_OBJECT (importer->filters), "toggled",
-			    GTK_SIGNAL_FUNC (checkbox_toggle_cb),
-			    &importer->do_filters);
-
-	importer->addrs = gtk_check_button_new_with_label (_("Addressbooks"));
-	gtk_signal_connect (GTK_OBJECT (importer->addrs), "toggled",
-			    GTK_SIGNAL_FUNC (checkbox_toggle_cb),
-			    &importer->do_addrs);
-
-	sep = gtk_hseparator_new ();
-
-	importer->ask = gtk_check_button_new_with_label (_("Don't ask me again"));
-	gtk_signal_connect (GTK_OBJECT (importer->ask), "toggled",
-			    GTK_SIGNAL_FUNC (checkbox_toggle_cb),
-			    &importer->ask_again);
-
 	gtk_box_pack_start (GTK_BOX (vbox), importer->mail, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), importer->settings, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), importer->filters, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), importer->addrs, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), sep, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), importer->ask, FALSE, FALSE, 0);
-
-	/* Disable the things that can't be done yet :) */
-	gtk_widget_set_sensitive (importer->filters, FALSE);
-	gtk_widget_set_sensitive (importer->addrs, FALSE);
-
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->mail), 
 				      importer->do_mail);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->settings),
 				      importer->do_settings);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->filters),
-				      importer->do_filters);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->addrs),
-				      importer->do_addrs);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->ask),
-				      importer->ask_again);
 
 	gtk_widget_show_all (container);
 	control = bonobo_control_new (container);
@@ -877,7 +827,6 @@ importer_init (void)
 {
 	BonoboGenericFactory *factory;
 
-	g_print ("Hi");
 	factory = bonobo_generic_factory_new (FACTORY_IID, factory_fn, NULL);
 	if (factory == NULL) {
 		g_error ("Unable to create factory");

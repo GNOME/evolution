@@ -1,5 +1,10 @@
 2001-07-10  Iain Holmes  <iain@ximian.com>
 
+	* netscape-importer.c: Removed all the code for the bits that are not
+	supported. Also removed the Don't Ask Me Again button.
+
+2001-07-10  Iain Holmes  <iain@ximian.com>
+
 	* evolution-gnomecard-importer.c (gnomecard_store_settings): Don't
 	use an Ask again thing.
 	(gnomecard_restore_settings): Ditto.
