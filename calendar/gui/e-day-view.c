@@ -26,17 +26,17 @@
  * EDayView - displays the Day & Work-Week views of the calendar.
  */
 
+#include <config.h>
 #include <math.h>
 #include <time.h>
 #include <gnome.h>
 #include <gdk/gdkx.h>
-
+#include <cal-util/timeutil.h>
 #include "e-day-view.h"
 #include "e-day-view-time-item.h"
 #include "e-day-view-top-item.h"
 #include "e-day-view-main-item.h"
 #include "main.h"
-#include "timeutil.h"
 #include "popup-menu.h"
 #include "eventedit.h"
 #include "../e-util/e-canvas.h"
@@ -1998,7 +1998,6 @@ e_day_view_on_delete_occurance (GtkWidget *widget, gpointer data)
 	ical_object_add_exdate (event->ico, event->start);
 	gnome_calendar_object_changed (day_view->calendar, event->ico,
 				       CHANGE_DATES);
-	save_default_calendar (day_view->calendar);
 }
 
 
@@ -2015,7 +2014,6 @@ e_day_view_on_delete_appointment (GtkWidget *widget, gpointer data)
 		return;
 
 	gnome_calendar_remove_object (day_view->calendar, event->ico);
-	save_default_calendar (day_view->calendar);
 }
 
 
@@ -2044,7 +2042,6 @@ e_day_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	gnome_calendar_object_changed (day_view->calendar, event->ico,
 				       CHANGE_ALL);
 	gnome_calendar_add_object (day_view->calendar, ico);
-	save_default_calendar (day_view->calendar);
 }
 
 
@@ -2452,7 +2449,6 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	/* Notify calendar of change */
 	gnome_calendar_object_changed (day_view->calendar, event->ico,
 				       CHANGE_DATES);
-	save_default_calendar (day_view->calendar);
 }
 
 
@@ -2493,7 +2489,6 @@ e_day_view_finish_resize (EDayView *day_view)
 	/* Notify calendar of change */
 	gnome_calendar_object_changed (day_view->calendar, event->ico,
 				       CHANGE_DATES);
-	save_default_calendar (day_view->calendar);
 }
 
 
@@ -2550,7 +2545,7 @@ e_day_view_reload_events (EDayView *day_view)
 	day_view->drag_event_day = -1;
 
 	if (day_view->calendar) {
-		calendar_iterate (day_view->calendar->cal,
+		calendar_iterate (day_view->calendar,
 				  day_view->lower,
 				  day_view->upper,
 				  e_day_view_add_event,
@@ -3393,7 +3388,6 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	e_day_view_get_selection_range (day_view, &ico->dtstart, &ico->dtend);
 
 	gnome_calendar_add_object (day_view->calendar, ico);
-	save_default_calendar (day_view->calendar);
 
 	/* gnome_calendar_add_object() should have resulted in a call to
 	   e_day_view_update_event(), so the new event should now be layed out.
@@ -3580,7 +3574,6 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 	   which will reset the event label as appropriate. */
 	gnome_calendar_object_changed (day_view->calendar, event->ico,
 				       CHANGE_SUMMARY);
-	save_default_calendar (day_view->calendar);
 }
 
 
@@ -4500,7 +4493,6 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 			gnome_calendar_object_changed (day_view->calendar,
 						       event->ico,
 						       CHANGE_DATES);
-			save_default_calendar (day_view->calendar);
 
 			return;
 		}
@@ -4522,7 +4514,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 {
 	EDayViewEvent *event;
 	EDayViewPosition pos;
-	gint day, start_row, end_row, num_rows;
+	gint day, row, start_row, end_row, num_rows, scroll_x, scroll_y;
 	gchar *event_uid;
 
 	g_print ("In e_day_view_on_main_canvas_drag_data_received\n");
@@ -4574,7 +4566,6 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 			gnome_calendar_object_changed (day_view->calendar,
 						       event->ico,
 						       CHANGE_DATES);
-			save_default_calendar (day_view->calendar);
 
 			return;
 		}

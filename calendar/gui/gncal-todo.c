@@ -852,6 +852,10 @@ gncal_todo_update (GncalTodo *todo, iCalObject *ico, int flags)
 
 	gtk_clist_clear (todo->clist);
 
+#if 0
+	/* FIXME: this is broken; it should fetch TODO objects, and it should
+	 * use ical_object_find_in_string().
+	 */
 	{
 	  /* DELETE
 	     for (list = todo->calendar->cal->todo; list; list = list->next)
@@ -871,6 +875,7 @@ gncal_todo_update (GncalTodo *todo, iCalObject *ico, int flags)
 		}
 		g_list_free (uids);
 	}
+#endif
 
 	/* if we are autoresizing then do it now */
 	if(todo_list_autoresize && todo->clist->rows != 0) 

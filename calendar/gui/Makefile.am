@@ -24,6 +24,14 @@ INCLUDES = 						\
 gnomecal_SOURCES =				\
 	alarm.c					\
 	alarm.h					\
+	e-day-view-main-item.c			\
+	e-day-view-main-item.h			\
+	e-day-view-time-item.c			\
+	e-day-view-time-item.h			\
+	e-day-view-top-item.c			\
+	e-day-view-top-item.h			\
+	e-day-view.c				\
+	e-day-view.h				\
 	eventedit.c				\
 	eventedit.h				\
 	getdate.y				\

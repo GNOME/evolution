@@ -1,3 +1,16 @@
+2000-03-17  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/e-day-view.c: Fix includes.
+	(e_day_view_on_delete_occurance): Do not call save_default_calendar().
+	(e_day_view_on_delete_appointment): Likewise.
+	(e_day_view_on_unrecur_appointment): Likewise.
+	(e_day_view_finish_long_event_resize): Likewise.
+	(e_day_view_finish_resize): Likewise.
+	(e_day_view_key_press): Likewise.
+	(e_day_view_on_editing_stopped): Likewise.
+	(e_day_view_on_top_canvas_drag_data_received): Likewise.
+	(e_day_view_on_main_canvas_drag_data_received): Likewise.
+
 2000-03-13  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/e-day-view*.[hc]: new files for the Day/Work-Week views.
