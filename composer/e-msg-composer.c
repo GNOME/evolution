@@ -2468,6 +2468,8 @@ void
 e_msg_composer_set_send_html (EMsgComposer *composer,
 			      gboolean send_html)
 {
+	CORBA_Environment ev;
+
 	g_return_if_fail (composer != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
@@ -2478,6 +2480,8 @@ e_msg_composer_set_send_html (EMsgComposer *composer,
 
 	composer->send_html = send_html;
 
+	CORBA_exception_init (&ev);
+	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "block-redraw", &ev);
 	bonobo_ui_component_set_prop (
 		composer->uic, "/commands/FormatHtml",
 		"state", composer->send_html ? "1" : "0", NULL);
@@ -2489,6 +2493,8 @@ e_msg_composer_set_send_html (EMsgComposer *composer,
 	set_config (composer, "FormatHTML", composer->send_html);
 	if (composer->sig_file)
 		e_msg_composer_set_sig_file (composer, composer->sig_file);
+	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "unblock-redraw", &ev);
+	CORBA_exception_free (&ev);
 }
 
 /**

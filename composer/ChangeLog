@@ -1,5 +1,8 @@
 2001-04-25  Radek Doulik  <rodo@ximian.com>
 
+	* e-msg-composer.c (e_msg_composer_set_send_html): block/unblock
+	redraw
+
 	* listener.c (impl_event): reflect object data type change
 
 	* e-msg-composer.c (get_sig_file_content): renamed from
