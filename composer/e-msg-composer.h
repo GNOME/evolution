@@ -63,11 +63,11 @@ struct _EMsgComposer {
 	
 	GtkWidget *address_dialog;
 	
-	Bonobo_PersistFile   persist_file_interface;
-	Bonobo_PersistStream persist_stream_interface;
-	HTMLEditor_Engine    editor_engine;
-	BonoboObject        *editor_listener;
-	GHashTable          *inline_images;
+	Bonobo_PersistFile       persist_file_interface;
+	Bonobo_PersistStream     persist_stream_interface;
+	GNOME_HTMLEditor_Engine  editor_engine;
+	BonoboObject            *editor_listener;
+	GHashTable              *inline_images;
 
 	char *sig_file;
 	

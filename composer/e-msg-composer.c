@@ -61,6 +61,8 @@
 #include "HTMLEditor.h"
 #include "listener.h"
 
+#include <libgnomevfs/gnome-vfs.h>
+
 #define HTML_EDITOR_CONTROL_ID "OAFIID:control:html-editor:63c5499b-8b0c-475a-9948-81ec96a9662c"
 
 
@@ -456,18 +458,18 @@ prepare_engine (EMsgComposer *composer)
 	/* printf ("prepare_engine\n"); */
 
 	CORBA_exception_init (&ev);
-	composer->editor_engine = (HTMLEditor_Engine) bonobo_object_client_query_interface
+	composer->editor_engine = (GNOME_HTMLEditor_Engine) bonobo_object_client_query_interface
 		(bonobo_widget_get_server (BONOBO_WIDGET (composer->editor)), "IDL:HTMLEditor/Engine:1.0", &ev);
 	if (composer->editor_engine != CORBA_OBJECT_NIL) {
 		
 		/* printf ("trying set listener\n"); */
-		composer->editor_listener = BONOBO_OBJECT (html_editor_listener_new (composer));
+		composer->editor_listener = BONOBO_OBJECT (htmleditor_listener_new (composer));
 		if (composer->editor_listener != CORBA_OBJECT_NIL)
-			HTMLEditor_Engine__set_listener (composer->editor_engine,
-							 (HTMLEditor_Listener)
-							 bonobo_object_dup_ref
-							 (bonobo_object_corba_objref (composer->editor_listener), &ev),
-							 &ev);
+			GNOME_HTMLEditor_Engine__set_listener (composer->editor_engine,
+							       (GNOME_HTMLEditor_Listener)
+							       bonobo_object_dup_ref
+							       (bonobo_object_corba_objref (composer->editor_listener), &ev),
+							       &ev);
 	}
 	CORBA_exception_free (&ev);
 }
@@ -484,7 +486,7 @@ mark_orig_text (EMsgComposer *composer)
 		*((CORBA_boolean *) flag->_value) = CORBA_TRUE;
 
 		CORBA_exception_init (&ev);
-		HTMLEditor_Engine_setObjectDataByType (composer->editor_engine, "ClueFlow", "orig", flag, &ev);
+		GNOME_HTMLEditor_Engine_setObjectDataByType (composer->editor_engine, "ClueFlow", "orig", flag, &ev);
 		CORBA_free (flag);
 		CORBA_exception_free (&ev);
 	}

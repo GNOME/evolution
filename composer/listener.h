@@ -30,11 +30,11 @@
 
 BEGIN_GNOME_DECLS
 
-#define HTML_EDITOR_LISTENER_TYPE        (html_editor_listener_get_type ())
-#define HTML_EDITOR_LISTENER(o)          (GTK_CHECK_CAST ((o), HTML_EDITOR_LISTENER_TYPE, HTMLEditorListener))
-#define HTML_EDITOR_LISTENER_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), HTML_EDITOR_LISTENER_TYPE, HTMLEditorListenerClass))
-#define IS_HTML_EDITOR_LISTENER(o)       (GTK_CHECK_TYPE ((o), HTML_EDITOR_LISTENER_TYPE))
-#define IS_HTML_EDITOR_LISTENER_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), HTML_EDITOR_LISTENER_TYPE))
+#define HTMLEDITOR_LISTENER_TYPE        (htmleditor_listener_get_type ())
+#define HTMLEDITOR_LISTENER(o)          (GTK_CHECK_CAST ((o), HTMLEDITOR_LISTENER_TYPE, HTMLEditorListener))
+#define HTMLEDITOR_LISTENER_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), HTMLEDITOR_LISTENER_TYPE, HTMLEditorListenerClass))
+#define IS_HTMLEDITOR_LISTENER(o)       (GTK_CHECK_TYPE ((o), HTMLEDITOR_LISTENER_TYPE))
+#define IS_HTMLEDITOR_LISTENER_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), HTMLEDITOR_LISTENER_TYPE))
 
 typedef struct {
 	BonoboObject parent;
@@ -45,11 +45,11 @@ typedef struct {
 	BonoboObjectClass parent_class;
 } HTMLEditorListenerClass;
 
-GtkType                       html_editor_listener_get_type   (void);
-HTMLEditorListener           *html_editor_listener_construct  (HTMLEditorListener  *listener,
-							       HTMLEditor_Listener  corba_listener);
-HTMLEditorListener           *html_editor_listener_new        (EMsgComposer *composer);
-POA_HTMLEditor_Listener__epv *html_editor_listener_get_epv    (void);
+GtkType                             htmleditor_listener_get_type   (void);
+HTMLEditorListener                 *htmleditor_listener_construct  (HTMLEditorListener        *listener,
+								    GNOME_HTMLEditor_Listener  corba_listener);
+HTMLEditorListener                 *htmleditor_listener_new        (EMsgComposer              *composer);
+POA_GNOME_HTMLEditor_Listener__epv *htmleditor_listener_get_epv    (void);
 
 END_GNOME_DECLS
 

@@ -1,5 +1,9 @@
 2000-11-15  Radek Doulik  <rodo@helixcode.com>
 
+	* updates for HTMLEditor API changes
+
+	* e-msg-composer.c: added #include <libgnomevfs/gnome-vfs.h>
+
 	* e-msg-composer.h: e_msg_composer_guess_mime_type renamed and
 	moved mime_guess_type_from_file_name from camel as it uses VFS
 
