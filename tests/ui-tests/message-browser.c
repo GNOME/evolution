@@ -76,18 +76,10 @@ get_message_tree_ctrl (CamelMimeMessage* message)
 					       tree_ctrl);
 	gtk_widget_set_usize (scroll_wnd, 150, 200);
 
+/*
+ * Recursively insert tree items in the tree
+ */
 	handle_tree_item (message_contents, tree_ctrl);
-	
-#if 0
-	for (i = 0; i < 10; i++)
-	{
-		GtkWidget* tree_item =
-			gtk_tree_item_new_with_label ("hello");
-		GtkWidget* subtree = gtk_tree_new();
-		gtk_tree_append (GTK_TREE (tree_ctrl), tree_item);
-		gtk_tree_item_set_subtree (tree_item, subtree);
-	}
-#endif
 	
 	return scroll_wnd;
 }
@@ -116,8 +108,9 @@ filename_to_camel_msg (gchar* filename)
 static void
 print_usage_and_quit()
 {
-	g_print ("Usage: message-browser [FILENAME]\n\n");
-	g_print ("\tWhere FILENAME is the name of a message\n");
+	g_print ("Usage: message-browser [FILENAME]\n");
+	g_print ("Where FILENAME is the filename of a mime message ");
+	g_print ("in \"message/rfc822\" format.\n");
 	exit (0);
 }
 

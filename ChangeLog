@@ -1,3 +1,8 @@
+2000-02-09  Matt Loper  <matt@helixcode.com>
+
+	* tests/ui-tests/message-browser.c (print_usage_and_quit): Minor
+	cleanup.
+
 2000-02-09  NotZed  <notzed@zedzone.helixcode.com>
 
 	* camel/camel-simple-data-wrapper-stream.c (class_init): Actually
@@ -19,7 +24,7 @@
 	* widgets/Makefile.am: Remove all e-text and e-minicard code and
 	add them to the SUBDIRS list.
 
-2000-02-08  Matt Loper  <matt.loper@splashtech.com>
+2000-02-08  Matt Loper  <matt@helixcode.com>
 
 	* tests/ui-tests/message-browser.c: New file; shows a message in
 	tree format, where multipart's have multiple leaves.
@@ -69,7 +74,7 @@
 	* addressbook/printing/e-contact-print.c: Removed an unneccessary
 	include of libhnj.  All uses of libhnj are commented out.
 
-2000-02-07  Matt Loper  <matt.loper@splashtech.com>
+2000-02-07  Matt Loper  <matt@helixcode.com>
 
 	* camel/camel-formatter.c (mime_part_to_html): function deleted.
 
@@ -96,7 +101,7 @@
 	use find_preferred_displayable_body_part_in_multipart_alternative
 	instead of the other names. Allows camel to have no undefined symbols. 
 
-2000-02-02  Matt Loper  <matt.loper@splashtech.com>
+2000-02-02  Matt Loper  <matt@helixcode.com>
 
 	* tests/test-formatter.c: New file; intended to test the
 	CamelFormatter class.
@@ -197,7 +202,7 @@
 	* widgets/e-minicard-label.c: Forward enter and leave
 	notifications to the contained editable text item.
 
-2000-01-26  Matt Loper  <matt.loper@splashtech.com>
+2000-01-26  Matt Loper  <matt@helixcode.com>
 
 	* camel/camel-formatter.c: By looking up a mimetype in a
 	hashtable, we can now get a handler function for an arbitrary
