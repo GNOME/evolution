@@ -1,3 +1,8 @@
+2001-05-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (add_inlined_image): Don't wrap content-id with
+	brackets here as it is now done internally in camel.
+
 2001-05-03  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (get_signature_html): put signature in 100%

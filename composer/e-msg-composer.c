@@ -165,7 +165,7 @@ best_encoding (const guchar *text)
 	
 	total = (int) (ch - text);
 	
-	if ((float) count <= total * 0.17)
+	if (count * 1.0 <= total * 0.17)
 		return CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE;
 	else
 		return CAMEL_MIME_PART_ENCODING_BASE64;
@@ -206,7 +206,7 @@ add_inlined_image (gpointer key, gpointer value, gpointer data)
 {
 	gchar *file_name          = (gchar *) key;
 	gchar *cid                = (gchar *) value;
-	gchar *id, *mime_type;
+	gchar *mime_type;
 	CamelMultipart *multipart = (CamelMultipart *) data;
 	CamelStream *stream;
 	CamelDataWrapper *wrapper;
@@ -232,9 +232,7 @@ add_inlined_image (gpointer key, gpointer value, gpointer data)
 	camel_medium_set_content_object (CAMEL_MEDIUM (part), wrapper);
 	camel_object_unref (CAMEL_OBJECT (wrapper));
 
-	id = g_strconcat ("<", cid, ">", NULL);
-	camel_mime_part_set_content_id (part, id);
-	g_free (id);
+	camel_mime_part_set_content_id (part, cid);
 	/* FIXME: should this use g_basename (file_name)? */
 	camel_mime_part_set_filename (part, strchr (file_name, '/') ? strrchr (file_name, '/') + 1 : file_name);
 	camel_mime_part_set_encoding (part, CAMEL_MIME_PART_ENCODING_BASE64);
