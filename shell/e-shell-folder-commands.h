@@ -38,6 +38,4 @@ void  e_shell_command_rename_folder        	  (EShell *shell, EShellView *shell_
 
 void  e_shell_command_add_to_shortcut_bar         (EShell *shell, EShellView *shell_view);
 
-void  e_shell_command_folder_properties           (EShell *shell, EShellView *shell_view);
-
 #endif

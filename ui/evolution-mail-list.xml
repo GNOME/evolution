@@ -66,16 +66,11 @@
 
   <menu>
 
-<!--
-This already exists in evolution.xml. We merely provide
-the verb.
-
     <submenu name="File">
       <submenu name="Folder" _label="_Folder">
-         <menuitem name="FolderConfig" verb="" _label="_Properties..."/>
+         <menuitem name="ChangeFolderProperties" verb="" _label="_Properties..."/>
       </submenu>
     </submenu>
--->
 
     <submenu name="Edit">
       <placeholder name="MailListEdit">

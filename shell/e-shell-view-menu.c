@@ -407,17 +407,6 @@ command_add_folder_to_shortcut_bar (BonoboUIComponent *uih,
 	e_shell_command_add_to_shortcut_bar (e_shell_view_get_shell (shell_view), shell_view);
 }
 
-static void
-command_folder_properties (BonoboUIComponent *uih,
-			   void *data,
-			   const char *path)
-{
-	EShellView *shell_view;
-
-	shell_view = E_SHELL_VIEW (data);
-	e_shell_command_folder_properties (e_shell_view_get_shell (shell_view), shell_view);
-}
-
 
 /* Going to a folder.  */
 
@@ -659,8 +648,6 @@ BonoboUIVerb folder_verbs [] = {
 	BONOBO_UI_VERB ("RenameFolder", command_rename_folder),
 
 	BONOBO_UI_VERB ("AddFolderToShortcutBar", command_add_folder_to_shortcut_bar),
-
-	BONOBO_UI_VERB ("ChangeFolderProperties", command_folder_properties),
 
 	BONOBO_UI_VERB_END
 };

@@ -433,16 +433,3 @@ e_shell_command_add_to_shortcut_bar (EShell *shell,
 
 	e_shortcuts_add_shortcut (shortcuts, group_num, -1, uri, NULL, NULL);
 }
-
-
-void
-e_shell_command_folder_properties (EShell *shell,
-				   EShellView *shell_view)
-{
-	g_return_if_fail (shell != NULL);
-	g_return_if_fail (E_IS_SHELL (shell));
-	g_return_if_fail (shell_view != NULL);
-	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
-
-	g_warning ("To be implemented");
-}

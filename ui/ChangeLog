@@ -1,3 +1,11 @@
+2001-07-05  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-mail-list.xml: Add the folder properties item back in;
+	use the "ChangeFolderProperties" verb instead.
+
+	* evolution.xml: Removed "Folder Properties" item from the "File"
+	menu.
+
 2001-07-04  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* evolution-mail-message.xml: MessageApplyFilters now has an icon.

@@ -123,11 +123,6 @@
         <placeholder name="ComponentPlaceholder"
                      delimit="top"/>
 
-        <menuitem name="ChangeFolderProperties"
-                  verb="ChangeFolderProperties"
-                  _label="_Properties..."
-                  _tip="Change the properties for this folder"/>
-
       </submenu>
       
       <menuitem name="FileGoToFolder" verb=""

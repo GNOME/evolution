@@ -1,3 +1,18 @@
+2001-07-05  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-view-menu.c: Removed handler for verb
+	"ChangeFolderProperties".
+	(command_folder_properties): Removed.
+
+	* e-shell-folder-commands.c (e_shell_command_folder_properties):
+	Removed.
+
+2001-07-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* main.c (development_warning): Use both `VERSION' and
+	`SUB_VERSION' here.
+	(main): Likewise.
+
 2001-07-04  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* evolution-shell-component-utils.c (e_pixmaps_update): set
