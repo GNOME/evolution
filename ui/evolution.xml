@@ -10,6 +10,9 @@
     <cmd name="FileExit" _label="E_xit" _tip="Exit the program"
       pixtype="stock" pixname="gtk-quit" accel="*Control*q"/>
 
+    <cmd name="ViewToolbar" _label="T_oolbar" type="toggle"
+      _tip="Change the visibility of the toolbar" state="1"/>
+
     <cmd name="HelpSubmitBug" _label="Submit Bug Report"
       _tip="Submit a bug report using Bug Buddy"/>
 
@@ -70,6 +73,7 @@
     <submenu name="View" _label="_View">
       <placeholder name="ViewBegin"/>
       <submenu name="Window" _label="_Window"/>
+      <menuitem name="ViewToolbar" id="ViewToolbar" verb="" accel="*Control**Shift*o"/>
       <placeholder name="ViewAfterControl"/>
     </submenu>
 
