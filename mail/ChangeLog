@@ -1,5 +1,8 @@
 2001-10-03    <NotZed@Ximian.com>
 
+	* folder-browser.c (folder_browser_config_search): Set 'to' ->
+	'recipient' data for search object.  #6199.
+
 	* mail-local.c (local_storage_new_folder_cb): Handle vtrash case,
 	emit 'folder_created' event for the folder-cache to work, etc.
 

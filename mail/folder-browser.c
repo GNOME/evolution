@@ -1063,6 +1063,10 @@ folder_browser_config_search (EFilterBar *efb, FilterRule *rule, int id, const c
 			FilterInput *input = (FilterInput *)filter_part_find_element(part, "sender");
 			if (input)
 				filter_input_set_value(input, query);
+		} else if(!strcmp(part->name, "to")) {
+			FilterInput *input = (FilterInput *)filter_part_find_element(part, "recipient");
+			if (input)
+				filter_input_set_value(input, query);
 		}
 		
 		partl = partl->next;
