@@ -1,5 +1,8 @@
 2001-09-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-account-gui.c (mail_account_gui_new): Hide the S/MIME frame
+	if we don't support S/MIME.
+
 	* mail-send-recv.c (build_dialogue): Attach to the destroy event
 	for each progressbar using bar_destroyed as the callback.
 	(bar_destroyed): New callback to unregister the timeout and set

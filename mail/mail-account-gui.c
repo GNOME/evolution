@@ -1308,7 +1308,7 @@ mail_account_gui_new (MailConfigAccount *account)
 	gui->smime_always_sign = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "smime_always_sign"));
 	gtk_toggle_button_set_active (gui->smime_always_sign, account->smime_always_sign);
 	
-#ifndef HAVE_NSS
+#if !defined(HAVE_NSS) || !defined(SMIME_SUPPORTED)
 	{
 		/* Since we don't have NSS, hide the S/MIME config options */
 		GtkWidget *frame;
