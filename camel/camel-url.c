@@ -35,10 +35,6 @@
 #include "camel-url.h"
 #include "camel-exception.h"
 
-static char *url_encode (char *part, gboolean escape_unsafe,
-			 char *escape_extra);
-static void url_decode (char *part);
-
 /**
  * camel_url_new: create a CamelURL object from a string
  * @url_string: The string containing the URL to scan
@@ -98,7 +94,7 @@ camel_url_new (const char *url_string, CamelException *ex)
 	if (strncmp (colon, "://", 3) != 0) {
 		if (*(colon + 1)) {
 			url->path = g_strdup (colon + 1);
-			url_decode (url->path);
+			camel_url_decode (url->path);
 		}
 		return url;
 	}
@@ -114,7 +110,7 @@ camel_url_new (const char *url_string, CamelException *ex)
 		colon = strchr (url_string, ':');
 		if (colon && colon < at) {
 			url->passwd = g_strndup (colon + 1, at - colon - 1);
-			url_decode (url->passwd);
+			camel_url_decode (url->passwd);
 		} else {
 			url->passwd = NULL;
 			colon = at;
@@ -125,14 +121,14 @@ camel_url_new (const char *url_string, CamelException *ex)
 		    !strncasecmp (semi, ";auth=", 6)) {
 			url->authmech = g_strndup (semi + 6,
 						     colon - semi - 6);
-			url_decode (url->authmech);
+			camel_url_decode (url->authmech);
 		} else {
 			url->authmech = NULL;
 			semi = colon;
 		}
 
 		url->user = g_strndup (url_string, semi - url_string);
-		url_decode (url->user);
+		camel_url_decode (url->user);
 		url_string = at + 1;
 	} else
 		url->user = url->passwd = url->authmech = NULL;
@@ -155,18 +151,18 @@ camel_url_new (const char *url_string, CamelException *ex)
 		}
 	} else if (slash) {
 		url->host = g_strndup (url_string, slash - url_string);
-		url_decode (url->host);
+		camel_url_decode (url->host);
 		url->port = 0;
 	} else {
 		url->host = g_strdup (url_string);
-		url_decode (url->host);
+		camel_url_decode (url->host);
 		url->port = 0;
 	}
 
 	if (!slash)
 		slash = "/";
 	url->path = g_strdup (slash);
-	url_decode (url->path);
+	camel_url_decode (url->path);
 
 	return url;
 }
@@ -180,19 +176,19 @@ camel_url_to_string (CamelURL *url, gboolean show_passwd)
 	char port[20];
 
 	if (url->user)
-		user = url_encode (url->user, TRUE, ":;@/");
+		user = camel_url_encode (url->user, TRUE, ":;@/");
 	if (url->authmech)
-		authmech = url_encode (url->authmech, TRUE, ":@/");
+		authmech = camel_url_encode (url->authmech, TRUE, ":@/");
 	if (show_passwd && url->passwd)
-		passwd = url_encode (url->passwd, TRUE, "@/");
+		passwd = camel_url_encode (url->passwd, TRUE, "@/");
 	if (url->host)
-		host = url_encode (url->host, TRUE, ":/");
+		host = camel_url_encode (url->host, TRUE, ":/");
 	if (url->port)
 		g_snprintf (port, sizeof (port), "%d", url->port);
 	else
 		*port = '\0';
 	if (url->path)
-		path = url_encode (url->path, FALSE, NULL);
+		path = camel_url_encode (url->path, FALSE, NULL);
 
 	return_result = g_strdup_printf ("%s:%s%s%s%s%s%s%s%s%s%s%s",
 				url->protocol,
@@ -232,8 +228,18 @@ camel_url_free (CamelURL *url)
 }
 
 
-static char *
-url_encode (char *part, gboolean escape_unsafe, char *escape_extra)
+/**
+ * camel_url_encode:
+ * @part: a URL part
+ * @escape_unsafe: whether or not to %-escape "unsafe" characters.
+ * ("%#<>{}|\^~[]`)
+ * @escape_extra: additional characters to escape.
+ *
+ * This %-encodes the given URL part and returns the escaped version
+ * in allocated memory, which the caller must free when it is done.
+ **/
+char *
+camel_url_encode (char *part, gboolean escape_unsafe, char *escape_extra)
 {
 	char *work, *p;
 
@@ -256,13 +262,16 @@ url_encode (char *part, gboolean escape_unsafe, char *escape_extra)
 
 #define HEXVAL(c) (isdigit (c) ? (c) - '0' : tolower (c) - 'a' + 10)
 
-/* We decode URLs in place because: (a) the data passed in is always
- * private to CamelURL, (b) we never want to keep the encoded version,
- * (c) the decoded version is never longer than the encoded version,
- * so it's safe to rewrite in place.
+/**
+ * camel_url_decode:
+ * @part: a URL part
+ *
+ * %-decodes the passed-in URL *in place*. The decoded version is
+ * never longer than the encoded version, so there does not need to
+ * be any additional space at the end of the string.
  */
-static void
-url_decode (char *part)
+void
+camel_url_decode (char *part)
 {
 	guchar *s, *d;
 

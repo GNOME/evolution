@@ -51,6 +51,10 @@ CamelURL *camel_url_new (const char *url_string, CamelException *ex);
 char *camel_url_to_string (CamelURL *url, gboolean show_password);
 void camel_url_free (CamelURL *url);
 
+char *camel_url_encode (char *part, gboolean escape_unsafe,
+			char *escape_extra);
+void camel_url_decode (char *part);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
