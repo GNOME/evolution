@@ -17,18 +17,18 @@ AC_DEFUN([GNOME_INIT],
 	fi
 
 	AC_ARG_WITH(gnome-includes,
-	[--with-gnome-includes	Specify location of GNOME headers],[
+	[  --with-gnome-includes   Specify location of GNOME headers],[
 	CFLAGS="$CFLAGS -I$withval"
 	])
 
 	AC_ARG_WITH(gnome-libs,
-	[--with-gnome-libs	Specify location of GNOME libs],[
+	[  --with-gnome-libs       Specify location of GNOME libs],[
 	LDFLAGS="$LDFLAGS -L$withval"
 	gnome_prefix=$withval
 	])
 
 	AC_ARG_WITH(gnome,
-	[--with-gnome		Specify prefix for GNOME files],[
+	[  --with-gnome            Specify prefix for GNOME files],[
 	LDFLAGS="$LDFLAGS -L$withval/lib"
 	CFLAGS="$CFLAGS -I$withval/include"
 	gnome_prefix=$withval/lib
