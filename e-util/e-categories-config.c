@@ -8,6 +8,7 @@
  * Copyright 2001, Ximian, Inc.
  */
 
+#include <string.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
