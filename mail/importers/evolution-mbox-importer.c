@@ -140,7 +140,7 @@ process_item_fn (EvolutionImporter *eimporter,
 	MailImporter *importer = (MailImporter *) mbi;
 	gboolean done = FALSE;
 	CamelException *ex;
-	char *mozilla_status;
+	const char *mozilla_status;
 
 	if (importer->folder == NULL) {
 		GNOME_Evolution_ImporterListener_notifyResult (listener,

@@ -33,6 +33,7 @@
 #include <gal/widgets/e-popup-menu.h>
 #include <gal/widgets/e-unicode.h>
 #include <gtk/gtkinvisible.h>
+#include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-embedded.h>
 #include <gtkhtml/htmlengine.h>	/* XXX */
 #include <gtkhtml/htmlobject.h> /* XXX */

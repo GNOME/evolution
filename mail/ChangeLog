@@ -1,3 +1,17 @@
+2002-04-29  Larry Ewing  <lewing@ximian.com>
+
+	* importers/evolution-mbox-importer.c (process_item_fn): add const
+	to silence warning.
+
+	* mail-display.c: add gtkhtml.h include so to pick up the
+	object_relative prototype.
+
+2002-04-26  Larry Ewing  <lewing@ximian.com>
+
+	* mail-font-prefs.c: Add the font config dialog.
+
+	* mail-font-prefs.h: add font config dialog headers.
+
 2002-04-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* Makefile.am: Don't link with libibex anymore, it's been
@@ -14,6 +28,7 @@
 	* mail-account-gui.c (mail_account_gui_auto_detect_extra_conf):
 	New function to auto-detect the extra config options for a source.
 
+>>>>>>> 1.2146
 2002-04-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (mail_account_gui_build_extra_conf): Allow
