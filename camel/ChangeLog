@@ -1,3 +1,9 @@
+2001-11-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-pgp-context.c (crypto_exec_with_passwd): If any of the
+	pipe()'s fail, clean up any pipes that may have succeeded. Also
+	close the password fds.
+
 2001-11-09    <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-store.c (imap_auth_loop): If we get a

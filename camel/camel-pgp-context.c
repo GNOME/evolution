@@ -50,7 +50,6 @@
 #include <sys/wait.h>
 #include <termios.h>
 #include <unistd.h>
-#include <signal.h>
 
 #include <iconv.h>
 #include <gal/unicode/gunicode.h>
@@ -171,9 +170,9 @@ pgp_get_type_as_string (CamelPgpType type)
 	case CAMEL_PGP_TYPE_PGP2:
 		return "PGP 2.6.x";
 	case CAMEL_PGP_TYPE_PGP5:
-		return "PGP 5.x";
+		return "PGP 5.0";
 	case CAMEL_PGP_TYPE_PGP6:
-		return "PGP 6.x";
+		return "PGP 6.5.8";
 	case CAMEL_PGP_TYPE_GPG:
 		return "GnuPG";
 	default:
@@ -291,25 +290,37 @@ crypto_exec_with_passwd (const char *path, char *argv[], const char *input, int 
 	size_t passwd_remaining, passwd_incr, input_remaining, input_incr;
 	size_t size, alloc_size, diag_size, diag_alloc_size;
 	int select_result, read_len, write_len, cancel_fd;
-	int ip_fds[2], op_fds[2], diag_fds[2];
+	int fds[6], *ip_fds, *op_fds, *diag_fds;
 	const char *passwd_next, *input_next;
 	char *buf = NULL, *diag_buf = NULL;
 	fd_set fdset, write_fdset;
 	struct timeval timeout;
 	size_t tmp_len;
 	pid_t child;
+	int i;
 	
 	if (camel_operation_cancel_check (NULL)) {
 		errno = EINTR;
 		return -1;
 	}
 	
-	if ((pipe (ip_fds) < 0 ) ||
-	    (pipe (op_fds) < 0 ) ||
-	    (pipe (diag_fds) < 0 )) {
-		*diagnostics = g_strdup_printf ("Couldn't create pipe to %s: "
-						"%s", path,
-						g_strerror (errno));
+	for (i = 0; i < 6; i++)
+		fds[i] = -1;
+	
+	ip_fds = fds;
+	op_fds = fds + 2;
+	diag_fds = fds + 4;
+	
+	if ((pipe (ip_fds) == -1) || (pipe (op_fds) == -1) || (pipe (diag_fds) == -1)) {
+		*diagnostics = g_strdup_printf ("Couldn't create pipe to %s: %s",
+						path, g_strerror (errno));
+		
+		for (i = 0; i < 6; i++)
+			close (fds[i]);
+		
+		close (passwd_fds[0]);
+		close (passwd_fds[1]);
+		
 		return -1;
 	}
 	
@@ -512,6 +523,9 @@ crypto_exec_with_passwd (const char *path, char *argv[], const char *input, int 
 	diag_buf[diag_size] = 0;
 	close (op_fds[0]);
 	close (diag_fds[0]);
+	
+	if (!passwd_eof_seen)
+		close (passwd_fds[1]);
 	
 	*output = buf;
 	if (outlen)

@@ -99,21 +99,21 @@ camel_smime_is_smime_v3_encrypted (CamelMimePart *mime_part)
 		return TRUE;
 	}
 	
-	if (header_content_type_is (type, "application", "octent-stream")) {
+	if (header_content_type_is (type, "application", "octet-stream")) {
 		/* check to see if we have a paremeter called "smime-type" */
 		param = header_content_type_param (type, "smime-type");
 		if (param)
 			return TRUE;
 		
 		/* check to see if there is a name param and if it has a smime extension */
-		param = header_content_type_param (type, "smime-type");
+		param = header_content_type_param (type, "name");
 		if (param && *param && strlen (param) > 4) {
 			for (i = 0; types[i]; i++)
 				if (!g_strcasecmp (param + strlen (param)-4, types[i]))
 					return TRUE;
 		}
 		
-		/* check to see if there is a name param and if it has a smime extension */
+		/* check to see if there is a filename param and if it has a smime extension */
 		filename = camel_mime_part_get_filename (mime_part);
 		if (filename && *filename && strlen (filename) > 4) {
 			for (i = 0; types[i]; i++)
