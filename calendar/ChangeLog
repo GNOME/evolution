@@ -1,3 +1,11 @@
+2005-03-13  JP Rosevear  <jpr@novell.com>
+
+	Fixes #73563
+	
+	* gui/alarm-notify/alarm-queue.c (notify_dialog_cb): make sure in
+	the snooze case the tray (and via callbacks then) the dialog is
+	destroyed
+
 2005-03-14  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #72979

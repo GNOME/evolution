@@ -761,7 +761,7 @@ notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
 	case ALARM_NOTIFY_SNOOZE:
 		create_snooze (tray_data->cqa, tray_data->alarm_id, snooze_mins);
 		tray_data->cqa = NULL;
-		return;
+		break;
 
 	case ALARM_NOTIFY_EDIT:
 		edit_component (tray_data->client, tray_data->comp);
