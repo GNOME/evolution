@@ -1,3 +1,13 @@
+2002-07-01  Not Zed  <NotZed@Ximian.com>
+
+	* mail-folder-cache.c (folder_deleted): Removed.  The
+	folder's deleted event isn't needed since we're listening to the
+	store's folder_deleted signal.  Also, the code was wrong, it
+	cleared the folder without disconnecting events, etc.  See #16486,
+	and probably others.
+	(mail_note_folder): Dont hook onto deleted anymore.
+	(unset_folder_info): Or unhook from it.
+
 2002-06-07  Not Zed  <NotZed@Ximian.com>
 
 	* mail-callbacks.c (e_gnome_warning_dialog_parented):

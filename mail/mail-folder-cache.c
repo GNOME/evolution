@@ -225,7 +225,6 @@ unset_folder_info(struct _folder_info *mfi, int delete)
 
 		camel_object_unhook_event((CamelObject *)folder, "folder_changed", folder_changed, mfi);
 		camel_object_unhook_event((CamelObject *)folder, "message_changed", folder_changed, mfi);
-		camel_object_unhook_event((CamelObject *)folder, "deleted", folder_deleted, mfi);
 		camel_object_unhook_event((CamelObject *)folder, "renamed", folder_renamed, mfi);
 		camel_object_unhook_event((CamelObject *)folder, "finalize", folder_finalised, mfi);
 	}
@@ -389,17 +388,6 @@ folder_finalised(CamelObject *o, gpointer event_data, gpointer user_data)
 }
 
 static void
-folder_deleted(CamelObject *o, gpointer event_data, gpointer user_data)
-{
-	struct _folder_info *mfi = user_data;
-
-	d(printf("Folder deleted '%s'!\n", ((CamelFolder *)o)->full_name));
-	LOCK(info_lock);
-	mfi->folder = NULL;
-	UNLOCK(info_lock);
-}
-
-static void
 folder_renamed(CamelObject *o, gpointer event_data, gpointer user_data)
 {
 	struct _folder_info *mfi = user_data;
@@ -450,7 +438,6 @@ void mail_note_folder(CamelFolder *folder)
 
 	camel_object_hook_event((CamelObject *)folder, "folder_changed", folder_changed, mfi);
 	camel_object_hook_event((CamelObject *)folder, "message_changed", folder_changed, mfi);
-	camel_object_hook_event((CamelObject *)folder, "deleted", folder_deleted, mfi);
 	camel_object_hook_event((CamelObject *)folder, "renamed", folder_renamed, mfi);
 	camel_object_hook_event((CamelObject *)folder, "finalize", folder_finalised, mfi);
 
@@ -490,7 +477,7 @@ store_folder_unsubscribed(CamelObject *o, void *event_data, void *data)
 	struct _folder_info *mfi;
 	CamelStore *store = (CamelStore *)o;
 
-	d(printf("Folder deleted: %s\n", fi->full_name));
+	d(printf("Store Folder deleted: %s\n", fi->full_name));
 
 	LOCK(info_lock);
 	si = g_hash_table_lookup(stores, store);
