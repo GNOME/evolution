@@ -17,6 +17,16 @@ fi
   DIE=1
 }
 
+(grep "^AM_PROG_XML_I18N_TOOLS" $srcdir/configure.in >/dev/null) && {
+  (xml-i18n-toolize --version) < /dev/null > /dev/null 2>&1 || {
+    echo 
+    echo "**Error**: You must have \`xml-i18n-toolize' installed to compile Gnome."
+    echo "Get ftp://ftp.gnome.org/pub/GNOME/stable/sources/xml-i18n-tools/xml-i18n-tools-0.6.tar.gz"
+    echo "(or a newer version if it is available)"
+    DIE=1
+  }
+}
+
 (grep "^AM_PROG_LIBTOOL" $srcdir/configure.in >/dev/null) && {
   (libtool --version) < /dev/null > /dev/null 2>&1 || {
     echo

@@ -13,6 +13,8 @@ PACKAGE=evolution
 AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
 AC_SUBST(VERSION)
 
+dnl Initialize xml-i18n-tools
+AM_PROG_XML_I18N_TOOLS
 
 dnl Initialize libtool
 AM_PROG_LIBTOOL
