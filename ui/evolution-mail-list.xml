@@ -3,15 +3,15 @@
   <commands>   <!-- Alphabetical by name, yo -->
 
     <cmd name="EditCut"
-     _tip="Cut selected messages"
+     _tip="Cut selected message(s) to the clipboard"
      accel="*Control*x" pixtype="pixbuf"/>
 
     <cmd name="EditCopy"
-     _tip="Copy selected messages"
+     _tip="Copy selected message(s) to the clipboard"
      accel="*Control*c" pixtype="pixbuf"/>
 
     <cmd name="EditPaste"
-     _tip="Paste message in the clipboard"
+     _tip="Paste message(s) from the clipboard"
      accel="*Control*v" pixtype="pixbuf"/>
 
     <cmd name="EditInvertSelection"

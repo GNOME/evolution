@@ -1,3 +1,7 @@
+2002-10-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* evolution-mail-list.xml: Made tooltips more clear.
+
 2002-10-04  Dan Winship  <danw@ximian.com>
 
 	* evolution.xml: Remove "..." from "Remove Other User's Folder"
