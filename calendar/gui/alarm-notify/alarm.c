@@ -11,6 +11,7 @@
 #include <fcntl.h>
 #include <signal.h>
 #include <sys/time.h>
+#include "calobj.h"
 #include "alarm.h"
 
 /* The pipes used to notify about an alarm */
@@ -25,6 +26,7 @@ typedef struct {
 	time_t        activation_time;
 	AlarmFunction fn;
 	void          *closure;
+	CalendarAlarm *alarm;
 } AlarmRecord;
 
 /*
@@ -42,6 +44,7 @@ static void
 alarm_ready (void *closure, int fd, GdkInputCondition cond)
 {
 	AlarmRecord *ar = head_alarm;
+	time_t now = time (NULL);
 	char c;
 
 	if (read (alarm_pipes [0], &c, 1) != 1)
@@ -51,12 +54,33 @@ alarm_ready (void *closure, int fd, GdkInputCondition cond)
 		g_warning ("Empty events.  This should not happen\n");
 		return;
 	}
-	(*ar->fn)(ar->activation_time, ar->closure);
-	alarms = g_list_remove (alarms, head_alarm);
-	if (alarms)
-		head_alarm = alarms->data;
-	else
-		head_alarm = NULL;
+
+	while (head_alarm){
+		(*ar->fn)(ar->activation_time, ar->alarm, ar->closure);
+		alarms = g_list_remove (alarms, head_alarm);
+
+		/* Schedule next alarm */
+		if (alarms){
+			AlarmRecord *next;
+			
+			head_alarm = alarms->data;
+			next = head_alarm;
+
+			if (next->activation_time > now){
+				struct itimerval itimer;
+				
+				itimer.it_interval.tv_sec = 0;
+				itimer.it_interval.tv_usec = 0;
+				itimer.it_value.tv_sec = next->activation_time - now;
+				itimer.it_value.tv_usec = 0;
+				setitimer (ITIMER_REAL, &itimer, NULL);
+			} else {
+				g_free (ar);
+				ar = next;
+			}
+		} else
+			head_alarm = NULL;
+	}
 	g_free (ar);
 }
 
@@ -72,10 +96,11 @@ alarm_compare_by_time (gconstpointer a, gconstpointer b)
 }
 
 void
-alarm_add (time_t alarm_time, AlarmFunction fn, void *closure)
+alarm_add (CalendarAlarm *alarm, AlarmFunction fn, void *closure)
 {
 	time_t now = time (NULL);
 	AlarmRecord *ar;
+	time_t alarm_time = alarm->trigger;
 
 	/* If it already expired, do not add it */
 	if (alarm_time < now)
@@ -85,6 +110,7 @@ alarm_add (time_t alarm_time, AlarmFunction fn, void *closure)
 	ar->activation_time = alarm_time;
 	ar->fn = fn;
 	ar->closure = closure;
+	ar->alarm = alarm;
 
 	alarms = g_list_insert_sorted (alarms, ar, alarm_compare_by_time);
 

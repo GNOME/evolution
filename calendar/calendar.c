@@ -14,8 +14,8 @@
 
 #include <config.h>
 #include <unistd.h>
-#include "alarm.h"
 #include "calendar.h"
+#include "alarm.h"
 #include "timeutil.h"
 #include "../libversit/vcc.h"
 
@@ -42,7 +42,7 @@ try_add (iCalObject *ico, CalendarAlarm *alarm, time_t start, time_t end)
 		return;
 	if (alarm->trigger > calendar_day_end)
 		return;
-	alarm_add (alarm->trigger, calendar_notify, ico);
+	alarm_add (alarm, &calendar_notify, ico);
 }
 
 static int

@@ -59,7 +59,7 @@ void calendar_destroy_event_list (GList *l);
 /* Informs the calendar that obj information has changed */
 void      calendar_object_changed       (Calendar *cal, iCalObject *obj, int flags);
 
-void      calendar_notify (time_t, void *data);
+void      calendar_notify (time_t time, CalendarAlarm *which, void *data);
 END_GNOME_DECLS
 
 #endif

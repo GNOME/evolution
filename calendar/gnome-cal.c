@@ -338,29 +338,59 @@ mail_notify (char *mail_address, char *text, time_t app_time)
 	g_free (command);
 }
 
+static void
+stop_beeping (GtkObject *object, gpointer tagp)
+{
+	guint tag = GPOINTER_TO_INT (tagp);
+
+	gtk_timeout_remove (tag);
+}
+
+static gint
+start_beeping (gpointer data)
+{
+	gdk_beep ();
+	
+	return TRUE;
+}
+
 void
-calendar_notify (time_t time, void *data)
+calendar_notify (time_t time, CalendarAlarm *which, void *data)
 {
 	iCalObject *ico = data;
+	guint tag;
+		
+	if (&ico->aalarm == which){
+		time_t app = ico->dalarm.trigger + ico->dalarm.offset;
+		GtkWidget *w;
+		char *msg;
 
-	if (ico->aalarm.enabled && ico->aalarm.trigger == time){
-		printf ("bip\n");
+		msg = g_copy_strings (_("Reminder of your appointment at "),
+					ctime (&app), "`",
+					ico->summary, "'", NULL);
+
+		/* Idea: we need Snooze option :-) */
+		w = gnome_message_box_new (msg, GNOME_MESSAGE_BOX_INFO, "Ok", NULL);
+		tag = gtk_timeout_add (1000, start_beeping, NULL);
+		gtk_signal_connect (GTK_OBJECT (w), "destroy", stop_beeping, GINT_TO_POINTER (tag));
+		gtk_widget_show (w);
+
 		return;
 	}
 
-        if (ico->palarm.enabled && ico->palarm.trigger == time){
+        if (&ico->palarm == which){
 		execute (ico->palarm.data, 0);
 		return;
 	}
 
-	if (ico->malarm.enabled && ico->malarm.trigger == time){
+	if (&ico->malarm == which){
 		time_t app = ico->malarm.trigger + ico->malarm.offset;
 
 		mail_notify (ico->malarm.data, ico->summary, app);
 		return;
 	}
 
-	if (ico->dalarm.enabled && ico->dalarm.trigger == time){
+	if (&ico->dalarm == which){
 		time_t app = ico->dalarm.trigger + ico->dalarm.offset;
 		GtkWidget *w;
 		char *msg;

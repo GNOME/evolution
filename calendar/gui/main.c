@@ -13,8 +13,8 @@
 #include <sys/types.h>
 #include <string.h>
 #include <ctype.h>
-#include "alarm.h"
 #include "calendar.h"
+#include "alarm.h"
 #include "eventedit.h"
 #include "gnome-cal.h"
 #include "main.h"

@@ -1,3 +1,16 @@
+1998-12-16  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	Rewrote the old and broken alarm system.  It never actually
+	worked properly.  Now it works properly, and I figured a nice way
+	to get the Audio alarm do something nicer (it is now like an alarm
+	clock :-). 
+	
+	* gnome-cal.c (calendar_notify): Now we take a CalendarAlarm to
+	actually distinguish which alarm was triggered.
+
+	* alarm.c (alarm_ready): The code was only activating the first
+	alarm.  Reschedule the timer upon delivery of an alarm.
+
 1998-12-14  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* year-view.c (idle_handler): Use the allocation size instead of
