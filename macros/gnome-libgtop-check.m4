@@ -7,7 +7,9 @@ dnl
 AC_DEFUN([GNOME_LIBGTOP_TYPES],
 [
 	AC_CHECK_TYPE(u_int64_t, unsigned long long int)
-	AC_CHECK_TYPE(int64_t, long long int)
+	AC_CHECK_TYPE(int64_t, signed long long int)
+	AC_CHECK_TYPE(u_int8_t, unsigned char)
+	AC_CHECK_TYPE(int8_t, signed char)
 ])
 
 dnl
