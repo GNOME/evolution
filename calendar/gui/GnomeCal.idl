@@ -53,6 +53,13 @@ module GNOME {
 				raises (NotFound);
 
 			/*
+			 * get_objects:
+			 * 
+			 * Returns a vCalendar with all the objects
+			 */
+			string get_objects ();
+
+			/*
 			 * get_updated_objects:
 			 * 
 			 * Returns a vCalendar with all the objects that have been

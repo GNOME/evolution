@@ -179,6 +179,33 @@ cal_repo_update_pilot_id (PortableServer_Servant servant,
 }
 
 static CORBA_char *
+cal_repo_get_objects (PortableServer_Servant servant,
+		      CORBA_Environment *ev)
+{
+	GnomeCalendar *gcal = gnomecal_from_servant (servant);
+	Calendar *dirty_cal;
+	GList *l;
+	char *str;
+	CORBA_char *res;
+	
+	dirty_cal = calendar_new ("Temporal");
+	
+	for (l = gcal->cal->events; l; l = l->next){
+		iCalObject *obj = l->data;
+
+		obj = ical_object_duplicate (l->data);
+
+		calendar_add_object (dirty_cal, obj);
+	}
+	str = calendar_get_as_vcal_string (dirty_cal);
+	res = CORBA_string_dup (str);
+	g_free (str);
+	calendar_destroy (dirty_cal);
+
+	return res;
+}
+
+static CORBA_char *
 cal_repo_get_updated_objects (PortableServer_Servant servant,
 			      CORBA_Environment *ev)
 {
@@ -225,6 +252,7 @@ init_calendar_repo_class (void)
 	calendar_repository_epv.get_id_from_pilot_id = cal_repo_get_id_from_pilot_id;
 	calendar_repository_epv.delete_object = cal_repo_delete_object;
 	calendar_repository_epv.update_object = cal_repo_update_object;
+	calendar_repository_epv.get_objects = cal_repo_get_objects;
 	calendar_repository_epv.get_updated_objects = cal_repo_get_updated_objects;
 	calendar_repository_epv.update_pilot_id = cal_repo_update_pilot_id;
 	
@@ -263,4 +291,3 @@ gnome_calendar_create_corba_server (GnomeCalendar *calendar)
 		poa, calendar_servant, &ev);
 	CORBA_exception_free (&ev);
 }
-
