@@ -1,3 +1,7 @@
+2004-12-09  Rodney Dawes  <dobey@novell.com>
+
+	* evolution.xml: Add pixtype of pixbuf to the OpenNewWindow menu item
+
 2004-11-23  Hao Sheng <hao.sheng@sun.com>
 
 	* evolution-addressbook.xml: Binding Sun Type 6 Keyboard's 

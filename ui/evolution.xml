@@ -40,7 +40,7 @@
 	<placeholder name="ComponentItems"/>
       </submenu>
 
-      <menuitem name="OpenNewWindow" verb=""/>
+      <menuitem name="OpenNewWindow" verb="" pixtype="pixbuf"/>
 
       <placeholder name="FileOps"/>
 
