@@ -33,6 +33,7 @@ struct _EBookViewListenerPrivate {
 static gboolean
 e_book_view_listener_check_queue (EBookViewListener *listener)
 {
+	bonobo_object_ref (BONOBO_OBJECT (listener));
 	if (listener->priv->response_queue != NULL) {
 		gtk_signal_emit (GTK_OBJECT (listener),
 				 e_book_view_listener_signals [RESPONSES_QUEUED]);
@@ -40,8 +41,10 @@ e_book_view_listener_check_queue (EBookViewListener *listener)
 
 	if (listener->priv->response_queue == NULL) {
 		listener->priv->idle_id = 0;
+		bonobo_object_unref (BONOBO_OBJECT (listener));
 		return FALSE;
 	}
+	bonobo_object_unref (BONOBO_OBJECT (listener));
 
 	return TRUE;
 }

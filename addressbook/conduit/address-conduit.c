@@ -277,7 +277,7 @@ get_entry_text (struct Address address, int field)
 	if (address.entry[field])
 		return e_pilot_utf8_from_pchar (address.entry[field]);
 	
-	return strdup ("");
+	return g_strdup ("");
 }
 
 static void
@@ -461,13 +461,13 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	if (address.entry[entryTitle]) {
 		char *txt = get_entry_text (address, entryTitle);
 		e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_TITLE, txt);
-		free (txt);
+		g_free (txt);
 	}
 
 	if (address.entry[entryCompany]) {
 		char *txt = get_entry_text (address, entryCompany);
 		e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_ORG, txt);
-		free (txt);
+		g_free (txt);
 	}
 
 	/* Address */
@@ -482,28 +482,23 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	if (address.entry[entryCountry])
 		delivery.country = get_entry_text (address, entryCountry);
 	if (address.entry[entryZip])
-		delivery.code = address.entry[entryZip];
+		delivery.code = get_entry_text (address, entryZip);
 
 	string = e_card_delivery_address_to_string (&delivery);
 	e_card_simple_set (simple,  E_CARD_SIMPLE_FIELD_ADDRESS_BUSINESS, string);
 	g_free (string);
 
-	if (address.entry[entryAddress])
-		free (delivery.street);
-	if (address.entry[entryCity])
-		free (delivery.city);
-	if (address.entry[entryState])
-		free (delivery.region);
-	if (address.entry[entryCountry])
-		free (delivery.country);
-	if (address.entry[entryZip])
-		free (delivery.code);	
+	free (delivery.street);
+	free (delivery.city);
+	free (delivery.region);
+	free (delivery.country);
+	free (delivery.code);
 
 	/* Phone numbers */
 	for (i = entryPhone1; i <= entryPhone5; i++) {
 		char *phonelabel = ctxt->ai.phoneLabels[address.phoneLabel[i - entryPhone1]];
 		char *phonenum = get_entry_text (address, i);
-		
+
 		if (!strcmp (phonelabel, "E-mail"))
 			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_EMAIL, phonenum);
 		else if (!strcmp (phonelabel, "Home"))
@@ -520,9 +515,10 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_PAGER, phonenum);
 		else if (!strcmp (phonelabel, "Mobile"))
 			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_MOBILE, phonenum);
+
 		g_print ("    ['%s' : '%s']\n", phonelabel, phonenum);
 		
-		free (phonenum);
+		g_free (phonenum);
 	}
 
 	e_card_simple_sync_card (simple);
@@ -605,6 +601,7 @@ card_removed (EBookView *book_view, const char *id, EAddrConduitContext *ctxt)
 static void
 sequence_complete (EBookView *book_view, EAddrConduitContext *ctxt)
 {
+	gtk_signal_disconnect_by_data (GTK_OBJECT (book_view), ctxt);
 	gtk_object_unref (GTK_OBJECT (book_view));
   	gtk_main_quit ();
 }

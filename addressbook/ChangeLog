@@ -1,3 +1,16 @@
+2001-01-19  JP Rosevear  <jpr@ximian.com>
+
+	* conduit/address-conduit.c (ecard_from_remote_record): always free 
+	the delivery elements and correct embarrassingly stupid memory error 
+	that was causing the addressbook conduit problems.
+
+	* backend/ebook/e-book-view-listener.c 
+	(e_book_view_listener_check_queue): ref/unref ourself when processing 
+	in case someone we signal unrefs us.
+
+	* conduit/address-conduit.c (sequence_complete): disconnect signals
+	when complete
+
 2001-01-17  Federico Mena Quintero  <federico@ximian.com>
 
 	* backend/pas/pas-book-factory.c (pas_book_factory_activate): Made
