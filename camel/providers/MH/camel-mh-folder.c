@@ -50,6 +50,7 @@ static gboolean _delete (CamelFolder *folder, gboolean recurse);
 static gboolean _delete_messages (CamelFolder *folder);
 static GList *_list_subfolders (CamelFolder *folder);
 static CamelMimeMessage *_get_message (CamelFolder *folder, gint number);
+static gint _get_message_count (CamelFolder *folder);
 
 static void
 camel_mh_folder_class_init (CamelMhFolderClass *camel_mh_folder_class)
@@ -67,6 +68,7 @@ camel_mh_folder_class_init (CamelMhFolderClass *camel_mh_folder_class)
 	camel_folder_class->delete_messages = _delete_messages;
 	camel_folder_class->list_subfolders = _list_subfolders;
 	camel_folder_class->get_message = _get_message;
+	camel_folder_class->get_message_count = _get_message_count;
 	
 }
 
@@ -249,7 +251,6 @@ _delete_messages (CamelFolder *folder)
 	const gchar *directory_path;
 	struct stat stat_buf;
 	gint stat_error = 0;
-	GList *file_list;
 	gchar *entry_name;
 	struct dirent *dir_entry;
 	gint unlink_error = 0;
@@ -397,3 +398,67 @@ _get_message (CamelFolder *folder, gint number)
 
 	return message;   
 }
+
+
+static gboolean
+_is_a_message_file (const gchar *file_name, const gchar *file_path)
+{
+	struct stat stat_buf;
+	gint stat_error = 0;
+	gboolean ok;
+	gchar *full_file_name;
+	int i;
+	
+	
+	
+	
+	/* test if the name is a number */
+	i=0;
+	while ((file_name[i] != '\0') && (file_name[i] >= '0') && (file_name[i] <= '9'))
+		i++;
+	if ((i==0) || (file_name[i] != '\0')) return FALSE;
+	
+	
+	/* is it a regular file ? */
+	full_file_name = g_strdup_printf ("%s/%s", file_path, file_name);
+	stat_error = stat (full_file_name, &stat_buf);
+	g_free (full_file_name);
+
+	return  ((stat_error != -1) && S_ISREG (stat_buf.st_mode));
+	
+}
+
+
+static gint
+_get_message_count (CamelFolder *folder)
+{
+
+	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER(folder);
+	const gchar *directory_path;
+	struct dirent *dir_entry;
+	DIR *dir_handle;
+	guint message_count = 0;
+
+	g_assert(folder);
+
+	directory_path = mh_folder->directory_path;
+	if (!directory_path) return -1;
+	
+	if (!camel_folder_exists (folder)) return 0;
+	
+	dir_handle = opendir (directory_path);
+	
+	/* read first entry in the directory */
+	dir_entry = readdir (dir_handle);
+	while (dir_entry != NULL) {
+		/* tests if the entry correspond to a message file */
+		if (_is_a_message_file (dir_entry->d_name, directory_path)) 
+			message_count++;	
+		/* read next entry */
+		dir_entry = readdir (dir_handle);
+	}
+
+	closedir (dir_handle);
+	return message_count;
+}
+
