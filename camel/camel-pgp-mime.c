@@ -63,7 +63,7 @@ camel_pgp_mime_is_rfc2015_signed (CamelMimePart *mime_part)
 #ifdef ENABLE_PEDANTIC_PGPMIME
 	/* check that we have a protocol param with the value: "application/pgp-signature" */
 	param = header_content_type_param (type, "protocol");
-	if (!param || g_strcasecmp (param, "application/pgp-signature"))
+	if (!param || strcasecmp (param, "application/pgp-signature"))
 		return FALSE;
 	
 	/* check that we have a micalg parameter */
@@ -126,7 +126,7 @@ camel_pgp_mime_is_rfc2015_encrypted (CamelMimePart *mime_part)
 #ifdef ENABLE_PEDANTIC_PGPMIME
 	/* check that we have a protocol param with the value: "application/pgp-encrypted" */
 	param = header_content_type_param (type, "protocol");
-	if (!param || g_strcasecmp (param, "application/pgp-encrypted"))
+	if (!param || strcasecmp (param, "application/pgp-encrypted"))
 		return FALSE;
 #endif /* ENABLE_PEDANTIC_PGPMIME */
 	

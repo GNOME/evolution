@@ -81,9 +81,9 @@ check_html_charset(char *buffer, int length)
 		case CAMEL_HTML_PARSER_ELEMENT:
 			val = camel_html_parser_tag(hp);
 			d(printf("Got tag: %s\n", val));
-			if (g_strcasecmp(val, "meta") == 0
+			if (strcasecmp(val, "meta") == 0
 			    && (val = camel_html_parser_attr(hp, "http-equiv"))
-			    && g_strcasecmp(val, "content-type") == 0
+			    && strcasecmp(val, "content-type") == 0
 			    && (val = camel_html_parser_attr(hp, "content"))
 			    && (ct = header_content_type_decode(val))) {
 				charset = header_content_type_param(ct, "charset");

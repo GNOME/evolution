@@ -360,7 +360,7 @@ decode_data_type (DataType *dtype, const char *name)
 	int i;
 	
 	for (i = 0; dtype[i].name; i++) {
-		if (!g_strcasecmp (dtype[i].name, name))
+		if (!strcasecmp (dtype[i].name, name))
 			break;
 	}
 	
@@ -467,7 +467,7 @@ parse_server_challenge (const char *tokens, gboolean *abort)
 			break;
 		case DIGEST_STALE:
 			PARANOID (digest_abort (&got_stale, abort));
-			if (!g_strcasecmp (param->value, "true"))
+			if (!strcasecmp (param->value, "true"))
 				challenge->stale = TRUE;
 			else
 				challenge->stale = FALSE;

@@ -35,8 +35,6 @@ extern "C" {
 
 #include <glib.h>
 
-void g_hash_table_generic_free (gpointer key, gpointer value, gpointer user_data);
-
 gint g_strcase_equal (gconstpointer a, gconstpointer b);
 guint g_strcase_hash (gconstpointer v);
 

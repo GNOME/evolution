@@ -1,3 +1,41 @@
+2002-10-31  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Remove a ton of useless snot.
+
+	* Makefile.am: Remove gstring-util.[c,h] from the build.
+
+	* gstring-util.[c,h]: Removed.
+
+	* string-utils.c (string_equal_for_glist): Removed.
+	(string_split): Removed.
+	(string_trim): Removed.
+	(string_prefix): Removed.
+	(string_unquote): Removed.
+	(strip): Removed.
+
+	* hash-table-utils.c (g_hash_table_generic_free): Removed.
+
+	g_str[n]casecmp functions are deprecated in glib2.
+
+	* string-utils.c (strstrcase): Use strncasecmp instead of
+	g_strncasecmp.
+
+	* hash-table-utils.c (g_strcase_equal): Use strcasecmp
+	instead of g_strcasecmp.
+
+	* camel-smime-utils.c (camel_smime_is_smime_v3_signed): Same.
+	(camel_smime_is_smime_v3_encrypted): Here too.
+
+	* camel-sasl-digest-md5.c (decode_data_type): And here.
+	(parse_server_challenge): Again here.
+
+	* camel-pgp-mime.c (camel_pgp_mime_is_rfc2015_signed): Same.
+	(camel_pgp_mime_is_rfc2015_encrypted): Same
+
+	* camel-mime-part-utils.c (check_html_charset): Here too.
+
+	* camel-folder-summary.c (camel_system_flag): Same.
+
 2002-10-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-gpg-context.c (gpg_ctx_parse_status): Don't prematurely

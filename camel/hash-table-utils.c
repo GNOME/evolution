@@ -23,22 +23,11 @@
  * USA
  */
 
+
+#include <string.h>
 #include <ctype.h>
+
 #include "hash-table-utils.h"
-
-
-/* 
- * free a (key/value) hash table pair.
- * to be called in a g_hash_table_foreach()
- * before g_hash_table_destroy().
- */
-void
-g_hash_table_generic_free (gpointer key, gpointer value, gpointer user_data)
-{
-	g_free (key);
-	g_free (value);
-}
-
 
 
 /***/
@@ -47,7 +36,7 @@ g_hash_table_generic_free (gpointer key, gpointer value, gpointer user_data)
 gint 
 g_strcase_equal (gconstpointer a, gconstpointer b)
 {
-	return (g_strcasecmp ((gchar *)a, (gchar *)b) == 0);
+	return (strcasecmp ((char *) a, (char *) b) == 0);
 }
 
 
@@ -60,19 +49,15 @@ g_strcase_hash (gconstpointer v)
 {
 	const char *s = (char*)v;
 	const char *p;
-	guint h=0, g;
+	guint h = 0, g;
 	
-	for(p = s; *p != '\0'; p += 1) {
-		h = ( h << 4 ) + toupper(*p);
-		if ( ( g = h & 0xf0000000 ) ) {
+	for (p = s; *p != '\0'; p += 1) {
+		h = (h << 4) + toupper (*p);
+		if ((g = h & 0xf0000000)) {
 			h = h ^ (g >> 24);
 			h = h ^ g;
 		}
-  }
-
-  return h /* % M */;
+	}
+	
+	return h;
 }
-
-
-
-/***/

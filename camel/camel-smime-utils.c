@@ -53,7 +53,7 @@ camel_smime_is_smime_v3_signed (CamelMimePart *mime_part)
 	
 	/* check that we have a protocol param with the value: "application/pkcs7-signature" */
 	param = header_content_type_param (type, "protocol");
-	if (!param || g_strcasecmp (param, "application/pkcs7-signature"))
+	if (!param || strcasecmp (param, "application/pkcs7-signature"))
 		return FALSE;
 	
 	/* check that we have a micalg parameter */
@@ -109,7 +109,7 @@ camel_smime_is_smime_v3_encrypted (CamelMimePart *mime_part)
 		param = header_content_type_param (type, "name");
 		if (param && *param && strlen (param) > 4) {
 			for (i = 0; types[i]; i++)
-				if (!g_strcasecmp (param + strlen (param)-4, types[i]))
+				if (!strcasecmp (param + strlen (param)-4, types[i]))
 					return TRUE;
 		}
 		
@@ -117,7 +117,7 @@ camel_smime_is_smime_v3_encrypted (CamelMimePart *mime_part)
 		filename = camel_mime_part_get_filename (mime_part);
 		if (filename && *filename && strlen (filename) > 4) {
 			for (i = 0; types[i]; i++)
-				if (!g_strcasecmp (filename + strlen (filename)-4, types[i]))
+				if (!strcasecmp (filename + strlen (filename)-4, types[i]))
 					return TRUE;
 		}
 	}
