@@ -21,8 +21,6 @@
 #ifndef _FILTER_OPTION_H
 #define _FILTER_OPTION_H
 
-#include <gtk/gtk.h>
-
 #include "filter-element.h"
 
 #define FILTER_OPTION(obj)	GTK_CHECK_CAST (obj, filter_option_get_type (), FilterOption)

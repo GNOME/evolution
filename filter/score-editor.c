@@ -20,10 +20,13 @@
  */
 
 #include <config.h>
-#include <gnome.h>
-#include <glade/glade.h>
 
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <glade/glade.h>
 #include <gal/widgets/e-unicode.h>
+
 #include "score-editor.h"
 #include "score-context.h"
 #include "score-rule.h"

@@ -20,7 +20,18 @@
  */
 
 #include <config.h>
-#include <gnome.h>
+
+#include <string.h>
+
+#include <glib.h>
+#include <gtk/gtkbox.h>
+#include <gtk/gtkframe.h>
+#include <gtk/gtkhbox.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtksignal.h>
+#include <gtk/gtkspinbutton.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 
 #include "score-rule.h"
 

@@ -21,7 +21,6 @@
 #ifndef _FILTER_FILTER_H
 #define _FILTER_FILTER_H
 
-#include <gtk/gtk.h>
 #include "filter-rule.h"
 
 #define FILTER_FILTER(obj)	GTK_CHECK_CAST (obj, filter_filter_get_type (), FilterFilter)

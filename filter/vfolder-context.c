@@ -22,8 +22,7 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtk.h>
-#include <gnome.h>
+#include <gtk/gtkobject.h>
 
 #include "vfolder-context.h"
 #include "vfolder-rule.h"

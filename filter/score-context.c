@@ -22,11 +22,11 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtk.h>
-#include <gnome.h>
+#include <gtk/gtkobject.h>
 
 #include "score-context.h"
 #include "score-rule.h"
+
 
 static void score_context_class_init	(ScoreContextClass *class);
 static void score_context_init	(ScoreContext *gspaper);

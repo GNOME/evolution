@@ -21,7 +21,6 @@
 #ifndef _VFOLDER_RULE_H
 #define _VFOLDER_RULE_H
 
-#include <gtk/gtk.h>
 #include "filter-rule.h"
 
 #define VFOLDER_RULE(obj)	GTK_CHECK_CAST (obj, vfolder_rule_get_type (), VfolderRule)

@@ -21,7 +21,7 @@
 #ifndef _FILTER_DATESPEC_H
 #define _FILTER_DATESPEC_H
 
-#include <gtk/gtk.h>
+#include <time.h>
 #include "filter-element.h"
 
 #define FILTER_DATESPEC(obj)	GTK_CHECK_CAST (obj, filter_datespec_get_type (), FilterDatespec)

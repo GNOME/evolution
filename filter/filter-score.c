@@ -24,8 +24,9 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtk.h>
-#include <gnome.h>
+#include <stdlib.h>
+#include <gtk/gtksignal.h>
+#include <gtk/gtkspinbutton.h>
 #include <gnome-xml/xmlmemory.h>
 
 #include "e-util/e-sexp.h"

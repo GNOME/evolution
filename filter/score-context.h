@@ -21,8 +21,6 @@
 #ifndef _SCORE_CONTEXT_H
 #define _SCORE_CONTEXT_H
 
-#include <gtk/gtk.h>
-
 #include "rule-context.h"
 
 #define SCORE_CONTEXT(obj)	GTK_CHECK_CAST (obj, score_context_get_type (), ScoreContext)

@@ -22,9 +22,9 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtk.h>
-#include <gnome.h>
+#include <gtk/gtksignal.h>
 #include <gnome-xml/xmlmemory.h>
+#include <libgnomeui/gnome-color-picker.h>
 
 #include "e-util/e-sexp.h"
 #include "filter-colour.h"

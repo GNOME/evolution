@@ -22,9 +22,6 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtk.h>
-#include <gnome.h>
-
 #include "filter-code.h"
 
 static void build_code(FilterElement *fe, GString *out, struct _FilterPart *ff);

@@ -21,7 +21,7 @@
 #ifndef _RULE_CONTEXT_H
 #define _RULE_CONTEXT_H
 
-#include <gtk/gtk.h>
+#include <gtk/gtkobject.h>
 #include <gnome-xml/parser.h>
 
 #include "filter-part.h"

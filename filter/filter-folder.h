@@ -21,7 +21,6 @@
 #ifndef _FILTER_FOLDER_H
 #define _FILTER_FOLDER_H
 
-#include <gtk/gtk.h>
 #include "filter-element.h"
 
 #define FILTER_FOLDER(obj)	GTK_CHECK_CAST (obj, filter_folder_get_type (), FilterFolder)

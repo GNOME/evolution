@@ -21,7 +21,6 @@
 #ifndef _FILTER_EDITOR_H
 #define _FILTER_EDITOR_H
 
-#include <gtk/gtk.h>
 #include "rule-editor.h"
 
 #define FILTER_EDITOR(obj)	GTK_CHECK_CAST (obj, filter_editor_get_type (), FilterEditor)

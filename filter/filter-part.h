@@ -21,7 +21,7 @@
 #ifndef _FILTER_PART_H
 #define _FILTER_PART_H
 
-#include <gtk/gtk.h>
+#include <gtk/gtkobject.h>
 #include "filter-input.h"
 
 #define FILTER_PART(obj)	GTK_CHECK_CAST (obj, filter_part_get_type (), FilterPart)

@@ -21,7 +21,6 @@
 #ifndef _FILTER_COLOUR_H
 #define _FILTER_COLOUR_H
 
-#include <gtk/gtk.h>
 #include "filter-element.h"
 
 #define FILTER_COLOUR(obj)	GTK_CHECK_CAST (obj, filter_colour_get_type (), FilterColour)

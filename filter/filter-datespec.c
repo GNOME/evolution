@@ -19,9 +19,25 @@
  */
 
 #include <config.h>
+
+#include <string.h>
+#include <stdlib.h>
 #include <time.h>
-#include <gtk/gtk.h>
-#include <gnome.h>
+#include <glib.h>
+#include <gtk/gtkcalendar.h>
+#include <gtk/gtkhbox.h>
+#include <gtk/gtkhseparator.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkmenu.h>
+#include <gtk/gtkmenuitem.h>
+#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtkspinbutton.h>
+#include <gtk/gtktable.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-dialog-util.h>
+#include <libgnomeui/gnome-stock.h>
 
 #include "filter-datespec.h"
 #include "e-util/e-sexp.h"

@@ -23,8 +23,10 @@
 #endif
 
 #include <errno.h>
-#include <gtk/gtk.h>
-#include <gnome.h>
+#include <string.h>
+#include <gtk/gtksignal.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-stock.h>
 
 #include "rule-context.h"
 

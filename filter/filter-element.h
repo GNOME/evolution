@@ -21,7 +21,8 @@
 #ifndef _FILTER_ELEMENT_H
 #define _FILTER_ELEMENT_H
 
-#include <gtk/gtk.h>
+#include <gtk/gtkobject.h>
+#include <gtk/gtkwidget.h>
 #include <gnome-xml/parser.h>
 
 #define FILTER_ELEMENT(obj)	GTK_CHECK_CAST (obj, filter_element_get_type (), FilterElement)

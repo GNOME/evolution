@@ -21,7 +21,6 @@
 #ifndef _SCORE_EDITOR_H
 #define _SCORE_EDITOR_H
 
-#include <gtk/gtk.h>
 #include "rule-editor.h"
 
 #define SCORE_EDITOR(obj)	GTK_CHECK_CAST (obj, score_editor_get_type (), ScoreEditor)

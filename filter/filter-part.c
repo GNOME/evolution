@@ -19,13 +19,19 @@
  */
 
 #include <config.h>
-#include <gnome.h>
 
+#include <stdlib.h>
+#include <string.h>
+
+#include <glib.h>
 #include <gnome-xml/xmlmemory.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <gal/widgets/e-unicode.h>
 
 #include "filter-part.h"
 #include "filter-element.h"
+
 
 #define d(x)
 

@@ -21,7 +21,7 @@
 #ifndef _RULE_EDITOR_H
 #define _RULE_EDITOR_H
 
-#include <gtk/gtk.h>
+#include <gtk/gtklist.h>
 #include <libgnomeui/gnome-dialog.h>
 
 #define RULE_EDITOR(obj)	GTK_CHECK_CAST (obj, rule_editor_get_type (), RuleEditor)

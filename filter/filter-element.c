@@ -22,8 +22,8 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtk.h>
-#include <gnome.h>
+#include <string.h>
+#include <gtk/gtktypeutils.h>
 
 #include "filter-element.h"
 #include "filter-input.h"
@@ -33,6 +33,7 @@
 #include "filter-datespec.h"
 #include "filter-score.h"
 #include "filter-folder.h"
+
 
 static gboolean validate (FilterElement *fe);
 static void xml_create(FilterElement *fe, xmlNodePtr node);

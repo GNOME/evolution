@@ -23,7 +23,6 @@
 #ifndef _FILTER_SCORE_H
 #define _FILTER_SCORE_H
 
-#include <gtk/gtk.h>
 #include "filter-element.h"
 
 #define FILTER_SCORE(obj)           GTK_CHECK_CAST (obj, filter_score_get_type (), FilterScore)

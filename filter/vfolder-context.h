@@ -21,8 +21,6 @@
 #ifndef _VFOLDER_CONTEXT_H
 #define _VFOLDER_CONTEXT_H
 
-#include <gtk/gtk.h>
-
 #include "rule-context.h"
 
 #define VFOLDER_CONTEXT(obj)	GTK_CHECK_CAST (obj, vfolder_context_get_type (), VfolderContext)

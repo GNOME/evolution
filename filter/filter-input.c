@@ -22,11 +22,16 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtk.h>
-#include <gnome.h>
+#include <string.h>
 #include <regex.h>
+#include <gtk/gtkobject.h>
+#include <gtk/gtkwidget.h>
 
 #include <gnome-xml/xmlmemory.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-dialog-util.h>
 #include <gal/widgets/e-unicode.h>
 
 #include "filter-input.h"

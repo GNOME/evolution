@@ -21,7 +21,6 @@
 #ifndef _FILTER_CONTEXT_H
 #define _FILTER_CONTEXT_H
 
-#include <gtk/gtk.h>
 #include "rule-context.h"
 
 #define FILTER_CONTEXT(obj)	GTK_CHECK_CAST (obj, filter_context_get_type (), FilterContext)

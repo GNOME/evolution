@@ -20,7 +20,11 @@
  */
 
 #include <config.h>
-#include <gnome.h>
+
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-stock.h>
 #include <glade/glade.h>
 
 #include <gal/widgets/e-unicode.h>
