@@ -1,5 +1,10 @@
 2004-08-10  Rodrigo Moya <rodrigo@novell.com>
 
+	* gui/e-cal-model.c (e_cal_model_set_search_query): guard against
+	re-running the same query.
+
+2004-08-10  Rodrigo Moya <rodrigo@novell.com>
+
 	* gui/alarm-notify/alarm-queue.c (tray_icon_destroyed_cb): disconnect
 	from signals also when using only the system tray. Fixes a crash when
 	removing an event that had an alarm popup recently.

@@ -1807,6 +1807,9 @@ e_cal_model_set_search_query (ECalModel *model, const char *sexp)
 
 	priv = model->priv;
 
+	if (!strcmp (sexp ? sexp : "", priv->search_sexp ? priv->search_sexp : ""))
+		return;
+
 	if (priv->search_sexp)
 		g_free (priv->search_sexp);
 
