@@ -4,6 +4,7 @@
   CREATOR: eric 04 August 1999
   
   $Id$
+
   $Locker$
     
  The contents of this file are subject to the Mozilla Public License
@@ -16,11 +17,21 @@
  the License for the specific language governing rights and
  limitations under the License.
  
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of either: 
+
+    The LGPL as published by the Free Software Foundation, version
+    2.1, available at: http://www.fsf.org/copyleft/lesser.html
+
+  Or:
+
+    The Mozilla Public License Version 1.0. You may obtain a copy of
+    the License at http://www.mozilla.org/MPL/
+
   The Initial Developer of the Original Code is Eric Busboom
 
- (C) COPYRIGHT 1999 The Software Studio. 
- http://www.softwarestudio.org
-
+ (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
  ======================================================================*/
 
 #ifdef HAVE_CONFIG_H
@@ -91,6 +102,7 @@ icalparser* icalparser_new()
     return (icalparser*)impl;
 }
 
+
 void icalparser_free(icalparser* parser)
 {
     struct icalparser_impl* impl = (struct icalparser_impl*)parser;
@@ -105,6 +117,8 @@ void icalparser_free(icalparser* parser)
     }
     
     pvl_free(impl->components);
+    
+    free(impl);
 }
 
 void icalparser_set_gen_data(icalparser* parser, void* data)
@@ -115,7 +129,7 @@ void icalparser_set_gen_data(icalparser* parser, void* data)
 }
 
 
-icalvalue* icalvalue_new_from_string_with_error(icalvalue_kind kind, 
+icalvalue* icalvalue_new_From_string_with_error(icalvalue_kind kind, 
                                                 char* str, 
                                                 icalproperty **error);
 
@@ -313,7 +327,6 @@ char* icalparser_get_next_value(char* line, char **end, icalvalue_kind kind)
 		) {
 		/* The COMMA was followed by 'FREQ', is it a real seperator*/
 		/* Fall through */
-		printf("%s\n",next);
 	    } else if (next != 0){
 		/* Not real, get the next COMMA */
 		p = next+1;
@@ -404,7 +417,8 @@ char* icalparser_get_line(icalparser *parser,
 	    /* If the last position in the temp buffer is occupied,
                mark the buffer as full. The means we will do another
                read later, because the line is not finished */
-	    if (impl->temp[impl->tmp_buf_size-1] == 0){
+	    if (impl->temp[impl->tmp_buf_size-1] == 0 &&
+		impl->temp[impl->tmp_buf_size-2] != '\n'){
 		impl->buffer_full = 1;
 	    } else {
 		impl->buffer_full = 0;
@@ -515,7 +529,6 @@ icalcomponent* icalparser_parse(icalparser *parser,
 
     do{
 	line = icalparser_get_line(parser, line_gen_func);
-
 	if ((c = icalparser_add_line(parser,line)) != 0){
           if (root_component == 0){
             /* Just one component */
@@ -538,6 +551,9 @@ icalcomponent* icalparser_parse(icalparser *parser,
             icalparser_claim(parser);
           }
         }
+	if(line != 0){
+	    free(line);
+	}
     } while ( line != 0);
 
     return root_component;
@@ -568,7 +584,7 @@ icalcomponent* icalparser_add_line(icalparser* parser,
 
     /* Begin by getting the property name at the start of the line. The
        property name may end up being "BEGIN" or "END" in which case it
-       is not really a property, but the market for the start or end of
+       is not really a property, but the marker for the start or end of
        a component */
 
     end = 0;
@@ -591,8 +607,6 @@ icalcomponent* icalparser_add_line(icalparser* parser,
     /**********************************************************************
      * Handle begin and end of components
      **********************************************************************/								       
-
-
     /* If the property name is BEGIN or END, we are actually
        starting or ending a new component */
 

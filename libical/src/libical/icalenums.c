@@ -5,21 +5,19 @@
   
   $Id$
 
+ (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
 
-  (C) COPYRIGHT 1999 Eric Busboom 
-  http://www.softwarestudio.org
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of either: 
 
-  The contents of this file are subject to the Mozilla Public License
-  Version 1.0 (the "License"); you may not use this file except in
-  compliance with the License. You may obtain a copy of the License at
-  http://www.mozilla.org/MPL/
- 
-  Software distributed under the License is distributed on an "AS IS"
-  basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
-  the License for the specific language governing rights and
-  limitations under the License.
+    The LGPL as published by the Free Software Foundation, version
+    2.1, available at: http://www.fsf.org/copyleft/lesser.html
 
-  The original author is Eric Busboom
+  Or:
+
+    The Mozilla Public License Version 1.0. You may obtain a copy of
+    the License at http://www.mozilla.org/MPL/
+
   The original code is icalenum.c
 
   ======================================================================*/
@@ -33,7 +31,7 @@
 
 struct icalproperty_kind_map {
 	icalproperty_kind kind;
-	char name[20];
+	char *name;
 };
 
 static struct icalproperty_kind_map property_map[] = 
@@ -98,6 +96,10 @@ static struct icalproperty_kind_map property_map[] =
 
     /* libical private properties */
     { ICAL_XLICERROR_PROPERTY,"X-LIC-ERROR"},
+    { ICAL_XLICMIMECONTENTTYPE_PROPERTY,"X-LIC-MIME-CONTENT-TYPE"},
+    { ICAL_XLICMIMEENCODING_PROPERTY,"X-LIC-MIME-ENCODING"},
+    { ICAL_XLICMIMEOPTINFO_PROPERTY,"X-LIC-MIME-OPT-INFO"},
+    { ICAL_XLICMIMECHARSET_PROPERTY,"X-LIC-MIME-CHARSET"},
     { ICAL_XLICCLUSTERCOUNT_PROPERTY,"X-LIC-CLUSTERCOUNT"},
 
     /* End of the list */
@@ -287,6 +289,7 @@ static struct icalcomponent_kind_map component_map[] =
 
     /* libical private components */
     { ICAL_XLICINVALID_COMPONENT, "X-LIC-UNKNOWN" },  
+    { ICAL_XLICMIMEPART_COMPONENT, "X-LIC-MIME-PART" },  
     { ICAL_ANY_COMPONENT, "ANY" },  
     { ICAL_XROOT_COMPONENT, "XROOT" },  
 

@@ -28,6 +28,7 @@
 #include <stdio.h> /* for printf */
 #include "ical.h"
 #include "icalcalendar.h"
+#include "icaldirset.h"
 #include <errno.h>
 #include <string.h> /* For strerror */
 #include "icalrestriction.h"
@@ -41,7 +42,7 @@ void usage(char* arg0) {
 int main(int c, char *argv[]){
 
     icalcalendar *cal;
-    icalstore *booked;
+    icaldirset *booked;
     icalcomponent *itr;
 
     if(c < 2 || c > 3){
@@ -59,7 +60,7 @@ int main(int c, char *argv[]){
 
     booked = icalcalendar_get_booked(cal);
 
-    itr = icalstore_fetch(booked,argv[2]);
+    itr = icaldirset_fetch(booked,argv[2]);
 
 
     if(itr != 0){

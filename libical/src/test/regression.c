@@ -34,11 +34,12 @@
 #include <stdio.h> /* for printf */
 #include <time.h> /* for time() */
 #include "icalmemory.h"
-#include "icalstore.h"
-#include "icalcluster.h"
 #include "icalerror.h"
 #include "icalrestriction.h"
 #include "icalcalendar.h"
+#include "icalgauge.h"
+#include "icaldirset.h"
+#include "icalfileset.h"
 
 /* This example creates and minipulates the ical object that appears
  * in rfc 2445, page 137 */
@@ -92,8 +93,8 @@ icalcomponent* create_simple_component()
     icalcomponent* calendar;
     struct icalperiodtype rtime;
 
-    rtime.start = icaltimetype_from_timet( time(0),0);
-    rtime.end = icaltimetype_from_timet( time(0),0);
+    rtime.start = icaltime_from_timet( time(0),0,0);
+    rtime.end = icaltime_from_timet( time(0),0,0);
 
     rtime.end.hour++;
 
@@ -122,12 +123,12 @@ icalcomponent* create_new_component()
     icalcomponent* timezone;
     icalcomponent* tzc;
     icalcomponent* event;
-    struct icaltimetype atime = icaltimetype_from_timet( time(0),0);
+    struct icaltimetype atime = icaltime_from_timet( time(0),0,0);
     struct icalperiodtype rtime;
     icalproperty* property;
 
-    rtime.start = icaltimetype_from_timet( time(0),0);
-    rtime.end = icaltimetype_from_timet( time(0),0);
+    rtime.start = icaltime_from_timet( time(0),0,0);
+    rtime.end = icaltime_from_timet( time(0),0,0);
 
     rtime.end.hour++;
 
@@ -331,11 +332,11 @@ icalcomponent* create_new_component_with_va_args()
 {
 
     icalcomponent* calendar;
-    struct icaltimetype atime = icaltimetype_from_timet( time(0),0);
+    struct icaltimetype atime = icaltime_from_timet( time(0),0,0);
     struct icalperiodtype rtime;
     
-    rtime.start = icaltimetype_from_timet( time(0),0);
-    rtime.end = icaltimetype_from_timet( time(0),0);
+    rtime.start = icaltime_from_timet( time(0),0,0);
+    rtime.end = icaltime_from_timet( time(0),0,0);
 
     rtime.end.hour++;
 
@@ -524,9 +525,9 @@ void test_values()
     icalvalue_free(copy);
 
 
-    v = icalvalue_new_date(icaltimetype_from_timet( time(0),0));
+    v = icalvalue_new_date(icaltime_from_timet( time(0),0,0));
     printf("date 1: %s\n",icalvalue_as_ical_string(v));
-    icalvalue_set_date(v,icaltimetype_from_timet( time(0)+3600,0));
+    icalvalue_set_date(v,icaltime_from_timet( time(0)+3600,0,0));
     printf("date 2: %s\n",icalvalue_as_ical_string(v));
 
     copy = icalvalue_new_clone(v);
@@ -662,6 +663,7 @@ void test_components()
 void test_memory()
 {
     size_t bufsize = 256;
+    int i;
     char *p;
 
     char S1[] = "1) When in the Course of human events, ";
@@ -682,8 +684,7 @@ void test_memory()
 
     char *f, *b1, *b2, *b3, *b4, *b5, *b6, *b7, *b8;
 
-    #define BUFSIZE 1024
-
+#define BUFSIZE 1024
 
     f = icalmemory_new_buffer(bufsize);
     p = f;
@@ -737,32 +738,61 @@ void test_memory()
     free(f);
     
     bufsize = 4;
+
     f = icalmemory_new_buffer(bufsize);
+
+    memset(f,0,bufsize);
     p = f;
 
     icalmemory_append_char(&f, &p, &bufsize, 'a');
-    icalmemory_append_char(&f, &p, &bufsize, 'b');
-    icalmemory_append_char(&f, &p, &bufsize, 'c');
-    icalmemory_append_char(&f, &p, &bufsize, 'd');
-    icalmemory_append_char(&f, &p, &bufsize, 'e');
-    icalmemory_append_char(&f, &p, &bufsize, 'f');
-    icalmemory_append_char(&f, &p, &bufsize, 'g');
-    icalmemory_append_char(&f, &p, &bufsize, 'h');
-    icalmemory_append_char(&f, &p, &bufsize, 'i');
-    icalmemory_append_char(&f, &p, &bufsize, 'j');
-    icalmemory_append_char(&f, &p, &bufsize, 'a');
-    icalmemory_append_char(&f, &p, &bufsize, 'b');
-    icalmemory_append_char(&f, &p, &bufsize, 'c');
-    icalmemory_append_char(&f, &p, &bufsize, 'd');
-    icalmemory_append_char(&f, &p, &bufsize, 'e');
-    icalmemory_append_char(&f, &p, &bufsize, 'f');
-    icalmemory_append_char(&f, &p, &bufsize, 'g');
-    icalmemory_append_char(&f, &p, &bufsize, 'h');
-    icalmemory_append_char(&f, &p, &bufsize, 'i');
-    icalmemory_append_char(&f, &p, &bufsize, 'j');
-
     printf("Char-by-Char buffer: %s\n", f);
+    icalmemory_append_char(&f, &p, &bufsize, 'b');
+    printf("Char-by-Char buffer: %s\n", f);
+    icalmemory_append_char(&f, &p, &bufsize, 'c');
+    printf("Char-by-Char buffer: %s\n", f);
+    icalmemory_append_char(&f, &p, &bufsize, 'd');
+    printf("Char-by-Char buffer: %s\n", f);
+    icalmemory_append_char(&f, &p, &bufsize, 'e');
+    printf("Char-by-Char buffer: %s\n", f);
+    icalmemory_append_char(&f, &p, &bufsize, 'f');
+    printf("Char-by-Char buffer: %s\n", f);
+    icalmemory_append_char(&f, &p, &bufsize, 'g');
+    printf("Char-by-Char buffer: %s\n", f);
+    icalmemory_append_char(&f, &p, &bufsize, 'h');
+    printf("Char-by-Char buffer: %s\n", f);
+    icalmemory_append_char(&f, &p, &bufsize, 'i');
+    printf("Char-by-Char buffer: %s\n", f);
+    icalmemory_append_char(&f, &p, &bufsize, 'j');
+    printf("Char-by-Char buffer: %s\n", f);
+    icalmemory_append_char(&f, &p, &bufsize, 'a');
+    printf("Char-by-Char buffer: %s\n", f);
+    icalmemory_append_char(&f, &p, &bufsize, 'b');
+    printf("Char-by-Char buffer: %s\n", f);
+    icalmemory_append_char(&f, &p, &bufsize, 'c');
+    printf("Char-by-Char buffer: %s\n", f);
+    icalmemory_append_char(&f, &p, &bufsize, 'd');
+    printf("Char-by-Char buffer: %s\n", f);
+    icalmemory_append_char(&f, &p, &bufsize, 'e');
+    printf("Char-by-Char buffer: %s\n", f);
+    icalmemory_append_char(&f, &p, &bufsize, 'f');
+    printf("Char-by-Char buffer: %s\n", f);
+    icalmemory_append_char(&f, &p, &bufsize, 'g');
+    printf("Char-by-Char buffer: %s\n", f);
+    icalmemory_append_char(&f, &p, &bufsize, 'h');
+    printf("Char-by-Char buffer: %s\n", f);
+    icalmemory_append_char(&f, &p, &bufsize, 'i');
+    printf("Char-by-Char buffer: %s\n", f);
+    icalmemory_append_char(&f, &p, &bufsize, 'j');
+    printf("Char-by-Char buffer: %s\n", f);
+   
+    for(i=0; i<100; i++){
+	f = icalmemory_tmp_buffer(bufsize);
+	
+	assert(f!=0);
 
+	memset(f,0,bufsize);
+	sprintf(f,"%d",i);
+    }
 }
 
 
@@ -772,14 +802,14 @@ int test_store()
     icalcomponent *c, *gauge;
     icalerrorenum error;
     icalcomponent *next, *itr;
-    icalcluster* cluster;
+    icalfileset* cluster;
     struct icalperiodtype rtime;
-    icalstore *s = icalstore_new("store");
+    icaldirset *s = icaldirset_new("store");
     int i;
 
-    rtime.start = icaltimetype_from_timet( time(0),0);
+    rtime.start = icaltime_from_timet( time(0),0,0);
 
-    cluster = icalcluster_new("clusterin.vcd");
+    cluster = icalfileset_new("clusterin.vcd");
 
     if (cluster == 0){
 	printf("Failed to create cluster: %s\n",icalerror_strerror(icalerrno));
@@ -799,10 +829,10 @@ int test_store()
 	rtime.end = rtime.start;
 	rtime.end.hour++;
 	
-	for (itr = icalcluster_get_first_component(cluster,
+	for (itr = icalfileset_get_first_component(cluster,
 						   ICAL_ANY_COMPONENT);
 	     itr != 0;
-	     itr = icalcluster_get_next_component(cluster,
+	     itr = icalfileset_get_next_component(cluster,
 						  ICAL_ANY_COMPONENT)){
 	    icalcomponent *clone;
 	    icalproperty *p;
@@ -847,7 +877,7 @@ int test_store()
 	    
 	    printf("\n----------\n%s\n---------\n",icalcomponent_as_ical_string(clone));
 
-	    error = icalstore_add_component(s,clone);
+	    error = icaldirset_add_component(s,clone);
 	    
 	    assert(icalerrno  == ICAL_NO_ERROR);
 
@@ -877,15 +907,15 @@ int test_store()
 #if 0
 
 
-    icalstore_select(s,gauge);
+    icaldirset_select(s,gauge);
 
-    for(c = icalstore_first(s); c != 0; c = icalstore_next(s)){
+    for(c = icaldirset_first(s); c != 0; c = icaldirset_next(s)){
 	
 	printf("Got one! (%d)\n", count++);
 	
 	if (c != 0){
 	    printf("%s", icalcomponent_as_ical_string(c));;
-	    if (icalstore_store(s2,c) == 0){
+	    if (icaldirset_store(s2,c) == 0){
 		printf("Failed to write!\n");
 	    }
 	    icalcomponent_free(c);
@@ -895,18 +925,18 @@ int test_store()
     }
 
 
-    icalstore_free(s2);
+    icaldirset_free(s2);
 #endif
 
 
-    for(c = icalstore_get_first_component(s); 
+    for(c = icaldirset_get_first_component(s,ICAL_ANY_COMPONENT); 
 	c != 0; 
 	c =  next){
 	
-	next = icalstore_get_next_component(s);
+	next = icaldirset_get_next_component(s,ICAL_ANY_COMPONENT);
 
 	if (c != 0){
-	    /*icalstore_remove_component(s,c);*/
+	    /*icaldirset_remove_component(s,c);*/
 	    printf("%s", icalcomponent_as_ical_string(c));;
 	} else {
 	    printf("Failed to get component\n");
@@ -915,7 +945,7 @@ int test_store()
 
     }
 
-    icalstore_free(s);
+    icaldirset_free(s);
     return 0;
 }
 
@@ -976,7 +1006,7 @@ int test_compare()
 
     printf("%s",icalcomponent_as_ical_string(gauge));
 		
-    printf("%d\n",icalstore_test(c,gauge));
+    printf("%d\n",icalgauge_test(c,gauge));
 
     return 0;
 }
@@ -984,13 +1014,13 @@ int test_compare()
 void test_restriction()
 {
     icalcomponent *comp;
-    struct icaltimetype atime = icaltimetype_from_timet( time(0),0);
+    struct icaltimetype atime = icaltime_from_timet( time(0),0,0);
     int valid; 
 
     struct icalperiodtype rtime;
 
-    rtime.start = icaltimetype_from_timet( time(0),0);
-    rtime.end = icaltimetype_from_timet( time(0),0);
+    rtime.start = icaltime_from_timet( time(0),0,0);
+    rtime.end = icaltime_from_timet( time(0),0,0);
 
     rtime.end.hour++;
     
@@ -1097,11 +1127,11 @@ void test_restriction()
 void test_calendar()
 {
     icalcomponent *comp;
-    icalcluster *c;
-    icalstore *s;
+    icalfileset *c;
+    icaldirset *s;
     icalcalendar* calendar = icalcalendar_new("calendar");
     icalerrorenum error;
-    struct icaltimetype atime = icaltimetype_from_timet( time(0),0);
+    struct icaltimetype atime = icaltime_from_timet( time(0),0,0);
 
     comp = icalcomponent_vanew(
 	ICAL_VEVENT_COMPONENT,
@@ -1125,13 +1155,13 @@ void test_calendar()
 	
     s = icalcalendar_get_booked(calendar);
 
-    error = icalstore_add_component(s,comp);
+    error = icaldirset_add_component(s,comp);
     
     assert(error == ICAL_NO_ERROR);
 
     c = icalcalendar_get_properties(calendar);
 
-    error = icalcluster_add_component(c,icalcomponent_new_clone(comp));
+    error = icalfileset_add_component(c,icalcomponent_new_clone(comp));
 
     assert(error == ICAL_NO_ERROR);
 
@@ -1168,6 +1198,19 @@ void test_recur()
 
     printf("%s\n",icalvalue_as_ical_string(v));
     
+}
+
+void test_recur_expansion()
+{
+
+    icalvalue *v;
+
+    v = icalvalue_new_from_string(ICAL_RECUR_VALUE,
+				  "FREQ=YEARLY;UNTIL=123456T123456;INTERVAL=2;BYMONTH=1;BYDAY=SU;BYHOUR=8,9;BYMINUTE=30");
+
+    printf("%s\n",icalvalue_as_ical_string(v));
+
+    icalrecurrencetype_test();
 }
 
 void test_duration()
@@ -1278,18 +1321,212 @@ void test_requeststat()
 }
 
 
+void test_time()
+{
+    struct icaltimetype ictt;
+    time_t tt,tt2;
+    icalvalue *v;
+    short day_of_week,start_day_of_week, day_of_year;
+
+
+    tt = time(0);
+
+    printf("System time is: %s\n",ctime(&tt));
+
+    ictt = icaltime_from_timet(tt,0,0);
+
+    v = icalvalue_new_datetime(ictt);
+
+    printf("System time from libical: %s\n",icalvalue_as_ical_string(v));
+
+    tt2 = icaltime_as_timet(ictt);
+    printf("Converted back to libc: %s\n",ctime(&tt2));
+    
+
+    ictt.year++;
+    tt2 = icaltime_as_timet(ictt);
+    printf("Add a year: %s\n",ctime(&tt2));
+
+    ictt.month+=13;
+    tt2 = icaltime_as_timet(ictt);
+    printf("Add 13 months: %s\n",ctime(&tt2));
+
+    ictt.second+=90;
+    tt2 = icaltime_as_timet(ictt);
+    printf("Add 90 seconds: %s\n",ctime(&tt2));
+
+    ictt = icaltime_from_timet(tt,0,0);
+
+
+    day_of_week = icaltime_day_of_week(ictt);
+    start_day_of_week = icaltime_start_doy_of_week(ictt);
+    day_of_year = icaltime_day_of_year(ictt);
+
+    printf("Today is day of week %d, day of year %d\n",day_of_week,day_of_year);
+    printf("Week started n doy of %d\n",start_day_of_week);
+
+
+}
+
+void test_iterators()
+{
+    icalcomponent *c,*inner,*next;
+    icalcompiter i;
+
+    c= icalcomponent_vanew(
+	ICAL_VCALENDAR_COMPONENT,
+	icalcomponent_vanew(ICAL_VEVENT_COMPONENT,
+			    icalproperty_vanew_version("1"),0),
+	icalcomponent_vanew(ICAL_VEVENT_COMPONENT,
+			    icalproperty_vanew_version("2"),0),
+	icalcomponent_vanew(ICAL_VEVENT_COMPONENT,
+			    icalproperty_vanew_version("3"),0),
+	icalcomponent_vanew(ICAL_VEVENT_COMPONENT,
+			    icalproperty_vanew_version("4"),0),
+	icalcomponent_vanew(ICAL_VTODO_COMPONENT,
+			    icalproperty_vanew_version("5"),0),
+	icalcomponent_vanew(ICAL_VJOURNAL_COMPONENT,
+			    icalproperty_vanew_version("6"),0),
+	icalcomponent_vanew(ICAL_VEVENT_COMPONENT,
+			    icalproperty_vanew_version("7"),0),
+	icalcomponent_vanew(ICAL_VJOURNAL_COMPONENT,
+			    icalproperty_vanew_version("8"),0),
+	icalcomponent_vanew(ICAL_VJOURNAL_COMPONENT,
+			    icalproperty_vanew_version("9"),0),
+	icalcomponent_vanew(ICAL_VJOURNAL_COMPONENT,
+			    icalproperty_vanew_version("10"),0),
+	0);
+   
+    printf("1: ");
+
+    /* List all of the VEVENTS */
+    for(i = icalcomponent_begin_component(c,ICAL_VEVENT_COMPONENT);
+	icalcompiter_deref(&i)!= 0; icalcompiter_next(&i)){
+	
+	icalcomponent *this = icalcompiter_deref(&i);
+
+	icalproperty *p = 
+	    icalcomponent_get_first_property(this,
+					     ICAL_VERSION_PROPERTY);
+	char* s = icalproperty_get_version(p);
+
+	printf("%s ",s);
+	    
+    }
+
+    printf("\n2: ");
+
+#if 0
+    for(inner = icalcomponent_get_first_component(c,ICAL_VEVENT_COMPONENT); 
+	inner != 0; 
+	inner = next){
+	
+	next = icalcomponent_get_next_component(c,ICAL_VEVENT_COMPONENT);
+
+	icalcomponent_remove_component(c,inner);
+
+	icalcomponent_free(inner);
+    }
+#endif
+
+    /* Delete all of the VEVENTS */
+    /* reset iterator */
+    icalcomponent_get_first_component(c,ICAL_VEVENT_COMPONENT);
+
+    while((inner=icalcomponent_get_current_component(c)) != 0 ){
+	if(icalcomponent_isa(inner) == ICAL_VEVENT_COMPONENT){
+	    icalcomponent_remove_component(c,inner);
+	} else {
+	    icalcomponent_get_next_component(c,ICAL_VEVENT_COMPONENT);
+	}
+    }
+	
+
+
+    /* List all remaining components */
+    for(inner = icalcomponent_get_first_component(c,ICAL_ANY_COMPONENT); 
+	inner != 0; 
+	inner = icalcomponent_get_next_component(c,ICAL_ANY_COMPONENT)){
+	
+
+	icalproperty *p = 
+	    icalcomponent_get_first_property(inner,ICAL_VERSION_PROPERTY);
+
+	char* s = icalproperty_get_version(p);	
+
+	printf("%s ",s);
+    }
+
+    printf("\n3: ");
+
+    
+    /* Remove all remaining components */
+    for(inner = icalcomponent_get_first_component(c,ICAL_ANY_COMPONENT); 
+	inner != 0; 
+	inner = next){
+
+	icalcomponent *this;
+	icalproperty *p;
+	char* s;
+	next = icalcomponent_get_next_component(c,ICAL_ANY_COMPONENT);
+
+	p=icalcomponent_get_first_property(inner,ICAL_VERSION_PROPERTY);
+	s = icalproperty_get_version(p);	
+	printf("rem:%s ",s);
+
+	icalcomponent_remove_component(c,inner);
+
+	this = icalcomponent_get_current_component(c);
+
+	if(this != 0){
+	    p=icalcomponent_get_first_property(this,ICAL_VERSION_PROPERTY);
+	    s = icalproperty_get_version(p);	
+	    printf("next:%s; ",s);
+	}
+
+	icalcomponent_free(inner);
+    }
+
+    printf("\n4: ");
+
+
+    /* List all remaining components */
+    for(inner = icalcomponent_get_first_component(c,ICAL_ANY_COMPONENT); 
+	inner != 0; 
+	inner = icalcomponent_get_next_component(c,ICAL_ANY_COMPONENT)){
+	
+	icalproperty *p = 
+	    icalcomponent_get_first_property(inner,ICAL_VERSION_PROPERTY);
+
+	char* s = icalproperty_get_version(p);	
+
+	printf("%s ",s);
+    }
+
+    printf("\n");
+}
+
 int main(int argc, char *argv[])
 {
 
+    printf("\n------------Test Memory---------------\n");
+    test_memory();
+
+exit(0);
+
+
+    printf("\n------------Test Iterators-----------\n");
+    test_iterators();
+
+
+    printf("\n------------Test time----------------\n");
+    test_time();
 
     printf("\n------------Test Restriction---------------\n");
     test_restriction();
 
-    exit(0);
-
     printf("\n------------Test request status-------\n");
     test_requeststat();
-
 
     printf("\n------------Test strings---------------\n");
     test_strings();
@@ -1302,9 +1539,6 @@ int main(int argc, char *argv[])
 
     printf("\n------------Test Compare---------------\n");
     test_compare();
-
-    printf("\n------------Test Memory---------------\n");
-    test_memory();
 
     printf("\n------------Test Values---------------\n");
     test_values();

@@ -4,20 +4,19 @@
  CREATOR: eric 20 March 1999
 
 
-  (C) COPYRIGHT 1999 Eric Busboom 
-  http://www.softwarestudio.org
+ (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
 
-  The contents of this file are subject to the Mozilla Public License
-  Version 1.0 (the "License"); you may not use this file except in
-  compliance with the License. You may obtain a copy of the License at
-  http://www.mozilla.org/MPL/
- 
-  Software distributed under the License is distributed on an "AS IS"
-  basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
-  the License for the specific language governing rights and
-  limitations under the License.
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of either: 
 
-  The original author is Eric Busboom
+    The LGPL as published by the Free Software Foundation, version
+    2.1, available at: http://www.fsf.org/copyleft/lesser.html
+
+  Or:
+
+    The Mozilla Public License Version 1.0. You may obtain a copy of
+    the License at http://www.mozilla.org/MPL/
+
   The original code is icaltypes.h
 
 ======================================================================*/
@@ -27,6 +26,7 @@
 
 #include <time.h>
 #include "icalenums.h" /* for recurrence enums */
+#include "icaltime.h"
 
 /* This type type should probably be an opaque type... */
 struct icalattachtype
@@ -67,21 +67,6 @@ struct icalgeotype
 	float lon;
 };
 
-struct icaltimetype
-{
-	int year;
-	int month;
-	int day;
-	int hour;
-	int minute;
-	int second;
-
-	int is_utc; /* 1-> time is in UTC timezone */
-
-	int is_date; /* 1 -> interpret this as date. */
-};	
-
-struct icaltimetype icaltimetype_from_timet(time_t v, int is_date);
 					   
 
 /* See RFC 2445 Section 4.3.10, RECUR Value, for an explaination of
@@ -112,7 +97,7 @@ struct icalrecurrencetype
 	short by_second[61];
 	short by_minute[61];
 	short by_hour[25];
-	short by_day[8];
+	short by_day[8]; /* Encoded value, see below */
 	short by_month_day[32];
 	short by_year_day[367];
 	short by_week_no[54];
@@ -122,6 +107,17 @@ struct icalrecurrencetype
 
 
 void icalrecurrencetype_clear(struct icalrecurrencetype *r);
+
+/* The 'day' element of icalrecurrencetype_weekday is encoded to allow
+reporesentation of both the day of the week ( Monday, Tueday), but
+also the Nth day of the week ( First tuesday of the month, last
+thursday of the year) These routines decode the day values */
+
+/* 1 == Monday, etc. */
+enum icalrecurrencetype_weekday icalrecurrencetype_day_day_of_week(short day);
+
+/* 0 == any of day of week. 1 == first, 2 = second, -2 == second to last, etc */
+short icalrecurrencetype_day_position(short day);
 
 struct icaldurationtype
 {
@@ -171,7 +167,7 @@ operating on a the value of a request_status property. */
 
 struct icalreqstattype {
 
-  icalrequeststatus code;
+	icalrequeststatus code;
   char* desc;
   char* debug;
 };

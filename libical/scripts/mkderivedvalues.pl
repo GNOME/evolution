@@ -179,6 +179,14 @@ icalvalue_set_${lc}(icalvalue* value, $type v)
     icalerror_check_value_type(value, ICAL_${uc}_VALUE);
 
     impl = (struct icalvalue_impl*)value;
+EOM
+
+if( ${union_data} eq 'string'){
+print"    if(impl->data.v_${union_data}!=0) {free(impl->data.v_${union_data});}\n";
+}
+
+print <<EOM;
+
     impl->data.v_${union_data} = $assign
 }
 

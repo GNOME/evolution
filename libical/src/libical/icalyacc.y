@@ -6,7 +6,7 @@
   
   DESCRIPTION:
   
-  $Id: icalyacc.y,v 1.4 2000/06/06 22:48:09 alves Exp $
+  $Id: icalyacc.y,v 1.5 2000/08/24 20:12:04 jpr Exp $
   $Locker:  $
 
   (C) COPYRIGHT 1999 Eric Busboom 
@@ -53,6 +53,7 @@ struct icaldurationtype duration;
 struct icalrecurrencetype recur;
 short skiplist[367];
 short skippos;
+int dow_pos;
 
 void copy_list(short* array, size_t size);
 void clear_recur();
@@ -358,20 +359,28 @@ recur_start:
 
 
 weekday:
-	SU { skiplist[skippos]=ICAL_SUNDAY_WEEKDAY; if( skippos<8) skippos++;}
-	| MO { skiplist[skippos]=ICAL_MONDAY_WEEKDAY;if( skippos<8) skippos++;}
-	| TU { skiplist[skippos]=ICAL_TUESDAY_WEEKDAY;if( skippos<8) skippos++;}
-	| WE { skiplist[skippos]=ICAL_WEDNESDAY_WEEKDAY;if( skippos<8) skippos++;}
-	| TH { skiplist[skippos]=ICAL_THURSDAY_WEEKDAY;if( skippos<8) skippos++;}
-	| FR { skiplist[skippos]=ICAL_FRIDAY_WEEKDAY;if( skippos<8) skippos++;}
-	| SA { skiplist[skippos]=ICAL_SATURDAY_WEEKDAY;if( skippos<8) skippos++;}
+	SU { skiplist[skippos]=ICAL_SUNDAY_WEEKDAY+8*dow_pos; 
+	     if( skippos<8) skippos++;}
+	| MO { skiplist[skippos]=ICAL_MONDAY_WEEKDAY+8*dow_pos;
+               if( skippos<8) skippos++;}
+	| TU { skiplist[skippos]=ICAL_TUESDAY_WEEKDAY+8*dow_pos;
+	       if( skippos<8) skippos++;}
+	| WE { skiplist[skippos]=ICAL_WEDNESDAY_WEEKDAY+8*dow_pos;
+	       if( skippos<8) skippos++;}
+	| TH { skiplist[skippos]=ICAL_THURSDAY_WEEKDAY+8*dow_pos;
+	       if( skippos<8) skippos++;}
+	| FR { skiplist[skippos]=ICAL_FRIDAY_WEEKDAY+8*dow_pos;
+	       if( skippos<8) skippos++;}
+	| SA { skiplist[skippos]=ICAL_SATURDAY_WEEKDAY+8*dow_pos;
+	       if( skippos<8) skippos++;}
 	;
 
 
 weekday_list:
-	weekday
-	| DIGITS weekday { } /* HACK Incorectly handles int in BYDAY */
-	| weekday_list COMMA weekday
+	weekday {dow_pos = 0};
+	| DIGITS weekday { dow_pos = atoi($1)} 
+	| weekday_list COMMA weekday {dow_pos = 0};
+	| weekday_list COMMA DIGITS weekday { dow_pos = atoi($3)} 
 	
 
 recur_list: 

@@ -4,20 +4,19 @@
  CREATOR: eric 20 March 1999
 
 
-  (C) COPYRIGHT 1999 Eric Busboom 
-  http://www.softwarestudio.org
+ (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
 
-  The contents of this file are subject to the Mozilla Public License
-  Version 1.0 (the "License"); you may not use this file except in
-  compliance with the License. You may obtain a copy of the License at
-  http://www.mozilla.org/MPL/
- 
-  Software distributed under the License is distributed on an "AS IS"
-  basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
-  the License for the specific language governing rights and
-  limitations under the License.
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of either: 
 
-  The original author is Eric Busboom
+    The LGPL as published by the Free Software Foundation, version
+    2.1, available at: http://www.fsf.org/copyleft/lesser.html
+
+  Or:
+
+    The Mozilla Public License Version 1.0. You may obtain a copy of
+    the License at http://www.mozilla.org/MPL/
+
   The original code is icalcomponent.h
 
 ======================================================================*/
@@ -28,8 +27,18 @@
 #include "icalproperty.h"
 #include "icalvalue.h"
 #include "icalenums.h" /* defines icalcomponent_kind */
+#include "pvl.h"
 
 typedef void icalcomponent;
+
+/* This is exposed so that callers will not have to allocate and
+   deallocate iterators. Pretend that you can't see it. */
+typedef struct icalcompiter
+{
+	icalcomponent_kind kind;
+	pvl_elem iter;
+
+} icalcompiter;
 
 icalcomponent* icalcomponent_new(icalcomponent_kind kind);
 icalcomponent* icalcomponent_new_clone(icalcomponent* component);
@@ -86,6 +95,20 @@ void icalcomponent_remove_component(icalcomponent* parent,
 int icalcomponent_count_components(icalcomponent* component,
 				   icalcomponent_kind kind);
 
+/* Iteration Routines. There are two forms of iterators, internal and
+external. The internal ones came first, and are almost completely
+sufficient, but they fail badly when you want to construct a loop that
+removes components from the container.
+
+The internal iterators are deprecated. */
+
+/* Using external iterators */
+icalcompiter icalcomponent_begin_component(icalcomponent* component,
+					   icalcomponent_kind kind);
+
+icalcompiter icalcomponent_end_component(icalcomponent* component,
+					 icalcomponent_kind kind);
+
 /* Iterate through components */
 icalcomponent* icalcomponent_get_current_component (icalcomponent* component);
 
@@ -93,6 +116,8 @@ icalcomponent* icalcomponent_get_first_component(icalcomponent* component,
 					      icalcomponent_kind kind);
 icalcomponent* icalcomponent_get_next_component(icalcomponent* component,
 					      icalcomponent_kind kind);
+
+
 
 /* Return a null-terminated array of icalproperties*/
 icalproperty** icalcomponent_get_component(icalcomponent* component,
@@ -112,6 +137,14 @@ void icalcomponent_convert_errors(icalcomponent* component);
 icalcomponent* icalcomponent_get_parent(icalcomponent* component);
 void icalcomponent_set_parent(icalcomponent* component, 
 			      icalcomponent* parent);
+
+
+
+/* External component iterator */
+icalcomponent* icalcompiter_next(icalcompiter* i);
+icalcomponent* icalcompiter_prior(icalcompiter* i);
+icalcomponent* icalcompiter_deref(icalcompiter* i);
+
 
 #endif /* !ICALCOMPONENT_H */
 

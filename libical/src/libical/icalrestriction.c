@@ -2,20 +2,7 @@
 /*  ======================================================================
   File: icalrestriction.c
     
- (C) COPYRIGHT 1999 Eric Busboom
- http://www.softwarestudio.org
-
- The contents of this file are subject to the Mozilla Public License
- Version 1.0 (the "License"); you may not use this file except in
- compliance with the License. You may obtain a copy of the License at
- http://www.mozilla.org/MPL/
- 
- Software distributed under the License is distributed on an "AS IS"
- basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
- the License for the specific language governing rights and
- limitations under the License.
- 
-
+ (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
  ======================================================================*/
 
 #ifdef HAVE_CONFIG_H
@@ -1466,7 +1453,7 @@ icalrestriction_property_record icalrestriction_property_records[] = {
     {ICAL_METHOD_NONE,ICAL_XPROCEDUREALARM_COMPONENT,ICAL_URL_PROPERTY,ICAL_RESTRICTION_ZERO,0},
     {ICAL_METHOD_NONE,ICAL_XPROCEDUREALARM_COMPONENT,ICAL_VERSION_PROPERTY,ICAL_RESTRICTION_ZERO,0},
     {ICAL_METHOD_NONE,ICAL_XPROCEDUREALARM_COMPONENT,ICAL_X_PROPERTY,ICAL_RESTRICTION_ZEROPLUS,0},
-    {ICAL_METHOD_NONE,ICAL_NO_COMPONENT,ICAL_NO_PROPERTY,ICAL_RESTRICTION_NONE}
+    {ICAL_METHOD_NONE,ICAL_NO_COMPONENT,ICAL_NO_PROPERTY,ICAL_RESTRICTION_NONE,0}
 };
 icalrestriction_component_record icalrestriction_component_records[] = {
     {ICAL_METHOD_PUBLISH,ICAL_VEVENT_COMPONENT,ICAL_VALARM_COMPONENT,ICAL_RESTRICTION_ZEROPLUS,0},
@@ -1596,5 +1583,5 @@ icalrestriction_component_record icalrestriction_component_records[] = {
     {ICAL_METHOD_CANCEL,ICAL_VJOURNAL_COMPONENT,ICAL_VEVENT_COMPONENT,ICAL_RESTRICTION_ZERO,0},
     {ICAL_METHOD_CANCEL,ICAL_VJOURNAL_COMPONENT,ICAL_VFREEBUSY_COMPONENT,ICAL_RESTRICTION_ZERO,0},
     {ICAL_METHOD_CANCEL,ICAL_VJOURNAL_COMPONENT,ICAL_VTODO_COMPONENT,ICAL_RESTRICTION_ZERO,0},
-    {ICAL_METHOD_NONE,ICAL_NO_COMPONENT,ICAL_NO_COMPONENT,ICAL_RESTRICTION_NONE}
+    {ICAL_METHOD_NONE,ICAL_NO_COMPONENT,ICAL_NO_COMPONENT,ICAL_RESTRICTION_NONE,0}
 };

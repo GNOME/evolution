@@ -1,5 +1,7 @@
 Thanks to: 
 
+Allan Clark <allanc@atlas.platypus.bc.ca> for testing libical against
+UnixWare.
 
 Graham Davison <g.m.davison@computer.org> for MacOS support and
 miscelaneous code bits
@@ -7,4 +9,16 @@ miscelaneous code bits
 Seth Alves <alves@hungry.com> for the first cut at the Makefile.am
 files and various utility functions.
 
-Russ Steinthal <rms39@columbia.edu> for several utility functions and comments. 
+Russ Steinthal <rms39@columbia.edu> for several utility functions and
+comments.
+
+Ola Lundqvist <olalu526@student.liu.se> for the vCal test data file. 
+
+Colin DuPlantis <colin@cp.net> for new functions in icalparser.c
+
+Holger Schmidt <hschmidt@chronolabs.de> for all of icalcstp.c, The
+CSTP protocol implementation, and modifications to icalcstp.h
+
+Gisle Hannemyr <gisle@oslonett.no> The decode*() functions in sspm.c
+are based on the decode() routine in the mimelite program, Copyright
+(c) 1994 Gisle Hannemyr.

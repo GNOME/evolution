@@ -1,23 +1,23 @@
+
 /* -*- Mode: C -*-*/
 /*======================================================================
  FILE: icalenums.h
 
  
 
-  (C) COPYRIGHT 1999 Eric Busboom 
-  http://www.softwarestudio.org
+ (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
 
-  The contents of this file are subject to the Mozilla Public License
-  Version 1.0 (the "License"); you may not use this file except in
-  compliance with the License. You may obtain a copy of the License at
-  http://www.mozilla.org/MPL/
- 
-  Software distributed under the License is distributed on an "AS IS"
-  basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
-  the License for the specific language governing rights and
-  limitations under the License.
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of either: 
 
-  The original author is Eric Busboom
+    The LGPL as published by the Free Software Foundation, version
+    2.1, available at: http://www.fsf.org/copyleft/lesser.html
+
+  Or:
+
+    The Mozilla Public License Version 1.0. You may obtain a copy of
+    the License at http://www.mozilla.org/MPL/
+
   The original code is icalenums.h
 
   Contributions from:
@@ -57,7 +57,10 @@ typedef enum icalcomponent_kind {
     ICAL_VQUERY_COMPONENT,
     ICAL_VCAR_COMPONENT,
     ICAL_VCOMMAND_COMPONENT,
-    ICAL_XLICINVALID_COMPONENT
+    ICAL_XLICINVALID_COMPONENT,
+    ICAL_XLICMIMEPART_COMPONENT /* a non-stardard component that mirrors
+				structure of MIME data */
+
 } icalcomponent_kind;
 
 /***********************************************************************
@@ -126,6 +129,12 @@ typedef enum icalproperty_kind {
     /* libical private properties */
     ICAL_XLICERROR_PROPERTY,
     ICAL_XLICCLUSTERCOUNT_PROPERTY,
+    ICAL_XLICMIMECONTENTTYPE_PROPERTY,
+    ICAL_XLICMIMEENCODING_PROPERTY,
+    ICAL_XLICMIMECID_PROPERTY,
+    ICAL_XLICMIMEFILENAME_PROPERTY,
+    ICAL_XLICMIMECHARSET_PROPERTY,
+    ICAL_XLICMIMEOPTINFO_PROPERTY,
 
     ICAL_NO_PROPERTY /* This must be the last enum, for iteration */
 
@@ -323,7 +332,9 @@ typedef enum icalparameter_xlicerrortype {
     ICAL_XLICERRORTYPE_PARAMETERNAMEPARSEERROR,
     ICAL_XLICERRORTYPE_PROPERTYPARSEERROR,
     ICAL_XLICERRORTYPE_VALUEPARSEERROR,
-    ICAL_XLICERRORTYPE_INVALIDITIP
+    ICAL_XLICERRORTYPE_UNKVCALPROP,
+    ICAL_XLICERRORTYPE_INVALIDITIP,
+    ICAL_XLICERRORTYPE_MIMEPARSEERROR,    
 } icalparameter_xlicerrortype;
 
 typedef enum icalparameter_xliccomparetype {
@@ -359,17 +370,20 @@ typedef enum icalparameter_value {
  * Recurrances 
 **********************************************************************/
 
-
 typedef enum icalrecurrencetype_frequency
 {
-    ICAL_NO_RECURRENCE,
-    ICAL_SECONDLY_RECURRENCE,
-    ICAL_MINUTELY_RECURRENCE,
-    ICAL_HOURLY_RECURRENCE,
-    ICAL_DAILY_RECURRENCE,
-    ICAL_WEEKLY_RECURRENCE,
-    ICAL_MONTHLY_RECURRENCE,
-    ICAL_YEARLY_RECURRENCE
+    /* These enums are used to index an array, so don't change the
+       order or the integers */
+
+    ICAL_SECONDLY_RECURRENCE=0,
+    ICAL_MINUTELY_RECURRENCE=1,
+    ICAL_HOURLY_RECURRENCE=2,
+    ICAL_DAILY_RECURRENCE=3,
+    ICAL_WEEKLY_RECURRENCE=4,
+    ICAL_MONTHLY_RECURRENCE=5,
+    ICAL_YEARLY_RECURRENCE=6,
+    ICAL_NO_RECURRENCE=7
+
 } icalrecurrencetype_frequency;
 
 typedef enum icalrecurrencetype_weekday

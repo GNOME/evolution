@@ -27,7 +27,7 @@
 
 #include <stdio.h> /* for printf */
 #include "ical.h"
-#include "icalcluster.h"
+#include "icalfileset.h"
 #include <errno.h>
 #include <string.h> /* For strerror */
 #include "icalrestriction.h"
@@ -41,7 +41,7 @@ void usage(char* arg0) {
 
 int main(int c, char *argv[]){
 
-    icalcluster *clusterin, *clusterout;
+    icalfileset *clusterin, *clusterout;
     icalcomponent *itr;
     int count=0;
     int tostdout = 0;
@@ -55,7 +55,7 @@ int main(int c, char *argv[]){
 	tostdout = 1;
     }
 
-    clusterin = icalcluster_new(argv[1]);
+    clusterin = icalfileset_new(argv[1]);
 
     if (clusterin == 0){
 	printf("Could not open input cluster \"%s\"",argv[1]);
@@ -64,7 +64,7 @@ int main(int c, char *argv[]){
     }
 
     if (!tostdout){
-	clusterout = icalcluster_new(argv[2]);
+	clusterout = icalfileset_new(argv[2]);
 	if (clusterout == 0){
 	    printf("Could not open output cluster \"%s\"\n",argv[2]);
 	    exit(1);
@@ -72,10 +72,10 @@ int main(int c, char *argv[]){
     }
 
 
-    for (itr = icalcluster_get_first_component(clusterin,
+    for (itr = icalfileset_get_first_component(clusterin,
 					       ICAL_ANY_COMPONENT);
 	 itr != 0;
-	 itr = icalcluster_get_next_component(clusterin,
+	 itr = icalfileset_get_next_component(clusterin,
 					      ICAL_ANY_COMPONENT)){
 
 	icalrestriction_check(itr);
@@ -87,7 +87,7 @@ int main(int c, char *argv[]){
 		printf("--------------\n%s\n",icalcomponent_as_ical_string(itr));
 	    } else {
 
-		icalcluster_add_component(clusterout,
+		icalfileset_add_component(clusterout,
 					  icalcomponent_new_clone(itr));
 	    }
 	    
@@ -101,11 +101,11 @@ int main(int c, char *argv[]){
 
     printf("Transfered %d components\n",count);
 
-    icalcluster_free(clusterin);
+    icalfileset_free(clusterin);
 
     if (!tostdout){
-	icalcluster_mark(clusterout);
-	icalcluster_free(clusterout);
+	icalfileset_mark(clusterout);
+	icalfileset_free(clusterout);
     }
 
     return 0;

@@ -1,3 +1,50 @@
+2000-08-04    <eric@softwarestudio.org>
+	
+	* stow.c Changed stow to write data to a file ( icalfileset) not a
+ 	calendar. Also added MIME parsing capability
+
+	* sspm.c Core of the mime processor. Now handles quoted-printable
+ 	and base64 encodings
+
+	* icalmime.h New file that parses mime data and returns an
+ 	icalcomponent that includes all of the parts.
+
+	
+2000-07-26    <eric@softwarestudio.org>
+
+	* icaldirset.h misc bug fixes to get deleting components to work
+
+	* icalcomponent.h Eliminated internal use of _get_first_component
+ 	and _get_next_component, since these will reset the interal
+ 	iterators.
+
+2000-07-23    <eric@softwarestudio.org>
+
+	* icalcomponent.h Added external iterators to icalcomponent for
+ 	subcomponents: icalcompiter. These are still experimental, but they
+ 	seem to work OK and have a nice syntax
+
+2000-07-18    <eric@softwarestudio.org>
+
+	* icalset This is a new "superclass" for icalstore, icalcluster,
+ 	and others. It merges the interfaces of the old icalstore and
+ 	icalcluster
+
+	* icalstore.{c,h} CHanged name to icaldirset
+
+	* icalcluster.{c,h} Changed name to icalfileset
+	
+
+2000-06-12  Eric Busboom  <eric@softwarestudio.org>
+
+	* icalstow.c misc improvements and bug fixes to make it useful.
+
+2000-06-09  Eric Busboom  <eric@softwarestudio.org>
+
+	* icalrecur.c More extensive code changes for recurrence rule.
+
+	* icalyacc.y Added support for integers in by day lists
+
 2000-06-08  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* src/test/Makefile.am (INCLUDES): Likewise.
@@ -5,11 +52,23 @@
 	* src/libicalss/Makefile.am (INCLUDES): Use $(srcdir) to allow
 	builddir != srcdir.
 
-2000-03-17  Eric Busboom  <eric@agony.qualcomm.com>
+2000-06-01  Eric Busboom  <eric@softwarestudio.org>
+
+	* icalrecur.c moved recur code into new files
+
+2000-05-30  Eric Busboom  <eric@softwarestudio.org>
+
+	* icaltypes.c Extensive work on code to expand recurences
+
+	* icaltypes.h Changed signature icaltimetype_from_timet to include
+ 	is_utc flag.
+	
+
+2000-03-17  Eric Busboom  <eric@softwarestudio.org>
 
 	* icalstore.c Vastly improved icalstore_test. 
 
-2000-03-16  Eric Busboom  <eric@agony.qualcomm.com>
+2000-03-16  Eric Busboom  <eric@softwarestudio.org>
 
 	* icalcluster.c Added compile flag (ICAL_SAFESAVES) to switch how
  	icalcluster saves files during commits. When the flag is define,
