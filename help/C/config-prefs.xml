@@ -775,22 +775,13 @@ smtp.omniport.com:143
 	  <listitem>
 	    <para>
 	      Click the <guibutton>Add</guibutton> button on the right
-	      side.
+	      side to open a Directory Server addition assistant.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Enter the server information:
-	      <variablelist>
-		<varlistentry>
-		  <term>Account name</term>
-		  <listitem>
-		    <para>
-		      The name that you see on the screen.  This could
-		      be anything you wish.
-		    </para>
-		  </listitem>
-		</varlistentry>
+	      Enter the server information as requested by the assistant:
+	    <variablelist>
 		<varlistentry>
 		  <term>Server name</term>
 		  <listitem>
@@ -800,12 +791,13 @@ smtp.omniport.com:143
 		  </listitem>
 		</varlistentry>
 		<varlistentry>
-		  <term>My server requires authentication</term>
+		  <term>Login Method</term>
 		  <listitem>
 		    <para>
-		      Select this if the server requires
-		      <application>Evolution</application> to provide
-		      a server in order to access the LDAP contacts.
+		      Specify whether your login is anonymous, using
+                      an email address, or a "distinguished name." If
+                      the login is not anonymous, enter the login name
+                      required by the server.
 		    </para>
 		  </listitem>
 		</varlistentry>
@@ -820,14 +812,29 @@ smtp.omniport.com:143
 		    </para>
 		  </listitem>
 		</varlistentry>
-
-	        <varlistentry>
-		  <term><glossterm linkend="search-base">Search Base</glossterm></term>
+                <varlistentry>
+                  <term>Use SSL/TLS</term>
 		  <listitem>
 		    <para>
-                    The base entry to use for all your
-                    searches. Contact your administrator for
-                    information about the correct settings.
+                      SSL and TLS are security mechanisms. If you
+                      select <guilabel>Always</guilabel>, Evolution
+                    will not connect unless
+                    secure connections are available. The default value is
+                    <guilabel>Whenever Possible</guilabel>, which uses
+                    secure connections if they are available,
+                    but does not cause failure if they are not.
+		    </para>
+		  </listitem>
+		</varlistentry>
+
+
+		<varlistentry>
+		  <term><glossterm linkend="search-base">Search base</glossterm></term>
+		  <listitem>
+		    <para>
+		      The base entry to use for all your searches.
+		      Contact your administrator for information about
+		      the correct settings.
 		    </para>
 		  </listitem>
 		</varlistentry>
@@ -856,10 +863,46 @@ smtp.omniport.com:143
 			    </para>
 			  </listitem>
 			</varlistentry>
-		      </variablelist>
+                      </variablelist>
+                    </para>
+                  </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                  <term>Timeout Limit</term>
+		  <listitem>
+		    <para>
+                      This is the maximum time Evolution will attempt to
+                      download data from the server before giving up.
 		    </para>
 		  </listitem>
 		</varlistentry>
+
+
+                <varlistentry>
+                  <term>Download Limit</term>
+		  <listitem>
+		    <para>
+		      Set the maximum number of results for a given
+                      search. Most servers refuse to send more than
+                      500, but you can set the number lower if you
+                      want to shorten downloads for very broad
+                      searches.
+		    </para>
+		  </listitem>
+		</varlistentry>
+
+
+                <varlistentry>
+                  <term>Display name</term>
+		  <listitem>
+		    <para>
+		      The name that you see on the screen.  This could
+		      be anything you wish.
+		    </para>
+		  </listitem>
+		</varlistentry>
+
 	      </variablelist>
 	    </para>
 	  </listitem>
