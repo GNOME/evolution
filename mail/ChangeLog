@@ -1,3 +1,11 @@
+2004-10-11  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #67408.
+
+	* em-folder-view.c (emfv_gui_folder_changed): noop if we were
+	destroyed.
+	(emfv_destroy): set destroyed bit.
+
 2004-10-07  JP Rosevear  <jpr@novell.com>
 
 	* mail-account-gui.c (browse_clicked): use "Select a file" so as
