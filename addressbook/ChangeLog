@@ -1,3 +1,8 @@
+2000-08-31  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* conduit/Makefile.am (INCLUDES): Add `BONOBO_GNOME_CFLAGS' and
+	`-I$(top_srcdir)'.
+
 2000-08-31  Christopher James Lahey  <clahey@helixcode.com>
 
 	* backend/ebook/Makefile.am: Install load-gnomecard-addressbook

@@ -1,6 +1,8 @@
-INCLUDES = 				\
-	-I$(top_srcdir)/addressbook	\
+INCLUDES = 					\
+	-I$(top_srcdir)				\
+	-I$(top_srcdir)/addressbook		\
 	-I$(top_srcdir)/addressbook/backend	\
+	$(BONOBO_GNOME_CFLAGS)			\
 	$(GNOME_PILOT_CFLAGS)
 
 bin_PROGRAMS = address-conduit-control-applet
