@@ -1967,32 +1967,6 @@ Click &quot;Finish&quot; to save your settings.</text>
 	  </widget>
 
 	  <widget>
-	    <class>GtkOptionMenu</class>
-	    <name>omenuSourceAuth</name>
-	    <can_focus>True</can_focus>
-	    <items>Plain Text
-Kerberos
-CRAM-MD5
-DIGEST-MD5
-</items>
-	    <initial_choice>0</initial_choice>
-	    <child>
-	      <left_attach>4</left_attach>
-	      <right_attach>10</right_attach>
-	      <top_attach>6</top_attach>
-	      <bottom_attach>7</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>False</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
-
-	  <widget>
 	    <class>GtkEntry</class>
 	    <name>txtSourceHost</name>
 	    <can_focus>True</can_focus>
@@ -2242,6 +2216,32 @@ DIGEST-MD5
 	      <yfill>False</yfill>
 	    </child>
 	  </widget>
+
+	  <widget>
+	    <class>GtkOptionMenu</class>
+	    <name>omenuSourceAuth</name>
+	    <can_focus>True</can_focus>
+	    <items>Plain Text
+Kerberos
+CRAM-MD5
+DIGEST-MD5
+</items>
+	    <initial_choice>0</initial_choice>
+	    <child>
+	      <left_attach>4</left_attach>
+	      <right_attach>10</right_attach>
+	      <top_attach>6</top_attach>
+	      <bottom_attach>7</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
 	</widget>
 
 	<widget>
@@ -2307,30 +2307,6 @@ DIGEST-MD5
 	  </widget>
 
 	  <widget>
-	    <class>GtkOptionMenu</class>
-	    <name>omenuTransportAuth</name>
-	    <can_focus>True</can_focus>
-	    <items>None
-CRAM-MD5
-</items>
-	    <initial_choice>0</initial_choice>
-	    <child>
-	      <left_attach>4</left_attach>
-	      <right_attach>10</right_attach>
-	      <top_attach>3</top_attach>
-	      <bottom_attach>4</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>False</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
-
-	  <widget>
 	    <class>GtkEntry</class>
 	    <name>txtTransportHost</name>
 	    <can_focus>True</can_focus>
@@ -2346,30 +2322,6 @@ CRAM-MD5
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
 	      <xexpand>True</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkOptionMenu</class>
-	    <name>omenuTransportType</name>
-	    <can_focus>True</can_focus>
-	    <items>Sendmail
-SMTP
-</items>
-	    <initial_choice>0</initial_choice>
-	    <child>
-	      <left_attach>3</left_attach>
-	      <right_attach>10</right_attach>
-	      <top_attach>1</top_attach>
-	      <bottom_attach>2</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>False</xexpand>
 	      <yexpand>False</yexpand>
 	      <xshrink>False</xshrink>
 	      <yshrink>False</yshrink>
@@ -2476,6 +2428,54 @@ SMTP
 	      <xshrink>False</xshrink>
 	      <yshrink>False</yshrink>
 	      <xfill>False</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkOptionMenu</class>
+	    <name>omenuTransportAuth</name>
+	    <can_focus>True</can_focus>
+	    <items>None
+CRAM-MD5
+</items>
+	    <initial_choice>0</initial_choice>
+	    <child>
+	      <left_attach>4</left_attach>
+	      <right_attach>10</right_attach>
+	      <top_attach>3</top_attach>
+	      <bottom_attach>4</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkOptionMenu</class>
+	    <name>omenuTransportType</name>
+	    <can_focus>True</can_focus>
+	    <items>Sendmail
+SMTP
+</items>
+	    <initial_choice>0</initial_choice>
+	    <child>
+	      <left_attach>3</left_attach>
+	      <right_attach>10</right_attach>
+	      <top_attach>1</top_attach>
+	      <bottom_attach>2</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
 	      <yfill>False</yfill>
 	    </child>
 	  </widget>
@@ -2591,6 +2591,29 @@ SMTP
 	  </widget>
 
 	  <widget>
+	    <class>GtkCheckButton</class>
+	    <name>chkKeepMailOnServer</name>
+	    <can_focus>True</can_focus>
+	    <label>Keep mail on server</label>
+	    <active>True</active>
+	    <draw_indicator>True</draw_indicator>
+	    <child>
+	      <left_attach>1</left_attach>
+	      <right_attach>10</right_attach>
+	      <top_attach>2</top_attach>
+	      <bottom_attach>3</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>False</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
 	    <class>GtkEntry</class>
 	    <name>txtSourcePath</name>
 	    <can_focus>True</can_focus>
@@ -2610,29 +2633,6 @@ SMTP
 	      <xshrink>False</xshrink>
 	      <yshrink>False</yshrink>
 	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkCheckButton</class>
-	    <name>chkKeepMailOnServer</name>
-	    <can_focus>True</can_focus>
-	    <label>Keep mail on server</label>
-	    <active>True</active>
-	    <draw_indicator>True</draw_indicator>
-	    <child>
-	      <left_attach>1</left_attach>
-	      <right_attach>10</right_attach>
-	      <top_attach>2</top_attach>
-	      <bottom_attach>3</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>False</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>False</xfill>
 	      <yfill>False</yfill>
 	    </child>
 	  </widget>
