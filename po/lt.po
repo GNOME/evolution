@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-08 17:32+0200\n"
-"PO-Revision-Date: 2005-01-08 21:00+0200\n"
+"POT-Creation-Date: 2005-01-10 06:15+0200\n"
+"PO-Revision-Date: 2005-01-10 07:24+0200\n"
 "Last-Translator: Žygimantas Beručka <uid0@akl.lt>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "MIME-Version: 1.0\n"
@@ -155,7 +155,7 @@ msgstr "kalendoriaus vaizdas vienai ar daugiau dienų"
 msgid "a table to view and select the current time range"
 msgstr "lentelė žiūrėti ir pasirinkti dabartiniam laiko rėžiui"
 
-#: a11y/calendar/ea-gnome-calendar.c:187 calendar/gui/calendar-component.c:519
+#: a11y/calendar/ea-gnome-calendar.c:187 calendar/gui/calendar-component.c:520
 msgid "%A %d %b %Y"
 msgstr "%A %d %b %Y"
 
@@ -165,22 +165,22 @@ msgstr "%A %d %b %Y"
 #. %d = day of month, %b = abbreviated month name.
 #. You can change the order but don't change the
 #. specifiers or add anything.
-#: a11y/calendar/ea-gnome-calendar.c:190 calendar/gui/calendar-component.c:522
+#: a11y/calendar/ea-gnome-calendar.c:190 calendar/gui/calendar-component.c:523
 #: calendar/gui/e-day-view.c:1511 calendar/gui/e-day-view-top-item.c:719
 #: calendar/gui/e-week-view-main-item.c:321
 msgid "%a %d %b"
 msgstr "%a, %b %d"
 
 #: a11y/calendar/ea-gnome-calendar.c:192 a11y/calendar/ea-gnome-calendar.c:197
-#: a11y/calendar/ea-gnome-calendar.c:199 calendar/gui/calendar-component.c:524
-#: calendar/gui/calendar-component.c:529 calendar/gui/calendar-component.c:531
+#: a11y/calendar/ea-gnome-calendar.c:199 calendar/gui/calendar-component.c:525
+#: calendar/gui/calendar-component.c:530 calendar/gui/calendar-component.c:532
 msgid "%a %d %b %Y"
 msgstr "%a, %Y %b %d"
 
 #: a11y/calendar/ea-gnome-calendar.c:216 a11y/calendar/ea-gnome-calendar.c:222
 #: a11y/calendar/ea-gnome-calendar.c:228 a11y/calendar/ea-gnome-calendar.c:230
-#: calendar/gui/calendar-component.c:543 calendar/gui/calendar-component.c:550
-#: calendar/gui/calendar-component.c:556 calendar/gui/calendar-component.c:558
+#: calendar/gui/calendar-component.c:544 calendar/gui/calendar-component.c:551
+#: calendar/gui/calendar-component.c:557 calendar/gui/calendar-component.c:559
 msgid "%d %b %Y"
 msgstr "%Y %b %d"
 
@@ -189,7 +189,7 @@ msgstr "%Y %b %d"
 #. strftime format %d = day of month, %b = abbreviated
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: a11y/calendar/ea-gnome-calendar.c:220 calendar/gui/calendar-component.c:548
+#: a11y/calendar/ea-gnome-calendar.c:220 calendar/gui/calendar-component.c:549
 #: calendar/gui/e-day-view.c:1527 calendar/gui/e-day-view-top-item.c:723
 #: calendar/gui/e-week-view-main-item.c:335
 msgid "%d %b"
@@ -661,7 +661,7 @@ msgstr ""
 
 #: addressbook/gui/component/addressbook-view.c:758
 #: addressbook/gui/widgets/e-addressbook-view.c:934
-#: calendar/gui/calendar-component.c:385 calendar/gui/tasks-component.c:330
+#: calendar/gui/calendar-component.c:386 calendar/gui/tasks-component.c:330
 #: mail/em-filter-i18n.h:11 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-calendar.xml.h:5 ui/evolution-mail-message.xml.h:24
 #: ui/evolution-tasks.xml.h:6
@@ -669,7 +669,7 @@ msgid "Delete"
 msgstr "Ištrinti"
 
 #: addressbook/gui/component/addressbook-view.c:760
-#: calendar/gui/calendar-component.c:386 calendar/gui/tasks-component.c:331
+#: calendar/gui/calendar-component.c:387 calendar/gui/tasks-component.c:331
 msgid "Properties..."
 msgstr "Savybės..."
 
@@ -2796,8 +2796,8 @@ msgid ""
 "load the addressbook once in online mode to download its contents"
 msgstr ""
 "Nepavyko atidaryti šios adresų knygos. Tai reiškia, kad ši knyga nėra "
-"pažymėta naudojimui atsijungus arba dar nėra tam parsiųsti jos duomenys. "
-"Kai prisijungsite, prašau paleisti šią adresų knygą, taip bus parsiųstas jos "
+"pažymėta naudojimui atsijungus arba dar nėra tam parsiųsti jos duomenys. Kai "
+"prisijungsite, prašau paleisti šią adresų knygą, taip bus parsiųstas jos "
 "turinys."
 
 #: addressbook/gui/widgets/eab-gui-util.c:98
@@ -3156,7 +3156,7 @@ msgid "Cut"
 msgstr "Iškirpti"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:932
-#: calendar/gui/calendar-component.c:384 calendar/gui/tasks-component.c:329
+#: calendar/gui/calendar-component.c:385 calendar/gui/tasks-component.c:329
 #: ui/evolution-addressbook.xml.h:2 ui/evolution-mail-message.xml.h:9
 #: ui/evolution-tasks.xml.h:2
 msgid "Copy"
@@ -4377,7 +4377,7 @@ msgstr ""
 msgid "Whether to show week numbers in date navigator"
 msgstr "Ar datos navigatoriuje rodyti savaičių numerius"
 
-#: calendar/gui/calendar-commands.c:120 calendar/gui/calendar-component.c:567
+#: calendar/gui/calendar-commands.c:120 calendar/gui/calendar-component.c:568
 #: calendar/gui/dialogs/calendar-setup.c:362 calendar/gui/gnome-cal.c:1925
 #: camel/providers/groupwise/camel-gw-listener.c:405
 #: camel/providers/groupwise/camel-gw-listener.c:435
@@ -4406,78 +4406,78 @@ msgstr "Ištrinti įvykius senesnius nei"
 msgid "days"
 msgstr "dienų"
 
-#: calendar/gui/calendar-component.c:383
+#: calendar/gui/calendar-component.c:384
 #: calendar/gui/dialogs/calendar-setup.c:442
 msgid "New Calendar"
 msgstr "Naujas kalendorius"
 
-#: calendar/gui/calendar-component.c:638
+#: calendar/gui/calendar-component.c:701
 msgid "Failed upgrading calendars."
 msgstr "Nepavyko atnaujinti kalendorių."
 
-#: calendar/gui/calendar-component.c:934
+#: calendar/gui/calendar-component.c:997
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "Nepavyko atverti kalendoriaus „%s“ įvykių bei susitikimų įrašymui"
 
-#: calendar/gui/calendar-component.c:950
+#: calendar/gui/calendar-component.c:1013
 msgid "There is no calendar available for creating events and meetings"
 msgstr "Nėra sukurta kalendoriaus naudojamo įvykių bei susitikimų saugojimui"
 
-#: calendar/gui/calendar-component.c:1060
+#: calendar/gui/calendar-component.c:1123
 msgid "Calendar Source Selector"
 msgstr "Kalendoriaus šaltinio parinkiklis"
 
-#: calendar/gui/calendar-component.c:1085
+#: calendar/gui/calendar-component.c:1148
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
 msgid "Calendars"
 msgstr "Kalendoriai"
 
-#: calendar/gui/calendar-component.c:1251
+#: calendar/gui/calendar-component.c:1314
 msgid "New appointment"
 msgstr "Naujas paskyrimas"
 
-#: calendar/gui/calendar-component.c:1252
+#: calendar/gui/calendar-component.c:1315
 msgid "_Appointment"
 msgstr "P_askyrimas"
 
-#: calendar/gui/calendar-component.c:1253
+#: calendar/gui/calendar-component.c:1316
 msgid "Create a new appointment"
 msgstr "Sukurti naują įvykį"
 
-#: calendar/gui/calendar-component.c:1259
+#: calendar/gui/calendar-component.c:1322
 msgid "New meeting"
 msgstr "Naujas susitikimas"
 
-#: calendar/gui/calendar-component.c:1260
+#: calendar/gui/calendar-component.c:1323
 msgid "M_eeting"
 msgstr "_Susitikimas"
 
-#: calendar/gui/calendar-component.c:1261
+#: calendar/gui/calendar-component.c:1324
 msgid "Create a new meeting request"
 msgstr "Sukurti naują susitikimo užklausimą"
 
-#: calendar/gui/calendar-component.c:1267
+#: calendar/gui/calendar-component.c:1330
 msgid "New all day appointment"
 msgstr "Naujas visos dienos paskyrimas"
 
-#: calendar/gui/calendar-component.c:1268
+#: calendar/gui/calendar-component.c:1331
 msgid "All Day A_ppointment"
 msgstr "Visos dienos _paskyrimas"
 
-#: calendar/gui/calendar-component.c:1269
+#: calendar/gui/calendar-component.c:1332
 msgid "Create a new all-day appointment"
 msgstr "Sukurti naują visos dienos paskyrimą"
 
-#: calendar/gui/calendar-component.c:1275
+#: calendar/gui/calendar-component.c:1338
 msgid "New calendar"
 msgstr "Naujas kalendorius"
 
-#: calendar/gui/calendar-component.c:1276
+#: calendar/gui/calendar-component.c:1339
 msgid "Cale_ndar"
 msgstr "Kale_ndorius"
 
-#: calendar/gui/calendar-component.c:1277
+#: calendar/gui/calendar-component.c:1340
 msgid "Create a new calendar"
 msgstr "Sukurti naują kalendorių"
 
@@ -4535,7 +4535,7 @@ msgstr "Turimos priėjimo teisės neleidžia atidaryti kalendoriaus"
 #: camel/providers/imap/camel-imap-command.c:400
 #: camel/providers/pop3/camel-pop3-store.c:526
 #: camel/providers/pop3/camel-pop3-store.c:533
-#: camel/providers/pop3/camel-pop3-store.c:539 shell/e-shell.c:1252
+#: camel/providers/pop3/camel-pop3-store.c:539 shell/e-shell.c:1259
 msgid "Unknown error"
 msgstr "Nežinoma klaida"
 
@@ -5421,7 +5421,7 @@ msgstr "_Pradžios laikas:"
 #: composer/e-msg-composer.c:2122 filter/filter-rule.c:878
 #: mail/em-account-editor.c:675 mail/em-account-editor.c:1267
 #: mail/em-account-prefs.c:431 mail/em-folder-view.c:961
-#: plugins/itip-formatter/itip-formatter.c:1146
+#: plugins/itip-formatter/itip-formatter.c:1273
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:190
 #: widgets/misc/e-cell-date-edit.c:248 widgets/misc/e-dateedit.c:458
 #: widgets/misc/e-dateedit.c:1497 widgets/misc/e-dateedit.c:1651
@@ -6257,8 +6257,8 @@ msgstr "Pradžios data"
 #: camel/providers/imap4/camel-imap4-utils.c:575
 #: camel/providers/smtp/camel-smtp-transport.c:163
 #: camel/providers/smtp/camel-smtp-transport.c:218 mail/em-utils.c:1157
-#: plugins/itip-formatter/itip-formatter.c:248
-#: plugins/itip-formatter/itip-formatter.c:1168
+#: plugins/itip-formatter/itip-formatter.c:247
+#: plugins/itip-formatter/itip-formatter.c:1295
 #: plugins/plugin-manager/plugin-manager.c:72 shell/e-component-registry.c:202
 #: shell/e-component-registry.c:206 widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
@@ -6479,19 +6479,19 @@ msgstr ""
 
 #: calendar/gui/e-itip-control.c:1137 calendar/gui/e-meeting-list-view.c:175
 #: calendar/gui/e-meeting-store.c:188 calendar/gui/e-meeting-store.c:211
-#: calendar/gui/itip-utils.c:422 plugins/itip-formatter/itip-formatter.c:1159
+#: calendar/gui/itip-utils.c:422 plugins/itip-formatter/itip-formatter.c:1286
 msgid "Accepted"
 msgstr "Priimtas"
 
 #: calendar/gui/e-itip-control.c:1141 calendar/gui/itip-utils.c:425
-#: plugins/itip-formatter/itip-formatter.c:1162
+#: plugins/itip-formatter/itip-formatter.c:1289
 msgid "Tentatively Accepted"
 msgstr "Negalutinis sutikimas"
 
 #: calendar/gui/e-itip-control.c:1145 calendar/gui/e-meeting-list-view.c:176
 #: calendar/gui/e-meeting-store.c:190 calendar/gui/e-meeting-store.c:213
 #: calendar/gui/itip-utils.c:428 calendar/gui/itip-utils.c:454
-#: plugins/itip-formatter/itip-formatter.c:1165
+#: plugins/itip-formatter/itip-formatter.c:1292
 msgid "Declined"
 msgstr "Atmestas"
 
@@ -13279,6 +13279,10 @@ msgid ""
 "for %s displayed below\n"
 "and tick the check box for accepting it\n"
 msgstr ""
+"\n"
+"Prašom atidžiai perskaityti žemiau rodomą sutikimą\n"
+"su %s sutartimi\n"
+"ir jeigu su ja sutinkate, pažymėkite paukščiuką\n"
 
 #: mail/em-account-editor.c:454 mail/em-filter-folder-element.c:237
 #: mail/em-vfolder-rule.c:494
@@ -14254,6 +14258,8 @@ msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
 msgstr ""
+"Nepavyko perskaityti nustatymų iš ankstesnės Evolution instaliacijos, "
+"„evolution/config.xmldb“ neegzistuoja arba yra sugadinta."
 
 #: mail/em-popup.c:386
 msgid "Save As..."
@@ -15240,7 +15246,7 @@ msgstr "<span weight=\"bold\">Rodomos pašto a_ntraštės</span>"
 msgid "<span weight=\"bold\">Filter Options</span>"
 msgstr "<span weight=\"bold\">Filtravimo nustatymai</span>"
 
-#: mail/mail-config.glade.h:19 plugins/itip-formatter/itip-formatter.c:1367
+#: mail/mail-config.glade.h:19 plugins/itip-formatter/itip-formatter.c:1545
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">Esminiai</span>"
 
@@ -15383,12 +15389,10 @@ msgid "Checks incoming mail messages to be Junk"
 msgstr "Tikrinti gaunamus laiškus dėl galimo šlamšto"
 
 #: mail/mail-config.glade.h:55
-#, fuzzy
 msgid "Cle_ar"
-msgstr "Iš_valyti"
+msgstr "Išv_alyti"
 
 #: mail/mail-config.glade.h:56
-#, fuzzy
 msgid "Clea_r"
 msgstr "Iš_valyti"
 
@@ -15432,10 +15436,9 @@ msgid "Defaults"
 msgstr "Įprastos reikšmės"
 
 #: mail/mail-config.glade.h:70
-#, fuzzy
 msgid "Digitally _sign outgoing messages (by default)"
 msgstr ""
-"Visa_da skaitmeniniu būdu pasirašyti siunčiamus laiškus (standartiškai)"
+"_Skaitmeniniu būdu pasirašyti išsiunčiamus laiškus (standartiškai)"
 
 #: mail/mail-config.glade.h:71
 msgid "Do not quote original message"
@@ -15466,9 +15469,8 @@ msgid "Encry_ption certificate:"
 msgstr "Ši_fravimo sertifikatas:"
 
 #: mail/mail-config.glade.h:79
-#, fuzzy
 msgid "Encrypt out_going messages (by default)"
-msgstr "_Visada koduoti išsiunčiamus laiškus (standartiškai)"
+msgstr "Ši_fruoti išsiunčiamus laiškus (standartiškai)"
 
 #: mail/mail-config.glade.h:81
 msgid "Execute Command..."
@@ -15592,18 +15594,16 @@ msgid "Remember _password"
 msgstr "Prisiminti šį sla_ptažodį"
 
 #: mail/mail-config.glade.h:115
-#, fuzzy
 msgid "S_elect..."
-msgstr "Pasirinkite..."
+msgstr "P_asirinkti..."
 
 #: mail/mail-config.glade.h:116
 msgid "S_tandard Font:"
 msgstr "Įpras_tas šriftas:"
 
 #: mail/mail-config.glade.h:117
-#, fuzzy
 msgid "Se_lect..."
-msgstr "Pasirinkite..."
+msgstr "Pasirin_kti..."
 
 #: mail/mail-config.glade.h:118
 msgid "Security"
@@ -15646,9 +15646,8 @@ msgid "Server _Type: "
 msgstr "Serverio _tipas:"
 
 #: mail/mail-config.glade.h:128
-#, fuzzy
 msgid "Sig_ning certificate:"
-msgstr "Pa_rašo sertifikatas:"
+msgstr "Pasirašo_mas sertifikatas:"
 
 #: mail/mail-config.glade.h:129
 msgid "Signat_ure:"
@@ -15745,9 +15744,8 @@ msgid "_Do not notify me when new mail arrives"
 msgstr "_Neinformuoti apie naujų laiškų gavimą"
 
 #: mail/mail-config.glade.h:152
-#, fuzzy
 msgid "_Don't sign meeting requests (for Outlook compatibility)"
-msgstr "Nepasirašyti susitiki_mų užklausimų (dėl suderinamumo su Outlook)"
+msgstr "_Nepasirašyti susitikimų užklausimų (dėl suderinamumo su Outlook)"
 
 #: mail/mail-config.glade.h:154
 msgid "_Enable"
@@ -15825,6 +15823,9 @@ msgid ""
 " Please read carefully the license agreement displayed\n"
 " below and tick the check box for accepting it\n"
 msgstr ""
+"\n"
+" Prašau atidžiai perskaityti žemiau rodomą sutikimą su\n"
+" licencija ir jeigu Jūs su ja sutinkate uždėkite paukščiuką\n"
 
 #: mail/mail-dialogs.glade.h:7
 msgid "<b>vFolder Sources</b>"
@@ -15888,9 +15889,8 @@ msgstr ""
 "Pasirinkite tęsiniams galiojančius veiksmus iš „Žymių“ meniu."
 
 #: mail/mail-dialogs.glade.h:24
-#, fuzzy
 msgid "_Accept License"
-msgstr "Priimti licenciją"
+msgstr "_Priimti licenciją"
 
 #: mail/mail-dialogs.glade.h:25 mail/message-tags.glade.h:6
 msgid "_Due By:"
@@ -15905,9 +15905,8 @@ msgid "_Subscribe"
 msgstr "_Užsakyti"
 
 #: mail/mail-dialogs.glade.h:28
-#, fuzzy
 msgid "_Tick this to accept the license agreement"
-msgstr "Pažymėkit čia, jeigu sutinkate su licencija"
+msgstr "_Pažymėkit čia, jeigu sutinkate su licencija"
 
 #: mail/mail-dialogs.glade.h:29
 msgid "_Unsubscribe"
@@ -15950,15 +15949,13 @@ msgstr "Jūsų prisijungimas į serverį „{0}“ kaip „{0}“ nepavyko."
 
 #. mail:camel-service-auth-failed secondary
 #: mail/mail-errors.xml.h:8
-#, fuzzy
 msgid ""
 "Check to make sure your password is spelled correctly.  Remember that many "
 "passwords are case sensitive; your caps lock might be on."
 msgstr ""
-"Patikrinkite ar Jūsų slaptažodis parašytas teisingai ir ar Jūs naudojate "
-"palaikomą prisijungimo metodą. Atminkit, kad daugumoje slaptažodių yra "
-"skirtumas tarp mažųjų ir didžiųjų raidžių; gali būti įjungtas Jūsų "
-"„CapsLock“ klavišas."
+"Patikrinkite ar Jūsų slaptažodis parašytas teisingai. Atminkite, kad "
+"daugumoje slaptažodių yra skirtumas tarp raidžių registro; gali būti įjungtas "
+"Jūsų „CapsLock“ klavišas."
 
 #. mail:ask-send-html primary
 #: mail/mail-errors.xml.h:10
@@ -15967,17 +15964,16 @@ msgstr "Ar tikrai norite išsiųsti laišką HTML formatu?"
 
 #. mail:ask-send-html secondary
 #: mail/mail-errors.xml.h:12
-#, fuzzy
 msgid ""
 "Please make sure the following recipients are willing and able to receive "
 "HTML email:\n"
 "{0}\n"
 "Send anyway?"
 msgstr ""
-"Jūs bandote išsiųsti HTML formatuotą laišką. Įsitikinkite, kad žemiau \n"
-"esantys laiško gavėjai sutinka gauti HTML laiškus ir sugebės juos "
-"perskaityti:\n"
-"%sAr tikrai galima išsiųsti?"
+"Įsitikinkite, kad sekantys laiško gavėjai sutinka gauti HTML laiškus ir "
+"sugebės juos perskaityti:\n"
+"{0}"
+"Vistiek išsiųsti?"
 
 #. mail:ask-send-no-subject primary
 #: mail/mail-errors.xml.h:17
@@ -16024,6 +16020,7 @@ msgstr ""
 msgid ""
 "This message cannot be sent because you have not specified any Recipients"
 msgstr ""
+"Nepavyko išsiųsti šio laiško, nes JŪs nenurodėte jokių gavėjų"
 
 #. mail:send-no-recipients secondary
 #: mail/mail-errors.xml.h:36
@@ -16031,21 +16028,22 @@ msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
 msgstr ""
+"Prašom įvesti tinkamą el. pašto adresą laukelyje Kam:. Jūs galite ieškoti "
+"el. pašto adresų paspausdami šalia įvedimo laukelio esantį mygtuką Kam:."
 
 #. mail:ask-default-drafts primary
 #: mail/mail-errors.xml.h:38
 msgid "Use default drafts folder?"
-msgstr "Naudoti įprastą juodraščių aplanką"
+msgstr "Naudoti įprastą juodraščių aplanką?"
 
 #. mail:ask-default-drafts secondary
 #: mail/mail-errors.xml.h:40
-#, fuzzy
 msgid ""
 "Unable to open the drafts folder for this account.  Use the system drafts "
 "folder instead?"
 msgstr ""
-"Nepavyko atidaryti šios sąskaitos juodraščių aplanko.\n"
-"Ar norėtum naudoti įprastinį juodraščių aplanką?"
+"Nepavyko atidaryti šios abonemento juodraščių aplanko. Ar vietoj to naudoti "
+"sistemos juodraščių aplanką?"
 
 #: mail/mail-errors.xml.h:41
 msgid "Use _Default"
@@ -16053,17 +16051,18 @@ msgstr "Nau_doti įprastą"
 
 #. mail:ask-expunge primary
 #: mail/mail-errors.xml.h:43
-#, fuzzy
 msgid ""
 "Are you sure you want to permanently remove all the deleted message in "
 "folder \"{0}\"?"
-msgstr "Visam laikui sunaikinti visus ištrintus laiškus iš šio aplanko"
+msgstr ""
+"Ar tikrai norite visam laikui pašalinti visus laiškus ištrintus iš aplanko "
+"„{0}“?"
 
 #. mail:ask-expunge secondary
 #. mail:ask-empty-trash secondary
 #: mail/mail-errors.xml.h:45 mail/mail-errors.xml.h:50
 msgid "If you continue, you will not be able to recover these messages."
-msgstr ""
+msgstr "Jeigu nuspręsite tęsti, Jūs nebegalėsite atkurti šių žinučių."
 
 #: mail/mail-errors.xml.h:46
 msgid "_Expunge"
@@ -16071,11 +16070,12 @@ msgstr "Iš_valyti"
 
 #. mail:ask-empty-trash primary
 #: mail/mail-errors.xml.h:48
-#, fuzzy
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
-msgstr "Visam laikui sunaikinti visus ištrintus laiškus iš visų aplankų"
+msgstr ""
+"Ar tikrai norite visam laikui pašalinti visus laiškus ištrintus visuose "
+"aplankuose?"
 
 #: mail/mail-errors.xml.h:51
 msgid "_Empty Trash"
@@ -16108,6 +16108,10 @@ msgid ""
 "The message is stored in the Outbox folder.  Check the message for errors "
 "and resend."
 msgstr ""
+"Laiškas buvo išsiųstas su išorine programa „sendmail“. Sendmail pranešė "
+"sekančią klaidą: būklė 67: paštas neišsiųstas.\n"
+"Laiškas išsaugotas aplanke „Paruošti siųsti“. Patikrinkite laišką dėl klaidų "
+"ir siųskite iš naujo."
 
 #. mail:async-error primary
 #: mail/mail-errors.xml.h:62
@@ -16335,12 +16339,8 @@ msgstr "Ar norite išsaugoti pakeitimus?"
 
 #. mail:ask-signature-changed secondary
 #: mail/mail-errors.xml.h:183
-#, fuzzy
 msgid "This signature has been changed, but has not been saved."
-msgstr ""
-"Šis parašas buvo pakeistas, tačiau neišsaugotas.\n"
-"\n"
-"Ar norėtum išsaugoti pakeitimus?"
+msgstr "Šis parašas buvo pakeistas, tačiau neišsaugotas."
 
 #: mail/mail-errors.xml.h:184
 msgid "_Discard changes"
@@ -16366,7 +16366,7 @@ msgstr "Nepavyko pridėti vAplanko „{0}“."
 #. mail:vfolder-updated primary
 #: mail/mail-errors.xml.h:194
 msgid "vFolders automatically updated."
-msgstr ""
+msgstr "vAplankai automatiškai atnaujinami."
 
 #. mail:vfolder-updated secondary
 #: mail/mail-errors.xml.h:196
@@ -16386,11 +16386,10 @@ msgstr ""
 #. mail:filter-updated primary
 #: mail/mail-errors.xml.h:202
 msgid "Mail filters automatically updated."
-msgstr ""
+msgstr "Pašto filtrai automatiškai atnaujinami."
 
 #. mail:filter-updated secondary
 #: mail/mail-errors.xml.h:204
-#, fuzzy
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
@@ -16398,10 +16397,11 @@ msgid ""
 "    \"{1}\"\n"
 "And have been updated."
 msgstr ""
-"Žemiau nurodyti vAplankai:\n"
-"%sNaudojo ištrintą aplanką:\n"
-"    '%s'\n"
-"Ir buvo atnaujinti."
+"Sekanti(čios) filtravimo taisyklė(s):\n"
+"{0}\n"
+"Naudojo dabar pašalintą aplanką:\n"
+"    „{1}“\n"
+"Ir buvo atnaujintos."
 
 #. mail:no-folder primary
 #: mail/mail-errors.xml.h:210
@@ -16430,11 +16430,14 @@ msgid ""
 "Either by selecting the folders individually, and/or by selecting\n"
 "all local folders, all remote folders, or both."
 msgstr ""
+"Jūs turėtumėte nurodyti bent vieną aplanką kaip šaltinį.\n"
+"Arba pasirenkant aplankus individualiai, ir/arba pasirenkant\n"
+"visus vietinius aplankus, visus nuotolinius aplankus, arba ir tuos, ir tuos"
 
 #. mail:ask-migrate-existing primary
 #: mail/mail-errors.xml.h:224
 msgid "Problem migrating old mail folder \"{0}\"."
-msgstr ""
+msgstr "Problema perkelinėjant seną pašto aplanką „{0}“."
 
 #. mail:ask-migrate-existing secondary
 #: mail/mail-errors.xml.h:226
@@ -16444,6 +16447,9 @@ msgid ""
 "You can choose to ignore this folder, overwrite or append its contents, or "
 "quit.\n"
 msgstr ""
+"Ne tuščias aplankas esantis „{1}“ jau egzistuoja.\n"
+"\n"
+"Jūs galite ignoruoti šį aplanką, perrašyti, pridėti jo turinį arba išeiti.\n"
 
 #: mail/mail-errors.xml.h:230
 msgid "Ignore"
@@ -16483,9 +16489,9 @@ msgstr "Prašome palaukti."
 
 #. mail:checking-service secondary
 #: mail/mail-errors.xml.h:244
-#, fuzzy
 msgid "Querying server for a list of supported authentication mechanisms."
-msgstr "Prašytam autentikacijos mechanizmui būtinas šifravimas"
+msgstr ""
+"Serveriui siunčiama užklausa dėl palaikomų autentifikacijos mechanizmų sąrašo."
 
 #. mail:gw-accountsetup-error primary
 #: mail/mail-errors.xml.h:246
@@ -16502,6 +16508,8 @@ msgid ""
 "\n"
 "Please check your account settings and try again.\n"
 msgstr ""
+"\n"
+"Prašom patikrinti Jūsų abonemento nustatymus ir bandyti dar kartą.\n"
 
 #: mail/mail-folder-cache.c:813
 #, c-format
@@ -16590,7 +16598,7 @@ msgstr "Įrašomas aplankas '%s'"
 #: mail/mail-ops.c:1482
 #, c-format
 msgid "Expunging and storing account '%s'"
-msgstr ""
+msgstr "Išvalomas ir saugomas abonementas „%s“"
 
 #: mail/mail-ops.c:1483
 #, c-format
@@ -16641,7 +16649,7 @@ msgid ""
 "Unable to create output file: %s\n"
 " %s"
 msgstr ""
-"Negaliu sukurti išvesties bylos: %s\n"
+"Nepavyko sukurti išvesties bylos: %s\n"
 " %s"
 
 #: mail/mail-ops.c:1942
@@ -16663,13 +16671,13 @@ msgid ""
 "Cannot create output file: %s:\n"
 " %s"
 msgstr ""
-"Negaliu sukurti išvesties bylos: %s:\n"
+"Nepavyko sukurti išvesties bylos: %s:\n"
 " %s"
 
 #: mail/mail-ops.c:2035
 #, c-format
 msgid "Could not write data: %s"
-msgstr "Negalėjau įrašyti duomenų: %s"
+msgstr "Nepavyko įrašyti duomenų: %s"
 
 #: mail/mail-ops.c:2185
 #, c-format
@@ -17042,7 +17050,7 @@ msgstr "Sinchronizuoti su _bičiulių sąrašu dabar"
 msgid "Unsubscribing from folder \"%s\""
 msgstr "Atsisakoma aplanko „%s“"
 
-#: plugins/itip-formatter/itip-formatter.c:668
+#: plugins/itip-formatter/itip-formatter.c:670
 #, fuzzy, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "Nepavyko atidaryti kalendoriaus „%s“."
@@ -17080,22 +17088,47 @@ msgstr ""
 msgid "Attendee status updated"
 msgstr "Dalyvio būsena atnaujinta"
 
-#: plugins/itip-formatter/itip-formatter.c:1358
+#: plugins/itip-formatter/itip-formatter.c:883
+#, fuzzy
+msgid "The calendar attached is not valid"
+msgstr ""
+"Kontakto duomenys netinkami:\n"
+"\n"
+
+#: plugins/itip-formatter/itip-formatter.c:884
+msgid ""
+"The message claims to contain a calendar, but the calendar is not valid "
+"iCalendar."
+msgstr ""
+
+#: plugins/itip-formatter/itip-formatter.c:918
+#: plugins/itip-formatter/itip-formatter.c:967
+msgid "The item in the calendar is not valid"
+msgstr ""
+
+#: plugins/itip-formatter/itip-formatter.c:919
+#: plugins/itip-formatter/itip-formatter.c:968
+msgid ""
+"The message does contain a calendar, but the calendar contains no events, "
+"tasks or free/busy information"
+msgstr ""
+
+#: plugins/itip-formatter/itip-formatter.c:1536
 msgid "Meetings and Tasks"
 msgstr "Susitikimai ir užduotys"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: plugins/itip-formatter/itip-formatter.c:1381
+#: plugins/itip-formatter/itip-formatter.c:1559
 msgid "_Delete message after acting"
 msgstr ""
 
-#: plugins/itip-formatter/itip-formatter.c:1391
+#: plugins/itip-formatter/itip-formatter.c:1569
 msgid "<span weight=\"bold\">Conflict Search</span>"
 msgstr "<span weight=\"bold\">Konfliktų paieška</span>"
 
 #. Source selector
-#: plugins/itip-formatter/itip-formatter.c:1404
+#: plugins/itip-formatter/itip-formatter.c:1582
 msgid "Select the calendars to search for meeting conflicts"
 msgstr ""
 
@@ -17380,7 +17413,7 @@ msgstr "<b>%s</b> atšaukė susitikimą."
 msgid "Comment:"
 msgstr "Komanda:"
 
-#: plugins/itip-formatter/itip-view.c:1542
+#: plugins/itip-formatter/itip-view.c:1573
 #, fuzzy
 msgid "_Calendar:"
 msgstr "Kalendorius:"
@@ -17812,32 +17845,32 @@ msgstr "Aktyvūs prisijungimai"
 msgid "Click OK to close these connections and go offline"
 msgstr "Paspauskite Gerai norėdami uždaryti šiuos prisijungimusi ir atsijungti"
 
-#: shell/e-shell.c:590
+#: shell/e-shell.c:597
 msgid "Uknown system error."
 msgstr "Nežinoma sistemos klaida."
 
-#: shell/e-shell.c:798 shell/e-shell.c:799
+#: shell/e-shell.c:805 shell/e-shell.c:806
 #, c-format
 msgid "%ld KB"
 msgstr "%ld KB"
 
-#: shell/e-shell.c:1242 widgets/misc/e-cell-date-edit.c:256
+#: shell/e-shell.c:1249 widgets/misc/e-cell-date-edit.c:256
 msgid "OK"
 msgstr "Gerai"
 
-#: shell/e-shell.c:1244
+#: shell/e-shell.c:1251
 msgid "Invalid arguments"
 msgstr "Blogi argumentai"
 
-#: shell/e-shell.c:1246
+#: shell/e-shell.c:1253
 msgid "Cannot register on OAF"
 msgstr "Nepavyko užsiregistruoti OAF"
 
-#: shell/e-shell.c:1248
+#: shell/e-shell.c:1255
 msgid "Configuration Database not found"
 msgstr "Konfigūracijos duombazė nerasta"
 
-#: shell/e-shell.c:1250
+#: shell/e-shell.c:1257
 msgid "Generic error"
 msgstr "Bendroji klaida"
 
@@ -18321,8 +18354,8 @@ msgid ""
 "You will need to make more space available in your home directory before you "
 "can continue."
 msgstr ""
-"Jūsų duomenų ir nustatymų atnaujinimui prireiks iki {0} vietos diske, o "
-"Jūsu diske yra tik {1}.\n"
+"Jūsų duomenų ir nustatymų atnaujinimui prireiks iki {0} vietos diske, o Jūsu "
+"diske yra tik {1}.\n"
 "\n"
 "Norint tęsti Jums reikės Jūsų namų aplanke atlaisvinti vietos."
 
@@ -18345,8 +18378,8 @@ msgid ""
 msgstr ""
 "{1}\n"
 "\n"
-"Jeigu pasirinksite tęsti, Jūs galite nebeturėti priėjimo prie kai kurių "
-"senų Jūsų duomenų.\n"
+"Jeigu pasirinksite tęsti, Jūs galite nebeturėti priėjimo prie kai kurių senų "
+"Jūsų duomenų.\n"
 
 #: shell/shell-errors.xml.h:15
 msgid "Continue"
