@@ -207,10 +207,8 @@ connect_to_server (CamelService *service, gboolean real, CamelException *ex)
 	    connect (fd, (struct sockaddr *)&sin, sizeof(sin)) == -1) {
 		if (real) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-					      "Could not connect to %s "
-					      "(port %d): %s", h->h_name,
-					      service->url->port,
-					      g_strerror(errno));
+					      "Could not connect to %s: %s",
+					      h->h_name, g_strerror(errno));
 		}
 		if (fd > -1)
 			close (fd);

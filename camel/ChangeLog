@@ -12,6 +12,9 @@
 	code. Fix a one-byte buffer overrun in the APOP code.
 	(pop3_disconnect): Make this able to clean up after a partial
 	connect.
+	(connect_to_server): Remove port number from error message since
+	it's not terribly useful and we were getting it from the wrong
+	place anyway.
 
 	* camel-mime-utils.c (header_address_list_format_append): Use
 	`foo@bar' rather than `"" <foo@bar>' for email addresses with no
