@@ -1,3 +1,7 @@
+2000-10-19  Chris Toshok  <toshok@helixcode.com>
+
+	* camel-folder-search.c: #include <sys/types.h> before <regex.h>
+
 2000-10-19  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-utils.c (imap_parse_list_response):

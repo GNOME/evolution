@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <glib.h>
+#include <sys/types.h>
 #include <regex.h>
 
 #include <gal/widgets/e-unicode.h>
