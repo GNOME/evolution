@@ -1,6 +1,6 @@
 SUBDIRS = importers
 
-bin_PROGRAMS =	evolution-mail
+bin_PROGRAMS =	evolution-mail upgrade-mailer
 
 importerdir = $(privlibdir)/evolution-mail-importers
 
@@ -152,6 +152,9 @@ evolution_mail_LDADD = 					\
 
 evolution_mail_LDFLAGS =				\
 	-export-dynamic
+
+upgrade_mailer_SOURCES = upgrade-mailer.c
+upgrade_mailer_LDADD = $(EVOLUTION_MAIL_LIBS)
 
 oafdir = $(datadir)/oaf
 oaf_in_files = GNOME_Evolution_Mail.oaf.in

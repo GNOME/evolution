@@ -1,5 +1,12 @@
 2002-09-04  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* Makefile.am: Add upgrade-mailer.c to the build.
+
+	* upgrade-mailer.c: New program to upgrade configuration files
+	from 1.0 to 1.2.
+
+2002-09-04  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-callbacks.c (mail_generate_reply): Made sure
 	account->id->address is not NULL before adding it to the hash
 	table. This is to prevent bug #29877 from crashing, although it is
