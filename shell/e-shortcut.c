@@ -360,7 +360,7 @@ static struct {
 #define NSHELL_ICONS (sizeof (shell_icons) / sizeof (shell_icons[0]))
 
 static GdkPixbuf *
-shell_icon_cb (EShortcutBar *shortcut_bar, gchar *url)
+shell_icon_cb (EShortcutBar *shortcut_bar, const gchar *url, gpointer data)
 {
 	int i;
 
@@ -402,7 +402,7 @@ e_shortcut_bar_view_new (EShortcutBarModel *bm)
 
 	shortcut_bar = e_shortcut_bar_new ();
 	e_shortcut_bar_set_icon_callback (E_SHORTCUT_BAR (shortcut_bar),
-					  shell_icon_cb);
+					  shell_icon_cb, NULL);
 
 	gtk_widget_pop_visual ();
 	gtk_widget_pop_colormap ();

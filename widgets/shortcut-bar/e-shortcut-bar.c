@@ -535,10 +535,12 @@ e_shortcut_bar_stop_editing (GtkWidget *button,
 /* Sets the callback which is called to return the icon to use for a particular
    URL. */
 void
-e_shortcut_bar_set_icon_callback	(EShortcutBar	 *shortcut_bar,
-					 EShortcutBarIconCallback cb)
+e_shortcut_bar_set_icon_callback (EShortcutBar *shortcut_bar,
+				  EShortcutBarIconCallback cb,
+				  gpointer data)
 {
 	shortcut_bar->icon_callback = cb;
+	shortcut_bar->icon_callback_data = data;
 }
 
 
@@ -549,7 +551,9 @@ e_shortcut_bar_get_image_from_url (EShortcutBar *shortcut_bar,
 	GdkPixbuf *icon = NULL;
 
 	if (shortcut_bar->icon_callback)
-		icon = (*shortcut_bar->icon_callback) (shortcut_bar, item_url);
+		icon = (*shortcut_bar->icon_callback) (shortcut_bar,
+						       item_url,
+						       shortcut_bar->icon_callback_data);
 
 	if (!icon) {
 		if (!e_shortcut_bar_default_icon_loaded) {

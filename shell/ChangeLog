@@ -1,3 +1,10 @@
+2000-05-04  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shortcut.c (shell_icon_cb): Type of @url changed from `gchar
+	*' to `const gchar *'; new arg @data.
+	(e_shortcut_bar_view_new): Pass NULL as the closure value for
+	`e_shortcut_bar_set_icon_callback()'.
+
 2000-05-02  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-folder-mail.c: Removed.

@@ -42,7 +42,8 @@ typedef struct _EShortcutBarClass  EShortcutBarClass;
 
 
 typedef GdkPixbuf* (*EShortcutBarIconCallback)   (EShortcutBar *shortcut_bar,
-						  gchar	       *url);
+						  const gchar  *url,
+						  gpointer      data);
 
 /* This contains information on one group. */
 typedef struct _EShortcutBarGroup   EShortcutBarGroup;
@@ -71,6 +72,9 @@ struct _EShortcutBar
 	/* The callback which the application sets to return the icon to use
 	   for a given URL. */
 	EShortcutBarIconCallback icon_callback;
+
+	/* Closure for the callback. */
+	gpointer icon_callback_data;
 
 	gchar *dragged_url;
 	gchar *dragged_name;
@@ -117,8 +121,9 @@ void	   e_shortcut_bar_remove_item		(EShortcutBar	 *shortcut_bar,
 /* Sets the callback which is called to return the icon to use for a particular
    URL. This callback must be set before any items are added. If the callback
    returns NULL the default icon is used. */
-void	   e_shortcut_bar_set_icon_callback	(EShortcutBar	 *shortcut_bar,
-						 EShortcutBarIconCallback cb);
+void  e_shortcut_bar_set_icon_callback  (EShortcutBar             *shortcut_bar,
+					 EShortcutBarIconCallback  cb,
+					 gpointer                  data);
 
 #ifdef __cplusplus
 }

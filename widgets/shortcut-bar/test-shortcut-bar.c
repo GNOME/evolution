@@ -42,8 +42,10 @@ GdkPixbuf *icon_pixbufs[NUM_SHORTCUT_TYPES];
 
 GtkWidget *main_label;
 
-static GdkPixbuf* icon_callback (EShortcutBar *shortcut_bar,
-				 gchar	      *url);
+static GdkPixbuf *icon_callback  (EShortcutBar *shortcut_bar,
+				  const gchar  *url,
+				  gpointer      data);
+
 static void on_main_label_size_allocate (GtkWidget *widget,
 					 GtkAllocation *allocation,
 					 gpointer data);
@@ -110,7 +112,8 @@ main (int argc, char *argv[])
 	gtk_paned_pack1 (GTK_PANED (hpaned), shortcut_bar, FALSE, TRUE);
 	gtk_widget_show (shortcut_bar);
 	e_shortcut_bar_set_icon_callback (E_SHORTCUT_BAR (shortcut_bar),
-					  icon_callback);
+					  icon_callback,
+					  NULL);
 
 #if 0
 	gtk_container_set_border_width (GTK_CONTAINER (shortcut_bar), 4);
@@ -179,7 +182,8 @@ main (int argc, char *argv[])
 
 static GdkPixbuf*
 icon_callback (EShortcutBar *shortcut_bar,
-	       gchar	    *url)
+	       const gchar *url,
+	       gpointer data)
 {
 	gint i;
 

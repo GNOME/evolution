@@ -1,3 +1,18 @@
+2000-05-04  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* test-shortcut-bar.c (icon_callback): Adapted to the new
+	`EShortcutBarIconCallback' typedef: get a @data parameter and get
+	a const-safe @url.
+
+	* e-shortcut-bar.c (e_shortcut_bar_set_icon_callback): New param
+	@data.  Set `icon_callback_data' to it.
+	(e_shortcut_bar_get_image_from_url): Pass the callback data to the
+	callback.
+
+	* e-shortcut-bar.h: Changed `EShortcutBarIconCallback' to get a
+	const-safe @url parameter and a new @data parameter as a closure.
+	New member `data' in `EShortcutBar'.
+
 2000-05-02  Matt Loper  <matt@helixcode.com>
 
 	* Makefile.am: set G_LOG_DOMAIN.
