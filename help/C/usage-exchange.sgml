@@ -30,11 +30,11 @@
 	<listitem>
 	  <para>
              Installation of multiple operating systems in a dual boot
-             or virtual machine configuration (such as VMWare) can
-             place a very heavy burden on the hardware and increases
-             licensing costs.  Users often complain that such a system
-             is inconvenient, slow, and not integrated with the rest
-             of their operating system.
+             or virtual machine configuration (such as VMWare) also
+             increases licensing and administration costs.  Users
+             often complain that such a system is inconvenient, slow,
+             and not integrated with the rest of their operating
+             system.
           </para>
 	</listitem>
       </varlistentry>
@@ -61,8 +61,8 @@
   <warning id="licensing">
     <title>Exchange Client Licenses</title>
     <para>
-      An Exchange client access license is still required to use the
-      Ximian Connector with Microsoft Exchange.
+      Each user will need a valid Microsoft Exchange 2000 server
+      account and license.
   </para>
   </warning>
 
@@ -237,13 +237,12 @@
     <title>Installing the Connector</title>
     <para>
        To install the Ximian Connector, run Ximian Red Carpet by
-       selecting
-       <menuchoice><guimenu>System</guimenu><guimenuitem>Get
-       Software</guimenuitem></menuchoice>.  Subscribe to the Ximian GNOME channel,
-       select the Ximian Connector for Microsoft Exchange 2000, and
-       click the <guibutton>Install</guibutton> button.  You can also
-       install the Connector by downloading the individual packages
-       from ftp.ximian.com if you wish. 
+       selecting <menuchoice><guimenu>System</guimenu><guimenuitem>Get
+       Software</guimenuitem></menuchoice>.  Subscribe to the Ximian
+       GNOME channel, select the Ximian Connector for Microsoft
+       Exchange 2000, and click the <guibutton>Install</guibutton>
+       button.  You can also install the Connector by downloading the
+       individual packages from ftp.ximian.com if you wish.
    </para>
    <para>
        Once you have installed the software, you will also need to
