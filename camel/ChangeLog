@@ -1,3 +1,10 @@
+2002-04-29  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-spool-store.c (get_folder_info): We want
+	to set unread_count to get_unread_message_count, not
+	get_message_count().  Might fix #17174.  Also removed FIXME: as it
+	was fixed.
+
 2002-04-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/local/Makefile.am: Don't link to libibex.a anymore.
