@@ -173,7 +173,7 @@ int main(int argc, char **argv)
 
 	push("Executing filters");
 	camel_filter_driver_set_default_folder(driver, mailboxes[0].folder);
-	camel_filter_driver_filter_mbox(driver, "/tmp/camel-test/inbox", ex);
+	camel_filter_driver_filter_mbox(driver, "/tmp/camel-test/inbox", NULL, ex);
 	check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
 
 	/* now need to check the folder counts/etc */
@@ -187,7 +187,7 @@ int main(int argc, char **argv)
 		push("rule %s", brokens[i].match);
 		driver = camel_filter_driver_new(get_folder, NULL);
 		camel_filter_driver_add_rule(driver, brokens[i].name, brokens[i].match, brokens[i].action);
-		camel_filter_driver_filter_mbox(driver, "/tmp/camel-test/inbox", ex);
+		camel_filter_driver_filter_mbox(driver, "/tmp/camel-test/inbox", NULL, ex);
 		check(camel_exception_is_set(ex));
 		camel_exception_clear(ex);
 		check_unref(driver, 1);
@@ -200,7 +200,7 @@ int main(int argc, char **argv)
 		push("rule %s", brokena[i].action);
 		driver = camel_filter_driver_new(get_folder, NULL);
 		camel_filter_driver_add_rule(driver, brokena[i].name, brokena[i].match, brokena[i].action);
-		camel_filter_driver_filter_mbox(driver, "/tmp/camel-test/inbox", ex);
+		camel_filter_driver_filter_mbox(driver, "/tmp/camel-test/inbox", NULL, ex);
 		check(camel_exception_is_set(ex));
 		camel_exception_clear(ex);
 		check_unref(driver, 1);

@@ -1,5 +1,7 @@
 /* folder/index testing */
 
+#include <gtk/gtk.h>
+
 #include "camel-test.h"
 #include "messages.h"
 #include "folders.h"

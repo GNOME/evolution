@@ -1,5 +1,10 @@
 2001-06-27  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* tests/folder/test9.c (main): Updated to match the current API.
+
+	* tests/folder/test3.c: #include <gtk/gtk.h> since we use
+	gtk_init().
+
 	* camel-internet-address.c
 	(camel_internet_address_encode_address): Use the new
 	header_address_fold.
