@@ -40,6 +40,7 @@
 #include <ssl.h>
 #include <cert.h>
 #include <certdb.h>
+#include <pk11func.h>
 
 #include "camel-tcp-stream-ssl.h"
 #include "camel-session.h"
@@ -386,7 +387,7 @@ ssl_bad_cert (void *data, PRFileDesc *sockfd)
 		trust = PORT_ZAlloc (sizeof (CERTCertTrust));
 		trust->sslFlags = CERTDB_TRUSTED_CA | CERTDB_VALID_CA;
 		
-		temp = CERT_NewTempCertificate (ssl->priv->certdb, &cert->derCert, NULL, PR_FALSE, PR_TRUE);
+		temp = CERT_NewTempCertificate (CERT_GetDefaultCertDB (), &cert->derCert, NULL, PR_FALSE, PR_TRUE);
 		
 		CERT_AddTempCertToPerm (temp, nickname, trust);
 		

@@ -1,3 +1,8 @@
+2001-08-30  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-tcp-stream-ssl.c: #include pk11func.h.
+	(ssl_bad_cert): Use CERT_GetDefaultCertDB.
+
 2001-08-29  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-smime-context.c (smime_sign_prepare): Do the same here as
