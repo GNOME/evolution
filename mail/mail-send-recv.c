@@ -57,6 +57,9 @@
 /* ms between status updates to the gui */
 #define STATUS_TIMEOUT (250)
 
+/* pseudo-uri to key the send task on */
+#define SEND_URI_KEY "send-task:"
+
 /* send/receive email */
 
 /* ********************************************************************** */
@@ -347,7 +350,7 @@ build_dialogue (EAccountList *accounts, CamelFolder *outbox, const char *destina
 			send_info_t type;
 			
 			type = get_receive_type (source->url);
-			if (type == SEND_INVALID) {
+			if (type == SEND_INVALID || type == SEND_SEND) {
 				e_iterator_next (iter);
 				continue;
 			}
@@ -413,7 +416,7 @@ build_dialogue (EAccountList *accounts, CamelFolder *outbox, const char *destina
 	gtk_widget_show_all (GTK_WIDGET (table));
 	
 	if (outbox && destination) {
-		info = g_hash_table_lookup (data->active, destination);
+		info = g_hash_table_lookup (data->active, SEND_URI_KEY);
 		if (info == NULL) {
 			info = g_malloc0 (sizeof (*info));
 			info->type = SEND_SEND;
@@ -425,7 +428,7 @@ build_dialogue (EAccountList *accounts, CamelFolder *outbox, const char *destina
 			info->state = SEND_ACTIVE;
 			info->timeout_id = gtk_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
 			
-			g_hash_table_insert (data->active, info->uri, info);
+			g_hash_table_insert (data->active, SEND_URI_KEY, info);
 			list = g_list_prepend (list, info);
 		} else if (info->timeout_id == 0)
 			info->timeout_id = gtk_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
@@ -583,7 +586,10 @@ receive_done (char *uri, void *data)
 
 	/* remove/free this active download */
 	d(printf("%s: freeing info %p\n", G_GNUC_FUNCTION, info));
-	g_hash_table_remove(info->data->active, info->uri);
+	if (info->type == SEND_SEND)
+		g_hash_table_remove(info->data->active, SEND_URI_KEY);
+	else
+		g_hash_table_remove(info->data->active, info->uri);
 	info->data->infos = g_list_remove(info->data->infos, info);
 
 	if (g_hash_table_size(info->data->active) == 0) {
@@ -853,7 +859,7 @@ mail_receive_uri (const char *uri, int keep)
 	d(printf("starting non-interactive download of '%s'\n", uri));
 	
 	type = get_receive_type (uri);
-	if (type == SEND_INVALID) {
+	if (type == SEND_INVALID || type == SEND_SEND) {
 		d(printf ("unsupported provider: '%s'\n", uri));
 		return;
 	}
@@ -915,7 +921,7 @@ mail_send (void)
 		return;
 	
 	data = setup_send_data ();
-	info = g_hash_table_lookup (data->active, transport->url);
+	info = g_hash_table_lookup (data->active, SEND_URI_KEY);
 	if (info != NULL) {
 		d(printf("send of %s still in progress\n", transport->url));
 		return;
@@ -943,7 +949,7 @@ mail_send (void)
 	
 	d(printf("Adding new info %p\n", info));
 	
-	g_hash_table_insert (data->active, info->uri, info);
+	g_hash_table_insert (data->active, SEND_URI_KEY, info);
 	
 	/* todo, store the folder in info? */
 	mail_send_queue (outbox_folder, info->uri,

@@ -1,3 +1,16 @@
+2003-04-30  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #41748
+	
+	* mail-send-recv.c (build_dialogue): make sure we dont add any
+	SEND_SEND types to the receive table.  When we add the SEND_SEND
+	type, key it on a fixed string SEND_URI_KEY.
+	(receive_done): if it is a SEND_SEND type, use SEND_URI_KEY to
+	remove it from the active list.
+	(mail_receive_uri): make sure we never add a SEND_SEND type to the
+	receive list.
+	(mail_send): key the send info on SEND_URI_KEY not transport url.
+
 2003-04-29  Jeremy Katz  <katzj@redhat.com>
 
 	* folder-browser-ui.c (fbui_sensitise_item): Don't just blindly
