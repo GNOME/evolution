@@ -2935,7 +2935,7 @@ header_raw_clear(struct _header_raw **list)
 char *
 header_msgid_generate (void)
 {
-	char host[MAXHOSTNAMELEN], domain[MAXHOSTNAMELEN];
+	char host[MAXHOSTNAMELEN];
 #ifdef ENABLE_THREADS
 	static pthread_mutex_t count_lock = PTHREAD_MUTEX_INITIALIZER;
 #define COUNT_LOCK() pthread_mutex_lock (&count_lock)
@@ -2945,16 +2945,14 @@ header_msgid_generate (void)
 #define COUNT_UNLOCK()
 #endif /* ENABLE_THREADS */
 	static gint count = 0;
-	gint hrv, drv;
+	gint hrv;
 	char *ret;
 	
 	hrv = gethostname (host, sizeof (host));
-	drv = getdomainname (domain, sizeof (domain));
 	
 	COUNT_LOCK ();
-	ret = g_strdup_printf ("%d.%d.%d.camel@%s.%s", (gint) time (NULL), getpid (), count++,
-			       (hrv == 0 && host && *host) ? host : "unknown.host",
-			       (drv && domain && *domain) ? domain : "unknown.domain");
+	ret = g_strdup_printf ("%d.%d.%d.camel@%s", (gint) time (NULL), getpid (), count++,
+			       (hrv == 0 && host && *host) ? host : "unknown.host");
 	COUNT_UNLOCK ();
 	
 	return ret;
