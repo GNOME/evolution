@@ -1,5 +1,13 @@
 2002-05-23  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* folder-browser-window.c (folder_browser_window_new): Set the ui
+	to be the evolution-mail-global.xml file thingy. Still broken but
+	oh well. I give up. bonobo-ui sucks.
+
+	* message-browser.c (set_bonobo_ui): Fixed to not crash.
+
+2002-05-23  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* folder-browser-window.c (folder_browser_window_new): If the
 	folder-browser has a parent, reparent it.
 

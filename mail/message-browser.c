@@ -279,10 +279,11 @@ set_bonobo_ui (GtkWidget *widget, FolderBrowser *fb)
 	/* We just opened the message! We don't need to open it again. */
 
 	CORBA_exception_init (&ev);
+	/* remove the broken menus and toolbar items */
 	bonobo_ui_component_rm (uic, "/menu/File/FileOps/MessageOpen", &ev);
-	if (BONOBO_EX (&ev))
-		g_warning ("Couldn't remove message open item. Weird. Error: %s",
-			   bonobo_exception_get_text (&ev));
+	bonobo_ui_component_rm (uic, "/menu/Actions/ComponentActionsPlaceholder/MailMessageActions/GoTo", &ev);
+	bonobo_ui_component_rm (uic, "/menu/Tools", &ev);
+	bonobo_ui_component_rm (uic, "/Toolbar/MailNextButtons", &ev);
 	CORBA_exception_free (&ev);
 
 	/* Hack around the move/copy commands api's */

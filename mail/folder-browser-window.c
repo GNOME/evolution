@@ -78,7 +78,7 @@ folder_browser_window_init (GtkObject *object)
 
 
 static gboolean
-destroy_cb (GtkWidget *widget)
+destroy_cb (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowserWindow *fbw = (FolderBrowserWindow *) widget;
 	FolderBrowser *fb = fbw->folder_browser;
@@ -134,7 +134,7 @@ folder_browser_window_new (FolderBrowser *fb)
 		gtk_widget_unparent (GTK_WIDGET (fb));
 		
 		gtk_signal_connect (GTK_OBJECT (new), "delete_event",
-				    destroy_cb, new);
+				    (GtkSignalFunc) destroy_cb, new);
 	}
 	
 	new->folder_browser = fb;
@@ -148,9 +148,13 @@ folder_browser_window_new (FolderBrowser *fb)
 	bonobo_ui_component_set_container (uic, BONOBO_OBJREF (uicont));
 	
 	folder_browser_set_ui_component (FOLDER_BROWSER (fb), uic);
+	
+	bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR, "evolution-mail-global.xml", "evolution-mail");
+	
 	folder_browser_ui_add_global (fb);
 	folder_browser_ui_add_list (fb);
 	folder_browser_ui_add_message (fb);
+	
 	/*folder_browser_set_shell_view (fb, fb_get_svi (control));*/
 	
 	gtk_signal_connect (GTK_OBJECT (new), "size_allocate", 
