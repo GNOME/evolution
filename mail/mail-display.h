@@ -36,8 +36,6 @@ struct _MailDisplay {
 	
 	char *selection;
 	
-	char *base_url;
-	
 	CamelMimeMessage *current_message;
 	GData **data;
 

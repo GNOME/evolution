@@ -1629,9 +1629,26 @@ static gboolean
 handle_text_html (CamelMimePart *part, const char *mime_type,
 		  MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream)
 {
-	const char *location;
+	const char *location, *base;
 	
 	mail_html_write (html, stream, "\n<!-- text/html -->\n");
+	
+	if ((base = camel_medium_get_header (CAMEL_MEDIUM (part), "Content-Base"))) {
+		char *base_url;
+		size_t len;
+		
+		len = strlen (base);
+		
+		if (*base == '"' && *(base + len - 1) == '"') {
+			len -= 2;
+			base_url = alloca (len + 1);
+			memcpy (base_url, base + 1, len);
+			base_url[len] = '\0';
+			base = base_url;
+		}
+		
+		gtk_html_set_base (html, base);
+	}
 	
 	/* FIXME: deal with relative URLs */
 	location = get_location (part, md);

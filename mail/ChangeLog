@@ -1,3 +1,17 @@
+2002-02-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (handle_text_html): Get the Content-Base if the
+	header exists and use gtk_html_set_base to set this base url.
+
+	* mail-display.c (on_link_clicked): No longer need to calculate
+	the full url. This is now handled by GtkHTML.
+	(on_set_base): Removed.
+	(on_url_requested): No longer need to calculate the full url.
+	(mail_display_initialize_gtkhtml): Don't connect to the set_base
+	signal anymore. We don't care.
+
+	* mail-display.h: No longer need base_url (it was broken anyway).
+
 2002-02-26  Not Zed  <NotZed@Ximian.com>
 
 	* mail-display.c (on_url_requested): If a related part is
