@@ -5127,7 +5127,7 @@ msgid "_Due Date:"
 msgstr "Data _Término:"
 
 #: calendar/gui/e-alarm-list.c:393
-#, fuzzy, c-format
+#, c-format
 msgid "%d days"
 msgstr "%d dias"
 
@@ -5741,352 +5741,324 @@ msgid "<b>%s</b> has replied to a meeting request."
 msgstr "<b>%s</b> respondeu a um pedido de reunião."
 
 #: calendar/gui/e-itip-control.c:1346
-#, fuzzy VOU AQUI
 msgid "Meeting Reply"
-msgstr "Seg"
+msgstr "Resposta Reunião"
 
 #: calendar/gui/e-itip-control.c:1353
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
-msgstr ""
+msgstr "<b>%s</b> cancelou uma reunião."
 
 #: calendar/gui/e-itip-control.c:1354
-#, fuzzy
 msgid "Meeting Cancellation"
-msgstr "Apagar um contacto"
+msgstr "Cancelamento Reunião"
 
 #: calendar/gui/e-itip-control.c:1361 calendar/gui/e-itip-control.c:1428
 #: calendar/gui/e-itip-control.c:1463
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
-msgstr ""
+msgstr "<b>%s</b> enviou uma mensagem imperceptível."
 
 #: calendar/gui/e-itip-control.c:1362
-#, fuzzy
 msgid "Bad Meeting Message"
-msgstr "Mensagens enviadas"
+msgstr "Mensagem Reunião Inválida"
 
 #: calendar/gui/e-itip-control.c:1386
 #, c-format
 msgid "<b>%s</b> has published task information."
-msgstr ""
+msgstr "<b>%s</b> publicou informação de tarefa."
 
 #: calendar/gui/e-itip-control.c:1387
-#, fuzzy
 msgid "Task Information"
-msgstr "Nenhuma Informação"
+msgstr "Informação Tarefa"
 
 #: calendar/gui/e-itip-control.c:1392
 #, c-format
 msgid "<b>%s</b> requests %s to perform a task."
-msgstr ""
+msgstr "<b>%s</b> requer que %s execute uma tarefa."
 
 #: calendar/gui/e-itip-control.c:1394
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
-msgstr ""
+msgstr "<b>%s</b> requer que você execute uma tarefa."
 
 #: calendar/gui/e-itip-control.c:1395
-#, fuzzy
 msgid "Task Proposal"
-msgstr "_Tarefa"
+msgstr "Proposta Tarefa"
 
 #: calendar/gui/e-itip-control.c:1399
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task."
-msgstr ""
+msgstr "<b>%s</b> deseja adicionar a uma tarefa existente."
 
 #: calendar/gui/e-itip-control.c:1400
-#, fuzzy
 msgid "Task Update"
-msgstr "Lista de tarefas"
+msgstr "Actualização Tarefa"
 
 #: calendar/gui/e-itip-control.c:1404
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
-msgstr ""
+msgstr "<b>%s</b> deseja receber a mais recente informação de tarefa."
 
 #: calendar/gui/e-itip-control.c:1405
-#, fuzzy
 msgid "Task Update Request"
-msgstr "_Pedido de tarefa"
+msgstr "Pedido Actualização Tarefa"
 
 #: calendar/gui/e-itip-control.c:1412
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has replied to a task assignment."
-msgstr "Nenhuma Informação"
+msgstr "<b>%s</b> respondeu a uma atribuição de tarefa."
 
 #: calendar/gui/e-itip-control.c:1413
-#, fuzzy
 msgid "Task Reply"
-msgstr "Responder"
+msgstr "Resposta Tarefa"
 
 #: calendar/gui/e-itip-control.c:1420
 #, c-format
 msgid "<b>%s</b> has cancelled a task."
-msgstr ""
+msgstr "<b>%s</b> cancelou uma tarefa."
 
 #: calendar/gui/e-itip-control.c:1421
 msgid "Task Cancellation"
-msgstr ""
+msgstr "Cancelamento Tarefa"
 
 #: calendar/gui/e-itip-control.c:1429
-#, fuzzy
 msgid "Bad Task Message"
-msgstr "Novo Ca_lendário"
+msgstr "Mensagem Tarefa Inválida"
 
 #: calendar/gui/e-itip-control.c:1448
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has published free/busy information."
-msgstr "Nenhuma Informação"
+msgstr "<b>%s</b> publicou informação de livre/ocupado."
 
 #: calendar/gui/e-itip-control.c:1449
-#, fuzzy
 msgid "Free/Busy Information"
-msgstr "Nenhuma Informação"
+msgstr "Informação Livre/Ocupado"
 
 #: calendar/gui/e-itip-control.c:1453
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
-msgstr ""
+msgstr "<b>%s</b> pede a sua informação de livre/ocupado."
 
 #: calendar/gui/e-itip-control.c:1454
 msgid "Free/Busy Request"
-msgstr ""
+msgstr "Pedido Livre/Ocupado"
 
 #: calendar/gui/e-itip-control.c:1458
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
-msgstr "Nenhuma Informação"
+msgstr "<b>%s</b> respondeu a um pedido de livre/ocupado."
 
 #: calendar/gui/e-itip-control.c:1459
 msgid "Free/Busy Reply"
-msgstr ""
+msgstr "Resposta Livre/Ocupado"
 
 #: calendar/gui/e-itip-control.c:1464
-#, fuzzy
 msgid "Bad Free/Busy Message"
-msgstr "Encontrar mensagens"
+msgstr "Mensagem Livre/Ocupado Inválida"
 
 #: calendar/gui/e-itip-control.c:1540
 msgid "The message does not appear to be properly formed"
-msgstr ""
+msgstr "A mensagem não parece estar correctamente criada"
 
 #: calendar/gui/e-itip-control.c:1603
 msgid "The message contains only unsupported requests."
-msgstr ""
+msgstr "A mensagem apenas contém pedidos não suportados."
 
 #: calendar/gui/e-itip-control.c:1634 calendar/gui/e-itip-control.c:1640
 msgid "The attachment does not contain a valid calendar message"
-msgstr ""
+msgstr "O anexo não contém uma mensagem de calendário válida"
 
 #: calendar/gui/e-itip-control.c:1665
 msgid "The attachment has no viewable calendar items"
-msgstr ""
+msgstr "O anexo não contém itens de calendário visíveis"
 
 #: calendar/gui/e-itip-control.c:1906 calendar/gui/e-itip-control.c:1998
 msgid "Object is invalid and cannot be updated\n"
-msgstr ""
+msgstr "Objecto está inválido e não pode ser actualizado\n"
 
 #: calendar/gui/e-itip-control.c:1909 calendar/gui/e-itip-control.c:2001
 msgid "There was an error on the CORBA system\n"
-msgstr ""
+msgstr "Ocorreu um erro no systema CORBA\n"
 
 #: calendar/gui/e-itip-control.c:1912 calendar/gui/e-itip-control.c:2004
-#, fuzzy
 msgid "Object could not be found\n"
-msgstr "Não consegui correr o Bub buddy"
+msgstr "Objecto não foi encontrado\n"
 
 #: calendar/gui/e-itip-control.c:1915
 msgid "You do not have the right permissions to update the calendar\n"
-msgstr ""
+msgstr "Não possui permissões adequadas para actualizar o calendário\n"
 
 #: calendar/gui/e-itip-control.c:1918
 msgid "Update complete\n"
-msgstr ""
+msgstr "Actualização terminada\n"
 
 #: calendar/gui/e-itip-control.c:1921
 msgid "Calendar file could not be updated!\n"
-msgstr ""
+msgstr "Ficheiro de calendário não pode ser actualizado!\n"
 
 #: calendar/gui/e-itip-control.c:1950 calendar/gui/e-itip-control.c:2016
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr ""
+msgstr "Estado de participante não pode ser actualizado porque o item já não existe"
 
 #: calendar/gui/e-itip-control.c:1971
 msgid "This response is not from a current attendee.  Add as an attendee?"
-msgstr ""
+msgstr "Esta resposta não é de um participante actual. Addicionar como participante?"
 
 #: calendar/gui/e-itip-control.c:1983
 msgid "Attendee status could not be updated because of an invalid status!\n"
-msgstr ""
+msgstr "Estado de participante não pode ser actualizado devido a um estado inválido!\n"
 
 #: calendar/gui/e-itip-control.c:2007
 msgid "You don't have the right permissions to update the calendar\n"
-msgstr ""
+msgstr "Não possui as permissões adequadas para actualizar o calendário\n"
 
 #: calendar/gui/e-itip-control.c:2010
 msgid "Attendee status updated\n"
-msgstr ""
+msgstr "Estado de participante actualizado\n"
 
 #: calendar/gui/e-itip-control.c:2013
 msgid "Attendee status could not be updated!\n"
-msgstr ""
+msgstr "Estado de participante não pode ser actualizado!\n"
 
 #: calendar/gui/e-itip-control.c:2048
-#, fuzzy
 msgid "Removal Complete"
-msgstr "Cores"
+msgstr "Apagar Terminado"
 
 #: calendar/gui/e-itip-control.c:2078 calendar/gui/e-itip-control.c:2128
-#, fuzzy
 msgid "Item sent!\n"
-msgstr "Data"
+msgstr "Item enviado!\n"
 
 #: calendar/gui/e-itip-control.c:2080 calendar/gui/e-itip-control.c:2132
 msgid "The item could not be sent!\n"
-msgstr ""
+msgstr "O item não pode ser enviado!\n"
 
 #: calendar/gui/e-itip-control.c:2205
-#, fuzzy
 msgid "Select Calendar Folder"
-msgstr "_Nova pasta"
+msgstr "Seleccionar Pasta Calendário"
 
 #: calendar/gui/e-itip-control.c:2212
-#, fuzzy
 msgid "Select Tasks Folder"
-msgstr "_Nova pasta"
+msgstr "Seleccionar Pasta Tarefas"
 
 #: calendar/gui/e-itip-control.glade.h:2
 #, no-c-format
 msgid "%P %%"
-msgstr ""
+msgstr "%P %%"
 
 #: calendar/gui/e-itip-control.glade.h:3
 msgid "--to--"
-msgstr ""
+msgstr "--para--"
 
 #: calendar/gui/e-itip-control.glade.h:4
-#, fuzzy
 msgid "Calendar Message"
-msgstr "Novo Ca_lendário"
+msgstr "Mensagem Calendário"
 
 #: calendar/gui/e-itip-control.glade.h:5
-#, fuzzy
 msgid "Date:"
-msgstr "Data"
+msgstr "Data:"
 
 #: calendar/gui/e-itip-control.glade.h:7
-#, fuzzy
 msgid "Loading Calendar"
-msgstr "Imprimir calendário"
+msgstr "A Ler Calendário"
 
 #: calendar/gui/e-itip-control.glade.h:8
-#, fuzzy
 msgid "Loading calendar..."
-msgstr "Imprimir calendário"
+msgstr "A ler calendário..."
 
 #: calendar/gui/e-itip-control.glade.h:10
-#, fuzzy
 msgid "Server Message:"
-msgstr "Encontrar mensagens"
+msgstr "Mensagem Servidor:"
 
 #: calendar/gui/e-itip-control.glade.h:12
 msgid "date-end"
-msgstr ""
+msgstr "data-fim"
 
 #: calendar/gui/e-itip-control.glade.h:13
 msgid "date-start"
-msgstr ""
+msgstr "data-início"
 
 #: calendar/gui/e-meeting-model.c:80
 msgid "Chair Persons"
-msgstr ""
+msgstr "Coordenadores"
 
 #: calendar/gui/e-meeting-model.c:81 calendar/gui/e-meeting-model.c:1692
 msgid "Required Participants"
-msgstr ""
+msgstr "Participantes Requeridos"
 
 #: calendar/gui/e-meeting-model.c:82
 msgid "Optional Participants"
-msgstr ""
+msgstr "Participantes Opcionais"
 
 #: calendar/gui/e-meeting-model.c:83
-#, fuzzy
 msgid "Resources"
-msgstr "Fontes"
+msgstr "Recursos"
 
 #: calendar/gui/e-meeting-model.c:207 calendar/gui/e-meeting-model.c:224
 #: calendar/gui/e-meeting-model.c:537 calendar/gui/e-meeting-model.c:803
 msgid "Individual"
-msgstr ""
+msgstr "Individual"
 
 #: calendar/gui/e-meeting-model.c:209 calendar/gui/e-meeting-model.c:226
 #: calendar/gui/e-meeting-model.c:804
-#, fuzzy
 msgid "Group"
-msgstr "Grupo %i"
+msgstr "Grupo"
 
 #: calendar/gui/e-meeting-model.c:211 calendar/gui/e-meeting-model.c:228
 #: calendar/gui/e-meeting-model.c:805
-#, fuzzy
 msgid "Resource"
-msgstr "Fontes"
+msgstr "Recurso"
 
 #: calendar/gui/e-meeting-model.c:213 calendar/gui/e-meeting-model.c:230
 #: calendar/gui/e-meeting-model.c:806
 msgid "Room"
-msgstr ""
+msgstr "Sala"
 
 #: calendar/gui/e-meeting-model.c:242 calendar/gui/e-meeting-model.c:259
 #: calendar/gui/e-meeting-model.c:819
-#, fuzzy
 msgid "Chair"
-msgstr "Carro"
+msgstr "Coordenador"
 
 #: calendar/gui/e-meeting-model.c:244 calendar/gui/e-meeting-model.c:261
 #: calendar/gui/e-meeting-model.c:539 calendar/gui/e-meeting-model.c:820
-#, fuzzy
 msgid "Required Participant"
-msgstr "Pessoas _Necessãrias"
+msgstr "Participante Requerido"
 
 #: calendar/gui/e-meeting-model.c:246 calendar/gui/e-meeting-model.c:263
 #: calendar/gui/e-meeting-model.c:821
 msgid "Optional Participant"
-msgstr ""
+msgstr "Participante Opcional"
 
 #: calendar/gui/e-meeting-model.c:248 calendar/gui/e-meeting-model.c:265
 #: calendar/gui/e-meeting-model.c:822
 msgid "Non-Participant"
-msgstr ""
+msgstr "Não-Participante"
 
 #: calendar/gui/e-meeting-model.c:294 calendar/gui/e-meeting-model.c:317
 #: calendar/gui/e-meeting-model.c:547 calendar/gui/e-meeting-model.c:848
-#, fuzzy
 msgid "Needs Action"
-msgstr "Remover grupo"
+msgstr "Requer Acção"
 
 #: calendar/gui/e-meeting-model.c:300 calendar/gui/e-meeting-model.c:323
 #: calendar/gui/e-meeting-model.c:851 calendar/gui/e-meeting-time-sel.c:407
 msgid "Tentative"
-msgstr ""
+msgstr "Tentativa"
 
 #: calendar/gui/e-meeting-model.c:302 calendar/gui/e-meeting-model.c:325
 #: calendar/gui/e-meeting-model.c:852
-#, fuzzy
 msgid "Delegated"
-msgstr "Apagar"
+msgstr "Delegado"
 
 #: calendar/gui/e-meeting-model.c:306 calendar/gui/e-meeting-model.c:329
 msgid "In Process"
-msgstr ""
+msgstr "Em Curso"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:452
 #: calendar/gui/e-meeting-time-sel.c:2077
 msgid "%A, %B %d, %Y"
-msgstr ""
+msgstr "%A, %B %d, %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
@@ -6094,18 +6066,18 @@ msgstr ""
 #: calendar/gui/e-meeting-time-sel.c:2107 e-util/e-time-utils.c:189
 #: e-util/e-time-utils.c:282 e-util/e-time-utils.c:370
 msgid "%a %m/%d/%Y"
-msgstr ""
+msgstr "%a %d/%m/%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:460 e-util/e-time-utils.c:224
 #: e-util/e-time-utils.c:285 widgets/misc/e-dateedit.c:1608
 msgid "%m/%d/%Y"
-msgstr ""
+msgstr "%d/%m/%Y"
 
 #: calendar/gui/e-meeting-time-sel.c:409 designs/OOA/ooa.glade.h:11
 msgid "Out of Office"
-msgstr "Fora do escritório"
+msgstr "Fora Escritório"
 
 #: calendar/gui/e-meeting-time-sel.c:410
 msgid "No Information"
@@ -6117,15 +6089,15 @@ msgstr "_Opções"
 
 #: calendar/gui/e-meeting-time-sel.c:468
 msgid "Show _Only Working Hours"
-msgstr ""
+msgstr "Apenas M_ostrar Horas Trabalho"
 
 #: calendar/gui/e-meeting-time-sel.c:482
 msgid "Show _Zoomed Out"
-msgstr ""
+msgstr "Mostrar _Zoom Diminuido"
 
 #: calendar/gui/e-meeting-time-sel.c:500
 msgid "_Update Free/Busy"
-msgstr ""
+msgstr "Act_ualizar Livre/Ocupado"
 
 #: calendar/gui/e-meeting-time-sel.c:518
 msgid "_<<"
@@ -6133,7 +6105,7 @@ msgstr "_<<"
 
 #: calendar/gui/e-meeting-time-sel.c:535
 msgid "_Autopick"
-msgstr ""
+msgstr "_Autoselecção"
 
 #: calendar/gui/e-meeting-time-sel.c:549
 msgid ">_>"
@@ -6141,89 +6113,88 @@ msgstr ">_>"
 
 #: calendar/gui/e-meeting-time-sel.c:568
 msgid "_All People and Resources"
-msgstr ""
+msgstr "Tod_as as Pessoas e Recursos"
 
 #: calendar/gui/e-meeting-time-sel.c:581
 msgid "All _People and One Resource"
-msgstr ""
+msgstr "Todas as _Pessoas e Um Recurso"
 
 #: calendar/gui/e-meeting-time-sel.c:594
 msgid "_Required People"
-msgstr "Pessoas _Necessãrias"
+msgstr "Pessoas _Requeridas"
 
 #: calendar/gui/e-meeting-time-sel.c:607
 msgid "Required People and _One Resource"
-msgstr ""
+msgstr "Pessoas Requeridas e _Um Recurso"
 
 #: calendar/gui/e-meeting-time-sel.c:630
 msgid "Meeting _start time:"
-msgstr "Hora de ín_icio de encontro"
+msgstr "Hora _início reunião:"
 
 #: calendar/gui/e-meeting-time-sel.c:649
 msgid "Meeting _end time:"
-msgstr "Hora de _fim de _encontro"
+msgstr "Hora _fim reunião:"
 
 #: calendar/gui/e-tasks.c:357 calendar/gui/gnome-cal.c:2013
 #: calendar/gui/gnome-cal.c:2024
-#, fuzzy, c-format
+#, c-format
 msgid "Opening tasks at %s"
-msgstr "Abrir ficheiro"
+msgstr "A abrir tarefas em %s"
 
 #: calendar/gui/e-tasks.c:386 calendar/gui/tasks-control.c:199
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load the tasks in `%s'"
-msgstr "Criar um novo calendário"
+msgstr "Incapaz de ler as tarefas em `%s'"
 
 #: calendar/gui/e-tasks.c:401
 #, c-format
 msgid "The method required to load `%s' is not supported"
-msgstr ""
+msgstr "O método requerido para ler `%s' não é suportado"
 
 #: calendar/gui/e-tasks.c:415 calendar/gui/gnome-cal.c:1531
-#, fuzzy, c-format
+#, c-format
 msgid "You don't have permission to open the folder in `%s'"
-msgstr "Criar um novo calendário"
+msgstr "Não possui permissões para abrir a pasta em `%s'"
 
 #: calendar/gui/e-tasks.c:483 calendar/gui/gnome-cal.c:1735
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error on %s:\n"
 " %s"
-msgstr "Erro a gravar os atalhos."
+msgstr ""
+"Erro em %s:\n"
+" %s"
 
 #: calendar/gui/e-tasks.c:554
 msgid "Completing tasks..."
-msgstr ""
+msgstr "A terminar tarefas..."
 
 #: calendar/gui/e-tasks.c:577
-#, fuzzy
 msgid "Deleting selected objects..."
-msgstr "Apagar um contacto"
+msgstr "A apagar objectos seleccionados..."
 
 #: calendar/gui/e-tasks.c:672
-#, fuzzy
 msgid "Expunging"
-msgstr "Cabeçalhos:"
+msgstr "A Expurgar"
 
 #: calendar/gui/e-week-view.c:3509
-#, fuzzy
 msgid "New _Appointment..."
-msgstr "Novo compromisso"
+msgstr "Novo _Compromisso..."
 
 #: calendar/gui/gnome-cal.c:1503
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open the folder in `%s'"
-msgstr "Criar um novo calendário"
+msgstr "Incapaz de abrir a pasta em `%s'"
 
 #: calendar/gui/gnome-cal.c:1517
 #, c-format
 msgid "The method required to open `%s' is not supported"
-msgstr ""
+msgstr "O método requerido para abrir `%s' não é suportado"
 
 #: calendar/gui/gnome-cal.c:1563
-#, fuzzy, c-format
+#, c-format
 msgid "Adding alarms for %s"
-msgstr "Alarmes"
+msgstr "A adicionar alarmes para %s"
 
 #: calendar/gui/gnome-cal.c:1755
 #, c-format
@@ -6232,6 +6203,9 @@ msgid ""
 "%s\n"
 " has crashed. You will have to restart Evolution in order to use it again"
 msgstr ""
+"O motor de calendário para\n"
+"%s\n"
+" crashou. Terá de reiniciar o Evolution para o poder utilizar novamente"
 
 #: calendar/gui/gnome-cal.c:1764
 #, c-format
@@ -6240,139 +6214,127 @@ msgid ""
 "%s\n"
 " has crashed. You will have to restart Evolution in order to use it again"
 msgstr ""
+"O motor de tarefa para\n"
+"%s\n"
+" crashou. Terá de reiniciar o Evolution para o poder utilizar novamente"
 
 #: calendar/gui/gnome-cal.c:1995
-#, fuzzy, c-format
+#, c-format
 msgid "Opening calendar at %s"
-msgstr "Abrir calendário"
+msgstr "A abrir calendário em %s"
 
 #: calendar/gui/gnome-cal.c:2035
-#, fuzzy
 msgid "Opening default tasks folder"
-msgstr "Abrir ficheiro"
+msgstr "A abrir pasta de tarefas por omissão"
 
 #: calendar/gui/goto-dialog.glade.h:1
-#, fuzzy
 msgid "April"
-msgstr "_Correio"
+msgstr "Abril"
 
 #: calendar/gui/goto-dialog.glade.h:2
 msgid "August"
-msgstr ""
+msgstr "Agosto"
 
 #: calendar/gui/goto-dialog.glade.h:3
 msgid "December"
-msgstr ""
+msgstr "Dezembro"
 
 #: calendar/gui/goto-dialog.glade.h:4
 msgid "February"
-msgstr ""
+msgstr "Fevereiro"
 
 #: calendar/gui/goto-dialog.glade.h:5
-#, fuzzy
 msgid "Go To Date"
-msgstr "Hoje"
+msgstr "Ir Para Data"
 
 #: calendar/gui/goto-dialog.glade.h:6
-#, fuzzy
 msgid "Go To Today"
-msgstr "Hoje"
+msgstr "Ir Para Hoje"
 
 #: calendar/gui/goto-dialog.glade.h:7
 msgid "January"
-msgstr ""
+msgstr "Janeiro"
 
 #: calendar/gui/goto-dialog.glade.h:8
 msgid "July"
-msgstr ""
+msgstr "Julho"
 
 #: calendar/gui/goto-dialog.glade.h:9
 msgid "June"
-msgstr ""
+msgstr "Junho"
 
 #: calendar/gui/goto-dialog.glade.h:10
-#, fuzzy
 msgid "March"
-msgstr "Ano"
+msgstr "Março"
 
 #: calendar/gui/goto-dialog.glade.h:11
-#, fuzzy
 msgid "May"
-msgstr "Segunda-feira"
+msgstr "Maio"
 
 #: calendar/gui/goto-dialog.glade.h:12
 msgid "November"
-msgstr ""
+msgstr "Novembro"
 
 #: calendar/gui/goto-dialog.glade.h:13
-#, fuzzy
 msgid "October"
-msgstr "Outro"
+msgstr "Outubro"
 
 #: calendar/gui/goto-dialog.glade.h:14
 msgid "September"
-msgstr ""
+msgstr "Setembro"
 
 #: calendar/gui/itip-utils.c:262 calendar/gui/itip-utils.c:333
 msgid "An organizer must be set."
-msgstr ""
+msgstr "Tem de ser enviado um organizador."
 
 #: calendar/gui/itip-utils.c:297
 msgid "At least one attendee is necessary"
-msgstr ""
+msgstr "É necessário pelo menos um participante"
 
 #: calendar/gui/itip-utils.c:376 calendar/gui/itip-utils.c:485
-#, fuzzy
 msgid "Event information"
-msgstr "Nenhuma Informação"
+msgstr "Informação evento"
 
 #: calendar/gui/itip-utils.c:378 calendar/gui/itip-utils.c:487
-#, fuzzy
 msgid "Task information"
-msgstr "Nenhuma Informação"
+msgstr "Informação tarefa"
 
 #: calendar/gui/itip-utils.c:380 calendar/gui/itip-utils.c:489
-#, fuzzy
 msgid "Journal information"
-msgstr "Nenhuma Informação"
+msgstr "Informação diário"
 
 #: calendar/gui/itip-utils.c:382 calendar/gui/itip-utils.c:506
-#, fuzzy
 msgid "Free/Busy information"
-msgstr "Nenhuma Informação"
+msgstr "Informação livre/ocupado"
 
 #: calendar/gui/itip-utils.c:384
-#, fuzzy
 msgid "Calendar information"
-msgstr "Nenhuma Informação"
+msgstr "Informação calendário"
 
 #: calendar/gui/itip-utils.c:420
-#, fuzzy
 msgid "Updated"
-msgstr "Lista de tarefas"
+msgstr "Actualizado"
 
 #: calendar/gui/itip-utils.c:428
-#, fuzzy
 msgid "Refresh"
-msgstr "Responder"
+msgstr "Actualizar"
 
 #: calendar/gui/itip-utils.c:432
 msgid "Counter-proposal"
-msgstr ""
+msgstr "Contra-proposta"
 
 #: calendar/gui/itip-utils.c:500
-#, fuzzy, c-format
+#, c-format
 msgid "Free/Busy information (%s to %s)"
-msgstr "Nenhuma Informação"
+msgstr "Informação livre/ocupado (%s para %s)"
 
 #: calendar/gui/itip-utils.c:512
-#, fuzzy
 msgid "iCalendar information"
-msgstr "Nenhuma Informação"
+msgstr "Informação icalendário"
 
 #: calendar/gui/itip-utils.c:660
 msgid "You must be an attendee of the event."
-msgstr ""
+msgstr "Tem de ser um participante do evento."
 
 #: calendar/gui/print.c:551
 msgid "Su"
@@ -6405,93 +6367,86 @@ msgstr "Sá"
 #. Day
 #: calendar/gui/print.c:1885
 msgid "Selected day (%a %b %d %Y)"
-msgstr ""
+msgstr "Dia seleccionado (%a %b %d %Y)"
 
 #: calendar/gui/print.c:1910 calendar/gui/print.c:1914
 msgid "%a %b %d"
-msgstr ""
+msgstr "%a %b %d"
 
 #: calendar/gui/print.c:1911
 msgid "%a %d %Y"
-msgstr ""
+msgstr "%a %d %Y"
 
 #: calendar/gui/print.c:1915 calendar/gui/print.c:1917
 #: calendar/gui/print.c:1918
 msgid "%a %b %d %Y"
-msgstr ""
+msgstr "%a %b %d %Y"
 
 #: calendar/gui/print.c:1922
-#, fuzzy, c-format
+#, c-format
 msgid "Selected week (%s - %s)"
-msgstr "Ano corrente (%Y)"
+msgstr "Semana seleccionada (%s - %s)"
 
 #. Month
 #: calendar/gui/print.c:1930
-#, fuzzy
 msgid "Selected month (%b %Y)"
-msgstr "Mês corrente (%a %Y)"
+msgstr "Mês seleccionado (%b %Y)"
 
 #. Year
 #: calendar/gui/print.c:1937
-#, fuzzy
 msgid "Selected year (%Y)"
-msgstr "Ano corrente (%Y)"
+msgstr "Ano seleccionado (%Y)"
 
 #: calendar/gui/print.c:2267
-#, fuzzy
 msgid "Task"
-msgstr "_Tarefa"
+msgstr "Tarefa"
 
 #: calendar/gui/print.c:2326
-#, fuzzy, c-format
+#, c-format
 msgid "Status: %s"
-msgstr "Sáb"
+msgstr "Estado: %s"
 
 #: calendar/gui/print.c:2344
-#, fuzzy, c-format
+#, c-format
 msgid "Priority: %s"
-msgstr "Prioridade:"
+msgstr "Prioridade: %s"
 
 #: calendar/gui/print.c:2358
 #, c-format
 msgid "Percent Complete: %i"
-msgstr ""
+msgstr "Percentagem Terminado: %i"
 
 #: calendar/gui/print.c:2370
 #, c-format
 msgid "URL: %s"
-msgstr ""
+msgstr "URL: %s"
 
 #: calendar/gui/print.c:2384
-#, fuzzy, c-format
+#, c-format
 msgid "Categories: %s"
-msgstr "Ícone_s pequenos"
+msgstr "Categorias: %s"
 
 #: calendar/gui/print.c:2395
-#, fuzzy
 msgid "Contacts: "
-msgstr "_Contacto"
+msgstr "Contactos: "
 
 #: calendar/gui/print.c:2533 calendar/gui/print.c:2619
 #: calendar/gui/tasks-control.c:579 mail/mail-callbacks.c:2939
 #: my-evolution/e-summary.c:618
 msgid "Print Preview"
-msgstr "Prever impressão"
+msgstr "Antever Impressão"
 
 #: calendar/gui/print.c:2567
-#, fuzzy
 msgid "Print Item"
-msgstr "Imprimir este item"
+msgstr "Imprimir Item"
 
 #: calendar/gui/print.c:2640
-#, fuzzy
 msgid "Print Setup"
-msgstr "Imprimir..."
+msgstr "Configurar Impressão"
 
 #: calendar/gui/tasks-control.c:150
-#, fuzzy
 msgid "The URI of the tasks folder to display"
-msgstr "O URI que o calendário mostrará"
+msgstr "O URI da pasta de tarefas a apresentar"
 
 #: calendar/gui/tasks-control.c:465
 msgid ""
@@ -6500,22 +6455,26 @@ msgid ""
 "\n"
 "Really erase these tasks?"
 msgstr ""
+"Esta operação irá apagar permanentemente todas as tarefas marcadas como terminadas. "
+"Se continuar, não lhe será possível recuperar estas tarefas.\n"
+"\n"
+"Apagar mesmo estas tarefas?"
 
 #: calendar/gui/tasks-control.c:472
-#, fuzzy
 msgid "Do not ask me again."
-msgstr "Enviar esta mensagem"
+msgstr "Não perguntar novamente."
 
 #: calendar/gui/tasks-control.c:608
-#, fuzzy
 msgid "Print Tasks"
-msgstr "Imprimir calendário"
+msgstr "Imprimir Tarefas"
 
 #: calendar/gui/tasks-migrate.c:105
 msgid ""
 "Evolution has taken the tasks that were in your calendar folder and "
 "automatically migrated them to the new tasks folder."
 msgstr ""
+"Evolution extraiu as tarefas que se enontravam na sua pasta de calendário "
+"e migrou-as automaticamente para a nova pasta de tarefas."
 
 #: calendar/gui/tasks-migrate.c:108
 msgid ""
@@ -6524,6 +6483,10 @@ msgid ""
 "Some of the tasks could not be migrated, so this process may be attempted "
 "again in the future."
 msgstr ""
+"Evolution tentou extrair as tarefas que se encontravam na sua pasta de calendário "
+"e migra-las para a nova pasta de tarefas.\n"
+"Algumas das tarefas não poderam ser migradas, pelo que este processo poderá ser "
+"tentado novamente no futuro."
 
 #: calendar/gui/tasks-migrate.c:120
 #, c-format
@@ -6531,6 +6494,8 @@ msgid ""
 "Could not open `%s'; no items from the calendar folder will be migrated to "
 "the tasks folder."
 msgstr ""
+"Incapaz de abrir `%s'; nenhum item da pasta de calendário será migrado para "
+"a pasta de tarefas."
 
 #: calendar/gui/tasks-migrate.c:133
 #, c-format
@@ -6538,169 +6503,170 @@ msgid ""
 "The method required to load `%s' is not supported; no items from the "
 "calendar folder will be migrated to the tasks folder."
 msgstr ""
+"O método necessário para ler `%s' não é suportado; nenhum item da pasta de "
+"calendário será migrado para a pasta de tarefas."
 
 #: calendar/gui/weekday-picker.c:280 calendar/gui/weekday-picker.c:379
 msgid "SMTWTFS"
-msgstr ""
+msgstr "DSTQQSS"
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:1
-#, fuzzy
 msgid "Factory to import iCalendar files into Evolution"
-msgstr "Fábrica para importar ficheiros VCard para o Evolution."
+msgstr "Fábrica para importar ficheiros iCalendário para o Evolution"
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:2
-#, fuzzy
 msgid "Imports iCalendar files into Evolution"
-msgstr "Importa ficheiros VCard para o Evolution."
+msgstr "Importa ficheiros iCalendário para o Evolution"
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:3
-#, fuzzy
 msgid "Imports vCalendar files into Evolution"
-msgstr "Importa ficheiros VCard para o Evolution."
+msgstr "Importa ficheiros vCalendário para o Evolution"
 
 #: calendar/importers/icalendar-importer.c:172
 #, c-format
 msgid "Can't get storage list from registry: %s"
-msgstr ""
+msgstr "Incapaz de obter lista de armazenamendo do registo: %s"
 
 #: calendar/importers/icalendar-importer.c:184
-#, fuzzy, c-format
+#, c-format
 msgid "Can't call getFolderAtPath on storage: %s"
-msgstr "Criar um novo calendário"
+msgstr "Incapaz de chamar getFolderAtPath no armazenamento: %s"
 
 #: calendar/importers/icalendar-importer.c:487
-#, fuzzy
 msgid "Reminder!!"
-msgstr "Enviar"
+msgstr "Lembrete!!"
 
 #: calendar/importers/icalendar-importer.c:701
-#, fuzzy
 msgid "Calendar Events"
-msgstr "Novo Ca_lendário"
+msgstr "Eventos Calendário"
 
 #: calendar/importers/icalendar-importer.c:726
 msgid ""
 "Evolution has found Gnome Calendar files.\n"
 "Would you like to import them into Evolution?"
 msgstr ""
+"Evolution encontrou ficheiro do Calendário Gnome.\n"
+"Deseja importa-los para o Evolution?"
 
 #: calendar/importers/icalendar-importer.c:733
-#, fuzzy
 msgid "Gnome Calendar"
-msgstr "Novo Ca_lendário"
+msgstr "Calendário Gnome"
 
 #: calendar/pcs/cal-backend-file.c:310
 msgid "Can't save calendar data: Malformed URI."
-msgstr ""
+msgstr "Incapaz de gravar dados de calendário: URI malformado."
 
 #: calendar/pcs/query.c:289
 msgid "time-now expects 0 arguments"
-msgstr ""
+msgstr "time-now espera 0 argumentos"
 
 #: calendar/pcs/query.c:313
 msgid "make-time expects 1 argument"
-msgstr ""
+msgstr "make-time espera 1 argumento"
 
 #: calendar/pcs/query.c:318
 msgid "make-time expects argument 1 to be a string"
-msgstr ""
+msgstr "make-time espera 1 argumento e que seja uma expressão"
 
 #: calendar/pcs/query.c:326
 msgid "make-time argument 1 must be an ISO 8601 date/time string"
-msgstr ""
+msgstr "make-time argumento 1 tem de ser uma expressão ISO 8601 data/hora"
 
 #: calendar/pcs/query.c:355
 msgid "time-add-day expects 2 arguments"
-msgstr ""
+msgstr "time-add-day espera 2 argumentos"
 
 #: calendar/pcs/query.c:360
 msgid "time-add-day expects argument 1 to be a time_t"
-msgstr ""
+msgstr "time-add-day espera que argumento 1 seja um time_t"
 
 #: calendar/pcs/query.c:367
 msgid "time-add-day expects argument 2 to be an integer"
-msgstr ""
+msgstr "time-add-day espera que argumento 2 seja um inteiro"
 
 #: calendar/pcs/query.c:394
 msgid "time-day-begin expects 1 argument"
-msgstr ""
+msgstr "time-day-begin espera 1 argumento"
 
 #: calendar/pcs/query.c:399
 msgid "time-day-begin expects argument 1 to be a time_t"
-msgstr ""
+msgstr "time-day-begin espera que argumento 1 seja um time_t"
 
 #: calendar/pcs/query.c:426
 msgid "time-day-end expects 1 argument"
-msgstr ""
+msgstr "time-day-end espera 1 argumento"
 
 #: calendar/pcs/query.c:431
 msgid "time-day-end expects argument 1 to be a time_t"
-msgstr ""
+msgstr "time-day-end espera que argumento 1 seja um time_t"
 
 #: calendar/pcs/query.c:467
 msgid "get-vtype expects 0 arguments"
-msgstr ""
+msgstr "get-vtype espera 0 argumentos"
 
 #: calendar/pcs/query.c:563
 msgid "occur-in-time-range? expects 2 arguments"
-msgstr ""
+msgstr "occur-in-time-range? espera 2 argumentos"
 
 #: calendar/pcs/query.c:568
 msgid "occur-in-time-range? expects argument 1 to be a time_t"
-msgstr ""
+msgstr "occur-in-time-range? espera que argumento 1 seja um time_t"
 
 #: calendar/pcs/query.c:575
 msgid "occur-in-time-range? expects argument 2 to be a time_t"
-msgstr ""
+msgstr "occur-in-time-range? espera que argumento 2 seja um time_t"
 
 #: calendar/pcs/query.c:705
 msgid "contains? expects 2 arguments"
-msgstr ""
+msgstr "contains? espera 2 argumentos"
 
 #: calendar/pcs/query.c:710
 msgid "contains? expects argument 1 to be a string"
-msgstr ""
+msgstr "contains? espera que argumento 1 seja uma expressão"
 
 #: calendar/pcs/query.c:717
 msgid "contains? expects argument 2 to be a string"
-msgstr ""
+msgstr "contains? espera que argumento 2 seja uma expressão"
 
 #: calendar/pcs/query.c:734
 msgid ""
 "contains? expects argument 1 to be one of \"any\", \"summary\", \"description"
 "\""
 msgstr ""
+"contains? espera que argumento 1 seja um de \"any\", \"summary\", \"description"
+"\""
 
 #: calendar/pcs/query.c:776
 msgid "has-categories? expects at least 1 argument"
-msgstr ""
+msgstr "has-categories? espera pelo menos 1 argumento"
 
 #: calendar/pcs/query.c:788
 msgid ""
 "has-categories? expects all arguments to be strings or one and only one "
 "argument to be a boolean false (#f)"
 msgstr ""
+"has-categories? espera que todos os argumentos sejam expressões ou que um "
+"e apenas um argumento seja um falso boleano (#f)"
 
 #: calendar/pcs/query.c:876
 msgid "is-completed? expects 0 arguments"
-msgstr ""
+msgstr "is-completed? espera 0 argumentos"
 
 #: calendar/pcs/query.c:921
 msgid "completed-before? expects 1 argument"
-msgstr ""
+msgstr "completed-before? espera 1 argumento"
 
 #: calendar/pcs/query.c:926
 msgid "completed-before? expects argument 1 to be a time_t"
-msgstr ""
+msgstr "completed-before? espera que argumento 1 seja um time_t"
 
 #: calendar/pcs/query.c:1229
 msgid "Evaluation of the search expression did not yield a boolean value"
-msgstr ""
+msgstr "Avaliação da expressão de procura não devolveu um valor boleano"
 
 #: calendar/pcs/query.c:1483
-#, fuzzy
 msgid "Parse error"
-msgstr "Outro"
+msgstr "Erro parseamento"
 
 #.
 #. * These are the timezone names from the Olson timezone data.
@@ -6709,1574 +6675,1560 @@ msgstr "Outro"
 #.
 #: calendar/zones.h:7
 msgid "Africa/Abidjan"
-msgstr ""
+msgstr "África/Abidjan"
 
 #: calendar/zones.h:8
 msgid "Africa/Accra"
-msgstr ""
+msgstr "África/Accra"
 
 #: calendar/zones.h:9
 msgid "Africa/Addis_Ababa"
-msgstr ""
+msgstr "África/Addis_Ababa"
 
 #: calendar/zones.h:10
 msgid "Africa/Algiers"
-msgstr ""
+msgstr "África/Algéria"
 
 #: calendar/zones.h:11
 msgid "Africa/Asmera"
-msgstr ""
+msgstr "África/Asmera"
 
 #: calendar/zones.h:12
 msgid "Africa/Bamako"
-msgstr ""
+msgstr "África/Bamako"
 
 #: calendar/zones.h:13
 msgid "Africa/Bangui"
-msgstr ""
+msgstr "África/Bangui"
 
 #: calendar/zones.h:14
 msgid "Africa/Banjul"
-msgstr ""
+msgstr "África/Banjul"
 
 #: calendar/zones.h:15
 msgid "Africa/Bissau"
-msgstr ""
+msgstr "África/Bissau"
 
 #: calendar/zones.h:16
 msgid "Africa/Blantyre"
-msgstr ""
+msgstr "África/Blantyre"
 
 #: calendar/zones.h:17
 msgid "Africa/Brazzaville"
-msgstr ""
+msgstr "África/Brazzaville"
 
 #: calendar/zones.h:18
 msgid "Africa/Bujumbura"
-msgstr ""
+msgstr "África/Bujumbura"
 
 #: calendar/zones.h:19
 msgid "Africa/Cairo"
-msgstr ""
+msgstr "África/Cairo"
 
 #: calendar/zones.h:20
 msgid "Africa/Casablanca"
-msgstr ""
+msgstr "África/Casablanca"
 
 #: calendar/zones.h:21
 msgid "Africa/Ceuta"
-msgstr ""
+msgstr "África/Ceuta"
 
 #: calendar/zones.h:22
 msgid "Africa/Conakry"
-msgstr ""
+msgstr "África/Conakry"
 
 #: calendar/zones.h:23
 msgid "Africa/Dakar"
-msgstr ""
+msgstr "África/Dakar"
 
 #: calendar/zones.h:24
 msgid "Africa/Dar_es_Salaam"
-msgstr ""
+msgstr "África/Dar_es_Salaam"
 
 #: calendar/zones.h:25
 msgid "Africa/Djibouti"
-msgstr ""
+msgstr "África/Djibouti"
 
 #: calendar/zones.h:26
 msgid "Africa/Douala"
-msgstr ""
+msgstr "África/Douala"
 
 #: calendar/zones.h:27
 msgid "Africa/El_Aaiun"
-msgstr ""
+msgstr "África/El_Aaiun"
 
 #: calendar/zones.h:28
 msgid "Africa/Freetown"
-msgstr ""
+msgstr "África/Freetown"
 
 #: calendar/zones.h:29
 msgid "Africa/Gaborone"
-msgstr ""
+msgstr "África/Gaborone"
 
 #: calendar/zones.h:30
 msgid "Africa/Harare"
-msgstr ""
+msgstr "África/Harare"
 
 #: calendar/zones.h:31
 msgid "Africa/Johannesburg"
-msgstr ""
+msgstr "África/Johannesburg"
 
 #: calendar/zones.h:32
 msgid "Africa/Kampala"
-msgstr ""
+msgstr "África/Kampala"
 
 #: calendar/zones.h:33
 msgid "Africa/Khartoum"
-msgstr ""
+msgstr "África/Khartoum"
 
 #: calendar/zones.h:34
 msgid "Africa/Kigali"
-msgstr ""
+msgstr "África/Kigali"
 
 #: calendar/zones.h:35
 msgid "Africa/Kinshasa"
-msgstr ""
+msgstr "África/Kinshasa"
 
 #: calendar/zones.h:36
 msgid "Africa/Lagos"
-msgstr ""
+msgstr "África/Lagos"
 
 #: calendar/zones.h:37
 msgid "Africa/Libreville"
-msgstr ""
+msgstr "África/Libreville"
 
 #: calendar/zones.h:38
 msgid "Africa/Lome"
-msgstr ""
+msgstr "África/Lome"
 
 #: calendar/zones.h:39
 msgid "Africa/Luanda"
-msgstr ""
+msgstr "África/Luanda"
 
 #: calendar/zones.h:40
 msgid "Africa/Lubumbashi"
-msgstr ""
+msgstr "África/Lubumbashi"
 
 #: calendar/zones.h:41
 msgid "Africa/Lusaka"
-msgstr ""
+msgstr "África/Lusaka"
 
 #: calendar/zones.h:42
 msgid "Africa/Malabo"
-msgstr ""
+msgstr "África/Malabo"
 
 #: calendar/zones.h:43
 msgid "Africa/Maputo"
-msgstr ""
+msgstr "África/Maputo"
 
 #: calendar/zones.h:44
 msgid "Africa/Maseru"
-msgstr ""
+msgstr "África/Maseru"
 
 #: calendar/zones.h:45
 msgid "Africa/Mbabane"
-msgstr ""
+msgstr "África/Mbabane"
 
 #: calendar/zones.h:46
 msgid "Africa/Mogadishu"
-msgstr ""
+msgstr "África/Mogadishu"
 
 #: calendar/zones.h:47
 msgid "Africa/Monrovia"
-msgstr ""
+msgstr "África/Monrovia"
 
 #: calendar/zones.h:48
 msgid "Africa/Nairobi"
-msgstr ""
+msgstr "África/Nairobi"
 
 #: calendar/zones.h:49
 msgid "Africa/Ndjamena"
-msgstr ""
+msgstr "África/Ndjamena"
 
 #: calendar/zones.h:50
 msgid "Africa/Niamey"
-msgstr ""
+msgstr "África/Niamey"
 
 #: calendar/zones.h:51
 msgid "Africa/Nouakchott"
-msgstr ""
+msgstr "África/Nouakchott"
 
 #: calendar/zones.h:52
 msgid "Africa/Ouagadougou"
-msgstr ""
+msgstr "África/Ouagadougou"
 
 #: calendar/zones.h:53
 msgid "Africa/Porto-Novo"
-msgstr ""
+msgstr "África/Porto-Novo"
 
 #: calendar/zones.h:54
 msgid "Africa/Sao_Tome"
-msgstr ""
+msgstr "África/São_Tomé"
 
 #: calendar/zones.h:55
 msgid "Africa/Timbuktu"
-msgstr ""
+msgstr "África/Timbuktu"
 
 #: calendar/zones.h:56
 msgid "Africa/Tripoli"
-msgstr ""
+msgstr "África/Tripoli"
 
 #: calendar/zones.h:57
 msgid "Africa/Tunis"
-msgstr ""
+msgstr "África/Tunis"
 
 #: calendar/zones.h:58
 msgid "Africa/Windhoek"
-msgstr ""
+msgstr "África/Windhoek"
 
 #: calendar/zones.h:59
 msgid "America/Adak"
-msgstr ""
+msgstr "América/Adak"
 
 #: calendar/zones.h:60
 msgid "America/Anchorage"
-msgstr ""
+msgstr "América/Anchorage"
 
 #: calendar/zones.h:61
 msgid "America/Anguilla"
-msgstr ""
+msgstr "América/Anguilla"
 
 #: calendar/zones.h:62
 msgid "America/Antigua"
-msgstr ""
+msgstr "América/Antigua"
 
 #: calendar/zones.h:63
 msgid "America/Araguaina"
-msgstr ""
+msgstr "América/Araguaina"
 
 #: calendar/zones.h:64
 msgid "America/Aruba"
-msgstr ""
+msgstr "América/Aruba"
 
 #: calendar/zones.h:65
 msgid "America/Asuncion"
-msgstr ""
+msgstr "América/Asuncion"
 
 #: calendar/zones.h:66
 msgid "America/Barbados"
-msgstr ""
+msgstr "América/Barbados"
 
 #: calendar/zones.h:67
 msgid "America/Belem"
-msgstr ""
+msgstr "América/Belém"
 
 #: calendar/zones.h:68
-#, fuzzy
 msgid "America/Belize"
-msgstr "Tamanho"
+msgstr "América/Belize"
 
 #: calendar/zones.h:69
 msgid "America/Boa_Vista"
-msgstr ""
+msgstr "América/Boa_Vista"
 
 #: calendar/zones.h:70
 msgid "America/Bogota"
-msgstr ""
+msgstr "América/Bogota"
 
 #: calendar/zones.h:71
 msgid "America/Boise"
-msgstr ""
+msgstr "América/Boise"
 
 #: calendar/zones.h:72
 msgid "America/Buenos_Aires"
-msgstr ""
+msgstr "América/Buenos_Aires"
 
 #: calendar/zones.h:73
 msgid "America/Cambridge_Bay"
-msgstr ""
+msgstr "América/Baia_Cambridge"
 
 #: calendar/zones.h:74
 msgid "America/Cancun"
-msgstr ""
+msgstr "América/Cancun"
 
 #: calendar/zones.h:75
 msgid "America/Caracas"
-msgstr ""
+msgstr "América/Caracas"
 
 #: calendar/zones.h:76
 msgid "America/Catamarca"
-msgstr ""
+msgstr "América/Catamarca"
 
 #: calendar/zones.h:77
 msgid "America/Cayenne"
-msgstr ""
+msgstr "América/Cayenne"
 
 #: calendar/zones.h:78
 msgid "America/Cayman"
-msgstr ""
+msgstr "América/Cayman"
 
 #: calendar/zones.h:79
 msgid "America/Chicago"
-msgstr ""
+msgstr "América/Chicago"
 
 #: calendar/zones.h:80
 msgid "America/Chihuahua"
-msgstr ""
+msgstr "América/Chihuahua"
 
 #: calendar/zones.h:81
 msgid "America/Cordoba"
-msgstr ""
+msgstr "América/Cordoba"
 
 #: calendar/zones.h:82
 msgid "America/Costa_Rica"
-msgstr ""
+msgstr "América/Costa_Rica"
 
 #: calendar/zones.h:83
 msgid "America/Cuiaba"
-msgstr ""
+msgstr "América/Cuiaba"
 
 #: calendar/zones.h:84
 msgid "America/Curacao"
-msgstr ""
+msgstr "América/Coração"
 
 #: calendar/zones.h:85
 msgid "America/Danmarkshavn"
-msgstr ""
+msgstr "América/Danmarkshavn"
 
 #: calendar/zones.h:86
 msgid "America/Dawson"
-msgstr ""
+msgstr "América/Dawson"
 
 #: calendar/zones.h:87
 msgid "America/Dawson_Creek"
-msgstr ""
+msgstr "América/Riacho_Dawson"
 
 #: calendar/zones.h:88
 msgid "America/Denver"
-msgstr ""
+msgstr "América/Denver"
 
 #: calendar/zones.h:89
 msgid "America/Detroit"
-msgstr ""
+msgstr "América/Detroit"
 
 #: calendar/zones.h:90
 msgid "America/Dominica"
-msgstr ""
+msgstr "América/Dominica"
 
 #: calendar/zones.h:91
 msgid "America/Edmonton"
-msgstr ""
+msgstr "América/Edmonton"
 
 #: calendar/zones.h:92
 msgid "America/Eirunepe"
-msgstr ""
+msgstr "América/Eirunepe"
 
 #: calendar/zones.h:93
 msgid "America/El_Salvador"
-msgstr ""
+msgstr "América/El_Salvador"
 
 #: calendar/zones.h:94
 msgid "America/Fortaleza"
-msgstr ""
+msgstr "América/Fortaleza"
 
 #: calendar/zones.h:95
 msgid "America/Glace_Bay"
-msgstr ""
+msgstr "América/Baia_Glace"
 
 #: calendar/zones.h:96
 msgid "America/Godthab"
-msgstr ""
+msgstr "América/Godthab"
 
 #: calendar/zones.h:97
 msgid "America/Goose_Bay"
-msgstr ""
+msgstr "América/Baia_Goose"
 
 #: calendar/zones.h:98
 msgid "America/Grand_Turk"
-msgstr ""
+msgstr "América/Grand_Turk"
 
 #: calendar/zones.h:99
-#, fuzzy
 msgid "America/Grenada"
-msgstr "Novo Ca_lendário"
+msgstr "América/Grenada"
 
 #: calendar/zones.h:100
 msgid "America/Guadeloupe"
-msgstr ""
+msgstr "América/Guadeloupe"
 
 #: calendar/zones.h:101
 msgid "America/Guatemala"
-msgstr ""
+msgstr "América/Guatemala"
 
 #: calendar/zones.h:102
 msgid "America/Guayaquil"
-msgstr ""
+msgstr "América/Guayaquil"
 
 #: calendar/zones.h:103
 msgid "America/Guyana"
-msgstr ""
+msgstr "América/Guyana"
 
 #: calendar/zones.h:104
 msgid "America/Halifax"
-msgstr ""
+msgstr "América/Halifax"
 
 #: calendar/zones.h:105
 msgid "America/Havana"
-msgstr ""
+msgstr "América/Havana"
 
 #: calendar/zones.h:106
 msgid "America/Hermosillo"
-msgstr ""
+msgstr "América/Hermosillo"
 
 #: calendar/zones.h:107
 msgid "America/Indiana/Indianapolis"
-msgstr ""
+msgstr "América/Indiana/Indianapolis"
 
 #: calendar/zones.h:108
 msgid "America/Indiana/Knox"
-msgstr ""
+msgstr "América/Indiana/Knox"
 
 #: calendar/zones.h:109
 msgid "America/Indiana/Marengo"
-msgstr ""
+msgstr "América/Indiana/Marengo"
 
 #: calendar/zones.h:110
 msgid "America/Indiana/Vevay"
-msgstr ""
+msgstr "América/Indiana/Vevay"
 
 #: calendar/zones.h:111
 msgid "America/Indianapolis"
-msgstr ""
+msgstr "América/Indianapolis"
 
 #: calendar/zones.h:112
 msgid "America/Inuvik"
-msgstr ""
+msgstr "América/Inuvik"
 
 #: calendar/zones.h:113
 msgid "America/Iqaluit"
-msgstr ""
+msgstr "América/Iqaluit"
 
 #: calendar/zones.h:114
 msgid "America/Jamaica"
-msgstr ""
+msgstr "América/Jamaica"
 
 #: calendar/zones.h:115
 msgid "America/Jujuy"
-msgstr ""
+msgstr "América/Jujuy"
 
 #: calendar/zones.h:116
 msgid "America/Juneau"
-msgstr ""
+msgstr "América/Juneau"
 
 #: calendar/zones.h:117
 msgid "America/Kentucky/Louisville"
-msgstr ""
+msgstr "América/Kentucky/Louisville"
 
 #: calendar/zones.h:118
 msgid "America/Kentucky/Monticello"
-msgstr ""
+msgstr "América/Kentucky/Monticello"
 
 #: calendar/zones.h:119
 msgid "America/La_Paz"
-msgstr ""
+msgstr "América/La_Paz"
 
 #: calendar/zones.h:120
 msgid "America/Lima"
-msgstr ""
+msgstr "América/Lima"
 
 #: calendar/zones.h:121
 msgid "America/Los_Angeles"
-msgstr ""
+msgstr "América/Los_Angeles"
 
 #: calendar/zones.h:122
 msgid "America/Louisville"
-msgstr ""
+msgstr "América/Louisville"
 
 #: calendar/zones.h:123
 msgid "America/Maceio"
-msgstr ""
+msgstr "América/Maceio"
 
 #: calendar/zones.h:124
 msgid "America/Managua"
-msgstr ""
+msgstr "América/Managua"
 
 #: calendar/zones.h:125
 msgid "America/Manaus"
-msgstr ""
+msgstr "América/Manaus"
 
 #: calendar/zones.h:126
 msgid "America/Martinique"
-msgstr ""
+msgstr "América/Martinique"
 
 #: calendar/zones.h:127
 msgid "America/Mazatlan"
-msgstr ""
+msgstr "América/Mazatlan"
 
 #: calendar/zones.h:128
 msgid "America/Mendoza"
-msgstr ""
+msgstr "América/Mendoza"
 
 #: calendar/zones.h:129
 msgid "America/Menominee"
-msgstr ""
+msgstr "América/Menominee"
 
 #: calendar/zones.h:130
 msgid "America/Merida"
-msgstr ""
+msgstr "América/Mérida"
 
 #: calendar/zones.h:131
 msgid "America/Mexico_City"
-msgstr ""
+msgstr "América/Cidade_México"
 
 #: calendar/zones.h:132
 msgid "America/Miquelon"
-msgstr ""
+msgstr "América/Miquelon"
 
 #: calendar/zones.h:133
 msgid "America/Monterrey"
-msgstr ""
+msgstr "América/Monterrey"
 
 #: calendar/zones.h:134
 msgid "America/Montevideo"
-msgstr ""
+msgstr "América/Montevideo"
 
 #: calendar/zones.h:135
 msgid "America/Montreal"
-msgstr ""
+msgstr "América/Montreal"
 
 #: calendar/zones.h:136
 msgid "America/Montserrat"
-msgstr ""
+msgstr "América/Montserrat"
 
 #: calendar/zones.h:137
 msgid "America/Nassau"
-msgstr ""
+msgstr "América/Nassau"
 
 #: calendar/zones.h:138
 msgid "America/New_York"
-msgstr ""
+msgstr "América/Nova_York"
 
 #: calendar/zones.h:139
 msgid "America/Nipigon"
-msgstr ""
+msgstr "América/Nipigon"
 
 #: calendar/zones.h:140
 msgid "America/Nome"
-msgstr ""
+msgstr "América/Nome"
 
 #: calendar/zones.h:141
 msgid "America/Noronha"
-msgstr ""
+msgstr "América/Noronha"
 
 #: calendar/zones.h:142
 msgid "America/North_Dakota/Center"
-msgstr ""
+msgstr "América/Dakota_Norte/Centro"
 
 #: calendar/zones.h:143
-#, fuzzy
 msgid "America/Panama"
-msgstr "Novo Ca_lendário"
+msgstr "América/Panama"
 
 #: calendar/zones.h:144
 msgid "America/Pangnirtung"
-msgstr ""
+msgstr "América/Pangnirtung"
 
 #: calendar/zones.h:145
 msgid "America/Paramaribo"
-msgstr ""
+msgstr "América/Paramaribo"
 
 #: calendar/zones.h:146
 msgid "America/Phoenix"
-msgstr ""
+msgstr "América/Phoenix"
 
 #: calendar/zones.h:147
 msgid "America/Port-au-Prince"
-msgstr ""
+msgstr "América/Port-au-Prince"
 
 #: calendar/zones.h:148
 msgid "America/Port_of_Spain"
-msgstr ""
+msgstr "América/Porto_de_Espanha"
 
 #: calendar/zones.h:149
 msgid "America/Porto_Velho"
-msgstr ""
+msgstr "América/Porto_Velho"
 
 #: calendar/zones.h:150
 msgid "America/Puerto_Rico"
-msgstr ""
+msgstr "América/Puerto_Rico"
 
 #: calendar/zones.h:151
 msgid "America/Rainy_River"
-msgstr ""
+msgstr "América/Rio_Rainy"
 
 #: calendar/zones.h:152
 msgid "America/Rankin_Inlet"
-msgstr ""
+msgstr "América/Rankin_Inlet"
 
 #: calendar/zones.h:153
 msgid "America/Recife"
-msgstr ""
+msgstr "América/Recife"
 
 #: calendar/zones.h:154
 msgid "America/Regina"
-msgstr ""
+msgstr "América/Regina"
 
 #: calendar/zones.h:155
 msgid "America/Rio_Branco"
-msgstr ""
+msgstr "América/Rio_Branco"
 
 #: calendar/zones.h:156
 msgid "America/Rosario"
-msgstr ""
+msgstr "América/Rosário"
 
 #: calendar/zones.h:157
 msgid "America/Santiago"
-msgstr ""
+msgstr "América/Santiago"
 
 #: calendar/zones.h:158
 msgid "America/Santo_Domingo"
-msgstr ""
+msgstr "América/Santo_Domingo"
 
 #: calendar/zones.h:159
 msgid "America/Sao_Paulo"
-msgstr ""
+msgstr "América/São_Paulo"
 
 #: calendar/zones.h:160
 msgid "America/Scoresbysund"
-msgstr ""
+msgstr "América/Scoresbysund"
 
 #: calendar/zones.h:161
 msgid "America/Shiprock"
-msgstr ""
+msgstr "América/Shiprock"
 
 #: calendar/zones.h:162
 msgid "America/St_Johns"
-msgstr ""
+msgstr "América/St_Johns"
 
 #: calendar/zones.h:163
 msgid "America/St_Kitts"
-msgstr ""
+msgstr "América/St_Kitts"
 
 #: calendar/zones.h:164
 msgid "America/St_Lucia"
-msgstr ""
+msgstr "América/St_Lucia"
 
 #: calendar/zones.h:165
 msgid "America/St_Thomas"
-msgstr ""
+msgstr "América/St_Thomas"
 
 #: calendar/zones.h:166
 msgid "America/St_Vincent"
-msgstr ""
+msgstr "América/St_Vincent"
 
 #: calendar/zones.h:167
 msgid "America/Swift_Current"
-msgstr ""
+msgstr "América/Swift_Current"
 
 #: calendar/zones.h:168
 msgid "America/Tegucigalpa"
-msgstr ""
+msgstr "América/Tegucigalpa"
 
 #: calendar/zones.h:169
 msgid "America/Thule"
-msgstr ""
+msgstr "América/Thule"
 
 #: calendar/zones.h:170
 msgid "America/Thunder_Bay"
-msgstr ""
+msgstr "América/Baia_Thunder"
 
 #: calendar/zones.h:171
 msgid "America/Tijuana"
-msgstr ""
+msgstr "América/Tijuana"
 
 #: calendar/zones.h:172
 msgid "America/Tortola"
-msgstr ""
+msgstr "América/Tortola"
 
 #: calendar/zones.h:173
 msgid "America/Vancouver"
-msgstr ""
+msgstr "América/Vancouver"
 
 #: calendar/zones.h:174
 msgid "America/Whitehorse"
-msgstr ""
+msgstr "América/Whitehorse"
 
 #: calendar/zones.h:175
 msgid "America/Winnipeg"
-msgstr ""
+msgstr "América/Winnipeg"
 
 #: calendar/zones.h:176
 msgid "America/Yakutat"
-msgstr ""
+msgstr "América/Yakutat"
 
 #: calendar/zones.h:177
 msgid "America/Yellowknife"
-msgstr ""
+msgstr "América/Yellowknife"
 
 #: calendar/zones.h:178
 msgid "Antarctica/Casey"
-msgstr ""
+msgstr "Antártida/Casey"
 
 #: calendar/zones.h:179
 msgid "Antarctica/Davis"
-msgstr ""
+msgstr "Antártida/Davis"
 
 #: calendar/zones.h:180
 msgid "Antarctica/DumontDUrville"
-msgstr ""
+msgstr "Antártida/DumontDUrville"
 
 #: calendar/zones.h:181
 msgid "Antarctica/Mawson"
-msgstr ""
+msgstr "Antártida/Mawson"
 
 #: calendar/zones.h:182
 msgid "Antarctica/McMurdo"
-msgstr ""
+msgstr "Antártida/McMurdo"
 
 #: calendar/zones.h:183
 msgid "Antarctica/Palmer"
-msgstr ""
+msgstr "Antártida/Palmer"
 
 #: calendar/zones.h:184
 msgid "Antarctica/South_Pole"
-msgstr ""
+msgstr "Antártida/Polo Sul"
 
 #: calendar/zones.h:185
 msgid "Antarctica/Syowa"
-msgstr ""
+msgstr "Antártida/Syowa"
 
 #: calendar/zones.h:186
 msgid "Antarctica/Vostok"
-msgstr ""
+msgstr "Antártida/Vostok"
 
 #: calendar/zones.h:187
 msgid "Arctic/Longyearbyen"
-msgstr ""
+msgstr "Antártida/Longyearbyen"
 
 #: calendar/zones.h:188
 msgid "Asia/Aden"
-msgstr ""
+msgstr "Ásia/Aden"
 
 #: calendar/zones.h:189
 msgid "Asia/Almaty"
-msgstr ""
+msgstr "Ásia/Almaty"
 
 #: calendar/zones.h:190
 msgid "Asia/Amman"
-msgstr ""
+msgstr "Ásia/Amman"
 
 #: calendar/zones.h:191
 msgid "Asia/Anadyr"
-msgstr ""
+msgstr "Ásia/Anadyr"
 
 #: calendar/zones.h:192
 msgid "Asia/Aqtau"
-msgstr ""
+msgstr "Ásia/Aqtau"
 
 #: calendar/zones.h:193
 msgid "Asia/Aqtobe"
-msgstr ""
+msgstr "Ásia/Aqtobe"
 
 #: calendar/zones.h:194
 msgid "Asia/Ashgabat"
-msgstr ""
+msgstr "Ásia/Ashgabat"
 
 #: calendar/zones.h:195
 msgid "Asia/Baghdad"
-msgstr ""
+msgstr "Ásia/Bagdade"
 
 #: calendar/zones.h:196
 msgid "Asia/Bahrain"
-msgstr ""
+msgstr "Ásia/Bahrain"
 
 #: calendar/zones.h:197
 msgid "Asia/Baku"
-msgstr ""
+msgstr "Ásia/Baku"
 
 #: calendar/zones.h:198
 msgid "Asia/Bangkok"
-msgstr ""
+msgstr "Ásia/Bangkok"
 
 #: calendar/zones.h:199
 msgid "Asia/Beirut"
-msgstr ""
+msgstr "Ásia/Beirute"
 
 #: calendar/zones.h:200
 msgid "Asia/Bishkek"
-msgstr ""
+msgstr "Ásia/Bishkek"
 
 #: calendar/zones.h:201
 msgid "Asia/Brunei"
-msgstr ""
+msgstr "Ásia/Brunei"
 
 #: calendar/zones.h:202
 msgid "Asia/Calcutta"
-msgstr ""
+msgstr "Ásia/Calcutá"
 
 #: calendar/zones.h:203
 msgid "Asia/Choibalsan"
-msgstr ""
+msgstr "Ásia/Choibalsan"
 
 #: calendar/zones.h:204
 msgid "Asia/Chongqing"
-msgstr ""
+msgstr "Ásia/Chongqing"
 
 #: calendar/zones.h:205
 msgid "Asia/Colombo"
-msgstr ""
+msgstr "Ásia/Colombo"
 
 #: calendar/zones.h:206
 msgid "Asia/Damascus"
-msgstr ""
+msgstr "Ásia/Damásco"
 
 #: calendar/zones.h:207
 msgid "Asia/Dhaka"
-msgstr ""
+msgstr "Ásia/Dhaka"
 
 #: calendar/zones.h:208
 msgid "Asia/Dili"
-msgstr ""
+msgstr "Ásia/Dili"
 
 #: calendar/zones.h:209
 msgid "Asia/Dubai"
-msgstr ""
+msgstr "Ásia/Dubai"
 
 #: calendar/zones.h:210
 msgid "Asia/Dushanbe"
-msgstr ""
+msgstr "Ásia/Dushanbe"
 
 #: calendar/zones.h:211
 msgid "Asia/Gaza"
-msgstr ""
+msgstr "Ásia/Gaza"
 
 #: calendar/zones.h:212
 msgid "Asia/Harbin"
-msgstr ""
+msgstr "Ásia/Harbin"
 
 #: calendar/zones.h:213
 msgid "Asia/Hong_Kong"
-msgstr ""
+msgstr "Ásia/Hong_Kong"
 
 #: calendar/zones.h:214
 msgid "Asia/Hovd"
-msgstr ""
+msgstr "Ásia/Hovd"
 
 #: calendar/zones.h:215
 msgid "Asia/Irkutsk"
-msgstr ""
+msgstr "Ásia/Irkutsk"
 
 #: calendar/zones.h:216
 msgid "Asia/Istanbul"
-msgstr ""
+msgstr "Ásia/Istanbul"
 
 #: calendar/zones.h:217
 msgid "Asia/Jakarta"
-msgstr ""
+msgstr "Ásia/Jakarta"
 
 #: calendar/zones.h:218
 msgid "Asia/Jayapura"
-msgstr ""
+msgstr "Ásia/Jayapura"
 
 #: calendar/zones.h:219
 msgid "Asia/Jerusalem"
-msgstr ""
+msgstr "Ásia/Jerusalém"
 
 #: calendar/zones.h:220
 msgid "Asia/Kabul"
-msgstr ""
+msgstr "Ásia/Kabul"
 
 #: calendar/zones.h:221
 msgid "Asia/Kamchatka"
-msgstr ""
+msgstr "Ásia/Kamchatka"
 
 #: calendar/zones.h:222
 msgid "Asia/Karachi"
-msgstr ""
+msgstr "Ásia/Karachi"
 
 #: calendar/zones.h:223
 msgid "Asia/Kashgar"
-msgstr ""
+msgstr "Ásia/Kashgar"
 
 #: calendar/zones.h:224
 msgid "Asia/Katmandu"
-msgstr ""
+msgstr "Ásia/Katmandu"
 
 #: calendar/zones.h:225
 msgid "Asia/Krasnoyarsk"
-msgstr ""
+msgstr "Ásia/Krasnoyarsk"
 
 #: calendar/zones.h:226
 msgid "Asia/Kuala_Lumpur"
-msgstr ""
+msgstr "Ásia/Kuala_Lumpur"
 
 #: calendar/zones.h:227
 msgid "Asia/Kuching"
-msgstr ""
+msgstr "Ásia/Kuching"
 
 #: calendar/zones.h:228
 msgid "Asia/Kuwait"
-msgstr ""
+msgstr "Ásia/Kuwait"
 
 #: calendar/zones.h:229
 msgid "Asia/Macao"
-msgstr ""
+msgstr "Ásia/Macao"
 
 #: calendar/zones.h:230
-#, fuzzy
 msgid "Asia/Macau"
-msgstr "Data"
+msgstr "Ásia/Macau"
 
 #: calendar/zones.h:231
 msgid "Asia/Magadan"
-msgstr ""
+msgstr "Ásia/Magadan"
 
 #: calendar/zones.h:232
-#, fuzzy
 msgid "Asia/Makassar"
-msgstr "Data"
+msgstr "Ásia/Makassar"
 
 #: calendar/zones.h:233
 msgid "Asia/Manila"
-msgstr ""
+msgstr "Ásia/Manila"
 
 #: calendar/zones.h:234
 msgid "Asia/Muscat"
-msgstr ""
+msgstr "Ásia/Muscat"
 
 #: calendar/zones.h:235
 msgid "Asia/Nicosia"
-msgstr ""
+msgstr "Ásia/Nicósia"
 
 #: calendar/zones.h:236
 msgid "Asia/Novosibirsk"
-msgstr ""
+msgstr "Ásia/Novosibirsk"
 
 #: calendar/zones.h:237
 msgid "Asia/Omsk"
-msgstr ""
+msgstr "Ásia/Omsk"
 
 #: calendar/zones.h:238
-#, fuzzy
 msgid "Asia/Oral"
-msgstr "Data"
+msgstr "Ásia/Oral"
 
 #: calendar/zones.h:239
 msgid "Asia/Phnom_Penh"
-msgstr ""
+msgstr "Ásia/Phnom_Penh"
 
 #: calendar/zones.h:240
 msgid "Asia/Pontianak"
-msgstr ""
+msgstr "Ásia/Pontianak"
 
 #: calendar/zones.h:241
 msgid "Asia/Pyongyang"
-msgstr ""
+msgstr "Ásia/Pyongyang"
 
 #: calendar/zones.h:242
-#, fuzzy
 msgid "Asia/Qatar"
-msgstr "Data"
+msgstr "Ásia/Qatar"
 
 #: calendar/zones.h:243
 msgid "Asia/Qyzylorda"
-msgstr ""
+msgstr "Ásia/Qyzylorda"
 
 #: calendar/zones.h:244
 msgid "Asia/Rangoon"
-msgstr ""
+msgstr "Ásia/Rangoon"
 
 #: calendar/zones.h:245
 msgid "Asia/Riyadh"
-msgstr ""
+msgstr "Ásia/Riyadh"
 
 #: calendar/zones.h:246
 msgid "Asia/Saigon"
-msgstr ""
+msgstr "Ásia/Saigão"
 
 #: calendar/zones.h:247
 msgid "Asia/Sakhalin"
-msgstr ""
+msgstr "Ásia/Sakhalin"
 
 #: calendar/zones.h:248
 msgid "Asia/Samarkand"
-msgstr ""
+msgstr "Ásia/Samarkand"
 
 #: calendar/zones.h:249
 msgid "Asia/Seoul"
-msgstr ""
+msgstr "Ásia/Seoul"
 
 #: calendar/zones.h:250
 msgid "Asia/Shanghai"
-msgstr ""
+msgstr "Ásia/Shanghai"
 
 #: calendar/zones.h:251
 msgid "Asia/Singapore"
-msgstr ""
+msgstr "Ásia/Singapura"
 
 #: calendar/zones.h:252
 msgid "Asia/Taipei"
-msgstr ""
+msgstr "Ásia/Taipei"
 
 #: calendar/zones.h:253
 msgid "Asia/Tashkent"
-msgstr ""
+msgstr "Ásia/Tashkent"
 
 #: calendar/zones.h:254
 msgid "Asia/Tbilisi"
-msgstr ""
+msgstr "Ásia/Tbilisi"
 
 #: calendar/zones.h:255
 msgid "Asia/Tehran"
-msgstr ""
+msgstr "Ásia/Tehran"
 
 #: calendar/zones.h:256
 msgid "Asia/Thimphu"
-msgstr ""
+msgstr "Ásia/Thimphu"
 
 #: calendar/zones.h:257
 msgid "Asia/Tokyo"
-msgstr ""
+msgstr "Ásia/Tóquio"
 
 #: calendar/zones.h:258
 msgid "Asia/Ujung_Pandang"
-msgstr ""
+msgstr "Ásia/Ujung_Pandang"
 
 #: calendar/zones.h:259
 msgid "Asia/Ulaanbaatar"
-msgstr ""
+msgstr "Ásia/Ulaanbaatar"
 
 #: calendar/zones.h:260
 msgid "Asia/Urumqi"
-msgstr ""
+msgstr "Ásia/Urumqi"
 
 #: calendar/zones.h:261
 msgid "Asia/Vientiane"
-msgstr ""
+msgstr "Ásia/Vientiane"
 
 #: calendar/zones.h:262
 msgid "Asia/Vladivostok"
-msgstr ""
+msgstr "Ásia/Vladivostok"
 
 #: calendar/zones.h:263
 msgid "Asia/Yakutsk"
-msgstr ""
+msgstr "Ásia/Yakutsk"
 
 #: calendar/zones.h:264
 msgid "Asia/Yekaterinburg"
-msgstr ""
+msgstr "Ásia/Yekaterinburg"
 
 #: calendar/zones.h:265
 msgid "Asia/Yerevan"
-msgstr ""
+msgstr "Ásia/Yerevan"
 
 #: calendar/zones.h:266
 msgid "Atlantic/Azores"
-msgstr ""
+msgstr "Atlântico/Açores"
 
 #: calendar/zones.h:267
 msgid "Atlantic/Bermuda"
-msgstr ""
+msgstr "Atlântico/Bermuda"
 
 #: calendar/zones.h:268
 msgid "Atlantic/Canary"
-msgstr ""
+msgstr "Atlântico/Canárias"
 
 #: calendar/zones.h:269
 msgid "Atlantic/Cape_Verde"
-msgstr ""
+msgstr "Atlântico/Cabo_Verde"
 
 #: calendar/zones.h:270
 msgid "Atlantic/Faeroe"
-msgstr ""
+msgstr "Atlântico/Faeroe"
 
 #: calendar/zones.h:271
 msgid "Atlantic/Jan_Mayen"
-msgstr ""
+msgstr "Atlântico/Jan_Mayen"
 
 #: calendar/zones.h:272
 msgid "Atlantic/Madeira"
-msgstr ""
+msgstr "Atlântico/Madeira"
 
 #: calendar/zones.h:273
 msgid "Atlantic/Reykjavik"
-msgstr ""
+msgstr "Atlântico/Reykjavik"
 
 #: calendar/zones.h:274
 msgid "Atlantic/South_Georgia"
-msgstr ""
+msgstr "Atlântico/Geórgia_Sul"
 
 #: calendar/zones.h:275
 msgid "Atlantic/St_Helena"
-msgstr ""
+msgstr "Atlântico/St_Helena"
 
 #: calendar/zones.h:276
 msgid "Atlantic/Stanley"
-msgstr ""
+msgstr "Atlântico/Stanley"
 
 #: calendar/zones.h:277
 msgid "Australia/Adelaide"
-msgstr ""
+msgstr "Austrália/Adelaide"
 
 #: calendar/zones.h:278
 msgid "Australia/Brisbane"
-msgstr ""
+msgstr "Austrália/Brisbane"
 
 #: calendar/zones.h:279
 msgid "Australia/Broken_Hill"
-msgstr ""
+msgstr "Austrália/Broken_Hill"
 
 #: calendar/zones.h:280
 msgid "Australia/Darwin"
-msgstr ""
+msgstr "Austrália/Darwin"
 
 #: calendar/zones.h:281
 msgid "Australia/Hobart"
-msgstr ""
+msgstr "Austrália/Hobart"
 
 #: calendar/zones.h:282
 msgid "Australia/Lindeman"
-msgstr ""
+msgstr "Austrália/Lindeman"
 
 #: calendar/zones.h:283
 msgid "Australia/Lord_Howe"
-msgstr ""
+msgstr "Austrália/Lord_Howe"
 
 #: calendar/zones.h:284
 msgid "Australia/Melbourne"
-msgstr ""
+msgstr "Austrália/Melbourne"
 
 #: calendar/zones.h:285
 msgid "Australia/Perth"
-msgstr ""
+msgstr "Austrália/Perth"
 
 #: calendar/zones.h:286
 msgid "Australia/Sydney"
-msgstr ""
+msgstr "Austrália/Sydney"
 
 #: calendar/zones.h:287
 msgid "Europe/Amsterdam"
-msgstr ""
+msgstr "Europa/Amsterdão"
 
 #: calendar/zones.h:288
 msgid "Europe/Andorra"
-msgstr ""
+msgstr "Europa/Andorra"
 
 #: calendar/zones.h:289
-#, fuzzy
 msgid "Europe/Athens"
-msgstr "Propriedades do alarme"
+msgstr "Europa/Atenas"
 
 #: calendar/zones.h:290
 msgid "Europe/Belfast"
-msgstr ""
+msgstr "Europa/Belfast"
 
 #: calendar/zones.h:291
 msgid "Europe/Belgrade"
-msgstr ""
+msgstr "Europa/Belgrado"
 
 #: calendar/zones.h:292
 msgid "Europe/Berlin"
-msgstr ""
+msgstr "Europa/Berlim"
 
 #: calendar/zones.h:293
 msgid "Europe/Bratislava"
-msgstr ""
+msgstr "Europa/Bratislava"
 
 #: calendar/zones.h:294
 msgid "Europe/Brussels"
-msgstr ""
+msgstr "Europa/Bruxelas"
 
 #: calendar/zones.h:295
 msgid "Europe/Bucharest"
-msgstr ""
+msgstr "Europa/Bucareste"
 
 #: calendar/zones.h:296
 msgid "Europe/Budapest"
-msgstr ""
+msgstr "Europa/Budapeste"
 
 #: calendar/zones.h:297
 msgid "Europe/Chisinau"
-msgstr ""
+msgstr "Europa/Chisinau"
 
 #: calendar/zones.h:298
 msgid "Europe/Copenhagen"
-msgstr ""
+msgstr "Europa/Copenhaga"
 
 #: calendar/zones.h:299
 msgid "Europe/Dublin"
-msgstr ""
+msgstr "Europa/Dublin"
 
 #: calendar/zones.h:300
 msgid "Europe/Gibraltar"
-msgstr ""
+msgstr "Europa/Gibraltar"
 
 #: calendar/zones.h:301
 msgid "Europe/Helsinki"
-msgstr ""
+msgstr "Europa/Helsínquia"
 
 #: calendar/zones.h:302
 msgid "Europe/Istanbul"
-msgstr ""
+msgstr "Europa/Istambul"
 
 #: calendar/zones.h:303
 msgid "Europe/Kaliningrad"
-msgstr ""
+msgstr "Europa/Kaliningrado"
 
 #: calendar/zones.h:304
 msgid "Europe/Kiev"
-msgstr ""
+msgstr "Europa/Kiev"
 
 #: calendar/zones.h:305
 msgid "Europe/Lisbon"
-msgstr ""
+msgstr "Europa/Lisboa"
 
 #: calendar/zones.h:306
 msgid "Europe/Ljubljana"
-msgstr ""
+msgstr "Europa/Ljubliana"
 
 #: calendar/zones.h:307
 msgid "Europe/London"
-msgstr ""
+msgstr "Europa/Londres"
 
 #: calendar/zones.h:308
 msgid "Europe/Luxembourg"
-msgstr ""
+msgstr "Europa/Luxemburgo"
 
 #: calendar/zones.h:309
 msgid "Europe/Madrid"
-msgstr ""
+msgstr "Europa/Madrid"
 
 #: calendar/zones.h:310
 msgid "Europe/Malta"
-msgstr ""
+msgstr "Europa/Malta"
 
 #: calendar/zones.h:311
 msgid "Europe/Minsk"
-msgstr ""
+msgstr "Europa/Minsk"
 
 #: calendar/zones.h:312
-#, fuzzy
 msgid "Europe/Monaco"
-msgstr "Segunda-feira"
+msgstr "Europa/Mónaco"
 
 #: calendar/zones.h:313
 msgid "Europe/Moscow"
-msgstr ""
+msgstr "Europa/Moscovo"
 
 #: calendar/zones.h:314
 msgid "Europe/Nicosia"
-msgstr ""
+msgstr "Europa/Nicósia"
 
 #: calendar/zones.h:315
 msgid "Europe/Oslo"
-msgstr ""
+msgstr "Europa/Oslo"
 
 #: calendar/zones.h:316
-#, fuzzy
 msgid "Europe/Paris"
-msgstr "Propriedades do alarme"
+msgstr "Europa/Paris"
 
 #: calendar/zones.h:317
 msgid "Europe/Prague"
-msgstr ""
+msgstr "Europa/Praga"
 
 #: calendar/zones.h:318
 msgid "Europe/Riga"
-msgstr ""
+msgstr "Europa/Riga"
 
 #: calendar/zones.h:319
 msgid "Europe/Rome"
-msgstr ""
+msgstr "Europa/Roma"
 
 #: calendar/zones.h:320
 msgid "Europe/Samara"
-msgstr ""
+msgstr "Europa/Samara"
 
 #: calendar/zones.h:321
 msgid "Europe/San_Marino"
-msgstr ""
+msgstr "Europa/São_Marino"
 
 #: calendar/zones.h:322
 msgid "Europe/Sarajevo"
-msgstr ""
+msgstr "Europa/Sarajevo"
 
 #: calendar/zones.h:323
 msgid "Europe/Simferopol"
-msgstr ""
+msgstr "Europa/Simferopol"
 
 #: calendar/zones.h:324
 msgid "Europe/Skopje"
-msgstr ""
+msgstr "Europa/Skopje"
 
 #: calendar/zones.h:325
 msgid "Europe/Sofia"
-msgstr ""
+msgstr "Europa/Sofia"
 
 #: calendar/zones.h:326
 msgid "Europe/Stockholm"
-msgstr ""
+msgstr "Europa/Estocolmo"
 
 #: calendar/zones.h:327
 msgid "Europe/Tallinn"
-msgstr ""
+msgstr "Europa/Tallinn"
 
 #: calendar/zones.h:328
 msgid "Europe/Tirane"
-msgstr ""
+msgstr "Europa/Tirana"
 
 #: calendar/zones.h:329
 msgid "Europe/Uzhgorod"
-msgstr ""
+msgstr "Europa/Uzhgorod"
 
 #: calendar/zones.h:330
 msgid "Europe/Vaduz"
-msgstr ""
+msgstr "Europa/Vaduz"
 
 #: calendar/zones.h:331
 msgid "Europe/Vatican"
-msgstr ""
+msgstr "Europa/Vaticano"
 
 #: calendar/zones.h:332
 msgid "Europe/Vienna"
-msgstr ""
+msgstr "Europa/Viena"
 
 #: calendar/zones.h:333
 msgid "Europe/Vilnius"
-msgstr ""
+msgstr "Europa/Vílnius"
 
 #: calendar/zones.h:334
 msgid "Europe/Warsaw"
-msgstr ""
+msgstr "Europa/Varsóvia"
 
 #: calendar/zones.h:335
 msgid "Europe/Zagreb"
-msgstr ""
+msgstr "Europa/Zagreb"
 
 #: calendar/zones.h:336
 msgid "Europe/Zaporozhye"
-msgstr ""
+msgstr "Europa/Zaporozhye"
 
 #: calendar/zones.h:337
 msgid "Europe/Zurich"
-msgstr ""
+msgstr "Europa/Zurique"
 
 #: calendar/zones.h:338
 msgid "Indian/Antananarivo"
-msgstr ""
+msgstr "Índico/Antananarivo"
 
 #: calendar/zones.h:339
 msgid "Indian/Chagos"
-msgstr ""
+msgstr "Índico/Chagos"
 
 #: calendar/zones.h:340
 msgid "Indian/Christmas"
-msgstr ""
+msgstr "Índico/Natal"
 
 #: calendar/zones.h:341
 msgid "Indian/Cocos"
-msgstr ""
+msgstr "Índico/Cocos"
 
 #: calendar/zones.h:342
-#, fuzzy
 msgid "Indian/Comoro"
-msgstr "Cores"
+msgstr "Índico/Comoro"
 
 #: calendar/zones.h:343
 msgid "Indian/Kerguelen"
-msgstr ""
+msgstr "Índico/Kerguelen"
 
 #: calendar/zones.h:344
 msgid "Indian/Mahe"
-msgstr ""
+msgstr "Índico/Mahe"
 
 #: calendar/zones.h:345
 msgid "Indian/Maldives"
-msgstr ""
+msgstr "Índico/Maldivas"
 
 #: calendar/zones.h:346
-#, fuzzy
 msgid "Indian/Mauritius"
-msgstr "Ícones _grandes"
+msgstr "Índico/Mauricias"
 
 #: calendar/zones.h:347
-#, fuzzy
 msgid "Indian/Mayotte"
-msgstr "Segunda-feira"
+msgstr "Índico/Mayotte"
 
 #: calendar/zones.h:348
-#, fuzzy
 msgid "Indian/Reunion"
-msgstr "Segundos"
+msgstr "Índico/Reunion"
 
 #: calendar/zones.h:349
 msgid "Pacific/Apia"
-msgstr ""
+msgstr "Pacífico/Apia"
 
 #: calendar/zones.h:350
 msgid "Pacific/Auckland"
-msgstr ""
+msgstr "Pacífico/Auckland"
 
 #: calendar/zones.h:351
 msgid "Pacific/Chatham"
-msgstr ""
+msgstr "Pacífico/Chatham"
 
 #: calendar/zones.h:352
 msgid "Pacific/Easter"
-msgstr ""
+msgstr "Pacífico/Páscoa"
 
 #: calendar/zones.h:353
 msgid "Pacific/Efate"
-msgstr ""
+msgstr "Pacífico/Efate"
 
 #: calendar/zones.h:354
 msgid "Pacific/Enderbury"
-msgstr ""
+msgstr "Pacífico/Enderbury"
 
 #: calendar/zones.h:355
 msgid "Pacific/Fakaofo"
-msgstr ""
+msgstr "Pacífico/Fakaofo"
 
 #: calendar/zones.h:356
 msgid "Pacific/Fiji"
-msgstr ""
+msgstr "Pacífico/Fiji"
 
 #: calendar/zones.h:357
 msgid "Pacific/Funafuti"
-msgstr ""
+msgstr "Pacífico/Funafuti"
 
 #: calendar/zones.h:358
 msgid "Pacific/Galapagos"
-msgstr ""
+msgstr "Pacífico/Galapagos"
 
 #: calendar/zones.h:359
 msgid "Pacific/Gambier"
-msgstr ""
+msgstr "Pacífico/Gambier"
 
 #: calendar/zones.h:360
 msgid "Pacific/Guadalcanal"
-msgstr ""
+msgstr "Pacífico/Guadalcanal"
 
 #: calendar/zones.h:361
 msgid "Pacific/Guam"
-msgstr ""
+msgstr "Pacífico/Guam"
 
 #: calendar/zones.h:362
 msgid "Pacific/Honolulu"
-msgstr ""
+msgstr "Pacífico/Honolulu"
 
 #: calendar/zones.h:363
 msgid "Pacific/Johnston"
-msgstr ""
+msgstr "Pacífico/Johnston"
 
 #: calendar/zones.h:364
 msgid "Pacific/Kiritimati"
-msgstr ""
+msgstr "Pacífico/Kiritimati"
 
 #: calendar/zones.h:365
 msgid "Pacific/Kosrae"
-msgstr ""
+msgstr "Pacífico/Kosrae"
 
 #: calendar/zones.h:366
 msgid "Pacific/Kwajalein"
-msgstr ""
+msgstr "Pacífico/Kwajalein"
 
 #: calendar/zones.h:367
 msgid "Pacific/Majuro"
-msgstr ""
+msgstr "Pacífico/Majuro"
 
 #: calendar/zones.h:368
 msgid "Pacific/Marquesas"
-msgstr ""
+msgstr "Pacífico/Marquesas"
 
 #: calendar/zones.h:369
 msgid "Pacific/Midway"
-msgstr ""
+msgstr "Pacífico/Midway"
 
 #: calendar/zones.h:370
 msgid "Pacific/Nauru"
-msgstr ""
+msgstr "Pacífico/Nauru"
 
 #: calendar/zones.h:371
 msgid "Pacific/Niue"
-msgstr ""
+msgstr "Pacífico/Niue"
 
 #: calendar/zones.h:372
 msgid "Pacific/Norfolk"
-msgstr ""
+msgstr "Pacífico/Norfolk"
 
 #: calendar/zones.h:373
 msgid "Pacific/Noumea"
-msgstr ""
+msgstr "Pacífico/Noumea"
 
 #: calendar/zones.h:374
 msgid "Pacific/Pago_Pago"
-msgstr ""
+msgstr "Pacífico/Pago_Pago"
 
 #: calendar/zones.h:375
 msgid "Pacific/Palau"
-msgstr ""
+msgstr "Pacífico/Palau"
 
 #: calendar/zones.h:376
 msgid "Pacific/Pitcairn"
-msgstr ""
+msgstr "Pacífico/Pitcairn"
 
 #: calendar/zones.h:377
 msgid "Pacific/Ponape"
-msgstr ""
+msgstr "Pacífico/Ponape"
 
 #: calendar/zones.h:378
 msgid "Pacific/Port_Moresby"
-msgstr ""
+msgstr "Pacífico/Port_Moresby"
 
 #: calendar/zones.h:379
 msgid "Pacific/Rarotonga"
-msgstr ""
+msgstr "Pacífico/Rarotonga"
 
 #: calendar/zones.h:380
 msgid "Pacific/Saipan"
-msgstr ""
+msgstr "Pacífico/Saipan"
 
 #: calendar/zones.h:381
 msgid "Pacific/Tahiti"
-msgstr ""
+msgstr "Pacífico/Tahiti"
 
 #: calendar/zones.h:382
 msgid "Pacific/Tarawa"
-msgstr ""
+msgstr "Pacífico/Tarawa"
 
 #: calendar/zones.h:383
 msgid "Pacific/Tongatapu"
-msgstr ""
+msgstr "Pacífico/Tongatapu"
 
 #: calendar/zones.h:384
 msgid "Pacific/Truk"
-msgstr ""
+msgstr "Pacífico/Truk"
 
 #: calendar/zones.h:385
 msgid "Pacific/Wake"
-msgstr ""
+msgstr "Pacífico/Wake"
 
 #: calendar/zones.h:386
 msgid "Pacific/Wallis"
-msgstr ""
+msgstr "Pacífico/Wallis"
 
 #: calendar/zones.h:387
 msgid "Pacific/Yap"
-msgstr ""
+msgstr "Pacífico/Yap"
 
 #: camel/camel-cipher-context.c:178
 msgid "Signing is not supported by this cipher"
-msgstr ""
+msgstr "Assinatura não é suportada por esta cifra"
 
 #: camel/camel-cipher-context.c:218
 msgid "Verifying is not supported by this cipher"
-msgstr ""
+msgstr "Verificação não é suportada por esta cifra"
 
 #: camel/camel-cipher-context.c:262
 msgid "Encryption is not supported by this cipher"
-msgstr ""
+msgstr "Encriptação não é suportada por esta cifra"
 
 #: camel/camel-cipher-context.c:304
 msgid "Decryption is not supported by this cipher"
-msgstr ""
+msgstr "Desencriptação não é suportada por esta cifra"
 
 #: camel/camel-cipher-context.c:342
 msgid "You may not import keys with this cipher"
-msgstr ""
+msgstr "Não pode importar chaves com esta cifra"
 
 #: camel/camel-cipher-context.c:374
 msgid "You may not export keys with this cipher"
-msgstr ""
+msgstr "Não pode exportar chaves com esta cifra"
 
 #: camel/camel-data-cache.c:137
 msgid "Unable to create cache path"
-msgstr ""
+msgstr "Incapaz de criar caminho de cache"
 
 #: camel/camel-data-cache.c:375
-#, fuzzy, c-format
+#, c-format
 msgid "Could not remove cache entry: %s: %s"
-msgstr "Criar um novo calendário"
+msgstr "Incapaz de remover caminho de cache: %s: %s"
 
 #: camel/camel-disco-diary.c:185
 #, c-format
@@ -8285,6 +8237,9 @@ msgid ""
 "Further operations on this server will not be replayed when you\n"
 "reconnect to the network."
 msgstr ""
+"Incapaz de escrever entrada de registo: %s\n"
+"Operações seguintes neste servidor não serão replicadas quando se\n"
+"ligar à rede."
 
 #: camel/camel-disco-diary.c:248
 #, c-format
@@ -8293,155 +8248,154 @@ msgid ""
 "%s\n"
 "Changes made to this folder will not be resynchronized."
 msgstr ""
+"Incapaz de abrir `%s':\n"
+"%s\n"
+"Alterações efectuadas a esta pasta não serão resincronizadas."
 
 #: camel/camel-disco-diary.c:282
 msgid "Resynchronizing with server"
-msgstr ""
+msgstr "A resincronizar com o servidor"
 
 #: camel/camel-disco-folder.c:278
-#, fuzzy, c-format
+#, c-format
 msgid "Preparing folder '%s' for offline"
-msgstr "Abrir ficheiro"
+msgstr "A preparar pasta '%s' para estar desligada"
 
 #: camel/camel-disco-store.c:367
 msgid "You must be working online to complete this operation"
-msgstr ""
+msgstr "Tem de estar a trabalhar ligado para terminar esta operação"
 
 #: camel/camel-filter-driver.c:667 camel/camel-filter-search.c:511
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create pipe to '%s': %s"
-msgstr "Anexar um ficheiro à mensagem"
+msgstr "Falha ao criar canal a '%s': %s"
 
 #: camel/camel-filter-driver.c:715 camel/camel-filter-search.c:551
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create create child process '%s': %s"
-msgstr "Anexar um ficheiro à mensagem"
+msgstr "Falha ao criar processo filho '%s': %s"
 
 #: camel/camel-filter-driver.c:744
 #, c-format
 msgid "Invalid message stream received from %s: %s"
-msgstr ""
+msgstr "Fluxo de mensagem inválido recebido de %s: %s"
 
 #: camel/camel-filter-driver.c:923 camel/camel-filter-driver.c:932
-#, fuzzy
 msgid "Syncing folders"
-msgstr "Sincronizar"
+msgstr "A sincronizar pastas"
 
 #: camel/camel-filter-driver.c:1021 camel/camel-filter-driver.c:1394
-#, fuzzy, c-format
+#, c-format
 msgid "Error parsing filter: %s: %s"
-msgstr "Erro a gravar os atalhos."
+msgstr "Erro ao parsear filtro: %s: %s"
 
 #: camel/camel-filter-driver.c:1030 camel/camel-filter-driver.c:1400
-#, fuzzy, c-format
+#, c-format
 msgid "Error executing filter: %s: %s"
-msgstr "Erro a gravar os atalhos."
+msgstr "Erro ao executar filtro: %s: %s"
 
 #: camel/camel-filter-driver.c:1097
-#, fuzzy
 msgid "Unable to open spool folder"
-msgstr "Impossível abrir o livro de endereços"
+msgstr "Incapaz de abrir pasta de spool"
 
 #: camel/camel-filter-driver.c:1106
-#, fuzzy
 msgid "Unable to process spool folder"
-msgstr "Impossível abrir o livro de endereços"
+msgstr "Incapaz de processar pasta de spool"
 
 #: camel/camel-filter-driver.c:1121
-#, fuzzy, c-format
+#, c-format
 msgid "Getting message %d (%d%%)"
-msgstr "Enviar esta mensagem"
+msgstr "A receber mensagem %d (%d%%)"
 
 #: camel/camel-filter-driver.c:1125
-#, fuzzy
 msgid "Cannot open message"
-msgstr "Encontrar mensagens"
+msgstr "Incapaz de abrir mensagem"
 
 #: camel/camel-filter-driver.c:1126 camel/camel-filter-driver.c:1138
-#, fuzzy, c-format
+#, c-format
 msgid "Failed on message %d"
-msgstr "Enviar esta mensagem"
+msgstr "Falha na mensagem %d"
 
 #: camel/camel-filter-driver.c:1152 camel/camel-filter-driver.c:1246
-#, fuzzy
 msgid "Syncing folder"
-msgstr "Sincronizar"
+msgstr "A sincronizar pasta"
 
 #: camel/camel-filter-driver.c:1213
-#, fuzzy, c-format
+#, c-format
 msgid "Getting message %d of %d"
-msgstr "Enviar esta mensagem"
+msgstr "A receber mensagem %d de %d"
 
 #: camel/camel-filter-driver.c:1228
-#, fuzzy, c-format
+#, c-format
 msgid "Failed at message %d of %d"
-msgstr "Enviar esta mensagem"
+msgstr "Falha na mensagem %d de %d"
 
 #: camel/camel-filter-search.c:134
-#, fuzzy
 msgid "Failed to retrieve message"
-msgstr "Anexar um ficheiro à mensagem"
+msgstr "Falha ao receber mensagem"
 
 #: camel/camel-filter-search.c:384
 msgid "Invalid arguments to (system-flag)"
-msgstr ""
+msgstr "Argumentos inválidos para (flag-sistema)"
 
 #: camel/camel-filter-search.c:399
 msgid "Invalid arguments to (user-tag)"
-msgstr ""
+msgstr "Argumentos inválidos para (etiqueta-utilizador)"
 
 #: camel/camel-filter-search.c:657 camel/camel-filter-search.c:665
-#, fuzzy, c-format
+#, c-format
 msgid "Error executing filter search: %s: %s"
-msgstr "Erro a gravar os atalhos."
+msgstr "Erro ao executar procura de filtro: %s: %s"
 
 #: camel/camel-folder-search.c:346
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot parse search expression: %s:\n"
 "%s"
-msgstr "Não consigo abrir a localização: %s"
+msgstr ""
+"Incapaz de parsear expressão de procura: %s:\n"
+"%s"
 
 #: camel/camel-folder-search.c:356
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error executing search expression: %s:\n"
 "%s"
-msgstr "Erro a gravar os atalhos."
+msgstr ""
+"Erro ao executar expressão de procura: %s:\n"
+"%s"
 
 #: camel/camel-folder-search.c:573 camel/camel-folder-search.c:601
 msgid "(match-all) requires a single bool result"
-msgstr ""
+msgstr "(coincidir-todas) requer um único resultado boleano"
 
 #: camel/camel-folder-search.c:653
 #, c-format
 msgid "Performing query on unknown header: %s"
-msgstr ""
+msgstr "A efectuar procura em cabeçalho desconhecido: %s"
 
 #: camel/camel-folder.c:583
 #, c-format
 msgid "Unsupported operation: append message: for %s"
-msgstr ""
+msgstr "Operação não suportada: concatenar mensagem: para %s"
 
 #: camel/camel-folder.c:1161
-#, fuzzy, c-format
+#, c-format
 msgid "Unsupported operation: search by expression: for %s"
-msgstr "Erro a gravar os atalhos."
+msgstr "Operação não suportada: procurar por expressão: para %s"
 
 #: camel/camel-folder.c:1201
-#, fuzzy, c-format
+#, c-format
 msgid "Unsupported operation: search by uids: for %s"
-msgstr "Erro a gravar os atalhos."
+msgstr "Operação não suportada: procura por uids: para %s"
 
 #: camel/camel-folder.c:1319
-#, fuzzy
 msgid "Moving messages"
-msgstr "Erro a gravar os atalhos."
+msgstr "A mover mensagens"
 
 #: camel/camel-folder.c:1319
-#, fuzzy
 msgid "Copying messages"
-msgstr "Encontrar mensagens"
+msgstr "A copiar mensagens"
 
 #: camel/camel-gpg-context.c:724
 #, c-format
@@ -8450,14 +8404,17 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Encontrado estado de mensagem GnuPG inesperado:\n"
+"\n"
+"%s"
 
 #: camel/camel-gpg-context.c:738
 msgid "Failed to parse gpg userid hint."
-msgstr ""
+msgstr "Falha ao parsear dica id utilizador gpg."
 
 #: camel/camel-gpg-context.c:761
 msgid "Failed to parse gpg passphrase request."
-msgstr ""
+msgstr "Falha ao parsear pedido frase-senha gpg."
 
 #: camel/camel-gpg-context.c:769
 #, c-format
@@ -8465,204 +8422,206 @@ msgid ""
 "You need a passphrase to unlock the key for\n"
 "user: \"%s\""
 msgstr ""
+"Necessita de uma frase-senha para destrancar a chave\n"
+"para o utilizador: \"%s\""
 
 #: camel/camel-gpg-context.c:780 camel/camel-gpg-context.c:1246
 #: camel/camel-gpg-context.c:1353 camel/camel-gpg-context.c:1428
 #: camel/camel-gpg-context.c:1485 mail/mail-send-recv.c:565
 msgid "Cancelled."
-msgstr ""
+msgstr "Cancelado."
 
 #: camel/camel-gpg-context.c:798
 msgid "Failed to unlock secret key: 3 bad passphrases given."
-msgstr ""
+msgstr "Falha ao destrancar chave secreta: indicadas 3 frases-senha incorrectas."
 
 #: camel/camel-gpg-context.c:804
 #, c-format
 msgid "Unexpected response from GnuPG: %s"
-msgstr ""
+msgstr "Resposta de GnuPG inesperada: %s"
 
 #: camel/camel-gpg-context.c:814
-#, fuzzy
 msgid "No data provided"
-msgstr "(Nenhuma pasta mostrada)"
+msgstr "Nenhuns dados indicados"
 
 #: camel/camel-gpg-context.c:857
 msgid "Failed to encrypt: No valid recipients specified."
-msgstr ""
+msgstr "Falha ao encriptar: Nenhum recipiente válido especificado."
 
 #: camel/camel-gpg-context.c:1122
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Failed to GPG %s: %s\n"
 "\n"
 "%.*s"
-msgstr "Anexar um ficheiro à mensagem"
+msgstr ""
+"Falha no GPG %s: %s\n"
+"\n"
+"%.*s"
 
 #: camel/camel-gpg-context.c:1128
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to GPG %s: %s\n"
-msgstr "Anexar um ficheiro à mensagem"
+msgstr "Failed to GPG %s: %s\n"
 
 #: camel/camel-gpg-context.c:1237 camel/camel-gpg-context.c:1530
 #: camel/camel-gpg-context.c:1580
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to execute gpg: %s"
-msgstr "Anexar um ficheiro à mensagem"
+msgstr "Falha ao executar gpg: %s"
 
 #: camel/camel-gpg-context.c:1267 camel/camel-gpg-context.c:1345
 #: camel/camel-gpg-context.c:1419 camel/camel-gpg-context.c:1449
 #: camel/camel-gpg-context.c:1476 camel/camel-gpg-context.c:1506
-#, fuzzy
 msgid "Failed to execute gpg."
-msgstr "Anexar um ficheiro à mensagem"
+msgstr "Falha ao executar gpg."
 
 #: camel/camel-gpg-context.c:1330
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
-msgstr "Criar um novo calendário"
+msgstr ""
+"Incapaz de verificar assinatura da mensagem: incapaz de criar ficheiro temporário: %s"
 
 #: camel/camel-lock-client.c:111
 #, c-format
 msgid "Cannot build locking helper pipe: %s"
-msgstr ""
+msgstr "Incapaz de criar canal auxiliar de tranca: %s"
 
 #: camel/camel-lock-client.c:124
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot fork locking helper: %s"
-msgstr "Não consigo abrir a localização: %s"
+msgstr "Incapaz de fazer fork do auxiliar de tranca: %s"
 
 #: camel/camel-lock-client.c:202 camel/camel-lock-client.c:225
 #, c-format
 msgid "Could not lock '%s': protocol error with lock-helper"
-msgstr ""
+msgstr "Incapaz de trancar '%s': erro de protocolo com auxiliar-tranca"
 
 #: camel/camel-lock-client.c:215
-#, fuzzy, c-format
+#, c-format
 msgid "Could not lock '%s'"
-msgstr "Criar um novo calendário"
+msgstr "Incapaz de trancar '%s'"
 
 #: camel/camel-lock.c:92 camel/camel-lock.c:113
 #, c-format
 msgid "Could not create lock file for %s: %s"
-msgstr ""
+msgstr "Incapaz de criar ficheiro de tranca para %s: %s"
 
 #: camel/camel-lock.c:154
 #, c-format
 msgid "Timed out trying to get lock file on %s. Try again later."
-msgstr ""
+msgstr "Tempo expirou ao tentar obter ficheiro de tranca sobre %s. Tente mais tarde."
 
 #: camel/camel-lock.c:209
 #, c-format
 msgid "Failed to get lock using fcntl(2): %s"
-msgstr ""
+msgstr "Falha ao obter tranca utilizando fcntl(2): %s"
 
 #: camel/camel-lock.c:272
 #, c-format
 msgid "Failed to get lock using flock(2): %s"
-msgstr ""
+msgstr "Falha ao obter tranca utilizando flock(2): %s"
 
 #: camel/camel-movemail.c:107
 #, c-format
 msgid "Could not check mail file %s: %s"
-msgstr ""
+msgstr "Incapaz de verificar ficheiro de correio %s: %s"
 
 #: camel/camel-movemail.c:120
 #, c-format
 msgid "Could not open mail file %s: %s"
-msgstr ""
+msgstr "Incapaz de abrir ficheiro de correio %s: %s"
 
 #: camel/camel-movemail.c:128
 #, c-format
 msgid "Could not open temporary mail file %s: %s"
-msgstr ""
+msgstr "Incapaz de abrir ficheiro temporário de correio %s: %s"
 
 #: camel/camel-movemail.c:157
 #, c-format
 msgid "Failed to store mail in temp file %s: %s"
-msgstr ""
+msgstr "Falha ao armazenar correio no ficheiro temporário %s: %s"
 
 #: camel/camel-movemail.c:187
 #, c-format
 msgid "Could not create pipe: %s"
-msgstr ""
+msgstr "Incapaz de criar canal: %s"
 
 #: camel/camel-movemail.c:199
 #, c-format
 msgid "Could not fork: %s"
-msgstr ""
+msgstr "Incapaz de fazer fork: %s"
 
 #: camel/camel-movemail.c:237
 #, c-format
 msgid "Movemail program failed: %s"
-msgstr ""
+msgstr "Aplicação movemail falhou: %s"
 
 #: camel/camel-movemail.c:238
 msgid "(Unknown error)"
-msgstr ""
+msgstr "(Erro desconhecido)"
 
 #: camel/camel-movemail.c:261
 #, c-format
 msgid "Error reading mail file: %s"
-msgstr ""
+msgstr "Erro ao ler ficheiro de correio: %s"
 
 #: camel/camel-movemail.c:272
 #, c-format
 msgid "Error writing mail temp file: %s"
-msgstr ""
+msgstr "Erro ao escrever ficheiro temporário de correio: %s"
 
 #: camel/camel-movemail.c:465 camel/camel-movemail.c:532
-#, fuzzy, c-format
+#, c-format
 msgid "Error copying mail temp file: %s"
-msgstr "Erro a gravar os atalhos."
+msgstr "Erro ao copiar ficheiro temporário de correio: %s"
 
 #: camel/camel-multipart-encrypted.c:259 camel/camel-multipart-encrypted.c:274
 msgid "Failed to decrypt MIME part: protocol error"
-msgstr ""
+msgstr "Falha ao desencriptar parte MIME: erro protocolo"
 
 #: camel/camel-multipart-encrypted.c:287
 msgid "Failed to decrypt MIME part: invalid structure"
-msgstr ""
+msgstr "Falha ao desencriptar parte MIME: estrutura inválida"
 
 #: camel/camel-multipart-encrypted.c:327
 msgid "Failed to decrypt MIME part: parse error"
-msgstr ""
+msgstr "Falha ao desencriptar parte MIME: erro parseamento"
 
 #: camel/camel-multipart-signed.c:628
 msgid "This is a digitally signed message part"
-msgstr ""
+msgstr "Esta é uma parte de mensagem assinada digitalmente"
 
 #: camel/camel-multipart-signed.c:682
-#, fuzzy
 msgid "parse error"
-msgstr "Outro"
+msgstr "erro parseamento"
 
 #: camel/camel-provider.c:132
 #, c-format
 msgid "Could not load %s: Module loading not supported on this system."
-msgstr ""
+msgstr "Incapaz de ler %s: Leitura de módulos não suportada neste sistema."
 
 #: camel/camel-provider.c:141
 #, c-format
 msgid "Could not load %s: %s"
-msgstr ""
+msgstr "Incapaz de ler %s: %s"
 
 #: camel/camel-provider.c:149
 #, c-format
 msgid "Could not load %s: No initialization code in module."
-msgstr ""
+msgstr "Incapaz de ler %s: Nenhum código de inicialização no módulo."
 
 #: camel/camel-sasl-anonymous.c:33
 msgid "Anonymous"
-msgstr ""
+msgstr "Anónimo"
 
 #: camel/camel-sasl-anonymous.c:35
 msgid "This option will connect to the server using an anonymous login."
-msgstr ""
+msgstr "Esta opção irá ligar ao servidor utilizando uma sessão anónima."
 
 #: camel/camel-sasl-anonymous.c:110 camel/camel-sasl-plain.c:87
-#, fuzzy
 msgid "Authentication failed."
-msgstr "Autenticação"
+msgstr "Autenticação falhou."
 
 #: camel/camel-sasl-anonymous.c:119
 #, c-format
@@ -8670,6 +8629,8 @@ msgid ""
 "Invalid email address trace information:\n"
 "%s"
 msgstr ""
+"Informação de rasto de endereço email inválida:\n"
+"%s"
 
 #: camel/camel-sasl-anonymous.c:131
 #, c-format
@@ -8677,6 +8638,8 @@ msgid ""
 "Invalid opaque trace information:\n"
 "%s"
 msgstr ""
+"Informação opaca de rasto inválida:\n"
+"%s"
 
 #: camel/camel-sasl-anonymous.c:143
 #, c-format
@@ -8684,129 +8647,145 @@ msgid ""
 "Invalid trace information:\n"
 "%s"
 msgstr ""
+"Informação de rasto inválida:\n"
+"%s"
 
 #: camel/camel-sasl-cram-md5.c:35
 msgid "CRAM-MD5"
-msgstr ""
+msgstr "CRAM-MD5"
 
 #: camel/camel-sasl-cram-md5.c:37
 msgid ""
 "This option will connect to the server using a secure CRAM-MD5 password, if "
 "the server supports it."
 msgstr ""
+"Esta opção irá ligar ao servidor utilizando uma senha CRAM-MD5 segura, caso o "
+"servidor o suporte."
 
 #: camel/camel-sasl-digest-md5.c:46
 msgid "DIGEST-MD5"
-msgstr ""
+msgstr "DIGEST-MD5"
 
 #: camel/camel-sasl-digest-md5.c:48
 msgid ""
 "This option will connect to the server using a secure DIGEST-MD5 password, "
 "if the server supports it."
 msgstr ""
+"Esta opção irá ligar ao servidor utilizando uma senha DIGEST-MD5 segura, caso "
+"o servidor o suporte."
 
 #: camel/camel-sasl-digest-md5.c:813
 msgid "Server challenge too long (>2048 octets)\n"
-msgstr ""
+msgstr "Desafio de servidor demasiado longo (>2048 octetos)\n"
 
 #: camel/camel-sasl-digest-md5.c:822
 msgid "Server challenge invalid\n"
-msgstr ""
+msgstr "Desafio de servidor inválido\n"
 
 #: camel/camel-sasl-digest-md5.c:828
 msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
-msgstr ""
+msgstr "Desafio de servidor continha bloco \"Qualidade da Protecção\" inválido\n"
 
 #: camel/camel-sasl-digest-md5.c:850
 msgid "Server response did not contain authorization data\n"
-msgstr ""
+msgstr "Resposta de servidor não continha dados de autorização\n"
 
 #: camel/camel-sasl-digest-md5.c:868
 msgid "Server response contained incomplete authorization data\n"
-msgstr ""
+msgstr "Resposta de servidor continha dados de autorização incompletos\n"
 
 #: camel/camel-sasl-digest-md5.c:878
 msgid "Server response does not match\n"
-msgstr ""
+msgstr "Resposta de servidor não coincide\n"
 
 #: camel/camel-sasl-gssapi.c:40
 msgid "GSSAPI"
-msgstr ""
+msgstr "GSSAPI"
 
 #: camel/camel-sasl-gssapi.c:42
 msgid "This option will connect to the server using Kerberos 5 authentication."
-msgstr ""
+msgstr "Esta opção irá ligar ao servidor utilizando autenticação Kerberos 5."
 
 #: camel/camel-sasl-gssapi.c:133
 msgid ""
 "The specified mechanism is not supported by the provided credential, or is "
 "unrecognized by the implementation."
 msgstr ""
+"O mecanismo especificado não é suportado pela credencial disponibilizada, ou "
+"não é reconhecido pela implementação."
 
 #: camel/camel-sasl-gssapi.c:138
 msgid "The provided target_name parameter was ill-formed."
-msgstr ""
+msgstr "O parâmetro nome_destino indicado estava mal-formado."
 
 #: camel/camel-sasl-gssapi.c:141
 msgid ""
 "The provided target_name parameter contained an invalid or unsupported type "
 "of name."
 msgstr ""
+"O parâmetro nome_destino indicado continha um tipo de nome inválido ou não "
+"suportado."
 
 #: camel/camel-sasl-gssapi.c:145
 msgid ""
 "The input_token contains different channel bindings to those specified via "
 "the input_chan_bindings parameter."
 msgstr ""
+"O bloco_entrada contém ligações de canal diferentes das especificadas pelo "
+"parâmtro ligações_canal_entrada."
 
 #: camel/camel-sasl-gssapi.c:150
 msgid ""
 "The input_token contains an invalid signature, or a signature that could not "
 "be verified."
 msgstr ""
+"O bloco_entrada contém uma assinatura inválida, ou uma assinatura que não pode "
+"ser verificada."
 
 #: camel/camel-sasl-gssapi.c:154
 msgid ""
 "The supplied credentials were not valid for context initiation, or the "
 "credential handle did not reference any credentials."
 msgstr ""
+"As credenciais disponibilizadas não eram válidas para inicialização de "
+"contexto, ou o gestor de credenciais não referenciaou quaisquer credenciais."
 
 #: camel/camel-sasl-gssapi.c:159
 msgid ""
 "Indicates that the supplied context handle did not refer to a valid context."
 msgstr ""
+"Indica que o gestor de contexto disponibilizado não se referia a um contexto válido."
 
 #: camel/camel-sasl-gssapi.c:163
 msgid "Indicates that consistency checks performed on the input_token failed."
-msgstr ""
+msgstr "Indica que verificações de consistência efectuados no bloco_entrada falharam."
 
 #: camel/camel-sasl-gssapi.c:167
 msgid "The consistency checks performed on the credential failed."
-msgstr ""
+msgstr "As verificações de consistência efectuadas à credencial falharam."
 
 #: camel/camel-sasl-gssapi.c:170
 msgid "The referenced credentials have expired."
-msgstr ""
+msgstr "As credenciais de referência expiraram."
 
 #: camel/camel-sasl-gssapi.c:177 camel/camel-sasl-gssapi.c:222
 #: camel/camel-sasl-gssapi.c:257 camel/camel-sasl-gssapi.c:273
 #: camel/camel-sasl-kerberos4.c:219
 #: camel/providers/imap/camel-imap-store.c:1052
 msgid "Bad authentication response from server."
-msgstr ""
+msgstr "Resposta de autenticação do servidor inválida."
 
 #: camel/camel-sasl-gssapi.c:281
-#, fuzzy
 msgid "Unsupported security layer."
-msgstr "Transporte de correio"
+msgstr "Camada de segurança não suportada."
 
 #: camel/camel-sasl-kerberos4.c:41
 msgid "Kerberos 4"
-msgstr ""
+msgstr "Kerberos 4"
 
 #: camel/camel-sasl-kerberos4.c:43
 msgid "This option will connect to the server using Kerberos 4 authentication."
-msgstr ""
+msgstr "Esta opção irá ligar ao servidor utilizando autenticação Kerberos 4."
 
 #: camel/camel-sasl-kerberos4.c:162
 #, c-format
@@ -8814,121 +8793,121 @@ msgid ""
 "Could not get Kerberos ticket:\n"
 "%s"
 msgstr ""
+"Incapaz de obter bilhete Kerberos:\n"
+"%s"
 
 #: camel/camel-sasl-login.c:32
-#, fuzzy
 msgid "Login"
-msgstr "Hoje"
+msgstr "Sessão"
 
 #: camel/camel-sasl-login.c:34 camel/camel-sasl-plain.c:34
 msgid "This option will connect to the server using a simple password."
-msgstr ""
+msgstr "Esta opção irá ligar ao servidor utilizando uma senha simples."
 
 #: camel/camel-sasl-login.c:127
-#, fuzzy
 msgid "Unknown authentication state."
-msgstr "Autenticação"
+msgstr "Estado de autenticação desconhecido."
 
 #: camel/camel-sasl-ntlm.c:31
 msgid "NTLM / SPA"
-msgstr ""
+msgstr "NTLM / SPA"
 
 #: camel/camel-sasl-ntlm.c:33
 msgid ""
 "This option will connect to a Windows-based server using NTLM / Secure "
 "Password Authentication."
 msgstr ""
+"Esta opção irá ligar a um servidor baseado em Windows utilizando NTLM / "
+"Autenticação Segura Senha."
 
 #: camel/camel-sasl-plain.c:32
 msgid "PLAIN"
-msgstr ""
+msgstr "PLAIN"
 
 #: camel/camel-sasl-popb4smtp.c:34
 msgid "POP before SMTP"
-msgstr ""
+msgstr "POP antes SMTP"
 
 #: camel/camel-sasl-popb4smtp.c:36
 msgid "This option will authorise a POP connection before attempting SMTP"
-msgstr ""
+msgstr "Esta opção irá autorizar uma ligação POP antes de tentar SMTP"
 
 #: camel/camel-sasl-popb4smtp.c:107
-#, fuzzy
 msgid "POP Source URI"
-msgstr "Fontes"
+msgstr "URI Origem POP"
 
 #: camel/camel-sasl-popb4smtp.c:111
 msgid "POP Before SMTP auth using an unknown transport"
-msgstr ""
+msgstr "Autenticação POP Antes SMTP a utilizar transporte desconhecido"
 
 #: camel/camel-sasl-popb4smtp.c:116
 msgid "POP Before SMTP auth using a non-pop source"
-msgstr ""
+msgstr "Autenticação POP Antes SMTP a utilizar origem não-pop"
 
 #: camel/camel-search-private.c:114
 #, c-format
 msgid "Regular expression compilation failed: %s: %s"
-msgstr ""
+msgstr "Compilação de expressão regular falhou: %s: %s"
 
 #: camel/camel-service.c:282
 #, c-format
 msgid "URL '%s' needs a username component"
-msgstr ""
+msgstr "URL '%s' necessita de um componente utilizador"
 
 #: camel/camel-service.c:290
 #, c-format
 msgid "URL '%s' needs a host component"
-msgstr ""
+msgstr "URL '%s' necessita de um componente servidor"
 
 #: camel/camel-service.c:298
 #, c-format
 msgid "URL '%s' needs a path component"
-msgstr ""
+msgstr "URL '%s' necessita de um componente caminho"
 
 #: camel/camel-service.c:741
 #, c-format
 msgid "Resolving: %s"
-msgstr ""
+msgstr "A resolver: %s"
 
 #: camel/camel-service.c:773 camel/camel-service.c:885
 #, c-format
 msgid "Failure in name lookup: %s"
-msgstr ""
+msgstr "Falha ao procurar nome: %s"
 
 #: camel/camel-service.c:799
 #, c-format
 msgid "Host lookup failed: %s: host not found"
-msgstr ""
+msgstr "Falha ao procurar servidor: %s: servidor não encontrado"
 
 #: camel/camel-service.c:801
 #, c-format
 msgid "Host lookup failed: %s: unknown reason"
-msgstr ""
+msgstr "Falha ao procurar servidor: %s: razão desconhecida"
 
 #: camel/camel-service.c:851
-#, fuzzy
 msgid "Resolving address"
-msgstr "Abrir ficheiro"
+msgstr "A resolver endereço"
 
 #: camel/camel-service.c:913
 msgid "Host lookup failed: host not found"
-msgstr ""
+msgstr "Falha ao procurar servidor: servidor não encontrado"
 
 #: camel/camel-service.c:916
 msgid "Host lookup failed: unknown reason"
-msgstr ""
+msgstr "Falha ao procurar servidor: razão desconhecida"
 
 #: camel/camel-session.c:75
 msgid "Virtual folder email provider"
-msgstr ""
+msgstr "Fornecedor de pasta virtual de email"
 
 #: camel/camel-session.c:77
 msgid "For reading mail as a query of another set of folders"
-msgstr ""
+msgstr "Para ler correio como uma consulta de outro conjunto de pastas"
 
 #: camel/camel-session.c:354 camel/camel-session.c:422
 #, c-format
 msgid "No provider available for protocol `%s'"
-msgstr ""
+msgstr "Nenhum fornecedor disponível para o protocolo `%s'"
 
 #: camel/camel-session.c:548
 #, c-format
@@ -8936,174 +8915,169 @@ msgid ""
 "Could not create directory %s:\n"
 "%s"
 msgstr ""
+"Incapaz de criar directório %s:\n"
+"%s"
 
 #: camel/camel-smime-context.c:171
 #, c-format
 msgid "Please enter your password for %s"
-msgstr ""
+msgstr "Introduza a sua senha para %s"
 
 #: camel/camel-smime-context.c:201
 msgid "Please indicate the nickname of a certificate to sign with."
-msgstr ""
+msgstr "Indique a alcunha de um certificado com que se autenticar."
 
 #: camel/camel-smime-context.c:207
 #, c-format
 msgid "The signature certificate for \"%s\" does not exist."
-msgstr ""
+msgstr "O certificado de assinatura para \"%s\" não existe."
 
 #: camel/camel-smime-context.c:247
 #, c-format
 msgid "The encryption certificate for \"%s\" does not exist."
-msgstr ""
+msgstr "O certificado de encriptação para \"%s\" não existe."
 
 #: camel/camel-smime-context.c:417 camel/camel-smime-context.c:428
 #: camel/camel-smime-context.c:534 camel/camel-smime-context.c:544
 #, c-format
 msgid "Failed to find certificate for \"%s\"."
-msgstr ""
+msgstr "Falha ao procurar certificado para \"%s\"."
 
 #: camel/camel-smime-context.c:554
 msgid "Failed to find a common bulk algorithm."
-msgstr ""
+msgstr "Falha ao procurar um algorítmo bulk comum."
 
 #: camel/camel-smime-context.c:808
-#, fuzzy
 msgid "Failed to decode message."
-msgstr "Anexar um ficheiro à mensagem"
+msgstr "Falha ao descodificar mensagem."
 
 #: camel/camel-smime-context.c:853
 msgid "Failed to verify certificates."
-msgstr ""
+msgstr "Falha ao verificar certificados."
 
 #: camel/camel-store.c:214
-#, fuzzy
 msgid "Cannot get folder: Invalid operation on this store"
-msgstr "Não consigo abrir a localização: %s"
+msgstr "Incapaz de obter pasta: Operação inválida neste armazenamento"
 
 #: camel/camel-store.c:268
-#, fuzzy
 msgid "Cannot create folder: Invalid operation on this store"
-msgstr "Não consigo abrir a localização: %s"
+msgstr "Incapaz de criar pasta: Operação inválida neste armazenamento"
 
 #: camel/camel-tcp-stream-openssl.c:571
 msgid "Unable to get issuer's certificate"
-msgstr ""
+msgstr "Incapaz de obter certificado do emissor"
 
 #: camel/camel-tcp-stream-openssl.c:573
 msgid "Unable to get Certificate Revocation List"
-msgstr ""
+msgstr "Incapaz de obter lista de Revogação Certificados"
 
 #: camel/camel-tcp-stream-openssl.c:575
 msgid "Unable to decrypt certificate signature"
-msgstr ""
+msgstr "Incapaz de desencriptar assinatura do certificado"
 
 #: camel/camel-tcp-stream-openssl.c:577
 msgid "Unable to decrypt Certificate Revocation List signature"
-msgstr ""
+msgstr "Incapaz de desencriptar assinatura da Lista Revogação Certificados"
 
 #: camel/camel-tcp-stream-openssl.c:579
 msgid "Unable to decode issuer's public key"
-msgstr ""
+msgstr "Incapaz de descodificar chave pública do emissor"
 
 #: camel/camel-tcp-stream-openssl.c:581
-#, fuzzy
 msgid "Certificate signature failure"
-msgstr "Não se consegui inicializar Bonobo"
+msgstr "Falha na assinatura do certificado"
 
 #: camel/camel-tcp-stream-openssl.c:583
 msgid "Certificate Revocation List signature failure"
-msgstr ""
+msgstr "Falha na assinatura da Lista Revogação Certificados"
 
 #: camel/camel-tcp-stream-openssl.c:585
 msgid "Certificate not yet valid"
-msgstr ""
+msgstr "Certificado ainda não é válido"
 
 #: camel/camel-tcp-stream-openssl.c:587
 msgid "Certificate has expired"
-msgstr ""
+msgstr "Certificado expirou"
 
 #: camel/camel-tcp-stream-openssl.c:589
 msgid "CRL not yet valid"
-msgstr ""
+msgstr "LRC ainda não é válido"
 
 #: camel/camel-tcp-stream-openssl.c:591
 msgid "CRL has expired"
-msgstr ""
+msgstr "LRC expirou"
 
 #: camel/camel-tcp-stream-openssl.c:596
-#, fuzzy
 msgid "Error in CRL"
-msgstr "Erro a gravar os atalhos."
+msgstr "Erro na LRC"
 
 #: camel/camel-tcp-stream-openssl.c:598
-#, fuzzy
 msgid "Out of memory"
-msgstr "Fora do escritório"
+msgstr "Memória esgotada"
 
 #: camel/camel-tcp-stream-openssl.c:600
 msgid "Zero-depth self-signed certificate"
-msgstr ""
+msgstr "Certificado profundidade-zero assinado pelo próprio"
 
 #: camel/camel-tcp-stream-openssl.c:602
 msgid "Self-signed certificate in chain"
-msgstr ""
+msgstr "Certificado assinado pelo próprio em cadeia"
 
 #: camel/camel-tcp-stream-openssl.c:604
 msgid "Unable to get issuer's certificate locally"
-msgstr ""
+msgstr "Incapaz de obter localmente certificado do emissor"
 
 #: camel/camel-tcp-stream-openssl.c:606
 msgid "Unable to verify leaf signature"
-msgstr ""
+msgstr "Incapaz de verificar assinatura de folha"
 
 #: camel/camel-tcp-stream-openssl.c:608
 msgid "Certificate chain too long"
-msgstr ""
+msgstr "Cadeia certificado demasiado longa"
 
 #: camel/camel-tcp-stream-openssl.c:610
 msgid "Certificate Revoked"
-msgstr ""
+msgstr "Certificado Revogado"
 
 #: camel/camel-tcp-stream-openssl.c:612
 msgid "Invalid Certificate Authority (CA)"
-msgstr ""
+msgstr "Autoridade Certificação (CA) inválida"
 
 #: camel/camel-tcp-stream-openssl.c:614
 msgid "Path length exceeded"
-msgstr ""
+msgstr "Comprimento caminho excedido"
 
 #: camel/camel-tcp-stream-openssl.c:616
-#, fuzzy
 msgid "Invalid purpose"
-msgstr "Novo Ca_lendário"
+msgstr "Propósito inválido"
 
 #: camel/camel-tcp-stream-openssl.c:618
 msgid "Certificate untrusted"
-msgstr ""
+msgstr "Certificado não é de confiança"
 
 #: camel/camel-tcp-stream-openssl.c:620
 msgid "Certificate rejected"
-msgstr ""
+msgstr "Certificado rejeitado"
 
 #: camel/camel-tcp-stream-openssl.c:623
 msgid "Subject/Issuer mismatch"
-msgstr ""
+msgstr "Assunto/Emissor não coincidem"
 
 #: camel/camel-tcp-stream-openssl.c:625
 msgid "AKID/SKID mismatch"
-msgstr ""
+msgstr "AKID/SKID não coincidem"
 
 #: camel/camel-tcp-stream-openssl.c:627
 msgid "AKID/Issuer serial mismatch"
-msgstr ""
+msgstr "Série AKID/Emissor não coincidem"
 
 #: camel/camel-tcp-stream-openssl.c:629
 msgid "Key usage does not support certificate signing"
-msgstr ""
+msgstr "Utilização de chave não suporta assinatura de certificados"
 
 #: camel/camel-tcp-stream-openssl.c:632
 msgid "Error in application verification"
-msgstr ""
+msgstr "Erro na verificação de aplicação"
 
 #: camel/camel-tcp-stream-openssl.c:699 camel/camel-tcp-stream-ssl.c:811
 #, c-format
@@ -9113,14 +9087,18 @@ msgid ""
 "Fingerprint:       %s\n"
 "Signature:         %s"
 msgstr ""
+"Emissor:           %s\n"
+"Assunto:           %s\n"
+"Impressão-Digital: %s\n"
+"Assinatura:        %s"
 
 #: camel/camel-tcp-stream-openssl.c:705 camel/camel-tcp-stream-ssl.c:817
 msgid "GOOD"
-msgstr ""
+msgstr "BOA"
 
 #: camel/camel-tcp-stream-openssl.c:705 camel/camel-tcp-stream-ssl.c:817
 msgid "BAD"
-msgstr ""
+msgstr "MÁ"
 
 #: camel/camel-tcp-stream-openssl.c:707
 #, c-format
@@ -9133,6 +9111,13 @@ msgid ""
 "\n"
 "Do you wish to accept anyway?"
 msgstr ""
+"Certificado inválido de %s:\n"
+"\n"
+"%s\n"
+"\n"
+"%s\n"
+"\n"
+"Ainda assim deseja aceitar?"
 
 #. construct our user prompt
 #: camel/camel-tcp-stream-ssl.c:821
@@ -9144,6 +9129,11 @@ msgid ""
 "\n"
 "Do you wish to accept?"
 msgstr ""
+"Verificação de Certificado SSL para %s:\n"
+"\n"
+"%s\n"
+"\n"
+"Deseja aceita-lo?"
 
 #: camel/camel-tcp-stream-ssl.c:865
 #, c-format
@@ -9151,6 +9141,8 @@ msgid ""
 "Certificate problem: %s\n"
 "Issuer: %s"
 msgstr ""
+"Problema de certificado: %s\n"
+"Emissor: %s"
 
 #: camel/camel-tcp-stream-ssl.c:917
 #, c-format
@@ -9158,6 +9150,8 @@ msgid ""
 "Bad certificate domain: %s\n"
 "Issuer: %s"
 msgstr ""
+"Domínio certificao inválido: %s\n"
+"Emissor: %s"
 
 #: camel/camel-tcp-stream-ssl.c:935
 #, c-format
@@ -9165,6 +9159,8 @@ msgid ""
 "Certificate expired: %s\n"
 "Issuer: %s"
 msgstr ""
+"Certificado expirou: %s\n"
+"Emissor: %s"
 
 #: camel/camel-tcp-stream-ssl.c:952
 #, c-format
@@ -9172,60 +9168,60 @@ msgid ""
 "Certificate revocation list expired: %s\n"
 "Issuer: %s"
 msgstr ""
+"Lista Revogação Certificados expirou: %s\n"
+"Emissor: %s"
 
 #: camel/camel-url.c:289
-#, fuzzy, c-format
+#, c-format
 msgid "Could not parse URL `%s'"
-msgstr "Criar um novo calendário"
+msgstr "Incapaz de parsear URL `%s'"
 
 #: camel/camel-vee-folder.c:618
-#, fuzzy, c-format
+#, c-format
 msgid "Error storing `%s': %s"
-msgstr "Erro a gravar os atalhos."
+msgstr "Erro ao armazenar `%s': %s"
 
 #: camel/camel-vee-folder.c:656
-#, fuzzy, c-format
+#, c-format
 msgid "No such message %s in %s"
-msgstr "Enviar a mensagem"
+msgstr "Nenhuma mensagem %s em %s"
 
 #: camel/camel-vee-folder.c:819 camel/camel-vee-folder.c:825
-#, fuzzy
 msgid "Cannot copy or move messages into a Virtual Folder"
-msgstr "Verificar novo correio"
+msgstr "Incapaz de copiar ou mover mensagens para uma Pasta Virtual"
 
 #: camel/camel-vee-store.c:262
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot delete folder: %s: Invalid operation"
-msgstr "Não consigo abrir a localização: %s"
+msgstr "Incapaz de apagar pasta: %s: Operação inválida"
 
 #: camel/camel-vee-store.c:281
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot delete folder: %s: No such folder"
-msgstr "Não consigo abrir a localização: %s"
+msgstr "Incapaz de apagar pasta: %s: Pasta não existe"
 
 #: camel/camel-vee-store.c:294
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot rename folder: %s: Invalid operation"
-msgstr "Não consigo abrir a localização: %s"
+msgstr "Incapaz de renomear pasta: %s: Operação inválida"
 
 #: camel/camel-vee-store.c:302
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot rename folder: %s: No such folder"
-msgstr "Não consigo abrir a localização: %s"
+msgstr "Incapaz de renomear pasta: %s: Pasta não existe"
 
 #: camel/providers/imap/camel-imap-command.c:224
 #: camel/providers/imap/camel-imap-command.c:263
 #: camel/providers/imap/camel-imap-command.c:452
 #: camel/providers/imap/camel-imap-store.c:2642
-#, fuzzy
 msgid "Operation cancelled"
-msgstr "Abrir calendário"
+msgstr "Operação cancelada"
 
 #: camel/providers/imap/camel-imap-command.c:308
 #: camel/providers/imap/camel-imap-store.c:2645
 #, c-format
 msgid "Server unexpectedly disconnected: %s"
-msgstr ""
+msgstr "Servidor desligou-se inesperadamente: %s"
 
 #. for imap ALERT codes, account user@host
 #: camel/providers/imap/camel-imap-command.c:326
@@ -9234,55 +9230,56 @@ msgid ""
 "Alert from IMAP server %s@%s:\n"
 "%s"
 msgstr ""
+"Alerta de servidor IMAP %s@%s:\n"
+"%s"
 
 #: camel/providers/imap/camel-imap-command.c:395
 #, c-format
 msgid "Unexpected response from IMAP server: %s"
-msgstr ""
+msgstr "Resposta inesperada de servidor IMAP: %s"
 
 #: camel/providers/imap/camel-imap-command.c:405
 #, c-format
 msgid "IMAP command failed: %s"
-msgstr ""
+msgstr "Falha no comando IMAP: %s"
 
 #: camel/providers/imap/camel-imap-command.c:462
 msgid "Server response ended too soon."
-msgstr ""
+msgstr "Resposta de servidor terminou demasiado cedo."
 
 #: camel/providers/imap/camel-imap-command.c:654
 #, c-format
 msgid "IMAP server response did not contain %s information"
-msgstr ""
+msgstr "Resposta de servidor IMAP não contém informação %s"
 
 #: camel/providers/imap/camel-imap-command.c:690
 #, c-format
 msgid "Unexpected OK response from IMAP server: %s"
-msgstr ""
+msgstr "Resposta OK inesperada de servidor IMAP: %s"
 
 #: camel/providers/imap/camel-imap-folder.c:222
 #, c-format
 msgid "Could not create directory %s: %s"
-msgstr ""
+msgstr "Incapaz de criar directório %s: %s"
 
 #: camel/providers/imap/camel-imap-folder.c:241
 #, c-format
 msgid "Could not load summary for %s"
-msgstr ""
+msgstr "Incapaz de ler resumo para %s"
 
 #: camel/providers/imap/camel-imap-folder.c:307
 msgid "Folder was destroyed and recreated on server."
-msgstr ""
+msgstr "Pasta foi destruida e recriada no servidor."
 
 #. Check UIDs and flags of all messages we already know of.
 #: camel/providers/imap/camel-imap-folder.c:549
-#, fuzzy
 msgid "Scanning for changed messages"
-msgstr "Enviar uma nova mensagem"
+msgstr "A procurar mensagens alteradas"
 
 #: camel/providers/imap/camel-imap-folder.c:1873
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to retrieve message: %s"
-msgstr "Enviar esta mensagem"
+msgstr "Incapaz de obter mensagem: %s"
 
 #: camel/providers/imap/camel-imap-folder.c:1910
 #: camel/providers/local/camel-maildir-folder.c:212
@@ -9297,157 +9294,153 @@ msgid ""
 "Cannot get message: %s\n"
 "  %s"
 msgstr ""
+"Incapaz de obter mensagem: %s\n"
+"  %s"
 
 #: camel/providers/imap/camel-imap-folder.c:1910
 #: camel/providers/local/camel-maildir-folder.c:212
 #: camel/providers/local/camel-mbox-folder.c:351
 #: camel/providers/local/camel-mh-folder.c:201
-#, fuzzy
 msgid "No such message"
-msgstr "Enviar a mensagem"
+msgstr "Mensagem inexistente"
 
 #: camel/providers/imap/camel-imap-folder.c:1933
 #: camel/providers/imap/camel-imap-folder.c:2529
 msgid "This message is not currently available"
-msgstr ""
+msgstr "Esta mensagem de momento não está disponível"
 
 #: camel/providers/imap/camel-imap-folder.c:2193
 #: camel/providers/imap/camel-imap-folder.c:2263
 msgid "Fetching summary information for new messages"
-msgstr ""
+msgstr "A obter informação de resumo para novas mensagens"
 
 #: camel/providers/imap/camel-imap-folder.c:2567
 msgid "Could not find message body in FETCH response."
-msgstr ""
+msgstr "Incapaz de encontrar corpo de mensagem na resposta FETCH."
 
 #: camel/providers/imap/camel-imap-message-cache.c:155
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open cache directory: %s"
-msgstr "Criar um novo calendário"
+msgstr "Incapaz de criar directório de cache: %s"
 
 #: camel/providers/imap/camel-imap-message-cache.c:252
 #: camel/providers/imap/camel-imap-message-cache.c:309
 #: camel/providers/imap/camel-imap-message-cache.c:340
 #: camel/providers/imap/camel-imap-message-cache.c:372
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to cache message %s: %s"
-msgstr "Anexar um ficheiro à mensagem"
+msgstr "Falha ao efectuar cache de mensagem %s: %s"
 
 #: camel/providers/imap/camel-imap-message-cache.c:417
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to cache %s: %s"
-msgstr "Anexar um ficheiro à mensagem"
+msgstr "Falha ao efectuar cache %s: %s"
 
 #: camel/providers/imap/camel-imap-provider.c:43
-#, fuzzy
 msgid "Checking for new mail"
-msgstr "Verificar novo correio"
+msgstr "A verificar novo correio"
 
 #: camel/providers/imap/camel-imap-provider.c:45
-#, fuzzy
 msgid "Check for new messages in all folders"
-msgstr "Verificar novo correio"
+msgstr "A verificar novas mensagens em todas as pastas"
 
 #: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:1185
 msgid "Folders"
-msgstr "_Pastas"
+msgstr "Pastas"
 
 #: camel/providers/imap/camel-imap-provider.c:50
 msgid "Show only subscribed folders"
-msgstr ""
+msgstr "Mostrar apenas pastas subscritas"
 
 #: camel/providers/imap/camel-imap-provider.c:52
 msgid "Override server-supplied folder namespace"
-msgstr ""
+msgstr "Substituir nome-espaço de pasta indicado pelo servidor"
 
 #: camel/providers/imap/camel-imap-provider.c:54
-#, fuzzy
 msgid "Namespace"
-msgstr "Responder"
+msgstr "Nome-espaço"
 
 #: camel/providers/imap/camel-imap-provider.c:57
 msgid "Apply filters to new messages in INBOX on this server"
-msgstr ""
+msgstr "Aplicar filtros às novas mensagens na CAIXA ENTRADA neste servidor"
 
 #: camel/providers/imap/camel-imap-provider.c:63
 msgid "IMAP"
-msgstr ""
+msgstr "IMAP"
 
 #: camel/providers/imap/camel-imap-provider.c:65
 msgid "For reading and storing mail on IMAP servers."
-msgstr ""
+msgstr "Para ler e armazenar correio em servidores IMAP."
 
 #: camel/providers/imap/camel-imap-provider.c:80
 #: camel/providers/nntp/camel-nntp-store.c:267
 #: camel/providers/pop3/camel-pop3-provider.c:69 mail/mail-config.glade.h:86
-#, fuzzy
 msgid "Password"
-msgstr "Esquecer _Senhas"
+msgstr "Senha"
 
 #: camel/providers/imap/camel-imap-provider.c:82
 msgid "This option will connect to the IMAP server using a plaintext password."
-msgstr ""
+msgstr "Esta opção irá ligar a um servidor IMAP utilizando uma senha em texto simples."
 
 #: camel/providers/imap/camel-imap-store.c:457
 #, fuzzy, c-format
 msgid "IMAP server %s"
-msgstr "Servidor:"
+msgstr "Servidor IMAP %s"
 
 #: camel/providers/imap/camel-imap-store.c:459
 #, c-format
 msgid "IMAP service for %s on %s"
-msgstr ""
+msgstr "Serviço IMAP para %s em %s"
 
 #: camel/providers/imap/camel-imap-store.c:587
 #: camel/providers/nntp/camel-nntp-store.c:130
 #: camel/providers/nntp/camel-nntp-store.c:148
 #: camel/providers/pop3/camel-pop3-store.c:183
 msgid "Connection cancelled"
-msgstr ""
+msgstr "Ligação cancelada"
 
 #: camel/providers/imap/camel-imap-store.c:590
 #: camel/providers/nntp/camel-nntp-store.c:133
 #: camel/providers/smtp/camel-smtp-transport.c:275
 #, c-format
 msgid "Could not connect to %s (port %d): %s"
-msgstr ""
+msgstr "Incapaz de se ligar a %s (porto %d): %s"
 
 #: camel/providers/imap/camel-imap-store.c:649
 #: camel/providers/imap/camel-imap-store.c:680
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to connect to IMAP server %s in secure mode: %s"
-msgstr "Incapaz de estabelecer ligação com servidor LDAP."
+msgstr "Incapaz de se ligar a servidor IMAP %s em modo seguro: %s"
 
 #: camel/providers/imap/camel-imap-store.c:650
 #: camel/providers/pop3/camel-pop3-store.c:216
 msgid "SSL/TLS extension not supported."
-msgstr ""
+msgstr "Extensão SSL/TLS não suportada."
 
 #: camel/providers/imap/camel-imap-store.c:681
 #: camel/providers/pop3/camel-pop3-store.c:257
-#, fuzzy
 msgid "SSL negotiations failed"
-msgstr "Autenticação"
+msgstr "Falha na negociação SSL"
 
 #: camel/providers/imap/camel-imap-store.c:1075
 #, c-format
 msgid "IMAP server %s does not support requested authentication type %s"
-msgstr ""
+msgstr "Servidor IMAP %s não suporta tipo de autenticação %s pedido"
 
 #: camel/providers/imap/camel-imap-store.c:1085
 #: camel/providers/smtp/camel-smtp-transport.c:485
-#, fuzzy, c-format
+#, c-format
 msgid "No support for authentication type %s"
-msgstr "Autenticação"
+msgstr "Sem suporte para tipo de autenticação %s"
 
 #: camel/providers/imap/camel-imap-store.c:1108
 #, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
-msgstr ""
+msgstr "%sIntroduza a senha IMAP para %s@%s"
 
 #: camel/providers/imap/camel-imap-store.c:1122
 msgid "You didn't enter a password."
-msgstr ""
+msgstr "Não introduziu a senha."
 
 #: camel/providers/imap/camel-imap-store.c:1151
 #, c-format
@@ -9456,73 +9449,78 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
+"Incapaz de se autenticar no servidor IMAP.\n"
+"%s\n"
+"\n"
 
 #: camel/providers/imap/camel-imap-store.c:1496
 #: camel/providers/imap/camel-imap-store.c:1638
-#, fuzzy, c-format
+#, c-format
 msgid "No such folder %s"
-msgstr "Enviar a mensagem"
+msgstr "Pasta %s inexistente"
 
 #: camel/providers/imap/camel-imap-store.c:1839
 #, c-format
 msgid ""
 "The folder name \"%s\" is invalid because it containes the character \"%c\""
 msgstr ""
+"O nome de pasta \"%s\" é inválido pois contém o caracter \"%c\""
 
 #: camel/providers/imap/camel-imap-store.c:1851
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown parent folder: %s"
-msgstr "Gravar a mensagem na pasta especificada"
+msgstr "Pasta pai desconhecida: %s"
 
 #: camel/providers/imap/camel-imap-store.c:1887
 msgid "The parent folder is not allowed to contain subfolders"
-msgstr ""
+msgstr "A pasta pai não tem permissões para conter subpastas"
 
 #. $HOME relative path + protocol string
 #: camel/providers/local/camel-local-folder.c:352
-#, fuzzy, c-format
+#, c-format
 msgid "~%s (%s)"
-msgstr "%s%s"
+msgstr "~%s (%s)"
 
 #. /var/spool/mail relative path + protocol
 #: camel/providers/local/camel-local-folder.c:356
 #: camel/providers/local/camel-local-folder.c:359
-#, fuzzy, c-format
+#, c-format
 msgid "mailbox:%s (%s)"
-msgstr "Não consigo abrir a localização: %s"
+msgstr "caixa-correio: %s (%s)"
 
 #. a full path + protocol
 #: camel/providers/local/camel-local-folder.c:363
-#, fuzzy, c-format
+#, c-format
 msgid "%s (%s)"
-msgstr "%s%s"
+msgstr "%s (%s)"
 
 #: camel/providers/local/camel-local-provider.c:43
 msgid "Use the `.folders' folder summary file (exmh)"
-msgstr ""
+msgstr "Utilizar o ficheiro de resumo de pastas (exmh) `.folders'"
 
 #: camel/providers/local/camel-local-provider.c:49
 msgid "MH-format mail directories"
-msgstr ""
+msgstr "Directórios de correio formato-MH"
 
 #: camel/providers/local/camel-local-provider.c:50
 msgid "For storing local mail in MH-like mail directories."
-msgstr ""
+msgstr "Para armazenar correio localmente em directórios de correio tipo-MH."
 
 #: camel/providers/local/camel-local-provider.c:65
-#, fuzzy
 msgid "Local delivery"
-msgstr "_Pastas"
+msgstr "Entrega local"
 
 #: camel/providers/local/camel-local-provider.c:66
 msgid ""
 "For retrieving (moving) local mail from standard mbox formated spools into "
 "folders managed by Evolution."
 msgstr ""
+"Para obter (mover) correio local de spools padrão em formato mbox para pastas "
+"geridas pelo Evolution."
 
 #: camel/providers/local/camel-local-provider.c:77
 #: camel/providers/local/camel-local-provider.c:94
-#, fuzzy
+#, fuzzy VOU AQUI
 msgid "Apply filters to new messages in INBOX"
 msgstr "Imprimir a mensagem seleccionada"
 
