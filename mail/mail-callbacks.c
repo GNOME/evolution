@@ -300,6 +300,7 @@ composer_postpone_cb (EMsgComposer *composer, gpointer data)
 	/* FIXME: do we want to use post_send_data to set flags and stuff? */
 	extern CamelFolder *outbox_folder;
 	CamelMimeMessage *message;
+	struct post_send_data *psd = data;
 	const char *subject;
 	
 	/* Get the message */
@@ -316,6 +317,15 @@ composer_postpone_cb (EMsgComposer *composer, gpointer data)
 	
 	/* Save the message in Outbox */
 	mail_do_append_mail (outbox_folder, message, NULL);
+	
+	if (psd) {
+		guint32 set;
+		
+		set = camel_folder_get_message_flags (psd->folder, psd->uid);
+		camel_folder_set_message_flags (psd->folder, psd->uid,
+						psd->flags, psd->flags);
+	}
+	
 	gtk_widget_destroy (GTK_WIDGET (composer));
 }
 
