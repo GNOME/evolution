@@ -24,7 +24,7 @@
 #include "gal/widgets/e-canvas-utils.h"
 #include "e-entry.h"
 
-#define MIN_ENTRY_WIDTH  50
+#define MIN_ENTRY_WIDTH  150
 #define INNER_BORDER     2
 
 #define PARENT_TYPE gtk_table_get_type ()
@@ -157,8 +157,11 @@ e_entry_init (GtkObject *object)
 						     "draw_background", TRUE,
 						     NULL));
 	e_entry->justification = GTK_JUSTIFY_LEFT;
-	gtk_table_attach_defaults(gtk_table, GTK_WIDGET(e_entry->canvas),
-				  0, 1, 0, 1);
+	gtk_table_attach(gtk_table, GTK_WIDGET(e_entry->canvas),
+			 0, 1, 0, 1,
+			 GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			 GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			 0, 0);
 	gtk_widget_show(GTK_WIDGET(e_entry->canvas));
 
 	/*
