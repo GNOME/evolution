@@ -676,14 +676,6 @@ calendar_control_activate (BonoboControl *control,
 					 GNOME_STOCK_PIXMAP_PRINT,
 					 'p', GDK_CONTROL_MASK,
 					 file_print_cb, cal);
-	bonobo_ui_handler_menu_new_item (uih, "/File/Close", N_("_Close Calendar"),
-					 N_("Close current calendar"),
-					 -1, BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0, close_cmd, cal);
-	/*bonobo_ui_handler_menu_new_item (uih, "/File/Exit",
-					 N_("_Exit"), N_("Exit"),
-					 -1, BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0, quit_cmd, cal);	*/
 
 	/* edit menu */
 	bonobo_ui_handler_menu_new_item (uih, "/Edit/New Appointment",
