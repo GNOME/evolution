@@ -1,3 +1,8 @@
+2001-11-07  Hector Garcia Alvarez <hector@scouts-es.org>
+
+        * es.po: Updated Spanish translation. Added patches from Carlos
+	Perello.
+	
 2001-11-07  Abel Cheung  <maddog@linux.org.hk>
 
 	* zh_TW.po: Merged to new pot file.
