@@ -1112,7 +1112,7 @@ em_folder_tree_model_get_selected (EMFolderTreeModel *model)
 	
 	node = model->state ? model->state->children : NULL;
 	if (!node || strcmp (node->name, "tree-state") != 0)
-		return FALSE;
+		return NULL;
 	
 	node = node->children;
 	while (node != NULL) {
