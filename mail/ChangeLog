@@ -1,3 +1,8 @@
+2004-11-02  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-folder-view.c (emfv_list_done_message_selected): Check for
+	NULL messages (happens if the message isn't available).
+
 2004-11-02  Radek Doulik  <rodo@ximian.com>
 
 	* em-format-html.c: replace 3 nested html tables used to create

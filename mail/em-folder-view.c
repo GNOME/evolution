@@ -1997,7 +1997,7 @@ emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeM
 	EMEvent *eme;
 	EMEventTargetMessage *target;
 	
-	if (emfv->preview == NULL) {
+	if (emfv->preview == NULL || msg == NULL) {
 		emfv->priv->nomarkseen = FALSE;
 		g_object_unref (emfv);
 		emfv_enable_menus(emfv);
@@ -2023,11 +2023,11 @@ emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeM
 	if (msg && emfv->mark_seen && !emfv->priv->nomarkseen) {
 		if (emfv->mark_seen_timeout > 0) {
 			struct mst_t *mst;
-		
+			
 			mst = g_new (struct mst_t, 1);
 			mst->emfv = emfv;
 			mst->uid = g_strdup (uid);
-		
+			
 			emfv->priv->seen_id = g_timeout_add_full(G_PRIORITY_DEFAULT_IDLE, emfv->mark_seen_timeout,
 								 (GSourceFunc)do_mark_seen, mst, (GDestroyNotify)mst_free);
 		} else {
