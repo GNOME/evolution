@@ -369,7 +369,7 @@ sig_add_script_response (GtkWidget *widget, int button, EMComposerPrefs *prefs)
 		if (script && *script && g_shell_parse_argv (script, &argc, &argv, NULL)) {
 			struct stat st;
 			
-			if (stat (argv[0], &st) && S_ISREG (st.st_mode) && access (argv[0], X_OK) == 0) {
+			if (stat (argv[0], &st) == 0 && S_ISREG (st.st_mode) && access (argv[0], X_OK) == 0) {
 				GtkWidget *parent;
 				ESignature *sig;
 				
