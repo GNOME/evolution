@@ -471,8 +471,9 @@ e_text_destroy (GtkObject *object)
 	if (text->invisible)
 		gtk_object_unref (GTK_OBJECT(text->invisible));
 
-	if (text->lines)
-		g_free (text->lines);
+	g_free (text->lines);
+	g_free (text->primary_selection);
+	g_free (text->clipboard_selection);
 
 	if (text->font)
 		e_font_unref (text->font);
@@ -3728,15 +3729,11 @@ e_text_supply_selection (EText *text, guint time, GdkAtom selection, guchar *dat
 	invisible = e_text_get_invisible(text);
 
 	if (selection == GDK_SELECTION_PRIMARY ) {
-		if (text->primary_selection) {
-			g_free (text->primary_selection);
-		}
+		g_free (text->primary_selection);
 		text->primary_selection = g_strndup(data, length);
 		text->primary_length = length;
 	} else if (selection == clipboard_atom) {
-		if (text->clipboard_selection) {
-			g_free (text->clipboard_selection);
-		}
+		g_free (text->clipboard_selection);
 		text->clipboard_selection = g_strndup(data, length);
 		text->clipboard_length = length;
 	}
