@@ -1,5 +1,12 @@
 2003-12-03  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-folder-selector.c (emfs_create_name_activate): Emit the OK
+	response, not the CREATE_NEW response. Also,
+	g_signal_emit_by_name() does not take a GQuark detail argument, so
+	don't pass one. Fixes bug #51661.
+
+2003-12-03  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* em-folder-view.c (emfv_set_folder): Sync the folder before
 	replacing it with the new folder.
 

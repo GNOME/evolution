@@ -229,7 +229,7 @@ em_folder_selector_new (EMFolderTree *emft, guint32 flags, const char *title, co
 static void
 emfs_create_name_activate (GtkEntry *entry, EMFolderSelector *emfs)
 {
-	g_signal_emit_by_name (emfs, "response", 0, EM_FOLDER_SELECTOR_RESPONSE_NEW);
+	g_signal_emit_by_name (emfs, "response", GTK_RESPONSE_OK);
 }
 
 GtkWidget *
