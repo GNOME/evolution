@@ -1,3 +1,7 @@
+2002-11-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* *.glade: Converted to libglade-2's format.
+
 2002-11-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-composer-prefs.c: Ported.
