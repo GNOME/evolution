@@ -115,6 +115,8 @@ destroy (GtkObject *obj)
 		g_free (url_entry->priv);
 		url_entry->priv = NULL;
 	}
+
+	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
 }
 
 
