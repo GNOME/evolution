@@ -468,6 +468,7 @@ find_inbox_in_storage (EShellView *shell_view,
 	EShellViewPrivate *priv;
 	EStorageSet *storage_set;
 	EStorage *storage;
+	char *casefold_i18n_inbox_name;
 	GList *subfolder_paths;
 	GList *p;
 
@@ -475,23 +476,22 @@ find_inbox_in_storage (EShellView *shell_view,
 	storage_set = e_shell_get_storage_set (priv->shell);
 	storage = e_storage_set_get_storage (storage_set, storage_name);
 
+	casefold_i18n_inbox_name = g_utf8_casefold (_("Inbox"), -1);
+
 	subfolder_paths = e_storage_get_subfolder_paths (storage, "/");
 	for (p = subfolder_paths; p != NULL; p = p->next) {
 		const char *path;
-		char *casefold_i18n_inbox_name;
 		char *casefold_path;
 
 		path = (const char *) p->data;
 
-		casefold_i18n_inbox_name = g_utf8_casefold (_("Inbox"), -1);
-		casefold_path = g_utf8_casefold (path + 1, -1);
+		casefold_path = g_utf8_casefold (path, -1);
 
 		if (g_utf8_collate (casefold_path, "/inbox") == 0
-		    || g_utf8_collate (casefold_path + 1, _("Inbox")) == 0) {
+		    || g_utf8_collate (casefold_path + 1, casefold_i18n_inbox_name) == 0) {
 			char *return_path;
 
-			return_path = g_strconcat ("/", storage_name, "/", path,
-						   NULL);
+			return_path = g_strconcat ("/", storage_name, path, NULL);
 			e_free_string_list (subfolder_paths);
 
 			g_free (casefold_i18n_inbox_name);
@@ -499,10 +499,10 @@ find_inbox_in_storage (EShellView *shell_view,
 			return return_path;
 		}
 
-		g_free (casefold_i18n_inbox_name);
 		g_free (casefold_path);
 	}
 
+	g_free (casefold_i18n_inbox_name);
 	e_free_string_list (subfolder_paths);
 
 	return NULL;
@@ -552,7 +552,7 @@ handle_current_folder_removed (EShellView *shell_view)
 				char *storage_uri;
 
 				/* No Inbox in this storage -- fallback to the storage.  */
-				storage_uri = g_strconcat (E_SHELL_URI_PREFIX, storage_name, NULL);
+				storage_uri = g_strconcat (E_SHELL_URI_PREFIX, "/", storage_name, NULL);
 				e_shell_view_display_uri (shell_view, storage_uri, TRUE);
 
 				g_free (storage_uri);
@@ -652,12 +652,6 @@ storage_set_removed_folder_callback (EStorageSet *storage_set,
 
 	page_num = gtk_notebook_page_num (GTK_NOTEBOOK (priv->notebook), view->control);
 
-	/* Check if it's the URI that we are currently displaying.  */
-	if (strncmp (priv->uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0
-	    && strcmp (priv->uri + E_SHELL_URI_PREFIX_LEN, path) == 0) {
-		handle_current_folder_removed (shell_view);
-	}
-
 	bonobo_control_frame_control_deactivate (BONOBO_CONTROL_FRAME (bonobo_widget_get_control_frame (BONOBO_WIDGET (view->control))));
 	gtk_widget_destroy (view->control);
 
@@ -665,6 +659,12 @@ storage_set_removed_folder_callback (EStorageSet *storage_set,
 	view_destroy (view);
 
 	gtk_notebook_remove_page (GTK_NOTEBOOK (priv->notebook), page_num);
+
+	/* Check if it was the URI that was being displayed.  */
+	if (strncmp (priv->uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0
+	    && strcmp (priv->uri + E_SHELL_URI_PREFIX_LEN, path) == 0) {
+		handle_current_folder_removed (shell_view);
+	}
 }
 
 
@@ -2048,10 +2048,7 @@ update_for_current_uri (EShellView *shell_view)
 	else
 		title = g_strdup (folder_name);
 
-	if (SUB_VERSION[0] == '\0')
-		window_title = g_strdup_printf ("%s - Ximian Evolution %s", title, VERSION);
-	else
-		window_title = g_strdup_printf ("%s - Ximian Evolution %s [%s]", title, VERSION, SUB_VERSION);
+	window_title = g_strdup_printf ("%s - Ximian Evolution", title);
 
 	gtk_window_set_title (GTK_WINDOW (shell_view), window_title);
 

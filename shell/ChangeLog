@@ -1,3 +1,24 @@
+2003-05-08  Ettore Perazzoli  <ettore@ximian.com>
+
+	[#36956]
+	* e-shell-view.c (update_for_current_uri): Remove the version
+	number from the window title.
+
+	[#42518]
+	* e-shell-view.c (handle_current_folder_removed): Casefold the
+	Inbox name only once, instead of once per iteration.  Removed the
+	spurious slash that was being passed in the path in the Inbox case
+	and prevented it from working.  Added missing slash in the path
+	for the storage case.  Casefold the path including the slash,
+	since we compare against a string that does include the slash.
+	(storage_set_removed_folder_callback): Remove the notebook page
+	before calling handle_current_folder_removed(), instead of after;
+	otherwise, the notebook page number we have might not be valid
+	anymore.
+
+	* e-shell-folder-creation-dialog.c (setup_dialog): Set the default
+	response for the dialog to GTK_RESPONSE_OK.
+
 2003-05-07  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-folder-commands.c (e_shell_command_add_to_shortcut_bar):
