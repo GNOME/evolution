@@ -1049,7 +1049,7 @@ ical_object_to_vobject (iCalObject *ical)
 	}
 
 	/* summary */
-	if (strlen (ical->summary)){
+	if (ical->summary && strlen (ical->summary)) {
 		s = addPropValue (o, VCSummaryProp, ical->summary);
 		if (strchr (ical->summary, '\n'))
 			addProp (s, VCQuotedPrintableProp);
