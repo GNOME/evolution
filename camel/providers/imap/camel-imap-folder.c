@@ -1052,6 +1052,23 @@ imap_expunge_uids_resyncing (CamelFolder *folder, GPtrArray *uids, CamelExceptio
 	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
 }
 
+static gchar *
+get_temp_uid (void)
+{
+	gchar *res;
+
+	static int counter = 0;
+	G_LOCK_DEFINE_STATIC (lock);
+
+	G_LOCK (lock);
+	res = g_strdup_printf ("tempuid-%lx-%d", 
+			       (unsigned long) time (NULL),
+			       counter++);
+	G_UNLOCK (lock);
+
+	return res;
+}
+
 static void
 imap_append_offline (CamelFolder *folder, CamelMimeMessage *message,
 		     const CamelMessageInfo *info, char **appended_uid,
@@ -1062,10 +1079,7 @@ imap_append_offline (CamelFolder *folder, CamelMimeMessage *message,
 	CamelFolderChangeInfo *changes;
 	char *uid;
 
-	/* We could keep a separate counter, but this one works fine. */
-	CAMEL_IMAP_STORE_LOCK (imap_store, command_lock);
-	uid = g_strdup_printf ("append-%d", imap_store->command++);
-	CAMEL_IMAP_STORE_UNLOCK (imap_store, command_lock);
+	uid = get_temp_uid ();
 
 	camel_imap_summary_add_offline (folder->summary, uid, message, info);
 	CAMEL_IMAP_FOLDER_LOCK (folder, cache_lock);
@@ -1273,8 +1287,7 @@ imap_transfer_offline (CamelFolder *source, GPtrArray *uids,
 	for (i = 0; i < uids->len; i++) {
 		uid = uids->pdata[i];
 
-		destuid = g_strdup_printf ("copy-%s:%s:%d", source->full_name, uid,
-					   store->command++);
+		destuid = get_temp_uid ();
 
 		mi = camel_folder_summary_uid (source->summary, uid);
 		g_return_if_fail (mi != NULL);
