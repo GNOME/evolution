@@ -25,9 +25,7 @@
 #include <string.h> /* memset(), strcmp() */
 #include <stdlib.h>
 #include <glib.h>
-#include <gnome-xml/parser.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-util.h>
+#include <libxml/parser.h>
 
 typedef struct 
 {
@@ -365,7 +363,7 @@ e_pilot_map_read (const char *filename, EPilotMap **map)
 	new_map->pid_map = g_hash_table_new (g_int_hash, g_int_equal);
 	new_map->uid_map = g_hash_table_new (g_str_hash, g_str_equal);
 
-	if (g_file_exists (filename)) {
+	if (g_file_test (filename, G_FILE_TEST_EXISTS)) {
 		if (xmlSAXUserParseFile (&handler, new_map, filename) < 0) {
 			g_free (new_map);
 			return -1;
@@ -394,12 +392,12 @@ e_pilot_map_write (const char *filename, EPilotMap *map)
 		g_warning ("Pilot map file could not be created\n");
 		return -1;
 	}
-	doc->root = xmlNewDocNode(doc, NULL, "PilotMap", NULL);
+	xmlDocSetRootElement (doc, xmlNewDocNode(doc, NULL, "PilotMap", NULL));
 	map->since = time (NULL);
-	map_set_node_timet (doc->root, "timestamp", map->since);
+	map_set_node_timet (xmlDocGetRootElement (doc), "timestamp", map->since);
 
 	wd.touched_only = map->write_touched_only;
-	wd.root = doc->root;
+	wd.root = xmlDocGetRootElement(doc);
 	g_hash_table_foreach (map->uid_map, map_write_foreach, &wd);
 	
 	/* Write the file */

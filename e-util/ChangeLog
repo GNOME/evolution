@@ -1,5 +1,10 @@
 2003-01-25  Chris Toshok  <toshok@ximian.com>
 
+	* e-pilot-map.c (e_pilot_map_read): g_file_exists -> g_file_test.
+	(e_pilot_map_write): don't use doc->root.
+
+2003-01-25  Chris Toshok  <toshok@ximian.com>
+
 	* e-pilot-settings.[ch]: GObjectify this.
 
 2003-01-24  Hans Petter Jansson  <hpj@ximian.com>
