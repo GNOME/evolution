@@ -188,6 +188,14 @@ static GnomeUIInfo main_menu[] = {
 
 			<separator/>
 
+		        <menuitem name="SendAs" verb="ContactEditorSendAs"
+			_label="Se_nd contact to other..."/>
+
+		        <menuitem name="SendTo" verb="ContactEditorSendTo"
+			_label="Send _message to contact..."/>
+
+			<separator/>
+
 		        <menuitem name="Delete" verb="ContactEditorDelete"
 			_label="Delete..."
 			pixtype="stock" pixname="Trash"/>
