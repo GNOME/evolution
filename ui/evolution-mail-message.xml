@@ -311,7 +311,7 @@
             <menuitem verb="MessageRedirect" _label="Re_direct"/>
           </submenu>
 
-          <menuitem name="MessagePostReply" verb="" _label="Post a Reply"/>
+          <menuitem name="MessagePostReply" verb="" _label="Post a Repl_y"/>
 
           <menuitem name="MessageResend" verb="" _label="_Resend..."/>
 

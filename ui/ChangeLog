@@ -1,3 +1,10 @@
+2003-09-05  Yuedong Du  <uuedong.du@sun.com>
+
+	* evolution-mail-global.xml: add access key 'w' for 'Post New Message'
+	* evolution-mail-list.xml: change the access key of Expunge to 'x',
+	thus 'Post a Reply' can use 'e'.
+	* evolution-mail-message.xml: add access key 'y' for 'Post a Reply'
+
 2003-08-27  Calvin Liu <calvin.liu@sun.com>
 
 	* evolution-mail-message.xml: Change "Search Message" to "Search
