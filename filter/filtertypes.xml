@@ -430,7 +430,23 @@
     </code>
    </option>
   </input>
-  <input type="system-flag" name="flag"/>
+  <input type="optionlist" name="flag">
+   <option value="Answered">
+    <title>Replied to</title>
+   </option>
+   <option value="Deleted">
+    <title>Deleted</title>
+   </option>
+   <option value="Draft">
+    <title>Draft</title>
+   </option>
+   <option value="Flagged">
+    <title>Important</title>
+   </option>
+   <option value="Seen">
+    <title>Read</title>
+   </option>
+  </input>
  </part>
 
  <part name="attachments">
@@ -515,26 +531,6 @@
    </option>
   </input>
   <input type="regex" name="expression"/>
- </part>
-
- <part name="source">
-  <title>Source</title>
-  <input type="optionlist" name="url-type">
-   <option value="is">
-    <title>is</title>
-    <code>
-       (match-all (= (get-source) ${source}))
-    </code>
-   </option>
-   <option value="is-not">
-    <title>is not</title>
-    <code>
-       (match-all (not (= (get-source) ${source})))
-    </code>
-   </option>
-  </input>
-  <input type="url" name="source">
-  </input>
  </part>
 
 </partset>

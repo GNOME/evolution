@@ -1,3 +1,18 @@
+2001-03-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* Makefile.am: Removed filter-url.[c,h] and
+	filter-system-flag.[c,h]
+
+	* filter-element.c (filter_element_new_type_name): Removed
+	references to the url-type and system-flag types.
+
+	* filtertypes.xml: Removed "source" type and fixed "status" to use
+	the optionmenu.
+
+	* filter-url.[c,h]: Removed.
+
+	* filter-system-flag.[c,h]: Removed (just use optionmenu).
+
 2001-03-15  Not Zed  <NotZed@Ximian.com>
 
 	* filter.glade: Changed the edit_filter to be a standalone window
