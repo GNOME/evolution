@@ -272,6 +272,7 @@ typedef struct _EPluginHookTargetMap EConfigHookTargetMap;
 typedef struct _EPluginHookTargetKey EConfigHookTargetMask;
 
 typedef struct _EConfigHookItemFactoryData EConfigHookItemFactoryData;
+typedef struct _EConfigHookPageCheckData EConfigHookPageCheckData;
 
 typedef void (*EConfigHookFunc)(struct _EPlugin *plugin, EConfigTarget *target);
 typedef void (*EConfigHookItemFactoryFunc)(struct _EPlugin *plugin, EConfigHookItemFactoryData *data);
@@ -301,6 +302,21 @@ struct _EConfigHookItemFactoryData {
 };
 
 /**
+ * struct _EConfigHookPageCheckData - Check callback data.
+ * 
+ * @config: 
+ * @target: The current configuration target.  This is also available
+ * on @config->target.
+ * @pageid: Name of page to validate, or "" means check all configuration.
+ * 
+ **/
+struct _EConfigHookPageCheckData {
+	EConfig *config;
+	EConfigTarget *target;
+	const char *pageid;
+};
+
+/**
  * struct _EConfigHookGroup - A group of configuration items.
  * 
  * @hook: Parent object.
@@ -308,6 +324,7 @@ struct _EConfigHookItemFactoryData {
  * @target_type: The target type expected by the items.  This is
  * defined by implementing classes.
  * @items: A list of EConfigHookItem's for this group.
+ * @check: A validate page handler.
  * @commit: The name of the commit function for this group of items, or NULL
  * for instant-apply configuration windows.  Its format is plugin-type defined.
  * @abort: Similar to the @commit function but for aborting or
@@ -321,6 +338,7 @@ struct _EConfigHookGroup {
 	char *id;		/* target menu id for these config items */
 	int target_type;	/* target type of this group */
 	GSList *items;		/* items to add to group */
+	char *check;		/* validate handler, if set */
 	char *commit;		/* commit handler, if set */
 	char *abort;		/* abort handler, if set */
 };

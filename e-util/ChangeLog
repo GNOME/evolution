@@ -1,5 +1,8 @@
 2004-10-12  Not Zed  <NotZed@Ximian.com>
 
+	* e-config.c (ech_check, ech_config_factory, emph_construct_menu):
+	setup a "check" handler, page-check/validation callback.
+
 	* e-popup.c (e_popup_new): new method to create a targetless popup
 	menu.
 

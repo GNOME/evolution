@@ -1196,6 +1196,19 @@ ech_abort(EConfig *ec, GSList *items, void *data)
 		e_plugin_invoke(group->hook->hook.plugin, group->abort, ec->target);
 }
 
+static gboolean
+ech_check(EConfig *ec, const char *pageid, void *data)
+{
+	struct _EConfigHookGroup *group = data;
+	EConfigHookPageCheckData hdata;
+
+	hdata.config = ec;
+	hdata.target = ec->target;
+	hdata.pageid = pageid?pageid:"";
+
+	return GPOINTER_TO_INT(e_plugin_invoke(group->hook->hook.plugin, group->check, &hdata));
+}
+
 static void
 ech_config_factory(EConfig *emp, void *data)
 {
@@ -1208,6 +1221,9 @@ ech_config_factory(EConfig *emp, void *data)
 
 	if (group->items)
 		e_config_add_items(emp, group->items, ech_commit, ech_abort, NULL, group);
+
+	if (group->check)
+		e_config_add_page_check(emp, NULL, ech_check, group);
 }
 
 static void
@@ -1295,6 +1311,7 @@ emph_construct_menu(EPluginHook *eph, xmlNodePtr root)
 
 	menu->target_type = map->id;
 	menu->id = e_plugin_xml_prop(root, "id");
+	menu->check = e_plugin_xml_prop(root, "check");
 	menu->commit = e_plugin_xml_prop(root, "commit");
 	menu->abort = e_plugin_xml_prop(root, "abort");
 	menu->hook = (EConfigHook *)eph;
