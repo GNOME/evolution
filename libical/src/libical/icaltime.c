@@ -74,37 +74,56 @@ icaltime_from_timet(time_t tm, int is_date)
     return tt;
 }
 
+/* This will hold the last "TZ=XXX" string we used with putenv(). After we
+   call putenv() again to set a new TZ string, we can free the previous one.
+   As far as I know, no libc implementations actually free the memory used in
+   the environment variables (how could they know if it is a static string or
+   a malloc'ed string?), so we have to free it ourselves. */
+static char* saved_tz = NULL;
+
+
+/* If you use set_tz(), you must call unset_tz() some time later to restore the
+   original TZ. Pass unset_tz() the string that set_tz() returns. */
 char* set_tz(const char* tzid)
 {
-    char *tzstr = 0;
-    char *tmp;
+    char *old_tz, *old_tz_copy = NULL, *new_tz;
 
-   /* Put the new time zone into the environment */
-    if(getenv("TZ") != 0){
-	tzstr = (char*)strdup(getenv("TZ"));
+    /* Get the old TZ setting and save a copy of it to return. */
+    old_tz = getenv("TZ");
+    if(old_tz){
+	old_tz_copy = (char*)malloc(strlen (old_tz) + 4);
 
-	if(tzstr == 0){
+	if(old_tz_copy == 0){
 	    icalerror_set_errno(ICAL_NEWFAILED_ERROR);
 	    return 0;
 	}
+
+	strcpy (old_tz_copy, "TZ=");
+	strcpy (old_tz_copy + 3, old_tz);
     }
 
-    tmp = (char*)malloc(1024);
+    /* Create the new TZ string. */
+    new_tz = (char*)malloc(strlen (tzid) + 4);
 
-    if(tmp == 0){
+    if(new_tz == 0){
 	icalerror_set_errno(ICAL_NEWFAILED_ERROR);
 	return 0;
     }
 
-    snprintf(tmp,1024,"TZ=%s",tzid);
+    strcpy (new_tz, "TZ=");
+    strcpy (new_tz + 3, tzid);
 
-    /* HACK. In some libc versions, putenv gives the string to the
-       system and in some it gives a copy, so the following might be a
-       memory leak. THe linux man page says that glibc2.1.2 take
-       ownership ( no leak) while BSD4.4 uses a copy ( A leak ) */
-    putenv(tmp); 
+    /* Add the new TZ to the environment. */
+    putenv(new_tz); 
 
-    return tzstr; /* This will be zero if the TZ env var was not set */
+    /* Free any previous TZ environment string we have used. */
+    if (saved_tz)
+      free (saved_tz);
+
+    /* Save a pointer to the TZ string we just set, so we can free it later. */
+    saved_tz = new_tz;
+
+    return old_tz_copy; /* This will be zero if the TZ env var was not set */
 }
 
 void unset_tz(char* tzstr)
@@ -112,13 +131,18 @@ void unset_tz(char* tzstr)
     /* restore the original environment */
 
     if(tzstr!=0){
-	char temp[1024];
-	snprintf(temp,1024,"TZ=%s",tzstr);
-	putenv(temp);
-	free(tzstr);
+	putenv(tzstr);
     } else {
 	putenv("TZ"); /* Delete from environment */
     } 
+
+    /* Free any previous TZ environment string we have used. */
+    if (saved_tz)
+      free (saved_tz);
+
+    /* Save a pointer to the TZ string we just set, so we can free it later.
+       (This can possibly be NULL if there was no TZ to restore.) */
+    saved_tz = tzstr;
 }
 
 time_t icaltime_as_timet(struct icaltimetype tt)
