@@ -98,7 +98,8 @@ user_clicked (GtkWidget *button, GNOME_Evolution_Addressbook_SelectNames corba_i
 }
 
 static GtkWidget *
-setup_name_selector (GladeXML *glade_xml)
+setup_name_selector (GladeXML *glade_xml,
+		     GNOME_Evolution_Addressbook_SelectNames *iface_ret)
 {
 	GNOME_Evolution_Addressbook_SelectNames corba_iface;
 	Bonobo_Control control;
@@ -140,10 +141,11 @@ setup_name_selector (GladeXML *glade_xml)
 	g_signal_connect (button, "clicked", G_CALLBACK (user_clicked), corba_iface);
 
 	CORBA_exception_free (&ev);
+	*iface_ret = corba_iface;
 	return control_widget;
 
  err:
-	Bonobo_Unknown_unref (corba_iface, &ev);
+	bonobo_object_release_unref (corba_iface, NULL);
 	CORBA_exception_free (&ev);
 	return NULL;
 }
@@ -213,6 +215,7 @@ show_dialog (EShell *shell,
 	     char **storage_name_return,
 	     char **folder_name_return)
 {
+	GNOME_Evolution_Addressbook_SelectNames corba_iface;
 	GladeXML *glade_xml;
 	GtkWidget *dialog;
 	GtkWidget *name_selector_widget;
@@ -223,7 +226,7 @@ show_dialog (EShell *shell,
 				   NULL, NULL);
 	g_assert (glade_xml != NULL);
 
-	name_selector_widget = setup_name_selector (glade_xml);
+	name_selector_widget = setup_name_selector (glade_xml, &corba_iface);
 	if (name_selector_widget == NULL)
 		return FALSE;
 
@@ -240,6 +243,7 @@ show_dialog (EShell *shell,
 		g_free (*storage_name_return);
 		*storage_name_return = NULL;
 		gtk_widget_destroy (dialog);
+		bonobo_object_release_unref (corba_iface, NULL);
 		return FALSE;
 	}
 
@@ -251,6 +255,7 @@ show_dialog (EShell *shell,
 	*folder_name_return = g_strdup (gtk_entry_get_text (GTK_ENTRY (folder_name_entry)));
 
 	gtk_widget_destroy (dialog);
+	bonobo_object_release_unref (corba_iface, NULL);
 	return TRUE;
 }
 
