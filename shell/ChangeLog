@@ -1,7 +1,8 @@
 2002-04-09  Dan Winship  <danw@ximian.com>
 
 	* main.c (idle_cb): Check for "default:" URIs and treat them the
-	same way as "evolution:" URIs.
+	same way as "evolution:" URIs. If the shell fails to display all
+	of the requested URIs, fall back to the default URI (Summary).
 
 	* e-shell.c (impl_Shell_handleURI): Handle "default:" URIs by
 	looking up the default folders in the config db.

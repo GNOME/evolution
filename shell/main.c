@@ -191,6 +191,7 @@ idle_cb (void *data)
 	GSList *p;
 	gboolean have_evolution_uri;
 	gboolean display_default;
+	gboolean displayed_any;
 
 	CORBA_exception_init (&ev);
 
@@ -271,7 +272,23 @@ idle_cb (void *data)
 		}
 	}
 
-	if (display_default) {
+	displayed_any = FALSE;
+	for (p = uri_list; p != NULL; p = p->next) {
+		const char *uri;
+
+		uri = (const char *) p->data;
+		GNOME_Evolution_Shell_handleURI (corba_shell, uri, &ev);
+		if (ev._major == CORBA_NO_EXCEPTION)
+			displayed_any = TRUE;
+		else {
+			g_warning ("CORBA exception %s when requesting URI -- %s", ev._repo_id, uri);
+			CORBA_exception_free (&ev);
+		}
+	}
+
+	g_slist_free (uri_list);
+
+	if (display_default || !displayed_any) {
 		const char *uri;
 
 		uri = E_SHELL_VIEW_DEFAULT_URI;
@@ -279,17 +296,6 @@ idle_cb (void *data)
 		if (ev._major != CORBA_NO_EXCEPTION)
 			g_warning ("CORBA exception %s when requesting URI -- %s", ev._repo_id, uri);
 	}
-
-	for (p = uri_list; p != NULL; p = p->next) {
-		const char *uri;
-
-		uri = (const char *) p->data;
-		GNOME_Evolution_Shell_handleURI (corba_shell, uri, &ev);
-		if (ev._major != CORBA_NO_EXCEPTION)
-			g_warning ("CORBA exception %s when requesting URI -- %s", ev._repo_id, uri);
-	}
-
-	g_slist_free (uri_list);
 
 	CORBA_Object_release (corba_shell, &ev);
 
