@@ -69,6 +69,7 @@ typedef struct {
 	ESelectNamesTextModel *text_model;
 	ESelectNames          *names;
 	GtkWidget             *label;
+	GtkWidget             *button;
 } ESelectNamesChild;
 
 struct _ESelectNamesFolder {
@@ -269,6 +270,25 @@ add_address(ETable *table, int row, int col, GdkEvent *event, ESelectNames *name
 	if (child) {
 		real_add_address(names, child);
 	}
+}
+
+static void
+sensitize_button (gpointer key, gpointer data, gpointer user_data)
+{
+	gboolean *sensitive = user_data;
+	ESelectNamesChild *child = data;
+
+	gtk_widget_set_sensitive (child->button, *sensitive);
+}
+
+static void
+selection_change (ETable *table, ESelectNames *names)
+{
+	gboolean sensitive;
+
+	sensitive = e_table_selected_count (table) > 0;
+
+	g_hash_table_foreach (names->children, sensitize_button, &sensitive);
 }
 
 static void *
@@ -829,6 +849,9 @@ e_select_names_init (ESelectNames *e_select_names)
 
 	gtk_signal_connect (GTK_OBJECT (e_table_scrolled_get_table (e_select_names->table)), "double_click",
 			    GTK_SIGNAL_FUNC (add_address), e_select_names);
+	gtk_signal_connect (GTK_OBJECT (e_table_scrolled_get_table (e_select_names->table)), "selection_change",
+			    GTK_SIGNAL_FUNC (selection_change), e_select_names);
+	selection_change (e_table_scrolled_get_table (e_select_names->table), e_select_names);
 }
 
 static void e_select_names_child_free(char *key, ESelectNamesChild *child, ESelectNames *e_select_names)
@@ -979,6 +1002,7 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 	GtkWidget *label;
 	GtkTable *table;
 	char *label_text;
+	ETable *etable;
 
 	GtkWidget *sw;
 	GtkWidget *recipient_table;
@@ -1025,6 +1049,7 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 	g_free (label_text);
 	gtk_container_add (GTK_CONTAINER (button), label);
 	child->label = label;
+	child->button = button;
 
 	gtk_container_add(GTK_CONTAINER(alignment), button);
 	gtk_widget_show_all(alignment);
@@ -1036,6 +1061,9 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 			 e_select_names->child_count + 1,
 			 GTK_FILL, GTK_FILL,
 			 0, 0);
+
+	etable = e_table_scrolled_get_table (e_select_names->table);
+	gtk_widget_set_sensitive (button, e_table_selected_count (etable) > 0);
 
 	
 	sw = gtk_scrolled_window_new (NULL, NULL);
