@@ -57,6 +57,8 @@ static gboolean _get_flag (CamelMimeMessage *mime_message, GString *flag);
 static void _set_message_number (CamelMimeMessage *mime_message, guint number);
 static guint _get_message_number (CamelMimeMessage *mime_message);
 
+static void _write_to_file(CamelDataWrapper *data_wrapper, FILE *file);
+
 /* Returns the class for a CamelMimeMessage */
 #define CMM_CLASS(so) CAMEL_MIME_MESSAGE_CLASS (GTK_OBJECT(so)->klass)
 
@@ -65,6 +67,9 @@ static guint _get_message_number (CamelMimeMessage *mime_message);
 static void
 camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 {
+	CamelDataWrapperClass *camel_data_wrapper_class = CAMEL_DATA_WRAPPER_CLASS (camel_mime_message_class);
+	CamelMimePartClass *camel_mime_part_class = CAMEL_MIME_PART_CLASS (camel_mime_message_class);
+
 	parent_class = gtk_type_class (camel_mime_part_get_type ());
 
 	received_date_str = g_string_new("");
@@ -92,6 +97,7 @@ camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 	camel_mime_message_class->get_message_number = _get_message_number;
 	
 	/* virtual method overload */
+	camel_data_wrapper_class->write_to_file = _write_to_file;
 }
 
 
@@ -144,7 +150,7 @@ static void
 _set_field (CamelMimeMessage *mime_message, GString *name, GString *value, GString **variable)
 {
 	if (variable) {
-		if (*variable) G_string_free (*variable, FALSE);
+		if (*variable) g_string_free (*variable, FALSE);
 		*variable = value;
 	}
 }
@@ -462,4 +468,25 @@ guint
 get_message_number (CamelMimeMessage *mime_message)
 {
 	return CMM_CLASS (mime_message)->get_message_number (mime_message);
+}
+
+
+
+
+#ifdef WHPTF
+#warning : WHPTF is already defined !!!!!!
+#endif
+#define WHPTF gmime_write_header_pair_to_file
+
+
+
+
+static void
+_write_to_file(CamelDataWrapper *data_wrapper, FILE *file)
+{
+	CamelMimeMessage *mm = CAMEL_MIME_MESSAGE (data_wrapper);
+	
+	WHPTF ("Date", mm->sent_date);
+	CAMEL_DATA_WRAPPER_CLASS (parent_class)->write_to_file (data_wrapper, file);
+	
 }

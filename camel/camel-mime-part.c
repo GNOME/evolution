@@ -460,6 +460,7 @@ camel_mime_part_get_content_object(CamelMimePart *mime_part)
 #define WHPTF gmime_write_header_pair_to_file
 
 
+/* This is not used for the moment */
 static void
 _write_content_to_file (CamelMimePart *mime_part, FILE *file)
 {
@@ -490,7 +491,7 @@ _write_to_file(CamelDataWrapper *data_wrapper, FILE *file)
 	CamelMimePart *mp = CAMEL_MIME_PART (data_wrapper);
 	gmime_content_field_write_to_file(data_wrapper->content_type, file);
 	gmime_content_field_write_to_file(mp->disposition, file);
-	WHPTF (file, "Content-Transfer-Encoding:", mp->encoding);
+	WHPTF (file, "Content-Transfer-Encoding", mp->encoding);
 	WHPTF (file, "Content-Description", mp->description);
 	WHPTF (file, "Content-MD5", mp->content_MD5);
 	WHPTF (file, "Content-id", mp->content_id);

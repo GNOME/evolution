@@ -1,5 +1,10 @@
 1999-05-18  bertrand  <Bertrand.Guiheneuf@inria.fr>
 
+	* tests/test1.c (main): tests
+
+	* camel/camel-mime-message.c (_write_to_file): 
+	started write_to framework for mime_messages
+
 	* camel/camel-mime-message.c (*_message_number): 
 	message number funcs.
 	

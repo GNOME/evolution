@@ -1,4 +1,4 @@
-SUBDIRS = po macros camel
+SUBDIRS = po macros camel tests
 
 
 

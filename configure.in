@@ -50,4 +50,5 @@ camel/providers/Makefile
 camel/providers/MH/Makefile
 devel-docs/Makefile
 devel-docs/camel/Makefile
+tests/Makefile
 ])
