@@ -361,7 +361,7 @@ emfb_search_config_search(EFilterBar *efb, FilterRule *rule, int id, const char 
 	struct _camel_search_words *words;
 	int i;
 	GSList *strings = NULL;
-
+	
 	/* we scan the parts of a rule, and set all the types we know about to the query string */
 	partl = rule->parts;
 	while (partl) {
@@ -408,14 +408,20 @@ emfb_search_config_search(EFilterBar *efb, FilterRule *rule, int id, const char 
 static void
 emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 {
-	char *search_word;
+	EMFolderView *emfv = (EMFolderView *) emfb;
+	char *search_word, *search_state;
 	
-	if (emfb->view.list == NULL)
+	if (emfv->list == NULL)
 		return;
 	
 	g_object_get (esb, "query", &search_word, NULL);
 	message_list_set_search(emfb->view.list, search_word);
-	g_free(search_word);
+	g_free (search_word);
+	
+	g_object_get (esb, "state", &search_state, NULL);
+	camel_object_meta_set (emfv->folder, "evolution:search_state", search_state);
+	camel_object_state_write (emfv->folder);
+	g_free (search_state);
 }
 
 static void
@@ -901,12 +907,17 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 		char *sstate;
 		
 		if ((sstate = camel_object_meta_get (folder, "evolution:show_preview"))) {
-			em_folder_browser_show_preview ((EMFolderBrowser *) emfv, sstate[0] != '0');
+			em_folder_browser_show_preview (emfb, sstate[0] != '0');
 			g_free (sstate);
 		}
 		
 		if ((sstate = camel_object_meta_get (folder, "evolution:thread_list"))) {
 			message_list_set_threaded (emfv->list, sstate[0] != '0');
+			g_free (sstate);
+		}
+		
+		if ((sstate = camel_object_meta_get (folder, "evolution:search_state"))) {
+			g_object_set (emfb->search, "state", sstate, NULL);
 			g_free (sstate);
 		}
 		
@@ -917,9 +928,9 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 			emfb->priv->list_built_id =
 				g_signal_connect (emfv->list, "message_list_built", G_CALLBACK (emfb_list_built), emfv);
 		
-		/*emfb_create_view_instance ((EMFolderBrowser *) emfv, folder, uri);*/
+		/*emfb_create_view_instance (emfb, folder, uri);*/
 		if (emfv->uic)
-			emfb_create_view_menus((EMFolderBrowser *)emfv, emfv->uic);
+			emfb_create_view_menus (emfb, emfv->uic);
 	}
 }
 

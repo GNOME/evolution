@@ -1,3 +1,10 @@
+2004-01-30  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fix for bug #53195.
+
+	* em-folder-browser.c (emfb_set_folder): Restore search_state.
+	(emfb_search_search_activated): Save search_state.
+
 2004-01-30  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #53549, partial fix.
