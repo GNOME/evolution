@@ -1,3 +1,10 @@
+2005-01-21  JP Rosevear  <jpr@novell.com>
+
+	Fixes #70622
+	
+	* gui/widgets/eab-contact-display.c (eab_contact_display_init):
+	construct the html widget
+
 2005-01-21  Hans Petter Jansson  <hpj@novell.com>
 
 	* gui/contact-editor/e-contact-quick-add.c (quick_add_set_name)
