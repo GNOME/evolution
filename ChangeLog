@@ -1,5 +1,9 @@
 2000-02-08  Matt Loper  <matt.loper@splashtech.com>
 
+	* tests/test-formatter.c (convert_to_html_and_print): Fixed call
+	to 'camel_formatter_mime_message_to_html' to contain correct
+	params.
+
 	* camel/camel-formatter.c: New member to 'CamelFormatterPrivate',
 	'attachments', will be used to let the caller know which items
 	should be treated as attachments (as opposed to objects which are

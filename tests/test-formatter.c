@@ -14,11 +14,16 @@ static void
 convert_to_html_and_print (CamelMimeMessage *msg)
 {
 	CamelFormatter* cmf = camel_formatter_new();
-	CamelStream* stream = camel_stream_mem_new (CAMEL_STREAM_FS_WRITE);
+	CamelStream* header_stream =
+		camel_stream_mem_new (CAMEL_STREAM_FS_WRITE);	
+	CamelStream* body_stream =
+		camel_stream_mem_new (CAMEL_STREAM_FS_WRITE);
 	camel_formatter_mime_message_to_html (
-		cmf, msg, stream);
-	g_print ("Parsed message follows\n----------------------\n%s",
-		 (CAMEL_STREAM_MEM(stream))->buffer->data);
+		cmf, msg, header_stream, body_stream);
+	g_print ("Header follows\n----------------------\n%s\n",
+		 (CAMEL_STREAM_MEM(header_stream))->buffer->data);
+	g_print ("Body follows\n----------------------\n%s\n",
+		 (CAMEL_STREAM_MEM(body_stream))->buffer->data);	
 }
 
 static void

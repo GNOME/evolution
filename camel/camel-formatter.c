@@ -71,8 +71,8 @@ static void handle_unknown_type       (CamelFormatter *formatter,
 /* encodes some characters into their 'escaped' version;
  * so '<' turns into '&lt;', and '"' turns into '&quot;' */
 static gchar* text_to_html (const guchar *input,
-			       guint len,
-			       guint *encoded_len_return);
+			    guint len,
+			    guint *encoded_len_return);
 
 /* compares strings case-insensitively */
 static gint strcase_equal (gconstpointer v, gconstpointer v2);
