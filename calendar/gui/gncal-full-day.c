@@ -289,29 +289,31 @@ child_draw_decor (GncalFullDay *fullday, Child *child, GdkRectangle *area)
 	GdkRectangle rect, dest;
 	int ry = 0;
 
-	rect.x = child->width;
+	rect.x = child->width - child->decor_width;
 	rect.y = 0;
 	rect.width = child->decor_width;
 	rect.height = child->decor_height;
-	
+
+#if 0
 	if (!gdk_rectangle_intersect (&rect, area, &dest))
 		return;
-	
+#endif
 	if (ico->recur){
-		gdk_window_copy_area (child->decor_window,
-				      fullday->recur_gc,
-				      0, ry,
-				      pixmap_recur, 0, 0,
-				      DECOR_WIDTH, DECOR_HEIGHT);
+		gdk_draw_pixmap (child->decor_window,
+				 fullday->recur_gc,
+				 pixmap_recur,
+				 0, 0,
+				 0, ry,
+				 DECOR_WIDTH, DECOR_HEIGHT);
 		ry += DECOR_HEIGHT;
 	}
 	if (ico->dalarm.enabled || ico->malarm.enabled || ico->palarm.enabled || ico->aalarm.enabled){
-		printf ("PINTANDO ALARMA\n");
-		gdk_window_copy_area (child->decor_window,
-				      fullday->bell_gc,
-				      0, ry,
-				      pixmap_bell, 0, 0,
-				      DECOR_WIDTH, DECOR_HEIGHT);
+		gdk_draw_pixmap (child->decor_window,
+				 fullday->bell_gc,
+				 pixmap_bell,
+				 0, 0,
+				 0, ry, 
+				 DECOR_WIDTH, DECOR_HEIGHT);
 		ry += DECOR_HEIGHT;
 	}
 }
@@ -363,6 +365,7 @@ child_draw (GncalFullDay *fullday, Child *child, GdkRectangle *area, int draw_ch
 			view_utils_draw_textured_frame (GTK_WIDGET (fullday), child->window, &rect, GTK_SHADOW_OUT);
 	}
 
+	child_draw_decor (fullday, child, area);
 	if (draw_child) {
 		area->x -= HANDLE_SIZE;
 		area->y -= has_focus ? HANDLE_SIZE : 0;
