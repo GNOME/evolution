@@ -1,3 +1,13 @@
+2001-03-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* filter-editor.c (filter_editor_construct): Remove the menu that
+	is in the glade file because we want to replace it with our menu,
+	not append items to that menu.
+
+	* filtertypes.xml: Oops, missed the system-flag action-set.
+
+	* vfoldertypes.xml: Update "status" ruleset.
+
 2001-03-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* Makefile.am: Removed filter-url.[c,h] and

@@ -148,7 +148,9 @@ filter_editor_construct(FilterEditor *fe, FilterContext *fc, GladeXML *gui, cons
 	int i;
 
         omenu = glade_xml_get_widget (gui, "filter_source");
-	menu = GTK_OPTION_MENU(omenu)->menu;
+	gtk_option_menu_remove_menu (GTK_OPTION_MENU (omenu));
+	menu = gtk_menu_new ();
+	
 	for (i=0;source_names[i];i++) {
 		item = gtk_menu_item_new_with_label(_(source_names[i]));
 		gtk_object_set_data_full(GTK_OBJECT(item), "source", g_strdup(source_names[i]), g_free);
