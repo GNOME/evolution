@@ -1,3 +1,10 @@
+2004-04-30  Priit Laes  <amd@tt.ee>
+
+	* mail-config.glade: fix typo. #53466.
+
+	* evolution-mail.schemas.in.in: use American English instead of
+	British. #53466.
+
 2004-04-30  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fix for bug #56645

@@ -190,9 +190,9 @@
       <type>string</type>
       <default>#737373</default>
       <locale name="C">
-         <short>Citation highlight colour</short>
+         <short>Citation highlight color</short>
          <long>
-          Citation highlight colour.
+          Citation highlight color.
          </long>
       </locale>
     </schema>
@@ -716,11 +716,11 @@
       <list_type>string</list_type>
       <default>[Important:#ff0000,Work:#ff8c00,Personal:#008b00,To Do:#0000ff,Later:#8b008b]</default>
       <locale name="C">
-         <short>List of Labels and their associated colours</short>
+         <short>List of Labels and their associated colors</short>
          <long>
            List of labels known to the mail component of
-           Evolution. The list contains strings containing name:colour
-           where colour uses the HTML hex encoding.
+           Evolution. The list contains strings containing name:color
+           where color uses the HTML hex encoding.
          </long>
       </locale>
     </schema>
