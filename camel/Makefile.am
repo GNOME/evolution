@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = #providers
+SUBDIRS = providers
 
 libcamelincludedir = $(includedir)/camel
 

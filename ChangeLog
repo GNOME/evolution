@@ -1,3 +1,24 @@
+1999-12-22  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/providers/mbox/camel-mbox-store.h: 
+	* camel/providers/mbox/camel-mbox-store.c: 
+	* camel/providers/mbox/camel-mbox-folder.h: 
+	* camel/providers/mbox/camel-mbox-folder.c: 
+	part of the mbox provider.
+
+1999-12-20  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-folder.c (_set_name): 
+	check that the folder is closed or raise an exception.
+	(_set_name): unset the name fields as soon as possible, 
+	even if an exception is raised.
+
+	* configure.in:
+	build mbox provider Makefile
+	
+	* camel/Makefile.am (SUBDIRS): 
+	re-enable providers compilation
+
 1999-12-19  Damon Chaplin  <damon@karuna.freeserve.co.uk>
 
 	* configure.in (AC_OUTPUT): added widgets/meeting-time-sel/Makefile

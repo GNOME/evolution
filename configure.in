@@ -102,6 +102,7 @@ camel/Makefile
 camel/providers/Makefile
 camel/providers/MH/Makefile
 camel/providers/maildir/Makefile
+camel/providers/mbox/Makefile
 composer/Makefile
 devel-docs/Makefile
 devel-docs/camel/Makefile

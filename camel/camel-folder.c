@@ -240,7 +240,7 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException 
 	
 	if (folder->parent_store) {
 		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_INVALID_FOLDER,
+				     CAMEL_EXCEPTION_FOLDER_INVALID,
 				     "folder already has a parent store");
 		return;
 	}
@@ -462,6 +462,15 @@ _set_name (CamelFolder *folder,
 		return;
 	}
 
+	/* if the folder already has a name, free it */	
+	g_free (folder->name);
+	g_free (folder->full_name);
+	
+	/* set those fields to NULL now, so that if an 
+	   exception occurs, they will be set anyway */
+	folder->name = NULL;
+	folder->full_name = NULL;
+
 	if (!name) {
 		camel_exception_set (ex, 
 				     CAMEL_EXCEPTION_INVALID_PARAM,
@@ -472,23 +481,23 @@ _set_name (CamelFolder *folder,
 	
 	if (!folder->parent_store) {
 		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_INVALID_FOLDER,
+				     CAMEL_EXCEPTION_FOLDER_INVALID,
 				     "folder has no parent store");
 		return;
 	}
 
-	/* if the folder already has a name, free it */	
-	g_free (folder->name);
-	g_free (folder->full_name);
-	
-	/* set thos fields to NULL now, so that if an 
-	   exception occurs, they will be set anyway */
-	folder->name = NULL;
-	folder->full_name = NULL;
-	
-	
+	/* the set_name method is valid only only on 
+	   close folders */
+
+	if (camel_folder_get_mode (folder, ex) != FOLDER_CLOSE) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_INVALID,
+				     "CamelFolder::set_name is valid only on closed folders");
+		return;		
+	}
+			
 	separator = camel_store_get_separator (folder->parent_store);
-	camel_exception_free (ex);
+	camel_exception_clear (ex);
 	if (folder->parent_folder) {
 		parent_full_name = camel_folder_get_full_name (folder->parent_folder, ex);
 		if (camel_exception_get_id (ex)) return;
@@ -780,7 +789,7 @@ _get_subfolder (CamelFolder *folder,
 	
 	if (!folder->parent_store) {
 		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_INVALID_FOLDER,
+				     CAMEL_EXCEPTION_FOLDER_INVALID,
 				     "folder has no parent store");
 		return;
 	}
@@ -862,14 +871,14 @@ _create (CamelFolder *folder, CamelException *ex)
 	
 	if (!folder->name) {
 		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_INVALID_FOLDER,
+				     CAMEL_EXCEPTION_FOLDER_INVALID,
 				     "folder has no name");
 		return FALSE;
 	}	
 	
 	if (!folder->parent_store) {
 		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_INVALID_FOLDER,
+				     CAMEL_EXCEPTION_FOLDER_INVALID,
 				     "folder has no parent store");
 		return FALSE;
 	}
@@ -969,7 +978,7 @@ _delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
 	
 	/* method valid only on closed folders */
 	if (folder->open_state != FOLDER_CLOSE) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_FOLDER_STATE,
+		camel_exception_set (ex, CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
 				     "Delete operation invalid on opened folders");
 		return FALSE;
 	}
@@ -994,7 +1003,7 @@ _delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
 			} while (ok && (sf = sf->next));
 		}
 	} else if (subfolders) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_NON_EMPTY_FOLDER,
+		camel_exception_set (ex, CAMEL_EXCEPTION_FOLDER_NON_EMPTY,
 				     "folder has subfolders");
 		ok = FALSE;
 	}
@@ -1621,7 +1630,7 @@ camel_folder_get_message_uid (CamelFolder *folder, CamelMimeMessage *message, Ca
 
 	if (!folder->has_uid_capability) {
 		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_NON_UID_FOLDER,
+				     CAMEL_EXCEPTION_FOLDER_NON_UID,
 				     "folder is not UID capable");
 		return NULL;
 	}
@@ -1706,7 +1715,7 @@ camel_folder_get_message_by_uid  (CamelFolder *folder, const gchar *uid, CamelEx
 
 	if (!folder->has_uid_capability) {
 		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_NON_UID_FOLDER,
+				     CAMEL_EXCEPTION_FOLDER_NON_UID,
 				     "folder is not UID capable");
 		return NULL;
 	}
@@ -1726,7 +1735,7 @@ _get_uid_list  (CamelFolder *folder, CamelException *ex)
 
 	if (!folder->has_uid_capability) {
 		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_NON_UID_FOLDER,
+				     CAMEL_EXCEPTION_FOLDER_NON_UID,
 				     "folder is not UID capable");
 		return NULL;
 	}
@@ -1760,7 +1769,7 @@ camel_folder_get_uid_list  (CamelFolder *folder, CamelException *ex)
 
 	if (!folder->has_uid_capability) {
 		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_NON_UID_FOLDER,
+				     CAMEL_EXCEPTION_FOLDER_NON_UID,
 				     "folder is not UID capable");
 		return NULL;
 	}
