@@ -1,3 +1,15 @@
+2001-07-13  Peter Williams  <peterw@ximian.com>
+
+	* Makefile.am (install-exec-local): Let people install as non-root,
+	but give them a bigass warning so they're not allowed to complain when
+	it doesn't work right.
+
+	* camel-remote-store.c (sync_remote_folder): New function: 
+	hash table callback.
+	(remote_disconnect): If cleanly disconnecting, sync our folders. Fixes
+	deadlocks on exit (folders syncing after store disconnects) and also makes
+	sense.
+
 2001-07-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-uid-cache.c (camel_uid_cache_new): We now use a structure

@@ -281,6 +281,16 @@ remote_connect (CamelService *service, CamelException *ex)
 	return TRUE;
 }
 
+
+static void
+sync_remote_folder (gpointer key, gpointer value, gpointer data)
+{
+	CamelFolder *folder = CAMEL_FOLDER (value);
+	
+	if (!camel_exception_is_set ((CamelException *) data))
+		camel_folder_sync (folder, FALSE, (CamelException *) data);
+}
+
 static gboolean
 remote_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 {
@@ -292,6 +302,10 @@ remote_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 		store->timeout_id = 0;
 	}
 	
+	if (clean)
+		/* sync all folders */
+		g_hash_table_foreach (CAMEL_STORE (store)->folders, sync_remote_folder, ex);
+
 	if (!CAMEL_SERVICE_CLASS (store_class)->disconnect (service, clean, ex))
 		return FALSE;
 	
