@@ -1,3 +1,8 @@
+2004-04-10  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
+
+	* evolution-mail.schemas.in.in.h: Correct typo s/hight/height/ at
+	"Subscribe dialog default hight"
+
 2004-04-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (mail_config_init): Don't bother adding the

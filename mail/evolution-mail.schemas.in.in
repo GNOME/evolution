@@ -467,7 +467,7 @@
       <type>int</type>
       <default>400</default>
       <locale name="C">
-         <short>Message Window default hight</short>
+         <short>Message Window default height</short>
          <long>Default height of the Message Window</long>
       </locale>
     </schema>
