@@ -3,6 +3,10 @@ Evolution x.x.x, xxxx-xx-xx
 
 Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
+  * Addressbook
+
+    #30839 - Selecting Multiple Names In Contact List Won't Print. (Toshok)
+
   * Calendar
 
     #45274 - Tab through events in week view (Bolian Yin)
