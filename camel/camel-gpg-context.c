@@ -428,39 +428,48 @@ gpg_ctx_get_utf8_diagnostics (struct _GpgCtx *gpg)
 	inbuf = gpg->diagnostics->data;
 	inleft = gpg->diagnostics->len;
 	
-	outlen = (inleft * 2) + 16;
-	out = g_malloc (outlen + 1);
+	outleft = outlen = (inleft * 2) + 16;
+	outbuf = out = g_malloc (outlen + 1);
 	
 	do {
-		outbuf = out + converted;
-		outleft = outlen - converted;
-		
 		converted = e_iconv (cd, &inbuf, &inleft, &outbuf, &outleft);
 		if (converted == (size_t) -1) {
-			if (errno != E2BIG && errno != EINVAL)
-				goto fail;
+			if (errno == E2BIG) {
+				/*
+				 * E2BIG   There is not sufficient room at *outbuf.
+				 *
+				 * We just need to grow our outbuffer and try again.
+				 */
+				
+				converted = outbuf - out;
+				outlen += inleft * 2 + 16;
+				out = g_realloc (out, outlen + 1);
+				outbuf = out + converted;
+				outleft = outlen - converted;
+			} else if (errno == EILSEQ) {
+				/*
+				 * EILSEQ An invalid multibyte sequence has been  encountered
+				 *        in the input.
+				 *
+				 * What we do here is eat the invalid bytes in the sequence and continue
+				 */
+				
+				inbuf++;
+				inleft--;
+			} else if (errno == EINVAL) {
+				/*
+				 * EINVAL  An  incomplete  multibyte sequence has been encoun­
+				 *         tered in the input.
+				 *
+				 * We assume that this can only happen if we've run out of
+				 * bytes for a multibyte sequence, if not we're in trouble.
+				 */
+				
+				break;
+			} else
+				goto noop;
 		}
-		
-		/*
-		 * E2BIG   There is not sufficient room at *outbuf.
-		 *
-		 * We just need to grow our outbuffer and try again.
-		 */
-		
-		converted = outbuf - out;
-		if (errno == E2BIG) {
-			outlen += inleft * 2 + 16;
-			out = g_realloc (out, outlen + 1);
-			outbuf = out + converted;
-		}
-	} while (errno == E2BIG && inleft > 0);
-	
-	/*
-	 * EINVAL  An  incomplete  multibyte sequence has been encoun­
-	 *         tered in the input.
-	 *
-	 * We'll just have to ignore it...
-	 */
+	} while (((int) inleft) > 0);
 	
 	/* flush the iconv conversion */
 	e_iconv (cd, NULL, NULL, &outbuf, &outleft);
@@ -471,9 +480,10 @@ gpg_ctx_get_utf8_diagnostics (struct _GpgCtx *gpg)
 	
 	return out;
 	
- fail:
+ noop:
 	
 	g_free (out);
+	e_iconv_close (cd);
 	
 	return gpg_ctx_get_diagnostics (gpg);
 }

@@ -1,5 +1,11 @@
 2003-04-09  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-gpg-context.c (gpg_ctx_get_utf8_diagnostics): Changed my
+	mind a bit on how I wanted this to work. Instead of aborting on an
+	illegal sequence, do like we do with camel-mime-filter-charset and
+	just skip over invalid sequences. Also, in the noop failure case,
+	close the iconv_t so we don't leak it.
+
 	* providers/imap/camel-imap-utils.c (imap_body_decode): Save the
 	content size in a temp variable until after we've successfully
 	parsed all of the body_type_1part expr. Also fixed a type-o in the
