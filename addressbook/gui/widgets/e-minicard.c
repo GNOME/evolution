@@ -448,7 +448,8 @@ e_minicard_finalize (GObject *object)
 static void
 e_minicard_style_set (EMinicard *minicard, GtkStyle *previous_style)
 {
-	set_selected (minicard, minicard->selected);
+	if ( (GTK_OBJECT_FLAGS( minicard ) & GNOME_CANVAS_ITEM_REALIZED) )
+		set_selected (minicard, minicard->selected);
 }
 
 static void

@@ -31,12 +31,38 @@ typedef struct {
 } ECardMergingLookup;
 
 static void
+final_id_cb (EBook *book, EBookStatus status, const char *id, gpointer closure)
+{
+	ECardMergingLookup *lookup = closure;
+
+	if (lookup->id_cb)
+		lookup->id_cb (lookup->book, status, id, lookup->closure);
+
+	g_object_unref (lookup->book);
+
+	g_free (lookup);
+}
+
+static void
+final_cb (EBook *book, EBookStatus status, gpointer closure)
+{
+	ECardMergingLookup *lookup = closure;
+
+	if (lookup->cb)
+		lookup->cb (lookup->book, status, lookup->closure);
+
+	g_object_unref (lookup->book);
+
+	g_free (lookup);
+}
+
+static void
 doit (ECardMergingLookup *lookup)
 {
 	if (lookup->op == E_CARD_MERGING_ADD)
-		e_book_add_card (lookup->book, lookup->card, lookup->id_cb, lookup->closure);
+		e_book_add_card (lookup->book, lookup->card, final_id_cb, lookup);
 	else if (lookup->op == E_CARD_MERGING_COMMIT)
-		e_book_commit_card (lookup->book, lookup->card, lookup->cb, lookup->closure);
+		e_book_commit_card (lookup->book, lookup->card, final_cb, lookup);
 }
 
 static void
@@ -44,10 +70,10 @@ cancelit (ECardMergingLookup *lookup)
 {
 	if (lookup->op == E_CARD_MERGING_ADD) {
 		if (lookup->id_cb)
-			lookup->id_cb (lookup->book, E_BOOK_STATUS_CANCELLED, NULL, lookup->closure);
+			final_id_cb (lookup->book, E_BOOK_STATUS_CANCELLED, NULL, lookup);
 	} else if (lookup->op == E_CARD_MERGING_COMMIT) {
 		if (lookup->cb)
-			lookup->cb (lookup->book, E_BOOK_STATUS_CANCELLED, lookup->closure);
+			final_cb (lookup->book, E_BOOK_STATUS_CANCELLED, lookup);
 	}
 }
 
@@ -64,7 +90,6 @@ response (GtkWidget *dialog, int response, ECardMergingLookup *lookup)
 		cancelit (lookup);
 		break;
 	}
-	g_free (lookup);
 }
 
 static void
@@ -74,7 +99,6 @@ match_query_callback (ECard *card, ECard *match, ECardMatchType type, gpointer c
 
 	if ((gint) type <= (gint) E_CARD_MATCH_VAGUE) {
 		doit (lookup);
-		g_free (lookup);
 	} else {
 		GladeXML *ui;
 		
@@ -86,7 +110,6 @@ match_query_callback (ECard *card, ECard *match, ECardMatchType type, gpointer c
 			ui = glade_xml_new (EVOLUTION_GLADEDIR "/e-card-merging-book-commit-duplicate-detected.glade", NULL, NULL);
 		else {
 			doit (lookup);
-			g_free (lookup);
 			return;
 		}
 
@@ -120,7 +143,7 @@ e_card_merging_book_add_card (EBook           *book,
 	lookup = g_new (ECardMergingLookup, 1);
 
 	lookup->op = E_CARD_MERGING_ADD;
-	lookup->book = book;
+	lookup->book = g_object_ref (book);
 	lookup->card = card;
 	lookup->id_cb = cb;
 	lookup->closure = closure;
@@ -142,7 +165,7 @@ e_card_merging_book_commit_card (EBook                 *book,
 	lookup = g_new (ECardMergingLookup, 1);
 
 	lookup->op = E_CARD_MERGING_COMMIT;
-	lookup->book = book;
+	lookup->book = g_object_ref (book);
 	lookup->card = card;
 	lookup->cb = cb;
 	lookup->closure = closure;

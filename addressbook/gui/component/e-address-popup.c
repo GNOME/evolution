@@ -590,7 +590,7 @@ card_picker_init (MiniWizard *wiz, const GList *cards, const gchar *new_name, co
 {
 	CardPicker *pick;
 	gchar *str;
-	GtkWidget *w, *swin;
+	GtkWidget *w;
 	GtkTreeIter iter;
 
 	pick = g_new (CardPicker, 1);
@@ -607,6 +607,7 @@ card_picker_init (MiniWizard *wiz, const GList *cards, const gchar *new_name, co
 						     COLUMN_ACTION,
 						     _("Select an Action"),
 						     gtk_cell_renderer_text_new (),
+						     "text", COLUMN_ACTION,
 						     NULL);
 
 	gtk_tree_selection_set_mode (gtk_tree_view_get_selection (GTK_TREE_VIEW (pick->list)),
@@ -652,8 +653,8 @@ card_picker_init (MiniWizard *wiz, const GList *cards, const gchar *new_name, co
 	wiz->ok_cb      = card_picker_ok_cb;
 	wiz->cleanup_cb = card_picker_cleanup_cb;
 
-	g_object_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (pick->list)),
-			  "changed", card_picker_selection_changed,
+	g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (pick->list)),
+			  "changed", G_CALLBACK (card_picker_selection_changed),
 			  wiz);
 
 	/* Build our widget */
@@ -661,13 +662,7 @@ card_picker_init (MiniWizard *wiz, const GList *cards, const gchar *new_name, co
 	w = gtk_label_new (new_email);
 	gtk_box_pack_start (GTK_BOX (pick->body), w, FALSE, TRUE, 3);
 
-	swin = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (swin),
-					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-
-	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (swin), pick->list);
-	
-	gtk_box_pack_start (GTK_BOX (pick->body), swin, TRUE, TRUE, 2);
+	gtk_box_pack_start (GTK_BOX (pick->body), pick->list, TRUE, TRUE, 2);
 	gtk_widget_show_all (pick->body);
 
 

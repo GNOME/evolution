@@ -1,5 +1,29 @@
 2003-04-03  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes bug #40715 ]
+	* gui/merging/e-card-merging.c (final_id_cb): add this callback,
+	to unref the book/free the closure after calling the user's
+	callback.
+	(final_cb): same.
+	(doit): use final{_id}_cb
+	(cancelit): same.
+	(response): don't free the lookup struct here.
+	(match_query_callback): same.
+	(e_card_merging_book_add_card): ref the book.
+	(e_card_merging_book_commit_card): same.
+
+	* gui/component/e-address-popup.c (card_picker_init): make sure to
+	set the "text" attribute on the cell renderer so the text actually
+	shows up.  also, g_object_connect -> g_signal_connect *sigh*.
+	Lastly, get rid of the scrolled window and just make the window
+	size to show the text.
+	
+	* gui/widgets/e-minicard.c (e_minicard_style_set): only call
+	set_selected if we're realized (we create all the canvas objects
+	that set_selected manipulates in our realize method.)
+
+2003-04-03  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/select-names/Makefile.am (INCLUDES): add
 	EVOLUTION_IMAGESDIR
 
