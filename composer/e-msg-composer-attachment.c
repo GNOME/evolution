@@ -393,13 +393,15 @@ ok_cb (GtkWidget *widget, gpointer data)
 	close_cb (widget, data);
 }
 
-static void
+static gboolean
 file_name_focus_out_cb (GtkWidget *widget, GdkEventFocus *event, gpointer data)
 {
 	DialogData *dialog_data;
 	
 	dialog_data = (DialogData *) data;
 	update_mime_type (dialog_data);
+	
+	return FALSE;
 }
 
 
@@ -466,7 +468,7 @@ e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment, GtkWidget *p
 	connect_widget (editor_gui, "ok_button", "clicked", (GCallback)ok_cb, dialog_data);
 	connect_widget (editor_gui, "close_button", "clicked", (GCallback)close_cb, dialog_data);
 	
-	connect_widget (editor_gui, "file_name_entry", "focus_out_event",
+	connect_widget (editor_gui, "file_name_entry", "focus-out-event",
 			(GCallback)file_name_focus_out_cb, dialog_data);
 	
 #warning "signal connect while alive"	

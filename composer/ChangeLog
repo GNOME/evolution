@@ -1,3 +1,11 @@
+2003-04-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-attachment.c (file_name_focus_out_cb): Return
+	FALSE so the signal gets propogated further up the chain. Fixes
+	bug #41238.
+	(e_msg_composer_attachment_edit): The focus-out-event signal name
+	changed (although the old name still works...for now?).
+
 2003-04-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-attachment.glade: Updated to comply with the
