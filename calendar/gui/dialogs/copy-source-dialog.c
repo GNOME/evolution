@@ -22,7 +22,7 @@
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkstock.h>
 #include <bonobo/bonobo-i18n.h>
-#include <widgets/misc/e-source-selector.h>
+#include <widgets/misc/e-source-option-menu.h>
 #include "copy-source-dialog.h"
 
 typedef struct {
@@ -32,19 +32,22 @@ typedef struct {
 	GConfClient *conf_client;
 	ESource *orig_source;
 	CalObjType obj_type;
+	ESource *selected_source;
 } CopySourceDialogData;
 
 static void
-primary_selection_changed_cb (ESourceSelector *selector, CopySourceDialogData *csdd)
+source_selected_cb (ESourceOptionMenu *menu, ESource *selected_source, gpointer user_data)
 {
-	ESource *source;
+	CopySourceDialogData *csdd = user_data;
 
-	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (csdd->selector));
-	if (source) {
-		if (source != csdd->orig_source)
+	csdd->selected_source = selected_source;
+	if (selected_source) {
+		if (selected_source != csdd->orig_source)
 			gtk_dialog_set_response_sensitive (GTK_DIALOG (csdd->dialog), GTK_RESPONSE_OK, TRUE);
-		else
+		else {
 			gtk_dialog_set_response_sensitive (GTK_DIALOG (csdd->dialog), GTK_RESPONSE_OK, FALSE);
+			csdd->selected_source = NULL;
+		}
 	} else
 		gtk_dialog_set_response_sensitive (GTK_DIALOG (csdd->dialog), GTK_RESPONSE_OK, FALSE);
 }
@@ -53,13 +56,11 @@ static gboolean
 copy_source (CopySourceDialogData *csdd)
 {
 	char *uri;
-	ESource *dest_source;
 	ECal *source_client, *dest_client;
 	GList *obj_list = NULL;
 	gboolean result = FALSE;
 
-	dest_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (csdd->selector));
-	if (!dest_source)
+	if (!csdd->selected_source)
 		return FALSE;
 
 	/* open the source */
@@ -71,7 +72,7 @@ copy_source (CopySourceDialogData *csdd)
 	}
 
 	/* open the destination */
-	dest_client = e_cal_new (dest_source, csdd->obj_type);
+	dest_client = e_cal_new (csdd->selected_source, csdd->obj_type);
 	if (!e_cal_open (dest_client, FALSE, NULL)) {
 		g_object_unref (dest_client);
 		g_object_unref (source_client);
@@ -125,6 +126,7 @@ copy_source_dialog (GtkWindow *parent, ESource *source, CalObjType obj_type)
 		return FALSE;
 
 	csdd.orig_source = source;
+	csdd.selected_source = NULL;
 	csdd.obj_type = obj_type;
 
 	/* create the dialog */
@@ -136,9 +138,9 @@ copy_source_dialog (GtkWindow *parent, ESource *source, CalObjType obj_type)
 
 	csdd.conf_client = gconf_client_get_default ();
 	csdd.source_list = e_source_list_new_for_gconf (csdd.conf_client, gconf_key);
-	csdd.selector = e_source_selector_new (csdd.source_list);
-	g_signal_connect (G_OBJECT (csdd.selector), "primary_selection_changed",
-			  G_CALLBACK (primary_selection_changed_cb), &csdd);
+	csdd.selector = e_source_option_menu_new (csdd.source_list);
+	g_signal_connect (G_OBJECT (csdd.selector), "source_selected",
+			  G_CALLBACK (source_selected_cb), &csdd);
 	gtk_widget_show (csdd.selector);
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (csdd.dialog)->vbox), csdd.selector, TRUE, TRUE, 6);
 

@@ -1,3 +1,12 @@
+2003-12-02  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/dialogs/copy-source-dialog.c: converted to use an
+	ESourceOptionMenu instead of the ESourceSelector.
+	(primary_selection_changed_cb): removed.
+	(copy_source_dialog): create the ESourceOptionMenu here.
+	(source_selected_cb): callback for the "source_selected"
+	signal on the ESourceOptionMenu widget.
+
 2003-12-02  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/e-calendar-table.h (struct _ECalendarTable): Replace member
