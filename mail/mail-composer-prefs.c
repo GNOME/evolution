@@ -714,13 +714,15 @@ spell_setup (MailComposerPrefs *prefs)
 	int i;
 	
 	gtk_clist_freeze (GTK_CLIST (prefs->language));
-	for (i = 0; i < prefs->language_seq->_length; i ++) {
-		char *texts[2];
-		
-		texts[0] = NULL;
-		texts[1] = _(prefs->language_seq->_buffer [i].name);
-		gtk_clist_append (GTK_CLIST (prefs->language), texts);
-		gtk_clist_set_row_data (GTK_CLIST (prefs->language), i, prefs->language_seq->_buffer [i].abrev);
+	if (prefs->language_seq) {
+		for (i = 0; i < prefs->language_seq->_length; i++) {
+			char *texts[2];
+			
+			texts[0] = NULL;
+			texts[1] = _(prefs->language_seq->_buffer [i].name);
+			gtk_clist_append (GTK_CLIST (prefs->language), texts);
+			gtk_clist_set_row_data (GTK_CLIST (prefs->language), i, prefs->language_seq->_buffer [i].abrev);
+		}
 	}
 	gtk_clist_thaw (GTK_CLIST (prefs->language));
 	
