@@ -29,6 +29,9 @@
 #include <string.h>
 
 #include "e-util.h"
+#if 0
+#include <libgnomevfs/gnome-vfs.h>
+#endif
 
 int
 g_str_compare(const void *x, const void *y)
@@ -105,7 +108,9 @@ e_read_file(const char *filename)
 	bytes = read(fd, buffer, BUFF_SIZE);
 	while (bytes) {
 		if (bytes > 0) {
-			list = g_list_prepend(list, g_strndup(buffer, bytes));
+			char *temp = g_malloc(bytes);
+			memcpy (temp, buffer, bytes);
+			list = g_list_prepend(list, temp);
 			lengths = g_list_prepend(lengths, GINT_TO_POINTER(bytes));
 			length += bytes;
 		} else {
@@ -160,6 +165,49 @@ e_write_file(const char *filename, const char *data, int flags)
 	close(fd);
 	return 0;
 }
+
+#if 0
+char *
+e_read_uri(const char *uri)
+{
+	GnomeVFSHandle *handle;
+	GList *list = NULL, *list_iterator;
+	GList *lengths = NULL, *lengths_iterator;
+	gchar buffer[1025];
+	gchar *ret_val;
+	int length = 0;
+	GnomeVFSFileSize bytes;
+
+	gnome_vfs_open(&handle, uri, GNOME_VFS_OPEN_READ);
+	
+	gnome_vfs_read(handle, buffer, 1024, &bytes);
+	while (bytes) {
+		if (bytes) {
+			char *temp = g_malloc(bytes);
+			memcpy (temp, buffer, bytes);
+			list = g_list_prepend(list, temp);
+			lengths = g_list_prepend(lengths, GINT_TO_POINTER((gint) bytes));
+			length += bytes;
+		}
+		gnome_vfs_read(handle, buffer, 1024, &bytes);
+	}
+
+	ret_val = g_new(char, length + 1);
+	ret_val[length] = 0;
+	lengths_iterator = lengths;
+	list_iterator = list;
+	for ( ; list_iterator; list_iterator = list_iterator->next, lengths_iterator = lengths_iterator->next) {
+		int this_length = GPOINTER_TO_INT(lengths_iterator->data);
+		length -= this_length;
+		memcpy(ret_val + length, list_iterator->data, this_length);
+	}
+	gnome_vfs_close(handle);
+	g_list_foreach(list, (GFunc) g_free, NULL);
+	g_list_free(list);
+	g_list_free(lengths);
+	return ret_val;
+}
+#endif
 
 typedef gint (*GtkSignal_INT__INT_INT_POINTER) (GtkObject * object,
 						gint arg1,
