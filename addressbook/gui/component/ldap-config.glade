@@ -379,7 +379,7 @@ LDAP attribute to associate with it.</label>
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>label286</name>
-	  <label>Please select and Evolution attribute and an
+	  <label>Please select an Evolution attribute and an
 LDAP attribute to associate with it.</label>
 	  <justify>GTK_JUSTIFY_LEFT</justify>
 	  <wrap>False</wrap>
@@ -5479,7 +5479,7 @@ that you add to the directory on the LDAP server. </label>
 	  <class>GtkLabel</class>
 	  <name>label475</name>
 	  <label>Selecting this option will let you change Evolution's default settings for LDAP
-searches, and for creating and editting contacts. </label>
+searches, and for creating and editing contacts. </label>
 	  <justify>GTK_JUSTIFY_LEFT</justify>
 	  <wrap>False</wrap>
 	  <xalign>0.5</xalign>
