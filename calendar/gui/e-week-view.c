@@ -179,7 +179,7 @@ static void e_week_view_foreach_event_with_uid (EWeekView *week_view,
 static gboolean e_week_view_on_text_item_event (GnomeCanvasItem *item,
 						GdkEvent *event,
 						EWeekView *week_view);
-static void e_week_view_event_move (ECalendarView *cal_view, ECalViewMoveDirection direction);
+static gboolean e_week_view_event_move (ECalendarView *cal_view, ECalViewMoveDirection direction);
 static gint e_week_view_get_day_offset_of_event (EWeekView *week_view, time_t event_time);
 static void e_week_view_scroll_a_step (EWeekView *week_view, ECalViewMoveDirection direction);
 static void e_week_view_change_event_time (EWeekView *week_view, time_t start_dt, time_t end_dt);
@@ -244,7 +244,6 @@ e_week_view_class_init (EWeekViewClass *class)
 	view_class->get_selected_time_range = e_week_view_get_selected_time_range;
 	view_class->set_selected_time_range = e_week_view_set_selected_time_range;
 	view_class->get_visible_time_range = e_week_view_get_visible_time_range;
-	view_class->event_move		= e_week_view_event_move;
 
 	/* init the accessibility support for e_week_view */
 	e_week_view_a11y_init ();
@@ -3171,7 +3170,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 	return FALSE;
 }
 
-static void e_week_view_event_move (ECalendarView *cal_view, ECalViewMoveDirection direction)
+static gboolean e_week_view_event_move (ECalendarView *cal_view, ECalViewMoveDirection direction)
 {
 	EWeekViewEvent *event;
 	gint event_num, span_num, adjust_days, current_start_day, current_end_day;
@@ -3185,7 +3184,7 @@ static void e_week_view_event_move (ECalendarView *cal_view, ECalViewMoveDirecti
 
 	/* If no item is being edited, just return. */
 	if (event_num == -1)
-		return;
+		return FALSE;
 
 	event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
 	start_dt = event->start;
@@ -3220,19 +3219,20 @@ static void e_week_view_event_move (ECalendarView *cal_view, ECalViewMoveDirecti
 	current_end_day = e_week_view_get_day_offset_of_event (week_view,end_dt);
 
 	if (current_start_day < 0) {
-		return;
+		return TRUE;
 	}
 	if (week_view->multi_week_view) {
 		if (current_end_day > week_view->weeks_shown * 7) {
-			return;
+			return TRUE;
 		}
 	}else {
 		if (current_end_day >= 7) {
-			return;
+			return TRUE;
 		}
 	}
 	
 	e_week_view_change_event_time (week_view, start_dt, end_dt);
+	return TRUE;
 }
 
 static gint
@@ -3559,12 +3559,14 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 	time_t dtstart, dtend;
 	const char *uid;
 	AddEventData add_event_data;
+	guint keyval;
 
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (E_IS_WEEK_VIEW (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
 
 	week_view = E_WEEK_VIEW (widget);
+	keyval = event->keyval;
 
 	/* The Escape key aborts a resize operation. */
 #if 0
@@ -3577,27 +3579,19 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 #endif
 
 	/*Navigation through days with arrow keys*/
-	if (!((event->state & GDK_SHIFT_MASK)
-		||(event->state & GDK_CONTROL_MASK)
-		||(event->state & GDK_MOD1_MASK))) {
-	switch (event->keyval) {
-	case GDK_Up:
-		e_week_view_move_selection_day (week_view,E_CAL_VIEW_MOVE_UP);
-		return TRUE;
-	case GDK_Down:
-		e_week_view_move_selection_day (week_view,E_CAL_VIEW_MOVE_DOWN);
-		return TRUE;	
-	case GDK_Left:
-		e_week_view_move_selection_day (week_view,E_CAL_VIEW_MOVE_LEFT);
-		return TRUE;
-	case GDK_Right:
-		e_week_view_move_selection_day (week_view,E_CAL_VIEW_MOVE_RIGHT);
-		return TRUE;
-	default:
-		break;
+	if (((event->state & GDK_SHIFT_MASK) != GDK_SHIFT_MASK)
+		&&((event->state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
+		&&((event->state & GDK_MOD1_MASK) == GDK_MOD1_MASK)) {
+		if (keyval == GDK_Up || keyval == GDK_KP_Up)
+			return e_week_view_event_move ((ECalendarView *) week_view, E_CAL_VIEW_MOVE_UP);
+		else if (keyval == GDK_Down || keyval == GDK_KP_Down)
+			return e_week_view_event_move ((ECalendarView *) week_view, E_CAL_VIEW_MOVE_DOWN);
+		else if (keyval == GDK_Left || keyval == GDK_KP_Left)
+			return e_week_view_event_move ((ECalendarView *) week_view, E_CAL_VIEW_MOVE_LEFT);
+		else if (keyval == GDK_Right || keyval == GDK_KP_Right)
+			return e_week_view_event_move ((ECalendarView *) week_view, E_CAL_VIEW_MOVE_RIGHT);
 	}
-	}
-
+	
 	if (week_view->selection_start_day == -1)
 		return FALSE;
 

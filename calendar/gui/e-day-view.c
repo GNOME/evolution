@@ -344,7 +344,7 @@ static void e_day_view_stop_editing_event (EDayView *day_view);
 static gboolean e_day_view_on_text_item_event (GnomeCanvasItem *item,
 					       GdkEvent *event,
 					       EDayView *day_view);
-static void e_day_view_event_move (ECalendarView *cal_view, ECalViewMoveDirection direction);
+static gboolean e_day_view_event_move (ECalendarView *cal_view, ECalViewMoveDirection direction);
 static void e_day_view_change_event_time (EDayView *day_view, time_t start_dt,
 time_t end_dt);
 static void e_day_view_change_event_end_time_up (EDayView *day_view);
@@ -480,7 +480,6 @@ e_day_view_class_init (EDayViewClass *class)
 	view_class->get_selected_time_range = e_day_view_get_selected_time_range;
 	view_class->set_selected_time_range = e_day_view_set_selected_time_range;
 	view_class->get_visible_time_range = e_day_view_get_visible_time_range;
-	view_class->event_move		= e_day_view_event_move;
 
 	/* init the accessibility support for e_day_view */
  	e_day_view_a11y_init ();
@@ -4682,12 +4681,26 @@ e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 		}
 		return FALSE;
 	}
+	
+	/* Alt + Arrow Keys to move a selected event through time lines */
+	if (((event->state & GDK_SHIFT_MASK) != GDK_SHIFT_MASK)
+		&&((event->state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
+		&&((event->state & GDK_MOD1_MASK) == GDK_MOD1_MASK)) {
+		if (keyval == GDK_Up || keyval == GDK_KP_Up)
+			return e_day_view_event_move ((ECalendarView *) day_view, E_CAL_VIEW_MOVE_UP);
+		else if (keyval == GDK_Down || keyval == GDK_KP_Down)
+			return e_day_view_event_move ((ECalendarView *) day_view, E_CAL_VIEW_MOVE_DOWN);
+		else if (keyval == GDK_Left || keyval == GDK_KP_Left)
+			return e_day_view_event_move ((ECalendarView *) day_view, E_CAL_VIEW_MOVE_LEFT);
+		else if (keyval == GDK_Right || keyval == GDK_KP_Right)
+			return e_day_view_event_move ((ECalendarView *) day_view, E_CAL_VIEW_MOVE_RIGHT);
+	}
 
 	/*Go to the start/end of a work day*/	
 	if ((keyval == GDK_Home)
-	    &&((event->state & GDK_SHIFT_MASK) != GDK_SHIFT_MASK)
-	    &&((event->state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
-	    &&((event->state & GDK_MOD1_MASK) != GDK_MOD1_MASK)) {
+	    		&&((event->state & GDK_SHIFT_MASK) != GDK_SHIFT_MASK)
+	    		&&((event->state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
+	    		&&((event->state & GDK_MOD1_MASK) != GDK_MOD1_MASK)) {
 		e_day_view_goto_start_of_work_day (day_view);
 		return TRUE;
 	}
@@ -5689,7 +5702,7 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 	return FALSE;
 }
 
-static void 
+static gboolean 
 e_day_view_event_move (ECalendarView *cal_view, ECalViewMoveDirection direction)
 {
 	EDayViewEvent *event;
@@ -5703,7 +5716,7 @@ e_day_view_event_move (ECalendarView *cal_view, ECalViewMoveDirection direction)
 	event_num = day_view->editing_event_num;
 
 	if ((day == -1) || (day == E_DAY_VIEW_LONG_EVENT))
-		return;
+		return FALSE;
 
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
 				event_num);
@@ -5719,7 +5732,7 @@ e_day_view_event_move (ECalendarView *cal_view, ECalViewMoveDirection direction)
 	switch (direction) {
 	case E_CAL_VIEW_MOVE_UP:
 		if (resize_start_row <= 0)
-			return;
+			return FALSE;
 		resize_start_row--;
 		resize_end_row--;
 		start_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_start_row);
@@ -5727,7 +5740,7 @@ e_day_view_event_move (ECalendarView *cal_view, ECalViewMoveDirection direction)
 		break;
 	case E_CAL_VIEW_MOVE_DOWN:
 		if (resize_end_row >= day_view->rows - 1)
-			return;
+			return FALSE;
 		resize_start_row++;
 		resize_end_row++;
 		start_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_start_row);
@@ -5735,7 +5748,7 @@ e_day_view_event_move (ECalendarView *cal_view, ECalViewMoveDirection direction)
 		break;
 	case E_CAL_VIEW_MOVE_LEFT:
 		if (day <= 0) 
-			return;
+			return TRUE;
 		start_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_start_row);
 		end_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_end_row + 1);
 		start_time = icaltime_from_timet (start_dt, 0);
@@ -5747,7 +5760,7 @@ e_day_view_event_move (ECalendarView *cal_view, ECalViewMoveDirection direction)
 		break;
 	case E_CAL_VIEW_MOVE_RIGHT:
 		if (day + 1 >= day_view->days_shown)
-			return;
+			return TRUE;
 		start_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_start_row);
 		end_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_end_row + 1);
 		start_time = icaltime_from_timet (start_dt, 0);
@@ -5758,11 +5771,13 @@ e_day_view_event_move (ECalendarView *cal_view, ECalViewMoveDirection direction)
 		end_dt = icaltime_as_timet (end_time);
 		break;	
 	default:
-		return;
+		return FALSE;
 	}
 	
 	e_day_view_change_event_time (day_view, start_dt, end_dt);
 	e_day_view_ensure_rows_visible (day_view, resize_start_row, resize_end_row);
+
+	return TRUE;
 }
 
 static void
