@@ -114,40 +114,41 @@ cleanup_before_exec (int fd)
 }
 
 static int
-crypto_exec_with_passwd (char *path, char *argv[], const char *input,
+crypto_exec_with_passwd (const char *path, char *argv[], const char *input, int inlen,
 			 int passwd_fds[], const char *passphrase,
-			 char **output, char **diagnostics)
+			 char **output, int *outlen, char **diagnostics)
 {
 	fd_set fdset, write_fdset;
 	int ip_fds[2], op_fds[2], diag_fds[2];
 	int select_result, read_len, write_len;
-        size_t tmp_len;
+	size_t tmp_len;
 	pid_t child;
 	char *buf, *diag_buf;
 	const char *passwd_next, *input_next;
 	size_t size, alloc_size, diag_size, diag_alloc_size;
-        gboolean eof_seen, diag_eof_seen, passwd_eof_seen, input_eof_seen;
-        size_t passwd_remaining, passwd_incr, input_remaining, input_incr;
+	gboolean eof_seen, diag_eof_seen, passwd_eof_seen, input_eof_seen;
+	size_t passwd_remaining, passwd_incr, input_remaining, input_incr;
 	struct timeval timeout;
-
+	
+	
 	if ((pipe (ip_fds) < 0 ) ||
 	    (pipe (op_fds) < 0 ) ||
 	    (pipe (diag_fds) < 0 )) {
-		*diagnostics = g_strdup_printf (_("Couldn't create pipe to "
-						  "%s: %s"), PGP_PROGRAM,
+		*diagnostics = g_strdup_printf ("Couldn't create pipe to %s: "
+						"%s", PGP_PROGRAM,
 						g_strerror (errno));
 		return 0;
 	}
-
+	
 	if (!(child = fork ())) {
 		/* In child */
-
-                if ((dup2 (ip_fds[0], STDIN_FILENO) < 0 ) ||
+		
+		if ((dup2 (ip_fds[0], STDIN_FILENO) < 0 ) ||
 		    (dup2 (op_fds[1], STDOUT_FILENO) < 0 ) ||
 		    (dup2 (diag_fds[1], STDERR_FILENO) < 0 )) {
 			_exit (255);
 		}
-
+		
 		/* Dissociate from evolution-mail's controlling
 		 * terminal so that pgp/gpg won't be able to read from
 		 * it: PGP 2 will fall back to asking for the password
@@ -155,65 +156,65 @@ crypto_exec_with_passwd (char *path, char *argv[], const char *input,
 		 * This will make that fail rather than hanging.
 		 */
 		setsid ();
-
+		
 		/* Close excess fds */
-                cleanup_before_exec(passwd_fds[0]);
-
+		cleanup_before_exec (passwd_fds[0]);
+		
 		execvp (path, argv);
-		fprintf (stderr, _("Could not execute %s: %s\n"), argv[0],
+		fprintf (stderr, "Could not execute %s: %s\n", argv[0],
 			 g_strerror (errno));
 		_exit (255);
 	} else if (child < 0) {
-		*diagnostics = g_strdup_printf (_("Cannot fork %s: %s"),
+		*diagnostics = g_strdup_printf ("Cannot fork %s: %s",
 						argv[0], g_strerror (errno));
 		return 0;
 	}
-
+	
 	/* Parent */
 	close (ip_fds[0]);
 	close (op_fds[1]);
 	close (diag_fds[1]);
 	close (passwd_fds[0]);
-
+	
 	timeout.tv_sec = 10; /* timeout in seconds */
 	timeout.tv_usec = 0;
-
+	
 	size = diag_size = 0;
 	alloc_size = 4096;
 	diag_alloc_size = 1024;
-        eof_seen = diag_eof_seen = FALSE;
-
+	eof_seen = diag_eof_seen = FALSE;
+	
 	buf = g_malloc (alloc_size);
 	diag_buf = g_malloc (diag_alloc_size);
-
-        passwd_next = passphrase;
-        passwd_remaining = strlen (passphrase);
-        passwd_incr = fpathconf (passwd_fds[1], _PC_PIPE_BUF);
+	
+	passwd_next = passphrase;
+	passwd_remaining = passphrase ? strlen (passphrase) : 0;
+	passwd_incr = fpathconf (passwd_fds[1], _PC_PIPE_BUF);
 	/* Use a reasonable default value on error. */
-        if (passwd_incr <= 0)
+	if (passwd_incr <= 0)
 		passwd_incr = 1024;
-        passwd_eof_seen = FALSE;
-
+	passwd_eof_seen = FALSE;
+	
 	input_next = input;
-	input_remaining = strlen (input);
+	input_remaining = inlen;
 	input_incr = fpathconf (ip_fds[1], _PC_PIPE_BUF);
 	if (input_incr <= 0)
-                input_incr = 1024;
+		input_incr = 1024;
 	input_eof_seen = FALSE;
-
+	
 	while (!(eof_seen && diag_eof_seen)) {
 		FD_ZERO (&fdset);
-                if (!eof_seen)
+		if (!eof_seen)
 			FD_SET (op_fds[0], &fdset);
-                if (!diag_eof_seen)
+		if (!diag_eof_seen)
 			FD_SET (diag_fds[0], &fdset);
-
+		
 		FD_ZERO (&write_fdset);
-                if (!passwd_eof_seen)
+		if (!passwd_eof_seen)
 			FD_SET (passwd_fds[1], &write_fdset);
-                if (!input_eof_seen)
+		if (!input_eof_seen)
 			FD_SET (ip_fds[1], &write_fdset);
-
+		
 		select_result = select (FD_SETSIZE, &fdset, &write_fdset,
 					NULL, &timeout);
 		if (select_result < 0) {
@@ -225,10 +226,10 @@ crypto_exec_with_passwd (char *path, char *argv[], const char *input,
 			/* timeout */
 			break;
 		}
-
-                if (FD_ISSET (op_fds[0], &fdset)) {
+		
+		if (FD_ISSET (op_fds[0], &fdset)) {
 			/* More output is available. */
-
+			
 			if (size + 4096 > alloc_size) {
 				alloc_size += 4096;
 				buf = g_realloc (buf , alloc_size);
@@ -243,17 +244,17 @@ crypto_exec_with_passwd (char *path, char *argv[], const char *input,
 			if (read_len == 0)
 				eof_seen = TRUE;
 			size += read_len;
-                }
-
-                if (FD_ISSET(diag_fds[0], &fdset) ) {
+		}
+		
+		if (FD_ISSET(diag_fds[0], &fdset) ) {
 			/* More stderr is available. */
-
+			
 			if (diag_size + 1024 > diag_alloc_size) {
 				diag_alloc_size += 1024;
 				diag_buf = g_realloc (diag_buf,
 						      diag_alloc_size);
 			}
-
+			
 			read_len = read (diag_fds[0], &diag_buf[diag_size],
 					 diag_alloc_size - diag_size - 1);
 			if (read_len < 0) {
@@ -264,11 +265,11 @@ crypto_exec_with_passwd (char *path, char *argv[], const char *input,
 			if (read_len == 0)
 				diag_eof_seen = TRUE;
 			diag_size += read_len;
-                }
-
-                if (FD_ISSET(passwd_fds[1], &write_fdset)) {
+		}
+		
+		if (FD_ISSET(passwd_fds[1], &write_fdset)) {
 			/* Ready for more password input. */
-
+			
 			tmp_len = passwd_incr;
 			if (tmp_len > passwd_remaining)
 				tmp_len = passwd_remaining;
@@ -285,11 +286,11 @@ crypto_exec_with_passwd (char *path, char *argv[], const char *input,
 				close (passwd_fds[1]);
 				passwd_eof_seen = TRUE;
 			}
-                }
-
-                if (FD_ISSET(ip_fds[1], &write_fdset)) {
+		}
+		
+		if (FD_ISSET(ip_fds[1], &write_fdset)) {
 			/* Ready for more ciphertext input. */
-
+			
 			tmp_len = input_incr;
 			if (tmp_len > input_remaining)
 				tmp_len = input_remaining;
@@ -305,18 +306,20 @@ crypto_exec_with_passwd (char *path, char *argv[], const char *input,
 				close (ip_fds[1]);
 				input_eof_seen = TRUE;
 			}
-                }
+		}
 	}
-
+	
 	buf[size] = 0;
 	diag_buf[diag_size] = 0;
 	close (op_fds[0]);
 	close (diag_fds[0]);
-
+	
 	*output = buf;
+	if (outlen)
+		*outlen = size;
 	*diagnostics = diag_buf;
-
-        return cleanup_child (child);
+	
+	return cleanup_child (child);
 }
 
 /*----------------------------------------------------------------------*
@@ -326,13 +329,16 @@ crypto_exec_with_passwd (char *path, char *argv[], const char *input,
 /**
  * mail_crypto_openpgp_decrypt: pgp decrypt ciphertext
  * @ciphertext: ciphertext to decrypt
+ * @outlen: output length of the decrypted data (to be set by #mail_crypto_openpgp_decrypt)
  * @ex: a CamelException
  *
- * Decrypts the ciphertext
+ * Returns an allocated buffer containing the decrypted ciphertext. If
+ * the cleartext is plain text then you may treat it like a normal
+ * string as it will be NUL terminated, however #outlen is also set in
+ * the case that the cleartext is a binary stream.
  **/
-
 char *
-mail_crypto_openpgp_decrypt (const char *ciphertext, CamelException *ex)
+mail_crypto_openpgp_decrypt (const char *ciphertext, int *outlen, CamelException *ex)
 {
 	int retval, i;
 	char *path, *argv[12];
@@ -393,9 +399,12 @@ mail_crypto_openpgp_decrypt (const char *ciphertext, CamelException *ex)
 #endif
 	argv[i++] = NULL;
 
-	retval = crypto_exec_with_passwd (path, argv, ciphertext, passwd_fds,
-					  passphrase, &plaintext,
+	retval = crypto_exec_with_passwd (path, argv,
+					  ciphertext, strlen (ciphertext),
+					  passwd_fds, passphrase,
+					  &plaintext, outlen,
 					  &diagnostics);
+	
 	if (retval != 0 || !*plaintext) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "%s", diagnostics);
@@ -405,26 +414,29 @@ mail_crypto_openpgp_decrypt (const char *ciphertext, CamelException *ex)
 	}
 
 	g_free (diagnostics);
+	
 	return plaintext;
 }
 
 /**
- * mail_crypto_openpgp_encrypt: pgp encrypt plaintext
- * @plaintext: text to encrypt
+ * mail_crypto_openpgp_encrypt: pgp encrypt data
+ * @in: data to encrypt
+ * @inlen: input length of the input data (which may be a binary stream)
  * @recipients: an array of recipients to encrypt to (preferably each
  *              element should be a pgp keyring ID however sometimes email
  *              addresses will work assuming that your pgp keyring has an
  *              entry for that address)
  * @sign: TRUE if you wish to sign the encrypted text as well, FALSE otherwise
+ * @userid: userid to sign with assuming #sign is TRUE
  * @ex: a CamelException
  *
  * Encrypts the plaintext to the list of recipients and optionally signs
  **/
-
 char *
-mail_crypto_openpgp_encrypt (const char *plaintext,
+mail_crypto_openpgp_encrypt (const char *in, int inlen,
 			     const GPtrArray *recipients,
-			     gboolean sign, CamelException *ex)
+			     gboolean sign, const char *userid,
+			     CamelException *ex)
 {
 	GPtrArray *recipient_list = NULL;
 	GPtrArray *argv;
@@ -444,13 +456,13 @@ mail_crypto_openpgp_encrypt (const char *plaintext,
 					     _("No password provided."));
 			return NULL;
 		}
-		
-		if (pipe (passwd_fds) < 0) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("Couldn't create pipe to GPG/PGP: %s"),
-					      g_strerror (errno));
-			return NULL;
-		}
+	}
+	
+	if (pipe (passwd_fds) < 0) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Couldn't create pipe to GPG/PGP: %s"),
+				      g_strerror (errno));
+		return NULL;
 	}
 	
 	argv = g_ptr_array_new ();
@@ -484,6 +496,9 @@ mail_crypto_openpgp_encrypt (const char *plaintext,
 	if (sign) {
 		g_ptr_array_add (argv, "--sign");
 		
+		g_ptr_array_add (argv, "-u");
+		g_ptr_array_add (argv, (gchar *) userid);
+		
 		g_ptr_array_add (argv, "--passphrase-fd");
 		sprintf (passwd_fd, "%d", passwd_fds[0]);
 		g_ptr_array_add (argv, passwd_fd);
@@ -513,7 +528,10 @@ mail_crypto_openpgp_encrypt (const char *plaintext,
 	
 	if (sign) {
 		g_ptr_array_add (argv, "-s");
-	
+		
+		g_ptr_array_add (argv, "-u");
+		g_ptr_array_add (argv, (gchar *) userid);
+		
 		sprintf (passwd_fd, "PGPPASSFD=%d", passwd_fds[0]);
 		putenv (passwd_fd);
 	}
@@ -542,14 +560,18 @@ mail_crypto_openpgp_encrypt (const char *plaintext,
 	if (sign) {
 		g_ptr_array_add (argv, "-s");
 		
+		g_ptr_array_add (argv, "-u");
+		g_ptr_array_add (argv, (gchar *) userid);
+		
 		sprintf (passwd_fd, "PGPPASSFD=%d", passwd_fds[0]);
 		putenv (passwd_fd);
 	}
 #endif
 	g_ptr_array_add (argv, NULL);
 	
-	retval = crypto_exec_with_passwd (path, (char **) argv->pdata, plaintext,
-					  passwd_fds, passphrase, &ciphertext,
+	retval = crypto_exec_with_passwd (path, (char **) argv->pdata,
+					  in, inlen, passwd_fds,
+					  passphrase, &ciphertext, NULL,
 					  &diagnostics);
 	
 	if (retval != 0 || !*ciphertext) {
@@ -576,6 +598,8 @@ mail_crypto_openpgp_encrypt (const char *plaintext,
  * mail_crypto_openpgp_clearsign: pgp clearsign plaintext
  * @plaintext: text to sign
  * @userid: user id to sign with
+ * @hash: Preferred hash function (md5 or sha1)
+ * @detach: Specify whether or not to generate a detached clearsign.
  * @ex: a CamelException
  *
  * Clearsigns the plaintext using the user id
@@ -583,6 +607,7 @@ mail_crypto_openpgp_encrypt (const char *plaintext,
 
 char *
 mail_crypto_openpgp_clearsign (const char *plaintext, const char *userid,
+			       PgpHashType hash, gboolean detach,
 			       CamelException *ex)
 {
 	int retval;
@@ -593,6 +618,7 @@ mail_crypto_openpgp_clearsign (const char *plaintext, const char *userid,
 	char *diagnostics = NULL;
 	int passwd_fds[2];
 	char passwd_fd[32];
+	char *hash_str = NULL;
 	
 #ifndef PGP_PROGRAM
 	camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -616,6 +642,17 @@ mail_crypto_openpgp_clearsign (const char *plaintext, const char *userid,
 		return NULL;
 	}
 	
+	switch (hash) {
+	case PGP_HASH_TYPE_MD5:
+		hash_str = "MD5";
+		break;
+	case PGP_HASH_TYPE_SHA1:
+		hash_str = "SHA1";
+		break;
+	default:
+		hash_str = NULL;
+	}
+	
 	i = 0;
 #if defined(GPG_PATH)
 	path = GPG_PATH;
@@ -623,6 +660,14 @@ mail_crypto_openpgp_clearsign (const char *plaintext, const char *userid,
 	argv[i++] = "gpg";
 	
 	argv[i++] = "--clearsign";
+	
+	if (detach)
+		argv[i++] = "-b";
+	
+	if (hash_str) {
+		argv[i++] = "--digest-algo";
+		argv[i++] = hash_str;
+	}
 	
 	if (userid) {
 		argv[i++] = "-u";
@@ -642,9 +687,13 @@ mail_crypto_openpgp_clearsign (const char *plaintext, const char *userid,
 	sprintf (passwd_fd, "%d", passwd_fds[0]);
 	argv[i++] = passwd_fd;
 #elif defined(PGP5_PATH)
+	/* FIXME: modify to respect hash */
 	path = PGP5_PATH;
 	
 	argv[i++] = "pgps";
+	
+	if (detach)
+		argv[i++] = "-b";
 	
 	if (userid) {
 		argv[i++] = "-u";
@@ -661,9 +710,11 @@ mail_crypto_openpgp_clearsign (const char *plaintext, const char *userid,
 	sprintf (passwd_fd, "PGPPASSFD=%d", passwd_fds[0]);
 	putenv (passwd_fd);
 #else
+	/* FIXME: modify to respect hash and detach */
 	path = PGP_PATH;
 
 	argv[i++] = "pgp";
+	
 	argv[i++] = "-f";
 	argv[i++] = "-e";
 	argv[i++] = "-a";
@@ -676,8 +727,10 @@ mail_crypto_openpgp_clearsign (const char *plaintext, const char *userid,
 #endif
 	argv[i++] = NULL;
 	
-	retval = crypto_exec_with_passwd (path, argv, plaintext, passwd_fds,
-					  passphrase, &ciphertext,
+	retval = crypto_exec_with_passwd (path, argv,
+					  plaintext, strlen (plaintext),
+					  passwd_fds, passphrase,
+					  &ciphertext, NULL,
 					  &diagnostics);
 	
 	if (retval != 0 || !*ciphertext) {

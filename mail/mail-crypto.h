@@ -31,16 +31,27 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
+typedef enum {
+	PGP_HASH_TYPE_NONE,
+	PGP_HASH_TYPE_MD5,
+	PGP_HASH_TYPE_SHA1
+} PgpHashType;
+
 char *mail_crypto_openpgp_decrypt (const char *ciphertext,
+				   int *outlen,
 				   CamelException *ex);
 
 char *mail_crypto_openpgp_encrypt (const char *plaintext,
+				   int inlen,
 				   const GPtrArray *recipients,
 				   gboolean sign,
+				   const char *userid,
 				   CamelException *ex);
 
 char *mail_crypto_openpgp_clearsign (const char *plaintext,
 				     const char *userid,
+				     PgpHashType hash,
+				     gboolean detached,
 				     CamelException *ex);
 
 #ifdef __cplusplus

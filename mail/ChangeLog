@@ -1,3 +1,25 @@
+2000-12-11  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-format.c (decode_pgp): Updated to reflect arguments to the
+	openpgp functions - now also takes an outlen argument.
+	(try_inline_pgp): Updated.
+	(handle_multipart_encrypted): Updated here too.
+
+	* mail-crypto.c (crypto_exec_with_passwd): Updated to handle
+	binary streams and such.
+	(mail_crypto_openpgp_encrypt): Always initialize the passwd_fds
+	even if we don't plan on signing. Added an 'inlen' to specify the
+	length of the input data (as it could be binary). Also added a
+	'userid' argument for cases when we want to sign as well as
+	encrypt.
+	(mail_crypto_openpgp_decrypt): Updated to take an outlen argument
+	in case the ciphertext is encrypted binary data.
+	(mail_crypto_openpgp_clearsign): Added a 'hash' and 'detach'
+	arguments. 'hash' allows the program to specify the preferred hash
+	function (which will come in handy when generating
+	PGP/MIME). 'detach' allows the program to specify whether it wants
+	a detached signature or the entire signed text.
+
 2000-12-11  Dan Winship  <danw@helixcode.com>
 
 	* message-list.c: Remove the never-once-used BonoboObject stuff

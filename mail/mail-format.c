@@ -827,16 +827,16 @@ destroy_part (CamelObject *root, gpointer event_data, gpointer user_data)
 }
 
 static char *
-decode_pgp (const char *ciphertext, MailDisplay *md)
+decode_pgp (const char *ciphertext, int *outlen, MailDisplay *md)
 {
 	CamelException ex;
 	char *plaintext;
-
+	
 	camel_exception_init (&ex);
 #ifdef PGP_PROGRAM
 	/* FIXME: multipart parts */
 	if (g_datalist_get_data (md->data, "show_pgp")) {
-		plaintext = mail_crypto_openpgp_decrypt (ciphertext, &ex);
+		plaintext = mail_crypto_openpgp_decrypt (ciphertext, outlen, &ex);
 		if (plaintext)
 			return plaintext;
 	}
@@ -872,6 +872,7 @@ static char *
 try_inline_pgp (char *start, MailDisplay *md)
 {
 	char *end, *ciphertext, *plaintext;
+	int outlen;
 
 	/* FIXME: This should deal with signed data as well. */
 
@@ -882,11 +883,12 @@ try_inline_pgp (char *start, MailDisplay *md)
 	end += sizeof ("-----END PGP MESSAGE-----") - 1;
 
 	mail_html_write (md->html, md->stream, "<hr>");
-
+	
+	/* FIXME: uhm, pgp decrypted data doesn't have to be plaintext */
 	ciphertext = g_strndup (start, end - start);
-	plaintext = decode_pgp (ciphertext, md);
+	plaintext = decode_pgp (ciphertext, &outlen, md);
 	g_free (ciphertext);
-	if (plaintext) {
+	if (plaintext && outlen > 0) {
 		mail_html_write (md->html, md->stream,
 				 "<table width=\"100%%\" border=2 "
 				 "cellpadding=4><tr><td>");
@@ -1233,6 +1235,7 @@ handle_multipart_encrypted (CamelMimePart *part, const char *mime_type,
 		camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	CamelMultipart *mp;
 	char *ciphertext, *plaintext;
+	int outlen;
 
 	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
 	mp = CAMEL_MULTIPART (wrapper);
@@ -1246,8 +1249,9 @@ handle_multipart_encrypted (CamelMimePart *part, const char *mime_type,
 	ciphertext = get_data_wrapper_text (wrapper);
 	if (!ciphertext)
 		return FALSE;
-
-	plaintext = decode_pgp (ciphertext, md);
+	
+	/* FIXME: please note that decrypted data does NOT have to be plaintext */
+	plaintext = decode_pgp (ciphertext, &outlen, md);
 	if (plaintext) {
 		CamelStream *memstream;
 
