@@ -1,3 +1,16 @@
+2000-11-28  Not Zed  <NotZed@HelixCode.com>
+
+	* index.h: Turn off index stats by default.
+
+	* ibex_block.c (ibex_save): And here.
+	(ibex_close): Debug out printfs.
+
+	* wordindexmem.c (ibex_create_word_index_mem): And here.
+	(num): Made buf static.
+
+	* block.c (ibex_block_cache_open): Debug out some printfs.
+	(ibex_block_read): And here.
+
 2000-11-17  Not Zed  <NotZed@HelixCode.com>
 
 	* wordindexmem.c (add_list): If we have the namecache active, and

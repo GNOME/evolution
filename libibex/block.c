@@ -420,7 +420,7 @@ ibex_block_read(struct _memcache *block_cache, blockid_t blockid)
 		if (old->flags & BLOCK_DIRTY) {
 			/* are we about to un-sync the file?  update root and sync it */
 			if (block_cache->root.flags & IBEX_ROOT_SYNCF) {
-				printf("Unsyncing root block\n");
+				d(printf("Unsyncing root block\n"));
 
 				block_cache->root.flags &= ~IBEX_ROOT_SYNCF;
 				if (ibex_block_sync_root(block_cache) != 0) {
@@ -480,7 +480,7 @@ ibex_block_cache_open(const char *name, int flags, int mode)
 	if (block_cache->root.roof == 0
 	    || memcmp(block_cache->root.version, IBEX_VERSION, 4)
 	    || ((block_cache->root.flags & IBEX_ROOT_SYNCF) == 0)) {
-		(printf("Initialising superblock\n"));
+		d(printf("Initialising superblock\n"));
 		/* reset root data */
 		memcpy(block_cache->root.version, IBEX_VERSION, 4);
 		block_cache->root.roof = 1024;
@@ -493,10 +493,10 @@ ibex_block_cache_open(const char *name, int flags, int mode)
 		/* reset the file contents */
 		ftruncate(block_cache->fd, 1024);
 	} else {
-		(printf("superblock already initialised:\n"
-			" roof = %d\n free = %d\n words = %d\n names = %d\n tail = %d\n",
-			block_cache->root.roof, block_cache->root.free,
-			block_cache->root.words, block_cache->root.names, block_cache->root.tail));
+		d(printf("superblock already initialised:\n"
+			 " roof = %d\n free = %d\n words = %d\n names = %d\n tail = %d\n",
+			 block_cache->root.roof, block_cache->root.free,
+			 block_cache->root.words, block_cache->root.names, block_cache->root.tail));
 	}
 	/* FIXME: this should be moved higher up in the object tree */
 	{

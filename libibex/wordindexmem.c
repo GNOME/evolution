@@ -146,20 +146,20 @@ ibex_create_word_index_mem(struct _memcache *bc, blockid_t *wordroot, blockid_t 
 
 	/* but not the same indexes! */
 	if (*wordroot) {
-		printf("opening wordindex root = %d\n", *wordroot);
+		d(printf("opening wordindex root = %d\n", *wordroot));
 		idx->wordindex = ibex_hash_class.open(bc, *wordroot);
 	} else {
 		idx->wordindex = ibex_hash_class.create(bc, 2048);
 		*wordroot = idx->wordindex->root;
-		printf("creating wordindex root = %d\n", *wordroot);
+		d(printf("creating wordindex root = %d\n", *wordroot));
 	}
 	if (*nameroot) {
-		printf("opening nameindex root = %d\n", *nameroot);
+		d(printf("opening nameindex root = %d\n", *nameroot));
 		idx->nameindex = ibex_hash_class.open(bc, *nameroot);
 	} else {
 		idx->nameindex = ibex_hash_class.create(bc, 2048);
 		*nameroot = idx->nameindex->root;
-		printf("creating nameindex root = %d\n", *nameroot);
+		d(printf("creating nameindex root = %d\n", *nameroot));
 	}
 	return idx;
 }
@@ -198,7 +198,7 @@ static void word_index_pre(struct _IBEXWord *idx)
 		return;
 
 	/* want to load all words into the cache lookup table */
-	printf("pre-loading all word info into memory\n");
+	d(printf("pre-loading all word info into memory\n"));
 	idc = idx->wordindex->klass->get_cursor(idx->wordindex);
 	while ( (wordid = idc->klass->next(idc)) ) {
 		key = idc->index->klass->get_key(idc->index, wordid, &len);
@@ -220,7 +220,7 @@ static void word_index_pre(struct _IBEXWord *idx)
 
 	idc->klass->close(idc);
 
-	printf("done\n");
+	d(printf("done\n"));
 }
 
 static gboolean
@@ -357,7 +357,7 @@ static gboolean contains_name(struct _IBEXWord *idx, const char *name)
 	   in the same list, not in buckets of keys for the same hash (among other reasons) */
 
 	if (!idx->nameinit) {
-		printf("pre-loading all name info into memory\n");
+		d(printf("pre-loading all name info into memory\n"));
 		idc = idx->nameindex->klass->get_cursor(idx->nameindex);
 		while ( (wordid = idc->klass->next(idc)) ) {
 			key = idc->index->klass->get_key(idc->index, wordid, &len);
@@ -821,7 +821,8 @@ static char *
 num(int num)
 {
 	int n;
-	char buf[256], *p = buf;
+	static char buf[256];
+	char *p = buf;
 	char type = 0;
 
 	n = num;

@@ -251,7 +251,7 @@ ibex *ibex_open (char *file, int flags, int mode)
 
 int ibex_save (ibex *ib)
 {
-	printf("syncing database\n");
+	d(printf("syncing database\n"));
 	if (ib->predone) {
 		ib->words->klass->index_post(ib->words);
 		ib->predone = FALSE;
@@ -266,7 +266,7 @@ int ibex_close (ibex *ib)
 {
 	int ret = 0;
 
-	printf("closing database\n");
+	d(printf("closing database\n"));
 
 	if (ib->predone) {
 		ib->words->klass->index_post(ib->words);

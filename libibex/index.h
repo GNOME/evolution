@@ -25,7 +25,7 @@
 
 /* an indexing 'class' maps a key to 1 piece of info */
 
-#define INDEX_STAT
+/*#define INDEX_STAT*/
 
 struct _IBEXCursor {
 	struct _IBEXCursorClass *klass;
