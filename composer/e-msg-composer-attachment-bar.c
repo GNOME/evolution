@@ -98,7 +98,7 @@ size_to_string (gulong size)
 	   I am not sure this will be OK for all the languages.  */
 	
 	if (size < 1e3L) {
-		size_string = g_strdup ("");
+		size_string = NULL;
 	} else {
 		gdouble displayed_size;
 		
@@ -372,8 +372,12 @@ update (EMsgComposerAttachmentBar *bar)
 		
 		if (attachment->size) {
 			size_string = size_to_string (attachment->size);
-			label = g_strdup_printf ("%s (%s)", desc, size_string);
-			g_free (size_string);
+			if (size_string == NULL) {
+				label = g_strdup (desc);
+			} else {
+				label = g_strdup_printf ("%s (%s)", desc, size_string);
+				g_free (size_string);
+			}
 		} else
 			label = g_strdup (desc);
 		
