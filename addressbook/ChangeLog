@@ -1,5 +1,10 @@
 2001-08-23  Chris Toshok  <toshok@ximian.com>
 
+	* gui/widgets/e-minicard.c (e_minicard_event): add
+	BUTTON_PRESS_MASK so double clicks still work.
+
+2001-08-23  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/addressbook.c (addressbook_query_changed): switch
 	"full_name" to "x-evolution-any-field" in all the queries where we
 	want to match all cards, since the backends universally handle
