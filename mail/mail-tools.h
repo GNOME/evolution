@@ -50,10 +50,6 @@ CamelFolder *mail_tool_get_trash (const char *url, int connect, CamelException *
  * and returns the path to the new movemail folder that was created. which shoudl be freed later */
 char *mail_tool_do_movemail (const char *source_url, CamelException *ex);
 
-/* Transfers all the messages from source into dest;
- * source is emptied and synced. */
-void mail_tool_move_folder_contents (CamelFolder *source, CamelFolder *dest, gboolean use_cache, CamelException *ex);
-
 XEvolution *mail_tool_remove_xevolution_headers (CamelMimeMessage *message);
 void mail_tool_restore_xevolution_headers (CamelMimeMessage *message, XEvolution *xev);
 void mail_tool_destroy_xevolution (XEvolution *xev);
