@@ -1,5 +1,9 @@
 2001-06-20  Kevin Breit  <battery841@mediaone.net>
 
+	* doc/C/usage-calendar.sgml: Documented categorizing an event.
+
+2001-06-20  Kevin Breit  <battery841@mediaone.net>
+
 	* doc/C/usage-mail.sgml: Updated Bcc: example
 
 2001-06-20  Dan Winship  <danw@ximian.com>

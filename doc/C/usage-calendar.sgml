@@ -168,8 +168,8 @@ lack of time, resources, and interest.
 	    
       </para>
       <para>
-         <guilabel>Classification</guilabel> is a little more
-         complicated, and only applies to calendars on a
+         <guilabel>Classification</guilabel> 
+          and only applies to calendars on a
          network. <guilabel>Public</guilabel> is the default category,
          and a public event can be viewed by anyone on the calendar
          sharing network.  <guilabel>Private</guilabel> denotes one
@@ -178,6 +178,41 @@ lack of time, resources, and interest.
          implementations of this feature have yet to be
          determined. <!-- FIXME -->
       </para>
+      <para>
+        <application>Evolution</application> allows for categorizing your
+	appointments, which can help if you lead a busy life.  The bottom
+	section of the <guilabel>Appointment</guilabel> tab is where your
+	categorization is done.
+      </para>
+      
+      <tip>
+      <title>Adding a New Category</title>
+	<para>
+	 You can add a new cateogry to your category list by clicking on
+         <guibutton>Edit Master Category List...</guibutton> and single-clicking
+	 on <guilabel>* Click here to add a category *</guilabel>.
+	</para>
+      </tip>
+
+      <para>
+	 The purpose of categories is to let the user view all appointments which have
+	 similar activities.  To do this, change <guilabel>Any field contains</guilabel>
+	 to <guilabel>Has category</guilabel> and enter your category at right.
+      </para>
+
+      <para>
+	At the bottom right of the <guilabel>Classification</guilabel> section
+	is the categories button and input box.  Clicking the button will bring up
+	a box with a listing of categories.  To the left of the category is a checkbox
+	that allows the category to be associated with the respective event.
+      </para>
+      <para>
+	Once you've selected your categories, click <guibutton>OK</guibutton> to
+	assign these categories to the event.  The categories you selected are now
+	listed in the text box to the right of the <guibutton>Categories...</guibutton>
+	button.
+      </para>
+
       <para>
         The <guilabel>Recurrence</guilabel> tab lets you describe
         repetition in events ranging from once every day up to once
