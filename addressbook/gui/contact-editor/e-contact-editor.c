@@ -34,6 +34,7 @@
 #include <gtk/gtkstock.h>
 #include <gtk/gtkentry.h>
 #include <gtk/gtklabel.h>
+#include <libgnomeui/gnome-popup-menu.h>
 #include <libgnomeui/gnome-window-icon.h>
 #include <libgnome/gnome-util.h>
 #include <libgnome/gnome-i18n.h>

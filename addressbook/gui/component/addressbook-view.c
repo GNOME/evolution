@@ -60,7 +60,6 @@
 #include "addressbook/gui/merging/eab-contact-merging.h"
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/util/eab-book-util.h"
-#include "addressbook/gui/widgets/eab-popup.h"
 
 #define PARENT_TYPE G_TYPE_OBJECT
 static GObjectClass *parent_class = NULL;
@@ -614,10 +613,45 @@ load_primary_selection (AddressbookView *view)
 }
 
 /* Folder popup menu callbacks */
+
+static void
+add_popup_menu_item (GtkMenu *menu, const char *label, const char *pixmap,
+		     GCallback callback, gpointer user_data, gboolean sensitive)
+{
+	GtkWidget *item, *image;
+
+	if (pixmap) {
+		item = gtk_image_menu_item_new_with_label (label);
+
+		/* load the image */
+		if (g_file_test (pixmap, G_FILE_TEST_EXISTS))
+			image = gtk_image_new_from_file (pixmap);
+		else
+			image = gtk_image_new_from_stock (pixmap, GTK_ICON_SIZE_MENU);
+
+		if (image) {
+			gtk_widget_show (image);
+			gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item), image);
+		}
+	} else {
+		item = gtk_menu_item_new_with_label (label);
+	}
+
+	if (callback)
+		g_signal_connect (G_OBJECT (item), "activate", callback, user_data);
+
+	if (!sensitive)
+		gtk_widget_set_sensitive (item, FALSE);
+
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	gtk_widget_show (item);
+}
+
 typedef struct {
 	AddressbookView *view;
 	ESource *selected_source;
 	GtkWidget *toplevel;
+	GtkWidget *dialog;
 } BookRemovedClosure;
 
 static void
@@ -627,6 +661,7 @@ book_removed (EBook *book, EBookStatus status, gpointer data)
 	AddressbookView *view = closure->view;
 	AddressbookViewPrivate *priv = view->priv;
 	ESource *source = closure->selected_source;
+	GtkWidget *dialog = closure->dialog;
 	GtkWidget *toplevel = closure->toplevel;
 
 	g_free (closure);
@@ -649,54 +684,73 @@ book_removed (EBook *book, EBookStatus status, gpointer data)
 			     "addressbook:remove-addressbook",
 			     NULL);
 	}
+
+	gtk_widget_destroy (dialog);
 }
 
 static void
-delete_addressbook_cb(EPopup *ep, EPopupItem *pitem, void *data)
+delete_addressbook_cb (GtkWidget *widget, AddressbookView *view)
 {
-	AddressbookView *view = data;
 	AddressbookViewPrivate *priv = view->priv;
 	ESource *selected_source;
+	GtkWidget *dialog;
 	EBook  *book;
 	GError *error = NULL;
-	GtkWindow *toplevel;
 
 	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->selector));
 	if (!selected_source)
 		return;
 
-	toplevel = (GtkWindow *)gtk_widget_get_toplevel(ep->target->widget);
+	/* Create the confirmation dialog */
+	dialog = gtk_message_dialog_new (
+		GTK_WINDOW (gtk_widget_get_toplevel (widget)),
+		GTK_DIALOG_MODAL,
+		GTK_MESSAGE_QUESTION,
+		GTK_BUTTONS_YES_NO,
+		_("Address book '%s' will be removed. Are you sure you want to continue?"),
+		e_source_peek_name (selected_source));
+#if !GTK_CHECK_VERSION (2,4,0)
+	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
+#endif
 
-	if (e_error_run(toplevel, "addressbook:ask-delete-addressbook", e_source_peek_name(selected_source)) != GTK_RESPONSE_YES)
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_YES) {
+		gtk_widget_destroy (dialog);
 		return;
+	}
 
 	/* Remove local data */
 	book = e_book_new (selected_source, &error);
 	if (book) {
 		BookRemovedClosure *closure = g_new (BookRemovedClosure, 1);
 
-		closure->toplevel = (GtkWidget *)toplevel;
+		closure->toplevel = gtk_widget_get_toplevel (widget);
 		closure->view = view;
 		closure->selected_source = selected_source;
+		closure->dialog = dialog;
 
 		if (e_book_async_remove (book, book_removed, closure)) {
-			e_error_run (toplevel, "addressbook:remove-addressbook", NULL);
+			e_error_run (GTK_WINDOW (gtk_widget_get_toplevel (widget)),
+				     "addressbook:remove-addressbook",
+				     NULL);
+
 			g_free (closure);
+
 			g_object_unref (book);
 		}
 	}
+
+	gtk_widget_set_sensitive (dialog, FALSE);
 }
 
 static void
-new_addressbook_cb(EPopup *ep, EPopupItem *pitem, void *data)
+new_addressbook_cb (GtkWidget *widget, AddressbookView *view)
 {
-	addressbook_config_create_new_source (gtk_widget_get_toplevel(ep->target->widget));
+	addressbook_config_create_new_source (gtk_widget_get_toplevel (widget));
 }
 
 static void
-edit_addressbook_cb(EPopup *ep, EPopupItem *pitem, void *data)
+edit_addressbook_cb (GtkWidget *widget, AddressbookView *view)
 {
-	AddressbookView *view = data;
 	AddressbookViewPrivate *priv = view->priv;
 	ESource *selected_source;
 	const char *uid;
@@ -714,7 +768,7 @@ edit_addressbook_cb(EPopup *ep, EPopupItem *pitem, void *data)
 		char *uid_copy = g_strdup (uid);
 
 		closure = g_new (EditorUidClosure, 1);
-		closure->editor = addressbook_config_edit_source (gtk_widget_get_toplevel(ep->target->widget), selected_source);
+		closure->editor = addressbook_config_edit_source (gtk_widget_get_toplevel (widget), selected_source);
 		closure->uid = uid_copy;
 		closure->view = view;
 
@@ -739,40 +793,25 @@ primary_source_selection_changed_callback (ESourceSelector *selector,
 	save_primary_selection (view);
 }
 
-static EPopupItem abv_source_popups[] = {
-	{ E_POPUP_ITEM, "10.new", N_("New Address Book"), new_addressbook_cb, NULL, NULL, 0, 0 },
-	{ E_POPUP_ITEM, "20.delete", N_("Delete"), delete_addressbook_cb, NULL, "stock_delete", 0, EAB_POPUP_SOURCE_USER|EAB_POPUP_SOURCE_PRIMARY },
-	{ E_POPUP_ITEM, "30.properties", N_("Properties..."), edit_addressbook_cb, NULL, NULL, 0, EAB_POPUP_SOURCE_PRIMARY },
-};
 
 static void
-abv_source_popup_free(EPopup *ep, GSList *list, void *data)
+fill_popup_menu_callback (ESourceSelector *selector, GtkMenu *menu, AddressbookView *view)
 {
-	g_slist_free(list);
-}
+	AddressbookViewPrivate *priv = view->priv;
+	gboolean sensitive;
+	gboolean local_addressbook;
+	ESource *selected_source;
+	char *uri;
 
-static gboolean
-popup_event_callback(ESourceSelector *selector, ESource *source, GdkEventButton *event, AddressbookView *view)
-{
-	EABPopup *ep;
-	EABPopupTargetSource *t;
-	GSList *menus = NULL;
-	int i;
-	GtkMenu *menu;
+	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->selector));
+	sensitive = selected_source ? TRUE : FALSE;
 
-	ep = eab_popup_new("com.novell.evolution.addressbook.source.popup");
-	t = eab_popup_target_new_source(ep, selector);
-	t->target.widget = (GtkWidget *)view->priv->notebook;
-
-	for (i=0;i<sizeof(abv_source_popups)/sizeof(abv_source_popups[0]);i++)
-		menus = g_slist_prepend(menus, &abv_source_popups[i]);
-
-	e_popup_add_items((EPopup *)ep, menus, abv_source_popup_free, view);
-
-	menu = e_popup_create_menu_once((EPopup *)ep, (EPopupTarget *)t, 0);
-	gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event?event->button:0, event?event->time:gtk_get_current_event_time());
-
-	return TRUE;
+	uri = e_source_peek_relative_uri (selected_source);
+	local_addressbook = (uri && !strcmp ("system", uri));
+		
+	add_popup_menu_item (menu, _("New Address Book"), NULL, G_CALLBACK (new_addressbook_cb), view, TRUE);
+	add_popup_menu_item (menu, _("Delete"), GTK_STOCK_DELETE, G_CALLBACK (delete_addressbook_cb), view, sensitive && !local_addressbook);
+	add_popup_menu_item (menu, _("Properties..."), NULL, G_CALLBACK (edit_addressbook_cb), view, sensitive);
 }
 
 static gboolean
@@ -938,13 +977,15 @@ selector_tree_drag_data_received (GtkWidget *widget,
 {
 	GtkTreePath *path = NULL;
 	GtkTreeViewDropPosition pos;
-	gpointer target = NULL;
+	gpointer source, target = NULL;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	gboolean success = FALSE;
+
 	EBook *source_book, *target_book;
 	MergeContext *merge_context;
 	GList *contactlist;
+	GList *l;
 
 	if (!gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (widget),
 						x, y, &path, &pos))
@@ -1128,8 +1169,8 @@ addressbook_view_init (AddressbookView *view)
 	g_signal_connect_object (priv->selector, "primary_selection_changed",
 				 G_CALLBACK (primary_source_selection_changed_callback),
 				 G_OBJECT (view), 0);
-	g_signal_connect_object (priv->selector, "popup_event",
-				 G_CALLBACK (popup_event_callback),
+	g_signal_connect_object (priv->selector, "fill_popup_menu",
+				 G_CALLBACK (fill_popup_menu_callback),
 				 G_OBJECT (view), 0);
 
 	load_primary_selection (view);

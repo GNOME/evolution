@@ -49,7 +49,6 @@
 #include "camel/camel-multipart.h"
 #include "camel/camel-mime-part.h"
 #include "camel/camel-stream-buffer.h"
-#include "camel/camel-i18n.h"
 #include "camel/camel-private.h"
 
 #include "camel-nntp-summary.h"

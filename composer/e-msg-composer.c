@@ -70,7 +70,6 @@
 #include <gconf/gconf-client.h>
 
 #include <libgnome/gnome-exec.h>
-#include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-uidefs.h>
 #include <libgnomeui/gnome-window-icon.h>
 
@@ -117,7 +116,6 @@
 #include "mail/mail-ops.h"
 #include "mail/mail-mt.h"
 #include "mail/mail-session.h"
-#include "mail/em-popup.h"
 
 #include "e-msg-composer.h"
 #include "e-msg-composer-attachment-bar.h"
@@ -130,7 +128,7 @@
 #include "Editor.h"
 #include "listener.h"
 
-#define GNOME_GTKHTML_EDITOR_CONTROL_ID "OAFIID:GNOME_GtkHTML_Editor:" GTKHTML_API_VERSION
+#define GNOME_GTKHTML_EDITOR_CONTROL_ID "OAFIID:GNOME_GtkHTML_Editor:3.1"
 
 #define d(x) x
 
@@ -161,19 +159,6 @@ static GtkTargetEntry drop_types[] = {
 };
 
 #define num_drop_types (sizeof (drop_types) / sizeof (drop_types[0]))
-
-static struct {
-	char *target;
-	GdkAtom atom;
-	guint32 actions;
-} drag_info[] = {
-	{ "message/rfc822", 0, GDK_ACTION_COPY },
-	{ "x-uid-list", 0, GDK_ACTION_ASK|GDK_ACTION_MOVE|GDK_ACTION_COPY },
-	{ "text/uri-list", 0, GDK_ACTION_COPY },
-	{ "_NETSCAPE_URL", 0, GDK_ACTION_COPY },
-	{ "text/x-vcard", 0, GDK_ACTION_COPY },
-	{ "text/calendar", 0, GDK_ACTION_COPY },
-};
 
 static const char *emc_draft_format_names[] = { "pgp-sign", "pgp-encrypt", "smime-sign", "smime-encrypt" };
 
@@ -1458,14 +1443,14 @@ static void
 autosave_manager_start (AutosaveManager *am)
 {
 	if (am->id == 0)
-		am->id = g_timeout_add (AUTOSAVE_INTERVAL, autosave_run, am);
+		am->id = gtk_timeout_add (AUTOSAVE_INTERVAL, autosave_run, am);
 }
 
 static void
 autosave_manager_stop (AutosaveManager *am)
 {
 	if (am->id) {
-		g_source_remove (am->id);
+		gtk_timeout_remove (am->id);
 		am->id = 0;
 	}
 }
@@ -2659,24 +2644,10 @@ attach_message(EMsgComposer *composer, CamelMimeMessage *msg)
 	camel_object_unref(mime_part);
 }
 
-struct _drop_data {
-	EMsgComposer *composer;
-
-	GdkDragContext *context;
-	/* Only selection->data and selection->length are valid */
-	GtkSelectionData *selection;
-
-	guint32 action;
-	guint info;
-	guint time;
-
-	unsigned int move:1;
-	unsigned int moved:1;
-	unsigned int aborted:1;
-};
-
 static void
-drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, GtkSelectionData *selection, guint info, guint time)
+drag_data_received (EMsgComposer *composer, GdkDragContext *context,
+		    int x, int y, GtkSelectionData *selection,
+		    guint info, guint time)
 {
 	char *tmp, *str, **urls;
 	CamelMimePart *mime_part;
@@ -2684,8 +2655,8 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 	CamelURL *url;
 	CamelMimeMessage *msg;
 	char *content_type;
-	int i, success=FALSE, delete=FALSE;
-
+	int i;
+	
 	switch (info) {
 	case DND_TYPE_MESSAGE_RFC822:
 		d(printf ("dropping a message/rfc822\n"));
@@ -2695,11 +2666,8 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 		camel_stream_reset (stream);
 		
 		msg = camel_mime_message_new ();
-		if (camel_data_wrapper_construct_from_stream((CamelDataWrapper *)msg, stream) != -1) {
+		if (camel_data_wrapper_construct_from_stream((CamelDataWrapper *)msg, stream) != -1)
 			attach_message(composer, msg);
-			success = TRUE;
-			delete = action == GDK_ACTION_MOVE;
-		}
 
 		camel_object_unref(msg);
 		camel_object_unref(stream);
@@ -2738,7 +2706,6 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 		}
 		
 		g_free (urls);
-		success = TRUE;
 		break;
 	case DND_TYPE_TEXT_VCARD:
 	case DND_TYPE_TEXT_CALENDAR:
@@ -2756,7 +2723,6 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 		camel_object_unref (mime_part);
 		g_free (content_type);
 
-		success = TRUE;
 		break;
 	case DND_TYPE_X_UID_LIST: {
 		GPtrArray *uids;
@@ -2821,8 +2787,6 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 					camel_object_unref(mime_part);
 					camel_object_unref(mp);
 				}
-				success = TRUE;
-				delete = action == GDK_ACTION_MOVE;
 			fail:
 				if (camel_exception_is_set(&ex)) {
 					char *name;
@@ -2848,117 +2812,6 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 		d(printf ("dropping an unknown\n"));
 		break;
 	}
-
-	printf("Drag finished, success %d delete %d\n", success, delete);
-
-	gtk_drag_finish(context, success, delete, time);
-}
-
-static void
-drop_popup_copy(EPopup *ep, EPopupItem *item, void *data)
-{
-	struct _drop_data *m = data;
-	drop_action(m->composer, m->context, GDK_ACTION_COPY, m->selection, m->info, m->time);
-}
-
-static void
-drop_popup_move(EPopup *ep, EPopupItem *item, void *data)
-{
-	struct _drop_data *m = data;
-	drop_action(m->composer, m->context, GDK_ACTION_MOVE, m->selection, m->info, m->time);
-}
-
-static void
-drop_popup_cancel(EPopup *ep, EPopupItem *item, void *data)
-{
-	struct _drop_data *m = data;
-	gtk_drag_finish(m->context, FALSE, FALSE, m->time);
-}
-
-static EPopupItem drop_popup_menu[] = {
-	{ E_POPUP_ITEM, "00.emc.02", N_("_Copy"), drop_popup_copy, NULL, "stock_mail-copy", 0 },
-	{ E_POPUP_ITEM, "00.emc.03", N_("_Move"), drop_popup_move, NULL, "stock_mail-move", 0 },
-	{ E_POPUP_BAR, "10.emc" },
-	{ E_POPUP_ITEM, "99.emc.00", N_("Cancel _Drag"), drop_popup_cancel, NULL, NULL, 0 },
-};
-
-static void
-drop_popup_free(EPopup *ep, GSList *items, void *data)
-{
-	struct _drop_data *m = data;
-
-	g_slist_free(items);
-
-	g_object_unref(m->context);
-	g_object_unref(m->composer);
-	g_free(m->selection->data);
-	g_free(m->selection);
-	g_free(m);
-}
-
-static void
-drag_data_received (EMsgComposer *composer, GdkDragContext *context,
-		    int x, int y, GtkSelectionData *selection,
-		    guint info, guint time)
-{
-	if (selection->data == NULL || selection->length == -1)
-		return;
-
-	if (context->action == GDK_ACTION_ASK) {
-		EMPopup *emp;
-		GSList *menus = NULL;
-		GtkMenu *menu;
-		int i;
-		struct _drop_data *m;
-
-		m = g_malloc0(sizeof(*m));
-		m->context = context;
-		g_object_ref(context);
-		m->composer = composer;
-		g_object_ref(composer);
-		m->action = context->action;
-		m->info = info;
-		m->time = time;
-		m->selection = g_malloc0(sizeof(*m->selection));
-		m->selection->data = g_malloc(selection->length);
-		memcpy(m->selection->data, selection->data, selection->length);
-		m->selection->length = selection->length;
-
-		emp = em_popup_new("com.ximian.mail.composer.popup.drop");
-		for (i=0;i<sizeof(drop_popup_menu)/sizeof(drop_popup_menu[0]);i++)
-			menus = g_slist_append(menus, &drop_popup_menu[i]);
-
-		e_popup_add_items((EPopup *)emp, menus, drop_popup_free, m);
-		menu = e_popup_create_menu_once((EPopup *)emp, NULL, 0);
-		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, 0, time);
-	} else {
-		drop_action(composer, context, context->action, selection, info, time);
-	}
-}
-
-static gboolean
-drag_motion(GObject *o, GdkDragContext *context, gint x, gint y, guint time, EMsgComposer *composer)
-{
-	GList *targets;
-	GdkDragAction action, actions = 0;
-
-	for (targets = context->targets; targets; targets = targets->next) {
-		int i;
-
-		for (i=0;i<sizeof(drag_info)/sizeof(drag_info[0]);i++)
-			if (targets->data == (void *)drag_info[i].atom)
-				actions |= drag_info[i].actions;
-	}
-
-	actions &= context->actions;
-	action = context->suggested_action;
-	/* we default to copy */
-	if (action == GDK_ACTION_ASK && (actions & (GDK_ACTION_MOVE|GDK_ACTION_COPY)) != (GDK_ACTION_MOVE|GDK_ACTION_COPY))
-		action = GDK_ACTION_COPY;
-
-	gdk_drag_status(context, action, time);
-
-	return action != 0;
 }
 
 static void
@@ -2967,10 +2820,6 @@ class_init (EMsgComposerClass *klass)
 	GtkObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 	GObjectClass *gobject_class;
-	int i;
-
-	for (i=0;i<sizeof(drag_info)/sizeof(drag_info[0]);i++)
-		drag_info[i].atom = gdk_atom_intern(drag_info[i].target, FALSE);
 
 	gobject_class = G_OBJECT_CLASS(klass);
 	object_class = GTK_OBJECT_CLASS (klass);
@@ -3328,9 +3177,10 @@ create_composer (int visible_mask)
 	}
 
 	/* DND support */
-	gtk_drag_dest_set (GTK_WIDGET (composer), GTK_DEST_DEFAULT_ALL,  drop_types, num_drop_types, GDK_ACTION_COPY|GDK_ACTION_ASK|GDK_ACTION_MOVE);
-	g_signal_connect(composer, "drag_data_received", G_CALLBACK (drag_data_received), NULL);
-	g_signal_connect(composer, "drag-motion", G_CALLBACK(drag_motion), composer);
+	gtk_drag_dest_set (GTK_WIDGET (composer), GTK_DEST_DEFAULT_ALL,
+			   drop_types, num_drop_types, GDK_ACTION_COPY);
+	g_signal_connect (composer, "drag_data_received",
+			  G_CALLBACK (drag_data_received), NULL);
 	e_msg_composer_load_config (composer, visible_mask);
 	
 	setup_ui (composer);
@@ -3429,7 +3279,7 @@ create_composer (int visible_mask)
 	composer->attachment_expander_icon = gtk_image_new_from_pixbuf (attachment_pixbuf);
 	gtk_misc_set_alignment (GTK_MISC (composer->attachment_expander_icon), 1, 0.5);
 	gtk_widget_set_size_request (composer->attachment_expander_icon, 100, -1);
-	g_object_unref (attachment_pixbuf);	
+	gdk_pixbuf_unref (attachment_pixbuf);	
 
 	gtk_box_pack_start (GTK_BOX (expander_hbox), composer->attachment_expander_label,
 			    TRUE, TRUE, 0);

@@ -1,9 +1,3 @@
-2004-10-11  Not Zed  <NotZed@Ximian.com>
-
-	* gui/alarm-notify/alarm-queue.c (tray_icon_clicked_cb): convert
-	to epopup.
-	(add_popup_menu_item): removed, now redundant.
-
 2004-10-08  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #45951
@@ -15,33 +9,6 @@
 
 	* gui/dialogs/comp-editor.c (setup_widgets): no need to create an extra
 	GtkVBox, just use the GtkDialog's one.
-
-2004-10-07  JP Rosevear  <jpr@novell.com>
-
-	* gui/dialogs/cal-prefs-dialog.c: remove useless include
-
-	* gui/dialogs/url-editor-dialog.c: ditto
-	
-2004-10-07  JP Rosevear  <jpr@novell.com>
-	
-	* gui/print.c: guard config.h
-
-	* gui/tasks-control.c: guard config.h, remove useless include
-
-	* gui/migration.c: remove useless include
-
-	* gui/main.c: remove useless include
-
-	* gui/e-calendar-view.h: #define the type
-
-	* gui/calendar-offline-handler.c: remove useless include
-
-	* gui/calendar-config.c: tidy header
-
-2004-10-07  JP Rosevear  <jpr@novell.com>
-	
-	* gui/calendar-commands.c: guard config.h include, kill warning
-	and remove useless include
 
 2004-10-06  Rodrigo Moya <rodrigo@novell.com>
 
@@ -55,86 +22,10 @@
 	* gui/comp-editor-factory.c (cal_opened_cb): don't assert on error
 	cases, just display an error dialog.
 
-2004-10-06  Not Zed  <NotZed@Ximian.com>
+2004-10-06  JP Rosevear  <jpr@novell.com>
 
-	* gui/gnome-cal.c (gnome_calendar_setup_view_popup): rename to
-	view_popup_factory.  Make it build an epopup item list directly.
-	Can't re-use the galview cruft :-/
-	(gnome_calendar_discard_view_popup): no longer needed.
-	(gc_set_view, gc_save_custom_view, gc_define_views_response) 
-	(gc_define_views): implement the gal-view popup menu items.
-
-	* gui/gnome-cal.h:
-	* gui/e-week-view.h:
-	* gui/e-day-view.h:
-	* gui/e-cal-list-view.h: removed old e-popup-menu header.
-
-	* gui/e-calendar-view.c (setup_popup_icons): removed.
-	(e_calendar_view_create_popup_menu): converted to use e-popup.
-	(on_paste, on_copy, on_cut, on_delete_occurrence) 
-	(on_unrecur_appointment, on_delete_appointment, on_publish) 
-	(on_forward, on_meeting, on_move_to, on_copy_to, on_print_event) 
-	(on_save_as, on_print, on_edit_appointment, on_goto_today) 
-	(on_goto_date, on_new_task, on_new_meeting, on_new_event) 
-	(on_new_appointment): convert to use e-popup stuff.
-
-	* gui/tasks-component.c (popup_event_cb): e-popup api changes.
-
-	* gui/e-cal-popup.c (e_cal_popup_target_new_select): implement the
-	selection target.
-	(ecalp_target_free): and free it.
-
-	* gui/e-cal-model.h: Make the ECalModel struct non-anonymous so it
-	can be forward-declared.
-
-	* gui/calendar-component.c (popup_event_cb): e-popup api changes.
-
-2004-10-06  Rodrigo Moya <rodrigo@novell.com>
-
-	Revert fix for #60551
-
-	* gui/dialogs/task-page.c (task_page_fill_component): start date
-	can be after the due date, no need to compare.
-
-2004-10-02  Iván Frade <frade@asturlinux.org>
-
-	Fixes #48116
-
-	* gui/dialogs/task-details.page.c (task_details_page_fill_component):
-	Validation: completed date is not a future date.
-	
-2004-10-01  Not Zed  <NotZed@Ximian.com>
-
-	* gui/tasks-component.c (create_component_view): cast warning
-	away.
-	(create_component_view): connect to popup_event rather than
-	fill_popup_menu.
-
-	* gui/calendar-component.c (create_component_view): cast a warning
-	away.
-
-	* calendar-errors.xml: add prompt-delete-task-list.
-
-	* gui/tasks-component.c (fill_popup_menu_cb): renamed to
-	popup_event_cb, make use e-cal-popup.
-	(edit_task_list_cb, new_task_list_cb, delete_task_list_cb) 
-	(copy_task_list_cb): deja-vu.  update for api.
-	(add_popup_menu_item): killed. murdered. drawn and quatered.
-	(delete_task_list_cb): use e-error for the delete prompt.
-
-	* gui/calendar-component.c (create_component_view): hook onto
-	popup event instead of fill_popup_menu.
-
-	* calendar-errors.xml: added prompt-delete-calendar.
-
-	* gui/calendar-component.c (fill_popup_menu_cb): rename to
-	popup_event_cb, make use e-cal-popup.
-	(edit_calendar_cb, new_calendar_cb, delete_calendar_cb) 
-	(copy_calendar_cb): fix for api changes.
-	(add_popup_menu_item): removed.
-	(delete_calendar_cb): use e-error for the delete thing.
-
-	* gui/e-cal-popup.[ch]: calendar popup driver.
+	* gui/itip-utils.c (comp_server_send): pass the variable in
+	correctly
 
 2004-09-29  Rodrigo Moya <rodrigo@novell.com>
 
@@ -152,15 +43,15 @@
 	destroyed (priv == null).
 
 2004-09-28  JP Rosevear  <jpr@novell.com>
- 
- 	Fixes #61766
- 	
- 	* gui/migration.c (create_calendar_contact_source): set a color
- 	for the contacts
- 	(create_calendar_sources): set a color for the personal source and
- 	make in primary and default if nothing else is either
- 	(create_task_sources): ditto for tasks personal source
+
+	Fixes #61766
 	
+	* gui/migration.c (create_calendar_contact_source): set a color
+	for the contacts
+	(create_calendar_sources): set a color for the personal source and
+	make in primary and default if nothing else is either
+	(create_task_sources): ditto for tasks personal source
+
 2004-09-24  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #65599
@@ -169,12 +60,6 @@
 
 	* gui/e-pub-utils.c (e_pub_publish): use auth_new_cal_from_source()
 	instead of auth_new_cal_from_uri().
-
-2004-09-24  JP Rosevear  <jpr@novell.com>
-
-	Fixes #64955, Vincent Noel <vnoel@cox.net>
-	
-	* libecal/e-cal.c (e_cal_get_alarms_in_range): fix c99-ism
 
 2004-09-24  JP Rosevear  <jpr@novell.com>
  
@@ -220,14 +105,14 @@
  	
  	* gui/e-cal-model-tasks.c (e_cal_model_tasks_mark_task_complete):
  	notify of change so completion status updates immediately
-	
-2004-09-21  JP Rosevear  <jpr@novell.com>
  
+2004-09-21  JP Rosevear  <jpr@novell.com>
+
 	Fixes #59194
- 	
- 	* gui/e-cal-model-calendar.c (get_location): return "" instead of
- 	NULL
 	
+	* gui/e-cal-model-calendar.c (get_location): return "" instead of
+	NULL
+
 2004-09-21  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #65682
@@ -235,26 +120,19 @@
 	(itip_send_comp): check the static capability before
 	booking the deletion.
 
-2004-09-15  JP Rosevear  <jpr@novell.com>
- 
+2004-09-20  JP Rosevear  <jpr@novell.com>
+	
  	Fixes #55172
  	
  	* conduits/calendar/calendar-conduit.c (local_record_from_comp):
  	handle -1 (last) for monthly recurrences and check both by_set_pos
  	and by_day since either can indicate this type of recurrence
-	
+
 2004-09-20  Tony Tsui <ttsui9@gmail.com>
 
 	Fixes #66174
 
 	* gui/dialogs/meeting-page.c (existing_attendee): fixed memory leak.
-
-2004-09-10   Hannah & Fazlu <hannah_lins@yahoo.co.in>
-
-	Fixes bug #65051
-
-	* calendar/gui/dialogs/task-page.c (task_page_fill_component):
-	Compared the dates and time
 
 2004-09-10  Rodrigo Moya <rodrigo@novell.com>
 
@@ -271,6 +149,31 @@
 	only be called once per time range.
 
 2004-09-09  JP Rosevear  <jpr@novell.com>
+
+	Fixes #65454
+	
+	* gui/e-itip-control.c (class_init): only use a destroy function,
+	no finalize
+	(cleanup_ecal): util function
+	(init): use above for hash table and killed destroyed flag
+	(weren't using it anywhere)
+	(destroy): collapse finalize work into here and guard against
+	multiple destroy calls
+
+2004-08-31  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #62392
+
+	* gui/alarm-notify/alarm-queue.c (display_notification): ref the
+	client's query object so that it doesn't disappear on us.
+	(tray_icon_destroyed_cb): unref the query previously ref'ed.
+
+2004-08-31  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/e-cal-model-tasks.c: include missing string.h, to avoid
+	problems in 64 bit builds.
+
+2004-09-09  JP Rosevear  <jpr@novell.com>
  
  	Fixes #65454
  	
@@ -281,7 +184,7 @@
  	(weren't using it anywhere)
  	(destroy): collapse finalize work into here and guard against
  	multiple destroy calls
-
+	
 2004-09-08  JP Rosevear  <jpr@novell.com>
 
 	Fixes #62728
@@ -998,7 +901,7 @@
 
 	Partially fixes #56171
 
-2004-07-11  JÃƒ¼rg Billeter <j@bitron.ch>
+2004-07-11  JÃ¼rg Billeter <j@bitron.ch>
 
 	* gui/dialogs/event-page.c (event_page_fill_component):
 	busy should be opaque, not transparent

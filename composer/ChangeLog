@@ -4,31 +4,10 @@
 	into the recipients list or else we end up free'ing them later
 	when we shouldn't. Fixes bug #66703
 
-2004-10-06  Not Zed  <NotZed@Ximian.com>
+2004-10-08  JP Rosevear  <jpr@novell.com>
 
-	* e-msg-composer.c (drag_data_received): 
-	* e-msg-composer-attachment-bar.c (emcab_popup): e-popup api changes.
-
-2004-10-01  JP Rosevear  <jpr@novell.com>
-
-	* e-msg-composer.c: uses GTKHTML_API_VERSION for the bonobo server
-	look up
-
-2004-10-01  Not Zed  <NotZed@Ximian.com>
-
-	* e-msg-composer.c (create_composer): enable ask drop action and
-	hook onto drag motion.
-	(drag_motion): implement.
-	(drop_action): do the work here now.
-	(drag_data_received): popup a menu if the action is ask.
-	(drop_popup_copy, drop_popup_move, drop_popup_cancel):
-	(drop_popup_free): Popup callbacks.
-
-2004-09-30  Kjartan Maraas  <kmaraas@gnome.org>
-
-	* e-msg-composer.c: (autosave_manager_start),
-	(autosave_manager_stop), (create_composer): Use non-deprecated
-	functions.
+	* mail-composer-errors.xml: remove acceleratoer from _Save Message
+	to not break string freeze
 
 2004-08-17  Michael Meeks  <michael@ximian.com>
 
@@ -82,17 +61,6 @@
 2004-07-20  Not Zed  <NotZed@Ximian.com>
 
 	* e-msg-composer-attachment.c: include config.h.  See #61395.
-
-2004-09-04  Not Zed  <NotZed@Ximian.com>
-
-	* e-msg-composer-*.c: include gnome-i18n.h if required.
-
-2004-08-30  Not Zed  <NotZed@Ximian.com>
-
-	* e-msg-composer-attachment-bar.c (emcab_popup): em-popup based
-	popup menu to replace the gnome one.
-	(popup_menu_event): use new func above.
-	(button_press_event): ", some cleanup.
 
 2004-06-18  Not Zed  <NotZed@Ximian.com>
 

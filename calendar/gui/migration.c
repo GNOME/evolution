@@ -40,6 +40,7 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkprogressbar.h>
+#include <gal/util/e-util.h>
 #include <libecal/e-cal.h>
 #include <e-util/e-bconf-map.h>
 #include <e-util/e-folder-map.h>

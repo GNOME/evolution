@@ -44,8 +44,8 @@
 #include "camel-session.h"
 #include "camel-file-utils.h"
 #include "camel-lock-client.h"
+
 #include "camel-local-private.h"
-#include "camel-i18n.h"
 
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 

@@ -37,7 +37,6 @@
 
 #include <gtk/gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <libgnome/gnome-i18n.h>
 
 #include <camel/camel-session.h>
 #include <camel/camel-store.h>
@@ -163,7 +162,6 @@ static void emft_tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, Gt
 static gboolean emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTree *emft);
 static void emft_tree_selection_changed (GtkTreeSelection *selection, EMFolderTree *emft);
 static gboolean emft_tree_user_event (GtkTreeView *treeview, GdkEvent *e, EMFolderTree *emft);
-static gboolean emft_popup_menu (GtkWidget *widget);
 
 struct _emft_selection_data {
 	GtkTreeModel *model;
@@ -202,14 +200,11 @@ em_folder_tree_class_init (EMFolderTreeClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (klass);
-	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 	
 	parent_class = g_type_class_ref (GTK_TYPE_VBOX);
 	
 	object_class->finalize = em_folder_tree_finalize;
 	gtk_object_class->destroy = em_folder_tree_destroy;
-
-	widget_class->popup_menu = emft_popup_menu;
 	
 	signals[FOLDER_SELECTED] =
 		g_signal_new ("folder-selected",
@@ -992,46 +987,34 @@ tree_drag_data_action(struct _DragDataReceivedAsync *m)
 }
 
 static void
-emft_drop_popup_copy(EPopup *ep, EPopupItem *item, void *data)
+emft_drop_popup_copy(GtkWidget *item, struct _DragDataReceivedAsync *m)
 {
-	struct _DragDataReceivedAsync *m = data;
-
 	m->action = GDK_ACTION_COPY;
 	tree_drag_data_action(m);
 }
 
 static void
-emft_drop_popup_move(EPopup *ep, EPopupItem *item, void *data)
+emft_drop_popup_move(GtkWidget *item, struct _DragDataReceivedAsync *m)
 {
-	struct _DragDataReceivedAsync *m = data;
-
 	m->action = GDK_ACTION_MOVE;
 	tree_drag_data_action(m);
 }
 
 static void
-emft_drop_popup_cancel(EPopup *ep, EPopupItem *item, void *data)
+emft_drop_popup_cancel(GtkWidget *item, struct _DragDataReceivedAsync *m)
 {
-	struct _DragDataReceivedAsync *m = data;
-
 	m->aborted = TRUE;
 	mail_msg_free(&m->msg);
 }
 
-static EPopupItem emft_drop_popup_menu[] = {
-	{ E_POPUP_ITEM, "00.emc.00", N_("_Copy to Folder"), emft_drop_popup_copy, NULL, NULL, 1 },
-	{ E_POPUP_ITEM, "00.emc.01", N_("_Move to Folder"), emft_drop_popup_move, NULL, NULL, 1 },
-	{ E_POPUP_ITEM, "00.emc.02", N_("_Copy"), emft_drop_popup_copy, NULL, "stock_folder-copy", 2 },
-	{ E_POPUP_ITEM, "00.emc.03", N_("_Move"), emft_drop_popup_move, NULL, "stock_folder-move", 2 },
-	{ E_POPUP_BAR, "10.emc" },
-	{ E_POPUP_ITEM, "99.emc.00", N_("Cancel _Drag"), emft_drop_popup_cancel, NULL, "stock_cancel", 0 },
+static EMPopupItem emft_drop_popup_menu[] = {
+	{ EM_POPUP_ITEM, "00.emc.00", N_("_Copy to Folder"), G_CALLBACK (emft_drop_popup_copy), NULL, NULL, 1 },
+	{ EM_POPUP_ITEM, "00.emc.01", N_("_Move to Folder"), G_CALLBACK (emft_drop_popup_move), NULL, NULL, 1 },
+	{ EM_POPUP_ITEM, "00.emc.02", N_("_Copy"), G_CALLBACK (emft_drop_popup_copy), NULL, "stock_folder-copy", 2 },
+	{ EM_POPUP_ITEM, "00.emc.03", N_("_Move"), G_CALLBACK (emft_drop_popup_move), NULL, "stock_folder-move", 2 },
+	{ EM_POPUP_BAR, "10.emc" },
+	{ EM_POPUP_ITEM, "99.emc.00", N_("Cancel _Drag"), G_CALLBACK (emft_drop_popup_cancel), NULL, "stock_cancel", 0 },
 };
-
-static void
-emft_drop_popup_free(EPopup *ep, GSList *items, void *data)
-{
-	g_slist_free(items);
-}
 
 static void
 tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, int x, int y, GtkSelectionData *selection, guint info, guint time, EMFolderTree *emft)
@@ -1099,13 +1082,15 @@ tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, int x, int y
 			mask = ~2;
 
 		for (i=0;i<sizeof(emft_drop_popup_menu)/sizeof(emft_drop_popup_menu[0]);i++) {
-			EPopupItem *item = &emft_drop_popup_menu[i];
+			EMPopupItem *item = &emft_drop_popup_menu[i];
 
-			if ((item->visible & mask) == 0)
+			if ((item->mask & mask) == 0) {
+				item->activate_data = m;
 				menus = g_slist_append(menus, item);
+			}
 		}
-		e_popup_add_items((EPopup *)emp, menus, emft_drop_popup_free, m);
-		menu = e_popup_create_menu_once((EPopup *)emp, NULL, mask);
+		em_popup_add_items(emp, menus, (GDestroyNotify)g_slist_free);
+		menu = em_popup_create_menu_once(emp, NULL, mask, mask);
 		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 	} else {
 		tree_drag_data_action(m);
@@ -1715,7 +1700,7 @@ struct _EMFolderTreeGetFolderInfo {
 static char *
 emft_get_folder_info__desc(struct _mail_msg *mm, int done)
 {
-	struct _EMFolderTreeGetFolderInfo *m = (struct _EMFolderTreeGetFolderInfo *)mm;
+	struct _EMFolderTreeGetFolderInfo *m = (struct _get_folderinfo_msg *)mm;
 	char *ret, *name;
 
 	name = camel_service_get_name((CamelService *)m->store, TRUE);
@@ -2217,9 +2202,8 @@ fail:
 }
 
 static void
-emft_popup_copy(EPopup *ep, EPopupItem *item, void *data)
+emft_popup_copy (GtkWidget *item, EMFolderTree *emft)
 {
-	EMFolderTree *emft = data;
 	struct _copy_folder_data *cfd;
 	
 	cfd = g_malloc (sizeof (*cfd));
@@ -2231,9 +2215,8 @@ emft_popup_copy(EPopup *ep, EPopupItem *item, void *data)
 }
 
 static void
-emft_popup_move(EPopup *ep, EPopupItem *item, void *data)
+emft_popup_move (GtkWidget *item, EMFolderTree *emft)
 {
-	EMFolderTree *emft = data;
 	struct _copy_folder_data *cfd;
 	
 	cfd = g_malloc (sizeof (*cfd));
@@ -2446,10 +2429,8 @@ emft_popup_new_folder_response (EMFolderSelector *emfs, int response, EMFolderTr
 }
 
 static void
-emft_popup_new_folder (EPopup *ep, EPopupItem *pitem, void *data)
+emft_popup_new_folder (GtkWidget *item, EMFolderTree *emft)
 {
-	EMFolderTree *emft = data;
-
 	EMFolderTree *folder_tree;
 	GtkWidget *dialog;
 	char *uri;
@@ -2574,9 +2555,8 @@ emft_popup_delete_response (GtkWidget *dialog, int response, EMFolderTree *emft)
 }
 
 static void
-emft_popup_delete_folder (EPopup *ep, EPopupItem *pitem, void *data)
+emft_popup_delete_folder (GtkWidget *item, EMFolderTree *emft)
 {
-	EMFolderTree *emft = data;
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	GtkTreeSelection *selection;
 	CamelStore *local, *store;
@@ -2610,9 +2590,8 @@ emft_popup_delete_folder (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-emft_popup_rename_folder (EPopup *ep, EPopupItem *pitem, void *data)
+emft_popup_rename_folder (GtkWidget *item, EMFolderTree *emft)
 {
-	EMFolderTree *emft = data;
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	char *prompt, *full_name, *name, *new_name, *uri;
 	GtkTreeSelection *selection;
@@ -2707,9 +2686,8 @@ emft_popup_rename_folder (EPopup *ep, EPopupItem *pitem, void *data)
 
 
 static void
-emft_popup_properties (EPopup *ep, EPopupItem *pitem, void *data)
+emft_popup_properties (GtkWidget *item, EMFolderTree *emft)
 {
-	EMFolderTree *emft = data;
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
@@ -2725,40 +2703,34 @@ emft_popup_properties (EPopup *ep, EPopupItem *pitem, void *data)
 	g_free (uri);
 }
 
-static EPopupItem emft_popup_items[] = {
+static EMPopupItem emft_popup_menu[] = {
 #if 0
-	{ E_POPUP_ITEM, "00.emc.00", N_("_View"), emft_popup_view, NULL, NULL, EM_POPUP_FOLDER_SELECT },
-	{ E_POPUP_ITEM, "00.emc.01", N_("Open in _New Window"), emft_popup_open_new, NULL, NULL, EM_POPUP_FOLDER_SELECT },
+	{ EM_POPUP_ITEM, "00.emc.00", N_("_View"), G_CALLBACK (emft_popup_view), NULL, NULL, EM_POPUP_FOLDER_SELECT },
+	{ EM_POPUP_ITEM, "00.emc.01", N_("Open in _New Window"), G_CALLBACK (emft_popup_open_new), NULL, NULL, EM_POPUP_FOLDER_SELECT },
 
-	{ E_POPUP_BAR, "10.emc" },
+	{ EM_POPUP_BAR, "10.emc" },
 #endif
-	{ E_POPUP_ITEM, "10.emc.00", N_("_Copy..."), emft_popup_copy, NULL, "stock_folder-copy", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT },
-	{ E_POPUP_ITEM, "10.emc.01", N_("_Move..."), emft_popup_move, NULL, "stock_folder-move", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
+	{ EM_POPUP_ITEM, "10.emc.00", N_("_Copy..."), G_CALLBACK (emft_popup_copy), NULL, "stock_folder-copy", EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT },
+	{ EM_POPUP_ITEM, "10.emc.01", N_("_Move..."), G_CALLBACK (emft_popup_move), NULL, "stock_folder-move", EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
 	
-	{ E_POPUP_BAR, "20.emc" },
+	{ EM_POPUP_BAR, "20.emc" },
 	/* FIXME: need to disable for nochildren folders */
-	{ E_POPUP_ITEM, "20.emc.00", N_("_New Folder..."), emft_popup_new_folder, NULL, "stock_folder", 0, EM_POPUP_FOLDER_INFERIORS },
+	{ EM_POPUP_ITEM, "20.emc.00", N_("_New Folder..."), G_CALLBACK (emft_popup_new_folder), NULL, "stock_folder", EM_POPUP_FOLDER_INFERIORS },
 	/* FIXME: need to disable for undeletable folders */
-	{ E_POPUP_ITEM, "20.emc.01", N_("_Delete"), emft_popup_delete_folder, NULL, "stock_delete", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
-	{ E_POPUP_ITEM, "20.emc.01", N_("_Rename..."), emft_popup_rename_folder, NULL, NULL, 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
+	{ EM_POPUP_ITEM, "20.emc.01", N_("_Delete"), G_CALLBACK (emft_popup_delete_folder), NULL, "stock_delete", EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
+	{ EM_POPUP_ITEM, "20.emc.01", N_("_Rename..."), G_CALLBACK (emft_popup_rename_folder), NULL, NULL, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
 	
-	{ E_POPUP_BAR, "80.emc" },
-	{ E_POPUP_ITEM, "80.emc.00", N_("_Properties"), emft_popup_properties, NULL, "stock_folder-properties", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT }
+	{ EM_POPUP_BAR, "80.emc" },
+	{ EM_POPUP_ITEM, "80.emc.00", N_("_Properties"), G_CALLBACK (emft_popup_properties), NULL, "stock_folder-properties", EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT }
 };
 
-static void
-emft_popup_free(EPopup *ep, GSList *items, void *data)
-{
-	g_slist_free(items);
-}
-
 static gboolean
-emft_popup (EMFolderTree *emft, GdkEvent *event)
+emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTree *emft)
 {
-	GtkTreeView *treeview;
 	GtkTreeSelection *selection;
 	CamelStore *local, *store;
-	EMPopupTargetFolder *target;
+	EMPopupTarget *target;
+	GtkTreePath *tree_path;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	GSList *menus = NULL;
@@ -2770,13 +2742,29 @@ emft_popup (EMFolderTree *emft, GdkEvent *event)
 	EMPopup *emp;
 	int i;
 
-	treeview = emft->priv->treeview;
-
 	/* this centralises working out when the user's done something */
 	emft_tree_user_event(treeview, (GdkEvent *)event, emft);
-
-	/* FIXME: we really need the folderinfo to build a proper menu */
+	
+	if (event->button != 3 && !(event->button == 1 && event->type == GDK_2BUTTON_PRESS))
+		return FALSE;
+	
+	if (!gtk_tree_view_get_path_at_pos (treeview, (int) event->x, (int) event->y, &tree_path, NULL, NULL, NULL))
+		return FALSE;
+	
+	/* select/focus the row that was right-clicked or double-clicked */
 	selection = gtk_tree_view_get_selection (treeview);
+	gtk_tree_selection_select_path(selection, tree_path);
+	gtk_tree_view_set_cursor (treeview, tree_path, NULL, FALSE);
+	
+	if (event->button == 1 && event->type == GDK_2BUTTON_PRESS) {
+		emft_tree_row_activated (treeview, tree_path, NULL, emft);
+		gtk_tree_path_free (tree_path);
+		return TRUE;
+	}
+	
+	gtk_tree_path_free (tree_path);
+	
+	/* FIXME: we really need the folderinfo to build a proper menu */
 	if (!emft_selection_get_selected (selection, &model, &iter))
 		return FALSE;
 	
@@ -2812,63 +2800,30 @@ emft_popup (EMFolderTree *emft, GdkEvent *event)
 	emp = em_popup_new ("com.ximian.mail.storageset.popup.select");
 	
 	/* FIXME: pass valid fi->flags here */
-	target = em_popup_target_new_folder (emp, uri, info_flags, flags);
+	target = em_popup_target_new_folder (uri, info_flags, flags);
 	
-	for (i = 0; i < sizeof (emft_popup_items) / sizeof (emft_popup_items[0]); i++)
-		menus = g_slist_prepend (menus, &emft_popup_items[i]);
+	for (i = 0; i < sizeof (emft_popup_menu) / sizeof (emft_popup_menu[0]); i++) {
+		EMPopupItem *item = &emft_popup_menu[i];
+		
+		item->activate_data = emft;
+		menus = g_slist_prepend (menus, item);
+	}
 	
-	e_popup_add_items ((EPopup *)emp, menus, emft_popup_free, emft);
+	em_popup_add_items (emp, menus, (GDestroyNotify) g_slist_free);
 
-	menu = e_popup_create_menu_once ((EPopup *)emp, (EPopupTarget *)target, 0);
+	menu = em_popup_create_menu_once (emp, target, 0, target->mask);
 	
 	if (event == NULL || event->type == GDK_KEY_PRESS) {
 		/* FIXME: menu pos function */
-		gtk_menu_popup (menu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+		gtk_menu_popup (menu, NULL, NULL, NULL, NULL, 0, event->time);
 	} else {
-		gtk_menu_popup (menu, NULL, NULL, NULL, NULL, event->button.button, event->button.time);
+		gtk_menu_popup (menu, NULL, NULL, NULL, NULL, event->button, event->time);
 	}
 	
 	g_free (full_name);
 	g_free (uri);
-
+	
 	return TRUE;
-}
-
-static gboolean 
-emft_popup_menu (GtkWidget *widget)
-{
-	return emft_popup (EM_FOLDER_TREE (widget), NULL);
-}
-
-static gboolean
-emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTree *emft)
-{
-	GtkTreeSelection *selection;
-	GtkTreePath *tree_path;
-
-	/* this centralises working out when the user's done something */
-	emft_tree_user_event(treeview, (GdkEvent *)event, emft);
-	
-	if (event->button != 3 && !(event->button == 1 && event->type == GDK_2BUTTON_PRESS))
-		return FALSE;
-	
-	if (!gtk_tree_view_get_path_at_pos (treeview, (int) event->x, (int) event->y, &tree_path, NULL, NULL, NULL))
-		return FALSE;
-	
-	/* select/focus the row that was right-clicked or double-clicked */
-	selection = gtk_tree_view_get_selection (treeview);
-	gtk_tree_selection_select_path(selection, tree_path);
-	gtk_tree_view_set_cursor (treeview, tree_path, NULL, FALSE);
-	
-	if (event->button == 1 && event->type == GDK_2BUTTON_PRESS) {
-		emft_tree_row_activated (treeview, tree_path, NULL, emft);
-		gtk_tree_path_free (tree_path);
-		return TRUE;
-	}
-	
-	gtk_tree_path_free (tree_path);
-	
-	return emft_popup (emft, (GdkEvent *)event);
 }
 
 /* This is called for keyboard and mouse events, it seems the only way

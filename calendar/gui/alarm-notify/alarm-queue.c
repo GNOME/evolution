@@ -51,7 +51,6 @@
 #include "alarm-queue.h"
 #include "config-data.h"
 #include "util.h"
-#include "e-util/e-popup.h"
 
 
 
@@ -801,6 +800,36 @@ tray_icon_destroyed_cb (GtkWidget *tray, gpointer user_data)
 }
 
 /* Callbacks.  */
+static void
+add_popup_menu_item (GtkMenu *menu, const char *label, const char *pixmap,
+		     GCallback callback, gpointer user_data)
+{
+	GtkWidget *item, *image;
+
+	if (pixmap) {
+		item = gtk_image_menu_item_new_with_label (label);
+
+		/* load the image */
+		if (g_file_test (pixmap, G_FILE_TEST_EXISTS))
+			image = gtk_image_new_from_file (pixmap);
+		else
+			image = gtk_image_new_from_stock (pixmap, GTK_ICON_SIZE_MENU);
+
+		if (image) {
+			gtk_widget_show (image);
+			gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item), image);
+		}
+	} else {
+		item = gtk_menu_item_new_with_label (label);
+	}
+
+	if (callback)
+		g_signal_connect (G_OBJECT (item), "activate", callback, user_data);
+
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	gtk_widget_show (item);
+}
+
 static gboolean
 open_alarm_dialog (TrayIconData *tray_data)
 {
@@ -825,15 +854,13 @@ open_alarm_dialog (TrayIconData *tray_data)
 }
 
 static void
-popup_dismiss_cb (EPopup *ep, EPopupItem *pitem, void *data)
+popup_dismiss_cb (GtkWidget *widget, TrayIconData *tray_data)
 {
-	TrayIconData *tray_data = data;
-
 	gtk_widget_destroy (tray_data->tray_icon);
 }
 
 static void
-popup_dismiss_all_cb (EPopup *ep, EPopupItem *pitem, void *data)
+popup_dismiss_all_cb (GtkWidget *widget, TrayIconData *tray_data)
 {
 	while (tray_icons_list != NULL) {
 		TrayIconData *tray_data = tray_icons_list->data;
@@ -845,23 +872,9 @@ popup_dismiss_all_cb (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-popup_open_cb (EPopup *ep, EPopupItem *pitem, void *data)
+popup_open_cb (GtkWidget *widget, TrayIconData *tray_data)
 {
-	TrayIconData *tray_data = data;
-
 	open_alarm_dialog (tray_data);
-}
-
-static EPopupItem tray_items[] = {
-	{ E_POPUP_ITEM, "00.open", N_("Open"), popup_open_cb, NULL, GTK_STOCK_OPEN },
-	{ E_POPUP_ITEM, "10.dismiss", N_("Dismiss"), popup_dismiss_cb, NULL, NULL },
-	{ E_POPUP_ITEM, "20.dismissall", N_("Dismiss All"), popup_dismiss_all_cb, NULL, NULL },
-};
-
-static void
-tray_popup_free(EPopup *ep, GSList *items, void *data)
-{
-	g_slist_free(items);
 }
 
 static gint
@@ -873,17 +886,17 @@ tray_icon_clicked_cb (GtkWidget *widget, GdkEventButton *event, gpointer user_da
 		if (event->button == 1) {
 			return open_alarm_dialog (tray_data);
 		} else if (event->button == 3) {
-			GtkMenu *menu;
-			GSList *menus = NULL;
-			EPopup *ep;
-			int i;
+			GtkWidget *menu;
 
-			ep = e_popup_new("com.novell.evolution.alarmNotify.popup");
-			for (i=0;i<sizeof(tray_items)/sizeof(tray_items[0]);i++)
-				menus = g_slist_prepend(menus, &tray_items[i]);
-			e_popup_add_items(ep, menus, tray_popup_free, tray_data);
-			menu = e_popup_create_menu_once(ep, NULL, 0);
-			gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event->button, event->time);
+			/* display popup menu */
+			menu = gtk_menu_new ();
+			add_popup_menu_item (GTK_MENU (menu), _("Open"), GTK_STOCK_OPEN,
+					     G_CALLBACK (popup_open_cb), tray_data);
+			add_popup_menu_item (GTK_MENU (menu), _("Dismiss"), NULL,
+					     G_CALLBACK (popup_dismiss_cb), tray_data);
+			add_popup_menu_item (GTK_MENU (menu), _("Dismiss All"), NULL,
+					     G_CALLBACK (popup_dismiss_all_cb), tray_data);
+			gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, event->button, event->time);
 
 			return TRUE;
 		}

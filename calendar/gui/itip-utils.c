@@ -30,6 +30,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtkmessagedialog.h>
 #include <gtk/gtkwidget.h>
+#include <gal/util/e-util.h>
 #include <libical/ical.h>
 #include <Evolution-Composer.h>
 #include <e-util/e-dialog-utils.h>
@@ -1137,6 +1138,8 @@ itip_publish_comp (ECal *client, gchar *uri, gchar *username,
 	SoupMessage *msg;
 	SoupUri *real_uri;
 	char *ical_string;
+	char *prompt;
+	gboolean remember = FALSE;
 	
 	toplevel = e_cal_util_new_top_level ();
 	icalcomponent_set_method (toplevel, ICAL_METHOD_PUBLISH);

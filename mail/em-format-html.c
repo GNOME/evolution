@@ -41,7 +41,9 @@
 #include <gtkhtml/gtkhtml-stream.h>
 #include <gtkhtml/htmlengine.h>
 
-#include <libgnome/gnome-i18n.h>
+#include <libgnomevfs/gnome-vfs-utils.h>
+#include <libgnomevfs/gnome-vfs-mime-utils.h>
+#include <libgnomevfs/gnome-vfs-mime-handlers.h>
 
 #include <camel/camel-mime-message.h>
 #include <camel/camel-stream.h>

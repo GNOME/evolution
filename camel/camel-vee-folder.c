@@ -38,7 +38,6 @@
 #include "camel-vee-store.h"	/* for open flags */
 #include "camel-private.h"
 #include "camel-debug.h"
-#include "camel-i18n.h"
 
 #include "e-util/md5-utils.h"
 

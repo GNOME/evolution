@@ -1,24 +1,9 @@
-2004-10-08  Harry Lu  <harry.lu@sun.com>
+2004-09-28  JP Rosevear  <jpr@novell.com>
 
-	* e-source-selector.c: (e_source_selector_popup_menu),
-	(class_init): implement popup_menu so that popup menu can
-	be shown with Shift+F10.
-
-2004-10-06  JP Rosevear  <jpr@novell.com>
- 
- 	Fixes #66164
- 	
- 	* e-cell-date-edit.c (e_cell_date_edit_get_popup_pos): replicate
- 	fix to e-cell-combo.c by NotZed
+	Fixes #66164
 	
-2004-10-01  Not Zed  <NotZed@Ximian.com>
-
-	* e-util-marshal.list: added boolean object boxed.
-
-	* e-source-selector.c (class_init): add new 'popup event' signal,
-	to replace fill_popup_menu.
-	(selector_button_press_event): emit a POPUP_EVENT rather than a
-	FILL_POPUP_MENU.
+	* e-cell-date-edit.c (e_cell_date_edit_get_popup_pos): replicate
+	fix to e-cell-combo.c by NotZed
 
 2004-09-13  Rodney Dawes  <dobey@novell.com>
 

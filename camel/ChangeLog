@@ -42,22 +42,6 @@
 	EAI_AGAIN, it doesn't appear to mean the same as EAGAIN does with
 	system calls (i guess 'no shit sherlock' really).
 
-2004-10-04  JP Rosevear  <jpr@novell.com>
-
-	* providers/imap4/camel-imap4-provider.c: include camel-i18n.h
-
-2004-10-01  Jeffrey Stedfast  <fejj@novell.com>
-
-	* providers/imap4/camel-imap4-folder.c (imap4_sync): If we aren't
-	online, we're done. nothing to do.
-	(imap4_refresh_info): Same.
-	(imap4_append_message): Same but set an exception.
-	(imap4_transfer_messages_to): Same.
-
-	* camel-service.c (camel_getaddrinfo): Avoid assigning a value to
-	the member of a const struct (which newer gcc's apparently break
-	over) by casting to non-const.
-
 2004-09-28  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #66509.
@@ -101,7 +85,7 @@
 	* camel-vee-store.c:
 	* camel-vee-folder.c: move the unmatched
 	folder onto the camel-vee-store object.  Removede the global
- 	unmatched folder and associated locks/etc, fixed all the code up
+	unmatched folder and associated locks/etc, fixed all the code up
 	to work with the new unmatched folder, if present.
 
 2004-09-27  Not Zed  <NotZed@Ximian.com>
@@ -126,24 +110,6 @@
 	* providers/local/camel-spool-folder.c (spool_get_full_path)
 	(spool_get_meta_path): implement, this needs to work differnetly
 	to the parent classes implementations :-/.
-
-2004-09-22  Jeffrey Stedfast  <fejj@novell.com>
-
-	* providers/imap/camel-imap-store.c (connect_to_server): Instead
-	of doing a host-lookup ourselves, get it passed in to us as an
-	argument. Also simplified a bit (try_starttls is no longer an
-	option).
-	(connect_to_server_wrapper): Simplified (we no longer have
-	fallback cases for SSL stuff). Also, perform host lookup here.
-
-	* providers/imap4/camel-imap4-store.c: Same changes as above.
-
-	* providers/pop3/camel-pop3-store.c: Same.
-
-	* providers/smtp/camel-smtp-transport.c: Same. Other changes
-	include making the code consistant with the other providers.
-
-	* providers/nntp/camel-nntp-store.c: Same as pop/imap.
 
 2004-09-21  Not Zed  <NotZed@Ximian.com>
 
@@ -228,12 +194,6 @@
 	basic proxy auth if we have a user and password.
 
 	* camel-http-stream.c: turn off debug.
-
-2004-09-08  Hannah & Fazlu <hannah_lins@yahoo.co.in>
-
-        Fixes Bug#61088
-
-	* camel/camel-smime-context.c: Change of strings.
 
 2004-09-15  Not Zed  <NotZed@Ximian.com>
 
@@ -554,60 +514,6 @@
 	* providers/groupwise/Makefile.am (INCLUDES): use
 	CAMEL_GROUPWISE_CFLAGS.
 	(libcamelgroupwise_la_LIBADD): use CAMEL_GROUPWISE_LIBS.
-
-2004-09-07  Not Zed  <NotZed@Ximian.com>
-
-	* providers/groupwise/camel-groupwise-provider.c: put the options
-	in their own section.
-
-2004-09-06  Not Zed  <NotZed@Ximian.com>
-
-	* camel-search-private.c (utf8_get): remove this, and make the
-	code use camel_utf8_getc instead.  Quite a bit faster esp if
-	optimising with inlines.
-
-	* camel-object.c (check_magic_fail): change the check_magic code
-	to mostly run from a macro, its worth it.
-
-2004-09-04  Not Zed  <NotZed@Ximian.com>
-
-	* providers/local/camel-mbox-summary.c (message_info_new): fix
-	cast issue.
-
-	* providers/pop3/camel-pop3-engine.c (get_capabilities): remove
-	some unused variables.
-
-	* camel-object.h: remove camel-i18n.h, fixed all c files where
-	appropriate.
-
-2004-08-25  Not Zed  <NotZed@Ximian.com>
-
-	* camel-list-utils.[ch]: Copied e_dlist* stuff to here, part of
-	removing e-util dependency on camel.
-
-2004-08-05  Not Zed  <NotZed@Ximian.com>
-
-	* providers/local/camel-local-provider.c: same.
-
-	* providers/imap/camel-imap-provider.c: put the extra stuff into a
-	'general' section.
-
-	* providers/imapp/camel-imapp-provider.c: same.
-
-	* providers/pop3/camel-pop3-provider.c: make sure each section
-	start has a name.
-
-2004-08-03  Not Zed  <NotZed@Ximian.com>
-
-	* camel-url.c (camel_url_set_param): when clearing a param, use
-	remove_data instead of set_data_full.  craptatious glib at it
-	again.
-
-	* providers/nntp/camel-nntp-provider.c: turn on ssl option.
-
-2004-07-07  Not Zed  <NotZed@Ximian.com>
-
-	* camel-folder.c: removed filter-rule.h  ugh.
 
 2004-07-02  Christian Neumair  <chris@gnome-de.org>
 

@@ -31,7 +31,7 @@ char *s = N_("Are you sure you want to discard the message, titled '{0}', you ar
 /* mail-composer:exit-unsaved secondary */
 char *s = N_("Closing this composer window will discard the message permanently, unless you choose to save the message in your Drafts folder. This will allow you to continue the message at a later date.");
 char *s = N_("_Discard Changes");
-char *s = N_("_Save Message");
+char *s = N_("Save Message");
 /* mail-composer:no-build-message primary */
 char *s = N_("Could not create message.");
 /* mail-composer:no-build-message secondary */

@@ -1,15 +1,3 @@
-2004-10-07  Not Zed  <NotZed@Ximian.com>
-
-	* main.c (main): initialise plugin system.
-	(main): add --disable-eplugin and --disable-mono arguments.
-
-2004-09-30  Kjartan Maraas  <kmaraas@gnome.org>
-
-	* e-shell-importer.c: (import_cb): use g_timeout_add().
-	* importer/intelligent.c: (select_row_cb), (unselect_row_cb),
-	(create_gui): use gtk_notebook_set_current_page() instead of
-	deprecated gtk_notebook_set_page()
-
 2004-09-24  Not Zed  <NotZed@Ximian.com>
 
 	* e-shell-window-commands.c: Added ed catmur to the credits.
@@ -26,6 +14,10 @@
 	* e-shell-window-commands.c (about_box_new): don't show
 	"translator-credits" if not translated
 
+2004-09-13  JP Rosevear  <jpr@novell.com>
+
+	* main.c: turn off development mode
+
 2004-09-07  JP Rosevear  <jpr@novell.com>
 
 	Fixes #17338
@@ -33,6 +25,14 @@
 	* e-shell-window-commands.c (about_box_new): use per language
 	translator credits, update authors lists (not strictly authors,
 	but we have a lot of helpful people)
+
+2004-09-03  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #61285.
+
+	* e-shell-settings-dialog.c (load_pages): use a better query to
+	get the configuration pages, the old one didn't include version
+	information properly.
 
 2004-09-13  Sivaiah Nallagatla <snallagatla@novell.com>
 
@@ -129,10 +129,6 @@
 
 	* e-shell-errors.xml.h: Add this back to CVS for translators
 	* .cvsignore: Don't ignore e-shell-errors.xml.h
-
-2004-09-07  Not Zed  <NotZed@Ximian.com>
-
-	* e-shell.c (e_shell_construct): disable the startup wizard.
 
 2004-06-24  Not Zed  <NotZed@Ximian.com>
 

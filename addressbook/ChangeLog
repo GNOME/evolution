@@ -6,67 +6,12 @@
 	(addressbook_view_init): Unref views when removed from the hash
 	table.
 
-2004-10-06  Not Zed  <NotZed@Ximian.com>
+2004-10-01  William Jon McCann  <mccann@jhu.edu>
 
-	* gui/component/addressbook-view.c (popup_event_callback): 
-	* gui/component/select-names/e-select-names.c (section_right_click_cb):
-	* gui/widgets/e-addressbook-view.c (do_popup_menu): fix for
-	e-popup api changes.  Moved all mask specifiers to visible rather
-	than enable in the menu table.
+	* gui/component/component-factory.c (factory): Quiet debug messages.
 
-2004-10-06  Not Zed  <NotZed@Ximian.com>
-
-	* gui/contact-editor/e-contact-editor.c: removed
-	gnome-popup-menu.h (unused).
-
-	* gui/widgets/e-addressbook-reflow-adapter.c: 
-	* gui/widgets/eab-popup-control.c: remove e-popup-menu.h (unused).
-
-	* gui/component/select-names/e-select-names.c
-	(section_right_click_cb): use e-popup.  Somewhat overengineered
-	for this use ...
-	(remove_cb): api changes.
-
-	* gui/widgets/eab-popup.c (eab_popup_target_new_select_names):
-	added pretty useless wrapper for the select names popup.  Added to
-	hook maps.
-
-2004-10-01  Not Zed  <NotZed@Ximian.com>
-
-	* gui/widgets/e-addressbook-view.c (do_popup_menu): convert to
-	using EABPopup.
-	(sources): remove dead code.
-	(has_email_address_1, get_has_email_address): removed now
-	redundant code.
-	(save_as, send_as, send_to, print, copy, paste, cut, delete) 
-	(copy_to_folder, move_to_folder, new_card, new_list): new api.
-	(free_popup_info): dead.
-	(print_envelope): not pining.
-	(get_contact_list): take a popup target instead, don't ref.
-	(get_contact_list_1): not required no more.
-	(contact_and_book_free): same.
-	(delete): call eab_view_delete_selection.
-	(eab_view_delete_selection): do the actual delete here.
-
-	* gui/widgets/eab-popup.c (eab_popup_target_new_select): implement.
-
-2004-10-01  Not Zed  <NotZed@Ximian.com>
-
-	* gui/widgets/eab-popup.[ch]: addressbook popup driver.
-
-	* gui/component/addressbook-view.c (delete_addressbook_cb): use
-	e-error for the message prompt.  don't bother keeping it around,
-	it can never be re-sensitised anyway.
-	(book_removed): no longer destroy the original dialogue.
-
-	* addressbook-errors.xml: add ask-delete for deleting
-	addressbooks.
-
-	* gui/component/addressbook-view.c (addressbook_view_init):
-	connect to popup_event rather than fill_popup_menu now.
-	(fill_popup_menu_callback): renamed to popup_event_callback,
-	changed to use epopup.
-	(add_popup_menu_item): remove, no longer needed.
+	* gui/component/apps_evolution_addressbook.schemas.in.in: Add
+	missing show_preview schema.  Add missing long descriptions.
 
 2004-09-29  Not Zed  <NotZed@Ximian.com>
 
@@ -90,52 +35,45 @@
 	* gui/merging/eab-contact-compare.c (query_cb): Protect against NULL
 	UIDs, and make fewer calls to e_contact_get_const () as a bonus.
 
-2004-09-24  Hao Sheng  <hao.sheng@sun.com>
-	
-	Fix for #66523
-
-	* gui/contact-list-editor/e-contact-list-model.c:
-	(e_contact_list_model_add_email): estimate the same mail address
-	and popup a warning dialog.
-	* addressbook-errors.xml: add the question message for the warning
-	dialog.
-
-2004-09-23  Pamplona Hackers <gnome-desarrollo@es.gnome.org>
-
-	Fixes #61978
-
-	* tools/evolution-addressbook-export.c (main): use more
-	meaningful error message.
-
 2004-09-23  Fazlu & Hannah <hannah_lins@yahoo.co.in>
 
-	* tools/evolution-addressbook-export.c (main):
-	Changed the string into proper grammar 'In normal mode, there
-	should not need size option.' to 'In normal mode, there is no need
-	for the size option.'
+	Fixes bug #61070
+
+	* addressbook/tools/evolution-addressbook-export.c (main):
+	Changed the string into proper grammar 'In normal mode,
+	there should not need size option.' to 'In normal mode, there
+	is no need for the size option.'
 
 2004-09-23  JP Rosevear  <jpr@novell.com>
- 
- 	* conduit/address-conduit.c (ecard_from_remote_record): only set
- 	the file as address to the company if no full name exists
- 	(delete_record): don't bail out if the record simply isn't found
- 
- 	Fixes #59725
- 	
- 	* conduit/address-conduit.c (local_record_from_uid): remove
- 	extraneous semicolon
- 
-2004-09-21  William Jon McCann  <mccann@jhu.edu>
 
-	* gui/component/component-factory.c (factory): Quiet debug messages.
+	* conduit/address-conduit.c (ecard_from_remote_record): only set
+	the file as address to the company if no full name exists
+	(delete_record): don't bail out if the record simply isn't found
 
-	* gui/widgets/e-addressbook-view.c (eab_view_new): Remove
-	unnecessary label widget placeholder.  Make vertical scrollbar
-	policy automatic.  Use gtk_paned_add2 instead of
-	gtk_container_add.
+	Fixes #59725
+	
+	* conduit/address-conduit.c (local_record_from_uid): remove
+	extraneous semicolon
 
-	* gui/component/apps_evolution_addressbook.schemas.in.in: Add
-	missing show_preview schema.  Add missing long descriptions.
+2004-09-13  Rodney Dawes  <dobey@novell.com>
+
+	* gui/contact-editor/e-contact-editor.c (show_help_cb):
+	Point at the correct XML file for documentation
+
+2004-09-09  Sivaiah Nallagatla  <snallagatla@novell.com>
+
+	Part of fix for #59582.
+
+	* gui/contact-editor/e-contact-editor.c 
+	(sensitize_address): check for _LABEL type address fields also in
+	supported fileds while sensitizing the address fields.
+
+2004-09-08  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #64080.
+
+	* gui/component/Makefile.am (libevolution_addressbook_la_LIBADD):
+	link addressbook to camel.
 
 2004-09-13  Rodney Dawes  <dobey@novell.com>
 
@@ -552,11 +490,6 @@
 	* gui/component/apps_evolution_addressbook.schemas.in.in:
 	Don't set empty default value on an int, this causes gconf warning.
 	(bug #60859)
-
-2004-09-04  Not Zed  <NotZed@Ximian.com>
-
-	* util/e-destination.c: include gnome-i18n.h since camel-object no
-	longer does(!).
 
 2004-07-02  Hans Petter Jansson  <hpj@ximian.com>
 

@@ -47,7 +47,6 @@
 #include <libecal/e-cal-time-util.h>
 #include <gal/menus/gal-view-factory-etable.h>
 #include <gal/menus/gal-view-etable.h>
-#include <gal/menus/gal-define-views-dialog.h>
 #include "widgets/menus/gal-view-menus.h"
 #include "widgets/misc/e-error.h"
 #include "e-comp-editor-registry.h"
@@ -78,7 +77,6 @@
 #include "misc.h"
 #include "ea-calendar.h"
 #include "common/authentication.h"
-#include "e-cal-popup.h"
 
 /* FIXME glib 2.4 and above has this */
 #ifndef G_MAXINT32
@@ -1984,137 +1982,36 @@ gnome_calendar_discard_view_menus (GnomeCalendar *gcal)
 	priv->view_menus = NULL;
 }
 
-/* This is copied/moved from gal-view-instance, only the calendar uses this for a popup menu */
-static void
-gc_set_view(EPopup *ep, EPopupItem *pitem, void *data)
+EPopupMenu *
+gnome_calendar_setup_view_popup (GnomeCalendar *gcal)
 {
-	GnomeCalendar *gcal = data;
+	GnomeCalendarPrivate *priv;
 
-	if (pitem->type & E_POPUP_ACTIVE)
-		gal_view_instance_set_current_view_id(gcal->priv->view_instance, (char *)pitem->user_data);
-}
+	g_return_val_if_fail (gcal != NULL, NULL);
+	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
 
-static void
-gc_save_custom_view(EPopup *ep, EPopupItem *pitem, void *data)
-{
-	GnomeCalendar *gcal = data;
+	priv = gcal->priv;
 
-	gal_view_instance_save_as(gcal->priv->view_instance);
-}
+	g_return_val_if_fail (priv->view_instance != NULL, NULL);
 
-static void
-gc_define_views_response(GtkWidget *d, int id, GnomeCalendar *gcal)
-{
-	if (id == GTK_RESPONSE_OK)
-		gal_view_collection_save(gcal->priv->view_instance->collection);
-
-	gtk_widget_destroy(d);
-}
-
-static void
-gc_define_views(EPopup *ep, EPopupItem *pitem, void *data)
-{
-	GnomeCalendar *gcal = data;
-	GtkWidget *dialog = gal_define_views_dialog_new(gcal->priv->view_instance->collection);
-
-	g_signal_connect(dialog, "response", G_CALLBACK(gc_define_views_response), data);
-	gtk_widget_show(dialog);
-}
-
-static EPopupItem gc_popups[] = {
-	/* Code generates the path to fit */
-	{ E_POPUP_BAR, NULL },
-	{ E_POPUP_RADIO|E_POPUP_ACTIVE, NULL, N_("Custom View"), },
-	{ E_POPUP_ITEM, NULL, N_("Save Custom View"), gc_save_custom_view },
-
-	/* index == 3, when we have non-custom view */
-
-	{ E_POPUP_BAR, NULL },
-	{ E_POPUP_ITEM, NULL, N_("Define Views..."), gc_define_views },
-};
-
-static void
-gc_popup_free (EPopup *ep, GSList *list, void *data)
-{
-	while (list) {
-		GSList *n = list->next;
-		EPopupItem *pitem = list->data;
-
-		g_free(pitem->path);
-		g_free(pitem->label);
-		g_free(pitem->user_data);
-		g_free(pitem);
-		g_slist_free_1(list);
-		list = n;
-	}
-}
-
-static void
-gc_popup_free_static (EPopup *ep, GSList *list, void *data)
-{
-	while (list) {
-		GSList *n = list->next;
-		EPopupItem *pitem = list->data;
-
-		g_free(pitem->path);
-		g_free(pitem);
-		g_slist_free_1(list);
-		list = n;
-	}
+	return gal_view_instance_get_popup_menu (priv->view_instance);
 }
 
 void
-gnome_calendar_view_popup_factory (GnomeCalendar *gcal, EPopup *ep, const char *prefix)
+gnome_calendar_discard_view_popup (GnomeCalendar *gcal, EPopupMenu *popup)
 {
+
+
 	GnomeCalendarPrivate *priv;
-	int length;
-	int i;
-	gboolean found = FALSE;
-	char *id;
-	GSList *menus = NULL;
-	EPopupItem *pitem;
 
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-	g_return_if_fail (prefix != NULL);
 
 	priv = gcal->priv;
 
 	g_return_if_fail (priv->view_instance != NULL);
 
-	length = gal_view_collection_get_count(priv->view_instance->collection);
-	id = gal_view_instance_get_current_view_id (priv->view_instance);
-
-	for (i = 0; i < length; i++) {
-		GalViewCollectionItem *item = gal_view_collection_get_view_item(priv->view_instance->collection, i);
-
-		pitem = g_malloc0(sizeof(*pitem));
-		pitem->type = E_POPUP_RADIO;
-		pitem->path = g_strdup_printf("%s/%02d.item", prefix, i);
-		pitem->label = g_strdup(item->title);
-		pitem->activate = gc_set_view;
-		pitem->user_data = g_strdup(item->id);
-
-		if (!found && id && !strcmp (id, item->id)) {
-			found = TRUE;
-			pitem->type |= E_POPUP_ACTIVE;
-		}
-
-		menus = g_slist_prepend(menus, pitem);
-	}
-
-	if (menus)
-		e_popup_add_items(ep, menus, gc_popup_free, gcal);
-
-	menus = NULL;
-	for (i = found?3:0; i<sizeof(gc_popups)/sizeof(gc_popups[0]);i++) {
-		pitem = g_malloc0(sizeof(*pitem));
-		memcpy(pitem, &gc_popups[i], sizeof(*pitem));
-		pitem->path = g_strdup_printf("%s/%02d.item", prefix, i+length);
-		menus = g_slist_prepend(menus, pitem);
-	}
-
-	e_popup_add_items(ep, menus, gc_popup_free_static, gcal);
+	gal_view_instance_free_popup_menu (priv->view_instance, popup);
 }
 
 static void

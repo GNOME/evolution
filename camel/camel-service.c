@@ -38,6 +38,7 @@
 #include <sys/poll.h>
 
 #include "e-util/e-msgport.h"
+
 #include "e-util/e-host-utils.h"
 
 #include "camel-service.h"
@@ -45,7 +46,6 @@
 #include "camel-exception.h"
 #include "camel-operation.h"
 #include "camel-private.h"
-#include "camel-i18n.h"
 
 #define d(x)
 #define w(x)
@@ -896,7 +896,7 @@ camel_getaddrinfo(const char *name, const char *service, const struct addrinfo *
 	else
 		memcpy (&myhints, hints, sizeof (myhints));
 	
-	myhints.ai_family = AF_INET;
+	myhints.ai_faimily = AF_INET;
 	hints = &myhints;
 #endif
 
@@ -917,7 +917,7 @@ camel_getaddrinfo(const char *name, const char *service, const struct addrinfo *
 		cs_freeinfo(msg);
 	} else
 		res = NULL;
-	
+
 	camel_operation_end(NULL);
 
 	return res;

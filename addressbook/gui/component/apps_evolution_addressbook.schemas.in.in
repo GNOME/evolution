@@ -10,8 +10,8 @@
       <type>string</type>
       <default></default>
       <locale name="C">
-        <short>EFolderList XML for the list of completion URIs</short>
-        <long>EFolderList XML for the list of completion URIs.</long>
+        <short>EFolderList xml for the list of completion uris</short>
+        <long>EFolderList xml for the list of completion uris</long>
       </locale>
     </schema>
 
@@ -23,7 +23,7 @@
       <default>3</default>
       <locale name="C">
         <short>The number of characters that must be typed before evolution will attempt to autocomplete</short>
-        <long>The number of characters that must be typed before evolution will attempt to autocomplete.</long>
+        <long>The number of characters that must be typed before evolution will attempt to autocomplete</long>
       </locale>
     </schema>
 
@@ -37,7 +37,7 @@
       <default></default>
       <locale name="C">
         <short>URI for the folder last used in the select names dialog</short>
-        <long>URI for the folder last used in the select names dialog.</long>
+        <long>URI for the folder last used in the select names dialog</long>
       </locale>
     </schema>
 
@@ -50,7 +50,7 @@
       <type>int</type>
       <locale name="C">
         <short>Position of the vertical pane in main view</short>
-        <long>Position of the vertical pane in main view.</long>
+        <long>Position of the vertical pane in main view</long>
       </locale>
     </schema>
 
@@ -62,7 +62,7 @@
       <default>true</default>
       <locale name="C">
          <short>Show the "Preview" pane</short>
-         <long>Show the "Preview" pane.</long>
+         <long>Show the "Preview" pane</long>
       </locale>
     </schema>
 
