@@ -27,16 +27,16 @@ DOC_DIR_INSTALL_FILES =					\
 	evolution-shell-importer-decl.txt		\
 	evolution-shell-importer-sections.txt
 
-SOURCE_FILES =							\
-	$(top_srcdir)/shell/importer/evolution-importer.c	\
-	$(top_srcdir)/shell/importer/evolution-importer.h	\
+SOURCE_FILES =								\
+	$(top_srcdir)/shell/importer/evolution-importer.c		\
+	$(top_srcdir)/shell/importer/evolution-importer.h		\
 	$(top_srcdir)/shell/importer/evolution-importer-client.c	\
 	$(top_srcdir)/shell/importer/evolution-importer-client.h
 
-IGNORED_HEADER_FILES =		\
+IGNORED_HEADER_FILES =			\
 	GNOME_Evolution_Importer.h	\
 	importer.h
-	
+
 scan_generated =						\
 	evolution-shell-importer-decl.txt			\
 	evolution-shell-importer.args				\
@@ -52,7 +52,7 @@ tmpl_dependencies =						\
 	evolution-shell-importer.signals
 
 tmpl_sources = 						\
-	tmpl/importer.sgml		\
+	tmpl/evolution-importer.sgml			\
 	tmpl/evolution-shell-importer-unused.sgml
 
 tmpl_generated =					\
@@ -64,13 +64,13 @@ sgml_dependencies =					\
 	evolution-shell-importer.args			\
 	evolution-shell-importer.hierarchy		\
 	evolution-shell-importer.signals		\
-	tmpl/importer.sgml
+	tmpl/evolution-importer.sgml
 
-sgml_generated =						\
-	sgml/importer.sgml					\
-	sgml/evolution-shell-importer-doc.bottom		\
-	sgml/evolution-shell-importer-doc.top			\
-	sgml/object_index.sgml					\
+sgml_generated =					\
+	sgml/evolution-importer.sgml			\
+	sgml/evolution-shell-importer-doc.bottom	\
+	sgml/evolution-shell-importer-doc.top		\
+	sgml/object_index.sgml				\
 	sgml/tree_index.sgml
 
 EXTRA_DIST =							\
