@@ -1,3 +1,10 @@
+2004-12-09  Harry Lu  <harry.lu@sun.com>
+
+	Fix a warning.
+
+	* addressbook/ea-addressbook.c: (ea_addressbook_focus_watcher):
+	use object instead of ATK_OBJECT (minicard).
+
 2004-12-1   Hao Sheng <hao.sheng@sun.com>
 
 	* a11y/addressbook/ea-minicard.c:
