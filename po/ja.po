@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution evolution-1-4-branch\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-08-02 10:51+0900\n"
-"PO-Revision-Date: 2003-08-02 10:49+0900\n"
+"POT-Creation-Date: 2003-08-09 13:38+0900\n"
+"PO-Revision-Date: 2003-08-09 13:31+0900\n"
 "Last-Translator: Takeshi AIHANA <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -714,11 +714,11 @@ msgstr "%s%s (ユーザ %s) のパスワードを入力して下さい"
 
 #: addressbook/gui/component/addressbook.c:794
 msgid "Name begins with"
-msgstr "名前が次のもので終わる"
+msgstr "名前が次のもので始まる"
 
 #: addressbook/gui/component/addressbook.c:795
 msgid "Email begins with"
-msgstr "E-メールが次のもので終わる"
+msgstr "E-メールが次のもので始まる"
 
 #: addressbook/gui/component/addressbook.c:796
 #: calendar/gui/cal-search-bar.c:53
@@ -1016,10 +1016,11 @@ msgid ""
 "is already\n"
 "secure."
 msgstr ""
-"このオプションを有効にすると、セキュアではない環境にいる場合にのみ、\n"
+"このオプションを有効にすると、セキュリティ保護されていない環境にいる場合にの"
+"み、\n"
 "SSL/TLS を使うようになります。例えば、ホストとお使いの LDAP サーバが\n"
 "ファイヤーウォールの内側にある場合、Evolution は SSL/TLS を使いません。\n"
-"その理由は、既にセキュアな接続環境にあるからです。"
+"その理由は、既にセキュリティ保護された接続環境にあるからです。"
 
 #: addressbook/gui/component/ldap-config.glade.h:42
 msgid ""
@@ -1031,8 +1032,8 @@ msgid ""
 msgstr ""
 "このオプションを有効にすると、お使いのサーバが SSL と TLS をサポートしていな"
 "いことを\n"
-"明示することになります。これは接続環境がセキュアではなく、セキュリティの恩恵"
-"を\n"
+"明示することになります。これは接続環境がセキュリティ保護が無効で、セキュリ"
+"ティの恩恵を\n"
 "受けることができなくなることを意味します。"
 
 #: addressbook/gui/component/ldap-config.glade.h:45
@@ -1081,8 +1082,9 @@ msgid ""
 "information. Please ask your system administrator if you are unsure of this "
 "information."
 msgstr ""
-"LDAP サーバ設定の最初のステップでは、サーバ名とログイン情報を表示します。\n"
-"この情報があいまいならば、システム管理者にお尋ね下さい。"
+"LDAP サーバ設定の最初のステップでは、サーバ名とログイン情報を提供する必要があ"
+"ります。\n"
+"これらの情報が不明な場合は、システム管理者に問い合わせて下さい。"
 
 #: addressbook/gui/component/ldap-config.glade.h:56
 msgid ""
@@ -1246,19 +1248,19 @@ msgstr "タイムアウト(分)(_T):"
 
 #: addressbook/gui/component/ldap-config.glade.h:91
 msgid "cards"
-msgstr "cards"
+msgstr "カード"
 
 #: addressbook/gui/component/ldap-config.glade.h:92
 msgid "connecting-tab"
-msgstr "connecting-tab"
+msgstr "接続タブ"
 
 #: addressbook/gui/component/ldap-config.glade.h:93
 msgid "general-tab"
-msgstr "general-tab"
+msgstr "全般タブ"
 
 #: addressbook/gui/component/ldap-config.glade.h:94
 msgid "searching-tab"
-msgstr "searching-tab"
+msgstr "検索タブ"
 
 #: addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.server.in.in.h:1
 msgid "Evolution Addressbook name selection interface"
@@ -1444,8 +1446,9 @@ msgstr "カテゴリ(_C)..."
 #: calendar/gui/dialogs/meeting-page.c:717 calendar/gui/e-calendar-table.c:977
 #: calendar/gui/e-day-view.c:3757 calendar/gui/e-week-view.c:3725
 #: mail/folder-browser.c:1812 ui/evolution-addressbook.xml.h:32
-#: ui/evolution-calendar.xml.h:30 ui/evolution-mail-message.xml.h:97
-#: ui/evolution-tasks.xml.h:17 ui/evolution.xml.h:45
+#: ui/evolution-calendar.xml.h:30 ui/evolution-comp-editor.xml.h:17
+#: ui/evolution-mail-message.xml.h:97 ui/evolution-tasks.xml.h:17
+#: ui/evolution.xml.h:45
 msgid "_Delete"
 msgstr "削除(_D)"
 
@@ -1675,7 +1678,7 @@ msgstr "ケープバーデ"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:175
 #: my-evolution/Locations.h:389
 msgid "Cayman Islands"
-msgstr "キャニオン諸島"
+msgstr "ケーマン諸島"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:176
 msgid "Central African Republic"
@@ -1688,7 +1691,7 @@ msgstr "チャド"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:178
 #: my-evolution/Locations.h:438
 msgid "Chile"
-msgstr "キール"
+msgstr "チリ"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:179
 msgid "China"
@@ -1972,7 +1975,7 @@ msgstr "日本"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:242
 #: my-evolution/Locations.h:1046
 msgid "Jordan"
-msgstr "ジョーダン"
+msgstr "ヨルダン"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:243
 msgid "Kazakhstan"
@@ -2107,7 +2110,7 @@ msgstr "モナコ"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:274
 msgid "Mongolia"
-msgstr "モンゴリア"
+msgstr "モンゴル"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:275
 msgid "Montserrat"
@@ -2190,7 +2193,7 @@ msgstr "ノルウェー"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:293
 #: my-evolution/Locations.h:1630
 msgid "Oman"
-msgstr "オーマン"
+msgstr "オマーン"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:294
 #: my-evolution/Locations.h:1671
@@ -2843,7 +2846,7 @@ msgstr "カードの修正中にエラーが発生しました"
 #: addressbook/gui/widgets/e-addressbook-util.c:36
 #: shell/evolution-shell-component.c:1183
 msgid "Success"
-msgstr "ソース"
+msgstr "成功"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:37
 #: camel/providers/imap/camel-imap-command.c:306
@@ -3248,7 +3251,7 @@ msgstr "カーソルあり"
 
 #: addressbook/gui/widgets/gal-view-factory-minicard.c:24
 msgid "Card View"
-msgstr "名刺表示"
+msgstr "カード表示"
 
 #: addressbook/gui/widgets/gal-view-factory-treeview.c:25
 msgid "GTK Tree View"
@@ -3885,7 +3888,7 @@ msgstr "新しい全日の約束を作成します"
 #: calendar/gui/calendar-model.c:405 calendar/gui/calendar-model.c:964
 #: calendar/gui/e-calendar-table.c:380
 msgid "Private"
-msgstr "私的"
+msgstr "非公開"
 
 #: calendar/gui/calendar-model.c:408 calendar/gui/calendar-model.c:966
 #: calendar/gui/e-calendar-table.c:381
@@ -3894,7 +3897,7 @@ msgstr "極秘"
 
 #: calendar/gui/calendar-model.c:411 calendar/gui/e-calendar-table.c:379
 msgid "Public"
-msgstr "公的"
+msgstr "公開"
 
 #: calendar/gui/calendar-model.c:523
 msgid "N"
@@ -3954,7 +3957,7 @@ msgstr ""
 
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1176 calendar/gui/dialogs/meeting-page.c:330
-#: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2065
+#: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2067
 #: mail/folder-browser.c:1774 mail/mail-account-gui.c:1260
 #: mail/mail-account-gui.c:1692 mail/mail-accounts.c:442
 #: mail/mail-config.glade.h:76
@@ -4523,7 +4526,7 @@ msgstr "サマリ無し"
 
 #: calendar/gui/dialogs/comp-editor.c:1281
 #: calendar/gui/e-calendar-table.c:1068 calendar/gui/e-day-view.c:3995
-#: calendar/gui/e-week-view.c:3934 composer/e-msg-composer.c:1169
+#: calendar/gui/e-week-view.c:3934 composer/e-msg-composer.c:1171
 msgid "Save as..."
 msgstr "別名で保存..."
 
@@ -4699,9 +4702,8 @@ msgid "Classification"
 msgstr "区分"
 
 #: calendar/gui/dialogs/event-page.glade.h:6
-#: calendar/gui/dialogs/task-page.glade.h:4
-msgid "Con_fidential"
-msgstr "極秘(_F)"
+msgid "Co_nfidential"
+msgstr "極秘(_N)"
 
 #: calendar/gui/dialogs/event-page.glade.h:7
 #: calendar/gui/dialogs/task-page.glade.h:5
@@ -4719,12 +4721,12 @@ msgstr "場所(_O):"
 #: calendar/gui/dialogs/event-page.glade.h:10
 #: calendar/gui/dialogs/task-page.glade.h:7
 msgid "Pri_vate"
-msgstr "私的(_V)"
+msgstr "非公開(_V)"
 
 #: calendar/gui/dialogs/event-page.glade.h:11
 #: calendar/gui/dialogs/task-page.glade.h:8
 msgid "Pu_blic"
-msgstr "公的(_B)"
+msgstr "公開(_B)"
 
 #: calendar/gui/dialogs/event-page.glade.h:12
 #: calendar/gui/e-calendar-table.etspec.h:13
@@ -4746,7 +4748,7 @@ msgstr "開始時刻(_S):"
 
 #: calendar/gui/dialogs/meeting-page.c:437
 msgid "The organizer selected no longer has an account."
-msgstr "指定した主催者はカウントされていません。"
+msgstr "指定した主催者のアカウントがありません。"
 
 #: calendar/gui/dialogs/meeting-page.c:443
 msgid "An organizer is required."
@@ -4824,7 +4826,7 @@ msgstr "主催者の変更(_C)"
 #: calendar/gui/dialogs/meeting-page.glade.h:5
 #: calendar/gui/e-meeting-time-sel.c:424
 msgid "_Invite Others..."
-msgstr "他に招待する(_I)..."
+msgstr "他を招待する(_I)..."
 
 #: calendar/gui/dialogs/recur-comp.c:50
 msgid "You are modifying a recurring event, what would you like to modify?"
@@ -4973,7 +4975,7 @@ msgstr ""
 "\n"
 "その変更を保存しますか？"
 
-#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1566
+#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1568
 msgid "_Discard Changes"
 msgstr "変更の破棄(_D)"
 
@@ -5044,6 +5046,10 @@ msgstr "期日が間違っています"
 #: calendar/gui/dialogs/task-page.c:542
 msgid "Due date is before start date!"
 msgstr "期日が開始日の前にあります！"
+
+#: calendar/gui/dialogs/task-page.glade.h:4
+msgid "Con_fidential"
+msgstr "極秘(_F)"
 
 #: calendar/gui/dialogs/task-page.glade.h:6 calendar/gui/e-itip-control.c:1107
 #: calendar/gui/e-itip-control.glade.h:6
@@ -5214,8 +5220,9 @@ msgstr "別名で保存(S)..."
 #: calendar/gui/e-calendar-table.c:960 calendar/gui/e-day-view.c:3741
 #: calendar/gui/e-week-view.c:3682 calendar/gui/e-week-view.c:3709
 #: ui/evolution-addressbook.xml.h:38 ui/evolution-calendar.xml.h:33
-#: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:108
-#: ui/evolution-tasks.xml.h:21 ui/my-evolution.xml.h:6
+#: ui/evolution-comp-editor.xml.h:19 ui/evolution-contact-editor.xml.h:14
+#: ui/evolution-mail-message.xml.h:108 ui/evolution-tasks.xml.h:21
+#: ui/my-evolution.xml.h:6
 msgid "_Print..."
 msgstr "印刷(_P)..."
 
@@ -5383,7 +5390,7 @@ msgstr "新しい会議"
 msgid "New Task"
 msgstr "新しいタスク"
 
-#: calendar/gui/e-day-view.c:3707 ui/evolution-comp-editor.xml.h:11
+#: calendar/gui/e-day-view.c:3707
 msgid "Print..."
 msgstr "印刷..."
 
@@ -5577,7 +5584,7 @@ msgstr "辞退済"
 #: camel/camel-gpg-context.c:1625 camel/camel-tcp-stream-openssl.c:634
 #: camel/providers/smtp/camel-smtp-transport.c:173
 #: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:347
-#: mail/mail-display.c:928 widgets/misc/e-charset-picker.c:60
+#: mail/mail-display.c:932 widgets/misc/e-charset-picker.c:60
 msgid "Unknown"
 msgstr "未知"
 
@@ -6306,7 +6313,7 @@ msgstr "日の指定 (%Y年 %m月 %d日 %a)"
 
 #: calendar/gui/print.c:1900 calendar/gui/print.c:1904
 msgid "%a %b %d"
-msgstr "%b %e日 (%a)"
+msgstr "%B%e日 (%a)"
 
 #: calendar/gui/print.c:1901
 msgid "%a %d %Y"
@@ -8562,8 +8569,8 @@ msgid ""
 "This option will connect to the server using a secure CRAM-MD5 password, if "
 "the server supports it."
 msgstr ""
-"サーバがサポートいる場合、このオプションはセキュアな CRAM-MD5 認証を使って"
-"サーバへ接続します。"
+"サーバがサポートしている場合、このオプションはセキュリティ保護された CRAM-"
+"MD5 認証を使ってサーバへ接続します。"
 
 #: camel/camel-sasl-digest-md5.c:48
 msgid "DIGEST-MD5"
@@ -8574,8 +8581,8 @@ msgid ""
 "This option will connect to the server using a secure DIGEST-MD5 password, "
 "if the server supports it."
 msgstr ""
-"サーバがサポートしている場合、このオプションはセキュアな DIGEST-MD5 を使って"
-"サーバに接続します。"
+"サーバがサポートしている場合、このオプションはセキュリティ保護された DIGEST-"
+"MD5 を使ってサーバへ接続します。"
 
 #: camel/camel-sasl-digest-md5.c:813
 msgid "Server challenge too long (>2048 octets)\n"
@@ -8721,8 +8728,8 @@ msgid ""
 "This option will connect to a Windows-based server using NTLM / Secure "
 "Password Authentication."
 msgstr ""
-"このオプションは NTLM/セキュア・パスワード認証を使って Windows サーバに接続し"
-"ます。"
+"このオプションは NTLM/セキュリティ保護されたパスワード認証を使って Windows "
+"サーバに接続します。"
 
 #: camel/camel-sasl-plain.c:32
 msgid "PLAIN"
@@ -9068,7 +9075,7 @@ msgid ""
 "Certificate expired: %s\n"
 "Issuer: %s"
 msgstr ""
-"認証の有効期間の延長: %s\n"
+"証明書の有効期限切れ: %s\n"
 "発行者: %s"
 
 #: camel/camel-tcp-stream-ssl.c:964
@@ -9077,7 +9084,7 @@ msgid ""
 "Certificate revocation list expired: %s\n"
 "Issuer: %s"
 msgstr ""
-"認証取り消し一覧の延長: %s\n"
+"証明書取り消し一覧の期限切れ: %s\n"
 "発行者: %s"
 
 #: camel/camel-url.c:290 mail/mail-tools.c:143
@@ -9321,7 +9328,8 @@ msgstr "%s (ポート %d) へ接続できませんでした: %s"
 #: camel/providers/imap/camel-imap-store.c:680
 #, c-format
 msgid "Failed to connect to IMAP server %s in secure mode: %s"
-msgstr "セキュア・モードで IMAP サーバ %s への接続に失敗しました: %s"
+msgstr ""
+"セキュリティ保護されたモードで IMAP サーバ %s への接続に失敗しました: %s"
 
 #: camel/providers/imap/camel-imap-store.c:650
 #: camel/providers/pop3/camel-pop3-store.c:220
@@ -9838,7 +9846,7 @@ msgid ""
 "Folder may be corrupt, copy saved in `%s'"
 msgstr ""
 "スプール・フォルダ %s を同期できませんでした: %s\n"
-"フォルダがおかしいかもしれません。'%s' の中に保存して下さい。"
+"フォルダが壊れている可能性があります。コピーを '%s' に保存しました。"
 
 #: camel/providers/nntp/camel-nntp-provider.c:41
 msgid "USENET news"
@@ -10003,7 +10011,8 @@ msgstr "POP サーバ %s (ポート %d) に接続できませんでした: %s"
 #: camel/providers/pop3/camel-pop3-store.c:260
 #, c-format
 msgid "Failed to connect to POP server %s in secure mode: %s"
-msgstr "セキュア・モードで POP サーバ %s への接続に失敗しました: %s"
+msgstr ""
+"セキュリティ保護されたモードで POP サーバ %s への接続に失敗しました: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:358
 #, c-format
@@ -10224,7 +10233,8 @@ msgstr "Welcome 応答エラー"
 #: camel/providers/smtp/camel-smtp-transport.c:382
 #, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
-msgstr "セキュア・モードで SMTP サーバ %s への接続に失敗しました: %s"
+msgstr ""
+"セキュリティ保護されたモードで SMTP サーバ %s への接続に失敗しました: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:344
 msgid "server does not appear to support SSL"
@@ -10517,11 +10527,11 @@ msgstr "送信先を指定します"
 msgid "Attach file(s)"
 msgstr "ファイルの添付"
 
-#: composer/e-msg-composer.c:540
+#: composer/e-msg-composer.c:542
 msgid "Could not create a PGP signature context"
 msgstr "PGP 署名コンテキストを作成できませんでした"
 
-#: composer/e-msg-composer.c:819
+#: composer/e-msg-composer.c:821
 #, c-format
 msgid ""
 "Error while reading file %s:\n"
@@ -10530,30 +10540,30 @@ msgstr ""
 "ファイル %s の読み込み中にエラー:\n"
 "%s"
 
-#: composer/e-msg-composer.c:1182
+#: composer/e-msg-composer.c:1184
 msgid "File exists, overwrite?"
 msgstr "ファイルが存在します。上書きしてもよろしいですか？"
 
-#: composer/e-msg-composer.c:1200
+#: composer/e-msg-composer.c:1202
 #, c-format
 msgid "Error saving file: %s"
 msgstr "ファイルの保存中にエラー: %s"
 
-#: composer/e-msg-composer.c:1223
+#: composer/e-msg-composer.c:1225
 #, c-format
 msgid "Error loading file: %s"
 msgstr "ファイルのロード中にエラー: %s"
 
-#: composer/e-msg-composer.c:1261
+#: composer/e-msg-composer.c:1263
 #, c-format
 msgid "Error accessing file: %s"
 msgstr "ファイルへアクセス中にエラー: %s"
 
-#: composer/e-msg-composer.c:1269
+#: composer/e-msg-composer.c:1271
 msgid "Unable to retrieve message from editor"
 msgstr "エディタからメッセージを取得できません"
 
-#: composer/e-msg-composer.c:1276
+#: composer/e-msg-composer.c:1278
 #, c-format
 msgid ""
 "Unable to seek on file: %s\n"
@@ -10562,7 +10572,7 @@ msgstr ""
 "ファイル上で読み込み位置へ移動できません: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1283
+#: composer/e-msg-composer.c:1285
 #, c-format
 msgid ""
 "Unable to truncate file: %s\n"
@@ -10571,7 +10581,7 @@ msgstr ""
 "ファイルの切り詰めができません: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1292
+#: composer/e-msg-composer.c:1294
 #, c-format
 msgid ""
 "Unable to copy file descriptor: %s\n"
@@ -10580,7 +10590,7 @@ msgstr ""
 "ファイル・デスクリプタをコピーできません: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1301
+#: composer/e-msg-composer.c:1303
 #, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -10589,7 +10599,7 @@ msgstr ""
 "メッセージの自動保存でエラー: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1398
+#: composer/e-msg-composer.c:1400
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
@@ -10598,7 +10608,7 @@ msgstr ""
 "た。\n"
 "そのファイルを復旧してみますか？"
 
-#: composer/e-msg-composer.c:1561
+#: composer/e-msg-composer.c:1563
 #, c-format
 msgid ""
 "The message \"%s\" has not been sent.\n"
@@ -10609,23 +10619,23 @@ msgstr ""
 "\n"
 "その変更を保存しますか？"
 
-#: composer/e-msg-composer.c:1570
+#: composer/e-msg-composer.c:1572
 msgid "Warning: Modified Message"
 msgstr "警告: 修正済みのメッセージ"
 
-#: composer/e-msg-composer.c:1602
+#: composer/e-msg-composer.c:1604
 msgid "Open file"
 msgstr "ファイルを開く"
 
-#: composer/e-msg-composer.c:2026
+#: composer/e-msg-composer.c:2028
 msgid "Signature:"
 msgstr "署名:"
 
-#: composer/e-msg-composer.c:2066 mail/mail-account-gui.c:1261
+#: composer/e-msg-composer.c:2068 mail/mail-account-gui.c:1261
 msgid "Autogenerated"
 msgstr "自動生成"
 
-#: composer/e-msg-composer.c:2242 composer/e-msg-composer.c:2911
+#: composer/e-msg-composer.c:2244 composer/e-msg-composer.c:2911
 #: composer/e-msg-composer.c:2912
 msgid "Compose a message"
 msgstr "メッセージを作成します"
@@ -10656,7 +10666,7 @@ msgid ""
 "Unable to activate HTML editor component."
 msgstr ""
 "コンポーザ・ウィンドウが作成できませんでした:\n"
-"HTML エディタを開くことができません。"
+"HTML エディタ・コンポーネントを開けません。"
 
 #: composer/e-msg-composer.c:4064
 msgid ""
@@ -11163,15 +11173,15 @@ msgid ""
 "The message's date will be compared against\n"
 "a time relative to when filtering occurs."
 msgstr ""
-"メッセージの日付はフィルタが実行される時と\n"
-"関連する時間と比較されます。"
+"メッセージの日付は、フィルタが実行された時の\n"
+"相対的な時間と比較されます。"
 
 #: filter/filter.glade.h:11
 msgid ""
 "The message's date will be compared against\n"
 "the current time when filtering occurs."
 msgstr ""
-"メッセージの日付はフィルタが実行される時と\n"
+"メッセージの日付は、フィルタが実行された時の\n"
 "現在の時刻と比較されます。"
 
 #: filter/filter.glade.h:13 filter/vfolder-editor.c:114
@@ -11216,15 +11226,15 @@ msgstr "週"
 
 #: filter/filter.glade.h:27
 msgid "with all active remote folders"
-msgstr "全てに有効なリモートフォルダ"
+msgstr "有効な全てのリモート・フォルダ"
 
 #: filter/filter.glade.h:28
 msgid "with all local and active remote folders"
-msgstr "全てのローカルと有効なリモートフォルダ"
+msgstr "全てのローカル・フォルダと有効なリモート・フォルダ"
 
 #: filter/filter.glade.h:29
 msgid "with all local folders"
-msgstr "全てのローカルフォルダ"
+msgstr "全てのローカル・フォルダ"
 
 #: filter/filter.glade.h:30
 msgid "years"
@@ -11813,7 +11823,7 @@ msgstr "\"%s\" のプロパティ"
 msgid "Properties"
 msgstr "プロパティ"
 
-#: mail/folder-browser.c:329 mail/mail-display.c:393 mail/mail-display.c:917
+#: mail/folder-browser.c:329 mail/mail-display.c:393 mail/mail-display.c:921
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "作業ディレクトリを作成できませんでした: %s"
@@ -12039,9 +12049,9 @@ msgid ""
 "(such as lack of disk space) may not be automatically\n"
 "recoverable.  Please use this feature with care."
 msgstr ""
-"注意: メールボックス同士で変換するときに発生した問題\n"
-"(例えばディスクスペースが足りない) を自動的に修復する\n"
-"ことはできないかもしれません。注意してこの機能を使って下さい。"
+"注意: メールボックスの形式を変換するときに発生した問題\n"
+"(例: ディスク容量の不足) を自動的に修復する\n"
+"ことはできないかもしれません。この機能は注意して使用して下さい。"
 
 #: mail/local-config.glade.h:7
 msgid "maildir"
@@ -12082,7 +12092,7 @@ msgstr "同じ名前のアカウントを二つ作れません。"
 
 #: mail/mail-accounts.c:231
 msgid "Are you sure you want to delete this account?"
-msgstr "本当にこのアカウントを削除してもよろしいですか?"
+msgstr "本当にこのアカウントを削除してもよろしいですか？"
 
 #: mail/mail-accounts.c:239
 msgid "Don't delete"
@@ -12500,7 +12510,7 @@ msgstr "暗号化したメールを送信する場合は、常にメールを暗
 
 #: mail/mail-config.glade.h:15
 msgid "Alwa_ys sign outgoing messages when using this account"
-msgstr "このアカウントを使用する場合は、常にメッセージに署名を付与する(_Y)"
+msgstr "このアカウントを使用する場合は、常に送信メッセージに署名を付与する(_Y)"
 
 #: mail/mail-config.glade.h:17
 msgid "Always _blind carbon-copy (Bcc) to:"
@@ -12706,11 +12716,11 @@ msgstr "新着メールの通知"
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
-msgstr "注意: 最初に接続するまで、パスワードの入力待ちはありません。"
+msgstr "注意: 最初に接続するまで、パスワードの入力は求められません。"
 
 #: mail/mail-config.glade.h:78
 msgid "Optional Information"
-msgstr "オプション"
+msgstr "追加情報"
 
 #: mail/mail-config.glade.h:80
 msgid "Or_ganization:"
@@ -12782,7 +12792,7 @@ msgstr "セキュリティ(_E)"
 
 #: mail/mail-config.glade.h:101
 msgid "Secure MIME (S/MIME)"
-msgstr "セキュア MIME (S/MIME)"
+msgstr "セキュリティ保護された MIME (S/MIME)"
 
 #: mail/mail-config.glade.h:102
 msgid "Select HTML fixed width font"
@@ -12886,7 +12896,7 @@ msgstr "常に画像を読み込まない(_A)"
 
 #: mail/mail-config.glade.h:132
 msgid "_Always sign outgoing messages when using this account"
-msgstr "このアカウントを使用する場合は、常にメッセージに署名を付与する(_A)"
+msgstr "このアカウントを使用する場合は、常に送信メッセージに署名を付与する(_Y)"
 
 #: mail/mail-config.glade.h:133
 msgid "_Authentication Type: "
@@ -13018,7 +13028,7 @@ msgstr "端末のフォント(_T):"
 
 #: mail/mail-config.glade.h:169
 msgid "_Use secure connection (SSL):"
-msgstr "セキュア接続 (SSL) を使う(_U):"
+msgstr "セキュリティ保護された接続 (SSL) を使う(_U):"
 
 #: mail/mail-config.glade.h:170
 msgid "_Use the same fonts as other applications"
@@ -13070,61 +13080,61 @@ msgstr "添付の保存"
 msgid "Could not create temporary file '%s': %s"
 msgstr "作業ファイル '%s' を作成できませんでした: %s"
 
-#: mail/mail-display.c:476
+#: mail/mail-display.c:480
 msgid "Save Attachment..."
 msgstr "添付の保存..."
 
-#: mail/mail-display.c:477
+#: mail/mail-display.c:481
 msgid "View Inline"
 msgstr "インライン表示"
 
-#: mail/mail-display.c:478
+#: mail/mail-display.c:482
 #, c-format
 msgid "Open in %s..."
 msgstr "%s に開く..."
 
-#: mail/mail-display.c:538
+#: mail/mail-display.c:542
 #, c-format
 msgid "View Inline (via %s)"
 msgstr "インライン表示 (%s経由)"
 
-#: mail/mail-display.c:542
+#: mail/mail-display.c:546
 msgid "Hide"
 msgstr "隠す"
 
-#: mail/mail-display.c:562
+#: mail/mail-display.c:566
 msgid "External Viewer"
 msgstr "外部ビューア"
 
-#: mail/mail-display.c:1348
+#: mail/mail-display.c:1352
 msgid "Downloading images"
 msgstr "画像のダウンロード中"
 
-#: mail/mail-display.c:1525
+#: mail/mail-display.c:1529
 msgid "Loading message content"
 msgstr "メッセージの内容を読み込み中"
 
-#: mail/mail-display.c:1867
+#: mail/mail-display.c:1871
 msgid "Overdue:"
 msgstr "期限切れ:"
 
-#: mail/mail-display.c:1871
+#: mail/mail-display.c:1875
 msgid "by %B %d, %Y, %l:%M %P"
 msgstr "%m月 %d日 %p %l時%M分"
 
-#: mail/mail-display.c:2235
+#: mail/mail-display.c:2239
 msgid "Open Link in Browser"
 msgstr "ブラウザでリンクを開く"
 
-#: mail/mail-display.c:2236
+#: mail/mail-display.c:2240
 msgid "Copy Link Location"
 msgstr "リンクの場所のコピー"
 
-#: mail/mail-display.c:2238
+#: mail/mail-display.c:2242
 msgid "Save Link as (FIXME)"
 msgstr "リンクに名前を付けて保存 (FIXME)"
 
-#: mail/mail-display.c:2240
+#: mail/mail-display.c:2244
 msgid "Save Image as..."
 msgstr "画像に名前を付けて保存..."
 
@@ -13258,7 +13268,7 @@ msgid ""
 "If you can no longer open this mailbox, then\n"
 "you may need to repair it manually."
 msgstr ""
-"もしこのメールボックスを開くことはないなら\n"
+"もしこのメールボックスを開けなくなった場合、\n"
 "手動で回復する必要があるかもしれません。"
 
 #: mail/mail-local.c:1448
@@ -13285,7 +13295,7 @@ msgid ""
 "Error while performing operation:\n"
 "%s"
 msgstr ""
-"操作の準備している間にエラーが発生しました:\n"
+"操作中にエラーが発生しました:\n"
 "%s"
 
 #: mail/mail-mt.c:904
@@ -13764,7 +13774,7 @@ msgstr "レビュー"
 
 #: mail/message-tag-followup.c:281 mail/message-tags.glade.h:3
 msgid "Flag to Follow Up"
-msgstr "フローアップするフラグ"
+msgstr "フォローアップするフラグ"
 
 #: mail/message-tags.glade.h:2
 msgid "C_ompleted"
@@ -23674,7 +23684,7 @@ msgstr "説明なし"
 
 #: my-evolution/e-summary-mail.c:189
 msgid "Mail summary"
-msgstr "メール"
+msgstr "メールのサマリ"
 
 #: my-evolution/e-summary-preferences.c:355
 msgid "Dictionary.com Word of the Day"
@@ -23682,7 +23692,7 @@ msgstr "今日の Dictionay.com の言葉"
 
 #: my-evolution/e-summary-preferences.c:373
 msgid "Quotes of the Day"
-msgstr "今日の Quotes"
+msgstr "今日の一言"
 
 #: my-evolution/e-summary-preferences.c:565
 msgid "New News Feed"
@@ -23738,7 +23748,7 @@ msgstr "KBOS"
 
 #: my-evolution/e-summary.c:204
 msgid "%A, %B %e %Y"
-msgstr "%Y年 %B %e日 (%A)"
+msgstr "%Y年 %B%e日 (%A)"
 
 #: my-evolution/e-summary.c:533
 msgid "Please wait..."
@@ -26293,7 +26303,7 @@ msgid "View the current contact"
 msgstr "現在の連絡先の表示"
 
 #: ui/evolution-addressbook.xml.h:29 ui/evolution-calendar.xml.h:28
-#: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:11
+#: ui/evolution-comp-editor.xml.h:16 ui/evolution-contact-editor.xml.h:11
 #: ui/evolution-contact-list-editor.xml.h:10
 #: ui/evolution-event-editor.xml.h:11 ui/evolution-mail-global.xml.h:17
 #: ui/evolution-mail-list.xml.h:23 ui/evolution-mail-message.xml.h:93
@@ -26340,7 +26350,7 @@ msgstr "約束を削除します"
 
 #: ui/evolution-calendar.xml.h:7
 msgid "Delete this Occurrence"
-msgstr "この意弁tのを削除します"
+msgstr "このイベントを削除します"
 
 #: ui/evolution-calendar.xml.h:8
 msgid "Delete this occurrence"
@@ -26435,26 +26445,27 @@ msgstr "印刷されるアイテムのプレビューを表示します"
 msgid "Print this item"
 msgstr "このアイテムを印刷します"
 
-#: ui/evolution-comp-editor.xml.h:12 ui/evolution-message-composer.xml.h:16
-#: ui/evolution-signature-editor.xml.h:5
-msgid "Save"
-msgstr "保存"
+#: ui/evolution-comp-editor.xml.h:11 ui/evolution-contact-editor.xml.h:7
+#: ui/evolution-contact-list-editor.xml.h:5
+#: ui/evolution-message-composer.xml.h:18
+msgid "Save _As..."
+msgstr "別名で保存(_A)..."
 
-#: ui/evolution-comp-editor.xml.h:13
-msgid "Save As..."
-msgstr "別名で保存..."
-
-#: ui/evolution-comp-editor.xml.h:14 ui/evolution-contact-editor.xml.h:8
+#: ui/evolution-comp-editor.xml.h:12 ui/evolution-contact-editor.xml.h:8
 #: ui/evolution-contact-list-editor.xml.h:6
 #: ui/evolution-signature-editor.xml.h:6
 msgid "Save and Close"
 msgstr "保存して閉じる"
 
-#: ui/evolution-comp-editor.xml.h:15
+#: ui/evolution-comp-editor.xml.h:13
+msgid "Save and _Close"
+msgstr "保存して閉じる(_C)"
+
+#: ui/evolution-comp-editor.xml.h:14
 msgid "Save the item and close the dialog box"
 msgstr "アイテムを保存してダイアログを閉じます"
 
-#: ui/evolution-comp-editor.xml.h:16
+#: ui/evolution-comp-editor.xml.h:15
 msgid "Save this item to disk"
 msgstr "このアイテムをディスクに保存します"
 
@@ -26466,6 +26477,13 @@ msgstr "このアイテムをディスクに保存します"
 #: ui/evolution.xml.h:46
 msgid "_File"
 msgstr "ファイル(_F)"
+
+#: ui/evolution-comp-editor.xml.h:20 ui/evolution-contact-editor.xml.h:15
+#: ui/evolution-contact-list-editor.xml.h:12
+#: ui/evolution-message-composer.xml.h:47
+#: ui/evolution-signature-editor.xml.h:14
+msgid "_Save"
+msgstr "保存(_S)"
 
 #: ui/evolution-composer-entries.xml.h:1
 msgid "Copy selected text to the clipboard"
@@ -26496,12 +26514,6 @@ msgstr "全てのテキストを選択します"
 msgid "Print En_velope..."
 msgstr "宛名の印刷(_V)..."
 
-#: ui/evolution-contact-editor.xml.h:7
-#: ui/evolution-contact-list-editor.xml.h:5
-#: ui/evolution-message-composer.xml.h:18
-msgid "Save _As..."
-msgstr "別名で保存(_A)..."
-
 #: ui/evolution-contact-editor.xml.h:9
 msgid "Save the contact and close the dialog box"
 msgstr "連絡先を保存してこのダイアログボックスを閉じます"
@@ -26509,13 +26521,6 @@ msgstr "連絡先を保存してこのダイアログボックスを閉じます
 #: ui/evolution-contact-editor.xml.h:10
 msgid "Send _Message to Contact..."
 msgstr "連絡先にメールの送信(_M)..."
-
-#: ui/evolution-contact-editor.xml.h:15
-#: ui/evolution-contact-list-editor.xml.h:12
-#: ui/evolution-message-composer.xml.h:47
-#: ui/evolution-signature-editor.xml.h:14
-msgid "_Save"
-msgstr "保存(_S)"
 
 #: ui/evolution-contact-list-editor.xml.h:3
 msgid "Delete this list"
@@ -26996,7 +27001,7 @@ msgstr "メッセージを印刷します"
 
 #: ui/evolution-mail-message.xml.h:70
 msgid "Re_direct"
-msgstr "再度直接(_D)"
+msgstr "リダイレクト(_D)"
 
 #: ui/evolution-mail-message.xml.h:71
 msgid "Redirect (bounce) the selected message to someone"
@@ -27209,6 +27214,11 @@ msgstr "S/MIME による暗号化"
 #: ui/evolution-message-composer.xml.h:15
 msgid "S/MIME Sign"
 msgstr "S/MIME 署名"
+
+#: ui/evolution-message-composer.xml.h:16
+#: ui/evolution-signature-editor.xml.h:5
+msgid "Save"
+msgstr "保存"
 
 #: ui/evolution-message-composer.xml.h:17
 msgid "Save As"
