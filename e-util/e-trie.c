@@ -57,7 +57,7 @@ struct _ETrie {
 };
 
 
-static __inline__ gunichar
+static inline gunichar
 trie_utf8_getc (const unsigned char **in, size_t inlen)
 {
 	register const unsigned char *inptr = *in;

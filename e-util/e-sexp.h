@@ -8,18 +8,24 @@
 #include <time.h>
 #include <glib.h>
 
-#ifdef E_SEXP_IS_GTK_OBJECT
-#include <gtk/gtkobject.h>
+#ifdef E_SEXP_IS_G_OBJECT
+#include <glib-object.h>
 #endif
 
 #ifdef E_SEXP_IS_GTK_OBJECT
-#define E_SEXP(obj)         GTK_CHECK_CAST (obj, e_sexp_get_type (), ESExp)
-#define E_SEXP_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, e_sexp_get_type (), ESExpClass)
-#define FILTER_IS_SEXP(obj)      GTK_CHECK_TYPE (obj, e_sexp_get_type ())
+#define E_TYPE_SEXP            (e_sexp_get_type ())
+#define E_SEXP(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_SEXP, ESExp))
+#define E_SEXP_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_SEXP, ESExpClass))
+#define IS_E_SEXP(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_SEXP))
+#define IS_E_SEXP_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_SEXP))
+#define E_SEXP_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), E_TYPE_SEXP, ESExpClass))
 #else
-#define E_SEXP(obj)         ((struct _ESExp *)(obj))
-#define E_SEXP_CLASS(klass) 	((struct _ESExpClass *)(klass))
-#define FILTER_IS_SEXP(obj)      (1)
+#define E_TYPE_SEXP            (0)
+#define E_SEXP(obj)            ((struct _ESExp *) (obj))
+#define E_SEXP_CLASS(klass)    ((struct _ESExpClass *) (klass))
+#define IS_E_SEXP(obj)         (1)
+#define IS_E_SEXP_CLASS(obj)   (1)
+#define E_SEXP_GET_CLASS(obj)  (NULL)
 #endif
 
 typedef struct _ESExp      ESExp;
@@ -29,15 +35,14 @@ typedef struct _ESExpSymbol ESExpSymbol;
 typedef struct _ESExpResult ESExpResult;
 typedef struct _ESExpTerm ESExpTerm;
 
-typedef struct _ESExpResult *(ESExpFunc)(struct _ESExp *sexp,
-						   int argc,
-						   struct _ESExpResult **argv,
-						   void *data);
+typedef struct _ESExpResult *(ESExpFunc)(struct _ESExp *sexp, int argc,
+					 struct _ESExpResult **argv,
+					 void *data);
 
-typedef struct _ESExpResult *(ESExpIFunc)(struct _ESExp *sexp,
-						    int argc,
-						    struct _ESExpTerm **argv,
-						    void *data);
+typedef struct _ESExpResult *(ESExpIFunc)(struct _ESExp *sexp, int argc,
+					  struct _ESExpTerm **argv,
+					  void *data);
+
 enum _ESExpResultType {
 	ESEXP_RES_ARRAY_PTR=0,	/* type is a ptrarray, what it points to is implementation dependant */
 	ESEXP_RES_INT,		/* type is a number */
@@ -97,18 +102,18 @@ struct _ESExpTerm {
 
 
 struct _ESExp {
-#ifdef E_SEXP_IS_GTK_OBJECT
-	GtkObject object;
+#ifdef E_SEXP_IS_G_OBJECT
+	GObject parent_object;
 #else
 	int refcount;
 #endif
 	GScanner *scanner;	/* for parsing text version */
 	ESExpTerm *tree;	/* root of expression tree */
-
+	
 	/* private stuff */
 	jmp_buf failenv;
 	char *error;
-
+	
 	/* TODO: may also need a pool allocator for term strings, so we dont lose them
 	   in error conditions? */
 	struct _EMemChunk *term_chunks;
@@ -117,15 +122,20 @@ struct _ESExp {
 
 struct _ESExpClass {
 #ifdef E_SEXP_IS_GTK_OBJECT
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
+#else
+	int dummy;
 #endif
 };
 
-#ifdef E_SEXP_IS_GTK_OBJECT
-guint		e_sexp_get_type		(void);
+#ifdef E_SEXP_IS_G_OBJECT
+GType           e_sexp_get_type		(void);
 #endif
 ESExp 	       *e_sexp_new		(void);
-#ifndef E_SEXP_IS_GTK_OBJECT
+#ifdef E_SEXP_IS_G_OBJECT
+#define         e_sexp_ref(f)           g_object_ref (f)
+#define         e_sexp_unref(f)         g_object_unref (f)
+#else
 void		e_sexp_ref		(ESExp *f);
 void		e_sexp_unref		(ESExp *f);
 #endif

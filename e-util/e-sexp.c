@@ -82,15 +82,19 @@
         Execute a sequence.  The last function return is the return type.
 */
 
-#include "e-sexp.h"
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
 
-#include <glib.h>
+#include "e-sexp.h"
 #include "e-memory.h"
+
 #define p(x)			/* parse debug */
 #define r(x)			/* run debug */
 #define d(x)			/* general debug */
@@ -102,7 +106,7 @@ static struct _ESExpTerm * parse_value(ESExp *f);
 static void parse_dump_term(struct _ESExpTerm *t, int depth);
 
 #ifdef E_SEXP_IS_GTK_OBJECT
-static GtkObjectClass *parent_class;
+static GObjectClass *parent_class;
 #endif
 
 static GScannerConfig scanner_config =
@@ -1107,29 +1111,31 @@ e_sexp_init (ESExp *s)
 		}
 	}
 
-#ifndef E_SEXP_IS_GTK_OBJECT
+#ifndef E_SEXP_IS_G_OBJECT
 	s->refcount = 1;
 #endif
 }
 
-#ifdef E_SEXP_IS_GTK_OBJECT
-guint
+#ifdef E_SEXP_IS_G_OBJECT
+GType
 e_sexp_get_type (void)
 {
-	static guint type = 0;
+	static GType type = 0;
 	
 	if (!type) {
-		GtkTypeInfo type_info = {
-			"ESExp",
-			sizeof (ESExp),
+		static const GTypeInfo info = {
 			sizeof (ESExpClass),
-			(GtkClassInitFunc) e_sexp_class_init,
-			(GtkObjectInitFunc) e_sexp_init,
-			(GtkArgSetFunc) NULL,
-			(GtkArgGetFunc) NULL
+			NULL, /* base_class_init */
+			NULL, /* base_class_finalize */
+			(GClassInitFunc) e_sexp_class_init,
+			NULL, /* class_finalize */
+			NULL, /* class_data */
+			sizeof (ESExp),
+			0,    /* n_preallocs */
+			(GInstanceInitFunc) e_sexp_init,
 		};
 		
-		type = gtk_type_unique (gtk_object_get_type (), &type_info);
+		type = g_type_register_static (G_TYPE_OBJECT, "ESExp", &info, 0);
 	}
 	
 	return type;
@@ -1139,23 +1145,25 @@ e_sexp_get_type (void)
 ESExp *
 e_sexp_new (void)
 {
-#ifdef E_SEXP_IS_GTK_OBJECT
-	ESExp *f = E_SEXP ( gtk_type_new (e_sexp_get_type ()));
+#ifdef E_SEXP_IS_G_OBJECT
+	ESExp *f = (ESexp *) g_object_new (E_TYPE_SEXP, NULL);
 #else
-	ESExp *f = g_malloc0(sizeof(*f));
-	e_sexp_init(f);
+	ESExp *f = g_malloc0 (sizeof (ESExp));
+	e_sexp_init (f);
 #endif
-
+	
 	return f;
 }
 
-#ifndef E_SEXP_IS_GTK_OBJECT
-void		e_sexp_ref		(ESExp *f)
+#ifndef E_SEXP_IS_G_OBJECT
+void
+e_sexp_ref (ESExp *f)
 {
 	f->refcount++;
 }
 
-void		e_sexp_unref		(ESExp *f)
+void
+e_sexp_unref (ESExp *f)
 {
 	f->refcount--;
 	if (f->refcount == 0) {

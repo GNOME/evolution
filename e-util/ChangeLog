@@ -1,3 +1,14 @@
+2003-03-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-sexp.h: Fix ESExpClass to never be an empty struct. Also make
+	ESExp optionally a subclass of GObject rather than GtkObject (not
+	that we'll probably ever make it so, but for completeness sake?).
+
+2003-03-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-trie.c (trie_utf8_getc): Don't use __inline__ as it is not
+	always defined.
+
 2003-03-13  Dan Winship  <danw@ximian.com>
 
 	* ename/e-address-western.c (e_address_western_parse): When
