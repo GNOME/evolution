@@ -1,6 +1,13 @@
 Version 0.17 (Beta 7), 2001-10-15
 ---------------------------------
 
+Addressbook:
+
+  - General bug fixes (Iain, Trow, JP, Chris Toshok, Chris Lahey, Dan
+    Winship)
+
+  - LDIF Importer (Chris Toshok, Michael M. Morrison)
+
 Calendar:
 
   - Compilation fixes (Rodrigo)
