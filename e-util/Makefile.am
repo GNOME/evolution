@@ -42,7 +42,6 @@ eutilinclude_HEADERS = 				\
 	e-trie.h				\
 	e-uid.h					\
 	e-url.h					\
-	e-xml-hash-utils.h			\
 	md5-utils.h
 
 libeutil_la_SOURCES =				\
@@ -78,7 +77,6 @@ libeutil_la_SOURCES =				\
 	e-trie.c				\
 	e-uid.c					\
 	e-url.c					\
-	e-xml-hash-utils.c			\
 	eggtrayicon.c				\
 	eggtrayicon.h				\
 	md5-utils.c

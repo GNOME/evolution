@@ -1,3 +1,9 @@
+2004-01-20  JP Rosevear <jpr@ximian.com>
+
+	* Makefile.am: don't build dead files
+
+	* e-xml-hash-utils.[hc]: kill, these were moved to e-d-s long ago
+
 2004-01-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-bconf-map.[c,h]: New source files for mapping bonobo-conf keys
