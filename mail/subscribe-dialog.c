@@ -43,21 +43,22 @@
 
 #define PARENT_TYPE (gtk_object_get_type ())
 
-#define FOLDER_ETABLE_SPEC "<ETableSpecification>                      \
-	<columns-shown>                  			       \
-		<column> 0 </column>     			       \
-		<column> 1 </column>     			       \
-	</columns-shown>                 			       \
-	<grouping></grouping>                                          \
+#define FOLDER_ETABLE_SPEC "<ETableSpecification cursor-mode=\"line\"> \
+        <ETableColumn model_col=\"0\" pixbuf=\"subscribed-image\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"cell_toggle\" compare=\"string\"/> \
+        <ETableColumn model_col=\"1\" _title=\"Folder\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"cell_tree\" compare=\"string\"/> \
+	<ETableState>                   			        \
+		<column> 0 </column>     			        \
+		<column> 1 </column>     			        \
+	        <grouping></grouping>                                   \
+	</ETableState>                  			        \
 </ETableSpecification>"
 
-#define STORE_ETABLE_SPEC "<ETableSpecification>                       \
-	<columns-shown>                  			       \
-		<column> 0 </column>     			       \
-		<column> 1 </column>     			       \
-		<column> 2 </column>     			       \
-	</columns-shown>                 			       \
-	<grouping></grouping>                                          \
+#define STORE_ETABLE_SPEC "<ETableSpecification cursor-mode=\"line\"> \
+        <ETableColumn model_col=\"0\" _title=\"Store\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"cell_text\" compare=\"string\"/> \
+	<ETableState>                   			        \
+		<column> 0 </column>     			        \
+	        <grouping></grouping>                                   \
+	</ETableState>                  			        \
 </ETableSpecification>"
 
 enum {
@@ -69,15 +70,6 @@ enum {
 enum {
 	STORE_COL_NAME,
 	STORE_COL_LAST
-};
-
-static char *folder_headers [FOLDER_COL_LAST] = {
-  "Subscribed",
-  "Folder",
-};
-
-static char *store_headers [FOLDER_COL_LAST] = {
-  "Store"
 };
 
 static GtkObjectClass *subscribe_dialog_parent_class;
@@ -256,6 +248,7 @@ subscribe_search (GtkWidget *widget, gpointer user_data)
 }
 
 
+#if 0
 /* HTML Helpers */
 static void
 html_size_req (GtkWidget *widget, GtkRequisition *requisition)
@@ -320,7 +313,7 @@ put_html (GtkHTML *html, char *text)
 	g_free (text);
 	gtk_html_end (html, handle, GTK_HTML_STREAM_OK);
 }
-
+#endif
 
 
 /* etable stuff for the subscribe ui */
@@ -591,9 +584,8 @@ populate_store_list (SubscribeDialog *sc)
 static void
 subscribe_dialog_gui_init (SubscribeDialog *sc)
 {
-	int i;
 	ECell *cells[2], *text;
-	ETableHeader *e_table_header;
+	ETableExtras *extras;
 	GdkPixbuf *toggles[2];
 	BonoboUIComponent *component;
 	BonoboUIContainer *container;
@@ -666,27 +658,16 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 					      store_etable_value_to_string,
 					      sc);
 
-	e_table_header = e_table_header_new ();
+	extras = e_table_extras_new ();
 
 	cells[STORE_COL_NAME] = e_cell_text_new (E_TABLE_MODEL(sc->store_model), NULL, GTK_JUSTIFY_LEFT);
 
-	for (i = 0; i < STORE_COL_LAST; i++) {
-		/* Create the column. */
-		ETableCol *ecol;
+	e_table_extras_add_cell (extras, "cell_text", cells[STORE_COL_NAME]);
 
-		ecol = e_table_col_new (i, store_headers [i],
-					80, 20,
-					cells[i],
-					g_str_compare, TRUE);
-		/* Add it to the header. */
-		e_table_header_add_column (e_table_header, ecol, i);
-	}
+	sc->store_etable = e_table_scrolled_new (E_TABLE_MODEL(sc->store_model),
+						 extras, STORE_ETABLE_SPEC, NULL);
 
-	sc->store_etable = e_table_scrolled_new (e_table_header, E_TABLE_MODEL(sc->store_model), STORE_ETABLE_SPEC);
-
-	gtk_object_set (GTK_OBJECT (E_TABLE_SCROLLED (sc->store_etable)->table),
-			"cursor_mode", E_TABLE_CURSOR_LINE,
-			NULL);
+	gtk_object_sink (GTK_OBJECT (extras));
 
 	gtk_signal_connect (GTK_OBJECT (E_TABLE_SCROLLED (sc->store_etable)->table),
 			    "cursor_change", GTK_SIGNAL_FUNC (storage_selected_cb),
@@ -710,8 +691,6 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 
 	e_tree_model_root_node_set_visible (sc->folder_model, FALSE);
 
-	e_table_header = e_table_header_new ();
-
 	toggles[0] = gdk_pixbuf_new_from_xpm_data ((const char **)empty_xpm);
 	toggles[1] = gdk_pixbuf_new_from_xpm_data ((const char **)mark_xpm);
 
@@ -721,28 +700,19 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 						  NULL, NULL,
 						  TRUE, text);
 
-	for (i = 0; i < FOLDER_COL_LAST; i++) {
-		/* Create the column. */
-		ETableCol *ecol;
+	extras = e_table_extras_new ();
 
-		if (i == FOLDER_COL_SUBSCRIBED)
-			ecol = e_table_col_new_with_pixbuf (i, toggles[1],
-							    0, gdk_pixbuf_get_width (toggles[1]),
-							    cells[i], g_str_compare, FALSE);
-		else 
-			ecol = e_table_col_new (i, folder_headers [i],
-						80, 20,
-						cells[i],
-						g_str_compare, TRUE);
-		/* Add it to the header. */
-		e_table_header_add_column (e_table_header, ecol, i);
-	}
+	cells[STORE_COL_NAME] = e_cell_text_new (E_TABLE_MODEL(sc->store_model), NULL, GTK_JUSTIFY_LEFT);
 
-	sc->folder_etable = e_table_scrolled_new (e_table_header, E_TABLE_MODEL(sc->folder_model), FOLDER_ETABLE_SPEC);
+	e_table_extras_add_cell (extras, "cell_tree", cells[FOLDER_COL_NAME]);
+	e_table_extras_add_cell (extras, "cell_toggle", cells[FOLDER_COL_SUBSCRIBED]);
+	e_table_extras_add_pixbuf (extras, "subscribed-image", toggles[1]);
 
-	gtk_object_set (GTK_OBJECT (E_TABLE_SCROLLED (sc->folder_etable)->table),
-			"cursor_mode", E_TABLE_CURSOR_LINE,
-			NULL);
+	sc->folder_etable = e_table_scrolled_new (E_TABLE_MODEL(sc->folder_model),
+						  extras, FOLDER_ETABLE_SPEC, NULL);
+
+	gtk_object_sink (GTK_OBJECT (extras));
+	
 	gtk_object_set (GTK_OBJECT (text),
 			"bold_column", FOLDER_COL_SUBSCRIBED,
 			NULL);

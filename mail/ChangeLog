@@ -1,5 +1,14 @@
 2000-10-11  Chris Toshok  <toshok@helixcode.com>
 
+	* subscribe-dialog.c (subscribe_dialog_gui_init): convert to the
+	new gal e-table stuff.
+	(html_size_req):
+	(html_new):
+	(put_html): #if 0 out the html functions since description stuff
+	isn't used and we don't want the warnings.
+
+2000-10-11  Chris Toshok  <toshok@helixcode.com>
+
 	* subscribe-dialog.c (subscribe_dialog_gui_init): remove the html
 	description stuff for now.
 
