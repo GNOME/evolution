@@ -1,3 +1,12 @@
+2000-03-26  Christopher James Lahey  <clahey@helixcode.com>
+
+	* addressbook/backend/ebook/test-client.c: Load an ECard instead
+	of a VCard and then get the VCard from that ECard.  Just tests
+	ECard and the client stuff at the same time.  Also, replaces
+	carriage returns with newlines.
+
+	* addressbook/backend/ebook/e-book.c: Fixed a small parity error.
+
 2000-03-25  Chris Toshok  <toshok@laptoph.xtoph.org>
 
 	* addressbook/backend/ebook/test-client.c: create a card and then

@@ -400,7 +400,7 @@ e_book_get_card (EBook       *book,
 	g_return_val_if_fail (book != NULL,     NULL);
 	g_return_val_if_fail (E_IS_BOOK (book), NULL);
 
-	if (! book->priv->load_state != URILoaded) {
+	if (book->priv->load_state != URILoaded) {
 		g_warning ("e_book_get_card: No URI loaded!\n");
 		return NULL;
 	}

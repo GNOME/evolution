@@ -51,17 +51,21 @@ static void
 add_card_cb (EBook *book, EBookStatus status, gpointer closure)
 {
 	char *vcard;
+	ECard *card;
 	GTimer *timer;
 
 	printf ("Status: %d\n", status);
 
 	timer = g_timer_new ();
 	g_timer_start (timer);
-	vcard = e_book_get_vcard (book, "foo");
+	card = e_book_get_card (book, "foo");
 	g_timer_stop (timer);
 
+	vcard = e_card_get_vcard(card);
 	printf ("%g\n", g_timer_elapsed (timer, NULL));
 	printf ("[%s]\n", vcard);
+	g_free(vcard);
+	gtk_object_unref(GTK_OBJECT(card));
 }
 
 static void
