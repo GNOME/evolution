@@ -275,7 +275,8 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 	urls = gtk_object_get_data (GTK_OBJECT (message), "urls");
 
 	user_data = g_hash_table_lookup (urls, url);
-	g_return_if_fail (user_data != NULL);
+	if (user_data == NULL)
+		return;
 
 	if (strncmp (url, "cid:", 4) == 0) {
 		CamelMedium *medium = user_data;

@@ -1,3 +1,10 @@
+2000-06-15  Dan Winship  <danw@helixcode.com>
+
+	* mail-display.c (on_url_requested): if the document requests an
+	unknown URL, it's not an error; just ignore the URL.
+
+	* mail-ops.c (fetch_mail): If there's no new mail, tell the user.
+
 2000-06-14  Radek Doulik  <rodo@helixcode.com>
 
 	* main.c (main): call gtkhtmllib_init here

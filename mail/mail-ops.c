@@ -228,6 +228,14 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 		}
 	}
 
+	if (camel_folder_get_message_count (folder, ex) == 0) {
+		gnome_ok_dialog ("No new messages.");
+		goto cleanup;
+	} else if (camel_exception_is_set (ex)) {
+		mail_exception_dialog ("Unable to get new mail", ex, fb);
+		goto cleanup;
+	}
+
 	/* apply filtering rules to this inbox */
 	filter = filter_driver_new();
 	userrules = g_strdup_printf ("%s/filters.xml", evolution_dir);
