@@ -2146,10 +2146,12 @@ set_scroll_adjustments   (ETable *table,
 		gtk_adjustment_changed(hadjustment);
 	}
 
-	gtk_layout_set_hadjustment (GTK_LAYOUT(table->table_canvas),
-				    hadjustment);
-	gtk_layout_set_vadjustment (GTK_LAYOUT(table->table_canvas),
-				    vadjustment);
+	if (table->table_canvas != NULL) {
+		gtk_layout_set_hadjustment (GTK_LAYOUT(table->table_canvas),
+					    hadjustment);
+		gtk_layout_set_vadjustment (GTK_LAYOUT(table->table_canvas),
+					    vadjustment);
+	}
 
 	if (table->header_canvas != NULL)
 		gtk_layout_set_hadjustment (GTK_LAYOUT(table->header_canvas),

@@ -1725,17 +1725,19 @@ eti_unrealize (GnomeCanvasItem *item)
 	eti->height_cache_idle_count = 0;
 
 	e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
-	if (eti->tooltip->background) {
-		gdk_color_free (eti->tooltip->background);
-		eti->tooltip->background = NULL;
-	}
-	if (eti->tooltip->foreground) {
-		gdk_color_free (eti->tooltip->foreground);
-		eti->tooltip->foreground = NULL;
-	}
-	if (eti->tooltip->timer) {
-		gtk_timeout_remove (eti->tooltip->timer);
-		eti->tooltip->timer = 0;
+	if (eti->tooltip) {
+		if (eti->tooltip->background) {
+			gdk_color_free (eti->tooltip->background);
+			eti->tooltip->background = NULL;
+		}
+		if (eti->tooltip->foreground) {
+			gdk_color_free (eti->tooltip->foreground);
+			eti->tooltip->foreground = NULL;
+		}
+		if (eti->tooltip->timer) {
+			gtk_timeout_remove (eti->tooltip->timer);
+			eti->tooltip->timer = 0;
+		}
 	}
 
 	gdk_gc_unref (eti->fill_gc);
