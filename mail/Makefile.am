@@ -208,6 +208,7 @@ $(EVOLUTION_MAIL_CORBA_GENERATED_C): $(EVOLUTION_MAIL_CORBA_GENERATED_H)
 
 EXTRA_DIST = 				\
 	ChangeLog.pre-1-4		\
+	em-marshal.list			\
 	Mailer.idl 			\
 	$(SPELL_IDL)			\
 	$(glade_DATA)			\
@@ -237,5 +238,5 @@ install-data-local:
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 
-BUILT_SOURCES = $(EVOLUTION_MAIL_CORBA_GENERATED) $(IDL_GENERATED) $(server_DATA)
+BUILT_SOURCES = $(EVOLUTION_MAIL_CORBA_GENERATED) $(IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA)
 CLEANFILES = $(BUILT_SOURCES)

@@ -31,6 +31,7 @@
 
 #include <libgnomevfs/gnome-vfs-mime.h>
 #include <libgnomevfs/gnome-vfs-mime-utils.h>
+#include <libgnomevfs/gnome-vfs-mime-handlers.h>
 
 #include <gconf/gconf-client.h>
 
@@ -796,7 +797,7 @@ em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *dw)
 {
 	CamelStreamFilter *filter_stream;
 	CamelMimeFilterCharset *filter;
-	const char *charset;
+	const char *charset = NULL;
 	char *fallback_charset = NULL;
 
 	if (emf->charset) {
