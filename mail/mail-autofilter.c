@@ -101,6 +101,7 @@ strip_re (const char *subject)
 		} else
 			break;
 	}
+	
 	return (char *) s;
 }
 
@@ -127,7 +128,7 @@ rule_add_subject (RuleContext *context, FilterRule *rule, const char *text)
 {
 	FilterPart *part;
 	FilterElement *element;
-
+	
 	/* dont match on empty strings ever */
 	if (*text == 0)
 		return;
@@ -208,11 +209,12 @@ rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg
 	rule->grouping = FILTER_GROUP_ANY;
 	
 	if (flags & AUTO_SUBJECT) {
+		const char *subject = msg->subject ? msg->subject : "";
 		char *namestr;
 		
-		rule_match_subject (context, rule, msg->subject);
+		rule_match_subject (context, rule, subject);
 		
-		namestr = g_strdup_printf (U_("Subject is %s"), strip_re (msg->subject));
+		namestr = g_strdup_printf (U_("Subject is %s"), strip_re (subject));
 		filter_rule_set_name (rule, namestr);
 		g_free (namestr);
 	}

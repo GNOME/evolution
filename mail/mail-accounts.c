@@ -764,6 +764,21 @@ charset_menu_deactivate (GtkWidget *menu, gpointer data)
 }
 
 static void
+dialog_destroy (GtkWidget *dialog, gpointer user_data)
+{
+	if (druid)
+		gtk_widget_destroy (GTK_WIDGET (druid));
+	
+	if (editor)
+		gtk_widget_destroy (GTK_WIDGET (editor));
+	
+#ifdef ENABLE_NNTP
+	if (news_editor)
+		gtk_widget_destroy (GTK_WIDGET (news_editor));
+#endif
+}
+
+static void
 construct (MailAccountsDialog *dialog)
 {
 	GladeXML *gui;
@@ -783,7 +798,10 @@ construct (MailAccountsDialog *dialog)
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Mail Settings"));
 	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, TRUE);
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 400, 300);
-	gnome_dialog_append_button (GNOME_DIALOG (dialog), GNOME_STOCK_BUTTON_CLOSE);
+	gnome_dialog_append_button (GNOME_DIALOG (dialog), GNOME_STOCK_BUTTON_OK);
+	
+	gtk_signal_connect (GTK_OBJECT (dialog), "destroy",
+			    GTK_SIGNAL_FUNC (dialog_destroy), dialog);
 	
 	dialog->mail_accounts = GTK_CLIST (glade_xml_get_widget (gui, "clistAccounts"));
 	gtk_signal_connect (GTK_OBJECT (dialog->mail_accounts), "select-row",

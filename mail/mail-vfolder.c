@@ -782,6 +782,7 @@ vfolder_edit (void)
 	}
 	
 	vfolder_editor = GTK_WIDGET (vfolder_editor_new (context));
+	gtk_window_set_title (GTK_WINDOW (vfolder_editor), _("vFolders"));
 	gtk_signal_connect (GTK_OBJECT (vfolder_editor), "clicked", vfolder_editor_clicked, NULL);
 	gtk_signal_connect (GTK_OBJECT (vfolder_editor), "destroy", vfolder_editor_destroy, NULL);
 	gtk_widget_show (vfolder_editor);
