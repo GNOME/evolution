@@ -1,5 +1,10 @@
 2005-03-02  Philip Van Hoof  <pvanhoof@gnome.org>
 
+        * rdf-format.c: Fixes for Bug #73099 and Bug #73098
+	* csv-format.c: Changed malloc to g_malloc and char to gchar
+	
+2005-03-02  Philip Van Hoof  <pvanhoof@gnome.org>
+
 	* csv-format.c: Fixes for Bug #73099 and Bug #73098
 	
 2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
