@@ -2251,9 +2251,15 @@ e_table_item_get_focused_column (ETableItem *eti)
 static void
 eti_cursor_change (ETableSelectionModel *selection, int row, int col, ETableItem *eti)
 {
-	int view_row = model_to_view_row(eti, row);
-	int view_col = model_to_view_col(eti, col);
+	int view_row;
+	int view_col;
 
+	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED))
+		return;
+
+	view_row = model_to_view_row(eti, row);
+	view_col = model_to_view_col(eti, col);
+	
 	if (view_row == -1 || view_col == -1) {
 		e_table_item_leave_edit (eti);
 		return;
@@ -2277,9 +2283,15 @@ eti_cursor_change (ETableSelectionModel *selection, int row, int col, ETableItem
 static void
 eti_cursor_activated (ETableSelectionModel *selection, int row, int col, ETableItem *eti)
 {
-	int view_row = model_to_view_row(eti, row);
-	int view_col = model_to_view_col(eti, col);
+	int view_row;
+	int view_col;
 
+	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED))
+		return;
+
+	view_row = model_to_view_row(eti, row);
+	view_col = model_to_view_col(eti, col);
+	
 	if (view_row == -1 || view_col == -1) {
 		e_table_item_leave_edit (eti);
 		return;
@@ -2294,6 +2306,9 @@ eti_cursor_activated (ETableSelectionModel *selection, int row, int col, ETableI
 static void
 eti_selection_change (ETableSelectionModel *selection, ETableItem *eti)
 {
+	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED))
+		return;
+
 	eti->needs_redraw = TRUE;
 	gnome_canvas_item_request_update(GNOME_CANVAS_ITEM(eti));
 }
