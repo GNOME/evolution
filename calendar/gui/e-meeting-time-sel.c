@@ -463,6 +463,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 
 	menu_accel_group = gtk_accel_group_new ();
 	gtk_menu_set_accel_group (GTK_MENU (mts->options_menu), menu_accel_group);
+	/* FIXME: Should unref accel group here? */
 
 	menuitem = gtk_check_menu_item_new_with_label ("");
 	accel_key = gtk_label_parse_uline (GTK_LABEL (GTK_BIN (menuitem)->child), _("Show _Only Working Hours"));

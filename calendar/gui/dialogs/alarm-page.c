@@ -640,7 +640,7 @@ alarm_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 
 
 
-/* Gets the widgets from the XML file and returns if they are all available. */
+/* Gets the widgets from the XML file and returns TRUE if they are all available. */
 static gboolean
 get_widgets (AlarmPage *apage)
 {
@@ -660,7 +660,7 @@ get_widgets (AlarmPage *apage)
 	/* Get the GtkAccelGroup from the toplevel window, so we can install
 	   it when the notebook page is mapped. */
 	toplevel = gtk_widget_get_toplevel (priv->main);
-	accel_groups = gtk_accel_groups_from_object (GTK_OBJECT (toplevel));
+	accel_groups = gtk_accel_groups_from_object (G_OBJECT (toplevel));
 	if (accel_groups) {
 		page->accel_group = accel_groups->data;
 		gtk_accel_group_ref (page->accel_group);

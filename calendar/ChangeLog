@@ -1,5 +1,24 @@
 2003-01-23  Hans Petter Jansson  <hpj@ximian.com>
 
+	* gui/dialogs/event-page.c (get_widgets): GTK_OBJECT -> G_OBJECT cast.
+	
+	* gui/dialogs/alarm-page.c (get_widgets): Ditto.
+
+	* gui/dialogs/meeting-page.c (get_widgets): Ditto.
+
+	* gui/dialogs/recurrence-page.c (get_widgets): Ditto.
+
+	* gui/dialogs/schedule-page.c (get_widget): Ditto.
+
+	* gui/dialogs/task-details-page.c (get_widget): Ditto.
+
+	* gui/dialogs/task-page.c (get_widget): Ditto.
+
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct): Add a
+	FIXME comment to think about.
+
+2003-01-23  Hans Petter Jansson  <hpj@ximian.com>
+
 	Fixes some trivial, but distracting, warnings.
 
 	* gui/calendar-config.c (on_timezone_set): Fix constness.
