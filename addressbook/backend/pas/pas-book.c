@@ -487,6 +487,14 @@ pas_book_construct (PASBook                *book,
 
 	bonobo_object_construct (BONOBO_OBJECT (book), obj);
 
+	CORBA_exception_init (&ev);
+	book->priv->listener = CORBA_Object_duplicate (listener, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_message ("pas_book_construct(): could not duplicate the listener");
+
+	CORBA_exception_free (&ev);
+
 	book->priv->listener  = listener;
 	book->priv->get_vcard = get_vcard;
 	book->priv->backend   = backend;
@@ -523,6 +531,7 @@ pas_book_destroy (GtkObject *object)
 {
 	PASBook *book = PAS_BOOK (object);
 	GList   *l;
+	CORBA_Environment ev;
 
 	for (l = book->priv->request_queue; l != NULL; l = l->next) {
 		PASRequest *req = l->data;
@@ -532,6 +541,14 @@ pas_book_destroy (GtkObject *object)
 		g_free (req);
 	}
 	g_list_free (book->priv->request_queue);
+
+	CORBA_exception_init (&ev);
+	CORBA_Object_release (book->priv->listener, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_message ("pas_book_construct(): could not release the listener");
+
+	CORBA_exception_free (&ev);
 
 	g_free (book->priv);
 

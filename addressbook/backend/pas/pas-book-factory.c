@@ -269,7 +269,7 @@ pas_book_factory_process_request (PASBookFactory              *factory,
 
  out:
 	g_free (uri);
-#if 0
+
 	CORBA_exception_init (&ev);
 	CORBA_Object_release (listener, &ev);
 
@@ -277,7 +277,6 @@ pas_book_factory_process_request (PASBookFactory              *factory,
 		g_message ("pas_book_factory_process_request(): could not release the listener");
 
 	CORBA_exception_free (&ev);
-#endif
 }
 
 static gboolean
