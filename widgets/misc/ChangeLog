@@ -64,6 +64,14 @@
 	* e-source-option-menu.h: New.
 	* e-source-option-menu.c: New.
 
+2003-11-23  ERDI Gergo  <cactus@cactus.rulez.org>
+
+	* e-expander.c: Added the late eggexpander
+	
+	* e-expander.c (e_expander_button_release): Emit 'activate' signal when
+	appropriate
+	
+
 2003-11-17  Charles Zhang  <charles.zhang@sun.com>
 
 	* e-search-bar.c(add_button): allow new lable with mnemonic

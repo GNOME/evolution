@@ -81,6 +81,7 @@
 
 #include "e-util/e-dialog-utils.h"
 #include "widgets/misc/e-charset-picker.h"
+#include "widgets/misc/e-expander.h"
 
 #include <camel/camel-session.h>
 #include <camel/camel-charset-map.h>
@@ -103,6 +104,8 @@
 #include "e-msg-composer-select-file.h"
 
 #include "evolution-shell-component-utils.h"
+
+#include "art/attachment.xpm"
 
 #include "Editor.h"
 #include "listener.h"
@@ -1109,20 +1112,7 @@ static void
 show_attachments (EMsgComposer *composer,
 		  gboolean show)
 {
-	if (show) {
-		gtk_widget_show (composer->attachment_scrolled_window);
-		gtk_widget_show (composer->attachment_bar);
-	} else {
-		gtk_widget_hide (composer->attachment_scrolled_window);
-		gtk_widget_hide (composer->attachment_bar);
-	}
-	
-	composer->attachment_bar_visible = show;
-	
-	/* Update the GUI.  */
-	bonobo_ui_component_set_prop (
-		composer->uic, "/commands/ViewAttach",
-		"state", show ? "1" : "0", NULL);
+	e_expander_set_expanded (E_EXPANDER (composer->attachment_expander), show);
 }
 
 static void
@@ -2204,19 +2194,50 @@ static void
 attachment_bar_changed_cb (EMsgComposerAttachmentBar *bar,
 			   void *data)
 {
-	EMsgComposer *composer;
-	gboolean show = FALSE;
+	EMsgComposer *composer = E_MSG_COMPOSER (data);
+
+	guint attachment_num = e_msg_composer_attachment_bar_get_num_attachments (
+		E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar));
+	if (attachment_num) {
+		gchar *num_text = g_strdup_printf (
+			ngettext ("<b>%d</b> File Attached", "<b>%d</b> Files Attached", attachment_num),
+			attachment_num);
+		gtk_label_set_markup (GTK_LABEL (composer->attachment_expander_num),
+				      num_text);
+		g_free (num_text);
+
+		gtk_widget_show (composer->attachment_expander_icon);
+		
+	} else {
+		gtk_label_set_text (GTK_LABEL (composer->attachment_expander_num), "");
+		gtk_widget_hide (composer->attachment_expander_icon);
+	}
 	
-	composer = E_MSG_COMPOSER (data);
-	
-	if (e_msg_composer_attachment_bar_get_num_attachments (bar) > 0)
-		show = TRUE;
-	
-	e_msg_composer_show_attachments (composer, show);
 	
 	/* Mark the composer as changed so it prompts about unsaved
            changes on close */
 	e_msg_composer_set_changed (composer);
+}
+
+static void
+attachment_expander_activate_cb (EExpander *expander,
+				 void      *data)
+{
+	EMsgComposer *composer = E_MSG_COMPOSER (data);
+	gboolean show = e_expander_get_expanded (expander);
+	
+	/* Update the expander label */
+	if (show)
+		gtk_label_set_text_with_mnemonic (GTK_LABEL (composer->attachment_expander_label),
+						  _("Hide _Attachment Bar (drop attachments here)"));
+	else
+		gtk_label_set_text_with_mnemonic (GTK_LABEL (composer->attachment_expander_label),
+						  _("Show _Attachment Bar (drop attachments here)"));
+	
+	/* Update the GUI.  */
+	bonobo_ui_component_set_prop (
+		composer->uic, "/commands/ViewAttach",
+		"state", show ? "1" : "0", NULL);
 }
 
 static void
@@ -2919,12 +2940,13 @@ static EMsgComposer *
 create_composer (int visible_mask)
 {
 	EMsgComposer *composer;
-	GtkWidget *vbox;
+	GtkWidget *vbox, *expander_hbox;
 	Bonobo_Unknown editor_server;
 	CORBA_Environment ev;
 	GConfClient *gconf;
 	int vis;
 	BonoboControlFrame *control_frame;
+	GdkPixbuf *attachment_pixbuf;
 	
 	composer = g_object_new (E_TYPE_MSG_COMPOSER, "win_name", _("Compose a message"), NULL);
 	gtk_window_set_title ((GtkWindow *) composer, _("Compose a message"));
@@ -3024,8 +3046,8 @@ create_composer (int visible_mask)
 	
 	gtk_box_pack_start (GTK_BOX (vbox), composer->editor, TRUE, TRUE, 0);
 	
-	/* Attachment editor, wrapped into an EScrollFrame.  We don't
-           show it for now.  */
+	/* Attachment editor, wrapped into an EScrollFrame.  It's
+           hidden in an EExpander. */
 	
 	composer->attachment_scrolled_window = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (composer->attachment_scrolled_window),
@@ -3037,12 +3059,43 @@ create_composer (int visible_mask)
 	GTK_WIDGET_SET_FLAGS (composer->attachment_bar, GTK_CAN_FOCUS);
 	gtk_container_add (GTK_CONTAINER (composer->attachment_scrolled_window),
 			   composer->attachment_bar);
-	gtk_box_pack_start (GTK_BOX (vbox),
-			    composer->attachment_scrolled_window,
-			    FALSE, FALSE, GNOME_PAD_SMALL);
-	
+	gtk_widget_show (composer->attachment_bar);
 	g_signal_connect (composer->attachment_bar, "changed",
 			  G_CALLBACK (attachment_bar_changed_cb), composer);
+
+	composer->attachment_expander_label =
+		gtk_label_new_with_mnemonic (_("Show _Attachment Bar (drop attachments here)"));
+	composer->attachment_expander_num = gtk_label_new ("");
+	gtk_label_set_use_markup (GTK_LABEL (composer->attachment_expander_num), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (composer->attachment_expander_label), 0.0, 0.5);
+	gtk_misc_set_alignment (GTK_MISC (composer->attachment_expander_num), 1.0, 0.5);
+	expander_hbox = gtk_hbox_new (FALSE, 0);
+
+	attachment_pixbuf = gdk_pixbuf_new_from_xpm_data (attachment_xpm);
+	composer->attachment_expander_icon = gtk_image_new_from_pixbuf (attachment_pixbuf);
+	gtk_misc_set_alignment (GTK_MISC (composer->attachment_expander_icon), 1, 0.5);
+	gtk_widget_set_size_request (composer->attachment_expander_icon, 100, -1);
+	gdk_pixbuf_unref (attachment_pixbuf);	
+
+	gtk_box_pack_start (GTK_BOX (expander_hbox), composer->attachment_expander_label,
+			    TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (expander_hbox), composer->attachment_expander_icon,
+			    TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (expander_hbox), composer->attachment_expander_num,
+			    TRUE, TRUE, 0);
+	gtk_widget_show_all (expander_hbox);
+	gtk_widget_hide (composer->attachment_expander_icon);
+
+	composer->attachment_expander = e_expander_new ("");	
+	e_expander_set_label_widget (E_EXPANDER (composer->attachment_expander), expander_hbox);
+	
+	gtk_container_add (GTK_CONTAINER (composer->attachment_expander),
+			   composer->attachment_scrolled_window);
+	gtk_box_pack_start (GTK_BOX (vbox), composer->attachment_expander,
+			    FALSE, FALSE, GNOME_PAD_SMALL);
+	gtk_widget_show (composer->attachment_expander);
+	g_signal_connect_after (composer->attachment_expander, "activate",
+				G_CALLBACK (attachment_expander_activate_cb), composer);
 	
 	bonobo_window_set_contents (BONOBO_WINDOW (composer), vbox);
 	gtk_widget_show (vbox);

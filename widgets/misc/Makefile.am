@@ -27,6 +27,7 @@ widgetsinclude_HEADERS =			\
 	e-combo-button.h			\
 	e-dateedit.h				\
 	e-dropdown-button.h			\
+	e-expander.h				\
 	e-map.h					\
 	e-multi-config-dialog.h			\
 	e-search-bar.h				\
@@ -50,6 +51,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-combo-button.c			\
 	e-dateedit.c				\
 	e-dropdown-button.c			\
+	e-expander.c				\
 	e-map.c					\
 	e-multi-config-dialog.c			\
 	e-search-bar.c				\

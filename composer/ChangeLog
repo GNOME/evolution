@@ -31,6 +31,11 @@
 	(e_msg_composer_hdrs_set_post_to): #if 0 out for now.
 	(e_msg_composer_hdrs_get_post_to): Likewise.
 
+2003-12-02  ERDI Gergo  <cactus@cactus.rulez.org>
+
+	* e-msg-composer.c: Implemented #127527: the attachment bar is
+	packed inside an EExpander
+
 2003-12-01  Rodney Dawes  <dobey@ximian.com>
 
 	* e-msg-composer-hdrs.h: Use BASE_VERSION for repo_ids and OAFIIDs
