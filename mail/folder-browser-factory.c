@@ -250,7 +250,8 @@ control_activate (BonoboControl     *control,
 	bonobo_ui_component_add_listener (uic, "ViewFullHeaders", folder_browser_set_message_display_style, folder_browser);
 	bonobo_ui_component_add_listener (uic, "ViewSource", folder_browser_set_message_display_style, folder_browser);
 	/* FIXME: this kind of bypasses bonobo but seems the only way when we change components */
-	folder_browser_set_message_display_style (uic, strrchr (message_display_styles[state], '/') + 1, Bonobo_UIComponent_STATE_CHANGED, "1", folder_browser);
+	folder_browser_set_message_display_style (uic, strrchr (message_display_styles[state], '/') + 1,
+						  Bonobo_UIComponent_STATE_CHANGED, "1", folder_browser);
 
 	if (fb->folder && CAMEL_IS_VTRASH_FOLDER(fb->folder)) {
 		bonobo_ui_component_set_prop(uic, "/commands/HideDeleted", "sensitive", "0", NULL);
