@@ -1,3 +1,9 @@
+2000-04-22  Dan Winship  <danw@helixcode.com>
+
+	* camel-multipart.[ch]: clean, document, etc.
+	(camel_multipart_init): pick a prettier default boundary. Still
+	need to deal with the larger problem
+
 2000-04-22  NotZed  <NotZed@HelixCode.com>
 
 	* providers/mbox/camel-mbox-folder.c (_get_message_by_uid): Ref
