@@ -1,3 +1,9 @@
+2002-09-20  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/query.c (parse_sexp): remove the query from the cache if it
+	failed.
+	(start_cached_query_cb): notify of errors in the query.
+
 2002-09-19  Rodrigo Moya <rodrigo@ximian.com>
 
 	* pcs/query.c: added a list of EComponentListener's to control the

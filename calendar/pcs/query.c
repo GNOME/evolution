@@ -1148,6 +1148,10 @@ parse_sexp (Query *query)
 		e_sexp_unref (priv->esexp);
 		priv->esexp = NULL;
 
+		/* remove the query from the list of cached queries */
+		cached_queries = g_list_remove (cached_queries, query);
+		bonobo_object_unref (BONOBO_OBJECT (query));
+
 		return FALSE;
 	}
 
@@ -1462,6 +1466,19 @@ start_cached_query_cb (gpointer data)
 	} else if (priv->state == QUERY_IN_PROGRESS) {
 		/* if it's in progress, we just wait */
 		return TRUE;
+	} else if (priv->state == QUERY_PARSE_ERROR) {
+		CORBA_exception_init (&ev);
+		GNOME_Evolution_Calendar_QueryListener_notifyQueryDone (
+			info->ql,
+			GNOME_Evolution_Calendar_QueryListener_PARSE_ERROR,
+			_("Parse error"),
+			&ev);
+
+		if (BONOBO_EX (&ev))
+			g_message ("start_cached_query_cb(): Could not notify the listener of "
+				   "a parse error");
+
+		CORBA_exception_free (&ev);
 	}
 
 	/* if the query is done, then we just notify the listener */
