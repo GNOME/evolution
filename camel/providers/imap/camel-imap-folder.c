@@ -73,8 +73,11 @@
 
 #define d(x) x
 
-/* set to -1 for infinite size */
-#define UID_SET_LIMIT  (4096)
+/* set to -1 for infinite size (suggested max command-line length is
+ * 1000 octets (see rfc2683), so we should keep the uid-set length to
+ * something under that so that our command-lines don't exceed 1000
+ * octets) */
+#define UID_SET_LIMIT  (768)
 
 
 #define CF_CLASS(o) (CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(o)))

@@ -1,5 +1,9 @@
 2004-04-28  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-folder.c: Change the UID_SET_LIMIT to
+	768 (something <1000 octets as suggested by rfc2683). Fixes bug
+	#57389.
+
 	* camel-smime-context.c: Mark exception strings for translation
 	and fixed a spelling mistake.
 
