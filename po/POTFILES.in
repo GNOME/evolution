@@ -305,14 +305,12 @@ mail/mail-local.c
 mail/mail-mt.c
 mail/mail-ops.c
 mail/mail-preferences.c
-mail/mail-search.c
 mail/mail-send-recv.c
 mail/mail-session.c
 mail/mail-signature-editor.c
 mail/mail-summary.c
 mail/mail-tools.c
 mail/mail-vfolder.c
-mail/message-browser.c
 mail/message-list.c
 mail/message-list.etspec
 mail/message-tag-editor.c
