@@ -395,8 +395,6 @@ save_comp (CompEditor *editor)
 		result = e_cal_modify_object (priv->client, e_cal_component_get_icalcomponent (priv->comp), priv->mod, &error);
 	}
 
-	priv->updating = FALSE;
-
 	if (!result) {
 		GtkWidget *dlg;
 		char *msg;
@@ -429,6 +427,8 @@ save_comp (CompEditor *editor)
 
 		priv->changed = FALSE;
 	}
+
+	priv->updating = FALSE;
 
 	return TRUE;
 }
@@ -1525,26 +1525,9 @@ obj_modified_cb (ECal *client, GList *objects, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
 	CompEditorPrivate *priv;
-	GList *l;
-	gboolean found = FALSE;
 	ECalComponent *comp = NULL;
 
 	priv = editor->priv;
-
-	/* see if the component being edited is one that has changed */
-	for (l = objects; l != NULL; l = l->next) {
-		const char *our_uid, *uid;
-
-		e_cal_component_get_uid (priv->comp, &our_uid);
-		uid = icalcomponent_get_uid (l->data);
-		if (uid && our_uid && strcmp (uid, our_uid) == 0) {
-			found = TRUE;
-			break;
-		}
-	}
-
-	if (!found)
-		return;
 
 	/* We queried based on a specific UID so we definitely changed */
 	if (priv->updating)

@@ -1,5 +1,9 @@
 2004-01-15  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/dialogs/comp-editor.c: reverted my changes made on Jan 8th.
+
+2004-01-15  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/alarm-notify/save.[ch]: removed.
 
 	* gui/alarm-notify/Makefile.am: removed save.[ch].
