@@ -21,23 +21,6 @@
  * USA
  */
 
-/* FIXME :
- * 
- * the current implementation lauches requests 
- * on the real folder without bothering on wether 
- * the global mutex (folder->mutex) is locked or
- * not. 
- * This means that you could have 100 threads 
- * waiting for the mutex at the same time. 
- * This is not really a bug, more a nasty feature ;)
- *
- * This will be solved when the CORBA proxy is 
- * written, as we will need to queue the requests 
- * on the client side. The same queue mechanism 
- * will be used for the pthread proxy 
- *
- */
-
 
 
 #include <config.h>
@@ -183,7 +166,18 @@ _finalize (GtkObject *object)
 }
 
 
+/* generic operation handling */
 
+
+/**
+ * _op_exec_or_plan_for_exec:
+ * @proxy_folder: 
+ * @op: 
+ * 
+ * if no thread is currently running, executes
+ * op, otherwise push the operation in the operation 
+ * queue.
+ **/
 static void 
 _op_exec_or_plan_for_exec (CamelFolderPtProxy *proxy_folder, CamelOp *op)
 {
@@ -204,6 +198,116 @@ _op_exec_or_plan_for_exec (CamelFolderPtProxy *proxy_folder, CamelOp *op)
 
 
 
+/**
+ * _maybe_run_next_op: run next operation in queue, if any
+ * @proxy_folder: 
+ * 
+ * 
+ **/
+static void 
+_maybe_run_next_op (CamelFolderPtProxy *proxy_folder)
+{
+	CamelOp *op;
+	CamelOpQueue *op_queue;
+	pthread_t thread;
+
+	op_queue = proxy_folder->op_queue;
+	/* get the next pending operation */
+	op = camel_op_queue_pop_op (op_queue);
+	if (!op) {
+		camel_op_queue_set_service_availability (op_queue, TRUE);
+		return;
+	}
+	
+	pthread_create (&thread, NULL , (thread_call_func)(op->func), op->param);
+	camel_op_free (op);
+}
+
+
+/**
+ * _thread_notification_catch: call by glib loop when data is available on the thread io channel
+ * @source: 
+ * @condition: 
+ * @data: 
+ * 
+ * called by watch set on the IO channel
+ * 
+ * Return value: 
+ **/
+static gboolean  
+_thread_notification_catch (GIOChannel *source,
+			    GIOCondition condition,
+			    gpointer data)
+{
+	CamelFolderPtProxy *proxy_folder = (CamelFolderPtProxy *)data;	
+	gchar op_name;
+	guint bytes_read;
+	GIOError error;
+
+	error = g_io_channel_read (source,
+				   &op_name,
+				   1,
+				   &bytes_read);
+	if (op_name == 'a')
+		_maybe_run_next_op (proxy_folder);		
+
+	/* do not remove the io watch */
+	return TRUE;
+}
+
+
+
+/**
+ * _init_notify_system: set the notify channel up
+ * @proxy_folder: 
+ * 
+ * called once to set the notification channel
+ **/
+static void 
+_init_notify_system (CamelFolderPtProxy *proxy_folder)
+{
+	int filedes[2];
+
+	/* set up the notification channel */
+	if (!pipe (filedes)) {
+		CAMEL_LOG_WARNING ("could not create pipe in for camel_folder_proxy_init");
+		CAMEL_LOG_FULL_DEBUG ("Full error message : %s\n", strerror(errno));
+		return;
+	}
+	
+	proxy_folder->pipe_client_fd = filedes [0];
+	proxy_folder->pipe_server_fd = filedes [1];
+	proxy_folder->notify_source =  g_io_channel_unix_new (filedes [0]);
+	
+	g_io_add_watch (proxy_folder->notify_source, G_IO_IN, _thread_notification_catch, proxy_folder);
+	
+}
+
+/**
+ * notify_availability: notify thread completion
+ * @proxy_folder: 
+ * 
+ * called by child thread before completion 
+ **/
+static void
+notify_availability(CamelFolderPtProxy *proxy_folder)
+{
+	GIOChannel *notification_channel;
+	gchar op_name = 'a';
+	guint bytes_written;
+
+	notification_channel = proxy_folder->notify_source;	
+	do {
+		g_io_channel_write  (notification_channel,
+				     &op_name,
+				     1,
+				     &bytes_written);
+	} while (bytes_written == 1);
+
+}
+
+
+
 /* folder->init_with_store implementation */
 
 typedef struct {
@@ -212,9 +316,10 @@ typedef struct {
 } _InitStoreParam;
 
 static void
-_async_init_with_store (_InitStoreParam *param)
+_async_init_with_store (gpointer param)
 {
-	CamelFolder *folder = param->folder;
+	_InitStoreParam *init_store_param = (_InitStoreParam *)param;
+	CamelFolder *folder = init_store_param->folder;
 	CamelFolderPtProxy *proxy_folder;
 	CamelFolder *real_folder;
 
@@ -224,11 +329,11 @@ _async_init_with_store (_InitStoreParam *param)
 	/* we may block here but we are actually in a 
 	 * separate thread, so no problem 
 	 */
-	g_static_mutex_lock (&(proxy_folder->mutex));
+	/*  g_static_mutex_lock (&(proxy_folder->mutex)); */
 	
-	CF_CLASS (real_folder)->init_with_store (real_folder, param->parent_store);
+	CF_CLASS (real_folder)->init_with_store (real_folder, init_store_param->parent_store);
 	g_free (param);
-	g_static_mutex_unlock (&(proxy_folder->mutex));
+	/*  g_static_mutex_unlock (&(proxy_folder->mutex)); */
 }
 
 
@@ -237,25 +342,13 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store)
 {
 	CamelFolderPtProxy *proxy_folder = CAMEL_FOLDER_PT_PROXY (folder);
 	_InitStoreParam *param;
-	pthread_t init_store_thread;
-	int filedes[2];
 	CamelOp *op;
 
 #warning Notify io_channel initialization should be elsewhere
 	/* it can not be in camel_folder_proxy_init 
 	 * because of the pipe error handling */ 
-	
-	/* set up the notification channel */
-	if (!pipe (filedes)) {
-		CAMEL_LOG_WARNING ("could not create pipe in for camel_folder_proxy_init");
-		CAMEL_LOG_FULL_DEBUG ("Full error message : %s\n", strerror(errno));
-		return;
-	}
+	_init_notify_system (proxy_folder);
 
-	proxy_folder->pipe_client_fd = filedes [0];
-	proxy_folder->pipe_server_fd = filedes [1];
-	proxy_folder->notify_source =  g_io_channel_unix_new (filedes [0]);
-	
 	op = camel_op_new ();
 	/* param will be freed in _async_init_with_store */
 	param = g_new (_InitStoreParam, 1);
@@ -265,7 +358,7 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store)
 	op->func = _async_init_with_store;
 	op->param =  param;
 	
-	
+	_op_exec_or_plan_for_exec (proxy_folder, op);
 	
 }
 

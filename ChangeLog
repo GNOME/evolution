@@ -1,3 +1,19 @@
+1999-09-20  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-folder-pt-proxy.c (_op_exec_or_plan_for_exec): 
+	completed
+
+	Binch of new funcs:
+	(_maybe_run_next_op): 
+	Called by the watch notification when 
+	a threaded op is completed
+	(_thread_notification_catch): 
+	notification watch call back
+	(_init_notify_system): 
+	set up the notification channel
+	(notify_availability): 
+	called by threads before completion.
+
 1999-09-18  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-folder-pt-proxy.c (_op_exec_or_plan_for_exec): 
