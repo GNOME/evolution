@@ -1,3 +1,10 @@
+2004-08-20  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* e-dialog-utils.c: (e_notice):
+	* e-passwords.c: (ep_ask_password):
+	Don't call gtk_dialog_set_has_separator on Gtk Message Dialog 
+	with GTK+ >= 2.4.0.
+
 2004-08-13  Rodrigo Moya <rodrigo@novell.com>
 
 	* e-categories-config.c: include gtkdialog.h rather than gnome-dialog.h.

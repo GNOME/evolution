@@ -71,7 +71,9 @@ e_notice (gpointer parent, GtkMessageType type, const char *format, ...)
 					 GTK_BUTTONS_OK,
 					 "%s",
 					 str);
+#if !GTK_CHECK_VERSION (2,4,0)
 	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
+#endif
 	va_end (args);
 	g_free (str);
 	

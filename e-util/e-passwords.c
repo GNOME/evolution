@@ -44,6 +44,7 @@
 #include <string.h>
 #include <libgnome/gnome-config.h>
 #include <libgnome/gnome-i18n.h>
+#include <gtk/gtkversion.h>
 #include <gtk/gtkentry.h>
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkcheckbutton.h>
@@ -429,7 +430,9 @@ ep_ask_password(EPassMsg *msg)
 							       msg->prompt);
 	gtk_window_set_title(GTK_WINDOW(password_dialog), msg->title);
 
+#if !GTK_CHECK_VERSION (2,4,0)
 	gtk_dialog_set_has_separator(password_dialog, FALSE);
+#endif
 	gtk_dialog_set_default_response(password_dialog, GTK_RESPONSE_OK);
 
 	vbox = gtk_vbox_new (FALSE, 6);
