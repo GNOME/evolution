@@ -38,10 +38,10 @@ extern "C" {
  */
 
 #define E_TEXT_EVENT_PROCESSOR_TYPE			(e_text_event_processor_get_type ())
-#define E_TEXT_EVENT_PROCESSOR(obj)			(GTK_CHECK_CAST ((obj), E_TEXT_EVENT_PROCESSOR_TYPE, ETextEventProcessor))
-#define E_TEXT_EVENT_PROCESSOR_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_TEXT_EVENT_PROCESSOR_TYPE, ETextEventProcessorClass))
-#define E_IS_TEXT_EVENT_PROCESSOR(obj)		        (GTK_CHECK_TYPE ((obj), E_TEXT_EVENT_PROCESSOR_TYPE))
-#define E_IS_TEXT_EVENT_PROCESSOR_CLASS(klass)	        (GTK_CHECK_CLASS_TYPE ((obj), E_TEXT_EVENT_PROCESSOR_TYPE))
+#define E_TEXT_EVENT_PROCESSOR(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TEXT_EVENT_PROCESSOR_TYPE, ETextEventProcessor))
+#define E_TEXT_EVENT_PROCESSOR_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TEXT_EVENT_PROCESSOR_TYPE, ETextEventProcessorClass))
+#define E_IS_TEXT_EVENT_PROCESSOR(obj)		        (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TEXT_EVENT_PROCESSOR_TYPE))
+#define E_IS_TEXT_EVENT_PROCESSOR_CLASS(klass)	        (G_TYPE_CHECK_CLASS_TYPE ((obj), E_TEXT_EVENT_PROCESSOR_TYPE))
 
 
 typedef struct _ETextEventProcessor       ETextEventProcessor;

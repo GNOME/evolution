@@ -91,7 +91,7 @@ e_free_object_list (GList *list)
 	GList *p;
 
 	for (p = list; p != NULL; p = p->next)
-		gtk_object_unref (GTK_OBJECT (p->data));
+		g_object_unref (p->data);
 
 	g_list_free (list);
 }
@@ -102,7 +102,7 @@ e_free_object_slist (GSList *list)
 	GSList *p;
 
 	for (p = list; p != NULL; p = p->next)
-		gtk_object_unref (GTK_OBJECT (p->data));
+		g_object_unref (p->data);
 
 	g_slist_free (list);
 }

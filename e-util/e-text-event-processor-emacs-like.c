@@ -24,12 +24,14 @@
 #include <string.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtksignal.h>
+#include <gal/util/e-util.h>
 #include "e-text-event-processor-emacs-like.h"
 
 static void e_text_event_processor_emacs_like_init		(ETextEventProcessorEmacsLike		 *card);
 static void e_text_event_processor_emacs_like_class_init	(ETextEventProcessorEmacsLikeClass	 *klass);
 static gint e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventProcessorEvent *event);
 
+#define PARENT_TYPE E_TEXT_EVENT_PROCESSOR_TYPE
 static ETextEventProcessorClass *parent_class = NULL;
 
 /* The arguments we take */
@@ -98,30 +100,12 @@ static const ETextEventProcessorCommand alt_keys[26] =
 
 };
 
-GtkType
-e_text_event_processor_emacs_like_get_type (void)
-{
-  static GtkType text_event_processor_emacs_like_type = 0;
-
-  if (!text_event_processor_emacs_like_type)
-    {
-      static const GtkTypeInfo text_event_processor_emacs_like_info =
-      {
-        "ETextEventProcessorEmacsLike",
-        sizeof (ETextEventProcessorEmacsLike),
-        sizeof (ETextEventProcessorEmacsLikeClass),
-        (GtkClassInitFunc) e_text_event_processor_emacs_like_class_init,
-        (GtkObjectInitFunc) e_text_event_processor_emacs_like_init,
-        /* reserved_1 */ NULL,
-        /* reserved_2 */ NULL,
-        (GtkClassInitFunc) NULL,
-      };
-
-      text_event_processor_emacs_like_type = gtk_type_unique (e_text_event_processor_get_type (), &text_event_processor_emacs_like_info);
-    }
-
-  return text_event_processor_emacs_like_type;
-}
+E_MAKE_TYPE (e_text_event_processor_emacs_like,
+	     "ETextEventProcessorEmacsLike",
+	     ETextEventProcessorEmacsLike,
+	     e_text_event_processor_emacs_like_class_init,
+	     e_text_event_processor_emacs_like_init,
+	     PARENT_TYPE)
 
 static void
 e_text_event_processor_emacs_like_class_init (ETextEventProcessorEmacsLikeClass *klass)
@@ -132,7 +116,7 @@ e_text_event_processor_emacs_like_class_init (ETextEventProcessorEmacsLikeClass 
   object_class = (GtkObjectClass*) klass;
   processor_class = (ETextEventProcessorClass*) klass;
 
-  parent_class = gtk_type_class (e_text_event_processor_get_type ());
+  parent_class = g_type_class_ref (PARENT_TYPE);
 
   processor_class->event = e_text_event_processor_emacs_like_event;
 }
@@ -153,7 +137,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 		if (event->button.button == 1) {
 			command.action = E_TEP_GRAB;
 			command.time = event->button.time;
-			gtk_signal_emit_by_name (GTK_OBJECT (tep), "command", &command);
+			g_signal_emit_by_name (tep, "command", &command);
 			if (event->button.state & GDK_SHIFT_MASK)
 				command.action = E_TEP_SELECT;
 			else
@@ -188,7 +172,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 			command.position = E_TEP_VALUE;
 			command.value = event->button.position;
 			command.time = event->button.time;
-			gtk_signal_emit_by_name (GTK_OBJECT (tep), "command", &command);
+			g_signal_emit_by_name (tep, "command", &command);
 
 			command.action = E_TEP_GET_SELECTION;
 			command.position = E_TEP_SELECTION;
@@ -285,7 +269,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 				} else if (key.state & GDK_SHIFT_MASK) {
 					command.action = E_TEP_COPY;
 					command.position = E_TEP_SELECTION;
-					gtk_signal_emit_by_name (GTK_OBJECT (tep), "command", &command);
+					g_signal_emit_by_name (tep, "command", &command);
 				
 					command.action = E_TEP_DELETE;
 					command.position = E_TEP_SELECTION;
@@ -449,7 +433,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 					if (key.keyval == 'x') {
 						command.action = E_TEP_COPY;
 						command.position = E_TEP_SELECTION;
-						gtk_signal_emit_by_name (GTK_OBJECT (tep), "command", &command);
+						g_signal_emit_by_name (tep, "command", &command);
 						
 						command.action = E_TEP_DELETE;
 						command.position = E_TEP_SELECTION;
@@ -492,7 +476,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 		}
 	}
 	if (command.action != E_TEP_NOP) {
-		gtk_signal_emit_by_name (GTK_OBJECT (tep), "command", &command);
+		g_signal_emit_by_name (tep, "command", &command);
 		return 1;
 	}
 	else
@@ -502,7 +486,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 ETextEventProcessor *
 e_text_event_processor_emacs_like_new (void)
 {
-	ETextEventProcessorEmacsLike *retval = gtk_type_new (e_text_event_processor_emacs_like_get_type ());
+	ETextEventProcessorEmacsLike *retval = g_object_new (E_TEXT_EVENT_PROCESSOR_EMACS_LIKE_TYPE, NULL);
 	return E_TEXT_EVENT_PROCESSOR (retval);
 }
 

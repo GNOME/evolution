@@ -23,20 +23,28 @@
 
 #include "e-text-event-processor.h"
 #include <gal/util/e-util.h>
-#include <gtk/gtksignal.h>
+#include <gal/util/e-i18n.h>
+#include "gal/util/e-marshal.h"
 
 static void e_text_event_processor_init		(ETextEventProcessor		 *card);
 static void e_text_event_processor_class_init	(ETextEventProcessorClass	 *klass);
 
-static void e_text_event_processor_set_arg (GtkObject *object, GtkArg *arg, guint arg_id);
-static void e_text_event_processor_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
+static void e_text_event_processor_set_property (GObject *object,
+						 guint prop_id,
+						 const GValue *value,
+						 GParamSpec *pspec);
+static void e_text_event_processor_get_property (GObject *object,
+						 guint prop_id,
+						 GValue *value,
+						 GParamSpec *pspec);
 
+#define PARENT_TYPE GTK_TYPE_OBJECT
 static GtkObjectClass *parent_class = NULL;
 
 /* The arguments we take */
 enum {
-	ARG_0,
-	ARG_ALLOW_NEWLINES
+	PROP_0,
+	PROP_ALLOW_NEWLINES
 };
 
 enum {
@@ -46,59 +54,45 @@ enum {
 
 static guint e_tep_signals[E_TEP_LAST_SIGNAL] = { 0 };
 
-GtkType
-e_text_event_processor_get_type (void)
-{
-  static GtkType text_event_processor_type = 0;
-
-  if (!text_event_processor_type)
-    {
-      static const GtkTypeInfo text_event_processor_info =
-      {
-        "ETextEventProcessor",
-        sizeof (ETextEventProcessor),
-        sizeof (ETextEventProcessorClass),
-        (GtkClassInitFunc) e_text_event_processor_class_init,
-        (GtkObjectInitFunc) e_text_event_processor_init,
-        /* reserved_1 */ NULL,
-        /* reserved_2 */ NULL,
-        (GtkClassInitFunc) NULL,
-      };
-
-      text_event_processor_type = gtk_type_unique (gtk_object_get_type (), &text_event_processor_info);
-    }
-
-  return text_event_processor_type;
-}
+E_MAKE_TYPE (e_text_event_processor,
+	     "ETextEventProcessor",
+	     ETextEventProcessor,
+	     e_text_event_processor_class_init,
+	     e_text_event_processor_init,
+	     PARENT_TYPE)
 
 static void
 e_text_event_processor_class_init (ETextEventProcessorClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = (GtkObjectClass*) klass;
+	object_class = (GObjectClass*) klass;
 
-	parent_class = gtk_type_class (gtk_object_get_type ());
+	parent_class = g_type_class_ref (PARENT_TYPE);
+
+	object_class->set_property = e_text_event_processor_set_property;
+	object_class->get_property = e_text_event_processor_get_property;
 
 	e_tep_signals[E_TEP_EVENT] =
-		gtk_signal_new ("command",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETextEventProcessorClass, command),
-				gtk_marshal_NONE__POINTER,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_POINTER);
+		g_signal_new ("command",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETextEventProcessorClass, command),
+			      NULL, NULL,
+			      e_marshal_NONE__POINTER,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_POINTER);
 
-	E_OBJECT_CLASS_ADD_SIGNALS (object_class, e_tep_signals, E_TEP_LAST_SIGNAL);
-
-	gtk_object_add_arg_type ("ETextEventProcessor::allow_newlines", GTK_TYPE_BOOL,
-				 GTK_ARG_READWRITE, ARG_ALLOW_NEWLINES);
+	g_object_class_install_property (object_class, PROP_ALLOW_NEWLINES,
+					 g_param_spec_boolean ("allow_newlines",
+							       _( "Allow newlines" ),
+							       _( "Allow newlines" ),
+							       FALSE,
+							       G_PARAM_READWRITE));
 
 	klass->event = NULL;
 	klass->command = NULL;
 
-	object_class->set_arg = e_text_event_processor_set_arg;
-	object_class->get_arg = e_text_event_processor_get_arg;
 }
 
 static void
@@ -118,13 +112,16 @@ e_text_event_processor_handle_event (ETextEventProcessor *tep, ETextEventProcess
 
 /* Set_arg handler for the text item */
 static void
-e_text_event_processor_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+e_text_event_processor_set_property (GObject *object,
+				     guint prop_id,
+				     const GValue *value,
+				     GParamSpec *pspec)
 {
 	ETextEventProcessor *tep = E_TEXT_EVENT_PROCESSOR (object);
 
-	switch (arg_id) {
-	case ARG_ALLOW_NEWLINES:
-		tep->allow_newlines = GTK_VALUE_BOOL (*arg);
+	switch (prop_id) {
+	case PROP_ALLOW_NEWLINES:
+		tep->allow_newlines = g_value_get_boolean (value);
 		break;
 	default:
 		return;
@@ -133,16 +130,19 @@ e_text_event_processor_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 /* Get_arg handler for the text item */
 static void
-e_text_event_processor_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+e_text_event_processor_get_property (GObject *object,
+				     guint prop_id,
+				     GValue *value,
+				     GParamSpec *pspec)
 {
 	ETextEventProcessor *tep = E_TEXT_EVENT_PROCESSOR (object);
 
-	switch (arg_id) {
-	case ARG_ALLOW_NEWLINES:
-		GTK_VALUE_BOOL (*arg) = tep->allow_newlines;
+	switch (prop_id) {
+	case PROP_ALLOW_NEWLINES:
+		g_value_set_boolean (value, tep->allow_newlines);
 		break;
 	default:
-		arg->type = GTK_TYPE_INVALID;
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }
