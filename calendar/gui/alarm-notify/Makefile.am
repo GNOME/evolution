@@ -16,9 +16,9 @@ $(CORBA_GENERATED_C): $(CORBA_GENERATED_H)
 
 privlibexec_PROGRAMS = evolution-alarm-notify
 
-noinst_LIBRARIES = libalarm.a
+noinst_LTLIBRARIES = libalarm.la
 
-libalarm_a_SOURCES =	\
+libalarm_la_SOURCES =	\
 	alarm.c		\
 	alarm.h
 
@@ -53,7 +53,7 @@ evolution_alarm_notify_SOURCES =	\
 	save.h
 
 evolution_alarm_notify_LDADD =						\
-	libalarm.a							\
+	libalarm.la							\
 	$(top_builddir)/calendar/cal-client/libcal-client.la		\
 	$(top_builddir)/calendar/cal-util/libcal-util.la		\
 	$(top_builddir)/libical/src/libical/libical-evolution.la	\

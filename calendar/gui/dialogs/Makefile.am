@@ -34,9 +34,9 @@ INCLUDES = 								\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"			\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
-noinst_LIBRARIES = libcal-dialogs.a
+noinst_LTLIBRARIES = libcal-dialogs.la
 
-libcal_dialogs_a_SOURCES =	\
+libcal_dialogs_la_SOURCES =	\
 	$(IDL_GENERATED)	\
 	alarm-options.c		\
 	alarm-options.h		\

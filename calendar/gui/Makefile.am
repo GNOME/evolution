@@ -181,7 +181,7 @@ libevolution_calendar_la_SOURCES =		\
 	weekday-picker.h
 
 libevolution_calendar_la_LIBADD =							\
-	alarm-notify/libalarm.a								\
+	alarm-notify/libalarm.la								\
 	$(DB3_LDADD)									\
 	$(top_builddir)/widgets/menus/libmenus.la					\
 	$(top_builddir)/shell/libeshell.la						\
@@ -194,7 +194,7 @@ libevolution_calendar_la_LIBADD =							\
 	$(top_builddir)/camel/libcamel.la						\
 	$(top_builddir)/libversit/libversit.a						\
 	$(top_builddir)/e-util/ename/libename.la					\
-	dialogs/libcal-dialogs.a							\
+	$(top_builddir)/calendar/gui/dialogs/libcal-dialogs.la				\
 	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.a			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a					\
 	$(EVOLUTION_CALENDAR_LIBS)

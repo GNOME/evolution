@@ -1,3 +1,18 @@
+2003-02-19  Dan Winship  <danw@ximian.com>
+
+	* cal-client/Makefile.am (client_test_LDADD): Remove libversit. We
+	haven't depended on that in forever.
+
+	* cal-util/Makefile.am (test_recur_LDADD): Likewise
+
+	* gui/alarm-notify/Makefile.am: build libalarm as a shared library
+	instead of static.
+
+	* gui/dialogs/Makefile.am: likewise for libcal-dialogs
+
+	* gui/Makefile.am (libevolution_calendar_la_LIBADD): update for
+	that.
+
 2003-02-19  Ettore Perazzoli  <ettore@ximian.com>
 
 	* pcs/Makefile.am: Split $(CORBA_GENERATED_H) rule from the
