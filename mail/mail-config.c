@@ -1013,6 +1013,7 @@ prepare_first (GnomeDruidPage *page, GnomeDruid *druid, gpointer user_data)
 
 static struct identity_record idrec;
 static char *source = NULL, *transport = NULL;
+static gboolean format = FALSE;
 
 static void
 cancel (GnomeDruid *druid, gpointer window)
@@ -1058,6 +1059,10 @@ write_config (void)
 
 	path = g_strdup_printf ("=%s/config=/mail/transport", evolution_dir);
 	gnome_config_set_string (path, transport);
+	g_free (path);
+
+	path = g_strdup_printf ("=%s/config=/mail/msg_format", evolution_dir);
+	gnome_config_set_string (path, format ? "alternative" : "plain");
 	g_free (path);
 
 	gnome_config_sync ();
@@ -1660,6 +1665,12 @@ on_cmdCamelServicesCancel_clicked (GtkButton *button, gpointer user_data)
 	gtk_widget_destroy(GTK_WIDGET (user_data));
 }
 
+static void
+on_chkFormat_toggled (GtkWidget *widget, gpointer user_data)
+{
+	format = GTK_TOGGLE_BUTTON (widget)->active;
+}
+
 GtkWidget*
 providers_config_new (void)
 {
@@ -1689,6 +1700,9 @@ providers_config_new (void)
 	GtkWidget *cmdCamelServicesOK;
 	GtkWidget *cmdCamelServicesCancel;
 	GtkWidget *transport_page_vbox;
+	GtkWidget *format_vbox;
+	GtkWidget *chkFormat;
+	GtkWidget *lblOther;
 	GList *providers, *p, *sources, *transports;
 	GtkWidget *table, *interior_notebook;
 	char *titles[] = { _("Name"), _("Address"), _("Organization"), _("Signature file") };
@@ -1994,6 +2008,53 @@ providers_config_new (void)
 	gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), 2),
 				    lblTransports);
 
+	/* Lets make a page to mark Send HTML or text/plan...yay */
+	format_vbox = gtk_vbox_new (FALSE, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (format_vbox), 8);
+	gtk_box_set_spacing (GTK_BOX (format_vbox), 5);
+	gtk_widget_set_name (format_vbox, "format_vbox");
+	gtk_object_set_data (GTK_OBJECT (notebook), "format_vbox", format_vbox);
+	gtk_widget_ref (format_vbox);
+	gtk_object_set_data_full (GTK_OBJECT (providers_config), "format_vbox", format_vbox,
+				  (GtkDestroyNotify) gtk_widget_unref);
+	gtk_widget_show (format_vbox);
+	gtk_container_add (GTK_CONTAINER (notebook), format_vbox);
+
+	chkFormat = gtk_check_button_new_with_label (_("Send messages in HTML format"));
+	gtk_widget_set_name (chkFormat, "chkFormat");
+	gtk_object_set_data (GTK_OBJECT (notebook), "chkFormat", chkFormat);
+	gtk_widget_ref (chkFormat);
+	gtk_object_set_data_full (GTK_OBJECT (providers_config), "chkFormat", chkFormat,
+				  (GtkDestroyNotify) gtk_widget_unref);
+	gtk_widget_show (chkFormat);
+	gtk_box_pack_start (GTK_BOX (format_vbox), chkFormat, FALSE, FALSE, 0);
+	
+	lblOther = gtk_label_new (_("Other"));
+	gtk_widget_set_name (lblOther, "lblOther");
+	gtk_widget_ref (lblOther);
+	gtk_object_set_data_full (GTK_OBJECT (providers_config), "lblOther", lblOther,
+				  (GtkDestroyNotify) gtk_widget_unref);
+	gtk_widget_show (lblOther);
+	gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), 3),
+				    lblOther);
+
+	if (configured) {
+		char *buf;
+
+		path = g_strdup_printf ("=%s/config=/mail/msg_format", evolution_dir);
+		buf = gnome_config_get_string (path);
+		g_free (path);
+
+		if (!buf || !strcmp(buf, "alternative"))
+			format = TRUE;
+		else
+			format = FALSE;
+
+		g_free (buf);
+	}
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (chkFormat), format);
+
+
 	dialog_action_area1 = GNOME_DIALOG (providers_config)->action_area;
 	gtk_widget_set_name (dialog_action_area1, "dialog_action_area1");
 	gtk_object_set_data (GTK_OBJECT (providers_config), "dialog_action_area1", dialog_action_area1);
@@ -2051,6 +2112,10 @@ providers_config_new (void)
 			    NULL);
 	gtk_signal_connect (GTK_OBJECT (clistSources), "select_row",
 			    GTK_SIGNAL_FUNC (on_clistSources_select_row),
+			    NULL);
+
+	gtk_signal_connect (GTK_OBJECT (chkFormat), "toggled",
+			    GTK_SIGNAL_FUNC (on_chkFormat_toggled),
 			    NULL);
 
 	return providers_config;
