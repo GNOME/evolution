@@ -716,6 +716,9 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	storages_hash = g_hash_table_new (NULL, NULL);
 	
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
+
+	for (i = 0; i < sizeof (standard_folders) / sizeof (standard_folders[0]); i++)
+		*standard_folders[i].uri = g_strdup_printf ("file://%s/local/%s", evolution_dir, standard_folders[i].name);
 	
 	vfolder_load_storage(corba_shell);
 
@@ -726,7 +729,6 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	mail_importer_init (shell_client);
 	
 	for (i = 0; i < sizeof (standard_folders) / sizeof (standard_folders[0]); i++) {
-		*standard_folders[i].uri = g_strdup_printf ("file://%s/local/%s", evolution_dir, standard_folders[i].name);
 		mail_msg_wait (mail_get_folder (*standard_folders[i].uri, CAMEL_STORE_FOLDER_CREATE,
 						got_folder, standard_folders[i].folder, mail_thread_new));
 	}

@@ -11,6 +11,18 @@
 
 2002-07-24  Not Zed  <NotZed@Ximian.com>
 
+	* component-factory.c (owner_set_cb): Initialise the standard
+	uri's before doing anything else.
+
+	* mail-vfolder.c (uri_is_ignore): Return true if the uri is any
+	sent, drafts or outbox folder uri.
+	(mail_vfolder_add_uri): Dont automagically add any
+	sent/outbox/drafts folder with "local" or "remote" etc rules, only
+	add sent folders if explictly listed as folder rules.  Maintain
+	the remote/local folders list accordingly.
+	(vfolder_adduri_do): dont check against sent_folder, drafts_folder
+	or outbox_folder, this is checked by above code.  For #14863.
+
 	* mail-display.c (drag_data_delete_cb): use uri_list before we set
 	"uri-list" to NULL, which will automagically free it for us, so
 	dont free it either.  Found with vagrind.

@@ -208,7 +208,6 @@ vfolder_adduri_do(struct _mail_msg *mm)
 	struct _adduri_msg *m = (struct _adduri_msg *)mm;
 	GList *l;
 	CamelFolder *folder = NULL;
-	extern CamelFolder *drafts_folder, *outbox_folder, *sent_folder;
 
 	d(printf("%s uri to vfolder: %s\n", m->remove?"Removing":"Adding", m->uri));
 
@@ -222,15 +221,13 @@ vfolder_adduri_do(struct _mail_msg *mm)
 		folder = mail_tool_uri_to_folder (m->uri, 0, &mm->ex);
 
 	if (folder != NULL) {
-		if (folder != drafts_folder && folder != outbox_folder && folder != sent_folder) {
-			l = m->folders;
-			while (l) {
-				if (m->remove)
-					camel_vee_folder_remove_folder((CamelVeeFolder *)l->data, folder);
-				else
-					camel_vee_folder_add_folder((CamelVeeFolder *)l->data, folder);
-				l = l->next;
-			}
+		l = m->folders;
+		while (l) {
+			if (m->remove)
+				camel_vee_folder_remove_folder((CamelVeeFolder *)l->data, folder);
+			else
+				camel_vee_folder_add_folder((CamelVeeFolder *)l->data, folder);
+			l = l->next;
 		}
 		camel_object_unref((CamelObject *)folder);
 	}
@@ -292,6 +289,32 @@ my_list_find(GList *l, const char *uri, GCompareFunc cmp)
 	return l;
 }
 
+static int
+uri_is_ignore(const char *uri, GCompareFunc uri_cmp)
+{
+	int found = FALSE;
+	const GSList *l;
+	MailConfigAccount *ac;
+	extern char *default_outbox_folder_uri, *default_sent_folder_uri, *default_drafts_folder_uri;
+
+	d(printf("checking '%s' against:\n  %s\n  %s\n  %s\n", uri, default_outbox_folder_uri, default_sent_folder_uri, default_drafts_folder_uri));
+
+	found = (default_outbox_folder_uri && uri_cmp(default_outbox_folder_uri, uri))
+		|| (default_sent_folder_uri && uri_cmp(default_sent_folder_uri, uri))
+		|| (default_drafts_folder_uri && uri_cmp(default_drafts_folder_uri, uri));
+
+	l = mail_config_get_accounts();
+	while (!found && l) {
+		ac = l->data;
+		d(printf("checkint sent_folder_uri '%s' == '%s'\n", ac->sent_folder_uri?ac->sent_folder_uri:"empty", uri));
+		found = (ac->sent_folder_uri && uri_cmp(ac->sent_folder_uri, uri))
+			|| (ac->drafts_folder_uri && uri_cmp(ac->drafts_folder_uri, uri));
+		l = l->next;
+	}
+
+	return found;
+}
+
 /* called when a new uri becomes (un)available */
 void
 mail_vfolder_add_uri(CamelStore *store, const char *uri, int remove)
@@ -302,11 +325,14 @@ mail_vfolder_add_uri(CamelStore *store, const char *uri, int remove)
 	GList *folders = NULL, *link;
 	int remote = (((CamelService *)store)->provider->flags & CAMEL_PROVIDER_IS_REMOTE) != 0;
 	GCompareFunc uri_cmp = CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->compare_folder_name;
+	int is_ignore;
 
 	if (CAMEL_IS_VEE_STORE(store) || !strncmp(uri, "vtrash:", 7) || context == NULL)
 		return;
 
 	g_assert(pthread_self() == mail_gui_thread);
+
+	is_ignore = uri_is_ignore(uri, uri_cmp);
 
 	LOCK();
 
@@ -325,7 +351,8 @@ mail_vfolder_add_uri(CamelStore *store, const char *uri, int remove)
 				source_folders_local = g_list_remove_link(source_folders_local, link);
 			}
 		}
-	} else {
+	} else if (!is_ignore) {
+		/* we ignore drafts/sent/outbox here */
 		if (remote) {
 			if (my_list_find(source_folders_remote, (void *)uri, uri_cmp) == NULL)
 				source_folders_remote = g_list_prepend(source_folders_remote, g_strdup(uri));
@@ -343,8 +370,10 @@ mail_vfolder_add_uri(CamelStore *store, const char *uri, int remove)
 			d(printf("invalid rule (%p): rule->name is set to NULL\n", rule));
 			continue;
 		}
-		
+
+		/* dont auto-add any sent/drafts folders etc, they must be explictly listed as a source */
 		if (rule->source
+		    && !is_ignore
 		    && ((!strcmp(rule->source, "local") && !remote)
 			|| (!strcmp(rule->source, "remote_active") && remote)
 			|| (!strcmp(rule->source, "local_remote_active"))))
