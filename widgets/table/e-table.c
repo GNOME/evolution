@@ -34,6 +34,13 @@
 
 static GtkObjectClass *e_table_parent_class;
 
+enum {
+	ROW_SELECTION,
+	LAST_SIGNAL
+};
+
+static gint et_signals [LAST_SIGNAL] = { 0, };
+
 static void e_table_fill_table (ETable *e_table, ETableModel *model);
 static gboolean changed_idle (gpointer data);
 
@@ -598,6 +605,14 @@ change_row (gpointer key, gpointer value, gpointer data)
 	}
 }
 
+static void
+group_row_selection (ETableGroup *etg, int row, gboolean selected, ETable *et)
+{
+	gtk_signal_emit (GTK_OBJECT(et),
+			 et_signals [ROW_SELECTION],
+			 row, selected);
+}
+
 static gboolean
 changed_idle (gpointer data)
 {
@@ -609,6 +624,8 @@ changed_idle (gpointer data)
 					      et->header,
 					      et->model,
 					      e_xml_get_child_by_name(xmlDocGetRootElement(et->specification), "grouping")->childs);
+		gtk_signal_connect(GTK_OBJECT(et->group), "row_selection",
+				   GTK_SIGNAL_FUNC(group_row_selection), et);
 		e_table_fill_table(et, et->model);
 	} else if (et->need_row_changes) {
 		g_hash_table_foreach(et->row_changes_list, change_row, et);
@@ -672,6 +689,8 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 					   header,
 					   model,
 					   xml_grouping->childs);
+	gtk_signal_connect(GTK_OBJECT(e_table->group), "row_selection",
+			   GTK_SIGNAL_FUNC(group_row_selection), e_table);
 	
 	e_table->table_model_change_id = gtk_signal_connect (
 		GTK_OBJECT (model), "model_changed",
@@ -865,9 +884,22 @@ e_table_save_specification (ETable *e_table, gchar *filename)
 static void
 e_table_class_init (GtkObjectClass *object_class)
 {
+	ETableClass *klass = E_TABLE_CLASS(object_class);
 	e_table_parent_class = gtk_type_class (PARENT_TYPE);
 
 	object_class->destroy = et_destroy;
+
+	klass->row_selection = NULL;
+
+	et_signals [ROW_SELECTION] =
+		gtk_signal_new ("row_selection",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableClass, row_selection),
+				gtk_marshal_NONE__INT_INT,
+				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
+	
+	gtk_object_class_add_signals (object_class, et_signals, LAST_SIGNAL);
 }
 
 E_MAKE_TYPE(e_table, "ETable", ETable, e_table_class_init, e_table_init, PARENT_TYPE);

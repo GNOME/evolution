@@ -82,6 +82,13 @@ etgl_resize (GtkObject *object, gpointer data)
 }
 
 static void
+etgl_row_selection (GtkObject *object, gint row, gboolean selected, ETableGroupLeaf *etgl)
+{
+	if ( row < E_TABLE_SUBSET(etgl->subset)->n_map )
+		e_table_group_row_selection (E_TABLE_GROUP(etgl), E_TABLE_SUBSET(etgl->subset)->map_table[row], selected);
+}
+
+static void
 etgl_realize (GnomeCanvasItem *item)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF(item);
@@ -99,6 +106,9 @@ etgl_realize (GnomeCanvasItem *item)
 							"spreadsheet", TRUE,
 							"width", etgl->width,
 							NULL));
+
+	gtk_signal_connect(GTK_OBJECT(etgl->item), "row_selection",
+			   GTK_SIGNAL_FUNC(etgl_row_selection), etgl);
 	gtk_signal_connect(GTK_OBJECT(etgl->item),
 			   "resize", etgl_resize, etgl);
 	gtk_object_get(GTK_OBJECT(etgl->item),

@@ -42,6 +42,7 @@ typedef struct {
 typedef struct {
 	GnomeCanvasGroupClass parent_class;
 	void (*resize) (ETableGroup *etg);
+	void        (*row_selection)      (ETableGroup *etg, int row, gboolean selected);
 
 	void (*add) (ETableGroup *etg, gint row);
 	gboolean (*remove) (ETableGroup *etg, gint row);
@@ -85,8 +86,11 @@ void             e_table_group_construct (GnomeCanvasGroup *parent,
 					  ETableHeader     *header,
 					  ETableModel      *model);
 
-/* For emitting the signal */
+/* For emitting the signals */
 void             e_table_group_resize    (ETableGroup      *etg);
+void             e_table_group_row_selection (ETableGroup      *etg,
+					      gint              row,
+					      gboolean          selected);
 
 GtkType          e_table_group_get_type  (void);
 

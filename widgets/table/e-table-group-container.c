@@ -526,6 +526,12 @@ compute_text (ETableGroupContainer *etgc, ETableGroupContainerChildNode *child_n
 	g_free(text);
 }
 
+static void
+child_row_selection (ETableGroup *etg, int row, gboolean selected, ETableGroupContainer *etgc)
+{
+	e_table_group_row_selection(E_TABLE_GROUP(etgc), row, selected);
+}
+
 static void etgc_add (ETableGroup *etg, gint row)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
@@ -565,6 +571,8 @@ static void etgc_add (ETableGroup *etg, gint row)
 						 "fill_color", "black",
 						 NULL);
 	child = e_table_group_new(GNOME_CANVAS_GROUP(etgc), etg->full_header, etg->header, etg->model, etgc->child_rules);
+	gtk_signal_connect(GTK_OBJECT(child), "row_selection",
+			   GTK_SIGNAL_FUNC(child_row_selection), etgc);
 	child_node->child = child;
 	child_node->key = e_table_model_duplicate_value(etg->model, etgc->ecol->col_idx, val);
 

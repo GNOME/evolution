@@ -279,6 +279,15 @@ save_spec (GtkWidget *button, ETable *e_table)
 }
 
 static void
+row_selection_test (ETable *table, int row, gboolean selected)
+{
+	if ( selected )
+		g_print ("Row %d selected\n", row);
+	else
+		g_print ("Row %d unselected\n", row);
+}
+
+static void
 do_e_table_demo (const char *spec)
 {
 	GtkWidget *e_table, *window, *frame, *vbox, *button;
@@ -314,6 +323,8 @@ do_e_table_demo (const char *spec)
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	frame = gtk_frame_new (NULL);
 	e_table = e_table_new (full_header, e_table_model, spec);
+	gtk_signal_connect(GTK_OBJECT(e_table), "row_selection",
+			   GTK_SIGNAL_FUNC(row_selection_test), NULL);
 
 	button = gtk_button_new_with_label("Save spec");
 	gtk_signal_connect (GTK_OBJECT (button), "clicked",
