@@ -473,7 +473,6 @@ add_component (CalBackendFile *cbfile, CalComponent *comp, gboolean add_to_tople
 	CalBackendFilePrivate *priv;
 	GList **list;
 	const char *uid;
-	gchar *key;
 	unsigned long *pilot_id;
 	
 	priv = cbfile->priv;
@@ -501,14 +500,13 @@ add_component (CalBackendFile *cbfile, CalComponent *comp, gboolean add_to_tople
 	 */
 	check_dup_uid (cbfile, comp);
 	cal_component_get_uid (comp, &uid);
-	key = g_strdup (uid);
-	g_hash_table_insert (priv->comp_uid_hash, key, comp);
+	g_hash_table_insert (priv->comp_uid_hash, (char *)uid, comp);
 
 	/* Update the pilot list, if there is a pilot id */
 	cal_component_get_pilot_id (comp, &pilot_id);	
 	if (pilot_id)
 		g_hash_table_insert (priv->comp_pilot_hash, 
-				     pilot_id, (char *)key);
+				     pilot_id, (char *)uid);
 
 	*list = g_list_prepend (*list, comp);
 
@@ -549,9 +547,10 @@ remove_component (CalBackendFile *cbfile, CalComponent *comp)
 	/* Remove it from our mapping */
 
 	cal_component_get_uid (comp, &uid);
-	cal_component_get_pilot_id (comp, &pilot_id);
 	g_hash_table_remove (priv->comp_uid_hash, uid);
-	g_hash_table_remove (priv->comp_pilot_hash, pilot_id);
+	cal_component_get_pilot_id (comp, &pilot_id);
+	if (pilot_id)
+		g_hash_table_remove (priv->comp_pilot_hash, pilot_id);
 	
 	switch (cal_component_get_vtype (comp)) {
 	case CAL_COMPONENT_EVENT:

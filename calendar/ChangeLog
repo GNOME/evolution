@@ -1,3 +1,12 @@
+2000-09-13  JP Rosevear  <jpr@helixcode.com>
+
+	* pcs/cal-backend-file.c (remove_component): Only remove the pilot
+	item from the hash if it exists in the first place.
+
+2000-09-12  JP Rosevear  <jpr@helixcode.com>
+
+	* pcs/cal-backend-file.c (add_component): plug leakage
+	
 2000-09-12  JP Rosevear  <jpr@helixcode.com>
 
 	* conduits/calendar/calendar-conduit.c: Hack to compile for distcheck.
