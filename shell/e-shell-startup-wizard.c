@@ -569,7 +569,9 @@ prepare_importer_page (GnomeDruidPage *page,
 	dialog = gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_INFO,
 					 GTK_BUTTONS_NONE,
 					 _("Please wait...\nScanning for existing setups"));
+#if !GTK_CHECK_VERSION (2,4,0)
 	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
+#endif
 	e_make_widget_backing_stored (dialog);
 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Starting import"));

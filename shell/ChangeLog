@@ -1,3 +1,16 @@
+2004-08-25  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* e-shell-startup-wizard.c: (prepare_importer_page):
+	don't call gtk_dialog_set_has_separator
+	on Message Dialog on GTK+ >= 2.4.0 (output warning)
+
+	* e-shell-importer.c: (e_shell_importer_start_import):
+	Initialize data->finish before using it
+	(prepare_intelligent_page): don't call gtk_dialog_set_has_separator
+	on Message Dialog on GTK+ >= 2.4.0 (output warning)
+	(start_import) (next_file_page): convert filename from UTF-8 to
+	local encoding.
+
 2004-08-12  Carlos Garnacho Parro  <carlosg@gnome.org>
 
 	* e-shell-importer.c: added the "use_filechooser" property to the
