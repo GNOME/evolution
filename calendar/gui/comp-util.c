@@ -273,6 +273,8 @@ cal_comp_event_new_with_defaults (void)
 	int interval;
 	CalUnits units;
 	CalComponentAlarm *alarm;
+	icalcomponent *icalcomp;
+	icalproperty *icalprop;
 	CalAlarmTrigger trigger;
 
 	comp = cal_component_new ();
@@ -288,8 +290,13 @@ cal_comp_event_new_with_defaults (void)
 	alarm = cal_component_alarm_new ();
 
 	/* We don't set the description of the alarm; we'll copy it from the
-	 * summary when it gets committed to the server.
+	 * summary when it gets committed to the server. For that, we add a
+	 * X-EVOLUTION-NEEDS-DESCRIPTION property to the alarm's component.
 	 */
+	icalcomp = cal_component_alarm_get_icalcomponent (alarm);
+	icalprop = icalproperty_new_x ("1");
+	icalproperty_set_x_name (icalprop, "X-EVOLUTION-NEEDS-DESCRIPTION");
+	icalcomponent_add_property (icalcomp, icalprop);
 
 	cal_component_alarm_set_action (alarm, CAL_ALARM_DISPLAY);
 

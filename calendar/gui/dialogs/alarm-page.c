@@ -570,9 +570,32 @@ alarm_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	clist = GTK_CLIST (priv->list);
 	for (i = 0; i < clist->rows; i++) {
 		CalComponentAlarm *alarm, *alarm_copy;
+		icalcomponent *icalcomp;
+		icalproperty *icalprop;
 
 		alarm = gtk_clist_get_row_data (clist, i);
 		g_assert (alarm != NULL);
+
+		/* We set the description of the alarm if it's got
+		 * the X-EVOLUTION-NEEDS-DESCRIPTION property.
+		 */
+		icalcomp = cal_component_alarm_get_icalcomponent (alarm);
+		icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
+		while (icalprop) {
+			const char *x_name;
+			CalComponentText summary;
+
+			x_name = icalproperty_get_x_name (icalprop);
+			if (!strcmp (x_name, "X-EVOLUTION-NEEDS-DESCRIPTION")) {
+				cal_component_get_summary (comp, &summary);
+				cal_component_alarm_set_description (alarm, &summary);
+
+				icalcomponent_remove_property (icalcomp, icalprop);
+				break;
+			}
+
+			icalprop = icalcomponent_get_next_property (icalcomp, ICAL_X_PROPERTY);
+		}
 
 		/* We clone the alarm to maintain the invariant that the alarm
 		 * structures in the list did *not* come from the component.

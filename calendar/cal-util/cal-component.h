@@ -433,6 +433,8 @@ void cal_component_alarm_set_repeat (CalComponentAlarm *alarm, CalAlarmRepeat re
 void cal_component_alarm_get_trigger (CalComponentAlarm *alarm, CalAlarmTrigger *trigger);
 void cal_component_alarm_set_trigger (CalComponentAlarm *alarm, CalAlarmTrigger trigger);
 
+icalcomponent *cal_component_alarm_get_icalcomponent (CalComponentAlarm *alarm);
+
 
 
 END_GNOME_DECLS

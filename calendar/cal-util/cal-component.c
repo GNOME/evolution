@@ -5150,6 +5150,21 @@ cal_component_alarm_set_trigger (CalComponentAlarm *alarm, CalAlarmTrigger trigg
 	}
 }
 
+/**
+ * cal_component_alarm_get_icalcomponent
+ * @alarm: An alarm.
+ *
+ * Get the icalcomponent associated with the given #CalComponentAlarm.
+ *
+ * Returns: the icalcomponent.
+ */
+icalcomponent *
+cal_component_alarm_get_icalcomponent (CalComponentAlarm *alarm)
+{
+	g_return_val_if_fail (alarm != NULL, NULL);
+	return alarm->icalcomp;
+}
+
 /* Returns TRUE if both strings match, i.e. they are both NULL or the
    strings are equal. */
 static gboolean
