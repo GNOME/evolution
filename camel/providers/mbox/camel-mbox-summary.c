@@ -117,7 +117,7 @@ camel_mbox_summary_init (CamelMboxSummary *obj)
 	s->content_info_size = sizeof(CamelMboxMessageContentInfo);
 
 	/* and a unique file version */
-	s->version = CAMEL_MBOX_SUMMARY_VERSION;
+	s->version += CAMEL_MBOX_SUMMARY_VERSION;
 }
 
 static void

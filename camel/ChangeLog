@@ -1,3 +1,32 @@
+2000-05-17  NotZed  <NotZed@HelixCode.com>
+
+	* providers/mbox/camel-mbox-folder.c (message_changed): Snoop
+	changes to user flags on the message into the summary as well.
+
+	* providers/mbox/camel-mbox-summary.c (camel_mbox_summary_init):
+	Changed version init to include the parent class version info
+	(i.e. add it not overwrite it).
+
+	* camel-folder-summary.c (message_info_new): Initialise user_flags
+	to empty.
+	(message_info_load): And load user flags.
+	(message_info_save): And save user flags.
+	(message_info_free): And free them.
+	(CAMEL_FOLDER_SUMMARY_VERSION): Bumped file revision.
+
+	* camel-folder-summary.h: Added user-flags to summary.
+
+	* camel-mime-message.c (camel_mime_message_set_user_flag): Dont
+	use a hashtable for user flags.
+	(camel_mime_message_get_user_flag): And changed here too.
+	(camel_flag_get): New interface to get a flag from a flag
+	list.  Flag lists are easier to work with than hash tables, and
+	save memory too.
+	(camel_flag_set): And set.
+	(camel_flag_list_free): And free.
+	(free_key_only): Discard.
+	(finalize): Remove the flag list.
+
 2000-05-17  Jeffrey Stedfast  <fejj@stampede.org>
 
 	* providers/smtp/camel-smtp-transport.c: (smtp_helo): Error

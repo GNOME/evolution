@@ -136,7 +136,7 @@ camel_mime_message_init (gpointer object, gpointer klass)
 		g_hash_table_insert(mime_message->recipients, recipient_names[i], camel_internet_address_new());
 	}
 
-	mime_message->user_flags = g_hash_table_new (g_strcase_hash, g_strcase_equal);
+	mime_message->user_flags = NULL;
 	mime_message->flags = 0;
 
 	mime_message->subject = NULL;
@@ -179,11 +179,6 @@ static void g_lib_is_uber_crappy_shit(gpointer whocares, gpointer getlost, gpoin
 	gtk_object_unref((GtkObject *)getlost);
 }
 
-static void free_key_only(gpointer whocares, gpointer getlost, gpointer blah)
-{
-	g_free(whocares);
-}
-
 static void           
 finalize (GtkObject *object)
 {
@@ -199,9 +194,7 @@ finalize (GtkObject *object)
 	g_hash_table_foreach (message->recipients, g_lib_is_uber_crappy_shit, NULL);
 	g_hash_table_destroy(message->recipients);
 
-	if (message->user_flags)
-		g_hash_table_foreach (message->user_flags, free_key_only, NULL);
-	g_hash_table_destroy(message->user_flags);
+	camel_flag_list_free(&message->user_flags);
 
 	if (message->folder)
 		gtk_object_unref (GTK_OBJECT (message->folder));
@@ -455,28 +448,87 @@ camel_mime_message_set_flags		(CamelMimeMessage *m, guint32 flags, guint32 set)
 }
 
 gboolean
+camel_flag_get(CamelFlag **list, const char *name)
+{
+	CamelFlag *flag;
+	flag = *list;
+	while (flag) {
+		if (!strcmp(flag->name, name))
+			return TRUE;
+		flag = flag->next;
+	}
+	return FALSE;
+}
+
+void
+camel_flag_set(CamelFlag **list, const char *name, gboolean value)
+{
+	CamelFlag *flag, *tmp;
+
+	/* this 'trick' works because flag->next is the first element */
+	flag = (CamelFlag *)list;
+	while (flag->next) {
+		tmp = flag->next;
+		if (!strcmp(flag->next->name, name)) {
+			if (!value) {
+				flag->next = tmp->next;
+				g_free(tmp);
+			}
+			return;
+		}
+		flag = tmp;
+	}
+
+	if (value) {
+		tmp = g_malloc(sizeof(*tmp) + strlen(name));
+		strcpy(tmp->name, name);
+		tmp->next = 0;
+		flag->next = tmp;
+	}
+}
+
+int
+camel_flag_list_size(CamelFlag **list)
+{
+	int count=0;
+	CamelFlag *flag;
+
+	flag = *list;
+	while (flag) {
+		count++;
+		flag = flag->next;
+	}
+	return count;
+}
+
+void
+camel_flag_list_free(CamelFlag **list)
+{
+	CamelFlag *flag, *tmp;
+	flag = *list;
+	while (flag) {
+		tmp = flag->next;
+		g_free(flag);
+		flag = tmp;
+	}
+	*list = NULL;
+}
+
+gboolean
 camel_mime_message_get_user_flag	(CamelMimeMessage *m, const char *name)
 {
-	return (gboolean)g_hash_table_lookup(m->user_flags, name);
+	g_return_val_if_fail(m->flags & CAMEL_MESSAGE_USER, FALSE);
+
+	return camel_flag_get(&m->user_flags, name);
 }
 
 void
 camel_mime_message_set_user_flag	(CamelMimeMessage *m, const char *name, gboolean value)
 {
-	gboolean there;
-	char *oldname;
-	gboolean oldvalue;
+	g_return_if_fail(m->flags & CAMEL_MESSAGE_USER);
 
-	there = g_hash_table_lookup_extended(m->user_flags, name, (void *)&oldname, (void *)&oldvalue);
-
-	if (value && !there) {
-		g_hash_table_insert(m->user_flags, g_strdup(name), (void *)TRUE);
-		gtk_signal_emit((GtkObject *)m, signals[MESSAGE_CHANGED], MESSAGE_FLAGS_CHANGED);
-	} else if (there) {
-		g_hash_table_remove(m->user_flags, name);
-		g_free(oldname);
-		gtk_signal_emit((GtkObject *)m, signals[MESSAGE_CHANGED], MESSAGE_FLAGS_CHANGED);
-	}
+	camel_flag_set(&m->user_flags, name, value);
+	gtk_signal_emit((GtkObject *)m, signals[MESSAGE_CHANGED], MESSAGE_FLAGS_CHANGED);
 }
 
 

@@ -842,6 +842,7 @@ static void
 message_changed(CamelMimeMessage *m, int type, CamelMboxFolder *mf)
 {
 	CamelMessageInfo *info;
+	CamelFlag *flag;
 
 	printf("Message changed: %s: %d\n", m->message_uid, type);
 	switch (type) {
@@ -849,6 +850,12 @@ message_changed(CamelMimeMessage *m, int type, CamelMboxFolder *mf)
 		info = camel_folder_summary_uid((CamelFolderSummary *)mf->summary, m->message_uid);
 		if (info) {
 			info->flags = m->flags | CAMEL_MESSAGE_FOLDER_FLAGGED;
+			camel_flag_list_free(&info->user_flags);
+			flag = m->user_flags;
+			while (flag) {
+				camel_flag_set(&info->user_flags, flag->name, TRUE);
+				flag = flag->next;
+			}
 			camel_folder_summary_touch((CamelFolderSummary *)mf->summary);
 		} else
 			g_warning("Message changed event on message not in summary: %s", m->message_uid);

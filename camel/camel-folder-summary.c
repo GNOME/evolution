@@ -45,7 +45,7 @@
 extern int strdup_count, malloc_count, free_count;
 #endif
 
-#define CAMEL_FOLDER_SUMMARY_VERSION (3)
+#define CAMEL_FOLDER_SUMMARY_VERSION (4)
 
 struct _CamelFolderSummaryPrivate {
 	GHashTable *filter_charset;	/* CamelMimeFilterCharset's indexed by source charset */
@@ -963,6 +963,7 @@ message_info_new(CamelFolderSummary *s, struct _header_raw *h)
 	mi->subject = summary_format_string(h, "subject");
 	mi->from = summary_format_address(h, "from");
 	mi->to = summary_format_address(h, "to");
+	mi->user_flags = NULL;
 	mi->date_sent = header_decode_date(header_raw_find(&h, "date", NULL), NULL);
 	mi->date_received = 0;
 
@@ -974,6 +975,8 @@ static CamelMessageInfo *
 message_info_load(CamelFolderSummary *s, FILE *in)
 {
 	CamelMessageInfo *mi;
+	guint count;
+	int i;
 
 	mi = g_malloc0(s->message_info_size);
 
@@ -989,12 +992,24 @@ message_info_load(CamelFolderSummary *s, FILE *in)
 	camel_folder_summary_decode_string(in, &mi->to);
 	mi->content = NULL;
 
+	camel_folder_summary_decode_uint32(in, &count);
+	for (i=0;i<count;i++) {
+		char *name;
+		camel_folder_summary_decode_string(in, &name);
+		camel_flag_set(&mi->user_flags, name);
+		g_free(name);
+	}
+
 	return mi;
 }
 
 static int
 message_info_save(CamelFolderSummary *s, FILE *out, CamelMessageInfo *mi)
 {
+	guint32 count;
+	int i;
+	CamelFlag *flag;
+
 	io(printf("Saving message info\n"));
 
 	camel_folder_summary_encode_string(out, mi->uid);
@@ -1004,7 +1019,15 @@ message_info_save(CamelFolderSummary *s, FILE *out, CamelMessageInfo *mi)
 /*	camel_folder_summary_encode_uint32(out, ms->xev_offset);*/
 	camel_folder_summary_encode_string(out, mi->subject);
 	camel_folder_summary_encode_string(out, mi->from);
-	return camel_folder_summary_encode_string(out, mi->to);
+	camel_folder_summary_encode_string(out, mi->to);
+
+	count = camel_flag_list_size(&mi->user_flags);
+	camel_folder_summary_encode_uint32(out, count);
+	flag = mi->user_flags;
+	while (flag) {
+		camel_folder_summary_encode_string(out, flag->name);
+		flag = flag->next;
+	}
 }
 
 static void
@@ -1014,6 +1037,7 @@ message_info_free(CamelFolderSummary *s, CamelMessageInfo *mi)
 	g_free(mi->subject);
 	g_free(mi->from);
 	g_free(mi->to);
+	camel_flag_list_free(&mi->user_flags);
 	g_free(mi);
 }
 

@@ -79,6 +79,8 @@ typedef struct {
 	time_t date_sent;
 	time_t date_received;
 
+	struct _CamelFlag *user_flags;
+
 	/* tree of content description - NULL if it is not available */
 	CamelMessageContentInfo *content;
 } CamelMessageInfo;

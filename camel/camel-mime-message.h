@@ -62,6 +62,11 @@ enum _CamelMessageFlags {
 	CAMEL_MESSAGE_USER = 1<<31 /* supports user flags */
 };
 
+typedef struct _CamelFlag {
+	struct _CamelFlag *next;
+	char name[1];
+} CamelFlag;
+
 struct _CamelMimeMessage
 {
 	CamelMimePart parent_object;
@@ -80,7 +85,7 @@ struct _CamelMimeMessage
 
 	/* other fields */
 	guint32 flags;		/* system flags */
-	GHashTable *user_flags; /* if present, then true */
+	struct _CamelFlag *user_flags;
 	gboolean expunged;
 	
 	guint message_number; /* set by folder object when retrieving message */
@@ -150,6 +155,12 @@ gboolean	  camel_mime_message_get_user_flag	(CamelMimeMessage *m, const char *na
 void		  camel_mime_message_set_user_flag	(CamelMimeMessage *m, const char *name, gboolean value);
 
 guint              camel_mime_message_get_message_number   (CamelMimeMessage *mime_message);
+
+/* message flag operations */
+gboolean	camel_flag_get(CamelFlag **list, const char *name);
+void		camel_flag_set(CamelFlag **list, const char *name, gboolean state);
+int		camel_flag_list_size(CamelFlag **list);
+void		camel_flag_list_free(CamelFlag **list);
 
 #ifdef __cplusplus
 }
