@@ -1,3 +1,9 @@
+2004-02-12  Radek Doulik  <rodo@ximian.com>
+
+	* em-junk-filter.c (pipe_to_sa_with_error): use
+	g_find_program_in_path to avoid fork in case program is not
+	available
+
 2004-02-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-component.c (mail_control_new): Disable the

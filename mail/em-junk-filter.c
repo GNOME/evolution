@@ -105,6 +105,7 @@ pipe_to_sa_with_error (CamelMimeMessage *msg, const char *in, char **argv, int r
 {
 	int result, status, errnosav, fds[2];
 	CamelStream *stream;
+	char *program;
 	pid_t pid;
 	
 #if d(!)0
@@ -117,6 +118,13 @@ pipe_to_sa_with_error (CamelMimeMessage *msg, const char *in, char **argv, int r
 		printf ("\n");
 	}
 #endif
+
+	program = g_find_program_in_path (argv [0]);
+	if (program == NULL) {
+		d(printf ("program not found, returning %d\n", rv_err));
+		return rv_err;
+	}
+	g_free (program);
 	
 	if (pipe (fds) == -1) {
 		errnosav = errno;
