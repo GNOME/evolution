@@ -52,7 +52,6 @@ void
 e_selection_model_array_delete_rows(ESelectionModelArray *esma, int row, int count)
 {
 	if (esma->eba) {
-
 		if (E_SELECTION_MODEL(esma)->mode == GTK_SELECTION_SINGLE)
 			e_bit_array_delete_single_mode(esma->eba, row, count);
 		else
@@ -62,6 +61,14 @@ e_selection_model_array_delete_rows(ESelectionModelArray *esma, int row, int cou
 			esma->cursor_row -= count;
 		else if (esma->cursor_row > row)
 			esma->cursor_row = row;
+
+		if (esma->cursor_row >= e_bit_array_bit_count (esma->eba)) {
+			esma->cursor_row = e_bit_array_bit_count (esma->eba) - 1;
+		} else if (esma->cursor_row < 0) {
+			esma->cursor_row = -1;
+		}
+		if (esma->cursor_row >= 0) 
+			e_bit_array_change_one_row(esma->eba, esma->cursor_row, TRUE);
 
 		e_selection_model_selection_changed(E_SELECTION_MODEL(esma));
 		e_selection_model_cursor_changed(E_SELECTION_MODEL(esma), esma->cursor_row, esma->cursor_col);
