@@ -913,6 +913,7 @@ do_attachment_header (GtkHTML *html, GtkHTMLEmbedded *eb,
 	mainbox = gtk_hbox_new (FALSE, 0);
 	
 	button = gtk_button_new ();
+	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
 	gtk_object_set_data (GTK_OBJECT (button), "MailDisplay", md);
 	
 	gtk_signal_connect (GTK_OBJECT (button), "clicked",
@@ -945,6 +946,7 @@ do_attachment_header (GtkHTML *html, GtkHTMLEmbedded *eb,
 	gtk_container_add (GTK_CONTAINER (button), hbox);
 	
 	popup = gtk_button_new ();
+	GTK_WIDGET_UNSET_FLAGS (popup, GTK_CAN_FOCUS);
 	gtk_container_add (GTK_CONTAINER (popup),
 			   gtk_arrow_new (GTK_ARROW_DOWN,
 					  GTK_SHADOW_ETCHED_IN));
@@ -1050,6 +1052,7 @@ do_signature (GtkHTML *html, GtkHTMLEmbedded *eb,
 			 pbl, NULL);
 
 	button = gtk_button_new ();
+	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
 	gtk_object_set_data (GTK_OBJECT (button), "MailDisplay", md);
 	gtk_signal_connect (GTK_OBJECT (button), "clicked",
 			    GTK_SIGNAL_FUNC (button_press), part);

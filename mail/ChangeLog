@@ -1,3 +1,9 @@
+2002-03-27  Dan Winship  <danw@ximian.com>
+
+	* mail-display.c (do_attachment_header): unset GTK_CAN_FOCUS on
+	the button so that it can't grab focus when you click it.
+	(do_signature): Likewise on the signature button. #3904
+
 2002-03-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Sync with yet-another-mail-config branch.
