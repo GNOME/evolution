@@ -1312,9 +1312,7 @@ remove_item (EItipControl *itip)
 		client = priv->event_client;
 
 	cal_component_get_uid (priv->comp, &uid);
-	if (!cal_client_remove_object (client, uid))
-		dialog = gnome_warning_dialog (_("I couldn't remove the item from your calendar file!\n"));
-	else
+	if (cal_client_remove_object (client, uid))
 		dialog = gnome_ok_dialog (_("Removal Complete"));
 	gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 }
@@ -1503,7 +1501,7 @@ ok_clicked_cb (GtkHTML *html, const gchar *method, const gchar *url, const gchar
 			case 'D':
 				change_status (priv->ical_comp, priv->my_address, ICAL_PARTSTAT_DECLINED);
 				cal_component_rescan (priv->comp);
-				update_item (itip);
+				remove_item (itip);
 				break;
 			case 'F':
 				send_freebusy (itip);
