@@ -150,8 +150,10 @@ int main(int argc, char **argv)
 #ifdef ENABLE_THREADS
 	pthread_t id;
 #endif
-	mcheck(blowup);
 
+#ifdef DO_MCHECK
+	mcheck(blowup);
+#endif
 	words = g_ptr_array_new();
 	buffer = g_string_new("");
 
