@@ -43,7 +43,7 @@
 #include "calendar-config.h"
 #include "e-meeting-list-view.h"
 #include <misc/e-cell-renderer-combo.h>
-#include <addressbook/util/eab-destination.h>
+#include <addressbook/util/e-destination.h>
 #include "e-select-names-renderer.h"
 
 #define SELECT_NAMES_OAFID "OAFIID:GNOME_Evolution_Addressbook_SelectNames:" BASE_VERSION
@@ -328,7 +328,7 @@ e_meeting_list_view_edit (EMeetingListView *emlv, EMeetingAttendee *attendee)
 }
 
 static void
-process_section (EMeetingListView *view, EABDestination **cards, icalparameter_role role)
+process_section (EMeetingListView *view, EDestination **cards, icalparameter_role role)
 {
 	EMeetingListViewPrivate *priv;
 	int i;
@@ -338,7 +338,7 @@ process_section (EMeetingListView *view, EABDestination **cards, icalparameter_r
 		const char *name, *attendee = NULL;
 		char *attr = NULL;
 
-		name = eab_destination_get_name (cards[i]);
+		name = e_destination_get_name (cards[i]);
 
 		/* Get the field as attendee from the backend */
 		if (e_cal_get_ldap_attribute (e_meeting_store_get_e_cal (priv->store),
@@ -348,8 +348,8 @@ process_section (EMeetingListView *view, EABDestination **cards, icalparameter_r
 				EContact *contact;
 
 				/* FIXME: this does not work, have to use first
-				   eab_destination_use_contact() */
-				contact = eab_destination_get_contact (cards[i]);
+				   e_destination_use_contact() */
+				contact = e_destination_get_contact (cards[i]);
 				if (contact) {
 					attendee = e_contact_get (contact, E_CONTACT_FREEBUSY_URL);
 					if (!attendee)
@@ -360,7 +360,7 @@ process_section (EMeetingListView *view, EABDestination **cards, icalparameter_r
 
 		/* If we couldn't get the attendee prior, get the email address as the default */
 		if (attendee == NULL || *attendee == '\0') {
-			attendee = eab_destination_get_email (cards[i]);
+			attendee = e_destination_get_email (cards[i]);
 		}
 		
 		if (attendee == NULL || *attendee == '\0')
@@ -385,7 +385,7 @@ select_names_ok_cb (BonoboListener *listener, const char *event_name, const CORB
 	int i;
 	
 	for (i = 0; sections[i] != NULL; i++) {
-		EABDestination **destv;
+		EDestination **destv;
 		char *string = NULL;
 		Bonobo_Control corba_control = GNOME_Evolution_Addressbook_SelectNames_getEntryBySection 
 			(view->priv->corba_select_names, sections[i], ev);
@@ -393,7 +393,7 @@ select_names_ok_cb (BonoboListener *listener, const char *event_name, const CORB
 
 		bonobo_widget_get_property (BONOBO_WIDGET (control_widget), "destinations",
 					    TC_CORBA_string, &string, NULL);
-		destv = eab_destination_importv (string);
+		destv = e_destination_importv (string);
  		if (destv) {
  			process_section (view, destv, roles[i]);
  			g_free (destv);

@@ -1,3 +1,23 @@
+2004-04-09  Chris Toshok  <toshok@ximian.com>
+
+	* gui/dialogs/e-delegate-dialog.c (e_delegate_dialog_construct):
+	EABDestination -> EDestination.
+	(e_delegate_dialog_get_delegate): same.
+	(e_delegate_dialog_get_delegate_name): same.
+
+	* gui/dialogs/alarm-options.c (alarm_to_malarm_widgets):
+	EABDestination -> EDestination.
+	(malarm_widgets_to_alarm): same.
+
+	* gui/e-select-names-editable.c
+	(e_select_names_editable_get_address): EABDestination ->
+	EDestination.
+	(e_select_names_editable_get_name): same.
+
+	* gui/e-meeting-list-view.c (process_section): EABDestination ->
+	EDestination.
+	(select_names_ok_cb): same.
+
 2004-04-09  Dan Winship  <danw@ximian.com>
 
 	* gui/gnome-cal.c (gnome_calendar_set_ui_component): Create an

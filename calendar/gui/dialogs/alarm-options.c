@@ -39,7 +39,7 @@
 #include <bonobo/bonobo-widget.h>
 #include <libgnomeui/gnome-file-entry.h>
 #include <glade/glade.h>
-#include <addressbook/util/eab-destination.h>
+#include <addressbook/util/e-destination.h>
 #include "Evolution-Addressbook-SelectNames.h"
 #include "e-util/e-dialog-widgets.h"
 #include "alarm-options.h"
@@ -307,7 +307,7 @@ alarm_to_malarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
 	ECalComponentText description;
 	GtkTextBuffer *text_buffer;	
 	GSList *attendee_list, *l;
-	EABDestination **destv;
+	EDestination **destv;
 	int len, i;
 	
 	/* Recipients */
@@ -315,22 +315,22 @@ alarm_to_malarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
 	len = g_slist_length (attendee_list);
 
 	if (len <= 0) {
-		destv = g_new0 (EABDestination *, 2);
-		destv[0] = eab_destination_new ();
-		eab_destination_set_email (destv[0], dialog->email);
+		destv = g_new0 (EDestination *, 2);
+		destv[0] = e_destination_new ();
+		e_destination_set_email (destv[0], dialog->email);
 		destv[1] = NULL;
 		len = 1;
 	} else {
-		destv = g_new0 (EABDestination *, len + 1);
+		destv = g_new0 (EDestination *, len + 1);
 		for (l = attendee_list, i = 0; l != NULL; l = l->next, i++) {
 			ECalComponentAttendee *a = l->data;
-			EABDestination *dest;
+			EDestination *dest;
 			
-			dest = eab_destination_new ();
+			dest = e_destination_new ();
 			if (a->cn != NULL && *a->cn)
-				eab_destination_set_name (dest, a->cn);
+				e_destination_set_name (dest, a->cn);
 			if (a->value != NULL && *a->value)
-				eab_destination_set_email (dest, a->value);
+				e_destination_set_email (dest, a->value);
 			
 			destv[i] = dest;
 		}
@@ -338,7 +338,7 @@ alarm_to_malarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
 	}
 	
 	bonobo_widget_set_property (BONOBO_WIDGET (dialog->malarm_addresses), 
-				    "destinations", eab_destination_exportv (destv), NULL);
+				    "destinations", e_destination_exportv (destv), NULL);
 
 	for (i = 0; i < len; i++)
 		g_object_unref (GTK_OBJECT (destv[i]));
@@ -617,7 +617,7 @@ malarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 	char *str;
 	ECalComponentText description;
 	GSList *attendee_list = NULL;
-	EABDestination **destv;
+	EDestination **destv;
 	GtkTextBuffer *text_buffer;
 	GtkTextIter text_iter_start, text_iter_end;
 	icalcomponent *icalcomp;
@@ -627,18 +627,18 @@ malarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 	/* Attendees */
 	bonobo_widget_get_property (BONOBO_WIDGET (dialog->malarm_addresses), "destinations", 
 				    TC_CORBA_string, &str, NULL);
-	destv = eab_destination_importv (str);
+	destv = e_destination_importv (str);
 	g_free (str);
 	
 	for (i = 0; destv[i] != NULL; i++) {
-		EABDestination *dest;
+		EDestination *dest;
 		ECalComponentAttendee *a;
 
 		dest = destv[i];
 		
 		a = g_new0 (ECalComponentAttendee, 1);
-		a->value = eab_destination_get_email (dest);
-		a->cn = eab_destination_get_name (dest);
+		a->value = e_destination_get_email (dest);
+		a->cn = e_destination_get_name (dest);
 
 		attendee_list = g_slist_append (attendee_list, a);
 	}
@@ -646,7 +646,7 @@ malarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 	e_cal_component_alarm_set_attendee_list (alarm, attendee_list);
 
 	e_cal_component_free_attendee_list (attendee_list);
-	eab_destination_freev (destv);	
+	e_destination_freev (destv);	
 
 	/* Description */
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (dialog->malarm_description));

@@ -33,7 +33,7 @@
 #include <glade/glade.h>
 #include <gal/util/e-util.h>
 #include <widgets/misc/e-map.h>
-#include <addressbook/util/eab-destination.h>
+#include <addressbook/util/e-destination.h>
 #include "Evolution-Addressbook-SelectNames.h"
 #include "e-delegate-dialog.h"
 
@@ -126,8 +126,8 @@ EDelegateDialog *
 e_delegate_dialog_construct (EDelegateDialog *edd, const char *name, const char *address)
 {
 	EDelegateDialogPrivate *priv;
-	EABDestination *dest;
-	EABDestination *destv[2] = {NULL, NULL};
+	EDestination *dest;
+	EDestination *destv[2] = {NULL, NULL};
 	Bonobo_Control corba_control;
 	CORBA_Environment ev;
 	char *str;
@@ -178,13 +178,13 @@ e_delegate_dialog_construct (EDelegateDialog *edd, const char *name, const char 
 	gtk_widget_show (priv->entry);
 	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->entry, TRUE, TRUE, 6);
 
-	dest = eab_destination_new ();
+	dest = e_destination_new ();
 	destv[0] = dest;
 	if (name != NULL && *name)
-		eab_destination_set_name (dest, name);
+		e_destination_set_name (dest, name);
 	if (address != NULL && *address)
-		eab_destination_set_email (dest, address);
-	str = eab_destination_exportv(destv);
+		e_destination_set_email (dest, address);
+	str = e_destination_exportv(destv);
 	bonobo_widget_set_property (BONOBO_WIDGET (priv->entry), "destinations", TC_CORBA_string, str, NULL);
 	g_free(str);
 	g_object_unref (dest);
@@ -256,7 +256,7 @@ char *
 e_delegate_dialog_get_delegate		(EDelegateDialog  *edd)
 {
 	EDelegateDialogPrivate *priv;
-	EABDestination **destv;
+	EDestination **destv;
 	char *string = NULL;
 	
 	g_return_val_if_fail (edd != NULL, NULL);
@@ -265,11 +265,11 @@ e_delegate_dialog_get_delegate		(EDelegateDialog  *edd)
 	priv = edd->priv;
 	
 	bonobo_widget_get_property (BONOBO_WIDGET (priv->entry), "destinations", TC_CORBA_string, &string, NULL);
-	destv = eab_destination_importv (string);
+	destv = e_destination_importv (string);
 	
 	if (destv && destv[0] != NULL) {
 		g_free (priv->address);
-		priv->address = g_strdup (eab_destination_get_email (destv[0]));
+		priv->address = g_strdup (e_destination_get_email (destv[0]));
 		g_free (destv);
 	}
 	
@@ -283,7 +283,7 @@ char *
 e_delegate_dialog_get_delegate_name		(EDelegateDialog  *edd)
 {
 	EDelegateDialogPrivate *priv;
-	EABDestination **destv;
+	EDestination **destv;
 	char *string = NULL;
 	
 	g_return_val_if_fail (edd != NULL, NULL);
@@ -292,13 +292,13 @@ e_delegate_dialog_get_delegate_name		(EDelegateDialog  *edd)
 	priv = edd->priv;
 
 	bonobo_widget_get_property (BONOBO_WIDGET (priv->entry), "destinations", TC_CORBA_string, &string, NULL);
-	destv = eab_destination_importv (string);
+	destv = e_destination_importv (string);
 	
 	g_message ("importv: [%s]", string);
 	
 	if (destv && destv[0] != NULL) {
 		g_free (priv->name);
-		priv->name = g_strdup (eab_destination_get_name (destv[0]));
+		priv->name = g_strdup (e_destination_get_name (destv[0]));
 		g_free (destv);
 	}
 	
