@@ -780,6 +780,7 @@ e_date_edit_set_time_of_day		(EDateEdit	*dedit,
 		g_return_if_fail (allow_no_date_set);
 		if (!priv->time_set_to_none) {
 			priv->time_set_to_none = TRUE;
+			time_changed = TRUE;
 		}
 	} else if (priv->time_set_to_none
 		   || priv->hour != hour

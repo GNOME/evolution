@@ -1,3 +1,8 @@
+2001-10-30  Damon Chaplin  <damon@ximian.com>
+
+	* e-dateedit.c (e_date_edit_set_time_of_day): emit signal when time
+	set to none/empty.
+
 2001-10-30    <NotZed@Ximian.com>
 
 	* e-filter-bar.c (generate_menu): Hook to rule changed events.
