@@ -32,7 +32,7 @@
 
 #include "camel-imap-stream.h"
 #include "camel-imap-engine.h"
-/*#include "camel-imap-folder.h"*/
+#include "camel-imap-folder.h"
 #include "camel-imap-specials.h"
 
 #include "camel-imap-command.h"
@@ -65,6 +65,7 @@ imap_string_get_type (const char *str)
 	return type;
 }
 
+#if 0
 static gboolean
 imap_string_is_atom_safe (const char *str)
 {
@@ -82,6 +83,7 @@ imap_string_is_quote_safe (const char *str)
 	
 	return *str == '\0';
 }
+#endif
 
 static size_t
 camel_imap_literal_length (CamelIMAPLiteral *literal)
@@ -272,7 +274,7 @@ camel_imap_command_newv (CamelIMAPEngine *engine, CamelIMAPFolder *imap_folder, 
 				g_string_append (str, string);
 				break;
 			default:
-				g_warning ("unknown formatter %%c", *format);
+				g_warning ("unknown formatter %%%c", *format);
 				g_string_append_c (str, '%');
 				g_string_append_c (str, *format);
 				break;
@@ -481,18 +483,16 @@ camel_imap_command_step (CamelIMAPCommand *ic)
 {
 	CamelIMAPEngine *engine = ic->engine;
 	int result = CAMEL_IMAP_RESULT_NONE;
-	CamelIMAPUntaggedCallback untagged;
 	CamelIMAPLiteral *literal;
 	camel_imap_token_t token;
 	unsigned char *linebuf;
 	ssize_t nwritten;
 	size_t len;
-	int ret;
 	
 	g_assert (ic->part != NULL);
 	
 	if (ic->part == ic->parts) {
-		ic->tag = g_strdup_printf ("%c%0.5u", engine->tagprefix, engine->tag++);
+		ic->tag = g_strdup_printf ("%c%.5u", engine->tagprefix, engine->tag++);
 		camel_stream_printf (engine->ostream, "%s ", ic->tag);
 		d(fprintf (stderr, "sending : %s ", ic->tag));
 	}

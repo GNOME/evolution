@@ -29,6 +29,7 @@
 #include <camel/camel-sasl.h>
 #include <camel/camel-stream-buffer.h>
 
+#include "camel-imap-summary.h"
 #include "camel-imap-command.h"
 #include "camel-imap-stream.h"
 #include "camel-imap-folder.h"
@@ -593,7 +594,7 @@ engine_parse_status (CamelIMAPEngine *engine, CamelException *ex)
 		mailbox = g_strdup (token.v.qstring);
 		break;
 	case CAMEL_IMAP_TOKEN_LITERAL:
-		if (camel_imap_engine_literal (engine, (unsigned char **) &mailbox, &len, err) == -1)
+		if (camel_imap_engine_literal (engine, (unsigned char **) &mailbox, &len, ex) == -1)
 			return -1;
 		break;
 	default:
