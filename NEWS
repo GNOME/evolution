@@ -1,38 +1,44 @@
 Version 0.2
 -----------
 
+Addressbook:
+
+  * LDAP server configuration dialog (Chris Toshok).
+  
+  * Integration of LDAP servers in the shell's tree view (Chris Toshok).
+  
+  * ETable-based view (Chris Lahey).
+  
+  * Printing support for the ETable-based view (Chris Lahey).
+  
+  * Address selection dialog integrated with the message composer (Chris
+    Lahey).
+  
+  * Many miscellaneous bugs fixed (everyone).
+
 Calendar:
 
-* Printing support (Michael, Federico).
-
-* Many, many behavior fixes and polishing to the day/week/month view
-  widgets (Damon).
-
-* New glade-based event editor.  This is unfinished but usable (Seth,
-  Federico).
-
-* Mouse wheel scrolling support (Anders).
-
-* We have an awesome new engine for computing recurring events
-  (Damon).  This will be plugged in to the new iCalendar code.
-
-* Internal and public API fixes (Federico, Seth).
-
-* Shell-related changes (Ettore).
-
-* Data model for ETable; this is not used yet (Federico).
-
-* New iCalendar support; this is not used yet (Federico).
-
-* Pilot syncing updates; this is not used yet (Seth).
-
-* Many miscellaneous bugs fixed (everyone).
-
-01/Jun/1999
------------
-
-New development document from Giao Nguyen :
-TITLE: An in-depth look at the virtual folder mechanism
-(see devel-docs/query)
-
-
+  * Printing support (Michael, Federico).
+  
+  * Many, many behavior fixes and polishing to the day/week/month view
+    widgets (Damon).
+  
+  * New glade-based event editor.  This is unfinished but usable (Seth,
+    Federico).
+  
+  * Mouse wheel scrolling support (Anders).
+  
+  * We have an awesome new engine for computing recurring events
+    (Damon).  This will be plugged in to the new iCalendar code.
+  
+  * Internal and public API fixes (Federico, Seth).
+  
+  * Shell-related changes (Ettore).
+  
+  * Data model for ETable; this is not used yet (Federico).
+  
+  * New iCalendar support; this is not used yet (Federico).
+  
+  * Pilot syncing updates; this is not used yet (Seth).
+  
+  * Many miscellaneous bugs fixed (everyone).
