@@ -37,11 +37,12 @@
        the small calendar at the upper right.
     </para>
     <para>
-       To view yesterday's appointments, &mdash;last week's, if you're in
-       the weekly view, and last month's for the monthly view&mdash; click
-       the <guibutton>Prev</guibutton> button.  For tomorrow, next week,
-       or next month, click <guibutton>Next</guibutton>, and of course,
-       click <guibutton>Today</guibutton> for today.
+       To view yesterday's appointments, &mdash;last week's, if you're
+       in the weekly view, and last month's for the monthly
+       view&mdash; click the <guibutton>Prev</guibutton> button.  For
+       tomorrow, next week, or next month, click
+       <guibutton>Next</guibutton>.  Of course, click
+       <guibutton>Today</guibutton> for today.
     </para>
     <para>
        To visit a specific date's calendar entries, click
@@ -177,10 +178,13 @@ lack of time, resources, and interest.
       <para>
         The <guilabel>Recurrence</guilabel> tab lets you describe
         repetition in events ranging from once every day up to once
-        every 100 years.  You can then choose a time when repetition
-        will stop, and, under <guilabel>Exceptions</guilabel>, pick
-        individual days when the event will <emphasis>not</emphasis>
-        recur.
+        every 100 years.  You can then choose a time and date when the
+        event will stop recurring, and, under
+        <guilabel>Exceptions</guilabel>, pick individual days when the
+        event will <emphasis>not</emphasis> recur. Make your
+        selections from left to right, and you'll form a sentence:
+        "Every two weeks on Monday and Friday until January 3, 2003"
+        or "Every month on the first Friday for 12 occurrences."
       </para>
 
       <para>
@@ -258,7 +262,7 @@ lack of time, resources, and interest.
        calendar events.  Tasks are colored and sorted by priority and
        due-date (see <xref linkend="config-prefs"> for more
        information), and are included with calendar data during
-       synchronization with a hand-held device.  You can also see the
+       synchronization with a hand-held device.  You can also use the
        list in a larger format by choosing the
        <guibutton>Tasks</guibutton> button in the shortcut bar or in
        the folder tree.
@@ -331,7 +335,7 @@ lack of time, resources, and interest.
     <example>
       <title>Keeping Multiple Calendars</title>
       <para>
-        Keelyn. the office manager for a small company, has one
+        Keelyn, the office manager for a small company, has one
         calendar for her own schedule.  On the local network, she
         maintains one for the conference room, so people know when
         they can schedule meetings.  Next to that, she maintains a

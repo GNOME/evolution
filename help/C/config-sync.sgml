@@ -2,57 +2,118 @@
      <title>Setting up your synchronization system</title> 
      <para>
         Synchronization presents you with two issues you'll need to
-        deal with.  The first one is pretty simple: you'll need to get
-        the data to move among the various devices you're using.  If
-        you've already got <application>Gnome-Pilot</application>
-        working, then all you have to do is tell it to use the
-        <application>Evolution</application>
-        <glossterm>conduit</glossterm>.  If you haven't used
-        <application>Gnome-Pilot</application> before, you'll need to
-        run the GNOME <application>Control Center</application> and go
-        through the hand-held device setup assistant.  Then you can
-        select the Evolution conduit and press the hotsync button.
+        deal with. 
+        <simplelist>
+          <member>
+            Your computer needs to recognize and access your handheld.
+            At this time, <application>Evolution</application> only
+            supports Palm-OS devices like the PalmPilot and the
+            Handspring Visor.
+          </member>
+          <member>
+           You should decide what sort of synchronization behavior you
+           want.
+          </member>
+        </simplelist>
+
+    </para>
+    <para>
+       If you haven't used a handheld device with your computer
+       before, you'll need to run the GNOME <application>Control
+       Center</application> and make sure that <application>Pilot
+       Link</application> is properly configured. Then, select the
+       <application>Evolution</application> conduits under the
+       <guilabel>Pilot Conduits</guilabel> section of the Control
+       Center.
       </para>
-      <para>
-        If that doesn't work, jump up and down several times and swear
-        loudly.  Then make sure you've got
-        <application>Gnome-Pilot</application> going to the right
-        device (for my serial port, it's /dev/ttys0, not the default
-        /dev/pilot) and that you have read and write permission on
-        that device.  If you don't, you'll need to be added to whatever
-        group has those permissions (probably tty).
-     </para>
      <para>
-        Once <application>Evolution</application> knows how to get the
-        mail, address, and calendar data, it needs to know what to do
-        with it.  When you synchronize your local data with the data
-        on a server or handheld device, you may run into conflicts:
-        perhaps you have ended up with two cards with the same name
-        and different addresses, or old mail that has been deleted
-        from one device but not the other.  What if you want to keep
-        only the a few contacts or messages on your hand-held or your
-        laptop, but keep all the data server or your desktop machine?
-        Select the <guibutton>Synchronization</guibutton> tab from the
-        <interface>Preferences</interface> window to set up the
-        conflict resolution preferences.
-     </para>
-      <para> 
-         You can set <application>Evolution</application>'s
-         synchronization behavior in the following ways: 
-         <!-- LIST HERE -->
-      </para>
+        Once your computer and your Palm-OS device are talking happily
+        to each other, you'll have to decide what exactly you want
+        them to do with the data they exchange.  Your options may vary
+        depending on the conduit, but typically they will be:
+
+        <variablelist>
+         <varlistentry>
+            <term>Disabled </term>
+            <listitem> 
+               <para>
+                  Do nothing.
+               </para>
+            </listitem>
+          </varlistentry>
+
+         <varlistentry>
+            <term>Synchronize</term>
+            <listitem> 
+               <para>
+                  Copy new data from the computer to the handheld, and
+                  from the handheld to the computer.  Remove items
+                  that were on both systems but have been deleted on
+                  one.
+               </para>
+            </listitem>
+          </varlistentry>
+
+         <varlistentry>
+            <term>Copy From Pilot</term>
+            <listitem> 
+               <para>
+                  If there is any new data on the the handheld device,
+                  copy it to the computer.
+               </para>
+            </listitem>
+          </varlistentry>
+
+         <varlistentry>
+            <term>Copy To Pilot</term>
+            <listitem> 
+               <para>
+                 Copy new data from the computer to the handheld. 
+               </para>
+            </listitem>
+          </varlistentry>
+
+         <varlistentry>
+            <term>Merge From Pilot</term>
+            <listitem> 
+               <para>
+                  Copy new data from the handheld to the computer, and
+                  remove any information from the computer that has
+                  been deleted on the handheld.
+               </para>
+            </listitem>
+          </varlistentry>
+
+         <varlistentry>
+            <term>Merge To Pilot</term>
+            <listitem> 
+               <para>
+                  Copy new data from the computer to the handheld, and
+                  remove any information from the handheld that has
+                  been deleted on the computer.
+               </para>
+            </listitem>
+          </varlistentry>
+
+    </para>
+
+    <para>
+      Select a behavior for each conduit available.  For the most
+      part, you'll want to stick with
+      <guilabel>Synchronize</guilabel>.  Then, put your handheld on
+      its cradle and press the synchronization button.
+    </para>
+
+
       <para> 
          <warning> 
 	  <title>Data Loss Prevention</title> 
 	  <para>
-	    It's always a good idea to make a backup.  If you set your
-	    synchronization behaviors wrong, you could end up deleting
-	    the messages and cards you want to keep, and keeping the
-	    ones you want to delete.  Before you change these
-	    preferences, make a backup of your the
-	    <systemitem><filename>evolution</filename></systemitem>
-	    directory.
+	    It's always a good idea to make a backup.  To do that,
+	    make a copy of your <systemitem>
+	    <filename>~/evolution</filename> </systemitem> directory.
           </para>
 	</warning>
        </para>
+
     </chapter>
