@@ -11,7 +11,7 @@
 #include <gnome.h>
 #include <pwd.h>
 #include <sys/types.h>
-
+#include <string.h>
 #include "alarm.h"
 #include "calendar.h"
 #include "eventedit.h"
@@ -62,8 +62,14 @@ init_username (void)
 
 	passwd = getpwuid (getuid ());
 	if ((p = passwd->pw_name)) {
+		char *comma;
+		
 		user_name = g_strdup (p);
 		full_name = g_strdup (passwd->pw_gecos);
+
+		/* Keep only the name from the gecos field */
+		if ((comma = strchr (full_name, ',')) != NULL)
+			*comma = 0;
 	} else {
 		if ((p = getenv ("USER"))) {
 			user_name = g_strdup (p);
