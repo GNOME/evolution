@@ -12,6 +12,8 @@ void  e_notice                       (GtkWindow *window, const char *type, const
 void e_container_foreach_leaf        (GtkContainer *container,
 				      GtkCallback   callback,
 				      gpointer      closure);
+void e_container_focus_nth_entry     (GtkContainer *container,
+				      int           n);
 gint e_container_change_tab_order    (GtkContainer *container,
 				      GList        *widgets);
 

@@ -171,3 +171,34 @@ e_container_change_tab_order(GtkContainer *container, GList *widgets)
 				       e_container_change_tab_order_destroy_notify,
 				       FALSE, FALSE);
 }
+
+struct widgetandint {
+	GtkWidget *widget;
+	int count;
+};
+
+static void
+nth_entry_callback(GtkWidget *widget, struct widgetandint *data)
+{
+	if (GTK_IS_ENTRY(widget)) {
+		if (data->count > 1) {
+			data->count --;
+			data->widget = widget;
+		} else if (data->count == 1) {
+			data->count --;
+			data->widget = NULL;
+			gtk_widget_grab_focus(widget);
+		}
+	}
+}
+
+void
+e_container_focus_nth_entry(GtkContainer *container, int n)
+{
+	struct widgetandint data;
+	data.widget = NULL;
+	data.count = n;
+	e_container_foreach_leaf(container, (GtkCallback) nth_entry_callback, &data);
+	if (data.widget)
+		gtk_widget_grab_focus(data.widget);
+}
