@@ -1,3 +1,8 @@
+2000-11-07  Jesse Pavel	  <jpavel@helixcode.com>
+
+	* evolution-event-editor.xml: removed ``FIXME'' from the ``Schedule Meeting''
+	menu.
+
 2000-11-06  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* evolution-mail.xml: Updated Message menu.

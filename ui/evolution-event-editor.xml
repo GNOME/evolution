@@ -65,7 +65,7 @@
 	<cmd name="GoNext" _label="Next" _tip="Go to the next item"
 	pixtype="stock" pixname="Forward"/>
 
-	<menuitem name="ActionScheduleMeeting" _label="FIXME: Schedule Meeting"
+	<menuitem name="ActionScheduleMeeting" _label="Schedule Meeting"
 	_tip="Schedule some sort of a meeting"/>
 
         <cmd name="HelpAbout" _label="About..." _tip="About this application"
