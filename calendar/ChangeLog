@@ -1,3 +1,13 @@
+2004-12-23  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/e-cal-model.c (set_instance_times): get instance times using
+	the correct timezone.
+	(redo_queries): emit signals before clearing the array.
+
+	* gui/e-day-view.c (process_component):
+	* gui/e-week-view.c (process_component): no need to try to update,
+	always add.
+
 2004-12-23  Hans Petter Jansson  <hpj@novell.com>
 
 	* gui/e-select-names-editable.c: Correct bad include.

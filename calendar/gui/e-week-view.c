@@ -330,46 +330,44 @@ process_component (EWeekView *week_view, ECalModelComponent *comp_data)
 	else
 		rid = NULL;
 
-	/* If the event already exists and the dates didn't change, we can
-	   update the event fairly easily without changing the events arrays
-	   or computing a new layout. */
-	if (e_week_view_find_event_from_uid (week_view, uid, rid, &event_num)) {
-		ECalComponent *tmp_comp;
+/* 	/\* If the event already exists and the dates didn't change, we can */
+/* 	   update the event fairly easily without changing the events arrays */
+/* 	   or computing a new layout. *\/ */
+/* 	if (e_week_view_find_event_from_uid (week_view, uid, rid, &event_num)) { */
+/* 		ECalComponent *tmp_comp; */
 
-		event = &g_array_index (week_view->events, EWeekViewEvent,
-					event_num);
+/* 		event = &g_array_index (week_view->events, EWeekViewEvent, event_num); */
 
-		tmp_comp = e_cal_component_new ();
-		e_cal_component_set_icalcomponent (tmp_comp, icalcomponent_new_clone (event->comp_data->icalcomp));
-		if (!e_cal_component_has_recurrences (comp)
-		    && !e_cal_component_has_recurrences (tmp_comp)
-		    && e_cal_component_event_dates_match (comp, tmp_comp)) {
-#if 0
-			g_print ("updated object's dates unchanged\n");
-#endif
-			/* e_week_view_foreach_event_with_uid (week_view, uid, e_week_view_update_event_cb, comp_data); */
-			e_week_view_update_event_cb (week_view, event_num, comp_data);
-			g_object_unref (comp);
-			g_object_unref (tmp_comp);
-			gtk_widget_queue_draw (week_view->main_canvas);
-			return;
-		}
+/* 		tmp_comp = e_cal_component_new (); */
+/* 		e_cal_component_set_icalcomponent (tmp_comp, icalcomponent_new_clone (event->comp_data->icalcomp)); */
+/* 		if (!e_cal_component_has_recurrences (comp) */
+/* 		    && !e_cal_component_has_recurrences (tmp_comp) */
+/* 		    && e_cal_component_event_dates_match (comp, tmp_comp)) { */
+/* #if 0 */
+/* 			g_print ("updated object's dates unchanged\n"); */
+/* #endif */
+/* 			e_week_view_update_event_cb (week_view, event_num, comp_data); */
+/* 			g_object_unref (comp); */
+/* 			g_object_unref (tmp_comp); */
+/* 			gtk_widget_queue_draw (week_view->main_canvas); */
+/* 			return; */
+/* 		} */
 
-		/* The dates have changed, so we need to remove the
-		   old occurrrences before adding the new ones. */
-#if 0
-		g_print ("dates changed - removing occurrences\n");
-#endif
-		e_week_view_remove_event_cb (week_view, event_num, NULL);
+/* 		/\* The dates have changed, so we need to remove the */
+/* 		   old object before adding the new ones. *\/ */
+/* #if 0 */
+/* 		g_print ("dates changed - removing occurrences\n"); */
+/* #endif */
+/* 		e_week_view_remove_event_cb (week_view, event_num, NULL); */
 
-		g_object_unref (tmp_comp);
-	} else {
-		if (rid && e_week_view_find_event_from_uid (week_view, uid, NULL, &event_num)) {
-			event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
-			if (!e_cal_util_component_is_instance (event->comp_data->icalcomp))
-				e_week_view_remove_event_cb (week_view, event_num, NULL);
-		}
-	}
+/* 		g_object_unref (tmp_comp); */
+/* 	} else { */
+/* 		if (rid && e_week_view_find_event_from_uid (week_view, uid, NULL, &event_num)) { */
+/* 			event = &g_array_index (week_view->events, EWeekViewEvent, event_num); */
+/* 			if (!e_cal_util_component_is_instance (event->comp_data->icalcomp)) */
+/* 				e_week_view_remove_event_cb (week_view, event_num, NULL); */
+/* 		} */
+/* 	} */
 
 	/* Add the object */
 	num_days = week_view->multi_week_view ? week_view->weeks_shown * 7 : 7;

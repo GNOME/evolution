@@ -530,54 +530,6 @@ process_component (EDayView *day_view, ECalModelComponent *comp_data)
 	else
 		rid = NULL;
 
-	/* If the event already exists and the dates didn't change, we can
-	   update the event fairly easily without changing the events arrays
-	   or computing a new layout. */
-	if (e_day_view_find_event_from_uid (day_view, uid, rid, &day, &event_num)) {
-		ECalComponent *tmp_comp;
-		
-		if (day == E_DAY_VIEW_LONG_EVENT)
-			event = &g_array_index (day_view->long_events,
-						EDayViewEvent, event_num);
-		else
-			event = &g_array_index (day_view->events[day],
-						EDayViewEvent, event_num);
-
-		tmp_comp = e_cal_component_new ();
-		e_cal_component_set_icalcomponent (tmp_comp, icalcomponent_new_clone (event->comp_data->icalcomp));
-		if (!e_cal_util_component_has_recurrences (comp_data->icalcomp)
-		    && !e_cal_component_has_recurrences (tmp_comp)
-		    && e_cal_component_event_dates_match (comp, tmp_comp)) {
-#if 0
-			g_print ("updated object's dates unchanged\n");
-#endif
-			/* e_day_view_foreach_event_with_uid (day_view, uid, e_day_view_update_event_cb, comp_data); */
-			e_day_view_update_event_cb (day_view, day, event_num, comp_data);
-			gtk_widget_queue_draw (day_view->top_canvas);
-			gtk_widget_queue_draw (day_view->main_canvas);
-			return;
-		}
-
-		/* The dates have changed, so we need to remove the
-		   old occurrrences before adding the new ones. */
-#if 0
-		g_print ("dates changed - removing occurrences\n");
-#endif
-		e_day_view_remove_event_cb (day_view, day, event_num, NULL);
-
-		g_object_unref (tmp_comp);
-	} else {
-		if (rid && e_day_view_find_event_from_uid (day_view, uid, NULL, &day, &event_num)) {
-			if (day == E_DAY_VIEW_LONG_EVENT)
-				event = &g_array_index (day_view->long_events, EDayViewEvent, event_num);
-			else
-				event = &g_array_index (day_view->events[day], EDayViewEvent, event_num);
-
-			if (!e_cal_util_component_is_instance (event->comp_data->icalcomp))
-				e_day_view_remove_event_cb (day_view, day, event_num, NULL);
-		}
-	}
-
 	/* Add the object */
 	add_event_data.day_view = day_view;
 	add_event_data.comp_data = comp_data;

@@ -186,7 +186,6 @@ clear_objects_array (ECalModelPrivate *priv)
 		e_cal_model_free_component_data (comp_data);
 	}
 
-	
 	g_ptr_array_set_size (priv->objects, 0);
 }
 
@@ -1304,21 +1303,21 @@ set_instance_times (ECalModelComponent *comp_data, icaltimezone *zone)
 
 	if (zone) {
 		if (e_cal_util_component_is_instance (comp_data->icalcomp)) {
-			comp_data->instance_start = icaltime_as_timet (recur_time);
+			comp_data->instance_start = icaltime_as_timet_with_zone (recur_time, zone);
 
 			comp_data->instance_end = comp_data->instance_start +
-				(icaltime_as_timet (end_time) -
-				 icaltime_as_timet (start_time));
+				(icaltime_as_timet_with_zone (end_time, end_time.zone ? end_time.zone : zone) -
+				 icaltime_as_timet_with_zone (start_time, start_time.zone ? start_time.zone : zone));
 		} else {
 			if (start_time.zone) {
-				icaltimezone_convert_time (&start_time, start_time.zone, zone);
-				comp_data->instance_start = icaltime_as_timet (start_time);
+				//icaltimezone_convert_time (&start_time, start_time.zone, zone);
+				comp_data->instance_start = icaltime_as_timet_with_zone (start_time, start_time.zone);
 			} else
 				comp_data->instance_start = icaltime_as_timet_with_zone (start_time, zone);
 
 			if (end_time.zone) {
-				icaltimezone_convert_time (&end_time, end_time.zone, zone);
-				comp_data->instance_end = icaltime_as_timet (end_time);
+				//icaltimezone_convert_time (&end_time, end_time.zone, zone);
+				comp_data->instance_end = icaltime_as_timet_with_zone (end_time, end_time.zone);
 			} else
 				comp_data->instance_end = icaltime_as_timet_with_zone (end_time, zone);
 		}
@@ -1697,8 +1696,8 @@ redo_queries (ECalModel *model)
 	/* clean up the current contents */
 	e_table_model_pre_change (E_TABLE_MODEL (model));
 	len = priv->objects->len;
-	clear_objects_array (priv);
 	e_table_model_rows_deleted (E_TABLE_MODEL (model), 0, len);
+	clear_objects_array (priv);
 	
 	/* update the query for all clients */
 	for (l = priv->clients; l != NULL; l = l->next) {
