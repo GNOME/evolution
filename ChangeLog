@@ -1,8 +1,12 @@
+2000-10-23  Christopher James Lahey  <clahey@helixcode.com>
+
+	* configure.in: Updated the gal check to check for gal 0.2.1.
+
 2000-10-23  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* camel/camel-exception-list.def: Added newline at the
 	end of the file to stop gcc from spewing warnings.
-	
+
 2000-10-19  Christopher James Lahey  <clahey@helixcode.com>
 
 	* NEWS (General, Addressbook): Updated NEWS for addressbook and
