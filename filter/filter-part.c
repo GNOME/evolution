@@ -101,8 +101,21 @@ static void
 filter_part_finalise(GtkObject *obj)
 {
 	FilterPart *o = (FilterPart *)obj;
-	
+	GList *l;
+
 	o = o;
+
+	l = o->elements;
+	while (l) {
+		gtk_object_unref((GtkObject *)l->data);
+		l = g_list_next(l);
+	}
+
+	g_list_free(o->elements);
+	g_free(o->name);
+	g_free(o->title);
+	g_free(o->code);
+
 	
         ((GtkObjectClass *)(parent_class))->finalize(obj);
 }
@@ -143,10 +156,13 @@ int
 filter_part_xml_create (FilterPart *ff, xmlNodePtr node)
 {
 	xmlNodePtr n;
-	char *type;
+	char *type, *str, *decstr;
 	FilterElement *el;
 	
-	ff->name = xmlGetProp(node, "name");
+	str = xmlGetProp(node, "name");
+	ff->name = g_strdup(str);
+	if (str)
+		xmlFree(str);
 	n = node->childs;
 	while (n) {
 		if (!strcmp (n->name, "input")) {
@@ -155,27 +171,25 @@ filter_part_xml_create (FilterPart *ff, xmlNodePtr node)
 			if (type != NULL
 			    && (el = filter_element_new_type_name (type)) != NULL) {
 				filter_element_xml_create (el, n);
-				xmlFree (type);
+				xmlFree(type);
 				d(printf ("adding element part %p %s\n", ff, el, el->name));
 				ff->elements = g_list_append (ff->elements, el);
 			} else {
 				g_warning ("Invalid xml format, missing/unknown input type");
 			}
-		} else if (!strcmp (n->name, "title")) {
+		} else if (!strcmp(n->name, "title")) {
 			if (!ff->title) {
-				gchar *str, *decstr;
 				str = xmlNodeGetContent (n);
-				decstr = e_utf8_xml1_decode (str);
-				if (str) xmlFree (str);
-				ff->title = decstr;
+				ff->title = e_utf8_xml1_decode (str);
+				if (str)
+					xmlFree (str);
 			}
 		} else if (!strcmp (n->name, "code")) {
 			if (!ff->code) {
-				gchar *str, *decstr;
 				str = xmlNodeGetContent (n);
-				decstr = e_utf8_xml1_decode (str);
-				if (str) xmlFree (str);
-				ff->code = decstr;
+				ff->code = e_utf8_xml1_decode (str);
+				if (str)
+					xmlFree (str);
 			}
 		} else {
 			g_warning ("Unknwon part element in xml: %s\n", n->name);
@@ -245,9 +259,9 @@ filter_part_clone (FilterPart *fp)
 	FilterElement *fe, *ne;
 	
 	new = (FilterPart *)gtk_type_new ((GTK_OBJECT (fp))->klass->type);
-	new->name = g_strdup (fp->name);
-	new->title = g_strdup (fp->title);
-	new->code = g_strdup (fp->code);
+	new->name = g_strdup(fp->name);
+	new->title = g_strdup(fp->title);
+	new->code = g_strdup(fp->code);
 	l = fp->elements;
 	while (l) {
 		fe = l->data;

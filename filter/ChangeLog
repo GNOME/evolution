@@ -1,3 +1,9 @@
+2001-04-26  Not Zed  <NotZed@Ximian.com>
+
+	* filter-part.c (filter_part_xml_create): Blah blah fix for xml1
+	broken utf8 encoding, and use "g" memory for all allocations.
+	(filter_part_finalise): Free our data properly.
+
 2001-04-20  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* filter-rule.c: Pull up fix for translation of filter
