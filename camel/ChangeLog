@@ -1,3 +1,15 @@
+2002-03-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	These fixes should fix bug #21737.
+
+	* providers/smtp/camel-smtp-transport.c
+	(connect_to_server_wrapper): Same as with the POP code.
+
+	* providers/pop3/camel-pop3-store.c (connect_to_server_wrapper):
+	Slight restructuring of the if-statements for the USE_SSL_ALWAYS
+	case so that we can't possibly return TRUE unless we really did
+	connect successfully.
+
 2002-03-10  Dan Winship  <danw@ximian.com>
 
 	Rename the OpenSSL implementation of things to match the NSS

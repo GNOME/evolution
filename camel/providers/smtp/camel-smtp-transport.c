@@ -402,12 +402,14 @@ connect_to_server_wrapper (CamelService *service, CamelException *ex)
 	
 	if (transport->flags & CAMEL_SMTP_TRANSPORT_USE_SSL_ALWAYS) {
 		/* First try STARTTLS */
-		if (!connect_to_server (service, TRUE, ex) && 
-		    !(transport->flags & CAMEL_SMTP_TRANSPORT_STARTTLS) &&
-		    EXCEPTION_RETRY (ex)) {
-			/* STARTTLS is unavailable - okay, now try port 465 */
-			camel_exception_clear (ex);
-			return connect_to_server (service, FALSE, ex);
+		if (!connect_to_server (service, TRUE, ex)) {
+			if (!(transport->flags & CAMEL_SMTP_TRANSPORT_STARTTLS) && EXCEPTION_RETRY (ex)) {
+				/* STARTTLS is unavailable - okay, now try port 465 */
+				camel_exception_clear (ex);
+				return connect_to_server (service, FALSE, ex);
+			} else {
+				return FALSE;
+			}
 		}
 		
 		return TRUE;

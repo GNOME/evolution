@@ -158,7 +158,6 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, int *s
 	port = service->url->port ? service->url->port : 110;
 	
 #ifdef HAVE_SSL
-	/* FIXME: check for "always" and "when-possible" to support STARTTLS */
 	if (camel_url_get_param (service->url, "use_ssl")) {
 		if (try_starttls)
 			tcp_stream = camel_tcp_stream_ssl_new_raw (service, service->url->host);
@@ -182,8 +181,7 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, int *s
 		else
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 					      _("Could not connect to %s (port %d): %s"),
-					      service->url->host ? service->url->host : _("(unknown host)"),
-					      port, g_strerror (errno));
+					      service->url->host, port, g_strerror (errno));
 		return FALSE;
 	}
 	
@@ -195,11 +193,11 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, int *s
 	
 	store->engine = camel_pop3_engine_new (tcp_stream);
 	
-	if (stls_support)
-		*stls_support = store->engine->capa & CAMEL_POP3_CAP_STLS;
-	
 #ifdef HAVE_SSL
 	if (store->engine) {
+		if (stls_support)
+			*stls_support = store->engine->capa & CAMEL_POP3_CAP_STLS;
+		
 		if (ssl_mode == USE_SSL_WHEN_POSSIBLE) {
 			if (store->engine->capa & CAMEL_POP3_CAP_STLS)
 				goto starttls;
@@ -313,11 +311,14 @@ connect_to_server_wrapper (CamelService *service, CamelException *ex)
 	
 	if (ssl_mode == USE_SSL_ALWAYS) {
 		/* First try STARTTLS */
-		if (!connect_to_server (service, ssl_mode, TRUE, &stls_supported, ex) && 
-		    !stls_supported && EXCEPTION_RETRY (ex)) {
-			/* STARTTLS is unavailable - okay, now try old-style SSL */
-			camel_exception_clear (ex);
-			return connect_to_server (service, ssl_mode, FALSE, NULL, ex);
+		if (!connect_to_server (service, ssl_mode, TRUE, &stls_supported, ex))
+			if (!stls_supported && EXCEPTION_RETRY (ex)) {
+				/* STARTTLS is unavailable - okay, now try old-style SSL */
+				camel_exception_clear (ex);
+				return connect_to_server (service, ssl_mode, FALSE, NULL, ex);
+			} else {
+				return FALSE;
+			}
 		}
 		
 		return TRUE;
