@@ -241,7 +241,7 @@ ensure_menu_items (EUserCreatableItemsHandler *handler)
 		component_num ++;
 	}
 
-	priv->menu_items = menu_items;
+	priv->menu_items = g_slist_reverse (menu_items);
 
 	priv->default_menu_item = NULL;
 	if (default_verb != NULL) {

@@ -1,5 +1,11 @@
 2003-11-13  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-user-creatable-items-handler.c (ensure_menu_items): Reverse
+	the list so we get the items in the same order they were given to
+	us [since we are using g_slist_prepend() to build the list].
+
+2003-11-13  Ettore Perazzoli  <ettore@ximian.com>
+
 	* Evolution-Component.idl (GNOME.Evolution.Component.UnknownType):
 	New exception.
 
