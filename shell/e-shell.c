@@ -644,20 +644,8 @@ e_shell_construct (EShell *shell,
 	while (gtk_events_pending ())
 		gtk_main_iteration ();	
 	
-	/* activate all the components */
+	/* activate all the components (peek list does this implictly) */
 	component = e_component_registry_peek_list (shell->priv->component_registry);
-	while (component != NULL) {
-		const EComponentInfo *info = component->data;
-		CORBA_Environment ev;
-		
-		CORBA_exception_init (&ev);
-		
-		e_component_registry_activate (shell->priv->component_registry, info->id, &ev);
-		
-		CORBA_exception_free (&ev);
-		
-		component = component->next;
-	}
 	
 	attempt_upgrade(shell);
 
