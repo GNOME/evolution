@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-16 03:17+0100\n"
-"PO-Revision-Date: 2004-03-16 12:26+0100\n"
+"POT-Creation-Date: 2004-03-17 14:14+0100\n"
+"PO-Revision-Date: 2004-03-17 21:31+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -197,7 +197,7 @@ msgstr "Převádím `%s':"
 #. On This Computer is always first and VFolders is always last
 #: addressbook/gui/component/addressbook-migrate.c:409
 #: calendar/gui/migration.c:426 calendar/gui/migration.c:503
-#: mail/em-folder-tree-model.c:176 mail/em-folder-tree-model.c:178
+#: mail/em-folder-tree-model.c:192 mail/em-folder-tree-model.c:194
 #: mail/mail-component.c:236
 msgid "On This Computer"
 msgstr "V tomto počítači"
@@ -994,7 +994,7 @@ msgstr "Ka_tegorie..."
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
 #: calendar/gui/dialogs/meeting-page.c:651 calendar/gui/e-calendar-view.c:1267
 #: calendar/gui/e-calendar-view.c:1298 calendar/gui/e-calendar-table.c:1057
-#: calendar/gui/e-calendar-table.c:1075 mail/em-folder-tree.c:2402
+#: calendar/gui/e-calendar-table.c:1075 mail/em-folder-tree.c:2444
 #: mail/em-folder-view.c:765 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:35 ui/evolution-comp-editor.xml.h:17
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:112
@@ -2540,12 +2540,10 @@ msgstr "Přesunout do adresáře..."
 msgid "Cut"
 msgstr "Vyjmout"
 
-#. create the dialog
 #: addressbook/gui/widgets/e-addressbook-view.c:1075
-#: calendar/gui/calendar-component.c:372
-#: calendar/gui/dialogs/copy-source-dialog.c:159
-#: calendar/gui/tasks-component.c:363 ui/evolution-addressbook.xml.h:2
-#: ui/evolution-mail-message.xml.h:9 ui/evolution-tasks.xml.h:2
+#: calendar/gui/calendar-component.c:372 calendar/gui/tasks-component.c:363
+#: ui/evolution-addressbook.xml.h:2 ui/evolution-mail-message.xml.h:9
+#: ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "Kopírovat"
 
@@ -4656,31 +4654,17 @@ msgstr ""
 msgid "Unable to use current version!"
 msgstr "Nemohu používat aktuální verzi!"
 
-#: calendar/gui/dialogs/copy-source-dialog.c:83
+#: calendar/gui/dialogs/copy-source-dialog.c:58
 msgid "Could not open source"
 msgstr "Nemohu otevřít zdroj"
 
-#: calendar/gui/dialogs/copy-source-dialog.c:91
+#: calendar/gui/dialogs/copy-source-dialog.c:66
 msgid "Could not open destination"
 msgstr "Nemohu otevřít cíl"
 
-#: calendar/gui/dialogs/copy-source-dialog.c:100
+#: calendar/gui/dialogs/copy-source-dialog.c:75
 msgid "Destination is read only"
 msgstr "Cíl je jen pro čtení"
-
-# FIXME: this does not work
-#: calendar/gui/dialogs/copy-source-dialog.c:165
-#, c-format
-msgid "Select destination %s"
-msgstr "Vyberte cílový %s"
-
-#: calendar/gui/dialogs/copy-source-dialog.c:167
-msgid "calendar"
-msgstr "kalendář"
-
-#: calendar/gui/dialogs/copy-source-dialog.c:167
-msgid "task list"
-msgstr "seznam úkolů"
 
 #: calendar/gui/dialogs/delete-comp.c:95
 #, c-format
@@ -5664,7 +5648,7 @@ msgstr "_Vyjmout"
 
 #: calendar/gui/e-calendar-view.c:1257 calendar/gui/e-calendar-view.c:1294
 #: calendar/gui/e-calendar-table.c:1045 calendar/gui/e-calendar-table.c:1071
-#: mail/em-folder-tree.c:2395 ui/evolution-addressbook.xml.h:31
+#: mail/em-folder-tree.c:2437 ui/evolution-addressbook.xml.h:31
 #: ui/evolution-calendar.xml.h:34 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-message.xml.h:109 ui/evolution-tasks.xml.h:18
 msgid "_Copy"
@@ -10451,7 +10435,7 @@ msgstr "Nemohu zavřít zdrojovou složku: %s: %s"
 msgid "Could not close temp folder: %s"
 msgstr "Nemohu zavřít dočasnou složku: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:592 mail/em-folder-tree.c:2357
+#: camel/providers/local/camel-mbox-summary.c:592 mail/em-folder-tree.c:2399
 #, c-format
 msgid "Could not rename folder: %s"
 msgstr "Nemohu přejmenovat složku: %s"
@@ -12638,7 +12622,7 @@ msgstr "<kliknutím zde vyberete složku>"
 msgid "Create New Folder"
 msgstr "Vytvořit novou složku"
 
-#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2115
+#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2157
 #: mail/mail-component.c:629
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:4
 msgid "Specify where to create the folder:"
@@ -12649,116 +12633,136 @@ msgstr "Upřesněte, kde chcete vytvořit složku:"
 msgid "Folder _name:"
 msgstr "_Název složky:"
 
-#: mail/em-folder-tree-model.c:180 mail/em-folder-tree-model.c:182
+#: mail/em-folder-tree-model.c:196 mail/em-folder-tree-model.c:198
 #: mail/mail-vfolder.c:855
 msgid "VFolders"
 msgstr "V-složky"
 
-#: mail/em-folder-tree-model.c:190 mail/em-folder-tree-model.c:192
+#: mail/em-folder-tree-model.c:206 mail/em-folder-tree-model.c:208
 msgid "UNMATCHED"
 msgstr "NEPŘIŘAZENÉ"
 
 #. Inbox is always first
-#: mail/em-folder-tree-model.c:220 mail/em-folder-tree-model.c:222
+#: mail/em-folder-tree-model.c:236 mail/em-folder-tree-model.c:238
 msgid "Inbox"
 msgstr "Příchozí"
 
-#: mail/em-folder-tree-model.c:474 mail/em-folder-tree-model.c:759
+#: mail/em-folder-tree-model.c:483 mail/em-folder-tree-model.c:792
 msgid "Loading..."
 msgstr "Načítám..."
 
-#: mail/em-folder-tree.c:856
+#: mail/em-folder-tree.c:867
+#, c-format
+msgid "Moving folder %s"
+msgstr "Přesouvám složku %s"
+
+#: mail/em-folder-tree.c:869
+#, c-format
+msgid "Copying folder %s"
+msgstr "Kopíruji složku %s"
+
+#: mail/em-folder-tree.c:876
+#, c-format
+msgid "Moving messages into folder %s"
+msgstr "Přesouvám zprávy do složky %s"
+
+#: mail/em-folder-tree.c:878
+#, c-format
+msgid "Copying messages into folder %s"
+msgstr "Kopíruji zprávy do složky %s"
+
+#: mail/em-folder-tree.c:894
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Nelze upustit zprávy do úložiště nejvyšší úrovně"
 
-#: mail/em-folder-tree.c:1845
+#: mail/em-folder-tree.c:1887
 #, c-format
 msgid "Cannot move folder `%s': illegal operation"
 msgstr "Nemohu přejmenovat složku `%s': Neplatná operace"
 
-#: mail/em-folder-tree.c:1874 mail/em-folder-tree.c:2050
+#: mail/em-folder-tree.c:1916 mail/em-folder-tree.c:2092
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: mail/em-folder-tree.c:1890 mail/em-folder-tree.c:1903
+#: mail/em-folder-tree.c:1932 mail/em-folder-tree.c:1945
 #: mail/em-folder-view.c:642 mail/em-folder-view.c:656
 #: mail/importers/evolution-mbox-importer.c:119
 msgid "Select folder"
 msgstr "Vyberte složku"
 
-#: mail/em-folder-tree.c:1930
+#: mail/em-folder-tree.c:1972
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "Vytvářím složku `%s'"
 
-#: mail/em-folder-tree.c:2115 mail/mail-component.c:629
+#: mail/em-folder-tree.c:2157 mail/mail-component.c:629
 msgid "Create folder"
 msgstr "Vytvořit složku"
 
-#: mail/em-folder-tree.c:2234
+#: mail/em-folder-tree.c:2276
 #, c-format
 msgid "Could not delete folder: %s"
 msgstr "Nemohu odstranit složku: %s"
 
-#: mail/em-folder-tree.c:2259
+#: mail/em-folder-tree.c:2301
 #, c-format
 msgid "Cannot delete local %s folder."
 msgstr "Nemohu odstranit místní složku %s."
 
-#: mail/em-folder-tree.c:2265
+#: mail/em-folder-tree.c:2307
 #, c-format
 msgid "Really delete folder \"%s\" and all of its subfolders?"
 msgstr "Opravdu odstranit složku \"%s\" a všechny její podsložky?"
 
-#: mail/em-folder-tree.c:2275
+#: mail/em-folder-tree.c:2317
 #, c-format
 msgid "Delete \"%s\""
 msgstr "Odstranit \"%s\""
 
-#: mail/em-folder-tree.c:2309
+#: mail/em-folder-tree.c:2351
 #, c-format
 msgid "Cannot rename local %s folder."
 msgstr "Nemohu přejmenovat místní složku %s."
 
-#: mail/em-folder-tree.c:2318
+#: mail/em-folder-tree.c:2360
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Přejmenovat složku \"%s\" na:"
 
-#: mail/em-folder-tree.c:2320
+#: mail/em-folder-tree.c:2362
 msgid "Rename Folder"
 msgstr "Přejmenovat složku"
 
-#: mail/em-folder-tree.c:2344
+#: mail/em-folder-tree.c:2386
 #, c-format
 msgid "A folder named \"%s\" already exists. Please use a different name."
 msgstr "Již existuje složka nazvaná \"%s\". Použijte prosím jiný název."
 
-#: mail/em-folder-tree.c:2390 ui/evolution-addressbook.xml.h:45
+#: mail/em-folder-tree.c:2432 ui/evolution-addressbook.xml.h:45
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:35
 msgid "_View"
 msgstr "_Zobrazení"
 
-#: mail/em-folder-tree.c:2391
+#: mail/em-folder-tree.c:2433
 msgid "Open in _New Window"
 msgstr "Otevřít v _novém okně"
 
-#: mail/em-folder-tree.c:2396
+#: mail/em-folder-tree.c:2438
 msgid "_Move"
 msgstr "_Přesunout"
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:2400
+#: mail/em-folder-tree.c:2442
 msgid "_New Folder..."
 msgstr "_Nová složka..."
 
-#: mail/em-folder-tree.c:2403
+#: mail/em-folder-tree.c:2445
 msgid "_Rename"
 msgstr "_Přejmenovat"
 
-#: mail/em-folder-tree.c:2406 ui/evolution-mail-list.xml.h:27
+#: mail/em-folder-tree.c:2448 ui/evolution-mail-list.xml.h:27
 msgid "_Properties..."
 msgstr "Vla_stnosti..."
 
@@ -14126,7 +14130,7 @@ msgstr "_Složka pošty"
 msgid "Create a new mail folder"
 msgstr "Vytvořit novou složku pošty"
 
-#: mail/mail-component.c:754
+#: mail/mail-component.c:751
 msgid "URI of the mail source that the view will display"
 msgstr "URI zdroje pošty, který bude pohled zobrazovat"
 
