@@ -5515,7 +5515,7 @@ msgid ""
 "The Evolution Team\n"
 msgstr ""
 "Bedankt\n"
-"Het Evolution Team"
+"Het Evolution Team\n"
 
 # shell/main.c:172
 #: shell/main.c:122
