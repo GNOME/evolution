@@ -124,6 +124,7 @@ update_unread_count_main(CamelObject *object, gpointer event_data, gpointer user
 
 	evolution_storage_update_folder_by_uri (storage, fb->uri, name, fb->unread_count != 0);
 	g_free (name);
+	gtk_object_unref (GTK_OBJECT (storage));
 }
 
 static void
@@ -144,6 +145,7 @@ static void
 got_folder(char *uri, CamelFolder *folder, void *data)
 {
 	FolderBrowser *fb = data;
+	EvolutionStorage *storage;
 
 	printf("got folder '%s' = %p\n", uri, folder);
 
@@ -161,8 +163,10 @@ got_folder(char *uri, CamelFolder *folder, void *data)
 
 	camel_object_ref((CamelObject *)folder);
 
-	if (mail_lookup_storage (folder->parent_store)) {
-		fb->unread_count = -1;
+	if ((storage = mail_lookup_storage (folder->parent_store))) {
+		gtk_object_unref (GTK_OBJECT (storage));
+		fb->unread_count = camel_folder_get_unread_message_count (folder);
+		update_unread_count_main ((CamelObject *)folder, NULL, fb);
 		camel_object_hook_event ((CamelObject *)folder, "message_changed",
 					 update_unread_count, fb);
 	}
