@@ -838,7 +838,6 @@ e_calendar_table_copy_clipboard (ECalendarTable *cal_table)
 static void
 clipboard_get_text_cb (GtkClipboard *clipboard, const gchar *text, ECalendarTable *cal_table)
 {
-	char *comp_str;
 	icalcomponent *icalcomp;
 	char *uid;
 	ECalComponent *comp;
@@ -847,8 +846,10 @@ clipboard_get_text_cb (GtkClipboard *clipboard, const gchar *text, ECalendarTabl
 
 	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
 
-	comp_str = (char *) text;
-	icalcomp = icalparser_parse_string ((const char *) comp_str);
+	if (!text || !*text)
+		return;
+
+	icalcomp = icalparser_parse_string (text);
 	if (!icalcomp)
 		return;
 

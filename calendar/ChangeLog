@@ -1,4 +1,11 @@
 2004-07-21  JP Rosevear  <jpr@novell.com>
+ 
+  	Fixes #61776
+		
+ 	* gui/e-calendar-table.c (clipboard_get_text_cb): make sure the
+ 	text is not NULL
+	
+2004-07-21  JP Rosevear  <jpr@novell.com>
 
 	Fixes #61738
 	
