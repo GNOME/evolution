@@ -15,8 +15,6 @@
   <output_support_files>False</output_support_files>
   <output_build_files>False</output_build_files>
   <gnome_help_support>True</gnome_help_support>
-  <output_translatable_strings>True</output_translatable_strings>
-  <translatable_strings_file>e-table-field-chooser.glade.h</translatable_strings_file>
 </project>
 
 <widget>
