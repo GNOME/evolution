@@ -423,7 +423,7 @@ e_filename_make_safe (gchar *string)
 	g_return_if_fail (string != NULL);
 	
 	for (p = string; *p; p++) {
-		if (!isprint ((unsigned char)*p) || strchr (" /'\"`&();|<>${}!", *p))
+		if (!isprint ((unsigned char)*p) || strchr (" /'\"`&();|<>$%{}!", *p))
 			*p = '_';
 	}
 }
