@@ -193,7 +193,7 @@ get_text (Bonobo_PersistStream persist, char *format)
 
 #define LINE_LEN 72
 
-static CamelMimePartEncodingType
+static CamelTransferEncoding
 best_encoding (GByteArray *buf, const char *charset)
 {
 	char *in, *out, outbuf[256], *ch;
@@ -225,11 +225,11 @@ best_encoding (GByteArray *buf, const char *charset)
 		return -1;
 	
 	if (count == 0)
-		return CAMEL_MIME_PART_ENCODING_7BIT;
+		return CAMEL_TRANSFER_ENCODING_7BIT;
 	else if (count <= buf->len * 0.17)
-		return CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE;
+		return CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE;
 	else
-		return CAMEL_MIME_PART_ENCODING_BASE64;
+		return CAMEL_TRANSFER_ENCODING_BASE64;
 }
 
 static const char *
@@ -257,13 +257,13 @@ composer_get_default_charset_setting (void)
 }
 
 static const char *
-best_charset (GByteArray *buf, const char *default_charset, CamelMimePartEncodingType *encoding)
+best_charset (GByteArray *buf, const char *default_charset, CamelTransferEncoding *encoding)
 {
 	const char *charset;
 	
 	/* First try US-ASCII */
 	*encoding = best_encoding (buf, "US-ASCII");
-	if (*encoding == CAMEL_MIME_PART_ENCODING_7BIT)
+	if (*encoding == CAMEL_TRANSFER_ENCODING_7BIT)
 		return NULL;
 	
 	/* Next try the user-specified charset for this message */
@@ -281,7 +281,7 @@ best_charset (GByteArray *buf, const char *default_charset, CamelMimePartEncodin
 	/* Try to find something that will work */
 	charset = camel_charset_best (buf->data, buf->len);
 	if (!charset)
-		*encoding = CAMEL_MIME_PART_ENCODING_7BIT;
+		*encoding = CAMEL_TRANSFER_ENCODING_7BIT;
 	else
 		*encoding = best_encoding (buf, charset);
 	
@@ -348,7 +348,7 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 		E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar);
 	EMsgComposerHdrs *hdrs = E_MSG_COMPOSER_HDRS (composer->hdrs);
 	CamelDataWrapper *plain, *html, *current;
-	CamelMimePartEncodingType plain_encoding;
+	CamelTransferEncoding plain_encoding;
 	CamelMultipart *body = NULL;
 	CamelContentType *type;
 	CamelMimeMessage *new;
@@ -378,10 +378,10 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 	}
 	
 	if (composer->mime_body) {
-		plain_encoding = CAMEL_MIME_PART_ENCODING_7BIT;
+		plain_encoding = CAMEL_TRANSFER_ENCODING_7BIT;
 		for (i = 0; composer->mime_body[i]; i++) {
 			if ((unsigned char) composer->mime_body[i] > 127) {
-				plain_encoding = CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE;
+				plain_encoding = CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE;
 				break;
 			}
 		}
@@ -4198,7 +4198,7 @@ e_msg_composer_add_inline_image_from_file (EMsgComposer *composer,
 	name = g_path_get_basename(file_name);
 	camel_mime_part_set_filename (part, name);
 	g_free(name);
-	camel_mime_part_set_encoding (part, CAMEL_MIME_PART_ENCODING_BASE64);
+	camel_mime_part_set_encoding (part, CAMEL_TRANSFER_ENCODING_BASE64);
 	
 	url = g_strdup_printf ("file:%s", file_name);
 	g_hash_table_insert (composer->inline_images_by_url, url, part);

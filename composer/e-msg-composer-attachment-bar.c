@@ -726,7 +726,7 @@ attach_to_multipart (CamelMultipart *multipart,
 	
 	if (!CAMEL_IS_MULTIPART (content)) {
 		if (camel_content_type_is (content_type, "text", "*")) {
-			CamelMimePartEncodingType encoding;
+			CamelTransferEncoding encoding;
 			CamelStreamFilter *filter_stream;
 			CamelMimeFilterBestenc *bestenc;
 			CamelStream *stream;
@@ -747,7 +747,7 @@ attach_to_multipart (CamelMultipart *multipart,
 			encoding = camel_mime_filter_bestenc_get_best_encoding (bestenc, CAMEL_BESTENC_8BIT);
 			camel_mime_part_set_encoding (attachment->body, encoding);
 			
-			if (encoding == CAMEL_MIME_PART_ENCODING_7BIT) {
+			if (encoding == CAMEL_TRANSFER_ENCODING_7BIT) {
 				/* the text fits within us-ascii so this is safe */
 				/* FIXME: check that this isn't iso-2022-jp? */
 				default_charset = "us-ascii";
@@ -770,7 +770,7 @@ attach_to_multipart (CamelMultipart *multipart,
 			
 			camel_object_unref (bestenc);
 		} else if (!CAMEL_IS_MIME_MESSAGE (content)) {
-			camel_mime_part_set_encoding (attachment->body, CAMEL_MIME_PART_ENCODING_BASE64);
+			camel_mime_part_set_encoding (attachment->body, CAMEL_TRANSFER_ENCODING_BASE64);
 		}
 	}
 	
