@@ -1,3 +1,10 @@
+2001-06-07  Radek Doulik  <rodo@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_new_with_sig_file): just set
+	sig_file field, but don't actualy insert signature, it will be
+	done by format menu item callback
+	(e_msg_composer_set_body_text): don't set signature here
+
 2001-06-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (build_message): If user is trying to sign

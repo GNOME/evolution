@@ -2048,9 +2048,9 @@ e_msg_composer_new_with_sig_file (const char *sig_file, gboolean send_html)
 
 	new = create_composer ();
 	if (new) {
+		new->sig_file = g_strdup (sig_file);
 		e_msg_composer_set_send_html (new, send_html);
 		set_editor_text (new, "");
-		e_msg_composer_set_sig_file (new, sig_file);
 	}
 
 	/* printf ("e_msg_composer_new_with_sig_file %p\n", new); */
@@ -2544,7 +2544,6 @@ e_msg_composer_set_body_text (EMsgComposer *composer, const char *text)
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	
 	set_editor_text (composer, text);
-	e_msg_composer_set_sig_file (composer, composer->sig_file);
 }
 
 
