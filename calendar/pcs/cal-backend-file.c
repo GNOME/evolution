@@ -279,6 +279,8 @@ save (CalBackendFile *cbfile)
 	g_assert (priv->icalcomp != NULL);
 
 	uri = gnome_vfs_uri_new (priv->uri);
+	if (!uri)
+		goto error;
 
 	/* Make a backup copy of the file if it exists */
 	tmp = gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_NONE);
@@ -878,7 +880,7 @@ cal_backend_file_open (CalBackend *backend, const char *uristr, gboolean only_if
 					    | GNOME_VFS_URI_HIDE_HOST_NAME
 					    | GNOME_VFS_URI_HIDE_HOST_PORT
 					    | GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD));
-	if (!str_uri) {
+	if (!str_uri || !strlen (str_uri)) {
 		gnome_vfs_uri_unref (uri);
 		return CAL_BACKEND_OPEN_ERROR;
 	}

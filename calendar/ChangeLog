@@ -1,3 +1,10 @@
+2002-05-24  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal-backend-file.c (save): check the value returned by
+	gnome_vfs_uri_to_string before using it. Should fix the crash in
+	#24783, although it seems there is something wrong still in the
+	alarm daemon, which sends invalid URIs which caused this crash.
+
 2002-05-20  Rodrigo Moya <rodrigo@ximian.com>
 
 	* pcs/cal-backend-file.c (cal_backend_file_open): check the string
