@@ -1,5 +1,13 @@
 2001-08-16  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-folder-title-bar.c (label_realize_callback): New
+	callback for the realize signal.
+	(make_bold): New.  Hooks up the label_realize_callback.
+	(e_shell_folder_title_bar_construct): Make the name of the folder
+	bold using it.
+
+o2001-08-16  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-gray-bar.c (endarken_style): Just hardcode the colors.
 
 	* e-shell-folder-title-bar.c (set_title_bar_label_style): New.

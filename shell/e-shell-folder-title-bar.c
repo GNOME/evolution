@@ -35,6 +35,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 #include <gal/util/e-util.h>
+#include <gal/widgets/e-font.h>
 
 #include "widgets/misc/e-clipped-label.h"
 #include "e-shell-constants.h"
@@ -131,9 +132,41 @@ title_button_box_realize_cb (GtkWidget *widget,
    this.  Yes, yes, I know it's evil.  */
 
 static void
+label_realize_callback (GtkWidget *widget,
+			void *data)
+{
+	GtkStyle *style;
+	EFont *e_font;
+	GdkFont *bolded_font;
+
+	g_assert (widget->style->font != NULL);
+
+	style = gtk_style_copy (widget->style);
+	gtk_style_unref (widget->style);
+	widget->style = style;
+
+	e_font = e_font_from_gdk_font (style->font);
+	bolded_font = e_font_to_gdk_font (e_font, E_FONT_BOLD);
+
+	gdk_font_unref (style->font);
+	style->font = bolded_font;
+
+	gtk_style_attach (style, widget->window);
+}
+
+static void
+make_bold (GtkWidget *widget)
+{
+	gtk_signal_connect (GTK_OBJECT (widget), "realize",
+			    GTK_SIGNAL_FUNC (label_realize_callback), NULL);
+}
+
+static void
 set_title_bar_label_style (GtkWidget *widget)
 {
-	GtkRcStyle *rc_style = gtk_rc_style_new();
+	GtkRcStyle *rc_style;
+
+	rc_style = gtk_rc_style_new();
 
 	rc_style->color_flags[GTK_STATE_NORMAL] |= GTK_RC_FG;
 	rc_style->fg[GTK_STATE_NORMAL].red = 0xffff;
@@ -445,12 +478,14 @@ e_shell_folder_title_bar_construct (EShellFolderTitleBar *folder_title_bar)
 	gtk_misc_set_padding (GTK_MISC (priv->label), 5, 0);
 	gtk_misc_set_alignment (GTK_MISC (priv->label), 0.0, 0.5);
 	set_title_bar_label_style (priv->label);
+	make_bold (priv->label);
 
 	priv->button_label = e_clipped_label_new ("");
 	gtk_misc_set_padding (GTK_MISC (priv->button_label), 2, 0);
 	gtk_misc_set_alignment (GTK_MISC (priv->button_label), 0.0, 0.5);
 	gtk_widget_show (priv->button_label);
 	set_title_bar_label_style (priv->button_label);
+	make_bold (priv->label);
 
 	priv->folder_bar_label = e_clipped_label_new ("");
 	gtk_misc_set_alignment (GTK_MISC (priv->folder_bar_label), 1.0, 0.5);
