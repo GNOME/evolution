@@ -80,8 +80,7 @@ server_DATA = $(server_in_files:.server.in.in=_$(BASE_VERSION).server)
 @INTLTOOL_SERVER_RULE@
 
 glade_DATA =			\
-	ldap-config.glade	\
-	new-addressbook.glade
+	ldap-config.glade
 
 BUILT_SOURCES = $(server_DATA)
 CLEANFILES    = $(BUILT_SOURCES)
