@@ -15,6 +15,7 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-util.h> /* gnome_util_prepend_user_home */
 
+#include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-ui-component.h>
 #include <bonobo/bonobo-ui-util.h>
 
@@ -189,11 +190,22 @@ enum {
 	IS_THREADED		  = (1 << 7),
 	NOT_THREADED		  = (1<<8),
 	ANY_THREADED		  = (IS_THREADED|NOT_THREADED),
+
+	HAS_UNDELETED             = (1 << 9),
+	HAS_DELETED               = (1 << 10),
+	HAS_UNREAD                = (1 << 11),
+	HAS_READ                  = (1 << 12),
+	HAS_UNIMPORTANT           = (1 << 13),
+	HAS_IMPORTANT             = (1 << 14)
 };
 
-#define IS_1MESSAGE (IS_ANY_FOLDER | SELECTION_SINGLE | ANY_THREADED)
-#define IS_0MESSAGE (IS_ANY_FOLDER | SELECTION_ANYTHING | SELECTION_NONE | ANY_THREADED)
-#define IS_NMESSAGE (IS_ANY_FOLDER | SELECTION_ANYTHING | ANY_THREADED)
+#define HAS_FLAGS (HAS_UNDELETED | HAS_DELETED |  \
+		   HAS_UNREAD | HAS_READ | \
+		   HAS_UNIMPORTANT | HAS_IMPORTANT)
+
+#define IS_1MESSAGE (IS_ANY_FOLDER | SELECTION_SINGLE | ANY_THREADED | HAS_FLAGS)
+#define IS_0MESSAGE (IS_ANY_FOLDER | SELECTION_ANYTHING | SELECTION_NONE | ANY_THREADED | HAS_FLAGS)
+#define IS_NMESSAGE (IS_ANY_FOLDER | SELECTION_ANYTHING | ANY_THREADED | HAS_FLAGS)
 
 struct _UINode {
 	const char *name;
@@ -237,12 +249,12 @@ struct _UINode default_ui_nodes[] = {
 	{ "MessageApplyFilters",      IS_NMESSAGE },
 	{ "MessageCopy",              IS_NMESSAGE },
 	{ "MessageMove",              IS_NMESSAGE },
-	{ "MessageDelete",            IS_NMESSAGE },
-	{ "MessageUndelete",          IS_NMESSAGE },
-	{ "MessageMarkAsRead",        IS_NMESSAGE },
-	{ "MessageMarkAsUnRead",      IS_NMESSAGE },
-	{ "MessageMarkAsImportant",   IS_NMESSAGE },
-	{ "MessageMarkAsUnimportant", IS_NMESSAGE },
+	{ "MessageDelete",            IS_NMESSAGE & ~HAS_UNDELETED },
+	{ "MessageUndelete",          IS_NMESSAGE & ~HAS_DELETED },
+	{ "MessageMarkAsRead",        IS_NMESSAGE & ~HAS_UNREAD },
+	{ "MessageMarkAsUnRead",      IS_NMESSAGE & ~HAS_READ },
+	{ "MessageMarkAsImportant",   IS_NMESSAGE & ~HAS_UNIMPORTANT },
+	{ "MessageMarkAsUnimportant", IS_NMESSAGE & ~HAS_IMPORTANT },
 	{ "MessageFollowUpFlag",      IS_NMESSAGE },
 	{ "MessageOpen",              IS_NMESSAGE },
 	{ "MessageSaveAs",            IS_NMESSAGE },
@@ -475,6 +487,11 @@ folder_browser_ui_add_message (FolderBrowser *fb)
 	BonoboUIComponent *uic = fb->uicomp;
 	FolderBrowserSelectionState prev_state;
 	
+	if (fb->sensitise_state) {
+		g_hash_table_destroy(fb->sensitise_state);
+		fb->sensitise_state = NULL;
+	}
+	
 	ui_add (fb, "message", message_verbs, message_pixcache);
 	
 	/* Display Style */
@@ -508,6 +525,11 @@ folder_browser_ui_add_list (FolderBrowser *fb)
 {
 	BonoboUIComponent *uic = fb->uicomp;
 	int state;
+	
+	if (fb->sensitise_state) {
+		g_hash_table_destroy(fb->sensitise_state);
+		fb->sensitise_state = NULL;
+	}
 	
 	ui_add (fb, "list", list_verbs, list_pixcache);
 	
@@ -553,6 +575,11 @@ folder_browser_ui_add_global (FolderBrowser *fb)
 {
 	int state;
 	BonoboUIComponent *uic = fb->uicomp;
+
+	if (fb->sensitise_state) {
+		g_hash_table_destroy(fb->sensitise_state);
+		fb->sensitise_state = NULL;
+	}
 	
 	ui_add (fb, "global", global_verbs, global_pixcache);
 	
@@ -598,12 +625,11 @@ fbui_sensitise_item (FolderBrowser *fb, const char *item, int state)
 			return;
 	}
 	
-	g_hash_table_insert (fb->sensitise_state, (char *)item, (void *)state);
-	
 	if (fb->uicomp) {
 		name = alloca (strlen (item) + strlen ("/commands/") + 1);
 		sprintf (name, "/commands/%s", item);
 		bonobo_ui_component_set_prop (fb->uicomp, name, "sensitive", state ? "1" : "0", NULL);
+		g_hash_table_insert (fb->sensitise_state, (char *) item, (gpointer) state);
 	}
 }
 
@@ -620,14 +646,61 @@ fbui_sensitize_items (FolderBrowser *fb, guint32 enable_mask)
 }
 
 void 
-folder_browser_ui_set_selection_state (FolderBrowser *fb, FolderBrowserSelectionState state)
+folder_browser_ui_scan_selection (FolderBrowser *fb)
 {
 	gboolean outgoing = FALSE;
 	guint32 enable_mask = 0;
 	
-	if (state == fb->selection_state)
-		return;
-	
+	if (fb->selection_state == FB_SELSTATE_SINGLE || 
+	    fb->selection_state == FB_SELSTATE_MULTIPLE) {
+		GPtrArray *uids;
+		CamelMessageInfo *info;
+		guint32 temp_mask = 0;
+		int i;
+		
+		uids = g_ptr_array_new ();
+		message_list_foreach (fb->message_list, enumerate_msg, uids);
+
+		for (i = 0; i < uids->len; i++) {
+
+			info = camel_folder_get_message_info (fb->folder, uids->pdata[i]);
+			if (info == NULL)
+				continue;
+
+			if (info->flags & CAMEL_MESSAGE_DELETED)
+				temp_mask |= HAS_DELETED;
+			else
+				temp_mask |= HAS_UNDELETED;
+
+			if (info->flags & CAMEL_MESSAGE_SEEN)
+				temp_mask |= HAS_READ;
+			else
+				temp_mask |= HAS_UNREAD;
+
+			if (info->flags & CAMEL_MESSAGE_FLAGGED)
+				temp_mask |= HAS_IMPORTANT;
+			else
+				temp_mask |= HAS_UNIMPORTANT;
+
+
+			camel_folder_free_message_info (fb->folder, info);
+			g_free (uids->pdata[i]);
+		}
+
+		g_ptr_array_free (uids, TRUE);
+
+		/* yeah, the naming is a bit backwards, but we need to support
+		 * the case when, say, both a deleted and an undeleted message
+		 * are selected. Both the Delete and Undelete menu items should
+		 * be sensitized, but the only good way to set the flags is as
+		 * above. Anyway, the naming is a bit of a lie but it works out
+		 * so that it's sensible both above and in the definition of
+		 * the UI items, so deal with it.
+		 */
+
+		enable_mask |= (~temp_mask & HAS_FLAGS);
+	}
+
 	if (folder_browser_is_drafts (fb)) {
 		enable_mask |= IS_DRAFTS_FOLDER;
 		outgoing = TRUE;
@@ -651,7 +724,7 @@ folder_browser_ui_set_selection_state (FolderBrowser *fb, FolderBrowserSelection
 	if (outgoing == FALSE)
 		enable_mask |= IS_INCOMING_FOLDER;
 	
-	switch (state) {
+	switch (fb->selection_state) {
 	case FB_SELSTATE_SINGLE:
 		enable_mask |= SELECTION_SINGLE;
 		break;
@@ -663,10 +736,26 @@ folder_browser_ui_set_selection_state (FolderBrowser *fb, FolderBrowserSelection
 		enable_mask |= SELECTION_NONE;
 		break;
 	}
-	
+
 	fbui_sensitize_items (fb, enable_mask);
+}
+
+void 
+folder_browser_ui_set_selection_state (FolderBrowser *fb, FolderBrowserSelectionState state)
+{
+	/* the state may be the same but with
+	 * different messages selected, necessitating
+	 * a recheck of the flags of the selected
+	 * messages.
+	 */
+
+	if (state == fb->selection_state && 
+	    state != FB_SELSTATE_SINGLE &&
+	    state != FB_SELSTATE_MULTIPLE)
+		return;
 	
 	fb->selection_state = state;
+	folder_browser_ui_scan_selection (fb);
 }
 
 void

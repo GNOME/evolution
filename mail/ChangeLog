@@ -1,5 +1,31 @@
 2002-08-28  Peter Williams  <peterw@ximian.com>
 
+	* folder-browser-ui.c (default_ui_nodes): Add some new flags for
+	sensitizing nodes based on the flags of the currently selected
+	messages.
+	(folder_browser_ui_add_message): Reset the sensitivity cache when
+	we re-add UI items.
+	(folder_browser_ui_add_list): Same.
+	(folder_browser_ui_add_global): Same.
+	(fbui_sensitise_item): Only cache the sensitivity in the hash
+	table if we actually change it.
+	(folder_browser_ui_scan_selection): New function, getting the bulk
+	of the contents of folder_browser_ui_set_selection_state.  Now
+	with code to iterate over the currently selected messages and
+	check their flags so we can sensitize based on them.
+	(folder_browser_ui_set_selection_state): Now just set the
+	selection state if necessary and pass off to _scan_selection. Don't
+	skip of we're trying to go from SELSTATE_SINGLE to SELSTATE_SINGLE,
+	eg, as the flags of the selected messages may have changed.
+
+	* folder-browser-ui.h: Prototype folder_browser_ui_scan_selection.
+	
+	* folder-browser.c (main_folder_changed): Call
+	folder_browser_ui_scan_selection as the flags on a selected
+	message may have just changed.
+
+2002-08-28  Peter Williams  <peterw@ximian.com>
+
 	* mail-format.c (component_supports): Also check that the component
 	has PersistStream.
 	(mail_lookup_handler): Get a list of all components and go with the

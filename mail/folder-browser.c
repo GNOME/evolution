@@ -823,6 +823,7 @@ static void main_folder_changed(CamelObject *o, void *event_data, void *data)
 	/* so some corba unref doesnt blow us away while we're busy */
 	gtk_object_ref((GtkObject *)fb);
 	update_status_bar(fb);
+	folder_browser_ui_scan_selection (fb);
 	gtk_object_unref((GtkObject *)fb);
 }
 
