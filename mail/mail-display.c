@@ -660,6 +660,7 @@ pixbuf_gen_idle (struct _PixbufLoader *pbl)
 			g_object_unref (pbl->loader);
 		}
 		
+		g_signal_handler_disconnect (pbl->eb, pbl->destroy_id);
 		g_free (pbl->type);
 		g_free (pbl->cid);
 		g_free (pbl);
@@ -698,6 +699,7 @@ pixbuf_gen_idle (struct _PixbufLoader *pbl)
 			g_object_unref (pbl->loader);
 		}
 		
+		g_signal_handler_disconnect (pbl->eb, pbl->destroy_id);
 		g_free (pbl->type);
 		g_free (pbl->cid);
 		g_free (pbl);

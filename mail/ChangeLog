@@ -1,3 +1,8 @@
+2003-03-21  Larry Ewing  <lewing@ximian.com>
+
+	* mail-display.c (pixbuf_gen_idle): remember to disconnect the
+	destroy handler if whenever the loader is shut down.
+
 2003-03-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* component-factory.c (owner_set_cb): Change the message_destroy
