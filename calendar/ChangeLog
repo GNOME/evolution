@@ -1,3 +1,9 @@
+1998-12-09  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* gncal-todo.c (simple_todo_editor): Use gnome_dialog_set_parent. 
+	* goto.c (goto_dialog): ditto
+	* prop.c (properties): ditto.
+
 1998-11-23  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* eventedit.c (ee_rp_init_exceptions): Update GtkClist usage. 

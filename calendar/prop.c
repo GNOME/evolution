@@ -496,14 +496,15 @@ create_colors_page (void)
 
 /* Creates and displays the preferences dialog for the whole application */
 void
-properties (void)
+properties (GtkWidget *toplevel)
 {
 	if (prop_win)
 		return;
 
 	prop_win = gnome_property_box_new ();
 	gtk_window_set_title (GTK_WINDOW (prop_win), _("Preferences"));
-
+	gnome_dialog_set_parent (GNOME_DIALOG (prop_win), GTK_WINDOW (toplevel));
+	
 	create_time_display_page ();
 	create_colors_page ();
 

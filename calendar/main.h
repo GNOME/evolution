@@ -32,7 +32,7 @@ struct color_prop {
 extern struct color_prop color_props[];
 
 /* Creates and runs the preferences dialog box */
-void properties (void);
+void properties (GtkWidget *toplevel);
 
 /* Asks for all the time-related displays to be updated when the user changes the time format
  * preferences.

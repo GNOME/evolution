@@ -381,6 +381,12 @@ save_as_calendar_cmd (GtkWidget *widget, void *data)
 }
 
 static void
+properties_cmd (GtkWidget *widget, GtkWidget *gcal)
+{
+	properties (gcal);
+}
+		
+static void
 save_calendar_cmd (GtkWidget *widget, void *data)
 {
 	GnomeCalendar *gcal = data;
@@ -403,7 +409,7 @@ static GnomeUIInfo gnome_cal_file_menu [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	{ GNOME_APP_UI_ITEM, N_("P_references..."), NULL, properties, NULL, NULL,
+	{ GNOME_APP_UI_ITEM, N_("P_references..."), NULL, properties_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_PREF, 0, 0, NULL },
 
 	GNOMEUIINFO_SEPARATOR,

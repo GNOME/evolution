@@ -264,7 +264,8 @@ goto_dialog (GnomeCalendar *gcal)
 	goto_win = gnome_dialog_new (_("Go to date"),
 				     GNOME_STOCK_BUTTON_CANCEL,
 				     NULL);
-
+	gnome_dialog_set_parent (GNOME_DIALOG (goto_win), GTK_WINDOW (gcal));
+	
 	vbox = GNOME_DIALOG (goto_win)->vbox;
 
 	/* Instructions */
