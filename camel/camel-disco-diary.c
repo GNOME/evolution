@@ -149,12 +149,12 @@ camel_disco_diary_log (CamelDiscoDiary *diary, CamelDiscoDiaryAction action,
 		break;
 	}
 
-	case CAMEL_DISCO_DIARY_FOLDER_MOVE:
-	case CAMEL_DISCO_DIARY_FOLDER_COPY:
+	case CAMEL_DISCO_DIARY_FOLDER_TRANSFER:
 	{
 		CamelFolder *source = va_arg (ap, CamelFolder *);
 		CamelFolder *destination = va_arg (ap, CamelFolder *);
 		GPtrArray *uids = va_arg (ap, GPtrArray *);
+		gboolean delete_originals = va_arg (ap, gboolean);
 
 		status = camel_file_util_encode_string (diary->file, source->full_name);
 		if (status == -1)
@@ -163,6 +163,9 @@ camel_disco_diary_log (CamelDiscoDiary *diary, CamelDiscoDiaryAction action,
 		if (status == -1)
 			break;
 		status = diary_encode_uids (diary, uids);
+		if (status == -1)
+			break;
+		status = camel_file_util_encode_uint32 (diary->file, delete_originals);
 		break;
 	}
 
@@ -332,16 +335,18 @@ camel_disco_diary_replay (CamelDiscoDiary *diary, CamelException *ex)
 			break;
 		}
 
-		case CAMEL_DISCO_DIARY_FOLDER_COPY:
-		case CAMEL_DISCO_DIARY_FOLDER_MOVE:
+		case CAMEL_DISCO_DIARY_FOLDER_TRANSFER:
 		{
 			CamelFolder *source, *destination;
 			GPtrArray *uids;
+			guint32 delete_originals;
 
 			source = diary_decode_folder (diary);
 			destination = diary_decode_folder (diary);
 			uids = diary_decode_uids (diary);
 			if (!uids)
+				goto lose;
+			if (camel_file_util_decode_uint32 (diary->file, &delete_originals) == -1)
 				goto lose;
 
 			if (!source || !destination) {
@@ -349,10 +354,7 @@ camel_disco_diary_replay (CamelDiscoDiary *diary, CamelException *ex)
 				continue;
 			}
 
-			if (action == CAMEL_DISCO_DIARY_FOLDER_COPY)
-				camel_folder_copy_messages_to (source, uids, destination, ex);
-			else
-				camel_folder_move_messages_to (source, uids, destination, ex);
+			camel_folder_transfer_messages_to (source, uids, destination, delete_originals, ex);
 			free_uids (uids);
 			break;
 		}

@@ -37,8 +37,7 @@ static CamelVeeFolderClass *camel_vtrash_folder_parent;
 
 static void vtrash_append_message (CamelFolder *folder, CamelMimeMessage *message,
 				   const CamelMessageInfo *info, CamelException *ex);
-static void vtrash_copy_messages_to (CamelFolder *folder, GPtrArray *uids, CamelFolder *dest, CamelException *ex);
-static void vtrash_move_messages_to (CamelFolder *folder, GPtrArray *uids, CamelFolder *dest, CamelException *ex);
+static void vtrash_transfer_messages_to (CamelFolder *folder, GPtrArray *uids, CamelFolder *dest, gboolean delete_originals, CamelException *ex);
 
 static void
 camel_vtrash_folder_class_init (CamelVTrashFolderClass *klass)
@@ -49,8 +48,7 @@ camel_vtrash_folder_class_init (CamelVTrashFolderClass *klass)
 		CAMEL_VEE_FOLDER_CLASS (camel_type_get_global_classfuncs (camel_folder_get_type ()));
 	
 	folder_class->append_message = vtrash_append_message;
-	folder_class->copy_messages_to = vtrash_copy_messages_to;
-	folder_class->move_messages_to = vtrash_move_messages_to;
+	folder_class->transfer_messages_to = vtrash_transfer_messages_to;
 }
 
 static void
@@ -109,26 +107,21 @@ vtrash_append_message (CamelFolder *folder, CamelMimeMessage *message, const Cam
 	/* no-op */
 }
 
-static void
-vtrash_copy_messages_to (CamelFolder *source, GPtrArray *uids, CamelFolder *dest, CamelException *ex)
-{
-	/* don't allow the user to copy to or from the vtrash folder */
-	camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-			      _("You cannot copy messages from this trash folder."));
-}
-
-struct _move_data {
+struct _transfer_data {
 	CamelFolder *folder;
 	CamelFolder *dest;
 	GPtrArray *uids;
+	gboolean delete;
 };
 
 static void
-move_messages(CamelFolder *folder, struct _move_data *md, CamelException *ex)
+transfer_messages(CamelFolder *folder, struct _transfer_data *md, CamelException *ex)
 {
 	int i;
 
-	camel_folder_move_messages_to(md->folder, md->uids, md->dest, ex);
+	if (!camel_exception_is_set (ex))
+		camel_folder_transfer_messages_to(md->folder, md->uids, md->dest, md->delete, ex);
+
 	for (i=0;i<md->uids->len;i++)
 		g_free(md->uids->pdata[i]);
 	g_ptr_array_free(md->uids, TRUE);
@@ -137,18 +130,42 @@ move_messages(CamelFolder *folder, struct _move_data *md, CamelException *ex)
 }
 
 static void
-vtrash_move_messages_to (CamelFolder *source, GPtrArray *uids, CamelFolder *dest, CamelException *ex)
+vtrash_transfer_messages_to (CamelFolder *source, GPtrArray *uids, CamelFolder *dest, gboolean delete_originals, CamelException *ex)
 {
 	CamelVeeMessageInfo *mi;
 	int i;
 	GHashTable *batch = NULL;
 	const char *tuid;
-	struct _move_data *md;
+	struct _transfer_data *md;
+
+	/* This is a special case of transfer_messages_to: Either the
+	 * source or the destination is a vtrash folder (but not both
+	 * since a store should never have more than one).
+	 */
+
+	if (CAMEL_IS_VTRASH_FOLDER (dest)) {
+		/* Copy to trash is meaningless. */
+		if (!delete_originals)
+			return;
+
+		/* Move to trash is the same as deleting the message */
+		for (i = 0; i < uids->len; i++)
+			camel_folder_delete_message (source, uids->pdata[i]);
+		return;
+	}
+
+	g_return_if_fail (CAMEL_IS_VTRASH_FOLDER (source));
+
+	/* Moving/Copying from the trash to the original folder = undelete.
+	 * Moving/Copying from the trash to a different folder = move/copy.
+	 *
+	 * Need to check this uid by uid, but we batch up the copies.
+	 */
 
 	for (i = 0; i < uids->len; i++) {
 		mi = (CamelVeeMessageInfo *)camel_folder_get_message_info (source, uids->pdata[i]);
 		if (mi == NULL) {
-			g_warning ("Cannot find uid %s in source folder during move_to", (char *) uids->pdata[i]);
+			g_warning ("Cannot find uid %s in source folder during transfer", (char *) uids->pdata[i]);
 			continue;
 		}
 		
@@ -156,10 +173,6 @@ vtrash_move_messages_to (CamelFolder *source, GPtrArray *uids, CamelFolder *dest
 			/* Just undelete the original message */
 			camel_folder_set_message_flags (source, uids->pdata[i], CAMEL_MESSAGE_DELETED, 0);
 		} else {
-			/* This means that the user is trying to move the message
-			   from the vTrash to a folder other than the original.	
-			   We batch them up as much as we can */
-
 			if (batch == NULL)
 				batch = g_hash_table_new(NULL, NULL);
 			md = g_hash_table_lookup(batch, mi->folder);
@@ -175,14 +188,13 @@ vtrash_move_messages_to (CamelFolder *source, GPtrArray *uids, CamelFolder *dest
 			tuid = uids->pdata[i];
 			if (strlen(tuid)>8)
 				tuid += 8;
-			printf("moving message uid '%s'\n", tuid);
 			g_ptr_array_add(md->uids, g_strdup(tuid));
 		}
 		camel_folder_free_message_info (source, (CamelMessageInfo *)mi);
 	}
 
 	if (batch) {
-		g_hash_table_foreach(batch, (GHFunc)move_messages, ex);
+		g_hash_table_foreach(batch, (GHFunc)transfer_messages, ex);
 		g_hash_table_destroy(batch);
 	}
 }

@@ -70,19 +70,18 @@ typedef struct {
 				  const CamelMessageInfo *info,
 				  CamelException *ex);
 
-	void (*copy_online)    (CamelFolder *source, GPtrArray *uids,
-				CamelFolder *destination, CamelException *ex);
-	void (*copy_offline)   (CamelFolder *source, GPtrArray *uids,
-				CamelFolder *destination, CamelException *ex);
-	void (*copy_resyncing) (CamelFolder *source, GPtrArray *uids,
-				CamelFolder *destination, CamelException *ex);
-	
-	void (*move_online)    (CamelFolder *source, GPtrArray *uids,
-				CamelFolder *destination, CamelException *ex);
-	void (*move_offline)   (CamelFolder *source, GPtrArray *uids,
-				CamelFolder *destination, CamelException *ex);
-	void (*move_resyncing) (CamelFolder *source, GPtrArray *uids,
-				CamelFolder *destination, CamelException *ex);
+	void (*transfer_online)    (CamelFolder *source, GPtrArray *uids,
+				    CamelFolder *destination,
+				    gboolean delete_originals,
+				    CamelException *ex);
+	void (*transfer_offline)   (CamelFolder *source, GPtrArray *uids,
+				    CamelFolder *destination,
+				    gboolean delete_originals,
+				    CamelException *ex);
+	void (*transfer_resyncing) (CamelFolder *source, GPtrArray *uids,
+				    CamelFolder *destination,
+				    gboolean delete_originals,
+				    CamelException *ex);
 
 	void (*cache_message)       (CamelDiscoFolder *disco_folder,
 				     const char *uid, CamelException *ex);

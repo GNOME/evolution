@@ -1,3 +1,43 @@
+2002-05-10  Dan Winship  <danw@ximian.com>
+
+	* camel-folder.c (camel_folder_transfer_messages_to): Replace
+	copy_messages_to and move_messages_to with a single function that
+	just takes a "delete_originals" flag. Also, use the vtrash
+	implementation if *either* folder is a vtrash.
+	(transfer_messages_to): Make this use camel_operation_progress
+	(previously move_messages_to did but copy_messages_to didn't), and
+	freeze/thaw the folder(s) if doing multiple messages.
+
+	* camel-vtrash-folder.c (vtrash_transfer_messages_to): Update for
+	move/copy merge. Move the "move messages into vtrash" code here
+	from mail-ops.c. Now all of the vtrash move/copy special casing is
+	in camel instead of half of it being here and half in mail/. (This
+	should also make it so that "Move to Trash" will work in filter
+	rules.)
+
+	* camel-vee-folder.c (vee_transfer_messages_to): Make this just
+	return an exception, since it will only be called when trying to
+	move/copy messages from one vfolder to another.
+	(vee_append_message): Add this too so we get a nicer error message
+	than the default "unimplemented" one in camel-folder.c.
+
+	* camel-digest-folder.c: Replace copy_messages_to and
+	move_messages_to with transfer_messages_to.
+
+	* camel-disco-folder.c: Likewise
+
+	* camel-disco-diary.c (camel_disco_diary_log,
+	camel_disco_diary_replay): replace MOVE/COPY with TRANSFER.
+
+	* providers/imap/camel-imap-folder.c (imap_transfer_offline,
+	imap_transfer_online, imap_transfer_resyncing): Update for
+	changes. (This ends up being a bit more complicated than it was
+	before for now, but later disconnected operation changes should
+	resimplify it.)
+
+	* camel-filter-driver.c (camel_filter_driver_filter_message,
+	do_copy, do_move): Use transfer_messages_to instead of copy.
+
 2002-05-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-filter-search.c (shell_exec): New filter function to pipe

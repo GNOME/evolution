@@ -144,15 +144,11 @@ typedef struct {
 	void (*ref_message_info) (CamelFolder *, CamelMessageInfo *);
 	void (*free_message_info) (CamelFolder *, CamelMessageInfo *);
 
-	void (*copy_messages_to) (CamelFolder *source,
-				  GPtrArray *uids,
-				  CamelFolder *destination,
-				  CamelException *ex);
-	
-	void (*move_messages_to) (CamelFolder *source,
-				  GPtrArray *uids,
-				  CamelFolder *destination,
-				  CamelException *ex);
+	void (*transfer_messages_to) (CamelFolder *source,
+				      GPtrArray *uids,
+				      CamelFolder *destination,
+				      gboolean delete_originals,
+				      CamelException *ex);
 	
 	void (*delete)           (CamelFolder *folder);
 	void (*rename)           (CamelFolder *folder, const char *newname);
@@ -262,14 +258,10 @@ CamelMessageInfo *camel_folder_get_message_info		(CamelFolder *folder, const cha
 void		  camel_folder_free_message_info	(CamelFolder *folder, CamelMessageInfo *info);
 void		  camel_folder_ref_message_info		(CamelFolder *folder, CamelMessageInfo *info);
 
-void               camel_folder_copy_messages_to       (CamelFolder *source,
+void               camel_folder_transfer_messages_to   (CamelFolder *source,
 							GPtrArray *uids,
 							CamelFolder *dest,
-							CamelException *ex);
-
-void               camel_folder_move_messages_to       (CamelFolder *source,
-							GPtrArray *uids,
-							CamelFolder *dest,
+							gboolean delete_originals,
 							CamelException *ex);
 
 void               camel_folder_delete                 (CamelFolder *folder);

@@ -38,6 +38,7 @@
 #include "camel-session.h"
 #include "camel-filter-driver.h"
 #include "camel-private.h"
+#include "camel-vtrash-folder.h"
 
 #define d(x) 
 #define w(x)
@@ -96,8 +97,7 @@ static GPtrArray      *search_by_expression  (CamelFolder *folder, const char *e
 static GPtrArray      *search_by_uids	     (CamelFolder *folder, const char *exp, GPtrArray *uids, CamelException *ex);
 static void            search_free           (CamelFolder * folder, GPtrArray *result);
 
-static void            copy_messages_to      (CamelFolder *source, GPtrArray *uids, CamelFolder *dest, CamelException *ex);
-static void            move_messages_to      (CamelFolder *source, GPtrArray *uids, CamelFolder *dest, CamelException *ex);
+static void            transfer_messages_to  (CamelFolder *source, GPtrArray *uids, CamelFolder *dest, gboolean delete_originals, CamelException *ex);
 
 static void            delete                (CamelFolder *folder);
 static void            folder_rename         (CamelFolder *folder, const char *new);
@@ -147,8 +147,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->get_message_info = get_message_info;
 	camel_folder_class->ref_message_info = ref_message_info;
 	camel_folder_class->free_message_info = free_message_info;
-	camel_folder_class->copy_messages_to = copy_messages_to;
-	camel_folder_class->move_messages_to = move_messages_to;
+	camel_folder_class->transfer_messages_to = transfer_messages_to;
 	camel_folder_class->delete = delete;
 	camel_folder_class->rename = folder_rename;
 	camel_folder_class->freeze = freeze;
@@ -1138,7 +1137,7 @@ camel_folder_search_free (CamelFolder *folder, GPtrArray *result)
 
 
 static void
-copy_message_to (CamelFolder *source, const char *uid, CamelFolder *dest, CamelException *ex)
+transfer_message_to (CamelFolder *source, const char *uid, CamelFolder *dest, gboolean delete_original, CamelException *ex)
 {
 	CamelMimeMessage *msg;
 	CamelMessageInfo *info = NULL;
@@ -1161,6 +1160,10 @@ copy_message_to (CamelFolder *source, const char *uid, CamelFolder *dest, CamelE
 	
 	camel_folder_append_message (dest, msg, info, ex);
 	camel_object_unref (CAMEL_OBJECT (msg));
+
+	if (delete_original && !camel_exception_is_set (ex))
+		camel_folder_set_message_flags (source, uid, CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN, ~0);
+
 	if (info) {
 		if (source->folder_flags & CAMEL_FOLDER_HAS_SUMMARY_CAPABILITY)
 			CF_CLASS (source)->free_message_info (source, info);
@@ -1170,28 +1173,52 @@ copy_message_to (CamelFolder *source, const char *uid, CamelFolder *dest, CamelE
 }
 
 static void
-copy_messages_to (CamelFolder *source, GPtrArray *uids, CamelFolder *dest, CamelException *ex)
+transfer_messages_to (CamelFolder *source, GPtrArray *uids, CamelFolder *dest, gboolean delete_originals, CamelException *ex)
 {
+	CamelException local;
 	int i;
-	
-	for (i = 0; i < uids->len && !camel_exception_is_set (ex); i++)
-		copy_message_to (source, uids->pdata[i], dest, ex);
+
+	camel_exception_init(&local);
+	if (ex == NULL)
+		ex = &local;
+
+	camel_operation_start(NULL, delete_originals ? _("Moving messages") : _("Copying messages"));
+
+	if (uids->len > 1) {
+		camel_folder_freeze(dest);
+		if (delete_originals)
+			camel_folder_freeze(source);
+	}
+	for (i = 0; i < uids->len && !camel_exception_is_set (ex); i++) {
+		transfer_message_to (source, uids->pdata[i], dest, delete_originals, ex);
+		camel_operation_progress(NULL, i * 100 / uids->len);
+	}
+	if (uids->len > 1) {
+		camel_folder_thaw(dest);
+		if (delete_originals)
+			camel_folder_thaw(source);
+	}
+
+	camel_operation_end(NULL);
+	camel_exception_clear(&local);
 }
 
 /**
- * camel_folder_copy_messages_to:
+ * camel_folder_transfer_messages_to:
  * @source: source folder
  * @uids: message UIDs in @source
  * @dest: destination folder
+ * @delete_originals: whether or not to delete the original messages
  * @ex: a CamelException
  *
- * This copies messages from one folder to another. If the @source and
- * @dest folders have the same parent_store, this may be more efficient
- * than a camel_folder_append_message().
+ * This copies or moves messages from one folder to another. If the
+ * @source and @dest folders have the same parent_store, this may be
+ * more efficient than using camel_folder_append_message().
  **/
 void
-camel_folder_copy_messages_to (CamelFolder *source, GPtrArray *uids,
-			       CamelFolder *dest, CamelException *ex)
+camel_folder_transfer_messages_to (CamelFolder *source, GPtrArray *uids,
+				   CamelFolder *dest, gboolean delete_originals,
+				   CamelException *ex)
 {
 	g_return_if_fail (CAMEL_IS_FOLDER (source));
 	g_return_if_fail (CAMEL_IS_FOLDER (dest));
@@ -1204,105 +1231,19 @@ camel_folder_copy_messages_to (CamelFolder *source, GPtrArray *uids,
 	
 	CAMEL_FOLDER_LOCK(source, lock);
 	
-	if (source->parent_store == dest->parent_store)
-		CF_CLASS (source)->copy_messages_to (source, uids, dest, ex);
-	else
-		copy_messages_to (source, uids, dest, ex);
-	
-	CAMEL_FOLDER_UNLOCK(source, lock);
-}
-
-
-static void
-move_message_to (CamelFolder *source, const char *uid, CamelFolder *dest, CamelException *ex)
-{
-	CamelMimeMessage *msg;
-	CamelMessageInfo *info = NULL;
-	
-	/* Default implementation. */
-	
-	msg = CF_CLASS (source)->get_message (source, uid, ex);
-	if (!msg)
-		return;
-	
-	if (source->folder_flags & CAMEL_FOLDER_HAS_SUMMARY_CAPABILITY)
-		info = CF_CLASS (source)->get_message_info (source, uid);
-	else
-		info = camel_message_info_new_from_header (((CamelMimePart *)msg)->headers);
-	
-	/* we don't want to retain the deleted flag */
-	if (info && info->flags & CAMEL_MESSAGE_DELETED)
-		info->flags = info->flags & ~CAMEL_MESSAGE_DELETED;
-	
-	camel_folder_append_message (dest, msg, info, ex);
-	camel_object_unref (CAMEL_OBJECT (msg));
-	if (!camel_exception_is_set (ex))
-		camel_folder_set_message_flags (source, uid, CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN, ~0);
-	
-	if (info) {
-		if (source->folder_flags & CAMEL_FOLDER_HAS_SUMMARY_CAPABILITY)
-			CF_CLASS (source)->free_message_info (source, info);
+	if (source->parent_store == dest->parent_store) {
+		/* If either folder is a vtrash, we need to use the
+		 * vtrash transfer method.
+		 */
+		if (CAMEL_IS_VTRASH_FOLDER (dest))
+			CF_CLASS (dest)->transfer_messages_to (source, uids, dest, delete_originals, ex);
 		else
-			camel_message_info_free (info);
-	}
-}
-
-static void
-move_messages_to (CamelFolder *source, GPtrArray *uids, CamelFolder *dest, CamelException *ex)
-{
-	int i;
-	CamelException local;
-
-	camel_exception_init(&local);
-	if (ex == NULL)
-		ex = &local;
-
-	camel_operation_start(NULL, _("Moving messages"));
-
-	for (i = 0; i < uids->len && !camel_exception_is_set (ex); i++) {
-		move_message_to (source, uids->pdata[i], dest, ex);
-		camel_operation_progress(NULL, i * 100 / uids->len);
-	}
-
-	camel_operation_end(NULL);
-	camel_exception_clear(&local);
-}
-
-/**
- * camel_folder_move_messages_to:
- * @source: source folder
- * @uids: message UIDs in @source
- * @dest: destination folder
- * @ex: a CamelException
- *
- * This moves a message from one folder to another. If the @source and
- * @dest folders have the same parent_store, this may be more efficient
- * than a camel_folder_append_message() followed by
- * camel_folder_delete_message().
- **/
-void
-camel_folder_move_messages_to (CamelFolder *source, GPtrArray *uids,
-			       CamelFolder *dest, CamelException *ex)
-{
-	g_return_if_fail (CAMEL_IS_FOLDER (source));
-	g_return_if_fail (CAMEL_IS_FOLDER (dest));
-	g_return_if_fail (uids != NULL);
-	
-	if (source == dest || uids->len == 0) {
-		/* source and destination folders are the same, or no work to do, nothing to do. */
-		return;
-	}
-	
-	CAMEL_FOLDER_LOCK(source, lock);
-	
-	if (source->parent_store == dest->parent_store)
-		CF_CLASS (source)->move_messages_to (source, uids, dest, ex);
-	else
-		move_messages_to (source, uids, dest, ex);
+			CF_CLASS (source)->transfer_messages_to (source, uids, dest, delete_originals, ex);
+	} else
+		transfer_messages_to (source, uids, dest, delete_originals, ex);
 	
 	CAMEL_FOLDER_UNLOCK(source, lock);
 }
-
 
 static void
 delete (CamelFolder *folder)

@@ -58,10 +58,9 @@ static CamelMimeMessage *digest_get_message (CamelFolder *folder, const gchar *u
 					     CamelException *ex);
 static void digest_append_message (CamelFolder *folder, CamelMimeMessage *message,
 				   const CamelMessageInfo *info, CamelException *ex);
-static void digest_copy_messages_to (CamelFolder *source, GPtrArray *uids,
-				     CamelFolder *destination, CamelException *ex);
-static void digest_move_messages_to (CamelFolder *source, GPtrArray *uids,
-				     CamelFolder *destination, CamelException *ex);
+static void digest_transfer_messages_to (CamelFolder *source, GPtrArray *uids,
+					 CamelFolder *destination, gboolean delete_originals,
+					 CamelException *ex);
 
 
 static void
@@ -85,8 +84,7 @@ camel_digest_folder_class_init (CamelDigestFolderClass *camel_digest_folder_clas
 	
 	camel_folder_class->get_message = digest_get_message;
 	camel_folder_class->append_message = digest_append_message;
-	camel_folder_class->copy_messages_to = digest_copy_messages_to;
-	camel_folder_class->move_messages_to = digest_move_messages_to;
+	camel_folder_class->transfer_messages_to = digest_transfer_messages_to;
 }
 
 static void
@@ -305,15 +303,9 @@ digest_append_message (CamelFolder *folder, CamelMimeMessage *message,
 }
 
 static void
-digest_copy_messages_to (CamelFolder *source, GPtrArray *uids,
-			 CamelFolder *destination, CamelException *ex)
-{
-	/* no-op */
-}
-
-static void
-digest_move_messages_to (CamelFolder *source, GPtrArray *uids,
-			 CamelFolder *destination, CamelException *ex)
+digest_transfer_messages_to (CamelFolder *source, GPtrArray *uids,
+			     CamelFolder *destination, gboolean delete_originals,
+			     CamelException *ex)
 {
 	/* no-op */
 }

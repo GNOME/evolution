@@ -459,7 +459,7 @@ do_copy (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriv
 				
 				uids = g_ptr_array_new ();
 				g_ptr_array_add (uids, (char *) p->uid);
-				camel_folder_copy_messages_to (p->source, uids, outbox, p->ex);
+				camel_folder_transfer_messages_to (p->source, uids, outbox, FALSE, p->ex);
 				g_ptr_array_free (uids, TRUE);
 			} else {
 				if (p->message == NULL)
@@ -510,7 +510,7 @@ do_move (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriv
 				
 				uids = g_ptr_array_new ();
 				g_ptr_array_add (uids, (char *) p->uid);
-				camel_folder_copy_messages_to (p->source, uids, outbox, p->ex);
+				camel_folder_transfer_messages_to (p->source, uids, outbox, FALSE, p->ex);
 				g_ptr_array_free (uids, TRUE);
 			} else {
 				if (p->message == NULL)
@@ -1230,7 +1230,7 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 			
 			uids = g_ptr_array_new ();
 			g_ptr_array_add (uids, (char *) p->uid);
-			camel_folder_copy_messages_to (p->source, uids, p->defaultfolder, p->ex);
+			camel_folder_transfer_messages_to (p->source, uids, p->defaultfolder, FALSE, p->ex);
 			g_ptr_array_free (uids, TRUE);
 		} else {
 			if (p->message == NULL) {
