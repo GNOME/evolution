@@ -1770,7 +1770,7 @@ create_folder (CamelStore *store, const char *parent_name,
 		return NULL;
 	if (!parent_name)
 		parent_name = "";
-
+	
 	if (strchr (folder_name, imap_store->dir_sep)) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID_PATH,
 				      _("The folder name \"%s\" is invalid because "
@@ -1778,7 +1778,7 @@ create_folder (CamelStore *store, const char *parent_name,
 				      folder_name, imap_store->dir_sep);
 		return NULL;
 	}
-
+	
 	/* check if the parent allows inferiors */
 	
 	need_convert = FALSE;
@@ -1961,29 +1961,29 @@ copy_folder_name (gpointer name, gpointer key, gpointer array)
 
 /* this is used when lsub doesn't provide very useful information */
 static GPtrArray *
-get_subscribed_folders(CamelImapStore *imap_store, const char *top, CamelException *ex)
+get_subscribed_folders (CamelImapStore *imap_store, const char *top, CamelException *ex)
 {
 	GPtrArray *names, *folders;
 	CamelImapResponse *response;
 	CamelFolderInfo *fi;
 	char *result;
 	int i, toplen = strlen (top);
-
-	folders = g_ptr_array_new();
+	
+	folders = g_ptr_array_new ();
 	names = g_ptr_array_new ();
 	g_hash_table_foreach (imap_store->subscribed_folders,
 			      copy_folder_name, names);
-
+	
 	if (names->len == 0)
-		g_ptr_array_add(names, "INBOX");
-
+		g_ptr_array_add (names, "INBOX");
+	
 	for (i = 0; i < names->len; i++) {
 		response = camel_imap_command (imap_store, NULL, ex,
 					       "LIST \"\" %F",
 					       names->pdata[i]);
 		if (!response)
 			break;
-
+		
 		result = camel_imap_response_extract (imap_store, response, "LIST", NULL);
 		if (!result) {
 			g_hash_table_remove (imap_store->subscribed_folders,
@@ -2004,9 +2004,9 @@ get_subscribed_folders(CamelImapStore *imap_store, const char *top, CamelExcepti
 		
 		g_ptr_array_add (folders, fi);
 	}
-
+	
 	g_ptr_array_free (names, TRUE);
-
+	
 	return folders;
 }
 

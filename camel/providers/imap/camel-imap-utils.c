@@ -292,6 +292,7 @@ imap_parse_namespace_response (const char *response)
 gboolean
 imap_parse_list_response (CamelImapStore *store, const char *buf, int *flags, char *sep, char **folder)
 {
+	gboolean is_lsub = FALSE;
 	const char *word;
 	size_t len;
 	
@@ -301,6 +302,10 @@ imap_parse_list_response (CamelImapStore *store, const char *buf, int *flags, ch
 	word = imap_next_word (buf);
 	if (g_strncasecmp (word, "LIST", 4) && g_strncasecmp (word, "LSUB", 4))
 		return FALSE;
+	
+	/* check if we are looking at an LSUB response */
+	if (word[1] == 'S' || word[1] == 's')
+		is_lsub = TRUE;
 	
 	/* get the flags */
 	word = imap_next_word (word);
@@ -362,6 +367,21 @@ imap_parse_list_response (CamelImapStore *store, const char *buf, int *flags, ch
 		g_free (astring);
 		if (!mailbox)
 			return FALSE;
+		
+		/* Kludge around Courier imap's LSUB response for INBOX when it
+		 * isn't subscribed to.
+		 *
+		 * Ignore any \Noselect flags for INBOX when parsing
+		 * an LSUB response to work around the following response:
+		 *
+		 * * LSUB (\Noselect \HasChildren) "." "INBOX"
+		 *
+		 * Fixes bug #28929 (albeight in a very dodgy way imho, but what
+		 * can ya do when ya got the ignorance of marketing breathing
+		 * down your neck?)
+		 */
+		if (is_lsub && !strcasecmp (mailbox, "INBOX"))
+			*flags &= ~CAMEL_FOLDER_NOSELECT;
 		
 		*folder = mailbox;
 	}
