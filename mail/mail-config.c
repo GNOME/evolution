@@ -42,6 +42,8 @@
 #include <bonobo/bonobo-exception.h>
 #include <bonobo-conf/bonobo-config-database.h>
 
+#include <shell/evolution-shell-client.h>
+
 #include <gal/util/e-util.h>
 #include <gal/unicode/gunicode.h>
 #include <e-util/e-html-utils.h>
@@ -1407,6 +1409,59 @@ mail_config_add_account (MailConfigAccount *account)
 	config->accounts = g_slist_append (config->accounts, account);
 }
 
+static void
+remove_account_shortcuts (MailConfigAccount *account)
+{
+	extern EvolutionShellClient *global_shell_client;
+	CORBA_Environment ev;
+	GNOME_Evolution_Shortcuts shortcuts_interface;
+	GNOME_Evolution_Shortcuts_GroupList *groups;
+	int i, j, len;;
+
+	CORBA_exception_init (&ev);
+
+	shortcuts_interface = evolution_shell_client_get_shortcuts_interface (global_shell_client);
+	if (CORBA_Object_is_nil (shortcuts_interface, &ev)) {
+		g_warning ("No ::Shortcut interface on the shell");
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	groups = GNOME_Evolution_Shortcuts__get_groups (shortcuts_interface, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("Exception getting the groups: %s", ev._repo_id);
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	len = strlen (account->name);
+
+	for (i = 0; i < groups->_length; i++) {
+		GNOME_Evolution_Shortcuts_Group *iter;
+		
+		iter = groups->_buffer + i;
+
+		for (j = 0; j < iter->shortcuts._length; j++) {
+			GNOME_Evolution_Shortcuts_Shortcut *sc;
+
+			sc = iter->shortcuts._buffer + j;
+
+			/* "evolution:/" = 11 */
+			if (!strncmp (sc->uri + 11, account->name, len)) {
+				GNOME_Evolution_Shortcuts_remove (shortcuts_interface, i, j, &ev);
+
+				if (ev._major != CORBA_NO_EXCEPTION) {
+					g_warning ("Exception removing shortcut \"%s\": %s", sc->name, ev._repo_id);
+					break;
+				}
+			}
+		}
+	}
+
+	CORBA_exception_free (&ev);
+	CORBA_free (groups);
+}
+
 const GSList *
 mail_config_remove_account (MailConfigAccount *account)
 {
@@ -1416,6 +1471,7 @@ mail_config_remove_account (MailConfigAccount *account)
 		config->default_account = 0;
 
 	config->accounts = g_slist_remove (config->accounts, account);
+	remove_account_shortcuts (account);
 	account_destroy (account);
 
 	return config->accounts;

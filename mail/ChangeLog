@@ -1,3 +1,11 @@
+2001-08-13  Peter Williams  <peterw@ximian.com>
+
+	* mail-config.c (remove_account_shortcuts): Remove the shortcuts
+	corresponding to an account (they all point to 
+	evolution:/accountname/..)
+	(mail_config_remove_account): When deleting the account, remove
+	its shortcuts.
+
 2001-08-10  Peter Williams  <peterw@ximian.com>
 
 	* mail-config-druid.c (druid_finish): Whoa, fatal typo. Sorry.
