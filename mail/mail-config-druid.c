@@ -22,10 +22,10 @@
 
 #include "config.h"
 #include "mail-config-druid.h"
+#include "mail-ops.h"
 #include <sys/types.h>
 #include <string.h>
 #include <unistd.h>
-#include <pwd.h>
 
 #define d(x) x
 
@@ -36,7 +36,9 @@ static void mail_config_druid_finalise   (GtkObject *obj);
 
 static void construct_auth_menu (MailConfigDruid *druid, GList *authtypes);
 
-static GnomeDialogClass *parent_class;
+static gboolean check_service (CamelURL *url, CamelProviderType type, GList **authtypes);
+
+static GtkWindowClass *parent_class;
 
 GtkType
 mail_config_druid_get_type (void)
@@ -54,7 +56,7 @@ mail_config_druid_get_type (void)
 			(GtkArgGetFunc) NULL
 		};
 		
-		type = gtk_type_unique (gnome_dialog_get_type (), &type_info);
+		type = gtk_type_unique (gtk_window_get_type (), &type_info);
 	}
 	
 	return type;
@@ -183,9 +185,9 @@ identity_check (MailConfigDruid *druid)
 {
 	if (gtk_entry_get_text (druid->full_name) &&
 	    gtk_entry_get_text (druid->email_address))
-		gnome_druid_set_buttons_sensitive (GNOME_DRUID (druid), TRUE, TRUE, TRUE);
+		gnome_druid_set_buttons_sensitive (druid->druid, TRUE, TRUE, TRUE);
 	else
-		gnome_druid_set_buttons_sensitive (GNOME_DRUID (druid), TRUE, FALSE, TRUE);
+		gnome_druid_set_buttons_sensitive (druid->druid, TRUE, FALSE, TRUE);
 }
 
 static void
@@ -230,7 +232,7 @@ incoming_check (MailConfigDruid *druid)
 	
 	next_sensitive = host && user && path;
 	
-	gnome_druid_set_buttons_sensitive (GNOME_DRUID (druid), TRUE, next_sensitive, TRUE);
+	gnome_druid_set_buttons_sensitive (druid->druid, TRUE, next_sensitive, TRUE);
 }
 
 static void
@@ -295,7 +297,7 @@ incoming_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 	
 	/* Otherwise, skip to transport page. */
 	transport_page = glade_xml_get_widget (config->gui, "transport-page");
-	gnome_druid_set_page (GNOME_DRUID (config), GNOME_DRUID_PAGE (transport_page));
+	gnome_druid_set_page (config->druid, GNOME_DRUID_PAGE (transport_page));
 	
 	return TRUE;
 }
@@ -349,9 +351,9 @@ authentication_check (MailConfigDruid *druid)
 {
 	if (mail_config_druid_get_save_passwd (druid) &&
 	    gtk_entry_get_text (druid->password) != NULL)
-		gnome_druid_set_buttons_sensitive (GNOME_DRUID (druid), TRUE, TRUE, TRUE);
+		gnome_druid_set_buttons_sensitive (druid->druid, TRUE, TRUE, TRUE);
 	else
-		gnome_druid_set_buttons_sensitive (GNOME_DRUID (druid), TRUE, FALSE, TRUE);
+		gnome_druid_set_buttons_sensitive (druid->druid, TRUE, FALSE, TRUE);
 }
 
 static void
@@ -440,7 +442,7 @@ transport_check (MailConfigDruid *druid)
 	if (prov->url_flags & CAMEL_URL_NEED_HOST)
 		next_sensitive = gtk_entry_get_text (druid->outgoing_hostname) != NULL;
 	
-	gnome_druid_set_buttons_sensitive (GNOME_DRUID (druid), TRUE, next_sensitive, TRUE);
+	gnome_druid_set_buttons_sensitive (druid->druid, TRUE, next_sensitive, TRUE);
 }
 
 static void
@@ -515,7 +517,7 @@ management_check (MailConfigDruid *druid)
 	
 	next_sensitive = gtk_entry_get_text (druid->account_name) != NULL;
 	
-	gnome_druid_set_buttons_sensitive (GNOME_DRUID (druid), TRUE, next_sensitive, TRUE);
+	gnome_druid_set_buttons_sensitive (druid->druid, TRUE, next_sensitive, TRUE);
 }
 
 static void
@@ -635,16 +637,18 @@ static void
 construct (MailConfigDruid *druid)
 {
 	GladeXML *gui;
-	GtkWidget *notebook;
+	GnomeDruid *druid;
 	
-	gui = glade_xml_new (EVOLUTION_DATA_DIR "/mail-config-druid.glade", "mail-config-druid");
+	gui = glade_xml_new (EVOLUTION_DATA_DIR "/mail-config-druid.glade", "mail-config-window");
 	druid->gui = gui;
 	
 	/* get our toplevel widget */
-	notebook = glade_xml_get_widget (gui, "notebook");
+	druid = GNOME_DRUID (glade_xml_get_widget (gui, "gnome-config-druid"));
 	
 	/* reparent */
 	gtk_widget_reparent (notebook, GTK_WIDGET (druid));
+	
+	druid->druid = druid;
 	
 	/* get our cared-about widgets */
 	druid->account_text = glade_xml_get_widget (gui, "htmlAccountInfo");
@@ -686,7 +690,72 @@ construct (MailConfigDruid *druid)
 	
 	set_defaults (druid);
 	
-	gnome_druid_set_buttons_sensitive (GNOME_DRUID (druid), FALSE, TRUE, TRUE);
+	gnome_druid_set_buttons_sensitive (druid->druid, FALSE, TRUE, TRUE);
+}
+
+/* Async service-checking/authtype-lookup code. */
+
+typedef struct {
+	char *url;
+	CamelProviderType type;
+	GList **authtypes;
+	gboolean success;
+} check_service_input_t;
+
+static char *
+describe_check_service (gpointer in_data, gboolean gerund)
+{
+	if (gerund)
+		return g_strdup (_("Connecting to server"));
+	else
+		return g_strdup (_("Connect to server"));
+}
+
+static void
+do_check_service (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+	check_service_input_t *input = in_data;
+	CamelService *service;
+
+	if (input->authtypes) {
+		service = camel_session_get_service (
+			session, input->url, input->type, ex);
+		if (!service)
+			return;
+		*input->authtypes = camel_service_query_auth_types (service, ex);
+	} else {
+		service = camel_session_get_service_connected (
+			session, input->url, input->type, ex);
+	}
+	if (service)
+		camel_object_unref (CAMEL_OBJECT (service));
+	if (!camel_exception_is_set (ex))
+		input->success = TRUE;
+}
+
+static const mail_operation_spec op_check_service = {
+	describe_check_service,
+	0,
+	NULL,
+	do_check_service,
+	NULL
+};
+
+static gboolean
+check_service (CamelURL *url, CamelProviderType type, GList **authtypes)
+{
+	check_service_input_t input;
+	
+	input.url = camel_url_to_string (url, TRUE);
+	input.type = type;
+	input.authtypes = authtypes;
+	input.success = FALSE;
+	
+	mail_operation_queue (&op_check_service, &input, FALSE);
+	mail_operation_wait_for_finish ();
+	g_free (input.url);
+	
+	return input.success;
 }
 
 MailConfigDruid *

@@ -38,11 +38,13 @@ extern "C" {
 #define IS_MAIL_CONFIG_DRUID_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), MAIL_CONFIG_DRUID_TYPE))
 
 struct _MailConfigDruid {
-	GnomeDialog parent;
+	GtkWindow parent;
 	
 	GladeXML *gui;
 	
 	GList *providers;
+	
+	GnomeDruid *druid;
 	
 	/* account management */
 	GtkWidget *account_text;
@@ -85,7 +87,7 @@ struct _MailConfigDruid {
 typedef struct _MailConfigDialog MailConfigDialog;
 
 typedef struct {
-	GnomeDialogClass parent_class;
+	GtkWindowClass parent_class;
 	
 	/* signals */
 	
