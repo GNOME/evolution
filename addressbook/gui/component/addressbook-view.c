@@ -497,11 +497,10 @@ source_list_changed_cb (ESourceList *source_list, AddressbookView *view)
 			   view remove it from our hash table. */
 			v = g_hash_table_lookup (priv->uid_to_view,
 						 uid);
-			g_hash_table_remove (priv->uid_to_view, uid);
 			gtk_notebook_remove_page (GTK_NOTEBOOK (priv->notebook),
 						  gtk_notebook_page_num (GTK_NOTEBOOK (priv->notebook),
 									 GTK_WIDGET (v)));
-			g_object_unref (v);
+			g_hash_table_remove (priv->uid_to_view, uid);
 		}
 	}
 	g_list_free (uids);
@@ -1108,7 +1107,7 @@ addressbook_view_init (AddressbookView *view)
 
 	priv->gconf_client = addressbook_component_peek_gconf_client (addressbook_component_peek ());
 
-	priv->uid_to_view = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify)g_free, NULL);
+	priv->uid_to_view = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify)g_free, (GDestroyNotify)g_object_unref);
 	priv->uid_to_editor = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify)g_free, (GDestroyNotify)g_free);
 
 	priv->notebook = gtk_notebook_new ();
