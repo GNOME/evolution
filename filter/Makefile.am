@@ -24,6 +24,7 @@ filter_driver_LDADD = 				\
 	libfilter.la				\
 	../camel/libcamel.la			\
 	../e-util/libeutil.la			\
+	../libibex/libibex.la			\
 	$(GNOME_LIBDIR)				\
 	$(GNOMEUI_LIBS)				\
 	$(INTLLIBS)				\

@@ -12,13 +12,7 @@
 #include "e-sexp.h"
 #include "filter-format.h"
 
-#include "camel.h"
-#include "camel-mbox-folder.h"
-#include "camel-mbox-parser.h"
-#include "camel-mbox-utils.h"
-#include "camel-mbox-summary.h"
-#include "camel-exception.h"
-#include "camel-folder-summary.h"
+#include <camel/camel.h>
 
 extern int filter_find_arg(FilterArg *a, char *name);
 

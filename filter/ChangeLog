@@ -1,3 +1,9 @@
+2000-04-20  NotZed  <NotZed@HelixCode.com>
+
+	* filter-driver.c: Removed a bunch of crappy unrequired headers.
+
+	* Makefile.am (filter_driver_LDADD): Added libibex back again.
+
 2000-04-18  Dan Winship  <danw@helixcode.com>
 
 	* filter-driver.c: remove unused camel-log.h include
