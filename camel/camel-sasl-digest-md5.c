@@ -2,7 +2,7 @@
 /*
  *  Authors: Jeffrey Stedfast <fejj@ximian.com>
  *
- *  Copyright 2001 Ximian, Inc. (www.ximian.com)
+ *  Copyright 2001-2003 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -20,6 +20,7 @@
  *
  */
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -31,7 +32,8 @@
 
 #include <e-util/md5-utils.h>
 
-#include "camel-iconv.h"
+#include <gal/util/e-iconv.h>
+
 #include "camel-charset-map.h"
 #include "camel-mime-utils.h"
 #include "camel-sasl-digest-md5.h"
@@ -699,18 +701,18 @@ digest_response (struct _DigestResponse *resp)
 		const char *inbuf;
 		iconv_t cd;
 		
-		charset = camel_charset_locale_name ();
+		charset = e_iconv_locale_charset ();
 		if (!charset)
 			charset = "iso-8859-1";
 		
-		cd = camel_iconv_open (resp->charset, charset);
+		cd = e_iconv_open (resp->charset, charset);
 		
 		len = strlen (resp->username);
 		outlen = 2 * len; /* plenty of space */
 		
 		outbuf = username = g_malloc0 (outlen + 1);
 		inbuf = resp->username;
-		if (cd == (iconv_t) -1 || camel_iconv (cd, &inbuf, &len, &outbuf, &outlen) == (size_t) -1) {
+		if (cd == (iconv_t) -1 || e_iconv (cd, &inbuf, &len, &outbuf, &outlen) == (size_t) -1) {
 			/* We can't convert to UTF-8 - pretend we never got a charset param? */
 			g_free (resp->charset);
 			resp->charset = NULL;
@@ -721,7 +723,7 @@ digest_response (struct _DigestResponse *resp)
 		}
 		
 		if (cd != (iconv_t) -1)
-			camel_iconv_close (cd);
+			e_iconv_close (cd);
 		
 		g_byte_array_append (buffer, username, strlen (username));
 		g_free (username);

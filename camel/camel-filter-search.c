@@ -42,9 +42,10 @@
 #include <signal.h>
 #include <sys/wait.h>
 
-#include "e-util/e-sexp.h"
+#include <e-util/e-sexp.h>
 
-#include "camel-charset-map.h"
+#include <gal/util/e-iconv.h>
+
 #include "camel-mime-message.h"
 #include "camel-provider.h"
 #include "camel-session.h"
@@ -163,7 +164,7 @@ check_header (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMess
 				ct = camel_mime_part_get_content_type (CAMEL_MIME_PART (message));
 				if (ct) {
 					charset = header_content_type_param (ct, "charset");
-					charset = camel_charset_canonical_name (charset);
+					charset = e_iconv_charset_name (charset);
 				}
 			}
 		}

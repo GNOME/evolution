@@ -32,7 +32,10 @@
 #include <string.h>
 #include <errno.h>
 
-#include "camel-charset-map.h"
+#include <gal/util/e-iconv.h>
+
+#include <e-util/e-time-utils.h>
+
 #include "camel-mime-message.h"
 #include "camel-multipart.h"
 #include "camel-stream-mem.h"
@@ -43,8 +46,6 @@
 #include "camel-stream-null.h"
 #include "camel-mime-filter-charset.h"
 #include "camel-mime-filter-bestenc.h"
-
-#include "e-time-utils.h"
 
 #define d(x)
 
@@ -544,7 +545,7 @@ process_header (CamelMedium *medium, const char *header_name, const char *header
 		g_free (message->subject);
 		if (((CamelMimePart *) message)->content_type) {
 			charset = header_content_type_param (((CamelMimePart *) message)->content_type, "charset");
-			charset = camel_charset_canonical_name (charset);
+			charset = e_iconv_charset_name (charset);
 		} else
 			charset = NULL;
 		message->subject = g_strstrip (header_decode_string (header_value, charset));

@@ -29,12 +29,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <ctype.h>
 #include <errno.h>
 
-#include <glib/gunicode.h>
+#include <gal/util/e-iconv.h>
 
 #include "string-utils.h"
-#include "camel-iconv.h"
 #include "camel-charset-map.h"
 #include "camel-mime-part-utils.h"
 #include "camel-mime-message.h"
@@ -87,7 +87,7 @@ check_html_charset(char *buffer, int length)
 			    && (val = camel_html_parser_attr(hp, "content"))
 			    && (ct = header_content_type_decode(val))) {
 				charset = header_content_type_param(ct, "charset");
-				charset = camel_charset_canonical_name (charset);
+				charset = e_iconv_charset_name (charset);
 				header_content_type_unref(ct);
 			}
 			break;
@@ -118,7 +118,7 @@ convert_buffer (GByteArray *in, const char *to, const char *from)
 	d(fwrite(in->data, 1, (int)in->len, stdout));
 	d(printf("\n"));
 	
-	cd = camel_iconv_open(to, from);
+	cd = e_iconv_open(to, from);
 	if (cd == (iconv_t) -1) {
 		g_warning ("Cannot convert from '%s' to '%s': %s", from, to, strerror (errno));
 		return NULL;
@@ -135,7 +135,7 @@ convert_buffer (GByteArray *in, const char *to, const char *from)
 		outbuf = out->data + converted;
 		outleft = outlen - converted;
 		
-		converted = camel_iconv (cd, &inbuf, &inleft, &outbuf, &outleft);
+		converted = e_iconv (cd, &inbuf, &inleft, &outbuf, &outleft);
 		if (converted == (size_t) -1) {
 			if (errno != E2BIG && errno != EINVAL)
 				goto fail;
@@ -164,7 +164,7 @@ convert_buffer (GByteArray *in, const char *to, const char *from)
 	 */
 	
 	/* flush the iconv conversion */
-	camel_iconv (cd, NULL, NULL, &outbuf, &outleft);
+	e_iconv (cd, NULL, NULL, &outbuf, &outleft);
 	
 	/* now set the true length on the GByteArray */
 	converted = outbuf - (char *)out->data;
@@ -174,7 +174,7 @@ convert_buffer (GByteArray *in, const char *to, const char *from)
 	d(fwrite(out->data, 1, (int)out->len, stdout));
 	d(printf("\n"));
 	
-	camel_iconv_close (cd);
+	e_iconv_close (cd);
 	
 	return out;
 	
@@ -183,7 +183,7 @@ convert_buffer (GByteArray *in, const char *to, const char *from)
 	
 	g_byte_array_free (out, TRUE);
 	
-	camel_iconv_close (cd);
+	e_iconv_close (cd);
 	
 	return NULL;
 }
@@ -262,7 +262,7 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 	ct = camel_mime_parser_content_type (mp);
 	if (header_content_type_is (ct, "text", "*")) {
 		charset = header_content_type_param (ct, "charset");
-		charset = camel_charset_canonical_name (charset);
+		charset = e_iconv_charset_name (charset);
 		
 		if (fdec) {
 			d(printf ("Adding CRLF conversion filter\n"));
@@ -311,6 +311,7 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 		 * as being in ISO-8859-1 even when in fact they contain funny
 		 * characters from the Windows-CP1252 superset.
 		 */
+		/* FIXME: not all systems will use the canonical "iso-8859-#" format */
 		if (!strncasecmp (charset, "iso-8859", 8)) {
 			/* check for Windows-specific chars... */
 			if (broken_windows_charset (buffer, charset))

@@ -58,8 +58,6 @@ camel_shutdown (void)
 		camel_certdb_save (certdb);
 		camel_object_unref (certdb);
 	}
-	
-	camel_iconv_shutdown ();
 }
 
 gint
@@ -81,8 +79,6 @@ camel_init (const char *configdir, gboolean nss_init)
 	
 	/* initialise global camel_object_type */
 	camel_object_get_type();
-	
-	camel_iconv_init ();
 	
 	camel_mime_utils_init ();
 	

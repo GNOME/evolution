@@ -1,3 +1,27 @@
+2003-02-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-message.c: Same as the ones below.
+
+	* camel-mime-part.c: Reverted back to pre-camel-iconv
+
+	* camel-filter-search.c: Same as below.
+
+	* camel-folder-summary.c: Reverted back to pre-camel-iconv
+
+	* camel.c (camel_init): Reverted to pre-camel-iconv
+
+	* camel-charset-map.c (camel_charset_locale_name): Removed (part
+	of the revert).
+	(camel_charset_canonical_name): Same.
+
+	* camel-mime-filter-charset.c: Revert back to using e_iconv from GAL.
+
+	* camel-mime-part-utils.c: Revert back to using e_iconv from GAL.
+
+	* camel-mime-utils.c: Revert back to using e_iconv from GAL.
+
+	* camel-sasl-digest-md5.c: Revert back to using e-iconv from GAL.
+
 2003-02-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-charset-map.c (camel_charset_canonical_name): g_alloca

@@ -47,7 +47,6 @@ libcamel_la_SOURCES = 				\
 	camel-gpg-context.c			\
 	camel-html-parser.c			\
 	camel-http-stream.c			\
-	camel-iconv.c				\
 	camel-index.c				\
 	camel-internet-address.c		\
 	camel-lock.c				\
@@ -149,7 +148,6 @@ libcamelinclude_HEADERS =			\
 	camel-folder.h				\
 	camel-gpg-context.h			\
 	camel-http-stream.h			\
-	camel-iconv.h				\
 	camel-index.h				\
 	camel-internet-address.h		\
 	camel-i18n.h				\
