@@ -1,3 +1,8 @@
+2004-09-13  Rodney Dawes  <dobey@novell.com>
+
+	* gui/contact-editor/e-contact-editor.c (show_help_cb):
+	Point at the correct XML file for documentation
+
 2004-09-09  Sivaiah Nallagatla  <snallagatla@novell.com>
 
 	Part of fix for #59582.

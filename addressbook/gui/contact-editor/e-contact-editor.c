@@ -2885,7 +2885,7 @@ show_help_cb (GtkWidget *widget, gpointer data)
 
 	gnome_help_display_desktop (NULL,
 				    "evolution-" BASE_VERSION,
-				    "usage-contact.xml",
+				    "evolution-" BASE_VERSION ".xml",
 				    "usage-contact-cards",
 				    &error);
 	if (error != NULL)
