@@ -732,17 +732,18 @@ impl_requestCreateItem (PortableServer_Servant servant,
 {
 	TasksComponent *tasks_component = TASKS_COMPONENT (bonobo_object_from_servant (servant));
 	TasksComponentPrivate *priv;
-	ECalComponent *comp;
-	TaskEditor *editor;
 	
-	priv = tasks_component->priv;
-
-	if (!setup_create_ecal (tasks_component))
-		return;	
-		
-	editor = task_editor_new (priv->create_ecal);
+	priv = tasks_component->priv;	
 	
 	if (strcmp (item_type_name, CREATE_TASK_ID) == 0) {
+		ECalComponent *comp;
+		TaskEditor *editor;
+
+		if (!setup_create_ecal (tasks_component))
+			return;	
+		
+		editor = task_editor_new (priv->create_ecal);
+
 		comp = get_default_task (priv->create_ecal);
 
 		comp_editor_edit_comp (COMP_EDITOR (editor), comp);

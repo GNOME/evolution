@@ -1,3 +1,8 @@
+2004-01-14  JP Rosevear <jpr@ximian.com>
+
+	* gui/tasks-component.c (impl_requestCreateItem): don't try to set
+	up the creation ecal unless we are actually creating a new item
+
 2004-01-13  Rodney Dawes  <dobey@ximian.com>
 
 	* gui/Makefile.am: Only link in libsoup where we need it
