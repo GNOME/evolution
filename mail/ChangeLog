@@ -1,5 +1,10 @@
 2004-04-14  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* message-list.c: Added a new "message_list_scrolled" signal so
+	our users can listen to this event in order to update saved state.
+	(message_list_get_scrollbar_position): Simplified.
+	(message_list_set_scrollbar_position): Simplified.
+
 	* em-format.c: Don't complain about message errors ("Internal
 	Error: ..."), instead silently fall back to display the message as
 	source. Fixes bug #56876.

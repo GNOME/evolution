@@ -152,6 +152,7 @@ typedef struct {
 	/* signals - select a message */
 	void (*message_selected) (MessageList *ml, const char *uid);
 	void (*message_list_built) (MessageList *ml);
+	void (*message_list_scrolled) (MessageList *ml);
 } MessageListClass;
 
 typedef void (*MessageListForeachFunc) (MessageList *message_list,

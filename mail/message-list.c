@@ -165,6 +165,7 @@ static void clear_info(char *key, ETreePath *node, MessageList *ml);
 enum {
 	MESSAGE_SELECTED,
 	MESSAGE_LIST_BUILT,
+	MESSAGE_LIST_SCROLLED,
 	LAST_SIGNAL
 };
 
@@ -1564,6 +1565,12 @@ ml_tree_drag_data_received (ETree *tree, int row, ETreePath path, int col,
 	gtk_drag_finish(context, TRUE, TRUE, time);
 }
 
+static void
+ml_scrolled (GtkAdjustment *adj, MessageList *ml)
+{
+	g_signal_emit (ml, message_list_signals[MESSAGE_LIST_SCROLLED], 0);
+}
+
 /*
  * GtkObject::init
  */
@@ -1572,10 +1579,13 @@ message_list_init (GtkObject *object)
 {
 	MessageList *message_list = MESSAGE_LIST (object);
 	struct _MessageListPrivate *p;
+	GtkAdjustment *adjustment;
 	GdkAtom matom;
-
+	
+	adjustment = (GtkAdjustment *) gtk_adjustment_new (0.0, 0.0, G_MAXDOUBLE, 0.0, 0.0, 0.0);
+	gtk_scrolled_window_set_vadjustment ((GtkScrolledWindow *) message_list, adjustment);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (message_list), GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
-
+	
 	message_list->normalised_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	
 	message_list->hidden = NULL;
@@ -1603,6 +1613,8 @@ message_list_init (GtkObject *object)
 	g_signal_connect(p->invisible, "selection_get", G_CALLBACK(ml_selection_get), message_list);
 	g_signal_connect(p->invisible, "selection_clear_event", G_CALLBACK(ml_selection_clear_event), message_list);
 	g_signal_connect(p->invisible, "selection_received", G_CALLBACK(ml_selection_received), message_list);
+	
+	g_signal_connect (((GtkScrolledWindow *) message_list)->vscrollbar, "value-changed", G_CALLBACK (ml_scrolled), message_list);
 }
 
 static void
@@ -1731,7 +1743,17 @@ message_list_class_init (GObjectClass *object_class)
 			      NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
-
+	
+	message_list_signals[MESSAGE_LIST_SCROLLED] =
+		g_signal_new ("message_list_scrolled",
+			      MESSAGE_LIST_TYPE,
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (MessageListClass, message_list_scrolled),
+			      NULL,
+			      NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
+	
 	message_list_init_images ();
 }
 
@@ -3408,18 +3430,12 @@ mail_regen_list (MessageList *ml, const char *search, const char *hideexpr, Came
 double
 message_list_get_scrollbar_position (MessageList *ml)
 {
-	GtkAdjustment *adj;
-	
-	adj = gtk_scrolled_window_get_vadjustment ((GtkScrolledWindow *) ml);
-	return gtk_adjustment_get_value (adj);
+	return gtk_range_get_value ((GtkRange *) ((GtkScrolledWindow *) ml)->vscrollbar);
 }
 
 
 void
 message_list_set_scrollbar_position (MessageList *ml, double pos)
 {
-	GtkAdjustment *adj;
-	
-	adj = gtk_scrolled_window_get_vadjustment ((GtkScrolledWindow *) ml);
-	gtk_adjustment_set_value (adj, pos);
+	gtk_range_set_value ((GtkRange *) ((GtkScrolledWindow *) ml)->vscrollbar, pos);
 }
