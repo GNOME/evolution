@@ -37,7 +37,8 @@
 #include "camel-folder-thread.h"
 #include "e-util/e-memory.h"
 
-#define d(x)
+#define d(x) 
+#define m(x) 
 
 /*#define TIMEIT*/
 
@@ -114,6 +115,7 @@ prune_empty(CamelFolderThread *thread, CamelFolderThreadNode **cp)
 			if (c->child == NULL) {
 				d(printf("removing empty node\n"));
 				lastc->next = c->next;
+				m(memset(c, 0xfe, sizeof(*c)));
 				e_memchunk_free(thread->node_chunks, c);
 				continue;
 			}
@@ -151,13 +153,13 @@ hashloop(void *key, void *value, void *data)
 }
 
 static char *
-get_root_subject(CamelFolderThreadNode *c, int *re)
+get_root_subject(CamelFolderThreadNode *c)
 {
 	char *s, *p;
 	CamelFolderThreadNode *scan;
 	
 	s = NULL;
-	*re = FALSE;
+	c->re = FALSE;
 	if (c->message)
 		s = (char *)camel_message_info_subject(c->message);
 	else {
@@ -183,7 +185,7 @@ get_root_subject(CamelFolderThreadNode *c, int *re)
 				while (isdigit(*p) || (ispunct(*p) && (*p != ':')))
 					p++;
 				if (*p==':') {
-					*re = TRUE;
+					c->re = TRUE;
 					s = p+1;
 				} else
 					break;
@@ -235,7 +237,7 @@ group_root_set(CamelFolderThread *thread, CamelFolderThreadNode **cp)
 	clast = (CamelFolderThreadNode *)cp;
 	c = clast->next;
 	while (c) {
-		c->root_subject = get_root_subject(c, &c->re);
+		c->root_subject = get_root_subject(c);
 		if (c->root_subject) {
 			container = g_hash_table_lookup(subject_table, c->root_subject);
 			if (container == NULL
@@ -264,6 +266,7 @@ group_root_set(CamelFolderThread *thread, CamelFolderThreadNode **cp)
 					scan = scan->next;
 				scan->next = c->child;
 				clast->next = c->next;
+				m(memset(c, 0xee, sizeof(*c)));
 				e_memchunk_free(thread->node_chunks, c);
 				continue;
 			} if (c->message == NULL && container->message != NULL) {
@@ -521,17 +524,25 @@ thread_summary(CamelFolderThread *thread, GPtrArray *summary)
 		child = c->next;
 		if (child->message == NULL) {
 			newtop = child->child;
+			newtop->parent = NULL;
 			/* unlink pseudo node */
 			c->next = newtop;
 
-			/* link its siblings onto the end of its children */
+			/* link its siblings onto the end of its children, fix all parent pointers */
 			scan = (CamelFolderThreadNode *)&newtop->child;
-			while (scan->next)
+			while (scan->next) {
 				scan = scan->next;
+			}
 			scan->next = newtop->next;
+			while (scan->next) {
+				scan = scan->next;
+				scan->parent = newtop;
+			}
+
 			/* and link the now 'real' node into the list */
 			newtop->next = child->next;
 			c = newtop;
+			m(memset(child, 0xde, sizeof(*child)));
 			e_memchunk_free(thread->node_chunks, child);
 		} else {
 			c = child;
@@ -544,6 +555,8 @@ thread_summary(CamelFolderThread *thread, GPtrArray *summary)
 		c = c->next;
 		if (c->message == NULL)
 			g_warning("threading missed removing a pseudo node: %s\n", c->root_subject);
+		if (c->parent != NULL)
+			g_warning("base node has a non-null parent: %s\n", c->root_subject);
 	}
 
 	thread->tree = head;
@@ -616,7 +629,8 @@ camel_folder_thread_messages_new (CamelFolder *folder, GPtrArray *uids, gboolean
 
 	thread_summary(thread, summary);
 
-	g_hash_table_destroy(wanted);
+	if (wanted)
+		g_hash_table_destroy(wanted);
 
 	return thread;
 }

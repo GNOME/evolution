@@ -36,8 +36,8 @@ typedef struct _CamelFolderThreadNode {
 		*child;
 	const CamelMessageInfo *message;
 	char *root_subject;	/* cached root equivalent subject */
-	int re;			/* re version of subject? */
-	int order;
+	guint32 order:31;
+	guint32 re:1;			/* re version of subject? */
 } CamelFolderThreadNode;
 
 typedef struct _CamelFolderThread {
