@@ -255,19 +255,3 @@ noinst_HEADERS =				\
 
 EXTRA_DIST =					\
 	README
-
-#noinst_PROGRAMS =				\
-#	camel-mime-filter-from
-#
-#camel_mime_filter_from_SOURCES = 		\
-#	camel-mime-filter-from.c
-#
-#camel_mime_filter_from_LDADD = 		\
-#	../camel/libcamel.la			\
-#	../e-util/libeutil.la			\
-#	../libibex/libibex.la			\
-#	$(GNOME_LIBDIR)				\
-#	$(GNOMEUI_LIBS)				\
-#	$(INTLLIBS)				\
-#	$(PTHREAD_LIB)				\
-#	$(EXTRA_GNOME_LIBS)

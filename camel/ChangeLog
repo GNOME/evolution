@@ -1,5 +1,9 @@
 2002-01-24  Ettore Perazzoli  <ettore@ximian.com>
 
+	* Makefile.am: Remove some old cruft.
+
+2002-01-24  Ettore Perazzoli  <ettore@ximian.com>
+
 	* tests/folder/Makefile.am: s/MAILER_LIBS/EVOLUTION_MAIL_LIBS/.
 	* tests/message/Makefile.am: Likewise.
 	* tests/mime-filter/Makefile.am: Likewise.
