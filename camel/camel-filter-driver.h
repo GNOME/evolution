@@ -72,14 +72,14 @@ void 	camel_filter_driver_add_rule		(CamelFilterDriver *d, const char *name, con
 
 /*void camel_filter_driver_set_global(CamelFilterDriver *, const char *name, const char *value);*/
 
-void    camel_filter_driver_filter_message      (CamelFilterDriver *driver, CamelMimeMessage *message,
-						 CamelMessageInfo *info, const char *uri,
-						 CamelFolder *source, const char *source_url,
-						 CamelException *ex);
-void    camel_filter_driver_filter_mbox         (CamelFilterDriver *driver, const char *mbox,
-						 CamelException *ex);
-void    camel_filter_driver_filter_folder       (CamelFilterDriver *driver, CamelFolder *folder,
-						 GPtrArray *uids, gboolean remove, CamelException *ex);
+gboolean camel_filter_driver_filter_message      (CamelFilterDriver *driver, CamelMimeMessage *message,
+						  CamelMessageInfo *info, const char *uri,
+						  CamelFolder *source, const char *source_url,
+						  CamelException *ex);
+gboolean camel_filter_driver_filter_mbox         (CamelFilterDriver *driver, const char *mbox,
+						  CamelException *ex);
+gboolean camel_filter_driver_filter_folder       (CamelFilterDriver *driver, CamelFolder *folder,
+						  GPtrArray *uids, gboolean remove, CamelException *ex);
 
 #if 0
 /* generate the search query/action string for a filter option */

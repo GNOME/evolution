@@ -1,5 +1,14 @@
 2001-03-18  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-filter-driver.c (camel_filter_driver_filter_message):
+	Document and modify to return a boolean value denoting whether or
+	not errors occured during processing.
+	(camel_filter_driver_filter_mbox): Same as above and also modified
+	to check return codes of filter_message rather than relying only
+	on whether or not the exception was set (as it's possible to pass
+	in NULL for the exception).
+	(camel_filter_driver_filter_folder): Same as above.
+
 	* camel-mime-utils.c (header_param_list_format_append): Quote the
 	param value if it contains whitespace as well.
 

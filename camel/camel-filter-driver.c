@@ -598,8 +598,21 @@ camel_filter_driver_log (CamelFilterDriver *driver, enum filter_log_t status, co
 }
 
 
-/* will filter only an mbox - is more efficient as it doesn't need to open the folder through camel directly */
-void
+/**
+ * camel_filter_driver_filter_mbox:
+ * @driver: CamelFilterDriver
+ * @mbox: mbox filename to be filtered
+ * @ex: exception
+ *
+ * Filters an mbox file based on rules defined in the FilterDriver
+ * object. Is more efficient as it doesn't need to open the folder
+ * through Camel directly.
+ *
+ * Returns FALSE if errors were encountered during filtering,
+ * otherwise returns TRUE.
+ *
+ **/
+gboolean
 camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, CamelException *ex)
 {
 	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
@@ -608,6 +621,7 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, Ca
 	int fd = -1;
 	int i = 0;
 	struct stat st;
+	gboolean status;
 	
 	fd = open (mbox, O_RDONLY);
 	if (fd == -1) {
@@ -644,9 +658,9 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, Ca
 			goto fail;
 		}
 		
-		camel_filter_driver_filter_message (driver, msg, NULL, NULL, NULL, source_url, ex);
+		status = camel_filter_driver_filter_message (driver, msg, NULL, NULL, NULL, source_url, ex);
 		camel_object_unref (CAMEL_OBJECT (msg));
-		if (camel_exception_is_set (ex)) {
+		if (camel_exception_is_set (ex) || !status) {
 			report_status (driver, CAMEL_FILTER_STATUS_END, 100, "Failed message %d", i);
 			goto fail;
 		}
@@ -664,16 +678,35 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, Ca
 
 	report_status (driver, CAMEL_FILTER_STATUS_END, 100, "Complete");
 	
+	return TRUE;
+	
 fail:
 	g_free (source_url);
 	if (fd != -1)
 		close (fd);
 	if (mp)
 		camel_object_unref (CAMEL_OBJECT (mp));
+	
+	return FALSE;
 }
 
-/* will filter a folder */
-void
+
+/**
+ * camel_filter_driver_filter_folder:
+ * @driver: CamelFilterDriver
+ * @folder: CamelFolder to be filtered
+ * @uids: message uids to be filtered or NULL (as a shortcut to filter all messages)
+ * @remove: TRUE to mark filtered messages as deleted
+ * @ex: exception
+ *
+ * Filters a folder based on rules defined in the FilterDriver
+ * object.
+ *
+ * Returns FALSE if errors were encountered during filtering,
+ * otherwise returns TRUE.
+ *
+ **/
+gboolean
 camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folder,
 				   GPtrArray *uids, gboolean remove, CamelException *ex)
 {
@@ -683,6 +716,7 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 	CamelMimeMessage *message;
 	CamelMessageInfo *info;
 	char *source_url, *service_url;
+	gboolean status = TRUE;
 	
 	service_url = camel_service_get_url (CAMEL_SERVICE (camel_folder_get_parent_store (folder)));
 	source_url = g_strdup_printf ("%s%s", service_url, camel_folder_get_full_name (folder));
@@ -711,13 +745,13 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 		else
 			info = NULL;
 		
-		camel_filter_driver_filter_message (driver, message, info, uids->pdata[i],
-						    folder, source_url, ex);
+		status = camel_filter_driver_filter_message (driver, message, info, uids->pdata[i],
+							     folder, source_url, ex);
 		
 		if (camel_folder_has_summary_capability (folder))
 			camel_folder_free_message_info (folder, info);
 
-		if (camel_exception_is_set (ex)) {
+		if (camel_exception_is_set (ex) || !status) {
 			report_status (driver, CAMEL_FILTER_STATUS_END, 100, "Failed at message %d of %d",
 				       i+1, uids->len);
 			break;
@@ -741,11 +775,33 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 	if (i == uids->len)
 		report_status (driver, CAMEL_FILTER_STATUS_END, 100, "Complete");
 	
-	
 	g_free (source_url);
+	
+	return status;
 }
 
-void
+
+/**
+ * camel_filter_driver_filter_message:
+ * @driver: CamelFilterDriver
+ * @message: message to filter
+ * @info: message info or NULL
+ * @uid: message uid or NULL
+ * @source: source folder or NULL
+ * @source_url: url of source folder or NULL
+ * @ex: exception
+ *
+ * Filters a message based on rules defined in the FilterDriver
+ * object. If the source folder (@source) and the uid (@uid) are
+ * provided, the filter will operate on the CamelFolder (which in
+ * certain cases is more efficient than using the default
+ * camel_folder_append_message() function).
+ *
+ * Returns FALSE if errors were encountered during filtering,
+ * otherwise returns TRUE.
+ *
+ **/
+gboolean
 camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage *message,
 				    CamelMessageInfo *info, const char *uid,
 				    CamelFolder *source, const char *source_url,
@@ -764,7 +820,7 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 		freeinfo = TRUE;
 	} else {
 		if (info->flags & CAMEL_MESSAGE_DELETED)
-			return;
+			return TRUE;
 	}
 	
 	p->ex = ex;
@@ -816,11 +872,15 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 		else
 			camel_folder_append_message (p->defaultfolder, p->message, p->info, p->ex);
 	}
-
+	
+	return TRUE;
+	
 error:	
 	if (filtered)
 		camel_filter_driver_log (driver, FILTER_LOG_END, NULL);
 	
 	if (freeinfo)
 		camel_message_info_free (info);
+	
+	return FALSE;
 }
