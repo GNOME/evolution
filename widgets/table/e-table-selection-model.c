@@ -605,8 +605,10 @@ move_selection (ETableSelectionModel *selection,
 		row--;
 	else
 		row++;
-	if (row < 0 || row > selection->row_count)
-		return FALSE;
+	if (row < 0)
+		row = 0;
+	if (row >= selection->row_count)
+		row = selection->row_count - 1;
 	row = e_table_sorter_sorted_to_model(selection->sorter, row);
 
 	switch (selection->mode) {
