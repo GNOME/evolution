@@ -7,6 +7,40 @@
 
 #include "e-text.h"
 #include <gnome.h>
+#include "e-util/e-canvas.h"
+GnomeCanvasItem *rect;
+
+static void allocate_callback(GtkWidget *canvas, GtkAllocation *allocation, GnomeCanvasItem *item)
+{
+  double height;
+  gnome_canvas_item_set( item,
+			 "width", (double) allocation->width,
+			 NULL );
+  gtk_object_get(GTK_OBJECT(item),
+		 "height", &height,
+		 NULL);
+  height = MAX(height, allocation->height);
+  gnome_canvas_set_scroll_region(GNOME_CANVAS( canvas ), 0, 0, allocation->width, height );
+  gnome_canvas_item_set( rect,
+			 "x2", (double) allocation->width,
+			 "y2", (double) height,
+			 NULL );
+}
+
+static void
+reflow (GtkWidget *canvas, GnomeCanvasItem *item)
+{
+  double height;
+  gtk_object_get(GTK_OBJECT(item),
+		 "height", &height,
+		 NULL);
+  height = MAX(height, canvas->allocation.height);
+  gnome_canvas_set_scroll_region(GNOME_CANVAS( canvas ), 0, 0, canvas->allocation.width, height );
+  gnome_canvas_item_set( rect,
+			 "x2", (double) canvas->allocation.width,
+			 "y2", (double) height,
+			 NULL );
+}
 
 static void
 quit_cb (GtkWidget *widget,
@@ -55,7 +89,7 @@ main (int argc,
 
   gtk_widget_push_visual (gdk_rgb_get_visual ());
   gtk_widget_push_colormap (gdk_rgb_get_cmap ());
-  canvas = gnome_canvas_new ();
+  canvas = e_canvas_new ();
   gtk_widget_pop_visual ();
   gtk_widget_pop_colormap ();
   scroller = gtk_scrolled_window_new (NULL, NULL);
@@ -67,28 +101,37 @@ main (int argc,
 
   frame = gtk_frame_new ("Text");
   text = gtk_entry_new ();
+  gtk_entry_set_text(GTK_ENTRY(text), "Hello World! This is a really long string to test out the ellipsis stuff.");
   gtk_container_add (GTK_CONTAINER (frame), text);
   gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, FALSE, 0);
   
   frame = gtk_frame_new ("Font");
   font = gtk_entry_new ();
+  gtk_entry_set_text(GTK_ENTRY(font), "fixed");
   gtk_container_add (GTK_CONTAINER (frame), font);
   gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, FALSE, 0);
+
+  rect = gnome_canvas_item_new( gnome_canvas_root( GNOME_CANVAS( canvas ) ),
+				gnome_canvas_rect_get_type(),
+				"x1", (double) 0,
+				"y1", (double) 0,
+				"x2", (double) 100,
+				"y2", (double) 100,
+				"fill_color", "white",
+				NULL );
 
   item = gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (canvas)),
 				e_text_get_type (),
 				"text", "Hello World! This is a really long string to test out the ellipsis stuff.",
-				"x", 10.0,
-				"y", 10.0,
-				"font", "-adobe-helvetica-medium-r-normal--12-*-72-72-p-*-iso8859-1",
+				"font", "fixed",
 				"fill_color", "black",
 				"anchor", GTK_ANCHOR_NW,
+				"clip", TRUE,
 				"use_ellipsis", TRUE,
-				"ellipsis", "...",
 				"editable", TRUE,
 				"line_wrap", TRUE,
-				"max_lines", 3,
-				"clip_width", 150.0,
+				"max_lines", 2,
+				"width", 150.0,
 				NULL);
 
   gtk_signal_connect (GTK_OBJECT (text), "activate",
@@ -96,6 +139,12 @@ main (int argc,
   gtk_signal_connect (GTK_OBJECT (font), "activate",
 		      GTK_SIGNAL_FUNC (change_font_cb), item);
 
+  gtk_signal_connect( GTK_OBJECT( canvas ), "size_allocate",
+		      GTK_SIGNAL_FUNC( allocate_callback ),
+		      item );
+  gtk_signal_connect( GTK_OBJECT( canvas ), "reflow",
+		      GTK_SIGNAL_FUNC( reflow ),
+		      item );
   gnome_canvas_set_scroll_region (GNOME_CANVAS (canvas), 0.0, 0.0, 400.0, 400.0);
   gtk_widget_show_all (window);
   gtk_main ();

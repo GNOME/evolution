@@ -1,5 +1,15 @@
 2000-04-04  Christopher James Lahey  <clahey@helixcode.com>
 
+	* widgets/e-text/e-text-test.c: Got rid of some runtime errors.
+	Changed to "fixed" font so that it will work on everyone's
+	machine.  Added a white background rectangle.  Made resizing the
+	window resize the contained text item.  Changed to using affines
+	(e_canvas_item_move_absolute) instead of "x" and "y" attributes.
+	Set the text in the entries so that they match the original values
+	of the displayed text object.
+
+2000-04-04  Christopher James Lahey  <clahey@helixcode.com>
+
 	* widgets/e-minicard/e-minicard.c: Fixed some referencing and
 	lifetime issues.
 
