@@ -1,5 +1,8 @@
 2003-02-24  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-charset-map.c (camel_charset_canonical_name): g_alloca
+	(strlen (charset) + 1) so we don't overflow the buffer.
+
 	* providers/pop3/camel-pop3-stream.c (stream_write): Don't write
 	the passwd, fixes "bug" #38601.
 

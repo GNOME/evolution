@@ -400,7 +400,7 @@ camel_charset_canonical_name (const char *charset)
 	if (charset == NULL)
 		return NULL;
 	
-	name = g_alloca (strlen (charset));
+	name = g_alloca (strlen (charset) + 1);
 	strcpy (name, charset);
 	g_ascii_strdown (name, -1);
 	
