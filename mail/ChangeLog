@@ -1,3 +1,8 @@
+2002-05-09  Ettore Perazzoli  <ettore@ximian.com>
+
+	* component-factory.c (add_storage): Pass %FALSE as
+	@has_shared_folders to evolution_storage_new().
+
 2002-05-09  JP Rosevear  <jpr@ximian.com>
 
 	* Makefile.am: dist Spell.idl

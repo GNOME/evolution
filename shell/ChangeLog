@@ -1,5 +1,24 @@
 2002-05-09  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-local-storage.c (construct): Pass %FALSE as
+	@has_shared_folders to evolution_storage_new().
+
+	* evolution-storage.c: New member has_shared_folders in
+	EvolutionStoragePrivate.
+	(init): Initialize to FALSE.
+	(evolution_storage_new): New arg @has_shared_folders.
+	(evolution_storage_construct): Likewise.
+	(impl_Storage__get_folderList): Renamed from
+	impl_Storage__get_folder_list.
+	(impl_Storage__get_hasSharedFolders): New, implementation for
+	::hasSharedFolders.
+	(evolution_storage_get_epv): Install the CORBA method
+	implementation.
+
+	* Evolution-Storage.idl: Make Storage::name a readonly attribute.  New attribute Storage::
+
+2002-05-09  Ettore Perazzoli  <ettore@ximian.com>
+
 	* Evolution-Offline.idl: Rename NotPrepared to notPrepared and
 	NotSyncing to notSyncing.
 

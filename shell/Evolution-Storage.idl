@@ -37,12 +37,15 @@ module Evolution {
 			string path;
 		};
 
+		/* The name of the storage.  */
+		readonly attribute string name;
+
+		/* Whether the storage has folders from other user's.  */
+		readonly attribute boolean hasSharedFolders;
+		
 		/* Flat list of the folders in the storage.  */
 		readonly attribute FolderList folderList;
 
-		/* The name of the storage.  */
-		attribute string name;
-		
 		void asyncCreateFolder (in string path,
 					in string type,
 					in string description,

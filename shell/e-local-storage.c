@@ -1039,7 +1039,7 @@ construct (ELocalStorage *local_storage,
 	priv->base_path = g_strndup (base_path, base_path_len);
 
 	g_assert (priv->bonobo_interface == NULL);
-	priv->bonobo_interface = evolution_storage_new (E_LOCAL_STORAGE_NAME);
+	priv->bonobo_interface = evolution_storage_new (E_LOCAL_STORAGE_NAME, FALSE);
 
 	gtk_signal_connect (GTK_OBJECT (priv->bonobo_interface), "create_folder",
 			    GTK_SIGNAL_FUNC (bonobo_interface_create_folder_cb), 

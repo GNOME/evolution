@@ -45,6 +45,9 @@ struct _EvolutionStoragePrivate {
 	/* Name of the storage.  */
 	char *name;
 
+	/* Whether there are shared folders in this storage.  */
+	gboolean has_shared_folders;
+
 	/* What we will display as the name of the storage. */
 	char *display_name;
 
@@ -250,6 +253,21 @@ impl_Storage__get_name (PortableServer_Servant servant,
 	return CORBA_string_dup (priv->name);
 }
 
+static CORBA_boolean
+impl_Storage__get_hasSharedFolders (PortableServer_Servant servant,
+				    CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	EvolutionStorage *storage;
+	EvolutionStoragePrivate *priv;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	storage = EVOLUTION_STORAGE (bonobo_object);
+	priv = storage->priv;
+
+	return priv->has_shared_folders;
+}
+
 static void
 get_folder_list_foreach (EFolderTree *tree,
 			 const char *path,
@@ -279,8 +297,8 @@ get_folder_list_foreach (EFolderTree *tree,
 }
 
 static GNOME_Evolution_FolderList *
-impl_Storage__get_folder_list (PortableServer_Servant servant,
-			       CORBA_Environment *ev)
+impl_Storage__get_folderList (PortableServer_Servant servant,
+			      CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	EvolutionStorage *storage;
@@ -640,6 +658,7 @@ init (EvolutionStorage *storage)
 
 	priv = g_new (EvolutionStoragePrivate, 1);
 	priv->name                    = NULL;
+	priv->has_shared_folders      = FALSE;
 	priv->folder_tree             = e_folder_tree_new (folder_destroy_notify, storage);
 	priv->uri_to_path             = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->corba_storage_listeners = NULL;
@@ -654,15 +673,16 @@ evolution_storage_get_epv (void)
 	POA_GNOME_Evolution_Storage__epv *epv;
 
 	epv = g_new0 (POA_GNOME_Evolution_Storage__epv, 1);
-	epv->_get_name         = impl_Storage__get_name;
-	epv->_get_folderList   = impl_Storage__get_folder_list;
-	epv->asyncCreateFolder = impl_Storage_async_create_folder;
-	epv->asyncRemoveFolder = impl_Storage_async_remove_folder;
-	epv->asyncXferFolder   = impl_Storage_async_xfer_folder;
-	epv->asyncOpenFolder   = impl_Storage_async_open_folder;
-	epv->updateFolder      = impl_Storage_updateFolder;
-	epv->addListener       = impl_Storage_add_listener;
-	epv->removeListener    = impl_Storage_remove_listener;
+	epv->_get_name             = impl_Storage__get_name;
+	epv->_get_hasSharedFolders = impl_Storage__get_hasSharedFolders;
+	epv->_get_folderList       = impl_Storage__get_folderList;
+	epv->asyncCreateFolder     = impl_Storage_async_create_folder;
+	epv->asyncRemoveFolder     = impl_Storage_async_remove_folder;
+	epv->asyncXferFolder       = impl_Storage_async_xfer_folder;
+	epv->asyncOpenFolder       = impl_Storage_async_open_folder;
+	epv->updateFolder          = impl_Storage_updateFolder;
+	epv->addListener           = impl_Storage_add_listener;
+	epv->removeListener        = impl_Storage_remove_listener;
 
 	return epv;
 }
@@ -670,7 +690,8 @@ evolution_storage_get_epv (void)
 void
 evolution_storage_construct (EvolutionStorage *storage,
 			     GNOME_Evolution_Storage corba_object,
-			     const char *name)
+			     const char *name,
+			     gboolean has_shared_folders)
 {
 	EvolutionStoragePrivate *priv;
 	CORBA_Environment ev;
@@ -687,12 +708,14 @@ evolution_storage_construct (EvolutionStorage *storage,
 
 	priv = storage->priv;
 	priv->name               = g_strdup (name);
+	priv->has_shared_folders = !! has_shared_folders;
 
 	CORBA_exception_free (&ev);
 }
 
 EvolutionStorage *
-evolution_storage_new (const char *name)
+evolution_storage_new (const char *name,
+		       gboolean has_shared_folders)
 {
 	EvolutionStorage *new;
 	POA_GNOME_Evolution_Storage *servant;
@@ -708,7 +731,7 @@ evolution_storage_new (const char *name)
 	new = gtk_type_new (evolution_storage_get_type ());
 
 	corba_object = bonobo_object_activate_servant (BONOBO_OBJECT (new), servant);
-	evolution_storage_construct (new, corba_object, name);
+	evolution_storage_construct (new, corba_object, name, has_shared_folders);
 
 	return new;
 }

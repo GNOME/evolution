@@ -113,8 +113,10 @@ POA_GNOME_Evolution_Storage__epv *evolution_storage_get_epv            (void);
 GtkType                 evolution_storage_get_type             (void);
 void                    evolution_storage_construct            (EvolutionStorage                *storage,
 								GNOME_Evolution_Storage          corba_object,
-								const char                      *name);
-EvolutionStorage       *evolution_storage_new                  (const char                      *name);
+								const char                      *name,
+								gboolean                         has_shared_folders);
+EvolutionStorage       *evolution_storage_new                  (const char                      *name,
+								gboolean                         has_shared_folders);
 
 void                    evolution_storage_rename               (EvolutionStorage                *storage,
 								const char                      *new_name);
