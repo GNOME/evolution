@@ -1,7 +1,8 @@
 2000-10-20  Dan Winship  <danw@helixcode.com>
 
-	* Evolution-Composer.idl:
-	* evolution-composer.[ch]: Evolution::Composer interface. So
+	* Evolution-Composer.idl: Evolution::Composer interface
+
+	* evolution-composer.[ch]: Implementation and factory. So
 	entirely not tested.
 
 	* Makefile.am (libcomposer_la_SOURCES): Add
