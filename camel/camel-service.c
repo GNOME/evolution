@@ -534,10 +534,10 @@ camel_service_get_name (CamelService *service, gboolean brief)
 static char *
 get_path (CamelService *service)
 {
+	CamelProvider *prov = service->provider;
+	CamelURL *url = service->url;
 	GString *gpath;
 	char *path;
-	CamelURL *url = service->url;
-	CamelProvider *prov = service->provider;
 	
 	/* A sort of ad-hoc default implementation that works for our
 	 * current set of services.
@@ -546,33 +546,31 @@ get_path (CamelService *service)
 	gpath = g_string_new (service->provider->protocol);
 	if (CAMEL_PROVIDER_ALLOWS (prov, CAMEL_URL_PART_USER)) {
 		if (CAMEL_PROVIDER_ALLOWS (prov, CAMEL_URL_PART_HOST)) {
-			g_string_sprintfa (gpath, "/%s@%s",
-					   url->user ? url->user : "",
-					   url->host ? url->host : "");
+			g_string_append_printf (gpath, "/%s@%s",
+						url->user ? url->user : "",
+						url->host ? url->host : "");
 			
 			if (url->port)
-				g_string_sprintfa (gpath, ":%d", url->port);
+				g_string_append_printf (gpath, ":%d", url->port);
 		} else {
-			g_string_sprintfa (gpath, "/%s%s",
-					   url->user ? url->user : "",
-					   CAMEL_PROVIDER_NEEDS (prov, CAMEL_URL_PART_USER) ? "" : "@");
+			g_string_append_printf (gpath, "/%s%s", url->user ? url->user : "",
+						CAMEL_PROVIDER_NEEDS (prov, CAMEL_URL_PART_USER) ? "" : "@");
 		}
 	} else if (CAMEL_PROVIDER_ALLOWS (prov, CAMEL_URL_PART_HOST)) {
-		g_string_sprintfa (gpath, "/%s%s",
-				   CAMEL_PROVIDER_NEEDS (prov, CAMEL_URL_PART_HOST) ? "" : "@",
-				   url->host ? url->host : "");
+		g_string_append_printf (gpath, "/%s%s",
+					CAMEL_PROVIDER_NEEDS (prov, CAMEL_URL_PART_HOST) ? "" : "@",
+					url->host ? url->host : "");
 		
 		if (url->port)
-			g_string_sprintfa (gpath, ":%d", url->port);
+			g_string_append_printf (gpath, ":%d", url->port);
 	}
-	if (CAMEL_PROVIDER_NEEDS (prov, CAMEL_URL_PART_PATH)) {
-		g_string_sprintfa (gpath, "%s%s",
-				   *url->path == '/' ? "" : "/",
-				   url->path);
-	}
+	
+	if (CAMEL_PROVIDER_NEEDS (prov, CAMEL_URL_PART_PATH))
+		g_string_append_printf (gpath, "%s%s", *url->path == '/' ? "" : "/", url->path);
 	
 	path = gpath->str;
 	g_string_free (gpath, FALSE);
+	
 	return path;
 }		
 

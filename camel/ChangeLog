@@ -1,3 +1,13 @@
+2002-12-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-url.c: Replace calls to g_string_sprintfa() with
+	g_string_append_printf() since the former seems to have been
+	deprecated.
+
+	* camel-service.c: Same.
+
+	* camel-mime-utils.c: Here too.
+
 2002-12-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-part-utils.c

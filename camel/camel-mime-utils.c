@@ -3000,7 +3000,7 @@ header_encode_param (const unsigned char *in, gboolean *encoded)
 	
 	/* FIXME: set the 'language' as well, assuming we can get that info...? */
 	out = g_string_new ("");
-	g_string_sprintfa (out, "%s''", charset);
+	g_string_append_printf (out, "%s''", charset);
 	
 	while (inptr < inend) {
 		unsigned char c = *inptr++;
@@ -3008,9 +3008,9 @@ header_encode_param (const unsigned char *in, gboolean *encoded)
 		/* FIXME: make sure that '\'', '*', and ';' are also encoded */
 		
 		if (c > 127) {
-			g_string_sprintfa (out, "%%%c%c", tohex[(c >> 4) & 0xf], tohex[c & 0xf]);
+			g_string_append_printf (out, "%%%c%c", tohex[(c >> 4) & 0xf], tohex[c & 0xf]);
 		} else if (is_lwsp (c) || !(camel_mime_special_table[c] & IS_ESAFE)) {
-			g_string_sprintfa (out, "%%%c%c", tohex[(c >> 4) & 0xf], tohex[c & 0xf]);
+			g_string_append_printf (out, "%%%c%c", tohex[(c >> 4) & 0xf], tohex[c & 0xf]);
 		} else {
 			g_string_append_c (out, c);
 		}
@@ -3097,7 +3097,7 @@ header_param_list_format_append (GString *out, struct _header_param *p)
 					used = 0;
 				}
 				
-				g_string_sprintfa (out, "%s*%d%s=", p->name, i++, encoded ? "*" : "");
+				g_string_append_printf (out, "%s*%d%s=", p->name, i++, encoded ? "*" : "");
 				if (encoded || !quote)
 					g_string_append_len (out, inptr, ptr - inptr);
 				else
@@ -3110,7 +3110,7 @@ header_param_list_format_append (GString *out, struct _header_param *p)
 				inptr = ptr;
 			}
 		} else {
-			g_string_sprintfa (out, "%s%s=", p->name, encoded ? "*" : "");
+			g_string_append_printf (out, "%s%s=", p->name, encoded ? "*" : "");
 			
 			if (encoded || !quote)
 				g_string_append (out, value);
@@ -3196,31 +3196,32 @@ header_content_type_dump(struct _header_content_type *ct)
 }
 
 char *
-header_content_type_format(struct _header_content_type *ct)
+header_content_type_format (struct _header_content_type *ct)
 {
 	GString *out;
 	char *ret;
-
-	if (ct==NULL)
+	
+	if (ct == NULL)
 		return NULL;
-
-	out = g_string_new("");
+	
+	out = g_string_new ("");
 	if (ct->type == NULL) {
-		g_string_sprintfa(out, "text/plain");
-		w(g_warning("Content-Type with no main type"));
+		g_string_append_printf (out, "text/plain");
+		w(g_warning ("Content-Type with no main type"));
 	} else if (ct->subtype == NULL) {
-		w(g_warning("Content-Type with no sub type: %s", ct->type));
-		if (!strcasecmp(ct->type, "multipart"))
-			g_string_sprintfa(out, "%s/mixed", ct->type);
+		w(g_warning ("Content-Type with no sub type: %s", ct->type));
+		if (!strcasecmp (ct->type, "multipart"))
+			g_string_append_printf (out, "%s/mixed", ct->type);
 		else
-			g_string_sprintfa(out, "%s", ct->type);
+			g_string_append_printf (out, "%s", ct->type);
 	} else {
-		g_string_sprintfa(out, "%s/%s", ct->type, ct->subtype);
+		g_string_append_printf (out, "%s/%s", ct->type, ct->subtype);
 	}
-	header_param_list_format_append(out, ct->params);
-
+	header_param_list_format_append (out, ct->params);
+	
 	ret = out->str;
-	g_string_free(out, FALSE);
+	g_string_free (out, FALSE);
+	
 	return ret;
 }
 
@@ -3933,10 +3934,10 @@ void header_address_list_clear(struct _header_address **l)
 /* if encode is true, then the result is suitable for mailing, otherwise
    the result is suitable for display only (and may not even be re-parsable) */
 static void
-header_address_list_encode_append(GString *out, int encode, struct _header_address *a)
+header_address_list_encode_append (GString *out, int encode, struct _header_address *a)
 {
 	char *text;
-
+	
 	while (a) {
 		switch (a->type) {
 		case HEADER_ADDRESS_NAME:
@@ -3945,64 +3946,65 @@ header_address_list_encode_append(GString *out, int encode, struct _header_addre
 			else
 				text = a->name;
 			if (text && *text)
-				g_string_sprintfa(out, "%s <%s>", text, a->v.addr);
+				g_string_append_printf (out, "%s <%s>", text, a->v.addr);
 			else
-				g_string_append(out, a->v.addr);
+				g_string_append (out, a->v.addr);
 			if (encode)
-				g_free(text);
+				g_free (text);
 			break;
 		case HEADER_ADDRESS_GROUP:
 			if (encode)
-				text = header_encode_phrase(a->name);
+				text = header_encode_phrase (a->name);
 			else
 				text = a->name;
-			g_string_sprintfa(out, "%s: ", text);
-			header_address_list_encode_append(out, encode, a->v.members);
-			g_string_sprintfa(out, ";");
+			g_string_append_printf (out, "%s: ", text);
+			header_address_list_encode_append (out, encode, a->v.members);
+			g_string_append_printf (out, ";");
 			if (encode)
-				g_free(text);
+				g_free (text);
 			break;
 		default:
-			g_warning("Invalid address type");
+			g_warning ("Invalid address type");
 			break;
 		}
 		a = a->next;
 		if (a)
-			g_string_append(out, ", ");
+			g_string_append (out, ", ");
 	}
 }
 
 char *
-header_address_list_encode(struct _header_address *a)
+header_address_list_encode (struct _header_address *a)
 {
 	GString *out;
 	char *ret;
-
+	
 	if (a == NULL)
 		return NULL;
-
-	out = g_string_new("");
-
-	header_address_list_encode_append(out, TRUE, a);
+	
+	out = g_string_new ("");
+	header_address_list_encode_append (out, TRUE, a);
 	ret = out->str;
-	g_string_free(out, FALSE);
+	g_string_free (out, FALSE);
+	
 	return ret;
 }
 
 char *
-header_address_list_format(struct _header_address *a)
+header_address_list_format (struct _header_address *a)
 {
 	GString *out;
 	char *ret;
-
+	
 	if (a == NULL)
 		return NULL;
-
-	out = g_string_new("");
-
-	header_address_list_encode_append(out, FALSE, a);
+	
+	out = g_string_new ("");
+	
+	header_address_list_encode_append (out, FALSE, a);
 	ret = out->str;
-	g_string_free(out, FALSE);
+	g_string_free (out, FALSE);
+	
 	return ret;
 }
 

@@ -304,15 +304,16 @@ camel_url_to_string (CamelURL *url, guint32 flags)
 {
 	GString *str;
 	char *enc, *return_result;
-
+	
 	/* IF YOU CHANGE ANYTHING IN THIS FUNCTION, RUN
 	 * tests/misc/url AFTERWARD.
 	 */
-
+	
 	str = g_string_sized_new (20);
-
+	
 	if (url->protocol)
-		g_string_sprintfa (str, "%s:", url->protocol);
+		g_string_append_printf (str, "%s:", url->protocol);
+	
 	if (url->host) {
 		g_string_append (str, "//");
 		if (url->user) {
@@ -322,45 +323,46 @@ camel_url_to_string (CamelURL *url, guint32 flags)
 		}
 		if (url->authmech && *url->authmech) {
 			enc = camel_url_encode (url->authmech, TRUE, ":@/");
-			g_string_sprintfa (str, ";auth=%s", enc);
+			g_string_append_printf (str, ";auth=%s", enc);
 			g_free (enc);
 		}
 		if (url->passwd && !(flags & CAMEL_URL_HIDE_PASSWORD)) {
 			enc = camel_url_encode (url->passwd, TRUE, "@/");
-			g_string_sprintfa (str, ":%s", enc);
+			g_string_append_printf (str, ":%s", enc);
 			g_free (enc);
 		}
 		if (url->host) {
 			enc = camel_url_encode (url->host, TRUE, ":/");
-			g_string_sprintfa (str, "%s%s", url->user ? "@" : "", enc);
+			g_string_append_printf (str, "%s%s", url->user ? "@" : "", enc);
 			g_free (enc);
 		}
 		if (url->port)
-			g_string_sprintfa (str, ":%d", url->port);
+			g_string_append_printf (str, ":%d", url->port);
 		if (!url->path && (url->params || url->query || url->fragment))
 			g_string_append_c (str, '/');
 	}
-
+	
 	if (url->path) {
 		enc = camel_url_encode (url->path, FALSE, ";?#");
-		g_string_sprintfa (str, "%s", enc);
+		g_string_append_printf (str, "%s", enc);
 		g_free (enc);
 	}
 	if (url->params && !(flags & CAMEL_URL_HIDE_PARAMS))
 		g_datalist_foreach (&url->params, output_param, str);
 	if (url->query) {
 		enc = camel_url_encode (url->query, FALSE, "#");
-		g_string_sprintfa (str, "?%s", enc);
+		g_string_append_printf (str, "?%s", enc);
 		g_free (enc);
 	}
 	if (url->fragment) {
 		enc = camel_url_encode (url->fragment, FALSE, NULL);
-		g_string_sprintfa (str, "#%s", enc);
+		g_string_append_printf (str, "#%s", enc);
 		g_free (enc);
 	}
-
+	
 	return_result = str->str;
 	g_string_free (str, FALSE);
+	
 	return return_result;
 }
 
@@ -369,13 +371,13 @@ output_param (GQuark key_id, gpointer data, gpointer user_data)
 {
 	GString *str = user_data;
 	char *enc;
-
+	
 	enc = camel_url_encode (g_quark_to_string (key_id), FALSE, "?#");
-	g_string_sprintfa (str, ";%s", enc);
+	g_string_append_printf (str, ";%s", enc);
 	g_free (enc);
 	if (*(char *)data) {
 		enc = camel_url_encode (data, FALSE, "?#");
-		g_string_sprintfa (str, "=%s", enc);
+		g_string_append_printf (str, "=%s", enc);
 		g_free (enc);
 	}
 }
