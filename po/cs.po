@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-30 03:13+0200\n"
-"PO-Revision-Date: 2004-04-30 17:02+0200\n"
+"POT-Creation-Date: 2004-05-01 14:13+0200\n"
+"PO-Revision-Date: 2004-05-01 17:40+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -75,9 +75,8 @@ msgstr "Automatické dokončování"
 msgid "Certificates"
 msgstr "Certifikáty"
 
-# FIXME: s/autocomple/autocompletion/
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:3
-msgid "Configure autocomple here"
+msgid "Configure autocomplete here"
 msgstr "Zde nastavte automatické dokončování"
 
 #. Fix me *
@@ -3453,7 +3452,7 @@ msgstr "Vstupní soubor"
 msgid "No filename provided."
 msgstr "Není zadán název souboru."
 
-#: addressbook/util/e-destination.c:576
+#: addressbook/util/e-destination.c:577
 msgid "Unnamed List"
 msgstr "Nepojmenovaný seznam"
 
@@ -3535,7 +3534,7 @@ msgid "Evolution's Tasks component"
 msgstr "Komponenta Úkoly Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
-#: calendar/gui/e-tasks.c:928 calendar/gui/print.c:1819
+#: calendar/gui/e-tasks.c:991 calendar/gui/print.c:1819
 #: calendar/gui/tasks-component.c:591 calendar/gui/tasks-control.c:516
 #: calendar/importers/icalendar-importer.c:79
 #: calendar/importers/icalendar-importer.c:705
@@ -3546,41 +3545,34 @@ msgstr "Úkoly"
 msgid "Evolution Calendar alarm notification service"
 msgstr "Služba upozornění na alarm kalendáře Evolution"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:212
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:213
 msgid "Starting:"
 msgstr "Spuštění:"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:214
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:215
 msgid "Ending:"
 msgstr "Ukončení:"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:258
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:259
 msgid "Evolution Alarm"
 msgstr "Evolution alarm"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:353
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:358
 #, c-format
 msgid "Alarm on %s"
 msgstr "Alarm na %s"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:1
-#: ui/evolution-comp-editor.xml.h:1 ui/evolution-contact-editor.xml.h:1
-#: ui/evolution-contact-list-editor.xml.h:1
-#: ui/evolution-signature-editor.xml.h:1
-msgid "C_lose"
-msgstr "Z_avřít"
+msgid "Snooze _time (minutes):"
+msgstr "_Doba odložení (minut):"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:2
-msgid "Snoo_ze"
-msgstr "O_dložit"
-
-#: calendar/gui/alarm-notify/alarm-notify.glade.h:3
-msgid "Snooze time (minutes)"
-msgstr "Doba odložení (minut)"
-
-#: calendar/gui/alarm-notify/alarm-notify.glade.h:4
 msgid "_Edit appointment"
 msgstr "_Upravit událost"
+
+#: calendar/gui/alarm-notify/alarm-notify.glade.h:3
+msgid "_Snooze"
+msgstr "Od_ložit"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:873
 #: ui/evolution-message-composer.xml.h:10
@@ -3811,7 +3803,7 @@ msgstr "Umístění obsahuje"
 msgid "Unmatched"
 msgstr "Nepřiřazené"
 
-#: calendar/gui/calendar-commands.c:116 calendar/gui/gnome-cal.c:1636
+#: calendar/gui/calendar-commands.c:116 calendar/gui/gnome-cal.c:1706
 #: camel/providers/groupwise/camel-gw-listener.c:304
 #: camel/providers/groupwise/camel-gw-listener.c:327
 msgid "Calendar"
@@ -4908,15 +4900,15 @@ msgstr "Je požadován organizátor."
 msgid "At least one attendee is required."
 msgstr "Je požadován alespoň jeden účastník."
 
-#: calendar/gui/dialogs/meeting-page.c:650
+#: calendar/gui/dialogs/meeting-page.c:651
 msgid "_Delegate To..."
 msgstr "_Postoupit komu..."
 
 #. FIXME: need to disable for undeletable folders
-#: calendar/gui/dialogs/meeting-page.c:654
+#: calendar/gui/dialogs/meeting-page.c:655
 #: calendar/gui/e-calendar-table.c:1042 calendar/gui/e-calendar-table.c:1060
 #: calendar/gui/e-calendar-view.c:1312 calendar/gui/e-calendar-view.c:1344
-#: mail/em-folder-tree.c:2541 mail/em-folder-view.c:795
+#: mail/em-folder-tree.c:2609 mail/em-folder-view.c:795
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:14
 #: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
@@ -5546,7 +5538,7 @@ msgstr "Ne"
 #: camel/camel-tcp-stream-openssl.c:631
 #: camel/providers/smtp/camel-smtp-transport.c:172
 #: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:2120
-#: shell/e-component-registry.c:168 widgets/misc/e-charset-picker.c:62
+#: shell/e-component-registry.c:170 widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
 msgstr "Neznámá"
 
@@ -5645,7 +5637,7 @@ msgstr "_Vyjmout"
 
 #: calendar/gui/e-calendar-table.c:1030 calendar/gui/e-calendar-table.c:1056
 #: calendar/gui/e-calendar-view.c:1300 calendar/gui/e-calendar-view.c:1340
-#: mail/em-folder-tree.c:2534 ui/evolution-addressbook.xml.h:31
+#: mail/em-folder-tree.c:2602 ui/evolution-addressbook.xml.h:31
 #: ui/evolution-calendar.xml.h:39 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-message.xml.h:109 ui/evolution-tasks.xml.h:20
 msgid "_Copy"
@@ -6467,7 +6459,7 @@ msgstr "_Začátek schůzky:"
 msgid "Meeting _end time:"
 msgstr "_Konec schůzky:"
 
-#: calendar/gui/e-tasks.c:552 calendar/gui/gnome-cal.c:1951
+#: calendar/gui/e-tasks.c:615 calendar/gui/gnome-cal.c:2021
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -6476,19 +6468,19 @@ msgstr ""
 "Chyba na %s:\n"
 " %s"
 
-#: calendar/gui/e-tasks.c:580 calendar/gui/gnome-cal.c:1990
+#: calendar/gui/e-tasks.c:643 calendar/gui/gnome-cal.c:2060
 #, c-format
 msgid "The task backend for '%s' has crashed."
 msgstr "Obsluha úkolů pro '%s' spadla."
 
 #. FIXME Loading should be async
 #. FIXME With no event handling here the status message never actually changes
-#: calendar/gui/e-tasks.c:654
+#: calendar/gui/e-tasks.c:717
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "Otevírám úkoly v %s"
 
-#: calendar/gui/e-tasks.c:677
+#: calendar/gui/e-tasks.c:740
 #, c-format
 msgid ""
 "Error opening %s:\n"
@@ -6497,43 +6489,43 @@ msgstr ""
 "Chyba při otevírání %s:\n"
 "%s"
 
-#: calendar/gui/e-tasks.c:698
+#: calendar/gui/e-tasks.c:761
 msgid "Loading tasks"
 msgstr "Načítám úkoly"
 
-#: calendar/gui/e-tasks.c:802
+#: calendar/gui/e-tasks.c:865
 msgid "Completing tasks..."
 msgstr "Dokončuji úkoly..."
 
-#: calendar/gui/e-tasks.c:825
+#: calendar/gui/e-tasks.c:888
 msgid "Deleting selected objects..."
 msgstr "Mažu vybrané objekty..."
 
-#: calendar/gui/e-tasks.c:852
+#: calendar/gui/e-tasks.c:915
 msgid "Expunging"
 msgstr "Čistím"
 
-#: calendar/gui/gnome-cal.c:1809
+#: calendar/gui/gnome-cal.c:1879
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "Načítám události v %s"
 
-#: calendar/gui/gnome-cal.c:1828
+#: calendar/gui/gnome-cal.c:1898
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "Načítám úkoly v %s"
 
-#: calendar/gui/gnome-cal.c:1851
+#: calendar/gui/gnome-cal.c:1921
 #, c-format
 msgid "Opening %s"
 msgstr "Otevírám %s"
 
-#: calendar/gui/gnome-cal.c:1981
+#: calendar/gui/gnome-cal.c:2051
 #, c-format
 msgid "The calendar backend for '%s' has crashed."
 msgstr "Obsluha kalendáře pro '%s'spadla."
 
-#: calendar/gui/gnome-cal.c:2825
+#: calendar/gui/gnome-cal.c:2895
 msgid "Purging"
 msgstr "Čistím"
 
@@ -10918,7 +10910,7 @@ msgid "Could not get group: %s"
 msgstr "Nemohu získat skupinu: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:333
-msgid "Could not get messages: unspecificed error"
+msgid "Could not get messages: unspecified error"
 msgstr "Nemohu získat zprávy: neurčená chyba"
 
 #: camel/providers/nntp/camel-nntp-summary.c:378
@@ -12713,7 +12705,7 @@ msgstr "<kliknutím zde vyberete složku>"
 msgid "Create New Folder"
 msgstr "Vytvořit novou složku"
 
-#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2266
+#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2334
 #: mail/mail-component.c:731
 msgid "Specify where to create the folder:"
 msgstr "Upřesněte, kde chcete vytvořit složku:"
@@ -12741,78 +12733,78 @@ msgstr "Příchozí"
 msgid "Loading..."
 msgstr "Načítám..."
 
-#: mail/em-folder-tree.c:924
+#: mail/em-folder-tree.c:934
 #, c-format
 msgid "Moving folder %s"
 msgstr "Přesouvám složku %s"
 
-#: mail/em-folder-tree.c:926
+#: mail/em-folder-tree.c:936
 #, c-format
 msgid "Copying folder %s"
 msgstr "Kopíruji složku %s"
 
-#: mail/em-folder-tree.c:933
+#: mail/em-folder-tree.c:943
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Přesouvám zprávy do složky %s"
 
-#: mail/em-folder-tree.c:935
+#: mail/em-folder-tree.c:945
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Kopíruji zprávy do složky %s"
 
-#: mail/em-folder-tree.c:951
+#: mail/em-folder-tree.c:961
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Nelze upustit zprávy do úložiště nejvyšší úrovně"
 
-#: mail/em-folder-tree.c:2040 mail/em-folder-tree.c:2053
+#: mail/em-folder-tree.c:2108 mail/em-folder-tree.c:2121
 #: mail/em-folder-view.c:672 mail/em-folder-view.c:686
 #: mail/importers/evolution-mbox-importer.c:119
 msgid "Select folder"
 msgstr "Vyberte složku"
 
-#: mail/em-folder-tree.c:2080
+#: mail/em-folder-tree.c:2148
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "Vytvářím složku `%s'"
 
-#: mail/em-folder-tree.c:2266 mail/mail-component.c:731
+#: mail/em-folder-tree.c:2334 mail/mail-component.c:731
 msgid "Create folder"
 msgstr "Vytvořit složku"
 
-#: mail/em-folder-tree.c:2458
+#: mail/em-folder-tree.c:2526
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Přejmenovat složku \"%s\" na:"
 
-#: mail/em-folder-tree.c:2460
+#: mail/em-folder-tree.c:2528
 msgid "Rename Folder"
 msgstr "Přejmenovat složku"
 
-#: mail/em-folder-tree.c:2529 ui/evolution-addressbook.xml.h:44
+#: mail/em-folder-tree.c:2597 ui/evolution-addressbook.xml.h:44
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:35
 msgid "_View"
 msgstr "_Zobrazení"
 
-#: mail/em-folder-tree.c:2530
+#: mail/em-folder-tree.c:2598
 msgid "Open in _New Window"
 msgstr "Otevřít v _novém okně"
 
-#: mail/em-folder-tree.c:2535
+#: mail/em-folder-tree.c:2603
 msgid "_Move"
 msgstr "_Přesunout"
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:2539
+#: mail/em-folder-tree.c:2607
 msgid "_New Folder..."
 msgstr "_Nová složka..."
 
-#: mail/em-folder-tree.c:2542
+#: mail/em-folder-tree.c:2610
 msgid "_Rename"
 msgstr "_Přejmenovat"
 
-#: mail/em-folder-tree.c:2545 ui/evolution-mail-list.xml.h:27
+#: mail/em-folder-tree.c:2613 ui/evolution-mail-list.xml.h:27
 msgid "_Properties..."
 msgstr "Vla_stnosti..."
 
@@ -13383,11 +13375,11 @@ msgid "Check incoming mail being junk"
 msgstr "Kontrolovat, jestli je příchozí pošta smetí"
 
 #: mail/evolution-mail.schemas.in.in.h:4
-msgid "Citation highlight colour"
+msgid "Citation highlight color"
 msgstr "Barva zvýraznění citace"
 
 #: mail/evolution-mail.schemas.in.in.h:5
-msgid "Citation highlight colour."
+msgid "Citation highlight color."
 msgstr "Barva zvýraznění citace."
 
 #: mail/evolution-mail.schemas.in.in.h:6
@@ -13489,7 +13481,7 @@ msgid "Last time empty trash was run"
 msgstr "Datum, kdy bylo naposledu spuštěno vyprázdnění koše"
 
 #: mail/evolution-mail.schemas.in.in.h:29
-msgid "List of Labels and their associated colours"
+msgid "List of Labels and their associated colors"
 msgstr "Seznam štítků a jim přiřazených barev"
 
 #: mail/evolution-mail.schemas.in.in.h:30
@@ -13511,7 +13503,7 @@ msgstr "Seznam vlastních hlaviček a toho, jestli jsou povoleny."
 #: mail/evolution-mail.schemas.in.in.h:33
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
-"strings containing name:colour where colour uses the HTML hex encoding."
+"strings containing name:color where color uses the HTML hex encoding."
 msgstr ""
 "Seznam štítků, které zná komponenta pošty Evolution. Seznam obsahuje řetězce "
 "tvaru název:barva, kde barva používá kódování HTML hex."
@@ -13697,9 +13689,8 @@ msgstr "Určuje typ upozornění na novou poštu, které chce uživatel použív
 msgid "Spell check inline"
 msgstr "Hledat překlepy průběžně"
 
-# FIXME: s/hight/height/
 #: mail/evolution-mail.schemas.in.in.h:76
-msgid "Subscribe dialog default hight"
+msgid "Subscribe dialog default height"
 msgstr "Implicitní výška dialogu přihlašování"
 
 #: mail/evolution-mail.schemas.in.in.h:77
@@ -14505,7 +14496,7 @@ msgid "Execute Command..."
 msgstr "Vykonat příkaz..."
 
 #: mail/mail-config.glade.h:81
-msgid "Fi_xed -width:"
+msgid "Fi_xed-width:"
 msgstr "Pe_vná šířka:"
 
 #: mail/mail-config.glade.h:82
@@ -15599,7 +15590,7 @@ msgstr "%d %b %k:%M"
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: mail/message-list.c:3109
+#: mail/message-list.c:3105
 msgid "Generating message list"
 msgstr "Generuji seznam zpráv"
 
@@ -15728,34 +15719,26 @@ msgid "480"
 msgstr "480"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:2
-msgid "Default shortcut group"
-msgstr "Implicitní skupina zkratek"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:3
 msgid "Default width of the folder bar pane"
 msgstr "Implicitní šířka panelu lišty složek"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:4
-msgid "Default width of the shortcut bar pane"
-msgstr "Implicitní šířka panelu lišty zkratek"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:5
+#: shell/apps_evolution_shell.schemas.in.in.h:3
 msgid "Default window height"
 msgstr "Implicitní výška okna"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:6
+#: shell/apps_evolution_shell.schemas.in.in.h:4
 msgid "Default window width"
 msgstr "Implicitní šířka okna"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:7
+#: shell/apps_evolution_shell.schemas.in.in.h:5
 msgid "Evolution configuration version"
 msgstr "Verze nastavení Evolution"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:8
+#: shell/apps_evolution_shell.schemas.in.in.h:6
 msgid "ID or alias of the component to be shown by default at start-up."
 msgstr "ID nebo alias komponenty, kterou implicitně zobrazit po spuštění."
 
-#: shell/apps_evolution_shell.schemas.in.in.h:9
+#: shell/apps_evolution_shell.schemas.in.in.h:7
 msgid ""
 "If set to true, Evolution will start up in offline mode instead of online "
 "mode."
@@ -15763,7 +15746,7 @@ msgstr ""
 "Je-li nastaveno na true, bude se Evolution spouštět v režimu odpojení místo "
 "on-line."
 
-#: shell/apps_evolution_shell.schemas.in.in.h:10
+#: shell/apps_evolution_shell.schemas.in.in.h:8
 msgid ""
 "If set to true, the warning dialog in development versions of Evolution is "
 "not displayed."
@@ -15771,62 +15754,22 @@ msgstr ""
 "Je-li nastaveno na true, nezobrazuje se dialog varování ve vývojových "
 "verzích Evolution."
 
-#: shell/apps_evolution_shell.schemas.in.in.h:11
+#: shell/apps_evolution_shell.schemas.in.in.h:9
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
 "Seznam cest ke složkám, které synchronizovat na disk pro použití v režimu "
 "odpojení"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:12
-msgid "Path to the default calendar folder"
-msgstr "Cesta k implicitní složce kalendáře"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:13
-msgid "Path to the default contacts folder"
-msgstr "Cesta k implicitní složce kontaktů"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:14
-msgid "Path to the default mail folder"
-msgstr "Cesta k implicitní složce pošty"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:15
-msgid "Path to the default tasks folder"
-msgstr "Cesta k implicitní složce úkolů"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:16
-msgid "Physical URI to the default calendar folder"
-msgstr "Fyzické URI implicitní složky kalendáře"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:17
-msgid "Physical URI to the default contacts folder"
-msgstr "Fyzické URI implicitní složky kontaktů"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:18
-msgid "Physical URI to the default mail folder"
-msgstr "Fyzické URI implicitní složky pošty"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:19
-msgid "Physical URI to the default tasks folder"
-msgstr "Fyzické URI implicitní složky úkolů"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:20
+#: shell/apps_evolution_shell.schemas.in.in.h:10
 msgid "Whether Evolution should start up in offline mode"
 msgstr "Jestli se má Evolution spouštět v režimu odpojení"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:21
-msgid "Whether to show the folder bar"
-msgstr "Jestli zobrazovat lištu složek"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:22
-msgid "Whether to show the shortcut bar"
-msgstr "Jestli zobrazovat lištu zkratek"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:23
+#: shell/apps_evolution_shell.schemas.in.in.h:11
 msgid "Whether to skip the development warning dialog"
 msgstr "Jestli přeskakovat dialog varování o vývoji"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:24
+#: shell/apps_evolution_shell.schemas.in.in.h:12
 msgid "mail"
 msgstr "pošta"
 
@@ -15974,7 +15917,7 @@ msgstr "_Importovat"
 msgid "Closing connections..."
 msgstr "Zavírám spojení..."
 
-#: shell/e-shell-settings-dialog.c:323
+#: shell/e-shell-settings-dialog.c:326
 msgid "Evolution Settings"
 msgstr "Nastavení Evolution"
 
@@ -16025,42 +15968,42 @@ msgstr "Zdá se, že nemáte nainstalované nástroje pro PalmPilota GNOME."
 msgid "Error executing %s."
 msgstr "Chyba při spouštění %s."
 
-#: shell/e-shell-window-commands.c:121
+#: shell/e-shell-window-commands.c:120
 msgid "Bug buddy is not installed."
 msgstr "Bug buddy není nainstalován."
 
-#: shell/e-shell-window-commands.c:129
+#: shell/e-shell-window-commands.c:128
 msgid "Bug buddy could not be run."
 msgstr "Nemohu spustit bug buddy."
 
-#: shell/e-shell-window-commands.c:171
+#: shell/e-shell-window-commands.c:170
 msgid "About Ximian Evolution"
 msgstr "O Ximian Evolution"
 
-#: shell/e-shell-window-commands.c:382
+#: shell/e-shell-window-commands.c:381
 msgid "_Work Online"
 msgstr "Pracovat _on-line"
 
-#: shell/e-shell-window-commands.c:395 ui/evolution.xml.h:36
+#: shell/e-shell-window-commands.c:394 ui/evolution.xml.h:36
 msgid "_Work Offline"
 msgstr "_Pracovat při odpojení"
 
-#: shell/e-shell-window-commands.c:408 ui/evolution.xml.h:22
+#: shell/e-shell-window-commands.c:407 ui/evolution.xml.h:22
 msgid "Work Offline"
 msgstr "Pracovat při odpojení"
 
-#: shell/e-shell-window.c:338
+#: shell/e-shell-window.c:336
 msgid ""
 "Ximian Evolution is currently online.  Click on this button to work offline."
 msgstr ""
 "Ximian Evolution je nyní on-line. Stiskem tohoto tlačítka přejdete do režimu "
 "off-line."
 
-#: shell/e-shell-window.c:345
+#: shell/e-shell-window.c:343
 msgid "Ximian Evolution is in the process of going offline."
 msgstr "Ximian Evolution přechází do režimu off-line."
 
-#: shell/e-shell-window.c:351
+#: shell/e-shell-window.c:349
 msgid ""
 "Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
@@ -16358,12 +16301,12 @@ msgstr ""
 "  Použijte %s --help pro zobrazení dalších informací.\n"
 
 #: smime/gui/certificate-manager.c:128 smime/gui/certificate-manager.c:325
-#: smime/gui/certificate-manager.c:503
+#: smime/gui/certificate-manager.c:522
 msgid "Select a cert to import..."
 msgstr "Vyberte certifikát, který importovat..."
 
 #: smime/gui/certificate-manager.c:243 smime/gui/certificate-manager.c:409
-#: smime/gui/certificate-manager.c:585
+#: smime/gui/certificate-manager.c:604
 msgid "Certificate Name"
 msgstr "Název certifikátu:"
 
@@ -16827,12 +16770,12 @@ msgstr "Implicitní předmět zprávy."
 #. This most likely means that KILL_PROCESS_CMD wasn't
 #. * found, so just bail completely.
 #.
-#: tools/killev.c:63
+#: tools/killev.c:61
 #, c-format
 msgid "Could not execute '%s': %s\n"
 msgstr "Nemohu spustit '%s': %s\n"
 
-#: tools/killev.c:78
+#: tools/killev.c:76
 #, c-format
 msgid "Shutting down %s (%s)\n"
 msgstr "Ukončuji %s (%s)\n"
@@ -17077,6 +17020,12 @@ msgstr "Pracovní týden"
 #: ui/evolution-calendar.xml.h:42
 msgid "_Open Appointment"
 msgstr "_Otevřít událost"
+
+#: ui/evolution-comp-editor.xml.h:1 ui/evolution-contact-editor.xml.h:1
+#: ui/evolution-contact-list-editor.xml.h:1
+#: ui/evolution-signature-editor.xml.h:1
+msgid "C_lose"
+msgstr "Z_avřít"
 
 #: ui/evolution-comp-editor.xml.h:2 ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2
@@ -18551,6 +18500,42 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% hotovo)"
+
+#~ msgid "Default shortcut group"
+#~ msgstr "Implicitní skupina zkratek"
+
+#~ msgid "Default width of the shortcut bar pane"
+#~ msgstr "Implicitní šířka panelu lišty zkratek"
+
+#~ msgid "Path to the default calendar folder"
+#~ msgstr "Cesta k implicitní složce kalendáře"
+
+#~ msgid "Path to the default contacts folder"
+#~ msgstr "Cesta k implicitní složce kontaktů"
+
+#~ msgid "Path to the default mail folder"
+#~ msgstr "Cesta k implicitní složce pošty"
+
+#~ msgid "Path to the default tasks folder"
+#~ msgstr "Cesta k implicitní složce úkolů"
+
+#~ msgid "Physical URI to the default calendar folder"
+#~ msgstr "Fyzické URI implicitní složky kalendáře"
+
+#~ msgid "Physical URI to the default contacts folder"
+#~ msgstr "Fyzické URI implicitní složky kontaktů"
+
+#~ msgid "Physical URI to the default mail folder"
+#~ msgstr "Fyzické URI implicitní složky pošty"
+
+#~ msgid "Physical URI to the default tasks folder"
+#~ msgstr "Fyzické URI implicitní složky úkolů"
+
+#~ msgid "Whether to show the folder bar"
+#~ msgstr "Jestli zobrazovat lištu složek"
+
+#~ msgid "Whether to show the shortcut bar"
+#~ msgstr "Jestli zobrazovat lištu zkratek"
 
 #~ msgid "_General"
 #~ msgstr "O_becné"
