@@ -66,6 +66,7 @@ typedef struct {
 	char *icon;
 
 	guint idle;
+	gboolean in_summary;
 } MailSummary;
 
 #define SUMMARY_IN() g_print ("IN: %s: %d\n", __FUNCTION__, __LINE__);
@@ -177,8 +178,13 @@ generate_html_summary (MailSummary *summary)
 	FolderSummary *fs;
 	int i;
 
+	summary->in_summary = TRUE;
 	/* Inbox first */
 	fs = summary->folders[0];
+
+	g_print ("%p: %p\n", fs, fs->name);
+	g_print ("unread: %d\n", fs->unread);
+	g_print ("total: %d\n", fs->total);
 
 	tmp = g_strdup_printf ("<table><tr><td><b><a href=\"view://evolution:/local/Inbox\">%s</a>:</b>"
 			       "<td align=\"right\">%d/%d</td></tr>",
@@ -203,6 +209,7 @@ generate_html_summary (MailSummary *summary)
 	ret_html = g_strconcat (ret_html, "</table>", NULL);
 	g_free (tmp);
 
+	summary->in_summary = FALSE;
 	return ret_html;
 }
 	
@@ -320,6 +327,7 @@ generate_folder_summaries (MailSummary *summary)
 	/* Inbox */
 	fs = summary->folders[0] = g_new (FolderSummary, 1);
 	fs->name = g_strdup ("Inbox");
+	g_print ("%p: %s(%p)\n", fs, fs->name, fs->name);
 	fs->uri = NULL;
 	mail_tool_camel_lock_up ();
 	ex = camel_exception_new ();
@@ -349,7 +357,7 @@ generate_folder_summaries (MailSummary *summary)
 		fs->name = g_strdup (rule->name);
 
 		uri = g_strconcat ("vfolder:", rule->name, NULL);
-/*  		mail_tool_camel_lock_up (); */
+  		mail_tool_camel_lock_up ();
 		fs->folder = vfolder_uri_to_folder (uri, ex);
 		fs->uri = g_strconcat ("evolution:/VFolders/", rule->name, NULL);
 		g_free (uri);
@@ -370,7 +378,7 @@ generate_folder_summaries (MailSummary *summary)
 		summary->numfolders++;
 
 		camel_exception_free (ex);
-/*  		mail_tool_camel_lock_down (); */
+  		mail_tool_camel_lock_down ();
 	}
 
 	gtk_object_destroy (GTK_OBJECT (context));
@@ -403,17 +411,33 @@ get_property (BonoboPropertyBag *bag,
    remove this define */
 #define DETECT_NEW_VFOLDERS
 #ifdef DETECT_NEW_VFOLDERS
+
+/* Check that we can generate a new summary
+   and keep coming back until we can. */
+static gboolean
+idle_check (MailSummary *summary)
+{
+	if (summary->in_summary == TRUE)
+		return TRUE;
+
+	generate_folder_summaries (summary);
+	write (MAIN_WRITER, summary, sizeof (MailSummary));
+	queue_len++;
+	summary->idle = 0;
+	
+	return FALSE;
+}
+
 static void
 new_folder_cb (EvolutionStorageListener *listener,
 	       const char *path,
 	       const GNOME_Evolution_Folder *folder,
 	       MailSummary *summary)
 {
-	generate_folder_summaries (summary);
-	write (MAIN_WRITER, summary, sizeof (MailSummary));
-	queue_len++;
-
 	g_print ("New folder: %s\n", path);
+
+	if (summary->idle == 0)
+		summary->idle = g_idle_add (idle_check, summary);
 }
 
 static void
@@ -421,11 +445,10 @@ removed_folder_cb (EvolutionStorageListener *listener,
 		   const char *path,
 		   MailSummary *summary)
 {
-	generate_folder_summaries (summary);
-	write (MAIN_WRITER, summary, sizeof (MailSummary));
-	queue_len++;
-
 	g_print ("Removed folder: %s\n", path);
+
+	if (summary->idle == 0)
+		summary->idle = g_idle_add (idle_check, summary);
 }
 #endif
 
@@ -439,18 +462,15 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 	BonoboObject *component, *view;
 	BonoboPropertyBag *bag;
 	BonoboEventSource *event_source;
-	char *html;
 	MailSummary *summary;
 
 	summary = g_new (MailSummary, 1);
 	summary->folders = 0;
+	summary->in_summary = FALSE;
 	summary->folder_to_summary = g_hash_table_new (NULL, NULL);
 	summary->title = g_strdup ("Mail Summary");
 	summary->icon = g_strdup ("envelope.png");
-
-	generate_folder_summaries (summary);
-
-	html = generate_html_summary (summary);
+	summary->idle = 0;
 
 	check_compipes ();
 
@@ -460,8 +480,6 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 	event_source = bonobo_event_source_new ();
 
 	view = executive_summary_html_view_new_full (event_source);
-	executive_summary_html_view_set_html (EXECUTIVE_SUMMARY_HTML_VIEW (view),
-					      html);
 	bonobo_object_add_interface (component, view);
 	summary->view = view;
 	gtk_signal_connect (GTK_OBJECT (view), "destroy",
@@ -480,7 +498,6 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 				 "The icon for this component's window", 
 				 BONOBO_PROPERTY_READABLE);
 	bonobo_object_add_interface (component, BONOBO_OBJECT(bag));
-	g_free (html);
 
 #ifdef DETECT_NEW_VFOLDERS 
 	summary->listener = evolution_storage_listener_new ();
@@ -501,6 +518,9 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 	}
 	CORBA_exception_free (&ev);
 #endif
+	
+	if (summary->idle == 0)
+		summary->idle = g_idle_add (idle_check, summary);
 
 	return component;
 }
