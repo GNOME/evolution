@@ -67,7 +67,7 @@ struct _EStorageSetViewPrivate {
 
 	GHashTable *type_name_to_pixbuf;
 
-	/* Path of the row selected by the latest "cursor_change" signal.  */
+	/* Path of the row selected by the latest "cursor_activated" signal.  */
 	const char *selected_row_path;
 
 	gboolean show_folders;
@@ -557,8 +557,8 @@ right_click (ETable *etable,
 }
 
 static void
-cursor_change (ETable *table,
-	       int row)
+cursor_activated (ETable *table,
+		  int row)
 {
 	EStorageSetView *storage_set_view;
 	ETreePath *node;
@@ -879,7 +879,7 @@ class_init (EStorageSetViewClass *klass)
 
 	etable_class = E_TABLE_CLASS (klass);
 	etable_class->right_click              = right_click;
-	etable_class->cursor_change            = cursor_change;
+	etable_class->cursor_activated         = cursor_activated;
 	etable_class->table_drag_begin         = table_drag_begin;
 	etable_class->table_drag_data_get      = table_drag_data_get;
 	etable_class->table_drag_motion        = table_drag_motion;

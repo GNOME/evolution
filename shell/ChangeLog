@@ -1,3 +1,8 @@
+2001-03-05  Christopher James Lahey  <clahey@ximian.com>
+
+	* e-storage-set-view.c: Override cursor_activated signal instead
+	of cursor_changed signal.
+
 2001-02-27  Dan Winship  <danw@ximian.com>
 
 	* main.c (development_warning): Update this again.
