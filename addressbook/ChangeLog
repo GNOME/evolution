@@ -1,3 +1,8 @@
+2005-01-31  Hans Petter Jansson  <hpj@novell.com>
+
+	* gui/widgets/eab-config.c (_EABConfigPrivate): Use guint instead of
+	ulong for signal ID.
+
 2004-01-29 Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	* addressbook/gui/contact-list-editor/e-contact-list-editor.c
@@ -357,7 +362,7 @@
 	* util/Makefile.am: Remove e-destination.[ch] from here.
 	* util/e-destination.[ch]: Removed.
 
-2004-12-08  S.Çaglar Onur  <caglar@uludag.org.tr>
+2004-12-08  S. Caglar Onur  <caglar@uludag.org.tr>
 
 	* evolution-2.0.2/addressbook/gui/contact-editor/e-contact-editor.c
 	(get_ui_slot_param)
@@ -3251,7 +3256,7 @@
 	* gui/contact-editor/Makefile.am (libecontacteditor_la_SOURCES):
 	add eab-editor.[ch]
 
-2004-03-24  Danilo Šegan  <dsegan@gmx.net>
+2004-03-24  Danilo Segan  <dsegan@gmx.net>
 
 	* gui/widgets/e-addressbook-model.c (update_folder_bar_message):
 	Use ngettext for handling plural forms (fixes bug #53464).
