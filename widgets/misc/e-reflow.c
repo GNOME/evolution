@@ -300,9 +300,8 @@ items_inserted (EReflowModel *model, int position, int count, EReflow *reflow)
 	else
 		e_sorter_array_set_count (reflow->sorter, reflow->count);
 	reflow->need_reflow_columns = TRUE;
+	set_empty (reflow);
 	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM (reflow));
-
-	g_print ("New count = %d\n", reflow->count);
 }
 
 static void
@@ -316,7 +315,8 @@ model_changed (EReflowModel *model, EReflow *reflow)
 	oldcount = count;
 
 	for (i = 0; i < count; i++) {
-		gtk_object_destroy (GTK_OBJECT (reflow->items[i]));
+		if (reflow->items[i])
+			gtk_object_destroy (GTK_OBJECT (reflow->items[i]));
 	}
 	g_free (reflow->items);
 	g_free (reflow->heights);
@@ -337,6 +337,7 @@ model_changed (EReflowModel *model, EReflow *reflow)
 	reflow->need_reflow_columns = TRUE;
 	if (oldcount > reflow->count)
 		reflow_columns (reflow);
+	set_empty (reflow);
 	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM (reflow));
 }
 
@@ -359,7 +360,7 @@ set_empty(EReflow *reflow)
 			}
 		} else {
 			if (reflow->empty_message)
-				reflow->empty_text = 
+				reflow->empty_text =
 					gnome_canvas_item_new(GNOME_CANVAS_GROUP(reflow),
 							      e_text_get_type(),
 							      "anchor", GTK_ANCHOR_N,
@@ -576,9 +577,6 @@ static void
 e_reflow_destroy (GtkObject *object)
 {
 	EReflow *reflow = E_REFLOW(object);
-	int count;
-
-	count = reflow->count;
 
 	g_free (reflow->items);
 	g_free (reflow->heights);
