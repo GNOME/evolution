@@ -158,6 +158,8 @@ filter_driver_init (FilterDriver *obj)
 	
 	p->globals = g_hash_table_new (g_str_hash, g_str_equal);
 	
+	p->folders = g_hash_table_new (g_str_hash, g_str_equal);
+	
 	/* Will get set in filter_driver_run */
 	p->ex = NULL;
 }
@@ -172,10 +174,14 @@ free_hash_strings (void *key, void *value, void *data)
 static void
 filter_driver_finalise (GtkObject *obj)
 {
-	FilterDriver *d = (FilterDriver *) obj;
-	struct _FilterDriverPrivate *p = _PRIVATE (d);
+	FilterDriver *driver = (FilterDriver *) obj;
+	struct _FilterDriverPrivate *p = _PRIVATE (driver);
 	
-	g_hash_table_foreach (p->globals, free_hash_strings, d);
+	/* close all folders that were opened for appending */
+	close_folders (driver);
+	g_hash_table_destroy (p->folders);
+	
+	g_hash_table_foreach (p->globals, free_hash_strings, driver);
 	g_hash_table_destroy (p->globals);
 	
 	gtk_object_unref (GTK_OBJECT (p->eval));
@@ -358,8 +364,7 @@ open_folder (FilterDriver *driver, const char *folder_url)
 
 static void
 close_folder (void *key, void *value, void *data)
-{
-	
+{	
 	CamelFolder *folder = value;
 	FilterDriver *driver = data;
 	struct _FilterDriverPrivate *p = _PRIVATE (driver);
@@ -368,8 +373,8 @@ close_folder (void *key, void *value, void *data)
 	mail_tool_camel_lock_up ();
 	camel_folder_sync (folder, FALSE, p->ex);
 	camel_folder_thaw (folder);
-	mail_tool_camel_lock_down ();
 	camel_object_unref (CAMEL_OBJECT (folder));
+	mail_tool_camel_lock_down ();
 }
 
 /* flush/close all folders */
@@ -415,13 +420,6 @@ filter_driver_run (FilterDriver *driver, CamelMimeMessage *message, CamelMessage
 	p->deleted = FALSE;
 	p->message = message;
 	p->info = info;
-	
-	/* setup runtime data */
-	p->folders = g_hash_table_new (g_str_hash, g_str_equal);
-	
-	mail_tool_camel_lock_up ();
-	camel_folder_freeze (inbox);
-	mail_tool_camel_lock_down ();
 	
 	fsearch = g_string_new ("");
 	faction = g_string_new ("");
@@ -476,15 +474,6 @@ filter_driver_run (FilterDriver *driver, CamelMimeMessage *message, CamelMessage
 	} else {
 		filtered = TRUE;
 	}
-	
-	/* close all folders that were opened for appending */
-	close_folders (driver);
-	g_hash_table_destroy (p->folders);
-	
-	/* thaw the inbox folder */
-	mail_tool_camel_lock_up ();
-	camel_folder_thaw (inbox);
-	mail_tool_camel_lock_down ();
 	
 	/* transfer the exception over to the parents exception */
 	if (camel_exception_is_set (p->ex))

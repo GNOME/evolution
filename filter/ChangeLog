@@ -1,5 +1,14 @@
 2000-09-11  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* filter-driver.c (filter_driver_run): Don't freeze/thaw the
+	default inbox here, let the caller freeze/thaw it. Don't destroy
+	the folders hash table here, it's faster if we wait till the
+	filter-driver is destroyed.
+	(filter_driver_finalise): Destroy the folders hash table here
+	(filter_driver_init): Initialize the folders hash table here
+
+2000-09-11  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* filtertypes.xml: Changed "Header" to be "Message header" so it's
 	not quite as confusing (??)
 
