@@ -98,26 +98,19 @@ size_to_string (gulong size)
 	   I am not sure this will be OK for all the languages.  */
 	
 	if (size < 1e3L) {
-		if (size == 1)
-			size_string = g_strdup (_("1 byte"));
-		else
-			size_string = g_strdup_printf (_("%u bytes"),
-						       (guint) size);
+		size_string = g_strdup (_(""));
 	} else {
 		gdouble displayed_size;
 		
 		if (size < 1e6L) {
 			displayed_size = (gdouble) size / 1.0e3;
-			size_string = g_strdup_printf (_("%.1fK"),
-						       displayed_size);
+			size_string = g_strdup_printf (_("%.0fK"), displayed_size);
 		} else if (size < 1e9L) {
 			displayed_size = (gdouble) size / 1.0e6;
-			size_string = g_strdup_printf (_("%.1fM"),
-						       displayed_size);
+			size_string = g_strdup_printf (_("%.0fM"), displayed_size);
 		} else {
 			displayed_size = (gdouble) size / 1.0e9;
-			size_string = g_strdup_printf (_("%.1fG"),
-						       displayed_size);
+			size_string = g_strdup_printf (_("%.0fG"), displayed_size);
 		}
 	}
 	

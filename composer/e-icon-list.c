@@ -1014,8 +1014,7 @@ icon_new_from_pixbuf (EIconList *eil, GdkPixbuf *im,
 			       "use_broken_event_handling", FALSE,
 			       NULL);
 	
-	/* FIXME: should this use a selectable font?? */
-#warning "Ettore: should we allow this font to be selectable??"
+	/* FIXME: Use GTK+ font.  */
 	gnome_icon_text_item_configure (icon->text,
 					0, 0, priv->icon_width, 
 					"-adobe-helvetica-medium-r-normal-*-*-120-*-*-p-*-iso8859-1",
