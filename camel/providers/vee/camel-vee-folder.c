@@ -493,6 +493,7 @@ vee_folder_build(CamelVeeFolder *vf, CamelException *ex)
 				g_hash_table_insert(messages_uid, mi->info.uid, mi);
 			}
 		}
+		g_ptr_array_add (matches, NULL);
 		g_strfreev((char **)matches->pdata);
 		g_ptr_array_free(matches, FALSE);
 		node = g_list_next(node);
@@ -545,6 +546,7 @@ vee_folder_build_folder(CamelVeeFolder *vf, CamelFolder *source, CamelException 
 			g_hash_table_insert(messages_uid, mi->info.uid, mi);
 		}
 	}
+	g_ptr_array_add (matches, NULL);
 	g_strfreev((char **)matches->pdata);
 	g_ptr_array_free(matches, FALSE);
 }
