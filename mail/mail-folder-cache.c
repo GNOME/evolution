@@ -574,6 +574,24 @@ mail_folder_cache_set_update_lstorage (const gchar *uri,
 }
 
 void
+mail_folder_cache_remove_folder (const gchar *uri)
+{
+	if (uri && *uri) {
+		mail_folder_info *mfi;
+
+		mfi = g_hash_table_lookup (folders, uri);
+
+		/* Free everything we've allocated for this folder info */
+		g_free (mfi->uri);
+		g_free (mfi->path);
+		g_free (mfi->name);
+
+		/* Remove it from the hash */
+		g_hash_table_remove (folders, uri);
+	}
+}
+
+void
 mail_folder_cache_note_folder (const gchar *uri, CamelFolder *folder)
 {
 	mail_folder_info *mfi;

@@ -32,18 +32,21 @@
 
 #include "folder-browser.h"
 
-/* No real order that these functions should be called. The idea is that whenever a 
- * chunk of the mailer gets some up-to-date information about a URI, it calls one
- * of the _note_ functions and the folder cache sees to it that the information is
- * put to good use.
+/* No real order that these functions should be called. The idea is
+ * that whenever a chunk of the mailer gets some up-to-date
+ * information about a URI, it calls one of the _note_ functions and
+ * the folder cache sees to it that the information is put to good
+ * use.
  *
- * Thus there is no way to remove items from the cache. So it leaks a lot.
- */
+ * Thus there is no way to remove items from the cache. So it leaks a lot.  */
 
 void mail_folder_cache_set_update_estorage (const gchar *uri, EvolutionStorage *estorage);
 void mail_folder_cache_set_update_lstorage (const gchar *uri, 
 					    GNOME_Evolution_Storage lstorage,
 					    const gchar *path);
+
+void mail_folder_cache_remove_folder (const gchar *uri);
+
 /* We always update the shell view */
 /*void mail_folder_cache_set_update_shellview (const gchar *uri);*/
 
