@@ -1,5 +1,10 @@
 2000-05-09  Christopher James Lahey  <clahey@helixcode.com>
 
+	* gui/component/addressbook.c: Destroy the view object when
+	leaving the minicard view.
+
+2000-05-09  Christopher James Lahey  <clahey@helixcode.com>
+
 	* gui/minicard/e-reflow-sorted.c: Fixed reflow sorting to call
 	reflow_request when sorting on an item changes.
 

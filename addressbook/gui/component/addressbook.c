@@ -574,13 +574,16 @@ set_prop (BonoboPropertyBag *bag,
 static void
 teardown_minicard_view (AddressbookView *view)
 {
+	if (view->view) {
+		gtk_object_destroy(GTK_OBJECT(view->view));
+		view->view = NULL;
+	}
 	if (view->minicard_vbox) {
 		gtk_widget_destroy(view->minicard_vbox);
 		view->minicard_vbox = NULL;
 	}
 
 	view->canvas = NULL;
-	view->view = NULL;
 }
 
 static void
