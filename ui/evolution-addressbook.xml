@@ -66,7 +66,7 @@
 	                        	 _label="_Contact"
 					 pixtype="pixbuf"/>
 	                        	<menuitem name="ContactNewList" verb=""
-	                        	 _label="_Contact Group"
+	                        	 _label="_Contact List"
 					 pixtype="pixbuf"/>
 	                                <separator/>
 	                        </placeholder>
