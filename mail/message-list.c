@@ -884,12 +884,18 @@ main_message_changed (CamelObject *o, gpointer uid, gpointer user_data)
 						    uid));
 	if (row != -1)
 		e_table_model_row_changed (message_list->table_model, row);
+
+	g_free (uid);
 }
 
 static void
 message_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 {
-	mail_op_forward_event (main_message_changed, o, event_data, user_data);
+	/* Here we copy the data because our thread may free the copy that we would reference.
+	 * The other thread would be passed a uid parameter that pointed to freed data.
+	 * We copy it and free it in the handler. 
+	 */
+	mail_op_forward_event (main_message_changed, o, g_strdup ((gchar *)event_data), user_data);
 }
 
 void

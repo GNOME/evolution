@@ -1,5 +1,8 @@
 2000-08-15  Peter Williams  <peterw@helixcode.com>
 
+	* message-list.c (main_message_changed): Address bug #496 --
+	possible race when forwading a message_changed event.
+
 	* mail-threads.c (dispatch): Close the dispatch thread's half of
 	pipes when about to exit.
 	(mail_operations_terminate): Close the main thread's half of the
