@@ -1,4 +1,4 @@
-2001-09-08  Jon Trowbridge  <trow@gnu.org>
+2001-09-08  Jon Trowbridge  <trow@ximian.com>
 
 	* mail-callbacks.c (ask_confirm_for_unwanted_html_mail): Added.
 	Shows a (hopefully) informative dialog warning you that some
