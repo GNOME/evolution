@@ -1,3 +1,7 @@
+2001-08-17  Kevin Breit  <battery841@mediaone.net>
+
+	* C/usage-mail.sgml: Wrote documentation about HTML templates.
+
 2001-08-16  Aaron Weber  <aaron@ximian.com>
 
 	* C/usage-mail.sgml: minor edits. Added <tip> about bug 7428.

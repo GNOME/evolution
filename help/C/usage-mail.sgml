@@ -1,5 +1,6 @@
+<!--
 <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
-
+-->
 <chapter id="usage-mail">
   <title>Using Evolution for Email</title>
   <abstract>
@@ -489,6 +490,7 @@
                 </para>
 	      </listitem>
 	    </varlistentry>
+	  </variablelist>
          </para>
       </note>
 
@@ -512,8 +514,6 @@
 	    </para>
 	  </listitem>
 	</orderedlist>
-      </para>
-    
       </para>
     </sect2>
   </sect1>
@@ -1120,7 +1120,58 @@ with quoted materials and the relevant replies interspersed-->
 	  of characters, and not "make this text bold," as an HTML
 	  composition tool or text editor would.
 	</para>
-        </note>
+      </note>
+      <sect3 id="html-templates">
+	<title>HTML Templates</title>
+	<para>
+          <application>Evolution</application> not only allows you to 
+	  decorate your email with HTML text and graphics, but 
+	  provides you with prebuilt templates for you to use when making 
+	  these improvements.
+        </para>
+	<para>
+	  To include a template into your HTML based email:
+	  <orderedlist numeration="arabic">
+	    <listitem>
+	      <para>
+		Enable HTML in your email by clicking
+		<menuchoice>
+		  <guimenu>
+		    Format
+		  </guimenu>
+		  <guimenuitem>
+		    HTML
+		  </guimenuitem>
+		</menuchoice>
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		Click the <guibutton>HTML Template</guibutton> button in the 
+		<guilabel>Toolbar</guilabel>.
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		Select the template in the <guilabel>Template</guilabel> 
+		selection box.
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		Click <guibutton>Insert</guibutton> to insert it where the 
+		cursor is.
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		Click in the template to edit the specific object you clicked 
+		on.
+	      </para>
+	    </listitem>
+	  </orderedlist>
+	</para>
+      </sect3>
       </sect2>
 
       <sect2 id="usage-mail-getnsend-fwd">
