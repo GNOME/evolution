@@ -526,18 +526,11 @@ connect_adjustment (EReflow *reflow, GtkAdjustment *adjustment)
 	gtk_object_ref (GTK_OBJECT (adjustment));
 }
 
+#if 0
 static void
 set_scroll_adjustments (GtkLayout *layout, GtkAdjustment *hadj, GtkAdjustment *vadj, EReflow *reflow)
 {
 	connect_adjustment (reflow, hadj);
-}
-
-static void
-disconnect_set_adjustment (EReflow *reflow)
-{
-	gtk_signal_disconnect (GTK_OBJECT (GNOME_CANVAS_ITEM (reflow)->canvas),
-			       reflow->set_scroll_adjustments_id);
-	reflow->set_scroll_adjustments_id = 0;
 }
 
 static void
@@ -547,6 +540,17 @@ connect_set_adjustment (EReflow *reflow)
 		gtk_signal_connect (GTK_OBJECT (GNOME_CANVAS_ITEM (reflow)->canvas),
 				    "set_scroll_adjustments",
 				    GTK_SIGNAL_FUNC (set_scroll_adjustments), reflow);
+}
+#endif
+
+static void
+disconnect_set_adjustment (EReflow *reflow)
+{
+	if (reflow->set_scroll_adjustments_id != 0) {
+		gtk_signal_disconnect (GTK_OBJECT (GNOME_CANVAS_ITEM (reflow)->canvas),
+				       reflow->set_scroll_adjustments_id);
+		reflow->set_scroll_adjustments_id = 0;
+	}
 }
 
 
@@ -674,7 +678,9 @@ e_reflow_realize (GnomeCanvasItem *item)
 
 	adjustment = gtk_layout_get_hadjustment(GTK_LAYOUT(item->canvas));
 
+#if 0
 	connect_set_adjustment (reflow);
+#endif
 	connect_adjustment (reflow, adjustment);
 
 	adjustment->step_increment = (reflow->column_width + E_REFLOW_FULL_GUTTER) / 2;
@@ -1240,38 +1246,39 @@ e_reflow_class_init (EReflowClass *klass)
 static void
 e_reflow_init (EReflow *reflow)
 {
-	reflow->model                = NULL;
-	reflow->items                = NULL;
-	reflow->heights              = NULL;
-	reflow->count                = 0;
+	reflow->model                     = NULL;
+	reflow->items                     = NULL;
+	reflow->heights                   = NULL;
+	reflow->count                     = 0;
 
-	reflow->columns              = NULL;
-	reflow->column_count         = 0;
+	reflow->columns                   = NULL;
+	reflow->column_count              = 0;
 
-	reflow->empty_text           = NULL;
-	reflow->empty_message        = NULL;
+	reflow->empty_text                = NULL;
+	reflow->empty_message             = NULL;
 
-	reflow->minimum_width        = 10;
-	reflow->width                = 10;
-	reflow->height               = 10;
+	reflow->minimum_width             = 10;
+	reflow->width                     = 10;
+	reflow->height                    = 10;
 
-	reflow->column_width         = 150;
+	reflow->column_width              = 150;
 
-	reflow->column_drag          = FALSE;
+	reflow->column_drag               = FALSE;
 
-	reflow->need_height_update   = FALSE;
-	reflow->need_column_resize   = FALSE;
+	reflow->need_height_update        = FALSE;
+	reflow->need_column_resize        = FALSE;
 
-	reflow->default_cursor_shown = TRUE;
-	reflow->arrow_cursor         = NULL;
-	reflow->default_cursor       = NULL;
+	reflow->default_cursor_shown      = TRUE;
+	reflow->arrow_cursor              = NULL;
+	reflow->default_cursor            = NULL;
 
-	reflow->cursor_row           = -1;
+	reflow->cursor_row                = -1;
 
-	reflow->incarnate_idle_id    = 0;
+	reflow->incarnate_idle_id         = 0;
+	reflow->set_scroll_adjustments_id = 0;
 
-	reflow->selection            = E_SELECTION_MODEL (e_selection_model_simple_new());
-	reflow->sorter               = e_sorter_array_new (er_compare, reflow);
+	reflow->selection                 = E_SELECTION_MODEL (e_selection_model_simple_new());
+	reflow->sorter                    = e_sorter_array_new (er_compare, reflow);
 
 	gtk_object_set (GTK_OBJECT (reflow->selection),
 			"sorter", reflow->sorter,
