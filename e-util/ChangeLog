@@ -1,3 +1,13 @@
+2002-03-29  JP Rosevear  <jpr@ximian.com>
+
+	* e-dialog-utils.c (e_file_dialog_save): open a file selection
+	dialog with the given title and return the selected file name
+	(save_ok): if the ok button is clicked, make sure the file doesn't
+	already exist and if it does, see if the user wants to over write
+	it
+
+	* e-dialog-utils.h: new proto
+
 2002-03-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-lang-utils.c: New.

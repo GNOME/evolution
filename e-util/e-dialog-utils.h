@@ -42,5 +42,7 @@ GtkWidget *e_gnome_ok_cancel_dialog_parented (const char         *message,
 					      GnomeReplyCallback  callback,
 					      gpointer            data,
 					      GtkWindow          *parent);
+char      *e_file_dialog_save                (const char         *title);
+
 
 #endif
