@@ -1,5 +1,9 @@
 2000-08-31  JP Rosevear  <jpr@helixcode.com>
 
+	* src/libical/.gdb_history: Kill file
+	
+2000-08-31  JP Rosevear  <jpr@helixcode.com>
+
 	* configure.in: Don't list config.h in AC_OUTPUT
 	
 2000-08-31  JP Rosevear  <jpr@helixcode.com>
