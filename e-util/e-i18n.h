@@ -44,14 +44,13 @@ G_BEGIN_DECLS
 	extern char *e_gettext (const char *msgid);
 #    undef _
 #    ifdef GNOME_EXPLICIT_TRANSLATION_DOMAIN
-#        define _(String) dgettext (GNOME_EXPLICIT_TRANSLATION_DOMAIN, String)
 /* No parentheses allowed here since that breaks string concatenation. */
 #        define E_I18N_DOMAIN GNOME_EXPLICIT_TRANSLATION_DOMAIN
 #    else
-#        define _(String) dgettext (PACKAGE, String)
 /* No parentheses allowed here since that breaks string concatenation. */
 #        define E_I18N_DOMAIN PACKAGE
 #    endif
+#    define _(String) e_gettext (String)
 #    ifdef gettext_noop
 #        define N_(String) gettext_noop (String)
 #    else

@@ -1140,11 +1140,11 @@ e_gettext (const char *msgid)
 	static gboolean initialized = FALSE;
 
 	if (!initialized) {
-		bindtextdomain (GETTEXT_PACKAGE, GNOMELOCALEDIR);
-		bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+		bindtextdomain (E_I18N_DOMAIN, GNOMELOCALEDIR);
+		bind_textdomain_codeset (E_I18N_DOMAIN, "UTF-8");
 		initialized = TRUE;
 	}        
 
-	return dgettext (GETTEXT_PACKAGE, msgid);
+	return dgettext (E_I18N_DOMAIN, msgid);
 }
 
