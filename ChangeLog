@@ -1,3 +1,12 @@
+2004-12-17  Not Zed  <NotZed@Ximian.com>
+
+	* devel-docs/misc/errors.txt (BUILT_SOURCES): add translation stuff.
+
+2004-12-16  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am, configure.in: added evolution-plugin.pc, pkg-config
+	file required for plugin development.
+
 2004-12-20  JP Rosevear  <jpr@novell.com>
 
 	* configure.in: bump version, requires

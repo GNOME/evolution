@@ -131,7 +131,7 @@ Error template format
 The XML file is in the following format.
 
 <?xml version="1.0"?>
-<error-list domain="ERRORDOMAIN">
+<error-list domain="ERRORDOMAIN" translation-domain="translation domain" translation-localedir="localedir">
  <error id="error-id" type="info|warning|question|error"? response="default_response"? modal="true"? >
   <title>Window Title</title>?
   <primary>Primary error text.</primary>?
@@ -139,6 +139,9 @@ The XML file is in the following format.
   <button stock="stock-button-id"? label="button label"? response="response_id"? /> *
  </error>
 </error-list>
+
+translation-domain and translation-localedir are used to specify a custom
+translation domain for this error file, and where to find it.
 
 response_id is a standard GTK_RESPONSE_* GtkDialog response
 enumeration.
