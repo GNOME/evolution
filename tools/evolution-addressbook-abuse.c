@@ -7,8 +7,9 @@
 #include <backend/ebook/e-book-util.h>
 #include <gnome.h>
 
-static int cards_to_add = 100;
-static int cards_added = 0;
+static int cards_to_add_total = 1000;
+static int cards_to_add = 50;
+static int call_count = 0;
 
 static gchar *
 make_random_string (void)
@@ -58,9 +59,9 @@ add_cb (EBook *book, EBookStatus status, const char *id, gpointer closure)
 {
 	switch (status) {
 	case E_BOOK_STATUS_SUCCESS:
-		++cards_added;
-		g_message ("succesful add! (%d of %d)", cards_added, cards_to_add);
-		if (cards_to_add == cards_added)
+		--cards_to_add_total;
+		g_message ("succesful add! (%d remaining)", cards_to_add_total);
+		if (cards_to_add_total <= 0)
 			gtk_exit (0);
 		break;
 	default:
@@ -71,11 +72,11 @@ add_cb (EBook *book, EBookStatus status, const char *id, gpointer closure)
 }
 
 static void
-use_addressbook (EBook *book, gpointer closure)
+use_addressbook (EBook *book, EBookStatus status, gpointer closure)
 {
 	gint i;
 
-	if (book == NULL)
+	if (book == NULL || status != E_BOOK_STATUS_SUCCESS)
 		g_error (_("Error loading default addressbook."));
 
 	for (i = 0; i < cards_to_add; ++i) {
@@ -86,6 +87,19 @@ use_addressbook (EBook *book, gpointer closure)
 		g_free (vcard);
 		gtk_object_unref (GTK_OBJECT (card));
 	}
+
+	gtk_object_unref (GTK_OBJECT (book));
+}
+
+static gint
+abuse_timeout (gpointer foo)
+{
+	EBook *book = e_book_new ();
+	e_book_load_local_address_book (book, use_addressbook, NULL);
+
+	++call_count;
+	g_message ("timeout!");
+	return call_count < cards_to_add_total / cards_to_add;
 }
 
 int
@@ -117,7 +131,7 @@ main (int argc, char *argv[])
 	if (bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
 		g_error (_("Could not initialize Bonobo"));
 
-	e_book_use_local_address_book (use_addressbook, NULL);
+	gtk_timeout_add (20, abuse_timeout, NULL);
 
 	bonobo_main ();
 
