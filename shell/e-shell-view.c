@@ -212,13 +212,13 @@ storage_set_view_box_map_cb (GtkWidget *widget,
 	shell_view = E_SHELL_VIEW (data);
 	priv = shell_view->priv;
 
-	if ((gdk_pointer_grab (widget->window, TRUE,
-			       (GDK_BUTTON_PRESS_MASK
-				| GDK_BUTTON_RELEASE_MASK
-				| GDK_ENTER_NOTIFY_MASK
-				| GDK_LEAVE_NOTIFY_MASK
-				| GDK_POINTER_MOTION_MASK),
-			       NULL, NULL, GDK_CURRENT_TIME) != 0)) {
+	if (gdk_pointer_grab (widget->window, TRUE,
+			      (GDK_BUTTON_PRESS_MASK
+			       | GDK_BUTTON_RELEASE_MASK
+			       | GDK_ENTER_NOTIFY_MASK
+			       | GDK_LEAVE_NOTIFY_MASK
+			       | GDK_POINTER_MOTION_MASK),
+			      NULL, NULL, GDK_CURRENT_TIME) != 0) {
 		g_warning ("%s -- pointer grab failed.", __FUNCTION__);
 		e_shell_view_set_folder_bar_mode (shell_view, E_SHELL_VIEW_SUBWINDOW_STICKY);
 		return;

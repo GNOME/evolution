@@ -345,8 +345,6 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 		  AddressbookView *view)
 {
 	Bonobo_UIContainer remote_uih;
-	char *fname;
-	xmlNode *ui;
 	Bonobo_UIContainer container;
 	BonoboUIComponent *component;
 	GtkWidget *quick_search_widget;
@@ -366,21 +364,13 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 	
 	bonobo_ui_container_freeze (container, NULL);
 
+	bonobo_ui_util_set_ui (component, container, EVOLUTION_DATADIR,
 #ifdef HAVE_LDAP
-	fname = bonobo_ui_util_get_ui_fname (
-		EVOLUTION_DATADIR, "evolution-addressbook-ldap.xml");
+			       "evolution-addressbook-ldap.xml",
 #else
-	fname = bonobo_ui_util_get_ui_fname (
-		EVOLUTION_DATADIR, "evolution-addressbook.xml");
+			       "evolution-addressbook.xml",
 #endif
-	g_warning ("Attempting ui load from '%s'", fname);
-		
-	ui = bonobo_ui_util_new_ui (component, fname, "evolution-addressbook");
-
-	bonobo_ui_component_set_tree (component, container, "/", ui, NULL);
-
-	g_free (fname);
-	xmlFreeNode (ui);
+			       "evolution-addressbook");
 
 	quick_search_widget = make_quick_search_widget (
 		search_entry_activated, view);

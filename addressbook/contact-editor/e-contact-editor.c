@@ -739,7 +739,7 @@ static void
 create_ui (EContactEditor *ce)
 {
 	char *fname;
-	xmlNode *ui;
+	BonoboUINode *ui;
 	BonoboUIComponent *component;
 	Bonobo_UIContainer container;
 
@@ -748,17 +748,11 @@ create_ui (EContactEditor *ce)
 	
 	bonobo_ui_component_add_verb_list_with_data (
 		component, verbs, ce);
-	
-	fname = bonobo_ui_util_get_ui_fname (
-		EVOLUTION_DATADIR, "evolution-contact-editor.xml");
-	g_warning ("Attempting ui load from '%s'", fname);
 
-	ui = bonobo_ui_util_new_ui (component, fname, "evolution-contact-editor");
-
-	bonobo_ui_component_set_tree (component, container, "/", ui, NULL);
-
-	g_free (fname);
-	xmlFreeNode (ui);
+	bonobo_ui_util_set_ui (component, container,
+			       EVOLUTION_DATADIR,
+			       "evolution-contact-editor.xml",
+			       "evolution-contact-editor");
 }
 
 /* Callback used when the dialog box is destroyed */

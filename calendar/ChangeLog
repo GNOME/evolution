@@ -1,3 +1,7 @@
+2000-09-22  Michael Meeks  <michael@helixcode.com>
+
+	* gui/calendar-commands.c (calendar_control_activate): upd.
+
 2000-09-21  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/calendar-commands.c (verbs): Removed the "about calendar"

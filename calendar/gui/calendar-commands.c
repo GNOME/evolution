@@ -557,9 +557,7 @@ calendar_control_activate (BonoboControl *control,
 				    1, 1, 0);
 #endif
 	
-	{ /* FIXME: sweeten this whole function */
-		char *fname;
-		xmlNode *ui;
+	{
 		Bonobo_UIContainer container;
 		BonoboUIComponent *component;
 
@@ -569,17 +567,11 @@ calendar_control_activate (BonoboControl *control,
 
 		container = bonobo_ui_compat_get_container (uih);
 		g_return_if_fail (container != CORBA_OBJECT_NIL);
-		
-		fname = bonobo_ui_util_get_ui_fname (
-			EVOLUTION_DATADIR, "evolution-calendar.xml");
-		g_warning ("Attempting ui load from '%s'", fname);
-		
-		ui = bonobo_ui_util_new_ui (component, fname, "evolution-calendar");
-		
-		bonobo_ui_component_set_tree (component, container, "/", ui, NULL);
 
-		g_free (fname);
-		xmlFreeNode (ui);
+		bonobo_ui_util_set_ui (component, container,
+				       EVOLUTION_DATADIR,
+				       "evolution-calendar.xml",
+				       "evolution-calendar");
 	}
 }
 

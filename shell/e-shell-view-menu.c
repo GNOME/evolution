@@ -448,8 +448,6 @@ e_shell_view_menu_setup (EShellView *shell_view)
 	BonoboUIHandler *uih;
 	Bonobo_UIContainer container;
 	BonoboUIComponent *component;
-	char *fname;
-	xmlNode *ui;
 
 	g_return_if_fail (shell_view != NULL);
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
@@ -472,16 +470,9 @@ e_shell_view_menu_setup (EShellView *shell_view)
 
 	bonobo_ui_container_freeze (container, NULL);
 
-	fname = bonobo_ui_util_get_ui_fname (
-		EVOLUTION_DATADIR, "evolution.xml");
-	g_warning ("Attempting ui load from '%s'", fname);
-
-	ui = bonobo_ui_util_new_ui (component, fname, "evolution");
-
-	bonobo_ui_component_set_tree (component, container, "/", ui, NULL);
-
-	g_free (fname);
-	xmlFreeNode (ui);
+	bonobo_ui_util_set_ui (component, container, 
+			       EVOLUTION_DATADIR, "evolution.xml",
+			       "evolution");
 
 	menu_do_misc (component, shell_view);
 

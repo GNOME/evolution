@@ -1,3 +1,9 @@
+2000-09-22  Michael Meeks  <michael@helixcode.com>
+
+	* gui/component/addressbook.c (control_activate): update.
+
+	* contact-editor/e-contact-editor.c (create_ui): upd.
+
 2000-09-22  Chris Toshok  <toshok@helixcode.com>
 
 	* backend/pas/pas-backend-ldap.c: lots of changes.  flesh out the

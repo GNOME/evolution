@@ -122,28 +122,18 @@ set_pixmap (Bonobo_UIContainer container,
 	    const char        *xml_path,
 	    const char        *icon)
 {
-	char *path, *parent_path;
-	xmlNode *node;
+	char *path;
 	GdkPixbuf *pixbuf;
 
 	path = g_concat_dir_and_file (EVOLUTION_DATADIR "/images/evolution/buttons", icon);
 
 	pixbuf = gdk_pixbuf_new_from_file (path);
 	g_return_if_fail (pixbuf != NULL);
-	
-	node = bonobo_ui_container_get_tree (container, xml_path, FALSE, NULL);
 
-	g_return_if_fail (node != NULL);
+	bonobo_ui_util_set_pixbuf (container, xml_path, pixbuf);
 
-	bonobo_ui_util_xml_set_pixbuf (node, pixbuf);
 	gdk_pixbuf_unref (pixbuf);
 
-	parent_path = bonobo_ui_xml_get_parent_path (xml_path);
-	bonobo_ui_component_set_tree (NULL, container, parent_path, node, NULL);
-
-	xmlFreeNode (node);
-
-	g_free (parent_path);
 	g_free (path);
 }
 
@@ -182,21 +172,10 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 
 	bonobo_ui_container_freeze (container, NULL);
 
-	{ /* FIXME: sweeten this whole function */
-		char *fname;
-		xmlNode *ui;
-
-		fname = bonobo_ui_util_get_ui_fname (
-			EVOLUTION_DATADIR, "evolution-mail.xml");
-		g_warning ("Attempting ui load from '%s'", fname);
-		
-		ui = bonobo_ui_util_new_ui (component, fname, "evolution-mail");
-		
-		bonobo_ui_component_set_tree (component, container, "/", ui, NULL);
-
-		g_free (fname);
-		xmlFreeNode (ui);
-	}
+	bonobo_ui_util_set_ui (
+		component, container,
+		EVOLUTION_DATADIR, "evolution-mail.xml",
+		"evolution-mail");
 
 	if (mail_config_thread_list ())
 		bonobo_ui_container_set_prop (
