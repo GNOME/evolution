@@ -55,6 +55,7 @@ static CursorDef cursors [] = {
 	{ NULL, GDK_INTERNAL_CURSOR,   GDK_HAND2,             NULL },
 	{ NULL, 10, 10, cursor_hand_open_xpm },
 	{ NULL, 10, 10, cursor_hand_closed_xpm },
+	{ NULL, GDK_INTERNAL_CURSOR,   GDK_XTERM,             NULL },
 	{ NULL, 0,    0,  NULL }
 };
 
