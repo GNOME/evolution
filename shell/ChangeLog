@@ -1,3 +1,10 @@
+2002-01-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Patch by Michael Meeks <michael@ximian.com>.]
+
+	* e-splash.c (e_splash_set_icon_highlight): g_return if there is
+	no num-th icon.
+
 2002-01-15  Iain Holmes  <iain@ximian.com>
 
 	* e-shell-importer.c (show_import_wizard): Set the importer druid
