@@ -1,3 +1,14 @@
+2001-02-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-search-private.c (CAMEL_SEARCH_COMPARE): Macro for making
+	comparisons easy.
+	(camel_ustrcasecmp): Use CAMEL_SEARCH_COMPARE and check for
+	end-of-string before the utf-8 error check.
+	(camel_ustrncasecmp): Same.
+	(camel_search_header_match): Strip leading spaces before doing
+	anything else. Also use vlen and mlen so as to not need to do 500
+	strlen()'s.
+
 2001-02-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-search-private.c (utf8_get): Rewrote using unicode_get_utf8().

@@ -290,20 +290,23 @@ camel_ustrstrcase (const char *haystack, const char *needle)
 	return NULL;
 }
 
+#define CAMEL_SEARCH_COMPARE(x, y, z) G_STMT_START {   \
+	if ((x) == (z)) {                              \
+		if ((y) == (z))                        \
+			return 0;                      \
+		else                                   \
+			return -1;                     \
+	} else if ((y) == (z))                         \
+		return 1;                              \
+} G_STMT_END
+
 static int
 camel_ustrcasecmp (const char *s1, const char *s2)
 {
 	unicode_char_t u1, u2 = 0;
-
-	if (s1 == NULL) {
-		if (s2 == NULL)
-			return 0;
-		else
-			return -1;
-	}
-	if (s2 == NULL)
-		return 1;
-
+	
+	CAMEL_SEARCH_COMPARE (s1, s2, NULL);
+	
 	while ((u1 = utf8_get(&s1)) && (u2 = utf8_get(&s2))) {
 		u1 = unicode_tolower(u1);
 		u2 = unicode_tolower(u2);
@@ -312,20 +315,13 @@ camel_ustrcasecmp (const char *s1, const char *s2)
 		else if (u1 > u2)
 			return 1;
 	}
-
+	
+	/* end of one of the strings ? */
+	CAMEL_SEARCH_COMPARE (u1, u2, 0);
+	
 	/* if we have invalid utf8 sequence ?  */
-	if (s2 == NULL || s1 == NULL)
-		return 1;
-
-	if (u1 == 0) {
-		if (u2 == 0)
-			return 0;
-		else
-			return -1;
-	}
-	if (u2 == 0)
-		return 1;
-
+	CAMEL_SEARCH_COMPARE (s1, s2, NULL);
+	
 	return 0;
 }
 
@@ -333,16 +329,9 @@ static int
 camel_ustrncasecmp (const char *s1, const char *s2, size_t len)
 {
 	unicode_char_t u1, u2 = 0;
-
-	if (s1 == NULL) {
-		if (s2 == NULL)
-			return 0;
-		else
-			return -1;
-	}
-	if (s2 == NULL)
-		return 1;
-
+	
+	CAMEL_SEARCH_COMPARE (s1, s2, NULL);
+	
 	while (len > 0 && (u1 = utf8_get(&s1)) && (u2 = utf8_get(&s2))) {
 		u1 = unicode_tolower(u1);
 		u2 = unicode_tolower(u2);
@@ -352,23 +341,16 @@ camel_ustrncasecmp (const char *s1, const char *s2, size_t len)
 			return 1;
 		len--;
 	}
-
+	
 	if (len == 0)
 		return 0;
-
+	
+	/* end of one of the strings ? */
+	CAMEL_SEARCH_COMPARE (u1, u2, 0);
+	
 	/* if we have invalid utf8 sequence ?  */
-	if (s2 == NULL || s1 == NULL)
-		return 1;
-
-	if (u1 == 0) {
-		if (u2 == 0)
-			return 0;
-		else
-			return -1;
-	}
-	if (u2 == 0)
-		return 1;
-
+	CAMEL_SEARCH_COMPARE (s1, s2, NULL);
+	
 	return 0;
 }
 
@@ -379,6 +361,7 @@ gboolean
 camel_search_header_match (const char *value, const char *match, camel_search_match_t how)
 {
 	const char *p;
+	int vlen, mlen;
 	
 	while (*value && isspace (*value))
 		value++;
@@ -386,7 +369,9 @@ camel_search_header_match (const char *value, const char *match, camel_search_ma
 	if (how == CAMEL_SEARCH_MATCH_SOUNDEX)
 		return header_soundex (value, match);
 	
-	if (strlen (value) < strlen (match))
+	vlen = strlen (value);
+	mlen = strlen (match);
+	if (vlen < mlen)
 		return FALSE;
 	
 	/* from dan the man, if we have mixed case, perform a case-sensitive match,
@@ -400,9 +385,9 @@ camel_search_header_match (const char *value, const char *match, camel_search_ma
 			case CAMEL_SEARCH_MATCH_CONTAINS:
 				return strstr(value, match) != NULL;
 			case CAMEL_SEARCH_MATCH_STARTS:
-				return strncmp(value, match, strlen(match)) == 0;
+				return strncmp (value, match, mlen) == 0;
 			case CAMEL_SEARCH_MATCH_ENDS:
-				return strcmp(value+strlen(value)-strlen(match), match) == 0;
+				return strcmp (value + vlen - mlen, match) == 0;
 			default:
 				break;
 			}
@@ -416,9 +401,9 @@ camel_search_header_match (const char *value, const char *match, camel_search_ma
 	case CAMEL_SEARCH_MATCH_CONTAINS:
 		return camel_ustrstrcase(value, match) != NULL;
 	case CAMEL_SEARCH_MATCH_STARTS:
-		return camel_ustrncasecmp(value, match, strlen(match)) == 0;
+		return camel_ustrncasecmp (value, match, mlen) == 0;
 	case CAMEL_SEARCH_MATCH_ENDS:
-		return camel_ustrcasecmp(value+strlen(value)-strlen(match), match) == 0;
+		return camel_ustrcasecmp (value + vlen - mlen, match) == 0;
 	default:
 		break;
 	}
