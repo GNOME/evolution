@@ -1,3 +1,7 @@
+2004-10-28  Not Zed  <NotZed@Ximian.com>
+
+	* org-gnome-mail-to-task.eplug.in: fix folder view popup id.
+
 2004-10-21  Rodrigo Moya <rodrigo@novell.com>
 
 	* mail-to-task.c (set_attendees, set_organizer): new functions.
