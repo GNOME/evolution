@@ -36,6 +36,7 @@ typedef struct {
 	guint horizontal_draw_grid : 1;
 	guint vertical_draw_grid : 1;
 	guint draw_focus : 1;
+	guint uniform_row_height : 1;
 	ECursorMode cursor_mode;
 
 	int etgl_cursor_change_id;

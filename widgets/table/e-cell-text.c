@@ -926,9 +926,13 @@ ect_height (ECellView *ecell_view, int model_col, int view_col, int row)
 	
 	font = text_view->font;
 
-	string = ect_get_text(ect, ecell_view->e_table_model, model_col, row);
-	value = e_font_height (font) * number_of_lines(string) + TEXT_PAD;
-	ect_free_text(ect, string);
+	if (row == -1) {
+		value = e_font_height (font) + TEXT_PAD;
+	} else {
+		string = ect_get_text(ect, ecell_view->e_table_model, model_col, row);
+		value = e_font_height (font) * number_of_lines(string) + TEXT_PAD;
+		ect_free_text(ect, string);
+	}
 
 	return value;
 }

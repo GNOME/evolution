@@ -44,6 +44,7 @@ enum {
 	ARG_CURSOR_MODE,
 	ARG_SELECTION_MODEL,
 	ARG_LENGTH_THRESHOLD,
+	ARG_UNIFORM_ROW_HEIGHT,
 };
 
 typedef struct {
@@ -438,6 +439,7 @@ create_child_node (ETableGroupContainer *etgc, void *val)
 			      "cursor_mode", etgc->cursor_mode,
 			      "selection_model", etgc->selection_model,
 			      "length_threshold", etgc->length_threshold,
+			      "uniform_row_height", etgc->uniform_row_height,
 			      "minimum_width", etgc->minimum_width - GROUP_INDENT,
 			      NULL);
 
@@ -756,6 +758,15 @@ etgc_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 					NULL);
 		}
 		break;
+	case ARG_UNIFORM_ROW_HEIGHT:
+		etgc->uniform_row_height = GTK_VALUE_BOOL (*arg);
+		for (list = etgc->children; list; list = g_list_next (list)) {
+			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
+			gtk_object_set (GTK_OBJECT(child_node->child),
+					"uniform_row_height", GTK_VALUE_BOOL (*arg),
+					NULL);
+		}
+		break;
 
 	case ARG_SELECTION_MODEL:
 		if (etgc->selection_model)
@@ -842,7 +853,10 @@ etgc_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		GTK_VALUE_DOUBLE (*arg) = etgc->width;
 		break;
 	case ARG_MINIMUM_WIDTH:
-		etgc->minimum_width = GTK_VALUE_DOUBLE(*arg);
+		GTK_VALUE_DOUBLE(*arg) = etgc->minimum_width;
+		break;
+	case ARG_UNIFORM_ROW_HEIGHT:
+		GTK_VALUE_BOOL(*arg) = etgc->uniform_row_height;
 		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
@@ -893,6 +907,8 @@ etgc_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_WRITABLE, ARG_SELECTION_MODEL);
 	gtk_object_add_arg_type ("ETableGroupContainer::length_threshold", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_LENGTH_THRESHOLD);
+	gtk_object_add_arg_type ("ETableGroupContainer::uniform_row_height", GTK_TYPE_BOOL,
+				 GTK_ARG_READWRITE, ARG_UNIFORM_ROW_HEIGHT);
 
 	gtk_object_add_arg_type ("ETableGroupContainer::frozen", GTK_TYPE_BOOL,
 				 GTK_ARG_READWRITE, ARG_FROZEN);
@@ -1000,6 +1016,7 @@ etgc_init (GtkObject *object)
 	container->cursor_mode = E_CURSOR_SIMPLE;
 	container->length_threshold = -1;
 	container->selection_model = NULL;
+	container->uniform_row_height = FALSE;
 }
 
 E_MAKE_TYPE (e_table_group_container, "ETableGroupContainer", ETableGroupContainer, etgc_class_init, etgc_init, PARENT_TYPE);

@@ -87,6 +87,8 @@ typedef struct {
 	guint scroll_down : 1;
 
 	guint do_drag : 1;
+
+	guint uniform_row_height : 1;
 	
 	char *click_to_add_message;
 	GnomeCanvasItem *click_to_add;

@@ -74,7 +74,8 @@ enum {
 	ARG_HORIZONTAL_DRAW_GRID,
 	ARG_VERTICAL_DRAW_GRID,
 	ARG_DRAW_FOCUS,
-	ARG_ETTA
+	ARG_ETTA,
+	ARG_UNIFORM_ROW_HEIGHT,
 };
 
 struct ETreePriv {
@@ -123,6 +124,8 @@ struct ETreePriv {
 	guint scroll_down : 1;
 
 	guint do_drag : 1;
+
+	guint uniform_row_height : 1;
 
 	ECursorMode cursor_mode;
 
@@ -295,6 +298,7 @@ e_tree_init (GtkObject *object)
 	e_tree->priv->draw_focus                         = 1;
 	e_tree->priv->cursor_mode                        = E_CURSOR_SIMPLE;
 	e_tree->priv->length_threshold                   = 200;
+	e_tree->priv->uniform_row_height                 = FALSE;
 
 	e_tree->priv->row_selection_active               = FALSE;
 	e_tree->priv->horizontal_scrolling               = FALSE;
@@ -652,6 +656,7 @@ et_build_item (ETree *et)
 					 "drawfocus", et->priv->draw_focus,
 					 "cursor_mode", et->priv->cursor_mode,
 					 "length_threshold", et->priv->length_threshold,
+					 "uniform_row_height", et->priv->uniform_row_height,
 					 NULL);
 
 	gtk_signal_connect (GTK_OBJECT (et->priv->item), "cursor_change",
@@ -1284,6 +1289,9 @@ et_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 			GTK_VALUE_OBJECT (*arg) = GTK_OBJECT (etree->priv->etta);
 		}
 		break;
+	case ARG_UNIFORM_ROW_HEIGHT:
+		GTK_VALUE_BOOL (*arg) = etree->priv->uniform_row_height;
+		break;
 
 	default:
 		break;
@@ -1333,6 +1341,15 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		if (etree->priv->item) {
 			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etree->priv->item),
 					       "draw_focus", GTK_VALUE_BOOL (*arg),
+					       NULL);
+		}
+		break;
+
+	case ARG_UNIFORM_ROW_HEIGHT:
+		etree->priv->uniform_row_height = GTK_VALUE_BOOL (*arg);
+		if (etree->priv->item) {
+			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etree->priv->item),
+					       "uniform_row_height", GTK_VALUE_BOOL (*arg),
 					       NULL);
 		}
 		break;
@@ -2584,6 +2601,8 @@ e_tree_class_init (ETreeClass *class)
 				 GTK_ARG_WRITABLE, ARG_DRAW_FOCUS);
 	gtk_object_add_arg_type ("ETree::ETreeTableAdapter", GTK_TYPE_OBJECT,
 				 GTK_ARG_READABLE, ARG_ETTA);
+	gtk_object_add_arg_type ("ETree::uniform_row_height", GTK_TYPE_BOOL,
+				 GTK_ARG_READWRITE, ARG_UNIFORM_ROW_HEIGHT);
 }
 
 E_MAKE_TYPE(e_tree, "ETree", ETree, e_tree_class_init, e_tree_init, PARENT_TYPE);

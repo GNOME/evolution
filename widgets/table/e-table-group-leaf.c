@@ -36,6 +36,7 @@ enum {
 	ARG_CURSOR_MODE,
 	ARG_LENGTH_THRESHOLD,
 	ARG_SELECTION_MODEL,
+	ARG_UNIFORM_ROW_HEIGHT,
 };
 
 static void etgl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id);
@@ -251,6 +252,7 @@ etgl_realize (GnomeCanvasItem *item)
 		"minimum_width", etgl->minimum_width,
 		"length_threshold", etgl->length_threshold,
 		"selection_model", etgl->selection_model,
+		"uniform_row_height", etgl->uniform_row_height,
 		NULL));
 
 	etgl->etgl_cursor_change_id    = gtk_signal_connect (GTK_OBJECT(etgl->item),
@@ -443,6 +445,15 @@ etgl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		}
 		break;
 
+	case ARG_UNIFORM_ROW_HEIGHT:
+		etgl->uniform_row_height = GTK_VALUE_BOOL (*arg);
+		if (etgl->item) {
+			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
+					       "uniform_row_height", etgl->uniform_row_height,
+					       NULL);
+		}
+		break;
+
 	case ARG_TABLE_ALTERNATING_ROW_COLORS:
 		etgl->alternating_row_colors = GTK_VALUE_BOOL (*arg);
 		if (etgl->item) {
@@ -511,6 +522,8 @@ etgl_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_MINIMUM_WIDTH:
 		GTK_VALUE_DOUBLE (*arg) = etgl->minimum_width;
 		break;
+	case ARG_UNIFORM_ROW_HEIGHT:
+		GTK_VALUE_BOOL (*arg) = etgl->uniform_row_height;
 	default:
 		arg->type = GTK_TYPE_INVALID;
 		break;
@@ -567,6 +580,8 @@ etgl_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_READWRITE, ARG_MINIMUM_WIDTH);
 	gtk_object_add_arg_type ("ETableGroupLeaf::frozen", GTK_TYPE_BOOL,
 				 GTK_ARG_READWRITE, ARG_FROZEN);
+	gtk_object_add_arg_type ("ETableGroupLeaf::uniform_row_height", GTK_TYPE_BOOL,
+				 GTK_ARG_READWRITE, ARG_UNIFORM_ROW_HEIGHT);
 }
 
 static void
@@ -597,6 +612,7 @@ etgl_init (GtkObject *object)
 	etgl->length_threshold = -1;
 
 	etgl->selection_model = NULL;
+	etgl->uniform_row_height = FALSE;
 
 	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM(object), etgl_reflow);
 }

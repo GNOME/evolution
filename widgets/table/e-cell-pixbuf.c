@@ -136,6 +136,13 @@ static gint
 pixbuf_height (ECellView *ecell_view, int model_col, int view_col, int row)
 {
     GdkPixbuf *pixbuf;
+    if (row == -1) {
+      if (e_table_model_row_count (ecell_view->e_table_model) > 0) {
+        row = 0;
+      } else {
+	return 6;
+      }
+    }
 
     pixbuf = (GdkPixbuf *) e_table_model_value_at (ecell_view->e_table_model, model_col, row);
     if (!pixbuf)

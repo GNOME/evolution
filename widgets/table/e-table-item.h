@@ -64,7 +64,7 @@ typedef struct {
 	guint 		 horizontal_draw_grid:1;
 	guint 		 vertical_draw_grid:1;
 	guint 		 draw_focus:1;
-	guint 		 renderers_can_change_size:1;
+	guint 		 uniform_row_height:1;
 	guint 		 cell_views_realized:1;
 	      	    
 	guint 		 needs_redraw : 1;
@@ -101,6 +101,7 @@ typedef struct {
 	int              n_cells;
 
 	int             *height_cache;
+	int              uniform_row_height_cache;
 	int              height_cache_idle_id;
 	int              height_cache_idle_count;
 

@@ -70,6 +70,7 @@ enum {
 	ARG_0,
 	ARG_LENGTH_THRESHOLD,
 	ARG_MODEL,
+	ARG_UNIFORM_ROW_HEIGHT,
 };
 
 static gint et_signals [LAST_SIGNAL] = { 0, };
@@ -219,6 +220,7 @@ e_table_init (GtkObject *object)
 	e_table->draw_focus                         = 1;
 	e_table->cursor_mode                        = E_CURSOR_SIMPLE;
 	e_table->length_threshold                   = 200;
+	e_table->uniform_row_height                 = FALSE;
 
 	e_table->need_rebuild                       = 0;
 	e_table->rebuild_idle_id                    = 0;
@@ -618,6 +620,7 @@ et_build_groups (ETable *et)
 			      "drawfocus", et->draw_focus,
 			      "cursor_mode", et->cursor_mode,
 			      "length_threshold", et->length_threshold,
+			      "uniform_row_height", et->uniform_row_height,
 			      "selection_model", et->selection,
 			      NULL);
 
@@ -1423,7 +1426,9 @@ et_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_MODEL:
 		GTK_VALUE_OBJECT (*arg) = (GtkObject *) etable->model;
 		break;
-
+	case ARG_UNIFORM_ROW_HEIGHT:
+		GTK_VALUE_BOOL (*arg) = etable->uniform_row_height;
+		break;
 	default:
 		break;
 	}
@@ -1448,7 +1453,14 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 					       NULL);
 		}
 		break;
-
+	case ARG_UNIFORM_ROW_HEIGHT:
+		etable->uniform_row_height = GTK_VALUE_BOOL (*arg);
+		if (etable->group) {
+			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etable->group),
+					       "uniform_row_height", GTK_VALUE_BOOL (*arg),
+					       NULL);
+		}
+		break;
 	}
 }
 
@@ -2417,6 +2429,8 @@ e_table_class_init (ETableClass *class)
 
 	gtk_object_add_arg_type ("ETable::length_threshold", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_LENGTH_THRESHOLD);
+	gtk_object_add_arg_type ("ETable::uniform_row_height", GTK_TYPE_BOOL,
+				 GTK_ARG_READWRITE, ARG_UNIFORM_ROW_HEIGHT);
 	gtk_object_add_arg_type ("ETable::model", E_TABLE_MODEL_TYPE,
 				 GTK_ARG_READABLE, ARG_MODEL);
 }
