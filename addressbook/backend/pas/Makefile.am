@@ -66,9 +66,5 @@ wombat_LDADD =						\
 	-lbonobo					\
 	$(pas_libs)
 
-gnorbadir     = $(sysconfdir)/CORBA/servers
-gnorba_DATA   = wombat.gnorba
-
 BUILT_SOURCES = $(CORBA_SOURCE)
 CLEANFILES   += $(BUILT_SOURCES)
-EXTRA_DIST    = $(gnorba_DATA)

@@ -11,7 +11,7 @@
 #include <addressbook.h>
 #include <pas-book-factory.h>
 
-#define PAS_BOOK_FACTORY_GOAD_ID "evolution:card-server"
+#define PAS_BOOK_FACTORY_GOAD_ID "evolution:addressbook-server"
 
 static BonoboObjectClass          *pas_book_factory_parent_class;
 POA_Evolution_BookFactory__vepv   pas_book_factory_vepv;

@@ -1,5 +1,19 @@
 2000-03-29  Matt Loper  <matt@helixcode.com>
 
+	* addressbook/backend/pas/pas-book-factory.c
+	(PAS_BOOK_FACTORY_GOAD_ID): changed to
+	"evolution:addressbook-server".
+
+	* addressbook/backend/pas/Makefile.am: no need to install a
+	.gnorba file from here, as the wombat.gnorba file in
+	evolution/wombat will do its job.
+
+	* addressbook/backend/ebook/test-client.c (ebook_create): if
+	ebook_new fails, print a warning and return.
+
+	* addressbook/backend/ebook/e-book.c (CARDSERVER_GOAD_ID): changed
+	to "evolution:addressbook-server".
+
 	* wombat/wombat.c: Changed headerfile path.
 
 	* wombat/Makefile.am: Use relative paths to libraries in the build

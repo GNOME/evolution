@@ -18,7 +18,7 @@
 
 GtkObjectClass *e_book_parent_class;
 
-#define CARDSERVER_GOAD_ID "evolution:card-server"
+#define CARDSERVER_GOAD_ID "evolution:addressbook-server"
 
 typedef enum {
 	URINotLoaded,

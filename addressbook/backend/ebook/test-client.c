@@ -102,6 +102,14 @@ ebook_create (void)
 	
 	book = e_book_new ();
 
+	if (!book) {
+		printf ("%s: %s: Couldn't create EBook, bailing.\n",
+			__FILE__,
+			__FUNCTION__);
+		return FALSE;
+	}
+	
+
 	if (! e_book_load_uri (book, "file:/tmp/test.db", book_open_cb, NULL)) {
 		printf ("error calling load_uri!\n");
 	}
