@@ -207,7 +207,7 @@ etms_append_row (ETableModel *etm, ETableModel *source, int row)
 
 	row_count = e_table_model_row_count (E_TABLE_MODEL (etms));
 
-	e_table_memory_store_insert (etms, row_count, new_data, NULL);
+	e_table_memory_store_insert_array (etms, row_count, new_data, NULL);
 }
 
 static void
@@ -327,7 +327,7 @@ e_table_memory_store_adopt_value_at (ETableMemoryStore *etms, int col, int row, 
 
 /* The size of these arrays is the number of columns. */
 void
-e_table_memory_store_insert (ETableMemoryStore *etms, int row, void **store, gpointer data)
+e_table_memory_store_insert_array (ETableMemoryStore *etms, int row, void **store, gpointer data)
 {
 	int row_count;
 	int i;
@@ -348,7 +348,7 @@ e_table_memory_store_insert (ETableMemoryStore *etms, int row, void **store, gpo
 }
 
 void
-e_table_memory_store_insert_list (ETableMemoryStore *etms, int row, gpointer data, ...)
+e_table_memory_store_insert (ETableMemoryStore *etms, int row, gpointer data, ...)
 {
 	void **store;
 	va_list args;
@@ -362,7 +362,7 @@ e_table_memory_store_insert_list (ETableMemoryStore *etms, int row, gpointer dat
 	}
 	va_end (args);
 
-	e_table_memory_store_insert (etms, row, store, data);
+	e_table_memory_store_insert_array (etms, row, store, data);
 
 	g_free (store);
 }

@@ -97,11 +97,11 @@ void         e_table_memory_store_adopt_value_at  (ETableMemoryStore            
 						   void                         *value);
 
 /* The size of these arrays is the number of columns. */
-void         e_table_memory_store_insert          (ETableMemoryStore            *etms,
+void         e_table_memory_store_insert_array    (ETableMemoryStore            *etms,
 						   int                           row,
 						   void                        **store,
 						   gpointer                      data);
-void         e_table_memory_store_insert_list     (ETableMemoryStore            *etms,
+void         e_table_memory_store_insert          (ETableMemoryStore            *etms,
 						   int                           row,
 						   gpointer                      data,
 						   ...);

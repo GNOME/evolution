@@ -36,14 +36,20 @@
 #include <gal/widgets/e-unicode.h>
 #include "gal-view-instance.h"
 #include "gal-view-instance-save-as-dialog.h"
+#include "gal-define-views-dialog.h"
 #include <sys/stat.h>
 #include <unistd.h>
+#include <gtk/gtkcheckmenuitem.h>
 
 #define GVI_CLASS(e) ((GalViewInstanceClass *)((GtkObject *)e)->klass)
 
 #define PARENT_TYPE gtk_object_get_type ()
 
 static GtkObjectClass *gal_view_instance_parent_class;
+
+static const EPopupMenu separator = E_POPUP_SEPARATOR;
+static const EPopupMenu terminator = E_POPUP_TERMINATOR;
+
 
 #define d(x) x
 
@@ -478,4 +484,137 @@ gal_view_instance_exists (GalViewInstance *instance)
 	else
 		return FALSE;
 	
+}
+
+typedef struct {
+	GalViewInstance *instance;
+	char *id;
+} ListenerClosure;
+
+static void
+view_item_cb (GtkWidget *widget,
+	      gpointer user_data)
+{
+	ListenerClosure *closure = user_data;
+
+	if (GTK_CHECK_MENU_ITEM (widget)->active) {
+		gal_view_instance_set_current_view_id (closure->instance, closure->id);
+	}
+}
+
+static void
+add_popup_radio_item (EPopupMenu *menu_item,
+		      gchar *title,
+		      void (*fn) (GtkWidget *widget, gpointer closure),
+		      gpointer closure,
+		      gboolean value)
+{
+	const EPopupMenu menu_item_struct = 
+		E_POPUP_RADIO_ITEM_CC (title,
+				       fn,
+				       closure,
+				       0,
+				       value);
+
+	e_popup_menu_copy_1 (menu_item, &menu_item_struct);
+}
+
+static void
+add_popup_menu_item (EPopupMenu *menu_item,
+		     gchar *title,
+		     void (*fn) (GtkWidget *widget, gpointer closure),
+		     gpointer closure)
+{
+	const EPopupMenu menu_item_struct = 
+		E_POPUP_ITEM_CC (title,
+				 fn,
+				 closure,
+				 0);
+
+	e_popup_menu_copy_1 (menu_item, &menu_item_struct);
+}
+
+static void
+define_views_dialog_clicked(GtkWidget *dialog, int button, GalViewInstance *instance)
+{
+	if (button == 0) {
+		gal_view_collection_save(instance->collection);
+	}
+	gnome_dialog_close(GNOME_DIALOG(dialog));
+}
+
+static void
+define_views_cb(GtkWidget *widget,
+		GalViewInstance *instance)
+{
+	GtkWidget *dialog = gal_define_views_dialog_new(instance->collection);
+	gtk_signal_connect(GTK_OBJECT(dialog), "clicked",
+			   GTK_SIGNAL_FUNC(define_views_dialog_clicked), instance);
+	gtk_widget_show(dialog);
+}
+
+static void
+save_current_view_cb(GtkWidget *widget,
+		     GalViewInstance      *instance)
+{
+	gal_view_instance_save_as (instance);
+}
+
+EPopupMenu *
+gal_view_instance_get_popup_menu (GalViewInstance *instance)
+{
+	EPopupMenu *ret_val;
+	int length;
+	int i;
+	gboolean found = FALSE;
+	char *id;
+
+	length = gal_view_collection_get_count(instance->collection);
+	id = gal_view_instance_get_current_view_id (instance);
+
+	ret_val = g_new (EPopupMenu, length + 6);
+
+	for (i = 0; i < length; i++) {
+		gboolean value = FALSE;
+		GalViewCollectionItem *item = gal_view_collection_get_view_item(instance->collection, i);
+		ListenerClosure *closure;
+
+		closure            = g_new (ListenerClosure, 1);
+		closure->instance  = instance;
+		closure->id        = item->id;
+		gtk_object_ref (GTK_OBJECT(closure->instance));
+
+		if (!found && id && !strcmp (id, item->id)) {
+			found = TRUE;
+			value = TRUE;
+		}
+
+		add_popup_radio_item (ret_val + i, item->title, GTK_SIGNAL_FUNC (view_item_cb), closure, value);
+	}
+
+	if (!found) {
+		e_popup_menu_copy_1 (ret_val + i++, &separator);
+
+		add_popup_radio_item (ret_val + i++, N_("Custom View"), NULL, NULL, TRUE);
+		add_popup_menu_item (ret_val + i++, N_("Save Custom View"), GTK_SIGNAL_FUNC (save_current_view_cb), instance);
+	}
+
+	e_popup_menu_copy_1 (ret_val + i++, &separator);
+	add_popup_menu_item (ret_val + i++, N_("Define Views"), GTK_SIGNAL_FUNC (define_views_cb), instance);
+	e_popup_menu_copy_1 (ret_val + i++, &terminator);
+
+	return ret_val;
+}
+
+void
+gal_view_instance_free_popup_menu (GalViewInstance *instance, EPopupMenu *menu)
+{
+	int i;
+	/* This depends on the first non-custom closure to be a separator or a terminator. */
+	for (i = 0; menu[i].name && *(menu[i].name); i++) { 
+		gtk_object_unref (GTK_OBJECT ( ((ListenerClosure *)(menu[i].closure))->instance));
+		g_free (menu[i].closure);
+	}
+
+	e_popup_menu_free (menu);
 }

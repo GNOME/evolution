@@ -106,21 +106,21 @@ e_popup_menu_create (EPopupMenu *menu_list, guint32 disable_mask, guint32 hide_m
 	gboolean last_item_separator = TRUE;
 	int last_non_separator = -1;
 	int i;
-	
+
 	for (i = 0; menu_list[i].name; i++) {
 		if (strcmp ("", menu_list[i].name) && !(menu_list [i].disable_mask & hide_mask)) {
 			last_non_separator = i;
 		}
 	}
-	
+
 	for (i = 0; i <= last_non_separator; i++) {
 		gboolean separator;
-		
+
 		separator = !strcmp ("", menu_list[i].name);
-		
+
 		if ((!(separator && last_item_separator)) && !(menu_list [i].disable_mask & hide_mask)) {
 			GtkWidget *item = NULL;
-			
+
 			if (!separator) {
 				if (menu_list[i].is_toggle)
 					item = gtk_check_menu_item_new ();
@@ -132,14 +132,14 @@ e_popup_menu_create (EPopupMenu *menu_list, guint32 disable_mask, guint32 hide_m
 					gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), menu_list[i].is_active);
 				if (menu_list[i].is_radio)
 					group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (item));
-				
+
 				make_item (menu, GTK_MENU_ITEM (item), L_(menu_list[i].name), menu_list[i].pixmap_widget);
 			} else {
 				item = gtk_menu_item_new ();
 			}
-			
+
 			gtk_menu_append (menu, item);
-			
+
 			if (!menu_list[i].submenu) {
 				if (menu_list[i].fn)
 					gtk_signal_connect (GTK_OBJECT (item), "activate",
@@ -148,22 +148,22 @@ e_popup_menu_create (EPopupMenu *menu_list, guint32 disable_mask, guint32 hide_m
 			} else {
 				/* submenu */
 				GtkMenu *submenu;
-				
+
 				submenu = e_popup_menu_create (menu_list[i].submenu, disable_mask, hide_mask,
 							       default_closure);
-				
+
 				gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), GTK_WIDGET (submenu));
 			}
-			
+
 			if (menu_list[i].disable_mask & disable_mask)
 				gtk_widget_set_sensitive (item, FALSE);
-			
+
 			gtk_widget_show (item);
-			
+
 			last_item_separator = separator;
 		}
 	}
-	
+
 	return menu;
 }
 
@@ -178,5 +178,77 @@ e_popup_menu_run (EPopupMenu *menu_list, GdkEvent *event, guint32 disable_mask, 
 	menu = e_popup_menu_create (menu_list, disable_mask, hide_mask, default_closure);
 	
 	e_popup_menu (menu, event);
+}
+
+void
+e_popup_menu_copy_1 (EPopupMenu *destination,
+		     const EPopupMenu *source)
+{
+	destination->name = g_strdup (source->name);
+	destination->pixname = g_strdup (source->pixname);
+	destination->fn = source->fn;
+	destination->submenu = e_popup_menu_copy (source->submenu);
+	destination->disable_mask = source->disable_mask;
+
+	destination->pixmap_widget = source->pixmap_widget;
+	if (destination->pixmap_widget)
+		gtk_object_ref (GTK_OBJECT (destination->pixmap_widget));
+	destination->closure = source->closure;
+
+	destination->is_toggle = source->is_toggle;
+	destination->is_radio = source->is_radio;
+	destination->is_active = source->is_active;
+
+	destination->use_custom_closure = source->use_custom_closure;
+}
+
+void
+e_popup_menu_free_1 (EPopupMenu *menu_item)
+{
+	g_free (menu_item->name);
+	g_free (menu_item->pixname);
+	e_popup_menu_free (menu_item->submenu);
+
+	if (menu_item->pixmap_widget)
+		gtk_object_unref (GTK_OBJECT (menu_item->pixmap_widget));
+}
+
+EPopupMenu *
+e_popup_menu_copy (const EPopupMenu *menu_list)
+{
+	int i;
+	EPopupMenu *ret_val;
+
+	if (menu_list == NULL)
+		return NULL;
+
+	for (i = 0; menu_list[i].name; i++) {
+		/* Intentionally empty */
+	}
+
+	ret_val = g_new (EPopupMenu, i + 1);
+
+	for (i = 0; menu_list[i].name; i++) {
+		e_popup_menu_copy_1 (ret_val + i, menu_list + i);
+	}
+
+	/* Copy the terminator */
+	e_popup_menu_copy_1 (ret_val + i, menu_list + i);
+
+	return ret_val;
+}
+
+void
+e_popup_menu_free (EPopupMenu *menu_list)
+{
+	int i;
+
+	if (menu_list == NULL)
+		return;
+
+	for (i = 0; menu_list[i].name; i++) {
+		e_popup_menu_free_1 (menu_list + i);
+	}
+	g_free (menu_list);
 }
 

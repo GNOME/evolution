@@ -26,6 +26,7 @@
 
 #include <gtk/gtkobject.h>
 #include <gal/menus/gal-view-collection.h>
+#include <gal/widgets/e-popup-menu.h>
 #include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS
@@ -108,6 +109,9 @@ const char      *gal_view_instance_get_default_view     (GalViewInstance   *inst
 void             gal_view_instance_set_default_view     (GalViewInstance   *instance,
 							 const char        *id);
 
+EPopupMenu      *gal_view_instance_get_popup_menu       (GalViewInstance   *instance);
+void             gal_view_instance_free_popup_menu      (GalViewInstance   *instance,
+							 EPopupMenu        *menu);
 
 END_GNOME_DECLS
 
