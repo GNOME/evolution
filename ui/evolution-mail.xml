@@ -23,12 +23,12 @@
         <menuitem name="Print" verb="PrintMessage"
         _label="Print message..."
         _tip="Print message to the printer"
-        pixtype="stock" pixname="Print" accel="*Control*P"/>
+        pixtype="pixbuf" accel="*Control*P"/>
 
         <menuitem name="Print Preview" verb="PrintPreviewMessage"
         _label="Print Preview of message..."
         _tip="Previews the message to be printed"
-        pixtype="stock" pixname="Print"/>
+        pixtype="pixbuf"/>
 
       </placeholder>
 
@@ -88,24 +88,30 @@
 
         <menuitem name="MessageEdit" verb=""
         _label="_Edit Message"
+	pixbuf="pixbuf"
          accel="*Control*e"/>
 
         <menuitem name="MessageSaveAs" verb=""
         _label="_Save Message As..."
+	pixtype="pixbuf"
          accel="*Control**Alt*s"/>
 
         <menuitem name="MessagePrint" verb=""
         _label="_Print Message"
+	pixtype="pixbuf"
          accel="*Control*p"/>
 
         <separator/>
 
         <menuitem name="MessageReplySndr" verb=""
         _label="Reply to _Sender"
+	pixtype="pixbuf"
         accel="*Control*r"/>
 
         <menuitem name="MessageReplyAll" verb=""
-        _label="Reply to _All" accel="*Control**Shift*r"/>
+        _label="Reply to _All"
+	pixtype="pixbuf"
+	accel="*Control**Shift*r"/>
 
         <menuitem name="MessageForwardAttached" verb=""
         _label="_Forward"
@@ -129,7 +135,8 @@
 
         <menuitem name="MessageMove" verb=""
         _label="_Move to Folder..."
-         accel="*Control*m"/>
+	pixtype="pixbuf"
+	accel="*Control*m"/>
 
         <menuitem name="MessageCopy" verb=""
         _label="_Copy to Folder..."

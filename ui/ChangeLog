@@ -1,5 +1,12 @@
 2001-01-25  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-mail.xml: Set the `pixtype' of the "PrintMessage" and
+	"PrintPreviewMessage" items to "pixbuf".  Likewise for
+	"MessageSaveAs", "MessageEdit", "MessagePrint", "MessageMove", "MessageReplySndr"
+	and "MessageReplyAll".
+
+2001-01-25  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-mail.xml: Set the `pixtype' of the "Configure Folder"
 	and "Mail Configuration" items to "pixbuf".
 

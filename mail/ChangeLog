@@ -1,5 +1,12 @@
 2001-01-25  Ettore Perazzoli  <ettore@ximian.com>
 
+	* folder-browser-factory.c (update_pixmaps): Set the print icon
+	for various other items.
+	(set_pixmap): Be a bit more verbose in the warning message if the
+	icon isn't found [i.e. report the name of the file too].
+
+2001-01-25  Ettore Perazzoli  <ettore@ximian.com>
+
 	* folder-browser-factory.c (update_pixmaps): Set the pixmaps for
 	the "/menu/Folder/FolderConfig" and "/menu/Settings/SetMailConfig"
 	items.

@@ -111,7 +111,11 @@ set_pixmap (BonoboUIComponent *uic,
 	path = g_concat_dir_and_file (EVOLUTION_DATADIR "/images/evolution", icon);
 
 	pixbuf = gdk_pixbuf_new_from_file (path);
-	g_return_if_fail (pixbuf != NULL);
+	if (pixbuf == NULL) {
+		g_warning ("Cannot load image -- %s", path);
+		g_free (path);
+		return;
+	}
 
 	bonobo_ui_util_set_pixbuf (uic, xml_path, pixbuf);
 
@@ -123,7 +127,18 @@ set_pixmap (BonoboUIComponent *uic,
 static void
 update_pixmaps (BonoboUIComponent *uic)
 {
+	set_pixmap (uic, "/menu/File/Print/Print", "16_print.xpm");
+	set_pixmap (uic, "/menu/File/Print/Print Preview", "16_print.xpm");
+
+	set_pixmap (uic, "/menu/Component/Message/MessageEdit", "16_edit.xpm");
+	set_pixmap (uic, "/menu/Component/Message/MessageSaveAs", "16_save.xpm");
+	set_pixmap (uic, "/menu/Component/Message/MessagePrint", "16_print.xpm");
+	set_pixmap (uic, "/menu/Component/Message/MessageMove", "16_move_message.xpm");
+	set_pixmap (uic, "/menu/Component/Message/MessageReplyAll", "16_reply_to_all.xpm");
+	set_pixmap (uic, "/menu/Component/Message/MessageReplySndr", "16_reply.xpm");
+
 	set_pixmap (uic, "/menu/Component/Folder/FolderConfig", "16_configure_folder.xpm");
+
 	set_pixmap (uic, "/menu/Settings/SetMailConfig", "16_configure_mail.xpm");
 
 	set_pixmap (uic, "/Toolbar/MailGet", "buttons/fetch-mail.png");
