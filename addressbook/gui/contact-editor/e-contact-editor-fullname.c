@@ -42,7 +42,7 @@ static GnomeDialogClass *parent_class = NULL;
 enum {
 	ARG_0,
 	ARG_NAME,
-	ARG_IS_READ_ONLY
+	ARG_EDITABLE
 };
 
 GtkType
@@ -85,7 +85,7 @@ e_contact_editor_fullname_class_init (EContactEditorFullnameClass *klass)
 				 GTK_ARG_READWRITE, ARG_NAME);
 
 	gtk_object_add_arg_type ("EContactEditorFullname::editable", GTK_TYPE_BOOL, 
-				 GTK_ARG_READWRITE, ARG_IS_READ_ONLY);
+				 GTK_ARG_READWRITE, ARG_EDITABLE);
  
 	object_class->set_arg = e_contact_editor_fullname_set_arg;
 	object_class->get_arg = e_contact_editor_fullname_get_arg;
@@ -159,19 +159,25 @@ e_contact_editor_fullname_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		e_contact_editor_fullname->name = e_card_name_copy(GTK_VALUE_POINTER (*arg));
 		fill_in_info(e_contact_editor_fullname);
 		break;
-	case ARG_IS_READ_ONLY: {
+	case ARG_EDITABLE: {
 		int i;
-		char *entry_names[] = {
+		char *widget_names[] = {
 			"combo-title",
 			"combo-suffix",
 			"entry-first",
 			"entry-middle",
 			"entry-last",
+			"label-title",
+			"label-suffix",
+			"label-first",
+			"label-middle",
+			"label-last",
 			NULL
 		};
+
 		e_contact_editor_fullname->editable = GTK_VALUE_BOOL (*arg) ? TRUE : FALSE;
-		for (i = 0; entry_names[i] != NULL; i ++) {
-			GtkWidget *w = glade_xml_get_widget(e_contact_editor_fullname->gui, entry_names[i]);
+		for (i = 0; widget_names[i] != NULL; i ++) {
+			GtkWidget *w = glade_xml_get_widget(e_contact_editor_fullname->gui, widget_names[i]);
 			if (GTK_IS_ENTRY (w)) {
 				gtk_entry_set_editable (GTK_ENTRY (w),
 							e_contact_editor_fullname->editable);
@@ -180,6 +186,9 @@ e_contact_editor_fullname_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 				gtk_entry_set_editable (GTK_ENTRY (GTK_COMBO (w)->entry),
 							e_contact_editor_fullname->editable);
 				gtk_widget_set_sensitive (GTK_COMBO (w)->button, e_contact_editor_fullname->editable);
+			}
+			else if (GTK_IS_LABEL (w)) {
+				gtk_widget_set_sensitive (w, e_contact_editor_fullname->editable);
 			}
 		}
 		break;
@@ -199,7 +208,7 @@ e_contact_editor_fullname_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		extract_info(e_contact_editor_fullname);
 		GTK_VALUE_POINTER (*arg) = e_card_name_ref(e_contact_editor_fullname->name);
 		break;
-	case ARG_IS_READ_ONLY:
+	case ARG_EDITABLE:
 		GTK_VALUE_BOOL (*arg) = e_contact_editor_fullname->editable ? TRUE : FALSE;
 		break;
 	default:

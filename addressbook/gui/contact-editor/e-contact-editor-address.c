@@ -51,7 +51,7 @@ static GnomeDialogClass *parent_class = NULL;
 enum {
 	ARG_0,
 	ARG_ADDRESS,
-	ARG_IS_READ_ONLY
+	ARG_EDITABLE
 };
 
 GtkType
@@ -93,7 +93,7 @@ e_contact_editor_address_class_init (EContactEditorAddressClass *klass)
 	gtk_object_add_arg_type ("EContactEditorAddress::address", GTK_TYPE_POINTER, 
 				 GTK_ARG_READWRITE, ARG_ADDRESS);
 	gtk_object_add_arg_type ("EContactEditorAddress::editable", GTK_TYPE_BOOL, 
-				 GTK_ARG_READWRITE, ARG_IS_READ_ONLY);
+				 GTK_ARG_READWRITE, ARG_EDITABLE);
  
 	object_class->set_arg = e_contact_editor_address_set_arg;
 	object_class->get_arg = e_contact_editor_address_get_arg;
@@ -472,9 +472,9 @@ e_contact_editor_address_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		e_contact_editor_address->address = e_card_delivery_address_copy(GTK_VALUE_POINTER (*arg));
 		fill_in_info(e_contact_editor_address);
 		break;
-	case ARG_IS_READ_ONLY: {
+	case ARG_EDITABLE: {
 		int i;
-		char *entry_names[] = {
+		char *widget_names[] = {
 			"entry-street",
 			"entry-city",
 			"entry-ext",
@@ -482,11 +482,18 @@ e_contact_editor_address_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 			"entry-region",
 			"combo-country",
 			"entry-code",
+			"label-street",
+			"label-city",
+			"label-ext",
+			"label-po",
+			"label-region",
+			"label-country",
+			"label-code",
 			NULL
 		};
 		e_contact_editor_address->editable = GTK_VALUE_BOOL (*arg) ? TRUE : FALSE;
-		for (i = 0; entry_names[i] != NULL; i ++) {
-			GtkWidget *w = glade_xml_get_widget(e_contact_editor_address->gui, entry_names[i]);
+		for (i = 0; widget_names[i] != NULL; i ++) {
+			GtkWidget *w = glade_xml_get_widget(e_contact_editor_address->gui, widget_names[i]);
 			if (GTK_IS_ENTRY (w)) {
 				gtk_entry_set_editable (GTK_ENTRY (w),
 							e_contact_editor_address->editable);
@@ -495,6 +502,9 @@ e_contact_editor_address_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 				gtk_entry_set_editable (GTK_ENTRY (GTK_COMBO (w)->entry),
 							e_contact_editor_address->editable);
 				gtk_widget_set_sensitive (GTK_COMBO (w)->button, e_contact_editor_address->editable);
+			}
+			else if (GTK_IS_LABEL (w)) {
+				gtk_widget_set_sensitive (w, e_contact_editor_address->editable);
 			}
 		}
 		break;
@@ -514,7 +524,7 @@ e_contact_editor_address_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		extract_info(e_contact_editor_address);
 		GTK_VALUE_POINTER (*arg) = e_card_delivery_address_ref(e_contact_editor_address->address);
 		break;
-	case ARG_IS_READ_ONLY:
+	case ARG_EDITABLE:
 		GTK_VALUE_BOOL (*arg) = e_contact_editor_address->editable ? TRUE : FALSE;
 		break;
 	default:

@@ -94,7 +94,7 @@
 
       <widget>
 	<class>GtkLabel</class>
-	<name>label2</name>
+	<name>label-street</name>
 	<label>_Address:</label>
 	<justify>GTK_JUSTIFY_LEFT</justify>
 	<wrap>False</wrap>
@@ -121,7 +121,7 @@
 
       <widget>
 	<class>GtkLabel</class>
-	<name>label4</name>
+	<name>label-city</name>
 	<label>_City:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -197,7 +197,7 @@
 
       <widget>
 	<class>GtkLabel</class>
-	<name>label8</name>
+	<name>label-po</name>
 	<label>_PO Box:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -224,7 +224,7 @@
 
       <widget>
 	<class>GtkLabel</class>
-	<name>label3</name>
+	<name>label-ext</name>
 	<label>Address _2:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -301,7 +301,7 @@
 
       <widget>
 	<class>GtkLabel</class>
-	<name>label5</name>
+	<name>label-region</name>
 	<label>_State/Province:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -415,7 +415,7 @@
 
       <widget>
 	<class>GtkLabel</class>
-	<name>label6</name>
+	<name>label-code</name>
 	<label>_ZIP Code:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -442,7 +442,7 @@
 
       <widget>
 	<class>GtkLabel</class>
-	<name>label7</name>
+	<name>label-country</name>
 	<label>Countr_y:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>

@@ -250,7 +250,7 @@ Esq.
 
       <widget>
 	<class>GtkLabel</class>
-	<name>label2</name>
+	<name>label-first</name>
 	<label>_First:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -277,7 +277,7 @@ Esq.
 
       <widget>
 	<class>GtkLabel</class>
-	<name>label1</name>
+	<name>label-title</name>
 	<label>_Title:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -304,7 +304,7 @@ Esq.
 
       <widget>
 	<class>GtkLabel</class>
-	<name>label3</name>
+	<name>label-middle</name>
 	<label>_Middle:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -331,7 +331,7 @@ Esq.
 
       <widget>
 	<class>GtkLabel</class>
-	<name>label5</name>
+	<name>label-last</name>
 	<label>_Last:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -358,7 +358,7 @@ Esq.
 
       <widget>
 	<class>GtkLabel</class>
-	<name>label4</name>
+	<name>label-suffix</name>
 	<label>_Suffix:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>

@@ -733,12 +733,12 @@ full_name_clicked(GtkWidget *button, EContactEditor *editor)
 	int result;
 
 	gtk_object_set (GTK_OBJECT (dialog),
-			"editable", editor->editable,
+			"editable", editor->fullname_editable,
 			NULL);
 	gtk_widget_show(GTK_WIDGET(dialog));
 	result = gnome_dialog_run (dialog);
 
-	if (result == 0) {
+	if (editor->fullname_editable && result == 0) {
 		ECardName *name;
 		GtkWidget *fname_widget;
 		int style = 0;
@@ -775,12 +775,12 @@ full_addr_clicked(GtkWidget *button, EContactEditor *editor)
 
 	dialog = GNOME_DIALOG(e_contact_editor_address_new(address));
 	gtk_object_set (GTK_OBJECT (dialog),
-			"editable", editor->editable,
+			"editable", editor->address_editable[editor->address_choice],
 			NULL);
 	gtk_widget_show(GTK_WIDGET(dialog));
 
 	result = gnome_dialog_run (dialog);
-	if (result == 0) {
+	if (editor->address_editable[editor->address_choice] && result == 0) {
 		ECardDeliveryAddress *new_address;
 		GtkWidget *address_widget;
 
@@ -2016,7 +2016,8 @@ _address_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEdito
 
 		/* make sure the buttons/entry is/are sensitive */
 		enable_widget (glade_xml_get_widget (editor->gui, "label-address"), TRUE);
-		enable_widget (glade_xml_get_widget (editor->gui, "text-address"), editor->editable);
+		enable_widget (glade_xml_get_widget (editor->gui, "text-address"), editor->address_editable[result]);
+		enable_widget (glade_xml_get_widget (editor->gui, "checkbutton-mailingaddress"), editor->address_editable[result]);
 	}
 }
 
@@ -2387,14 +2388,18 @@ enable_writable_fields(EContactEditor *editor)
 	enable_widget (glade_xml_get_widget (editor->gui, "label-email1"), FALSE);
 	enable_widget (glade_xml_get_widget (editor->gui, "entry-email1"), FALSE);
 	enable_widget (glade_xml_get_widget (editor->gui, "checkbutton-htmlmail"), FALSE);
+	enable_widget (glade_xml_get_widget (editor->gui, "checkbutton-mailingaddress"), FALSE);
 	enable_widget (glade_xml_get_widget (editor->gui, "label-address"), FALSE);
 	enable_widget (glade_xml_get_widget (editor->gui, "text-address"), FALSE);
+
+	editor->fullname_editable = FALSE;
 
 	/* enable widgets that map directly from a field to a widget (the drop down items) */
 	iter = e_list_get_iterator (fields);
 	for (; e_iterator_is_valid (iter); e_iterator_next (iter)) {
 		char *field = (char*)e_iterator_get (iter);
 		GtkWidget *widget = g_hash_table_lookup (dropdown_hash, field);
+		int i;
 
 		if (widget) {
 			enable_widget (widget, TRUE);
@@ -2404,6 +2409,12 @@ enable_writable_fields(EContactEditor *editor)
                            dropdown items, add it to the has to be
                            used in the second step */
 			g_hash_table_insert (supported_hash, field, field);
+		}
+
+		for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i ++) {
+			if (!strcmp (field, e_card_simple_get_ecard_field (simple, e_card_simple_map_address_to_field(i)))) {
+				editor->address_editable [i] = TRUE;
+			}
 		}
 
 		/* ugh - this is needed to make sure we don't have a
@@ -2417,6 +2428,7 @@ enable_writable_fields(EContactEditor *editor)
 		}
 		else if (!strcmp (field, e_card_simple_get_ecard_field (simple, e_card_simple_map_address_to_field(editor->address_choice)))) {
 			enable_widget (glade_xml_get_widget (editor->gui, "label-address"), TRUE);
+			enable_widget (glade_xml_get_widget (editor->gui, "checkbutton-mailingaddress"), editor->editable);
 			enable_widget (glade_xml_get_widget (editor->gui, "text-address"), editor->editable);
 		}
 		else for (i = 0; i < 4; i ++) {
@@ -2455,6 +2467,8 @@ enable_writable_fields(EContactEditor *editor)
 
 		enable_widget (w, enabled);
 	}
+
+	editor->fullname_editable = (g_hash_table_lookup (supported_hash, "full_name") != NULL);
 
 	g_hash_table_destroy (dropdown_hash);
 	g_hash_table_destroy (supported_hash);

@@ -99,6 +99,12 @@ struct _EContactEditor
 	/* Whether the contact editor will accept modifications */
 	guint editable : 1;
 
+	/* Whether the fullname will accept modifications */
+	guint fullname_editable : 1;
+
+	/* Whether each of the addresses are editable */
+	gboolean address_editable[E_CARD_SIMPLE_ADDRESS_ID_LAST];
+
 	/* Whether an async wombat call is in progress */
 	guint in_async_call : 1;
 
