@@ -1046,12 +1046,14 @@ ect_height (ECellView *ecell_view, int model_col, int view_col, int row)
 	GdkFont *font;
 	
 	font = text_view->font;
+#if 0
 	if (text_view->filter) {
 		char *string = text_view->filter(e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 		int value = (font->ascent + font->descent) * number_of_lines(string) + TEXT_PAD;
 		g_free(string);
 		return value;
 	} else
+#endif
 		return (font->ascent + font->descent) * number_of_lines(e_table_model_value_at (ecell_view->e_table_model, model_col, row)) + TEXT_PAD;
 }
 
@@ -1103,12 +1105,16 @@ ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 	edit->pointer_in = FALSE;
 	edit->default_cursor_shown = TRUE;
 	
+#if 0
 	if (ect->filter) {
 		str = ect->filter(e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 		edit->old_text = str;
-	} else {
-		edit->old_text = g_strdup (str);
-	}
+	} else 
+#endif
+		{
+			str = e_table_model_value_at (ecell_view->e_table_model, model_col, row);
+			edit->old_text = g_strdup (str);
+		}
 	edit->cell.text = g_strdup (str);
 
 #if 0
