@@ -1,6 +1,5 @@
 /* Evolution calendar factory
  *
- * Copyright (C) 2000 Helix Code, Inc.
  * Copyright (C) 2000 Ximian, Inc.
  *
  * Author: Federico Mena-Quintero <federico@ximian.com>
@@ -24,9 +23,9 @@
 #define CAL_FACTORY_H
 
 #include <libgnome/gnome-defs.h>
-#include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-xobject.h>
 
-#include "calendar/pcs/evolution-calendar.h"
+#include "evolution-calendar.h"
 
 BEGIN_GNOME_DECLS
 
@@ -45,36 +44,29 @@ typedef struct _CalFactoryClass CalFactoryClass;
 typedef struct _CalFactoryPrivate CalFactoryPrivate;
 
 struct _CalFactory {
-	BonoboObject object;
+	BonoboXObject object;
 
 	/* Private data */
 	CalFactoryPrivate *priv;
 };
 
 struct _CalFactoryClass {
-	BonoboObjectClass parent_class;
+	BonoboXObjectClass parent_class;
+	
+	POA_GNOME_Evolution_Calendar_CalFactory__epv epv;
 
 	/* Notification signals */
 	void (* last_calendar_gone) (CalFactory *factory);
 };
 
-GtkType cal_factory_get_type (void);
+GtkType     cal_factory_get_type        (void);
+CalFactory *cal_factory_new             (void);
 
-CalFactory *cal_factory_construct (CalFactory *factory,
-				   GNOME_Evolution_Calendar_CalFactory corba_factory);
-GNOME_Evolution_Calendar_CalFactory cal_factory_corba_object_create (BonoboObject *object);
-
-CalFactory *cal_factory_new (void);
-
-gboolean cal_factory_oaf_register (CalFactory *factory);
-
-void cal_factory_register_method (CalFactory *factory, const char *method, GtkType backend_type);
-
-int cal_factory_get_n_backends (CalFactory *factory);
-
-POA_GNOME_Evolution_Calendar_CalFactory__epv *cal_factory_get_epv (void);
-
-
+gboolean    cal_factory_oaf_register    (CalFactory *factory);
+void        cal_factory_register_method (CalFactory *factory,
+					 const char *method,
+					 GtkType     backend_type);
+int         cal_factory_get_n_backends  (CalFactory *factory);
 
 END_GNOME_DECLS
 

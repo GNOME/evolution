@@ -24,7 +24,9 @@
 #include "cal.h"
 #include "query.h"
 
-
+#define PARENT_TYPE         BONOBO_X_OBJECT_TYPE
+
+static BonoboXObjectClass *parent_class;
 
 /* Private part of the Cal structure */
 struct _CalPrivate {
@@ -35,121 +37,10 @@ struct _CalPrivate {
 	GNOME_Evolution_Calendar_Listener listener;
 };
 
-
-
-static void cal_class_init (CalClass *class);
-static void cal_init (Cal *cal);
-static void cal_destroy (GtkObject *object);
-
-static POA_GNOME_Evolution_Calendar_Cal__vepv cal_vepv;
-
-static BonoboObjectClass *parent_class;
-
-
-
-/**
- * cal_get_type:
- * @void:
- *
- * Registers the #Cal class if necessary, and returns the type ID associated to
- * it.
- *
- * Return value: The type ID of the #Cal class.
- **/
-GtkType
-cal_get_type (void)
-{
-	static GtkType cal_type = 0;
-
-	if (!cal_type) {
-		static const GtkTypeInfo cal_info = {
-			"Cal",
-			sizeof (Cal),
-			sizeof (CalClass),
-			(GtkClassInitFunc) cal_class_init,
-			(GtkObjectInitFunc) cal_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		cal_type = gtk_type_unique (BONOBO_OBJECT_TYPE, &cal_info);
-	}
-
-	return cal_type;
-}
-
-/* CORBA class initialzation function for the calendar */
-static void
-init_cal_corba_class (void)
-{
-	cal_vepv.Bonobo_Unknown_epv = bonobo_object_get_epv ();
-	cal_vepv.GNOME_Evolution_Calendar_Cal_epv = cal_get_epv ();
-}
-
-/* Class initialization function for the calendar */
-static void
-cal_class_init (CalClass *class)
-{
-	GtkObjectClass *object_class;
-
-	object_class = (GtkObjectClass *) class;
-
-	parent_class = gtk_type_class (BONOBO_OBJECT_TYPE);
-
-	object_class->destroy = cal_destroy;
-
-	init_cal_corba_class ();
-}
-
-/* Object initialization function for the calendar */
-static void
-cal_init (Cal *cal)
-{
-	CalPrivate *priv;
-
-	priv = g_new0 (CalPrivate, 1);
-	cal->priv = priv;
-
-	priv->listener = CORBA_OBJECT_NIL;
-}
-
-/* Destroy handler for the calendar */
-static void
-cal_destroy (GtkObject *object)
-{
-	Cal *cal;
-	CalPrivate *priv;
-	CORBA_Environment ev;
-
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (IS_CAL (object));
-
-	cal = CAL (object);
-	priv = cal->priv;
-
-	priv->backend = NULL;
-
-	CORBA_exception_init (&ev);
-	CORBA_Object_release (priv->listener, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION)
-		g_message ("cal_destroy(): could not release the listener");
-
-	CORBA_exception_free (&ev);
-
-	g_free (priv);
-
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
-}
-
-
-
-/* CORBA servant implementation */
 
 /* Cal::get_uri method */
 static CORBA_char *
-Cal_get_uri (PortableServer_Servant servant,
+impl_Cal_get_uri (PortableServer_Servant servant,
 	     CORBA_Environment *ev)
 {
 	Cal *cal;
@@ -182,9 +73,9 @@ uncorba_obj_type (GNOME_Evolution_Calendar_CalObjType type)
 
 /* Cal::get_n_objects method */
 static CORBA_long
-Cal_get_n_objects (PortableServer_Servant servant,
-		   GNOME_Evolution_Calendar_CalObjType type,
-		   CORBA_Environment *ev)
+impl_Cal_get_n_objects (PortableServer_Servant servant,
+			GNOME_Evolution_Calendar_CalObjType type,
+			CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -201,9 +92,9 @@ Cal_get_n_objects (PortableServer_Servant servant,
 
 /* Cal::get_object method */
 static GNOME_Evolution_Calendar_CalObj
-Cal_get_object (PortableServer_Servant servant,
-		const GNOME_Evolution_Calendar_CalObjUID uid,
-		CORBA_Environment *ev)
+impl_Cal_get_object (PortableServer_Servant servant,
+		     const GNOME_Evolution_Calendar_CalObjUID uid,
+		     CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -256,9 +147,9 @@ build_uid_seq (GList *uids)
 
 /* Cal::get_uids method */
 static GNOME_Evolution_Calendar_CalObjUIDSeq *
-Cal_get_uids (PortableServer_Servant servant,
-	      GNOME_Evolution_Calendar_CalObjType type,
-	      CORBA_Environment *ev)
+impl_Cal_get_uids (PortableServer_Servant servant,
+		   GNOME_Evolution_Calendar_CalObjType type,
+		   CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -281,10 +172,10 @@ Cal_get_uids (PortableServer_Servant servant,
 
 /* Cal::get_changes method */
 static GNOME_Evolution_Calendar_CalObjChangeSeq *
-Cal_get_changes (PortableServer_Servant servant,
-		 GNOME_Evolution_Calendar_CalObjType type,
-		 const CORBA_char *change_id,
-		 CORBA_Environment *ev)
+impl_Cal_get_changes (PortableServer_Servant servant,
+		      GNOME_Evolution_Calendar_CalObjType type,
+		      const CORBA_char *change_id,
+		      CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -300,11 +191,11 @@ Cal_get_changes (PortableServer_Servant servant,
 
 /* Cal::get_objects_in_range method */
 static GNOME_Evolution_Calendar_CalObjUIDSeq *
-Cal_get_objects_in_range (PortableServer_Servant servant,
-			  GNOME_Evolution_Calendar_CalObjType type,
-			  GNOME_Evolution_Calendar_Time_t start,
-			  GNOME_Evolution_Calendar_Time_t end,
-			  CORBA_Environment *ev)
+impl_Cal_get_objects_in_range (PortableServer_Servant servant,
+			       GNOME_Evolution_Calendar_CalObjType type,
+			       GNOME_Evolution_Calendar_Time_t start,
+			       GNOME_Evolution_Calendar_Time_t end,
+			       CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -337,10 +228,10 @@ Cal_get_objects_in_range (PortableServer_Servant servant,
 
 /* Cal::get_alarms_in_range method */
 static GNOME_Evolution_Calendar_CalComponentAlarmsSeq *
-Cal_get_alarms_in_range (PortableServer_Servant servant,
-			 GNOME_Evolution_Calendar_Time_t start,
-			 GNOME_Evolution_Calendar_Time_t end,
-			 CORBA_Environment *ev)
+impl_Cal_get_alarms_in_range (PortableServer_Servant servant,
+			      GNOME_Evolution_Calendar_Time_t start,
+			      GNOME_Evolution_Calendar_Time_t end,
+			      CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -367,11 +258,11 @@ Cal_get_alarms_in_range (PortableServer_Servant servant,
 
 /* Cal::get_alarms_for_object method */
 static GNOME_Evolution_Calendar_CalComponentAlarms *
-Cal_get_alarms_for_object (PortableServer_Servant servant,
-			   const GNOME_Evolution_Calendar_CalObjUID uid,
-			   GNOME_Evolution_Calendar_Time_t start,
-			   GNOME_Evolution_Calendar_Time_t end,
-			   CORBA_Environment * ev)
+impl_Cal_get_alarms_for_object (PortableServer_Servant servant,
+				const GNOME_Evolution_Calendar_CalObjUID uid,
+				GNOME_Evolution_Calendar_Time_t start,
+				GNOME_Evolution_Calendar_Time_t end,
+				CORBA_Environment * ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -411,10 +302,10 @@ Cal_get_alarms_for_object (PortableServer_Servant servant,
 
 /* Cal::update_object method */
 static void
-Cal_update_object (PortableServer_Servant servant,
-		   const GNOME_Evolution_Calendar_CalObjUID uid,
-		   const GNOME_Evolution_Calendar_CalObj calobj,
-		   CORBA_Environment *ev)
+impl_Cal_update_object (PortableServer_Servant servant,
+			const GNOME_Evolution_Calendar_CalObjUID uid,
+			const GNOME_Evolution_Calendar_CalObj calobj,
+			CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -430,9 +321,9 @@ Cal_update_object (PortableServer_Servant servant,
 
 /* Cal::remove_object method */
 static void
-Cal_remove_object (PortableServer_Servant servant,
-		   const GNOME_Evolution_Calendar_CalObjUID uid,
-		   CORBA_Environment *ev)
+impl_Cal_remove_object (PortableServer_Servant servant,
+			const GNOME_Evolution_Calendar_CalObjUID uid,
+			CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -448,10 +339,10 @@ Cal_remove_object (PortableServer_Servant servant,
 
 /* Cal::getQuery implementation */
 static GNOME_Evolution_Calendar_Query
-Cal_get_query (PortableServer_Servant servant,
-	       const CORBA_char *sexp,
-	       GNOME_Evolution_Calendar_QueryListener ql,
-	       CORBA_Environment *ev)
+impl_Cal_get_query (PortableServer_Servant servant,
+		    const CORBA_char *sexp,
+		    GNOME_Evolution_Calendar_QueryListener ql,
+		    CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -487,37 +378,6 @@ Cal_get_query (PortableServer_Servant servant,
 }
 
 /**
- * cal_get_epv:
- * @void:
- *
- * Creates an EPV for the Cal CORBA class.
- *
- * Return value: A newly-allocated EPV.
- **/
-POA_GNOME_Evolution_Calendar_Cal__epv *
-cal_get_epv (void)
-{
-	POA_GNOME_Evolution_Calendar_Cal__epv *epv;
-
-	epv = g_new0 (POA_GNOME_Evolution_Calendar_Cal__epv, 1);
-	epv->_get_uri = Cal_get_uri;
-	epv->countObjects = Cal_get_n_objects;
-	epv->getObject = Cal_get_object;
-	epv->getUIDs = Cal_get_uids;
-	epv->getChanges = Cal_get_changes;
-	epv->getObjectsInRange = Cal_get_objects_in_range;
-	epv->getAlarmsInRange = Cal_get_alarms_in_range;
-	epv->getAlarmsForObject = Cal_get_alarms_for_object;
-	epv->updateObject = Cal_update_object;
-	epv->removeObject = Cal_remove_object;
-	epv->getQuery = Cal_get_query;
-
-	return epv;
-}
-
-
-
-/**
  * cal_construct:
  * @cal: A calendar client interface.
  * @corba_cal: CORBA object for the calendar.
@@ -532,7 +392,6 @@ cal_get_epv (void)
  **/
 Cal *
 cal_construct (Cal *cal,
-	       GNOME_Evolution_Calendar_Cal corba_cal,
 	       CalBackend *backend,
 	       GNOME_Evolution_Calendar_Listener listener)
 {
@@ -559,43 +418,7 @@ cal_construct (Cal *cal,
 
 	priv->backend = backend;
 
-	bonobo_object_construct (BONOBO_OBJECT (cal), corba_cal);
 	return cal;
-}
-
-/**
- * cal_corba_object_create:
- * @object: #BonoboObject that will wrap the CORBA object.
- *
- * Creates and activates the CORBA object that is wrapped by the specified
- * calendar client interface @object.
- *
- * Return value: An activated object reference or #CORBA_OBJECT_NIL in case of
- * failure.
- **/
-GNOME_Evolution_Calendar_Cal
-cal_corba_object_create (BonoboObject *object)
-{
-	POA_GNOME_Evolution_Calendar_Cal *servant;
-	CORBA_Environment ev;
-
-	g_return_val_if_fail (object != NULL, CORBA_OBJECT_NIL);
-	g_return_val_if_fail (IS_CAL (object), CORBA_OBJECT_NIL);
-
-	servant = (POA_GNOME_Evolution_Calendar_Cal *) g_new0 (BonoboObjectServant, 1);
-	servant->vepv = &cal_vepv;
-
-	CORBA_exception_init (&ev);
-	POA_GNOME_Evolution_Calendar_Cal__init ((PortableServer_Servant) servant, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_message ("cal_corba_object_create(): could not init the servant");
-		g_free (servant);
-		CORBA_exception_free (&ev);
-		return CORBA_OBJECT_NIL;
-	}
-
-	CORBA_exception_free (&ev);
-	return (GNOME_Evolution_Calendar_Cal) bonobo_object_activate_servant (object, servant);
 }
 
 /**
@@ -613,28 +436,13 @@ Cal *
 cal_new (CalBackend *backend, GNOME_Evolution_Calendar_Listener listener)
 {
 	Cal *cal, *retval;
-	GNOME_Evolution_Calendar_Cal corba_cal;
-	CORBA_Environment ev;
-	gboolean ret;
 
 	g_return_val_if_fail (backend != NULL, NULL);
 	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
 
 	cal = CAL (gtk_type_new (CAL_TYPE));
-	corba_cal = cal_corba_object_create (BONOBO_OBJECT (cal));
 
-	CORBA_exception_init (&ev);
-	ret = CORBA_Object_is_nil ((CORBA_Object) corba_cal, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION || ret) {
-		g_message ("cal_new(): could not create the CORBA object");
-		bonobo_object_unref (BONOBO_OBJECT (cal));
-		CORBA_exception_free (&ev);
-		return NULL;
-	}
-
-	CORBA_exception_free (&ev);
-
-	retval = cal_construct (cal, corba_cal, backend, listener);
+	retval = cal_construct (cal, backend, listener);
 	if (!retval) {
 		g_message ("cal_new(): could not construct the calendar client interface");
 		bonobo_object_unref (BONOBO_OBJECT (cal));
@@ -643,6 +451,78 @@ cal_new (CalBackend *backend, GNOME_Evolution_Calendar_Listener listener)
 
 	return retval;
 }
+
+/* Destroy handler for the calendar */
+static void
+cal_destroy (GtkObject *object)
+{
+	Cal *cal;
+	CalPrivate *priv;
+	CORBA_Environment ev;
+
+	g_return_if_fail (object != NULL);
+	g_return_if_fail (IS_CAL (object));
+
+	cal = CAL (object);
+	priv = cal->priv;
+
+	priv->backend = NULL;
+
+	CORBA_exception_init (&ev);
+	CORBA_Object_release (priv->listener, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_message ("cal_destroy(): could not release the listener");
+
+	CORBA_exception_free (&ev);
+
+	g_free (priv);
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+}
+
+
+
+/* Class initialization function for the calendar */
+static void
+cal_class_init (CalClass *klass)
+{
+	GtkObjectClass *object_class = (GtkObjectClass *) klass;
+	POA_GNOME_Evolution_Calendar_Cal__epv *epv = &klass->epv;
+
+	parent_class = gtk_type_class (BONOBO_OBJECT_TYPE);
+
+	/* Class method overrides */
+	object_class->destroy = cal_destroy;
+
+	/* Epv methods */
+	epv->_get_uri = impl_Cal_get_uri;
+	epv->countObjects = impl_Cal_get_n_objects;
+	epv->getObject = impl_Cal_get_object;
+	epv->getUIDs = impl_Cal_get_uids;
+	epv->getChanges = impl_Cal_get_changes;
+	epv->getObjectsInRange = impl_Cal_get_objects_in_range;
+	epv->getAlarmsInRange = impl_Cal_get_alarms_in_range;
+	epv->getAlarmsForObject = impl_Cal_get_alarms_for_object;
+	epv->updateObject = impl_Cal_update_object;
+	epv->removeObject = impl_Cal_remove_object;
+	epv->getQuery = impl_Cal_get_query;
+}
+
+
+/* Object initialization function for the calendar */
+static void
+cal_init (Cal *cal)
+{
+	CalPrivate *priv;
+
+	priv = g_new0 (CalPrivate, 1);
+	cal->priv = priv;
+
+	priv->listener = CORBA_OBJECT_NIL;
+}
+
+BONOBO_X_TYPE_FUNC_FULL (Cal, GNOME_Evolution_Calendar_Cal, PARENT_TYPE, cal);
 
 /**
  * cal_notify_update:

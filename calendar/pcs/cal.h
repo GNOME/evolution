@@ -24,7 +24,7 @@
 #define CAL_H
 
 #include <libgnome/gnome-defs.h>
-#include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-xobject.h>
 #include "calendar/pcs/evolution-calendar.h"
 #include "cal-common.h"
 
@@ -41,30 +41,28 @@ BEGIN_GNOME_DECLS
 typedef struct _CalPrivate CalPrivate;
 
 struct _Cal {
-	BonoboObject object;
+	BonoboXObject object;
 
 	/* Private data */
 	CalPrivate *priv;
 };
 
 struct _CalClass {
-	BonoboObjectClass parent_class;
+	BonoboXObjectClass parent_class;
+
+	POA_GNOME_Evolution_Calendar_Cal__epv epv;
 };
 
 GtkType cal_get_type (void);
 
 Cal *cal_construct (Cal *cal,
-		    GNOME_Evolution_Calendar_Cal corba_cal,
 		    CalBackend *backend,
 		    GNOME_Evolution_Calendar_Listener listener);
-GNOME_Evolution_Calendar_Cal cal_corba_object_create (BonoboObject *object);
 
 Cal *cal_new (CalBackend *backend, GNOME_Evolution_Calendar_Listener listener);
 
 void cal_notify_update (Cal *cal, const char *uid);
 void cal_notify_remove (Cal *cal, const char *uid);
-
-POA_GNOME_Evolution_Calendar_Cal__epv *cal_get_epv (void);
 
 
 
