@@ -302,7 +302,7 @@
 		    message's time-stamp to the system clock when the filter
 		    is run, or to a specific time and date you choose from a
 		    calendar.  You can even have it look for messages within a
-		    range of time relative to the filter &mdash perhaps you're
+		    range of time relative to the filter &mdash; perhaps you're
 		    looking for messages less than two days old.
 		  </para></listitem>
 		
@@ -657,7 +657,7 @@
 		    message's time-stamp to the system clock when the filter
 		    is run, or to a specific time and date you choose from a
 		    calendar.  You can even have it look for messages within a
-		    range of time relative to the filter &mdash perhaps you're
+		    range of time relative to the filter &mdash; perhaps you're
 		    looking for messages less than two days old.
 		  </para></listitem>
 		

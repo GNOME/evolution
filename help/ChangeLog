@@ -1,3 +1,10 @@
+2001-08-12  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* C/apx-authors.sgml: Added missing ;'s after entities.
+	* C/evolution-C.omf: s/en/C in Language.
+	* C/usage-mail-org.sgml: Add missing ;.
+	* C/usage-mainwindow.sgml: Same here.
+	
 2001-08-10  Aaron Weber  <aaron@ximian.com>
 
 	* C/usage-mail.sgml: Switched all images in entire document to

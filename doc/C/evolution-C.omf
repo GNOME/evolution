@@ -9,6 +9,6 @@
     </subject>
     <format mime="text/sgml"/>
     <identifier url="panel.sgml"/>
-    <language code="en" />
+    <language code="C" />
   </resource>
 </omf>
