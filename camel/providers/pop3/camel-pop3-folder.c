@@ -255,16 +255,23 @@ pop3_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 	
 	pop3_folder = CAMEL_POP3_FOLDER (folder);
 	pop3_store = CAMEL_POP3_STORE (folder->parent_store);
+
+	camel_operation_start(NULL, _("Expunging deleted messages"));
 	
 	for (i = 0; i < pop3_folder->uids->len; i++) {
+		camel_operation_progress(NULL, (i+1) * 100 / pop3_folder->uids->len);
 		if (pop3_folder->flags[i] & CAMEL_MESSAGE_DELETED) {
 			status = camel_pop3_command (pop3_store, NULL, ex,
 						     "DELE %d", i + 1);
-			if (status != CAMEL_POP3_OK)
+			if (status != CAMEL_POP3_OK) {
+				camel_operation_end(NULL);
 				return;
+			}
 		}
 	}
-	
+
+	camel_operation_end(NULL);
+
 	camel_pop3_store_expunge (pop3_store, ex);
 }
 

@@ -1,3 +1,9 @@
+2001-08-29  Not Zed  <NotZed@Ximian.com>
+
+	* providers/pop3/camel-pop3-folder.c (pop3_sync): Add progress
+	reporting to deleting messages.  Dont change the calculation to a
+	bloody float.  Bug #6189.
+
 2001-08-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-pgp-context.c (crypto_exec_with_passwd): Initialize buf
