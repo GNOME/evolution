@@ -43,6 +43,7 @@
 #include <gtkhtml/gtkhtml.h>
 
 #include "camel/camel.h"
+#include "camel-charset-map.h"
 
 #include "mail/mail.h"
 #include "mail/mail-tools.h"
@@ -150,6 +151,21 @@ best_encoding (const guchar *text)
 		return CAMEL_MIME_PART_ENCODING_BASE64;
 }
 
+static char *
+best_content (gchar *plain)
+{
+	char *result;
+	const char *best;
+
+	if ((best = camel_charset_best (plain, strlen (plain)))) {
+		result = g_strdup_printf ("text/plain ; charset=%s", best);
+	} else {
+		result = g_strdup ("text/plain");
+	}
+	
+	return result;
+}
+
 /* This functions builds a CamelMimeMessage for the message that the user has
    composed in `composer'.  */
 static CamelMimeMessage *
@@ -164,8 +180,10 @@ build_message (EMsgComposer *composer)
 	gchar *from = NULL;
 	gboolean e8bit;
 	char *html = NULL, *plain = NULL;
+	char *content_type = NULL;
 	int i;
 	
+
 	if (composer->persist_stream_interface == CORBA_OBJECT_NIL)
 		return NULL;
 	
@@ -205,13 +223,15 @@ build_message (EMsgComposer *composer)
 		return NULL;
 
 	e8bit = is_8bit (plain);
-	
+	content_type = best_content (plain);
+
 	if (type != MSG_FORMAT_PLAIN) {
 		html = get_text (composer->persist_stream_interface, "text/html");
 		
 		/* the component has probably died */ 
 		if (html == NULL) {
 			g_free (plain);
+			g_free (content_type);
 			return NULL;
 		}
 	}
@@ -223,11 +243,14 @@ build_message (EMsgComposer *composer)
 		camel_multipart_set_boundary (body, NULL);
 		
 		part = camel_mime_part_new ();
-		camel_mime_part_set_content (part, plain, strlen (plain), "text/plain");
+
+		camel_mime_part_set_content (part, plain, strlen (plain), content_type);
+
 		if (e8bit)
-			camel_mime_part_set_encoding (part, best_encoding (plain));
-		
+			camel_mime_part_set_encoding (part, best_encoding (plain));		
+
 		g_free (plain);
+		g_free (content_type);
 		camel_multipart_add_part (body, part);
 		camel_object_unref (CAMEL_OBJECT (part));
 		
@@ -252,10 +275,13 @@ build_message (EMsgComposer *composer)
 			camel_object_unref (CAMEL_OBJECT (body));
 			break;
 		case MSG_FORMAT_PLAIN:
-			camel_mime_part_set_content (part, plain, strlen (plain), "text/plain");
+			camel_mime_part_set_content (part, plain, strlen (plain), best_content (plain));
+
 			if (e8bit)
 				camel_mime_part_set_encoding (part, best_encoding (plain));
+
 			g_free (plain);
+			g_free (content_type);
 			break;
 		}
 		camel_multipart_add_part (multipart, part);
@@ -271,11 +297,15 @@ build_message (EMsgComposer *composer)
 			camel_medium_set_content_object (CAMEL_MEDIUM (new), CAMEL_DATA_WRAPPER (body));
 			camel_object_unref (CAMEL_OBJECT (body));
 			break;
+
 		case MSG_FORMAT_PLAIN:
-			camel_mime_part_set_content (CAMEL_MIME_PART (new), plain, strlen (plain), "text/plain");
+			camel_mime_part_set_content (CAMEL_MIME_PART (new), plain, strlen (plain), best_content (plain));
+
 			if (e8bit)
 				camel_mime_part_set_encoding (CAMEL_MIME_PART (new), best_encoding (plain));
+
 			g_free (plain);
+			g_free (content_type);
 			break;
 		}
 	}
