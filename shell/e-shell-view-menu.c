@@ -441,7 +441,7 @@ menu_create_file (BonoboUIHandler *uih,
 	bonobo_ui_handler_menu_new_separator (uih, "/File/Separator1", -1);
 
 	bonobo_ui_handler_menu_new_item (uih, "/File/Go to folder",
-					 _("_Go to folder..."),
+					 _("_Go to Folder..."),
 					 _("Display a different folder"),
 					 -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
@@ -449,7 +449,7 @@ menu_create_file (BonoboUIHandler *uih,
 					 command_goto_folder, data);
 
 	bonobo_ui_handler_menu_new_item (uih, "/File/Create new folder",
-					 _("_Create new folder..."),
+					 _("_Create New Folder..."),
 					 _("Create a new folder"),
 					 -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
@@ -492,13 +492,13 @@ menu_create_view (BonoboUIHandler *uih,
 					    0, 0);
 
 	bonobo_ui_handler_menu_new_toggleitem (uih, "/View/Show shortcut bar",
-					       _("Show _shortcut bar"),
+					       _("Show _Shortcut Bar"),
 					       _("Show the shortcut bar"),
 					       -1,
 					       0, 0,
 					       command_toggle_shortcut_bar, data);
 	bonobo_ui_handler_menu_new_toggleitem (uih, "/View/Show folder bar",
-					       _("Show _folder bar"),
+					       _("Show _Folder Bar"),
 					       _("Show the folder bar"),
 					       -1,
 					       0, 0,
@@ -506,22 +506,11 @@ menu_create_view (BonoboUIHandler *uih,
 }
 
 static void
-menu_create_tools (BonoboUIHandler *uih,
-		   void *data)
+menu_create_settings (BonoboUIHandler *uih,
+		      void *data)
 {
-	bonobo_ui_handler_menu_new_subtree (uih, "/Tools",
-					    _("_Tools"),
-					    NULL, -1,
-					    BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					    0, 0);
-}
-
-static void
-menu_create_actions (BonoboUIHandler *uih,
-		     void *data)
-{
-	bonobo_ui_handler_menu_new_subtree (uih, "/Actions",
-					    _("_Actions"),
+	bonobo_ui_handler_menu_new_subtree (uih, "/Settings",
+					    _("_Settings"),
 					    NULL, -1,
 					    BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
 					    0, 0);
@@ -538,35 +527,35 @@ menu_create_help (BonoboUIHandler *uih,
 					    0, 0);
 
 	bonobo_ui_handler_menu_new_item (uih, "/Help/Help index",
-					 _("Help _index"),
+					 _("Help _Index"),
 					 NULL,
 					 -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
 					 0, 0,
 					 command_help, "index.html");
 	bonobo_ui_handler_menu_new_item (uih, "/Help/Getting started",
-					 _("Getting _started"),
+					 _("Getting _Started"),
 					 NULL,
 					 -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
 					 0, 0,
 					 command_help, "usage-mainwindow.html");
 	bonobo_ui_handler_menu_new_item (uih, "/Help/Using the mailer",
-					 _("Using the _mailer"),
+					 _("Using the _Mailer"),
 					 NULL,
 					 -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
 					 0, 0,
 					 command_help, "usage-mail.html");
 	bonobo_ui_handler_menu_new_item (uih, "/Help/Using the calendar",
-					 _("Using the _calendar"),
+					 _("Using the _Calendar"),
 					 NULL,
 					 -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
 					 0, 0,
 					 command_help, "usage-calendar.html");
 	bonobo_ui_handler_menu_new_item (uih, "/Help/Using the contact manager",
-					 _("Using the c_ontact manager"),
+					 _("Using the C_ontact Manager"),
 					 NULL,
 					 -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
@@ -576,7 +565,7 @@ menu_create_help (BonoboUIHandler *uih,
 	bonobo_ui_handler_menu_new_separator (uih, "/Help/Separator1", -1);
 
 	bonobo_ui_handler_menu_new_item (uih, "/Help/Submit bug report",
-					 _("_Submit bug report"),
+					 _("_Submit Bug Report"),
 					 _("Submit bug report using Bug Buddy"),
 					 -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
@@ -609,12 +598,14 @@ e_shell_view_menu_setup (EShellView *shell_view)
 
 	uih = e_shell_view_get_bonobo_ui_handler (shell_view);
 
-	menu_create_file (uih, shell_view);
-	menu_create_edit (uih, shell_view);
-	menu_create_view (uih, shell_view);
-	menu_create_tools (uih, shell_view);
-	menu_create_actions (uih, shell_view);
-	menu_create_help (uih, shell_view);
+	menu_create_file     (uih, shell_view);
+	menu_create_edit     (uih, shell_view);
+	menu_create_view     (uih, shell_view);
+	menu_create_settings (uih, shell_view);
+
+	bonobo_ui_handler_menu_new_placeholder (uih, "/<Component Placeholder>");
+	
+	menu_create_help     (uih, shell_view);
 
 	gtk_signal_connect (GTK_OBJECT (shell_view), "shortcut_bar_mode_changed",
 			    GTK_SIGNAL_FUNC (shortcut_bar_mode_changed_cb),
