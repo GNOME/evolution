@@ -26,6 +26,7 @@
 
 #include <config.h>
 #include <ctype.h>
+#include <string.h>
 #include <glib.h>
 #include <gtk/gtkentry.h>
 #include <gtk/gtklabel.h>

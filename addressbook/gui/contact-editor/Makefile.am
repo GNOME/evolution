@@ -7,10 +7,8 @@ INCLUDES =						\
 	-I$(top_srcdir)/widgets/e-table			\
 	-I$(top_builddir)/shell				\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
-	-DDATADIR=\""$(datadir)"\"			\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
-	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
-	-DEVOLUTIONDIR=\""$(evolutiondir)"\"		\
+	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
 	-DEVOLUTION_UIDIR=\""$(evolution_uidir)\""	\
 	-DG_LOG_DOMAIN=\"contact-editor\"		\
 	-DG_DISABLE_DEPRECATED				\
@@ -49,10 +47,7 @@ e-contact-editor-marshal.c: e-contact-editor-marshal.h
 
 MARSHAL_GENERATED = e-contact-editor-marshal.c e-contact-editor-marshal.h
 
-evolutiondir = $(datadir)/evolution-$(BASE_VERSION)
-evolution_DATA = arrow.png
-
-gladedir = $(datadir)/evolution-$(BASE_VERSION)/glade
+images_DATA = arrow.png
 
 glade_DATA = 				\
 	contact-editor.glade		\
@@ -62,6 +57,6 @@ glade_DATA = 				\
 BUILT_SOURCES = $(MARSHAL_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)
 
-EXTRA_DIST=	$(evolution_DATA)		\
-		$(glade_DATA)			\
+EXTRA_DIST=	$(images_DATA)		\
+		$(glade_DATA)		\
 		e-contact-editor-marshal.list

@@ -126,7 +126,7 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (e_contact_editor_fullname)->vbox), widget, TRUE, TRUE, 0);
 	g_object_unref(widget);
 
-	icon_path = g_concat_dir_and_file (EVOLUTION_ICONSDIR, "evolution-contacts-mini.png");
+	icon_path = g_concat_dir_and_file (EVOLUTION_IMAGESDIR, "evolution-contacts-mini.png");
 	gnome_window_icon_set_from_file (GTK_WINDOW (e_contact_editor_fullname), icon_path);
 	g_free (icon_path);
 }
@@ -190,12 +190,12 @@ e_contact_editor_fullname_set_property (GObject *object, guint prop_id,
 		for (i = 0; widget_names[i] != NULL; i ++) {
 			GtkWidget *w = glade_xml_get_widget(e_contact_editor_fullname->gui, widget_names[i]);
 			if (GTK_IS_ENTRY (w)) {
-				gtk_entry_set_editable (GTK_ENTRY (w),
-							e_contact_editor_fullname->editable);
+				gtk_editable_set_editable (GTK_EDITABLE (w),
+							   e_contact_editor_fullname->editable);
 			}
 			else if (GTK_IS_COMBO (w)) {
-				gtk_entry_set_editable (GTK_ENTRY (GTK_COMBO (w)->entry),
-							e_contact_editor_fullname->editable);
+				gtk_editable_set_editable (GTK_EDITABLE (GTK_COMBO (w)->entry),
+							   e_contact_editor_fullname->editable);
 				gtk_widget_set_sensitive (GTK_COMBO (w)->button, e_contact_editor_fullname->editable);
 			}
 			else if (GTK_IS_LABEL (w)) {

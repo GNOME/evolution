@@ -23,6 +23,7 @@
 
 #include "e-contact-editor.h"
 
+#include <string.h>
 #include <time.h>
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtkcheckmenuitem.h>
@@ -242,7 +243,7 @@ _replace_button(EContactEditor *editor, gchar *button_xml, gchar *image, GCallba
 	GtkWidget *pixmap;
 	gchar *image_temp;
 	if (button && GTK_IS_BUTTON(button)) {
-		image_temp = g_strdup_printf("%s/%s", EVOLUTIONDIR, image);
+		image_temp = g_strdup_printf("%s/%s", EVOLUTION_IMAGESDIR, image);
 		pixmap = e_create_image_widget(NULL, image_temp, NULL, 0, 0);
 		gtk_container_add(GTK_CONTAINER(button),
 				  pixmap);
@@ -1371,7 +1372,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 			    GTK_SIGNAL_FUNC (app_delete_event_cb), e_contact_editor);
 
 	/* set the icon */
-	icon_path = g_build_filename (EVOLUTION_ICONSDIR, "evolution-contacts-mini.png", NULL);
+	icon_path = g_build_filename (EVOLUTION_IMAGESDIR, "evolution-contacts-mini.png", NULL);
 	gnome_window_icon_set_from_file (GTK_WINDOW (e_contact_editor->app), icon_path);
 	g_free (icon_path);
 }
@@ -1512,7 +1513,7 @@ e_contact_editor_new (EBook *book,
 	all_contact_editors = g_slist_prepend (all_contact_editors, ce);
 	g_object_weak_ref (G_OBJECT (ce), contact_editor_destroy_notify, ce);
 
-	gtk_object_ref (GTK_OBJECT (ce));
+	g_object_ref (ce);
 	gtk_object_sink (GTK_OBJECT (ce));
 
 	g_object_set (ce,
@@ -1857,8 +1858,6 @@ _phone_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor 
 		checked = phone && phone->number && *phone->number;
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(editor->phone_info[i].widget),
 					       checked);
-		gtk_check_menu_item_set_show_toggle(GTK_CHECK_MENU_ITEM(editor->phone_info[i].widget),
-						    TRUE);
 	}
 	
 	result = _arrow_pressed (widget, button, editor, editor->phone_popup, &editor->phone_list, &editor->phone_info, label, entry, "Add new phone number type");
@@ -1888,8 +1887,6 @@ _email_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor 
 		checked = string && *string;
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(editor->email_info[i].widget),
 					       checked);
-		gtk_check_menu_item_set_show_toggle(GTK_CHECK_MENU_ITEM(editor->email_info[i].widget),
-						    TRUE);
 	}
 	
 	result = _arrow_pressed (widget, button, editor, editor->email_popup, &editor->email_list, &editor->email_info, "label-email1", "entry-email1", "Add new Email type");
@@ -1919,8 +1916,6 @@ _address_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEdito
 		checked = address && address->data && *address->data;
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(editor->address_info[i].widget),
 					       checked);
-		gtk_check_menu_item_set_show_toggle(GTK_CHECK_MENU_ITEM(editor->address_info[i].widget),
-						    TRUE);
 	}
 
 	result = _arrow_pressed (widget, button, editor, editor->address_popup, &editor->address_list, &editor->address_info, "label-address", "text-address", "Add new Address type");
@@ -2033,7 +2028,6 @@ set_address_field(EContactEditor *editor, int result)
 	text = glade_xml_get_widget(editor->gui, "text-address");
 
 	if (text && GTK_IS_TEXT_VIEW(text)) {
-		GtkTextView *text_view = GTK_TEXT_VIEW (text);
 		GtkTextBuffer *buffer;
 		GtkTextIter start_iter, end_iter;
 		const ECardAddrLabel *address;
@@ -2663,14 +2657,14 @@ static void
 enable_widget (GtkWidget *widget, gboolean enabled)
 {
 	if (GTK_IS_ENTRY (widget)) {
-		gtk_entry_set_editable (GTK_ENTRY (widget), enabled);
+		gtk_editable_set_editable (GTK_EDITABLE (widget), enabled);
 	}
 	else if (GTK_IS_TEXT_VIEW (widget)) {
 		gtk_text_view_set_editable (GTK_TEXT_VIEW (widget), enabled);
 	}
 	else if (GTK_IS_COMBO (widget)) {
-		gtk_entry_set_editable (GTK_ENTRY (GTK_COMBO (widget)->entry),
-					enabled);
+		gtk_editable_set_editable (GTK_EDITABLE (GTK_COMBO (widget)->entry),
+					   enabled);
 		gtk_widget_set_sensitive (GTK_COMBO (widget)->button, enabled);
 	}
 	else if (E_IS_DATE_EDIT (widget)) {
