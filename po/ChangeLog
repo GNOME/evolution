@@ -1,3 +1,8 @@
+2004-05-02  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* POTFILES.in: Add some missing files.
+	* no.po: Update Norwegian translation.
+
 2004-05-02  Gareth Owen  <gowen72@yahoo.com>
 
 	* en_GB.po: Updated British English translation
