@@ -86,6 +86,8 @@ evolution_mail_SOURCES =		\
 	mail-search-dialogue.h		\
 	mail-send-recv.c		\
 	mail-send-recv.h		\
+	mail-session.c			\
+	mail-session.h			\
 	mail-summary.c			\
 	mail-summary.h			\
 	mail-tools.c			\
@@ -98,8 +100,6 @@ evolution_mail_SOURCES =		\
 	main.c				\
 	message-list.c			\
 	message-list.h			\
-	session.c			\
-	mail-session.h			\
 	subscribe-dialog.c		\
 	subscribe-dialog.h		\
 	mail.h

@@ -68,8 +68,10 @@ void mail_status(const char *msg);
 /* request a string/password */
 char *mail_get_password (const char *prompt, gboolean secret);
 
-/* request a yes/no response as to whether or not to accept (a certificate?) */
-gboolean mail_get_accept (const char *prompt);
+/* present information and get an ok (or possibly cancel)
+ * "type" is as for gnome_message_box_new();
+ */
+gboolean mail_user_message (const char *type, const char *prompt, gboolean allow_cancel);
 
 /* forward a camel event (or other call) to the gui thread */
 int mail_proxy_event(CamelObjectEventHookFunc func, CamelObject *o, void *event_data, void *data);

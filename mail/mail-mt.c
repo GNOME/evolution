@@ -664,69 +664,57 @@ mail_get_password(const char *prompt, gboolean secret)
 
 /* ********************************************************************** */
 
-struct _accept_msg {
+struct _user_message_msg {
 	struct _mail_msg msg;
+	const char *type;
 	const char *prompt;
+	gboolean allow_cancel;
 	gboolean result;
 };
 
 static void
-do_get_accept (struct _mail_msg *mm)
+do_user_message (struct _mail_msg *mm)
 {
-	struct _accept_msg *m = (struct _accept_msg *)mm;
+	struct _user_message_msg *m = (struct _user_message_msg *)mm;
 	GtkWidget *dialog;
-	GtkWidget *label;
 	
-	dialog = gnome_dialog_new (_("Do you accept?"),
-				   GNOME_STOCK_BUTTON_YES,
-				   GNOME_STOCK_BUTTON_NO,
-				   NULL);
+	dialog = gnome_message_box_new (m->prompt, m->type,
+					m->allow_cancel ? GNOME_STOCK_BUTTON_CANCEL : GNOME_STOCK_BUTTON_OK,
+					m->allow_cancel ? GNOME_STOCK_BUTTON_OK: NULL,
+					NULL);
 	gnome_dialog_set_default (GNOME_DIALOG (dialog), 1);
 	gtk_window_set_policy (GTK_WINDOW (dialog), TRUE, TRUE, TRUE);
 	
-	label = gtk_label_new (m->prompt);
-	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
-	
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label,
-			    TRUE, TRUE, 0);
-	gtk_widget_show (label);
-	
 	/* hrm, we can't run this async since the gui_port from which we're called
 	   will reply to our message for us */
-	m->result = gnome_dialog_run_and_close (GNOME_DIALOG (dialog)) == 0;
+	m->result = gnome_dialog_run_and_close (GNOME_DIALOG (dialog)) != 0;
 }
 
-static void
-do_free_accept (struct _mail_msg *mm)
-{
-	/*struct _accept_msg *m = (struct _accept_msg *)mm;*/
-	
-	/* nothing to do here */
-}
-
-struct _mail_msg_op get_accept_op = {
+struct _mail_msg_op user_message_op = {
 	NULL,
-	do_get_accept,
+	do_user_message,
 	NULL,
-	do_free_accept,
+	NULL,
 };
 
 /* prompt the user with a yes/no question and return the response */
 gboolean
-mail_get_accept (const char *prompt)
+mail_user_message (const char *type, const char *prompt, gboolean allow_cancel)
 {
-	struct _accept_msg *m, *r;
-	EMsgPort *accept_reply;
+	struct _user_message_msg *m, *r;
+	EMsgPort *user_message_reply;
 	gboolean accept;
 	
-	accept_reply = e_msgport_new ();
+	user_message_reply = e_msgport_new ();
 	
-	m = mail_msg_new (&get_accept_op, accept_reply, sizeof (*m));
+	m = mail_msg_new (&user_message_op, user_message_reply, sizeof (*m));
 	
+	m->type = type;
 	m->prompt = prompt;
+	m->allow_cancel = allow_cancel;
 	
 	if (pthread_self () == mail_gui_thread) {
-		do_get_accept ((struct _mail_msg *)m);
+		do_user_message ((struct _mail_msg *)m);
 		r = m;
 	} else {
 		static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
@@ -734,8 +722,8 @@ mail_get_accept (const char *prompt)
 		/* we want this single-threaded, this is the easiest way to do it without blocking ? */
 		pthread_mutex_lock (&lock);
 		e_msgport_put (mail_gui_port, (EMsg *)m);
-		e_msgport_wait (accept_reply);
-		r = (struct _accept_msg *)e_msgport_get (accept_reply);
+		e_msgport_wait (user_message_reply);
+		r = (struct _user_message_msg *)e_msgport_get (user_message_reply);
 		pthread_mutex_unlock (&lock);
 	}
 	
@@ -744,7 +732,7 @@ mail_get_accept (const char *prompt)
 	accept = m->result;
 	
 	mail_msg_free (m);
-	e_msgport_destroy (accept_reply);
+	e_msgport_destroy (user_message_reply);
 	
 	return accept;
 }
