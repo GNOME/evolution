@@ -362,10 +362,10 @@ uidset_add (struct _uidset *uidset, CamelMessageInfo *info)
 	struct _uidset_range *node, *tail = uidset->tail;
 	const char *iuid = camel_message_info_uid (info);
 	size_t uidlen, len;
+	const char *colon;
 	guint32 index;
-	char *colon;
 	
-	/* Note: depends on integer overflow for initial tail->last value */
+	/* Note: depends on integer overflow for initial 'add' */
 	for (index = tail->last + 1; index < messages->len; index++) {
 		if (info == messages->pdata[index])
 			break;
