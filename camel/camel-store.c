@@ -409,7 +409,7 @@ camel_store_rename_folder (CamelStore *store, const char *old_namein, const char
 
 	d(printf("store rename folder %s '%s' '%s'\n", ((CamelService *)store)->url->protocol, old_name, new_name));
 
-	if (strcmp(old_name, new_name) == 0)
+	if (strcmp(old_namein, new_name) == 0)
 		return;
 
 	/* need to save this, since old_namein might be folder->full_name, which could go away */

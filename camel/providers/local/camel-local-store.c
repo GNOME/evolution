@@ -339,6 +339,9 @@ rename_folder(CamelStore *store, const char *old, const char *new, CamelExceptio
 	if (xrename(old, new, path, ".ev-summary", TRUE, ex))
 		goto summary_failed;
 
+	if (xrename(old, new, path, ".cmeta", TRUE, ex))
+		goto cmeta_failed;
+
 	if (xrename(old, new, path, "", FALSE, ex))
 		goto base_failed;
 
@@ -350,7 +353,12 @@ rename_folder(CamelStore *store, const char *old, const char *new, CamelExceptio
 
 	return;
 
+	/* The (f)utility of this recovery effort is quesitonable */
+
 base_failed:
+	xrename(new, old, path, ".cmeta", TRUE, ex);
+
+cmeta_failed:
 	xrename(new, old, path, ".ev-summary", TRUE, ex);
 
 summary_failed:

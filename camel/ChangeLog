@@ -1,5 +1,19 @@
 2004-02-05  Not Zed  <NotZed@Ximian.com>
 
+	* providers/local/camel-mbox-store.c (rename_folder): rename
+	.cmeta file too, and fix the recovery order.
+
+	* providers/local/camel-local-store.c (rename_folder): rename the
+	.cmeta file too.
+
+	* providers/local/camel-local-folder.c (local_rename): fix this to
+	use local_get_full_path stuff.
+
+	* camel-store.c (camel_store_rename_folder): fix umr's comparing
+	old and new names.
+
+2004-02-05  Not Zed  <NotZed@Ximian.com>
+
 	** See bug #53553.
 	
 	* camel-provider.c (camel_provider_init): changed to return a
