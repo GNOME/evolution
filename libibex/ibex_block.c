@@ -35,7 +35,7 @@ static int ibex_open_threshold = IBEX_OPEN_THRESHOLD;
 #ifdef ENABLE_THREADS
 #include <pthread.h>
 static pthread_mutex_t ibex_list_lock = PTHREAD_MUTEX_INITIALIZER;
-int ibex_opened;		/* count of actually opened ibexe's */
+static int ibex_opened;		/* count of actually opened ibexe's */
 #define IBEX_LIST_LOCK(ib) (pthread_mutex_lock(&ibex_list_lock))
 #define IBEX_LIST_UNLOCK(ib) (pthread_mutex_unlock(&ibex_list_lock))
 #else
@@ -89,27 +89,19 @@ static void ibex_use(ibex *ib)
 
 	/* check for other ibex's we can close now to not over-use fd's.
 	   we can't do this first for locking issues */
-	if (ibex_opened > ibex_open_threshold) {
-		wb = (ibex *)ibex_list.head;
-		wn = wb->next;
-		while (wn) {
-			if (wb != ib) {
-				IBEX_LOCK(wb);
-				if (wb->usecount == 0 && wb->blocks != NULL) {
-					o(printf("Forcing close of obex '%s', total = %d\n", wb->name, ibex_opened-1));
-					close_backend(wb);
-					IBEX_UNLOCK(wb);
-					/* optimise the next scan? */
-					/*ibex_list_remove((struct _listnode *)wb);
-					  ibex_list_addtail(&ibex_list, (struct _listnode *)wb);*/
-					ibex_opened--;
-					break;
-				}
-				IBEX_UNLOCK(wb);
+	wb = (ibex *)ibex_list.head;
+	wn = wb->next;
+	while (wn && ibex_opened > ibex_open_threshold) {
+		if (wb != ib && IBEX_TRYLOCK(wb) == 0) {
+			if (wb->usecount == 0 && wb->blocks != NULL) {
+				o(printf("Forcing close of obex '%s', total = %d\n", wb->name, ibex_opened-1));
+				close_backend(wb);
+				ibex_opened--;
 			}
-			wb = wn;
-			wn = wn->next;
+			IBEX_UNLOCK(wb);
 		}
+		wb = wn;
+		wn = wn->next;
 	}
 
 	IBEX_LIST_UNLOCK(ib);

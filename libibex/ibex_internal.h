@@ -52,8 +52,10 @@ struct ibex {
   #define IBEX_UNLOCK(ib) (printf(__FILE__ "%d: %s: unlocking ibex\n", __LINE__, __FUNCTION__), g_mutex_unlock(ib->lock))*/
 #define IBEX_LOCK(ib) (g_mutex_lock(ib->lock))
 #define IBEX_UNLOCK(ib) (g_mutex_unlock(ib->lock))
+#define IBEX_TRYLOCK(ib) (g_mutex_trylock(ib->lock))
 #else
 #define IBEX_LOCK(ib) 
 #define IBEX_UNLOCK(ib) 
+#define IBEX_TRYLOCK(ib) (0)
 #endif
 

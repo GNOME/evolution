@@ -1,3 +1,11 @@
+2001-10-31    <NotZed@Ximian.com>
+
+	* ibex_internal.h (IBEX_TRYLOCK): Added a trylock, used by ibex_use.
+
+	* ibex_block.c (ibex_use): Do to a trylock on the ibex we're
+	checking to close, as it might be locked elsewhere in an obivously
+	simple deadlock.
+
 2001-10-30    <NotZed@Ximian.com>
 
 	* ibex_internal.h (IBEX_OPEN_THRESHOLD): Bump this to 15, 5 seems
