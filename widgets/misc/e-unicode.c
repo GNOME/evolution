@@ -546,7 +546,7 @@ e_utf8_from_locale_string_sized (const gchar *string, gint bytes)
 
 	if (!string) return NULL;
 
-	ic = e_iconv_to_locale ();
+	ic = e_iconv_from_locale ();
 
 	return e_utf8_from_iconv_string_sized (ic, string, bytes);
 }
