@@ -28,8 +28,15 @@
 #ifndef CAMEL_FOLDER_PT_PROXY_H
 #define CAMEL_FOLDER_PT_PROXY_H 1
 
+
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus }*/
+
 #include "camel-folder.h"
 #include "camel-op-queue.h"
+#include "camel-thread-proxy.h"
 
 
 #define CAMEL_FOLDER_PT_PROXY_TYPE     (camel_folder_pt_proxy_get_type ())
@@ -37,47 +44,42 @@
 #define CAMEL_FOLDER_PT_PROXY_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_FOLDER_PT_PROXY_TYPE, CamelFolderPtProxyClass))
 #define IS_CAMEL_FOLDER_PT_PROXY(o)    (GTK_CHECK_TYPE((o), CAMEL_FOLDER_PT_PROXY_TYPE))
 
-typedef struct {
-	guint signal_id;
-	GtkArg *args;
-} PtProxySignaData;
-
-
+typedef struct _CamelFolderPtProxy CamelFolderPtProxy;
 
 typedef struct {
+	CamelFolderAsyncCallback real_callback;
+	CamelFolderPtProxy *proxy_folder;
+	CamelException *ex;
+	gpointer real_user_data;
+} _ProxyCbUserData;
+
+struct _CamelFolderPtProxy {
 	CamelFolder parent;
 	
-	gchar *real_url;
+	/* private fields */ 
 	CamelFolder *real_folder;
-
-	CamelOpQueue *op_queue;
-	gint pipe_client_fd;
-	gint pipe_server_fd;
-	GIOChannel *notify_source;
-
-	/* used for signal proxy */
-	GMutex *signal_data_mutex;
-	GCond *signal_data_cond;
-	PtProxySignaData signal_data;
-} CamelFolderPtProxy;
+	CamelThreadProxy *proxy_object;
+	CamelException *thread_ex;
+	_ProxyCbUserData *pud;
+	
+};
 
 
 
 typedef struct {
 	CamelFolderClass parent_class;
 	
+	/* functions and callbacks definition (for marshalling) */
 	CamelFuncDef *open_func_def;
+	CamelFuncDef *open_cb_def;
+	CamelFuncDef *close_func_def;
+	CamelFuncDef *close_cb_def;
 
 } CamelFolderPtProxyClass;
 
-/* some marshallers */
-void camel_marshal_NONE__POINTER_INT (CamelFunc func, 
-				      GtkArg *args);
 
-void camel_marshal_NONE__POINTER_INT_POINTER (CamelFunc func, 
-					      GtkArg *args);
-
-
-
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* CAMEL_FOLDER_PT_PROXY_H */

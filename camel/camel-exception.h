@@ -32,6 +32,8 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
+#include <glib.h>
+
 
 typedef enum {
 #include "camel-exception-list.def"
@@ -45,7 +47,13 @@ typedef struct {
 
 } CamelException;
 
-
+void camel_exception_free (CamelException *exception);
+CamelException *camel_exception_new ();
+void camel_exception_set (CamelException *ex,
+			  ExceptionId id,
+			  const char *desc);
+void camel_exception_xfer (CamelException *ex_dst,
+			   CamelException *ex_src);
 
 
 

@@ -88,13 +88,19 @@ typedef struct {
 	GtkObjectClass parent_class;
 	
 	/* Virtual methods */	
-	void   (*init_with_store) (CamelFolder *folder, CamelStore *parent_store, CamelException *ex);
+	void   (*init_with_store) (CamelFolder *folder, 
+				   CamelStore *parent_store, 
+				   CamelException *ex);
 	void   (*open) (CamelFolder *folder, 
 			CamelFolderOpenMode mode, 
 			CamelFolderAsyncCallback callback, 
 			gpointer user_data, 
 			CamelException *ex);
-	void   (*close) (CamelFolder *folder, gboolean expunge, CamelException *ex);
+	void   (*close) (CamelFolder *folder, 
+			 gboolean expunge, 
+			 CamelFolderAsyncCallback callback, 
+			 gpointer user_data, 
+			 CamelException *ex);
 	void   (*set_name) (CamelFolder *folder, const gchar *name, CamelException *ex);
 	/*  	void   (*set_full_name) (CamelFolder *folder, const gchar *name); */
 	const gchar *  (*get_name) (CamelFolder *folder, CamelException *ex);
@@ -139,7 +145,12 @@ void camel_folder_open (CamelFolder *folder,
 			gpointer user_data, 
 			CamelException *ex);
 
-void camel_folder_close (CamelFolder *folder, gboolean expunge, CamelException *ex);
+void camel_folder_close (CamelFolder *folder, 
+			 gboolean expunge, 
+			 CamelFolderAsyncCallback callback, 
+			 gpointer user_data, 
+			 CamelException *ex);
+
 gboolean camel_folder_create (CamelFolder *folder, CamelException *ex);
 gboolean camel_folder_delete (CamelFolder *folder, gboolean recurse, CamelException *ex);
 gboolean camel_folder_delete_messages (CamelFolder *folder, CamelException *ex);

@@ -84,8 +84,8 @@ else
     AC_MSG_ERROR(Did not find libGlade installed)
 fi
 
-EXTRA_GNOME_LIBS=`gnome-config --libs gnomeui libglade `
-EXTRA_GNOME_CFLAGS=`gnome-config --cflags gnomeui libglade `
+EXTRA_GNOME_LIBS="`gnome-config --libs gnomeui libglade ` `glib-config --libs gthread`"
+EXTRA_GNOME_CFLAGS="`gnome-config --cflags gnomeui libglade ` `glib-config --cflags gthread`"
 AC_SUBST(EXTRA_GNOME_LIBS)
 AC_SUBST(EXTRA_GNOME_CFLAGS)
 

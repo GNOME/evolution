@@ -1,3 +1,48 @@
+1999-10-13  bertrand <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-folder.c (camel_folder_close): the 
+	folder->close method is now asynchronous.
+
+	* camel/camel-folder-pt-proxy.c (_folder_open_cb): 
+	(_open): 
+	(_folder_open_cb): 
+	(_open): 
+	open/close method implemented in the thread proxy
+	folder. More to come.
+
+	* camel/camel-exception.c (camel_exception_xfer): 
+	new utility func.
+
+	* camel/camel-marshal-utils.c: some new marshallers
+
+	* camel/camel-folder-pt-proxy.c: Some explanations
+	on the thread proxy system.
+
+1999-10-11  bertrand <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-marshal-utils.c: 
+	camel/camel-marshal-utils.h:
+	Handles operation marshalling. 
+	
+	* camel/camel-thread-proxy.c: 
+	camel/camel-thread-proxy.h: 
+	new files. Generic proxy system.
+	  
+	* camel/camel-folder-pt-proxy.c 
+	moved all proxy related code in dedicated files.
+	
+	(camel_folder_pt_proxy_init): 
+	removed proxy initialisation code
+	(_finalize): 
+	removed proxy finalization code
+
+
+	* camel/camel-exception.c 
+	(camel_exception_new): 
+	(camel_exception_set): 
+	(camel_exception_free): 
+	New funcs.
+
 1999-09-21  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-folder-pt-proxy.c (_async_close): 

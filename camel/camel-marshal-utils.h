@@ -80,8 +80,14 @@ CamelOp *camel_marshal_create_op (CamelFuncDef *func_def, CamelFunc func, ...);
 /* marshallers */
 void camel_marshal_NONE__POINTER_INT_POINTER (CamelFunc func, 
 					      GtkArg *args);
+void camel_marshal_NONE__POINTER_BOOL_POINTER (CamelFunc func, 
+					      GtkArg *args);
 void camel_marshal_NONE__POINTER_INT_POINTER_POINTER (CamelFunc func, 
 						      GtkArg *args);
+void camel_marshal_NONE__POINTER_BOOL_POINTER_POINTER (CamelFunc func, 
+						       GtkArg *args);
+void camel_marshal_NONE__POINTER_POINTER_POINTER (CamelFunc func, 
+						  GtkArg *args);
 void camel_marshal_NONE__INT (CamelFunc func, 
 			      GtkArg *args);
 

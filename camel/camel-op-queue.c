@@ -22,7 +22,9 @@
 
 /* MT safe */
 
-
+ 
+#include <config.h>
+#include "camel-log.h"
 #include "camel-op-queue.h"
 
 static GStaticMutex op_queue_mutex = G_STATIC_MUTEX_INIT;
@@ -41,13 +43,26 @@ camel_op_queue_new ()
 {
 	CamelOpQueue *op_queue;
 
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelOpQueue::new\n");
 
 	op_queue = g_new (CamelOpQueue, 1);
 	op_queue->ops_tail = NULL;
 	op_queue->ops_head = NULL;
-	
+	op_queue->service_available = TRUE;
+
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelOpQueue::new\n");
+	return op_queue;
 }
 
+
+void 
+camel_op_queue_free (CamelOpQueue *op_queue)
+{
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelOpQueue::free\n");
+	g_list_free (op_queue->ops_head);	
+	g_free (op_queue);
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelOpQueue::free\n");
+}
 
 /**
  * camel_op_queue_push_op: Add an operation to the queue
@@ -62,14 +77,18 @@ camel_op_queue_push_op (CamelOpQueue *queue, CamelOp *op)
 {
 	GList *new_op;
 
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelOpQueue::push_op\n");
 	g_assert (queue);
 	g_static_mutex_lock (&op_queue_mutex);
 	if (!queue->ops_tail) {
+		CAMEL_LOG_FULL_DEBUG ("CamelOpQueue::push_op queue does not exists yet. "
+				      "Creating it\n");
 		queue->ops_head = g_list_prepend (NULL, op);
 		queue->ops_tail = queue->ops_head;
 	} else 
 		queue->ops_head = g_list_prepend (queue->ops_head, op);	
 	g_static_mutex_unlock (&op_queue_mutex);
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelOpQueue::push_op\n");
 }
 
 
@@ -87,14 +106,18 @@ camel_op_queue_pop_op (CamelOpQueue *queue)
 	GList *op_list;
 	CamelOp *op;
 
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelOpQueue::pop_op\n");
 	g_assert (queue);
 
 	g_static_mutex_lock (&op_queue_mutex);
 	op_list = queue->ops_tail;
+	if (!op_list) return NULL;
+
 	queue->ops_tail = queue->ops_tail->prev;
 	op = (CamelOp *)op_list->data;
 	g_static_mutex_unlock (&op_queue_mutex);
 
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelOpQueue::pop_op\n");
 	return op;
 }
 
@@ -112,11 +135,12 @@ camel_op_queue_run_next_op (CamelOpQueue *queue)
 {
 	CamelOp *op;
 
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelOpQueue::run_next_op\n");
 	op = camel_op_queue_pop_op (queue);
 	if (!op) return FALSE;
 
 	
-
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelOpQueue::run_next_op\n");
 	return FALSE;
 }
 
@@ -130,9 +154,11 @@ camel_op_queue_run_next_op (CamelOpQueue *queue)
 void
 camel_op_queue_set_service_availability (CamelOpQueue *queue, gboolean available)
 {
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelOpQueue::set_service_availability\n");
 	g_static_mutex_lock (&op_queue_mutex);
 	queue->service_available = available;
 	g_static_mutex_unlock (&op_queue_mutex);
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelOpQueue::set_service_availability\n");
 }
 
 /**
@@ -147,9 +173,12 @@ gboolean
 camel_op_queue_get_service_availability (CamelOpQueue *queue)
 {
 	gboolean available;
+
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelOpQueue::get_service_availability\n");
 	g_static_mutex_lock (&op_queue_mutex);
 	available = queue->service_available;
 	g_static_mutex_unlock (&op_queue_mutex);
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelOpQueue::get_service_availability\n");
 	return available;
 }
 

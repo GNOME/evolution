@@ -20,11 +20,18 @@
  * USA
  */
 
+#include <config.h>
 #include "camel.h"
 
 gint
 camel_init()
 {
-	return data_wrapper_repository_init ();
+#ifdef G_THREADS_ENABLED	
+	g_thread_init (NULL);
+#else  /* G_THREADS_ENABLED */
+	printf ("Threads are not supported by glib\n");
+#endif /* G_THREADS_ENABLED */
+
+	//return data_wrapper_repository_init ();
 	
 }

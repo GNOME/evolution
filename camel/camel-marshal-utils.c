@@ -144,6 +144,7 @@ camel_op_new (CamelFuncDef *func_def)
 {
 	CamelOp *op;
 
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelOp::new\n");
 	g_static_mutex_lock (&op_chunk_mutex);
 	if (!op_chunk)
 		op_chunk = g_mem_chunk_create (CamelOp, 
@@ -155,6 +156,7 @@ camel_op_new (CamelFuncDef *func_def)
 	op->func_def = func_def;
 	op->params = g_new (GtkArg, func_def->n_params);
 	
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelOp::new\n");
 	return op;	
 }
 
@@ -169,8 +171,10 @@ camel_op_new (CamelFuncDef *func_def)
 void 
 camel_op_free (CamelOp *op)
 {
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelOp::free\n");
 	g_free (op->params);
 	g_chunk_free (op, op_chunk);
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelOp::free\n");
 }
 
 
@@ -187,11 +191,13 @@ camel_op_run (CamelOp *op)
 	GtkArg	*params;
 	gboolean error;
 	
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelOp::run\n");
 	g_assert (op);
 	g_assert (op->func_def);
 	g_assert (op->params);
 
 	op->func_def->marshal (op->func, op->params);
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelOp::run\n");
 }
 
 
@@ -207,8 +213,10 @@ camel_op_run (CamelOp *op)
 void 
 camel_op_set_user_data (CamelOp *op, gpointer user_data)
 {
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelOp::set_user_data\n");
 	g_assert (op);
 	op->user_data = user_data;
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelOp::set_user_data\n");
 }
 
 
@@ -224,7 +232,9 @@ camel_op_set_user_data (CamelOp *op, gpointer user_data)
 gpointer 
 camel_op_get_user_data (CamelOp *op)
 {
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelOp::get_user_data\n");
 	g_assert (op);
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelOp::get_user_data\n");
 	return op->user_data;
 }
 
@@ -239,9 +249,12 @@ void camel_marshal_NONE__POINTER_INT (CamelFunc func,
 				      GtkArg *args)
 {
 	CamelMarshal_NONE__POINTER_INT rfunc;
+
+	CAMEL_LOG_FULL_DEBUG ("Entering camel_marshal_NONE__POINTER_INT\n");
 	rfunc = (CamelMarshal_NONE__POINTER_INT) func;
 	(* rfunc) (GTK_VALUE_POINTER(args[0]),
 		   GTK_VALUE_INT(args[1]));
+	CAMEL_LOG_FULL_DEBUG ("Leaving camel_marshal_NONE__POINTER_INT\n");
 }
 
 
@@ -255,11 +268,32 @@ void camel_marshal_NONE__POINTER_INT_POINTER (CamelFunc func,
 					      GtkArg *args)
 {
 	CamelMarshal_NONE__POINTER_INT_POINTER rfunc;
+
+	CAMEL_LOG_FULL_DEBUG ("Entering camel_marshal_NONE__POINTER_INT_POINTER\n");
 	rfunc = (CamelMarshal_NONE__POINTER_INT_POINTER) func;
 	(* rfunc) (GTK_VALUE_POINTER(args[0]),
 		   GTK_VALUE_INT(args[1]),
 		   GTK_VALUE_POINTER(args[2]));
+	CAMEL_LOG_FULL_DEBUG ("Leaving camel_marshal_NONE__POINTER_INT_POINTER\n");
 }
+
+
+typedef void (*CamelMarshal_NONE__POINTER_BOOL_POINTER) (gpointer arg1,
+							 gboolean arg2,
+							 gpointer arg3);
+void camel_marshal_NONE__POINTER_BOOL_POINTER (CamelFunc func, 
+					      GtkArg *args)
+{
+	CamelMarshal_NONE__POINTER_BOOL_POINTER rfunc;
+
+	CAMEL_LOG_FULL_DEBUG ("Entering camel_marshal_NONE__POINTER_BOOL_POINTER\n");
+	rfunc = (CamelMarshal_NONE__POINTER_BOOL_POINTER) func;
+	(* rfunc) (GTK_VALUE_POINTER(args[0]),
+		   GTK_VALUE_BOOL(args[1]),
+		   GTK_VALUE_POINTER(args[2]));
+	CAMEL_LOG_FULL_DEBUG ("Leaving camel_marshal_NONE__POINTER_BOOL_POINTER\n");
+}
+
 
 typedef void (*CamelMarshal_NONE__POINTER_INT_POINTER_POINTER) (gpointer arg1,
 								gint arg2,
@@ -269,11 +303,52 @@ void camel_marshal_NONE__POINTER_INT_POINTER_POINTER (CamelFunc func,
 						      GtkArg *args)
 {
 	CamelMarshal_NONE__POINTER_INT_POINTER_POINTER rfunc;
+
+	CAMEL_LOG_FULL_DEBUG ("Entering camel_marshal_NONE__POINTER_INT_POINTER_POINTER\n");
 	rfunc = (CamelMarshal_NONE__POINTER_INT_POINTER_POINTER) func;
 	(* rfunc) (GTK_VALUE_POINTER(args[0]),
 		   GTK_VALUE_INT(args[1]),
 		   GTK_VALUE_POINTER(args[2]),
 		   GTK_VALUE_POINTER(args[3]));
+	CAMEL_LOG_FULL_DEBUG ("Leaving camel_marshal_NONE__POINTER_INT_POINTER_POINTER\n");
+}
+
+
+
+typedef void (*CamelMarshal_NONE__POINTER_BOOL_POINTER_POINTER) (gpointer arg1,
+								 gboolean arg2,
+								 gpointer arg3,
+								 gpointer arg4);
+void camel_marshal_NONE__POINTER_BOOL_POINTER_POINTER (CamelFunc func, 
+						       GtkArg *args)
+{
+	CamelMarshal_NONE__POINTER_BOOL_POINTER_POINTER rfunc;
+
+	CAMEL_LOG_FULL_DEBUG ("Entering camel_marshal_NONE__POINTER_BOOL_POINTER_POINTER\n");
+	rfunc = (CamelMarshal_NONE__POINTER_BOOL_POINTER_POINTER) func;
+	(* rfunc) (GTK_VALUE_POINTER(args[0]),
+		   GTK_VALUE_BOOL(args[1]),
+		   GTK_VALUE_POINTER(args[2]),
+		   GTK_VALUE_POINTER(args[3]));
+	CAMEL_LOG_FULL_DEBUG ("Leaving camel_marshal_NONE__POINTER_BOOL_POINTER_POINTER\n");
+}
+
+
+
+typedef void (*CamelMarshal_NONE__POINTER_POINTER_POINTER) (gpointer arg1,
+							    gpointer arg2,
+							    gpointer arg3);
+void camel_marshal_NONE__POINTER_POINTER_POINTER (CamelFunc func, 
+						  GtkArg *args)
+{
+	CamelMarshal_NONE__POINTER_POINTER_POINTER rfunc;
+
+	CAMEL_LOG_FULL_DEBUG ("Entering camel_marshal_NONE__POINTER_POINTER_POINTER\n");
+	rfunc = (CamelMarshal_NONE__POINTER_POINTER_POINTER) func;
+	(* rfunc) (GTK_VALUE_POINTER(args[0]),
+		   GTK_VALUE_POINTER(args[1]),
+		   GTK_VALUE_POINTER(args[2]));
+	CAMEL_LOG_FULL_DEBUG ("Leaving camel_marshal_NONE__POINTER_POINTER_POINTER\n");
 }
 
 
@@ -282,8 +357,11 @@ void camel_marshal_NONE__INT (CamelFunc func,
 			      GtkArg *args)
 {
 	CamelMarshal_NONE__INT rfunc;
+
+	CAMEL_LOG_FULL_DEBUG ("Entering camel_marshal_NONE__INT\n");
 	rfunc = (CamelMarshal_NONE__INT) func;
 	(* rfunc) (GTK_VALUE_INT (args[0]));
+	CAMEL_LOG_FULL_DEBUG ("Leaving camel_marshal_NONE__INT\n");
 }
 
 

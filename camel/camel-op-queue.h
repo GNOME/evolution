@@ -45,6 +45,7 @@ typedef struct
 
 /* public methods */
 CamelOpQueue *camel_op_queue_new ();
+void camel_op_queue_free (CamelOpQueue *op_queue);
 void camel_op_queue_push_op (CamelOpQueue *queue, CamelOp *op);
 CamelOp *camel_op_queue_pop_op (CamelOpQueue *queue);
 gboolean camel_op_queue_run_next_op (CamelOpQueue *queue);

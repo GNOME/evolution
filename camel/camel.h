@@ -52,6 +52,7 @@ extern "C" {
 #include <camel-stream.h>
 #include <camel-stream-fs.h>
 #include <camel-stream-mem.h>
+#include <camel-thread-proxy.h>
 #include <data-wrapper-repository.h>
 #include <gmime-content-field.h>
 #include <gmime-utils.h>

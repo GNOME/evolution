@@ -36,7 +36,11 @@ static void _open (CamelFolder *folder,
 		   CamelFolderAsyncCallback callback, 
 		   gpointer user_data, 
 		   CamelException *ex);
-static void _close (CamelFolder *folder, gboolean expunge, CamelException *ex);
+static void _close (CamelFolder *folder, 
+		    gboolean expunge, 
+		    CamelFolderAsyncCallback callback, 
+		    gpointer user_data, 
+		    CamelException *ex);
 static void _set_name (CamelFolder *folder, const gchar *name, CamelException *ex);
 /*  static void _set_full_name (CamelFolder *folder, const gchar *name); */
 static const gchar *_get_name (CamelFolder *folder, CamelException *ex);
@@ -189,13 +193,7 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException 
 
 
 
-/**
- * _open: Open a folder
- * @folder: The folder object
- * @mode: open mode (R/W/RW ?)
- * 
- * 
- **/
+
 static void
 _open (CamelFolder *folder, 
        CamelFolderOpenMode mode, 
@@ -207,7 +205,19 @@ _open (CamelFolder *folder,
 /*  	folder->open_mode = mode; */
 }
 
-
+/**
+ * camel_folder_open: Open a folder
+ * @folder: The folder object
+ * @mode: open mode (R/W/RW ?)
+ * @callback: function to call when the operation is over
+ * @user_data: data to pass to the callback 
+ * @ex: exception object
+ *
+ * Open a folder in a given mode. When the opration is over
+ * the callback is called and the client program can determine
+ * if the operation suceeded by examining the exception. 
+ * 
+ **/
 void 
 camel_folder_open (CamelFolder *folder, 
 		   CamelFolderOpenMode mode, 
@@ -220,25 +230,39 @@ camel_folder_open (CamelFolder *folder,
 
 
 
-/**
- * _close:Close a folder.
- * @folder: 
- * @expunge: if TRUE, the flagged message are deleted.
- * 
- * Put a folder in its closed state, and possibly 
- * expunge the flagged messages.
- **/
+
 static void
-_close (CamelFolder *folder, gboolean expunge, CamelException *ex)
-{
-	if (expunge) camel_folder_expunge (folder, FALSE, ex);
+_close (CamelFolder *folder, 
+	gboolean expunge, 
+	CamelFolderAsyncCallback callback, 
+	gpointer user_data, 
+	CamelException *ex)
+{	
 	folder->open_state = FOLDER_CLOSE;
 }
 
+/**
+ * camel_folder_close: Close a folder.
+ * @folder: The folder object
+ * @expunge: if TRUE, the flagged message are deleted.
+ * @callback: function to call when the operation is over
+ * @user_data: data to pass to the callback 
+ * @ex: exception object
+ *
+ * Put a folder in its closed state, and possibly 
+ * expunge the flagged messages. The callback is called 
+ * when the operation is over and the client program can determine
+ * if the operation suceeded by examining the exception. 
+ * 
+ **/
 void 
-camel_folder_close (CamelFolder *folder, gboolean expunge, CamelException *ex)
+camel_folder_close (CamelFolder *folder, 
+		    gboolean expunge, 
+		    CamelFolderAsyncCallback callback, 
+		    gpointer user_data, 
+		    CamelException *ex)
 {
-	CF_CLASS(folder)->close (folder, expunge, ex);
+	CF_CLASS(folder)->close (folder, expunge, callback, user_data, ex);
 }
 
 

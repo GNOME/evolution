@@ -15,10 +15,12 @@ INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	\
 if HAVE_PTHREAD
 
 pthread_SRC =	\
-	camel-folder-pt-proxy.c		
+	camel-folder-pt-proxy.c		\
+	camel-thread-proxy.c
 
 pthread_HDR =	\
-	camel-folder-pt-proxy.h		
+	camel-folder-pt-proxy.h			\
+	camel-thread-proxy.h	
 
 else
 

@@ -24,3 +24,49 @@
 #include <config.h>
 #include "camel-exception.h"
 
+void 
+camel_exception_free (CamelException *exception)
+{
+	if (!exception) return;
+
+	if (exception->desc)
+		g_free (exception->desc);
+
+	g_free (exception);
+}
+
+
+CamelException *
+camel_exception_new ()
+{
+	CamelException *ex;
+
+	ex = g_new (CamelException, 1);
+	return ex;
+}
+
+
+void
+camel_exception_set (CamelException *ex,
+		     ExceptionId id,
+		     const char *desc)
+{
+	ex->id = id;
+	if (ex->desc)
+		g_free (ex->desc);
+	ex->desc = g_strdup (desc);
+}
+
+void 
+camel_exception_xfer (CamelException *ex_dst,
+		      CamelException *ex_src)
+{
+	if (ex_dst->desc)
+		g_free (ex_dst->desc);
+
+	ex_dst->id = ex_src->id;
+	ex_dst->desc = ex_src->desc;
+
+	ex_src->desc = NULL;
+	ex_src->id = CAMEL_EXCEPTION_NONE;
+}
