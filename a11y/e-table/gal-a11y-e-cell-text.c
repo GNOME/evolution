@@ -107,8 +107,11 @@ static gint
 ect_get_caret_offset (AtkText *text)
 {
 	GalA11yECell *gaec = GAL_A11Y_E_CELL (text);
-	ECellText *ect = E_CELL_TEXT (gaec->cell_view->ecell);
+	ECellText *ect = NULL;
 	gint start, end;
+
+	g_return_val_if_fail (gaec && gaec->cell_view && gaec->cell_view->ecell && E_IS_CELL_TEXT (gaec->cell_view->ecell), -1);
+	ect = E_CELL_TEXT (gaec->cell_view->ecell);
 
 	if (e_cell_text_get_selection (gaec->cell_view,
 				       gaec->view_col, gaec->row,

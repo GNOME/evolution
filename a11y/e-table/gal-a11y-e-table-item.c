@@ -1035,8 +1035,10 @@ gal_a11y_e_table_item_new (AtkObject *parent,
 			   int index_in_parent)
 {
 	GalA11yETableItem *a11y;
+	AtkObject *accessible;
 	int n;
 
+	g_return_val_if_fail (item && item->cols >= 0 && item->rows >= 0, NULL);
 	a11y = g_object_new (gal_a11y_e_table_item_get_type (), NULL);
 
 	atk_object_initialize (ATK_OBJECT (a11y), item);
@@ -1044,7 +1046,9 @@ gal_a11y_e_table_item_new (AtkObject *parent,
 	GET_PRIVATE (a11y)->parent = parent;
 	GET_PRIVATE (a11y)->index_in_parent = index_in_parent;
 
-	g_return_val_if_fail (item->cols >= 0 && item->rows >= 0, NULL);
+
+	accessible  = ATK_OBJECT(a11y);
+	accessible->role = ATK_ROLE_TREE_TABLE;
 	/* Initialize cell data. */
 	n = item->cols * item->rows;
 	GET_PRIVATE (a11y)->cols = item->cols;
@@ -1187,10 +1191,15 @@ eti_a11y_cursor_changed_cb (ESelectionModel *selection,
 	g_signal_emit_by_name (a11y, "selection_changed");
 
         cell = atk_table_ref_at (ATK_TABLE (a11y), row, col);
-        if (ATK_IS_OBJECT (cell))
-                g_signal_emit_by_name  (a11y,
+	if (cell != NULL) {
+		gal_a11y_e_cell_add_state(cell, ATK_STATE_FOCUSED, FALSE);
+
+        	if (ATK_IS_OBJECT (cell))
+                	g_signal_emit_by_name  (a11y,
                                         "active-descendant-changed",
                                         cell);
+		atk_focus_tracker_notify (cell);
+	}
 }
 
 /* atk selection */
