@@ -1,3 +1,11 @@
+2003-11-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-component.c (impl__get_userCreatableItems): New,
+	implementation for the Component.userCreatableItems attribute.
+	(impl_requestCreateItem): New, implementation for the
+	Component.requestCreateItem() method.
+	(mail_component_class_init): Install.
+
 2003-11-13  Radek Doulik  <rodo@ximian.com>
 
 	* em-junk-filter.c (em_junk_sa_is_available): new helper function,

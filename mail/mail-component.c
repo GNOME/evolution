@@ -972,6 +972,43 @@ impl_createControls (PortableServer_Servant servant,
 }
 
 
+static GNOME_Evolution_CreatableItemTypeList *
+impl__get_userCreatableItems (PortableServer_Servant servant,
+			      CORBA_Environment *ev)
+{
+	GNOME_Evolution_CreatableItemTypeList *list = GNOME_Evolution_CreatableItemTypeList__alloc ();
+
+	list->_length  = 1;
+	list->_maximum = list->_length;
+	list->_buffer  = GNOME_Evolution_CreatableItemTypeList_allocbuf (list->_length);
+
+	CORBA_sequence_set_release (list, FALSE);
+
+	list->_buffer[0].id = "message";
+	list->_buffer[0].description = _("New Mail Message");
+	list->_buffer[0].menuDescription = _("_Mail Message");
+	list->_buffer[0].tooltip = _("Compose a new mail message");
+	list->_buffer[0].menuShortcut = 'm';
+	list->_buffer[0].iconName = "new-message.xpm";
+
+	return list;
+}
+
+static void
+impl_requestCreateItem (PortableServer_Servant servant,
+			const CORBA_char *item_type_name,
+			CORBA_Environment *ev)
+{
+	if (strcmp (item_type_name, "message") != 0) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Component_UnknownType, NULL);
+		return;
+	}
+
+	em_utils_compose_new_message ();
+}
+
+
 /* Initialization.  */
 
 static void
@@ -985,7 +1022,9 @@ mail_component_class_init (MailComponentClass *class)
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
 
-	epv->createControls = impl_createControls;
+	epv->createControls          = impl_createControls;
+	epv->_get_userCreatableItems = impl__get_userCreatableItems;
+	epv->requestCreateItem       = impl_requestCreateItem;
 }
 
 static void
