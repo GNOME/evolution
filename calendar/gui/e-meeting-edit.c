@@ -156,7 +156,8 @@ put_property_in_list (icalproperty *prop, gint rownum, gpointer data)
 	gchar *text, *new_text;
 	icalparameter *param;
 	icalvalue *value;
-	gint enumval;
+	icalparameter_role role_val;
+	icalparameter_partstat part_val;
 	gint cntr;
 
 	EMeetingEditorPrivate *priv;
@@ -185,15 +186,14 @@ put_property_in_list (icalproperty *prop, gint rownum, gpointer data)
 		icalproperty_add_parameter (prop, param);
 	}
 		
-	enumval = icalparameter_get_role (param);
-	if (enumval < 0 || enumval > 4)
-		enumval = 4;
-	
-	row_text[ROLE_COL] = role_values [enumval];
+	role_val = icalparameter_get_role (param);
+	if (role_val < ICAL_ROLE_CHAIR || role_val > ICAL_ROLE_NONPARTICIPANT)
+		role_val = ICAL_ROLE_REQPARTICIPANT;
+	row_text[ROLE_COL] = role_values[role_val - ICAL_ROLE_CHAIR];
 
 	param = get_icalparam_by_type (prop, ICAL_RSVP_PARAMETER);
 	if (param == NULL) {
-		param = icalparameter_new_rsvp (TRUE);
+		param = icalparameter_new_rsvp (ICAL_RSVP_TRUE);
 		icalproperty_add_parameter (prop, param);
 	}
 
@@ -208,12 +208,10 @@ put_property_in_list (icalproperty *prop, gint rownum, gpointer data)
 		icalproperty_add_parameter (prop, param);
 	}
 
-	enumval = icalparameter_get_partstat (param);
-	if (enumval < 0 || enumval > 7) {
-		enumval = 7;
-	}
-
-	row_text[STATUS_COL] = partstat_values [enumval];
+	part_val = icalparameter_get_partstat (param);
+	if (part_val < ICAL_PARTSTAT_NEEDSACTION || part_val > ICAL_PARTSTAT_INPROCESS)
+		part_val = ICAL_PARTSTAT_NEEDSACTION;
+	row_text[STATUS_COL] = partstat_values [part_val - ICAL_PARTSTAT_NEEDSACTION];
 
 	if (rownum < 0) {
 		gtk_clist_append (GTK_CLIST (priv->attendee_list), row_text);
@@ -252,7 +250,7 @@ edit_attendee (icalproperty *prop, gpointer data)
 	icalvalue *value;
 	gchar buffer[200];
 	gint cntr;
-	gint enumval;
+	icalparameter_role role_val;
 	gboolean retval;
 
 	priv = (EMeetingEditorPrivate *) ((EMeetingEditor *)data)->priv;
@@ -296,11 +294,11 @@ edit_attendee (icalproperty *prop, gpointer data)
 				
 
 	param = get_icalparam_by_type (prop, ICAL_ROLE_PARAMETER);
-	enumval = icalparameter_get_role (param);
-	if (enumval < 0 || enumval > 4)
-		enumval = 4;
+	role_val = icalparameter_get_role (param);
+	if (role_val < ICAL_ROLE_CHAIR || role_val > ICAL_ROLE_NONPARTICIPANT)
+		role_val = ICAL_ROLE_REQPARTICIPANT;
 	
-	text = role_values [enumval];
+	text = role_values [role_val - ICAL_ROLE_CHAIR];
 	gtk_entry_set_text (GTK_ENTRY (priv->role_entry), text);
 
 	param = get_icalparam_by_type (prop, ICAL_RSVP_PARAMETER);
@@ -325,7 +323,7 @@ edit_attendee (icalproperty *prop, gpointer data)
 		param = NULL;
 		text = gtk_entry_get_text (GTK_ENTRY(priv->role_entry));
 
-		for (cntr = 0; cntr < 5; cntr++) {
+		for (cntr = 0; cntr < 4; cntr++) {
 			if (strncmp (text, role_values[cntr], 3) == 0) {
 				param = icalparameter_new_role (ICAL_ROLE_CHAIR + cntr);
 				break;
@@ -343,8 +341,10 @@ edit_attendee (icalproperty *prop, gpointer data)
 		/* Now the RSVP. */
 		icalproperty_remove_parameter (prop, ICAL_RSVP_PARAMETER);
 
-		param = icalparameter_new_rsvp 
-				(gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->rsvp_check)));
+		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->rsvp_check)))
+			param = icalparameter_new_rsvp (ICAL_RSVP_TRUE);
+		else
+			param = icalparameter_new_rsvp (ICAL_RSVP_FALSE);
 		icalproperty_add_parameter (prop, param);
 
 		retval = TRUE;

@@ -201,6 +201,7 @@ Time</label>
 	  <can_default>True</can_default>
 	  <can_focus>True</can_focus>
 	  <label>Add</label>
+	  <relief>GTK_RELIEF_NORMAL</relief>
 	</widget>
 
 	<widget>
@@ -209,6 +210,7 @@ Time</label>
 	  <can_default>True</can_default>
 	  <can_focus>True</can_focus>
 	  <label>Delete</label>
+	  <relief>GTK_RELIEF_NORMAL</relief>
 	</widget>
 
 	<widget>
@@ -217,6 +219,7 @@ Time</label>
 	  <can_default>True</can_default>
 	  <can_focus>True</can_focus>
 	  <label>Edit</label>
+	  <relief>GTK_RELIEF_NORMAL</relief>
 	</widget>
       </widget>
     </widget>
@@ -438,8 +441,8 @@ Time</label>
 	<class>GtkCombo</class>
 	<name>role_combo</name>
 	<width>160</width>
-	<value_in_list>False</value_in_list>
-	<ok_if_empty>True</ok_if_empty>
+	<value_in_list>True</value_in_list>
+	<ok_if_empty>False</ok_if_empty>
 	<case_sensitive>False</case_sensitive>
 	<use_arrows>True</use_arrows>
 	<use_arrows_always>False</use_arrows_always>
@@ -447,7 +450,6 @@ Time</label>
 Required Participant
 Optional Participant
 Non-Participant
-Other
 
 
 </items>
@@ -465,7 +467,7 @@ Other
 	  <editable>False</editable>
 	  <text_visible>True</text_visible>
 	  <text_max_length>0</text_max_length>
-	  <text>Required Participant</text>
+	  <text>Chair</text>
 	</widget>
       </widget>
 

@@ -1,3 +1,13 @@
+2001-04-27  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-meeting-edit.c (put_property_in_list): remove hardcoded
+	values
+	(edit_attendee): ditto, and there are only 4 roles now
+
+	* gui/e-meeting-dialog.glade: tweak
+
+	* gui/itip-utils.c: There shouldn't be an "other" role
+
 2001-04-26  JP Rosevear  <jpr@ximian.com>
 
 	 * gui/e-meeting-edit.c (edit_attendee): use enums not hard code

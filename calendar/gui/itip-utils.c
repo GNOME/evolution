@@ -25,8 +25,7 @@ gchar *role_values[] = {
 	"Chair",
 	"Required Participant",
 	"Optional Participant",
-	"Non-Participant",
-	"Other"
+	"Non-Participant"
 };
 
 
