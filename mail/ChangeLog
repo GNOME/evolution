@@ -1,3 +1,10 @@
+2002-03-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (next_thread): Implemented.
+
+	* message-list.c (message_list_select_next_thread): New function
+	to select the next thread.
+
 2002-03-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser-window.c (folder_browser_window_new): Set a

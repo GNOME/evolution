@@ -2523,6 +2523,17 @@ next_flagged_msg (GtkWidget *button, gpointer user_data)
 }
 
 void
+next_thread (GtkWidget *button, gpointer user_data)
+{
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
+	
+	message_list_select_next_thread (fb->message_list);
+}
+
+void
 previous_msg (GtkWidget *button, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);

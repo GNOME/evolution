@@ -39,7 +39,7 @@ static BonoboUIVerb message_verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("MailNext", next_msg),
 	BONOBO_UI_UNSAFE_VERB ("MailNextFlagged", next_flagged_msg),
 	BONOBO_UI_UNSAFE_VERB ("MailNextUnread", next_unread_msg),
-/*	BONOBO_UI_UNSAFE_VERB ("MailNextThread", next_thread),*/
+	BONOBO_UI_UNSAFE_VERB ("MailNextThread", next_thread),
 	BONOBO_UI_UNSAFE_VERB ("MailPrevious", previous_msg),
 	BONOBO_UI_UNSAFE_VERB ("MailPreviousFlagged", previous_flagged_msg),
 	BONOBO_UI_UNSAFE_VERB ("MailPreviousUnread", previous_unread_msg),

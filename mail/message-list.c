@@ -376,7 +376,7 @@ search_func (ETreeModel *model, ETreePath path, struct search_func_data *data)
 		return FALSE;
 
 	info = get_message_info (data->message_list, path);
-		
+	
 	if (info && (info->flags & data->mask) == data->flags) {
 		gtk_signal_emit (GTK_OBJECT (data->message_list), message_list_signals[MESSAGE_SELECTED],
 				 camel_message_info_uid (info));
@@ -462,6 +462,40 @@ message_list_select_uid (MessageList *message_list, const char *uid)
 		gtk_signal_emit (GTK_OBJECT (message_list), message_list_signals[MESSAGE_SELECTED], NULL);
 	}
 }
+
+
+void
+message_list_select_next_thread (MessageList *message_list)
+{
+	ETreePath node, last;
+	
+	if (!message_list->cursor_uid)
+		return;
+	
+	/* get the thread parent node */
+	last = node = g_hash_table_lookup (message_list->uid_nodemap, message_list->cursor_uid);
+	while (!e_tree_model_node_is_root (message_list->model, node)) {
+		last = node;
+		node = e_tree_model_node_get_parent (message_list->model, node);
+	}
+	
+	/* get the next toplevel node */
+	node = e_tree_model_node_get_next (message_list->model, last);
+	
+	if (node) {
+		CamelMessageInfo *info;
+		
+		info = get_message_info (message_list, node);
+		e_tree_set_cursor (message_list->tree, node);
+		
+		g_free (message_list->cursor_uid);
+		message_list->cursor_uid = g_strdup (camel_message_info_uid (info));
+		
+		gtk_signal_emit (GTK_OBJECT (message_list), message_list_signals[MESSAGE_SELECTED],
+				 camel_message_info_uid (info));
+	}
+}
+
 
 /*
  * SimpleTableModel::col_count

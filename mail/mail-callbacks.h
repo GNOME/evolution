@@ -78,6 +78,7 @@ void view_source           (GtkWidget *widget, gpointer user_data);
 void next_msg              (GtkWidget *widget, gpointer user_data);
 void next_unread_msg       (GtkWidget *widget, gpointer user_data);
 void next_flagged_msg      (GtkWidget *widget, gpointer user_data);
+void next_thread           (GtkWidget *widget, gpointer user_data);
 void previous_msg          (GtkWidget *widget, gpointer user_data);
 void previous_unread_msg   (GtkWidget *widget, gpointer user_data);
 void previous_flagged_msg  (GtkWidget *widget, gpointer user_data);

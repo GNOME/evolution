@@ -125,6 +125,8 @@ gboolean       message_list_select     (MessageList *message_list,
 void           message_list_select_uid (MessageList *message_list,
 					const char *uid);
 
+void           message_list_select_next_thread (MessageList *messageList);
+
 /* info */
 unsigned int   message_list_length(MessageList *ml);
 unsigned int   message_list_hidden(MessageList *ml);
