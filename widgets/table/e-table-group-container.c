@@ -118,10 +118,9 @@ e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContaine
 	ETableCol *col;
 	ETableSortColumn column = e_table_sort_info_grouping_get_nth(sort_info, n);
 
-	if (column.column > e_table_header_count (full_header))
+	col = e_table_header_get_column_by_col_idx(full_header, column.column);
+	if (col == NULL)
 		col = e_table_header_get_column (full_header, e_table_header_count (full_header) - 1);
-	else
-		col = e_table_header_get_column (full_header, column.column);
 
 	e_table_group_construct (parent, E_TABLE_GROUP (etgc), full_header, header, model);
 	etgc->ecol = col;
@@ -401,7 +400,9 @@ etgc_add (ETableGroup *etg, gint row)
 			      "cursor_mode", etgc->cursor_mode,
 			      "table_selection_model", etgc->table_selection_model,
 			      "length_threshold", etgc->length_threshold,
+			      "minimum_width", etgc->minimum_width - GROUP_INDENT,
 			      NULL);
+
 	gtk_signal_connect (GTK_OBJECT (child), "cursor_change",
 			    GTK_SIGNAL_FUNC (child_cursor_change), etgc);
 	gtk_signal_connect (GTK_OBJECT (child), "double_click",

@@ -373,6 +373,29 @@ e_table_header_get_column (ETableHeader *eth, int column)
 }
 
 /**
+ * e_table_header_get_column_by_col_id:
+ * @eth: the ETableHeader to query
+ * @col_id: the col_id to search for.
+ *
+ * Returns: The ETableCol with col_idx = @col_idx in the @eth object
+ */
+ETableCol *
+e_table_header_get_column_by_col_idx (ETableHeader *eth, int col_idx)
+{
+	int i;
+	g_return_val_if_fail (eth != NULL, NULL);
+	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), NULL);
+
+	for (i = 0; i < eth->col_count; i++) {
+		if (eth->columns[i]->col_idx == col_idx) {
+			return eth->columns [i];
+		}
+	}
+
+	return NULL;
+}
+
+/**
  * e_table_header_count:
  * @eth: the ETableHeader to query
  *

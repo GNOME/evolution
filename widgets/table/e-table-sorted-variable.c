@@ -133,10 +133,9 @@ etsv_compare(ETableSortedVariable *etsv, int row1, int row2)
 	for (j = 0; j < sort_count; j++) {
 		ETableSortColumn column = e_table_sort_info_sorting_get_nth(etsv->sort_info, j);
 		ETableCol *col;
-		if (column.column > e_table_header_count (etsv->full_header))
+		col = e_table_header_get_column_by_col_idx(etsv->full_header, column.column);
+		if (col == NULL)
 			col = e_table_header_get_column (etsv->full_header, e_table_header_count (etsv->full_header) - 1);
-		else
-			col = e_table_header_get_column (etsv->full_header, column.column);
 		comp_val = (*col->compare)(e_table_model_value_at (etss->source, col->col_idx, row1),
 					   e_table_model_value_at (etss->source, col->col_idx, row2));
 		ascending = column.ascending;
@@ -640,10 +639,9 @@ etsv_sort(ETableSortedVariable *etsv)
 	for (j = 0; j < cols; j++) {
 		ETableSortColumn column = e_table_sort_info_sorting_get_nth(etsv->sort_info, j);
 		ETableCol *col;
-		if (column.column > e_table_header_count (etsv->full_header))
+		col = e_table_header_get_column_by_col_idx(etsv->full_header, column.column);
+		if (col == NULL)
 			col = e_table_header_get_column (etsv->full_header, e_table_header_count (etsv->full_header) - 1);
-		else
-			col = e_table_header_get_column (etsv->full_header, column.column);
 		for (i = 0; i < rows; i++) {
 #if 0
 			if( !(i & 0xff) ) {

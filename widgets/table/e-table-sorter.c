@@ -463,10 +463,9 @@ ets_sort(ETableSorter *ets)
 		else
 			column = e_table_sort_info_sorting_get_nth(ets->sort_info, j - group_cols);
 
-		if (column.column > e_table_header_count (ets->full_header))
+		col = e_table_header_get_column_by_col_idx(ets->full_header, column.column);
+		if (col == NULL)
 			col = e_table_header_get_column (ets->full_header, e_table_header_count (ets->full_header) - 1);
-		else
-			col = e_table_header_get_column (ets->full_header, column.column);
 
 		for (i = 0; i < rows; i++) {
 			vals_closure[i * cols + j] = e_table_model_value_at (ets->source, col->col_idx, i);
