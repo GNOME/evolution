@@ -1184,3 +1184,54 @@ camel_store_noop (CamelStore *store, CamelException *ex)
 {
 	CS_CLASS (store)->noop (store, ex);
 }
+
+
+/**
+ * camel_store_folder_uri_equal:
+ * @store: CamelStore
+ * @uri0: a uri
+ * @uri1: another uri
+ *
+ * Compares 2 folder uris to check that they are equal.
+ *
+ * Returns %TRUE if they are equal or %FALSE otherwise.
+ **/
+int
+camel_store_folder_uri_equal (CamelStore *store, const char *uri0, const char *uri1)
+{
+	CamelProvider *provider;
+	CamelURL *url0, *url1;
+	int equal;
+	
+	g_return_val_if_fail (CAMEL_IS_STORE (store), FALSE);
+	g_return_val_if_fail (uri0 == NULL || uri1 == NULL, FALSE);
+	
+	provider = ((CamelService *) store)->provider;
+	
+	if (!(url0 = camel_url_new (uri0, NULL)))
+		return FALSE;
+	
+	if (!(url1 = camel_url_new (uri1, NULL))) {
+		camel_url_free (url0);
+		return FALSE;
+	}
+	
+	if ((equal = provider->url_equal (url0, url1))) {
+		const char *name0, *name1;
+		
+		if (provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH) {
+			name0 = url0->fragment;
+			name1 = url1->fragment;
+		} else {
+			name0 = url0->path[0] == '/' ? url0->path + 1 : url0->path;
+			name1 = url1->path[0] == '/' ? url1->path + 1 : url1->path;
+		}
+		
+		equal = CS_CLASS (store)->compare_folder_name (name0, name1);
+	}
+	
+	camel_url_free (url0);
+	camel_url_free (url1);
+	
+	return equal;
+}

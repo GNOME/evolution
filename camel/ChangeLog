@@ -1,3 +1,8 @@
+2004-02-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-store.c (camel_store_folder_uri_equal): New function to do
+	what camel_store_uri_cmp() was supposed to do.
+
 2004-02-23  Rodney Dawes  <dobey@ximian.com>
 
 	* providers/local/camel-mbox-store.c (scan_dir): If our folder has
