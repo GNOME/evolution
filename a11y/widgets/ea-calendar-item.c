@@ -683,7 +683,7 @@ static gint
 table_interface_get_selected_columns (AtkTable *table,
 				      gint **columns_selected)
 {
-	columns_selected = NULL;
+	*columns_selected = NULL;
 	return -1;
 }
 
