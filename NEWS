@@ -5,7 +5,9 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
   * Calendar
 
-    #41582 - display incorrect after switching between week and day view (Rodrigo)
+    #41582 - display incorrect after switching between week and day
+             view (Rodrigo)
+    #43585 - Ugly tasks printout (Hans Petter)
 
   * Mail
 
