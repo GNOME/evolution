@@ -159,43 +159,6 @@ search_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 	gtk_widget_show(e_addressbook_search_dialog_new(book));
 }
 
-#if 0
-static void
-find_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
-{
-	gint result;
-	GtkWidget* search_entry = gtk_entry_new();
-	gchar* search_text;
-	AddressbookView *view = (AddressbookView *) user_data;
-
-	GtkWidget* dlg = gnome_dialog_new ("Search Contacts", "Find",
-					   GNOME_STOCK_BUTTON_CANCEL, NULL);
-
-	gtk_object_get (view->view,
-			"query", &search_text,
-			NULL);
-	e_utf8_gtk_entry_set_text(GTK_ENTRY(search_entry), search_text);
-	g_free (search_text);
-
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dlg)->vbox),
-			    search_entry, TRUE, TRUE, 0);
-
-	gtk_widget_show_all (dlg);
-
-	gnome_dialog_close_hides (GNOME_DIALOG (dlg), TRUE);
-	result = gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
-
-	/* If the user clicks "okay"...*/
-	if (result == 0) {
-		search_text = e_utf8_gtk_entry_get_text(GTK_ENTRY(search_entry));
-		gtk_object_set (view->view, 
-				"query", query, 
-				NULL);
-		g_free (search_text);
-	}
-}
-#endif
-
 static void
 delete_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
@@ -234,14 +197,6 @@ update_command_state (EAddressbookView *eav, AddressbookView *view)
 				      "/commands/ContactNew",
 				      "sensitive",
 				      e_addressbook_view_can_create (view->view) ? "1" : "0", NULL);
-
-	/* Find Contact */
-#if 0
-	/* this is always enabled */
-	bonobo_ui_component_set_prop (uic,
-				      "/commands/ContactFind",
-				      "sensitive", "0", NULL);
-#endif
 
 	/* Print Contact */
 	bonobo_ui_component_set_prop (uic,
@@ -331,7 +286,6 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("AddressbookConfig", config_cb),
 
 	BONOBO_UI_UNSAFE_VERB ("ContactNew", new_contact_cb),
-/*	BONOBO_UI_UNSAFE_VERB ("ContactFind", find_contact_cb),*/
 	BONOBO_UI_UNSAFE_VERB ("ContactDelete", delete_contact_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactViewAll", show_all_contacts_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactStop", stop_loading_cb),
@@ -346,7 +300,6 @@ static EPixmap pixmaps [] = {
 	E_PIXMAP ("/menu/Tools/Component/AddressbookConfig", "configure_16_addressbook.xpm"),
 
 	E_PIXMAP ("/Toolbar/View All", "all_contacts.xpm"),
-	E_PIXMAP ("/Toolbar/Find", "find_contact.xpm"),
 	E_PIXMAP ("/Toolbar/New", "new_contact.xpm"),
 
 	E_PIXMAP_END
