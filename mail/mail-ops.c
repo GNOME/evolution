@@ -214,6 +214,12 @@ real_fetch_mail (gpointer user_data)
 	} else {
 		CamelFolder *sourcefolder;
 
+		store = camel_session_get_store (session, url, ex);
+ 		if (!store) {
+ 			async_mail_exception_dialog ("Unable to get new mail", ex, fb);
+ 			goto cleanup;
+ 		}
+
 		camel_service_connect (CAMEL_SERVICE (store), ex);
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
 			gtk_object_unref (GTK_OBJECT (dest_folder));
@@ -324,18 +330,22 @@ real_fetch_mail (gpointer user_data)
 		g_free (url);
 	if (dest_url)
 		g_free (dest_url);
+
 	if (folder) {
 		camel_folder_sync (folder, TRUE, ex);
 		gtk_object_unref (GTK_OBJECT (folder));
 	}
+
 	if (dest_folder) {
 		camel_folder_sync (dest_folder, TRUE, ex);
 		gtk_object_unref (GTK_OBJECT (dest_folder));
 	}
+
 	if (store) {
 		camel_service_disconnect (CAMEL_SERVICE (store), ex);
 		gtk_object_unref (GTK_OBJECT (store));
 	}
+
 	if (dest_store && dest_store != fb->folder->parent_store) {
 		camel_service_disconnect (CAMEL_SERVICE (dest_store), ex);
 		gtk_object_unref (GTK_OBJECT (dest_store));
