@@ -17,9 +17,6 @@ typedef struct {
 	GList  	*todo;
 	GList  	*journal;
 
-	/* Events that have a recurrence field are also present here */
-	GList   *recur;
-
 	/* Time at which the calendar was created */
 	time_t  created;
 

@@ -15,9 +15,20 @@
 static void gncal_year_view_init (GncalYearView *yview);
 
 static void
-double_click(GtkWidget *widget, gpointer data)
+double_click(GtkCalendar *gc, GncalYearView *yview)
 {
-	printf("Recieved double click.\n");
+	struct tm tm;
+	time_t t;
+
+	tm.tm_mday = gc->selected_day;
+	tm.tm_mon  = gc->month;
+	tm.tm_year = gc->year;
+	tm.tm_hour = 0;
+	tm.tm_min  = 0;
+	tm.tm_sec  = 0;
+	t = mktime (&tm);
+
+	gnome_calendar_dayjump (yview->gcal, t);
 }
 	
 static void
@@ -189,6 +200,7 @@ gncal_year_view_set_year (GncalYearView *yview, int year)
 	
 	for (i = 0; i < 12; i++) {
 		gtk_calendar_select_month (GTK_CALENDAR(yview->calendar[i]), i, yview->year);
+		gtk_calendar_clear_marks (GTK_CALENDAR (yview->calendar[i]));
 	}
 	
 	year_begin = time_year_begin (yview->year);
@@ -197,7 +209,7 @@ gncal_year_view_set_year (GncalYearView *yview, int year)
 	l = calendar_get_events_in_range (yview->gcal->cal, year_begin, year_end);
 	for (; l; l = l->next){
 		CalendarObject *co = l->data;
-		
+
 		year_view_mark_day (co->ico, co->ev_start, co->ev_end, yview);
 	}
 	calendar_destroy_event_list (l);
@@ -221,10 +233,8 @@ gncal_year_view_update (GncalYearView *yview, iCalObject *ico, int flags)
 	g_return_if_fail (GNCAL_IS_YEAR_VIEW (yview));
 
 	/* If only the summary changed, we dont care */
-	if ((flags & CHANGE_SUMMARY) == flags)
+	if (flags && (flags & CHANGE_SUMMARY) == flags)
 		return;
 
-	printf ("MARCANDO!\n");
-	if (flags & CHANGE_NEW)
-		gncal_year_view_set_year (yview, yview->year);
+	gncal_year_view_set_year (yview, yview->year);
 }

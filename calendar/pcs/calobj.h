@@ -32,7 +32,6 @@ typedef struct {
 	int            count;
 	enum AlarmUnit units;
 	char           *data;
-	time_t         time;
 	
 	/* Widgets */
 	void           *w_count;      /* A GtkEntry */

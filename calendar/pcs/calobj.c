@@ -401,16 +401,39 @@ load_recurrence (iCalObject *o, char *str)
 
 	/* Compute the enddate */
 	if (o->recur->_enddate == 0){
-		printf ("ENDDATE es 0, d=%d\n", o->recur->duration);
 		if (o->recur->duration != 0){
 			ical_object_compute_end (o);
 		} else
 			o->recur->enddate = 0;
 	} else {
-		printf ("El evento termina\n");
 		o->recur->enddate = o->recur->_enddate;
 	}
 	return 1;
+}
+
+/*
+ * FIXME: This is loosing precission.  Enhanec the thresholds
+ */
+#define HOURS(n) (n*(60*60))
+
+static void
+setup_alarm_at (time_t base, CalendarAlarm *alarm, char *iso_time)
+{
+	time_t alarm_time = time_from_isodate (iso_time);
+	int d = difftime (base, alarm_time);
+
+	if (d > HOURS (2)){
+		if (d > HOURS (48)){
+			alarm->count = d / HOURS (24);
+			alarm->units = ALARM_DAYS;
+		} else {
+			alarm->count = d / 60*60;
+			alarm->units = ALARM_HOURS;
+		}
+	} else {
+		alarm->count = d / 60;
+		alarm->units = ALARM_MINUTES;
+	}
 }
 
 #define is_a_prop_of(obj,prop) isAPropertyOf (obj,prop)
@@ -563,31 +586,35 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 	}
 	
 	/* dalarm */
+	ical->dalarm.type = ALARM_DISPLAY;
+	ical->dalarm.enabled = 0;
 	if (has (o, VCDAlarmProp)){
-		ical->dalarm.type = ALARM_DISPLAY;
 		if ((a = is_a_prop_of (o, VCRunTimeProp))){
 			ical->dalarm.enabled = 1;
-			ical->dalarm.time    = time_from_isodate (str_val (a));
+			setup_alarm_at (ical->dtstart, &ical->dalarm, str_val (a));
 			free (the_str);
 		}
 	}
 	
 	/* aalarm */
+	ical->aalarm.type = ALARM_AUDIO;
+	ical->aalarm.enabled = 0;
 	if (has (o, VCAAlarmProp)){
-		ical->aalarm.type = ALARM_AUDIO;
 		if ((a = is_a_prop_of (o, VCRunTimeProp))){
 			ical->aalarm.enabled = 1;
-			ical->aalarm.time    = time_from_isodate (str_val (a));
+			setup_alarm_at (ical->dtstart, &ical->aalarm, str_val (a));
 			free (the_str);
 		}
 	}
 
 	/* palarm */
+	ical->palarm.type = ALARM_PROGRAM;
+	ical->palarm.enabled = 0;
 	if (has (o, VCPAlarmProp)){
 		ical->palarm.type = ALARM_PROGRAM;
 		if ((a = is_a_prop_of (o, VCRunTimeProp))){
 			ical->palarm.enabled = 1;
-			ical->palarm.time    = time_from_isodate (str_val (a));
+			setup_alarm_at (ical->dtstart, &ical->palarm, str_val (a));
 			free (the_str);
 
 			if ((a = is_a_prop_of (o, VCProcedureNameProp))){
@@ -598,14 +625,16 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 	}
 
 	/* malarm */
+	ical->malarm.type = ALARM_MAIL;
+	ical->malarm.enabled = 0;
 	if (has (o, VCMAlarmProp)){
 		ical->malarm.type = ALARM_MAIL;
 		if ((a = is_a_prop_of (o, VCRunTimeProp))){
 			ical->malarm.enabled = 1;
-			ical->malarm.time    = time_from_isodate (str_val (a));
+			setup_alarm_at (ical->dtstart, &ical->malarm, str_val (a));
 			free (the_str);
 			
-			if ((a = is_a_prop_of (o, VCProcedureNameProp))){
+			if ((a = is_a_prop_of (o, VCEmailAddressProp))){
 				ical->malarm.data = g_strdup (str_val (a));
 				free (the_str);
 			}
@@ -659,11 +688,45 @@ store_list (VObject *o, char *prop, GList *values, char sep)
 
 static char *recur_type_name [] = { "D", "W", "MP", "MD", "YM", "YD" };
 static char *recur_day_list  [] = { "SU", "MO", "TU","WE", "TH", "FR", "SA" };
+static char *alarm_names [] = { VCMAlarmProp, VCPAlarmProp, VCDAlarmProp, VCAAlarmProp };
+
+static VObject *
+save_alarm (VObject *o, CalendarAlarm *alarm, iCalObject *ical)
+{
+	VObject *alarm_object;
+	struct tm *tm;
+	time_t alarm_time;
+	
+	if (!alarm->enabled)
+		return NULL;
+	tm = localtime (&ical->dtstart);
+	switch (alarm->units){
+	case ALARM_MINUTES:
+		tm->tm_min -= alarm->count;
+		break;
+		
+	case ALARM_HOURS:
+		tm->tm_hour -= alarm->count;
+		break;
+		
+	case ALARM_DAYS:
+		tm->tm_mday -= alarm->count;
+		break;
+	}
+	
+	alarm_time = mktime (tm);
+	alarm_object = addProp (o, alarm_names [alarm->type]);
+	addPropValue (alarm_object, VCRunTimeProp, isodate_from_time_t (alarm_time));
+	addPropValue (alarm_object, VCRepeatCountProp, "1");
+	addPropValue (alarm_object, VCDisplayStringProp, "GNOME appointment alarm");
+
+	return alarm_object;
+}
 
 VObject *
 ical_object_to_vobject (iCalObject *ical)
 {
-	VObject *o;
+	VObject *o, *alarm;
 	GList *l;
 	
 	if (ical->type == ICAL_EVENT)
@@ -787,8 +850,16 @@ ical_object_to_vobject (iCalObject *ical)
 		else
 			sprintf (buffer, "%s ", isodate_from_time_t (ical->recur->_enddate));
 		strcat (result, buffer);
+		addPropValue (o, VCRRuleProp, result);
 	}
-	/* FIXME: alarms */
+	
+	save_alarm (o, &ical->aalarm, ical);
+	save_alarm (o, &ical->dalarm, ical);
+	
+	if ((alarm = save_alarm (o, &ical->palarm, ical)))
+		addPropValue (alarm, VCProcedureNameProp, ical->palarm.data);
+	if ((alarm = save_alarm (o, &ical->malarm, ical)))
+		addPropValue (alarm, VCEmailAddressProp, ical->malarm.data);
 	return o;
 }
 
@@ -830,6 +901,7 @@ generate (iCalObject *ico, time_t reference, calendarfn cb, void *closure)
 }
 
 #define time_in_range(x,a,b) ((x >= a) && (b ? x <= b : 1))
+#define recur_in_range(t,r) (r->enddate ? (t < r->enddate) : 1)
 
 /*
  * Generate every possible event.  Invokes the callback routine for
@@ -862,7 +934,7 @@ ical_object_generate_events (iCalObject *ico, time_t start, time_t end, calendar
 	if (end != 0){
 		if (ico->dtstart > end)
 			return;
-		if (!IS_INFINITE (ico->recur) && recur->enddate < start)
+		if (!IS_INFINITE (recur) && recur->enddate < start)
 			return;
 	}
 
@@ -870,7 +942,7 @@ ical_object_generate_events (iCalObject *ico, time_t start, time_t end, calendar
 	switch (recur->type){
 	case RECUR_DAILY:
 		do {
-			if (time_in_range (current, start, end)){
+			if (time_in_range (current, start, end) && recur_in_range (current, recur)){
 				if (!generate (ico, current, cb, closure))
 					return;
 			}
@@ -889,7 +961,7 @@ ical_object_generate_events (iCalObject *ico, time_t start, time_t end, calendar
 		do {
 			struct tm *tm = localtime (&current);
 			
-			if (time_in_range (current, start, end)){
+			if (time_in_range (current, start, end) && recur_in_range (current, recur)){
 				if (recur->weekday & (1 << tm->tm_wday))
 					if (!generate (ico, current, cb, closure))
 						return;
@@ -910,15 +982,15 @@ ical_object_generate_events (iCalObject *ico, time_t start, time_t end, calendar
 		
 	case RECUR_MONTHLY_BY_POS:
 		/* FIXME: We only deal with positives now */
-		if (ico->recur->u.month_pos < 0)
+		if (recur->u.month_pos < 0)
 			return;
 		
-		if (ico->recur->u.month_pos == 0)
+		if (recur->u.month_pos == 0)
 			return;
 		
 		first_week_day = 7;
 		for (i = 6; i >= 0; i--)
-			if (ico->recur->weekday & (1 << i))
+			if (recur->weekday & (1 << i))
 				first_week_day = i;
 
 		/* This should not happen, but take it into account */
@@ -936,13 +1008,13 @@ ical_object_generate_events (iCalObject *ico, time_t start, time_t end, calendar
 			tm = *localtime (&t);
 			week_day_start = tm.tm_wday;
 
-			tm.tm_mday = 7 * (ico->recur->u.month_pos -
+			tm.tm_mday = 7 * (recur->u.month_pos -
 					  ((week_day_start <= first_week_day ) ? 1 : 0)) -
 				(week_day_start - first_week_day) + 1;
 			
 			t = mktime (&tm);
 			
-			if (time_in_range (t, start, end))
+			if (time_in_range (t, start, end) && recur_in_range (current, recur))
 				if (!generate (ico, t, cb, closure))
 					return;
 
@@ -969,7 +1041,7 @@ ical_object_generate_events (iCalObject *ico, time_t start, time_t end, calendar
 			p = tm->tm_mday;
 			tm->tm_mday = recur->u.month_day;
 			t = mktime (tm);
-			if (time_in_range (t, start, end))
+			if (time_in_range (t, start, end) && recur_in_range (current, recur))
 				if (!generate (ico, t, cb, closure))
 					return;
 
@@ -986,7 +1058,7 @@ ical_object_generate_events (iCalObject *ico, time_t start, time_t end, calendar
 	case RECUR_YEARLY_BY_MONTH:
 	case RECUR_YEARLY_BY_DAY:
 		do {
-			if (time_in_range (current, start, end))
+			if (time_in_range (current, start, end) && recur_in_range (current, recur))
 				if (!generate (ico, current, cb, closure))
 					return;
 			

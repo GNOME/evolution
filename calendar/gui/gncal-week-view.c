@@ -159,8 +159,6 @@ gncal_week_view_set (GncalWeekView *wview, time_t start_of_week)
 		tm.tm_mday++;
 		day_end = mktime (&tm);
 
-		printf ("Boundary: ");
-		print_time_t (day_start);
 		gncal_day_view_set_bounds (wview->days[i], day_start, day_end - 1);
 
 		day_start = day_end;

@@ -1,3 +1,8 @@
+1998-04-17  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* gnome-cal.c (gnome_calendar_remove_object): Add support for
+	removing objects.
+
 1998-04-17  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* eventedit.c (ee_init_recurrence_page): New function that creates
@@ -8,6 +13,11 @@
 
 	* calobj.c (ical_object_generate_events): Implement
 	RECUR_MONTHLY_BY_POS implemented.
+	(ical_object_create_from_vobject): Fix the alarm
+	initialization code.
+	(save_alarm): Save alarms.
+	(ical_object_generate_events): Fixed the recurrent code to take
+	into account the recur->endate field (if at all specified).
 
 	(ical_object_to_vobject): Implement recurrence rule saving.
 

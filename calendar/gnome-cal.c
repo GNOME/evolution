@@ -91,7 +91,7 @@ setup_widgets (GnomeCalendar *gcal)
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->day_view_container,  gtk_label_new (_("Day View")));
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->week_view, gtk_label_new (_("Week View")));
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->year_view, gtk_label_new (_("Year View")));
-	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->task_view, gtk_label_new (_("Todo")));
+/*	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->task_view, gtk_label_new (_("Todo"))); */
 
 	gtk_widget_show_all (gcal->notebook);
 	
@@ -166,6 +166,13 @@ gnome_calendar_previous (GnomeCalendar *gcal)
 	gnome_calendar_direction (gcal, -1);
 }
 
+void
+gnome_calendar_dayjump (GnomeCalendar *gcal, time_t time)
+{
+	gtk_notebook_set_page (GTK_NOTEBOOK (gcal->notebook), 0);
+	gnome_calendar_goto (gcal, time);
+}
+
 GtkWidget *
 gnome_calendar_new (char *title)
 {
@@ -210,10 +217,15 @@ gnome_calendar_load (GnomeCalendar *gcal, char *file)
 void
 gnome_calendar_add_object (GnomeCalendar *gcal, iCalObject *obj)
 {
-	printf ("Adding object at: ");
-	print_time_t (obj->dtstart);
 	calendar_add_object (gcal->cal, obj);
 	gnome_calendar_update_all (gcal, obj, CHANGE_NEW);
+}
+
+void
+gnome_calendar_remove_object (GnomeCalendar *gcal, iCalObject *obj)
+{
+	calendar_remove_object (gcal->cal, obj);
+	gnome_calendar_update_all (gcal, obj, CHANGE_ALL);
 }
 
 void
