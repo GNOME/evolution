@@ -1,3 +1,11 @@
+2002-07-29  Iain Holmes <iain@ximian.com>
+
+	* Locations: Fixed typo according to bug #18963
+
+	* Locations.h: Updated.
+
+	* e-summary-tasks.c (e_summary_tasks_get_html): Return on NULL.
+
 2002-07-11  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-summary-preferences.c (set_selected_folders): Actually pass

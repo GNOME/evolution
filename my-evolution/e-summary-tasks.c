@@ -47,6 +47,10 @@ struct _ESummaryTasks {
 const char *
 e_summary_tasks_get_html (ESummary *summary)
 {
+	if (summary == NULL) {
+		return NULL;
+	}
+	
 	if (summary->tasks == NULL) {
 		return NULL;
 	}
