@@ -231,7 +231,7 @@ add_key (EConfigListener *cl, const char *key, GConfValueType type,
 	kd->used_default = used_default;
 
 	/* add the listener for changes */
-	gconf_client_add_dir (cl->priv->db, key, GCONF_CLIENT_PRELOAD_NONE, NULL);
+	gconf_client_add_dir (cl->priv->db, key, GCONF_CLIENT_PRELOAD_RECURSIVE, NULL);
 	kd->lid = gconf_client_notify_add (cl->priv->db, key,
 					   (GConfClientNotifyFunc) property_change_cb,
 					   kd, NULL, NULL);

@@ -1,3 +1,8 @@
+2003-06-12  Rodrigo Moya <rodrigo@ximian.com>
+
+	* e-config-listener.c (add_key): use GCONF_CLIENT_PRELOAD_RECURSIVE
+	when adding watched directories to avoid GConfd round-trips.
+
 2003-06-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-trie.c (e_trie_free): Free the fail_states array.
