@@ -1,3 +1,8 @@
+2003-01-10  Ettore Perazzoli  <ettore@ximian.com>
+
+	* importers/icalendar-importer.c (connect_to_shell):
+	CORBA_Object_release() the CORBA shell.
+
 2003-01-09  Dan Winship  <danw@ximian.com>
 
 	* gui/dialogs/recurrence-page.c (make_recur_month_num_submenu,

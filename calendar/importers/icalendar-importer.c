@@ -99,6 +99,9 @@ connect_to_shell (ICalImporter *ici)
 	}
 
 	ici->shell_client = evolution_shell_client_new (corba_shell);
+
+	CORBA_Object_release (corba_shell, &ev);
+	CORBA_exception_free (&ev);
 }
 
 /* This reads in an entire file and returns it. It returns NULL on error.
